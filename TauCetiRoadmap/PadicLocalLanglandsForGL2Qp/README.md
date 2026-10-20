@@ -20,6 +20,20 @@ Completed cohomology and modularity lifting consume the local interfaces here. T
 
 The shared foundations required by this roadmap have one construction each. Sections 0.1–0.5 own the analytic, duality, filtered-period, deformation and affine-cycle APIs used below. The names with `AnalyticSupport`, `DualitySupport`, `DeformationSupport` and `CycleSupport` prefixes denote these shared APIs or their specialization maps, not independent carriers for each consumer. The block and type-ring constructions of §§5.1–5.6 and 5.12 likewise supply the common contracts `GL2Block.projectiveEnvelope`, `GL2Block.centre`, `GL2Block.residualGalois`, `MontrealFunctor.torsionEtaleRealization` and `WDTypeRing`. The `Block` and `KisinRingLL` notation below specializes those constructions. Every specialization retains the original coefficient, determinant and topology hypotheses.
 
+The construction owner for each common API is the section here listed below. A use of the common API is an application of that construction, with the same universal property and hypotheses. A different prefix denotes an adapter only when its comparison to that API is specified.
+
+| Common API | Construction owner here | Specialization or extension |
+| --- | --- | --- |
+| `GL2Block.projectiveEnvelope`, `GL2Block.centre`, `GL2Block.residualGalois`, `MontrealFunctor.torsionEtaleRealization`, `WDTypeRing.*` | §§2.2–2.3, 3.1–3.3, 5.1–5.6, 5.12 | Finite residue coefficients for compact envelopes; absolute labels descend by coefficient orbits; full type retains Frobenius. |
+| `LA(X,L)`, `D(H,L)`, `analyticPullback`, `analyticTensor_equiv`, strong biduality, `distributionConvolution` | §0.1 | Common locally convex limits and compact-manifold constructions; locally `F`-analytic and noncompact extensions use their chart and restriction comparisons. |
+| Compact–discrete duality, Schikhof duality and admissible unitary Banach categories | §§0.1, 0.3 | `GL2Qp` specializations and the inverse-different trace adapter use these dualities. |
+| `FilteredPhiNModule`, weak admissibility, semistable equivalence and p-adic monodromy | §0.2 | General rank and perfect-residue base where stated; Colmez's sign and localized-period adapters preserve the filtration. The supplied `N_dR` remains the unfiltered differential-equation carrier. |
+| `DeformationSupport.framed`, `unframed`, `fixedDeterminant`, `pstRing`, `crystallineRing`, continuous pseudodeformation rings | §§0.4, 5.4 | Block residual completion and the centre comparison use these general functors and rings. |
+| `moduleCycle`, `moduleCycle_specialization`, Hilbert–Samuel multiplicity | §0.5 | `CycleSupport.*` are affine representation adapters with the same support, dimension and flatness hypotheses. |
+| `SerreWeight`, `compactInduction`, `heckeOperatorT`, `endEquivPolynomial`, `compactInduction_free` over `ℚ_p` | §§2.7–2.8 | `NormalizerType.serreWeight` is the same finite weight; full-normalizer and Colmez-parameter comparisons are adapters. |
+| `DivisionAlgebraTypes.jacquetLanglands` | §6.9 | The `m=1` correspondence from `D×` to `GL_d(F)` is the inverse of `DrinfeldComparison.localJacquetLanglands`; arbitrary `m` uses its general inner-form extension. |
+| Finite-residue `fundamentalCharacter`, `peuRamifieH1`, `IsPeuRamifiee` | §0.3 | Norm and Frobenius comparisons fix the characters; the BCDT total Kummer predicate restricts to Serre's ramification predicate on its nontrivial-wild domain. |
+
 ## Conventions
 
 Let `p` be prime, `L/ℚ_p` a finite extension, `O=O_L, ϖ` a uniformiser and `k=O/ϖ`. Enlarge `L` or `k` when an absolute-irreducibility or splitting hypothesis needs it. Smooth torsion representations have discrete topology. Banach representations are complete nonarchimedean `L`-spaces with jointly continuous action and an open bounded invariant `O`-lattice. Finite length always means length in the indicated representation category, equivalently `O[G]`-length in the torsion setting; it does not mean finite `O`-length.
@@ -36,7 +50,7 @@ Parabolic inductions in Colmez's formulas are unnormalised unless a formula expl
 
 For compact projective `P_B` use `E_B=End(P_B)` with ordinary composition. Then `Hom(P_B,M)` is a right `E_B`-module and `P_B` is a left `E_B`-module, so evaluation is `Hom(P_B,M)⊗̂_{E_B}P_B→M`. Duality reverses arrows and replaces the endomorphism algebra by its opposite. At `p=2` use degree-two determinant laws, including determinant as well as trace; no division by 2 is allowed.
 
-For potentially semistable type `(a,b;τ)`, the fixed determinant is `ψε` and `ψ|_I=ε^{a+b−1}det τ`. Paškūnas 2015 calls this entire determinant `ψ_source`, so `ψ_source=ψε` here. A nonzero framed fixed-determinant type ring has absolute/generic-fibre/special-fibre dimensions `5/4/4`. When `End ρ̄=k`, the unframed dimensions are `2/1/1` and framing adds three variables. The zero ring is permitted. Scalar inertia has `σ(1)=`the inflated finite Steinberg of dimension `p`, while `σ^cr(1)=1`; they cannot be interchanged.
+For potentially semistable type `(a,b;τ)` with distinct Hodge–Tate weights `a<b`, the fixed determinant is `ψε` and `ψ|_I=ε^{a+b−1}det τ`. Paškūnas 2015 calls this entire determinant `ψ_source`, so `ψ_source=ψε` here. A nonzero framed fixed-determinant type ring has absolute/generic-fibre/special-fibre dimensions `5/4/4`. When `End ρ̄=k`, the unframed dimensions are `2/1/1` and framing adds three variables. For repeated weights use §0.4’s flag-variety dimension formula. The zero ring is permitted. Scalar inertia has `σ(1)=`the inflated finite Steinberg of dimension `p`, while `σ^cr(1)=1`; they cannot be interchanged.
 
 ## Exact supplier contracts
 
@@ -174,13 +188,13 @@ For BCDT admittance, LocalGaloisGroups and LocalFieldsRamification supply the lo
 
 ### Local deformation and cycle contracts
 
-Section 0.4 constructs the framed lifting functor, fixed determinant, unframed comparison and the bounded Hodge/inertial-type quotients. The rank-two **dyadic fixed-determinant type-ring contract** requires the reduced `O`-torsion-free pointwise universal quotient for `det=ψε` at `p=2`, allowing zero and with dimensions `5/4/4` framed and 2/1/1 unframed when `End ρ̄=k`. It does not split determinant variables using 1/2. Paškūnas 2016 §2.C and Tung's all-prime type-ring statements specify this case.
+Section 0.4 constructs the framed lifting functor, fixed determinant, unframed comparison and the bounded Hodge/inertial-type quotients. The rank-two **dyadic fixed-determinant type-ring contract** requires the reduced `O`-torsion-free pointwise universal quotient for `det=ψε` at `p=2`, allowing zero. For distinct Hodge–Tate weights `a<b` and compatible determinant its nonzero rings have dimensions `5/4/4` framed and `2/1/1` unframed when `End ρ̄=k`; repeated weights use §0.4’s flag-variety dimension formula. It does not split determinant variables using 1/2. Paškūnas 2016 §2.C and Tung's all-prime type-ring statements specify this case.
 
 IntegralHeckeAndGaloisDeterminants §§0.1–0.5 supplies determinant polynomial laws, trace/determinant identities and continuity through finite quotients; §§1.1–1.3 supplies Cayley–Hamilton ideals and henselian irreducible reconstruction, and §1.5 supplies the algebraic universal quotient. Over a ring in which 2 is not invertible retain `d` explicitly in `g²−T(g)g+d(g)`. Section 5.4 constructs the continuous residual completion, fixes `d=δε`, proves its noetherian representability and forms the closed ideal on the native completed group algebra. Section 0.5 constructs cycle groups, effective-cycle lengths, specialization and Hilbert–Samuel multiplicities. Equality of multiplicities alone does not imply equality of cycles.
 
 ## How to read the build
 
-Layer 0 constructs the supporting analytic and arithmetic comparisons; Layer 1 fixes Colmez's normalizations. In Layer 2 construct §2.1's categories and §2.8's finite types, then §§2.6–2.7 and the finiteness/duality results of §§2.1–2.3. Section 2.5 at this stage supplies only the completion definition and conditional coherent-lattice criterion. Construct the torsion Montreal functor of §§3.1–3.3, then the envelope and Morita machinery of §§5.1 and 5.3 before the correspondence. Construct the compatible-module gluing of §§3.4–3.6 and the compatible-pair analytic-radius construction of §3.11 before the correspondence proof. For the Paškūnas `p≥5` route prove §5.5(i)–(ii) first. The all-prime CDP route instead uses the envelope-module and rational-commutativity arguments stated in §3.8, without presupposing a deformation-ring identification. Prove §§3.7–3.8, then the irreducible analytic comparisons of §3.11. The dyadic identification §5.5(iii) follows on this route. The Banach consequences of §5.5(iv)–(v) follow after the correspondence. Prove the `GL₂` H-coherence and analytic universal-completion conclusions of §2.5 from the compatible-module analytic result after §3.11. Layer 4 then compares algebraic vectors and de Rham deformations; the remaining Layer 5 targets compare centres, type rings and cycles. Layer 6 makes case-specific local and conditional global deductions. Carriers determine which targets admit signatures in Suggested.lean; this README is the specification.
+Layer 0 constructs the supporting analytic and arithmetic comparisons; Layer 1 fixes Colmez's normalizations. In Layer 2 construct §2.1's categories and §2.8's finite types, then §§2.6–2.7 and the finiteness/duality results of §§2.1–2.3. Section 2.5 at this stage supplies only the completion definition and conditional coherent-lattice criterion. Construct the torsion Montreal functor of §§3.1–3.3, then the envelope and Morita machinery of §§5.1 and 5.3 before the correspondence. Construct the compatible-module gluing of §§3.4–3.6 and the compatible-pair analytic-radius construction of §3.11 before the correspondence proof. For the Paškūnas `p≥5` route prove §5.5(i)–(ii) first. The all-prime CDP route instead uses the envelope-module and rational-commutativity arguments stated in §3.8, without presupposing a deformation-ring identification. Prove §§3.7–3.8, then the irreducible analytic comparisons of §3.11. The dyadic identification §5.5(iii) follows on this route. The Banach consequences of §5.5(iv)–(v) follow after the correspondence. Prove the `GL₂` H-coherence and analytic universal-completion conclusions of §2.5 from the compatible-module analytic result after §3.11. In Layer 4 construct §4.1a’s localization and reciprocity bridge, then §4.2(i)’s nonvanishing criterion. Construct §4.2a’s action on `N_rig⊠ℙ¹` and prove VI.6.41, then §4.2b’s algebraic filtration independence (VI.6.42), followed by the remaining type comparisons of §4.2 and §4.11’s analytic quotient (VI.6.43). The action construction uses only §4.2(i), not its filtration-independence consequence. Layer 4 also compares de Rham deformations; the remaining Layer 5 targets compare centres, type rings and cycles. Layer 6 makes case-specific local and conditional global deductions. Carriers determine which targets admit signatures in Suggested.lean; this README is the specification.
 
 ## Layer 0: Supporting analytic and arithmetic foundations
 
@@ -261,7 +275,7 @@ For a finite extension `L/ℚ_p` with integers `O`, define `DualitySupport.torsi
 - A scalar action `ζ` dualizes to `ζ⁻¹`. The smooth character and its compact dual therefore have inverse central characters.
 - Over ramified `O` the trace comparison retains the inverse different; using the trace directly on `L/O` gives an `O`-linear but nonperfect pairing with kernel `𝔇⁻¹/O`. For odd `p` and `L=ℚ_p(√p)`, the nonzero class of `(2√p)⁻¹` lies in this kernel. A chosen generator of `𝔇⁻¹` supplies the corrected comparison.
 
-On the supplied inertia and tame quotient, construct the shared `fundamentalCharacter` API of every niveau `f≥1`, with values in `𝔽_(p^f)^×` after a compatible tame-root choice. Prove surjectivity, norm compatibility, Frobenius conjugation by `p`-powers and comparison of `ω₁` with the cyclotomic reduction. For extensions of 1 by `ω` over `ℚ_p`, construct the subspace `peuRamifieH1` as the Kummer image of units and define `IsPeuRamifiee` by membership in that subspace; très ramifié is its complement among extension classes. The BCDT adapter uses these same characters and this predicate. Prove invariance under isomorphism and scalar extension, compatibility with twists and Cartier duality `ρ̄∨⊗ω`, and the comparison with the Serre-weight convention used in BCDT §1.3. Sources: BCDT01 §1.3, pp.854–856, with its Serre-weight convention; Serre, **SERRE87**, §2. The chosen characters and the extension-class convention are shared by §§2.7–2.8, 3.3 and 5.13.
+For a finite `K/ℚ_p` with residue cardinality `q` and absolute ramification index `e_K`, construct the shared `fundamentalCharacter` API on its supplied tame inertia quotient, at every niveau `f≥1`, with values in `𝔽_(p^f)^×` after a compatible tame-root and residue-embedding choice. Prove surjectivity, norm compatibility, coefficient conjugation by `p`-powers and conjugation by an arithmetic Frobenius lift through the `q`-power map. The niveau-one comparison is `ω₁^(e_K)=ω|_(I_K)`; over `ℚ_p` it is `ω₁=ω`. For extensions of 1 by `ω` over `ℚ_p`, construct the subspace `peuRamifieH1` as the Kummer image of units and define `IsPeuRamifiee` by membership in that subspace; très ramifié is its complement among extension classes. The BCDT adapter uses these same characters and this predicate. Prove `RamificationSupport.peuRamifie_restricted`: on the domain of extension classes with nontrivial wild inertia, this total unit-Kummer predicate agrees with Serre’s restricted peu ramifié predicate. On all classes its condition is “wild inertia is trivial, or the restricted predicate holds”; the split class is included by the first alternative. This separates the subspace condition from a predicate whose domain excludes wild-trivial extensions. Prove invariance under isomorphism and scalar extension, compatibility with twists and Cartier duality `ρ̄∨⊗ω`, and the comparison with the Serre-weight convention used in BCDT §1.3. Sources: BCDT01 §1.3, pp.854–856, with its Serre-weight convention; Serre, **SERRE87**, §2. The chosen characters and the extension-class convention are shared by §§2.7–2.8, 3.3 and 5.13.
 
 **Checks.**
 
@@ -287,12 +301,13 @@ Use SchemeAndStackFoundations §4.2's Artinian and complete noetherian local `O`
 
 For every finite `K/ℚ_p, n≥1`, residual `ρ̄` and bounded labelled Hodge type `v` and finite-image inertial type `τ`, construct the reduced `O`-torsion-free quotients `DeformationSupport.pstRing` and `crystallineRing` of the framed ring. Choose a finite Galois extension `K'/K` killing `τ` and retain its descent data. Their maps to every finite local `L`-algebra, including nonreduced ones, classify lifts semistable over `K'` with exactly those Hodge and inertia types, and respectively `N=0`. Prove uniqueness, coefficient change, type-preserving twists, and the finite-algebra period/descent comparisons needed by this criterion. Construct the finite-projective period modules with `φ,N`, descent and filtration over those coefficient algebras and prove compatibility with residue maps; a field-valued point criterion alone is insufficient for the Artinian comparison. The quotient can be zero. Source: Kisin, **KISIN08**, Theorem (2.7.6), Corollary (2.7.7), p.23, and Theorems (3.3.4), (3.3.8), pp.29–30; Bellovin–Gee, **BG19**, §3.3.
 
-Keep the group-valued extension: for a smooth affine `O`-group with reductive identity component, residual `G`-valued lift, labelled Hodge cocharacter class `v`, inertial type `τ` and chosen `K'`, construct the same reduced flat type quotient, using tensor-compatible period functors and fixed abelianization in place of determinant. Its nonempty generic fibre is reduced, locally a complete intersection and equidimensional of dimension `dim G+Σ_σ dim(G/P_(v,σ))`, with a dense regular open. Fixing a compatible abelianization replaces `dim G` by `dim G^der`. The crystalline generic fibre is regular. These assertions concern scheme generic fibres, and assert no integral complete-intersection or Cohen–Macaulay property. Sources: BG19, Proposition 3.3.2, Theorem 3.3.3, Remark 3.3.4 and Theorem 3.3.8, pp.30–33. The `GL₂` fixed-determinant specialization at every prime, including `p=2`, has dimensions `5/4/4` framed and 2/1/1 unframed under `End ρ̄=k`, as in Paškūnas 2016 §2.C. Full `WD` type additionally fixes Frobenius data: its local deformation condition and generic-fibre locus are distinct from the inertia-only quotient; §5.12 proves the block construction and PID comparison for irreducible rank-two full type.
+Keep the group-valued extension: for a smooth affine `O`-group with reductive identity component, residual `G`-valued lift, labelled Hodge cocharacter class `v`, inertial type `τ` and chosen `K'`, construct the same reduced flat type quotient, using tensor-compatible period functors and fixed abelianization in place of determinant. Its nonempty generic fibre is reduced, locally a complete intersection and equidimensional of dimension `dim G+Σ_σ dim(G/P_(v,σ))`, with a dense regular open. Fixing a compatible abelianization replaces `dim G` by `dim G^der`. The crystalline generic fibre is regular. These assertions concern scheme generic fibres, and assert no integral complete-intersection or Cohen–Macaulay property. Sources: BG19, Proposition 3.3.2, Theorem 3.3.3, Remark 3.3.4 and Theorem 3.3.8, pp.30–33. For `GL₂` over `ℚ_p` with distinct Hodge–Tate weights `a<b` and compatible fixed determinant, the nonzero type quotient has absolute/generic/special dimensions `5/4/4` framed, including `p=2`; under `End ρ̄=k` its unframed dimensions are `2/1/1` (Paškūnas 2016 §2.C). For repeated weights retain the general flag-variety dimension formula: the flag variety is a point, so the nonempty framed fixed-determinant generic fibre has dimension 3. Full `WD` type additionally fixes Frobenius data: its local deformation condition and generic-fibre locus are distinct from the inertia-only quotient; §5.12 proves the block construction and PID comparison for irreducible rank-two full type.
 
 **Checks.**
 
 - For a regular rank-three Hodge type over a degree-`f` local field, the framed generic dimension is `9+3f` and the compatible fixed-determinant dimension is `8+3f`.
 - Rank two over `ℚ_p` with distinct weights and fixed determinant gives generic dimension 4; when `End ρ̄=k`, forgetting three framing parameters gives generic dimension 1. This remains the dyadic formula.
+- At `p=5`, the trivial residual rank-two representation with crystalline weights `(0,0)`, trivial inertia and determinant 1 has a nonempty framed generic fibre of dimension 3: `P_v=GL₂`. The `5/4/4` formula does not apply, and this residual representation does not satisfy the Schur hypothesis.
 - A unit-valued unramified rank-one character is crystalline of weight zero. A ramified finite-order character is potentially crystalline of weight zero, with its nontrivial inertia type retained.
 - For `A=L[ε]/ε²`, an unramified character with Frobenius value `1+ε` is a nonconstant crystalline deformation of weight zero; replacing the finite-algebra criterion by its residue character loses this deformation.
 - An empty type locus has the zero quotient and zero special-fibre cycle; a nonzero `O`-flat quotient has nonzero reduction modulo `ϖ`.
@@ -350,7 +365,7 @@ The light coordinate API in `Suggested.lean` uses `GL2Qp.Gp` for the existing ma
 
 **Checks.** An upper unipotent always has mirabolic bottom row; it belongs to `P⁺` exactly when its translation is integral. A unit diagonal is mirabolic, and is in `P⁺` exactly when its upper-left entry is integral. `Scalar(a)` has lower-right entry `a`, so `scalar(a)` is mirabolic exactly for `a=1`. The Weyl element fails the zero lower-left-entry condition. The named mirrors `GL2Qp.unipotent_mul` and `GL2Qp.diagonal_mul` express the constructor multiplication laws. `GL2Qp.unipotent_not_mem_mirabolicPlus` excludes any nonintegral translation, and `GL2Qp.unipotent_inv_prime_not_mem_mirabolicPlus` gives translation by `p⁻¹`. These checks tie the predicates to the bundled groups, rather than defining alternative groups.
 
-The coordinate definitions have the following further discriminating checks. `InBorel` accepts the identity and every upper unipotent, rejects `w`, and is unchanged by multiplying two accepted elements. `InMirabolic` accepts all translations and all `diag(a,1)`, but rejects `scalar(a)` for `a≠1`. `InMirabolicPlus` accepts `diag(p,1)` and integral translations, and rejects either a nonintegral scaling or a translation by `p⁻¹`. The constructor `unipotent(b)` is the identity at `b=0`, has upper-right entry `b`, and satisfies `unipotent(b) unipotent(c)=unipotent(b+c)`. The constructor `diagonal(a)` is the identity at `a=1`, has upper-left entry `a`, and multiplies according to `diagonal(a) diagonal(b)=diagonal(ab)`; it is scalar only for `a=1`. `Scalar(1)` is the identity, `scalar(a)scalar(b)=scalar(ab)`, and its intersection with `P` is the identity. The Weyl element exchanges the two coordinate vectors, has determinant `−1`, and squares to 1; the alternative signed Weyl matrix `(0 -1;1 0)` squares to `−1` at odd `p` and fails this convention. At `p=2` the field `ℚ₂` still has characteristic zero, so `−1≠1` even though their residue classes agree.
+The coordinate definitions have the following further discriminating checks. `InBorel` accepts the identity and every upper unipotent, rejects `w`, and is unchanged by multiplying two accepted elements. `InMirabolic` accepts all translations and all `diag(a,1)`, but rejects `scalar(a)` for `a≠1`. `InMirabolicPlus` accepts `diag(p,1)` and integral translations, and rejects either a nonintegral scaling or a translation by `p⁻¹`. The constructor `unipotent(b)` is the identity at `b=0`, has upper-right entry `b`, and satisfies `unipotent(b) unipotent(c)=unipotent(b+c)`. The constructor `diagonal(a)` is the identity at `a=1`, has upper-left entry `a`, and multiplies according to `diagonal(a) diagonal(b)=diagonal(ab)`; it is scalar only for `a=1`. `Scalar(1)` is the identity, `scalar(a)scalar(b)=scalar(ab)`, and its intersection with `P` is the identity. The named mirrors `GL2Qp.unipotent_zero`, `GL2Qp.diagonal_one` and `GL2Qp.diagonal_isScalar_iff` prove the identity and scalar boundaries. `GL2Qp.diagonal_prime_mem_mirabolicPlus` and `GL2Qp.diagonal_inv_prime_not_mem_mirabolicPlus` distinguish scaling by `p` from its inverse. The Weyl element exchanges the two coordinate vectors, has determinant `−1` by `GL2Qp.weylElement_det`, and squares to 1; the alternative signed Weyl matrix `(0 -1;1 0)` squares to `−1` at odd `p` and fails this convention. At `p=2` the field `ℚ₂` still has characteristic zero, so `−1≠1` even though their residue classes agree.
 
 Each subgroup is cut out of Mathlib's Matrix.GeneralLinearGroup `(Fin 2) ℚ_[p]` by conditions on the entries (zero lower-left entry for `B`, lower row `(0,1)` for `P`, entries in `ℤ_p` with unit determinant for `K`).
 
@@ -574,7 +589,7 @@ The source is [Pierre Colmez, COLMEZ08TRI](#ref-colmez08tri), §0.2–0.4, pp. 2
 
 ### 1.7 Colmez's classical correspondence `LL(M)` against SR.5.2
 
-Let `M` be a two-dimensional representation of the Weil–Deligne group `WD_{ℚ_p}` over `L` that is not a twist of the trivial representation by a character, with Frobenius normalised as in §0.2 with the raw Weil–Deligne carrier from SmoothRepresentationsOfLocalGroups SR.5.2 and characters read through [§1.2](#section-1-2). Colmez's `LL(M)` is: `Ind_B^G(δ₁ ⊗ δ₂|·|^{−1}) (≅ Ind_B^G(δ₂ ⊗ δ₁|·|^{−1}))` for `M = δ₁ ⊕ δ₂` with `δ₁ ∉ {δ₂, δ₂|·|, δ₂|·|^{−1}}`; for `M = δ ⊕ δ|·|` with `N = 0`, the reducible `Ind_B^G(δ|·| ⊗ δ|·|^{−1})`, an extension of `δ∘det` by `St ⊗ (δ∘det)`; for `M = δ ⊕ δ|·|` with `N ≠ 0, St ⊗ (δ∘det)`; for the non-split extension of `δ` by `δ, Ind_B^G(δ ⊗ δ|·|^{−1})`; and for `M` irreducible, the supercuspidal `rec^{−1}(M⊗ν^{−1/2})`. For a filtration with jumps `a < b` put `LL(M, Fil) = LL(M) ⊗ W_{a,b−a}` with `W_{a,k} = Sym^{k−1} ⊗ det^a`. The bridge theorem: for `M` not of the form `δ ⊕ δ|·|` with `N = 0, LL(M)` is the irreducible `π` with `rec(π) ⊗ ν^{1/2} ≅ M^{F-ss}`, where `rec` is the unitary correspondence of SmoothRepresentationsOfLocalGroups SR.5.2 and `ν = |·|`; equivalently `M^{F-ss} ≅ recᵀ(π) ⊗ ν` for the Tate normalisation `recᵀ(π) = rec(π) ⊗ ν^{−1/2}` of §1.7’s Tate/unitary conversion, so `det M = ω_π·ν`. In the case `M = δ ⊕ δ|·|` with `N = 0`, Colmez takes the full reducible principal series `Ind_B^G(δ|·| ⊗ δ|·|^{−1})` instead of the one-dimensional Langlands quotient that `rec^{−1}` attaches. Colmez’s functor `V` and the Kisin–Emerton functor `MF` differ by a Tate twist: `V(π) = MF(π)(ε)`. Colmez’s list permits a non-semisimple Weil self-extension. Only the comparison with `rec` uses its Frobenius semisimplification `M^{F-ss}`, retaining `N`; in particular special representations retain nonzero monodromy. In the supercuspidal case `LL(M)=rec_T^{-1}(M⊗ν^{−1})` for the SR.5.2 Tate-normalised correspondence.
+Let `M` be a two-dimensional representation of the Weil–Deligne group `WD_{ℚ_p}` over `L` that is not a twist of the trivial representation by a character, with Frobenius normalised as in §0.2 with the raw Weil–Deligne carrier from SmoothRepresentationsOfLocalGroups SR.5.2 and characters read through [§1.2](#section-1-2). Colmez's `LL(M)` is: `Ind_B^G(δ₁ ⊗ δ₂|·|^{−1}) (≅ Ind_B^G(δ₂ ⊗ δ₁|·|^{−1}))` for `M = δ₁ ⊕ δ₂` with `δ₁ ∉ {δ₂, δ₂|·|, δ₂|·|^{−1}}`; for `M = δ ⊕ δ|·|` with `N = 0`, the reducible `Ind_B^G(δ|·| ⊗ δ|·|^{−1})`, an extension of `δ∘det` by `St ⊗ (δ∘det)`; for `M = δ ⊕ δ|·|` with `N ≠ 0, St ⊗ (δ∘det)`; for the non-split extension of `δ` by `δ, Ind_B^G(δ ⊗ δ|·|^{−1})`; and for `M` irreducible, the supercuspidal `rec^{−1}(M⊗ν^{−1/2})`. For Hodge–Tate weights `a<b`, hence filtration jumps `−b<−a`, put `LL(M, Fil) = LL(M) ⊗ W_{a,b−a}` with `W_{a,k} = Sym^{k−1} ⊗ det^a`. The bridge theorem: for `M` not of the form `δ ⊕ δ|·|` with `N = 0, LL(M)` is the irreducible `π` with `rec(π) ⊗ ν^{1/2} ≅ M^{F-ss}`, where `rec` is the unitary correspondence of SmoothRepresentationsOfLocalGroups SR.5.2 and `ν = |·|`; equivalently `M^{F-ss} ≅ recᵀ(π) ⊗ ν` for the Tate normalisation `recᵀ(π) = rec(π) ⊗ ν^{−1/2}` of §1.7’s Tate/unitary conversion, so `det M = ω_π·ν`. In the case `M = δ ⊕ δ|·|` with `N = 0`, Colmez takes the full reducible principal series `Ind_B^G(δ|·| ⊗ δ|·|^{−1})` instead of the one-dimensional Langlands quotient that `rec^{−1}` attaches. Colmez’s functor `V` and the Kisin–Emerton functor `MF` differ by a Tate twist: `V(π) = MF(π)(ε)`. Colmez’s list permits a non-semisimple Weil self-extension. Only the comparison with `rec` uses its Frobenius semisimplification `M^{F-ss}`, retaining `N`; in particular special representations retain nonzero monodromy. In the supercuspidal case `LL(M)=rec_T^{-1}(M⊗ν^{−1})` for the SR.5.2 Tate-normalised correspondence.
 
 Here `M` two-dimensional, not a character twist of the trivial representation. The geometric-Frobenius normalisation on both sides ([§1.2](#section-1-2), SR.5.2).
 
@@ -995,9 +1010,9 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §6, Théor
 
 ### 3.3 The Montreal functor on irreducibles and the mod `p` correspondence
 
-(i) `V(δ∘det) = 0`; (ii) `V(St ⊗ (δ∘det)) = k_L(ωδ)`; (iii) `V(B(δ₁, δ₂)) = k_L(δ₁)` for `B(δ₁, δ₂) = Ind_B^G(δ₂ ⊗ δ₁ω^{−1})`; (iv) for `Π` supersingular, `V(Π)` is irreducible of dimension 2 over `k_L`; precisely `V(Π(r, 0, δ) ⊗ (−1)^{v_p(x)}) = V(r, δ)`, Colmez's irreducible atome galoisien. (v) (Breuil's semisimple mod `p` correspondence) there is a unique bijection between isomorphism classes of supersingular representations of `GL₂(ℚ_p)` over `𝔽̄_p` and irreducible two-dimensional representations of `G_{ℚ_p}` over `𝔽̄_p` with `π(r, 0, χ) ↦ ρ(r, χ) = ind(ω₂^{r+1}) ⊗ χ, det ρ(r, χ) = ω^{r+1}χ²`, compatible with the isomorphisms `π(r, 0, χ) ≅ π(r, 0, χμ_{−1}) ≅ π(p−1−r, 0, χω^r)` on the left and the corresponding ones on the right; `V` realises it up to the normalising twists in (iv). (vi) If `δ₁ ∉ {δ₂, ω^{±1}δ₂}, Ext¹_G(B(δ₂, δ₁), B(δ₁, δ₂))` is one-dimensional and `V` of a non-split extension is the non-split extension of `k_L(δ₂)` by `k_L(δ₁)`.
+(i) `V(δ∘det) = 0`; (ii) `V(St ⊗ (δ∘det)) = k_L(ωδ)`; (iii) `V(B(δ₁, δ₂)) = k_L(δ₁)` for `B(δ₁, δ₂) = Ind_B^G(δ₂ ⊗ δ₁ω^{−1})`; (iv) for `Π` absolutely irreducible supersingular over `k_L`, `V(Π)` is absolutely irreducible of dimension 2 over `k_L`; precisely `V(Π(r, 0, δ) ⊗ (−1)^{v_p(x)}) = V(r, δ)`, Colmez's irreducible atome galoisien. (v) (Breuil's semisimple mod `p` correspondence) there is a unique bijection between isomorphism classes of supersingular representations of `GL₂(ℚ_p)` over `𝔽̄_p` and irreducible two-dimensional representations of `G_{ℚ_p}` over `𝔽̄_p` with `π(r, 0, χ) ↦ ρ(r, χ) = ind(ω₂^{r+1}) ⊗ χ, det ρ(r, χ) = ω^{r+1}χ²`, compatible with the isomorphisms `π(r, 0, χ) ≅ π(r, 0, χμ_{−1}) ≅ π(p−1−r, 0, χω^r)` on the left and the corresponding ones on the right; `V` realises it up to the normalising twists in (iv). (vi) If `δ₁ ∉ {δ₂, ω^{±1}δ₂}, Ext¹_G(B(δ₂, δ₁), B(δ₁, δ₂))` is one-dimensional and `V` of a non-split extension is the non-split extension of `k_L(δ₂)` by `k_L(δ₁)`.
 
-Here coefficients `k_L`, after enlarging `k_L` if needed; `F = ℚ_p`.
+Here (i)–(iv) and the scalar-field dimension bounds concern absolutely irreducible objects over a splitting finite residue field `k_L`; `F=ℚ_p`. For a general admissible irreducible `π` over finite `k`, the endomorphism ring `k_π=End_G(π)` is a finite field extension and `π` is absolutely irreducible as a `k_π[G]`-module (CDN23 Lemme 1.7, p.15). Apply the classification there; compatibility of the Montreal functor with coefficient restriction gives `dim_k V(π)=[k_π:k] dim_(k_π) V(π)`. Descent retains the distinct coefficient-conjugate constituents.
 
 (i)–(iii): compute `D(Π)` for each irreducible from the explicit `D^♮_{W_r}(Π(r, λ))` (Colmez Théorème IV.2.1) and the description of principal series (Proposition III.3.8).
 
@@ -1010,10 +1025,11 @@ Here coefficients `k_L`, after enlarging `k_L` if needed; `F = ℚ_p`.
 **Checks.**
 
 - `V(B(1, 1)) = V(Ind_B^G(1 ⊗ ω^{−1})) = k_L`.
-- For every `p, V` of a supersingular `Π` is induced from a character of `G_{ℚ_{p²}}` (an `ind(ω₂^s)` up to twist).
-- `dim V(π) ≤ 2` for every irreducible `π`.
+- For every `p`, `V` of an absolutely irreducible supersingular `Π` over splitting coefficients is induced from a character of `G_{ℚ_{p²}}` (an `ind(ω₂^s)` up to twist).
+- `dim_(k_L) V(π)≤2` for every absolutely irreducible `π` over the splitting finite residue field.
+- At `p=5`, take `λ∈𝔽₁₂₅×` of order 31. Restriction of scalars of `B(μ_λ,μ_(λ⁻¹))` to `𝔽₅` is irreducible: its three coefficient conjugates are distinct. Its Montreal image is the restriction of `μ_λ` and has `𝔽₅`-dimension 3, while its dimension over `k_π=𝔽₁₂₅` is 1.
 
-The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Théorème 0.10 and Théorème 0.11, p. 13; Proposition VII.4.2, p. 210; Propositions VII.3.3–VII.3.4, pp. 206–207; [Christophe Breuil, BREUIL03](#ref-breuil03), Corollaire 1.4 and the paragraph before it, pp. 3–4.
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Théorème 0.10 and Théorème 0.11, p. 13; Proposition VII.4.2, p. 210; Propositions VII.3.3–VII.3.4, pp. 206–207; [Colmez–Dospinescu–Nizioł, CDN23](#ref-cdn23), Lemme 1.7, p.15; [Christophe Breuil, BREUIL03](#ref-breuil03), Corollaire 1.4 and the paragraph before it, pp. 3–4.
 
 *Needs:* [§3.2](#section-3-2); [§2.7](#section-2-7); [§2.6](#section-2-6).
 
@@ -1178,7 +1194,7 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §13.2, pp.
 
 ### 3.10 Fontaine’s heart and the Weyl involution
 
-For an irreducible rank-two rational étale module `D` with central character `δ_D`, define `C=(1−φ)D^{ψ=1}` and `C′=(1−δ_D(p)^{-1}φ)D^{ψ=δ_D(p)^{-1}}` inside `D^{ψ=0}`. The Weyl involution `w_{δ_D}` sends `C` bijectively onto `C′`. The comparison of this heart with overconvergent `Γ`-distributions, used to extend `w` to `D†` and `D_rig`, is an additional analytic input specified in the analytic Fontaine-heart comparison.
+For an irreducible rank-two rational étale module `D` with central character `δ_D`, define `C=(1−φ)D^{ψ=1}` and `C′=(1−δ_D(p)^{-1}φ)D^{ψ=δ_D(p)^{-1}}` inside `D^{ψ=0}`. The Weyl involution `w_{δ_D}` sends `C` bijectively onto `C′`. Construct `FontaineHeart.radiusComparison`: for a stable integral lattice and all sufficiently large radius indices `b≥m₂(D)`, base change of its heart over `O[[Γ]]` to the annular `Γ`-distribution algebra gives the whole `D^(0,r_b]⊠ℤ_p×`; also prove the open-annulus and Robba base-change comparisons. After inverting `p`, the rational heart is free of rank two over `Λ_L=L⊗_O O[[Γ]]`. Use Colmez Theorem V.1.12 and Corollary V.1.13, pp.121–122, together with Theorem I.5.2. This comparison extends `w` to `D†` and `D_rig`. For absolutely irreducible rank-two `D`, prove `FontaineHeart.oneSubPhi_injective` on `D^(ψ=1)`: its kernel is `D^(φ=1)`, which vanishes by the étale comparison and the absence of invariants under the cyclotomic kernel.
 
 Here `D` irreducible rank two over `E`; the natural glued submodule is `G`-stable. Name the two subspaces `FontaineHeart.heart` and `FontaineHeart.twistedHeart`, with `FontaineHeart.weyl_heart` and `FontaineHeart.weyl_twistedHeart` for the two image equalities.
 
@@ -1192,8 +1208,11 @@ Do not replace this argument with the formal `H¹` computation of a two-term `ψ
 - `w²=1` turns the two inclusions into `w(C)=C′` and `w(C′)=C`; it does not assert `C=C′`.
 - If `ψz=cz`, then `ψ((1−cφ)z)=cz−cz=0`, using `ψφ=1`. This checks that the twisted heart really lies in `D^{ψ=0}`; taking the wrong `ψ`-eigenvalue fails this calculation.
 - When `δ_D(p)=1` the defining formulas give `C′=C`; the formula with general `δ_D(p)` must specialise to this equality.
+- For an absolutely irreducible rank-two `D`, `C` has `Λ_L`-rank two, so it is nonzero; a zero heart cannot satisfy the rank assertion.
+- On that `D`, `(1−φ)z=0` and `ψz=z` imply `z=0`. Rank-one cyclotomic examples with nonzero cyclotomic-kernel invariants do not satisfy this absolute rank-two hypothesis.
+- For every `b≥m₂(D)`, the natural annular base-change map of `C` is an isomorphism onto all of `D^(0,r_b]⊠ℤ_p×`, not just a proper submodule; its Robba extension likewise recovers `D_rig⊠ℤ_p×`.
 
-The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Proposition V.2.1, p.125; Theorem V.1.12 and §V.2 for the additional analytic comparison.
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Proposition V.2.1, p.125; Theorem I.5.2, p.44; Theorem V.1.12 and Corollary V.1.13, pp.121–122, for the radius comparison; §V.2 for its Weyl compatibility.
 
 *Needs:* [§3.7](#section-3-7); [§3.1](#section-3-1); [§1.4](#section-1-4).
 
@@ -1246,7 +1265,7 @@ Layers 1–2; PhiGammaModulesAndIwasawaCohomology §§1.0, 2.2–2.6 and 5.6a; �
 
 ### 4.1 The algebraic and smooth factors `LL(V)` and `Alg(V)` of a de Rham `V`
 
-Let `V` be a two-dimensional `L`-representation of `G_{ℚ_p}` that is de Rham with distinct Hodge–Tate weights `a < b` (§0.2 with the fixed Hodge–Tate sign as used by Colmez). Let `D_pst(V)` be its `(φ, N, G_{ℚ_p})`-module and `WD(V)` the attached Weil–Deligne representation, retaining its monodromy and any non-semisimple Frobenius data until the explicitly stated classical comparison (§0.2 with the raw Weil–Deligne carrier from SmoothRepresentationsOfLocalGroups SR.5.2). Put `LL(V) := LL(D_pst(V))`, the smooth representation of [§1.7](#section-1-7) (irreducible except for the `N = 0, δ ⊕ δ|·|` case, where it is the reducible principal series), `Alg(V) := W_{a, b−a} = Sym^{b−a−1}L² ⊗ det^a`, and `LL(V, a, b) := LL(V) ⊗ Alg(V)`, a locally algebraic representation of `G`. For `a (φ, N, G_{ℚ_p})`-module `M` and `a < b, LL(M, a, b) := LL(M) ⊗ W_{a,b−a}` depends on `M` and `(a, b)` only, not on the Hodge filtration. The set `F` of admissible filtrations on `M_dR` with jumps `a < b` may be empty; when nonempty it is `ℙ¹(M_dR)` with at most two points removed, and for `ℒ ∈ F, D_ℒ` denotes the étale `(φ,Γ)`-module of the weakly admissible filtered module `(M, ℒ)`.
+Let `V` be a two-dimensional `L`-representation of `G_{ℚ_p}` that is de Rham with distinct Hodge–Tate weights `a < b` (§0.2 with the fixed Hodge–Tate sign as used by Colmez). Let `D_pst(V)` be its `(φ, N, G_{ℚ_p})`-module and `WD(V)` the attached Weil–Deligne representation, retaining its monodromy and any non-semisimple Frobenius data until the explicitly stated classical comparison (§0.2 with the raw Weil–Deligne carrier from SmoothRepresentationsOfLocalGroups SR.5.2). Put `LL(V) := LL(D_pst(V))`, the smooth representation of [§1.7](#section-1-7) (irreducible except for the `N = 0, δ ⊕ δ|·|` case, where it is the reducible principal series), `Alg(V) := W_{a, b−a} = Sym^{b−a−1}L² ⊗ det^a`, and `LL(V, a, b) := LL(V) ⊗ Alg(V)`, a locally algebraic representation of `G`. For `a (φ, N, G_{ℚ_p})`-module `M` and `a < b, LL(M, a, b) := LL(M) ⊗ W_{a,b−a}` depends on `M` and `(a, b)` only, not on the Hodge filtration. The set `F` of admissible filtrations on `M_dR` with jumps `−b<−a` may be empty; when nonempty it is `ℙ¹(M_dR)` with at most two points removed, and for `ℒ ∈ F, D_ℒ` denotes the étale `(φ,Γ)`-module of the weakly admissible filtered module `(M, ℒ)`.
 
 Here `V` two-dimensional de Rham with distinct Hodge–Tate weights; the weight convention of Colmez (Théorème 0.20) is fixed by its dictionary to the arithmetic normalisation of §0.2.
 
@@ -1257,7 +1276,7 @@ Use the following named operations and compatibility results.
 - `LocAlgType.locAlg`: `LL(V, a, b) := LL(V) ⊗ Alg(V)`.
 - `LocAlgType.smoothFactor_twist`: `LL(V ⊗ η) = LL(V) ⊗ (η∘det)` for smooth `η`.
 - `LocAlgType.indep_filtration`: `LL(V, a, b)` depends on (`D_pst(V)` as `(φ, N, G_{ℚ_p})`-module, `a, b`) only.
-- `LocAlgType.admissibleFiltrations`: The weakly admissible filtration locus `F`; it is either empty or the complement of at most two points of `ℙ¹(M_dR)`.
+- `LocAlgType.admissibleFiltrations`: The weakly admissible filtration locus `F` with jumps `−b<−a`; it is either empty or the complement of at most two points of `ℙ¹(M_dR)`.
 
 `WD(V)` from `D_pst(V)` by Fontaine's recipe (§0.2’s Fontaine Weil–Deligne functor, using §0.2’s p-adic monodromy theorem).
 
@@ -1269,6 +1288,7 @@ Independence of the filtration is by construction; the parametrisation of admiss
 
 - `LocAlgType.algFactor_weights_0_1`: For Hodge–Tate weights `(0, 1), Alg(V)` is the trivial representation.
 - `LocAlgType.algFactor_dim`: `dim Alg(V) = b − a`.
+- For `V=L⊕L(χ)`, Hodge–Tate weights `(0,1)` give filtration jumps `(−1,0)` and `t_H=t_N=−1`, since crystalline Frobenius has eigenvalues `1,p⁻¹`. Filtration jumps `(0,1)` instead give `t_H=1` and fail weak admissibility.
 - `LocAlgType.equal_weights_excluded`: For equal Hodge–Tate weights no `Alg(V)` is defined by this distinct-weight formula; if `V` is also absolutely irreducible then `Π(V)^{alg}=0` by [§4.2](#section-4-2). The irreducibility hypothesis is necessary for that vanishing criterion.
 - `LocAlgType.crystalline_unramified`: For `V` crystalline with generic Frobenius eigenvalues `α, β, LL(V)` is unramified and `LL(V)^{K}` is one-dimensional.
 - For `V` crystalline with distinct Frobenius eigenvalues `α, β (α/β ≠ p^{±1})` and weights `a < b, LL(V)` is the unramified principal series attached to the two unramified characters `μ_α, μ_β`, and `Alg(V) = Sym^{b−a−1} ⊗ det^a`.
@@ -1278,6 +1298,46 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §11, Théo
 
 *Needs:* [§1.7](#section-1-7); [§0.2](#support-hodge).
 
+<a id="section-4-1a"></a>
+
+### 4.1a Localization, exponential conditions and the Weyl reciprocity bridge
+
+Let `D` be absolutely irreducible of rank two and almost de Rham, normalized by a twist to weights `0,k` with `k≥1`. Here almost de Rham means integral Sen weights; use §0.2’s differential periods and construct the generalized period space `D_pdR,n` as the vectors in the differential-period realization killed by a power of `γ_n−1`, with its induced positive lattice. At dyadic levels retain the torsion invariants before choosing a generator. This is the generalized-period presentation of Colmez §VI.3.2, Proposition VI.3.1, pp.149–150. Put `V=V(D)`, `V̌=V∨(1)`, `Ď=D(V̌)` and `F_n=ℚ_p(μ_(p^n))`. Construct `AlgebraicReciprocity.localization`, the maps `c_(i,n)` from `C_rig(D)=(1−φ)D_rig^(ψ=1)` to `H¹(F_n,V⊗χ^i)`, by the supplied Iwasawa realization and integration against `χ^i` on `Γ_n`. Prove twist, restriction/corestriction and coefficient compatibility, with the sign matched to `1−φ`. Construct the maps for `Ď` as well. These are localizations of an Iwasawa class, not the definition of either heart in §3.10. Source: Colmez Introduction §12, pp.19–20, and §VIII.1, pp.227–230.
+
+Use PhiGammaModulesAndIwasawaCohomology §5.7’s fundamental-sequence boundary, `blochKatoExp` and `blochKatoHe=H¹_e`. Construct its Colmez presentation on `(D_pdR,n(V)/D_pdR,n⁺(V))^Γ_n`, with restriction agreeing with the supplied exponential on `D_dR/Fil⁰`. Construct `AlgebraicReciprocity.dualExp` on `H¹(F_n,V̌)` with values in `D_pdR,n⁺(V̌)/(γ_n−1)`, and put `H¹_(p−e)=ker(exp*)`. Prove `AlgebraicReciprocity.exp_adjunction`: `(x,exp(y))_n=⟨exp*(x),y⟩_dif`, under both `H⁰(H′,V)=0` and `H⁰(H′,V̌)=0`, where `H′=Gal(ℚ̄_p/ℚ_p^ab)`. Verify these hypotheses for every twist used here: the invariant space is a Galois subrepresentation, and an absolutely irreducible rank-two representation cannot factor through the abelian quotient. This also verifies the corresponding vanishing for the cyclotomic kernel used to invert `1−φ`. Source: Colmez §VIII.2, Lemma VIII.2.1 and Theorem VIII.2.2, pp.231–232.
+
+**Checks.**
+
+- For any `x,y` with nonzero differential pairing, the local cup product against `exp(y)` has that same nonzero value; swapping to a zero pairing fails the adjunction.
+- The two invariant-space vanishings hold for `V⊗χ^i` and its Tate dual for every integer `i`; the rank-one trivial and cyclotomic representations fail these hypotheses and cannot be used in this argument.
+- The localization maps commute with passing from level `n+1` to `n` by corestriction and with the `i`-th character specialization; checking only untwisted level zero does not give the all-level condition.
+
+Construct **`AlgebraicReciprocity.eHeart`**, the subspace `C_e(D)⊂C_rig(D)` cut out by `c_(i,n)(z)∈H¹_e(F_n,V⊗χ^i)` for every `0≤i≤k−1` and every `n`. Give its linear-subspace structure, coefficient change, twist transport and localization criteria using the supplied `H¹_e`. Source: Colmez Introduction §12, p.20; Propositions VI.4.13, VI.4.15 and Remark VI.4.14, pp.162–163, and §VI.6.1, p.174.
+
+**Checks.**
+
+- A class with `c_(i,n)(z)∉H¹_e` at even one permitted twist and level is excluded, even if all its untwisted tests vanish.
+- In the de Rham case, identify `C_e(D)=(1−φ)(t^kN_rig)^(ψ=1)`; its Robba-distribution extension is the nonzero rank-two submodule of §VI.6.1. This excludes a zero-subspace definition.
+- At each localization the exponential-image condition excludes the negative/constant obstruction in the differential periods. Replacing `H¹_e` by `H¹_f` already changes the local condition for the trivial representation, where `H¹_e=0` and the unramified finite class is nonzero.
+
+Construct **`AlgebraicReciprocity.dualPEHeart`**, the subspace `C_(p−e)(Ď)⊂C_rig(Ď)` cut out by `exp*(c_(i,n)(z))=0` for every `0≤i≤k−1` and every `n`, using the same index convention as the displayed localization maps. Its image under `z↦z⊗δ_D` is `C′_(p−e)(D)`. Give linearity, coefficient change, twist transport and the kernel/annihilator comparison induced by adjunction. Source: Colmez Introduction §12, p.20; Theorem VIII.2.2, pp.231–232, and Theorem VI.6.8, p.175.
+
+**Checks.**
+
+- A nonzero dual exponential at one permitted `(i,n)` excludes the class, even when its localizations at other levels have zero dual exponential.
+- If a localization pairs nontrivially with an exponential image, adjunction excludes it from the corresponding dual-exponential kernel; requiring only the localization itself to be zero would discard the kernel's nonzero classes.
+- In the de Rham case the twisted Robba extensions of `C_e(D)` and `C_(p−e)(Ď)` agree under the rank-two dual identification; in the non-de Rham case they differ, as detected by the complementary exponential and dual-exponential period conditions.
+
+Prove `AlgebraicReciprocity.weyl_eHeart`, the equality `w(C_e(D))=C′_(p−e)(D)` (Colmez Theorem 0.25, p.20, and Theorem VI.6.8, p.175). Then prove `AlgebraicReciprocity.weyl_stable_iff_deRham`: the Robba-distribution extension of `C_e(D)` is Weyl-stable exactly when `D` is de Rham (Proposition 0.26, p.20). Here its extension means its image under multiplication in `D_rig⊠ℤ_p×`, equivalently extension from `R⁺(Γ)` to `R(Γ)`; no tensor product over an unspecified ring is used. The rank-two dual identification, both vanishing hypotheses in the reciprocity argument, and the distinct weights remain in these statements.
+
+**Checks.**
+
+- In the de Rham case the Weyl image is the same extended submodule, with rank two, and `w²=1` recovers it.
+- In the almost de Rham but non-de Rham case the two extended submodules differ, so an involution on their ambient space alone does not prove stability.
+- A nonzero locally algebraic-vector image generates the extended `C_e(D)` by the Kirillov comparison; its Weyl stability therefore forces de Rhamness. The zero image gives no such implication without nonvanishing.
+
+*Needs:* [§0.2](#support-hodge); [§3.10](#section-3-10); [§3.11](#section-3-11); [§4.1](#section-4-1); PhiGammaModulesAndIwasawaCohomology §§2.6, 5.1 and 5.7.
+
 <a id="section-4-2"></a>
 
 ### 4.2 Locally algebraic vectors of `Π(V)`: Colmez's theorem
@@ -1286,11 +1346,11 @@ Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2, `V = V(D)` and `Π = Π(D)`. (i
 
 Here `D` irreducible of rank 2 over `E`; (ii)–(v) assume `Π^{alg}≠0`, equivalently `V` de Rham with distinct weights; the supercuspidal case of (v) assumes the supercuspidal comparison input. The Emerton–Colmez convention dictionary remains the Emerton–Colmez convention comparison.
 
-(i) non-de Rham: the image of `Π^{alg}` in `D_rig ⊠ ℤ_p^×` lies in `R(Γ) ⊗ C_e(D)`, which is `w`-stable iff `D` is de Rham (Proposition 0.26, Théorème 0.`25 =` VI.6.8, via Kato's explicit reciprocity law), giving VI.6.13.
+(i) non-de Rham: a nonzero algebraic-vector image generates the Robba-distribution extension of `C_e(D)` by the Kirillov model. Section 4.1a constructs this subspace and its localization maps, proves the explicit-reciprocity adjunction under its two vanishing hypotheses, and identifies its Weyl image. Its stability criterion forces de Rhamness, giving VI.6.13.
 
 (i) de Rham: nonvanishing by Lemme VI.6.19 (Théorème VI.6.18); the type `(ℓ, k)` structure by Proposition VI.5.1 and the Kirillov model (Théorème VI.5.7).
 
-(ii): Théorème VI.6.42, comparing `D_ℒ` for varying filtrations inside `N_rig ⊠ ℙ¹`.
+(ii) is the separate target of [§4.2b](#section-4-2b), after [§4.2a](#section-4-2a) constructs the filtration-independent action on `N_rig⊠ℙ¹`. Neither result is an input to (i).
 
 (iii): Théorème VI.6.50, from the Jacquet module `J₀` and `D_crab` (Théorème VI.6.30, Proposition VI.6.33).
 
@@ -1311,7 +1371,35 @@ The Emerton convention conversion is another supporting comparison: reconcile hi
 
 The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Théorèmes 0.20–0.21, p. 17; Théorème 0.25 and Proposition 0.26, p. 20; Théorème VI.5.7, p. 167; Théorèmes VI.6.13 and VI.6.18, pp. 177–178; Théorème VI.6.42, p. 189; Théorème VI.6.50 and Remarque VI.6.51, pp. 192–193; [Matthew Emerton, EMERTON-LG](#ref-emerton-lg), Theorem 3.3.22 and Remark 3.3.23, p. 28; §7.4, pp. 96–98; [Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, CDP14](#ref-cdp14), Theorem 1.3 and footnote 5, p. 2; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDNKISIN](#ref-cdnkisin), Remarque 0.2(v), p. 3; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDN20](#ref-cdn20), §0.2, p. 4 and footnote 4 (arXiv).
 
-*Needs:* [§4.1](#section-4-1); [§3.7](#section-3-7); [§3.11](#section-3-11); [§2.4](#section-2-4); [§1.6](#section-1-6); [§0.2](#support-hodge); PhiGammaModulesAndIwasawaCohomology §2.6.
+*Needs:* For (i), [§4.1a](#section-4-1a), [§4.1](#section-4-1), [§3.7](#section-3-7), [§3.11](#section-3-11), [§2.4](#section-2-4), [§1.6](#section-1-6) and [§0.2](#support-hodge). Part (ii) is proved in §4.2b after §4.2a; (iii)–(v) follow with that result, and (v) retains the supercuspidal comparison input.
+
+<a id="section-4-2a"></a>
+
+### 4.2a The differential-equation action before filtration comparison
+
+For `M`, `a<b` and nonempty `F` of §4.1, normalize the weights to `0,k` by twisting. Construct `AnalyticBoxtimes.filtrationIndependentAction` on `N_rig⊠ℙ¹`, where `N_rig` is the supplied unfiltered differential equation attached to `M`. Construct the chartwise Weyl maps from any `D_ℒ`, prove the radius-extension and duality comparisons, and show that all these maps give the same `G`-action. Prove this independence from the compact gluing and the skeleton formulas: compare the Weyl operators, eliminate their scalar discrepancy by the stable natural lattice, and extend from the two charts. This is Proposition VI.6.41; algebraic filtration independence is its consequence in §4.2b. Source: Colmez §VI.6.9, Corollary VI.6.40 and Proposition VI.6.41, pp.188–189.
+
+**Checks.**
+
+- For two admissible lines, the Weyl maps agree on the common annular sections and hence on `N_rig⊠ℙ¹`; separate actions on isomorphic underlying spaces are insufficient.
+- The resulting Weyl operator squares to 1 and agrees with each `D_ℒ` on its embedded overconvergent sections.
+- For weights `0,k`, the submodule `t^kN_rig⊠ℙ¹` and the natural intersection used in §4.2b are `G`-stable; replacing the filtered lattice by the unfiltered equation does not identify the individual Banach quotients.
+
+*Needs:* [§4.2(i)](#section-4-2) only; [§4.1](#section-4-1); [§3.4–§3.7](#section-3-4); [§3.11](#section-3-11); [§0.2](#support-hodge).
+
+<a id="section-4-2b"></a>
+
+### 4.2b Algebraic filtration independence
+
+Prove `LocAlgType.algebraicVectors_indep_filtration`, the assertion §4.2(ii): for admissible lines `ℒ₁,ℒ₂∈F`, the locally algebraic representations `Π(D_ℒ₁)^(alg)` and `Π(D_ℒ₂)^(alg)` are isomorphic. Use §4.2a’s common `G`-action and the intersection exact sequence of Colmez Theorem VI.6.34: its filtration-independent middle term determines the algebraic constituents. This proof uses neither §4.11’s analytic quotient nor the supercuspidal smooth-factor identification. Source: Colmez Theorem VI.6.34, p.185, Proposition VI.6.41 and Theorem VI.6.42, p.189.
+
+**Checks.**
+
+- At weights `(0,1)`, distinct admissible lines give isomorphic smooth-vector representations, including the supercuspidal case.
+- For `a<b`, the common algebraic factor still has dimension `b−a`; changing the filtration does not change that factor.
+- Distinct admissible lines can give distinct Banach completions; algebraic isomorphism does not assert analytic or Banach isomorphism.
+
+*Needs:* [§4.2a](#section-4-2a); [§4.2(i)](#section-4-2) only; [§4.1](#section-4-1); [§3.11](#section-3-11).
 
 <a id="section-4-3"></a>
 
@@ -1531,18 +1619,19 @@ Fix the rank-two potentially semistable `(φ,N,G)`-module `M`, distinct weights 
 
 Here Colmez §VI.6.9 setup; `F` nonempty; the two-copy assertion assumes the nonspecial case, including the supercuspidal application.
 
-Use the differential-equation module `N_rig` attached to `M` and the independence of its `G`-action, Proposition VI.6.41.
+Use [§4.2a](#section-4-2a)’s constructed `N_rig⊠ℙ¹` and filtration-independent `G`-action, Proposition VI.6.41, followed by [§4.2b](#section-4-2b)’s algebraic comparison, Theorem VI.6.42.
 
-The filtration-independent algebraic factors, Theorem VI.6.42, and the intersection calculation of Theorem VI.6.43 yield the analytic quotient and exact sequence. These differential-equation and intersection inputs are specified in the differential-equation and Drinfeld geometry comparisons.
+Construct `AnalyticBoxtimes.analyticQuotient` from the common `G`-module `(t^kN_rig⊠ℙ¹)/(t^kN_rig^♮⊠ℙ¹)` by its algebraic subrepresentation. After §4.2b, prove the intersection calculation of Theorem VI.6.43 and the displayed exact sequences. This constructs the filtration-independent analytic quotient used by the Drinfeld comparison.
 
 **Checks.**
 
 - In the supercuspidal weight-`(0,1)` case the quotient is `Π^{an}/Π^{lisse}`.
 - The theorem does not say that `Π(D_ℒ)^{an}` itself is independent of `ℒ`.
+- In the nonspecial case the common representation has two algebraic copies, while each `Π(D_ℒ)^{an}` quotients by one copy; quotienting by both gives the common analytic quotient, not the individual analytic representation.
 
 The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Proposition VI.6.41 and Theorem VI.6.42, p.189; Theorem VI.6.43 and Remark VI.6.44, p.190.
 
-*Needs:* [§3.11](#section-3-11); [§4.1](#section-4-1); [§4.2](#section-4-2).
+*Needs:* [§3.11](#section-3-11); [§4.1](#section-4-1); [§4.2a](#section-4-2a); [§4.2b](#section-4-2b).
 
 ### Examples
 
@@ -1605,13 +1694,14 @@ Here `F = ℚ_p`; the exceptional cases at `p = 2`, 3 as listed.
 
 `Ext¹` computations between irreducibles (Breuil–Paškūnas, Colmez §VII, Emerton, completed by Paškūnas), with the criterion of Paškūnas's Theorem 1.1 (Blocks): `Ext¹_G(π₂, π₁) ≠ 0` forces `π₁, π₂` to be constituents of the reduction of one unitary principal series or `Π(V)`.
 
-The decomposition of `π{δ₁, δ₂}` (Blocks, Proposition 3.11 and the case list on p. 11), including `p = 2`: `π{δ, δ} ≅ (Sp^{⊕2} ⊕ 1^{⊕2}) ⊗ δ∘det`, and `p = 3`: `(1 ⊕ Sp ⊕ ω∘det ⊕ Sp ⊗ ω∘det) ⊗ δ∘det`.
+The decomposition of `π{δ₁, δ₂}` (Blocks, Proposition 3.11 and the case list on p. 11), including `p = 2`: `π{δ, δ} ≅ (Sp^{⊕2} ⊕ 1^{⊕2}) ⊗ δ∘det`, and `p = 3`: `π{δ,δω} ≅ (1 ⊕ Sp ⊕ ω∘det ⊕ Sp ⊗ ω∘det) ⊗ δ∘det`. At `p=3`, `π{δ,δ}` instead consists of two copies of the irreducible `Ind_B^G(δ⊗δω⁻¹)`.
 
 The shared contract `GL2Block.residualGalois` is this determinant-normalized bijection. The bijection with `ρ̄_B` from [§3.3](#section-3-3) and Breuil's semisimple correspondence (CDN 2023 Remarque 1.15).
 
 **Checks.**
 
 - For `p ≥ 5` the block of the trivial character is `{1, Sp, Ind_B^G(ω ⊗ ω^{−1})}` and `ρ̄_B = 1 ⊕ ω`.
+- At `p=3`, `π{1,ω}` has the four stated constituents, whereas `π{1,1}=2·Ind_B^G(1⊗ω)` is two copies of an irreducible principal series.
 - For `p = 2` the block of the trivial character is `{1, Sp}` (`Ind_B^G(ω ⊗ ω^{−1}) = Ind_B^G(1)` is reducible with these constituents).
 
 The source is [Vytautas Paškūnas, PASKUNAS-BLOCKS14](#ref-paskunas-blocks14), Theorem 1.1, p. 1; Corollary 1.2, p. 2; Proposition 3.11 and the decomposition list, pp. 8–11; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDN23](#ref-cdn23), Proposition 1.10, p. 18; Remarques 1.11, 1.13 and 1.15, pp. 18–19; [Vytautas Paškūnas, PASKUNAS13](#ref-paskunas13), §1.1, pp. 4–5.
@@ -1915,7 +2005,7 @@ The source is [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDNKISIN](#
 
 ### 5.13 Admittance of residual representations by types (BCDT)
 
-Let `ℓ` be a prime and `ρ̄` : `G_ℓ → GL₂(𝔽̄_ℓ)` continuous. For the irreducible `𝔽̄_ℓ`-representations `σ_{n,m}` of `GL₂(ℤ_ℓ), σ'_{m₁,m₂}` of `U₀(ℓ)` and `σ'_{{m₁,m₂},a}, σ'_{{m},a}` of `Ũ₀(ℓ)` ([§2.8](#section-2-8)), Breuil–Conrad–Diamond–Taylor define when `σ` admits and simply admits `ρ̄`, explicitly in terms of `ρ̄|_{I_ℓ}` through the fundamental characters `ω, ω₂`, the peu/très ramifié condition, and central characters `(ω^{−1}det ρ̄)|_{W_ℓ}`; e.g. `σ_{n,m}` admits `ρ̄` iff `ρ̄|_{I_ℓ} ≅ ω₂^{1−ℓn−m(ℓ+1)} ⊕ ω₂^{ℓ−n−m(ℓ+1)}` or `ρ̄|_{I_ℓ} ≅ (ω^{1−m} *; 0 ω^{−n−m})` (peu ramifié if `n = 0`), and `σ_{n,0}` admits `ρ̄` iff the Serre weight of `ρ̄^∨ ⊗ ω` is `n + 2`. An `ℓ`-type `τ` (reducible: `σ_τ` a representation of `GL₂(ℤ_ℓ)`; irreducible: of `U₀(ℓ)`; extended type `τ'` with irreducible restriction to `I_ℓ`: of `Ũ₀(ℓ)`) admits `σ` if `σ` is a Jordan–Hölder constituent of `Λ ⊗ 𝔽̄_ℓ` for an invariant lattice `Λ ⊂ σ_τ`, simply if with multiplicity one; `τ` (simply) admits `ρ̄` if it admits some `σ` that admits `ρ̄` (resp. a unique such `σ`, simply, which simply admits `ρ̄`). The remaining cases are fixed as follows. Choose exponents in `{0,…,ℓ−2}`. An Iwahori character `σ′_{m₁,m₂}` admits `ρ̄` when inertia is either the niveau-two pair with exponents `1−ℓm_i−m_j` and `ℓ−m_i−ℓm_j` (`m_i≥m_j` and `{m_i,m_j}={m₁,m₂}`), or an extension with diagonal `(ω^{1−m₁},ω^{−m₂})`, or one with the two exponents interchanged. If `m₁≠m₂` it simply admits precisely in the two extension cases; if `m₁=m₂` it simply admits precisely for the très ramifié extension. A two-dimensional normaliser representation `σ′_{{m₁,m₂},a}` admits when its Iwahori restriction admits and its central character is `ω^{-1}det ρ̄`; it simply admits when that central condition holds and one of the two extension cases holds. The normaliser character `σ′_{{m},a}` requires Iwahori admittance and the same central condition; in the très ramifié case it additionally requires a quotient of `ρ̄` equal to `ω^{-m}χ` for unramified `χ` with Frobenius value `−a`. For this normaliser character simple admittance equals admittance; for `σ_{n,m}` it also equals admittance. A type simply admits `ρ̄` exactly when it has a unique admitted constituent, that constituent occurs with multiplicity one, and the constituent itself simply admits `ρ̄`.
+Let `ℓ` be a prime and `ρ̄` : `G_ℓ → GL₂(𝔽̄_ℓ)` continuous. For the irreducible `𝔽̄_ℓ`-representations `σ_{n,m}` of `GL₂(ℤ_ℓ), σ'_{m₁,m₂}` of `U₀(ℓ)` and `σ'_{{m₁,m₂},a}, σ'_{{m},a}` of `Ũ₀(ℓ)` ([§2.8](#section-2-8)), Breuil–Conrad–Diamond–Taylor define when `σ` admits and simply admits `ρ̄`, explicitly in terms of `ρ̄|_{I_ℓ}` through the fundamental characters `ω, ω₂`, the peu/très ramifié condition, and central characters `(ω^{−1}det ρ̄)|_{W_ℓ}`; e.g. `σ_{n,m}` admits `ρ̄` iff `ρ̄|_{I_ℓ} ≅ ω₂^{1−ℓn−m(ℓ+1)} ⊕ ω₂^{ℓ−n−m(ℓ+1)}` or `ρ̄|_{I_ℓ} ≅ (ω^{1−m} *; 0 ω^{−n−m})` (peu ramifié if `n = 0`), and `σ_{n,0}` admits `ρ̄` iff `σ_{n,0}` belongs to the full Serre-weight set of `ρ̄^∨⊗ω`, including both boundary labels when they occur. An `ℓ`-type `τ` (reducible: `σ_τ` a representation of `GL₂(ℤ_ℓ)`; irreducible: of `U₀(ℓ)`; extended type `τ'` with irreducible restriction to `I_ℓ`: of `Ũ₀(ℓ)`) admits `σ` if `σ` is a Jordan–Hölder constituent of `Λ ⊗ 𝔽̄_ℓ` for an invariant lattice `Λ ⊂ σ_τ`, simply if with multiplicity one; `τ` (simply) admits `ρ̄` if it admits some `σ` that admits `ρ̄` (resp. a unique such `σ`, simply, which simply admits `ρ̄`). The remaining cases are fixed as follows. Choose exponents in `{0,…,ℓ−2}`. An Iwahori character `σ′_{m₁,m₂}` admits `ρ̄` when inertia is either the niveau-two pair with exponents `1−ℓm_i−m_j` and `ℓ−m_i−ℓm_j` (`m_i≥m_j` and `{m_i,m_j}={m₁,m₂}`), or an extension with diagonal `(ω^{1−m₁},ω^{−m₂})`, or one with the two exponents interchanged. If `m₁≠m₂` it simply admits precisely in the two extension cases; if `m₁=m₂` it simply admits precisely for the très ramifié extension. A two-dimensional normaliser representation `σ′_{{m₁,m₂},a}` admits when its Iwahori restriction admits and its central character is `ω^{-1}det ρ̄`; it simply admits when that central condition holds and one of the two extension cases holds. The normaliser character `σ′_{{m},a}` requires Iwahori admittance and the same central condition; in the très ramifié case it additionally requires a quotient of `ρ̄` equal to `ω^{-m}χ` for unramified `χ` with Frobenius value `−a`. For this normaliser character simple admittance equals admittance; for `σ_{n,m}` it also equals admittance. A type simply admits `ρ̄` exactly when it has a unique admitted constituent, that constituent occurs with multiplicity one, and the constituent itself simply admits `ρ̄`.
 
 Here weight 2 (potentially Barsotti–Tate) types as in BCDT; the definition uses `ρ̄` rather than its Cartier dual because of the normalisations of CDT.
 
@@ -1924,12 +2014,12 @@ Use the following named operations and compatibility results.
 - `Admits.sigma`: `σ` admits `ρ̄`: the explicit condition on `ρ̄|_{I_ℓ}` for each of the families `σ_{n,m}, σ'_{m₁,m₂}, σ'_{{m₁,m₂},a}, σ'_{{m},a}`.
 - `Admits.simply`: `σ` simply admits `ρ̄`.
 - `Admits.type`: `τ` admits `ρ̄` iff some constituent of the reduction of `σ_τ` admits `ρ̄`.
-- `Admits.serreWeight`: `σ_{n,0}` admits `ρ̄` iff the Serre weight of `ρ̄^∨ ⊗ ω` is `n + 2`.
+- `Admits.serreWeight`: `Admits.sigma σ_{n,0} ρ̄ ↔ σ_{n,0}∈W_Serre(ρ̄^∨⊗ω)`, where `W_Serre` is the full finite set given by the local Serre-weight recipe, including `n=0` and `n=ℓ−1` when both occur.
 - `Admits.simply_imp`: Simple admittance implies admittance.
 
 Spell out each case of BCDT §1.3 on the classification of [§2.8](#section-2-8).
 
-Relate `σ_{n,0}` admitting `ρ̄` to Serre's weight of `ρ̄^∨ ⊗ ω` (BCDT's parenthetical remark).
+Compare the inertia-and-extension recipe for the full set `W_Serre(ρ̄^∨⊗ω)` with the displayed admittance table. The comparison is set membership; it does not identify every admitted label with a single minimal integer weight.
 
 The peu/très ramifié extension predicate and the fundamental-character conventions are required from the local Galois/Serre-weight owner, with the precise contract given by the local Galois ramification predicates.
 
@@ -1939,6 +2029,7 @@ The peu/très ramifié extension predicate and the fundamental-character convent
 - `Admits.sigma_n_m_irreducible`: For irreducible `ρ̄` with `ρ̄|_{I_ℓ} ≅ ω₂^{1−ℓn} ⊕ ω₂^{ℓ−n}, σ_{n,0}` admits `ρ̄`. The irreducibility condition is on `ρ̄`, not on this direct sum of inertia characters.
 - `Admits.tres_ramifie_excluded`: `σ_{0,0}` does not admit `ρ̄` with `ρ̄|_{I_ℓ} ≅ (ω *; 0 1)` très ramifié.
 - `Admits.no_type`: A type whose reduction has no constituent admitting `ρ̄` does not admit `ρ̄`.
+- At `p=5`, `ρ̄=ω⊕1` is split and hence peu ramifié. Both `σ_(0,0)` and `σ_(4,0)` admit it; the full Serre-weight set of `ρ̄^∨⊗ω` retains both labels, whose integer weights are 2 and 6.
 - `σ_{0,0}` admits `ρ̄` iff `ρ̄|_{I_ℓ} ≅ (ω *; 0 1)` peu ramifié or `ρ̄|_{I_ℓ} ≅ ω₂ ⊕ ω₂^ℓ`.
 - Simple admittance implies admittance.
 - A reduction consisting of one simply admitted constituent with multiplicity one simply admits `ρ̄`. Two copies of that constituent still admit `ρ̄` but fail simple admittance; two distinct admitted constituents also fail simple admittance. These distinguish the unique-constituent and multiplicity-one requirements.
@@ -1983,15 +2074,37 @@ Layers 1–4; IntegralHeckeAndGaloisDeterminants Layers 0–1; §0.4 including i
 
 ## Layer 6: Breuil–Mézard and geometric applications
 
+<a id="section-6-0"></a>
+
+### 6.0 The nongeneric cyclotomic-extension compact module
+
+Let `p≥5`, `ρ̄≅(χω *;0 χ)` be nonsplit, and fix the smooth central character `ζ` with Galois determinant `ζε`. Normalize `χ=1` by twisting. Construct `NongenericBM.beta`, Colmez’s finite-length representation `β` with socle `Sp` and semisimplification `Sp⊕1⊕π_α`, where `π_α=Ind_B^G(ω⊗ω⁻¹)`, and prove `V̌(β∨)≅ρ̄`. Its extension class recovers `ρ̄`; include uniqueness and the character-twist comparison. Prove `NongenericBM.deformationEquiv`, identifying the compact deformation functor of `β∨` in the prescribed-central-character category with the fixed-determinant Galois deformation functor. Construct `NongenericBM.universalCompact`, its universal deformation `N` over `R^ψ_ρ̄≅O[[x₁,x₂,x₃]]`; `N` is not replaced by a projective envelope. Source: Paškūnas15 §6.2, Lemmas 6.7–6.9, Theorem 6.10 and Definition 6.11, pp.32–33.
+
+**Checks.**
+
+- Reduction `k⊗̂_R N≅β∨` has dual with socle `Sp` and exactly the three stated Jordan–Hölder factors; a single principal series or the generic envelope has the wrong reduction.
+- Twisting by `χ∘det` gives `V̌(β∨)≅ρ̄` with the stated determinant and inverse compact central character, rather than changing only the inertia labels.
+- Both peu and très ramifié nonsplit extensions occur. The split representation fails the nonsplit hypothesis and is not a case of this deformation equivalence.
+
+Prove `NongenericBM.flat_projective_support`: `N` is `R`-flat, projective on restriction in `Mod^pro_(K,ζ⁻¹)(O)`, and satisfies the finite-type support, generic multiplicity and dimension conditions of §5.11’s fixed-character cycle criterion. Construct `M(σ)` and `M(Θ)` from this `N`. Prove the projective-dimension bound over the central quotient using Paškūnas15 Proposition 6.21, then apply Theorem 2.44 and Corollary 6.22. Prove the type-annihilator comparisons, including the scalar weight-two case of Proposition 6.23, before deducing Theorem 6.24. Source: Paškūnas15 §6.2, Propositions 6.20–6.23, Corollary 6.22 and Theorem 6.24, pp.36–38.
+
+**Checks.**
+
+- In the normalized très ramifié case only `M(st)` is nonzero; in the peu ramifié nonsplit case both `M(1)` and `M(st)` are nonzero, all with support dimension at most one.
+- For the peu ramifié case, `M(st)` has Hilbert–Samuel multiplicity 2 and `M(1)` has multiplicity 1. The très ramifié nonzero cycle has multiplicity 1.
+- The compact projectivity is in the fixed-character category. The regular central element `z−ζ(z)⁻¹` obstructs projectivity over the full `O[[K]]`; flatness over `R` does not remove this obstruction.
+
+*Needs:* [§5.11](#section-5-11)’s general fixed-character criterion; [§5.10](#section-5-10); [§3.3](#section-3-3); [§2.3](#section-2-3); [§0.4](#support-deformations); [§0.5](#support-cycles). The generic envelope identifications of §§5.5 and 5.8 are not inputs to this construction.
+
 <a id="section-6-1"></a>
 
 ### 6.1 Paškūnas 2015: Breuil–Mézard for `p ≥ 5` and `End ρ̄ = k`
 
-Let `p ≥ 5` and `ρ̄` : `G_{ℚ_p} → GL₂(k)` with `End_{G_{ℚ_p}}(ρ̄) = k` (`ρ̄` absolutely irreducible or a non-split extension of two distinct characters), `R_ρ̄` its universal deformation ring. For every p-adic Hodge type `(w, τ, ψ)` in the normalisation of [§5.10](#section-5-10) (`det = ψε, ψ|_I = ε^{a+b−1}det τ`; Paškūnas’s source `ψ` equals this `ψε`): (i) there is a reduced `O`-torsion-free quotient, of absolute dimension two when nonzero, `R^ψ_ρ̄(w, τ)` (resp. `R^{ψ,cr}_ρ̄(w, τ)`) of `R_ρ̄` whose `L`-points are the potentially semistable (resp. crystalline) deformations of type `(w, τ, ψ)`; (ii) for each irreducible smooth `k`-representation `σ` of `K` there is a one-dimensional cycle `z(σ, ρ̄)` of `R_ρ̄`, independent of `(w, τ)`, with `z₁(R^ψ_ρ̄(w, τ)/ϖ) = Σ_σ m_σ(w, τ)z(σ, ρ̄)` and `z₁(R^{ψ,cr}_ρ̄(w, τ)/ϖ) = Σ_σ m^cr_σ(w, τ)z(σ, ρ̄)`; (iii) `z(σ, ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0, β` the atom attached to `ρ̄` by Colmez, and then its Hilbert–Samuel multiplicity is 1, except for `ρ̄ ≅ (ω *; 0 1) ⊗ χ` with * peu ramifié, where it is 2. The cyclotomic-extension case `ρ̄ ≅ (ω *; 0 1) ⊗ χ` uses the nongeneric construction, while the other cases also follow from Kisin’s theorem.
+Let `p ≥ 5` and `ρ̄` : `G_{ℚ_p} → GL₂(k)` with `End_{G_{ℚ_p}}(ρ̄) = k` (`ρ̄` absolutely irreducible or a non-split extension of two distinct characters), `R_ρ̄` its universal deformation ring. For every p-adic Hodge type `(w, τ, ψ)` in the normalisation of [§5.10](#section-5-10) (`det = ψε, ψ|_I = ε^{a+b−1}det τ`; Paškūnas’s source `ψ` equals this `ψε`): (i) there is a reduced `O`-torsion-free quotient, of absolute dimension two when nonzero, `R^ψ_ρ̄(w, τ)` (resp. `R^{ψ,cr}_ρ̄(w, τ)`) of `R_ρ̄` whose `L`-points are the potentially semistable (resp. crystalline) deformations of type `(w, τ, ψ)`; (ii) for each irreducible smooth `k`-representation `σ` of `K` there is a one-dimensional cycle `z(σ, ρ̄)` of `R_ρ̄`, independent of `(w, τ)`, with `z₁(R^ψ_ρ̄(w, τ)/ϖ) = Σ_σ m_σ(w, τ)z(σ, ρ̄)` and `z₁(R^{ψ,cr}_ρ̄(w, τ)/ϖ) = Σ_σ m^cr_σ(w, τ)z(σ, ρ̄)`; (iii) `z(σ, ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0, β` the atom attached to `ρ̄` by Colmez, and then its Hilbert–Samuel multiplicity is 1, except for the Steinberg-weight cycle of a nonsplit peu ramifié `ρ̄≅(ω *;0 1)⊗χ`, where it is 2; its character-weight cycle still has multiplicity 1. The cyclotomic-extension case `ρ̄ ≅ (ω *; 0 1) ⊗ χ` uses the nongeneric construction, while the other cases also follow from Kisin’s theorem.
 
 Here `p ≥ 5`; `End(ρ̄) = k`. Split `ρ̄` (Hu–Tan) and non-split self-extensions `(χ *; 0 χ)` are not covered.
 
-Apply the prescribed-central-character adapter of Paškūnas's criterion ([§5.11](#section-5-11)) to `N = P̃` with `End(P̃) = R^ψ_ρ̄` ([§5.5](#section-5-5), [§5.8](#section-5-8)).
+For generic `ρ̄` (irreducible, or nonsplit with character ratio outside `{1,ω}`), apply §5.11’s fixed-character criterion to `N=P̃`, using §5.5’s envelope comparison and §5.8’s generic freeness. For nonsplit cyclotomic extensions use [§6.0](#section-6-0)’s `β` and its universal compact deformation `N`, its `R`-flatness, fixed-character `K`-projectivity and support comparisons. This gives Paškūnas15 Theorem 6.24 without invoking the excluded generic-envelope theorem.
 
 Supports of `M(Θ)` for `Θ ⊂ σ(w, τ)`: Proposition 4.14 via [§4.5](#section-4-5) and [§4.2](#section-4-2).
 
@@ -2002,9 +2115,9 @@ Cycles `z(σ, ρ̄) := z₁(M(σ))`, their nonvanishing and multiplicity: Theore
 - For `ρ̄` absolutely irreducible, `z(σ, ρ̄) ≠ 0` exactly for the Serre weights `σ` of `ρ̄` (the `K`-socle of the supersingular `π` with `V(π) ↔ ρ̄`).
 - For `(w, τ) = ((0,1), 1)` crystalline, `R^{ψ,cr}_ρ̄((0,1), 1)` is the finite flat deformation ring and its special fibre cycle is `z(1, ρ̄)`.
 
-The source is [Vytautas Paškūnas, PASKUNAS15](#ref-paskunas15), Theorem 1.1 and the paragraph after it, pp. 2–3.
+The source is [Vytautas Paškūnas, PASKUNAS15](#ref-paskunas15), Theorem 1.1 and the paragraph after it, pp.2–3; §6.2, Theorem 6.10, Definition 6.11, Corollary 6.22 and Theorem 6.24, pp.32–38.
 
-*Needs:* [§5.11](#section-5-11); [§5.10](#section-5-10); [§5.5](#section-5-5); [§5.8](#section-5-8); [§4.5](#section-4-5).
+*Needs:* [§5.11](#section-5-11); [§5.10](#section-5-10); [§4.5](#section-4-5). The generic case uses §§5.5 and 5.8; the nonsplit cyclotomic-extension case uses §6.0 instead.
 
 <a id="section-6-2"></a>
 
@@ -2059,7 +2172,7 @@ Here `p = 2`; blocks of types (i) and (ii) only; the remaining case `r̄ ≅ (χ
 
 Local: use the endomorphism ring of the individual projective envelope attached to the chosen nonsplit residual representation ([§5.5](#section-5-5) (iii)). The whole `E_B` is the fixed-determinant deformation ring only in the supersingular singleton case; verify Paškūnas's criterion ([§5.11](#section-5-11)), the multiplicity condition by Proposition 2.33 using Dospinescu's argument with `det V̌(Π) = ψε` and `dim Ext¹ = 3` (Corollaries 2.24, 2.26), and the locally algebraic completion input for `p = 2` (proof of Proposition 2.33). Proposition 2.33 works at all `p` in the generic residual setting and explicitly replaces the `p≥5` hypothesis using these determinant and `Ext` computations; the Artinian de Rham theorem gives the separate all-prime family criterion.
 
-Theorem 2.34 for the unframed ring; Theorem 2.37 for split `ρ̄` via [Paškūnas 2015, Theorem 7.3, Remark 7.4].
+Paškūnas 2016 Theorem 2.34 gives the unframed case; Theorem 2.37 gives the split case, with the framed cycles and their principal-series socle criterion.
 
 **Checks.**
 
@@ -2165,6 +2278,30 @@ Let `π` be a supercuspidal representation of `G = GL₂(ℚ_p)` with trivial ce
 
 Here `π` is supercuspidal with trivial central character (the algebraic-twist extension is DLB Remarque 1.3(a)), and `n` is large. Comparisons (ii)–(iii) take the global comparison data specified below; in particular (ii) assumes the nonzero map `Φ` below.
 
+Before the function-dual comparison construct `DrinfeldComparison.halfPlaneModule`, the unique continuous `O(Ω)`-module structure on `Π(π,0)*` for which the coordinate acts by the operator `∂` characterized by `a⁺−1=u⁺∂`. Prove closedness of the image of `u⁺`, construct `∂` and its resolvents, and use Morita duality to extend rational functions to `O(Ω)`. Prove `DrinfeldComparison.map_linear`: every continuous `G`-map to `O(Σ_n)^ρ` respects this module structure. Sources: DLB17 Propositions 9.1 and 9.16, Theorems 9.4 and 9.9, pp.45–51.
+
+**Module Checks.**
+
+- The coordinate function acts as `∂`; replacing the module action by scalar evaluation cannot satisfy `a⁺−1=u⁺∂`.
+- The resolvent identity for distinct `x,y∈ℚ_p` agrees with multiplication of `(z−x)⁻¹` and `(z−y)⁻¹`; this tests extension to functions beyond polynomials.
+- Equivariance forces a map to commute with `u⁺` and `a⁺`, then with `∂` by injectivity of `u⁺` on the target, and finally with all `O(Ω)` by continuity and density.
+
+Prove `DrinfeldComparison.map_surjective` for the supplied nonzero `Φ` by DLB17 Theorem 10.1, p.52: construct the Drinfeld/Lubin–Tate equivariant-bundle comparison and dense image of Proposition 10.3, pp.52–53, then apply the Fréchet Stein-module surjectivity criterion of Proposition 10.11, pp.55–56. Prove `DrinfeldComparison.scalarEndomorphisms`, the scalar-endomorphism statement for continuous `O(Ω)`-linear `G`-maps of `O(Σ_n)^ρ`, using the same equivariant-bundle comparison (Proposition 10.10, p.55).
+
+**Surjectivity and endomorphism Checks.**
+
+- The zero equivariant map is excluded by the nonzero hypothesis; it has no dense image.
+- Dense image becomes surjective only after the Fréchet-domain and finite-projective Stein-module hypotheses are verified; no coadmissibility of the source over `O(Ω)` is assumed as an input.
+- Scalar multiplication by every `c∈L` is an endomorphism, and an invertible one has `c≠0`; a nontrivial idempotent would violate the scalar-endomorphism conclusion.
+
+Prove `DrinfeldComparison.map_injective` using Proposition 11.10, pp.63–64. First construct the weight-two operator model `Π(π,2)`, the closed-image differential map and the smooth kernel comparison `Π(π,2)^(u⁺=0)≅π⊗M_dR(π)` (Proposition 11.1 and Theorem 11.7, pp.57–61). The global de Rham comparison data give a quotient `(π*)^⊕2` of `H¹_dR(Σ_n)^ρ`, as in §4. A surjection from the same length-two smooth representation is an isomorphism. Consequently a kernel vector of `Φ`, and then its Weyl transform, is divisible by every power of `u⁺`; in `tN_rig⊠ℙ¹` both chart coordinates vanish by infinite `t`-divisibility. This yields injectivity before asserting the full de Rham isomorphism. Combine it with surjectivity and the open-mapping theorem to prove the topological isomorphism. Proposition 9.16 and Proposition 10.10 then give uniqueness up to nonzero scalar.
+
+**Injectivity Checks.**
+
+- Infinite `t`-divisibility kills both chart coordinates; vanishing of just the first chart does not imply a section is zero.
+- The smooth quotient comparison uses two copies of `π*`; surjectivity alone without this length comparison does not imply injectivity.
+- Two isomorphisms differ by a continuous `O(Ω)`-linear `G`-automorphism of the target and hence by a nonzero scalar; the zero scalar cannot identify two isomorphisms.
+
 Name this completion family `DrinfeldComparison.completionFamily`; its `ρ`-isotypic function and differential spaces are `DrinfeldComparison.functions` and `DrinfeldComparison.differentials`. The targets `DrinfeldComparison.functions_dual`, `DrinfeldComparison.deRham` and `DrinfeldComparison.filtration_preimage` are respectively the three comparisons above, with the stated topologies and scalar ambiguity.
 
 (i): CDP ([§3.8](#section-3-8)) with `det V(Π) = χ_cyc` and the Colmez–Fontaine theorem; all filtrations are weakly admissible since the Weil representation of `M(π)` is irreducible ([§4.6](#section-4-6)).
@@ -2173,7 +2310,7 @@ Use [§4.11](#section-4-11), rather than only the algebraic independence theorem
 
 (iii): comparison with de Rham cohomology of `Σ_n` (DLB Théorème 1.4).
 
-The hypothesis `DrinfeldComparison.global_nonzero_map` supplies a continuous nonzero `G`-map `Φ:(Π^{an}/Π^{lisse})*→O(Σ_n)^ρ` for one `Π∈V(π)`. Its conditional construction takes these actual global comparison data: a quaternionic Shimura-curve tower and its Cerednik–Drinfeld uniformization isomorphism (DLB17 Theorem 4.8, pp.22–23); an automorphic realization of `π` with the required Hecke eigenspace; and the eigenspace/local–global comparison of Theorem 5.4 in §5.1. Theorem 5.1, p.24, constructs `Φ` from these data, as outlined in §1.2, pp.7–8. The de Rham comparison also takes the automorphic and uniformization data of §4. These global data are explicit hypotheses here. Section 4.11 supplies filtration independence of the source; the local rigidity theorem DLB17 Theorem 10.1 makes the supplied nonzero `Φ` an isomorphism unique up to scalar.
+The hypothesis `DrinfeldComparison.global_nonzero_map` supplies a continuous nonzero `G`-map `Φ:(Π^{an}/Π^{lisse})*→O(Σ_n)^ρ` for one `Π∈V(π)`. Its conditional construction takes these actual global comparison data: a quaternionic Shimura-curve tower and its Cerednik–Drinfeld uniformization isomorphism (DLB17 Theorem 4.8, pp.22–23); an automorphic realization of `π` with the required Hecke eigenspace; and the eigenspace/local–global comparison of Theorem 5.4 in §5.1. Theorem 5.1, p.24, constructs `Φ` from these data, as outlined in §1.2, pp.7–8. The de Rham comparison also takes the automorphic and uniformization data of §4. These global data are explicit hypotheses here. Section 4.11 supplies filtration independence of the source. Construct the differential-operator and function-module comparisons before applying the separate surjectivity, injectivity and scalar-endomorphism theorems; Theorem 10.1 supplies surjectivity only.
 
 **Global-map Checks.**
 
@@ -2190,7 +2327,7 @@ The geometric comparison needs the finite Drinfeld covering spaces `Σ_n` and th
 - The zero Banach representation and every ordinary absolutely irreducible Banach representation fail to lie in `V(π)`: their smooth vectors cannot equal this nonzero supercuspidal `π`. Distinct lines `Le₁` and `Le₂` give distinct completions, although their analytic quotients are isomorphic.
 - Passing to a larger level with `ρ` still trivial on `1+p^nO_D` preserves the isomorphism class of the function dual in (ii). At a level where that triviality fails, (ii) makes no such assertion.
 
-The source is [Gabriel Dospinescu, Arthur-César Le Bras, DLB17](#ref-dlb17), §1.2, pp.7–8; Theorems 4.8, 5.1, 5.4 and 10.1; Définition 1.1, Théorème 1.2, Remarque 1.3, pp. 4–5; Théorème 1.4, p. 6 (arXiv).
+The source is [Gabriel Dospinescu, Arthur-César Le Bras, DLB17](#ref-dlb17), §1.2, pp.7–8; Theorems 4.8, 5.1, 5.4 and 10.1; Propositions 9.1, 9.16, 10.3, 10.10–10.11 and 11.10, Theorems 9.4, 9.9 and 11.7, pp.45–64; Définition 1.1, Théorème 1.2, Remarque 1.3, pp. 4–5; Théorème 1.4, p. 6 (arXiv).
 
 *Needs:* the nonzero global map and de Rham global comparison data in this statement; [§3.8](#section-3-8); [§4.2](#section-4-2); [§4.6](#section-4-6); [§3.11](#section-3-11); [§4.11](#section-4-11).
 
@@ -2225,7 +2362,7 @@ Layers 1–5 with their prime and residual restrictions; the arithmetic patching
 
 ## Downstream consumers
 
-The local deformation-ring, type-occurrence and cycle statements supply GL2ModularityLifting §§8–9 and the local hypotheses in Dieulefait–Pacetti's Serre-modularity arguments. CompletedCohomologyAndLocalGlobalCompatibility §§2.1 and 4.10 consumes the analytic/algebraic-vector and block interfaces; CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10 uses the local correspondence in its global realisation. The shared general Banach/duality foundation is §0.1 and §0.3; CompletedCohomologyPartII F.1 uses this foundation, while its §6.7 concerns general derived analytic-vector recovery. Each consumer must select the prime, residual class, determinant and type actually covered by the theorem it invokes. The BCDT extended-type and supercuspidal comparisons carry their additional inputs explicitly.
+The local deformation-ring, type-occurrence and cycle statements supply GL2ModularityLifting §§8–9 and the local hypotheses in Dieulefait–Pacetti's Serre-modularity arguments. CompletedCohomologyAndLocalGlobalCompatibility §§2.1 and 4.10 consumes the analytic/algebraic-vector and block interfaces; CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10 uses the local correspondence in its global realisation. The shared general Banach/duality construction owner is §§0.1 and 0.3. The overlapping general constructions requested in CompletedCohomologyPartII F.1 are governed by this same contract: compact–discrete and Schikhof duality with the stated topologies, and admissibility by compact-open finite invariants. Its §6.7 concerns general derived analytic-vector recovery. Downstream applications use this common foundation and add their arithmetic chain-model and derived comparisons. Each consumer must select the prime, residual class, determinant and type actually covered by the theorem it invokes. The BCDT extended-type and supercuspidal comparisons carry their additional inputs explicitly.
 
 ## References
 

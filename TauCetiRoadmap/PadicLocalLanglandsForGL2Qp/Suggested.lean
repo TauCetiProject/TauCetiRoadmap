@@ -127,6 +127,51 @@ theorem unipotent_inv_prime_not_mem_mirabolicPlus :
   rw [norm_inv, Padic.norm_p, inv_inv]
   exact_mod_cast (Fact.out : p.Prime).one_lt
 
+/-- Colmez's Weyl element has determinant minus one over every ℚ_p. -/
+theorem weylElement_det :
+    Matrix.GeneralLinearGroup.det (weylElement p) = -1 := by
+  apply Units.ext
+  simp [Matrix.GeneralLinearGroup.det, weylElement, Matrix.det_fin_two]
+
+/-- Zero translation is the identity element of the mirabolic group. -/
+theorem unipotent_zero : unipotent p 0 = 1 := by
+  apply Units.ext
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [unipotent]
+
+/-- Scaling by one is the identity element of the mirabolic group. -/
+theorem diagonal_one : diagonal p 1 = 1 := by
+  apply Units.ext
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [diagonal]
+
+/-- A mirabolic diagonal matrix is scalar exactly at the identity parameter. -/
+theorem diagonal_isScalar_iff (a : ℚ_[p]ˣ) :
+    (∃ c : ℚ_[p]ˣ, diagonal p a = scalar p c) ↔ a = 1 := by
+  constructor
+  · rintro ⟨c, hc⟩
+    have hbottom := congrArg (fun g : Gp p => g 1 1) hc
+    have htop := congrArg (fun g : Gp p => g 0 0) hc
+    apply Units.ext
+    simpa [diagonal, scalar, Matrix.scalar] using htop.trans hbottom.symm
+  · rintro rfl
+    exact ⟨1, by simp [diagonal_one]⟩
+
+/-- Scaling by p belongs to the positive mirabolic monoid. -/
+theorem diagonal_prime_mem_mirabolicPlus :
+    InMirabolicPlus p (diagonal p (Units.mk0 (p : ℚ_[p]) (by exact_mod_cast (Fact.out : p.Prime).ne_zero))) := by
+  have hp : (1 : ℝ) ≤ p := by
+    exact_mod_cast (Fact.out : p.Prime).one_lt.le
+  simpa [InMirabolicPlus, InMirabolic, diagonal, Padic.norm_p] using (inv_le_one_of_one_le₀ hp)
+
+/-- Scaling by the inverse of p lies outside the positive mirabolic monoid. -/
+theorem diagonal_inv_prime_not_mem_mirabolicPlus :
+    ¬ InMirabolicPlus p (diagonal p (Units.mk0 (p : ℚ_[p]) (by exact_mod_cast (Fact.out : p.Prime).ne_zero))⁻¹) := by
+  have hnorm : (1 : ℝ) < ‖(p : ℚ_[p])⁻¹‖ := by
+    rw [norm_inv, Padic.norm_p, inv_inv]
+    exact_mod_cast (Fact.out : p.Prime).one_lt
+  simpa [InMirabolicPlus, InMirabolic, diagonal] using (not_le.mpr hnorm)
+
 end GL2Qp
 
 /-! ## Layer 2: Torsion, compact and unitary representations -/
