@@ -439,13 +439,24 @@ Construct the mixed-Tsirelson norming sets on finite-support functions,
 their completion and implicit-norm comparison, successive-block and
 finite-average estimates. For X_K use the finite rational nets, weight,
 rank, age and injective odd-weight coding of Argyros–Haydon Definition 4.4;
-choose sequences with `m₁≥4`, `m_(j+1)≥m_j²` and
-`n_(j+1)≥m_(j+1)²(4n_j)^(2j+1)`. Prove recursive finiteness, the
+use the positively indexed base sequences
+`M_j=2^(2^j)` and `N_j=2^(2^(j²+1))`, `j≥1`, or an increasing
+subsequence `m_j=M_(s(j))`, `n_j=N_(s(j))` with strictly increasing
+`s : ℕ+ → ℕ+`. Thus the first base pair is `(4,16)`; no index-zero
+weight is used. Prove `m₁≥4`, `n₁≥16`, `m_(j+1)≥m_j²` and
+`n_(j+1)≥m_(j+1)²(4n_j)^(2^(j+1))` for every `j≥1`,
+including their inheritance by every such subsequence. These are the
+parameters used in Assumption 2.3 and the Lemma 2.4 average estimates.
+Prove recursive finiteness, the
 evaluation-analysis formula, all even-weight extensions and the odd-weight
 tree comparison. Develop rapidly increasing sequences (RIS), local support,
 bounded and increasing local-weight splittings, the basic inequality and
 finite-average upper/lower estimates. Prove that annihilation on all bounded
-RIS implies annihilation on every bounded block sequence. Use this to prove
+RIS implies annihilation on every bounded block sequence. Here finite block
+support and range refer to the BD basis/FDD; an ambient bounded function
+on Γ can have infinite pointwise support. Define local support only after
+restriction to a finite Γ_q, and prove its relation with FDD projections.
+Use this to prove
 shrinking, the ℓ¹ dual identification and the block compactness criterion.
 
 Build ℓ¹ averages, exact pairs and dependent sequences; prove the near-pair
@@ -654,9 +665,9 @@ choose a separated subset of at most n_(2j) coordinates carrying at
 least one-quarter of the absolute coefficient sum; prove the sign
 selection and evaluation-analysis estimate.
 Construct a continuum almost-disjoint family of parameter subsequences, all satisfying
-Assumption 2.3; choose the explicit nested-exponential base sequence
-after omitting its first index and prove all subsequences retain the
-required growth inequalities. Construct their Bourgain–Delbaen spaces;
+Assumption 2.3; use the positively indexed base sequence fixed above
+and increasing subsequences, with the inherited initial-index and growth
+estimates. Construct their Bourgain–Delbaen spaces;
 prove every operator between distinct members is compact, with their
 incomparable ℓ¹-predual weak-star topologies.
 
@@ -735,8 +746,9 @@ Prove the half-period map is measure preserving
 and its induced operator is an isometric involution on a.e. classes.
 
 This milestone uses arbitrary measure spaces for Lᵖ, 1<p<∞, and
-finitely additive L∞ duality, σ-finite spaces for the L¹ duality, and
-finite regular measures for the compact-space Riesz comparison. For compact Hausdorff
+finitely additive global-L∞ duality, σ-finite spaces for the native-global L¹/L∞ duality,
+the separately constructed local-Haar L∞ endpoint below for arbitrary regular Haar measure,
+and finite regular measures for the compact-space Riesz comparison. For compact Hausdorff
 `K` with its Borel measurable structure, develop the Banach-space duality between `C(K,𝕜)` and
 finite regular scalar Borel measures, with the total-variation norm, evaluation
 measures and the weak-star topology. Use the submodule of
@@ -847,10 +859,35 @@ maximizing f. At f=0 the pointwise expression is zero. Prove the
 differentiation/domination, Hölder and exact-norm statements on actual
 a.e. classes; this proof requires no σ-finiteness. Include zero measure
 and zero functional and uniqueness almost everywhere.
+**B5.LocalHaarDual — the local-null Haar endpoint.** For a locally compact Hausdorff topological group G with its Borel measurable space and a nonzero regular left Haar measure μ, and scalars 𝕜=ℝ or ℂ, construct the following separate Banach space. A Borel function is locally essentially bounded if one finite bound works almost everywhere on every finite-μ-measure Borel set. Identify two such functions when they agree almost everywhere on every such set. Define the norm as the infimum of the common bounds, and prove that the bound at this infimum holds locally, using the countable bounds M+1/n on each test set. Call the resulting normed quotient `LocalHaarLInfinity 𝕜 μ`. Its integral pairing is bilinear, without conjugation, `⟨[g],f⟩=∫f g dμ` for native `MeasureTheory.Lp 𝕜 1 μ`. Construct the linear isometric equivalence
+`LocalHaarLInfinity 𝕜 μ ≃ₗᵢ[𝕜] NormedSpace.Dual 𝕜 (MeasureTheory.Lp 𝕜 1 μ)`.
+Define addition, scalar multiplication, conjugation, pointwise multiplication and constants on the quotient and prove their representative independence. Supply the norm bounds, unit norm1, complex C*-identity and the real lattice/absolute-value comparisons by finite-test restrictions or the component model below. The zero class is exactly local nullity. Give bounded restriction maps, the displayed bilinear pairing/evaluation equations, and its order/positivity compatibility for real scalars. Prove compatibility with positive Haar rescaling and group/coset transport; keep the rescaled L¹ norm and integral pairing factors explicit. These are basic APIs of the introduced carrier, not a second harmonic or invariant-mean theory.
+
+No sigma-compactness, sigma-finiteness, countability of the dual or second countability of G is a standing hypothesis. This extends the preceding sigma-finite endpoint with a different carrier; it does not identify arbitrary native global `Lp 𝕜 ∞ μ` with this dual.
+
+Use the following explicit decomposition and gluing proof. Choose a symmetric compact identity neighbourhood and let H be the union of its finite powers, an open sigma-compact subgroup. H is also closed. Index the disjoint open left cosets by a set J; no quotient-group structure or normality is assumed. Choose representatives and transport the restricted measure on each coset to H by left translation. Each restricted measure μ_j is sigma-finite. Consume only the early raw Haar support/localization and Baire/null-envelope contract of AmenableGroups7.1, with its actual locally finite and finite-set compact-inner-regular hypotheses, not its later global-L∞ means, smoothing conclusion or amenability theorem. Its finite-level-set compact approximation puts each integrable function, modulo a global null set, on a countable union of compacts; each compact meets finitely many open cosets. Apply the same argument to a finite-measure Borel test set. This gives the precise countable-coset concentration needed below without declaring G sigma-compact or taking an arbitrary uncountable union of null sets.
+
+Construct restriction as a linear isometric equivalence from `Lp 𝕜 1 μ` to the native dependent `lp (fun j ↦ Lp 𝕜 1 μ_j) 1`, with norm the sum of the component norms. In the inverse direction the summable norm family has countable nonzero support; choose Borel representatives only for those components, glue on their countable union of clopen cosets and put zero elsewhere. Prove integrability, both inverse laws and the sum-of-norms formula. Native `lp.hasSum_single` supplies convergence of finite-coordinate sums. This is an actual restriction/extension construction on a.e. classes, not a presumed uncountable product-measure identity.
+
+Restriction on the local quotient gives an isometry to the native bounded family `lp (fun j ↦ Lp 𝕜 ∞ μ_j) ∞`. Prove the local norm is the supremum of the component norms. For the reverse inequality, first concentrate each finite-measure test set on countably many cosets modulo a null set, then use only the countable union of its component exceptions. For surjectivity the bounded component family requires a genuine globally Borel representative; an arbitrary uncountable pasting of Borel functions is not that proof. Here is a uniform-complexity construction. On each coset choose a compact exhaustion and form a finite regular measure
+`ν_j=Σ_n 2^(-n-1)/(1+μ_j(K_n)) · (μ_j.restrict K_n)`.
+Show it is equivalent to μ_j; prove its finite regularity by finite-prefix compact approximation and a summable tail bound. For a common bound M, use finite-measure bounded-continuous-function density to approximate a representative of the component in L¹(ν_j) by a sequence of continuous functions. Clip to the closed scalar ball of radius M; clipping has error at most twice the original error when the target has norm at most M. Choose summable L¹ errors. Tonelli for the nonnegative error series on this finite measure proves convergence to the desired representative ν_j-a.e., hence μ_j-a.e. Every approximant is continuous and bounded by the same M. Treat M=0 separately.
+
+For each natural n, paste the n-th continuous approximants over all clopen cosets. The result is a globally continuous function bounded by M: continuity is local on the disjoint open cover. Form the global pointwise real limsup, and in the complex case the real and imaginary limsups, then apply the radial clipping map to the resulting scalar: leave z unchanged when ‖z‖≤M and otherwise send it to (M/‖z‖)•z. The real and imaginary limsups are each bounded by M; radial clipping, rather than separately clipping coordinates, restores the complex norm bound M. These are Borel functions because limsup uses only countably many operations. On each coset the result agrees μ_j-a.e. with that component. The earlier countable-coset concentration on each finite-measure test set proves the required local-a.e. comparison. No assertion that the union of all component null sets is globally null is made. This proves surjectivity of the quotient-to-family map and completeness of the local quotient. It also proves that the version defined using locally Borel functions gives the same local quotient: on each sigma-finite coset a locally Borel function is Borel, and the same representative construction applies.
+
+Apply the preceding sigma-finite L¹ duality separately on each coset. Reuse the existing native `ContinuousLinearMap.lpPairing` (Holder.lean) for the scalar integral maps and `lp.dualPairing` (lpHolder.lean) for the uniformly bounded dependent-family pairing, with exponents ∞ and1, actual Hölder-conjugacy and scalar/completeness hypotheses. Their bounded-map constructors alone do not assert endpoint surjectivity. Identify the dual of the dependent ℓ¹ sum with the uniformly bounded family of component duals: restriction to the component inclusions has norm bounded by the original functional, and summing the component pairings gives the inverse with bound M times the sum of norms. The finite-coordinate sums are dense, so these maps are inverse; single-coordinate tests give the exact norm. Composing these explicit isometries proves the displayed local-Haar dual theorem. Recover its inverse by the integral pairing, not merely by an abstract isomorphism. Prove independence of representatives, the chosen open subgroup and its coset representatives by equality of this pairing with every L¹ test. This also supplies the canonical comparison maps between different decompositions.
+
+Construct the natural contractive surjection `Lp 𝕜 ∞ μ →L[𝕜] LocalHaarLInfinity 𝕜 μ`, with kernel exactly the globally represented classes that vanish locally. The Borel gluing above supplies a globally bounded representative for every local class. Under the additional hypothesis `SigmaFinite μ`, use a countable finite-measure exhaustion to prove local nullity equals global nullity and upgrade this map to the isometric equivalence with native global `Lp 𝕜 ∞ μ`. Do not assert injectivity or norm equality for the global-to-local map at arbitrary Haar generality. State the same comparison for completed Haar conventions via Borel a.e. representatives, with its actual null ideals explicit.
+
+Prove that left translations descend to linear isometries of the local quotient and satisfy
+`⟨L_x g,f⟩=⟨g,L_(x⁻¹) f⟩`, where `L_x f(y)=f(x⁻¹y)`. The integral is well defined by the L¹ countable-coset localization and the local bound. For bounded continuous functions the supremum norm equals the local essential norm, since any strict pointwise lower bound persists on an open set containing a compact subset of positive finite Haar mass. These facts supply the source local weak-star and continuous-representative interfaces used by A7. They add no local-dual prerequisite to AmenableGroups7's already stated global-carrier mean theorem. The B5 sigma-finite endpoint and native/raw Haar contract precede this new unit; later source translations consume it.
+
 Construct `(L∞(μ))*` as bounded-variation finitely additive charges on
 the measurable sets, vanishing on μ-null sets. Use native
 `MeasureTheory.AddContent 𝕜 {s | MeasurableSet s}` for finite additivity,
-not the countably additive `VectorMeasure` carrier. Define total variation
+with the subtype normalization `ν s = 0` for every nonmeasurable `s`,
+bounded variation and annihilation of measurable μ-null sets. Prove
+extensionality on measurable sets for this normalized subtype. Define total variation
 by suprema over finite measurable partitions. Give its normed linear space,
 completeness, positivity, Jordan real/imaginary parts, uniform simple-function
 integration and the isometric dual correspondence ν(E)=φ(1_E).

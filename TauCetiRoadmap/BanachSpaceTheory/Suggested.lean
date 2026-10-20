@@ -2,6 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+import TauCetiRoadmap.BanachSpaceTheory.LocalHaarSuggested
 import Mathlib.Analysis.Normed.Module.Bases
 import Mathlib.Analysis.Normed.Module.DoubleDual
 import Mathlib.Analysis.InnerProductSpace.PiL2
