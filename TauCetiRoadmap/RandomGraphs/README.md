@@ -447,8 +447,9 @@ conjunction and is noncomputable, so it supplies the semantics but not the algor
 
 - a computable representation of finite equality-and-adjacency patterns on `Fin m`, with
   its consistency procedure;
-- a correctness bridge identifying the formula of each consistent pattern with
-  `firstOrderAtomicDiagram` of any tuple realizing it;
+- a correctness bridge proving that the formula of each consistent pattern and
+  `firstOrderAtomicDiagram` of any tuple realizing it have equivalent realizations, with the
+  conversion between free-variable and bound-variable presentations made explicit;
 - a genuine terminating syntactic procedure expressing every formula modulo $`T_R`$ as a
   finite Boolean combination of pattern formulas, with its semantic correctness, not just a
   choice of an equivalent formula.
