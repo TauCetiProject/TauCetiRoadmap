@@ -595,7 +595,9 @@ If its inertia at each prime dividing N is tame, globalisation gives
 `rd(L)<p^{1+1/(p−1)} ∏_{ℓ ∣ N}ℓ^{1−1/e_ℓ}.`
 
 The strict inequality, the condition that G is killed by p, and the normalisation `v_p(p) = 1` are all
-part of the theorem. For `N = 1` it gives `rd(L)<4` at `p = 2` and
+part of the theorem. The suggested signature `rootDiscr_torsionField_lt` states the case `N = 1`
+over `ℤ`; the general `ℤ[1/N]` bound, including the tame factor `∏_{ℓ ∣ N}ℓ^{1−1/e_ℓ}`, is also a
+target here. For `N = 1` it gives `rd(L)<4` at `p = 2` and
 `rd(L)<3^{3/2}` at `p = 3`. A general group killed by `p^n` has the different estimate
 involving n instead; one may not apply the killed-by-p bound to all higher torsion. Fontaine,
 introduction, Corollary to Théorème A, p. 516, proves the local result with this normalisation;
@@ -661,7 +663,7 @@ convention.
 The rank API is `order_congr`, invariance under isomorphism; `order_constant`, with value the
 cardinality of the finite constant group; `order_mu`, with value n for `μn`; and `order_exact`, `order G = order H · order Q` for a short exact sequence over a connected arithmetic base. They specialize
 finite local freeness, finite duality and the native exactness contract. Source: Fontaine, §3.4.5,
-pp. 535–536; Schoof, §2, pp. 848–849.
+Remarque b, p. 536; Schoof, §2.2, p. 849.
 
 **Checks.**
 
@@ -725,12 +727,16 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.2–R07.1.7.
 - `μ₂` over `ℤ` fails: its characteristic-two fibre is not étale.
 - Over `ℤ[1/2]`, `μ₂` is constant, by its two distinct sections 1 and `−1`; both the base and the integral
   model matter.
+- Over `ℤ[1/7]`, the order-three scheme with point module `𝔽₃` twisted by the quadratic character
+  of `ℚ(√(−7))` from §4.1 is finite étale but not constant: its generic Galois action is nontrivial.
 
 **Checks for the diagonalizable predicate.**
 
 - `μ₂` over `ℤ` passes, with constant Cartier dual.
 - The trivial scheme passes, with trivial character group.
 - The constant scheme `ℤ/2ℤ` over `ℤ` fails, since its dual `μ₂` is not constant over `ℤ`.
+- The Cartier dual of the preceding quadratic twist over `ℤ[1/7]` is of multiplicative type but
+  not diagonalizable, since its dual is the nonconstant finite étale scheme.
 
 `Ext1Vanishes A B` means that every native short exact sequence `0 → B → E → A → 0` has a section `s : A → E` of its quotient, `s ≫ q = 𝟙 A`. This asserts the vanishing of `Ext¹` with quotient first. Its
 API consists of invariance under isomorphisms in both entries, interchange of the two entries after
@@ -1526,8 +1532,10 @@ satisfying `η² = η+1`, generating `𝔽₄×`. Units therefore kill the possi
 quotient, excluding degree twelve. The remaining degrees are four, eight and sixteen. The
 declaration is `fieldCriterion_five_two`, with `fieldCriterion_five_two_degree` stating the three
 degree possibilities for the concrete field `schoofFieldFiveTwo`. Use line (c), the class-number
-bound, reciprocity and the different formulas. See Schoof, §6, `ℓ = 5`, `p = 2`, pp. 856–857. The degree
-conclusion does not require a stronger bound than nineteen.
+bound, reciprocity and the different formulas. Schoof, §6, `ℓ = 5`, `p = 2`, pp. 856–857, gives the
+corresponding computation over `ℚ(ζ₂₀)` using Proposition 5.2; the argument here is the Proposition
+5.1 form over `ℚ(i,√5)` and uses only line (c). The degree conclusion does not require a stronger
+bound than nineteen.
 
 All three companion statements take a finite Galois subfield `L ⊆ ℚ̄`
 containing the specified M. They assume `L/M` is unramified away from p and `v_p(d_L)/[L:ℚ]<1+1/(p−1)`. The relative unramifiedness premise means that, at every prime `q ≠ p`, an inertia
@@ -2183,7 +2191,7 @@ and 13 all satisfy (A1). The declaration `levelOne_dihedral_classification` expo
 conditions. The full local distinction, including split and niveau-two inertia, comes from
 AlgebraicModularFormsAndSerreWeights R15.4; the finite-image restriction criterion comes from
 ArithmeticGaloisRepresentations Layer 4. Sources are Khare, Lemma 5.1 and proof, §5, pp. 20–21, and
-Dieulefait–Pacetti, Lemma 1.13, §1.2, p. 8. Dihedral level-one behaviour in characteristic
+Dieulefait–Pacetti, Lemma 1.13, §1.5, p. 8. Dihedral level-one behaviour in characteristic
 twenty-three is compatible with this statement and is not excluded.
 
 ### 5.7 Ordinary members with reducible reduction
@@ -2460,7 +2468,7 @@ document's own page numbers are used.
 - **Dieulefait–Pacetti.** Luis Dieulefait and Ariel Pacetti, [A simplified proof of Serre's
   conjecture](https://arxiv.org/abs/2108.07577v2), arXiv:2108.07577v2, 3 May 2022; published in
   RACSAM 117 (2023), article 153. Theorem 1.1 and 1.2, §1.1, p. 3, state the Tate–Serre and Schoof
-  base cases. Lemma 1.13, §1.2, p. 8, supplies the cyclotomic restriction check; §2, Paso 6, pp.
+  base cases. Lemma 1.13, §1.5, p. 8, supplies the cyclotomic restriction check; §2, Paso 6, pp.
   14–15, is the terminal application.
 - **Khare.** Chandrashekhar Khare, [On Serre's modularity conjecture for 2-dimensional mod p
   representations unramified outside p](https://arxiv.org/abs/math/0504080v1), arXiv:math/0504080v1,
@@ -2515,7 +2523,8 @@ document's own page numbers are used.
 - **Schoof.** René Schoof, [Abelian varieties over Q with bad reduction in one prime
   only](https://www.mat.uniroma2.it/~schoof/abvar1prime.pdf), Compositio Mathematica 141 (2005),
   847–868, author-hosted published copy. Theorem 1.1, p. 847, is the five-prime theorem. Definition
-  2.1 and examples, pp. 848–849, define D; Proposition 3.1 and proof, pp. 850–851, gives the
+  2.1 and the examples of §§2.2–2.4, pp. 848–850, define D and the Katz–Mazur extensions `G_ε`;
+  Proposition 3.1 and proof, pp. 850–851, gives the
   point-count criterion. Proposition 4.1 and Corollary 4.2, pp. 851–853, compute Ext. Proposition
   5.1, pp. 853–854, gives the simple-object field criterion. The explicit field calculations needed
   here are in §6, pp. 855–858.

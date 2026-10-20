@@ -340,7 +340,7 @@ def IsConstantGroupScheme (G : FFGroupSchemeOver R) : Prop :=
   ∃ (Γ : Type) (_ : CommGroup Γ) (_ : Finite Γ),
     Nonempty (G.obj.obj ≅ TauCeti.ConstantGroup.groupScheme R Γ)
 
-/-- `G` is diagonalizable: its Cartier dual is constant. -/
+/-- `G` is split diagonalizable: its Cartier dual is constant. -/
 def IsDiagonalizableGroupScheme (G : FFGroupSchemeOver R) : Prop :=
   IsConstantGroupScheme (TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R G)
 
