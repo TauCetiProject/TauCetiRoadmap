@@ -92,6 +92,46 @@ theorem norm_one_sub_of_prime {L : Type*} [Field L] [CharZero L] {ℓ : ℕ} [Fa
     [IsCyclotomicExtension {ℓ} ℚ L] {ζ : L} (hζ : IsPrimitiveRoot ζ ℓ) :
     Algebra.norm ℚ (1 - ζ) = ℓ := sorry
 
+/-- The smoothing at conductor five with exponent two is a norm-one unit of
+infinite multiplicative order (§0.14). -/
+theorem smoothedUnit_five_two {L : Type*} [Field L] [CharZero L]
+    [IsCyclotomicExtension {5} ℚ L] {ζ : L} (hζ : IsPrimitiveRoot ζ 5) :
+    Algebra.norm ℚ ((1 - ζ ^ 2) / (1 - ζ)) = 1 ∧
+      ¬ IsOfFinOrder ((1 - ζ ^ 2) / (1 - ζ)) := sorry
+
+/-- Smoothing with exponent minus one modulo five gives a torsion unit (§0.14). -/
+theorem smoothedUnit_five_four {L : Type*} [Field L] [CharZero L]
+    {ζ : L} (hζ : IsPrimitiveRoot ζ 5) :
+    (1 - ζ ^ 4) / (1 - ζ) = -ζ⁻¹ := sorry
+
+/-- Smoothing with exponent one modulo five gives the identity (§0.14). -/
+theorem smoothedUnit_five_six {L : Type*} [Field L] [CharZero L]
+    {ζ : L} (hζ : IsPrimitiveRoot ζ 5) :
+    (1 - ζ ^ 6) / (1 - ζ) = 1 := sorry
+
+/-- The initial generator `η₀=1-ζ₃i` in the dyadic conductor-three tower
+has rational norm one (§4.3). -/
+theorem eta_three_dyadic_initial_norm {L : Type*} [Field L] [CharZero L]
+    [IsCyclotomicExtension {12} ℚ L] {ξ ι : L}
+    (hξ : IsPrimitiveRoot ξ 3) (hι : IsPrimitiveRoot ι 4) :
+    Algebra.norm ℚ (1 - ξ * ι) = 1 := sorry
+
+/-- The first dyadic norm step detects the inverse coefficient Frobenius
+in `η₁=1-ζ₃²ζ₈` (§4.3). -/
+theorem eta_three_dyadic_step {K L : Type*} [Field K] [Field L]
+    [CharZero K] [CharZero L] [Algebra K L]
+    [IsCyclotomicExtension {12} ℚ K] [IsCyclotomicExtension {24} ℚ L]
+    {ξ ι : K} {ζ : L} (hξ : IsPrimitiveRoot ξ 3) (hι : IsPrimitiveRoot ι 4)
+    (hζ : IsPrimitiveRoot ζ 8) (hιζ : algebraMap K L ι = ζ ^ 2) :
+    Algebra.norm K (1 - algebraMap K L (ξ ^ 2) * ζ) = 1 - ξ * ι := sorry
+
+/-- Every generator of the dyadic conductor-three family is a global unit,
+since its root order has two distinct prime divisors (§4.3). -/
+theorem eta_three_dyadic_unit {K : Type*} [Field K] [NumberField K]
+    (ν : ℕ) {ξ ζ : 𝓞 K} (hξ : IsPrimitiveRoot ξ 3)
+    (hζ : IsPrimitiveRoot ζ (2 ^ (ν + 2))) :
+    IsUnit (1 - ξ ^ (2 ^ ν) * ζ) := sorry
+
 /- Character eigensubmodules and finite sums (§§0.18–0.20). -/
 
 section Chi
@@ -99,7 +139,9 @@ section Chi
 variable {O M Δ : Type*} [CommRing O] [AddCommGroup M] [Module O M] [Group Δ]
 
 /-- The `χ`-component `M^χ = {x | δ x = χ(δ) x}` of an `O[Δ]`-module
-(Rubin, Definition I.6.2, applied to `B^ ⊗ O`). -/
+(§0.18; Rubin, Definition I.6.2). Coefficient extension and any compact
+completion of a multiplicative input precede this construction; an existing
+discrete `ℤ_p`-module is not completed again. -/
 def chiComponent (ρ : Representation O Δ M) (χ : Δ →* Oˣ) : Submodule O M where
   carrier := {x | ∀ δ, ρ δ x = (χ δ : O) • x}
   zero_mem' := fun δ => by simp
