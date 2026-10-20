@@ -697,10 +697,35 @@ and `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` as the diagonal actions.
   `R_j={x : C_j(x)∈F_(j+1)}=ker Ψ_j` and construct the canonical equivalence
   `(⊕_P H^q)/R_j ≅ gr_j`. Thus this quotient specifies the relations in every
   dimension, including small dimensions. It does not count placements as
-  independent. Give the Brauer action on the domain by stacking, discarding
-  terms with more than j top pairs and applying the resulting signed/unsigned
-  free-slot permutation to H^q; prove the relation space stable and Ψ_j
-  intertwining. Shape-wise this constructs the multiplicity quotient below.
+  independent. Keep these raw cup maps, C_j, Ψ_j and R_j with precisely the
+  preceding coefficients. To specify their Brauer action, first let w_P be
+  the list of the increasingly oriented pair blocks followed by the increasing
+  free slots. Order pair blocks by their first endpoints. This list contains
+  every slot once. Put ε(P)=sign(w_P) for Sp and ε(P)=1 for O. Exchanging
+  whole two-slot blocks is even, so the sign is independent of their enumeration.
+  Let D_j on ⊕_P H^q multiply the P summand by ε(P); prove D_j²=1.
+
+  Define ρ_std by ordinary partial-matching stacking: a stack that has fewer
+  than q propagating strands is zero; otherwise it supplies an output placement
+  Q, a loop count a and a permutation τ of the increasingly ordered free
+  slots. Its coefficient is δ^a, and its action on H^q is the ordinary
+  permutation for O and sign(τ) times the ordinary permutation for Sp.
+  Use the native stacking product order to fix τ without an inverse ambiguity.
+  The action on the **raw** cup domain is
+  `ρ_raw(b)=D_j ρ_std(b) D_j`. Thus the coefficient from P to Q in the
+  symplectic case is `ε(Q) ε(P) δ^a sign(τ)` multiplying the ordinary
+  free-slot permutation; in the orthogonal case the two ε factors are 1.
+  The normalized map `C_j D_j` uses normalized cups `ε(P) cup_P` and
+  intertwines ρ_std; the unchanged C_j and Ψ_j intertwine ρ_raw.
+
+  Construct these actions and prove their algebra laws and compatibility with
+  the actual tensor action for both adjacent crossing generators and adjacent
+  contraction generators, including closed loops and stacks that lose
+  propagating strands. Prove the general diagram formula from these identities.
+  In particular R_j is ρ_raw-stable, D_j R_j is the relation space for Ψ_j D_j,
+  and D_j transports the resulting quotient actions. Shape-wise this constructs
+  the multiplicity quotient below. All relabelling and cell comparisons use
+  this same diagonal change of basis.
   As a separate sufficient stability theorem, prove Ψ_j injective when
   **n≥2k in the orthogonal case, or l≥k in the symplectic case**. In this
   range R_j=0 and `dim gr_j = |P_(k,j)| dim H^q`, where
@@ -733,9 +758,14 @@ and `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` as the diagonal actions.
   left-action convention; reflection of diagrams transports a right-module
   source convention to this one). Then
   `G^O_(k,λ)≅D_(k,λ)` and **`G^Sp_(k,λ)≅D_(k,λ′)`**.
-  The second comparison uses `S^λ⊗sign≅S^(λ′)` on the free slots, because
+  First apply D_j to pass from the raw cup domain to standard stacking.
+  The second comparison then uses `S^λ⊗sign≅S^(λ′)` on the free slots, because
   the symplectic Brauer crossing is minus the ordinary flip. It does not
-  transpose the group-module Young shape. Construct these comparisons and
+  transpose the group-module Young shape. The matching signs ε(P) and this
+  free-slot sign twist are both required, including q=1 when the latter is
+  trivial. Transport the contravariant Gram pairing by the same D_j: its
+  raw-placement matrix is D_j times the standard matrix times D_j, with the
+  corresponding transported radical. Construct these comparisons and
   their evaluation/cup compatibility, and prove simplicity over the actual
   image algebra. At zero dimension use the preceding boundary statements
   rather than asserting a nonzero cell head for the empty label at every k.
@@ -769,14 +799,25 @@ and `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` as the diagonal actions.
   equality case `|−2|=2k−2`. At k=3 let θ=e⊗f−f⊗e and define D₁₂,D₁₃,D₂₃
   by inserting θ in those slots. Prove on e,f that
   `D₁₂−D₁₃+D₂₃=0`; native inverse-form cups negate all three maps and
-  preserve this relation. Each map has rank 2, their sum has rank **4**,
+  preserve this relation. In placement order (12,13,23), ε=(1,−1,1).
+  On the raw domain V⊕V⊕V the four generator actions are
+  `s₁(x,y,z)=(x,−z,−y)`, `s₂(x,y,z)=(−y,−x,z)`,
+  `e₁(x,y,z)=(−2x−y+z,0,0)` and
+  `e₂(x,y,z)=(0,0,x−y−2z)`.
+  Prove C intertwines each with the actual minus-flip or cap-cup action
+  in the corresponding adjacent tensor slots. Check that s₁ and s₂ fix
+  r(v)=(v,−v,v), while e₁ and e₂ kill it. Under D=diag(1,−1,1),
+  this becomes the relation (v,v,v) for the normalized cups
+  (D₁₂,−D₁₃,D₂₃) and standard stacking. Native cups multiply C by −1
+  and leave these domain formulas unchanged. Each map has rank 2, their sum has rank **4**,
   H³=Sym³(ℂ²) has dimension **4**, and
   `(ℂ²)^{⊗3}≅Sym³(ℂ²)⊕(ℂ²⊗ℂ²_mult)` as Sp₂ modules (the second ℂ²
   is the two-dimensional multiplicity space with trivial Sp₂ action),
   equivalently Sym³V⊕V⊕V. Construct the cup-kernel comparison, not a
   fictitious sum of three independent V's. Prove B₃(−2) is not semisimple,
   for example from the singular j=1 cell Gram matrix (diagonal −2,
-  off-diagonal 1 after a consistent cell-basis sign change), while its
+  off-diagonal 1 in the normalized placement basis, using exactly the
+  same D=diag(1,−1,1) to transport the raw Gram matrix), while its
   geometric image is semisimple. These examples test all three distinctions.
 
 ---

@@ -869,6 +869,85 @@ theorem sympHarmonicCupToGrade_surjective (l k j : ℕ) (h : 2 * j ≤ k) :
 noncomputable def orthCupRelations (n k j : ℕ) := LinearMap.ker (orthHarmonicCupToGrade n k j)
 noncomputable def sympCupRelations (l k j : ℕ) := LinearMap.ker (sympHarmonicCupToGrade l k j)
 
+
+/-! ### Matching signs and the raw symplectic cup action
+
+The raw expansion maps above stay unchanged. The matching shuffle, diagonal change of basis,
+and conjugation below distinguish their action from standard partial-matching stacking.
+-/
+
+/-- Oriented pair blocks sorted by first endpoint, then increasingly ordered free slots. -/
+noncomputable def cupPlacementWord (k j : ℕ) (P : CupPlacement k j) : List (Fin k) :=
+  ((P.1.toList.mergeSort (fun p q => decide (p.1 ≤ q.1))).flatMap
+    (fun p => [p.1, p.2])) ++
+  (List.finRange k).filter (fun i => decide (∀ p ∈ P.1, i ≠ p.1 ∧ i ≠ p.2))
+
+theorem cupPlacementWord_perm (k j : ℕ) (P : CupPlacement k j) :
+    (cupPlacementWord k j P).Perm (List.finRange k) := by sorry
+
+/-- The one-line permutation is the actual word above, not an unspecified sign choice. -/
+noncomputable def cupPlacementShuffle : (k j : ℕ) → CupPlacement k j →
+    Equiv.Perm (Fin k) := by sorry
+
+theorem cupPlacementShuffle_word (k j : ℕ) (P : CupPlacement k j) :
+    (List.finRange k).map (cupPlacementShuffle k j P) = cupPlacementWord k j P := by sorry
+
+noncomputable def cupMatchingSign (k j : ℕ) (P : CupPlacement k j) : ℂ :=
+  ((Equiv.Perm.sign (cupPlacementShuffle k j P) : ℤ) : ℂ)
+
+theorem cupMatchingSign_sq (k j : ℕ) (P : CupPlacement k j) :
+    cupMatchingSign k j P * cupMatchingSign k j P = 1 := by sorry
+
+abbrev SympCupDomain (l k j : ℕ) :=
+  ⨁ _ : CupPlacement k j, harmonicTensorsSymp l (k - 2 * j)
+
+/-- The diagonal matching-sign map on the actual harmonic direct sum. -/
+noncomputable def sympCupSignChange (l k j : ℕ) : Module.End ℂ (SympCupDomain l k j) :=
+  DirectSum.toModule ℂ _ _ fun P =>
+    (DirectSum.lof ℂ (CupPlacement k j) _ P).comp
+      (cupMatchingSign k j P • LinearMap.id)
+
+theorem sympCupSignChange_lof (l k j : ℕ) (P : CupPlacement k j)
+    (v : harmonicTensorsSymp l (k - 2 * j)) :
+    sympCupSignChange l k j (DirectSum.lof ℂ _ _ P v) =
+      cupMatchingSign k j P • DirectSum.lof ℂ _ _ P v := by sorry
+
+theorem sympCupSignChange_involutive (l k j : ℕ) :
+    Function.Involutive (sympCupSignChange l k j) := by sorry
+
+noncomputable def sympNormalizedHarmonicCupSum (l k j : ℕ) :
+    SympCupDomain l k j →ₗ[ℂ] SympTensor l k :=
+  (sympHarmonicCupSum l k j).comp (sympCupSignChange l k j)
+
+/-- Partial-matching stacking, loop weight −2l and sign-twisted free-slot permutation,
+with terms of propagating number below k−2j set to zero; the README pins the full rule. -/
+noncomputable def sympStandardCupAction : (l k j : ℕ) →
+    brauerAlgebra (-(2 * l : ℂ)) k →ₐ[ℂ] Module.End ℂ (SympCupDomain l k j) := by sorry
+
+noncomputable def sympRawCupAction : (l k j : ℕ) →
+    brauerAlgebra (-(2 * l : ℂ)) k →ₐ[ℂ] Module.End ℂ (SympCupDomain l k j) := by sorry
+
+theorem sympRawCupAction_conjugate (l k j : ℕ)
+    (b : brauerAlgebra (-(2 * l : ℂ)) k) :
+    sympRawCupAction l k j b =
+      (sympCupSignChange l k j).comp
+        ((sympStandardCupAction l k j b).comp (sympCupSignChange l k j)) := by sorry
+
+theorem sympRawCupAction_cupSum (l k j : ℕ)
+    (b : brauerAlgebra (-(2 * l : ℂ)) k) (x : SympCupDomain l k j) :
+    sympHarmonicCupSum l k j (sympRawCupAction l k j b x) =
+      brauerActionSymp l k b (sympHarmonicCupSum l k j x) := by sorry
+
+theorem sympNormalizedCupAction_cupSum (l k j : ℕ)
+    (b : brauerAlgebra (-(2 * l : ℂ)) k) (x : SympCupDomain l k j) :
+    sympNormalizedHarmonicCupSum l k j (sympStandardCupAction l k j b x) =
+      brauerActionSymp l k b (sympNormalizedHarmonicCupSum l k j x) := by sorry
+
+theorem sympCupRelations_stable (l k j : ℕ)
+    (b : brauerAlgebra (-(2 * l : ℂ)) k) (x : SympCupDomain l k j)
+    (hx : x ∈ sympCupRelations l k j) :
+    sympRawCupAction l k j b x ∈ sympCupRelations l k j := by sorry
+
 theorem orthHarmonicCupToGrade_injective_stable (n k j : ℕ)
     (hj : 2 * j ≤ k) (hn : 2 * k ≤ n) :
     Function.Injective (orthHarmonicCupToGrade n k j) := by sorry
@@ -965,6 +1044,53 @@ noncomputable def spTwoCupSum : (SpTwo × SpTwo × SpTwo) →ₗ[ℂ] SympTensor
       (LinearMap.snd ℂ SpTwo (SpTwo × SpTwo))) +
     spTwoCup23.comp ((LinearMap.snd ℂ SpTwo SpTwo).comp
       (LinearMap.snd ℂ SpTwo (SpTwo × SpTwo)))
+
+
+/-! The raw degree-three domain action, in placement order (12,13,23). -/
+abbrev SpTwoCupDomain := SpTwo × SpTwo × SpTwo
+
+def spTwoSlot12 : SpTwoCupDomain →ₗ[ℂ] SpTwo := LinearMap.fst ℂ _ _
+def spTwoSlot13 : SpTwoCupDomain →ₗ[ℂ] SpTwo :=
+  (LinearMap.fst ℂ _ _).comp (LinearMap.snd ℂ _ _)
+def spTwoSlot23 : SpTwoCupDomain →ₗ[ℂ] SpTwo :=
+  (LinearMap.snd ℂ _ _).comp (LinearMap.snd ℂ _ _)
+
+def spTwoRawS1 : Module.End ℂ SpTwoCupDomain :=
+  spTwoSlot12.prod ((-spTwoSlot23).prod (-spTwoSlot13))
+def spTwoRawS2 : Module.End ℂ SpTwoCupDomain :=
+  (-spTwoSlot13).prod ((-spTwoSlot12).prod spTwoSlot23)
+def spTwoRawE1 : Module.End ℂ SpTwoCupDomain :=
+  ((-2 : ℂ) • spTwoSlot12 - spTwoSlot13 + spTwoSlot23).prod
+    ((0 : SpTwoCupDomain →ₗ[ℂ] SpTwo).prod 0)
+def spTwoRawE2 : Module.End ℂ SpTwoCupDomain :=
+  (0 : SpTwoCupDomain →ₗ[ℂ] SpTwo).prod
+    ((0 : SpTwoCupDomain →ₗ[ℂ] SpTwo).prod
+      (spTwoSlot12 - spTwoSlot13 + (-2 : ℂ) • spTwoSlot23))
+
+theorem spTwoRawS1_relation (v : SpTwo) : spTwoRawS1 (v, -v, v) = (v, -v, v) := by
+  ext <;> simp [spTwoRawS1, spTwoSlot12, spTwoSlot13, spTwoSlot23]
+theorem spTwoRawS2_relation (v : SpTwo) : spTwoRawS2 (v, -v, v) = (v, -v, v) := by
+  ext <;> simp [spTwoRawS2, spTwoSlot12, spTwoSlot13, spTwoSlot23]
+theorem spTwoRawE1_relation (v : SpTwo) : spTwoRawE1 (v, -v, v) = 0 := by sorry
+theorem spTwoRawE2_relation (v : SpTwo) : spTwoRawE2 (v, -v, v) = 0 := by sorry
+
+/-- These are four separate tensor-action regressions, beyond the existing rank checks. -/
+theorem spTwoRawS1_cupSum :
+    spTwoCupSum.comp spTwoRawS1 =
+      (brauerActionSymp 1 3 (brauerBasis (-(2 * (1 : ℕ) : ℂ)) 3
+        (TauCeti.permToBrauer (Equiv.swap (0 : Fin 3) 1)))).comp spTwoCupSum := by sorry
+theorem spTwoRawS2_cupSum :
+    spTwoCupSum.comp spTwoRawS2 =
+      (brauerActionSymp 1 3 (brauerBasis (-(2 * (1 : ℕ) : ℂ)) 3
+        (TauCeti.permToBrauer (Equiv.swap (1 : Fin 3) 2)))).comp spTwoCupSum := by sorry
+theorem spTwoRawE1_cupSum :
+    spTwoCupSum.comp spTwoRawE1 =
+      (brauerActionSymp 1 3 (brauerBasis (-(2 * (1 : ℕ) : ℂ)) 3
+        (TauCeti.capCup (0 : Fin 3) 1))).comp spTwoCupSum := by sorry
+theorem spTwoRawE2_cupSum :
+    spTwoCupSum.comp spTwoRawE2 =
+      (brauerActionSymp 1 3 (brauerBasis (-(2 * (1 : ℕ) : ℂ)) 3
+        (TauCeti.capCup (1 : Fin 3) 2))).comp spTwoCupSum := by sorry
 
 theorem spTwoCupSum_finrank_range : Module.finrank ℂ (LinearMap.range spTwoCupSum) = 4 := by sorry
 

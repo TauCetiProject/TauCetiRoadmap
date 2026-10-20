@@ -2862,7 +2862,6 @@ end DiophantineApproximation
 /-! ## Layer 5: special functions and functional transcendence -/
 
 open scoped RatFunc LaurentSeries Classical
-set_option synthInstance.maxHeartbeats 100000
 open PowerSeries
 
 namespace DiophantineApproximation
@@ -3193,8 +3192,10 @@ theorem siegel_shidlovskii {n : ℕ} (a : Fin n → ℕ → ℂ) (ha : ∀ i, Is
     (hsys : SolvesSystem T M fun i => ePowerSeries (a i)) {ξ : ℂ} (hξ : IsAlgebraic ℚ ξ)
     (hξT : ξ * T.eval ξ ≠ 0) :
     Algebra.trdeg ℚ (IntermediateField.adjoin ℚ (Set.range fun i => eFun (a i) ξ)) =
-      Algebra.trdeg (RatFunc ℂ) (IntermediateField.adjoin (RatFunc ℂ)
-        (Set.range fun i => ((ePowerSeries (a i) : PowerSeries ℂ) : ℂ⸨X⸩))) := sorry
+      let E : IntermediateField (RatFunc ℂ) ℂ⸨X⸩ := IntermediateField.adjoin (RatFunc ℂ)
+        (Set.range fun i => ((ePowerSeries (a i) : PowerSeries ℂ) : ℂ⸨X⸩))
+      letI : Algebra (RatFunc ℂ) E := E.toSubalgebra.algebra
+      Algebra.trdeg (RatFunc ℂ) E := sorry
 
 /-- The general minimal-equation zero theorem supplies conjugate vanishing, so division
 by a linear factor at a nonzero algebraic zero preserves the E-function conditions. -/
@@ -3371,8 +3372,10 @@ theorem nishioka {n q : ℕ} (hq : 2 ≤ q) (f : Fin n → PowerSeries ℂ)
     (ρ : ℝ) (hρ : 0 < ρ) (hconv : ∀ i (z : ℂ), ‖z‖ < ρ → Summable fun m => coeff m (f i) * z ^ m)
     {α : ℂ} (hα : IsAlgebraic ℚ α) (hαρ : ‖α‖ < ρ) (hreg : IsMahlerRegularPoint q A α) :
     Algebra.trdeg ℚ (IntermediateField.adjoin ℚ (Set.range fun i => ∑' m, coeff m (f i) * α ^ m)) =
-      Algebra.trdeg (RatFunc ℂ) (IntermediateField.adjoin (RatFunc ℂ)
-        (Set.range fun i => ((f i : PowerSeries ℂ) : ℂ⸨X⸩))) := sorry
+      let E : IntermediateField (RatFunc ℂ) ℂ⸨X⸩ := IntermediateField.adjoin (RatFunc ℂ)
+        (Set.range fun i => ((f i : PowerSeries ℂ) : ℂ⸨X⸩))
+      letI : Algebra (RatFunc ℂ) E := E.toSubalgebra.algebra
+      Algebra.trdeg (RatFunc ℂ) E := sorry
 
 /-- At an algebraic regular point, homogeneous relations of meromorphic Mahler values
 lift to polynomial functional relations of the same degree. -/
