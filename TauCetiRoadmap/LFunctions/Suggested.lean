@@ -45,7 +45,7 @@ export TauCetiRoadmap.GlobalNumberFields
   (Modulus RayClassGroup RayClassCharacter AlgebraicInfinityType FiniteOrderInfinityType
     ContinuousInfinityType HeckeCharacter IdeleGroup IdeleCongruenceSubgroup ideleFiniteCoord
     ideleInfiniteCoord IsCongrOne finite_rayClassGroup idealClass integralIdealsPrimeTo classMap
-    rayClassIdealMainTerm primeToSubgroup)
+    rayClassIdealMainTerm primeToSubgroup ideleNorm narrowModulus)
 namespace Modulus
 export TauCetiRoadmap.GlobalNumberFields.Modulus
   (one support mem_support_iff support_one exponent)
@@ -2152,8 +2152,9 @@ L-function, conductor, root number and completions below describe that one chara
 for `t ≠ 0` is not algebraic (`not_isAlgebraic_normCharacter`) — and the imaginary norm twists of
 Layer 7 enter through `UnitaryIdealWeight.imaginaryNormTwist` on the weight. There is no
 finite-character field: a ray-class character is a presentation only in the finite-order case
-(`exists_rayClassCharacter_of_isFiniteOrder`), and the real shift is not a field either, but the
-supplier's `HeckeCharacter.shift` of the primary object (`Grossencharacter.shift`). -/
+(`exists_rayClassCharacter_of_isFiniteOrder`), and the real shift is not a field either: the
+ideal-side shift `Grossencharacter.idealShift` is the negative of the supplier's
+`HeckeCharacter.shift` of the primary object. -/
 structure Grossencharacter
     (K : Type u) [Field K] [NumberField K] (𝔪 : GNF.Modulus K) where
   toHeckeCharacter : GNF.HeckeCharacter K
@@ -2178,9 +2179,24 @@ structure Grossencharacter
 namespace Grossencharacter
 
 variable {K} in
-/-- The real shift is the supplier's, read off the primary object; it is not a second field. -/
-noncomputable def shift {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℝ :=
-  χ.toHeckeCharacter.shift
+/-- **The ideal-side shift** `σ` of the convention `χ = χ_u N^σ` on ideals, under which
+`lFunctionC χ s` is the unitary series at `s - σ` (`lFunctionC_eq`) and the completion recenters
+at `s - σ` (`completed_recenter`). It is read off the primary object, and it is the **negative**
+of the supplier's `HeckeCharacter.shift`, which is fixed idelically by `|χ| = ‖·‖^shift`
+(`norm_toHeckeCharacter_apply`): a prime idele has `‖π_𝔭‖ = N𝔭⁻¹`, so `|χ(π_𝔭)| = N𝔭^(-shift)`.
+For the idele class character `‖·‖^(-m)`, whose ideal-side values are `N𝔞^m`, the supplier's
+shift is `-m` and this one is `m` (`ratNormPow_idealShift`). -/
+noncomputable def idealShift {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℝ :=
+  -χ.toHeckeCharacter.shift
+
+/-- **The supplier's sign of the shift**: `|χ(y)| = ‖y‖^shift` for every idele `y`, the convention
+that the Global Number Fields README fixes and Tau Ceti implements as
+`HeckeCharacter.norm_apply_eq_rpow_shift`. In the ideal-side shift it reads
+`|χ(y)| = ‖y‖^(-idealShift)`. -/
+theorem norm_toHeckeCharacter_apply {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (y : GNF.IdeleGroup K) :
+    ‖((χ.toHeckeCharacter (QuotientGroup.mk y) : ℂˣ) : ℂ)‖ =
+      ((GNF.ideleNorm y : NNReal) : ℝ) ^ χ.toHeckeCharacter.shift := sorry
 
 variable {K} in
 /-- **The Hecke character is primary.** Two presentations of one idele class character at one
@@ -2198,11 +2214,11 @@ norm-regrouped series of the presented unitary weight recentered by the shift,
 recentering law `completed_recenter`. Its Euler factors are the supplier's `EulerProductData` for
 that weight, evaluated at `s - shift`. -/
 theorem lFunctionC_eq {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) {s : ℂ}
-    (hs : 1 + χ.shift < s.re) :
+    (hs : 1 + χ.idealShift < s.re) :
     lFunctionC K χ s =
       LSeries (ADS.normCoeff K
         (TauCeti.UnitaryIdealWeight.toIdealArithmeticFunction
-          χ.unitaryWeight)) (s - (χ.shift : ℂ)) := sorry
+          χ.unitaryWeight)) (s - (χ.idealShift : ℂ)) := sorry
 
 theorem meromorphic_lFunctionC {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
     Meromorphic (lFunctionC K χ) := sorry
@@ -2244,16 +2260,16 @@ open scoped Classical in
 presentation modulus but not the conductor, `∏ (1 - χ_u(𝔭) N𝔭^(shift - s))` with the primitive
 weight; on the half-plane and as germs, since the trivial weight has a pole. -/
 theorem lFunctionC_eq_primitive {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
-    (∀ s : ℂ, 1 + χ.shift < s.re →
+    (∀ s : ℂ, 1 + χ.idealShift < s.re →
         lFunctionC K χ s = lFunctionC K (primitive K χ) s *
           ∏ 𝔭 ∈ 𝔪.support \ (primitiveConductor K χ).support,
             (1 - (primitive K χ).unitaryWeight.1 𝔭.asIdeal *
-              (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ ((χ.shift : ℂ) - s))) ∧
+              (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ ((χ.idealShift : ℂ) - s))) ∧
       (∀ s : ℂ, lFunctionC K χ =ᶠ[𝓝[≠] s]
         fun z ↦ lFunctionC K (primitive K χ) z *
           ∏ 𝔭 ∈ 𝔪.support \ (primitiveConductor K χ).support,
             (1 - (primitive K χ).unitaryWeight.1 𝔭.asIdeal *
-              (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ ((χ.shift : ℂ) - z))) := sorry
+              (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ ((χ.idealShift : ℂ) - z))) := sorry
 
 noncomputable def rootNumber {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ := sorry
 
@@ -2271,7 +2287,7 @@ noncomputable def completed
 
 theorem completed_recenter
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (s : ℂ) :
-    completed K χ s = unitaryCompletion K χ (s - (χ.shift : ℂ)) := sorry
+    completed K χ s = unitaryCompletion K χ (s - (χ.idealShift : ℂ)) := sorry
 
 /-- The completion, like the conductor, is a function of the Hecke character alone: it does not
 see the presentation modulus. `lFunctionC` does, by `lFunctionC_eq_primitive`. -/
@@ -2285,8 +2301,8 @@ theorem rootNumber_congr {𝔪 𝔫 : GNF.Modulus K} (χ : Grossencharacter K �
 
 /-- The inverse presentation, at the same modulus, by its fields: the inverse Hecke character,
 the conjugate unitary weight, and the negated infinity type. With `χ = χ_u N^σ` this is
-`conj(χ_u) N^(-σ)`, so its shift is `-σ` (`inverse_shift`); it is not the conjugate presentation
-`conj(χ_u) N^σ`, and the functional equation reflects against it. -/
+`conj(χ_u) N^(-σ)`, so its shift is `-σ` (`inverse_idealShift`); it is not the conjugate
+presentation `conj(χ_u) N^σ`, and the functional equation reflects against it. -/
 noncomputable def inverse
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : Grossencharacter K 𝔪 where
   toHeckeCharacter := χ.toHeckeCharacter⁻¹
@@ -2302,8 +2318,8 @@ noncomputable def inverse
 theorem inverse_toHeckeCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
     (inverse K χ).toHeckeCharacter = χ.toHeckeCharacter⁻¹ := rfl
 
-theorem inverse_shift {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
-    (inverse K χ).shift = -χ.shift := sorry
+theorem inverse_idealShift {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    (inverse K χ).idealShift = -χ.idealShift := sorry
 
 theorem inverse_inverse {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
     inverse K (inverse K χ) = χ := sorry
@@ -2335,10 +2351,10 @@ theorem ofRayClassCharacter_unitaryWeight
     (ofRayClassCharacter K η).unitaryWeight = rayClassIdealWeight K 𝔪 η := rfl
 
 /-- Closed by the supplier's `HeckeCharacter.shift_ofRayClassCharacter`. -/
-theorem ofRayClassCharacter_shift
+theorem ofRayClassCharacter_idealShift
     {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) :
-    (ofRayClassCharacter K η).shift = 0 :=
-  GNF.HeckeCharacter.shift_ofRayClassCharacter η
+    (ofRayClassCharacter K η).idealShift = 0 :=
+  neg_eq_zero.mpr (GNF.HeckeCharacter.shift_ofRayClassCharacter η)
 
 /-- **The finite presentation at the stated modulus.** A presentation of a finite-order Hecke
 character at `𝔪` is the presentation of a ray-class character of `𝔪`: the finite pin makes the
@@ -2368,12 +2384,12 @@ theorem infinityType_eq_zero_of_isFiniteOrder {𝔪 : GNF.Modulus K}
 
 /-- Closed by the supplier's `isFiniteOrder_iff_exists_rayClassCharacter` and
 `shift_ofRayClassCharacter`. -/
-theorem shift_eq_zero_of_isFiniteOrder {𝔪 : GNF.Modulus K}
-    (χ : Grossencharacter K 𝔪) (h : χ.toHeckeCharacter.IsFiniteOrder) : χ.shift = 0 := by
+theorem idealShift_eq_zero_of_isFiniteOrder {𝔪 : GNF.Modulus K}
+    (χ : Grossencharacter K 𝔪) (h : χ.toHeckeCharacter.IsFiniteOrder) : χ.idealShift = 0 := by
   obtain ⟨𝔫, η, hη⟩ :=
     (GNF.HeckeCharacter.isFiniteOrder_iff_exists_rayClassCharacter χ.toHeckeCharacter).mp h
-  rw [shift, ← hη]
-  exact GNF.HeckeCharacter.shift_ofRayClassCharacter η
+  rw [idealShift, ← hη]
+  exact neg_eq_zero.mpr (GNF.HeckeCharacter.shift_ofRayClassCharacter η)
 
 /-- The finite-order presentation has the ray-class L-function of Layer 5, on the half-plane and
 as germs. -/
@@ -2382,14 +2398,14 @@ theorem lFunctionC_ofRayClassCharacter {𝔪 : GNF.Modulus K} (η : GNF.RayClass
       ∀ s : ℂ, lFunctionC K (ofRayClassCharacter K η) =ᶠ[𝓝[≠] s] heckeLFunctionC K η := sorry
 
 /-- **The sign of the shift.** At a prime idele at `v ∤ 𝔪₀` the primary object is the unitary
-weight times the ideal norm to the shift: `χ(π_v) = χ_u(𝔭) N𝔭^shift`. This is the ideal-side
-convention `χ = χ_u N^shift` of `lFunctionC_eq` and `completed_recenter`, read at one prime.
-⚠ The supplier pins `shift` only through `shift_eq_zero_iff` and `norm_unitaryPart`. Since the
-idele norm of a prime idele is `‖π_v‖ = N𝔭⁻¹`, this equation says that `|χ(y)| = ‖y‖^(-shift)`
-idelically — Tate's exponent is `-shift` — and it is the one equation this roadmap needs the
-supplier to state (`‖χ y‖ = ‖y‖^(-χ.shift)`, recorded in the dependency table). Everything below
-that mentions the shift — the unit relation, the recentering, the inverse presentation and the
-angular characters — is stated in this convention. -/
+weight times the ideal norm to the ideal-side shift: `χ(π_v) = χ_u(𝔭) N𝔭^idealShift`. This is the
+convention `χ = χ_u N^idealShift` of `lFunctionC_eq` and `completed_recenter`, read at one prime.
+It agrees with the supplier's sign: the unitary part is `χ ‖·‖^(-shift)` and `‖π_v‖ = N𝔭⁻¹`, so
+`χ(π_v) = χ_u(π_v) N𝔭^(-shift)`, and `-shift = idealShift`. Everything below that mentions the
+shift — the unit relation, the recentering, the inverse presentation and the angular characters —
+is stated in this convention. ⚠ With the supplier's `shift` in place of `idealShift` this equation
+is false already for `‖·‖` over `ℚ`, of shift `1` and trivial unitary part: it would read
+`1/p = p`. -/
 theorem toHeckeCharacter_primeIdele {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (v : HeightOneSpectrum (𝓞 K)) (hv : ¬ v.asIdeal ∣ 𝔪.finitePart) (y : GNF.IdeleGroup K)
     (h₁ : Valued.v ((GNF.ideleFiniteCoord v y : (v.adicCompletion K)ˣ) : v.adicCompletion K) =
@@ -2397,7 +2413,7 @@ theorem toHeckeCharacter_primeIdele {𝔪 : GNF.Modulus K} (χ : Grossencharacte
     (h₂ : ∀ v' : HeightOneSpectrum (𝓞 K), v' ≠ v → GNF.ideleFiniteCoord v' y = 1)
     (h₃ : ∀ w : InfinitePlace K, GNF.ideleInfiniteCoord w y = 1) :
     ((χ.toHeckeCharacter (QuotientGroup.mk y) : ℂˣ) : ℂ) =
-      χ.unitaryWeight.1 v.asIdeal * (Ideal.absNorm v.asIdeal : ℂ) ^ (χ.shift : ℂ) := sorry
+      χ.unitaryWeight.1 v.asIdeal * (Ideal.absNorm v.asIdeal : ℂ) ^ (χ.idealShift : ℂ) := sorry
 
 /-- **Hecke's unit relation**, derived from the primary object rather than taken as a field, and
 with the sign the primary object forces. On a principal ideal generated by `a ≡ 1 mod* 𝔪` — the
@@ -2418,14 +2434,14 @@ characters. -/
 theorem compatibility {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (x : Kˣ)
     (hx : GNF.IsCongrOne 𝔪 x) (a : 𝓞 K) (ha : algebraMap (𝓞 K) K a = x) :
     χ.unitaryWeight.1 (Ideal.span {a}) *
-        ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) *
+        ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.idealShift : ℂ) *
       ∏ τ : K →+* ℂ, τ (x : K) ^ χ.infinityType.exponent τ = 1 := sorry
 
 /-- The unit relation solved for the finite value: `χ_u((a)) N(a)^shift = (∏_τ τ(a)^(n_τ))⁻¹`. -/
 theorem compatibility_inv {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (x : Kˣ)
     (hx : GNF.IsCongrOne 𝔪 x) (a : 𝓞 K) (ha : algebraMap (𝓞 K) K a = x) :
     χ.unitaryWeight.1 (Ideal.span {a}) *
-        ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) =
+        ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.idealShift : ℂ) =
       (∏ τ : K →+* ℂ, τ (x : K) ^ χ.infinityType.exponent τ)⁻¹ :=
   eq_inv_of_mul_eq_one_left (compatibility K χ x hx a ha)
 
@@ -2511,9 +2527,9 @@ pointwise equation carries the polar divisors of the two analytic cards, read at
 because the cards are those of the unitary parts; the germ equality below carries none. -/
 theorem Grossencharacter.completed_one_sub
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (s : ℂ)
-    (hs : (grossencharacterData K χ).polarOrder (s - (χ.shift : ℂ)) = 0)
+    (hs : (grossencharacterData K χ).polarOrder (s - (χ.idealShift : ℂ)) = 0)
     (hs' : (grossencharacterData K (Grossencharacter.inverse K χ)).polarOrder
-      (1 - (s - (χ.shift : ℂ))) = 0) :
+      (1 - (s - (χ.idealShift : ℂ))) = 0) :
     Grossencharacter.completed K χ s = Grossencharacter.rootNumber K χ *
       Grossencharacter.completed K (Grossencharacter.inverse K χ) (1 - s) := sorry
 
@@ -2572,7 +2588,8 @@ algebraic exponents alone it would be even at `-1` for every finite-order charac
 theta series of an odd character would vanish by pairing `a` with `-a`. -/
 noncomputable def finiteCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K) :
     ℂ :=
-  χ.unitaryWeight.1 (Ideal.span {a}) * ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) *
+  χ.unitaryWeight.1 (Ideal.span {a}) *
+    ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.idealShift : ℂ) *
     archimedeanValue K χ (algebraMap (𝓞 K) K a)
 
 /-- `compatibility`, restated: the finite character is trivial on `a ≡ 1 mod* 𝔪`. -/
@@ -2740,9 +2757,14 @@ noncomputable def archWeight {𝔪 : GNF.Modulus K} (χ : Grossencharacter K �
   ∏ w : InfinitePlace K, y w ^ ((harmonicExponent K χ w : ℝ) / 2)
 
 /-- Neukirch's `ε(χ)`: the constant term of the twisted theta series, `1` exactly when the
-conductor is trivial and the polynomial is constant, `0` otherwise. -/
+**finite** part of the conductor is trivial and the polynomial is constant, `0` otherwise. It is
+the residue character at the class of `0` times the polynomial at `0`: the class of `0` is a unit
+exactly when `𝔣₀ = 1`, and the polynomial is `1` at `0` exactly when `Tr p = 0`. ⚠ Not the whole
+conductor: a real place divides the conductor whenever the parity of the archimedean restriction
+differs from the parity of the algebraic exponent there, even when the polynomial is constant. The
+odd norm powers of `ℚ` have conductor `∞` and constant term `1` (`ratNormPow_theta_test`). -/
 noncomputable def heckeEpsilon {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ :=
-  if primitiveConductor K χ = GNF.Modulus.one K ∧ harmonicDegree K χ = 0 then 1 else 0
+  if (primitiveConductor K χ).finitePart = ⊤ ∧ harmonicDegree K χ = 0 then 1 else 0
 
 /-- **The twisted theta series**, Neukirch's `θ^p(𝔎, χ_f, z)` (VII §7, p. 489) at `z = i y`, over
 the fractional ideal `𝔞`: `ε(χ) + ∑_{a ∈ 𝔞} χ_f(a) N(a^p) exp(-π ∑_w y_w |a_w|²)`, with the finite
@@ -3155,6 +3177,55 @@ theorem trivialCharacter_conductorOne_residue_test :
   rw [h0, h1] at this
   exact zero_ne_one this
 
+/-- **The integral norm power `N^m` over `ℚ`**, presented at the narrow modulus `∞`: the idele
+class character `‖·‖^(-m)` (`ratNormPow_apply`), whose value at a prime idele at `p` is `p^m`.
+⚠ The real place is needed when `m` is odd: the archimedean restriction `|x|^(-m)` is even while
+the algebraic exponent `-m` is odd, so `realParity_eq` fails at the trivial modulus. -/
+noncomputable def ratNormPow (m : ℤ) : Grossencharacter ℚ (GNF.narrowModulus ℚ) := sorry
+
+/-- The primary object of `ratNormPow m`, which determines every other field
+(`Grossencharacter.ext`). -/
+theorem ratNormPow_apply (m : ℤ) (y : GNF.IdeleGroup ℚ) :
+    (((ratNormPow m).toHeckeCharacter (QuotientGroup.mk y) : ℂˣ) : ℂ) =
+      (((GNF.ideleNorm y : NNReal) : ℝ) : ℂ) ^ (-m) := sorry
+
+/-- The supplier's shift of `‖·‖^(-m)` is `-m`, by `norm_toHeckeCharacter_apply`. -/
+theorem ratNormPow_shift (m : ℤ) : (ratNormPow m).toHeckeCharacter.shift = -(m : ℝ) := sorry
+
+/-- **The ideal-side shift of `N^m` is `m`**, the negative of the supplier's. -/
+theorem ratNormPow_idealShift (m : ℤ) : (ratNormPow m).idealShift = m := by
+  rw [Grossencharacter.idealShift, ratNormPow_shift, neg_neg]
+
+/-- The L-function of `N^m` is `ζ(s - m)` on its half-plane: the unitary part is trivial, the
+finite part of the modulus is `⊤`, and the series is recentered by the ideal-side shift `m`. -/
+theorem lFunctionC_ratNormPow (m : ℤ) {s : ℂ} (hs : 1 + (m : ℝ) < s.re) :
+    Grossencharacter.lFunctionC ℚ (ratNormPow m) s = riemannZeta (s - m) := sorry
+
+/-- ⚠ **Regression: the theta constant reads the finite conductor**, at the odd norm powers of
+`ℚ`. The conductor of `N^m` is `∞`, not the trivial modulus, because the real place carries the
+parity mismatch of `ratNormPow`. Its finite part is nevertheless `⊤`, the polynomial is constant
+and the finite character is `1` at every nonzero integer, so the twisted theta series is Jacobi's
+`θ(iy) = ∑_{n ∈ ℤ} e^{-π y n²}` with its constant term, the kernel is the Riemann kernel
+`mellinKernel` of `ζ`, and its constant is `a₀ = 1/2`. A constant read off the whole conductor
+drops the `1`: the total kernel becomes `(θ(iu) - 1)/2`, and `heckeMellinTotal_inv` would
+contradict theta inversion `θ(i/u) = √u θ(iu)`, already at `u = 4`. The finite character also
+tests the sign of `idealShift`: it is `|n|^idealShift · n^(-m) · sgn(n)`, which is `1` because
+`idealShift = m`; with the supplier's shift `-m` it would be `|n|^(-2m)`. -/
+theorem ratNormPow_theta_test {m : ℤ} (hm : Odd m) (D : Set (ArchParam ℚ))
+    (rep : ClassGroup (𝓞 ℚ) → Ideal (𝓞 ℚ))
+    (hrep : IsClassRepresentatives ℚ (Grossencharacter.primitiveConductor ℚ (ratNormPow m)) rep)
+    (𝔞 : (FractionalIdeal (𝓞 ℚ)⁰ ℚ)ˣ) (u y : ℝ) (hy : 0 < y) :
+    let χ := ratNormPow m
+    Grossencharacter.primitiveConductor ℚ χ ≠ GNF.Modulus.one ℚ ∧
+      (Grossencharacter.primitiveConductor ℚ χ).finitePart = ⊤ ∧
+      Grossencharacter.harmonicDegree ℚ χ = 0 ∧
+      Grossencharacter.heckeEpsilon ℚ χ = 1 ∧
+      (∀ a : 𝓞 ℚ, a ≠ 0 → Grossencharacter.finiteCharacter ℚ χ a = 1) ∧
+      Grossencharacter.heckeTheta ℚ χ 1 (fun _ ↦ y) = jacobiTheta ((y : ℂ) * Complex.I) ∧
+      Grossencharacter.heckeMellinKernel ℚ D χ 𝔞 u =
+        mellinKernel ℚ D (mixedEmbedding.idealLattice ℚ 𝔞) u ∧
+      Grossencharacter.heckeMellinConstant ℚ χ rep = 1 / 2 := sorry
+
 /-- Unconditional even-parity regression: no real place divides the modulus and the real gamma
 shift is zero. -/
 theorem evenCharacter_mod_five_test :
@@ -3186,7 +3257,7 @@ theorem Grossencharacter.meromorphicOrderAt_lFunctionC
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (h : UnitaryCancelling K χ.unitaryWeight) (t : ℝ) :
     meromorphicOrderAt (Grossencharacter.lFunctionC K χ)
-      ((1 : ℂ) + (χ.shift : ℂ) + t * I) = (0 : WithTop ℤ) := sorry
+      ((1 : ℂ) + (χ.idealShift : ℂ) + t * I) = (0 : WithTop ℤ) := sorry
 
 /-! ### The infinite-order acceptance test, and the analytic exports of this layer
 
@@ -3216,7 +3287,7 @@ theorem angularGrossencharacter_infinityType
     ((angularGrossencharacter F k).infinityType.toContinuous.complexExponent w = 0) ∧
       ((angularGrossencharacter F k).infinityType.toContinuous.complexAngular w = 4 * k ∨
         (angularGrossencharacter F k).infinityType.toContinuous.complexAngular w = -(4 * k)) ∧
-      (angularGrossencharacter F k).shift = 0 := sorry
+      (angularGrossencharacter F k).idealShift = 0 := sorry
 
 /-- The angular card: no real gamma factor, one complex factor shifted by `2|k|`, conductor
 `|d| N(𝔣) = 4`, degree two, and no pole for `k ≠ 0`. ⚠ The shift is `2|k|`, half the angular
@@ -3281,33 +3352,50 @@ theorem exists_continuousOn_logDeriv_of_unitaryCancelling
         G s = -deriv (ADS.continuedLFunctionOfWeight χ) s /
           ADS.continuedLFunctionOfWeight χ s := sorry
 
+/-- On `Re s > 1` the named continuation is Mathlib's `dedekindZeta` near the point, so the two
+have the same logarithmic derivative there. -/
+theorem dedekindZetaC_eventuallyEq {s : ℂ} (hs : 1 < s.re) :
+    dedekindZetaC K =ᶠ[𝓝 s] dedekindZeta K :=
+  Filter.eventually_of_mem ((isOpen_lt continuous_const Complex.continuous_re).mem_nhds hs)
+    fun _ hz ↦ dedekindZetaC_eq K hz
+
 /-- The trivial-weight companion: the norm coefficients of the ideal von Mangoldt weight sum to
-the logarithmic derivative of the named continuation of `ζ_K`. -/
+the logarithmic derivative of the named continuation of `ζ_K`; Tau Ceti's
+`LSeries_primeVonMangoldtCoeff_univ_eq_deriv_dedekindZeta_div` read against `dedekindZetaC`. -/
 theorem lSeries_primeVonMangoldtCoeff_univ {s : ℂ} (hs : 1 < s.re) :
     LSeries (fun n ↦ (ADS.primeVonMangoldtCoeff K Set.univ n : ℂ)) s =
-      -deriv (dedekindZetaC K) s / dedekindZetaC K s := sorry
+      -deriv (dedekindZetaC K) s / dedekindZetaC K s := by
+  rw [TauCeti.LSeries_primeVonMangoldtCoeff_univ_eq_deriv_dedekindZeta_div (K := K) hs,
+    (dedekindZetaC_eventuallyEq K hs).deriv_eq, (dedekindZetaC_eventuallyEq K hs).eq_of_nhds]
 
-/-- **The exact export named by Arithmetic Dirichlet Series**, whose
-`primeIdealTheorem_of_boundary` is conditional on it. The residue is `1`, from the simple pole of
-`ζ_K` at `s = 1`; the continuous remainder exists because `ζ_K` is nonvanishing on `Re s = 1`.
-Mathlib's one-sided residue theorem does not supply this. -/
-noncomputable def primeIdealVonMangoldtBoundary (K : Type u) [Field K] [NumberField K] :
-    ADS.PrimeBoundaryRemainder K Set.univ 1 :=
-  TauCeti.PrimeBoundaryRemainder.ofFunctions
-    (fun s ↦ -deriv (dedekindZetaC K) s / dedekindZetaC K s) sorry sorry sorry sorry
+/-- **The boundary datum named by Arithmetic Dirichlet Series** is Tau Ceti's
+`TauCeti.LFunctions.primeIdealVonMangoldtBoundary : PrimeBoundaryRemainder K Set.univ 1`, built
+from Mathlib's `dedekindZeta` and Tau Ceti's continuous extension of `-ζ_K'/ζ_K - 1/(s - 1)` to
+`Re s ≥ 1`; the supplier's `primeIdealTheorem_of_boundary` applies to it directly. This roadmap
+consumes it rather than rebuilding it: its series is the logarithmic derivative of the named
+continuation `dedekindZetaC` on `Re s > 1`. -/
+theorem primeIdealVonMangoldtBoundary_series_eq (s : {s : ℂ // 1 < s.re}) :
+    (TauCeti.LFunctions.primeIdealVonMangoldtBoundary K).series s =
+      -deriv (dedekindZetaC K) (s : ℂ) / dedekindZetaC K (s : ℂ) := by
+  rw [TauCeti.LFunctions.primeIdealVonMangoldtBoundary_series,
+    (dedekindZetaC_eventuallyEq K s.2).deriv_eq, (dedekindZetaC_eventuallyEq K s.2).eq_of_nhds]
 
-/-- Dedekind-zeta specialization of the generic ideal von Mangoldt transform. -/
+/-- Dedekind-zeta specialization of the generic ideal von Mangoldt transform: Tau Ceti's
+`hasSum_idealTerm_vonMangoldt`. -/
 theorem dedekindZeta_logDeriv_eq {s : ℂ} (hs : 1 < s.re) :
     (∑' I : (Ideal (𝓞 K))⁰,
       TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) I /
         (Ideal.absNorm (I : Ideal (𝓞 K)) : ℂ) ^ s) =
-      -deriv (dedekindZeta K) s / dedekindZeta K s := sorry
+      -deriv (dedekindZeta K) s / dedekindZeta K s :=
+  (TauCeti.hasSum_idealTerm_vonMangoldt (K := K) hs).tsum_eq
 
 /-- Nonnegativity of the Dedekind-zeta von Mangoldt coefficients. -/
 theorem dedekindZeta_idealVonMangoldt_nonneg (I : (Ideal (𝓞 K))⁰) :
     0 ≤
         (TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) I).re ∧
-      (TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) I).im = 0 := sorry
+      (TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) I).im = 0 :=
+  ⟨TauCeti.IdealArithmeticFunction.vonMangoldt_re_nonneg,
+    TauCeti.IdealArithmeticFunction.vonMangoldt_im⟩
 
 end
 
