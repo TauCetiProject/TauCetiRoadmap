@@ -154,6 +154,12 @@ theorem rationalClassesOfType_tate_neg_one :
     rationalClassesOfType (Algebra.linearMap ℚ ℂ) (tate (-1)) 1 = ⊤ := by
   sorry
 
+/-- The negative Tate twist has no classes at Hodge index zero,
+completing the twist-sign computations in README §7.1. -/
+theorem rationalClassesOfType_tate_neg_one_zero :
+    rationalClassesOfType (Algebra.linearMap ℚ ℂ) (tate (-1)) 0 = ⊥ := by
+  sorry
+
 /-- A zero comparison pulls every Hodge piece back to the full source,
 as in the zero-comparison Check of README §7.1. -/
 theorem rationalClassesOfType_zero (hs : HodgeStructureOn W ω n) (p : ℤ) :
@@ -235,7 +241,8 @@ The following geometric constructions and the relative reconstruction data requi
 carriers not supplied at the pins. Their signatures, APIs and Checks are specified
 in README:
 Layer 0: graded correspondences, adequate equivalences, numerical cycles,
-diagonal decompositions, intermediate indices, universal CH₀ support and
+diagonal decompositions, characteristic-power alterations of supports,
+intermediate indices, universal CH₀ support and
 the geometric cohomology-with-supports/Gersten adapters.
 Layer 1: pure motives with twists, tensor, duality and adequacy quotients.
 Layer 2: Weil cohomology and its geometric Betti, de Rham and étale realizations.
