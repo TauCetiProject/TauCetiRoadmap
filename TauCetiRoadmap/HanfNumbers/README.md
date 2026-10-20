@@ -30,7 +30,7 @@ sentences, and the small-model and completion theory.
 
 It continues the [InfinitaryLogic roadmap](../InfinitaryLogic/README.md), whose "Out of scope"
 list names Ehrenfeucht–Mostowski stretching, partition calculus and Morley–Hanf, and it consumes
-the InfinitaryModelExistence roadmap for the specific interfaces listed under
+the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) roadmap for the specific interfaces listed under
 [Existing library and ownership](#existing-library-and-ownership).
 
 Suggested homes:
@@ -123,7 +123,7 @@ The following are suppliers, not requests to rebuild their objects.
 | [InfinitaryLogic](../InfinitaryLogic/README.md), Layer 0 | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, `Realize` and its simp lemmas, `IndexCoding` and the coded connectives `iInfAlong`/`iSupAlong`, `subst`, `relabel`, `mapBound`, `castLE`, and the finitary embedding `toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); implemented in Tau Ceti as `TauCeti/ModelTheory/Infinitary/{Syntax, Semantics, CodedConnectives, Substitution, Operations}.lean` (Tau Ceti PRs [#17407](https://github.com/TauCetiProject/TauCeti/pull/17407), [#17576](https://github.com/TauCetiProject/TauCeti/pull/17576), [#17885](https://github.com/TauCetiProject/TauCeti/pull/17885)) |
 | InfinitaryLogic, Layers 1–3 | `BFEquiv`, `PotentialIso`, `TauCeti.potentialIso_iff_bfEquiv_all`, the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)), `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence`, which holds for a model of any cardinality |
 
-**From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) roadmap** (IME)
+**From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) roadmap** (IME)
 this roadmap consumes exactly the following, cited by IME layer and section, and nothing else of
 it:
 
@@ -805,11 +805,11 @@ The following belong to separate roadmaps.
   exponents, negative partition relations (Sierpiński's `2^κ ↛ (κ⁺)²₂`), the Erdős–Dushnik–Miller
   theorem, polarized relations, Erdős cardinals and large-cardinal partition properties. Layer 0
   contains exactly what the Morley–Hanf and small-model constructions use.
-- **InfinitaryModelExistence**: countable fragments, consistency properties and model existence,
+- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)): countable fragments, consistency properties and model existence,
   omitting types, downward Löwenheim–Skolem, types and isolation, Morleyization, PC classes,
   interpolation and the well-ordering applications. Consumed here only through the IME sections
   listed under [Existing library and ownership](#existing-library-and-ownership).
-- **CountableStructureSpaces, BorelEquivalenceRelations and CountableModelCounting**: spaces of
+- **[CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)), [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)) and [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318))**: spaces of
   countable structures, López–Escobar, Borel equivalence relations, and counting countable models,
   including Morley's counting theorem and Vaught's conjecture.
 - The general Glimm–Effros dichotomy of Harrington, Kechris and Louveau and Gandy–Harrington
@@ -847,7 +847,7 @@ results:
   [Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547) is not needed here. The
   Scott sentence used in Layer 5 is the parent's internal one, so no external Scott-height
   convention enters this roadmap.
-- **InfinitaryModelExistence** supplies language maps, occurrence sets, sublanguages, `substBounds`,
+- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) supplies language maps, occurrence sets, sublanguages, `substBounds`,
   theories, fragments, fragment elementarity with Löwenheim–Skolem, and complete types with
   isolation, and owns them; this roadmap builds no second version of any of them. This roadmap owns
   smallness, the Skolem tower and everything about indiscernibles and Hanf numbers, as IME's
