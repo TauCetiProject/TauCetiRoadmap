@@ -105,6 +105,18 @@ theorem realize_congr_of_agreeOn {M : Type w} (S₁ S₂ : L.Structure M) {n : �
       @BoundedFormulaInf.Realize L ι α M S₂ n φ v xs := by
   sorry
 
+/-- **Layer 0 milestone, pulling a formula back along a language map.** A formula of `L'` whose
+occurring symbols all lie in the range of `g` is the image of a formula of `L`. No injectivity is
+needed: choose a preimage for each occurring symbol. -/
+theorem exists_eq_onBoundedFormulaInf_of_subset_range (g : L →ᴸ L') {n : ℕ}
+    (φ : BoundedFormulaInf L' ι α n)
+    (hf : functionsIn φ ⊆ Set.range fun p : Σ k, L.Functions k =>
+      (⟨p.1, g.onFunction p.2⟩ : Σ k, L'.Functions k))
+    (hr : relationsIn φ ⊆ Set.range fun p : Σ k, L.Relations k =>
+      (⟨p.1, g.onRelation p.2⟩ : Σ k, L'.Relations k)) :
+    ∃ ψ : BoundedFormulaInf L ι α n, onBoundedFormulaInf g ψ = φ := by
+  sorry
+
 /-- Lift a bound-position substitution under one more binder: old positions shift by
 `Fin.castSucc`, and the new last position is sent to itself. -/
 def liftSubst {m k : ℕ} (σ : Fin m → L.Term (α ⊕ Fin k)) : Fin (m + 1) → L.Term (α ⊕ Fin (k + 1)) :=
@@ -352,6 +364,13 @@ can be tested on countable models in any universe. -/
 theorem Theoryω.entails_iff_countable {T : Theoryω L} (hT : T.Countable) (φ : Sentenceω L) :
     T.Entails φ ↔ ∀ (M : Type w) [L.Structure M] [Nonempty M] [Countable M],
       T.Model M → SentenceInf.Realize φ M := by
+  sorry
+
+/-- **Layer 2 milestone, entailment in arbitrary models.** For a countable theory, entailment gives
+the conclusion in every nonempty model, of any cardinality and in any universe. -/
+theorem Theoryω.Entails.realize {T : Theoryω L} (hT : T.Countable) {φ : Sentenceω L}
+    (h : T.Entails φ) (M : Type w) [L.Structure M] [Nonempty M] (hM : T.Model M) :
+    SentenceInf.Realize φ M := by
   sorry
 
 end LowenheimSkolem
