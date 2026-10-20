@@ -83,8 +83,9 @@ made about the Tau Ceti objects. The differences from the README's requested for
   with second factor `Gal(K(ζ_q)/K)` and the linear disjointness of `L` and `K(ζ_q)` are derived
   from it in that order, with the irreducibility of 7.2; the intersection of 7.3 is proved
   separately.
-* Layer 4 factors the Artin map of `K(μ_m) / K` through the ray class group of the admissible
-  modulus `(m) ∞` (`cyclotomicModulus`) rather than the exact conductor, and compares no conductors.
+* At the pin, Layer 4 factors the Artin map of `K(μ_m) / K` through the ray class group of the
+  admissible modulus `(m) ∞` (`cyclotomicModulus`) rather than the exact conductor, and compares no
+  conductors.
 * Two intermediate results are private in Tau Ceti: `ψ_K(x) ~ x` of 12.2 and the prime ideal
   theorem for `K` that is the natural-density denominator of Layer 14. Both are stated below and
   closed by specializing the public counting theorems to the trivial extension `K / K`, as Tau
@@ -103,7 +104,14 @@ made about the Tau Ceti objects. The differences from the README's requested for
 The following requests of the README are not certified here: the Tau Ceti declarations they need
 are private or absent at the pin.
 
-* The exact conductor of `K(μ_m) / K` (Layer 4); see above.
+* The exact conductor of `K(μ_m) / K` (Layer 4); see above. Tau Ceti `main` identifies it after
+  this pin, in `Chebotarev/GaloisCharacter/Cyclotomic/Conductor.lean`. Since revision `d2a1c5c`,
+  `cyclotomicConductor K F m` is the least modulus through which the Artin map factors
+  (`cyclotomicConductor_dvd_iff`); it divides `(m) ∞` (`cyclotomicConductor_dvd`) and is the least
+  common multiple of the conductors of the characters `χ ∘ cyclotomicArtin K F m`
+  (`cyclotomicConductor_dvd_iff_forall_conductor_dvd`). Since `3f48ddc` it depends only on `F`, not
+  on the level `m` (`cyclotomicConductor_eq_cyclotomicConductor`). Citing them here waits for a pin
+  bump that includes them.
 * The one-sided forms of the logarithmic normalization and of finite insertion and deletion
   (Layer 3). The pin has those transfers for exact densities only. Tau Ceti `main` proves the
   one-sided forms since revision `df08111`, after this pin:
