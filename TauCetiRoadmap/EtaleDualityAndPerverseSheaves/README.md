@@ -69,6 +69,15 @@ LefschetzPencilsAndVanishingCycles §§0.5–0.8 supply nearby cycles with a cho
 
 The following small geometric interfaces are required in addition to those headings. For a smooth centre, identify the exceptional divisor and its normal line with the conventions above. For a relatively ample line on a universally closed scheme, the complement of a section divisor is affine (Stacks Lemma 29.44.18, Tag 0EKE). Generic affine hyperplanes are smooth for a smooth source with unramified map, as in Katz, *Affine cohomological transforms*, Lemma 3.5, p.182. For fixed multidegree, the open locus of smooth complete intersections in the product of defining-form projective spaces has geometrically irreducible nonempty characteristic fibres and contains a member with a smooth ample chain. Section 4.3 proves the cohomology calculation first for that member and transports it to every smooth complete intersection by proper smooth base change; it does not require a smooth chain for each prescribed presentation. Their tangent–normal exact sequence gives `c(T_X)=(1+h)^{N+1}∏(1+d_i h)⁻¹` and `deg h^m=∏d_i`. The elementary geometric identifications and the two incidence/affineness lemmas are proved in the relevant Layer 4 subsections from the cited scheme geometry; their conclusions are not inferred from weak Lefschetz.
 
+GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace` supplies the shared
+trace class, integrated local terms and proper trace formula for smooth proper curves over an algebraically
+closed field, with bounded constructible finite-Tor coefficients, including normalized adic realization.
+Its R17.6.3b / `contracting-curve-local-term` supplies contraction to a reduced closed point and the
+transpose/dual-stalk compatibility. Sections 6.3–6.5 use these interfaces on their stated domains; the targets
+here extend them to general schemes and identify their specializations. Write `Tr^curve` and `LT^curve` for
+the supplied maps. [TCR-GL2AutomorphicRepresentationsAndTransfer]; [Varshavsky-LV-2007] §1.2.2,
+Proposition 1.2.5, Corollary 1.2.6 and Theorem 2.1.3, pp.8–10,17–18.
+
 ### From weight theory
 
 DeligneWeightsAndPurity §§0.1–0.19 supply scalar Weil numbers and fixed-`ι` weights, the arithmetic of weights, spectral powers, tensor/dual/exterior spectra, characteristic power series, weight decomposition of Frobenius modules and perfect-pairing eigenvalue reciprocity. Sections 1.3–1.7 supply Rosati and the abelian-variety/curve estimates. Sections 5.1–5.18 supply Weil groups and Weil sheaves, punctual and determinantal weights, rank-one normalization, curve and local-monodromy bounds, monodromy specialization, the positive pole-order argument and compact Weil form. Sections 6.1–6.4 supply coefficient-specific vanishing cycles, real cohomological factors, square improvement and parabolic curve purity. Sections 7.5–7.9 supply the curve reduction, tame covers and Weil II direct-image theorem. Sections 8.1–8.5, 8.8–8.9, 8.11–8.12 supply mixed/pure complexes and six-operation bounds; §§8.14, 8.18–8.20 supply lisse geometric semisimplicity, the lisse weight filtration and potentially pure models. Sections 9.6–9.12 supply absolute hard Lefschetz, vector-space primitive decomposition and rational ample restriction/vanishing orthogonality. These inputs are used with geometric Frobenius and a fixed embedding `ι:ℚ̄_ℓ→ℂ` when `ι`-weights are used.
@@ -6550,6 +6559,14 @@ Use [Lu-Zheng-2022] §2.2, Construction 2.6, p. 13 (arXiv v4).
 
 ### 6.3 Trace classes, local terms and proper pushforward
 
+The targets in this subsection concern separated finite-type schemes of arbitrary dimension. On the
+smooth proper-curve domain of GL2AutomorphicRepresentationsAndTransfer R17.6.3a /
+`proper-curve-correspondence-trace`, the named maps are adapters to its supplied interface: under the
+coefficient and dualizing-complex identifications, `Tr_c(u) = Tr^curve_c(u)` and
+`LT_β(u) = LT^curve_β(u)`. The diagonal evaluation, adjunction counits and proper integration maps agree;
+these equations also commute with normalized adic realization. The proper-curve trace theory is supplied
+by that target, while the construction below supplies the general extension.
+
 **The trace map of a self-correspondence and its local terms.** Let `k` be separably closed, `c : C → X × X` a
 self-correspondence and `F ∈ D^b_ctf(X, Λ)`. The trace map `Tr_c : Hom(c₂_!c₁^*F, F) → H⁰(Fix(c), K_{Fix(c)})` is
 `H⁰` of the composite `RHom(c₁^*F, c₂^!F) ≅ c^!(DF ⊠ F) → c^!Δ_*K_X ≅ Δ′_*c′^!K_X = Δ′_*K_{Fix(c)}`, where the
@@ -6598,7 +6615,8 @@ EtaleCohomologyFoundations §F.10.3.
 Use [Varshavsky-LV-2007] 0.3–0.4, pp. 5–6; Notation 1.2.1, 1.2.2 (a)–(b) with (1.2)–(1.4), Example 1.2.3, pp.
 8–9 (arXiv v2).
 
-*Needs:* §6.2; §6.1; §0.2; §0.5; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4;
+*Needs:* GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace`;
+§6.2; §6.1; §0.2; §0.5; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4;
 EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3.
 
 **Checks.**
@@ -6610,7 +6628,7 @@ EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–
 
 - `TauCeti.EtaleDuality.localTerm_naive_compat`: For `c₂` quasi-finite and `{x} c`-invariant, `LT_y(u|_x)` equals the naive trace `Tr(u_y | F_x)`.
 
-- `TauCeti.EtaleDuality.localTerm_not_naive_identity_curve`: For the identity of a smooth proper curve `X` of genus `g` with `F = Λ, Fix(c) = X` is not isolated and its local term is `χ(X) = 2 − 2g`, not a sum of naive local terms 1 over points.
+- `TauCeti.EtaleDuality.localTerm_not_naive_identity_curve`: The adapter to GL2AutomorphicRepresentationsAndTransfer R17.6.3a gives `LT_X(id) = LT^curve_X(id) = 2 − 2g` for a smooth proper curve of genus `g` with constant `Λ` coefficients. The fixed component is the whole curve, so there is no finite sum of pointwise naive terms.
 
 - For the trivial correspondence `pt → pt × pt, Tr(u) = Tr(u | F)` for `F` a perfect `Λ`-complex (Varshavsky 1.2.3).
 
@@ -6630,6 +6648,10 @@ operations. `[f]` proper with equal outer components; `k` separably closed.
 
 Name the resulting statement `tracePushforwardCompatibility`.
 
+For proper morphisms within the supplied smooth proper-curve domain, this name is the adapter to
+GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace`, with equation
+`Tr_b([f]_!u) = Tr^curve_b([f]_!u) = f′_!Tr^curve_c(u) = f′_!Tr_c(u)`.
+
 A proof proceeds as follows.
 
 `Fix(c)` is closed inside `C×_B Fix(b)`: impose equality of the two resulting `X`-points using the closed diagonal
@@ -6648,12 +6670,19 @@ Properness of `c` or `b` is not required.
 Use [Varshavsky-LV-2007] Proposition 1.2.5, p. 10; Theorem 4.3.1, Corollary 4.3.2 and 4.3.4, pp. 34–36 (arXiv
 v2).
 
-*Needs:* §6.2; §0.5; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; §0.2.
+*Needs:* GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace`;
+§6.2; §0.5; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; §0.2.
 
 **Checks.**
 
 
 - For `b` the trivial correspondence and `c` proper, the statement is the Lefschetz–Verdier formula of §6.3.
+
+- On the supplied proper-curve domain, the comparison identifies the pushforward of the entire trace
+  class, including a positive-dimensional fixed component, before integration.
+
+- For composable proper morphisms `[f]` and `[g]`, the identity reads
+  `Tr_d([g]_![f]_!u) = g′_!f′_!Tr_c(u) = (g′∘f′)_!Tr_c(u)`.
 
 **The Lefschetz–Verdier trace formula.** Let `k` be separably closed and `c : C → X × X` a self-correspondence
 proper over `k` (`C` and `X` proper over `k`). For every `F ∈ D^b_ctf(X, Λ)` and every `c`-morphism `u : c₂_!c₁^*F → F, Tr(RΓ_c(u) | RΓ_c(X, F)) = Σ_{β ∈ π₀(Fix(c))} LT_β(u)`. For `Λ` a field this is `Σ_i (−1)^i Tr(H^i_c(u)) = Σ_β LT_β(u)`. The Frobenius specialization, including the compact-support formula for a nonproper scheme, is proved in §6.5 from the contracting-boundary refinement.
@@ -6668,6 +6697,9 @@ operations. `c` proper over `k` (the structure morphism `[π]_c` is proper); for
 
 Name the resulting statement `lefschetzVerdierTraceFormula`.
 
+On the supplied smooth proper-curve domain this name adapts GL2AutomorphicRepresentationsAndTransfer R17.6.3a /
+`proper-curve-correspondence-trace`: `Tr(RΓ(u)) = Σ_β LT^curve_β(u) = Σ_β LT_β(u)`.
+
 A proof proceeds as follows.
 
 Apply §6.3 to the structure morphism `[π]_c` from `c` to the trivial correspondence: the left side is `Tr([π]_!(u))`
@@ -6678,14 +6710,19 @@ The right side is `π_{Fix(c)!}(Tr_c(u))`, which splits over the connected compo
 
 Use [Varshavsky-LV-2007] Corollary 1.2.6, p. 10 (arXiv v2).
 
-*Needs:* §6.2; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3.
+*Needs:* GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace`;
+§6.2; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3.
 
 **Checks.**
 
 
 - For `X = ⊔_{i∈I} Spec k` finite, `c` the graph-type correspondence of `σ : I → I` and `F = M` constant: `Tr(RΓ(u)) = Σ_{σ(i)=i} Tr(u_i | M)`, which is Tau Ceti's `LinearMap.trace_pi_of_apply_eq` (§6.3).
 
-- For `X` a smooth proper curve of genus `g, c = Δ` and `F = ℚ_ℓ: χ(X) = 2 − 2g = LT_X(id)`, the self-intersection of the diagonal.
+- For the identity of a smooth proper curve of genus `g`, the supplied interface gives
+  `χ(X) = 2 − 2g = LT^curve_X(id) = LT_X(id)` with `ℚ_ℓ` coefficients.
+
+- For `u = 0`, the induced cohomological operator and every local term vanish, also when the fixed
+  locus has positive dimension.
 
 **The Lefschetz–Verdier formula for finite étale schemes and permutation correspondences.** Let `k` be separably
 closed, `X = ⊔_{i ∈ I} Spec k` for a finite set `I, σ : I → I` and `g : X → X` the induced morphism, `c = (g, id)` its
@@ -6733,6 +6770,12 @@ operations. `Z` closed and `c`-invariant; `k` separably closed.
 
 Name the resulting statement `traceAdditivity`.
 
+On the supplied proper-curve domain, this general filtered additivity statement uses
+GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace` through §6.3:
+`Tr^curve_c(u) = Tr^curve_c([i_Z]_!(u|_Z)) + Tr^curve_c([j_U]_!(u|_U))`.
+The two summands are trace classes on the original proper correspondence, with coefficients
+`i_*i^*F` and `j_!j^*F`; the restricted open curve need not be proper.
+
 A proof proceeds as follows.
 
 Construct the finite filtered trace calculus in the enhanced coefficient category: a two-step filtered object
@@ -6756,6 +6799,12 @@ Use [Varshavsky-LV-2007] 1.5.9 and Proposition 1.5.10, p. 16; §5.1–5.3, pp. 3
 
 
 - For the graph-type correspondence of an automorphism `g` of a proper curve and `Z = X^g` finite, the Lefschetz number splits into the fixed-point contribution and the contribution of `U`, which has no fixed points.
+
+- For the identity on `ℙ²` with constant `ℚ_ℓ` coefficients, `Z = ℙ¹` and `U = 𝔸²`, integration of the
+  identity is the compact Euler-characteristic equality `3 = 2 + 1`.
+
+- For `Z = ∅` the closed contribution is zero and the open contribution is `Tr_c(u)`; for `Z = X` the
+  open contribution is zero and the closed contribution is `Tr_c(u)`.
 
 **Specialisation of cohomological correspondences over a trait.** Let `k` be separably closed, `R` a discrete
 valuation ring over `k` with residue field `k` (for example `k[t]_{(t)}` or `k[[t]]`), `D = Spec R` with generic point `η`
@@ -6794,6 +6843,12 @@ The interface consists of the following maps and identities.
 - `TauCeti.EtaleDuality.CohCorr.sp`: For a lift `c̃` of `c, u ↦ sp_c̃(u)`, a `c̃_s`-morphism from `sp F₁` to `sp F₂`.
 
 - `TauCeti.EtaleDuality.CohCorr.traceMap_sp`: `sp_{Fix(c̃)} ∘ Tr_c = Tr_{c̃_s} ∘ sp_c̃` (Varshavsky Proposition 1.3.5).
+
+When the original and special-fibre correspondences both lie in the supplied smooth proper-curve
+domain, the §6.3 adapters identify this equation with
+`sp_{Fix(c̃)}(Tr^curve_c(u)) = Tr^curve_{c̃_s}(sp_c̃(u))`, using
+GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace` for both trace maps.
+The specialization transformation itself is the general-scheme target of this subsection.
 
 A proof proceeds as follows.
 
@@ -6954,6 +7009,13 @@ operations. `k` separably closed; contraction near `Z` on an open neighbourhood 
 
 Name the resulting statement `contractingLocalTerms`.
 
+On the smooth proper-curve domain with `Z` a reduced closed point, this name adapts
+GL2AutomorphicRepresentationsAndTransfer R17.6.3b / `contracting-curve-local-term`:
+`Tr_β(u) = Tr^curve_β(u) = Tr_β(u|_Z)` and
+`LT_β(u) = LT^curve_β(u) = LT_β(u|_Z)` when `β` is proper.
+These are equations under the étale identification of the reduced fixed loci, including when `β`
+is nonreduced. The general target treats arbitrary closed subschemes in arbitrary dimension.
+
 A proof proceeds as follows.
 
 Replace `c` by its restriction to a neighbourhood of `Fix(c)` where it contracts and by `C ∖ (Fix(c) ∖ β)`, so
@@ -6970,12 +7032,21 @@ the `U`-part; to kill the `U`-part assume `F|_Z = 0` and use §6.4 for `c` and t
 
 Use [Varshavsky-LV-2007] Theorem 2.1.3 and its proof, pp. 17–18 (arXiv v2).
 
-*Needs:* §6.4; §6.3; §6.2.
+*Needs:* GL2AutomorphicRepresentationsAndTransfer R17.6.3b / `contracting-curve-local-term`;
+§6.4; §6.3; §6.2.
 
 **Checks.**
 
 
 - For the graph-type correspondence of Frobenius and `Z = {x}` a fixed closed point, `LT_x(u)` is the naive term `Tr(u_x | F_x)`.
+
+- For smooth proper source and target curves, if a fixed branch has parameter pullbacks `t³` and `t²`, the ideals
+  satisfy `(t³) ⊂ (t²)` and `(t³)² = (t²)³`. The supplied R17.6.3b term and its adapter are
+  `LT_y(u) = LT^curve_y(u) = Tr(u_y | F_x)`; the length-two fixed scheme contributes no factor two.
+
+- For the identity of a smooth proper curve and a reduced closed point `Z`, contraction fails:
+  `(tⁿ)` is not contained in `(t^{n+1})` for any `n ≥ 1`. Its whole-curve term remains the supplied
+  `LT^curve_X(id)`, rather than a pointwise stalk trace.
 
 **Frobenius twists are contracting for large powers.** Let `c : C → X × X` be a correspondence over `𝔽̄_q` defined
 over `𝔽_q`. Give every closed subset `Z` its reduced scheme structure when forming `ram(c₂,Z)`.
@@ -7711,6 +7782,10 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 - **[TCR-EnhancedDerivedSheaves]** TauCetiRoadmap contributors, Enhanced derived categories of sheaves. README.md, version ba9de88d837c1973a006cfaa2861b39410ddcba6.
 
 - **[TCR-EtaleCohomologyFoundations]** TauCetiRoadmap contributors, Étale cohomology foundations. README.md, version 651c49797943811c7dd6d8ab4b5771b7ede1ec0d.
+
+- **[TCR-GL2AutomorphicRepresentationsAndTransfer]** TauCetiRoadmap contributors,
+  [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md),
+  R17.6.3a–R17.6.3b, version b4365ef.
 
 - **[TCR-LefschetzPencilsAndVanishingCycles]** TauCetiRoadmap contributors, Lefschetz pencils, nearby cycles and vanishing cycles. README.md, version 4c7deab75898820bcc1fedd1db4df1010cfc2303.
 

@@ -228,7 +228,12 @@ theorem jordanModule_constituents_not_semisimple :
 
 /-! ## Layer 6: cohomological correspondences and contracting trace formulas
 
-The geometric correspondence and trace-class constructions are specified in README.md.
+README §§6.3–6.5 specify the general-scheme correspondence and trace-class targets.
+On smooth proper curves, `CohCorr.traceMap`, `CohCorr.localTerm`,
+`tracePushforwardCompatibility`, `lefschetzVerdierTraceFormula` and `contractingLocalTerms`
+are adapters to GL2AutomorphicRepresentationsAndTransfer R17.6.3a–R17.6.3b, with their
+comparison equations in README §§6.3 and 6.5. The general filtered
+additivity and specialization targets use those same supplied curve trace maps.
 `CohCorr.restrictClosed` uses reduced support. For schematically invariant closed subschemes,
 the full scheme restriction has the same cohomological restriction and trace under étale
 nilpotent invariance.
