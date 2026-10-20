@@ -53,6 +53,11 @@ example : transitionPolynomial ℤ 2 0 1 = 2 + Polynomial.X := by
   norm_num [transitionPolynomial, Finset.sum_range_succ]
   ring
 
+/-- Augmentation of the norm polynomial records the extension degree. -/
+theorem transitionPolynomial_eval_zero (R : Type*) [Ring R] (p m d : ℕ) :
+    (transitionPolynomial R p m d).eval 0 = (p : R) ^ d := by
+  sorry
+
 /-! ## Layer 1: circular units and their indices -/
 
 /-- The unsmoothed cyclotomic ratio; its domain excludes ζ=1 in the theorems. -/
@@ -78,8 +83,8 @@ theorem cyclotomicRatio_mul {K : Type*} [Field K] (ζ : K) (a b : ℕ)
 
 /-! ## Layer 3: control and class-number growth -/
 
-/-- Class-number valuations in the full cyclotomic exponent tower. The shift from
-the torsion-free layer index is absorbed into the eventual integer constant. -/
+/-- Class-number valuations in the full cyclotomic exponent tower. A shift r from
+the torsion-free layer index multiplies μ by p^r and replaces ν by ν+rλ. -/
 noncomputable def cyclotomicClassVal (p m n : ℕ) : ℕ :=
   padicValNat p (NumberField.classNumber (CyclotomicField (m * p ^ (n + 1)) ℚ))
 
@@ -256,13 +261,15 @@ def finiteLayerIdeal (O : Type*) [CommRing O] (p a n : ℕ) : Ideal (PowerSeries
   Ideal.span {PowerSeries.C ((p : O) ^ a),
     (1 + PowerSeries.X) ^ (p ^ n) - 1}
 
-/-- The joint ideals at a=1, n=0 contain p and T, rather than T alone. -/
-example : PowerSeries.X ∈ finiteLayerIdeal ℤ 2 1 0 := by
-  have h : (1 + PowerSeries.X : PowerSeries ℤ) ^ (2 ^ 0) - 1 =
-      PowerSeries.X := by simp
-  rw [finiteLayerIdeal]
-  rw [← h]
-  exact Ideal.subset_span (by simp)
+/-- The first joint ideal retains coefficient precision as well as the tower relation. -/
+example : finiteLayerIdeal ℤ_[2] 2 1 0 ≠ Ideal.span {PowerSeries.X} := by
+  intro h
+  have htwo : PowerSeries.C (2 : ℤ_[2]) ∈ finiteLayerIdeal ℤ_[2] 2 1 0 := by
+    apply Ideal.subset_span
+    simp
+  rw [h, Ideal.mem_span_singleton, PowerSeries.X_dvd_iff] at htwo
+  have hne : (2 : ℤ_[2]) ≠ 0 := by norm_num
+  exact hne (by simpa only [PowerSeries.constantCoeff_C] using htwo)
 
 /-- Coefficient precision zero gives the unit ideal, fixing the boundary convention. -/
 example : finiteLayerIdeal ℤ 2 0 4 = ⊤ := by
@@ -295,7 +302,7 @@ ZpExtension, layer, layerNorm, arithmeticCompletedAction, compatibleCyclotomicTo
 cyclotomicNumbers, cyclotomicUnits, realCyclotomicUnits, smoothedCyclotomicUnit,
 abelianCircularUnits, sinnottDistributionLattice, classGroupLimit, classGroupDirectLimit,
 unitLimit, principalUnitLimit, globalUnitClosure, leopoldtDefect, LeopoldtConjecture,
-algebraicLog, leopoldtLogMap, maximalProPExtension,
+algebraicLog, leopoldtLogMap, leopoldt_iff_logMatrix_fullRank, maximalProPExtension,
 unramifiedModule, pRamifiedModule, splitClassModule, normMinusClassLimit,
 realUnitRadical, towerMu, towerLambda, towerNu, GreenbergCondition, gammaTransform,
 StickelbergerElement, smoothedStickelberger, sinnottKuriharaIdeal, MainConjecture,
