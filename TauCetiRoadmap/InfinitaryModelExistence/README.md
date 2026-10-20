@@ -124,11 +124,11 @@ or interpolation theorems (checked at the pinned Mathlib); all are targets here.
 
 This roadmap owns the objects in the layers below. Its sibling roadmaps consume them:
 
-* **CountableStructureSpaces** (spaces of countable structures and López–Escobar) consumes exactly
+* **[CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (spaces of countable structures and López–Escobar) consumes exactly
   `PCMem` and `pcSeparation`, in the sum-language form of Layer 7, for the hard direction of
   López–Escobar. It owns the structure space, López–Escobar and the non-Borelness of the well-order
   class.
-* **HanfNumbers** (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
+* **[HanfNumbers](../HanfNumbers/README.md)** ([#1319](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)) (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
   * from 0.1, `onBoundedFormulaInf` and `realize_onBoundedFormulaInf`;
   * from 0.2, `functionsIn`, `relationsIn`, their countability lemmas and
     `realize_congr_of_agreeOn`;
@@ -144,7 +144,7 @@ This roadmap owns the objects in the layers below. Its sibling roadmaps consume 
   It does not consume model existence, direct limits, the cardinal-bound Löwenheim–Skolem theorem
   or `fragmentType`. It owns smallness (`Lω₁ω`-small structures), small models, complete sentences
   and everything about indiscernibles and Hanf numbers.
-* **CountableModelCounting** consumes `onBoundedFormulaInf`, `realize_onBoundedFormulaInf`,
+* **[CountableModelCounting](../CountableModelCounting/README.md)** ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) consumes `onBoundedFormulaInf`, `realize_onBoundedFormulaInf`,
   `Fragment`, `Fragment.generated`, `Fragment.generated_countable`, `Fragment.slice` with the
   realized truth assignment, `fragmentType`, `morleyize`, `lhomMorleyize`, `morleyExpansion`, the
   relational and countable instances of `morleyize`, `nonempty_morleyEquiv_iff`,
@@ -832,7 +832,7 @@ The following belong to separate roadmaps or to the named sibling.
   the well-order class (CountableStructureSpaces); **indiscernibles, Ehrenfeucht–Mostowski models,
   Hanf numbers, smallness, small models and complete sentences** (HanfNumbers); **counting
   countable models** (CountableModelCounting).
-* **Borel equivalence relations and Silver's theorem** (BorelEquivalenceRelations). Scott
+* **Borel equivalence relations and Silver's theorem** ([BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317))). Scott
   processes; the general Glimm–Effros dichotomy of Harrington, Kechris and Louveau and
   Gandy–Harrington effective topology; and the coanalytic form of Silver's theorem and Burgess's
   dichotomy for analytic equivalence relations belong to separate roadmaps.
