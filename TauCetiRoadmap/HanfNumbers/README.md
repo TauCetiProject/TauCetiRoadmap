@@ -49,7 +49,7 @@ Every layer below is required. The ordering is the dependency order: no layer us
 
 | Layer | Builds | Consumes | Acceptance check (compiles without later layers) |
 |---|---|---|---|
-| 0 | Homogeneous and end-homogeneous sets, the partition relation, pigeonhole, end-homogeneity, Erdős–Rado `ℶₙ(κ)⁺ → (κ⁺)ⁿ⁺¹_κ`, the beth and all-arities forms, the `ω₁`-pigeonhole | Mathlib cardinals, ordinals, `Finset.orderEmbOfFin` | `erdos_rado` at `n = 1`: `(2^κ)⁺ → (κ⁺)²_κ` |
+| 0 | Homogeneous and end-homogeneous sets, the partition relation, pigeonhole, end-homogeneity, Erdős–Rado `ℶₙ(κ)⁺ → (κ⁺)ⁿ⁺¹_κ` and its beth form, the `ω₁`-pigeonhole | Mathlib cardinals, ordinals, `Finset.orderEmbOfFin` | `erdos_rado` at `n = 1`: `(2^κ)⁺ → (κ⁺)²_κ` |
 | 1 | Indiscernible sequences, templates, realization of templates, the Morley seed | InfinitaryLogic Layer 0 | an injective sequence in a model of `φ` is indiscernible for the Morley seed |
 | 2 | The Skolem tower of a countable set of formulas, Skolem templates, the Ehrenfeucht–Mostowski term model and its truth lemma, functoriality, Ehrenfeucht–Mostowski sources, stretching with the cardinality bound and with exact cardinality | 1; IME Layers 0.1, 0.4, 1.2, 2.2 | the EM model of the identity sequence of `(ℚ, <)` over any `J` |
 | 3 | Approximation by homogeneous sets, the template construction, extraction of an Ehrenfeucht–Mostowski source, the Morley–Hanf theorem with exact cardinalities, Hanf bounds and Hanf numbers, the countable-theory and omitting-types corollaries | 0, 2; IME Layers 0.1–0.3, 1.1 | `morley_hanf` for the empty language |
