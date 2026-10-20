@@ -43,7 +43,7 @@ lemma, invariant Lusin separation, a vocabulary of perfect and Cantor antichains
 reducibility, smoothness, and E₀ with its non-smoothness.
 
 The roadmap has no model-theoretic content and no model-theoretic dependency. Its principal
-consumer is the [CountableModelCounting](../CountableModelCounting/README.md) roadmap, which
+consumer is the [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) roadmap, which
 counts countable models through the interface of Layer 4.
 
 ## Scope and dependency order
@@ -521,7 +521,7 @@ continuous injection `ψ` of Cantor space whose distinct points are pullback-ine
 
 ### 4.3 The consumer interface
 
-The counting of countable models in [CountableModelCounting](../CountableModelCounting/README.md)
+The counting of countable models in [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318))
 consumes the following, and nothing about structures is stated here:
 
 - the antichain vocabulary `HasCantorAntichainOn`, `HasPerfectAntichainOn` and `IsThinOn`, with
@@ -684,18 +684,18 @@ The following belong to separate roadmaps.
   numbers, Borel Brooks-type theorems) and the Lecomte–Miller basis theorems.
 - Everything about spaces of countable structures: the structure space, model classes,
   López–Escobar and the Borel complexity of isomorphism belong to
-  [CountableStructureSpaces](../CountableStructureSpaces/README.md); the counting of countable
-  models belongs to [CountableModelCounting](../CountableModelCounting/README.md).
+  [CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)); the counting of countable
+  models belongs to [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)).
 
 ## Coordination
 
 - **Infinitary logic.** The [InfinitaryLogic](../InfinitaryLogic/README.md) roadmap lists the
   Silver and G₀ dichotomies among the invariant descriptive set theory it leaves to separate
   roadmaps; this is the general part of that material. It is consumed by
-  [CountableModelCounting](../CountableModelCounting/README.md) through the interface of 4.3, and
+  [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) through the interface of 4.3, and
   this roadmap consumes nothing from either.
 - **Spaces of countable structures.**
-  [CountableStructureSpaces](../CountableStructureSpaces/README.md) consumes four general
+  [CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) consumes four general
   results, none of which mentions structures: `IsGδ.polishSpace` and `IsGδ.standardBorelSpace`
   (Layer 0.2), for Gδ model classes; `AnalyticSet.prod` (Layer 0.3); and
   `exists_invariant_measurableSet_separating` (Layer 2.2), for separation invariant under the
