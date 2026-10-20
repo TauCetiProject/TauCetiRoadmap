@@ -67,6 +67,10 @@ theorem kottwitzSign_gl (n r : ℕ) (hr : 1 ≤ r) (hrn : r ≤ n) :
 example (r : ℕ) : kottwitzSign r r = 1 := by
   simp [kottwitzSign]
 
+/-- The quaternionic inner form of GL₂ has derived ranks 1 and 0 and sign −1. -/
+example : kottwitzSign 1 0 = -1 := by
+  simp [kottwitzSign]
+
 section GLn
 variable {ι : Type*} [Fintype ι] [DecidableEq ι] {K : Type*} [Field K]
 
@@ -122,9 +126,20 @@ example (κ : Multiplicative (ZMod 3) →* ℂˣ) :
   simp [kappaSum]
   rfl
 
-/-- With one class and trivial character the sum is evaluation. -/
-example (O : Unit → ℂ) : kappaSum (1 : Unit →* ℂˣ) O = O () := by
-  simp [kappaSum]
+/-- In the order-two stable class, the sign character weights orbital values 3 and 1 by 1 and −1. -/
+example (κ : Multiplicative (ZMod 2) →* ℂˣ)
+    (hκ : (κ (Multiplicative.ofAdd 1) : ℂ) = -1) :
+    kappaSum κ (fun d => if d = 1 then 3 else 1) = 2 := by
+  classical
+  unfold kappaSum
+  rw [← Equiv.sum_comp Multiplicative.ofAdd]
+  change (∑ i : Fin 2, (κ (Multiplicative.ofAdd (i : ZMod 2)) : ℂ) *
+    (if Multiplicative.ofAdd (i : ZMod 2) = 1 then 3 else 1)) = 2
+  rw [Fin.sum_univ_two]
+  norm_num
+  change (κ 1 : ℂ) * 3 + (κ (Multiplicative.ofAdd 1) : ℂ) = 2
+  rw [hκ, map_one]
+  norm_num
 end KappaSum
 
 /-! ## Layer 3: Hitchin geometry and support
@@ -188,7 +203,9 @@ example (a : Fin 2 → K) :
 end ChevalleyGL
 
 /-- A finite power sum vanishing at every sufficiently large exponent has zero coefficients
-when its bases are distinct and nonzero. Consecutive exponents give a Vandermonde matrix. -/
+when its bases are distinct and nonzero. Consecutive exponents give a Vandermonde matrix;
+the result is a corollary of Mathlib’s
+`Matrix.eq_zero_of_forall_pow_sum_mul_pow_eq_zero`. -/
 theorem powerSum_coefficients_eq_zero_of_eventually
     {ι K : Type*} [Fintype ι] [Field K] (α c : ι → K)
     (hα : Function.Injective α) (hα0 : ∀ i, α i ≠ 0)
@@ -227,19 +244,29 @@ Its group interpretation requires d>0 and a nonempty list of positive sizes. -/
 def unitaryComponentCount (d : ℕ) (blocks : List ℕ) : ℕ :=
   if Even d ∨ ∀ i ∈ blocks, Even i then 2 ^ blocks.length else 2 ^ (blocks.length - 1)
 
+/-- One odd block and odd degree give the one-component case of §6.5. -/
+example : unitaryComponentCount 1 [1] = 1 := by decide
+
+/-- Two even blocks give four components, as in the Tamagawa calculation for G₂,₂. -/
+example : unitaryComponentCount 1 [2, 2] = 4 := by decide
+
 /-- The endoscopic coefficient from Tamagawa numbers and the outer automorphism order.
 In its group application τH and outH are nonzero. -/
 def endoscopicCoefficient (τG τH : ℚ) (outH : ℕ) : ℚ := τG / τH / outH
 
 /-- The numerical trivial-datum identity of §6.7, with nonzero Tamagawa number. -/
 theorem endoscopicCoefficient_self (τ : ℚ) (hτ : τ ≠ 0) : endoscopicCoefficient τ τ 1 = 1 := by
-  sorry
+  simp [endoscopicCoefficient, hτ]
 
 /-- The equal-block coefficient identity of §6.7 retains the Tamagawa ratio
 alongside the order-two outer automorphism denominator. -/
 theorem endoscopicCoefficient_equal_blocks (τG τH : ℚ) :
     endoscopicCoefficient τG τH 2 = τG / (2 * τH) := by
-  sorry
+  simp [endoscopicCoefficient, div_div, mul_comm]
+
+/-- For G₄ and G₂,₂ the Tamagawa numbers 2 and 4 and outer order 2 give coefficient 1/4. -/
+example : endoscopicCoefficient 2 4 2 = 1 / 4 := by
+  norm_num [endoscopicCoefficient]
 
 /-! ## Layer 7: algebraic isocrystals and rational Igusa geometry
 PadicHodgeTheory §5.5 supplies sigmaConjugacy, B(G), the tensor Newton map,
@@ -281,6 +308,11 @@ example {r : ℕ} (vals : Fin r → Finset ℚ) (i j : Fin r) (hij : i < j)
     (x : ℚ) (hi : x ∈ vals i) (hj : x ∈ vals j) : ¬ AcceptableValuations vals := by
   intro h
   exact (lt_irrefl x) (h i j hij x hi x hj)
+
+/-- The ordinary slope pair (1,0) accepts δ=(1,p), with valuations 0 then 1. -/
+example : AcceptableValuations ![({0} : Finset ℚ), {1}] := by
+  intro i j hij x hx y hy
+  fin_cases i <;> fin_cases j <;> simp_all
 
 /-! ## Layer 9: raw compact-unitary cohomology
 The geometric complex, its graded pieces and its commuting actions are README targets. -/
@@ -392,7 +424,7 @@ theorem comparisonTrace_addMultiplicity {ι : Type*} (s : Finset ι)
     (m₁ m₂ c l a h : ι → ℚ) :
     comparisonTrace s (m₁ + m₂) c l a h =
       comparisonTrace s m₁ c l a h + comparisonTrace s m₂ c l a h := by
-  sorry
+  simp [comparisonTrace, add_mul, Finset.sum_add_distrib]
 
 /-- The merging identity of §15.1 sums multiplicities in each fibre when the remaining
 four factors depend only on its image. Empty fibres contribute zero. -/
@@ -400,7 +432,14 @@ theorem comparisonTrace_merge {ι κ : Type*} [Fintype ι] [Fintype κ] [Decidab
     (f : ι → κ) (m : ι → ℚ) (c l a h : κ → ℚ) :
     comparisonTrace Finset.univ m (c ∘ f) (l ∘ f) (a ∘ f) (h ∘ f) =
       comparisonTrace Finset.univ (fun j => ∑ i with f i = j, m i) c l a h := by
-  sorry
+  simp only [comparisonTrace, Function.comp]
+  rw [← Finset.sum_fiberwise Finset.univ f]
+  simp only [Finset.sum_mul]
+  apply Finset.sum_congr rfl
+  intro j _
+  apply Finset.sum_congr rfl
+  intro i hi
+  rw [(Finset.mem_filter.mp hi).2]
 
 /-- The diagonal-trace comparison of §15.1 identifies the finite sum with the matrix trace. -/
 theorem comparisonTrace_eq_trace_diagonal {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -408,12 +447,21 @@ theorem comparisonTrace_eq_trace_diagonal {ι : Type*} [Fintype ι] [DecidableEq
     comparisonTrace Finset.univ multiplicity coefficient localTrace auxiliaryTrace sphericalTrace =
       Matrix.trace (Matrix.diagonal fun i =>
         multiplicity i * coefficient i * localTrace i * auxiliaryTrace i * sphericalTrace i) := by
-  sorry
+  simp [comparisonTrace]
 
 /-- The zero-local-factor identity of §15.1 holds for arbitrary signed multiplicities. -/
 theorem comparisonTrace_zeroLocal {ι : Type*} (s : Finset ι) (m c a h : ι → ℚ) :
     comparisonTrace s m c (fun _ => 0) a h = 0 := by
-  sorry
+  simp [comparisonTrace]
+
+/-- The inner-form term of §15.1 retains the negative sign and all three trace factors. -/
+example : comparisonTrace ({()} : Finset Unit) (fun _ => 2) (fun _ => -1) (fun _ => 3)
+    (fun _ => 5) (fun _ => 7) = -210 := by
+  norm_num [comparisonTrace]
+
+/-- An empty spectral family contributes zero for arbitrary multiplicities and trace factors. -/
+example {ι : Type*} (m c l a h : ι → ℚ) : comparisonTrace ∅ m c l a h = 0 := by
+  simp [comparisonTrace]
 
 /-
 Further objects and constructions are specified in README.md:
