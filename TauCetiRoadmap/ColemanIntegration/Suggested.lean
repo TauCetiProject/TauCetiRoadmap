@@ -20,9 +20,14 @@ L0.13 extend it to general ultrametric fields of characteristic zero. The Lauren
 convolution and Gauss norms below are adapters to PadicDifferentialEquationsAndRigidCohomology
 RD.0.1–RD.0.2. Compact preparation, finite Newton breaks and the dominant-term unit criterion
 come from RD.0.18, with derivation supplied by RD.0.36. Its annulus series are two-sided coefficient families `ℤ → K` with a decay predicate, not Mathlib's `LaurentSeries`,
-whose supports are bounded below. The complex polylogarithm uses its scalar series, with a
-principal logarithm at weight one. Cross-ratios use homogeneous determinants in the displayed
-order. The Amice operator is `(1 + T) d/dT`, and smoothing cancels poles before formal inversion.
+whose supports are bounded below. PolylogarithmFunctions §§1.1–1.7 and §3.1 supply the
+complex analytic family: `complexPolylog k z = polylog k z` for `1 ≤ k` and `‖z‖ ≤ 1`.
+The scalar-series body below realizes this closed-disc adapter, with the principal logarithm
+at weight one. The ordered weight-one boundary series and arithmetic comparisons belong here.
+Its §§4.2–4.7 supply `singleValued`; L3.Fc.3 converts its real values to the complex line,
+multiplying by `Complex.I` in even weight. Cross-ratios use homogeneous determinants in the
+displayed order. Their coordinate comparison, invariance and normalization transport §5.8
+through `OnePoint.equivProjectivization`, with bracket `1 - crossRatioSphere` on distinct tuples. The Amice operator is `(1 + T) d/dT`, and smoothing cancels poles before formal inversion.
 The Coleman coefficient extension is algebraic: `B = A_K⁺ ⊗_K ℂ_p`, with word algebra
 `U_B = U_K ⊗_K ℂ_p`. L1.17a supplies meromorphic-primitive descent into `B` and
 restriction injectivity; the full `ℂ_p` dagger algebra is a distinct coefficient ring.
@@ -43,9 +48,10 @@ structure IsLogBranch (p : ℕ) [Fact p.Prime] (a : ℂ_[p]) (L : ℂ_[p] → �
   hasSum_one_add : ∀ x : ℂ_[p], ‖x‖ < 1 →
     HasSum (fun n : ℕ => (-1 : ℂ_[p]) ^ n * x ^ (n + 1) / (n + 1)) (L (1 + x))
 
-/-- For `k ≥ 2`, `Li_k^ℂ(z) = ∑_{n ≥ 1} zⁿ/nᵏ` on the closed unit disc. At weight one use
-`-log (1-z)`: its boundary series converges in the natural order, whereas Mathlib's `tsum`
-requires unconditional convergence and would give zero at `z = -1`. -/
+/-- The closed-disc adapter to PolylogarithmFunctions §§1.1–1.7:
+`complexPolylog k z = polylog k z` for `1 ≤ k` and `‖z‖ ≤ 1`, with the totalised value
+at `k = 1, z = 1`. Its scalar-series realization uses `-log (1-z)` at weight one, whose
+boundary series converges in the natural order. Values off the disc have no analytic contract. -/
 def complexPolylog (k : ℕ) (z : ℂ) : ℂ :=
   if k = 1 then -Complex.log (1 - z)
   else ∑' n : ℕ, z ^ (n + 1) / ((n + 1 : ℕ) : ℂ) ^ k
@@ -594,13 +600,14 @@ end PolylogSeries
 
 section ComplexPolylog
 
-/-- L2.Fa: for `k ≥ 2` the series converges absolutely on the closed disc and its sum is
-continuous there. -/
+/-- L2.Fa: the closed-disc adapter inherits continuity in weights at least two from
+PolylogarithmFunctions §1.7 through `complexPolylog k z = polylog k z`. -/
 theorem complexPolylog_continuousOn {k : ℕ} (hk : 2 ≤ k) :
     ContinuousOn (complexPolylog k) (Metric.closedBall 0 1) := by
   sorry
 
-/-- L2.Fa: on the unit circle the values are Mathlib's exponential zeta function. -/
+/-- L2.Fa: the closed-disc adapter inherits the unit-circle exponential-zeta comparison
+from PolylogarithmFunctions §1.7. -/
 theorem complexPolylog_eq_expZeta {k : ℕ} (hk : 2 ≤ k) (x : ℝ) :
     complexPolylog k (Complex.exp (2 * Real.pi * Complex.I * x)) = HurwitzZeta.expZeta x k := by
   sorry
@@ -615,8 +622,9 @@ theorem complexPolylog_inversion_rootOfUnity {k : ℕ} (hk : 1 ≤ k) {x : ℝ} 
         ((Polynomial.bernoulli k).map (algebraMap ℚ ℂ)).eval (x : ℂ) := by
   sorry
 
-/-- L2.Fa: the defining series sums unconditionally on the closed disc in weights at
-least two, and on the open disc in weight one. -/
+/-- L2.Fa: through closed-disc restriction, the series theorem of PolylogarithmFunctions
+§§1.3 and 1.7 gives unconditional convergence in weights at least two on the closed disc,
+and in weight one on the open disc. -/
 theorem complexPolylog_hasSum {k : ℕ} {z : ℂ}
     (h : (2 ≤ k ∧ ‖z‖ ≤ 1) ∨ (k = 1 ∧ ‖z‖ < 1)) :
     HasSum (fun n : ℕ => z ^ (n + 1) / ((n + 1 : ℕ) : ℂ) ^ k) (complexPolylog k z) := by
@@ -630,8 +638,8 @@ theorem complexPolylog_rootOfUnity_one {N : ℕ} (hN : 0 < N) {ζ : ℂ}
       atTop (𝓝 (complexPolylog 1 ζ)) := by
   sorry
 
-/-- L2.Fa: averaging over all `m`-th roots of unity gives the distribution relation
-throughout the closed unit disc. -/
+/-- L2.Fa: closed-disc restriction transports the distribution relation of
+PolylogarithmFunctions §3.1, extended to the boundary by its §1.7 continuity. -/
 theorem complexPolylog_distribution {k m : ℕ} (hk : 2 ≤ k) (hm : 0 < m)
     {z : ℂ} (hz : ‖z‖ ≤ 1) :
     complexPolylog k (z ^ m) = (m : ℂ) ^ (k - 1) *
@@ -664,8 +672,10 @@ def infinity : Point K :=
 /-- The determinant of two coordinate vectors. -/
 def detPair (v w : Fin 2 → K) : K := v 0 * w 1 - v 1 * w 0
 
-/-- The cross-ratio `Δ(a,b)Δ(c,d)/(Δ(a,d)Δ(c,b))`, independent of representatives; the quotient
-is total and every analytic use carries pairwise distinctness. -/
+/-- The determinant realization of the bracket adapter to PolylogarithmFunctions §5.8.
+For distinct `a,b,c,d : OnePoint K` and `e = OnePoint.equivProjectivization K`,
+`crossRatio K (e a) (e b) (e c) (e d) = 1 - crossRatioSphere a b c d`.
+The quotient is total; the comparison with `1 - r` requires distinctness. -/
 def crossRatio (a b c d : Point K) : K :=
   detPair K a.rep b.rep * detPair K c.rep d.rep /
     (detPair K a.rep d.rep * detPair K c.rep b.rep)
@@ -674,18 +684,21 @@ def crossRatio (a b c d : Point K) : K :=
 def normalizedFive (x y : K) : Fin 5 → Point K :=
   ![infinity K, finitePoint K 0, finitePoint K 1, finitePoint K x, finitePoint K y]
 
-/-- L2.Fb: the affine formula for the homogeneous cross-ratio. -/
+/-- L2.Fb: the finite-chart form of the determinant bracket adapter to
+PolylogarithmFunctions §5.8, with its total values at coincidences. -/
 theorem crossRatio_finite (a b c d : K) :
     crossRatio K (finitePoint K a) (finitePoint K b) (finitePoint K c) (finitePoint K d) =
       (a - b) * (c - d) / ((a - d) * (c - b)) := by sorry
 
-/-- L2.Fb: the cross-ratio of four distinct points avoids zero and one. -/
+/-- L2.Fb: the bracket `1 - r` transported from PolylogarithmFunctions §5.8 through
+`OnePoint.equivProjectivization` avoids zero and one on distinct tuples. -/
 theorem crossRatio_admissible (s : Fin 4 → Point K) (hs : Function.Injective s) :
     crossRatio K (s 0) (s 1) (s 2) (s 3) ≠ 0 ∧
       crossRatio K (s 0) (s 1) (s 2) (s 3) ≠ 1 := by
   sorry
 
-/-- L2.Fb: an invertible linear change of homogeneous coordinates preserves the cross-ratio. -/
+/-- L2.Fb: the linear-equivalence adapter to Möbius invariance in PolylogarithmFunctions
+§5.8 preserves the bracket. Determinant covariance also preserves total values at coincidences. -/
 theorem crossRatio_linearEquiv (g : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) (a b c d : Point K) :
     crossRatio K (Projectivization.map g.toLinearMap g.injective a)
       (Projectivization.map g.toLinearMap g.injective b)
@@ -693,7 +706,8 @@ theorem crossRatio_linearEquiv (g : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) (a b 
       (Projectivization.map g.toLinearMap g.injective d) = crossRatio K a b c d := by
   sorry
 
-/-- L2.Fb: every distinct projective five-tuple admits the normal form `(∞,0,1,x,y)`. -/
+/-- L2.Fb: five-point normalization from PolylogarithmFunctions §5.8 transported through
+`OnePoint.equivProjectivization`; the `GL₂` action becomes the induced projective linear map. -/
 theorem normalize_five (s : Fin 5 → Point K) (hs : Function.Injective s) :
     ∃ (g : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) (x y : K),
       x ≠ 0 ∧ x ≠ 1 ∧ y ≠ 0 ∧ y ≠ 1 ∧ x ≠ y ∧
@@ -871,8 +885,9 @@ end PositiveIntegerValues
   five-term defect, boundary analysis and five-term theorem (L2.18–L2.69); the integral
   pre-Bloch group, antisymmetric tensor quotient, boundary, Bloch group, functorial maps
   and dilogarithm evaluation (L2.Fb); the projective dilogarithm theorem and twisted sums
-  (L2.70–L2.71). The complex series and the scalar-to-projective algebraic reduction
-  have representative signatures above.
+  (L2.70–L2.71). The closed-disc adapters to PolylogarithmFunctions §§1.1–1.7 and §3.1,
+  the projective-coordinate adapters to its §5.8, and the scalar-to-projective algebraic
+  reduction have representative signatures above.
 * L3: geometric and smoothed measures, Taylor primitives and polylogarithmic moments,
   character transforms and the p-adic L-function forms of Coleman's formula
   (L3.1–L3.12, L3.17–L3.35); the modified regulator polylogarithm (L3.14), rational
@@ -880,6 +895,15 @@ end PositiveIntegerValues
   pairings and Artin L-functions with coefficients (L3.Fa.1–L3.Fd.2); cyclotomic
   regulators and the p-adic Beilinson conjecture, including the dyadic formulas
   (L3.15–L3.16, L3.36–L3.37).
+
+In L3.Fc.3, `zagierPolylog n z = (singleValued n z : ℂ)` for odd `n ≥ 2`, and
+`zagierPolylog n z = Complex.I * singleValued n z` for even `n ≥ 2`, using the family
+of PolylogarithmFunctions §§4.2–4.7. Its `zagierPolylog_inv`, `zagierPolylog_distribution`
+and `zagierPolylog_conj` transport the supplied relations to the complex line.
+At weight one the adapter is `-Real.log ‖1 - z‖` for `z ≠ 1`, with the logarithm's
+conjugation and distribution laws and no inversion law. `zagierPolylog_rootOfUnity`
+is the character-weighted arithmetic comparison; the regulator and cyclotomic determinant
+calculations retain the raw-symbol factor `(-1)^n * (n - 1)!`.
 
 In L3.Fb.1, `modSyntomicComplex` is indexed by `(φ,q)`. The chain map
 `modSyntomicComplex.iterate` to `(φ^m,q^m)` sends `(ω,ε)` to
