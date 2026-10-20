@@ -69,8 +69,8 @@ Oort–Tate classification over a ring and over rings of integers, the Katz–Ma
 of schematic closures, gluing from a completion and a localisation, and the Mayer–Vietoris sequence
 for `Hom` and `Ext¹`. Global admissible groups, their marked quasi-finite models over `ℤ`,
 geometric-fibre lengths and fppf cohomology bound; global rank-one classification, the
-cyclotomic class-group obstruction and global Ext vanishing, odd purity, and the dyadic
-`D`-model and finite-flat amalgams. Raynaud's embedding into abelian schemes, lifting along henselian pairs and flat
+finite-flat application of the supplied cyclotomic class-group obstruction and global Ext
+vanishing, odd purity, and the dyadic `D`-model and finite-flat amalgams. Raynaud's embedding into abelian schemes, lifting along henselian pairs and flat
 descent of `p`-divisible groups. Dieudonné theory: the canonical decomposition, the
 multiplicative–connected–étale filtration, finite Witt group schemes, the Dieudonné ring and the
 classification of finite commutative `p`-group schemes and of `p`-divisible groups over a perfect
@@ -199,7 +199,11 @@ complex, Fargues' degree function and canonical subgroups belong to HodgeTateAnd
 LocalGaloisDeformationRings consumes the scalar
 Fontaine–Laffaille theory of R07.3 and owns its common coefficient extension in §1.6: the shared
 coefficient category, labelled factors and their Frobenius permutation, and the covariant
-realization by lattice and Pontryagin duals. AutomorphicGaloisRepresentations and
+realization by lattice and Pontryagin duals. Section R07.6.7 uses only commuting finite-field
+actions on the scalar category to calculate extension spaces. The generic deformation functors,
+Schlessinger conditions and representing-ring consequences belong to LocalGaloisDeformationRings
+F.1.1–F.1.4, F.2.5, F.3.1–F.3.2 and §4.1; none is an input to R07.6.7.
+AutomorphicGaloisRepresentations and
 PotentialAutomorphyInfrastructure consume these specializations for labelled weights and
 automorphic applications; Serre's computation of the characters on `E[p]` for ramified
 bases `e > 1` belongs to SerreWeightAndLevelOptimisation. The general `p`-adic comparison theorems
@@ -2777,11 +2781,32 @@ Deduce Herbrand's implication `B_{ℓ−j} ≢ 0 mod ℓ ⇒ Y^(j) = 0`, and in 
 `x ↦ gxg⁻¹` on the Hilbert-class Galois group. Thus no nonzero everywhere
 unramified cyclic `ℓ`-extension of `K`, Galois over `ℚ`, has that inverse-character
 conjugation action. At `ℓ = 2`, `K = ℚ` has trivial class group.
-This is the class-group input to the Ext theorem below, with its annihilator and
-Bernoulli congruence argument included here. Source: Mazur 1977, I §2,
-Proposition 2.8 and Corollaries 2.9–2.10 with proof, pp.52–54.
+Use CyclotomicClassGroupsAndStickelberger §§0.2–0.3, 2.1–2.5, 3.1–3.2 and 8.1–8.3:
+its `cyclotomicClassEigenspaces`, `bernoulli_annihilates_component`, `herbrand`,
+`cyclotomicClassEigenspace_one_eq_zero`, `inverseCharacterClassGroup` and
+`inverseCharacterUnramifiedQuotient_zero` supply this prime-conductor specialization,
+with the same covariant ideal action. That roadmap owns the integral annihilator and
+eigenspace proof; this target transports it to the finite-flat Ext calculation.
+Source: Mazur 1977, I §2, Proposition 2.8 and Corollaries 2.9–2.10, pp.52–54;
+Sharifi, *Iwasawa Theory*, Lemmas 4.5.2, 4.5.4–4.5.5 and Theorems 4.5.6–4.5.7,
+pp.114–117. The annihilator proof uses Gauss-sum ideal factorization to annihilate
+classes by integral smoothings `(b−[b])θ_ℓ`, where
+`θ_ℓ = (1/ℓ) Σ_a a[a⁻¹]`, `[a]` denotes `ζ_ℓ ↦ ζ_ℓ^a`, and `b` is a positive
+integer prime to `ℓ`. Projection to the `ω^j` component gives
+`(b−ω(b)^j)L_j`. For `j ≠ 1`, choose a unit smoothing factor. At `j = 1`, let
+`L_1` denote the same weighted sum; it need not be integral, but `b = 1+ℓ`
+gives the unit `ℓL_1`. Bernoulli congruences give the stated implication.
 
-*Needs:* ClassFieldTheory Layers 11–13 (Hilbert class fields and reciprocity,
+Related formalizations are [SKW, revision 20218b5](https://github.com/xroblot/SKW/tree/20218b5bf97b1c49fc3f1c4e6c2ea996fe66cfc9)
+for Gauss-sum factorization and [KummerCriterion, revision 89967c4](https://github.com/riccardobrasca/KummerCriterion/tree/89967c49526beb9b38e03e91060d15c04e964fae)
+for Bernoulli values and Kummer congruences. API alignment and proof reuse belong to
+the cyclotomic supplier. These projects are external to the pins; SKW's admitted
+prerequisites and its terminal denominator-cleared annihilator do not supply the
+integral smoothings or the exceptional eigenspace statement by themselves.
+
+*Needs:* CyclotomicClassGroupsAndStickelberger §§0.2–0.3, 2.1–2.5, 3.1–3.2 and 8.1–8.3
+(integral annihilation, character components and the unramified inverse-character obstruction);
+ClassFieldTheory Layers 11–13 (Hilbert class fields and reciprocity,
 including equivariance); GlobalNumberFields (ideal classes and cyclotomic fields);
 Mathlib's Bernoulli numbers, `PadicInt` and finite group actions.
 
@@ -2795,6 +2820,8 @@ Mathlib's Bernoulli numbers, `PadicInt` and finite group actions.
 - For `ℓ = 2`, `Y = 0`; for every odd `ℓ`, use the Teichmüller lift on the entire
   `ℓ`-primary group, since multiplication by a residue-field scalar alone does not
   define an action on a group of exponent `ℓ²`.
+- For `ℓ = 5`, `5L_1 ≡ −1 mod 5`, so `L_1` is not integral. The exceptional
+  vanishing uses the unit `5L_1`, whereas `L_3` itself is an integral unit.
 
 <a id="admissible-global-ext-vanishing"></a>
 
@@ -2815,7 +2842,12 @@ these classes with the dual of an inverse-character quotient of the unramified
 cyclotomic class group, and the preceding obstruction makes them vanish.
 Give the comparison with the local/complement extension classes of §R07.1.39;
 that exact sequence supplies gluing, while this arithmetic calculation supplies
-vanishing. Source: Mazur 1977, I Proposition 2.1 and proof, pp.49–54;
+vanishing. SmallRamificationAndAbelianVarietyBaseCases §3.3 specializes this
+vanishing at `ℓ = 2` as `ext_muTwo_zModTwo_eq_zero`. Its independent classification
+of simple finite flat two-groups establishes admissibility; applying
+`admissibleConnectedEtaleFiltration` then gives its
+`exists_diagonalizable_constant_filtration`. The all-prime Ext and admissible
+filtration theory is owned here. Source: Mazur 1977, I Proposition 2.1 and proof, pp.49–54;
 I §4, Step 1 of the proof of Proposition 4.5, pp.59–60 (filtration consequence).
 
 *Needs:* §R07.G5's cyclotomic class-group obstruction; §§R07.1.38–R07.1.39;
@@ -3976,6 +4008,119 @@ theory).
 
 ### R07.2.27 de Jong: the crystalline Dieudonné functor over smooth bases and finitely generated fields
 
+The analytic descent used for reduced singular bases has the following local targets.
+Fix a complete discrete valuation ring `O`, uniformizer `π`, residue field `k` and
+fraction field `K`. Write `FS_O` for locally Noetherian adic formal schemes over
+`Spf O` whose reductions are locally of finite type over `k` (de Jong 1995,
+Definition 7.0.1, p.74). Their Berthelot generic fibre is the discrete-valuation
+specialization of AdicSpacesPartIII R2.9's `FormalScheme.FSC` and `rigOfFSC`,
+including quotients of restricted power-series rings with formal variables.
+
+**Crystalline morphisms on tubes (`deJongCrystalTubeRealization`).** In mixed
+characteristic `(0,p)`, let `k` have a finite `p`-basis and let `(O,σ)` be a Cohen
+lift with `π = p` and Frobenius lift. Let a reduced affine finite-type `k`-scheme
+`S` be embedded in a formally smooth lift `𝔜 = Spf B` as in de Jong §5.2, with
+`𝔜_red = S` and ideal of definition `I`; fix a lift of Frobenius on `B`.
+For lifted `p`-divisible groups `H₁,H₂` on `𝔜`, write `G_i = H_i|_S`, and
+let `M_i = D(H_i)_𝔜` denote the completed crystal evaluations. Every crystalline map `α : D(G₂) → D(G₁)` induces a
+`K`-linear analytic map `α_an : M₂^rig → M₁^rig` on `𝔜^rig`.
+Construct its first restriction through the completed PD-envelope map
+`D_I(B) → B₁`, `x^[n] ↦ x^n/n!`, where
+`B_n = (B[I^n/p])^∧_p` and `V_n = Sp(B_n[1/p])`.
+Extend to `⋃ V_n = 𝔜^rig` using
+`α_(n+1) = p⁻¹ F₁ σ*(α_n) V₂` and `σ(V_(n+1)) ⊆ V_n`.
+The map agrees with crystal evaluation on PD test objects, is horizontal,
+commutes with `F,V`, is functorial and independent of the Frobenius lift under
+the crystalline pullback identifications. Its value at a rigid point agrees
+with the rational crystalline evaluation of the lifted special-fibre map.
+Source: de Jong 1995, §5.3, equations (5.3.2)–(5.3.7), pp.54–55, and
+§5.4.1, equation (5.4.1.6), pp.56–57.
+
+*Needs:* DerivedDeRhamCohomology §§PD.1–PD.7 (completed PD envelopes);
+CrystallineCohomology §§CR.1.2–CR.1.3 (crystals and their connections);
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2; AdicSpacesPartIII R2.9.
+
+**Checks.**
+
+- The identity crystalline map realizes to the identity, and composition of
+  crystalline maps agrees with composition of their analytic realizations.
+- On `Spf O`, the constant and multiplicative groups have `F = σ` and
+  `F = pσ` respectively; the recurrence gives the same map on every `V_n`.
+- On `Spf ℤ_p⟦t⟧`, the lifts `σ(t) = t^p` and `σ'(t) = t^p+pt`
+  give the same analytic realization after the crystal's Taylor comparison.
+  The matrix of an evaluation in a chosen basis need not be unchanged.
+
+**Bounded analytic functions recover formal functions (`deJongBoundedFormalFunctions`).**
+For any `O`-flat, formally normal `𝔛 ∈ FS_O`, the natural map
+`Γ(𝔛,O_𝔛) → Γ(𝔛^rig,O^{≤1})` is an isomorphism, where the right side consists
+of analytic functions of absolute value at most one at every rigid point.
+Require compatibility with restriction to formal opens. Applying this locally
+to matrix entries gives descent of analytic maps of finite locally free modules
+whose entries are integral in formal trivializations. Use the Artin–Rees
+construction of the auxiliary maps `β_n : B_n → B/I^(n−c)` in the 1998 erratum;
+the erroneous generation assertion of the original Lemma 7.1.13.1 is not an input.
+Source: de Jong 1995, Theorem 7.4.1, pp.90–91; de Jong 1998, p.175.
+
+*Needs:* AdicSpacesPartIII R2.9; SchemeAndStackFoundations §4.8
+(Noetherian completion); Mathlib's Artin–Rees theorem.
+
+**Checks.**
+
+- For `𝔛 = Spf O`, the map is `O ≅ {a ∈ K : |a| ≤ 1}`.
+- For `𝔛 = Spf O⟦t⟧` with the `(π,t)`-adic topology, the bounded functions
+  on the open unit disc are `O⟦t⟧`, including `Σ_(n≥0) t^n`; the restricted
+  power-series algebra would omit this function.
+- For the nonnormal flat ring `A = O⟨πt,t²⟩ ⊂ O⟨t⟩`, the generic fibre is
+  the closed unit disc. Its bounded function `t` is integral over `A` and
+  absent from `A`, so formal normality cannot be omitted.
+- For `Spf(O/π)`, the generic fibre is empty and the map is not injective;
+  flatness is necessary.
+
+**Rigid descent and the formal lifting locus (`deJongFormalLiftingLocus`).**
+Let `𝔜 ∈ FS_O`, let `T ⊆ 𝔜_red` be closed, put `U = 𝔜_red ∖ T`, and write
+`𝔜_T` for the completion along `T` and `𝔜_U` for the open formal part.
+Given `O`-flat closed formal subschemes `𝔃_T ⊆ 𝔜_T`, `𝔃_U ⊆ 𝔜_U` and a
+closed analytic subspace `Z ⊆ 𝔜^rig` with
+`𝔃_T^rig = Z ∩ ]T[` and `𝔃_U^rig = Z ∩ ]U[` as closed analytic subspaces,
+construct the `O`-flat closed formal subscheme `𝔃 ⊆ 𝔜` with these restrictions
+and generic fibre `Z`. The equalities include the defining ideals, not just
+point sets. Use the erratum's `β_n` in this descent too.
+
+In the simultaneous versal situation of §5.2 (the two Kodaira–Spencer maps
+jointly surjective), an isomorphism `α : D(G₂) ≅ D(G₁)` gives the closed
+analytic locus `Z` of §§5.4–5.7 on which the special-fibre isomorphism at a
+rigid point lifts integrally. Prove that this locus descends to a formally
+smooth `𝔃/Spf O` with `𝔃_red = S`. Induction on the reduced closed singular
+part and full faithfulness on the regular complement give `𝔃_T,𝔃_U` above.
+Their integral maps bound the coefficients of `α_an|_Z` by one; the preceding
+target descends them to a horizontal `F,V`-compatible map preserving the Hodge
+filtrations. The formally smooth classification and Grothendieck–Messing then
+give `H₁|_𝔃 → H₂|_𝔃`. Include the dyadic lifting argument of §5.7.8(a).
+On `S`, the difference between its crystal and `α` is `p`-power torsion:
+the PD-to-tube map detects crystalline morphisms modulo torsion (§5.5).
+General morphisms reduce to isomorphisms by the upper-triangular map on a
+product, as in §5.2. Source: de Jong 1995, Proposition 7.5.2, pp.91–94;
+§5.4.3 and §§5.5–5.8, pp.58–67; de Jong 1998, p.175.
+
+*Needs:* The two preceding local targets; §§R07.1.6, R07.2.10 and the
+formally smooth classification in this section; AdicSpacesPartIII R2.9;
+SchemeAndStackFoundations §4.8; AbelianSchemesAndArithmeticModuli §A4.CR.7.2.
+The formally smooth classification precedes this descent and does not use it.
+
+**Checks.**
+
+- For `T = ∅`, descent recovers `𝔃_U`; for `T = 𝔜_red` it recovers `𝔃_T`.
+- In `𝔜 = Spf O⟨x,y⟩` and `T = V(x) ⊆ 𝔜_red`, the restrictions of
+  the flat closed locus `y = 0` descend to that same locus, with its ideal.
+  The disjoint tubes `]T[` and `]U[` need not be an admissible covering;
+  ordinary sheaf gluing on an admissible cover is insufficient.
+- For constant étale `H₁ = H₂` and `α = id`, the lifting locus is all of `𝔜` and
+  the recovered map is the identity, including at `p = 2`.
+- For a constant ordinary group on the reduced singular curve
+  `Spec k[x,y]/(xy)`, a constant diagonal endomorphism descends across the
+  node. This curve is a local complete intersection, so the crystalline error
+  is zero; general reduced bases retain the torsion clause.
+
 Prove `deJongDieudonneEquivalence`. Let `𝔛` be a formal scheme of characteristic `p`, formally smooth
 over `F_p`, whose reduction is locally of finite type over a field with a finite `p`-basis. Then the
 crystalline Dieudonné functor `G ↦ D(G)` (AbelianSchemesAndArithmeticModuli §A4.CR.7.2) is an anti-equivalence from
@@ -3995,9 +4140,13 @@ the relative crystalline cohomology of CrystallineCohomology §CR.7.3.
 *Proof sketch.* Full faithfulness over formally smooth bases with a `p`-basis: Berthelot–Messing,
 transferred to formal schemes (de Jong, Chapter `2`). Essential surjectivity: induction on dimension,
 using deformations of Dieudonné crystals and of `p`-divisible groups (de Jong, Chapter `3`, with
-Grothendieck–Messing, AbelianSchemesAndArithmeticModuli §A4.CR.7.2) and the field case (Chapter `4`). Main Theorem 2
-by gluing over the singular locus with Berthelot's convergent isocrystals and rigid geometry
-(Chapters `5`–`7`). The abelian-scheme statement: BBM 2.5.6(ii); the unit-root part is the slope-zero
+Grothendieck–Messing, AbelianSchemesAndArithmeticModuli §A4.CR.7.2) and the field case (Chapter `4`).
+For Main Theorem 2, apply `deJongCrystalTubeRealization`,
+`deJongFormalLiftingLocus` and `deJongBoundedFormalFunctions` to lift the analytic
+map over the singular part and regular complement to a group homomorphism,
+with crystalline error killed by a power of `p`. Over a local complete
+intersection the crystalline Hom has no torsion, giving integral full faithfulness.
+The abelian-scheme statement: BBM 2.5.6(ii); the unit-root part is the slope-zero
 sub-`F`-crystal, which is `D` of the étale quotient because `D` is exact and sends étale groups to
 unit-root crystals (`D`'Addezio, proof of Theorem 5.1.6). (de Jong 1995, Introduction, Main Theorems `1`
 and `2`, pp. 6–7; §2.3, Definition 2.3.2 and paragraph 2.3.3, p. 21: the equivalence over formally
@@ -4008,7 +4157,12 @@ use of de Jong's full faithfulness for an abelian variety over a finitely genera
 
 *Needs:* §R07.2.10; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline Dieudonné crystal);
 AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation theory); CrystallineCohomology
-§CR.7.3 (relative crystalline direct images).
+§CR.7.3 (relative crystalline direct images); the three local analytic-descent
+targets of this section.
+
+The general convergent-coefficient categories belong to
+PadicDifferentialEquationsAndRigidCohomology RD.3.33–RD.3.36; they are not inputs
+to this restricted construction.
 
 **Checks.**
 
@@ -8033,39 +8187,60 @@ the deformation theory of rings.)
 - For `G = 0`, the cone is `ℓ̌_H[1]`, so the obstruction lies in
   `Ext²(H, ℓ̌_H ⊗^𝕃 J_i)`, retaining the Lie complex rather than the coLie complex.
 
-### R07.6.7 Finite-flatness is a deformation condition, and its tangent space via Fontaine–Laffaille modules
+### R07.6.7 Finite-flat model closure and Fontaine–Laffaille extension spaces
 
-Prove `flatDeformationTangentSpace`. Let `K/ℚ_p` be finite with ring of integers `O_K, G = G_K` and `q = p^r`. `(i)` The class of finite `W(F_q)[G]`-modules that are generic fibres of finite flat `O_K`-group
-schemes is closed under direct sums, submodules and quotients; for a finite flat `ρ̄ : G → GL_n(F_q)`
-the deformations whose Galois modules have this property form a subfunctor of Mazur's deformation
-functor satisfying Schlessinger's conditions H1–H3 (and H4 when `End_{F_q[G]}(ρ̄) = F_q`), and the
-universal deformation ring surjects onto the flat one. No hypothesis on the ramification of `O_K` is
-needed. `(ii)` Let `K = ℚ_p, p > 2`, and `ρ̄ : G → GL₂(F_q)` finite flat with `det ρ̄|_I = χ̄` and `End(ρ̄) = F_q`, with Fontaine–Laffaille module `M` (filtration jumps in `{0, 1}`). The tangent space of the flat
-functor is `Ext¹_{F_q}(H, H)` computed among `p`-torsion finite flat `F_q`-modules, equal to `Ext¹_{F_q}(M, M)` in `MF_tor^{[0,1]}` with `F_q`-structure, which is `Hom_{F_q}(M, M)/`{`[R, X_M] : R` respects the
-filtration}, of dimension `4 − 3 + 1 = 2`; and there are no obstructions, so the flat deformation ring
-is `W(F_q)⟦T₁, T₂⟧` when `q = p` (Ramakrishna, Theorem 3.1) or when `ρ̄` is irreducible (Theorem 4.2). If
-moreover `ρ̄` is irreducible, the full deformation ring is `W(F_q)⟦T₁, …, T₅⟧` and the kernel of `R(ρ̄) → R^fl(ρ̄)` is generated by three elements.
+Prove `flatDeformationTangentSpace`. Let `K/ℚ_p` be finite with ring of integers
+`O_K`, put `G = G_K` and `q = p^r`. `(i)` Finite `W(F_q)[G]`-modules whose
+underlying Galois modules have finite flat models over `O_K` are closed under
+finite sums, submodules and quotients, without a ramification bound. This
+includes marked isomorphism invariance, finite coefficient change and injective
+descent: a coefficient fibre product embeds in the product of its two factors.
+The condition on a complete local coefficient module is imposed on every
+Artinian quotient, as specified below.
 
-`(i)`: Raynaud's closure under subobjects and quotients (§R07.1.20) and direct sums; Mazur's
-deformation functor of `ρ̄` on Artinian `W(F_q)`-algebras with residue field `F_q` (the deformation rings
-themselves belong to LocalGaloisDeformationRings, which uses this target). `(ii): e = 1 < p − 1`, so
-the Fontaine–Laffaille functor `U_S` is fully faithful on `MF_tor^{[0,1]}` (§R07.3.11) and finite flat
-`p`-group schemes over `ℤ_p` correspond to `MF_tor^{[0,1]}` (§R07.3.18).
+`(ii)` Over `K = ℚ_p`, `p > 2`, let `V` be a finite-flat `F_q`-representation.
+An `F_q`-linear Galois self-extension killed by `p` is finite flat precisely
+when it comes from a self-extension of its Fontaine–Laffaille module `M` in
+`MF_tor^{[0,1]}` with commuting `F_q`-action. This category means the scalar
+category of §R07.3.4 equipped with a ring map `F_q → End(M)` preserving the
+filtration and divided Frobenii; extensions and splittings respect this action.
+It does not require the labelled coefficient deformation category. Since
+`e = 1 < p−1`, §§R07.3.11 and R07.3.18 transport these actions through their
+contravariant fully faithful functors. The variance reverses a self-extension
+and leaves its self-Ext space unchanged. Define `H¹_f(ad V)` as the subspace
+of continuous `H¹(G,End_(F_q) V)` represented by these finite-flat
+self-extensions. Equivalently, a cocycle gives an `F_q[ε]/(ε²)`-action on the
+extension, with `ε` the composite of its quotient and inclusion; changing a
+splitting changes the cocycle by a coboundary.
 
-*Proof sketch.* `(i)` Ramakrishna, Lemma 2.1 (schematic closure gives the sub and quotient models) and
-Theorem 1.1, Proposition 1.2 (a property closed under sums, subobjects and quotients defines a
-closed subfunctor satisfying H1–H4). `(ii)` Tangent space: a lift to `F_q[ε]` is an extension of `H` by `H`
-killed by `p` in the flat category (Ramakrishna, Lemma 3.1/4.3); by full faithfulness this is an
-extension of `M` by `M` in `MF_tor^{[0,1]}` (§R07.3.11). `Ext¹(M, M) = Hom(M, M)/{[R, X_M]}` where `X_M` is
-the dashed matrix of `(φ⁰, φ¹)` and `R` ranges over the `3`-dimensional space of filtration-preserving
-endomorphisms, with kernel the scalars since `End(M) = F_q` (Lemmas 3.2/4.4): dimension `4 − (3 − 1) = 2`. Unobstructedness: count `W(F_q)/p^l`-valued points (`q^{2(l−1)}` of them) to show `R^fl` is a power
-series ring in two variables (Theorems 3.1 and 4.2); the full ring and the three relations: Theorem
-4.1 and Corollary 4.1 (`H²(G, ad ρ̄) = 0` for irreducible `ρ̄`). (Ramakrishna 1993, §1, Proposition 1.1,
-Theorem 1.1 and Proposition 1.2, pp. 270–272; §2, Lemma 2.1 and the definition of `F^fl`, pp. 272–273:
-deformation subfunctors defined by a property closed under sums, subobjects and quotients, and the
-flat subfunctor; Ramakrishna 1993, §3, Lemmas 3.1–3.2 and Theorem 3.1, pp. 274–278; §4, Theorem 4.1,
-Lemmas 4.3–4.4, Theorem 4.2 and Corollary 4.1, pp. 279–281: the tangent space via Fontaine–Laffaille
-modules and the flat deformation rings `W(F_q)⟦T₁, T₂⟧`.)
+Identify `H¹_f(ad V)` with this coefficient-linear `Ext¹(M,M)` and compute it
+as `Hom_(F_q)(M,M)` modulo the change-of-splitting image
+`{[R,X_M] : R preserves the filtration}`, where `X_M` is the matrix of the
+divided Frobenii. For rank two, filtration type `(0,1)` and
+`End_G(V) = F_q`, its dimension is `4−(3−1) = 2`. The general formula,
+without the scalar-endomorphism hypothesis, is stated below.
+
+LocalGaloisDeformationRings owns the generic lifts and strict equivalence
+(F.1.1–F.1.4), universal rings (F.2.5), the condition/quotient correspondence
+(F.3.1–F.3.2), and the common coefficient Fontaine–Laffaille category (§1.6).
+Its §4.1 applies the present closure and Ext calculations to the finite-flat
+condition, Schlessinger's criteria and representing quotients. Thus the order
+is scalar R07.3 and this model/Ext interface, then those generic and coefficient
+interfaces, then its §4.1. Over `ℚ_p`, the representing-ring consequences there
+include Ramakrishna's `W(F_q)⟦T₁,T₂⟧` for rank-two finite-flat `V` with
+`det V|_I = χ̄` and `End_G(V) = F_q`, when `q = p` or `V` is irreducible; in the irreducible case
+`R(V) = W(F_q)⟦T₁,…,T₅⟧` with a three-generated kernel onto the flat ring.
+These ring assertions use that roadmap's representability and lifting theory.
+
+*Proof sketch.* Schematic closure gives subobjects and quotients; finite
+products give sums and coefficient fibre-product closure. Full faithfulness
+and the finite-flat dictionary identify the self-extension classes.
+Filtration-preserving changes of splitting act by the displayed commutator;
+the kernel is `End_G(V)`. Sources: Ramakrishna 1993, §1, Proposition 1.1,
+pp.270–271; §2, Lemma 2.1, p.272; §3, Lemmas 3.1–3.2, pp.274–275;
+§4, Lemmas 4.3–4.4, p.280. The representing-ring applications are
+Theorem 1.1 and Proposition 1.2, pp.271–272, Theorem 3.1, pp.275–278,
+and Theorems 4.1–4.2 and Corollary 4.1, pp.279–281.
 
 The closure interface uses `HasFiniteFlatModel` from §R07.1.24a. State the
 following named targets for finite discrete `p`-primary `G_K`-modules, using
@@ -8097,16 +8272,17 @@ the models, maps and kernels retain those actions. Sources: Ramakrishna 1993,
 Prove `flatTangent_finrank_le` without a scalar-endomorphism hypothesis. Over
 `ℚ_p`, `p>2`, let `V` be a finite-flat `k`-representation, `k` a finite field
 of characteristic `p`, and let `M` be its coefficient Fontaine–Laffaille module
-with weights in `{0,1}`. Define `H¹_f(ad V)` as the classes in continuous
-`H¹(G_{ℚ_p},End_k V)` whose dual-number lifts have coefficient finite flat
-models. Identify it with the killed-by-`p`, coefficient-linear `Ext¹(M,M)`.
+with weights in `{0,1}`, meaning a scalar object with commuting `k`-action
+as above. Define `H¹_f(ad V)` by the finite-flat self-extensions above,
+equivalently by their coefficient dual-number lifts. Identify it with the
+killed-by-`p`, coefficient-linear `Ext¹(M,M)`.
 Writing `n=dim_k M` and `d=dim_k Fil¹ M`, the matrix-extension calculation gives
 `dim_k H¹_f(ad V)=h⁰(ad V)+d(n−d)`: filtration-preserving endomorphisms have
 dimension `n²−d(n−d)` and the kernel of the change-of-splitting map is
 `End(M)=End_{G_{ℚ_p}}(V)`. Thus in rank two,
 `dim_k H¹_f(ad V)≤h⁰(ad V)+1`, with equality for filtration type `(0,1)`.
-This bounds the local condition even when an unframed deformation functor has
-no representing ring. Sources: Ramakrishna 1993, Lemmas 3.1–3.2 and 4.3–4.4,
+This extension-space bound has no representability hypothesis. Sources:
+Ramakrishna 1993, Lemmas 3.1–3.2 and 4.3–4.4,
 pp.274–275, 280, applied without replacing the endomorphism kernel by scalars;
 §§R07.3.11 and R07.3.18.
 
@@ -8115,7 +8291,8 @@ pp.274–275, 280, applied without replacing the endomorphism kernel by scalars;
 **Checks.**
 
 - `flatDeformation_supersingular`: `ρ̄ = E[p]|_{G_{ℚ_p}}` for `E/ℤ_p` supersingular, `p > 2`: absolutely
-  irreducible (inertia acts through the two level-`2` fundamental characters), finite flat with `det = χ̄` and `End = F_p`, so `R^fl(ρ̄) = ℤ_p⟦T₁, T₂⟧` while `R(ρ̄) = ℤ_p⟦T₁, …, T₅⟧`.
+  irreducible (inertia acts through the two level-`2` fundamental characters), finite flat with `det = χ̄` and `End = F_p`, so `dim_(F_p) H¹_f(ad ρ̄) = 2`. The corresponding ring presentations use
+  LocalGaloisDeformationRings §4.1.
 - `flatDeformation_range`: for `p = 2` or for `e ≥ p − 1` the Fontaine–Laffaille computation is
   unavailable (part `(ii)` is not claimed), although part `(i)` still holds.
 - The zero module and the identity equivalence satisfy the closure targets.
@@ -8200,6 +8377,56 @@ Corollaires 2.2.3 and 3.3.6, pp.261, 268; Serre 1987, §2.8, pp.189–190.
 
 ### R07.6.9 Raynaud: the determinant of the Tate module of a `p`-divisible group is `χ^d`
 
+**Marked full-BT deformations and effectivity (`BarsottiTate.markedUniversalDeformation`).**
+Let `R` be a complete Noetherian local ring with residue field `k` of characteristic
+`p`, and `X₀/k` a `p`-divisible group of height `h` and dimension `d`.
+The functor on Artinian local `R`-algebras with identified residue field `k`
+assigns isomorphism classes of pairs `(Y, α : Y_k ≅ X₀)`, with isomorphisms
+respecting `α`. Prove that it is prorepresented by
+`𝒪 ≅ R⟦T₁,…,T_(d(h−d))⟧`. Its tangent space is
+`Hom_k(ω_(X₀), Lie(X₀^D))`; lifting across small extensions is unobstructed,
+and an automorphism reducing to the marked identity is the identity.
+The full-tower rigidity and deformation calculation give Schlessinger's
+conditions, finite tangent dimension and smoothness; apply
+SchemeAndStackFoundations §4.4's `schlessinger_prorepresentable` and
+`smooth_iff_powerSeries`. Smoothness of a single truncated-BT stack does not
+replace these full-tower assertions.
+
+For every level `n`, the universal formal group gives compatible finite free
+Hopf algebras over `𝒪/m_𝒪^a` of rank `p^(nh)`. Apply
+SchemeAndStackFoundations §4.8's `coherentFormalModuleEquivSpec_effective`
+for the ideal `m_𝒪`, and its full faithfulness to the Hopf maps, including
+maps into tensor products. Completeness and the fixed free ranks give finite
+free Hopf algebras over `𝒪`. Their algebra and group identities, level
+inclusions, torsion kernels and exact level sequences are detected on all
+reductions, using complete-local flatness and Nakayama. Section R07.1.6's
+`BarsottiTate.ofHopfTower` assembles an effective family over `Spec 𝒪`.
+For every marked `X/R`, construct the continuous local `R`-algebra map
+`s_X : 𝒪 → R`; its pullback family is isomorphic to `X`, with the given
+marking, compatibly at every level. This gives the marked section used below.
+Source: Illusie 1985, Theorem 4.4 and Corollary 4.7, pp.171–179
+(full-BT lifting and rigidity); Corollary 4.8, pp.179–180, for perfect `k`.
+For arbitrary `k`, use the same full-BT small-extension calculation and
+Schlessinger, over the given coefficient ring `R`; no Witt lift of `k` is
+assumed. The effectivity is Stacks Tag 087W applied to the finite-level Hopf
+algebras. Raynaud 1974, proof of Theorem 4.2.1, p.273, uses this effective family.
+
+*Needs:* §§R07.1.6, R07.1.11 and R07.6.6;
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing);
+SchemeAndStackFoundations §§4.4 and 4.8.
+
+**Checks.**
+
+- For an étale group (`d = 0`) or a multiplicative group (`d = h`),
+  the deformation ring is `R` and the marked lift is unique.
+- For `X₀ = μ_(p^∞) × ℚ_p/ℤ_p`, there is one parameter; the split lift
+  corresponds to the section with multiplicative Serre–Tate coordinate `1`.
+  For `X₀ = μ_(p^∞)^d × (ℚ_p/ℤ_p)^(h−d)`, there are `d(h−d)` parameters.
+- For a fixed `X/R`, pulling back the effective family's `p^n`-torsion along
+  `s_X` gives `X[p^n]` with its inclusion into level `n+1` and its marking.
+  A formal family on `Spf 𝒪` alone does not give the generic points of
+  `Spec 𝒪` used in the purity argument.
+
 Prove `raynaudDetTateModule`. Let `R` be a strictly henselian DVR of mixed characteristic `(0, p)` with
 fraction field `K` and `X` a `p`-divisible group over `R` of height `h` and dimension `d`. Then `Gal(K̄/K)` acts
 on `det T_p(X) = Λ^h T_p(X)` through `χ^d`, where `χ` is the `p`-adic cyclotomic character (the character of
@@ -8211,9 +8438,10 @@ Raynaud's §4 standing hypothesis: `R` strictly henselian of unequal characteris
 4.2.2).
 
 *Proof sketch.* Reduce to `R` complete and, by dévissage along the connected–étale sequence, to `X` with
-connected special fibre (§R07.1.9). Let `S = Spf 𝒪` be the base of the universal deformation of the
-special fibre `X₀, 𝒪` a power series ring over `R` (unobstructed: §R07.2.23), and `𝒳` the universal
-`p`-divisible group. Lemma 4.2.3: a connected `X₀` over `k` deforms over `k⟦T⟧` to a `p`-divisible group that
+connected special fibre (§R07.1.9). Apply `BarsottiTate.markedUniversalDeformation`
+to `X₀`, with the marking induced by `X/R`: let `S = Spec 𝒪`,
+`𝒪 ≅ R⟦T₁,…,T_(d(h−d))⟧`, and `𝒳/S` the effective universal family.
+Lemma 4.2.3: a connected `X₀` over `k` deforms over `k⟦T⟧` to a `p`-divisible group that
 is ordinary at the generic point (Cartier's typical curves); so `𝒳` is ordinary at the generic point `x`
 of the special fibre of `S`, of dimension `d`. At the strict henselisation at `x, 𝒳` is an extension of
 `(ℚ_p/ℤ_p)^{h−d}` by `μ_{p^∞}^d`, so `Λ^h T(𝒳) ⊗ T(μ_{p^∞})^{⊗(−d)}` is unramified at `x`; it is unramified
@@ -8224,13 +8452,15 @@ After completion, `R` is an excellent regular DVR and `𝒪 = R⟦T₁,…,T_m�
 regular and strictly henselian. For each finite quotient of the determinant character,
 use the normalization of `Spec 𝒪` in its generically étale cover: excellence makes it
 finite and the source is normal. Purity then applies to the codimension-one
-unramifiedness, and strict henselianity makes the resulting finite étale cover trivial. Restrict to an
-`R`-section through `X` to get the claim (Raynaud, Théorème 4.2.1, proof).
+unramifiedness, and strict henselianity makes the resulting finite étale cover trivial.
+Pull back along the marked section `Spec R → Spec 𝒪` defined by `s_X`
+to recover `X` and its determinant (Raynaud, Théorème 4.2.1, proof).
 (Raynaud 1974, §4.2, Théorème 4.2.1, Remarque 4.2.2, Lemme 4.2.3 and the proofs, pp. 272–274: `det T(X) = χ^d` by deformation to the ordinary case and purity.)
 
 *Needs:* PurityOfBranchLocus §2.1 (purity of the branch locus, SGA 1 `X` 3.1,
 Stacks Tag 0BMB) and §2.2 (the global corollary for finite normal covers with dominant components
-over excellent regular local bases); §R07.1.8; §R07.1.14; §R07.1.9; §R07.2.23; §R07.1.19.
+over excellent regular local bases); §R07.1.8; §R07.1.14; §R07.1.9; §R07.1.19;
+`BarsottiTate.markedUniversalDeformation` and its effectivity and marked-section assertions above.
 
 **Checks.**
 
@@ -8294,7 +8524,9 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
   theorem and Raynaud's determinant theorems (§R07.1.33, §R07.6.9).
 - **SmallRamificationAndAbelianVarietyBaseCases** uses simple finite flat groups, Oort–Tate over
   rings of integers, étale groups over `ℤ[1/N]`, gluing and the Mayer–Vietoris sequence (R07.1) for
-  its classifications over `ℤ` and `ℤ[1/ℓ]`.
+  its classifications over `ℤ` and `ℤ[1/ℓ]`. Its §3.3 specializes R07.G5's
+  `admissible-global-ext-vanishing` and `admissibleConnectedEtaleFiltration`
+  after its own simple two-group classification establishes admissibility.
 - **HodgeTateAndCanonicalSubgroups**, **IgusaVarietiesAndTorsionConcentration**,
   **ShimuraCompactifications**,
   **HilbertModularVarietiesAndShimuraCurves** and **AlgebraicModularFormsAndSerreWeights** use the
@@ -8302,9 +8534,11 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
   (§R07.2.25), slopes and the covariant module (§R07.2.16, §R07.2.20).
 - **LocalGaloisDeformationRings** uses Fontaine–Laffaille modules
   (R07.3), Kisin modules with coefficients, finite-height lattices and Kisin's full faithfulness
-  (R07.4), and the flat deformation condition and its tangent space (§R07.6.7).
+  (R07.4), and the finite-flat model closure and self-extension space (§R07.6.7).
   Its Layer 4 uses `GaloisModel`, `HasFiniteFlatModel` (§R07.1.24a), the named
   closure targets and the endomorphism-sensitive bound `flatTangent_finrank_le`.
+  Its F.1.1–F.1.4, F.2.5, F.3.1–F.3.2 and §1.6 precede its §4.1's
+  Schlessinger and representing-ring applications; R07.6.7 consumes none of them.
 - **SerreWeightAndLevelOptimisation** §§2.9 and 3.3 uses
   `card_points_quot_multiplicativePart` (§R07.1.3) with its cyclotomic-subgroup
   and unramified-quotient hypotheses, and the local-model interface of §R07.1.24a.
@@ -8486,5 +8720,13 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
   revisited*, arXiv:2603.11506v1 (12 March 2026). <https://arxiv.org/abs/2603.11506>
 - **de Jong 1995.** A. J. de Jong, *Crystalline Dieudonné module theory via formal and rigid
   geometry*, Publ. Math. IHÉS 82 (1995), 5–96. <https://www.numdam.org/item/PMIHES_1995__82__5_0/>
+- **de Jong 1998.** A. J. de Jong, erratum to *Crystalline Dieudonné module theory via formal
+  and rigid geometry*, Publ. Math. IHÉS 87 (1998), 175.
+  <https://www.numdam.org/item/PMIHES_1998__87__175_0/>
+- **Illusie 1985.** Luc Illusie, *Déformations de groupes de Barsotti–Tate
+  (d'après A. Grothendieck)*, Astérisque 127 (1985), 151–198.
+  <https://www.numdam.org/item/AST_1985__127__151_0/>
+- **Sharifi.** Romyar Sharifi, *Iwasawa Theory*, 189-page lecture notes, §4.5, pp.114–117.
+  <https://www.math.ucla.edu/~sharifi/iwasawa.pdf>
 - **Česnavičius 2019.** Kęstutis Česnavičius, *Purity for the Brauer group*, Duke Math. J. 168
   (2019). <https://arxiv.org/abs/1711.06456>
