@@ -403,9 +403,15 @@ its §2.2 Scheme.Hom.etale_of_etaleAt_codimOne the global corollary for finite d
 CR.5:log-algebra.4's Crystalline.etale_of_genericallyEtale_codimOne is the componentwise adapter
 to that corollary: a finite morphism from a normal scheme to a regular integral locally noetherian
 scheme, with every source component dominant and generically étale and unramifiedness at every
-codimension-one source point, is étale.
+codimension-one source point, is étale. Each component has a finite separable function-field
+extension over the target. The adapter applies the supplied §2.2 theorem on each open and closed
+normal integral component; that theorem handles dimension-zero stalks by generic étaleness.
+A finite disjoint union of spectra of finite separable extensions of a field is finite étale,
+with no codimension-one points on any component.
 The inseparable extension F_p(t)[u]/(u^p-t) has no codimension-one points but is not étale.
-The SNC normalization is generically étale because it extends a finite étale cover of the dense open.
+For the SNC normalization the adapter invokes Scheme.Hom.etale_of_etaleAt_codimOne on every
+component, which dominates the target and is generically étale since the normalization extends
+a finite étale cover of the dense open.
 AbhyankarLemma Layers 0–3 supplies
 DVR tameness, DVR Abhyankar, codimension-one ramification and the regular-divisor theorem.
 Log rigid Hyodo–Kato cohomology uses S† = Spwf(A₀[t]†), weak formal lifts, products and blow-ups,
