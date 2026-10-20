@@ -720,10 +720,10 @@ section TwistedInflation
 variable (p : ℕ) [Fact p.Prime] (K : Type u) [Field K]
 
 /-- The quotient map `G_K → G_K(p)` as a continuous homomorphism: Tau Ceti's
-`ContinuousMonoidHom.quotientMk` at the supplier's `proPKernel`. -/
+`Subgroup.quotientMkContinuousMonoidHom` at the supplier's `proPKernel`. -/
 noncomputable abbrev absoluteGaloisGroupProPMk :
     Field.absoluteGaloisGroup K →ₜ* absoluteGaloisGroupProP p K :=
-  TauCeti.ContinuousMonoidHom.quotientMk
+  Subgroup.quotientMkContinuousMonoidHom
     (ProfiniteProPGroups.proPKernel p (Field.absoluteGaloisGroup K))
 
 variable (χ : absoluteGaloisGroupProP p K →ₜ* ℤ_[p]ˣ) (i : ℕ)
@@ -937,13 +937,13 @@ continuous character. No unconditional full orientation is exported. -/
 noncomputable def cyclotomicOrientation
     (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     absoluteGaloisGroupProP p K →ₜ* ℤ_[p]ˣ :=
-  TauCeti.ContinuousMonoidHom.quotientLift _ (continuousLocalCyclotomicCharacter p K)
+  ContinuousMonoidHom.quotientLift (continuousLocalCyclotomicCharacter p K) _
     (proPKernel_le_ker_localCyclotomicCharacter p K hmu)
 
 theorem cyclotomicOrientation_mk (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p)
     (g : Field.absoluteGaloisGroup K) :
     cyclotomicOrientation p K hmu (QuotientGroup.mk g) = localCyclotomicCharacter p K g :=
-  TauCeti.ContinuousMonoidHom.quotientLift_mk _ _ _ g
+  ContinuousMonoidHom.quotientLift_mk _ _ _ g
 
 /-- The orientation pulls back to the cyclotomic character along `G_K → G_K(p)`, as continuous
 homomorphisms. A closed proof. -/
@@ -951,7 +951,7 @@ theorem cyclotomicOrientation_comp_absoluteGaloisGroupProPMk
     (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     (cyclotomicOrientation p K hmu).comp (absoluteGaloisGroupProPMk p K) =
       continuousLocalCyclotomicCharacter p K :=
-  TauCeti.ContinuousMonoidHom.quotientLift_comp_quotientMk _ _ _
+  ContinuousMonoidHom.quotientLift_comp_quotientMk _ _ _
 
 theorem cyclotomicOrientation_continuous (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     Continuous (cyclotomicOrientation p K hmu) :=

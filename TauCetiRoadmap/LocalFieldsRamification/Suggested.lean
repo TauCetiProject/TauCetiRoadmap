@@ -166,7 +166,7 @@ theorem normalizedNormedField_topology_eq :
 /-- **Layer 0.I, the spectral-norm structure on a bare finite algebra.** Completeness and
 ultrametricity come from `normalizedNormedField`; no topology or valuation on `M` is assumed.
 Tau Ceti's `TauCeti.algebraicExtensionNormedField`
-(`TauCeti/NumberTheory/LocalField/FiniteExtension/Basic.lean`), consumed by reducible alias. -/
+(`TauCeti/NumberTheory/LocalField/AlgebraicExtension/Basic.lean`), consumed by reducible alias. -/
 noncomputable abbrev finiteExtensionNormedField (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] : NormedField M :=
   TauCeti.algebraicExtensionNormedField K M
@@ -1390,7 +1390,7 @@ theorem tameCharacter_conj {G : Type w} [Group G] [MulSemiringAction G L]
     [IsInvariantSubring G 𝒪[L]] {ϖ : 𝒪[L]} (hϖ : Irreducible ϖ) (g σ : G)
     (hσ : σ ∈ TauCeti.IsLocalRing.ramificationGroup G 𝒪[L] (0 : ℤ)) :
     (TauCeti.tameCharacter (G := G) hϖ
-        ⟨g * σ * g⁻¹, Subgroup.Normal.conj_mem inferInstance σ hσ g⟩ : 𝓀[L]) =
+        ⟨g * σ * g⁻¹, Subgroup.Normal.conj_mem σ hσ g⟩ : 𝓀[L]) =
       g • (TauCeti.tameCharacter (G := G) hϖ ⟨σ, hσ⟩ : 𝓀[L]) :=
   sorry
 
@@ -1404,7 +1404,7 @@ theorem tameCharacter_conj_of_smul_eq_pow {G : Type w} [Group G] [MulSemiringAct
     (hσ : σ ∈ TauCeti.IsLocalRing.ramificationGroup G 𝒪[L] (0 : ℤ)) {q : ℕ}
     (hg : ∀ x : 𝓀[L], g • x = x ^ q) :
     TauCeti.tameCharacter (G := G) hϖ
-        ⟨g * σ * g⁻¹, Subgroup.Normal.conj_mem inferInstance σ hσ g⟩ =
+        ⟨g * σ * g⁻¹, Subgroup.Normal.conj_mem σ hσ g⟩ =
       TauCeti.tameCharacter (G := G) hϖ ⟨σ, hσ⟩ ^ q :=
   Units.ext <| by rw [tameCharacter_conj hϖ g σ hσ, hg, Units.val_pow_eq_pow_val]
 
@@ -1875,7 +1875,7 @@ theorem ker_iwasawaCoordinate :
   have : Finite (IwasawaGroup K ⧸ V) := Subgroup.quotient_finite_of_isOpen V hV
   set m := Nat.card (IwasawaGroup K ⧸ V)
   have : NeZero m := ⟨Nat.card_pos.ne'⟩
-  let q := ContinuousMonoidHom.quotientMk V
+  let q := Subgroup.quotientMkContinuousMonoidHom V
   -- The coordinate modulo `m`, and `1 ↦ q σ` on `ZMod m`.
   let ρ : TauCeti.zHat →ₜ* Multiplicative (ZMod m) := TauCeti.zHat.lift (Multiplicative.ofAdd 1)
   let κ : Multiplicative (ZMod m) →ₜ* IwasawaGroup K ⧸ V :=

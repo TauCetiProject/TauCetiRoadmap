@@ -10,6 +10,7 @@ import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Orth
 import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.OrthogonalQuotient.Quadratic
 import TauCeti.LinearAlgebra.IntegralLattice.RadicalQuotient
 import TauCeti.LinearAlgebra.IntegralLattice.RankOne.Basic
+import TauCeti.LinearAlgebra.IntegralLattice.RankOne.Discriminant
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Isometry
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.SimpleRoots
@@ -556,19 +557,19 @@ variable (m : ℤ)
 
 /-- The lattice `⟨2m⟩` on the standard copy of `ℤ` in `ℚ`: nonvanishing of `m` is carried as a
 `NeZero` instance, so that the degenerate `m = 0` form stays an object of the same type. -/
-theorem rankOne_form_apply (x y : ℚ) : (rankOne m).form x y = 2 * m * x * y :=
-  _root_.TauCeti.IntegralLattice.rankOne_form_apply m x y
+theorem rankOne_form_apply (x y : ℚ) : (rankOne (2 * m)).form x y = 2 * m * x * y := by
+  rw [_root_.TauCeti.IntegralLattice.rankOne_form_apply, Int.cast_mul, Int.cast_ofNat]
 
-theorem rankOne_isEven : (rankOne m).IsEven := isEven_rankOne m
+theorem rankOne_isEven : (rankOne (2 * m)).IsEven := isEven_rankOne_two_mul m
 
-instance (m : ℤ) [NeZero m] : (rankOne m).IsNondegenerate := inferInstance
+instance (m : ℤ) [NeZero m] : (rankOne (2 * m)).IsNondegenerate := inferInstance
 
 /-- The signature records the sign of `m`, so the negative-definite case is not a special case. -/
 theorem rankOne_signature (hm : m ≠ 0) :
-    (rankOne m).signature = if 0 < m then (1, 0, 0) else (0, 0, 1) := by
+    (rankOne (2 * m)).signature = if 0 < m then (1, 0, 0) else (0, 0, 1) := by
   split_ifs with h
-  · exact rankOne_signature_of_pos h
-  · exact rankOne_signature_of_neg (lt_of_le_of_ne (not_lt.mp h) hm)
+  · exact rankOne_signature_of_pos (by omega)
+  · exact rankOne_signature_of_neg (by omega)
 
 /-- The degenerate rank-one lattice, excluded above, is still an object of the type: its signature
 is `(0,1,0)`. -/
@@ -578,42 +579,45 @@ variable [NeZero m]
 
 /-- The dual really is `(1/(2m))ℤ`, stated without identifying subtype carriers by coercion. -/
 theorem mem_rankOne_dual_iff (x : ℚ) :
-    x ∈ (rankOne m).dualCarrier ↔ ∃ z : ℤ, x = (z : ℚ) / (2 * (m : ℚ)) := by
-  rw [mem_rankOne_dualCarrier_iff]
+    x ∈ (rankOne (2 * m)).dualCarrier ↔ ∃ z : ℤ, x = (z : ℚ) / (2 * (m : ℚ)) := by
+  rw [mem_rankOne_dualCarrier_iff, Int.cast_mul, Int.cast_ofNat]
 
 /-- The class of `1/(2m)` in the dual quotient. -/
 theorem coe_rankOneGenerator :
-    ((rankOneDualGen m : (rankOne m).dualCarrier) : ℚ) = 1 / (2 * m) :=
-  coe_rankOneDualGen m
+    ((rankOneDualGen (2 * m) : (rankOne (2 * m)).dualCarrier) : ℚ) = 1 / (2 * m) := by
+  rw [coe_rankOneDualGen, Int.cast_mul, Int.cast_ofNat]
 
 /-- The discriminant quotient, not merely its cardinality, is cyclic of order `|2m|`. -/
 noncomputable abbrev rankOneDiscriminantEquivZMod :
-    (rankOne m).DiscriminantGroup ≃+ ZMod (2 * m).natAbs :=
-  rankOneDiscriminantEquiv m
+    (rankOne (2 * m)).DiscriminantGroup ≃+ ZMod (2 * m).natAbs :=
+  rankOneDiscriminantEquiv (2 * m)
 
 /-- The quotient has the expected absolute order for either sign of `m`. -/
 theorem natCard_rankOne_discriminantGroup :
-    Nat.card (rankOne m).DiscriminantGroup = (2 * m).natAbs :=
-  _root_.TauCeti.IntegralLattice.natCard_rankOne_discriminantGroup m
+    Nat.card (rankOne (2 * m)).DiscriminantGroup = (2 * m).natAbs :=
+  _root_.TauCeti.IntegralLattice.natCard_rankOne_discriminantGroup (2 * m)
 
 /-- The generator has self-pairing `1/(2m) mod ℤ`. -/
 theorem rankOne_bilinear_generator :
-    (rankOne m).discriminantPairing (rankOneClass m) (rankOneClass m) =
-      ((1 / (2 * (m : ℚ)) : ℚ) : AddCircle (1 : ℚ)) :=
-  discriminantPairing_rankOneClass_self m
+    (rankOne (2 * m)).discriminantPairing (rankOneClass (2 * m)) (rankOneClass (2 * m)) =
+      ((1 / (2 * (m : ℚ)) : ℚ) : AddCircle (1 : ℚ)) := by
+  rw [discriminantPairing_rankOneClass_self, Int.cast_mul, Int.cast_ofNat]
 
 /-- The half-norm convention gives `q(1/(2m)) = 1/(4m) mod ℤ`. -/
 theorem rankOne_quadratic_generator :
-    (rankOne m).discriminantQuadraticMap (isEven_rankOne m) (rankOneClass m) =
-      ((1 / (4 * (m : ℚ)) : ℚ) : AddCircle (1 : ℚ)) :=
-  discriminantQuadraticMap_rankOneClass m
+    (rankOne (2 * m)).discriminantQuadraticMap (isEven_rankOne_two_mul m)
+        (rankOneClass (2 * m)) =
+      ((1 / (4 * (m : ℚ)) : ℚ) : AddCircle (1 : ℚ)) := by
+  simpa only [Int.cast_mul, Int.cast_ofNat, ← mul_assoc,
+    show (2 : ℚ) * 2 = 4 by norm_num] using
+    discriminantQuadraticMap_rankOneClass (2 * m) (even_two_mul m)
 
 /-- On the generator, the polar of the displayed quadratic value is the displayed pairing. -/
 theorem rankOne_polar_generator :
-    QuadraticMap.polar ((rankOne m).discriminantQuadraticMap (isEven_rankOne m))
-        (rankOneClass m) (rankOneClass m) =
-      (rankOne m).discriminantPairing (rankOneClass m) (rankOneClass m) :=
-  (rankOne m).polar_discriminantQuadraticMap (isEven_rankOne m) _ _
+    QuadraticMap.polar ((rankOne (2 * m)).discriminantQuadraticMap (isEven_rankOne_two_mul m))
+        (rankOneClass (2 * m)) (rankOneClass (2 * m)) =
+      (rankOne (2 * m)).discriminantPairing (rankOneClass (2 * m)) (rankOneClass (2 * m)) :=
+  (rankOne (2 * m)).polar_discriminantQuadraticMap (isEven_rankOne_two_mul m) _ _
 
 end RankOne
 
@@ -665,7 +669,7 @@ noncomputable abbrev affineA1RadicalQuotientIsometry :
   _root_.TauCeti.IntegralLattice.affineA1RadicalQuotientIsometry
 
 /-- `A₁` is the rank-one lattice `⟨2⟩`. -/
-theorem a1_eq_rankOne : a1 = rankOne 1 := (rankOne_one).symm
+theorem a1_eq_rankOne : a1 = rankOne 2 := rankOne_two.symm
 
 end Definiteness
 
@@ -779,34 +783,37 @@ theorem e8_isUnimodular : typeE₈RootLattice.IsUnimodular := isUnimodular_typeE
 /-! ### The `D₈ ⊂ E₈` glue calculation -/
 
 /-- The subgroup generated by the spinor class of `A_{D₈} ≅ (ℤ/2)²` has order two. -/
-theorem natCard_d8SpinorSubgroup : Nat.card d8SpinorSubgroup = 2 :=
-  _root_.TauCeti.IntegralLattice.natCard_d8SpinorSubgroup
+theorem natCard_d8SpinorSubgroup : Nat.card (checkerboardSpinorSubgroup 8) = 2 :=
+  natCard_checkerboardSpinorSubgroup 8 (by decide)
 
 /-- `q(s) = 8/8 = 0`, so the subgroup is quadratic-isotropic. -/
 theorem d8SpinorSubgroup_isIsotropic :
     ((checkerboardLattice 8).discriminantQuadraticModule
-      (isEven_checkerboardLattice 8)).IsIsotropic d8SpinorSubgroup :=
-  isIsotropic_d8SpinorSubgroup
+      (isEven_checkerboardLattice 8)).IsIsotropic (checkerboardSpinorSubgroup 8) :=
+  (isIsotropic_checkerboardSpinorSubgroup_iff 8).mpr (by decide)
 
 /-- `D₈⁺` is produced by the general gluing operation, not by a fresh construction, and its
 carrier is `D₈ ∪ (s + D₈)`. -/
 theorem d8Plus_eq_toIntegralLattice
     (h : TauCeti.IntegralLattice.IntermediateCarrier.IsEven
-      ((checkerboardLattice 8).intermediateCarrierOfDiscriminantSubgroup d8SpinorSubgroup)) :
-    h.isIntegral.toIntegralLattice = d8PlusLattice :=
-  toIntegralLattice_eq_d8PlusLattice h
+      ((checkerboardLattice 8).intermediateCarrierOfDiscriminantSubgroup
+        (checkerboardSpinorSubgroup 8))) :
+    h.isIntegral.toIntegralLattice = checkerboardPlusLattice 8 (by decide) :=
+  toIntegralLattice_eq_checkerboardPlusLattice 8 (by decide) h
 
 theorem mem_d8Plus_carrier_iff (x : Fin 8 → ℚ) :
-    x ∈ d8PlusCarrier.1 ↔
+    x ∈ (checkerboardPlusCarrier 8).1 ↔
       x ∈ (checkerboardLattice 8).carrier ∨
         x - checkerboardSpinor 8 ∈ (checkerboardLattice 8).carrier :=
-  mem_d8PlusCarrier_iff x
+  mem_checkerboardPlusCarrier_iff 8 (by decide) x
 
 /-- The subgroup has order two, so the determinant scales from `4` to `1`: `D₈⁺` is unimodular. -/
-theorem d8Plus_isUnimodular : d8PlusLattice.IsUnimodular := isUnimodular_d8PlusLattice
+theorem d8Plus_isUnimodular : (checkerboardPlusLattice 8 (by decide)).IsUnimodular :=
+  isUnimodular_checkerboardPlusLattice 8 (by decide)
 
 /-- Gluing keeps the ambient form of `D₈`, so `D₈⁺` is positive definite like `D₈`. -/
-theorem d8Plus_isPosDef : d8PlusLattice.IsPosDef := isPosDef_d8PlusLattice
+theorem d8Plus_isPosDef : (checkerboardPlusLattice 8 (by decide)).IsPosDef :=
+  isPosDef_checkerboardPlusLattice 8 (by decide)
 
 /-- The eight glue roots have the `E₈` Cartan matrix as their Gram matrix. -/
 theorem form_e8GlueRoot (i j : Fin 8) :
@@ -815,19 +822,22 @@ theorem form_e8GlueRoot (i j : Fin 8) :
   form_e8GlueRoot_e8GlueRoot i j
 
 /-- **`D₈⁺ ≅ E₈`**, an actual lattice isometry rather than an inference from determinant one. -/
-noncomputable abbrev e8IsometryD8Plus : typeE₈RootLattice.Isometry d8PlusLattice :=
+noncomputable abbrev e8IsometryD8Plus :
+    typeE₈RootLattice.Isometry (checkerboardPlusLattice 8 (by decide)) :=
   typeE₈IsometryD8Plus
 
 /-- The general comparison gives `A_{D₈⁺} ≅ H^⊥/H = 0`, agreeing with the direct `E₈`
 computation. -/
 theorem natCard_orthogonalQuotient_d8Spinor :
     Nat.card (((checkerboardLattice 8).discriminantQuadraticModule
-      (isEven_checkerboardLattice 8)).orthogonalQuotient d8SpinorSubgroup
-        isIsotropic_d8SpinorSubgroup) = 1 :=
+      (isEven_checkerboardLattice 8)).orthogonalQuotient (checkerboardSpinorSubgroup 8)
+        ((isIsotropic_checkerboardSpinorSubgroup_iff 8).mpr (by decide))) = 1 :=
   natCard_orthogonalQuotient_d8SpinorSubgroup
 
 noncomputable abbrev d8PlusDiscriminantEquiv :
-    FiniteQuadraticModule.Isometry (d8PlusLattice.discriminantQuadraticModule isEven_d8PlusLattice)
+    FiniteQuadraticModule.Isometry
+      ((checkerboardPlusLattice 8 (by decide)).discriminantQuadraticModule
+        (isEven_checkerboardPlusLattice 8 (by decide)))
       (typeE₈RootLattice.discriminantQuadraticModule isEven_typeE₈RootLattice) :=
   d8PlusDiscriminantQuadraticIsometry
 

@@ -722,7 +722,7 @@ example (a b : K) (c : Kˣ)
     (hc : c ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![1, -a, -b, a * b])) :
     ((c : K) • weightedSumSquares K ![1, -a, -b, a * b]).Equivalent
       (weightedSumSquares K ![1, -a, -b, a * b]) :=
-  TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet a b c hc
+  (TauCeti.twoFoldPfister_smul_equivalent_iff a b c).mpr hc
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
 /-- **Layer 5, the Clifford invariant.** The Brauer class of `C(q)` in even rank and of

@@ -32,6 +32,7 @@ import TauCeti.FieldTheory.GaloisCohomology.BrauerTorsion
 import TauCeti.FieldTheory.GaloisCohomology.Coefficients
 import TauCeti.FieldTheory.GaloisCohomology.Hilbert90
 import TauCeti.FieldTheory.GaloisCohomology.Kummer
+import TauCeti.GroupTheory.QuotientGroup.Index
 import TauCeti.GroupTheory.TransversalWord
 import TauCeti.Topology.Algebra.Group.LocallyConstant
 import TauCeti.Topology.Algebra.Group.Profinite.MaximalProP
@@ -631,16 +632,16 @@ noncomputable def explicitMap1Equiv (H : Type*) [Group H] [TopologicalSpace H]
     (TauCeti.ContCohomology.explicitMap1 H N G M φ.symm e.symm.toAddMonoidHom hq hA') ?_ ?_
   · exact (TauCeti.ContCohomology.explicitMap1_comp G M H N φ e.toAddMonoidHom hf hA G M φ.symm
       e.symm.toAddMonoidHom hq hA'
-      (TauCeti.ContCohomology.comp_apply_smul ((φ : H →ₜ* G) : H →* G)
-        ((φ.symm : G →ₜ* H) : G →* H) e.toAddMonoidHom e.symm.toAddMonoidHom hA hA')).symm.trans
+      (ContinuousMonoidHom.comp_map_smul (φ : H →ₜ* G)
+        (φ.symm : G →ₜ* H) e.toAddMonoidHom e.symm.toAddMonoidHom hA hA')).symm.trans
       ((TauCeti.ContCohomology.explicitMap1_congr_of_eq G M G M _ (ContinuousMonoidHom.id G) _
         (AddMonoidHom.id M) (hq := continuous_id) (hψ := fun g m => by simp)
         (ContinuousMonoidHom.ext φ.apply_symm_apply) (AddMonoidHom.ext e.symm_apply_apply)).trans
         (TauCeti.ContCohomology.explicitMap1_id G M _))
   · exact (TauCeti.ContCohomology.explicitMap1_comp H N G M φ.symm e.symm.toAddMonoidHom hq hA'
       H N φ e.toAddMonoidHom hf hA
-      (TauCeti.ContCohomology.comp_apply_smul ((φ.symm : G →ₜ* H) : G →* H)
-        ((φ : H →ₜ* G) : H →* G) e.symm.toAddMonoidHom e.toAddMonoidHom hA' hA)).symm.trans
+      (ContinuousMonoidHom.comp_map_smul (φ.symm : G →ₜ* H)
+        (φ : H →ₜ* G) e.symm.toAddMonoidHom e.toAddMonoidHom hA' hA)).symm.trans
       ((TauCeti.ContCohomology.explicitMap1_congr_of_eq H N H N _ (ContinuousMonoidHom.id H) _
         (AddMonoidHom.id N) (hq := continuous_id) (hψ := fun g m => by simp)
         (ContinuousMonoidHom.ext φ.symm_apply_apply) (AddMonoidHom.ext e.apply_symm_apply)).trans
@@ -1495,7 +1496,7 @@ theorem explicitDelta0_apply (S : DiscreteShortExact G A B C) (c : H0 G C) (b : 
     (hb : S.proj b = (c : C)) (a : G → A) (ha : ∀ g : G, S.incl (a g) = g • b - b)
     (hmem : a ∈ Z1 G A) :
     explicitDelta0 G A B C S c = H1pi G A ⟨a, hmem⟩ :=
-  TauCeti.ContCohomology.DiscreteShortExact.explicitDelta0_apply S c hb hmem ha
+  TauCeti.ContCohomology.DiscreteShortExact.explicitDelta0_apply S c hb ha
 
 /-- **Layer 5, the connecting map `δ¹ : H¹(G, C) → H²(G, A)`.** -/
 noncomputable abbrev explicitDelta1 (S : DiscreteShortExact G A B C) : H1 G C →+ H2 G A :=
@@ -1508,7 +1509,7 @@ theorem explicitDelta1_apply (S : DiscreteShortExact G A B C) (f : Z1 G C)
     (e : G → B) (he : Continuous e) (hef : ∀ g : G, S.proj (e g) = (f : G → C) g)
     (a : G × G → A) (ha : ∀ q : G × G, S.incl (a q) = d1 G B e q) (hmem : a ∈ Z2 G A) :
     explicitDelta1 G A B C S (H1pi G C f) = H2pi G A ⟨a, hmem⟩ :=
-  TauCeti.ContCohomology.DiscreteShortExact.explicitDelta1_apply S f he hef hmem
+  TauCeti.ContCohomology.DiscreteShortExact.explicitDelta1_apply S f he hef
     fun g h => (ha (g, h)).trans (TauCeti.ContCohomology.d1_apply e g h)
 
 /-- **Layer 5, exactness at `H⁰(G, A)`,** the first of the eight nodes (NSW (1.3.2)). -/
@@ -5334,20 +5335,22 @@ noncomputable def f2Pairing (G : Type u) [Group G] [TopologicalSpace G] [IsTopol
 /-- **Layer 13, the image of an open subgroup in a quotient,** `U ⧸ N` as an open subgroup of
 `G ⧸ N`, for closed normal `N ≤ U`. The inflation compatibility of the norm is a statement about
 these two groups, so the subgroup has to be named before it can be stated. It is Tau Ceti's
-`TauCeti.quotientOpenSubgroup` (`TauCeti/Topology/Algebra/Group/Quotient/Basic.lean`), which needs
+`Subgroup.quotientOpenSubgroup` (`TauCeti/Topology/Algebra/Group/Quotient/Basic.lean`), which needs
 neither the closedness of `N` nor `N ≤ U`. -/
 abbrev quotientOpenSubgroup (N : Subgroup G) [N.Normal] (_hN : IsClosed (N : Set G))
     (U : OpenSubgroup G) (_hNU : N ≤ U) :
     OpenSubgroup (G ⧸ N) :=
-  TauCeti.quotientOpenSubgroup N U
+  Subgroup.quotientOpenSubgroup N U
 
 /-- **Layer 13, the index is unchanged by passing to the quotient,** for `N ≤ U`: Tau Ceti's
-`TauCeti.quotientOpenSubgroup_index`. Without it the two sides of the inflation compatibility below
+`Subgroup.toSubgroup_quotientOpenSubgroup` with the image-index formula
+`Subgroup.index_map_mk'_eq_index_sup`. Without it the two sides of the inflation compatibility below
 sit in different degrees. -/
 theorem quotientOpenSubgroup_index (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G))
     (U : OpenSubgroup G) (hNU : N ≤ U) :
-    (quotientOpenSubgroup N hN U hNU).toSubgroup.index = U.toSubgroup.index :=
-  TauCeti.quotientOpenSubgroup_index N U hNU
+    (quotientOpenSubgroup N hN U hNU).toSubgroup.index = U.toSubgroup.index := by
+  rw [Subgroup.toSubgroup_quotientOpenSubgroup, Subgroup.index_map_mk'_eq_index_sup,
+    sup_eq_left.mpr hNU]
 
 /-- **Layer 13, the invariants of the trivial `𝔽₂` object are the trivial `𝔽₂` object.** -/
 noncomputable def trivialF2Quotient (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G))
