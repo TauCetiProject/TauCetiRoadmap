@@ -76,7 +76,6 @@ body:
         - Isoperimetry
         - JacobianChallenge
         - KhovanovHomology
-        - LaguerreJacobi
         - LocalFieldsRamification
         - LocalGaloisGroups
         - MassFormula
