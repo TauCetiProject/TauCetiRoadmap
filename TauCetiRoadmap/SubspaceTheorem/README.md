@@ -12,7 +12,7 @@ variables, Thue, Thue–Mahler and hyperelliptic equations over `S`-integers, de
 equations, the Corvaja–Zannier gcd bound, and the elementary half of the quantitative theory,
 which counts the subspaces.
 
-It stands on three roadmaps and on what Tau Ceti already holds. The height foundation, the
+It stands on four roadmaps and on what Tau Ceti already holds. The height foundation, the
 approximation exponents, the Roth machinery (Hasse derivatives, the weighted index, generalized
 Wronskians, Roth's lemma) and the Siegel lemma are
 [DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)'s
@@ -21,9 +21,10 @@ Evertse's lecture-notes form and the absolute quantitative Subspace Theorem. The
 the Northcott instances, Kronecker's theorem, the heights of units and the `S`-unit lattice are
 [HeightsAndUnits](../HeightsAndUnits/README.md)'s (HAU below). The places of a number field with
 their normalized absolute values and the local extension formulas are
-[GlobalNumberFields](../GlobalNumberFields/README.md)'s Layer 0. Everything here is stated so
-that the `K = ℚ` instances in those roadmaps are specializations, recorded as acceptance tests
-and never restated.
+[GlobalNumberFields](../GlobalNumberFields/README.md)'s Layer 0. Successive minima, Minkowski's
+second theorem and the Gram–Hadamard bound are [SuccessiveMinima](../SuccessiveMinima/README.md)'s
+(SM below). Everything here is stated so that the `K = ℚ` instances in DAT are specializations,
+recorded as acceptance tests and never restated.
 
 "Done" means a contributor who needs a finiteness statement in Diophantine approximation or
 Diophantine equations finds it here in the form the literature applies it in, over a number field
@@ -200,7 +201,7 @@ has there, with subdirectories `Roth/`, `Parallelepiped/`, `Subspace/`, `Transce
 - **GlobalNumberFields** Layer 0, through the Tau Ceti declarations named above: the place
   carrier `Place K`, the normalized absolute values, the product formula and its functoriality
   under a finite extension with the local degrees in the exponents.
-- **[SuccessiveMinima](../SuccessiveMinima/README.md)** (SM below; TauCetiRoadmap #1298): 1.1
+- **SM** (TauCetiRoadmap #1298), by milestone. 1.1
   `successiveMin` for a `ZLattice` and a `ConvexBody`, zero-based; 1.7
   `exists_successiveMin_witnesses`; 2.1.4 `minkowski_second_lower` and 3.21
   `minkowski_second_upper`; 0.1.2 `hermitian_gram_hadamard`.
