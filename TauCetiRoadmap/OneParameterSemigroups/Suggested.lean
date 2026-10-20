@@ -15,6 +15,13 @@ import TauCeti.Analysis.Semigroups.Generation.LumerPhillips
 import TauCeti.Analysis.Semigroups.Generator.Closed
 import TauCeti.Analysis.Semigroups.Generator.Uniqueness
 import TauCeti.Analysis.Semigroups.GrowthBound
+import TauCeti.Analysis.Semigroups.Resolvent.Complexification
+import TauCeti.Analysis.Semigroups.Resolvent.Complex
+import TauCeti.Analysis.CompletelyMonotone.Bernstein.LevyKhintchine.Uniqueness
+import TauCeti.Analysis.CompletelyMonotone.Stieltjes.Reciprocal
+import TauCeti.Analysis.CompletelyMonotone.Stieltjes.Uniqueness
+import TauCeti.Analysis.Bochner.LocallyCompactGroup
+import TauCeti.Analysis.PositiveDefinite.SemigroupGroup.FourierLaplace.Existence
 
 /-!
 # Targets — one-parameter semigroups, completely monotone functions, BCR Bochner
@@ -24,16 +31,9 @@ The statements here suggest Lean forms for particular milestones, so that contri
 reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
 the roadmap.
 
-This roadmap predates the `Suggested.lean` convention — it landed 2026-06-20, and the first target
-files appeared 2026-07-05 — and was implemented without it. The file is therefore written after the
-fact: each milestone is either **discharged**, closed by the Tau Ceti declaration that realizes it,
-or left with an honest `sorry`.
-
-Nothing here records a status by hand: a discharged milestone is checked by the compiler, not
-asserted. A remaining `sorry` carries a comment saying why — unproved mathematics, or a
-realization that postdates the Tau Ceti revision this repository pins. The docstrings carry
-mathematics; status stays in the comment at the `sorry`, where it is visible to anyone editing
-the target and cannot silently rot elsewhere in the prose.
+The examples consume native definitions and representation theorems directly. In particular,
+complexification retains the exact growth constants, and the countability-free Bochner target
+retains inner regularity of the representing measure.
 -/
 
 namespace TauCetiRoadmap.OneParameterSemigroups
@@ -161,17 +161,15 @@ continuous positive-definite function on the semigroup `ℝ≥0 × V` is the Lap
 of a unique finite measure. Time lives in `ℝ≥0`, so the representing measure has the right support
 automatically.
 
-**Boundedness is required and was missing here.** `TauCeti.IsSemigroupGroupPD` is the bare
+**Boundedness is required.** `TauCeti.IsSemigroupGroupPD` is the bare
 quadratic-form condition, so without a bound the statement is false: `F (t, v) = exp t` is
 continuous and positive definite, being a character — the quadratic form is `‖∑ cᵢ exp tᵢ‖ ^ 2` —
-yet no finite measure represents it, since a representing `μ` forces `‖F‖ ≤ μ univ`. The
-docstring above always said *bounded*; the signature had dropped it.
+yet no finite measure represents it, since a representing `μ` forces `‖F‖ ≤ μ univ`.
 
 **No `StarAddMonoid V` either.** The involution `(t, v) ↦ (t, -v)` lives on Tau Ceti's own
 `BCRPoint V` wrapper, precisely so that no global negation instance is installed on every additive
 group -- which, as that module says, "would conflict with Mathlib's ordinary star conventions".
-`TauCeti.IsSemigroupGroupPD` therefore asks only for `AddCommGroup V`, and carrying the instance
-here misstated the hypothesis Tau Ceti actually needs.
+`TauCeti.IsSemigroupGroupPD` therefore asks only for `AddCommGroup V`.
 
 A proved instance also exists outside Tau Ceti, for the special case `V = (Fin d → ℝ)` with time
 in `ℝ` plus a support side-condition, in `mrdouglasny/hille-yosida`
@@ -183,10 +181,52 @@ theorem bcr_semigroup_bochner (F : ℝ≥0 × V → ℂ)
     (_hcont : Continuous F) (_hbdd : Bornology.IsBounded (Set.range F))
     (_hpd : TauCeti.IsSemigroupGroupPD F) :
     ∃! μ : Measure (ℝ≥0 × V), TauCeti.RepresentsLaplaceFourier μ F :=
-  -- waiting on the pin: realized by `TauCeti.bcr_semigroup_bochner`, in a module postdating the
-  -- Tau Ceti revision this repository pins. Not unproved mathematics.
-  sorry
+  (TauCeti.bcr_semigroup_bochner F).mp ⟨_hpd, _hcont, _hbdd⟩
 
 end PartC
+
+
+/-! ## Native interfaces for the full complex and representation scope -/
+
+section Complexification
+variable {X : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X] [CompleteSpace X]
+
+/-- Complexification preserves the exact growth constants. -/
+example (S : StronglyContinuousSemigroup X) (omega M : ℝ) :
+    S.complexify.HasGrowthBound omega M ↔ S.HasGrowthBound omega M :=
+  S.hasGrowthBound_complexify_iff omega M
+
+/-- The real-axis resolvent is the complexification of the real resolvent. -/
+example (S : StronglyContinuousSemigroup X) {l : ℝ}
+    (hl : l ∈ TauCeti.LinearPMap.resolventSet S.generator) :
+    TauCeti.LinearPMap.resolvent
+      (S.complexify.complexGenerator S.isComplexLinear_complexify) (l : ℂ) =
+        (TauCeti.LinearPMap.resolvent S.generator l).complexify :=
+  S.resolvent_complexify_complexGenerator_ofReal hl
+end Complexification
+
+/-- The Bernstein representation uses a normalized Lévy measure and a unique triplet. -/
+example {f : ℝ → ℝ} (hf : TauCeti.IsBernsteinFunction f) :
+    ∃! p : ℝ × ℝ × Measure ℝ≥0,
+      0 ≤ p.1 ∧ 0 ≤ p.2.1 ∧ TauCeti.IsBernsteinLevyMeasure p.2.2 ∧
+        Set.EqOn f (TauCeti.bernsteinLevyKhintchineExponent p.1 p.2.1 p.2.2) (Set.Ici 0) :=
+  hf.existsUnique_eqOn_bernsteinLevyKhintchineExponent
+
+/-- The reciprocal correspondence requires an extension across the origin. -/
+example {f : ℝ → ℝ} :
+    TauCeti.IsStieltjesFunction f ↔
+      ∃ g : ℝ → ℝ, TauCeti.IsCompleteBernsteinFunction g ∧
+        Set.EqOn g (fun t => (f t)⁻¹) (Set.Ioi 0) :=
+  TauCeti.isStieltjesFunction_iff_exists_isCompleteBernsteinFunction_eqOn_inv
+
+/-- Countability-free Bochner representation retains inner regularity explicitly. -/
+example {G : Type*} [AddCommGroup G] [TopologicalSpace G] [IsTopologicalAddGroup G]
+    [LocallyCompactSpace G] [T2Space G]
+    [MeasurableSpace (PontryaginDual (Multiplicative G))]
+    [BorelSpace (PontryaginDual (Multiplicative G))] (f : G → ℂ) :
+    (Continuous f ∧ TauCeti.IsPositiveDefiniteSub f) ↔
+      ∃! μ : FiniteMeasure (PontryaginDual (Multiplicative G)),
+        μ.toMeasure.InnerRegular ∧ μ.pontryaginMeasureTransform = f :=
+  TauCeti.continuous_and_isPositiveDefiniteSub_iff_existsUnique_innerRegular_pontryaginMeasureTransform_eq f
 
 end TauCetiRoadmap.OneParameterSemigroups
