@@ -71,7 +71,8 @@ Checks. They are used only after the hypotheses of the named specialization are 
   AG2.P uses the raw carrier without requiring the rank-two specialization's chosen
   models over the coefficient-field completions; compatibility predicates and automorphic
   existence are targets here.
-- ArithmeticGaloisRepresentations §§1.1–1.6 supply `ContinuousRep`, coefficient operations
+- EtaleCohomologyFoundations §F.4.0 supplies `ContinuousRep`;
+  ArithmeticGaloisRepresentations §§1.1–1.6 supply its coefficient operations
   and stable lattices; §§1.7–1.9 supply semisimplification, Brauer–Nesbitt and residual
   reduction with lattice independence. Section 1.11 retains its additional hypotheses for
   stronger lattice statements. Section 1.5 supplies finite local coefficient descent. Sections 2.1–2.4 supply
@@ -92,8 +93,9 @@ Checks. They are used only after the hypotheses of the named specialization are 
 - ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7 supply automorphic representations,
   algebraic highest weights, coefficient representations, infinitesimal characters and the
   cohomological/C-algebraic dictionary. AutomorphicSpectralTheory §4.7 supplies compact quotient
-  discrete spectral decomposition, and §5.11 supplies the cuspidal cohomology comparison used
-  for the boundary Levi.
+  discrete spectral decomposition. ArithmeticLocallySymmetricSpaces ALS.5b.5 supplies
+  cuspidal cohomology with algebraic coefficients over a number field, the input to
+  HLTT Corollary 1.9 for the boundary Levi.
 - AutomorphicFormsOnReductiveGroups §5.7 supplies the smooth finite-part scalar twist,
   stabilizer rationality field, twist/conjugation laws and Clozel finiteness for regular
   algebraic cuspidal `GL_n` over any number field in cohomological normalization.
@@ -126,7 +128,9 @@ Checks. They are used only after the hypotheses of the named specialization are 
   and classicality/density comparison from these analytic objects.
 - AlgebraicModularFormsAndSerreWeights §R15.5A supplies the independent classical rank-two
   cohomological summand and Galois attachment. GL2AutomorphicRepresentationsAndTransfer
-  §§R16.6.3–R16.6.4 supply the classical/Hilbert weight and Frobenius dictionaries.
+  §R16.6.3 supplies Hilbert cohomological weights and §R16.6.4 the classical weight-`k`
+  Frobenius conversion. AG2.P’s rank-two contract supplies the Hilbert inverse-uniformizer
+  Hecke conversion between `ρ` and `σ_Carayol`.
   WeightsInEtaleCohomology Layer R34.6 supplies fixed-form compatible-family and local
   comparisons only on its specified geometric domain. AG2.6's rank-two comparisons assume
   both independently constructed members and their exact local hypotheses. The cohomological polarized rank-two
@@ -159,10 +163,12 @@ Checks. They are used only after the hypotheses of the named specialization are 
   PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1 supply filtered exactness, finite-extension
   comparison, the cyclotomic realization adapters, `N_dR(V)` and arithmetic p-adic
   monodromy. Its proof uses PadicDifferentialEquationsAndRigidCohomology
-  §§RD.2.33–RD.2.39 and recovers actual semistable periods from logarithmic solutions.
+  §§RD.2.33–RD.2.34 and RD.2.36–RD.2.39 and recovers actual semistable periods from logarithmic solutions.
   NeronModelsAndSemistableAbelianVarieties §5.3 supplies `PadicWeilDeligneRealization`,
   `D_pst`, finite descent, extension independence and both `N_p` and `N_K=e_K N_p`,
-  for arbitrary finite-dimensional finite-coefficient representations at every prime.
+  for finite-dimensional finite-coefficient representations that become semistable over
+  a finite Galois extension, at every prime. AG2.P obtains this hypothesis for de Rham `V`
+  from `arithmeticPadicMonodromy`.
   AG2.P retains these carriers and specializes their commuting coefficient actions,
   labelled embeddings, normalizations and projector comparisons to the PEL/Kuga applications.
 - CrystallineCohomology Layer CR.6 supplies Hyodo–Kato complexes and the semistable
@@ -228,8 +234,6 @@ This layer specializes supplied period functors and geometric objects to the fin
 coefficient fields used in the automorphic construction. The rank-two and `GSp₄` comparisons
 state their independent inputs explicitly.
 
-<a id="arithmetic-padic-monodromy"></a>
-
 ### Arithmetic p-adic monodromy over finite coefficient fields
 
 For every prime `ℓ`, finite extensions `K/ℚ_ℓ` and `E/ℚ_ℓ`, and continuous finite-dimensional
@@ -253,7 +257,7 @@ endomorphisms. Over a common finite Galois semistabilizing extension, identify i
 period module as free of rank `dim_E V` over `L₀⊗_{ℚ_ℓ}E`, with the supplied descent
 action. Morphisms, direct sums, Tate twists and finite coefficient extension preserve
 these identifications. Frobenius acts on the period factor and fixes `E`.
-(Source: [Berger](#source-berger), §1.1–§1.3, Theorem 1.3, pp.8–12;
+(Source: Berger, §1.1–§1.3, Theorem 1.3, pp.8–12;
 Theorem 3.6, p.33; Proposition 5.9 and Theorem 5.10, pp.51–52;
 Theorems 5.19–5.20 and the proof of 5.19, pp.56–58.)
 
@@ -273,8 +277,6 @@ Theorems 5.19–5.20 and the proof of 5.19, pp.56–58.)
 *Needs:* LocalGaloisDeformationRings §0.4; PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1;
 PadicPeriodRings §§4.1–4.3; ArithmeticGaloisRepresentations §§1.1–1.6 and 1.12;
 NeronModelsAndSemistableAbelianVarieties §5.3.
-
-<a id="finite-coefficient-period-api"></a>
 
 ### Finite-coefficient periods, descent and geometric comparison
 
@@ -316,9 +318,9 @@ The required API is `finiteCoefficientPeriodAPI`, `periodBaseChange`, `potential
 for restriction and scalar extension. For ordinary representations retain an actual stable
 flag with graded characters, not a list of valuations: tensor and coefficient change preserve
 the flag and its characters. The ordinary `GSp₄` flag theorem is AG2.6's specific target.
-(Sources: [CH](#source-ch), §1.4–§1.5, Theorem 1.4 and (1.6), pp.5–7, and the period arguments
-in Theorem 2.3 and Theorem 3.2.3, pp.8–12; [AHTW](#source-ahtw), §1.2.3–§1.2.5;
-[Caraiani-p-published](#source-caraiani-p-published), comparison before Corollary 2.3, p.1609.)
+(Sources: CH, §1.4–§1.5, Theorem 1.4 and (1.6), pp.5–7, and the period arguments
+in Theorem 2.3 and Theorem 3.2.3, pp.8–12; AHTW, §1.2.3–§1.2.5;
+Caraiani-p-published, comparison before Corollary 2.3, p.1609.)
 
 **Checks.**
 
@@ -331,13 +333,11 @@ in Theorem 2.3 and Theorem 3.2.3, pp.8–12; [AHTW](#source-ahtw), §1.2.3–§1
 - An idempotent projecting `V₁ ⊕ V₂` onto `V₁` restricts every period comparison to that
   summand. An arbitrary noncommuting endomorphism supplies no comparison on its image.
 
-*Needs:* [AG2.P: arithmetic p-adic monodromy](#arithmetic-padic-monodromy);
+*Needs:* AG2.P: arithmetic p-adic monodromy;
 PadicHodgeTheory §§3.2–3.5 and 5.1; NeronModelsAndSemistableAbelianVarieties §5.3;
 PadicPeriodRings §§4.1–4.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3;
 CrystallineCohomology CR.6; ArithmeticGaloisRepresentations §§1.1–1.6 and 2.4;
 EtaleCohomologyFoundations §§F.4.1–F.4.6; WeightsInEtaleCohomology R34.3, geometric semistable-period comparison.
-
-<a id="finite-coefficient-correspondence-traces"></a>
 
 ### Normalized-system adapter for correspondence traces
 
@@ -360,7 +360,7 @@ trace identities form one compatible system, with the same Frobenius bound at ev
 modulus. The trace is a perfect-complex trace even when cohomology has torsion.
 The additional assertion is this identification for the chosen normalized systems;
 the generic finite/integral/rational theorem remains the supplied one.
-(Source: [Varshavsky](#source-varshavsky), coefficient conventions §0.2, p.5;
+(Source: Varshavsky, coefficient conventions §0.2, p.5;
 §§1.1–1.2; Theorem 2.1.3, p.17; Corollary 2.2.4, p.19;
 Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
 
@@ -379,8 +379,6 @@ Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
 
 *Needs:* EtaleDualityAndPerverseSheaves §§3.1–3.2 and 6.1–6.5;
 EtaleCohomologyFoundations §§F.1–F.6 and F.10.2b.
-
-<a id="compatible-data-prelude"></a>
 
 ### Arbitrary-rank compatible data and operations
 
@@ -426,24 +424,22 @@ does not imply them.
 
 *Needs:* SmallRamificationAndAbelianVarietyBaseCases §5.0d;
 ArithmeticGaloisRepresentations Layers 1–2 and §7.4; NumberFieldArithmetic Layer 0;
-[AG2.P: finite-coefficient periods](#finite-coefficient-period-api);
-[AG2.P: arithmetic p-adic monodromy](#arithmetic-padic-monodromy), for coefficient-prime WD parameters;
-[AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character),
+AG2.P: finite-coefficient periods;
+AG2.P: arithmetic p-adic monodromy, for coefficient-prime WD parameters;
+AG2.0: algebraic Galois characters,
 for the character-system operation.
 
-(Sources: [ACC+](#source-accplus), §7.1, pp.1084–1086;
-[BLGGT](#source-blggt), §5.1, pp.62–65;
+(Sources: ACC+, §7.1, pp.1084–1086;
+BLGGT, §5.1, pp.62–65;
 for the pairwise almost-strict condition, [Dieulefait–Pacetti](https://arxiv.org/pdf/2108.07577v2),
 Definition 1.10 and the following paragraph, pp.6–7.)
-
-<a id="rank-two-construction-contract"></a>
 
 ### Independent classical and Hilbert members
 
 For the rank-two comparison, take an independently constructed continuous semisimple
 cohomological member `M_R19` as a hypothesis: a classical newform of weight `k≥2`, or a
 regular cohomological Hilbert eigenform with coefficient `W(Π)` and polarization as in
-[CH](#source-ch), §4, Hypotheses 4.1 and Theorem 4.2, p.13. Define the arithmetic adapter
+CH, §4, Hypotheses 4.1 and Theorem 4.2, p.13. Define the arithmetic adapter
 `r_R19,arith=M_R19^∨`. In the classical case `M_R19` has geometric good-prime polynomial
 `X²−a_vX+ψ(v)q_v^(k−1)`; `r_R19,arith` has this polynomial at arithmetic Frobenius.
 AlgebraicModularFormsAndSerreWeights §R15.5A supplies the independent classical
@@ -461,7 +457,7 @@ weight coordinates and inverse-uniformizer Hecke operators; retain its parity hy
 and the actual coefficient embedding in every adapter.
 
 Where a local comparison is transported, assume its proved local range, or prove
-`hilbertCoefficientPrimeComparison` from [CH](#source-ch), Theorem 4.2(b)–(d), p.13,
+`hilbertCoefficientPrimeComparison` from CH, Theorem 4.2(b)–(d), p.13,
 for the cohomological polarized member after this explicit dictionary. Its conclusions
 are de Rhamness with the prescribed labels, spherical crystallinity and Iwahori
 semistability. AG2.6 identifies `M_R19` with the AG2 member; AG2.7 identifies their
@@ -480,13 +476,11 @@ semisimple reductions. Weight one is outside this overlap.
 *Needs:* ArithmeticGaloisRepresentations Layer 5;
 AlgebraicModularFormsAndSerreWeights §R15.5A;
 GL2AutomorphicRepresentationsAndTransfer §§R16.6.3–R16.6.4;
-[AG2.P: finite-coefficient periods](#finite-coefficient-period-api).
+AG2.P: finite-coefficient periods.
 
-(Sources: [CH](#source-ch), §1.5, (1.6), p.7, and Theorem 4.2, p.13;
+(Sources: CH, §1.5, (1.6), p.7, and Theorem 4.2, p.13;
 [Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf), §0.5, p.410,
 and Theorem A, pp.410–411.)
-
-<a id="gsp4-construction-contract"></a>
 
 ### `GSp₄` construction and normalization
 
@@ -499,8 +493,8 @@ solvable-descent application takes an already constructed Galois realization as 
 the construction here instead uses the following spin-parameter realization.
 
 Prove `gsp4SpinRealization` for cuspidal `GSp₄` representations over `ℚ` with discrete-series
-infinity component in the domains of [CG](#source-cg), Proposition 6.8, and
-[Pilloni](#source-pilloni), Theorem 5.1.7.1. From the conditional classification, determine
+infinity component in the domains of CG, Proposition 6.8, and
+Pilloni, Theorem 5.1.7.1. From the conditional classification, determine
 the spin parameter and its isobaric constituents with their central characters and norm
 twists. For general type, §11.1 supplies a cuspidal regular algebraic essentially self-dual
 `GL₄` transfer after normalization. Apply the supplier with `Π` and its twisting character
@@ -554,20 +548,20 @@ here; §13.2 is not its construction theorem.
   no classification-based existence assertion.
 
 *Needs:* EndoscopicTransferAndUnitaryTraceComparison, Conditional classification inputs and §11.1;
-[AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character);
-[AG2.2: polarization twists](#algebraic-character-polarization-twist);
-[AG2.3: totally real polarized existence](#totally-real-polarized-existence);
-[AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris);
-[AG2.3: polarization sign](#automorphic-polarization-and-sign);
-[AG2.5: polarized local comparison](#caraiani-upgrade-away-from-p-and-temperedness);
-[AG2.6: uniform strong realization](#uniform-strong-realization-for-polarized-systems);
-[AG2.6: totally-real polarized local descent](#totally-real-polarized-coefficient-prime-descent);
+AG2.0: algebraic Galois characters;
+AG2.2: polarization twists;
+AG2.3: totally real polarized existence;
+AG2.3: arbitrary regular existence;
+AG2.3: polarization sign;
+AG2.5: polarized local comparison;
+AG2.6: uniform strong realization;
+AG2.6: totally-real polarized local descent;
 PELModuli Layers M0–M4; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7;
 ArithmeticGaloisRepresentations §§7.4–7.5; IntegralHeckeAndGaloisDeterminants §3a.1;
-[AG2.P: finite-coefficient periods](#finite-coefficient-period-api).
+AG2.P: finite-coefficient periods.
 
-(Sources: [CG](#source-cg), Theorem 5.2(1), Remark 5.10 and Proposition 6.8 with proof,
-pp.38–39; [Pilloni](#source-pilloni), §5.1.7, Theorem and Remark 5.1.7.1 and the
+(Sources: CG, Theorem 5.2(1), p.25; Remark 5.10, pp.33–34; Proposition 6.8 with proof,
+pp.38–39; Pilloni, §5.1.7, Theorem and Remark 5.1.7.1 and the
 following packet-type discussion, pp.22–23.)
 
 ### Examples
@@ -584,8 +578,6 @@ AG2.3 or AG2.4 is used to construct the period functors or their geometric compa
 
 Start with the labelled weight, automorphic multiplier and coefficient embedding. The integral polynomial and its twist identities require only spherical Hecke and character theory. Keep the early rationality field separate from the later field of realization.
 
-<a id="dominant-weights-and-the-weight-w"></a>
-
 ### Dominant weights `(ℤⁿ)^{Hom(F,Ω),+}`, the subsets `(ℤⁿ)_w` for CM fields, base change of weights and the representations `Ξ_a`
 
 For a number field `F`, rank `n≥1` and algebraically closed characteristic-zero coefficient field `Ω`, use the embedding-wise dominant `GL_n` coordinates of ArithmeticLocallySymmetricSpaces §ALS.F.7: a family `a` has `a_{τ,1}≥⋯≥a_{τ,n}` at each `τ:F→Ω`. The notation `(ℤⁿ)^{Hom(F,Ω),+}` denotes this specialization of the imported algebraic-weight carrier. For totally real or CM `F` with conjugation `c`, membership in `(ℤⁿ)_w` means `a_{τ,i}+a_{τ∘c,n+1−i}=w` for every `τ` and `i`. When `Ω=ℂ`, conjugating the target embedding gives the same condition. Restriction of embeddings defines base change: `(a_{F′})_{τ,i}=a_{τ|_F,i}`. Extreme regularity asks that, at some embedding, equal-sized subsets of the shifted entries `{a_{τ,i}+n−i}` are determined by their sums. For complex coefficients `Ξ_a` is ArithmeticLocallySymmetricSpaces §ALS.F.7’s highest-weight representation, identified with the tensor product of the `GL_n` representations of highest weights `a_τ`. The coordinate notation and `Ξ_a` do not introduce a second highest-weight theory.
@@ -594,7 +586,7 @@ Throughout this target, dominance is the ordering `a_{τ,1} ≥ ⋯ ≥ a_{τ,n}
 
 The required API is:
 
-- `DominantWeight`: The `GL_n` coordinate form of ArithmeticLocallySymmetricSpaces §ALS.F.7’s highest-weight datum is `ι → {a : Fin n → ℤ // Antitone a}`; `DominantWeight` is this specialization, not a new general carrier.
+- `DominantWeight n ι := ι → TauCeti.DominantWeight n`: One pinned Tau Ceti dominant weight per embedding (`TauCeti.RepresentationTheory.ClassicalGroups.DominantWeight`); `IsInW`, `baseChange` and `IsExtremelyRegular` are the embedding-indexed additions to the highest-weight datum of ArithmeticLocallySymmetricSpaces §ALS.F.7.
 - `DominantWeight.IsInW`: `a.IsInW c w :⇔ ∀ τ i, a τ i + a (c τ) (rev i) = w`, for an involution `c` of `ι`.
 - `DominantWeight.baseChange`: `(a.baseChange f) τ′ = a (f τ′)` for the restriction `f: Hom(F′, Ω) → Hom(F, Ω)`.
 - `DominantWeight.IsExtremelyRegular`: Some `τ` has no two distinct equal-size subsets of `{a τ i + n − 1 − i}` with equal sums.
@@ -617,9 +609,7 @@ The required API is:
 
 *Needs:* Mathlib `NumberField.IsCMField.complexEmbedding_complexConj`; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
-(Sources: [BLGGT](#source-blggt), §2.1, p. 32; [BLGGT](#source-blggt), §2.1, p. 32.)
-
-<a id="regular-algebraic-of-weight"></a>
+(Sources: BLGGT, §2.1, p. 32; BLGGT, §2.1, p. 32.)
 
 ### Regular algebraic automorphic representations of `GL_n(𝔸_F)` and their weight
 
@@ -645,11 +635,9 @@ The required API is:
 
 - `hasWeight_trivial` — The trivial representation of `GL_1(𝔸_F)` has weight 0.
 
-*Needs:* [AG2.0: dominant weights](#dominant-weights-and-the-weight-w); ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
+*Needs:* AG2.0: dominant weights; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
-(Sources: [BLGGT](#source-blggt), §2.1, p. 32; [ACC+](#source-accplus), §1, Notation, p. 908.)
-
-<a id="polarized-automorphic-representation"></a>
+(Sources: BLGGT, §2.1, p. 32; ACC+, §1, Notation, p. 908.)
 
 ### Conjugate self-dual, essentially conjugate self-dual and polarized automorphic representations, with the multiplier character
 
@@ -688,11 +676,9 @@ The required API is:
 
 - `not_totallyOdd_blggt_sign_odd_w` — A pair satisfying BLGGT's printed `χ_v(−1) = (−1)^n` with `w` odd (the CM elliptic curve character) is not totally odd: its Galois multiplier takes `c_v` to `+1`.
 
-*Needs:* [AG2.0: regular algebraicity](#regular-algebraic-of-weight); [AG2.0: dominant weights](#dominant-weights-and-the-weight-w); GlobalNumberFields / layer 9 hecke and ray class characters; GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic.
+*Needs:* AG2.0: regular algebraicity; AG2.0: dominant weights; GlobalNumberFields / layer 9 hecke and ray class characters; GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic.
 
-(Sources: [BLGGT](#source-blggt), §2.1, p. 32; [BLGGT](#source-blggt), §2.1, p. 32; [CH](#source-ch), Hypotheses 4.1(ii), p. 13.)
-
-<a id="galois-character-of-an-algebraic-hecke-character"></a>
+(Sources: BLGGT, §2.1, p. 32; BLGGT, §2.1, p. 32; CH, Hypotheses 4.1(ii), p. 13.)
 
 ### The `l`-adic character `r_{l,ι}(χ)` of an algebraic Hecke character, its Hodge–Tate numbers and its weight
 
@@ -721,11 +707,9 @@ The required API is:
 
 - `galoisChar_restrict_complexConj` — For `F` imaginary and `ψ` algebraic on `F, r_{l,ι}(ψ|_{𝔸_{F⁺}})(c_v) = +1` because the transfer sends `c_v` to `c_v² = 1`, whatever `ψ_v(−1)` is: the Galois sign is not `χ_v(−1)` unless wt/2 is even.
 
-*Needs:* ClassFieldTheory / layer 11 the global class formation and global artin reciprocity; GlobalNumberFields / layer 9 hecke and ray class characters; GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic; ArithmeticGaloisRepresentations Layer 2; [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
+*Needs:* ClassFieldTheory / layer 11 the global class formation and global artin reciprocity; GlobalNumberFields / layer 9 hecke and ray class characters; GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic; ArithmeticGaloisRepresentations Layer 2; AG2.P: finite-coefficient periods and comparison.
 
-(Sources: [BLGGT](#source-blggt), §A.2, p. 87; [BLGGT](#source-blggt), §A.2, p. 87; [BLGGT](#source-blggt), Notation, p. 9.)
-
-<a id="sign-of-the-polarization-multiplier"></a>
+(Sources: BLGGT, §A.2, pp. 86–87; BLGGT, §A.2, pp. 86–87; BLGGT, Notation, pp. 9–10.)
 
 ### The parity of the Galois multiplier of a polarized pair: `µ(c_v) = (−1)^{n−1+w} χ_v(−1)`
 
@@ -733,11 +717,9 @@ Let `F` be imaginary CM and `(π, χ)` a regular algebraic polarized automorphic
 
 Throughout this target, the integer `w` is the one with `a ∈ (ℤⁿ)_w`. Theorem 2.1.1 of BLGGT uses a different integer, the purity weight `w + n − 1` of `r_{l,ι}(π)`. Only the multiplier's value at complex conjugation is computed. No Galois representation `r_{l,ι}(π)` is needed for the statement.
 
-*Needs:* [AG2.0: polarized pairs](#polarized-automorphic-representation); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); ArithmeticGaloisRepresentations §7.4.
+*Needs:* AG2.0: polarized pairs; AG2.0: algebraic Galois characters; ArithmeticGaloisRepresentations §7.4.
 
-(Sources: [BLGGT](#source-blggt), Theorem 2.1.1(1), p. 33; [BLGGT](#source-blggt), Proof of Theorem 2.1.1, p. 34; [Patrikis](#source-patrikis), §4, proof of Proposition 4.1, p. 8.)
-
-<a id="expected-hodge-tate-multiset"></a>
+(Sources: BLGGT, Theorem 2.1.1(1), p. 33; BLGGT, Proof of Theorem 2.1.1, p. 34; Patrikis, §4, proof of Proposition 4.1, p. 8.)
 
 ### The Hodge–Tate multiset attached to a weight: `HT_τ = {a_{ιτ,1} + n − 1, …, a_{ιτ,n}}`
 
@@ -765,11 +747,9 @@ The required API is:
 
 - `not_expectedHodgeTate_unshifted` — The unshifted multiset `{a_{τ,i}}` fails regularity for `a = 0` and `n ≥ 2`, so the shift `n − i` is part of the definition.
 
-*Needs:* [AG2.0: dominant weights](#dominant-weights-and-the-weight-w).
+*Needs:* AG2.0: dominant weights.
 
-(Sources: [BLGGT](#source-blggt), Theorem 2.1.1(3), p. 33; [BLGGT](#source-blggt), Notation, p. 8; [ACC+](#source-accplus), Corollary 7.2.4, p. 1100.)
-
-<a id="frobenius-polynomial-and-conventions"></a>
+(Sources: BLGGT, Theorem 2.1.1(3), p. 33; BLGGT, Notation, p. 8; ACC+, Corollary 7.2.4, p. 1100.)
 
 ### Automorphic specialization of the integral Hecke polynomial
 
@@ -777,11 +757,9 @@ Let `v` be a finite place of `F` with `q_v = #k(v), π_v` an unramified irreduci
 
 Throughout this target, no local Langlands correspondence is used. For unramified `π_v`, 'r corresponds at v' is defined by the polynomial identity, which is what AG2.0 requires. Agreement with `rec(π_v ⊗ |det|^{(1−n)/2})` for unramified `π_v` is an AG2.5 comparison. ACC+ say `P_v` corresponds to Frobenius on `rec^T(π_v)`, their arithmetic normalisation of local Langlands (Clozel–Thorne §2.1), with `Frob_v` geometric in their notation. That is the geometric convention here.
 
-*Needs:* [AG2.0: regular algebraicity](#regular-algebraic-of-weight); IntegralHeckeAndGaloisDeterminants §3a.1; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character).
+*Needs:* AG2.0: regular algebraicity; IntegralHeckeAndGaloisDeterminants §3a.1; AG2.0: algebraic Galois characters.
 
-(Sources: [ACC+](#source-accplus), §2.2.5, (2.2.6), p. 922; [ACC+](#source-accplus), Theorem 2.3.2, p. 935; [ACC+](#source-accplus), Notation, p. 906.)
-
-<a id="galois-representation-attached-at-good-places"></a>
+(Sources: ACC+, §2.2.5, (2.2.6), p. 922; ACC+, Theorem 2.3.2, p. 935; ACC+, Notation, p. 906.)
 
 ### A Galois representation attached to `π` at the good places, and its functoriality under twist, dual, conjugation and base change
 
@@ -816,11 +794,9 @@ The required API is:
 
 - `isAttached_dual_twist` — The two rules compose consistently: `(r^∨ε^{1−n})^∨ε^{1−n} = r`, matching `π^∨∨ = π`.
 
-*Needs:* [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); [AG2.0: regular algebraicity](#regular-algebraic-of-weight); ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 5.
+*Needs:* AG2.0: integral Frobenius polynomial; AG2.0: regular algebraicity; ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 5.
 
-(Sources: [ACC+](#source-accplus), Theorem 2.3.2, p. 935; [ACC+](#source-accplus), §2.3, after Definition 2.3.6, p. 938.)
-
-<a id="field-of-rationality"></a>
+(Sources: ACC+, Theorem 2.3.2, p. 935; ACC+, §2.3, after Definition 2.3.6, p. 938.)
 
 ### Rationality of the good Hecke polynomials
 
@@ -828,16 +804,16 @@ Use `fieldOfRationality(π)` as an abbreviation for AutomorphicFormsOnReductiveG
 
 Throughout this target, the definition uses `π^∞` only. `σπ^∞` is the supplied `galoisTwist(π^∞,σ)`; scalar conjugation acts on the smooth finite part and the labelled algebraic coefficient. The regular algebraic cuspidal conjugate is supplied by AutomorphicFormsOnReductiveGroups §5.7. `M_π` controls traces, not realizations. The field over which `r` can be written may be strictly larger, by a Schur-index obstruction. AG2.3/finite-number-field-of-realization proves a common realization field using the regular labelled Hodge–Tate input supplied by AG2.6; the early rationality theorem does not depend on that late result. Clozel's theorem is used with its exact hypotheses: `π` regular algebraic (cohomological) and cuspidal. It is not claimed for non-cuspidal or non-algebraic `π`.
 
-*Needs:* AutomorphicFormsOnReductiveGroups §5.7; [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); ArithmeticGaloisRepresentations Layer 5.
+*Needs:* AutomorphicFormsOnReductiveGroups §5.7; AG2.0: integral Frobenius polynomial; ArithmeticGaloisRepresentations Layer 5.
 
-(Sources: [ACC+](#source-accplus), §7.1, p. 1093.)
+(Sources: ACC+, §7.1, p. 1093.)
 
 For this `fieldOfRationality`, the imported Clozel theorem makes `M_π` a number field under
 the regular algebraic cuspidal hypotheses. In addition to the supplied isomorphism and
 conjugation laws, prove containment of each good Hecke coefficient and equality with the
 compositum of the local spherical rationality fields. The last assertion uses the supplied
-cuspidal conjugates and strong multiplicity one on the same cuspidal domain. (Source: [ACC+](#source-accplus), §7.1, p.1093;
-[Liu](#source-liu), Lemma 3.1.2, pp.138–139.)
+cuspidal conjugates and strong multiplicity one on the same cuspidal domain. (Source: ACC+, §7.1, p.1093;
+Liu, Lemma 3.1.2, pp.138–139.)
 
 **Checks.**
 
@@ -849,19 +825,15 @@ cuspidal conjugates and strong multiplicity one on the same cuspidal domain. (So
   system with a quaternionic Schur obstruction this controls the trace field without
   producing a model over `ℚ`; the strong-field target must still split that obstruction.
 
-<a id="attachment-twist-dual-and-conjugation"></a>
-
 ### Twists, duals and conjugation preserve good-place attachment
 
 If `IsAttached(ι,r,π)`, then `IsAttached(ι,r⊗r(ψ),π⊗ψ∘det)` for algebraic `ψ`; in particular `norm^t` corresponds to `ε_ℓ^t`. Also `r^∨⊗ε_ℓ^(1−n)` is attached to `π^∨`, and for CM `F` the conjugate `r^c` is attached to `π^c`. All conclusions are up to isomorphism and enlarge the finite excluded set by the character ramification.
 
 Throughout this target, `r` semisimple and continuous; `ψ` algebraic; fixed geometric Artin/Frobenius normalization.
 
-*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); ArithmeticGaloisRepresentations Layer 1.
+*Needs:* AG2.0: good-place attachment; AG2.0: integral Frobenius polynomial; AG2.0: algebraic Galois characters; ArithmeticGaloisRepresentations Layer 1.
 
-(Sources: [ACC+](#source-accplus), §2.3 after Definition 2.3.6, p. 938.)
-
-<a id="unitary-similitude-central-character-dictionary"></a>
+(Sources: ACC+, §2.3 after Definition 2.3.6, p. 938.)
 
 ### The similitude character in a compact coefficient system
 
@@ -884,14 +856,12 @@ Shin §3.6 and §6.2 indexing, `n≥1` and integral central exponents.
 - For `ξ=1` the central exponent and weight are zero, and `j_κ(k)=k−1`.
 - Tensoring by `ν^t` lowers `w` by `2t` and each formal label by `t`; omitting `a₀` loses both shifts.
 
-*Needs:* [AG2.0: dominant weights](#dominant-weights-and-the-weight-w);
+*Needs:* AG2.0: dominant weights;
 ArithmeticLocallySymmetricSpaces §ALS.F.7 and the algebraic similitude character of the chosen
 PEL datum; RepresentationTheory/SchurWeyl Layers 2 and 8.
 
-(Sources: [Shin](#source-shin), §3.6 preceding (3.18), and §6.2 preceding Corollary 6.7,
-pp.20, 48, and Lemma 7.2, p.52; [TY](#source-ty), §2, p.12.)
-
-<a id="prescribed-crystalline-twisting-character"></a>
+(Sources: Shin, §3.6 preceding (3.18), and §6.2 preceding Corollary 6.7,
+pp.20, 48, and Lemma 7.2, p.52; TY, §2, p.12.)
 
 ### A crystalline character with prescribed `p`-adic unit type
 
@@ -899,11 +869,9 @@ Let `F` be CM, `p` a prime, `E/ℚ_p` sufficiently large, `S` a finite ramificat
 
 Throughout this target, the local prescriptions satisfy the global unit and totally real restriction compatibility of HSBT Lemma 2.2. This is the source’s split-place construction; arbitrary inconsistent local characters are excluded.
 
-*Needs:* [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); [AG2.0: dominant weights](#dominant-weights-and-the-weight-w); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
+*Needs:* AG2.0: algebraic Galois characters; AG2.0: dominant weights; AG2.P: finite-coefficient periods and comparison.
 
-(Sources: [ACC+](#source-accplus), §4.5.1, proof of Theorem 4.5.1, pp. 985–986; [HSBT](#source-hsbt), Lemma 2.2, pp. 795–796.)
-
-<a id="relevant-automorphic-coefficient-field"></a>
+(Sources: ACC+, §4.5.1, proof of Theorem 4.5.1, pp. 985–986; HSBT, Lemma 2.2, pp. 795–796.)
 
 ### The coefficient field of a relevant automorphic representation
 
@@ -911,9 +879,9 @@ For relevant `π` in Liu et al. Definition 1.1.3, use the same `fieldOfRationali
 
 Throughout this target, relevant regular algebraic CSD cuspidal `π` and normalized spherical parameters; all coefficient embeddings tracked.
 
-*Needs:* [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); [AG2.0: rationality](#field-of-rationality); ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
+*Needs:* AG2.0: Rationality of the good Hecke polynomials; AG2.0: rationality; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
-(Sources: [Liu](#source-liu), §3.1, Definition 3.1.1 and Lemma 3.1.2, pp. 138–139 (PDF pp. 32–33).)
+(Sources: Liu, §3.1, Definition 3.1.1 and Lemma 3.1.2, pp. 138–139 (PDF pp. 32–33).)
 
 ### Examples
 
@@ -931,17 +899,15 @@ The coefficient construction requires an explicit `ξ↦(m_ξ,t_ξ,ε_ξ)` recip
 the prescribed `p`-adic isocrystal, positivity and trivial obstruction `α₀`; these are inputs
 of its supplier, beyond unpolarized Honda–Tate classification. The raw fixed-point theorem must be available before stabilization; Lefschetz–Verdier trace classes alone do not identify the fixed-point sum.
 
-<a id="compact-shin-pel-instance"></a>
-
 ### The compact unitary PEL instance
 
-Under Shin §5.1, `F=EF⁺` is CM, `E` imaginary quadratic, `n≥3` odd, `[F⁺:ℚ]≥2`, and all rational primes ramified in `F` split in `F/F⁺`. Choose a CM embedding `τ` and the similitude datum of Lemma 5.1: signature `(1,n−1)` at `τ` and `(0,n)` at the other selected embeddings, quasi-split at all finite places and anisotropic modulo centre over `ℚ`. At sufficiently small level `U` the PEL moduli scheme `X_U/F` is smooth proper of dimension `n−1` with universal abelian scheme `A_U`. For `p` split in `E` choose `w|p: G(ℚ_p)` has the `GL_n(F_w)` factor used for Drinfeld level, including when `F_w/ℚ_p` is ramified. The other split factors have the étale level structures of §5.2. Form `A_U^m` over `X_U` for `m≥0`.
+Under Shin §5.1, `F=EF⁺` is CM, `E` imaginary quadratic, `n≥3` odd, `[F⁺:ℚ]≥2`, and all rational primes ramified in `F` split in `F/F⁺`. Choose a CM embedding `τ` and the similitude datum of Lemma 5.1: signature `(1,n−1)` at `τ` and `(0,n)` at the other selected embeddings, quasi-split at all finite places and anisotropic modulo centre over `ℚ`. At sufficiently small level `U` the PEL moduli scheme `X_U/F` is smooth proper of dimension `n−1` with universal abelian scheme `A_U` of relative dimension `[F⁺:ℚ]n`. For `p` split in `E` choose `w|p: G(ℚ_p)` has the `GL_n(F_w)` factor used for Drinfeld level, including when `F_w/ℚ_p` is ramified. The other split factors have the étale level structures of §5.2. Form `A_U^m` over `X_U` for `m≥0`.
 
 Throughout this target, the positivity, determinant, polarization and level conditions are those of the chosen PEL datum, not those of the quasi-split signature (n,n) datum. Choose integral orders and sufficiently small levels as in §5.2; Drinfeld models require the distinguished split factor.
 
 The required API is:
 
-- `CompactPEL.dimension`: `dim X_U=n−1`; the universal abelian scheme has the relative dimension prescribed by this PEL representation.
+- `CompactPEL.dimension`: `dim X_U=n−1`; the universal abelian scheme has relative dimension `[F⁺:ℚ]n`.
 - `CompactPEL.levelPullback`: Level inclusions give finite étale maps on generic fibres, with compatible universal abelian schemes.
 - `CompactPEL.kugaPower`: `A_U^0=X_U` and `A_U^(m+1)=A_U^m×_{X_U}A_U`.
 - `CompactPEL.drinfeldFactor`: At `w` the integral level structure is the Drinfeld structure on the one-dimensional `O_{F_w}-Barsotti–Tate` factor.
@@ -950,15 +916,13 @@ The required API is:
 
 - `CompactPEL.zeroPower` — `m=0` gives `X_U`, not an empty scheme
 
-- `CompactPEL.signatureDimension` — `n=3` gives a proper surface of dimension 2; the signature (3,3) datum has complex dimension `9[F⁺:ℚ]`
+- `CompactPEL.signatureDimension` — `n=3` gives a proper surface of dimension 2 and an abelian scheme of relative dimension `3[F⁺:ℚ]`; the signature (3,3) datum has complex dimension `9[F⁺:ℚ]`
 
 - `CompactPEL.ramifiedFactor` — An unramified-only local datum cannot satisfy the API for ramified `F_w`.
 
 *Needs:* PELModuli M0; PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10.
 
-(Sources: [Shin](#source-shin), Lemma 5.1 and §5.2, pp. 30–34.)
-
-<a id="shin-raw-cohomology-adapter"></a>
+(Sources: Shin, Lemma 5.1 and §5.2, pp. 30–34.)
 
 ### Raw cohomology for the split-algebra Shin datum
 
@@ -974,7 +938,7 @@ cohomology with nearby cycles by proper base change. Retain finite coefficient d
 continuity, finite-dimensionality at finite level and admissibility of the level colimit.
 Transport the supplied compact discrete decomposition to this tower. Define multiplicity
 Hom spaces degree by degree with their commuting Weil action before taking Euler classes.
-(Sources: [Shin](#source-shin), Lemma 5.1, §5.2 and Proposition 5.3, pp.30–35.)
+(Sources: Shin, Lemma 5.1, §5.2 and Proposition 5.3, pp.30–35.)
 
 **Checks.**
 
@@ -986,18 +950,18 @@ Hom spaces degree by degree with their commuting Weil action before taking Euler
   comparison; it does not imply smooth special fibre. Removing all definite places does
   not supply this compactness argument and requires a separate boundary theory.
 
-*Needs:* [AG2.1a: compact PEL instance](#compact-shin-pel-instance);
+*Needs:* AG2.1a: compact PEL instance;
 PELModuli M2–M4; EtaleCohomologyFoundations §§F.4.1–F.4.6;
 LefschetzPencilsAndVanishingCycles LPV.0–LPV.1;
 AutomorphicSpectralTheory §4.7; ArithmeticLocallySymmetricSpaces §ALS.F.7.
-
-<a id="kuga-sato-coefficient-projector"></a>
 
 ### The corrected Kuga–Sato coefficient projector
 
 For an irreducible algebraic `ξ` of the compact similitude group use the algebraic recipe
 `(m_ξ,t_ξ,ε_ξ)` of AG2.0. For `N≥2` let
-`T=ε(m_ξ,N)=∏_{x=1}^{m_ξ} ∏_{0≤y≤2[F⁺:ℚ]n², y≠1} ([N]_x−N^y)/(N−N^y)`.
+`T=ε(m_ξ,N)=∏_{x=1}^{m_ξ} ∏_{0≤y≤2[F⁺:ℚ]n, y≠1} ([N]_x−N^y)/(N−N^y)`.
+The range is twice the relative dimension `[F⁺:ℚ]n` of Shin’s `V=Fⁿ` abelian scheme.
+TY’s range `2[F⁺:ℚ]n²` belongs to the division-algebra datum `V=B`.
 For a filtration of length at most `D≥1` define the correction polynomial
 `P_D(X)=1−(1−X^D)^D` and set `a_ξ=ε_ξ P_D(T)`.
 The congruences `P_D(X)≡0 mod X^D` and `P_D(X)≡1 mod (X−1)^D` imply
@@ -1025,7 +989,7 @@ rational coefficients.
 The required API is:
 
 - `CoefficientProjector.correction`: `P_D(T)` in a ring, with its polynomial congruences.
-- `CoefficientProjector.correction_idempotent`: Under `(T−T²)^D=0`, the corrected element is idempotent.
+- Idempotence of `correction D T` under `(T−T²)^D=0` is Mathlib’s `isIdempotentElem_one_sub_one_sub_pow_pow T D` (`Mathlib.RingTheory.Idempotents`), used directly.
 - `CoefficientProjector.commuting_idempotent`: In any ring, if `ε²=ε`, `εT=Tε` and `(T−T²)^D=0`, then `ε P_D(T)` is idempotent.
 - `CoefficientProjector.comparison`: For linear maps `u:V→W`, `T:V→V` and `S:W→W` with `uT=Su`, one has `u P_D(T)=P_D(S)u`. Together with `geometricCoefficientPrimeComparison`, an intertwining linear equivalence identifies the corrected projector images.
 - `CoefficientProjector.idempotent`: `a_ξ²=a_ξ` on each global cohomology group with `D=2d+1`.
@@ -1047,15 +1011,13 @@ The required API is:
 - For the nilpotent matrix `J=T−I, P₅(J)=0`. For `D=1` an already idempotent `T` is unchanged;
   `D=0` does not satisfy the filtration hypothesis.
 
-*Needs:* [AG2.1a: compact unitary PEL instance](#compact-shin-pel-instance);
-[AG2.0: algebraic similitude dictionary](#unitary-similitude-central-character-dictionary);
+*Needs:* AG2.1a: compact unitary PEL instance;
+AG2.0: algebraic similitude dictionary;
 ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7;
 RepresentationTheory/SchurWeyl Layers 2 and 8; EtaleCohomologyFoundations §§F.4.1–F.4.6.
 
-(Sources: [TY](#source-ty), §2, p.12, relative coefficient realization;
-[Caraiani-away](#source-caraiani-away), §2.1, arXiv pp.7–8, polynomial correction and Leray bound.)
-
-<a id="coefficient-projector-degree-identity"></a>
+(Sources: TY, §2, p.12, relative coefficient realization;
+Caraiani-away, §2.1, arXiv pp.7–8, polynomial correction and Leray bound.)
 
 ### Cohomology of the coefficient projector
 
@@ -1063,11 +1025,9 @@ For every `j, a_ξ H^j(A_U^{m_ξ}×_F F̄,ℚ̄_ℓ(t_ξ))` is canonically `H^{j
 
 Throughout this target, use the corrected `a_ξ` and the selected algebraic realization; `ℓ` invertible on the generic fibre.
 
-*Needs:* [AG2.1a: corrected Kuga–Sato coefficient projector](#kuga-sato-coefficient-projector); EtaleCohomologyFoundations §§F.4.1–F.4.6 and F.5–F.6.
+*Needs:* AG2.1a: corrected Kuga–Sato coefficient projector; EtaleCohomologyFoundations §§F.4.1–F.4.6 and F.5–F.6.
 
-(Sources: [TY](#source-ty), §2, cohomology identity after `a_ξ`, p. 12.)
-
-<a id="finite-continuous-geometric-galois-action"></a>
+(Sources: TY, §2, cohomology identity after `a_ξ`, p. 12.)
 
 ### Finite continuous geometric Galois actions
 
@@ -1075,11 +1035,9 @@ Every `H^k_U(ξ)` is finite-dimensional over a finite extension of `ℚ_ℓ` and
 
 Throughout this target, smooth proper `X_U` and the abelian-power projector; coefficient field of definition fixed.
 
-*Needs:* [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); EtaleCohomologyFoundations §§F.4.1–F.4.6 and F.5–F.6; DeligneWeightsAndPurity DWP.7.
+*Needs:* AG2.1a: Shin raw-cohomology adapter; EtaleCohomologyFoundations §§F.4.1–F.4.6 and F.5–F.6; DeligneWeightsAndPurity DWP.7.
 
-(Sources: [Shin](#source-shin), Proposition 5.3(ii)–(iii), pp. 34–35.)
-
-<a id="contracting-hecke-trace-formula"></a>
+(Sources: Shin, Proposition 5.3(ii)–(iii), pp. 34–35.)
 
 ### Contracting Hecke-correspondence trace formula
 
@@ -1103,8 +1061,8 @@ and Tate twist. Apply AG2.P's normalized-system comparison to the compatible int
 lifts and their derived reductions. Clear a common denominator
 of the rational correspondence, prove the integral identity for its numerator and
 divide only after rationalization; integrality of `a_ξ` at `ℓ` is not assumed.
-(Sources: [Shin](#source-shin), §5.2 and Proposition 5.3, pp.31–35;
-[TY](#source-ty), §2, p.12; [Varshavsky](#source-varshavsky),
+(Sources: Shin, §5.2 and Proposition 5.3, pp.32–35;
+TY, §2, p.12; Varshavsky,
 Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
 
 **Checks.**
@@ -1118,14 +1076,12 @@ Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
 - For `N=2, y=2` the selector denominator is `−2`. At `ℓ=2` it cannot be inverted in
   finite coefficients; the integral numerator identity is divided only in `E`.
 
-*Needs:* [AG2.1a: Shin raw cohomology](#shin-raw-cohomology-adapter);
-[AG2.1a: corrected coefficient projector](#kuga-sato-coefficient-projector);
-[AG2.1a: coefficient-cohomology identity](#coefficient-projector-degree-identity);
+*Needs:* AG2.1a: Shin raw cohomology;
+AG2.1a: corrected coefficient projector;
+AG2.1a: coefficient-cohomology identity;
 PELModuli M4; EtaleDualityAndPerverseSheaves §§6.1–6.5;
-[AG2.P: normalized-system correspondence traces](#finite-coefficient-correspondence-traces);
+AG2.P: normalized-system correspondence traces;
 EtaleCohomologyFoundations §§F.4–F.6.
-
-<a id="raw-fixed-point-trace-identity"></a>
 
 ### The raw geometric fixed-point trace identity
 
@@ -1136,11 +1092,9 @@ bound and corrected-projector comparison of the preceding PEL specialization. Th
 trace theorem and its finite/integral versions are supplied by
 EtaleDualityAndPerverseSheaves §6.5; AG2.P identifies the normalized coefficient systems.
 
-*Needs:* [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); PELModuli M4; [AG2.1a: contracting Hecke trace formula](#contracting-hecke-trace-formula); EtaleDualityAndPerverseSheaves §§6.1–6.5; [AG2.P: normalized-system correspondence traces](#finite-coefficient-correspondence-traces).
+*Needs:* AG2.1a: Shin raw-cohomology adapter; PELModuli M4; AG2.1a: contracting Hecke trace formula; EtaleDualityAndPerverseSheaves §§6.1–6.5; AG2.P: normalized-system correspondence traces.
 
-(Source: [Varshavsky](#source-varshavsky), Theorem 2.3.2(a)–(c), pp.19–20, with U=X.)
-
-<a id="raw-nearby-cycle-traces"></a>
+(Source: Varshavsky, Theorem 2.3.2(a)–(c), pp.19–20, with U=X.)
 
 ### Raw nearby-cycle and stratum traces
 
@@ -1148,9 +1102,9 @@ For the compact Drinfeld model at `w|p≠ℓ`, identify the generic-fibre altern
 
 Throughout this target, proper integral model; the actual ramified `O_{F_w}` charts and coefficient projector; `p` split in `E`.
 
-*Needs:* [AG2.1a: compact unitary PEL instance](#compact-shin-pel-instance); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); [AG2.1a: raw fixed-point traces](#raw-fixed-point-trace-identity); EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; LefschetzPencilsAndVanishingCycles LPV.0; LefschetzPencilsAndVanishingCycles LPV.1.
+*Needs:* AG2.1a: compact unitary PEL instance; AG2.1a: Shin raw-cohomology adapter; AG2.1a: raw fixed-point traces; EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; LefschetzPencilsAndVanishingCycles LPV.0; LefschetzPencilsAndVanishingCycles LPV.1.
 
-(Sources: [Shin](#source-shin), Proposition 5.2 and §5.2, pp. 33–34.)
+(Sources: Shin, Proposition 5.2 and §5.2, pp. 32–34.)
 
 ### Examples
 
@@ -1158,7 +1112,7 @@ The odd-rank compact datum with `n=3` has dimension 2. For the trivial coefficie
 
 ### Dependencies
 
-PELModuli M0–M4; [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter) and Layers 7–8; EtaleCohomologyFoundations §§F.4.1–F.4.6; the coefficient dictionary of AG2.0.
+PELModuli M0–M4; AG2.1a: Shin raw-cohomology adapter and Layers 7–8; EtaleCohomologyFoundations §§F.4.1–F.4.6; the coefficient dictionary of AG2.0.
 
 ## Layer AG2.1b. From trace identities to actual Galois constituents
 
@@ -1166,19 +1120,15 @@ Combine the raw geometric traces with Igusa stabilization and Mantovan’s formu
 
 The concentration argument requires the selected-constituent weight bounds used in Shin Corollary 6.5, including its Harris–Taylor p.207 input. Geometric purity and a virtual rank equality alone are insufficient. Removing `C_G` requires divisibility of every irreducible Galois multiplicity, with the adjusted assumptions of Shin Remark 6.9 and the argument of Harris–Taylor Proposition VII.1.8. The labelled geometric de Rham dimensions and independence of `τ` are part of this input.
 
-<a id="compact-global-mantovan-formula"></a>
-
 ### The compact global Mantovan formula
 
 For every Newton class `b` of the compact datum, define `Mant_{b,μ}(ρ)` by the colimit over Rapoport–Zink levels of the alternating `Ext^i_{J_b(ℚ_p)}(H^j_c(M_{b,μ}),ρ)`, with the source’s dimension twist `(−D)` and sign `(−1)^{i+j}`. Shin Proposition 5.2 gives `[H(Sh,L_ξ)]=Σ_b Mant_{b,μ}([H_c(Ig_b,L_ξ)])` as a class with commuting prime-to-`p` Hecke and Weil actions. The split local factors tensor as in (5.6).
 
 Throughout this target, mantovan’s cohomology, smooth derived Ext, towers and actions for the chosen compact Drinfeld model; the dimension twist is included.
 
-*Needs:* [AG2.1a: Raw nearby-cycle and stratum traces](#raw-nearby-cycle-traces); EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; SmoothRepresentationsOfLocalGroups SR.0 / derived-extension.
+*Needs:* AG2.1a: Raw nearby-cycle and stratum traces; EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; SmoothRepresentationsOfLocalGroups SR.0 / derived-extension.
 
-(Sources: [Shin](#source-shin), §2.2, Mantovan functor (2.1), p. 9; Proposition 5.2, p. 34.)
-
-<a id="shin-st-end-igusa-computation"></a>
+(Sources: Shin, §2.2, Mantovan functor (2.1), p. 9; Proposition 5.2, p. 34.)
 
 ### Shin’s stable and endoscopic Igusa computation
 
@@ -1190,13 +1140,11 @@ centralizer masses, before stabilization. Shin-Igusa Definition 4.2 and Theorem 
 to `H_c(Ig_b,L_ξ)` here. Retain all displayed §6.1 datum, ramification, central-character
 and infinity hypotheses; the END blocks and parity character are fixed.
 
-*Needs:* [AG2.1b: compact global Mantovan formula](#compact-global-mantovan-formula); [AG2.0: similitude character in a compact coefficient system](#unitary-similitude-central-character-dictionary); EndoscopicTransferAndUnitaryTraceComparison Layers 7–8, specifically §8.16’s raw Igusa counting formula;
+*Needs:* AG2.1b: compact global Mantovan formula; AG2.0: similitude character in a compact coefficient system; EndoscopicTransferAndUnitaryTraceComparison Layers 7–8, specifically §8.16’s raw Igusa counting formula;
 EndoscopicTransferAndUnitaryTraceComparison Layer 14.
 
-(Sources: [Shin](#source-shin), §6.1 and Theorem 6.1, pp.41–46;
-[Shin-Igusa](#source-shin-igusa), Definition 4.2, pp.13–14 and Theorem 4.4, p.15.)
-
-<a id="virtual-weil-constituent-comparison"></a>
+(Sources: Shin, §6.1 and Theorem 6.1, pp.41–46;
+Shin-Igusa, Definition 4.2, pp.13–14 and Theorem 4.4, p.15.)
 
 ### The virtual Weil constituent comparison
 
@@ -1204,11 +1152,9 @@ Under the `ST/END` hypotheses, Theorem 6.4 identifies the base-changed alternati
 
 Throughout this target, `w` over a rational prime split in `E, w∤ℓ`; exact local transfer and the normalized Mantovan formula.
 
-*Needs:* [AG2.1b: stable/endoscopic Igusa traces](#shin-st-end-igusa-computation); [AG2.1b: compact global Mantovan formula](#compact-global-mantovan-formula); EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; ArithmeticGaloisRepresentations Layer 2.
+*Needs:* AG2.1b: stable/endoscopic Igusa traces; AG2.1b: compact global Mantovan formula; EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; ArithmeticGaloisRepresentations Layer 2.
 
-(Sources: [Shin](#source-shin), Propositions 2.2–2.3, pp. 10–11; Theorem 6.4, pp. 46–47.)
-
-<a id="weight-separation-middle-degree"></a>
+(Sources: Shin, Propositions 2.2–2.3, pp. 10–11; Theorem 6.4, pp. 46–47.)
 
 ### Weight separation into the middle degree
 
@@ -1216,11 +1162,9 @@ For `π∞` in the `ST/END Π`-part, `R^k_{ξ,ℓ}(π∞)=0` for `k≠n−1`. Th
 
 Throughout this target, the virtual Weil formula, geometric purity of every actual degree `k`, and the selected constituent purity/temperedness argument of Shin Corollary 6.5; no equality of virtual dimensions is used as cancellation.
 
-*Needs:* [AG2.1b: virtual Weil constituent comparison](#virtual-weil-constituent-comparison); [AG2.1a: geometric Galois actions](#finite-continuous-geometric-galois-action); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; DeligneWeightsAndPurity DWP.0.
+*Needs:* AG2.1b: virtual Weil constituent comparison; AG2.1a: geometric Galois actions; AG2.1a: Shin raw-cohomology adapter; EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; DeligneWeightsAndPurity DWP.0.
 
-(Sources: [Shin](#source-shin), Corollary 6.5(i)–(ii) and proof, pp. 47–49.)
-
-<a id="archimedean-packet-multiplicity"></a>
+(Sources: Shin, Corollary 6.5(i)–(ii) and proof, pp. 47–49.)
 
 ### The archimedean packet multiplicity
 
@@ -1228,11 +1172,9 @@ Under `ST/END`, the sum of discrete multiplicities at the ith relevant cohomolog
 
 Throughout this target, the exact cohomological packet and signs of §3.6/§6.1, with middle-degree concentration.
 
-*Needs:* [AG2.1b: middle-degree concentration](#weight-separation-middle-degree); [AG2.1b: stable/endoscopic Igusa traces](#shin-st-end-igusa-computation); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); EndoscopicTransferAndUnitaryTraceComparison Layer 14; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
+*Needs:* AG2.1b: middle-degree concentration; AG2.1b: stable/endoscopic Igusa traces; AG2.1a: Shin raw-cohomology adapter; EndoscopicTransferAndUnitaryTraceComparison Layer 14; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
-(Sources: [Shin](#source-shin), Corollary 6.5(iv), pp. 47–48.)
-
-<a id="actual-galois-constituent-from-cohomology"></a>
+(Sources: Shin, Corollary 6.5(iv), p. 47.)
 
 ### The actual Galois constituent of cohomology
 
@@ -1255,9 +1197,9 @@ The required API is:
 
 - `ActualConstituent.rankOnly` — A semisimple rank-4 representation with irreducible multiplicities 1 and 3 cannot be divided into two copies merely because 2 divides 4.
 
-*Needs:* [AG2.1b: middle-degree concentration](#weight-separation-middle-degree); [AG2.1b: archimedean multiplicity](#archimedean-packet-multiplicity); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); ArithmeticGaloisRepresentations Layer 5; [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
+*Needs:* AG2.1b: middle-degree concentration; AG2.1b: archimedean multiplicity; AG2.1a: Shin raw-cohomology adapter; AG2.0: algebraic Galois characters; ArithmeticGaloisRepresentations Layer 5; AG2.P: finite-coefficient periods and comparison.
 
-(Sources: [Shin](#source-shin), Corollary 6.8 and Remark 6.9, p. 49.)
+(Sources: Shin, Corollary 6.8 and Remark 6.9, p. 49.)
 
 ### Examples
 
@@ -1273,8 +1215,6 @@ The geometric theorem initially has Shin’s weight and field restrictions. Alge
 
 The algebraic-character construction requires the global `ψψ^c` prescription and its infinity/finite parity compatibility (the CHT08 Lemma 4.1.4 input to BLGGT's twisting proof); arbitrary local square roots cannot simply be extended globally. The `GSp₄` construction target in AG2.P supplies, under its explicit `GSp4ClassificationInputs`, `GSp₄-valuedness` and the Iwahori, Klingen, paraspherical and inertia cases of CG Proposition 6.8(1)–(2),(5), and Pilloni Theorem 5.1.7.1(2),(5), before their comparisons can be imported.
 
-<a id="shin-regular-geometric-existence"></a>
-
 ### Geometric existence in the Shin-regular range
 
 For CM `F` and regular algebraic conjugate-self-dual cuspidal `π` of `GL_m(A_F), m≥2`, suppose `m` is odd, or for even `m` the algebraic highest weight has `a_{τ,k}>a_{τ,k+1}` for some embedding `τ` and odd `k`. Under the technical §7.1 conditions `F=EF⁺, [F⁺:ℚ]≥2` and all ramification of `F` and `π` over rational primes split in `F/F⁺`, apply the compact source construction to `σ=π^∨` to obtain a continuous semisimple
@@ -1287,11 +1227,9 @@ selection. For odd `m` use ST with `n=m`; for even `m` use END with `n=m+1` and 
 
 Throughout this target, shin §7.1 technical datum; `m=1` is supplied by the character dictionary; slight regularity for even `m` is retained.
 
-*Needs:* [AG2.1b: actual constituents](#actual-galois-constituent-from-cohomology); [AG2.0: attachment operations](#attachment-twist-dual-and-conjugation); [AG2.0: similitude character in a compact coefficient system](#unitary-similitude-central-character-dictionary); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; GlobalNumberFields / layer 9 hecke and ray class characters.
+*Needs:* AG2.1b: actual constituents; AG2.0: attachment operations; AG2.0: similitude character in a compact coefficient system; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; GlobalNumberFields / layer 9 hecke and ray class characters.
 
-(Sources: [Shin](#source-shin), §7.1, Lemmas 7.1–7.3 and Proposition 7.4, pp. 50–53.)
-
-<a id="algebraic-character-polarization-twist"></a>
+(Sources: Shin, §7.1, Lemmas 7.1–7.3 and Proposition 7.4, pp. 50–53.)
 
 ### Twisting an essentially self-dual form into unitary type
 
@@ -1299,9 +1237,9 @@ For a CM regular algebraic cuspidal polarized pair `(π,χ)`, choose an algebrai
 
 Throughout this target, compatible algebraic infinity types and finite-order parity, with the total-oddness parity convention above; the source extension lemma applies.
 
-*Needs:* [AG2.0: polarized pairs](#polarized-automorphic-representation); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); [AG2.0: attachment operations](#attachment-twist-dual-and-conjugation); GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic.
+*Needs:* AG2.0: polarized pairs; AG2.0: algebraic Galois characters; AG2.0: attachment operations; GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic.
 
-(Sources: [BLGGT](#source-blggt), Proof of Theorem 2.1.1, p. 34; [CT](#source-ct), Lemma 7.4 and proof, accepted copy pp. 47–48.)
+(Sources: BLGGT, Proof of Theorem 2.1.1, p. 34; CT, Lemma 7.4 and proof, accepted copy pp. 47–48.)
 
 **Checks.**
 
@@ -1312,8 +1250,6 @@ Throughout this target, compatible algebraic infinity types and finite-order par
 - An incompatible infinity type does not meet the character-extension hypothesis and
   supplies no such construction.
 
-
-<a id="discrete-unitary-galois-assembly"></a>
 
 ### Galois assembly for discrete unitary transfer
 
@@ -1336,11 +1272,9 @@ The required API is:
 
 - `DiscreteAssembly.rank` — Taking only one copy of each `r_i` gives the wrong rank when some `n_i>1`.
 
-*Needs:* [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); [AG2.0: attachment operations](#attachment-twist-dual-and-conjugation); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; ArithmeticGaloisRepresentations Layer 1.
+*Needs:* AG2.0: integral Frobenius polynomial; AG2.0: attachment operations; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; ArithmeticGaloisRepresentations Layer 1.
 
-(Sources: [HLTT](#source-hltt), Proposition 1.2 and Corollary 1.3, p. 31.)
-
-<a id="cs-discrete-polarization-normalization"></a>
+(Sources: HLTT, Proposition 1.2 and Corollary 1.3, p. 31.)
 
 ### The Caraiani–Scholze discrete normalization
 
@@ -1348,11 +1282,9 @@ For an irreducible admissible `Π^S` in `BC^S[H_c(I_Mant^b,ℚ̄_ℓ)]_Sur` of C
 
 Throughout this target, the exact cohomological surjection and transferred packet of Corollaries 5.5.2/5.5.5; published numbering; specified imaginary quadratic `𝒦`, source splitting set, `n₁+n₂=N` and odd `ϖ`.
 
-*Needs:* [AG2.2: Galois assembly for discrete unitary transfer](#discrete-unitary-galois-assembly); [AG2.0: attachment operations](#attachment-twist-dual-and-conjugation); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris).
+*Needs:* AG2.2: Galois assembly for discrete unitary transfer; AG2.0: attachment operations; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; AG2.3: arbitrary regular existence.
 
-(Sources: [CS](#source-cs), Corollary 5.5.5, pp. 745–746.)
-
-<a id="attachment-under-solvable-base-change"></a>
+(Sources: CS, Corollary 5.5.5, pp. 745–746.)
 
 ### Attachment under cuspidal solvable base change
 
@@ -1360,9 +1292,9 @@ If `F′/F` is solvable, `π′=BC_{F′/F}(π)` is cuspidal regular algebraic, 
 
 Throughout this target, existence and good-place Satake compatibility of the specified solvable base change; cuspidality is assumed or ensured by avoiding finite self-twist fields.
 
-*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); ArithmeticGaloisRepresentations Layer 1; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.0: good-place attachment; ArithmeticGaloisRepresentations Layer 1; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [CH](#source-ch), §3.1, proof of Theorem 3.1.2, p. 9.)
+(Sources: CH, §3.1, proof of Theorem 3.1.2, p. 9.)
 
 ### Examples
 
@@ -1378,19 +1310,15 @@ A definite-unitary family interpolates determinant laws on a strongly regular cl
 
 Strongly regular density needs the definite-unitary classicality and density theorem recalled in CH, not only an abstract Fredholm construction. The inertial/monodromy family comparison in CH Theorem 2.3 uses the bounded local-type specialization argument of Bellaïche–Chenevier §6.5. It is an independent family interface and cannot be replaced by the later Varma nonselfdual theorem.
 
-<a id="polarized-construction-inputs-shin-and-chenevier-harris"></a>
-
 ### Arbitrary regular conjugate-self-dual existence
 
 For any CM `F`, regular algebraic conjugate-self-dual cuspidal `π` on `GL_n(A_F)`, prime `ℓ` and coefficient isomorphism `ι`, there is a unique-up-to-isomorphism continuous semisimple rank-`n r` attached at good places. No odd-rank, slight-regularity, finite-place square-integrability, finite-slope, unramified-field or imaginary-quadratic-subfield hypothesis remains. CH Theorem 3.2.3 also proves domination away from `ℓ` and the de Rham/crystalline/semistable assertions, but those exports are assigned to AG2.5 and AG2.6. For an essentially polarized form apply the algebraic-character twist and undo it.
 
 Throughout this target, regular algebraic cuspidal and conjugate self-dual; `n=1` comes from class field theory. The `GSp₄` case uses the AG2.P construction.
 
-*Needs:* [AG2.3: solvable-index induction](#solvable-index-induction); [AG2.2: Twisting an essentially self-dual form into unitary type](#algebraic-character-polarization-twist); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); [AG2.0: good-place attachment](#galois-representation-attached-at-good-places).
+*Needs:* AG2.3: solvable-index induction; AG2.2: Twisting an essentially self-dual form into unitary type; AG2.0: algebraic Galois characters; AG2.0: good-place attachment.
 
-(Sources: [CH](#source-ch), Theorem 3.2.3 and proof, pp. 11–12.)
-
-<a id="totally-real-polarized-existence"></a>
+(Sources: CH, Theorem 3.2.3 and proof, pp. 11–12.)
 
 ### Totally real polarized existence by CM descent
 
@@ -1418,18 +1346,16 @@ CHT Proposition 4.3.1 with CH’s unrestricted CM input.
 - A single CM extension cannot distinguish `r` from `r⊗δ_{K/F}`. Varying an S-general
   family disjoint from every prescribed finite extension removes this ambiguity.
 
-*Needs:* [AG2.3: unrestricted CM existence](#polarized-construction-inputs-shin-and-chenevier-harris);
-[AG2.2: algebraic polarization twist](#algebraic-character-polarization-twist);
-[AG2.3: effective patching](#effective-automorphic-galois-patching);
-[AG2.0: attachment and uniqueness](#galois-representation-attached-at-good-places);
+*Needs:* AG2.3: unrestricted CM existence;
+AG2.2: algebraic polarization twist;
+AG2.3: effective patching;
+AG2.0: attachment and uniqueness;
 ArithmeticGaloisDuality §R02.4.6 for quadratic character prescriptions including real signs;
 EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [CH](#source-ch), Hypotheses 4.1 and Theorem 4.2 with proof, p.13;
+(Sources: CH, Hypotheses 4.1 and Theorem 4.2 with proof, p.13;
 [Clozel–Harris–Taylor](https://www.numdam.org/item/PMIHES_2008__108__1_0/),
 Proposition 4.3.1 and its proof, pp.125–126, for the CM twisting and descent argument.)
-
-<a id="definite-unitary-eigenvariety-instance"></a>
 
 ### The definite-unitary eigenvariety instance
 
@@ -1452,11 +1378,9 @@ The required API is:
 
 - `DefiniteFamily.classicalSpecialization` — At a classical point the good Hecke polynomial is the integral polynomial specialized to `Π`.
 
-*Needs:* [AG2.0: polarized pairs](#polarized-automorphic-representation); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; LocallyAnalyticDistributions §§4.15–4.16; LocallyAnalyticDistributions §§4.2, 4.15–4.16; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
+*Needs:* AG2.0: polarized pairs; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; LocallyAnalyticDistributions §§4.15–4.16; LocallyAnalyticDistributions §§4.2, 4.15–4.16; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
-(Sources: [CH](#source-ch), Lemma 2.1, Hypotheses 2.2 and proof of Theorem 2.3, p. 8.)
-
-<a id="shin-regular-field-descent"></a>
+(Sources: CH, Lemma 2.1, Hypotheses 2.2 and proof of Theorem 2.3, p. 8.)
 
 ### Shin-regular existence over arbitrary CM fields
 
@@ -1469,8 +1393,8 @@ then vary `E` and patch again. Avoid the finitely many self-twist fields to reta
 and prove overlap compatibility by good-place recognition. These extension families and
 effective patching use only the geometric Shin-regular representations of AG2.2, not
 finite-slope interpolation. The rank-one case uses the algebraic character dictionary.
-(Sources: [Shin](#source-shin), Theorem 7.5, Remark 7.8 and its proof, Steps (I)–(II),
-pp.54–55; [CH](#source-ch), §3.1's effective patching statement, p.9.)
+(Sources: Shin, Theorem 7.5, Remark 7.8 and its proof, Steps (I)–(II),
+pp.54–55; CH, §3.1's effective patching statement, p.9.)
 
 **Checks.**
 
@@ -1482,12 +1406,10 @@ pp.54–55; [CH](#source-ch), §3.1's effective patching statement, p.9.)
 - Each test Frobenius can be arranged split in a patching branch disjoint from a prescribed
   finite extension; a family with one fixed nontrivial subextension does not suffice.
 
-*Needs:* [AG2.2: Shin-regular geometric existence](#shin-regular-geometric-existence);
-[AG2.3: effective patching](#effective-automorphic-galois-patching);
-[AG2.3: extension families](#s-general-solvable-extension-families);
-[AG2.0: attachment](#galois-representation-attached-at-good-places).
-
-<a id="strongly-regular-classical-density"></a>
+*Needs:* AG2.2: Shin-regular geometric existence;
+AG2.3: effective patching;
+AG2.3: extension families;
+AG2.0: attachment.
 
 ### Density of strongly regular classical points
 
@@ -1495,11 +1417,9 @@ In the CH definite-unitary family, classical points whose varied algebraic weigh
 
 Throughout this target, the source’s classicality bounds relative to the chosen finite slope and coefficient family; density is asserted on the relevant charts, not on arbitrary eigenvarieties.
 
-*Needs:* [AG2.3: definite-unitary eigenvariety instance](#definite-unitary-eigenvariety-instance); [AG2.3: Shin-regular field descent](#shin-regular-field-descent); LocallyAnalyticDistributions §§4.15–4.16; LocallyAnalyticDistributions §§4.2, 4.15–4.16; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
+*Needs:* AG2.3: definite-unitary eigenvariety instance; AG2.3: Shin-regular field descent; LocallyAnalyticDistributions §§4.15–4.16; LocallyAnalyticDistributions §§4.2, 4.15–4.16; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
-(Sources: [CH](#source-ch), Proof of Theorem 2.3, p. 8; references to Ch Theorems 3.3 and 3.5.)
-
-<a id="definite-family-determinant-interpolation"></a>
+(Sources: CH, Theorem 2.3 and proof, p. 8, invoking Chenevier, *Une application des variétés de Hecke des groupes unitaires*, Theorems 3.3 and 3.5 ([Ch] in CH’s bibliography).)
 
 ### Determinant interpolation on the definite family
 
@@ -1507,11 +1427,9 @@ The traces of the rank-`n` geometric attached representations at the dense stron
 
 Throughout this target, one common finite ramification set `S`, reduced affinoid Hecke charts, continuous bounded trace interpolation, characteristic zero so `n!` is invertible, and finite-field continuity of the specialized semisimple representation.
 
-*Needs:* [AG2.3: classical density](#strongly-regular-classical-density); [AG2.3: definite-unitary eigenvariety instance](#definite-unitary-eigenvariety-instance); IntegralHeckeAndGaloisDeterminants §4.2; IntegralHeckeAndGaloisDeterminants §1.2; ArithmeticGaloisRepresentations Layer 1.
+*Needs:* AG2.3: classical density; AG2.3: definite-unitary eigenvariety instance; IntegralHeckeAndGaloisDeterminants §4.2; IntegralHeckeAndGaloisDeterminants §1.2; ArithmeticGaloisRepresentations Layer 1.
 
-(Sources: [CH](#source-ch), Theorem 2.3 and proof, p. 8.)
-
-<a id="finite-slope-regular-target-existence"></a>
+(Sources: CH, Theorem 2.3 and proof, p. 8.)
 
 ### Existence at the regular finite-slope target
 
@@ -1519,11 +1437,9 @@ Under CH Hypotheses 1.1, 1.2 and 2.2, a regular CSD cuspidal `Π` has a unique c
 
 Throughout this target, a split coefficient place with Iwahori invariants and the technical unramified CM datum of the definite-unitary family. CH §2 takes `n` even; the odd-rank existence branch comes from the geometric theorem. This is the even-rank finite-slope step of the general construction.
 
-*Needs:* [AG2.3: family determinant](#definite-family-determinant-interpolation); [AG2.0: good-place attachment](#galois-representation-attached-at-good-places).
+*Needs:* AG2.3: family determinant; AG2.0: good-place attachment.
 
-(Sources: [CH](#source-ch), Theorem 2.3, p. 8.)
-
-<a id="s-general-solvable-extension-families"></a>
+(Sources: CH, Theorem 2.3, p. 8.)
 
 ### The automorphic S-general extension family
 
@@ -1555,9 +1471,7 @@ The required API is:
 ArithmeticGaloisDuality §R02.4.6, Grunwald–Wang with its exact dyadic obstruction;
 EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [CH](#source-ch), §3.1 and Lemma 3.2.1, pp. 9–10.)
-
-<a id="effective-automorphic-galois-patching"></a>
+(Sources: CH, §3.1 and Lemma 3.2.1, pp. 9–10.)
 
 ### Effective Galois patching for automorphic base changes
 
@@ -1565,11 +1479,9 @@ For an S-general family `K_i/K` of cyclic extensions of a fixed prime degree, le
 
 Throughout this target, all S-general quantifiers and all overlap/invariance conditions; actual representations `r_i`, not only virtual classes or traces.
 
-*Needs:* [AG2.3: automorphic S-general extension family](#s-general-solvable-extension-families); [AG2.2: Attachment under cuspidal solvable base change](#attachment-under-solvable-base-change); [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); ArithmeticGaloisRepresentations Layer 5.
+*Needs:* AG2.3: automorphic S-general extension family; AG2.2: Attachment under cuspidal solvable base change; AG2.0: good-place attachment; ArithmeticGaloisRepresentations Layer 5.
 
-(Sources: [CH](#source-ch), §3.1, patching lemma and Theorem 3.1.2, p. 9.)
-
-<a id="removal-of-geometric-field-hypotheses"></a>
+(Sources: CH, §3.1, patching lemma and Theorem 3.1.2, p. 9.)
 
 ### Field-hypothesis removal for finite-slope existence
 
@@ -1584,11 +1496,9 @@ finite-slope target.
 Throughout this target, CSD regular cuspidal `Π` in the even-rank finite-slope range; the
 local Iwahori hypothesis is retained until solvable-index induction.
 
-*Needs:* [AG2.3: effective patching](#effective-automorphic-galois-patching); [AG2.3: Existence at the regular finite-slope target](#finite-slope-regular-target-existence); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.3: effective patching; AG2.3: Existence at the regular finite-slope target; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [CH](#source-ch), Theorem 3.1.2 and proof, p. 9; [CH](#source-ch), Proof of Theorem 3.2.3, first paragraph, p. 11.)
-
-<a id="solvable-local-iwahori-reduction"></a>
+(Sources: CH, Theorem 3.1.2 and proof, p. 9; CH, Proof of Theorem 3.2.3, first paragraph, p. 11.)
 
 ### Solvable local reduction to Iwahori level
 
@@ -1596,11 +1506,9 @@ At a split coefficient place `v`, choose a finite solvable local extension `L/F_
 
 Throughout this target, local `GL_n` Langlands and its compatibility with cyclic base change; coefficient place split in `K`; finite solvable index as defined in CH p. 10.
 
-*Needs:* [AG2.3: automorphic S-general extension family](#s-general-solvable-extension-families); EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.3: automorphic S-general extension family; EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [CH](#source-ch), Property P(m) and Corollary 3.2.2, p. 10.)
-
-<a id="solvable-index-induction"></a>
+(Sources: CH, Property P(m) and Corollary 3.2.2, p. 10.)
 
 ### Induction removing the finite-slope hypothesis
 
@@ -1608,11 +1516,9 @@ For a regular CSD cuspidal `Π`, induction on its local solvable index `P(m)` co
 
 Throughout this target, arbitrary coefficient prime; the prime-degree local-global extension family and effective patching.
 
-*Needs:* [AG2.3: Solvable local reduction to Iwahori level](#solvable-local-iwahori-reduction); [AG2.3: field-hypothesis removal](#removal-of-geometric-field-hypotheses); [AG2.3: effective patching](#effective-automorphic-galois-patching).
+*Needs:* AG2.3: Solvable local reduction to Iwahori level; AG2.3: field-hypothesis removal; AG2.3: effective patching.
 
-(Sources: [CH](#source-ch), Proof of Theorem 3.2.3, pp. 11–12.)
-
-<a id="automorphic-polarization-and-sign"></a>
+(Sources: CH, Proof of Theorem 3.2.3, pp. 11–12.)
 
 ### The polarization sign of the constructed system
 
@@ -1620,11 +1526,9 @@ For the constructed regular algebraic polarized cuspidal pair `(π,χ), r^c≅r�
 
 Throughout this target, the normalized polarized pair and algebraic twisting character; characteristic-zero semisimple `r`; irreducible factors fixed by the dual-conjugation operation as in BC Theorem 1.2.
 
-*Needs:* [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris); [AG2.2: Twisting an essentially self-dual form into unitary type](#algebraic-character-polarization-twist); [AG2.0: attachment operations](#attachment-twist-dual-and-conjugation); [AG2.0: multiplier parity](#sign-of-the-polarization-multiplier); ArithmeticGaloisRepresentations §7.4.
+*Needs:* AG2.3: arbitrary regular existence; AG2.2: Twisting an essentially self-dual form into unitary type; AG2.0: attachment operations; AG2.0: multiplier parity; ArithmeticGaloisRepresentations §7.4.
 
-(Sources: [BC](#source-bc), §1.3, Theorem 1.2 and Corollary 1.3, p. 1339 (PDF p. 4).)
-
-<a id="finite-number-field-of-realization"></a>
+(Sources: BC, §1.3, Theorem 1.2 and Corollary 1.3, p. 1339 (PDF p. 4).)
 
 ### A common finite field of realization in the polarized range
 
@@ -1634,9 +1538,9 @@ For the CH polarized `π`, there is a number field `E(π)` containing its trace 
 
 Throughout this target, cH regular de Rham/Hodge–Tate input used by the Serre Zariski-closure argument; uniform good polynomials and their number field; two auxiliary residue characteristics.
 
-*Needs:* [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); ArithmeticGaloisRepresentations Layer 5; [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); [AG2.6: polarized admissibility](#polarized-branch-de-rham-and-crystalline).
+*Needs:* AG2.3: arbitrary regular existence; AG2.0: Rationality of the good Hecke polynomials; ArithmeticGaloisRepresentations Layer 5; AG2.P: finite-coefficient periods and comparison; AG2.6: polarized admissibility.
 
-(Sources: [CH](#source-ch), Proposition 3.2.5 and proof, p. 12.)
+(Sources: CH, Proposition 3.2.5 and proof, p. 12.)
 
 ### Examples
 
@@ -1652,19 +1556,15 @@ Use the specific HLTT ordinary boundary instance, its dagger/rigid comparison an
 
 Boundary cohomology below uses the fixed compactification and its transition-map colimit. An intrinsic compactification-independent identification would require a further theorem; HLTT Lemma 6.19's invariants do not imply it. Hasse approximation naturally gives classical comparison quotients. Interpolation therefore requires determinant-law descent through those quotients, with continuity, or a construction of suitable injective witnesses; pointwise Hecke congruences alone do not meet this requirement.
 
-<a id="hltt-construction-of-nonselfdual-systems"></a>
-
 ### HLTT existence over arbitrary CM and totally real fields
 
 For `E` totally real or CM and `π` regular algebraic cuspidal on `GL_n(A_E)`, every prime `p` and coefficient isomorphism `ι` yield a continuous semisimple rank-`n r` attached at good places. HLTT Theorem 7.13 constructs it first for `F=F₀F⁺` with `p` split in `F₀` and the stated source good primes; Corollary 7.14 removes the auxiliary field restrictions by effective patching and proves unramifiedness and the normalized polynomial at all `v|q≠p` for rational `q` where `π` is unramified above `q`. No polarization is required; the theorem here asserts neither de Rham admissibility at `p` nor full monodromy at ramified primes.
 
 Throughout this target, regular algebraic cuspidal; geometric Artin and the common integral polynomial convention; `n=1` supplied by the algebraic-character construction.
 
-*Needs:* [AG2.4: HLTT factor separation](#hltt-factor-separation-specialization); [AG2.3: effective patching](#effective-automorphic-galois-patching); [AG2.3: automorphic S-general extension family](#s-general-solvable-extension-families); [AG2.2: Attachment under cuspidal solvable base change](#attachment-under-solvable-base-change); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character).
+*Needs:* AG2.4: HLTT factor separation; AG2.3: effective patching; AG2.3: automorphic S-general extension family; AG2.2: Attachment under cuspidal solvable base change; AG2.0: algebraic Galois characters.
 
-(Sources: [HLTT](#source-hltt), Theorem 7.13 and Corollary 7.14, pp. 227–228.)
-
-<a id="hltt-ordinary-boundary-instance"></a>
+(Sources: HLTT, Theorem 7.13 and Corollary 7.14, pp. 227–228.)
 
 ### HLTT ordinary boundary geometry
 
@@ -1689,9 +1589,7 @@ The required API is:
 
 *Needs:* EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; PELModuli M4; AdicSpacesPartIV §F1.12.
 
-(Sources: [HLTT](#source-hltt), §§3–5 and Appendix A.1, pp. 229–234.)
-
-<a id="boundary-support-dagger-cohomology"></a>
+(Sources: HLTT, §§3–5, pp. 84–190, summarized in Appendix A.1, pp. 229–234.)
 
 ### Dagger cohomology with boundary support
 
@@ -1714,11 +1612,9 @@ The required API is:
 
 - `BoundaryCohomology.support` — Dropping `I_∂` gives logarithmic cohomology with different boundary classes.
 
-*Needs:* [AG2.4: HLTT ordinary boundary geometry](#hltt-ordinary-boundary-instance); AdicSpacesPartIV §F1.12.
+*Needs:* AG2.4: HLTT ordinary boundary geometry; AdicSpacesPartIV §F1.12.
 
-(Sources: [HLTT](#source-hltt), §6.5 definition and Lemma 6.19, pp. 218–219.)
-
-<a id="hltt-functorial-dagger-rigid-comparison"></a>
+(Sources: HLTT, §6.5 definition and Lemma 6.19, pp. 218–219.)
 
 ### Functorial comparison of HLTT tubes with rigid cohomology
 
@@ -1726,11 +1622,9 @@ For smooth quasi-projective `Y/O_K` in HLTT Lemma 6.8, `H^i_rig(Y_s/K)≅H^i(Y^�
 
 Throughout this target, the proper formal embeddings and strict-neighborhood choices in GK Theorem 5.1 and HLTT Lemma 6.8; this is not an arbitrary rigid-space comparison.
 
-*Needs:* [AG2.4: HLTT ordinary boundary geometry](#hltt-ordinary-boundary-instance); PadicDifferentialEquationsAndRigidCohomology RD.4; AdicSpacesPartIV §F1.12.
+*Needs:* AG2.4: HLTT ordinary boundary geometry; PadicDifferentialEquationsAndRigidCohomology RD.4; AdicSpacesPartIV §F1.12.
 
-(Sources: [HLTT](#source-hltt), Lemma 6.8 and bracketed functoriality proof, pp. 201–202; [GK](#source-gk), Theorem 5.1 and proof, §5, pp.23–24.)
-
-<a id="hltt-frobenius-trace-normalization"></a>
+(Sources: HLTT, Lemma 6.8 and bracketed functoriality proof, pp. 201–202; GK, Theorem 5.1 and proof, §5, pp.23–24.)
 
 ### HLTT Frobenius and trace normalization
 
@@ -1738,11 +1632,9 @@ On `H^i_{c−∂}(A_Σ^ord)`, the pullback `ς_p` and trace trF commute with the
 
 Throughout this target, hLTT ordinary Frobenius quotient, dagger finite-étale trace and its boundary extension; characteristic zero coefficients.
 
-*Needs:* [AG2.4: Dagger cohomology with boundary support](#boundary-support-dagger-cohomology); [AG2.4: Functorial comparison of HLTT tubes with rigid cohomology](#hltt-functorial-dagger-rigid-comparison); AdicSpacesPartIV §§F1.10 and F1.16.
+*Needs:* AG2.4: Dagger cohomology with boundary support; AG2.4: Functorial comparison of HLTT tubes with rigid cohomology; AdicSpacesPartIV §§F1.10 and F1.16.
 
-(Sources: [HLTT](#source-hltt), Proposition 6.15 and Corollary 6.17; §6.5 before Lemma 6.19, pp. 215–218.)
-
-<a id="ordinary-cusp-finite-slope-pieces"></a>
+(Sources: HLTT, Proposition 6.15 and Corollary 6.17; §6.5 before Lemma 6.19, pp. 215–218.)
 
 ### Finite slope cusp sections on the ordinary tube
 
@@ -1750,11 +1642,9 @@ For each algebraic `ρ` and slope bound a, `H⁰(X^ord,min,†,E_ρ^sub)_{≤a}`
 
 Throughout this target, hLTT Lemmas 6.6 and 6.10–6.12, compact restriction maps and exact linked neighborhood data; the slope is measured for the normalized source trace.
 
-*Needs:* [AG2.4: HLTT ordinary boundary geometry](#hltt-ordinary-boundary-instance); [AG2.4: Frobenius/trace normalization](#hltt-frobenius-trace-normalization); LocallyAnalyticDistributions §§4.2, 4.15–4.16; LocallyAnalyticDistributions §§4.15–4.16.
+*Needs:* AG2.4: HLTT ordinary boundary geometry; AG2.4: Frobenius/trace normalization; LocallyAnalyticDistributions §§4.2, 4.15–4.16; LocallyAnalyticDistributions §§4.15–4.16.
 
-(Sources: [HLTT](#source-hltt), Lemmas 6.10–6.12 and Corollary 6.13, pp. 209–215.)
-
-<a id="hasse-weight-changing-congruence"></a>
+(Sources: HLTT, Lemmas 6.10–6.12 and Corollary 6.13, pp. 205–215.)
 
 ### Hasse weight-changing congruences
 
@@ -1762,11 +1652,9 @@ For `M≥1` and any lower bound `r`, multiplication/division by the lifted Hasse
 
 Throughout this target, integral `E_ρ` lattice and HLTT ordinary minimal model; ample `ω` and the lifted Hasse section; all relevant level/action normalizations.
 
-*Needs:* [AG2.4: HLTT ordinary boundary geometry](#hltt-ordinary-boundary-instance); [AG2.4: HLTT models and coefficients](#hltt-ordinary-boundary-instance); [AG2.4: HLTT compactifications](#hltt-ordinary-boundary-instance).
+*Needs:* AG2.4: HLTT ordinary boundary geometry; AG2.4: HLTT models and coefficients; AG2.4: HLTT compactifications.
 
-(Sources: [HLTT](#source-hltt), Lemma 6.1 and proof, pp. 192–195.)
-
-<a id="classical-cusp-galois-type"></a>
+(Sources: HLTT, Lemma 6.1 and proof, pp. 192–195.)
 
 ### Galois type of sufficiently high classical cusp forms
 
@@ -1774,11 +1662,9 @@ For a fixed algebraic `ρ`, sufficiently large determinant twists satisfying `�
 
 Throughout this target, the high-weight inequality and fixed level; all discrete constituent algebraic twists are retained; no torsion Hecke existence is an input.
 
-*Needs:* [AG2.4: Hasse weight-changing congruences](#hasse-weight-changing-congruence); [AG2.2: Galois assembly for discrete unitary transfer](#discrete-unitary-galois-assembly); [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.4: Hasse weight-changing congruences; AG2.2: Galois assembly for discrete unitary transfer; AG2.3: arbitrary regular existence; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [HLTT](#source-hltt), Lemma 6.2 and Corollaries 6.3–6.4, pp. 195–197.)
-
-<a id="uniform-integral-hecke-congruence-witnesses"></a>
+(Sources: HLTT, Lemma 6.2 and Corollaries 6.3–6.4, pp. 195–197.)
 
 ### Uniform integral Hecke congruence witnesses
 
@@ -1786,11 +1672,9 @@ For each finite ordinary Hecke module `W` and each `p`-adic modulus, the Hasse s
 
 Throughout this target, integral finite Hecke image of `W`, finite classical comparison module and quotient descent for the continuous determinant identities; denominator control is explicit.
 
-*Needs:* [AG2.4: Hasse weight-changing congruences](#hasse-weight-changing-congruence); [AG2.4: Galois type of sufficiently high classical cusp forms](#classical-cusp-galois-type); IntegralHeckeAndGaloisDeterminants §4.2.
+*Needs:* AG2.4: Hasse weight-changing congruences; AG2.4: Galois type of sufficiently high classical cusp forms; IntegralHeckeAndGaloisDeterminants §4.2.
 
-(Sources: [HLTT](#source-hltt), Corollaries 6.3–6.4 and proof of Proposition 6.5, pp. 196–199.)
-
-<a id="ordinary-hecke-determinant-limit"></a>
+(Sources: HLTT, Corollaries 6.3–6.4 and proof of Proposition 6.5, pp. 196–199.)
 
 ### The continuous ordinary Hecke determinant limit
 
@@ -1798,11 +1682,9 @@ The compatible fixed-S quotient data for the ordinary finite Hecke modules inter
 
 Throughout this target, the uniform congruence witnesses and actual quotient-descent contract, separated complete coefficient topology, compatible level maps and characteristic-zero reconstruction continuity; the source Proposition 6.5 initially concerns an irreducible quotient of an admissible submodule.
 
-*Needs:* [AG2.4: uniform Hecke congruences](#uniform-integral-hecke-congruence-witnesses); [AG2.4: Finite slope cusp sections on the ordinary tube](#ordinary-cusp-finite-slope-pieces); IntegralHeckeAndGaloisDeterminants §4.2; IntegralHeckeAndGaloisDeterminants §1.2.
+*Needs:* AG2.4: uniform Hecke congruences; AG2.4: Finite slope cusp sections on the ordinary tube; IntegralHeckeAndGaloisDeterminants §4.2; IntegralHeckeAndGaloisDeterminants §1.2.
 
-(Sources: [HLTT](#source-hltt), Proposition 6.5 and Corollary 6.13, pp. 197–199, 214–215.)
-
-<a id="logarithmic-cusp-section-spectral-sequence"></a>
+(Sources: HLTT, Proposition 6.5 and Corollary 6.13, pp. 197–199, 214–215.)
 
 ### The logarithmic cusp-section spectral sequence
 
@@ -1810,11 +1692,9 @@ At each fixed Kuga slope bound `b`, the logarithmic de Rham cohomology of the or
 
 Throughout this target, actual algebraic representations `ρ_{m,s}^{i,j}`, coefficient trace factor and finite filtrations; the higher coherent cohomology vanishing on the ordinary affine locus.
 
-*Needs:* [AG2.4: Dagger cohomology with boundary support](#boundary-support-dagger-cohomology); [AG2.4: Frobenius/trace normalization](#hltt-frobenius-trace-normalization); [AG2.4: Finite slope cusp sections on the ordinary tube](#ordinary-cusp-finite-slope-pieces); [AG2.4: continuous ordinary Hecke determinant limit](#ordinary-hecke-determinant-limit); [AG2.4: HLTT models and coefficients](#hltt-ordinary-boundary-instance).
+*Needs:* AG2.4: Dagger cohomology with boundary support; AG2.4: Frobenius/trace normalization; AG2.4: Finite slope cusp sections on the ordinary tube; AG2.4: continuous ordinary Hecke determinant limit; AG2.4: HLTT models and coefficients.
 
-(Sources: [HLTT](#source-hltt), Proposition 6.15, Corollary 6.17 and Corollaries 6.18, 6.23, pp. 215–220.)
-
-<a id="boundary-stratum-weight-zero-sequence"></a>
+(Sources: HLTT, Proposition 6.15, Corollary 6.17 and Corollaries 6.18, 6.23, pp. 215–220.)
 
 ### The boundary-stratum and weight-zero spectral sequence
 
@@ -1822,11 +1702,9 @@ For the fixed HLTT ordinary boundary model, `E₁^{i,j}=H^i_rig(∂^(j)A_Σ^ord)
 
 Throughout this target, smooth quasi-projective strata, functorial rigid/dagger comparison, rigid finiteness and the weight lower bound `w≥cohomological` degree.
 
-*Needs:* [AG2.4: Dagger cohomology with boundary support](#boundary-support-dagger-cohomology); [AG2.4: Functorial comparison of HLTT tubes with rigid cohomology](#hltt-functorial-dagger-rigid-comparison); [AG2.4: Frobenius/trace normalization](#hltt-frobenius-trace-normalization); PadicDifferentialEquationsAndRigidCohomology RD.5; PadicDifferentialEquationsAndRigidCohomology RD.6.
+*Needs:* AG2.4: Dagger cohomology with boundary support; AG2.4: Functorial comparison of HLTT tubes with rigid cohomology; AG2.4: Frobenius/trace normalization; PadicDifferentialEquationsAndRigidCohomology RD.5; PadicDifferentialEquationsAndRigidCohomology RD.6.
 
-(Sources: [HLTT](#source-hltt), Lemmas 6.21 and Corollaries 6.22–6.24, pp. 219–220.)
-
-<a id="boundary-levi-cohomology-realization"></a>
+(Sources: HLTT, Lemmas 6.21 and Corollaries 6.22–6.24, pp. 219–220.)
 
 ### The boundary Levi realization
 
@@ -1834,9 +1712,9 @@ For `i>0`, the induced interior cohomology of the `GL_n` Levi locally symmetric 
 
 Throughout this target, `n>1`; exact Levi arithmetic quotient, coefficient representation `ρ` and `π∞` with the infinitesimal character of `ρ∨; N` sufficiently large; good source places `q≠p` split in `F₀` or unramified in `F` with `π` spherical above `q`.
 
-*Needs:* [AG2.4: boundary weight-zero sequence](#boundary-stratum-weight-zero-sequence); [AG2.4: cusp-section spectral sequence](#logarithmic-cusp-section-spectral-sequence); ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.4: boundary weight-zero sequence; AG2.4: cusp-section spectral sequence; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7 and ALS.5b.5; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [HLTT](#source-hltt), Corollary 1.9, §1.5, p. 41; Corollaries 6.25–6.27, p. 221.)
+(Sources: HLTT, Corollary 1.9, §1.5, p. 41; Corollaries 6.25–6.27, p. 221.)
 
 **Checks.**
 
@@ -1847,8 +1725,6 @@ Throughout this target, `n>1`; exact Levi arithmetic quotient, coefficient repre
 - Increasing `N` by one multiplies only the second root multiset by `ε_p⁻²`. For `n=1` the
   boundary realization is excluded by the stated `n>1` hypothesis.
 
-
-<a id="hltt-factor-separation-specialization"></a>
 
 ### Separating the two HLTT rank-`n` factors
 
@@ -1876,9 +1752,9 @@ supplies the family and the two lists; no automorphic carrier is part of this ma
   so the infinite-order hypothesis cannot be removed. A finite exponent set likewise supplies
   no infinite-family separation theorem.
 
-*Needs:* [AG2.4: boundary Levi realization](#boundary-levi-cohomology-realization); [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); IntegralHeckeAndGaloisDeterminants §4.2.
+*Needs:* AG2.4: boundary Levi realization; AG2.0: good-place attachment; IntegralHeckeAndGaloisDeterminants §4.2.
 
-(Sources: [HLTT](#source-hltt), §7 first two paragraphs, Proposition 7.12 and proof of Theorem 7.13, pp. 222–228.)
+(Sources: HLTT, §7 first two paragraphs, Proposition 7.12 and proof of Theorem 7.13, pp. 222–228.)
 
 ### Examples
 
@@ -1892,8 +1768,6 @@ AG2.0–AG2.3; PELModuli M0–M4; ShimuraVarieties §§8.18–8.23; AdicSpacesPa
 
 Compare the early integral polynomial with the constructed local correspondence. Varma’s congruences give semisimplified compatibility and monodromy dominance in the nonselfdual setting. The polarized tensor-square geometry, double weight spectral sequence and temperedness supply purity; pure WD uniqueness then upgrades the comparison to include `N`.
 
-<a id="the-normalization-dictionary-fixed-by-the-sources"></a>
-
 ### Comparison of the early polynomial with normalized local Langlands
 
 For spherical `π_v`, after EndoscopicTransferAndUnitaryTraceComparison Layer 10 fixes geometric Artin and the Harris–Taylor normalization, `rec(π_v|det|^{(1−n)/2})` is unramified with Frobenius polynomial equal to the AG2.0 integral Hecke polynomial. In Shin and Caraiani the source convention is
@@ -1903,11 +1777,11 @@ attached member for `π`: `r_AG2(π)=R_source(π^∨)`. The square-root Satake e
 
 Throughout this target, use the chosen coefficient embedding and geometric Frobenius on both sides. Import the exact local reciprocity/Satake normalization from EndoscopicTransferAndUnitaryTraceComparison Layer 10; do not invert roots in just one side.
 
-*Needs:* [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; IntegralHeckeAndGaloisDeterminants §3a.1.
+*Needs:* AG2.0: integral Frobenius polynomial; AG2.0: algebraic Galois characters; EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; IntegralHeckeAndGaloisDeterminants §3a.1.
 
-(Sources: [HLTT](#source-hltt), Theorem 7.13 and notation §1, pp. 1–3, 227;
-[CT](#source-ct), §1.1 notation, accepted copy p.3; [Shin](#source-shin), §2.3, p.10;
-[Caraiani-p-published](#source-caraiani-p-published), p.1598.)
+(Sources: HLTT, Theorem 7.13 and notation §1, pp. 1–3, 227;
+CT, §1.1 notation, accepted copy p.3; Shin, §2.3, p.10;
+Caraiani-p-published, p.1598.)
 
 **Checks.**
 
@@ -1919,19 +1793,15 @@ Throughout this target, use the chosen coefficient embedding and geometric Frobe
   its tensor square has roots `β_iβ_j`. Using the packet for `π` instead changes each
   factor to `q^{n−1}/β_i` and requires a dual and Tate correction.
 
-<a id="varma-semisimplified-comparison-and-monodromy-bound"></a>
-
 ### Varma’s semisimplified comparison and monodromy bound
 
 For `E` totally real or CM and regular algebraic cuspidal `π` on `GL_n(A_E)`, the constructed `r_{p,ι}(π)` satisfies `WD(r|_{G_{E_v}})^ss≅ι^−1rec(π_v|det|^{(1−n)/2})^ss` for every `v∤p`, and `WD(r|_{G_{E_v}})^{F-ss}≺ι^−1rec(π_v|det|^{(1−n)/2})`. Extract the local bound from the varying-twist `2n` family and then remove the split-place and auxiliary-CM restrictions by the source extension/descent argument. The comparison retains no asserted equality of monodromy for arbitrary nonselfdual `π`.
 
 Throughout this target, regular algebraic cuspidal; every `v∤p`; the source parameter convention and the full isotypic dominance relation.
 
-*Needs:* [AG2.4: HLTT existence](#hltt-construction-of-nonselfdual-systems); [AG2.5: Varma monodromy bound](#varma-monodromy-rank-bound); [AG2.4: HLTT factor separation](#hltt-factor-separation-specialization); [AG2.3: effective patching](#effective-automorphic-galois-patching); [AG2.5: local normalization comparison](#the-normalization-dictionary-fixed-by-the-sources).
+*Needs:* AG2.4: HLTT existence; AG2.5: Varma monodromy bound; AG2.4: HLTT factor separation; AG2.3: effective patching; AG2.5: local normalization comparison.
 
-(Sources: [Varma](#source-varma), Theorem (1), p. 2; Proposition 8.1 and proof, pp. 18–19; Proposition 9.1 and proof, pp. 20–26; Theorem 10.2 and Corollary 10.3, §10, pp. 26–27.)
-
-<a id="caraiani-upgrade-away-from-p-and-temperedness"></a>
+(Sources: Varma, Theorem (1), p. 1; Proposition 8.1 and proof, pp. 18–19; Proposition 9.1 and proof, pp. 20–26; Theorem 10.2 and Corollary 10.3, §10, pp. 26–27.)
 
 ### Caraiani’s full away-prime compatibility
 
@@ -1939,11 +1809,9 @@ For CM `L` and regular algebraic CSD cuspidal `π` on `GL_n(A_L)`, every prime `
 
 Throughout this target, regular algebraic CSD cuspidal; `v∤ℓ`; source geometric normalization and coefficient embedding.
 
-*Needs:* [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris); [AG2.5: polarized family comparison](#ch-polarized-local-monodromy-bound); [AG2.5: tensor-square geometry](#caraiani-tensor-square-geometric-instance); [AG2.5: Purity from the double weight spectral sequence](#tensor-square-weight-spectral-sequence); ArithmeticGaloisRepresentations Layer 2; [AG2.5: local normalization comparison](#the-normalization-dictionary-fixed-by-the-sources).
+*Needs:* AG2.3: arbitrary regular existence; AG2.5: polarized family comparison; AG2.5: tensor-square geometry; AG2.5: Purity from the double weight spectral sequence; ArithmeticGaloisRepresentations Layer 2; AG2.5: local normalization comparison.
 
-(Sources: [Caraiani-away](#source-caraiani-away), Theorem 7.4 and proof, pp. 83–85.)
-
-<a id="good-prime-unramified-polynomial"></a>
+(Sources: Caraiani-away, Theorem 7.4 and proof, pp. 84–85.)
 
 ### Unramifiedness and the good-prime polynomial
 
@@ -1951,11 +1819,9 @@ For each constructed polarized or nonselfdual rank-`n r`, outside its specified 
 
 Throughout this target, the relevant existence theorem and its actual common ramification set; `π` cuspidal regular algebraic, polarized only in the corresponding branch.
 
-*Needs:* [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris); [AG2.4: HLTT existence](#hltt-construction-of-nonselfdual-systems); [AG2.5: local normalization comparison](#the-normalization-dictionary-fixed-by-the-sources); [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions).
+*Needs:* AG2.3: arbitrary regular existence; AG2.4: HLTT existence; AG2.5: local normalization comparison; AG2.0: integral Frobenius polynomial.
 
-(Sources: [HLTT](#source-hltt), Corollary 7.14, p. 228.)
-
-<a id="monodromy-order-interface"></a>
+(Sources: HLTT, Corollary 7.14, p. 228.)
 
 ### The monodromy dominance interface
 
@@ -1965,7 +1831,7 @@ Throughout this target, characteristic zero; finite inertial Weil image; same se
 
 *Needs:* ArithmeticGaloisRepresentations §§2.4–2.6; Mathlib nilpotent linear algebra.
 
-Source locators: [Varma](#source-varma), §9, Definitions 1–2 and Lemma 9.2, pp. 20–21.
+Source locators: Varma, §9, Definitions 1–2 and Lemma 9.2, pp. 20–21.
 
 The API is `MonodromyDominates.refl`, `MonodromyDominates.trans`,
 `monodromyDominates_iff_powerRanks` and `monodromyDominates_inertia`, with invariance under
@@ -1981,19 +1847,15 @@ semisimple-Weil-equality domain identifies the Weil and inertia versions.
 - The empty partition in rank zero dominates itself. Different semisimple Weil types
   do not acquire an equivalence merely because their block partitions coincide.
 
-<a id="varma-integral-bernstein-operators"></a>
-
 ### Integral Bernstein operators on the ordinary family
 
 At the unitary split places `v∤p`, the Bernstein centres of the finitely many components permitted by the fixed local level supply operators whose value at a classical or ordinary cusp eigensystem `Π` is `tr rec(BC(Π)_v|det|^{(1−2n)/2})(σ)`, for every `σ∈W_{F_v}`. After the source common denominator `d(z)`, these operators preserve the integral cusp-section lattices used in the Hasse congruences. The bound idempotent `e_{Π,B}` selects points whose local parameter is dominated by that of the target `Π`.
 
 Throughout this target, finite union of actual Bernstein components at the split local `G_n` factor; fixed level; source integral denominator and idempotent.
 
-*Needs:* [AG2.4: HLTT ordinary boundary geometry](#hltt-ordinary-boundary-instance); [AG2.4: Hasse weight-changing congruences](#hasse-weight-changing-congruence); SmoothRepresentationsOfLocalGroups SR.3; SmoothRepresentationsOfLocalGroups SR.5; EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30.
+*Needs:* AG2.4: HLTT ordinary boundary geometry; AG2.4: Hasse weight-changing congruences; SmoothRepresentationsOfLocalGroups SR.3; SmoothRepresentationsOfLocalGroups SR.5; EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30.
 
-(Sources: [Varma](#source-varma), §7.2, integral Bernstein operators, pp. 16–17; §9.1, `e_{Π,B}`, pp. 24–25.)
-
-<a id="varma-local-trace-congruence"></a>
+(Sources: Varma, §7.2, integral Bernstein operators, pp. 16–17; §9.1, `e_{Π,B}`, pp. 24–25.)
 
 ### Local Weil traces through the HLTT congruences
 
@@ -2001,11 +1863,9 @@ Include the denominator-corrected Bernstein operators in the uniform classical-t
 
 Throughout this target, the integral operators, arbitrary-modulus congruences, common ramification set and characteristic-zero pseudocharacter continuity.
 
-*Needs:* [AG2.5: Integral Bernstein operators on the ordinary family](#varma-integral-bernstein-operators); [AG2.4: uniform Hecke congruences](#uniform-integral-hecke-congruence-witnesses); [AG2.4: continuous ordinary Hecke determinant limit](#ordinary-hecke-determinant-limit); IntegralHeckeAndGaloisDeterminants §4.2; ArithmeticGaloisRepresentations Layer 2; [AG2.5: full away-prime comparison](#caraiani-upgrade-away-from-p-and-temperedness).
+*Needs:* AG2.5: Integral Bernstein operators on the ordinary family; AG2.4: uniform Hecke congruences; AG2.4: continuous ordinary Hecke determinant limit; IntegralHeckeAndGaloisDeterminants §4.2; ArithmeticGaloisRepresentations Layer 2; AG2.5: full away-prime comparison.
 
-(Sources: [Varma](#source-varma), Proposition 8.1 and proof, pp. 18–20.)
-
-<a id="varma-monodromy-rank-bound"></a>
+(Sources: Varma, Proposition 8.1 and proof, pp. 18–20.)
 
 ### Monodromy bounds through exterior trace identities
 
@@ -2013,11 +1873,9 @@ For the interpolated `2n` representation at a split place, `WD(r(Π)_v)^{F-ss}�
 
 Throughout this target, semisimple global representation; nondegenerate trace pairing on its semisimple image algebra; all `η, p`-power `ζ, j,k>0` of Varma Lemma 9.7; the target Bernstein idempotent.
 
-*Needs:* [AG2.5: monodromy dominance](#monodromy-order-interface); [AG2.5: Local Weil traces through the HLTT congruences](#varma-local-trace-congruence); [AG2.5: Integral Bernstein operators on the ordinary family](#varma-integral-bernstein-operators); IntegralHeckeAndGaloisDeterminants §4.2; RepresentationTheory/SemisimpleAlgebras / layer 2 artin wedderburn assembled with uniqueness.
+*Needs:* AG2.5: monodromy dominance; AG2.5: Local Weil traces through the HLTT congruences; AG2.5: Integral Bernstein operators on the ordinary family; IntegralHeckeAndGaloisDeterminants §4.2; RepresentationTheory/SemisimpleAlgebras / layer 2 artin wedderburn assembled with uniqueness.
 
-(Sources: [Varma](#source-varma), Lemma 9.7, Lemma 9.8 and proof of Proposition 9.1, pp. 24–26.)
-
-<a id="caraiani-tensor-square-geometric-instance"></a>
+(Sources: Varma, Lemma 9.7, Lemma 9.8 and proof of Proposition 9.1, pp. 24–26.)
 
 ### The tensor-square geometric instance
 
@@ -2042,11 +1900,9 @@ The required API is:
 
 - `TensorSquareInstance.monodromy` — For nonzero tensor factors `V₁,V₂` with `N₁=0` and `N₂≠0`, total monodromy is `1⊗N₂≠0`. For the tensor square with `N=0`, total monodromy is zero.
 
-*Needs:* [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris); [AG2.1a: corrected Kuga–Sato coefficient projector](#kuga-sato-coefficient-projector); PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; LefschetzPencilsAndVanishingCycles LPV.6; ArithmeticGaloisRepresentations Layer 2.
+*Needs:* AG2.3: arbitrary regular existence; AG2.1a: corrected Kuga–Sato coefficient projector; PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; LefschetzPencilsAndVanishingCycles LPV.6; ArithmeticGaloisRepresentations Layer 2.
 
-(Sources: [Caraiani-away](#source-caraiani-away), §7 setup and proof of Theorem 7.4, pp. 80–85.)
-
-<a id="two-chart-nearby-cycle-monodromy"></a>
+(Sources: Caraiani-away, §7 setup and proof of Theorem 7.4, pp. 80–85.)
 
 ### Nearby cycles of the two-chart instance
 
@@ -2054,9 +1910,9 @@ Construct Caraiani Propositions 3.9, 4.6 and 4.10 for the specified two-chart in
 
 Throughout this target, the actual étale-local product of semistable charts, all shifts and Tate twists, and coefficient projector equivariance. Characteristic-zero `ℓ`-adic coefficients `Λ=ℚ_ℓ` or `ℚ̄_ℓ` for the product argument of §4.2; the two charts are semistable over the same trait.
 
-*Needs:* [AG2.5: tensor-square geometry](#caraiani-tensor-square-geometric-instance); LefschetzPencilsAndVanishingCycles LPV.0–LPV.1 and LPV.6; [AG2.1a: corrected Kuga–Sato coefficient projector](#kuga-sato-coefficient-projector).
+*Needs:* AG2.5: tensor-square geometry; LefschetzPencilsAndVanishingCycles LPV.0–LPV.1 and LPV.6; AG2.1a: corrected Kuga–Sato coefficient projector.
 
-(Sources: [Caraiani-away](#source-caraiani-away), Proposition 3.9 (p. 24), Proposition 4.6 (p. 29), Proposition 4.10 (p. 33) and Corollary 4.29 (p. 51).)
+(Sources: Caraiani-away, Proposition 3.9 (p. 24), Proposition 4.6 (p. 29), Proposition 4.10 (p. 33) and Corollary 4.29 (p. 51).)
 
 **Checks.**
 
@@ -2068,8 +1924,6 @@ Throughout this target, the actual étale-local product of semistable charts, al
   summands with shifts `−(k+l)` and twists `−l`. These rational monodromy filtrations are
   not asserted over arbitrary torsion coefficient rings.
 
-
-<a id="caraiani-signed-virtual-stratum-calculation"></a>
 
 ### Signed virtual stratum and Igusa calculation
 
@@ -2090,14 +1944,12 @@ characteristic-zero virtual calculation; it asserts no torsion concentration.
 - A zero selected Igusa term contributes zero to the virtual sum. Replacing a nonzero
   alternating sum by its dimension alone loses the sign test.
 
-*Needs:* [AG2.5: tensor-square geometry](#caraiani-tensor-square-geometric-instance);
-[AG2.1b: stable/endoscopic Igusa traces](#shin-st-end-igusa-computation);
-[AG2.1b: compact global Mantovan formula](#compact-global-mantovan-formula);
+*Needs:* AG2.5: tensor-square geometry;
+AG2.1b: stable/endoscopic Igusa traces;
+AG2.1b: compact global Mantovan formula;
 EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10 and Layer 14.
 
-(Source: [Caraiani-away](#source-caraiani-away), Theorem 5.8 and proof, pp.59–64.)
-
-<a id="racsdc-temperedness"></a>
+(Source: Caraiani-away, Theorem 5.8 and proof, pp.60–64.)
 
 ### Temperedness of regular unitary-type cuspidal forms
 
@@ -2107,11 +1959,9 @@ This is the automorphic purity input to the monodromy comparison; arbitrary nons
 
 Throughout this target, regular algebraic CSD cuspidal, source solvable-base-change descent and all coefficient embeddings. Corollary 5.9 is stated for `n≥2`. For `n=1` the assertion follows separately from the conjugate-self-dual algebraic Hecke-character dictionary and class field theory.
 
-*Needs:* [AG2.5: signed virtual stratum calculation](#caraiani-signed-virtual-stratum-calculation); [AG2.2: Attachment under cuspidal solvable base change](#attachment-under-solvable-base-change); EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; ArithmeticGaloisRepresentations Layer 2; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character).
+*Needs:* AG2.5: signed virtual stratum calculation; AG2.2: Attachment under cuspidal solvable base change; EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30; ArithmeticGaloisRepresentations Layer 2; AG2.0: algebraic Galois characters.
 
-(Sources: [Caraiani-away](#source-caraiani-away), Corollary 5.9, pp. 64–65, and Theorem 1.2, p. 2.)
-
-<a id="caraiani-stratum-concentration"></a>
+(Sources: Caraiani-away, Corollary 5.9, pp. 64–65, and Theorem 1.2, p. 2.)
 
 ### Cohomology of the two-chart strata
 
@@ -2129,12 +1979,10 @@ hypotheses, with characteristic-zero coefficients.
 - Before temperedness, the signed virtual calculation does not assert this
   concentration; no such vanishing is inferred for torsion coefficients.
 
-*Needs:* [AG2.5: signed virtual stratum calculation](#caraiani-signed-virtual-stratum-calculation);
-[AG2.5: temperedness](#racsdc-temperedness).
+*Needs:* AG2.5: signed virtual stratum calculation;
+AG2.5: temperedness.
 
-(Source: [Caraiani-away](#source-caraiani-away), Proposition 5.10 and proof, pp.65–66.)
-
-<a id="tensor-square-weight-spectral-sequence"></a>
+(Source: Caraiani-away, Proposition 5.10 and proof, pp.65–66.)
 
 ### Purity from the double weight spectral sequence
 
@@ -2142,11 +1990,9 @@ Caraiani Proposition 7.2 supplies the double-filtered nearby-cycle spectral sequ
 
 Throughout this target, exact stratum purity and the two-chart nearby-cycle comparison, equivariant projector and coefficient twists; no unproved general weight-monodromy conjecture is assumed.
 
-*Needs:* [AG2.5: Nearby cycles of the two-chart instance](#two-chart-nearby-cycle-monodromy); [AG2.5: Cohomology of the two-chart strata](#caraiani-stratum-concentration); DeligneWeightsAndPurity DWP.8; ArithmeticGaloisRepresentations Layer 2.
+*Needs:* AG2.5: Nearby cycles of the two-chart instance; AG2.5: Cohomology of the two-chart strata; DeligneWeightsAndPurity DWP.8; ArithmeticGaloisRepresentations Layer 2.
 
-(Sources: [Caraiani-away](#source-caraiani-away), Proposition 7.2 and Corollary 7.3, pp. 82–84.)
-
-<a id="pure-weil-deligne-comparison"></a>
+(Sources: Caraiani-away, Proposition 7.2 and Corollary 7.3, pp. 82–84.)
 
 ### Pure Weil–Deligne comparison up to equivalence
 
@@ -2156,9 +2002,7 @@ Throughout this target, characteristic-zero algebraically closed field and semis
 
 *Needs:* ArithmeticGaloisRepresentations §2.6; the geometric and automorphic purity targets of AG2.5.
 
-Source locators: [TY](#source-ty), Lemma 1.4(2)–(4), proof of `(4)`, pp. 6–7; [Caraiani-away](#source-caraiani-away), Published typeset author copy `lgc1.pdf`, proof of Theorem 7.4, pp. 2410–2411; the preprint gives a shorter argument on p. 85.
-
-<a id="ch-polarized-local-monodromy-bound"></a>
+Source locators: TY, Lemma 1.4(2)–(4), proof of `(4)`, pp. 6–7; Caraiani-away, Published typeset author copy `lgc1.pdf`, proof of Theorem 7.4, pp. 2410–2411; the preprint gives a shorter argument on p. 85.
 
 ### The polarized local comparison from the definite family
 
@@ -2166,11 +2010,9 @@ For the arbitrary-regular polarized CH representation, at every `v` away from th
 
 Throughout this target, cH General Hypotheses 1.1, the definite-unitary interpolation and source Bernstein restrictions; extend essentially polarized forms by the prescribed character twist.
 
-*Needs:* [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris); [AG2.3: definite-unitary eigenvariety instance](#definite-unitary-eigenvariety-instance); [AG2.3: family determinant](#definite-family-determinant-interpolation); [AG2.3: effective patching](#effective-automorphic-galois-patching); [AG2.3: solvable-index induction](#solvable-index-induction); ArithmeticGaloisRepresentations Layer 2; SmoothRepresentationsOfLocalGroups SR.3; IntegralHeckeAndGaloisDeterminants §4.2.
+*Needs:* AG2.3: arbitrary regular existence; AG2.3: definite-unitary eigenvariety instance; AG2.3: family determinant; AG2.3: effective patching; AG2.3: solvable-index induction; ArithmeticGaloisRepresentations Layer 2; SmoothRepresentationsOfLocalGroups SR.3; IntegralHeckeAndGaloisDeterminants §4.2.
 
-(Sources: [CH](#source-ch), Theorem 2.3, tame-family paragraph, p. 8; Theorem 3.2.3(a′), pp. 11–12.)
-
-<a id="published-racsdc-comparison-specializations"></a>
+(Sources: CH, Theorem 2.3, tame-family paragraph, p. 8; Theorem 3.2.3(a′), pp. 11–12.)
 
 ### Published RACSDC comparison specializations
 
@@ -2178,11 +2020,9 @@ For the RACSDC systems, specialize the normalized away-prime compatibility to th
 
 Throughout this target, relevant means the CSD cohomological infinity type of Liu Definition 1.1.3; the chosen automorphic coefficient field and embeddings; no universal use of Hypothesis 3.2.10.
 
-*Needs:* [AG2.5: full away-prime comparison](#caraiani-upgrade-away-from-p-and-temperedness); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); [AG2.2: Caraiani–Scholze discrete normalization](#cs-discrete-polarization-normalization).
+*Needs:* AG2.5: full away-prime comparison; AG2.0: Rationality of the good Hecke polynomials; AG2.2: Caraiani–Scholze discrete normalization.
 
-(Sources: [Liu](#source-liu), Definition 1.1.3, p. 110; Proposition 3.2.4, Hypothesis 3.2.10 and Proposition 3.2.11, pp. 145–146 (PDF pp. 4, 39–40); [BCGP25](#source-bcgp25), Unnumbered RACSDC `GL_n` summary after equation (1.8.21), pp. 14–15; [CS](#source-cs), Theorem 5.5.4, pp. 744–745; [CS](#source-cs), Remark 5.5.6 and §5.6, pp. 746–750.)
-
-<a id="late-gl2-modular-comparison"></a>
+(Sources: Liu, Definition 1.1.3, p. 110; Proposition 3.2.4, Hypothesis 3.2.10 and Proposition 3.2.11, pp. 145–146 (PDF pp. 4, 39–40); BCGP25, Unnumbered RACSDC `GL_n` summary after equation (1.8.21), pp. 14–15; CS, Theorem 5.5.4, pp. 744–745; CS, Remark 5.5.6, p. 746, and §5.6, pp. 748–750.)
 
 ### Comparison with the classical `GL₂` constructions
 
@@ -2190,9 +2030,9 @@ For a classical or Hilbert modular eigenform in the overlap of the source hypoth
 
 Throughout this target, both independently constructed representations exist; identical weight, nebentype, embedding and Frobenius convention after conversion; only the proved local range of the independent member is used.
 
-*Needs:* [AG2.5: Unramifiedness and the good-prime polynomial](#good-prime-unramified-polynomial); IntegralHeckeAndGaloisDeterminants §3a.1; [AG2.P: independent classical/Hilbert members](#rank-two-construction-contract); ArithmeticGaloisRepresentations Layer 5.
+*Needs:* AG2.5: Unramifiedness and the good-prime polynomial; IntegralHeckeAndGaloisDeterminants §3a.1; AG2.P: independent classical/Hilbert members; ArithmeticGaloisRepresentations Layer 5.
 
-(Sources: [CH](#source-ch), §3.2, pp. 10–12; §4, Hypotheses 4.1 and Theorem 4.2, p. 13.)
+(Sources: CH, §3.2, pp. 9–12; §4, Hypotheses 4.1 and Theorem 4.2, p. 13.)
 
 ### Examples
 
@@ -2207,8 +2047,6 @@ AG2.0–AG2.4; ArithmeticGaloisRepresentations §§2.4–2.6; LefschetzPencilsAn
 Apply period comparison to the actual projected summand, then extend through bounded families and solvable descent. The polarized and nonselfdual CM conclusions have different strengths. Assemble their members into the supplied `AutomorphicSystemData` carrier, keeping purity and polarization as branch predicates. Finally compare rank-two, tensor and `GSp₄` specializations.
 
 The at-`ℓ` tensor-square realization is a separate geometric input from the away-prime AG2.5 instance. Using CrystallineCohomology CR.6’s log-crystalline complexes, AG2.6 constructs the two-boundary sequence and proves projected stratum concentration. AHTW additionally requires quantitative local Shimura-cohomology annihilators (Theorem 2.5.7), bounded potentially semistable/crystalline pseudodeformation quotients with arbitrary residual multiplicities (Theorem 3.3.6), and the bounded-torsion/non-Siegel boundary argument. Generic-only concentration and fixed-representation deformation rings do not supply these interfaces; no general formal GAGA theorem is assumed. Its generic maximal-orbit argument is additional to Varma's partition order. Liu's minimal-field geometric identification retains Hypothesis 3.2.10; outside the proved low-rank range of Proposition 3.2.11 it remains conditional.
-
-<a id="extremely-weakly-compatible-system"></a>
 
 ### Weak, very weak and extremely weak automorphic data
 
@@ -2232,12 +2070,10 @@ finite restriction includes the newly ramified places in the exceptional set.
   clause by itself cannot establish Weak.
 
 *Needs:* SmallRamificationAndAbelianVarietyBaseCases §5.0d;
-[AG2.P: compatibility predicates](#compatible-data-prelude);
-[AG2.P: finite-coefficient periods](#finite-coefficient-period-api).
+AG2.P: compatibility predicates;
+AG2.P: finite-coefficient periods.
 
-(Sources: [ACC+](#source-accplus), §7.1, pp.1084–1086.)
-
-<a id="geometric-coefficient-prime-comparison"></a>
+(Sources: ACC+, §7.1, pp.1084–1086.)
 
 ### Comparison on the geometric automorphic summand
 
@@ -2247,11 +2083,9 @@ filtered de Rham realization gives `HT_τ={a_{π,τ,i}+n−i : 1≤i≤n}`. At s
 
 Throughout this target, aG2.1a first supplies the raw smooth proper PEL or Kuga–Sato realization, algebraic coefficient representation, cohomological degree, commuting Schur/isotypic idempotents, multiplicity and Tate twist. A statement of good-place attachment by itself does not supply these geometric data. The claimed good or strictly semistable reduction belongs to that realization and the specified local model. Comparison is applied to its cohomology before any admissibility conclusion about the attached representation.
 
-*Needs:* AutomorphicGaloisRepresentationsPartII AG2.1a; [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); [AG2.1a: projector degree identity](#coefficient-projector-degree-identity).
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.1a; AG2.0: Hodge multiset; AG2.P: finite-coefficient periods and comparison; AG2.1a: Shin raw-cohomology adapter; AG2.1a: projector degree identity.
 
-(Sources: [CH](#source-ch), §1.4–1.5, Theorem 1.4 and formula (1.6), pp.5–7.)
-
-<a id="geometric-central-character-comparison"></a>
+(Sources: CH, §1.4–1.5, Theorem 1.4 and formula (1.6), pp.5–7.)
 
 ### Geometric interpretation of the central-character dictionary
 
@@ -2275,15 +2109,13 @@ is the one for `π`, not for `σ`.
 - `ξ=ν^t` changes the coefficient weight by `−2t` and the projected labelled degrees by `−t`.
 - At `t=1` and `k=1` the label is `−1`. Dropping the central exponent would incorrectly give 0.
 
-*Needs:* [AG2.0: algebraic similitude dictionary](#unitary-similitude-central-character-dictionary);
-[AG2.1a: coefficient-cohomology identity](#coefficient-projector-degree-identity);
-[AG2.1b: actual constituents](#actual-galois-constituent-from-cohomology);
-[AG2.P: finite-coefficient periods](#finite-coefficient-period-api);
-DeligneWeightsAndPurity DWP.7; [AG2.6: geometric comparison](#geometric-coefficient-prime-comparison).
+*Needs:* AG2.0: algebraic similitude dictionary;
+AG2.1a: coefficient-cohomology identity;
+AG2.1b: actual constituents;
+AG2.P: finite-coefficient periods;
+DeligneWeightsAndPurity DWP.7; AG2.6: geometric comparison.
 
-(Sources: [Shin](#source-shin), Proposition 5.3(iii), p.35, and §6.2, Corollary 6.7, p.49.)
-
-<a id="coefficient-hodge-comparison-through-families-and-descent"></a>
+(Sources: Shin, Proposition 5.3(iii), p.35, and §6.2, Corollary 6.7, p.49.)
 
 ### Hodge comparison through deformation and descent
 
@@ -2291,11 +2123,9 @@ The target `coefficientHodgeComparisonThroughDescent` has the following hypothes
 
 For a conjugate-self-dual cohomological cuspidal `Π` over a CM field, the Chenevier–Harris construction passes de Rham, the prescribed regular Hodge multiset, crystallinity at spherical places and semistability at Iwahori places through their bounded family and cyclic patching. Theorem 2.3 varies weights at one chosen coefficient-prime place `v_0` and establishes admissibility at the other coefficient-prime places. Theorem 3.2.3 removes this exclusion by solvable base change and descent, arranging at least two coefficient-prime places. A convergent sequence of de Rham representations with unbounded Hodge weights is not the statement.
 
-*Needs:* [AG2.6: geometric period comparison](#geometric-coefficient-prime-comparison); [AG2.3: definite-unitary eigenvariety instance](#definite-unitary-eigenvariety-instance); [AG2.3: family determinant](#definite-family-determinant-interpolation); [AG2.3: effective patching](#effective-automorphic-galois-patching); [AG2.3: solvable-index induction](#solvable-index-induction); LocallyAnalyticDistributions §§4.2, 4.15–4.16; [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.6: geometric period comparison; AG2.3: definite-unitary eigenvariety instance; AG2.3: family determinant; AG2.3: effective patching; AG2.3: solvable-index induction; LocallyAnalyticDistributions §§4.2, 4.15–4.16; AG2.P: finite-coefficient periods and comparison; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [CH](#source-ch), Theorem 2.3; §3.1; Theorem 3.2.3, pp.8–12.)
-
-<a id="polarized-branch-de-rham-and-crystalline"></a>
+(Sources: CH, Theorem 2.3; §3.1; Theorem 3.2.3, pp.8–12.)
 
 ### Polarized admissibility at the coefficient prime
 
@@ -2303,11 +2133,9 @@ The target `polarizedCoefficientPrimeAdmissibility` has the following hypotheses
 
 Let `F` be CM and `(π,χ)` regular algebraic cuspidal polarized of weight a. For every `λ|ℓ` and `v|ℓ, r_{π,λ}|G_{F_v}` is de Rham with `HT_τ={a_{τ,i}+n−i}`. If `π_v` is spherical it is crystalline; if `π_v` has Iwahori-fixed vectors it is semistable. In the Iwahori case BLGGT Theorem 2.1.1(4) gives full Frobenius-semisimple WD comparison with `rec(π_v|det|^{(1−n)/2})`. The full comparison for general `π_v` is the separate Caraiani theorem below.
 
-*Needs:* [AG2.6: Hodge comparison by descent](#coefficient-hodge-comparison-through-families-and-descent); [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); ArithmeticGaloisRepresentations §7.4; [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
+*Needs:* AG2.6: Hodge comparison by descent; AG2.0: Hodge multiset; ArithmeticGaloisRepresentations §7.4; AG2.P: finite-coefficient periods and comparison.
 
-(Sources: [BLGGT](#source-blggt), Theorem 2.1.1(3)–(4), pp.33–34.)
-
-<a id="coefficient-prime-tensor-square-model"></a>
+(Sources: BLGGT, Theorem 2.1.1(3)–(4), pp.33–34.)
 
 ### The coefficient-prime two-signature model
 
@@ -2330,8 +2158,8 @@ Prove the structured log-smooth period comparison for this model and its project
 these hypotheses, using the comparison preceding Corollary 2.3 in the published source.
 Retain Galois, Frobenius, filtration and `N_HK/e_K=N_p`. A strictly semistable alteration
 uses R34.3 only after its descent and correspondence identifications are supplied.
-(Sources: [Caraiani-p](#source-caraiani-p), §2, pp.2–6 and §3.1, pp.7–9;
-[Caraiani-p-published](#source-caraiani-p-published), §2 and §3A, pp.1600–1611.)
+(Sources: Caraiani-p, §2, pp.2–6 and §3.1, pp.7–9;
+Caraiani-p-published, §2 and §3A, pp.1600–1611.)
 
 **Checks.**
 
@@ -2343,13 +2171,11 @@ uses R34.3 only after its descent and correspondence identifications are supplie
   integral charts. At a smooth factor its monodromy is zero. Odd rank uses the Shin-regular
   coefficient-prime comparison, rather than this even-rank PEL existence argument.
 
-*Needs:* PELModuli M0–M4; [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris);
-[AG2.1a: corrected coefficient projector](#kuga-sato-coefficient-projector);
-[AG2.5: two-chart strata](#caraiani-stratum-concentration);
+*Needs:* PELModuli M0–M4; AG2.3: arbitrary regular existence;
+AG2.1a: corrected coefficient projector;
+AG2.5: two-chart strata;
 CrystallineCohomology CR.6; WeightsInEtaleCohomology R34.3;
-[AG2.P: period interfaces](#finite-coefficient-period-api).
-
-<a id="log-crystalline-purity-on-the-automorphic-summand"></a>
+AG2.P: period interfaces.
 
 ### Log-crystalline purity of the automorphic summand
 
@@ -2359,23 +2185,19 @@ In Caraiani’s two-boundary semistable PEL model and its Kuga–Sato projector,
 
 Throughout this target, the even-rank AG2.6 coefficient-prime two-signature model includes the two distinguished coefficient-prime places, the closed two-index strata, cohomological multiplicity and coefficient-system projector/Tate twist. Its projected stratum concentration is proved before degeneration and purity are inferred. The log model used for comparison is proper, fine and saturated, log smooth and vertical over the standard log DVR, with special fiber of Cartier type. The second boundary uses its own divisors and `s` factors. With `m` smooth local coordinates, a nonempty (i,j)-stratum has dimension `2n+m−i−j`; carry this dimension and the Kuga–Sato/Tate shifts into the spectral sequence.
 
-*Needs:* [AG2.6: geometric period comparison](#geometric-coefficient-prime-comparison); CrystallineCohomology CR.6; WeightsInEtaleCohomology R34.3; [AG2.6: coefficient-prime two-signature model](#coefficient-prime-tensor-square-model).
+*Needs:* AG2.6: geometric period comparison; CrystallineCohomology CR.6; WeightsInEtaleCohomology R34.3; AG2.6: coefficient-prime two-signature model.
 
-(Sources: [Caraiani-p](#source-caraiani-p), §§2–4; Theorem 4.6, Remark 4.7, Proposition 5.1, pp.31–32; [Caraiani-p-published](#source-caraiani-p-published), §3A, pp.1609–1611, including Lemma 3.2; comparison hypotheses immediately before Corollary 2.3, p.1609.)
-
-<a id="full-polarized-comparison-at-the-coefficient-prime"></a>
+(Sources: Caraiani-p, §§2–4; Theorem 4.6, Remark 4.7, Proposition 5.1, pp.31–32; Caraiani-p-published, §3A, pp.1609–1611, including Lemma 3.2; comparison hypotheses immediately before Corollary 2.3, p.1609.)
 
 ### Full polarized local–global compatibility at `ℓ`
 
 The target `fullPolarizedCoefficientPrimeComparison` has the following hypotheses and conclusion.
 
-For `n≥2`, a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, any `ℓ, ι` and `v|ℓ, WD(r_{Π,ℓ,ι}|G_{F_v})^{F-ss} ≅ ι⁻¹ rec(Π_v|det|^{(1−n)/2})` with monodromy. The algebraic-character twist of AG2.2 extends this to the stated polarized branch. The theorem has no Shin-regularity condition; it uses purity of the geometric summand selected for `Π^∨` with its coefficient `ξ_{Π^∨}`, temperedness and the pure-parameter uniqueness theorem. Odd rank is the Shin-regular case of BLGGT Theorem 2.1.1; the two-signature log-crystalline argument supplies even rank. Rank one is supplied by algebraic local class field theory.
+For `n≥2`, a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, any `ℓ, ι` and `v|ℓ, WD(r_{Π,ℓ,ι}|G_{F_v})^{F-ss} ≅ ι⁻¹ rec(Π_v|det|^{(1−n)/2})` with monodromy. The algebraic-character twist of AG2.2 extends this to the stated polarized branch. The theorem has no Shin-regularity condition; it uses purity of the geometric summand selected for `Π^∨` with its coefficient `ξ_{Π^∨}`, temperedness and the pure-parameter uniqueness theorem. Odd rank and even rank of Shin-regular weight use BLGGT-lp-II Theorem A. Caraiani-p Theorem 1.1, stated for every `n≥2`, supplies the remaining even-rank case through the two-signature log-crystalline argument. Rank one is supplied by algebraic local class field theory.
 
-*Needs:* [AG2.6: polarized admissibility](#polarized-branch-de-rham-and-crystalline); [AG2.6: log-crystalline purity](#log-crystalline-purity-on-the-automorphic-summand); [AG2.2: Twisting an essentially self-dual form into unitary type](#algebraic-character-polarization-twist); [AG2.5: full away-prime comparison](#caraiani-upgrade-away-from-p-and-temperedness); ArithmeticGaloisRepresentations Layer 2; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.6: polarized admissibility; AG2.6: log-crystalline purity; AG2.2: Twisting an essentially self-dual form into unitary type; AG2.5: full away-prime comparison; ArithmeticGaloisRepresentations Layer 2; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [Caraiani-p](#source-caraiani-p), Theorem 1.1, pp.1–2; §§2 and 5.)
-
-<a id="relative-fargues-fontaine-curves"></a>
+(Sources: BLGGT-lp-II, Theorem A, p.2; Caraiani-p, Theorem 1.1, pp.1–2; §§2 and 5.)
 
 ### Relative Fargues–Fontaine curves and degree-one divisors
 
@@ -2396,7 +2218,7 @@ Construct the marked-untilt/closed-Cartier-divisor correspondence, the divisor s
 quotient and marked divisor with FarguesFontaineDiamonds F0–F4 on its fixed-field
 `K=ℚ_p` domain. That comparison does not supply a relative construction over general
 `S`, and no adic morphism `X_{K,S}→S` is assumed.
-(Source: [Fargues–Scholze](#source-fargues-scholze), §II.1, Propositions II.1.1–II.1.3,
+(Source: Fargues–Scholze, §II.1, Propositions II.1.1–II.1.3,
 pp.47–49, Definition II.1.15 and Propositions II.1.16–II.1.18, pp.54–56,
 Definition II.1.19, p.56.)
 
@@ -2411,8 +2233,6 @@ Definition II.1.19, p.56.)
 
 *Needs:* FarguesFontaineDiamonds F0–F4, fixed-field comparison;
 AdicSpaces Layers 0–6; PerfectoidSpaces P1–P2; DiamondsAndVStacks D2–D4.
-
-<a id="bundle-hecke-categories"></a>
 
 ### Bundle strata, lisse categories and the geometric Hecke action
 
@@ -2441,7 +2261,7 @@ minuscule `μ` and algebraically closed complete `C/K`, identify the underlying
 transform `T_{μ,C}` with the modification correspondence, including shift
 `d_μ=⟨2ρ,μ⟩`. All these carriers and geometric transforms are owned here; the
 Igusa/Newton comparison below is their automorphic application.
-(Source: [Fargues–Scholze](#source-fargues-scholze), Definition III.0.1 and
+(Source: Fargues–Scholze, Definition III.0.1 and
 Theorem III.0.2, pp.87–88; Chapters III–V, especially Proposition V.2.2;
 §§VI.9–VI.12, pp.226–244; §§VII.3, VII.6–VII.7, pp.257–274;
 Theorem IX.0.1 and Corollary IX.2.4, pp.317–318, 324.)
@@ -2457,13 +2277,11 @@ Theorem IX.0.1 and Corollary IX.2.4, pp.317–318, 324.)
 - Infinitely many nonzero Newton restrictions do not give a compact object merely
   because each individual restriction is compact. Nonbasic strata are retained.
 
-*Needs:* [relative curves and divisors](#relative-fargues-fontaine-curves);
+*Needs:* relative curves and divisors;
 DiamondEtaleCohomology C2–C5; DiamondSixOperations S1–S4;
 AdicCoefficientsAndComparisons L0; EnhancedDerivedSheaves E0 and E5;
 ReductiveGroups Layers 0–3; ReductiveGroupsPartII RG2.5;
 SmoothRepresentationsOfLocalGroups SR.0 and SR.0d.
-
-<a id="geometric-spectral-action"></a>
 
 ### The parameter stack and geometric spectral action
 
@@ -2496,9 +2314,9 @@ over `ℤ_ℓ[√q]`, construct the semisimple parameter of a Schur-irreducible 
 directly from excursions and prove its characterization, including without the
 integral prime restriction. The algebraic excursion carrier
 remains that of SR.6.3; this target supplies its geometric action.
-(Source: [Fargues–Scholze](#source-fargues-scholze), Theorems VIII.1.3 and VIII.5.1,
+(Source: Fargues–Scholze, Theorems VIII.1.3 and VIII.5.1,
 pp.278–281, 293–315; Theorem IX.0.1, Corollary IX.0.3 and Definition IX.0.4,
-pp.317–319; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.341–350.)
+pp.317–319; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.340–350.)
 
 **Checks.**
 
@@ -2510,11 +2328,9 @@ pp.317–319; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.341–350.)
 - Distinct compact objects may require different finite wild levels. A comparison
   only after rationalization does not determine an integral action on torsion objects.
 
-*Needs:* [bundle and Hecke categories](#bundle-hecke-categories);
+*Needs:* bundle and Hecke categories;
 SmoothRepresentationsOfLocalGroups SR.6.1–SR.6.3; SchemeAndStackFoundations, quotient stacks;
 EnhancedDerivedSheaves E5; ReductiveGroupsPartII RG2.5; ClassFieldTheory Layer 9.
-
-<a id="ahtw-local-shimura-complexes"></a>
 
 ### Local Shimura complexes for the AHTW datum
 
@@ -2532,8 +2348,8 @@ infinite `p`-level Shimura variety, with graded pieces
 `RΓ_c(G,b,μ,Λ) ⊗ᴸ_{H(G_b)} V_b[2d_b]` in the source normalization. Retain coefficient and
 tame-level transition maps preserving the chosen `p^(1/2)`. All normalized local Shimura,
 Satake and spectral-centre constructions use this choice. This constructs every required `b`, including nonbasic classes.
-(Sources: [AHTW](#source-ahtw), §§2.3.2 and 2.4, Theorems 2.4.1–2.4.2 and
-Remark 2.4.3, pp.14–16, 19–21.)
+(Sources: AHTW, §§2.3.2 and 2.4, Theorems 2.4.1–2.4.2 and
+Remark 2.4.3, pp.14–16, 18–21.)
 
 **Checks.**
 
@@ -2546,13 +2362,11 @@ Remark 2.4.3, pp.14–16, 19–21.)
   For `p=3` and `ℓ=2, O=ℤ₂` is outside the coefficient domain: a unit square is 1 modulo 8,
   whereas 3 is not, so `√3` is unavailable.
 
-*Needs:* [relative curves](#relative-fargues-fontaine-curves);
-[bundle strata and Hecke action](#bundle-hecke-categories);
+*Needs:* relative curves;
+bundle strata and Hecke action;
 DiamondsAndVStacks; DiamondEtaleCohomology; DiamondSixOperations Layers S1–S2;
 PELModuli M0–M4; SmoothRepresentationsOfLocalGroups SR.0 and SR.0d;
 EndoscopicTransferAndUnitaryTraceComparison Layers 7–8 for finite-level rational Igusa inputs.
-
-<a id="ahtw-local-local-compatibility"></a>
 
 ### Spectral and classical local parameters for the split factors
 
@@ -2576,14 +2390,12 @@ inner factor of the source datum, providing the generic-locus exclusion used bel
 - Non-generic unramified parameters are not excluded by this implication. The
   comparison retains only the semisimplification and does not identify monodromy.
 
-*Needs:* [AG2.6: local Shimura complexes and bundle strata](#ahtw-local-shimura-complexes);
-[geometric spectral action](#geometric-spectral-action); SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
+*Needs:* AG2.6: local Shimura complexes and bundle strata;
+geometric spectral action; SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
 EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27, §10.30 and §10.31
 for classical LLC and its inner-form standard-data parameter.
 
-(Source: [AHTW](#source-ahtw), §2.3.4 and Theorem 2.3.5 with proof, pp.17–18.)
-
-<a id="ahtw-integral-spectral-centre"></a>
+(Source: AHTW, §2.3.4 and Theorem 2.3.5 with proof, pp.17–18.)
 
 ### Integral spectral centre and Newton annihilation
 
@@ -2601,7 +2413,7 @@ induction of the source; its application to `V_{b_μ}[−d]` has amplitude `[0,d
 every nonordinary `G_b`, then integral reduced flat Bernstein centres and characteristic-zero
 evaluations to prove the vanishing integrally, rather than infer it from mod-`ℓ` support. These supply the centre
 compatibility and annihilation inputs for the quantitative theorem.
-(Sources: [AHTW](#source-ahtw), §2.3.3, Proposition 2.4.5, §2.4.6,
+(Sources: AHTW, §2.3.3, Proposition 2.4.5, §2.4.6,
 Proposition 2.4.7 and Lemmas 2.5.3–2.5.5, pp.16–17, 22–25.)
 
 **Checks.**
@@ -2613,17 +2425,15 @@ Proposition 2.4.7 and Lemmas 2.5.3–2.5.5, pp.16–17, 22–25.)
 - Changing `Λ` over `O`, with the chosen `p^(1/2)` preserved, preserves the equality of the two centre actions and the integral zero
   operators. Agreement after rationalization alone would not justify a torsion annihilator.
 
-*Needs:* [AG2.6: spectral/classical local compatibility](#ahtw-local-local-compatibility); [AG2.6: local Shimura complexes](#ahtw-local-shimura-complexes);
-[geometric spectral action](#geometric-spectral-action);
+*Needs:* AG2.6: spectral/classical local compatibility; AG2.6: local Shimura complexes;
+geometric spectral action;
 SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
 EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30;
 IntegralHeckeAndGaloisDeterminants §3a.1.
 
-<a id="quantitative-shimura-annihilators"></a>
-
 ### Quantitative Shimura-cohomology annihilators
 
-In the quasi-split unitary Shimura datum of [AHTW](#source-ahtw), §2.2, let `p` be the auxiliary
+In the quasi-split unitary Shimura datum of AHTW, §2.2, let `p` be the auxiliary
 split rational prime, `ℓ≠p` the coefficient prime, `O` a complete DVR finite over
 `ℤ_ℓ[p^(1/2)]` for the fixed square root, `Λ` a local Artinian `O`-algebra with `ℓ` nilpotent,
 and `d` the Shimura dimension. Coefficient changes preserve this square root. At the hyperspecial `p`-level
@@ -2636,7 +2446,7 @@ Prove `quantitativeShimuraAnnihilators`: for every good tame subgroup and every
 and Artinian modulus. Use the preceding local Shimura/Newton comparison for every `b` and the integral
 spectral-centre operators as in §§2.3–2.5; nilpotence after localization
 at a generic maximal ideal alone is a weaker conclusion.
-(Source: [AHTW](#source-ahtw), Theorems 2.2.2 and 2.5.7, pp.11–12 and 25–26.)
+(Source: AHTW, Theorems 2.2.2 and 2.5.7, pp.11–12 and 25–26.)
 
 **Checks.**
 
@@ -2647,11 +2457,9 @@ at a generic maximal ideal alone is a weaker conclusion.
 - Changing the tame subgroup or the modulus does not change `M` or `B`. The middle degree
   `q=d` is outside the asserted degree range.
 
-*Needs:* PELModuli M0–M4; [AG2.6: local Shimura complexes](#ahtw-local-shimura-complexes);
-[AG2.6: integral spectral centre](#ahtw-integral-spectral-centre);
+*Needs:* PELModuli M0–M4; AG2.6: local Shimura complexes;
+AG2.6: integral spectral centre;
 EtaleCohomologyFoundations §§F.4.1–F.4.6; ArithmeticLocallySymmetricSpaces ALS.3–ALS.5a.
-
-<a id="bounded-pseudodeformation-quotients"></a>
 
 ### Bounded potentially semistable pseudodeformation quotients
 
@@ -2668,7 +2476,7 @@ through it exactly when its semisimple realization has the stated period conditi
 Prove `boundedPseudodeformationQuotients`, including uniqueness of this quotient, coefficient
 extension and formal-completion compatibility for the actual representation scheme and
 its `GL_n`-quotient. No absolute irreducibility or multiplicity-free residual hypothesis is added.
-(Source: [AHTW](#source-ahtw), §§3.3.1–3.3.7, Theorem 3.3.6, pp.32–35.)
+(Source: AHTW, §§3.3.1–3.3.7, Theorem 3.3.6, pp.32–35.)
 
 The API gives the universal quotient maps, their characteristic-zero point criterion,
 change of the bounded interval and finite extension killing the inertia type, and the
@@ -2685,9 +2493,7 @@ uses the finite invariant algebra proved in §3.3.3, rather than a general forma
   not factor through that quotient even if their Hodge and inertia types agree.
 
 *Needs:* LocalGaloisDeformationRings §F.2.11; IntegralHeckeAndGaloisDeterminants Layers 0–1;
-[AG2.P: finite-coefficient periods](#finite-coefficient-period-api).
-
-<a id="global-stable-period-quotients"></a>
+AG2.P: finite-coefficient periods.
 
 ### Global stable period quotients and bounded local–global compatibility
 
@@ -2743,7 +2549,7 @@ determinant `D̄` and determinant lift `D_A`:
 Prove compatibility of these two conditions with coefficient maps and the quotients
 used in degree shifting. Their characteristic-zero criterion combines actual local
 de Rhamness with the full labelled Hodge type and semisimplified local compatibility.
-(Source: [AHTW](#source-ahtw), Remark 3.3.14 and Theorem 3.3.17, pp.38–39;
+(Source: AHTW, Remark 3.3.14 and Theorem 3.3.17, pp.38–39;
 §§3.3.18–3.3.22, pp.40–41; §4.3, pp.54–60; Definition 5.2.4,
 equations (5.2.1)–(5.2.2), pp.72–73.)
 
@@ -2762,17 +2568,15 @@ equations (5.2.1)–(5.2.2), pp.72–73.)
   a Tate-curve representation with nonzero monodromy, while the semistable condition
   with a suitable interval admits it.
 
-*Needs:* [local bounded pseudodeformations](#bounded-pseudodeformation-quotients);
+*Needs:* local bounded pseudodeformations;
 LocalGaloisDeformationRings §§F.2.2 and F.2.11;
 IntegralHeckeAndGaloisDeterminants Layers 0–1;
 SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
-[AG2.P: finite-coefficient periods](#finite-coefficient-period-api).
-
-<a id="bounded-boundary-degree-shifting"></a>
+AG2.P: finite-coefficient periods.
 
 ### Bounded boundary comparison and degree shifting
 
-For the CM field and S-good levels of [AHTW](#source-ahtw), Proposition 5.2.8, fix the
+For the CM field and S-good levels of AHTW, Proposition 5.2.8, fix the
 coefficient place `a` and a second place `b` satisfying
 `Σ_{v∈S_p−{a,b}} [F⁺_v:ℚ_p] > [F⁺:ℚ]/2`. Retain its requirement on every rational residue
 characteristic outside `S`: it is unramified in `F` with some place over it in `S`, or splits in
@@ -2790,7 +2594,7 @@ part alone does not establish the boundary assertion. For a spherical cuspidal e
 a finite-order character twist makes `T_n` nonzero, so the characteristic-zero point satisfies
 the comparison after all moduli are combined. Prove the source extension/descent step removing
 the auxiliary place hypotheses, yielding the following all-CM theorem.
-(Source: [AHTW](#source-ahtw), Lemma 5.2.7, Proposition 5.2.8, Theorem 5.2.9 and Remark 5.2.10,
+(Source: AHTW, Lemma 5.2.7, Proposition 5.2.8, Theorem 5.2.9 and Remark 5.2.10,
 pp.74–77.)
 
 **Checks.**
@@ -2802,13 +2606,11 @@ pp.74–77.)
   `L` would assert a stronger uniformity than this theorem. Reducible residual systems retain
   boundary terms instead of using non-Eisenstein vanishing.
 
-*Needs:* [quantitative annihilators](#quantitative-shimura-annihilators);
-[bounded pseudodeformations](#bounded-pseudodeformation-quotients);
-[global stable period quotients and both LGC factorizations](#global-stable-period-quotients);
+*Needs:* quantitative annihilators;
+bounded pseudodeformations;
+global stable period quotients and both LGC factorizations;
 ArithmeticLocallySymmetricSpaces ALS.4–ALS.5b;
 IntegralHeckeAndGaloisDeterminants §4.2; the base-change and patching targets of AG2.3.
-
-<a id="all-cm-de-rham-and-semisimplified-coefficient-comparison"></a>
 
 ### Nonselfdual de Rham comparison at `ℓ`
 
@@ -2816,9 +2618,9 @@ The target `allCMCoefficientPrimeComparison` has the following hypotheses and co
 
 A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1`, regular algebraic cuspidal `π` of highest weight a, `ℓ, ι` and `v|ℓ, r_{π,ℓ,ι}|G_{F_v}` is de Rham, has `HT_τ={a_{ιτ,i}+n−i}`, and `WD(r_{π,ℓ,ι}|G_{F_v})^{ss} ≅ ι⁻¹ rec^T(π_v)^{ss}`. Here `rec^T(π_v)=rec(π_v|det|^{(1−n)/2})`. No conjugate self-duality, residual irreducibility or decomposed genericity hypothesis is imposed. This is the July 2026 preprint theorem, with its precise input chain recorded below.
 
-*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); AutomorphicGaloisRepresentationsPartII AG2.4; [AG2.4: HLTT existence](#hltt-construction-of-nonselfdual-systems); [AG2.6: global stable period quotients](#global-stable-period-quotients); [AG2.6: bounded boundary comparison and degree shifting](#bounded-boundary-degree-shifting).
+*Needs:* AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.P: finite-coefficient periods and comparison; AutomorphicGaloisRepresentationsPartII AG2.4; AG2.4: HLTT existence; AG2.6: global stable period quotients; AG2.6: bounded boundary comparison and degree shifting.
 
-(Sources: [AHTW](#source-ahtw), Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9.)
+(Sources: AHTW, Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9.)
 
 **Checks.**
 
@@ -2828,8 +2630,6 @@ A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1
 - Equality of semisimple WD parameters permits different monodromy operators. Full
   ramified monodromy equality is not a conclusion of this theorem.
 
-<a id="generic-weil-deligne-orbits"></a>
-
 ### Generic monodromy orbits and local genericity
 
 For a finite extension `K/ℚ_ℓ` and continuous semisimple complex Weil representation `r` on `V`,
@@ -2837,13 +2637,13 @@ construct `P(r)=Hom_{W_K}(V,V(−1))` with the action of the connected reductive
 `G(r)`. Prove finiteness of its orbits and existence of a unique open orbit, identified by
 `Hom_WD((r,N),(r(1),N))=0`. Show every orbit lies in its closure and deduce the dominance
 inequalities of AG2.5 against any generic parameter with this semisimple Weil part.
-For the local components of a global cuspidal `GL_n` representation, prove existence of a
-Whittaker model by the cuspidal Fourier expansion; these local components need not be
-locally cuspidal. Prove the LLC translation: an irreducible admissible local representation
+For the local components of a global cuspidal `GL_n` representation, use
+AutomorphicFormsOnReductiveGroups §4.3’s Whittaker models from the cuspidal Fourier
+expansion; these local components need not be locally cuspidal. Prove the LLC translation: an irreducible admissible local representation
 is generic exactly when its WD parameter satisfies the displayed Hom vanishing. Deduce
 AHTW Corollary 6.0.6 for every WD representation with the same semisimplification as that
 local parameter. Transfer along `ι` to the coefficient field before applying the result.
-(Sources: [AHTW](#source-ahtw), §6, Lemma 6.0.3, Definition 6.0.4, Proposition 6.0.5 and
+(Sources: AHTW, §6, Lemma 6.0.3, Definition 6.0.4, Proposition 6.0.5 and
 Corollary 6.0.6, pp.111–112; its proof invokes the generic LLC criterion.)
 
 **Checks.**
@@ -2857,24 +2657,20 @@ Corollary 6.0.6, pp.111–112; its proof invokes the generic LLC criterion.)
   strong-genericity test, which excludes repeated Frobenius eigenvalues.
 
 *Needs:* ArithmeticGaloisRepresentations §§2.4–2.6;
-[AG2.5: monodromy order](#monodromy-order-interface);
+AG2.5: monodromy order;
 EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27 and §10.30;
-ArithmeticLocallySymmetricSpaces §ALS.F.6;
-AutomorphicSpectralTheory §5.11 for cuspidal automorphic realizations.
-
-<a id="nonselfdual-coefficient-prime-monodromy-bound"></a>
+ArithmeticLocallySymmetricSpaces §ALS.F.6 for cusp forms;
+AutomorphicFormsOnReductiveGroups §4.3 for the cuspidal Fourier expansion and Whittaker models.
 
 ### Nonselfdual monodromy bound at `ℓ`
 
 The target `nonselfdualCoefficientPrimeMonodromyBound` has the following hypotheses and conclusion.
 
-Under the preceding theorem, `WD(r_{π,ℓ,ι}|G_{F_v})^{F-ss} ≺ ι⁻¹rec^T(π_v)`. Equality of the semisimplified Weil representations comes from the preceding comparison theorem, not from the definition of the order. The order compares, for each irreducible Weil representation up to unramified twist, the sums of the largest Jordan-block sizes: every first-`i` sum on the left is `≤` the corresponding sum on the right. It is Varma’s order of §8.2, used in AHTW Definition 6.0.2. Full equality of `N` is not asserted for a general nonselfdual ramified `π_v`.
+Under the preceding theorem, `WD(r_{π,ℓ,ι}|G_{F_v})^{F-ss} ≺ ι⁻¹rec^T(π_v)`. Equality of the semisimplified Weil representations comes from the preceding comparison theorem, not from the definition of the order. The order compares, for each irreducible Weil representation up to unramified twist, the sums of the largest Jordan-block sizes: every first-`i` sum on the left is `≤` the corresponding sum on the right. It is Varma’s order of §9, Definition 1, used in AHTW Definition 6.0.2. Full equality of `N` is not asserted for a general nonselfdual ramified `π_v`.
 
-*Needs:* [AG2.6: nonselfdual de Rham comparison](#all-cm-de-rham-and-semisimplified-coefficient-comparison); [AG2.6: generic WD orbits and local genericity](#generic-weil-deligne-orbits); ArithmeticGaloisRepresentations Layer 2.
+*Needs:* AG2.6: nonselfdual de Rham comparison; AG2.6: generic WD orbits and local genericity; ArithmeticGaloisRepresentations Layer 2.
 
-(Sources: [AHTW](#source-ahtw), Corollary 1.2.2, p.6; Definitions 6.0.1–4, Corollary 6.0.6, pp.111–112.)
-
-<a id="all-cm-crystalline-and-iwahori-corollary"></a>
+(Sources: AHTW, Corollary 1.2.2, p.6; Definitions 6.0.1–4, Corollary 6.0.6, pp.111–112.)
 
 ### Nonselfdual spherical and Iwahori admissibility
 
@@ -2882,11 +2678,9 @@ The target `allCMCrystallineIwahoriAdmissibility` has the following hypotheses a
 
 For arbitrary regular algebraic cuspidal `π` over a CM field, `r_{π,λ}|G_{F_v}` is crystalline when `v|ℓ` and `π_v` is spherical, and is semistable when `π_v` has Iwahori-fixed vectors. In the spherical case its crystalline Frobenius polynomial is the `rec^T` Satake polynomial. Apply AG2.P's `arithmeticPadicMonodromy` to the de Rham local member, then its `potentiallySemistableWD` and inertia/crystallinity criteria. Semisimplified compatibility gives trivial WD inertia for Iwahori `π_v`, and the monodromy bound against `N=0` forces `N=0` in the spherical case. Iwahori semistability does not establish full monodromy equality.
 
-*Needs:* [AG2.6: nonselfdual de Rham comparison](#all-cm-de-rham-and-semisimplified-coefficient-comparison); [AG2.6: nonselfdual monodromy bound](#nonselfdual-coefficient-prime-monodromy-bound); [AG2.P: arithmetic p-adic monodromy](#arithmetic-padic-monodromy); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
+*Needs:* AG2.6: nonselfdual de Rham comparison; AG2.6: nonselfdual monodromy bound; AG2.P: arithmetic p-adic monodromy; AG2.P: finite-coefficient periods and comparison.
 
-(Sources: [AHTW](#source-ahtw), Theorem 1.2.1 and Corollary 1.2.2, pp.5–6.)
-
-<a id="totally-real-polarized-coefficient-prime-descent"></a>
+(Sources: AHTW, Theorem 1.2.1 and Corollary 1.2.2, pp.5–6.)
 
 ### Totally real polarized coefficient-prime descent
 
@@ -2894,11 +2688,9 @@ The target `totallyRealPolarizedCoefficientPrimeComparison` has the following hy
 
 For a regular algebraic essentially self-dual cuspidal `π` over a totally real `F`, the attached BLGGT representation has the stated labelled Hodge weights, is de Rham, is crystalline at spherical coefficient-prime places and semistable at Iwahori places. Full coefficient-prime WD comparison is obtained from the polarized CM theorem by choosing a quadratic CM extension split at the target finite place, retaining cuspidality, matching the base-changed Galois representation, and comparing that unchanged local completion. This also covers the totally-real members used by Newton–Thorne; no unrestricted nonpolarized totally-real assertion is added.
 
-*Needs:* [AG2.3: totally real polarized existence](#totally-real-polarized-existence); [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.6: full polarized comparison](#full-polarized-comparison-at-the-coefficient-prime); [AG2.6: Hodge comparison by descent](#coefficient-hodge-comparison-through-families-and-descent); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.3: totally real polarized existence; AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.6: full polarized comparison; AG2.6: Hodge comparison by descent; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
-(Sources: [BLGGT](#source-blggt), Theorem 2.1.1, pp.33–34; §2.1 terminology.)
-
-<a id="coefficient-embedding-independence-and-semisimple-uniqueness"></a>
+(Sources: BLGGT, Theorem 2.1.1, pp.33–34; §2.1 terminology.)
 
 ### Embedding independence and semisimple uniqueness
 
@@ -2906,11 +2698,9 @@ The target `coefficientEmbeddingIndependence` has the following hypotheses and c
 
 Fix `π`, its coefficient field `M_π`, a place `λ` and an actual embedding `e:M_π→ℚ̄_ℓ` inducing `λ`. Any two continuous semisimple `n`-dimensional representations of `G_F` with the common good geometric Frobenius polynomials `P_v` for `v` outside a finite set are isomorphic over `ℚ̄_ℓ`. Thus `r_{π,ℓ,ι}`, with `ι:ℚ̄_ℓ≅ℂ`, depends only on `e=ι⁻¹|M_π`, up to linear isomorphism. This determines an isomorphism class, not a preferred basis or unique intertwiner. Different `λ` are compared by the common `M_π-polynomials`, not by identifying their topological coefficient fields.
 
-*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); ArithmeticGaloisRepresentations Layer 5; Mathlib `Matrix.charpoly_units_conj`.
+*Needs:* AG2.0: good-place attachment; AG2.0: integral Frobenius polynomial; ArithmeticGaloisRepresentations Layer 5; Mathlib `Matrix.charpoly_units_conj`.
 
-(Sources: [ACC+](#source-accplus), §7.1, pp.1093–1094.)
-
-<a id="compatible-system-of-pi"></a>
+(Sources: ACC+, §7.1, pp.1093–1094.)
 
 ### Compatible system attached to `π`
 
@@ -2943,11 +2733,9 @@ The required API is:
 
 - `compatibleSystem_no_automatic_strictness` — A weak instance with only good-place polynomials cannot supply an equality of monodromy at an unspecified bad place.
 
-*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.6: Nonselfdual spherical and Iwahori admissibility](#all-cm-crystalline-and-iwahori-corollary); [AG2.6: Totally real polarized coefficient-prime descent](#totally-real-polarized-coefficient-prime-descent); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* AG2.0: good-place attachment; AG2.0: integral Frobenius polynomial; AG2.0: Hodge multiset; AG2.0: Rationality of the good Hecke polynomials; AG2.6: embedding independence; AG2.6: Nonselfdual spherical and Iwahori admissibility; AG2.6: Totally real polarized coefficient-prime descent; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
-(Sources: [ACC+](#source-accplus), §7.1, pp.1093–1094; [AHTW](#source-ahtw), Theorem 1.2.1, pp.5–6.)
-
-<a id="complex-and-local-coefficient-conjugation"></a>
+(Sources: ACC+, §7.1, pp.1093–1094; AHTW, Theorem 1.2.1, pp.5–6.)
 
 ### Complex and local coefficient conjugation
 
@@ -2955,11 +2743,9 @@ The target `coefficientConjugation` has the following hypotheses and conclusion.
 
 For RAESDC `π` over totally real `F` or RAECSDC `π` over CM `F, σ∈Aut(ℂ), r_{σπ,ι}≅r_{π,σ⁻¹ι}`. If `σ_ℓ∈Gal(ℚ̄_ℓ/ℚ_ℓ)` and `σ=ισ_ℓι⁻¹`, then `σ_ℓ(r_{π,ι})≅r_{π,ισ_ℓ⁻¹}≅r_{π,σ⁻¹ι}≅r_{σπ,ι}`. Coefficient conjugation acts on matrix entries; the absolute Galois group `G_F` is unchanged. Twisted tensor products use the semilinear convention of NT footnote 4.
 
-*Needs:* [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
+*Needs:* AG2.6: embedding independence; AG2.0: Rationality of the good Hecke polynomials; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
-(Sources: [NT](#source-nt), Theorem 5.1 and Lemma 5.2, p.38, footnote 4.)
-
-<a id="strong-coefficient-field"></a>
+(Sources: NT, Theorem 5.1 and Lemma 5.2, p.38, footnote 4.)
 
 ### Strong coefficient field
 
@@ -2982,11 +2768,9 @@ The required API is:
 
 - `strongCoefficientField_scalar_intertwiner` — Nonzero scalar multiples of an intertwiner remain intertwiners, so uniqueness is of the isomorphism class.
 
-*Needs:* [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); ArithmeticGaloisRepresentations Layer 5; SmallRamificationAndAbelianVarietyBaseCases §5.0d.
+*Needs:* AG2.6: embedding independence; AG2.0: Rationality of the good Hecke polynomials; ArithmeticGaloisRepresentations Layer 5; SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 
-(Sources: [Liu](#source-liu), Definition 3.2.5 and Remark 3.2.6, printed p.145; [CH](#source-ch), Proposition 3.2.5, author-copy p.12.)
-
-<a id="uniform-strong-realization-for-polarized-systems"></a>
+(Sources: Liu, Definition 3.2.5 and Remark 3.2.6, printed p.145; CH, Proposition 3.2.5, author-copy p.12.)
 
 ### Uniform strong realization of polarized systems
 
@@ -2994,11 +2778,9 @@ The target `existsUniformStrongCoefficientField` has the following hypotheses an
 
 For a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, there is one finite number field `E⊂ℂ` which is a strong coefficient field for all `λ`. Chenevier–Harris Proposition 3.2.5 enlarges the coefficient field `E_0` of good polynomials by roots of regular semisimple good Frobenius elements at two places of different residue characteristics. Each `λ` can use one place away from `ℓ`; a split regular Frobenius and `E_0`-valued traces split the semisimple descent obstruction. No assertion that the minimal rationality field itself is strong is included.
 
-*Needs:* [AG2.6: polarized admissibility](#polarized-branch-de-rham-and-crystalline); [AG2.6: Strong coefficient field](#strong-coefficient-field); ArithmeticGaloisRepresentations Layer 5; [AG2.3: common realization field](#finite-number-field-of-realization).
+*Needs:* AG2.6: polarized admissibility; AG2.6: Strong coefficient field; ArithmeticGaloisRepresentations Layer 5; AG2.3: common realization field.
 
-(Sources: [CH](#source-ch), Proposition 3.2.5, p.12; [Liu](#source-liu), Remark 3.2.6, printed p.145.)
-
-<a id="polarized-compatible-system-strictly-pure"></a>
+(Sources: CH, Proposition 3.2.5, p.12; Liu, Remark 3.2.6, printed p.145.)
 
 ### Purity and polarization of the polarized system
 
@@ -3006,11 +2788,9 @@ The target `polarizedSystemPurity` has the following hypotheses and conclusion.
 
 For a regular algebraic polarized cuspidal `(π,χ)` with `a_{τ,i}+a_{τc,n+1−i}=w, R_π` is pure and BLGGT-strictly pure of weight `W=w+n−1`. Its polarization is `r_λ^c≅r_λ^∨⊗μ_λ, μ_λ=ε_ℓ^{1−n}r_{χ,λ}`; the `χ`-system has purity weight `2w`. Total oddness uses `μ_λ(c_v)=(−1)^{n−1+w}χ_v(−1)`, so the required sign is `χ_v(−1)=(−1)^{n+w}`. BLGGT strict purity describes pure common WD parameters away from the coefficient prime; all-place strict compatibility needs the separately proved coefficient-prime theorem, not a change of definition.
 
-*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); [AG2.6: full polarized comparison](#full-polarized-comparison-at-the-coefficient-prime); ArithmeticGaloisRepresentations §7.4; [AG2.0: multiplier parity](#sign-of-the-polarization-multiplier); [AG2.5: full away-prime comparison](#caraiani-upgrade-away-from-p-and-temperedness); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* AG2.6: automorphic compatible system; AG2.6: full polarized comparison; ArithmeticGaloisRepresentations §7.4; AG2.0: multiplier parity; AG2.5: full away-prime comparison; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
-(Sources: [BLGGT](#source-blggt), Theorem 2.1.1(1)–(2), pp.33–34; §5.1 pp.62–65.)
-
-<a id="very-weak-compatibility-under-dgi"></a>
+(Sources: BLGGT, Theorem 2.1.1(1)–(2), pp.33–34; §5.1 pp.62–65.)
 
 ### Very weak compatibility and the density-one DGI route
 
@@ -3018,11 +2798,9 @@ The target `veryWeakCompatibilityUnderDGI` has the following hypotheses and conc
 
 The weak compatibility proved for the constructed `R_π` implies very weak compatibility through AG2.6’s weakening map on the same data. This gives, in particular, the conclusions of ACC+ Lemmas 7.1.9–7.1.10. Lemma 7.1.9 originally assumes a density-one set of rational `ℓ` for which every residual member is absolutely irreducible and decomposed generic; Lemma 7.1.10 proves very weak compatibility in rank two through its constituent/image arguments. That Fontaine–Laffaille/degree-shifting proof is an arithmetic consumer in PA.1; it is not an input to the all-CM construction here. None of these statements gives residual irreducibility at every coefficient place.
 
-*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* AG2.6: automorphic compatible system; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
-(Sources: [ACC+](#source-accplus), Lemmas 7.1.9–7.1.10, pp.1093–1094.)
-
-<a id="coefficient-prime-branch-and-what-it-does-not-give"></a>
+(Sources: ACC+, Lemmas 7.1.9–7.1.10, pp.1093–1094.)
 
 ### Comparison strength at the coefficient prime
 
@@ -3030,11 +2808,9 @@ The target `coefficientPrimeComparisonStrength` has the following hypotheses and
 
 The polarized branch has de Rham admissibility and full pure WD comparison at every coefficient-prime place. The all-CM nonselfdual branch has de Rham admissibility, full labelled Hodge weights, ss compatibility and the monodromy upper bound of AHTW v1; spherical crystallinity and Iwahori semistability follow from WD criteria. Full `N` equality for general nonselfdual ramified places is not supplied by these statements. Fontaine–Laffaille, ordinary lifting and residual-image conclusions retain their separate consumer hypotheses.
 
-*Needs:* [AG2.6: full polarized comparison](#full-polarized-comparison-at-the-coefficient-prime); [AG2.6: Nonselfdual spherical and Iwahori admissibility](#all-cm-crystalline-and-iwahori-corollary); [AG2.6: nonselfdual monodromy bound](#nonselfdual-coefficient-prime-monodromy-bound).
+*Needs:* AG2.6: full polarized comparison; AG2.6: Nonselfdual spherical and Iwahori admissibility; AG2.6: nonselfdual monodromy bound.
 
-(Sources: [AHTW](#source-ahtw), Theorem 1.2.1 and Corollary 1.2.2, pp.5–6; [Caraiani-p](#source-caraiani-p), Theorem 1.1, pp.1–2.)
-
-<a id="rank-two-comparison-with-r19"></a>
+(Sources: AHTW, Theorem 1.2.1 and Corollary 1.2.2, pp.5–6; Caraiani-p, Theorem 1.1, pp.1–2.)
 
 ### Rank-two comparison with the independent rank-two member
 
@@ -3042,11 +2818,9 @@ For a fixed classical newform of weight `k≥2` or regular cohomological Hilbert
 R16.6.3–R16.6.4 cohomological weight/Frobenius conversion with its integral parity
 hypotheses. In particular `M_R19=ρ`, not `σ_Carayol^∨`. Use AG2.P’s cohomological polarized rank-two comparison from CH Theorem 4.2(b)–(d); comparisons outside that theorem’s spherical/Iwahori conclusions retain their independently proved local hypotheses.
 
-*Needs:* [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.P: independent classical/Hilbert members](#rank-two-construction-contract); [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions).
+*Needs:* AG2.6: embedding independence; AG2.P: independent classical/Hilbert members; AG2.0: integral Frobenius polynomial.
 
-(Sources: [CH](#source-ch), §1.5 formula (1.6), p.7; Theorem 3.2.3, pp.11–12.)
-
-<a id="tensor-automorphy-independent-of-coefficient-embedding"></a>
+(Sources: CH, §1.5 formula (1.6), p.7; Theorem 3.2.3, pp.11–12.)
 
 ### Coefficient independence of tensor automorphy
 
@@ -3054,11 +2828,9 @@ Prove `tensorAutomorphyIndependentOfIota` with the following hypotheses.
 
 Let `π_1` and `σ` be RAESDC over a totally real `F`. Suppose `r_{π_1,ι}⊗r_{σ,ι}` is irreducible and automorphic for one `(ℓ,ι)`, in the RAESDC sense used by Newton–Thorne. Then `r_{π_1,j}⊗r_{σ,j}` is automorphic for every prime `q` and `j:ℚ̄_q≅ℂ`. Match the automorphic realization’s good polynomial to the tensor-product polynomial using coefficient conjugation, then use semisimple uniqueness. This does not establish automorphy of an arbitrary tensor product; its initial automorphy and irreducibility are hypotheses.
 
-*Needs:* [AG2.6: coefficient conjugation](#complex-and-local-coefficient-conjugation); [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* AG2.6: coefficient conjugation; AG2.6: embedding independence; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
-(Sources: [NT](#source-nt), Proof of Lemma 5.8, pp.42–44, cf. proof of Lemma 2.1.)
-
-<a id="gsp4-crystalline-hodge-comparison"></a>
+(Sources: NT, Proof of Lemma 5.8, pp.42–44, cf. proof of Lemma 2.1.)
 
 ### `GSp₄` crystalline Hodge comparison
 
@@ -3066,11 +2838,9 @@ The target `gsp4CrystallineHodgeComparison` has the following hypotheses and con
 
 Assume AG2.P’s `GSp4ClassificationInputs` and spin realization. In Calegari–Geraghty Proposition 6.8, for a cuspidal GSp4 eigenform `f` of good `p`-level and weight `(a,b)`, `a≥b≥3`, the `r_f` supplied by the `GSp₄` construction and AG2.P’s `gsp4TransferDictionary` is crystalline at `p` with `HT={0,b−2,a−1,W}, W=a+b−3`. If `f` is also an eigenform for the Hecke operators at `p, det(X−φ)=λ_f(Q_p(X))` in their monic convention. The eigenform-at-`p` condition specifies this polynomial; crystallinity in the proposition’s good-level setting does not depend on that additional condition.
 
-*Needs:* AutomorphicGaloisRepresentationsPartII AG2.2; [AG2.P: GSp₄ construction and transfer](#gsp4-construction-contract); [AG2.6: polarized admissibility](#polarized-branch-de-rham-and-crystalline).
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.2; AG2.P: GSp₄ construction and transfer; AG2.6: polarized admissibility.
 
-(Sources: [CG](#source-cg), Proposition 6.8(3), author-copy pp.38–39.)
-
-<a id="ordinary-gsp4-coefficient-prime-shape"></a>
+(Sources: CG, Proposition 6.8(3), author-copy pp.38–39.)
 
 ### Ordinary `GSp₄` triangular shape
 
@@ -3078,19 +2848,17 @@ The target `ordinaryGsp4CoefficientPrimeShape` has the following hypotheses and 
 
 Retain AG2.P’s `GSp4ClassificationInputs` and spin realization. Under CG Proposition 6.8(4), assume `f` is a `p`-Hecke eigenform and ordinary: its `T_{p,1}` and `Q_{p,2}` eigenvalues are units. The roots `α,β,γ,δ` of `λ_f(Q_p(X))` have valuations `0,b−2,a−1,W` and are distinct. `r_f|G_Qp` has the upper-triangular diagonal `unram(α), ε^{−(b−2)}unram(p^{−(b−2)}β), ε^{−(a−1)}unram(p^{−(a−1)}γ), ε^{−W}unram(p^{−W}δ)`. The parameters of the unramified characters are units. Distinctness follows from the four different valuations, not from ordinarity in an unspecified singular weight.
 
-*Needs:* [AG2.6: GSp₄ crystalline Hodge comparison](#gsp4-crystalline-hodge-comparison); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); [AG2.P: GSp₄ construction and transfer](#gsp4-construction-contract).
+*Needs:* AG2.6: GSp₄ crystalline Hodge comparison; AG2.P: finite-coefficient periods and comparison; AG2.P: GSp₄ construction and transfer.
 
-(Sources: [CG](#source-cg), Proposition 6.8(4), author-copy p.39.)
-
-<a id="pilloni-gsp4-normalization-comparison"></a>
+(Sources: CG, Proposition 6.8(4), author-copy p.39.)
 
 ### Pilloni `GSp₄` normalization comparison
 
-Under AG2.P’s `GSp4ClassificationInputs` and spin realization, Pilloni Theorem 5.1.7.1 for cuspidal `π` with discrete-series `π_∞` and parameter `(λ_1,λ_2;−λ_1−λ_2+3)` gives a de Rham representation with `HT={0,−λ_2,−λ_1,−λ_1−λ_2}`. At `p` outside the nonspherical set it is crystalline and `det(1−Xφ)=Θ_π(Q_p(X))`. Its geometric Frobenius and `HT(ε)=−1` conventions require reciprocal conversion `X^4Q_p(1/X)` to the monic polynomial. The corrected similitude exponent is `ε^{λ_1+λ_2}`, in the stated geometric and Hodge convention. Substitution `λ_1=1−a, λ_2=2−b` gives CG’s four Hodge numbers; identifying the automorphic representations also requires AG2.P’s `gsp4TransferDictionary` on its stated level and coefficient domain.
+Under AG2.P’s `GSp4ClassificationInputs` and spin realization, Pilloni Theorem 5.1.7.1 for cuspidal `π` with discrete-series `π_∞` and parameter `(λ_1,λ_2;−λ_1−λ_2+3)` gives a de Rham representation with `HT={0,−λ_2,−λ_1,−λ_1−λ_2}`. At `p` outside the nonspherical set it is crystalline and `det(1−Xφ)=Θ_π(Q_p(X))`. Its geometric Frobenius and `HT(ε)=−1` conventions require reciprocal conversion `X^4Q_p(1/X)` to the monic polynomial. The similitude exponent is `ε^{λ_1+λ_2}`. Pilloni’s item (5) prints `χ_p^{−λ_1−λ_2}`, whereas item (3) pairs the Hodge weights to `−λ_1−λ_2`. Since `HT(χ_p)=−1`, the multiplier has exponent `λ_1+λ_2`; its finite-order factor has Hodge weight zero. For `(λ_1,λ_2)=(1−a,2−b)` this is CG’s `ε^{−(a+b−3)}`. Substitution `λ_1=1−a, λ_2=2−b` gives CG’s four Hodge numbers; identifying the automorphic representations also requires AG2.P’s `gsp4TransferDictionary` on its stated level and coefficient domain.
 
-*Needs:* [AG2.6: GSp₄ crystalline Hodge comparison](#gsp4-crystalline-hodge-comparison); AutomorphicGaloisRepresentationsPartII AG2.2; [AG2.P: GSp₄ construction and transfer](#gsp4-construction-contract).
+*Needs:* AG2.6: GSp₄ crystalline Hodge comparison; AutomorphicGaloisRepresentationsPartII AG2.2; AG2.P: GSp₄ construction and transfer.
 
-(Sources: [Pilloni](#source-pilloni), Theorem 5.1.7.1(3)–(4), Remark 5.1.7.1, author-copy pp.22–23.)
+(Sources: Pilloni, Theorem 5.1.7.1(3)–(5), Remark 5.1.7.1, author-copy pp.22–23.)
 
 ### Examples
 
@@ -3106,8 +2874,6 @@ Choose finite local models and stable lattices before defining residual semisimp
 
 Residual polarization needs the reduction-and-semisimplification target below for the CM conjugation extension with its coefficient-characteristic hypotheses. A deformation problem that already assumes that extension cannot prove it. The selected two-block CS export requires the separate local-normalization input of Remark 5.5.6; a cuspidal RACSDC theorem does not by itself establish the comparison for that sum.
 
-<a id="finite-p-adic-field-of-realization"></a>
-
 ### Finite `p`-adic realization before lattices
 
 The target `existsFinitePadicRealization` has the following hypotheses and conclusion.
@@ -3119,11 +2885,9 @@ before the stable-lattice theorem. The coefficient-descent theorem and its Baire
 are supplied by §1.5. A uniform strong number field on the polarized branch is not needed
 for this local specialization.
 
-*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); ArithmeticGaloisRepresentations §1.5 (`baire_descent`).
+*Needs:* AG2.6: automorphic compatible system; ArithmeticGaloisRepresentations §1.5 (`baire_descent`).
 
-(Sources: [BLGGT](#source-blggt), §2.1, after Theorem 2.1.1, p.34; [CG](#source-cg), Proof of Proposition 6.8, author-copy p.39.)
-
-<a id="residual-representation-of-pi"></a>
+(Sources: BLGGT, §2.1, after Theorem 2.1.1, p.34; CG, Proof of Proposition 6.8, author-copy p.39.)
 
 ### Residual representation of `π`
 
@@ -3150,31 +2914,25 @@ The required API is:
 
 - `residualRep_noncanonical_lattice` — For the `ℤ_5`-action `r(t)=[[1,5t],[0,1]]`, lattices with bases `(e1,e2)` and `(5e1,e2)` give identity and nontrivial unipotent reductions; both semisimplify to `1⊕1`.
 
-*Needs:* [AG2.7: finite local realization](#finite-p-adic-field-of-realization); ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 5; ArithmeticGaloisRepresentations §7.4; Mathlib `Matrix.GeneralLinearGroup.map`; Mathlib `Representation.IsSemisimpleRepresentation`.
+*Needs:* AG2.7: finite local realization; ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 5; ArithmeticGaloisRepresentations §7.4; Mathlib `Matrix.GeneralLinearGroup.map`; Mathlib `Representation.IsSemisimpleRepresentation`.
 
-(Sources: [BLGGT](#source-blggt), §2.1, p.34; [ACC+](#source-accplus), §7.1, p.1085.)
-
-<a id="residual-hecke-ideal-independence"></a>
+(Sources: BLGGT, §2.1, p.34; ACC+, §7.1, p.1085.)
 
 ### Independence of the residual Hecke ideal
 
 Fix `π, λ` and an integral eigencharacter `θ_π:T^S→O_E` at that coefficient place. Then `m_{π,λ}=ker(T^S→O_E→k_E)` is of Galois type with realization `r̄_{π,λ}`. Its kernel is independent of stable lattice, basis and finite extension of `E` inducing the same `λ`: the eigencharacter is defined by the same integral Hecke eigenvalues and the residue-field extension is injective. It is non-Eisenstein exactly when `r̄_{π,λ}` is absolutely irreducible. Independence across distinct `λ` is not asserted.
 
-*Needs:* [AG2.7: residual representation](#residual-representation-of-pi); Mathlib `Matrix.charpoly_map`; IntegralHeckeAndGaloisDeterminants §3b.1; IntegralHeckeAndGaloisDeterminants §3a.1.
+*Needs:* AG2.7: residual representation; Mathlib `Matrix.charpoly_map`; IntegralHeckeAndGaloisDeterminants §3b.1; IntegralHeckeAndGaloisDeterminants §3a.1.
 
-(Sources: [ACC+](#source-accplus), Definition 2.3.6, p.938; §7.1, p.1085.)
-
-<a id="dual-and-character-twist-hecke-comparison"></a>
+(Sources: ACC+, Definition 2.3.6, p.938; §7.1, p.1085.)
 
 ### Dual and character-twist Hecke comparison
 
 For a Galois-type maximal ideal `m` of rank `n`, the contragredient Hecke ideal `m^∨` is of Galois type with `r_{m^∨}≅r_m^∨⊗ε̄^{1−n}`. At good geometric Frobenius its eigenvalues are `q_v^{n−1}/α_i`. An integral unramified-at-`v` character `ψ` multiplies the eigenvalues by `ψ(Frob_v)`, and its Hecke twist realizes `r_m⊗ψ̄`. In the rank-`2n` unitary Hecke algebra the reciprocal factor is `q_v^{2n−1}`. Residual nonratio conditions are transported only with their unramifiedness hypotheses.
 
-*Needs:* IntegralHeckeAndGaloisDeterminants §3b.1; IntegralHeckeAndGaloisDeterminants §3a.1; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* IntegralHeckeAndGaloisDeterminants §3b.1; IntegralHeckeAndGaloisDeterminants §3a.1; AG2.0: algebraic Galois characters; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
-(Sources: [ACC+](#source-accplus), After Definition 2.3.6, p.938.)
-
-<a id="the-residual-ratio-condition-for-taylor-wiles-primes"></a>
+(Sources: ACC+, After Definition 2.3.6, p.938.)
 
 ### Local residual genericity
 
@@ -3185,7 +2943,7 @@ The required API is:
 - `IsGenericEigenvalues`: For a list `α:Fin n→k×`, require `α_i/α_j≠q` for `i≠j`; list multiplicities are retained.
 - `IsGeneric`: Trivial inertia together with the eigenvalue predicate over `k̄`.
 - `isGeneric_unramified`: A locally generic representation kills inertia.
-- `isGeneric_frobenius_independent`: For trivial inertia, changing the Frobenius lift preserves the matrix and predicate.
+- `isGeneric_frobenius_independent`: If `r` kills `I` and `frob₁⁻¹frob₂∈I`, the two Frobenius matrices and their local genericity predicates agree.
 - `isGenericEigenvalues_smul`: Multiplication of every `α_i` by the same nonzero scalar preserves the eigenvalue predicate.
 - `isGenericEigenvalues_reindex`: Reordering the list by a permutation leaves the predicate unchanged.
 - `isGenericEigenvalues_inverse`: Inverting every eigenvalue preserves the predicate by exchanging ordered pairs.
@@ -3203,11 +2961,9 @@ The required API is:
 - `isGeneric_matrix_diagonal` — When `r(Frob)=diag(α)`, `IsGeneric` is equivalent to trivial inertia and `IsGenericEigenvalues α q`.
 - `isStrongGeneric_matrix_diagonal` — Under the same diagonal hypothesis, `IsStrongGeneric` is equivalent to trivial inertia and `IsStrongGenericEigenvalues α q`.
 
-*Needs:* [AG2.7: residual representation](#residual-representation-of-pi); ArithmeticGaloisRepresentations Layer 1; Mathlib `Matrix.charpoly`; Mathlib `Matrix.GeneralLinearGroup.map`.
+*Needs:* AG2.7: residual representation; ArithmeticGaloisRepresentations Layer 1; Mathlib `Matrix.charpoly`; Mathlib `Matrix.GeneralLinearGroup.map`.
 
-(Sources: [ACC+](#source-accplus), Definition 4.3.1(1), p.972.)
-
-<a id="completely-split-generic-prime"></a>
+(Sources: ACC+, Definition 4.3.1(1), p.972.)
 
 ### Completely split generic prime
 
@@ -3227,11 +2983,9 @@ The required API is:
 
 - `decomposedGenericPrime_not_ell` — `p=ℓ` is excluded independently of eigenvalues.
 
-*Needs:* [AG2.7: Local residual genericity](#the-residual-ratio-condition-for-taylor-wiles-primes); ArithmeticGaloisRepresentations Layer 1.
+*Needs:* AG2.7: Local residual genericity; ArithmeticGaloisRepresentations Layer 1.
 
-(Sources: [ACC+](#source-accplus), Definition 4.3.1(2), p.972.)
-
-<a id="existential-decomposed-genericity"></a>
+(Sources: ACC+, Definition 4.3.1(2), p.972.)
 
 ### Decomposed generic residual representation
 
@@ -3251,11 +3005,9 @@ The required API is:
 
 - `decomposedGeneric_not_every_prime` — For the same `r, p=7` has `q=1 mod 3` and is not a witness, although `p=2` is.
 
-*Needs:* [AG2.7: split generic prime](#completely-split-generic-prime).
+*Needs:* AG2.7: split generic prime.
 
-(Sources: [ACC+](#source-accplus), Definition 4.3.1(3), p.972.)
-
-<a id="strong-local-decomposed-genericity"></a>
+(Sources: ACC+, Definition 4.3.1(3), p.972.)
 
 ### Strong local decomposed genericity
 
@@ -3268,33 +3020,29 @@ The required API is:
 - `IsStrongGeneric`: Trivial inertia plus the stronger eigenvalue predicate over `k̄`.
 - `strongGeneric_generic`: Forget the ratio-1 exclusion.
 - `strongGeneric_distinct`: The Frobenius eigenvalues have no repeated roots.
-- `strongGeneric_arbitrary_local_field`: The definition uses `q=|k_L|` and specializes to Definition 1.9 for every finite `L/ℚ_p`.
+- `IsStrongGeneric` is applied with `q=|k_L|=p^f` for every finite `L/ℚ_p`.
 
 **Checks.**
 
 - `strongGeneric_not_repeated` — Over `𝔽_3, q=2`, `(1,1)` is ACC+-generic but not strong-generic
 
-- Over `𝔽_7, q=2`, `(1,3)` is strong-generic: the two ordered ratios are 3 and 5.
+- `strongGeneric_distinct_ratios` — Over `𝔽_7, q=2`, `(1,3)` is strong-generic: the two ordered ratios are 3 and 5.
 
 - `strongGeneric_rank_one` — Every single nonzero eigenvalue is strong-generic
 
 - For an unramified quadratic `L/ℚ_2` and `ℓ=3`, use `q=4≡1`; the ratio-1 clause remains explicit.
 
-*Needs:* [AG2.7: Local residual genericity](#the-residual-ratio-condition-for-taylor-wiles-primes).
+*Needs:* AG2.7: Local residual genericity.
 
-(Sources: [CS](#source-cs), Definition 1.9, printed p.652; [Liu](#source-liu), Definition D.1.2, footnote 37, printed p.365.)
-
-<a id="infinitely-many-decomposed-generic-primes"></a>
+(Sources: CS, Definition 1.9, printed p.652; Liu, Definition D.1.2, footnote 37, printed p.365.)
 
 ### Infinitely many decomposed generic primes
 
 If `r:G_F→GL_n(k)` is continuous and decomposed generic, there are infinitely many such rational primes, and witnesses can avoid any specified finite set. Let `K` be a normal closure of `F`, the field cut out by `r` and `ℚ(ζ_ℓ)`. A witness determines a conjugacy class in `Gal(K/ℚ)` whose restriction fixes `F`, fixes the all-place eigenvalue ratios and fixes `p mod ℓ`. Chebotarev gives a positive Dirichlet-density set of primes with this class. Every such unramified prime is again a witness.
 
-*Needs:* [AG2.7: decomposed genericity](#existential-decomposed-genericity); ArithmeticGaloisRepresentations Layer 5.
+*Needs:* AG2.7: decomposed genericity; ArithmeticGaloisRepresentations Layer 5.
 
-(Sources: [ACC+](#source-accplus), Lemma 4.3.2, pp.972–973.)
-
-<a id="genericity-transfer-and-projective-qualification"></a>
+(Sources: ACC+, Lemma 4.3.2, pp.972–973.)
 
 ### Genericity transfer and projective qualification
 
@@ -3309,21 +3057,17 @@ For two representations related by `s(g)=A r(g) A⁻¹`, `isGeneric_conjugate` a
 `genericityTransfer` and `strongGenericityTransfer` give the scalar-twist comparisons when
 the twisting character is trivial on the specified inertia subgroup.
 
-*Needs:* [AG2.7: Local residual genericity](#the-residual-ratio-condition-for-taylor-wiles-primes); [AG2.7: Strong local decomposed genericity](#strong-local-decomposed-genericity); [AG2.7: infinitely many generic primes](#infinitely-many-decomposed-generic-primes); Mathlib `Matrix.charpoly_units_conj`; Mathlib `Matrix.charpoly_map`.
+*Needs:* AG2.7: Local residual genericity; AG2.7: Strong local decomposed genericity; AG2.7: infinitely many generic primes; Mathlib `Matrix.charpoly_units_conj`; Mathlib `Matrix.charpoly_map`.
 
-(Sources: [ACC+](#source-accplus), After Definition 4.3.1, p.972; Lemma 4.3.2.)
-
-<a id="finite-exceptional-residual-genericity-for-relevant-pi"></a>
+(Sources: ACC+, After Definition 4.3.1, p.972; Lemma 4.3.2.)
 
 ### Residual genericity outside finitely many `λ`
 
 For a relevant `Π` with a strong coefficient field `E` in Liu et al., choose the regular unramified place used in Chenevier–Harris’s argument, with distinct algebraic Satake roots `α_i` and `α_i≠qα_j`. After a finite extension of `E` containing these roots, exclude the finitely many coefficient places dividing denominators, roots, `α_i−α_j` or `α_i−qα_j`. Their reductions are distinct and nonratio. Liu Appendix D, Corollary D.1.4 then uses Chebotarev to obtain a place `w` split in `F/F⁺` that is locally generic for the reduced Hecke eigencharacter outside this finite set. The cohomological concentration conclusion has its own `F^+≠ℚ` and level hypotheses and belongs to the Igusa/torsion consumer. This conclusion does not itself provide the completely split rational prime, generic at every `v` above it, required by the ACC+ global predicate; that stronger witness needs its separate Chebotarev hypotheses.
 
-*Needs:* [AG2.6: uniform strong realization](#uniform-strong-realization-for-polarized-systems); [AG2.7: Hecke ideal independence](#residual-hecke-ideal-independence); [AG2.7: Strong local decomposed genericity](#strong-local-decomposed-genericity); ArithmeticGaloisRepresentations Layer 5.
+*Needs:* AG2.6: uniform strong realization; AG2.7: Hecke ideal independence; AG2.7: Strong local decomposed genericity; ArithmeticGaloisRepresentations Layer 5.
 
-(Sources: [Liu](#source-liu), Corollary D.1.4, printed p.368; Remark 3.2.6.)
-
-<a id="good-prime-characteristic-zero-export"></a>
+(Sources: Liu, Corollary D.1.4, printed p.368; Remark 3.2.6.)
 
 ### Good-prime characteristic-zero export
 
@@ -3343,12 +3087,10 @@ The required API is:
 
 - `goodPrimeExport_not_fullWD` — The package cannot supply `N` at a ramified place without branch evidence.
 
-*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi);
+*Needs:* AG2.6: automorphic compatible system;
 SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 
-(Sources: [ACC+](#source-accplus), §7.1, pp.1093–1094.)
-
-<a id="nonselfdual-hodge-and-monodromy-bound-export"></a>
+(Sources: ACC+, §7.1, pp.1093–1094.)
 
 ### Nonselfdual Hodge and monodromy-bound export
 
@@ -3371,11 +3113,9 @@ The required API is:
 
 - `nonselfdualExport_not_polarized_fullWD` — The export supplies neither a polarized pairing nor full ramified WD equality from an ss comparison alone.
 
-*Needs:* [AG2.7: Good-prime characteristic-zero export](#good-prime-characteristic-zero-export); [AG2.6: nonselfdual de Rham comparison](#all-cm-de-rham-and-semisimplified-coefficient-comparison); [AG2.6: nonselfdual monodromy bound](#nonselfdual-coefficient-prime-monodromy-bound); [AG2.6: Nonselfdual spherical and Iwahori admissibility](#all-cm-crystalline-and-iwahori-corollary).
+*Needs:* AG2.7: Good-prime characteristic-zero export; AG2.6: nonselfdual de Rham comparison; AG2.6: nonselfdual monodromy bound; AG2.6: Nonselfdual spherical and Iwahori admissibility.
 
-(Sources: [AHTW](#source-ahtw), Theorem 1.2.1 and Corollary 1.2.2, pp.5–6.)
-
-<a id="polarized-hodge-and-wd-export"></a>
+(Sources: AHTW, Theorem 1.2.1 and Corollary 1.2.2, pp.5–6.)
 
 ### Polarized Hodge and Weil–Deligne export
 
@@ -3398,11 +3138,9 @@ The required API is:
 
 - `polarizedExport_nonselfdual_rejected` — AHTW ss comparison plus an `N` bound does not fulfill a full-WD comparison field.
 
-*Needs:* [AG2.7: Good-prime characteristic-zero export](#good-prime-characteristic-zero-export); [AG2.6: full polarized comparison](#full-polarized-comparison-at-the-coefficient-prime); [AG2.6: Totally real polarized coefficient-prime descent](#totally-real-polarized-coefficient-prime-descent); [AG2.6: system purity/polarization](#polarized-compatible-system-strictly-pure).
+*Needs:* AG2.7: Good-prime characteristic-zero export; AG2.6: full polarized comparison; AG2.6: Totally real polarized coefficient-prime descent; AG2.6: system purity/polarization.
 
-(Sources: [BLGGT](#source-blggt), Theorem 2.1.1, pp.33–34; §5.1, pp.63–65; [Caraiani-p](#source-caraiani-p), Theorem 1.1, pp.1–2.)
-
-<a id="unitary-discrete-parameter-export"></a>
+(Sources: BLGGT, Theorem 2.1.1, pp.33–34; §5.1, pp.63–65; BLGGT-lp-II, Theorem A, p.2; Caraiani-p, Theorem 1.1, pp.1–2.)
 
 ### Unitary discrete-parameter export
 
@@ -3425,11 +3163,9 @@ The required API is:
 
 - `unitaryDiscreteExport_not_cuspidal_irreducibility` — For positive `n_1,n_2`, the first block is a nonzero proper invariant subspace, so the block sum is not irreducible. In particular a two-character endoscopic sum cannot certify global irreducibility.
 
-*Needs:* [AG2.2: Caraiani–Scholze discrete normalization](#cs-discrete-polarization-normalization); AutomorphicGaloisRepresentationsPartII AG2.5; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* AG2.2: Caraiani–Scholze discrete normalization; AutomorphicGaloisRepresentationsPartII AG2.5; AG2.0: algebraic Galois characters; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
-(Sources: [CS](#source-cs), Corollary 5.5.5 and Remark 5.5.6, printed pp.745–746.)
-
-<a id="lattice-residual-polynomial-export"></a>
+(Sources: CS, Corollary 5.5.5 and Remark 5.5.6, printed pp.745–746.)
 
 ### Lattice and residual polynomial export
 
@@ -3440,7 +3176,7 @@ The required API is:
 - `ResidualPolynomialExport`: Assemble finite realization, chosen lattice and reduction maps.
 - `residualExport_compareLattice`: Different chosen lattices give isomorphic semisimple residual members, not necessarily isomorphic reductions.
 - `residualExport_maxIdeal`: Retrieve `m_{π,λ}` with Galois-type evidence.
-- `residualExport_charpoly`: The integral/residual Frobenius square commutes by `Matrix.charpoly_map`.
+- The integral/residual Frobenius square is Mathlib’s `Matrix.charpoly_map (r g).val red` composed with `Matrix.GeneralLinearGroup.map_apply_val`, used directly.
   On an integral matrix realization `r`, the characteristic polynomial of
   `Matrix.GeneralLinearGroup.map(red)(r(g))` is the coefficientwise reduction of the
   characteristic polynomial of `r(g)`. This matrix identity holds for every ring map `red`;
@@ -3454,19 +3190,17 @@ The required API is:
 
 - `residualExport_unipotent_lattices` — The two `ℤ_5`-unipotent lattices have unequal reductions but equal semisimplifications; the package cannot identify the raw reductions.
 
-*Needs:* [AG2.7: residual representation](#residual-representation-of-pi); Mathlib `Matrix.charpoly_map`; [AG2.7: Hecke ideal independence](#residual-hecke-ideal-independence); Mathlib `Representation.IsSemisimpleRepresentation`.
+*Needs:* AG2.7: residual representation; Mathlib `Matrix.charpoly_map`; AG2.7: Hecke ideal independence; Mathlib `Representation.IsSemisimpleRepresentation`.
 
-(Sources: [ACC+](#source-accplus), Definition 2.3.6, p.938; §7.1, p.1085.)
-
-<a id="rank-two-residual-comparison-with-r19"></a>
+(Sources: ACC+, Definition 2.3.6, p.938; §7.1, p.1085.)
 
 ### Rank-two residual comparison with the independent rank-two member
 
 For the regular classical/Hilbert exact overlap, fixed `λ` and the characteristic-zero dual/twist normalization of AG2.6, semisimple reduction commutes with the identification of the AG2 and independently constructed `λ`-members. In the classical normalization `r̄_AG2≅M̄_R19≅(r̄_R19,arith)^∨`; the geometric good polynomial is `X²−ā_qX+ψ̄(q)q^{k−1}`. The associated maximal Hecke ideals agree under the normalized Hecke algebra identification. The independent member retains its geometry and chosen lattice calculations; only the semisimple isomorphism class, not a preferred lattice, is compared.
 
-*Needs:* [AG2.6: Rank-two comparison with the independent rank-two member](#rank-two-comparison-with-r19); [AG2.7: residual representation](#residual-representation-of-pi); [AG2.7: Hecke ideal independence](#residual-hecke-ideal-independence).
+*Needs:* AG2.6: Rank-two comparison with the independent rank-two member; AG2.7: residual representation; AG2.7: Hecke ideal independence.
 
-(Sources: [ACC+](#source-accplus), Definition 2.3.6 and following duality statement, p.938.)
+(Sources: ACC+, Definition 2.3.6 and following duality statement, p.938.)
 
 ### Examples
 
@@ -3485,7 +3219,7 @@ AG2.0–AG2.6; ArithmeticGaloisRepresentations Layers 1 and 5 and §7.4; Integra
 `baseChange` described in AG2.0. The constructor `mk` and its rank-two specialization `mk2`
 have the coordinate-evaluation and extensionality API there. `IsExtremelyRegular` uses sums
 of equal-sized subsets after the Hodge shift, rather than distinctness of individual entries.
-(Source: [BLGGT](#source-blggt), §2.1, p.32.)
+(Source: BLGGT, §2.1, p.32.)
 
 **Checks.**
 
@@ -3502,7 +3236,7 @@ of equal-sized subsets after the Hodge shift, rather than distinctness of indivi
 In `Fixtures`, define `coefficientWeight(c,s) = −2c−s` and
 `labelledInteger(c,a,k) = k−1−a−c`. Their API is evaluation, translation of the central
 exponent and compatibility with the compact coefficient dictionary of AG2.0.
-(Source: [Shin](#source-shin), §5.2 and Proposition 5.3, pp.33–35.)
+(Source: Shin, §3.6, (3.18), p.20; §6.2 preceding Corollary 6.7, p.48.)
 
 **Checks.**
 
@@ -3518,7 +3252,7 @@ Define the rational scalar `Fixtures.selectorFactor(N,y,z) = (z−N^y)/(N−N^y)
 The geometric use takes an integer `N≥2` and `y≠1`, so its denominator is nonzero. Its API gives
 value 0 at `z=N^y` and value 1 at `z=N`, and the product over `y≠1` selects degree one.
 This scalar recipe is distinct from the corrected global correspondence in AG2.1a.
-(Source: [TY](#source-ty), §2, p.12.)
+(Source: TY, §2, p.12.)
 
 **Checks.**
 
@@ -3532,7 +3266,7 @@ This scalar recipe is distinct from the corrected global correspondence in AG2.1
 Define `Fixtures.discreteRank` on a finite list of pairs `(m_i,n_i)` by `Σ_i m_i n_i`.
 Its API is empty-list value, addition under list concatenation and additivity of multiplicities.
 The corresponding representation is the actual direct sum of AG2.2, with every character
-and twist retained. (Source: [HLTT](#source-hltt), Proposition 1.2 and Corollary 1.3, p.31.)
+and twist retained. (Source: HLTT, Proposition 1.2 and Corollary 1.3, p.31.)
 
 **Checks.**
 
@@ -3547,7 +3281,7 @@ and twist retained. (Source: [HLTT](#source-hltt), Proposition 1.2 and Corollary
 Define `Fixtures.hasseShift(p,M,j) = (p−1)p^(M−1)j` for the modulus-`M` comparison with `M≥1`.
 Its API is zero at `j=0`, additivity in `j` and multiplication by `p` when `M` increases by one.
 Define `Fixtures.kugaSlope(s,m,n,d) = s+mnd`; its API is the inverse subtraction formula,
-zero-copy identity and additivity of the shift. (Source: [HLTT](#source-hltt), Lemma 6.1,
+zero-copy identity and additivity of the shift. (Source: HLTT, Lemma 6.1,
 pp.192–195, and Proposition 6.15/Corollary 6.17, pp.215–218.)
 
 **Checks.**
@@ -3571,8 +3305,8 @@ and eventual vanishing. The three explicit matrices are fixed test data:
 Their API is the stated matrix entries, the relation `FN = (1/4)NF`, nilpotence and the ranks
 of all powers. The matrix milestone `Fixtures.monodromyFirstRankDoesNotDetermineStrings`
 asserts the common Weil relation, equal first ranks, different third ranks and the stated
-nilpotence bounds. (Source: [TY](#source-ty), Lemma 1.4(4) and its proof, pp.6–7;
-[Varma](#source-varma), §9, pp.20–21.)
+nilpotence bounds. (Source: TY, Lemma 1.4(4) and its proof, pp.6–7;
+Varma, §9, pp.20–21.)
 
 **Checks.**
 
@@ -3592,10 +3326,9 @@ The light predicates `IsGeneric` and `IsStrongGeneric` take an actual subgroup `
 actual matrix representation, an element `Frob` and `q`. Specialization to a local Galois group
 requires the specified inertia, geometric Frobenius and residue cardinality in AG2.7.
 The complete eigenvalue and representation invariance APIs are the ones stated there.
-`Fixtures.diagonalRep` is the actual matrix homomorphism of tuples of units used in the
-diagonal specialization Checks; it preserves products, has the stated diagonal entries and
-takes the unit tuple to the identity matrix.
-(Source: [ACC+](#source-accplus), Definition 4.3.1, p.972; [CS](#source-cs), Definition 1.9, p.652.)
+`TauCeti.diagGL` (`TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Diagonal.Basic`)
+is the pinned matrix homomorphism of tuples of units used in the diagonal specialization Checks.
+(Source: ACC+, Definition 4.3.1, p.972; CS, Definition 1.9, p.652.)
 
 **Checks.**
 
@@ -3618,7 +3351,7 @@ matrix identity; its constituent and polynomial API is the algebraic part of the
 CS export in AG2.7. Rank-two character sums have the two linear factors, zero-dimensional
 summands contribute polynomial 1, and two nonzero character summands retain a proper invariant
 line. These are the three discriminating Checks for the bundle.
-(Source: [CS](#source-cs), Corollary 5.5.5 and Remark 5.5.6, pp.745–746.)
+(Source: CS, Corollary 5.5.5 and Remark 5.5.6, pp.745–746.)
 
 ## Downstream consumers
 
@@ -3629,67 +3362,49 @@ local normalization. Neither use turns a nonselfdual monodromy bound into equali
 
 ## Bibliography
 
-<a id="source-blggt"></a>
-
 ### BLGGT
 
 Thomas Barnet-Lamb, Toby Gee, David Geraghty and Richard Taylor, [Potential automorphy and change of weight](https://arxiv.org/pdf/1010.2561v4). arXiv:1010.2561v4 (2013), published Annals 179 (2014), 501–609; locators here use arXiv/article pages.
 
-<a id="source-accplus"></a>
+### BLGGT-lp-II
+
+Thomas Barnet-Lamb, Toby Gee, David Geraghty and Richard Taylor, [Local-global compatibility for l = p, II](https://virtualmath1.stanford.edu/~rltaylor/lg2.pdf). Ann. Sci. ÉNS 47 (2014), 165–179; locators use the author copy, with Theorem A on p.2.
 
 ### ACC+
 
 Patrick B. Allen, Frank Calegari, Ana Caraiani, Toby Gee, David Helm, Bao V. Le Hung, James Newton, Peter Scholze, Richard Taylor and Jack A. Thorne, [Potential automorphy over CM fields](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf). Annals 197 (2023), 897–1113, author copy with journal pagination; printed page = PDF page + 896.
 
-<a id="source-patrikis"></a>
-
 ### Patrikis
 
 Stefan Patrikis, [On the sign of regular algebraic polarizable automorphic representations](https://arxiv.org/pdf/1306.1242v2). arXiv:1306.1242v2 (2014), published Math. Ann. 362 (2015), 147–171; arXiv pages.
-
-<a id="source-hltt"></a>
 
 ### HLTT
 
 Michael Harris, Kai-Wen Lan, Richard Taylor and Jack Thorne, [On the rigid cohomology of certain Shimura varieties](https://www.kwlan.org/articles/rigcoh.pdf). author copy rigcoh.pdf, published Res. Math. Sci. 3 (2016); article pages 1–234.
 
-<a id="source-ch"></a>
-
 ### CH
 
 Gaetan Chenevier and Michael Harris, [Construction of automorphic Galois representations, II](https://webusers.imj-prg.fr/~michael.harris/ConstructionII.pdf). author copy ConstructionII.pdf, published Camb. J. Math. 1 (2013), 53–73; author-copy pages 1–15.
-
-<a id="source-varma"></a>
 
 ### Varma
 
 Ila Varma, [Local-global compatibility for regular algebraic cuspidal automorphic representations when l is different from p](https://arxiv.org/pdf/1411.2520v1). arXiv:1411.2520v1 (2014); arXiv pages.
 
-<a id="source-caraiani-away"></a>
-
 ### Caraiani-away
 
 Ana Caraiani, [Local-global compatibility and the action of monodromy on nearby cycles](https://arxiv.org/pdf/1010.2188v1). arXiv:1010.2188v1 (2010), published Duke Math. J. 161 (2012), 2311–2413. The full tensor-square purity argument uses the [published author copy](https://www.ma.imperial.ac.uk/~acaraian/papers/lgc1.pdf), pp.2410–2411; other locators specify arXiv pages.
-
-<a id="source-caraiani-p"></a>
 
 ### Caraiani-p
 
 Ana Caraiani, [Monodromy and local-global compatibility for l = p](https://arxiv.org/pdf/1202.4683v1). arXiv:1202.4683v1 (2012), published Algebra Number Theory 8 (2014), 1597–1646; arXiv pages unless explicitly marked published.
 
-<a id="source-shin"></a>
-
 ### Shin
 
 Sug Woo Shin, [Galois representations arising from some compact Shimura varieties](https://math.berkeley.edu/~swshin/StableGal.pdf). author copy StableGal.pdf, 61 pages, published Annals 173 (2011), 1645–1741; author-copy pages.
 
-<a id="source-shin-igusa"></a>
-
 ### Shin-Igusa
 
 Sug Woo Shin, [Stable trace formula for Igusa varieties](https://math.berkeley.edu/~swshin/StableIgusa.pdf). author copy StableIgusa.pdf, 30 pages; locators use author-copy pages.
-
-<a id="source-berger"></a>
 
 ### Berger
 
@@ -3697,99 +3412,67 @@ Laurent Berger, [Représentations p-adiques et équations différentielles](http
 arXiv:math/0102179v3 (2001); arXiv pages. The de Rham differential equation is
 Theorem 0.5 / Theorem 5.10, and arithmetic p-adic monodromy is Theorem 0.6 / Theorem 5.19.
 
-<a id="source-varshavsky"></a>
-
 ### Varshavsky
 
 Yakov Varshavsky, [Lefschetz–Verdier trace formula and a generalization of a theorem of Fujiwara](https://arxiv.org/pdf/math/0505564v2).
 arXiv:math/0505564v2 (2005); arXiv pages.
 
-<a id="source-ty"></a>
-
 ### TY
 
 Richard Taylor and Teruyoshi Yoshida, [Compatibility of local and global Langlands correspondences](https://arxiv.org/pdf/math/0412357v2). arXiv:math/0412357v2 (2005); arXiv pages.
-
-<a id="source-gk"></a>
 
 ### GK
 
 Elmar Grosse-Klönne, [Rigid analytic spaces with overconvergent structure](https://arxiv.org/pdf/1408.3329). arXiv:1408.3329; author-version pages.
 
-<a id="source-cs"></a>
-
 ### CS
 
 Ana Caraiani and Peter Scholze, [On the generic part of the cohomology of compact unitary Shimura varieties](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n3-p01-p.pdf). Annals 186 (2017), 649–766; journal pages.
-
-<a id="source-nt"></a>
 
 ### NT
 
 James Newton and Jack A. Thorne, [Symmetric power functoriality for Hilbert modular forms](https://arxiv.org/pdf/2212.03595v2). arXiv:2212.03595v2 (2025); arXiv pages.
 
-<a id="source-liu"></a>
-
 ### Liu
 
 Yifeng Liu, Yichao Tian, Liang Xiao, Wei Zhang and Xinwen Zhu, [On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives](https://par.nsf.gov/servlets/purl/10323568). Invent. Math. 228 (2022), 107–375; journal pages.
-
-<a id="source-bcgp21"></a>
 
 ### BCGP21
 
 George Boxer, Frank Calegari, Toby Gee and Vincent Pilloni, [Abelian surfaces over totally real fields are potentially modular](https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00128-2.pdf). Publ. Math. IHÉS 134 (2021), 153–501; journal pages. The general maximal-rank uniqueness claim is not used in place of pure WD uniqueness.
 
-<a id="source-bcgp25"></a>
-
 ### BCGP25
 
 George Boxer, Frank Calegari, Toby Gee and Vincent Pilloni, [Modularity theorems for abelian surfaces](https://arxiv.org/pdf/2502.20645). arXiv:2502.20645v1 (2025); arXiv pages.
-
-<a id="source-bc"></a>
 
 ### BC
 
 Joël Bellaïche and Gaëtan Chenevier, [The sign of Galois representations attached to automorphic forms for unitary groups](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/D778DCD413972E114657F69ACC7BB6BC/S0010437X11005264a.pdf/the-sign-of-galois-representations-attached-to-automorphic-forms-for-unitary-groups.pdf). Compositio Math. 147 (2011), 1337–1352; journal pages.
 
-<a id="source-hsbt"></a>
-
 ### HSBT
 
 Michael Harris, Nicholas Shepherd-Barron and Richard Taylor, [A family of Calabi–Yau varieties and potential automorphy](https://annals.math.princeton.edu/wp-content/uploads/annals-v171-n2-p04-p.pdf). Annals 171 (2010), 779–813; journal pages.
 
-<a id="source-ct"></a>
-
 ### CT
 
 Laurent Clozel and Jack A. Thorne, [Level-raising and symmetric power functoriality, III](https://www.repository.cam.ac.uk/bitstreams/dc59bf8c-174b-4034-9f2f-070974d101af/download). accepted Cambridge repository copy (2017); author-copy pages.
-
-<a id="source-fargues-scholze"></a>
 
 ### Fargues–Scholze
 
 Laurent Fargues and Peter Scholze, [Geometrization of the local Langlands correspondence](https://arxiv.org/pdf/2102.13459v4).
 arXiv:2102.13459v4 (27 November 2024); locators use printed chapter pages.
 
-<a id="source-ahtw"></a>
-
 ### AHTW
 
 A’Campo, Hevesi, Thorne and Whitmore, [Local-global compatibility of automorphic Galois representations over CM fields at p](https://arxiv.org/pdf/2607.11763v1). arXiv:2607.11763v1 (13 July 2026), unrefereed preprint; arXiv pages.
-
-<a id="source-cg"></a>
 
 ### CG
 
 Calegari and Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf). Duke Math. J. 169 (2020), 801–896; locators use the author copy Siegel.pdf.
 
-<a id="source-pilloni"></a>
-
 ### Pilloni
 
 Pilloni, [Higher coherent cohomology and p-adic modular forms of singular weights](https://www.imo.universite-paris-saclay.fr/~pilloni/complexhidatheorygsp4.pdf). Duke Math. J. 169 (2020), 1647–1807; locators use the author copy complexhidatheorygsp4.pdf.
-
-<a id="source-caraiani-p-published"></a>
 
 ### Caraiani-p-published
 

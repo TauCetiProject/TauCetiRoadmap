@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.RepresentationTheory.ClassicalGroups.DominantWeight
+import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Diagonal.Basic
 
 /-!
 # Automorphic Galois representations, part II: representative target signatures
@@ -94,8 +96,8 @@ theorem goodPolynomial_unique
 
 /-! ## Layer AG2.0: dominant coordinates and labelled Hodge weights -/
 
-/-- Embedding-indexed dominant GLₙ coordinates. -/
-def DominantWeight (n : ℕ) (ι : Type*) : Type _ := ι → {a : Fin n → ℤ // Antitone a}
+/-- One pinned Tau Ceti dominant GLₙ weight per embedding. -/
+def DominantWeight (n : ℕ) (ι : Type*) : Type _ := ι → TauCeti.DominantWeight n
 
 namespace DominantWeight
 
@@ -158,7 +160,7 @@ example {ι : Type*} [Nonempty ι] (a : DominantWeight 1 ι) : IsExtremelyRegula
 end DominantWeight
 
 /-- The dominant rank-two vector `(x,y)`, with `y≤x`. -/
-def mk2 (x y : ℤ) (h : y ≤ x) : {a : Fin 2 → ℤ // Antitone a} :=
+def mk2 (x y : ℤ) (h : y ≤ x) : TauCeti.DominantWeight 2 :=
   ⟨![x, y], by intro i j hij; fin_cases i <;> fin_cases j <;> simp_all⟩
 
 /-- Test `DominantWeight.isInW_classical`: the weight `(k − 2, 0)` of a classical weight-`k` form lies in `(ℤ²)_{k−2}`
@@ -243,11 +245,6 @@ namespace CoefficientProjector
 /-- The polynomial correction `1−(1−T^D)^D` in the endomorphism ring. -/
 def correction {R : Type*} [Ring R] (D : ℕ) (T : R) : R :=
   1 - (1 - T ^ D) ^ D
-
-/-- A nilpotent idempotence defect makes the corrected operator idempotent. -/
-theorem correction_idempotent {R : Type*} [Ring R] (D : ℕ) (T : R)
-    (hdef : (T - T ^ 2) ^ D = 0) : IsIdempotentElem (correction D T) :=
-  isIdempotentElem_one_sub_one_sub_pow_pow T D hdef
 
 /-- An operator idempotent on a length-`D` filtration has an idempotent polynomial correction. -/
 theorem lerayCorrection {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
@@ -368,14 +365,6 @@ theorem geometricCoefficientPrimeComparison {K V W : Type*} [Field K]
 
 /-! ## Layer AG2.7: local residual eigenvalue conditions -/
 
-/-- Characteristic polynomials of an integral matrix representation reduce coefficientwise
-along a residue map, as the matrix form of the residual Frobenius comparison. -/
-theorem residualExport_charpoly {G O k : Type*} [Group G] [CommRing O] [CommRing k]
-    {n : ℕ} (red : O →+* k) (r : G →* Matrix.GeneralLinearGroup (Fin n) O) (g : G) :
-    ((((Matrix.GeneralLinearGroup.map red).comp r) g).val).charpoly =
-      (((r g).val).charpoly).map red := sorry
-
-
 /-- Every ordered ratio of different occurrences avoids `q`. -/
 def IsGenericEigenvalues {K : Type*} [Field K] {n : ℕ}
     (α : Fin n → Kˣ) (q : K) : Prop :=
@@ -429,14 +418,28 @@ example : IsGenericEigenvalues (fun _ : Fin 2 => (1 : (ZMod 3)ˣ)) 2 ∧
     have hh := h.2 (a₁ := 0) (a₂ := 1) rfl
     exact (by decide : (0 : Fin 2) ≠ 1) hh
 
-/-- Test TauCeti.AutomorphicGalois.strongGeneric_rank_one. -/
-example {K : Type*} [Field K] (a : Kˣ) (q : K) :
-    IsStrongGenericEigenvalues (fun _ : Fin 1 => a) q := by
+/-- Test `strongGeneric_distinct_ratios`: at `q = 2`, the roots `(1,3)` over `𝔽₇`
+are distinct and both ordered ratios avoid `q`. -/
+example : IsStrongGenericEigenvalues
+    ![(1 : (ZMod 7)ˣ), Units.mk0 (3 : ZMod 7) (by decide)] 2 := by
   constructor
   · intro i j hij
-    exact (hij (Subsingleton.elim i j)).elim
-  · intro i j _
-    exact Subsingleton.elim i j
+    fin_cases i <;> fin_cases j
+    · exact (hij rfl).elim
+    · intro h
+      have hm := (div_eq_iff (Units.ne_zero _)).mp h
+      exact (by decide : (1 : ZMod 7) ≠ 2 * 3) hm
+    · intro h
+      have hm := (div_eq_iff (Units.ne_zero _)).mp h
+      exact (by decide : (3 : ZMod 7) ≠ 2 * 1) hm
+    · exact (hij rfl).elim
+  · intro i j h
+    have hv := congrArg (fun u : (ZMod 7)ˣ => (u : ZMod 7)) h
+    fin_cases i <;> fin_cases j
+    · rfl
+    · exact ((by decide : (1 : ZMod 7) ≠ 3) hv).elim
+    · exact ((by decide : (3 : ZMod 7) ≠ 1) hv).elim
+    · rfl
 
 /-- An inertia-trivial character twist preserves and reflects local genericity. -/
 theorem genericityTransfer {G k : Type*} [Group G] [Field k] {n : ℕ}
@@ -509,10 +512,11 @@ theorem isGeneric_unramified {G k : Type*} [Group G] [Field k] {n : ℕ}
     {frob : G} {q : k} (h : IsGeneric I r frob q) :
     ∀ g ∈ I, r g = 1 := sorry
 
-/-- Equal Frobenius matrices give the same local genericity predicate. -/
+/-- Trivial inertia makes local genericity independent of the Frobenius lift. -/
 theorem isGeneric_frobenius_independent {G k : Type*} [Group G] [Field k] {n : ℕ}
     (I : Subgroup G) (r : G →* Matrix.GeneralLinearGroup (Fin n) k)
-    (frob₁ frob₂ : G) (q : k) (h : r frob₁ = r frob₂) :
+    (frob₁ frob₂ : G) (q : k) (hI : ∀ g ∈ I, r g = 1)
+    (hfrob : frob₁⁻¹ * frob₂ ∈ I) :
     IsGeneric I r frob₁ q ↔ IsGeneric I r frob₂ q := sorry
 
 /-- Common nonzero scaling preserves and reflects the ordered-ratio condition. -/
@@ -540,35 +544,10 @@ theorem strongGeneric_distinct {K : Type*} [Field K] {n : ℕ}
     {α : Fin n → Kˣ} {q : K} (h : IsStrongGenericEigenvalues α q) :
     Function.Injective α := sorry
 
-/-- At residue cardinality `p^f`, strong genericity retains inertia, nonratios and distinctness. -/
-theorem strongGeneric_arbitrary_local_field {G k : Type*} [Group G] [Field k] {n : ℕ}
-    (I : Subgroup G) (r : G →* Matrix.GeneralLinearGroup (Fin n) k) (frob : G) (p f : ℕ) :
-    IsStrongGeneric I r frob (p ^ f : k) ↔
-      (∀ g ∈ I, r g = 1) ∧ ∃ α : Fin n → (AlgebraicClosure k)ˣ,
-      ((r frob).val.map (algebraMap k (AlgebraicClosure k))).charpoly =
-        ∏ i, (X - C (α i : AlgebraicClosure k)) ∧
-      IsGenericEigenvalues α (algebraMap k (AlgebraicClosure k) (p ^ f : k)) ∧
-      Function.Injective α := sorry
-
 /-- The normalized contragredient Hecke roots preserve the ordered-ratio condition. -/
 theorem dualAndTwistHeckeComparison {k : Type*} [Field k] {n : ℕ} (α : Fin n → kˣ) (q : kˣ) :
     IsGenericEigenvalues (fun i => q ^ (n - 1) * (α i)⁻¹) (q : k) ↔
       IsGenericEigenvalues α (q : k) := sorry
-
-namespace Fixtures
-
-/-- The diagonal representation of the group of tuples of units. -/
-def diagonalRep {K : Type*} [Field K] (n : ℕ) :
-    (Fin n → Kˣ) →* Matrix.GeneralLinearGroup (Fin n) K where
-  toFun α :=
-    { val := Matrix.diagonal (fun i => (α i : K))
-      inv := Matrix.diagonal (fun i => ((α i)⁻¹ : K))
-      val_inv := by simp [Matrix.diagonal_mul_diagonal]
-      inv_val := by simp [Matrix.diagonal_mul_diagonal] }
-  map_one' := by apply Units.ext; simp
-  map_mul' α β := by apply Units.ext; simp [Matrix.diagonal_mul_diagonal]
-
-end Fixtures
 
 /-- A diagonal Frobenius reduces matrix genericity to trivial inertia and the eigenvalue test. -/
 theorem isGeneric_matrix_diagonal {G K : Type*} [Group G] [Field K] {n : ℕ}
@@ -585,7 +564,8 @@ theorem isStrongGeneric_matrix_diagonal {G K : Type*} [Group G] [Field K] {n : �
     IsStrongGeneric I r frob q ↔
       (∀ g ∈ I, r g = 1) ∧ IsStrongGenericEigenvalues α q := sorry
 
-/-- Every rank-one matrix representation trivial on inertia is strong generic for every `q`. -/
+/-- Test `strongGeneric_rank_one`: every rank-one matrix representation trivial on inertia
+is strong generic for every `q`. -/
 example {G K : Type*} [Group G] [Field K]
     (I : Subgroup G) (r : G →* Matrix.GeneralLinearGroup (Fin 1) K)
     (frob : G) (q : K) (hI : ∀ g ∈ I, r g = 1) :
@@ -608,8 +588,8 @@ example {G K : Type*} [Group G] [Field K]
 
 /-- Distinct Frobenius eigenvalues with ratio `q` fail matrix genericity. -/
 example : ¬ IsGeneric (⊥ : Subgroup (Fin 2 → (ZMod 5)ˣ))
-    (Fixtures.diagonalRep 2) ![Units.mk0 (2 : ZMod 5) (by decide), 1] 2 := by
-  rw [isGeneric_matrix_diagonal _ _ _ _ _ rfl]
+    TauCeti.diagGL ![Units.mk0 (2 : ZMod 5) (by decide), 1] 2 := by
+  rw [isGeneric_matrix_diagonal _ _ _ _ _ (TauCeti.diagGL_coe _)]
   rintro ⟨_, h⟩
   exact h 0 1 (by decide) (by simp)
 
