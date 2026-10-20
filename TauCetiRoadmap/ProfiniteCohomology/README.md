@@ -1859,6 +1859,58 @@ Layer 10.
   definitions do not use that `p` is prime; they are meant for prime `p`, and the theorems below
   that need primality carry `[Fact p.Prime]`.
 
+  **Canonical-cohomology universe comparison (PC11.U).** Some native theorems spell the
+  extra parameter as `v = u` for `G : Type u`, while this shared `cd_p` fixes `v = 0`.
+  Both quantify over coefficients `M : Type u`, since `max u u = max u 0 = u`, but equality
+  of the coefficient types does **not** identify the canonical homology objects
+  `continuousCohomology.{0,u,u}` and `continuousCohomology.{0,u,0}`. Construct the comparison
+  for arbitrary `G : Type u` through their cochains and canonical class maps, rather than
+  assuming definitional equality or restricting the group to `Type 0`.
+
+  Supply the comparison in the one shared owner, in `CohomologyUniverseComparison.lean`,
+  before `DimensionNormalization.lean` and every dimension consumer. Let `C_u` and `C_0`
+  be the **actual** `TopRep.homogeneousCochains` of `TauCeti.ofDiscreteModule ℤ G M` at
+  those parameters. In resolution degree zero compare `M` by the identity. Recursively
+  compare `C(G,V)` by postcomposition with the preceding continuous linear equivalence;
+  the inverse postcomposes with its inverse. This fixes all nested evaluation values and
+  topologies. Show compatibility with the diagonal `G` action, the constant coinduction
+  unit and the recursion `d_(n+1) = const - C(G,d_n)`; then restrict to invariants in
+  resolution degree `n+1`. These maps are the degree components of `cochainUniverseIso`.
+  It is an actual all-degree chain isomorphism, not an unspecified quasi-isomorphism.
+  No currying to functions on `G^n`, local compactness, separability or extra size premise
+  is needed: both sides use the same nested continuous-map model.
+
+  At each degree form the actual shared short complex and forget to `ModuleCat ℤ`.
+  Its explicit homology model is `ker(g) / range(f : X_prev → ker(g))`, exactly the
+  existing `ShortComplex.moduleCatLeftHomologyData` quotient. At degree zero the incoming
+  differential is zero. Prove the shared and native cycle identifications preserve their
+  inclusions, and that the two incoming maps have precisely the same boundary image under
+  the degree comparison and its inverse. Construct `sharedCanonicalPresentation` and
+  `nativeCanonicalPresentation` from the native kernel/cokernel universal properties and
+  `LeftHomologyData.homologyIso`, mapping each actual canonical class to that explicit
+  quotient class. Their class-map equations are required, so arbitrary equivalences or
+  silently chosen homology objects do not discharge this construction. The boundary image
+  is not replaced by its closure; no discreteness of all cochain spaces is asserted.
+
+  The composite `canonicalCohomologyAddEquiv : H_u^n ≃+ H_0^n` is the native presentation
+  followed by the inverse shared presentation. Require naturality for equivariant coefficient
+  maps, and for continuous group/compatible coefficient pairs: recursively postcompose or
+  precompose the same nested functions and check the degree squares using the existing
+  `ContinuousCohomology.cochainsMap`, then their cycles, boundaries and class squares. This
+  same comparison on a cycle and its class is the source for vanishing transport in every
+  degree. At `u=0` the two presentations give the identity class map, an explicit regression.
+
+  In `DimensionNormalization.lean`, use the resulting subsingleton equivalence for every
+  coefficient module and degree to prove
+  `cohomologicalDimensionLE_native_sameUniverse_iff`. Only then apply the existing
+  `TauCeti.leastENatBound` to equality of the predicates to obtain
+  `nativeCohomologicalDimensionAt_eq_cd_p`, the interface consumed by the native infinite-
+  Demushkin theorem. Construct the cochain and canonical-presentation producers before deriving
+  the predicate and dimension transports from them; an unsupported numerical equality does not
+  supply those constructions. This preserves arbitrary `G : Type u`, the invariant and the
+  complete prototype interface, without asserting invariance for arbitrary strictly larger
+  coefficient universes.
+
   In the headers `M` ranges over **arbitrary** discrete `G`-modules in the unbundled classes of §3,
   subject only to the stated primary-torsion condition. Restricting the ordinary predicate to
   coefficients of bounded exponent would define a different invariant by fiat; that the two agree
