@@ -1424,7 +1424,7 @@ After the finite polynomial construction, consume K5a's compact scalar spectral 
 ### R8.3. Orthogonal highest weights and low ranks
 
 Construct the harmonic-polynomial representation and compare its
-complexification on SO(m+1) with highest weight dε₁ (d times the vector highest weight), consuming ClassicalGroups Layers 3/5's highest-weight classification targets
+complexification on SO(m+1) with highest weight dε₁ (d times the vector highest weight), consuming ClassicalGroups Layers 3/3A/5's highest-weight classification targets
 and its existing numerical Weyl-dimension APIs (including
 `ClassicalGroups/WeylDimension/OddOrthogonal.lean` and
 `ClassicalGroups/WeylDimension/EvenOrthogonal.lean`). Spell out the low-rank fundamental-weight conversions, and handle SO(2) separately
@@ -1434,7 +1434,32 @@ are explicit. Construct the complex SO-action by
 R_θ(x₁,x₂)=(cosθ x₁−sinθ x₂,sinθ x₁+cosθ x₂),
 ε₁(R_θ)=e^(iθ), and positive roots with vector highest weight ε₁.
 Prove `(x₁−ix₂)^d` is a highest-weight vector with character dε₁.
-Use the supplied classification to establish irreducibility; the numerical
+For the comparison with ClassicalGroups Layer3A, put `N=m+1≥2` and
+`r=⌊N/2⌋`. In each consecutive coordinate plane let K act by
+`diag(1,−1)`, and let it fix an unpaired last coordinate. Prove
+`K²=I`, `KᵀK=I` and `det K=(−1)^r`. Conjugation
+`σ(g)=KgK` is an algebraic automorphism of the actual complex SO group;
+K need only belong to O, and this automorphism need not be inner in SO.
+For every plane, prove `KR_θK=R_(−θ)`. In Layer3A's specified isotropic
+basis `u_i=e_(2i−1)+i e_(2i)`, `v_i=(e_(2i−1)−i e_(2i))/2`,
+prove `Ku_i=2v_i`, `Kv_i=u_i/2`. Thus the Classical torus coordinate
+of `σ(R_θ)` is `t_i=e^(iθ_i)` for simultaneous plane rotations.
+Fix the R8 Borel as `σ⁻¹(B_Classical)` and transport every Cartan
+coordinate and the B/D positive roots through this dictionary. The
+untransported Classical character on `R_θ` is `e^(−iθ)`; do not identify
+it directly with the fixed R8 character `e^(iθ)`.
+
+Define `U_K p(x)=p(Kx)` on the actual polynomial model. Using its
+O-action, prove that U_K preserves homogeneity and the Laplacian kernel,
+and prove `U_K ρ(g) U_K⁻¹=ρ(σ(g))`. It sends the specified polynomial
+`(x₁−ix₂)^d` to `(x₁+ix₂)^d`. Prove the latter is a highest vector for
+the Classical Borel with torus character `t₁^d`, and transport this
+statement to the fixed R8 Borel and character `dε₁`. Apply the actual
+rational-group classification through this equivariant comparison.
+For SO(2) retain both degree-d characters when d≥1 and the single
+constant at d=0; do not infer irreducibility of their two-character sum.
+
+For N≥3 use the supplied classification to establish irreducibility; the numerical
 Weyl formulas alone are not a supplied highest-weight module.
 
 ### R8.4. Full eigenspace eigenmaps and Takahashi
