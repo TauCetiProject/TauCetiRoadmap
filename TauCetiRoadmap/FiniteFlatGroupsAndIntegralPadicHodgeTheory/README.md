@@ -6457,8 +6457,11 @@ Dieudonné crystal).
 
 ### R07.4.26 `p`-divisible groups, Wach modules and Kisin–Ren modules in the cyclotomic frame
 
-Prove `wachBreuilKisinComparison`. Let `k` be perfect with `p > 2, F = W(k)[1/p], K ⊆ F_r = F(µ_{p^r})`
-finite over `F, Γ_K = Gal(F(µ_{p^∞})/K), R = O_K⟦t₁, …, t_d⟧` and `𝔖_cyc = W(k)⟦u, t₁, …, t_d⟧` with `φ(1 + u) = (1 + u)^p, φ(t_i) = t_i^p, γ(1 + u) = (1 + u)^{χ(γ)}`, and `E = φ^r(u)/φ^{r−1}(u)`. `(i)` There is
+Prove `wachBreuilKisinComparison`. Let `k` be a perfect field of characteristic `p > 2`,
+`r ≥ 1, d ≥ 0, F = W(k)[1/p], F ⊆ K ⊆ F_r = F(µ_{p^r}), Γ_K = Gal(F(µ_{p^∞})/K),`
+`R = O_K⟦t₁, …, t_d⟧` and `𝔖_cyc = W(k)⟦u, t₁, …, t_d⟧` with Witt Frobenius on coefficients,
+`φ(1 + u) = (1 + u)^p, φ(t_i) = t_i^p, γ(1 + u) = (1 + u)^{χ(γ)}`;
+`Γ_K` fixes `W(k)` and every `t_i`. Put `E = φ^r(u)/φ^{r−1}(u)`. `(i)` There is
 a contravariant equivalence `G ↦ M(G)` from `p`-divisible groups over `R` to the category `BT(𝔖_cyc)^{Γ_K}`
 of finite free `(φ, Γ_K)`-modules `M` over `𝔖_cyc` such that the `𝔖_cyc`-span of `φ(M)` contains `EM` and `Γ_K`
 acts trivially on `M/uM`; it recovers the Dieudonné crystal of `G` and the Tate module, and is
@@ -6471,20 +6474,193 @@ submodule) and the Kisin–Ren module `M_KR(T)` satisfy `N(V) = D⁺(V) ∩ M_KR
 The case `K = K₀` (`r = 1`) is the comparison of the Wach module with the Breuil–Kisin-type module
 that PadicHodgeTheory uses; Dieudonné crystals are those of AbelianSchemesAndArithmeticModuli §A4.CR.7.2.
 
-*Proof sketch.* Evaluate the Dieudonné crystal on the PD frame `S` (`p`-adic completion of the PD
-envelope of `E𝔖_cyc`) to get a window with `Γ_K`-action (Cais–Lau, Proposition 2.5.2 with the filtered
-Dieudonné crystal of Proposition 2.4.3). Base change `M ↦ S ⊗_{φ} M` from `BT(𝔖_cyc)^{Γ_K}` to windows
-is an equivalence; the Dieudonné-crystal functor is an equivalence by descent along the `Γ_K`-action
-and Grothendieck–Messing (Cais–Lau, Corollary 3.4.6, Proposition 3.4.5). Wach and Kisin–Ren modules:
+The following four targets construct the integral window theory used in this equivalence.
+Write `R_r = O_(F_r)⟦t₁,…,t_d⟧`, choose compatible roots of unity, and let
+`𝔖_cyc → R_r` send `1+u` to `ζ_(p^r)`. Its kernel is `(E)`.
+
+**Restricted cyclotomic frames and windows (`cyclotomicWindowBaseChange`).**
+Construct the frame with ring `𝔖_cyc`, filtration ideal `(E)` and divided Frobenius
+`φ₁′(Ex) = φ(x)`, and the PD frame with ring `S_r`, the `p`-adic completion of
+the PD envelope of `(E)`, filtration `Fil¹S_r = ker(S_r → R_r)` and
+`φ₁ = φ/p` on that ideal. Prove `p`-torsion freeness of `S_r` and that
+`c = φ(E)/p` is a unit. A window `(P, Fil¹P, Φ, Φ₁)` has finite free `P`,
+a normal decomposition `P = L ⊕ N, Fil¹P = L ⊕ (Fil¹S)N`, semilinear `Φ,Φ₁`,
+`Φ₁(ax) = φ₁(a)Φ(x)` for `a ∈ Fil¹S`, and `Φ = ϖΦ₁` on `Fil¹P`, with
+`ϖ = φ(E)` on `𝔖_cyc` and `ϖ = p` on `S_r`; the images of `Φ,Φ₁` generate `P`.
+Morphisms preserve the filtration and both maps; exactness includes the filtered submodules.
+This recovers the strongly divisible vocabulary of §R07.4.18 on the corresponding
+PD frame, retaining the chosen Frobenius lift.
+
+For `Γ_r ⊆ Γ′ ⊆ Γ ⊆ Γ_F`, define `Γ′`-strict actions of `Γ` by triviality on
+`P ⊗ 𝔖_cyc/(u)`. On `𝔖_cyc`-windows the semilinear action satisfies
+`Φ₁γ = c_γ γΦ₁`, where `c_γ = γ(φ(E))/φ(E)`; on PD windows it commutes with
+`Φ₁`. Both actions commute with `Φ`, and morphisms are equivariant.
+On a BT module `𝔐`, use `𝔐/u𝔐` instead. The inclusion of
+frames is a `c`-homomorphism: base change scales the divided Frobenius by `c`.
+For finite free `𝔐` with `E` annihilating the cokernel of linearized Frobenius,
+prove that this linearization is injective and its cokernel is free over `R_r`.
+Prove exact equivalences from BT modules to `𝔖_cyc`-windows and then to
+`S_r`-windows, with composite underlying module `S_r ⊗_(φ,𝔖_cyc) 𝔐`,
+preserving these actions. In the first equivalence `𝔐 = Fil¹P`, its Frobenius
+is `EΦ₁`, and its action is `E/γ(E)` times the window action on `Fil¹P`.
+For duality retain `λ_γ = ∏_(n≥0) φ^n(E/γ(E))`: the BT dual pairing transforms
+by `λ_γ`, the `𝔖_cyc`-window dual by `φ(λ_γ)`, and the PD-window dual has
+the ordinary contragredient action. Prove the compatible duality isomorphisms.
+Source: Cais–Lau 2017, §§2.1–2.3, Definitions 2.1.1, 2.1.3 and 2.1.13,
+Remark 2.1.14, Lemma 2.1.16 and Proposition 2.3.2; §3.1, Proposition 3.1.4,
+Lemma 3.1.6 and Remarks 3.1.7–3.1.8.
+
+*Needs:* §R07.4.18's filtered semilinear vocabulary; §R07.4.1's PD-envelope construction.
+
+**Checks.**
+
+- The unit BT module gives `(S_r, Fil¹S_r, φ, φ/p)`, and its dual gives
+  `(S_r, S_r, pφ, φ)`. The latter comparison includes the unit correction
+  `y = u₀/τ`, where `u₀ = φ^r(u), τ = log(1+u₀)` and `φ(y) = cy`.
+- Triviality of a window action on `P ⊗ W(k)` is equivalent to strictness
+  on `P ⊗ W(k)⟦t₁,…,t_d⟧`; this uses Frobenius, even when `d > 0`.
+- With variables `u_r`, the map for `r → r+1` is `u_r ↦ φ(u_(r+1))`,
+  fixing the `t_i`. It carries `E_r` to `E_(r+1)` and commutes with the
+  BT/window comparison and its divided Frobenius.
+
+**Filtered crystals and windows with connection (`cyclotomicCrystalWindowEquivalence`).**
+Over `Spf R_r`, form filtered Dieudonné crystals as compatible systems on the
+nilpotent thickenings, using AbelianSchemesAndArithmeticModuli §A4.CR.7.2's
+contravariant crystal and Hodge filtration, with `F,V` on the characteristic-`p`
+restriction. Require an admissible locally direct summand filtration: on each
+characteristic-`p` crystalline thickening `U → Z`,
+`φ̄*(Fil¹D_U) = im V_(Z/U) = ker F_(Z/U)`, where `φ̄ : Z → U` factors the
+Frobenius of `Z`, as in Cais–Lau Definition 2.4.1.
+Evaluation on `S_r` identifies this category with windows carrying a connection
+`∇ : P → P ⊗_(𝔖_cyc) Ω̂_(𝔖_cyc/W(k))` over the PD derivation, satisfying
+`∇Φ = (Φ ⊗ dφ)∇`. Prove that these connections are integrable and topologically
+quasi-nilpotent, that `F,V` are horizontal, and that evaluation is an exact
+equivalence preserving duality, crystalline pullback and filtration.
+
+Also prove that `p`-divisible groups over `R_r` are contravariantly equivalent
+to these filtered crystals. For the auxiliary lift `φ₀(u) = u^p,
+φ₀(t_i) = t_i^p`, prove the restricted group/window equivalence and unique
+horizontal-connection theorem under nilpotence of `p⁻¹dφ₀` on the residue
+differentials. Passing through filtered crystals then gives the group/window
+with connection equivalence for the cyclotomic lift. This target includes
+essential surjectivity over the relative base `R_r`; the resulting filtered
+crystal is independent of the auxiliary lift.
+Source: Cais–Lau 2017, Proposition 2.5.2, Lemma 2.6.3, Proposition 2.6.4,
+Propositions 2.7.1 and 2.7.3, Corollary 2.7.4 and Remark 2.7.5, restricted to `R_r`.
+
+*Needs:* `cyclotomicWindowBaseChange`; §§R07.1.6 and R07.1.41;
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (crystalline evaluation and Grothendieck–Messing).
+
+**Checks.**
+
+- For `ℚ_p/ℤ_p`, `Fil¹P = Fil¹S_r·P, Φ(e) = e, ∇e = 0`;
+  reduction to `W(k)` gives `F = σ`.
+- For `μ_(p^∞)`, `Fil¹P = P, Φ(e) = pe, ∇e = 0`; reduction gives `F = pσ`.
+  Cartier duality exchanges these two filtered windows integrally.
+- Changing between `φ₀` and cyclotomic `φ` changes the semilinear window maps;
+  evaluation of the recovered crystal on a fixed PD thickening and its Hodge
+  filtration agree through the crystalline comparison isomorphism.
+
+**Strict actions and integral connections (`cyclotomicStrictActionConnection`).**
+Prove that forgetting the connection gives an exact equivalence from
+`S_r`-windows with a horizontal strict `Γ_r`-action to windows with a strict
+`Γ_r`-action. Equivalently, every such action determines a unique horizontal
+connection, and every equivariant window morphism is horizontal. Conversely
+each window with a Frobenius-horizontal connection has a unique horizontal
+strict `Γ_r`-action.
+The equivalences preserve duality and are natural for additional `Γ_K`-actions.
+
+Use `τ = log(1+u₀) = u₀·unit` in `S_r`, with `τ^(p−1) ∈ pS_r`.
+For `γ ∈ Γ_r`, prove the integral estimates
+`(γ−1)^(n+1)P ⊆ (τ,p^r)^n τP` and, for `γ ∈ Γ_(r+n)`,
+`(γ−1)P ⊆ (τ,p)^n τP`. They give continuity and convergence of the logarithm.
+For nonidentity `γ` sufficiently close to `1`, the operator
+`N_P = p^r log(γ)/log(χ(γ))` is independent of `γ` and satisfies
+`N_P(P) ⊆ τP` and `N_PΦ = ΦN_P`. Thus
+`∇_(∂/∂u) = ((1+u)τ)⁻¹N_P` is integral and obeys the Leibniz rule.
+Extend this `du` connection uniquely to all `dt_i` directions by Frobenius
+horizontality, using topological nilpotence of `p⁻¹dφ` on `⊕_i 𝔖_cyc dt_i`
+for the maximal ideal topology and the complete-ring argument of Proposition 2.7.3.
+Prove uniqueness and horizontality on morphisms as well as on objects.
+Source: Cais–Lau 2017, Definition 3.1.9, Lemma 3.1.10, Proposition 3.2.2,
+Lemma 3.2.3, Lemma 3.3.3, Proposition 3.3.4 and Corollaries 3.3.5–3.3.6.
+
+*Needs:* `cyclotomicWindowBaseChange`; `cyclotomicCrystalWindowEquivalence`.
+
+**Checks.**
+
+- `p⁻¹dφ(du) = (1+u)^(p−1)du` fixes the residue vector `du`, as do its
+  iterates, with `σ`-semilinearity on `k`. On `dt_i` it is `t_i^(p−1)dt_i`,
+  zero on residue differentials. Nilpotence for the full cyclotomic divided derivative fails.
+- For `d = 1` and the unit window with horizontal basis `e`,
+  `∇(t₁e) = e ⊗ dt₁` and `∇Φ(t₁e) = pe ⊗ t₁^(p−1)dt₁`.
+  The reconstructed connection retains the relative direction although `Γ_r`
+  fixes `t₁`; both formulas hold before inverting `p`.
+- For the unit and multiplicative PD windows above, reconstruct `∇e = 0`;
+  transporting back through the window comparison recovers `wach_unit` and
+  `wach_mu`, including the latter's nontrivial semilinear action in its BT basis.
+
+**Effective descent to intermediate fields (`cyclotomicWindowDescent`).**
+For `F ⊆ K ⊆ K′ ⊆ F_r`, put `R′ = O_(K′)⟦t₁,…,t_d⟧` and
+`Γ = Γ_K, Γ′ = Γ_(K′)`. Groups over `R_r` with descent of their generic fibre
+to `R[1/p]` correspond to `Γ_r`-strict `Γ`-windows. Base change from groups
+over `R′` with that generic descent is fully faithful; its essential image
+is exactly those for which `Γ′/Γ_r` acts trivially on the special fibre `G_k`.
+Under crystalline evaluation this is precisely `Γ′`-strictness, giving
+the equivalences with `Γ′`-strict `Γ`-windows and BT modules. In particular
+`K′ = K` gives groups over `R` and strict `Γ_K`-modules.
+
+Prove effectivity by the marked universal deformation of `G_k`: descent
+isomorphisms reducing to the identity preserve the marking, so the coefficient
+map from its deformation ring to `R_r` is invariant under `Γ′/Γ_r`.
+It factors through `(R_r)^(Γ′/Γ_r) = R′`, and the effective universal family
+gives the descended group; rigidity identifies its descent maps with the given ones.
+Use the preliminary
+`BarsottiTate.markedUniversalDeformation` target of §R07.6.9 with coefficient
+ring `W(k)`. Its inputs are §§R07.1.6, R07.1.11 and R07.6.6,
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 and SchemeAndStackFoundations
+§§4.4 and 4.8; the order is these inputs, marked deformation and effectivity,
+the present descent, then `wachBreuilKisinComparison` and `raynaudDetTateModule`.
+Prove that descent commutes with the window comparisons, duality and the
+maps for change of `r` and intermediate fields.
+Source: Cais–Lau 2017, Definition 3.4.1, Remark 3.4.2, Proposition 3.4.3,
+Lemma 3.4.4, Proposition 3.4.5, Corollary 3.4.6 and Remark 3.4.7.
+
+*Needs:* `cyclotomicStrictActionConnection`; `BarsottiTate.markedUniversalDeformation`
+(only the preliminary target of §R07.6.9); §R07.1.22's generic-fibre rigidity
+and §R07.1.41's flat descent.
+
+**Checks.**
+
+- For `K = F_r`, the quotient descent group is trivial and the equivalence
+  reduces to `p`-divisible groups over `R_r` and strict `Γ_r`-windows.
+- For `K = F`, the constant and multiplicative groups have trivial
+  `Γ_F/Γ_r`-action on their special fibres, and descend integrally with their
+  filtrations and horizontal connections.
+- Choose `a ∈ ℤ_pˣ` of order `p−1`. The constant group `ℚ_p/ℤ_p` over `R₁`
+  has generic descent to `W(k)⟦t₁,…,t_d⟧[1/p]` obtained by sending a generator
+  of `Gal(F₁/F)` to `[a]`. This action is nontrivial on its special fibre;
+  the descended generic group has no `p`-divisible model over
+  `W(k)⟦t₁,…,t_d⟧`. Generic descent alone does not imply integral effectivity.
+
+*Proof sketch of `wachBreuilKisinComparison`.* Evaluate the filtered crystal on
+`S_r`, use `cyclotomicCrystalWindowEquivalence` and
+`cyclotomicStrictActionConnection` to construct the inverse on arbitrary
+strict windows, and transport through `cyclotomicWindowBaseChange`.
+Apply `cyclotomicWindowDescent` for intermediate `K`. These functors recover
+the crystal integrally and preserve duality and the stated base changes.
+For arbitrary `d`, recover the Tate module by this inverse classification
+followed by §R07.1.8's Tate functor. Wach and Kisin–Ren modules for `d = 0`:
 Berger–Breuil's maximal distinguished submodule and Kisin–Ren's `φ`-stable one, compared through
 `E_n(u)` (Cais–Lau, Proposition 4.5.2 and Remark 4.5.3). (Cais–Lau 2017, §1, Theorem 1, p. 2;
 §2.4–2.5, Definition 2.4.1, Propositions 2.4.3 and 2.5.2, pp. 10–11 (arXiv:1412.3174v2): the `(φ, Γ)`-module classification of `p`-divisible groups over `O_K⟦t⟧` and the filtered Dieudonné crystal and
 windows behind it; Cais–Lau 2017, §4.5, (4.5.1), Proposition 4.5.2 and Remark 4.5.3, pp. 31–32: Wach
 modules, Kisin–Ren modules and their comparison with `M(G)`.)
 
-*Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.21; §R07.4.4; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the
-crystalline Dieudonné crystal);
-AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation theory); §R07.P5 (`dCris`, `IsCrystalline`).
+*Needs:* `cyclotomicWindowBaseChange`; `cyclotomicCrystalWindowEquivalence`;
+`cyclotomicStrictActionConnection`; `cyclotomicWindowDescent`; §R07.1.8;
+PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.21; §R07.4.4;
+§R07.P5 (`dCris`, `IsCrystalline`).
 
 **Checks.**
 

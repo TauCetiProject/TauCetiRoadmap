@@ -50,7 +50,8 @@ The design choices made explicit here:
 
 Heavy objects (`p`-divisible groups beyond Tau Ceti's finite levels, group Frobenius and Verschiebung,
 the Dieudonné module functor itself, Raynaud's `F`-vector schemes, the Oort–Tate and Katz–Mazur
-groups, formal schemes and their analytic descent, marked full-BT deformations, period rings,
+groups, formal schemes and their analytic descent, marked full-BT deformations,
+relative cyclotomic frames and windows with integral connections, period rings,
 the Robba ring, tame inertia and its fundamental characters, the
 Fontaine–Laffaille functor, Breuil's `S`-modules and the ramification filtration in Fontaine's
 normalisation) are README targets and do not appear here; the closing comment lists them.
@@ -1398,7 +1399,19 @@ further instances of the statements above.
   Galois-equivariant rational crystalline comparison); `tateModuleAcris`;
   `crystalline01IsBt`; `kisinPDivisibleClassification`; `finiteFlatClassification`;
   `dyadicClassification`; `finiteFlatRestrictionFullFaithfulness`; `bkIntegralComparisons`;
-  `wachBreuilKisinComparison`; `FilteredPhiNModuleDD` (the arithmetic Weil action uses the residue-degree multiple
+  `wachBreuilKisinComparison`, with `cyclotomicWindowBaseChange` constructing the
+  restricted cyclotomic frames, windows and Frobenius-twisted BT base change,
+  including the divided-Frobenius and duality corrections;
+  `cyclotomicCrystalWindowEquivalence` gives filtered-crystal/window-with-connection
+  equivalence and the relative group/crystal equivalence over R_r;
+  `cyclotomicStrictActionConnection` reconstructs an integral connection from a
+  strict Γ_r-action, including all dt_i directions, uniqueness and horizontal
+  morphisms. On a horizontal unit basis, ∇(t₁e) = e ⊗ dt₁ before inverting p;
+  `cyclotomicWindowDescent` identifies integral descent to intermediate fields
+  by triviality of the special-fibre action. Its marked-deformation input is
+  the preliminary target of R07.6.9, preceding this descent and the determinant
+  theorem. These window and crystal categories are README targets;
+  `FilteredPhiNModuleDD` (the arithmetic Weil action uses the residue-degree multiple
   of p-Frobenius); `potentiallySemistableDescentEquivalence`;
   `tameTypeWeightTwoFilteredModules`; `descentDataPDivisibleGroups` (the group-side maps satisfy
   [1] = id and the twisted cocycle law); `breuilSyntomicPeriods`; `StronglyDivisibleModule`
