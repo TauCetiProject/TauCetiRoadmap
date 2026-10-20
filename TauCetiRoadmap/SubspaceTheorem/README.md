@@ -876,7 +876,8 @@ of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors linearly inde
   (`NumberField.eventually_approxSpan_ne_top`), the form 6.1 consumes. Route: 4.2's lower bound
   with every minimum replaced by the last gives `μ (card ι − 1) ^ (d · card ι) ≥ C · Q ^ (−weight)`
   (`NumberField.le_successiveMinimum_approx_pow`), which exceeds `1` eventually. The statement
-  is eventual and not uniform: at `Q = 1` the domain has full rank whatever the weight.
+  is eventual and not uniform: over `ℚ` with `S₀ = ∅` and the coordinate forms `L i = X i`, the
+  domain at `Q = 1` contains the standard basis, so it has full rank whatever the exponents.
 - *Bounded levels*: for `0 < Q₁ ≤ Q ≤ Q₂` every domain lies in the domain of the exponents `|c|`
   at level `max Q₂ Q₁⁻¹`, which holds finitely many points
   (`NumberField.finite_approxDomain`, `NumberField.finite_biUnion_approxDomain`), so a bounded
@@ -1810,15 +1811,19 @@ and the threshold is linear in `log H` (`NumberField.systemThreshold_le`). This 
 doubly-logarithmic dependence on the heights of Schlickewei's count; the sharp absolute count is
 DAT §2.8's `subspace_theorem_for_systems`, and 9.5 is the statement Layers 4–6 prove without the
 absolute theory. Deliverables:
-- *From systems to domains over `E`* (`NumberField.mem_approxDomain_conjSystem_of_mem_systemSet`):
-  a solution `x` whose constants satisfy `C p ≤ H(x) ^ γ p` for a family `γ`, read in `ι → E`,
-  lies in the approximation domain over `E` of 6.3's conjugated forms `NumberField.conjSystem`, at
-  the places of `E` above `S` (`NumberField.systemPlacesOver`), with exponents
-  `NumberField.conjExponent (c + γ)` (`c v i / mult v` above an infinite place, `e f · c v i`
-  above a prime of `S`, applied to `c p i + γ p`), at level `H(x)`; both weights are `[E : K]`
-  times those of the system with exponents `c + γ` (`NumberField.approxWeight_conjExponent`,
-  `NumberField.approxAbsWeight_conjExponent`), the shift adding `N ∑ p, γ p` to the weight, and the
-  forms are independent at every place the domain reads. The constants cannot be dropped: over
+- *From systems to domains over `E`* (`NumberField.mem_approxDomain_conjSystem`): an `S`-integral
+  `x` with `systemValue p i x ≤ Q ^ c' p i` at every place, for a level `Q ≥ 0` and exponents `c'`,
+  read in `ι → E`, lies in the approximation domain over `E` of 6.3's conjugated forms
+  `NumberField.conjSystem`, at the places of `E` above `S` (`NumberField.systemPlacesOver`), with
+  exponents `NumberField.conjExponent c'` (`c' v i / mult v` above an infinite place,
+  `e f · c' v i` above a prime of `S`), at level `Q`. The level is a free parameter, not the
+  height of `x`, because the scalar step below applies the bridge to `β x` at the level `H(x)`.
+  For a solution `x` whose constants satisfy `C p ≤ H(x) ^ γ p` for a family `γ` it gives the
+  exponents `conjExponent (c + γ)` at level `H(x)`
+  (`NumberField.mem_approxDomain_conjSystem_of_mem_systemSet`). Both weights of `conjExponent c'`
+  are `[E : K]` times those of `c'` (`NumberField.approxWeight_conjExponent`,
+  `NumberField.approxAbsWeight_conjExponent`), the shift by `γ` adds `N ∑ p, γ p` to the weight, and
+  the forms are independent at every place the domain reads. The constants cannot be dropped: over
   `ℚ` with the forms `(2 X, 2 Y)`, `C ∞ = 2` and `c = (1, −2)`, a normalized system, every `(k, 0)`
   is a solution and none lies in the domain of `conjExponent c` at level `k`. A system over an
   intermediate field is
@@ -1829,14 +1834,25 @@ absolute theory. Deliverables:
   absolute weight at most `2 N + δ`, for any number of places.
 - *One scalar for the constants* (`NumberField.exists_ne_zero_systemAbs_le`, Minkowski's first
   theorem on `K`): a nonzero `S`-integer `β` with `|β|_p ^ mult p ≤ κ / C p` at every place, where
-  `κ ^ t = scalarConst K S · (N! H ^ (N [K : ℚ])) ^ (2 t / N)` depends only on `H`, `K` and `S`
-  (it bounds `scalarConst K S · ∏ C p` by (2.4) and `NumberField.IsNormalizedSystem.systemDet_le`).
-  Then `β x` solves the system with every constant at most `κ`, and above the threshold
-  `κ ≤ H(x) ^ (δ / (2 N t))`, so the bridge applies to `β x` at level `H(x)` with
-  `γ p = δ / (2 N t)` at every place and the raised exponents. The shift costs `δ / 2` of weight:
-  the exponents over `E` have weight `−[E : K] δ / 2` and absolute weight at most
-  `[E : K] (2 N + 2)`, which are the `ε` and `A` given to 6.1. `x` lies in every subspace `β x` lies in, so the constants cost
-  `log scalarConst K S` in the threshold and nothing in the count.
+  `κ ^ t = scalarConst K S · Z ^ (2 t / N)` with `Z = N! H ^ (N [E : ℚ])` depends only on `N`,
+  `H`, `[E : ℚ]`, `K` and `S`. The degree is that of the coefficient field `E`: a coefficient of
+  absolute height at most `H` is at most `H ^ [E : ℚ]` at every place of the system
+  (`NumberField.IsNormalizedSystem.apply_coeff_le`), so `∏ p, |det L p|_p ≤ Z ^ (2 t)`
+  (`NumberField.IsNormalizedSystem.systemDet_le`), (2.4) gives `∏ C p ≤ Z ^ (2 t / N)`, and
+  `scalarConst K S ≤ ∏ p, κ / C p` is the hypothesis of Minkowski's theorem. Then
+  `systemValue p i (β x) ≤ κ · H(x) ^ c p i` (`NumberField.systemValue_mul`), and once
+  `log H(x) ≥ NumberField.systemHeightThreshold = (2 N log (scalarConst K S) + 4 t log Z) / δ`,
+  `κ ≤ H(x) ^ (δ / (2 N t))`. So the bridge applies to `β x` at the level `H(x)` of `x`, which in
+  general differs from `H(β x)`, with the raised exponents shifted by `δ / (2 N t)` at every
+  place. The shift costs `δ / 2` of weight: the exponents over `E` have weight `−[E : K] δ / 2` and
+  absolute weight at most `[E : K] (2 N + 2)`, which are the `ε` and `A` given to 6.1. `x` lies in
+  every subspace `β x` lies in, so the constants cost `systemHeightThreshold` in the threshold,
+  which is linear in `log H`, and nothing in the count. Rejection test for `[K : ℚ]` in place of
+  `[E : ℚ]`: over `ℚ` with `S = ∅`, let `α` be the real root of `T ^ 3 − 100 T ^ 2 − 1`, an
+  algebraic integer with `100 < α < 101` whose conjugates have modulus below `1`, so that
+  `H(α) = α ^ (1 / 3) < 5`. The forms `(α X, α Y)` with `C ∞ = α` and `c = (1, −2)` make a
+  normalized system with `H = 5`, `D = 3`, `R = 2` and `δ = 1`, every `(k, 0)` is a solution, and
+  `[K : ℚ]` would give `κ = 100 < α`, so no nonzero integer `β` would exist.
 - *The thresholds are linear in the heights* (`NumberField.parametricThreshold_le`, with
   `NumberField.thresholdScale = formLogHeight + log |D_K| + ∑ v ∈ Sfin, log N v + 1`): every
   threshold of Layers 4, 5.4, 5.5 and 6.1 bounded by the heights of the entries of the matrices of
