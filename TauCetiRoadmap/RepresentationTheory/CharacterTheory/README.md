@@ -691,6 +691,111 @@ not replace these objects or weaken a successful output's certificate.
    `2|coeff(w_C,k)|<p` supplies exactly the hypothesis of native
    `Cyclotomic.lift_eq_of_conjugateResidues_eq`.
 
+   **Executable refinement before the named evaluations.** Retain the native
+   solver as the exhaustive reference: its row-list adapter enumerates the
+   ambient `p^r` functions, its
+   alignment list enumerates `r^(r φ(e))` functions before filtering, and its
+   degree search forms whole vectors. Own `dixonPowerAligned?` and its
+   prime-budget wrapper in this roadmap, using the SAME `ClassData`, native
+   transposed `centralCharacterSearch`, `Cyclotomic.lift`, exact output data
+   and `cyclotomicCharacterTableChecker`. The refined path supplies the
+   executable computation for the named examples.
+
+   - **Enumerate only the actual search output.** Compute
+     `S=d.centralCharacterSearch (F:=ZMod p)` once. Encode a row v by
+     `code(v)=Σ_(k<r) (v_k).val p^k`, map this code over S, sort that finite
+     set of NATURAL codes increasingly and decode its base-p digits. Prove
+     decoding after encoding is identity (`0≤v_k.val<p`), injectivity of
+     the code, no duplicates, exact membership S and length r at a native
+     good prime. The encoding/sorting traverses S itself; it must not
+     construct `FinEnum (Fin r→ZMod p)` or scan all possible codes. This
+     fixes deterministic row order without a second eigenspace or Gaussian
+     engine. Reuse the native joint-eigenvalue search and its actual finite
+     output; reordering only supplies a new finite-index adapter.
+
+   - **Class powers give every conjugate slice.** Define
+     `P_b(k)=d.index((d.rep k)^b)` by the actual numbered class lookup.
+     For `gcd(b,e)=1`, construct its inverse power permutation, prove it is
+     representative-independent, fixes the identity class and preserves
+     class sizes. Powering is a conjugation-equivariant bijection on G,
+     with inverse exponent modulo e, so it restricts to bijections of the
+     corresponding class carriers. For an actual irreducible χ, Layer4's
+     Galois formula and the unchanged positive degree give
+     `Ω_χ(P_b(k))=σ_b(Ω_χ(k))`: this follows from
+     `Ω_χ(C)=|C|χ(C)/χ(1)`, since both |C| and χ(1) are fixed.
+     Transfer this identity to the SAME exact native cyclotomic elements
+     through the injective generator-compatible embedding; prove the
+     corresponding reduction identity, not merely its complex formula.
+     For a native exact certificate derive the same identity using its
+     complex-table comparison and labeled uniqueness, rather than adding
+     an unproved covariance field to the executable input.
+
+     Pin `a_j=Cyclotomic.primitiveExponent e j` and first index0. Prove
+     from the actual increasing `primitiveExponents` list that `a_0=1`
+     when e>1. In general compute the unique residue b_j with
+     `a_0 b_j≡a_j (mod e)` by a finite modular-inverse calculation (or the
+     specified length-e scalar scan); prove success and b_j's coprimality.
+     Do NOT silently assume an arbitrary chosen first exponent is1.
+     For e=1 the list is `[0]`, φ(e)=1 and the primitive root is1; use
+     b_0=0 and the trivial-group/class branch explicitly. There is no
+     finite-group e=0 case. If v is one searched row viewed as reduction
+     at `α^a_0`, set `R_v(k,j)=v(P_(b_j)(k))`. Prove
+     `R_v(k,j)=reduce(p,α^a_j,Ω_χ(k))` for the corresponding χ.
+     Thus lift each entry once using `Cyclotomic.lift e α R_v(k)`.
+     This is an r-by-r-by-φ(e) residue array, not a materialized tuple of
+     row permutations; even true-permutation enumeration is not the
+     executable replacement. Frobenius is still trivial and is not used
+     to manufacture missing conjugates.
+
+   - **Recover degrees separately, exactly.** For one lifted row ω, put
+     `inv(k)=d.index((d.rep k)⁻¹)`, `n=|G|`, `s_k=|C_k|`, and compute
+     `T(ω)=Σ_k (n/s_k) ω_k ω_(inv(k))` in the native exact ring.
+     Own the class-size divisibility proof, so `n/s_k` is exact natural
+     division; no rational or cyclotomic inverse is hidden here. Layer5's
+     degree-square identity gives `T(Ω_χ)=n²/χ(1)²=(n/χ(1))²`.
+     Search ONLY positive divisors m of n with `m≤⌊√n⌋`, testing the
+     exact ring equation `m² T(ω)=n²`. For a true row its degree belongs
+     to this list by the degree sum and divisibility theorems. It is the
+     UNIQUE positive solution: T is nonzero by that equation and the
+     characteristic-zero embedding, so cancellation gives equality of
+     positive integer squares. No floating approximation, chosen square
+     root oracle, global degree tuple, or product of per-row degree lists
+     is permitted. A missing solution rejects this prime. Once degrees
+     are recovered, compute ordinary entries by coefficientwise exact
+     division of `degree(i)*ω_ik` by s_k, using the native solver's quotient
+     convention; its helper is private, so own the small exposed adapter
+     and equality proof. The final checker verifies the division-free
+     identities, positivity/divisibility, degree sum and all table equations.
+
+   - **Assemble, compare and prove bounded completeness.** Process the
+     sorted r rows once, collect the r independent `Option` degree results
+     with short-circuit failure, build ONE complete candidate, and return
+     it only if the actual native checker returns true. Soundness at every
+     returned result is exactly its native certificate and complex soundness.
+     At any strong prime, native certificate reduction/no-merging gives a
+     bijection between S and the actual irreducible rows at the first root.
+     The power-map identity supplies all conjugates in that SAME numbering,
+     the bound `p>2B_G` makes every lift exact, and per-row degree uniqueness
+     and exact division give the full certificate. Prove this more generally
+     for any bounded exact certificate: the refined output equals it up to
+     one row permutation, simultaneously for omega, ordinary table and degrees.
+     Retain native exhaustive completeness as a reference theorem and compare
+     any certified outputs using labeled uniqueness and injectivity of the
+     exact embedding. No equality of the two algorithms' first `Option`
+     answers or arbitrary row orders at weak primes is claimed.
+
+     Reuse native prime candidates in increasing order, filter out
+     primes not exceeding the DERIVED `2B_G`, and call only the refined
+     solver. Prove unconditional successful-output soundness, strong-prime
+     completeness, finite-budget success and prefix stability of the answer.
+     For given S the extra work uses sorting r codes, at most eφ(e) scalar
+     ratio tests, r²φ(e) distinct residue coordinates, r² native lifts and at most
+     r⌊√n⌋ scalar degree tests; these are construction counts, not a
+     polynomial-runtime claim about the underlying native eigenvalue search
+     or a benchmark. Cache the class powers, class sizes, inverse-class map
+     and ratios once. Any further native arithmetic optimization preserves
+     the same proof/checker interfaces.
+
 7. **Totality, conversion and acceptance.** From the actual bounded exact
    certificate prove the native solver is `isSome` at every strong prime.
    Native exact division computes the ordinary table from `degree*omega`;
@@ -705,9 +810,18 @@ not replace these objects or weaken a successful output's certificate.
    is a complete termination target, not merely success-conditional
    soundness or a bounded-coefficient assumption supplied by a caller.
    Keep the staged rational, quadratic/cubic and general exact examples
-   below, including `#eval` acceptance for DihedralGroup4, C₃, A₄, S₄ and A₅.
-   All new theorem targets remain distinct from the already defined native
-   executable arithmetic, search, checker and conditional soundness.
+   below. For DihedralGroup4 (e=4), C₃ (e=3), A₄ (e=6), S₄ (e=12) and A₅
+   (e=30), construct executable native ClassData with its actual exponent
+   equality and a concrete successful prime budget, and `#eval` the refined
+   `characterTablePowerSearch?` to its complete solver-computed exact output.
+   Retain all five evaluations as acceptance targets, including the irrational
+   A₅ rows. Record full degrees/omega/ordinary entries in the fixed class order,
+   then prove the actual checker result and compare with the labeled table up
+   to rows. Supplying a known table to the checker, an abstract `isSome` proof,
+   or running only the exhaustive reference does not discharge this computation.
+   C₂, S₃ and Q₈ and all structural/spring examples below remain in scope.
+   All new theorem and refinement targets are distinct from the already
+   defined native arithmetic, search, checker and conditional soundness.
 
 ## D. Structural theorems and worked families
 
@@ -1020,9 +1134,12 @@ degree recovery. Layer6 consumes the native exact ring, ClassData, transposed mo
 primes, all-conjugate lift, exact checker and assembled Option solver. Its new proof order
 is generator/field/integral-power-basis comparison, eigenvalue multiplicities and exact
 ordinary values, exact central preimages and the division-free identity, the derived B_G
-coordinate bound, exact table certificate and native row-alignment completeness, then
-strong-prime cofinality and finite-budget totality. No new coefficient oracle or search
-engine is a premise. Deliverables A, B, C are increasingly deep and C is
+coordinate bound, exact table certificate and native reference row-alignment completeness;
+then direct finite-row ordering, class-power/Galois residue alignment, positive per-row
+degree recovery and the checked executable refinement; then strong-prime cofinality,
+finite-budget totality and the named actual evaluations. Build these finite adapters
+here from the native search output and exact arithmetic; no coefficient oracle or
+replacement Gaussian engine is a premise. Deliverables A, B, C are increasingly deep and C is
 conditional on its named infrastructure; a contributor can complete A and B, and the rational-table
 milestone of C, well before the general cyclotomic lift.
 

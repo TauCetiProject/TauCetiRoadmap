@@ -828,6 +828,257 @@ theorem characterTableDixon_unique_rows {G : Type v} [Group G] [Fintype G] [Deci
   TauCeti.characterTable_unique_rows (characterTable_eq d e he q out h)
 
 
+/-! #### Executable refinement: direct finite rows, class powers, per-row degrees
+
+NEW proposed executable definitions and honest theorem targets. None is an assertion
+that pinned native Solver.lean was optimized or that these new definitions were run.
+The original native solver aliases/theorems above remain the exhaustive reference.
+-/
+namespace ExecutableRefinement
+
+variable {G : Type v} [Group G] [Fintype G] [DecidableEq G]
+
+/-- Injective radix-p code on actual row values; no enumeration of all codes. -/
+def modularRowCode (d : ClassData G) (q : DixonPrimeData G)
+    (row : Fin d.numClasses → ZMod q.p) : ℕ :=
+  ∑ k, (row k).val * q.p ^ k.val
+
+def modularRowOfCode (d : ClassData G) (q : DixonPrimeData G)
+    (code : ℕ) : Fin d.numClasses → ZMod q.p :=
+  fun k => ((code / q.p ^ k.val : ℕ) : ZMod q.p)
+
+/-- Traverses the returned Finset itself, then sorts its actual NAT codes. -/
+def modularCentralRowsDirect (d : ClassData G) (q : DixonPrimeData G) :
+    List (Fin d.numClasses → ZMod q.p) :=
+  (((d.centralCharacterSearch (F := ZMod q.p)).image (modularRowCode d q)).sort
+    (fun a b : ℕ => a ≤ b)).map (modularRowOfCode d q)
+
+theorem modularRowOfCode_code (d : ClassData G) (q : DixonPrimeData G)
+    (row : Fin d.numClasses → ZMod q.p) :
+    modularRowOfCode d q (modularRowCode d q row) = row := by
+  sorry
+
+theorem modularCentralRowsDirect_spec (d : ClassData G) (q : DixonPrimeData G) :
+    (modularCentralRowsDirect d q).Nodup ∧
+      (modularCentralRowsDirect d q).toFinset = d.centralCharacterSearch ∧
+      (modularCentralRowsDirect d q).length = d.numClasses := by
+  sorry
+
+/-- Same representatives and native executable conjugacy-class lookup. -/
+def powerClass (d : ClassData G) (b : ℕ) (k : Fin d.numClasses) : Fin d.numClasses :=
+  d.index (d.rep k ^ b)
+
+def inverseClass (d : ClassData G) (k : Fin d.numClasses) : Fin d.numClasses :=
+  d.index ((d.rep k)⁻¹)
+
+def firstConjugate (e : ℕ) [NeZero e] : Fin e.totient :=
+  ⟨0, Nat.totient_pos.mpr (NeZero.pos e)⟩
+
+/-- A length-e scalar modular-inverse scan; never a tuple-of-permutations search. -/
+def alignmentExponent (e : ℕ) [NeZero e] (j : Fin e.totient) : ℕ :=
+  ((List.range e).find? fun b => decide
+    ((TauCeti.Cyclotomic.primitiveExponent e (firstConjugate e) * b) % e =
+      TauCeti.Cyclotomic.primitiveExponent e j % e)).getD 0
+
+theorem primitiveExponent_first (e : ℕ) [NeZero e] :
+    TauCeti.Cyclotomic.primitiveExponent e (firstConjugate e) =
+      if e = 1 then 0 else 1 := by
+  sorry
+
+theorem alignmentExponent_spec (e : ℕ) [NeZero e] (j : Fin e.totient) :
+    alignmentExponent e j < e ∧ Nat.Coprime (alignmentExponent e j) e ∧
+      (TauCeti.Cyclotomic.primitiveExponent e (firstConjugate e) * alignmentExponent e j) % e =
+        TauCeti.Cyclotomic.primitiveExponent e j % e := by
+  sorry
+
+theorem alignmentExponent_one (j : Fin (1 : ℕ).totient) :
+    alignmentExponent 1 j = 0 := by
+  sorry
+
+theorem powerClass_bijective_and_card (d : ClassData G) (e : ℕ)
+    (he : e = Monoid.exponent G) (b : ℕ) (hb : Nat.Coprime b e) :
+    Function.Bijective (powerClass d b) ∧
+      ∀ k, (d.classFinset (powerClass d b k)).card = (d.classFinset k).card := by
+  sorry
+
+def alignedResidues (d : ClassData G) (e : ℕ) [NeZero e] (q : DixonPrimeData G)
+    (row : Fin d.numClasses → ZMod q.p) (k : Fin d.numClasses) :
+    Fin e.totient → ZMod q.p :=
+  fun j => row (powerClass d (alignmentExponent e j) k)
+
+/-- Covariance follows from the native certificate/complex comparison and Galois
+power formula, with class-size and degree preservation; it is not an input oracle. -/
+theorem alignedResidues_eq_conjugateResidues (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) (q : DixonPrimeData G) (out : ExactCharTable d e)
+    (hs : d.IsCyclotomicCharacterTableSpec e out.omega out.table out.degree)
+    (i : Fin d.numClasses) (k : Fin d.numClasses) :
+    alignedResidues d e q
+      (fun l => TauCeti.Cyclotomic.conjugateResidues q.root (out.omega i l)
+        (firstConjugate e)) k =
+      TauCeti.Cyclotomic.conjugateResidues q.root (out.omega i k) := by
+  sorry
+
+def liftPowerRow (d : ClassData G) (e : ℕ) [NeZero e] (q : DixonPrimeData G)
+    (row : Fin d.numClasses → ZMod q.p) : Fin d.numClasses → Cyclotomic e :=
+  fun k => TauCeti.Cyclotomic.lift e q.root (alignedResidues d e q row k)
+
+/-- n/s_k is exact by the class-size divisibility theorem owned below. -/
+def degreeNormNumerator (d : ClassData G) (e : ℕ)
+    (omega : Fin d.numClasses → Cyclotomic e) : Cyclotomic e :=
+  ∑ k, ((Fintype.card G / (d.classFinset k).card : ℕ) : Cyclotomic e) *
+    omega k * omega (inverseClass d k)
+
+theorem classSize_dvd_card (d : ClassData G) (k : Fin d.numClasses) :
+    (d.classFinset k).card ∣ Fintype.card G := by
+  sorry
+
+/-- Only O(sqrt(n)) scalar candidates per row, with exact cyclotomic equality. -/
+def recoverDegreeFromNumerator? (_d : ClassData G) (e : ℕ)
+    (t : Cyclotomic e) : Option ℕ :=
+  (List.range (Nat.sqrt (Fintype.card G) + 1)).find? fun m => decide
+    (0 < m ∧ m ∣ Fintype.card G ∧
+      (m : Cyclotomic e) ^ 2 * t =
+        (Fintype.card G : Cyclotomic e) ^ 2)
+
+def recoverDegree? (d : ClassData G) (e : ℕ)
+    (omega : Fin d.numClasses → Cyclotomic e) : Option ℕ :=
+  recoverDegreeFromNumerator? d e (degreeNormNumerator d e omega)
+
+theorem degreeNormNumerator_of_spec (d : ClassData G) (e : ℕ) [NeZero e]
+    (out : ExactCharTable d e)
+    (hs : d.IsCyclotomicCharacterTableSpec e out.omega out.table out.degree)
+    (i : Fin d.numClasses) :
+    degreeNormNumerator d e (out.omega i) =
+      ((Fintype.card G / out.degree i : ℕ) : Cyclotomic e) ^ 2 := by
+  sorry
+
+/-- Positivity and the degree-square identity give uniqueness, no real square root. -/
+theorem recoverDegree?_of_spec (d : ClassData G) (e : ℕ) [NeZero e]
+    (out : ExactCharTable d e)
+    (hs : d.IsCyclotomicCharacterTableSpec e out.omega out.table out.degree)
+    (i : Fin d.numClasses) : recoverDegree? d e (out.omega i) = some (out.degree i) := by
+  sorry
+
+/-- Owned structural recursion avoids the private native map specialization.
+Its total integer quotient agrees with the coefficient map for every denominator. -/
+def quotientCoefficients (n : ℕ) : List ℤ → List ℤ
+  | [] => []
+  | c :: cs => (c / (n : ℤ)) :: quotientCoefficients n cs
+
+theorem quotientCoefficients_eq_map (n : ℕ) (xs : List ℤ) :
+    quotientCoefficients n xs = xs.map (fun c => c / (n : ℤ)) := by
+  induction xs with
+  | nil => rfl
+  | cons c cs ih =>
+    change (c / (n : ℤ)) :: quotientCoefficients n cs =
+      (c / (n : ℤ)) :: cs.map (fun a => a / (n : ℤ))
+    exact congrArg (List.cons (c / (n : ℤ))) ih
+
+/-- The native quotient helper is private; this is its exposed coefficient adapter,
+not a second exact ring. The unchanged native checker validates every division. -/
+def divideClassSize (e : ℕ) (x : Cyclotomic e) (n : ℕ) : Cyclotomic e :=
+  TauCeti.Cyclotomic.ofCoeffList e (quotientCoefficients n x.coeffs)
+
+theorem divideClassSize_eq_coeff_map (e : ℕ) (x : Cyclotomic e) (n : ℕ) :
+    divideClassSize e x n =
+      TauCeti.Cyclotomic.ofCoeffList e (x.coeffs.map fun c => c / (n : ℤ)) := by
+  unfold divideClassSize
+  rw [quotientCoefficients_eq_map]
+
+/-- Proposed finite refinement. Direct rows and class powers build ONE candidate;
+degree Option traversal short-circuits. No call to the exhaustive native solver. -/
+def dixonPowerAligned? (d : ClassData G) (e : ℕ) [NeZero e]
+    (_he : e = Monoid.exponent G) (q : DixonPrimeData G) : Option (ExactCharTable d e) :=
+  let rows := modularCentralRowsDirect d q
+  if rows.length = d.numClasses then
+    let ratios := List.ofFn (alignmentExponent e)
+    let powers := List.ofFn fun j : Fin e.totient =>
+      List.ofFn fun k : Fin d.numClasses => powerClass d (ratios.getD j.val 0) k
+    let sizes := List.ofFn fun k : Fin d.numClasses => (d.classFinset k).card
+    let inverses := List.ofFn (inverseClass d)
+    let entries := List.ofFn fun i : Fin d.numClasses =>
+      List.ofFn fun k : Fin d.numClasses =>
+        TauCeti.Cyclotomic.lift e q.root fun j =>
+          (rows.getD i.val 0) ((powers.getD j.val []).getD k.val (d.index 1))
+    let omega : Matrix (Fin d.numClasses) (Fin d.numClasses) (Cyclotomic e) :=
+      fun i k => (entries.getD i.val []).getD k.val 0
+    let numerator := fun i : Fin d.numClasses =>
+      ∑ k : Fin d.numClasses,
+        ((Fintype.card G / sizes.getD k.val 1 : ℕ) : Cyclotomic e) * omega i k *
+          omega i (inverses.getD k.val (d.index 1))
+    match (List.finRange d.numClasses).mapM
+        (fun i => recoverDegreeFromNumerator? d e (numerator i)) with
+    | none => none
+    | some degrees =>
+      let degree : Fin d.numClasses → ℕ := fun i => degrees.getD i.val 0
+      let table : Matrix (Fin d.numClasses) (Fin d.numClasses) (Cyclotomic e) :=
+        fun i k => divideClassSize e ((degree i : Cyclotomic e) * omega i k)
+          (sizes.getD k.val 1)
+      if d.cyclotomicCharacterTableChecker e omega table degree then
+        some { omega := omega, table := table, degree := degree }
+      else none
+  else none
+
+/-- Exact comparison of all three fields, with labeled columns fixed. -/
+def SameUpToRows (d : ClassData G) (e : ℕ) (a b : ExactCharTable d e) : Prop :=
+  ∃ sigma : Equiv.Perm (Fin d.numClasses),
+    (∀ i k, a.omega i k = b.omega (sigma i) k) ∧
+    (∀ i k, a.table i k = b.table (sigma i) k) ∧
+    ∀ i, a.degree i = b.degree (sigma i)
+
+theorem dixonPowerAligned?_sound (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) (q : DixonPrimeData G) (out : ExactCharTable d e)
+    (h : dixonPowerAligned? d e he q = some out) :
+    d.IsCyclotomicCharacterTableSpec e out.omega out.table out.degree := by
+  sorry
+
+/-- Full bounded-certificate completeness, including a deterministic modular row order. -/
+theorem dixonPowerAligned?_complete (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) (q : DixonPrimeData G) (cert : ExactCharTable d e)
+    (hs : d.IsCyclotomicCharacterTableSpec e cert.omega cert.table cert.degree)
+    (hb : ∀ i k (j : Fin e.totient), 2 * ((cert.omega i k).coeff j.val).natAbs < q.p) :
+    ∃ out, dixonPowerAligned? d e he q = some out ∧ SameUpToRows d e out cert := by
+  sorry
+
+theorem dixonPowerAligned?_strong_some (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) (q : DixonPrimeData G)
+    (hq : 2 * centralCoefficientBound G e < q.p) :
+    (dixonPowerAligned? d e he q).isSome = true := by
+  sorry
+
+/-- Existing reference completeness remains; first answers need not coincide literally. -/
+theorem dixonPowerAligned?_reference_comparison (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) (q : DixonPrimeData G)
+    (hq : 2 * centralCoefficientBound G e < q.p) (a b : ExactCharTable d e)
+    (ha : dixonPowerAligned? d e he q = some a)
+    (hb : characterTableDixon d e he q = some b) : SameUpToRows d e a b := by
+  sorry
+
+/-- Same native prime candidates; derived strong-bound filter is actual computation. -/
+def characterTablePowerSearch? (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) (fuel : ℕ) : Option (ExactCharTable d e) :=
+  (TauCeti.DixonPrimeData.candidates e he (Fintype.card G) Nat.card_eq_fintype_card.symm fuel).findSome?
+    fun q => if 2 * centralCoefficientBound G e < q.p then dixonPowerAligned? d e he q else none
+
+theorem characterTablePowerSearch?_eventually_some (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) :
+    ∃ fuel, (characterTablePowerSearch? d e he fuel).isSome = true := by
+  sorry
+
+theorem characterTablePowerSearch?_sound (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) (fuel : ℕ) (out : ExactCharTable d e)
+    (h : characterTablePowerSearch? d e he fuel = some out) :
+    IsCharacterTableSpec G (d.complexTableOfCyclotomic e out.table) := by
+  sorry
+
+theorem characterTablePowerSearch?_prefix (d : ClassData G) (e : ℕ) [NeZero e]
+    (he : e = Monoid.exponent G) {fuel fuel' : ℕ} (hfuel : fuel ≤ fuel')
+    (out : ExactCharTable d e) (h : characterTablePowerSearch? d e he fuel = some out) :
+    characterTablePowerSearch? d e he fuel' = some out := by
+  sorry
+
+end ExecutableRefinement
+
 /-! ## D. Structural theorems and worked families
 
 Three classical applications of Deliverable A, off the Dixon-Schneider critical path: the Frobenius-Schur
