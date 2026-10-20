@@ -534,6 +534,39 @@ theorem brownian_quadraticVariation (F : Filtration ℝ≥0 mΩ)
     ∀ᵐ ω ∂P, ∀ t, quadraticVariation F P B t ω = (t : ℝ) := by
   sorry
 
+/-- S5.5 original-process Lévy characterization on a raw filtration. Bare native
+locality does not supply the literal strong-adaptation hypothesis. All time identities
+and path continuity are on common full-measure events. -/
+theorem levy_characterization_adapted (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (M : ℝ≥0 → Ω → ℝ)
+    (hAdapt : StronglyAdapted F M) (hLocal : IsLocalMartingale F P M)
+    (hCont : ∀ᵐ ω ∂P, Continuous (fun t => M t ω))
+    (hZero : ∀ᵐ ω ∂P, M 0 ω = 0)
+    (hQV : ∀ᵐ ω ∂P, ∀ t, quadraticVariation F P M t ω = (t : ℝ)) :
+    IsFilteredBrownian F P M := by
+  sorry
+
+/-- S5.5 bare-locality interface: select an indistinguishable predictable Brownian
+version via the adapted surrogate and lagged predictable approximation. This conclusion
+does not assert adaptation of the arbitrary original representative. -/
+theorem exists_predictable_brownian_of_localMartingale (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (M : ℝ≥0 → Ω → ℝ)
+    (hLocal : IsLocalMartingale F P M)
+    (hCont : ∀ᵐ ω ∂P, Continuous (fun t => M t ω))
+    (hZero : ∀ᵐ ω ∂P, M 0 ω = 0)
+    (hQV : ∀ᵐ ω ∂P, ∀ t, quadraticVariation F P M t ω = (t : ℝ)) :
+    ∃ B, IsFilteredBrownian F P B ∧ IsStronglyPredictable F B ∧
+      Indistinguishable P M B := by
+  sorry
+
+/-- The native Brownian law/continuity predicate plus locality and literal adaptation
+implies the filtration-relative Brownian conclusion. Future independence is proved. -/
+theorem filteredBrownian_of_brownianLaw_localMartingale (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (M : ℝ≥0 → Ω → ℝ)
+    (hLaw : IsBrownianReal M P) (hLocal : IsLocalMartingale F P M)
+    (hAdapt : StronglyAdapted F M) : IsFilteredBrownian F P M := by
+  sorry
+
 /-- Lagged predictable approximations select a predictable version even when the
 raw Brownian predicate asserts continuity only almost surely. -/
 theorem exists_predictable_brownian_version (F : Filtration ℝ≥0 mΩ)

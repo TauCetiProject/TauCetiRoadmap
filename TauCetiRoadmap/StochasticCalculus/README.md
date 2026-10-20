@@ -387,7 +387,10 @@ constructions pathwise.
    an arbitrary filtration with no completeness or right-continuity assumption, every ambient-
    product-measurable adapted process into a Polish space has a progressive modification, meaning
    equality almost surely at each fixed time. This is not indistinguishability and requires no
-   path regularity or usual conditions. Prove it acyclically: scalar conditional-expectation
+   path regularity or usual conditions. Use Ondreját–Seidler, *On existence of
+   progressively measurable modifications*, ECP18(2013), no.20,
+   [Theorem0.1](https://doi.org/10.1214/ECP.v18-2548), for this exact distinction between
+   fixed-time modification and indistinguishability. Prove it acyclically: scalar conditional-expectation
    paths are regulated in L¹ for arbitrary filtrations; dyadic representatives and the countable
    set of one-sided discontinuities give progressive scalar versions; indicators extend by a
    π/λ or monotone-class argument; countable-range processes and uniformly accurate
@@ -1521,17 +1524,43 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    process `exp(αM−α²A/2)` is local for every real α. Also prove the source p.173 L² implication: when `A=[M]`, if M is an L² martingale, `Z₀^α∈L²`, and `E∫₀ᵗ(Z_s^α)²dA_s<∞` for every finite t, then `Z^α` is an L² martingale, by its stochastic-integral representation and Itô isometry. For the uncentered form,
    localize the F₀-measurable finite exponential initial value; no global integrability
    of that initial value is assumed. No measure change from a local density of expectation less than1.
-5. **S5.5 Lévy characterization.** A centered continuous real local
-   martingale with `[M]_t=t` is Brownian relative to the filtration in which it is local; prove conditional
-   characteristic functions/independence rather than only its one-time law. Matrix bracket
-   `t id` gives vector Brownian. Prove also the filtered Wiener-law corollary: if a
-   continuous process M has Wiener law on continuous path space and is a continuous local
-   martingale for F, then it is Brownian relative to F. Transport deterministic-partition
-   quadratic-variation convergence through its path law, compare it with S4's unique
-   continuous-martingale QV to obtain `[M]_t=t` outside one null set, and apply this Lévy
-   characterization. Do not assume independence of future increments from F as an input to
-   that corollary. For finite F₀-measurable M₀, the uncentered conclusion means `M=M₀+B`
-   with B standard F-Brownian; M itself is standard only when M₀=0 a.s.
+5. **S5.5 Lévy characterization and Brownian versions.** For the original real process M,
+   assume literal `StronglyAdapted F M`, native
+   `Locally (fun Y => Martingale Y F P) F M P`, continuity outside one common null set,
+   `M₀=0` a.s., and `[M]_t=t` simultaneously for all t outside one null set.
+   Prove `IsFilteredBrownian F P M`: conditional characteristic functions give
+   `E(exp(iα(M_t−M_s))|F_s)=exp(−α²(t−s)/2)` for every s≤t and real α,
+   hence centered Gaussian increments independent of F_s. Independence is a conclusion,
+   not an additional premise. Use S2.4's actual raw bounded localizers, the stopped
+   exponential identities and bounded conditional convergence. No completeness or right
+   continuity of F is imposed. Literal adaptation is separate from native locality.
+
+   For a finite-dimensional vector M, retain strong adaptation and common-null path
+   continuity, centered start, coordinate native locality and the full cross-bracket
+   identities `[Mⁱ,Mʲ]_t=δ_ij t`. Apply the scalar conditional characteristic-function
+   argument to every linear projection to prove the joint conditional Gaussian law,
+   independent vector increments and the filtered vector Brownian conclusion.
+   Separate scalar Brownian coordinate conclusions do not establish that joint law.
+
+   Prove the filtered Wiener-law corollary for an original **strongly adapted** M:
+   if its continuous-path law is Wiener and it is a native local martingale for F,
+   transport deterministic-partition QV convergence through the path law and use S4's
+   uniqueness to obtain the simultaneous bracket identity, then apply this characterization.
+   Do not assume future-increment independence from F. For finite F₀-measurable M₀,
+   apply the centered theorem to M−M₀; the conclusion is `M=M₀+B` with B standard
+   F-Brownian, and M itself is standard only when M₀=0 a.s.
+
+   Separately, for **bare native locality**, common-null continuous paths, centered start
+   and the same bracket (or Wiener-path-law hypotheses), construct a predictable
+   F-Brownian version B with `∀ᵐω, ∀t, B_t(ω)=M_t(ω)`. First use S2.4's pointwise
+   limit of the native stopped martingales (zero on limit failure) to obtain a literally
+   strongly adapted surrogate, then S0.2's lagged predictable version. Prove that it
+   retains native locality through the actual stopped-stage/descent adapter and that
+   S4's indistinguishability/uniqueness comparison transports QV. Apply the original-
+   process theorem to this selected version. The uncentered branch centers at its
+   selected finite F₀-measurable initial value, equal to M₀ a.s. This proves the original
+   process's Brownian path law without claiming its literal raw adaptation. Preserve
+   both interfaces under indistinguishable replacement at exactly these stated scopes.
 
 ## S6. Brownian paths, Markov and potential theory
 
@@ -1643,9 +1672,12 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    At or outside the interval the exit time is zero. Relate open- and closed-interval
    exit times using Brownian immediate boundary crossing, rather than continuity alone.
    For every proper open `A⊊ℝ` and start x, prove the source p.247 finiteness assertion. If x∉A, the exit time is zero; otherwise choose y∉A and use the a.s.-finite one-dimensional level-hitting time of y to bound the first exit from A. Retain the source’s separate compressed two-dimensional recurrence argument as a source proof route, not as a premise of this proof.
-   For the level transform with x<a and `α=√(2θ)`, the exponential residual on
+   For θ>0, x<a and `α=√(2θ)`, the exponential residual on
    `{τ_a>t}` is bounded by `exp(αa−θt)`, which tends to zero. This supplies the
-   limit needed for bounded-time optional sampling; reflection sends both x and a
+   limit needed for bounded-time optional sampling. At θ=0 use the previously proved
+   a.s.-finite hitting time/probability normalization, or the θ↓0 limit of the positive-
+   parameter transform by bounded convergence; the displayed residual bound alone is1.
+   Reflection sends both x and a
    to −x and −a for x>a. The x=a case has τ_a=0. Preserve these starting-point
    conventions when deriving the density and its analytic Laplace transform.
    Also derive the exact truncated Gaussian exponential identity, for t>0 and α∈ℝ,
@@ -1966,13 +1998,21 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    constructions. A continuous local martingale is constant on its QV plateaus; prove this
    before asserting continuity of the time-changed process.
 2. **S7.2 Dambis–Dubins–Schwarz.** For centered continuous local M with `[M]_∞=∞` a.s.,
-   construct `B_s=M_{T(s)}` in ℱ_{T(s)}, show Brownian and `M_t=B_[M]_t`. Prove integral
+   first use S2.4/S0.2's selected predictable indistinguishable version M̃. Construct
+   `B_s=M̃_{T(s)}` in ℱ_{T(s)} and prove its literal strong adaptation there, common-null
+   continuity and bracket s before applying S5.5's original-process characterization.
+   Show Brownian and `M_t=B_[M]_t` simultaneously a.s. Preserve the selected adapted
+   versions through the inverse clock, stopping filtration and independent-noise product
+   extension; do not infer literal adaptation of an arbitrary raw original from pathwise
+   a.s. equality. Prove integral
    substitution and localized clock compatibility. If the terminal bracket is finite, first
    identify a stopped Brownian motion, then extend with independent Brownian noise on a
    product probability space; do not claim a full BM on the original space without that
    extension. Own the vector conformal-clock theorem as follows. For centered
    continuous local martingales `Z=(Z¹,…,Zᵈ)` with
-   `[Zⁱ,Zʲ]_t=δ_ij A_t`, where A is continuous increasing and A₀=0, prove
+   `[Zⁱ,Zʲ]_t=δ_ij A_t`, where A is continuous increasing and A₀=0, select the joint
+   predictable adapted version and retain its cross brackets through the common clock.
+   Prove literal strong adaptation of that vector in the stopping filtration, then prove
    that the common inverse-clock process is d-dimensional Brownian motion up
    to the terminal clock `A_∞`. Use the vector Lévy characterization to prove
    independent components; separate scalar DDS applications do not imply this.
@@ -2348,8 +2388,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    these exit estimates give global uniqueness. For d-dimensional standard Brownian motion B started at zero and deterministic x≠0,
    prove the radial identification `R_t=‖x+B_t‖` and the stochastic-integral identity
    `W_t=Σ_i∫_0^t ((x+B_s)^i/‖x+B_s‖)dB_s^i`.
-   Compute all cross brackets, prove `[W]_t=t` and W₀=0, and apply S5.5's Lévy
-   characterization on the same filtration. The nonhitting proof precedes use of
+   Use S3's selected strongly progressive stochastic integral for W, retaining its literal
+   strong adaptation and common-null continuity. Compute all cross brackets, prove
+   `[W]_t=t` and W₀=0, and apply S5.5's adapted original-process Lévy characterization
+   on the same filtration; adaptation comes from this construction. The nonhitting proof precedes use of
    the singular coefficients. Prove strong Markov, Brownian scaling and generator
    `Lf(r)=f''(r)/2+(d−1)f'(r)/(2r)` on smooth compactly supported functions in
    `(0,∞)`, with the stopped Itô/martingale identity. Derive the radial strong Markov property by applying
@@ -2461,7 +2503,12 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    direction construct the measurable finite-dimensional Moore–Penrose inverse of σ by
    regularized inverses and spectral calculus, prove the range/projection identities, and
    construct the driving Brownian motion from the coordinate local martingale plus independent
-   noise on an extension, using S5 Lévy characterization. Rank-changing/degenerate σ must
+   noise on an extension. Retain the coordinate martingale's literal strong adaptation,
+   use S3's selected progressive integrals against it, and prove that these remain strongly
+   adapted in the extended filtration. Prove common-null continuity, the zero start and
+   all matrix brackets of the reconstructed noise before using S5.5's vector Lévy
+   characterization. A bare-locality input first uses S5.5's predictable-version interface;
+   do not claim the arbitrary raw representative is adapted. Rank-changing/degenerate σ must
    not be treated as invertible. Prove conditional-law measurability and strong-Markov
    well-posedness. For autonomous bounded spatial C_b^4 coefficients prove that C_c^∞ is a
    core for the C₀ Feller generator. Use OneParameterSemigroups Part A's single
@@ -2571,7 +2618,7 @@ Keep literal transcript statements and the adopted theorem targets in separate f
 | 161–163 | “Standard filtration” is used informally before completeness/right-continuity are defined. | State usual conditions explicitly; prove natural filtration augmentation rather than inferring completeness from the source label. |
 | 168 | “Continuous local martingale hence automatically L²” is overbroad. | Preserve the phrase; state only L² conclusions supported by fixed-time integrability/localization hypotheses. |
 | 173 | The source states an L² conclusion for `Z^α` with bracket `A`. | S5.4 states `A=[M]`, `M∈L²`, `Z₀^α∈L²`, and `E∫₀ᵗ(Z_s^α)²dA_s<∞` for each finite t, then derives the conclusion by Itô isometry. |
-| 175 | Lévy characterization centers increments at M₀. | S5.5 proves the centered theorem and states separately that M is Brownian started at its finite F₀-measurable M₀. |
+| 175 | Lévy characterization centers increments at M₀. | S5.5's original-process theorem retains strong adaptation and centers at finite F₀-measurable M₀; bare native locality gives the separate indistinguishable predictable Brownian version. |
 | 176 | The Feynman–Kac argument uses a one-dimensional spatial-null-set condition in dimension d. | Require d-dimensional Lebesgue nullity for the zero-occupation argument; stopped Brownian coordinates are local martingales, not finite variation. |
 | 184 | The shares solution invokes a compressed rectangle-error expression `−(b−a)h y′(ξ)` and small individual shares. | Preserve the formula without inferring its unclear constant or subscript. The acceptance example specifies a sequential uniform finite-lot rule and proves an explicit 5/N conditional-mean error and its dollar scaling. |
 | 185 | The source gives biased and fair gambler's-ruin probabilities. | Prove the displayed biased formula for `0<p,q<1`, p≠q, positive integer distances, and the fair value `s/(r+s)` by bounded-exit sampling; preserve p.1's degenerate exception. |
@@ -2585,7 +2632,7 @@ Keep literal transcript statements and the adopted theorem targets in separate f
 
 The page numbers refer to the source transcripts. Each row distinguishes the literal statement from the mathematical theorem to prove; retain both.
 
-The remaining source-specific theorem targets are owned in the following milestones, with literal statements separated from corrected forms: p.16 conditional Jensen belongs to S2.1 with `X∈L¹`, `φ(X)∈L¹` (or a separately stated nonnegative extended-integral form); p.19 event-restricted product/iterated-integral identity belongs to S6.1 and uses the independent-law adapter immediately above; the Wiener-path-law F-martingale corollary belongs to S5.5 via quadratic variation and Lévy, without assuming future independence; textbook Theorem4.8.1 uses the centered Lévy statement and separately identifies M as Brownian started at its finite `F₀`-measurable M₀; textbook Theorem 6.2.3 belongs to S9.1–S9.2 with bounded Lipschitz coefficients, Brownian noise, F₀ initial data, uniqueness up to indistinguishability/law, and its displayed supremum estimate.
+The remaining source-specific theorem targets are owned in the following milestones, with literal statements separated from corrected forms: p.16 conditional Jensen belongs to S2.1 with `X∈L¹`, `φ(X)∈L¹` (or a separately stated nonnegative extended-integral form); p.19 event-restricted product/iterated-integral identity belongs to S6.1 and uses the independent-law adapter immediately above; the Wiener-path-law F-martingale corollary belongs to S5.5 via quadratic variation and Lévy with literal strong adaptation for the original process and no assumed future independence; bare locality supplies the separate predictable Brownian version. Textbook Theorem4.8.1 retains its standard-filtration source hypothesis, uses the centered Lévy statement and separately identifies M as Brownian started at its finite `F₀`-measurable M₀; textbook Theorem 6.2.3 belongs to S9.1–S9.2 with bounded Lipschitz coefficients, Brownian noise, F₀ initial data, uniqueness up to indistinguishability/law, and its displayed supremum estimate.
 
 The independent-sum martingale is an S2.1 application under integrability. The p.152 partition-refinement variation is S0.0; retain the source’s undefined `k=0` summand as an erratum. The three-dimensional inverse-radius limit for fixed deterministic `x≠0` is S6.4. The p.173 exponential L² implication is S5.4 with the explicit hypotheses stated there. The biased-ruin formula and fair-coin limit are S2.3 examples with bounded-exit conditions; retain the p.1 `p=1,q=0` degenerate exception. Open-set exit measurability is S0.4; proper-open-set one-dimensional exit finiteness is S6.2. The anticipative right-endpoint sum is the explicit S4.2 adapter above, consumed by S3.5. The rotation-invariant probability uniqueness and disk Poisson kernel with angular normalization are S6.5.0–S6.5.1. The OU explicit solution, Stratonovich `e^B` example, uncentered Lévy statement, Scheffé converse, event-form Doob inequalities, and strict p.101 localizer are separate adapters/examples in S9.4, S5.3/S5.5, S2.1/S2.2, and S3.4 respectively. Financial corrections are owned by FinancialMathematics M0.4; SC supplies the GBM and Gaussian-payoff interfaces. These are source-specific targets, not duplicate measure or finance libraries.
 
