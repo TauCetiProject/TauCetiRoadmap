@@ -10,7 +10,7 @@ It also owns the coherent multiplicative refinement of the L-to-Tate comparison 
 
 The foundations are supplied by **GeometryOfNumbersAndQuadraticArithmetic**, Layer 6, especially §6.8a: perfect derived enhancements, coefficient dualities, Poincaré categories and objects, isotropic surgery, symmetric/quadratic/genuine structures, their shift comparisons, `GW` and `L` spectra, hermitian bordification, localization, the fundamental square and the Hebestreit–Steimle comparison. Here the metabolic category receives the relative-form and arrow-duality API needed for bounded Lagrangian surgery. The generic shift equivalence belongs to the supplier; it is an input, rather than a separate target here. The supplier's integral calculations in §6.10a provide the numerical checks over `ℤ`. Its heart theorem for symmetric L-theory remains the owner of the duality-exchanges-halves result. Our symmetric surgery instead permits a duality with a nonzero finite cohomological bound.
 
-The localization and dévissage theory of Dedekind rings belongs to that roadmap's §6.9 and **GeometryOfNumbersAndQuadraticArithmeticPartII**. The latter also owns dyadic Dedekind L-group tables. The homotopy limit problem and Grothendieck–Witt groups of `ℤ` belong to §§6.10–6.11 of the first roadmap. **QuadraticFormInvariants**, Layer 4, owns the Witt ring and fundamental ideal of a field of characteristic different from two; the comparison here uses that ring. **StablePeriodicCurved**, Layer 4, already supplies the uniform projective-dimension predicate for finite global dimension. We use its left-module version by passing to the opposite ring, and introduce no competing global-dimension predicate. General resolution comparison and the construction of ordinary derived categories are also inputs, rather than targets.
+Dedekind localization and dévissage are supplied by GeometryOfNumbersAndQuadraticArithmetic §6.9; dyadic Dedekind L-group tables are outside this roadmap's scope. The homotopy limit problem and Grothendieck–Witt groups of `ℤ` belong to its §§6.10–6.11. **QuadraticFormInvariants**, Layer 4, owns the Witt ring and fundamental ideal of a field of characteristic different from two; the comparison here uses that ring. The Arf classification over `𝔽₂` is constructed here in §7.9. **StablePeriodicCurved**, Layer 4, already supplies the uniform projective-dimension predicate for finite global dimension. We use its left-module version by passing to the opposite ring, and introduce no competing global-dimension predicate. General resolution comparison and the construction of ordinary derived categories are also inputs, rather than targets.
 
 **EnhancedDerivedSheaves**, Layers E0 and E5, supplies stable categories, spectra, algebra and module objects, and compact objects; its §0.1 supplies the standard t-structure on enhanced derived modules. For a general stable category, §6.0 below lifts Mathlib's t-structure on its homotopy category to coherent truncation adjunctions. Group completion is consumed through GeometryOfNumbersAndQuadraticArithmetic §6.1.6 and its adapter to **GeneralizedCohomology** §G2.8. **GeneralizedCohomology**, §G5.4, supplies the commutative ring spectrum `ko` and its identification with the connective cover of `KO`, without a Tate calculation.
 
@@ -75,7 +75,7 @@ Use **StablePeriodicCurved** Layer 4, `HasFiniteGlobalDimension`, as the uniform
 
 ## How to read the build
 
-Layers 0–1 fix coefficient operations and the maps between invariants, culminating in Bott–Genauer and Karoubi periodicity. Layers 2–3 express truncation and connectivity through bounded projective complexes and relative Lagrangians. Layer 4 proves quadratic surgery and the short-complex comparison. Layer 5 extends the surgery argument to connective ring spectra. Layers 6–7 give symmetric surgery, the sharp comparison ranges and field computations. Layer 8 combines these with the fundamental square to obtain the classical fibre sequences and comparison of Grothendieck–Witt groups. A *Needs* sentence cites named supplier contracts above or earlier mathematical subsections. Suggested.lean contains representative signatures only where the pinned libraries already have the carriers; this README is the full specification.
+Layers 0–1 fix coefficient operations and the maps between invariants, culminating in Bott–Genauer and Karoubi periodicity. Layers 2–3 express truncation and connectivity through bounded projective complexes and relative Lagrangians. Layer 4 proves quadratic surgery and the short-complex comparison. Layer 5 extends the surgery argument to connective ring spectra. Layers 6–7 give symmetric surgery, the sharp comparison ranges and field computations. In Layer 7 build §§7.1–7.2, then §7.9 (including the Arf classification), then §§7.3–7.8 and §§7.10–7.11; §7.3 uses `field_l_groups`. Layer 8 combines these with the fundamental square to obtain the classical fibre sequences and comparison of Grothendieck–Witt groups. A *Needs* sentence cites named supplier contracts above or mathematical subsections earlier in this build order. Suggested.lean contains representative signatures only where the pinned libraries already have the carriers; this README is the full specification.
 
 ## Layer 0: coefficient operations and the flavour family
 
@@ -136,7 +136,7 @@ Define the flavour notation and its natural comparison maps as follows.
 - `F^{−gs}(ℤ)` uses the coefficient `ℤ(−1)`: `GW^{−gs}_0(ℤ) = ℤ` (symplectic forms, generated by the hyperbolic alternating plane) while `GW^{gs}_0(ℤ) = ℤ⊕ℤ`, so `F^{−α}` is a different invariant, not a regrading of `F^α`.
 - `L^gs_0(ℤ) → L^s_0(ℤ)` is the identity on signature, while `L^gq_0(ℤ) → L^gs_0(ℤ)` is multiplication by 8 (GeometryOfNumbersAndQuadraticArithmetic §6.10a).
 
-These are the maps compared throughout Paper III, §§1.2–1.3. The genuine symmetric notation is used in the short-complex comparison (Theorem 1.2.22, p. 21) and in the dyadic tables of GeometryOfNumbersAndQuadraticArithmeticPartII, Layers DA.0–DA.4.
+These are the maps compared throughout Paper III, §§1.2–1.3. The genuine symmetric notation is used in the short-complex comparison (Theorem 1.2.22, p. 21).
 
 *Needs:* GeometryOfNumbersAndQuadraticArithmetic §6.8a; §0.1.
 
@@ -296,7 +296,9 @@ This gives `karoubi_periodicity_special_cases`.
 
 **Checks.**
 
-- The last equivalence retains `Q^{≥3}_R` on the right. Its full derived functor, rather than `Q^gq_R` or a classical form group, specifies that term.
+- For `R = ℤ`, `π₁Q^{≥3}_ℤ(ℤ[0]) = ℤ/2`, whereas `Q^gq_ℤ(ℤ[0])` is discrete. The fibre sequence `Q^{≥3}_ℤ(ℤ[0]) → Q^{≥2}_ℤ(ℤ[0]) → Σ²H(ℤ/2)` detects the difference (the genuine pullback and Paper I, Proposition 4.2.22, p. 73).
+- For `R = ℚ` the Tate term vanishes, so the last term also agrees with the quadratic endpoint.
+- For `R = 𝔽₂` the 2-torsion-free hypothesis fails: `Q^ge_R → Q^gs_R` misses the symmetric line `⟨1⟩`.
 
 *Needs:* §1.4; §0.3.
 
@@ -351,7 +353,8 @@ Provide generator tests and connectivity propagation for the two bounds.
 - Over `𝔽₂`, `Q^gs` is 2-symmetric but not 3-symmetric: its fibre over `R` is `τ_{≤−2}ΩH𝔽₂^{tC₂}`, with `π_{−2} = Ĥ^1(C₂;𝔽₂) = 𝔽₂ ≠ 0`.
 - Over `ℤ`, `Q^gs` is 3-symmetric because `Ĥ^1(C₂;ℤ) = 0` kills `π_{−2}` of the fibre; the bound depends on `M`, not only on `m`.
 - `Q^s_ℤ` is not `m`-quadratic for any `m`: the cofibre of `Q^q_ℤ(ℤ) → Q^s_ℤ(ℤ)` is `Hℤ^{tC₂}`, whose `π_{−2k} = ℤ/2` for all `k`, so it is not bounded below.
-- `Q^s_M` is `r`-symmetric for all `r`; `Q^q_M` is `m`-quadratic for all `m`.
+- Over `𝔽₂`, `Q^gs` is 0-quadratic but not 1-quadratic: the cofibre on `𝔽₂[0]` is `τ_{≥0}H𝔽₂^{tC₂}`, with nonzero `π₀ = 𝔽₂`.
+- Over `𝔽₂`, `Q^gq` is 2-quadratic but not 3-quadratic: the corresponding cofibre is `τ_{≥2}H𝔽₂^{tC₂}`, with nonzero `π₂ = 𝔽₂`.
 
 Quadratic surgery uses the `m`-bound (Paper III, Proposition 1.2.6, p. 16); bounded comparison and symmetric surgery use the `r`-bound (Lemma 1.2.24, p. 22 and Proposition 1.3.1, p. 27). They yield the ranges `2m−3` and `d−2r+3` (Corollaries 1.2.12 and 1.3.9). Arbitrary form parameters give both bounds zero, subject to their extension contract (Remark 1.3.17, p. 32).
 
@@ -396,9 +399,9 @@ This gives `width_criterion`. Its one-sided ordinary-complex milestone is `exist
 
 **Checks.**
 
-- `X = ℤ/2[0] ∈ D^p(ℤ)` (resolved by `ℤ →² ℤ` in degrees `[0,1]`) is 0-connective and `Dℤ/2 ≃ ℤ/2[−1]` is `(−1)`-connective, so it is represented in `[0,1]` and not in `[0,0]`.
-- `P[0]` for `P` projective is 0-connective with 0-connective dual, so it is represented in `[0,0]`.
-- The zero complex has a projective representative in every interval `k≤l`. The condition `k≤l` prevents a nonzero single-degree complex from being assigned an empty support interval.
+- `X = ℤ/2[0] ∈ D^p(ℤ)` (resolved by `ℤ →² ℤ` in degrees `[0,1]`) is 0-connective and `Dℤ/2 ≃ ℤ/2[−1]` is `(−1)`-connective, so it is represented in `[0,1]` and not in `[0,0]`. `intTwoTerm_projective_width` states this for Mathlib's two-term complex, with `H₀ = ℤ/2` and no other homology; `zmod_two_not_projectiveDimension_le_zero` excludes a projective model supported in degree zero.
+- `P[0]` for `P` finitely generated projective is 0-connective with 0-connective dual, so it is represented in `[0,0]`. `width_single_projective` gives the finite-projective terms, support and homology of `P[k]` for every integer `k`.
+- The zero complex has a projective representative in every interval `k≤l` (`width_zero_complex`, also for any complex that is a zero object). The condition `k≤l` prevents a nonzero single-degree complex from being assigned an empty support interval.
 
 *Needs:* GeometryOfNumbersAndQuadraticArithmetic §6.8a; Mathlib Module.Projective; Mathlib ChainComplex; Mathlib HomotopyEquiv; Mathlib HomologicalComplex.homology.
 
@@ -941,10 +944,10 @@ Add the coherence condition and the following bridges to projective dimension.
 
 **Checks.**
 
-- A field has global dimension 0 and is coherent.
+- A field has global dimension 0 and is coherent (`field_projectiveDimension_le_zero`, for every module).
 - `ℤ` has global dimension 1, not 0: `ℤ/2` has projective dimension exactly 1 (`zmod_two_not_projectiveDimension_le_zero`).
-- The non-maximal order `ℤ[√−3]` has Krull dimension 1 but infinite global dimension (it is not regular at 2), so Krull dimension cannot supply the uniform projective-dimension bound `≤1`.
-- `k[ε]/(ε²)` is Noetherian (hence coherent) but has infinite global dimension: `k` has an infinite periodic resolution.
+- The non-maximal order `ℤ[√−3] = ℤ[X]/(X²+3)` has Krull dimension 1 but infinite global dimension (`nonmaximalOrder_infinite_globalDimension`). At `(2,X−1)` its cotangent space has dimension 2: on writing `y=X−1`, the relation `y²+2y+4` lies in `(2,y)²`. Its localization is not regular; [Stacks, Tag 00OC](https://stacks.math.columbia.edu/tag/00OC) excludes finite global dimension. Thus Krull dimension cannot supply the bound `≤1`.
+- `k[ε]/(ε²)` is Noetherian (hence coherent) but its residue field `k` has infinite projective dimension (`dualNumbers_residue_infinite_projectiveDimension`). Multiplication by `ε` gives a periodic free resolution; tensoring with `k` makes all differentials zero, so every positive Tor group is `k`.
 - `ℤ` and every field are coherent of global dimension `≤ 1`, resp. 0.
 
 These conditions let Postnikov truncations preserve perfect complexes (Paper III, §1.3, p. 27) and supply `d` in the surgery and comparison ranges (Corollaries 1.3.3, 1.3.9 and 1.3.10). Dedekind rings give `d≤1` (Corollary 1.3.14, p. 31).
@@ -955,7 +958,7 @@ These conditions let Postnikov truncations preserve perfect complexes (Paper III
 
 Let `R` be coherent of global dimension `≤ d`. The connective cover and truncation functors of `D(R)` preserve perfect modules, so `D^p(R)` inherits the Postnikov t-structure with `D^p(R)_{≥0}` the 0-connective and `D^p(R)_{≤0}` the 0-truncated perfect modules. It is bounded, its heart consists of the finitely presented `R`-modules, and for an invertible `M` the duality `D = Hom_R(−,M)` satisfies `D(D^p(R)_{≥0}) ⊆ D^p(R)_{≤0}` and `D(D^p(R)_{≤0}) ⊆ D^p(R)_{≥−d}`. (Paper III, §1.3, p. 27.)
 
-The lowest non-vanishing homology of a perfect complex is finitely presented by coherence; a finite resolution by finitely generated projectives (§6.1) shows truncations remain perfect. The t-structure axioms are inherited from `D(R)` (Mathlib `DerivedCategory.TStructure.t` on the homotopy category, with enhanced truncations from EnhancedDerivedSheaves §0.1 and the comparison of §6.0). `D(D^p(R)_{≥0}) ⊆ D^p(R)_{≤0}` is the one-sided width criterion (§2.4, Remark 1.1.7). `D(D^p(R)_{≤0}) ⊆ D^p(R)_{≥−d}` follows from the universal coefficient spectral sequence for `H_*Hom_R(X,M)`, since `Ext^i_R(−,M) = 0` for `i ≥ d+1`. Mathlib DerivedCategory uses cochain complexes. Reindex cochain degree `i` to homological degree `−i`; its cohomological `t.le 0` corresponds to homological connectivity `≥0` and `t.ge 0` to homological truncation `≤0`. Transport shifts, truncations and homology through that reindexing before applying either duality bound.
+The lowest non-vanishing homology of a perfect complex is finitely presented by coherence; a finite resolution by finitely generated projectives (§6.1) shows truncations remain perfect. The t-structure axioms are inherited from `D(R)` (Mathlib `DerivedCategory.TStructure.t` on the homotopy category, with enhanced truncations from EnhancedDerivedSheaves §0.1 and the comparison of §6.0). `D(D^p(R)_{≥0}) ⊆ D^p(R)_{≤0}` is the one-sided width criterion (§2.4, Remark 1.1.7). For a finitely presented heart module `N`, a length-`≤d` finite-projective resolution (§6.1) computes `RHom_R(N,M)` in homological degrees `[−d,0]`. A coconnective perfect `X` has a finite Postnikov filtration (§6.0) with factors `H_i(X)[i]`, `i≤0`. Their duals are `D(H_i(X))[−i]`, all `(−d)`-connective. Exactness of `D` and extension closure of connectivity give `D(D^p(R)_{≤0}) ⊆ D^p(R)_{≥−d}`. Mathlib DerivedCategory uses cochain complexes. Reindex cochain degree `i` to homological degree `−i`; its cohomological `t.le 0` corresponds to homological connectivity `≥0` and `t.ge 0` to homological truncation `≤0`. Transport shifts, truncations and homology through that reindexing before applying either duality bound.
 
 Expose the restricted t-structure, its heart and both duality bounds.
 
@@ -969,7 +972,7 @@ Expose the restricted t-structure, its heart and both duality bounds.
 
 - For a field `K` the heart is finite-dimensional K-vector spaces `= Proj(K)`.
 - Over `ℤ`, `D(ℤ/n[0]) ≃ ℤ/n[−1]` for `n ≥ 2`, so the bound `−d = −1` is attained. For `n = 1` the module is zero and does not witness sharpness; for `n = 0` it is `ℤ` and its dual is `ℤ[0]`.
-- Over the non-coherent ring `R = k[x₁,x₂,…]/(x₁x_i : i ≥ 1)` the complex `R →^{x₁} R` is perfect but its `H₁ = Ann(x₁) = (x₁,x₂,…)` is not finitely generated, so `τ_{≥1}` of a perfect complex need not be perfect and `D^p(R)` does not inherit the t-structure.
+- Over `R = k[x₁,x₂,…]/(x₁x_i : i ≥ 1)` the complex `R →^{x₁} R` is perfect but its `H₁ = Ann(x₁) = (x₁,x₂,…)` is not finitely generated. The linear classes of the variables are independent modulo the square of that ideal, while coherence would make this kernel finite ([Stacks, Tag 05CW](https://stacks.math.columbia.edu/tag/05CW)). `noncoherent_squareZero_polynomial_ring` states the failure of coherence on `MvPolynomial ℕ k`, with `x₁` indexed by 0. Thus `τ_{≥1}` need not preserve perfect complexes and `D^p(R)` does not inherit the t-structure.
 - For `R = ℤ (d = 1)`: `D(ℤ/2[0]) = ℤ/2[−1]` lies in `D^p(ℤ)_{≥−1}` and not in `D^p(ℤ)_{≥0}`.
 - For a field `(d = 0)` the duality exchanges the two halves and the heart is `Proj(K)`.
 
@@ -1097,7 +1100,7 @@ The bijectivity bound `n ≥ d − 1` for `L^gs → L^s` is sharp: for the `d`-d
 
 Two further consequences assume separate external comparison theorems. Read's Corollary F gives failure of `L^gs_n(ℤ/4) → L^s_n(ℤ/4)` to be an isomorphism for some `0 ≤ n ≤ 5` and for every sufficiently large `n`, with trivial involution; its proof gives failure of injectivity in every sufficiently large degree (Read, pp. 6–7). Conversely, assume Schlichting's Theorem 1.1 and let `R` be a commutative regular Noetherian domain of finite Krull dimension, with trivial involution. If two is invertible, `R` contains a field, or `R` is smooth over a Dedekind domain, that theorem gives `L^gs_n(R) ≅ L^s_n(R)` for `n ≥ −1` and injectivity at `n = −2`, independently of the dimension. If moreover two is a non-zero divisor, the ranges improve to bijectivity for `n ≥ −2` and injectivity at `n = −3` (Schlichting, pp. 2–3). Thus the general dimension-dependent bounds can be far from optimal on this specified class of rings. These two quoted theorems are additional inputs, rather than consequences of Laurent-ring surgery.
 
-By the Ranicki–Shaneson splitting and induction, `Σ^dL^gs(𝔽₂) → Σ^dL^s(𝔽₂)` is a retract of `L^gs(𝔽₂[ℤ^d]) → L^s(𝔽₂[ℤ^d])`. The `ε = −1` statement over `ℤ[ℤ]` follows by the same retract argument from degree `−1` over `ℤ`; Read’s and Schlichting’s comparisons remain separate assumptions, rather than consequences of this retract argument.
+At each induction step, GeneralAlgebraicKTheory §10.12a supplies `regularRing_K0_laurent` and the polynomial and central-localization global-dimension bounds: `𝔽₂[ℤ^j]` is Noetherian of global dimension `≤j`, and scalar extension identifies its `K₀` with `ℤ` generated by the free line. These verify the hypotheses of the Ranicki–Shaneson splitting. Induction then makes `Σ^dL^gs(𝔽₂) → Σ^dL^s(𝔽₂)` a retract of `L^gs(𝔽₂[ℤ^d]) → L^s(𝔽₂[ℤ^d])`; `field_l_groups` (§7.9) supplies its degree-`−2` discrepancy. The `ε = −1` statement over `ℤ[ℤ]` follows by the same retract argument from degree `−1` over `ℤ`; Read’s and Schlichting’s comparisons remain separate assumptions, rather than consequences of this retract argument.
 
 This gives `sharpness_examples`.
 
@@ -1106,7 +1109,7 @@ This gives `sharpness_examples`.
 - The example shows that the bijectivity bound `d − 1` for `L^gs → L^s` cannot be improved; since the comparison maps are compatible with `L^gq ≃ Σ⁴L^gs` and `L^s ≃ Σ⁴L^s` (§1.6), the bound `d + 3` for `L^gq → L^s` cannot be improved either. The source presents this as sharpness of the bounds of Corollary 1.3.10; the injectivity bounds are not addressed by the example.
 - For `R = 𝔽₂`, `L^gs_{−2}(R) = 0` and `L^s_{−2}(R) = ℤ/2`, so Schlichting's characteristic-two bijectivity range cannot be extended to degree `−2`. For `d > 0` the Laurent examples have a nontrivial inversion involution, outside that theorem's trivial-involution hypothesis. The ring `ℤ/4` is not regular, so Read's failure in high degrees does not contradict the regular-domain result.
 
-*Needs:* §7.2; §7.9.
+*Needs:* §7.2; §7.9; GeneralAlgebraicKTheory §10.12a, regularRing_K0_laurent and polynomial/localization global-dimension bounds.
 
 ### 7.4 The right-handed versions
 
@@ -1124,9 +1127,9 @@ This gives `right_coherent_version`.
 
 ### 7.5 The Dedekind case
 
-Let `R` be a Dedekind ring (for instance a ring of integers of a number field) and `M` invertible. Then `L^gs_n(R;M) → L^s_n(R;M)` and `GW^gs_n(R;M) → GW^s_n(R;M)` are injective for `n = −1` and bijective for `n ≥ 0`; in particular the non-negative homotopy groups of `L^gs(R;M)` are 4-periodic. Likewise `L^gq_n → L^s_n` and `GW^gq_n → GW^s_n` are injective for `n = 3` and bijective for `n ≥ 4`. With the Hebestreit–Steimle comparison this gives `GW^s_cl(R;M) ≃ τ_{≥0}GW^s(R;M)` and `τ_{≥4}GW^q_cl(R;M) ≃ τ_{≥4}GW^s(R;M)` (GeometryOfNumbersAndQuadraticArithmetic §6.8a, Corollary 1.3.15). (Paper III, Corollary 1.3.14, pp. 31–32, and Corollary 1.3.15, p. 32.)
+Let `R` be a Dedekind ring (for instance a ring of integers of a number field) and `M` invertible. Then `L^gs_n(R;M) → L^s_n(R;M)` and `GW^gs_n(R;M) → GW^s_n(R;M)` are injective for `n = −1` and bijective for `n ≥ 0`; in particular the non-negative homotopy groups of `L^gs(R;M)` are 4-periodic. Likewise `L^gq_n → L^s_n` and `GW^gq_n → GW^s_n` are injective for `n = 3` and bijective for `n ≥ 4`. (Paper III, Corollary 1.3.14, pp. 31–32.)
 
-Dedekind rings are Noetherian of global dimension `≤ 1` (§6.1); apply §7.2 with `d = 1`. 4-periodicity of `L^s` (§1.6) transfers to `L^gs` in non-negative degrees. Apply only the general weight-heart comparison from GeometryOfNumbersAndQuadraticArithmetic §6.8a to identify classical `GW` with the connective cover of genuine `GW`; the just-proved comparison then gives the two displayed classical statements (Paper III, Corollary 1.3.15, p. 32).
+Dedekind rings are Noetherian of global dimension `≤ 1` (§6.1); apply §7.2 with `d = 1`. 4-periodicity of `L^s` (§1.6) transfers to `L^gs` in non-negative degrees. The classical Dedekind comparisons are supplied by GeometryOfNumbersAndQuadraticArithmetic §6.8a (Paper III, Corollary 1.3.15, p. 32); this target specializes the genuine-to-symmetric group ranges.
 
 This gives `dedekind_comparison`.
 
@@ -1201,9 +1204,23 @@ This gives `burnside_l_theory`.
 
 ### 7.9 L-groups of a field in every flavour
 
+#### Quadratic Witt group over `𝔽₂`
+
+Construct `arfInvariantF2` for nonsingular quadratic forms on finite-dimensional `𝔽₂`-vector spaces. For a symplectic basis `(e_i,f_i)` of the polar form, it is `Σ_i q(e_i)q(f_i) ∈ 𝔽₂`. Prove independence of the symplectic basis, invariance under isometry, orthogonal additivity and vanishing on metabolic forms. Using the quadratic Witt quotient of §3.4, prove `arfInvariantF2_wittEquiv : W^q(𝔽₂) ≃ ℤ/2` as an isomorphism of additive groups. Split into nonsingular planes and reduce to the hyperbolic plane and the Arf-one plane; two Arf-one planes have a Lagrangian. This supplies both completeness of the invariant and the representative of its nonzero class. (Source: Paper III, proof of Corollary 2.3.10, p. 45, for the finite-characteristic-two Witt calculation.)
+
+**Checks.**
+
+- The hyperbolic plane `q(x,y)=xy` has Arf invariant 0 and is metabolic.
+- The plane `q(x,y)=x²+xy+y²` has Arf invariant 1; its only isotropic vector is zero, so its Witt class is nonzero.
+- The orthogonal sum of two Arf-one planes is metabolic: the diagonal copy of `𝔽₂²` is a quadratic Lagrangian. Thus the nonzero class has order two.
+
+*Needs:* §3.4; GeometryOfNumbersAndQuadraticArithmetic §6.8a for quadratic forms on projectives and §6.4 for the exact Witt quotient.
+
+#### Field calculations
+
 Let `K` be a field and `M = K` with an involution of sign `ε`. (a) For every `r`-symmetric `Q` and `k ≥ 1 − r`, `L_{2k−1}(K;Q) = 0` and `L_{2k}(K;Q) ≅ W(Proj(K); Ω^{2k}Q(Ω^k−))`; in particular all odd `L^s` and `L^q` groups vanish. (b) If `char K ≠ 2`, all flavours coincide; for `ε = +1`, `L^s_{4k}(K) = W(K)` (the Witt ring of QuadraticFormInvariants Layer 4) and `L^s_{4k+2}(K) = 0`, and for `ε = −1` the two residues are exchanged, `L^s_{n+2}(K;−1) ≅ L^s_n(K;+1)`. (c) If `char K = 2`, `−M = M` and `L^s`, `L^q`, `K^{tC₂}` are 2-periodic; `L^s_{2k}(K)` is the Witt group `W^s(K)` of symmetric bilinear forms and `L^q_{2k}(K)` the Witt group `W^q(K)` of quadratic forms; `L^gs_n(K) → L^s_n(K)` is an isomorphism for `n ≥ −1`, `L^gs_n(K) ≅ L^q_n(K)` for `n ≤ −3`, and `L^gs_{−2}(K) = L^ge_0(K) = 0` because even forms in characteristic 2 are alternating and hence metabolic. For `K = 𝔽₂`: `L^s_{2k}(𝔽₂) = ℤ/2` (rank mod 2), `L^q_{2k}(𝔽₂) = ℤ/2` (Arf invariant), `L^gs_{−2}(𝔽₂) = 0`. (Paper III, Corollary 1.3.4 and Remark 1.3.5, p. 28; Paper III, Example 1.3.11, p. 31; Paper III, Corollary R.10, p. 10.)
 
-(a) §6.6 with `d = 0`. (b) 2 is a unit, so §0.3 makes all flavours equal; for `ε = +1`, `L^s_{4k+2} = 0` by §6.6 and `L^s_0 = W(K)` by §4.5 and QuadraticFormInvariants Layer 4; the case `ε = −1` follows from `L(K;Q^s_M) ≃ Ω²L(K;Q^s_{−M})` (§1.6). (c) Periodicity by §1.6 with `−M = M`. The comparison `L^gs → L^s` for `n ≥ −1` is §7.2 with `d = 0`; `L^gs ≅ L^q` for `n ≤ −3` is §4.4; `L^gs_{−2}(K) ≅ L^ge_0(K;−M) = L^ge_0(K)` by §1.6, which is the Witt group of even forms (§4.5 (ii)), and an even form `b = c + c^t` satisfies `b(x,x) = 2c(x,x) = 0`, so it is alternating, has a symplectic basis and is metabolic. For `𝔽₂`: `W^s(𝔽₂) = ℤ/2` via rank mod 2, and `W^q(𝔽₂) = ℤ/2` via the Arf invariant.
+(a) §6.6 with `d = 0`. (b) 2 is a unit, so §0.3 makes all flavours equal; for `ε = +1`, `L^s_{4k+2} = 0` by §6.6 and `L^s_0 = W(K)` by §4.5 and QuadraticFormInvariants Layer 4; the case `ε = −1` follows from `L(K;Q^s_M) ≃ Ω²L(K;Q^s_{−M})` (§1.6). (c) Periodicity by §1.6 with `−M = M`. The comparison `L^gs → L^s` for `n ≥ −1` is §7.2 with `d = 0`; `L^gs ≅ L^q` for `n ≤ −3` is §4.4; `L^gs_{−2}(K) ≅ L^ge_0(K;−M) = L^ge_0(K)` by §1.6, which is the Witt group of even forms (§4.5 (ii)), and an even form `b = c + c^t` satisfies `b(x,x) = 2c(x,x) = 0`, so it is alternating, has a symplectic basis and is metabolic. For `𝔽₂`: `W^s(𝔽₂) = ℤ/2` via rank mod 2, and the local `arfInvariantF2_wittEquiv` computes `W^q(𝔽₂) = ℤ/2`.
 
 This gives `field_l_groups`.
 
@@ -1212,7 +1229,7 @@ This gives `field_l_groups`.
 - `L^s_{−2}(𝔽₂) = ℤ/2 ≠ 0 = L^gs_{−2}(𝔽₂)`: this is the input to the sharpness example §7.3.
 - For `K = ℝ`, `L^s_0(ℝ) = ℤ` by signature.
 
-*Needs:* §6.6; §7.2; §0.3; §4.5; §1.6; §4.4; QuadraticFormInvariants Layer 4 and TauCeti.WittRing.
+*Needs:* §6.6; §7.2; §0.3; §4.5; §1.6; §4.4; arfInvariantF2_wittEquiv above; QuadraticFormInvariants Layer 4 and TauCeti.WittRing only in characteristic different from two.
 
 ### 7.10 Multiplicative comparison with Tate K-theory
 
@@ -1332,7 +1349,7 @@ Layers 0–1, 4 and 6–7; the supplier group-completion, weight-heart and funda
 
 ## Downstream consumers
 
-GeometryOfNumbersAndQuadraticArithmeticPartII uses the coefficient sign changes, `K₀`-controlled surgery, degree-zero Witt descriptions, field computations and genuine-to-periodic comparisons for its dyadic Dedekind tables. Its field adapter can use §§4.5 and 7.9; its integral comparisons use §§7.1–7.6. KTheoryFiniteLocalFields uses the characteristic-two and odd-characteristic field computations of §7.9 and the sign and periodicity rules of Layer 1. Its L.1 consumes `finite-even-multiplicative-l-tate` and `multiplicative-l-tate-base-change` in §§7.10–7.11 for the multiplicative finite-even-field comparison and its module and scalar-extension compatibility. These consumers retain the supplier Poincaré carriers and do not construct a second hermitian theory.
+Arithmetic applications can use the coefficient sign changes, `K₀`-controlled surgery, degree-zero Witt descriptions, field computations and genuine-to-periodic comparisons of this roadmap. Sections 7.10–7.11 supply the multiplicative L-to-Tate comparison and its module and scalar-extension compatibility. Applications retain the supplier Poincaré carriers; Dedekind localization, dévissage and arithmetic L-group tables remain outside this roadmap's scope.
 
 ## References
 

@@ -40,6 +40,51 @@ theorem exists_homotopyEquiv_concentrated_ge
       Nonempty (HomotopyEquiv C C') := by
   sorry
 
+/-- A finite projective in degree `k` has finite-projective terms, support `{k}`
+and homology equal to that module in degree `k` and zero elsewhere.
+Paper III, Lemma 1.1.6, p. 13.
+-/
+theorem width_single_projective
+    (P : ModuleCat.{u} R) [Module.Projective R P] [Module.Finite R P] (k : ℤ) :
+    let C := (HomologicalComplex.single (ModuleCat.{u} R) (ComplexShape.down ℤ) k).obj P
+    (∀ i, Module.Projective R (C.X i) ∧ Module.Finite R (C.X i)) ∧
+    (∀ i, i ≠ k → Limits.IsZero (C.X i)) ∧
+    Nonempty (C.homology k ≅ P) ∧
+    (∀ i, i ≠ k → Limits.IsZero (C.homology i)) := by
+  sorry
+
+/-- A zero complex admits a finite-projective model supported in every interval.
+Paper III, Lemma 1.1.6, p. 13, including its zero-object case.
+-/
+theorem width_zero_complex
+    (C : ChainComplex (ModuleCat.{u} R) ℤ) (hC : Limits.IsZero C)
+    (k l : ℤ) (hkl : k ≤ l) :
+    ∃ C' : ChainComplex (ModuleCat.{u} R) ℤ,
+      (∀ i, Module.Projective R (C'.X i) ∧ Module.Finite R (C'.X i)) ∧
+      (∀ i, i < k ∨ l < i → Limits.IsZero (C'.X i)) ∧
+      Nonempty (HomotopyEquiv C C') := by
+  sorry
+
+/-- The complex `ℤ →² ℤ` has finite-projective width `[0,1]` and only homology
+`ℤ/2` in degree zero. It has no projective model supported in degree zero,
+as detected by `zmod_two_not_projectiveDimension_le_zero`.
+Paper III, Lemma 1.1.6 and Remark 1.1.7, p. 13.
+-/
+theorem intTwoTerm_projective_width :
+    let A := ModuleCat.of ℤ ℤ
+    let C : ChainComplex (ModuleCat ℤ) ℤ :=
+      HomologicalComplex.double (2 • (𝟙 A))
+        (by decide : (ComplexShape.down ℤ).Rel 1 0)
+    (∀ i, Module.Projective ℤ (C.X i) ∧ Module.Finite ℤ (C.X i)) ∧
+    (∀ i, i < 0 ∨ 1 < i → Limits.IsZero (C.X i)) ∧
+    Nonempty (C.homology 0 ≅ ModuleCat.of ℤ (ZMod 2)) ∧
+    (∀ i, i ≠ 0 → Limits.IsZero (C.homology i)) ∧
+    ¬ (∃ C' : ChainComplex (ModuleCat ℤ) ℤ,
+      (∀ i, Module.Projective ℤ (C'.X i)) ∧
+      (∀ i, i ≠ 0 → Limits.IsZero (C'.X i)) ∧
+      Nonempty (HomotopyEquiv C C')) := by
+  sorry
+
 end ProjectiveWidth
 
 /-! ## Layer 6: coherent rings and finite projective resolutions -/
@@ -76,7 +121,7 @@ theorem finitePresentation_finiteProjectiveResolution
 
 /-- Global dimension zero characterizes semisimple rings; the bound quantifies
 over all modules, rather than only finitely presented modules.
-Paper III, Example 1.3.7, p. 30.
+Paper III, Remark 1.3.5, p. 28.
 -/
 theorem globalDimension_zero_iff_semisimple :
     (∀ M : ModuleCat.{u} R, HasProjectiveDimensionLE M 0) ↔ IsSemisimpleRing R := by
@@ -98,6 +143,45 @@ the module `ℤ/2` is not projective. This is the negative control in README §6
 -/
 theorem zmod_two_not_projectiveDimension_le_zero :
     ¬ HasProjectiveDimensionLE (ModuleCat.of ℤ (ZMod 2)) 0 := by
+  sorry
+
+/-- Every module over a field has projective dimension zero.
+Paper III, Remark 1.3.5, p. 28, applied to a field.
+-/
+theorem field_projectiveDimension_le_zero
+    (K : Type u) [Field K] (M : ModuleCat.{u} K) : HasProjectiveDimensionLE M 0 := by
+  sorry
+
+/-- The order `ℤ[√−3]` has no finite uniform projective-dimension bound.
+Its localization at `(2,X−1)` has dimension one and embedding dimension two;
+Stacks, Tag 00OC, excludes finite global dimension there.
+-/
+theorem nonmaximalOrder_infinite_globalDimension :
+    let A := Polynomial ℤ ⧸
+      Ideal.span ({Polynomial.X ^ 2 + 3} : Set (Polynomial ℤ))
+    ∀ d : ℕ, ∃ M : ModuleCat.{0} A, ¬ HasProjectiveDimensionLE M d := by
+  sorry
+
+/-- The residue field of `K[ε]/(ε²)` has infinite projective dimension.
+The periodic free resolution with differential multiplication by `ε` yields
+nonzero Tor in every degree after tensoring with the residue field.
+-/
+theorem dualNumbers_residue_infinite_projectiveDimension (K : Type u) [Field K] :
+    let I : Ideal (Polynomial K) := Ideal.span {Polynomial.X ^ 2}
+    let A := Polynomial K ⧸ I
+    let ε : A := Ideal.Quotient.mk I Polynomial.X
+    ∀ d : ℕ, ¬ HasProjectiveDimensionLE
+      (ModuleCat.of A (A ⧸ Ideal.span {ε})) d := by
+  sorry
+
+/-- The ring `K[x₀,x₁,…]/(x₀xᵢ : i ∈ ℕ)` is not coherent.
+The annihilator of `x₀` is not finitely generated, contradicting the kernel
+finiteness of Stacks, Tag 05CW, for coherent rings.
+-/
+theorem noncoherent_squareZero_polynomial_ring (K : Type u) [Field K] :
+    let I : Ideal (MvPolynomial ℕ K) :=
+      Ideal.span (Set.range fun i : ℕ => MvPolynomial.X 0 * MvPolynomial.X i)
+    ¬ IsLeftCoherentRing (MvPolynomial ℕ K ⧸ I) := by
   sorry
 
 /-- The coherence condition includes integral coefficients for surgery. -/
