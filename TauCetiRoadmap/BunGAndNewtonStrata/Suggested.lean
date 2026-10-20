@@ -174,7 +174,14 @@ variable (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [IsAlgClosed k] [CharP 
 
 /-- The r-factor Frobenius norm of the fixed uniformizer is its r-th power. -/
 theorem norm_uniformizer (r : ℕ) :
-    frobeniusNorm (sigma p k) (uniformizer p k) r = uniformizer p k ^ r := by sorry
+    frobeniusNorm (sigma p k) (uniformizer p k) r = uniformizer p k ^ r := by
+  have hfixed : sigma p k (uniformizer p k) = uniformizer p k := by
+    ext
+    simp [sigma, uniformizer]
+  induction r with
+  | zero => simp [frobeniusNorm]
+  | succ r ih =>
+    rw [frobeniusNorm, ih, Function.iterate_fixed hfixed r, pow_succ]
 end WittRankOne
 
 /-- Numerical GL_n slope data; each denominator divides its multiplicity. -/
@@ -259,16 +266,40 @@ theorem rank_one_half_impossible :
 
 /-- Three copies of slope one-third give valid integral slope data of total one. -/
 theorem third_exists :
-    ∃ x : GLnSlopeData 3, (∀ i, x.slopes i = (1/3 : ℚ)) ∧ x.kottwitz = 1 := by sorry
+    ∃ x : GLnSlopeData 3, (∀ i, x.slopes i = (1/3 : ℚ)) ∧ x.kottwitz = 1 := by
+  exact ⟨{
+    slopes := fun _ => 1/3
+    descending := fun _ _ _ => le_rfl
+    kottwitz := 1
+    total_eq := by norm_num
+    denominatorMultiplicity := by intro i; norm_num
+  }, fun _ => rfl, rfl⟩
 
 /-- Rank-one slopes zero and one are incomparable because their totals differ. -/
 theorem rank_one_zero_one_incomparable :
     ∃ x y : GLnSlopeData 1, x.slopes 0 = 0 ∧ y.slopes 0 = 1 ∧
-      ¬ dominance x y ∧ ¬ dominance y x := by sorry
+      ¬ dominance x y ∧ ¬ dominance y x := by
+  let y : GLnSlopeData 1 := {
+    slopes := fun _ => 1
+    descending := fun _ _ _ => le_rfl
+    kottwitz := 1
+    total_eq := by simp
+    denominatorMultiplicity := by intro i; simp
+  }
+  refine ⟨zero 1, y, rfl, rfl, ?_, ?_⟩
+  · intro h
+    have htotal : (0 : ℤ) = 1 := h.1
+    omega
+  · intro h
+    have htotal : (1 : ℤ) = 0 := h.1
+    omega
 
 /-- In positive rank the zero datum differs from every nonzero constant-slope datum. -/
 theorem zero_ne_nonzero_constant {n : ℕ} (hn : 0 < n) (x : GLnSlopeData n)
-    (q : ℚ) (hq : q ≠ 0) (h : ∀ i, x.slopes i = q) : zero n ≠ x := by sorry
+    (q : ℚ) (hq : q ≠ 0) (h : ∀ i, x.slopes i = q) : zero n ≠ x := by
+  intro heq
+  have hzero : x.slopes ⟨0, hn⟩ = 0 := by rw [← heq]; rfl
+  exact hq ((h ⟨0, hn⟩).symm.trans hzero)
 
 /-- Integral total does not suffice when a slope denominator fails multiplicity divisibility. -/
 theorem two_thirds_one_third_impossible :

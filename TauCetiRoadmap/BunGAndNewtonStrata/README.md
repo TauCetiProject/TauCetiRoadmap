@@ -1742,7 +1742,7 @@ Source: [CS17](#ref-cs17), Proposition 3.5.3 and Lemma 3.5.4 pp. 687–689, afte
 
 For minuscule `μ` over `Q_p` in GS0 indexing, the map from the flag variety `Fℓ^GS_(G,μ)≅Gr^GS_(G,μ)` to `B(G,{μ})` is surjective on geometric classes. This is stronger than the invariant containment for all `μ` and uses the Rapoport existence result recalled by CS17 Remark 3.5.8.
 
-*Proof outline.* Use the minuscule identification of the Schubert cell with the flag variety from GeometricSatakeAndFusion GS0. Every acceptable class occurs by Rapoport, *Accessible and weakly accessible period domains*, appendix to Scholze, *On the p-adic cohomology of the Lubin–Tate tower*, Proposition A.9. For an acceptable `b`, its admissible period locus is nonempty: it has the same classical points as the weakly admissible locus, whose nonemptiness is characterized by the Newton bound. The inverse modification at an admissible point trivializes `E_b`, so reversing it realizes `b` as a modification of the trivial bundle. This existence argument is part of the target.
+*Proof outline.* Use the minuscule identification of the Schubert cell with the flag variety from GeometricSatakeAndFusion GS0. Every acceptable class occurs by Rapoport, *Accessible and weakly accessible period domains*, appendix to Scholze, *On the p-adic cohomology of the Lubin–Tate tower*, Proposition A.9. The Newton bound gives a nonempty weakly admissible locus; the admissible locus has the same classical points and is therefore nonempty. At an admissible point the inverse modification is semistable. The integral equality `κ(b)=μ^♮` makes its Kottwitz invariant zero, so the basic classification identifies it with the trivial bundle. Reversing this modification realizes `b` from the trivial bundle. Both parts of acceptability enter this existence argument, which is part of the target.
 
 *Remark.* A nonempty acceptable index set alone does not produce a flag point.
 
@@ -1854,7 +1854,7 @@ The API:
 - For the two-step diagonal filtration the parabolic is triangular and the positive radical has one root line.
 - For the trivial filtration `H^≥0=H` and `H^>0=1`.
 - At `λ=0` the reductive Levi quotient is not generally an additive vector group.
-- For `GL_2` with ordered basis of weights `0,3/2, H^≥0` is lower triangular and `H^>0` is its one-dimensional lower unipotent radical. `H^≥1/H^>1` is trivial, `H^≥(3/2)/H^>(3/2)` is `G_a`, and `H^≥2` is trivial. Clearing denominator `2` preserves these thresholds.
+- For `GL_2` with ordered basis of weights `0,3/2`, `H^≥0` is lower triangular and `H^>0` is its one-dimensional lower unipotent radical. `H^≥1/H^>1` is trivial, `H^≥(3/2)/H^>(3/2)` is `G_a`, and `H^≥2` is trivial. Clearing denominator `2` preserves these thresholds.
 - On `P^1_K`, the Euler filtration `0→O(−1)→O^2→O(1)→0` defines a filtered `GL_2` fibre functor with smooth underlying group, but no global splitting: `O^2` is not `O(−1)⊕O(1)`. It splits on affine opens. Thus the affine hypothesis cannot be dropped.
 
 Source: [FS](#ref-fs), Proposition III.5.2 p. 105; [Zie15](#ref-zie15), Theorem 1.3 p. 2; §4.3, Theorems 4.14–4.16 pp. 24–25 and Proposition 4.24/Lemma 4.25/Theorem 4.26 pp. 26–27.
@@ -2338,8 +2338,8 @@ includes the projections `slopes`, `descending`, `kottwitz`, `total_eq` and
 
 - The slopes `(1/2, 1/2)` with `κ=1` satisfy all fields; a single slope `1/2`
   fails the multiplicity and integral-total conditions.
-- The integral-total tuple `(1/3, 1/3, 1/3)` is allowed
-  (`GLnSlopeData.third_exists`); `(2/3, 1/3)` has
+- The integral-total tuple `(1/3, 1/3, 1/3)` is allowed, with total `κ=1`
+  and denominator `3` dividing multiplicity `3` (`GLnSlopeData.third_exists`); `(2/3, 1/3)` has
   integral total `1` but fails denominator divisibility, as stated by
   `GLnSlopeData.two_thirds_one_third_impossible`; integral total alone is insufficient.
 - The decreasing-order condition rejects `(0, 1)`, although its total and
@@ -2353,7 +2353,7 @@ reflexivity, transitivity and the partial-sum criterion, with no rank restrictio
 **Checks.**
 
 - `(1/2, 1/2)` is below `(1, 0)`, and the reverse inequality fails at `k=1`.
-- Slopes `(0)` and `(1)` are incomparable because their `κ` values differ
+- Slopes `(0)` and `(1)` are incomparable because their integral `κ` values are `0` and `1`
   (`GLnSlopeData.rank_one_zero_one_incomparable`).
 - At rank zero dominance holds for the unique empty datum; at `k=n` its
   inequality is equality because the integral totals agree.
@@ -2419,7 +2419,7 @@ values and `κ` values and the comparison and basicness tests above.
   each multiplicity.
 - At rank zero it has no slope entries and its basicness and ordinarity still
   hold; no expression `κ/n` is used at this boundary.
-- At positive rank its slope function differs from every nonzero constant
+- At positive rank the slope at index `0` distinguishes it from every nonzero constant
   basic datum (`GLnSlopeData.zero_ne_nonzero_constant`), so basicness alone
   does not identify it with such a datum.
 
@@ -2454,7 +2454,7 @@ with equality of that norm to the prescribed element, as in §1.9.
 
 - The empty norm is `1`, the one-factor norm is `b`, and the two-factor norm is
   `bσ(b)`; replacing the last by `b²` fails for nonfixed `b`.
-- For fixed `b=π` the `r`-factor norm is `π^r`, with no extra factor
+- For fixed `b=π` each Frobenius iterate is `π`, so the `r`-factor norm is `π^r`
   (`WittRankOne.norm_uniformizer` in the Witt specialization, including `r=0`).
 - The decency predicate is false at period zero, is `b=a` at period one, and at
   period two is `bσ(b)=a`; it asserts no Newton integrality.
