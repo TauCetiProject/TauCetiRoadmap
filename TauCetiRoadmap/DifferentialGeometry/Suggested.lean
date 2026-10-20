@@ -44,6 +44,8 @@ import TauCeti.Geometry.Manifold.IntegralCurve.Maximal
 import TauCeti.Geometry.Manifold.LocalDiffeomorph
 import TauCeti.Geometry.Manifold.LocallyFlat.Basic
 import TauCeti.Geometry.Manifold.TwoForm.Closed
+import TauCeti.Geometry.Manifold.Riemannian.Pullback
+import TauCeti.Geometry.Manifold.Riemannian.Sphere
 import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
 import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
@@ -71,6 +73,9 @@ pin its characteristic equations. The implementation need not match these defini
 definitionally; it must provide the data and laws they state. Real definitions are given
 wherever the pin allows (`mpullback`, `flowDomain`, `degreeAtRegularValue`, `mgradient`,
 `laplaceBeltrami`, …), so that the statements about them mean exactly what they say.
+
+`mgradient` is compatibility notation for the Riesz expression; the native gradient
+source and its revision status are pinned separately in README12.2.
 
 Existing Tau Ceti declarations are imported and consumed rather than restated: the
 boundary manifold (`TauCeti.isManifold_boundary`), the manifold inverse function theorem at
@@ -1522,6 +1527,97 @@ noncomputable def inwardDomination [T2Space M] [SigmaCompactSpace M]
 
 end InwardGeometry
 
+section NonautonomousFlows
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [CompleteSpace E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [BoundarylessManifold I M] [T2Space M]
+
+/-- The autonomous suspension on the actual open time slab. -/
+def suspendedTimeField (J : TopologicalSpace.Opens ℝ)
+    (v : ↥J → (x : M) → TangentSpace I x) (p : ↥J × M) :
+    TangentSpace ((𝓘(ℝ, ℝ)).prod I) p := (1, v p.1 p.2)
+
+/-- Maximal two-time domain, ordered as (target time, initial time, initial point).
+This is the existing autonomous domain adapter, including its connected-time component. -/
+def timeDependentFlowDomain (J : TopologicalSpace.Opens ℝ)
+    (v : ↥J → (x : M) → TangentSpace I x) : Set (↥J × (↥J × M)) :=
+  {p | ((p.1 : ℝ) - (p.2.1 : ℝ), (p.2.1, p.2.2)) ∈
+    flowDomain (suspendedTimeField J v)}
+
+/-- Suspension's spatial projection; values outside the maximal domain are junk. -/
+noncomputable def timeDependentFlow (J : TopologicalSpace.Opens ℝ)
+    (v : ↥J → (x : M) → TangentSpace I x) (t s : ↥J) (x : M) : M :=
+  (flowOf (suspendedTimeField J v) ((t : ℝ) - (s : ℝ)) (s, x)).2
+
+/-- DG3.5 finite-dimensional openness is an adapter of the native autonomous
+maximal-flow theorem on the suspension, independent of the Banach extension. -/
+theorem isOpen_timeDependentFlowDomain_of_finiteDimensional [FiniteDimensional ℝ E]
+    (J : TopologicalSpace.Opens ℝ) (v : ↥J → (x : M) → TangentSpace I x)
+    (hv : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I.tangent ∞
+      (fun p : ↥J × M => (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) :
+    IsOpen (timeDependentFlowDomain J v) := by
+  sorry
+
+/-- DG3.5 finite-dimensional joint regularity uses the native autonomous flow on
+`↥J × M`; no 3.1/3.2 Banach smooth-dependence theorem is a prerequisite. -/
+theorem contMDiffOn_timeDependentFlow_of_finiteDimensional [FiniteDimensional ℝ E]
+    (J : TopologicalSpace.Opens ℝ) (v : ↥J → (x : M) → TangentSpace I x)
+    (hv : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I.tangent ∞
+      (fun p : ↥J × M => (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) :
+    ContMDiffOn ((𝓘(ℝ, ℝ)).prod ((𝓘(ℝ, ℝ)).prod I)) I ∞
+      (fun p : ↥J × (↥J × M) => timeDependentFlow J v p.1 p.2.1 p.2.2)
+      (timeDependentFlowDomain J v) := by
+  sorry
+
+theorem timeDependentFlow_spec (J : TopologicalSpace.Opens ℝ)
+    (v : ↥J → (x : M) → TangentSpace I x)
+    (hv : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I.tangent ∞
+      (fun p : ↥J × M => (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) :
+    IsOpen (timeDependentFlowDomain J v) ∧
+    ContMDiffOn ((𝓘(ℝ, ℝ)).prod ((𝓘(ℝ, ℝ)).prod I)) I ∞
+      (fun p : ↥J × (↥J × M) => timeDependentFlow J v p.1 p.2.1 p.2.2)
+      (timeDependentFlowDomain J v) ∧
+    (∀ s x, (s, s, x) ∈ timeDependentFlowDomain J v ∧
+      timeDependentFlow J v s s x = x) ∧
+    (∀ t s x, (t, s, x) ∈ timeDependentFlowDomain J v →
+      HasMFDerivAt 𝓘(ℝ, ℝ) I (fun r : ↥J => timeDependentFlow J v r s x) t
+        (ContinuousLinearMap.smulRight (1 : ℝ →L[ℝ] ℝ)
+          (v t (timeDependentFlow J v t s x)))) ∧
+    (∀ r t s x, (t, s, x) ∈ timeDependentFlowDomain J v →
+      (r, t, timeDependentFlow J v t s x) ∈ timeDependentFlowDomain J v →
+      (r, s, x) ∈ timeDependentFlowDomain J v ∧
+      timeDependentFlow J v r t (timeDependentFlow J v t s x) =
+        timeDependentFlow J v r s x) ∧
+    (∀ t s x, (t, s, x) ∈ timeDependentFlowDomain J v →
+      (s, t, timeDependentFlow J v t s x) ∈ timeDependentFlowDomain J v ∧
+      timeDependentFlow J v s t (timeDependentFlow J v t s x) = x) := by
+  sorry
+
+/-- On a compact manifold every pair of times in an open interval is admissible. -/
+theorem timeDependentFlowDomain_eq_univ [FiniteDimensional ℝ E] [CompactSpace M]
+    (J : TopologicalSpace.Opens ℝ) (hJ : OrdConnected (J : Set ℝ))
+    (v : ↥J → (x : M) → TangentSpace I x)
+    (hv : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I.tangent ∞
+      (fun p : ↥J × M => (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) :
+    timeDependentFlowDomain J v = Set.univ := by
+  sorry
+end NonautonomousFlows
+
+section SharpMorseSard
+variable {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [NormedAddCommGroup F] [NormedSpace ℝ F]
+  [FiniteDimensional ℝ F] [MeasurableSpace F] [BorelSpace F]
+
+/-- DG10.2 owns sharp finite regularity; HF F0 consumes this flat theorem. -/
+theorem addHaar_image_criticalPoints_eq_zero_sharp (k : ℕ)
+    (hk : Module.finrank ℝ E - Module.finrank ℝ F < k) (f : E → F)
+    (hf : ContDiff ℝ k f) :
+    (MeasureTheory.Measure.addHaar : MeasureTheory.Measure F)
+      (f '' {x | ¬Function.Surjective (fderiv ℝ f x)}) = 0 := by
+  sorry
+end SharpMorseSard
+
 /-! ## Layer 4: the Frobenius theorem -/
 
 section Frobenius
@@ -1960,6 +2056,33 @@ theorem homotopyOperator_spec [IsManifold I 2 M] [CompleteSpace F]
       ∀ x, mpullback I (I.prod (𝓡∂ 1)) (sliceInclusion 1) φ x -
           mpullback I (I.prod (𝓡∂ 1)) (sliceInclusion 0) φ x =
         mextDeriv (homotopyOperator φ) x + homotopyOperator (mextDeriv φ) x :=
+  sorry
+
+/-- Integration over the compact interval preserves finite and infinite regularity. -/
+theorem homotopyOperator_contMDiff (r : ℕ∞ω) [IsManifold I ∞ M] [CompleteSpace F]
+    {φ : RoughForm (I.prod (𝓡∂ 1)) (M × Set.Icc (0 : ℝ) 1) F (k + 1)}
+    (hφ : IsSmoothForm (I.prod (𝓡∂ 1)) r φ) :
+    IsSmoothForm I r (homotopyOperator φ) := by
+  sorry
+
+/-- Smooth input has smooth homotopy integral. -/
+theorem homotopyOperator_smooth [IsManifold I ∞ M] [CompleteSpace F]
+    {φ : RoughForm (I.prod (𝓡∂ 1)) (M × Set.Icc (0 : ℝ) 1) F (k + 1)}
+    (hφ : IsSmoothForm (I.prod (𝓡∂ 1)) ∞ φ) :
+    IsSmoothForm I ∞ (homotopyOperator φ) := by
+  exact homotopyOperator_contMDiff ∞ hφ
+
+/-- Pullback naturality, including smooth parameter-slice inclusions. -/
+theorem homotopyOperator_natural [IsManifold I ∞ M] [CompleteSpace F]
+    {E' H' N : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+    [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+    [TopologicalSpace N] [ChartedSpace H' N] [IsManifold I' ∞ N]
+    (f : N → M) (hf : ContMDiff I' I ∞ f)
+    (φ : RoughForm (I.prod (𝓡∂ 1)) (M × Set.Icc (0 : ℝ) 1) F (k + 1))
+    (hφ : IsSmoothForm (I.prod (𝓡∂ 1)) ∞ φ) :
+    mpullback I' I f (homotopyOperator φ) =
+      homotopyOperator (mpullback (I'.prod (𝓡∂ 1)) (I.prod (𝓡∂ 1))
+        (Prod.map f id) φ) := by
   sorry
 
 end HomotopyOperator
@@ -3519,6 +3642,18 @@ theorem exists_fixedPoint_closedBall (f : C(Metric.closedBall (0 : E) 1, Metric.
     ∃ x, f x = x :=
   sorry
 
+/-- Layer 10.5: compare the continuous degree extension with AT's no-retraction
+argument; a smooth sphere map with a continuous disk extension has degree zero. -/
+theorem degree_eq_zero_of_sphereMap_extends (hn : 1 ≤ n)
+    (o : Manifold.Orientation (𝓡 n) (Metric.sphere (0 : E) 1) (Fin n))
+    (f : C(Metric.sphere (0 : E) 1, Metric.sphere (0 : E) 1))
+    (hf : ContMDiff (𝓡 n) (𝓡 n) ∞ f)
+    (F : C(Metric.closedBall (0 : E) 1, Metric.sphere (0 : E) 1))
+    (hF : ∀ x : Metric.sphere (0 : E) 1,
+      F ⟨x, Metric.sphere_subset_closedBall x.2⟩ = f x) :
+    degree o o f = 0 := by
+  sorry
+
 end SphereDegree
 
 section CircleDegree
@@ -3596,8 +3731,9 @@ variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensi
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
   [ChartedSpace H M] [IsManifold I 1 M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)] {m : ℕ}
 
-/-- **Layer 12.2, the gradient**: `sharp` of `df`, through Tau Ceti's fibrewise Riesz duality
-`Riemannian.Tensor.rieszDual` (consumed, not rebuilt). -/
+/-- **Layer 12.2, compatibility notation for `TauCeti.Manifold.riemannianGradient`**:
+this Riesz expression illustrates the interface against the pinned tensor API.
+Production uses the native gradient and its proved identities/smoothness. -/
 noncomputable def mgradient (I : ModelWithCorners ℝ E H) {M : Type*} [TopologicalSpace M]
     [ChartedSpace H M] [IsManifold I 1 M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
     (f : M → ℝ) (x : M) : TangentSpace I x :=
@@ -3781,24 +3917,78 @@ theorem integral_laplaceBeltrami_symm [MeasurableSpace M] [BorelSpace M] [T2Spac
 
 end Riemannian
 
+section ImmersionMetrics
+variable {ES FS HS HN SM NM : Type*}
+  [NormedAddCommGroup ES] [NormedSpace ℝ ES]
+  [NormedAddCommGroup FS] [NormedSpace ℝ FS]
+  [TopologicalSpace HS] [TopologicalSpace HN]
+  {IS : ModelWithCorners ℝ ES HS} {IN : ModelWithCorners ℝ FS HN}
+  [TopologicalSpace SM] [ChartedSpace HS SM]
+  [TopologicalSpace NM] [ChartedSpace HN NM]
+/-- DG12.1 data: pull back a pointwise Riemannian metric along an injective differential.
+Only the source must be finite dimensional; regularity is a separate theorem. -/
+@[instance_reducible]
+def immersionMetric [FiniteDimensional ℝ ES]
+    [IsManifold IS 1 SM] [IsManifold IN 1 NM]
+    [RiemannianBundle (fun x : NM => TangentSpace IN x)]
+    (f : SM → NM) (hinj : ∀ x, Function.Injective (mfderiv IS IN f x)) :
+    RiemannianBundle (fun x : SM => TangentSpace IS x) := by
+  sorry
+variable [FiniteDimensional ℝ ES] [IsManifold IS 1 SM] [IsManifold IN 1 NM]
+  [RiemannianBundle (fun x : NM => TangentSpace IN x)]
+theorem immersionMetric_inner (f : SM → NM)
+    (hinj : ∀ x, Function.Injective (mfderiv IS IN f x))
+    (x : SM) (u v : TangentSpace IS x) :
+    let _ := immersionMetric f hinj
+    inner ℝ u v = inner ℝ (mfderiv IS IN f x u) (mfderiv IS IN f x v) := by
+  sorry
+/-- Native contMDiffAt_pullback supplies the bilinear-form regularity. -/
+theorem immersionMetric_contMDiff (n : ℕ∞ω)
+    [IsContMDiffRiemannianBundle IN n FS (fun x : NM => TangentSpace IN x)]
+    (f : SM → NM) (hf : ContMDiff IS IN (n + 1) f)
+    (hinj : ∀ x, Function.Injective (mfderiv IS IN f x)) :
+    let _ := immersionMetric f hinj
+    IsContMDiffRiemannianBundle IS n ES (fun x : SM => TangentSpace IS x) := by
+  sorry
+section EuclideanAgreement
+variable {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
+theorem immersionMetric_eq_induced (n : ℕ∞ω) (f : SM → F)
+    (hf : ContMDiff IS 𝓘(ℝ, F) (n + 1) f)
+    (hinj : ∀ x, Function.Injective (mvfderiv IS f x)) :
+    immersionMetric f (fun x => by exact hinj x) =
+      (⟨(TauCeti.inducedRiemannianMetric f hf hinj).toRiemannianMetric⟩ :
+        RiemannianBundle (fun x : SM => TangentSpace IS x)) := by
+  sorry
+end EuclideanAgreement
+end ImmersionMetrics
+
 section RoundMetric
+
+local instance : Fact (Module.finrank ℝ ℂ = 1 + 1) := ⟨by simp⟩
 
 /-- **Layer 12.1.** The round metric on the circle, the pullback of the ambient inner product along
 the inclusion; `volume_circle` is the gate `vol(S¹) = 2π`, reusing the integral from 5.5. -/
 @[instance_reducible]
 noncomputable def roundMetricCircle : RiemannianBundle (fun x : Circle ↦ TangentSpace (𝓡 1) x) :=
-  sorry
+  inferInstanceAs (RiemannianBundle
+    (fun x : Metric.sphere (0 : ℂ) 1 ↦ TangentSpace (𝓡 1) x))
 
 theorem roundMetricCircle_inner (x : Circle) (v w : TangentSpace (𝓡 1) x) :
     let _ := roundMetricCircle
     ⟪v, w⟫_ℝ = ⟪mfderiv (𝓡 1) 𝓘(ℝ, ℂ) (fun z : Circle ↦ (z : ℂ)) x v,
       mfderiv (𝓡 1) 𝓘(ℝ, ℂ) (fun z : Circle ↦ (z : ℂ)) x w⟫_ℝ :=
-  sorry
+  TauCeti.inner_tangentSpace_sphere x v w
+
+/-- Continuity is consumed from the same native round-sphere instance. -/
+theorem roundMetricCircle_continuous :
+    let _ := roundMetricCircle
+    IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 1))
+      (fun x : Circle ↦ TangentSpace (𝓡 1) x) :=
+  TauCeti.instIsContinuousRiemannianBundleSphere
 
 theorem volume_circle :
     let _ := roundMetricCircle
-    let _ : IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 1))
-      (fun x : Circle ↦ TangentSpace (𝓡 1) x) := sorry
+    let _ := roundMetricCircle_continuous
     TauCeti.riemannianVolume (𝓡 1) Circle Set.univ = ENNReal.ofReal (2 * Real.pi) :=
   sorry
 

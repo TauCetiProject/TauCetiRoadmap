@@ -138,7 +138,7 @@ Checked against the pin; re-grep before citing anything in code.
 
 ## What Tau Ceti already has (consume)
 
-The signature file `Suggested.lean` imports the existing APIs
+The signature files `Suggested.lean` and `SuggestedGreen.lean` import the existing APIs
 consumed by these layers; none is rebuilt.
 
 - **Covering-space theory** (universal-covers roadmap): `TauCeti/AlgebraicTopology/UniversalCover/`
@@ -198,6 +198,18 @@ consumed by these layers; none is rebuilt.
   `AlgebraicTopology/Singular/Subdivision/` — `TauCeti.singularSubdivisionHomotopy`,
   `TauCeti.smallSingularChainHomotopyEquiv` and the small-chain quasi-isomorphism. Layer 8
   specializes them to real coefficients and builds on them.
+- **Induced and pulled-back metrics**: `Geometry/Manifold/Riemannian/Induced.lean`
+  supplies `TauCeti.inducedRiemannianMetric` for finite-dimensional sources and
+  arbitrary real inner product targets. `Riemannian/Pullback.lean` supplies
+  `Bundle.contMDiffAt_bilinearForm_pullback` and
+  `Bundle.ContMDiffRiemannianMetric.contMDiffAt_pullback`, with C^(n+1)-map/C^n-metric
+  regularity and no finite-dimensional target hypothesis. Layer 12.1 consumes
+  these regularity theorems and owns the positive-definite pullback data/API for
+  maps with injective differential into general Riemannian targets.
+- **Round spheres**: `Riemannian/Sphere.lean` supplies `TauCeti.sphereRoundMetric`,
+  its Riemannian/analytic/continuous instances and `inner_tangentSpace_sphere`.
+  `Circle` is the same unit-sphere carrier in ℂ with its existing atlas; consume
+  this metric and these instances rather than defining another round metric.
 - **The Riemannian volume measure** (geometric-topology roadmap):
   `Geometry/Manifold/Riemannian/VolumeDensity/` — `TauCeti.riemannianVolume`, glued from the chart
   volumes with density `chartVolumeDensity`, orientation-free, characterized by
@@ -251,17 +263,36 @@ Source snapshots: [distribution and local involutivity](https://github.com/TauCe
 [the existing foliation carrier](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Foliation/Basic.lean),
 and [graph-coordinate Frobenius](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Distribution/Graph.lean).
 
+The gradient definition, characteristic identities and C^(n+1)/C^n smoothness
+are present in `Riemannian/Gradient.lean` at Tau Ceti source revision
+`b4a17624635c02c7e5844919e6680fe8284faaf5`. The signature file's dependency
+revision does not export that module. Its local Riesz expression and admitted
+smoothness interface illustrate the same API against that earlier pin; their
+compilation does not discharge those admissions. Production consumes the native
+name and proofs, while 12.2 owns the additional chain/product/transport and
+flat-model comparisons. This source distinction requires no dependency-pin
+update or duplicate production gradient.
+
 ## What is missing (build here)
 
 Everything the layers specify beyond the inventory above. The layer order is the order of
 dependence, and the two hardest items — Banach smooth dependence (3.1) and the smoothing theorem
-for chains (8.3) — gate what follows them. `Suggested.lean`, `SuggestedRelative.lean`, `SuggestedContinuousPaths.lean`,
-the four `CompactIntegration/` modules and `FiniteParameterTransversalityTargets.lean`
-provide nonexhaustive interface prototypes; this README is definitive: a real definition wherever the pin allows one (`mpullback`, `flowDomain`/`flowOf`,
-`degreeAtRegularValue`, `mgradient`, `laplaceBeltrami`, …), otherwise a provisional definition whose
+for chains (8.3) — gate what follows them. `Suggested.lean`, `SuggestedRelative.lean`,
+`SuggestedContinuousPaths.lean`, the four `CompactIntegration/` modules,
+`FiniteParameterTransversalityTargets.lean` and `SuggestedGreen.lean` provide
+nonexhaustive interface prototypes. `SuggestedGreen.lean` is an import-only
+compatibility entrypoint for the same Green declarations in `Suggested.lean`;
+it defines no second copy. This README is definitive: a real definition wherever
+the pin allows one (`mpullback`, `flowDomain`/`flowOf`, `degreeAtRegularValue`,
+the gradient compatibility notation, `laplaceBeltrami`, …), otherwise a provisional definition whose
 type pins the data (a `sorry` body, never a `Prop`-typed placeholder) with theorems pinning its
 characteristic equations. An implementation must provide that data and those laws, not those
 definitions.
+
+The companion spellings `not_exists_retraction` and `exists_fixedPoint_closedBall`
+are consumer compatibility targets for AlgebraicTopology Stage 2, item 7, with
+the same maps and ball/sphere carriers. They authorize no second continuous
+fixed-point or no-retraction development; 10.5 owns the degree comparison.
 
 ## Prior work and coordination
 
@@ -276,8 +307,10 @@ confirm licences before porting.
 - `github.com/qinz1yang/differential-geometry` (Ziyang Qin, Jack McCarthy, Yuan Liao):
   smooth-section modules, tensor-bundle equivalences, a wedge with its algebra, flat forms with d² =
   0 — blueprint material for layers 0–1.
-- Brendan Seamas Murphy's Lean 3 Brouwer fixed-point theorem (singular homology): prior art for 8
-  and 10.5, to be ported in small pieces; the sphere-eversion project for partition-of-unity idioms;
+- Brendan Seamas Murphy's Lean 3 Brouwer fixed-point theorem (singular homology):
+  AlgebraicTopology Stage 2, item 7 owns its port and continuous fixed-point API;
+  10.5 consumes that API and supplies the degree comparison. The sphere-eversion
+  project supplies prior art for partition-of-unity idioms;
   the Meta ATLAS corpus (arXiv:2605.29955) as a reference, never as code.
 
 ---
@@ -1048,7 +1081,7 @@ about gauge integrals. The [Jordan-curve discussion](https://leanprover.zulipcha
 likewise favours existing maps and regularity hypotheses over a new smooth-Jordan-curve
 carrier. Build missing compatibility lemmas in Tau Ceti following those APIs; consume
 Mathlib declarations wherever they already express a target.
-[Suggested.lean](Suggested.lean) prototypes the AC specialization, one-dimensional
+[SuggestedGreen.lean](SuggestedGreen.lean) imports the AC specialization, one-dimensional
 `GP`/`Henstock` equivalence, gauge FTC, and agreement with the interval integral; the markdown
 specifies the full layer.
 
@@ -1208,6 +1241,14 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   `σ∘fullSimplexEquivStdSimplex.symm`; prove its smooth-map naturality square.
   Identify smooth simplices of each open submanifold with those ambient
   smooth simplices whose images lie in that open, respecting all these maps.
+  For every open submanifold W of X satisfying the same smoothing hypotheses,
+  construct the quotient relative chain complex
+  `C_*^∞(X,W)=C_*^∞(X)/C_*^∞(W)` and its map to AT's continuous relative
+  singular chains. Prove it is a quasi-isomorphism by the short exact
+  sequences of chain complexes and the five lemma from the two absolute
+  smoothing comparisons. Prove naturality under smooth maps of pairs,
+  relative boundary maps and enlargement of W. For second-countable
+  finite-dimensional manifolds, discharge the open submanifold's σ-compactness.
 - **8.3a Early relative approximation for vector targets.** Export this cut before
   the smooth-chain and de Rham comparisons. The target is a finite-dimensional
   real normed vector space V; the source is a finite-dimensional smooth T2
@@ -1330,7 +1371,6 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   formula, `chainIntegral_map` for smooth pairs, and compatibility with
   enlargement of W and compact-support relative classes. Layer 9.3 and
   ComplexKahlerGeometry K6 consume these maps and evaluation identities.
-
 - **8.5 The de Rham theorem.** `deRhamEquiv` for T2 σ-compact finite-dimensional M
   with every real model with corners as in8.3 [Lee, Thm. 18.14]. Prove the boundaryless
   theorem by the reusable **Mayer–Vietoris induction principle**
@@ -1679,8 +1719,8 @@ family/equation/derivative and native regular-parameter interfaces; this README
 is definitive and its target scope includes all the chart, collar and manifold
 comparisons above.
 
-**Chartwise and corner-source generality.** The displayed global
-statement uses Hausdorff M,N. Construct the same result for an arbitrary
+**Retained generality of the existing local export.** The displayed global
+statement uses Hausdorff M,N. Retain the earlier10.2a lane for an arbitrary
 second-countable boundaryless parametrizing manifold N without a global T2
 hypothesis: choose a countable atlas, restrict j to each actual Hausdorff open
 coordinate domain and apply the open-domain result there. Intersect the
@@ -1693,7 +1733,7 @@ and chart-null assertions under the coordinate diffeomorphisms and state
 choices in each specified nonempty open neighborhood. The elementary
 translation family has the particular global parameter space P=V.
 
-Construct the relative perturbation for every compact finite-dimensional
+Keep the old relative construction for every compact finite-dimensional
 Hausdorff real source with corners of dimension1 or2, not only the standard
 interval/disc/square. Specify the actual compatible ambient smooth extensions
 of its already-fixed boundary-collar data. Native8.3a relative approximation
@@ -1719,8 +1759,16 @@ replaces that stronger target nor assumes it implemented.
   `degree` and its identification with the action of `f^*` on `H^n ≅ ℝ`.
 - **10.5 Degree calculus.** Homotopy invariance, `degree_id`, `degree_const`, composition,
   `surjective_of_degree_ne_zero`, `degree_antipodal`; the continuous extension for sphere targets
-  and, through 8.3, general targets; `not_exists_retraction` and `exists_fixedPoint_closedBall`;
-  reconciliation with Tau Ceti's `Circle.fundamentalGroupMulEquiv` on `S¹`
+  and, through 8.3, general targets. Consume AlgebraicTopology Stage 2, item 7’s
+  `noRetraction_diskBoundary`, `brouwerFixedPoint_topCatDisk` and
+  `brouwerFixedPoint_compactConvex`, with its normed-ball comparison. Prove
+  `degree_eq_zero_of_sphereMap_extends`: a smooth sphere self-map with a
+  continuous extension to the disk has degree zero, using the continuous
+  degree extension and homotopy invariance. With `degree_id`, identify this
+  degree obstruction with AT’s no-retraction theorem and consequent
+  fixed-point argument. The generic continuous theorems have that single
+  topological owner.
+  Reconciliation with Tau Ceti's `Circle.fundamentalGroupMulEquiv` on `S¹`
   (`fundamentalGroupMulEquiv_map_eq_zpow_degree`). *Acceptance* (dimension `≥ 1`; ⚠ on a point the
   constant map is the identity): `deg id = 1`, `deg const = 0`, `deg (z ↦ zⁿ) = n`,
   `deg antipodal = (−1)^{n+1}`.
@@ -1743,29 +1791,70 @@ replaces that stronger target nor assumes it implemented.
 Riesz duality.*
 
 - **12.1 Metrics.** Existence by partition of unity (`nonempty_contMDiffRiemannianMetric`)
-  [Lee, Prop. 13.3]; pullback, product, `Opens` and boundary metrics; the round metric
-  (`roundMetricCircle`).
-- **12.2 Gradient.** `mgradient` through `rieszDual`, with `inner_mgradient` (proved), the chain
-  rule, smoothness, and `mgradient_eq_gradient` on the flat model.
+  [Lee, Prop. 13.3]. Consume `TauCeti.inducedRiemannianMetric` and
+  `inducedRiemannianMetric_inner` from `Geometry/Manifold/Riemannian/Induced.lean`
+  for a finite-dimensional source and a C^(n+1) map into any real inner product
+  space with injective differential, giving a C^n metric. Build `immersionMetric`
+  for maps with injective `mfderiv` into arbitrary Riemannian manifolds: its
+  pointwise metric data require only the finite-dimensional source and the
+  target's pointwise metric, without a regularity or finite-dimension assumption
+  on the target. Prove `immersionMetric_inner`. Prove
+  `immersionMetric_contMDiff` for every `n : ℕ∞ω`, a C^(n+1) map and C^n target
+  metric, consuming the native bilinear pullback regularity theorem. Prove
+  `immersionMetric_eq_induced` in the real-inner-product target case. Include
+  restrictions, smooth isometry transport and identity/composition of pullbacks.
+  Build product, `Opens` and boundary metrics. Consume the existing analytic
+  `sphereRoundMetric` and its instances on spheres and Circle; `roundMetricCircle`
+  in the prototype selects that same native instance. The new circle target is
+  its volume comparison `volume_circle`, using the integral from 5.5.
+- **12.2 Gradient.** Consume
+  [`TauCeti.Manifold.riemannianGradient`](https://github.com/TauCetiProject/TauCeti/blob/b4a17624635c02c7e5844919e6680fe8284faaf5/TauCeti/Geometry/Manifold/Riemannian/Gradient.lean),
+  its fibrewise Riesz definition, characteristic inner-product/zero/negation
+  identities and `contMDiff_riemannianGradient` at C^(n+1)/C^n regularity.
+  Add the chain/product rules, smooth pullback/isometry transport and flat-model
+  equality with Mathlib's `gradient`. `mgradient` in the signatures is compatibility
+  notation for this native gradient; production declarations use its native name.
 - **12.3 Divergence, Hessian, Laplacian.** `divergence` (the trace of `leviCivitaConnection X`),
   `hessian` (symmetric), `laplaceBeltrami := divergence ∘ mgradient`, the trace of the Hessian
   (`laplaceBeltrami_eq_sum_hessian`), in the `Δ` notation class.
 - **12.4 Volume form, density, measure.** `riemannianVolumeForm` [Lee, Prop. 15.29] and the
   invariant `riemannianDensity`, whose chart coefficient is Tau Ceti's `chartVolumeDensity`. The
-  measure is Tau Ceti's `TauCeti.riemannianVolume`, and no second one is defined; the targets are
+  measure is Tau Ceti's `TauCeti.riemannianVolume`; consume its native
+  `TauCeti.isLocallyFiniteMeasure_riemannianVolume` instance from
+  `TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume`, with its
+  finite-dimensional, continuous-metric, Borel and Lindelöf hypotheses.
+  No second measure or locally-finite instance is defined; the targets are
   its bridge to densities, agreement with `integralDensity` on compactly supported continuous
   functions (`integral_riemannianVolume_eq_integralDensity`), full support, and positivity through
   `lintegral` (⚠ never the junk-valued Bochner integral); and `d(ι_X dV) = (div X) dV`
   (`mextDeriv_interior_riemannianVolumeForm`).
 - **12.5 Divergence theorem and Green.** `∫_M div X dV = ∫_{∂M} ⟪X, N⟫ dṼ` with the outward unit
   normal [Lee, Thm. 16.32]; `integral_divergence_eq_zero`, `integral_mul_laplaceBeltrami`,
-  `integral_laplaceBeltrami_symm` on boundaryless `M`; everything analytic beyond this is the PDE
-  roadmap's. *Acceptance:* `laplaceBeltrami_eq_laplacian` (the sign gate), `Δ‖x‖² = 2n`, and
+  `integral_laplaceBeltrami_symm` on boundaryless `M`. PDE owns scalar Euclidean
+  Sobolev/PDE estimates; PseudodifferentialOperators P1.0 owns differential operators,
+  symbols and formal density adjoints; ComplexKahlerGeometry K5 owns finite-rank
+  real/complex bundle distributions, the all-real-order Hilbert scale, smooth
+  Laplace-type regularity, real Hodge star and compact real/complex Hodge theory.
+  The general pseudodifferential calculus consumes that scale.
+  *Acceptance:* `laplaceBeltrami_eq_laplacian` (the sign gate), `Δ‖x‖² = 2n`, and
   `volume_circle = 2π`.
 
 ## Statements that must not enter the library
 
 Each is a tempting mistake with its refutation.
+
+- **"Separately smooth face data always extend to a smooth simplex into a
+  boundary target."** On a3-simplex into `[0,∞)`, prescribe near the origin
+  `(y−z)²`, `(x−z)²` and `(x−y)²` on its three coordinate faces. Add a smooth
+  nonnegative bump of x+y+z, zero near0 and at least1 near the opposite face,
+  to make compatible smooth nonnegative data on all four faces. Put
+  `Q=x²+y²+z²−2xy−2xz−2yz`; a continuous filling is
+  `max(Q+ψ(x+y+z),0)` for that bump ψ. On the opposite face Q≥−1/3,
+  so this filling has the prescribed smooth positive face values. A smooth filling with these faces
+  would have zero value/gradient and Hessian with diagonal2/off-diagonal−2
+  at0; along `(t,t,t)` its value is `−3t²+o(t²)<0`, a contradiction.
+  Thus8.3's strict face-fixing lemma is boundaryless; its full convex-corner
+  chain equivalence is constructed separately by inward domination.
 
 - **"Orientable = admits a positive-Jacobian atlas", as a definition.** `Set.Icc 0 1` is orientable
   but its two charts cannot be made positively transitioning; chart signs are the definition (2.1),
@@ -1871,6 +1960,10 @@ One owner per shared construction, stated identically on both sides.
   AT6.3's homological orientation system, chart-normalized point generators, chosen local
   section, `RelativeTwistedClassDatum` and compact-support class factory. DG9.3 owns the
   smooth/constant-system/real-coefficient conversions and the integration comparison.
+  This uses AT6.1's evaluation pairing and relative cochains together with AT6.3;
+  it does not consume AT6.5's singular duality or DG10's degree comparison.
+  Later topological degree comparisons consume DG10; they are not prerequisites
+  for AT6.3 or DG9.3.
 - **Hopf–Rinow** owns the Levi-Civita connection, covariant differentiation along curves, geodesics
   and their flow, the exponential map, Hopf–Rinow, and the manifold inverse function theorem;
   layer 12 builds on the connection, 10.1 consumes the inverse function theorem, and 3.2 consumes
@@ -1879,7 +1972,9 @@ One owner per shared construction, stated identically on both sides.
 - **Lie groups** owns `lieExp`, one-parameter subgroups, `Ad`, the closed-subgroup and Lie-specific
   theorems, consuming layer 3's flows (reconciled in 3.3), layer 4's Frobenius and leaves, and 2.3's
   covers.
-- **PDE** owns everything analytic about `Δ` beyond 12.5. **DG and `A∞`** owns the generic DGA
+- **CKG K5a** owns compact real/complex bundle Laplace analysis beyond 12.5;
+  **PDE** supplies scalar Euclidean/weak inputs and **PDO** the broader
+  symbol calculus. **DG and `A∞`** owns the generic DGA
   packaging; the wedge product on de Rham cohomology is built here, the cup product by algebraic
   topology. **Heegaard Floer (analytic)** consumes orientations and degree; layer 0.4 owns migration
   of its existing 2-form API and consumers to the generic carrier, and 6.1 supplies the integration
@@ -1889,18 +1984,29 @@ One owner per shared construction, stated identically on both sides.
 
 ## Ordering
 
-Layers 0–1 first. Layers 2, 3 (except the form half of 3.4) and 12.1–12.3 are independent of them; 4
+Layers 0–1 first. Layers 2, 3 (except the form half of 3.4) and 12.1–12.3 are independent of them;
+3.5's finite-dimensional suspension adapters use the native maximal-flow theorem,
+while its Banach case needs 3.1–3.2; 4
 needs 3 and 1.4; 12.4–12.5 need 0, 2 and 5. The manifold integration track is
 5.1–5.5 → {6, 7} → 8 → 9; 5.6 runs in parallel from Mathlib's flat calculus and integration
 and compares with 5.2–5.5. Layers 6 and
 most of 7 are available once 0–1 land (6.3 needs only 5.4's homotopy identity).
-Regularity10.1 uses only native differentials and its separate inverse theorem;
-Sard10.2 uses finite-dimensional calculus and countable-chart null-set arguments.
-The relative approximation8.3a and parametric export10.2a precede their RS2G/LG6
-consumers and do not consume3.6, smooth-chain equivalences, de Rham or degree.
-The integration/degree comparisons10.3–10.5 retain their2,5,7,9.2 inputs;
-11 uses that degree calculus. Start 3.1 and the direct boundaryless lane of8.3 early;
-8.3's generic corner smoothing requires3.6. Claim single numbered items or smaller; the headline
+The vector-target approximation8.3a and finite-parameter relative transversality10.2a
+use only native approximation/cutoffs, the differential/level-set charts and
+finite-dimensional Sard; their RS2G/LG6 applications are downstream. They do
+not consume8.3's smooth-chain equivalences,3.6 inward domination or degree.
+The regular-point/value definitions in 10.1 need only `mfderiv`; its inverse-function
+consequence consumes the native inverse theorem. Sard in 10.2 needs only the
+finite-dimensional chart/calculus floor and countable-chart null-set arguments.
+The integration/degree comparisons in 10.3–10.5 need 2, 5, 7 and 9.2; 11 uses
+the degree calculus. Start 3.1 and the direct boundaryless lane of8.3 early;
+8.3's generic corner smoothing requires3.6.
+9.3's fundamental-class integration comparison also needs AT6.3, after layers 2
+and 5.1; its boundaryless and interior-support formulas precede the smooth-boundary
+collar compatibility target.
+The relative maps in 8.4 precede their isomorphism, which uses 8.5 on both opens;
+8.5's absolute proof does not consume that relative isomorphism.
+Claim single numbered items or smaller; the headline
 theorems (5.3, 8.5, 9.3, 10.4, 11.1) are staged claims whose intermediate lemmas land as reusable
 pull requests.
 
