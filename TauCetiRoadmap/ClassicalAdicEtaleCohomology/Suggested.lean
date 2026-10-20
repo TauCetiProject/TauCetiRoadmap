@@ -75,9 +75,37 @@ namespace TauCetiRoadmap.ClassicalAdicEtaleCohomology
 
 /-! ## Layer 2: Henselian Huber rings -/
 
+open Polynomial in
+/-- Gabber's polynomial test (README §2.1): a pair `(R, I)` with `I` in the Jacobson radical is
+henselian when every `Tⁿ(T - 1) + aₙTⁿ + ⋯ + a₀` with `n ≥ 1` and all `aᵢ ∈ I` has a root
+in `1 + I`. The conclusion supplies Mathlib's lifting of simple roots modulo `I`,
+`HenselianRing.is_henselian`. -/
+theorem HenselianRing.of_gabber {R : Type*} [CommRing R] {I : Ideal R}
+    (hI : I ≤ Ideal.jacobson ⊥)
+    (h : ∀ n : ℕ, 1 ≤ n → ∀ a : ℕ → R, (∀ i ≤ n, a i ∈ I) →
+      ∃ α : R, α - 1 ∈ I ∧
+        (X ^ n * (X - 1) + ∑ i ∈ Finset.range (n + 1), C (a i) * X ^ i).IsRoot α) :
+    HenselianRing R I := by
+  sorry
+
+/-- Henselianity of a pair depends only on its ideal as a non-unital ring: a ring map restricting
+to a bijection `I → I'` identifies henselianity of `(A, I)` and `(A', I')` (README §2.1). -/
+theorem HenselianRing.iff_of_bijOn_ideal {A A' : Type*} [CommRing A] [CommRing A']
+    (φ : A →+* A') (I : Ideal A) (I' : Ideal A') (h : Set.BijOn φ I I') :
+    HenselianRing A I ↔ HenselianRing A' I' := by
+  sorry
+
 namespace Huber
 
 variable {A : Type*} [CommRing A]
+
+variable (A) in
+/-- A Huber ring is henselian when `(A°, A°°)` is a henselian pair (README §2.1). Completeness
+is not assumed; `henselianRing_iff_of_isOpen` lets any open power-bounded subring replace `A°`. -/
+class IsHenselian [TopologicalSpace A] [IsTopologicalRing A] [TauCeti.Huber.IsHuberRing A] :
+    Prop where
+  henselianRing_powerBoundedSubring : HenselianRing (TauCeti.Huber.powerBoundedSubring A)
+    (TauCeti.Huber.topologicallyNilpotentIdeal A)
 
 /-- Henselianity along the topologically nilpotent elements is independent of the open
 power-bounded subring (README §2.1, `Huber.henselianRing_iff_of_isOpen`). -/
@@ -94,7 +122,7 @@ theorem henselianRing_iff_of_isOpen [TopologicalSpace A] [IsTopologicalRing A]
 
 /-- A ring of definition in a complete Hausdorff Huber ring is complete for its ideal of
 definition (README §2.1, `Huber.PairOfDefinition.isAdicComplete`). Its Tate specialization
-is AdicEtaleGeometry A4.5's `PairOfDefinition.isAdicComplete_of_completeSpace`. -/
+is AdicEtaleGeometry A1.0.2's `PairOfDefinition.isAdicComplete_of_completeSpace`. -/
 theorem PairOfDefinition.isAdicComplete [UniformSpace A] [IsUniformAddGroup A]
     [IsTopologicalRing A] [CompleteSpace A] [T2Space A]
     (P : TauCeti.Huber.PairOfDefinition A) :
@@ -113,6 +141,16 @@ theorem henselianRing_of_completeSpace [UniformSpace A] [IsUniformAddGroup A]
     (hI : ∀ x : B, x ∈ I → IsTopologicallyNilpotent (x : A)) :
     HenselianRing B I := by
   sorry
+
+open TauCeti ValuationSpectrum in
+/-- The special subset `S(D|E / t)` of `Spa(A, A⁺)` (README §2.2): `|d| ≤ |t| ≠ 0` for `d ∈ D`
+and `|e| < |t|` for `e ∈ E`, the strict bound being the negation of the reverse weak comparison.
+As for Tau Ceti's `rationalSubset`, the openness of `(D ∪ E ∪ {t})·A` belongs to the special-subset
+predicate, not to the set. -/
+def specialSubset [TopologicalSpace A] (Aplus : Subring A) (D E : Finset A) (t : A) :
+    Set (Spv A) :=
+  spa Aplus ∩ {v | (∀ d ∈ D, v.toValuativeRel.vle d t) ∧
+    (∀ e ∈ E, ¬ v.toValuativeRel.vle t e) ∧ ¬ v.toValuativeRel.vle t 0}
 
 end Huber
 
@@ -171,6 +209,28 @@ variable {A B : Type*} [CommRing A] [CommRing B]
 hypotheses enter the equivalences below, not this predicate. -/
 def IsSurjectiveValuationMap (φ : A →+* B) : Prop :=
   Function.Surjective (PrimeSpectrum.comap φ)
+
+/-- A surjective map of valuation spectra out of a domain is injective: the zero ideal is a
+contracted prime. -/
+theorem IsSurjectiveValuationMap.injective [IsDomain A] {φ : A →+* B}
+    (hφ : IsSurjectiveValuationMap φ) : Function.Injective φ := by
+  sorry
+
+/-- A surjective map of valuation spectra is local, for arbitrary commutative rings. -/
+theorem IsSurjectiveValuationMap.isLocalHom {φ : A →+* B} (hφ : IsSurjectiveValuationMap φ) :
+    IsLocalHom φ := by
+  sorry
+
+variable (A) in
+/-- The identity is a surjective map of valuation spectra. -/
+theorem IsSurjectiveValuationMap.id : IsSurjectiveValuationMap (RingHom.id A) := by
+  sorry
+
+/-- Surjective maps of valuation spectra compose. -/
+theorem IsSurjectiveValuationMap.comp {C : Type*} [CommRing C] {φ : A →+* B} {ψ : B →+* C}
+    (hφ : IsSurjectiveValuationMap φ) (hψ : IsSurjectiveValuationMap ψ) :
+    IsSurjectiveValuationMap (ψ.comp φ) := by
+  sorry
 
 /-- For valuation domains, the spectrum condition is precisely injectivity and locality.
 Fields are included as rank-zero valuation rings. -/
@@ -446,7 +506,7 @@ end OpenRegions
 end Radial
 
 /-
-Further definitions specified in README.md, by layer, with no carriers at the pins:
+Further definitions and theorems specified in README.md, by layer, not stated in this file:
 Layer 1: AdicSpace.EtaleSheaf, AdicSpace.ProEtaleSheaf, AdicSpace.EtaleDPlus,
 AdicSpace.RGamma, AdicSpace.Rpushforward, AdicSpace.PseudoAdic, AdicSpace.PseudoAdicSite,
 AdicSpace.EtaleSheaf.extendByZero, locallyClosedExtensionByZero, Support,
@@ -454,11 +514,28 @@ AdicSpace.EtaleSheaf.IsLocallyConstant, AdicSpace.TorsionLocalSystem,
 AdicSpace.EtaleSheaf.IsConstructible, AdicSpace.DbConstructible, AdicSpace.muN,
 AdicSpace.tateTwist, SupportedTildeLimit, SupportedTildeLimit.fullSupport_iff,
 ProEtaleSheaf.completedZp, LisseSheaf.
-Layer 2: Huber.IsHenselian, Huber.Henselization, Huber.Pair.rationalHenselization,
-Huber.specialSubset, Huber.specialSubset_eq_diff, Huber.IsSpecialSubset,
-Huber.isSpecialSubset_rationalSubset, Huber.IsProSpecialSubset, Huber.Triple,
-Huber.Pair.proSpecialHenselization, AdicSpace.PseudoAdic.schemeFibreProduct,
-AdicSpace.henselianComparison, PerfectoidHuberApproximation.
+Layer 2: HenselianRing.iff_of_isUniversalHomeomorph, Huber.IsHenselian.henselianRing,
+Huber.IsHenselian.of_henselianRing, Huber.IsHenselian.of_completeSpace,
+Huber.IsHenselian.of_discreteTopology, Huber.IsHenselian.of_isOpen_subring,
+Huber.IsHenselian.of_ringEquiv, Huber.IsHenselian.iff_henselianRing_ringOfDefinition,
+Huber.Pair.IsHenselian, Huber.IsHenselian.isOpen_setOf_isUnit,
+Huber.IsHenselian.isClosed_of_isMaximal, Huber.IsHenselian.isUnit_iff_forall_mem_spa_notMem_supp,
+Huber.Henselization, Huber.Pair.rationalHenselization, Huber.specialSubset_eq_diff,
+Huber.IsSpecialSubset, Huber.isSpecialSubset_rationalSubset, Huber.IsProSpecialSubset,
+Huber.IsSpecialSubset.isLocallyClosed, Huber.IsSpecialSubset.isConstructible,
+Huber.IsProSpecialSubset.isProConstructible, Huber.IsProSpecialSubset.isConvex, Huber.Triple,
+Huber.Pair.proSpecialHenselization, Huber.Pair.proSpecialHenselization.colimitEquiv,
+AdicSpace.PseudoAdic.schemeFibreProduct, AdicSpace.henselianComparison,
+AdicSpace.henselianComparison_bijective, AdicSpace.henselianComparison_bijective_of_spec,
+AdicSpace.henselianComparison_constant_bijective, AdicSpace.henselianComparison_colimit,
+AdicSpace.PseudoAdic.stalk_higherDirectImage,
+HenselianRing.etaleCohomology_pushforward_sepClosed_eq_zero,
+ValuationSpectrum.zariskiRiemannHomeomorphLimit,
+ValuationSpectrum.zariskiRiemann_cohomology_eq_zero,
+AlgebraicGeometry.isLocalIso_of_etale_of_isSepClosed_functionField,
+AdicSpace.spec_spa_etaleCohomology_bijective,
+AdicSpace.tateAlgebra_spec_spa_etaleCohomology_bijective, AdicSpace.fujiwara_comparison,
+PerfectoidHuberApproximation.
 Layer 3: AdicSpace.IsTaut, AdicSpace.IsTautMap (on AdicSpacesPartII R0.0 locally spectral maps), StrictAnalyticSpace, StrictAnalyticEtaleSite,
 AdicBerkovichToposMorphism, OverconvergentEtaleSheaf, PreadicSpace.ZpLocalSystem,
 PreadicSpace.IsogenyZpLocalSystem, PreadicSpace.QpLocalSystem, PreadicSpace.BoundedLattice,
@@ -494,7 +571,8 @@ etale category, separated finitely presented qcqs schemes and noetherian prime-p
 invertible on the base), ClassicalAlgebraic.IsUniversallyLocallyAcyclic (strict-local acyclicity
 after every scheme base change on the same perfect-constructible coefficient domain,
 extending VanishingCycles.localAcyclicity and agreeing with it for finite coefficients),
-AlgebraicGeometry.ValuationQuadruple, AlgebraicGeometry.ValuationQuadruple.Hom,
+AlgebraicGeometry.ValuationQuadruple, AlgebraicGeometry.ValuationQuadruple.Hom (with its id,
+comp, id_comp and comp_id),
 AlgebraicGeometry.ValuationQuadruple.nearbyCycles,
 AlgebraicGeometry.ValuationQuadruple.galoisAction,
 AlgebraicGeometry.ValuationQuadruple.nearbyCyclesBaseChange, Valuation.gaussPoly,
@@ -520,7 +598,12 @@ rank-one base points can acquire higher-rank points. No locally finite-type fibr
 is required for this equality.
 README §8.3's arbitrary-open model expression is the fixed proper-model composite
 R pi_(P_0)* j_0!, agreeing with ClassicalAlgebraic.properSupports when the open is quasi-compact.
-Layer 9: AdicSpace.IsSmoothCurve, AdicSpace.curveTrace, BoundaryPretrace,
+Layer 9: AdicSpace.Smooth.finrank_eq_of_isPureRelDim, AdicSpace.Smooth.dimTr_eq_of_isPureRelDim,
+AdicSpace.Smooth.isPureRelDim_comp, StrictAnalyticSpace.u_smooth_isPureDim (README §9.4: a smooth
+map of relative pure dimension d has differentials of rank d and dim.tr = d on nonempty sources,
+relative pure dimensions add along smooth composites, and the Berkovich realization of a smooth
+partially proper map of taut rigid spaces is smooth of pure dimension d),
+AdicSpace.IsSmoothCurve, AdicSpace.curveTrace, BoundaryPretrace,
 BoundaryResidueTrace, AnalyticLCICycleClass, AffineSpaceTrace, AnalyticFirstChernClass,
 SmoothRelativeTrace, SmoothRelativeTrace.topDegreeComposition (the top-degree Leray operation
 for smooth partially proper taut rigid maps of pure dimensions d,e over a complete nontrivially
