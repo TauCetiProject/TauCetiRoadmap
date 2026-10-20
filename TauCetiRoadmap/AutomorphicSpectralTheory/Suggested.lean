@@ -315,7 +315,7 @@ def kloosterman_sum (m n : ℤ) (c : ℕ) [NeZero c] : ℂ :=
 theorem kloosterman_sum_symm (m n : ℤ) (c : ℕ) [NeZero c] :
     kloosterman_sum m n c = kloosterman_sum n m c := by sorry
 
-/-- The SL₂ spherical translate at s = 2 is smooth and has an infinite-dimensional
+/-- The SL₂ spherical translate at s = 2 is real-analytic and has an infinite-dimensional
 rotation-orbit span whenever the translating diagonal element is nontrivial. -/
 theorem spherical_translate_not_k_finite (t : ℝ) (ht : t ≠ 0) :
     let F : ℝ → ℂ := fun θ =>
@@ -420,8 +420,8 @@ theorem weighted_character_rank_one_scalar (R : ℂ → ℂ) (lam R' a : ℂ)
 
 /-! ## Layer 7: Cyclic transfer and degree-one comparison
 
-The signatures below give the ordered norm, normalized intertwiner, scalar transfer,
-finite spectral isolation, analytic tail, and arithmetic splitting interfaces of §§7.0–7.1d.
+The signatures below give the ordered norm, normalized intertwiner, Satake power sum,
+analytic tail, and arithmetic splitting interfaces of §§7.0–7.1d.
 The full automorphic trace comparison, cuspidal Hecke-root bound, cohomological extension
 construction and descent statements are specified in the README.
 The local unitary and residual-Speh Shintani theorem of §7.0b supplies individual
@@ -459,25 +459,12 @@ theorem whittaker_intertwiner_unique {G V : Type*} [Group G]
       (∀ g v, A (ρ g v) = ρ (σ g) (A v)) ∧
       Λ.comp A.toLinearMap = Λ ∧ A ^ l = 1 := by sorry
 
-/-- Norm-pushforward of the measure gives the scalar transfer character identity. -/
-theorem norm_transfer_character {G H : Type*} [Group G] [Group H]
-    [MeasurableSpace G] [MeasurableSpace H] (N : G →* H) (hN : Measurable N)
-    (μ : Measure G) (ν : Measure H) (hμ : Measure.map N μ = ν)
-    (χ : H →* ℂˣ) (f : H → ℂ)
-    (hf : Integrable (fun x => f x * (χ x : ℂ)) ν) :
-    (∫ x, f (N x) * (χ (N x) : ℂ) ∂μ) =
-      ∫ x, f x * (χ x : ℂ) ∂ν := by sorry
-
 /-- The unramified trace after residue degree f is the power sum of the Satake roots.
 GL2AutomorphicRepresentationsAndTransfer R17.4.1 uses the diagonal complex specialization
 to compare its trace-and-determinant recurrence. At f = 0 the trace is n. -/
 theorem satake_power_sum {n : ℕ} (α : Fin n → ℂ) (f : ℕ) :
-    Matrix.trace ((Matrix.diagonal α) ^ f) = ∑ i, (α i) ^ f := by sorry
-
-/-- Independent character distributions determine every coefficient in a finite spectral sum. -/
-theorem trace_coefficient_isolation {ι T : Type*} [Fintype ι]
-    (χ : ι → T → ℂ) (hχ : LinearIndependent ℂ χ) (a b : ι → ℂ)
-    (h : ∀ t, ∑ i, a i * χ i t = ∑ i, b i * χ i t) : a = b := by sorry
+    Matrix.trace ((Matrix.diagonal α) ^ f) = ∑ i, (α i) ^ f := by
+  simp only [Matrix.diagonal_pow, Matrix.trace_diagonal, Pi.pow_apply]
 
 /-- A constituent LRS bound implies the common total-rank bound after unitary normalization. -/
 theorem lrs_isobaric_root_bound (m n : ℕ) (hm : 0 < m) (hmn : m ≤ n)

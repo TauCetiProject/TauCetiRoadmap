@@ -822,7 +822,7 @@ Use the supplier's tempered and square-integrable-mod-centre representations wit
 - `SL₂(ℝ)` has holomorphic and antiholomorphic discrete series of integral lowest/highest weights `k≥2`; the trivial module is not discrete series.
 - In the spherical `SL₂` standard module with positive exponent giving infinitesimal character of the trivial module, the Langlands quotient is trivial; reducibility does not identify the quotient with the whole induced module.
 
-([Wal79], §§1–2 and `6`, Theorems 6.3 and 6.7, pp.71–74, 79–80; use contragredients to pass from its submodule convention to positive standard quotients; discrete-series parameter theory cited there. [CD90], §§1–2, pp.196–205.)
+([Wal79], §§1–2 and `6`, Theorems 6.3 and 6.7, pp.71–74, 79–80; use contragredients to pass from its submodule convention to positive standard quotients; discrete-series parameter theory cited there. [CD90], §§1–2, pp.196–203.)
 
 *Needs:* AutomorphicFormsOnReductiveGroups §§2.1–2.4 (Harish-Chandra modules, induction, tempered/discrete series and Langlands classification); ArithmeticLocallySymmetricSpaces ALS.F.1 (real points and maximal compact) and ALS.0.2 (real reductive Lie adapter); RepresentationTheory/LieGroups Layer 9 (Iwasawa, Cartan and KAK); ReductiveGroupsPartII RG2.0 (shared point topology); RepresentationTheory/LieHighestWeight Layer 7 (central algebra); RepresentationTheory/CompactGroups (`K`-types).
 
@@ -902,7 +902,7 @@ Prove the following API statements.
 - For `P=G` on `G(𝔸)¹`, `ρ_P=H_P=0` and `I_P` is right translation on the discrete inducing space.
 - The `GL₂` open-cell torus model acts by `r^(s+1/2)f(rx)`, and preserves the `L²` norm for purely imaginary `s`.
 - Dropping the half-modulus in the same dilation model, at `r=4` a nonzero vector has half its original norm.
-- For `SL₂/ℚ` with trivial Borel datum and spherical finite components, let `K_∞=SO(2)`, `a_y = diag(√y, 1/√y)` and `f_s(n a_y k) = y^s`. The compact vector `φ=1` is `K_∞`-fixed. At `s = 2` and `h_t = diag(e^t, e^(−t))`, `t≠0`, its translate on `k_θ` is `F_t(θ) = (e^(2t) sin²θ + e^(−2t) cos²θ)^(−2)`. The theorem `spherical_translate_not_k_finite` gives its smoothness and infinite-dimensional rotation-orbit span: in `z=e^(iθ)` its denominator is the square of a Laurent polynomial with nonzero `z²` and `z⁻²` coefficients; only Laurent monomials are invertible Laurent polynomials. Thus `F_t` is not a trigonometric polynomial. The initial identities in §§1.2 and 1.4 do not accept this translated input; the full translation identities use §2.4a.
+- For `SL₂/ℚ` with trivial Borel datum and spherical finite components, let `K_∞=SO(2)`, `a_y = diag(√y, 1/√y)` and `f_s(n a_y k) = y^s`. The compact vector `φ=1` is `K_∞`-fixed. At `s = 2` and `h_t = diag(e^t, e^(−t))`, `t≠0`, its translate on `k_θ` is `F_t(θ) = (e^(2t) sin²θ + e^(−2t) cos²θ)^(−2)`. The theorem `spherical_translate_not_k_finite` gives its real-analyticity and infinite-dimensional rotation-orbit span: in `z=e^(iθ)` its denominator is the square of a Laurent polynomial with nonzero `z²` and `z⁻²` coefficients; only Laurent monomials are invertible Laurent polynomials. Thus `F_t` is not a trigonometric polynomial. The initial identities in §§1.2 and 1.4 do not accept this translated input; the full translation identities use §2.4a.
 
 ([Art05], §7 pp.32–34; [BK14], §2.4 (smooth-vector topology), §11 Theorem 11.6 and §12.1 (smooth and Hilbert compact pictures).)
 
@@ -2135,7 +2135,7 @@ Prove `singular_parameter_limits`. Near coincident regular parameters, the compl
 
 *Standing hypotheses:* differentiation and residues have the common denominator and locally uniform derivative majorants; exact equality is the cuspidal formula, while general discrete data retains its controlled error.
 
-([Art82], §§3–6 taking residues; §9 regularity discussion, pp.68–69.)
+([Art82], §2 (residues) and §§3–6 (exponents and constant terms); §9 regularity discussion, pp.68–69.)
 
 *Needs:* §3.5; §3.6; §2.6; `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
 
@@ -2677,7 +2677,7 @@ For `A∈Cl⁺(K)`, construct the reduced quadratic irrational and its periodic 
 - Replacing a reduced representative by its next cycle element gives the same surface and weighted integrals under the induced isometry.
 - The factorization `D=1·D` gives the trivial genus character; when `d,d′<0`, `χ(J)=−1`, distinguishing the boundary sign case from `d,d′>0`.
 
-([DIT16], §§2–3, pp.951–959, especially Theorem 1 and (3.3), pp.957–958, and §7, genus-character definition, p.968.)
+([DIT16], §§2–3, pp.951–959, especially Theorem 1 and (3.3), pp.957–958, and §7, genus-character definition, p.971.)
 
 *Needs:* GlobalQuadraticForms and NumberFieldArithmetic (quadratic fields, ideals and units); FuchsianOrbifolds (hyperbolic quotients, fundamental polygons and Gauss–Bonnet); §0.37.
 
@@ -3709,7 +3709,7 @@ Construct normalized twisted characters of `σ`-stable irreducible admissible lo
 - For split `E_v=K_v^l`, `δ=(δ₁,…,δ_l)` has norm class represented by `δ₁⋯δ_l`; the centralizer comparison uses that product, not the product of conjugacy classes separately.
 - Replacing `A_Π` by `ζA_Π` with `ζ^l=1` multiplies its twisted character by `ζ`. Unless `ζ=1` it fails the Whittaker normalization; `σ`-stability alone does not determine the trace.
 
-(Source: [AC89], Chapter I §§1–2, pp.3–12, §3, pp.20–26, and §6.3, pp.55–57; [Art05], §26, pp.188–190.)
+(Source: [AC89], Chapter I §§1–2, pp.3–12, §3, pp.20–26, and §6.3, pp.54–57; [Art05], §26, pp.188–190.)
 
 *Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.2 local Whittaker uniqueness; §§0.48–0.50, 2.1–2.3 and 4.14a for real representations, intertwiners and number-field residual terms; AdelicAlgebraicGroups §§0.1–0.3 and 2.1–2.3 for restriction of scalars, measures and quotients. The twisted objects and normalizations are constructed here. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 3.4–3.5 supplies the shared constructions used by these adapters.
 
@@ -3723,7 +3723,7 @@ where `TO_(δ,σ)(φ)=∫_(H_(δ,σ)(K_v)\H(K_v))φ(x⁻¹δσ(x))dx`. Require `
 
 For `E_v/K_v` unramified, prove matching of spherical units and of `φ` with `b_(E_v/K_v)(φ)`, where `b` is the spherical Hecke homomorphism whose Satake transform substitutes `X_i↦X_i^f`, `f` the residue degree. At a split place transfer an elementary tensor by convolution of its `l` factors. For irreducible tempered `π` of `GLₙ(K_v)` construct its `σ`-stable tempered lift `Π` and prove `Θ_(Π,σ)(φ)=tr π(f)` for matching tests, with the Whittaker-normalized `A_Π`. Extend this identity to essentially tempered representations by a common determinant-character twist, using `χ_E=χ_K∘N`. Normalized induction of matching Levi characters gives an identity for the whole finite-length induced representations, with the induced `σ`-operator. For an identity on irreducible products require both `π₁×⋯×π_r` and `Π₁×⋯×Π_r` to be irreducible and every factor pair to satisfy the Shintani relation; then identify the induced operator with the normalized operator. Duals and common norm twists preserve these identities.
 
-For general irreducible local data define Langlands base change by lifting the essentially tempered inducing data, reordering the exponents and taking the unique irreducible Langlands quotient. At finite places carry SR.3.3's Harish–Chandra tempered-support hypothesis: every irreducible tempered representation is a summand of unitary induction from square-integrable data, unique up to conjugacy. This construction, and its compatibility with duals and norm twists, carries no assertion of a Shintani identity for that quotient. The permitted constituent identities are exactly those for essentially tempered representations, irreducible unitary representations and their common determinant-character twists, together with products satisfying the two irreducibility hypotheses above. The unitary class includes the local residual quotients `u(γ,k)` below. Any subquotient used as an individual Shintani character must belong to these classes; additivity for a whole standard module does not select its quotient's character. The scalar norm-pushforward case of the character identity is `norm_transfer_character`, with the measure identity carried as a hypothesis; `satake_power_sum` records the unramified power substitution on roots.
+For general irreducible local data define Langlands base change by lifting the essentially tempered inducing data, reordering the exponents and taking the unique irreducible Langlands quotient. At finite places carry SR.3.3's Harish–Chandra tempered-support hypothesis: every irreducible tempered representation is a summand of unitary induction from square-integrable data, unique up to conjugacy. This construction, and its compatibility with duals and norm twists, carries no assertion of a Shintani identity for that quotient. The permitted constituent identities are exactly those for essentially tempered representations, irreducible unitary representations and their common determinant-character twists, together with products satisfying the two irreducibility hypotheses above. The unitary class includes the local residual quotients `u(γ,k)` below. Any subquotient used as an individual Shintani character must belong to these classes; additivity for a whole standard module does not select its quotient's character. The scalar norm-pushforward case of the character identity is Mathlib's `MeasureTheory.integral_map` applied to `Measure.map N μ = ν`, with measurability of `N` and `AEStronglyMeasurable` of `f·χ` as hypotheses. The identity `satake_power_sum` records the unramified power substitution on roots and is the composite of Mathlib's `Matrix.diagonal_pow` and `Matrix.trace_diagonal`.
 
 The consumer [GL2AutomorphicRepresentationsAndTransfer R17.4.1](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-4-unramified-base-change) uses `satake_power_sum` to compare its trace-and-determinant recurrence with the diagonal complex Satake formula. The identity holds for all `n,f : ℕ`; `f=0` gives the identity matrix and trace `n`, while a residue degree has `f≥1`.
 
@@ -3734,7 +3734,7 @@ The consumer [GL2AutomorphicRepresentationsAndTransfer R17.4.1](../GL2Automorphi
 - The unramified spherical unit transfers to the spherical unit with both compact volumes one; at residue degree two, the trace of the Satake matrix becomes `Σ_iα_i²`, not `(Σ_iα_i)²`.
 - For a quadratic nonarchimedean `E_v/K_v` and its nontrivial norm character `η`, `ν×η` with `ν=|·|_(K_v)` is irreducible, whereas its lifted standard module `|·|_(E_v)×1` is reducible. Its Langlands base change `|det|_(E_v)^(1/2)` fails the Shintani relation: the former character vanishes on elliptic norms and the latter does not. Thus this base-change pair is excluded from the constituent identity; `|det|_(E_v)^(1/2)` itself is the Shintani lift of `|det|_(K_v)^(1/2)`.
 
-(Source: [AC89], Chapter I, Proposition 3.1, pp.20–21, Lemma 3.6, p.26, §4, Theorem 4.5, and §§5–6, pp.48–62; [Art05], §26, pp.189–190; [BH16], §2.2, §§6.1–6.2, Propositions 6.4–6.6 and the example following Proposition 6.5, pp.23–24.)
+(Source: [AC89], Chapter I, Proposition 3.1, pp.20–21, Lemma 3.6, p.26, §4, Theorem 4.5, and §§5–6, pp.48–62; [Art05], §26, pp.189–190; [BH16], §2.2, §§6.1–6.2, pp.20–21, Propositions 6.4–6.6 and the example following Proposition 6.5, p.24.)
 
 *Needs:* §7.0a; Layer 6 ordinary orbital integrals and Paley–Wiener theory; SmoothRepresentationsOfLocalGroups SR.4 Satake theory; AutomorphicLFunctionsAndLocalFactors AL.2 local Whittaker and factor interfaces. Local twisted transfer, its spherical fundamental lemma and its character identity are targets here.
 
@@ -3765,7 +3765,7 @@ For globally matching `(φ,f)`, compare the geometric expansions by norm classes
 
 Here the left side includes the Weyl-intertwiner contributions from proper Levi discrete data; it is not only the cuspidal trace. Define the right side by pulling back the ordinary `GLₙ(K)` discrete character expansion with the cyclic norm-character averaging and the split-central scaling in [AC89, II, (9.4), Lemma 12.1 and (17.7)]. Retain its Weyl orders and determinants rather than replacing it by an unweighted sum of cuspidal traces. Prove the corresponding equality of weighted local distributions and global coefficients in Chapter II Theorems A and B, using unitary discrete Levi data and their unitary spectral inductions; individual residual character identities use §7.0b's unitary/residual-Speh theorem. Use the corrected density argument cited in [Art05, p.191] when separating geometric coefficients.
 
-Prove spectral isolation: varying the spherical Hecke tests outside a finite set separates the unramified spectral classes; within each class use archimedean infinitesimal characters and local character independence to identify the coefficients and normalized twisted characters. Rank induction, the supplied Rankin–Selberg pole criterion and isobaric multiplicity one then yield existence, Galois-invariant cuspidal descent, the self-twist cuspidality criterion and the constituent-wise fibre theorem of §7.1. These conclusions are derived from the comparison, not hypotheses used to define it. The finite spectral-isolation interface is `trace_coefficient_isolation`.
+Prove spectral isolation: varying the spherical Hecke tests outside a finite set separates the unramified spectral classes; within each class use archimedean infinitesimal characters and local character independence to identify the coefficients and normalized twisted characters. Rank induction, the supplied Rankin–Selberg pole criterion and isobaric multiplicity one then yield existence, Galois-invariant cuspidal descent, the self-twist cuspidality criterion and the constituent-wise fibre theorem of §7.1. These conclusions are derived from the comparison, not hypotheses used to define it. The finite spectral-isolation step is Mathlib's `LinearIndependent.eq_coords_of_eq` applied to the linearly independent family of character distributions.
 
 **Checks.**
 
@@ -3825,7 +3825,7 @@ Apply this to `β=δχ` for the order-p character cutting out `K/K′`. For `M�
 - The unramified degree-eight prescription over `ℚ₂` has no global cyclic degree-eight realization over `ℚ`; the degree-sixteen possibility accounts for the dyadic obstruction.
 - A root `ψ` of `χ` need not be trivial at a place where `χ` is trivial: `ψ` can have nontrivial order-p restriction there. The character adjustment is required before taking conjugates and composita.
 
-(Source: [Ram18], Lemma 4.1 and Sublemma 4.2, pp.9–11, and §5, pp.12–13, with the real-localization hypothesis above and the preliminary quadratic reduction; ArithmeticGaloisDuality §R02.4.6's exact Grunwald–Wang and character-root statements.)
+(Source: [Ram18], Lemma 4.1 and Sublemma 4.2, pp.9–11, and §5, pp.11–13, with the real-localization hypothesis above and the preliminary quadratic reduction; ArithmeticGaloisDuality §R02.4.6's exact Grunwald–Wang and character-root statements.)
 
 *Needs:* ArithmeticGaloisDuality §§R02.3.0d, R02.4.5a–R02.4.5b and R02.4.6; ClassFieldTheory Layers 11–12 for characters and cyclic extensions; Chebotarev Layer 10 for auxiliary Frobenius conditions; GlobalNumberFields and LocalFieldsRamification for places, composita and local residue degrees. The simultaneous extension construction with these splitting and disjointness conditions is owned here.
 
