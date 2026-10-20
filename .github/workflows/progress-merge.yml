@@ -155,10 +155,10 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@a2c091a7bea506ccd27775037cf879756630be18
+    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@2d7bd8b7636560a50acf1b419761186f247009b9
     with:
       pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
-      progress_ref: a2c091a7bea506ccd27775037cf879756630be18
+      progress_ref: 2d7bd8b7636560a50acf1b419761186f247009b9
       # There is deliberately no author allowlist. Anyone may publish a progress report, including
       # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
       # append-only log, window ending in published history), not who sent it. See
