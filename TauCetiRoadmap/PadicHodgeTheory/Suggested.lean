@@ -10,6 +10,10 @@ The coordinate matrices describe Kummer extension actions and the Tate normal
 form with covariant period Frobenius and arithmetic Weil Frobenius.
 Their algebraic identities describe the coordinates of the period comparisons
 in README §9; existence of those comparisons is a separate assertion.
+README §§4.4 and 7.5–7.6 use the Wach modules and relative period objects
+of PhiGammaModulesAndIwasawaCohomology on their supplied carriers. Their
+integral-image and classical comparison adapters remain README targets;
+the required arithmetic carriers are not present in the pinned libraries.
 -/
 
 noncomputable section
