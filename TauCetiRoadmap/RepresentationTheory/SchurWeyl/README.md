@@ -796,10 +796,12 @@ and `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` as the diagonal actions.
   H²=Sym²(ℂ²) has dimension 3, ordinary shape (2), while the native
   crossing acts by −1 and its cap-cup generator by zero. Its Brauer
   multiplicity label is therefore (1,1), including in the semisimple
-  equality case `|−2|=2k−2`. At k=3 let θ=e⊗f−f⊗e and define D₁₂,D₁₃,D₂₃
-  by inserting θ in those slots. Prove on e,f that
-  `D₁₂−D₁₃+D₂₃=0`; native inverse-form cups negate all three maps and
-  preserve this relation. In placement order (12,13,23), ε=(1,−1,1).
+  equality case `|−2|=2k−2`. At k=3 let e and f be the coordinate
+  basis vectors indexed by `Sum.inl 0` and `Sum.inr 0`. Native `Matrix.J`
+  has J(e,f)=−1 and J(f,e)=1, so its inverse-form cup is
+  θ=e⊗f−f⊗e. Define D₁₂,D₁₃,D₂₃ by inserting this native cup in
+  those slots. Prove on e,f that `D₁₂−D₁₃+D₂₃=0`.
+  In placement order (12,13,23), ε=(1,−1,1).
   On the raw domain V⊕V⊕V the four generator actions are
   `s₁(x,y,z)=(x,−z,−y)`, `s₂(x,y,z)=(−y,−x,z)`,
   `e₁(x,y,z)=(−2x−y+z,0,0)` and
@@ -808,8 +810,8 @@ and `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` as the diagonal actions.
   in the corresponding adjacent tensor slots. Check that s₁ and s₂ fix
   r(v)=(v,−v,v), while e₁ and e₂ kill it. Under D=diag(1,−1,1),
   this becomes the relation (v,v,v) for the normalized cups
-  (D₁₂,−D₁₃,D₂₃) and standard stacking. Native cups multiply C by −1
-  and leave these domain formulas unchanged. Each map has rank 2, their sum has rank **4**,
+  (D₁₂,−D₁₃,D₂₃) and standard stacking. Each map has rank 2,
+  their sum has rank **4**,
   H³=Sym³(ℂ²) has dimension **4**, and
   `(ℂ²)^{⊗3}≅Sym³(ℂ²)⊕(ℂ²⊗ℂ²_mult)` as Sp₂ modules (the second ℂ²
   is the two-dimensional multiplicity space with trivial Sp₂ action),
