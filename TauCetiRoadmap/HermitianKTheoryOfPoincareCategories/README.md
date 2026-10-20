@@ -6,6 +6,8 @@
 
 This roadmap owns connectivity bounds for Poincaré structures, bounded L-monoids, relative Lagrangian surgery, quadratic and symmetric surgery, the short-complex comparison, and the resulting general-ring comparison theorems. It treats associative rings and invertible coefficients, and includes the corresponding surgery and comparison results for connective ring spectra.
 
+It also owns the coherent multiplicative refinement of the L-to-Tate comparison for symmetric monoidal Poincaré ∞-categories, together with its module and base-change compatibility (§§7.10–7.11). The underlying additive fundamental square remains supplied by GeometryOfNumbersAndQuadraticArithmetic.
+
 The foundations are supplied by **GeometryOfNumbersAndQuadraticArithmetic**, Layer 6, especially §6.8a: perfect derived enhancements, coefficient dualities, Poincaré categories and objects, isotropic surgery, symmetric/quadratic/genuine structures, their shift comparisons, `GW` and `L` spectra, hermitian bordification, localization, the fundamental square and the Hebestreit–Steimle comparison. Here the metabolic category receives the relative-form and arrow-duality API needed for bounded Lagrangian surgery. The generic shift equivalence belongs to the supplier; it is an input, rather than a separate target here. The supplier's integral calculations in §6.10a provide the numerical checks over `ℤ`. Its heart theorem for symmetric L-theory remains the owner of the duality-exchanges-halves result. Our symmetric surgery instead permits a duality with a nonzero finite cohomological bound.
 
 The localization and dévissage theory of Dedekind rings belongs to that roadmap's §6.9 and **GeometryOfNumbersAndQuadraticArithmeticPartII**. The latter also owns dyadic Dedekind L-group tables. The homotopy limit problem and Grothendieck–Witt groups of `ℤ` belong to §§6.10–6.11 of the first roadmap. **QuadraticFormInvariants**, Layer 4, owns the Witt ring and fundamental ideal of a field of characteristic different from two; the comparison here uses that ring. **StablePeriodicCurved**, Layer 4, already supplies the uniform projective-dimension predicate for finite global dimension. We use its left-module version by passing to the opposite ring, and introduce no competing global-dimension predicate. General resolution comparison and the construction of ordinary derived categories are also inputs, rather than targets.
@@ -1212,6 +1214,40 @@ This gives `field_l_groups`.
 
 *Needs:* §6.6; §7.2; §0.3; §4.5; §1.6; §4.4; QuadraticFormInvariants Layer 4 and TauCeti.WittRing.
 
+### 7.10 Multiplicative comparison with Tate K-theory
+
+<a id="finite-even-multiplicative-l-tate"></a>
+
+**Multiplicative L-to-Tate comparison** (`finite-even-multiplicative-l-tate`). Let `A=(C,Q)` be a commutative algebra object in the symmetric monoidal ∞-category of small Poincaré ∞-categories: tensor is exact in each variable, the multiplication and unit are Poincaré functors, and the associativity, symmetry and unit coherences are specified. Construct this tensor product on the supplier's Poincaré carriers and compatible lax symmetric monoidal refinements of `K`, `GW`, `L` and the natural comparison `Ξ_A : L(A) → K(A)^{tC₂}`. Thus `Ξ_A` is a unital `E∞`-ring map, natural in maps of commutative algebra objects. In particular this applies to `(D^p(R),Q^s_R)` for every commutative ring `R`, without a finiteness or characteristic hypothesis. (Sources: Paper I, Introduction, item (vi), p. 6, Theorem 5.2.7, p. 102, Corollary 5.3.18, p. 111, and Example 5.4.10(i), p. 115; Paper III, Remark 3.1.5, p. 51, attributing the spectrum refinement to Paper IV.)
+
+Forgetting multiplication recovers the supplier's `Ξ`, the factorization of `GW(A) → K(A)^{hC₂} → K(A)^{tC₂}` through `GW(A) → L(A)`. Refine the square `GW(A) → L(A)` over `K(A)^{hC₂} → K(A)^{tC₂}` to a cartesian square of `E∞`-rings. Its underlying fibre sequence `K(A)_{hC₂} → GW(A) → L(A)` is a fibre sequence of `GW(A)`-modules, with action on K-theory through forgetting the form and on L-theory through bordification. The norm and hyperbolic maps are module maps here. These structures include the coherent spectrum products and units, extending the products on groups of Paper I, Proposition 7.5.3 and Corollary 7.5.10, pp. 172–175. The additive square and fibre sequence are Paper II, Corollary 4.4.13, p. 107.
+
+**Checks.**
+
+- For `R=𝔽_(2^e)`, `e≥1`, both homotopy rings are `𝔽₂[u,u⁻¹]`, `|u|=2`. The graded unital map sends `1` to `1` and `u` to `u`, so `Ξ_R` is an `E∞` equivalence, refining the underlying equivalence of GeometryOfNumbersAndQuadraticArithmetic's `finiteEvenFieldHomotopyLimit` (Paper III, Proposition 3.1.4 and Remark 3.1.5, pp. 50–51).
+- For `R=𝔽₂×𝔽₂`, `π₀L^s(R)=𝔽₂×𝔽₂` has orthogonal idempotents `(1,0)` and `(0,1)`; `Ξ_R` preserves their products and sum `1`. The additive automorphism `(a,b)↦(a,a+b)` fails to preserve `1=(1,1)`, so an additive equivalence alone does not provide this refinement.
+- For the zero Poincaré category with its unique multiplication, all four spectra in the square vanish and `Ξ` is the unique unital map between zero ring spectra. The fibre sequence is the zero sequence.
+
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §§6.1a and 6.8a, including the coherent K-duality action and `stableGWFundamentalSquare`; EnhancedDerivedSheaves §E5:abstract for coherent algebra and module objects and §E5:presentability for the common spectra.
+
+### 7.11 Modules and base change for the multiplicative comparison
+
+<a id="multiplicative-l-tate-base-change"></a>
+
+**Module and base-change compatibility** (`multiplicative-l-tate-base-change`). Let `A` be as in §7.10 and `P` an `A`-module object in Poincaré ∞-categories, with its action exact in each variable. Construct `L(P)` as an `L(A)`-module and `K(P)^{tC₂}` as a `K(A)^{tC₂}`-module, and refine `Ξ_P` to an `L(A)`-linear map after restricting scalars along `Ξ_A`. Equivalently, `Ξ_P(a·x)=Ξ_A(a)·Ξ_P(x)` with the coherent module structure, rather than only on homotopy groups. Refine the fundamental square for `P` and its fibre sequence to `GW(A)`-modules, using the maps of §7.10 for the scalar actions. (Sources: Paper I, §5.4's module-objects construction and Examples 5.4.11–5.4.13, pp. 115–116; Paper II, Corollary 4.4.13, p. 107; the multiplicative refinement of Paper IV identified in Paper III, Remark 3.1.5, p. 51.)
+
+For a commutative-algebra map `A→B` and an exact Poincaré functor `F:P→P′` compatible with the scalar action, where `P′` is a `B`-module, require the square with rows `Ξ_P`, `Ξ_P′` and vertical maps `L(F)`, `K(F)^{tC₂}` to commute as semilinear module maps, coherently for identities and composites. The resulting scalar-extension maps `L(P)⊗_{L(A)}L(B) → L(P′)` and `K(P)^{tC₂}⊗_{K(A)^{tC₂}}K(B)^{tC₂} → K(P′)^{tC₂}` commute with the induced comparison between their sources. These maps need not be equivalences.
+
+For a map of commutative rings `R→S`, use derived extension `S⊗ᴸ_R−` on perfect complexes and carry an invertible central coefficient line `M`, its involution and every integer shift to `M_S=S⊗_R M` with the same shift. The theories for `Q^s_M[r]` have the stated module compatibility over the untwisted symmetric theory; a twisted or shifted coefficient does not by itself supply a ring unit. Construct these action and base-change adapters on the supplier's dualities, retaining their evaluation maps and form pullbacks.
+
+**Checks.**
+
+- For `𝔽₂→𝔽₄`, scalar extension sends the symmetric unit line to the unit line, so both comparisons induce `1↦1` on `π₀=𝔽₂`, including in this even-degree extension. This is compatible with the `E∞` equivalences of §7.10.
+- For the nonflat map `ℤ→𝔽₂`, derived extension still preserves perfect complexes. The symmetric line `⟨−1⟩` becomes `⟨1⟩`, and the coefficient involution on `ℤ(−1)` becomes the trivial involution on `𝔽₂`; the semilinear comparison carries these coefficient changes and any specified shift.
+- For the zero module category, every module spectrum in the comparison is zero. Along `R→0`, the target spectra and the scalar-extension sources vanish; the naturality square retains the unique maps from the original spectra to zero.
+
+*Needs:* §7.10; GeometryOfNumbersAndQuadraticArithmetic §§6.1a and 6.8a for the additive square, perfect derived extension and coefficient dualities; EnhancedDerivedSheaves §E5:abstract for module objects and relative tensor products of spectrum modules.
+
 ### Examples
 
 In characteristic two the plane with pairing matrix `[[0,1],[1,1]]` is metabolic with Lagrangian the first coordinate, but is not alternating. Even forms are alternating, so `L^gs_{−2}(𝔽₂)=L^ge_0(𝔽₂)=0`. Homotopy symmetric theory is two-periodic with `L^s_{−2}(𝔽₂)=ℤ/2`. This difference tests both the sign-shift convention and the genuine-to-symmetric range at `d=0`.
@@ -1296,7 +1332,7 @@ Layers 0–1, 4 and 6–7; the supplier group-completion, weight-heart and funda
 
 ## Downstream consumers
 
-GeometryOfNumbersAndQuadraticArithmeticPartII uses the coefficient sign changes, `K₀`-controlled surgery, degree-zero Witt descriptions, field computations and genuine-to-periodic comparisons for its dyadic Dedekind tables. Its field adapter can use §§4.5 and 7.9; its integral comparisons use §§7.1–7.6. KTheoryFiniteLocalFields uses the characteristic-two and odd-characteristic field computations of §7.9 and the sign and periodicity rules of Layer 1. These consumers retain the supplier Poincaré carriers and do not construct a second hermitian theory.
+GeometryOfNumbersAndQuadraticArithmeticPartII uses the coefficient sign changes, `K₀`-controlled surgery, degree-zero Witt descriptions, field computations and genuine-to-periodic comparisons for its dyadic Dedekind tables. Its field adapter can use §§4.5 and 7.9; its integral comparisons use §§7.1–7.6. KTheoryFiniteLocalFields uses the characteristic-two and odd-characteristic field computations of §7.9 and the sign and periodicity rules of Layer 1. Its L.1 consumes `finite-even-multiplicative-l-tate` and `multiplicative-l-tate-base-change` in §§7.10–7.11 for the multiplicative finite-even-field comparison and its module and scalar-extension compatibility. These consumers retain the supplier Poincaré carriers and do not construct a second hermitian theory.
 
 ## References
 
@@ -1305,6 +1341,7 @@ Statement numbers and page numbers below refer to the following editions.
 - **Paper III.** B. Calmès, E. Dotto, Y. Harpaz, F. Hebestreit, M. Land, K. Moi, D. Nardin, T. Nikolaus and W. Steimle, *Hermitian K-theory for stable ∞-categories III: Grothendieck–Witt groups of rings*, [arXiv:2009.07225v4](https://arxiv.org/abs/2009.07225v4), PDF dated 28 April 2026, 63 pages. Locators use the preprint's printed pages, equal to PDF page numbers. The corresponding publication is Annals of Mathematics 204(1) (2026), 119–220, [DOI 10.4007/annals.2026.204.1.2](https://doi.org/10.4007/annals.2026.204.1.2); preprint and journal pagination are not interchanged.
 - **Paper I.** The same authors, *Hermitian K-theory for stable ∞-categories I: Foundations*, [arXiv:2009.07223v3](https://arxiv.org/abs/2009.07223v3), 27 December 2021. Printed and PDF pages agree.
 - **Paper II.** The same authors, *Hermitian K-theory for stable ∞-categories II: Cobordism categories and additivity*, [arXiv:2009.07224v5](https://arxiv.org/abs/2009.07224v5), 11 April 2025. Printed and PDF pages agree.
+- **Paper IV.** The same authors, *Hermitian K-theory for stable ∞-categories IV: Karoubi–Grothendieck–Witt theory*. The multiplicative L-to-Tate comparison is stated with attribution to this paper in [Paper III, Remark 3.1.5, p. 51](https://arxiv.org/html/2009.07225v4#S3.SS1); the series bibliography on p. 61 identifies the title. Paper I, Introduction, item (vi), p. 6, gives the corresponding attribution for the `E∞` structures on `GW` and `L`.
 - **Ranicki.** A. Ranicki, *The algebraic theory of surgery I. Foundations*, Proceedings of the London Mathematical Society (3) 40 (1980), 87–192, [author archive](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/ats1.pdf). Printed page `p` is PDF page `p−86`. Complexes and Wu classes are in §1; pairs, cobordism and even groups are in §3.
 - **Higher Algebra.** J. Lurie, *Higher Algebra*, [author PDF](https://www.math.ias.edu/~lurie/papers/HA.pdf), 18 September 2017, §1.2.1, pp. 37–40, and §7.2.2, Proposition 7.2.2.18 and Corollary 7.2.2.19, pp. 1244–1246.
 - **Read.** T. Read, *On the geometric fixed points of the real topological cyclic homology of `ℤ/4`*, [arXiv:2411.11993v2](https://arxiv.org/abs/2411.11993v2), 14 February 2026, Corollary F, pp. 6–7. Used only as the additional comparison input in §7.3.

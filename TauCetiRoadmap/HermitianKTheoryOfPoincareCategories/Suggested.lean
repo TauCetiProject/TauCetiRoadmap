@@ -118,6 +118,9 @@ metabolic Poincaré category, symmetry and quadraticity bounds, bounded L-monoid
 Lagrangian surgery, Ranicki's complexes and Wu classes, connective ring-spectrum
 projectives, enhanced Postnikov t-structure, and form parameters are specified in
 README.md. Their carriers and the GW/L comparison theorems remain there.
+The multiplicative L-to-Tate comparison of §§7.10–7.11, including its E∞ ring,
+module and base-change structures, is also specified there on the shared
+Poincaré and spectrum carriers.
 -/
 
 end TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
