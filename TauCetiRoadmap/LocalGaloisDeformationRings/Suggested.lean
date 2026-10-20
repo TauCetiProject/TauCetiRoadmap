@@ -885,13 +885,28 @@ The names `univLift`, `univLift_reduce`, `liftEquivHom` and `univLift_continuous
 F.2.4 specialize the common continuous framed pair of DeformationAndDerivedPatchingAlgebra
 §2.7, under Φ_p and with the specified residue basis and maximal-ideal topology.
 
-Layer 0: README 0.4 owns `CoefficientRobbaModule`, `D_rig`, its étale equivalence,
-`HerrCohomology` and derived coefficient change. At A=E these give PadicHodgeTheory's
-`D_(rig)^†` and `herrComplex`, preserving tensor, dual, cohomology, cup and signed trace.
-On finite Gamma-torsion invariants the differentials are
-x ↦ ((φ−1)x,(γ−1)x) and (a,b) ↦ (γ−1)a−(φ−1)b.
-The adapter to Liu swaps degree-one coordinates and negates degree two;
-arithmetic reciprocity gives trace one for the unramified-class-first Kummer cup.
+Layer 0: README 0.4 applies PhiGammaModulesAndIwasawaCohomology §§1.1–1.2,
+3.4–3.6, 3.8 and 4.4–4.5's finite-local-E-algebra exports `CoefficientRobbaModule`,
+`CoefficientRobbaModule.etaleEquivalence`, `HerrCohomology` and
+`HerrCohomology.baseChange`. Its local identifications are
+ℛ_{K,A}=R_{A,K}, CoefficientRobbaModule(A,K)=RelativePhiGammaModule A K,
+D_rig(V)=relativeDrig(V), and HerrCohomology(D)≃arithmeticHerrComplex(D).
+The base-change adapter is `herrDerivedBaseChange`:
+HerrCohomology(D)⊗ᴸ_A B≃HerrCohomology(D⊗̂_A B).
+For a field-coefficient D, the deformation tangent is
+Ext¹(D,D)≅H¹(HerrCohomology(D∨⊗D)); on étale objects it is H¹(G_K,ad V).
+Chosen triangulations use §§7.1 and 7.5's character lines and saturated
+filtrations; the period conditions use README 0.2. Constrained tangent
+comparisons retain README 1.23's generic regular and noncritical hypotheses.
+At A=E the adapters give D_(rig)^†(V)≅D_rig(V) and
+herrComplex(D)=HerrCohomology(D) in the full-torsion presentation, preserving
+tensor, dual, cohomology, cup and signed trace. On full finite Gamma-torsion
+invariants the differentials are x ↦ ((φ−1)x,(γ−1)x) and
+(a,b) ↦ (γ−1)a−(φ−1)b. The supplier's torsion adapter identifies this with
+its p-primary convention. The adapter to Liu swaps degree-one coordinates
+and negates degree two; arithmetic reciprocity gives trace one for the
+unramified-class-first Kummer cup. Finite-torsion averaging is exact over
+these rational coefficients, including at p=2.
 Connections, B-pairs and further analytic period comparisons belong to PadicHodgeTheory.
 
 Layer 0: `CanonicalModule`, `CanonicalModule.regularQuotient` and
