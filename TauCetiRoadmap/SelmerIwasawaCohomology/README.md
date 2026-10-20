@@ -46,7 +46,7 @@ Completion: `AdicCompletion`, `AdicCompletion.of`, `AdicCompletion.map` (with `m
 
 S-unit finite generation and valuation maps use `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`. HeightsAndUnits §4.2 supplies the rank and fundamental systems; ArithmeticGaloisDuality §R02.3.0c supplies the finite-generation module, cardinality and reindexing adapters and the completion comparison used in §0.9.
 
-At the pinned commit: the Kummer theory of `TauCeti.FieldTheory.GaloisCohomology.Kummer` (`TauCeti.kummerClassMap`, `TauCeti.kummerClassMap_injective`, `TauCeti.kummerMap_surjective`, `TauCeti.kummerIso`, `TauCeti.kummerIso_res`, `TauCeti.kummerIso_norm`, `TauCeti.kummerCoeffPow`, `explicitCoeff1_kummerCoeffPow_kummerMap`, `explicitCoeff1_kummerCoeffPow_surjective`) and `TauCeti.powerClassQuotient`; `TauCeti.finiteIndex_range_powMonoidHom` (finite index of n-th powers in a local field, `n ≠ 0` in `K`); the Shapiro maps `TauCeti.ContinuousCohomology.shapiroMap`, `shapiroIso` and `shapiroIsoTopRep`; `TauCeti.completedGroupAlgebra` with `lift`, `map`, `domCongr`, the product decomposition and `powerSeriesCoordinate`; the local cyclotomic character `TauCeti.localCyclotomicCharacter`; the Hodge carriers `TauCeti.Hodge.Conjugation`, `TauCeti.Hodge.HodgeStructureOn` (`piece`, `hodgeNumber`, `finite_setOf_hodgeNumber_ne_zero`, `dual`, `finrank_dual_piece`, `tateTwist`, `prod`, `prod_piece`), `TauCeti.Hodge.latticeConjugation`, `TauCeti.Hodge.isBaseChange_tateLatticeMap`, `TauCeti.Hodge.tate` and `TauCeti.Hodge.tate_hodgeNumber`.
+At the pinned commit: the Kummer theory of `TauCeti.FieldTheory.GaloisCohomology.Kummer` (`TauCeti.kummerClassMap`, `TauCeti.kummerClassMap_injective`, `TauCeti.kummerMap_surjective`, `TauCeti.kummerIso`, `TauCeti.kummerIso_res`, `TauCeti.kummerIso_norm`, `TauCeti.kummerCoeffPow`, `explicitCoeff1_kummerCoeffPow_kummerMap`, `explicitCoeff1_kummerCoeffPow_surjective`) and `TauCeti.powerClassQuotient`; `TauCeti.finiteIndex_range_powMonoidHom` (finite index of n-th powers in a local field, `n ≠ 0` in `K`); the Shapiro maps `TauCeti.ContinuousCohomology.shapiroMap`, `shapiroIso` and `shapiroIsoTopRep`; inflation–restriction `TauCeti.ContCohomology.explicitInfRes_exact`; `TauCeti.completedGroupAlgebra` with `lift`, `map`, `domCongr`, `domCongr_of`, `continuous_map`, `map_id`, `map_comp`, the product decomposition and `powerSeriesCoordinate`; the local cyclotomic character `TauCeti.localCyclotomicCharacter`; the Hodge carriers `TauCeti.Hodge.Conjugation`, `TauCeti.Hodge.HodgeStructureOn` (`piece`, `hodgeNumber`, `finite_setOf_hodgeNumber_ne_zero`, `dual`, `finrank_dual_piece`, `tateTwist`, `prod`, `prod_piece`), `TauCeti.Hodge.latticeConjugation`, `TauCeti.Hodge.isBaseChange_tateLatticeMap`, `TauCeti.Hodge.tate` and `TauCeti.Hodge.tate_hodgeNumber`.
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -451,7 +451,7 @@ Mazur–Rubin propagate by image to `T`/IT and by inverse image to `T[I]`.
 
 ### 2.6 From `V` to `T` and `W`; saturation
 
-Given `L_V ⊆ H¹(K_v, V)`, put `L_T =` inverse image under `H¹(K_v, T) → H¹(K_v, V)` and `L_W =` image under `H¹(K_v, V) → H¹(K_v, W)` (Rubin's `H¹_f(K_v, T), H¹_f(K_v, W)`). Then `H¹(K_v, T)/L_T` is torsion-free (`L_T` is saturated) and `L_W` is divisible. The integer-module statement `saturated_preimage` states the general elementary fact that the preimage of a submodule saturated for a specified nonzero integer remains saturated for that integer. The arithmetic assertion instead uses an E-linear `L_V` and every nonzero element of `O`.
+Given `L_V ⊆ H¹(K_v, V)`, put `L_T =` inverse image under `H¹(K_v, T) → H¹(K_v, V)` and `L_W =` image under `H¹(K_v, V) → H¹(K_v, W)` (Rubin's `H¹_f(K_v, T), H¹_f(K_v, W)`). Then `H¹(K_v, T)/L_T` is torsion-free (`L_T` is saturated) and `L_W` is divisible. The statement `saturated_preimage` gives the algebraic assertion for any domain `O` with fraction field `E`: the preimage of an E-subspace under an O-linear map is saturated for every nonzero element of `O`. In particular, `O = ℤ`, `E = ℚ` gives saturation for every nonzero integer.
 
 `T` a finitely generated free `ℤ_p`- or O-module with continuous action, `V = T[1/p], W = V/T`; `L_V` an E-subspace (a `ℚ_p`-subspace for `O=ℤ_p`).
 
@@ -460,6 +460,12 @@ Prove this as follows. If `n·x ∈ L_T` with `n ≠ 0` then `n·x ↦ n·y ∈ 
 (Rubin (1999 draft), Chapter I, §3.2, Definition 3.4, printed p. 5 (PDF p. 15); Rubin (1999 draft), Chapter I, §3.2, proof of Lemma 3.5, printed p. 6 (PDF p. 16).)
 
 Saturation on `T` and divisibility on `W` are separate properties of the propagated conditions.
+
+**Checks.**
+
+- For `O = ℤ`, `E = ℚ`, the inclusion `g : ℤ → ℚ` and `L_V = 0` give preimage `0`, saturated for every nonzero integer. The scalar `n = 0` cannot be allowed: `0·1 ∈ 0` but `1 ∉ 0`.
+- For `Y = E` and `L_V = E` the preimage is all of `X`, including when `X` has O-torsion.
+- The ℤ-submodule `2ℤ ⊂ ℚ` is not a ℚ-subspace: its preimage under `ℤ → ℚ` contains `2·1` but not `1`, so the E-linearity hypothesis is necessary.
 
 *Needs:* §2.5 (Propagating local conditions); ArithmeticGaloisDuality §R02.1.3 (*The sequence `T → V → W` and the torsion of `H¹(T)`*).
 
@@ -476,7 +482,7 @@ The construction proceeds as follows. Kernel of restriction to inertia. Inflatio
 The named operations and identities are:
 
 - `unramified` — `ker`(`res` to inertia).
-- `unramified_eq_range_inflation` — For a profinite decomposition group `G_v`, closed normal inertia `I_v` and continuous discrete, compact finite-type or rational coefficients `B`, the kernel of the actual restriction map equals the range of inflation from `H¹(G_v/I_v,B^{I_v})`. The discrete prototype uses the pinned `TauCeti.ContCohomology.explicitRes1` and `explicitInfl1`, with `explicitInfRes_exact`; the compact/rational comparison uses ArithmeticGaloisDuality §R02.2.3. Mathlib `LinearMap.exact_iff` supplies the algebraic range/kernel conversion.
+- Inflation–restriction — The discrete case is the pinned `TauCeti.ContCohomology.explicitInfRes_exact`: the range of `explicitInfl1` equals the kernel of `explicitRes1`, for every topological group and normal subgroup with the continuous module actions in its signature. For a profinite decomposition group `G_v` and closed normal inertia `I_v`, identify the compact finite-type and rational unramified conditions with the range of inflation from `H¹(G_v/I_v,B^{I_v})` through ArithmeticGaloisDuality §R02.2.3. Mathlib `LinearMap.exact_iff` supplies the algebraic range/kernel conversion.
 - `unramified_equiv_coinvariants` — `≅ B^{I}/(Fr − 1)B^{I}`.
 
 **Checks.**
@@ -503,7 +509,7 @@ The construction proceeds as follows. Kernel of the composite of restriction to 
 The named operations and identities are:
 
 - `greenberg` — `ker(H¹(G_v, M) → H¹(I_v, M/F^+M))`.
-- `greenberg_zero` — `F^+ = 0` gives the unramified condition.
+- `greenberg_zero` — For `F^+ = 0`, the isomorphism `e : H¹(I_v,M) ≃ H¹(I_v,M/0)` induced by the coefficient quotient gives `ker(e ∘ res_I) = ker res_I`, identifying the Greenberg and unramified conditions.
 - `greenberg_top` — `F^+ = M` gives the relaxed condition.
 - `unramified_le_greenberg` — `H¹_ur ⊆ L^Gr`.
 
@@ -1311,11 +1317,11 @@ Let `R` be a complete Noetherian local ring with finite residue field of charact
 - `R=𝔽_p, Γ=ℤ_p, Γ′=pℤ_p`: the generator is `X^p`, a non-zero-divisor, and the quotient is `𝔽_p[[X]]/(X^p)≅𝔽_p[C_p]`. The generator `X` would give the wrong quotient.
 - `Γ=ℤ_p², Γ′` generated by `γ₁^{p²}`: the quotient retains the second variable and the finite `C_{p²}` factor; `Γ′` need not be a direct summand.
 
-**Involution and twists.** Prove `iwasawaAlgebra_involution`: inversion on the abelian group `Γ` induces a continuous O-algebra involution `ι` of `Λ` with `ι(γ) = γ^{−1}` (Tau Ceti `completedGroupAlgebra.map`). For a continuous character `κ : Γ → O^×`, prove `iwasawaAlgebra_twist`: there is a unique continuous O-algebra automorphism `Tw_κ` of `Λ` with `Tw_κ(γ) = κ(γ)γ` (from `completedGroupAlgebra.lift` applied to `γ ↦ κ(γ)γ`), with `Tw_1 = id, Tw_κ ∘ Tw_{κ′} = Tw_{κκ′}` and `ι ∘ Tw_κ ∘ ι = Tw_{κ^{−1}}`. With the cyclotomic character `χ_cyc` of the Conventions, `Tw_k := Tw_{χ_cyc^{−k}}`, so `Tw_k(γ) = χ_cyc(γ)^{−k}γ`. For a G-module `M` on which `Λ` acts compatibly, and the tautological character `χ_Γ : G → Γ ⊂ Λ^×`, define the twisted module `M⟨n⟩` (same `Λ`-module, `G` acting by `χ_Γ(g)^n g`) and `M^ι` (same G-module, `Λ` acting through `ι`); then `M⟨n⟩^ι = M^ι⟨−n⟩`.
+**Involution and twists.** Define `iwasawaInvolution` by the pinned `TauCeti.completedGroupAlgebra.domCongr` along inversion on the abelian group `Γ`. It gives the O-algebra involution `ι` of `Λ` with `ι(γ) = γ^{−1}` by `domCongr_of`; continuity follows from `continuous_map`, and involutivity from `map_comp` and `map_id`. For a continuous character `κ : Γ → O^×`, prove `iwasawaAlgebra_twist`: there is a unique continuous O-algebra automorphism `Tw_κ` of `Λ` with `Tw_κ(γ) = κ(γ)γ` (from `completedGroupAlgebra.lift` applied to `γ ↦ κ(γ)γ`), with `Tw_1 = id, Tw_κ ∘ Tw_{κ′} = Tw_{κκ′}` and `ι ∘ Tw_κ ∘ ι = Tw_{κ^{−1}}`. With the cyclotomic character `χ_cyc` of the Conventions, `Tw_k := Tw_{χ_cyc^{−k}}`, so `Tw_k(γ) = χ_cyc(γ)^{−k}γ`. For a G-module `M` on which `Λ` acts compatibly, and the tautological character `χ_Γ : G → Γ ⊂ Λ^×`, define the twisted module `M⟨n⟩` (same `Λ`-module, `G` acting by `χ_Γ(g)^n g`) and `M^ι` (same G-module, `Λ` acting through `ι`); then `M⟨n⟩^ι = M^ι⟨−n⟩`.
 
 The involution statement on `TauCeti.completedGroupAlgebra O Γ` holds for every
-topological commutative ring `O` and profinite abelian group `Γ`; it uses the continuous
-group inversion and the supplier's `completedGroupAlgebra.domCongr`.
+topological commutative ring `O` and profinite abelian group `Γ`. The definition
+`iwasawaInvolution` needs only a commutative ring `O` and a topological abelian group `Γ`.
 
 (Nekovář, *Selmer complexes*, §8.4.1–8.4.2, pp. 204–205 (Numdam PDF pp. 213–214); §8.4.8.1, p. 214, for the regular sequence.)
 
@@ -1336,7 +1342,7 @@ Let `R` be a complete local noetherian ring with finite residue field of charact
 
 The construction proceeds as follows. The transition maps `C^•_cont(G, M_V) → C^•_cont(G, M_U)` are surjective, so the projective system is weakly flabby and the first hypercohomology spectral sequence for `lim` collapses (Jannsen); the second is the stated one, with corestriction transitions by Shapiro's lemma at finite level (ProfiniteCohomology Layer 7). For finite R-length coefficient quotients, `(F)` gives finite cohomology groups and vanishing higher derived limits. For finite-type complete R-coefficients the cohomology groups are compact, not necessarily finite-length: use exactness of inverse limits of compatible compact groups and the coefficient-limit spectral sequence. Do not assert a Mittag–Leffler condition for an arbitrary corestriction tower of lattices. Use the ArithmeticGaloisDuality Layer R02.1 compact-limit interface to extend finite-level Shapiro to these complete coefficients. `H⁰: M^{U_n}` stabilises to `N`, and the corestrictions `N → N` are multiplication by `[U_n : U_{n′}]`, whose p-part tends to infinity; so the limit vanishes (Rubin, Lemma B.3.2).
 
-(Nekovář, Chapter 8, 8.3.4–8.3.5, p. 203 (Numdam PDF p. 212); Rubin (1999 draft), Appendix B, §3, Lemmas 3.1–3.2, printed p. 154 (PDF p. 164).)
+(Nekovář, Chapter 8, 8.3.4–8.3.5, p. 203 (Numdam PDF p. 212); Rubin (1999 draft), Appendix B, §3, Lemmas 3.1–3.2, printed pp. 153–154 (PDF pp. 163–164).)
 
 The named operations and identities are:
 
@@ -1368,7 +1374,7 @@ Prove this as follows. `N ⊗_R R̄ = N ⊗_R lim R_U ≅ lim (N ⊗_R R_U)` for
 
 (Nekovář, Chapter 8, §8.4.1, pp. 204–205 (Numdam PDF pp. 213–214), for the semilocal ring `R̄` and its radical; Nekovář, Chapter 8, Proposition 8.4.4.1, p. 206 (Numdam PDF p. 215); Nekovář, Chapter 8, Proposition 8.4.4.2 and its proof, p. 207 (Numdam PDF p. 216), which treats the local case `Γ = Γ₀`.)
 
-The inverse action is explicit: with the tautological character the Galois action on `T ⊗ Λ` is `g ⊗ χ_Γ(g)^{−1}`, in Burungale–Tian §2; the opposite convention is `𝓕_Γ(M)^ι`.
+The inverse action is explicit: with the tautological character the Galois action on `T ⊗ Λ` is `g ⊗ χ_Γ(g)^{−1}` (Nekovář 8.4.4.1, the module `(M ⊗_R R̄)⟨−1⟩`); the opposite convention is `𝓕_Γ(M)^ι`.
 
 **Checks.**
 
@@ -1986,7 +1992,7 @@ The named operations and identities are:
 **Checks.**
 
 - Zero Hodge structure gives zero diagonal and off-diagonal multiplicities.
-- Two weight-zero rank-one structures with the same Hodge filtration and opposite `F∞` give different real Gamma factors; `Tests.gammaPoleOrder_oppositeRealSign` distinguishes their pole counts at zero.
+- Two weight-zero rank-one structures with the same Hodge filtration and opposite `F∞` give `Γ_ℝ(s)` for sign `+1` and `Γ_ℝ(s+1)` for sign `−1`; their pole counts at zero are respectively `1` and `0`.
 - For `ℚ_p(n)` in the RJW convention, the type is `(n,n)` and `F∞=(-1)^n`; using type `(−n,−n)` without changing `L(V,s)` gives the wrong criticality.
 
 *Needs:* §2.10 (Pontryagin duals with the contragredient action); Tau Ceti `TauCeti.Hodge.HodgeStructureOn.dual`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.finrank_dual_piece`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.tateTwist`; Tau Ceti `TauCeti.Hodge.tate`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`.

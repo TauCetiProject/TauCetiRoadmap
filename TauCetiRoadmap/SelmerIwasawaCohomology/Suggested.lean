@@ -4,7 +4,6 @@ import TauCeti.Geometry.Hodge.Dual
 import TauCeti.Geometry.Hodge.Prod
 import TauCeti.Geometry.Hodge.Tate.Basic
 import TauCeti.Geometry.Hodge.Tate.Twist
-import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Map
 
 /-!
@@ -54,15 +53,21 @@ open scoped TensorProduct NumberField
 
 namespace TauCetiRoadmap.SelmerIwasawaCohomology
 
-/-- §3.0, Iwasawa algebra involution: inversion of a profinite abelian group induces a
-continuous involutive algebra automorphism, sending each group element to its inverse. -/
-theorem iwasawaAlgebra_involution (O Γ : Type*) [CommRing O] [TopologicalSpace O]
-    [IsTopologicalRing O] [CommGroup Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
-    [CompactSpace Γ] [T2Space Γ] [TotallyDisconnectedSpace Γ] :
-    ∃ ι : TauCeti.completedGroupAlgebra O Γ ≃ₐ[O] TauCeti.completedGroupAlgebra O Γ,
-      Continuous ι ∧ Function.Involutive ι ∧
-        ∀ γ : Γ, ι (TauCeti.completedGroupAlgebra.of O Γ γ) =
-          TauCeti.completedGroupAlgebra.of O Γ γ⁻¹ := sorry
+/-- §3.0: the Iwasawa involution induced by group inversion through `domCongr`. -/
+def iwasawaInvolution (O Γ : Type*) [CommRing O] [CommGroup Γ] [TopologicalSpace Γ]
+    [IsTopologicalGroup Γ] :
+    TauCeti.completedGroupAlgebra O Γ ≃ₐ[O] TauCeti.completedGroupAlgebra O Γ :=
+  TauCeti.completedGroupAlgebra.domCongr O
+    { Equiv.inv Γ with
+      map_mul' := fun a b => mul_inv a b
+      continuous_toFun := continuous_inv
+      continuous_invFun := continuous_inv }
+
+example (O Γ : Type*) [CommRing O] [CommGroup Γ] [TopologicalSpace Γ]
+    [IsTopologicalGroup Γ] (γ : Γ) :
+    iwasawaInvolution O Γ (TauCeti.completedGroupAlgebra.of O Γ γ) =
+      TauCeti.completedGroupAlgebra.of O Γ γ⁻¹ :=
+  TauCeti.completedGroupAlgebra.domCongr_of O _ γ
 
 /-! ## Layer 0: Completions and coefficient limits -/
 
@@ -132,7 +137,17 @@ def jordan (a : ℚ) : (ℚ × ℚ) →ₗ[ℚ] (ℚ × ℚ) where
   map_smul' := by intros; ext <;> simp <;> ring
 
 /-- §0.12: the unipotent Jordan block sends its invariant line to zero in coinvariants. -/
-theorem not_weaklySemisimple_jordan_one : ¬ IsWeaklySemisimple (jordan 1) := sorry
+theorem not_weaklySemisimple_jordan_one : ¬ IsWeaklySemisimple (jordan 1) := by
+  intro h
+  let e₁ : LinearMap.ker (jordan 1 - LinearMap.id) :=
+    ⟨(1, 0), by simp [LinearMap.mem_ker, jordan]⟩
+  have he₁ : invariantCoinvariantMap (jordan 1) e₁ = 0 := by
+    change (LinearMap.range (jordan 1 - LinearMap.id)).mkQ (1, 0) = 0
+    apply (Submodule.Quotient.mk_eq_zero _).mpr
+    exact ⟨(0, 1), by simp [jordan]⟩
+  have hz : e₁ = 0 := h.injective (he₁.trans (map_zero _).symm)
+  have : (1 : ℚ) = 0 := congrArg (fun x => x.val.1) hz
+  norm_num at this
 
 end Tests
 
@@ -244,12 +259,14 @@ theorem propagate_gc {X Y : Type*} [AddCommGroup X] [Module R X] [AddCommGroup Y
     (g : X →ₗ[R] Y) (L₀ : Submodule R X) (L : Submodule R Y) :
     propagateImage g L₀ ≤ L ↔ L₀ ≤ propagatePreimage g L := Submodule.map_le_iff_le_comap
 
-/-- §2.6: the preimage of a condition saturated for a nonzero integer is saturated for that
-integer; the arithmetic statement uses an `E`-subspace `L_V` and every nonzero element of `O`. -/
-theorem saturated_preimage {X Y : Type*} [AddCommGroup X] [Module ℤ X] [AddCommGroup Y]
-    [Module ℚ Y] [Module ℤ Y] (g : X →ₗ[ℤ] Y) (LV : Submodule ℤ Y) (n : ℤ) (hn : n ≠ 0) (x : X)
-    (hx : n • x ∈ propagatePreimage g LV) (hLV : ∀ y : Y, n • y ∈ LV → y ∈ LV) :
-    x ∈ propagatePreimage g LV := sorry
+/-- §2.6: the preimage of a fraction-field subspace under an `O`-linear map is saturated
+for every nonzero element of the domain `O`. -/
+theorem saturated_preimage {O E X Y : Type*} [CommRing O] [IsDomain O] [Field E]
+    [Algebra O E] [IsFractionRing O E] [AddCommGroup X] [Module O X]
+    [AddCommGroup Y] [Module O Y] [Module E Y] [IsScalarTower O E Y]
+    (g : X →ₗ[O] Y) (LV : Submodule E Y) (n : O) (hn : n ≠ 0) (x : X)
+    (hx : n • x ∈ propagatePreimage g (LV.restrictScalars O)) :
+    x ∈ propagatePreimage g (LV.restrictScalars O) := sorry
 
 end SelmerKernel
 
@@ -260,17 +277,6 @@ variable {R : Type*} [CommRing R] {H HI HQ : Type*} [AddCommGroup H] [Module R H
 
 /-- §2.7: `H¹_ur = ker(H¹(G, M) → H¹(I, M))` (Rubin Definition I.3.1). -/
 def unramified (resI : H →ₗ[R] HI) : Submodule R H := LinearMap.ker resI
-
-/-- §2.7: for a profinite group and closed normal inertia subgroup, the kernel of the actual
-restriction map is the range of inflation from the quotient with invariant coefficients. -/
-theorem unramified_eq_range_inflation (G : Type*) [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (M : Type*) [AddCommGroup M] [TopologicalSpace M] [DiscreteTopology M]
-    [IsTopologicalAddGroup M] [DistribMulAction G M] [ContinuousSMul G M]
-    (I : Subgroup G) [I.Normal] (hI : IsClosed (I : Set G))
-    [ContinuousSMul (G ⧸ I) (FixedPoints.addSubgroup I M)] :
-    unramified (TauCeti.ContCohomology.explicitRes1 G M I).toIntLinearMap =
-      LinearMap.range (TauCeti.ContCohomology.explicitInfl1 G M I).toIntLinearMap := sorry
 
 /-- §2.7: with injective inflation from the Frobenius coinvariants `B/(σ - 1)B` of the inertia
 invariants (the procyclic calculation), the unramified condition is these coinvariants. -/
@@ -283,8 +289,11 @@ theorem unramified_equiv_coinvariants {B : Type*} [AddCommGroup B] [Module R B]
 decomposition group only. -/
 def greenberg (resQ : H →ₗ[R] HQ) : Submodule R H := LinearMap.ker resQ
 
-/-- §2.8: with `F⁺M = 0` the Greenberg condition is the unramified one. -/
-theorem greenberg_zero (resI : H →ₗ[R] HI) : greenberg resI = unramified resI := rfl
+/-- §2.8: transport through the cohomology isomorphism induced by `M → M/0` identifies
+the Greenberg condition for `F⁺M = 0` with the unramified condition. -/
+theorem greenberg_zero (resI : H →ₗ[R] HI) (e : HI ≃ₗ[R] HQ) :
+    greenberg (e.toLinearMap ∘ₗ resI) = unramified resI :=
+  e.ker_comp resI
 
 /-- §2.8: with `F⁺M = M` (so `H¹(I, M/F⁺M) = 0`) the Greenberg condition is relaxed. -/
 theorem greenberg_top (resQ : H →ₗ[R] HQ) [Subsingleton HQ] : greenberg resQ = ⊤ := sorry
@@ -681,17 +690,6 @@ def oppositeRealSign (A : ArchimedeanRealization W ω w) :
     intro a
     change (A.hodge.piece a).map (-A.FInfty.toLinearMap) = _
     rw [Submodule.map_neg, A.exchange]
-
-namespace Tests
-
-/-- §4.13: identical Hodge filtrations with opposite Betti involutions have different pole
-orders at zero. -/
-theorem gammaPoleOrder_oppositeRealSign :
-    (oppositeRealSign (tateArchimedean 0)).hodge = (tateArchimedean 0).hodge ∧
-    gammaPoleOrder (hodgeGammaFactors (tateArchimedean 0)) 0 = 1 ∧
-    gammaPoleOrder (hodgeGammaFactors (oppositeRealSign (tateArchimedean 0))) 0 = 0 := sorry
-
-end Tests
 
 end Archimedean
 
