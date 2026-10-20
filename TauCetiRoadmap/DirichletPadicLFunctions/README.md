@@ -1,16 +1,16 @@
 # Roadmap: dirichlet p-adic L-functions, special values and Eisenstein measures
 
-**Summary.** Construct the arithmetic Kubota–Leopoldt pseudomeasure and its tame-character measure analogues from integral smoothing series. Identify their moments through a common algebraic special value, obtain analytic branches with the correct conductor and Teichmüller shift, compute their logarithmic values with the Iwasawa logarithm constructed here, and their principal residue, and assemble Eisenstein families including their localized constant coefficient. A second route through Morita's Gamma function supplies the Gross–Koblitz formula and the Ferrero–Greenberg derivative formula. Universal distributions organize the finite-level relations behind these constructions.
+**Summary.** Identify integral smoothing series with the canonical Kubota–Leopoldt pseudomeasure and tame-character measures supplied by IntegralIwasawaTheory. Transport their moments and principal residue, obtain analytic branches with the correct conductor and Teichmüller shift, compute their logarithmic values with the Iwasawa logarithm constructed here, and assemble Eisenstein families including their localized constant coefficient. A second route through Morita's Gamma function supplies the Gross–Koblitz formula and the Ferrero–Greenberg derivative formula. Universal distributions organize the finite-level relations behind these constructions.
 
 ## Scope and ownership
 
-This roadmap owns the arithmetic objects: the smoothing numerator, the zeta pseudomeasure, tame Dirichlet measures, their interpolation and logarithmic special values, arithmetic branch comparisons, Morita Gamma, the Gamma–Gauss comparison, universal distribution presentations and arithmetic Eisenstein measures. It works for every prime, including 2, with the separate dyadic angular coordinate. Its finite-level distribution theory is stated on positive-dimensional rational tori; its L-functions are those of characters of GL₁.
+This roadmap owns the integral smoothing-series comparisons, logarithmic special values, arithmetic branch comparisons, Morita Gamma, the Gamma–Gauss comparison, universal distribution presentations and arithmetic Eisenstein measures. IntegralIwasawaTheory §5.0 owns the canonical zeta pseudomeasure, tame Dirichlet measures, interpolation, coefficient descent, conductor comparisons and principal residue; the names here adapt those objects through its §6.3 normalization maps. It works for every prime, including 2, with the separate dyadic angular coordinate. Its finite-level distribution theory is stated on positive-dimensional rational tori; its L-functions are those of characters of GL₁.
 
 The generic theory of nonarchimedean measures, completed group algebras, Mahler transforms, character evaluation, unit restriction, inverse-coordinate weighting and pseudomeasures belongs to **PadicMeasuresIwasawaAlgebras**, Layers 0–3 and §3a.1. Generic locally analytic distributions, their coefficient series and integration against analytic families belong to **LocallyAnalyticDistributions**, §§0.1–0.3, 1.1–1.4 and 3.1–3.2. Generic logarithm-series convergence, continuity and addition belong to **PadicFunctionalAnalysis**, §4.5, on Tau Ceti's `NormedSpace.logOneAdd` carrier. The normalized Iwasawa logarithm on C_p and on complete normed Q_p-fields with the Iwasawa decomposition is constructed here in §0.6. General branches of the logarithm, Coleman integration and polylogarithms belong to **ColemanIntegration**, a downstream consumer of this decomposition and normalized logarithm in L0 and of Layer 3 for special values. The present arithmetic comparisons use the measure and distribution interfaces above; they do not introduce alternative measure or distribution carriers.
 
 Classical modular forms and character spaces use **ModularForms**, Layer 0 and “What Mathlib already has (consume)”, and Tau Ceti’s character Eisenstein series. Classical Dirichlet continuation, character conductors, Euler products and generalized Bernoulli numbers are used through the libraries. Tau Ceti supplies the Dedekind continuation near 1; the standard GL₁ comparison uses **AutomorphicLFunctionsAndLocalFactors**, Layer AL.1, [“Hecke continuation and functional equation”](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation), the n=1 specialization of its global Godement–Jacquet theorem. Arithmetic-series normalization uses **ArithmeticDirichletSeries**, Layers 1 and 3, archived under `Completed/ArithmeticDirichletSeries/`. The number-field invariants in the residue are Mathlib’s class number, regulator, torsion order and discriminant; the global-character carrier is **GlobalNumberFields**, Layer 9. The universal distribution presentations below concern quotients of free abelian groups; they do not reconstruct profinite completion, Witt vectors, finite fields or general group cohomology.
 
-PadicFamilies §0.12 is a downstream consumer of `kubotaLeopoldtPseudomeasure`, `integralTwistedPositiveEisensteinMeasure`, `fullEisensteinAwaySeries` and the character interpolation of §5.9; it owns the ordinary modular-form and Hecke-family comparison. Its `eisensteinConstantTerm`, `eisensteinCoefficientMeasure` and `eisensteinFamily` are adapters to §§1.6 and 5.6–5.9 here, which own the arithmetic construction, bounded smoothing, cross-multiplication, parameter independence and moments. The normalization has first positive coefficient 1 and constant factor 1/2.
+PadicFamilies §0.12 is a downstream consumer of `kubotaLeopoldtPseudomeasure`, `integralTwistedPositiveEisensteinMeasure`, `fullEisensteinAwaySeries` and the character interpolation of §5.9; it owns the ordinary modular-form and Hecke-family comparison. Its `eisensteinConstantTerm`, `eisensteinCoefficientMeasure` and `eisensteinFamily` are adapters to §§1.6 and 5.6–5.9 here, which supply the arithmetic Eisenstein construction, bounded smoothing, cross-multiplication, parameter independence and moments using the canonical objects of IntegralIwasawaTheory §5.0. The normalization has first positive coefficient 1 and constant factor 1/2.
 
 For its angular coefficient `Σ ψ(d)d⁻¹[⟨d⟩]`, take `integralTwistedPositiveEisensteinMeasure` with left character 1 and right character ψ, weight by the continuous inverse coordinate x⁻¹, and push forward along the angular projection. Apply the same operations coefficientwise to the full character families of §§5.7–5.9 after clearing their constant denominators, then use the chosen Iwasawa coordinate. For ψ=1, use `fullEisensteinAwaySeries` with its `clearedEisensteinSeries` numerator; the operation transports `A₀=Tw_x(ζ_p)/2` to the angular image of ζ_p/2. Its shifted clearing factor `2(uδ_u−1)` becomes `2([⟨u⟩]−1)`; transport the numerator and every cross-multiplication identity before dividing. Localization requires a regular transported denominator, and weight evaluation requires its nonzero image. For a nonprincipal right character use the normalized tame family of §5.7 when 2 is a unit; a principal character at a higher tame level uses §5.8 with its Euler deletions. At an arithmetic test ⟨x⟩^k the inducing finite character is ψω^(−k). The tame weights ψ(d) belong to the finite divisor sum, not to a presumed continuous function ψ on U. The ordinary p≥5 comparison is a specialization of these all-prime arithmetic constructions.
 
@@ -99,6 +99,35 @@ Its §3a.1 consumes the odd-prime and dyadic product decompositions from PadicFu
 
 Finite projections and their refinement maps are supplied by §§1.1 and 2.12. The arithmetic cyclic recurrence, its uniqueness from the total mass and its explicit solution are targets of §1.5 here; they identify the existing inverse-Mahler measure.
 
+### From IntegralIwasawaTheory
+
+Use §5.0, `kubotaLeopoldtPseudomeasure` and `kubotaLeopoldt_interpolation`, for the canonical pseudomeasure, its tame measure components, integral smoothing, coefficient descent, conductor Euler deletions and principal residue. Use §6.3, `bernoulliStickelberger_dictionary`, for inverse arithmetic reciprocity, coordinate weighting, the Teichmüller projection and the Bernoulli sign. Sections 1.6, 2.6–2.8 and 3.1–3.2 here identify the series and analytic adapters with those supplied objects on all tests, not just at one weight. Section 3.7 transports the supplied pole and residue to the smoothing quotient; §§5.4–5.9 use the same transported object for the Eisenstein constant. The finite tame kernels also exist for principal characters, but their principal boundary is distinct from the canonical pseudomeasure.
+
+Write `ι(x)=σ_x⁻¹` for the inverse-reciprocity coordinate, `Tw_x` for coordinate weighting, and β_U for the unit restriction of the supplier's Bernoulli distribution. In the localized measure algebras the normalization equations are
+
+```text
+ι_* Tw_x(ζ_p)=−β_U,
+ι_*(μ_c|_U)=(1−cσ_c⁻¹)β_U,
+Tw_x((δ_c−1)ζ_p)=μ_c|_U.
+```
+
+For a nonprincipal tame η, its coefficient-valued Bernoulli kernel β_(η,U), obtained by tame character projection before restriction to U, similarly satisfies `ι_* Tw_x(ζ_η^U)=−β_(η,U)` and `ι_*(μ_η|_U)=−β_(η,U)`. The tame weights belong to that coefficient-valued distribution; they are not a continuous function η on U. For a finite continuous character χ of U, put `w_(χ,s)(x)=χ(x)ω(x)⁻¹⟨x⟩^(−s)` and `ρ_(χ,s)(σ_x)=χ(x)⁻¹ω(x)⟨x⟩^s`. Then
+
+```text
+ρ_(χ,s)(σ_x⁻¹)=w_(χ,s)(x),
+x⁻¹κ_(χ,s)(x)=w_(χ,s)(x),
+ρ_(χ,s)(1−cσ_c⁻¹)=1−χ(c)⟨c⟩^(1−s).
+```
+
+Evaluation of the smoothed principal Bernoulli distribution divided by this last factor is the negative of the principal analytic branch. The tame branch is the negative of β_(η,U) evaluated at ρ_(χ,s). These equations hold on admissible character loci, with the actual conductor Euler deletions. The ω in them includes the conductor-four sign at 2. (IntegralIwasawaTheory §§5.0 and 6.3, cited targets; RJW, equation (4-3), Definitions 5.13 and 5.18, Remark 5.19 and Theorem 5.20, pp.138,146–148.)
+
+**Checks.**
+
+* At N=3 the odd quadratic character evaluates the Bernoulli element to −1/3, while its complex L-value at 0 is 1/3. The minus sign persists under coefficient embeddings.
+* At s=1−r, `w_(χ,s)=χω^(−r)x^(r−1)`; on χ=ω^k the Galois torsion projection is ω^(1−k). Omitting inverse weighting changes the interpolated character.
+* At p=2, x=−1 has ω₂(x)=−1 and angular coordinate 1. A character modulo 2 cannot replace this sign.
+* If `P(S)=(1+S−γ)Lp_1(s)` with `S=γ^s−1`, then `P(γ−1)=γ log_p(γ)(1−p⁻¹)`. This has valuation 0 at odd p and 1 at 2; multiplying the clearing factor by p changes the normalization.
+
 ### From LocallyAnalyticDistributions
 
 LocallyAnalyticDistributions §1.1 supplies the unbounded Amice coefficient-series equivalence on the additive disc; §§1.3–1.4 supply multiplication by x corresponding to ∂, scalar extension, unit restriction and finite root averages. Its §1.2 supplies evaluation on strict subdiscs, analytic evaluation, coefficient transport and “Uniform geometric tails on a smaller disc”. Its §§3.1–3.2 supply component Mellin series, analytic arithmetic branches and clearing-factor comparisons. These interfaces identify primitive series with actual distributions. Mathlib’s native analytic series and continuous-linear-map summation laws supply differentiation and interchange for convergent series; the larger-radius Taylor estimates for the arithmetic samples and their normalized means are proved in §§4.2–4.3 here. The continuous normalized Mahler antidifference is constructed in §4.13 from Mathlib’s Mahler basis.
@@ -123,11 +152,11 @@ ProfiniteArithmetic §§0.1–0.4 supplies the native profinite ring, inverse-li
 
 ## How to read the build
 
-Layer 0 fixes the complex analytic and algebraic normalizations and constructs the Iwasawa logarithm. Layer 1 constructs smoothing measures and the arithmetic pseudomeasure; Layer 2 adds characters and integral descent. Layer 3 turns those objects into analytic branches and computes logarithmic values and the principal residue. Layer 4 develops Gamma, Gauss sums, universal distributions and the derivative formula, independently of the Eisenstein construction after its indicated inputs. Layer 5 assembles the full Eisenstein q-expansion. Each layer's examples distinguish the arithmetic normalization from another formally type-correct choice.
+Layer 0 fixes the complex analytic and algebraic normalizations and constructs the Iwasawa logarithm. Layer 1 constructs smoothing-series measures and identifies their inverse-weight numerators with the supplied arithmetic pseudomeasure; Layer 2 adds character-series and integral descent comparisons. Layer 3 turns those objects into analytic branches, computes logarithmic values and transports the supplied principal residue. Layer 4 develops Gamma, Gauss sums, universal distributions and the derivative formula, independently of the Eisenstein construction after its indicated inputs. Layer 5 assembles the full Eisenstein q-expansion. Each layer's examples distinguish the arithmetic normalization from another formally type-correct choice.
 
 Suggested.lean begins with the light conventions and the following headline signatures:
 
-* `existsUnique_kubotaLeopoldtPseudomeasure` constructs the pseudomeasure and all its integral smoothing numerators (§1.6); `existsUnique_intrinsicTameZetaMeasure` constructs the nonprincipal tame analogue with its all-test bound and positive moments (§2.6).
+* `existsUnique_kubotaLeopoldtPseudomeasure` identifies the unique integral smoothing numerators of the supplied pseudomeasure with the binomial-series numerators (§1.6); `existsUnique_intrinsicTameZetaMeasure` identifies the nonprincipal tame adapter with the supplied measure and transports its all-test bound (§2.6).
 * `algebraicDirichletValue_complex` identifies the common Bernoulli scalar (§0.4), while `existsUnique_isIwasawaLog`, `existsUnique_isIwasawaLog_padicComplex` and `existsUnique_isIwasawaLog_of_finiteDimensional` construct the normalized logarithm (§0.6).
 * `measureBranch_analyticAt` gives analyticity of the actual measure quotient inside both exponential balls with nonzero denominator (§3.2). `leopoldt_value_one` gives the logarithmic value for tame, mixed and wild conductors (§3.6). `principalNumerator_mass`, `principalSmoothingLog_norm` and `principalBranch_residue` give the arithmetic mass, its nonzero logarithm and the principal residue (§3.7).
 * `existsUnique_moritaGamma` constructs the signed continuous Gamma function (§4.1), `grossKoblitz_formula` gives the Gamma–Gauss comparison (§4.5), and `ferreroGreenberg_derivative` identifies the derivative (§4.14). `universalWeightedDistribution_lift` states the universal full-fiber distribution property (§4.7).
@@ -374,13 +403,13 @@ Use `smoothingResidueCandidate_eq_mass`, `_sum`, `_refine` and `_difference`; `s
 
 ### 1.6 Removing the smoothing parameter
 
-Take the natural unit a=p+1. Its infinite-order group element has `δ_a−1` regular by the precise supplier contract for the actual unit group. Define `kubotaLeopoldtPseudomeasure ζ_p = λ_a/(δ_a−1)` in the existing pseudomeasure submodule. Prove integrality of `(δ_u−1)ζ_p` for every u∈U and its equality to λ_u, independence from every other regular smoothing denominator, and uniqueness of the pseudomeasure with these products. This includes dyadic U, which is not procyclic; no “choose a topological generator of all of U₂” argument is used. For any nontrivial continuous K-valued unit character κ, an admissible smoothing unit u gives
+Let `kubotaLeopoldtPseudomeasure ζ_p` be the unit-measure adapter of IntegralIwasawaTheory §5.0, normalized by `bernoulliStickelberger_dictionary` in its §6.3 and the equations in Exact supplier contracts. Take the natural unit a=p+1. Its infinite-order group element has `δ_a−1` regular by the precise generic supplier contract for the actual unit group. Identify the local smoothing numerator on every continuous test by `(δ_u−1)ζ_p=λ_u`, for every u∈U. Thus the adapter satisfies `ζ_p=λ_a/(δ_a−1)` and agrees with every other regular smoothing presentation. Uniqueness and parameter independence are transported from the canonical object. This includes dyadic U, which is not procyclic; no “choose a topological generator of all of U₂” argument is used. For any nontrivial continuous K-valued unit character κ, an admissible smoothing unit u gives
 
 ```text
 ev_κ(ζ_p) = λ_u(κ)/(κ(u)−1).
 ```
 
-Prove independence using the cross-relation before dividing. For k≥1 this gives
+Transport the canonical cross-relation before dividing. For k≥1 the supplied interpolation gives
 
 ```text
 ev_(x^k)(ζ_p)=(1−p^(k−1))ζ(1−k).
@@ -388,7 +417,7 @@ ev_(x^k)(ζ_p)=(1−p^(k−1))ζ(1−k).
 
 Both sides are the p-adic image of a rational scalar. At k=1 the Euler factor is zero; the possible Bernoulli convention discrepancy is therefore harmless only after proving that boundary separately. For k>1, parity removes the sign from Layer 0. Prove `zeta_reflection : δ_(−1)*ζ_p=ζ_p`, vanishing on odd test characters, and uniqueness from its positive moments. Transport this same object through the canonical measure/completed-algebra equivalence and its localization extension. At odd p it lies in the plus corner with `e⁺=(1+δ_(−1))/2`; the quotient comparison uses that normalized projector. At p=2 retain the integral sign relation without dividing by 2. (RJW, Theorem 4.1 and Definitions 4.9–4.10, Proposition 4.11, pp.136,138–139; Lemma 3.36, Definition 3.37 and Lemma 3.38, pp.130–132.)
 
-Use `kubotaLeopoldtPseudomeasure_clear`, `_unique`, `_evaluate`, `_moment`, `_reflection` and `_plusCorner` for the arithmetic pseudomeasure API; the last theorem is restricted to odd p. The signature `existsUnique_kubotaLeopoldtPseudomeasure` constructs the pseudomeasure together with every integral numerator, identifies each numerator with inverse-coordinate restriction of the binomial smoothing measure on all tests, and gives its positive Bernoulli moments. The signature `kubotaLeopoldtPseudomeasure_clear` constructs the unique element of the supplier’s `Iwasawa.pseudomeasures` submodule from the integral numerator family characterized by its positive moments.
+Use `kubotaLeopoldtPseudomeasure_clear`, `_unique`, `_evaluate`, `_moment`, `_reflection` and `_plusCorner` for the arithmetic pseudomeasure API; the last theorem is restricted to odd p. The signature `existsUnique_kubotaLeopoldtPseudomeasure` takes the supplied element of `Iwasawa.pseudomeasures` and its canonical clearing-moment law, and identifies its unique integral numerator at every unit with inverse-coordinate restriction of the binomial smoothing measure on all tests. The signature `kubotaLeopoldtPseudomeasure_clear` identifies any integral numerator family with the supplied clearing family by positive-moment separation; its conclusion is the clearing equation for that same supplied pseudomeasure.
 
 **Checks.**
 
@@ -426,7 +455,7 @@ At p=3,a=2 one construction yields simultaneously Amice coefficients `(1/2,−1/
 
 ### Dependencies
 
-Layer 0; PadicMeasuresIwasawaAlgebras §§0.1, 1.1–1.7, 2.1–2.6, 2.8, 2.11–2.12, 3.1–3.3 and 3a.1 for measures, unit charts, coefficient extension, regularity and localization comparisons; existing Bernoulli denominator arithmetic. The finite residue recurrence uses no locally analytic distribution or logarithmic primitive.
+Layer 0; IntegralIwasawaTheory §5.0, `kubotaLeopoldtPseudomeasure` and `kubotaLeopoldt_interpolation`, and §6.3, `bernoulliStickelberger_dictionary`; PadicMeasuresIwasawaAlgebras §§0.1, 1.1–1.7, 2.1–2.6, 2.8, 2.11–2.12, 3.1–3.3 and 3a.1 for measures, unit charts, coefficient extension, regularity and localization comparisons; existing Bernoulli denominator arithmetic. The finite residue recurrence uses no locally analytic distribution or logarithmic primitive.
 
 ## Layer 2: finite characters, tame measures and coefficient descent
 
@@ -544,13 +573,13 @@ Use `tameComplexKernel_zero`, `_of_nonprincipal`, `_derivative_zero`, `_decay` a
 
 ### 2.6 Tame zeta on units
 
-Define `tameZetaMeasure ζ_η = Jμ_η` on Z and `intrinsicTameZetaMeasure ζ_η^U = r_Uζ_η`. Define their O-valued counterparts from μ_η^O. Prove all-test evaluation, support, `xζ_η=Eμ_η`, ψ-annihilation, restriction/extension inverse laws, coefficient inclusion, norm at most 1 and uniqueness. For nonprincipal η, positive moments are
+For nonprincipal η, let `intrinsicTameZetaMeasure ζ_η^U` be the tame measure of IntegralIwasawaTheory §5.0 in the inverse-weight normalization of its §6.3. Identify it on all tests with `r_U Jμ_η` for the finite kernel of §2.4. Its extension by zero is `tameZetaMeasure ζ_η = Jμ_η`. Identify their O-valued versions by the same all-test inclusion. Transport support, `xζ_η=Eμ_η`, ψ-annihilation, restriction/extension inverse laws, coefficient inclusion, norm at most 1 and uniqueness. The finite-kernel adapters at principal η retain these restriction and weighting definitions without a canonical principal-measure comparison. For nonprincipal η, the supplied positive moments are
 
 ```text
 ζ_η^U(x^k)=(1−η(p)p^(k−1))L(η,1−k),       k≥1.
 ```
 
-Only the actual intrinsic object is used for multiplicative convolution and character evaluation. For a p-power χ, define `twistedTameMeasure χ η = weight(w_χ)μ_η` on Z and `integralTameCharacterMeasure χ η = weight(χ|_U)ζ_η^U` on U. Their API gives evaluation, successive twists, inverse-character cancellation on U, principal invariance on U at every level, positive-level principal unit projection on Z, coefficient extension and norm bounds. The signature `existsUnique_intrinsicTameZetaMeasure` constructs the unique unit measure with the all-test bound and positive Euler-deleted generalized-Bernoulli moments, over a complete ultrametric characteristic-zero coefficient field with bounded continuous `ℤ_p`-action, unit-norm tame level and bounded character values. It includes imprimitive nonprincipal characters. For nonprincipal η, let ψ₀ denote the primitive inducing character of χη. The interpolation theorem reads
+Only the actual intrinsic object is used for multiplicative convolution and character evaluation. For a p-power χ, define `twistedTameMeasure χ η = weight(w_χ)μ_η` on Z and `integralTameCharacterMeasure χ η = weight(χ|_U)ζ_η^U` on U. Their API gives evaluation, successive twists, inverse-character cancellation on U, principal invariance on U at every level, positive-level principal unit projection on Z, coefficient extension and norm bounds. The signature `existsUnique_intrinsicTameZetaMeasure` takes the supplied unit measure and its positive Euler-deleted generalized-Bernoulli moments, identifies the unique integral adapter with it, and gives its all-test bound over a complete ultrametric characteristic-zero coefficient field with bounded continuous `ℤ_p`-action, unit-norm tame level and bounded character values. It includes imprimitive nonprincipal characters; the finite-kernel comparison retains this coefficient generality. For nonprincipal η, let ψ₀ denote the primitive inducing character of χη. The interpolation theorem reads
 
 ```text
 ζ_η^U(χx^k)=(1−ψ₀(p)p^(k−1))L(ψ₀,1−k),
@@ -570,7 +599,7 @@ Name the interfaces `tameZetaMeasure_apply`, `_support`, `_coordinate`, `intrins
 
 ### 2.7 The character field and descent
 
-Define `tameCharacterField η` as the native subfield of a chosen finite extension K generated by the image of Q_p and the finite set of values of η. Prove finite dimensionality, completeness, the induced norm and compatibility of its integer ring. Define `tameCharacterInField` by taking the same values with membership proofs. Its API gives inclusion equality, unchanged conductor/primitivity, zero and unit values, uniqueness under the inclusion, and generation minimality. Construct F_η and both measures over this field first. The finite numerator recurrence proves that extension into K gives the objects already constructed there. Prove transitivity of coefficient extension, descent of every finite projection and of the intrinsic zeta measure, and uniqueness from all-test inclusion. A splitting field for ε is only needed for the Fourier proof, not for the resulting coefficient field. (RJW, Remark 5.8(2), p.143; finite formula (5-3), p.144.)
+Define `tameCharacterField η` as the native subfield of a chosen finite extension K generated by the image of Q_p and the finite set of values of η. Prove finite dimensionality, completeness, the induced norm and compatibility of its integer ring. Define `tameCharacterInField` by taking the same values with membership proofs. Its API gives inclusion equality, unchanged conductor/primitivity, zero and unit values, uniqueness under the inclusion, and generation minimality. Construct F_η and its finite-kernel measures over this field. Identify their nonprincipal intrinsic adapter with the character-field measure supplied by IntegralIwasawaTheory §5.0. The finite numerator recurrence identifies extension into K on all tests. Transport transitivity of coefficient extension, descent of every finite projection and of the intrinsic zeta measure, and uniqueness from all-test inclusion. A splitting field for ε is only needed for the Fourier proof, not for the resulting coefficient field. (RJW, Remark 5.8(2), p.143; finite formula (5-3), p.144.)
 
 Use `tameCharacterInField_include`, `_conductor`, `_isPrimitive`, `tameCharacterField_minimal`, `tameSeries_descend`, `tameMeasure_descend` and `tameZetaMeasure_descend` for descent.
 
@@ -583,7 +612,7 @@ Use `tameCharacterInField_include`, `_conductor`, `_isPrimitive`, `tameCharacter
 
 ### 2.8 Level raising and arithmetic Euler deletion
 
-For a nonprincipal tame η at positive level D and a prime ℓ prime to p, compare the finite tame series of its level-raised character with the native pushforward operator. At ordinary moment degree r the multiplier is `1−η(ℓ)ℓ^r`; equivalently the additive measure operator is `1−η(ℓ)σ_ℓ`. For the inverse-weighted intrinsic zeta the operator becomes `1−η(ℓ)ℓ⁻¹δ_ℓ*`, since `Jσ_ℓ=ℓ⁻¹σ_ℓJ`. Prove the identity on actual transforms and all tests, then its finite-product version for D dividing a positive tame level N. A prime already in the original level introduces no further deletion, and repeated exponents do not repeat a factor. Coefficient extension and finite twists commute with this comparison when their character factors are included. Nonprincipality is retained under level raising. (RJW, §5.2, pp.143–146, together with Mathlib's `DirichletCharacter.LFunction_changeLevel`; the finite-series identity follows from character-sum cancellation and deletion of multiples of ℓ.)
+For a nonprincipal tame η at positive level D and a prime ℓ prime to p, identify IntegralIwasawaTheory §5.0’s conductor comparison with the finite tame series of its level-raised character and the native pushforward operator. At ordinary moment degree r the multiplier is `1−η(ℓ)ℓ^r`; equivalently the additive measure operator is `1−η(ℓ)σ_ℓ`. For the inverse-weighted intrinsic zeta the operator becomes `1−η(ℓ)ℓ⁻¹δ_ℓ*`, since `Jσ_ℓ=ℓ⁻¹σ_ℓJ`. Prove the identity on actual transforms and all tests, then its finite-product version for D dividing a positive tame level N. A prime already in the original level introduces no further deletion, and repeated exponents do not repeat a factor. Coefficient extension and finite twists commute with this comparison when their character factors are included. Nonprincipality is retained under level raising. (RJW, §5.2, pp.143–146, together with Mathlib's `DirichletCharacter.LFunction_changeLevel`; the finite-series identity follows from character-sum cancellation and deletion of multiples of ℓ.)
 
 Use `tameZetaMeasure_raiseLevel_prime`, `_raiseLevel`, `_same_prime_support` and `_map` for this comparison, each with the nonprincipal hypothesis on η. The representative formal interfaces `tameSeries_raiseLevel_prime` and `tameSeries_same_prime_support` carry `η ≠ 1` explicitly over a field in which both levels are units. Primitivity is unnecessary for these finite identities: the cancellation `Ση=0` holds for every nonprincipal character over a field. The prime substitution is `T↦(1+T)^ℓ−1`, whose constant coefficient is zero.
 
@@ -604,7 +633,7 @@ For η quadratic modulo 3 at p=2, the rational finite kernel gives an integral m
 
 ### Dependencies
 
-Layers 0–1; Mathlib and Tau Ceti character, conductor, Gauss and generalized-Bernoulli interfaces; PadicMeasuresIwasawaAlgebras §§0.1, 1.1–1.7 and 2.1–2.12 for coefficient extension, weighting, unit restriction and finite projections. Analytic root rotations use LocallyAnalyticDistributions §§1.2 and 1.4 for strict-disc evaluation and root averages.
+Layers 0–1; IntegralIwasawaTheory §5.0 for the canonical tame measures, descent and conductor comparisons, with §6.3’s normalization; Mathlib and Tau Ceti character, conductor, Gauss and generalized-Bernoulli interfaces; PadicMeasuresIwasawaAlgebras §§0.1, 1.1–1.7 and 2.1–2.12 for coefficient extension, weighting, unit restriction and finite projections. Analytic root rotations use LocallyAnalyticDistributions §§1.2 and 1.4 for strict-disc evaluation and root averages.
 
 ## Layer 3: analytic branches, logarithmic values and the principal pole
 
@@ -636,7 +665,7 @@ Name the actual character test `arithmeticBranchTest`, its integral `arithmeticB
 
 ### 3.2 Cleared branches and interpolation
 
-For the principal object, use `λ_a=(δ_a−1)ζ_p`. Define its branch at an admissible parameter by
+For the principal object supplied by IntegralIwasawaTheory §5.0 and identified in §1.6, use `λ_a=(δ_a−1)ζ_p`. Define its branch at an admissible parameter by
 
 ```text
 Lp_(ν)(s)=N_(λ_a,ν)(s)/(κ_(ν,s)(a)−1),       κ_(ν,s)(a)≠1.
@@ -658,7 +687,7 @@ Write θ for the primitive character inducing the product of η and ν at their 
 Lp_(ην)(1−k)=(1−ψ(p)p^(k−1))L(ψ,1−k),
 ```
 
-with the extra level-deletion factors when the chosen finite test is imprimitive. This is an identity between embeddings of the common algebraic Bernoulli value, not an evaluation of a complex analytic function inside K. For the principal pseudomeasure k>0 gives an admissible smoothing parameter. The equivalent additive-measure test is `ν ω⁻¹⟨x⟩^(−s)` after inverse-coordinate weighting. Keeping only `ν⟨x⟩^(−s)` changes the character by ω. Prove parity: an odd test for the even zeta pseudomeasure is zero, and a branch whose finite factor is odd vanishes identically. (RJW, Definition 5.15 and Theorems 5.17 and 5.20, pp.145–148, read with the inverse-coordinate factor of Remark 5.19.)
+with the extra level-deletion factors when the chosen finite test is imprimitive. Identify this branch with IntegralIwasawaTheory §5.0’s canonical character disc by the inverse-coordinate, Teichmüller and sign equations of its §6.3 in Exact supplier contracts. In its procyclic s-coordinate `S=γ^s−1` and this roadmap’s moment coordinate `T=γ^(1−s)−1`, the relation is `S=γ(1+T)⁻¹−1`. It sends the principal pole to T=0. This is an identity between embeddings of the common algebraic Bernoulli value, not an evaluation of a complex analytic function inside K. For the principal pseudomeasure k>0 gives an admissible smoothing parameter. The equivalent additive-measure test is `ν ω⁻¹⟨x⟩^(−s)` after inverse-coordinate weighting. Keeping only `ν⟨x⟩^(−s)` changes the character by ω. Prove parity: an odd test for the even zeta pseudomeasure is zero, and a branch whose finite factor is odd vanishes identically. (RJW, Definition 5.15 and Theorems 5.17 and 5.20, pp.145–148, read with the inverse-coordinate factor of Remark 5.19.)
 
 The three light scalar adapters are `analyticNumerator`, `analyticDenominator` and `analyticBranch`. As total functions their formulas make sense over any normed field; the arithmetic interpretation uses the complete characteristic-zero field, actual summability and exponential ball already specified. `analyticDenominator_hasDerivAt` takes the derivative of exp at zero as an explicit analytic hypothesis; `cleared_branch_residue` is the general normed-field quotient limit from continuity of the numerator, a zero denominator and its nonzero derivative. It does not itself assert a pole if the central numerator is zero. The signature `measureBranch_analyticAt` integrates native continuous tests agreeing near s₀ with `ν(u)exp((1−s)H(u))`, assumes `‖1−s₀‖‖H‖<p^(−1/(p−1))` and the corresponding bound for A, and proves analyticity of the quotient at s₀ when its denominator is nonzero. Arithmetic charts use `H(u)=log_p⟨u⟩`; the native continuous-test formulation also applies to arbitrary continuous coefficient factors ν.
 
@@ -805,27 +834,17 @@ Use `wildSmoothedLogPrimitive_value`, `wildCharacterTrace_zero`, `mixedCyclotomi
 
 ### 3.7 Principal numerator, residue and Bernoulli limits
 
-Take the canonical smoothing unit `a=p+1`, including at p=2. Its first inverse additive moment equals the total mass of λ_a. Construct its logarithm primitive on the strict disc by canceling the zero of the two arithmetic denominators:
+Take the smoothing unit `a=p+1`, including at p=2, and the canonical principal branch `F₁(s)` supplied by IntegralIwasawaTheory §5.0. Use the all-test comparison of §1.6 and the branch dictionary of §3.2 to identify the actual smoothing numerator `N_a(s)=λ_a(⟨x⟩^(1−s))` on the punctured neighborhood of 1:
 
 ```text
-W_a(T)=log_p(T/((1+T)^a−1))+(a−1)log(1+T),
-W_a(0)=−log_p a,                  ∂W_a=F_a.
+N_a(s)=(⟨a⟩^(1−s)−1)F₁(s),
+lim_(s→1, s≠1) (s−1)F₁(s)=1−p⁻¹,
+λ_a(1)=N_a(1)=−(1−p⁻¹)log_p a.
 ```
 
-The quotient inside the first logarithm means the unit-valued analytic quotient after canceling T. Prove its formal expansion using the integral inverse of `q_a`, the logarithmic coefficient bound, summability and the actual derivative identity. The finite root norm, including the sign at p=2 which has zero logarithm, gives
+The last equation follows from continuity of the actual numerator, the supplied residue and the derivative `−log_p a` of this same denominator. For the canonical s-coordinate numerator `P(S)=(1+S−γ)F₁(s)`, `S=γ^s−1`, this is the equivalent normalization `P(γ−1)=γ log_p(γ)(1−p⁻¹)`. The moment-coordinate substitution `S=γ(1+T)⁻¹−1` gives `1+S−γ=−γT/(1+T)`, retaining both its sign and its unit factor. No central value is assigned to the totalized quotient.
 
-```text
-(Tr_p W_a)(0)=−p⁻¹log_p a,
-λ_a(1)=−(1−p⁻¹)log_p a.
-```
-
-Thus this mass is nonzero, of norm 1 at odd p and 1/2 at p=2: `v_p(log(1+p))=1` at odd p, while `v_2(log 3)=2`. Prove that truncation of the actual logarithm series at M≥1 has error at most `sup_(n≥M)‖p^n/n‖`, and prove the sharp norm after cancellation of terms of equal minimal valuation at p=2. For log 3 the n=1 and n=2 terms cancel; using the first term alone gives the wrong valuation. The principal branch denominator has derivative `−log_p a`, so
-
-```text
-lim_(s→1, s≠1) (s−1)Lp_1(s)=1−p⁻¹.
-```
-
-Prove analyticity of all nonprincipal components at 1 using a separating smoothing unit, and the simple-pole assertion for the principal component, with its Laurent coefficient and uniqueness. The quotient lemma of §3.2 must use the actual numerator and denominator logarithm, not assume a residue as input. (RJW, Theorem 7.1 and Lemmas 7.2–7.5, pp.154–158.)
+The mass is nonzero, of norm 1 at odd p and 1/2 at p=2: `v_p(log(1+p))=1` at odd p, while `v_2(log 3)=2`. Prove that truncation of the actual logarithm series at M≥1 has error at most `sup_(n≥M)‖p^n/n‖`, and prove the sharp norm after cancellation of terms of equal minimal valuation at p=2. For log 3 the n=1 and n=2 terms cancel; using the first term alone gives the wrong valuation. Transport the canonical simple pole, Laurent coefficient and uniqueness through the displayed branch equality. Analyticity of the nonprincipal components at 1 also agrees with §5.0 through a separating smoothing unit. The logarithmic norm and finite-series estimates are local analytic targets here; construction of the canonical pole belongs to IntegralIwasawaTheory. (IntegralIwasawaTheory §5.0, `kubotaLeopoldt_interpolation`, and §6.3, `bernoulliStickelberger_dictionary`; RJW, Theorem 7.1 and Lemmas 7.2–7.5, pp.154–158.)
 
 As a ring-theoretic consequence there is no ring map from any Λ-subalgebra of its total quotient containing ζ_p to K that agrees with total mass on every included integral measure. Indeed `(δ_a−1)ζ_p=λ_a` would give `0=λ_a(1)`. This is stronger than merely saying the chosen denominator vanishes, and does not incorrectly assert that no character evaluation exists on any useful localization.
 
@@ -838,15 +857,16 @@ B_(w_r) → 1−p⁻¹                  in Q_p.
 
 Give explicit precision estimates from `((1+p)^w−1)/w→log_p(1+p)` and the moment approximation; quantify the separate error from removing the Euler factor by `v_p(p^(w_r−1)B_(w_r))`. The estimate must use the actual Bernoulli valuation bound rather than presume all B_n integral. These limits recover the residue along `s=1−w_r`, since the interpolation value is `−(1−p^(w_r−1))B_(w_r)/w_r`. (RJW, §7, pp.155–158, together with the integral moment bound of §1.7.)
 
-The signature `principalNumerator_mass` evaluates the actual smoothing measure on the continuous zero-extended inverse coordinate, with its test equation explicit.
+The signature `principalNumerator_mass` states the resulting mass equation for the actual smoothing measure on the continuous zero-extended inverse coordinate, with its test equation explicit.
 
-Use `principalNumerator_mass`, `principalSmoothingLog_norm`, `principalBranch_simplePole`, `principalBranch_residue`, `principalBranch_residue_changeCoordinate` and `bernoulliQuotient_tendsto` for the canonical pole and limit API. The residue signature uses a continuous actual numerator with the computed central mass and the denominator `analyticDenominator` with the canonical smoothing logarithm.
+Use `principalNumerator_mass`, `principalSmoothingLog_norm`, `principalBranch_simplePole`, `principalBranch_residue`, `principalBranch_residue_changeCoordinate` and `bernoulliQuotient_tendsto` for the canonical pole and limit API. The residue signature takes the supplied principal branch and residue, a continuous actual numerator, and their clearing equation on a punctured neighborhood. It gives both the central mass and the residue of the local quotient with denominator `analyticDenominator` and the logarithm of the same smoothing unit.
 
 **Checks.**
 
 * For p=3,a=4, `λ_a(1)=−(2/3)log_3 4` has norm 1; the normalized branch residue is 2/3.
 * For p=2,a=3 the mass has norm 1/2, although `‖log_2 3‖=1/4`; replacing a by the chart generator 5 inside only the denominator changes the calculation.
-* A zero numerator with the same vanishing denominator has no nonzero residue. The pole conclusion needs the computed nonzero mass.
+* A zero numerator cannot satisfy the clearing comparison with the supplied nonzero residue. The pole conclusion needs that comparison.
+* At p=2, γ=5 gives `v₂(P(4))=1`, while a=3 gives `‖N_a(1)‖=1/2`. Replacing the canonical clearing factor by twice itself changes the numerator normalization.
 * If augmentation extended to a subalgebra containing ζ_p, the displayed clearing relation would send a nonzero scalar to zero. Agreement on all integral coefficients is essential to this contradiction.
 * Along w_r the minus sign in `s−1=−w_r` cancels the negative Bernoulli interpolation sign; the residue is `1−p⁻¹`, not its negative.
 * The logarithm series for p=2 has its first two terms cancel. A sharp norm argument that regards them as a unique minimal term fails this check.
@@ -857,7 +877,7 @@ At p=2, the sign component and the angular component are distinct. The canonical
 
 ### Dependencies
 
-Layers 0–2; the exact measure/chart/localization interface; locally analytic distribution evaluation, differentiation and strict-disc summation; the Iwasawa logarithm of §0.6 with its finite product and norm laws. No general rigid-space or p-adic-Hodge-theoretic construction is needed to interpret these scalar analytic branches.
+Layers 0–2; IntegralIwasawaTheory §5.0 for canonical character discs and the principal pole and residue, with §6.3’s dictionary; the exact measure/chart/localization interface; locally analytic distribution evaluation, differentiation and strict-disc summation; the Iwasawa logarithm of §0.6 with its finite product and norm laws. No general rigid-space or p-adic-Hodge-theoretic construction is needed to interpret these scalar analytic branches.
 
 ## Layer 4: Gamma, Gauss sums and universal distributions
 
@@ -1524,6 +1544,8 @@ For canonical a=p+1, Tw_x transports regularity of δ_a−1 to d_a, and multipli
 A_0=n_a/Δ_a=Tw_x(ζ_p)/2             in Q(M).
 ```
 
+Here ζ_p is the adapter of IntegralIwasawaTheory §5.0 fixed in §1.6. Its §6.3 Bernoulli dictionary gives `ι_*(A_0)=−β_U/2` and `Δ_u A_0=n_u`. These equations retain the sign and the factor 1/2, including at p=2; they identify the Eisenstein constant with the same canonical object as the analytic branch.
+
 Its API gives the displayed clearing identity, uniqueness, equality for every canonical unit representative, and `Δ_u A_0=n_u` for every u. The latter follows from the actual cross-smoothing identity after applying Tw_x. For every u with Δ_u regular it also identifies the fraction n_u/Δ_u with A₀. A zero denominator at u=1 does not determine A₀ by that equation alone.
 
 For each u define the native localization `S_u=M[Δ_u⁻¹]` and `A_(0,u)^away=n_u/Δ_u` there. Its API gives the integral inclusion, clearing and uniqueness. For any explicit regularity hypothesis on Δ_u construct the injective map `J_u:S_u→Q(M)`, prove its included-measure equation and `J_u(A_(0,u)^away)=A_0`. The canonical a gives the default injective comparison. At u=1 the localization is the zero ring; no field-valued specialization follows. The formal construction is allowed, its arithmetic use is not. (RJW, Theorem 8.2, p.160, with the coordinate twist retained in the denominator.)
@@ -1738,7 +1760,7 @@ Layers 0–3 for the common algebraic special values, the arithmetic pseudomeasu
 
 ColemanIntegration is a downstream consumer of §0.6 in L0.14–L0.18: it imports `hasIwasawaDecomposition_padicComplex`, `existsUnique_isIwasawaLog_padicComplex` and `iwasawaLog p`, together with finite-extension restriction, `IsIwasawaLog.map_algHom`, `IsIwasawaLog.mem_intermediateField`, `IsIwasawaLog.map_padicComplex_ringEquiv` and the branch comparison `natCast_mul_eq_of_map_mul`. Its zero branch is this same function on C_p, including its value 0 at zero. For a general branch parameter a its adapter is `log_a(x)=iwasawaLog p x+a v_p(x)` for x≠0, with value 0 at zero; the decomposition identifies `v_p(x)=m/N`. General-branch uniqueness, restriction and equivariance follow from these imported identities and the valuation laws. Local analytic expansions and Coleman applications belong to ColemanIntegration. Layer 3 supplies its weight-one cyclotomic logarithm comparison and actual unit-restricted primitive for higher polylogarithms. (Furusho, §2.1, p.7, for the branch parameter.)
 
-Arithmetic Iwasawa theory uses the intrinsic arithmetic pseudomeasure, its coefficient field, Kummer congruences, finite projections and the explicit principal residue. PadicFamilies §0.12 is a downstream consumer of the arithmetic Eisenstein exports and angular adapters specified in Scope and ownership; ordinary modularity and Hecke comparisons belong there. Eisenstein-family consumers use the localized constant, integral cleared q-expansions and the ordered character-pair specialization. Universal-distribution consumers use the native quotient and finite integral basis; Gamma and cyclotomic-unit consumers use the period-normalized logarithmic distribution with its exact domain. No claim about a higher-rank automorphic L-function, a general Shimura variety or a nonabelian Iwasawa algebra is a prerequisite of these GL₁ arithmetic constructions.
+IntegralIwasawaTheory §5.0 supplies the canonical arithmetic objects and residue; §§1.6, 2.6–2.8 and 3.1–3.2 here identify their smoothing-series and analytic adapters, and §3.7 identifies the principal numerator normalization. Arithmetic consumers of these adapters use the same pseudomeasure, coefficient field, Kummer congruences, finite projections and residue. PadicFamilies §0.12 is a downstream consumer of the arithmetic Eisenstein exports and angular adapters specified in Scope and ownership; ordinary modularity and Hecke comparisons belong there. Eisenstein-family consumers use the localized constant, integral cleared q-expansions and the ordered character-pair specialization. Universal-distribution consumers use the native quotient and finite integral basis; Gamma and cyclotomic-unit consumers use the period-normalized logarithmic distribution with its exact domain. No claim about a higher-rank automorphic L-function, a general Shimura variety or a nonabelian Iwasawa algebra is a prerequisite of these GL₁ arithmetic constructions.
 
 ## References
 

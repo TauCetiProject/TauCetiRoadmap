@@ -15,8 +15,10 @@ PadicFunctionalAnalysis §4.5 on the imported `NormedSpace.logOneAdd` carrier.
 It fixes the Bernoulli sign, integral
 smoothing quotient, the Iwasawa normalization of the p-adic logarithm, normalized analytic
 denominator, signed Gamma, full division fibers and ordered arithmetic divisor coefficients.
-Arithmetic analytic expressions are evaluated only with the convergence and nonvanishing
-hypotheses stated in the roadmap.
+The canonical pseudomeasure, tame measures and principal residue are supplied by
+IntegralIwasawaTheory §5.0; their adapters use its §6.3 inverse-coordinate, Teichmüller
+and sign equations. Arithmetic analytic expressions are evaluated only with the convergence
+and nonvanishing hypotheses stated in the roadmap.
 -/
 
 noncomputable section
@@ -106,41 +108,53 @@ def eisensteinPositiveMoment (p n e : ℕ) : ℤ :=
 
 /-! ## Headline theorems -/
 
-/-- Integral binomial smoothing constructs the unique Kubota–Leopoldt pseudomeasure;
-every unit clears it to an integral numerator with the Euler-deleted Bernoulli moments. -/
-theorem existsUnique_kubotaLeopoldtPseudomeasure (p : ℕ) [Fact p.Prime] :
+/-- The supplied canonical pseudomeasure has unique integral clearing numerators;
+inverse-coordinate weighting identifies them on all tests with the binomial smoothing series. -/
+theorem existsUnique_kubotaLeopoldtPseudomeasure (p : ℕ) [Fact p.Prime]
+    (ζ₀ : Iwasawa.pseudomeasures
+      (AbstractMeasure.diracHom (G := (ℤ_[p])ˣ) (R := ℤ_[p]))
+      (Localization (nonZeroDivisors (AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p]))))
+    (hcanonical : ∀ (u : (ℤ_[p])ˣ) (ν : AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p]),
+      algebraMap _ (Localization (nonZeroDivisors (AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p])))
+          (AbstractMeasure.dirac ℤ_[p] u - 1) * ζ₀ = algebraMap _ _ ν →
+      ∀ k : ℕ, 0 < k →
+        (ν ⟨fun x => (x : ℤ_[p]) ^ k, by fun_prop⟩ : ℚ_[p]) =
+          (1 - (p : ℚ_[p]) ^ (k - 1)) *
+            (1 - ((u : ℤ_[p]) : ℚ_[p]) ^ k) * (bernoulli k : ℚ_[p]) / k) :
     let M := AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p]
     let Q := Localization (nonZeroDivisors M)
-    ∃! ζ : Iwasawa.pseudomeasures
-      (AbstractMeasure.diracHom (G := (ℤ_[p])ˣ) (R := ℤ_[p])) Q,
-      ∀ u : (ℤ_[p])ˣ, ∃ ν : M,
-        (algebraMap M Q (AbstractMeasure.dirac ℤ_[p] u - 1) * (ζ : Q) =
-          algebraMap M Q ν) ∧
-        (AbstractMeasure.map
-          ⟨fun x : (ℤ_[p])ˣ => (x : ℤ_[p]), by fun_prop⟩
-          (AbstractMeasure.weight ⟨fun x : (ℤ_[p])ˣ => (x : ℤ_[p]), by fun_prop⟩ ν) =
-          AbstractMeasure.invTransform
+    ∀ u : (ℤ_[p])ˣ, ∃! ν : M,
+      (algebraMap M Q (AbstractMeasure.dirac ℤ_[p] u - 1) * (ζ₀ : Q) =
+        algebraMap M Q ν) ∧
+      (AbstractMeasure.map
+        ⟨fun x : (ℤ_[p])ˣ => (x : ℤ_[p]), by fun_prop⟩
+        (AbstractMeasure.weight ⟨fun x : (ℤ_[p])ˣ => (x : ℤ_[p]), by fun_prop⟩ ν) =
+        AbstractMeasure.invTransform
+          ((PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 2)) *
+            (PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 1)).invOfUnit u) -
+        AbstractMeasure.map ⟨fun x : ℤ_[p] => (p : ℤ_[p]) * x, by fun_prop⟩
+          (AbstractMeasure.invTransform
             ((PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 2)) *
-              (PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 1)).invOfUnit u) -
-          AbstractMeasure.map ⟨fun x : ℤ_[p] => (p : ℤ_[p]) * x, by fun_prop⟩
-            (AbstractMeasure.invTransform
-              ((PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 2)) *
-                (PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 1)).invOfUnit u))) ∧
-        (∀ k : ℕ, 0 < k →
-          (ν ⟨fun x => (x : ℤ_[p]) ^ k, by fun_prop⟩ : ℚ_[p]) =
-            (1 - (p : ℚ_[p]) ^ (k - 1)) *
-              (1 - ((u : ℤ_[p]) : ℚ_[p]) ^ k) * (bernoulli k : ℚ_[p]) / k) := by
+              (PowerSeries.mk fun n => Ring.choose (u : ℤ_[p]) (n + 1)).invOfUnit u))) ∧
+      (∀ k : ℕ, 0 < k →
+        (ν ⟨fun x => (x : ℤ_[p]) ^ k, by fun_prop⟩ : ℚ_[p]) =
+          (1 - (p : ℚ_[p]) ^ (k - 1)) *
+            (1 - ((u : ℤ_[p]) : ℚ_[p]) ^ k) * (bernoulli k : ℚ_[p]) / k) := by
   sorry
 
-/-- Every bounded nonprincipal tame character has a unique integral unit measure
-interpolating its Euler-deleted algebraic Dirichlet values, including at two. -/
+/-- The tame adapter equals the supplied canonical measure with its Euler-deleted moments
+and has the all-test integral bound, including for imprimitive characters and at two. -/
 theorem existsUnique_intrinsicTameZetaMeasure (p : ℕ) [Fact p.Prime]
     {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
     [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [ContinuousSMul ℤ_[p] K] [Algebra ℚ K]
     {D : ℕ} [NeZero D] (η : DirichletCharacter K D) (hne : η ≠ 1)
-    (hDp : D.Coprime p) (hDnorm : ‖(D : K)‖ = 1) (hη : ∀ a, ‖η a‖ ≤ 1) :
+    (hDp : D.Coprime p) (hDnorm : ‖(D : K)‖ = 1) (hη : ∀ a, ‖η a‖ ≤ 1)
+    (ν₀ : AbstractMeasure (ℤ_[p])ˣ K K)
+    (hcanonical : ∀ k : ℕ, 0 < k →
+      ν₀ ⟨fun u => (algebraMap ℤ_[p] K (u : ℤ_[p])) ^ k, by fun_prop⟩ =
+        -(1 - η p * (p : K) ^ (k - 1)) * η.generalizedBernoulli k / k) :
     ∃! ν : AbstractMeasure (ℤ_[p])ˣ K K,
-      (∀ f : C((ℤ_[p])ˣ, K), ‖ν f‖ ≤ ‖f‖) ∧
+      ν = ν₀ ∧ (∀ f : C((ℤ_[p])ˣ, K), ‖ν f‖ ≤ ‖f‖) ∧
       (∀ k : ℕ, 0 < k →
         ν ⟨fun u => (algebraMap ℤ_[p] K (u : ℤ_[p])) ^ k, by fun_prop⟩ =
           -(1 - η p * (p : K) ^ (k - 1)) * η.generalizedBernoulli k / k) := by
@@ -223,7 +237,8 @@ theorem leopoldt_value_one (p : ℕ) [Fact p.Prime]
       (1 - θ p / (p : K)) * cyclotomicLogConstant θ ε L hdom := by
   sorry
 
-/-- The actual inverse-coordinate smoothing integral gives the nonzero principal numerator mass. -/
+/-- The inverse-coordinate smoothing integral has the central mass determined by the
+supplied canonical residue and the derivative of its smoothing denominator. -/
 theorem principalNumerator_mass (p : ℕ) [Fact p.Prime]
     (ha : IsUnit ((p + 1 : ℕ) : ℤ_[p])) (f : C(ℤ_[p], ℤ_[p]))
     (hf : ∀ x, (IsUnit x → x * f x = 1) ∧ (¬IsUnit x → f x = 0)) :
@@ -237,12 +252,18 @@ theorem principalSmoothingLog_norm (p : ℕ) [Fact p.Prime] :
       if p = 2 then 1 / 4 else (p : ℝ)⁻¹ := by
   sorry
 
-/-- The canonical principal branch has residue `1-1/p`, using its computed numerator
-mass and the logarithm of the same smoothing unit in its denominator. -/
+/-- The supplied canonical principal residue transports through the punctured clearing
+comparison, giving the local numerator mass and the residue of the smoothing quotient. -/
 theorem principalBranch_residue (p : ℕ) [Fact p.Prime]
+    (F₁ : ℚ_[p] → ℚ_[p])
+    (hcanonical : Tendsto (fun s => (s - 1) * F₁ s)
+      (𝓝[≠] 1) (𝓝 (1 - (p : ℚ_[p])⁻¹)))
     (N : ℚ_[p] → ℚ_[p]) (hN : ContinuousAt N 1)
-    (hzero : N 1 = -(1 - (p : ℚ_[p])⁻¹) *
-      NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p])) :
+    (htransport : ∀ᶠ s : ℚ_[p] in 𝓝[≠] 1,
+      N s = analyticDenominator 1
+        (NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p])) s * F₁ s) :
+    (N 1 = -(1 - (p : ℚ_[p])⁻¹) *
+      NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p])) ∧
     Tendsto (fun s => (s - 1) * (N s /
       analyticDenominator 1 (NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p])) s))
       (𝓝[≠] 1) (𝓝 (1 - (p : ℚ_[p])⁻¹)) := by
@@ -541,9 +562,19 @@ theorem existsUnique_padicSmoothedMeasure (p : ℕ) [Fact p.Prime] :
       (∀ f : C(ℤ_[p], ℤ_[p]), Continuous fun u => μ u f) := by
   sorry
 
-/-- The integral numerator family determines exactly one arithmetic pseudomeasure in the
-total quotient of the native convolution algebra, including at the dyadic prime. -/
+/-- Positive-moment separation identifies a local integral numerator family with the
+clearing family of the supplied canonical pseudomeasure, including at two. -/
 theorem kubotaLeopoldtPseudomeasure_clear (p : ℕ) [Fact p.Prime]
+    (ζ₀ : Iwasawa.pseudomeasures
+      (AbstractMeasure.diracHom (G := (ℤ_[p])ˣ) (R := ℤ_[p]))
+      (Localization (nonZeroDivisors (AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p]))))
+    (hcanonical : ∀ (u : (ℤ_[p])ˣ) (μ : AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p]),
+      algebraMap _ (Localization (nonZeroDivisors (AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p])))
+          (AbstractMeasure.dirac ℤ_[p] u - 1) * ζ₀ = algebraMap _ _ μ →
+      ∀ k : ℕ, 0 < k →
+        (μ ⟨fun x => (x : ℤ_[p]) ^ k, by fun_prop⟩ : ℚ_[p]) =
+          (1 - (p : ℚ_[p]) ^ (k - 1)) *
+            (1 - ((u : ℤ_[p]) : ℚ_[p]) ^ k) * (bernoulli k : ℚ_[p]) / k)
     (ν : (ℤ_[p])ˣ → AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p])
     (hν : ∀ u (k : ℕ), 0 < k →
       ((ν u) ⟨fun x => (x : ℤ_[p]) ^ k, by fun_prop⟩ : ℚ_[p]) =
@@ -551,10 +582,8 @@ theorem kubotaLeopoldtPseudomeasure_clear (p : ℕ) [Fact p.Prime]
           (1 - ((u : ℤ_[p]) : ℚ_[p]) ^ k) * (bernoulli k : ℚ_[p]) / k) :
     let M := AbstractMeasure (ℤ_[p])ˣ ℤ_[p] ℤ_[p]
     let Q := Localization (nonZeroDivisors M)
-    ∃! ζ : Iwasawa.pseudomeasures
-      (AbstractMeasure.diracHom (G := (ℤ_[p])ˣ) (R := ℤ_[p])) Q,
-      ∀ u : (ℤ_[p])ˣ, algebraMap M Q (AbstractMeasure.dirac ℤ_[p] u - 1) * (ζ : Q) =
-        algebraMap M Q (ν u) := by
+    ∀ u : (ℤ_[p])ˣ, algebraMap M Q (AbstractMeasure.dirac ℤ_[p] u - 1) * (ζ₀ : Q) =
+      algebraMap M Q (ν u) := by
   sorry
 
 /-- A unit-step cyclic recurrence and total mass determine all finite residue masses. -/
