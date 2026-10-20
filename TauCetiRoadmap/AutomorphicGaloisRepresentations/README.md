@@ -60,6 +60,14 @@ almost-strict predicate. The shared early parallel-weight
 eigenpacket attachment belongs to HilbertModularVarietiesAndShimuraCurves
 R18.3.29 in type `(k,k−2)`; §3.10's adapter applies the integral Tate twist
 for general parallel `(k,w)` before identifying the arithmetic object with our dual.
+The classical Hilbert attachment and ordinary filtration are shared with
+IntegralIwasawaTheory §9.5, `finiteWeightHilbert_galoisOldform`, for arbitrary
+totally real fields and every prime. Sections 3.10–3.11 identify its
+field-valued member with the arithmetic dual, and §§4.11 and 5.1 identify
+the ordinary filtration on their common eigenpackets. Nonreduced oldform
+assembly and integral congruence comparisons belong to IntegralIwasawaTheory;
+the nonparallel construction, unrestricted local comparisons and fixed-lattice
+theory specified here retain their full scope.
 QuaternionicModularForms owns the quaternionic coefficient/form spaces, Hecke
 and finite-slope modules and rational small-slope classicality. Section 0.3
 uses these objects for eigenvariety gluing, normalization comparisons and the
@@ -277,6 +285,47 @@ the supersingular local vanishing-cycle representation `𝒰` and its three
 commuting actions from this geometry; the representation itself is part of
 that target. The comparison with completed strict-henselization generic-fibre
 cohomology uses Brylinski's appendix to Carayol.
+
+### From IntegralIwasawaTheory
+
+**Section 9.5, `finiteWeightHilbert_galoisOldform`.** Use its field-valued
+classical Hilbert representation `r_f`, with its Hecke polynomial and ordinary
+local filtration, on the common characteristic-zero cuspidal eigenpackets.
+The totally real degree and coefficient prime are arbitrary; retain the
+finite-weight, level, character and ordinary-refinement hypotheses of that
+section. This input requires no absolute irreducibility of the residual
+representation. For parallel type `(k,k−2)`, after common coefficient extension,
+the comparison is `r_f≅ρ_{π_f,λ}^∨`, with
+`det r_f=ψ ε_ℓ^{k−1}=χ_{π_f,λ}⁻¹ε_ℓ`. For type `(k,w)` use §3.10's integral
+twist before dualizing. At an ordinary `v|ℓ`, write `β_v` for its unramified
+arithmetic quotient character, with arithmetic Frobenius value the normalized
+unit root `α_v`. Its subcharacter is `ψ ε_ℓ^{k−1}β_v⁻¹`. Duality makes
+`β_v⁻¹` the subcharacter of `ρ_{π_f,λ}`, with geometric Frobenius value `α_v`.
+Sections 4.11 and 5.1 transport this filtration and its characters; the
+nonparallel nearly ordinary comparison retains its labelled algebraic factors.
+The product representation over nonreduced oldform algebras and its integral
+Hecke/congruence-lattice comparisons are targets of IntegralIwasawaTheory
+§§9.5–9.6.
+
+(Sources: IntegralIwasawaTheory §9.5, `finiteWeightHilbert_galoisOldform`;
+[Dasgupta–Kakde](https://arxiv.org/pdf/2010.00657v3), §9.1, pp. 65–66,
+properties (1)–(3) and equation (110);
+[Dasgupta–Kakde–Silliman–Wang](https://arxiv.org/pdf/2310.16399v1), §3.3,
+pp. 27–30, equations (42)–(47).)
+
+**Checks.**
+
+- For a common parallel weight-two ordinary eigenpacket over `ℚ(√5)` at
+  `ℓ=2`, neither even degree nor the dyadic coefficient prime excludes the
+  shared representation or filtration. A local polynomial `X²+3X+4` has
+  exactly one 2-adic unit root; the arithmetic quotient and geometric
+  subrepresentation have that same Frobenius value.
+- With a nebentypus value of order three, replacing `r_f` by `ρ_{π_f,λ}`
+  without dualizing inverts the determinant. For a type `(k,w)` norm twist,
+  `r_π=r_f⊗ε_ℓ^{(w−k+2)/2}` is required before taking the dual.
+- If an oldform algebra is `E[U]/((U−a)²)`, its element `U−a` is nonzero
+  although every field-valued specialization kills it. Agreement of the
+  field-valued attachments supplies no nonreduced Hecke or congruence comparison.
 
 ### From WeightsInEtaleCohomology and DeligneWeightsAndPurity
 
@@ -1568,7 +1617,7 @@ See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) 
 
 For every `π` of type `(k,w)` as fixed above, construct a continuous semisimple `ρ_{π,λ}` over a sufficiently large `E_λ` for every finite `λ`, unramified outside `S_π` and `ℓ`, with good geometric polynomial `P_v`. No finite discrete-series place is required when `d` is even. For parallel weight `k`, normalize `π₀=π⊗|det|^j` with `j=(w−k+2)/2` to type `(k,k−2)`, apply HilbertModularVarietiesAndShimuraCurves R18.3.29 to `π₀`, and define this member as the dual of `r_π=r_{f₀}⊗ε_ℓ^j` after common coefficient extension. This includes that supplier's Taylor branch in even degree without a finite discrete-series place. For nonparallel weights use the geometric extension of §§3.1–3.9 where available, twisting Carayol's representation; otherwise use auxiliary `μ_s`-new congruences modulo `λ^s` and compatible trace/determinant reconstruction. The auxiliary prime can vary with `s` and imposes no hypothesis on `π`. Prove independence of construction, extension/conjugation of coefficients, twist compatibility and agreement with the classical `M_f`. Good polynomials characterize the semisimple representation, while minimal descent to `ℚ(π)_λ` is a separate assertion not made here.
 
-*Needs:* HilbertModularVarietiesAndShimuraCurves §R18.3.29;  [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:Layer 5`; `IntegralHeckeAndGaloisDeterminants:IHG.1`; `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `HilbertModularVarietiesAndShimuraCurves:R18.4`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
+*Needs:* HilbertModularVarietiesAndShimuraCurves §R18.3.29; IntegralIwasawaTheory §9.5, `finiteWeightHilbert_galoisOldform`, for the shared classical comparison; [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:Layer 5`; `IntegralHeckeAndGaloisDeterminants:IHG.1`; `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `HilbertModularVarietiesAndShimuraCurves:R18.4`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
 
 See [Mark Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/def.dvi) — §4.1, author-copy p. 31; [Mark Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/def.dvi) — Proof of Theorem 4.3, author-copy pp. 32–33; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — Introduction, p. 242, after equation (1); [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 0.5, printed p. 410.
 
@@ -1592,13 +1641,22 @@ it to obtain a specified stable lattice in `ρ`. Its semisimplified reduction
 is the dual of the correspondingly twisted supplied residual eigensystem;
 no equality of arbitrary chosen lattices is asserted. Good polynomials and
 semisimple uniqueness identify any other construction with this object.
-Transport local comparisons, including their Tate twists, only in the
-supplier's ranges: hypothesis `(C)` away from `ℓ`, and at `ℓ` either `(C)` or
-residual absolute irreducibility. The remaining local assertions are the
-extensions of Layer 4, rather than extra conclusions of this adapter.
+On eigenpackets shared with IntegralIwasawaTheory §9.5,
+`finiteWeightHilbert_galoisOldform`, its field-valued `r_f` and `r_{f₀}` have
+the same arithmetic good polynomials, so semisimple uniqueness gives
+`r_f≅r_{f₀}` and `r_f⊗ε_ℓ^j≅ρ_{π,λ}^∨`. This comparison includes every
+coefficient prime and arbitrary totally real degree, without a residual
+irreducibility hypothesis. It identifies the classical attachment; the
+nonreduced oldform assembly remains with that supplier.
+Transport HilbertModularVarietiesAndShimuraCurves' further local comparisons,
+including their Tate twists, only in its ranges: hypothesis `(C)` away from
+`ℓ`, and at `ℓ` either `(C)` or residual absolute irreducibility. The remaining
+local assertions are the extensions of Layer 4, rather than extra conclusions
+of this adapter.
 
 (Source: HilbertModularVarietiesAndShimuraCurves §R18.3.29, “Normalization”,
-and §R18.4.25; Carayol §§0.4–0.5, printed pp. 409–410, and §§2.2.3–2.3,
+and §R18.4.25; IntegralIwasawaTheory §9.5, `finiteWeightHilbert_galoisOldform`;
+Carayol §§0.4–0.5, printed pp. 409–410, and §§2.2.3–2.3,
 printed pp. 420–421; Kisin §4.1 and Theorem 4.3, author-copy pp. 31–33.)
 
 - `hilbertGaloisRep` (constructor): The continuous semisimple `ρ_{π,λ}`: `G_F → GL₂(E_λ)` attached to `π` of infinity type `(k,w)` and `λ`.
@@ -1610,7 +1668,7 @@ printed pp. 420–421; Kisin §4.1 and Theorem 4.3, author-copy pp. 31–33.)
 - `hilbertGaloisRep_unique` (extensionality): Two continuous semisimple representations with the polynomials `X² − t_vX + q_vs_v` at a set of places of density one are isomorphic.
 - `hilbertGaloisRep_coefficients` (functoriality): Extension of `E` and conjugation: for `σ ∈ Aut(ℂ), ρ_{π^σ,σ(λ)}` is the `σ`-conjugate of `ρ_{π,λ}`.
 - `hilbertGaloisRep_auxiliaryCongruence` (data): In the congruence branch, compatible traces and determinants modulo `λ^s` on `μ_s`-new Hecke quotients.
-- `hilbertGaloisRep_parallelAdapter` (comparison): For parallel type `(k,w)`, the supplied attachment `r_{f₀}` at `π₀=π⊗|det|^j, j=(w−k+2)/2`, gives `r_π=r_{f₀}⊗ε_ℓ^j≅ρ_{π,λ}^∨`, with the transported coefficient, central-character and stable-lattice identifications above.
+- `hilbertGaloisRep_parallelAdapter` (comparison): For parallel type `(k,w)`, the supplied attachment `r_{f₀}` at `π₀=π⊗|det|^j, j=(w−k+2)/2`, gives `r_π=r_{f₀}⊗ε_ℓ^j≅ρ_{π,λ}^∨`, with the transported coefficient, central-character and stable-lattice identifications above. On common IntegralIwasawaTheory §9.5 eigenpackets, `r_f≅r_{f₀}`.
 - `hilbertGaloisRep_classical` (compatibility): For `F = ℚ` and a newform `f` of weight `k`, the automorphic representation `π_f` of infinity type `(k, k−2)` has `ρ_{π_f,λ} ≅ M_{f,λ}`, the cohomological realisation of [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation).
 
 **Checks.**
@@ -1642,7 +1700,7 @@ printed pp. 420–421; Kisin §4.1 and Theorem 4.3, author-copy pp. 31–33.)
 
 ### 3.11 The representation dictionary as a theorem
 
-Prove all identities in the convention table, the inverse-uniformiser eigenvalue conversion, the determinant/twist formulas, the labelled Hodge degrees and the classical specialization. Use `hilbertGaloisRep_parallelAdapter` for the early parallel-weight arithmetic attachment, with its normalizing integral Tate twist and chosen twisted dual lattice. The essential local identity is the duality relation for `GL₂` between `π_v` and its central-character inverse twist. Apply the de Rham algebraic-Hecke-character comparison when transporting this identity at `v|ℓ`. The `L`-factor and conductor translations apply at every place where local–global compatibility has been established. Test both a norm twist of a weight-two form and a nonquadratic nebentypus; otherwise inverse/dual errors can accidentally cancel.
+Prove all identities in the convention table, the inverse-uniformiser eigenvalue conversion, the determinant/twist formulas, the labelled Hodge degrees and the classical specialization. Use `hilbertGaloisRep_parallelAdapter` for the early parallel-weight arithmetic attachment, including the shared classical member of IntegralIwasawaTheory §9.5, with its normalizing integral Tate twist and chosen twisted dual lattice. The essential local identity is the duality relation for `GL₂` between `π_v` and its central-character inverse twist. Apply the de Rham algebraic-Hecke-character comparison when transporting this identity at `v|ℓ`. The `L`-factor and conductor translations apply at every place where local–global compatibility has been established. Test both a norm twist of a weight-two form and a nonquadratic nebentypus; otherwise inverse/dual errors can accidentally cancel.
 
 *Needs:* [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); `GL2AutomorphicRepresentationsAndTransfer:R16.3`; `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:§§2.1–2.6`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
 
@@ -2065,7 +2123,7 @@ identification proved in the next target.
 
 Let `p` be odd, `F` totally real of even degree, `U⊆GL₂(O_F⊗Ẑ)` open compact, `n` the product of its nonmaximal primes, and `π_SW` nearly ordinary of parallel `κ≥2` with Hecke eigencharacter `λ`. Attach Skinner–Wiles's continuous irreducible arithmetic representation. It is odd, unramified away from `np`, with trace `λ(T(v))` and determinant `Nv·λ(S(v))` at good arithmetic Frobenius, and determinant `χ_{π_SW,λ}ε_p`. For central `x∈ℤ(U)`, this is `λ^alg(S_x)ε_p(x)`, with the algebraic central specialization defined below. At each `v|p` its upper-triangular quotient character `ψ₂` has `ψ₂(y)=λ(T_y)` on local units and `ψ₂(ϖ_v)=λ(T₀(v))`. The quotient character is the character of the finite-weight eigenpacket of §4.10; its subcharacter is `det(V)` times its inverse. These formulas are proved as part of this target. A finite character twist makes the relevant form ordinary, giving the nearly ordinary construction from the ordinary one. Under their arithmetic reciprocity and inverse Hecke action the representation is `σ_λ(π_SW)^∨=ρ_{π_SW,λ}⊗ε_ℓ`; retain that twist in every later comparison.
 
-*Needs:* [4.10 Finite-weight nearly ordinary data](#410-finite-weight-nearly-ordinary-data); [3.17 Carayol's geometric Hilbert theorem](#317-carayols-geometric-hilbert-theorem); [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem); [3.12 Hilbert Hodge–Tate property](#312-hilbert-hodgetate-property); [4.7 Skinner's full coefficient-prime theorem](#47-skinners-full-coefficient-prime-theorem); FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P7.1–R07.P7.3, R07.3.0–R07.3.3 and R07.4.13, with §0.1’s rank-one formula.
+*Needs:* [4.10 Finite-weight nearly ordinary data](#410-finite-weight-nearly-ordinary-data); [3.17 Carayol's geometric Hilbert theorem](#317-carayols-geometric-hilbert-theorem); [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem); IntegralIwasawaTheory §9.5, `finiteWeightHilbert_galoisOldform`, for the shared ordinary comparison; [3.12 Hilbert Hodge–Tate property](#312-hilbert-hodgetate-property); [4.7 Skinner's full coefficient-prime theorem](#47-skinners-full-coefficient-prime-theorem); FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P7.1–R07.P7.3, R07.3.0–R07.3.3 and R07.4.13, with §0.1’s rank-one formula.
 
 See [C. M. Skinner and A. J. Wiles](http://www.numdam.org/item/PMIHES_1999__89__5_0.pdf) — §3.3, (3.2), p. 38 (Numdam PDF page 35; printed page = PDF page + 3); [C. M. Skinner and A. J. Wiles](http://www.numdam.org/item/PMIHES_1999__89__5_0.pdf) — §3.3, p. 39; [C. M. Skinner and A. J. Wiles](http://www.numdam.org/item/PMIHES_1999__89__5_0.pdf) — §2.1, p. 9, and (3.1′), p. 30.
 
@@ -2205,6 +2263,17 @@ all local `a_τ=0` and the finite unit factor is trivial. Distinct labelled
 algebraic characters cannot be cancelled by a finite factor on an open
 unit subgroup.
 
+For common parallel ordinary eigenpackets, identify this exact sequence with
+IntegralIwasawaTheory §9.5's `finiteWeightHilbert_galoisOldform` under
+`r_f≅ρ_{π_f,λ}^∨` and the integral twists of §3.10. At type `(k,k−2)` its
+arithmetic quotient `β_v` is unramified with value `α_v`, its subcharacter is
+`ψ ε_p^{k−1}β_v⁻¹`, and the corresponding cohomological subcharacter is
+`η=β_v⁻¹`. Regularity distinguishes the two graded characters, so the
+comparison identifies the invariant line, not just its semisimplification.
+This shared filtration applies at `p=2` and in every totally real degree.
+The general regular-weight comparison above supplies the full labelled
+nearly ordinary characters outside this common domain.
+
 - `nearlyOrdinary_gradedCharacters`: Construct the invariant line and both graded characters of `ρ_Π` and its arithmetic dual under the stated regular-weight and unit-root hypotheses.
 - `nearlyOrdinary_sourceDictionary`: Transport all four pairs by the determinant, central character and cyclotomic twist in the table.
 - `nearlyOrdinary_centralCharacter`: Compare the modified finite-level `λ(S_x)` with `λ^alg(S_x)`, hence with `χ_{π_SW,λ}` on arithmetic reciprocity, for all central `p`-units.
@@ -2258,13 +2327,17 @@ Layers 1 and 3; WeightsInEtaleCohomology R34.3–R34.6 with the independent geom
 
 For a classical `k≥2` newform, `p∤N` and `a_p` a `λ`-adic unit, choose the unit Euler root `α`. In the arithmetic representation prove `0→V⁺→V→V⁻→0`, with unramified quotient having arithmetic Frobenius `α` and subcharacter `ψχ_p^{k−1}(V⁻)⁻¹`. For the fixed stable lattice `T` define `T⁺=T∩V⁺` and `T⁻=T/T⁺`. Prove saturation, torsion-freeness and rank one of `T⁻` and compatibility with flat coefficient extension and the existing rational period line. On the cohomological realisation the ordinary line is instead the unramified subrepresentation at geometric Frobenius; use the annihilator under duality. For every regular Hilbert weight with the normalized unit-root refinement of §4.11 (given by §4.10 in the Skinner–Wiles range), use the rational filtration and exact graded characters proved in §4.11, then recover the other character from the determinant. The nearly ordinary quotient can be ramified; the unramified ordinary interface is its stated specialization.
 
-*Needs:* [1.4 Rational orbit projector and coefficient descent](#14-rational-orbit-projector-and-coefficient-descent); [1.6 Integral newform structures](#16-integral-newform-structures); [4.11 The nearly ordinary Hilbert construction](#411-the-nearly-ordinary-hilbert-construction), including the general regular-weight comparison; `ArithmeticGaloisRepresentations:§§1.1–1.10`.
+*Needs:* [1.4 Rational orbit projector and coefficient descent](#14-rational-orbit-projector-and-coefficient-descent); [1.6 Integral newform structures](#16-integral-newform-structures); IntegralIwasawaTheory §9.5, `finiteWeightHilbert_galoisOldform`, for the shared rational ordinary filtration; [4.11 The nearly ordinary Hilbert construction](#411-the-nearly-ordinary-hilbert-construction), including the general regular-weight comparison; `ArithmeticGaloisRepresentations:§§1.1–1.10`.
 
 See [C. M. Skinner and A. J. Wiles](http://www.numdam.org/item/PMIHES_1999__89__5_0.pdf) — §3.3 equation (3.2), pp. 38–39; [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §1.2, pp. 8–10; §4.5, pp. 50–51; §§5.3–5.4, pp. 56–59.
 
-The line and quotient formulas are assertions to prove from the classical local
-comparison: at good ordinary `p` the crystalline unit-root quotient is unramified,
-and its arithmetic Frobenius value is `α`. For Hilbert weights, §4.11 identifies the arithmetic-dual quotient on all units
+The rational classical Hilbert filtration on common eigenpackets is supplied by
+IntegralIwasawaTheory §9.5, `finiteWeightHilbert_galoisOldform`, and identified
+with our realization by §§3.10–3.11 and 4.11, at every prime and in arbitrary
+totally real degree. At good ordinary `p` the crystalline unit-root quotient
+is unramified, and its arithmetic Frobenius value is `α`. This section
+constructs its intersection with the fixed lattice and proves the stated
+saturation and coefficient comparisons. For Hilbert weights, §4.11 identifies the arithmetic-dual quotient on all units
 as `λ(T_y)A_𝔭(y)`, and its uniformizer value as the local normalized `α_𝔭`;
 the determinant gives the other character. Use its central/Tate table when
 the chosen realization is `ρ_{π_SW}` instead of `ρ_Π`. A quotient is unramified only under the

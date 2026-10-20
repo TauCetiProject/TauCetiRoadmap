@@ -17,6 +17,12 @@ nonzero monodromy and nilpotent coefficient rings are retained as README Checks
 (§§2.4, 6.2, 6.8 and Layer 4 Examples).
 The nearly ordinary coefficient expression retains both finite and labelled
 algebraic unit factors; its Galois identification is a README target.
+IntegralIwasawaTheory §9.5, `finiteWeightHilbert_galoisOldform`, supplies the
+shared field-valued classical Hilbert attachment and ordinary filtration for
+arbitrary totally real fields and every prime, on its stated eigenpackets.
+README §§3.10–3.11 identify its arithmetic member with the twisted dual;
+§§4.11 and 5.1 identify its filtration. Its nonreduced oldform assembly and
+integral congruence comparisons belong to that supplier.
 -/
 
 namespace TauCetiRoadmap.AutomorphicGaloisRepresentations
@@ -204,7 +210,9 @@ section OrdinaryLattice
 variable {O K V : Type*} [CommRing O] [Field K] [Algebra O K]
   [AddCommGroup V] [Module K V] [Module O V] [IsScalarTower O K V]
 
-/-- The actual intersection of the fixed lattice and specified K-subspace.
+/-- The intersection of the fixed lattice and specified K-subspace.
+README §5.1 applies this to the rational ordinary line, shared on classical
+Hilbert eigenpackets with IntegralIwasawaTheory §9.5 and transported by duality.
 Neither Galois invariance nor a rank assertion is part of the definition. -/
 def ordinaryLatticePlus (T : Submodule O V) (Vplus : Submodule K V) : Submodule O V :=
   T ⊓ Vplus.restrictScalars O
@@ -294,10 +302,19 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   `hilbertGaloisRep_parallelAdapter` at parallel type `(k,w)`, normalizing
   `π₀=π⊗|det|^j` for `j=(w−k+2)/2` and identifying `r_π=r_{f₀}⊗ε_ℓ^j` with the
   dual after common coefficient extension, with the supplied lattice twisted
-  before dualizing, and `IsCMHilbert` with its inducing field and character.
+  before dualizing. On eigenpackets shared with IntegralIwasawaTheory §9.5,
+  `finiteWeightHilbert_galoisOldform`, its field-valued r_f satisfies
+  r_f ≅ r_{f₀} and r_f ⊗ ε_ℓ^j ≅ ρ_{π,λ}^∨. The nonparallel constructor
+  retains its full domain. Also `IsCMHilbert` with its inducing field and character.
 * Layer 4: `NearlyOrdinaryEigenpacket`, its normalized operators and candidate
   local character `δ_𝔭`, and the attached character `η_𝔭` and invariant line.
-* Layer 5: `ordinaryRefinement`, `eigenformDcris` and `eigenformWach`.
+  The general regular-weight comparison identifies the shared all-prime
+  classical ordinary filtration of IntegralIwasawaTheory §9.5: at type
+  (k,k−2), r_f has unramified arithmetic quotient β_v and subcharacter
+  ψ ε_p^{k−1} β_v⁻¹, while ρ has subcharacter β_v⁻¹.
+* Layer 5: `ordinaryRefinement`, `eigenformDcris` and `eigenformWach`;
+  the fixed-lattice intersection and saturation use the identified rational
+  line, retaining the general nearly ordinary characters of README §4.11.
 * Layer 6: `residualRep`, `fullHeckeAlgebra`, `heckeRep`, `residualHeckeRep`,
   the weight-two optimization invariant `δ(ρ̄)` and `optimizedWeightTwo_exists`,
   using SerreWeightAndLevelOptimisation §§2.10, 2.13, 4.7–4.8 in their stated
