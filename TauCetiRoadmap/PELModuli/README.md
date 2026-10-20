@@ -95,7 +95,8 @@ explicit nonempty examples.
   `TauCeti.ConstantForm.groupScheme`; compatible almost complex structures
   `TauCeti.SymplecticForm`, `TauCeti.SymplecticForm.Compatible`, `TauCeti.SymplecticForm.exists_compatible`,
   `TauCeti.AlmostComplexStructure` and `TauCeti.AlmostComplexStructure.hodgeStructure`; Hodge
-  structures `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.IsPolarization` and the weight-one
+  structures `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.IsPolarization`,
+  `TauCeti.AlmostComplexStructure.IsRiemannForm.isPolarization` and the weight-one
   criterion `TauCeti.Hodge.isPolarization_of_weilOperator_invariant_on_realPoints_of_pos`; the dual
   lattice of a nondegenerate bilinear form `LinearMap.BilinForm.dualSubmodule_dualSubmodule_flip`;
   `Matrix.exists_smith_normal_form_of_det_ne_zero`; the symplectic multiplier identity
@@ -103,9 +104,9 @@ explicit nonempty examples.
   `WeierstrassCurve.j_quadraticTwist` and `WeierstrassCurve.not_exists_smul_quadraticTwist_eq`.
 - *TauCetiRoadmap.AdelicAlgebraicGroups.* Layer 1 (adelic points of affine groups, §1.2
   restricted-product realization, §1.3 rational points and functoriality); Layer 3, §3.4 (finite adelic class sets and arithmetic component stabilizers);
-  Layer 4, §4.1 (coordinate
-  torsors over a field, the class set `torsorClasses G` of fppf torsors with its coordinate/geometric
-  comparison, local triviality of torsors under semisimple simply connected groups over
+  Layer 4, §4.1 (coordinate torsors over a field and their comparison with the fppf class set
+  `torsorClasses G` of SchemeAndStackFoundations §§1.15 and 2.3,
+  local triviality of torsors under semisimple simply connected groups over
   nonarchimedean local fields of characteristic zero, the Hasse principle at real places for
   semisimple simply connected groups) and §4.3 (neat elements and neat levels).
 - *TauCetiRoadmap.GlobalNumberFields, Layer 11.* `NumberFieldOrder` for orders in
@@ -119,7 +120,8 @@ explicit nonempty examples.
   `M^D = X^*(Z(G^der))`, and `Ш²(ℚ,M)` is perfectly paired with `Ш¹(ℚ,M^D)`,
   retaining the supplier's complete Tate terms at real places. M3.2 owns the
   type-A centre identification and the vanishing application.
-- *TauCetiRoadmap.ClassFieldTheory, Layer 13.* The cyclic Hasse norm theorem `cyclicHasseNorm`.
+- *TauCetiRoadmap.ClassFieldTheory, Layer 13.* The cyclic Hasse norm theorem `cyclicHasseNorm`
+  and its local-everywhere export `isGlobalNorm_iff_isLocalNormEverywhere`.
 - *Further Tau Ceti inputs.* `TauCeti.FieldTheory.GaloisCohomology.Hilbert90`:
   `TauCeti.hilbert90` and `TauCeti.subsingleton_H1_unitsCoeff` for continuous Hilbert 90;
   `TauCeti.Analysis.Matrix.HermitianSignature`: `Matrix.IsHermitian.signature`,
@@ -169,7 +171,7 @@ of `GL(L) × G_m` and these theories are applied to it.
   (Rosati positivity `A6.14`, the general real positive-involution normal form
   `realRosatiDecomposition` `A6.15`, finiteness of polarized automorphisms `A6.18`, Silverberg's descent of
   homomorphisms `A6.20`, localized Hom and coefficient Hom `A6.26`–`A6.27`, the Hodge bundle, its determinant line, base change, product and
-  isogeny maps for an abelian scheme, A6.38).
+  analytic transition factor for an abelian scheme, A6.38).
 - *AlgebraicModuliForArithmeticGeometry.* Layer 2 (Hilbert families, Hom and Isom schemes
   `homAndIsomSchemes`, `automorphismGroupScheme`); Layer 3 (fpqc descent
   `fpqcQuasicoherentDescent`, `spaceFpqcQuasicoherentDescent`, polarized descent
@@ -775,8 +777,8 @@ component and `2^{[F₀:ℚ]}` geometric connected components. In Cases A and C 
 `{(x, t) ∈ F^× × ℚ^× : N_{F/F₀}(x) = t^n}` (Case A, `n` the hermitian dimension). Two elements of
 `G(K)`, `K` algebraically closed of characteristic zero, are conjugate iff they have the same
 multiplier and conjugate images in `(End_B V)^×`. Over `ℚ̄`, `G₁` is a product over the embeddings of
-`F₀` of `GL_n` (A), `Sp_{2n}` (C) or `O_{2n}` (D) (Kottwitz, §5, p. 391; Milne, Proposition 8.7 and
-Remark 8.9, p. 84); connectedness and simple connectivity in Cases A and C come from `GL_n`, `SL_n`,
+`F₀` of `GL_n` (A), `Sp_{2n}` (C) or `O_{2n}` (D) (Kottwitz, §5, p. 391; Milne, Proposition 8.7,
+p. 83, and Remark 8.9, p. 84); connectedness and simple connectivity in Cases A and C come from `GL_n`, `SL_n`,
 `Sp_{2n}`, and `O_{2n}` has two components. `G/G^der` is computed from the norm and the multiplier
 (Kottwitz, §7, p. 393) and the conjugacy criterion is Kottwitz, Lemma 7.1, p. 395, proved factorwise.
 *Needs:* M0.2, M0.7; Tau Ceti `Symplectic.groupScheme`, `Orthogonal.groupScheme`; ReductiveGroups
@@ -841,8 +843,9 @@ AdelicAlgebraicGroups §4.1), that the image of `G(ℝ)` in `D(ℝ)` contains `D
 `D(ℚ) → H¹(ℚ, G^der) → H¹(ℚ, G) → H¹(ℚ, D)` and its real analogue concludes. (5) `ker1_normOneTorus`:
 for a cyclic extension `F/F₀` the norm-one torus has trivial `ker¹`, and for a quadratic extension, so does
 `{(x, t) : N_{F/F₀}(x) = t^n}` for `n` even (Milne, Lemma 8.21, p. 89, from ClassFieldTheory Layer 13
-`cyclicHasseNorm` and Hilbert 90 for `G_m`, `TauCeti.hilbert90`). *Needs:* M0.7, M0.8;
-TauCetiRoadmap.AdelicAlgebraicGroups §4.1 (`torsorClasses`, local triviality and the real Hasse
+`isGlobalNorm_iff_isLocalNormEverywhere` (the local-everywhere form of `cyclicHasseNorm`)
+and Hilbert 90 for `G_m`, `TauCeti.hilbert90`). *Needs:* M0.7, M0.8;
+TauCetiRoadmap.AdelicAlgebraicGroups §4.1 (coordinate/geometric torsor comparison, local triviality and the real Hasse
 principle for semisimple simply connected groups); the continuous Hilbert-90 library supplier;
 TauCetiRoadmap.ClassFieldTheory Layer 13; TauCetiRoadmap.ReductiveGroups Layer 6;
 TauCetiRoadmap.ModularCurves §0E; SchemeAndStackFoundations §§1.15 and 2.3;
@@ -921,9 +924,10 @@ operator `J` and form `−ψ`. Dualizing the homological structure gives the
 cohomological structure on `V∨`, with form
 `Q∨(ξ,η) = ψ((ψ♭)⁻¹ξ,(ψ♭)⁻¹η)`. Keep this dual carrier and form explicit;
 an integral dual form requires the denominator adjustment of A5.2. On the integral linear
-carrier, `IntegralPELLinearDatum.isRiemannForm` supplies `E = −ψ`, and
-`IntegralPELLinearDatum.hodgePolarization` states that `−ψ` polarizes the effective weight-one
-structure of `J`. `IntegralPELLinearDatum.conjugacy` states real order-linear isometric conjugacy
+carrier, `IntegralPELLinearDatum.isRiemannForm` supplies `E = −ψ`.
+Applying `TauCeti.AlmostComplexStructure.IsRiemannForm.isPolarization` to it gives the polarization
+of the effective weight-one structure of `J` by `−ψ`.
+`IntegralPELLinearDatum.conjugacy` states real order-linear isometric conjugacy
 for two such data on the same lattice with the same integral pairing. *Needs:* M0.5, M0.6, M0.7; Tau Ceti `AlmostComplexStructure.hodgeStructure`,
 `Hodge.HodgeStructureOn`, `Hodge.IsPolarization`,
 `Hodge.isPolarization_of_weilOperator_invariant_on_realPoints_of_pos`, `SymplecticForm.exists_compatible`,
@@ -1380,7 +1384,8 @@ classes of rank-one `W₀′` with `W₀′ ⊗ 𝔸` similar to `W₀ ⊗ 𝔸`
 Remark 3.5.2, p. 156). Everywhere locally similar forms are classified by `ker¹` of the automorphism
 group by twisting (M0.9); integrality at `p` is harmless because `T₀` is smooth over `ℤ_(p)` with
 `H¹(ℤ_p, T₀) = 0` (`cmTorus_integralH1_trivial`); finiteness is M0.9(3). If `F/F⁺` satisfies the Hasse norm theorem (it is
-cyclic of degree two, ClassFieldTheory Layer 13 `cyclicHasseNorm`), `ker¹` of the norm-one torus
+cyclic of degree two, ClassFieldTheory Layer 13 `isGlobalNorm_iff_isLocalNormEverywhere`,
+the local-everywhere form of `cyclicHasseNorm`), `ker¹` of the norm-one torus
 vanishes; `ker¹(T₀)` itself can be nontrivial. *Needs:* M0.23; M0.9;
 `cmTorus_integralH1_trivial`; ClassFieldTheory Layer 13.
 
@@ -2742,7 +2747,7 @@ M0, M1; AbelianSchemesAndArithmeticModuli A1, A2, A4.3, A4.7–A4.9, A6.18;
 AlgebraicModuliForArithmeticGeometry Layers 2, 3, 7, 8; SchemeAndStackFoundations Layers 0–4;
 NeronModelsAndSemistableAbelianVarieties R11.1, R11.3, R11.5; AbelianSchemesAndArithmeticModuli §A4.CR.7.2;
 FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2; ReductiveGroupsPartII RG2.5.1;
-ReductiveGroups Layer 7; ShimuraVarieties §P.4;
+ReductiveGroups Layer 7; ShimuraVarieties §P.3;
 TauCetiRoadmap.AdelicAlgebraicGroups §4.3; TauCetiRoadmap.ModularCurves §5B, §7D.
 
 ## Layer M3: Galois forms and complex uniformization
@@ -3225,7 +3230,7 @@ Prove `canonicalModel`: assume the connected datum satisfies SV3, `K` neat, Case
 decomposes as `⊔_{i ∈ ker¹(ℚ, G)} S^{(i)}` with each `S^{(i)}` open, closed and defined over `F₀`, and
 `S^{(i)}` is the canonical model of `Sh_K(G^{(i)}, X)` over `E(G, X) = F₀` (ShimuraVarieties Layer 4; M0.17
 for the reflex field); the identification of M3.6 is defined over `F₀`. When `ker¹(ℚ, G) = 1`, `M_K^ad`
-is the canonical model of `Sh_K(G, X)` (Kottwitz, §8, p. 400; Lan, Remark 1.4.3.11, p. 165). This includes
+is the canonical model of `Sh_K(G, X)` (Kottwitz, §8, p. 400; Lan, Remark 1.4.3.11, p. 164). This includes
 semisimple `B`, with its common-multiplier group of M0.8. M3.6 gives open and closed algebraic pieces
 with the right uniformizing family. Apply M4.1 to every inner datum `(G^{(i)}, X)` separately.
 For descent of a piece, its clopen idempotent has a finite Galois field of definition; reciprocity
@@ -3463,7 +3468,7 @@ prime to `p`, or the integer ring or field of a finite extension of `ℚ_ℓ`,
 
 M0–M3; ShimuraVarieties Layer 4, §§5.10–5.11 and §§6.1–6.2; ShimuraVarieties §P.1; SchemeAndStackFoundations Layer 0;
 EtaleCohomologyFoundations §F.2.5, §0.11, §§F.4.1–F.4.6 and F.5–F.6; TauCetiRoadmap.AdelicAlgebraicGroups Layer 3; Mathlib
-`Scheme.Hom.normalization`; Stacks Tags 035I, 035J, 035S, 03GR, 03GV, 0539.
+`Scheme.Hom.normalization`; Stacks Tags 033C, 035I, 035J, 035L, 035S, 03GR, 03GV, 0539.
 
 ## Layer M5: Siegel, Hilbert and unitary examples
 
@@ -4175,4 +4180,4 @@ points, rigidifying extensions, Hodge line and the descent gerbe.
   (https://www.college-de-france.fr/media/jean-pierre-serre/UPL6720771035987925133_Borel_Serre_Theoremes_de_finitude.pdf).
 - J.-P. Serre, *Galois Cohomology*, Springer, 1997.
 - D. Mumford, *Abelian Varieties*, Oxford University Press, 1970.
-- The Stacks Project, https://stacks.math.columbia.edu (Tags 02GU, 035I, 035J, 035S, 03GR, 03GV, 0539, 0H74).
+- The Stacks Project, https://stacks.math.columbia.edu (Tags 02GU, 033C, 035I, 035J, 035L, 035S, 03GR, 03GV, 0539, 0H74).

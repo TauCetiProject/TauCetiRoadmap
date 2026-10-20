@@ -168,14 +168,6 @@ theorem IntegralPELLinearDatum.isRiemannForm (D : IntegralPELLinearDatum O L) :
     D.J.IsRiemannForm (-D.lattice.form) := by
   sorry
 
-/-- The negative PEL pairing polarizes the effective weight-one structure of the lattice (M0.11).
-The homological structure and its dual have the distinct signs specified in the README. -/
-theorem IntegralPELLinearDatum.hodgePolarization (D : IntegralPELLinearDatum O L)
-    {Vℂ : Type*} [AddCommGroup Vℂ] [Module ℂ Vℂ] {ιℂ : L →ₗ[ℤ] Vℂ}
-    (hℂ : IsBaseChange ℂ ιℂ) :
-    TauCeti.Hodge.IsPolarization hℂ (D.J.latticeHodgeStructure hℂ) (-D.lattice.form) := by
-  sorry
-
 /-- Positive order-linear complex structures on the same symplectic lattice are conjugate by a
 real order-linear isometry (M0.11; Kottwitz, Lemma 4.3). -/
 theorem IntegralPELLinearDatum.conjugacy (D D' : IntegralPELLinearDatum O L)
