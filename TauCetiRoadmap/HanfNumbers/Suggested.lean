@@ -216,8 +216,8 @@ variable {L : FirstOrder.Language.{u, v}}
 `Fragment` of the InfinitaryModelExistence roadmap), contains the equality atom and
 an atom for every relation symbol, every universal member of `Γ` has its counterexamples witnessed
 by a term, and `a` is indiscernible for every member of `Γ` evaluated at terms in the sequence. The
-template of `a` on `Γ` is then a Skolem template (README, Layer 2.2), ω-complete because `Γ` is
-component-closed. -/
+template of `a` on `Γ` is then a Skolem template for `Γ` and these terms (README, Layer 2.2),
+ω-complete because `Γ` is component-closed. -/
 structure IsEMSource (Γ : Set (Σ n, BoundedFormulaω L Empty n)) (N : Type w) [L.Structure N]
     (a : ℕ → N) : Prop where
   imp_mem : ∀ {n} (φ ψ : BoundedFormulaω L Empty n), ⟨n, φ.imp ψ⟩ ∈ Γ →
