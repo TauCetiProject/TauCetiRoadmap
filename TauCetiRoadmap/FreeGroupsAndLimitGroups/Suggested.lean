@@ -237,8 +237,14 @@ noncomputable def cycleBoundary [Fintype V] [Fintype E] (O : Set E) :
   exact
     { toFun := fun c v => ∑ e : O,
         c e * ((if Γ.src e = v then 1 else 0) + (if Γ.tgt e = v then 1 else 0))
-      map_add' := by sorry
-      map_smul' := by sorry }
+      map_add' := by
+        intro c d
+        ext v
+        simp [add_mul, Finset.sum_add_distrib]
+      map_smul' := by
+        intro a c
+        ext v
+        simp [Finset.mul_sum, mul_assoc] }
 
 /-- Binary cycle space in finite-function coordinates on actual edge type `O` (§2.2a). -/
 noncomputable def cycleSpace [Fintype V] [Fintype E] (O : Set E) :
@@ -261,25 +267,72 @@ noncomputable def modTwoCycleSpace (O : Set E) : Submodule (ZMod 2) (O →₀ ZM
 
 /-- A loop's integral unit vector is a cycle, fixing the signed incidence convention. -/
 example (O : Set E) (e : O) (he : Γ.tgt e = Γ.src e) :
-    Finsupp.single e (1 : ℤ) ∈ Γ.cycleLattice O := by
+    Finsupp.single e (1 : ℤ) ∈ Γ.cycleLattice O ∧ Finsupp.single e (1 : ℤ) ≠ 0 := by
+  classical
   simp [cycleLattice, integralCycleBoundary, LinearMap.mem_ker, he]
 
 /-- Separate parallel edges give a signed difference cycle without identifying their coordinates. -/
 example (O : Set E) (e f : O) (hef : e ≠ f)
     (hs : Γ.src e = Γ.src f) (ht : Γ.tgt e = Γ.tgt f) :
     Finsupp.single e (1 : ℤ) - Finsupp.single f 1 ∈ Γ.cycleLattice O ∧
-      Finsupp.single e (1 : ℤ) - Finsupp.single f 1 ≠ 0 := by
+      Finsupp.single e (1 : ℤ) - Finsupp.single f 1 ≠ 0 ∧
+      (Γ.src e ≠ Γ.tgt e → Finsupp.single e (1 : ℤ) ∉ Γ.cycleLattice O) := by
   classical
-  constructor
+  refine ⟨?_, ?_, ?_⟩
   · simp [cycleLattice, integralCycleBoundary, LinearMap.mem_ker, hs, ht]
   · intro h
     have hcoord := congrArg (fun c : O →₀ ℤ => c e) h
     simp [hef] at hcoord
+  · intro he h
+    have hb : Γ.integralCycleBoundary O (Finsupp.single e 1) = 0 := h
+    have hv := congrArg (fun c : V →₀ ℤ => c (Γ.tgt e)) hb
+    simp [integralCycleBoundary, Ne.symm he] at hv
 
 /-- A loop's binary unit vector survives because its two incidence contributions cancel. -/
 example (O : Set E) (e : O) (he : Γ.tgt e = Γ.src e) :
     Finsupp.single e (1 : ZMod 2) ∈ Γ.modTwoCycleSpace O := by
   simp [modTwoCycleSpace, LinearMap.mem_ker, he]
+
+/-- A non-loop column has coefficient −1 at its source and +1 at its target. -/
+example (O : Set E) (e : O) (he : Γ.src e ≠ Γ.tgt e) :
+    (Γ.integralCycleBoundary O (Finsupp.single e 1)) (Γ.src e) = -1 ∧
+      (Γ.integralCycleBoundary O (Finsupp.single e 1)) (Γ.tgt e) = 1 := by
+  classical
+  simp [integralCycleBoundary, he, Ne.symm he]
+
+/-- A binary non-loop unit is excluded in both cycle coordinate systems. -/
+example [Fintype V] [Fintype E] [DecidableEq E] (O : Set E) (e : O) (he : Γ.src e ≠ Γ.tgt e) :
+    Finsupp.single e (1 : ZMod 2) ∉ Γ.modTwoCycleSpace O ∧
+      (fun f : O => if f = e then (1 : ZMod 2) else 0) ∉ Γ.cycleSpace O := by
+  classical
+  constructor
+  · intro h
+    have hv := congrArg (fun c : V →₀ ZMod 2 => c (Γ.tgt e))
+      (LinearMap.mem_ker.mp h)
+    simp only [Finsupp.linearCombination_single, one_smul] at hv
+    change Finsupp.single (Γ.tgt e) (1 : ZMod 2) (Γ.tgt e) -
+      Finsupp.single (Γ.src e) (1 : ZMod 2) (Γ.tgt e) = 0 at hv
+    simp [Ne.symm he] at hv
+    norm_num at hv
+  · intro h
+    have hv := congrFun (LinearMap.mem_ker.mp h) (Γ.tgt e)
+    simp [cycleBoundary, he] at hv
+
+/-- A loop also gives a nonzero cycle in finite-function coordinates. -/
+example [Fintype V] [Fintype E] [DecidableEq E] (O : Set E) (e : O) (he : Γ.tgt e = Γ.src e) :
+    (fun f : O => if f = e then (1 : ZMod 2) else 0) ∈ Γ.cycleSpace O ∧
+      (fun f : O => if f = e then (1 : ZMod 2) else 0) ≠ 0 := by
+  classical
+  constructor
+  · apply LinearMap.mem_ker.mpr
+    ext v
+    simp [cycleBoundary, he]
+    split_ifs
+    · exact (show (1 : ZMod 2) + 1 = 0 by decide)
+    · exact (show (0 : ZMod 2) + 0 = 0 by decide)
+  · intro h
+    have hv := congrFun h e
+    simp at hv
 
 /-- The simple support retains all vertices and is used only for connectivity (§2.2a). -/
 def supportGraph (O : Set E) : SimpleGraph V :=
@@ -294,6 +347,31 @@ def IsSpanningForest (O F : Set E) : Prop :=
         (Γ.src e = Γ.tgt f ∧ Γ.tgt e = Γ.src f)) → e = f) ∧
     (Γ.supportGraph F).IsAcyclic ∧
     ∀ v w, (Γ.supportGraph F).Reachable v w ↔ (Γ.supportGraph O).Reachable v w
+
+/-- A non-loop actual edge remains adjacent in the simple support. -/
+example (O : Set E) (e : O) (he : Γ.src e ≠ Γ.tgt e) :
+    (Γ.supportGraph O).Adj (Γ.src e) (Γ.tgt e) := by
+  exact ⟨he, Or.inl ⟨e, rfl, rfl⟩⟩
+
+/-- With no actual edges each vertex is its own support component. -/
+example : Γ.supportGraph (∅ : Set E) = ⊥ ∧
+    ∀ v w : V, (Γ.supportGraph (∅ : Set E)).Reachable v w ↔ v = w := by
+  have h : Γ.supportGraph (∅ : Set E) = ⊥ := by
+    ext v w
+    simp [supportGraph, SimpleGraph.fromRel_adj]
+  exact ⟨h, by intro v w; rw [h, SimpleGraph.reachable_bot]⟩
+
+/-- A spanning forest excludes every loop even though simple support forgets loops. -/
+example (O F : Set E) (hF : Γ.IsSpanningForest O F) (e : E)
+    (he : Γ.src e = Γ.tgt e) : e ∉ F := by
+  intro hmem
+  exact hF.2.1 e hmem he
+
+/-- Parallel actual edges cannot both belong to a spanning forest. -/
+example (O F : Set E) (hF : Γ.IsSpanningForest O F) (e f : E) (hef : e ≠ f)
+    (hs : Γ.src e = Γ.src f) (ht : Γ.tgt e = Γ.tgt f) : ¬ (e ∈ F ∧ f ∈ F) := by
+  rintro ⟨he, hf⟩
+  exact hef (hF.2.2.1 e he f hf (Or.inl ⟨hs, ht⟩))
 
 /- The forest existence and count use pinned
 `SimpleGraph.exists_isAcyclic_reachable_eq_le` and `SimpleGraph.IsTree.card_edgeFinset`. -/
