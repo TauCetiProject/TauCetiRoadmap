@@ -334,12 +334,58 @@ construct the bounded complex-linear equivalence between
 asserting an isometry of their different dual norms.
 ### B4.0. An explicit failure of the approximation property
 
-Prove Grothendieck’s reflexive comparison: a reflexive Banach space with AP
-has MAP, hence BAP. Build the compact-open operator separation and nuclear
-tensor/trace comparison needed for that theorem using B1’s Hahn–Banach
-and bidual tools and this milestone’s projective/injective tensor APIs.
-The implication is stated for reflexive spaces; AP alone does not give
-a uniform bound on the approximating finite-rank operators.
+Prove Grothendieck’s reflexive comparison: a reflexive real or complex
+Banach space X with AP has MAP, hence BAP. Pin the norm comparison as follows.
+Write A(X) for the operator-norm closure of finite-rank endomorphisms and
+identify it isometrically with `X ⊗ε X*` by
+`x⊗f ↦ (y↦f(y)x)`. Define the contractive trace-pairing map
+`Θ_X : X* ⊗π X → (X ⊗ε X*)*` by
+`Θ_X(f⊗x)(y⊗g)=f(y)g(x)`, extending through the specified completions.
+Prove the metric criterion `MAP(X) ↔ ∀u, ‖Θ_X u‖=‖u‖π`, including both
+directions using compact-open separation and the finite-rank trace pairing.
+The codomain has the dual of the injective-tensor norm; injectivity alone
+is the AP comparison and does not yield the norm-one approximation bound.
+
+Use the integral/nuclear route to the reflexive-case isometry. Construct its
+finite-measure density prerequisite here: for a reflexive real Banach space Y,
+a finite positive measure μ, and a native `VectorMeasure α Y` m with
+`m.variation univ < ∞` and `m.variation ≪ μ`, construct an integrable Bochner
+density h with `m = μ.withDensityᵥ h`. Prove a.e. uniqueness and
+`m.variation s = ∫⁻ a in s, ‖h a‖ₑ ∂μ` for every measurable s.
+Use finite-partition averages of m, scalar Radon–Nikodym domination of their
+norms, uniform integrability and the weak-compactness criterion in Bochner
+L¹(Y); construct that criterion from reflexivity and weak compactness of
+all set-integral ranges before extracting a weak cluster point. Recover m
+on every measurable set by partitions containing that set. Treat zero-measure
+atoms by zero and use the separable essential range of Bochner functions for
+a.e. uniqueness; do not assume Y itself separable. For complex target spaces
+use the underlying real Banach space and prove compatibility with complex
+scalar multiplication. This uses B1’s weak compactness, Hahn–Banach and bidual
+comparisons and the early B5 scalar-measure/Bochner layer, independently of
+the present AP-to-MAP conclusion and the later Enflo/BD constructions.
+
+Using B4’s integral-bilinear-form carrier, define the integral endomorphism
+ideal on X* and its norm by currying the above trace-pairing dual. Construct
+the isometric comparison `A(X)* ≃ I(X*)`. For reflexive X, use scalar
+weak-star-dual-ball factorization, the scalar Riesz representation and the
+reflexive-target density theorem just assigned to obtain
+`I(X*) ≃ N(X*)` with equality of integral and nuclear ideal norms. Give the
+actual finite-rank/simple-density approximations and their norm bounds, not
+just an algebraic identification. Under AP identify `X* ⊗π X` isometrically
+with N(X) through its quotient-norm nuclear map. If u represents T, prove
+that Θ_X(u) corresponds to the transpose T′. The canonical reflexive
+isometry `J_X : X ≃Lᵢ X**` gives
+`T=J_X⁻¹ ∘ T′′ ∘ J_X`; the nuclear ideal inequalities and the two
+contractive canonical maps yield
+`ν(T) ≤ ν(T′′) ≤ ν(T′) ≤ ν(T)`.
+Consequently `‖Θ_X u‖=ν(T′)=ν(T)=‖u‖π`, first on the defining comparisons
+and then on the completions, and the metric criterion supplies MAP.
+Keep zero spaces in scope by using contractive maps rather than requiring
+a map’s norm to equal one. AP without reflexivity still gives no uniform
+bound on the approximating finite-rank operators. This fixes the
+trace-pairing convention for the integral/nuclear comparison of
+[Daws, §2.3, Theorems 2.3.14 and 2.3.23](https://matthewdaws.github.io/files/thesis.pdf)
+(printed pp.43–47); the assigned theorem here is the reflexive case.
 
 Construct Enflo’s separable reflexive real counterexample as a closed
 subspace of the native `lp (fun m=>C(K_m,ℝ)) 2`, with finite discrete
