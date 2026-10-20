@@ -529,7 +529,13 @@ variants, `IrrAdmissible`, `WeilGroupComplex`, `WeilGroupReal`, `IsBoundedParame
 `D_k`, `archimedeanUnitaryDual` (the common real/complex Speh and complementary-block
 classification, including unitarity, product irreducibility, exhaustion and uniqueness),
 `genericUnitaryClassification`, `HasWhittakerModel`,
-`GContinuousNorm` and smooth Fréchet globalizations. The archimedean test factor of
+`GContinuousNorm` and smooth Fréchet globalizations. ArithmeticLocallySymmetricSpaces
+ALS.F.7 supplies `LocallySymmetric.cohomologicalRepresentation.finiteInfinitesimalCharacter`;
+§2.4's `infChar_finite_fibres` adapter transports it along the identification of
+`IrrAdmissible` with isomorphism classes of irreducible admissible compatible modules.
+For the real-points groups of §2.2 it retains the full maximal compact subgroup, a locally
+finite smooth compact action, agreement of the differentiated actions and adjoint covariance.
+The archimedean test factor of
 `AdelicTestFunction` is SmoothBanachRepresentations SB1's `LieTestFunction` with its
 fixed-support derivative and locally convex final topologies. Banach `smoothVectors`
 uses SB2's `smoothLieVectors` and its separate complete Fréchet topology, with
