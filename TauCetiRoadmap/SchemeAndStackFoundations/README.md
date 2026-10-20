@@ -5465,6 +5465,20 @@ closed fibre), `Formal.quotMap`, `Formal.quotIncl`, `Formal.levelIncl`, `Formal.
 with `algebraize_hom_test_incompatible` as an `example`. `grothendieck_existence_fullyFaithful` is
 specified in this README only.
 
+### 4.10A Polarized adic systems and projective algebraization
+
+Construct the category of compatible proper finitely presented adic systems over a Noetherian I-adically complete ring A, with I contained in its Jacobson radical. An object has schemes X_n over A/I^(n+1), actual cartesian comparison isomorphisms with cocycles, invertible sheaves L_n and compatible pullback identifications, with L_0 ample. Morphisms retain compatible scheme maps and line-bundle comparison isomorphisms. The flat subcategory requires every X_n flat over A/I^(n+1). These are compatible adic systems of4.7–4.8 with polarizations, not a new general formal-space carrier.
+
+Prove `polarized_adic_system_algebraize`: construct a projective A-scheme X and a relatively ample line bundle L with the specified reductions; if the levels are flat, prove X flat over A. Provide the comparison on morphisms, identities, composition and isomorphisms, compatible with reduction and complete Noetherian base changes satisfying the stated ideal hypotheses. The target is an equivalence with the polarized adic systems above, retaining line-bundle automorphisms. Effectivity of coherent modules on an already given proper scheme is an input, not the existence theorem for X itself.
+
+Construct the algebraization from sections of a single sufficiently high power of the compatible ample bundles. Prove the uniform finite generation and multiplication statements using projective cohomology, Serre vanishing on the closed level, completeness, compatible lifting and Nakayama. Build a finite homogeneous presentation over A, compare its relative Proj and O(1) at every level, and recover L using4.10's coherent existence and its fully faithful comparison. Prove independence from the chosen power and generators through the canonical comparison functors. Flatness uses the adic flatness criterion with all level hypotheses; projectivity is not inferred from properness of X_0 alone.
+
+For compatible smooth levels, prove the algebraized map is smooth near the closed fibre using finite presentation and formal smoothness. If X is proper over a complete local A, the closed complement of that smooth locus has closed image missing the closed point, hence is empty. Give the corresponding proper-flat and geometric-connectedness comparisons used by smooth surface lifts, including their actual hypotheses.
+
+This is the polarized-system theorem of Stacks tag089A, supplied here at the exact existing boundary of4.10. Inputs are4.7–4.10, relative Proj0.3, coherent proper cohomology2.6, JacobianChallenge proper cohomology/base change, and StableReduction Layer2's ample-line-bundle convention. This proof uses the supplied projective geometry and coherent modules before any Picard representability, Enriques lattice, period map or moduli-of-surfaces theorem. It introduces no dependency on the consumer's future surface classification.
+
+Check a compatible O(1)-polarized projective space tower, a flat smooth hypersurface tower with its equations, and the morphism/line-bundle scalar automorphisms at a point. Noncompatible equations do not form an object. A tower without a compatible ample line bundle is outside this equivalence, even when its individual schemes are proper.
+
 ### 4.11 Modifications and strict transforms
 
 Define `IsModification f` for `f : S' → S`: `f` is proper and there is a dense open `U ⊆ S` with
