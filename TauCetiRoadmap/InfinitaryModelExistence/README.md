@@ -442,13 +442,18 @@ each request fires after every stage, each stage being a member. The union `s*` 
 member. The model is the quotient of the Henkin constants by `c ∼ d ⟺ (c = d) ∈ s*`; a function
 symbol applied to classes is the class named by `eq_name`, well defined by `eq_subst` and `eq_refl`.
 The **truth lemma** consists of two forward implications proved by one simultaneous induction on
-sentences: `σ ∈ s*` gives `M ⊨ σ`, and `¬σ ∈ s*` gives `M ⊭ σ`. It uses no maximality and no
+formulas `φ` with `n` bound positions, for all tuples `c` of Henkin constants at once (`φ[c]` is
+not a component of `∀φ`, so induction on sentences does not go through): `φ[c] ∈ s*` gives
+`M ⊨ φ[c]`, and `¬φ[c] ∈ s*` gives `M ⊭ φ[c]`. It uses no maximality and no
 excluded middle on membership; `¬χ ∈ s*` is handled by the negative half for `χ`, not by the
 implication clause.
 
-Name the pieces: `ConsistencyProperty.HenkinComplete`, the request type and schedule, the
-quotient model with its atomic semantics, `truth_pos`/`truth_neg`, and the constant-naming
-surjection, so that Layers 4, 7 and 8 can instantiate them.
+Name the pieces: `ConsistencyProperty.HenkinComplete`, the request type and schedule, the derived
+equality laws `HenkinComplete.eq_symm`, `eq_trans` and `eq_congr` (each from `eq_subst` at one
+argument position, with `eq_refl`), the evaluation lemma that a closed term `t` denotes `[c]`
+whenever `(c = t) ∈ s*`, the fact that `s*` contains no `σ` together with `¬σ` and not `⊥` (the
+stages form an increasing chain of members), the quotient model with its atomic semantics,
+`truth_pos`/`truth_neg`, and the constant-naming surjection, so that Layers 4, 7 and 8 can instantiate them.
 
 ### 3.3 The satisfaction instance
 
