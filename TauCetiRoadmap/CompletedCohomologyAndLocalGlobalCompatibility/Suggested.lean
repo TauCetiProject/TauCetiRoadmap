@@ -50,9 +50,14 @@ example (d : D) (f : C(X, M)) (x : X) :
     translate O X M d f (d • x) = f x := by
   simp [translate]
 
-/-- The identity element fixes every continuous function. -/
-example (f : C(X, M)) : translate O X M (1 : D) f = f := by
-  ext x
+/-- The discrete two-point permutation action has continuous translations. -/
+local instance twoPointAction_continuous : ContinuousConstSMul (Equiv.Perm Bool) Bool where
+  continuous_const_smul _ := continuous_of_discreteTopology
+
+/-- Translation by the transposition moves the indicator from one point to the other. -/
+example :
+    translate ℤ Bool ℤ (Equiv.swap false true)
+      ⟨fun b => if b then 0 else 1, continuous_of_discreteTopology⟩ true = 1 := by
   simp [translate]
 
 /-- A trivial character cuts out precisely the centre-invariant functions. -/
@@ -70,15 +75,26 @@ example {E : Type*} [Field E] [TopologicalSpace E] [IsTopologicalRing E]
     rw [sub_mul, one_mul, ← smul_eq_mul, ← h, sub_self]
   exact (mul_eq_zero.mp hz).resolve_left (sub_ne_zero.mpr hψ)
 
-/-- For a free compact group action with finitely many orbits, continuous functions decompose
-as a finite sum of regular representations (Dospinescu–Le Bras, Lemma 13.1, p. 69).
-The empty space gives zero summands. -/
+/-- Continuous functions on a compact free action with finitely many orbits decompose
+continuously and equivariantly into regular representations (Dospinescu–Le Bras, Lemma 13.1). -/
 theorem functions_free_finite_orbits
     (K : Type*) [Group K] [TopologicalSpace K] [CompactSpace K] [IsTopologicalGroup K]
     [MulAction K X] [ContinuousSMul K X] [CompactSpace X] [T2Space X]
     (hfree : ∀ (k : K) (x : X), k • x = x → k = 1)
     [Finite (MulAction.orbitRel.Quotient K X)] :
-    ∃ s : ℕ, Nonempty (C(X, M) ≃ₗ[O] (Fin s → C(K, M))) := sorry
+    ∃ s : ℕ, ∃ e : C(X, M) ≃L[O] (Fin s → C(K, M)),
+      ∀ (k : K) (f : C(X, M)) (i : Fin s),
+        e (translate O X M k f) i = translate O K M k (e f i) := sorry
+
+/-- An empty free action has zero regular summands, with continuous equivariant comparison. -/
+theorem functions_free_finite_orbits_empty [IsEmpty X]
+    (K : Type*) [Group K] [TopologicalSpace K] [CompactSpace K] [IsTopologicalGroup K]
+    [MulAction K X] [ContinuousSMul K X] [CompactSpace X] [T2Space X]
+    (hfree : ∀ (k : K) (x : X), k • x = x → k = 1)
+    [Finite (MulAction.orbitRel.Quotient K X)] :
+    ∃ e : C(X, M) ≃L[O] (Fin 0 → C(K, M)),
+      ∀ (k : K) (f : C(X, M)) (i : Fin 0),
+        e (translate O X M k f) i = translate O K M k (e f i) := sorry
 
 end DefiniteQuaternion
 
@@ -111,10 +127,11 @@ canonical one, since `E` is complete and `W` is Hausdorff). -/
 theorem weightedForms_equiv [FiniteDimensional E W] :
     Nonempty (equivariantDualMaps E X W ρ ≃ₗ[E] weightedForms E X W ρ) := sorry
 
-/-- The trivial weight gives the invariant functions, not all continuous functions. -/
-example (f : C(X, E)) :
-    f ∈ weightedForms E X E (1 : Representation E K E) ↔ ∀ (k : K) x, f (k • x) = f x := by
-  simp [weightedForms]
+/-- For the regular action, evaluation at the identity determines every weighted value. -/
+example (K : Type*) [Group K] [TopologicalSpace K] [IsTopologicalGroup K]
+    (ρ : Representation E K W) (f : weightedForms E K W ρ) (k : K) :
+    (f : C(K, W)) k = ρ k ((f : C(K, W)) 1) := by
+  simpa using f.property k 1
 
 /-- At a fixed point, a weight with no fixed vectors forces the form to vanish. -/
 example (f : C(X, W)) (hf : f ∈ weightedForms E X W ρ) (k : K) (x : X)
@@ -140,15 +157,24 @@ variable {O T : Type*} [CommRing O] [CommRing T] [Algebra O T]
 def eisensteinIdeal (ϖ : O) {V : Type*} (Tv : V → T) (χ : V → O) : Ideal T :=
   Ideal.span (insert (algebraMap O T ϖ) (Set.range fun v => Tv v - (1 + algebraMap O T (χ v))))
 
-/-- The residual uniformizer relation belongs to the Eisenstein ideal. -/
-example (ϖ : O) {V : Type*} (Tv : V → T) (χ : V → O) :
-    algebraMap O T ϖ ∈ eisensteinIdeal ϖ Tv χ :=
-  Ideal.subset_span (Set.mem_insert _ _)
+/-- With no away primes the Eisenstein ideal still contains exactly the coefficient relation. -/
+example (ϖ : O) (Tv : Empty → T) (χ : Empty → O) :
+    eisensteinIdeal ϖ Tv χ = Ideal.span {algebraMap O T ϖ} := by
+  have hr : Set.range (fun v : Empty => Tv v - (1 + algebraMap O T (χ v))) = ∅ := by
+    ext x
+    constructor
+    · rintro ⟨v, _⟩
+      exact nomatch v
+    · simp
+  rw [eisensteinIdeal, hr]
+  simp
 
-/-- A Hecke generator has precisely the residual trace relation prescribed by `1 + χ`. -/
-example (ϖ : O) {V : Type*} (Tv : V → T) (χ : V → O) (v : V) :
-    Tv v - (1 + algebraMap O T (χ v)) ∈ eisensteinIdeal ϖ Tv χ :=
-  Ideal.subset_span (Set.mem_insert_of_mem _ (Set.mem_range_self v))
+/-- A unit trace discrepancy makes the Eisenstein ideal improper. -/
+example (ϖ : O) {V : Type*} (Tv : V → T) (χ : V → O) (v : V)
+    (hunit : IsUnit (Tv v - (1 + algebraMap O T (χ v)))) :
+    eisensteinIdeal ϖ Tv χ = ⊤ := by
+  exact Ideal.eq_top_of_isUnit_mem _
+    (Ideal.subset_span (Set.mem_insert_of_mem _ (Set.mem_range_self v))) hunit
 
 variable {R : Type*} [CommRing R]
 
@@ -173,11 +199,12 @@ example (φ : R →+* T) [Subsingleton T] (q : PrimeSpectrum R) : ¬ IsProModula
     exact Subsingleton.elim _ _
   exact q.isPrime.ne_top (Ideal.eq_top_of_isUnit_mem _ (h h1) isUnit_one)
 
-/-- A prime kernel is itself pro-modular. -/
-example (φ : R →+* T) (q : PrimeSpectrum R) (hq : q.asIdeal = RingHom.ker φ) :
-    IsProModular φ q := by
-  unfold IsProModular
-  rw [hq]
+/-- The identity Hecke quotient makes every prime pro-modular. -/
+example (q : PrimeSpectrum R) : IsProModular (RingHom.id R) q := by
+  intro r hr
+  have hz : r = 0 := hr
+  rw [hz]
+  exact q.asIdeal.zero_mem
 
 end ProModular
 
@@ -225,6 +252,14 @@ whole module is not finite over the scalar ring (Emerton–Paškūnas, Lemma 6.2
 theorem annihilator_span_eq {B : Type*} [Ring B] [Module B M] [SMulCommClass R B M]
     (S : Set M) (hS : Submodule.span B S = ⊤) :
     Module.annihilator R (Submodule.span R S) = Module.annihilator R M := sorry
+
+/-- The scalar span of the quotient generator has exactly the quotient ideal as annihilator. -/
+theorem annihilator_quotient_span (I : Ideal R) :
+    Module.annihilator R (Submodule.span R ({(1 : R ⧸ I)} : Set (R ⧸ I))) = I := sorry
+
+/-- The empty span in the zero module is annihilated by the unit ideal. -/
+theorem annihilator_zero_span [Subsingleton M] :
+    Module.annihilator R (Submodule.span R (∅ : Set M)) = ⊤ := sorry
 end Support
 
 /-!
