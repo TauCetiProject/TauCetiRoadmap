@@ -158,6 +158,14 @@ nondegenerately on E, its approximate units converge on every vector, and
 multiplier algebra. On bounded sets, its strict topology is exactly
 pointwise norm convergence of both T and T* on E. Identify
 `K_A(A)≅A`, `L_A(A)≅M(A)`, and `K_A(H_A)≅K(ℓ²)⊗min A`.
+For every complex Hilbert space H, including arbitrary nonseparable H,
+construct the isometric star isomorphism
+`K_A(H⊗A)≅K(H)⊗min A`, sending
+θ_(ξ⊗a,η⊗b) to θ_(ξ,η)⊗ab*. Prove finite-rank density and
+spatial-norm comparison, naturality under Hilbert unitaries and coefficient
+star maps, and its extension
+`L_A(H⊗A)≅M(K(H)⊗min A)` with the strict topology on bounded sets.
+This specializes to the H_A comparison and includes H=0.
 For A=ℂ transport along the commutative opposite-algebra identification
 and prove `L_ℂ(H)≅B(H)` and `K_ℂ(H)≅K(H)`, compatibly with adjoints,
 operator norm, rank-one operators, positivity and strict/strong-star topology
@@ -516,7 +524,7 @@ semiregular T to the closure of `x⊗h↦Tx⊗h` on
 localization of cores, and compatibility of regular operators, their
 bounded transforms, functional calculi and resolvents with localization.
 
-Prove the separation theorem: for a closed convex L⊆E and x∉L there is
+Prove the separation theorem: for a nonempty closed convex L⊆E and x∉L there is
 a state ω with the image of x outside the closure of the image of L in
 E^ω. For a proper closed submodule L, prove the stronger point-separation
 statement with a pure state, equivalently an irreducible cyclic
