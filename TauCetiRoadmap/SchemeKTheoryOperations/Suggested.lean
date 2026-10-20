@@ -156,9 +156,15 @@ regular irreducible base S uses supported gamma degree `dim S + r - j` in grade 
 has the normalization `k^(dim S) * phi^k = psi^k * theta^k(-T_dual)` under Cartan.
 These constructions use relative cotangent rank even on nonsurjective components.
 
-ColemanIntegration owns the downstream `adams_exactCube_comparison`, identifying
-its rational exact-cube operations with the scheme operations through the Quillen
-comparison and the uniqueness interface of Layer 6.
+ColemanIntegration owns the downstream target `adams_exactCube_comparison` for regular
+Noetherian separated finite-dimensional schemes with an ample family, in degrees m >= 0
+and for Adams indices k >= 1. Through `exactCubeComplex.homologyEquivK` and
+`Scheme.K.vectorBundleQComparison`, it identifies the rational operations induced by
+`adamsOnExactCubes` with the scheme operations, preserving `higherKGroup`. Its relative
+and supported extension constructs natural pointed-space realizations and comparison
+homotopies coherent on restriction cubes, using the uniqueness interface of Layer 6.
+These induce the iterated homotopy-fibre comparisons, preserve `relativeKSpace` and
+`higherKGroupWithSupports`, and intertwine connecting maps and rational weight summands.
 
 -/
 
