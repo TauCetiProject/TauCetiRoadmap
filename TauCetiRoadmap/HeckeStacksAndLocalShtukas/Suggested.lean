@@ -61,6 +61,16 @@ def monoidalCoev : 𝟙_ E ⟶ T.obj V ⊗ T.obj W :=
 def monoidalEval : T.obj W ⊗ T.obj V ⟶ 𝟙_ E :=
   (T.mapExactPairing V W).evaluation'
 
+/-- Creation is the image of coevaluation with the monoidal unit and tensor comparisons. -/
+theorem monoidalCoev_eq :
+    monoidalCoev T V W = ε T ≫ T.map (η_ V W) ≫ δ T V W :=
+  Functor.mapExactPairing_coevaluation (F := T) V W
+
+/-- Annihilation is the image of evaluation with the monoidal tensor and counit comparisons. -/
+theorem monoidalEval_eq :
+    monoidalEval T V W = μ T W V ≫ T.map (ε_ V W) ≫ η T :=
+  Functor.mapExactPairing_evaluation (F := T) V W
+
 /-- Creation and annihilation satisfy the triangle identity on the first paired object. -/
 theorem monoidalCoev_eval_left : monoidalCoev T V W ▷ T.obj V ≫
     (α_ (T.obj V) (T.obj W) (T.obj V)).hom ≫ T.obj V ◁ monoidalEval T V W =

@@ -36,6 +36,14 @@ from `DiamondSixOperations`, S0–S5. Smooth representation theory is imported f
 `SmoothRepresentationsOfLocalGroups`, SR.0, SR.0d and SR.2. The targets here are the global Hecke
 geometry, its action, local towers and their comparisons.
 
+For finite `E/ℚ_p`, **IgusaVarietiesAndTorsionConcentration**,
+IG.F.18–IG.F.20, also constructs the Hecke action, general reductive
+local-shtuka towers and their cohomological realization. HS3.11 identifies
+that package naturally with the restriction of HS1–HS3, including directions,
+kernels, levels, coefficients and continuous actions. The general-local-field
+and arbitrary-source constructions here retain their full scope. The independent
+IG.0.27 deformation input to HS3.9 is separate from this comparison.
+
 [Suggested.lean](Suggested.lean) records representative statements on the pinned
 Mathlib carriers, including the topological component results of HS2.16 and the
 monoidal pairing identities of HS4.2. This README is the definitive specification;
@@ -170,9 +178,9 @@ on the complete contract.
 | Owner layer | Interface needed here |
 | --- | --- |
 | **RelativeFarguesFontaine**, Layers 0–1 and §§3.1–3.9, 4.6–4.13, 7.0–7.7 | General-local-field period rings and annuli; degree-one untilts and divisor sums; Tannakian meromorphic modifications, completion and Beauville–Laszlo gluing, compatible with base change and change of group. |
-| **BunGAndNewtonStrata**, Layers 0–4, especially §§2.8, 2.11–2.23 and 3.1–3.11 | The Kottwitz set and its two invariants, pure inner twisting, small bundle stacks, full automorphism v-groups, strata and filtered-bundle charts. In **BunGAndNewtonStrata**, §§2.8, 2.11–2.23, modifying the trivial target by the orbit `μ(ξ)` must give `κ=+μ♯`, image contained in `B(G,μ)`, and equality for minuscule `μ`; inversion supplies the `B(G,μ⁻¹)` dictionary. For a general target `𝓔_b`, retain the relative identity `κ(𝓔_x)=κ(𝓔_b)+μ♯`. The bundle-stack and modification comparison for every finite separable extension, including ramified extensions, is a target of HS4.5. |
+| **BunGAndNewtonStrata**, Layers 0–4, especially §§2.8, 2.11–2.23 and 3.1–3.11 | The Kottwitz set and its two invariants, torsor twisting on the curve and basic inner forms, small bundle stacks, full automorphism v-groups, strata and filtered-bundle charts. In **BunGAndNewtonStrata**, §§2.8, 2.11–2.23, modifying the trivial target by the orbit `μ(ξ)` must give `κ=+μ♯`, image contained in `B(G,μ)`, and equality for minuscule `μ`; inversion supplies the `B(G,μ⁻¹)` dictionary. For a general target `𝓔_b`, retain the relative identity `κ(𝓔_x)=κ(𝓔_b)+μ♯`. The bundle-stack and modification comparison for every finite separable extension, including ramified extensions, is a target of HS4.5. |
 | **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7 | Parabolic bundle charts, full automorphism groups and the HN reduction. The relative HN dimension and unipotent-fibre statements of [GL], Theorem 2.13, Proposition 2.15 and Lemma 3.3, are proved in HS2.15 using these charts. Bounded preservation of sufficiently unstable HN reductions is proved in HS4.6. |
-| **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”, **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags” | Ordered-leg Schubert bounds, finite `dim.trg`, proper surjective bounded convolution, and factorization off the diagonals. The Białynicki-Birula map descends to reflex fields, is equivariant under reduction of positive loops, is an isomorphism for minuscule classes, and is a bijection on points over finite extensions of `F̆`. |
+| **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”, **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags” | Ordered-leg Schubert bounds, finite `dim.trg`, proper surjective bounded convolution, and factorization off the diagonals. For a characteristic-zero untilt and minuscule class, the Białynicki-Birula map is an isomorphism, with reflex-field descent and equivariance under reduction of positive loops. The additional arbitrary-bound bijection on finite-extension points over `ℚ_p` is a target of HS2.12. |
 | **GeometricSatakeAndFusion**, GS1, **GeometricSatakeAndFusion**, GS2, “Proper correspondences and rational semismallness”, **GeometricSatakeAndFusion**, GS3, **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | ULA recognition and duality; equivariant Demazure spaces with proper, spatial, finite-dimensional maps; the equivariant Demazure spaces used in HS1.1’s `solidDualDemazureGeneration`, whose generation assertion is proved here; convolution and coherent fusion. On chain spaces the twisted product is flat perverse and ULA with its specified extension from disjoint legs. The normalized integral Satake functor has its enhanced perfect-complex extension, the perfect-complex extension needed for HS1.0’s bounded-weight resolution convergence, and naturality for adjoint maps, products, Levi maps and Weil restriction. |
 | **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | Pullback to `Div¹_F` corresponds to restriction from `W_E` to `W_F`, including the action of all endomorphisms and idempotent summands. For residue degree `f`, the square root is `r^f`. Weil restriction pushes the inflated then induced representation's Satake sheaf forward along the corresponding closed immersion and finite étale leg map. Choosing the other square root changes the comparison by the unramified sign character on components of odd `⟨2ρ,μ⟩`. |
 | **GeometricSatakeAndFusion**, GS4, `representationComplexInterface` and `perfectSatakeFunctor`; **LanglandsParameterStacks**, §LP3.0 | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional tensor-generator, exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. |
@@ -185,6 +193,7 @@ on the complete contract.
 | **PadicHodgeTheory**, §§0.1, 3.2–3.5 and 7.1 | Tate's invariants and twist vanishing, Galois-stable `B^+_dR`-lattices versus filtrations; for crystalline/weakly admissible tensor comparison over finite extensions of `F̆`, use **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.3.3 and R07.4.13, in its general perfect-residue-field frame. These fields need not be finite over `ℚ_p`. Use `D_cris(ℚ_p(1))=(ℚ̆_p,p⁻¹σ)`. Slope zero becomes triviality of a `G`-bundle only after its Kottwitz invariant also vanishes. |
 | **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7, **DiamondSixOperations**, S0–**DiamondSixOperations**, S5, **AdicCoefficientsAndComparisons**, L0 | Compactifications, proper-support direct image, finite étale traces, and compatible adic limits. The cross-theory contract identifies classical and diamond compact support on every quasicompact open of a separated taut rigid space, naturally in the torsion coefficients and traces. For a smooth map of pure dimension `d`, require the canonical dualizing isomorphism `Rf^!Λ=Λ(d)[2d]`. Equivalence of étale sites alone supplies neither comparison. |
 | **EndoscopicTransferAndUnitaryTraceComparison**, §§12.3–12.8 and §12.17; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2; **AInfCohomology**, AI.2 | Independent Lubin–Tate and Drinfeld spaces, level towers and period maps, and their classical diamond/modification comparison at all levels with both periods, actions, Tate local system and Weil descent; the specified unramified PEL deformation space; covariant Dieudonné and Grothendieck–Messing theory; Breuil–Kisin–Fargues lattice/modification comparison. General `GL_n`, ramified EL/PEL and non-hyperspecial parahoric representability, the `A_cris` comparison over `O_C/p`, and punctured-`A_inf` parahoric torsor extension are explicit hypotheses in HS3.9. The further comparison between the `E′`-linear Weil-restriction tower and `E′`-shtukas is also stated there with its coefficient-field compatibility hypotheses. |
+| **IgusaVarietiesAndTorsionConcentration**, IG.F.18–IG.F.20 | The independently constructed finite-`E/ℚ_p` Hecke functors, arbitrary reductive local-shtuka towers and Hecke-fibre cohomology. HS3.11 compares these with HS1–HS3 on their common domain, retaining the direction adapter, solid kernels, group and Weil actions, coefficients, levels and completion order. |
 
 Additional geometric and finiteness hypotheses are needed where they occur below.
 For connectedness and density, use a theorem about removing a closed subset
@@ -449,7 +458,9 @@ For split bounded substacks the Kottwitz change is `∑_iμ_i^♯`.
 
 For basic `b`, import `τ_b:Bun_G≃Bun_(J_b)` from
 **BunGAndNewtonStrata**, §1.19, using its §0.7 isomorphism-torsor
-and inverse-precomposition conventions. Extend this supplied equivalence
+and inverse-precomposition conventions. This is the basic inner-form
+equivalence: twisting is pure on the curve, while `J_b/E` need not arise
+from a class in `H¹(E,G)`. Extend this supplied equivalence
 to Hecke stacks and chains. Carry the cocharacter class through the
 inner-form dictionary without changing its bound, and prove compatibility
 with localization, source and target, units, inversion, finite-set maps
@@ -460,6 +471,17 @@ supplier's Beauville–Laszlo sign and inversion dictionary specified above.
 *Needs:* [HS0.1](#hs0-1), [HS0.2](#hs0-2), [HS0.4](#hs0-4); **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§0.7 and 1.19; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
 
 (Sources: [FS], III.4, Corollary III.4.3, p. 101; III.4, Proposition III.4.2, p. 101; III.4, Proposition III.4.1(ii), p. 100; IX.6.4, p. 333; IX.6, proof of Theorem IX.6.1, p. 331; III.3, Proposition III.3.6(ii), p. 100; III.2.2, p. 91; II.2, proof of Proposition II.2.3, p. 61; IX.7, p. 337; [SW], Lecture 23, proof of Corollary 23.3.2, p. 219; Lecture 24, Definition 24.1.1 and Proposition 24.1.2, p. 225.)
+
+**Checks.**
+
+- For `b=1` with its standard trivialization, `J_b=G` and the
+  bundle and Hecke-stack equivalences identify with the identity.
+- For a torus `T`, every `b` is basic and `J_b=T`; twisting sends
+  `𝓔_b` to the trivial `T`-bundle even when `𝓔_b` is nontrivial.
+- For `G=GL₂` and a basic isocrystal of slope `1/2`, `J_b=D^×`
+  for the quaternion division algebra `D/E`. Since `H¹(E,GL₂)=1`,
+  this is not a pure inner form over `E`; the bundle equivalence is
+  the curve's Morita equivalence of [FS], Example III.4.4, pp. 101–102.
 
 
 ### Examples
@@ -1351,7 +1373,8 @@ Provide the following API.
 
 ### HS2.12 — Classical period points and weak admissibility
 
-Use `λ=μ⁻¹` to state the comparison in the [GLX]
+Let `E=ℚ_p`, `G/E` be reductive and `μ` a geometric cocharacter
+class with reflex field `F`. Use `λ=μ⁻¹` to state the comparison in the [GLX]
 convention. Its Schubert cell is our cell of type `μ`, and its
 filtration variety uses the parabolic with
 `lim_(t→0)λ(t)gλ(t)⁻¹` defined. For every finite
@@ -1374,6 +1397,23 @@ variety.
 *Needs:* [HS2.5](#hs2-5), [HS2.11](#hs2-11), [HS0.6](#hs0-6); **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **PadicHodgeTheory**, §§0.1, 3.2–3.5 and 7.1; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.3.3 and R07.4.13; **BunGAndNewtonStrata**, Layer 1.
 
 (Sources: [GLX], §3.6, p. 829; [SW], Proposition 19.4.2, pp. 176–177.)
+
+**Checks.**
+
+- For `G=GL₂`, `μ=(1,0)` over `ℚ_p`, the minuscule map is the
+  diamond isomorphism with `P¹`, and induces a bijection for every
+  finite `L/ℚ̆_p`.
+- For the norm-one torus of an unramified quadratic extension of `ℚ_p`,
+  `μ=0` and the nontrivial class in `B(T)=ℤ/2`, every representation
+  has Newton slope zero. The trivial filtration is weakly admissible,
+  but the nonzero Kottwitz invariant excludes admissible points.
+- The equal-characteristic boundary is `E=𝔽_q((t))`, `L=k((t))`,
+  `G=GL₂`, `μ=(2,0)`. At the degree-one divisor `π=t`, write `ξ=π−t`.
+  The coefficient section in `L[[ξ]]` gives `Spd L`-points
+  `Λ_a=L[[ξ]]·ξ²e₁+L[[ξ]]·(e₂+aξe₁)` for `a∈L`.
+  All have `Fil⁰=Fil¹=Le₂`, `Fil²=L²`. Their basis matrices satisfy
+  `M_a⁻¹M_b=[[1,(b−a)/ξ],[0,1]]`, which is not integral for `a≠b`.
+  Thus the classical-point bijection does not extend to equal characteristic.
 
 <a id="hs2-13"></a>
 
@@ -2077,6 +2117,102 @@ Provide the following API.
 - `heckeBetweenStrata.trivial_stratum_test`: For `G = GL_2` over `Q_p`, `b′ = 1`, `V = std`, `K = 1 + p^m M_2(Z_p)` with `m ≥ 1`, and `b` the class with `E_b = O(1/2): C^{1,b}_K(std) ≅ RΓ_c(M_{LT,K,C},Λ)[1](1/2)`, the shifted compactly supported cohomology of the Lubin–Tate tower of height `2` at level `K`, as a complex of smooth representations of `D^×` (`D` the quaternion division algebra over `Q_p`) with `W_{Q_p}`-action.
 - `heckeBetweenStrata.not_pro_p_test`: For `G = G_m` over `Q_p` with `p` odd, `ℓ` a prime dividing `p − 1`, `Λ = F_ℓ`, `b = b′ = 1`, `V = 1` and the compact open subgroup `K′ = Z_p^×`, which is not pro-`p: i^{1*}L_1(c-Ind_{Z_p^×}^{Q_p^×}F_ℓ) = c-Ind_{Z_p^×}^{Q_p^×}F_ℓ` is not compact in `D(Q_p^×,F_ℓ)`, because `Ext^n(c-Ind_{Z_p^×}^{Q_p^×}F_ℓ, F_ℓ) = H^n(F_p^×, F_ℓ) ≠ 0` for all `n ≥ 0`.
 
+<a id="hs3-11"></a>
+
+### HS3.11 — Comparison with the finite-extension Hecke and shtuka package
+
+Let `E/ℚ_p` be any finite extension, `G/E` reductive, `b∈B(G)`
+arbitrary, and `I` any finite leg set. Use the same `k`, curve,
+divisor bases, reflex fields, finite pinned-action quotient `Q`, square
+root `r` and coefficient algebra `Λ` in both constructions. Construct
+`finiteExtensionPackageComparison` with the independently supplied
+**IgusaVarietiesAndTorsionConcentration**, IG.F.18–IG.F.20. It comprises
+natural equivalences of Hecke functors and tower v-sheaves, isomorphisms
+of their Satake kernels, and the induced equivalences of enhanced
+cohomology objects. Retain the finite-extension construction and its
+Igusa/PEL applications with that supplier.
+
+Fix the direction adapter on actual modifications. The HS arrow is
+`α:𝓔_1⇢𝓔_b` with first lattice of type `μ_i`. A presentation recording
+`β=α⁻¹` has first-lattice type `μ_i⁻¹`; inversion also reverses the
+order of a chain. Translate the supplier's labels using IG.F.19's
+`localShtuka_cocharacterAdapter`, keeping the level on the trivial-bundle
+framing. The common one-leg nonemptiness condition is
+`[b]∈B(G,μ⁻¹)`. The actions `α↦jαg⁻¹` become
+`β↦gβj⁻¹`, for `g∈G(E)`, `j∈J_b(E)`.
+On Hecke correspondences, transport source and target projections and the
+Satake kernel together under inversion, including the Satake dual/Cartan
+transform. Comparing the same kernel after this transport fixes the
+representation label in the functor equivalence.
+
+Require the following comparisons.
+
+- Identify IG.F.18's `geometricHeckeFunctor` with HS1's `T_V` for every
+  `V∈Rep^fp_Λ((Ĝ⋊Q)^I)`, and their perfect-complex extensions. Identify
+  the bounded correspondences, both projections and `S′_V=𝔻(S_V)∨`.
+  The natural equivalence commutes with coefficient change, inflation to
+  a larger `Q`, all finite-set maps, fusion, units, composition and dual
+  adjunctions, with their higher coherences. It intertwines the continuous
+  `W_E^I`-action and hence creation and annihilation under diagonal Weil
+  action; preservation of lisse and compact objects agrees.
+- Identify IG.F.19's `LocalShtukaSpace` with HS2.9's tower at every
+  compact open `K`, including the infinite-level trivialization torsor.
+  Identify the twisted convolution period targets, admissible loci, both
+  period maps wherever defined, transitions, conjugate-level maps and
+  changes of framing. Retain the intermediate modifications on nontrivial
+  Frobenius collisions. The identifications intertwine `G(E)`, `J_b(E)`,
+  partial Frobenii and Weil descent, and commute with the supplied maps
+  of group data and coefficient-field/Weil-restriction dictionaries under
+  their stated hypotheses.
+- Identify the pulled-back kernels `S_W` and `S′_W` and IG.F.20's
+  `localShtukaCohomology_heckeRealization` with HS3.4. The resulting
+  equivalence with `C_K=f_(K♮)S′_W` intertwines both group actions, the
+  continuous `∏_iW_(F_i)`-action, and the source Hecke algebra, including
+  the inversion identifying its opposite action. It commutes with trace,
+  pullback, the level colimit and coefficient extension. For minuscule
+  single legs it identifies the `[d](d/2)` compact-support comparison,
+  `d=⟨2ρ,μ⟩`. For integral coefficients compare on each quasicompact
+  open through `Rlim_m` of torsion compact support before taking the
+  open colimit. Transport compactness only at pro-`p` levels; finite
+  generation and the descent to other levels retain HS3.5–HS3.7's
+  hypotheses.
+
+Construct the tower identifications by meromorphic torsor gluing and
+Frobenius descent on the same annuli, with inverse maps on objects and
+isomorphisms. Identify the kernels off the collision loci and extend the
+comparison using the flat perverse ULA convolution/fusion comparison.
+Naturality of relative homology then gives the cohomology equivalence
+and its compatibility diagrams. The independent IG.0.27 deformation input
+enters the supplied finite-extension package; this comparison does not
+use an Igusa application of the Hecke-fibre theorem as a prerequisite.
+
+*Needs:* [HS1.10](#hs1-10), [HS2.9](#hs2-9), [HS2.18](#hs2-18), [HS3.1](#hs3-1), [HS3.2](#hs3-2), [HS3.4](#hs3-4), [HS3.5](#hs3-5), [HS3.6](#hs3-6), [HS3.7](#hs3-7); **IgusaVarietiesAndTorsionConcentration**, IG.F.18–IG.F.20; **GeometricSatakeAndFusion**, GS3–GS4; **RelativeFarguesFontaine**, §§7.0–7.7.
+
+(Sources: [FS], Proposition IX.2.1, Theorem IX.2.2 and Corollaries IX.2.3–IX.2.4, pp. 322–323; Theorem IX.3.1 and Proposition IX.3.2 with its proof, pp. 324–327; [SW], §§23.3–23.5, pp. 218–224.)
+
+**Checks.**
+
+- For `G=𝔾_m`, one leg, `μ=1`, `b=π⁻¹`, inversion sends
+  `𝓞⇢𝓞(1)` to `𝓞(1)⇢𝓞` of first-lattice type `−1`.
+  Both packages give the same Lubin–Tate tower and right-frame
+  geometric reciprocity action of HS2.18, including its unit inversion.
+- For the height-two Lubin–Tate datum over `ℚ_p`, both kernels are
+  `Λ[−1](−1/2)` and both cohomology comparisons give
+  `RΓ_c(M_(K,C),Λ)[1](1/2)`. The representation rank `2` does not
+  replace the geometric dimension `1`.
+- For `G=GL₂`, `b=1` and two type-`(1,0)` steps at a nontrivial
+  Frobenius collision, both period charts retain the intermediate
+  lattice. Over the composed lattice `ξ(B⁺_dR)²` the forgetful map
+  has fibre `P¹`; the comparison intertwines convolution pushforward.
+- For a totally ramified finite `E/ℚ_p`, the comparison uses `E`
+  and its reflex bases, while `q=p` and `r=√p`. With no legs and
+  `b=1` it is the identity of `G(E)/K`; for `[b]≠1` both towers
+  and their cohomology are empty and zero, respectively.
+- For `G=𝔾_m`, one leg, `μ=1`, `b=π⁻¹`, `K=𝓞_E^×` and
+  `Λ=ℤ_ℓ[r]`, both completion conventions give `⊕_ℤΛ`, excluding
+  `Σ_(n≥0)ℓ^nδ_n`. For `ℓ∣q−1`, pro-`p` compactness is not
+  transported to the unit level `𝓞_E^×`.
+
 
 ### Examples
 
@@ -2084,7 +2220,7 @@ For the height-two Lubin–Tate datum, `d=1` and `RΓ_c(M,Z_ℓ)=⊕_Z Z_ℓ(−
 
 ### Dependencies
 
-*Needs:* HS0–HS2; **VStackSheavesAndLisseCategories**, VS2–VS5; **SmoothRepresentationsOfLocalGroups**, SR.0d–SR.3 and SR.6; **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7; **DiamondSixOperations**, S0–S5; **AdicCoefficientsAndComparisons**, L0; **EnhancedDerivedSheaves**, E5:abstract; **GeometricSatakeAndFusion**, GS3–GS4; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1–R07.2; **AInfCohomology**, AI.2; **EndoscopicTransferAndUnitaryTraceComparison**, §§12.3–12.8 and §12.17; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27. HS3.9 states the independent general deformation-space hypotheses explicitly.
+*Needs:* HS0–HS2; **VStackSheavesAndLisseCategories**, VS2–VS5; **SmoothRepresentationsOfLocalGroups**, SR.0d–SR.3 and SR.6; **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7; **DiamondSixOperations**, S0–S5; **AdicCoefficientsAndComparisons**, L0; **EnhancedDerivedSheaves**, E5:abstract; **GeometricSatakeAndFusion**, GS3–GS4; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1–R07.2; **AInfCohomology**, AI.2; **EndoscopicTransferAndUnitaryTraceComparison**, §§12.3–12.8 and §12.17; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11, IG.0.27 and IG.F.18–IG.F.20. HS3.9 states the independent general deformation-space hypotheses explicitly.
 
 ## Layer HS4: Coherent operations and comparison diagrams
 
@@ -2125,6 +2261,8 @@ Use pinned Tau Ceti's `CategoryTheory.Functor.mapExactPairing` from
 `CategoryTheory.Functor.mapExactPairing_evaluation`, to transport an exact
 pairing along the monoidal Hecke action. The notation `monoidalCoev` and
 `monoidalEval` in Suggested.lean projects that supplied pairing;
+`monoidalCoev_eq` and `monoidalEval_eq` give its formulas using the
+supplied projection theorems.
 `monoidalCoev_eval_left` and `monoidalCoev_eval_right` are proved
 corollaries of its triangle fields. `monoidalCoev_unit` and
 `monoidalEval_unit` express its unit-pairing formulas.
