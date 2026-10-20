@@ -32,7 +32,7 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, stable category/HA, arbitrary-CW comparison, finite duality, compatible universal bundle diagrams, MO/MSO/MSpin and quaternionic smooth carriers | geometric cycles/PT, coefficient rings and transfer/kernel calculations are here |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T2.5/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6 | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
 | [SpinGeometry](../SpinGeometry/README.md), G4/G5.0/G6.0/G6.7 ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/902)) | Spin lifts and H1 torsors, circle/surface refinements, real Clifford-graded spinor bundles, closed real Dirac realization and its KO-valued index, Lichnerowicz and untwisted four-dimensional quaternionic symmetry | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
-| [HomotopySpheres PR284](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284) | convenient pointed spaces, stable framed PT and framing-change/product laws | B5 builds general normal structures and finite-codimension comparisons, agreeing with the framed case |
+| [HomotopySpheres, finite and stable Stage5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6c0b09a600e12d442f71728d1c7292592d36cac2/TauCetiRoadmap/HomotopySpheres/README.md#stage-5-stable-framings-and-pontryagin--thom) and the finite-rank interface specified in B5.2 | convenient pointed spaces, stable framed PT and framing-change/product laws; the separate honest-rank construction below | B5 builds general normal structures and the structured finite/stable carrier comparisons; the single finite framed theorem remains with HomotopySpheres |
 | [FourManifolds](../FourManifolds/README.md), early example constructions | F7.0 quarticKThree carrier/characteristic calculation and ellipticEOneFiberComplement, E(1) minus a regular elliptic fibre with its actual Lie-spin T3 boundary | these examples precede bordism consequences; later Four Wu/Rokhlin applications consume B3/B4 |
 | [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2 constructs the finite-F2 Arf invariant used by surface and Seifert refinements |
 | [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer8 compact algebra sublane ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/949)); [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4 | division octonions/formally real compact Albert algebra, generic closed subgroup smooth charts | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms |
@@ -94,14 +94,43 @@ and KO kernel interfaces below.
    lifts and normal classifier maps with bundle isomorphisms. Compare
    finite representatives of stable structures, all higher stabilizations,
    pullbacks, diffeomorphisms and changes of classifier lift by homotopy.
-   Define manifold orientations by refinements of native
-   `TauCeti.orientationPreservingGroupoid`, and compare them with SO frame
-   reductions and AT's orientation local systems; reversal, pullback, product
-   and outward-first boundary orientations agree under these comparisons.
-   Empty manifolds and dimension0 are included. Use G5's positive-rank
-   cofinal Spin stabilization and its rank0 ring-unit adapter; native
-   algebraic Spin(0) is the trivial unit branch; the geometric μ2 rank0
-   structure branch has its own positive-rank stabilization comparison.
+   Consume DG2.1's single manifold-orientation carrier, with native
+   `Orientation ℝ (TangentSpace I x) (Fin n)` for the actual dimension-n
+   model I of the cycle or witness. This is the positive-scalar ray of a
+   nonzero alternating top form, used as the pointwise datum. Reuse
+   its locally compatible tangent-chart sections and comparison with AT's
+   local integral homology orientations; construct the adapters to these
+   cycle and witness records. For n>0 prove equivalence with refinements of
+   native `TauCeti.orientationPreservingGroupoid` and with the chosen
+   oriented orthonormal frame/SO reductions; the comparisons retain the
+   actual orientation, rather than only existence of a reduction.
+   Construct reversal by the negative ray, derivative pullback, the ordered
+   product and outward-first boundary rule on this datum, and prove that
+   the atlas, frame, local-homology and determinant descriptions agree.
+   In dimension0 explicitly retain a sign σ(x)∈{+1,−1} at each point:
+   it selects the positive or negative ray of the scalar-valued empty
+   alternating form. Reuse native `Orientation.eq_or_eq_neg_of_isEmpty`;
+   every empty basis gives the positive ray, while the negative ray is a
+   separate orientation. Native `Orientation.map_of_isEmpty` fixes both
+   rays under every zero-dimensional linear automorphism. Thus a bare
+   rank0 atlas or SO(0) frame reduction does not replace this sign datum.
+   Identify this same σ with SpinGeometry G5.0's rank0 orientation sign
+   and signed real grading τ_σ=σ Id: the positive real point-line is even,
+   the negative point-line odd. Prove the comparison through positive-rank
+   stabilized oriented/Spin tangent data, with the specified trivial-line
+   orientation and coherent stabilization maps. Keep σ separate from the
+   geometric μ2 Spin-lift datum; native algebraic Spin(0) is the trivial
+   unit branch, and the μ2 branch has its own cofinal comparison.
+   Reversal changes σ, ordered products multiply point signs, and the
+   fundamental 0-class is the sum of σ(x)[x]. For the positively oriented
+   interval the outward-first rule gives ∂[0,1]=[1]−[0], with the same
+   signs after Spin forgetting. Use signed-point cancellation by intervals
+   to construct the degree-zero SO/Spin coefficient maps and inverses to Z;
+   +pt is the unit and forgetting to O sends signed count to its mod2 class.
+   Prove these comparisons before consuming the low coefficient table.
+   Empty manifolds, disconnected zero-manifolds and products with points
+   retain these data and laws; no new generic orientation carrier or
+   duplicate one-line native theorem is introduced.
 2. Construct compact smooth collared bordism witnesses with continuous
    parameter maps and actual structured boundary diffeomorphisms. Construct
    cylinders, reversed witnesses, disjoint union and gluing. Use collars to
@@ -269,7 +298,11 @@ and KO kernel interfaces below.
    Σ q(a_i)q(b_i), prove its equality to the basis formula for every such
    basis, independence of basis, isometry invariance and orthogonal-sum
    additivity. Prove the
-   hyperbolic/anisotropic-plane decomposition and that Arf zero is equivalent
+   hyperbolic/anisotropic-plane decomposition, with an explicit paired-plane
+   change of basis identifying two anisotropic planes with two hyperbolic planes.
+   Prove the intrinsic Gauss sum `sum_v (-1)^(q v)=(-1)^Arf * 2^m`; derive
+   the q-zero count `2^(2*m-1)+(-1)^Arf * 2^(m-1)` for m>=1, with count1
+   when m=0. Prove that Arf zero is equivalent
    to a q-zero Lagrangian (including dimension zero). Export these constructors
    and comparison maps for geometric surface and Seifert-form consumers;
    this is the single generic F2 Arf owner.
@@ -680,20 +713,75 @@ and KO kernel interfaces below.
    between the projected lift and the embedding's Gauss map, transporting
    the bundle isomorphism along that homotopy.
    Construct neat collared embedded bordisms in R^(n+k)×I and their
-   relative versions. Give isotopy/structure-homotopy witnesses and the
-   collapse map to the designated G/CC Thom quotient. Prove tube/radius/
-   embedding and smoothing independence relative to fixed boundary data.
+   relative versions. Retain the actual embedding, Gauss lift, normal-bundle
+   isomorphism and map to the parameter space as part of each finite cycle.
+   Give compatible isotopy/structure-homotopy witnesses and the collapse
+   map to the designated G/CC Thom quotient. For a fixed embedded smooth
+   normal-structured cycle prove independence of tubular/radius choices
+   and of auxiliary approximation or corner-rounding choices through the
+   specified compatible relative isotopies or embedded ξ-bordisms. Prove
+   invariance under those witnesses, preserving the actual boundary/collar
+   and normal-structure data. This does not identify arbitrary embeddings
+   of an abstract cycle, nor distinct smooth structures, at fixed codimension.
    The generic tube is an open-subset diffeomorphism, including empty
    embeddings; whole-total-space PartialDiffeomorph corollaries retain
    their nonempty-source hypothesis.
 2. Prove the finite-codimension bijection with based homotopy classes
    [S^(n+k),Th(ξ_k)] under the actual compact/CW/cofibration hypotheses,
-   and compare Euclidean and sphere embeddings. The finite carrier is a
-   based set until its group law is constructed; k=0 does not inherit
+   and compare Euclidean and sphere embeddings with the marked-point
+   and ambient identifications specified. The source remains the quotient
+   of actual finite embedded ξ-normal cycles by the compatible embedded
+   bordisms of item1, not a quotient of abstract ξ-manifolds alone.
+   As a regression, let n=0, k=1, B_1={a,b} and ξ_1 be the trivial line.
+   Its Thom space is S1∨S1. The same four labelled signed normal points
+   a+,b+,a−,b− placed in R in that order have based collapse word
+   aba^(-1)b^(-1), whereas order a+,a−,b+,b− gives 1. Prove the former
+   is nontrivial in the free fundamental group, while both cycles have the
+   same abstract labels and signs. Keep this general ξ/finite-base case;
+   the framed-point specialization does not remove its embedding dependence.
+   The finite carrier is a based set until its group law is constructed;
+   k=0 does not inherit
    stable disjoint-union addition. In particular a finite embedded
    0-manifold in R0 has at most one point. Type π_(n+k) only with its
    actual low-dimensional/component convention. Give every finite-stage
    inclusion, suspension map, stable-range comparison and diagram.
+   Require HomotopySpheres to construct its separate finite-rank interface
+   before this specialization: for r≥1 and d≥0, compact closed smooth
+   d-submanifolds of a marked S^(d+r), missing infinity and equipped with
+   ordered normal rank-r frames, modulo actual collared rank-r embedded
+   bordisms missing the marked axis, correspond to based sphere-map classes.
+   The interface includes tube/regular-value choices, both inverse witnesses,
+   naturality, pinch addition and the domain-reflection inverse, with frames
+   transported by its derivative. It has no stable Bott, stable J or
+   Freudenthal premise; r=0 remains a separate finite based-set carrier.
+   This is the single HS finite framed construction consumed here, not a
+   conclusion supplied by its stable PT theorem or a second TB engine.
+
+   In the specialization ξ_r equal to the trivial rank-r bundle over a
+   point, consume HS Stage5.0's single honest-rank unstable framed
+   Pontryagin–Thom theorem. Construct the actual carrier dictionary:
+   a classifier lift to a point and the chosen pullback isomorphism
+   ν_M≃R^r are exactly an ordered normal frame; compare this dictionary
+   on neat embedded bordisms, isotopies and structure homotopies, with
+   the punctured marked sphere/Euclidean ambient conventions fixed.
+   For r≥1 and d≥0 transport HS Stage5.0's bijection to
+   π_(d+r)(S^r), including the empty cycle, both inverse witnesses,
+   pinch/compression addition and its actual low-degree group laws.
+   Compare the unmarked and marked presentations by the actual
+   free/based homotopy action: the target is simply connected for r≥2,
+   while π1(S^1) acts trivially when r=1. Transport the regular-value
+   differential framing, radial degree-one collapse, relative smoothing
+   and collared homotopies through these carrier isomorphisms; no claim
+   that an arbitrary trace already misses the chosen axis is used.
+   Keep r=0's finite carrier and component conventions separate.
+   This specialization does not re-own the generic framed-sphere
+   theorem: HS Stage5.0 owns its finite-rank construction, DGFloer1.5
+   consumes it for general closed-ambient collapse, and this B5 owns
+   the ξ-structured carrier comparison and its general finite/stable
+   extension. Compare finite suspension with the stable PT map only
+   after the finite comparison, using the fixed sphere/disk, normal/
+   tangent, ordered target-frame and boundary conventions.
+
 3. Construct the inverse for arbitrary CW B_k without assuming that it is
    smooth. Replace B_k→BO(k) by G2.10's `MappingPathSpace` endpoint
    Serre fibration,
@@ -703,9 +791,30 @@ and KO kernel interfaces below.
    the ξ data and retain the resulting normal-bundle isomorphism. Prove
    the two inverse bordisms and independence of finite-stage approximation,
    lifts and perturbations. A fibrewise or set-level inverse is insufficient.
-4. Stabilize the ξ_k carriers along the actual G5 diagram. Prove sufficiently
-   high-dimensional embedding/isotopy comparisons with abstract cycles,
-   separation of disjoint sums and all classifier/permutation laws. Obtain
+4. Stabilize the ξ_k carriers along the actual G5 diagram, transporting
+   normal structures by its specified bundle maps. Only here compare with
+   abstract stable ξ-cycles: retain the chosen stable tangent/normal datum,
+   its bundle isomorphisms and homotopies, and require both embedded
+   representatives to realize that same datum through the stated comparisons.
+   Construct the embedding comparison after a common finite stabilization.
+   For embeddings e0,e1 of the same compact smooth M into a common R^N,
+   use F_θ=(cosθ e0,sinθ e1) in R^(2N), 0≤θ≤π/2: at least one nonzero
+   coordinate factor makes each F_θ an embedding. Apply the inverse block
+   rotation R_(−θ) to obtain endpoints (e0,0) and (e1,0). If the original
+   embeddings agree on the prescribed boundary collar, this rotated path
+   fixes (e0,0) there. Reparametrize to be constant near the interval
+   endpoints and construct its actual collared embedded trace. First put
+   unequal ambient dimensions in a common block model; relative statements
+   retain the specified common boundary embeddings and collar identifications.
+   Construct the endpoint normal-bundle identifications
+   ν_(ei,0)≃ν_ei⊕R^N, derivative/Gauss homotopies, lifted ξ structures and
+   the comparison with the fixed abstract stable datum. These are required
+   proofs with coherence under further stabilization, not an unconditional
+   identification of arbitrary normal structures. Prove the resulting
+   structure-preserving isotopy/bordism comparison and its collapse/suspension
+   square before concluding independence of embedding choices for that
+   abstract stable ξ-cycle. Prove separation of disjoint sums and all
+   classifier/block-permutation laws in the same stabilized diagram. Obtain
    natural group isomorphisms
    Ω^ξ_n(X,A)≃π_n(Mξ smash Σ∞(X/A)) on CW pairs, with X/∅=X₊,
    and with the stated
@@ -713,8 +822,9 @@ and KO kernel interfaces below.
    sets, integer degrees for the connective extension, products, units,
    boundary/MV maps and structure forgetting. Construct the tangent–normal
    comparison M(−θ) with O/SO/Spin spectra explicitly.
-5. Compare the framed special case with PR284's actual stable PT and
-   augmentation, and its unstable framed embedded case. Compare the
+5. Compare the stable framed special case with HomotopySpheres' stable PT
+   and augmentation, and compare the finite unstable framed embedded
+   specialization of item2 with that stabilization. Compare the
    fundamental-class maps of B2 with the actual Thom-to-HA spectral maps.
    Pin the positive interval boundary [1]−[0] and G's increasing left
    suspension/collapse coordinates. Prove the comparison of the geometric
@@ -1103,8 +1213,15 @@ family transfer precedes its point kernel calculations. Four's early K3 and
 E(1)-complement constructions do not use the later bordism classifications;
 its Wu/Rokhlin consequences may consume this roadmap afterward.
 
-Acceptance includes actual witness construction and quotient comparison,
-correct empty/degree0/negative-degree behavior, all pair/triple boundary
+Acceptance includes actual witness construction and quotient comparison.
+Check both native empty-index orientation rays, signed +pt and −pt, the
+outward-first boundary [1]−[0], SO/Spin degree-zero signed count with positive
+unit, and its unoriented mod2 forgetting square using the same SG rank0 sign.
+Check the labelled four-point finite collapse words, fixed-embedding tubular
+choice invariance, and the stabilized block-isotopy/ξ-structure/suspension
+comparison for compatible abstract stable data; arbitrary finite embedding
+independence is not an acceptance target. Retain correct
+empty/degree0/negative-degree behavior, all pair/triple boundary
 maps, the finite-versus-stable PT distinction, naturality and products, every
 specified circle/torus/projective filling, Arf and Spin signature/index signs,
 full MO multiplication and characteristic-number converse, integral Wall
