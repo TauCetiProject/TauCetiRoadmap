@@ -17,7 +17,8 @@ this roadmap’s comparison scope. HS3.9 states its general Rapoport–Zink comp
 with the independent deformation functor and its representability, crystalline
 comparison and torsor-extension properties as explicit hypotheses. The
 Lubin–Tate and Drinfeld towers come from `EndoscopicTransferAndUnitaryTraceComparison`,
-§§12.3–12.8, and the unramified PEL case from
+§§12.3–12.8, with their classical modification comparison from §12.17,
+and the unramified PEL case from
 `IgusaVarietiesAndTorsionConcentration`, §§IG.0.11 and IG.0.27. Excursion algebras,
 parameter stacks, spectral Bernstein centres and the finite-ramification theorem
 belong to `ExcursionOperatorsAndSpectralAction`, particularly
@@ -116,8 +117,12 @@ the suggested forms are not an exhaustive checklist.
   extension `F/E`, `φ_F` on `Spd F̆` is the
   Frobenius of its `Spd F` factor, covering the
   `q_F`-Frobenius on the tilt; it is not silently identified with the
-  field automorphism `σ_F`. In the constant-term formula the degree
-  convention sends geometric Frobenius to `1`.
+  field automorphism `σ_F`. Write `deg_ar=weilDegree`, with arithmetic
+  Frobenius of degree `1`; this is the degree in the Drinfeld action
+  `τ∘Frob^(-deg_ar(τ))`. The constant-term exponent is
+  `|w|=-deg_ar(w)`, with geometric Frobenius of degree `1`.
+  The reciprocity map `rec_HS:W_E→E^×` is fixed by the geometric
+  component-torsor action in HS2.18; it uses geometric reciprocity.
 
 ## Exact supplier contracts
 
@@ -168,9 +173,9 @@ on the complete contract.
 | **BunGAndNewtonStrata**, Layers 0–4, especially §§2.8, 2.11–2.23 and 3.1–3.11 | The Kottwitz set and its two invariants, pure inner twisting, small bundle stacks, full automorphism v-groups, strata and filtered-bundle charts. In **BunGAndNewtonStrata**, §§2.8, 2.11–2.23, modifying the trivial target by the orbit `μ(ξ)` must give `κ=+μ♯`, image contained in `B(G,μ)`, and equality for minuscule `μ`; inversion supplies the `B(G,μ⁻¹)` dictionary. For a general target `𝓔_b`, retain the relative identity `κ(𝓔_x)=κ(𝓔_b)+μ♯`. The bundle-stack and modification comparison for every finite separable extension, including ramified extensions, is a target of HS4.5. |
 | **BunGAndNewtonStrata**, §§3.1–3.11 and 4.1–4.7 | Parabolic bundle charts, full automorphism groups and the HN reduction. The relative HN dimension and unipotent-fibre statements of [GL], Theorem 2.13, Proposition 2.15 and Lemma 3.3, are proved in HS2.15 using these charts. Bounded preservation of sufficiently unstable HN reductions is proved in HS4.6. |
 | **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”, **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags” | Ordered-leg Schubert bounds, finite `dim.trg`, proper surjective bounded convolution, and factorization off the diagonals. The Białynicki-Birula map descends to reflex fields, is equivariant under reduction of positive loops, is an isomorphism for minuscule classes, and is a bijection on points over finite extensions of `F̆`. |
-| **GeometricSatakeAndFusion**, GS1, **GeometricSatakeAndFusion**, GS2, “Proper correspondences and rational semismallness”, **GeometricSatakeAndFusion**, GS3, **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | ULA recognition and duality; equivariant Demazure spaces with proper, spatial, finite-dimensional maps; the Demazure spaces used to prove generation **on the solid-dual side under arbitrary colimits** in HS1.4; convolution and coherent fusion. On chain spaces the twisted product is flat perverse and ULA with its specified extension from disjoint legs. The normalized integral Satake functor has its enhanced perfect-complex extension, the perfect-complex extension needed for HS1.0’s bounded-weight resolution convergence, and naturality for adjoint maps, products, Levi maps and Weil restriction. |
+| **GeometricSatakeAndFusion**, GS1, **GeometricSatakeAndFusion**, GS2, “Proper correspondences and rational semismallness”, **GeometricSatakeAndFusion**, GS3, **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | ULA recognition and duality; equivariant Demazure spaces with proper, spatial, finite-dimensional maps; the equivariant Demazure spaces used in HS1.1’s `solidDualDemazureGeneration`, whose generation assertion is proved here; convolution and coherent fusion. On chain spaces the twisted product is flat perverse and ULA with its specified extension from disjoint legs. The normalized integral Satake functor has its enhanced perfect-complex extension, the perfect-complex extension needed for HS1.0’s bounded-weight resolution convergence, and naturality for adjoint maps, products, Levi maps and Weil restriction. |
 | **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | Pullback to `Div¹_F` corresponds to restriction from `W_E` to `W_F`, including the action of all endomorphisms and idempotent summands. For residue degree `f`, the square root is `r^f`. Weil restriction pushes the inflated then induced representation's Satake sheaf forward along the corresponding closed immersion and finite étale leg map. Choosing the other square root changes the comparison by the unramified sign character on components of odd `⟨2ρ,μ⟩`. |
-| **GeometricSatakeAndFusion**, GS4, `representationComplexInterface` and `perfectSatakeFunctor`; **LanglandsParameterStacks**, §LP3.0 | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. |
+| **GeometricSatakeAndFusion**, GS4, `representationComplexInterface` and `perfectSatakeFunctor`; **LanglandsParameterStacks**, §LP3.0 | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional tensor-generator, exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. |
 | **VStackSheavesAndLisseCategories**, VS0–VS5 | Artin-stack sheaves; divisor–Weil maps and the Drinfeld fully faithful embedding; solid operations and relative homology with base change, projection formula, and an isomorphism for restriction of coefficients; lisse categories, geometric invariance and stratum adjoints; compact generation, ULA/admissibility, lisse and BZ duality, and Künneth. The chart calculation comparing cohomology with `[*/K]` is required as an identity of condensed objects for every profinite parameter space. On classifying stacks relative homology is compact induction, with its level units and counits. Stratum extension by zero, excision, compactness and its dualizing-complex formula are required in addition to the left adjoint of stratum restriction. |
 | **VStackSheavesAndLisseCategories**, VS0 | For torsion coefficients, the smooth stacky map `π:Bun_P^(b_N)→Bun_M^(b_M)` has exceptional direct image inverse to the section's exceptional direct image, with composition and representable base change. Its classifying-stack fibres make the representable diamond formalism alone insufficient. The stacky dimension bounds in [GL], §2, require the fine-morphism formalism, or proofs through atlases giving those same bounds. |
 | **SmoothRepresentationsOfLocalGroups**, §§SR.0d.1–SR.0d.2, **SmoothRepresentationsOfLocalGroups**, SR.1, **SmoothRepresentationsOfLocalGroups**, SR.2, **SmoothRepresentationsOfLocalGroups**, SR.3, **SmoothRepresentationsOfLocalGroups**, SR.6 | Enhanced derived smooth representations, exact pro-`p` invariants commuting with filtered colimits, admissible reflexive smooth duals, compact projective compact inductions, derived reciprocity and level trace identities. For `ℚ̄_ℓ`, use noetherianity, finite global dimension, admissibility of irreducibles, and finite length of finitely generated admissible objects. For integral finite generation use [DHKM], Theorem 1.1 and Corollary 1.4, rather than extrapolating the characteristic-zero statements. |
@@ -179,7 +184,7 @@ on the complete contract.
 | **AdicEtaleGeometry**, A2, **AdicSpacesPartII**, R0 | Smooth projective varieties analytify to smooth proper rigid spaces; spaces étale over smooth rigid spaces are smooth rigid spaces of the same dimension; finite étale covers remain rigid; partial properness follows from the diamond valuative criterion for separated analytic spaces locally of finite type. |
 | **PadicHodgeTheory**, §§0.1, 3.2–3.5 and 7.1 | Tate's invariants and twist vanishing, Galois-stable `B^+_dR`-lattices versus filtrations; for crystalline/weakly admissible tensor comparison over finite extensions of `F̆`, use **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.3.3 and R07.4.13, in its general perfect-residue-field frame. These fields need not be finite over `ℚ_p`. Use `D_cris(ℚ_p(1))=(ℚ̆_p,p⁻¹σ)`. Slope zero becomes triviality of a `G`-bundle only after its Kottwitz invariant also vanishes. |
 | **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7, **DiamondSixOperations**, S0–**DiamondSixOperations**, S5, **AdicCoefficientsAndComparisons**, L0 | Compactifications, proper-support direct image, finite étale traces, and compatible adic limits. The cross-theory contract identifies classical and diamond compact support on every quasicompact open of a separated taut rigid space, naturally in the torsion coefficients and traces. For a smooth map of pure dimension `d`, require the canonical dualizing isomorphism `Rf^!Λ=Λ(d)[2d]`. Equivalence of étale sites alone supplies neither comparison. |
-| **EndoscopicTransferAndUnitaryTraceComparison**, §§12.3–12.8; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2; **AInfCohomology**, AI.2 | Independent Lubin–Tate and Drinfeld spaces, level towers and period maps; the specified unramified PEL deformation space; covariant Dieudonné and Grothendieck–Messing theory; Breuil–Kisin–Fargues lattice/modification comparison. General `GL_n`, ramified EL/PEL and non-hyperspecial parahoric representability, the `A_cris` comparison over `O_C/p`, and punctured-`A_inf` parahoric torsor extension are explicit hypotheses in HS3.9. The further comparison between the `E′`-linear Weil-restriction tower and `E′`-shtukas is also stated there with its coefficient-field compatibility hypotheses. |
+| **EndoscopicTransferAndUnitaryTraceComparison**, §§12.3–12.8 and §12.17; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2; **AInfCohomology**, AI.2 | Independent Lubin–Tate and Drinfeld spaces, level towers and period maps, and their classical diamond/modification comparison at all levels with both periods, actions, Tate local system and Weil descent; the specified unramified PEL deformation space; covariant Dieudonné and Grothendieck–Messing theory; Breuil–Kisin–Fargues lattice/modification comparison. General `GL_n`, ramified EL/PEL and non-hyperspecial parahoric representability, the `A_cris` comparison over `O_C/p`, and punctured-`A_inf` parahoric torsor extension are explicit hypotheses in HS3.9. The further comparison between the `E′`-linear Weil-restriction tower and `E′`-shtukas is also stated there with its coefficient-field compatibility hypotheses. |
 
 Additional geometric and finiteness hypotheses are needed where they occur below.
 For connectedness and density, use a theorem about removing a closed subset
@@ -442,16 +447,17 @@ divisors satisfy
 or `c_1(𝓔_1)-c_1(𝓔_2)=-∑_xμ_x^♯`.
 For split bounded substacks the Kottwitz change is `∑_iμ_i^♯`.
 
-For basic `b`, construct the pure inner-form equivalence
-`τ_b:Bun_G≃Bun_(G_b)` from the
-`𝓔_b`-isomorphism torsor. It sends a modification to the one
-induced contravariantly by its inverse, and carries the cocharacter class
-through the inner-form dictionary without changing its bound. Check
-compatibility with every Hecke operation. For nonbasic `b`, `G_b`
+For basic `b`, import `τ_b:Bun_G≃Bun_(J_b)` from
+**BunGAndNewtonStrata**, §1.19, using its §0.7 isomorphism-torsor
+and inverse-precomposition conventions. Extend this supplied equivalence
+to Hecke stacks and chains. Carry the cocharacter class through the
+inner-form dictionary without changing its bound, and prove compatibility
+with localization, source and target, units, inversion, finite-set maps
+and chain composition. For nonbasic `b`, `G_b`
 is a form of a proper Levi and this equivalence is not asserted. Use the
 supplier's Beauville–Laszlo sign and inversion dictionary specified above.
 
-*Needs:* [HS0.1](#hs0-1), [HS0.2](#hs0-2), [HS0.4](#hs0-4); **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, Layer 0; **BunGAndNewtonStrata**, Layer 1; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
+*Needs:* [HS0.1](#hs0-1), [HS0.2](#hs0-2), [HS0.4](#hs0-4); **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, §§0.7 and 1.19; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VectorBundlesAndIsocrystals**, VB3, “Basic section sheaves, Lubin–Tate geometry and projectivization”.
 
 (Sources: [FS], III.4, Corollary III.4.3, p. 101; III.4, Proposition III.4.2, p. 101; III.4, Proposition III.4.1(ii), p. 100; IX.6.4, p. 333; IX.6, proof of Theorem IX.6.1, p. 331; III.3, Proposition III.3.6(ii), p. 100; III.2.2, p. 91; II.2, proof of Proposition II.2.3, p. 61; IX.7, p. 337; [SW], Lecture 23, proof of Corollary 23.3.2, p. 219; Lecture 24, Definition 24.1.1 and Proposition 24.1.2, p. 225.)
 
@@ -486,6 +492,38 @@ the convergence used to pass from exterior products to general kernels.
 There is no restriction on torsion in `π₁(Ĝ)`, on `|Q|`, or on solvability
 of `Q`. The intended interfaces are `integralExteriorGeneration`,
 `boundedWeightExteriorResolution` and `satakeResolutionConvergence`.
+
+**Integral tensor generator** (`integralTensorGenerator`). Construct a finite-projective
+representation `U` of `Ĝ⋊Q` over `Z_ℓ[r]` such that, after every coefficient
+change to `Λ`, every finite-projective representation is generated by the
+nonnegative tensor powers of `U_Λ` using finite sums, retracts, extensions
+and bounded-weight resolutions with the convergence specified above.
+Include the tensor unit as the zeroth power. Prove naturality under coefficient
+change; a single integral choice of `U` works for every `Λ`.
+
+Use a faithful integral representation, the sum of its `Q`-conjugates
+with its dual, and the regular `Q`-representation. Prove the required
+finite-projective comodule resolutions from matrix coefficients of its tensor powers, integral induced/Weyl-module
+and good-filtration theory, and bounded-weight highest-weight resolutions.
+Track the weight bounds and the Satake colimit comparison; ordinary
+subquotient tensor generation alone does not give this assertion.
+
+(Source: [FS], proof of Proposition IX.5.1, p. 328, the tensor-generator
+reduction; IX.2, pp. 321–323, for the integral resolution inputs.)
+
+**Checks.**
+
+- `integralTensorGenerator.torus_test`: For `Ĝ=G_m` and `Q=1`,
+  take `U=χ_1⊕χ_{−1}`. Both positive and negative characters occur in
+  tensor powers; `χ_1` alone cannot generate `χ_{−1}` by these operations.
+- `integralTensorGenerator.modular_Q_test`: For `Ĝ=1` and `ℓ∣|Q|`,
+  the regular representation gives bounded-weight resolutions without a
+  semisimplicity assumption; their left tails need not terminate.
+- `integralTensorGenerator.coefficient_test`: For a coefficient algebra
+  `Λ` with a nonfree finite projective module cut out by an idempotent,
+  trivial group action is recovered as a retract of finite sums of `U^⊗0`.
+
+The exterior-product and convergence targets have the following checks.
 
 **Checks.**
 
@@ -546,6 +584,39 @@ Provide the following API.
 - `globalKernel.torus_test`: For `G=G_m`, `I` a singleton and `V_n` the character `z↦zⁿ` of `Ĝ=G_m: S′_{V_n}` is the constant sheaf `Λ` in degree `0`, extended by zero, on the open and closed substack of `Hck_{G_m}` of modifications `L_1⇢L_2` with `deg L_2−deg L_1=n`, that is `L_1=L_2(−nD)`, the modifications of position `n` in the normalisation of HS0.2; and `S′_{V_n}⋆S′_{V_m}≅S′_{V_{n+m}}`.
 - `globalKernel.weil_character_test`: For `U∈Rep_Λ(Q^I)` inflated to `(Ĝ⋊Q)^I: S′_U≅δ_♮(pr_2^*L_U)` with `L_U` the local system on `(Div¹)^I` attached to `U`. Its pullback to `Spd C→(Div¹)^I` is `δ_♮` of a constant sheaf, but `L_U` is a constant local system on `(Div¹)^I` only if `Q^I` acts trivially on `U`.
 - `globalKernel.covariance_test`: For `I` a singleton and `V∈Rep_Λ(Ĝ⋊Q)` the coevaluation `1→V⊗V∨` induces a map `δ_♮Λ→S′_V⋆S′_{V∨}` and the evaluation `V∨⊗V→1` a map `S′_{V∨}⋆S′_V→δ_♮Λ`, and these satisfy the two triangle identities.
+
+**Solid-dual Demazure generation** (`solidDualDemazureGeneration`). At a geometric
+one-leg base `Spd C`, every kernel `D(S_V)^∨`, with
+`V∈Rep_Λ(Ĝ)`, lies in the localizing subcategory of the enhanced local
+Hecke category generated by the solid-dual equivariant Demazure kernels
+`(Rf_(w*)Λ)^∨≃f_(w♮)Λ`. Use the equivariant quotient charts and their
+relative dualizing normalizations; extend to multiple legs by HS1.0 and
+convolution. The assertion holds for every coefficient algebra in the
+conventions and every `ℓ≠p`.
+
+Use the supplier's equivariant Demazure resolutions, proper spatial maps
+of finite `dim.trg`, ULA recognition and relative Verdier duality. Prove
+the generation directly after solid duality using bounded-support and
+Postnikov constructions, the proper duality comparison of [FS], VII.4.3,
+and coefficient extension. Contravariant duality alone does not transfer
+colimit generation. This is the generation input to HS1.4.
+
+(Sources: [FS], Proposition IX.2.1 and its proof, p. 322; Proposition
+VII.4.3, p. 263.)
+
+*Needs:* HS1.0; **GeometricSatakeAndFusion**, GS0–GS2; **VStackSheavesAndLisseCategories**, VS1–VS2.
+
+**Checks.**
+
+- `solidDualDemazureGeneration.torus_test`: Assume `Λ≠0`. For a split torus each
+  character gives its own point kernel, and generation preserves the
+  character component; a nonzero character is not generated on the zero component.
+- `solidDualDemazureGeneration.minuscule_test`: For `G=PGL₂` and its
+  minuscule bound, the Satake kernel is the shifted Demazure generator
+  `Λ[−1](−1/2)` on the `P¹` chart, rather than `Λ[1](1/2)`.
+- `solidDualDemazureGeneration.torsion_prime_test`: For `G=SL₂` and
+  `ℓ=2≠p`, localizing generation still holds; it requires neither an
+  Iwahori retract nor division by a Weyl-group order.
 
 <a id="hs1-2"></a>
 
@@ -618,6 +689,24 @@ the monoidal action on the solid category over `Spd C`.
 
 (Sources: [FS], IX.2, p. 321; VII.5, p. 267; Theorem IX.2.2, proof, p. 323; VI.9, p. 226.)
 
+**Checks.** Each named assertion is a theorem target for the enhanced
+kernel construction.
+
+- `kernelConvolution.order_test`: Assume `Λ≠0`. On the analytic affine plane, let
+  `f(x,y)=(x+y,y)` and `g(x,y)=(x,y+x)`, with graph kernels
+  `K_f=(Γ_f)_♮Λ`, `K_g=(Γ_g)_♮Λ`. Their convolution acts as
+  `Φ_(K_g)∘Φ_(K_f)`: the point kernel at `(1,0)` goes to `(1,1)`.
+  Reversing the kernels sends it to `(2,1)`.
+- `kernelConvolution.diagonal_test`: On `X=(P¹_C)^♦`, with
+  nonzero `ℓ`-power torsion coefficients, the unit kernel is
+  `Δ_♮Λ≃Δ_*Λ[−2](−1)` by diagonal purity. Its operator is identity;
+  the unshifted `Δ_*Λ` instead acts by `[2](1)`.
+- `kernelConvolution.collision_test`: For nonzero `ℓ`-power torsion `Λ`, `GL₂` and two minuscule
+  types `(1,0)` at the same leg, the composition fibre over
+  `ξ(B⁺_dR)²` is `P¹`. The torsion Satake convolution stalk there is
+  `RΓ(P¹,Λ)[2](1)`; the cyclic length-two quotient has a single
+  intermediate lattice. Both summands from `P¹` must be retained.
+
 <a id="hs1-4"></a>
 
 ### HS1.4 — Lisse preservation through Demazure generators
@@ -634,12 +723,13 @@ geometric operator after forgetting the Weil action.
 Build the global Demazure correspondences from the local equivariant ones:
 they are proper and spatial over the target bundle and cohomologically
 smooth over the source bundle. Use the generation of dual ULA kernels
-under colimits and the all-prime integral tensor-generation contract to
+under colimits in `solidDualDemazureGeneration` of HS1.1 and the all-prime
+integral tensor-generation contract to
 deduce lisse preservation. Finite-colimit generation with an Iwahori
 retract is insufficient at torsion primes, so do not introduce a good-prime
 assumption to bypass the required colimit argument.
 
-*Needs:* [HS1.0](#hs1-0), [HS1.2](#hs1-2), [HS1.3](#hs1-3); **GeometricSatakeAndFusion**, GS1; **VStackSheavesAndLisseCategories**, VS3; **ReductiveGroups**, Layer 9; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS4; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”.
+*Needs:* [HS1.0](#hs1-0), [HS1.1](#hs1-1), `solidDualDemazureGeneration`, [HS1.2](#hs1-2), [HS1.3](#hs1-3); **GeometricSatakeAndFusion**, GS1; **VStackSheavesAndLisseCategories**, VS3; **ReductiveGroups**, Layer 9; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS4; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”.
 
 (Sources: [FS], Proposition IX.2.1, p. 322; Proposition IX.2.1, proof, p. 322; Proposition VII.4.3, p. 263; Proposition VII.7.3, p. 273.)
 
@@ -832,7 +922,7 @@ give its map to the product of reflex bases. Changing the framing by
 `J_b(ℚ_p)`-action. Retain the framing in the definition;
 without it the moduli problem has automorphisms.
 
-*Needs:* [HS0.5](#hs0-5); **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, Layer 0; `WittVector.Isocrystal`; `TauCeti.AffineGroupSchemeCat`; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§4.6–4.13; **RelativeFarguesFontaine**, §§1.1–1.3.
+*Needs:* **EndoscopicTransferAndUnitaryTraceComparison**, §12.17; [HS0.5](#hs0-5); **RelativeFarguesFontaine**, §§7.0–7.7; **BunGAndNewtonStrata**, Layer 0; `WittVector.Isocrystal`; `TauCeti.AffineGroupSchemeCat`; **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”; **RelativeFarguesFontaine**, §§0.18–0.20; **RelativeFarguesFontaine**, §§4.6–4.13; **RelativeFarguesFontaine**, §§1.1–1.3.
 
 (Sources: [SW], Definition 23.1.1, p. 216; Definition 23.1.1, p. 217; Remark 23.1.3, p. 217; sentence after Theorem 23.1.4, p. 217; Proposition 19.5.3, p. 180; proof of Proposition 23.4.2, p. 222.)
 
@@ -855,7 +945,7 @@ Provide the following API.
 - `ShtukaDatum.noLegs_trivial_test`: For `m = 0` and `b = 1: Sht_{𝒢,1,∅} ≅ underline{G(Q_p)/𝒢(Z_p)} × Spd k`, the constant sheaf on a discrete set; for `𝒢 = GL_n` this set is the set of `Z_p`-lattices in `Q_p^n` and for `𝒢 = G_m` it is `Q_p^×/Z_p^× ≅ Z`.
 - `ShtukaDatum.noLegs_nontrivial_test`: For `m = 0`, `𝒢 = G_m` and `b = p: Sht_{G_m,p,∅} = ∅`.
 - `ShtukaDatum.gm_oneLeg_test`: For `𝒢 = G_m`, one leg with `μ(z) = z^d (d ∈ Z)` and `b ∈ L^×: Sht_{G_m,b,μ}` is empty unless `v_p(b) = −d`; if `v_p(b) = −d`, the period map `Sht_{G_m,b,μ} → Gr_{G_m,Spd Q̆_p,≤μ} = Spd Q̆_p` is surjective and each of its geometric fibres is `Q_p^×/Z_p^× ≅ Z`. For `d = 1: b = p⁻¹` gives a non-empty space and `b = p` the empty one.
-- `ShtukaDatum.lubinTate_test`: For `𝒢 = GL_2`, `μ = (1,0)` and `b` the matrix with rows `(0,1)`, `(p⁻¹,0)` (basic, `κ(b) = v_p(det b) = −1`): `Sht_{GL_2,b,μ}` is isomorphic over `Spd Q̆_p` to the diamond of the generic fibre of the Rapoport–Zink space of the one-dimensional formal group of height `2` over `k` (Scholze–Weinstein, Theorem 24.2.5), that is, of a disjoint union indexed by `Z` of open unit discs over `Q̆_p`; its period map to `Gr_{GL_2,Spd Q̆_p,≤μ} = (P¹_{Q̆_p})^◇` is surjective with geometric fibres `GL_2(Q_p)/GL_2(Z_p)`.
+- `ShtukaDatum.lubinTate_test`: Applying **EndoscopicTransferAndUnitaryTraceComparison**, §12.17, for `𝒢 = GL_2`, `μ = (1,0)` and `b` the matrix with rows `(0,1)`, `(p⁻¹,0)` (basic, `κ(b) = v_p(det b) = −1`): `Sht_{GL_2,b,μ}` is isomorphic over `Spd Q̆_p` to the diamond of the generic fibre of the Rapoport–Zink space of the one-dimensional formal group of height `2` over `k` (Scholze–Weinstein, Theorem 24.2.5), that is, of a disjoint union indexed by `Z` of open unit discs over `Q̆_p`; its period map to `Gr_{GL_2,Spd Q̆_p,≤μ} = (P¹_{Q̆_p})^◇` is surjective with geometric fibres `GL_2(Q_p)/GL_2(Z_p)`.
 - `ShtukaDatum.coincident_legs_test`: For `𝒢 = G_m`, two legs with `μ_1(z) = z`, `μ_2(z) = z⁻¹` and `b = 1`: the restriction of `Sht_{G_m,1,(μ_1,μ_2)}` to the diagonal `Spd Q̆_p → Spd Q̆_p ×_{Spd k} Spd Q̆_p` is `underline{Q_p^×/Z_p^×} × Spd Q̆_p`; the bound at the coincident leg is `μ_1 + μ_2 = 0`, so `φ_P` extends to an isomorphism across the leg and the no-leg computation applies.
 - `ShtukaDatum.nonminuscule_test`: For `𝒢 = GL_2`, `μ = (2,0)` and `b = p⁻¹·1_2: Sht_{GL_2,b,μ}` is non-empty, and the fibre of its period map over each geometric point of the closed stratum `Gr_{GL_2,(1,1)} ⊂ Gr_{GL_2,Spd Q̆_p,≤(2,0)}` is `GL_2(Q_p)/GL_2(Z_p)`. The target `Gr_{GL_2,≤(2,0)}` is the union of the `2`-dimensional cell `Gr_{(2,0)}` and the point `Gr_{(1,1)}`; it is not the diamond of a flag variety of `GL_2` (a point or `P¹`).
 - `ShtukaDatum.boundDirection_test`: For `𝒢 = G_m`, one leg, `μ(z) = z` and `b = p⁻¹`: for every point `(P, S♯, φ_P, ι)` the framing identifies `P|_{Y_(0,∞)(S)}` with the ideal sheaf of the divisor `⋃_{n≥0} φ^{−n}(S♯)` in `O_{Y_(0,∞)(S)}`, with `φ_P` induced by `p⁻¹·Frob_S`; so `φ_P⁻¹` is an inclusion `P ↪ Frob_S^*P` with cokernel `O_{S♯}`, and `φ_P` has a simple pole along `S♯`. The functor defined with `inv(Frob_S^*P, P, φ_P) ≤ μ` in place of `inv(P, Frob_S^*P, φ_P⁻¹) ≤ μ` is `Sht_{G_m,b,μ⁻¹}`, which is empty for `b = p⁻¹` and non-empty for `b = p`.
@@ -1183,7 +1273,7 @@ The nonempty tower is the local Shimura variety. For non-minuscule
 `μ`, the Białynicki-Birula map is not an isomorphism, and this
 construction supplies no rigid model.
 
-*Needs:* [HS2.5](#hs2-5), [HS2.6](#hs2-6); **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **DiamondsAndVStacks**, D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0.
+*Needs:* **EndoscopicTransferAndUnitaryTraceComparison**, §12.17; [HS2.5](#hs2-5), [HS2.6](#hs2-6); **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags”; **DiamondsAndVStacks**, D6; **AdicEtaleGeometry**, A2; **AdicSpacesPartII**, R0.
 
 (Sources: [SW], Definition 24.1.1, p. 225; Proposition 24.1.2, p. 225; 24.1, after Proposition 24.1.2, p. 225; Definition 24.1.3, p. 226; Theorem 10.4.2, p. 81; Proposition 19.4.2, pp. 176–177; Lemma 19.1.4, p. 171; 24.2, after the proof of Theorem 24.2.5, p. 229; [FS], IX.3, before Theorem IX.3.1, p. 324.)
 
@@ -1199,11 +1289,11 @@ Provide the following API.
 - `Rigidification.heckeAction`: For `g ∈ G(Q_p)`: an isomorphism `M_{G,b,μ,K} ≅ M_{G,b,μ,gKg⁻¹}` over `Fl_{G,μ,F̆}`, whose diamond is the isomorphism `α ↦ α∘g⁻¹` of HS2.6, compatible with transition maps and with products in `G(Q_p)`.
 - `Rigidification.framingAction`: `J_b(Q_p)` acts on `M_{G,b,μ,K}`, commuting with the Hecke action and the transition maps, and `π_K` is equivariant for the action of `J_b(Q_p) ⊂ G(Q̆_p) ⊂ G(F̆)` on `Fl_{G,μ,F̆}`.
 - `Rigidification.nonempty_iff`: `M_{G,b,μ,K} ≠ ∅` if and only if `[b] ∈ B(G,μ⁻¹)`.
-- `Rigidification.lubinTate`: For `G = GL_n`, `μ = (1,0,…,0)` and `b` basic with `E_b ≅ O(1/n): M_{GL_n,b,μ,GL_n(Z_p)}` is the generic fibre `∐_{h∈Z} D̊^{n−1}` of the Lubin–Tate deformation space with quasi-isogeny, and `π` is the Gross–Hopkins period map onto `P^{n−1}`.
+- `Rigidification.lubinTate`: Applying **EndoscopicTransferAndUnitaryTraceComparison**, §12.17, for `G = GL_n`, `μ = (1,0,…,0)` and `b` basic with `E_b ≅ O(1/n): M_{GL_n,b,μ,GL_n(Z_p)}` is the generic fibre `∐_{h∈Z} D̊^{n−1}` of the Lubin–Tate deformation space with quasi-isogeny, and `π` is the Gross–Hopkins period map onto `P^{n−1}`.
 
 **Checks.**
 
-- `Rigidification.lubin_tate_test`: For `G = GL_2`, `μ = (1,0)` and `b` the basic class with `κ(b) = −1` (`E_b ≅ O(1/2)`; `b` is the Frobenius of the covariant Dieudonné module of the formal group of height `2` and dimension `1` in the normalisation of Scholze–Weinstein, in which `μ_{p^∞}` has Frobenius `p⁻¹σ`): `M_{GL_2,b,μ,GL_2(Z_p)} ≅ ∐_{h∈Z} D̊` with `D̊` the open unit `disc` over `Q̆_p`; `π: M → P¹_{Q̆_p}` is surjective with every geometric fibre in bijection with `GL_2(Q_p)/GL_2(Z_p)`; and for `m ≥ 1` the map `M_{GL_2,b,μ,1+p^mM_2(Z_p)} → M_{GL_2,b,μ,GL_2(Z_p)}` is finite étale of degree `p^{4(m−1)}(p²−1)(p²−p)`.
+- `Rigidification.lubin_tate_test`: Applying **EndoscopicTransferAndUnitaryTraceComparison**, §12.17, for `G = GL_2`, `μ = (1,0)` and `b` the basic class with `κ(b) = −1` (`E_b ≅ O(1/2)`; `b` is the Frobenius of the covariant Dieudonné module of the formal group of height `2` and dimension `1` in the normalisation of Scholze–Weinstein, in which `μ_{p^∞}` has Frobenius `p⁻¹σ`): `M_{GL_2,b,μ,GL_2(Z_p)} ≅ ∐_{h∈Z} D̊` with `D̊` the open unit `disc` over `Q̆_p`; `π: M → P¹_{Q̆_p}` is surjective with every geometric fibre in bijection with `GL_2(Q_p)/GL_2(Z_p)`; and for `m ≥ 1` the map `M_{GL_2,b,μ,1+p^mM_2(Z_p)} → M_{GL_2,b,μ,GL_2(Z_p)}` is finite étale of degree `p^{4(m−1)}(p²−1)(p²−p)`.
 - `Rigidification.orientation_test`: For `G = GL_2`, the same `b (E_b ≅ O(1/2), κ(b) = −1)` and the cocharacter `μ⁻¹ = (0,−1)` in place of `μ = (1,0)`: the condition for `(G, b, μ⁻¹)` is `[b] ∈ B(G,μ)`, which fails since `κ(b) ≠ 1`, and `M_{GL_2,b,μ⁻¹,K}` is empty for every `K`.
 - `Rigidification.torus_test`: For `G = G_m`, `μ = id` and `b = p⁻¹: Fl_{G_m,μ}` is a point, `M_{G_m,b,μ,Z_p^×} ≅ ∐_Z Spa Q̆_p` and `M_{G_m,b,μ,1+p^mZ_p} ≅ ∐_Z Spa Q̆_p(ζ_{p^m})` for `m ≥ 1`; for `p^m > 2` this is not the constant space `(Q_p^×/(1+p^mZ_p)) × Spa Q̆_p`.
 - `Rigidification.dimension_test`: For `G = GL_n`, `μ = (1^d,0^{n−d})` and `[b] ∈ B(G,μ⁻¹): M_{GL_n,b,μ,K}` is smooth of pure dimension `d(n−d) = ⟨2ρ,μ⟩ = dim Gr(d,n)`.
@@ -1252,7 +1342,7 @@ Provide the following API.
 **Checks.**
 
 - `admissiblePeriodTorsor.trivial_datum_test`: For `μ = 0: Gr_{≤0} = Spd Q̆_p`; for `b = 1`, `𝕃_1 = G(Q_p) × Spd Q̆_p` with `G(Q_p)` acting by right translation and `J_1(Q_p) = G(Q_p)` by left translation; for `[b] ≠ 1` the admissible locus and `𝕃_b` are empty.
-- `admissiblePeriodTorsor.cyclotomic_test`: For `G = G_m`, `μ = id` and `b = p⁻¹: Gr^a_{≤μ} = Spd Q̆_p`, `𝕃_b ×^{Q_p^×} Q_p ≅ Q_p(1)`, the character of `Gal(Q̄_p/Q̆_p)` defined by `𝕃_b` is the cyclotomic character, `D_cris(Q_p(1)) = (Q̆_p, p⁻¹σ)`, and `𝕃_b/(1 + p^mZ_p) ≅ Z × Spd Q̆_p(ζ_{p^m})` for `m ≥ 1`.
+- `admissiblePeriodTorsor.cyclotomic_test`: For `G = G_m`, `μ = id` and `b = p⁻¹: Gr^a_{≤μ} = Spd Q̆_p`, `𝕃_b ×^{Q_p^×} Q_p ≅ Q_p(1)`, the character of `Gal(\overline{\breve{\mathbb Q}_p}/\breve{\mathbb Q}_p)` defined by `𝕃_b` is the cyclotomic character (take the algebraic closure of `Q̆_p` inside the chosen completed algebraically closed field `C`), `D_cris(Q_p(1)) = (Q̆_p, p⁻¹σ)`, and `𝕃_b/(1 + p^mZ_p) ≅ Z × Spd Q̆_p(ζ_{p^m})` for `m ≥ 1`.
 - `admissiblePeriodTorsor.tate_module_test`: For `G = GL_n`, `μ = (1^d,0^{n−d})` and `b` the Frobenius of the covariant Dieudonné module of a `p`-divisible group `X` of dimension `d` and height `n`, in the normalisation of Scholze–Weinstein in which `μ_{p^∞}` has Frobenius `p⁻¹σ`: the pullback of `𝕃_b ×^{GL_n(Q_p)} Q_p^n` to the generic fibre of the Rapoport–Zink space of `X` is the rational Tate module of the universal `p`-divisible group, and the lattice defining the map to `Sht_{GL_n,b,μ,GL_n(Z_p)}` is its Tate module.
 - `admissiblePeriodTorsor.level_test`: For `K ⊂ G(Q_p)` compact open the fibre of `𝕃_b/K = Sht_{G,b,μ,K}` over a geometric point of `Gr^a_{≤μ}` is `G(Q_p)/K`, and pro-étale locally on `S → Gr^a_{≤μ}` the pullback of `𝕃_b/K` is `S × G(Q_p)/K`.
 - `admissiblePeriodTorsor.boundary_test`: For `G = GL_2`, `μ = (2,0)` and `b = p⁻¹·1`: the closed stratum `Gr_{(1,1)} = Spd Q̆_p` lies in `Gr^a_{≤μ}`, and `𝕃_b` restricts to it as the torsor of bases of `Q_p(1)²`, of type `μ′ = (1,1)` in the sense of `(4)` and not of type `μ = (2,0)`.
@@ -1478,7 +1568,7 @@ new base point's algebra structure. Its inverse first translates by
 `b_f⁻¹` and then applies inverse base Frobenius. A descent
 datum need not be effective over `Spd F`. Over a complete
 algebraic closure `C/F`, the Weil torsor action is
-`τ∘Frob^(-degτ)`; it supplies the commuting
+`τ∘Frob^(-deg_ar(τ))`; it supplies the commuting
 `W_F`-action on geometric levels. For several legs the comparison
 with the ordinary modification quotient holds off the nontrivial
 Frobenius diagonals only, and does not give descent of the entire
@@ -1488,6 +1578,25 @@ shtuka space along the product of divisor quotients.
 
 (Sources: [FS], IX.3, before Theorem IX.3.1, p. 324; IX.3, proof of Proposition IX.3.2, pp. 326–327; IV.7, before Proposition IV.7.1, p. 164; Corollary II.2.4, p. 61; [SW], Proposition 23.3.1 and its proof, p. 218.)
 
+Define `rec_HS:W_E→E^×` by the action on the geometric component
+torsor of the `G_m`, `μ=id`, `b=π⁻¹` tower: `γ(s)=s·rec_HS(γ)`,
+where `s·a` multiplies the section of `O(1)` by `a`. This is the right
+frame action; the source group's left action is its inverse. Prove that
+`rec_HS|_(I_E)` is the Lubin–Tate character and
+`v_π(rec_HS(γ))=−deg_ar(γ)`. With the component index of the Check below,
+a scalar `a` changes `m` to `m−v_π(a)`, and an arithmetic degree-one
+Weil element changes `m` to `m+1`. For the Frobenius lift fixing the chosen
+Lubin–Tate extension, its image is `π⁻¹`.
+
+Prove `rec_HS:W_E^ab≃E^×` as a topological isomorphism, where
+`W_E^ab` is the quotient by the closure of the commutator subgroup. For finite
+extensions of `ℚ_p`, compare with the supplied arithmetic
+`localWeilArtinEquiv` by
+`rec_HS(γ)=(localWeilArtinEquiv.symm([γ]))⁻¹`.
+For every local field the Lubin–Tate unit action and this height action
+fix both parts of the normalization. ([FS], Corollary II.2.4 and the
+following reciprocity discussion, p. 61; IV.7, p. 164.)
+
 Provide the following API.
 
 - `WeilDescent.modificationSpace`: `M_{(G,b,μ),K} → Spd F̆/φ_F^Z`: the sheaf of triples `(D, α, 𝒫)` with `D` a point of `Spd F̆/φ_F^Z`, viewed as a degree-one Cartier divisor of `X_S`, `α: E ≅ E_b` a modification at `D` bounded by `μ` with `E` trivial at geometric points, and `𝒫` a `K`-lattice in `Isom(E_1, E)`.
@@ -1495,7 +1604,7 @@ Provide the following API.
 - `WeilDescent.datum`: The automorphism `ψ_K = id × φ_F` of `Sht_{(G,b,μ),K}`, covering `φ_F`, with `ψ_K^n = id × φ_F^n` for `n ∈ Z`; equivalently the isomorphisms `w_K^{(n)}: (φ_F^n)^*Sht_{(G,b,μ),K} ≅ Sht_{(G,b,μ),K}` over `Spd F̆` with inverse `y ↦ (ψ_K^n(y), f_K(y))`, which satisfy `w_K^{(m+n)} = w_K^{(m)} ∘ (φ_F^m)^*w_K^{(n)}`; `w_K = w_K^{(1)}`.
 - `WeilDescent.datum_natural`: `w_K` commutes with the transition maps `Sht_{(G,b,μ),K′} → Sht_{(G,b,μ),K}`, with the isomorphisms induced by `g ∈ G(E)`, and with the action of `J_b(E)`.
 - `WeilDescent.datum_period`: `π_K ∘ ψ_K = ψ_Gr ∘ π_K` and `π_K ∘ w_K = w_Gr ∘ φ_F^*π_K`, where `ψ_Gr` is the automorphism of `Gr_{G,Spd F̆,≤μ}` covering `φ_F` induced by the Frobenius structure of `E_b` and `w_Gr` the corresponding isomorphism `φ_F^*Gr_{G,Spd F̆,≤μ} ≅ Gr_{G,Spd F̆,≤μ}: ψ_Gr` is the canonical automorphism `(x, Λ) ↦ (φ_F(x), Λ)` followed by left multiplication by `b_f = b·σ(b)⋯σ^{f−1}(b)`, `f` the residue degree of `F` over `E`, through the `F̆`-algebra structure of `φ_F(x)`. For `F = E` this is left multiplication by `b` after the canonical automorphism; for `b = 1` it is the canonical one.
-- `WeilDescent.weilAction`: An action of `W_F` on `Sht_{(G,b,μ),K} ×_{Spd F̆} Spd C` covering the action `τ ↦ τ∘Frob^{−deg τ}` on `Spd C`; the inertia subgroup acts through its action on `C`; the action commutes with `G(E) × J_b(E)` and with transition maps.
+- `WeilDescent.weilAction`: An action of `W_F` on `Sht_{(G,b,μ),K} ×_{Spd F̆} Spd C` covering the action `τ ↦ τ∘Frob^{−deg_ar(τ)}` on `Spd C`; the inertia subgroup acts through its action on `C`; the action commutes with `G(E) × J_b(E)` and with transition maps.
 - `WeilDescent.rigid`: For `E = Q_p` and `μ` minuscule, let `τ = σ_F⁻¹` be the automorphism of `F̆` over `F` inverse to the lift of the `q_F`-Frobenius of `k`, so that `φ_F` is the composite of `τ^♦` with the absolute `q_F`-Frobenius of `Spd F̆` and pullbacks along `φ_F` and along `τ^♦` are canonically identified. Then `w_K` is the diamond of a unique isomorphism `τ^*M_{G,b,μ,K} ≅ M_{G,b,μ,K}` of rigid spaces over `F̆`, lying over the isomorphism `τ^*Fl_{G,μ,F̆} ≅ Fl_{G,μ,F̆}` that corresponds to `w_Gr` under the Białynicki-Birula isomorphism.
 - `WeilDescent.lubinTate`: For `G = G_m`, `μ = id`, `b = π⁻¹: M_{(G_m,b,μ),∞} = BC(O(1)) ∖ {0} ≅ Spd Ĕ_∞`, on which `O_E^×` acts through the Lubin–Tate action and `π` as the Frobenius (Fargues–Scholze II.2.4).
 
@@ -1504,7 +1613,7 @@ Provide the following API.
 - `WeilDescent.lubin_tate_test`: For `G = G_m`, `μ = id` and `b = π⁻¹` (so `F = E`): `M_{(G_m,b,μ),∞} ≅ Spd Ĕ_∞` has a single point, `Sht_{(G_m,b,μ),∞} ≅ Z × Spd Ĕ_∞`, the component of index `m` consisting of the pairs `(s, x)` of a point `s` of `Spd Ĕ_∞` and a point `x` of `Spd Ĕ` with `x = φ^m(p(s))`, where `p: Spd Ĕ_∞ → Spd Ĕ` is the projection; `ψ_K^n = id × φ^n` maps the component of index `m` onto the component of index `m + n`; so the descent datum acts simply transitively on `π₀(Sht_{(G_m,b,μ),O_E^×}) = Z`.
 - `WeilDescent.not_effective_test`: In the same example there is no `v`-sheaf `Y` over `Spd E` with `Y ×_{Spd E} Spd Ĕ ≅ Sht_{(G_m,b,μ),O_E^×}` compatibly with `w`: a continuous action of the profinite group `Gal(k/F_q)` on the discrete set `Z` has finite orbits. The quotient `Sht_{(G_m,b,μ),O_E^×}/π^Z` by `π ∈ J_b(E)` is `Spd Ĕ` with `w = φ`, which descends to `Spd E`.
 - `WeilDescent.trivial_datum_test`: For `μ = 0` and `b = 1` (so `F = E`): `M_{(G,1,0),K} = G(E)/K × Spd Ĕ/φ^Z`, `Sht_{(G,1,0),K} = G(E)/K × Spd Ĕ`, the descent datum is `id × φ` and is effective with descent `G(E)/K × Spd E`, and `W_E` acts on `Sht_{(G,1,0),K} × Spd C` through `Spd C` only.
-- `WeilDescent.reciprocity_test`: For `G = G_m`, `μ = id` and `b = π⁻¹`, `W_E` acts on the `E^×`-torsor `π₀(Sht_{(G_m,b,μ),∞} ×_{Spd Ĕ} Spd C)` through a continuous homomorphism `W_E → E^×` which is the reciprocity isomorphism `W_E^{ab} ≅ E^×` of local class field theory, up to the normalisation `τ ↦ τ^{±1}`: inertia acts through the Lubin–Tate character onto `O_E^×` and an element of degree `1` by an element of valuation `±1`.
+- `WeilDescent.reciprocity_test`: For `G=G_m`, `μ=id` and `b=π⁻¹`, the right-frame component torsor has Weil action through `rec_HS`. Inertia acts through the Lubin–Tate character, and the Frobenius lift fixing the Lubin–Tate extension acts by `π⁻¹`, of valuation `−1` and component shift `+1`. For `E/ℚ_p` finite and `u∈O_E^×`, `rec_HS(Art_ar(u))=u⁻¹`; for `E=ℚ_7`, a unit reducing to a generator of `𝔽_7^×` and a character with `χ(u)` of order three give `χ(rec_HS(Art_ar(u)))=χ(u)⁻¹≠χ(u)`.
 
 
 ### Examples
@@ -1867,8 +1976,9 @@ Tate-lattice torsors and period maps, the integral `A_cris` comparison over
 `O_C/p`, and extension of its parahoric torsor over the punctured `A_inf`
 spectrum. These are the precise extra hypotheses in the general comparison;
 the unramified PEL and classical EL tower cases use the independently supplied
-objects named in the supplier table. The period-image, group-action, transition
-and compact-support identifications are conclusions to prove here.
+objects named in the supplier table. For the general deformation problems
+under these hypotheses, prove the period-image, group-action, transition
+and compact-support identifications.
 
 For the coefficient-field comparison, fix a finite extension `E′/ℚ_p` and
 the one-embedding EL datum for `Res_(E′/ℚ_p)GL_n`. Under the corresponding
@@ -1878,19 +1988,21 @@ reflex-base map, commuting group actions and Weil descent. The intended target
 is `linearFieldShtukaComparison`; it retains those identifications as
 hypotheses, rather than identifying `ℚ_p`- and `E′`-period rings.
 
-For `B=E'`, the one-embedding height-`n` bound and basic
-`b` recover Lubin–Tate for
-`Res_(E'/ℚ_p)GL_n`; the division-algebra
-EL datum of invariant `1/n` recovers Drinfeld. Basic duality
-exchanges their infinite levels and group actions. These are
-`ℚ_p`-shtuka comparisons for Weil restrictions; they
-are identified with `E'`-shtukas by `linearFieldShtukaComparison` under
-its stated coefficient-field hypotheses. Their classical compact support is the
+Import the classical Lubin–Tate/Drinfeld diamond/modification comparison
+from **EndoscopicTransferAndUnitaryTraceComparison**, §12.17, with the
+underlying towers from §§12.3–12.8. This includes all levels, both periods,
+group actions, the Tate local system and Weil descent. Its one-embedding
+`B=E′` height-`n` case and division-algebra case of invariant `1/n`
+are applications of that supplied comparison. The new comparisons here
+concern general `GL_n`, the remaining EL/PEL deformation problems and
+`linearFieldShtukaComparison` with its explicit coefficient-field hypotheses.
+The classical Weil-restriction comparisons are identified with `E′`-shtukas
+by this latter target under those hypotheses. Their classical compact support is the
 geometric fibre of `C_K[-δ](-δ/2)`, where
 `δ=⟨2ρ,μ⟩`, equal to `d(n-d)` in
 the `GL_n` case.
 
-*Needs:* [HS2.10](#hs2-10), [HS2.8](#hs2-8), [HS3.3](#hs3-3), [HS2.5](#hs2-5), [HS2.4](#hs2-4), [HS2.6](#hs2-6); **EndoscopicTransferAndUnitaryTraceComparison**, §§12.1–12.8; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1; **AInfCohomology**, AI.2; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27.
+*Needs:* [HS2.10](#hs2-10), [HS2.8](#hs2-8), [HS3.3](#hs3-3), [HS2.5](#hs2-5), [HS2.4](#hs2-4), [HS2.6](#hs2-6); **EndoscopicTransferAndUnitaryTraceComparison**, §§12.1–12.8 and §12.17; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1; **AInfCohomology**, AI.2; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27.
 
 (Sources: [SW], Theorem 24.2.5, p. 227; Proof of Theorem 24.2.5, p. 227; 12.1, footnote 1, p. 99; After the proof of Theorem 24.2.5, p. 229; 24.3, before Definition 24.3.3, p. 230; Corollary 24.3.5, p. 231; Appendix to Lecture 21, after Remark 21.6.7, p. 200.)
 
@@ -1961,7 +2073,7 @@ Provide the following API.
 **Checks.**
 
 - `heckeBetweenStrata.torus_unit_test`: For `G = G_m`, `I = ∅`, `V = 1` and `K′ ⊂ E^×` open pro-`p: C^{b′,b}_{K′}(1) ≅ c-Ind_{K′}^{E^×}Λ` if `b = b′` in `B(G_m) = Z`, and `C^{b′,b}_{K′}(1) = 0` if `b ≠ b′`. Here `G_b(E) = E^× ⊂ Ĕ^×` for every representative `b ∈ Ĕ^×`, because `Ĕ^×` is commutative, and `D(G_b(E),Λ)` is identified with `D(E^×,Λ)` through this equality; two representatives of one class give the same identification.
-- `heckeBetweenStrata.torus_shift_test`: For `G = G_m`, `I = {∗}` and `V` the character `z ↦ z^n` of `Ĝ = G_m`, the object `C^{b′,b}_{K′}(V)` is non-zero for exactly one class `b ∈ B(G_m)`, namely the one with `κ(b) = κ(b′) − n` (`κ(b) = v_π(b)`, so that `E_b = O(−κ(b))`); for `n = 1` and `E_{b′} = O(−1)` this is the trivial class, in agreement with FS IX.7.4, where `T_std` takes a sheaf on the stratum of `O(−1/n)` to `Bun_G^1`. Its underlying object is `c-Ind_{K′}^{E^×}Λ`, under the equalities `G_b(E) = E^× = G_{b′}(E)`.
+- `heckeBetweenStrata.torus_shift_test`: Assume `Λ≠0`. For `G = G_m`, `I = {∗}` and `V` the character `z ↦ z^n` of `Ĝ = G_m`, the object `C^{b′,b}_{K′}(V)` is non-zero for exactly one class `b ∈ B(G_m)`, namely the one with `κ(b) = κ(b′) − n` (`κ(b) = v_π(b)`, so that `E_b = O(−κ(b))`); for `n = 1` and `E_{b′} = O(−1)` this is the trivial class, in agreement with FS IX.7.4, where `T_std` takes a sheaf on the stratum of `O(−1/n)` to `Bun_G^1`. Its underlying object is `c-Ind_{K′}^{E^×}Λ`, under the equalities `G_b(E) = E^× = G_{b′}(E)`; this compact-induction formula remains valid for `Λ=0`.
 - `heckeBetweenStrata.trivial_stratum_test`: For `G = GL_2` over `Q_p`, `b′ = 1`, `V = std`, `K = 1 + p^m M_2(Z_p)` with `m ≥ 1`, and `b` the class with `E_b = O(1/2): C^{1,b}_K(std) ≅ RΓ_c(M_{LT,K,C},Λ)[1](1/2)`, the shifted compactly supported cohomology of the Lubin–Tate tower of height `2` at level `K`, as a complex of smooth representations of `D^×` (`D` the quaternion division algebra over `Q_p`) with `W_{Q_p}`-action.
 - `heckeBetweenStrata.not_pro_p_test`: For `G = G_m` over `Q_p` with `p` odd, `ℓ` a prime dividing `p − 1`, `Λ = F_ℓ`, `b = b′ = 1`, `V = 1` and the compact open subgroup `K′ = Z_p^×`, which is not pro-`p: i^{1*}L_1(c-Ind_{Z_p^×}^{Q_p^×}F_ℓ) = c-Ind_{Z_p^×}^{Q_p^×}F_ℓ` is not compact in `D(Q_p^×,F_ℓ)`, because `Ext^n(c-Ind_{Z_p^×}^{Q_p^×}F_ℓ, F_ℓ) = H^n(F_p^×, F_ℓ) ≠ 0` for all `n ≥ 0`.
 
@@ -1972,7 +2084,7 @@ For the height-two Lubin–Tate datum, `d=1` and `RΓ_c(M,Z_ℓ)=⊕_Z Z_ℓ(−
 
 ### Dependencies
 
-*Needs:* HS0–HS2; **VStackSheavesAndLisseCategories**, VS2–VS5; **SmoothRepresentationsOfLocalGroups**, SR.0d–SR.3 and SR.6; **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7; **DiamondSixOperations**, S0–S5; **AdicCoefficientsAndComparisons**, L0; **EnhancedDerivedSheaves**, E5:abstract; **GeometricSatakeAndFusion**, GS3–GS4; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1–R07.2; **AInfCohomology**, AI.2; **EndoscopicTransferAndUnitaryTraceComparison**, §§12.3–12.8; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27. HS3.9 states the independent general deformation-space hypotheses explicitly.
+*Needs:* HS0–HS2; **VStackSheavesAndLisseCategories**, VS2–VS5; **SmoothRepresentationsOfLocalGroups**, SR.0d–SR.3 and SR.6; **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7; **DiamondSixOperations**, S0–S5; **AdicCoefficientsAndComparisons**, L0; **EnhancedDerivedSheaves**, E5:abstract; **GeometricSatakeAndFusion**, GS3–GS4; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.1–R07.2; **AInfCohomology**, AI.2; **EndoscopicTransferAndUnitaryTraceComparison**, §§12.3–12.8 and §12.17; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27. HS3.9 states the independent general deformation-space hypotheses explicitly.
 
 ## Layer HS4: Coherent operations and comparison diagrams
 
@@ -2007,17 +2119,15 @@ usual isomorphism `T_(V⊗ W)≃ T_V∘ T_W` as well.
 
 ### HS4.2 — Creation, annihilation and dual-leg triangles
 
-For monoidal categories `C,E`, a monoidal functor `T:C→E` and an exact
-pairing `(V,W)`, define `monoidalCoev` as the composite of the monoidal unit
-map, `T(coev)` and the inverse tensor comparison, of type
-`1_E → T(V)⊗T(W)`. Define `monoidalEval` as the tensor comparison followed
-by `T(ev)` and the monoidal counit, of type `T(W)⊗T(V) → 1_E`.
-Their API consists of `monoidalCoev_eval_left` and `monoidalCoev_eval_right`
-(the two triangle identities with associators and unitors),
-`monoidalCoev_unit` and `monoidalEval_unit` (the explicit unit-pairing
-formulas), and naturality under monoidal transformations and composition
-of monoidal functors. The resulting transported exact pairing has these
-specified maps; its intended interface is `exactPairingMap`.
+Use pinned Tau Ceti's `CategoryTheory.Functor.mapExactPairing` from
+`TauCeti.CategoryTheory.Monoidal.Rigid.Functor`, together with
+`CategoryTheory.Functor.mapExactPairing_coevaluation` and
+`CategoryTheory.Functor.mapExactPairing_evaluation`, to transport an exact
+pairing along the monoidal Hecke action. The notation `monoidalCoev` and
+`monoidalEval` in Suggested.lean projects that supplied pairing;
+`monoidalCoev_eval_left` and `monoidalCoev_eval_right` are proved
+corollaries of its triangle fields. `monoidalCoev_unit` and
+`monoidalEval_unit` express its unit-pairing formulas.
 
 **Checks.**
 
@@ -2026,13 +2136,14 @@ specified maps; its intended interface is `exactPairingMap`.
 - For the unit pairing, creation is the inverse right unitor followed by
   the tensor square of the monoidal unit map; annihilation is the tensor
   square of the counit followed by the right unitor.
-- For a finite projective module of rank two, creation sends `1` to the
-  basis-independent sum `e₁⊗e₁*+e₂⊗e₂*`; evaluation sends `f⊗v` to `f(v)`.
-  The first and second triangles are identities, while evaluation after
-  symmetrized creation is multiplication by `2`.
+- For the identity functor on `FGModuleCat ℚ` and `V=ℚ²`, `W=V*`,
+  the composite `monoidalCoev ≫ (β_ V W).hom ≫ monoidalEval` is
+  multiplication by `2` on the unit. The pairing is `FGModuleCat.exactPairing`;
+  Suggested.lean proves this trace calculation as well as the two identity tests.
 
-(Source: [FS], proof of Theorem IX.2.2, p. 323; Mathlib’s
-`CategoryTheory.ExactPairing` and `CategoryTheory.Functor.Monoidal` constraints.)
+(Source: [FS], proof of Theorem IX.2.2, p. 323; pinned Tau Ceti,
+`CategoryTheory.Functor.mapExactPairing` and its projection theorems;
+Mathlib, `FGModuleCat.exactPairing`.)
 
 Apply the monoidal action to coevaluation
 `1→ V⊗ V∨` and evaluation
@@ -2055,7 +2166,7 @@ their representation-morphism composition identities. No Weil
 equivariance is claimed for these general maps. Excursion operators
 are built from this interface in their owner roadmap.
 
-*Needs:* [HS4.1](#hs4-1), [HS1.2](#hs1-2), [HS1.10](#hs1-10); **GeometricSatakeAndFusion**, GS3; `CategoryTheory.ExactPairing`; `CategoryTheory.Functor.Monoidal`.
+*Needs:* [HS4.1](#hs4-1), [HS1.2](#hs1-2), [HS1.10](#hs1-10), [HS2.18](#hs2-18); **GeometricSatakeAndFusion**, GS3; `CategoryTheory.ExactPairing`; `CategoryTheory.Functor.Monoidal`.
 
 (Sources: [FS], Theorem IX.2.2, proof, p. 323; Definition VIII.4.2 and the construction after it, p. 291; Definition VIII.4.2, p. 291; Proposition IX.6.5 and its proof, p. 333; paragraph after Theorem IX.0.1, p. 318.)
 
@@ -2082,8 +2193,8 @@ Provide the following API.
 - `dualLegs.rank_test`: For `G = GL_n`, `Q = 1` and `V` the standard representation of `Ĝ = GL_n` over `Λ: annihilate′_V∘create_V` is multiplication by `n` on the identity functor of `D_lis(Bun_{GL_n},Λ)^ω`. For `n = 2` it is `2`.
 - `dualLegs.triangle_test`: For `G = G_m` and `V = χ_1` the standard character of `Ĝ = G_m`, so `V∨ = χ_{−1}: create` and `annihilate` are isomorphisms `id ≅ T_{χ_1}∘T_{χ_{−1}}` and `T_{χ_{−1}}∘T_{χ_1} ≅ id`, and the composite `T_{χ_1} → T_{χ_1}∘T_{χ_{−1}}∘T_{χ_1} → T_{χ_1}` is the identity.
 - `dualLegs.diagonal_test`: For `V ∈ Rep_Λ(Ĝ⋊Q)` and `γ`, `γ_1`, `γ_2 ∈ W_E: (γ,γ)∘create_V = create_V` as maps `id → T_{V⊠V∨}` of underlying endofunctors, and `annihilate′_V∘(γ_1,γ_2)∘create_V = annihilate′_V∘(γ_1γ_2^{-1},1)∘create_V`.
-- `dualLegs.torus_excursion_test`: For `G = G_m`, `V = χ_1`, `γ_1`, `γ_2 ∈ W_E` and a smooth character `χ: E^× → Λ^×`, regarded as an object of `D(E^×,Λ) ≅ D_lis(Bun^b_{G_m},Λ)` for any `b ∈ B(G_m)` (the natural transformations extend from the compact objects to `D_lis(Bun_{G_m},Λ)`, their Ind-completion, because the functors `T_V` commute with colimits; a character need not be a compact object): `annihilate′_V∘(γ_1,γ_2)∘create_V` acts on `χ` by the scalar `χ(rec(γ_1γ_2^{-1}))`, where `rec: W_E → E^×` is the reciprocity map through which FS IX.6.4 identifies `Z¹(W_E,G_m)` with `Hom(E^×,G_m)`.
-- `dualLegs.not_invariant_test`: For `G = G_m`, `V = χ_1` and a smooth character `χ` of `E^×` with `χ(rec(γ_0)) ≠ 1` for some `γ_0 ∈ W_E`: on the object `χ`, `(γ_0,1)∘create_V = χ(rec(γ_0))·create_V ≠ create_V`. So `create_V` is not invariant under `W_E²`, only under its diagonal.
+- `dualLegs.torus_excursion_test`: For `G = G_m`, `V = χ_1`, `γ_1`, `γ_2 ∈ W_E` and a smooth character `χ: E^× → Λ^×`, regarded as an object of `D(E^×,Λ) ≅ D_lis(Bun^b_{G_m},Λ)` for any `b ∈ B(G_m)` (the natural transformations extend from the compact objects to `D_lis(Bun_{G_m},Λ)`, their Ind-completion, because the functors `T_V` commute with colimits; a character need not be a compact object): `annihilate′_V∘(γ_1,γ_2)∘create_V` acts on `χ` by the scalar `χ(rec_HS(γ_1γ_2^{-1}))`, where `rec_HS` is the right-frame geometric reciprocity map of HS2.18, including its fixed inversion relative to arithmetic `localWeilArtinEquiv`.
+- `dualLegs.not_invariant_test`: For `G = G_m`, `V = χ_1` and a smooth character `χ` of `E^×` with `χ(rec_HS(γ_0)) ≠ 1` for some `γ_0 ∈ W_E`: on the object `χ`, `(γ_0,1)∘create_V = χ(rec_HS(γ_0))·create_V ≠ create_V`. So `create_V` is not invariant under `W_E²`, only under its diagonal.
 - `dualLegs.unit_test`: For `V = 1: create_1` and `annihilate_1` are the unit constraints, and `annihilate′_1∘(γ_1,γ_2)∘create_1` is the identity for all `γ_1`, `γ_2 ∈ W_E`.
 
 <a id="hs4-3"></a>
@@ -2127,12 +2238,12 @@ Weil action is diagonal. Require naturality and finite-set
 compatibility; a general representation is not assumed to be
 a single exterior product.
 
-For compact `A_i`, prove that `A_1⊠ A_2` is compact,
-that these products generate the lisse category, and that for all
-`B_i` the natural derived-Hom tensor map is an isomorphism.
-Colimit preservation determines the exterior-product action on
-those generators. Use the lisse version of [FS], VII.7.10, rather
-than the category printed there as `D_(ét)`.
+Use **VStackSheavesAndLisseCategories**, VS5.3,
+`BunCoefficients.lisseKunneth`, for compact exterior-product generators
+and their derived-Hom tensor comparison with arbitrary lisse `B_i`.
+Prove the Hecke kernel and operator comparisons on these supplied
+generators, then extend by colimit preservation. Use the lisse version of
+[FS], VII.7.10, rather than the category printed there as `D_(ét)`.
 
 *Needs:* [HS4.1](#hs4-1), [HS1.2](#hs1-2), [HS0.1](#hs0-1), [HS1.9](#hs1-9); **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **VStackSheavesAndLisseCategories**, VS2; **VStackSheavesAndLisseCategories**, VS1; **VStackSheavesAndLisseCategories**, VS5.
 
@@ -2163,13 +2274,31 @@ Use `r' = r^f`, where `f` is the residue degree. Prove
 `ψ_♮ S'_(V')≃ S'_V`, and
 `T_V(A)≃(id×ρ^I)_♮ T_(V')(A)`.
 This is induction of the continuous `W_(E')^I`-equivariant
-object. Require naturality and compatibility with fusion and
-finite-set maps. Parameter-stack and excursion-algebra comparisons
+object. For a finite-set map `I→J`, form the full pulled-back cover
+`(Div¹_(E′))^I ×_((Div¹_E)^I) (Div¹_E)^J` and retain every component
+in the fusion comparison. The diagonal copy `(Div¹_(E′))^J` gives
+only the same-lift summand; the other components give the other induced
+summands. This is the geometric-correspondence compatibility of
+**GeometricSatakeAndFusion**, GS4, `weilRestrictionNaturality`.
+Diagonal restriction of legwise induction is not identified with induction
+of diagonal restriction. Parameter-stack and excursion-algebra comparisons
 are supplied to the excursion owner, not reconstructed here.
 
 *Needs:* [HS4.1](#hs4-1), [HS1.2](#hs1-2), [HS0.1](#hs0-1), [HS1.9](#hs1-9); **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality”; **BunGAndNewtonStrata**, §§2.8, 2.11–2.23; **VStackSheavesAndLisseCategories**, VS2.
 
 (Sources: [FS], Proposition IX.6.3, proof, p. 332; Proposition IX.6.3, statement, p. 331.)
+
+**Checks.**
+
+- `inducedKernel.identity_test`: For `E′=E`, the cover and the
+  chosen-factor correspondence are identities, and the kernel comparison is identity.
+- `inducedKernel.quadratic_fusion_test`: With field coefficients, for `[E′:E]=2`, `G′=1`,
+  `I={1,2}` and `V′=1`, diagonal restriction of legwise induction has
+  rank `4`. The same-lift cover gives rank `2`; the other two lifts give
+  the remaining rank `2`. Induction after fusion alone has rank `2`.
+- `inducedKernel.ramified_test`: With field coefficients, for a totally ramified extension of
+  degree `e>1`, one-leg rank is multiplied by `e` but `r′=r`, since the
+  residue degree is `1`.
 
 <a id="hs4-6"></a>
 
@@ -2184,8 +2313,8 @@ first, so inversion is needed to use our target-fibre convention.
 
 For `ℓ`-power torsion `Λ`, compute the étale
 kernel by base change from `Rp_!q^*(sw^*S_V)`.
-Let `deg_P` pair the sum of the Hecke types with
-`2ρ_G-2ρ_M`. Prove that `Rg_!S_V[-deg_P]`
+Use `|w|=−deg_ar(w)` in the twist below. Let `deg_P` pair the sum
+of the Hecke types with `2ρ_G-2ρ_M`. Prove that `Rg_!S_V[-deg_P]`
 is the `M`-Satake kernel of restriction along
 `(m,w)↦ (m(2ρ̂_G-2ρ̂_M)(r)^(-|w|),w)`.
 The cocharacter value is central in `M̂`.
@@ -2229,6 +2358,23 @@ deducing an excursion normalization, even on components with
 
 (Sources: [FS], Theorem IX.7.2, proof, p. 337; Theorem IX.7.2, proof, p. 336; Theorem IX.7.2, proof, p. 335; Proposition VI.7.13, p. 223; [HI], Proposition 4.4, p. 25; Lemma 4.7, p. 26.)
 
+**Checks.** Each named assertion is a theorem target for `Hck^I_(M,P)`
+and its torsion kernel comparison.
+
+- `parabolicHecke.identity_test`: For `P=G=M`, `Hck^I_(M,P)=Hck^I_G`,
+  `g=id`, `deg_P=0` and the central twist is trivial.
+- `parabolicHecke.opposite_borel_test`: For `GL₂`, `M=T` and opposite
+  Borels, a target-fibre Hecke type `λ=(1,0)` has type
+  `−λ=(−1,0)` in the second-relative-first fibre. The upper and lower
+  Borels give `deg_P=1` and `−1`, hence shifts `[−1]` and `[1]`.
+  Their inverse central twists are respectively
+  `(r^(−|w|),r^|w|)` and `(r^|w|,r^(−|w|))`.
+- `parabolicHecke.nested_test`: For the standard `GL₃` parabolic
+  with Levi `GL₂×G_m`, followed by its upper Borel with Levi `T`,
+  `λ=(a,b,c)` gives degrees `a+b−2c` and `a−b`. Their sum is
+  `2a−2c`, the degree for the upper Borel of `GL₃`.
+  The negative shifts add and the inverse central twists multiply.
+
 <a id="hs4-7"></a>
 
 ### HS4.7 — Tensor compatibility and continuous export
@@ -2252,25 +2398,24 @@ direct sums, direct summands, extensions and the specified
 bounded-weight resolutions. No closure under arbitrary
 subobjects, quotients or duals follows from these facts.
 
-The tensor generator needed by the excursion roadmap must
-generate every representation through tensor powers and those
-justified operations. Controlling one such generator then reduces
-the finite-ramification proof to one leg. Existence of that
-generator is a representation-theoretic supplier input, and the
+Use `integralTensorGenerator` of HS1.0, whose tensor powers generate
+every representation through precisely those operations, and
+`satakeResolutionConvergence` for the resolution step. Controlling this
+generator reduces the finite-ramification proof to one leg. The
 existence of a single `P` controlling every `I,V` is the
 finite-ramification theorem of
 **ExcursionOperatorsAndSpectralAction**, ES1, `finite-ramification`.
 The target here is its continuous and tensor-compatible Hecke
 input, without asserting that theorem.
 
-*Needs:* [HS4.2](#hs4-2), [HS1.8](#hs1-8), [HS4.1](#hs4-1), [HS1.5](#hs1-5).
+*Needs:* [HS4.2](#hs4-2), [HS1.8](#hs1-8), [HS4.1](#hs4-1), [HS1.5](#hs1-5), [HS1.0](#hs1-0), `integralTensorGenerator` and `satakeResolutionConvergence`.
 
 (Sources: [FS], Corollary IX.2.4, p. 323; Proposition IX.5.1, proof, p. 328.)
 
 
 ### Examples
 
-For a rank-two dual-group representation, annihilation after symmetrized creation is multiplication by `2`, while both triangle composites are identities. For a torus character the two-leg operation on a character `χ` is the scalar `χ(rec(γ₁γ₂⁻¹))`; only the diagonal Weil subgroup fixes creation. For a residue-degree-`f` extension, the coefficient normalization is `r^f`, whereas the induced rank grows by the full degree `[E′:E]` per leg.
+For a rank-two dual-group representation, annihilation after symmetrized creation is multiplication by `2`, while both triangle composites are identities. For a torus character the two-leg operation on a character `χ` is the scalar `χ(rec_HS(γ₁γ₂⁻¹))`; only the diagonal Weil subgroup fixes creation. For a residue-degree-`f` extension, the coefficient normalization is `r^f`, whereas the induced rank grows by the full degree `[E′:E]` per leg.
 
 ### Dependencies
 
