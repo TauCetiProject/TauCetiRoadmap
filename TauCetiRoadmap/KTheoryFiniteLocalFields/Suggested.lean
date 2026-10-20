@@ -148,10 +148,14 @@ theorem tameCoordinate_mul_left (r₁ r₂ s : ℤ) (u₁ u₂ v : kˣ) :
       tameCoordinate r₁ s u₁ v * tameCoordinate r₂ s u₂ v := by
   sorry
 
-/-- A unit followed by a uniformizer has boundary the unit itself, `∂{2, π} = 2` in `𝔽₅`;
-the inverse convention would give `3`. -/
+/-- Over `𝔽₅`, a unit followed by a uniformizer has boundary `2`, negative valuation gives
+boundary `4`, and replacing `π` by `2π` changes the second unit coordinate to `3`. -/
 example :
-    ((tameCoordinate 0 1 (ZMod.unitOfCoprime 2 (by decide)) 1 : (ZMod 5)ˣ) : ZMod 5) = 2 := by
+    let a : (ZMod 5)ˣ := ZMod.unitOfCoprime 2 (by decide)
+    let b : (ZMod 5)ˣ := ZMod.unitOfCoprime 3 (by decide)
+    ((tameCoordinate 0 1 a 1 : (ZMod 5)ˣ) : ZMod 5) = 2 ∧
+    ((tameCoordinate (-1) 1 a b : (ZMod 5)ˣ) : ZMod 5) = 4 ∧
+    tameCoordinate 0 1 a b = tameCoordinate 0 1 a 1 := by
   decide
 
 /-- Two uniformizers detect the sign, even when both unit coordinates are trivial. -/
