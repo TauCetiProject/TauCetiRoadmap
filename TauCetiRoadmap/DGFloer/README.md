@@ -344,12 +344,17 @@ None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They
    - the Künneth theorems;
    - cubical local coefficients.
 
-   The Serre spectral sequence is the exception: no simplicial Serre spectral sequence over an
-   arbitrary base exists to transport. It is built directly on cubical chains, as in Serre's
-   original, from Serre's filtration (the cubes whose projection to the base factors through a
-   cube of dimension `≤ s`) and the filtered-complex spectral sequence of Layer 1 item 3. The
-   comparison enters in identifying `E¹` with the chains of the base with coefficients in the
-   homology of the fibre.
+   The Serre spectral sequence is the exception: it is built directly on cubical chains, as in
+   Serre's original (*Homologie singulière des espaces fibrés*, Chapter II), from Serre's
+   filtration and the filtered-complex spectral sequence of Layer 1 item 3.
+   - For a continuous map `p : E → B`, `F_s C^□_n(E; A)` is the image in the normalized chains of
+     the span of the cubes `u : Iⁿ → E` with `p ∘ u = v ∘ pr_s` for some cube `v : Iˢ → B`, where
+     `pr_s : Iⁿ → Iˢ` is the projection onto the first `s` coordinates. Equivalently, `p ∘ u` does
+     not depend on the last `n − s` coordinates. It is not enough that `p ∘ u` factor through some
+     cube of dimension `≤ s`: for `p = id : I → I` every cube would then lie in `F_1`.
+   - `F_s C^□_n = 0` for `s < 0` and `F_s C^□_n = C^□_n` for `s ≥ n`.
+   - For a Hurewicz fibration, the comparison enters in identifying `E¹` with the chains of the
+     base with coefficients in the homology of the fibre.
 4. Fundamental chains: a compact oriented topological manifold with corners whose boundary is a
    union of products of lower-dimensional ones has a fundamental chain rel boundary in
    `C^□_*`. Its boundary is the signed sum of the cross products of the fundamental chains of the
