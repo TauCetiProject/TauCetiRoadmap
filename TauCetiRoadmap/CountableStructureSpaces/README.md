@@ -278,7 +278,8 @@ is locally constant. It gives the closed range, continuity of multiplication
 - **Saturations**: for countable relation symbols, the saturation `⋃ σ, σ • A` of an analytic
   set is analytic (`analyticSet_iUnion_smul`), as the image of `univ ×ˢ A` under the continuous
   action, using `AnalyticSet.prod` (BorelEquivalenceRelations). The isomorphism relation, as a
-  subset of the square, is analytic for the same reason.
+  subset of the square, is analytic for the same reason (`analyticSet_orbitRel_graph`: the image of
+  `Perm ℕ × StructureSpace L` under `(σ, c) ↦ (σ • c, c)`).
 
 **Acceptance check.** In the language of one unary predicate `P`, the transposition of `0` and
 `1` sends the code of `P = {0}` to the code of `P = {1}`, and the two decoded structures are
@@ -563,8 +564,8 @@ presentation.
 - `invariant_analytic_separation`: if `A` and `B` are analytic, `B` is action invariant and `A`
   and `B` are disjoint, there is an invariant Borel `C ⊇ A` disjoint from `B`. This is
   `exists_invariant_measurableSet_separating` (BorelEquivalenceRelations) for the orbit relation,
-  whose graph is analytic (Layer 1), once `ActionInvariant` is identified with saturation for the
-  orbit relation.
+  whose graph is analytic (`analyticSet_orbitRel_graph`, Layer 1), once `ActionInvariant` is
+  identified with saturation for the orbit relation (`saturated_iff_actionInvariant`).
 - `exists_sentence_separating`: by López–Escobar, the separator is `modelsOf θ` for a single
   sentence `θ`.
 

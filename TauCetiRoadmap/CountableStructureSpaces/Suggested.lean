@@ -253,6 +253,24 @@ theorem analyticSet_iUnion_smul [Countable (Σ l, L.Relations l)] {A : Set (Stru
     (hA : AnalyticSet A) : AnalyticSet (⋃ σ : Equiv.Perm ℕ, σ • A) := by
   sorry
 
+open Set in
+/-- **Layer 1.** The orbit relation of the logic action, as a subset of the square, is analytic: it
+is the image of the Polish space `Perm ℕ × StructureSpace L` under a continuous map. -/
+theorem analyticSet_orbitRel_graph [Countable (Σ l, L.Relations l)] :
+    AnalyticSet {p : StructureSpace L × StructureSpace L |
+      MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L) p.1 p.2} := by
+  have : PolishSpace (Equiv.Perm ℕ) := polishSpace_perm
+  have : ContinuousSMul (Equiv.Perm ℕ) (StructureSpace L) := continuousSMul_structureSpaceOn
+  have h : Continuous fun q : Equiv.Perm ℕ × StructureSpace L => (q.1 • q.2, q.2) :=
+    continuous_smul.prodMk continuous_snd
+  convert analyticSet_range_of_polishSpace h using 1
+  ext ⟨c, d⟩
+  simp only [mem_ofPred_eq, mem_range, Prod.exists, Prod.mk.injEq, MulAction.orbitRel_apply,
+    MulAction.mem_orbit_iff]
+  constructor
+  · rintro ⟨σ, rfl⟩; exact ⟨σ, d, rfl, rfl⟩
+  · rintro ⟨σ, d', h1, rfl⟩; exact ⟨σ, h1⟩
+
 /-! ## Layer 2: satisfaction and model classes -/
 
 /-- The codes in which a bounded formula holds at the given assignments. -/
@@ -687,6 +705,35 @@ theorem analyticSet_iff_exists_pc [L.IsRelational] [Countable (Σ l, L.Relations
   sorry
 
 /-! ## Layer 6: separation and the well-order class -/
+
+open Set in
+/-- **Layer 6.** Saturation for the orbit relation, in the form of invariant Lusin separation for
+analytic equivalence relations, is `ActionInvariant`. -/
+theorem saturated_iff_actionInvariant {B : Set (StructureSpace L)} :
+    Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L)) ⁻¹'
+        (Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L)) '' B) = B ↔
+      ActionInvariant B := by
+  constructor
+  · intro h σ
+    ext x
+    simp only [mem_preimage]
+    constructor
+    · intro hx
+      rw [← h]
+      exact ⟨σ • x, hx, Quotient.sound (MulAction.mem_orbit x σ)⟩
+    · intro hx
+      have : σ • x ∈ Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L)) ⁻¹'
+          (Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L)) '' B) :=
+        ⟨x, hx, Quotient.sound (MulAction.mem_orbit_iff.mpr ⟨σ⁻¹, inv_smul_smul σ x⟩)⟩
+      rwa [h] at this
+  · intro h
+    ext x
+    constructor
+    · rintro ⟨y, hy, hxy⟩
+      obtain ⟨g, rfl⟩ := MulAction.mem_orbit_iff.mp (Quotient.exact hxy)
+      have : x ∈ (fun c => g • c) ⁻¹' B := hy
+      rwa [h g] at this
+    · intro hx; exact ⟨x, hx, rfl⟩
 
 /-- **Layer 6 milestone, invariant analytic separation.** -/
 theorem invariant_analytic_separation [Countable (Σ l, L.Relations l)]
