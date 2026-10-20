@@ -142,8 +142,9 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   base change and coherent Grothendieck duality with its trace; Layer 4 owns deformations of smooth
   schemes and line bundles (§4.6).
 - **LocalPurity** §§2.1–2.2 owns regular-local purity and extension of finite étale covers
-  across missing points with regular local stalks of dimension at least two. **PurityOfBranchLocus** §§2.1–2.2
-  owns generic branch purity and its global finite-morphism corollary. **AbhyankarLemma**
+  across missing points with regular local stalks of dimension at least two. **PurityOfBranchLocus** §2.1
+  owns pointwise branch purity; CR.5:log-algebra.4 derives its global corollary for finite dominant
+  generically étale maps. **AbhyankarLemma**
   Layers 0–3 owns DVR tameness, DVR Abhyankar, ramification in codimension one and the
   regular-divisor theorem. CR.5:log-algebra.4 owns the SNC Abhyankar theorem, the compatible
   tame Kummer tower and its full tame fundamental group, and the logarithmic application,
@@ -325,7 +326,8 @@ In particular the sign remains part of the integral convention at `p=2`.
 **Names.** Lean names in this README are relative to the namespace
 `TauCetiRoadmap.CrystallineCohomology`
 of `Suggested.lean` and are suggestions; `Crystalline.*` holds the crystalline and de Rham–Witt
-material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided power algebra.
+material, `LogCrystalline.*` the logarithmic material, and `DerivedDeRham.*` the CR.DDR targets
+owned here, retaining the namespace of the DerivedDeRhamCohomology constructors they extend.
 
 ## Exact supplier contracts
 
@@ -434,18 +436,12 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   ([0EY7](https://stacks.math.columbia.edu/tag/0EY7)). Its
   `finiteEtale_extend_of_regular_codimTwo` and fully faithful restriction give unique extension
   from an open `U ⊆ X` when every `x ∈ X ∖ U` has a regular local stalk of dimension at least two.
-- **PurityOfBranchLocus**, §§2.1–2.2: Zariski–Nagata branch purity (SGA 1 X, Théorème 3.1;
-  Stacks [0BMB](https://stacks.math.columbia.edu/tag/0BMB)) and its global corollary: a finite
-  dominant generically étale morphism from a normal integral locally noetherian scheme to a
-  regular integral locally noetherian scheme is étale if it is unramified at every
-  codimension-one point of the source. Apply this componentwise to finite normal covers whose
-  components are dominant and generically étale. This is the shared generic branch-purity theorem.
-
-  *Check (inseparable field boundary).* For every prime `p`, including `2`, let `K = 𝔽_p(t)` and
-  `L = K[u]/(u^p − t)`. The finite dominant map `Spec L → Spec K` has normal regular
-  zero-dimensional source and target and no codimension-one points, but `Ω¹_(L/K) = L du ≠ 0`.
-  It is not étale: the field extension is purely inseparable, as excluded by
-  Stacks [00U3](https://stacks.math.columbia.edu/tag/00U3).
+- **PurityOfBranchLocus**, §2.1: pointwise Zariski–Nagata branch purity (SGA 1 X,
+  Théorème 3.1; Stacks [0BMB](https://stacks.math.columbia.edu/tag/0BMB)). For a morphism of
+  locally noetherian schemes, at a point x with normal source stalk, regular target stalk,
+  quasi-finiteness, equal positive stalk dimensions and unramifiedness at all codimension-one
+  generalizations of x, the morphism is étale at x. CR.5:log-algebra.4 derives
+  *Generic branch-purity corollary* from this pointwise theorem, with generic étaleness explicit.
 - **AbhyankarLemma**, §§0.1–0.3, 1.1 and 3.3–3.4: tame finite separable extensions of DVR
   fraction fields, their Kummer extensions and DVR Abhyankar
   ([0BRM](https://stacks.math.columbia.edu/tag/0BRM)); the codimension-one tame-cover predicate
@@ -508,21 +504,11 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   finite cover); §E2.2 (`IsReplete.derived_limits` and `IsReplete.milnor`, only on replete topoi,
   including the point topos for module towers); Layer E3
   (Beck–Chevalley comparisons).
-- **SchemeAndStackFoundations**: §0.26, with the required extension from perfect `𝔽_p`-schemes
-  to schemes on which `p` is locally nilpotent, supplies the shared `wittScheme n X`, for `n≥1`,
-  with canonical agreement on its perfect-scheme domain. Its carrier is `(|X|,W_n(O_X))`;
-  `wittScheme_affine`
-  identifies it with Spec W_n(R) on affine opens, and `wittScheme_one` identifies length one
-  with X, naturally for morphisms and restrictions. The same foundational contract supplies
-  the elementary construction inputs: if p^N=0 in R then p^(Nn)=0 in W_n(R), the kernel of
-  W_n(R)→R is nilpotent, and W_n(R)[[f]⁻¹]≅W_n(R_f). These follow from the V-filtration,
-  V(x)V(y)=pV(xy), and induction on n for localization; hence the affine schemes glue with
-  exactly the stated carrier, without de Rham–Witt inputs (Langer–Zink Appendix A.1,
-  printed pp.92–93; §1.4, after (1.36), pp.26–27). CR.4.6 supplies the differential module sheaves on this carrier;
-  CR.3:duality uses the same scheme. The specialization checks are X=Spec F_p, n=2 giving
-  Spec Z/p²; n=1 giving X for every locally p-nilpotent X; and X=Spec F_p[t], whose
-  principal open t≠0 has ring W_n(F_p[t])[[t]⁻¹]=W_n(F_p[t,t⁻¹]). The extension also includes
-  `X=Spec(ℤ/p²)`, on which `p` is nilpotent, but which is not an `𝔽_p`-scheme.
+- **SchemeAndStackFoundations**: §0.26 supplies `wittScheme n X`, `wittScheme_affine` and
+  `wittScheme_one` for perfect `𝔽_p`-schemes and n≥1. CR.4.6 constructs
+  `Crystalline.wittScheme` for all schemes on which p is locally nilpotent, proves agreement
+  with that perfect-scheme constructor, and supplies the differential module sheaves and descent
+  on this carrier. CR.3:duality uses this same extended scheme.
 - **SchemeAndStackFoundations**: §0.15 (Néron–Popescu desingularization);
   §§2.1–2.2 (`cech_to_cohomology` and `leray_spectral_sequence`
   for general sites); Layer 2 (coherent cohomology, Tor-independent base change,
@@ -577,7 +563,7 @@ filtration. CR.DDR.4.5 and CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 then build der
 and quasiregular crystalline theory; CR.3:duality uses its top-degree sheaf to build the trace.
 Layer CR.5:log-algebra is
 independent of all crystalline layers and can be built in parallel with CR.1–CR.4. Its
-Abhyankar targets use LocalPurity §§2.1–2.2, PurityOfBranchLocus §§2.1–2.2 and
+Abhyankar targets use LocalPurity §§2.1–2.2, PurityOfBranchLocus §2.1 and
 AbhyankarLemma Layers 0–3 as specified in *Exact supplier contracts*. Layer CR.5
 combines it with Layer CR.1 and the PD foundations to build log crystalline cohomology. CR.DDR.6 develops
 logarithmic classifiers and crystalline comparisons on DerivedDeRhamCohomology §6.20's shared
@@ -1909,7 +1895,7 @@ glue. Apply the construction to the relative differential operator between succe
 levels glue over X. For a p-adic base take Rlim of the compatible finite-level resolutions and use
 the coherent derived limits of EnhancedDerivedSheaves E2:towers.1; do not infer exactness of
 ordinary limits without a hypothesis. ([Bhatt–de Jong, *Crystalline cohomology and de Rham
-cohomology*](https://arxiv.org/abs/1110.5001v1), §2, Remarks 2.9 and 2.18, pp.4,6; Theorem 3.6,
+cohomology*](https://arxiv.org/abs/1110.5001v1), §2, Remarks 2.9 and 2.18, pp.4,7; Theorem 3.6,
 pp.8–9; [Le Stum–Quirós, *The filtered Poincaré lemma in higher
 level*](https://arxiv.org/abs/math/0409564v1), §3, Definition 3.3 and Proposition 3.8, pp.10–12,
 with m=0.) *Needs:* *Crystalline linearization along a smooth embedding*; *Étale extension of PD
@@ -2001,7 +1987,7 @@ coordinates are PD variables, and their relative complex is contracted by ξ^[n]
 projection is a quasi-isomorphism. All maps come from envelope universal properties, so the diagrams
 for triple products commute; Čech descent glues them. Take the compatible finite-level maps and Rlim
 for the p-adic version. ([Bhatt–de Jong, *Crystalline cohomology and de Rham
-cohomology*](https://arxiv.org/abs/1110.5001v1), §2, Theorem 2.12, Remarks 2.18–2.19, pp.4–6; §3,
+cohomology*](https://arxiv.org/abs/1110.5001v1), §2, Theorem 2.12, Remarks 2.18–2.19, pp.4–7; §3,
 Theorem 3.6 with proof, pp.8–9; [Le Stum–Quirós, *The filtered Poincaré lemma in higher
 level*](https://arxiv.org/abs/math/0409564v1), §3, Corollaries 3.10–3.11, p.12, level m=0.) *Needs:*
 *Linearization in a smooth ambient scheme*; *Crystalline cohomology from an embedding*;
@@ -5002,7 +4988,7 @@ target, built on the quasicategories of EnhancedDerivedSheaves Layer E0. ([Bhatt
 *Revisiting the de Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §7.1
 Proposition 7.1.16; §7.2 Corollary 7.2.2, Proposition 7.2.4; §7.3 Definition 7.3.1, Theorem 7.3.4
 with proof, Proposition 7.3.6; §7.4 Definition 7.4.3, Theorem 7.4.7, Corollary 7.4.8; §7.5
-Proposition 7.5.3, Corollary 7.5.4, Lemma 7.5.6 and the proof of Theorem 7.4.7, pp.85–94.) *Needs:*
+Proposition 7.5.3, Corollary 7.5.4, Lemma 7.5.6 and the proof of Theorem 7.4.7, pp.82–94.) *Needs:*
 *Dieudonné complexes*; *Saturated Frobenius*; *Saturation by iterated décalage*; *Strict completion
 and its adjunction*; *Derived p-décalage and completion*; DerivedModuleAlgebra (§1.2
 *Derived ideal completeness*); DerivedModuleAlgebra (§1.3 *The derived completion
@@ -5783,6 +5769,39 @@ DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham complex*
   integral k and an isomorphism for k=m/p. Hence H⁰ and H¹ of W_2Ω^*_(F_p[T]/F_p) are the kernel and
   cokernel of f↦f′ on (Z/p²)[T], the de Rham cohomology of the lift.
 
+**Witt schemes on locally p-nilpotent schemes.** For a prime p, `r≥1` and a scheme X on which
+p is locally nilpotent, define `Crystalline.wittScheme r X`, written `W_rX`, with ringed-space
+carrier `(|X|,W_r(O_X))`. Prove `Crystalline.wittScheme_affine`: on an affine open `Spec R` this
+is `Spec W_r(R)`. Prove `Crystalline.wittScheme_one`: `W₁X=X`, and
+`Crystalline.wittScheme_perfect`: on perfect `𝔽_p`-schemes it agrees canonically with
+SchemeAndStackFoundations §0.26's `wittScheme`. Give functoriality for morphisms and compatibility
+of these identifications with open restriction and composition.
+
+*Hypotheses.* p is prime, `r≥1` and p is locally nilpotent on X; perfectness is required only for
+the comparison with the supplied perfect-scheme constructor.
+
+*Proof sketch.* The additive truncation sequences give `p^(N*r)=0` in `W_r(R)` if `p^N=0` in R.
+The kernel of `W_r(R)→R` is the Verschiebung ideal, and `V(x)V(y)=pV(xy)` makes it nilpotent.
+Induction on r gives `W_r(R)[[f]⁻¹]≅W_r(R_f)`; Teichmüller lifts of a family generating the unit
+ideal again generate the unit ideal. Thus the affine Witt schemes glue, their underlying spaces
+identify with `|X|`, and their structure sheaf is `W_r(O_X)`. The affine identifications also give
+functoriality, the length-one law and the perfect-scheme comparison.
+([Langer–Zink, *De Rham–Witt cohomology for a proper and smooth
+morphism*](https://www.math.uni-bielefeld.de/~zink/dRW.pdf), Appendix A.1, printed pp.92–93;
+§1.4 after (1.36), pp.26–27.) *Needs:* *Finite-length Witt operators and their identities*
+(CR.4.4); SchemeAndStackFoundations §0.26 (the perfect-scheme comparison); Mathlib
+`TruncatedWittVector` and scheme gluing.
+
+**Checks.**
+
+- For `X=Spec 𝔽_p` and `r=2`, `W₂X=Spec ℤ/p²`, agreeing with the perfect-scheme constructor.
+- For `X=Spec 𝔽_p[t]`, which is not perfect, the open `t≠0` has ring
+  `W_r(𝔽_p[t])[[t]⁻¹]≅W_r(𝔽_p[t,t⁻¹])`.
+- For `X=Spec(ℤ/p²)`, which is not an `𝔽_p`-scheme, `W₁X=X` and `p^(2r)=0` in `W_r(ℤ/p²)`, whose
+  projection to `ℤ/p²` has nilpotent kernel.
+- For `X=Spec ℚ`, the ringed space `(|X|,W₂(O_X))` has one point and ring `ℚ×ℚ`, which is not local.
+  It is not a scheme; local p-nilpotence cannot be omitted from this carrier description.
+
 **Witt localization and étale descent.** (1) For a map A→R of Z_(p)-algebras and an étale R-algebra
 S, the natural map W_r(S)⊗_(W_r(R))W_rΩ^*_(R/A)→W_rΩ^*_(S/A) is an isomorphism for every r≥1; it is
 an isomorphism of differential graded algebras for the unique extension of the derivation to the
@@ -5793,10 +5812,9 @@ W_r(A)[s̄⁻¹]→W_r(A[s⁻¹]) is an isomorphism of differential graded algeb
 R and s∈R, W_r(WsatΩ_R)[[s]⁻¹]≅W_r(WsatΩ_(R[1/s])), and WsatΩ_(R[1/s]) is the strict completion
 W(WsatΩ_R[[s]⁻¹]); the localisation WsatΩ_R[[s]⁻¹] itself is in general not strict. For an étale map
 R→S of F_p-algebras, W_r(WsatΩ_R)⊗_(W_r(R))W_r(S)≅W_r(WsatΩ_S) for every r. (4) Let X be a scheme
-over a Z_(p)-algebra A, with p locally nilpotent on X. Use W_rX=`wittScheme r X` from the
-required extension of SchemeAndStackFoundations §0.26 to this domain, with carrier
-`(|X|,W_r(O_X))`, its affine identifications
-`wittScheme_affine` and its length-one law `wittScheme_one`. On its affine opens Spec W_r(R),
+over a Z_(p)-algebra A, with p locally nilpotent on X. Use W_rX=`Crystalline.wittScheme r X`
+of *Witt schemes on locally p-nilpotent schemes*, with its affine identifications and
+length-one law. On its affine opens Spec W_r(R),
 U↦W_rΩ^q_(O(U)/A) is a quasi-coherent sheaf on W_rX and a sheaf for the étale topology. For an F_p-scheme X,
 U↦W_r(WsatΩ^q_(O(U))) and U↦WsatΩ^q_(O(U)) are sheaves for the Zariski and the étale topology on
 affines, the former quasi-coherent over W_r(O_X), and the Zariski cohomology groups H^n(Spec
@@ -5863,7 +5881,7 @@ the unique map of Dieudonné algebras B→C over A inducing g. For A=WsatΩ_R an
 take S′=S⊗_R R′: then maps B→C correspond to ring maps S→C⁰/VC⁰, so B is WsatΩ_S, and
 W_n(WsatΩ_R)⊗_(W_n(R))W_n(S)≅W_n(A)⊗_(W_n(R′))W_n(S′)=B_n≅W_n(WsatΩ_S), the first isomorphism by the
 base-change statement of step 5. The carrier, Witt nilpotence and Teichmüller localization
-are supplied by SchemeAndStackFoundations §0.26, independently of the differential complexes.
+belong to *Witt schemes on locally p-nilpotent schemes*, independently of the differential complexes.
 Sheaf property: on affines the presheaves are S↦M⊗_(W_r(R))W_r(S)
 for the W_r(R)-module M=W_rΩ^q; the Zariski sheaf property follows since the Teichmüller lifts [s_α]
 of elements generating the unit ideal of R generate the unit ideal of W_r(R); when p is nilpotent,
@@ -5890,8 +5908,8 @@ complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §5.5 Proposition 5.5.1
 towers it uses: §2.6 Definition 2.6.1, Propositions 2.6.2, 2.6.5, pp.21–23, and §2.9 Proposition
 2.9.1, Corollary 2.9.3, pp.27–28.) *Needs:* *Initial relative de Rham–Witt complex*; *Universal
 saturated de Rham–Witt complex*; *Strict completion and its adjunction*; *Finite Frobenius lifting*;
-*Restriction kernel and p-torsion*; *Strict Dieudonné towers*; SchemeAndStackFoundations §0.26
-(`wittScheme`, `wittScheme_affine`, `wittScheme_one` and its nilpotence/localization inputs);
+*Restriction kernel and p-torsion*; *Strict Dieudonné towers*;
+*Witt schemes on locally p-nilpotent schemes*;
 Mathlib `Algebra.Etale`.
 
 **Checks.**
@@ -5900,7 +5918,7 @@ Mathlib `Algebra.Etale`.
 - For an F_p-algebra R and s∈R: W_r(WsatΩ_(R[1/s]))=W_r(WsatΩ_R)[[s]⁻¹] for every r.
 - For an F_p-algebra R: H⁰(Spec R,WsatΩ^q)=WsatΩ^q_R and H^n(Spec R,WsatΩ^q)=0 for n>0 (BLM
   Proposition 5.2.4).
-- For X=Spec F_p, W_rX=`wittScheme r X`=Spec Z/p^r: one point with local ring
+- For X=Spec F_p, W_rX=`Crystalline.wittScheme r X`=Spec Z/p^r: one point with local ring
   W_r(F_p)=Z/p^r; at r=2 this is the same Spec Z/p² as the perfect-scheme constructor of
   SchemeAndStackFoundations §0.26. At r=1 its module sheaves are the ordinary relative forms.
 - For `X=Spec 𝔽_p[t]`, which is smooth over `𝔽_p` but not perfect, the shared carrier has
@@ -7028,8 +7046,8 @@ Gysin maps and the diagonal class.
 ### CR.3:duality.1 The trace, duality and Gysin maps
 
 **Proper smooth crystalline trace.** Let k be a perfect field of characteristic p, W_n=W_n(k), X a
-proper smooth k-scheme of pure dimension d, W_nX=`wittScheme n X` of
-SchemeAndStackFoundations §0.26 with carrier (|X|,W_nO_X), and f_n:W_nX→Spec W_n its
+proper smooth k-scheme of pure dimension d, W_nX=`Crystalline.wittScheme n X` of
+CR.4.6 with carrier (|X|,W_nO_X), and f_n:W_nX→Spec W_n its
 structure map; f_n^! denotes the exceptional inverse image of coherent duality. Let n≥1 and
 σ be Witt Frobenius. For an integer r, `σ_*^r M` has the underlying additive group of M and
 scalar action `a·m=σ^r(a)m`; this exact restriction of scalars also acts on complexes.
@@ -7944,6 +7962,37 @@ singularities, Theorem 8.2.) *Needs:* *Log regular schemes*; *Kato chart criteri
 - The toric coordinate crossing boundary on smooth affine space satisfies the rank formula after the
   log smooth chart.
 
+**Generic branch-purity corollary.** Prove `Crystalline.etale_of_genericallyEtale_codimOne`:
+a finite dominant generically étale morphism `f:X→Y` from a normal integral locally noetherian
+scheme to a regular integral locally noetherian scheme is étale if it is unramified at every
+codimension-one point of X. Apply the result componentwise to finite normal covers whose
+components are dominant and generically étale.
+
+*Hypotheses.* Finiteness, dominance, generic étaleness, normal integral source, regular integral
+target, locally noetherian schemes and unramifiedness at every codimension-one source point.
+
+*Proof sketch.* Over an affine target open, its affine inverse image gives an integral injective
+ring extension with integrally closed base. Going down, going up and incomparability give equality of the source
+and target stalk dimensions. At every nongeneric source point these dimensions are positive,
+so pointwise branch purity applies. At the generic point the finite extension of function fields
+is separable by generic étaleness, hence étale. ([Stacks,
+Lemma 58.21.4](https://stacks.math.columbia.edu/tag/0BMB), conditions (1)–(5);
+[Proposition 10.38.7](https://stacks.math.columbia.edu/tag/00H8), going down;
+[Lemma 10.143.4](https://stacks.math.columbia.edu/tag/00U3), étale algebras over fields.)
+*Needs:* PurityOfBranchLocus §2.1 (pointwise branch purity);
+SchemeAndStackFoundations §0.30 (normal schemes and finite dominant morphisms).
+
+**Checks.**
+
+- For a finite separable field extension `L/K`, `Spec L→Spec K` is étale; the codimension-one
+  condition is empty and generic étaleness supplies the conclusion.
+- For every prime p, including 2, let `K=𝔽_p(t)` and `L=K[u]/(u^p−t)`. Both spectra are regular
+  and zero-dimensional, so the codimension-one condition is empty, but `Ω¹_(L/K)=L du≠0`.
+  The map is not étale; generic étaleness is necessary.
+- Over a characteristic-zero field k, `Spec k[t]→Spec k[x]`, `x↦t²`, is finite dominant and
+  generically étale between regular schemes, but `Ω¹_(k[t]/k[x])=k[t]/(t)·dt`. It is ramified at
+  the codimension-one point `t=0` and is excluded by the unramifiedness hypothesis.
+
 **The classical Abhyankar lemma.** Let X = Spec A be a regular local scheme with residue
 characteristic p ≥ 0, f₁, …, f_r part of a regular system of parameters, D = Σ div(f_i) the strict
 normal crossings divisor they cut out, and U = X ∖ Supp D. For integers n_i ≥ 1 put
@@ -7969,7 +8018,7 @@ normal (the extension is the normalisation of `X′` in `V ×_U U′`). Abhyanka
 the DVR extension at codimension-one points; its §1.1 supplies the tame-cover predicate.
 After spreading out these extensions, LocalPurity §§2.1–2.2 extends uniquely across the remaining
 complement, whose points have codimension at least two in the regular scheme `X′`. Generic
-branch purity for finite normalizations is supplied by PurityOfBranchLocus §§2.1–2.2.
+branch purity for finite normalizations follows from *Generic branch-purity corollary*.
 Each dominant component of the normalization is generically étale because its restriction to
 the dense open `U′` is finite étale.
 Primality of the n_i to p is proved
@@ -7980,7 +8029,7 @@ universal and gives the full tame fundamental group ([SGA 1](https://arxiv.org/a
 5.1, Proposition 5.2 (absolute Abhyankar lemma) and Corollaire 5.3, pp. 314–316 of the arXiv
 edition). *Needs:* Mathlib `IsRegularLocalRing` and `Algebra.Etale`; the strict normal crossings
 divisor of *Divisorial log structures*; LocalPurity §§2.1–2.2 (regular-local purity, spreading out
-and codimension-two cover extension); PurityOfBranchLocus §§2.1–2.2 (generic branch purity);
+and codimension-two cover extension); *Generic branch-purity corollary*;
 AbhyankarLemma §§0.1–0.3, 1.1 and 3.3–3.4 (DVR tameness and Abhyankar, codimension-one
 tame covers, regular-divisor local structure and normalization).
 
@@ -11291,19 +11340,24 @@ DerivedDeRhamCohomology (Layer 1); Mathlib.
 
 ## Downstream consumers
 
-- **PrismaticCohomology** imports crystalline sites and
-  the Poincaré lemma (Layers CR.1–CR.3), Dieudonné complexes and the de Rham–Witt comparisons (Layer
-  CR.4), and the log layers CR.5:log-algebra, CR.5 and CR.6 for its log variant.
+- **PrismaticCohomology** imports crystalline sites and crystals (§§CR.1.1–CR.1.3),
+  the smooth-lift comparison and derived limits (§§CR.2.1–CR.2.3), and derived de Rham–Witt with
+  its quasiregular semiperfect control (§§CR.DDR.4.5, CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22).
 - **AInfCohomology** imports crystalline base change, the relative and continuous de
   Rham–Witt complexes, décalage fixed points and the Nygaard comparisons (Layers CR.1–CR.4) and, for
   the semistable case, Layers CR.5 and CR.6.
 - **CohomologyComparisons** and **PadicHodgeTheory** import crystalline and log crystalline
   cohomology with Frobenius, the Frobenius isogeny, duality and Hyodo–Kato theory (Layers CR.1–CR.6)
   for the crystalline and semistable comparison theorems.
-- **PadicDifferentialEquationsAndRigidCohomology** imports crystalline cohomology and its finiteness
-  (Layers CR.2, CR.3); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** and
-  **VectorBundlesAndIsocrystals** import crystalline coefficients and isocrystals (Layers CR.1,
-  CR.4, CR.7).
+- **PadicDifferentialEquationsAndRigidCohomology** imports Layers CR.1–CR.3,
+  CR.3:Frobenius-isogeny, CR.3:duality, §CR.4.7, §§CR.5.1–CR.5.4 and Layer CR.6;
+  **FiniteFlatGroupsAndIntegralPadicHodgeTheory** imports §CR.4.7 and §§CR.7.1, CR.7.3;
+  **VectorBundlesAndIsocrystals** imports §CR.4.7.
+- **ComplexComparisonPartII** imports `Crystalline.Connection` (CR.1.3),
+  `LogCrystalline.PrelogRing`, CR.5:log-algebra.1–CR.5:log-algebra.4 and CR.5.1.
+  **FormalConnectionsOpers** imports the shared ordinary connection carrier (CR.1.3).
+  **AbelianSchemesAndArithmeticModuli** imports the base-compatible big fppf crystalline site
+  (CR.1.1) and the coefficient calculus (CR.7.1).
 - **KTheoryFiniteLocalFields**, **HigherLocalFieldsAndHigherClassFieldTheory**,
   **MotivicEtaleKTheory** and **PadicHodgeRegulators** import de Rham–Witt complexes and logarithmic
   Hodge–Witt sheaves (Layer CR.4), log structures (Layer CR.5:log-algebra) and log crystalline

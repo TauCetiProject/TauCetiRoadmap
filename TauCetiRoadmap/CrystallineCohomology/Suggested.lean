@@ -346,9 +346,9 @@ a smooth embedding; Linearization in a smooth ambient scheme.
 Layer CR.3: The crystalline first Chern class and the hyperplane class; Crystalline cup products;
 Semilinear crystalline Frobenius and linearization.
 
-Layer CR.4: Principal p-décalage on torsion-free complexes; Dieudonné complexes; Saturated
-Frobenius; Verschiebung and the differential; Morphisms of Dieudonné complexes; Bockstein
-reduction of principal p-décalage; Derived p-décalage and completion; Saturation by iterated
+Layer CR.4: Witt schemes on locally p-nilpotent schemes; Principal p-décalage on torsion-free
+complexes; Dieudonné complexes; Saturated Frobenius; Verschiebung and the differential;
+Morphisms of Dieudonné complexes; Bockstein reduction of principal p-décalage; Derived p-décalage and completion; Saturation by iterated
 décalage; The Verschiebung filtration; Finite Verschiebung quotient complex; Projection to the
 finite quotient; Restriction between finite quotients; Frobenius on finite quotients; Verschiebung
 on finite quotients; Functorial finite quotients; Completion of a saturated Dieudonné complex;
@@ -397,10 +397,13 @@ Layer CR.6 includes log rigid Hyodo–Kato cohomology; Layer CR.5:log-algebra in
 SNC Abhyankar theorem, compatible prime-to-residue-characteristic Kummer tower, universal tame
 pro-cover and full tame fundamental group used in the logarithmic Abhyankar lemma. LocalPurity
 §§2.1–2.2 supplies regular-local purity and codimension-two cover extension;
-PurityOfBranchLocus §§2.1–2.2 supplies branch purity for finite dominant generically étale
-morphisms from normal integral locally noetherian schemes to regular integral locally noetherian
-schemes, with unramifiedness at every codimension-one source point. The SNC normalization is
-generically étale because it extends a finite étale cover of the dense open.
+PurityOfBranchLocus §2.1 supplies pointwise branch purity at equal positive stalk dimensions.
+CR.5:log-algebra.4 derives Crystalline.etale_of_genericallyEtale_codimOne for finite dominant
+generically étale morphisms from normal integral locally noetherian schemes to regular integral
+locally noetherian schemes, with unramifiedness at every codimension-one source point.
+Going down gives equal stalk dimensions; generic étaleness handles the zero-dimensional stalks.
+The inseparable extension F_p(t)[u]/(u^p-t) has no codimension-one points but is not étale.
+The SNC normalization is generically étale because it extends a finite étale cover of the dense open.
 AbhyankarLemma Layers 0–3 supplies
 DVR tameness, DVR Abhyankar, codimension-one ramification and the regular-divisor theorem.
 Log rigid Hyodo–Kato cohomology uses S† = Spwf(A₀[t]†), weak formal lifts, products and blow-ups,
@@ -496,12 +499,12 @@ Crystalline.satDRW_degree0_F; Crystalline.satDRW_unit; Crystalline.satDRW_residu
 Crystalline.satDRW_red; Crystalline.satDRW_ofLift.
 
 CR.4.6 The classical and the relative de Rham–Witt complex:
-The carrier W_rX is the shared wittScheme r X from the required extension of
-SchemeAndStackFoundations §0.26 to r ≥ 1 and p locally nilpotent on X,
-with wittScheme_affine and wittScheme_one.
-Its perfect-scheme specialization is the same constructor. Witt nilpotence and Teichmüller
-localization belong to this foundational contract; CR.4.6 supplies the differential module
-sheaves and descent on that carrier. CR.3:duality uses the same W_nX. At X=Spec F_p,
+CR.4.6 constructs Crystalline.wittScheme r X for r ≥ 1 and p locally nilpotent on X,
+with carrier (|X|, W_r(O_X)), functoriality, open restriction and composition.
+Crystalline.wittScheme_affine; Crystalline.wittScheme_one; Crystalline.wittScheme_perfect.
+The last identifies its perfect-scheme specialization with SchemeAndStackFoundations §0.26's
+wittScheme. CR.4.6 owns Witt nilpotence and Teichmüller localization, the differential module
+sheaves and descent on this carrier. CR.3:duality uses the same W_nX. At X=Spec F_p,
 r=2 it is Spec Z/p²; at r=1 it is X; at X=Spec F_p[t] its principal open t≠0 has ring
 W_r(F_p[t])[[t]⁻¹]=W_r(F_p[t,t⁻¹]). The polynomial ring F_p[t] is smooth but not perfect.
 For X=Spec(Z/p²), which is not an F_p-scheme, the same constructor has W₁X=X;
