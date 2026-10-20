@@ -1,8 +1,8 @@
-<!--tauceti-status:v1 {"roadmap":"ContourIntegration","to_sha":"0d3161a2e5e92314bf045690e177580179a2f8d9","ts":"2026-09-30T18:26:01Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","remaining":"only extensions beyond the pinned scope: accumulation-free singular sets and locally straight essential singularities","state":"done"}],"readme_sha":"ae796dd51cdfdf5aa6753022b6161f50013b7282f20a8dcf6e6371b4362ea0f1","roadmap":"ContourIntegration","to_sha":"0d3161a2e5e92314bf045690e177580179a2f8d9"}-->
+<!--tauceti-status:v1 {"roadmap":"ContourIntegration","to_sha":"1d095894ac25298eb2a23398826c0f867b6d3164","ts":"2026-10-05T01:07:53Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","remaining":"only extensions beyond the pinned scope: accumulation-free singular sets and locally straight essential singularities","state":"done"}],"readme_sha":"ae796dd51cdfdf5aa6753022b6161f50013b7282f20a8dcf6e6371b4362ea0f1","roadmap":"ContourIntegration","to_sha":"1d095894ac25298eb2a23398826c0f867b6d3164"}-->
 # Status: ContourIntegration
 
-This file documents the status of the ContourIntegration roadmap up until `0d3161a` (2026-09-30T18:26:01Z). There may have been subsequent updates.
+This file documents the status of the ContourIntegration roadmap up until `1d09589` (2026-10-05T01:07:53Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.

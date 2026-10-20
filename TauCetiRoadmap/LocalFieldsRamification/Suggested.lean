@@ -1,14 +1,15 @@
 import Mathlib
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Basic
 import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
-import TauCeti.NumberTheory.LocalField.Discriminant
+import TauCeti.NumberTheory.LocalField.Discriminant.Basic
 import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
 import TauCeti.NumberTheory.LocalField.FiniteExtension.Tower
-import TauCeti.NumberTheory.LocalField.Herbrand
+import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 import TauCeti.NumberTheory.LocalField.InertiaDegree
 import TauCeti.NumberTheory.LocalField.NatCastValuation
-import TauCeti.NumberTheory.LocalField.Norm.Unramified
-import TauCeti.NumberTheory.LocalField.PowerSubgroup
+import TauCeti.NumberTheory.LocalField.Norm.Unramified.Basic
+import TauCeti.NumberTheory.LocalField.PowerSubgroup.Basic
+import TauCeti.NumberTheory.LocalField.PowerSubgroup.Open
 import TauCeti.NumberTheory.LocalField.RamificationGroup
 import TauCeti.NumberTheory.LocalField.RamificationIndex
 import TauCeti.NumberTheory.LocalField.ResidueCorrespondence
@@ -17,7 +18,7 @@ import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Map
 import TauCeti.NumberTheory.LocalField.UnitFiltration.RamificationGroup
 import TauCeti.NumberTheory.LocalField.UnitsDecomposition
-import TauCeti.Topology.Algebra.Group.Profinite.Presentation
+import TauCeti.Topology.Algebra.Group.Profinite.Presentation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCetiRoadmap.ProfiniteProPGroups.Suggested
 
@@ -428,7 +429,7 @@ theorem ramificationIndex_mul_inertiaDegree [Algebra K L] [ValuativeExtension K 
   TauCeti.ramificationIndex_mul_inertiaDegree K L
 
 /-- **Layer 0, residue-degree characterization of total ramification.** This is the stable
-one-extension bridge consumed by `TotallyRamified`; a family-level intermediate-field wrapper
+one-extension bridge consumed by `MassFormula`; a family-level intermediate-field wrapper
 must compare to this theorem rather than define a second ramification predicate. No dependency on
 the consumer roadmap is introduced here. A closed proof from `e · f = n` and `0 < e`. -/
 theorem isTotallyRamified_iff_inertiaDegree_eq_one [Algebra K L] [ValuativeExtension K L]
@@ -654,18 +655,20 @@ theorem card_powerClasses_mixed (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
 /-- **Layer 1, openness of the power subgroup away from the residue characteristic.** Openness
 comes from the explicit deep subgroup contained in the range
 (`TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`); no finite-index implication is
-used. Tau Ceti's `TauCeti.isOpen_range_powMonoidHom_of_isUnit`. -/
+used. Tau Ceti's `TauCeti.isOpen_range_powMonoidHom`, which needs only `(n : K) ≠ 0`. -/
 theorem isOpen_range_powMonoidHom_of_isUnit (n : ℕ) (_hn : n ≠ 0)
     (hn' : IsUnit (n : ↥𝒪[K])) :
     IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) :=
-  TauCeti.isOpen_range_powMonoidHom_of_isUnit hn'
+  TauCeti.isOpen_range_powMonoidHom fun h ↦ hn'.ne_zero (Subtype.ext (by simpa using h))
 
-/-- **Layer 1, openness of the power subgroup in mixed characteristic.** -/
+/-- **Layer 1, openness of the power subgroup in mixed characteristic.** Tau Ceti's
+`TauCeti.isOpen_range_powMonoidHom`, since `n ≠ 0` in a field of characteristic zero. -/
 theorem isOpen_range_powMonoidHom (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
     [ValuativeExtension ℚ_[p] K] [Module.Finite ℚ_[p] K]
     (n : ℕ) (_hn : n ≠ 0) :
     IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) :=
-  sorry
+  haveI : CharZero K := charZero_of_injective_algebraMap (algebraMap ℚ_[p] K).injective
+  TauCeti.isOpen_range_powMonoidHom (Nat.cast_ne_zero.mpr _hn)
 
 /-- **Layer 1, finite index away from the residue characteristic.** This is derived from
 `card_powerClasses_of_isUnit`, independently of the openness proof. Tau Ceti's
@@ -708,10 +711,10 @@ omit [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K] in
 subgroup of squares, and the counts above are stated at the range of `powMonoidHom`. This is the
 identification at `n = 2`, and it is what lets a consumer read the count of this layer, and
 `ProfiniteCohomology.kummerIso`, on `Subgroup.square Kˣ`. Tau Ceti's
-`TauCeti.square_eq_powMonoidHom_two_range`, for any commutative group. -/
+`TauCeti.square_eq_range_powMonoidHom`, for any commutative group. -/
 theorem square_eq_range_powMonoidHom :
     Subgroup.square Kˣ = (powMonoidHom 2 : Kˣ →* Kˣ).range :=
-  TauCeti.square_eq_powMonoidHom_two_range
+  TauCeti.square_eq_range_powMonoidHom
 
 /-- **Layer 1, worked example: `ℚ_2ˣ/(ℚ_2ˣ)²` has order 8** (the classes of `−1, 2, 5`
 generate). The odd-`p` count is `4`; this factor-of-two dyadic difference is why no layer may
@@ -843,15 +846,15 @@ noncomputable abbrev normGroup [Algebra K L] [Module.Finite K L] : Subgroup Kˣ 
 on the depth-zero step of the unit filtration, which `mem_unitFiltration_zero` identifies with
 the units of the valuation ring. ⚠ *False generalization:* for a ramified extension the norm of
 a unit is still a unit, but the image is a proper subgroup; at `L = ℚ_2(√2)` it has index `2` in
-`ℤ_2ˣ`. Tau Ceti's `TauCeti.map_normUnits_unitFiltration_zero`
-(`TauCeti/NumberTheory/LocalField/Norm/Unramified.lean`), under the same adaptation of `h` as
+`ℤ_2ˣ`. Tau Ceti's `TauCeti.map_normUnits_unitFiltration` at `i = 0`
+(`TauCeti/NumberTheory/LocalField/Norm/Unramified/Basic.lean`), under the same adaptation of `h` as
 `frobeniusAlgEquiv`. -/
 theorem map_norm_unitFiltration_zero [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     (h : ramificationIndex K L = 1) :
     Subgroup.map (TauCeti.Algebra.normUnits K : Lˣ →* Kˣ) (unitFiltration L 0) =
       unitFiltration K 0 :=
   haveI := (TauCeti.isUnramified_iff_ramificationIndex_eq_one K L).2 h
-  TauCeti.map_normUnits_unitFiltration_zero K L
+  TauCeti.map_normUnits_unitFiltration K L 0
 
 /-- **Layer 2, the unramified norm group in norm-equation form.** `N_{L/K}(Lˣ) = π^{fℤ} × 𝒪[K]ˣ`,
 stated as the solvability criterion for the norm equation `N_{L/K}(y) = x`: with `e = 1` the
@@ -1234,7 +1237,7 @@ theorem exists_integerRing_adjoin_eq_top [Algebra K L] [ValuativeExtension K L]
 
 /-- **Layer 3, total ramification is equivalent to an Eisenstein generator.** The generator is
 integral, is a root after mapping coefficients to `𝒪[L]`, and generates the entire integer ring.
-This is arithmetic of one extension; `TotallyRamified` may install the intermediate-field
+This is arithmetic of one extension; `MassFormula` may install the intermediate-field
 adapters and consume this theorem when constructing a family. -/
 theorem isTotallyRamified_iff_exists_eisenstein_generator
     [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] :
@@ -1248,7 +1251,7 @@ theorem isTotallyRamified_iff_exists_eisenstein_generator
 /-- **Layer 3, orthogonality of an Eisenstein power basis.** For an Eisenstein generator, the
 values of the nonzero terms are distinct modulo the ramification index, so the valuation of the
 sum is their minimum. In the totally ramified situation supplied by the Eisenstein hypotheses,
-the ramification index is `f.natDegree`. This export is consumed by `TotallyRamified`, which owns
+the ramification index is `f.natDegree`. This export is consumed by `MassFormula`, which owns
 the coordinate-box and measure consequences. No dependency on that roadmap is introduced here. -/
 theorem addVal_sum_eisenstein_powerBasis [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [Algebra.IsSeparable K L]
@@ -1308,7 +1311,7 @@ theorem differentExponent_eq_of_algEquiv
   sorry
 
 /-- **Layer 3, invariance of the local discriminant exponent under a `K`-isomorphism.** This
-export is consumed by `TotallyRamified`, which derives invariance of its mass-formula weight from
+export is consumed by `MassFormula`, which derives invariance of its mass-formula weight from
 it. No dependency on that roadmap is introduced here. -/
 theorem discriminantExponent_eq_of_algEquiv
     (M : Type v) [Field M] [ValuativeRel M] [TopologicalSpace M]

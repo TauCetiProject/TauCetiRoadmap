@@ -63,7 +63,7 @@ endpoint-preserving homotopy, over a fixed endpoint, form a discrete space. Path
 theorem discreteTopology_pathHomotopicQuotient [LocallyPathConnectedSpace X]
     [SemilocallySimplyConnectedSpace X] (x₀ x : X) :
     DiscreteTopology (Path.Homotopic.Quotient x₀ x) :=
-  Path.Homotopic.Quotient.instDiscreteTopology
+  Path.Homotopic.Quotient.discreteTopology
 
 /-- Once the endpoint projection is a covering map, its fibres are discrete too; that step is
 where path-connectedness enters, since it is what makes the projection surjective. -/
