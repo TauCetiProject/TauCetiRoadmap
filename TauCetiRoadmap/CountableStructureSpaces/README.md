@@ -44,8 +44,8 @@ milestones and an acceptance check that compiles without later layers.
 | 6 | Invariant analytic separation; the well-order class: boundedness, not analytic, not Borel, coded undefinability | 1–5; BorelEquivalenceRelations (invariant Lusin separation) |
 
 Besides Mathlib and Tau Ceti, the layers consume four general lemmas of the sibling roadmap
-BorelEquivalenceRelations (Layers 1, 2 and 6) and one theorem of the sibling roadmap
-InfinitaryModelExistence (Layer 5), all stated exactly under
+[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)) (Layers 1, 2 and 6) and one theorem of the sibling roadmap
+[InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) (Layer 5), all stated exactly under
 [ownership](#existing-library-and-ownership). In Layer 6 only `exists_sentence_separating` uses
 Layer 5; the well-order results use Layers 0–3 and the easy direction of López–Escobar.
 
@@ -154,7 +154,7 @@ models. Its PC sentences are relational, and every model of them is countable by
 spaces, the logic action, model classes, Borelness of back-and-forth equivalence and isomorphism,
 the external Scott height and its comparison with the internal rank, the tree material of Layer 3,
 the forms of López–Escobar in Layers 5 and 6.1 (a relative form belongs to the
-CountableModelCounting roadmap), separation by invariant Borel sets and sentences for the logic
+[CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) roadmap), separation by invariant Borel sets and sentences for the logic
 action, and the well-order class. It proves no perfect-set, Silver, `G₀` or Borel-reducibility
 theorem, and none of the general Polish-space lemmas listed above; those belong to the
 BorelEquivalenceRelations roadmap. It counts no models; that belongs to the
@@ -696,15 +696,15 @@ These belong to separate roadmaps.
   random-graph worked example
   ([Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726)) supplies the
   extension axioms of worked example 4.
-- **InfinitaryModelExistence.** The single dependency is `pcSeparation`, with `PCMem`, as stated
+- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)). The single dependency is `pcSeparation`, with `PCMem`, as stated
   under ownership. Its application here uses relational PC sentences whose models are countable by
   construction, so it needs neither Löwenheim–Skolem, nor graph translation, nor that roadmap's
   boundedness of well-ordered models.
-- **BorelEquivalenceRelations.** This roadmap consumes exactly four general results of that
+- **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)). This roadmap consumes exactly four general results of that
   roadmap: `IsGδ.polishSpace` and `IsGδ.standardBorelSpace` (its Layer 0.2),
   `AnalyticSet.prod` (Layer 0.3) and `exists_invariant_measurableSet_separating` (Layer 2.2).
   That roadmap consumes nothing from this one.
-- **CountableModelCounting** consumes the interface listed under ownership.
+- **[CountableModelCounting](../CountableModelCounting/README.md)** ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) consumes the interface listed under ownership.
 - **Mathlib.** [#41946](https://github.com/leanprover-community/mathlib4/pull/41946) (bodies of
   trees) fixes the shape of the corresponding targets; build them here now and replace them by
   imports when it lands. [#42693](https://github.com/leanprover-community/mathlib4/pull/42693)
