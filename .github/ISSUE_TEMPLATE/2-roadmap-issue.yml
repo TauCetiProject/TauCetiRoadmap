@@ -39,6 +39,7 @@ body:
         - CompactOperators
         - ComplexCurveModuli
         - ComplexKahlerGeometry
+        - ComplexManifolds
         - ComplexTori
         - ConformalMapping
         - DGAInfinity
