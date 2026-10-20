@@ -719,7 +719,8 @@ an order automorphism of `J` carries `u` to `u'`, and the automorphism of `EM(J,
 (2.3, functoriality) carries one tuple to the other, so they have the same complete type. Each
 realized type is therefore the type of some code, and there are countably many. The `L`-structure
 is the reduct along `g` of 3.4, so automorphisms of the `L'`-structure are automorphisms of the
-reduct, and 5.2 gives smallness. The cardinality is `κ` by `exists_emModel_card_eq`.
+reduct, and 5.2 gives smallness. The cardinality is `κ` by the cardinality clause of 2.3:
+`#EM(J, Φ) = #J` for infinite `J` when `Φ disEq`.
 
 ### 5.4 Countable companions and complete sentences
 
