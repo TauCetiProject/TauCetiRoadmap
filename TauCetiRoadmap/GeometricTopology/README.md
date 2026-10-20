@@ -72,7 +72,8 @@ remain its targets.
 | [HomotopySpheres](https://github.com/TauCetiProject/TauCetiRoadmap/blob/84eb50c63d08d9dafdc05a330be675d762bf62a3/TauCetiRoadmap/HomotopySpheres/README.md) | Stage1.7 simply connected h-cobordism; 4B stable O; 6C/9 low stems, Θ₅/Θ₆ and their comparison maps. |
 | [LieGroupoidsPoisson](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4391caecad1cd4979caa27e490e2bbfd69598d81/TauCetiRoadmap/LieGroupoidsPoisson/README.md) | G0.1 regular-fiber manifold with inherited topology, smooth inclusion and tangent kernel. |
 | [RealAlgebraicGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/RealAlgebraicGeometry/README.md) | Layer1 polynomial IVT/Rolle, Sturm–Tarski, Thom encodings and one-sided/half-open endpoint semantics. |
-| [CombinatorialHeegaardFloer](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/CombinatorialHeegaardFloer/README.md) | Grid complexes, τ and its slice-genus bound; LaneK grid/presentation comparison. GT6 supplies the concordance/additivity adapters and its Khovanov–Lee s construction. |
+| [KhovanovHomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e20599ee5502128011290d11b54e461d3ba848a0/TauCetiRoadmap/KhovanovHomology/README.md) | G/K1–K7 ordinary integral Kh, actual finite diagram/resolution tensors, grading/signs, coefficient comparisons, Reidemeister maps and the shared marked affine movie presentation. GT6 owns the Lee deformation, its comparison with that ordinary theory, spherical sweep-around descent and Rasmussen s. |
+| [CombinatorialHeegaardFloer](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/CombinatorialHeegaardFloer/README.md) | Grid complexes, τ and its slice-genus bound; LaneK grid/presentation comparison. GT6 supplies the concordance/additivity adapters and its Lee/Rasmussen s extension. |
 
 ## Principles
 
@@ -338,6 +339,123 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   Prove independence of `glueAlongCollars` from the chosen collars up to a diffeomorphism agreeing
   with the piece inclusions away from a smaller collar; keep this comparison
   separate from the smooth structure for the prescribed collars.
+- **General relative section and manifold-map transversality.** Before the
+  compact sphere/manifold specializations, construct the ordinary smooth
+  relative theorem on finite-dimensional Hausdorff second-countable sources.
+  For a smooth finite-rank vector bundle E over M and smooth section s,
+  let A be closed with s already transverse on a neighbourhood, and O
+  an open allowed region with M minus O inside that transverse neighbourhood.
+  Construct s' transverse everywhere, equal to s near A and outside O.
+  Give the supported-D version when every nontransverse point lies in
+  int D away from the protected neighbourhood; D need not be compact.
+  Retain the zero bundle/empty source cases and actual boundary collars.
+  Relative boundary/corner data are already transverse on each fixed
+  stratum; choose perturbations meeting every actual stratum, rather than
+  applying only interior Sard. The redundant literal D subset U case
+  admits s'=s and is separate from this general theorem.
+
+  Define approximation input by a locally finite relatively compact
+  trivializing/chart cover, positive error tolerances and specified finite
+  derivative orders on its compact pieces. Construct compactly supported
+  spanning perturbation sections by smooth bump functions. The universal
+  local parameter section is transverse by its vertical derivative;
+  parametric Sard and C1-openness on controlled compact sets choose the
+  parameters. Prove a countable exhaustion/locally finite iteration with
+  derivative estimates and transverse-tail control gives a smooth global
+  limit preserving the fixed data and requested tolerances. Prove its
+  compatibility with chart/refinement and bundle transitions; a point-target
+  Sard theorem alone is not the global bundle result. Compare the induced
+  finite-order and C-infinity approximation notions explicitly with the
+  relevant GT smooth-map topologies; weak and strong topologies on a
+  noncompact source are not silently identified.
+
+  Construct the corresponding finite-dimensional smooth manifold-map
+  theorem for an embedded target submanifold in its actual normal charts,
+  and the relative compact-parameter/end-collar version. Use the smooth
+  implicit-function theorem to construct the inverse-image manifold and
+  identify its QUOTIENT normal bundle with the pulled-back target normal
+  bundle via the derivative. Include empty inverse images and negative
+  expected dimension. Ordered target normals give actual framings with
+  the pinned boundary/tangent-order signs. This supplies the earlier
+  inverse-image/framed-trace contracts consumed by finite HS5. It has no
+  input from PT, stable J, surgery classification or a conjectural
+  immersion comparison.
+
+- **Finite-manifold-target relative approximation and transversality.**
+  For a compact finite-dimensional Hausdorff second-countable smooth source,
+  including supplied boundary/corner strata, and a boundaryless finite-dimensional
+  smooth target, construct relative manifold-target Whitney approximation by a
+  finite chart/buffer/cutoff induction using native vector-target approximation.
+  Keep exact agreement on a neighborhood of the protected closed set and the
+  actual chartwise straight-line homotopy. This precedes the sphere special case.
+  For a smooth map and a closed embedded target submanifold build finite chart
+  translation parameter families with source cutoffs. Prove normal-parameter
+  surjectivity off the protected set; fixed collars must already be transverse
+  on each stratum. Sard on every stratum's inverse-image parameter projection
+  gives one arbitrarily small common regular parameter. Construct the inverse
+  image, face/collar identities and df-induced quotient-normal isomorphism,
+  retaining empty and dim(source)<codimension cases. Relative homotopies keep
+  already transverse endpoint collars and give actual collared bordisms.
+  The projective applications use AT4.6/CKG K7's actual finite ratio charts and
+  real/complex hyperplanes, with the finite-dimensional hypotheses retained.
+  For arbitrary sigma-compact finite-dimensional Hausdorff second-countable
+  smooth sources retain a separate circle/finite-projective-target theorem.
+  Embed the compact target as unit-circle or rank-one projection matrices,
+  smooth ambient maps by native relative vector approximation, and retract
+  through its uniform normal tube; no source compactness is needed.
+  For projective hyperplanes perturb by (Id+beta(x)A)·f(x), ||A||<1/2,
+  with beta nonnegative, zero near the fixed set and with its zero set inside
+  the already stratumwise transverse neighborhood. Parameter derivatives span
+  the projective tangent wherever beta>0; at its zeros source derivatives
+  supply transversality. Circle targets use rotation by beta(x)a.
+  Sard on every actual boundaryless stratum gives a common arbitrarily small
+  regular parameter. Keep fixed transverse collars, proper closed inverse
+  images, locally finite bordisms, and all empty/dimension cases.
+- **Sphere-target approximation and relative framed inverse images.**
+  For a compact Hausdorff finite-dimensional smooth source M, including
+  the supplied boundary/corner models, and the actual unit sphere S^r
+  in EuclideanSpace ℝ (Fin (r+1)), construct relative smooth
+  approximation of a continuous map f:M→S^r. Take a closed protected
+  set C on a neighbourhood of which f is smooth, a specified smaller
+  closed buffer inside that neighbourhood, and a positive continuous
+  error function. Use native Continuous.exists_contMDiff_approx_and_eqOn
+  into the ambient real vector space with error less than
+  min(1/4,ε/4), then normalize the nonzero approximation by its norm.
+  Prove its error bound and the normalized straight-line homotopy,
+  fixed near C; its denominator is bounded below by3/4. State actual
+  ContMDiff, subspace-map and model comparisons, not an empty condition.
+  For a smooth sphere map fix a closed protected set D containing all
+  collar neighbourhoods that must stay fixed. Require an open neighbourhood
+  U of D on which f restricted to every boundary/corner stratum is transverse
+  to the supplied y, with product-compatible data on the specified collars.
+  Unprotected boundary faces may be perturbed. Construct arbitrarily small
+  perturbations fixed near D and transverse on every stratum. Choose a
+  smooth nonnegative cutoff beta identically zero near D, whose full zero
+  set is contained in U, product-compatible on fixed collars. For small real
+  vector a use F(x,a)=(f(x)+beta(x)a)/norm(f(x)+beta(x)a).
+  On each boundaryless depth stratum S, prove F restricted to S times the
+  parameter ball is transverse: parameter derivatives surject where beta>0;
+  at beta=0 the stratum derivative of beta vanishes and f supplies the
+  required stratumwise surjectivity. Apply DG10's Sard theorem separately
+  to every boundaryless inverse-image parameter projection. Prove the strata
+  are at most countable from second countability, and choose a parameter
+  outside the union of their null critical-value sets, in any prescribed
+  small parameter ball. Full-corner projection regularity alone does not
+  supply face regularity. Include relative homotopies on M times I when
+  all fixed endpoint/product collars already satisfy these hypotheses.
+  Construct the regular inverse-image manifold, its actual embedding,
+  dimension and boundary/collar identities, empty case and compactness.
+  Identify its quotient normal bundle TM|_(f⁻¹ y)/T(f⁻¹ y) with
+  the constant target tangent bundle on the preimage:
+  prove d f gives ν_(f⁻¹ y)≃T_yS^r, smoothly in the preimage point,
+  via the actual kernel, quotient map and chart inverse. An ordered
+  target tangent frame therefore gives a particular normal framing.
+  Keep the derivative/quotient-normal comparison and transported round
+  orthogonal-complement frame distinct. If dim M<r, transversality
+  forces an empty inverse image; never type a negative dimension by
+  silently truncating it. These raw sphere-target results precede B5's
+  finite framed PT theorem; they do not consume stable PT, EHP, general
+  manifold-target Whitney approximation or any framed classification.
 - **Tubular neighbourhoods.** Work on finite-dimensional Hausdorff
   second-countable smooth manifolds with boundaryless models. For a smooth
   embedding i:S→M of dimensions s≤m, construct the quotient normal bundle
@@ -749,6 +867,22 @@ triangulation gives exactly locally finite affine pieces.
 
 **Unlocks.** Smoothability of `⋆RP⁴ # ⋆CP²`, `[Kir97, Problem 4.82]` (connected sum plus a
 smooth structure on a fake `RP⁴`), and, as infrastructure, every gluing and surgery below.
+
+### Layer1 finite disk-bundle, plumbing and handle construction supplement
+
+Use real smooth finite-dimensional Hausdorff second-countable manifolds, prescribed compatible collars on every gluing face, actual oriented bundles with chosen positive metric, and the existing smooth corner models. This is an early finite construction, independent of high-dimensional surgery, Bott periodicity, stable PT or the h-cobordism theorem.
+
+Consume TopK T1.1–4 for the actual finite-rank bundle category, metric, compact-disk homotopy invariance and closed-disc/cone clutching construction. GT owns the smooth/orientation adapter to that same construction. For an oriented rankr bundle overS^r,r>=2, construct northern/southern disk trivializations and transition S^(r−1)→GL^+(r,R), then polar deformation to the same SO(r) for the chosen metric. Homotopic transitions give actual bundle isomorphisms by cylinder gluing; every bundle map gives the change-of-trivialization homotopies. Prove the based/free comparison for connected SO(r), preserving hemisphere orientation, equator order, marked point and inverse convention. Rank0/rank1/S0 are separate elementary outputs, not π_(−1). This EARLY finite clutching output does not construct or export a fibration LES and consumes neither that LES nor stableBSO/Bott tables.
+
+**Finite-column LES stage, after the early bundle and clutching stages.** Construct SO(r−1)→SO(r)→S^(r−1) using the actual FIRST column map, comparing the shared HS4A last-column model by a specified orientation-preserving column permutation with its parity correction. Use actual local orthonormal-completion sections and identify the block stabilizer with SO(r−1). On that actual sphere bundle, consume the actual DGF1.2 fibration LES producer with its marked basepoint, representative lifts, group/pointed low degrees, connecting map and naturality. Export the finite-column LES only at this later stage; an earlier clutching caller receives no LES from sharing this paragraph's owner. Preserve the source conclusion of no numerical computation. Installed native Serre modules and public720bf fibration sources have different epochs; this is a written bundle/LES construction and makes no unavailable installed-import or native-proof claim.
+
+Define the compact unit disk bundle D(E), its sphere boundary S(E) and its zero section. With prescribed hemisphere trivializations, D(E) is a rounded 0-handle plus one r-handle: glue D^r×D^r along S^(r-1)×D^r by the actual transition function and base equator inclusion, preserving collars and the fibre framing. Give the diffeomorphism in product charts on each hemisphere and prove its overlap equation; round the product corners by the fixed collar model. The unrestricted total vector bundle is noncompact and is not that compact two-handle manifold. For compact collared cobordisms with finitely many nondegenerate critical points consume Morse M1/M2 and the earlier smooth elementary-cobordism comparison, yielding finite handles with their actual attaching embeddings; a homotopy cell decomposition alone does not prove a smooth handle decomposition.
+
+For a finite specified loopless graph (multiple marked edges allowed) and oriented rank-r disk bundles over oriented S^r, r>=2 even, choose disjoint product charts D^r_base×D^r_fibre at the marked plumbing sites and glue by interchanging base/fibre coordinates with the declared orientation sign. Construct the manifold with corners, compatible collars, rounded smooth structure and its compactness. Zero sections give the free middle-homology basis: contract each handle fibre and use the actual relative-handle/cellular chain complex; no extra cycles are inferred merely from the graph. Their self-pairings are the oriented Euler numbers of the normal bundles, and each plumbing edge contributes the explicitly signed transverse intersection. Prove this matrix equals the integral intersection form using Thom/normal orientation and cellular/singular comparisons. For the specified standard E8 tree, get diagonal-2 and adjacent+1 after declaring the orientation choices; the manuscript's drawing-to-standard-tree identification remains a Luna-glyph hold if the Markdown does not establish its vertices. Graph labels and intersection signs are data, not obtained by counting eight vertices. Self-plumbing, with its immersed zero section and double-point correction, remains the separate existing GT target; it is not inferred from this embedded-section loopless-graph theorem.
+
+Compute the tangent/cotangent conventions separately. For S^(2k), Euler(TS)=2 in the usual orientation: take the tangential gradient of a coordinate height function. Its only zeros are the two poles, both nondegenerate; their Jacobian determinants have positive sign in even dimension, so the transverse-zero index formula gives 1+1. This computation precedes and does not require the Poincaré-duality/Künneth Euler-trace theorem. A positive metric gives an orientation-preserving real-dual identification when T* is given the dual-basis orientation, so its Euler number is ALSO2. The canonical symplectic orientation of T*S^(2k), compared with base followed by dual fibre, contributes (-1)^(r(r-1)/2)=(-1)^k. Therefore its zero-section self-intersection is (-1)^k 2. To get the source's uniform-2 convention one must explicitly reverse the ambient/plumbing orientation for even k. In r=2 the holomorphic cotangent O(-2) convention gives-2; it is not silently the canonical oriented real dual. For the complex Hopf line use the actual equatorial transition z↦z or its inverse as dictated by the chosen hemisphere order, identify SO(2) with U(1), and evaluate its Euler obstruction as that transition winding number. Choose the degree+1 transition to normalize the Hopf generator. The tangent transition has degree2 and its complex-dual transition degree−2; tensor duality reverses the winding. These are Euler/clutching calculations and do not require the later C3 Chern theory; comparison to c1 remains that owner’s subsequent target. Compare these conventions to the real normal orientation. CC C2's Euler/self-intersection laws supply evaluation, not a choice of these missing signs.
+
+Reversing the ambient orientation negates the entire intersection form; reversing an individual zero-section basis vector changes its row and column. On a tree choose bipartition signs ε_v so ε_vε_w=-1 along every edge. Conjugating the negated matrix by diag(ε_v) returns the off-diagonal+1 pattern and gives diagonal+2. This explains the source's two matrix sign patterns; it does not assert that positive E8 and negative E8 are isometric. Include the zero-vertex graph, disconnected graph, rank2 bundle example and all orientation transport equations. The specific E8 plumbing boundary's simple connectivity, almost parallelizability and later surgery uses remain separate HS/GT targets, not premises of this finite matrix calculation.
 
 ### Layer 2: locally flat embeddings in general dimension
 
@@ -1258,6 +1392,26 @@ that roadmap's `τ` is a consumer of these presentations.
 Conway knot, jointly with the combinatorial Heegaard Floer roadmap's `τ`);
 Alexander-polynomial-one knots are topologically slice, `[Kir97, Problem 1.36]` (Freedman).
 
+#### GT4: oriented codimension-two spanning hypersurfaces and relative angular data
+
+For an oriented smooth Hausdorff second-countable boundaryless (k+2)-manifold M and a compact closed oriented smoothly embedded k-manifold K, own the equivalence: its integral fundamental cycle is zero in H_k(M;Z) iff K is the oriented boundary of a compact smoothly embedded oriented hypersurface W in M. The given orientation of M and K orients the normal two-plane bundle; do not assume that bundle is already framed. Include disconnected K, k=0, empty K and noncompact M. For K connected retain a connected spanning component after discarding closed components. For ambient boundary require K in its interior, or a specified neat boundary/corner model and the corresponding relative cycle condition; an arbitrary boundary contact is not an instance. Ordinary H_k does not supply a fundamental cycle for an arbitrary noncompact K: preserve that missing source hypothesis, and state any locally finite extension with its own locally finite groups and properness data.
+
+First construct a compact smooth codimension-zero neighborhood N of a given compact set in M, contained in a specified open neighborhood, with collared boundary. Use finitely many smooth chart bumps to obtain a compactly supported function equal to1 near the compact set; a regular value in (0,1) gives N. No complete ambient metric, global Morse exhaustion or compactness of M is inferred. Put the finite bounding chain and K in int N. The exact sequence H^1(N\int Dnu,partial N;Z) -> H^2(N,N\int Dnu;Z) -> H^2(N,partial N;Z), excision, the positive normal Thom class and Poincare–Lefschetz duality identify the image of the componentwise1 class with PD[K]. Use actual ordinary relative singular groups on the two compact pairs and the same boundary-relative orientation. When [K]=0 obtain an angular cohomology class whose restriction to each positive normal meridian has degree1. Restricting PD[K] to K gives the normal Euler class0. Consume CC's oriented rank-two/complex-line classification and Euler=c1 comparison to trivialize the normal circle bundle; no prior framing is smuggled into the obstruction calculation.
+
+Own the finite-relative-CW Circle comparison here as a consumer of AT8's degree-one representability contract, not as a second generic cohomology owner. For a CW pair (X,A), a map f_A:A->S1 and alpha in H^1(X;Z) restricting to f_A^*[dtheta], build an extension up to homotopy from a cellular integral1-cocycle: map edges with their assigned windings, extend over2-cells by the cocycle equation, then over higher cells using pi_j(S1)=0 for j>=2. The native Circle fundamental group/winding and covering homotopy interfaces fix the generator and signs. The HEP of the actual closed CW inclusion rectifies the boundary homotopy to strict f_A, with product-collar germs retained on a smaller neighborhood. For the sphere bundle Snu, its Gysin exact sequence says two degree1 angular classes differ by a pullback from H^1(K;Z). Change the chosen normal trivialization by the corresponding K->S1 map, so the prescribed tube angular coordinate has exactly the restriction class of alpha. The collar HEP now rectifies both tube and outer-boundary prescriptions. Relative smoothing uses the GT/DG smooth approximation theorem with these germs fixed. This is a construction of the required map, not an appeal to the bare fact that Circle is a K(Z,1).
+
+Choose a regular value different from the constant near partial N. Only perturb outside the fixed tube and collar, whose maps are already transverse. The inverse image in the tube exterior is compact, and adjoining the radial half-ray sheet yields W; the angular product chart proves smoothness at K. Give W the preimage orientation with the positive angular coorientation first. In the normal chart this induces the original K orientation on its outward-first boundary. Necessity follows from W's oriented relative fundamental chain. Pin restriction, oriented ambient diffeomorphism, disjoint union, and specified relative-collar naturality; neither a unique W nor a canonical trivialization is asserted.
+
+For two spanning hypersurfaces retain the source's unanswered relative-bordism question. A homotopy of their angular maps with the SAME meridian and outer-boundary germs, stratumwise transverse relative to its already-transverse endpoint collars, produces an embedded compact oriented bordism in M times I, product on K times I. In an arbitrary M there is no blanket existence: a small unknot in S1 times S2 spans a disk D and D tubed to an essential {point} times S2, whose difference is the nonzero H2 class; projecting a hypothetical relative bordism's fundamental chain would make it zero. The ambient homology obstruction and the exact notion of product-relative bordism are part of this contract.
+
+#### GT4: linking, push-ins and calibrated surface framing
+
+For disjoint oriented S3 link components, prove equality of the linking definitions: oriented degree, Seifert-surface intersection, HALF the signed mixed-crossing sum, and the signed intersection of smooth spanning surfaces pushed into B4. Build common product boundary collars, make all interior sheets mutually transverse by the stratumwise relative theorem with fixed collars already transverse, and prove independence by the actual relative chain-intersection/dual pairing. Orient B4 by its standard orientation and S3 as its outward boundary; calibrate the positive Hopf link to+1. A self-entry uses an explicitly marked normal framing and its positive push-off; it is not determined by the unframed knot. Include the empty link and all-component sign/reordering laws. Derive the sum of every matrix entry as the sum of framings plus twice the sum over unordered distinct pairs; the separate Hopf-invariant interpretation consumes the finite unstable framed inverse and the actual cup/attaching-map comparison.
+
+For a given oriented framed/Spin surface, keep TB B3.2 as the owner of the representative-independent geometric quadratic refinement. Supply GT's embedded representative, crossing smoothing, two-sided curve/collar and band comparisons. Normalize bounding circle framing to q=0 and the nonbounding class to1; a raw tangent-loop turn count may differ by the reference disk offset. An unknotted circle in S4 has two stable normal framing classes, not a canonical frame selected by unknotting. Construct the unknotted reference using a one-parameter generic homotopy and the deleted-pair collision locus (dimension3 below ambient4), then isotopy extension; an arbitrary spanning disk in S4 is not declared embedded by a dimension shortcut.
+
+For an oriented closed surface and a two-sided nonseparating embedded circle, cut along that circle, choose an embedded arc connecting its two boundary copies in the connected cut surface, and reglue/collar-smooth to obtain a dual circle meeting it once with positive sign. A regular neighborhood of the pair is a punctured torus and its integral/mod2 intersection plane splits by perfectness. Preserve the literal Klein-bottle alternative as a source-qualified nonorientable discussion: for one-sided curves the ribbon attachment and boundary data are indispensable, and the general regular neighborhood need not be a punctured torus or a punctured Klein bottle. No exhaustive two-case assertion is exported without those hypotheses.
+
 #### GT4: oriented pairwise linking
 
 
@@ -1279,6 +1433,12 @@ For knots prove bridge-label restriction injective, hence reduced dimension≤br
 
 Give all finite source examples explicit realized code, arc correspondence, every crossing equation and generated-subgroup certificate: trefoil,5₂,7₃, P(3,3,3), all under8 prime-table Smith/color data,6₁ versus9₄₆, S5 mixed-cycle examples and all problem30 diagrams. Unreadable extra diagrams remain data holds. For finite sets of odd primes construct knot families with independently prescribed reduced dimensions by explicit factors and connected sums; p=2 is forced0. Prove connected-sum reduced-space direct sum and the source's square-knot obstruction. Give the 3-cycle-to-two-transposition doubling construction with explicit multiplication order and finite twist correction; transitivity of the original 3-cycle hypergraph gives connectedness of the resulting transposition graph. The k-fold example and unbounded-bridge conclusion must be checked on actual source pattern data, not presumed from generic colorability.
 
+The source index for these mandatory coloring and doubling examples is as follows. The main source is *Knot Theory.pdf*, source identity `ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`; `KM-P106-B004–B007` identifies the physical-page106 doubling/3-cycle/transitivity and indexed connected-sum assertions, and `KM-P177-B009/B010/B012` identifies the physical-page177 mixed-cycle `S₅` example and its obscured diagram/labels. The defining specifications and current source-input boundaries are given in [the owned source-input note](source-inputs.md#source-identities-and-paragraph-index). For the arbitrary-genus family specified below, the exact main-source paragraph index is `KM-P073-B004–B007/B009`, `KM-P074-B004–B016`, `KM-P075-B004–B008/B010`, and `KM-P076-B004–B006/B009`, with the explicit matrices, general template and corrected page74-array entries specified in [that note](source-inputs.md#two-distinct-seifert-matrices-and-the-general-template). These identifiers locate the literal examples and retain their geometry/basis uncertainties; an algebraic model is not their geometric identification.
+
+The problems source is *Knot Theory - problems.pdf*, source identity `06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`. `KP-E020` is physical-page4 problem20, the four illustrated Hopf, King Solomon, Whitehead and Borromean links; `KP-E030` is physical-page5 problem30 with its physical-page6 continuation. Their defining questions, occurrence ambiguity and unresolved inputs are specified in [the owned problem20/30 section](source-inputs.md#problem20-and-every-problem30-pictured-occurrence). For every pictured occurrence, construct its own signed crossing/component and arc correspondence, solve all coloring equations, and certify the link to the named diagram; do not replace these required inputs by a generic existence or colorability theorem. Keep all six pictured occurrences in problem30 and the reference to all four problem20 links. Whether those six include the earlier four or are six additional examples remains an explicit source-identity/count hold, not a choice of six or ten distinct diagrams. Preserve the missing visible footnote after the page6 Whitehead claim and the unresolved course split-convention comparison (half-space versus locally flat separating sphere), with its precise collar/category hypotheses; the GT4 coloring split-comparison above remains required, using Layer2 bicollar/Brown Schoenflies, comparison3g's dimension≤3 relative Moise/smoothing and Layer3 supported isotopy extension at their actual category/collar hypotheses.
+
+For the page177 `S₅` example, the outer labels `(45)(123)` and `(35)(124)` do not specify the missing interior labels or the complete knot diagram. Recover that actual data before certifying every crossing and the generated subgroup; the mandatory mixed-cycle example remains. For page106, construct the actual indexed doubled-diagram family, pin permutation multiplication order, each finite twist correction and the transitive generating certificate, and compare the source's connected sum of `k` `(2,5)`-torus knots with its printed `S_(3+2k)` index. The index and all stated families/bridge conclusions are retained as source obligations until checked against that exact pattern; neither a generic 3-cycle factorization nor an invented diagram settles them. The exact outstanding data and semantic conditions for resolving all these holds are specified in [the owned source-input note](source-inputs.md#remaining-input-holds-and-resolution-criteria). This input specification does not claim that the missing data have been recovered.
+
 #### GT4: Embedded surfaces, ordinary genus and satellite families
 
 Consume GT1's actual smooth compact-surface comparison and its existing PlanarTopology/SurfaceTopology classification/triangulation suppliers. Do not duplicate generic surface classification. Own the embedded finite disc-band presentation: discs and bands with signed boundary attaching intervals, finite cyclic attachment order, twists, height/crossing data and chosen boundary/orientation marking. Construct its embedding, boundary-cycle permutation and deformation retraction to the incidence graph; prove χ=d−b including isolated discs. Connected orientable case gives2g=2−d+b−r; connected nonorientable case gives crosscap number k=2−d+b−r. No orientable genus formula is asserted without orientability. Compare the graph/triangulation Euler characteristics and classification invariants. A disc-and-bands model of an arbitrary compact connected surface requires nonempty boundary; empty, disconnected and closed branches are separate.
@@ -1291,7 +1451,7 @@ Construct orientation-compatible connected sum using marked small arcs/discs, pr
 
 Give explicit torus, pretzel, rational twist and Whitehead/twisted-double patterns with orientations and all signed/degenerate parameter branches. For torus links compare coordinate interchange by an orientation-preserving ambient isotopy in S3, single sign reversal with mirror, simultaneous sign reversal with orientation transport, and component gcd. An abstract symmetry of the square torus need not extend to the required ambient isotopy. For each clasp sign ε=±1 and meridional twist m∈ℤ, define the standard Whitehead pattern W_(ε,m) in a marked solid torus. Its algebraic winding is0 and geometric wrapping is2: give an explicit meridional disc meeting it twice, and exclude a disjoint meridional disc using the independently certified nonsplitting of the Whitehead link; prove mirror and meridional twists preserve this index. For every companion J, construct a once-punctured-torus spanning surface and one-clasp-change unknotting witness for W_(ε,m)(J), giving genus≤1 and u≤1, with nontriviality required for equality. For NONTRIVIAL tame J, prove the companion torus essential and the Schubert satellite bridge inequality b(P(J))≥w_geom(P)b(J), with w_geom the minimum geometric meridional-disc intersection number. Construct a doubled b(J)-bridge position with the clasp and all twists on monotone strands and exactly2b(J) maxima; conclude b(W_(ε,m)(J))=2b(J). For J the unknot, give the actual rational twist-knot/unknot diagram branches separately: bridge1 when the result is the unknot and bridge2 otherwise. The essential-satellite lower bound is not applied to that branch.
 
-Certify the infinite genus-one twist family (fixed rational convention [2,2n],n≥1, determinant4n+1 and one-clasp-change certificate), proving pairwise distinction/nontriviality then primality by genus additivity. Certify the separate arbitrary-genus/u1 family from source75–76 with exact2k basis curves, matrices and determinant extreme terms; the two six-by-six source matrices differ and cannot be identified. Give actual genus-k spanning surfaces and nontriviality before asserting g=k/u=1. Include all source independent-invariant connected-sum/doubling families, exact lower/upper bounds and indices.
+Certify the infinite genus-one twist family (fixed rational convention [2,2n],n≥1, determinant4n+1 and one-clasp-change certificate), proving pairwise distinction/nontriviality then primality by genus additivity. For the separate arbitrary-genus/unknotting-number-one source family, use physical pages73–76 of the course *Knot Theory.pdf* (source identity `ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`), with exact paragraph identities `KM-P073-B004–B007/B009`, `KM-P074-B004–B016`, `KM-P075-B004–B008/B010` and `KM-P076-B004–B006/B009` in the source index. The source convention is `V_ij=lk(x_i,x_j^+)`. On 1-based indices and for `k≥1`, the page75 algebraic template has size `2k`: `V_11=V_(2k,2k)=1`, `V_(i,i−1)=−1` for `2≤i≤2k`, `V_(i,i+1)=−1` for even `i` with `2≤i<2k`, and every other entry is zero. Prove the tridiagonal-continuant identity `det(V−tVᵀ)=(-1)^(k−1)(1−t)^(2k)+t^k`; its nonzero extreme coefficients give span `2k`, including `k=1`. The distinct page74 six-circle example has matrix `V_3−E_44`: its determinant is `1−5t+11t²−13t³+11t⁴−5t⁵+t⁶`, whereas the page75 `k=3` matrix has determinant `1−6t+15t²−19t³+15t⁴−6t⁵+t⁶`. Retain both matrices; their page74/page75 fourth diagonal entries are respectively `−1` and `0`. The self-contained [source-input note](source-inputs.md#two-distinct-seifert-matrices-and-the-general-template) supplies both six-by-six matrices, the general template and the corrected three page74-array entries; these are transcript corrections, not source errors. The exact page76 oriented band/closure data, marked crossing and `2k` basis-to-band correspondence remain a source-input hold: recover these data and prove their match to this algebraic template, an actual genus-`k` spanning surface, and the one-crossing-change unknotting certificate. Explain the printed “`k` bands” and its relation to `2k` basis generators instead of assuming a handle count. A generic realization of the same Seifert matrix does not certify the literal source family; this qualification retains the full geometric target. Give actual genus-k spanning surfaces and nontriviality before asserting g=k/u=1. Include all source independent-invariant connected-sum/doubling families, exact lower/upper bounds and indices.
 
 The late surgery/tangle-replacement targets in GT7 supply u=1⇒prime and the cyclic-surgery obstruction for u(8₃)=2. Early genus, connected-sum and diagram constructions do not consume those late theorems. Specify Bleiler's example by two explicit diagrams of the same realized knot, a two-change unknotting witness, signature4 lower bound, and exhaustive failure of all crossing-change pairs in the displayed minimal diagram. An assertion about ALL minimal diagrams additionally requires their actual classification.
 
@@ -1421,6 +1581,380 @@ Add finite local realized move certificates with plane outerface data, bounded R
 
 Retain the source's distinct full HOMFLY proof ideas alongside GT4's invariant contract: the Freyd–Yetter free Laurent word module and scalar-to-Artin/Markov/skein-quotient isomorphism, the corrected FY quadratic rule [u a a v]_n→−x⁻¹y[u v]_n−x⁻¹z[u a v]_n (source's triple-a glyph remains literal), explicit well-founded complexity, every pairwise/overlap reduction and terminal-normal-form theorem; the Hoste and Lickorish–Millett ordered/basepointed descending resolution and independence of resolution/basepoint/component ordering; the Ocneanu full Hecke permutation-basis/trace route from its [TypeAHeckeAlgebras H1–H4a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/632834b86fde0501e5e376aa30bc650e02732160/TauCetiRoadmap/TypeAHeckeAlgebras/README.md) owner. A proof that local move invariance holds in bounded induction does not prove any two isotopic diagrams have a crossing-nonincreasing path. Specify the common invariant comparison maps and normalization, not four competing polynomial carriers. The unresolved source reduction glyphs remain conditional source intent even when a corrected coherent rewriting theorem is supplied.
 
+#### GT4: deletion, Brunnian links and braid-index certificates
+
+Construct strand deletion on the geometric pure braid groups and compare it to
+the kernel of the native braid permutation homomorphism. Deletion is a
+homomorphism on pure braids; it is not asserted to be a homomorphism on the full
+braid group with a fixed strand label. Compare deletion with link closure and
+with deleting the corresponding oriented link component. Prove that the closure
+of the identity pure braid is the standard unlink, with explicit isotopies and
+component markings.
+
+Use one-based indices for the following word formula, and export its exact
+zero-based native dictionary. For `1≤i<j≤n`, put
+`A_(i,j)=σ_(j−1)…σ_(i+1) σ_i² σ_(i+1)⁻¹…σ_(j−1)⁻¹`.
+For each `n≥2`, let `β_n` be the right-nested commutator of
+`A_(1,n),…,A_(n−1,n)`, using `[a,b]=aba⁻¹b⁻¹`; a one-term nested
+commutator is that term. Construct its closure `L_n` as an actual oriented
+`n`-component link. Prove that deleting any strand sends `β_n` to the identity:
+deleting strand `i<n` kills the corresponding entry of the commutator, and
+deleting strand `n` kills every entry. Supply the reindexing and the resulting
+unlink isotopies, hence every proper sublink of `L_n` is an unlink.
+
+Prove nontriviality of the CLOSED links, separately from nontriviality of their
+braids. Construct based meridians, preferred longitudes and their nonrepeating
+Magnus coefficients from the punctured-disc/free-group and Wirtinger carriers.
+Prove the change-of-basing, component-preserving isotopy and closure comparisons.
+For a Brunnian link the lower nonrepeating coefficients vanish, so the length-`n`
+coefficient used here has zero indeterminacy. Compute a specified length-`n`
+coefficient of `L_n` to be `+1` or `−1` in the pinned orientation/commutator
+convention, and prove it vanishes on the unlink. Construct the necessary truncated
+noncommutative Magnus algebra and the commutator/longitude calculation here;
+the ordinary abelian Alexander polynomial is not this invariant. Thus `L_n` is
+nontrivial. Different `n` have different component counts, giving an explicit
+infinite Brunnian family. Compare `L_2` with the Hopf link and `L_3` with an
+explicit Borromean diagram. These comparisons do not authenticate an unspecified
+source picture. The free-group word calculation alone is not a proof that its
+closure is nontrivial.
+
+For every nonempty oriented link, construct its nonzero two-variable HOMFLY
+Laurent polynomial in the existing `ρ(l,m)=P(l,l⁻¹,m)` convention. Define the
+minimum and maximum `l` exponents from its actual finite support. Prove the
+Morton–Franks–Williams support bounds for the closure of an `n≥1`-strand braid
+of exponent sum `e`: every `l` exponent lies between `−e−(n−1)` and
+`−e+(n−1)`. Give the full skein/Hecke proof using the earlier algebraic
+HOMFLY construction or TypeAHeckeAlgebras H1–H2; trace positivity and the later
+operator-algebra closure theorem are not premises. Compare the usual
+`v⁻¹P₊−vP₋=zP₀` convention by `l=i/v`, `z=i m` after the faithful
+coefficient extension to Gaussian integers, and prove this substitution
+preserves exponent breadth. Export
+`max_l(ρ)−min_l(ρ)≤2(braidIndex(L)−1)` and the resulting integer lower
+bound, with the unknot and multicomponent normalizations checked. The support
+bounds do not assert that this lower bound is sharp for arbitrary links.
+
+Give a direct finite planar classification of knot diagrams with at most three
+crossings: realized-code enumeration, complete simplifying moves to the unknot
+or the two trefoils, and invariant certificates distinguishing the trefoils
+from the unknot and from each other. State the result for knot TYPES of minimum
+crossing number; unknot diagrams with one or two crossings do exist. This direct
+small calculation has no late hyperbolic/exterior-classification premise.
+
+After the existing late GT7 complete classification has supplied the exact
+finite list of ALL knot types of crossing number below eight, compute the braid
+index of every entry, including the unknot, composite knots and the declared
+mirror/orientation quotient. Each result carries an explicit braid word, its
+geometric named-link/diagram identification and an exact HOMFLY support
+certificate giving a matching lower bound. Prove mirror/orientation transport
+of the braid-index result. Enumerating diagrams or computing the polynomial
+without these upper/lower certificates does not establish the minimum. This
+finite consumer is not a prerequisite of the earlier braid, polynomial or
+raw-enumeration constructions.
+
+
+#### GT4: Universal knot counts and crossing-controlled growth
+
+Define finite exact-crossing and bounded-crossing carriers of tame knot types
+using the earlier realized-diagram and ambient-isotopy comparisons. Keep four
+choices explicit: prime versus all knots, exact versus cumulative crossing
+number, oriented versus unoriented knots, and orientation-preserving ambient
+equivalence versus equivalence also allowing ambient reflection. Let `C_n` count
+unoriented prime knots of exact crossing number `n` under orientation-preserving
+ambient equivalence, and let `N_n` be its quotient also identifying mirrors.
+Let `O_n` count all oriented knots of exact crossing number `n` under
+orientation-preserving ambient equivalence. Construct the forgetful and mirror
+quotients and prove their fibre bounds, including invertible and amphicheiral
+fixed points. In particular `N_n≤C_n≤2N_n`; forgetting knot orientation has
+fibres of size at most two. Finiteness uses the early finite realized-diagram
+enumeration and its sound surjection onto knot types, not the late GT7
+classification/minimality decision procedure. The unknot has crossing number0;
+the no-knots-at1-or2 and trefoil cases consume the earlier direct≤3 proof.
+
+Construct an explicit family using the earlier rational-tangle slope and
+Schubert dictionaries. For a Boolean word `w` of length `m`, begin at
+`(p,q)=(2,1)` and read the word from left to right, applying
+`T₀(p,q)=(p+q,q)` and `T₁(p,q)=(p+q,p)`. Construct simultaneously a reversed
+continued-fraction list beginning with `[2]`: `T₀` increments its LAST entry,
+and `T₁` appends1. Prove its slope is `p/q`, all entries are positive, its
+first entry is at least2, and its coefficient sum is `m+2`. Thus it belongs
+to the earlier exact canonical domain, despite permitting a LAST entry1.
+This is not the ordinary continued-fraction order; do not identify the append1
+operation with the redundant terminal1 in the opposite convention.
+
+Prove positivity, `p>q>0`, coprimality, and injectivity of this actual pair map
+on ALL finite Boolean words. Give its terminating inverse: when `P>2Q` the
+last letter is0 with predecessor `(P−Q,Q)`; when `P<2Q` it is1 with
+predecessor `(Q,P−Q)`. Each predecessor has smaller coordinate sum. The
+coprime boundary `P=2Q` is exactly the initial `(2,1)`. Identify the image
+and compare this inverse with the positive canonical continued-fraction
+expansion, its reversal and its coefficient sum. A cardinality estimate for
+bare words without this slope/realization comparison is insufficient.
+
+Construct the corresponding positive rational diagram with exactly `m+2`
+crossings and its numerator closure. Prove the canonical positive rational
+diagram is alternating and reduced, including first/last coefficient boundary
+cases, and use the earlier bracket-span theorem to prove its crossing number
+is EXACTLY `m+2`. Use closure parity to restrict to odd `p`; for `m≥1` these
+are nontrivial knots. Construct bridge positions, their bridge-sphere dictionary
+and their relative boundary isotopies, and prove the bridge-number connected-sum
+formula `b(K#J)=b(K)+b(J)−1`. The upper bound joins explicit bridge positions;
+for the lower bound put a decomposing sphere in the required bridge-compatible
+position, with complete height/innermost-disc simplifications and the induced
+bridge positions on the factors. Combine this with bridge number2, the
+bridge-one unknot theorem and the earlier prime decomposition to prove the
+family knots prime. Do not assume general
+crossing-number additivity or infer primeness solely from the word syntax.
+This proof belongs to the early rational/prime interface, independently of
+late complete knot classification or hyperbolic geometry.
+
+Compute the number `a_m` of words with odd numerator through the full parity
+automaton. Its states are `(p mod2,q mod2)=A=(0,1),B=(1,0),D=(1,1)`, with
+initial populations `(1,0,0)`. One step sends populations to
+`(2D,A+B,A+B)`. Prove `B=D`, `a_m=B+D`, `a_0=0`, and
+`a_m+a_(m+1)=2^(m+1)`. In the INTEGER ring prove
+`3a_m=2^(m+1)−2(−1)^m`. The values for `m=0,…,6` are
+`0,2,2,6,10,22,42`. Retain this integer equality before deriving rational
+inequalities; natural truncated subtraction is not the same formula.
+
+For fixed `n=m+2`, distinct words give distinct normalized pairs with
+`0<q<p`. In one orientation-preserving UNORIENTED Schubert knot class,
+`p` is fixed and there are at most two such `q`, namely `q` and `q⁻¹ mod p`.
+Allowing ambient reflection gives at most four, including their negatives.
+Prove these bounds through the earlier full geometric classification; do not
+replace it by equality of numerators or by oriented congruences modulo2p.
+Export `2C_(m+2)≥a_m` and `4N_(m+2)≥a_m` for `m≥1`. In particular,
+for `n≥4` prove the NONSTRICT bounds
+`3C_n≥2^(n−2)−1` and `6N_n≥2^(n−2)−1`, with exact ceiling versions.
+For `n≥5` export the useful integral exponential bound `N_n≥2^(n−5)`.
+Check low crossings and the fixed-point fibres separately. No strict inequality
+with the same right side follows merely from a fibre bound.
+
+For an exponential upper bound, construct rooted connected oriented sphere
+maps with loops and parallel edges retained, a distinguished spanning tree,
+and isomorphisms preserving cyclic orders, root and tree. Use actual dart
+rotations and a fixed-point-free edge involution. Compare with the existing
+native permutation-triple/bipartite-ribbon carriers by inserting one white
+degree-two vertex per edge: the original map darts are the subdivided edges,
+black rotation is the vertex rotation, and white rotation is the edge
+involution. Prove the degree counts, connectedness, face cycles, Euler
+characteristic and relabeling dictionary in both directions. A native
+bipartite graph must not be identified with an unsubdivided arbitrary map.
+Consume early GT4's geometric sphere realization and uniqueness comparisons.
+Prove existence of a spanning tree for a finite connected map, and account for
+the one-vertex tree with no edges.
+
+Give the full contour coding and inverse on these actual maps. Cut along the
+spanning tree, start at the root corner, and record its directed tree-edge
+visits as `a,A` and the first/second encounters of each complementary edge as
+`b,B`. For a map with `s` edges this is a word of length `2s`; each of its
+two subwords is a Dyck word. Recover the rooted plane tree by stack matching
+`a,A`; place the complementary endpoints in the specified corners and recover
+the noncrossing complementary-edge pairing by stack matching `b,B` in the
+cut disc. Prove that gluing reconstructs the vertex cycles, edge involution,
+root and distinguished tree, including bridges, loops and an empty tree.
+Prove both inverse laws up to the specified isomorphism. Export the bijection
+with shuffles of two Dyck words, the exact count
+`Σ_(k=0)^s binom(2s,2k) Catalan(k) Catalan(s−k)
+ = Catalan(s) Catalan(s+1)`, and its derivation from the shuffle bijection and
+the Vandermonde identity. Reuse Mathlib's actual Dyck words and Catalan
+numbers. The simpler injection into four-letter words gives the upper bound
+`4^(2s)=16^s` directly; no unproved asymptotic enumeration is needed.
+
+A connected `n≥1`-crossing knot shadow is a four-valent sphere map with `n`
+vertices and `s=2n` edges. Construct this dictionary with local opposite-dart
+pairing, regular-projection realization, root choice and the crossing-free
+exception. Filter the map codes for four-valence and one immersed component,
+then add exactly one over/under bit per vertex. Give a deterministic vertex
+ordering from the contour code. Construct the link and prove the resulting
+finite code carrier surjects onto all knots having an `n`-crossing diagram.
+Orienting its single component adds at most a factor two. Thus prove
+`O_n≤2·2^n·16^(2n)=2·512^n` for `n≥1`, hence the same upper bound for
+`C_n,N_n` and their unoriented/all-knot quotients. Root and tree are part
+of the codes and overcount rather than remove knot types. Planar
+orientation-preserving reconstruction must give the declared ambient
+orientation-preserving equivalence. Prove the corresponding cumulative bounds
+by the finite geometric sum, with the separate crossing0 unknot term.
+
+Export liminf of the `n`th roots of these prime counts at least2 and limsup
+at most512, and state the resulting genuine exponential-growth estimates.
+Do not assert existence of a single growth-rate limit or general crossing
+additivity from these two bounds. Late GT7's exact-through15 tables are
+separate consumers and never premises of these universal constructions.
+
+For the source's separate signed-Dowker `n!2^n` proposal, define the exact
+root/orientation/sign data being counted, prove the decoder and its ambiguity
+or fibre theorem on that precise universe, and determine whether the claimed
+constant survives. Retain additional required planar/connected-sum data rather
+than assuming every signed word has a unique realized diagram. Compare this
+claim independently with the exponential theorem. Likewise compare EACH
+printed `(2^(n−2)−1)/3`, `(2^(n−2)−3)/3`, `2^(n−2)/3`, strict/nonstrict,
+and `e^n` version with its own declared count convention and threshold. The
+source's mirror-identified exact-prime table contradicts several printed lower
+versions already at4,6 or8. The constructed mirror-sensitive nonstrict bound
+does not determine what the source intended. An upper bound with base512 does
+not establish the printed base`e` bound. Keep false-literal/citation/setup
+branches separate from the corrected general-count theorems.
+
+Suggested actual word-count and matrix calculations, including proved finite
+determinant identities and explicit future word/count proof targets, are in
+[`KnotGrowthTargets.lean`](KnotGrowthTargets.lean). They do not replace the
+geometric realization, classification or contour-reconstruction proofs.
+
+References: [Kauffman–Lambropoulou, On the Classification of Rational Knots,
+Schubert classification and positive rational diagrams](https://arxiv.org/html/math/0212011),
+and [Bernardi, Bijective counting of tree-rooted maps and shuffles of
+parenthesis systems, §2](https://arxiv.org/html/math/0601684).
+
+#### GT4: Concrete pretzel geometry and integer form calculations
+
+Use a fixed standard three-box pretzel model. Each box consists of two vertical
+strands and `p,q,r` signed half twists; negative integers reverse every crossing,
+and0 is two vertical arcs. Join adjacent top endpoints and adjacent bottom
+endpoints, including the outer pair, by the standard noncrossing pretzel arcs.
+Construct its actual marked realized diagram and spatial link. Determine its
+components by the finite endpoint involutions: even twist parity preserves the
+two box endpoints, odd parity interchanges them, independently of the sign.
+Prove all odd or exactly one even gives a knot, exactly two even gives two
+components, and all even gives three. Include zero parameters and an explicit
+endpoint-to-geometric-component comparison.
+
+Construct the spatial cyclic rotation of the three boxes and the rotation
+reversing their order, with the actual crossing/endpoint transport. Prove these
+generate the full parameter `S₃` symmetry of UNORIENTED three-box pretzel links.
+Use the rotations and boundary collars to give ambient-isotopy comparisons and
+their composition laws, and transport any assigned component orientations
+explicitly. An oriented assertion uses the resulting orientations rather than
+silently keeping a different box orientation. This is a worked spatial
+application, not an inference from an unrelated label-permutation criterion.
+
+For all odd `p,q,r`, construct the genus-one oriented pretzel spanning surface,
+two actual oriented band-core basis cycles `a,b` with `a·b=+1`, their positive
+normal push-offs and the local linking computation in the fixed crossing
+convention. Retain the earlier native convention
+`V_ij=lk(x_i,x_j⁺)` and `Vᵀ−V=J`, where `J_ij=x_i·x_j`.
+First compute the push-FIRST matrix `W_ij=lk(x_i⁺,x_j)` to be
+`W=[[(p+q)/2,(q+1)/2],[(q−1)/2,(q+r)/2]]`.
+Prove linking symmetry gives the actual native matrix `V=Wᵀ`, so
+`W−Wᵀ=J` and `Vᵀ−V=J` in this same marked basis. This transpose is
+the fixed convention comparison, not an optional change of basis. The entries
+are integers because the parameters are odd. Identify the actual push-offs
+and local crossing signs before applying either matrix to a geometric link.
+
+Compute in the Laurent coefficient ring
+`det(W−tWᵀ)=((pq+pr+qr+1)/4)(1−t)^2+t`, prove the integer divisibility
+by4, and compute the actual native presentation determinant
+`det(tV−Vᵀ)=det(tWᵀ−W)=det(W−tWᵀ)`, using transpose invariance
+and the even matrix size. The fixed genus-one Conway normalization is
+`Δ(t)=t⁻¹det(tV−Vᵀ)=A(t+t⁻¹−2)+1`, where
+`A=(pq+pr+qr+1)/4`. Prove this exact geometric Alexander/Fox comparison,
+with the inherited positive meridian and Δ(1)=1; retain its separate Laurent-unit
+presentation statement. The helper's `pretzelSeifert` is this displayed
+push-first `W`; its proved rational determinant identities are transported
+to the native convention by the displayed transpose equation. Those algebraic
+identities do not themselves identify an unspecified pictured surface.
+
+Compute `P(−3,5,7)` to have Alexander polynomial a unit, represented by`t`
+before Laurent-unit normalization. For `P(3,5,−7)`, compute
+`W=[[4,3],[2,−1]]` and `V=[[4,2],[3,−1]]`. Their common symmetric form
+is `W+Wᵀ=V+Vᵀ=[[8,5],[5,−2]]`, with determinant`−41` and signature0;
+prove the signature by the actual real quadratic-form/inertia comparison.
+Bind these as the finite worked applications, preserving any distinct
+historical question number and its corrected cross-reference separately.
+
+For every integer `p,q,r`, including even and zero parameters, construct the
+signed checkerboard surface and its chosen region basis directly from the
+standard pretzel diagram. Prove its reduced Goeritz matrix is
+`[[p+q,−q],[−q,q+r]]` in the stated shading/sign convention, with the required
+region/reduction treatment when a zero box degenerates. Compute determinant
+`pq+pr+qr`, and prove the Goeritz/Fox determinant comparison for all resulting
+component branches, including singular/zero determinant. Track absolute value,
+multicomponent normalization and orientation-dependent signature corrections.
+The odd genus-one Seifert matrix is not used outside its own domain.
+
+#### GT4: Concrete Whitehead and figure-eight symmetry applications
+
+Construct the standard Whitehead link from the rational numerator diagram
+with reversed positive coefficients `[2,1,2]`, slope`8/3`, and five crossings.
+Construct its endpoint/component marking and compare with a realized standard
+Whitehead clasp model. Prove it is reduced alternating, so the bracket span
+gives crossing number5. Produce an actual finite diagram movie or explicit
+piecewise spatial isotopy interchanging the two components, with every local
+move and induced endpoint/component map checked. Its output must exchange the
+two marked components; linking number0 alone supplies no such isotopy.
+Transport the orientations under this map and prove each oriented version with
+its actual signs. The two unspecified source pictures still require separate
+source-to-model identity certificates.
+
+Construct the figure-eight model as the closure in the realized three-strand
+braid dictionary of `β=(σ₁σ₂⁻¹)²`. Identify its reduced four-crossing
+alternating diagram, its crossing number and component. Compare reflection in
+the projection plane with the actual generator inversion mirror automorphism.
+Conjugation by the three-strand half twist exchanges `σ₁,σ₂`, and sends the
+mirror word `(σ₁⁻¹σ₂)²` to `(σ₂⁻¹σ₁)²`. Give the explicit cyclic
+conjugator to `β`, and realize that conjugacy by the geometric closure
+isotopy. Compose this isotopy with the actual ambient orientation-reversing
+reflection to obtain the amphichirality map. Separately construct a spatial
+rotation/finite diagram movie reversing the parametrized knot orientation,
+with its induced longitude/meridian signs, to prove invertibility. An
+amphichirality comparison alone is not the orientation-reversal construction.
+Prove naturality of both maps under the standard marked-model identification.
+
+
+#### GT4: finite framed-link bordisms and calibrated normal form
+
+On the actual oriented smooth-link/normal-bundle carrier, define the
+integer H(L) as linking with the push-off along the first vector of its
+ordered normal frame. Compare this with Σ_i f_i+2Σ_(i<j)lk(L_i,L_j),
+where each f_i is the Seifert-relative component framing. Construct a
+common collared push-off for an arbitrary compact oriented framed
+bordism W in S3×I. The relative intersection/linking boundary identity
+gives H(out)−H(in)=W·W'=0. This uses the actual relative fundamental
+chains, orientations and transverse push-in independence from the
+preceding linking theorem, not an unnormalized boundary twist sum.
+
+Construct these four local framed bordisms in a specified ball×I,
+fixed on the outside collars, by smooth ribbon/band embeddings and
+explicit extension of their two normal vectors. (i) Band the positive
+or negative zero-framed Hopf link to an unknot with framing+2 or−2;
+calibrate it by the two signed mixed crossings and push-off. (ii) Change
+a mixed-component crossing and add the opposite signed zero-framed
+Hopf summand using a two-band trace; retain the old component framings
+and prove its exact linking changes. (iii) Isolate all framing twists
+by a band, then cap the remaining zero-framed knot by a Seifert surface
+pushed into the ambient four-cylinder; give the extending normal frame
+and the product collars. (iv) Merge separated a- and b-framed unknots
+by a framed pair of pants to the (a+b)-framed unknot. Supply actual
+relative embeddings/framing equations for every witness, rather than
+inferring existence from agreement of H.
+
+By finitely many mixed crossing changes split an arbitrary finite link,
+including algebraically unlinked nonsplit links. Apply the four witnesses,
+remove knotting and merge the separated framed unknots. The result has
+framing H(L); a zero-framed unknot bounds its reference framed disc,
+while H-invariance forbids any nonzero-framed unknot from bounding.
+Include the empty link and disconnected traces. A reference frame on a
+pair of pants has oriented boundary twist sum0; absolute Seifert framings
+instead require the linking correction. Preserve this distinction on
+all surface-boundary corollaries. Compare the resulting geometric Z
+classification with HS5.0's honest-rank c=2 finite PT and the explicitly
+positively calibrated Hopf fibre. Neither the framed moves nor the
+integer invariant requires the value π3S2 as an earlier premise.
+
+For the figure-eight homework own a finite peripheral certificate, not
+only an abstract presentation. Realize its diagram by the closed braid
+(σ1σ2^(-1))² and prove the diagram-isotopy certificate at the exact
+crossing convention. For punctured-disc generators x1,x2,x3 use the
+Artin automorphisms S=(x1x2x1^(-1),x1,x3) and
+T=(x1,x3,x3^(-1)x2x3); pin B=(S∘T)² and the closure relations
+B(x_i)=x_i. Derive its Wirtinger presentation from the actual cover and
+base paths. Track a marked longitude through the full orbit, prove its
+meridian exponent0 and its Seifert-preferred peripheral class, including
+orientation; centralizing a meridian and having exponent0 alone does
+not characterize a longitude. Return finite forward/inverse generator
+and peripheral-word certificates. Layer5's framing+1 filling then adds
+the actual relation λμ=1 (or its explicitly transported convention).
+No surgery-manifold classification is inferred just from that quotient.
+
 ### Layer 5: Dehn surgery
 
 Surgery cuts out a tubular neighbourhood of a knot and reglues a solid torus by a boundary
@@ -1520,20 +2054,53 @@ slope pair, not of two abstract manifolds.
 Akbulut–Kirby `0`-surgery concordance `[Kir97, Problem 1.19]`, and chirally cosmetic
 surgery `[Kir97, Problem 1.81]`.
 
+#### GT5: finite lens and E8-boundary model certificates
+
+For p≥1 and gcd(p,q)=1 construct the free action generated by
+(z1,z2)↦(exp(2πi/p)z1,exp(2πiq/p)z2) on the actual unit S3,
+including p=1. Construct quotient charts, the smooth oriented lens
+space and its covering S3→L(p,q), with its marked deck group C_p.
+The covering LES gives π1=C_p and all higher groups from S3; give
+all basepoint/deck conventions. Build its one-cell-in-each-degree CW
+model with integral d2=p and other differentials0. Thus compute H0,H3=Z,
+H1=Z/p and H2=0, not an unqualified homotopy classification by p.
+Noncoprime or zero-p action data do not inherit this free-cover claim.
+
+For the explicitly signed rank-two E8 plumbing, calculate the boundary
+fundamental group by its finite Kirby diagram, boundary collars and
+meridian relations. Supply actual diagram-to-plumbing identifications,
+finite handle slides and forward/inverse Tietze maps to the binary
+icosahedral presentation ⟨x,y,z | x²=y³=z⁵=xyz⟩, with orientation
+and peripheral choices fixed. Construct its explicit120-element unit
+quaternion model and an exhaustive coset/rewrite normal-form proof of
+the reverse bound; a surjection onto a120-element group is insufficient.
+This proves the k=1 boundary group, not its triviality or standard S3.
+For E8 rank2k plumbing with k≥2, the dual relative handles have indices
+2k and4k. Prove by the actual handle attachment/van Kampen comparison
+that inclusion of the boundary induces a π1 isomorphism with the
+simply connected plumbing. Its integral homology-sphere calculation
+then gives a homotopy sphere by the actual Hurewicz/Whitehead theorem.
+Obtain a topological S^(4k−1) using the genuine high-dimensional
+h-cobordism/sphere recognition and Alexander extension contracts.
+Do not conclude smooth standardness; k=1 has a separate group result.
+All finite E8 tangent-frame, conventional-model and later classification
+programmes remain separate from this core homology/π1 calculation.
+
 ### Layer 6: knot concordance and 4D cobordism (owned here)
 
 Two knots are concordant if they cobound a smoothly (or locally flatly) embedded annulus in
 `S³ × [0,1]`; concordance classes form a group under connected sum. This layer owns the
 concordance group and the cobordism category, building on layer 4's knots and layer 1's
 gluing. It consumes the grid invariant `τ` from the combinatorial Heegaard Floer roadmap,
-builds its geometric connected-sum/descent adapter here, and owns the Khovanov–Lee
-construction of Rasmussen's `s` below. Both are definite targets on smooth concordance.
+builds its geometric connected-sum/descent adapter here, and owns the Lee deformation
+and Rasmussen's `s` comparison with the shared ordinary Khovanov theory below. Both are definite targets on smooth concordance.
 
 **From Mathlib / earlier layers.** Layer 4's knots, slice-ness, and Seifert surfaces; layer
 1's gluing and connected sum; the combinatorial Heegaard Floer roadmap's grid `τ`,
 filtered-complex interface and smooth slice-genus bound. Its group-valued descent and
 additivity are targets of the GT6 adapter below. The classical signature invariant is
-built here from layer 4's Seifert matrix; the Khovanov–Lee/`s` supplier is also owned here.
+built here from layer 4's Seifert matrix; KhovanovHomology supplies the ordinary theory
+and this layer owns its Lee deformation and `s` comparison.
 
 **What to build.**
 - The **concordance relation** and the **concordance group** `C` (smooth and topological
@@ -1649,21 +2216,21 @@ proof obligations remain targets of this layer.
 
 Suggested rank-two Frobenius forms are in [`LeeFrobenius.lean`](LeeFrobenius.lean).
 
-This layer owns integral even Khovanov homology, its rational Lee deformation and Rasmussen's rational `s`, including their diagram-to-geometric-link and smooth-cobordism comparisons. It also owns the geometric descent and connected-sum comparison needed to turn the imported grid `τ` into a homomorphism on the smooth concordance group. The generic filtered-complex interface stays with [CombinatorialHeegaardFloer Lane ALG](../CombinatorialHeegaardFloer/README.md#lane-alg-bigraded-and-filtered-homological-algebra); use its actual degreewise submodules, filtration-preserving maps and homotopies on Mathlib `CochainComplex (ModuleCat R) ℤ`, rather than a second complex category. Mathlib supplies finite free modules, tensor products, kernels/quotients, `HomologicalComplex`, homology, mapping cones and homotopies; `TauCeti.gradedCochainComplex` and `HomologicalComplex.moduleCatCyclesMk` provide existing assembly and cycle interfaces. Construct the following particular algebras, cube differentials, filtrations and comparison maps here. No `Prop`-valued placeholder can replace a differential, chain map or its equations.
+This layer owns the rational Lee deformation, its filtered geometric and cobordism comparisons, and Rasmussen's rational `s`. Consume [KhovanovHomology G/K1–K7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e20599ee5502128011290d11b54e461d3ba848a0/TauCetiRoadmap/KhovanovHomology/README.md) for ordinary integral even Khovanov homology, its coefficient comparisons, finite diagram/resolution carriers, ordinary Reidemeister maps, and the common marked affine movie presentation. That roadmap's G consumes the earlier GT link/presentation definitions and generic manifold foundations; its ordinary construction does not depend on this Lee or `s` development. GT also owns the geometric descent and connected-sum comparison for the imported grid `τ`. The generic filtered-complex interface stays with [CombinatorialHeegaardFloer Lane ALG](../CombinatorialHeegaardFloer/README.md#lane-alg-bigraded-and-filtered-homological-algebra): use degreewise submodules, actual maps and homotopies on native `CochainComplex (ModuleCat R) ℤ`. The following targets construct the Lee extension and its comparisons with that single ordinary theory.
 
-1. **The actual rank-two Frobenius algebras.** Use the free module with basis `1,X`, identified with `AdjoinRoot (X²−c)` over the coefficient ring, for `c=0` over `ℤ` and `c=0,1` over `ℚ`. Its multiplication has `X·X=c`, unit `1`, counit `ε(1)=0, ε(X)=1`, and
-   `Δ(1)=1⊗X+X⊗1`, `Δ(X)=X⊗X+c·1⊗1`.
-   Prove the basis and quotient comparisons, associativity, commutativity, unit, counit, coassociativity, cocommutativity and Frobenius identities, including nondegeneracy of the pairing `ε(ab)`. Supply tensor-factor permutation/naturality and disjoint-union maps. Set `deg(1)=1`, `deg(X)=−1`; at `c=0`, multiplication/comultiplication have degree `−1`, unit/counit degree `+1`. At `c=1`, the two new terms have degree `+3`; these are filtered degrees, not a grading of the Lee algebra. Prove the integral-to-rational base-change comparison at `c=0`. The empty circle set has coefficient module `R`; crossing-free circles use actual tensor powers, so no empty-link or unknot case is hidden by notation.
+1. **The rank-two deformation and the ordinary-algebra comparison.** Retain the general `LeeFrobenius.lean` quotient algebra `A_c=AdjoinRoot (X²−c)` with basis `1,X`, multiplication `X²=c`, unit `1`, counit `ε(1)=0, ε(X)=1`, and `Δ(1)=1⊗X+X⊗1`, `Δ(X)=X⊗X+c·1⊗1`. Retain all basis, quotient, Frobenius, nondegeneracy and tensor-coherence targets. At `c=0`, construct the explicit algebra equivalence `A_0 ≃ₐ[R] DualNumber R` sending `[X]` to the native square-zero generator `(0,1)` and `a+b[X]` to `(a,b)` for every commutative coefficient ring used here, including the zero ring. Prove its inverse, coefficient-change naturality and preservation of unit, multiplication, the chosen counit and K2's chosen comultiplication. The dual-number coalgebra is the particular K2 structure, not an arbitrary global coalgebra instance. Ordinary integral and rational theory consume K2/K5 through this comparison; `c=1` over `ℚ` is the Lee deformation, with no algebra equivalence to the `c=0` algebra asserted. With `deg(1)=1,deg(X)=−1`, retain the ordinary saddle degrees `−1`, birth/death degrees `+1`, and the additional Lee terms of degree `+3`. Empty circle sets have tensor `R`; retain actual indexed tensor comparisons at zero and one circles.
 
-2. **A finite, signed cube on realized diagrams.** Consume Layer4's actual oriented plane diagrams, crossing signs, resolved-circle finite carriers, regular-projection adequacy and local Reidemeister moves. Order the `N` crossings and index resolutions by `v : Fin N → Bool`; a cube edge changes one `0` to `1`. Pin the two local smoothing pairings at each crossing so that the oriented smoothing is `0` at a positive crossing and `1` at a negative crossing, with the same planar crossing labels as Layer4. Construct these local pairings on its half-edge data and prove this sign/smoothing dictionary. For a resolution with `r` ones and `k` circles put its summand `A_c^⊗k` in cohomological degree `i=r−n₋`, and give an enhanced basis tensor quantum degree `j=sum(deg labels)+r+n₊−2n₋`. The edge map is its actual saddle multiplication or comultiplication, identities on unchanged circles, with sign `(-1)^(number of ones strictly before the changed crossing)`. Prove saddle-square commutation from the Frobenius identities and hence cancellation of signed squares and `d²=0`, including disconnected diagrams and circle births not attached to a crossing. Assemble the native cochain complex; for `c=0` export the bigraded integral `Kh^{i,j}`, finite generation, rational ranks and torsion, basis-independent changes of crossing/circle orders and computable integer/rational differential matrices.
+2. **The shared signed cube and the Lee extension.** Use K1/G's actual `OrientedPDCode n` with `PDCode.IsPlanar`, crossing order, labelled smoothing circles, unaffected-circle correspondences and plane realization. Transport Layer4 presentations through G's labelled relative comparison. A subset `S` records B/1 resolutions, while the native Boolean state is true on its complement. Prove the dictionary with the oriented smoothing and crossing signs. Use K3's normalization `i=|S|−n₋`, `j=sum(label degrees)+|S|+n₊−2n₋` and edge sign `(-1)^(#{b∈S:b<a})`. At `c=0`, tensor the algebra equivalence of item1 over each actual circle set to construct a bigraded chain isomorphism to K3's ordinary complex, natural under circle/crossing reorderings, disjoint unions, scalar extension, skein comparisons, K4 Reidemeister maps and K7 ordinary elementary cobordism maps and relation homotopies. Retain K3's quantum-object/underlying-total/Finsupp comparison and the normalized cochain shift and tensor signs; no second ordinary complex or generic movie theorem is commissioned here.
 
-   Construct both chain maps and homotopies for every local RI/RII/RIII configuration, orientation and inverse, with the above normalization shifts and actual plane-locality hypotheses. At `c=0` they preserve `j`; at `c=1` they and their inverse/homotopy data preserve the descending quantum filtration. Thus the graded or filtered homotopy type is invariant under Layer4's geometric link equivalence. Give disjoint-union tensor comparisons, the based-circle action and the mapping-cone/skein exact sequences with their shifts derived from the stated `i,j` formulas. Compare the graded Euler characteristic with the existing Jones invariant, fixing its loop sign: if `z` is the quantum variable, then `χ_z Kh(L)=(z+z⁻¹)V_L(t)` under `t=z²` and **`t^(1/2)=−z`**. For a nonempty `μ`-component link this is `(-1)^(μ−1)(z+z⁻¹)` times the evaluation using `t^(1/2)=+z`. Check the unknot, two-component unlink and Layer4's right-handed trefoil `t+t³−t⁴` explicitly. The empty-link complex is `R` in degree0; no previously undefined empty-link Jones value is imposed by this comparison.
+   At `c=1` construct the deformation differential using the same finite enhanced-state modules, signs and saddle correspondences. Prove the Frobenius square identities and `d_Lee²=0`, and construct the Lee-specific filtered Reidemeister maps, inverses and homotopies on these shared carriers. Retain mapping cones, disjoint-union tensors, based-circle action, finite rational computation, and presentation invariance. The `c=0` Euler characteristic and coefficient/finite-generation results are the K3/K5 outputs transported by the actual comparison: for nonempty links, `χ_z Kh=(z+z⁻¹)V(t)` with `t=z²` and `t^(1/2)=−z`, and the explicit `(-1)^(μ−1)` comparison to the positive square root. Keep the unknot, two-component unlink, right-handed trefoil and separate empty complex `R` checks. Lee homology is filtered rather than assigned this ordinary quantum grading.
 
-3. **Lee's filtered complex and canonical classes.** Over `ℚ` use `c=1` on the same finite enhanced-state module. Prove `d_Lee=d_Kh+Φ`, with bidegrees `(1,0)` and `(1,4)`, including the separate square-zero and anticommutation identities. Let `F^j C_Lee` be the subcomplex spanned by enhanced states of quantum degree at least `j`; it is descending, finite, exhaustive and separated. Its associated graded complex is the rational Khovanov complex. On native homology define `F^j H` as the image of `H(F^j C)→H(C)`, not as the span of chosen homology representatives. Prove the representative-lifting criterion and filtered-map degree inequality. Give finite rational row-reduction procedures for these subspace images with verifiable kernel/image certificates.
+3. **Lee's filtered complex and canonical classes.** Over `ℚ` use `c=1` on the same finite enhanced-state module. Prove `d_Lee=d_Kh+Φ`, with bidegrees `(1,0)` and `(1,4)`, including the separate square-zero and anticommutation identities. Let `F^j C_Lee` be the subcomplex spanned by enhanced states of quantum degree at least `j`; it is descending, finite, exhaustive and separated. Construct its associated-graded chain isomorphism to the rational ordinary complex from KhovanovHomology K3/K5, using item1’s c=0 algebra equivalence on every actual circle tensor and item2’s normalization and naturality. Prove this identification commutes with the associated-graded maps and homotopies of the Lee comparison; equality of enhanced-state dimensions alone is insufficient. On native homology define `F^j H` as the image of `H(F^j C)→H(C)`, not as the span of chosen homology representatives. Prove the representative-lifting criterion and filtered-map degree inequality. Give finite rational row-reduction procedures for these subspace images with verifiable kernel/image certificates.
 
    Construct `e₊=(1+X)/2`, `e₋=(1−X)/2` and prove their orthogonal-idempotent identities. For each circle of an oriented Seifert resolution, let `p` be the number of other Seifert circles whose bounded interior contains it, plus1 if its orientation is counterclockwise and plus0 if clockwise, modulo2. Use `e₊` for `p=0` and `e₋` for `p=1`; prove this definition independent of the chosen regular point on the circle and verify its local saddle rule; the resulting orientation-indexed Lee cycles form a homology basis for all component counts, giving total rank `2^μ`. Prove this by cancelling the explicit contractible colored-cube summands, with maps to and from the surviving orientation summands. Track their cohomological degrees for each choice of component orientations; for knots both classes lie in degree0. Prove the global-orientation-reversal relation, the splitting by quantum degree modulo4 and the filtration of the two sums/differences of a knot's orientation classes. Do not identify the filtration with a grading or infer it from the mere dimension-two result.
 
-4. **Smooth surfaces induce the required filtered maps.** For Layer6's compact oriented smoothly embedded link cobordisms with collared boundary, first prove a generic movie decomposition: choose a point of `S³` avoided by the compact surface projection after an allowed isotopy, pass to `ℝ³×I`, and arrange a Morse height and a regular planar projection with distinct exceptional times relative to the prescribed end collars. The finite movie has planar isotopies, Reidemeister moves and circle births, oriented saddles and deaths. Give the local movie relations and prove they present isotopy of such surfaces relative to boundary; construct this from the layer's relative transversality/isotopy machinery, not just the existence of knot projections. Define the maps by the already constructed Reidemeister maps and Frobenius unit, multiplication/comultiplication and counit. Prove the chain-map identities, composition and invariance under these movie relations up to overall sign and filtered chain homotopy. Thus the functor is to the homotopy category with maps identified with their negatives; no strict sign-independent map is asserted. Identity, disjoint union and boundary reparametrization laws must respect this quotient.
+4. **Lee maps on the shared geometric movie category.** Consume KhovanovHomology G/K7's finite labelled, oriented plane diagrams, marked collared affine link surfaces, supported elementary movie generators, all numbered relations with their variants, and its relative presentation/completeness theorem. Use its boundary convention `∂Σ=−L₀⊔L₁`, product collars, chosen point at infinity and affine chart; construct the comparison with the generic GT6 cobordism carrier while retaining those data. The common movie presentation, ordinary maps and their ordinary relation homotopies stay at K7. Construct here the Lee-specific filtered elementary maps using item2's filtered Reidemeister data and the deformed unit, saddles and counit. Verify chain maps, the Lee relation homotopies for every shared schema and variant, distant-event interchange, planar naturality, identities, composition, disjoint union and marked-boundary transport. Their target is the filtered homotopy category modulo one global sign, with the actual homotopies and filtration degrees retained.
+
+   GT6 also constructs the passage from this marked affine domain to its full `S³×[0,1]` surface target. Encode the additional sweep-around relation: the two movies move a specified strand past the rest of a braid closure on its front and back sides. Prove the geometric relation for changing infinity data and prove the two Lee composites agree up to a common sign and filtration-preserving chain homotopy. Use the homogeneous universal relation over `ℚ[T]`, with `X²=T` and `deg T=−4`, and prove specialization at `T=1` preserves the required filtration on maps and homotopies. Construct the finite changes of chart/infinity data and their composition laws, then descend the filtered maps to boundary-fixed spherical surface isotopies. The shared affine movie theorem alone supplies no such descent. [Lipshitz–Sarkar, Proposition3.7](https://arxiv.org/html/2109.09018v3#S3) supplies the deformed sweep-around proof route; encode its finite words and verify their maps, rather than taking a diagram or citation as a chain-level certificate.
 
    Every elementary birth/death has filtration degree `+1`, every saddle degree `−1`, and every Reidemeister map degree0; hence a surface map has filtration degree `χ(Σ)`, meaning `F^j` maps into `F^(j+χ(Σ))`. Prove its action on canonical orientation classes, summing over compatible surface orientations with the actual nonzero rational coefficients. If every connected component of `Σ` meets the incoming boundary, a specified extending orientation sends its incoming canonical class to a nonzero multiple of its outgoing one. In particular an oriented connected genus-`g` cobordism between knots induces an isomorphism on their two-dimensional Lee homology, of filtered degree `−2g`. The reverse surface is a separate map of the same degree, not a claimed filtered inverse. Keep the incoming/outgoing boundary orientation convention explicit. A disjoint closed sphere can kill a map, so neither nonvanishing nor invertibility is asserted for arbitrary disconnected surfaces.
 
@@ -1680,7 +2247,7 @@ This layer owns integral even Khovanov homology, its rational Lee deformation an
 
 7. **Computations, comparison and acceptance examples.** Prove the full positive-diagram formula `s(K)=n−r+1=2g(K)=2g_s(K)`, where `n` is the number of crossings of the chosen positive diagram and `r` is that diagram’s Seifert-circle count; its proof uses the actual canonical cycles, absence of incoming degree`−1` chains and the Seifert surface. For a connected reduced alternating knot diagram, prove rational Khovanov thinness over `ℚ` and compute `s` from the signature: use the classical-signature normalization `σ_RH` in which the right-handed trefoil is `+2`, and explicitly prove its sign relative to Layer6's matrix signature before stating `s(K)=σ_RH(K)`. Give integral/rational chain and filtration certificates for unknot, right/left trefoil and figure-eight, with `s=0,2,−2,0`. For positive coprime `p,q`, prove `s(T_(p,q))=(p−1)(q−1)` and compare with G7's normalized `τ(T_(p,q))=(p−1)(q−1)/2`, including `p=1` or `q=1`. These are specified comparisons on these families; no universal equality `s=2τ`, equality of their filtered complexes, or identification of either with signature is required or assumed. Export finite-matrix computation and geometric-presentation transport APIs, as well as the full concordance and genus statements, so this supplier is usable beyond one obstruction.
 
-Use the primary accounts [Lee, §§2 and4](https://arxiv.org/html/math/0210213), [Rasmussen, §§2–6](https://arxiv.org/html/math/0402131), [Bar-Natan, §§4,7–9](https://arxiv.org/html/math/0410495), and [Ozsváth–Szabó, §§2 and3.2](https://arxiv.org/html/math/0301149). Their geometric diagrams must be encoded and proved against the actual finite carriers; a citation does not provide the local maps. The algebraic cube and Lee filtration depend only on Layer4 and the existing complex/filtered interfaces. The surface maps additionally use the early Layer6 cobordism foundations, and the group-valued invariants follow the earlier concordance-group construction. None of Layer4's Jones or Alexander definitions, Layer6's concordance relation, or the generic filtered-complex supplier depends back on `s` or on the new connected-sum adapter.
+Use the primary accounts [Lee, §§2 and4](https://arxiv.org/html/math/0210213), [Rasmussen, §§2–6](https://arxiv.org/html/math/0402131), [Bar-Natan, §§4,7–9](https://arxiv.org/html/math/0410495), and [Ozsváth–Szabó, §§2 and3.2](https://arxiv.org/html/math/0301149). Their geometric diagrams must be encoded and proved against the actual finite carriers; a citation does not provide the local maps. The Lee cube and filtration consume the shared ordinary finite carriers, K1–K5 comparisons and existing complex/filtered interfaces. The surface maps additionally consume K7’s common affine movie presentation and the early Layer6 cobordism foundations; their spherical descent requires item4’s Lee sweep-around comparison. The group-valued invariants follow the earlier concordance-group construction. None of Layer4's Jones or Alexander definitions, Layer6's concordance relation, or the generic filtered-complex supplier depends back on `s` or on the new connected-sum adapter.
 
 **Design notes.** Keep smooth and topological concordance separate from the start; the
 Levine and mutation results are about the smooth category specifically. The signature is
@@ -2313,6 +2880,29 @@ RiemannianGeometry R4.7 supplies the direct free/proper isometric-quotient
 atlas; its model construction precedes the later rigidity/volume comparisons.
 
 **What to build, in this order.**
+
+- **Earlier orientable sphere-theorem construction.** For an orientable smooth
+  or PL3-manifold, construct from π₂(M)≠0 an embedded two-sided S² whose class
+  in π₂(M) is nonzero (with a path to the supplied basepoint). This precedes
+  prime and JSJ decomposition and has no geometrization premise. Consume
+  Layer1/3g's triangulation, locally flat sphere/collar, PL general-position,
+  covering-lift and regular-neighborhood interfaces. Build the actual PL tower
+  proof: compactify the representative's finite triangulated image inside a
+  compact regular neighborhood; construct the tower of lifted neighborhoods
+  and its cover/π₁-module bookkeeping; desingularize boundary sphere maps by
+  disc surgeries, and prove that essentiality cannot disappear from all
+  descended sphere components. Supply the well-founded tower reduction and
+  termination argument and preserve the represented nonzero class through
+  its explicit module relation; a homology-nonzero surface is insufficient.
+  Export the embedded essential sphere, its normal two-sided structure and
+  smooth/PL transport.
+  An irreducible manifold therefore has π₂=0, since every embedded sphere
+  bounds a ball. Prime remains different: S²×S¹ is prime and not irreducible.
+  Separately, for a connected boundaryless3-manifold with infinite π₁ and π₂=0,
+  use its NONCOMPACT universal cover, higher-cover π comparisons, orientation
+  local homology, top ordinary homology vanishing and3-dimensional CW type
+  to prove the cover contractible by Hurewicz/Whitehead, hence K(π₁,1).
+  Never replace the cover by the compact base in that homology calculation.
 
 - **Sphere systems and prime 3-manifold factorization.** For a connected closed
   oriented smooth 3-manifold, construct finite disjoint two-sided embedded

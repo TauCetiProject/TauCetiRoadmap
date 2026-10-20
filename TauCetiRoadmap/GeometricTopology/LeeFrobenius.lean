@@ -9,7 +9,10 @@ import Mathlib.Tactic
 This file is not the roadmap and is not exhaustive. The definitive specification
 is README.md. It uses the actual polynomial relation quotient; no link complex or
 cobordism is represented by a placeholder. The parameter c=0 over integers gives
-the Khovanov algebra, and c=1 over rationals gives the Lee algebra.
+a quotient presentation compared in GT6 with KhovanovHomology K2’s native dual-number
+Frobenius object; c=1 over rationals gives the Lee algebra. Ordinary Kh and the
+shared affine movie presentation remain at that roadmap; GT6 owns the deformation
+and its filtered comparison.
 -/
 
 noncomputable section
