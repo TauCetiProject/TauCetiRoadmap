@@ -21,8 +21,9 @@ Design choices made explicit here:
   `n ≥ 2`, by Mathlib's principal logarithm for `n = 1`, and by iterated Euler derivatives of
   `z / (1 - z)` for `n ≤ 0`. Its names follow the complex-order `Complex.polylog` proposed for
   Mathlib, whose integer-order restriction it is away from the poles.
-* On the cut `[1, ∞)` the total value is the limit from the lower half-plane, because Mathlib's
-  argument lies in `(-π, π]`.
+* At every real `x > 1`, the total principal value is the limit from the lower half-plane,
+  because Mathlib's argument lies in `(-π, π]`. At `x = 1` this limit is asserted only for
+  weights `n ≥ 2`; the values for `n ≤ 1` are totalised pole values.
 * Bernoulli numbers are Mathlib's `bernoulli`, with `B₁ = -1/2`; `bernoulliCoeff k = 2^k B_k / k!`.
 * The single-valued `singleValued n` takes real values: the real part in odd weight and the
   imaginary part in even weight, with the continuous values at `0` and `1` assigned explicitly.
@@ -442,6 +443,24 @@ theorem continuous_singleValuedSphere (n : ℕ) (hn : 2 ≤ n) :
     Continuous (singleValuedSphere n) := by
   sorry
 
+/-- The weight-two sphere extension tends to zero along the positive imaginary axis (§4.7). -/
+theorem singleValuedSphere_two_tendsto_zero :
+    Tendsto (fun t : ℝ => singleValuedSphere 2 (((t : ℂ) * Complex.I : ℂ) : OnePoint ℂ))
+      (𝓝[>] 0) (𝓝 0) := by
+  sorry
+
+/-- The weight-three sphere extension tends to zero at imaginary infinity (§4.7). -/
+theorem singleValuedSphere_three_tendsto_infty :
+    Tendsto (fun t : ℝ => singleValuedSphere 3 (((t : ℂ) * Complex.I : ℂ) : OnePoint ℂ))
+      atTop (𝓝 0) := by
+  sorry
+
+/-- The weight-three sphere extension tends to the zeta value from both sides of `1` (§4.7). -/
+theorem singleValuedSphere_three_tendsto_one :
+    Tendsto (fun t : ℝ => singleValuedSphere 3
+      ((1 + (t : ℂ) * Complex.I : ℂ) : OnePoint ℂ)) (𝓝 0) (𝓝 (riemannZeta 3).re) := by
+  sorry
+
 /-- `L₃(-1) = -3 ζ(3) / 4` (§4.8). -/
 theorem singleValued_three_neg_one : singleValued 3 (-1) = -(3 / 4 : ℝ) * (riemannZeta 3).re := by
   sorry
@@ -561,6 +580,30 @@ def crossRatioSphere {K : Type*} [Field K] : OnePoint K → OnePoint K → OnePo
   | .some a, .some b, .infty, .some d => (b - d) / (a - d)
   | .some a, .some b, .some c, .infty => (a - c) / (b - c)
   | _, _, _, _ => 0
+
+/-- Exchanging the first two points in a rational tuple inverts its nonzero cross-ratio (§5.8). -/
+example :
+    crossRatioSphere (OnePoint.infty : OnePoint ℚ) (0 : ℚ) (1 : ℚ) (3 : ℚ) = 3 ∧
+      crossRatioSphere ((0 : ℚ) : OnePoint ℚ) OnePoint.infty (1 : ℚ) (3 : ℚ) = 1 / 3 := by
+  norm_num [crossRatioSphere]
+
+/-- The coordinate swap preserves the cross-ratio across its pole in characteristic three (§5.8). -/
+example :
+    let g : Matrix.GeneralLinearGroup (Fin 2) (ZMod 3) :=
+      Matrix.GeneralLinearGroup.mkOfDetNeZero !![0, 1; 1, 0]
+        (by norm_num [Matrix.det_fin_two]; decide)
+    crossRatioSphere (g • (OnePoint.infty : OnePoint (ZMod 3)))
+        (g • ((0 : ZMod 3) : OnePoint (ZMod 3)))
+        (g • ((1 : ZMod 3) : OnePoint (ZMod 3)))
+        (g • ((2 : ZMod 3) : OnePoint (ZMod 3))) =
+      crossRatioSphere (OnePoint.infty : OnePoint (ZMod 3)) (0 : ZMod 3) (1 : ZMod 3) (2 : ZMod 3) ∧
+      crossRatioSphere (OnePoint.infty : OnePoint (ZMod 3)) (0 : ZMod 3) (1 : ZMod 3) (2 : ZMod 3) = 2 := by
+  have h2 : (2 : ZMod 3) ≠ 0 := by decide
+  have hi2 : (2 : ZMod 3)⁻¹ = 2 := ZMod.inv_eq_of_mul_eq_one 3 2 2 (by decide)
+  dsimp only
+  rw [OnePoint.smul_infty_eq_ite]
+  simp only [OnePoint.smul_some_eq_ite]
+  norm_num [Matrix.GeneralLinearGroup.mkOfDetNeZero, crossRatioSphere, h2, hi2]
 
 /-- On finite points the sphere cross-ratio agrees with its affine formula (§5.8). -/
 theorem crossRatioSphere_finite {K : Type*} [Field K] (a b c d : K) :

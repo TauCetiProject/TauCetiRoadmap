@@ -586,10 +586,12 @@ References: [O93] §3.2, (23)–(24), p. 58 (`Pₖ` extends continuously to `ℙ
 
 Prove `continuous_singleValuedSphere`: for `n ≥ 2` the function `singleValuedSphere n` on `OnePoint ℂ` is continuous; hence `continuous_singleValued` on `ℂ`. The limits at `0, ∞` and 1 are 0, 0 and `ζ(n)` or 0 by parity, and do not depend on the direction of approach or on a branch. Near `0`, `Liⱼ(z) = O(|z|)` for every `j ≥ 1` and the factor `ℓ^k` grows at most like `|log|z||^{n−1}`. At `∞`, use the inversion identity already proved in §4.6 and the behaviour at 0. Near `1`, `Liⱼ → ζ(j)` for `j ≥ 2` by §1.7, while the logarithmic singularity of `Li₁` is multiplied by `ℓ^{n−1} = O(|z − 1|^{n−1})`; the cut corrections cancel by §4.3, so the estimates hold uniformly on both half-neighbourhoods.
 
+Prove the boundary targets `singleValuedSphere_two_tendsto_zero`, `singleValuedSphere_three_tendsto_infty` and `singleValuedSphere_three_tendsto_one` along the paths below, with every complex argument coerced into `OnePoint ℂ`. The endpoint and restriction API is `singleValuedSphere_infty` and `singleValuedSphere_coe`.
+
 **Checks.**
-- `L₃(1) = ζ(3) ≠ 0`, while `L₂(0) = L₂(1) = L₂(∞) = 0` and `L₄(1) = 0`.
-- The limit of `L₃` at 1 is `ζ(3)` from above and from below the cut alike.
-- `singleValuedSphere_infty` and `singleValuedSphere_coe` give the assigned values at infinity and finite points; `continuous_singleValuedSphere` asserts their compatibility with limits.
+- As `t → 0+`, `singleValuedSphere 2 (t·i) → 0` (`singleValuedSphere_two_tendsto_zero`, filter `𝓝[>] 0`).
+- As `t → +∞`, `singleValuedSphere 3 (t·i) → 0` (`singleValuedSphere_three_tendsto_infty`, filter `atTop`).
+- As `t → 0` from either side, `singleValuedSphere 3 (1 + t·i) → Re ζ(3)` (`singleValuedSphere_three_tendsto_one`, filter `𝓝 0`): odd weight retains a nonzero endpoint.
 
 *Needs:* §§1.3, 1.7, 4.3, 4.4, 4.6.
 
@@ -778,9 +780,10 @@ r(a,b,∞,d) = (b−d)/(a−d),     r(a,b,c,∞) = (a−c)/(b−c).
 Prove `crossRatioSphere_eq_det`: for an injective four-tuple with nonzero homogeneous representatives `vᵢ`, this value is `Δ(v₀,v₂)Δ(v₁,v₃)/(Δ(v₀,v₃)Δ(v₁,v₂))`, where `Δ(v,w) = v₀w₁−v₁w₀`; all rescaling factors cancel. Then `crossRatioSphere_mobius`: every `g : GL (Fin 2) K` preserves the cross-ratio of an injective four-tuple, by determinant covariance. Prove `normalize_five`: for every injective `s : Fin 5 → OnePoint K` there exist `g : GL (Fin 2) K` and `x,y : K` with `x,y ∉ {0,1}`, `x ≠ y`, and `g • s = (∞,0,1,x,y)` pointwise. Construct the map using representatives of the first three points, whose pairwise determinants are nonzero. This field-general algebra supplies the complex projective proof and the downstream projective-coordinate APIs under the bracket translation `1−r` on distinct tuples. Symbol complexes and scalar-to-group descent belong to the consumers listed below.
 
 **Checks.**
-- The first cancellation formula gives `r(∞,0,1,z) = z` for every finite `z`.
+- Over `ℚ`, `r(∞,0,1,3) = 3` and `r(0,∞,1,3) = 1/3`, a paired cancellation test proved from `crossRatioSphere` in `Suggested.lean`.
+- Over `ZMod 3`, the coordinate swap `g = [[0,1],[1,0]]` sends `(∞,0,1,2)` to `(0,∞,1,2)`; both cross-ratios are 2. The second proved example uses Mathlib's actual action on `OnePoint (ZMod 3)`, including the pole at 0.
+- Over `ℚ`, rescale the homogeneous representatives of `(∞,0,1,3)` to `(2,0),(0,3),(5,5),(21,7)`. The determinant quotient is `10·(−63)/(14·(−15)) = 3`, so independent rescaling preserves the value.
 - The identity matrix already normalizes `(∞,0,1,x,y)` when `x,y ∉ {0,1}`, `x ≠ y`; no map can send a coincident first pair to the distinct points `∞,0`, so injectivity is essential.
-- The matrix exchanging the two coordinates sends `0` to `∞` and `∞` to `0`; `crossRatioSphere_mobius` includes these pole cases, which the affine nonzero-denominator theorem cannot cover.
 - On distinct tuples the homogeneous bracket `Δ(v₀,v₁)Δ(v₂,v₃)/(Δ(v₀,v₃)Δ(v₂,v₁))` equals `1−r`; the equality need not survive totalised coincident tuples.
 
 Prove `blochWigner_crossRatio_fiveTerm`: for five pairwise distinct points `s₀, …, s₄` of `ℂ`,
@@ -1018,7 +1021,7 @@ These roadmaps take the analytic statements of this roadmap as inputs; none of t
 - **HabiroNahmSeries**: takes `D` at all complex embeddings of algebraic Nahm solutions (§5.1), its conjugation sign (§5.3), the Rogers values (§6.5) and the finite-sum bounds (§7.7).
 - **HabiroNumberFields**: takes the complex five-term identity on an explicit branch domain (§3.4, §3.5) for comparison with its cyclic quantum dilogarithm, which remains its own object.
 - **PeriodsAndSpecialValues**: takes the classical analytic realisation `Liₙ, Lₙ` and the zeta endpoint values (§§1.7, 4.2) alongside its multiple-zeta and motivic objects.
-- **ColemanIntegration**: L2.Fa uses §§1.1–1.7 and §3.1: its `complexPolylog k z = polylog k z` for `k ≥ 1, ‖z‖ ≤ 1` (the value at `k = 1, z = 1` is totalised); off-disc values of that wrapper carry no analytic contract. L3.Fc.3 uses §§4.2–4.7: for `n ≥ 2, z ∉ {0,1}`, its `zagierPolylog n z` is `(singleValued n z : ℂ)` in odd weight and `Complex.I * singleValued n z` in even weight. The complex analytic construction, closed-disc/distribution/expZeta API and single-valued inversion/distribution/conjugation are supplied here. Its formal and p-adic functions and arithmetic comparisons remain its own. L2.Fb uses the field-general projective algebra of §5.8, translating its bracket by `1 − r` on distinct tuples; its algebraic Bloch-group and p-adic comparisons remain its own.
+- **ColemanIntegration**: its consumer contract assigns the complex analytic construction, closed-disc/distribution/expZeta API and single-valued inversion/distribution/conjugation to this roadmap. L2.Fa obtains `complexPolylog` by restricting §§1.1–1.7 and §3.1: `complexPolylog k z = polylog k z` for `k ≥ 1, ‖z‖ ≤ 1` (the value at `k = 1, z = 1` is totalised); off-disc values of that wrapper carry no analytic contract. L3.Fc.3 obtains `zagierPolylog` from §§4.2–4.7: for `n ≥ 2, z ∉ {0,1}`, it is `(singleValued n z : ℂ)` in odd weight and `Complex.I * singleValued n z` in even weight. Its ordered weight-one root-of-unity boundary series, formal and p-adic functions and arithmetic comparisons are its own targets. L2.Fb transports §5.8's homogeneous comparison, Möbius invariance and `normalize_five` through `OnePoint.equivProjectivization`, with its bracket equal to `1 − crossRatioSphere` on distinct tuples. Its symbol constructions, field-map API, scalar-to-group descent, algebraic Bloch groups and p-adic comparisons are its own targets.
 
 ## References
 
