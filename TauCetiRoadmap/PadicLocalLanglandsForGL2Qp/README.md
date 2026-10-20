@@ -18,6 +18,8 @@ Tau Ceti supplies completed group algebras and compact-module actions in `TauCet
 
 Completed cohomology and modularity lifting consume the local interfaces here. They are not prerequisites used to close the local construction. The supercuspidal smooth-factor identification has a global proof; its uses carry the **supercuspidal comparison input** described in Layer 4, alongside the local comparison target there. Likewise the all-residual cycle theorems use the **arithmetic patching inputs** stated in Layer 6. Neither dependency is replaced by an upward citation to a consuming roadmap.
 
+The shared foundations required by this roadmap have one construction each. Sections 0.1–0.5 own the analytic, duality, filtered-period, deformation and affine-cycle APIs used below. The names with `AnalyticSupport`, `DualitySupport`, `DeformationSupport` and `CycleSupport` prefixes denote these shared APIs or their specialization maps, not independent carriers for each consumer. The block and type-ring constructions of §§5.1–5.6 and 5.12 likewise supply the common contracts `GL2Block.projectiveEnvelope`, `GL2Block.centre`, `GL2Block.residualGalois`, `MontrealFunctor.torsionEtaleRealization` and `WDTypeRing`. The `Block` and `KisinRingLL` notation below specializes those constructions. Every specialization retains the original coefficient, determinant and topology hypotheses.
+
 ## Conventions
 
 Let `p` be prime, `L/ℚ_p` a finite extension, `O=O_L, ϖ` a uniformiser and `k=O/ϖ`. Enlarge `L` or `k` when an absolute-irreducibility or splitting hypothesis needs it. Smooth torsion representations have discrete topology. Banach representations are complete nonarchimedean `L`-spaces with jointly continuous action and an open bounded invariant `O`-lattice. Finite length always means length in the indicated representation category, equivalently `O[G]`-length in the torsion setting; it does not mean finite `O`-length.
@@ -137,15 +139,15 @@ Use the following named operations and compatibility results.
 
 - `GL2Qp.UnitaryBanachRep.character_isAdmissible`: A unitary character `η∘det` is a one-dimensional admissible unitary Banach representation, ordinary, with `Π̄^{ss} = η̄∘det`.
 - `GL2Qp.UnitaryBanachRep.zero`: The zero representation is admissible and residually of length 0.
-- `GL2Qp.UnitaryBanachRep.not_unitary_of_central`: If `Z` acts by a character with `|ζ(p)| ≠ 1` there is no bounded `G`-stable lattice.
+- `GL2Qp.UnitaryBanachRep.not_unitary_of_central`: For a nonzero representation, a central character with `|ζ(p)| ≠ 1` excludes an open bounded `G`-stable lattice.
 - `GL2Qp.UnitaryBanachRep.compat_compactDuality`: Restricted to `K, Π` is an admissible `K`-Banach representation in the sense of §0.1, and `Π ↦ Π′` matches the anti-equivalence of §0.1.
 - The universal unitary completion of the smooth Steinberg is in `Ban^{adm}_{G,1}(L)`.
 - A continuous principal series induced from unitary characters is admissible and residually of finite length; every absolutely irreducible subquotient is ordinary.
-- A representation with non-unitary central character is never unitary.
+- A nonzero representation with non-unitary central character is never unitary. The named theorem `SmoothTorsion.hasCentralCharacter_of_subsingleton` states the zero central-character test on the pinned carrier. The zero representation satisfies every central-character equation and has the open bounded invariant lattice `{0}`.
 
 [Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, CDP14](#ref-cdp14), §1.1, p. 1; [Vytautas Paškūnas, PASKUNAS13](#ref-paskunas13), §1.1, p. 3; §4; [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §4, p. 8.
 
-The `GL₂` residual finite-length and ordinary predicates in this contract are specialisations used below. They are not part of the definition of a general admissible Banach representation. In the category with finite length and central character, equivalence with residual finite length is a theorem of the correspondence. A non-unitary scalar character cannot preserve an open bounded lattice, already on the scalar `p`.
+The `GL₂` residual finite-length and ordinary predicates in this contract are specialisations used below. They are not part of the definition of a general admissible Banach representation. In the category with finite length and central character, equivalence with residual finite length is a theorem of the correspondence. On a nonzero representation a non-unitary scalar character cannot preserve an open bounded lattice, already on the scalar `p`.
 
 The analytic-vector contract for `Π^{an}` uses the orbit-map definition. It supplies an admissible locally analytic representation, dense in `Π`, and an exact functor on admissible unitary Banach representations, with strong dual coadmissible over `D(H,L)`. Its `GL₂` specialisation has the following names, all supplied by that general theory.
 
@@ -178,7 +180,7 @@ IntegralHeckeAndGaloisDeterminants §§0.1–0.5 supplies determinant polynomial
 
 ## How to read the build
 
-Layer 0 constructs the supporting analytic and arithmetic comparisons. Layer 1 fixes the Colmez-specific normalisation and mirabolic constructions. Layer 2 supplies `GL₂` finiteness and duality specialisations and the necessary representation classes. Construct the definitions of §2.1 and the finite `K`-types of §2.8 first, then §2.6 and the classification in §2.7, and then the finiteness consequences of §§2.1–2.2 and compact duality in §2.3. Layer 3 constructs the correspondence and its analytic comparison. Layer 4 identifies algebraic factors, completions and infinitesimal de Rham conditions. Layer 5 connects blocks and projective objects to deformation rings and cycles. Layer 6 applies those interfaces prime by prime and compares the analytic representations with Drinfeld geometry. A source theorem is a mathematical target; its carrier requirements determine which signatures occur in Lean. The compact suggested file records only signatures on available carriers; the mathematical roadmap is this document.
+Layer 0 constructs the supporting analytic and arithmetic comparisons; Layer 1 fixes Colmez's normalizations. In Layer 2 construct §2.1's categories and §2.8's finite types, then §§2.6–2.7 and the finiteness/duality results of §§2.1–2.3. Section 2.5 at this stage supplies only the completion definition and conditional coherent-lattice criterion. Construct the torsion Montreal functor of §§3.1–3.3, then the envelope and Morita machinery of §§5.1 and 5.3 before the correspondence. Construct the compatible-module gluing of §§3.4–3.6 and the compatible-pair analytic-radius construction of §3.11 before the correspondence proof. For the Paškūnas `p≥5` route prove §5.5(i)–(ii) first. The all-prime CDP route instead uses the envelope-module and rational-commutativity arguments stated in §3.8, without presupposing a deformation-ring identification. Prove §§3.7–3.8, then the irreducible analytic comparisons of §3.11. The dyadic identification §5.5(iii) follows on this route. The Banach consequences of §5.5(iv)–(v) follow after the correspondence. Prove the `GL₂` H-coherence and analytic universal-completion conclusions of §2.5 from the compatible-module analytic result after §3.11. Layer 4 then compares algebraic vectors and de Rham deformations; the remaining Layer 5 targets compare centres, type rings and cycles. Layer 6 makes case-specific local and conditional global deductions. Carriers determine which targets admit signatures in Suggested.lean; this README is the specification.
 
 ## Layer 0: Supporting analytic and arithmetic foundations
 
@@ -188,14 +190,17 @@ These targets precede their uses in Layers 1–6. The period rings, smooth categ
 
 ### 0.1 Locally analytic functions, distributions and Banach duality
 
-For a finite extension `F/ℚ_p`, a complete discretely valued coefficient extension `L/F` and a locally `F`-analytic manifold `X`, construct `AnalyticSupport.functions X L`, the locally convex space of locally analytic functions, from analytic charts and their Banach radius spaces. Give restriction, pullback, gluing, finite products, continuous evaluation, chart independence and the continuous dual with its strong topology. For compact locally analytic `H`, define `AnalyticSupport.distributions H L` as that strong dual, with convolution obtained by the transpose of multiplication on `H`. Prove the Dirac, pushforward, convolution, completed projective tensor and open-subgroup comparisons. Develop the locally convex inductive/projective limits and compact-type/nuclear duality needed to identify these duals; an algebraic union of analytic functions does not specify its strong dual. PadicFunctionalAnalysis Layers 0–4 supplies the nonarchimedean Banach analysis and one-variable analytic stages; this target adds the manifold and locally convex comparisons (Schneider–Teitelbaum, **ST03**, §§2–4 and 6).
+For a finite extension `F/ℚ_p`, a complete discretely valued coefficient extension `L/F` and a locally `F`-analytic manifold `X`, construct the shared space `LA(X,L)`, written `AnalyticSupport.functions X L` in the representation adapters, the locally convex space of locally analytic functions, from analytic charts and their Banach radius spaces. Give restriction, pullback, gluing, finite products, continuous evaluation, chart independence and the continuous dual with its strong topology. For compact locally analytic `H`, use the shared strong-dual carrier `D(H,L)`, written `AnalyticSupport.distributions H L` in these adapters, with convolution obtained by the transpose of multiplication on `H`. Prove the Dirac, pushforward, convolution, completed projective tensor and open-subgroup comparisons. Develop the locally convex inductive/projective limits and compact-type/nuclear duality needed to identify these duals; an algebraic union of analytic functions does not specify its strong dual. PadicFunctionalAnalysis Layers 0–4 supplies the nonarchimedean Banach analysis and one-variable analytic stages; this target owns the common manifold and locally convex comparisons (Schneider–Teitelbaum, **ST03**, §§2–4 and 6).
 
 **Checks.**
 
 - For `X` a point the function space and its strong dual are `L`, and evaluation at that point is the identity.
 - On `H=ℤ_p`, Dirac at a sends a function `f` to `f(a)`, and `δ_a*δ_b=δ_(a+b)`; its restriction to continuous functions agrees with the measure supplier's bounded dual.
+- For a nonidentity embedding `σ:F→L`, the function `x↦σ(x)` on `O_F` is `ℚ_p`-analytic but not `F`-analytic for the chosen inclusion `F⊂L`; the `F`-analytic quotient must retain this distinction.
 - On a noncommutative compact `H`, `δ_g*δ_h=δ_(gh)`, and switching `g,h` changes the answer when `gh≠hg`. The empty manifold has zero function space and zero dual.
 - The locally analytic distribution with Amice transform `log(1+T)` on `ℤ_p` is not a bounded measure: its coefficients `(-1)^(n+1)/n` are unbounded. Thus the distribution algebra must contain more than the bounded measure algebra.
+
+The common compact-manifold API includes `analyticPullback`, `analyticTensor_equiv`, strong biduality and `distributionConvolution`; their GL₂ uses are specialization maps on the same spaces. For noncompact `X` construct the sheaf and locally convex topology by restrictions to compact charts. For locally `F`-analytic functions use the `F`-linear chart condition and its quotient of the underlying `ℚ_p`-analytic distribution algebra; do not identify these two analytic structures when `F≠ℚ_p`.
 
 For compact `H` and discretely valued `L`, prove that `D(H,L)` is Fréchet–Stein, with noetherian Banach radius algebras and flat transitions. Define `AnalyticSupport.Coadmissible M` by compatible finite modules over these stages, recovered by inverse limit. Prove independence of a cofinal radius sequence, the abelian and exact finite-stage API, and the strong-dual anti-equivalence with admissible locally analytic `H`-representations. For a locally analytic group `G`, define admissibility by restriction to a compact open `H` and prove independence of `H`. For locally `ℚ_p`-analytic `H`, prove faithful flatness of `L⊗_O O[[H]]→D(H,L)`; no faithful-flatness assertion for a general `F`-analytic quotient with `F≠ℚ_p` is inferred. Sources: ST03, §3, Theorems 4.9–4.11, 5.1–5.2 and 6.3; the uniform pro-`p` models retain the source's `p`-valuation hypotheses, including the smaller uniform subgroup at `p=2`.
 
@@ -205,7 +210,7 @@ For compact `H` and discretely valued `L`, prove that `D(H,L)` is Fréchet–Ste
 - A finite-dimensional analytic character has a coadmissible dual; forgetting its character and retaining only its dimension loses the distribution action.
 - For `H` a point, coadmissible modules are finite-dimensional `L`-spaces. An infinite-dimensional discrete direct sum of copies of `L` fails this condition.
 
-For any p-adic Lie group `G` and finite `L/ℚ_p`, construct the category of unitary Banach representations with jointly continuous action and its admissible subcategory. For compact open `H` prove Schikhof duality with finitely generated `L⊗_O O[[H]]`-modules, with the dual lattice and its topology retained; transport compatible `G`-action and fixed central character. Define `AnalyticSupport.vectors Π` by locally analytic orbit maps with its natural locally convex topology. On admissible Banach objects prove density, exactness, admissibility and the dual base-change identification with `D(H,L)`. These give the Banach and analytic conventions above and their `GL₂` specialisations. Sources: Schneider–Teitelbaum, **ST02**, §§1–3, especially Theorem 3.5; ST03, Theorem 7.1; Paškūnas 2013 §4.
+The common Banach/Schikhof foundation is constructed here once, alongside §0.3's compact–discrete duality. For any p-adic Lie group `G` and finite `L/ℚ_p`, construct the category of unitary Banach representations with jointly continuous action and its admissible subcategory. For compact open `H` prove Schikhof duality with finitely generated `L⊗_O O[[H]]`-modules, with the dual lattice and its topology retained; transport compatible `G`-action and fixed central character. Define `AnalyticSupport.vectors Π` by locally analytic orbit maps with its natural locally convex topology. On admissible Banach objects prove density, exactness, admissibility and the dual base-change identification with `D(H,L)`. These give the Banach and analytic conventions above and their `GL₂` specialisations. Sources: Schneider–Teitelbaum, **ST02**, §§1–3, especially Theorem 3.5; ST03, Theorem 7.1; Paškūnas 2013 §4.
 
 **Checks.**
 
@@ -220,7 +225,7 @@ For any p-adic Lie group `G` and finite `L/ℚ_p`, construct the category of uni
 
 ### 0.2 Filtered periods, differential modules and Weil–Deligne comparison
 
-Use the period carriers, invariant functors and crystalline/semistable/de Rham predicates of PadicPeriodRings §§4.1–4.3. For a complete discretely valued characteristic-zero field `K` with perfect residue field of characteristic `p` and a chosen Cohen subfield `K₀` with Frobenius, construct `HodgeSupport.filteredPhiN K`: finite-dimensional `K₀`-spaces with invertible semilinear `φ`, nilpotent `N` satisfying `Nφ=pφN`, and an exhaustive separated decreasing filtration on `K⊗_(K₀)D`. Include finite Galois descent data for potentially semistable objects. Morphisms preserve all these structures. Define weak admissibility by `t_H(D)=t_N(D)` and `t_H(D')≤t_N(D')` for every `φ,N`-stable subobject with induced filtration. Prove tensor, dual, Tate twist, exact-category, scalar-change and descent APIs, and that the supplied `D_st` is a fully faithful equivalence from semistable representations onto weakly admissible objects. Retain the general-rank equivalence; rank two is the filtration-line Check. Sources: Brinon–Conrad, **BC09**, §§8.1–8.3, Proposition 9.2.14, Theorem 9.3.4 and Remark 11.3.4; Colmez–Fontaine's weakly-admissible/admissible theorem as proved there.
+Use the period carriers, invariant functors and crystalline/semistable/de Rham predicates of PadicPeriodRings §§4.1–4.3. For a complete discretely valued characteristic-zero field `K` with perfect residue field of characteristic `p` and a chosen Cohen subfield `K₀` with Frobenius, construct the shared carrier `FilteredPhiNModule K`: finite-dimensional `K₀`-spaces with invertible semilinear `φ`, nilpotent `N` satisfying `Nφ=pφN`, and an exhaustive separated decreasing filtration on `K⊗_(K₀)D`. Include finite Galois descent data for potentially semistable objects. Morphisms preserve all these structures. Define weak admissibility by `t_H(D)=t_N(D)` and `t_H(D')≤t_N(D')` for every `φ,N`-stable subobject with induced filtration. Prove tensor, dual, Tate twist, exact-category, scalar-change and descent APIs, and that the supplied `D_st` is a fully faithful equivalence from semistable representations onto weakly admissible objects. Use this same carrier and equivalence in every filtered-period comparison; the Colmez adapter converts its filtration jumps to the weight convention here. Retain the general-rank equivalence; rank two is the filtration-line Check. Sources: Brinon–Conrad, **BC09**, §§8.1–8.3, Proposition 9.2.14, Theorem 9.3.4 and Remark 11.3.4; Colmez–Fontaine's weakly-admissible/admissible theorem as proved there.
 
 **Checks.**
 
@@ -229,13 +234,15 @@ Use the period carriers, invariant functors and crystalline/semistable/de Rham p
 - Zero is weakly admissible. A one-dimensional object with `φ=1` and filtration jump 1 fails `t_H=t_N`.
 - In rank two equality of total Hodge and Newton numbers does not suffice: a `φ`-stable line with `t_H>t_N` violates weak admissibility.
 
-For finite `K/ℚ_p`, prove the p-adic monodromy theorem, construct `HodgeSupport.Dpst V` for every de Rham `V` and its raw Weil–Deligne parameter on the shared SR.5.2 fields, and prove independence of the finite semistable extension, exactness, tensor, dual and coefficient-change comparisons. Construct `D_dif^+(V)` and `D_dif(V)` with their cyclotomic `Γ`-action, localization maps and connection, the Sen operator and generalized Hodge–Tate weights; prove that de Rhamness is equivalent to a full horizontal basis of `D_dif`. Identify `D_cris(V)` and `D_st(V)` with the `Γ`-invariant parts of the Robba realizations, using logarithmic periods for `D_st` and retaining `N`. Identify the unfiltered differential equation with PhiGammaModulesAndIwasawaCohomology §5.6a's `N_dR(V)`; the original filtered lattice is not identified with its unfiltered extension. Sources: BC09, Theorem 9.3.5 and §§15.1–15.4, especially Definition 15.4.14 and Proposition 15.4.15; Berger, **BERGER02**, Theorems 0.2 and 0.4 and §5. The APIs include `HodgeSupport.Dpst_WD`, `Ddif_deRham_iff`, `Robba_crystalline`, `Robba_semistable`, `Sen_twist` and compatibility with all finite field and coefficient extensions.
+For finite `K/ℚ_p`, prove the p-adic monodromy theorem, construct `HodgeSupport.Dpst V` for every de Rham `V` and its raw Weil–Deligne parameter on the shared SR.5.2 fields, and prove independence of the finite semistable extension, exactness, tensor, dual and coefficient-change comparisons. Construct `D_dif^+(V)` and `D_dif(V)` with their cyclotomic `Γ`-action, localization maps and connection, the Sen operator and generalized Hodge–Tate weights; prove that de Rhamness is equivalent to a full horizontal basis of `D_dif`. Prove `D_cris(V)=(D_rig(V)[1/t])^Γ` and `D_st(V)=(D_log(V)[1/t])^Γ`, where `D_log(V)` is the logarithmic Robba realization with its monodromy. Retain inversion of `t` in twists and coefficient change. Identify the unfiltered differential equation with PhiGammaModulesAndIwasawaCohomology §5.6a's `N_dR(V)`; the original filtered lattice is not identified with its unfiltered extension. Sources: BC09, Theorem 9.3.5 and §§15.1–15.4, especially Definition 15.4.14 and Proposition 15.4.15; Berger, **BERGER02**, Theorems 0.2 and 0.4 and §5. The APIs include `HodgeSupport.Dpst_WD`, `Ddif_deRham_iff`, `Robba_crystalline`, `Robba_semistable`, `Sen_twist` and compatibility with all finite field and coefficient extensions.
 
-For finite `K/ℚ_p` and `L` containing its embeddings, classify crystalline characters through reciprocity: in the geometric convention their restriction to units is `u↦∏_σ σ(u)^(n_σ)` with integral labelled weights `n_σ`, with the unramified factor and unitary extension condition retained. Prove the arithmetic-reciprocity formula by inversion. This is the rank-one specialization of the period comparison, with all labelled embeddings retained (BC09, §§2.3–2.4 and §8.3).
+For finite `K/ℚ_p` and `L` containing its embeddings, classify crystalline characters through reciprocity: in the geometric convention their restriction to units is `u↦∏_σ σ(u)^(n_σ)` with integral labelled weights `n_σ`, with the unramified factor and unitary extension condition retained. Prove the arithmetic-reciprocity formula by inversion. Use Conrad, [Lifting global representations with local properties](https://virtualmath1.stanford.edu/~conrad/papers/locchar.pdf), Appendix B, Proposition B.4(i)–(ii), pp.35–36, and Example B.5, p.36, for the coefficient-linear classification and its crystalline periods. Construct the labelled period/Sen decomposition on `L⊗ K`, with one factor for each embedding, and its local-algebraicity criterion. Compare each embedded Lubin–Tate character with its crystalline period: its labelled weight is 1 at that embedding and 0 at the others. Tensor these periods and their inverses; a remaining finite inertia character is crystalline only if unramified. Algebraicity on an open subgroup of units gives de Rhamness, while crystallinity requires the displayed formula on all units.
 
 **Checks.**
 
 - The unramified unit-valued character has all weights zero; over `ℚ_p` the character `ε=x|x|` has weight `+1` and geometric reciprocity sends `p` to value 1.
+- For `[K:ℚ_p]>1`, an embedded Lubin–Tate character has unequal labelled weights; a common Tate twist cannot replace it. A nontrivial finite ramified character has all weights zero and is de Rham, but is not crystalline.
+- The crystalline period of `L(χ)` is `t⁻¹e_χ`, absent from the unlocalized Robba line; the localized invariant formula recovers it.
 - The character `x` has the same unit restriction but value `p` at `p` and does not extend continuously to `G_(ℚ_p)`; the unitary extension condition is essential.
 - A semistable noncrystalline representation has nonzero `N`, retained by its raw `WD` parameter and by Frobenius semisimplification; erasing `N` changes its classical smooth factor.
 - The trivial and zero representations have respectively the unit and zero differential equations; a representation without full-rank `D_dR` cannot acquire a full horizontal basis.
@@ -252,9 +259,9 @@ For a finite extension `L/ℚ_p` with integers `O`, define `DualitySupport.torsi
 
 - The `O`-dual of `O/ϖⁿ` is isomorphic to `O/ϖⁿ`; its dual again is the original module via evaluation, and zero dualizes to zero.
 - A scalar action `ζ` dualizes to `ζ⁻¹`. The smooth character and its compact dual therefore have inverse central characters.
-- Over ramified `O` the trace comparison retains the inverse different; replacing it by `O` without a chosen trivialization fails `O`-linearity of the asserted identification.
+- Over ramified `O` the trace comparison retains the inverse different; using the trace directly on `L/O` gives an `O`-linear but nonperfect pairing with kernel `𝔇⁻¹/O`. For odd `p` and `L=ℚ_p(√p)`, the nonzero class of `(2√p)⁻¹` lies in this kernel. A chosen generator of `𝔇⁻¹` supplies the corrected comparison.
 
-On the supplied inertia and tame quotient, construct the fundamental characters `RamificationSupport.omega_f` of every niveau `f≥1`, with values in `𝔽_(p^f)^×` after a compatible tame-root choice. Prove surjectivity, norm compatibility, Frobenius conjugation by `p`-powers and comparison of `ω₁` with the cyclotomic reduction. For extensions of 1 by `ω` over `ℚ_p`, define `RamificationSupport.IsPeuRamifie` by the Kummer unit subspace and très ramifié by its complement among extension classes. Prove invariance under isomorphism and scalar extension, compatibility with twists and Cartier duality `ρ̄∨⊗ω`, and the comparison with the Serre-weight convention used in BCDT §1.3. Sources: BCDT01 §1.3, pp.854–856, with its Serre-weight convention; Serre, **SERRE87**, §2. The chosen characters and the extension-class convention are shared by §§2.7–2.8, 3.3 and 5.13.
+On the supplied inertia and tame quotient, construct the shared `fundamentalCharacter` API of every niveau `f≥1`, with values in `𝔽_(p^f)^×` after a compatible tame-root choice. Prove surjectivity, norm compatibility, Frobenius conjugation by `p`-powers and comparison of `ω₁` with the cyclotomic reduction. For extensions of 1 by `ω` over `ℚ_p`, construct the subspace `peuRamifieH1` as the Kummer image of units and define `IsPeuRamifiee` by membership in that subspace; très ramifié is its complement among extension classes. The BCDT adapter uses these same characters and this predicate. Prove invariance under isomorphism and scalar extension, compatibility with twists and Cartier duality `ρ̄∨⊗ω`, and the comparison with the Serre-weight convention used in BCDT §1.3. Sources: BCDT01 §1.3, pp.854–856, with its Serre-weight convention; Serre, **SERRE87**, §2. The chosen characters and the extension-class convention are shared by §§2.7–2.8, 3.3 and 5.13.
 
 **Checks.**
 
@@ -269,7 +276,7 @@ On the supplied inertia and tame quotient, construct the fundamental characters 
 
 ### 0.4 Local lifting functors and bounded Hodge-type quotients
 
-Use SchemeAndStackFoundations §4.2's Artinian and complete noetherian local `O`-algebra categories with residue `k`. For any profinite group `Γ, n≥1` and continuous `ρ̄:Γ→GLₙ(k)`, define `DeformationSupport.framed` by continuous lifts in the fixed residual basis and `DeformationSupport.unframed` by strict conjugacy. Prove functoriality on coefficient maps and finite quotients. Under Mazur's `Φ_p` finiteness condition, prove framed pro-representability and noetherianity; when `End_(k[Γ])(ρ̄)=k`, prove unframed pro-representability and formal smoothness of forgetting the frame of relative dimension `n²−1`. Define fixed determinant as the actual fibre of determinant for every `p`, including `p|n`; it is not defined by splitting off scalar characters. Give tangent and obstruction comparisons on continuous cochains: framed tangents are `Z¹(ad ρ̄)`, unframed tangents `H¹(ad ρ̄)`, and fixed-determinant tangents are the determinant fibre, with the boundary map from the trace sequence retained when trace on scalar endomorphisms vanishes. Source: Mazur, **MAZUR89**, §§1.1–1.3; the finite-local-group `Φ_p` input is LocalGaloisGroups Layers 3 and 7. The API is the universal lift, its representing equivalence on Artinian coefficients and inverse limits, `forgetFrame`, `fixedDeterminant`, coefficient extension and the tangent/obstruction maps.
+Use SchemeAndStackFoundations §4.2's Artinian and complete noetherian local `O`-algebra categories with residue `k`. These are the common local deformation constructions; the block-specific completion and centre comparisons are §§5.4–5.6. For any profinite group `Γ, n≥1` and continuous `ρ̄:Γ→GLₙ(k)`, define `DeformationSupport.framed` by continuous lifts in the fixed residual basis and `DeformationSupport.unframed` by strict conjugacy. Prove functoriality on coefficient maps and finite quotients. Under Mazur's `Φ_p` finiteness condition, prove framed pro-representability and noetherianity; when `End_(k[Γ])(ρ̄)=k`, prove unframed pro-representability and formal smoothness of forgetting the frame of relative dimension `n²−1`. Define fixed determinant as the actual fibre of determinant for every `p`, including `p|n`; it is not defined by splitting off scalar characters. Give tangent and obstruction comparisons on continuous cochains: framed tangents are `Z¹(ad ρ̄)`, unframed tangents `H¹(ad ρ̄)`, and fixed-determinant tangents are the determinant fibre, with the boundary map from the trace sequence retained when trace on scalar endomorphisms vanishes. Source: Mazur, **MAZUR89**, §§1.1–1.3; the finite-local-group `Φ_p` input is LocalGaloisGroups Layers 3 and 7. The API is the universal lift, its representing equivalence on Artinian coefficients and inverse limits, `forgetFrame`, `fixedDeterminant`, coefficient extension and the tangent/obstruction maps.
 
 **Checks.**
 
@@ -296,15 +303,16 @@ Keep the group-valued extension: for a smooth affine `O`-group with reductive id
 
 ### 0.5 Module cycles, specialization and multiplicity
 
-Reuse Mathlib's `AlgebraicGeometry.AlgebraicCycle` on `Spec A`. The dimension grading of SchemeAndStackFoundations §5.1 is restricted there to schemes locally of finite type over a field; extend the support-by-closure-dimension grading to arbitrary noetherian affine `A`, using `dim(A/𝔭)=d`. Thus `Z_d(A)` is the dimension-supported subgroup of the same native cycle carrier, equivalently the free abelian group on those primes. For a finite A-module `M` of support dimension at most `d`, construct `CycleSupport.moduleCycle M` with coefficient `length_(A_𝔭)(M_𝔭)` at each such prime. Prove finite support, effectivity, zero, exact-sequence additivity, closed-immersion compatibility, and flat/formally smooth pullback with the relative dimension recorded. Sources: Paškūnas 2015 §2.1, the cycle conventions and formulas preceding Theorem 2.42; Stacks, [§42.10, “Cycle associated to a coherent sheaf”](https://stacks.math.columbia.edu/tag/02QV), and [§43.15, “Algebraic multiplicities”](https://stacks.math.columbia.edu/tag/0AZU). This extends the module-length and complete-local interfaces; it does not construct another algebraic-cycle carrier or a rational-equivalence quotient.
+Reuse Mathlib's `AlgebraicGeometry.AlgebraicCycle` on `Spec A`. The dimension grading of SchemeAndStackFoundations §5.1 is restricted there to schemes locally of finite type over a field; extend the support-by-closure-dimension grading to arbitrary noetherian affine `A`, using `dim(A/𝔭)=d`. Thus `Z_d(A)` is the dimension-supported subgroup of the same native cycle carrier, equivalently the free abelian group on those primes. For a finite A-module `M` of support dimension at most `d`, construct `moduleCycle d M`, written `CycleSupport.moduleCycle M` in the representation adapters, with coefficient `length_(A_𝔭)(M_𝔭)` at each such prime. Prove finite support, effectivity, zero, exact-sequence additivity, closed-immersion compatibility, and dimension-graded flat pullback under an explicit closure-dimension formula on the relevant components. Under localization retain dimensions measured in the original ambient `Spec A`. Prove formal-power-series pullback separately with its dimension shift. Sources: Paškūnas 2015 §2.1, the cycle conventions and formulas preceding Theorem 2.42; Stacks, [§42.10, “Cycle associated to a coherent sheaf”](https://stacks.math.columbia.edu/tag/02QV), and [§43.15, “Algebraic multiplicities”](https://stacks.math.columbia.edu/tag/0AZU). This extends the module-length and complete-local interfaces; it does not construct another algebraic-cycle carrier or a rational-equivalence quotient.
 
-For a noetherian local `A, m`-primary ideal `I` and finite `M`, construct the Hilbert–Samuel polynomial of `length(M/I^(n+1)M)` and its dimension-`d` normalized leading coefficient `CycleSupport.multiplicity I d M` for `dim M≤d`. Prove polynomiality, integrality, positivity in the top nonzero dimension, additivity, the associativity formula summing local lengths times the multiplicities of `A/𝔭`, and invariance under formal power-series extension with its dimension shift. For a complete noetherian `O`-flat ring and a finite `O`-flat module, construct specialization of the generic top-dimensional cycle using the lengths of the special-fibre localizations. Prove agreement with the module cycle of `M/ϖM` under the stated flatness and dimension hypotheses, and compatibility with finite flat coefficient extension. Sources: Paškūnas 2015 §2.1 and Theorems 2.42–2.44; Kisin 2009 §1.1; Stacks, [§43.15, Lemmas 43.15.2–43.15.3](https://stacks.math.columbia.edu/tag/0AZU). The API includes `CycleSupport.moduleCycle_exact`, `specialize_flat`, `multiplicity_cycle` and `powerSeries_pullback`. These are the cycle and multiplicity inputs to §§5.10–5.11 and Layer 6.
+For a noetherian local `A, m`-primary ideal `I` and finite `M`, construct the shared Hilbert–Samuel polynomial of `length(M/I^(n+1)M)` and its dimension-`d` normalized leading coefficient `CycleSupport.multiplicity I d M` for `dim M≤d`. Prove polynomiality, integrality, positivity in the top nonzero dimension, additivity, the associativity formula summing local lengths times the multiplicities of `A/𝔭`, and invariance under formal power-series extension with its dimension shift. For a complete equidimensional noetherian local `O`-flat ring `A` of dimension `d+1` and a finite `O`-flat module `M` with `dim Supp M≤d+1`, construct specialization from the ambient `(d+1)`-cycle to the special-fibre `d`-cycle using the lengths of the special-fibre localizations. Prove agreement with the module cycle of `M/ϖM` under the stated flatness and dimension hypotheses, and compatibility with finite flat coefficient extension. Sources: Paškūnas 2015 §2.1 and Theorems 2.42–2.44; Kisin 2009 §1.1; Stacks, [§43.15, Lemmas 43.15.2–43.15.3](https://stacks.math.columbia.edu/tag/0AZU). The shared affine API is `moduleCycle`, `moduleCycle_specialization` and the intrinsic/ambient multiplicity comparison. The names `CycleSupport.moduleCycle_exact`, `specialize_flat`, `multiplicity_cycle` and `powerSeries_pullback` denote its representation-theoretic specializations, with support bound `dim Supp M≤d` and `O`-flatness carried into every specialization comparison. These are the cycle and multiplicity inputs to §§5.10–5.11 and Layer 6.
 
 **Checks.**
 
 - Over a field, the zero-dimensional cycle of a finite vector space has coefficient its dimension; the zero module has zero cycle and multiplicity.
 - For `A=k[[x,y]]/(xy)`, the one-cycle of A is the sum of its two minimal components with coefficient one. Either component has multiplicity one, so their separate cycles have equal multiplicity but are unequal.
 - For a DVR `O` the cycle of `O/ϖⁿ` has coefficient `n` at the closed point. Replacing the local module length by the dimension of its residue tensor would give one for every `n>0` and fails.
+- For `A=k[[t]]` and `B=A[1/t]=k((t))`, the open immersion is smooth of relative dimension zero, but `dim A=1` and `dim B=0`. Localization retains the coefficient at `(0)` in ambient dimension one; it does not preserve intrinsic grading.
 - Adjoining three formal variables shifts a one-cycle to a four-cycle and preserves its Hilbert–Samuel multiplicity, as required by framing.
 - For `A=O/ϖ`, generic-fibre specialization is zero while the special fibre is nonzero; dropping `O`-flatness invalidates the comparison.
 
@@ -338,9 +346,9 @@ Use the following named operations and compatibility results.
 - `GL2Qp.mirabolicPlus_mul_mem`: `P⁺` is closed under multiplication and contains 1.
 - `GL2Qp.closure_mirabolic_center_weyl`: `G` is generated as a group by `P(ℚ_p), Z` and `w`.
 
-The light coordinate API in `Suggested.lean` uses `GL2Qp.Gp` for the existing matrix unit group and `GL2Qp.InBorel`, `GL2Qp.InMirabolic`, `GL2Qp.InMirabolicPlus` for the entry predicates underlying the bundled subgroup and submonoid targets. In the last predicate integrality is `‖g₀₀‖≤1` and `‖g₀₁‖≤1`; invertibility with bottom row `(0,1)` forces `g₀₀≠0`. `GL2Qp.scalar`, `GL2Qp.unipotent` and `GL2Qp.diagonal` specialise existing matrix constructors, with values `scalar(a), (1 b;0 1)` and `(a 0;0 1)`. `GL2Qp.Character` is the existing continuous monoid-hom carrier, agreeing with `PadicChar` below. The signature `GL2Qp.mirabolic_inf_center` is the scalar intersection control.
+The light coordinate API in `Suggested.lean` uses `GL2Qp.Gp` for the existing matrix unit group and `GL2Qp.InBorel`, `GL2Qp.InMirabolic`, `GL2Qp.InMirabolicPlus` for the entry predicates underlying the bundled subgroup and submonoid targets. In the last predicate integrality is `‖g₀₀‖≤1` and `‖g₀₁‖≤1`; invertibility with bottom row `(0,1)` forces `g₀₀≠0`. `GL2Qp.scalar`, `GL2Qp.unipotent` and `GL2Qp.diagonal` specialise existing matrix constructors, with values `scalar(a), (1 b;0 1)` and `(a 0;0 1)`. `GL2Qp.Character` requires a commutative topological coefficient ring and is the existing continuous monoid-hom carrier, agreeing with `PadicChar` below. The signature `GL2Qp.mirabolic_inf_center` is the scalar intersection control.
 
-**Checks.** An upper unipotent always has mirabolic bottom row; it belongs to `P⁺` exactly when its translation is integral. A unit diagonal is mirabolic, and is in `P⁺` exactly when its upper-left entry is integral. `Scalar(a)` has lower-right entry `a`, so `scalar(a)` is mirabolic exactly for `a=1`. The Weyl element fails the zero lower-left-entry condition. These checks tie the predicates to the bundled groups, rather than defining alternative groups.
+**Checks.** An upper unipotent always has mirabolic bottom row; it belongs to `P⁺` exactly when its translation is integral. A unit diagonal is mirabolic, and is in `P⁺` exactly when its upper-left entry is integral. `Scalar(a)` has lower-right entry `a`, so `scalar(a)` is mirabolic exactly for `a=1`. The Weyl element fails the zero lower-left-entry condition. The named mirrors `GL2Qp.unipotent_mul` and `GL2Qp.diagonal_mul` express the constructor multiplication laws. `GL2Qp.unipotent_not_mem_mirabolicPlus` excludes any nonintegral translation, and `GL2Qp.unipotent_inv_prime_not_mem_mirabolicPlus` gives translation by `p⁻¹`. These checks tie the predicates to the bundled groups, rather than defining alternative groups.
 
 The coordinate definitions have the following further discriminating checks. `InBorel` accepts the identity and every upper unipotent, rejects `w`, and is unchanged by multiplying two accepted elements. `InMirabolic` accepts all translations and all `diag(a,1)`, but rejects `scalar(a)` for `a≠1`. `InMirabolicPlus` accepts `diag(p,1)` and integral translations, and rejects either a nonintegral scaling or a translation by `p⁻¹`. The constructor `unipotent(b)` is the identity at `b=0`, has upper-right entry `b`, and satisfies `unipotent(b) unipotent(c)=unipotent(b+c)`. The constructor `diagonal(a)` is the identity at `a=1`, has upper-left entry `a`, and multiplies according to `diagonal(a) diagonal(b)=diagonal(ab)`; it is scalar only for `a=1`. `Scalar(1)` is the identity, `scalar(a)scalar(b)=scalar(ab)`, and its intersection with `P` is the identity. The Weyl element exchanges the two coordinate vectors, has determinant `−1`, and squares to 1; the alternative signed Weyl matrix `(0 -1;1 0)` squares to `−1` at odd `p` and fails this convention. At `p=2` the field `ℚ₂` still has characteristic zero, so `−1≠1` even though their residue classes agree.
 
@@ -371,13 +379,13 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §4–§5, 
 
 ### 1.2 Characters of `ℚ_p^×` as Galois characters (Colmez's normalisation)
 
-For a topological ring `Λ` let `T̂(Λ)` be the group of continuous characters `δ` : `ℚ_p^× → Λ^×`. Through local class field theory normalised so that `p` corresponds to a geometric Frobenius, `W_{ℚ_p}^{ab} ≅ ℚ_p^×`, and a character `δ ∈ T̂(Λ)` is viewed as the character of the Weil group `W_{ℚ_p}` given by `δ(g) = δ(p)^{−deg g} · δ(χ(g))`, where deg `g ∈ ℤ` is defined by `g(x) = x^{p^{deg g}}` on `𝔽̄_p` and `χ` is the cyclotomic character. When `n ↦ δ(p^n)` extends continuously to `ℤ̂` (in particular when `Λ = k_L`, or `Λ = L` and `δ` is unitary, i.e. `v_p(δ(p)) = 0`), `δ` extends to a continuous character of `G_{ℚ_p}`. Under this dictionary the character `x ↦ x|x|` corresponds to `χ`, its reduction `ω` mod `p` to the mod `p` cyclotomic character, and the unramified character `μ_λ` (`μ_λ(p) = λ`, trivial on `ℤ_p^×`) to the unramified character sending a geometric Frobenius to `λ`. For `δ ∈ T̂(L)` its weight is `w(δ) = log δ(u)/log u` for any `u ∈ ℤ_p^×` not a root of unity; for unitary `δ` it is the generalised Hodge–Tate weight of `δ (w(x|x|) = 1)`.
+For a commutative topological ring `Λ` let `T̂(Λ)` be the group of continuous characters `δ` : `ℚ_p^× → Λ^×`. Through local class field theory normalised so that `p` corresponds to a geometric Frobenius, `W_{ℚ_p}^{ab} ≅ ℚ_p^×`, and a character `δ ∈ T̂(Λ)` is viewed as the character of the Weil group `W_{ℚ_p}` given by `δ(g) = δ(p)^{−deg g} · δ(χ(g))`, where deg `g ∈ ℤ` is defined by `g(x) = x^{p^{deg g}}` on `𝔽̄_p` and `χ` is the cyclotomic character. When `n ↦ δ(p^n)` extends continuously to `ℤ̂` (in particular when `Λ = k_L`, or `Λ = L` and `δ` is unitary, i.e. `v_p(δ(p)) = 0`), `δ` extends to a continuous character of `G_{ℚ_p}`. Under this dictionary the character `x ↦ x|x|` corresponds to `χ`, its reduction `ω` mod `p` to the mod `p` cyclotomic character, and the unramified character `μ_λ` (`μ_λ(p) = λ`, trivial on `ℤ_p^×`) to the unramified character sending a geometric Frobenius to `λ`. For `δ ∈ T̂(L)` its weight is `w(δ) = log δ(u)/log u` for any `u ∈ ℤ_p^×` not a root of unity; for unitary `δ` it is the generalised Hodge–Tate weight of `δ (w(x|x|) = 1)`.
 
 Here `L` is a finite extension of `ℚ_p` with ring of integers `O_L = O`, uniformiser `ϖ` and residue field `k_L = k`. The normalisation (uniformisers `↦` geometric Frobenii) is the one of Colmez, Paškūnas and Colmez–Dospinescu–Paškūnas; SmoothRepresentationsOfLocalGroups SR.5.2 uses the same `Art_F(ϖ) =` geometric Frobenius, and the arithmetic normalisation of §0.2 states crystalline characters through `Art^arith`, the inverse normalisation.
 
 Use the following named operations and compatibility results.
 
-- `PadicChar`: `T̂(Λ)` as the group of continuous homomorphisms `ℚ_p^× → Λ^×` (Mathlib ContinuousMonoidHom).
+- `PadicChar` (with commutative topological coefficient ring): `T̂(Λ)` as the group of continuous homomorphisms `ℚ_p^× → Λ^×` (Mathlib ContinuousMonoidHom).
 - `PadicChar.normChar`: The unitary character `x ↦ x|x|` of `ℚ_p^×` with values in `ℤ_p^×` (it is `p ↦ 1, u ↦ u` on `ℤ_p^×`).
 - `PadicChar.unramified`: `μ_λ` for `λ ∈ Λ^×`: `p ↦ λ`, trivial on `ℤ_p^×`.
 - `PadicChar.weight`: `w(δ) ∈ L`, the derivative of `δ` at 1 in the logarithmic coordinate.
@@ -397,6 +405,7 @@ The weight is well defined because `δ` restricted to a small open subgroup `1 +
 
 **Checks.**
 
+- Over `M₂(𝔽₃)`, take unramified characters sending `p` to `A=(1 1;0 1)` and `B=(1 0;1 1)`. Their pointwise product is not a character: `(AB)²=2I`, whereas `A²B²=(2 2;2 1)`. Commutative coefficients are essential for the character-group law.
 - `PadicChar.normChar_apply_p`: `(x|x|)(p) = 1` and `(x|x|)(u) = u` for `u ∈ ℤ_p^×`.
 - `PadicChar.weight_normChar`: `w(x|x|) = 1` and `w(μ_λ) = 0`.
 - `PadicChar.toGalois_trivial`: The trivial character corresponds to the trivial Galois character.
@@ -774,7 +783,7 @@ Here `H^p` is the subgroup of pth powers of the uniform group; the restriction o
 
 The source is [Pierre Colmez, Gabriel Dospinescu, CD14](#ref-cd14), Introduction, Theorem 0.2, Proposition 0.6, Theorem 0.7, pp.4–6; [Laurent Berger, Christophe Breuil, BB10](#ref-bb10), Introduction, p. 2; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDN20](#ref-cdn20), Proposition 2.9, p. 22; Corollaire 2.13 and its proof, p. 24 (arXiv).
 
-*Needs:* [the Banach contract](#banach-contract); [§2.4](#section-2-4).
+*Needs:* [the Banach contract](#banach-contract); [§2.4](#section-2-4); for `GL2Qp.analytic_coherent`, lattice commensurability and analytic completion, [§3.11](#section-3-11) and [§3.8](#section-3-8).
 
 <a id="section-2-6"></a>
 
@@ -820,7 +829,7 @@ Over a sufficiently large finite field `k` of characteristic `p`, put `σ_r=Sym^
 
 Here `F = ℚ_p`: the irreducibility of `I(σ)/(T)` (Breuil) and finite presentation of supersingulars fail for `F ≠ ℚ_p` ([§2.9](#section-2-9)).
 
-For `σ_r=Sym^r k²`, extended to `KZ` by trivial action of `p`, construct the spherical Hecke endomorphism `T` on `I(σ_r)=c-Ind_(KZ)^G σ_r` on the smooth compact-induction carrier of SmoothRepresentationsOfLocalGroups SR.2.1. Prove its double-coset formula for `KZ·diag(p,1)·KZ`, its coefficient-change and twist laws, `End_G(I(σ_r))≅k[T]`, freeness over `k[T]`, and that every irreducible with central character is a quotient of some `I(σ_r)/(T−λ)`. Identify the `λ≠0` quotients with the principal series or exceptional constituents in the statement. The finite Serre-weight carrier and its classification are §2.8; this Hecke action and its mod-`p` quotient theory are additional targets here. Sources: Colmez §III.3.1, Theorem III.3.2 and Proposition III.3.5, pp.85–86; Breuil 2003 §1 and §4.
+For `σ_r=Sym^r k²`, extended to `KZ` by trivial action of `p`, construct the shared spherical Hecke endomorphism `heckeOperatorT`, written `T` here, on `I(σ_r)=c-Ind_(KZ)^G σ_r` on the smooth compact-induction carrier of SmoothRepresentationsOfLocalGroups SR.2.1. Prove its double-coset formula for `KZ·diag(p,1)·KZ`, its coefficient-change and twist laws, `End_G(I(σ_r))≅k[T]`, freeness over `k[T]`, and that every irreducible with central character is a quotient of some `I(σ_r)/(T−λ)`. Identify the `λ≠0` quotients with the principal series or exceptional constituents in the statement. The finite Serre-weight carrier and its classification are §2.8; the shared names are `SerreWeight`, `compactInduction`, `heckeOperatorT`, `endEquivPolynomial` and `compactInduction_free`. The `NormalizerType.serreWeight` notation is their `ℚ_p` specialization; Colmez parameter changes and the exceptional sequences are adapters to that same classification. Sources: Colmez §III.3.1, Theorem III.3.2 and Proposition III.3.5, pp.85–86; Breuil 2003 §1 and §4.
 
 Breuil: `I(σ)/(T)` is irreducible for `F = ℚ_p` (Breuil 2003, Théorème 1.1, via Corollaires 4.1.1 and 4.1.4) and the isomorphisms between them (Théorème 1.3).
 
@@ -939,6 +948,8 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §5, pp. 9�
 <a id="section-3-2"></a>
 
 ### 3.2 Colmez's Montreal functor `Π ↦ D(Π), V(Π)`
+
+The shared contract `MontrealFunctor.torsionEtaleRealization` is the finite-length torsion construction here, including its étale-module output and covariant Galois realization. The compact and Banach extensions use this same functor and the fixed-character duality; they are not additional definitions of the torsion functor.
 
 For `Π ∈ Rep^{tors}G` choose a finite length `K`-stable `W ⊂ Π` that gives a standard presentation (`W(Π) ≠ ∅`; `Π = I(W)/R(W, Π)` is a standard presentation, which exists for every `Π`, Colmez Théorème III.3.1). Let `I^Π_{ℤ_p}(W)` be the `O_L`-span of the `(p^n a; 0 1)·W` with `a + p^nℤ_p ⊂ ℤ_p, D^♮_W(Π)` its Pontryagin dual (a quotient of `Π^∨`), and `D⁺_W(Π) ⊂ Π^∨` the `μ` vanishing on `(p^n a; 0 1)·W` for `a + p^nℤ_p ⊄ ℤ_p`. These are `Γ`-modules over `O_E⁺` (`T` acting by `(1 1; 0 1) − 1, σ_a` by `(a 0; 0 1)`), `D⁺_W(Π)` is a `(φ,Γ)`-module over `O_E⁺` with `φ = (p 0; 0 1)`, and `D(Π) := O_E ⊗ D⁺_W(Π) ≅ O_E ⊗ D^♮_W(Π)` is independent of `W`, with `β_{ℤ_p}` : `Π^∨ → D(Π)`. Then `D` is an exact contravariant functor `Rep^{tors}G → ΦΓ^et_tors`, extended to `Rep_{O_L}G` by inverse limits and to `Rep_L G` by `⊗ L`. `V(Π) :=` the Tate dual of `V(D(Π))` defines an exact covariant functor `Rep^{tors}G → Rep_tors G_{ℚ_p}, Rep_{O_L}G → Rep_{O_L}G_{ℚ_p}, Rep_L G → Rep_L G_{ℚ_p}`, with `V(Π ⊗ (δ∘det)) = V(Π) ⊗ δ`, and `V(Π) = MF(Π)(ε)` for Emerton's normalisation `MF`. Paškūnas's variant on the dual category: `V̌(M) := V(M^∨)^∨(ζε)` for `M ∈ C_{G,ζ}(O)`, extended to pseudo-compact objects by limits. Limits are taken in the profinite augmented dual category; their exactness requires its compact Mittag–Leffler input, not arbitrary inverse-limit exactness.
 
@@ -1066,7 +1077,7 @@ Twisting follows from the glued module and saturated submodule. The maximality s
 - For `D` of rank 2 with `det V(D) = χ, δ_D = 1` and `Π(D)` has trivial central character.
 - `Π(D ⊗ η) = Π(D) ⊗ (η∘det)` for a unitary character `η`.
 
-The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §II.2.1–II.2.2, pp.55–59 (Remark II.2.3 and Lemma II.2.10); Theorem 0.17, pp.16–17; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDN23](#ref-cdn23), §1.3.1, p. 17.
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §II.2.1–II.2.2, pp.55–59 (Remark II.2.3 and Lemma II.2.10); Théorème 0.17, p.15; Remarque 0.18, pp.15–16; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDN23](#ref-cdn23), §1.3.1, p. 17.
 
 *Needs:* [§3.1](#section-3-1); [§1.3](#section-1-3); [§1.4](#section-1-4); [§1.5](#section-1-5); [the Fontaine contract](#fontaine-contract).
 
@@ -1128,7 +1139,7 @@ Here `L/ℚ_p` finite; `Π` admissible unitary with central character (automatic
 
 For `p≥5`, use Paškūnas’s projective-envelope method, with its endomorphism comparison and crystalline-density input; those key arguments are not formal consequences of the listed local categories.
 
-For all `p`, the CDP argument uses residual finiteness, Schur’s lemma for Banach representations, and the infinitesimal character on locally analytic vectors. These inputs are the correspondence density and Schur inputs specified here.
+For all `p`, construct the projective envelopes and their topological endomorphism algebras of §§5.1 and 5.3 first; identifying those algebras with deformation rings is a separate comparison. The CDP argument uses residual finiteness, Schur’s lemma for Banach representations, and the infinitesimal character on locally analytic vectors. These inputs are the correspondence density and Schur inputs specified here.
 
 The determinant follows from the central-character formula once the correspondence is established. Residual finite length for arbitrary finite-length objects uses dévissage and the lattice-independence theorem.
 
@@ -1139,7 +1150,7 @@ The determinant follows from the central-character formula once the corresponden
 
 The source is [Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, CDP14](#ref-cdp14), Theorem 1.1, p. 1; Corollary 1.2, p. 2; Theorem 1.4, p. 3; Corollaries 1.6–1.7, p. 4; Theorems 1.8–1.9, pp. 5–6; [Vytautas Paškūnas, PASKUNAS13](#ref-paskunas13), Theorem 1.1, p. 2; Corollary 1.2 and Theorem 1.3, p. 3.
 
-*Needs:* [§3.7](#section-3-7); [§3.2](#section-3-2); [the Banach contract](#banach-contract); [§2.6](#section-2-6); [§2.4](#section-2-4); [§1.2](#section-1-2).
+*Needs:* [§5.1](#section-5-1); [§5.3](#section-5-3); for the `p≥5` Paškūnas route, [§5.5](#section-5-5)(i)–(ii); [§3.7](#section-3-7); [§3.2](#section-3-2); [the Banach contract](#banach-contract); [§2.6](#section-2-6); [§2.4](#section-2-4); [§1.2](#section-1-2).
 
 <a id="section-3-9"></a>
 
@@ -1190,6 +1201,15 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Proposition V.2.1, p.125
 
 ### 3.11 Locally analytic vectors of `Π(D)`
 
+First construct `AnalyticBoxtimes.compatibleRadius` for a unitary character `δ` and a compatible pair `D∈C_L(δ)`, where `C_L(δ)` is the essential image of the torsion/integral Montreal construction after localization, as in CD14 §0.4. This condition is established for that image without the bijection on irreducibles. Construct the compatible quotient `Π_δ(D)` and its exact sequence with the Cartier-dual quotient. For sufficiently large radius index `b`, restriction to `D^(0,r_b]⊠_δℙ¹` gives the analytic-radius exact sequence of CD14 Theorems 0.8 and 0.10, pp.7–8. Prove the radius-norm and lattice estimates used in Theorem 0.7. These provide the compatible-module input to H-coherence; the irreducible specialization below follows after §3.7.
+
+**Compatible-radius Checks.**
+
+- At `D=0` all section and radius modules are zero, and their exact sequence is the zero sequence.
+- A finite-dimensional Banach representation has zero Montreal module; the reconstruction is modulo finite-dimensional representations, so the radius comparison cannot identify it with the zero representation without that quotient.
+- The congruence subgroup `1+p^mM₂(ℤ_p)` uses `m≥2` at `p=2`; `m=1` is not the source's uniform-group input.
+
+
 Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2 and `Π = Π(D)`. (i) `D† ⊠ ℙ¹ = {(z₁, z₂) ∈ D ⊠ ℙ¹ : z₁, z₂ ∈ D†}` is `G`-stable and its image in `Π(D)` is `Π(D)^{an}`; indeed `Π^{an} = (D† ⊠ ℙ¹)/L·(D^♮ ⊠ ℙ¹)`. (ii) The `G`-action extends continuously to `D_rig ⊠ ℙ¹`, with an exact sequence `0 → (Π(D)^{an})* ⊗ δ_D → D_rig ⊠ ℙ¹ → Π(D)^{an} → 0`, and `D^♮_rig ⊠ ℙ¹ = (Π̌^{an})*`. (iii) (Colmez–Dospinescu) `Π(D)` is the universal unitary completion of `Π(D)^{an}`. Here `D` is rational: `D^♮ ⊠ℙ¹` already means the `L`-span of the saturated integral submodule. An extra symbol `L·` does not mean that the integral compact lattice equals its rational span.
 
 Here `D` irreducible of rank 2 over `E`.
@@ -1200,7 +1220,7 @@ Apply [§3.10](#section-3-10), then the overconvergent heart/distribution compar
 
 Use Colmez Theorem V.2.20 and its extended pairing to obtain the locally analytic exact sequence.
 
-Use the universal-completion target and the coherent-lattice criterion of [§2.5](#section-2-5).
+Use the compatible-radius estimates above to prove `GL2Qp.analytic_coherent` and lattice commensurability in §2.5. Then apply its conditional coherent-lattice criterion to obtain (iii); (i)–(ii) do not use the universal-completion conclusion.
 
 **Checks.**
 
@@ -1210,7 +1230,7 @@ Use the universal-completion target and the coherent-lattice criterion of [§2.5
 
 The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Théorème 0.19, p. 16; Proposition V.2.1, p. 125; Théorème V.2.20, p. 134; [Pierre Colmez, Gabriel Dospinescu, CD14](#ref-cd14), Théorème 0.2, p. 4.
 
-*Needs:* [§3.7](#section-3-7); [§2.4](#section-2-4); [§2.5](#section-2-5); PhiGammaModulesAndIwasawaCohomology §1.0; PhiGammaModulesAndIwasawaCohomology §2.6; [§3.10](#section-3-10).
+*Needs:* for the compatible-radius construction, [§3.2](#section-3-2), [§3.4](#section-3-4) and the conditional criterion of [§2.5](#section-2-5); for (i)–(ii), [§3.7](#section-3-7), [§2.4](#section-2-4) and the analytic Fontaine heart; for (iii), the compatible-radius estimates and conditional completion criterion; PhiGammaModulesAndIwasawaCohomology §1.0; PhiGammaModulesAndIwasawaCohomology §2.6; [§3.10](#section-3-10).
 
 ### Examples
 
@@ -1484,7 +1504,7 @@ The source is [Gabriel Dospinescu, DOSPINESCU15](#ref-dospinescu15), Théorèmes
 
 ### 4.10 De Rham deformations and algebraic-vector density
 
-Let `V₀` be absolutely irreducible of dimension two, `E` a finite local `L`-algebra with residue `L`, and `V` a free rank-two `E`-deformation of `V₀` with fixed determinant and `End_{E[G_{ℚ_p}]}V=E`, obtained from the local absolutely irreducible deformation neighbourhood. Then `Π(V)^{alg}` is dense in `Π(V)` exactly when `V` is de Rham with distinct Hodge–Tate weights. This holds for every prime. In a fixed-determinant supercuspidal type the de Rham self-extension space is one-dimensional.
+Let `V₀` be absolutely irreducible of dimension two, `E` a finite local `L`-algebra with residue `L`, and `V` a free rank-two `E`-deformation of `V₀` with fixed determinant and `End_{E[G_{ℚ_p}]}V=E`, obtained from the local absolutely irreducible deformation neighbourhood. Then `Π(V)^{alg}` is dense in `Π(V)` exactly when `V` is de Rham with distinct Hodge–Tate weights. This holds for every prime. For a supercuspidal full Weil–Deligne type with distinct Hodge–Tate weights `a<b` and fixed determinant, the de Rham self-extension space is one-dimensional.
 
 Here the fixed-determinant absolutely irreducible deformation-neighbourhood hypotheses of CDN–Kisin §4.1; coefficient field sufficiently large; Hodge–Tate weights interpreted in the stated convention.
 
@@ -1492,12 +1512,12 @@ Use the family construction over the local Galois deformation neighbourhood and 
 
 Apply the infinitesimal `(φ,Γ)`-module calculation in CDN–Kisin Theorem 4.1. The proof is not a specialisation of the `p≥5` statement in [§4.9](#section-4-9); its all-prime analytic and infinitesimal inputs remain the Artinian infinitesimal calculation.
 
-The all-prime proof must compute the infinitesimal action and `D_dif` connection over the Artinian coefficient algebra, including nilpotents. In the fixed-determinant type, show that the two infinitesimal Hodge–Tate weights have fixed sum and that the off-diagonal obstruction vanishes precisely in the de Rham case; retain the one-dimensional fixed-type extension calculation. This is the content used from CDN–Kisin §§4.1–4.2, Theorem 4.1, pp.13–15. Dospinescu's `p≥5` theorem cannot justify a dyadic substitution. The hypothesis that `E` is a quotient of the indicated local absolutely irreducible deformation neighbourhood is retained; an arbitrary `E`-family with the same residual representation is not enough.
+The all-prime proof must compute the infinitesimal action and `D_dif` connection over the Artinian coefficient algebra, including nilpotents. In the fixed-determinant type, show that the two infinitesimal Hodge–Tate weights have fixed sum and that the off-diagonal obstruction vanishes precisely in the de Rham case; retain the one-dimensional fixed-type extension calculation under distinct weights `a<b`. This is the content used from CDN–Kisin §§4.1–4.2, Theorem 4.1, pp.13–15. Dospinescu's `p≥5` theorem cannot justify a dyadic substitution. The hypothesis that `E` is a quotient of the indicated local absolutely irreducible deformation neighbourhood is retained; an arbitrary `E`-family with the same residual representation is not enough.
 
 **Checks.**
 
 - `E=L` recovers the irreducible algebraic-vector criterion.
-- A repeated Hodge–Tate weight does not satisfy the density criterion.
+- A repeated Hodge–Tate weight does not satisfy the density criterion. At `p=3`, a finite tame dihedral representation with inertia `diag(i,−i)` and Frobenius exchanging the basis vectors has weights `{0,0}`. Its jump-zero filtration is unique, so its fixed-determinant, fixed-full-type de Rham self-extension space has dimension zero.
 
 The source is [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDNKISIN](#ref-cdnkisin), §4.1, Theorem 4.1 and Remark 4.2, pp.13–15; §4.2, pp.16–17.
 
@@ -1540,16 +1560,16 @@ Layers 1–3; the Hodge dictionaries of §0.2; SmoothRepresentationsOfLocalGroup
 
 Blocks are equivalence classes of irreducible smooth objects under chains of nonzero `Ext¹` in either direction, with fixed central character `ζ`. Write `A_B` for the locally finite-length block subcategory, `π_B=⊕_{π∈B}π, J_B` its injective envelope in `A_B`, and `P_B=J_B^∨` in the dual profinite category. Put `E_B=End_C(P_B)`, with ordinary composition. Then `End_G(J_B)=E_B^{op}`; their centres agree with the centre of the block category. For `τ∈A_B, m_B(τ)=Hom_C(P_B,τ^∨)` is a right pseudocompact `E_B`-module by precomposition, `P_B` is a left `E_B`-module, and `τ≅`(`m_B(τ)` completed-`tensored_{E_B}P_B`)`^∨`. This is an anti-equivalence with the appropriate right pseudocompact modules. The full locally finite-length category decomposes into its blocks; finite-length objects have only finitely many nonzero components. CDN’s `Rep^{ℓf}` is the finite-length subcategory; passage to all locally finite-length objects uses its `Ind`-completion, not a change of meaning of `ℓf`. Blocks over `k` correspond to Galois orbits of absolute blocks.
 
-Here `ζ` fixed; `F = ℚ_p`; blocks may be taken over `k_L` or `𝔽̄_p` (rationality as in CDN 2023 Remarques 1.11 and 1.13).
+Here `ζ` is fixed and `F=ℚ_p`. Compact duals, envelopes and pseudocompact Morita theory use `O_L` with finite residue field `k_L`, enlarged finitely to split the block. Over `𝔽̄_p` use only absolute block classification, recovering finite-coefficient blocks by Galois orbits (CDN23 Remarques 1.11 and 1.13).
 
 Use the following named operations and compatibility results.
 
 - `Block`: A block `B`: an equivalence class of irreducibles under `Ext¹`-linkage.
 - `Block.subcategory`: `Mod^{l.fin}_{G,ζ}(O)_B`.
 - `Block.injectiveEnvelope`: `J_B`, an injective envelope of `π_B`.
-- `Block.projectiveEnvelope`: `P_B = J_B^∨` in `C_{G,ζ}(O)`.
+- `GL2Block.projectiveEnvelope` (also written `Block.projectiveEnvelope`): `P_B = J_B^∨` in `C_{G,ζ}(O)`.
 - `Block.endRing`: `E_B=End_C(P_B)` with composition; `End_G(J_B)=E_B^{op}`.
-- `Block.centre`: `Z_B` is the centre of `E_B`, canonically also the centre of `End_G(J_B)=E_B^{op}` and of the block category.
+- `GL2Block.centre` (also written `Block.centre`): `Z_B` is the centre of `E_B`, canonically also the centre of `End_G(J_B)=E_B^{op}` and of the block category.
 - `Block.decomposition`: `Mod^{l.fin}_{G,ζ}(O) ≅ ∏_B Mod^{l.fin}_{G,ζ}(O)_B`.
 - `Block.gabriel`: `τ↦Hom_C(P_B,τ^∨)` is a right pseudocompact `E_B`-module; reconstruction is (`m` completed-`tensored_{E_B}P_B`)`^∨`, with `P_B` a left `E_B`-module.
 
@@ -1566,6 +1586,7 @@ Gabriel’s block decomposition and pseudocompact Morita theorem are nonroutine 
 - `Block.supersingular_singleton`: For `π` supersingular, the block of `π` is `{π}`.
 - `Block.zero`: The zero representation lies in every `Mod^{l.fin}_{G,ζ}(O)_B`.
 - `Block.not_finite_length`: `J_B` is not of finite length, and `E_B` is not an artinian ring.
+- The linear dual of the one-dimensional discrete trivial representation over `𝔽̄_p` is again the infinite discrete field and is not compact; the profinite envelope construction therefore retains finite residue coefficients.
 - `Block.galois_orbits`: Blocks over `k_L` correspond to `Gal(𝔽̄_p/k_L)`-orbits of blocks over `𝔽̄_p`.
 - A supersingular `π` alone forms a block `{π}`.
 - The centre `Z_B` acts on every object of the block, functorially.
@@ -1586,7 +1607,7 @@ Here `F = ℚ_p`; the exceptional cases at `p = 2`, 3 as listed.
 
 The decomposition of `π{δ₁, δ₂}` (Blocks, Proposition 3.11 and the case list on p. 11), including `p = 2`: `π{δ, δ} ≅ (Sp^{⊕2} ⊕ 1^{⊕2}) ⊗ δ∘det`, and `p = 3`: `(1 ⊕ Sp ⊕ ω∘det ⊕ Sp ⊗ ω∘det) ⊗ δ∘det`.
 
-The bijection with `ρ̄_B` from [§3.3](#section-3-3) and Breuil's semisimple correspondence (CDN 2023 Remarque 1.15).
+The shared contract `GL2Block.residualGalois` is this determinant-normalized bijection. The bijection with `ρ̄_B` from [§3.3](#section-3-3) and Breuil's semisimple correspondence (CDN 2023 Remarque 1.15).
 
 **Checks.**
 
@@ -1659,7 +1680,7 @@ Complete the algebraic universal Cayley–Hamilton algebra at the residual deter
 
 **Checks.**
 
-- `BlockPsRing.residue`: `R^{ps,δ}_B ⊗ k = k` and `T^δ_B` mod `𝔪 = tr ρ̄_B`.
+- `BlockPsRing.residue`: `R^{ps,δ}_B/𝔪_B ≅ k` and `T_B mod 𝔪_B = tr ρ̄_B`. Reduction modulo `ϖ` generally retains deformation parameters: an unobstructed absolutely irreducible fixed-determinant example at `p≥5` has `R≅O[[x₁,x₂,x₃]]`, hence `R/ϖ≅k[[x₁,x₂,x₃]]`, not `k`.
 - `BlockPsRing.supersingular`: For `B = {π}` supersingular, `R^{ps,δ}_B ≅ R^{δε}_{V(π)}`.
 - `BlockPsRing.not_framed`: `R^{ps,δ}_B` is not the framed fixed-determinant deformation ring of `ρ̄_B`: for generic `ρ̄_B = χ₁ ⊕ χ₂` it has relative dimension 3 over `O`, whereas `R^{□,δε}_{ρ̄_B}` has relative dimension 6.
 - `BlockPsRing.det_fixed`: The universal determinant of `T^δ_B` is the constant character `δε`.
@@ -1689,7 +1710,7 @@ Banach representations: §§4, 11 and Proposition 1.8, Corollary 1.9, Theorems 1
 **Checks.**
 
 - For `B = {π}` supersingular and `p ≥ 5, Ẽ_B ≅ R^{ζε}_ρ` is commutative.
-- For generic reducible `B, Ẽ_B` is not commutative but its centre is `R^{ps}`.
+- For generic reducible `B, Ẽ_B` is not commutative but its centre is `R^{ps}`. The two nonzero orthogonal projections of `P₁⊕P₂` cannot occur in a commutative local deformation ring.
 
 The source is [Vytautas Paškūnas, PASKUNAS13](#ref-paskunas13), Theorems 1.4–1.7, Proposition 1.8, Corollary 1.9, Theorems 1.10–1.11, pp. 4–6; [Vytautas Paškūnas, PASKUNAS16](#ref-paskunas16), Theorems 1.2–1.3 and Corollary 1.4, p. 3.
 
@@ -1699,7 +1720,7 @@ The source is [Vytautas Paškūnas, PASKUNAS13](#ref-paskunas13), Theorems 1.4�
 
 ### 5.6 The local `R = T` theorem for every block (Paškūnas–Tung)
 
-For every `p` and every block `B` with central character `ζ` (over `k` after enlarging it): (i) there is an `O`-algebra map `υ` : `R^{ps,ζε}_{tr ρ̄_B} → Z_B` such that for all `τ ∈ Mod^{l.fin}_{G,ζ}(O)_B` and `g ∈ G_{ℚ_p}, V̌(c_τ(υ(T(g)))) = ρ_{V̌(τ^∨)}(g) + ρ_{V̌(τ^∨)}(g^{−1})ζε(g)` in `End^{cont}_{G_{ℚ_p}}(V̌(τ^∨))`; equivalently (CDN) the unique `ι^δ_B` : `R^{ps,δ}_B → Z^δ_B` with `ι^δ_B(T^δ_B(g)) = g + δε(g)g^{−1}` in `End(V(π))` for all `π ∈ B`. (ii) `Z_B` and `E_B` are finitely generated `R^{ps}`-modules; `Z_B` is noetherian, complete local with residue field `k, O`-torsion free with `Z_B[1/p]` normal. (iii) `υ[1/p]` : `R^{ps}[1/p] ≅ Z_B[1/p]`; if `p ≥ 5, ι^δ_B` is an isomorphism; if `p = 3, Z_B = R^{ps}`/(`O`-torsion); if `p = 2`, the cokernel of `R^{ps}`/(`O`-torsion) `→ Z_B` is killed by 2. (iv) The essential image of `Mod^{l.fin}_{G,ζ}(O)_B` under `V̌` is anti-equivalent to pseudo-compact `(R^{ps}[[G_{ℚ_p}]]/J)_{tf}`-modules. The universal character identity holds for every object of the block, through its central action, not only its irreducible specialisations.
+For every `p` and every block `B` with central character `ζ` (over `k` after enlarging it): (i) there is an `O`-algebra map `υ` : `R^{ps,ζε}_{tr ρ̄_B} → Z_B` such that for all `τ ∈ Mod^{l.fin}_{G,ζ}(O)_B` and `g ∈ G_{ℚ_p}, V̌(c_τ(υ(T(g)))) = ρ_{V̌(τ^∨)}(g) + ρ_{V̌(τ^∨)}(g^{−1})ζε(g)` in `End^{cont}_{G_{ℚ_p}}(V̌(τ^∨))`; equivalently (CDN) the unique `ι^δ_B` : `R^{ps,δ}_B → Z^δ_B` with `ι^δ_B(T^δ_B(g)) = g + δε(g)g^{−1}` in `End(V(π))` for every `π∈Rep^δ_B G`, including nonsemisimple objects of the block subcategory. (ii) `Z_B` and `E_B` are finitely generated `R^{ps}`-modules; `Z_B` is noetherian, complete local with residue field `k, O`-torsion free with `Z_B[1/p]` normal. (iii) `υ[1/p]` : `R^{ps}[1/p] ≅ Z_B[1/p]`; if `p ≥ 5, ι^δ_B` is an isomorphism; if `p = 3, Z_B = R^{ps}`/(`O`-torsion); if `p = 2`, the cokernel of `R^{ps}`/(`O`-torsion) `→ Z_B` is killed by 2. (iv) The essential image of `Mod^{l.fin}_{G,ζ}(O)_B` under `V̌` is anti-equivalent to pseudo-compact `(R^{ps}[[G_{ℚ_p}]]/J)_{tf}`-modules. The universal character identity holds for every object of the block, through its central action, not only its irreducible specialisations.
 
 Here all `p`; `B` any block (after a finite extension of `k`).
 
@@ -1715,6 +1736,7 @@ CDN 2023 Théorème 1.16 restates (i)–(iii) with the explicit identity `ι^δ_
 
 - For `B = {π}` supersingular and `p ≥ 5, ι^δ_B` is the isomorphism `R^{ζε}_ρ ≅ Ẽ_B` of [§5.5](#section-5-5).
 - At `p = 2` the map `R^{ps} → Z_B` need not be surjective; its cokernel is 2-torsion.
+- Irreducibles see only the residual centre character; a tangent parameter vanishes on every residual irreducible but can act nontrivially on an infinitesimal extension. The uniqueness identity therefore ranges over the whole block subcategory.
 
 The source is [Vytautas Paškūnas, Shen-Ning Tung, PASKUNAS-TUNG21](#ref-paskunas-tung21), Theorems 1.1–1.4 and Corollary 1.5, pp. 2–4; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDN23](#ref-cdn23), Théorème 0.17, p. 11; Théorème 1.16, p. 20.
 
@@ -1824,7 +1846,7 @@ The source is [Vytautas Paškūnas, PASKUNAS15](#ref-paskunas15), §1, pp. 2–3
 
 ### 5.11 Paškūnas's criterion: supports of `M(Θ)` and the cycle formula
 
-Let `R` be a commutative complete local noetherian `O`-algebra with residue field `k, N` a compact `R[[K]]`-module with `k` completed-`tensored_R N` finite over `O[[K]]`, and `V` a finite-dimensional continuous `K`-representation with invariant lattice `Θ`. Put `M(Θ)=Hom^{cont}_{O[[K]]}(N,Θ^d)^d, a=Ann_R M(Θ), d=dim M(Θ)`. Assume `N` projective in `Mod_K^{pro}(O), R/a` equidimensional with all associated primes minimal, and a dense set `Σ` of closed generic points of Supp `M(Θ)` such that `dim_{κ(n)}Hom_K(V,Π(κ(n)))=1` and `dim_{κ(n)}Hom_K(V,Π(R_n/n²))≤d`. Then `R/a` is reduced of dimension `d`, and `z_{d−1}(R/(ϖ,a))=Σ_σ m_σ z_{d−1}(M(σ))`. For `N=P̃` and a scalar-endomorphism residual representation, the type support computation and the additional projectivity/Cohen–Macaulay inputs identify this quotient with the appropriate potentially semistable or crystalline ring. In Proposition 4.14 the potentially semistable occurrence implication has the stated full scope, while the crystalline iff additionally excludes `ρ̄≅(δε *;0 δ)`. The final ring equality is Corollary 6.5; it is not obtained by dropping that exception in Proposition 4.14. The noncommutative block ring `E_B` is not an arbitrary allowed choice for commutative `R`.
+Let `R` be a commutative complete local noetherian `O`-algebra with residue field `k, N` a compact `R[[K]]`-module with `k` completed-`tensored_R N` finite over `O[[K]]`, and `V` a finite-dimensional continuous `K`-representation with invariant lattice `Θ`. Put `M(Θ)=Hom^{cont}_{O[[K]]}(N,Θ^d)^d, a=Ann_R M(Θ), d=dim M(Θ)`. Assume `N` projective in `Mod_K^{pro}(O), R/a` equidimensional with all associated primes minimal, and a dense set `Σ` of closed generic points of Supp `M(Θ)` such that `dim_{κ(n)}Hom_K(V,Π(κ(n)))=1` and `dim_{κ(n)}Hom_K(V,Π(R_n/n²))≤d`. Then `R/a` is reduced of dimension `d`, and `z_{d−1}(R/(ϖ,a))=Σ_σ m_σ z_{d−1}(M(σ))`. For `N=P̃` use the prescribed-central-character adapter below; for a scalar-endomorphism residual representation, the type support computation and its projectivity/Cohen–Macaulay inputs identify this quotient with the appropriate potentially semistable or crystalline ring. In Proposition 4.14 the potentially semistable occurrence implication has the stated full scope, while the crystalline iff additionally excludes `ρ̄≅(δε *;0 δ)`. The final ring equality is Corollary 6.5; it is not obtained by dropping that exception in Proposition 4.14. The noncommutative block ring `E_B` is not an arbitrary allowed choice for commutative `R`.
 
 Here `(a)`–`(c)` as stated; for the application `p ≥ 5, End ρ̄ = k` and `ρ̄ ≇ (ε *; 0 1) ⊗ η` for the local freeness.
 
@@ -1834,22 +1856,27 @@ Use Theorem 2.44 for projectivity and Cohen–Macaulay/equidimensional hypothese
 
 Use Proposition 4.14 with its exception intact, then the deformation-ring and algebraic-vector arguments of Corollary 6.5 to obtain the full final type-ring equality.
 
-Before applying the cycle criterion to the actual generator, verify that `R` is Cohen–Macaulay, `N` is `R`-flat, and the inequality `projdim_{O[[P]]}(k⊗̂_R N)+max_σ dim_R M(σ)≤dim R` holds, where `P` is a pro-`p` Sylow of `K` and `σ` runs through irreducible smooth `k`-representations of `K` (Paškūnas 2015 Theorem 2.44, p.16). Deduce projectivity after restriction to `K` and Cohen–Macaulayness of `M(Θ)`. Projectivity in the full compact `G`-category by itself does not give `K`-projectivity. Test restriction on the actual generator and keep the numerical dimension bound, not just generic freeness. The finite-dimensional `K`-type and Artinian de Rham inputs from Layer 4 are needed for the support and reducedness arguments.
+For the fixed-central-character application, first prove the prescribed-central-character versions of Theorems 2.42 and 2.44. The compact character is `ζ⁻¹` on `Z∩K`, since smooth objects have character `ζ`. Let `Λ_(P,ζ⁻¹)` be `O[[P]]` modulo the closed relations `z−ζ(z)⁻¹` for `z∈P∩Z`. Require `R` Cohen–Macaulay, `N` `R`-flat and
+`projdim_(Λ_(P,ζ⁻¹))(k⊗̂_R N)+max_σ dim_R M(σ)≤dim R`,
+where `σ` ranges over weights with the matching smooth central character. Derive projectivity in `Mod^{pro}_{K,ζ⁻¹}(O)`, Cohen–Macaulayness and the cycle formula in this category by the same compact Hom argument. Apply this adapter to `N=P̃`, using Paškūnas15 Corollary 5.3 and §6.1; full `O[[K]]`-projectivity is not an application hypothesis. The finite-dimensional `K`-type and Artinian de Rham inputs of Layer 4 still govern support and reducedness.
 
 **Checks.**
 
+- With `ζ=1`, `z=(1+p)I₂` kills a fixed-character generator through `z−1`. For odd `p`, this element is regular on `O[[K]]`, so a nonzero such generator cannot be projective over the full algebra. Its projectivity is over the central quotient.
 - For `p≥5` and generic `ρ̄` in Paškūnas §6.1 (`ρ̄` irreducible, or nonsplit `(χ₁ *;0 χ₂)` with `χ₁χ₂⁻¹∉{1,ω}`), the generator `P̃` and `π` of that section give multiplicity one for `M(σ)` when `Hom_K(σ,π)≠0` (Theorem 6.6).
 - Do not extend this check to the nongeneric cyclotomic-extension case: its separate construction and multiplicities, including the peu ramifié multiplicity-two case, belong to [§6.1](#section-6-1).
 - For `N=0` the defining compact `Hom` gives `M(Θ)=0`. For `R=O, N=O[[K]]` and `Θ=O` with trivial `K`-action, evaluation at 1 gives `M(Θ)≅O` instead; the construction does not discard the `K`-equivariance condition or replace this dual by a torsion dual.
 - A direct sum of two finite-dimensional `K`-types with lattices `Θ₁` and `Θ₂` gives `M(Θ₁⊕Θ₂)≅M(Θ₁)⊕M(Θ₂)`, so two copies of the preceding trivial type give `O²`, rather than `O`.
 
-The source is [Vytautas Paškūnas, PASKUNAS15](#ref-paskunas15), §2.1 setup; Theorems 2.42–2.44, p.16; Proposition 4.14, p.23; §6.1, Corollary 6.5 and Theorem 6.6, pp.30–32; [Kentaro Nakamura, NAKAMURA23](#ref-nakamura23), §4.3, Theorem 4.7, p. 67 (arXiv).
+The source is [Vytautas Paškūnas, PASKUNAS15](#ref-paskunas15), §2.1 setup; Theorems 2.42–2.44, p.16; Corollary 5.3, pp.29–30; Proposition 4.14, p.23; §6.1, Corollary 6.5 and Theorem 6.6, pp.30–32; [Kentaro Nakamura, NAKAMURA23](#ref-nakamura23), §4.3, Theorem 4.7, p. 67 (arXiv).
 
 *Needs:* [§5.3](#section-5-3); [§5.10](#section-5-10); [§5.5](#section-5-5); [§4.5](#section-4-5); [§4.2](#section-4-2); [§4.4](#section-4-4); [§0.5](#support-cycles).
 
 <a id="section-5-12"></a>
 
 ### 5.12 Kisin rings from the classical correspondence (Colmez–Dospinescu–Nizioł)
+
+The shared interface `WDTypeRing` is this full-type ring, specialized to weights `{0,1}` when written `R_(B,M)`. Its contracts `WDTypeRing.blockIdentification`, `WDTypeRing.points`, `WDTypeRing.reduced`, `WDTypeRing.pid`, `WDTypeRing.universalRep` and `WDTypeRing.integralImage` are respectively §5.6's centre map, the finite-algebra point criterion below, reducedness/Jacobsonness, the PID decomposition, the rank-two universal family and the integral image in the localized quotient. The `KisinRingLL` names give the same construction for arbitrary distinct weights `a<b`.
 
 Let `M` be an irreducible `(φ, N, G_{ℚ_p})`-module of rank 2, `a < b` integers with `LL^{[a,b]}(M) := LL(M) ⊗ Sym^{b−a−1} ⊗ det^a` having unitary central character, `Λ` a `G`-stable `O_L`-lattice in it, and `B` the block of finite length smooth representations determined by a semisimple `ρ̄` : `G_{ℚ_p} → GL₂(k_L)`. The `B`-adic completion `Λ_B` is the inverse limit of the finite length quotients of `Λ` all of whose Jordan–Hölder factors lie in `B, LL^{[a,b]}_B(M) := L ⊗ Λ_B` (independent of `Λ`), `R^{[a,b]}_{M,B} := End_G(LL^{[a,b]}_B(M))` and `ρ^{[a,b]}_M := V(LL^{[a,b]}_B(M))`. Theorem (CDN, Théorème 0.1): `R^{[a,b]}_{M,ρ̄}` is commutative, the ring of bounded analytic functions on an analytic open of `ℙ¹`, algebraically a finite product of principal ideal domains; `ρ^{[a,b]}_M` is free of rank 2 over it and specialisation `x ↦ ρ_x` is a bijection between its `L'`-points and the `L'`-representations of `G_{ℚ_p}` with semisimplified residual representation `ρ̄` and type `(M, a, b)` (potentially semistable with Hodge–Tate weights `a, b` and `D_pst ≅ M`). This is the `GL₂(ℚ_p)`-side construction of the type-ring interface `R_{B,M}` of §0.4’s full-Weil–Deligne-type locus. The finite product may be empty, giving the zero ring when the type/block locus is empty. The universal property also holds on finite `L`-algebras as in Theorem 5.8, with its fixed determinant and residual-block convention.
 
@@ -1924,20 +1951,22 @@ The source is [Christophe Breuil, Brian Conrad, Fred Diamond, Richard Taylor, BC
 
 ### 5.14 BCDT's Conjecture 1.3.`1(1)` from the Breuil–Mézard identity
 
-Let `p = ℓ, k ⊂ 𝔽̄_p` finite, `ρ̄` : `G_{ℚ_p} → GL₂(k)` continuous with centraliser `k, τ` an `ℓ`-type (resp. `τ'` an extended type with irreducible restriction to inertia) with tamely ramified determinant and non-central image. If `ρ̄` satisfies the Breuil–Mézard cycle identity ([§5.10](#section-5-10)) and `C_σ(ρ̄) ≠ 0` exactly when `σ` is a Serre weight of `ρ̄` in BCDT's sense (`σ` admits `ρ̄`), then `τ` (resp. `τ'`) admits `ρ̄` iff `R^D_{V,O} ≠ 0` (resp. `R^{D'}_{V,O} ≠ 0`), i.e. iff `ρ̄` has a potentially Barsotti–Tate lift of type `τ` (resp. extended type `τ'`). The identity holds for every `ρ̄` when `p > 2` ([§6.3](#section-6-3)) and when `p = 2` ([§6.5](#section-6-5)); Paškūnas 2015 gives `C_σ(ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0` for Colmez's atom `β` of `ρ̄` when `p ≥ 5` and `End ρ̄ = k`. Part `(2)` of the conjecture (simple admittance `⇔` acceptability) is not derived here: BCDT's 'acceptable' is a patching-theoretic condition, not a property of `R^D` alone. For the extended-type assertion the ordinary inertial cycle identity must be replaced by the corresponding extended-type cycle/nonvanishing comparison; this extra hypothesis is part of the admitted-weight and extended-type comparison, since an inertial ring need not select an unramified quadratic branch.
+Let `p = ℓ, k ⊂ 𝔽̄_p` finite, `ρ̄` : `G_{ℚ_p} → GL₂(k)` continuous with centraliser `k, τ` an `ℓ`-type (resp. `τ'` an extended type with irreducible restriction to inertia) with tamely ramified determinant and non-central image. If `ρ̄` satisfies the Breuil–Mézard cycle identity ([§5.10](#section-5-10)) and `C_σ(ρ̄) ≠ 0` exactly when the dual weight `σ∨` admits `ρ̄` in BCDT's convention, then `τ` (resp. `τ'`) admits `ρ̄` iff `R^D_{V,O} ≠ 0` (resp. `R^{D'}_{V,O} ≠ 0`), i.e. iff `ρ̄` has a potentially Barsotti–Tate lift of type `τ` (resp. extended type `τ'`). The all-residual identities of [§6.3](#section-6-3) and [§6.5](#section-6-5) carry their explicit arithmetic patching hypotheses; Paškūnas 2015 gives `C_σ(ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0` for Colmez's atom `β` of `ρ̄` when `p ≥ 5` and `End ρ̄ = k`. Part `(2)` of the conjecture (simple admittance `⇔` acceptability) is not derived here: BCDT's 'acceptable' is a patching-theoretic condition, not a property of `R^D` alone. For the extended-type assertion the ordinary inertial cycle identity must be replaced by the corresponding extended-type cycle/nonvanishing comparison; this extra hypothesis is part of the admitted-weight and extended-type comparison, since an inertial ring need not select an unramified quadratic branch.
 
-Here `p = ℓ`; the hypotheses of BCDT Conjecture 1.3.1; the identification of `{σ : C_σ(ρ̄) ≠ 0}` with BCDT's admitted weights (the admitted-weight and extended-type comparison). For extended types, also assume the type-specific nonvanishing/cycle comparison in the admitted-weight and extended-type comparison; ordinary inertial-type cycles alone do not distinguish the two unramified quadratic extensions.
+Here `p = ℓ`; the hypotheses of BCDT Conjecture 1.3.1; the identification of `{σ∨ : C_σ(ρ̄) ≠ 0}` with BCDT's admitted weights (the admitted-weight and extended-type comparison). For extended types, also assume the type-specific nonvanishing/cycle comparison in the admitted-weight and extended-type comparison; ordinary inertial-type cycles alone do not distinguish the two unramified quadratic extensions.
 
 For `U₀(ℓ)`- and `Ũ₀(ℓ)`-types induce `σ_τ` to `GL₂(ℤ_ℓ)`: `σ'` admits `ρ̄` iff a constituent of `Ind σ'` admits `ρ̄` (BCDT §1.3).
 
-By the cycle identity, `z(R^D/ϖ) = Σ_σ m_σ(τ)C_σ(ρ̄)`; since `R^D` is `O`-flat, `R^D ≠ 0` iff `R^D/ϖ ≠ 0` iff some `σ` with `m_σ(τ) > 0` has `C_σ(ρ̄) ≠ 0`.
+Transport the characteristic-zero type convention by duality as well: if `b_η(τ)` is the multiplicity of a BCDT weight `η` in its type reduction, the corresponding Breuil–Mézard multiplicity is `m_σ(τ)=b_(σ∨)(τ)`. This type-normalization comparison is a hypothesis of the deduction, including the induced Iwahori and normalizer cases. By the transported cycle identity, `z(R^D/ϖ) = Σ_σ b_(σ∨)(τ)C_σ(ρ̄)`; since `R^D` is `O`-flat, `R^D ≠ 0` iff `R^D/ϖ ≠ 0` iff some `σ` with `b_(σ∨)(τ)>0` has `C_σ(ρ̄) ≠ 0`.
 
-`C_σ(ρ̄) ≠ 0` iff `σ` admits `ρ̄`: for `p ≥ 5, End ρ̄ = k`, from Paškūnas 2015 Theorem 1.1(iii) (`z(σ, ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0`) and the `K`-socle of `β`; in general this matching of BCDT's explicit list with the cycles is the admitted-weight and extended-type comparison in the statement.
+`C_σ(ρ̄) ≠ 0` iff `σ∨` admits `ρ̄`: for `p ≥ 5, End ρ̄ = k`, from Paškūnas 2015 Theorem 1.1(iii) (`z(σ, ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0`) and the `K`-socle of `β`; in general this matching of BCDT's explicit list with the cycles is the admitted-weight and extended-type comparison in the statement.
 
-This implication is conditional on the admitted-weight/nonzero-cycle comparison in the statement. For `p≥5` and `End ρ̄=k`, Paškūnas 2015 Theorem 1.1(iii) identifies nonzero cycles with `K`-socle occurrence in the atom `β`. A further comparison with the BCDT table, using `ρ̄` rather than silently replacing it by its Cartier dual, is needed. Other residual classes and `p=2` require their own comparison. An extended type also requires a branch-sensitive nonvanishing result, since inertial cycles do not distinguish unramified quadratic branches. The patching-theoretic acceptability assertion in BCDT Conjecture 1.3.`1(2)` is a different theorem and is not inferred from ring nonvanishing.
+This implication is conditional on the admitted-weight/nonzero-cycle comparison in the statement. For `p≥5` and `End ρ̄=k`, Paškūnas 2015 Theorem 1.1(iii) identifies nonzero cycles with `K`-socle occurrence in the atom `β`. Use the BCDT table with `σ∨`, where `σ_(n,m)∨=σ_(n,−n−m)`, or equivalently use the original label on `ρ̄∨⊗ω`. Apply this same dual relabelling to type-reduction multiplicities. Other residual classes and `p=2` require their own comparison. An extended type also requires a branch-sensitive nonvanishing result, since inertial cycles do not distinguish unramified quadratic branches. The patching-theoretic acceptability assertion in BCDT Conjecture 1.3.`1(2)` is a different theorem and is not inferred from ring nonvanishing.
 
 **Checks.**
 
+- At `p=5`, `ρ̄=ind(ω₂²)` has inertia exponents `{2,10}` modulo 24. Its supersingular socle contains `σ=Sym¹`, while the undualized BCDT label requires `{20,4}`. The dual label `σ_(1,−1)` gives `{2,10}`.
+- Duality sends `(n,m)` to `(n,−n−m)` and applying it twice recovers `(n,m)`; multiplicity two remains two under relabelling.
 - Weight 2, `τ` trivial (crystalline): admittance by `σ_{0,0} ⇔ ρ̄` has a crystalline lift with Hodge–Tate weights 0, 1 (finite flat).
 
 The source is [Christophe Breuil, Brian Conrad, Fred Diamond, Richard Taylor, BCDT01](#ref-bcdt01), §1.3, Conjecture 1.3.1, p. 856 (published; p. 12 of the author copy); [Vytautas Paškūnas, PASKUNAS15](#ref-paskunas15), Theorem 1.1 and the paragraph after it, pp. 2–3.
@@ -1962,7 +1991,7 @@ Let `p ≥ 5` and `ρ̄` : `G_{ℚ_p} → GL₂(k)` with `End_{G_{ℚ_p}}(ρ̄) 
 
 Here `p ≥ 5`; `End(ρ̄) = k`. Split `ρ̄` (Hu–Tan) and non-split self-extensions `(χ *; 0 χ)` are not covered.
 
-Apply Paškūnas's criterion ([§5.11](#section-5-11)) to `N = P̃` with `End(P̃) = R^ψ_ρ̄` ([§5.5](#section-5-5), [§5.8](#section-5-8)).
+Apply the prescribed-central-character adapter of Paškūnas's criterion ([§5.11](#section-5-11)) to `N = P̃` with `End(P̃) = R^ψ_ρ̄` ([§5.5](#section-5-5), [§5.8](#section-5-8)).
 
 Supports of `M(Θ)` for `Θ ⊂ σ(w, τ)`: Proposition 4.14 via [§4.5](#section-4-5) and [§4.2](#section-4-2).
 
@@ -1987,7 +2016,7 @@ Here `p ≥ 5` (standing assumption); `ρ̄` split with distinct characters; sca
 
 Work with versal deformation rings and pseudodeformation rings `R^{ps}` ([§5.4](#section-5-4)), transferring to framed rings by formal smoothness of framed over versal rings.
 
-Use Paškūnas's `E_B ≅ R^{ps,ζ}` and the endomorphism rings of the projective envelopes of the two principal series ([§5.5](#section-5-5)) with the criterion [§5.11](#section-5-11).
+Use Paškūnas's `Z_B ≅ R^{ps,ζ}` and the endomorphism rings of the projective envelopes of the two principal series ([§5.5](#section-5-5)) with the criterion [§5.11](#section-5-11).
 
 Non-generic case: explicit versal rings (Hu–Tan §3) and Theorems 5.11–5.12.
 
@@ -2001,30 +2030,24 @@ The source is [Yongquan Hu, Fucheng Tan, HU-TAN15](#ref-hu-tan15), Notation, p. 
 
 <a id="section-6-3"></a>
 
-### 6.3 Tung: Breuil–Mézard for every `ρ̄` when `p > 2`
+### 6.3 Tung: the conditional arithmetic-action cycle deduction for `p > 2`
 
-Let `p > 2` and `r̄` : `G_{ℚ_p} → GL₂(k)` any continuous representation. For each smooth irreducible `k`-representation `σ̄` of `K` there is a 4-dimensional cycle `C_σ̄(r̄)` of `R^{□,ψ}_r̄`, independent of `(λ, τ)`, such that for all p-adic Hodge types `(λ, τ, ψ) (λ = (a, b), a > b; det r = ψε, ψ|_I = ε^{a+b−1}det τ) Z(R^{□,ψ}_r̄(λ, τ)/ϖ) = Σ m_σ̄(λ, τ)C_σ̄(r̄)` and `Z(R^{□,ψ,cr}_r̄(λ, τ)/ϖ) = Σ m^cr_σ̄(λ, τ)C_σ̄(r̄)`. In the global patching setup of Tung’s paper, every irreducible component meets the corresponding patched support; this is an input to the local cycle proof, not a construction of `M_∞` from the local prerequisites. The exceptional `p=3` cyclotomic-extension case is included; the proof uses global patching.
+Let `p > 2` and `r̄` : `G_{ℚ_p} → GL₂(k)` be continuous. Assume the actual patched arithmetic-action data and comparisons below. Then for each smooth irreducible `k`-representation `σ̄` of `K` there is a 4-dimensional cycle `C_σ̄(r̄)` of `R^{□,ψ}_r̄`, independent of `(λ, τ)`, such that for all p-adic Hodge types `(λ, τ, ψ) (λ = (a, b), a > b; det r = ψε, ψ|_I = ε^{a+b−1}det τ) Z(R^{□,ψ}_r̄(λ, τ)/ϖ) = Σ m_σ̄(λ, τ)C_σ̄(r̄)` and `Z(R^{□,ψ,cr}_r̄(λ, τ)/ϖ) = Σ m^cr_σ̄(λ, τ)C_σ̄(r̄)`. The exceptional `p=3` cyclotomic-extension case carries its separate comparison in Remark 4.5.
 
-Here `p > 2`; `r̄` arbitrary. The proof uses a globalisation of `r̄` over an imaginary CM field and the patched module `M_∞` of Caraiani–Emerton–Gee–Geraghty–Paškūnas–Shin with local-global compatibility: these global inputs are consumed here as a cited theorem and owned by the global patching roadmaps.
+The target `BMCycles.of_arithmeticAction` takes an actual compact patched module `M_∞` over a specified patched deformation algebra `R_∞`, with continuous `G`-action, arithmetic-action axioms, projectivity in the prescribed central-character compact category and compatible type functors `M_∞(Θ)`. The **arithmetic patching inputs** include a globalization realizing `r̄`, comparison of `R_∞(Θ)` with the local type ring after specified formally smooth variables and coefficient factors, and component support for every relevant type. Require also the generic multiplicity comparison identifying the cycles of `M_∞(Θ)/ϖ` and `R_∞(Θ)/ϖ`; support alone does not identify their multiplicities. Exact reduction decomposes the module cycles with the type's Jordan–Hölder multiplicities. The special lifted-weight comparison identifies weight cycles with the local crystalline cycles after the same pullback. Its injectivity descends the resulting identity.
 
-Globalise `r̄` (Emerton–Gee), patch (CEGGPS) to obtain `M_∞` with an arithmetic action, use local–global compatibility to identify its support on each potentially semistable ring (Tung §3).
-
-Show every component of `R^□_r̄(σ)[1/p]` is automorphic using the blocks at `p = 3` (§2, exceptional block computations with Colmez's functor) and the faithfulness/density results of Emerton–Paškūnas (§4).
-
-Deduce the cycle identity from the automorphy of all components (Emerton–Gee, Theorem 5.5.2).
-
-The globalisation, arithmetic-action patching theorem and component-support theorem are the arithmetic patching inputs. State them as supporting theorem targets, or retain them as hypotheses of the cycle deduction; local block data alone do not establish them.
-
-The **arithmetic patching inputs** for the all-residual theorem are globalisation of the residual local representation in a suitable automorphic setting, a patched module with the required arithmetic action and local deformation-ring action, automorphy of every relevant component, and the Emerton–Gee passage from those supports to cycles. These are supporting proof obligations, not consequences of the local Montreal functor. A use of the all-residual conclusion in a local dependency chain carries these inputs explicitly. Tung's global proof is the source; no higher modularity-lifting or completed-cohomology roadmap is imported as a local prerequisite.
+These are explicit hypotheses of the local deduction. They are the comparisons used in Tung21A Proposition 4.4 and the proof of Theorem 1.2, pp.13–14, including Remark 4.5's exceptional case. Corollary 4.6 follows from Theorem 1.2 through Emerton–Gee Theorem 5.5.2; it is not a prerequisite proving that theorem. This target does not construct the global patched data from the local block objects.
 
 **Checks.**
 
-- For `p ≥ 5` this recovers Paškūnas 2015 and Hu–Tan.
-- Corollary 4.6: every irreducible component of `R^□_r̄(σ)[1/p]` is automorphic.
+- For `p ≥ 5` and the supplied patched data this agrees with Paškūnas 2015 and Hu–Tan.
+- At `p=3` the cyclotomic-extension case requires Remark 4.5's exceptional comparison.
+- The zero patched module fails component support on a nonempty type ring.
+- Doubling a full-support module preserves support but doubles its cycle; the generic-multiplicity comparison excludes this replacement.
 
 The source is [Shen-Ning Tung, TUNG21A](#ref-tung21a), Abstract and introduction, pp. 1–3; Conjecture 1.1, p. 3; Theorem 1.2, p. 4; Corollary 4.6, p. 14 (arXiv v4); [Luis Dieulefait, Ariel Pacetti, DP22](#ref-dp22), Proof of Theorem 1.4, p. 4.
 
-*Needs:* [§5.10](#section-5-10); [§5.2](#section-5-2); [§5.6](#section-5-6); [§3.2](#section-3-2); [§0.4](#support-deformations).
+*Needs:* the actual arithmetic-action, component-support and support-to-cycle data in this statement; [§5.10](#section-5-10); [§5.2](#section-5-2); [§5.6](#section-5-6); [§3.2](#section-3-2); [§0.4](#support-deformations).
 
 <a id="section-6-4"></a>
 
@@ -2034,7 +2057,7 @@ Let `p = 2` and `ρ̄` with `ρ̄^{ss}` in a block of type (i) (supersingular) o
 
 Here `p = 2`; blocks of types (i) and (ii) only; the remaining case `r̄ ≅ (χ *; 0 χ)` is [§6.5](#section-6-5).
 
-Local: `E_B` is the fixed-determinant deformation ring ([§5.5](#section-5-5) (iii)); verify Paškūnas's criterion ([§5.11](#section-5-11)), the multiplicity condition by Proposition 2.33 using Dospinescu's argument with `det V̌(Π) = ψε` and `dim Ext¹ = 3` (Corollaries 2.24, 2.26), and the locally algebraic completion input for `p = 2` (proof of Proposition 2.33). Proposition 2.33 works at all `p` in the generic residual setting and explicitly replaces the `p≥5` hypothesis using these determinant and `Ext` computations; the Artinian de Rham theorem gives the separate all-prime family criterion.
+Local: use the endomorphism ring of the individual projective envelope attached to the chosen nonsplit residual representation ([§5.5](#section-5-5) (iii)). The whole `E_B` is the fixed-determinant deformation ring only in the supersingular singleton case; verify Paškūnas's criterion ([§5.11](#section-5-11)), the multiplicity condition by Proposition 2.33 using Dospinescu's argument with `det V̌(Π) = ψε` and `dim Ext¹ = 3` (Corollaries 2.24, 2.26), and the locally algebraic completion input for `p = 2` (proof of Proposition 2.33). Proposition 2.33 works at all `p` in the generic residual setting and explicitly replaces the `p≥5` hypothesis using these determinant and `Ext` computations; the Artinian de Rham theorem gives the separate all-prime family criterion.
 
 Theorem 2.34 for the unframed ring; Theorem 2.37 for split `ρ̄` via [Paškūnas 2015, Theorem 7.3, Remark 7.4].
 
@@ -2048,29 +2071,21 @@ The source is [Vytautas Paškūnas, PASKUNAS16](#ref-paskunas16), §2, pp. 20–
 
 <a id="section-6-5"></a>
 
-### 6.5 Tung: Breuil–Mézard at `p = 2` for every `r̄`
+### 6.5 Tung: the conditional dyadic arithmetic-action cycle deduction
 
-Let `p = 2`. For every continuous `r̄` : `G_{ℚ_2} → GL₂(k)` the cycle and numerical Breuil–Mézard conjectures (Tung's Conjectures 5.1.2 and 5.1.3, the cycle identity of [§5.10](#section-5-10)) hold; this includes `r̄ ≅ (χ *; 0 χ)`. The proof is by patching: if 2 splits completely in a totally real `F`, the support of `M_∞(σ°) ⊗ ℚ₂` meets every irreducible component of `R_∞(σ)[1/2]` (Theorem 8.0.1).
+Let `p = 2` and `r̄` : `G_{ℚ_2} → GL₂(k)` be continuous. Assume the actual dyadic patched data below. Then the cycle and numerical Breuil–Mézard identities of Tung's Conjectures 5.1.2–5.1.3, as in [§5.10](#section-5-10), hold, including for `r̄ ≅ (χ *; 0 χ)`.
 
-Here `p = 2`; the global patching inputs are cited, owned by the global roadmaps.
-
-Patching over totally real fields with 2 totally split (Tung §§4–7) and the globalisation lemmas (§4.3).
-
-The local 2-adic blocks and Colmez's functor at `p = 2` ([§5.2](#section-5-2), [§5.6](#section-5-6)) control the patched module.
-
-Theorem 8.0.1 gives automorphy of all components, hence Corollary 8.0.2.
-
-The globalisation and patched component-support arguments are the explicit arithmetic patching proof inputs. The global modularity-lifting theorem itself belongs to GL2ModularityLifting §§8–9 and is not restated as a local result.
-
-At `p=2` the same arithmetic patching inputs must cover scalar residual representations and all components. They cannot be replaced by the generic-block proof, or by splitting fixed-determinant variables using 1/2. The all-prime Artinian calculation in Layer 4 supplies the infinitesimal local comparison; it does not by itself supply automorphy of components.
+The target `BMCycles.of_dyadicArithmeticAction` takes an actual module `M_∞`, arithmetic and deformation actions and exact type functors over a totally real globalization with 2 completely split. Assume their local-type-ring comparison up to the specified formal variables, component support for every type as in Tung21B Theorem 8.0.1, and the generic multiplicity and support-to-cycle comparisons of Lemma 5.3.2 and Theorem 5.3.3. Include the globalization data of Lemma 4.3.3. These hypotheses cover scalar residual representations and all relevant components. Apply Theorem 5.3.3 to deduce Corollary 8.0.2's cycle identity and §5.10's associativity formula to get the numerical identity. The local blocks and all-prime Artinian de Rham calculation supply local comparisons; they do not construct the global patched module or its component support. No splitting of determinant variables using `1/2` enters this deduction.
 
 **Checks.**
 
-- For `r̄ ≅ (χ *; 0 χ)`, the identity holds with the framed cycles of Tung's Conjecture 5.1.3.
+- For `r̄ ≅ (χ *; 0 χ)`, the supplied scalar-case patched data give the framed cycles of Tung's Conjecture 5.1.3.
+- The zero patched module fails component support on a nonempty scalar type ring.
+- Two copies preserve support but double generic multiplicities, failing the required support-to-cycle comparison.
 
 The source is [Shen-Ning Tung, TUNG21B](#ref-tung21b), Theorems A–`C`, pp. 2–3; Theorem 8.0.1 and Corollary 8.0.2, p. 38 (arXiv v3); [Luis Dieulefait, Ariel Pacetti, DP22](#ref-dp22), Proof of Theorem 1.5, p. 4.
 
-*Needs:* [§5.10](#section-5-10); [§5.2](#section-5-2); [§5.6](#section-5-6); [§6.4](#section-6-4).
+*Needs:* the actual dyadic patched data and support-to-cycle comparisons in this statement; [§5.10](#section-5-10); [§5.2](#section-5-2); [§5.6](#section-5-6); [§6.4](#section-6-4).
 
 <a id="section-6-6"></a>
 
@@ -2120,9 +2135,9 @@ The source is [Vytautas Paškūnas, Shen-Ning Tung, PASKUNAS-TUNG21](#ref-paskun
 
 ### 6.8 Every `π` in a block occurs in `k ⊗_{R^{ps}} S^∨`
 
-Let `B` be a block with central character `ζ` and `S` a smooth admissible locally finite-length `O`-torsion object of that block whose restriction to `K` is injective. Put `M=(k completed-tensored_{R_B^{ps,ζ}}S^∨)^∨`. Then `M` has finite `O[G]`-length. Suppose a characteristic-zero point `x` of `R_B^{ps,ζ}` has absolutely irreducible degree-two Galois representation and the specialised compact module `N_x`, obtained by specialising `S^∨` after inverting `p`, is nonzero. The corresponding Banach representation is the continuous `L_x`-linear dual of `N_x`, with its Schikhof lattice; `N_x` itself is on the compact side. Under this hypothesis every irreducible `π∈B` occurs in `M`. The Galois representation/central character is interpreted with Paškūnas’s `V̌` convention. In the automorphic application the existence of such `x` comes from a global supercuspidal form; it is a separate hypothesis here.
+Let `B` be a block with central character `ζ` and `S` a smooth admissible locally finite-length `O`-torsion object of that block whose restriction to `K` is injective among smooth `K`-representations with central character `ζ` on `Z∩K`. Put `M=(k completed-tensored_{R_B^{ps,ζ}}S^∨)^∨`. Then `M` has finite `O[G]`-length. Suppose a characteristic-zero point `x` of `R_B^{ps,ζ}` has absolutely irreducible degree-two Galois representation and the specialised compact module `N_x`, obtained by specialising `S^∨` after inverting `p`, is nonzero. The corresponding Banach representation is the continuous `L_x`-linear dual of `N_x`, with its Schikhof lattice; `N_x` itself is on the compact side. Under this hypothesis every irreducible `π∈B` occurs in `M`. The Galois representation/central character is interpreted with Paškūnas’s `V̌` convention. In the automorphic application the existence of such `x` comes from a global supercuspidal form; it is a separate hypothesis here.
 
-Here `S` admissible in `Rep^ζ_B G` with injective restriction to `K`; for the occurrence statement, the existence of the point `x` (a global input in applications).
+Here `S` admissible in `Rep^ζ_B G` with injective restriction in that fixed-central-character `K`-category; for the occurrence statement, the existence of the point `x` (a global input in applications).
 
 Finite length: `S^∨` is finitely generated over `O[[K]]` by admissibility, so Paškūnas–Tung Corollary 6.7 gives that `k ⊗̂_{R^{ps}} S^∨` has finite length ([§6.7](#section-6-7)).
 
@@ -2142,13 +2157,13 @@ The source is [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDN23](#ref
 
 ### 6.9 Breuil–Strauch through the Drinfeld tower (Dospinescu–Le Bras)
 
-Construct the local Jacquet–Langlands correspondence in its general local form: for a nonarchimedean local field `F`, a central division algebra `D/F` of degree `d` and `n=md`, give the bijection between essentially square-integrable smooth complex representations of `GLₙ(F)` and `GL_m(D)`, characterized on matching regular semisimple elements by `Θ_π(g)=(-1)^(n-m) Θ_(JL(π))(g')`. Matching means equality of reduced characteristic polynomials. Prove preservation of central characters, character twists, contragredients and the inverse, and characteristic-zero coefficient descent/extension when the representations admit models over the coefficient field. Name this interface `DrinfeldComparison.localJacquetLanglands`; its quaternionic specialization supplies `ρ` below. Source: Badulescu, **BAD02**, Theorem 1.1, pp.2–3, with the characteristic-zero correspondence of Deligne–Kazhdan–Vignéras recalled there; the full all-local-field statement retains arbitrary `d` and `m`.
+Construct the local Jacquet–Langlands correspondence in its general local form: for a nonarchimedean local field `F`, a central division algebra `D/F` of degree `d` and `n=md`, give the bijection between essentially square-integrable smooth complex representations of `GLₙ(F)` and `GL_m(D)`, characterized on matching regular semisimple elements by `Θ_π(g)=(-1)^(n-m) Θ_(JL(π))(g')`. Matching means equality of reduced characteristic polynomials. Prove preservation of central characters, character twists, contragredients and the inverse, and characteristic-zero coefficient descent/extension when the representations admit models over the coefficient field. Name the general interface `DrinfeldComparison.localJacquetLanglands`. Its `m=1` restriction is the shared `DivisionAlgebraTypes.jacquetLanglands` from `D×` to `GL_d(F)` (the inverse direction to the displayed `JL`). Use this one restriction for every `D×` transfer; the `m>1` inner-form correspondence is the general extension on the same character convention. The quaternionic isotypic adapter supplies `ρ` below. Source: Badulescu, **BAD02**, Theorem 1.1, pp.2–3, with the characteristic-zero correspondence of Deligne–Kazhdan–Vignéras recalled there; the full all-local-field statement retains arbitrary `d` and `m`.
 
 **Transfer checks.** For `d=1` the correspondence is the identity. For `m=1` the target is an irreducible `D^×`-representation, and a twist by `η∘det` transfers to the twist by `η∘Nrd`. For `d=2,m=1`, Steinberg transfers to the trivial character of `D^×` and the regular-character relation has sign `−1`. A general principal series is outside the essentially-square-integrable domain; the theorem does not attach a `D^×`-representation to it.
 
 Let `π` be a supercuspidal representation of `G = GL₂(ℚ_p)` with trivial central character, `ρ = JL(π)` the corresponding representation of `D^×, Σ_n` the `n`-th Drinfeld covering of the half-plane `Ω`, and `V(π)` the set of absolutely irreducible `Π ∈ Ban^{adm}(G)` with `Π^{lisse} ≅ π`. (i) `V(π) ≅ Proj(M_dR(π))` through `Π ↦ Fil⁰ D_dR(V(Π)), V(Π)` ranging over the absolutely irreducible two-dimensional potentially crystalline representations with Hodge–Tate weights 0, 1 and `D_pst(V) ≅ M(π)` (classical correspondence normalised à la Tate). (ii) For `Π ∈ V(π)` and `n` large (`ρ` trivial on `1 + p^nO_D`) there is a topological `G`-isomorphism, unique up to scalar, `(O(Σ_n)^ρ)* ≅ Π^{an}/Π^{lisse}`. (iii) There is a canonical (up to scalar) isomorphism of Fréchet `G`-modules `H¹_dR(Σ_n)^ρ ≅ M*_dR ⊗ π*` such that for each line `ℒ ⊂ M_dR`, the inverse image of `ℒ^⊥ ⊗ π*` in `Ω¹(Σ_n)^ρ` is `(Π^{an}_ℒ)*`, and the resulting `0 → O(Σ_n)^ρ → (Π^{an}_ℒ)* → π* → 0` is dual to (ii).
 
-Here `π` supercuspidal with trivial central character (extends to `π ⊗ Sym^k`, DLB Remarque 1.3(a)); `n` large.
+Here `π` is supercuspidal with trivial central character (the algebraic-twist extension is DLB Remarque 1.3(a)), and `n` is large. Comparisons (ii)–(iii) take the global comparison data specified below; in particular (ii) assumes the nonzero map `Φ` below.
 
 Name this completion family `DrinfeldComparison.completionFamily`; its `ρ`-isotypic function and differential spaces are `DrinfeldComparison.functions` and `DrinfeldComparison.differentials`. The targets `DrinfeldComparison.functions_dual`, `DrinfeldComparison.deRham` and `DrinfeldComparison.filtration_preimage` are respectively the three comparisons above, with the stated topologies and scalar ambiguity.
 
@@ -2157,6 +2172,14 @@ Name this completion family `DrinfeldComparison.completionFamily`; its `ρ`-isot
 Use [§4.11](#section-4-11), rather than only the algebraic independence theorem VI.6.42. Identifying this common quotient with functions on the Drinfeld cover needs the geometric inputs the differential-equation and Drinfeld geometry comparisons.
 
 (iii): comparison with de Rham cohomology of `Σ_n` (DLB Théorème 1.4).
+
+The hypothesis `DrinfeldComparison.global_nonzero_map` supplies a continuous nonzero `G`-map `Φ:(Π^{an}/Π^{lisse})*→O(Σ_n)^ρ` for one `Π∈V(π)`. Its conditional construction takes these actual global comparison data: a quaternionic Shimura-curve tower and its Cerednik–Drinfeld uniformization isomorphism (DLB17 Theorem 4.8, pp.22–23); an automorphic realization of `π` with the required Hecke eigenspace; and the eigenspace/local–global comparison of Theorem 5.4 in §5.1. Theorem 5.1, p.24, constructs `Φ` from these data, as outlined in §1.2, pp.7–8. The de Rham comparison also takes the automorphic and uniformization data of §4. These global data are explicit hypotheses here. Section 4.11 supplies filtration independence of the source; the local rigidity theorem DLB17 Theorem 10.1 makes the supplied nonzero `Φ` an isomorphism unique up to scalar.
+
+**Global-map Checks.**
+
+- The zero map is continuous and equivariant but cannot supply this hypothesis.
+- Rescaling `Φ` by a nonzero scalar preserves the hypothesis and yields the same isomorphism up to scalar.
+- A Hecke eigenspace with zero `ρ`-isotypic part supplies no nonzero map; equivariance of the uniformization isomorphism alone cannot replace automorphic realization.
 
 The geometric comparison needs the finite Drinfeld covering spaces `Σ_n` and their commuting `G` and `D^×` actions, the Fréchet representations of functions and differentials, the Jacquet–Langlands isotypic projector, and the de Rham comparison of Dospinescu–Le Bras Theorems 1.2 and 1.4. Construct these geometric inputs before the representation isomorphism. The differential-equation input in Layer 4 must give a filtration-independent action on `N_rig⊠ℙ¹` and the stated intersection calculation; an abstract analytic-vector category or classical local Langlands does not supply either geometry or this action.
 
@@ -2167,15 +2190,15 @@ The geometric comparison needs the finite Drinfeld covering spaces `Σ_n` and th
 - The zero Banach representation and every ordinary absolutely irreducible Banach representation fail to lie in `V(π)`: their smooth vectors cannot equal this nonzero supercuspidal `π`. Distinct lines `Le₁` and `Le₂` give distinct completions, although their analytic quotients are isomorphic.
 - Passing to a larger level with `ρ` still trivial on `1+p^nO_D` preserves the isomorphism class of the function dual in (ii). At a level where that triviality fails, (ii) makes no such assertion.
 
-The source is [Gabriel Dospinescu, Arthur-César Le Bras, DLB17](#ref-dlb17), Définition 1.1, Théorème 1.2, Remarque 1.3, pp. 4–5; Théorème 1.4, p. 6 (arXiv).
+The source is [Gabriel Dospinescu, Arthur-César Le Bras, DLB17](#ref-dlb17), §1.2, pp.7–8; Theorems 4.8, 5.1, 5.4 and 10.1; Définition 1.1, Théorème 1.2, Remarque 1.3, pp. 4–5; Théorème 1.4, p. 6 (arXiv).
 
-*Needs:* [§3.8](#section-3-8); [§4.2](#section-4-2); [§4.6](#section-4-6); [§3.11](#section-3-11); [§4.11](#section-4-11).
+*Needs:* the nonzero global map and de Rham global comparison data in this statement; [§3.8](#section-3-8); [§4.2](#section-4-2); [§4.6](#section-4-6); [§3.11](#section-3-11); [§4.11](#section-4-11).
 
 <a id="section-6-10"></a>
 
 ### 6.10 The local inputs to modularity lifting, case by case
 
-The local results of this layer consumed by GL2ModularityLifting §§8–9 and by Dieulefait–Pacetti's proof of Serre's conjecture, each with its hypotheses: `(1) p ≥ 5, End ρ̄ = k`: Paškūnas 2015 Theorem 1.1 ([§6.1](#section-6-1)), including the compatibility of classical and p-adic local Langlands (Emerton lg Theorem 1.2.1 and Paškūnas 2015 remove Kisin's condition on locally algebraic vectors); `(2) p ≥ 5, ρ̄ = χ₁ ⊕ χ₂` with `χ₁ ≠ χ₂`: Hu–Tan Theorem 1.3 ([§6.2](#section-6-2)), removing the remaining hypothesis of Kisin's lifting theorem for `p ≥ 5` (Hu–Tan Theorem 1.4); `(3) p = 3`, every `r̄` (including twists of extensions of 1 by `ω`): Tung 2021a Theorem 1.2 ([§6.3](#section-6-3)), global via patching; `(4) p = 2`: Paškūnas 2016 Theorem 1.1 with Theorems 2.34, 2.37 for generic blocks ([§6.4](#section-6-4)) and Tung 2021b Corollary 8.0.2 for every `r̄` ([§6.5](#section-6-5)); Dieulefait–Pacetti’s `p=2` potentially Barsotti–Tate input is a different Kisin 2009 paper, not KISIN09 (The Fontaine–Mazur conjecture for `GL₂`); the former is not imported from the latter here; `(5)` all odd `p`: Kisin's local inequality with Gee–Kisin's corrections ([§6.6](#section-6-6)) and Kisin's Hypothesis (1.2.6) ([§4.5](#section-4-5)). Dieulefait–Pacetti Theorem 1.4 (`p` odd: odd `ρ` with `ρ̄|_{G_{ℚ(√p*)}}` absolutely irreducible, de Rham at `p` with weights `{0, k−1}, k > 1`, modular residual) uses `(1)`–`(3)` and `(5)`; Theorem 1.5 (`p = 2`, non-solvable image) uses `(4)`. The block, deformation-ring and locally algebraic inputs are local; their occurrence in global completed cohomology is CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10. The Kisin local-inequality row retains the residual exclusion in [§6.6](#section-6-6); it is not an all-residual substitute for Tung’s theorem.
+The local results of this layer consumed by GL2ModularityLifting §§8–9 and by Dieulefait–Pacetti's proof of Serre's conjecture, each with its hypotheses: `(1) p ≥ 5, End ρ̄ = k`: Paškūnas 2015 Theorem 1.1 ([§6.1](#section-6-1)), including the compatibility of classical and p-adic local Langlands (Emerton lg Theorem 1.2.1 and Paškūnas 2015 remove Kisin's condition on locally algebraic vectors); `(2) p ≥ 5, ρ̄ = χ₁ ⊕ χ₂` with `χ₁ ≠ χ₂`: Hu–Tan Theorem 1.3 ([§6.2](#section-6-2)), removing the remaining hypothesis of Kisin's lifting theorem for `p ≥ 5` (Hu–Tan Theorem 1.4); `(3) p = 3`, every `r̄` (including twists of extensions of 1 by `ω`): the deduction from Tung 2021a Theorem 1.2 ([§6.3](#section-6-3)), conditional here on its arithmetic-action data and support-to-cycle comparisons; `(4) p = 2`: Paškūnas 2016 Theorem 1.1 with Theorems 2.34, 2.37 for generic blocks ([§6.4](#section-6-4)) and the deduction from Tung 2021b Corollary 8.0.2 for every `r̄` ([§6.5](#section-6-5)), with its dyadic patched data and support-to-cycle hypotheses; Dieulefait–Pacetti’s `p=2` potentially Barsotti–Tate input is a different Kisin 2009 paper, not KISIN09 (The Fontaine–Mazur conjecture for `GL₂`); the former is not imported from the latter here; `(5)` all odd `p`: Kisin's local inequality with Gee–Kisin's corrections ([§6.6](#section-6-6)) and Kisin's Hypothesis (1.2.6) ([§4.5](#section-4-5)). Dieulefait–Pacetti Theorem 1.4 (`p` odd: odd `ρ` with `ρ̄|_{G_{ℚ(√p*)}}` absolutely irreducible, de Rham at `p` with weights `{0, k−1}, k > 1`, modular residual) uses `(1)`–`(3)` and `(5)`; Theorem 1.5 (`p = 2`, non-solvable image) uses `(4)`. The block, deformation-ring and locally algebraic inputs are local; their occurrence in global completed cohomology is CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10. The Kisin local-inequality row retains the residual exclusion in [§6.6](#section-6-6); it is not an all-residual substitute for Tung’s theorem.
 
 Here each row carries the hypotheses of its source; no unqualified 'p-adic local Langlands theorem' is asserted.
 
@@ -2185,8 +2208,8 @@ Check that every row's prime and residual hypotheses are those of the theorem ci
 
 **Checks.**
 
-- For `p = 3` and `r̄ = (ω *; 0 1) ⊗ χ` only row `(3)` applies.
-- For `p = 2` and `r̄ = (χ *; 0 χ)` only Tung 2021b applies.
+- For `p = 3` and `r̄ = (ω *; 0 1) ⊗ χ` only row `(3)` applies, with its arithmetic-action and exceptional-cycle hypotheses.
+- For `p = 2` and `r̄ = (χ *; 0 χ)` only the Tung 2021b deduction applies, with its dyadic patched data.
 
 The source is [Luis Dieulefait, Ariel Pacetti, DP22](#ref-dp22), Theorems 1.4 and 1.5 with their proofs, p. 4 (arXiv v2); [Yongquan Hu, Fucheng Tan, HU-TAN15](#ref-hu-tan15), Theorem 1.4, p. 5 (arXiv).
 
@@ -2194,7 +2217,7 @@ The source is [Luis Dieulefait, Ariel Pacetti, DP22](#ref-dp22), Theorems 1.4 an
 
 ### Examples
 
-For `p=3` and a twist of an extension of 1 by `ω`, the all-residual odd-prime theorem is needed; the generic theorem does not cover it. For `p=2` and a scalar residual semisimplification, use Tung’s all-residual theorem with its arithmetic inputs. In the scalar weight `p−2`, ramified nontrivial, unramified nontrivial and split extension classes have corrected crystalline multiplicities 1,2,4, respectively.
+For `p=3` and a twist of an extension of 1 by `ω`, use the odd-prime cycle deduction with its actual patched data and exceptional comparison; the generic theorem does not cover it. For `p=2` and a scalar residual semisimplification, use Tung’s all-residual theorem with its arithmetic inputs. In the scalar weight `p−2`, ramified nontrivial, unramified nontrivial and split extension classes have corrected crystalline multiplicities 1,2,4, respectively.
 
 ### Dependencies
 
@@ -2202,7 +2225,7 @@ Layers 1–5 with their prime and residual restrictions; the arithmetic patching
 
 ## Downstream consumers
 
-The local deformation-ring, type-occurrence and cycle statements supply GL2ModularityLifting §§8–9 and the local hypotheses in Dieulefait–Pacetti's Serre-modularity arguments. CompletedCohomologyPartII §6.7 and CompletedCohomologyAndLocalGlobalCompatibility §§2.1 and 4.10 consume the analytic/algebraic-vector and block interfaces; CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10 uses the local correspondence in its global realisation. Each consumer must select the prime, residual class, determinant and type actually covered by the theorem it invokes. The BCDT extended-type and supercuspidal comparisons carry their additional inputs explicitly.
+The local deformation-ring, type-occurrence and cycle statements supply GL2ModularityLifting §§8–9 and the local hypotheses in Dieulefait–Pacetti's Serre-modularity arguments. CompletedCohomologyAndLocalGlobalCompatibility §§2.1 and 4.10 consumes the analytic/algebraic-vector and block interfaces; CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10 uses the local correspondence in its global realisation. The shared general Banach/duality foundation is §0.1 and §0.3; CompletedCohomologyPartII F.1 uses this foundation, while its §6.7 concerns general derived analytic-vector recovery. Each consumer must select the prime, residual class, determinant and type actually covered by the theorem it invokes. The BCDT extended-type and supercuspidal comparisons carry their additional inputs explicitly.
 
 ## References
 

@@ -91,13 +91,41 @@ example (a : ℚ_[p]ˣ) (ha : 1 < ‖(a : ℚ_[p])‖) :
     ¬ InMirabolicPlus p (diagonal p a) := by
   simpa [InMirabolicPlus, InMirabolic, diagonal] using (not_le.mpr ha)
 
-/-- Diagonal scaling preserves the affine chart without becoming central. -/
+/-- Every diagonal(a,1) is mirabolic; it is central exactly when a=1. -/
 example (a : ℚ_[p]ˣ) : InMirabolic p (diagonal p a) := by
   simp [InMirabolic, diagonal]
 
 /-- A scalar can never have a nontrivial mirabolic lower-right entry. -/
 example (a : ℚ_[p]ˣ) : (scalar p a) 1 1 = a := by
   simp [scalar, Matrix.scalar]
+
+/-- Affine translations compose by addition of their parameters. -/
+theorem unipotent_mul (b c : ℚ_[p]) :
+    unipotent p b * unipotent p c = unipotent p (b + c) := by
+  apply Units.ext
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [unipotent, Matrix.mul_apply, Fin.sum_univ_two, add_comm]
+
+/-- Diagonal mirabolic scalings compose by multiplication. -/
+theorem diagonal_mul (a b : ℚ_[p]ˣ) :
+    diagonal p a * diagonal p b = diagonal p (a * b) := by
+  apply Units.ext
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [diagonal, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- A nonintegral affine translation lies outside the positive monoid. -/
+theorem unipotent_not_mem_mirabolicPlus (b : ℚ_[p]) (hb : 1 < ‖b‖) :
+    ¬ InMirabolicPlus p (unipotent p b) := by
+  simpa [InMirabolicPlus, InMirabolic, unipotent] using (not_le.mpr hb)
+
+/-- Translation by the inverse of p lies outside the positive monoid. -/
+theorem unipotent_inv_prime_not_mem_mirabolicPlus :
+    ¬ InMirabolicPlus p (unipotent p (p : ℚ_[p])⁻¹) := by
+  apply unipotent_not_mem_mirabolicPlus
+  rw [norm_inv, Padic.norm_p, inv_inv]
+  exact_mod_cast (Fact.out : p.Prime).one_lt
 
 end GL2Qp
 
@@ -114,7 +142,7 @@ def HasCentralCharacter (ζ : GL2Qp.Character p k) (X : TopRep k (GL2Qp.Gp p)) :
   ∀ (a : ℚ_[p]ˣ) (v : X), X.ρ (GL2Qp.scalar p a) v = (ζ a : k) • v
 
 /-- Over the residue field, admissibility is finite-dimensional compact-open invariants.
-This is the GL₂ specialisation of the general smooth-representation supplier. -/
+This is the GL₂ specialisation of the smooth-representation admissibility criterion. -/
 def IsAdmissible (X : TopRep k (GL2Qp.Gp p)) : Prop :=
   ∀ H : Subgroup (GL2Qp.Gp p), IsOpen (H : Set (GL2Qp.Gp p)) →
     IsCompact (H : Set (GL2Qp.Gp p)) → Module.Finite k (X.ρ.restrict H.subtype).invariants
@@ -132,6 +160,14 @@ example (ζ η : GL2Qp.Character p k) (X : TopRep k (GL2Qp.Gp p))
 example (X : TopRep k (GL2Qp.Gp p)) [Module.Finite k X] : IsAdmissible X := by
   intro H _ _
   infer_instance
+
+omit [Finite k] [CharP k p] [DiscreteTopology k] in
+/-- The zero representation satisfies every fixed central-character equation. -/
+theorem hasCentralCharacter_of_subsingleton
+    (ζ : GL2Qp.Character p k) (X : TopRep k (GL2Qp.Gp p)) [Subsingleton X] :
+    HasCentralCharacter ζ X := by
+  intro a v
+  exact Subsingleton.elim _ _
 
 /-- A finitely generated admissible smooth GL₂(ℚ_p)-module has finite representation
 length, including at p=2. This is not finite length as a k-vector space.
