@@ -25,12 +25,19 @@ finite-dimensional inverse-limit tensor comparison `finiteDimensionalML_complete
 nonproper finite-piece dagger comparison and the Stein and tower Hyodo–Kato spaces and completed
 comparisons of §0.CR.6.6, including
 `LogCrystalline.towerHK.cofinal`; the topologies of `LA` and `D` with their pullbacks, pushforwards, products and convolution; `C^r`,
-order-`r` distributions, vector order and small-order isotropic spaces; the Mellin equivalences
-and the geometric character spaces; analytic reduction modulo a monic polynomial; the resolvent
+order-`r` distributions, vector order and small-order isotropic spaces; the identifications with
+PhiGammaModulesAndIwasawaCohomology §4.0's compact abelian character spaces and Mellin equivalences;
+analytic reduction modulo a monic polynomial; the resolvent
 and Riesz-projector lemmas on `(Pr)` modules; global specialization of distribution families and the
 universal-character action and its `familySpecialization_radius` projective-limit comparison;
 characteristic products of complexes, slope decompositions,
 finite-slope windows and the torus slope adapters.
+
+On the compact abelian carriers of README §3.3, the identification `i_G` with the supplied strong
+dual satisfies `i_G(mu)(f) = mu(f)`. In the supplied character coordinates,
+`distributionMellin(mu) = scalarAbelianMellin(i_G(mu))`; the component, section, universal-character,
+pullback and finite-base-change interfaces are those of the supplied `rigidCharacterSpace`.
+The compact abelian carriers and these comparisons are README targets.
 
 The targets supplied by PadicFunctionalAnalysis, CompactOperators and RestrictedPowerSeries are cited in the README.
 These definitions are local restatements of the named supplier APIs. Implementations import
