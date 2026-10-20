@@ -89,29 +89,19 @@ end ProjectiveWidth
 
 /-! ## Layer 6: coherent rings and finite projective resolutions -/
 
-/-- A ring is left coherent when every finitely generated left ideal is finitely
-presented. Paper III, §1.3, p. 27 and Remark 1.3.5, p. 28.
--/
-def IsLeftCoherentRing (R : Type u) [Ring R] : Prop :=
-  ∀ I : Ideal R, I.FG → Module.FinitePresentation R I
-
 section Coherence
 
 variable (R : Type u) [Ring R]
 
-/-- Left noetherian rings are left coherent. -/
-theorem isLeftCoherentRing_of_noetherian [IsNoetherianRing R] :
-    IsLeftCoherentRing R := by
-  sorry
-
 /-- Coherence and a uniform projective-dimension bound give a resolution of
 every finitely presented module by finite projectives of length at most `d`.
+Coherence is expressed by finite presentation of finitely generated left ideals.
 The augmentation and its quasi-isomorphism are part of Mathlib's
 `ProjectiveResolution`, rather than additional unbundled hypotheses.
 Paper III, discussion at the start of §1.3, p. 27.
 -/
 theorem finitePresentation_finiteProjectiveResolution
-    (hcoherent : IsLeftCoherentRing R) (d : ℕ)
+    (hcoherent : ∀ I : Ideal R, I.FG → Module.FinitePresentation R I) (d : ℕ)
     (hd : ∀ M : ModuleCat.{u} R, HasProjectiveDimensionLE M d)
     (M : ModuleCat.{u} R) [Module.FinitePresentation R M] :
     ∃ P : ProjectiveResolution M,
@@ -165,6 +155,9 @@ theorem nonmaximalOrder_infinite_globalDimension :
 /-- The residue field of `K[ε]/(ε²)` has infinite projective dimension.
 The periodic free resolution with differential multiplication by `ε` yields
 nonzero Tor in every degree after tensoring with the residue field.
+Stacks, Tag 00OC, Proposition 10.110.5: this Noetherian local ring has Krull
+dimension zero and cotangent dimension one, so it is not regular and its residue
+field has infinite projective dimension.
 -/
 theorem dualNumbers_residue_infinite_projectiveDimension (K : Type u) [Field K] :
     let I : Ideal (Polynomial K) := Ideal.span {Polynomial.X ^ 2}
@@ -181,20 +174,9 @@ finiteness of Stacks, Tag 05CW, for coherent rings.
 theorem noncoherent_squareZero_polynomial_ring (K : Type u) [Field K] :
     let I : Ideal (MvPolynomial ℕ K) :=
       Ideal.span (Set.range fun i : ℕ => MvPolynomial.X 0 * MvPolynomial.X i)
-    ¬ IsLeftCoherentRing (MvPolynomial ℕ K ⧸ I) := by
+    let A := MvPolynomial ℕ K ⧸ I
+    ¬ (∀ J : Ideal A, J.FG → Module.FinitePresentation A J) := by
   sorry
-
-/-- The coherence condition includes integral coefficients for surgery. -/
-example : IsLeftCoherentRing ℤ := by
-  intro I hI
-  let : Module.Finite ℤ I := Module.Finite.iff_fg.mpr hI
-  exact Module.finitePresentation_of_finite ℤ I
-
-/-- It also applies to every field, including characteristic two. -/
-example (K : Type u) [Field K] : IsLeftCoherentRing K := by
-  intro I hI
-  let : Module.Finite K I := Module.Finite.iff_fg.mpr hI
-  exact Module.finitePresentation_of_finite K I
 
 /-!
 The coefficient-line operations, flavour spectra, opposite-duality transport,

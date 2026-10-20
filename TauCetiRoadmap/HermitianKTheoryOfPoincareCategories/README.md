@@ -10,7 +10,7 @@ It also owns the coherent multiplicative refinement of the L-to-Tate comparison 
 
 The foundations are supplied by **GeometryOfNumbersAndQuadraticArithmetic**, Layer 6, especially §6.8a: perfect derived enhancements, coefficient dualities, Poincaré categories and objects, isotropic surgery, symmetric/quadratic/genuine structures, their shift comparisons, `GW` and `L` spectra, hermitian bordification, localization, the fundamental square and the Hebestreit–Steimle comparison. Here the metabolic category receives the relative-form and arrow-duality API needed for bounded Lagrangian surgery. The generic shift equivalence belongs to the supplier; it is an input, rather than a separate target here. The supplier's integral calculations in §6.10a provide the numerical checks over `ℤ`. Its heart theorem for symmetric L-theory remains the owner of the duality-exchanges-halves result. Our symmetric surgery instead permits a duality with a nonzero finite cohomological bound.
 
-Dedekind localization and dévissage are supplied by GeometryOfNumbersAndQuadraticArithmetic §6.9; dyadic Dedekind L-group tables are outside this roadmap's scope. The homotopy limit problem and Grothendieck–Witt groups of `ℤ` belong to its §§6.10–6.11. **QuadraticFormInvariants**, Layer 4, owns the Witt ring and fundamental ideal of a field of characteristic different from two; the comparison here uses that ring. The Arf classification over `𝔽₂` is constructed here in §7.9. **StablePeriodicCurved**, Layer 4, already supplies the uniform projective-dimension predicate for finite global dimension. We use its left-module version by passing to the opposite ring, and introduce no competing global-dimension predicate. General resolution comparison and the construction of ordinary derived categories are also inputs, rather than targets.
+Dedekind localization and dévissage are supplied by GeometryOfNumbersAndQuadraticArithmetic §6.9; dyadic Dedekind L-group tables are outside this roadmap's scope. The finite-even-field homotopy-limit comparison and integral degree-zero/L-theory calculations belong to its §§6.10–6.11; higher integer Grothendieck–Witt tables are outside this roadmap. **QuadraticFormInvariants**, Layer 4, owns the Witt ring and fundamental ideal of a field of characteristic different from two; the comparison here uses that ring. The Arf classification over `𝔽₂` is constructed here in §7.9. **StablePeriodicCurved**, Layer 4, already supplies the uniform projective-dimension predicate for finite global dimension. We use its left-module version by passing to the opposite ring, and introduce no competing global-dimension predicate. General resolution comparison and the construction of ordinary derived categories are also inputs, rather than targets.
 
 **EnhancedDerivedSheaves**, Layers E0 and E5, supplies stable categories, spectra, algebra and module objects, and compact objects; its §0.1 supplies the standard t-structure on enhanced derived modules. For a general stable category, §6.0 below lifts Mathlib's t-structure on its homotopy category to coherent truncation adjunctions. Group completion is consumed through GeometryOfNumbersAndQuadraticArithmetic §6.1.6 and its adapter to **GeneralizedCohomology** §G2.8. **GeneralizedCohomology**, §G5.4, supplies the commutative ring spectrum `ko` and its identification with the connective cover of `KO`, without a Tate calculation.
 
@@ -21,7 +21,7 @@ Some consequences have additional mathematical inputs. They are kept separate fr
 - The optimality of the linear-part estimate in Remark 1.2.34 assumes `π_*(ko^{tC₂})=ℤ̂₂[u^{±1}]`, `|u|=4`. Constructing `ko` does not compute its Tate spectrum, and the calculation by itself does not establish sharpness of an L-group comparison range.
 - Arbitrary form parameters require the equivalence with reduced degree-two polynomial functors on finite projectives (Paper I, p. 74, citing Schlichting, Lemma A.16), together with the derived extension of Paper I, Proposition 4.2.18. The restriction equivalence is `Fun^q(D^p(R))≃Fun^{2-poly}_*(Proj(R)^op,Sp)`. In particular an abelian-group-valued reduced degree-two polynomial functor, embedded by Eilenberg–Mac Lane spectra, has an essentially unique derived quadratic extension, with its specified cross-effect. The arbitrary-parameter consequences below assume this contract; the three standard flavours use the supplier's existing construction.
 - Identifying odd genuine groups with the symmetric, even and quadratic formation groups requires the additional comparison in Paper III, Remark 1.2.17. Exact-category formation groups alone do not provide that comparison.
-- The integral-to-periodic comparison after inverting two uses GeometryOfNumbersAndQuadraticArithmetic §6.10b, target 6.10.6. Its spectrum-level multiplicative/telescope input is an explicit additional assumption there. Only the final two-inverted splitting here inherits that assumption.
+- The integral-to-periodic comparison after inverting two is supplied by GeometryOfNumbersAndQuadraticArithmetic §6.10b, target 6.10.6, using its `poincareTensorProduct`, `genuineLTheoryModule` and `symmetricLTheoryShiftTelescope` targets. It enters the final two-inverted splitting here.
 
 ## Conventions
 
@@ -65,7 +65,7 @@ Here `m` may be either endpoint. This is Paper III, Proposition R.6, p. 9; Paper
 
 Consume `stableGrothendieckWittSpectrum`, `stableLTheorySpectrum`, `PoincareVerdierSequence`, `stableGWVerdierLocalization`, `additiveHermitianBordification` and `stableGWFundamentalSquare`. They provide integer-shift delooping for bordism-invariant additive invariants, and the natural fibre sequence `K(C;D)_{hC₂}→GW(C,Q)→L(C,Q)`. A comparison that fixes the underlying duality fixes the first term, hence gives a cartesian `GW/L` comparison square. No localization statement for an idempotent-completed quotient is inferred without its cofinality hypothesis.
 
-Consume `weightHeartGWComparison` only in its general weight-heart form: for perfect modules the weight heart is finite projectives, and classical symmetric/even/quadratic `GW` is the connective cover of genuine symmetric/even/quadratic `GW`. This is distinct from the Postnikov heart of finitely presented modules in Layer 6 below. Consume `symmetricHeartLTheory` when duality exchanges the t-structure halves, and the exact Witt group `ExactW0` of §6.4. The exact diagonal-Lagrangian assertion is GeometryOfNumbersAndQuadraticArithmetic §6.2.8; its stable analogue here retains the specified null-homotopy. The Dedekind-specific further comparison in §6.8a is not used to prove its own general surgery input. Finally, consume the `ℤ` calculations of §6.10a as worked instances, and the conditional genuine-`L` comparison after inverting two of §6.10b only for §8.3.
+Consume `weightHeartGWComparison` only in its general weight-heart form: for perfect modules the weight heart is finite projectives, and classical symmetric/even/quadratic `GW` is the connective cover of genuine symmetric/even/quadratic `GW`. This is distinct from the Postnikov heart of finitely presented modules in Layer 6 below. Consume `symmetricHeartLTheory` when duality exchanges the t-structure halves, and the exact Witt group `ExactW0` of §6.4. The exact diagonal-Lagrangian assertion is GeometryOfNumbersAndQuadraticArithmetic §6.2.8; its stable analogue here retains the specified null-homotopy. The Dedekind-specific further comparison in §6.8a is not used to prove its own general surgery input. Finally, consume the `ℤ` calculations of §6.10a as worked instances, and the genuine-`L` comparison after inverting two of §6.10b only for §8.3. Sections 7.10–7.11 consume §6.10b's `poincareTensorProduct` on perfect modules, its coefficient tensor, symmetry and form-pullback API, and its `genuineLTheoryModule`; the extension to general small Poincaré categories and the multiplicative L-to-Tate comparison are constructed here.
 
 ### From the other roadmaps
 
@@ -433,9 +433,9 @@ Express L-groups through Poincaré objects and Lagrangians, and perform surgery 
 
 ### 3.1 L-groups as cobordism groups
 
-Let `(C,Q)` be a Poincaré ∞-category and `n ∈ ℤ`. Call Poincaré objects `(X,q)`, `(X′,q′)` cobordant if `(X ⊕ X′, q ⊕ (−q′))` admits a Lagrangian. Cobordism is a congruence for `⊕`, the diagonal `X → X ⊕ X` is a Lagrangian of `(X ⊕ X, q ⊕ (−q))`, and the set `L_n(C,Q)` of cobordism classes of Poincaré objects for `Q[−n] = Ω^nQ` is an abelian group. There is an exact sequence of commutative monoids `π₀Pn^∂(C,Q[−n]) → π₀Pn(C,Q[−n]) → L_n(C,Q) → 0`, `L_n(C,Q)` is the cokernel of the boundary map in commutative monoids, and `L_n(C,Q) ≅ π_n L(C,Q)` for the L-spectrum of GeometryOfNumbersAndQuadraticArithmetic §6.8a. (Paper III, Definition 1.1.9 and Remark 1.1.10, pp. 13–14; Paper I, Lemma 2.3.10 and Definition 2.3.11, p. 38; Paper II, Definition 4.2.6 and Corollary 4.2.7, p. 100.)
+Let `(C,Q)` be a Poincaré ∞-category and `n ∈ ℤ`. Call Poincaré objects `(X,q)`, `(X′,q′)` cobordant if `(X ⊕ X′, q ⊕ (−q′))` admits a Lagrangian. Cobordism is a congruence for `⊕`, the diagonal `X → X ⊕ X` is a Lagrangian of `(X ⊕ X, q ⊕ (−q))`, and the set `L_n(C,Q)` of cobordism classes of Poincaré objects for `Q[−n] = Ω^nQ` is an abelian group. There is an exact sequence of commutative monoids `π₀Pn^∂(C,Q[−n]) → π₀Pn(C,Q[−n]) → L_n(C,Q) → 0`, `L_n(C,Q)` is the cokernel of the boundary map in commutative monoids, and `L_n(C,Q) ≅ π_n L(C,Q)` for the L-spectrum of GeometryOfNumbersAndQuadraticArithmetic §6.8a. (Paper III, Definition 1.1.9 and Remark 1.1.10, pp. 13–14; Paper I, Lemma 2.3.10 and Definition 2.3.11, p. 38; Paper II, Definition 4.4.4 and Corollary 4.4.6, p. 105.)
 
-Congruence: a sum of Lagrangians is a Lagrangian of the sum. Diagonal: the diagonal of `X → X ⊕ X` with the evident null-homotopy of `q − q` is a Lagrangian (GeometryOfNumbersAndQuadraticArithmetic §6.2.8 in the exact setting; the same check in the stable setting). The cokernel in commutative monoids surjects onto the cobordism group with trivial kernel by exactness, and it is a group (Calmès et al. I, Lemma 2.3.10), hence they agree (Calmès et al. I, Definition 2.3.11). `π₀` of the L-spectrum is `L₀` (Calmès et al. II, Definition 4.2.6 and its realisation of cobordisms), and `π_nL(C,Q) = L₀(C,Q[−n])` by the shift delooping of GeometryOfNumbersAndQuadraticArithmetic §6.8a.
+Congruence: a sum of Lagrangians is a Lagrangian of the sum. Diagonal: the diagonal of `X → X ⊕ X` with the evident null-homotopy of `q − q` is a Lagrangian (GeometryOfNumbersAndQuadraticArithmetic §6.2.8 in the exact setting; the same check in the stable setting). The cokernel in commutative monoids surjects onto the cobordism group with trivial kernel by exactness, and it is a group (Calmès et al. I, Lemma 2.3.10), hence they agree (Calmès et al. I, Definition 2.3.11). Paper II, Definition 4.4.4 constructs the L-spectrum, and Corollary 4.4.6 identifies `π_nL(C,Q) = L₀(C,Q[−n])` for every integer `n`, compatibly with the supplier's shift delooping.
 
 This gives `cobordism_presentation`.
 
@@ -675,6 +675,9 @@ Provide strict models, their cobordism quotient and the Wu obstruction.
 **Checks.**
 
 - For `n = 0`, a Poincaré complex is a projective module with a nondegenerate `M`-valued symmetric form, and `L^short_0(R;M)` is the symmetric Witt group; over `ℤ` with `M = ℤ` it is `ℤ` by signature.
+- In dimension zero the integral line `⟨1⟩` has Wu class `ℤ → ℤ/2` given by reduction: its diagonal is `x² ≡ x (mod 2)`.
+- For the line `⟨1⟩` over `𝔽₂`, the Wu class is the identity of `𝔽₂`; the line is not even.
+- For the alternating hyperbolic plane over `𝔽₂`, the Wu class is zero, so the plane is even.
 - For `n ≤ −3`, `L^short_n(R;M)` is by definition `L^q_n(R;M)`, so `L^short_{−3}(ℤ) = L^q_{−3}(ℤ) = L^q_1(ℤ) = 0`.
 - Over `𝔽₂` the even L-group `L^{short,ev}_0(𝔽₂) = 0`: an even form in characteristic 2 is alternating, hence has a Lagrangian; so `L^short_{−2}(𝔽₂) = 0` while `L^s_{−2}(𝔽₂) = ℤ/2`.
 - On `C = ℤ[0]` the symmetric structure `q = 2 ∈ H_0(Hom_ℤ(Dℤ,ℤ)^{hC₂})` has underlying map `2 : ℤ → ℤ`, not an isomorphism, so `(ℤ[0],2)` is a symmetric complex but not a Poincaré complex.
@@ -930,29 +933,29 @@ For a supplied stable ∞-category `C`, use Mathlib's `CategoryTheory.Triangulat
 
 ### 6.1 Coherent rings of finite global dimension
 
-A ring `R` is left-coherent if its finitely presented left modules form an abelian category, equivalently if every finitely generated left ideal is finitely presented. Use the supplier uniform left projective-dimension bound `≤d`, expressed on ModuleCat `R` by Mathlib `CategoryTheory.HasProjectiveDimensionLE`. If `R` is coherent of global dimension `≤ d`, every finitely presented module has a resolution of length `≤ d` by finitely generated projectives. Noetherian rings and valuation rings are coherent; `R` has global dimension 0 iff it is semisimple; Dedekind domains have global dimension `≤ 1`. Commutativity is not assumed; 'coherent' and 'global dimension' mean the left versions. (Paper III, §1.3, p. 27 and Remark 1.3.5, p. 28; Example 1.3.7, p. 30; Corollary 1.3.14 and its preceding discussion, p. 31.)
+A ring `R` is left-coherent if its finitely presented left modules form an abelian category, equivalently if every finitely generated left ideal is finitely presented. Consume AdicSpacesPartIII R2.10, `coherent-modules`, for `Module.IsCoherent`, `IsCoherentRing`, the Noetherian bridge `IsNoetherianRing.isCoherentRing` and the finite-presentation/abelian API over commutative rings. Extend these same carriers and their kernel, cokernel and finite-presentation API to associative rings and left modules here, with the commutative specialization agreeing with the supplier's declarations. Use the supplier uniform left projective-dimension bound `≤d`, expressed on ModuleCat `R` by Mathlib `CategoryTheory.HasProjectiveDimensionLE`. If `R` is coherent of global dimension `≤ d`, every finitely presented module has a resolution of length `≤ d` by finitely generated projectives. Noetherian rings and valuation rings are coherent; `R` has global dimension 0 iff it is semisimple; Dedekind domains have global dimension `≤ 1`. Commutativity is not assumed; 'coherent' and 'global dimension' mean the left versions. (Paper III, §1.3, p. 27 and Remark 1.3.5, p. 28; Example 1.3.7, p. 30; Corollary 1.3.14 and its preceding discussion, p. 31.)
 
 The equivalence of the two coherence conditions is Chase's theorem; finitely presented modules are closed under kernels exactly when finitely generated ideals are finitely presented. For finitely presented `N`, a resolution by finitely generated free modules exists by coherence (kernels of maps between finitely presented modules are finitely presented); truncating at stage `d` gives a projective `d`-th syzygy, since all `Ext^{d+1}` vanish. Semisimple `⇔` every module projective `⇔` global dimension 0; for a Dedekind domain every submodule of a projective is projective (hereditary).
 
-Add the coherence condition and the following bridges to projective dimension.
+Extend the shared coherence API and add the following bridges to projective dimension. The ideal-finiteness formulation of coherence is `∀ I : Ideal R, I.FG → Module.FinitePresentation R I`.
 
-- `IsLeftCoherentRing R`: Every finitely generated left ideal is finitely presented.
-- `isLeftCoherentRing_of_noetherian`: Noetherian rings are coherent.
+- `Module.IsCoherent`, `IsCoherentRing`: Extend to associative rings and left modules, retaining the characterization by finite presentation of finitely generated left ideals and the Noetherian bridge.
 - `globalDimension_zero_iff_semisimple`: Global dimension 0 iff IsSemisimpleRing.
 - `dedekind_projectiveDimension_le_one`: Dedekind domains have global dimension `≤ 1`.
 - `finitePresentation_finiteProjectiveResolution`: Over a coherent ring of global dimension `≤ d`, finitely presented modules have length-`≤d` resolutions by finitely generated projectives.
 
 **Checks.**
 
+- For a commutative ring, the extended `IsCoherentRing` is the supplier's predicate, and `Module.IsCoherent R N ↔ Module.FinitePresentation R N` over a coherent ring is the supplier's comparison.
 - A field has global dimension 0 and is coherent (`field_projectiveDimension_le_zero`, for every module).
 - `ℤ` has global dimension 1, not 0: `ℤ/2` has projective dimension exactly 1 (`zmod_two_not_projectiveDimension_le_zero`).
 - The non-maximal order `ℤ[√−3] = ℤ[X]/(X²+3)` has Krull dimension 1 but infinite global dimension (`nonmaximalOrder_infinite_globalDimension`). At `(2,X−1)` its cotangent space has dimension 2: on writing `y=X−1`, the relation `y²+2y+4` lies in `(2,y)²`. Its localization is not regular; [Stacks, Tag 00OC](https://stacks.math.columbia.edu/tag/00OC) excludes finite global dimension. Thus Krull dimension cannot supply the bound `≤1`.
-- `k[ε]/(ε²)` is Noetherian (hence coherent) but its residue field `k` has infinite projective dimension (`dualNumbers_residue_infinite_projectiveDimension`). Multiplication by `ε` gives a periodic free resolution; tensoring with `k` makes all differentials zero, so every positive Tor group is `k`.
+- `k[ε]/(ε²)` is Noetherian (hence coherent) but its residue field `k` has infinite projective dimension (`dualNumbers_residue_infinite_projectiveDimension`). Multiplication by `ε` gives a periodic free resolution; tensoring with `k` makes all differentials zero, so every positive Tor group is `k`. Source: [Stacks, Tag 00OC, Proposition 10.110.5](https://stacks.math.columbia.edu/tag/00OC): this Noetherian local ring has Krull dimension zero and cotangent dimension one, so it is not regular and its residue field has infinite projective dimension.
 - `ℤ` and every field are coherent of global dimension `≤ 1`, resp. 0.
 
 These conditions let Postnikov truncations preserve perfect complexes (Paper III, §1.3, p. 27) and supply `d` in the surgery and comparison ranges (Corollaries 1.3.3, 1.3.9 and 1.3.10). Dedekind rings give `d≤1` (Corollary 1.3.14, p. 31).
 
-*Needs:* Mathlib CategoryTheory.HasProjectiveDimensionLE; Mathlib Module.FinitePresentation; Mathlib IsNoetherianRing; Mathlib IsSemisimpleRing; Mathlib IsDedekindDomain.
+*Needs:* AdicSpacesPartIII R2.10, coherent-modules, Module.IsCoherent, IsCoherentRing, IsNoetherianRing.isCoherentRing and the finite-presentation/abelian API; Mathlib CategoryTheory.HasProjectiveDimensionLE; Mathlib Module.FinitePresentation; Mathlib IsNoetherianRing; Mathlib IsSemisimpleRing; Mathlib IsDedekindDomain.
 
 ### 6.2 The Postnikov t-structure on perfect complexes
 
@@ -996,6 +999,9 @@ Extend the bounded constructions to the chosen t-structure.
 
 **Checks.**
 
+- With the standard t-structure on `Perf(𝔽₂)`, `Q^gs` is 2-symmetric but not 3-symmetric: the comparison fibre at `𝔽₂[0]` has nonzero `π_{−2} = 𝔽₂`.
+- On `Perf(ℤ)` with its standard t-structure, `Q^gs` is 3-symmetric but not 4-symmetric: the fibre at `ℤ[0]` has `π_{−2} = 0` and `π_{−3} = ℤ/2`. The propagation of §2.1 gives the bound on every connective perfect object.
+- `Q^s` is `r`-symmetric for every integer `r`, whereas `Q^q` on `Perf(𝔽₂)` is `r`-symmetric for no integer `r`: its fibre at `𝔽₂[0]` is `ΩH𝔽₂^{tC₂}`, with nonzero homotopy in arbitrarily high degrees.
 - For `C = D^p(K)`, `K` a field, `L^{0,0}_0(C,Q^s_K)` is the symmetric Witt group of `K`.
 - For the zero category all monoids are zero.
 - Shifting the t-structure by `[1]` changes `Pn^a_n`: the same Poincaré object can be `((−n−a)/2)`-connective for one t-structure and not for the shifted one, so the monoids depend on the t-structure, not only on `(C,Q)`.
@@ -1150,7 +1156,7 @@ This gives `two_torsion_free_improvement`.
 
 **Checks.**
 
-- For `R = ℤ (d = 1)`: `GW^q_{cl,n}(ℤ) → GW^s_{cl,n}(ℤ)` is injective for `n = 1` and bijective for `n ≥ 2`, matching GeometryOfNumbersAndQuadraticArithmetic §6.11’s quadratic table (`GW^q_{cl,1} = (ℤ/2)²`, symmetrisation an isomorphism from degree 2).
+- For `R = ℤ (d = 1)`: `GW^q_{cl,n}(ℤ) → GW^s_{cl,n}(ℤ)` is injective for `n = 1` and bijective for `n ≥ 2`. Paper III, Theorem 3.2.9 and its proof, pp. 58–59, give `GW^q_{cl,1} = (ℤ/2)²`, `GW^s_{cl,1} = (ℤ/2)³` and symmetrisation an isomorphism from degree 2.
 
 *Needs:* §1.6; §0.3; §7.2; GeometryOfNumbersAndQuadraticArithmetic §6.8a.
 
@@ -1235,7 +1241,7 @@ This gives `field_l_groups`.
 
 <a id="finite-even-multiplicative-l-tate"></a>
 
-**Multiplicative L-to-Tate comparison** (`finite-even-multiplicative-l-tate`). Let `A=(C,Q)` be a commutative algebra object in the symmetric monoidal ∞-category of small Poincaré ∞-categories: tensor is exact in each variable, the multiplication and unit are Poincaré functors, and the associativity, symmetry and unit coherences are specified. Construct this tensor product on the supplier's Poincaré carriers and compatible lax symmetric monoidal refinements of `K`, `GW`, `L` and the natural comparison `Ξ_A : L(A) → K(A)^{tC₂}`. Thus `Ξ_A` is a unital `E∞`-ring map, natural in maps of commutative algebra objects. In particular this applies to `(D^p(R),Q^s_R)` for every commutative ring `R`, without a finiteness or characteristic hypothesis. (Sources: Paper I, Introduction, item (vi), p. 6, Theorem 5.2.7, p. 102, Corollary 5.3.18, p. 111, and Example 5.4.10(i), p. 115; Paper III, Remark 3.1.5, p. 51, attributing the spectrum refinement to Paper IV.)
+**Multiplicative L-to-Tate comparison** (`finite-even-multiplicative-l-tate`). Let `A=(C,Q)` be a commutative algebra object in the symmetric monoidal ∞-category of small Poincaré ∞-categories: tensor is exact in each variable, the multiplication and unit are Poincaré functors, and the associativity, symmetry and unit coherences are specified. Consume GeometryOfNumbersAndQuadraticArithmetic §6.10b's `poincareTensorProduct` on perfect modules, including its derived coefficient tensor, symmetry signs and form pullbacks. Extend it to general small Poincaré categories and construct compatible lax symmetric monoidal refinements of `K`, `GW`, `L` and the natural comparison `Ξ_A : L(A) → K(A)^{tC₂}`. The perfect-module specialization agrees with the supplied tensor and spectrum-module structures. Thus `Ξ_A` is a unital `E∞`-ring map, natural in maps of commutative algebra objects. In particular this applies to `(D^p(R),Q^s_R)` for every commutative ring `R`, without a finiteness or characteristic hypothesis. (Sources: Paper I, Introduction, item (vi), p. 6, Theorem 5.2.7, p. 102, Corollary 5.3.18, p. 111, and Example 5.4.10(i), p. 115; Paper III, Remark 3.1.5, p. 51, attributing the spectrum refinement to Paper IV.)
 
 Forgetting multiplication recovers the supplier's `Ξ`, the factorization of `GW(A) → K(A)^{hC₂} → K(A)^{tC₂}` through `GW(A) → L(A)`. Refine the square `GW(A) → L(A)` over `K(A)^{hC₂} → K(A)^{tC₂}` to a cartesian square of `E∞`-rings. Its underlying fibre sequence `K(A)_{hC₂} → GW(A) → L(A)` is a fibre sequence of `GW(A)`-modules, with action on K-theory through forgetting the form and on L-theory through bordification. The norm and hyperbolic maps are module maps here. These structures include the coherent spectrum products and units, extending the products on groups of Paper I, Proposition 7.5.3 and Corollary 7.5.10, pp. 172–175. The additive square and fibre sequence are Paper II, Corollary 4.4.13, p. 107.
 
@@ -1245,7 +1251,7 @@ Forgetting multiplication recovers the supplier's `Ξ`, the factorization of `GW
 - For `R=𝔽₂×𝔽₂`, `π₀L^s(R)=𝔽₂×𝔽₂` has orthogonal idempotents `(1,0)` and `(0,1)`; `Ξ_R` preserves their products and sum `1`. The additive automorphism `(a,b)↦(a,a+b)` fails to preserve `1=(1,1)`, so an additive equivalence alone does not provide this refinement.
 - For the zero Poincaré category with its unique multiplication, all four spectra in the square vanish and `Ξ` is the unique unital map between zero ring spectra. The fibre sequence is the zero sequence.
 
-*Needs:* GeometryOfNumbersAndQuadraticArithmetic §§6.1a and 6.8a, including the coherent K-duality action and `stableGWFundamentalSquare`; EnhancedDerivedSheaves §E5:abstract for coherent algebra and module objects and §E5:presentability for the common spectra.
+*Needs:* GeometryOfNumbersAndQuadraticArithmetic §§6.1a, 6.8a and 6.10b, including the coherent K-duality action, `stableGWFundamentalSquare`, `poincareTensorProduct`, its coefficient tensor, symmetry and form-pullback API, and `genuineLTheoryModule`; EnhancedDerivedSheaves §E5:abstract for coherent algebra and module objects and §E5:presentability for the common spectra.
 
 ### 7.11 Modules and base change for the multiplicative comparison
 
@@ -1255,7 +1261,7 @@ Forgetting multiplication recovers the supplier's `Ξ`, the factorization of `GW
 
 For a commutative-algebra map `A→B` and an exact Poincaré functor `F:P→P′` compatible with the scalar action, where `P′` is a `B`-module, require the square with rows `Ξ_P`, `Ξ_P′` and vertical maps `L(F)`, `K(F)^{tC₂}` to commute as semilinear module maps, coherently for identities and composites. The resulting scalar-extension maps `L(P)⊗_{L(A)}L(B) → L(P′)` and `K(P)^{tC₂}⊗_{K(A)^{tC₂}}K(B)^{tC₂} → K(P′)^{tC₂}` commute with the induced comparison between their sources. These maps need not be equivalences.
 
-For a map of commutative rings `R→S`, use derived extension `S⊗ᴸ_R−` on perfect complexes and carry an invertible central coefficient line `M`, its involution and every integer shift to `M_S=S⊗_R M` with the same shift. The theories for `Q^s_M[r]` have the stated module compatibility over the untwisted symmetric theory; a twisted or shifted coefficient does not by itself supply a ring unit. Construct these action and base-change adapters on the supplier's dualities, retaining their evaluation maps and form pullbacks.
+For a map of commutative rings `R→S`, use derived extension `S⊗ᴸ_R−` on perfect complexes and carry an invertible central coefficient line `M`, its involution and every integer shift to `M_S=S⊗_R M` with the same shift. The theories for `Q^s_M[r]` have the stated module compatibility over the untwisted symmetric theory; a twisted or shifted coefficient does not by itself supply a ring unit. Construct compatibility adapters for GeometryOfNumbersAndQuadraticArithmetic §6.10b's `poincareTensorProduct`, retaining its coefficient tensor, symmetry, evaluation maps and form pullbacks. On L-theory, restriction along `L^gs(ℤ) → L^s(R)` recovers its `genuineLTheoryModule` action, compatibly with base change and shifts.
 
 **Checks.**
 
@@ -1263,7 +1269,7 @@ For a map of commutative rings `R→S`, use derived extension `S⊗ᴸ_R−` on 
 - For the nonflat map `ℤ→𝔽₂`, derived extension still preserves perfect complexes. The symmetric line `⟨−1⟩` becomes `⟨1⟩`, and the coefficient involution on `ℤ(−1)` becomes the trivial involution on `𝔽₂`; the semilinear comparison carries these coefficient changes and any specified shift.
 - For the zero module category, every module spectrum in the comparison is zero. Along `R→0`, the target spectra and the scalar-extension sources vanish; the naturality square retains the unique maps from the original spectra to zero.
 
-*Needs:* §7.10; GeometryOfNumbersAndQuadraticArithmetic §§6.1a and 6.8a for the additive square, perfect derived extension and coefficient dualities; EnhancedDerivedSheaves §E5:abstract for module objects and relative tensor products of spectrum modules.
+*Needs:* §7.10; GeometryOfNumbersAndQuadraticArithmetic §§6.1a, 6.8a and 6.10b for the additive square, perfect derived extension, coefficient dualities, `poincareTensorProduct`, its coefficient tensor, symmetry and form-pullback API, and `genuineLTheoryModule`; EnhancedDerivedSheaves §E5:abstract for module objects and relative tensor products of spectrum modules.
 
 ### Examples
 
@@ -1275,7 +1281,7 @@ Layers 0–6; the supplier common-duality fundamental square and weight-heart `G
 
 ## Layer 8: classical Grothendieck–Witt fibre sequences and comparisons
 
-Use the common K-homotopy-orbit term in the fundamental fibre sequence to pass from the L-comparisons to classical Grothendieck–Witt theory. Connective covers give the symmetric and quadratic fibre sequences; inverting two also gives the conditional Karoubi splitting.
+Use the common K-homotopy-orbit term in the fundamental fibre sequence to pass from the L-comparisons to classical Grothendieck–Witt theory. Connective covers give the symmetric and quadratic fibre sequences; inverting two also gives Karoubi's splitting.
 
 ### 8.1 The fibre sequence for classical symmetric Grothendieck–Witt theory
 
@@ -1308,7 +1314,7 @@ This gives `quadratic_gw_fibre_sequence`.
 
 ### 8.3 Karoubi's splitting after inverting 2
 
-Assume the two-inverted comparison `L(R;Q^{≥m}_M)[1/2]≃L^s(R;M)[1/2]` supplied conditionally by GeometryOfNumbersAndQuadraticArithmetic §6.10b, 6.10.6 (Paper III, Proposition 3.1.14). This includes the spectrum-level multiplicative/telescope input specified there.
+Use the two-inverted comparison `L(R;Q^{≥m}_M)[1/2]≃L^s(R;M)[1/2]` supplied by GeometryOfNumbersAndQuadraticArithmetic §6.10b, 6.10.6 (Paper III, Proposition 3.1.14), built from its `poincareTensorProduct`, `genuineLTheoryModule` and `symmetricLTheoryShiftTelescope` targets.
 
 After inverting 2, polarisation gives `GW^q_cl(R;M)[1/2] ≃ GW^s_cl(R;M)[1/2]`, and there is a natural splitting `GW^s_{cl,*}(R;M)[1/2] ≅ (K_*(R;M)[1/2])^{C₂} ⊕ W_*(R;M)[1/2]`, with `K_*` the K-groups with the duality action and `W_*` the 4-periodic Witt groups of symmetric forms (even degrees) and formations (odd degrees), here `π_*L^s(R;M)` in non-negative degrees. (Paper III, Introduction, p. 2; Paper II, Corollary 4.4.14, p. 107.)
 
@@ -1334,18 +1340,18 @@ This gives `quadratic_symmetric_gw_comparison`.
 
 **Checks.**
 
-- `R = ℤ` (`d = 1`, 2-torsion free): bijective for `n ≥ 2` and injective at `n = 1`, matching GeometryOfNumbersAndQuadraticArithmetic §6.11 `(GW^q_1(ℤ) = (ℤ/2)², GW^s_1(ℤ) = (ℤ/2)³)`.
+- `R = ℤ` (`d = 1`, 2-torsion free): bijective for `n ≥ 2` and injective at `n = 1`, matching Paper III, Theorem 3.2.9 and its proof, pp. 58–59 (`GW^q_1(ℤ) = (ℤ/2)²`, `GW^s_1(ℤ) = (ℤ/2)³`).
 - The source makes no sharpness claim for Theorem 3 itself; §7.3 concerns the L-theoretic comparisons `L^gs → L^s` and `L^gq → L^s`.
 
 *Needs:* §7.2; §7.6; §7.4; §7.7; §8.1; GeometryOfNumbersAndQuadraticArithmetic §6.8a.
 
 ### Examples
 
-For `R=ℤ`, `d=1` gives the general quadratic-to-symmetric classical `GW` comparison injective at 3 and bijective from 4. The coefficient is 2-torsion-free, so the improved theorem is injective at 1 and bijective from 2. After inverting two, the same fibre sequence separates the invariant part of ordinary K-theory from the corresponding Witt summand, subject to the two-inverted supplier comparison.
+For `R=ℤ`, `d=1` gives the general quadratic-to-symmetric classical `GW` comparison injective at 3 and bijective from 4. The coefficient is 2-torsion-free, so the improved theorem is injective at 1 and bijective from 2. After inverting two, the same fibre sequence separates the invariant part of ordinary K-theory from the corresponding Witt summand, using the two-inverted supplier comparison.
 
 ### Dependencies
 
-Layers 0–1, 4 and 6–7; the supplier group-completion, weight-heart and fundamental-square contracts. Only §8.3 also needs the conditional two-inverted comparison of GeometryOfNumbersAndQuadraticArithmetic §6.10b.
+Layers 0–1, 4 and 6–7; the supplier group-completion, weight-heart and fundamental-square contracts. Only §8.3 also needs the two-inverted comparison of GeometryOfNumbersAndQuadraticArithmetic §6.10b.
 
 ## Downstream consumers
 
