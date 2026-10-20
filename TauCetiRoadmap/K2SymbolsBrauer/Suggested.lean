@@ -12,8 +12,8 @@ definitions and theorem signatures of the roadmap that can be stated against the
 and Tau Ceti APIs, so that contributors and reviewers converge on names and signatures; it is not
 exhaustive. Every theorem is proved by `sorry` unless a short proof is given.
 
-The universal-extension and Steinberg carriers are consumed from StableHomotopyKTheory and
-AlgebraicKTheory; their carriers and comparison contracts are specified in the README. Commutators use
+The generic universal-extension machinery comes from StableHomotopyKTheory. Layer 0 of the
+README constructs the classical matrix and Steinberg carriers and their comparison contracts. Commutators use
 `⁅a, b⁆ = a * b * a⁻¹ * b⁻¹`. The integral Milnor quotients retain the diagonal symbol, and the
 tame convention is `∂{u, π} = ū`. The finite matrix example checks the lifted bar-boundary sign;
 it does not formalize the topological product comparison.
@@ -80,7 +80,7 @@ def symbol (a b : Fˣ) : SymbolGroup F :=
   Submodule.Quotient.mk (Additive.ofMul a ⊗ₜ Additive.ofMul b)
 
 /-- The Steinberg relation in the symbol group. -/
-example (a b : Fˣ) (h : (a : F) + b = 1) : symbol a b = 0 :=
+theorem symbol_steinberg (a b : Fˣ) (h : (a : F) + b = 1) : symbol a b = 0 :=
   (Submodule.Quotient.mk_eq_zero _).2 (Submodule.subset_span ⟨a, b, h, rfl⟩)
 
 /-- Skew-symmetry `{a, b} = -{b, a}` and `{a, a} = {a, -1}` (Weibel, III.6.1; Matsumoto,
@@ -127,11 +127,20 @@ def MilnorK.ofUnit (a : Fˣ) : MilnorK F :=
 def MilnorK.symbol (l : List Fˣ) : MilnorK F :=
   (l.map MilnorK.ofUnit).prod
 
-/-- Consecutive complementary entries kill a Milnor symbol. -/
-example (a b : Fˣ) (h : (a : F) + b = 1) : MilnorK.symbol [a, b] = 0 := by
+/-- A complementary two-entry Milnor symbol vanishes. -/
+theorem MilnorK.symbol_steinberg (a b : Fˣ) (h : (a : F) + b = 1) :
+    MilnorK.symbol [a, b] = 0 := by
   simp only [MilnorK.symbol, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
     mul_one, MilnorK.ofUnit]
   rw [← map_mul, RingQuot.mkRingHom_rel (r := milnorRel F) ⟨a, b, h, rfl, rfl⟩, map_zero]
+
+/-- The degree-zero unit survives the two-sided Steinberg quotient. -/
+theorem MilnorK.one_ne_zero : (1 : MilnorK F) ≠ 0 := by
+  sorry
+
+/-- The real sign detector retains the integral diagonal in the Milnor ring. -/
+theorem MilnorK.real_diagonal_ne_zero : MilnorK.symbol [(-1 : ℝˣ), -1] ≠ 0 := by
+  sorry
 
 /-- A permutation of the entries multiplies a Milnor symbol by its sign. -/
 theorem MilnorK.symbol_perm (l : List Fˣ) (σ : Equiv.Perm (Fin l.length)) :
@@ -252,6 +261,39 @@ example : ¬ IsThreefoldStable (ZMod 2) := by
   have h1 := ht 1
   fin_cases t <;> simp_all
 
+/-- Three forbidden values cannot exhaust `𝔽₅`; choosing each coordinate independently also
+makes the nonlocal semilocal ring `𝔽₅ × 𝔽₅` threefold stable. -/
+example : IsThreefoldStable (ZMod 5) ∧ IsThreefoldStable (ZMod 5 × ZMod 5) := by
+  let : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have h5 : IsThreefoldStable (ZMod 5) := by
+    intro a b hab
+    classical
+    let forbidden := Finset.univ.image (fun i : Fin 3 => -a i / b i)
+    have hcard : forbidden.card < (Finset.univ : Finset (ZMod 5)).card := by
+      have hle : forbidden.card ≤ 3 := Finset.card_image_le
+      norm_num at *
+      omega
+    obtain ⟨t, _, ht⟩ := Finset.exists_mem_notMem_of_card_lt_card hcard
+    refine ⟨t, fun i => isUnit_iff_ne_zero.mpr ?_⟩
+    intro hz
+    by_cases hb : b i = 0
+    · have ha : a i = 0 := by simpa [hb] using hz
+      exact not_isCoprime_zero_zero (ha ▸ hb ▸ hab i)
+    · apply ht
+      apply Finset.mem_image.mpr
+      refine ⟨i, Finset.mem_univ _, ?_⟩
+      apply (div_eq_iff hb).mpr
+      calc
+        -a i = b i * t := (eq_neg_of_add_eq_zero_right hz).symm
+        _ = t * b i := mul_comm _ _
+  refine ⟨h5, ?_⟩
+  intro a b hab
+  obtain ⟨t₁, ht₁⟩ := h5 (fun i => (a i).1) (fun i => (b i).1)
+    (fun i => (hab i).map (RingHom.fst _ _))
+  obtain ⟨t₂, ht₂⟩ := h5 (fun i => (a i).2) (fun i => (b i).2)
+    (fun i => (hab i).map (RingHom.snd _ _))
+  exact ⟨(t₁, t₂), fun i => Prod.isUnit_iff.mpr ⟨ht₁ i, ht₂ i⟩⟩
+
 /-- Admissible Dennis–Stein pairs: `(r, s)` with `1 - r s` a unit. -/
 def DSPair : Type u := {p : A × A // IsUnit (1 - p.1 * p.2)}
 
@@ -289,6 +331,42 @@ def relDSRel (I : Ideal A) : Set (FreeAbelianGroup (RelDSGen I)) :=
       w.1 = (p.1.1, p.1.2 + q.1.2 - p.1.1 * p.1.2 * q.1.2) ∧ x = .of p + .of q - .of w) ∨
     (∃ p q w : RelDSGen I, ∃ r s t : A, (r ∈ I ∨ s ∈ I ∨ t ∈ I) ∧ p.1 = (r, s * t) ∧
       q.1 = (r * s, t) ∧ w.1 = (r * t, s) ∧ x = .of p - .of q - .of w)}
+
+/-- The output pairs of `(x,y,x+y)` over the iterated dual numbers are relative, but the
+input guard of `relDSRel` rejects that triple for `I=(xy)`. -/
+example :
+    let x : DualNumber (DualNumber (ZMod 3)) := TrivSqZeroExt.inl DualNumber.eps
+    let y : DualNumber (DualNumber (ZMod 3)) := DualNumber.eps
+    let I := Ideal.span ({x * y} : Set (DualNumber (DualNumber (ZMod 3))))
+    x * (y * (x + y)) ∈ I ∧
+      x * y ∈ I ∧ y * (x + y) ∈ I ∧ (x + y) * x ∈ I ∧
+      IsUnit (1 - x * y * (x + y)) ∧
+      ¬ (x ∈ I ∨ y ∈ I ∨ x + y ∈ I) := by
+  dsimp only
+  let x : DualNumber (DualNumber (ZMod 3)) := TrivSqZeroExt.inl DualNumber.eps
+  let y : DualNumber (DualNumber (ZMod 3)) := DualNumber.eps
+  let I := Ideal.span ({x * y} : Set (DualNumber (DualNumber (ZMod 3))))
+  have hxy : x * y ∈ I := Ideal.subset_span (Set.mem_singleton _)
+  have h0 : x * (y * (x + y)) = 0 := by ext <;> decide
+  have h1 : y * (x + y) = x * y := by ext <;> decide
+  have h2 : (x + y) * x = x * y := by ext <;> decide
+  have hu : IsUnit (1 - x * y * (x + y)) := by
+    have he : (1 - x * y * (x + y)) = 1 := by ext <;> decide
+    rw [he]
+    exact isUnit_one
+  refine ⟨?_, hxy, h1 ▸ hxy, h2 ▸ hxy, hu, ?_⟩
+  · rw [h0]
+    exact I.zero_mem
+  · rintro (hx | hy | hsum)
+    · obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hx
+      have := congrArg (fun z => z.fst.snd) ha
+      norm_num [x, y, TrivSqZeroExt.fst_mul] at this
+    · obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hy
+      have := congrArg (fun z => z.snd.fst) ha
+      norm_num [x, y, TrivSqZeroExt.snd_mul] at this
+    · obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hsum
+      have := congrArg (fun z => z.fst.snd) ha
+      norm_num [x, y, TrivSqZeroExt.fst_mul] at this
 
 /-- The same relations with D3 imposed only when its first input lies in `I`, the form of van der
 Kallen–Maazen–Stienstra, §2.5. -/
@@ -343,8 +421,14 @@ example :
         zmodFourSymbolParity (r * s) t + zmodFourSymbolParity (r * t) s) := by
   decide
 
-/-- The detector is not zero on the dyadic class: `λ(3, 2) = 1`, the value on `{-1, -1}`. -/
-example : zmodFourSymbolParity 3 2 = 1 ∧ zmodFourSymbolParity 1 2 = 0 := by decide
+/-- The detector retains the dyadic diagonal, vanishes on the unit-entry tests, and excludes
+`(1,1)` from its admissible domain. -/
+example : zmodFourSymbolParity 3 2 = 1 ∧ zmodFourSymbolParity 1 2 = 0 ∧
+    zmodFourSymbolParity 2 2 = 1 ∧ zmodFourSymbolParity 2 1 = 0 ∧
+    ¬ IsUnit (1 - (1 : ZMod 4) * 1) := by
+  let : Fact (1 < 4) := ⟨by decide⟩
+  refine ⟨by decide, by decide, by decide, by decide, ?_⟩
+  simpa only [mul_one, sub_self] using (not_isUnit_zero : ¬ IsUnit (0 : ZMod 4))
 
 end K2
 
@@ -378,13 +462,11 @@ README-only construction APIs, by section (the carriers and full contracts are s
   symbol_mul_right
   symbol_one_left
   symbol_one_right
-  symbol_steinberg
 §5.4:
   MilnorK.hom_ext
   MilnorK.map_id_comp
   MilnorK.symbol_mul
   MilnorK.symbol_product
-  MilnorK.symbol_steinberg
 §5.5:
   MilnorK.concat_quotient
   MilnorK.degreePresentation_natural
