@@ -654,6 +654,449 @@ above by construction.  Impose the precise FKS genericity condition `x_a(c') ≠
 together with the commuting and braid relations the `R_a` give the Weyl action [FKS05, Thm. 1].  These are [FKS05, §6, (6.3)--(6.4), Props. 6.1--6.3, Thms. 1--2].  The skew-group
 transport is [FKS05, §§8.1--8.2 and §9.3].
 
+### 6.1. The actual Γ-side curved Morita comparison
+
+Construct the corrected endpoint-weighted algebraic Γ-realization of the reflection,
+curvature and Weyl-functor outputs of FKS §§8.1–8.2 and9.3, with the explicit actual-corner,
+graph-kernel and coordinate comparisons of6.3. This is a definite construction theorem,
+not a deduction from ungraded Morita equivalence. The ordered-composite scalars, their
+trace weights and the chosen bilinear adjoint are part of its definition. Keep the literal
+journal/preprint formulas in secondary source records: no equality to inconsistent raw
+scalar equations or to an adjoint with unspecified pairings is a premise or conclusion. Retain the existing binary/simple-graph
+scope of the reflection theorem. Fix the determinant-normalized ordered basis of the actual
+two-dimensional defining representation V and write Ω=x∧y. Set A=Λ(V)⋊Γ with the existing
+single-term product `(α#g)(β#h)=(α∧gβ)#gh`. Group elements have degree0, vectors degree1, and Ω
+degree2. Work with the actual exterior internal grading and its parity collapse, not merely an
+arbitrary function of submodules satisfying degree0/1 range equations. The latter prototype
+equations alone do not certify multiplication or higher pieces. The general curved-Morita
+construction below also works in ℤ grading; the reflection application uses parity.
+Concretely define A_d as the span of `α#g` with α in the degree-d exterior piece, and zero
+for integer d<0 or d>2. Prove the internal direct sum and multiplication laws from the actual
+exterior/skew PBW decomposition; parity has even piece A_0⊕A_2 and odd piece A_1. Construct
+the actual graded restriction of φ below, not a new unconstrained grading function.
+
+Use Layer4's primitive matrix idempotents in S=ℂ[Γ]. Choose bases of the actual irreducibles
+adapted to these idempotents and construct their matrix units E^i_rs under the actual Wedderburn
+map. Thus e_i=E^i_11, e=Σ_i e_i and Σ_(i,r)E^i_r1 E^i_1r=1. Write p_(i,r)=E^i_r1 and
+q_(i,r)=E^i_1r. These elements have degree0. Their products q_j p_l lie in B=eAe. Set
+P=Ae and Q=eA with their literal outer actions. Multiplication gives the graded bimodule
+isomorphisms
+
+```text
+P⊗_B Q ≃ A,  p⊗q ↦ pq,       a ↦ Σ_j a p_j⊗q_j;
+Q⊗_A P ≃ B,  q⊗p ↦ qp,       b ↦ e⊗b.
+```
+
+These are the balanced tensor quotients already specified above, with their degreewise
+grading and associator; no second noncommutative tensor carrier is introduced. Prove both
+inverse equations by the matrix-unit identity and balancing. In particular P is finitely
+generated projective as a right B-module, with degree-zero dual basis `(p_j,p↦q_jp)`, and Q is
+finitely generated projective as a left B-module, with dual basis `(q_j,q↦qp_j)`. They are
+projective over their outer A sides as idempotent summands. These assertions are proved from
+the actual matrix units, not assumed as extra certificates or confused with finite-dimensional
+projectivity over ℂ. The two multiplication isomorphisms satisfy the Morita triangle/coherence
+identities on tensors.
+
+Let φ:B≃Z be the actual Layer4 graded algebra identification with the pinned ordinary zigzag
+algebra Z, including its vertex/arrow/volume and colouring comparison. For a central homogeneous
+z∈B define its unique central lift and inverse by
+
+```text
+θ(z)=Σ_j p_j z q_j ∈ Z(A),       θ⁻¹(w)=ewe ∈ Z(B).
+```
+
+Prove centrality, independence of the matrix-unit expansion, both inverse identities and
+`θ(z)p=pz`, `qθ(z)=zq`. For instance multiply the centrality equation on each side by the full
+matrix-unit expansion of1; its coefficients lie in B and commute with z. This is a graded
+algebra isomorphism of centers, not a freely chosen correspondence between parameter labels.
+For graph coordinates t set `c_B(t)=φ⁻¹(Σ_i t_i X_i)` and `c_A(t)=θ(c_B(t))`. Then the reflected
+Γ-side parameter is exactly `c_A(s_a t)`, in the existing `X_i=ε_iY_i` convention.
+
+Pin the scalar and group-coefficient dictionaries as actual computations. Since
+`φ⁻¹(X_i)=κ_i Ωe_i`, define κ_i as the coefficient of Ω in that literal one-dimensional
+corner; prove κ_i≠0. Equivalently it is `(|Γ|/δ_i)` times the Ω#1 coefficient of φ⁻¹(X_i).
+It is determined by the fixed determinant, matrix-unit and arrow map, not an independently
+chosen weight or an implicit assertion κ_i=1. With z_i=Σ_r E^i_rr the primitive central
+idempotent, the comparison is
+
+```text
+c_A(t)=Ω Σ_i κ_i t_i z_i
+      = Ω · (1/|Γ|) Σ_(g∈Γ) (Σ_i δ_i κ_i t_i χ_i(g⁻¹)) g.
+```
+
+Conversely, for a central group-algebra element z with scalar action f_i on ρ_i,
+`Ωz=c_A(t)` means `t_i=f_i/κ_i`. This is the actual parameter comparison; any alternate FKS
+volume/arrow normalization must be transported through this equation and its inverse. Keep
+Layer5's separate CBH trace coordinates `λ_i=δ_i f_i`; never silently substitute block scalars,
+trace coordinates or graph-curvature coordinates for one another.
+The source's Section6 convention is `c_B=-Σ_i ζ^Q_(ℂ,i) X_i`, whereas Section8's Γ deformation
+is `d²=+ΩΣ_i ζ^Γ_(ℂ,i)z_i`. In the present dictionary `t_i=-ζ^Q_(ℂ,i)` and
+`ζ^Γ_(ℂ,i)=κ_i t_i`; the graph duplex with multiplication coefficient `x=-t_a` is the
+source's `C_(a,x)`. Record these signs and the induced coordinate conjugation of s_a. The
+source's displayed unweighted ε relation is not substituted for the determinant/matrix/trace
+computation. Construct the endpoint-weighted scalar normalization and its explicit arrow,
+volume, curvature and kernel comparison of6.3; the actual κ_i are retained throughout.
+
+For the left curved categories define F_t(M)=eM, with restricted grading and differential, and
+E_t(N)=P⊗_B N, with its total grading and
+
+```text
+d_E(p⊗n)=(-1)^|p| p⊗d_N n.
+```
+
+On morphisms they are restriction and id⊗f. Prove balancing using the left superlinearity of
+d_N and `d_E²=c_A(t)` using `c_A(t)p=pc_B(t)`. The counit is multiplication
+`P⊗_B eM→M, p⊗m↦pm`, with inverse `m↦Σ_j p_j⊗q_jm`; the other comparison
+`e(P⊗_B N)≃N` sends `ep⊗n↦(ep)n`, with inverse `n↦e⊗n`. Prove that these are graded,
+commute with the differentials, are natural in actual morphisms, and satisfy the triangles.
+For odd homotopies E uses `H(p⊗n)=(-1)^|p|p⊗h(n)`; F restricts h. Thus both equivalences
+carry the actual nullhomotopy ideals to one another and induce inverse homotopy equivalences,
+compatible with shifts, cones and folding. No stable-to-homotopy equivalence is inferred.
+
+Relate E to the **landed native** full-idempotent equivalence. Native
+`IsIdempotentElem.cornerEquivalence` uses the inverse `Hom_B(Q,N)`, not P⊗_B N. Construct the
+comparison on actual elements
+
+```text
+Ψ(p⊗n)(q)=(qp)n,       Ψ⁻¹(f)=Σ_j p_j⊗f(q_j).
+```
+
+Its grading is the homogeneous-map grading; finite-dimensional Q has finitely many degrees.
+The curved differential on this native inverse is `(Df)(q)=(-1)^|q|d_N(f(q))` for homogeneous q,
+extended additively. Verify B-linearity, its A-superlinearity and square, then verify Ψ commutes
+with d using the two signs in `d_N((qp)n)`. Match the actual native evaluation-at-e counit and
+action-map unit, rather than asserting definitional equality of two inverse functors.
+
+For the stable categories, e is still full and degree0 in the actual curved extension algebra
+Ã_(c_A(t)); its corner is the extension algebra of `(B,c_B(t))`, with d commuting with e.
+The same p_j,q_j prove fullness there. The induced graded-module equivalence therefore
+preserves and reflects the honest projective objects, their factor-through ideals and the
+stable quotients. Give the object/morphism equations and inverse natural isomorphisms on those
+quotients. The square comparing these stable equivalences with the existing functors Φ₂ to
+curved homotopy categories must commute naturally. It does not identify their different ideals.
+
+### 6.2. Γ-side reflection kernel, crossed actions and functor comparison
+
+Transport the **constructed** graph kernel, not an assumed Γ-side reflection equivalence. Let
+K^B_(a,t) be the previous literal reflection duplex, pulled back along φ. Define
+
+```text
+K^A_(a,t)=P⊗_B K^B_(a,t)⊗_B Q,
+D(p⊗k⊗q)=(-1)^|p|p⊗d_K(k)⊗q.
+```
+
+The left A action is on P and the right A action on Q. Prove D balanced at both B interfaces,
+left superlinear and right linear, and prove
+`D²=l(c_A(s_a t))−r(c_A(t))` by the two center-lift identities. There is no differential term
+on P or Q. Associativity comparisons have no factor permutations and hence no extra braiding
+sign; the sign above and the shift comparison below must not be discarded.
+
+The underlying Γ-side carrier is the literal
+
+```text
+A ⊕ (Ae_a⊗_ℂ e_aA)[1] ≃ A ⊕ (Λ(V)⊗_ℂ End(ρ_a)⊗_ℂ Λ(V))[1].
+```
+
+On the first summand the comparison is multiplication. On the second, the homogeneous
+comparison from `p⊗u[1]⊗q` to the shifted ordinary tensor is `(-1)^|p|(puq)[1]`.
+Construct it and its inverse from the same multiplication/dual-basis maps. This sign makes
+the left action on the entire shifted tensor twisted by parity, and cancels the sign in D.
+Hence the differential on the displayed pair is exactly
+
+```text
+D(v,w)=(-t_a μ_a(w), Δ^A_a(v)).
+```
+
+Here μ_a:Ae_a⊗e_aA→A is actual multiplication, and Δ^A_a is a computed A-bimodule map. To
+construct it, embed the known graph coevaluation `d_K(e)∈(Be_a⊗e_aB)[1]`, remove the displayed
+shift using the pinned comparison, and put
+`η_a=Σ_j p_j · (φ-pullback of Δ_a(1_Z)) · q_j` in Ae_a⊗e_aA. The actions in this formula
+are the ordinary unshifted outer actions. Set `Δ^A_a(v)=vη_a=η_av`; prove the equality from
+the B-bimodule property and the full-idempotent identities. The previous graph Δ_a already
+contains ε_a, so do not insert an additional arbitrary sign or use unsigned ordinary
+coevaluation in its place. Recover this formula by applying D to
+`Σ_j v p_j⊗e⊗q_j`; the two `(-1)^|vp_j|` factors cancel. Prove both components of the
+curvature identity, including on the shifted summand, rather than checking only its value on1.
+
+Make the exterior-skew action explicit. With bases adapted to e_a, use
+`Ae_a≃Λ(V)⊗ρ_a`, `(α#s)e_a↦α⊗ρ_a(s)v_1`, and
+`e_aA≃ρ_a*⊗Λ(V)` using group-first normal order on the latter. Then
+`v⊗f↦(w↦f(w)v)` identifies the middle tensor with End(ρ_a). On
+`α⊗T⊗β` the unshifted actions are
+
+```text
+γ·(α⊗T⊗β)=(γα)⊗(ρ_a(γ)T)⊗β,
+(α⊗T⊗β)·γ=α⊗(Tρ_a(γ))⊗(γ⁻¹β),
+u·(α⊗T⊗β)=(u∧α)⊗T⊗β,
+(α⊗T⊗β)·u=α⊗T⊗(β∧u)             (u∈Λ(V)).
+```
+
+The shifted summand twists the last two **left** formulas by `(-1)^|u|`; group actions
+remain unchanged and the right actions remain unsigned. The matrix/group Fourier formula
+also pins multiplication without choosing an unrelated endomorphism carrier:
+
+```text
+μ_a(α⊗T⊗β)
+  =(δ_a/|Γ|) Σ_γ Tr(ρ_a(γ⁻¹)T) · ((α∧γβ)#γ).
+```
+
+This follows by inserting the actual inverse Wedderburn matrix block between α and β. Compute
+η_a in these same coordinates from its finite matrix-unit/graph-coevaluation expression.
+These are equalities inside the fixed corner/Wedderburn normalization. Prove their explicit
+comparison with the corrected endpoint-normalized presentation in6.3, including dimension,
+volume and parameter factors. The algebraic reflection/Weyl application has the full
+§9.3 functorial outputs through these constructed comparisons. Equality to a literal
+source adjoint with no specified pairings is not one of these mathematical identities. Geometric variety/sheaf claims keep their existing separate scope.
+
+Give the adjoint convention explicitly rather than importing the word “adjoint” without a
+pairing. Let τ_B be the ordinary zigzag Frobenius trace pulled back through φ and put
+`τ_A(v)=τ_B(Σ_j q_j v p_j)`. Prove that this is a nondegenerate symmetric degree-minus-two
+Frobenius trace, restricting to τ_B on B. On `U_a=Ae_a⊗e_aA` choose the nondegenerate pairing
+
+```text
+⟨p⊗q,p'⊗q'⟩_a=ε_a τ_A(qp')τ_A(q'p),
+⟨v,w⟩_A=τ_A(vw).
+```
+
+Prove `⟨μ_a(u),v⟩_A=⟨u,Δ^A_a(v)⟩_a` by the finite dual bases. In the direct sum of the
+U_a, make the distinct a blocks orthogonal. Under the actual inverse-Wedderburn identification
+with `ΛV⊗ℂ[Γ]⊗ΛV`, this defines a concrete Δ^Γ adjoint to multiplication and proves
+`(1⊗π_a⊗1)Δ^Γ=Δ^A_a`, with `d_1=m(1⊗ι_a⊗1)=μ_a`. This constructs the normalized Γ-side adjoint and identifies it with the independently
+transported graph kernel. Prove the pairing-matrix and coefficient-rescaling comparison
+of6.3, not equality to an unspecified source adjoint. The inspected journal and arXiv-v1
+§9.3 pages name no pairings for Δ; this observation does not claim none are present elsewhere.
+Their Section6 Δ_a is separately specified on1. Keep that graph map, the chosen Γ adjoint
+and the proved normalized comparison distinct.
+
+For every curved M construct the actual natural isomorphism
+
+```text
+e(K^A_(a,t)⊗_A M) ≃ K^B_(a,t)⊗_B eM,
+e(p⊗k⊗q)⊗m ↦ ((ep)k)⊗(qm),
+k⊗n ↦ (e⊗k⊗e)⊗n.
+```
+
+Also construct `K^A_(a,t)⊗_A E_t(N)≃E_(s_a t)(K^B_(a,t)⊗_B N)` by associating the tensors
+and multiplying Q⊗_A P→B; write its homogeneous tensor formula and check both differential
+terms. Prove naturality on degree-zero morphisms, compatibility with the signed homotopies,
+the extension-module descriptions and Φ₂. As the graph tensor functor sends extension
+projectives to extension projectives, this conjugate does too; hence both comparisons descend
+to the honest stable quotients as well as the homotopy quotients. Transport the constructed
+graph inverse, commuting, braid and orbit-wide generic square isomorphisms through these
+specific comparisons, with their units/associators coherent. At t_a=0 the kernel still has the
+displayed differential and curvature identity; do not claim that its reflection functor is an
+equivalence there. Only the existing nonzero and orbit-wide generic hypotheses give those
+conclusions.
+
+Retain Section9.3's algebraic restriction comparison as well. Restriction along
+`A↪Ã_(c_A(t))` descends to `R_t:Mod₂(Ã_(c_A(t)))→Mod₂(A)` because the actual extension is
+free of rank2 over A. On morphisms it is the same underlying A-linear map. The canonical
+natural transformation `R_(s_a t) R_a→R_t` has component the stable class of
+`K^A_(a,t)⊗_A M→M, (v,w)⊗m↦vm`. It is an A-linear map after forgetting d; no false chain-map
+claim is made. Its kernel is the parity-twisted `Ae_a⊗_ℂ e_aM`, hence projective as an A-module
+(also for arbitrary dimension, by a vector-space basis). The split inclusion of the A summand
+therefore makes this comparison an isomorphism in the actual stable A-module category.
+Prove naturality and compatibility with the above Morita/Φ₂ comparisons. For a fixed
+degree-zero Γ-module W on which positive exterior degree acts by0, define the algebraic
+framed stable pairs `(M,u:W≃R_t(M))`, with pair morphisms satisfying `u₂=R(j)u₁`.
+Transport u by the inverse of this natural stable isomorphism to obtain the framed reflection
+action. Check that the chosen inverse/commuting/braid intertwiners commute with these projection
+classes (using their actual unshifted components), so the relations hold on framed pairs;
+unframed natural isomorphisms alone do not prove that extra compatibility.
+This is the algebraic restriction/framing output; identifying its classes with a
+Nakajima variety or with the geometric κ_a under the source's Theorem5/Proposition9.1 is a
+separate source boundary, not a premise or a newly claimed geometric theorem here. Any
+separately used torsion-free representative subcategory must keep its actual predicate and
+preservation proof; a stable isomorphism alone is not asserted to prove that property.
+
+Acceptance must recover both directions under e(-)/E, the native-coind comparison, the
+crossed action/μ_a formulas and **both** curvature components on named binary examples,
+including the binary-icosahedral input. Changing adapted matrix bases must give the explicit
+conjugating kernel isomorphisms and parameter maps, not new unrelated reflection data. Odd
+cyclic groups keep their actual skew-corner/Koszul/geometric targets; no bipartite graph
+reflection is inferred. The singleton exterior algebra and C₂ double-edge boundary also
+retain their actual algebras and previously assigned targets without being coerced into a
+simple-graph kernel. No new geometric McKay, subgroup-classification or late derived-Morita
+result is a premise of this finite full-idempotent construction.
+
+### 6.3. Corrected Γ-realization, coordinate dictionary and comparison theorem
+
+Construct the endpoint-weighted Γ-realization and prove its equivalence to the actual
+Layer4 corner and the transported graph reflection kernels. Its reflection, Weyl,
+curvature, stable/homotopy, restriction and framing outputs are all required. The theorem
+uses explicitly constructed intertwiners and bilinear forms; its comparison is between
+these defined mathematical objects. Separately prove the unequal-endpoint obstruction
+to the literal raw-scalar antisymmetry, as specified below. The source's literal formulas
+and unnamed-pairing observation remain secondary provenance, not an additional claim of
+equality between undefined or incompatible choices.
+
+For adjacent irreducibles write δ_i=dim ρ_i. Given nonzero equivariant maps
+`φ_ab:ρ_b→V⊗ρ_a` and `φ_ba:ρ_a→V⊗ρ_b`, define c_ab and c_ba by the actual ordered-volume
+composites
+
+```text
+π(1⊗φ_ba)φ_ab = c_ab Ω⊗id_(ρ_b),
+π(1⊗φ_ab)φ_ba = c_ba Ω⊗id_(ρ_a).
+```
+
+Here π is the exterior quotient on the two V factors, with the same Ω and tensor order in
+both formulas. Prove by expanding x/y coefficients and cyclicity of the two rectangular
+matrix traces that `δ_b c_ab = −δ_a c_ba`. The scalars act on different endpoint spaces;
+Schur's lemma does not identify their ordinary traces. Define the trace-weighted coefficients
+`ε̂_ab=δ_b c_ab`, `ε̂_ba=δ_a c_ba`; these, rather than the unweighted scalar composites,
+are antisymmetric. Prove that the wedge pairing between the two one-dimensional edge Hom
+spaces is perfect, using determinant self-duality and semisimplicity. For each unoriented
+edge choose one of its nonzero maps and rescale the other by an explicitly computed nonzero
+scalar so that `ε̂_ab=σ_ab=ε_b∈{1,−1}`, where ε_b is the existing bipartite colour of
+the domain vertex b, and `σ_ba=ε_a=−ε_b`. Then the corrected scalar version of
+the endpoint formulas is `c_ab=σ_ab/δ_b`, `c_ba=σ_ba/δ_a`. Construct the maps and their
+inverse rescalings, not a field asserting these equations. This target uses the existing
+binary/simple-graph scope; multiplicity-two and odd-cycle cases retain their separate targets.
+
+As an explicit unequal-endpoint test use the trivial and defining two-dimensional irreducible
+of Q₈. Take `φ_ab(v)=v⊗1` and `φ_ba(1)=y⊗x−x⊗y`. With the stated order the two composites
+are `Ω⊗id_V` and `−2Ω⊗id_ℂ`; their ordinary scalars are1 and−2, while their trace-weighted
+coefficients are2 and−2. Scaling φ_ba by1/2 gives the normalized coefficients1 and−1. Recover
+this test from the actual representations, not just an abstract dimension counterexample.
+Prove also that no nonzero rescalings of this pair satisfy both the raw ordered-composite
+definitions and unweighted antisymmetry: rescaling multiplies1 and−2 by the same nonzero
+product. This is a counterexample to that literal ordinary-scalar interpretation. The
+corrected construction retains the weighted equation and all reflection outputs.
+
+Give the coordinate change on actual module intertwiners with its carrier and sign.
+Let `W=⊕_i ρ_i⊗E_i`, where E_i are graded complex multiplicity spaces, and let the odd
+Γ-equivariant map `D:W→V⊗W` be the finite edge sum `φ_ab⊗x_ab`, with degree-zero maps
+`x_ab:E_b→E_a` (the V factor has degree1). On `M=Λ(V)⊗W` extend it by
+`d(α⊗w)=(-1)^|α| α∧D(w)`. Prove superlinearity and all Γ/module/grading identities.
+This is the explicit exterior-free linear-generator presentation; the arbitrary curved
+modules and equivalences of6.1 retain their full scope and are not assumed exterior-free.
+No new finite-dimensionality assumption is imposed on E_i. Put `φ̂_ab=s_ab φ_ab`, with nonzero s_ab and
+the normalized reverse choices above. Define the raw source-style auxiliary coordinate
+`y_ab=c_ab x_ab` and the corrected coordinates by
+
+```text
+ĉ_ab=s_ab s_ba c_ab,             ε̂_ab=δ_b ĉ_ab,
+x̂_ab=s_ab⁻¹ x_ab,               ŷ_ab=ε̂_ab x̂_ab=δ_b s_ba y_ab;
+x_ab=s_ab x̂_ab,                 y_ab=(δ_b s_ba)⁻¹ ŷ_ab.
+```
+
+These are linear coordinate isomorphisms on the finite family of edge-coordinate spaces,
+with the displayed inverses; no finite-dimensionality of the multiplicity spaces is needed. They
+preserve the total odd map `Σ φ_ab⊗x_ab`. The dimension factor is δ_b because the
+ordered composite acts on ρ_b, not on ρ_a. Compute the square of the displayed
+superlinear extension, including its Koszul sign:
+`d²|_W=−π(1⊗D)D`. Therefore the curvature equation `d²=ΩΣ_b f_b z_b` and its
+transformed moment equation are precisely
+
+```text
+Σ_(a adjacent b) c_ab x_ba x_ab = −f_b id_(E_b)
+    ⇔ Σ_(a adjacent b) x̂_ba ŷ_ab = λ_mom,b id_(E_b),
+λ_mom,b=−δ_b f_b=−δ_b κ_b t_b,
+f_b=−λ_mom,b/δ_b,                t_b=−λ_mom,b/(δ_b κ_b).
+```
+
+Here function products mean composition with the rightmost map first. The transformed
+left side equals δ_b times the original left side term by term, because the reverse
+s_ba cancels. Prove the off-diagonal square components vanish by the actual determinant
+intertwiner calculation, and prove the simultaneous moment equations and their inverse
+transport. Conversely the moment equations give this displayed curvature for the
+constructed exterior-free module. The separately named CBH trace coordinate remains
+`λ_CBH,b=δ_b f_b=−λ_mom,b`; these sign conventions are not identified by notation.
+With `t_b=−ζ^Q_b` and `ζ^Γ_b=f_b`, this gives
+`λ_mom,b=δ_b κ_b ζ^Q_b=−δ_b ζ^Γ_b`.
+This proves the corrected `y=ε̂x` relation and the actual block/trace/graph parameter
+conversion, without attributing these corrected coefficients to the raw source display.
+
+Keep the module and arrow conventions separate in the comparison. The maps x_ab are
+coefficients of D on W, and point b→a; they are not the action of a_ab on W. The actual
+left corner module is `e(Λ(V)⊗W)`, with corner arrows acting through the exterior/skew
+module action and differential induced by d. Construct its maps and inverse presentation
+using the actual matrix units and determinant currying; compute every arrow action and
+D coefficient there. If the coefficient presentation is expressed by right/opposite-quiver
+modules, construct its reversal/opposite-algebra and grading adapter to this left module,
+with both inverse equations and all relations. Do not identify W with eM or reverse the
+support of a_ab by renaming. The full6.1 Morita comparison applies to M, and its restriction
+to these exterior-free presented objects must agree with the constructed coordinate maps.
+
+Compare this normalized presentation with the **actual** Layer4 corner map φ. Compute each
+degree-one change-of-basis scalar from the finite intertwiner matrices, and each degree-two
+volume scalar from `φ⁻¹(X_i)=κ_i Ωe_i`. Prove the arrow-product and vertex-volume equations
+on the actual path generators, and extend to the presented graded algebras. Give the inverse
+map and its equations, including the colouring `X_i=ε_iY_i`; ε_i is the vertex colour and
+must not be confused with the endpoint symbol ε̂_ab. In the matrix-unit extraction of
+normalized intertwiners compute the actual arrow factor r_ab relative to the fixed
+corner arrow `a_ab∈e_b A_1 e_a`, pointing a→b: the pinned corner formula is
+`e_j A_1 e_i≃Hom_Γ(ρ_j,V⊗ρ_i)`, so φ_ab has this support, not e_a A_1 e_b.
+Prove on generators that
+`â_ab â_ba=r_ab r_ba a_ab a_ba`; this backtrack is at b. Every incident backtrack there must give
+the same vertex volume before using the ordinary zigzag presentation. Thus its new
+volume coefficient is `κ̂_b=r_ba r_ab κ_b`, independent of the incident edge by those
+proved relations. Give the actual finite matrix coefficient formula for each r_ab,
+with a nonzero entry fixing the one-dimensional Hom comparison, and its inverse.
+The same central curvature has new graph coordinates
+`t̂_b=(κ_b/κ̂_b)t_b`, with inverse `t_b=(κ̂_b/κ_b)t̂_b`. Prove this diagonal coordinate
+change conjugates the old reflection to the new one. Do not identify a Hom scalar,
+a primitive-corner arrow factor and a volume coefficient without these extraction laws.
+In curvature coordinates retain
+`f_i=κ_i t_i`, `t_i=−ζ^Q_i` and `λ_i=δ_i f_i`. Thus the actual scalar reflection is
+
+```text
+f_i' = f_i + (κ_i/κ_a) f_a (Adj(a,i)−2[i=a]).
+```
+
+Prove the corresponding formula after any normalized arrow/volume change, rather than calling
+it the unweighted reflection without computing the diagonal coordinate conjugation. The
+finite group-sum multiplication and center formulas of6.1–6.2 remain the formulas to match.
+
+Make the comparison of adjoints equally explicit. All pairings in this normalized realization
+are the complex-bilinear Frobenius pairings specified in6.2. In homogeneous adapted bases let
+M be the matrix of μ_a, and G_A,G_U the matrices of those pairings. Prove the adjoint formula
+`D=G_U⁻¹ MᵀG_A`. Given another explicit presentation with multiplication M', pairings H_A,H_U
+and invertible homogeneous coordinate maps C_A,C_U, prove
+
+```text
+M'C_U=C_AM,
+G_A=C_AᵀH_AC_A,  G_U=C_UᵀH_UC_U
+    ⇒ D'C_A=C_UD,  where D'=H_U⁻¹(M')ᵀH_A.
+```
+
+Construct the normalized source-shaped pairings by transporting the actual6.2 forms through
+the computed exterior/Wedderburn maps; compute their block matrices and trace/dimension
+weights. This supplies explicit nondegenerate H_A,H_U satisfying these equations and an
+actual comparison, not a hypothesis that an unnamed source adjoint has them. For pairings
+scaled by α on A and β_a on the a tensor block, compute the resulting adjoint factor
+`r_a=α/β_a` (these scalars are nonzero). The diagonal kernel map `(v,w)↦(v,r_a w)` intertwines
+`(−t_a μ_a,Δ_a)` with `(−(t_a/r_a)μ_a,r_aΔ_a)`. Carry this coefficient change together with
+the calculated volume/curvature coordinates; never change an adjoint alone and claim the same
+unadjusted reflection parameters. A sesquilinear convention requires its explicit conjugation
+adapter and is not identified with the bilinear transpose by terminology alone.
+
+Use these generator, pairing and coefficient equations to construct a graded curved kernel
+isomorphism between the normalized exterior-skew duplex and `P⊗_B K^B⊗_B Q`, with its actual
+inverse, both curvature components and left/right actions. Prove the induced tensor-functor
+natural isomorphisms on modules and morphisms, their stable/homotopy/Φ₂ compatibilities, and
+the unit/associator/braid/commuting/inverse comparisons at the stated nonzero and orbit-generic
+parameters. Their unshifted component is the identity after C_A transport, so check explicitly
+that the restriction projections and framed relation intertwiners agree. The zero-parameter
+kernel and odd-cycle/singleton/double-edge boundaries retain exactly their earlier meanings.
+
+The comparison theorem is between the corrected endpoint-weighted Γ-realization,
+the actual graded corner and the graph kernel with the explicit parameter conversions
+above. Prove both left and right curvature components after every arrow, volume and
+adjoint coefficient change; the two bimodule actions are not interchangeable. The
+unnormalized module coordinates remain available through the exact inverse dictionary.
+Together with6.1–6.2 this constructs the complete algebraic §§8–9 reflection outputs,
+including their natural, stable, homotopy, restriction and framed comparisons.
+
+Keep the literal journal/preprint endpoint display and its unweighted antisymmetry in
+secondary source records, alongside the Q₈ refutation of the ordinary-scalar reading.
+Record likewise that the inspected §9.3 adjoint display does not specify its pairings;
+the rigorous adjoint in this theorem is the definite6.2 Frobenius adjoint with the
+Gram/coefficient comparison above. Equality to an unnamed choice is not asserted.
+The source-version/page qualifications concern the reading evidence, and do not turn
+any construction, inverse, curvature equation or functorial comparison into a conditional
+or omitted target.
+
 Only the algebraic material in FKS §§2--4, 6, 8.1--8.2 and 9.3 is in scope.  Their variety and
 sheaf interpretations are not.
 
@@ -664,10 +1107,10 @@ This phase treats every finite subgroup of SU(2) and, through Layer0's specified
 Consume these precise lower contracts:
 
 - [NilpotentOrbits N6–N8](../NilpotentOrbits/README.md#n8-ade-surfaces-and-exceptional-intersection-lattices): the particular ADE hypersurfaces, explicit resolutions, completed subregular-slice comparisons, exceptional curves and their normal-bundle/local intersection API. This remains the surface-resolution owner.
-- [ReflectionInvariantTheory §1](../ReflectionInvariantTheory/README.md#1-finite-group-invariant-algebra-used-by-both-branches), [GroebnerGeometry G1](../GroebnerGeometry/README.md#g1-ideals-normal-forms-and-elimination): the actual contragredient polynomial action, nonmodular Reynolds/Molien/Noether bounds and exact generator/kernel/normal-form certificates.
+- [ReflectionInvariantTheory §1](../ReflectionInvariantTheory/README.md#1-finite-group-invariant-algebra-used-by-both-branches), [GroebnerGeometry G1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d21bc1c2f895047275495326f5f693e89f0e244c/TauCetiRoadmap/GroebnerGeometry/README.md#g1-ideals-normal-forms-and-elimination): the actual contragredient polynomial action, nonmodular Reynolds/Molien/Noether bounds and exact generator/kernel/normal-form certificates.
 - [SchemeAndStackFoundations §§1.17,4.14,5.1–5.3,5.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f36405c227a5c8d6bbb732036b37a391e3652ffc/TauCetiRoadmap/SchemeAndStackFoundations/README.md): generic quotients, projective Hilbert/Quot representability, cycles/proper-curve degree/Chern and coherent/perfect classes. The A²-open Γ-cluster locus, its universal ideals and concrete comparisons are consumer constructions here. No general nonaffine quotient or new Hilbert engine is commissioned.
 - [AlgebraicVectorBundles L0](../AlgebraicVectorBundles/README.md#l0a--sheaves-of-modules): actual finite locally free sheaves, ranks, tensor/Hom, averaging images, pullback, determinants and affine finite-projective comparison. Consume native `TauCeti.AffineInvariantQuotient` and `RootPairing.GeckConstruction` directly.
-- [KacMoody KM0–1](../KacMoody/README.md): the separate full affine realization and central/degree/loop comparison, rather than applying a finite nondegenerate root construction to a singular matrix.
+- [KacMoody KM0–1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6fed4a070d751d69c20282cf5e0c0ccc67e5cd88/TauCetiRoadmap/KacMoody/README.md): the separate full affine realization and central/degree/loop comparison, rather than applying a finite nondegenerate root construction to a singular matrix.
 
 ### 7.0. Actual quotient and conjugation maps
 
@@ -817,7 +1260,10 @@ The roadmap is complete when:
    the stable module categories `Mod(Ã_c)`, `Mod₂(Ã_c)` and the functor `Φ₂` to the homotopy
    category are constructed, the three acceptance tests of Layer 6 hold, and on bipartite zigzag
    duplexes the reflection functors built from the literal kernel satisfy the cited square, inverse
-   and braid equations; and
+   and braid equations. The corrected Γ-realization of6.1–6.3 also has its actual corner,
+   endpoint/trace/moment/parameter dictionaries, both curvature components, chosen-adjoint
+   Gram comparison and kernel/functor isomorphisms, all stable/homotopy/Φ₂/R/framing
+   compatibilities, and the unequal-endpoint raw-scalar counterexample; and
 8. the cyclic, binary-dihedral and binary-icosahedral integration tests elaborate and compute; and
 9. Layer7 constructs every actual finite geometric comparison: invariant generators and inverse
    algebra maps, quotient and conjugation maps, transported ADE resolutions and completed germ
@@ -848,3 +1294,8 @@ The roadmap is complete when:
 - **[FKS05]** Igor Frenkel, Mikhail Khovanov and Olivier Schiffmann, *Homological realization of
   Nakajima varieties and Weyl group actions*, Compos. Math. 141 (2005), 1479--1503,
   §§2--4, 6, 8.1--8.2, 9.3. DOI: `10.1112/S0010437X05001727`.
+  The separate preprint is arXiv `math/0311485v1`. For the normalization comparison distinguish
+  journal pp.1489,1491–1492,1498–1499,1502 from preprint pp.20–21,26,30–32,36–37.
+  The literal endpoint/adjoint displays are secondary source records;6.3 specifies the
+  corrected endpoint-weighted Γ-realization, its raw-scalar counterexample and explicit
+  coordinate/kernel comparisons, without claiming equality to an unnamed source adjoint.
