@@ -114,9 +114,24 @@ maps, proving the subunital/subtracial normalization rather than discarding
 those conditions. Treat nets and their separable sequential version.
 Build the identity and coarse correspondences as examples, including
 finite-dimensional and abelian cases. Prove the joint representation
-extends to the maximal C*-tensor completion, and the coarse action
-has the minimal tensor norm; specify when the identity action has
-that norm through R2's amenability criterion.
+extends to the maximal C*-tensor completion. For every tracial M in the
+stated nonfactor scope, prove `‖π_coarse(z)‖=‖z‖_min` on M⊙Mᵐᵒᵖ by
+the faithful spatial model and C5's minimal tensor norm. Consume V13b's
+commuting-representation criterion, transported by the standard opposite
+action, to identify R2's ambient amenability/injectivity of M with
+`∀z∈M⊙Mᵐᵒᵖ, ‖π_id(z)‖≤‖z‖_min`, equivalently extension of π_id to a
+unital star homomorphism `M⊗min Mᵐᵒᵖ→B(L²(M))`, not necessarily
+injective. Prove this is precisely the one-way weak containment
+`L²(M)≺coarse(M)` already defined above; it does not assert minimal-norm
+equality for the identity action or weak equivalence with the coarse one.
+
+For M=ℂ⊕ℂ with τ(a,b)=(a+b)/2, put e=(1,0), f=(0,1) and
+z=e⊗fᵐᵒᵖ. Prove ‖z‖_min=1 and π_coarse(z) is a nonzero projection,
+whereas π_id(z)ξ=eξf=0 for every ξ∈L²(M). This finite-dimensional
+amenable example distinguishes domination from equality. More generally
+for a nontrivial central projection e prove the identity action kills
+e⊗(1−e)ᵐᵒᵖ. Retain the full general nonfactor and corner theories,
+and R2's corrected `p=1,P=M,Q=ℂ` ambient specialization.
 
 ## R2. Amenability relative to a subalgebra
 
