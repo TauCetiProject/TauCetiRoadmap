@@ -97,6 +97,22 @@ theorem mem_canonicalSet_powerSeries_iff (p : ℕ) [Fact p.Prime] (f : PowerSeri
     f ∈ canonicalSet (PowerSeries ℤ_[p]) ℤ_[p] ↔ ¬ (PowerSeries.C (p : ℤ_[p])) ∣ f := by
   sorry
 
+/-- The cyclotomic parameter is a canonical denominator: its quotient is `ℤ_p` (§1.1). -/
+theorem X_mem_canonicalSet_powerSeries (p : ℕ) [Fact p.Prime] :
+    PowerSeries.X ∈ canonicalSet (PowerSeries ℤ_[p]) ℤ_[p] := by
+  sorry
+
+/-- The coefficient prime is not a canonical denominator: its quotient is `𝔽_p[[T]]` (§1.1). -/
+theorem prime_not_mem_canonicalSet_powerSeries (p : ℕ) [Fact p.Prime] :
+    PowerSeries.C (p : ℤ_[p]) ∉ canonicalSet (PowerSeries ℤ_[p]) ℤ_[p] := by
+  sorry
+
+/-- Saturating by the coefficient prime strictly enlarges the canonical denominator set (§1.10). -/
+theorem canonicalSet_ne_saturatedSet_powerSeries (p : ℕ) [Fact p.Prime] :
+    canonicalSet (PowerSeries ℤ_[p]) ℤ_[p] ≠
+      saturatedSet (PowerSeries ℤ_[p]) ℤ_[p] (PowerSeries.C (p : ℤ_[p])) := by
+  sorry
+
 end Canonical
 
 /-! ## Layer 6: The main theorems for totally real fields -/
@@ -147,7 +163,9 @@ theorem gammaStar_eq_residue (n : ℕ) :
       (nhds ((gammaStar (-(n : ℤ)) : ℚ) : ℂ)) := by
   sorry
 
-example : gammaStar 3 = 2 := by norm_num [gammaStar, Int.toNat, Nat.factorial]
+/-- The positive Gamma value and the even negative residue retain their distinct normalizations. -/
+example : gammaStar 3 = 2 ∧ gammaStar (-2) = 1 / 2 := by
+  norm_num [gammaStar, Int.toNat, Nat.factorial]
 
 /-- At `j = -1` the residue is `-1`: this detects loss of the alternating residue sign. -/
 example : gammaStar (-1) = -1 := by norm_num [gammaStar, Int.toNat, Nat.factorial]
