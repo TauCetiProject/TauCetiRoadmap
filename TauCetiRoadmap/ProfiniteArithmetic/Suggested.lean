@@ -31,8 +31,8 @@ file consumes their Tau Ceti implementations and nothing from that roadmap's `Su
 
 There is one profinite-integers object, `TauCeti.zHat`. Layer 0 puts the ring structure on its
 additive presentation `Additive TauCeti.zHat`, written `ẑ`, and Layer 1 defines the profinite
-power `x ^ᶻ a` as `TauCeti.zHat.lift x a`. Two declarations here are target signatures for
-existing Tau Ceti declarations whose universe is generalized in place:
+power `x ^ᶻ a` as `TauCeti.zHat.lift x a`. Two declarations here are reducible aliases of Tau
+Ceti declarations whose universe Tau Ceti generalizes in place:
 `ProfiniteCompletion.continuousMonoidHomEquiv` and `zHat.lift`. Everything else under the
 `zHat` namespace is new API that belongs in Tau Ceti's `TauCeti.zHat` namespace; this library
 cannot extend that namespace, so it pins the API as `TauCetiRoadmap.ProfiniteArithmetic.zHat`.
@@ -241,24 +241,24 @@ end zHat
 
 namespace ProfiniteCompletion
 
-/-- **Layer 1.1, the universal property of profinite completion in every universe.** Target
-signature for Tau Ceti's `TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv`, generalized in
-place from profinite targets in the universe of `G` to profinite targets in any universe. The
-restriction comes from Mathlib's `ProfiniteGrp.ProfiniteCompletion.homEquiv`; the generalization
-builds the continuous homomorphism level by level, through the finite quotients `P ⧸ U`, with Tau
-Ceti's limit description `TauCeti.existsUnique_monoidHom_mk'_comp_eq`. -/
-noncomputable def continuousMonoidHomEquiv (G : Type u) [Group G] (P : Type v) [Group P]
+/-- **Layer 1.1, the universal property of profinite completion in every universe.** Tau Ceti's
+`TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv`, for profinite targets in any universe, not
+only the universe of `G`. The restriction to one universe comes from Mathlib's
+`ProfiniteGrp.ProfiniteCompletion.homEquiv`; the generalization builds the continuous homomorphism
+level by level, through the finite quotients `P ⧸ U`, with Tau Ceti's limit description
+`TauCeti.existsUnique_monoidHom_mk'_comp_eq`. -/
+noncomputable abbrev continuousMonoidHomEquiv (G : Type u) [Group G] (P : Type v) [Group P]
     [TopologicalSpace P] [IsTopologicalGroup P] [CompactSpace P] [TotallyDisconnectedSpace P] :
     (ProfiniteGrp.ProfiniteCompletion.completion (GrpCat.of G) →ₜ* P) ≃ (G →* P) :=
-  sorry
+  TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv G P
 
-/-- **Layer 1.1.** The generalized correspondence restricts along the canonical map, as Tau Ceti's
-`TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv_apply` does in one universe. -/
+/-- **Layer 1.1.** The correspondence restricts along the canonical map: Tau Ceti's
+`TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv_apply`. -/
 theorem continuousMonoidHomEquiv_apply (G : Type u) [Group G] (P : Type v) [Group P]
     [TopologicalSpace P] [IsTopologicalGroup P] [CompactSpace P] [TotallyDisconnectedSpace P]
     (f : ProfiniteGrp.ProfiniteCompletion.completion (GrpCat.of G) →ₜ* P) (g : G) :
     continuousMonoidHomEquiv G P f g = f (ProfiniteGrp.ProfiniteCompletion.etaFn (GrpCat.of G) g) :=
-  sorry
+  TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv_apply G P f g
 
 end ProfiniteCompletion
 
@@ -267,19 +267,16 @@ namespace zHat
 variable {P : Type v} [Group P] [TopologicalSpace P] [IsTopologicalGroup P] [CompactSpace P]
   [TotallyDisconnectedSpace P]
 
-/-- **Layer 1.1.** Target signature for Tau Ceti's `TauCeti.zHat.lift` after the generalization of
-its target universe: the continuous homomorphism from `TauCeti.zHat` to a profinite group in any
-universe sending the generator to `a`. It is defined exactly as Tau Ceti defines it, through the
-generalized universal property; in Tau Ceti it replaces the `Type`-valued lift, and there is no
-second lift. -/
-noncomputable def lift (a : P) : TauCeti.zHat.{0} →ₜ* P :=
-  (ProfiniteCompletion.continuousMonoidHomEquiv (ULift.{0} (Multiplicative ℤ)) P).symm
-    ((zpowersHom P a).comp MulEquiv.ulift.toMonoidHom)
+/-- **Layer 1.1.** Tau Ceti's `TauCeti.zHat.lift`: the continuous homomorphism from
+`TauCeti.zHat` to a profinite group in any universe sending the generator to `a`, defined through
+the universal property in every universe. There is no second lift. -/
+noncomputable abbrev lift (a : P) : TauCeti.zHat.{0} →ₜ* P :=
+  TauCeti.zHat.lift a
 
-/-- **Layer 1.1.** The lift sends the image of `n ∈ ℤ` to `a ^ n`, as Tau Ceti's
+/-- **Layer 1.1.** The lift sends the image of `n ∈ ℤ` to `a ^ n`: Tau Ceti's
 `TauCeti.zHat.lift_ofInt`. -/
 theorem lift_ofInt (a : P) (z : Multiplicative ℤ) : lift a (TauCeti.zHat.ofInt z) = a ^ z.toAdd :=
-  sorry
+  TauCeti.zHat.lift_ofInt a z
 
 /-- **Layer 1.1.** The lift sends the generator to `a`, as Tau Ceti's `TauCeti.zHat.lift_gen`. -/
 theorem lift_gen (a : P) : lift a TauCeti.zHat.gen = a := by
@@ -291,8 +288,8 @@ theorem lift_unique (a : P) (φ : TauCeti.zHat.{0} →ₜ* P) (hφ : φ TauCeti.
     φ = lift a :=
   TauCeti.zHat.hom_ext (by rw [hφ, lift_gen])
 
-/-- **Layer 1.1.** On targets in `Type` the generalized lift is Tau Ceti's existing
-`TauCeti.zHat.lift`: the generalization changes the signature, not the map. -/
+/-- **Layer 1.1.** On targets in `Type` the lift is the one into the universe of `TauCeti.zHat`:
+the generalization changes the signature, not the map. -/
 theorem lift_eq_tauCeti {Q : Type} [Group Q] [TopologicalSpace Q] [IsTopologicalGroup Q]
     [CompactSpace Q] [TotallyDisconnectedSpace Q] (a : Q) : lift a = TauCeti.zHat.lift a :=
   TauCeti.zHat.lift_unique a (lift a) (lift_gen a)

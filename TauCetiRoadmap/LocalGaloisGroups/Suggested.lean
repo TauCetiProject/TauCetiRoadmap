@@ -330,8 +330,7 @@ theorem ties four separate conventions together — Mathlib's `cyclotomicCharact
 arithmetic-Frobenius `artinMap`, the field norm, and the inverse — and it is a **named theorem
 with a supplier proof**, so a change of normalization in any one of them breaks this file instead
 of silently changing the marked relator of Layer 6. `ClassFieldTheory.cyclotomicCharacter_artinMap`
-is proved in that roadmap's Layer 11, from global reciprocity over `ℚ`, so this theorem, and every
-statement here that consumes it, depends on `ClassFieldTheory` Layers 10 and 11. -/
+is proved in that roadmap's Layer 7, by comparison with the explicit cyclotomic symbols over `ℚ`. -/
 theorem localCyclotomicCharacter_artinMap_unit (u : Fˣ)
     (hu : ValuativeRel.valuation F (u : F) = 1) (σ : Field.absoluteGaloisGroup F)
     (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization F)
@@ -342,8 +341,7 @@ theorem localCyclotomicCharacter_artinMap_unit (u : Fˣ)
 
 /-- The `ℚ_p` specialization, again as a closed proof. Together with the theorem above this pins
 the sign of the exponent: with the geometric normalization the right-hand side would be `u`.
-`ClassFieldTheory.cyclotomicCharacter_artinMap_padic` is proved in that roadmap's Layer 11, from
-global reciprocity over `ℚ`, so this theorem depends on `ClassFieldTheory` Layers 10 and 11. -/
+`ClassFieldTheory.cyclotomicCharacter_artinMap_padic` is proved in that roadmap's Layer 7. -/
 theorem localCyclotomicCharacter_artinMap_padic [IsNonarchimedeanLocalField ℚ_[p]] (u : ℤ_[p]ˣ)
     (σ : Field.absoluteGaloisGroup ℚ_[p])
     (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
@@ -351,23 +349,15 @@ theorem localCyclotomicCharacter_artinMap_padic [IsNonarchimedeanLocalField ℚ_
     localCyclotomicCharacter p ℚ_[p] σ = u⁻¹ :=
   ClassFieldTheory.cyclotomicCharacter_artinMap_padic p u σ hσ
 
-/-- **The value at the uniformizer `p` of `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(p)) = 1`. For every `n`, `p`
-is the norm of `1 - ζ` from `ℚ_p(ζ)`, `ζ` a primitive `p^n`-th root of unity: Mathlib's
-`IsPrimitiveRoot.norm_sub_one_of_prime_ne_two` and `IsPrimitiveRoot.norm_sub_one_two`, whose
-hypothesis `Irreducible (cyclotomic (p ^ n) ℚ_[p])` is `irreducible_cyclotomic_prime_pow_ratPadic`.
-So `p` lies in the norm group of `ℚ_p(μ_{p^n})`, which the finite Artin map kills
-(`ClassFieldTheory.normResidue`), and the finite map is the restriction of the absolute one
-(`ClassFieldTheory.artinMap_restrict`). A lift `σ` of `Art_{ℚ_p}(p)` therefore fixes `μ_{p^n}` for
-every `n`, so `χ_cyc(σ) ≡ 1 mod p^n` by `cyclotomicCharacter.spec`, and `χ_cyc(σ) = 1` by
-`PadicInt.ext_of_toZModPow`. It consumes no cyclotomic normalization of the Artin map on units, so
-it does not depend on `ClassFieldTheory` Layers 10 and 11. -/
+/-- **The value at the uniformizer `p` of `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(p)) = 1`, as a closed proof
+from `ClassFieldTheory.cyclotomicCharacter_artinMap_padic_uniformizer`. -/
 theorem localCyclotomicCharacter_artinMap_padic_uniformizer [IsNonarchimedeanLocalField ℚ_[p]]
     (σ : Field.absoluteGaloisGroup ℚ_[p])
     (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
       = ClassFieldTheory.artinMap ℚ_[p]
           (Units.mk0 (p : ℚ_[p]) (Nat.cast_ne_zero.mpr (Fact.out : p.Prime).ne_zero))) :
     localCyclotomicCharacter p ℚ_[p] σ = 1 :=
-  sorry
+  ClassFieldTheory.cyclotomicCharacter_artinMap_padic_uniformizer p σ _hσ
 
 /-- **The uniformizer half of the comparison**, and the second generator of the orientation image.
 For a uniformizer `π` of `F` with residue degree `f = f(F/ℚ_p)`,
@@ -379,8 +369,7 @@ Its inputs are three. Write `N_{F/ℚ_p}(π) = u · p^f` with `u ∈ ℤ_pˣ`. N
 cyclotomic character is read through that map
 (`localCyclotomicCharacter_absoluteGaloisGroupExtend`);
 `localCyclotomicCharacter_artinMap_padic` gives `u⁻¹` on the first factor and
-`localCyclotomicCharacter_artinMap_padic_uniformizer` gives `1` on the second. Through
-`localCyclotomicCharacter_artinMap_padic` it depends on `ClassFieldTheory` Layers 10 and 11.
+`localCyclotomicCharacter_artinMap_padic_uniformizer` gives `1` on the second.
 
 ⚠ This theorem is **not** a consequence of the unit case. See the counterexample in
 `range_localCyclotomicCharacter`: `K(μ_{p^n})/K` need not be totally ramified, so `Kˣ` is not
@@ -1708,15 +1697,49 @@ theorem padicCompletionUnitsOf_norm_algEquiv (σ : L ≃ₐ[K] L) (x : Lˣ) :
 
 /-! ### Step 3: the Tate module of a layer and its integral decomposition -/
 
+/-- `A(L)` as a representation of `Gal(L/K)` over `ℤ_p`, through its `ℤ_p[Gal(L/K)]`-module
+structure `padicCompletionUnitsModule`. Mathlib's group cohomology takes the group and the
+coefficient ring in one universe, so the fields are in `Type`. -/
+noncomputable abbrev padicCompletionUnitsRep (K L : Type) [Field K] [Field L] [Algebra K L] :
+    Rep ℤ_[p] (L ≃ₐ[K] L) :=
+  Rep.ofModuleMonoidAlgebra.obj
+    (ModuleCat.of (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)) (Additive ↥(padicCompletionUnits p L)))
+
+/-- **Step 3, the cohomology of `A(L)` on the layer.** There is a class `u ∈ H²(Gal(L/K), A(L))`
+whose restriction to every subgroup `H` generates `H²(H, A(L))`, a group of order the `p`-part of
+`#H`, and `H¹(H, A(L)) = 0`. The class is the image of the fundamental class of the local class
+formation along `padicCompletionUnitsOf`, whose kernel (the roots of unity of order prime to `p`)
+and cokernel (`ℤ_p/ℤ`, along the valuation) have bijective multiplication by `p`; so by
+`ClassFieldTheory.TateCohomology.primaryComponent_tateCohomology_eq_bot` it induces
+`Ĥⁱ(H, Lˣ)(p) ≅ Ĥⁱ(H, A(L))`, and Hilbert 90 with Tau Ceti's `ClassFormation.h1_subgroupLayer`,
+`ClassFormation.card_H2_subgroupLayer` and `ClassFormation.fundamentalClass_restrict_generates`
+gives the three clauses. The reciprocity identification of Step 1 is not used. -/
+theorem exists_padicCompletionUnitsRep_class (K L : Type) [Field K] [Field L] [Algebra K L]
+    [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+    [IsScalarTower ℚ_[p] K L] [IsGalois K L] [FiniteDimensional K L] :
+    ∃ u : groupCohomology (padicCompletionUnitsRep p K L) 2,
+      ∀ S : Subgroup (L ≃ₐ[K] L),
+        Subsingleton (groupCohomology (Rep.res S.subtype (padicCompletionUnitsRep p K L)) 1) ∧
+          AddSubgroup.zmultiples
+              (groupCohomology.map S.subtype (𝟙 (Rep.res S.subtype (padicCompletionUnitsRep p K L)))
+                2 u) = ⊤ ∧
+          Nat.card (groupCohomology (Rep.res S.subtype (padicCompletionUnitsRep p K L)) 2) =
+            p ^ padicValNat p (Nat.card S) :=
+  sorry
+
 /-- **Step 3, the Tate module of the layer** — the module `Y = I_{G_K}/I_{G_L} I_{G_K}` of NSW
 (5.6.5) and the proof of (7.4.1), packaged by the properties the decomposition consumes: a
 finitely generated `ℤ_p[Gal(L/K)]`-module of projective dimension at most one that is an extension
-of the augmentation ideal `I_{Gal(L/K)}` by `A(L)`. Projective dimension at most one is
-cohomological triviality, which is Tate's theorem (NSW (3.1.5)) for the fundamental class of the
-layer transported to `A(L)` along the reciprocity identification of Step 1; the extension class is
-that class. The decomposition below uses only the properties recorded here, so the package
-carries nothing else. -/
-structure TateModule where
+of the augmentation ideal `I_{Gal(L/K)}` by `A(L)`. Projective dimension at most one follows from
+cohomological triviality by the theorem of Nakayama and Rim
+(`ClassFieldTheory.TateCohomology.projective_ker_of_isZero_res`), and cohomological triviality is
+Tate's criterion for the splitting module of the class of `exists_padicCompletionUnitsRep_class`,
+the image of the fundamental class of the layer along `padicCompletionUnitsOf`; the extension class
+is that class. The decomposition below uses only the properties recorded here, so the package
+carries nothing else. It is Tau Ceti's `TauCeti.LayerTateModule`, field for field, with the
+augmentation ideal spelled through `augmentationIdeal`; Tau Ceti's `TauCeti.TateModule` is the
+`p`-adic Tate module `T_p A` of an abelian group, a different object. -/
+structure LayerTateModule where
   /-- The carrier `Y`. -/
   carrier : Type u
   [addCommGroup : AddCommGroup carrier]
@@ -1734,7 +1757,7 @@ structure TateModule where
       (f : (Fin n → MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)) →ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)] carrier),
     Function.Surjective f ∧ Module.Projective (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)) (LinearMap.ker f)
 
-attribute [instance] TateModule.addCommGroup TateModule.module
+attribute [instance] LayerTateModule.addCommGroup LayerTateModule.module
 
 /-- ⚠ **Rejection test for the Galois hypothesis of the finite layer.** Finiteness of `L ≃ₐ[K] L`
 is not a substitute for `L/K` being Galois. Over a finite layer of `p`-adic fields whose
@@ -1849,12 +1872,24 @@ theorem tameFrameModule_tensorRat_linearEquiv (σ τ : L ≃ₐ[K] L) (a b : ℕ
       ≃ₗ[MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)] (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⊗[ℤ_[p]] ℚ_[p])) :=
   sorry
 
-/-- **Step 3, the torsion of the tame-frame module is the roots of unity.** Under the sharpness
-condition, `E¹(M₀)` is `μ_{p^∞}(L)^∨` with `σ` and `τ` acting through `a⁻¹` and `b⁻¹`, so the
-`p`-power torsion of `M₀` is `μ_{p^∞}(L)` as a `ℤ_p[Gal(L/K)]`-module — the same module as the
-torsion of `A(L)` of Step 2. This is the arithmetic input of the comparison with the Tate module;
-everything else in the comparison is the formal module theory of Step 3. -/
-theorem tameFrameModule_torsion_linearEquiv (σ τ : L ≃ₐ[K] L) (a b : ℕ)
+/-- **Step 3, the torsion of the tame-frame module is the roots of unity.** For a generating pair
+`σ, τ` under the sharpness condition, `E¹(M₀)` is `μ_{p^∞}(L)^∨` with `σ` and `τ` acting through
+`a⁻¹` and `b⁻¹`, so the `p`-power torsion of `M₀` is `μ_{p^∞}(L)` as a `ℤ_p[Gal(L/K)]`-module —
+the same module as the torsion of `A(L)` of Step 2. This is the arithmetic input of the comparison
+with the Tate module; everything else in the comparison is the formal module theory of Step 3.
+Tau Ceti proves it for its `TameFrameModule` and `pPowerTorsion` as
+`TauCeti.tameFrameModule_torsion_linearEquiv`, through
+`TauCeti.nonempty_tameFrameModule_torsion_linearEquiv` (the torsion of `M₀` is `ℤ_p[G]/J`).
+
+Generation is what makes the left and the right ideal of `ℤ_p[G]` generated by `σ - a, τ - b`
+cut out the same cyclic `ℤ_p`-module, `ℤ_p/(χ(r) - 1 : r ∈ R)` as in `exists_tameFrame_exponents`:
+sharpness speaks of the left quotient, while the torsion of `M₀` is read off the right one, its
+Auslander–Reiten transpose (`TauCeti.AuslanderReitenTranspose.torsionDualLinearEquiv`). The
+hypothesis excludes no case the chain uses: when `q(L) > 1`, sharpness already forces it, since
+for a proper subgroup `H = ⟨σ, τ⟩` the left quotient has order at least `q(L)^{[G:H]}`; and the
+decomposition below, its only consumer, is applied at a generating frame. -/
+theorem tameFrameModule_torsion_linearEquiv (σ τ : L ≃ₐ[K] L)
+    (_hgen : Subgroup.closure {σ, τ} = ⊤) (a b : ℕ)
     (_hσ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (σ : L →* L) ζ = ζ ^ a)
     (_hτ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (τ : L →* L) ζ = ζ ^ b)
     (_hsharp : Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
@@ -1865,30 +1900,36 @@ theorem tameFrameModule_torsion_linearEquiv (σ τ : L ≃ₐ[K] L) (a b : ℕ)
       ↥(pPowerTorsion p (L ≃ₐ[K] L) (Additive ↥(padicCompletionUnits p L)))) :=
   sorry
 
-/-- **Step 3, existence of the Tate module** (NSW (5.6.5) for the extension `0 → A(L) → Y → I_G → 0`
-and (3.1.5), Tate's theorem, for the cohomological triviality). Its inputs are the local class
-formation — `ClassFieldTheory.ClassFormation`, which is Tau Ceti's
-`TauCeti.ClassFieldTheory.ClassFormation` re-exported, with Tau Ceti's fundamental class
-`ClassFormation.fundamentalClass` and its generation theorem
-`ClassFormation.fundamentalClass_generates`, and `ClassFieldTheory.tateTheorem` — and the
-reciprocity identification `A(L) ≃ G_L^{ab}(p)` of Step 1, which carries the fundamental class of
-`Lˣ` to `A(L)`. -/
-theorem nonempty_tateModule : Nonempty (TateModule p L K) :=
+/-- **Step 3, existence of the Tate module** (NSW (5.6.5) for the extension `0 → A(L) → Y → I_G → 0`).
+`Y` is Tau Ceti's splitting module `Rep.splittingModule` of the class of
+`exists_padicCompletionUnitsRep_class` (`Rep.splittingModuleSES_shortExact`), cohomologically
+trivial by Tau Ceti's criterion `TauCeti.TateCohomology.isZero_of_forall_isPGroup` in degrees `1`
+and `2` (`Rep.map_splittingModuleIncl_res_eq_zero` makes the connecting map onto), and of projective
+dimension at most one by the theorem of Nakayama and Rim,
+`ClassFieldTheory.TateCohomology.projective_ker_of_isZero_res`, applied to a copy of `Gal(L/K)` in
+`Type`. -/
+theorem nonempty_layerTateModule : Nonempty (LayerTateModule p L K) :=
   sorry
 
 /-- **Step 3, the integral decomposition** `Y ≅ M₀ ⊕ ℤ_p[Gal(L/K)]^N` (the isomorphism `(∗∗)` in
-the proof of NSW (7.4.1)). This is the theorem the cancellation lemmas are applied to:
-`exists_projective_prod_linearEquiv_of_torsion` gives `Y ⊕ P ≅ M₀ ⊕ Q`, because both have
-`p`-power torsion `μ_{p^∞}(L)` (`tameFrameModule_torsion_linearEquiv`, and Step 2 for `Y` through
-`Y.exact`); the rational decomposition `padicCompletionUnits_tensor_ratPadic` together with
+the proof of NSW (7.4.1)), for a generating pair `σ, τ` with sharp exponents. This is the theorem
+the cancellation lemmas are applied to: `exists_projective_prod_linearEquiv_of_torsion` gives
+`Y ⊕ P ≅ M₀ ⊕ Q`, because both have `p`-power torsion `μ_{p^∞}(L)`
+(`tameFrameModule_torsion_linearEquiv`, and Step 2 for `Y` through `Y.exact`); the rational
+decomposition `padicCompletionUnits_tensor_ratPadic` together with
 `tameFrameModule_tensorRat_linearEquiv` and `I_G ⊗ ℚ_p ⊕ ℚ_p ≅ ℚ_p[G]` gives
 `Y ⊗ ℚ_p ≅ (M₀ ⊕ ℤ_p[G]^N) ⊗ ℚ_p`; and `linearEquiv_prod_free_of_stable` concludes. It is an
 integral statement about `A(L)`: `Y` is generated by `N + 2` elements because `M₀` is a quotient of
-`ℤ_p[G]²`, and no such count is visible rationally. ⚠ The Galois-layer hypotheses are consumed
+`ℤ_p[G]²`, and no such count is visible rationally. Tau Ceti's
+`TauCeti.nonempty_linearEquiv_tameFrameModule_prod` is this argument for any `Y` with a resolution
+`0 → P₁ → P₀ → Y → 0` by finitely generated projectives; the bundled form takes the resolution
+`0 → ker f → ℤ_p[G]^n → Y → 0` from `Y.projdim`, `ker f` being finitely generated because
+`ℤ_p[G]^n` is noetherian. ⚠ The Galois-layer hypotheses are consumed
 through the rational decomposition and are not removable: on the non-Galois cubic `ℚ₅(∛5)` a
-`TateModule` exists — `G` is trivial, `I_G = 0`, and `A(L)` itself has projective dimension one
+`LayerTateModule` exists — `G` is trivial, `I_G = 0`, and `A(L)` itself has projective dimension one
 over `ℤ₅` — while the two sides have `ℚ₅`-dimensions `4` and `2`. -/
-theorem tateModule_linearEquiv (Y : TateModule p L K) (σ τ : L ≃ₐ[K] L) (a b : ℕ)
+theorem LayerTateModule.nonempty_linearEquiv_tameFrameModule_prod (Y : LayerTateModule p L K)
+    (σ τ : L ≃ₐ[K] L) (_hgen : Subgroup.closure {σ, τ} = ⊤) (a b : ℕ)
     (_hσ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (σ : L →* L) ζ = ζ ^ a)
     (_hτ : ∀ ζ ∈ pPowerRootsOfUnity p L, Units.map (τ : L →* L) ζ = ζ ^ b)
     (_hsharp : Nat.card (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L) ⧸ Ideal.span
@@ -1905,9 +1946,10 @@ order prime to `p`, which is what `exists_tameFrame_quotient` supplies on the la
 which wild inertia dies — for every generating family `g` of `Gal(L/K)` of size `N + 2`, the
 `p`-relation module of `g` surjects `Gal(L/K)`-equivariantly onto `A(L)` with kernel free of rank
 one: the integral relation-module decomposition `0 → ℤ_p[G] → R^ab_{N+2}(p) → A(L) → 0`. It is
-derived from `tateModule_linearEquiv` at the frame: `exists_tameFrame_exponents` gives the sharp
-exponents, `ℤ_p[G]^{N+2} = ℤ_p[G]² ⊕ ℤ_p[G]^N` maps onto `Y ≅ M₀ ⊕ ℤ_p[G]^N` over the augmentation
-ideal with kernel `ℤ_p[G]`, and restricting to the kernels of the two maps to `I_G`
+derived from `LayerTateModule.nonempty_linearEquiv_tameFrameModule_prod` at the frame:
+`exists_tameFrame_exponents` gives the sharp exponents, `ℤ_p[G]^{N+2} = ℤ_p[G]² ⊕ ℤ_p[G]^N`
+maps onto `Y ≅ M₀ ⊕ ℤ_p[G]^N` over the augmentation ideal with kernel `ℤ_p[G]`, and restricting
+to the kernels of the two maps to `I_G`
 (`range_linearCombination_eq_augmentationIdeal` and `Y.exact`) gives `β`; the family `g` need not
 extend the frame, because `relationModule_linearEquiv_of_closure` makes the relation module
 independent of the generating family. Because the kernel `ℤ_p[G]` is induced, `β` induces an
@@ -1915,12 +1957,13 @@ isomorphism on `H¹(Gal(L/K), -)` and `H²(Gal(L/K), -)`; that is the `H²`-comp
 README, which Step 5a uses to lift `β`, rescaled, to a morphism of group extensions.
 
 ⚠ **This, and not the unrestricted statement, is the input to Step 5.** The route through
-`tateModule_linearEquiv` needs the two-element tame frame, and a general finite Galois layer has
-none: for `p = 3`, `K = ℚ₃(μ₃)` and the layer with group `(ℤ/3)³` cut out by the elementary
-abelian quotient of `G_K(3)` — whose generator rank is `4` by Layer 3 — no pair generates, every
-prime-to-`3` element is the identity, and with `q(L) > 1` no pair of lifts is sharp. The
-unrestricted theorem `exists_relationModule_surjective`, NSW (7.4.2)(i) itself, is stated
-**after** the rank theorem, from which it is derived; consuming it here would be circular. -/
+`LayerTateModule.nonempty_linearEquiv_tameFrameModule_prod` needs the two-element tame frame, and
+a general finite Galois layer has none: for `p = 3`, `K = ℚ₃(μ₃)` and the layer with group
+`(ℤ/3)³` cut out by the elementary abelian quotient of `G_K(3)` — whose generator rank is `4` by
+Layer 3 — no pair generates, every prime-to-`3` element is the identity, and with `q(L) > 1` no
+pair of lifts is sharp. The unrestricted theorem `exists_relationModule_surjective`, NSW
+(7.4.2)(i) itself, is stated **after** the rank theorem, from which it is derived; consuming it
+here would be circular. -/
 theorem exists_relationModule_surjective_of_tameFrame (σ τ : L ≃ₐ[K] L)
     (_hgen : Subgroup.closure {σ, τ} = ⊤) (_hτ : ¬ p ∣ orderOf τ)
     (g : Fin (Module.finrank ℚ_[p] K + 2) → (L ≃ₐ[K] L))
@@ -2169,8 +2212,8 @@ which repetitions are allowed. This is where the relation-module chain is used, 
 proof of NSW (7.4.1). With `L` the fixed field of `P_K U`, a finite tamely ramified Galois layer
 whose group is `G_K/(P_K U)`:
 `exists_tameFrame_quotient` supplies the generating frame `σ, τ`, which is the hypothesis
-`exists_tameFrame_exponents` needs for the sharp exponents; `nonempty_tateModule` and
-`tateModule_linearEquiv` the decomposition
+`exists_tameFrame_exponents` needs for the sharp exponents; `nonempty_layerTateModule` and
+`LayerTateModule.nonempty_linearEquiv_tameFrameModule_prod` the decomposition
 `Y ≅ M₀ ⊕ ℤ_p[G]^N`; `exists_relationModule_surjective_of_tameFrame`, at that frame and for a
 generating family of size `N + 2`, the surjection `β : R^ab_{N+2}(p) ↠ A(L)` with kernel
 `ℤ_p[G]`. ⚠ Only the tame-frame surjection is consumed; the unrestricted

@@ -1,8 +1,9 @@
 # Roadmap: Chevalley groups and the Chevalley–Demazure group schemes
 
-This roadmap constructs, for every valid Dynkin type `t`, **the simply connected Chevalley–Demazure
-group scheme `G_sc(t)` over `ℤ`**, as one uniform construction from the pinned root datum
-`DynkinType.simplyConnectedRootDatum t`. It then develops the theory of its points that the finite
+This roadmap develops, for every valid Dynkin type `t`, the explicit realization and
+point-group theory of **the simply connected Chevalley–Demazure group scheme
+`G_sc(t)` over `ℤ`**. Its canonical constructor is ReductiveGroups9A/9B at
+`DynkinType.simplyConnectedRootDatum t`; `G_sc(t)` here is that specialization. It develops the theory of its points that the finite
 groups of Lie type are built from and studied with:
 
 - its root subgroups `x_α` for every root, its split maximal torus, and the Chevalley commutator
@@ -29,29 +30,59 @@ group schemes and their points, with the representation-theoretic inputs in the 
 In scope: everything about the explicitly constructed Chevalley group schemes and their points
 that is proved from the construction, by the methods of Chevalley, Steinberg, and Demazure. The
 general theory is not in scope, and the dividing line is one question: *is the statement about a
-Chevalley group constructed here, proved from its construction?*
+specified integral Chevalley model or its explicit realization, proved using the constructor/comparison interface?*
 
 - The [reductive-groups roadmap](../ReductiveGroups/README.md) owns abstract affine group schemes:
   reductive and semisimple groups, maximal tori and Borel subgroups of an abstract group, the root
   datum of a reductive group, central isogenies and simple connectivity as properties, and the
-  isomorphism and existence theorems. Its Layer 9 consumes `G_sc(t)` from here and proves that it is
-  split reductive with root datum `DynkinType.simplyConnectedRootDatum t`, and simply connected in
-  the sense of `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`.
+  isomorphism and existence theorems. Its9A/9B owns the canonical integral Lie/group constructor, proves split reductivity
+  and the specified root datum, and supplies the native model used here. This roadmap constructs
+  the realization adapters and transports that certification, including
+  `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`, to its displayed point API.
 - The [root-systems roadmap](../RepresentationTheory/RootSystems/README.md) owns `DynkinType`, the
   Bourbaki numbering, `DynkinType.simplyConnectedRootDatum`, diagram automorphisms of root data,
   and root-datum isogenies.
 - The [Lie highest-weight roadmap](../RepresentationTheory/LieHighestWeight/README.md) owns Verma
   modules, the irreducible quotients `L(λ)`, PBW, finite-dimensionality of `L(λ)` for dominant
-  integral `λ` (its Layers 3 and 4), and Serre's theorem (its Layer 7). This roadmap owns the one
-  generalization of that theory it needs, finite-dimensionality of `L(λ)` over a split field of
-  characteristic zero, which that roadmap's standing conventions name as a generalization to be
-  stated as such.
+  integral `λ` (its Layers 3 and 4), and Serre's theorem (its Layer 7). The split-field finite-dimensionality and rational descent adapter used here is
+  constructed once in ReductiveGroups9A.5 beside that existing native highest-module API; C1
+  consumes it and computes its fundamental-module and symmetry specializations.
 - The [CFSG statement roadmap](../CFSGStatement/README.md) owns the classification list, the
-  choice of Steinberg map for each index, and the removal of the family-specific carriers that
-  `G_sc(t)` replaces. The [CFSG basic-properties roadmap](../CFSGBasicProperties/README.md) owns
+  choice of Steinberg map for each index and the transport of its family-specific
+  realizations to the common canonical carrier. Reusable represented models are retained. The [CFSG basic-properties roadmap](../CFSGBasicProperties/README.md) owns
   finite fixed-point groups: Steinberg descent, twisted root groups, and simplicity. Everything in
   this roadmap is about the ambient group and holds over an arbitrary field or ring, not only for
   fixed points of an endomorphism.
+
+## Constructor ownership and comparison order
+
+C0–C2 below retain every explicit Geck, fundamental-module, admissible-lattice,
+root-index and torus calculation. Their generic producers live **once** in
+ReductiveGroups9A.1c/9A.5/9B.0–2. C0 supplies the concrete normalization adapter;
+C1 computes the fundamental modules, weight bases and numbered symmetries;
+C2 defines `G_D` as `pinnedModel` of the datum with X=Λ(D) and constructs its
+isomorphism to the displayed native toral closure. Thus saying “construct” below
+includes these actual adapters and inverse/value equations, not a second
+canonical group. `DynkinType.chevalleyGroupScheme` and `ChevalleyGroup` are
+aliases of that model's scheme and native convolution points. No admitted
+private `Type`/`Group` is an alternative implementation.
+
+The detailed C3–C7 consumer programme remains in full. C3 proves the presentation
+and point-group formulas on this model. C4 instantiates the native generic
+flatness theorem, transports RG9B's integral chart/specialization comparison,
+and proves its stated point consequences; it does not repeat a missing generic
+flatness construction. C5's exceptional **point** map and character compatibility
+come from the field presentation, independently of algebraicity. RG9B.3 owns
+the scheme-level polynomial/ideal construction; C7 compares that map with C5
+on all roots, torus and points. C6 owns the displayed Chevalley-datum/realization
+comparisons, consuming RG9B.2's generic projection/gluing engine. There is no
+C5↔C7 or C3↔RG9B existence cycle.
+
+For a general reductive datum, including central tori or empty roots, the full-X/Y
+construction remains RG9B's programme. C0–C7's single-type notation denotes the
+semisimple specialization and does not narrow RG. For every represented datum,
+its actual Λ(D) torus is used: the full-P parametrization can have μ₂ kernel
+already for adjoint A₁. No point-image saturation is silently substituted.
 
 ## Standing conventions
 
@@ -88,8 +119,8 @@ Chevalley group constructed here, proved from its construction?*
 
 ## What already exists (consume)
 
-Tau Ceti already contains most of the representation-independent machinery. The construction here
-is the one missing input to that machinery, plus the theorems that make its output the right group.
+Tau Ceti already contains most of the representation-independent machinery. The remaining work here is the explicit model/normalization comparison and point-group
+consumer theory; the generic integral constructor is owned by ReductiveGroups9A/9B.
 
 - **The Lie algebra and its root datum.** `DynkinType.lieAlgebra`, Geck's explicit matrix
   realization of the split Lie algebra of every valid type over `ℚ`; `DynkinType.serreLift`, the
@@ -112,10 +143,10 @@ is the one missing input to that machinery, plus the theorems that make its outp
   `kostantElementaryFrobenius` and the composite `kostantElementarySteinberg`.
 - **Instances of the generic carrier.** The adjoint Geck carrier `DynkinType.geckGroupScheme` for
   every valid type, which becomes `DynkinType.adjointGroupScheme`, and the classical carriers
-  `SlStd`, `SpStd`, `TypeBSpinCarrier`, `TypeDSpinCarrier`. The type-specific carriers that exist
-  only for the CFSG statement (the minuscule, doubled, tripled, and short-root carriers) are removed
-  by that roadmap once `G_sc(t)` replaces them; their explicit lattices and weight tables are
-  available to C1 as the fundamental modules they are.
+  `SlStd`, `SpStd`, `TypeBSpinCarrier`, `TypeDSpinCarrier`. The minuscule, doubled, tripled and short-root carriers remain represented models,
+  including their independent representation/Spin consumers. Their full lattices, weight tables
+  and polynomial maps feed C1/C6 and RG9B.2/3; only redundant CFSG dispatch aliases may be
+  retired after proved transport and an import audit.
 - **Highest-weight theory.** `VermaModule` and `irreducibleQuotient` over any field of
   characteristic zero with a triangularizable Cartan subalgebra, and finite-dimensionality of
   `L(λ)` for dominant integral `λ` over an algebraically closed field of characteristic zero
@@ -333,9 +364,12 @@ milestone proves equality and identifies the points.
 Statements are for a Chevalley datum `D` with group scheme `G_D` and torus `T_D` of C2, and
 `G_sc(t)` is the case `D = (scModule, scLattice)`.
 
-- **Flatness.** The coordinate ring of `G_D` is torsion-free over `ℤ`, equivalently its defining
-  Hopf ideal is the intersection of `O(GLₙ/ℤ)` with the defining ideal of the rational closure.
-  Hence `G_D` is flat over `ℤ` and is the schematic closure of its generic fibre.
+- **Flatness.** Instantiate native
+  `TauCeti.UniversalEnvelopingAlgebra.isTorsionFree_kostantToralCoordinateHopfAlgebra` at D's actual
+  e,h,ρ,M,hM,hnil,b,wt. The quotient coordinate Hopf algebra is torsion-free,
+  hence flat over ℤ and the schematic closure of its generic fibre. Preserve the
+  actual parameter equality through C2's realization isomorphism. This consumes
+  the existing theorem; it supplies neither specialization nor smoothness by itself.
 - **The big cell.** Order the weights of `D` linearly, refining the dominance order (`μ` before `ν`
   when `μ - ν` is a nonzero sum of positive roots), and order the weight basis compatibly, so the
   weight spaces are consecutive blocks. Then `U` acts by block upper unitriangular matrices, `U⁻`
@@ -352,10 +386,11 @@ Statements are for a Chevalley datum `D` with group scheme `G_D` and torus `T_D`
   its leading block minor at an initial segment `S` of weights is invertible
   only if `wS = S`. If that holds for every initial segment, `w` fixes every weight. The weights
   of a faithful representation span `Λ(D) ⊗ ℚ`, so `w = 1`. Over an algebraically closed field
-  this is Steinberg, *Lectures*, Chapter 5, Theorem 7. Over `ℤ`, with flatness, it follows from
-  the fibrewise statements by the fibrewise criterion for isomorphisms of finitely presented
-  schemes over a base with flat source (EGA IV₄, 17.9.5); Jantzen, *Representations of Algebraic
-  Groups*, Part II, and SGA 3 treat the same statement. `U` and `U⁻` are the closed subgroup
+  this is Steinberg, *Lectures*, Chapter 5, Theorem 7. Over ℤ consume RG9B.1's actual coordinate-localization maps and inverse
+  identities, the Weyl chart cover and their base-change/overlap proofs. A fibrewise
+  isomorphism criterion may replace that proof only after its full finite-presentation,
+  flatness and fibre hypotheses have been proved for the actual morphism; the phrase
+  “flat source” alone is not such a criterion. Jantzen II and SGA3 guide this proof. `U` and `U⁻` are the closed subgroup
   schemes whose points are the unique products of C3, so they are isomorphic to affine space of
   dimension the number of positive roots.
 

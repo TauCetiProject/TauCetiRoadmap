@@ -28,10 +28,11 @@ does not apply.
 Nothing here is proved about the constructed groups, and a consumer needs to know where that theory
 is meant to come from. Finiteness, simplicity, orders, and the identifications between the
 constructions given here and any other realization of the same group are downstream work, which
-this roadmap enables by giving those groups names and does not itself begin. The one exception is
-an identification this roadmap claims for itself: `L4`, against Mathlib's `suzukiGroup`. The one
-other place that gap is partly closed is the cross-check in S1 below, which is a review obligation
-rather than a Lean target.
+this roadmap enables by giving those groups names and does not itself begin. The two exceptions are
+identifications this roadmap claims for itself: `L4`, against Mathlib's `suzukiGroup`, and `L5`,
+between each explicit carrier and the pinned group it stands in for. The one other place that gap
+is partly closed is the cross-check in S1 below, which is a review obligation rather than a Lean
+target.
 
 Suggested home in Tau Ceti: `TauCeti/GroupTheory/SpecificGroups/CFSG/`, with reusable algebraic-group
 machinery placed under the homes chosen by the reductive-groups and root-systems roadmaps.
@@ -42,10 +43,9 @@ Each branch of `CFSGIndex.Group` must reduce to explicit mathematical data:
 
 - the cyclic group of prime order `p` is `Multiplicative (ZMod p)`;
 - the alternating group is Mathlib's `alternatingGroup (Fin n)`;
-- a group of Lie type is built from the fixed points of an explicit Steinberg endomorphism of the
-  points of the simply connected Chevalley group of its Dynkin type, constructed in the
-  [Chevalley groups roadmap](../ChevalleyGroups/README.md), then by taking the derived subgroup
-  modulo its center;
+- a group of Lie type is built from the fixed points of an explicit Steinberg endomorphism of an
+  explicit algebraic group with named root subgroups, pinned or an explicit carrier as L0 allows,
+  then by taking the derived subgroup modulo its center;
 - a sporadic group is Mathlib's `PresentedGroup` for an explicit finite list of relator words.
 
 A definition that selects the desired group by `Classical.choose` from an existence or uniqueness
@@ -192,58 +192,68 @@ lanes. They may proceed in parallel. The labels below are dependency identifiers
 each lane land as one enormous pull request; each item should be split further whenever a reviewer
 cannot inspect its defining data in one sitting.
 
-The Lie-type lane rests on two bodies of work owned by other roadmaps:
+`L0` rests on two bodies of work owned by other roadmaps:
 
 - **Layer 6 of the [root-systems roadmap](../RepresentationTheory/RootSystems/README.md)**, the
   pinned Bourbaki numbering and a named simply connected root datum over `ℤ` for each valid
   `DynkinType`. `DynkinType.simplyConnectedRootDatum`, `DynkinType.simplyConnectedBase`,
   `DynkinType.numRoots`, and `DynkinType.IsLongSimpleRoot` are the declarations this roadmap uses,
   and `Suggested.lean` here imports that file rather than restating any of them.
-- **The [Chevalley groups roadmap](../ChevalleyGroups/README.md)**: the simply connected
-  Chevalley–Demazure group `ChevalleyGroup t ht A` of every valid type, its root subgroups and
-  torus (C2), its Frobenius, graph automorphisms and exceptional isogenies with their character
-  maps (C5), and Chevalley's comparison theorem (C6).
+- **Layer 9 of the [reductive-groups roadmap](../ReductiveGroups/README.md)**, pinned
+  Chevalley--Demazure group schemes over `ℤ` with pinnings, base change, points over an
+  algebraically closed field, root subgroup maps `x_α`, the isomorphism theorem for pinned groups,
+  and the special isogenies in characteristics two and three.
 
-Claim those in the roadmap that owns them. This roadmap consumes them and does not restate them.
-`I0` and the numbered conventions need only Layer 6, and the whole sporadic lane depends on
-neither.
+Claim those in the roadmap that owns them. The pinned route of `L0` consumes them and does not
+restate them, so it proceeds once they exist in Tau Ceti. The explicit-carrier route of `L0` needs
+Layer 6 alone, and Layer 9 is then what `L5` measures its carriers against. `I0` and the numbered
+conventions also need only Layer 6, and the whole sporadic lane depends on neither.
 
 | Item | Depends on | Concrete result | Completion evidence |
 | --- | --- | --- | --- |
 | I0: indices and numbered conventions | Mathlib, root systems Layer 6 | `PrimePower`, raw and valid Lie indices, the map to `DynkinType`, sporadic names, characteristic and field order, the pinned `Fin` permutations | range and duplicate examples reduce; `dynkinType_valid` is proved; 26-name check passes |
-| L0: the ambient group | I0; Chevalley groups C2 | `AmbientGroup`, its `Group` instance, `Closure`, and `simpleRootSubgroup` on every valid branch, all on the Chevalley group of the index's Dynkin type | every valid branch unfolds to `ChevalleyGroup d.dynkinType _ d.Closure` |
-| L1: ordinary and graph Steinberg maps | L0; Chevalley groups C5 | Frobenius and numbered diagram maps, and the root-datum Steinberg map | the simple-root-subgroup equations and the order relations are proved; `IsCharacterMap d.steinberg (datumSteinberg d).weightMap` is proved |
-| L2: Suzuki--Ree Steinberg maps | L0; Chevalley groups C5 | selection of the exceptional isogeny, and its odd powers | the exponent and length conventions are matched to the isogeny; `steinberg` unfolds on every branch; `IsCharacterMap d.steinberg (datumSteinberg d).weightMap` is proved |
+| L0: ambient groups with root subgroups | I0; reductive groups Layer 9 for the pinned route | `AmbientGroup`, its `Group` instance, `Closure`, and `simpleRootSubgroup` on every valid branch, on the pinned Chevalley--Demazure points or on an explicit carrier | every valid family traces to explicit data; every explicit carrier is recorded as an L5 obligation |
+| L1: ordinary and graph Steinberg maps | L0 | Frobenius and numbered diagram maps | the simple-root-subgroup equations and the order relations are proved |
+| L2: Suzuki--Ree Steinberg maps | L0 | selection of the upstream special isogeny, and its odd powers | the exponent and length conventions are matched to the upstream isogeny; `steinberg` unfolds on every branch |
 | L3: fixed groups | L1 and L2 | fixed points, derived subgroup, central quotient | every valid branch has a `Group` instance |
-| L4: the Mathlib Suzuki identification | L3, Chevalley groups C6 (`G_sc(B₂) ≅ Sp₄`), Mathlib's `suzukiGroup` | `²B₂(2^(2m+1)) ≃* suzukiGroup m` for `m ≥ 1` | the isomorphism is proved, and the `suzuki` branch is unchanged by it |
-| L5: removal of the family-specific constructions | L0 to L3 | the per-family carriers, branches, and dispatchers listed under L5 deleted from Tau Ceti, with any general lemmas they hold moved to their proper homes | no Lie-type definition in Tau Ceti builds an ambient group other than the Chevalley group |
-| L6: every Steinberg map is on the list | L1, L2, Chevalley groups C5 | on the root datum, every based Steinberg isogeny is a map of L1 or L2 and every one is based after a Weyl correction; on the group, every based standard Steinberg endomorphism is conjugate to a map of L1 or L2 | both classification theorems and the `A₁` regression example proved |
+| L4: the Mathlib Suzuki identification | L3, Mathlib's `suzukiGroup` | `²B₂(2^(2m+1)) ≃* suzukiGroup m` for `m ≥ 1` | the isomorphism is proved, and the `suzuki` branch is unchanged by it |
+| L5: agreement of explicit carriers with the pinned groups | L0, L1, L2, reductive groups Layer 9 | for each branch built on an explicit carrier, an isomorphism to the pinned Chevalley--Demazure points that matches `simpleRootSubgroup` and intertwines `steinberg` | the isomorphism is proved for every explicit carrier in use; no branch is left with two unrelated constructions |
 | S0: presentation format and sources | Mathlib only | relator expression type compiling to signed words, the compilation lemmas, and a 26-row source manifest | `Relator.toWord_toFreeGroup` is proved; every source is a full presentation, is locatable, and is proved to define its group |
 | S1: presentation data | S0 | complete relator words for all sporadics | relator counts match the manifest; independent transcription review; the cross-check below is recorded for every name it covers |
 | A0: assembly | I0, L3, S1 | `CFSGIndex.Group`, `ClassificationStatement`, `classificationStatement_of_zero` | named proposition elaborates with no placeholder carriers |
 
 ### The names on every branch
 
-Four declarations on `ValidLieTypeIndex` carry a Lie-type index from its ambient group to its
-candidate group, and their names are fixed:
+Four declarations carry a Lie-type branch from its carrier to its candidate group, and their names
+are fixed:
 
 | Name | Type | Meaning |
 | --- | --- | --- |
-| `AmbientGroup` | `Type`, with a `Group` instance | the Chevalley group of the index's diagram (L0) |
+| `AmbientGroup` | `Type`, with a `Group` instance | the carrier, pinned or explicit (L0) |
 | `steinberg` | `AmbientGroup →* AmbientGroup` | the Steinberg endomorphism (L1 or L2) |
 | `FixedPoints` | `Type` | `fixedSubgroup steinberg` (L3) |
 | `Group` | `Type`, with a `Group` instance | `FixedPointCandidate steinberg`, the derived subgroup of `FixedPoints` modulo its centre (L3) |
 
-With `simpleRootSubgroup`, these are defined once, uniformly on `ValidLieTypeIndex`, and not per
-family: `AmbientGroup` does not depend on the family at all, and `steinberg` is a two-way split on
-`UsesHalfFrobenius` into the maps of L1 and L2, on `GraphTwistedIndex` and `SuzukiReeIndex`. No
-per-family subtype such as a type-`A` index is introduced. `FixedPoints` may be left unnamed when
-`Group` is written directly as `FixedPointCandidate steinberg`, since that abbreviation already names the fixed
+With `simpleRootSubgroup` on the carrier side, these are the names whether the branch is the uniform
+`ValidLieTypeIndex` one of `Suggested.lean` or a per-family one such as `TypeALieIndex.Group` or
+`SuzukiLieIndex.steinberg`, and whether the carrier is the pinned Chevalley--Demazure points or an
+explicit carrier under the rule in L0. A per-family branch takes a validated subtype of
+`ValidLieTypeIndex`, which keeps the invariant that no invalid index reaches a carrier-valued
+definition. A carrier shared by several branches may be declared once and reached through a named
+projection, as `TypeDLieIndex` reaches the `AmbientGroup` of `TypeDDiagramLieIndex`; no alias is
+owed. `FixedPoints` may be left unnamed when `Group` is written
+directly as `FixedPointCandidate steinberg`, since that abbreviation already names the fixed
 subgroup; the other three may not.
 
-A name that describes the construction instead, such as `CarrierFixedPointQuotient`, is not an
-acceptable substitute; what it is trying to express belongs in a docstring. The docstring of
-every `Group` says that no finiteness or simplicity assertion is part of the definition.
+A name that describes the carrier or the construction instead, such as `minusculeFrobenius` or
+`CarrierFixedPointQuotient`, is not an acceptable substitute. It hides the branch from the by-cases
+assembly of A0, and the caveat it is trying to express belongs in a docstring. The docstring of
+every `Group` says that no finiteness or simplicity assertion is part of the definition, and, on an
+explicit carrier, the module docstring carries the mathematical caveat described under L0. A
+construction on an explicit carrier with these declarations and that caveat **is** L0 to L3 for its
+family,
+and a review that asks for a different name, or for the pinned scheme before accepting it, is
+asking for something this roadmap does not require.
 
 ### I0: indices and Mathlib glue
 
@@ -273,8 +283,7 @@ Then the pinned permutations `graphPermA`, `graphPermD`, `graphPermE6`, `trialit
 `lengthPermRankTwo`, and `lengthPermF4`. There is deliberately no table of exceptional exponents:
 which simple roots are long is `DynkinType.IsLongSimpleRoot` upstream, and L2's convention is stated
 against it, so a second table here could only disagree with the diagram. These carry the conventions
-of L1 and L2 and need nothing from the Chevalley groups roadmap, so they land here rather than
-waiting on L0.
+of L1 and L2 and need nothing from Layer 9, so they land here rather than waiting on L0.
 
 Consume Mathlib's existing `ZMod`, `Multiplicative`, `alternatingGroup`, `FreeGroup`,
 `PresentedGroup`, `Subgroup.center`, `commutator`, quotient groups, `GaloisField`, finite-field
@@ -286,38 +295,196 @@ sporadic enumeration has cardinality 26, and the shape of `ClassificationStateme
 `Suggested.lean` against the target signatures. The actual definition is accepted only at A0, after
 the target carriers cease to be placeholders.
 
-### L0: the ambient group
+### L0: ambient groups with root subgroups
 
-Every Lie-type branch takes its ambient group from the [Chevalley groups roadmap](../ChevalleyGroups/README.md):
-the points of the simply connected Chevalley–Demazure group of the underlying untwisted Dynkin
-type over the algebraic closure of the prime field,
-
-```text
-d.AmbientGroup        = ChevalleyGroup d.dynkinType d.dynkinType_valid d.Closure,
-d.simpleRootSubgroup i = rootSubgroup (DynkinType.simpleIndex _ _ i).
-```
-
-There is one carrier per diagram. The graph-twisted families `²Aₙ`, `²Dₙ`, `²E₆`, `³D₄` share their
-ambient group with the untwisted family of the same diagram, and the Suzuki, Ree, and Tits
-families share theirs with `B₂`, `G₂`, and `F₄`: a twisted group is the fixed points of a different
-endomorphism of the same group, which is the textbook construction (Steinberg, *Lectures on
-Chevalley Groups*, Chapter 11, which covers the Suzuki and Ree groups too). The ambient group is
-generally infinite.
+There are two routes to the carrier of a family, and both are L0. On the **pinned route**, for
+every underlying untwisted Dynkin type, construct the simply connected split reductive group scheme
+over `ℤ` with a pinning, base-change it to the relevant characteristic, and take its points over an
+algebraic closure of `𝔽_p`. On the **explicit-carrier route**, described below, build a concrete
+group with the same root-subgroup data directly. Either way the carrier must be an explicit
+construction, not the existence half of the classification of reductive groups.
 
 Consume, rather than duplicate:
 
-- `DynkinType.simplyConnectedRootDatum`, `DynkinType.simplyConnectedBase`, and
-  `DynkinType.simpleIndex`, reached through `ValidLieTypeIndex.dynkinType` and `dynkinType_valid`,
-  together with the Bourbaki numbering their `Fin` indices carry (root systems Layer 6);
-- `ChevalleyGroup`, `rootSubgroup`, and `torus`, with their pinning equations (Chevalley groups C2).
+- [root systems, Weyl groups, and the Cartan--Killing classification](../RepresentationTheory/RootSystems/README.md),
+  whose Layer 6 gives the pinned Bourbaki numbering and, for each valid `DynkinType`, a named simply
+  connected root datum over `ℤ`;
+- [reductive algebraic groups](../ReductiveGroups/README.md), whose Layer 9 gives pinned
+  Chevalley--Demazure group schemes over `ℤ`, base change, points, and root subgroups.
 
-Neither is replaced by a group chosen from an existence or classification theorem: the Chevalley
-groups roadmap constructs its group scheme from explicit modules and lattices, and the existence
-theorems of the root-systems and reductive-groups roadmaps are not substitutes for it.
+It is those two layers specifically, and not the existence theorems beside them. The root-systems
+realization target `exists_rootPairing_of_dynkinType` is an existence statement about a
+`RootPairing` over `ℚ`, and Layer 8's "Chevalley existence" is likewise an existence theorem, so a
+carrier could only be extracted from either by `Classical.choose`, which the rule above forbids.
+`DynkinType.simplyConnectedRootDatum` and the Layer 9 constructions are what a consumer needing a
+named carrier uses instead.
 
-There is no second carrier for any family. The family-specific carriers and per-family branches
-that Tau Ceti contains are removed by `L5`, not kept alongside the Chevalley group and not
-identified with it.
+The declarations the pinned route consumes are:
+
+- `DynkinType.simplyConnectedRootDatum` and `DynkinType.simplyConnectedBase`, reached through
+  `ValidLieTypeIndex.dynkinType` and `dynkinType_valid`, together with the Bourbaki numbering their
+  `Fin` indices carry (root systems Layer 6);
+- the pinned Chevalley--Demazure group scheme over `ℤ` (reductive groups Layer 9);
+- base change to the prime field and its algebraic closure (Layer 9);
+- the group of algebraic-closure-valued points (Layer 9);
+- root-subgroup maps `x_α` and the equations expressing their compatibility with the pinning
+  (Layer 9).
+
+The output is `AmbientGroup`, its `Group` instance, `Closure`, and `simpleRootSubgroup` on every
+valid branch: the uniform `ValidLieTypeIndex.AmbientGroup` of `Suggested.lean`, or the same names in
+a per-family namespace such as `TypeALieIndex` or `SuzukiLieIndex` when a family lands before the
+uniform definition can be assembled by cases. The ambient group is generally infinite. A reviewer
+must be able to follow each carrier through named constructions; a theorem that merely asserts that
+a suitable pinned group exists is not a substitute.
+
+#### Explicit carriers
+
+The pinned Chevalley--Demazure points are the reference carrier for every family, including the six
+classical ones. They are not the only admissible one. A branch may instead be built on an
+**explicit carrier**: a concrete group such as `SL`, `SU`, `Sp`, the image of a representation, or
+the points of a named Kostant form, provided that
+
+- it realizes the simply connected form. For the image of a representation this means the
+  representation is faithful on the simply connected group *as a group scheme*, which is what the
+  weights spanning the full weight lattice certifies; the full-weight type-`D` spin carrier is the
+  model. A half-spin image of `Spin₂ₙ` for even `n`, whose kernel is `μ₂`, is not admissible, its
+  character lattice being the wrong one, even though in characteristic two its points coincide
+  with those of the simply connected group;
+- it comes with the positive and negative simple root subgroups, `simpleRootSubgroup` being the
+  numbered positive part, and it is generated by them. For a carrier defined as the closure of its
+  root elements this is by construction; for a matrix-group carrier it is discharged together with
+  `L5`, since agreement with the pinned points implies it. It is stated here so that a carrier with
+  an inert extra factor, which satisfies every simple-root equation, is not mistaken for a carrier.
+  The full root-subgroup family `x_α` for every root is what the pinned route receives from Layer
+  9; an explicit carrier is not required to name it at L0, and a review may not withhold L0 to L3
+  credit for its absence;
+- its `steinberg` is pinned by the L1 or L2 equations on the simple root subgroups, and the
+  Frobenius equation of L1 holds on every root subgroup the carrier names;
+- it uses the numbered conventions of the pinned route, through `ValidLieTypeIndex.dynkinType`. An
+  internal renumbering of the carrier is a named adapter proved compatible with root lengths, as
+  for the Suzuki carrier under L2, and not a second root datum.
+
+Such a branch is L0 to L3 for that family, on the same footing as one built on the pinned scheme,
+and it uses the same four names.
+
+What an explicit carrier does not settle is that it is the pinned group. Every explicit carrier
+therefore creates the obligation, milestone `L5` below, to prove that it agrees with the pinned
+Chevalley--Demazure points once Layer 9 provides them. A file introducing an explicit carrier
+states the mathematical limitation in its module docstring: that the carrier is not identified with
+the pinned simply connected group scheme of its diagram, and that constructions on it transfer to
+that pinned group only along such an identification, once one is proved. It does not name
+milestones, cite this roadmap, or say the carrier fails to close L0: milestone attribution belongs
+in the pull request description, where the `Roadmap:` line records it, and the documentation rubric
+of TauCetiReview keeps roadmap status out of the source, where nothing would update it. That
+statement is a docstring, not a name: the declarations are still `AmbientGroup`, `steinberg`,
+`FixedPoints`, and `Group`.
+
+Neither carrier may be a group chosen from an existence or classification theorem, and an explicit
+carrier is not licensed to skip the root-subgroup data: a matrix group with no named
+`simpleRootSubgroup` and no pinning equations for its `steinberg` is a placeholder, not a carrier.
+
+#### The carrier plan
+
+So that no branch waits on a design decision, the carrier of every constructor is designated here.
+Each is an explicit carrier under the rule above, built by the Kostant toral-closure construction
+from explicit integral matrices for the Chevalley generators on a stated weight diagram, unless it
+is a classical matrix group. The table is the designated implementation: the pinned route and the
+explicit-carrier rule above remain what they are, but a branch built on a different carrier than
+its row names is a change to this roadmap, to be made here before the work starts, not a choice to
+make inside a pull request. "Ingredients" lists what the branch's `steinberg` needs beyond the
+Frobenius of the carrier.
+
+| Constructor | Carrier | Ingredients for `steinberg` |
+| --- | --- | --- |
+| `A` | `SL_{n+1}`, the standard carrier `TauCeti.SlStd` | none |
+| `twistedA` | the same | the pinned graph automorphism `g ↦ J g^{-T} J^{-1}`, `TauCeti.SlStd.graphAutomorphismPoints`, with `J` the signed antidiagonal |
+| `B` | the full-weight type-`B` spin carrier, `TauCeti.TypeBSpinCarrier`, at every rank including two | none |
+| `C` | the standard symplectic carrier `TauCeti.SpStd` | none |
+| `D` | the full-weight type-`D` spin carrier, `TauCeti.TypeDSpinCarrier` | none |
+| `twistedD` | the same spin carrier | its fork-exchange graph automorphism |
+| `trialityD4` | the **tripled** `D₄` carrier: the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄` | triality as a numbered symmetry of that carrier |
+| `E6` | the `27`-dimensional minuscule carrier | none |
+| `twistedE6` | the doubled minuscule carrier `V(ϖ₁) ⊕ V(ϖ₆)` inside `GL₅₄` | its graph automorphism |
+| `E7` | the `56`-dimensional minuscule carrier | none |
+| `E8`, `F4`, `G2` | the Geck carrier, whose adjoint module is full-weight in exactly these types | none |
+| `suzuki` | `TauCeti.SpStd` at rank two | the special isogeny of `Sp₄` in characteristic two |
+| `reeG2` | the **short-root** `G₂` carrier **over `𝔽₃`**: the closed subgroup scheme of `GL₇` over `𝔽₃` generated by the reductions of the root subgroups and torus of the toral closure of the `7`-dimensional module `V(ϖ₁)` | the special isogeny of that carrier in characteristic three |
+| `reeF4`, `tits` | the **short-root** `F₄` carrier **over `𝔽₂`**: the closed subgroup scheme of `GL₂₆` over `𝔽₂` generated by the reductions of the root subgroups and torus of the toral closure of the `26`-dimensional module `V(ϖ₄)` | the special isogeny of that carrier in characteristic two |
+
+Two decisions in this table are design choices this roadmap makes, with the reasons recorded so
+that they are not re-litigated in review.
+
+The spin carrier does not support triality through the numbered-symmetry construction used here:
+triality permutes the three eight-dimensional representations of `D₄`, so no one of them, and
+neither the full spin module `8ₛ ⊕ 8꜀`, is stable under it, and no fixed linear automorphism of
+the spin module realizes it. (The spin representation is faithful, so triality does act on the
+spin carrier as an abstract automorphism; it is the explicit linear realization that is missing.)
+The tripled carrier is the smallest full-weight module that is stable, and triality acts on it by
+a signed permutation of the weight basis, exactly the numbered-symmetry mechanism that already
+produces the graph automorphism of the doubled `E₆` carrier. The Geck carrier of `D₄` carries
+triality too, but its character lattice is the root lattice, index four in the weight lattice, so
+it is not simply connected and `L5` could not be discharged for it.
+
+The Ree and Tits branches use the short-root carriers rather than the Geck carrier, although the
+Geck carrier is full-weight for `G₂` and `F₄`, because the special isogeny has a convenient
+explicit construction on the short-root module and not on the adjoint one. Write `V` for the
+short-root module, `𝔤` for the represented Chevalley Lie algebra, the span of the Chevalley basis
+matrices inside `End V`, and `I ⊂ 𝔤` for the short-root ideal, spanned by the short root vectors
+and the short coroots, which is an ideal exactly in characteristic `p` (three for `G₂`, two for
+`F₄`; for `G₂` the short coroots span `k·h₁` modulo three, for `F₄` they span `k·h₃ ⊕ k·h₄` modulo
+two, in Bourbaki numbering). Then `𝔤 ⧸ I` has the long-root weights and the same zero-weight
+multiplicity as `V`, and as a representation of the carrier it is `V ∘ τ`: `τ^*` carries the short
+roots to the long ones and the long roots to `p` times the short ones. So `τ(g)` is the matrix of
+the action of `g` on `𝔤 ⧸ I`, read back in `V` through a fixed linear identification
+`C : 𝔤 ⧸ I ≃ V` that relabels weights along `τ^*`; on the carrier `g` has determinant one, so
+`g⁻¹` is the adjugate and every entry of `τ(g)` is a polynomial in the entries of `g`. That is the
+analogue of `Matrix.symplecticSpecialIsogeny`, which realizes `τ` for `Sp₄` as `2 × 2` minors on
+the four-dimensional subquotient `ker φ ⧸ ⟨ω⟩` of `Λ² R⁴`. On the adjoint module `Ad ∘ τ` is also
+an algebraic representation, with a Frobenius-twisted composition factor, so `τ` has a polynomial
+formula there too; it is just not one anybody can write down conveniently, which is the whole
+reason for the choice.
+
+What the construction must therefore fix, and what the pull requests building it deliver before
+any `L5` question arises: an ordered integral weight basis of `V`, including an explicit basis of
+its zero-weight lattice where that has rank two; the represented Chevalley Lie algebra and the
+proof that `I` is stable under the carrier; and the identification `C`, with the root relabelling
+and the normalization of each basis vector checked against the numbered pinning, since arbitrary
+basis choices do not give the required root parameters or the square relation. Determine `C` by a
+symbolic check of the generator identities over `𝔽_p[t]` before formalizing (a check over `𝔽_p`
+itself is blind to the exponents, since `t ^ p = t` there), then prove that `τ` preserves the
+carrier's points, is multiplicative, satisfies the pinned equations on the numbered simple root
+subgroups, and squares to Frobenius. A structural proof of any of those is as acceptable as a
+computational one. `Matrix.symplecticSpecialIsogeny` and `TauCeti.SpStd.specialIsogeny` are the
+model for the shape of the API.
+
+The short-root modules are full-weight because the short roots of `G₂` and of `F₄` generate the
+root lattice, which is the weight lattice in both types. `V(ϖ₄)` of `F₄` has a two-dimensional zero
+weight space; its integral form is the admissible lattice generated from the highest weight vector
+by the divided-power lowering operators, of rank `26` with a rank-two zero-weight summand, whose
+reduction modulo two is the irreducible `26`-dimensional module. The lattice fixes that summand but
+not a basis of it; the basis is part of the ordered weight basis above.
+
+The Ree and Tits carriers are taken over the prime field rather than over `ℤ`, and the reason is
+specific. The Kostant toral closure is an integral construction, and its base change to `𝔽_p` is
+only known to *contain* the closed subgroup scheme generated over `𝔽_p` by the reduced root
+subgroups and torus: new equations can appear over a non-flat base, and flatness of the integral
+closure is not asserted. The special isogeny exists only in characteristic `p`, and the argument
+that carries it from matrices to an endomorphism of the carrier (a morphism satisfying the
+generator equations maps the generated subgroup scheme into itself, because its defining Hopf
+ideal is the largest one killed by the generator coordinate maps) needs that maximality over
+`𝔽_p`. The subgroup scheme generated over `𝔽_p` has it by construction. Its points over the
+algebraic closure are the branch's ambient group; they lie in the points of the integral closure,
+with equality whenever the integral closure is flat, which nothing here claims. Its root subgroups,
+torus, pinning equations, Frobenius, and full-weight span statement are the reductions of the
+integral ones, so nothing is re-derived. The untwisted `G₂(q)` and `F₄(q)` branches stay on the
+Geck carrier and are unaffected.
+
+These carriers coexist with the Geck carrier of the same diagram, and the untwisted `B₂(q)` on
+the spin carrier coexists with the Suzuki family on the rank-two symplectic carrier. Each is an
+explicit carrier owing its own `L5` identification, and nothing requires two carriers of one
+diagram to be identified with each other before either branch's `Group` is accepted. One
+constructor, one carrier: the `B` constructor is served at every rank by the spin carrier, so that
+`ValidLieTypeIndex.Group` needs no case split on the rank inside a constructor.
 
 ### L1: ordinary and graph-twisted Steinberg maps
 
@@ -354,62 +521,39 @@ Each permutation must be proved to be an automorphism of the corresponding Carta
 defining equations are
 
 ```text
-γ (x_α(t)) = x_{γ α}(t)      for ±α simple,
+γ (x_α(t)) = x_{γ α}(t)      for α simple,
 Frob_q (x_α(t)) = x_α(t^q)   for every root α.
 ```
 
-The restriction of the first equation to the positive and negative simple roots is not a weakening,
-and it must not be strengthened. A pinning normalizes the root-subgroup parameters on the simple
-root subgroups, and `γ` is then the unique automorphism with that action on `x_{±α_i}`. The positive
-ones alone do not determine it: conjugation by `x_θ(c)`, for `θ` the highest root, fixes every
-`x_{α_i}(u)`. That uniqueness is C5 of the Chevalley groups
-roadmap, which is cited here rather than reproved. On a general root the equation reads
-`γ (x_α(t)) = x_{γ α}(ε_α t)` with `ε_α = ±1` forced by the Chevalley structure constants, and the
-signs cannot all be normalized to `1` at once: the type-`A` graph automorphism `X ↦ -J Xᵀ J` of `sl_n` already shows this. Record the
+The restriction of the first equation to simple roots is not a weakening, and it must not be
+strengthened. A pinning normalizes the root-subgroup parameters on the simple root subgroups, and
+`γ` is then the unique automorphism with that action. That uniqueness is the isomorphism theorem for
+pinned groups, which is a Layer 9 target upstream and is cited here rather than reproved. On a
+general root the equation reads `γ (x_α(t)) = x_{γ α}(ε_α t)` with
+`ε_α = ±1` forced by the Chevalley structure constants, and the signs cannot all be normalized to
+`1` at once: the type-`A` graph automorphism `X ↦ -J Xᵀ J` of `sl_n` already shows this. Record the
 general-root form as a consequence of the construction, never as a requirement on the pinning.
-
-Both maps are taken from the Chevalley groups roadmap: `Frob_q` is the field map of
-`x ↦ x ^ d.fieldOrder` on `ChevalleyGroup`, and `γ` is `graphAut` at `σ = d.diagramPerm`, which
-`diagramPerm_mem_diagramSymmetry` places in `DynkinType.diagramSymmetry`. What L1 owns is the
-assignment, the order relations above, and the root-datum shadow of the result.
-
-**The root-datum Steinberg map.** `GraphTwistedIndex.datumSteinberg` is the endo-isogeny of
-`DynkinType.simplyConnectedRootDatum` that `γ ∘ Frob_q` should induce: `q` times the inverse of
-`DynkinType.diagramAut` at `d.diagramPerm`, the inverse because the weight map of a
-`RootPairingIsogeny` is a pullback. Prove `γ ∘ Frob_q = Frob_q ∘ γ` at this level, that some power
-of it is scaling by a power of `q`, and, the point of having it, that it is what the group-level map
-induces:
-
-```text
-IsCharacterMap d.steinberg (GraphTwistedIndex.datumSteinberg d).weightMap,
-```
-
-with `IsCharacterMap` from C5 of the Chevalley groups roadmap, composed from the character maps that
-roadmap proves for `Frob_q` and `γ`. The character map is checked data, not read off the abstract
-homomorphism, and over `d.Closure`, which is infinite, it is unique. This is what ties the Steinberg map
-on the group to the Steinberg map on the root datum, so that facts proved at either level apply at
-the other.
 
 ### L2: Suzuki--Ree Steinberg maps
 
 The exceptional isogeny itself is **not** built here. For `X = B₂` in characteristic two, `G₂` in
-characteristic three, and `F₄` in characteristic two, the exceptional isogeny `τ_X` of the
-Chevalley group, its action on the long and short root subgroups, and
+characteristic three, and `F₄` in characteristic two, the special isogeny `τ_X` of pinned group
+schemes, its action on the long and short root subgroups, and
 
 ```text
 τ_X ^ 2 = Frob_p
 ```
 
-are C5 of the [Chevalley groups roadmap](../ChevalleyGroups/README.md), on points over any field of
-characteristic `p`, and C7 there makes it an endomorphism of the group scheme over `𝔽_p`. This lane
-consumes it.
+are Layer 9 targets in the [reductive-groups roadmap](../ReductiveGroups/README.md), which says of
+them that they are statements about group schemes and belong there rather than in any consumer. That
+is right, and this lane consumes them. The same division holds on an explicit carrier: the special
+isogeny of a concrete `Sp₄` or `G₂` or `F₄` carrier is built where that carrier's algebraic-group
+structure lives, under the reductive-groups roadmap's homes, and this lane selects it and takes the
+odd power.
 
 What L2 owns is everything between that isogeny and a finite group: selecting `τ_X` for a given
 `SuzukiReeIndex`, checking that the upstream isogeny is the one this roadmap's conventions describe,
-taking the odd power, and the root-datum shadow `SuzukiReeIndex.datumSteinberg`, the odd power of
-`SuzukiReeIndex.datumSpecialIsogeny`, with
-`IsCharacterMap d.steinberg (SuzukiReeIndex.datumSteinberg d).weightMap`. For the constructor
-parameter `m`, define
+and taking the odd power. For the constructor parameter `m`, define
 
 ```text
 steinberg(m) = τ_X ^ (2m + 1),
@@ -422,23 +566,18 @@ Thus the fixed groups are `²B₂(2^(2m+1))`, `²G₂(3^(2m+1))`, and
 pinned construction.
 
 The square relation is inherited, not proved here, and it is not what identifies `τ_X`. What
-identifies it is its action on the numbered positive and negative simple root subgroups. Writing
-`ᾱ` for the image of the root `α` under the length-exchanging map,
+identifies it is its action on the numbered simple root subgroups. Writing `ᾱ` for the image of the
+simple root `α` under the length-exchanging map,
 
 ```text
-τ_X (x_α(t)) = x_{ᾱ}(t)      for ±α simple and long,
-τ_X (x_α(t)) = x_{ᾱ}(t^p)    for ±α simple and short.
+τ_X (x_α(t)) = x_{ᾱ}(t)      for α long,
+τ_X (x_α(t)) = x_{ᾱ}(t^p)    for α short.
 ```
 
 The two exponents multiply to `p` along either composite, which is what makes `τ_X ^ 2 = Frob_p`
-come out. That square test does not determine the assignment, and the reversed one does not define
-an endomorphism. The torus relations force it: in `B₂`, with `α` long and `β` short, applying
-`τ_X` to `h_β(s) x_α(u) h_β(s)⁻¹ = x_α(s⁻² u)` requires `q(short) = 2 q(long)` as exponents of
-`s`. The assignment above gives `(1, 2)`. The reversed `(2, 1)` would need `s⁻¹ = s⁻⁴` for every
-`s ∈ kˣ`, false for `s` of order seven in `𝔽₈ˣ`. C5 of the Chevalley groups roadmap records this
-computation. Do not reverse the table to match the exponent stored in
-`DynkinType.b2SpecialIsogeny`: that exponent is indexed on the character-pullback side, which is
-why its long/short description looks opposite.
+come out. Attaching `1` to the long roots and `p` to the short ones is a genuine convention: the
+opposite assignment also squares to `Frob_p`, so leaving it to the implementor leaves the branch
+undetermined. Take the assignment above.
 
 Which simple roots are long is not restated here either. `DynkinType.IsLongSimpleRoot` in the
 root-systems roadmap pins it, and the convention above is stated against that predicate, as
@@ -464,21 +603,25 @@ points of `τ_{B₂} ^ (2m + 1)` in an ambient group carrying the special isogen
 unrestricted, so `suzukiGroup 0` is the solvable `Sz(2)`.
 
 The fixed-point construction is the definition here, and the `suzuki` branch stays inside the
-uniform `AmbientGroup`, `steinberg`, `FixedPoints`, `Group` route that L0 to L3 exist to build.
+uniform `AmbientGroup`, `steinberg`, `FixedPoints`, `Group` route that L0 to L3 exist to build,
+whether its carrier is the pinned group or an explicit rank-two type-C carrier under the L0 rule.
 Defining that one branch *as* `suzukiGroup m` would take it out of that route with no stated
 obligation that the two agree, which is worse than a little duplication.
 
-The ambient group of the `suzuki` branch is the Chevalley group of `B₂`, numbered as `B₂`, so no
-adapter between numberings is involved in the branch. Mathlib's `suzukiGroup` lives in `GL₄`,
-numbered as `C₂`, whose Bourbaki node `0` is short; the node adapter `B₂ 0 ↦ C₂ 1`, `B₂ 1 ↦ C₂ 0`
-belongs to `L4`, which reaches `GL₄` through the isomorphism `G_sc(B₂) ≅ Sp₄` of the Chevalley
-groups roadmap. Both index types are `Fin 2`, so a wrong identification type-checks; the adapter
-is proved to preserve the long/short designation.
+An explicit rank-two type-C carrier is numbered as `C₂`, whose Bourbaki node `0` is short, while the
+`B₂` diagram this roadmap names has node `0` long. Both index types are `Fin 2`, so a wrong
+identification type-checks. The identification is the named adapter `RankTwoBLieIndex.carrierNode`,
+`B₂ 0 ↦ C₂ 1` and `B₂ 1 ↦ C₂ 0`, which swaps the node indices and is proved to preserve the
+long/short designation, and every public equation of the branch is stated in the `B₂` numbering
+after that adapter. It is the special isogeny's permutation, not this adapter, that exchanges
+lengths. That is an internal adapter on one
+carrier, which the rule against a reindexed public root datum permits; it is not a second root
+datum.
 
 That leaves the two constructions unrelated, and relating them is real work, so it is the milestone
 `L4` rather than a promise to add a target later. `L4` depends on material outside this project,
-which is why it is separately claimable; L0 to L3 and A0 do not depend on it. The `m ≥ 1`
-restriction is this roadmap's responsibility either way, since `suzukiGroup 0` is the solvable `Sz(2)`.
+which is why it is separately claimable; L0 to L3 and A0 do not depend on it. The `m ≥ 1` restriction is this roadmap's
+responsibility either way, since `suzukiGroup 0` is the solvable `Sz(2)`.
 
 ### L3: fixed points and the simple-group candidate
 
@@ -498,128 +641,37 @@ is the simple group `²F₄(2)'`. Quotienting by the centre then does nothing in
 
 Completion requires every branch of `ValidLieTypeIndex.steinberg` to unfold to the L1 or L2 maps and
 `ValidLieTypeIndex.Group` to carry a `Group` instance. No finiteness or simplicity proof is involved.
-There is no per-family `Group`: `ValidLieTypeIndex.Group` is the one definition.
+A per-family `Group` on an explicit carrier, such as `TypeALieIndex.Group`, is the L3 deliverable for
+that family; the uniform `ValidLieTypeIndex.Group` is then assembled by cases from the per-family
+definitions, and does not wait for the L5 identifications.
 
 Mathlib's [`(B, N)`-pairs](https://github.com/leanprover-community/mathlib4/pull/40363) are related
 structure theory and not a dependency: this roadmap does not prove Bruhat decomposition, simplicity,
 or recognition.
 
-### L5: removal of the family-specific constructions
+### L5: agreement of explicit carriers with the pinned groups
 
-The Lie-type branches are built once, on the Chevalley group. Everything Tau Ceti contains that
-builds a group of Lie type another way is deleted, not maintained beside it and not proved equal to
-it. Two constructions of one object are a maintenance cost, and a comparison theorem between them
-certifies nothing that the uniform construction does not already give.
+For every family whose branch is built on an explicit carrier under the L0 rule, prove that the
+carrier is the pinned group. Writing `x` and `F` for the explicit carrier's `simpleRootSubgroup`
+and `steinberg`, and `x'` and `F'` for the pinned carrier's, over the same `Closure`, the target is
+a `MulEquiv e` from `AmbientGroup` to the points of the pinned Chevalley--Demazure group from Layer
+9 with
 
-Delete, under `TauCeti/GroupTheory/SpecificGroups/CFSG/`:
+```text
+e (x i t) = x' i t      for every i : Fin d.rank and t,
+e (F g)   = F' (e g)    for every g.
+```
 
-- the per-family branches and their index subtypes: `TypeA`, `TypeB`, `TypeC`, `TypeD`, `TypeE6`,
-  `TypeE7`, `TwistedE6`, `TrialityD4`, `Unimodular`, `GeckCarrier`, `OrdinarySteinberg`,
-  `GraphTwisted`, `SuzukiRee`, `Suzuki`, `ReeG2`, `ReeF4`, `Tits`, and the by-cases assembly in
-  `Assembly`, together with every `AmbientGroup`, `steinberg`, `Group`, and branch equation they
-  define. `ValidLieTypeIndex.steinberg` dispatches on `UsesHalfFrobenius` alone, to the two maps of
-  L1 and L2 on the one ambient group, and needs no per-family subtype.
+The pinned side's `F'` is built independently, by the L1 or L2 recipe on the pinned carrier, which
+is why `L5` depends on L1 and L2; defining `F'` by conjugating `F` through `e` would make the second
+equation empty. Transporting along `e` then carries `FixedPoints` and `Group` across, by the
+transport lemmas of the fixed-point recipe, so nothing about the candidate group needs restating.
 
-Delete, under `TauCeti/Algebra/Lie/`, the Kostant carriers that exist only to serve those branches:
-the tripled `D₄` carrier (`D4/Tripled`), the minuscule and doubled minuscule `E₆` carriers
-(`E6/Minuscule`, `E6/DoubledMinuscule`), the minuscule `E₇` carrier (`E7/Minuscule`), and the
-short-root `G₂` and `F₄` carriers over `ℤ` and over the prime field (`G2/ShortRoot`, `F4/ShortRoot`),
-with their special isogenies. Where one of them holds an explicit admissible lattice or weight
-table that is the fundamental module of C1 of the Chevalley groups roadmap (the `27`- and
-`56`-dimensional minuscule modules, the `7`- and `26`-dimensional modules), it may be reused as that
-fundamental module's lattice, proved equal to `U_ℤ · v⁺`, rather than rebuilt; the carrier built on it
-is still deleted.
-
-Keep what is not a CFSG carrier: the classical groups `SlStd`, `SpStd` and the spin carriers, which
-are standard realizations in their own right, and the Geck carrier, which is
-`DynkinType.adjointGroupScheme`. Their comparisons with `G_sc(t)` are the Chevalley groups roadmap's
-worked examples and C6, not obligations of this roadmap.
-
-Several modules outside this list import the deleted ones for general lemmas (the spin carriers and
-the Geck lattice import from the minuscule `E₆` and `E₇` files). Move each such lemma to the generic
-Kostant or root-system home it belongs in before deleting its current file. A result proved on a
-deleted carrier that is still wanted, such as the Suzuki generation theorem, is re-proved on the
-Chevalley group or transported to it along an isomorphism the Chevalley groups roadmap supplies, and
-then the original is deleted.
-
-### L6: every Steinberg map is on the list
-
-The seventeen constructors pick seventeen shapes of Steinberg map by name. This milestone proves
-that nothing is missed: every Steinberg endomorphism of the right form is, up to conjugacy, one of
-those shapes. A0 does not depend on it; it is the theorem that the Lie-type half of the list is the
-right list, which the index alone only asserts.
-
-**On the root datum.** Let `t` be a valid Dynkin type, `p` a prime, `P` the datum
-`DynkinType.simplyConnectedRootDatum t` with its pinned base `DynkinType.simplyConnectedBase`, and
-`φ : RootPairingIsogeny P P` with `φ ^ n = RootPairingIsogeny.smulId P (p ^ k)` for some `n > 0` and
-`k > 0`, the shape of `ValidLieTypeIndex.exists_pow_datumSteinberg_eq_smulId`. Call `φ` *based* if
-`φ.indexEquiv` maps every positive root of the pinned base to a positive root. Ordinary conjugacy is
-the wrong equivalence for unbased maps, and the statement has three parts.
-
-1. **Weyl correction.** There is a unique `w` in the Weyl group of `P` with
-   `RootPairingIsogeny.ofEquiv w * φ` based. `φ.indexEquiv` carries the positive system to a
-   positive system, and the Weyl group acts simply transitively on positive systems. This is
-   composition with a Weyl element. It is not conjugation, and it changes `φ`.
-2. **Based classification.** A based `φ` with `φ ^ n = smulId P (p ^ k)` is equal, not merely
-   conjugate, to exactly one of
-   - `(q • id) ∘ (DynkinType.diagramAut σ)⁻¹` for `q = p ^ e` with `e > 0` and `σ` in
-     `DynkinType.diagramSymmetry t`;
-   - the `(2m + 1)`-st power, `m ≥ 0`, of `DynkinType.b2SpecialIsogeny`, `DynkinType.f4SpecialIsogeny`,
-     or `DynkinType.g2SpecialIsogeny`, for `(t, p)` equal to `(B₂, 2)`, `(F₄, 2)`, or `(G₂, 3)`.
-
-   A based `φ` permutes the simple roots, `φ (α_i) = q_i α_{π i}`, and `π` preserves the Cartan
-   matrix up to the scalings `q_i`. Either all `q_i` are equal, and `φ` is a scaling composed with a
-   diagram automorphism, or `(t, p)` is one of the three special pairs, `π` is the length-exchanging
-   permutation, and the long and short `q_i` differ by the factor `p` that the Cartan matrix forces,
-   which is an odd power of the special isogeny. Conjugating by `DynkinType.diagramAut τ` preserves
-   basedness and replaces `σ` by `τ σ τ⁻¹`, so `σ` matters only up to conjugacy in
-   `diagramSymmetry t`. Steinberg, *Endomorphisms of linear algebraic groups*, 11.2 to 11.6, is the
-   source.
-3. **Regression example.** For `t = A₁`, let `s` be the nontrivial Weyl reflection and
-   `φ = RootPairingIsogeny.ofEquiv s * smulId P p`, whose weight map is `-p • id`. Prove that
-   `φ * φ = smulId P (p ^ 2)`, that `φ` is not based, that `ofEquiv s * φ = smulId P p` is based, and
-   that `φ` is not conjugate under `Aut(P)` to any map in the list. `Aut(P) = {±id}` is abelian, so
-   conjugation fixes `φ`, and the `A₁` part of the list consists of the positive scalings
-   `p ^ e • id`. This is why part 2 is stated for based maps.
-
-These are the maps `GraphTwistedIndex.datumSteinberg` and `SuzukiReeIndex.datumSteinberg` of L1 and
-L2, at raw parameters.
-
-**On the group.** Let `k` be an algebraically closed field of characteristic `p` and `F` a *based*
-standard endomorphism of `ChevalleyGroup t ht k`, in the sense of C5 of the Chevalley groups roadmap:
-it carries an injective `φ` with `IsCharacterMap F φ`, maps root subgroups onto root subgroups, and
-maps positive root subgroups to positive ones, so it preserves the torus and the Borel subgroup.
-Assume some positive power of `F` is `Frob_{p^r}` with `r > 0`. Prove that there are a torus point
-`u`, a graph automorphism `γ_τ`, and a map `F₀` from the list above lifted by C5
-(`γ_σ ∘ Frob_q` or `τ ^ (2m + 1)`), with `F = ψ ∘ F₀ ∘ ψ⁻¹` for `ψ = Int(u) ∘ γ_τ`. Consequently
-`fixedSubgroup F ≃* fixedSubgroup F₀`, and the derived central quotients are isomorphic. The route,
-each step a named lemma:
-
-1. `φ ^ n = p ^ r • id`, from `F ^ n = Frob_{p^r}`, composition of character maps, and their
-   uniqueness over the infinite field `k`. `φ` is based because `F` preserves positivity.
-2. By part 2 on the root datum, `φ` is the character map `φ₀'` of `F₁ = γ_τ ∘ F₀ ∘ γ_τ⁻¹` for some
-   `τ` and a listed `F₀`, using how conjugation by `γ_τ` changes character maps (C5).
-3. Rigidity up to the torus (C5): `F = Int(s) ∘ F₁` for a torus point `s`.
-4. Lang's equation on the torus (C5, `exists_torus_eq_mul_inv`): `φ₀' ^ n = p ^ r • id`, so `1 - φ₀'`
-   is injective and `s = u F₁(u)⁻¹` for some torus point `u`. Then
-   `Int(u) ∘ F₁ ∘ Int(u)⁻¹ = Int(u F₁(u)⁻¹) ∘ F₁ = F`. Rigidity alone does not give this step.
-
-**Relation to the index.** When the parameters `(σ, q)` or `m` of `F₀` are those of a valid index
-`d`, `F₀` is `d.steinberg`. The parameters of no valid index are exactly the range exclusions and
-the duplicate representatives of I0, together with type `C` in characteristic two, which the list
-carries as type `B`. The isomorphisms behind the duplicate table and the `B`/`C` coincidence are
-not targets of this roadmap.
-
-The hypothesis that `F` is based is part of the statement, and it is not automatic for a standard
-`F`. On `SL₂`, `F = Int([[0, 1], [-1, 0]]) ∘ Frob_p` preserves the torus, exchanges the two root
-subgroups, has `F² = Frob_{p²}`, and acts on the torus by `-p`; it is the group form of the `A₁`
-example. It is conjugate to `Frob_p` in `SL₂(k)`, but only by an element outside the normalizer of
-the torus, found by Lang's theorem. Passing from an arbitrary endomorphism some power of which is a
-Frobenius to a based standard one uses an `F`-stable Borel subgroup and maximal torus in it
-(Steinberg, *Endomorphisms of linear algebraic groups*, 7.2 and 10.10) and the Lang–Steinberg
-theorem (10.1 there), and needs `F` to be a morphism of algebraic groups. This roadmap does not
-prove those and does not assume them; a consumer that needs the unbased statement names its
-supplier.
+This is the obligation an explicit carrier creates, and it is what makes the explicit route a route
+to the same object rather than a second construction. It depends on Layer 9 of the reductive-groups
+roadmap, which is why it is separately claimable and may be the last Lie-type item to land, and why
+the per-family `Group` definitions and A0 do not wait for it. A signature cannot be displayed in
+`Suggested.lean` until the pinned points exist to state it against.
 
 ### S0: auditable presentation data and source selection
 

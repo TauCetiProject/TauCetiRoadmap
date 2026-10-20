@@ -1,6 +1,5 @@
 import Mathlib
-import TauCeti.LinearAlgebra.RootSystem.RootLength
-import TauCetiRoadmap.ChevalleyGroups.Suggested
+import TauCetiRoadmap.RepresentationTheory.RootSystems.Suggested
 
 /-!
 # A statement of the classification of finite simple groups: target signatures
@@ -15,15 +14,14 @@ The scope ends at the final named proposition: this roadmap defines the groups o
 enough to state that every finite simple group is isomorphic to one of them. It does not ask for
 proofs that the listed groups are finite or simple, or for a proof of the classification.
 
-This file uses Tau Ceti's native `TauCeti.DynkinType`, the type the root-systems roadmap's Layer 6
-landed as, with its pinned Bourbaki numbering, and imports the Chevalley groups roadmap's target
-signatures, so that `AmbientGroup` is literally that roadmap's `ChevalleyGroup` and nothing
-downstream has to reconcile two copies of the same diagram.
+This file imports the root-systems roadmap's targets rather than restating them. `DynkinType` and
+its pinned Bourbaki numbering are that roadmap's, and every Lie-type index here is required to name
+one, so that nothing downstream has to reconcile two numberings of the same diagram.
 -/
 
 namespace TauCetiRoadmap.CFSGStatement
 
-open TauCeti
+open TauCetiRoadmap.RepresentationTheory.RootSystems
 
 /-! ## Parameters and the groups of Lie type -/
 
@@ -289,8 +287,8 @@ theorem SuzukiReeIndex.isLongSimpleRoot_lengthPerm (e : SuzukiReeIndex) (i : Fin
 def SuzukiReeIndex.exponent (e : SuzukiReeIndex) : Fin e.1.rank → ℕ := sorry
 
 /-- **The exponent convention**, stated once against `DynkinType.IsLongSimpleRoot` rather than as a
-table per family: `1` on the long simple roots. The assignment is forced: the torus relations give
-`q(short) = 2 q(long)` (README L2), so the reversed assignment does not define an endomorphism. -/
+table per family: `1` on the long simple roots. Attaching `1` to long and `p` to short is a genuine
+choice, since the opposite assignment also squares to `Frob_p`. -/
 theorem SuzukiReeIndex.exponent_of_isLongSimpleRoot (e : SuzukiReeIndex) (i : Fin e.1.rank)
     (h : e.1.dynkinType.IsLongSimpleRoot i) : e.exponent i = 1 := sorry
 
@@ -313,6 +311,16 @@ against the identity. -/
 def fixedSubgroup {G : Type*} [Group G] (F : G →* G) : Subgroup G :=
   F.eqLocus (MonoidHom.id G)
 
+/-- The ambient group attached to the valid index `d`: the points over an algebraic closure of the
+explicitly pinned simply connected Chevalley--Demazure group, or, under the explicit-carrier rule of
+`README.md`, a concrete carrier with named root subgroups that then owes the `L5` agreement with the
+pinned group. Either way the implementation must expose the root-subgroup maps specified in
+`README.md`, and neither may be a group chosen from an existence or classification theorem. -/
+def ValidLieTypeIndex.AmbientGroup (_d : ValidLieTypeIndex) : Type := sorry
+
+/-- The group structure on the algebraic group's points. -/
+instance (d : ValidLieTypeIndex) : Group d.AmbientGroup := sorry
+
 /-- The algebraic closure of the prime field the ambient group is taken over, pinned to Mathlib's
 `AlgebraicClosure` of `ZMod p` rather than left as "an algebraic closure of `𝔽_p`". Its `Field`,
 `IsAlgClosed` and `CharP` instances then come from Mathlib rather than from this roadmap, and the
@@ -320,28 +328,17 @@ def fixedSubgroup {G : Type*} [Group G] (F : G →* G) : Subgroup G :=
 noncomputable abbrev ValidLieTypeIndex.Closure (d : ValidLieTypeIndex) : Type :=
   AlgebraicClosure (ZMod d.characteristic)
 
-/-- The ambient group attached to the valid index `d`: the points over `d.Closure` of the simply
-connected Chevalley--Demazure group of `d.dynkinType`, `ChevalleyGroup` of the Chevalley groups
-roadmap. Every family of the same diagram, twisted or not, has this same ambient group. -/
-abbrev ValidLieTypeIndex.AmbientGroup (d : ValidLieTypeIndex) : Type :=
-  ChevalleyGroups.ChevalleyGroup d.dynkinType d.dynkinType_valid d.Closure
-
-/-- The group structure on the algebraic group's points, from the Chevalley groups roadmap. -/
-noncomputable instance (d : ValidLieTypeIndex) : Group d.AmbientGroup :=
-  inferInstanceAs (Group (ChevalleyGroups.ChevalleyGroup d.dynkinType d.dynkinType_valid d.Closure))
-
 noncomputable example (d : ValidLieTypeIndex) : Field d.Closure := inferInstance
 example (d : ValidLieTypeIndex) : IsAlgClosed d.Closure := inferInstance
 example (d : ValidLieTypeIndex) : CharP d.Closure d.characteristic := inferInstance
 
 /-- The numbered simple root subgroup `x_{α_i}` of the pinning, as a map from the additive group of
-the algebraic closure: `rootSubgroup` of the Chevalley groups roadmap at `DynkinType.simpleIndex`.
-The root subgroups for every root come from that roadmap; this is the piece the equations below are
-stated against, and the piece a pinning normalizes. -/
-noncomputable def ValidLieTypeIndex.simpleRootSubgroup (d : ValidLieTypeIndex) (i : Fin d.rank)
-    (t : d.Closure) : d.AmbientGroup :=
-  ChevalleyGroups.rootSubgroup d.dynkinType d.dynkinType_valid d.Closure
-    (d.dynkinType.simpleIndex d.dynkinType_valid i) (.ofAdd t)
+the algebraic closure. The full root-subgroup family is part of the pinned route's contract, and an
+explicit carrier owes the positive and negative simple root subgroups and generation by them, as
+`README.md` states under L0; this is the piece the equations below are stated against, and the piece
+a pinning normalizes. -/
+def ValidLieTypeIndex.simpleRootSubgroup (d : ValidLieTypeIndex) (i : Fin d.rank)
+    (t : d.Closure) : d.AmbientGroup := sorry
 
 /-- Each simple root subgroup is a homomorphism from the additive group of the closure. -/
 theorem ValidLieTypeIndex.simpleRootSubgroup_add (d : ValidLieTypeIndex) (i : Fin d.rank)
@@ -363,12 +360,11 @@ family, so no branch needs a dummy construction. -/
 def GraphTwistedIndex.graphAut (d : GraphTwistedIndex) :
     d.1.AmbientGroup →* d.1.AmbientGroup := sorry
 
-/-- `γ (x_α(t)) = x_{γ α}(t)` for `α` positive simple; the same holds for the negative simple roots.
-Together these are the pinning condition, and `γ` is then the unique automorphism with that action,
-by C5 of the Chevalley groups roadmap. It must not be
-strengthened to arbitrary roots: there the equation carries signs `ε_α = ±1` forced by the
-structure constants, and the type-`A` graph automorphism `X ↦ -J Xᵀ J` of `sl_n` already exhibits
-them. -/
+/-- `γ (x_α(t)) = x_{γ α}(t)` for `α` simple. This is the pinning condition, and `γ` is then the
+unique automorphism with that action, by the isomorphism theorem for pinned groups targeted in the
+reductive-groups roadmap. It must not be strengthened to arbitrary roots: there the equation carries
+signs `ε_α = ±1` forced by the structure constants, and the type-`A` graph automorphism
+`X ↦ -J Xᵀ J` of `sl_n` already exhibits them. -/
 theorem GraphTwistedIndex.graphAut_simpleRootSubgroup (d : GraphTwistedIndex) (i : Fin d.1.rank)
     (t : d.1.Closure) :
     d.graphAut (d.1.simpleRootSubgroup i t) = d.1.simpleRootSubgroup (d.diagramPerm i) t := sorry
@@ -377,8 +373,8 @@ theorem GraphTwistedIndex.graphAut_simpleRootSubgroup (d : GraphTwistedIndex) (i
 def ValidLieTypeIndex.primeFrobenius (d : ValidLieTypeIndex) :
     d.AmbientGroup →* d.AmbientGroup := sorry
 
-/-- The exceptional isogeny `τ_X` on the points of `e`, obtained from the exceptional isogeny of the
-Chevalley group, C5 of the Chevalley groups roadmap, rather than constructed here. What this
+/-- The exceptional isogeny `τ_X` on the points of `e`, obtained from the special isogeny of pinned
+group schemes targeted by the reductive-groups roadmap rather than constructed here. What this
 roadmap owns is selecting it for the index and taking the odd power below. -/
 def SuzukiReeIndex.halfFrobenius (e : SuzukiReeIndex) :
     e.1.AmbientGroup →* e.1.AmbientGroup := sorry
@@ -580,7 +576,7 @@ abbrev CFSGIndex.Group : CFSGIndex → Type
   | .lie index => index.Group
   | .sporadic name => name.Group
 
-noncomputable instance : (i : CFSGIndex) → Group i.Group
+instance : (i : CFSGIndex) → Group i.Group
   | .cyclic .. => inferInstance
   | .alternating .. => inferInstance
   | .lie .. => inferInstance

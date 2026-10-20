@@ -347,6 +347,7 @@ Suggested home:
 ```text
 TauCeti/MeasureTheory/Measure/ProductKernel.lean
 TauCeti/Probability/DeFinetti/CommonEnding.lean
+TauCeti/Probability/DeFinetti/ConditionalCommonEnding.lean
 ```
 
 Consume Mathlib's product/cylinder infrastructure — `generateFrom_pi`, `isPiSystem_pi`,
@@ -620,6 +621,8 @@ Finally build the exchangeability-specific bridge:
 pathSpace_contractable_of_contractable
 measure_map_shift_eq_of_contractable
 pathSpace_shift_preserving_of_contractable
+invariantConditionalProbabilityMeasure
+ContractableLaw.conditionallyIIDWith_invariantConditionalProbabilityMeasure
 conditionallyIID_transfer
 conditionallyIID_bind_of_contractable
 deFinetti_viaKoopman
@@ -677,10 +680,17 @@ The directing-measure theorem should expose a real API, not just an existence pr
 * **a.e.** uniqueness of `ν` **among directing measures**, i.e. among witnesses of
   `ConditionallyIIDWith` (`conditionallyIID_ae_unique`: equality of probability measures a.e.
   under the base law, tested against a determining class — not pointwise). Pin its hypotheses:
-  `[IsProbabilityMeasure μ] [MeasurableSpace.CountablyGenerated α]`, a.e.-measurable coordinates
-  `∀ i, AEMeasurable (X i) μ`, and two explicit `ConditionallyIIDWith μ X ν` /
-  `ConditionallyIIDWith μ X ν'` hypotheses, concluding
-  `ν =ᵐ[μ] ν'`. Mere mixing
+  `[IsFiniteMeasure μ] [MeasurableSpace.CountablyGenerated α]` and two explicit
+  `ConditionallyIIDWith μ X ν` / `ConditionallyIIDWith μ X ν'` hypotheses, concluding
+  `ν =ᵐ[μ] ν'`. Coordinatewise a.e. measurability follows from either witness through
+  `ConditionallyIIDWith.aemeasurable`.
+  The setwise theorem `ConditionallyIIDWith.ae_measure_apply_eq` gives a.e. equality of the
+  witnesses' evaluations on each fixed measurable set under `[IsFiniteMeasure μ]`, without a
+  countable-generation hypothesis. Compare both witnesses with the same empirical frequencies
+  using `ConditionallyIIDWith.tendsto_integral_empiricalFrequency_sub_sq`; the L² triangle
+  inequality gives the setwise equality. A countable generating algebra then gives a single
+  conull set on which the measures agree. This argument includes the zero measure without
+  normalization. Mere mixing
   representatives (witnesses of `MixedIIDWith`) are **not** a.e. unique when the mixing law is
   nondegenerate — an independent copy of `ν` is one — so no witness-level a.e.-equality
   theorem may conclude `ν = ν'` from `MixedIIDWith` alone; the mixture-side uniqueness is of
@@ -770,6 +780,55 @@ The directing-measure theorem should expose a real API, not just an existence pr
 
 This is the default route for the final public API.
 
+#### Coherence of the route witnesses
+
+For the coordinate process on path space, the default and L² routes use the same tail-conditioned
+witness, `directingProbabilityMeasure`. The Koopman route independently constructs
+`invariantConditionalProbabilityMeasure` by conditioning on the shift-invariant σ-algebra. These
+are two canonical random probability measures whose agreement lets users pass between the routes.
+
+The underlying σ-algebras are not identified: the invariant and tail measurable spaces can differ
+as raw measurable spaces, already for `Bool` (`invariants_shift_lt_pathTail`). Under a contractable
+finite measure the two canonical conditional laws agree almost everywhere.
+
+Suggested home:
+
+```text
+TauCeti/Probability/DeFinetti/WitnessAgreement.lean
+```
+
+Expose the object-level coherence theorem:
+
+```lean
+namespace ContractableLaw
+
+theorem invariantConditionalProbabilityMeasure_ae_eq_directingProbabilityMeasure
+    {α : Type*} [MeasurableSpace α] [StandardBorelSpace α] [Nonempty α]
+    {ρ : Measure (ℕ → α)} [IsFiniteMeasure ρ]
+    (hρ : ContractableLaw ρ) :
+    invariantConditionalProbabilityMeasure ρ =ᵐ[ρ]
+      directingProbabilityMeasure ρ (fun n (x : ℕ → α) ↦ x n)
+
+end ContractableLaw
+```
+
+Apply the finite-measure uniqueness theorem `conditionallyIID_ae_unique` above to the two
+named-witness theorems:
+
+* `conditionallyIIDWith_of_contractable_pathSpace`;
+* `ContractableLaw.conditionallyIIDWith_invariantConditionalProbabilityMeasure`.
+
+The L² witness theorem `Contractable.conditionallyIIDWith_directingProbabilityMeasure`, specialized
+to the coordinate process on path space, uses the same tail-conditioned witness as the default
+theorem. Their witness agreement in this setting is definitional.
+
+`ContractableLaw.map_prefixProj_of_strictMono` supplies the finite-marginal bridge needed to view
+the coordinate process as `Contractable`.
+
+This target does not assert equality of the invariant and tail σ-algebras or pointwise equality of
+the witnesses. No separate `ExchangeableLaw` corollary is a target; exchangeable laws are covered
+through `ExchangeableLaw.contractableLaw`. The comparison belongs downstream of the route proofs.
+
 ### Layer 7: public API and examples
 
 Suggested home:
@@ -815,12 +874,59 @@ deFinetti_empiricalMeasure
 ConditionallyIIDWith.jointPathLaw_eq_iidMixtureLaw
 deFinetti_mixture
 mixedIID_mixingLaw_unique
+ConditionallyIIDWith.ae_measure_apply_eq
 conditionallyIID_ae_unique
+ContractableLaw.invariantConditionalProbabilityMeasure_ae_eq_directingProbabilityMeasure
 exchangeable_extreme_iff_iid
 ```
 
 Route-specific theorem names should keep their suffixes. The unsuffixed theorem should be
 the general martingale route.
+
+#### Proof-route import independence
+
+The three proofs may share neutral definitions and genuinely generic common-ending infrastructure,
+but no route may acquire another route's proof-specific machinery transitively.
+
+The following Tau Ceti modules carry the default route's reverse-martingale machinery. They are
+prohibited transitive dependencies of the L² and Koopman routes:
+
+```text
+TauCeti.Probability.DeFinetti.Theorem
+TauCeti.Probability.DeFinetti.BlockFactorization
+TauCeti.Probability.DeFinetti.TailFactorization
+TauCeti.Probability.DeFinetti.FutureFactorization
+TauCeti.Probability.DeFinetti.PrefixDeletion
+TauCeti.Probability.DeFinetti.JointRectangle
+TauCeti.Probability.Martingale.*
+TauCeti.Probability.Process.Tail.ReverseFiltration
+```
+
+| Consumer | Required import boundary |
+| --- | --- |
+| Default route | Must not import `ViaL2`, `ViaKoopman`, `CanonicalMixture`, or `WitnessAgreement`. |
+| L² route | Must not import the prohibited transitive dependencies above, `ViaKoopman`, `CanonicalMixture`, or `WitnessAgreement`. |
+| Koopman route | Must not import the prohibited transitive dependencies above, `ViaL2`, `CanonicalMixture`, or `WitnessAgreement`. |
+| `CanonicalMixture` | May import the default-route and L² closures. It must not be imported by any route. |
+| `WitnessAgreement` | May import the default-route closure, including `TauCeti.Probability.DeFinetti.JointRectangle`, and the `ViaKoopman` closure. It must not be imported by any route. |
+| `TauCeti.Probability.DeFinetti` | May aggregate all three routes, `CanonicalMixture`, and `WitnessAgreement`. |
+| `TauCeti.Probability.Exchangeability` | Must remain below every representation route and coherence module. |
+
+`TauCeti.Probability.DeFinetti.JointRectangle` belongs to the default route's proof-specific
+machinery. `TauCeti.Probability.DeFinetti.ConditionalCommonEnding` is the neutral joint-rectangle
+ending from Layer 1, shared by the L², Koopman, and default routes.
+
+`CanonicalMixture` is a downstream identification module: it identifies the law of the canonical
+directing measure with the mixing laws supplied by the representation and correspondence APIs.
+Its L² input names `directingProbabilityMeasure μ X` as the witness on an arbitrary measurable
+sample space, so it combines the default-route and L² closures rather than belonging to either
+route.
+
+Neutral shared infrastructure is otherwise excepted from the route-specific prohibitions. In
+particular, the routes may share the representation predicates, path-law bridges, the canonical
+directing-measure definitions, and genuinely generic common endings. This exception does not
+override the prohibited transitive dependencies above, even for generic modules such as
+`TauCeti.Probability.Martingale.Reverse`.
 
 ### Layer 8: generalized exchangeability and representation theorems
 
@@ -916,7 +1022,46 @@ objects, not just the final theorem.
 * The tail-family of a process is antitone.
 * The Lévy downward theorem specializes correctly to an eventually constant decreasing
   filtration (a test of `tendsto_ae_condExp_iInf`, not a de Finetti example).
+  Implemented as `tendsto_ae_condExp_of_eventually_const`
+  (`TauCeti/Probability/Martingale/LevyDownwardEventuallyConst.lean`).
 * In the real-valued L² lane, bounded observables give `MemLp 2` automatically.
+
+## Roadmap-to-implementation references
+
+The milestone lists above name targets, and `Suggested.lean` permits implementation names to
+differ. This table points each milestone whose implementation lives under a different name, or
+only inside another proof, to where it is established, so the lists can be checked against
+the library. Each row was checked against the declaration's hypotheses and conclusion; the
+requirements above are unchanged.
+
+| Roadmap name | Implemented as | Module | Note |
+|---|---|---|---|
+| `exists_perm_extending_strictMono` | Mathlib `Equiv.Perm.exists_extending_pair`; finitely supported form `exists_compl_fixedBy_subset_apply_eq` | `Mathlib/Logic/Equiv/Fintype`; `Algebra/GroupAction/FiniteSupportPerm` | for any injective finite selection, so strictly monotone ones in particular |
+| `contractable_of_exchangeable` | `Exchangeable.contractable` | `Probability/Exchangeability/Contractability` | takes `∀ i, AEMeasurable (X i) μ` |
+| `shift_measurable` | `measurable_shift` | `Probability/Exchangeability/Basic` | |
+| `shift_iterate_measurable` | `measurable_shift.iterate n` (Mathlib `Measurable.iterate`) | — | no separate declaration |
+| `tail_le_exchangeableSigma` | `pathTail_le_exchangeableSigma` | `Probability/Exchangeability/PathSpace/Exchangeable/Sigma` | |
+| `upcrossings_bdd_uniform` | `exists_lintegral_upcrossings_condExp_le` | `Probability/Martingale/Crossings/Bounds` | a finite bound on the expected total upcrossings of `n ↦ μ[f \| 𝔽 n]` |
+| `condExp_exists_ae_limit_antitone` | `exists_integrable_tendsto_ae_condExp_of_antitone` | `Probability/Martingale/AntitoneLimit` | |
+| `ae_limit_is_condexp_iInf` | established internally in the proof of `tendsto_ae_condExp_iInf` | `Probability/Martingale/Convergence` | the identification is a private lemma, consumed by the private joint a.e. and L¹ convergence theorem behind `tendsto_ae_condExp_iInf`; the public endpoint needs no integrability hypothesis |
+| `koopman` | Mathlib `MeasureTheory.Lp.compMeasurePreserving` | `Mathlib/MeasureTheory/Function/LpSpace/Basic` | used directly, as planned above |
+| `koopman_isometry` | Mathlib `Lp.compMeasurePreservingₗᵢ` (with `coe_compMeasurePreservingₗᵢ`) | `Mathlib/MeasureTheory/Function/LpSpace/Basic`; `Probability/Ergodic/FixedSpace` | |
+| `fixedSubspace` | `fixedSpace T hT` | `Probability/Ergodic/FixedSpace` | for any measure-preserving `T`, the shift included |
+| `metProjectionShift` | `metProjection T hT` | `Probability/Ergodic/MeanErgodic` | for any measure-preserving `T` |
+| `condexpL2` | Mathlib `MeasureTheory.condExpL2` | — | |
+| `koopman_eq_self_of_shiftInvariant` | `compMeasurePreserving_eq_self_iff`, `mem_fixedSpace_iff_aestronglyMeasurable_invariants` | `Probability/Ergodic/FixedSpace`; `Probability/Ergodic/InvariantSigma` | both directions, for any measure-preserving `T` |
+| `aestronglyMeasurable_shiftInvariant_of_koopman` | `aestronglyMeasurable_invariants_of_comp_ae_eq` | `Probability/Ergodic/InvariantSigma` | assumes only quasi-measure-preservation |
+| `lpMeas_eq_fixedSubspace` | `fixedSpace_eq_lpMeas_invariants` | `Probability/Ergodic/InvariantSigma` | real-valued `Lᵖ` over `ℝ` |
+| `proj_eq_condexp` | `metProjection_eq_condExpL2`, `metProjection_ae_eq_condExp` | `Probability/Ergodic/CondExpProjection` | |
+| `metProjectionShift_tendsto` | `birkhoffAverage_tendsto_metProjection`, `birkhoffAverage_tendsto_condExpL2` | `Probability/Ergodic/MeanErgodic`; `Probability/Ergodic/CondExpProjection` | |
+| `pathSpace_contractable_of_contractable` | `Contractable.contractableLaw_pathLaw` | `Probability/Exchangeability/PathSpace/Law/Bridge` | finite measure, a.e.-measurable coordinates |
+| `measure_map_shift_eq_of_contractable` | `ContractableLaw.map_shift`; process form `Contractable.measurePreserving_shift` | `Probability/Exchangeability/PathSpace/ContractableLaw`; `Probability/Exchangeability/Contractability` | |
+| `pathSpace_shift_preserving_of_contractable` | `ContractableLaw.measurePreserving_shift` | `Probability/Exchangeability/PathSpace/ContractableLaw` | |
+| `conditionallyIID_transfer` | `conditionallyIID_of_conditionallyIID_pathLaw`; witness form `ConditionallyIIDWith.of_pathLaw` | `Probability/Exchangeability/ConditionallyIID/Map` | measurable coordinates |
+| `conditionallyIID_bind_of_contractable` | `ContractableLaw.conditionallyIIDWith_invariantConditionalProbabilityMeasure` | `Probability/DeFinetti/ViaKoopman/Theorem` | the joint-disintegration predicate, with the invariant conditional law as directing measure |
+| `exchangeable_of_mixedIID` | `MixedIID.exchangeable` | `Probability/Exchangeability/MixedIID/Implications` | |
+
+Modules are paths under `TauCeti/` unless marked Mathlib.
 
 ## Ordering
 
