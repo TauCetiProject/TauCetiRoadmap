@@ -26,18 +26,18 @@ Neumann equivalence means there is a rectangular matrix v with `v*v=p`
 and `vv*=q`, where the first star is conjugate transpose. Use rectangular
 matrix multiplication, not casts identifying unequal matrix sizes.
 
-- [CStarAlgebras C1–C2](../CStarAlgebras/README.md) supplies ideals,
+- [CStarAlgebras C1–C2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a35ac0d546695b37b8e36cd92ecc67e7ac93e82/TauCetiRoadmap/CStarAlgebras/README.md) supplies ideals,
   quotients, multipliers and functional calculus. C5 supplies spatial
   tensors, C*-inductive limits and the path/cone/mapping-cone API.
   C6–C8 supplies nuclearity, exactness
   and completely positive liftings under their respective hypotheses.
 - [BanachAlgebras](../BanachAlgebras/README.md) supplies holomorphic
   functional calculus, used for idempotent loops in the direct Bott proof.
-- [HilbertModules H1–H4](../HilbertModules/README.md) supplies compact and
+- [HilbertModules H1–H4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0cd29293b2012f2bff9e33d7c9f29d393df577fc/TauCetiRoadmap/HilbertModules/README.md) supplies compact and
   adjointable module operators, tensor products, Morita equivalence and
   stabilization. H5 supplies the analytic Serre–Swan equivalence; H6–H7
   supplies regular operators and their bounded transforms.
-- [OperatorAlgebraDynamics D1–D4](../OperatorAlgebraDynamics/README.md)
+- [OperatorAlgebraDynamics D1–D4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ef4dd5c067cd5ecfa71a31ff107eb7b16ba3e24c/TauCetiRoadmap/OperatorAlgebraDynamics/README.md)
   supplies full and reduced crossed products, Green imprimitivity and
   Takai duality. Their K-theory and KK consequences belong here.
 - [GrothendieckEulerForms Layers 1–2](../GrothendieckEulerForms/README.md)
@@ -45,7 +45,7 @@ matrix multiplication, not casts identifying unequal matrix sizes.
   Consume actual `TauCeti.SplitK0` and
   `Algebra.GrothendieckAddGroup`, comparing their presentations rather
   than defining another group-completion mechanism.
-- [TopologicalKTheory T1–T6](../TopologicalKTheory/README.md) supplies
+- [TopologicalKTheory T1–T6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/58f69670927e9f48498986e7b6fc0bcf4e48bf1e/TauCetiRoadmap/TopologicalKTheory/README.md) supplies
   finite-rank continuous bundles, geometric K-groups of compact pairs
   and compact supports, and geometric complex Bott periodicity. This
   roadmap proves the comparison with `K_i(C₀(X))` and Bott for general
@@ -55,7 +55,7 @@ matrix multiplication, not casts identifying unequal matrix sizes.
   index, together with Tau Ceti's compact-perturbation and continuous-family
   APIs. [OperatorTheory](../OperatorTheory/README.md) supplies Hilbert
   spectral theory and compact operators.
-  [PseudodifferentialOperators](../PseudodifferentialOperators/README.md)
+  [PseudodifferentialOperators](https://github.com/TauCetiProject/TauCetiRoadmap/blob/063cf517a1dcc4d929e0602c6e6f585953aceab8/TauCetiRoadmap/PseudodifferentialOperators/README.md)
   owns elliptic symbols, parametrices and Fredholm operators on manifolds;
   this roadmap owns the general Calkin, module-index and K-pairing bridges.
 
@@ -346,11 +346,42 @@ Busby invariants `τ:A→Q(B⊗K)`. Prove reconstruction by the multiplier
 pullback, characterize essential extensions by injectivity of τ, and
 identify split extensions with Busby maps admitting *-homomorphic lifts.
 Distinguish equality of Busby maps, conjugacy by a multiplier unitary,
-and conjugacy by a corona unitary. Define addition using two orthogonal
-isometries in the multiplier algebra, prove independence up to multiplier
-unitary equivalence, and define stable equivalence by allowing addition
-of split extensions on both sides. The resulting Ext monoid has the
-split class as zero; it is not a group by definition.
+and conjugacy by a corona unitary. Construct a complete pair of multiplier
+isometries `s₀,s₁∈M(B⊗K)` satisfying
+`sᵢ* sⱼ=δᵢⱼ1` and `s₀s₀*+s₁s₁*=1`. Use H1's standard right module
+H_B and H2's `L_B(H_B)≃M(B⊗K)`: on finitely supported sequences put
+`Sᵢ(b)_((2n)+i)=b_n` for i=0,1, with every other coordinate zero.
+Prove preservation of the norm-summable B-valued inner product, extend by
+finite-support density, and construct the adjoints by extracting the
+even and odd coordinates. The resulting unitary
+`W:H_B⊕H_B→H_B`, `W(x,y)=S₀x+S₁y`, has inverse
+`z↦(S₀*z,S₁*z)`. Transport Sᵢ through the stated adjointable/multiplier
+comparison to obtain sᵢ; B need not be unital. Include B=0 using the
+zero algebra's unit0 and the zero-module unitary, without imposing a
+nonzero-unit hypothesis.
+
+Writing q for the multiplier quotient map, define the actual sum by
+`(τ₀⊞ₛτ₁)(a)=Σ_(i=0,1) q(sᵢ)τᵢ(a)q(sᵢ)*`. Prove linearity, star and
+multiplication from the pair relations. No unitality of A or τᵢ is needed;
+when A is unital and both τᵢ are unital, the range-sum identity proves
+the sum is unital. For any other complete pair t construct
+`U=t₀s₀*+t₁s₁*` with inverse `s₀t₀*+s₁t₁*`. Prove
+`U*U=UU*=1`, `Usᵢ=tᵢ`, and
+`q(U)(τ₀⊞ₛτ₁)(a)q(U)*=(τ₀⊞ₜτ₁)(a)` for every a.
+Orthogonal ranges alone do not suffice: on ℓ²(ℕ), the even/odd pair has
+range sum1, whereas the pair sending e_n to e_(3n) and e_(3n+1)
+has range sum1−R with R the infinite-rank projection onto e_(3n+2).
+For two unital scalar split Busby maps their sums send1 respectively to
+1 and1−q(R) in the Calkin algebra, which are not unitarily conjugate.
+Prove R is noncompact and retain this example as a boundary test.
+
+Use complete pairs for both ordinary and unital strong extension addition.
+For split inputs, the same formula on their multiplier *-homomorphic lifts
+is a lift of the sum. Prove compatibility with multiplier-unitary equivalence,
+commutativity and associativity using the block permutations and regrouping
+unitaries of H_B finite sums. Define stable equivalence by allowing addition
+of split extensions on both sides. The resulting Ext monoid has the split
+class as zero; it is not a group by definition.
 
 Prove that a stable extension class is invertible precisely when its
 Busby invariant admits a completely positive contractive multiplier
@@ -614,9 +645,42 @@ product and compatibility with Dynamics D1's Haar and involution
 conventions. Build the left action and descended cycle and prove
 functoriality and compatibility of
 `j_G:KK_G(A,B)→KK(A⋊G,B⋊G)` with identities and Kasparov products.
-Prove Green–Julg for compact G:
-`KK_G^i(ℂ,B)≃K_i(B⋊G)`. For B=ℂ identify degree zero with the
-complex representation ring and prove degree one vanishes. For compact Lie G compare the commutative
+For compact G, still second countable as above, and separable graded
+G-algebra B with a grading-preserving action, put
+`K_i^gr(D)=KK_i(ℂ,D)` for a graded C*-algebra D, using K5's fixed
+Clifford degree and period comparisons and trivially graded ℂ.
+Equip B⋊G with the grading induced by B and trivial grading on the group
+unitaries; prove compatibility with the full crossed-product construction.
+Prove the graded Green–Julg isomorphism
+`KK_G^i(ℂ,B)≃K_i^gr(B⋊G)` in both degrees, natural in equivariant graded
+coefficient maps. Construct the forward map from descent and the trivial
+representation projection `p_G=∫_G u_g dg∈C*(G)` for normalized Haar measure,
+meaning the integrated constant function1 in `C_c(G)`, not an assumed
+operator-norm Bochner integral of the multiplier unitaries:
+`x↦[p_G]⊗_(C*(G))j_G(x)`, with the Clifford factor carrying the trivial
+G-action. For the inverse construct the regular B⋊G–B correspondence
+`L²(G,B)` from D1–D2 and H1–H3: use the Hilbert-module completion of
+`C_c(G,B)` for `⟨ξ,η⟩=∫ ξ(r)*η(r)dr`, not the Banach-space
+Bochner L² norm of B-valued functions, with
+`ρ(b)ξ(r)=β_(r⁻¹)(b)ξ(r)`, `λ_sξ(r)=ξ(s⁻¹r)` and the commuting
+semilinear G-action `V_gξ(r)=β_g(ξ(rg))`. For compact G prove the
+integrated left action has image in `K_B(L²(G,B))`, by continuous
+B-valued kernel approximation on G×G and finite-rank module operators.
+Tensor a degree-zero graded cycle over B⋊G with this correspondence,
+with F⊗1, the induced grading and this G-action. For degree i externally
+tensor the correspondence with Cl_i carrying the trivial G-action and
+construct the grading-preserving generator comparison
+`(B⋊G)⊗̂Cl_i≃(B⊗̂Cl_i)⋊G`. Apply the same cycle construction over
+B⊗̂Cl_i, retaining its Clifford grading. Prove the compactness and
+continuity requirements in both degrees, and that this is inverse to the
+forward map by the normalized-Haar projection and the corresponding
+module unitaries/homotopies. Prove both composites are identities.
+For trivially graded B, use K5's ordinary K comparison to obtain
+`KK_G^i(ℂ,B)≃K_i(B⋊G)` with K1–K3's ordinary K-groups and their
+fixed signs. Do not forget a nontrivial grading when applying this ordinary
+comparison. Include nonunital and zero B under the same definitions.
+For B=ℂ identify degree zero with the complex representation ring and prove
+degree one vanishes. For compact Lie G compare the commutative
 case with TopologicalKTheory T6's equivariant bundles. Construct the
 comparison maps; do not identify an equivariant bundle group with a
 crossed-product K-group merely by matching their names.
