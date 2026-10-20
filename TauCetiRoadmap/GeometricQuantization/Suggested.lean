@@ -3,7 +3,7 @@ import Mathlib.Analysis.Calculus.ContDiff.Basic
 import Mathlib.Analysis.Complex.Basic
 import Mathlib.Analysis.Complex.Exponential
 import TauCeti.Geometry.Symplectic.StandardCompatible
-import TauCetiRoadmap.SymplecticGeometry.Suggested
+import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Algebra.Lie.Weights.FormalCharacter
 import TauCeti.RepresentationTheory.Compact.Circle
 import TauCeti.RepresentationTheory.Compact.Character.Projection
@@ -14,9 +14,10 @@ definitive specification. This flat prequantum example fixes Hamiltonian,
 curvature and commutator signs without pretending that the principal-bundle
 and polarized-section prerequisites already exist. The general bundle
 interfaces remain targets in the README and SmoothBundlesConnections.
-The common Hamiltonian interface imported here follows proposal #480 and
-is replaced by that API when available; the coordinate definitions below
-are specializations, with explicit comparison theorems.
+The native smooth-two-form contraction and bracket equations below represent
+proposal #480's convention without importing a separate roadmap prototype.
+The README retains the general HamiltonianSystems and SymplecticGeometry
+mathematical dependencies and their explicit comparison obligations.
 -/
 
 noncomputable section
@@ -41,13 +42,14 @@ def planeForm : TauCeti.SmoothTwoForm 𝓘(ℝ, PhasePlane) PhasePlane :=
 
 /-- The coordinate field is a specialization of the common Hamiltonian interface. -/
 theorem hasHamiltonianField_plane (f : PhasePlane → ℝ) (hf : ContDiff ℝ ∞ f) :
-    TauCetiRoadmap.SymplecticGeometry.HasHamiltonianField planeForm f
-      (hamiltonianField f) := by
+    ∀ (x v : PhasePlane),
+      planeForm x (hamiltonianField f x) v = fderiv ℝ f x v := by
   sorry
 
 theorem poissonBracket_matches (f g : PhasePlane → ℝ)
     (hf : ContDiff ℝ ∞ f) (hg : ContDiff ℝ ∞ g) :
-    poissonBracket f g = TauCetiRoadmap.SymplecticGeometry.bracketValue planeForm f g := by
+    poissonBracket f g = fun x ↦
+      planeForm x (hamiltonianField f x) (hamiltonianField g x) := by
   sorry
 
 /-- Connection d+i theta/hbar on the trivial line, theta=p dq. -/
