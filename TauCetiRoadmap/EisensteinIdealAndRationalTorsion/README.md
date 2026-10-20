@@ -170,7 +170,7 @@ In II 9.7 and 11.1, normalizes both `T/I` and the exact order of `c`. In III §5
 
 The denominator is gcd-reduced, with no rounding or factor-of-two ambiguity.
 
-*Source:* [Mazur1977] Introduction p. 35; II §11, pp. 98–99.
+*Source:* [Mazur1977] Introduction, Theorem (1), p. 33; II §11, pp. 98–99.
 
 ### 0.2 The full and cuspidal Eisenstein ideals
 
@@ -982,31 +982,45 @@ This excludes rational points, not all rational cyclic isogenies of degree `P`.
 
 ### 7.9 Formal immersion at cusps
 
-Prove `formal_immersion` in the source's general level. Let `N≥1`, let `m` be the largest integer whose square divides `N`, and let `A` be a nonzero optimal quotient of the new part of `J₀(N)`. Over `S=Spec ℤ[1/m]`, the cusp-based map `f_A:X₀(N)→A` is a formal immersion along the smooth cusp `∞` in every residue characteristic other than 2. This includes primes `p` with `p∥N`. The Néron model is used at such primes; no good-reduction hypothesis on `A` is added there. At the characteristic-zero generic fibre the same cotangent surjectivity holds. If the new part is zero, there is no such `A`.
+Prove `formal_immersion` in the source's general level. Let `N≥1`, let `m` be the largest integer whose square divides `N`, and let `A` be a nonzero optimal quotient of the new part of `J₀(N)`. Over `S=Spec ℤ[1/m]`, let `X` be the minimal proper regular model of `X₀(N)_ℚ` and `X^sm` its relative smooth locus. The generic cusp-based map extends uniquely to `f_A:X^sm→𝒜`, where `𝒜/S` is the Néron model of `A`, by the Néron mapping property. This map is a formal immersion along the cusp `∞` in every residue characteristic other than 2, including primes `p` with `p∥N`, and at the characteristic-zero fibre. If the new part is zero, there is no such `A`.
 
-Prove `squarefree_atkinLehner_cusp_transport`. For squarefree `N≥1`, every exact-divisor involution `w_d` extends to the compactified local modular model used above at every odd residue prime `q`, including `q|N`, compatibly with its smooth cusp locus and with base change to a local number-field integer ring. On geometric cusps these extensions act transitively: each cusp is carried to `∞` by a suitable `w_d`. Their generic fibres agree with `ModularCurvesPartII` §9.4's `atkinLehnerExact`.
+Prove `squarefree_cusp_difference_torsion`. For squarefree `N≥1` and any geometric cusps `c,c′` of `X₀(N)`, the class `[c]−[c′]` is torsion in `J₀(N)(ℚ̄)`. Its image under every homomorphism to an abelian quotient is therefore torsion.
 
-Construct the action by the exact-divisor isogeny and dual-kernel operations on generalized elliptic curves, with the necessary contractions. Compare on the Tate cusp charts of `ModularCurvesPartII` §4.1, extend to the normal compactification and lift equivariantly to the regular resolution when that model is used. At `q|N`, establish this integral comparison before transporting reductions. The induced action on a new optimal quotient extends to its Néron model by the mapping property; changing the base cusp adds the torsion cusp image.
+Use the modular units `u_d(z)=Δ(dz)/Δ(z)` for `d∣N`, `d>1`. Nonvanishing of `Δ` on the elliptic open puts their divisors on the cusps. Compare the analytic modular sections with algebraic sections and descend the ratios to rational functions. Label the squarefree cusps by `1/c`, `c∣N`, with `c=N` representing `∞`. The Tate charts give `ord_(1/c) Δ(dz)=N·gcd(c,d)²/(c·d)`. The matrix of these orders, including `d=1`, is the tensor product over `p∣N` of the invertible matrices `[[p,1],[1,p]]`. Its column sums are all `∏_(p∣N)(p+1)`, so subtracting the `d=1` column from each other column gives a basis over `ℚ` of the degree-zero cuspidal divisor space. Clearing denominators makes a positive multiple of each cusp difference principal.
+
+**Checks.**
+
+- At `N=1` there is one cusp and the degree-zero cuspidal divisor space is zero; the assertion includes this case.
+- At prime `N=11`, `div(u₁₁)=10[∞]−10[0]`. This proves torsion without claiming exact order 10; §1.4 gives exact order 5.
+- At `N=15`, in cusp order `0,1/3,1/5,∞`, the divisors of `u₃,u₅,u₁₅` have vectors `(-10,10,-2,2)`, `(-12,-4,12,4)` and `(-14,-2,2,14)`. They span the three-dimensional degree-zero space. In particular `[1/3]−[∞]` and its image in every abelian quotient are torsion.
+
+*Source:* [Elkik1990], unnumbered Théorème, p. 59, specialized to `Γ₀(N)`; the displayed squarefree modular-unit argument uses the cusp-width formulas of `ModularCurvesPartII` §§4.1–4.8.
+
+*Needs:* pinned `CuspForm.discriminant` and `ModularForm.discriminant_ne_zero` (`Mathlib/NumberTheory/ModularForms/Discriminant.lean`); `ModularForms` Layer 10C and `ModularCurvesPartII` §7.1 for algebraic section comparison; `ModularCurvesPartII` §§4.1–4.8 and 5.2 for cusp charts and compactification, and §17.3 for the divisor/Jacobian comparison.
+
+Prove `squarefree_atkinLehner_cusp_transport`. For squarefree `N≥1`, every exact-divisor involution `w_d` acts on the compactified local modular model at every odd residue prime `q`, including `q|N`, compatibly with its regular resolution and cusp charts and with base change to a local number-field integer ring. The action preserves the relative smooth locus `X^sm` used for `f_A`. On geometric cusps these actions are transitive: each cusp is carried to `∞` by a suitable `w_d`. Their generic fibres agree with `ModularCurvesPartII` §9.4's `atkinLehnerExact`.
+
+For `d=N≥2`, use the integral Fricke action on the normal compactification supplied by `ModularCurvesPartII` §9.8 as part of `gammaZeroPlus`. For `d=1`, use §9.4's supplied identity; this also covers `N=1`. Construct the additional proper exact-divisor actions by the isogeny and dual-kernel operations on generalized elliptic curves, with the necessary contractions, and extend them to the normal compactification. Compare all these actions with the Tate cusp charts of §4.1 and lift equivariantly to the regular model used for `X^sm`. At `q|N`, establish this integral comparison before transporting reductions. The induced action on a new optimal quotient extends to its Néron model by the mapping property. The identity `f_A(w_d x)=w_(d,A)f_A(x)+q_A([w_d∞]−[∞])`, for quotient map `q_A`, has torsion translation by `squarefree_cusp_difference_torsion` and holds on `X^sm` by uniqueness of Néron extension.
 
 **Checks.**
 
 - For `d=1`, the extension fixes every cusp and agrees with the identity on the generic fibre and its Tate chart.
 - At `N=15`, `q=3`, the four exact divisors `1,3,5,15` transport the four cusps, including the width-15 cusp 0, to `∞`; this tests a residue prime dividing a squarefree composite level.
-- For prime `N=P` at the odd prime `q=P`, the extended Fricke involution exchanges 0 and `∞` on the bad fibre and exchanges their widths `P` and 1.
+- For prime `N=P` at the odd prime `q=P`, the imported §9.8 Fricke action, compared with the regular model, exchanges 0 and `∞` on the bad fibre and exchanges their widths `P` and 1.
 
-*Source:* [Mazur1978] §4, proof of Corollary 4.3, pp. 144–145; the integral model comparison uses `ModularCurvesPartII` §§2–4 and 9.4.
+*Source:* [Mazur1978] §4, proof of Corollary 4.3, pp. 144–145; the integral model comparison uses `ModularCurvesPartII` §§2–4, 9.4 and 9.8.
 
-*Needs:* `ModularCurvesPartII` §§2.1–2.7, 3.1–3.7, 4.1–4.8, 5.2–5.4, 9.4, 11.1–11.4 and 16.1–16.8; `NeronModelsAndSemistableAbelianVarieties` §§1.2–1.3.
+*Needs:* `squarefree_cusp_difference_torsion`; `ModularCurvesPartII` §§2.1–2.7, 3.1–3.7, 4.1–4.8, 5.2–5.4, 9.4, 9.8, 11.1–11.4 and 16.1–16.8; `NeronModelsAndSemistableAbelianVarieties` §§1.2–1.3.
 
 For the reduction corollary suppose `N` is squarefree, `K` is a number field, `x∈Y₀(N)(K)` represents `(E,C_N)`, and `f_A(x)` is torsion. At a finite place `v` of residue characteristic `q` with `e_v<q−1`, `E` has potentially good reduction. Use `squarefree_atkinLehner_cusp_transport` to move a proposed cuspidal reduction to `∞`, including at residue primes dividing `N`; its induced action on the quotient and a torsion cusp translation preserve the torsion condition. For nonsquarefree `N` the stated transitivity argument is not an available replacement for a cusp-by-cusp hypothesis.
 
-Apply cotangent injectivity for the optimal quotient, the integral `q`-expansion pairing and the nonzero first-coefficient argument to prove formal immersion. If the modular point specializes to a cusp, its difference from the cusp image is torsion and reduces to zero in the smooth Néron model. The formal identity chart and logarithm with `r=1`, valid because `e_v<q−1`, make that kernel torsion-free, so the difference is zero. Formal immersion then separates the two sections. The integral moduli interpretation identifies avoidance of cusps with potential good reduction.
+Apply cotangent injectivity for the optimal quotient, the integral `q`-expansion pairing and the nonzero first-coefficient argument to prove formal immersion of `X^sm→𝒜`. If the modular point specializes to a cusp, its proper-model section lies in `X^sm`; the difference of its image under `f_A` from the cusp image is torsion and reduces to zero in the smooth Néron model. The formal identity chart and logarithm with `r=1`, valid because `e_v<q−1`, make that kernel torsion-free, so the difference is zero. Formal immersion then separates the two sections. The integral moduli interpretation identifies avoidance of cusps with potential good reduction.
 
-**Checks.** Prime `N=P` of positive genus and `A=A_Eis` recovers the exclusion at 3; the Hasse and additive-component bounds then contradict a rational `P≥11` point. At `q=2` and `e=1` the inequality is false, so this is not full dyadic torsion specialization. At `e=q−1` the multiplicative formal group contains the nonzero torsion point `ζ_q−1`; equality cannot replace the strict bound. For a Tate elliptic curve over `ℚ_q` with `q` odd, the formal kernel is `1+qℤ_q` and is torsion-free despite bad reduction. The dimension-zero chart has trivial kernel. For squarefree composite `N` the assertion includes all its cusps via the Atkin–Lehner action. At `p∥N` the cusp is smooth although the whole fibre need not be.
+**Checks.** Prime `N=P` of positive genus and `A=A_Eis` recovers the exclusion at 3; the Hasse and additive-component bounds then contradict a rational `P≥11` point. At `q=2` and `e=1` the inequality is false, so this is not full dyadic torsion specialization. At `e=q−1` the multiplicative formal group contains the nonzero torsion point `ζ_q−1`; equality cannot replace the strict bound. For a Tate elliptic curve over `ℚ_q` with `q` odd, the formal kernel is `1+qℤ_q` and is torsion-free despite bad reduction. The dimension-zero chart has trivial kernel. For squarefree composite `N` the assertion includes all its cusps via the Atkin–Lehner action. At `p∥N` the cusp is smooth although the whole fibre need not be. For `N=11`, `A=J₀(11)`, the regular fibre at 11 is an `I₅` cycle: its smooth-locus Abel–Jacobi map is nonconstant on a component, whereas a map from the entire proper `ℙ¹` component to the Néron torus is constant. The domain `X^sm` retains this boundary case.
 
 *Source:* [Mazur1978] §1(c), Specialization Lemma, p. 135; §2(d–e), pp. 140–141; §3 Proposition 3.1, pp. 142–143; §4 Corollaries 4.3–4.4, pp. 144–146.
 
-*Needs:* `squarefree_atkinLehner_cusp_transport`; ModularCurvesPartII §§4.1–4.8, 7.5–7.6, 9.4, 16.1–16.8 and 17.3; ModularCurvesPartII §§13.7–13.9 and NeronModelsAndSemistableAbelianVarieties §6.4d; HeightsRationalPointsAndObstructions §§1.15b–1.16; `eisenstein_rational_points` for the prime-level application.
+*Needs:* `squarefree_cusp_difference_torsion`, `squarefree_atkinLehner_cusp_transport`; ModularCurvesPartII §§4.1–4.8, 7.5–7.6, 9.4, 9.8, 16.1–16.8 and 17.3; ModularCurvesPartII §§13.7–13.9 and NeronModelsAndSemistableAbelianVarieties §§1.2–1.3 and 6.4d; HeightsRationalPointsAndObstructions §§1.15b–1.16; `eisenstein_rational_points` for the prime-level application.
 
 ### Examples
 
@@ -1257,6 +1271,7 @@ Layers 0–7 for the all-prime conclusion; ModularCurves Layer 10 and ModularCur
 ## References
 
 - **[Mazur1977]** Barry Mazur, [Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf), Publications mathématiques de l’IHÉS 47 (1977), 33–186; appendix by Barry Mazur and Michael Rapoport.
+- **[Elkik1990]** Renée Elkik, [Le théorème de Manin–Drinfeld](https://www.numdam.org/item/AST_1990__183__59_0.pdf), Astérisque 183 (1990), 59–67.
 - **[Mazur1978]** Barry Mazur (with an appendix by D. Goldfeld), [Rational isogenies of prime degree](https://www.math.columbia.edu/~goldfeld/Mazur-Goldfeld1978.pdf), Inventiones mathematicae 44 (1978), 129–162.
 - **[MazurTate1973]** Barry Mazur and John Tate, [Points of order 13 on elliptic curves](https://gdz.sub.uni-goettingen.de/download/PPN356556735_0022/PPN356556735_0022___LOG_0008.pdf), Inventiones mathematicae 22 (1973), 41–49.
 - **[DeligneRapoport1973]** Pierre Deligne and Michael Rapoport, *Les schémas de modules de courbes elliptiques*, Modular Functions of One Variable II, LNM 349 (1973), 143–316; corrected printing 1986.

@@ -7,8 +7,10 @@ The roadmap is the accompanying README. This file records definitions and theore
 statable against the pinned APIs and is not exhaustive. It fixes the positive cuspidal index,
 uses nonsingular points on elliptic Weierstrass curves for rational torsion, and uses the native
 additive order, whose value zero means infinite order. The integral modular and Néron objects
-and their comparisons are targets of the README. The order-thirteen and all-prime conclusions
-retain explicit modular-curve and class-number hypotheses there.
+and their comparisons are targets of the README. Integral cusp-based maps have the relative
+smooth locus as domain; squarefree cusp-difference torsion supplies their torsion translations.
+The order-thirteen and all-prime conclusions retain explicit modular-curve and class-number
+hypotheses there.
 -/
 
 namespace TauCetiRoadmap.EisensteinIdealAndRationalTorsion
@@ -69,8 +71,9 @@ theorem occurring_small_primes (P : ℕ) (hP : P = 2 ∨ P = 3 ∨ P = 5 ∨ P =
 subgroups C/Σ and their component retraction; ideal kernels, local Hecke completions and
 ideal-supported abelian quotients; good auxiliary primes and η_l; winding element and maps,
 quadratic modular unit, exceptional dyadic D and its embeddings; admissible integral kernels,
-Néron cohomology and Sha comparisons; boundary level structures and formal immersion; and the
-level-thirteen model and cusp hypotheses (§8.1), diamond-integer action, finite-flat π-kernel,
+Néron cohomology and Sha comparisons; boundary level structures, formal immersion on the
+relative smooth locus, squarefree_cusp_difference_torsion and squarefree_atkinLehner_cusp_transport;
+and the level-thirteen model and cusp hypotheses (§8.1), diamond-integer action, finite-flat π-kernel,
 class-number hypothesis (§8.5), and conditional isogeny descent. The conditional theorems
 order_thirteen_exclusion (§8.6), all_prime_torsion (§8.8), and the elliptic part of
 residual_consumer_interface (§8.9) require those modular-curve carriers.
