@@ -350,8 +350,8 @@ theorem hanfNumber_isHanfBound (φ : Sentenceω L) :
 
 /-- **Layer 3 milestone, extraction of an Ehrenfeucht–Mostowski source from the cofinal
 hypothesis.** If `φ` has models of cardinality at least `ℶ_α` for every `α < ω₁`, there are a
-countable language `L'` with a language map `g : L →ᴸ L'` (the identity on the symbols of `φ`, its
-Skolem extension, and dummy targets elsewhere), a countable set `Γ` containing the image of `φ`,
+countable language `L'` with a language map `g : L →ᴸ L'` (sending each symbol of `φ` to its copy
+in the Skolem extension, and every other symbol to a dummy), a countable set `Γ` containing the image of `φ`,
 and an injective Ehrenfeucht–Mostowski source on `Γ` in a model of the image of `φ`. -/
 theorem exists_emSource_of_forall_beth (φ : Sentenceω L)
     (h : ∀ α < Ordinal.omega.{w} 1,
