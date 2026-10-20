@@ -159,8 +159,8 @@ end AbelianVariety
 
 section Adelic
 open NumberField IsDedekindDomain
-variable (K : Type) [Field K] [NumberField K]
-  (A : Type) [CommRing A] [Algebra K A]
+variable (K : Type u) [Field K] [NumberField K]
+  (A : Type u) [CommRing A] [Algebra K A]
 
 /-- Affine adelic points, using the native number-field adele algebra. -/
 def AdelicPoints := A →ₐ[K] AdeleRing (𝓞 K) K
@@ -251,7 +251,8 @@ ClassicalArithmeticCompletion §§7.23–7.24, 7.42's stable equality and additi
 geometric adelic points and the model direct limit; Brauer pairing, brauerSet, brauerManinSet and HasObstruction; brauerZero,
 brauerOne, supported cohomology, unramifiedBrauer, algebraicUnramifiedBrauer and brauerOmega;
 finite-flat Brauer corestriction and zero-cycle evaluation; cyclic-algebra classes and local
-invariant matrices. Affine Azumaya and scheme Brauer evaluation are imported interfaces.
+invariant matrices; numberField_h3_units_zero on continuous Galois cohomology. Affine Azumaya
+and scheme Brauer evaluation are imported interfaces.
 
 Layer 3: torsor evaluation/twist/Selmer sets, descentSet, descentObstructionSet, etaleSet,
 connectedSet, pglSet, etaleBrauerSet and etaleDescentSet; KDprime, UniversalNTorsor,
@@ -265,12 +266,14 @@ chart comparisons binaryForm_orientedIdeal, pencilFano_doubleClass and
 pencilOrbit_integralRepresentative on the pencil, oriented-ideal and Fano carriers supplied by
 ArithmeticStatisticsPartI §0.22 and ArithmeticStatisticsPartII §1.12;
 pencilOrbit_congruenceCount and pencilOrbit_cuspBound compare ordinary and reciprocal-stabilizer
-counts using ArithmeticStatisticsPartIII §2.17. Its weighted upper bound and geometric
-sieve supply pencilOrbit_sieveUpperBound and codimensionTwo_congruenceTail; this roadmap's
+counts using ArithmeticStatisticsPartIII §2.17 on the full fundamental domain. Its weighted
+upper bound and the quantitative Ekedahl geometric sieve of its §2.1 supply
+pencilOrbit_sieveUpperBound and codimensionTwo_congruenceTail; this roadmap's
 pencilOrbit_localMass supplies the particular mass comparison. The common isogeny Q invariant
 and Selmer_isogenyEulerCharacteristic retain the full Sha carrier and use only finite reduced
 p-primary groups for primes dividing the isogeny degree, with Q([p]) for every prime p;
-biquadratic_SelmerParity and realEffectiveFraction are its applications.
+biquadratic_SelmerParity and realEffectiveFraction are its applications. The function-field
+place estimate langWeil_functionFieldPlace supplies uniform finite-field point counts.
 
 SelmerIwasawaCohomology §2.12a supplies the number-field interfaces for the native
 AbelianVariety.Points and AbelianVariety.torsion specializations above, together with abelianKummer,
