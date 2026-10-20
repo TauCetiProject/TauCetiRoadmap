@@ -170,8 +170,25 @@ consumed by these layers; none is rebuilt.
   builds on top.
 - **Flows on Lie groups** (Lie-groups roadmap): `Geometry/Lie/{IntegralCurve,Exponential/*}.lean`
   (`mulInvariantIntegralCurve`, `lieExp`, `contMDiff_lieExp`); 3.3 reconciles by name.
-- **Sard, flat**: `Analysis/Calculus/Sard/` (`Differentiable.dense_compl_image_criticalPoints`);
-  10.2 transfers it through charts.
+- **Sard, flat**: `Analysis/Calculus/Sard/OutermostStratum.lean` supplies
+  `TauCeti.addHaar_image_criticalPoints_eq_zero`,
+  `ContDiff.addHaar_image_criticalPoints_eq_zero` and
+  `ContDiff.dense_compl_image_criticalPoints`, with the explicit finite regularity
+  threshold `(dim source)^2+1`;10.2 transfers the actual hypotheses through charts.
+- **Relative approximation and finite-dimensional cutoffs**: Mathlib
+  `Geometry/Manifold/SmoothApprox.lean` supplies
+  `Continuous.exists_contMDiff_approx_and_eqOn` and its flat
+  `Continuous.exists_contDiff_approx_and_eqOn` form. They retain the closed fixed
+  set and its smooth neighborhood. `Analysis/Calculus/BumpFunction/FiniteDimension.lean`
+  supplies `IsOpen.exists_contDiff_support_eq`;8.3a/10.2a build the collar and
+  compact-derivative-bound adapters, without another approximation engine.
+- **Native parametric and level-set theory**: consume
+  `TauCeti.Analysis.Fredholm.LevelSet.{Basic,GlobalParametric}` and
+  `TauCeti.Geometry.Manifold.VectorBundle.Section.Parametric` at their actual
+  finite/Fredholm, second-countability and regularity hypotheses.
+  `TauCeti.isFredholm_of_finiteDimensional` discharges the finite-dimensional
+  specialization.10.2a supplies its trivial-bundle incidence, collar and
+  finite-dimensional null-set comparisons rather than duplicating this engine.
 - **Slice charts and embeddings**: `Geometry/Manifold/{SmoothEmbedding,LocallyFlat}/`
   (`TauCeti.IsSliceChart`), `Geometry/Diffeomorphism/`.
 - **Singular chains and cohomology** (algebraic-topology roadmap, Stages 2, 3 and 6):
@@ -238,8 +255,9 @@ and [graph-coordinate Frobenius](https://github.com/TauCetiProject/TauCeti/blob/
 
 Everything the layers specify beyond the inventory above. The layer order is the order of
 dependence, and the two hardest items — Banach smooth dependence (3.1) and the smoothing theorem
-for chains (8.3) — gate what follows them. `Suggested.lean` and its companion files provide
-nonexhaustive interface prototypes: a real definition wherever the pin allows one (`mpullback`, `flowDomain`/`flowOf`,
+for chains (8.3) — gate what follows them. `Suggested.lean`, `SuggestedRelative.lean`, `SuggestedContinuousPaths.lean`,
+the four `CompactIntegration/` modules and `FiniteParameterTransversalityTargets.lean`
+provide nonexhaustive interface prototypes; this README is definitive: a real definition wherever the pin allows one (`mpullback`, `flowDomain`/`flowOf`,
 `degreeAtRegularValue`, `mgradient`, `laplaceBeltrami`, …), otherwise a provisional definition whose
 type pins the data (a `sorry` body, never a `Prop`-typed placeholder) with theorems pinning its
 characteristic equations. An implementation must provide that data and those laws, not those
@@ -266,7 +284,8 @@ confirm licences before porting.
 
 ## The build, in layers
 
-Names in backticks are the declarations of `Suggested.lean`, which carries the exact hypotheses.
+Names in backticks denote the cited native APIs or illustrative companion declarations.
+This README is definitive; the companions are nonexhaustive and do not replace the stated hypotheses.
 
 ### Layer 0: alternating bundles, differential forms, and the wedge
 
@@ -1189,6 +1208,64 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   `σ∘fullSimplexEquivStdSimplex.symm`; prove its smooth-map naturality square.
   Identify smooth simplices of each open submanifold with those ambient
   smooth simplices whose images lie in that open, respecting all these maps.
+- **8.3a Early relative approximation for vector targets.** Export this cut before
+  the smooth-chain and de Rham comparisons. The target is a finite-dimensional
+  real normed vector space V; the source is a finite-dimensional smooth T2
+  sigma-compact manifold with corners. Consume Mathlib's actual
+  `Continuous.exists_contMDiff_approx_and_eqOn`: for a continuous f, a positive
+  continuous error function, a closed set C, and smoothness of f on a neighborhood
+  of C, it supplies a smooth g equal to f on C and pointwise within that error.
+  Retain its source manifold, fixed set, neighborhood and actual maps. This
+  native `ContMDiff` result is not by itself a claim of an ambient smooth
+  extension at a corner. For the compact interval, closed disc and square,
+  construct the stronger actual ambient extension using the flat theorem
+  `Continuous.exists_contDiff_approx_and_eqOn` as follows. Extend a continuous
+  filling to the ambient vector space by the continuous retractions
+  r(t)=max(0,min(1,t)), r(s,t)=(r(s),r(t)) for the square, and
+  r(v)=v/max(1,‖v‖) for the closed unit ball. Prove their continuity, range
+  and identity-on-domain equations. No smoothness of these retractions is
+  claimed. Retain the native Euclidean/product norm and explicit coordinate
+  identifications when changing the domain model. The target is boundaryless V.
+  No smooth-chain equivalence,
+  boundary-target inward deformation, Stokes, degree or Lie theory is an input.
+
+  For an arbitrary continuous filling whose boundary data are smooth, first
+  specify a compatible smooth extension of those data to a boundary collar.
+  On an interval require the endpoint sitting intervals; on a square require
+  compatible edge extensions with common constant values near the vertices.
+  Construct a common collar extension by the edge-coordinate maps and a smooth
+  partition/cutoff, with the actual overlap equations. For a disc use the
+  radial collar of its boundary. A merely continuous boundary trace cannot be
+  fixed by a smooth approximation theorem. If the supplied filling agrees with
+  the extension only on the boundary, use continuity and compactness to choose
+  a sufficiently thin collar and blend the two in V. Prove that this changes
+  the filling arbitrarily little in C0, fixes the boundary exactly, and equals
+  the chosen extension on a smaller collar. Carry out this blending also in
+  an ambient neighborhood of the boundary: use a cutoff supported in the
+  domain of the specified smooth collar extension, equal to1 on a smaller
+  ambient collar, to replace the continuous retracted extension there. The
+  resulting ambient continuous function is genuinely smooth on a neighborhood
+  of a closed smaller collar. Apply the FLAT native relative approximation,
+  fixing that closed set and choosing a continuous positive error function
+  extending a required compact error bound. Its output is an actual ambient
+  smooth function; restrict it to the interval, disc or square. Export the actual smooth
+  filling, a relative-boundary homotopy given by straight-line interpolation,
+  and its comparison with the original filling. If the original was already
+  smooth near a prescribed closed collar, fix that smaller collar directly.
+
+  A prescribed compact image reserve in an open U⊆V is preserved by choosing
+  a quantitative C0 tolerance: cover the compact reserve by finitely many balls
+  contained in U and choose a common smaller radius. Prove that interpolation
+  also stays in U on exactly the source subset having that reserve. No
+  avoidance property is asserted for an arbitrary original filling through a
+  forbidden set. For an already smooth f, export finite C^k perturbation bounds
+  separately at10.2a; continuous input has no derivative-closeness assertion.
+  Construct restriction, refinement of the fixed collar, relative homotopy,
+  coordinate-change and compatible finite-product laws on these same maps.
+  This vector-target export does not assert that facewise smooth data admit
+  strict smooth extensions into an arbitrary target with boundary;8.3's
+  smooth-chain comparison is a different construction.
+
 - **8.4 Simplices, Stokes for chains, the de Rham map.** The full-dimensional `fullSimplex` bridged
   to Mathlib's barycentric `Convexity.StdSimplex`, faces `simplexFace`, `SmoothSimplex.integral` and
   `chainIntegral` (vector-valued forms in complete spaces); Stokes for the simplex
@@ -1409,11 +1486,33 @@ and the comparison with de Rham cohomology on those carriers, and never a second
 
 *[Lee, Ch. 17, "Degree Theory"].*
 
-- **10.1** Consume Tau Ceti's inverse function theorem, whose interior-point hypothesis holds on
-  boundaryless `M` (`isLocalDiffeomorphAt_of_mfderiv_eq_of_boundarylessManifold`, discharged in
-  place); `IsRegularPoint`, `IsRegularValue`.
-- **10.2 Sard.** `IsNullSet` through charts, `isNullSet_image_criticalPoints` and
-  `dense_isRegularValue` from Tau Ceti's flat theorem [Lee, Thm. 6.10-style].
+- **10.1 Regularity floor.** Define `IsRegularPoint f x` by surjectivity of
+  the actual `mfderiv f x`, and `IsRegularValue f y` by this condition at every
+  point over y. These predicates and their restriction/chart formulas use only
+  native differentiability, before degree, cohomology or Sard. Their level-set
+  theorems here use boundaryless source charts, or the intrinsic interior of
+  a collared source. Separately consume
+  `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq` and
+  `TauCeti.isLocalDiffeomorph_of_mfderiv_eq` when the derivative is an actual
+  continuous linear equivalence. Discharge the native interior-point premise
+  on a boundaryless source. Surjectivity alone is not invertibility or a local
+  diffeomorphism in unequal dimensions.10.2a consumes complemented-kernel
+  level-set charts for the surjective case.
+- **10.2 Sard.** Construct `IsNullSet` through charts,
+  `isNullSet_image_criticalPoints` and `dense_isRegularValue` from Tau Ceti's
+  actual flat Sard theorem [Lee, Thm. 6.10-style]. For a boundaryless
+  finite-dimensional source, localize on the actual open chart domains and
+  use countably many charts; retain the native differentiability order
+  `(dim source)^2+1` when citing that theorem. C∞ maps satisfy that bound.
+  Use the explicit theorem on a set with smoothness at every point of that
+  set; no extension of a coordinate map outside its open domain is assumed
+  smooth. For positive-dimensional target models null sets have empty
+  interior. For dimension0 every derivative is onto and critical values are
+  empty. The target's additive Haar/chart comparison, changes of chart and
+  countable unions are part of this export; orientation, Stokes, degree,
+  compactness of the source and a sharp finite-regularity Sard–Smale theorem
+  are not prerequisites.
+
   Own its sharp finite C^k refinement for boundaryless sources, first on
   Euclidean spaces and then through open charts: for positive target dimension, k>max(dim source−dim target,0).
   Follow Hirsch,
@@ -1432,6 +1531,188 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   countable manifold charts. HeegaardFloer F0 consumes this single
   finite-dimensional theorem; HeegaardFloer F0 owns the sharp Fredholm
   Sard–Smale extension.
+#### 10.2a Finite-parameter relative transversality
+
+Build the following shared finite-dimensional export from native calculus,
+relative approximation8.3a, level-set charts and Sard. It has no Lie-group,
+root-system, Coxeter, degree or de Rham prerequisite. LieGroups6 owns its
+singular-image path/disc application; RootSystems2G owns the arrangement jet
+families, codimensions, finite-event movies and word extraction.
+
+**Actual equations and domain.** Let P and V be finite-dimensional real normed
+vector spaces, M a Hausdorff second-countable boundaryless finite-dimensional real smooth
+manifold, U⊆M×P open, and F:U→V smooth. For a smooth j:N→V with N Hausdorff second-countable,
+boundaryless and finite-dimensional, use the actual incidence carrier
+I={(x,p,y):(x,p)∈U and F(x,p)=j(y)}. Transversality of the slice at p means
+surjectivity of (u,v)↦d_xF(x,p)u−dj(y)v at every such equality, not that j is
+an embedding or proper. Universal transversality is the corresponding surjectivity
+in (x,p,y). Construct the trivial-bundle equation F−j, its actual derivative,
+zero-set inclusion and projection to P, with restriction and chart-change laws.
+Submanifold incidence conditions in a finite-dimensional target are handled by
+normal/submersion charts and their actual tangent quotients. Independence of
+those charts is a theorem about these derivatives, not a new private regularity
+predicate. Product and equality constraints retain all their actual operands.
+
+**Reuse the generic parameter theorem.** Consume
+`TauCeti.IsRegularSectionParameter`, its trivial-bundle comparison, and
+`TauCeti.isMeagre_setOf_not_isRegularSectionParameter`/
+`mem_residual_setOf_isRegularSectionParameter` from
+`Geometry/Manifold/VectorBundle/Section/Parametric.lean` for the equation on M×N
+with parameter P. In flat coordinates consume
+`TauCeti.IsRegularParameter` and
+`mem_residual_setOf_isRegularParameter` from
+`Analysis/Fredholm/LevelSet/GlobalParametric.lean`.
+Prove the actual permutation-of-products and fixed-parameter derivative
+comparisons. All operators between the finite-dimensional source and target
+models are Fredholm by `TauCeti.isFredholm_of_finiteDimensional`. The C∞
+hypothesis discharges the native quadratic kernel-dimension regularity bound;
+no sharp finite-regularity Sard–Smale theorem is assumed. The actual universal
+zero set is second countable. Native residual regular parameters and Baire's
+theorem give choices in every nonempty open parameter neighborhood. Finite and
+countable lists use intersections of residual sets, not an unjustified
+intersection of arbitrary dense sets. Give each map/manifold in a countable
+list its own finite dimension; no uniform finite dimension for the list is needed.
+These adapters do not rebuild the existing Fredholm or parametric engine.
+For a joint open domain U that is not a product, do not extend the equation
+by a junk value and apply the global theorem to its false outside zeros.
+Cover the ACTUAL universal incidence in U by countably many product coordinate
+neighborhoods. Consume the local native
+`exists_mem_nhds_isClosed_isNowhereDense_image_not_surjective_levelSetParameterMap`
+on each such neighborhood, with its actual smooth equation and surjective
+Fredholm derivative. Prove that every bad actual parameter is in the resulting
+countable union of local bad-parameter sets. Extend those sets to P using the
+actual open parameter charts; the local nowhere-dense/residual argument and
+the chart-Sard null argument then give the same open-domain export. These
+neighborhood, countability and restriction comparisons are explicit adapter
+targets, not an assumption that all coordinate zeros are genuine incidences.
+
+For the incidence carrier additionally export its finite-dimensional level-set
+atlas, inclusion and tangent-kernel equations. Consume the native complemented-
+kernel implicit-function/level-set charts, their smooth inverse and manifold
+comparisons in `LevelSet.{Basic,Smooth,Tangent,Manifold}`, including both local
+inverse equations and chart transitions. At a nonempty incidence universal
+surjectivity gives the required nonnegative kernel dimension by rank-nullity;
+when the total dimension is smaller than dim(V), incidence is empty. At an incidence point the projection to P is regular
+exactly when the slice difference derivative is onto: prove this by solving
+A u+B h=0 and using universal surjectivity, in both directions. Construct the
+native `mfderiv` and coordinate comparisons on the actual open domain; extended
+coordinate zeros outside the charts are not incidence points. For finite-dimensional
+P, prove the bad parameters have additive-Haar outer measure zero by applying10.2's
+native flat Sard theorem on countably many incidence charts to that projection.
+Its C∞ hypothesis meets the existing quadratic source-dimension bound. This
+null refinement is an explicit finite-dimensional construction, distinct from
+the already implemented residual theorem. Neither properness nor closedness
+of the image of j is a premise. The zero-dimensional target is direct. For a zero-dimensional parameter
+space universal surjectivity is already slice surjectivity, so regularity is
+automatic; do not invoke positive-dimensional measure arguments there.
+
+**Cutoffs and small relative perturbations.** For a compact real source with
+corners of dimension1 or2, work on its intrinsic interior for the incidence
+charts and use specified ambient smooth extensions on its boundary collar.
+Let C be a closed collar region containing the boundary, lying inside a specified
+region where the given f is already transverse to every j. Fix C and retain
+an open buffer of that already-good data; do not infer such a buffer from a
+nonproper image or from boundary transversality alone. In a global Euclidean source
+consume `IsOpen.exists_contDiff_support_eq` on the complement of C to obtain
+0≤beta≤1, beta=0 on C and beta>0 off C. For a general manifold source use
+the native smooth partition of unity subordinate to the TWO-open cover
+{B,M\C}, where B is the specified open already-good buffer containing C.
+Take beta to be the M\C term. Prove beta=0 on C and beta=1 off B; its
+actual zero set Z={x:beta(x)=0} therefore satisfies C⊆Z⊆B. Transversality
+is supplied on all of Z by the B hypothesis. Do not claim that an arbitrary
+locally finite family supported outside C has support exactly M\C at
+boundary accumulation points of C. Export the actual zero-set inclusions,
+locally finite derivative laws and all-order chart formulas. No global
+compact-support claim is inferred from positivity on a noncompact interior.
+
+Use the actual family F(p,x)=f(x)+beta(x)p, in the global vector target V.
+Prove its smoothness, fixed-set equation, parameter derivative beta(x)id_V,
+and source derivative df(x)+d beta(x)(−)p. At beta>0 the parameter derivative
+is onto. At a zero in the intrinsic interior, nonnegativity makes d beta=0
+and the already-good slice supplies universal transversality. Near the actual
+boundary beta is locally zero because C contains a boundary neighborhood;
+there use its zero-neighborhood derivative equation. Mere one-sided
+nonnegativity at a boundary point would not force its ambient derivative to
+vanish. These two cases give the required fixed-collar comparison. Thus no unproved openness of transversality
+against an arbitrary nonproper j is needed. Apply the native parameter adapter
+on the interior, and combine it with the fixed collar. Export simultaneous
+transverse perturbations arbitrarily close in every prescribed finite C^k
+norm on the compact source. Define that closeness by bounds on the actual
+iterated chart derivatives in a specified finite compact coordinate cover,
+including derivative order0. Prove the bounds
+sup_K‖D^i(F_p−f)‖≤B_i‖p‖ for 0≤i≤k from bounded derivatives of beta on
+those compact chart sets, and choose a common small parameter ball. Transport
+between such covers and equivalent finite-dimensional norms. This is finite
+C^k closeness of smooth inputs, not a new finite-regularity transversality theorem.
+Export fixed-set/collar refinement, finite-list combination, reindexing,
+coordinate and affine-target transport and the relative straight-line homotopy.
+
+For continuous fillings first apply8.3a. Boundary conditions must already admit
+the specified smooth collar extension; after that construction the perturbation
+fixes its smaller collar. Keep any compact avoidance reserve by the quantitative
+C0 estimate. An arbitrary continuous filling is compared to the output relative
+to its original boundary, while an already-smooth filling has the stronger
+prescribed finite C^k approximation. A homotopy through the forbidden set is
+not excluded unless its image reserve was actually supplied.
+
+**Avoidance and configuration-domain exports.** If dim(M)+dim(N)<dim(V), a
+transverse equality is impossible. Prove this dimension consequence from the
+actual slice derivative and conclude F_p(M)∩j(N)=∅. It applies simultaneously
+to a finite or countable family of smooth parametrizations without asserting
+that the union of their images is closed or embedded. For paths and discs,
+retain the source dimensions1/2 and the exact caller's singular-image dimensions;
+compactness or closedness used to manufacture a boundary avoidance collar is
+additional caller data. Constant maps, an empty list, dim(V)=0 and empty
+incidence are explicit boundary tests.
+
+Export the same finite-parameter result on arbitrary specified open configuration
+domains, including two distinct points and the equal-time submanifold, with
+countable coordinate covers near the removed diagonal. The parameter family
+must be smooth and its universal evaluation transverse for every imposed
+incidence stratum; the consumer proves the needed one-/two-point jet evaluation
+surjectivity and rank/codimension bounds. No fixed positive distance between
+the points, compact exhaustion uniformity, or event finiteness is assumed.
+Transversality alone does not establish a finite movie. RootSystems2G's separate
+compactness, local fan/fold analysis and boundary buffers provide that conclusion.
+The companion `FiniteParameterTransversalityTargets.lean` illustrates actual
+family/equation/derivative and native regular-parameter interfaces; this README
+is definitive and its target scope includes all the chart, collar and manifold
+comparisons above.
+
+**Chartwise and corner-source generality.** The displayed global
+statement uses Hausdorff M,N. Construct the same result for an arbitrary
+second-countable boundaryless parametrizing manifold N without a global T2
+hypothesis: choose a countable atlas, restrict j to each actual Hausdorff open
+coordinate domain and apply the open-domain result there. Intersect the
+countably many residual parameter sets, and use the invertible chart derivative
+to recover the original slice transversality at every y. No partition of unity
+on N or Hausdorffness of its entire incidence carrier is a premise of this
+chartwise lane. Likewise, a general finite-dimensional smooth parameter
+manifold is handled in its actual open parameter charts; transport residual
+and chart-null assertions under the coordinate diffeomorphisms and state
+choices in each specified nonempty open neighborhood. The elementary
+translation family has the particular global parameter space P=V.
+
+Construct the relative perturbation for every compact finite-dimensional
+Hausdorff real source with corners of dimension1 or2, not only the standard
+interval/disc/square. Specify the actual compatible ambient smooth extensions
+of its already-fixed boundary-collar data. Native8.3a relative approximation
+on M fixes a smaller closed collar after the stated blending. Its output has
+an actual ambient chart extension near every boundary point because it agrees
+there with the supplied extension; in the intrinsic interior the chart domain
+is open, so native smoothness gives the actual local extension. The cutoff
+is identically zero near the boundary and can be extended there by zero.
+Thus the same parameter/derivative/finite-C^k construction is chartwise smooth
+on the full source with the specified boundary data. Compactness provides a
+finite chart cover and its countability; no inward domination or strict
+face-relative simplex extension into a boundary target is used. The explicit
+retractions above additionally construct one ambient function for the three
+standard filling domains required by the consumers.
+
+The sharp finite C^k Sard refinement in10.2 remains a separate required
+construction with its stated hypotheses. This early C∞ export neither
+replaces that stronger target nor assumes it implemented.
+
 - **10.3–10.4** Finite fibres over regular values, the real definition `degreeAtRegularValue` at a
   specified regular value, and [Lee, Thm. 17.35]: `∫_M f^*ω = deg · ∫_N ω`
   (`integralTopForm_mpullback_eq_degreeAtRegularValue_mul`), via Stokes and 3.3's homogeneity; hence
@@ -1612,8 +1893,13 @@ Layers 0–1 first. Layers 2, 3 (except the form half of 3.4) and 12.1–12.3 ar
 needs 3 and 1.4; 12.4–12.5 need 0, 2 and 5. The manifold integration track is
 5.1–5.5 → {6, 7} → 8 → 9; 5.6 runs in parallel from Mathlib's flat calculus and integration
 and compares with 5.2–5.5. Layers 6 and
-most of 7 are available once 0–1 land (6.3 needs only 5.4's homotopy identity); 10 needs 2, 5, 7 and
-9.2; 11 needs 10. Start 3.1 and the direct boundaryless lane of8.3 early;
+most of 7 are available once 0–1 land (6.3 needs only 5.4's homotopy identity).
+Regularity10.1 uses only native differentials and its separate inverse theorem;
+Sard10.2 uses finite-dimensional calculus and countable-chart null-set arguments.
+The relative approximation8.3a and parametric export10.2a precede their RS2G/LG6
+consumers and do not consume3.6, smooth-chain equivalences, de Rham or degree.
+The integration/degree comparisons10.3–10.5 retain their2,5,7,9.2 inputs;
+11 uses that degree calculus. Start 3.1 and the direct boundaryless lane of8.3 early;
 8.3's generic corner smoothing requires3.6. Claim single numbered items or smaller; the headline
 theorems (5.3, 8.5, 9.3, 10.4, 11.1) are staged claims whose intermediate lemmas land as reusable
 pull requests.
