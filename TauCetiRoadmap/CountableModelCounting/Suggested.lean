@@ -677,8 +677,9 @@ theorem minimallyUncountableOn_modelsOf_iff [L.IsRelational] [Countable (Σ l, L
         (modelsOf φ : Set (StructureSpace L))).Countable := by
   sorry
 
-/-- **Layer 5 milestone.** A minimally uncountable sentence refutes Vaught's conjecture: its
-models are thin and uncountably many. -/
+/-- **Layer 5 milestone.** A minimally uncountable sentence refutes Vaught's conjecture:
+`φ.and (infiniteSentence L)` has the same models on `ℕ`, thin and uncountably many, and no finite
+models. -/
 theorem not_vaughtConjecture_of_minimallyUncountableOn {L : FirstOrder.Language.{0, 0}}
     [L.IsRelational] [Countable (Σ l, L.Relations l)] {φ : Sentenceω L}
     (h : MinimallyUncountableOn (modelsOf φ)) : ¬ VaughtConjecture := by
@@ -693,6 +694,14 @@ theorem exists_bfLevel_saturated_modelsOf [L.IsRelational] [Countable (Σ l, L.R
     (θ : Sentenceω L) :
     ∃ β₀ < Ordinal.omega 1, ∀ β, β₀ ≤ β → ∀ c d : StructureSpace L, bfEquivSetoid β c d →
       (c ∈ (modelsOf θ : Set (StructureSpace L)) ↔ d ∈ (modelsOf θ : Set (StructureSpace L))) := by
+  sorry
+
+/-- **Layer 5.** The two forms of "countably many models on `ℕ`" agree: through the setoid
+`isoSetoidOn ℕ φ` on the model class, and through the image of the model class in the quotient by
+the ambient isomorphism relation. -/
+theorem countable_quotient_isoSetoidOn_iff [L.IsRelational] (φ : Sentenceω L) :
+    Countable (Quotient (isoSetoidOn ℕ φ)) ↔
+      (Quotient.mk (structureIsoSetoid L) '' (modelsOf φ : Set (StructureSpace L))).Countable := by
   sorry
 
 /-- **Layer 5 milestone, the limit model.** A sequence of codes, consecutive ones back-and-forth

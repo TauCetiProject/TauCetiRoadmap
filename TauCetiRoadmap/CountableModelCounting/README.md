@@ -709,7 +709,12 @@ the parent roadmap. In order:
    scatteredness, not with a cardinal bound.
 6. **Consequences.** `vaughtConjecture_iff_forall_not_minimallyUncountableOn` (with Layer 4c and the
    infinite-model reduction): `VaughtConjecture` holds iff no sentence has minimally uncountable
-   models. Every counterexample has a minimally uncountable strengthening.
+   models. Every counterexample has a minimally uncountable strengthening. The two forms of
+   "countably many models on `ℕ`" used here, through `isoSetoidOn ℕ φ` and through the image of
+   `modelsOf φ` in the quotient by `structureIsoSetoid L`, agree by
+   `countable_quotient_isoSetoidOn_iff`; and `not_vaughtConjecture_of_minimallyUncountableOn`
+   passes through `φ.and (infiniteSentence L)`, which has the same models on `ℕ` and no finite
+   models, since the finite tiers of `φ` can carry a perfect set.
 
 **Acceptance check.** `VaughtConjecture.cardinal`,
 `cardinalVaughtConjecture_of_aleph_one_eq_continuum`, `not_hasVaughtCount_iff` and
