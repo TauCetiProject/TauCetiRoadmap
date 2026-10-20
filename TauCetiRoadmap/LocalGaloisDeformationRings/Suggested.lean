@@ -618,6 +618,23 @@ end FiltrationProfile
 
 /-! ## Layer 4: Finite-flat and Barsotti–Tate geometry
 
+README 4.1 uses FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.7's
+`flatDeformationTangentSpace` for model closure and coefficient-linear self-Ext.
+The finite-flat predicate on every Artinian quotient, its Schlessinger adapter and
+representing quotients are constructed here from F.1.1–F.1.4, F.2.5 and F.3.1–F.3.2.
+Closure and representing quotients apply at every prime and ramification index;
+unframed representability requires scalar residual endomorphisms. Over Q_p, p>2,
+the strict-class tangent is the supplied killed-by-p coefficient-linear self-Ext;
+`flatTangent_finrank_le` gives dimension h⁰+a(n−a), where a=dim Fil¹ M.
+The framed tangent is its inverse image in Z¹. For k(1)⊕k the strict-class
+dimension is 3, and for k(1)²⊕k² the excess over h⁰ is 4.
+For rank-two finite-flat Schur V over Q_p, p>2 and coefficient ring W(k),
+`flatDeformationRing` is W(k)[[T₁,T₂]] for every finite k. If V is also irreducible
+with det(V)|I equal to the residual cyclotomic character, the unrestricted ring
+is W(k)[[T₁,…,T₅]] and its quotient onto the flat ring has a three-generated kernel.
+These are unfixed-determinant presentations. Their universal-ring and filtered-module
+carriers are README targets, as are the Schlessinger and formal-smoothness comparisons.
+
 The height-one model resolution, finite-flat realization and generic-reducedness theorem
 use the exact scheme and integral-Hodge contracts of the README.
 README 4.9's `flatResolution.points` retains the coefficient map and generic-fibre
@@ -913,8 +930,10 @@ representation, determinant and universal type quotient maps, with finite WD ine
 The remaining APIs are `GaloisType`, `IsOfType`, `WDTypeRing`.
 Layer 4: `flatLiftingRing`, `flatDeformationRing`, `finiteFlatModels`,
 `flatHodgeTypeQuotient`, `flatResolution`.
-The finite-flat condition and its Fontaine–Laffaille tangent calculation use
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.7.
+The finite-flat model closure and coefficient-linear self-Ext calculation use
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.7, `flatDeformationTangentSpace`
+and `flatTangent_finrank_le`. The condition, Schlessinger adapter and representing-ring
+conclusions belong to 4.1; `CategoryCondition.flat` in 8.6 uses this same adapter.
 Layer 5: `kisinGroupoid`, `DyadicMinimal.lift`.
 Layer 6: the geometric APIs `Connects.sum_tensor_dual` and `Connects.trans_of_smooth`
 of §6.8, `OrdinaryFixedInertia`, `DiscreteSeriesType`, `IsDiscreteSeriesLift`,
