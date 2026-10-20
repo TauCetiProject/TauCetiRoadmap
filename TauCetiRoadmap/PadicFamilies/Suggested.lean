@@ -120,12 +120,31 @@ end LocallyFinite
 The Hecke and form carriers use the saturated mixed-weight divided-congruence
 lattices D_j^M and D_j^S described in README.md, including the separate
 positive-coefficient lattice for the quotient by constants.
+IntegralIwasawaTheory §9.0 supplies the shared rational ordinary towers and
+rationalOrdinaryControl for p ≥ 5. The Katz comparisons identify their projectors,
+Hecke algebras, trace maps and integral homology with the carriers here.
+The scalar adapter ordinaryHecke_lambdaAlgebra sends the supplier's inverse
+diamond [z]_inv to z²[z]_w⁻¹; at u = 1+p this is
+1+Y ↦ u²(1+X)⁻¹. Its inverse-diamond component is ω^(2−a) for our ω^a.
+The weight-and-level relation therefore gives the same ideal ω_{r,k}, including
+P_k at r=1. The independent ordinary_weightTwo_rank proof and the p=3
+cuspidal extension ordinaryCuspidal_control_oddPrime are README targets.
 The Eisenstein adapters eisensteinConstantTerm, eisensteinCoefficientMeasure and
 eisensteinFamily consume DirichletPadicLFunctions §§1.6 and 5.4–5.9. They use left
 character 1 at level one and the right character at its actual tame level, inverse
 unit-coordinate weighting and angular pushforward. Full constants and clearing
 identities are transported together. Localization requires regularity of the
 transported denominator; evaluation requires its nonzero character image.
+Their canonical analytic object is IntegralIwasawaTheory §5.0's
+kubotaLeopoldtPseudomeasure, normalized by kubotaLeopoldt_interpolation and
+§6.3's bernoulliStickelberger_dictionary. The analytic coordinate map is
+1+S ↦ u(1+X)⁻¹, so s=1−k at P_k. For primitive ψ the constant specializes
+to L_p(ψ,1−k)/2; imprimitive presentations retain their tame Euler deletions.
+On the common nonexceptional domain the full series equals the normalized
+ordinary Eisenstein family of IntegralIwasawaTheory §9.0, with a₁=1.
+Its §§9.1–9.2 own full-form a₁-duality and the Eisenstein-local trace-limit
+comparisons; these are distinct from quotient-by-constants duality and
+irreducible-residual period freeness here.
 The ordinary modular and Hecke comparisons retain p ≥ 5, parity, actual levels,
 primitive inducing characters and tame Euler deletions. ModularForms Layer 0
 supplies the holomorphic q-expansion input in weight two, including its corrected
@@ -140,6 +159,11 @@ tame coefficients in Σ c_d V_d f_α. The p-new case retains its actual conducto
 and U_p eigenvalue. -/
 
 /-! ## Layer 1: Integral period modules and family measures -/
+
+/- The README's familySymbols and ordinaryHomology_moment use the shared
+relative/absolute towers and homological control of IntegralIwasawaTheory §9.0
+at p ≥ 5, with the scalar transport above. Their p=3 extension and the
+residual multiplicity-one period theorem are targets of this roadmap. -/
 
 section Congruence
 variable {A O : Type*} [CommRing A] [CommRing O]
