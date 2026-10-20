@@ -940,9 +940,7 @@ below is "where to look", not a specification. Paths are relative to
   Chapter 5, "Hanf Numbers and Indiscernibles" (pp. 51–62), contains the Morley–Hanf theorem, the
   sharpness examples and small models; Chapter 4, "The Model Existence Theorem" (pp. 39–50), the
   model existence and fragment material consumed through InfinitaryModelExistence. The chapter
-  titles and page ranges are from the publisher's metadata. The source repository locates the
-  Morley–Hanf construction in §5.2, the small-model theorem at Theorem 5.2.5 and the beth ladder at
-  Exercise 5.0.6.
+  titles and page ranges are from the publisher's metadata.
 - H. J. Keisler, *Model Theory for Infinitary Logic*, North-Holland, 1971.
 - H. J. Keisler and J. F. Knight, "Barwise: infinitary logic and admissible sets", *Bulletin of
   Symbolic Logic* 10 (2004), 4–36,
@@ -965,7 +963,7 @@ below is "where to look", not a specification. Paths are relative to
   Mathematical Society* 62 (1956), 427–489,
   [doi:10.1090/S0002-9904-1956-10036-0](https://doi.org/10.1090/S0002-9904-1956-10036-0): the
   partition relation and the Erdős–Rado theorem.
-- A. Kanamori, *The Higher Infinite*, 2nd ed., Springer, 2003, §7: Erdős cardinals and the
-  inaccessibility of `κ(ω)` (Convention 9).
+- A. Kanamori, *The Higher Infinite*, 2nd ed., Springer, 2003, the chapter "Partition
+  Properties": Erdős cardinals and the inaccessibility of `κ(ω)` (Convention 9).
 - `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic, checkpoint
   `518a366cba97b1ae8c4dc64a297a396939bc3e0b`.
