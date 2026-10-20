@@ -165,7 +165,10 @@ Verified present at the pinned toolchain; names are exact.
 **Integration by parts**, needed for the orthogonality proofs, in two shapes that must be cited
 fully qualified because they share a base name and have incompatible hypotheses:
 - `MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul` — the `Set.Ioi` form, for Laguerre;
-- `intervalIntegral.integral_mul_deriv_eq_deriv_mul` — the finite-interval form, for Jacobi.
+- `intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDeriv_right` — the finite-interval form
+  for Jacobi, in the variant that asks only `ContinuousOn` on the closed interval and a derivative
+  on `Set.Ioo`; the plain `intervalIntegral.integral_mul_deriv_eq_deriv_mul` wants derivatives at
+  the endpoints, which the Jacobi weight does not have for noninteger exponents.
 
 **The existing precedent to follow.** `Polynomial.Chebyshev.measureT` and the lemmas around it
 (`integral_measureT`, `integrable_measureT`,
@@ -425,14 +428,19 @@ the limit; state `n = 0`, `α + β = -1` separately, where the integral is `2^{�
 directly. An implementor who states only the general formula will produce something false at
 precisely the parameters Part F then checks against.
 
-Proof route as in B3: Rodrigues C4 plus `intervalIntegral.integral_mul_deriv_eq_deriv_mul`, `n`
-times, with boundary terms vanishing because `(1-t)^{n+α}(1+t)^{n+β}` has a zero of order at least
+Proof route as in B3: Rodrigues C4 plus
+`intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDeriv_right` (closed-interval continuity,
+open-interval derivative), `n` times, with boundary terms vanishing because `(1-t)^{n+α}(1+t)^{n+β}` has a zero of order at least
 `n + α > n - 1` at each endpoint. Note on the route: C4's analytic Rodrigues is stated on the open
 interval `Set.Ioo (-1) 1`, and the weight's boundary differentiability that the closed-interval
 lemma would want is exactly what noninteger exponents do not give — so the `n`-fold derivative
 step runs on the open interval and the convergence step uses its closed-interval continuity
 variant, with the continuous extensions of the boundary terms pinned as explicit targets rather
-than waved at.
+than waved at. Concretely, for `-1 < α`, `-1 < β` and `j < n`, the target
+`Polynomial.continuousOn_iteratedDeriv_jacobiWeight` states that
+`t ↦ iteratedDeriv j (fun t => (1-t)^(n+α) * (1+t)^(n+β)) t` extends continuously to `[-1, 1]`
+with value `0` at `±1` (its zero order there is `n + α - j > 0`, resp. `n + β - j > 0`); these are
+the boundary values the integration-by-parts step consumes.
 
 **D3 also needs to pin a uniform diagonal norm** before D4 can state a basis: a named sequence
 `jacobiNormSq α β n : ℝ` that is positive for all admissible `n, α, β` — including the `n = 0,
@@ -452,9 +460,9 @@ each with its `coe_` pin.
 Immediate instantiations of `OrthogonalL2Bases` **B3** once B4 and D4 exist, and listed as targets
 so that "immediate" is recorded as work rather than assumed:
 
-- `Polynomial.laguerrePiHilbertBasis (ι) [Fintype ι] : HilbertBasis (ι → ℕ) 𝕜 (Lp 𝕜 2 (Measure.pi fun _ => laguerreMeasure α))`,
+- `Polynomial.laguerrePiHilbertBasis (ι) [Fintype ι] (α) (h : -1 < α) : HilbertBasis (ι → ℕ) 𝕜 (Lp 𝕜 2 (Measure.pi fun _ => laguerreMeasure α))`,
   the multidimensional Laguerre basis, with its `coe_` pin;
-- `Polynomial.jacobiPiHilbertBasis` likewise.
+- `Polynomial.jacobiPiHilbertBasis` likewise, under `-1 < α`, `-1 < β`.
 
 ## Part F — the classical specializations, and the consistency check
 
@@ -476,7 +484,11 @@ parameter-dependent element `(lam + 1/2)ₙ`, and that element genuinely vanishe
 `n = 1`) and may be noninvertible even when nonzero, so a quotient definition does not elaborate
 at the stated generality:
 
-`Cₙ^{(λ)}(X) = ∑ k ∈ Finset.range (n/2 + 1), ((-1)^k * ((1 : ℚ) / (k ! * (n - 2*k)!)) • (ascPochhammer R (n-k)).smeval (lam + k + 1)) • (2*X)^(n - 2*k)`
+`Cₙ^{(λ)}(X) = ∑ k ∈ Finset.range (n/2 + 1), ((-1)^k * ((1 : ℚ) / (k ! * (n - 2*k)!)) • (ascPochhammer R (n-k)).smeval lam) • (2*X)^(n - 2*k)`
+
+that is, `∑ₖ (-1)^k (λ)ₙ₋ₖ / (k! (n-2k)!) (2X)^{n-2k}`. Sanity checks to pin as targets:
+`gegenbauer lam 0 = 1`, `gegenbauer lam 1 = C (2*lam) * X`, and
+`gegenbauer lam 2 = C (2*lam*(lam+1)) * X^2 - C lam`.
 
 Every coefficient here is a `ℚ`-scalar acting on an element of `R`, exactly as in C1 and C2; no
 division in `R` appears. The relation to the Jacobi family is then stated as a **multiplied-out
