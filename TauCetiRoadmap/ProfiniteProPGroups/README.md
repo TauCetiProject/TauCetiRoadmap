@@ -103,14 +103,14 @@ local absolute Galois group from that of its Sylow subgroups.
 
 ## How to read the milestones
 
-`README.md` is normative; `Suggested.lean` pins useful Lean names and signatures. Dated
-implementation and ecosystem information is maintained in a private provenance ledger. In prerequisite
-annotations, `M` means Mathlib at the repository pin, `TC` means Tau Ceti at the repository pin,
-`L0` through `L10` mean an earlier layer here, and `PC-<layer>` means an export of
+`README.md` is normative; `Suggested.lean` pins useful Lean names and signatures. In prerequisite
+annotations, `M` means Mathlib at the repository pin, `TC` means Tau Ceti at that pin, `L0`
+through `L10` mean an earlier layer here, and `PC-<layer>` means an export of
 `ProfiniteCohomology`. No milestone depends on a branch, an unmerged external project,
-`LocalFieldsRamification`, or `ClassFieldTheory`. An *In Tau Ceti:* line names the Tau Ceti
-declarations that implement a milestone, or the part of it they name; the corresponding
-statements of `Suggested.lean` are closed proofs from them.
+`LocalFieldsRamification`, or `ClassFieldTheory`. An *In Tau Ceti:* line names an available
+source declaration and the milestone component it supports. The explicit mathematical targets
+include the comparison proofs against that declaration's actual carriers and hypotheses;
+source availability alone does not discharge every theorem of the roadmap.
 
 Theorems use the unbundled profinite type-class stack except where a categorical limit or
 completion genuinely needs `ProfiniteGrp`. Pro-`p` means that every continuous finite
@@ -1017,6 +1017,18 @@ That declaration belongs to the Profinite Cohomology roadmap, where it is Tau Ce
 `TauCeti.cohomologicalDimensionAt` at coefficient universe `0`, characterized by
 `TauCeti.cohomologicalDimensionAt_le_iff` through the vanishing predicate
 `TauCeti.CohomologicalDimensionLE`; this roadmap defines no second cohomological dimension.
+The native infinite-Demushkin theorem spells its extra coefficient parameter as `u` for
+`G : Type u`. Shared PC11.U supplies
+`ProfiniteCohomology.nativeCohomologicalDimensionAt_eq_cd_p` only **after** its actual
+all-degree homogeneous-cochain/canonical-cohomology comparison. Equal `Type u` coefficient
+carriers (`max u u = max u 0 = u`) do not identify the canonical objects
+`continuousCohomology.{0,u,u}` and `continuousCohomology.{0,u,0}`. First construct the shared
+supplier's cycle and boundary-range comparisons and its two canonical presentations through
+the same explicit kernel/range quotient, with commuting class maps. Use their additive
+equivalence to transfer every vanishing test, then use the existing least-bound definition
+to transfer dimension. This construction applies to arbitrary `G : Type u`, with no extra
+hypothesis, second dimension or arbitrary larger-universe invariance. The native Tate and
+dimension theorems consume this shared PC11 interface after those producers are constructed.
 Three reduction theorems say when a smaller test suffices, and none of them is the definition:
 
 - testing only the **finite** discrete `p`-primary modules gives the same predicate, by
@@ -1341,25 +1353,69 @@ here, and the terms do not occur in any milestone. What Layers 9 and 11 use is a
 package of statements about finite discrete modules, and that package is stated here.
 
 - **Dimension two.** An infinite Demushkin group has `cd_p G = 2`
-  (`cd_p_eq_two_of_isDemushkin`). Route: `≤ 2` from the one-relator presentation and the
-  five-term sequence; `≥ 2` from `H²(G, 𝔽_p) ≠ 0`, which is part of the definition.
-  *Needs:* L6 `cd_p`; PC-6 `transgression`, `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`; L7 the
-  predicate.
+  (`cd_p_eq_two_of_isDemushkin`). The lower bound `2 ≤ cd_p G` follows from
+  `H²(G, 𝔽_p) ≠ 0`, which is part of the definition. For the upper bound, first prove the
+  finite-module Tate duality target below for every finite discrete `𝔽_p[G]`-module, with
+  `α₂ : H²(G, M) → Hom(H⁰(G, M^∨), H²(G, 𝔽_p))` the cup-evaluation map. Its bijectivity is the
+  hypothesis of Tau Ceti's `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`;
+  that criterion obtains right exactness of `H²` on finite modules and then `cd_p G ≤ 2`.
+  The one-relator presentation and five-term sequence alone are not this upper-bound argument.
+  *Needs:* L6 `cd_p`; L7 finite-module Tate duality and the explicit comparisons with Tau Ceti;
+  L7 the predicate.
+  *In Tau Ceti:* `TauCeti.IsDemushkin.cohomologicalDimensionAt_eq_two` and
+  `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`, after the
+  roadmap/native predicate and cup comparisons below.
   *Source:* Tate, in Serre, *Structure de certains pro-p-groupes*, §9.1.
 - **The trace isomorphism.** Fix the isomorphism `tr : H²(G, 𝔽_p) ≅ 𝔽_p` determined by a
   choice of nonzero element. The choice is unique up to `𝔽_pˣ`; name a generator, and record
   that the statements below do not change under rescaling. Every pairing below is normalized
   through `tr`.
   *Needs:* L7 the predicate.
-- **The perfect pairings that are used.** For each `i ≥ 1` and each finite discrete
-  `p`-primary `G`-module `M` in the coefficient system `I(χ)/p^i` of the canonical
-  character, the cup pairing
-  `H^j(G, M) × H^{2-j}(G, M^∨(χ)) → H²(G, I(χ)/p^i) ≅ ℤ/p^i` is a perfect pairing
-  of finite abelian groups for `j = 0, 1, 2`, where `M^∨(χ) := Hom(M, I(χ)/p^i)` carries the
-  diagonal action. Only the modules of that system are claimed, because only they are used.
-  There is no unqualified statement about all finite discrete modules in this roadmap.
+- **Compare the roadmap predicate and cup with Tau Ceti.** `IsDemushkin` and `cupFp` are
+  separately defined against the Profinite Cohomology carrier; neither is a definitional alias
+  of Tau Ceti's predicate or cup. Before consuming native Demushkin duality, prove an explicit
+  equality of the two cup maps under the coefficient/carrier equivalences, using the
+  nonvacuous multiplication law for `fpPairing`, and prove both directions of
+  `IsDemushkin p G ↔ TauCeti.IsDemushkin p G` from the actual pro-`p`, finite-`H¹`,
+  one-dimensional-`H²`, and cup-separation clauses. This comparison is a named target, not an
+  assumption that matching names imply matching definitions.
+  *Needs:* L5 `trivialFp`, `cohomFp`, `fpPairing_bil`, `cupFp`; L7 the predicate.
+  *In Tau Ceti:* `TauCeti.IsDemushkin`, `TauCeti.cupFp`, and the actual cup/predicate clauses.
+- **Tate duality on every finite `𝔽_p[G]`-module.** For an infinite Demushkin group `G` and
+  every finite discrete `G`-module `M` killed by `p`, let
+  `M^∨ = Hom_{𝔽_p}(M, 𝔽_p)` with its contragredient action. Define the three cup-evaluation maps
+  `α_j(M) : H^j(G,M) → Hom_{𝔽_p}(H^{2-j}(G,M^∨), H²(G,𝔽_p))`, for `j = 0,1,2`, and prove each
+  bijective. State the evaluation pairing and module action explicitly; this is the finite-module
+  Tate theorem needed by `cd_p`, not only duality for the special twists `I(χ)/p^i`.
+  The proof order is fixed: first compare the roadmap cup and predicate with Tau Ceti; then use the
+  trivial-module cup pairing as the `α₁` base case, one-dimensional `H²` for `α₀`, and the
+  universal degree-two scalar map for `α₂`; pass through finite-module filtrations by trivial
+  `𝔽_p` factors using the exact-sequence duality lemmas. For infinite `G`, include the
+  co-effacement argument that gives injectivity of `α₀` and the finite-cardinality/double-dual
+  argument that makes `α₂` surjective. Only after all finite modules are covered may the
+  right-exactness criterion in the dimension-two target be applied.
+  *Needs:* L5 the coefficient and cup maps; L6 finite-module filtrations and exact sequences; L7
+  the comparison targets above and the finite-module Tate argument.
+  *In Tau Ceti:* `TauCeti.IsDemushkin.dualityMap0_bijective`,
+  `TauCeti.IsDemushkin.dualityMap1_bijective`, `TauCeti.IsDemushkin.dualityMap2_bijective`,
+  and `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`.
+- **The perfect pairings that are used.** For an **infinite** Demushkin group `G`, for every
+  `i ≥ 1` and every finite discrete `G`-module `M` annihilated by `p^i`, the cup pairing
+  `H^j(G, M) × H^{2-j}(G, M^∨(χ)) → H²(G, I(χ)/p^i) ≅ ℤ/p^i` is perfect for
+  `j = 0, 1, 2`, where `M^∨(χ) := Hom(M, I(χ)/p^i)` carries the diagonal action. This is the
+  all-finite-module scope of Tau Ceti's `TauCeti.IsDemushkin.dualityMap0_zModTwist_bijective`,
+  `TauCeti.IsDemushkin.dualityMap1_zModTwist_bijective`, and
+  `TauCeti.IsDemushkin.dualityMap2_zModTwist_bijective` results; it is not restricted to rank-one
+  twists. Finite discrete `p`-primary modules are covered because each is
+  annihilated by some `p^i`.
   *Needs:* L5 the coefficient objects and `cupFp`; L7 trace and canonical character.
   *Source:* Serre, *Structure de certains pro-p-groupes*, §9.
+  This infinite-group hypothesis is essential. The finite rank-one group `C₂` remains in the
+  programme through its period-two resolution: for the sign module `I(χ)/2^i = ℤ/2^i`,
+  `H^{2k}(C₂, I(χ)/2^i) ≅ (I(χ)/2^i)[2] ≅ ℤ/2` for `k ≥ 1`, and
+  `H^{2k+1}(C₂, I(χ)/2^i) ≅ (I(χ)/2^i)/2(I(χ)/2^i) ≅ ℤ/2` for `k ≥ 0`.
+  In particular `H²` has order two, not `2^i`; these finite calculations are separate targets,
+  not instances of this infinite-group perfect-duality theorem.
 - **Naturality.** Compatibility of the pairings with restriction to an open subgroup and
   with corestriction, in the form `⟨res a, b⟩_U = ⟨a, cor b⟩_G`. These are the two
   compatibilities that the open-subgroup theorem uses.
@@ -1388,9 +1444,23 @@ package of statements about finite discrete modules, and that package is stated 
   *Needs:* PC-7 Shapiro; PC-5 the long exact sequence; L6 trivial filtration.
 - **The open-subgroup theorem.** For `G` infinite Demushkin and `U ≤ G` open: `U` is
   Demushkin; `n(U) - 2 = [G : U](n(G) - 2)` in `ℤ`; and
-  `demushkinCharacter U = (demushkinCharacter G) ∘ (inclusion U)`. Route: `cd_p U = 2` from
-  Layer 6; `finrank H²(U, 𝔽_p) = 1` from the perfect pairing and naturality; nondegeneracy
-  on `U` likewise; then the three-term Euler formula below.
+  `demushkinCharacter U = (demushkinCharacter G) ∘ (inclusion U)`. Use the actual finite-index
+  coinduced module `Coind_U^G 𝔽_p`: it is finite discrete, its dual is identified with the same
+  permutation module, and Shapiro identifies its cohomology with that of `U`. The bijective
+  `α₂` pairing computes `H²(U, 𝔽_p)` from `H⁰(U, 𝔽_p) = 𝔽_p`; the bijective `α₁` pairing and
+  the Shapiro/cup projection formula transport nondegeneracy of the cup product to `U`.
+  The rank formula then uses the three-term Euler formula below after `cd_p G ≤ 2`. For the
+  character, for every `i ≥ 1` use the finite discrete module
+  `Coind_U^G(I(χ|_U)/p^i)`. It is annihilated by `p^i`, hence also by `p^(i+1)`. Apply the
+  all-finite-module twisted theorem at exponent `i+1`: its `α₂` map has source coefficients this
+  coinduced module and value coefficients `I(χ)/p^(i+1)`. Restricting the value module
+  `I(χ)/p^(i+1)` from `G` to `U` identifies it with `I(χ|_U)/p^(i+1)`. Shapiro is applied
+  separately to this `α₂` map with its coinduced input, and descends injectivity to the map for
+  `U` at level `i+1`, on the input `I(χ|_U)/p^i`. This is
+  exactly the exponent shift used by the native `demushkinCharacter_openSubgroup` proof. The
+  coinduced module need not be cyclic: for `G = ℤ_p²`, index-`p` `U`, and trivial `χ`, it is
+  additively `(ℤ/p^i)^p`. Merely proving rank-one twisted duality or restricting the
+  trivial-coefficient pairing is not enough.
   *Needs:* L6 `cd` of open subgroups; L7 pairings and naturality; L7 Euler formula.
   *Source:* Serre, *Structure de certains pro-p-groupes*, §9.2.
   ⚠ The hypothesis "infinite" is used: `ℤ/2` is Demushkin and finite, and the rank formula
@@ -1542,11 +1612,11 @@ differs, the translation is stated once.
   `δ_j` is the bilinear map `TauCeti.freeProP.basisModificationDelta`, stated for
   modifications by elements of `λ_m(F)` with `m ≥ 1`, the class of `r⁻¹ θ_w(r)` is its value
   (`TauCeti.freeProP.gradedMk_inv_mul_basisModification`), and `basisModificationDelta_apply`
-  is the `j ≥ 2` formula above. The `j = 1` formula and its polarization identity are the
-  remaining milestone at the pinned Tau Ceti revision. Later Tau Ceti revisions have them in
-  `Free/BasisModification/LevelZero.lean` (`TauCeti.freeProP.basisModificationDeltaZero`,
-  `basisModificationDeltaZero_apply`, `basisModificationDeltaZero_add`); that file is not
-  present at the pin, so it is not yet available here.
+  is the `j ≥ 2` formula above. For the `j = 1` formula and its polarization identity, consume
+  `Free/BasisModification/LevelZero.lean`, which supplies
+  `TauCeti.freeProP.basisModificationDeltaZero`, `basisModificationDeltaZero_apply`, and
+  `basisModificationDeltaZero_add` at the repository pin. Prove the explicit comparisons with
+  the displayed formula and polarization using those native declarations and their hypotheses.
   *Needs:* L8 the graded object; L4 free objects.
   *In Tau Ceti:* `TauCeti.freeProP.basisModification`, `TauCeti.freeProP.basisModificationDelta`,
   `TauCeti.freeProP.gradedMk_inv_mul_basisModification`,
@@ -2185,8 +2255,8 @@ homomorphisms. These are the milestones.
   marked values of `χ`. It is what the even-rank marked statement
   `isDemushkin_marked_of_q_two_even` consumes in these two branches.
 
-At the pinned Tau Ceti revision none of this is available. Later revisions (`cc27ef1` and after)
-have the graded pieces of a subgroup, `TauCeti.gradedPieceOf`
+Tau Ceti at the repository pin supplies the graded pieces of a subgroup,
+`TauCeti.gradedPieceOf`
 (`LowerCentralSeries/Graded/Subgroup.lean`); the graded functional of a crossed homomorphism,
 `TauCeti.IsCrossedHom.gradedFunctional` with `pow_dvd_apply_of_mem_pLowerCentralSeries`
 (`ProP/CrossedHom.lean`); the crossed homomorphisms of a free pro-`p` group with prescribed
@@ -2202,9 +2272,10 @@ statement `gradedPieceOf_exponentSumKer_demushkinWordNeTwo_eq_map_basisModificat
 (`Demushkin/NormalForm/Two/Even/KernelSpan.lean`) and
 `exists_continuousMulEquiv_apply_demushkinWordTwoEven_zero_eq_of_forall_crossedHom_eq_zero`
 (`Demushkin/NormalForm/Two/Even/Approximation.lean`), all in the namespace `TauCeti.freeProP`.
-Those revisions take `X` to be the kernel of an exponent sum, which is `ker χ` here, respectively
-its intersection with `λ_1(F)`, by the complement computation above. They are not present at the
-pin, so these remain milestones here.
+The constrained-span and iteration declarations take `X` to be the kernel of the specified
+exponent sum, which is `ker χ` here, respectively its intersection with `λ_1(F)`, by the complement
+computation above. Prove the roadmap's explicit comparison milestones against these native
+carriers and hypotheses.
 *Needs:* L9 the basis corrections; L8 `δ_j`, the comparison schema, openness and cofinality;
 L3 Burnside's basis theorem and the Hopf property; L4 free objects.
 *Source:* Labute §4.1, Lemmas 1–4 and the proof of Theorem 5 (pp. 123–126); §4.2, Lemmas 1–4
@@ -2294,22 +2365,22 @@ Layer 8.
   basis corrections and the character-preserving iteration of the Layer 9 prerequisites bring
   `r` to the normal form of the branch. Implement every limit through the schema, and do not
   re-derive a limit argument.
-  At the pinned Tau Ceti revision only `δ_j` and its formula are available. Later revisions
-  (`cc27ef1` and after) have the case `q = p` as
+  For the case `q = p`, consume the repository-pin native declarations
   `TauCeti.freeProP.range_basisModificationDelta_eq_top_of_odd` and
   `exists_continuousMulEquiv_apply_eq_demushkinWordNeTwo_of_odd`
-  (`Demushkin/NormalForm/OddPrime.lean`); the fixed-exponent-vector case as
+  (`Demushkin/NormalForm/OddPrime.lean`). For the fixed-exponent-vector case, consume
   `exists_continuousMulEquiv_toAdd_exponentSum_eq_single`,
   `range_basisModificationDelta_eq_span_of_repr_inl_eq_zero`,
   `gradedMk_mem_range_basisModificationDelta_of_mem_topologicalClosure_commutator`,
   `exists_apply_mem_commutator_basisModificationDelta_eq_of_mem_range` and
   `exists_continuousMulEquiv_apply_eq_of_exponentSum_eq`, assembled in
   `exists_continuousMulEquiv_apply_eq_demushkinWordNeTwo_of_demushkinQ_ne`
-  (`Demushkin/NormalForm/NeTwo.lean`, whose header explains why full surjectivity fails); and the
-  dyadic span statements as
+  (`Demushkin/NormalForm/NeTwo.lean`, whose header explains why full surjectivity fails). For the
+  dyadic span statements, consume
   `range_basisModificationDelta_sup_basisModificationTail_eq_top_demushkinWordTwoOdd` and
   `range_basisModificationDelta_sup_gradedPowIterSpan_eq_top_demushkinWordTwoEven`, all in the
-  namespace `TauCeti.freeProP`. They are not present at the pin.
+  namespace `TauCeti.freeProP`. Prove the explicit comparison and consumption milestones with
+  these APIs' hypotheses and carriers stated.
   *Needs:* L8 comparison schema, L8 `δ_j` and `T_j`; L9 cup-form normal forms; L4 free objects
   and their abelianization.
   *Source:* Labute Prop. 5 and Thm 3, and the proof of Thm 3 on pp. 118–119.

@@ -1,19 +1,25 @@
 import Mathlib
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
+import TauCetiRoadmap.ProfiniteCohomology.DimensionNormalization
 import TauCeti.GroupTheory.PLowerCentralSeries
 import TauCeti.NumberTheory.Padics.DyadicUnits
-import TauCeti.NumberTheory.Padics.GroupAlgebraCyclicTwo
+import TauCeti.NumberTheory.Padics.GroupAlgebra.CyclicTwo
 import TauCeti.NumberTheory.Padics.PowerSeries
+import TauCeti.Data.ZMod.TrivialAction
 import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialFp
 import TauCeti.Topology.Algebra.Group.FiniteQuotients
 import TauCeti.Topology.Algebra.Group.LowerCentralSeries
 import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Graded.Basic
+import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Graded.Subgroup
 import TauCeti.Topology.Algebra.Group.OpenSubgroup.TopologicallyFinitelyGenerated
 import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.DyadicCoordinate
 import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Filtration
 import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Map
 import TauCeti.Topology.Algebra.Group.Profinite.Completion
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Abelianization
+import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.CohomologicalDimension
+import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Duality.Basic
+import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.OpenSubgroup
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Orientation
 import TauCeti.Topology.Algebra.Group.Profinite.EmbeddingProblem.Projective
 import TauCeti.Topology.Algebra.Group.Profinite.Free.BasisModification
@@ -38,9 +44,9 @@ import TauCeti.Topology.Algebra.Group.Profinite.ProP.FiniteGeneration
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.FixedPoints
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.LowerCentralSeries
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Order
-import TauCeti.Topology.Algebra.Group.Profinite.ProP.Prescription
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Prescription.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Rank
-import TauCeti.Topology.Algebra.Group.Profinite.ProP.RelationModule
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Relation.Module
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.StructureTheorem
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Surjective
 import TauCeti.Topology.Algebra.Group.Profinite.Rank
@@ -549,6 +555,20 @@ structure IsDemushkin : Prop where
   cupLeft : ∀ a : cohomFp p G 1, a ≠ 0 → ∃ b : cohomFp p G 1, cupFp p G a b ≠ 0
   /-- The cup pairing is nondegenerate on the right. -/
   cupRight : ∀ b : cohomFp p G 1, b ≠ 0 → ∃ a : cohomFp p G 1, cupFp p G a b ≠ 0
+
+/-- The explicit multiplication pairing and cup map agree with Tau Ceti's native `cupFp`.
+This is a proof target, not a definitional equality: `fpPairing_bil` fixes the coefficient map. -/
+theorem cupFp_eq_tauCeti (p : ℕ) [Fact p.Prime] (G : Type u) [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
+    (a b : cohomFp p G 1) : cupFp p G a b = TauCeti.cupFp p G a b :=
+  sorry
+
+/-- The roadmap's explicit five clauses agree in both directions with Tau Ceti's native
+`IsDemushkin`, after the cup comparison above. -/
+theorem IsDemushkin.iff_tauCeti (p : ℕ) [Fact p.Prime] (G : Type u) [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] :
+    IsDemushkin p G ↔ TauCeti.IsDemushkin p G :=
+  sorry
 
 /-- **Layer 7, a Demushkin group is topologically finitely generated.** From `h1_fin`, the
 `H¹` interpretation of Layer 5, and the Burnside basis theorem of Layer 3. -/
@@ -1644,13 +1664,14 @@ section CharacterPreservingIteration
 /-- **Layer 9, the graded pieces of a subgroup.** For `K ≤ G`, `gr_k(K)` is the image of
 `K ∩ λ_k(G)` in `gr_k(G)`; it is `(K ∩ λ_k) / (K ∩ λ_{k+1})`, because `K ∩ λ_k ∩ λ_{k+1}` is
 `K ∩ λ_{k+1}`, and this is how Labute identifies `gr(X)` with a subalgebra of `gr(F)` (p. 123).
-It is defined as a span so that it is a submodule by construction; `mem_gradedPieceOf_iff` says
-that the span adds nothing. Later Tau Ceti revisions have it as `TauCeti.gradedPieceOf`, which
-is not present at the pin. -/
-noncomputable def gradedPieceOf (p : ℕ) {G : Type u} [Group G] [TopologicalSpace G]
+The roadmap name below abbreviates current main's `TauCeti.gradedPieceOf` at revision
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`; it is the image of `K ∩ λ_k` in the ambient graded
+piece. The original PR snapshot at `a780` lacked this declaration. Its membership theorem is the
+current native `TauCeti.mem_gradedPieceOf_iff`. -/
+abbrev gradedPieceOf (p : ℕ) {G : Type u} [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] (K : Subgroup G) (k : ℕ) :
     Submodule (ZMod p) (TauCeti.gradedPiece p G k) :=
-  Submodule.span (ZMod p) (TauCeti.gradedMk p G k '' {x | (x : G) ∈ K})
+  TauCeti.gradedPieceOf p K k
 
 /-- **The graded piece of a subgroup is the image of `K ∩ λ_k`**: the image of a subgroup under
 the additive map `gradedMk` is already closed under addition and `ℤ`-scalars, which are the
@@ -1658,8 +1679,9 @@ the additive map `gradedMk` is already closed under addition and `ℤ`-scalars, 
 theorem mem_gradedPieceOf_iff (p : ℕ) {G : Type u} [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] (K : Subgroup G) (k : ℕ) (v : TauCeti.gradedPiece p G k) :
     v ∈ gradedPieceOf p K k ↔
-      ∃ x : TauCeti.pLowerCentralSeries p G k, (x : G) ∈ K ∧ TauCeti.gradedMk p G k x = v :=
-  sorry
+      ∃ x : TauCeti.pLowerCentralSeries p G k, (x : G) ∈ K ∧ TauCeti.gradedMk p G k x = v := by
+  simpa only [gradedPieceOf] using
+    (TauCeti.mem_gradedPieceOf_iff (p := p) (K := K) (k := k) (z := v))
 
 /-- **Layer 9, `δ` preserves the graded pieces of the kernel of a character.** For a continuous
 character `χ` of the free pro-`p` group, `m ≥ 1`, every `ρ ∈ gr_1(F)` and a family `v` in
@@ -1685,9 +1707,9 @@ the geometric sum `1 + χ(g) + ⋯ + χ(g)^{p-1}`, which is divisible by `p`, an
 is `(χ(g) - 1) D(h) - (χ(h) - 1) D(g)` up to convention. Hence the graded functional
 `Δ_k(D) : gr_k(G) → 𝔽_p`, the class of `g` going to `(D(g)/p^k) mod p`, is well defined, and it
 kills a class exactly when `p^{k+1} ∣ D g`. Labute's Lemma 4 takes `D` with values in `2I(χ)`;
-his `Δ` is this one after dividing by `2`. Later Tau Ceti revisions have it as
-`TauCeti.IsCrossedHom.pow_dvd_apply_of_mem_pLowerCentralSeries` and
-`TauCeti.IsCrossedHom.gradedFunctional`, not present at the pin. -/
+his `Δ` is this one after dividing by `2`. The original PR snapshot at `a780` lacked these APIs. Current main at
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` has `TauCeti.IsCrossedHom.pow_dvd_apply_of_mem_pLowerCentralSeries`
+and `TauCeti.IsCrossedHom.gradedFunctional`; the roadmap proof must compare their exact hypotheses. -/
 theorem pow_dvd_crossedHom_of_mem_pLowerCentralSeries {p : ℕ} [Fact p.Prime] {G : Type u}
     [Group G] [TopologicalSpace G] [IsTopologicalGroup G] (hG : IsProP p G)
     (χ : G →ₜ* ℤ_[p]ˣ) (D : G → ℤ_[p]) (hDc : Continuous D)
@@ -1700,8 +1722,9 @@ theorem pow_dvd_crossedHom_of_mem_pLowerCentralSeries {p : ℕ} [Fact p.Prime] {
 crossed homomorphism `D` for `χ` with `D(x_i) = a i`. Route: the universal property of the free
 pro-`p` group applied to the pro-`p` group `ℤ_p ⋊ Im χ`, with `x_i ↦ (a i, χ(x_i))`. The
 coordinate crossed homomorphisms `D_i`, `D_i(x_k) = δ_{ik}`, are the detectors of the image
-theorems below. Later Tau Ceti revisions have it as `TauCeti.freeProP.crossedHom`, not present
-at the pin. -/
+theorems below. The original PR snapshot at `a780` lacked this API. Current main at
+  `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` has `TauCeti.freeProP.crossedHom`; the roadmap proof
+  must consume its exact universal-property statement. -/
 theorem existsUnique_crossedHom_freeProP {p : ℕ} [Fact p.Prime] {n : ℕ}
     (χ : freeProP p (Fin n) →ₜ* ℤ_[p]ˣ) (a : Fin n → ℤ_[p]) :
     ∃! D : freeProP p (Fin n) → ℤ_[p], Continuous D ∧
@@ -1718,10 +1741,11 @@ Route: the complement `gr_k(F) = gr_k(X) ⊕ 𝔽₂ π^k ξ₂` (Lemma 1, from 
 `gr_{m+1}(X) = Im δ^X + ⟨π^{m+1} ξ_i : i ≠ 2⟩` (Lemmas 2 and 3); every crossed homomorphism kills
 `r₀(y)` for every tuple `y` with these values of `χ`, hence vanishes on `Im δ^X`; and the
 coordinate crossed homomorphism `D_i`, `i ≠ 2`, reads off the coefficient of `π^{m+1} ξ_i`.
-Later Tau Ceti revisions have this as
+The original PR snapshot at `a780` lacked this API. Current main at
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` has
 `TauCeti.freeProP.mem_map_basisModificationDelta_iff_forall_gradedFunctional_crossedHom_eq_zero`,
 with `X` the kernel of the exponent sum at `x₂`, which is `ker χ` because `χ(x₂)` has infinite
-order; it is not present at the pin. -/
+order. The proof target retains that carrier identification and the native hypotheses. -/
 theorem exists_basisModificationDelta_eq_iff_forall_crossedHom_procyclic {n : ℕ} (hn : 2 ≤ n)
     (heven : Even n) [TotallyDisconnectedSpace (freeProP 2 (Fin n))] {f : ℕ} (hf : 2 ≤ f)
     (χ : freeProP 2 (Fin n) →ₜ* ℤ_[2]ˣ)
@@ -1751,10 +1775,10 @@ with `φ : F → ℤ/2 × 2ℤ₂`); the span statement
 mixed vector is the class of `(x₂, x₄)^{2^m}`, in `X` although `x₂, x₄ ∉ X`; every crossed
 homomorphism vanishes on `Im δ^X`; `D_i` reads off the coefficient of `π^{m+1} ξ_i` for
 `i ≠ 2, 4`, and `D₄` that of `π^m [ξ₂, ξ₄]`, because `D₄((x₂, x₄)) = ±(χ(x₂) - 1) = ∓2`.
-Labute works at `n = 4` and reduces to it; this statement is for every even `n ≥ 4`. Later Tau
-Ceti revisions have it as
-`TauCeti.freeProP.mem_map_basisModificationDelta_demushkinWordTwoEven_iff_forall_gradedFunctional_eq_zero`,
-not present at the pin. -/
+Labute works at `n = 4` and reduces to it; this statement is for every even `n ≥ 4`. The original
+PR snapshot at `a780` lacked this API. Current main at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`
+has `TauCeti.freeProP.mem_map_basisModificationDelta_demushkinWordTwoEven_iff_forall_gradedFunctional_eq_zero`;
+the roadmap proof retains its even-rank hypotheses and mixed-tail conclusion. -/
 theorem exists_basisModificationDelta_eq_iff_forall_crossedHom_unitsPlusMinus {n : ℕ}
     (hn : 4 ≤ n) (heven : Even n) [TotallyDisconnectedSpace (freeProP 2 (Fin n))] {f : ℕ}
     (hf : 2 ≤ f) (χ : freeProP 2 (Fin n) →ₜ* ℤ_[2]ˣ) (hχ1 : χ (freeProPGen 2 n 1) = -1)
@@ -3108,13 +3132,59 @@ theorem cd_p_eq_of_isProPSylow (G : Type u) [Group G] [TopologicalSpace G] [IsTo
     ProfiniteCohomology.cd_p p P = ProfiniteCohomology.cd_p p G :=
   sorry
 
-/-- **Layer 7, an infinite Demushkin group has `cd_p = 2`.** `≤ 2` from the one-relator
-presentation and the imported five-term sequence; `≥ 2` from `dim H²(G, 𝔽_p) = 1`, which is part
-of the definition. -/
+section NativeTateCoefficientAction
+
+-- Match the additive parent used by the native duality API; the action below is built
+-- under this same parent instead of importing an action fixed at another instance path.
+attribute [local instance 2000] Ring.toAddCommGroup
+
+/-- **Layer 7, finite-module Tate duality.** After the explicit predicate/cup comparison, the
+native bijective `α₂` map is available for every finite discrete `G`-module killed by `p`. Its
+cup-evaluation definition, finite-module hypotheses, and right-exactness use are specified in
+`README.md`; the proof consumes `TauCeti.IsDemushkin.dualityMap2_bijective`. -/
+theorem IsDemushkin.tateAlpha2_bijective (G : Type u) [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] [Infinite G]
+    (hG : IsDemushkin p G) (M : Type u) [AddCommGroup M] [TopologicalSpace M]
+    [DiscreteTopology M] [DistribMulAction G M] [ContinuousSMul G M] [Finite M]
+    (hM : ∀ m : M, p • m = 0) :
+    letI : DistribMulAction G (ZMod p) :=
+      DistribMulAction.compHom (ZMod p) (1 : G →* (ZMod p)ˣ)
+    letI : ContinuousSMul G (ZMod p) :=
+      ⟨continuous_snd.congr fun q ↦ (one_smul (ZMod p)ˣ q.2).symm⟩
+    Function.Bijective (TauCeti.ContCohomology.dualityMap2 G M (ZMod p)) := by
+  letI : DistribMulAction G (ZMod p) :=
+      DistribMulAction.compHom (ZMod p) (1 : G →* (ZMod p)ˣ)
+  letI : ContinuousSMul G (ZMod p) :=
+      ⟨continuous_snd.congr fun q ↦ (one_smul (ZMod p)ˣ q.2).symm⟩
+  have hNative : TauCeti.IsDemushkin p G := (IsDemushkin.iff_tauCeti p G).1 hG
+  have htriv : ∀ (g : G) (m : ZMod p), g • m = m :=
+    fun _ m ↦ one_smul (ZMod p)ˣ m
+  exact hNative.dualityMap2_bijective htriv M hM
+
+end NativeTateCoefficientAction
+
+/-- **Layer 7, open subgroups of infinite Demushkin groups.** This consumes the native result;
+its proof uses the finite permutation module `Coind_U^G 𝔽_p`, its self-dual identification,
+Shapiro, and the cup projection formula, as specified in `README.md`. -/
+theorem IsDemushkin.openSubgroup (G : Type u) [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] [Infinite G]
+    (hG : IsDemushkin p G) (U : OpenSubgroup G) : IsDemushkin p U.toSubgroup := by
+  letI : Infinite G := inferInstance
+  have hNative : TauCeti.IsDemushkin p G := (IsDemushkin.iff_tauCeti p G).1 hG
+  have hNativeU : TauCeti.IsDemushkin p U.toSubgroup := hNative.openSubgroup U
+  exact (IsDemushkin.iff_tauCeti p U.toSubgroup).2 hNativeU
+
+/-- **Layer 7, an infinite Demushkin group has `cd_p = 2`.** The lower bound is from
+`dim H²(G, 𝔽_p) = 1`. For the upper bound, transport the explicit predicate to Tau Ceti's native
+one, use `TauCeti.IsDemushkin.dualityMap2_bijective` on every finite discrete `𝔽_p[G]`-module,
+then apply `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`.
+The five-term sequence alone is not a producer of this bound. -/
 theorem cd_p_eq_two_of_isDemushkin (G : Type u) [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (hG : IsDemushkin p G) (hinf : Infinite G) : ProfiniteCohomology.cd_p p G = 2 :=
-  sorry
+    (hG : IsDemushkin p G) (hinf : Infinite G) : ProfiniteCohomology.cd_p p G = 2 := by
+  letI : Infinite G := hinf
+  rw [← ProfiniteCohomology.nativeCohomologicalDimensionAt_eq_cd_p p G]
+  exact ((IsDemushkin.iff_tauCeti p G).1 hG).cohomologicalDimensionAt_eq_two
 
 /-- **Layer 10, closed subgroups of free pro-`p` groups.** A closed subgroup of a free pro-`p`
 group again has `cd_p ≤ 1`, by the imported monotonicity `cd_p_le_of_isClosed` and the free
