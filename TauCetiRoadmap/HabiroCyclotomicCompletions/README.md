@@ -100,7 +100,7 @@ completion run from reduction modulo `g` to reduction modulo `f` when
 
 The factorial convention is
 
-    P_N(q)=∏_{i=1}^N(1-q^i), P_0=1.
+`P_N(q)=∏_{i=1}^N(1-q^i), P_0=1`.
 
 Its leading coefficient is `(-1)^N`; its monic associate, rather than
 `P_N` itself, is used with APIs that demand a monic divisor. Normalized
@@ -142,18 +142,18 @@ material instead of introducing a parallel vocabulary:
 | Mathlib `AdicCompletion`, `IsAdicComplete`, `IsHausdorff` | Finite-order completions, separated coefficient embeddings, and completion at finitely generated witnessing ideals |
 | Mathlib polynomial modules, exactness and tensor products | Polynomial modules `M[q]`, monic finite quotients, finite presentation, and ordinary module completion |
 | Mathlib roots of unity, fraction fields, finite modules and bases | Primitive-root arguments and the finite-domain separation transfer |
-| `HahnSeries.embDomainRingHom` | Laurent-series dilation induced by the injective additive map `i ↦ n*i` on ℤ, for n>0 |
+| `HahnSeries.embDomainRingHom` | Laurent-series dilation induced by the injective additive map `i ↦ n*i` on `ℤ`, for `n>0` |
 | Mathlib resultants and integral matrices | Cyclotomic resultants, simultaneous remainder determinants, and adjugate image congruences |
 | Tau Ceti `TauCeti.TopCommRingCat.IsCompleteSeparated` and `TauCeti.CompleteSeparatedTopCommRingCat` | Complete separated topological rings as existing categorical objects; products and closed compatible-family subobjects |
 | Tau Ceti polynomial coefficient-list and synthetic-division API | Descending coefficient lists, `ofCoeffList`, `divModByMonicList`, and their monic quotient/remainder identities for the finite digit comparisons in §2.2 |
 
 The exact contracts used by the constructions are:
 
-- `Polynomial.cyclotomic.monic` gives monicity over a commutative ring; `Polynomial.map_cyclotomic` and `Polynomial.map_cyclotomic_int` give coefficient transport. For n>0, `Polynomial.prod_cyclotomic_eq_X_pow_sub_one` factors qⁿ−1 over its positive divisors. `Polynomial.cyclotomic_mul_prime_pow_eq` and `Polynomial.cyclotomic_mul_prime_dvd_eq_pow` supply the prime-power and characteristic-p reductions; `Polynomial.eval_one_cyclotomic_prime_pow` and `Polynomial.eval_one_cyclotomic_not_prime_pow` fix the value-at-one boundary.
+- `Polynomial.cyclotomic.monic` gives monicity over a commutative ring; `Polynomial.map_cyclotomic` and `Polynomial.map_cyclotomic_int` give coefficient transport. For `n>0`, `Polynomial.prod_cyclotomic_eq_X_pow_sub_one` factors `qⁿ−1` over its positive divisors. `Polynomial.cyclotomic_mul_prime_pow_eq` and `Polynomial.cyclotomic_mul_prime_dvd_eq_pow` supply the prime-power and characteristic-p reductions; `Polynomial.eval_one_cyclotomic_prime_pow` and `Polynomial.eval_one_cyclotomic_not_prime_pow` fix the value-at-one boundary.
 - `Polynomial.div_modByMonic_unique` and `Polynomial.map_modByMonic` supply unique reduced representatives and coefficient transport for monic divisors; `Polynomial.degree_modByMonic_lt` supplies the degree bound over a nontrivial ring. The zero-ring case is treated by subsingletonness. `AdjoinRoot.mk_eq_zero` characterizes the zero class by divisibility, and `AdjoinRoot.liftAlgHom` selects a root only after its polynomial equation is supplied. `Ideal.quotientMulEquivQuotientProd` consumes comaximality, and `Ideal.quotientInfRingEquivPiQuotient` provides the finite CRT form.
 - `Polynomial.taylor_coeff` supplies translation coefficients; `Polynomial.hasseDeriv` keeps these coefficients integral, and `Polynomial.factorial_smul_hasseDeriv` compares with iterated differentiation without inverting a factorial. `PowerSeries.HasEval`, `PowerSeries.eval₂Hom`, `PowerSeries.hasSum_eval₂` and `PowerSeries.eval₂_unique` provide the continuous evaluation contract. `PowerSeries.subst` with `PowerSeries.HasSubst.of_constantCoeff_zero` supplies the zero-constant algebraic substitution used in the exponential coordinate.
 - `AdicCompletion`, `AdicCompletion.isAdicComplete` (for a finitely generated ideal), `AdicCompletion.of_injective` (under `IsHausdorff`), `IsAdicComplete` and `IsHausdorff` provide ideal-power completion and separation. `Ideal.iInf_pow_eq_bot_of_isDomain` is used only under its Noetherian-domain hypotheses; the finite-domain transfer proved in Layer 4 does not assume that every coefficient domain is Noetherian.
-- `Polynomial.resultant_eq_prod_eval` supplies the root-product formula over a domain when the first polynomial splits, with an explicit bound on the second degree; `Polynomial.isUnit_resultant_iff_isCoprime` supplies the comaximality criterion for a monic first polynomial. `LaurentPolynomial.isLocalization`, `Polynomial.toLaurent` and `IsLocalization.Away.lift` supply Laurent extension after the image of q is a unit. `IsPrimitiveRoot.isRoot_cyclotomic` supplies the root equation for a positive order in a commutative domain; torsion coefficient algebras instead carry the equation explicitly.
+- `Polynomial.resultant_eq_prod_eval` supplies the root-product formula over a domain when the first polynomial splits, with an explicit bound on the second degree; `Polynomial.isUnit_resultant_iff_isCoprime` supplies the comaximality criterion for a monic first polynomial. `LaurentPolynomial.isLocalization`, `Polynomial.toLaurent` and `IsLocalization.Away.lift` supply Laurent extension after the image of `q` is a unit. `IsPrimitiveRoot.isRoot_cyclotomic` supplies the root equation for a positive order in a commutative domain; torsion coefficient algebras instead carry the equation explicitly.
 - Tau Ceti's `TauCeti.TopCommRingCat.IsCompleteSeparated.pi` and `TauCeti.TopCommRingCat.IsCompleteSeparated.of_isClosedEmbedding` supply complete separated products and closed subobjects. `UniformSpace.Completion.ringHom_ext_of_continuous` supplies uniqueness of continuous completed maps. `TauCeti.Polynomial.divModByMonicList`, `TauCeti.Polynomial.ofCoeffList_divByMonicList` and `TauCeti.Polynomial.ofCoeffList_modByMonicList` identify the two list outputs with monic polynomial quotient and remainder.
 
 The coefficient-list contracts are supplied by
@@ -196,7 +196,7 @@ Layer 1 supplies the elementary toolkit used by q-series and quantum-topology
 roadmaps. All finite expressions are integral polynomials before any division
 is introduced. Put
 
-    [n]_q=∑_{i=0}^{n-1}q^i, [n]_q!=∏_{i=1}^n[i]_q, (x;q)_n=∏_{i=0}^{n-1}(1-xq^i).
+`[n]_q=∑_{i=0}^{n-1}q^i, [n]_q!=∏_{i=1}^n[i]_q, (x;q)_n=∏_{i=0}^{n-1}(1-xq^i)`.
 
 Define the Gaussian polynomial `{n choose k}_q` by zero outside
 `0≤ k≤ n`, `{0 choose 0}_q=1`, and the integral recursion
@@ -212,7 +212,7 @@ and `finite_qBinomial`. These supply polynomiality, symmetry of
 binomials, permutation invariance of multinomials, both Pascal recursions,
 coefficient change, and specialization at `q=1`. In particular prove
 
-    (1-q)[n]_q=1-q^n, (1-q)^n[n]_q!=(q;q)_n, {n choose k}_q[k]_q![n-k]_q!=[n]_q! (k≤ n).
+`(1-q)[n]_q=1-q^n, (1-q)^n[n]_q!=(q;q)_n, {n choose k}_q[k]_q![n-k]_q!=[n]_q! (k≤ n)`.
 
 These are polynomial identities, so they remain valid in positive
 characteristic and at roots of unity. Quotient formulas are corollaries only
@@ -221,7 +221,7 @@ identity and its specialization to the ordinary integer multinomial.
 For finite Pochhammer products give the empty value, concatenation and shift
 laws, base change, and, for a unit `q`, the inverse-parameter formula
 
-    (q^{-1};q^{-1})_n=(-1)^nq^{-n(n+1)/2}(q;q)_n.
+`(q^{-1};q^{-1})_n=(-1)^nq^{-n(n+1)/2}(q;q)_n`.
 
 Comparing coefficients of the finite product proves the finite q-binomial
 theorem
@@ -240,7 +240,7 @@ The polynomial operators are `jackson` and `adaptedJackson`; use
 `jackson_leibniz` and `jackson_at_one` for the twisted product and
 specialization identities. Their series
 extensions are `jacksonSeries` and `adaptedJacksonSeries`. Both exist over
-any commutative ring and extend by the same coefficient rule to `A[[t]]`. They are additive and A-linear, commute with coefficient
+any commutative ring and extend by the same coefficient rule to `A[[t]]`. They are additive and `A`-linear, commute with coefficient
 maps, and satisfy the twisted Leibniz rule
 `D_q(fg)=D_q(f)g+f(qt)D_q(g)`.
 At `q=1` the first is the ordinary derivative and the second is zero.
@@ -255,21 +255,21 @@ The adapted problem has the analogous solution
 extensionality and derivative. Define the operators on the existing
 polynomial and power-series carriers.
 
-For a field K and `q∈ K` with `q^n≠1` for every `n>0`,
+For a field `K` and `q∈ K` with `q^n≠1` for every `n>0`,
 define `pochhammerInf`, `reciprocalPochhammer` and `qBinomialSeries` by their
 formal coefficients, and use `jacksonExp` for the normalized Jackson solution.
 Their formulas are
 
-    E_q(t)=∑_{n≥0}((-1)^nq^{n(n-1)/2})/((q;q)_n)t^n, U_q(t)=∑_{n≥0}(t^n)/((q;q)_n).
+`E_q(t)=∑_{n≥0}((-1)^nq^{n(n-1)/2})/((q;q)_n)t^n, U_q(t)=∑_{n≥0}(t^n)/((q;q)_n)`.
 
 The API states `E_q(t)=(1-t)E_q(qt)`, `E_qU_q=1`, and the general
 q-binomial identity
 `E_q(at)U_q(t)=∑_{n≥0}(a;q)_nt^n/(q;q)_n`.
-For a Q-algebra field the logarithm is
+For a `ℚ`-algebra field the logarithm is
 
-    log E_q(t)=-∑_{ℓ≥1}(t^ℓ)/(ℓ(1-q^ℓ)).
+`log E_q(t)=-∑_{ℓ≥1}(t^ℓ)/(ℓ(1-q^ℓ))`.
 
-Thus `(t;q)_∞` denotes this coefficient series over Q(q).
+Thus `(t;q)_∞` denotes this coefficient series over `ℚ(q)`.
 It is not the t-adic limit of its finite products there: the coefficient of
 `t` in the finite product is `-∑_{i<N}q^i`, which does not
 stabilize. Define `integralPochhammerInf` in `ℤ[[q]][[t]]`, with
@@ -287,21 +287,21 @@ formal inversion and q-adic coefficient stabilization.
 
 For the elementary plethystic operation use the existing Laurent-series
 carrier, with `F∈ tℚ((q))[[t]]`. Use Mathlib’s Laurent dilation and define the combined map `adamsSeries` for
-positive n by `ψ^n(t)=t^n`, `ψ^n(q)=q^n`; its Laurent
-coefficient at i is zero unless `n∣ i`, when it is the original
+positive `n` by `ψ^n(t)=t^n`, `ψ^n(q)=q^n`; its Laurent
+coefficient at `i` is zero unless `n∣ i`, when it is the original
 coefficient at `i/n`. These are ring homomorphisms, fix constants, and
 satisfy `ψ^mψ^n=ψ^{mn}`. Put
 
-    PE(F)= exp(∑_{n≥1}(ψ^n(F))/(n)).
+`PE(F)= exp(∑_{n≥1}(ψ^n(F))/(n))`.
 
 The functions are `plethysticLogarithmicSum` and `plethysticExp`;
 `plethysticExp_add`, `plethysticExp_monomial`, `plethysticExp_adams` and
 `plethysticExp_integral` state the identities below.
-The sum converges t-adically because F has zero t-constant. The kth
+The sum converges t-adically because `F` has zero t-constant. The kth
 coefficient needs only `n≤ k`. Include the zero value, constant
 coefficient one, additivity-to-multiplicativity, Adams compatibility,
 `PE(q^it^j)=(1-q^it^j)^{-1}` for `j>0`, and
-`PE(-q^it^j)=1-q^it^j`. Prove integrality when F lies in
+`PE(-q^it^j)=1-q^it^j`. Prove integrality when `F` lies in
 `tℤ((q))[[t]]`, by reducing to finite products at each pair of
 precisions. This elementary substitution construction does not require
 general lambda-ring theory.
@@ -315,9 +315,9 @@ uses `QToolkit` for their shared namespace.
 
 **Checks.**
 
-- `adaptedJackson`: at q=2 it sends t² to −3t.
-- `adaptedJackson`: at q=0 it sends t³ to t².
-- `adaptedJackson`: at q=1 it sends t² to zero over ℤ, although the ordinary Jackson derivative is 2t.
+- `adaptedJackson`: at `q=2` it sends `t²` to `−3t`.
+- `adaptedJackson`: at `q=0` it sends `t³` to `t²`.
+- `adaptedJackson`: at `q=1` it sends `t²` to zero over `ℤ`, although the ordinary Jackson derivative is `2t`.
 
 - q-integer: `[0]_q=0`.
 - q-integer: `[3]_q=1+q+q^2`.
@@ -333,43 +333,43 @@ uses `QToolkit` for their shared namespace.
 - q-multinomial: `(1,2)` and `(2,1)` give the same polynomial.
 - finite Pochhammer: empty product one.
 - finite Pochhammer: `(q;q)_2=(1-q)(1-q^2)`.
-- finite Pochhammer: `(x;1)_3=(1-x)^3`, with no division at q=1. At x=2,q=3,n=3 its value is −85, while x=1 makes every positive product zero.
+- finite Pochhammer: `(x;1)_3=(1-x)^3`, with no division at `q=1`. At `x=2,q=3,n=3` its value is `−85`, while `x=1` makes every positive product zero.
 - Jackson and adapted derivatives: `D_q(t^2)=(1+q)t`.
 - Jackson and adapted derivatives: `D_1(t^3)=3t^2`.
 - Jackson and adapted derivatives: `D_1(t^2)=0` in characteristic two while `D'_1(t^2)=0` over the integers as well.
 - series Jackson derivative: a constant has derivative zero.
-- `adaptedJacksonSeries` at q=2 kills a constant.
-- `adaptedJacksonSeries` at q=1 kills t².
-- `adaptedJacksonSeries` at q=2 sends t² to −3t, detecting the sign of 1−q.
+- `adaptedJacksonSeries` at `q=2` kills a constant.
+- `adaptedJacksonSeries` at `q=1` kills `t²`.
+- `adaptedJacksonSeries` at `q=2` sends `t²` to `−3t`, detecting the sign of `1−q`.
 - series Jackson derivative: `D_q(t^3)=(1+q+q^2)t^2`.
 - series Jackson derivative: `(1-q)D_qU_q=U_q` under the stated unit hypotheses.
 - normalized Jackson exponential: constant coefficient one.
-- normalized Jackson exponential: coefficients of t and `t^2` are 1 and `(1+q)^{-1}`.
-- normalized Jackson exponential: at q=1 over Q it is the ordinary exponential.
+- normalized Jackson exponential: coefficients of `t` and `t^2` are 1 and `(1+q)^{-1}`.
+- normalized Jackson exponential: at `q=1` over `ℚ` it is the ordinary exponential.
 - rational infinite Pochhammer: constant coefficient one.
-- rational infinite Pochhammer: at q=0 it is `1-t`.
+- rational infinite Pochhammer: at `q=0` it is `1-t`.
 - rational infinite Pochhammer: its `t^2` coefficient is `q/((1-q)(1-q^2))`.
 - reciprocal Pochhammer: constant coefficient one.
-- reciprocal Pochhammer: at q=0 it is `(1-t)^{-1}`.
-- reciprocal Pochhammer: its t coefficient is `(1-q)^{-1}`.
-- q-binomial series: a=1 gives one.
-- q-binomial series: a=0 gives `U_q`.
-- q-binomial series: the t coefficient is `(1-a)/(1-q)`.
+- reciprocal Pochhammer: at `q=0` it is `(1-t)^{-1}`.
+- reciprocal Pochhammer: its `t` coefficient is `(1-q)^{-1}`.
+- q-binomial series: `a=1` gives one.
+- q-binomial series: `a=0` gives `U_q`.
+- q-binomial series: the `t` coefficient is `(1-a)/(1-q)`.
 - integral infinite product: t-constant one.
 - integral infinite product: `[q^0t]=[q^1t]=-1`.
 - integral infinite product: `[q^0t^2]=0`, `[q^1t^2]=1`.
 - logarithm: constant zero.
-- logarithm: t coefficient `-1/(1-q)`.
+- logarithm: `t` coefficient `-1/(1-q)`.
 - logarithm: `t^2` coefficient `-1/(2(1-q^2))`.
-- Adams Laurent dilation: `q^{-1}↦ q^{-2}` for n=2.
+- Adams Laurent dilation: `q^{-1}↦ q^{-2}` for `n=2`.
 - Adams Laurent dilation: a constant is fixed.
 - Adams Laurent dilation: dilation by 2 followed by 3 is dilation by 6.
-- Adams double-series dilation: t maps to `t^2` for n=2.
+- Adams double-series dilation: `t` maps to `t^2` for `n=2`.
 - Adams double-series dilation: `q^{-1}t` maps to `q^{-2}t^2`.
-- Adams double-series dilation: a coefficient at an odd t exponent vanishes after dilation by 2.
-- plethystic sum and exponential: zero sum gives PE=1.
-- plethystic sum and exponential: PE(t) is `(1-t)^{-1}`.
-- plethystic sum and exponential: PE(-t)=1-t, whose logarithmic sum has kth coefficient `-1/k`.
+- Adams double-series dilation: a coefficient at an odd `t` exponent vanishes after dilation by 2.
+- plethystic sum and exponential: zero sum gives `PE=1`.
+- plethystic sum and exponential: `PE(t)` is `(1-t)^{-1}`.
+- plethystic sum and exponential: `PE(-t)=1-t`, whose logarithmic sum has kth coefficient `-1/k`.
 
 A further test fixes O, Proposition 1.5's normalization. With `r=q^{1/2}`,
 the raw series is
@@ -388,7 +388,7 @@ and transport under a coefficient ring homomorphism. Divisibility makes this
 indexing system directed: the product is a common upper bound. It also has a
 countable cofinal chain. One concrete choice is
 
-    g_N=∏_{n∈ S, 1≤ n≤ N}Φ_n^N.
+`g_N=∏_{n∈ S, 1≤ n≤ N}Φ_n^N`.
 
 Every fixed finite product of cyclotomic powers divides some `g_N`.
 For finite `S`, the powers of `∏_{n∈ S}Φ_n` are cofinal.
@@ -400,7 +400,7 @@ base change, submonoids, finite products and divisibility.
 
 Define `CycloCompletion R S` by
 
-    R[q]^S=lim←_{f∈Φ_S^*}R[q]/(f).
+`R[q]^S=lim←_{f∈Φ_S^*}R[q]/(f)`.
 
 Use the subalgebra of compatible families, or an equivalent inverse-limit
 construction, with the coordinatewise operations. Provide the polynomial
@@ -421,7 +421,7 @@ monic quotient representatives, and inverse limits of rings.
 The finite quotient theorem is stronger than a formula for polynomial
 elements. For every `f∈Φ_S^*` and every completed element `h`, prove
 
-    ker(π_f)=fR[q]^S, R[q]^S/fR[q]^S≃_R R[q]/(f).
+`ker(π_f)=fR[q]^S, R[q]^S/fR[q]^S≃_R R[q]/(f)`.
 
 Multiplication by `f` is injective on the completion. This follows using
 monic regularity at a deeper quotient, then all projections; it does not
@@ -442,25 +442,25 @@ domain hypothesis merely to simplify a proof.
 
 **Checks.**
 
-- `compatSubalgebra`: the geometric sums ∑_{j<deg f}(q−1)^j give a compatible family for S={1}.
-- `compatSubalgebra`: constant 0 modulo Φ₁ and 1 modulo Φ₁² violate compatibility.
-- `compatSubalgebra`: the isolated first jet q−1 modulo Φ₁², zero at every other index, violates compatibility.
+- `compatSubalgebra`: the geometric sums `∑_{j<deg f}(q−1)^j` give a compatible family for `S={1}`.
+- `compatSubalgebra`: constant 0 modulo `Φ₁` and 1 modulo `Φ₁²` violate compatibility.
+- `compatSubalgebra`: the isolated first jet `q−1` modulo `Φ₁²`, zero at every other index, violates compatibility.
 - `MonicCompletion`: all geometric jet residues come from one completed element.
 - `MonicCompletion`: conflicting nested constant residues are impossible.
 - `MonicCompletion`: conflicting nested first jets are impossible.
-- `MonicCompletion.transition`: retaining order one sends q to q.
-- `MonicCompletion.transition`: it sends q² to q².
-- `MonicCompletion.transition`: it sends 1−q to 1−q.
+- `MonicCompletion.transition`: retaining order one sends `q` to `q`.
+- `MonicCompletion.transition`: it sends `q²` to `q²`.
+- `MonicCompletion.transition`: it sends `1−q` to `1−q`.
 
 - `cycloIndex`: the empty generating set gives only 1.
 - `cycloIndex`: in characteristic two the order-one and order-two generators agree.
 - `cycloIndex`: coefficient transport sends each integer generator to the corresponding rational one.
 - `CycloCompletion`, `fromPoly` and `proj`: the empty completion is the zero ring.
-- `CycloCompletion`, `fromPoly` and `proj`: order one reduces q to 1.
+- `CycloCompletion`, `fromPoly` and `proj`: order one reduces `q` to 1.
 - `CycloCompletion`, `fromPoly` and `proj`: a positive-order system over a nonzero ring rejects a constant nonzero polynomial in the kernel.
-- The completed quotient map: f=1 gives the zero quotient.
-- The completed quotient map: f=q−1 in the order-one completion gives R.
-- The completed quotient map: the kernel/regularity equations also hold over ℤ/2ℤ, without a domain assumption.
+- The completed quotient map: `f=1` gives the zero quotient.
+- The completed quotient map: `f=q−1` in the order-one completion gives `R`.
+- The completed quotient map: the kernel/regularity equations also hold over `ℤ/2ℤ`, without a domain assumption.
 
 ### 1.3 Topology, extension, and cofinal changes of presentation
 
@@ -518,13 +518,13 @@ whenever `h_j∣ g_i`.
 cyclotomic carrier, including associated but nonmonic factorial generators.
 No domain or characteristic-zero assumption enters these comparisons.
 
-For `FiniteOrderLimit R S`, indices are finite subsets U of S and coordinates
+For `FiniteOrderLimit R S`, indices are finite subsets `U` of `S` and coordinates
 are the **completed** rings `R[q]^U`. Compatibility is
 `ρ_{V,U}(x_V)=x_U` for `U⊆ V`.
-`finiteOrderEquiv` sends x to its restrictions. Its inverse reconstructs each
-polynomial residue from a finite U containing the orders of its factors;
+`finiteOrderEquiv` sends `x` to its restrictions. Its inverse reconstructs each
+polynomial residue from a finite `U` containing the orders of its factors;
 a common finite superset proves independence and compatibility. State the
-reconstruction equation on each U, continuity both ways, the polynomial
+reconstruction equation on each `U`, continuity both ways, the polynomial
 map equation, coefficient-change and order-restriction naturality, and
 extensionality by actual finite restrictions. This also deals with the empty
 subset, whose coordinate is the zero ring.
@@ -533,8 +533,8 @@ Tests for the polynomial-family carrier and comparison are: powers
 `(q-1)^k` and `(q-1)^{2k}` give the same adic limit; the exponent-zero
 quotient is the zero ring; and powers of `q-1` are not cofinal in all
 integral cyclotomic ideals because they never dominate `Φ_2`.
-Tests for the finite-subset limit are: empty S gives the zero ring; the
-polynomial q reconstructs q on every finite subset; and the proposed
+Tests for the finite-subset limit are: empty `S` gives the zero ring; the
+polynomial `q` reconstructs `q` on every finite subset; and the proposed
 coordinates 0 in `ℤ[q]^({1})`, 1 in
 `ℤ[q]^({2})` cannot come from a compatible family, since their
 residues disagree modulo `(Φ_1,Φ_2)=(2,q-1)`.
@@ -544,39 +544,39 @@ residues disagree modulo `(Φ_1,Φ_2)=(2,q-1)`.
 - `polynomialLimitSubalgebra`: truncated geometric sums form a compatible power-family.
 - `polynomialLimitSubalgebra`: constant 0 at power one and 1 at power two fail compatibility.
 - `polynomialLimitSubalgebra`: a first jet supported only at power two fails compatibility.
-- `finiteOrderLimitSubalgebra` and `FiniteOrderLimit`: completed restrictions of F form a compatible family.
-- `finiteOrderLimitSubalgebra` and `FiniteOrderLimit`: constant 0 at {1} and 1 at {2} fail compatibility.
-- `finiteOrderLimitSubalgebra` and `FiniteOrderLimit`: constant 0 at {1} and 2 at {2} fail compatibility of entire jets, despite compatible root values modulo two.
+- `finiteOrderLimitSubalgebra` and `FiniteOrderLimit`: completed restrictions of `F` form a compatible family.
+- `finiteOrderLimitSubalgebra` and `FiniteOrderLimit`: constant 0 at `{1}` and 1 at `{2}` fail compatibility.
+- `finiteOrderLimitSubalgebra` and `FiniteOrderLimit`: constant 0 at `{1}` and 2 at `{2}` fail compatibility of entire jets, despite compatible root values modulo two.
 
-- `cofinalEquiv`: the powers-of-q−1 presentation retains q.
-- `cofinalEquiv`: it retains q².
-- `cofinalEquiv`: it retains the sign of 1−q.
+- `cofinalEquiv`: the powers-of-`q−1` presentation retains `q`.
+- `cofinalEquiv`: it retains `q²`.
+- `cofinalEquiv`: it retains the sign of `1−q`.
 
-- `PolynomialLimit.equivOfCofinal`: the even-power comparison sends q to q.
-- `PolynomialLimit.equivOfCofinal`: it sends q² to q².
-- `PolynomialLimit.equivOfCofinal`: its inverse sends 1−q to 1−q.
-- `adicEquivOfFinite`: for orders one and two, q maps to its canonical adic image.
-- `adicEquivOfFinite`: q² maps to its canonical adic image.
-- `adicEquivOfFinite`: the inverse reconstructs 1−q.
-- `finiteOrderEquiv`: q restricts to q on every finite subset.
-- `finiteOrderEquiv`: q² restricts to q² on every finite subset.
-- `finiteOrderEquiv`: 1−q restricts with the same sign on every finite subset.
+- `PolynomialLimit.equivOfCofinal`: the even-power comparison sends `q` to `q`.
+- `PolynomialLimit.equivOfCofinal`: it sends `q²` to `q²`.
+- `PolynomialLimit.equivOfCofinal`: its inverse sends `1−q` to `1−q`.
+- `adicEquivOfFinite`: for orders one and two, `q` maps to its canonical adic image.
+- `adicEquivOfFinite`: `q²` maps to its canonical adic image.
+- `adicEquivOfFinite`: the inverse reconstructs `1−q`.
+- `finiteOrderEquiv`: `q` restricts to `q` on every finite subset.
+- `finiteOrderEquiv`: `q²` restricts to `q²` on every finite subset.
+- `finiteOrderEquiv`: `1−q` restricts with the same sign on every finite subset.
 - `PolynomialLimit` and its cofinal equivalence: exponent zero has zero quotient.
-- `PolynomialLimit` and its cofinal equivalence: powers of q−1 fail cofinality with the full integral system because of Φ₂.
-- `FiniteOrderLimit` and `finiteOrderEquiv`: empty S is the zero ring.
-- `FiniteOrderLimit` and `finiteOrderEquiv`: polynomial q has the expected restriction on every finite subset.
+- `PolynomialLimit` and its cofinal equivalence: powers of `q−1` fail cofinality with the full integral system because of `Φ₂`.
+- `FiniteOrderLimit` and `finiteOrderEquiv`: empty `S` is the zero ring.
+- `FiniteOrderLimit` and `finiteOrderEquiv`: polynomial `q` has the expected restriction on every finite subset.
 - `FiniteOrderLimit` and `finiteOrderEquiv`: the proposed constants 0 at order one and 1 at order two fail the common mod-two residue condition.
 - Topology and extension: the finite projections are continuous into discrete rings.
 - Topology and extension: the polynomial image is dense.
 - Topology and extension: two continuous maps agreeing on polynomials agree on the completion, whereas dropping Hausdorffness would lose uniqueness.
 
-- Polynomial-family coefficient change and projection modulo (q−1)³ send q modulo two to q.
-- They send 2q to zero.
-- They send 1−q to 1+q.
+- Polynomial-family coefficient change and projection modulo `(q−1)³` send `q` modulo two to `q`.
+- They send `2q` to zero.
+- They send `1−q` to `1+q`.
 
-- `FiniteOrders {1,2}` includes the singleton {1}.
+- `FiniteOrders {1,2}` includes the singleton `{1}`.
 - `FiniteOrders ∅` includes the empty finite subset.
-- `FiniteOrders {1,2}` excludes the singleton {3}.
+- `FiniteOrders {1,2}` excludes the singleton `{3}`.
 
 ### 1.4 Factorial polynomials and the full completion
 
@@ -584,7 +584,7 @@ Provide `factorialPoly R N` with `factorialPoly_zero`, the recursion
 `P_{N+1}=P_N(1-q^{N+1})`, compatibility with coefficient maps, and
 divisibility when `M≤ N`. Over a nonzero ring,
 
-    P_N(0)=1, lc(P_N)=(-1)^N, deg P_N=N(N+1)/2, (-1)^NP_N=∏_{d=1}^NΦ_d^{⌊ N/d⌋}.
+`P_N(0)=1, lc(P_N)=(-1)^N, deg P_N=N(N+1)/2, (-1)^NP_N=∏_{d=1}^NΦ_d^{⌊ N/d⌋}`.
 
 The sign in the last formula is also the sign needed for monic division.
 The degree formula should be proved from the factors, preserving its
@@ -594,30 +594,30 @@ standard decompositions of `q^i-1`. (Source: H₀, §1, p. 3; H,
 cyclotomic product identity, finite products, and Layer 1 Pochhammer notation.
 
 Name the signed polynomial identity `factorialPoly_cyclotomic_factorization`;
-it holds over every commutative ring, including the zero ring. For positive d,
+it holds over every commutative ring, including the zero ring. For positive `d`,
 `cyclotomic_pow_dvd_factorial` states `Φ_d^{⌊ N/d⌋}∣ P_N`.
 The degree and nonzero leading-coefficient conclusions retain the nonzero-ring
 hypothesis above.
 
 Prove that the ideals `(P_N)` are cofinal in the cyclotomic ideals for all
 positive orders, with `factorial_cofinal` giving, for every actual index
-polynomial f, an N with `f∣ P_N`. If
+polynomial `f`, an `N` with `f∣ P_N`. If
 `f=∏_dΦ_d^{e_d}`, choosing
 `N≥max{de_d:e_d≠0}` makes `f∣ P_N`. Over the integers,
 the multiplicities `⌊ N/d⌋` also show sharpness of this bound
 for each individual power. Consequently the full classical ring is
 
-    H_R:=R[q]^{ℕ_{>0}} ≃lim←_N R[q]/(P_N).
+`H_R:=R[q]^{ℕ_{>0}} ≃lim←_N R[q]/(P_N)`.
 
 There is a second useful cofinal presentation: the ideals
 `((q^m-1)^k)`, for `m,k≥1`. A finite set of orders divides some
 `m`; taking `k` sufficiently large dominates all its exponents. In the
 other direction `(q^m-1)^k∣ P_{mk}`, since each cyclotomic factor with
 order dividing `m` occurs at least `k` times. The native polynomial
-statement `factorial_root_power_dvd` allows every k≥0 and N≥mk, always
-with m>0. Thus
+statement `factorial_root_power_dvd` allows every `k≥0` and `N≥mk`, always
+with `m>0`. Thus
 
-    H_R≃lim←_{m under divisibility} completion(R[q])_{(q^m-1)}.
+`H_R≃lim←_{m under divisibility} completion(R[q])_{(q^m-1)}`.
 
 The maps for `m∣ m'` are induced by the identity polynomial map.
 Both cofinal isomorphisms must commute with root-order restriction and with
@@ -625,9 +625,9 @@ coefficient change. (Source: H, §1, p. 1128; §4, p. 1136; H₀, §1,
 p. 3). *Needs:* factorial factorization and cofinal replacement.
 
 `HabiroRing.factorialEquiv` identifies the full completion with the actual
-`PolynomialLimit R (factorialPoly R)`, and its inverse has projection y_N at
-precision N. `OrderAdic R m` is Mathlib's adic completion for
-`(q^m-1)`, for positive m. Its topology is the inverse limit of the
+`PolynomialLimit R (factorialPoly R)`, and its inverse has projection `y_N` at
+precision `N`. `OrderAdic R m` is Mathlib's adic completion for
+`(q^m-1)`, for positive `m`. Its topology is the inverse limit of the
 discrete power quotients. `orderAdicTransition m n` for `m∣ n` goes
 from the n-adic to the m-adic completion; prove its polynomial equation,
 identity, composition and continuity. `OrderAdicLimit R` is the subalgebra
@@ -636,15 +636,15 @@ product. `HabiroRing.orderAdicEquiv` and its inverse expose their coordinate
 and polynomial equations and continuity. The inverse can reconstruct first
 the residues modulo `(q^m-1)^k`, then all cyclotomic residues by cofinality.
 `finiteDivisorsAdicEquiv` identifies each coordinate with the completion
-at the divisors of m, making order restriction compatibility explicit.
+at the divisors of `m`, making order restriction compatibility explicit.
 Coefficient maps commute with the finite quotient maps, factorial comparison,
 adic transitions and adic coordinates.
 
 Tests for these carriers and maps are: reconstruction at `P_0=1` remains
-inverse; the polynomial q has the polynomial q coordinate at every positive
-m; constants 0 at m=1 and 1 at m=2 violate adic compatibility. Check the
+inverse; the polynomial `q` has the polynomial `q` coordinate at every positive
+`m`; constants 0 at `m=1` and 1 at `m=2` violate adic compatibility. Check the
 transition `2∣6` on polynomials, coefficient reduction to
-`𝔽_2` through the factorial comparison, and that m=2 retains both
+`𝔽_2` through the factorial comparison, and that `m=2` retains both
 orders 1 and 2. These tests distinguish a tower limit from a product or a
 single Taylor completion.
 
@@ -674,39 +674,39 @@ theorem, cofinality, and the elementary fact that a nonzero polynomial has finit
 
 **Checks.**
 
-- `orderAdicLimitSubalgebra` and `OrderAdicLimit`: completed projections of F form a compatible family.
+- `orderAdicLimitSubalgebra` and `OrderAdicLimit`: completed projections of `F` form a compatible family.
 - `orderAdicLimitSubalgebra` and `OrderAdicLimit`: constants 0 at order one and 2 at order two are incompatible.
-- `orderAdicLimitSubalgebra` and `OrderAdicLimit`: q²−1 at order two cannot reduce from zero at order four.
-- `OrderAdic`: q²−1 remains nonzero at order two.
-- `OrderAdic`: q⁴−1 also remains nonzero at order two.
-- `OrderAdic`: 2−q is a unit after completing at order one.
-- `orderAdicTransition`: the order-six to order-two map retains q.
-- `orderAdicTransition`: the order-two to order-one map retains q².
-- `orderAdicTransition`: the order-four to order-two map retains 1−q.
+- `orderAdicLimitSubalgebra` and `OrderAdicLimit`: `q²−1` at order two cannot reduce from zero at order four.
+- `OrderAdic`: `q²−1` remains nonzero at order two.
+- `OrderAdic`: `q⁴−1` also remains nonzero at order two.
+- `OrderAdic`: `2−q` is a unit after completing at order one.
+- `orderAdicTransition`: the order-six to order-two map retains `q`.
+- `orderAdicTransition`: the order-two to order-one map retains `q²`.
+- `orderAdicTransition`: the order-four to order-two map retains `1−q`.
 
-- `factorialPoly`: P₀=1, P₁=1−q is not monic over ℤ, and P₃=1−q−q²+q⁴+q⁵−q⁶.
+- `factorialPoly`: `P₀=1`, `P₁=1−q` is not monic over `ℤ`, and `P₃=1−q−q²+q⁴+q⁵−q⁶`.
 - `factorialPoly`: its monic associate is the cyclotomic product with the stated exponents.
-- `factorialEquiv`: the q residue at P₂ is q.
-- `factorialEquiv`: the q² residue at P₃ is q².
-- `factorialEquiv`: inverse reconstruction recovers 1−q.
-- `orderAdicEquiv`: q remains q in every component.
-- `orderAdicEquiv`: q² remains q² in the order-two component.
-- `orderAdicEquiv`: the inverse reconstructs the compatible 1−q family.
-- `toAdicXPowSubOne`: at order one q retains its complete jet.
-- `toAdicXPowSubOne`: at order two q²−1 stays nonzero, distinguishing completion from residue.
-- `toAdicXPowSubOne`: at order six 1−q maps to the signed affine polynomial.
-- `finiteDivisorsAdicEquiv`: q maps to its canonical adic image at order two.
-- `finiteDivisorsAdicEquiv`: the inverse reconstructs q²−1.
-- `finiteDivisorsAdicEquiv`: the image of q²−1 is nonzero.
+- `factorialEquiv`: the `q` residue at `P₂` is `q`.
+- `factorialEquiv`: the `q²` residue at `P₃` is `q²`.
+- `factorialEquiv`: inverse reconstruction recovers `1−q`.
+- `orderAdicEquiv`: `q` remains `q` in every component.
+- `orderAdicEquiv`: `q²` remains `q²` in the order-two component.
+- `orderAdicEquiv`: the inverse reconstructs the compatible `1−q` family.
+- `toAdicXPowSubOne`: at order one `q` retains its complete jet.
+- `toAdicXPowSubOne`: at order two `q²−1` stays nonzero, distinguishing completion from residue.
+- `toAdicXPowSubOne`: at order six `1−q` maps to the signed affine polynomial.
+- `finiteDivisorsAdicEquiv`: `q` maps to its canonical adic image at order two.
+- `finiteDivisorsAdicEquiv`: the inverse reconstructs `q²−1`.
+- `finiteDivisorsAdicEquiv`: the image of `q²−1` is nonzero.
 - `HabiroRing`, `PolynomialLimit R (factorialPoly R)` and reconstruction: precision zero is the zero quotient.
-- `HabiroRing`, `PolynomialLimit R (factorialPoly R)` and reconstruction: the polynomial q reconstructs q at every precision.
+- `HabiroRing`, `PolynomialLimit R (factorialPoly R)` and reconstruction: the polynomial `q` reconstructs `q` at every precision.
 - `HabiroRing`, `PolynomialLimit R (factorialPoly R)` and reconstruction: incompatible consecutive residues are excluded by the transition equation.
 - `OrderAdic` and `OrderAdicLimit`: exponent zero is the zero quotient.
 - `OrderAdic` and `OrderAdicLimit`: equal orders give identity transitions.
-- `OrderAdic` and `OrderAdicLimit`: divisibility transitions preserve q, while constants 0 at order one and 1 at order two cannot define a family.
-- The divisibility estimate requires m>0: m=0,k=1 would assert 0∣1 over ℤ.
-- The divisibility estimate requires m>0: k=0 gives 1∣P₀.
-- The divisibility estimate requires m>0: m=k=2 gives (q²−1)²∣P₄.
+- `OrderAdic` and `OrderAdicLimit`: divisibility transitions preserve `q`, while constants 0 at order one and 1 at order two cannot define a family.
+- The divisibility estimate requires `m>0`: `m=0,k=1` would assert `0∣1` over `ℤ`.
+- The divisibility estimate requires `m>0`: `k=0` gives `1∣P₀`.
+- The divisibility estimate requires `m>0`: `m=k=2` gives `(q²−1)²∣P₄`.
 
 ### 1.5 Coefficient and order functoriality
 
@@ -741,19 +741,19 @@ true.
 
 **Checks.**
 
-- `orderAdicMapRing`: reduction modulo two preserves q.
-- `orderAdicMapRing`: it kills 2q.
-- `orderAdicMapRing`: it sends 1−q to 1+q.
-- `factorialLimitMapRing`: reduction modulo two preserves q.
-- `factorialLimitMapRing`: it kills 2q.
-- `factorialLimitMapRing`: it sends 1−q to 1+q.
+- `orderAdicMapRing`: reduction modulo two preserves `q`.
+- `orderAdicMapRing`: it kills `2q`.
+- `orderAdicMapRing`: it sends `1−q` to `1+q`.
+- `factorialLimitMapRing`: reduction modulo two preserves `q`.
+- `factorialLimitMapRing`: it kills `2q`.
+- `factorialLimitMapRing`: it sends `1−q` to `1+q`.
 
-- Coefficient change sends integral q to rational q and is injective; reduction modulo two is surjective and kills the nonzero constant 2; the empty-set map has zero target.
+- Coefficient change sends integral `q` to rational `q` and is injective; reduction modulo two is surjective and kills the nonzero constant 2; the empty-set map has zero target.
 - Restriction to the same order set is identity, consecutive restrictions compose, and restriction commutes with reduction modulo two on normalized polynomial elements.
 
 ### Examples
 
-The characteristic-two index equality, empty completion and mutually cofinal presentation checks specify the completed constructions. The light factorial definition has proved Lean sign and precision checks. In the factorial divisibility target require m>0: m=0,k=1 would give 0∣1 over ℤ, while k=0 remains valid for every positive m.
+The characteristic-two index equality, empty completion and mutually cofinal presentation checks specify the completed constructions. The light factorial definition has proved Lean sign and precision checks. In the factorial divisibility target require `m>0`: `m=0,k=1` would give `0∣1` over `ℤ`, while `k=0` remains valid for every positive `m`.
 
 ### Dependencies
 
@@ -786,7 +786,7 @@ projections.
 
 The canonical presentation restricts the degree of each coefficient:
 
-    h=∑_{n≥0}a_n(q)P_n(q), deg a_n≤ n.
+`h=∑_{n≥0}a_n(q)P_n(q), deg a_n≤ n`.
 
 Construct `factorialCoeff R h n` and prove existence and uniqueness of these
 digits. For polynomials, a convenient recursion starts with `r_0=g`.
@@ -818,16 +818,16 @@ digit sequence reconstructs zero, including over torsion coefficient rings.
 **Checks.**
 
 - `factorialSeries`: coefficients supported only at zero recover a polynomial.
-- `factorialSeries`: the sequence (1−q,−1,0,…) sums to zero and shows unrestricted nonuniqueness.
-- `factorialSeries`: all coefficients 1 define F with F≡2−q modulo P₂.
+- `factorialSeries`: the sequence `(1−q,−1,0,…)` sums to zero and shows unrestricted nonuniqueness.
+- `factorialSeries`: all coefficients 1 define `F` with `F≡2−q` modulo `P₂`.
 - `factorialDigit`, `factorialCoeff` and reconstruction: zero has all digits zero.
-- `factorialDigit`, `factorialCoeff` and reconstruction: q has digits (1,−1,0,…), and 1−q has (0,1,0,…).
-- `factorialDigit`, `factorialCoeff` and reconstruction: every digit of F is 1.
-- The inverse-q series has nth digit qⁿ; changing a representative by P_N times a polynomial leaves digits below N unchanged; reducing digits modulo two agrees with coefficient change.
+- `factorialDigit`, `factorialCoeff` and reconstruction: `q` has digits `(1,−1,0,…)`, and `1−q` has (`0,1,0`,…).
+- `factorialDigit`, `factorialCoeff` and reconstruction: every digit of `F` is 1.
+- The inverse-q series has nth digit `qⁿ`; changing a representative by `P_N` times a polynomial leaves digits below `N` unchanged; reducing digits modulo two agrees with coefficient change.
 
-- The digit residual starts with q²+q+1 unchanged.
-- The first residual of q is −1.
-- The residuals of 2−q at indices one and two are 1 and 0.
+- The digit residual starts with `q²+q+1` unchanged.
+- The first residual of `q` is `−1`.
+- The residuals of `2−q` at indices one and two are 1 and 0.
 
 ### 2.2 Finite arithmetic and monic normalization
 
@@ -844,9 +844,9 @@ For integer polynomials presented by descending coefficient lists, require the
 same normalized polynomial digits after applying the existing
 `TauCeti.Polynomial.ofCoeffList` supplier. The quotient/remainder identities
 of that supplier identify the finite monic decomposition with divisor
-`q^(n+1) − 1`, including lists with leading zeros. If r is the polynomial
+`q^(n+1) − 1`, including lists with leading zeros. If `r` is the polynomial
 residual and `r = a + (q^(n+1) − 1)b` with `deg a ≤ n`, the next
-factorial residual is −b. Thus the list presentation and polynomial
+factorial residual is `−b`. Thus the list presentation and polynomial
 presentation satisfy the same uniqueness theorem for the digits; no new
 list arithmetic is a target.
 (Source: the monic recursive expansion in H₀, proof of Lemma 3.1, p. 7).
@@ -854,7 +854,7 @@ list arithmetic is a target.
 
 As a multiplication test,
 
-    F^2≡1+(3-q)P_1+(6-3q-q^2)P_2 +(7-4q-4q^2+2q^3)P_3 (mod P_4).
+`F^2≡1+(3-q)P_1+(6-3q-q^2)P_2 +(7-4q-4q^2+2q^3)P_3 (mod P_4)`.
 
 In particular the first three digits are `1,3-q,6-3q-q^2`.
 An unnormalized candidate for the third digit,
@@ -866,11 +866,11 @@ representing a polynomial of degree greater than the target digit bound.
 **Checks.**
 
 - `expansionMul`: zero times a digit sequence gives zero.
-- `expansionMul`: F² has digits 1, 3−q and 6−3q−q².
-- `expansionMul`: the candidate q³−q²−3q+5 requires a carry of q³−1.
+- `expansionMul`: `F²` has digits 1, `3−q` and `6−3q−q²`.
+- `expansionMul`: the candidate `q³−q²−3q+5` requires a carry of `q³−1`.
 - The empty coefficient list represents zero, whose every digit is zero.
-- The descending coefficient list [−1,2] represents 2−q, whose zeroth and first digits are both 1.
-- The descending coefficient list [1,0] represents q, whose first digit is −1, detecting a missing quotient sign.
+- The descending coefficient list `[−1,2]` represents `2−q`, whose zeroth and first digits are both 1.
+- The descending coefficient list `[1,0]` represents `q`, whose first digit is `−1`, detecting a missing quotient sign.
 
 ### 2.3 The unit q and the Laurent presentation
 
@@ -880,10 +880,10 @@ image of `q` is a unit in every finite index quotient and in every
 and right inverse identities, and compatibility with coefficient maps and
 restriction. The full completion has the explicit normalized expression
 
-    q^{-1}=∑_{n≥0}q^nP_n, q∑_{n<N}q^nP_n=1-P_N.
+`q^{-1}=∑_{n≥0}q^nP_n, q∑_{n<N}q^nP_n=1-P_N`.
 
 The second equality is `factorial_telescope`, a polynomial telescoping
-identity over every commutative ring, valid also at N=0, and is the proof
+identity over every commutative ring, valid also at `N=0`, and is the proof
 of the first. The inverse modulo `P_3`
 is represented by `1+q-q^3-q^4+q^5`.
 
@@ -906,23 +906,23 @@ distinct from the established inversion formula.
 
 **Checks.**
 
-- `fromLaurent`: q⁻¹ expands at one with coefficients (−1)^n.
-- `fromLaurent`: q+q⁻¹ has coefficients 2,0,1 at one.
-- `fromLaurent`: q⁻² has coefficients 1,−2,3 at one.
-- `qInv`: at order two it is the inverse of q even though order one is absent.
-- `qInv`: q times the Nth partial sum equals 1−P_N.
-- `qInv`: modulo P₃ the inverse is 1+q−q³−q⁴+q⁵.
-- `fromLaurent` and `laurentQuotientEquiv`: polynomial q maps to the same completed element.
-- `fromLaurent` and `laurentQuotientEquiv`: q⁻¹ has root value ζ⁻¹.
+- `fromLaurent`: `q⁻¹` expands at one with coefficients `(−1)^n`.
+- `fromLaurent`: `q+q⁻¹` has coefficients `2,0,1` at one.
+- `fromLaurent`: `q⁻²` has coefficients `1,−2,3` at one.
+- `qInv`: at order two it is the inverse of `q` even though order one is absent.
+- `qInv`: `q` times the Nth partial sum equals `1−P_N`.
+- `qInv`: modulo `P₃` the inverse is `1+q−q³−q⁴+q⁵`.
+- `fromLaurent` and `laurentQuotientEquiv`: polynomial `q` maps to the same completed element.
+- `fromLaurent` and `laurentQuotientEquiv`: `q⁻¹` has root value `ζ⁻¹`.
 - `fromLaurent` and `laurentQuotientEquiv`: the empty completion is zero, while every nonempty positive-order completion embeds Laurent polynomials.
 
-- The finite Laurent comparison `laurentQuotientEquiv_mk` carries q modulo Φ₃ to the Laurent monomial q.
-- The same comparison carries q² modulo Φ₃ to −1−q.
-- The same comparison carries 1−q modulo Φ₃ to 1−q.
+- The finite Laurent comparison `laurentQuotientEquiv_mk` carries `q` modulo `Φ₃` to the Laurent monomial `q`.
+- The same comparison carries `q²` modulo `Φ₃` to `−1−q`.
+- The same comparison carries `1−q` modulo `Φ₃` to `1−q`.
 
 ### Examples
 
-The digits of F, q⁻¹ and F² above fix normalization and carries. The descending-list presentations of zero, 2−q and q have the same normalized digits as their polynomials, including the negative quotient sign.
+The digits of `F`, `q⁻¹` and `F²` above fix normalization and carries. The descending-list presentations of zero, `2−q` and `q` have the same normalized digits as their polynomials, including the negative quotient sign.
 
 ### Dependencies
 
@@ -932,9 +932,9 @@ Layer 1 finite quotients, factorial cofinality and topology; the existing coeffi
 
 ### 3.1 Root evaluation and additive Taylor coefficients
 
-For `n∈ S`, an R-algebra `B`, and `ζ∈ B` satisfying
+For `n∈ S`, an `R`-algebra `B`, and `ζ∈ B` satisfying
 `Φ_n(ζ)=0`, define `evalAt ζ` by projecting modulo
-`Φ_n` and evaluating the polynomial class. It is an R-algebra map
+`Φ_n` and evaluating the polynomial class. It is an `R`-algebra map
 to the discrete algebra `B`, continuous for the cyclotomic topology, and
 agrees with ordinary polynomial evaluation. Its canonical universal target
 is `AdjoinRoot (cyclotomic n R)`. When `R` embeds in a characteristic-zero
@@ -952,7 +952,7 @@ irreducible in `R[q]`. Keep the fraction-field hypothesis.
 
 For a factorial series, evaluation is finite at a root of order `d`:
 
-    ev_ζ(∑ b_nP_n) =∑_{n<d}b_n(ζ)P_n(ζ).
+`ev_ζ(∑ b_nP_n) =∑_{n<d}b_n(ζ)P_n(ζ)`.
 
 For the integral full ring, `evalFamily` records the complex-root values;
 `evalFamily_apply` identifies each component with `evalAt`. The same
@@ -975,10 +975,10 @@ laws, and compatibility of coefficient truncations. For a factorial
 series, its kth coefficient at order `d` uses only terms
 `n<d(k+1)`. Name the finite polynomial ingredients
 `factorial_taylor_vanishing` and `factorialSum_taylor_stable`: for any
-commutative ring A, d>0, `ζ^d=1`, and N≥d(k+1),
-`(q-ζ)^{k+1}∣ P_N`, and extending a factorial sum from N
-to M≥N leaves its kth additive Taylor coefficient unchanged. Arbitrary
-polynomial coefficients b_n are allowed. These statements supply finite
+commutative ring `A`, `d>0`, `ζ^d=1`, and `N≥d(k+1)`,
+`(q-ζ)^{k+1}∣ P_N`, and extending a factorial sum from `N`
+to `M≥N` leaves its kth additive Taylor coefficient unchanged. Arbitrary
+polynomial coefficients `b_n` are allowed. These statements supply finite
 projections of the completed map; they do not replace its construction.
 
 The ordinary derivative comparison is
@@ -1005,19 +1005,19 @@ required bound.
 
 **Checks.**
 
-- `evalAt` and the universal residue: q evaluates to the chosen root, F(−1)=3, and F(ζ₃)=5−ζ₃.
-- `evalAt` and the universal residue: a whole Φ_n residue is kept separate from choosing one root in a split algebra.
-- `evalFamily`: F(1)=1.
-- `evalFamily`: F(−1)=3.
-- `evalFamily`: F(i)=8−3i.
-- `taylorAtExpCoord`: q has initial coefficients ζ,−ζ,ζ/2.
-- `taylorAtExpCoord`: q² has initial coefficients ζ²,−2ζ²,2ζ².
-- `taylorAtExpCoord`: 1−q has initial coefficients 1−ζ,ζ,−ζ/2.
+- `evalAt` and the universal residue: `q` evaluates to the chosen root, `F(−1)=3`, and `F(ζ₃)=5−ζ₃`.
+- `evalAt` and the universal residue: a whole `Φ_n` residue is kept separate from choosing one root in a split algebra.
+- `evalFamily`: `F(1)=1`.
+- `evalFamily`: `F(−1)=3`.
+- `evalFamily`: `F(i)=8−3i`.
+- `taylorAtExpCoord`: `q` has initial coefficients `ζ,−ζ,ζ/2`.
+- `taylorAtExpCoord`: `q²` has initial coefficients `ζ²,−2ζ²,2ζ²`.
+- `taylorAtExpCoord`: `1−q` has initial coefficients `1−ζ,ζ,−ζ/2`.
 - `taylorAt`: its constant term is evaluation.
-- `taylorAt`: the first coefficient of F at one is −1.
-- `taylorAt`: the order-two Taylor coefficients start 3,11,72.
-- Hasse coefficients: the kth coefficient of qⁿ is binomial(n,k)ζ^(n−k).
-- Hasse coefficients: in characteristic p ordinary differentiation kills qᵖ but its pth Hasse coefficient is 1.
+- `taylorAt`: the first coefficient of `F` at one is `−1`.
+- `taylorAt`: the order-two Taylor coefficients start `3,11,72`.
+- Hasse coefficients: the kth coefficient of `qⁿ` is `binomial(n,k)ζ^(n−k)`.
+- Hasse coefficients: in characteristic `p` ordinary differentiation kills `qᵖ` but its pth Hasse coefficient is 1.
 - Hasse coefficients: multiplication agrees with coefficient convolution.
 
 ### 3.2 Naturality and changes of q
@@ -1031,7 +1031,7 @@ mechanism for passing the polynomial equations to the completion.
 For `a≥1`, polynomial substitution `q↦ q^a` extends to a map
 `R[q]^S→ R[q]^T` when
 
-    for all m ∈ T, m/gcd(m,a)∈ S.
+`for all m ∈ T, m/gcd(m,a)∈ S`.
 
 The order condition records the exact order of `ζ^a`. Its evaluation
 equation is `ev_ζ(h(q^a))= ev_{ζ^a}(h)`. Its Taylor equation substitutes
@@ -1046,12 +1046,12 @@ arithmetic, and the Taylor map.
 
 **Checks.**
 
-- `powSubst`: a=1 retains q².
-- `powSubst`: a=2 sends q² to q⁴.
-- `powSubst`: a=3 sends 1−q to 1−q³.
+- `powSubst`: `a=1` retains `q²`.
+- `powSubst`: `a=2` sends `q²` to `q⁴`.
+- `powSubst`: `a=3` sends `1−q` to `1−q³`.
 
 - `powSubst`: exponent one gives identity.
-- `powSubst`: q↦q² doubles the polynomial exponent and sends a root of order m to one of order m/gcd(m,2).
+- `powSubst`: `q↦q²` doubles the polynomial exponent and sends a root of order `m` to one of order `m/gcd(m,2)`.
 - `powSubst`: exponent zero is excluded from the continuity contract.
 - Taylor naturality: order restriction preserves each retained Taylor series.
 - Taylor naturality: coefficient change transports the root and all coefficients.
@@ -1090,7 +1090,7 @@ p-adic topology, equivalently its `(p,X)`-adic topology. Construct the
 continuous ring map
 `reExpand c` by convergent evaluation at `X+c`. Its coefficients are
 
-    [X^j]reExpand_c(f) =∑_{k≥ j}binom(k, j) f_k c^{k-j}.
+`[X^j]reExpand_c(f) =∑_{k≥ j}binom(k, j) f_k c^{k-j}`.
 
 For each coefficient the summands tend p-adically to zero; completeness
 produces the value. Use `PowerSeries.eval₂Hom` with its convergence
@@ -1114,7 +1114,7 @@ and the close-root lemma.
 For close roots `ζ,ζ'` in a common p-adically completed root
 algebra, prove
 
-    σ_{ζ'}(h) =reExpand_{ζ'-ζ}(σ_ζ(h)), ev_{ζ'}(h) =∑_{k≥0}[X^k]σ_ζ(h)(ζ'-ζ)^k.
+`σ_{ζ'}(h) =reExpand_{ζ'-ζ}(σ_ζ(h)), ev_{ζ'}(h) =∑_{k≥0}[X^k]σ_ζ(h)(ζ'-ζ)^k`.
 
 The polynomial translation identity and density prove these equations for
 all completed elements. They do not require order connectedness; that
@@ -1129,11 +1129,11 @@ naturality interfaces.
 - Root closeness: an equal root has zero translation.
 - Root closeness: a primitive p-power ratio gives topological nilpotence.
 - Root closeness: the chosen cubic/sixth-root pair with difference 1 is not close despite order adjacency.
-- The element (ζ₆,1) in ℤ[ζ₆]×ℤ has order six, but 1−(ζ₆,1) is not a unit. It fails the cyclotomic equation in the second factor, detecting the extra hypothesis in the unit claim.
-- The unit 2 in ℚ₂ is topologically nilpotent for its valuation topology. Its ideal (2) is the whole field, so it is not separated for the (2)-adic ideal topology; this detects the ideal-topology hypothesis in the unit obstruction.
-- `reExpand`: translation by zero is identity, translating a polynomial agrees with its finite binomial expansion, and translation by −c inverts translation by c under the common convergence hypotheses.
-- The re-expansion constant 1 is excluded in a nontrivial p-adic ring; q−ζ becomes X+(ζ′−ζ); two successive admissible translations add their constants.
-- For B=ℤ₂ and c=−2, translating Xⁿ gives constant coefficient (−2)ⁿ, tending to zero 2-adically but never eventually zero. Continuity therefore uses the coefficientwise 2-adic topology, rather than the topology with discrete coefficients.
+- The element `(ζ₆,1)` in `ℤ[ζ₆]×ℤ` has order six, but `1−(ζ₆,1)` is not a unit. It fails the cyclotomic equation in the second factor, detecting the extra hypothesis in the unit claim.
+- The unit 2 in `ℚ₂` is topologically nilpotent for its valuation topology. Its ideal `(2)` is the whole field, so it is not separated for the `(2)`-adic ideal topology; this detects the ideal-topology hypothesis in the unit obstruction.
+- `reExpand`: translation by zero is identity, translating a polynomial agrees with its finite binomial expansion, and translation by `−c` inverts translation by `c` under the common convergence hypotheses.
+- The re-expansion constant 1 is excluded in a nontrivial p-adic ring; `q−ζ` becomes `X+(ζ′−ζ)`; two successive admissible translations add their constants.
+- For `B=ℤ₂` and `c=−2`, translating `Xⁿ` gives constant coefficient `(−2)ⁿ`, tending to zero 2-adically but never eventually zero. Continuity therefore uses the coefficientwise 2-adic topology, rather than the topology with discrete coefficients.
 
 ### Examples
 
@@ -1181,7 +1181,7 @@ positive integer prime-power arithmetic, and ideal powers.
 
 For `p` prime, `e≥1`, `n≥1`, prove
 
-    Φ_{p^e n}≡Φ_n^d (mod p), p∈(Φ_n,Φ_{p^e n}), (Φ_n,Φ_{p^e n})=(p,Φ_n),
+`Φ_{p^e n}≡Φ_n^d (mod p), p∈(Φ_n,Φ_{p^e n}), (Φ_n,Φ_{p^e n})=(p,Φ_n),`
 
 where `d=(p-1)p^{e-1}` if `p∤ n`, and `d=p^e` if `p∣ n`.
 The integral quotient is consequently
@@ -1196,7 +1196,7 @@ If distinct orders have no prime-power ratio, prove that their cyclotomic
 polynomials are comaximal over `ℤ`, hence over every `R`.
 The quantitative resultant formula for `m>n` is
 
-    |Res(Φ_m,Φ_n)| = p^{φ(n)} if m/n=p^a with a≥1; otherwise it is 1.
+`|Res(Φ_m,Φ_n)| = p^{φ(n)} if m/n=p^a with a≥1; otherwise it is 1`.
 
 Do not identify that resultant with the smallest integer in the two-generator
 ideal: `|Res(Φ_{12},Φ_3)|=4`, although the ideal
@@ -1204,7 +1204,7 @@ contains two; for `Φ_9,Φ_3` the corresponding values are nine and
 three. The identity `Φ_6-qΦ_1=1` checks comaximality for orders
 one and six. (Source: H, Lemma 4.1, (4.1)–(4.2), p. 1134;
 W, §2.1, Lemma 2.1, p. 8, with distinct orders; L, the unnumbered theorem, p. 75, proved on pp. 76–77,
-for n>1. For n=1 use |Res(Φ_m,Φ₁)|=|Φ_m(1)| and the standard
+for `n>1`. For `n=1` use `|Res(Φ_m,Φ₁)|=|Φ_m(1)|` and the standard
 cyclotomic value at one (H, Lemma 4.1, p. 1134; L, Lemma 1, p. 76)). *Needs:* polynomial cyclotomic prime-power identities,
 Layer 3 root-ratio units, and the existing resultant/coprimality API.
 
@@ -1214,20 +1214,20 @@ Layer 3 root-ratio units, and the existing resultant/coprimality API.
 - `adjacencyIndex`: orders one and four give two.
 - `adjacencyIndex`: orders one and six give one.
 - `IsAdjConnected`: an empty set fails connectedness.
-- `IsAdjConnected`: {1,2} is connected over ℤ.
-- `IsAdjConnected`: {1,6} fails connectedness over ℤ.
-- `cyclotomicPairQuotientEquiv`: for Φ₃ and Φ₁₂ the class q maps to q over ℤ/2.
-- `cyclotomicPairQuotientEquiv`: 2q maps to zero.
-- `cyclotomicPairQuotientEquiv`: q² maps to 1+q.
+- `IsAdjConnected`: `{1,2}` is connected over `ℤ`.
+- `IsAdjConnected`: `{1,6}` fails connectedness over `ℤ`.
+- `cyclotomicPairQuotientEquiv`: for `Φ₃` and `Φ₁₂` the class `q` maps to `q` over `ℤ/2`.
+- `cyclotomicPairQuotientEquiv`: `2q` maps to zero.
+- `cyclotomicPairQuotientEquiv`: `q²` maps to `1+q`.
 
-- `adjacencyIndex` and `Adjacent`: equal orders have index 0 and are adjacent over ℚ.
-- `adjacencyIndex` and `Adjacent`: orders 3 and 12 have index 2 and are adjacent over ℤ.
+- `adjacencyIndex` and `Adjacent`: equal orders have index 0 and are adjacent over `ℚ`.
+- `adjacencyIndex` and `Adjacent`: orders 3 and 12 have index 2 and are adjacent over `ℤ`.
 - `adjacencyIndex` and `Adjacent`: orders 4 and 6 have index 1 and are not adjacent over a nonzero ring.
 - `IsAdjConnected`: a singleton is connected.
-- `IsAdjConnected`: {1,6} is disconnected over ℤ despite a path through additional orders in the full set.
-- `IsAdjConnected`: positive divisors of n are connected exactly under separation at primes dividing n.
-- Cyclotomic ideals/resultants: Φ₁ and Φ₆ are comaximal.
-- Cyclotomic ideals/resultants: (Φ₃,Φ₁₂) contains 2 while its absolute resultant is 4.
+- `IsAdjConnected`: `{1,6}` is disconnected over `ℤ` despite a path through additional orders in the full set.
+- `IsAdjConnected`: positive divisors of `n` are connected exactly under separation at primes dividing `n`.
+- Cyclotomic ideals/resultants: `Φ₁` and `Φ₆` are comaximal.
+- Cyclotomic ideals/resultants: `(Φ₃,Φ₁₂)` contains 2 while its absolute resultant is 4.
 - Cyclotomic ideals/resultants: equal orders retain their integral quotient, so the distinct-order characteristic-p formula cannot be applied there.
 
 ### 4.2 Monic separation and restriction injectivity
@@ -1247,7 +1247,7 @@ required part of the API, not an extra Noetherian assumption.
 
 The one-step theorem is injectivity of
 
-    completion(R[q])_{(fg)} → completion(R[q])_{(f)} is injective if f ⇒_R g.
+`completion(R[q])_{(fg)} → completion(R[q])_{(f)} is injective if f ⇒_R g`.
 
 When `R` is also complete at a finitely generated witnessing ideal, the
 map is an isomorphism. Compare the two polynomial topologies after adding
@@ -1291,14 +1291,14 @@ adic completion; the preceding adjacency and ideal lemmas.
 
 **Checks.**
 
-- `MonicPrecedes`: starting at Φ₁ reaches {Φ₁,Φ₂}.
+- `MonicPrecedes`: starting at `Φ₁` reaches `{Φ₁,Φ₂}`.
 - `MonicPrecedes`: an empty starting set cannot reach a nonempty set.
-- `MonicPrecedes`: Φ₁ cannot reach Φ₆ inside their two-element set.
+- `MonicPrecedes`: `Φ₁` cannot reach `Φ₆` inside their two-element set.
 
 - The monic radical relation: divisibility supplies a zero-ideal witness.
-- The monic radical relation: Φ₂ points to Φ₁ with witness (2).
-- The monic radical relation: the relation cannot make the comaximal pair Φ₁,Φ₆ adjacent over ℤ.
-- The one-step restriction embeds the (q²−1)-adic integral completion into ℤ[[q−1]]; inverting 2 breaks its separation hypothesis; chains through orders outside S cannot establish restriction injectivity for {1,6}.
+- The monic radical relation: `Φ₂` points to `Φ₁` with witness `(2)`.
+- The monic radical relation: the relation cannot make the comaximal pair `Φ₁,Φ₆` adjacent over `ℤ`.
+- The one-step restriction embeds the `(q²−1)-adic` integral completion into `ℤ[[q−1]]`; inverting 2 breaks its separation hypothesis; chains through orders outside `S` cannot establish restriction injectivity for `{1,6}`.
 
 ### 4.3 Primitive roots, finite extensions, and Taylor rigidity
 
@@ -1318,7 +1318,7 @@ pp. 1136–1137; proof of Theorem 5.2, p. 1138).
 
 Supply explicitly the finite-extension transfer used when the root is not
 already in the coefficient ring. If `R→ B` is an injective finite
-extension of domains, there are `r≥1` and an injective R-linear map
+extension of domains, there are `r≥1` and an injective `R`-linear map
 `B→ R^r`. To construct it, embed in the fraction fields, choose a
 basis for the finite-dimensional span of a finite set of module generators,
 and clear all their coordinate denominators by one nonzero element of
@@ -1343,7 +1343,7 @@ algebraic closure of its fraction field. If `R` is p-adically separated
 for each odd `p∣ n`, and also 2-adically separated when `4∣ n`,
 prove
 
-    σ_ζ:R[q]^S→ R[ζ][[q-ζ]] is injective.
+`σ_ζ:R[q]^S→ R[ζ][[q-ζ]] is injective`.
 
 First use injective coefficient change into `R[ζ]`, carrying the
 separation hypotheses by the preceding transfer; then restrict to order
@@ -1370,13 +1370,13 @@ Taylor maps.
 **Checks.**
 
 - `RootAdjacent`: a complex root is adjacent to itself.
-- `RootAdjacent`: integral roots 1 and −1 are adjacent.
-- `RootAdjacent`: distinct complex roots i and −i fail adjacency.
+- `RootAdjacent`: integral roots 1 and `−1` are adjacent.
+- `RootAdjacent`: distinct complex roots `i` and `−i` fail adjacency.
 
 - `RootAdjacent`: equal primitive roots are adjacent without a 2-adic assumption.
 - `RootAdjacent`: primitive order-two roots form a singleton.
 - `RootAdjacent`: conjugate primitive fourth roots require the stated 2-adic separation.
-- Finite-domain separation transfer works without Noetherianity; primitive root expansions over ℤ are injective; the disconnected integral completion for {1,6} is not a domain.
+- Finite-domain separation transfer works without Noetherianity; primitive root expansions over `ℤ` are injective; the disconnected integral completion for `{1,6}` is not a domain.
 
 ### 4.4 Evaluation uniqueness and proper embeddings
 
@@ -1460,22 +1460,22 @@ rational contrast is proved in Layer 5.
 
 **Checks.**
 
-- `selectedRootEvaluation`: on polynomial q it returns the selected root.
+- `selectedRootEvaluation`: on polynomial `q` it returns the selected root.
 - `selectedRootEvaluation`: an empty root family cannot detect the integral completion.
-- `selectedRootEvaluation`: over a coefficient ring containing i, the nonzero polynomial q−i vanishes at that chosen fourth root.
-- `cyclotomicIntegerRoot`: the complex images of the chosen roots at orders one, two and four are respectively 1, −1 and i; the Taylor target is the embedded root algebra.
-- The inverse of 3−2q belongs to the order-one completion but not to the image of the {1,2} completion; finite nonempty restrictions of the integral full ring are proper; the Taylor map at every integral root is injective but not surjective.
+- `selectedRootEvaluation`: over a coefficient ring containing `i`, the nonzero polynomial `q−i` vanishes at that chosen fourth root.
+- `cyclotomicIntegerRoot`: the complex images of the chosen roots at orders one, two and four are respectively 1, `−1` and `i`; the Taylor target is the embedded root algebra.
+- The inverse of `3−2q` belongs to the order-one completion but not to the image of the `{1,2}` completion; finite nonempty restrictions of the integral full ring are proper; the Taylor map at every integral root is injective but not surjective.
 
-- Selected-root evaluation sends polynomial q to ζ.
-- Selected-root evaluation sends q² to ζ².
-- Selected-root evaluation sends 1−q to 1−ζ.
-- The embedded cyclotomic integer roots at orders one, two and four have complex images 1, −1 and i respectively.
+- Selected-root evaluation sends polynomial `q` to `ζ`.
+- Selected-root evaluation sends `q²` to `ζ²`.
+- Selected-root evaluation sends `1−q` to `1−ζ`.
+- The embedded cyclotomic integer roots at orders one, two and four have complex images 1, `−1` and `i` respectively.
 
 ### 4.5 Universal Taylor collections and finite filtrations
 
 The coefficient algebra for order `m≥1` is always
 
-    A_m(R)=R[q]/(Φ_m(q)) =R⊗_ℤℤ[ζ_m].
+`A_m(R)=R[q]/(Φ_m(q)) =R⊗_ℤℤ[ζ_m]`.
 
 Its universal root `z_m` has monic reduced representatives of degree less
 than `φ(m)`. Define
@@ -1498,13 +1498,13 @@ quotients, `AdjoinRoot`, and Layer 3 Taylor coefficients.
 
 For comparison precision `N≥1`, define the ideal
 
-    H_{R,N}=ker(H_R→ R[q]/(P_{N-1})).
+`H_{R,N}=ker(H_R→ R[q]/(P_{N-1}))`.
 
 The full kernel theorem of Layer 1 gives
 `H_{R,N}=P_{N-1}H_R`. An element belongs to it exactly when all its
 one-based normalized digit polynomials of index `n<N` vanish.
 Prove `hFiltration_eq_principal`, `mem_hFiltration_digits`, antitonicity,
-zero intersection, and the R-algebra quotient equivalence `hFiltration_quotient_equiv`
+zero intersection, and the `R`-algebra quotient equivalence `hFiltration_quotient_equiv`
 with `hFiltration_quotient_equiv_mk` fixing its projection equation
 `H_R/H_{R,N}≃ R[q]/(P_{N-1})`. At `N=1` the ideal is the
 whole ring and the quotient is zero. At `N=2`, membership is vanishing
@@ -1515,7 +1515,7 @@ of the order-one constant Taylor coefficient. Over `ℤ`,
 
 Define `pFiltration R N` on the Taylor product by
 
-    P_{R,N}={f: C_{m,l}(f)=0 whenever ml<N}.
+`P_{R,N}={f: C_{m,l}(f)=0 whenever ml<N}`.
 
 Equivalently, its order-m component is divisible by
 `u^{⌊(N-1)/m⌋}`. It is an ideal, antitone in `N`, starts
@@ -1531,15 +1531,15 @@ has weight four. This test rules out an unshifted or unweighted filtration.
 *Needs:* the universal Taylor product and power-series ideals.
 
 For `N≥1`, the associated graded pieces, taken as quotients of
-R-submodules of nested ideals, have R-linear equivalences
+`R`-submodules of nested ideals, have `R`-linear equivalences
 
-    R[q]/(1-q^N)≃_R H_{R,N}/H_{R,N+1}, P_{R,N}/P_{R,N+1}≃_R∏_{m∣ N}A_m(R).
+`R[q]/(1-q^N)≃_R H_{R,N}/H_{R,N+1}, P_{R,N}/P_{R,N+1}≃_R∏_{m∣ N}A_m(R)`.
 
 The first sends `[g]` to `[P_{N-1}g]`; the second extracts the
 coefficient of `u^{N/m-1}` at each divisor `m` of `N`.
 Name them `factorialGradedEquiv` and `taylorGradedEquiv`;
 `factorialGradedEquiv_mk` and `taylorGradedEquiv_mk` pin the two formulas.
-These are linear equivalences of R-modules. Their ranks are `N`, since
+These are linear equivalences of `R`-modules. Their ranks are `N`, since
 `∑_{m∣ N}φ(m)=N`. State the finite rank conclusion with
 `R≠0`, while the basis index cardinalities hold for every ring.
 (Source: G, §5.1, (308)–(309), p. 61). *Needs:* completed
@@ -1564,69 +1564,69 @@ extensionality.
 
 **Checks.**
 
-- `hFiltration_quotient_equiv`: at precision three q retains its polynomial residue.
-- `hFiltration_quotient_equiv`: q² retains its residue.
-- `hFiltration_quotient_equiv`: 1−q retains its sign.
-- `factorialGradedEquiv`: at N=1 the class q maps to P₀q.
-- `factorialGradedEquiv`: at N=2 the class 1−q maps to P₁(1−q).
-- `factorialGradedEquiv`: at N=3 the class q² maps to P₂q².
+- `hFiltration_quotient_equiv`: at precision three `q` retains its polynomial residue.
+- `hFiltration_quotient_equiv`: `q²` retains its residue.
+- `hFiltration_quotient_equiv`: `1−q` retains its sign.
+- `factorialGradedEquiv`: at `N=1` the class `q` maps to `P₀q`.
+- `factorialGradedEquiv`: at `N=2` the class `1−q` maps to `P₁(1−q)`.
+- `factorialGradedEquiv`: at `N=3` the class `q²` maps to `P₂q²`.
 - `taylorGradedEquiv`: the weight-one constant 7 at order one maps to 7.
-- `taylorGradedEquiv`: the weight-two constant −3 at order two maps to −3.
+- `taylorGradedEquiv`: the weight-two constant `−3` at order two maps to `−3`.
 - `taylorGradedEquiv`: the weight-four linear coefficient 5 at order two maps to 5.
 
-- `digitAt`: precision two, index zero is (1,0).
-- `digitAt`: precision three, index one is (2,0).
-- `digitAt`: precision three, index two is (2,1).
-- `jetAt`: precision two, index zero is (1,1,0).
-- `jetAt`: precision three, index one is (2,1,0).
-- `jetAt`: precision three, index two is (1,2,0).
-- `digitCoordinates` and `jetCoordinates`: at precision three q has vectors [1,−1,0] and [1,−1,−1].
-- `digitCoordinates` and `jetCoordinates`: q² has vectors [1,−1,−1] and [1,1,−2].
-- `digitCoordinates` and `jetCoordinates`: 1−q has vectors [0,1,0] and [0,2,1].
-- `taylorCoeff`: the first two order-one coefficients of q are 1,−1.
-- `taylorCoeff`: the order-two constant coefficient of q is −1.
-- `gamma`: the order-two constant coordinate of q is −1.
-- `gamma`: the order-one first jet of q is −1.
-- `gamma`: the q coefficient of q² modulo Φ₃ is −1.
-- `finiteDigitBasis`: precision-three vectors are respectively 1, 1−q and q(1−q).
-- `finiteJetBasis`: precision-three vectors are respectively 1 at order one, 1 at order two and u at order one.
+- `digitAt`: precision two, index zero is `(1,0)`.
+- `digitAt`: precision three, index one is `(2,0)`.
+- `digitAt`: precision three, index two is `(2,1)`.
+- `jetAt`: precision two, index zero is `(1,1,0)`.
+- `jetAt`: precision three, index one is `(2,1,0)`.
+- `jetAt`: precision three, index two is `(1,2,0)`.
+- `digitCoordinates` and `jetCoordinates`: at precision three `q` has vectors `[1,−1,0]` and `[1,−1,−1]`.
+- `digitCoordinates` and `jetCoordinates`: `q²` has vectors `[1,−1,−1]` and `[1,1,−2]`.
+- `digitCoordinates` and `jetCoordinates`: `1−q` has vectors `[0,1,0]` and `[0,2,1]`.
+- `taylorCoeff`: the first two order-one coefficients of `q` are `1,−1`.
+- `taylorCoeff`: the order-two constant coefficient of `q` is `−1`.
+- `gamma`: the order-two constant coordinate of `q` is `−1`.
+- `gamma`: the order-one first jet of `q` is `−1`.
+- `gamma`: the `q` coefficient of `q²` modulo `Φ₃` is `−1`.
+- `finiteDigitBasis`: precision-three vectors are respectively 1, `1−q` and `q(1−q)`.
+- `finiteJetBasis`: precision-three vectors are respectively 1 at order one, 1 at order two and `u` at order one.
 
-- `TaylorProduct` and the filtrations: precision N=1 keeps no coordinates.
-- `TaylorProduct` and the filtrations: N=2 keeps the value at order one.
-- `TaylorProduct` and the filtrations: N=3 keeps the order-one first jet and order-two value, giving rank 3.
-- `jetRows` and `jetAt`, finite digit and jet bases: rank N(N−1)/2 is zero at N=1, is 1 at N=2, and is 3 at N=3.
-- `jetRows` and `jetAt`, finite digit and jet bases: coordinates with ml=N belong to the next graded piece, not to precision N.
-- Factorial kernels contain exactly digits n≥N in one-based indexing; weighted Taylor kernels kill exactly slots ml<N; both filtrations intersect in zero.
+- `TaylorProduct` and the filtrations: precision `N=1` keeps no coordinates.
+- `TaylorProduct` and the filtrations: `N=2` keeps the value at order one.
+- `TaylorProduct` and the filtrations: `N=3` keeps the order-one first jet and order-two value, giving rank 3.
+- `jetRows` and `jetAt`, finite digit and jet bases: rank `N(N−1)/2` is zero at `N=1`, is 1 at `N=2`, and is 3 at `N=3`.
+- `jetRows` and `jetAt`, finite digit and jet bases: coordinates with `ml=N` belong to the next graded piece, not to precision `N`.
+- Factorial kernels contain exactly digits `n≥N` in one-based indexing; weighted Taylor kernels kill exactly slots `ml<N`; both filtrations intersect in zero.
 
-- `hTransition` from P₃ to P₂ carries q to q.
-- The same transition carries q² to q².
-- The same transition carries 1−q to 1−q.
-- The map `atFourthRoot` sends the universal q class to the chosen i.
-- The same map sends q² to −1.
-- The same map sends 1−q to 1−i.
+- `hTransition` from `P₃` to `P₂` carries `q` to `q`.
+- The same transition carries `q²` to `q²`.
+- The same transition carries `1−q` to `1−q`.
+- The map `atFourthRoot` sends the universal `q` class to the chosen `i`.
+- The same map sends `q²` to `−1`.
+- The same map sends `1−q` to `1−i`.
 
-- `TaylorProduct.map` modulo two sends the full polynomial Taylor family of q to that of q.
-- The same universal-product map kills the family of 2q.
-- The same map carries the family of 1−q to that of 1+q.
+- `TaylorProduct.map` modulo two sends the full polynomial Taylor family of `q` to that of `q`.
+- The same universal-product map kills the family of `2q`.
+- The same map carries the family of `1−q` to that of `1+q`.
 
-- `FiniteH` modulo P₁ retains the nonzero constant 7.
-- The same quotient kills q−1.
-- `FiniteH` modulo P₂ retains the nonzero first jet q−1.
+- `FiniteH` modulo `P₁` retains the nonzero constant 7.
+- The same quotient kills `q−1`.
+- `FiniteH` modulo `P₂` retains the nonzero first jet `q−1`.
 - `FiniteP` at strict precision two retains the nonzero constant 7.
-- The same finite Taylor quotient kills q−1.
-- At strict precision three it retains the nonzero first jet of q−1.
+- The same finite Taylor quotient kills `q−1`.
+- At strict precision three it retains the nonzero first jet of `q−1`.
 
 ### 4.6 The filtered comparison and its leading coefficient
 
 Define `iota : H_R →ₐ[R] TaylorProduct R` by
 
-    ι(h)_m=h(z_m(1-u)).
+`ι(h)_m=h(z_m(1-u))`.
 
 Construct it from Layer 3's additive Taylor map with zero-constant-term change
 of variable `X=-z_mu`. On polynomials the kth coefficient is
 `(-z_m)^kD_kg(z_m)`. Give `iota_fromPoly`, the coefficient formula,
 coefficient-ring naturality, and compatibility with the completed factorial
-projection. Its values on one and q are respectively one and
+projection. Its values on one and `q` are respectively one and
 `z_m-z_mu`. At order one, odd additive Taylor coefficients change sign;
 the map must not silently identify the two conventions. (Source: G,
 §5.1, (298), p. 59). *Needs:* Layer 3 Taylor maps and the universal
@@ -1637,21 +1637,21 @@ For every `n≥0,m≥1`, prove that
 This is a lower bound on vanishing order over arbitrary `R`, not an
 assertion of exact order: the leading integer can vanish in a torsion ring.
 It proves `ι(H_{R,N})⊂ P_{R,N}` and defines the finite
-R-algebra map
+`R`-algebra map
 
-    finiteIota_{R,N}:R[q]/(P_{N-1}) →TaylorProduct(R)/P_{R,N}.
+`finiteIota_{R,N}:R[q]/(P_{N-1}) →TaylorProduct(R)/P_{R,N}`.
 
 Its polynomial equation, coefficient base-change square, precision
 transition square, and compatibility with `ι` on arbitrary
 completed elements are required API. (Source: G, §5.1, before (304) and
 (306), pp. 60–61). *Needs:* factorial factors, the two filtrations,
 and polynomial Taylor substitution. Define `taylorPolynomial R m g`
-on existing polynomial carriers by mapping g to A_m(R)[q] and substituting
+on existing polynomial carriers by mapping `g` to `A_m(R)[q]` and substituting
 `q=z_m(1-u)`; this is the finite polynomial version of the map.
 
 For positive `m,l`, define
 
-    D_{m,l}=m^{2l-1}(l-1)!.
+`D_{m,l}=m^{2l-1}(l-1)!`.
 
 It is positive and obeys `D_{m,l+1}=m^2lD_{m,l}`. Prove first in
 `A_m(ℤ)` that
@@ -1660,17 +1660,17 @@ to every `R`. The empty product at `m=1` is one. Applying it to the
 complete blocks of nonmultiples of `m`, and taking the first terms at
 the multiples of `m`, gives
 
-    P_{ml-1}(z_m(1-u))=D_{m,l}u^{l-1} (mod u^l).
+`P_{ml-1}(z_m(1-u))=D_{m,l}u^{l-1} (mod u^l)`.
 
 Name this finite polynomial assertion `factorial_taylor_leading`; it states
-that the coefficient at l−1 is D_(m,l) and every lower coefficient is zero.
+that the coefficient at `l−1` is `D_(m,l)` and every lower coefficient is zero.
 All lower coefficients vanish. The calculation must establish the identity
 universally, rather than cancel factors over an arbitrary coefficient ring.
 Tests are `D_{1,4}=6`, `D_{m,1}=m`, and `D_{2,2}=8`; the last
 rules out losing one of the complete nonmultiple blocks.
 Under the graded equivalences, the comparison therefore sends
 
-    [g]↦ (D_{m,N/m}g(z_m))_{m∣ N}.
+`[g]↦ (D_{m,N/m}g(z_m))_{m∣ N}`.
 
 No derivative of `g` occurs in the first surviving coefficient.
 (Source: G, §5.1, (310)–(311), p. 61, with the calculation following
@@ -1703,26 +1703,26 @@ theorems. A joint injection need not make any one component injective;
 
 **Checks.**
 
-- `gradedIota`: the N=1 constant class has scalar one.
-- `gradedIota`: the N=2 q class at order two has value −2.
-- `gradedIota`: the N=3 q² class at order three has value −3−3z₃.
-- `simultaneousRemainders`: at order three q maps to z₃.
-- `simultaneousRemainders`: q² maps to −1−z₃.
-- `simultaneousRemainders`: 1−q maps to 1−z₃.
+- `gradedIota`: the `N=1` constant class has scalar one.
+- `gradedIota`: the `N=2` `q` class at order two has value `−2`.
+- `gradedIota`: the `N=3` `q²` class at order three has value `−3−3z₃`.
+- `simultaneousRemainders`: at order three `q` maps to `z₃`.
+- `simultaneousRemainders`: `q²` maps to `−1−z₃`.
+- `simultaneousRemainders`: `1−q` maps to `1−z₃`.
 
-- `taylorPolynomial`: q expands as z_m(1−u).
-- `taylorPolynomial`: q² expands as z_m²(1−2u+u²).
-- `taylorPolynomial`: 1−q expands as 1−z_m+z_mu.
-- `rationalTaylorEquiv`: q has that same multiplicative expansion.
-- `rationalTaylorEquiv`: q² has that same multiplicative expansion.
-- `rationalTaylorEquiv`: 1−q has that same multiplicative expansion.
+- `taylorPolynomial`: `q` expands as `z_m(1−u)`.
+- `taylorPolynomial`: `q²` expands as `z_m²(1−2u+u²)`.
+- `taylorPolynomial`: `1−q` expands as `1−z_m+z_mu`.
+- `rationalTaylorEquiv`: `q` has that same multiplicative expansion.
+- `rationalTaylorEquiv`: `q²` has that same multiplicative expansion.
+- `rationalTaylorEquiv`: `1−q` has that same multiplicative expansion.
 
-- `leadingFactor`: D_(1,4)=6, the ordinary factorial (4−1)!.
-- `leadingFactor`: D_(m,1)=m for every positive m, fixing the first nonmultiple block.
-- `leadingFactor`: D_(2,2)=8, fixing the q=z(1−u) sign and the power 2l−1.
-- The universal primitive-root product at order one has one root; the simultaneous remainder map for divisors of two has determinant of absolute value 2; over ℚ each finite comparison is invertible while the integral comparison has a proper image.
+- `leadingFactor`: `D_(1,4)=6`, the ordinary factorial `(4−1)!`.
+- `leadingFactor`: `D_(m,1)=m` for every positive `m`, fixing the first nonmultiple block.
+- `leadingFactor`: `D_(2,2)=8`, fixing the `q=z(1−u)` sign and the power `2l−1`.
+- The universal primitive-root product at order one has one root; the simultaneous remainder map for divisors of two has determinant of absolute value 2; over `ℚ` each finite comparison is invertible while the integral comparison has a proper image.
 
-- `idealStep` in the ideal 2ℤ contains 4 when quotiented by 4ℤ.
+- `idealStep` in the ideal `2ℤ` contains 4 when quotiented by `4ℤ`.
 - The same ideal intersection excludes 2.
 - The same ideal intersection excludes 6.
 
@@ -1733,7 +1733,7 @@ Define `taylorMatrix N` to be the integer matrix `M_N` of
 Its entry in row `(m,l,j)` and column `(n,k)` is the jth coefficient
 of the reduced cyclotomic representative of
 
-    [u^{l-1}] z_m^k(1-u)^kP_{n-1}(z_m(1-u)).
+`[u^{l-1}] z_m^k(1-u)^kP_{n-1}(z_m(1-u))`.
 
 The finite map over any `R` has matrix the entrywise integer cast of
 `M_N`. Prove the matrix equation
@@ -1746,9 +1746,11 @@ does not rely on an unpinned determinant sign.
 At precision one the matrix is empty, with determinant one. At precision
 three it and its signed adjugate are
 
-    M_3 = [1  0   0]       M_3^* = [ 4   0  0]
-          [1  2  −2]                 [−1   1  2]
-          [0  1   1]                 [ 1  −1  2].
+```text
+M_3 = [1  0   0]       M_3^* = [ 4   0  0]
+      [1  2  −2]                 [−1   1  2]
+      [0  1   1]                 [ 1  −1  2].
+```
 
 The last entry of `M_3` is positive one: the coefficient of `u`
 in `q(1-q)` at `q=1-u` is one. This test catches use of the additive
@@ -1762,7 +1764,7 @@ has absolute determinant `|Res(f,g)|` in monomial
 quotient bases. This determinant theorem does not require integral
 comaximality. Iterating it over the cyclotomic factors of `q^N-1` gives
 
-    D_2(N)=|det E_N| =∏_{d<e, d,e∣ N} |Res(Φ_e,Φ_d)|.
+`D_2(N)=|det E_N| =∏_{d<e, d,e∣ N} |Res(Φ_e,Φ_d)|`.
 
 The resultant formula shows that a pair `e/d=p^a` contributes
 `p^{φ(d)}`, while every other pair contributes one. This positive
@@ -1779,7 +1781,7 @@ resultants, the graded map, and Mathlib determinant operations.
 Set `δ_N=|det M_N|`. With precision modulo `P_{N-1}`, the
 correct determinant identity is
 
-    δ_N=∏_{1≤ n<N}D_1(n)D_2(n)>0.
+`δ_N=∏_{1≤ n<N}D_1(n)D_2(n)>0`.
 
 In particular `δ_1=1,δ_2=1,δ_3=4,δ_4=216`,
 `δ_5=1327104`, and `δ_6=99532800000`.
@@ -1792,7 +1794,7 @@ separate API lemma.
 
 Define the integral matrix
 
-    M_N^*=sign(det M_N)adj(M_N).
+`M_N^*=sign(det M_N)adj(M_N)`.
 
 Both `M_NM_N^*=δ_N I` and `M_N^*M_N=δ_N I` hold over
 `ℤ` and after any coefficient change. Over `ℚ`,
@@ -1816,7 +1818,7 @@ the condition is automatic.
 
 For a whole collection `f`, prove the global criterion
 
-    f∈ι(H_R) ↔ ∀ N≥1, M_N^*jetCoordinates_N(f)∈(δ_NR)^{d_N}.
+`f∈ι(H_R) ↔ ∀ N≥1, M_N^*jetCoordinates_N(f)∈(δ_NR)^{d_N}`.
 
 Finite injectivity makes all finite preimages unique; transition
 compatibility therefore makes them compatible with one another. Layer 1's
@@ -1829,46 +1831,46 @@ factorial inverse limits, and Taylor finite reconstruction.
 
 **Checks.**
 
-- `remainderAt`: the selected rows at N=1,2,3 are (1,0), (2,0), (3,1).
-- `remainderMatrix`: N=1 gives [1].
-- `remainderMatrix`: N=2 gives rows [1,1], [1,−1].
-- `remainderMatrix`: N=3 gives rows [1,1,1], [1,0,−1], [0,1,−1].
-- `gradedMatrix`: N=1 gives [1].
-- `gradedMatrix`: N=2 gives rows [1,1], [2,−2].
-- `gradedMatrix`: N=3 gives rows [2,2,2], [3,0,−3], [0,3,−3].
+- `remainderAt`: the selected rows at `N=1,2,3` are `(1,0), (2,0), (3,1)`.
+- `remainderMatrix`: `N=1` gives `[1]`.
+- `remainderMatrix`: `N=2` gives rows `[1,1], [1,−1]`.
+- `remainderMatrix`: `N=3` gives rows `[1,1,1], [1,0,−1], [0,1,−1]`.
+- `gradedMatrix`: `N=1` gives `[1]`.
+- `gradedMatrix`: `N=2` gives rows `[1,1], [2,−2]`.
+- `gradedMatrix`: `N=3` gives rows `[2,2,2], [3,0,−3], [0,3,−3]`.
 - `delta`: strict precisions two, three and four give 1, 4 and 216.
-- `starMatrix`: N=2 gives [1].
-- `starMatrix`: N=3 gives rows [4,0,0], [−1,1,2], [1,−1,2].
-- `starMatrix`: at N=4 its product with the Taylor matrix is 216 times the identity.
+- `starMatrix`: `N=2` gives `[1]`.
+- `starMatrix`: `N=3` gives rows `[4,0,0], [−1,1,2], [1,−1,2]`.
+- `starMatrix`: at `N=4` its product with the Taylor matrix is 216 times the identity.
 
 - `taylorMatrix`, `D1` and `D2`: precision one is the empty matrix with determinant 1.
-- `taylorMatrix`, `D1` and `D2`: at precision three M₃=[[1,0,0],[1,2,−2],[0,1,1]] has determinant 4.
-- `taylorMatrix`, `D1` and `D2`: its determinant product stops at n<N.
-- `starMatrix`: the precision-three matrix is [[4,0,0],[−1,1,2],[1,−1,2]].
-- `starMatrix`: multiplying on either side gives 4I.
-- `starMatrix`: changing the first jet of F from 1 to 2 gives the displayed nonintegral recovered digits.
-- The image criterion uses divisibility in R, including over localized integers; an all-zero jet vector is admitted; the first two mod-four congruences pin the additive versus multiplicative Taylor signs.
+- `taylorMatrix`, `D1` and `D2`: at precision three `M₃=[[1,0,0],[1,2,−2],[0,1,1]]` has determinant 4.
+- `taylorMatrix`, `D1` and `D2`: its determinant product stops at `n<N`.
+- `starMatrix`: the precision-three matrix is `[[4,0,0],[−1,1,2],[1,−1,2]]`.
+- `starMatrix`: multiplying on either side gives `4I`.
+- `starMatrix`: changing the first jet of `F` from 1 to 2 gives the displayed nonintegral recovered digits.
+- The image criterion uses divisibility in `R`, including over localized integers; an all-zero jet vector is admitted; the first two mod-four congruences pin the additive versus multiplicative Taylor signs.
 
-- `pTransition_mk` reduces the polynomial Taylor family of q from strict precision four to three unchanged.
-- The same reduction retains the family of q².
-- The same reduction retains the family of 1−q.
-- `finiteHMap_mk` reduces q modulo two to q.
-- The same factorial quotient map kills 2q.
-- The same factorial quotient map carries 1−q to 1+q.
-- `finitePMap_mk` reduces the finite Taylor family of q modulo two to that of q.
-- The same finite Taylor quotient map kills the family of 2q.
-- The same finite Taylor quotient map carries the family of 1−q to that of 1+q.
+- `pTransition_mk` reduces the polynomial Taylor family of `q` from strict precision four to three unchanged.
+- The same reduction retains the family of `q²`.
+- The same reduction retains the family of `1−q`.
+- `finiteHMap_mk` reduces `q` modulo two to `q`.
+- The same factorial quotient map kills `2q`.
+- The same factorial quotient map carries `1−q` to `1+q`.
+- `finitePMap_mk` reduces the finite Taylor family of `q` modulo two to that of `q`.
+- The same finite Taylor quotient map kills the family of `2q`.
+- The same finite Taylor quotient map carries the family of `1−q` to that of `1+q`.
 
-- `twoRemainderMatrix` for (1,q−1) is the one-entry matrix [1].
-- For (q−1,q+1) it is [[1,1],[1,−1]].
-- For (q−1,q²+q+1) it is [[1,1,1],[1,0,−1],[0,1,−1]].
+- `twoRemainderMatrix` for `(1,q−1)` is the one-entry matrix `[1]`.
+- For `(q−1,q+1)` it is `[[1,1],[1,−1]]`.
+- For `(q−1,q²+q+1)` it is `[[1,1,1],[1,0,−1],[0,1,−1]]`.
 
 ### 4.8 Local detection of integral collections
 
 Let `R=ℤ[1/Δ]`, where the integer `Δ≠0`, and
 let `d≥1`. For an integer `b`, prove
 
-    b∈ dR ↔ ∃ k≥0, d ∣ Δ^k b in ℤ.
+`b∈ dR ↔ ∃ k≥0, d ∣ Δ^k b in ℤ`.
 
 For `b≠0` this is equivalently
 `v_p(d)≤ v_p(|b|)` for every prime `p∤Δ`; handle
@@ -1880,7 +1882,7 @@ prime not dividing `Δ`. Construct the canonical map to
 
 Apply this scalar theorem coordinatewise in the adjugate criterion to prove
 
-    f∈ι(H_{ℤ[1/Δ]}) ↔ for every p ∤ Δ, f_p∈ι(H_{ℤ_p}).
+`f∈ι(H_{ℤ[1/Δ]}) ↔ for every p ∤ Δ, f_p∈ι(H_{ℤ_p})`.
 
 Use the same universal Taylor coordinates and cast integer matrices on
 both sides. No infinite tensor product or completion is interchanged.
@@ -1894,16 +1896,16 @@ the component theory of Layer 5 and is illustrated in Layer 6.
 
 **Checks.**
 
-- Localized divisibility admits numerator zero; for Δ=±1 it retains every prime condition; prime powers in Δ remove exactly their inverted-prime conditions.
+- Localized divisibility admits numerator zero; for `Δ=±1` it retains every prime condition; prime powers in `Δ` remove exactly their inverted-prime conditions.
 - An integral Taylor collection satisfies the image congruences at every finite precision; compatible recovered digits reconstruct a global element; rational solutions with a denominator at an uninverted prime fail local integrality.
 
-- `awayToPadic` from ℤ[1/3] into ℤ₂ sends 1/3 to 1/3 after embedding in ℚ₂.
-- The same map sends 2/3 to 2/3.
-- The same map sends −1/9 to −1/9.
+- `awayToPadic` from `ℤ[1/3]` into `ℤ₂` sends `1/3` to `1/3` after embedding in `ℚ₂`.
+- The same map sends `2/3` to `2/3`.
+- The same map sends `−1/9` to `−1/9`.
 
 ### Examples
 
-The disconnected set {1,6}, split cyclotomic root algebra, m=1 leading factors, and precision-three matrix pin the hypotheses and signs. The displayed adjugate congruences test an actual integral image.
+The disconnected set `{1,6}`, split cyclotomic root algebra, `m=1` leading factors, and precision-three matrix pin the hypotheses and signs. The displayed adjugate congruences test an actual integral image.
 
 ### Dependencies
 
@@ -1913,10 +1915,10 @@ Layers 1–3; Mathlib finite modules, fraction fields, cyclotomic resultants, ma
 
 ### 5.1 The exact ordinary functor on polynomial modules
 
-For an R-module `M`, let `M[q]` be Mathlib's polynomial module and
+For an `R`-module `M`, let `M[q]` be Mathlib's polynomial module and
 define
 
-    M[q]^S=lim←_{f∈Φ_S^*}M[q]/fM[q].
+`M[q]^S=lim←_{f∈Φ_S^*}M[q]/fM[q]`.
 
 Construct `cycloModuleCompletion R S M` as compatible quotient families.
 It has an `R[q]^S`-module structure, complete separated inverse-limit
@@ -1927,7 +1929,7 @@ every projection. For `M=R`, `selfEquiv` identifies this module with the
 ring completion, preserving the polynomial maps, projections, and action.
 For `M=0` or an empty positive order set it is zero.
 
-An R-linear map `M→ N` induces a continuous
+An `R`-linear map `M→ N` induces a continuous
 `R[q]^S`-linear completed map. Include identity and composition, order
 restriction with its composition law, and compatibility between module maps
 and restriction. Construct `piEquiv` for arbitrary products of modules and
@@ -1937,22 +1939,22 @@ infinite direct sums require a separate comparison map and are not
 identified with the completion of the sum.
 
 As a finite input, `factorialPoly_smul_injective` states that multiplication
-by P_N on `PolynomialModule R M` is injective, for every R-module M and N≥0.
+by `P_N` on `PolynomialModule R M` is injective, for every `R`-module `M` and `N≥0`.
 Its unit leading coefficient gives this without a torsion-freeness assumption
-on M. The zero module and characteristic-two coefficient modules are included.
+on `M`. The zero module and characteristic-two coefficient modules are included.
 
 The ordinary functor `M↦ M[q]^S` is exact for every coefficient
-ring, order set, and R-module. At a finite monic quotient,
+ring, order set, and `R`-module. At a finite monic quotient,
 
-    M[q]/fM[q]≃_R M⊗_R R[q]/(f),
+`M[q]/fM[q]≃_R M⊗_R R[q]/(f),`
 
 and the second factor is finite free. To prove exactness after completion,
 choose a cofinal chain starting at one,
 `1=g_0∣ g_1∣ g_2∣⋯`. Monic division splits the
-successive coordinate blocks and yields an R-linear equivalence, natural
+successive coordinate blocks and yields an `R`-linear equivalence, natural
 in `M`,
 
-    M[q]^S≃_R ∏_{j≥0}M^{deg g_{j+1}-deg g_j}.
+`M[q]^S≃_R ∏_{j≥0}M^{deg g_{j+1}-deg g_j}`.
 
 This proves injectivity, surjectivity, and exactness for maps of polynomial
 modules without asserting a general exactness theorem for inverse limits.
@@ -1998,52 +2000,52 @@ modules.
 
 **Checks.**
 
-- `AdjacentModule`: ℤ makes orders one and two adjacent.
-- `AdjacentModule`: ℚ makes those distinct orders nonadjacent.
+- `AdjacentModule`: `ℤ` makes orders one and two adjacent.
+- `AdjacentModule`: `ℚ` makes those distinct orders nonadjacent.
 - `AdjacentModule`: the zero module makes orders one and six adjacent.
 
-- `cycloModuleCompletion`: zero M and empty S give zero.
-- `cycloModuleCompletion`: M=R agrees with the ring completion.
-- `cycloModuleCompletion`: reduction modulo two is surjective with kernel 2H_ℤ.
-- `selfEquiv` sends the constant r, degree-one vector and degree-two vector to C(r), q and q².
-- `ofTensor_tmul` specifies m⊗x as x times the completed constant vector; scalars 1, q and 1−q give the constant, degree-one and signed affine vectors.
-- The map/restriction and product comparisons preserve polynomial coefficient vectors, compose correctly, and admit arbitrary products; the cofinal-chain digit comparison is natural in M.
-- `ofTensor`: finite free M and finitely presented M have the stated bijective comparison.
-- `ofTensor`: M=ℚ misses the factorial digits 1/n! with unbounded denominators.
-- `ofTensor`: M=⊕_ℕℤ misses the sequence with distinct basis vectors in successive digits.
+- `cycloModuleCompletion`: zero `M` and empty `S` give zero.
+- `cycloModuleCompletion`: `M=R` agrees with the ring completion.
+- `cycloModuleCompletion`: reduction modulo two is surjective with kernel `2H_ℤ`.
+- `selfEquiv` sends the constant `r`, degree-one vector and degree-two vector to C(r), `q` and `q²`.
+- `ofTensor_tmul` specifies `m⊗x` as `x` times the completed constant vector; scalars 1, `q` and `1−q` give the constant, degree-one and signed affine vectors.
+- The map/restriction and product comparisons preserve polynomial coefficient vectors, compose correctly, and admit arbitrary products; the cofinal-chain digit comparison is natural in `M`.
+- `ofTensor`: finite free `M` and finitely presented `M` have the stated bijective comparison.
+- `ofTensor`: `M=ℚ` misses the factorial digits 1/n! with unbounded denominators.
+- `ofTensor`: `M=⊕_ℕℤ` misses the sequence with distinct basis vectors in successive digits.
 
-- The polynomial product-module map `piEquiv_of` projects the constant coefficient vector (2,3) componentwise.
-- The same map projects the degree-one vector (1,−1) without reversing its sign or degree.
-- The same map projects the degree-two vector (5,0).
-- Along gₙ=(q−1)ⁿ, `equivPiOfChain` gives initial coordinates (7,0,0,0) for the constant 7.
-- Along the same chain it gives (1,1,0,0) for q.
-- Along the same chain it gives (1,2,1,0) for q².
+- The polynomial product-module map `piEquiv_of` projects the constant coefficient vector `(2,3)` componentwise.
+- The same map projects the degree-one vector `(1,−1)` without reversing its sign or degree.
+- The same map projects the degree-two vector `(5,0)`.
+- Along `gₙ=(q−1)ⁿ`, `equivPiOfChain` gives initial coordinates `(7,0,0,0)` for the constant 7.
+- Along the same chain it gives `(1,1,0,0)` for `q`.
+- Along the same chain it gives `(1,2,1,0)` for `q²`.
 
-- `polyModQuot` modulo q−1 kills the vector q−1.
-- Modulo (q−1)² the same first-jet vector remains nonzero.
-- Modulo q−1 the degree-one vector of coefficient 1 equals the constant vector 1.
-- `cycloModuleSubmodule` admits the compatible truncated geometric jet family at every power of q−1.
+- `polyModQuot` modulo `q−1` kills the vector `q−1`.
+- Modulo `(q−1)²` the same first-jet vector remains nonzero.
+- Modulo `q−1` the degree-one vector of coefficient 1 equals the constant vector 1.
+- `cycloModuleSubmodule` admits the compatible truncated geometric jet family at every power of `q−1`.
 - It rejects a family whose constant residues disagree at nested powers.
 - It rejects an isolated nonzero first jet, even when all root values agree.
 
-- The module polynomial map and projection modulo (q−1)² retain the constant vector 7.
-- They retain the degree-one vector 3q.
-- They retain the affine vector 1−q.
+- The module polynomial map and projection modulo `(q−1)²` retain the constant vector 7.
+- They retain the degree-one vector `3q`.
+- They retain the affine vector `1−q`.
 - Completed module multiplication by two sends the constant vector 3 to 6.
-- It sends the degree-one vector −2q to −4q.
-- It sends the degree-two vector 5q² to 10q².
-- Module restriction from {1,2} to {1} retains the constant vector 7.
-- It retains the degree-one vector −3q.
-- It retains the degree-two vector 5q².
+- It sends the degree-one vector `−2q` to `−4q`.
+- It sends the degree-two vector `5q²` to `10q²`.
+- Module restriction from `{1,2}` to `{1}` retains the constant vector 7.
+- It retains the degree-one vector `−3q`.
+- It retains the degree-two vector `5q²`.
 
 ### 5.2 Comaximal components and the rational case
 
 Let `S=S_1⊔ S_2` and suppose every cyclotomic polynomial from
 one side is comaximal with every one from the other. Chinese remainder
 at powers and products, followed by the inverse limit, yields a
-topological R-algebra equivalence
+topological `R`-algebra equivalence
 
-    R[q]^S≃ R[q]^{S_1}× R[q]^{S_2}.
+`R[q]^S≃ R[q]^{S_1}× R[q]^{S_2}`.
 
 Name this equivalence `unionEquivProd`; `unionEquivProd_apply` identifies
 its components with the restriction maps. Its inverse is the compatible
@@ -2062,7 +2064,7 @@ finite index uses only finitely many classes. The API `comaximalComponentEquiv_a
 restriction, and `comaximalComponentEquiv_continuous` supplies the product
 topology comparison. By `comaximalComponent_nontrivial`, each class containing
 a positive order gives a nonzero factor when `R≠0`. The singleton
-class {0} gives the zero ring because Φ₀=1. At least two classes containing
+class `{0}` gives the zero ring because `Φ₀=1`. At least two classes containing
 positive orders therefore produce
 nontrivial idempotents and zero divisors.
 
@@ -2074,7 +2076,7 @@ decomposition into their singleton completions. For a Noetherian domain,
 separation at every nonunit prime integer follows from the intersection
 theorem, so the equivalence classes are exactly the adjacency components.
 This includes `ℤ`, localized integers, `ℚ`, and
-prime fields. (Source: H, Lemma 4.1(2), p. 1134; §7.5,
+prime fields. (Source: H, Lemma `4.1(2)`, p. 1134; §7.5,
 pp. 1145–1146; finite Chinese remainder and the ideal criterion of Layer 4).
 *Needs:* Layer 1 finite-subset limits, Layer 4 comaximality and
 prime-in-ideal, and Mathlib ideal quotient Chinese remainder.
@@ -2082,7 +2084,7 @@ prime-in-ideal, and Mathlib ideal quotient Chinese remainder.
 For a nonzero ring in which every order in `S` is a unit, every class
 is a singleton, giving
 
-    R[q]^S≃∏_{n∈ S}completion(R[q])_{(Φ_n)}.
+`R[q]^S≃∏_{n∈ S}completion(R[q])_{(Φ_n)}`.
 
 `equivPiOfIsUnit` is this equivalence, and `equivPiOfIsUnit_apply`
 identifies each component with restriction to that singleton.
@@ -2103,29 +2105,29 @@ single-order adic completions, and Layer 4 rational Taylor comparison.
 
 **Checks.**
 
-- `unionEquivProd`: for orders one and six the polynomial q maps to q in each completion.
-- `unionEquivProd`: q² maps to q² in each completion.
-- `unionEquivProd`: 1−q maps to 1−q in each completion.
+- `unionEquivProd`: for orders one and six the polynomial `q` maps to `q` in each completion.
+- `unionEquivProd`: `q²` maps to `q²` in each completion.
+- `unionEquivProd`: `1−q` maps to `1−q` in each completion.
 - Empty retained sets give zero factors.
-- `unionEquivProd`: orders one and six give the product over ℤ.
-- `unionEquivProd`: orders one and two do not give that product over ℤ.
-- `equivPiOfIsUnit`: over ℚ, q maps to q in each order-one and order-two factor.
-- `equivPiOfIsUnit`: q² retains its entire order-two jet.
-- `equivPiOfIsUnit`: the inverse reconstructs 1−q from its singleton coordinates.
-- Over ℚ a singleton has one factor.
+- `unionEquivProd`: orders one and six give the product over `ℤ`.
+- `unionEquivProd`: orders one and two do not give that product over `ℤ`.
+- `equivPiOfIsUnit`: over `ℚ`, `q` maps to `q` in each order-one and order-two factor.
+- `equivPiOfIsUnit`: `q²` retains its entire order-two jet.
+- `equivPiOfIsUnit`: the inverse reconstructs `1−q` from its singleton coordinates.
+- Over `ℚ` a singleton has one factor.
 - `equivPiOfIsUnit`: an empty set has the zero product ring.
 - `equivPiOfIsUnit`: two distinct orders have nonzero orthogonal projectors and hence zero divisors.
-- Rational restriction is surjective; a strict removal of a positive order destroys injectivity; (q−1)e₁ is nonzero yet has zero value at every root.
+- Rational restriction is surjective; a strict removal of a positive order destroys injectivity; `(q−1)e₁` is nonzero yet has zero value at every root.
 
 - `comaximalSetoid` connects order one to itself.
-- It connects orders one and two over ℤ.
-- It does not connect orders one and six when chains must stay in {1,6}.
-- `comaximalComponentOrders` gives {1} for the class of one inside {1,6}.
-- It gives {6} for the class of six there.
-- It gives {0} for the class of zero inside {0,1}, and that class completion is the zero ring.
-- `comaximalComponentEquiv` retains q in every class of {1,6}.
-- It retains q² in every such class.
-- It retains 1−q with the same sign in every such class.
+- It connects orders one and two over `ℤ`.
+- It does not connect orders one and six when chains must stay in `{1,6}`.
+- `comaximalComponentOrders` gives `{1}` for the class of one inside `{1,6}`.
+- It gives `{6}` for the class of six there.
+- It gives `{0}` for the class of zero inside `{0,1}`, and that class completion is the zero ring.
+- `comaximalComponentEquiv` retains `q` in every class of `{1,6}`.
+- It retains `q²` in every such class.
+- It retains `1−q` with the same sign in every such class.
 
 ### 5.3 Inverting primes and domain factors
 
@@ -2133,7 +2135,7 @@ Let `R=ℤ[1/Δ]`, `Δ≥1`. Distinct orders are
 adjacent precisely when their ratio is a nontrivial power of a prime not
 dividing `Δ`. The component classes of all orders are
 
-    S_{a}={n>0: v_p(n)=a_p for each prime p ∣ Δ}, a∈ℕ^({p:p∣Δ}).
+`S_{a}={n>0: v_p(n)=a_p for each prime p ∣ Δ}, a∈ℕ^({p:p∣Δ})`.
 
 Construct the component decomposition
 `H_R≃∏_{a}R[q]^{S_{a}}`, its idempotents,
@@ -2188,7 +2190,7 @@ root chains, Layer 1 injective coefficient change, comaximal decomposition,
 finite cyclotomic Galois theory, and localized integer separation.
 
 The component API uses positive `Δ`, `InvertedPrimes Δ`, the tuple
-`ValuationTuple Δ`, and `valuationOrders Δ a`; repeated prime powers in Δ
+`ValuationTuple Δ`, and `valuationOrders Δ a`; repeated prime powers in `Δ`
 do not add tuple coordinates. Prove finite indexing of primes, nonempty
 connected classes, uniqueness of the tuple of a positive order, and
 `LocalizedIntegers.componentEquiv`, with polynomial and restriction equations
@@ -2199,10 +2201,10 @@ statements. The latter uses genuine universal root evaluations, not merely
 all completed singleton restrictions.
 
 For descent, `rootAlgebra Δ n` is the subalgebra generated by all nth roots
-inside an algebraically closed characteristic-zero field containing R
+inside an algebraically closed characteristic-zero field containing `R`
 faithfully. It is the localized cyclotomic integer algebra, and is p-adically
-separated for every prime not dividing Δ. Give the transitivity theorem for
-its R-algebra automorphisms on primitive nth roots. Prove joint injectivity
+separated for every prime not dividing `Δ`. Give the transitivity theorem for
+its `R`-algebra automorphisms on primitive nth roots. Prove joint injectivity
 of all its primitive-root Taylor coordinates by linear-factor decomposition
 and Layer 4's root-chain theorem on each close-root class. Then expose two
 naturality equations: every such automorphism fixes the coefficient-change
@@ -2213,15 +2215,15 @@ element implies zero in every coordinate. This proves
 `component_isDomain` by connected restriction. None of these statements
 requires p-adic separation at an inverted prime.
 
-Tests of the coefficient ring, tuples and classes are: Δ=1 has one tuple and
-its class is all positive orders; Δ=6 imposes both valuations and Δ=12 has
-the same zero-valuation class; and Δ=3 with valuation one gives a domain
+Tests of the coefficient ring, tuples and classes are: `Δ=1` has one tuple and
+its class is all positive orders; `Δ=6` imposes both valuations and `Δ=12` has
+the same zero-valuation class; and `Δ=3` with valuation one gives a domain
 whose order-three Taylor coordinate detects it. Tests of component equivalence
 and projectors are: restrictions to orders coprime to 6 fail injectivity;
 distinct class projectors are nonzero and have product zero; their product
 coordinates are exactly the respective Kronecker indicators. Tests of the
-root-algebra bridge are: degree-one roots give R itself; the primitive cube
-roots over Δ=3 are conjugate although their difference is a unit after
+root-algebra bridge are: degree-one roots give `R` itself; the primitive cube
+roots over `Δ=3` are conjugate although their difference is a unit after
 adjoining them; and their split completion has two factors while the base
 singleton completion is a domain. This last test prevents descent from
 being replaced by a false domain assertion about the split coefficient ring.
@@ -2236,19 +2238,19 @@ the source coefficient ring is a domain.
 
 **Checks.**
 
-- `componentEquiv`: Δ=6 retains q on every valuation class.
-- `componentEquiv`: Δ=6 retains q² on every valuation class.
-- `componentEquiv`: Δ=6 retains 1−q on every valuation class.
-- `componentIdempotent`: Δ=1 has the identity projector.
-- `componentIdempotent`: the selected Δ=6 coordinate is one.
-- `componentIdempotent`: each different Δ=6 coordinate is zero.
+- `componentEquiv`: `Δ=6` retains `q` on every valuation class.
+- `componentEquiv`: `Δ=6` retains `q²` on every valuation class.
+- `componentEquiv`: `Δ=6` retains `1−q` on every valuation class.
+- `componentIdempotent`: `Δ=1` has the identity projector.
+- `componentIdempotent`: the selected `Δ=6` coordinate is one.
+- `componentIdempotent`: each different `Δ=6` coordinate is zero.
 
-- `InvertedPrimes`, `ValuationTuple` and `valuationOrders`: Δ=1 has a single tuple and all positive orders.
-- `InvertedPrimes`, `ValuationTuple` and `valuationOrders`: Δ=6 tests both 2- and 3-valuations.
-- `InvertedPrimes`, `ValuationTuple` and `valuationOrders`: Δ=12 has the same inverted primes and zero-valuation class as Δ=6.
+- `InvertedPrimes`, `ValuationTuple` and `valuationOrders`: `Δ=1` has a single tuple and all positive orders.
+- `InvertedPrimes`, `ValuationTuple` and `valuationOrders`: `Δ=6` tests both 2- and 3-valuations.
+- `InvertedPrimes`, `ValuationTuple` and `valuationOrders`: `Δ=12` has the same inverted primes and zero-valuation class as `Δ=6`.
 - `componentEquiv` and `componentIdempotent`: each projector has its Kronecker coordinate, distinct projectors have product zero, and restriction missing a class kills a nonzero projector.
 - `rootAlgebra` and descent: order one adds no coefficients.
-- `rootAlgebra` and descent: primitive cubic roots over Δ=3 are conjugate.
+- `rootAlgebra` and descent: primitive cubic roots over `Δ=3` are conjugate.
 - `rootAlgebra` and descent: their split extension completion has two factors while the original singleton completion remains a domain and one root detects it.
 
 - `InvertedPrimes 1` is empty.
@@ -2262,7 +2264,7 @@ is the projection onto those factors. Let `e_{S'}` be their projector.
 Prove surjectivity, kernel generated by `1-e_{S'}`, and the canonical
 identifications
 
-    R[q]^{S'}≃ e_{S'}R[q]^S ≃ R[q]^S[1/e_{S'}].
+`R[q]^{S'}≃ e_{S'}R[q]^S ≃ R[q]^S[1/e_{S'}]`.
 
 This is localization at an idempotent. It covers every order subset over
 `ℚ`, and the orders prime to `Δ` over
@@ -2281,26 +2283,26 @@ for the neighboring restricted-order notation).
 *Needs:* the component equivalence, Layer 1 universal property,
 Layer 4 proper restriction maps, and localization away from an idempotent.
 
-For general R, S and `T⊆ S`, require
+For general `R`, `S` and `T⊆ S`, require
 `Φ_m` and `Φ_n` comaximal whenever `m∈ T`,
 `n∈ S∖ T`. `restrictionProjector` is the unique element
-restricting to one on T and zero on its complement. State its idempotence,
+restricting to one on `T` and zero on its complement. State its idempotence,
 surjectivity of restriction, and the kernel formula. Construct
 `restrictionLocalizationEquiv` from the **actual** Mathlib carrier
 `Localization.Away restrictionProjector` to `R[q]^T`, with the equation
 on its canonical map from `R[q]^S` and therefore on every polynomial.
-For the obstruction, positive m in T and positive n with non-comaximal
+For the obstruction, positive `m` in `T` and positive `n` with non-comaximal
 `Φ_m,Φ_n` imply `excludedFactor_nonunit`; no polynomial-compatible
 map from the completion localized at `Φ_n` can exist.
-Tests are T empty (projector zero, localized zero ring), T=S (projector
-one, identity localization), and the integral example T={1}, n=2, where
+Tests are `T` empty (projector zero, localized zero ring), `T=S` (projector
+one, identity localization), and the integral example `T={1}`, `n=2`, where
 that compatible map is impossible.
 
 There is a different localization theorem for the full integral domain
 `H_ℤ`. In its fraction field, let `Φ^{-1}` mean inverses
 of all positive cyclotomic polynomials. Then prove
 
-    H_ℤ[Φ^{-1}] =H_ℤ+ℤ[q,q^{-1}][Φ^{-1}], H_ℤ∩ℤ[q,q^{-1}][Φ^{-1}] =ℤ[q,q^{-1}].
+`H_ℤ[Φ^{-1}] =H_ℤ+ℤ[q,q^{-1}][Φ^{-1}], H_ℤ∩ℤ[q,q^{-1}][Φ^{-1}] =ℤ[q,q^{-1}]`.
 
 For the first identity use
 `H_ℤ=fH_ℤ+ℤ[q,q^{-1}]` for each index
@@ -2332,69 +2334,69 @@ rings. These tests constrain the ambient embeddings as well as the fractions.
 
 **Checks.**
 
-- `restrictionProjector` and `restrictionLocalizationEquiv`: T empty gives projector 0 and the zero ring.
-- `restrictionProjector` and `restrictionLocalizationEquiv`: T=S gives projector 1 and the original ring.
-- `restrictionProjector`: over ℚ on orders one and two, retaining order one gives component values 1 and 0.
-- `restrictionLocalizationEquiv`: the image of q is the retained q.
-- `restrictionLocalizationEquiv`: the image of q² is the retained q².
-- `restrictionLocalizationEquiv`: retaining all orders sends 1−q to 1−q.
-- Localizing at the excluded Φ₂ cannot give the integral order-one completion through the polynomial map.
+- `restrictionProjector` and `restrictionLocalizationEquiv`: `T` empty gives projector 0 and the zero ring.
+- `restrictionProjector` and `restrictionLocalizationEquiv`: `T=S` gives projector 1 and the original ring.
+- `restrictionProjector`: over `ℚ` on orders one and two, retaining order one gives component values 1 and 0.
+- `restrictionLocalizationEquiv`: the image of `q` is the retained `q`.
+- `restrictionLocalizationEquiv`: the image of `q²` is the retained `q²`.
+- `restrictionLocalizationEquiv`: retaining all orders sends `1−q` to `1−q`.
+- Localizing at the excluded `Φ₂` cannot give the integral order-one completion through the polynomial map.
 - The fraction embeddings: denominator 1 recovers the Habiro or Laurent embedding.
 - The fraction embeddings: numerator 0 maps to zero even with a cyclotomic denominator.
-- The fraction embeddings: 1/Φ₂ is in both cyclotomic localizations but is outside H_ℤ.
-- The sum and intersection identities are in the same fraction field: Laurent q⁻¹ belongs to the intersection, an uncancelled cyclotomic pole does not, and clearing a denominator proves the stated sum decomposition.
+- The fraction embeddings: `1/Φ₂` is in both cyclotomic localizations but is outside `H_ℤ`.
+- The sum and intersection identities are in the same fraction field: Laurent `q⁻¹` belongs to the intersection, an uncancelled cyclotomic pole does not, and clearing a denominator proves the stated sum decomposition.
 
-- `rationalFunctionsToHabiroFraction` sends q to the fraction-field image of completed q.
-- It sends q⁻¹ to the image of the Laurent inverse already in the completion.
-- It sends 1/(q−1) to the inverse of completed q−1 in the ambient fraction field.
-- Both actual denominator submonoids contain Φ₁.
-- Both denominator submonoids contain Φ₂Φ₃.
-- Both denominator submonoids exclude q.
+- `rationalFunctionsToHabiroFraction` sends `q` to the fraction-field image of completed `q`.
+- It sends `q⁻¹` to the image of the Laurent inverse already in the completion.
+- It sends `1/(q−1)` to the inverse of completed `q−1` in the ambient fraction field.
+- Both actual denominator submonoids contain `Φ₁`.
+- Both denominator submonoids contain `Φ₂Φ₃`.
+- Both denominator submonoids exclude `q`.
 - Both denominator submonoids exclude the constant 2.
-- `localizedHabiroToFraction_mk` computes q/Φ₁ in the shared ambient fraction field.
-- It computes F/Φ₂ there.
-- It computes q⁻¹/Φ₃ there.
-- `localizedLaurentToFraction_mk` computes q/Φ₁ in that same field.
-- It computes 1/Φ₂ there.
-- It computes q⁻¹/Φ₃ there.
+- `localizedHabiroToFraction_mk` computes `q/Φ₁` in the shared ambient fraction field.
+- It computes `F/Φ₂` there.
+- It computes `q⁻¹/Φ₃` there.
+- `localizedLaurentToFraction_mk` computes `q/Φ₁` in that same field.
+- It computes `1/Φ₂` there.
+- It computes `q⁻¹/Φ₃` there.
 
 ### 5.5 Ordinary completion on arbitrary polynomial-ring modules
 
-For a commutative ring R and an arbitrary R[q]-module A, define
+For a commutative ring `R` and an arbitrary `R[q]`-module `A`, define
 `factorialModuleCompletion R A` by
 `completion(A)=lim←_N A/P_NA`, using the same factorial ideals
 as in §1.4. Give `factorialModuleCompletion_proj`,
 `factorialModuleCompletion_ext`, and `factorialModuleCompletion_map`, with
 identity and composition laws. Give `factorialModuleCompletion_of_polynomialModule`,
-the natural comparison with §5.1 at the full set of positive orders when A=M[q].
-This comparison is an isomorphism for every R-module M, including modules
-with integer torsion. It does not assert exactness on arbitrary R[q]-modules.
+the natural comparison with §5.1 at the full set of positive orders when `A=M[q]`.
+This comparison is an isomorphism for every `R`-module `M`, including modules
+with integer torsion. It does not assert exactness on arbitrary `R[q]`-modules.
 
 State `completedDirectSum_eq_nullFamilies`: for
 `B=⨁_{k≥1}ℤ[q]`, the coordinate maps identify
 `completion(B)` with the families `(x_k)_k` in
-`∏_{k≥1}H_{ℤ}` such that, for every N, only finitely
+`∏_{k≥1}H_{ℤ}` such that, for every `N`, only finitely
 many `x_k` have nonzero projection modulo `P_N`. Indeed
 `B/P_NB=⨁_{k≥1}ℤ[q]/(P_N)`; compatible finite-support
 residues reconstruct exactly such a family. The bound on support may depend
-on N. This is a submodule of the product, not a direct sum of completed
+on `N`. This is a submodule of the product, not a direct sum of completed
 modules or the unrestricted product.
 
 Prove `factorialDiagonal_nonexact` from the short exact sequence
 
-    0→ B —d→ B→ C:=⨁_{k≥1}ℤ[q]/(P_k)→0, d((b_k)_k)=(P_kb_k)_k.
+`0→ B —d→ B→ C:=⨁_{k≥1}ℤ[q]/(P_k)→0, d((b_k)_k)=(P_kb_k)_k`.
 
 Each `P_k` is regular on `ℤ[q]`, so the first map is
-injective and its cokernel is the displayed C. The family
+injective and its cokernel is the displayed `C`. The family
 `x=(P_k)_{k≥1}` belongs to `completion(B)`: modulo `P_N`
-every coordinate k≥N vanishes. Its image in `completion(C)` is zero,
-since every coordinate P_k is zero in its own quotient. A preimage under
-`completion(d)` would have all coordinates one, by regularity of P_k
+every coordinate `k≥N` vanishes. Its image in `completion(C)` is zero,
+since every coordinate `P_k` is zero in its own quotient. A preimage under
+`completion(d)` would have all coordinates one, by regularity of `P_k`
 on the classical completion (§1.2). This family has infinitely many
-nonzero coordinates modulo `P_1=1-q`, whose quotient is ℤ, and
+nonzero coordinates modulo `P_1=1-q`, whose quotient is `ℤ`, and
 therefore does not belong to `completion(B)`. Thus completion fails
-exactness at the middle term. The maps use P_k, and the family uses the
-same P_k; replacing these by powers of q−1 changes the topology tested.
+exactness at the middle term. The maps use `P_k`, and the family uses the
+same `P_k`; replacing these by powers of `q−1` changes the topology tested.
 
 This argument distinguishes the exact coefficient-module functor of §5.1
 from the ordinary completion functor on all polynomial-ring modules. Its
@@ -2408,16 +2410,16 @@ product comparison. No derived construction enters this argument.
 **Checks.**
 
 - `factorialModuleCompletion`: the zero module has zero completion.
-- `factorialModuleCompletion`: for A=M[q] its finite projections and scalar action agree with §5.1 at all positive orders, also for M=𝔽₂.
-- `factorialModuleCompletion`: for A=ℤ[q]/(P_r), r≥1, the canonical map A→Â is an isomorphism, since the quotient tower is constant after N≥r. Its N=0 projection is zero because P₀=1.
-- `completedDirectSum_eq_nullFamilies`: (P_k) is admitted, since its projection modulo P_N has support contained in {1,…,N−1}; at N=1 this support is empty.
-- `completedDirectSum_eq_nullFamilies`: the family of ones is rejected, since every coordinate remains 1 in ℤ[q]/(P₁)=ℤ. The nonzero constant family cannot be silently treated as a completed direct sum.
-- `factorialDiagonal_nonexact`: the admitted family (P_k) maps to zero in the completed cokernel, but its only coordinatewise preimage is the rejected family of ones.
-- A family ((q−1)^k) is rejected in the full Habiro topology: modulo Φ₂=q+1 its entries are (−2)^k, all nonzero in ℤ. Such a family only supplies the analogous single-order adic example.
+- `factorialModuleCompletion`: for `A=M[q]` its finite projections and scalar action agree with §5.1 at all positive orders, also for `M=𝔽₂`.
+- `factorialModuleCompletion`: for `A=ℤ[q]/(P_r)`, `r≥1`, the canonical map `A→Â` is an isomorphism, since the quotient tower is constant after `N≥r`. Its `N=0` projection is zero because `P₀=1`.
+- `completedDirectSum_eq_nullFamilies`: `(P_k)` is admitted, since its projection modulo `P_N` has support contained in `{1,…,N−1}`; at `N=1` this support is empty.
+- `completedDirectSum_eq_nullFamilies`: the family of ones is rejected, since every coordinate remains 1 in `ℤ[q]/(P₁)=ℤ`. The nonzero constant family cannot be silently treated as a completed direct sum.
+- `factorialDiagonal_nonexact`: the admitted family `(P_k)` maps to zero in the completed cokernel, but its only coordinatewise preimage is the rejected family of ones.
+- A family `((q−1)^k)` is rejected in the full Habiro topology: modulo `Φ₂=q+1` its entries are `(−2)^k`, all nonzero in `ℤ`. Such a family only supplies the analogous single-order adic example.
 
 ### Examples
 
-The zero module, finitely presented tensor comparison, Δ=1, Δ=3 and Δ=6 components, and the excluded Φ₂ localization are the boundary cases. The factorial diagonal sequence tests arbitrary R[q]-modules; the coefficient-module functor remains exact.
+The zero module, finitely presented tensor comparison, `Δ=1`, `Δ=3` and `Δ=6` components, and the excluded `Φ₂` localization are the boundary cases. The factorial diagonal sequence tests arbitrary `R[q]`-modules; the coefficient-module functor remains exact.
 
 ### Dependencies
 
@@ -2469,7 +2471,7 @@ value at one is zero, and not a unit in the integral order-two completion,
 since its value at minus one is two. In the order-six completion it is a
 unit:
 
-    (1-q)^{-1}=q∑_{k≥0}Φ_6^k, (1-q)q∑_{k=0}^KΦ_6^k ≡1 (mod Φ_6^{K+1}).
+`(1-q)^{-1}=q∑_{k≥0}Φ_6^k, (1-q)q∑_{k=0}^KΦ_6^k ≡1 (mod Φ_6^{K+1})`.
 
 More generally, `1-q` is a unit of `ℤ[q]^S` exactly when
 `S` contains neither one nor a prime-power order. If all its residue
@@ -2481,7 +2483,7 @@ the stated criterion. It includes the zero completion when `S` is empty.
 The Kontsevich element has normalized digits all one. At orders one
 through six its values are
 
-| Root | Value of F |
+| Root | Value of `F` |
 | --- | --- |
 | `1` | `1` |
 | `-1` | `3` |
@@ -2502,7 +2504,7 @@ three coefficients in `q-ω` are
 `5-ω,49+40ω,128+693ω`. These are finite Hasse
 coefficient computations in the corresponding cyclotomic quotient.
 
-For the inverse of q, verify at every `N` the identity
+For the inverse of `q`, verify at every `N` the identity
 `q∑_{n<N}q^nP_n=1-P_N`, its root value `ζ^{-1}`, and
 its Taylor expansion `∑_{k≥0}(-1)^k(q-1)^k` at one. The
 product `Fq^{-1}` has normalized digits `(n+1)q^n`. Verify the
@@ -2514,7 +2516,7 @@ The usual algebraic geometric-series manipulation would incorrectly make
 the nonunit `1-q` invertible.
 
 (Source: H, §1, p. 1128; Proposition 7.1, pp. 1141–1142; proof of
-Proposition 7.4(1), p. 1145; Fishburn generating function in OEIS A022493.
+Proposition `7.4(1)`, p. 1145; Fishburn generating function in OEIS A022493.
 The displayed values and coefficients are determined by the finite
 polynomial computations above). *Needs:* Layer 2 digit arithmetic and
 q-inversion, Layer 3 evaluation and coefficient formulas, Layer 4 Taylor rigidity
@@ -2522,8 +2524,8 @@ and proper restriction images.
 
 **Checks.**
 
-- F has values 1,3,5−ζ₃ at orders one, two and three; its first coefficients at one are 1,−1,2; its coefficients at minus one start 3,11,72.
-- For odd m≥3 the alternating polynomial is a unit on orders coprime to 2m; the ordinary geometric series is not Cauchy in the order-one evaluation quotient; 1−q is a nonunit over ℤ at order two but a unit at order six.
+- `F` has values `1,3,5−ζ₃` at orders one, two and three; its first coefficients at one are `1,−1,2`; its coefficients at minus one start `3,11,72`.
+- For odd `m≥3` the alternating polynomial is a unit on orders coprime to `2m`; the ordinary geometric series is not Cauchy in the order-one evaluation quotient; `1−q` is a nonunit over `ℤ` at order two but a unit at order six.
 
 ### 6.2 Matrix recovery and projector digits
 
@@ -2531,12 +2533,12 @@ At comparison precision five, the ten digits of `F`, in the fixed
 one-based coordinate order, are
 `(1,1,0,1,0,0,1,0,0,0)`. Their matrix image is
 
-    M_5(1,1,0,1,0,0,1,0,0,0)^{T} =(1,3,1,5,-1,2,8,-3,11,5)^{T}.
+`M_5(1,1,0,1,0,0,1,0,0,0)^{T} =(1,3,1,5,-1,2,8,-3,11,5)^{T}`.
 
 Change just the first jet from one to two. Rational inversion then gives
 the digit vector
 
-    (2,3/4,1/4,65/72,-1/72,17/72, 275/288,-7/144,1/32,17/72).
+`(2,3/4,1/4,65/72,-1/72,17/72, 275/288,-7/144,1/32,17/72)`.
 
 Since these digits are not integral, no integral completed element has
 the altered jet vector. This tests both the finite matrix calculation and
@@ -2553,7 +2555,7 @@ of `H_{ℤ[1/2]}` in `H_ℚ`, and it cannot belong to
 `H_ℤ`, a domain. Its first four one-based normalized digit
 polynomials are
 
-    1, (-1+q)/(4), (1-q+q^2)/(8), (-5+2q+q^2+4q^3)/(32).
+`1, (-1+q)/(4), (1-q+q^2)/(8), (-5+2q+q^2+4q^3)/(32)`.
 
 Define `g(q)=e(q^2)-e(q)` using Layer 3's positive power map. The order
 of a squared root is `m/gcd(m,2)`; consequently the Taylor component
@@ -2561,7 +2563,7 @@ of `g` is the constant one at orders `m≡2 (mod 4)`, and zero
 at the other orders. It is the exponent-one component idempotent over
 `ℤ[1/2]`, with first digits
 
-    0, (1-q)/(4), (-1+q-q^2)/(8), (1-2q+3q^2-4q^3)/(32).
+`0, (1-q)/(4), (-1+q-q^2)/(8), (1-2q+3q^2-4q^3)/(32)`.
 
 These examples require the localization component theorem, in addition to
 the rational inverse matrix. Rational finite digits alone do not prove
@@ -2572,17 +2574,17 @@ Layer 5 localized components; Layer 3 the square substitution map.
 
 **Checks.**
 
-- `oddProjector`: its coordinates at orders one, two and three are 1,0,1.
-- `oddProjector`: its completed preimage is a nontrivial idempotent over ℤ[1/2] and lies outside the integral domain H_ℤ.
-- `substituteTwo` sends q to q², 1−q to 1−q², and q²−q to q⁴−q². Each polynomial check detects an incorrect identity map. Applied to the odd projector, its difference has coordinate 1 exactly at orders congruent to two modulo four.
-- The first four digit polynomials of both projectors are those displayed above; the altered ten-coordinate jet vector has nonintegral inverse coordinates; the unaltered vector reconstructs the four constant digit blocks of F.
+- `oddProjector`: its coordinates at orders one, two and three are `1,0,1`.
+- `oddProjector`: its completed preimage is a nontrivial idempotent over `ℤ[1/2]` and lies outside the integral domain `H_ℤ`.
+- `substituteTwo` sends `q` to `q²`, `1−q` to `1−q²`, and `q²−q` to `q⁴−q²`. Each polynomial check detects an incorrect identity map. Applied to the odd projector, its difference has coordinate 1 exactly at orders congruent to two modulo four.
+- The first four digit polynomials of both projectors are those displayed above; the altered ten-coordinate jet vector has nonintegral inverse coordinates; the unaltered vector reconstructs the four constant digit blocks of `F`.
 
 ### 6.3 Localization, rational kernels, and reduction modulo two
 
 Over `R=ℤ[1/2]`, the order components are
 `S_a={n:v_2(n)=a}`. The odd projector `e_0` has representatives
 
-    e_0≡(3+2q-q^2)/4 (mod P_2), e_0≡(7+2q-q^2+q^3-2q^4+q^5)/8 (mod P_3).
+`e_0≡(3+2q-q^2)/4 (mod P_2), e_0≡(7+2q-q^2+q^3-2q^4+q^5)/8 (mod P_3)`.
 
 The second reduces to the first. Modulo `P_3` it is one modulo
 `(q-1)^3Φ_3`, zero modulo `Φ_2`, and idempotent.
@@ -2593,19 +2595,19 @@ this explicitly tests the loss of connectedness after coefficient
 localization. Evaluation at all orders nevertheless remains injective.
 In the localized order-two completion,
 
-    (1-q)^{-1}=∑_{k≥0}(Φ_2^k)/(2^{k+1}); (1-q)∑_{k=0}^K(Φ_2^k)/(2^{k+1}) ≡1 (mod Φ_2^{K+1}).
+`(1-q)^{-1}=∑_{k≥0}(Φ_2^k)/(2^{k+1}); (1-q)∑_{k=0}^K(Φ_2^k)/(2^{k+1}) ≡1 (mod Φ_2^{K+1})`.
 
 This does not supply an inverse in the integral order-two completion.
 
 Over `ℚ`, let `e_1` project to the singleton order-one
 factor. Its representative modulo `P_3` is
 
-    (47+42q+7q^2-23q^3-18q^4+17q^5)/72.
+`(47+42q+7q^2-23q^3-18q^4+17q^5)/72`.
 
 The nonzero element `t=(q-1)e_1` is killed by every root evaluation,
 and modulo `P_3` is represented by
 
-    (-5-2q+3q^2+5q^3+2q^4-3q^5)/12.
+`(-5-2q+3q^2+5q^3+2q^4-3q^5)/12`.
 
 Check zero residue modulo `Φ_2Φ_3` and residue `q-1`
 modulo `(q-1)^2`. Its nonzero Taylor component at one distinguishes
@@ -2627,13 +2629,13 @@ decomposition, Layer 2 normalization, and Layer 3 values and Taylor maps.
 
 **Checks.**
 
-- The odd projector representative modulo P₃ reduces to the displayed representative modulo P₂.
+- The odd projector representative modulo `P₃` reduces to the displayed representative modulo `P₂`.
 - Both odd projector representatives are idempotent and have residues one at order one and zero at order two.
 - The complementary projector has value one at minus one and zero Taylor series at one; it detects the failure of integral connectedness after inverting two.
-- Over ℚ, the singleton projector e₁ is nonzero and idempotent; its order-one component is one and its other components are zero.
-- The element (q−1)e₁ has zero root values but nonzero Taylor series X at one, so values cannot replace Taylor collections in the rational comparison.
-- Over ℤ/2ℤ, q⁵+q+1 has residue one modulo (q+1)⁴ and zero modulo Φ₃; its square agrees with itself modulo P₃.
-- The characteristic-two component idempotent is neither zero nor one; the reduction isomorphism then shows that 2H_ℤ is not prime.
+- Over `ℚ`, the singleton projector `e₁` is nonzero and idempotent; its order-one component is one and its other components are zero.
+- The element `(q−1)e₁` has zero root values but nonzero Taylor series `X` at one, so values cannot replace Taylor collections in the rational comparison.
+- Over `ℤ/2ℤ`, `q⁵+q+1` has residue one modulo `(q+1)⁴` and zero modulo `Φ₃`; its square agrees with itself modulo `P₃`.
+- The characteristic-two component idempotent is neither zero nor one; the reduction isomorphism then shows that `2H_ℤ` is not prime.
 
 ### 6.4 The exported interface
 
@@ -2727,8 +2729,8 @@ rigidity interfaces. Every construction input is a library contract above or an 
   Publicationes Mathematicae Debrecen **50** (1997), 75–77.
   [Public publisher PDF](https://publi.math.unideb.hu/paper/348/download/10_5486_PMD_1997_1721.pdf),
   [DOI](https://doi.org/10.5486/PMD.1997.1721).
-  The unnumbered theorem on p. 75 treats m>n>1; Lemma 1 on p. 76
-  supplies the cyclotomic value at one for the n=1 boundary.
+  The unnumbered theorem on p. 75 treats `m>n>1`; Lemma 1 on p. 76
+  supplies the cyclotomic value at one for the `n=1` boundary.
 - **W.** Ferdinand Wagner, *q-Witt vectors and q-Hodge complexes*,
   [arXiv:2410.23078v5](https://arxiv.org/abs/2410.23078v5),
   6 October 2025,
@@ -2736,7 +2738,7 @@ rigidity interfaces. Every construction input is a library contract above or an 
   §2.1, Lemma 2.1, p. 8. Its prime-power quotient formula is used only for
   distinct orders; equal orders retain the integral cyclotomic quotient.
 - **O.** Wern Juin Gabriel Ong, notes of Peter Scholze's course
-  *V5A2 – The Habiro Ring of a Number Field*, winter 2024/25,
+  *V5A2 – The Habiro Ring of a Number Field*, winter `2024/25`,
   50-page text corresponding to the 6 March 2025 version.
   [Author's notes page](https://wgabrielong.github.io/notes/),
   [public PDF](https://wgabrielong.github.io/academic-writing/notes/bonn-winter-24-25/V5A2-Habiro-Rings/Habiro_Rings_Notes.pdf).

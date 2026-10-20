@@ -11,8 +11,8 @@ matrices and arithmetic applications remain README targets until their native
 carriers have been formalised. A finite polynomial identity below is an ingredient
 of those targets, not a replacement for a completed statement.
 
-The conventions are P_N = ∏_{i=1}^N (1-q^i), additive Taylor variable q-ζ,
-and multiplicative Taylor variable q = ζ(1-u). All finite identities allow
+The conventions are `P_N = ∏_{i=1}^N (1-q^i)`, additive Taylor variable `q-ζ`,
+and multiplicative Taylor variable `q = ζ(1-u)`. All finite identities allow
 arbitrary commutative coefficient rings unless a hypothesis says otherwise.
 -/
 
@@ -28,7 +28,7 @@ namespace TauCetiRoadmap.HabiroCyclotomicCompletions
 namespace QToolkit
 
 -- README §1.1: integral definitions precede all quotient formulas.
-/-- The integral polynomial [n]_q, including [0]_q = 0. -/
+/-- The integral polynomial `[n]_q`, including `[0]_q = 0`. -/
 def qInteger (R : Type*) [CommRing R] (n : ℕ) : R[X] :=
   ∑ i ∈ Finset.range n, X ^ i
 
@@ -104,7 +104,7 @@ example : pochhammer (2 : ℤ) 3 3 = -85 ∧
 theorem qFactorial_pochhammer (R : Type*) [CommRing R] (n : ℕ) :
     (1 - X) ^ n * qFactorial R n = pochhammer (X : R[X]) X n := sorry
 
-/-- The Gaussian factorial identity requires k≤n but no invertibility hypothesis. -/
+/-- The Gaussian factorial identity requires `k≤n` but no invertibility hypothesis. -/
 theorem qBinomial_factorial (R : Type*) [CommRing R] {n k : ℕ} (h : k ≤ n) :
     qBinomial R n k * qFactorial R k * qFactorial R (n - k) = qFactorial R n := sorry
 
@@ -119,12 +119,12 @@ theorem finite_qBinomial {A : Type*} [CommRing A] (q : A) (n : ℕ) :
         C (q ^ (k * (k - 1) / 2) * (qBinomial A n k).eval q) * X ^ k := sorry
 
 -- No division by t or 1-q: this also works in characteristic two.
-/-- Coefficientwise Jackson derivative; neither t nor 1-q is inverted. -/
+/-- Coefficientwise Jackson derivative; neither `t` nor `1-q` is inverted. -/
 def jackson {A : Type*} [CommRing A] (q : A) (f : A[X]) : A[X] :=
   ∑ k ∈ Finset.range f.natDegree,
     C (f.coeff (k + 1) * (qInteger A (k + 1)).eval q) * X ^ k
 
-/-- Jackson derivative scaled by 1-q; its monomial factor is 1-q^n. -/
+/-- Jackson derivative scaled by `1-q`; its monomial factor is `1-q^n`. -/
 def adaptedJackson {A : Type*} [CommRing A] (q : A) (f : A[X]) : A[X] :=
   C (1 - q) * jackson q f
 
@@ -149,7 +149,7 @@ example : adaptedJackson (1 : ℤ) (X ^ 2) = 0 ∧
 theorem jackson_leibniz {A : Type*} [CommRing A] (q : A) (f g : A[X]) :
     jackson q (f * g) = jackson q f * g + f.comp (C q * X) * jackson q g := sorry
 
-/-- At q=1 the ordinary Jackson derivative is the polynomial derivative. -/
+/-- At `q=1` the ordinary Jackson derivative is the polynomial derivative. -/
 theorem jackson_at_one {A : Type*} [CommRing A] (f : A[X]) :
     jackson (1 : A) f = f.derivative := sorry
 
@@ -160,7 +160,7 @@ end QToolkit
 def cycloIndex (R : Type*) [CommRing R] (S : Set ℕ) : Submonoid R[X] :=
   Submonoid.closure ((fun n => cyclotomic n R) '' S)
 
-/-- The factorial polynomial P_N = ∏_{i=1}^N (1-X^i), with P_0 = 1. -/
+/-- The factorial polynomial `P_N = ∏_{i=1}^N (1-X^i)`, with `P_0 = 1`. -/
 def factorialPoly (R : Type*) [CommRing R] (N : ℕ) : R[X] :=
   QToolkit.pochhammer (X : R[X]) X N
 
@@ -198,12 +198,12 @@ example (k : ℕ) : factorialPoly ℤ 3 = (1 - X) * (1 - X ^ 2) * (1 - X ^ 3) �
     decide
 
 -- H₀, §1 p.3; Mathlib cyclotomic product identity; README §1.4.
-/-- The cyclotomic factorization of P_N includes its leading sign (-1)^N. -/
+/-- The cyclotomic factorization of `P_N` includes its leading sign `(-1)^N`. -/
 theorem factorialPoly_cyclotomic_factorization (R : Type*) [CommRing R] (N : ℕ) :
     factorialPoly R N =
       C ((-1 : R) ^ N) * ∏ d ∈ Finset.Icc 1 N, cyclotomic d R ^ (N / d) := sorry
 
-/-- Every positive-order cyclotomic factor occurs at least floor(N/d) times in P_N. -/
+/-- Every positive-order cyclotomic factor occurs at least `floor(N/d)` times in `P_N`. -/
 theorem cyclotomic_pow_dvd_factorial (R : Type*) [CommRing R] (d N : ℕ) (hd : 0 < d) :
     cyclotomic d R ^ (N / d) ∣ factorialPoly R N := sorry
 
@@ -213,14 +213,14 @@ theorem factorial_cofinal (R : Type*) [CommRing R]
     ∃ N : ℕ, f ∣ factorialPoly R N := sorry
 
 -- Positive m is essential: X^0-1=0 does not divide P_0=1 over ℤ.
-/-- Factorial precision N≥mk kills the kth power of X^m-1 for positive m. -/
+/-- Factorial precision `N≥mk` kills the kth power of `X^m-1` for positive `m`. -/
 theorem factorial_root_power_dvd (R : Type*) [CommRing R]
     (m k N : ℕ) (hm : 0 < m) (hN : m * k ≤ N) :
     (X ^ m - 1 : R[X]) ^ k ∣ factorialPoly R N := sorry
 
 /-! ## Layer 2: the finite telescope for Laurent extension -/
 
-/-- H, §7.1 Proposition 7.1 pp.1141–1142: the telescope yielding q inverse. -/
+/-- H, §7.1 Proposition 7.1 pp.1141–1142: the telescope yielding `q` inverse. -/
 theorem factorial_telescope (R : Type*) [CommRing R] (N : ℕ) :
     X * (∑ n ∈ Finset.range N, X ^ n * factorialPoly R n) =
       1 - factorialPoly R N := sorry
@@ -228,7 +228,7 @@ theorem factorial_telescope (R : Type*) [CommRing R] (N : ℕ) :
 /-! ## Layer 3: finite ingredients of completed Taylor maps -/
 
 -- The additive Taylor coordinate is X-ζ, so no factorial is divided out.
-/-- README §3.1: P_N vanishes to the indicated order at any dth root, for d>0. -/
+/-- README §3.1: `P_N` vanishes to the indicated order at any dth root, for `d>0`. -/
 theorem factorial_taylor_vanishing {R : Type*} [CommRing R]
     (ζ : R) (d k N : ℕ) (hd : 0 < d) (hζ : ζ ^ d = 1)
     (hN : d * (k + 1) ≤ N) :
@@ -244,13 +244,13 @@ theorem factorialSum_taylor_stable {R : Type*} [CommRing R]
 /-! ## Layer 4: universal multiplicative Taylor coefficients -/
 
 -- README §4.6: universal root algebra, not a selected embedded root ring.
-/-- Universal multiplicative Taylor substitution q = z_m(1-u). -/
+/-- Universal multiplicative Taylor substitution `q = z_m(1-u)`. -/
 def taylorPolynomial (R : Type*) [CommRing R] (m : ℕ) (g : R[X]) :
     (AdjoinRoot (cyclotomic m R))[X] :=
   (g.map (algebraMap R (AdjoinRoot (cyclotomic m R)))).comp
     (C (AdjoinRoot.root (cyclotomic m R)) * (1 - X))
 
-/-- The integer m^(2l-1)(l-1)!; the leading-coefficient theorem assumes m,l>0. -/
+/-- The integer `m^(2l-1)(l-1)!`; the leading-coefficient theorem assumes `m,l>0`. -/
 def leadingFactor (m l : ℕ) : ℕ := m ^ (2 * l - 1) * (l - 1).factorial
 
 example (R : Type*) [CommRing R] (m : ℕ) :
@@ -276,7 +276,7 @@ example (m : ℕ) : leadingFactor m 1 = m := by
   simp [leadingFactor]
 
 -- G, §5.1 (310)–(311) p.61. Vanishing, rather than exact order, holds with torsion.
-/-- The first possible multiplicative Taylor coefficient of P_(ml-1) is D_(m,l). -/
+/-- The first possible multiplicative Taylor coefficient of `P_(ml-1)` is `D_(m,l)`. -/
 theorem factorial_taylor_leading (R : Type*) [CommRing R]
     (m l : ℕ) (hm : 0 < m) (hl : 0 < l) :
     (∀ j < l - 1, (taylorPolynomial R m (factorialPoly R (m * l - 1))).coeff j = 0) ∧
@@ -286,7 +286,7 @@ theorem factorial_taylor_leading (R : Type*) [CommRing R]
 /-! ## Layer 5: polynomial-module regularity -/
 
 -- Arbitrary R-modules are allowed, including torsion and the zero module.
-/-- README §5.1: the unit leading coefficient of P_N gives injectivity on M[q]. -/
+/-- README §5.1: the unit leading coefficient of `P_N` gives injectivity on `M[q]`. -/
 theorem factorialPoly_smul_injective (R M : Type*) [CommRing R]
     [AddCommGroup M] [Module R M] (N : ℕ) :
     Function.Injective (fun x : PolynomialModule R M => factorialPoly R N • x) := sorry
