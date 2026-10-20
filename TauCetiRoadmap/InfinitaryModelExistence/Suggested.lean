@@ -185,6 +185,21 @@ noncomputable def smallPresentationEquiv (L : FirstOrder.Language.{u, v})
     (funext fun _ => funext fun f => (equivShrink.{0} _).apply_symm_apply f)
     (funext fun _ => funext fun R => (equivShrink.{0} _).apply_symm_apply R)
 
+/-- **Layer 0.** The small presentation of a relational language is relational. -/
+instance smallPresentation_isRelational [L.IsRelational] [Countable (Σ n, L.Functions n)]
+    [Countable (Σ n, L.Relations n)] : (smallPresentation L).IsRelational :=
+  fun n => (equivShrink.{0} (L.Functions n)).symm.isEmpty
+
+/-- **Layer 0.** The small presentation has countably many relation symbols. -/
+instance countable_relations_smallPresentation [Countable (Σ n, L.Functions n)]
+    [Countable (Σ n, L.Relations n)] : Countable (Σ n, (smallPresentation L).Relations n) :=
+  Countable.of_equiv _ (Equiv.sigmaCongrRight fun n => equivShrink.{0} (L.Relations n))
+
+/-- **Layer 0.** The small presentation has countably many function symbols. -/
+instance countable_functions_smallPresentation [Countable (Σ n, L.Functions n)]
+    [Countable (Σ n, L.Relations n)] : Countable (Σ n, (smallPresentation L).Functions n) :=
+  Countable.of_equiv _ (Equiv.sigmaCongrRight fun n => equivShrink.{0} (L.Functions n))
+
 /-- **Layer 0 milestone, realization transport** to the small presentation: an `L`-structure
 reinterpreted along the inverse map realizes the transported formula exactly when it realizes
 the original. -/
@@ -533,6 +548,33 @@ chosen. -/
   RelMap
     | Sum.inl R, x => Structure.RelMap R x
     | Sum.inr φ, x => φ.1.Realize Empty.elim x
+
+/-- **Layer 5.** The Morleyization of a relational language is relational: it has the function
+symbols of `L`. -/
+instance morleyize_isRelational [L.IsRelational] (Φ : Set (Σ n, BoundedFormulaω L Empty n)) :
+    (morleyize L Φ).IsRelational :=
+  fun n => (inferInstance : IsEmpty (L.Functions n))
+
+/-- **Layer 5.** Morleyizing by a countable family keeps the relation symbols countable. -/
+theorem countable_relations_morleyize [Countable (Σ n, L.Relations n)]
+    {Φ : Set (Σ n, BoundedFormulaω L Empty n)} (hΦ : Φ.Countable) :
+    Countable (Σ n, (morleyize L Φ).Relations n) := by
+  sorry
+
+/-- **Layer 5.** The canonical expansion is an expansion along `lhomMorleyize`. -/
+theorem isExpansionOn_morleyExpansion (Φ : Set (Σ n, BoundedFormulaω L Empty n)) (M : Type w)
+    [L.Structure M] :
+    @LHom.IsExpansionOn L (morleyize L Φ) (lhomMorleyize Φ) M _ (morleyExpansion Φ M) :=
+  @LHom.IsExpansionOn.mk L (morleyize L Φ) (lhomMorleyize Φ) M _ (morleyExpansion Φ M)
+    (fun _ _ => rfl) (fun _ _ => rfl)
+
+/-- **Layer 5 milestone.** Isomorphisms of `L`-structures lift to isomorphisms of the canonical
+expansions and restrict back. -/
+theorem nonempty_morleyEquiv_iff (Φ : Set (Σ n, BoundedFormulaω L Empty n)) {M : Type w}
+    {N : Type w'} [L.Structure M] [L.Structure N] :
+    Nonempty (@Language.Equiv (morleyize L Φ) M N (morleyExpansion Φ M) (morleyExpansion Φ N)) ↔
+      Nonempty (M ≃[L] N) := by
+  sorry
 
 /-- Omission of a first-order partial type, with tuples in bound positions. -/
 def OmitsFOType {L : FirstOrder.Language.{u, v}} (M : Type w) [L.Structure M] {n : ℕ}
