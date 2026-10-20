@@ -1051,9 +1051,9 @@ small-action matrix descent of §1.2; verify completed tensor exactness before e
 coefficient field to `A`. Sources: CC-1998 §III.5, pp.23–24; Pottharst Theorem 2.8 and Lemma 2.9,
 pp.1598–1599; KPX Proposition 2.3.7, p.22.
 
-State `periodResolution_acyclic` through two precise quasi-isomorphisms. If B̃_r denotes the universal
-extended overconvergent period ring on a compatible Frobenius radius model, prove A `≃ fib[A⊗̂B̃_r --(φ−1)→
-A⊗̂B̃_{r/p}]` and `A⊗̂(B̃_r^{H_K}) ≃ RΓ_cont(H_K,A⊗̂B̃_r)`, with the prescribed period topologies and the
+State `periodResolution_acyclic` through two precise quasi-isomorphisms. If `B̃_r` denotes the universal
+extended overconvergent period ring on a compatible Frobenius radius model, prove
+`A ≃ fib[A⊗̂B̃_r --(φ−1)→ A⊗̂B̃_{r/p}]` and `A⊗̂(B̃_r^{H_K}) ≃ RΓ_cont(H_K,A⊗̂B̃_r)`, with the prescribed period topologies and the
 first map the constant augmentation. The field case uses the Frobenius exact sequence and the normalized-trace
 continuous resolution; extend it to affinoid `A` through potentially orthonormalizable Banach presentations
 and strict completed tensor exactness, as in Pottharst Lemma 2.9, p.1598. Identify the cochain comparison and
@@ -1481,8 +1481,8 @@ invert `p` afterwards; prove lattice independence. Sources: CC-1999 Theorem II.1
 Construct the comparison on the tower. For `y∈D(T)^{ψ=1}, (φ−1)y` is `ψ`-zero; the rational finite-level
 representative has Herr pair `((γ_n−1)⁻¹(φ−1)y,y)`, with the CC normalization `ℓ_{K_n}(γ_n)`. Integrally
 define its class by the finite torsion/period exact sequence and pass to lattices; an integral inverse on
-every `ψ`-zero lattice is not assumed. The corestriction map from `γ_n^p` to `γ_n` has degree maps `Q_p,
-diag(Q_p,id)`, id, with `Q_p=Σ_{i=0}^{p−1}γ_n^i`. Prove these squares and the normalization identity, so the
+every `ψ`-zero lattice is not assumed. The corestriction map from `γ_n^p` to `γ_n` has degree maps
+`Q_p, diag(Q_p,id), id`, with `Q_p=Σ_{i=0}^{p−1}γ_n^i`. Prove these squares and the normalization identity, so the
 second coordinate is compatible with corestriction.
 
 Prove the limit assertions in the proof: the compact `ψ`-fixed module is recovered from its cyclotomic
