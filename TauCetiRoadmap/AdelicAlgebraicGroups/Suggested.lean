@@ -103,6 +103,11 @@ instance instMeasurableSpace : MeasurableSpace (AdelicPoints F H) := borel _
 
 instance instBorelSpace : BorelSpace (AdelicPoints F H) := ⟨rfl⟩
 
+/-- The archimedean point group carries its Borel measurable structure. -/
+instance instMeasurableSpaceInfinite : MeasurableSpace (InfinitePoints F H) := borel _
+
+instance instBorelSpaceInfinite : BorelSpace (InfinitePoints F H) := ⟨rfl⟩
+
 /-- `G(𝔸_F)` is Hausdorff ([Conrad], Prop. 2.1, p. 2). -/
 instance instT2Space : T2Space (AdelicPoints F H) := by
   sorry
@@ -580,6 +585,42 @@ def localPoints (M : IntegralModel F H S) (v : HeightOneSpectrum (𝓞 F)) (hv :
 def level (M : IntegralModel F H S) (v : HeightOneSpectrum (𝓞 F)) : Subgroup (LocalPoints F H v) :=
   if hv : v ∈ S then ⊤ else M.localPoints v hv
 
+/-- `Γ(M,T)` consists of rational points integral on the model's coordinates away from `T`.
+It is the image of the model's `𝒪_{F,T}`-points under its generic-fibre identification
+([Conrad], Thms 3.4 and 3.6, pp. 5–6; [Milne], §4, pp. 42–43). -/
+def globalPoints (M : IntegralModel F H S) (T : Finset (HeightOneSpectrum (𝓞 F)))
+    (_hST : S ⊆ T) : Subgroup (WithConv (H →ₐ[F] F)) where
+  carrier := {g | ∀ a : M.coordinate,
+    g.ofConv (M.baseChangeIso.hom.hom ((1 : F) ⊗ₜ[SIntegers F S] a)) ∈
+      (T : Set (HeightOneSpectrum (𝓞 F))).integer F}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+/-- A rational point belongs to `Γ(M,T)` exactly when all its local components outside `T`
+belong to the specified model's integral subgroups ([Conrad], Thm 3.6, p. 6). -/
+theorem mem_globalPoints_iff (M : IntegralModel F H S)
+    (T : Finset (HeightOneSpectrum (𝓞 F))) (hST : S ⊆ T) (g : WithConv (H →ₐ[F] F)) :
+    g ∈ M.globalPoints T hST ↔ ∀ (v : HeightOneSpectrum (𝓞 F)) (hv : v ∉ T),
+      TauCeti.AlgHom.mapValue (H := H) (Algebra.ofId F (v.adicCompletion F)) g ∈
+        M.localPoints v (fun h => hv (hST h)) := by
+  sorry
+
+/-- Two models give commensurable rational integral groups for the same enlarged set of
+places ([Conrad], Thm 3.4(3), p. 5; [Milne], §4, pp. 42–43). -/
+theorem globalPoints_commensurable [Algebra.FiniteType F H]
+    {S' : Finset (HeightOneSpectrum (𝓞 F))}
+    (M : IntegralModel F H S) (N : IntegralModel F H S')
+    (T : Finset (HeightOneSpectrum (𝓞 F))) (hST : S ⊆ T) (hS'T : S' ⊆ T) :
+    (M.globalPoints T hST).Commensurable (N.globalPoints T hS'T) := by
+  sorry
+
+/-- Schematic closure in a faithful matrix representation gives an integral model over the
+full ring of integers ([Milne], §4, pp. 42–43, footnote 28, over the Dedekind base `𝒪_F`). -/
+theorem exists_over_integers [Algebra.FiniteType F H] :
+    Nonempty (IntegralModel F H ∅) := by
+  sorry
+
 /-- Spreading out: every finite-type `H` has an integral model away from some finite `S`
 ([Conrad], Thm 3.4(1), p. 5). -/
 theorem exists_of_finiteType [Algebra.FiniteType F H] :
@@ -789,6 +830,41 @@ def levelArithmetic (x : FiniteAdelicPoints F H) (U : Subgroup (FiniteAdelicPoin
   (U.map (MulAut.conj x).toMonoidHom).comap (finiteDiagonal F H)
 
 variable {F H}
+
+/-- An `S`-arithmetic subgroup is commensurable with the global integral group of a model
+whose exceptional places lie in `S` ([Milne], §3, p. 33; [Rapinchuk], §2.4, pp. 11–12). -/
+def IsSArithmetic (S : Finset (IsDedekindDomain.HeightOneSpectrum (𝓞 F)))
+    (Γ : Subgroup (WithConv (H →ₐ[F] F))) : Prop :=
+  ∃ (S₀ : Finset (IsDedekindDomain.HeightOneSpectrum (𝓞 F)))
+    (M : IntegralModel F H S₀) (hS : S₀ ⊆ S), Γ.Commensurable (M.globalPoints S hS)
+
+/-- Every rational point commensurates an `S`-arithmetic subgroup: conjugating its integral
+conditions changes compact open subgroups at only finitely many places
+([PR94], §4.4, pp. 205–206; [Conrad], Thm 3.4(3), p. 5). -/
+theorem IsSArithmetic.commensurator_eq_top [Algebra.FiniteType F H]
+    (S : Finset (IsDedekindDomain.HeightOneSpectrum (𝓞 F)))
+    (Γ : Subgroup (WithConv (H →ₐ[F] F))) (hΓ : IsSArithmetic S Γ) :
+    Subgroup.Commensurable.commensurator Γ = ⊤ := by
+  sorry
+
+/-- The archimedean quotient of a connected reductive group by an arithmetic subgroup has
+finite Haar covolume exactly when it has no nontrivial rational character. For a number field
+this is Borel–Harish-Chandra applied to restriction of scalars ([Milne], Thm 3.3(a), pp. 33–34).
+The split central direction is retained. -/
+theorem arithmetic_finite_volume_iff [Algebra.FiniteType F H]
+    (hred : TauCeti.reductiveCommHopfAlgProperty F (finiteTypeObj F H))
+    (Γ : Subgroup (WithConv (H →ₐ[F] F))) (hΓ : IsSArithmetic ∅ Γ)
+    (μ : Measure (InfinitePoints F H)) [μ.IsHaarMeasure] :
+    (∃ D : Set (InfinitePoints F H),
+      IsFundamentalDomain (Γ.map (infiniteDiagonal F H)) D μ ∧ μ D < ∞) ↔
+        Subsingleton (RationalCharacter F H) := by
+  sorry
+
+/-- The standard arithmetic subgroup `{±1}` of `G_m/ℚ` has infinite covolume in `ℝ^×`
+([Milne], §3, p. 33). -/
+theorem gm_arithmetic_infinite_volume (μ : Measure ℝˣ) [μ.IsHaarMeasure] :
+    ¬ ∃ D : Set ℝˣ, IsFundamentalDomain (Subgroup.zpowers (-1 : ℝˣ)) D μ ∧ μ D < ∞ := by
+  sorry
 
 /-- `Γ_{x,U}` is discrete in `G(F_∞)` ([Milne], Lemma 5.13, p. 57). -/
 theorem levelArithmetic_discrete [Algebra.FiniteType F H] (x : FiniteAdelicPoints F H)

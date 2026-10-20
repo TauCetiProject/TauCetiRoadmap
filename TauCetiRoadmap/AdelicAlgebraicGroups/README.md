@@ -1038,7 +1038,8 @@ every comparison.
   *Lean:* `AdelicPoints` and, in its namespace, `FiniteAdelicPoints`, `InfinitePoints`,
   `LocalPoints`, the evaluation-topology instances and the topological-group instances
   with RG2.0's topology, `diagonal`, `finiteDiagonal`, `infiniteDiagonal`,
-  `finiteProjection`, `infiniteProjection`, `finiteEmbed`.
+  `finiteProjection`, `infiniteProjection`, `finiteEmbed`; the archimedean Borel structure is
+  `AdelicPoints.instMeasurableSpaceInfinite`, `AdelicPoints.instBorelSpaceInfinite`.
 
   **Checks.**
   - For `H = F[T]` with additive comultiplication, `AdelicPoints H ≃ₜ+ 𝔸_F`
@@ -1074,6 +1075,37 @@ every comparison.
     `c ∈ 𝒪_{F,S}` is nonzero, `localPoints v` is `{a ∈ F_v : c·a ∈ 𝒪_v} = c⁻¹𝒪_v`.
   - For `c = p` and `v | p` (`v ∉ S`) this is `p⁻¹𝒪_v ⊋ 𝒪_v`, so the integral points depend on the
     specified Hopf identification and not only on the abstract Hopf algebra.
+- **Global integral points of a specified model.** For any number field `F`, finite sets
+  `S₀ ⊆ S` containing infinity, and `M : IntegralModel F H S₀`, define
+  `Γ(M,S) = IntegralModel.globalPoints M S` as the image of
+  `𝒢_M(𝒪_{F,S}) → G(F)` under the specified generic-fibre identification, where
+  `𝒢_M = Spec M.coordinate`. Prove injectivity of this map and that its image consists
+  exactly of the rational points whose values on the integral coordinate algebra lie in
+  `𝒪_{F,S}`. Prove the away-`S` characterization
+  `g ∈ Γ(M,S) ↔ ∀ finite v ∉ S, g_v ∈ IntegralModel.localPoints M v`
+  (`IntegralModel.mem_globalPoints_iff`). Enlarging `S` increases the subgroup and
+  base-changing `M` to `𝒪_{F,S}` gives the same subgroup. Construct a model over `𝒪_F`
+  by taking the schematic closure of a faithful closed matrix representation; its coordinate
+  algebra is torsion-free over the Dedekind base, and the Hopf operations restrict to it.
+  Thus a model exists over every `𝒪_{F,S}`. This assertion does not require a reductive or
+  smooth model ([Conrad], Theorems 3.4 and 3.6, pp. 5–6; [Milne], §4, pp. 42–43,
+  including footnote 28, with the same closure construction over `𝒪_F`).
+  *Needs:* AA.1.1; ReductiveGroups, layer 1 (faithful finite-dimensional representations);
+  Mathlib `Set.integer`; Tau Ceti base change of Hopf-algebra points.
+  *Lean:* `IntegralModel.globalPoints`, `IntegralModel.mem_globalPoints_iff`,
+  `IntegralModel.exists_over_integers`. The comparison with the image of integral points
+  and the closure construction are specified in the README.
+
+  **Checks.**
+  - The standard additive model gives `Γ(M,S) = 𝒪_{F,S}`. Over `ℚ` this is
+    `ℤ[S_f⁻¹]`, and `S_f = ∅` gives `ℤ`.
+  - For the additive model with coordinate `X ↦ cT`, `Γ(M,S) = c⁻¹𝒪_{F,S}`.
+    Over `ℚ`, `c = p` gives `p⁻¹ℤ` at `S = {∞}`, and enlarging `S` to include `p`
+    gives `ℤ[1/p]` for both this model and the standard one.
+  - The standard multiplicative model gives `Γ(M,S) = 𝒪_{F,S}^×`:
+    the coordinate and its inverse must both be integral. Over `ℚ` and `S = {∞}`
+    this is `{±1}`, whereas `p` belongs when `p ∈ S`.
+
 - **Spreading Hopf structure and its identities.** Prove that a finitely presented affine
   `F`-algebra with Hopf structure descends to a finitely presented Hopf algebra over `𝒪_{F,S}`
   after enlarging finite `S`, and that a prescribed finite collection of Hopf morphisms and
@@ -3082,6 +3114,62 @@ in the standard integral level.
   from the complement's double cosets gives the finiteness implication.
   *Needs:* AA.3.4; AA.1.3.
   *Lean:* none; specified in the README only.
+- **S-arithmetic subgroups and independence of the model.** For any affine algebraic
+  group `G/F` and finite `S ⊇ ∞`, define `Reduction.IsSArithmetic S Γ` for
+  `Γ ≤ G(F)` to mean that `Γ` is commensurable with `Γ(M,S)` for some finite
+  `S₀ ⊆ S` and `M : IntegralModel F H S₀`. Arithmetic means `S = ∞` (empty finite
+  part). For any models `M` and `N` and fixed `S` containing both exceptional sets,
+  prove `IntegralModel.globalPoints_commensurable`: their global integral groups are
+  commensurable. Their local compact open groups agree away from finitely many places;
+  at the remaining places their intersections have finite index in each. Pulling these
+  conditions back to `G(F)` proves the claim without enlarging the fixed `S`.
+  Prove that every rational point commensurates every `S`-arithmetic subgroup
+  (`Reduction.IsSArithmetic.commensurator_eq_top`), and that commensurability preserves
+  `S`-arithmeticity. For any compact open `W ≤ G(𝔸_F^S)`, the rational subgroup
+  `Γ_W = G(F) ∩ (G(F_S) × W)` is `S`-arithmetic; conversely every `S`-arithmetic
+  subgroup is commensurable with such a `Γ_W`. In particular the `levelArithmetic`
+  groups below are congruence-type arithmetic examples, not a definition of all arithmetic
+  subgroups ([Conrad], Theorem 3.4(3), p. 5; [Milne], §3, p. 33 and §4,
+  pp. 42–43, Proposition 4.1; [PR94], §4.4, pp. 205–206).
+  *Needs:* AA.1.1 (global integral points and existence of a model over `𝒪_F`);
+  AA.1.2; ReductiveGroupsPartII, RG2.0.3 (compact open local integral points).
+  *Lean:* `Reduction.IsSArithmetic`, `IntegralModel.globalPoints_commensurable`,
+  `Reduction.IsSArithmetic.commensurator_eq_top`.
+
+  **Checks.**
+  - For `G_a/ℚ`, `ℤ` and `p⁻¹ℤ` are distinct commensurable arithmetic subgroups;
+    their intersection has indices `1` and `p`.
+  - A finite-index noncongruence subgroup of `SL₂(ℤ)` is arithmetic and is not
+    `levelArithmetic 1 U` for any compact open `U ≤ SL₂(𝔸_f)` ([Milne], §4, p. 42).
+  - For the standard `SL₂` model over `F = ℚ(√2)`, `π = 3+√2`, `π′ = 3−√2`,
+    the groups `SL₂(𝒪_F[1/π])` and `SL₂(𝒪_F[1/7])` have infinite relative index.
+    Model independence holds at fixed `S`; it does not assert commensurability after
+    adding another place. Conjugation by any fixed `g ∈ SL₂(F)` does commensurate
+    the first group without inverting `π′`.
+
+- **Borel–Harish-Chandra criterion for arithmetic covolume.**
+  For a connected reductive group `G` over any
+  number field `F` and an arithmetic subgroup `Γ ≤ G(F)` (`Reduction.IsSArithmetic ∅ Γ`
+  in the finite-place convention), prove that its diagonal image in `G(F_∞)` is discrete
+  and `Γ\G(F_∞)` has finite invariant volume if and only if `X*_F(G) = 0`.
+  For `F = ℚ` this is `Γ\G(ℝ)`; the general case follows by restriction of scalars,
+  including the identification of rational character groups. The quotient retains the full
+  split central direction. This criterion is separate from the norm-one adelic finite-volume
+  theorem and from *arithmetic-quotient-finite-volume*, which divides out `A_G(ℝ)^0`
+  ([Milne], Theorem 3.3(a), pp. 33–34).
+  *Needs:* AA.1.1; AA.1.4 (restriction of scalars); AA.2.2–AA.2.3;
+  AA.3.4 (reduction theory and the arithmetic definition).
+  *Lean:* `Reduction.arithmetic_finite_volume_iff`,
+  `Reduction.gm_arithmetic_infinite_volume`.
+
+  **Checks.**
+  - For `G_m/ℚ` and the standard model, `Γ(M,{∞}) = {±1}` and
+    `{±1}\ℝ^×` has infinite multiplicative Haar volume
+    (`Reduction.gm_arithmetic_infinite_volume`). Dividing also by `ℝ_{>0}` gives a point.
+  - For `SL₂/ℚ`, `SL₂(ℤ)\SL₂(ℝ)` has finite volume and is noncompact.
+  - For the norm-one group of a definite quaternion division algebra over `ℚ`,
+    the real group is compact and its arithmetic quotients have finite volume.
+
 - **Arithmetic subgroups attached to a level.** For any affine algebraic group `G` over the number field `F`,
   compact open `U ⊂ G(𝔸_{F,f})` and `x ∈ G(𝔸_{F,f})`, define
   `Reduction.levelArithmetic x U : Subgroup (G(F)) := G(F) ∩ x U x⁻¹`, `Γ_{x,U}`, viewed in
@@ -3092,7 +3180,8 @@ in the standard integral level.
   index in `levelArithmetic x U` (`Reduction.levelArithmetic_finiteRelIndex`);
   for all `x, x′` and compact open `U, U′` the groups `Γ_{x,U}`
   and `Γ_{x′,U′}` are commensurable (`Reduction.levelArithmetic_commensurable`) ([Milne], Lemma 5.13, p. 57). *Needs:* AA.1.3; AA.1.5; AA.1.2.
-  Discreteness needs only compactness of `U`, as in the Lean signature; the finite-index and
+  These groups are arithmetic by the preceding compact-open comparison. Discreteness needs
+  only compactness of `U`, as in the Lean signature; the finite-index and
   commensurability applications here use compact open levels.
   KleinianGroups, Layer 3, `isDiscrete_bianchi`
   states the imaginary-quadratic Bianchi special case, reconciled with this theorem by the
@@ -3207,11 +3296,22 @@ in the standard integral level.
   *Lean:* none; specified in the README only.
 - **S-arithmetic subgroups are lattices.** Let `G` be connected reductive over `F` with
   `X*_F(G)=0` (in particular, connected semisimple), `S` a
-  finite set of places containing the archimedean ones, and `U^S ⊂ G(𝔸_F^S)` compact open.
-  Prove that `Γ_S = G(F) ∩ G(F_S)U^S` is a lattice in `G(F_S) = ∏_{v∈S} G(F_v)`, cocompact iff `G`
-  is `F`-anisotropic ([Rapinchuk], §2.6, p. 16; [Borel], Introduction, p. 6; §8, pp. 26–30).
+  finite set of places containing the archimedean ones, and `Γ_S ≤ G(F)` an
+  `S`-arithmetic subgroup as defined above. Prove that its diagonal image is a lattice in
+  `G(F_S) = ∏_{v∈S} G(F_v)`, cocompact iff `G` is `F`-anisotropic. This applies in particular
+  to `Γ(M,S)` for `M : IntegralModel F H S₀`, `S₀ ⊆ S`, and to
+  `G(F) ∩ (G(F_S) × U^S)` for compact open `U^S ≤ G(𝔸_F^S)`
+  ([Rapinchuk], §2.6, p. 16; [Borel], Introduction, p. 6; §8, pp. 26–30).
   *Needs:* AA.3.4; AA.1.2; AA.1.3.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - At `S = ∞`, the standard `SL₂` model gives an arithmetic lattice at infinity;
+    every subgroup commensurable with it is also a lattice.
+  - Over `ℚ`, `SL₂(ℤ[1/p])` is a lattice in `SL₂(ℝ) × SL₂(ℚ_p)` and is not cocompact.
+  - For the standard multiplicative model, `{±1}` in `ℝ^×` has infinite covolume;
+    the rational-character hypothesis cannot be removed.
+
 - **Finitely many `G(𝒪)`-orbits on rational flags.** For `F` a number field, `G` connected
   reductive over `F` (Borel 7.3 allows any connected `G`; the consumers need only reductive `G`)
   and `P` parabolic over `F`, prove that `(G/P)(F)` is a finite union of orbits of an arithmetic
@@ -3260,10 +3360,11 @@ window, detecting the finite idele valuations that root inequalities alone miss.
 
 For the S-arithmetic target, the `S`-points are the product of all infinite factors
 and the finite factors indexed by `S`, and the projection and the diagonal evaluate precisely
-these factors. The `S`-arithmetic group of a level `U` consists of rational points whose finite
-components outside `S` agree with some element of the compact open finite level `U`; this is the
-projection of `U` to the away-`S` factors. The target states discreteness, finite covolume and the
-anisotropy criterion for compactness. Finite covolume and compactness require
+these factors. The congruence-type `S`-arithmetic group of a finite level `U` consists of
+rational points whose finite components outside `S` agree with some element of `U`; this is
+`Γ_W` for the projection `W` of `U` to the away-`S` factors. General `S`-arithmetic
+subgroups are those commensurable with a model's `Γ(M,S)`. The target states discreteness,
+finite covolume and the anisotropy criterion for compactness. Finite covolume and compactness require
 `X*_F(G)=0`, which includes the semisimple setting in the target.
 
 **Checks.** `S = ∞` recovers `levelArithmetic 1 U`;
@@ -4016,25 +4117,50 @@ quaternion norms and compact abelian Fourier limits.
   closed subgroups of p-adic Lie groups.
   *Lean:* none; specified in the README only.
 - **Borel density for S-arithmetic groups.** For `G` connected absolutely almost simple over
-  `F` and `S` a finite set of places containing the archimedean ones with `G_S` noncompact,
-  prove that the `S`-arithmetic group `G(𝒪_{F,S})` is infinite and Zariski dense in `G`
-  ([Rapinchuk], Theorem 2.3, remark after it, p. 12). *Needs:* AA.3.4.
+  any number field `F`, `M : IntegralModel F H S₀`, and finite `S ⊇ S₀ ∪ ∞`
+  with `G_S` noncompact, prove that `Γ(M,S)` is infinite and Zariski dense in `G`.
+  The same conclusion holds for every subgroup commensurable with `Γ(M,S)`
+  ([Rapinchuk], Theorem 2.3, remark after it, p. 12). *Needs:* AA.1.1; AA.3.4.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - The standard model of `SL₂/ℚ` with `S = {∞}` gives the Zariski-dense `SL₂(ℤ)`.
+  - The norm-one group of a definite quaternion algebra over `ℚ` has finite integral
+    group at `S = {∞}`; the noncompactness hypothesis fails.
+  - For that norm-one group, adding a split finite place makes `G_S` noncompact and
+    the model's `S`-integral group infinite and Zariski dense.
 - **Open subgroups of finite covolume have finite index.** If `Δ` is an open subgroup of a
   locally compact group `H` such that `H/Δ` carries a nonzero finite `H`-invariant Radon measure,
   prove that `Δ` has finite index in `H` ([Rapinchuk], §2.6, p. 16). *Needs:* AA.2.2.
   *Lean:* none; specified in the README only.
-- **Strong approximation through finitely many places.** For `S` containing the archimedean
-  places, prove that `G` has strong approximation with respect to `S` iff for every finite set
-  `S₁` of places disjoint from `S`, the `S ∪ S₁`-arithmetic group `G(𝒪(S ∪ S₁))` is dense in
-  `G_{S₁} = ∏_{v∈S₁} G(F_v)` ([Rapinchuk], §2.6, p. 16). *Needs:* AA.4.2; AA.1.5.
+- **Strong approximation through finitely many places.** For an affine algebraic group
+  `G` over any number field `F`, `M : IntegralModel F H S₀`, and finite
+  `S ⊇ S₀ ∪ ∞`, prove that `G` has strong approximation with respect to `S` iff for every
+  finite set `S₁` disjoint from `S`, the image of `Γ(M,S ∪ S₁)` is dense in
+  `G_{S₁} = ∏_{v∈S₁} G(F_v)` ([Rapinchuk], §2.6, p. 16).
+  *Needs:* AA.1.1 (away-`S` characterization); AA.4.2; AA.1.5.
   *Lean:* none; specified in the README only.
-- **S-arithmetic groups are not discrete at an extra place.** For `F` a number field, `G`
-  connected absolutely almost simple, `S` finite containing the archimedean places with `G_S`
-  noncompact, and `S₁` finite, nonempty and disjoint from `S`, prove that the image of
-  `G(𝒪(S ∪ S₁))` in `G_{S₁}` is not discrete and is infinite ([Rapinchuk], §2.6, p. 16). *Needs:*
-  AA.3.4.
+
+  **Checks.**
+  - For the standard `SL₂/ℚ` model, `SL₂(ℤ[1/p])` is dense in `SL₂(ℚ_p)`.
+  - For `G_a/ℚ`, the model `X ↦ pT` gives `Γ(M,{∞,p}) = ℤ[1/p]` and the same
+    density in `ℚ_p` as the standard model.
+  - For the standard `G_m/ℚ` model, `Γ(M,{∞,p}) = {±p^n : n ∈ ℤ}` is not dense in
+    `ℚ_p^×`, detecting failure of strong approximation.
+- **S-arithmetic groups are not discrete at an extra place.** For any number field `F`,
+  connected absolutely almost simple `G/F`, `M : IntegralModel F H S₀`, finite
+  `S ⊇ S₀ ∪ ∞` with `G_S` noncompact, and finite nonempty `S₁` disjoint from `S`,
+  prove that the image of `Γ(M,S ∪ S₁)` in `G_{S₁}` is not discrete and is infinite
+  ([Rapinchuk], §2.6, p. 16). *Needs:* AA.1.1; AA.3.4 (the `S`-arithmetic lattice theorem).
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For the standard `SL₂/ℚ` model and `S₁ = {p}`, the upper unipotents with entries
+    `p^n` are distinct elements tending to the identity in `SL₂(ℚ_p)`.
+  - At two extra primes the image is nondiscrete in the product; integrality away from
+    their union still uses the same model.
+  - For the definite quaternion norm-one group with `S = {∞}`, `G_S` is compact
+    and the group at an extra split prime is discrete; the noncompactness assumption matters.
 - **Finite covolume of a projection closure.** (*projection-finite-covolume*) Let `A` and `B`
   be second countable locally compact Hausdorff groups, `Γ ⊂ A × B` a lattice (a discrete
   subgroup with a nonzero finite `(A × B)`-invariant Radon measure on `Γ \ (A × B)`), and `Δ` the
@@ -4045,28 +4171,36 @@ quaternion norms and compact abelian Fourier limits.
   for its nondiscreteness conclusion). *Needs:* AA.2.2.
   *Lean:* none; specified in the README only.
 - **Lie algebra of an arithmetic closure over `ℚ`.** For `G` connected absolutely almost
-  simple over `ℚ`, `S` finite containing infinity with `G(ℚ_S)` noncompact, and a finite
-  nonempty set `S₁` of rational primes disjoint from `S`, the closure of
-  `G(ℤ[S⁻¹, S₁⁻¹])` in `∏_{p∈S₁} G(ℚ_p)` has full `ℚ_p` Lie algebra in each factor.
+  simple over `ℚ`, `M : IntegralModel ℚ H S₀`, finite `S ⊇ S₀ ∪ {∞}` with
+  `G(ℚ_S)` noncompact, and a finite nonempty set `S₁` of rational primes disjoint from `S`,
+  the closure of `Γ(M,S ∪ S₁)` in `∏_{p∈S₁} G(ℚ_p)` has full `ℚ_p` Lie algebra in each factor.
   Borel density makes each projected Lie algebra an ideal, and nondiscreteness makes it
   nonzero. Distinct primes are separated by the pro-`p` subgroups of compact opens
   ([Platonov], Proposition 3.2, pp. 1144–1145; [Rapinchuk], Lemma 2.7, p. 16 and §3,
   pp. 17–18). *Needs:* AA.3.4; AA.4.2, closed subgroups of p-adic Lie groups.
   *Lean:* none; specified in the README only.
 
+  **Checks.**
+  - The standard `SL₂` model has closure Lie algebra `sl₂(ℚ_p)` at one extra prime.
+  - At two distinct primes the Lie algebras form the full product; compact pro-`p`
+    and pro-`q` subgroups separate the factors.
+  - Replacing the standard model by its conjugate under `diag(p,1)` changes the integral
+    subgroup but not the full closure Lie algebra.
+
 - **Number-field arithmetic closure.** (*number-field-arithmetic-closure*)
-  For a number field `F`, connected absolutely almost simple `G/F`, finite `S`
-  containing infinity with `G_S` noncompact, and finite `S₁` disjoint from `S`,
-  let `Δ` be the closure of `G(𝒪_{F,S∪S₁})` in `∏_{v∈S₁} G(F_v)`.
+  For any number field `F`, connected absolutely almost simple `G/F`,
+  `M : IntegralModel F H S₀`, finite `S ⊇ S₀ ∪ ∞` with `G_S` noncompact,
+  and finite `S₁` disjoint from `S`, let `Δ` be the closure of `Γ(M,S ∪ S₁)`
+  in `∏_{v∈S₁} G(F_v)`.
   Prove that for every rational prime
   `p`, the Lie algebra of the projection closure in
   `∏_{v∈S₁,v|p} Res_{F_v/ℚ_p} G(F_v)` is the entire product as a `ℚ_p` Lie
-  algebra. First establish that the given
-  S-arithmetic subgroup is `ℚ`-Zariski dense in `Res_{F/ℚ} G`, including when `S`
+  algebra. First establish that
+  `Γ(M,S ∪ S₁)` is `ℚ`-Zariski dense in `Res_{F/ℚ} G`, including when `S`
   contains only some places over a rational prime. Prove that `Δ` is open and of finite index.
   Establish density by a commensurator argument, extending the proof of [PR94],
   §4.4, pp. 205–206. Put `R=Res_{F/ℚ}G`, which is `ℚ`-simple, and let `Γ` be the
-  actual partial-place arithmetic group. Reduction theory and `G_S` noncompact
+  actual partial-place group `Γ(M,S ∪ S₁)`. Reduction theory and `G_S` noncompact
   make `Γ` infinite. The commensuration target says that every element
   of `G(F)=R(ℚ)` commensurates `Γ`: outside the chosen places, conjugation changes
   only finitely many integral compact opens, whose intersections have finite index.
@@ -4088,7 +4222,8 @@ quaternion norms and compact abelian Fourier limits.
   This extends the ideal argument of [Rapinchuk], Lemma 2.7, p. 16 and §3,
   pp. 17–18, with the scalar-restriction decomposition of AA.1.4; it does not
   infer openness from factorwise surjectivity alone.
-  *Needs:* the commensuration of `Γ` by `G(F)`, infinitude from reduction theory,
+  *Needs:* AA.1.1; AA.3.4 (`Reduction.IsSArithmetic.commensurator_eq_top`),
+  infinitude from reduction theory,
   rational-point Zariski density and `ℚ`-simplicity of the restriction; local restriction of
   scalars, closed-subgroup Lie theory, extra-place nondiscreteness,
   *projection-finite-covolume*.
@@ -4105,11 +4240,20 @@ quaternion norms and compact abelian Fourier limits.
   This rules out transferring density by finite index from the saturated group.
 
 
-- **Openness in a finite product of rational completions.** Under the preceding hypotheses,
-  the arithmetic closure is open in `∏_{p∈S₁} G(ℚ_p)` and has finite index, by its finite
+- **Openness in a finite product of rational completions.** For connected absolutely almost
+  simple `G/ℚ`, `M : IntegralModel ℚ H S₀`, finite `S ⊇ S₀ ∪ {∞}` with
+  `G(ℚ_S)` noncompact, and finite nonempty `S₁` disjoint from `S`, prove that the closure
+  of `Γ(M,S ∪ S₁)` is open in `∏_{p∈S₁} G(ℚ_p)` and has finite index, by its finite
   covolume ([Platonov], Propositions 3.2–3.3, pp. 1144–1145).
-  *Needs:* AA.4.2; *projection-finite-covolume*.
+  *Needs:* AA.1.1; AA.4.2; *projection-finite-covolume*.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For the standard `SL₂/ℚ` model the closure is the whole product.
+  - Changing the model at fixed `S ∪ S₁` preserves openness and finite index by
+    commensurability; it need not preserve an arbitrary subgroup's exact closure.
+  - For a definite quaternion norm-one group with `S = {∞}`, the closure at a split
+    extra prime is discrete, so the assertion without noncompactness would fail.
 - **Anisotropic factors from weak approximation.** For `G/F` connected absolutely almost
   simple and simply connected over any number field, `S` finite containing infinity
   with `G(F_S)` noncompact, let `T` be the finite set of anisotropic finite places outside `S`. Once the closure of
@@ -4131,10 +4275,20 @@ quaternion norms and compact abelian Fourier limits.
   `G(𝔸_F)` contains `G(F_v)`, placed at `v` ([Platonov], §3.4, p. 1145; [Rapinchuk], §2.6, pp. 16–17; [Rapinchuk], Remark 1
   after Theorem 2.3, p. 12). *Needs:* AA.3.4; AA.4.2; ReductiveGroupsPartII, RG2.4
   (kneser-tits-local); the openness of the arithmetic closure over `F` (*number-field-arithmetic-closure*). For each compact-open
-  condition `W`, its arithmetic subgroup is commensurable with the partial-`S` group.
+  condition `W` and any `M : IntegralModel F H S₀` with `S₀ ⊆ S`,
+  `Γ_W` is commensurable with `Γ(M,S ∪ {v})` by AA.3.4's compact-open comparison.
   Apply the whole-product Lie-ideal argument before local Kneser–Tits; separate
   rational primes with pro-p subgroups. No saturation of `S` is used.
   *Lean:* none; specified in the README only.
+  **Checks.**
+  - For `SL₂/ℚ`, `S = {∞}` and the standard integral level away from `p`,
+    `Γ_W = SL₂(ℤ[1/p])` is dense in `SL₂(ℚ_p)`.
+  - Replacing `W` by an open subgroup of finite index preserves this density;
+    the isotropic simply connected local group has no proper subgroup of finite index.
+  - For a definite quaternion norm-one group, `S = {∞}` has compact `G_S` and
+    its group integral away from a split `p` is discrete at `p`; adding a different
+    split place to `S` satisfies the noncompactness hypothesis and gives density at `p`.
+
 - **Almost all local factors are isotropic.** (*isotropic-almost-everywhere*) For `F` a number
   field and `G` a connected semisimple group over `F` with `dim G > 0`, prove that `G` is
   quasi-split, hence isotropic, over `F_v` for all but finitely many places `v`; in particular,
