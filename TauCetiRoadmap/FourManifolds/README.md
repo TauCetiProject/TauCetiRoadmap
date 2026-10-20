@@ -983,6 +983,43 @@ are the coefficient/discriminant comparisons for the cubic and quartic
 families, using the existing polynomial algorithm rather than a second
 Gröbner-basis construction.
 
+**F6.0a. Earlier local node and fishtail, independent of global pencils.**
+Construct the standard oriented complex node on C^2 using the equation
+u v=t (and its explicit linear change from z1^2+z2^2). Build its compact
+Milnor tube with rounded corners, the two local discs of the central
+fibre and the annular nearby fibre, retaining the boundary parametrizations.
+Glue the exterior annular neck so the central fibre is an immersed S^2
+with ONE POSITIVE double point and normal Euler number -2. Construct
+the actual compact four-manifold with its proper map to the closed disc,
+compare the coordinate switches and collars with the positive self-plumbing
+of the cotangent DISK bundle of S^2, and prove that deleting the entire
+nodal fibre gives a smooth T^2 bundle over the punctured disc. Keep
+compact disc fibres/closed torus fibres distinct from noncompact local
+affine fibres. Prove the Euler/self-intersection check -2+2=0. A negative
+double point on a sphere with the same normal Euler number has square -4
+and is not silently the same torus-fibre construction.
+
+Compute monodromy directly from u v=t: trivialize the annular fibre off
+a radial cut in the base with its boundary data fixed, follow one
+positively oriented base circle and identify the endpoint gluing as the
+positive Dehn twist in its vanishing curve. Extend by the identity on
+the exterior neck. For an ordered oriented torus basis a dot b=+1 with
+a the vanishing curve and column action, prove a maps to a and b maps
+to b+a, hence the matrix [[1,1],[0,1]]. Specify base reversal, fibre
+orientation, curve/basis and conjugacy comparisons; an unmarked bundle
+only determines the corresponding conjugacy class. Construct actual
+diffeomorphisms and fibration/relative-collar comparisons, not an answer
+inferred from the word fishtail or from the normal Euler number alone.
+
+This local construction uses the ordinary C^2 atlas, explicit plumbing
+charts, smooth ODE/trivialization and surface/tube/Dehn-twist interfaces.
+It precedes the global cubic/discriminant/existence calculation and
+requires none of its projective pencils or E1 models. Prove the local
+holomorphic Morse coordinate theorem when comparing a general complex
+nondegenerate node with this model. The later F6.0b comparison on its
+actual blow-up/elliptic atlas remains mandatory for that global consumer;
+no global E1 or specified boundary framing follows from the local model.
+
 **F6.0b. Cubic pencil and E1.** Choose two transverse plane cubics with nine distinct common points and a
 pencil whose other singular members have the specified nodal transversality.
 Prove these parameters exist and the finite exceptional locus is controlled.
@@ -1005,7 +1042,10 @@ Own the local holomorphic Morse lemma for a nondegenerate complex
 critical point, with actual holomorphic coordinates and equation z₁²+z₂².
 Construct the Milnor fiber, its oriented vanishing cycle and the
 Picard–Lefschetz comparison on F6.0b's blow-up/elliptic complex atlas,
-consuming CKG K7's projective atlas and F6.0's blow-up chart comparison. This local nodal construction is owned here. Identify a fishtail with the positive self-plumbing of
+consuming CKG K7's projective atlas and F6.0's blow-up chart comparison.
+Compare that global atlas with the earlier F6.0a local node constructed here;
+this is the global application of the same local theorem, not a second
+local owner or a prerequisite of its elementary model. Identify a fishtail with the positive self-plumbing of
 the disk bundle over S² of Euler number−2; the immersed sphere has one positive
 double point and homological square0. Prove the monodromy is a positive
 Dehn twist, with the actual base/fiber orientations.
