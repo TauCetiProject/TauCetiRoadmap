@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.Algebra.BrauerGroup.Group
+import TauCeti.NumberTheory.ClassFieldTheory.Brauer.Basic
 import TauCeti.RingTheory.Valuation.Discrete.Order
 import TauCeti.FieldTheory.FunctionField.Divisor.Eval
 import TauCeti.FieldTheory.FunctionField.Place.RatFunc.Basic
@@ -233,6 +235,12 @@ theorem weil_reciprocity_of_disjoint (hF : TauCeti.IsFunctionField k F) (f g : F
 
 end Reciprocity
 
+/-- The algebraic Brauer group of a field is isomorphic to its continuous-cohomology
+Brauer group, after reading the tensor-product group additively. -/
+theorem algebraicBrauer_equiv_cohomologicalBrauer (F : Type u) [Field F] :
+    Nonempty (Additive (BrauerGroup.{u, u} F) ≃+ TauCeti.ClassFieldTheory.Br F) := by
+  sorry
+
 /-! ## Layer 13: Dennis–Stein symbols and relative K₂ -/
 
 namespace K2
@@ -332,41 +340,115 @@ def relDSRel (I : Ideal A) : Set (FreeAbelianGroup (RelDSGen I)) :=
     (∃ p q w : RelDSGen I, ∃ r s t : A, (r ∈ I ∨ s ∈ I ∨ t ∈ I) ∧ p.1 = (r, s * t) ∧
       q.1 = (r * s, t) ∧ w.1 = (r * t, s) ∧ x = .of p - .of q - .of w)}
 
-/-- The output pairs of `(x,y,x+y)` over the iterated dual numbers are relative, but the
-input guard of `relDSRel` rejects that triple for `I=(xy)`. -/
+section DualNumberGuard
+
+/-- The commutative ring structure on the inner dual numbers uses the regular actions. -/
+local instance dualNumberF3CommRing : CommRing (DualNumber (ZMod 3)) :=
+  @TrivSqZeroExt.commRing (ZMod 3) (ZMod 3) _ _
+    Semiring.toModule Semiring.toOppositeModule CommSemigroup.isCentralScalar
+
+/-- The iterated dual numbers use the regular actions of the inner dual-number ring. -/
+local instance iteratedDualNumberF3CommRing : CommRing (DualNumber (DualNumber (ZMod 3))) :=
+  @TrivSqZeroExt.commRing (DualNumber (ZMod 3)) (DualNumber (ZMod 3)) _ _
+    Semiring.toModule Semiring.toOppositeModule CommSemigroup.isCentralScalar
+
+/-- Over the iterated dual numbers the output-only D3 word is outside the actual
+set of guarded defining relations for `I=(xy)`. -/
 example :
     let x : DualNumber (DualNumber (ZMod 3)) := TrivSqZeroExt.inl DualNumber.eps
     let y : DualNumber (DualNumber (ZMod 3)) := DualNumber.eps
-    let I := Ideal.span ({x * y} : Set (DualNumber (DualNumber (ZMod 3))))
-    x * (y * (x + y)) ∈ I ∧
-      x * y ∈ I ∧ y * (x + y) ∈ I ∧ (x + y) * x ∈ I ∧
-      IsUnit (1 - x * y * (x + y)) ∧
-      ¬ (x ∈ I ∨ y ∈ I ∨ x + y ∈ I) := by
+    let I : Ideal (DualNumber (DualNumber (ZMod 3))) := Ideal.span {x * y}
+    let p : RelDSGen I := ⟨(x, x * y), Or.inr (Ideal.subset_span (Set.mem_singleton _))⟩
+    let q : RelDSGen I := ⟨(x * y, x + y), Or.inl (Ideal.subset_span (Set.mem_singleton _))⟩
+    let w : RelDSGen I := ⟨(x * y, y), Or.inl (Ideal.subset_span (Set.mem_singleton _))⟩
+    FreeAbelianGroup.of p - FreeAbelianGroup.of q - FreeAbelianGroup.of w ∉ relDSRel I := by
+  classical
   dsimp only
   let x : DualNumber (DualNumber (ZMod 3)) := TrivSqZeroExt.inl DualNumber.eps
   let y : DualNumber (DualNumber (ZMod 3)) := DualNumber.eps
-  let I := Ideal.span ({x * y} : Set (DualNumber (DualNumber (ZMod 3))))
-  have hxy : x * y ∈ I := Ideal.subset_span (Set.mem_singleton _)
-  have h0 : x * (y * (x + y)) = 0 := by ext <;> decide
-  have h1 : y * (x + y) = x * y := by ext <;> decide
-  have h2 : (x + y) * x = x * y := by ext <;> decide
-  have hu : IsUnit (1 - x * y * (x + y)) := by
-    have he : (1 - x * y * (x + y)) = 1 := by ext <;> decide
-    rw [he]
-    exact isUnit_one
-  refine ⟨?_, hxy, h1 ▸ hxy, h2 ▸ hxy, hu, ?_⟩
-  · rw [h0]
-    exact I.zero_mem
-  · rintro (hx | hy | hsum)
-    · obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hx
-      have := congrArg (fun z => z.fst.snd) ha
-      norm_num [x, y, TrivSqZeroExt.fst_mul] at this
-    · obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hy
-      have := congrArg (fun z => z.snd.fst) ha
-      norm_num [x, y, TrivSqZeroExt.snd_mul] at this
-    · obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hsum
-      have := congrArg (fun z => z.fst.snd) ha
-      norm_num [x, y, TrivSqZeroExt.fst_mul] at this
+  let I : Ideal (DualNumber (DualNumber (ZMod 3))) := Ideal.span {x * y}
+  let p : RelDSGen I := ⟨(x, x * y), Or.inr (Ideal.subset_span (Set.mem_singleton _))⟩
+  let q : RelDSGen I := ⟨(x * y, x + y), Or.inl (Ideal.subset_span (Set.mem_singleton _))⟩
+  let w : RelDSGen I := ⟨(x * y, y), Or.inl (Ideal.subset_span (Set.mem_singleton _))⟩
+  change FreeAbelianGroup.of p - FreeAbelianGroup.of q - FreeAbelianGroup.of w ∉ relDSRel I
+  have hx : x ∉ I := by
+    intro hx
+    obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hx
+    have := congrArg (fun z => z.fst.snd) ha
+    norm_num [x, y, TrivSqZeroExt.fst_mul] at this
+  have hxmul (a) (ha : a ∈ I) : x * a = 0 := by
+    obtain ⟨b, rfl⟩ := Ideal.mem_span_singleton'.mp ha
+    ext <;> simp [x, y, TrivSqZeroExt.fst_mul, TrivSqZeroExt.snd_mul]
+  have hpq : p ≠ q := by
+    intro h
+    have := congrArg (fun z : RelDSGen I => z.val.1.fst.snd) h
+    norm_num [p, q, x, y] at this
+  have hpw : p ≠ w := by
+    intro h
+    have := congrArg (fun z : RelDSGen I => z.val.1.fst.snd) h
+    norm_num [p, w, x, y] at this
+  let aug := FreeAbelianGroup.lift (fun _ : RelDSGen I => (1 : ℤ))
+  let cp := FreeAbelianGroup.lift (fun z : RelDSGen I => if z = p then (1 : ℤ) else 0)
+  let cz := FreeAbelianGroup.lift (fun z : RelDSGen I => if z.val.1 = 0 then (1 : ℤ) else 0)
+  rintro (⟨p', q', _, he⟩ | ⟨p', q', w', _, _, he⟩ |
+    ⟨p', q', w', r, s, t, hg, hpr, hqr, hwr, he⟩)
+  · have := congrArg aug he
+    norm_num [aug] at this
+  · have := congrArg aug he
+    norm_num [aug] at this
+  · have hp' : p' = p := by
+      by_contra hn
+      have hc := congrArg cp he
+      simp only [map_sub, FreeAbelianGroup.lift_apply_of, cp] at hc
+      simp only [ite_eq_right hpq.symm, ite_eq_right hpw.symm, ite_eq_right hn] at hc
+      split_ifs at hc <;> omega
+    have hr : r = x := by
+      calc
+        r = p'.val.1 := (congrArg Prod.fst hpr).symm
+        _ = x := by rw [hp']
+    have hq0 : q'.val.1 = 0 ∨ w'.val.1 = 0 := by
+      rcases hg with hi | hi | hi
+      · exact (hx (hr ▸ hi)).elim
+      · left
+        rw [hqr, hr]
+        exact hxmul s hi
+      · right
+        rw [hwr, hr]
+        exact hxmul t hi
+    have hc := congrArg cz he
+    have hp0 : p.val.1 ≠ 0 := by
+      change x ≠ 0
+      intro h
+      exact hx (h ▸ I.zero_mem)
+    have hq0' : q.val.1 ≠ 0 := by
+      change x * y ≠ 0
+      intro h
+      have := congrArg (fun z => z.snd.snd) h
+      norm_num [x, y] at this
+    have hw0 : w.val.1 ≠ 0 := hq0'
+    simp only [map_sub, FreeAbelianGroup.lift_apply_of, cz] at hc
+    rw [hp'] at hc
+    simp only [ite_eq_right hp0, ite_eq_right hq0', ite_eq_right hw0] at hc
+    rcases hq0 with h | h
+    · rw [ite_eq_left h] at hc
+      split_ifs at hc <;> omega
+    · rw [ite_eq_left h] at hc
+      split_ifs at hc <;> omega
+
+/-- The forbidden D3 word survives the full guarded relation closure, as detected by the
+relative differential in the basis `xy ⊗ dx, xy ⊗ dy`. -/
+theorem relDSRel_d3_defect_not_mem_closure :
+    let x : DualNumber (DualNumber (ZMod 3)) := TrivSqZeroExt.inl DualNumber.eps
+    let y : DualNumber (DualNumber (ZMod 3)) := DualNumber.eps
+    let I : Ideal (DualNumber (DualNumber (ZMod 3))) := Ideal.span {x * y}
+    let p : RelDSGen I := ⟨(x, x * y), Or.inr (Ideal.subset_span (Set.mem_singleton _))⟩
+    let q : RelDSGen I := ⟨(x * y, x + y), Or.inl (Ideal.subset_span (Set.mem_singleton _))⟩
+    let w : RelDSGen I := ⟨(x * y, y), Or.inl (Ideal.subset_span (Set.mem_singleton _))⟩
+    FreeAbelianGroup.of p - FreeAbelianGroup.of q - FreeAbelianGroup.of w ∉
+      AddSubgroup.closure (relDSRel I) := by
+  sorry
+
+end DualNumberGuard
 
 /-- The same relations with D3 imposed only when its first input lies in `I`, the form of van der
 Kallen–Maazen–Stienstra, §2.5. -/
