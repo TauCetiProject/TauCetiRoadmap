@@ -79,6 +79,13 @@ theorem expAt_ordAt_zmod_nine : expAt (3 : ℤ) (3 : ZMod 9) = 1 ∧
     ordAt (3 : ℤ) (3 : ZMod 9) = 1 ∧ expAt (3 : ℤ) (1 : ZMod 9) = 2 := by
   sorry
 
+/-- In `R/(ϖⁿ)` the class of `ϖᵈ`, `d < n`, has annihilator exponent `n − d`
+(`expAt_uniformizer_quotient`, README §1.3). -/
+theorem expAt_uniformizer_quotient {R : Type*} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] {ϖ : R} (hϖ : Irreducible ϖ) {n d : ℕ} (hd : d < n) :
+    expAt ϖ (Ideal.Quotient.mk (Ideal.span {ϖ ^ n}) (ϖ ^ d)) = ((n - d : ℕ) : ℕ∞) := by
+  sorry
+
 end Exponents
 
 /-- The abundance exponent `𝔣` of Liu–Tian–Xiao–Zhang–Zhu, §2.3. -/
@@ -86,11 +93,6 @@ def abundanceExponent : ℕ → ℕ
   | 0 => 1
   | 1 => 1
   | r + 2 => 2 * (abundanceExponent (r + 1) + 1)
-
-/-- Two independent classes incur the exponent four. -/
-example : abundanceExponent 2 = 4 := rfl
-/-- The next saturation loss is ten, rather than eight. -/
-example : abundanceExponent 3 = 10 := rfl
 
 end ErrorTolerant
 
@@ -109,6 +111,20 @@ noncomputable def charError (p : ℕ) [Fact p.Prime] (u : ℤ_[p]ˣ) : ℕ :=
 /-- The trivial character contributes no character error (`charError_trivial`, README §1.14). -/
 example (p : ℕ) [Fact p.Prime] : charError p 1 = 0 := by
   simp [charError]
+
+/-- A character close to `1`, `α(γ) = 1 + pᵐv` with `v` a unit, `p` odd and `m ≥ 1`, has
+`C_α = m` (`charError_close_to_one`, README §1.14). -/
+theorem charError_close_to_one (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) (u : ℤ_[p]ˣ) {m : ℕ}
+    (hm : 1 ≤ m) (v : ℤ_[p]ˣ) (hu : (u : ℤ_[p]) = 1 + (p : ℤ_[p]) ^ m * v) :
+    charError p u = m := by
+  sorry
+
+/-- For `p` odd and `u ≡ 1 (mod p)`, the values of continuous characters of `Γ ≅ ℤ_p`, the
+error constant vanishes only for the trivial character: there is no nontrivial quadratic
+`Γ`-character (`charError_no_quadratic_twist`, README §1.14). -/
+theorem charError_no_quadratic_twist (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) (u : ℤ_[p]ˣ)
+    (hu : ‖(u : ℤ_[p]) - 1‖ < 1) : charError p u = 0 ↔ u = 1 := by
+  sorry
 
 end KolyvaginSystems
 
@@ -150,6 +166,22 @@ theorem aeval_inv_eulerPoly_eq_zero (f : M ≃ₗ[R] M) :
 `X − 1`: the convention is the reversed one. -/
 theorem eulerPoly_id_rank_one [Nontrivial R] : eulerPoly (LinearMap.id : Module.End R R) = 1 - X := by
   sorry
+
+/-- Rank-one Frobenius multiplication by `n` has `det(1 − n x) = 1 − n X`; for `n = N(q)` this is
+the Mazur–Rubin polynomial of `ℤ_p(1)` (`eulerPoly_zp_one`, README §2.1). -/
+theorem eulerPoly_zp_one (n : R) :
+    eulerPoly (n • LinearMap.id : Module.End R R) = 1 - C n * X := by
+  sorry
+
+/-- Every endomorphism of a zero module has Euler polynomial `1` (`eulerPoly_rank_zero`,
+README §2.1). -/
+theorem eulerPoly_rank_zero [Nontrivial R] [Subsingleton M] (f : Module.End R M) :
+    eulerPoly f = 1 := by
+  have h1 : LinearMap.charpoly f = 1 := by
+    rw [← Polynomial.Monic.natDegree_eq_zero (LinearMap.charpoly_monic f),
+      LinearMap.charpoly_natDegree, Module.finrank_zero_of_subsingleton]
+  rw [eulerPoly, h1]
+  simpa only [map_one] using Polynomial.reverse_C (1 : R)
 
 end EulerPolynomial
 
@@ -209,6 +241,23 @@ example (σ : G) : kolyvaginDerivative σ 3 =
 example (σ : G) : liftedNorm σ 1 = MonoidAlgebra.of ℤ G σ := by
   simp [liftedNorm]
 
+/-- In the trivial cyclic group (`m = 1`) the derivative vanishes, whatever the chosen element
+(`kolyvaginDerivative_trivial`, README §3.1). -/
+theorem kolyvaginDerivative_trivial (σ : G) : kolyvaginDerivative σ 1 = 0 := by
+  simp [kolyvaginDerivative]
+
+/-- At `m = 0` both the lifted norm and the derivative are zero (`liftedNorm_zero`,
+README §3.1). -/
+theorem liftedNorm_zero (σ : G) : liftedNorm σ 0 = 0 ∧ kolyvaginDerivative σ 0 = 0 := by
+  simp [liftedNorm, kolyvaginDerivative]
+
+/-- For `σ` of order `n ≥ 2`, `(σ − 1) D_σ = n − N` is nonzero: its coefficient at the identity
+is `n − 1` (`kolyvaginDerivative_not_norm_multiple`, README §3.1). -/
+theorem kolyvaginDerivative_not_norm_multiple (σ : G) {n : ℕ} (hn : 2 ≤ n)
+    (hσ : orderOf σ = n) :
+    (MonoidAlgebra.of ℤ G σ - 1) * kolyvaginDerivative σ n ≠ 0 := by
+  sorry
+
 end Derivative
 
 
@@ -235,6 +284,20 @@ example : fsQuotientPoly (1 - X : ℤ[X]) = -1 := by
     rw [h]
     simp
   exact mul_left_cancel₀ (X_sub_C_ne_zero 1) heq
+
+/-- A constant polynomial has quotient zero (`fsQuotientPoly_C`, README §1.8). -/
+theorem fsQuotientPoly_C {R : Type*} [CommRing R] (c : R) : fsQuotientPoly (C c) = 0 := by
+  simp [fsQuotientPoly]
+
+/-- Subtracting `P(1)` removes the constant of `X² − a`, over every commutative ring. -/
+example {R : Type*} [CommRing R] (a : R) : fsQuotientPoly (X ^ 2 - C a) = X + 1 := by
+  have h := fsQuotientPoly_spec (X ^ 2 - C a)
+  have heq : (X - C (1 : R)) * fsQuotientPoly (X ^ 2 - C a) = (X - C 1) * (X + 1) := by
+    rw [h]
+    simp only [eval_sub, eval_pow, eval_X, eval_C, one_pow]
+    rw [C_sub, C_1]
+    ring
+  exact (monic_X_sub_C (1 : R)).isRegular.left heq
 
 end KolyvaginSystems
 
@@ -328,17 +391,12 @@ theorem scaled_inverse {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuatio
 
 end ErrorTolerant
 
-/- The following Checks accompany the general arithmetic interfaces in the README:
-§1.3: expAt_uniformizer_quotient;
-§1.14: charError_close_to_one and charError_no_quadratic_twist;
-§2.1: eulerPoly_zp_one, eulerPoly_elliptic and eulerPoly_rank_zero;
-§3.1: kolyvaginDerivative_trivial and kolyvaginDerivative_not_norm_multiple.
-
-Further arithmetic definitions and constructions specified in the README:
+/- Further arithmetic definitions and constructions specified in the README:
 KolyvaginSystems.SelmerTriple, KolyvaginSystems.QuotCat, KolyvaginSystems.IsCartesian,
 KolyvaginSystems.coreRankInt, KolyvaginSystems.canonicalStructure, KolyvaginSystems.MR04Hypotheses,
 KolyvaginSystems.MR16Hypotheses, KolyvaginSystems.rayPExtension, KolyvaginSystems.conductorIdeal,
-KolyvaginSystems.kolyvaginPrimes, KolyvaginSystems.transverse, KolyvaginSystems.SelmerTriple.modify,
+KolyvaginSystems.mr04Primes, KolyvaginSystems.kolyvaginPrimes, KolyvaginSystems.transverse,
+KolyvaginSystems.SelmerTriple.modify, KolyvaginSystems.SelfDual.finiteSingular,
 ErrorTolerant.gammaAssociated, EulerSystems.EulerSystem, EulerSystems.EulerSystem.twist,
 EulerSystems.Universal.X, EulerSystems.IsRigid, KolyvaginSystems.normElement,
 KolyvaginSystems.derivativeClass, KolyvaginSystems.KolyvaginSystem, KolyvaginSystems.correctedClass,
@@ -391,7 +449,8 @@ KolyvaginSystem.bottomClass, KolyvaginSystem.specRep, KolyvaginSystem.specialize
 KolyvaginSystem.perturb, KolyvaginSystem.indKS and KolyvaginSystem.IsLambdaPrimitive.
 FiniteSelmerDuality.traceComparison, FiniteSelmerDuality.pairing,
 FiniteSelmerDuality.orthogonal_propagate, FiniteSelmerDuality.selmer_change,
-FiniteSelmerDuality.coefficient_naturality, EulerSystems.ChiRayLocalData,
+FiniteSelmerDuality.coefficient_naturality, FiniteSelmerDuality.gorensteinOrderDual,
+EulerSystems.ChiRayLocalData,
 EulerSystems.ChiRayLowerData, EulerSystems.chiRayCongruenceLift,
 EulerSystems.chiRayTorsionCongruence, EulerSystems.chiRayIntegralClassComparison,
 EulerSystems.chiUniversalPresentation, EulerSystems.chiRefinedPrimes,
