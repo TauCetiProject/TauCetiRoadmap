@@ -179,9 +179,10 @@ continuous `A`-algebra map `B → C/J`, require a continuous lift `B → C`. Pro
 15.38.5 (07EA)); this stronger test-ring form follows
 from, but is not the definition of, adic formal smoothness.
 Prove `adicFormallySmooth_iff_unramified` (Stacks, Lemma 15.113.5 (09E7)): this predicate holds
-iff the ramification index is one and `κ_B/κ_A` is separable, including separable residue
-extensions that are not algebraic. Ordinary `Algebra.FormallySmooth` does not express this adic
-property, and `IsAdicComplete` or `AdicCompletion` alone does not supply the lifting theorem.
+iff the ramification index is one and `Algebra.IsTranscendentalSeparable κ_A κ_B` holds, including
+separable residue extensions that are not algebraic. Ordinary `Algebra.FormallySmooth` does not
+express this adic property, and `IsAdicComplete` or `AdicCompletion` alone does not supply the
+lifting theorem.
 
 Prove `abhyankar_dvr` (Stacks, Lemma 15.116.4 (0BRM)): if the residue characteristic of `A` is
 zero, or it is `p` with `p ∤ e` and `κ_B/κ_A` separable, and `e` divides the ramification index of
@@ -191,7 +192,8 @@ ramification index one and separable residue extension. Prove
 `isTamelyRamifiedWRT_iff_isTamelyRamified`: for a finite extension `L/K` of nonarchimedean local
 fields with valuation ring `𝒪_K`, `Algebra.IsTamelyRamifiedWRT 𝒪_K L ↔ TauCeti.IsTamelyRamified K L`.
 *Needs:* §§0.1–0.2; Mathlib `IsDiscreteValuationRing`, `Ideal.ramificationIdx`,
-`Algebra.IsSeparable`; Tau Ceti `TauCeti.IsTamelyRamified`.
+`Algebra.IsSeparable`, `Algebra.IsTranscendentalSeparable`; Tau Ceti
+`TauCeti.IsTamelyRamified`.
 
 ### 0.4 Kummer characterization and tame base change
 
