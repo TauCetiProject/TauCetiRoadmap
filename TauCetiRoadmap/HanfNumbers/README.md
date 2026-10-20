@@ -553,28 +553,35 @@ Given `φ : Sentenceω L` satisfying the Morley–Hanf hypothesis:
 
 ### 3.3 Approximation by homogeneous sets
 
-A **condition** is a finite partial truth assignment `p` on `Γ*`. For `α < ω₁`, `p` is
-**`ℶ_α`-approximated** when there are a linearly ordered `L*`-structure `N ⊨ σ*` and `H ⊆ N` with
-`ℶ_α ≤ #H` such that every `ψ` in the domain of `p`, of arity `n`, has truth value `p ψ` at every
-increasing `n`-tuple from `H`. It is **cofinally approximated** when it is `ℶ_α`-approximated for
-every `α < ω₁`. Approximation at `α` implies approximation at every `β ≤ α` (pass to a subset of
+A **condition** is a finite partial truth assignment `p` on `Γ*`, given by the sets `pos` and
+`neg` of members assigned `true` and `false`. For `α < ω₁`, `p` is **`ℶ_α`-approximated**
+(`IsApproximatedAt σ* pos neg (ℶ_ α)`) when there are an `L*`-structure `N ⊨ σ*` with an extra
+linear order on its carrier and `H ⊆ N` with `ℶ_α ≤ #H` such that every `ψ` in the domain of `p`,
+of arity `n`, has truth value `p ψ` at every increasing `n`-tuple from `H`. It is **cofinally
+approximated** (`IsCofinallyApproximated σ* pos neg`) when it is `ℶ_α`-approximated for every
+`α < ω₁`. Both definitions and the four lemmas below are stated for any language, any sentence and
+any sets `pos`, `neg`: they need neither finiteness of the conditions nor countability of the
+language, and countability of `Γ*` matters only for the enumeration of 3.4. Approximation at `α` implies approximation at every `β ≤ α` (pass to a subset of
 `H`), so by 0.2 cofinal approximation is approximation at unboundedly many `α`.
 
 Targets:
 
-- **Start.** `{φ ↦ true, disEq ↦ true}` is cofinally approximated: take `H = M` for a model of size
-  at least `ℶ_α`.
-- **Decision.** If `p` is cofinally approximated and `ψ ∈ Γ*` has arity `n`, then `p ∪ {ψ ↦ true}`
+- **`isCofinallyApproximated_start`.** `{φ ↦ true, disEq ↦ true}` is cofinally approximated: take
+  `H = M` for a model of size at least `ℶ_α`.
+- **`IsCofinallyApproximated.decide`.** If `p` is cofinally approximated and `ψ ∈ Γ*` has arity `n`, then `p ∪ {ψ ↦ true}`
   or `p ∪ {ψ ↦ false}` is cofinally approximated. For `n = 0` the truth value is constant on each
   approximating structure. For `n ≥ 1` and each `α`, approximate `p` at `α + n`, colour the
   increasing `n`-tuples of `H` by the truth value of `ψ`, and apply `erdos_rado_beth` at exponent
   `n` (two colours, `ℶ_(α+n) ≥ ℶ_(α+n-1)⁺`) to get a homogeneous `H' ⊆ H` of cardinality `ℶ_α⁺` and
   a truth value `d(α)`. By `exists_unbounded_fiber` one value is taken unboundedly often.
-- **Disjunction witnesses.** If `p` is cofinally approximated with `p (iSup ψs) = true`, then
-  `p ∪ {ψs i ↦ true}` is cofinally approximated for some `i`. Colour each increasing tuple of `H`
-  by the least `i` with `ψs i` true there (countably many colours, at most `ℶ_α`), apply
-  `erdos_rado_beth`, and choose `i` by `exists_unbounded_fiber` on the countable colour set.
-- **Conjunction witnesses.** Dually, `p (iInf ψs) = false` gives some `i` with
+- **`IsCofinallyApproximated.exists_iSup_witness`.** If `p` is cofinally approximated with
+  `p (iSup ψs) = true`, then `p ∪ {ψs i ↦ true}` is cofinally approximated for some `i`. For
+  `n ≥ 1` and each `α`, approximate `p` at `α + n`, colour each increasing `n`-tuple of `H` by the
+  least `i` with `ψs i` true there (countably many colours, at most `ℶ_α`), apply `erdos_rado_beth`
+  at exponent `n`, and choose `i` by `exists_unbounded_fiber` on the countable colour set. For
+  `n = 0` there is no exponent to use: the colour is the least true disjunct in the approximating
+  structure itself.
+- **`IsCofinallyApproximated.exists_iInf_witness`.** Dually, `p (iInf ψs) = false` gives some `i` with
   `p ∪ {ψs i ↦ false}` cofinally approximated.
 
 ### 3.4 The template and the theorem
@@ -587,18 +594,25 @@ its value earlier, as a witness, receives its own witness at its own stage, from
 contains it. The union `Φ` is total on `Γ*`, ω-complete, and each finite part lies in some `p_k`.
 Targets:
 
-- **`isSkolemTemplate_of_cofinallyApproximated`**: `Φ` is a Skolem template with `Φ φ` and `Φ
-  disEq`. Coherence holds because a formula true at every increasing tuple of `H` remains true after
-  reindexing along an order embedding; finite satisfiability because a cofinally approximated
-  condition is realized at an increasing tuple of `H`; ω-completeness by construction.
+- **`exists_total_of_cofinallyApproximated`** (the construction): there is a total, ω-complete
+  truth assignment `Φ` on `Γ*` with `Φ φ` and `Φ disEq`, every finite part of which is cofinally
+  approximated.
+- **`isSkolemTemplate_of_approximated`**: a total, ω-complete truth assignment on `Γ*` whose finite
+  parts are all approximated with `H` infinite is, read on instances through substitution, a Skolem
+  template for `(Γ*, w)` with `w_{∀yψ} = f_{¬ψ}` (2.2). Coherence: a formula with constant value `d`
+  on the increasing tuples of `H` keeps the value `d` after reindexing along an order embedding,
+  which gives both directions; finite satisfiability: an approximated condition is realized at an
+  increasing tuple of `H` in a model of `σ*`, which obeys `w`; ω-completeness is assumed.
+  Approximation with `H` infinite at a single level already suffices here: the cofinal levels are
+  needed only to keep the construction of 3.4 going.
 - **`exists_emSource_of_forall_beth`** (extraction, its own milestone). Under the Morley–Hanf
   hypothesis there are a countable language `L' : Language.{0, 0}` (countably many function and
   relation symbols), a language map `g : L →ᴸ L'`, a countable `Γ` and an injective `a : ℕ → N` with
   `IsEMSource Γ N a`, `onBoundedFormulaInf g φ ∈ Γ` and `N ⊨ onBoundedFormulaInf g φ`. Here `L'` is
   the Skolem language `L*` of the tower over `L₀ = smallPresentation L_φ` (3.2), and `g` is the map
   `L →ᴸ L₀` of 3.2 followed by the inclusion into `L*`; `Γ` is `Γ*`; and `(N, a)` is the skeleton of
-  `EM(ℕ, Φ)` for the template `Φ` above, a source by `isSkolemTemplate_of_cofinallyApproximated` and
-  `isEMSource_em`. The dummies are interpreted in the approximating models as the first projection
+  `EM(ℕ, Φ)` for the template `Φ` above, a source by `exists_total_of_cofinallyApproximated`,
+  `isSkolemTemplate_of_approximated` and `isEMSource_em`. The dummies are interpreted in the approximating models as the first projection
   (arity `≥ 1`), a fixed element (arity `0`) and the empty relation, so they change none of the
   arguments of 3.3.
 - **`exists_model_card_eq_of_forall_beth`** (cardinality control and transfer, the headline):
@@ -853,8 +867,9 @@ from those APIs without hypotheses asserting homogeneity, realizability of a tem
 compactness or the existence of indiscernibles. The following chains are visible in the exported
 results:
 
-- end-homogeneous sets → Erdős–Rado → beth form → decision and witness lemmas → Skolem template
-  → `exists_emSource_of_forall_beth` → `exists_emModel_card_eq` →
+- end-homogeneous sets → Erdős–Rado → beth form → decision and witness lemmas →
+  `exists_total_of_cofinallyApproximated` → `isSkolemTemplate_of_approximated` → `realize_em_iff`
+  → `isEMSource_em` → `exists_emSource_of_forall_beth` → `exists_emModel_card_eq` →
   `exists_model_card_eq_of_forall_beth` → `morley_hanf`;
 - ladder sentence → upper bound and von Neumann model → bounded spectra → with `morley_hanf`,
   `lomega1omegaHanfNumber_eq_beth_omega_one`;

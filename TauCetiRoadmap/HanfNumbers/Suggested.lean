@@ -274,6 +274,64 @@ theorem exists_emModel_card_eq {L' : FirstOrder.Language.{0, 0}}
 
 end EMModels
 
+/-! ## Layer 3.3: approximation by homogeneous sets -/
+
+section Approximation
+
+variable {L' : FirstOrder.Language.{u'', v''}}
+
+/-- **Layer 3.3.** `(pos, neg)` is approximated at `κ` in models of `σ`: some model `N ⊨ σ` with an
+extra linear order on its carrier has a set `H` of size at least `κ` on whose increasing tuples
+every member of `pos` is true and every member of `neg` false. The linear order is extra data, not
+a symbol of `L'`. -/
+def IsApproximatedAt (σ : Sentenceω L') (pos neg : Set (Σ n, BoundedFormulaω L' Empty n))
+    (κ : Cardinal.{w}) : Prop :=
+  ∃ (N : Type w) (_ : L'.Structure N) (_ : LinearOrder N) (H : Set N),
+    SentenceInf.Realize σ N ∧ κ ≤ #H ∧
+    ∀ (q : Σ n, BoundedFormulaω L' Empty n) (t : Fin q.1 ↪o N), (∀ i, t i ∈ H) →
+      (q ∈ pos → BoundedFormulaInf.Realize q.2 (Empty.elim : Empty → N) t) ∧
+      (q ∈ neg → ¬BoundedFormulaInf.Realize q.2 (Empty.elim : Empty → N) t)
+
+/-- **Layer 3.3.** Approximated at `ℶ_α` for every `α < ω₁`. -/
+def IsCofinallyApproximated (σ : Sentenceω L') (pos neg : Set (Σ n, BoundedFormulaω L' Empty n)) :
+    Prop :=
+  ∀ α : Ordinal.{w}, α < Ordinal.omega.{w} 1 → IsApproximatedAt σ pos neg (ℶ_ α)
+
+/-- **Layer 3 milestone, the start condition.** Under the cofinal hypothesis, the sentence and
+`x₀ ≠ x₁` are cofinally approximated. -/
+theorem isCofinallyApproximated_start {σ : Sentenceω L'}
+    (h : ∀ α : Ordinal.{w}, α < Ordinal.omega.{w} 1 →
+      ∃ (N : Type w) (_ : L'.Structure N), SentenceInf.Realize σ N ∧ ℶ_ α ≤ #N) :
+    IsCofinallyApproximated.{w} σ {⟨0, σ⟩, ⟨2, disEq⟩} ∅ := by
+  sorry
+
+/-- **Layer 3 milestone, decision.** A cofinally approximated condition can be extended by either
+truth value of any formula, and one of the two extensions is again cofinally approximated. -/
+theorem IsCofinallyApproximated.decide {σ : Sentenceω L'}
+    {pos neg : Set (Σ n, BoundedFormulaω L' Empty n)}
+    (h : IsCofinallyApproximated.{w} σ pos neg) (ψ : Σ n, BoundedFormulaω L' Empty n) :
+    IsCofinallyApproximated.{w} σ (insert ψ pos) neg ∨
+      IsCofinallyApproximated.{w} σ pos (insert ψ neg) := by
+  sorry
+
+/-- **Layer 3 milestone, disjunction witnesses.** -/
+theorem IsCofinallyApproximated.exists_iSup_witness {σ : Sentenceω L'}
+    {pos neg : Set (Σ n, BoundedFormulaω L' Empty n)}
+    (h : IsCofinallyApproximated.{w} σ pos neg) {n : ℕ}
+    {ψs : ℕ → BoundedFormulaω L' Empty n} (hψ : ⟨n, BoundedFormulaInf.iSup ψs⟩ ∈ pos) :
+    ∃ i, IsCofinallyApproximated.{w} σ (insert ⟨n, ψs i⟩ pos) neg := by
+  sorry
+
+/-- **Layer 3 milestone, conjunction witnesses.** -/
+theorem IsCofinallyApproximated.exists_iInf_witness {σ : Sentenceω L'}
+    {pos neg : Set (Σ n, BoundedFormulaω L' Empty n)}
+    (h : IsCofinallyApproximated.{w} σ pos neg) {n : ℕ}
+    {ψs : ℕ → BoundedFormulaω L' Empty n} (hψ : ⟨n, BoundedFormulaInf.iInf ψs⟩ ∈ neg) :
+    ∃ i, IsCofinallyApproximated.{w} σ pos (insert ⟨n, ψs i⟩ neg) := by
+  sorry
+
+end Approximation
+
 /-! ## Layer 3: Hanf bounds and the Morley–Hanf theorem -/
 
 section Hanf
