@@ -61,10 +61,10 @@ criterion and its equality with the dimension, and the comparison between `globa
 Mathlib's pointwise `CategoryTheory.HasProjectiveDimensionLE`. E1.6 consumes those results; it
 retains the additional bound for **all** modules over a finite-dimensional regular ring (00OE),
 and its perfect-algebra and enhanced-derived applications. In particular, E1.6's current
-`isRegularLocalRing_of_projectiveDimension_residueField` target is to be supplied by the §0.3
-criterion, not independently reproved. The order is ordinary local algebra here, then
-LocalPurity §2.1, then branch purity here; E1.6's consumers follow the local algebra without
-becoming prerequisites of LocalPurity.
+`isRegularLocalRing_of_projectiveDimension_residueField` interface is supplied here as a
+corollary of the §0.3 criterion, not independently reproved in E1.6. The order is ordinary local
+algebra here, then LocalPurity §2.1, then branch purity here; E1.6's consumers follow the local
+algebra without becoming prerequisites of LocalPurity.
 
 **Owned elsewhere and consumed here.**
 
@@ -185,7 +185,9 @@ if `κ` has finite projective dimension `n`, then `n ≤ ringKrullDim R` (from `
 for `M = κ` and `depth_le_supportDim`); and `isRegularLocalRing_tfae` (Proposition 10.110.5 (00OC)):
 for a Noetherian local ring, `κ` has finite projective dimension, iff `R` has finite global
 dimension, iff `R` is regular, and then `globalDimension R = ringKrullDim R`. Prove
-`isRegularLocalRing_iff_finite_globalDimension` and
+`isRegularLocalRing_of_projectiveDimension_residueField` (*API*) follows from the
+residue-field condition in `isRegularLocalRing_tfae`, with the signature consumed by
+EnhancedDerivedSheaves E1.6. Prove `isRegularLocalRing_iff_finite_globalDimension` and
 `IsRegularLocalRing.isRegularLocalRing_localization` (Lemma 10.110.6 (0AFS), both sentences): a
 Noetherian local ring is regular iff it has finite global dimension, and the localization of a
 regular local ring at a prime is a regular local ring; with it, `isRegularRing_of_isRegularLocalRing`
@@ -435,6 +437,7 @@ restatement of a target. *API*: no Stacks counterpart.
 | 0.3 | `projectiveDimension_residueField_ge` | 10.110.3 (00OA) | exact |
 | 0.3 | `projectiveDimension_residueField_le` | 10.110.4 (00OB) | exact |
 | 0.3 | `isRegularLocalRing_tfae` | 10.110.5 (00OC) | exact |
+| 0.3 | `isRegularLocalRing_of_projectiveDimension_residueField` | 10.110.5 (00OC) | corollary consumed by EnhancedDerivedSheaves E1.6 |
 | 0.3 | `isRegularLocalRing_iff_finite_globalDimension`, `isRegularLocalRing_localization` | 10.110.6 (0AFS) | exact |
 | 0.3 | `isRegularRing_of_isRegularLocalRing` | — | API |
 | 0.4 | `ramificationLocus`, `nonEtaleLocus`, `branchLocus` | 29.36.1 (02G4), 29.37.1 (02GI); usage in 58.21.2 (0BJH), 58.28.3 (0EA4), 58.29.3 (0ECD) | definitions (no Stacks definition) |

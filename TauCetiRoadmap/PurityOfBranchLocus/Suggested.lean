@@ -139,6 +139,16 @@ theorem globalDimension_le_iff_hasProjectiveDimensionLE (R : Type u) [CommRing R
       ∀ M : ModuleCat.{u} R, CategoryTheory.HasProjectiveDimensionLE M n := by
   sorry
 
+/-- A Noetherian local ring whose residue field has finite projective dimension is regular.
+This is the residue-field implication of Stacks 00OC and supplies the local criterion consumed by
+EnhancedDerivedSheaves E1.6. -/
+@[stacks 00OC "residue-field criterion"]
+theorem isRegularLocalRing_of_projectiveDimension_residueField (R : Type u) [CommRing R]
+    [IsLocalRing R] [IsNoetherianRing R] (n : ℕ)
+    (h : HasProjectiveDimensionLE (ModuleCat.of R (ResidueField R)) n) :
+    IsRegularLocalRing R := by
+  sorry
+
 /-- **Serre's theorem.** A Noetherian local ring is regular iff it has finite global dimension, and
 the localization of a regular local ring at a prime is a regular local ring. Stacks, Lemma
 10.110.6 (0AFS). -/
