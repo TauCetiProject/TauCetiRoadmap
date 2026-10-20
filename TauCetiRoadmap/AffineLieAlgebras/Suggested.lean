@@ -16,6 +16,8 @@ import Mathlib.RingTheory.TwoSidedIdeal.Basic
 import Mathlib.LinearAlgebra.Quotient.Basic
 import Mathlib.Algebra.Vertex.HVertexOperator
 import Mathlib.LinearAlgebra.SymmetricAlgebra.Basic
+import Mathlib.Algebra.TrivSqZeroExt.Basic
+import Mathlib.RingTheory.Derivation.Basic
 import Mathlib.Algebra.DirectSum.Module
 import Mathlib.LinearAlgebra.TensorProduct.Tower
 import Mathlib.RingTheory.Flat.Basic
@@ -658,6 +660,25 @@ end RankOne
 
 namespace VertexFoundations
 
+/-- Operator covariance is an equation on the actual coefficient endomorphisms.
+It is independent of the state-derivative equation Y(Ta)=∂Y(a). -/
+def FieldTranslationCovariant {V : Type u} [AddCommGroup V] [Module ℂ V]
+    (T : Module.End ℂ V) (A : HVertexOperator ℤ ℂ V V) : Prop :=
+  ∀ n : ℤ,
+    T * HVertexOperator.coeff A (-n - 1) - HVertexOperator.coeff A (-n - 1) * T =
+      -(n : ℂ) • HVertexOperator.coeff A (-(n - 1) - 1)
+
+/-- Covariant fields form a linear subspace; a spanning family of covariant
+states therefore suffices. This lemma assumes no vertex-algebra axioms. -/
+theorem fieldTranslationCovariant_of_span_top {V : Type u}
+    [AddCommGroup V] [Module ℂ V] (T : Module.End ℂ V)
+    (Y : V →ₗ[ℂ] HVertexOperator ℤ ℂ V V) (S : Set V)
+    (hspan : Submodule.span ℂ S = ⊤)
+    (hS : ∀ a ∈ S, FieldTranslationCovariant T (Y a)) :
+    ∀ a, FieldTranslationCovariant T (Y a) := by
+  sorry
+
+
 /-- Generic formal vertex-algebra data on the native heterogeneous Hahn
 field carrier. This foundation has no ADE or affine-vacuum input. -/
 structure FormalVertexAxioms (V : Type u) [AddCommGroup V] [Module ℂ V] where
@@ -676,6 +697,11 @@ structure FormalVertexAxioms (V : Type u) [AddCommGroup V] [Module ℂ V] where
   translation_coeff : ∀ a n,
     HVertexOperator.coeff (field (translation a)) (-n - 1) =
       -(n : ℂ) • HVertexOperator.coeff (field a) (-n)
+  /-- The operator law is a separate axiom, not inferred from state derivative. -/
+  operator_translation_coeff : ∀ a n,
+    translation * HVertexOperator.coeff (field a) (-n - 1) -
+        HVertexOperator.coeff (field a) (-n - 1) * translation =
+      -(n : ℂ) • HVertexOperator.coeff (field a) (-(n - 1) - 1)
   truncation : ∀ a b, ∃ N : ℤ, ∀ n, N ≤ n →
     HVertexOperator.coeff (field a) (-n - 1) b = 0
   locality : ∀ a b, ∃ N : ℕ, ∀ m n c,
@@ -690,13 +716,13 @@ def formalMode {V : Type u} [AddCommGroup V] [Module ℂ V]
     (A : FormalVertexAxioms V) (a : V) (n : ℤ) : Module.End ℂ V :=
   HVertexOperator.coeff (A.field a) (-n - 1)
 
-/-- Operator translation covariance is derived in the early creative/local
-foundation, before reconstruction uses it. Multiplication is native composition. -/
+/-- Operator covariance projects the genuine independent axiom.
+Multiplication is native composition; no implication from weaker laws is asserted. -/
 theorem formalVertex_translation_covariance {V : Type u} [AddCommGroup V]
     [Module ℂ V] (A : FormalVertexAxioms V) (a : V) (n : ℤ) :
     A.translation * formalMode A a n - formalMode A a n * A.translation =
       -(n : ℂ) • formalMode A a (n - 1) := by
-  sorry
+  exact A.operator_translation_coeff a n
 
 /-- The generic coefficient form of Borcherds' identity, with all states and
 integer mode indices retained. -/
@@ -1285,6 +1311,117 @@ def oscillatorGenerator {V : Type u} [AddCommGroup V] [Module ℚ V]
     (h : ComplexAmbient V D) : OscillatorGenerators V D :=
   Finsupp.single n h
 
+/-- Shift each negative oscillator generator by its positive mode label.
+This is the generator map h(-m) ↦ m h(-(m+1)), before any vertex axiom. -/
+noncomputable def oscillatorTranslationShift {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V) :
+    OscillatorGenerators V D →ₗ[ℂ] OscillatorGenerators V D where
+  toFun x := x.sum fun m h =>
+    (m.1 : ℂ) • Finsupp.single ⟨m.1 + 1, Nat.succ_pos m.1⟩ h
+  map_add' := by sorry
+  map_smul' := by sorry
+
+/-- Send a generator g to ι(g)+ε ι(shift g) in the actual square-zero algebra.
+The symmetric-algebra lift therefore fixes the derivation, not just its carrier. -/
+noncomputable def oscillatorTranslationLiftGenerator {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V) :
+    OscillatorGenerators V D →ₗ[ℂ]
+      TrivSqZeroExt (SymmetricAlgebra ℂ (OscillatorGenerators V D))
+        (SymmetricAlgebra ℂ (OscillatorGenerators V D)) where
+  toFun g := (SymmetricAlgebra.ι ℂ (OscillatorGenerators V D) g,
+    SymmetricAlgebra.ι ℂ (OscillatorGenerators V D) (oscillatorTranslationShift D g))
+  map_add' := by sorry
+  map_smul' := by sorry
+
+noncomputable def oscillatorTranslationLift {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V) :
+    SymmetricAlgebra ℂ (OscillatorGenerators V D) →ₐ[ℂ]
+      TrivSqZeroExt (SymmetricAlgebra ℂ (OscillatorGenerators V D))
+        (SymmetricAlgebra ℂ (OscillatorGenerators V D)) :=
+  SymmetricAlgebra.lift (oscillatorTranslationLiftGenerator D)
+
+/-- The constant component of the dual-number lift is the identity. -/
+theorem oscillatorTranslationLift_fst {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V)
+    (u : SymmetricAlgebra ℂ (OscillatorGenerators V D)) :
+    TrivSqZeroExt.fst (oscillatorTranslationLift D u) = u := by
+  sorry
+
+/-- δ is concretely the ε coefficient of the symmetric-algebra lift.
+Its Leibniz proof uses multiplication in the square-zero extension. -/
+noncomputable def oscillatorTranslationDerivation {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V) :
+    Derivation ℂ (SymmetricAlgebra ℂ (OscillatorGenerators V D))
+      (SymmetricAlgebra ℂ (OscillatorGenerators V D)) where
+  toLinearMap := {
+    toFun := fun u => TrivSqZeroExt.snd (oscillatorTranslationLift D u)
+    map_add' := by sorry
+    map_smul' := by sorry }
+  map_one_eq_zero' := by sorry
+  leibniz' := by sorry
+
+theorem oscillatorTranslationDerivation_generator {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (m : ℕ+) (h : ComplexAmbient V D) :
+    oscillatorTranslationDerivation D
+        (SymmetricAlgebra.ι ℂ (OscillatorGenerators V D) (oscillatorGenerator D m h)) =
+      (m.1 : ℂ) • SymmetricAlgebra.ι ℂ (OscillatorGenerators V D)
+        (oscillatorGenerator D ⟨m.1 + 1, Nat.succ_pos m.1⟩ h) := by
+  sorry
+
+theorem oscillatorTranslationDerivation_one {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V) :
+    oscillatorTranslationDerivation D 1 = 0 :=
+  (oscillatorTranslationDerivation D).map_one_eq_zero
+
+theorem oscillatorTranslationDerivation_mul {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V)
+    (u v : SymmetricAlgebra ℂ (OscillatorGenerators V D)) :
+    oscillatorTranslationDerivation D (u * v) =
+      u * oscillatorTranslationDerivation D v + v * oscillatorTranslationDerivation D u := by
+  simpa only [smul_eq_mul] using (oscillatorTranslationDerivation D).leibniz u v
+
+/-- Concrete charged translation, extended bilinearly from every pure tensor.
+It is defined before generator covariance and uses no generic vertex structure. -/
+def latticeTranslation {V : Type u} [AddCommGroup V] [Module ℚ V]
+    : (D : PositiveEvenLattice V) → (C : NormalizedSignCocycle D) →
+      FockSpace D C →ₗ[ℂ] FockSpace D C := fun D C =>
+  TensorProduct.lift {
+    toFun := fun u => {
+      toFun := fun f => f.sum fun a c =>
+        c • ((oscillatorTranslationDerivation D u + u *
+          SymmetricAlgebra.ι ℂ (OscillatorGenerators V D)
+            (oscillatorGenerator D 1 ((1 : ℂ) ⊗ₜ[ℚ] (a : V)))) ⊗ₜ[ℂ]
+          (Finsupp.single a 1 : TwistedGroupAlgebraCarrier D))
+      map_add' := by sorry
+      map_smul' := by sorry }
+    map_add' := by sorry
+    map_smul' := by sorry }
+
+theorem latticeTranslation_pure_tensor {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V) (C : NormalizedSignCocycle D)
+    (u : SymmetricAlgebra ℂ (OscillatorGenerators V D)) (a : D.lattice.carrier) :
+    latticeTranslation D C (u ⊗ₜ[ℂ] (Finsupp.single a 1 : TwistedGroupAlgebraCarrier D)) =
+      (oscillatorTranslationDerivation D u + u *
+        SymmetricAlgebra.ι ℂ (OscillatorGenerators V D)
+          (oscillatorGenerator D 1 ((1 : ℂ) ⊗ₜ[ℚ] (a : V)))) ⊗ₜ[ℂ]
+        (Finsupp.single a 1 : TwistedGroupAlgebraCarrier D) := by
+  sorry
+
+theorem latticeTranslation_chargeState {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V) (C : NormalizedSignCocycle D)
+    (a : D.lattice.carrier) :
+    latticeTranslation D C (chargeState D C a) =
+      (SymmetricAlgebra.ι ℂ (OscillatorGenerators V D)
+        (oscillatorGenerator D 1 ((1 : ℂ) ⊗ₜ[ℚ] (a : V)))) ⊗ₜ[ℂ]
+        (Finsupp.single a 1 : TwistedGroupAlgebraCarrier D) := by
+  sorry
+
+theorem latticeTranslation_vacuum {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V) (C : NormalizedSignCocycle D) :
+    latticeTranslation D C (vacuumState D C) = 0 := by
+  sorry
+
 /-- The actual Heisenberg mode endomorphisms on the oscillator-and-charge
 space. -/
 noncomputable def heisenbergMode {V : Type u} [AddCommGroup V] [Module ℚ V]
@@ -1323,6 +1460,16 @@ theorem heisenbergMode_zero_on_charge {V : Type u} [AddCommGroup V]
     (h : ComplexAmbient V D) (a : D.lattice.carrier) :
     heisenbergMode D C 0 h (chargeState D C a) =
       complexLatticeForm D h (1 ⊗ₜ[ℚ] (a : V)) • chargeState D C a := by
+  sorry
+
+/-- Independent all-integer Heisenberg covariance. The n=1 charge term
+produces -h(0); negative modes use δ, and n=0 commutes. No vertex bundle is used. -/
+theorem latticeTranslation_heisenbergMode {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V) (C : NormalizedSignCocycle D)
+    (n : ℤ) (h : ComplexAmbient V D) :
+    latticeTranslation D C * heisenbergMode D C n h -
+      heisenbergMode D C n h * latticeTranslation D C =
+      -(n : ℂ) • heisenbergMode D C (n - 1) h := by
   sorry
 
 /-- Embed the uncharged symmetric oscillator sector into the lattice Fock
@@ -1371,6 +1518,16 @@ theorem latticeStateField_heisenbergMode {V : Type u}
         (latticeStateField D C (latticeHeisenbergState D C h)) (-n - 1) =
       heisenbergMode D C n h := by
   sorry
+
+/-- The current coefficient dictionary transfers the independent oscillator law. -/
+theorem latticeHeisenbergField_translation_covariant {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (C : NormalizedSignCocycle D) (h : ComplexAmbient V D) :
+    VertexFoundations.FieldTranslationCovariant (latticeTranslation D C)
+      (latticeStateField D C (latticeHeisenbergState D C h)) := by
+  intro n
+  simpa only [latticeStateField_heisenbergMode] using
+    latticeTranslation_heisenbergMode D C n h
 
 def latticeMode {V : Type u} [AddCommGroup V] [Module ℚ V]
     (D : PositiveEvenLattice V) (C : NormalizedSignCocycle D)
@@ -1438,10 +1595,6 @@ theorem latticeBorcherds_identity {V : Type u} [AddCommGroup V] [Module ℚ V]
 
 
 
-def latticeTranslation {V : Type u} [AddCommGroup V] [Module ℚ V]
-    : (D : PositiveEvenLattice V) → (C : NormalizedSignCocycle D) →
-      FockSpace D C →ₗ[ℂ] FockSpace D C := by
-  sorry
 
 
 theorem lattice_skew_symmetry_coefficient {V : Type u}
@@ -1518,6 +1671,13 @@ def latticeFockMonomial {V : Type u} [AddCommGroup V] [Module ℚ V]
     (word : List (ℕ+ × ComplexAmbient V D)) (a : D.lattice.carrier) :
     FockSpace D C :=
   oscillatorWordMonomial D word ⊗ₜ[ℂ] Finsupp.single a 1
+
+/-- Spanning is a symmetric-algebra/tensor fact, independent of vertex axioms. -/
+theorem latticeFockMonomials_span {V : Type u} [AddCommGroup V]
+    [Module ℚ V] (D : PositiveEvenLattice V) (C : NormalizedSignCocycle D) :
+    Submodule.span ℂ {x | ∃ (word : List (ℕ+ × ComplexAmbient V D))
+      (a : D.lattice.carrier), x = latticeFockMonomial D C word a} = ⊤ := by
+  sorry
 
 /-- The normalized divided derivative of the actual current field indexed by
 the mode and vector. -/
@@ -1609,6 +1769,50 @@ noncomputable def normalOrderedProduct {V : Type u}
     (charge : HVertexOperator ℤ ℂ (FockSpace D C) (FockSpace D C)) :
     normalOrderedProduct D C (current :: tail) charge =
       normalOrderedPair D C current (normalOrderedProduct D C tail charge) := rfl
+
+/-- Divided differentiation preserves operator covariance coefficientwise.
+Use the actual dividedDerivativeFactor, including zero factors and all integer indices. -/
+theorem dividedHeisenbergCurrentField_translation_covariant {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (C : NormalizedSignCocycle D) (T : Module.End ℂ (FockSpace D C))
+    (current : HVertexOperator ℤ ℂ (FockSpace D C) (FockSpace D C))
+    (m : ℕ+) (hcurrent : VertexFoundations.FieldTranslationCovariant T current) :
+    VertexFoundations.FieldTranslationCovariant T
+      (dividedHeisenbergCurrentField D C current m) := by
+  sorry
+
+/-- Normal-product covariance uses common finite cutoffs on v and T v,
+then reindexes the two split sums; the i=0 boundary term has zero factor.
+No generic vertex axiom or reconstructed lattice structure is a premise. -/
+theorem normalOrderedPair_translation_covariant {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (C : NormalizedSignCocycle D) (T : Module.End ℂ (FockSpace D C))
+    (current charge : HVertexOperator ℤ ℂ (FockSpace D C) (FockSpace D C))
+    (hcurrent : VertexFoundations.FieldTranslationCovariant T current)
+    (hcharge : VertexFoundations.FieldTranslationCovariant T charge) :
+    VertexFoundations.FieldTranslationCovariant T
+      (normalOrderedPair D C current charge) := by
+  sorry
+
+theorem normalOrderedProduct_translation_covariant {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (C : NormalizedSignCocycle D) (T : Module.End ℂ (FockSpace D C))
+    (currents : List (HVertexOperator ℤ ℂ (FockSpace D C) (FockSpace D C)))
+    (charge : HVertexOperator ℤ ℂ (FockSpace D C) (FockSpace D C))
+    (hcurrents : ∀ current ∈ currents,
+      VertexFoundations.FieldTranslationCovariant T current)
+    (hcharge : VertexFoundations.FieldTranslationCovariant T charge) :
+    VertexFoundations.FieldTranslationCovariant T
+      (normalOrderedProduct D C currents charge) := by
+  induction currents with
+  | nil => exact hcharge
+  | cons current tail ih =>
+      apply normalOrderedPair_translation_covariant D C T current
+        (normalOrderedProduct D C tail charge)
+      · exact hcurrents current (by simp)
+      · apply ih
+        intro A hA
+        exact hcurrents A (by simp [hA])
 
 /-- The normal-ordered field on a Fock monomial is assembled from its actual
 divided-current derivatives and charge field. The list order and charge are
@@ -1728,6 +1932,76 @@ theorem latticeChargeField_monomial_formula {V : Type u}
     (latticeMode D C (chargeState D C a) r) (latticeFockMonomial D C word b) =
       chargeModeMonomialFormula D C word a b r := by
   sorry
+
+/-- Independent charge covariance on every spanning monomial. Evaluate T by
+its pure-tensor derivation equation and the actual finite subset/partition
+formula, before any generic vertex structure is bundled. -/
+theorem latticeTranslation_chargeModeMonomialFormula {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (C : NormalizedSignCocycle D)
+    (word : List (ℕ+ × ComplexAmbient V D))
+    (a b : D.lattice.carrier) (r : ℤ) :
+    latticeTranslation D C (chargeModeMonomialFormula D C word a b r) -
+      HVertexOperator.coeff (latticeChargeField D C a) (-r - 1)
+        (latticeTranslation D C (latticeFockMonomial D C word b)) =
+      -(r : ℂ) • chargeModeMonomialFormula D C word a b (r - 1) := by
+  sorry
+
+/-- Extend the independent monomial coefficient calculation by the actual
+Fock spanning theorem. This must not invoke generic operator covariance. -/
+theorem latticeChargeField_translation_covariant {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (C : NormalizedSignCocycle D) (a : D.lattice.carrier) :
+    VertexFoundations.FieldTranslationCovariant (latticeTranslation D C)
+      (latticeChargeField D C a) := by
+  intro n
+  apply LinearMap.ext_on (latticeFockMonomials_span D C)
+  intro v hv
+  rcases hv with ⟨word, b, rfl⟩
+  change latticeTranslation D C
+      (latticeMode D C (chargeState D C a) n (latticeFockMonomial D C word b)) -
+    latticeMode D C (chargeState D C a) n
+      (latticeTranslation D C (latticeFockMonomial D C word b)) =
+    -(n : ℂ) • latticeMode D C (chargeState D C a) (n - 1)
+      (latticeFockMonomial D C word b)
+  have hcoef : HVertexOperator.coeff (latticeChargeField D C a) (-n - 1) =
+      latticeMode D C (chargeState D C a) n := rfl
+  simpa only [latticeChargeField_monomial_formula, hcoef] using
+    latticeTranslation_chargeModeMonomialFormula D C word a b n
+
+/-- Every normal-ordered oscillator word is covariant before reconstruction. -/
+theorem normalOrderedFockField_translation_covariant {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (C : NormalizedSignCocycle D)
+    (word : List (ℕ+ × ComplexAmbient V D)) (a : D.lattice.carrier) :
+    VertexFoundations.FieldTranslationCovariant (latticeTranslation D C)
+      (normalOrderedFockField D C word a) := by
+  unfold normalOrderedFockField
+  apply normalOrderedProduct_translation_covariant
+  · intro current hcurrent
+    rcases List.mem_map.mp hcurrent with ⟨p, hp, rfl⟩
+    exact dividedHeisenbergCurrentField_translation_covariant D C
+      (latticeTranslation D C) _ p.1
+      (latticeHeisenbergField_translation_covariant D C p.2)
+  · exact latticeChargeField_translation_covariant D C a
+
+/-- General lattice covariance is obtained on the spanning normal-ordered
+monomials before bundling. No generic covariance theorem is invoked here. -/
+theorem latticeStateField_translation_covariant {V : Type u}
+    [AddCommGroup V] [Module ℚ V] (D : PositiveEvenLattice V)
+    (C : NormalizedSignCocycle D) (a : FockSpace D C) :
+    VertexFoundations.FieldTranslationCovariant (latticeTranslation D C)
+      (latticeStateField D C a) := by
+  exact VertexFoundations.fieldTranslationCovariant_of_span_top
+    (latticeTranslation D C) (latticeStateField D C)
+    {x | ∃ (word : List (ℕ+ × ComplexAmbient V D)) (b : D.lattice.carrier),
+      x = latticeFockMonomial D C word b}
+    (latticeFockMonomials_span D C)
+    (by
+      intro x hx
+      rcases hx with ⟨word, b, rfl⟩
+      rw [latticeStateField_fockMonomial_normalOrdered]
+      exact normalOrderedFockField_translation_covariant D C word b) a
 
 /-- Charge-on-charge coefficient, defined by the empty-word exponential
 formula rather than by aliasing the same admitted field coefficient. -/
@@ -1857,10 +2131,11 @@ noncomputable def latticeGradedVertexAxioms {V : Type u}
     field := latticeStateField D C
     vacuum := vacuumState D C
     translation := latticeTranslation D C
-    translation_vacuum := by sorry
+    translation_vacuum := latticeTranslation_vacuum D C
     vacuum_coeff := by sorry
     creation := by sorry
     translation_coeff := by sorry
+    operator_translation_coeff := fun a n => latticeStateField_translation_covariant D C a n
     truncation := by sorry
     locality := by sorry
     creation_no_poles := by sorry
@@ -1876,8 +2151,7 @@ theorem latticeTranslation_commutator_mode {V : Type u}
     latticeTranslation D C * latticeMode D C a n -
       latticeMode D C a n * latticeTranslation D C =
         -(n : ℂ) • latticeMode D C a (n - 1) := by
-  exact VertexFoundations.formalVertex_translation_covariance
-    (latticeGradedVertexAxioms D C).toFormalVertexAxioms a n
+  exact latticeStateField_translation_covariant D C a n
 
 theorem latticeFormalVertex_borcherds {V : Type u} [AddCommGroup V]
     [Module ℚ V] (D : PositiveEvenLattice V) (C : NormalizedSignCocycle D)

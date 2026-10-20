@@ -458,9 +458,11 @@ scalar-extension injectivity.
 
 This is a separate construction branch in this owner. It consumes the current
 `TauCeti.IntegralLattice` carrier and its evenness/positive-definiteness
-contracts from [IntegralLattices](../IntegralLattices/README.md), the root
-lattices and norm-two shell comparison from [Root Systems](../RepresentationTheory/RootSystems/README.md),
-and the actual signed Lie carrier and bracket in
+contracts from [IntegralLattices](../IntegralLattices/README.md), the finite
+root-system realizations/classification from [Root Systems](../RepresentationTheory/RootSystems/README.md),
+and the ADE root-lattice/norm-two-shell bridge owned by
+[ReductiveGroups RG9A.1a](../ReductiveGroups/README.md),
+together with the actual signed Lie carrier and bracket in
 [`ReductiveGroups/SignedADETargets.lean`](../ReductiveGroups/SignedADETargets.lean).
 It reuses the actual `HVertexOperator`/Hahn-series coefficient carrier and the
 field conventions recorded in A5–A6. A6's affine vacuum `Vκ` is not the lattice
@@ -535,6 +537,30 @@ On a charged vector retain the distinct formula
 `h(0)e^α=B(h,α)e^α`, and prove it is the charged specialization of the same
 Heisenberg representation.
 
+**Translation from the oscillator algebra.** Before any reconstruction or
+bundled vertex axioms, construct the unique complex-linear derivation `δ` of
+the symmetric oscillator algebra satisfying
+
+    δ(1)=0,  δ(uv)=δ(u)v+uδ(v),
+    δ(h(−m))=m h(−(m+1))  (m>0).
+
+A concrete construction sends each generator `g` to `ι(g)+ε ι(shift(g))`
+in the square-zero extension of the symmetric algebra by itself and uses the
+symmetric-algebra universal map; its constant component is the identity and
+its ε component is `δ`. Prove the linear, unit, product and generator equations
+for that actual map. Define the Fock translation by bilinear extension of
+
+    T(u⊗e^α)=(δ(u)+u α(−1))⊗e^α.
+
+Prove `T1=0`, `Te^α=α(−1)e^α` and independently prove the operator equation
+`[T,h(n)]=−n h(n−1)` for every integer `n`. Negative modes use the derivation
+law; for `n≥2` use the contraction derivations; at `n=1` the charge multiplication
+term supplies `−h(0)`; at `n=0` the operators commute. Derive charge-field
+covariance `[T,Y(e^α,z)]=∂_zY(e^α,z)` from the actual finite charge coefficient
+formula on every oscillator word and charge, then extend by the independent
+spanning theorem for Fock monomials. These proofs precede the generic vertex
+bundle and do not use its covariance projection.
+
 **Fields and finiteness.** Use the convention
 `Y(a,z)=Σ_(r∈ℤ) a_(r) z^(−r−1)`. For a charge vector set
 
@@ -584,11 +610,21 @@ Prove truncation for sufficiently large positive normalized indices
 (``a_(n)b=0`` for all ``n≥N``), the vacuum-field identity, absence of negative
 powers in ``Y(a,z)1``, and the full creation identity
 ``Y(a,z)1=e^(zT)a`` coefficient by coefficient (not only its constant term). Require ``T1=0`` and the derivative identity ``Y(Ta,z)=∂_zY(a,z)``
-with the normalized mode shift. In the early generic foundation, prove the
-operator translation covariance ``[T,Y(a,z)]=∂_zY(a,z)`` from the chosen
-creative/local axioms before reconstruction consumes it; in normalized
-modes this is ``T a_(n)−a_(n) T=−n a_(n−1)``. This is a distinct operator
-identity, not another name for the state derivative equation. Prove skew symmetry and the Borcherds/Jacobi
+with the normalized mode shift. The early generic creative/local interface additionally requires the
+independent operator-covariance axiom ``[T,Y(a,z)]=∂_zY(a,z)`` on every state;
+in normalized modes this is ``T a_(n)−a_(n) T=−n a_(n−1)``. The generic
+covariance theorem projects this axiom. State derivative and full creation are
+retained, but are not used to infer this missing operator law. For the lattice
+construction, establish covariance of the actual Heisenberg and charge fields
+independently from the concrete translation above. Prove coefficient-level
+closure under each divided derivative and binary normal product using the
+existing finite-tail witnesses with a common cutoff for `v`, `Tv` and the
+shifted coefficients. Reindex the split negative/nonnegative sums; the only
+boundary at index zero has factor zero. Induct on the ordered list of factors,
+use the actual all-word normal-order equations and Fock spanning to obtain
+covariance for every state. Supply this pre-bundle theorem to the generic axiom
+field when constructing `latticeGradedVertexAxioms`. Reconstruction must consume
+covariant generating fields and cannot create its own missing hypothesis. Prove skew symmetry and the Borcherds/Jacobi
 identity for every three states. Prove locality in the actual
 coefficient convention: for each `a,b∈V_L` some `N≥0` satisfies
 `(z−w)^N[Y(a,z),Y(b,w)]=0` after the two iterated Hahn expansions are mapped
@@ -972,6 +1008,15 @@ not a foundation dependency of affine completion or centers. Compatible equivale
 separately owned precise **conjecture statement**, not an unconditional
 categorical-lift or global Langlands theorem requested here.
 
+- [Bakalov–Kac, *Twisted Modules over Lattice Vertex Algebras*](https://arxiv.org/html/math/0402315),
+  §2.2 Definition2.1 for operator translation as an axiom and the separate
+  state-derivative consequence, and §4.1 Theorem4.1 for the lattice generators
+  and translation identities. C7 retains its positive even-lattice restriction;
+  it does not introduce the odd-lattice super case.
+- [Kac, *Introduction to vertex algebras, Poisson vertex algebras, and integrable Hamiltonian PDE*](https://arxiv.org/abs/1512.00821),
+  §1.1 reconstruction: prove generator covariance before applying the
+  reconstruction theorem. The lattice coefficient and finite-tail contracts
+  above specify the construction required here.
 - [Frenkel, *Langlands Correspondence for Loop Groups*](https://math.berkeley.edu/~frenkel/loop.pdf),
   §1.3 continuous cohomology/integration, §2.1 and §3.2 left-ideal completion,
   Chapters6–8 free fields/screenings/center, §8.1.4 and §8.3 inverse dual form

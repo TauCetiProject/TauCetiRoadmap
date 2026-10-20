@@ -14,8 +14,11 @@ body:
     attributes:
       label: Roadmap area
       options:
+        - AdicEtaleGeometry
         - AdicSpaces
         - AdicSpacesPartII
+        - AdicSpacesPartIII
+        - AdicSpacesPartIV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
@@ -23,6 +26,7 @@ body:
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticToricGeometry
+        - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
         - BordismFormalGroups
@@ -34,6 +38,8 @@ body:
         - CombinatorialHeegaardFloer
         - CompactOperators
         - ComplexCurveModuli
+        - ComplexKahlerGeometry
+        - ComplexTori
         - ConformalMapping
         - DGAInfinity
         - DGFloer
@@ -42,6 +48,8 @@ body:
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - EllipticCurves
+        - EnhancedDerivedSheaves
+        - EtaleCohomologyFoundations
         - Exchangeability
         - FinancialMathematics
         - FormalLaurentPuiseux
@@ -60,6 +68,7 @@ body:
         - HeightsAndUnits
         - HopfRinow
         - Hyperfunctions
+        - ImaginaryQuadraticClassNumber
         - InfinitaryLogic
         - IntegralLattices
         - Isoperimetry
@@ -73,6 +82,7 @@ body:
         - MorseNovikov
         - MorseTheory
         - NewtonPolygons
+        - NilpotentOrbits
         - NoncommutativeGeometry
         - NumberFieldArithmetic
         - OneParameterSemigroups
@@ -84,6 +94,7 @@ body:
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
+        - PerfectoidSpaces
         - PeripheralActions
         - PivotalSpherical
         - PolynomialGaloisGroups
@@ -99,14 +110,20 @@ body:
         - Regularity
         - RepresentationTheory
         - RestrictedPowerSeries
+        - RiemannianGeometry
         - RigidAnalyticGeometry
         - SchemeAndStackFoundations
         - SchubertGeometry
+        - SeibergWittenTheory
         - SpinGeometry
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - SymplecticGeometry
+        - TauberianBoundaryConvergence
         - TaubesGromov
+        - ThetaSeries
+        - TypeAHeckeAlgebras
         - Yamabe
         - ZigzagPreprojective
     validations:
