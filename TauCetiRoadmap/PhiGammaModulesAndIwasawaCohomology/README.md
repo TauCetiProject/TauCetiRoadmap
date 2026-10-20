@@ -149,13 +149,15 @@ DerivedModuleAlgebra §1.T.1, “The Milnor sequence for towers of complexes”,
 projections, connecting maps, cofinal comparisons and maps preserving specified square homotopies.
 Section 0.6 applies these constructions to the finite continuous-cochain tower.
 
-PerfectoidSpaces §§P1.6, P1.10–P1.11 and P1.16–P1.18 supply tilting, `Witt/θ` comparisons and almost
-purity; §P1.31 supplies the completed cyclotomic field. PerfectoidTowers P9.0 supplies lifting continuous
+PerfectoidSpaces §§P1.6, P1.10–P1.11 and P1.16–P1.18 supply tilting and `Witt/θ`
+comparisons; §§P3.7–P3.13 supply finite étale tilting and almost purity. Section P1.31 supplies the
+completed cyclotomic field. PerfectoidTowers P9.0 supplies lifting continuous
 cochains along finite surjections, continuous cochains into an inverse limit, and comparison with the
 canonical carrier for compact coefficients. Use its jointly continuous actions and quotient topologies.
 ProfiniteCohomology Layers 0–12 supply the finite discrete cochains, their functorial maps, cup products,
-Shapiro and cohomological dimension; Layer 10 supplies discrete Hochschild–Serre. The compact derived
-realization and compact descent comparison are §0.6 here. ClassFieldTheory Layer 5 supplies finite local
+Shapiro, the five-term inflation–restriction sequence and cohomological dimension. Section 0.6 constructs
+the finite-coefficient Hochschild–Serre bar roof before its compact limit; the compact derived realization
+and compact descent comparison are also constructed there. ClassFieldTheory Layer 5 supplies finite local
 Tate duality, the invariant and local Euler characteristic; §§0.6 and 3.6 here pass to lattices and rational
 coefficients. Its Layers 6–7 supply the continuous local Artin map and geometric normalization by inversion,
 and Layer 9 the topological Weil group and reciprocity. LocalFieldsRamification Layer 2 supplies finite
@@ -364,14 +366,23 @@ Mittag–Leffler. Retain its projections, connecting maps, cofinality and specif
 The API also comprises derived coefficient triangles and their
 ordinary reduction comparison for `O_E`-flat `T`, `compactGaloisComplex_latticeIndependent`, cup and trace
 naturality. Sources: CC-1999 §§II.1–II.3; KPX §4.1; the supplied cochain-limit comparison. *Needs:*
-ProfiniteCohomology Layers 0–12; PerfectoidTowers P9.0; DerivedModuleAlgebra §§1.T.1,1.1; native localization;
+ProfiniteCohomology Layers 0–12; PerfectoidTowers P9.0; DerivedModuleAlgebra §§1.T.1,1.1,S.1; native localization;
 PadicMeasuresIwasawaAlgebras §5.2.
 
+For a profinite `G`, a closed normal subgroup `H`, quotient `Q=G/H` and a finite discrete continuous
+`G`-module `F`, construct `finiteDiscreteHochschildSerreRoof`, the natural derived comparison
+`RΓ(G,F) ≃ RΓ(Q,RΓ(H,F))`. Use the continuous bar resolution and its double-complex totalization,
+retaining the homotopy-coherent quotient action: conjugation on raw `H` cochains need not factor through
+`Q` as a strict action. Construct the comparison on a quotient-equivariant resolution and retain its
+inflation, restriction, open finite-index transfer and cup maps, including the edge maps on cohomology.
+The finite coefficient condition concerns `F`, not the generally infinite groups of cochains.
+Source: NSW, Chapter II §4, Theorem 2.4.1, p.111, with the continuous bar-double-complex construction.
+Use DerivedModuleAlgebra §S.1 for the first-quadrant spectral sequence and its abutment maps.
+
 For an open normal subgroup `H` with finite quotient `Q`, construct `compactFiniteDescent : RΓ(G,T) ≃
-RΓ(Q,RΓ(H,T))` by the continuous bar double complex and the supplied finite discrete Hochschild–Serre maps
-modulo `ϖ^m`. Keep the coherent `Q` action before passing to the limit. For a closed normal subgroup `H` with
-profinite quotient, construct compact continuous Hochschild–Serre by taking the derived coefficient limit of
-the finite discrete bar roofs and using the cochain lifting comparison. The Banach period version is the
+RΓ(Q,RΓ(H,T))` using this roof modulo `ϖ^m`. Keep the coherent `Q` action before passing to the limit.
+For a closed normal subgroup `H` with profinite quotient, construct compact continuous Hochschild–Serre by taking the derived coefficient limit of
+these finite-coefficient bar roofs and using the cochain lifting comparison. The Banach period version is the
 separate target of §3.6; compact descent does not assert exactness of Banach invariants. Extend finite local
 Tate duality from ClassFieldTheory Layer 5 to finite `O_E-lattices` and finite-dimensional E-representations
 by reduction, compact limits and rationalization, with the evaluation pairing, invariant and Euler
@@ -385,6 +396,13 @@ with this same local pairing; admissible coefficients beyond this specialization
 
 **Checks.**
 
+- In `finiteDiscreteHochschildSerreRoof`, `H=1` gives the original continuous-cochain complex and `H=G`
+  gives the identity comparison with `RΓ(G,F)`; both preserve cups and the identity edge map.
+- For the nonsplit extension `1→C_p→C_(p²)→C_p→1` and trivial `F=𝔽_p`, the transgression of the
+  identity `C_p→𝔽_p` is nonzero: it is the pushout extension class. Replacing the coherent action by
+  the trivial action on a raw `H` cochain complex would incorrectly split this class.
+- For `F=0` the bar roof is zero; for finite `G` and `H` it agrees with the finite-group bar comparison,
+  and open-subgroup transfers satisfy the supplied restriction/corestriction identities.
 - For `T=0` the compact complex and every derived-limit term vanish; for a finite `T` the quotient tower is
   eventually constant and returns its continuous complex.
 - For the trivial `T=ℤ_p`, degree-zero cochains recover `ℤ_p`, not `ℚ_p` and not the discrete union of its
@@ -537,7 +555,8 @@ equivariance. Prove the `φ^d`-module, bundle and two-piece period equivalences,
 localization maps, tensor, dual and exactness. On relative charts retain the untilt Cartier divisor,
 completion and punctured completion; the gluing is independent of its local equation.
 For finite `E` include coefficient extension and field restriction/trace. Sources:
-KL-I Theorems 6.3.12, 8.7.7 and 8.9.6, manuscript pp.141–142,178,188; FF Theorem 11.5.1. The cyclotomic-equivariant and all-component assertions are added in §1.6, not assumed here.
+KL-I Theorems 6.3.12, 8.7.7 and 8.9.6, manuscript pp.141–142,178,188. The cyclotomic-equivariant and all-component assertions are added in §1.6,
+not assumed here.
 
 Construct `frobeniusPeriodSheafRoof` identifying Frobenius cohomology of the period-sheaf realization with its
 native derived sheaf cohomology and the two-piece B-pair complex. Use positive Koszul twists and annular
@@ -582,8 +601,8 @@ annulus extension for a finite field extension `K′/K`, and the Frobenius basis
 direction: the target annulus ring is finite free over the image of the source under `φ`. For `K=ℚ_p` the
 basis is `(1+π)^i, 0≤i<p`. At a finite extension `K′/K`, rescale radii by the norm-field ramification index
 and record both the coefficient rank and the `Γ` coset index; their product is `[K′:K]`. Sources: KPX §2.2,
-especially Definitions 2.2.1–2.2.2, pp.15–16; KL-I §9.5, pp.200–202. API: restriction, `φ/Γ` action, completed
-coefficient change, finite-extension trace, coordinate extraction and uniqueness.
+especially Notation 2.2.1 and Definition 2.2.2, pp.15–16; KL-I §9.5, pp.200–202. API: restriction, `φ/Γ`
+action, completed coefficient change, finite-extension trace, coordinate extraction and uniqueness.
 
 **Checks.**
 
@@ -843,7 +862,10 @@ The light `psiCokernel ψ` is the native quotient `M/range(ψ−id)` used by §2
   exponent by 3. The light coefficient map is `polynomialPsi`. Then `P(U)=U` and `P(U³)=0`.
 - In that polynomial example, `ψ`-fixed elements are constants, so `(1−φ)psiFixed=0` while `U∈kerψ`. This
   disproves unconditional surjectivity.
-- With `φ=ψ=id, psiFixed=M` and the common fixed kernel is all of `M`, rather than zero.
+- With `φ=ψ=id, psiFixed=M` and the common fixed kernel is all of `M`, rather than zero; the bundled
+  `oneSubPhiOnPsiOne` is the zero map.
+- With the same `polynomialPsi` but the linear operator `φ(f)=f(U³)+f(0)U`, one still has `ψφ=id` and
+  `ψ(1)=1`, while the bundled map sends 1 to `−U≠0` in `kerψ`.
 
 ### 2.5 Period coordinates, integrality and continuity
 
@@ -1236,7 +1258,7 @@ universal characters use `d` open-disc coordinates; retain the finite quotient a
 components by restriction, without assuming they all split over `ℚ_p`. Construct change-of-generators maps,
 their cocycle and inverse, and finite coefficient field extension. For `K^×` use `K^×≃ϖ_K^ℤ×O_Kˣ` to construct
 `localMultiplicativeCharacterSpace K` as the unit character space times `G_m`, and prove its
-uniformizer-independent representing property. Source: KPX §6.1, especially Proposition 6.1.1 and Notation
+uniformizer-independent representing property. Source: KPX §6.1, especially Proposition 6.1.1 and Remark
 6.1.2, pp.54–56. The `ℤ_p^×` components and their integral universal characters are the supplied
 PadicMeasuresIwasawaAlgebras/PadicFunctionalAnalysis objects. API: `compactCharacterSpace_universal`,
 `compactCharacterSpace_generatorChange`, `localCharacterSpace_uniformizerChange`, evaluation and coefficient
@@ -2024,6 +2046,31 @@ Theorem 6.2.14; no global family theorem is required for that argument.
 - Multiplication by t is injective but its quotient is t-torsion, so `tR` is not saturated in `R`; inverting t
   destroys that distinction.
 
+### 7.2a Sen modules and polynomials over affinoid coefficients
+
+For every finite-projective relative `(φ,Γ_K)`-module `M` over `R_{A,K}`, for any affinoid `A`, construct
+`senModule M n` over `K_n⊗_{ℚ_p}A`, where `K_n=K(μ_(p^n))` and `n` is sufficiently large for a radius
+model of `M`. On constant-rank components its rank is `rank(M)`. Construct its scalar-extension
+identification with `(M/tM)^{φ=1}` over `K_∞⊗_{ℚ_p}A`, using the cyclotomic-factor decomposition of
+`M/tM` and Frobenius transition maps. The normalized logarithm `log(γ)/log(χ(γ))`, for `γ` sufficiently
+close to 1 and fixing `K_n`, with `χ(γ)≠1`, induces its `K_n⊗A`-linear Sen operator. Prove compatibility under deeper `n` and independence
+of `γ`; the characteristic polynomial descends to `senPolynomial M ∈ (K⊗_{ℚ_p}A)[T]` by `Γ_K`
+invariance. Its degree is the module rank on each component. Prove independence of the radius model and
+of sufficiently deep `n`, arbitrary affinoid base change, and compatibility with direct sums and the
+embedding decomposition after extending coefficients to contain the embeddings of `K`. For a character
+line with parameter `δ`, write `d logδ=Σ_σ w_σ dσ` on a sufficiently small unit subgroup; the
+embeddingwise operator is multiplication by `w_σ`, with the standing Hodge–Tate sign adapter. The construction applies before rank-one classification.
+Sources: KPX Lemma 3.2.3, pp.28–29, Definition 6.2.11 and Lemma 6.2.12, pp.59–60. *Needs:* §§1.2,1.5
+for radius models and cyclotomic localization; §7.1 for character-line comparison.
+
+**Checks.**
+
+- The unit line has zero operator and polynomial `T`; the rank-zero module has polynomial 1.
+- The Tate character `x|x|` has Sen label `+1` and polynomial `T−1`; its Hodge–Tate weight in the
+  standing convention is `−1`.
+- Over `A=E[ε]/ε²`, the character `δ(u)=1+ε log(u)` on small `ℚ_p` units has operator `ε` and polynomial
+  `T−ε`. Reduction gives `T`, but does not determine the polynomial before reduction.
+
 ### 7.3 Weights over Artinian coefficients
 
 For a finite local Artinian E-algebra `A` and a continuous character `δ:K^×→A^×`, define `CharacterWeights δ :
@@ -2043,8 +2090,8 @@ finite-dimensional E-algebra `A`, including its nilpotents. Sources: BHS Notatio
 coefficient-valued weights; KPX Lemma 6.2.12, p.60, for the Sen comparison; Ding §2.1, PDF pp.9–10, for
 reciprocity and algebraic-character conventions. API: `characterWeight_mul`, `characterWeight_algebraic`,
 `characterWeight_smooth`, `locallyAlgebraic_iff_integralWeights`, and `characterWeight_sen`. The Sen
-comparison states explicitly that the Hodge–Tate sign convention assigns the opposite sign to the exponent
-labeling of the Tate character.
+comparison uses §7.2a and states explicitly that the Hodge–Tate sign convention assigns the opposite
+sign to the exponent labeling of the Tate character.
 
 **Checks.**
 
@@ -2085,8 +2132,9 @@ Construct `rankOneParameterGraph` inside `X×W_{K^×}` as the intersection of th
 two Tate-dual `H²` modules controlling the parameters of `M` and `M^∨`. Derived base change and field duality
 identify its points with the unique field parameter. Artinian devissage identifies the formal fibers and their
 tangent directions. Prove the projection is locally an isomorphism and **quasicompact** before concluding it
-is an isomorphism: on an affinoid `X` bound the uniformizer value and the logarithmic parameter; use the Sen
-polynomial and a `p^m` power on a small unit subgroup to bound the remaining finite-order ambiguity. A
+is an isomorphism: on an affinoid `X` bound the uniformizer value and the logarithmic parameter; use
+`senPolynomial M` from §7.2a and a `p^m` power on a small unit subgroup to bound the remaining finite-order
+ambiguity. A
 bijection on rigid points by itself is insufficient. The graph proof is KPX §§6.2.15–6.2.20, pp.62–64; Example
 6.2.21, p.65, is the negative control for removing the quasicompactness step. API: `rankOneParameter_unique`,
 `rankOneLineBundle`, `rankOneEvaluation_iso`, `rankOneParameter_baseChange`, `rankOneGraph_quasicompact` and
@@ -2292,6 +2340,7 @@ Page numbers refer to the printed pages of the linked versions, except KPX, KL-I
 and LLZ-2010, where they are the numbered manuscript pages. No numerical residue constant is inferred from a
 reported claim.
 
+- **NSW** — Jürgen Neukirch, Alexander Schmidt and Kay Wingberg, *Cohomology of Number Fields*, second edition, [author electronic edition](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), Chapter II §4, Theorem 2.4.1, p.111, for continuous Hochschild–Serre.
 - **ST-Fourier** — Peter Schneider and Jeremy Teitelbaum, *p-adic Fourier theory*, Documenta Mathematica 6 (2001), 447–481, [arXiv:math/0102012](https://arxiv.org/abs/math/0102012), §2, for locally ℚ_p-analytic compact abelian Fourier coordinates.
 - **Liu** — Ruochuan Liu, *Cohomology and duality for (φ,Γ)-modules over the Robba ring*, [arXiv:0711.4346v2](https://arxiv.org/abs/0711.4346v2), especially Lemma 4.2, manuscript p.22 (the auxiliary pure extension used in the field ψ-finiteness induction).
 - KPX — Kiran S. Kedlaya, Jonathan Pottharst and Liang Xiao, *Cohomology of arithmetic families of (φ,Γ)-modules*, [arXiv:1203.5718v3](https://arxiv.org/abs/1203.5718v3), 79 pages. This version fixes the target numbering used here, including Theorems 4.4.3–4.4.8 and §6.3.

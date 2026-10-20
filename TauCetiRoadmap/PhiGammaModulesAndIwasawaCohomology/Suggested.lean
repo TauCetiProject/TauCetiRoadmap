@@ -301,6 +301,106 @@ theorem psiComplex_homology_isZero (ψ : M →ₗ[C] M) (i : ℤ) (hi : i ≠ 1)
     CategoryTheory.Limits.IsZero ((psiComplex ψ).homology i) := by
   sorry
 
+/-- The identity operator gives homology in degrees one and two, with scalar chain-map composition. -/
+example :
+    Nonempty ((psiComplex (LinearMap.id : ℚ →ₗ[ℚ] ℚ)).homology 1 ≅ ModuleCat.of ℚ ℚ) ∧
+    Nonempty ((psiComplex (LinearMap.id : ℚ →ₗ[ℚ] ℚ)).homology 2 ≅ ModuleCat.of ℚ ℚ) ∧
+    CategoryTheory.Limits.IsZero ((psiComplex (LinearMap.id : ℚ →ₗ[ℚ] ℚ)).homology 0) ∧
+    psiComplex.map LinearMap.id LinearMap.id (6 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp) =
+      psiComplex.map LinearMap.id LinearMap.id (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp) ≫
+      psiComplex.map LinearMap.id LinearMap.id (3 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp) ∧
+    (∀ i : ℤ, HomologicalComplex.homologyMap
+        (psiComplex.map LinearMap.id LinearMap.id (6 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp)) i =
+      HomologicalComplex.homologyMap
+        (psiComplex.map LinearMap.id LinearMap.id (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp)) i ≫
+      HomologicalComplex.homologyMap
+        (psiComplex.map LinearMap.id LinearMap.id (3 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp)) i) := by
+  have hz (i j : ℤ) : (psiComplex (LinearMap.id : ℚ →ₗ[ℚ] ℚ)).d i j = 0 := by
+    by_cases hij : i + 1 = j
+    · subst j
+      change CochainComplex.of.d _ _ i (i + 1) = 0
+      rw [CochainComplex.of_d]
+      by_cases hi : i = 1
+      · subst i
+        change ModuleCat.ofHom ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id) = 0
+        simp
+      · simp only [psiComplex.differential, dite_eq_right hi]
+        rfl
+    · exact CochainComplex.of_d_ne _ _ hij
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · exact ⟨(ShortComplex.HomologyData.ofZeros
+      ((psiComplex (LinearMap.id : ℚ →ₗ[ℚ] ℚ)).sc 1) (hz _ _) (hz _ _)).left.homologyIso⟩
+  · exact ⟨(ShortComplex.HomologyData.ofZeros
+      ((psiComplex (LinearMap.id : ℚ →ₗ[ℚ] ℚ)).sc 2) (hz _ _) (hz _ _)).left.homologyIso⟩
+  · apply HomologicalComplex.ExactAt.isZero_homology
+    apply HomologicalComplex.ExactAt.of_isZero
+    change CategoryTheory.Limits.IsZero (ModuleCat.of ℚ PUnit)
+    exact ModuleCat.isZero_of_subsingleton _
+  · have hc : psiComplex.map LinearMap.id LinearMap.id
+          (6 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp) =
+        psiComplex.map LinearMap.id LinearMap.id (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp) ≫
+        psiComplex.map LinearMap.id LinearMap.id (3 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) (by simp) := by
+      apply HomologicalComplex.Hom.ext
+      funext i
+      by_cases h1 : i = 1
+      · subst i
+        apply ModuleCat.hom_ext
+        change (6 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) =
+          (3 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)).comp (2 • LinearMap.id)
+        apply LinearMap.ext
+        intro x
+        change (6 : ℚ) * x = 3 * (2 * x)
+        ring
+      · by_cases h2 : i = 2
+        · subst i
+          apply ModuleCat.hom_ext
+          change (6 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) =
+            (3 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)).comp (2 • LinearMap.id)
+          apply LinearMap.ext
+          intro x
+          change (6 : ℚ) * x = 3 * (2 * x)
+          ring
+        · have hi : ¬ (i = 1 ∨ i = 2) := by tauto
+          simp [psiComplex.map, hi]
+
+    refine ⟨hc, ?_⟩
+    intro i
+    rw [hc, HomologicalComplex.homologyMap_comp]
+
+/-- A zero ψ gives an acyclic native complex, including its terms outside degrees one and two. -/
+example : ∀ i : ℤ, CategoryTheory.Limits.IsZero ((psiComplex (0 : ℚ →ₗ[ℚ] ℚ)).homology i) := by
+  intro i
+  apply HomologicalComplex.ExactAt.isZero_homology
+  by_cases h1 : i = 1
+  · subst i
+    rw [HomologicalComplex.exactAt_iff' (psiComplex (0 : ℚ →ₗ[ℚ] ℚ)) 0 1 2
+      (by simp) (by simp), ShortComplex.moduleCat_exact_iff]
+    · change ∀ x : ℚ, (0 : ℚ) - x = 0 → ∃ _ : PUnit, (0 : ℚ) = x
+      intro x hx
+      have hx0 : x = 0 := by
+        change (0 : ℚ) - x = 0 at hx
+        simpa using hx
+      exact ⟨0, by simpa using hx0.symm⟩
+  · by_cases h2 : i = 2
+    · subst i
+      rw [HomologicalComplex.exactAt_iff' (psiComplex (0 : ℚ →ₗ[ℚ] ℚ)) 1 2 3
+        (by simp) (by simp), ShortComplex.moduleCat_exact_iff]
+      · change ∀ x : ℚ, (0 : PUnit) = 0 → ∃ y : ℚ, (0 : ℚ) - y = x
+        intro x _
+        exact ⟨-x, by simp⟩
+    · apply HomologicalComplex.ExactAt.of_isZero
+      have hi : ¬ (i = 1 ∨ i = 2) := by tauto
+      simpa only [psiComplex, psiComplex.term, ite_eq_right hi] using
+        (ModuleCat.isZero_of_subsingleton (ModuleCat.of ℚ PUnit))
+
+/-- On the common fixed space of identity operators, the bundled 1 − φ map vanishes. -/
+example : oneSubPhiOnPsiOne (LinearMap.id : ℚ →ₗ[ℚ] ℚ) LinearMap.id (by simp) = 0 := by
+  apply LinearMap.ext
+  intro x
+  apply Subtype.ext
+  change x.val - x.val = 0
+  exact sub_self _
+
 /-- Polynomial coefficient extraction divides exponents divisible by three. -/
 def polynomialPsi : Polynomial ℚ →ₗ[ℚ] Polynomial ℚ where
   toFun := Polynomial.contract 3
@@ -309,6 +409,40 @@ def polynomialPsi : Polynomial ℚ →ₗ[ℚ] Polynomial ℚ where
     intro c f
     ext n
     simp [Polynomial.coeff_contract (by decide : 3 ≠ 0)]
+
+/-- A nonmultiplicative Frobenius section makes 1 − φ nonzero on a ψ-fixed polynomial. -/
+example :
+    let φ : Polynomial ℚ →ₗ[ℚ] Polynomial ℚ :=
+      (Polynomial.expand ℚ 3).toLinearMap +
+        (Polynomial.lcoeff ℚ 0).smulRight Polynomial.X
+    ∃ h : polynomialPsi.comp φ = LinearMap.id,
+      ∃ x : psiFixed polynomialPsi,
+        x.val = 1 ∧
+        (oneSubPhiOnPsiOne φ polynomialPsi h x : Polynomial ℚ) = -Polynomial.X ∧
+        oneSubPhiOnPsiOne φ polynomialPsi h x ≠ 0 := by
+  dsimp only
+  have hψX : polynomialPsi Polynomial.X = 0 := by
+    ext n
+    simp only [polynomialPsi, LinearMap.coe_mk, AddHom.coe_mk,
+      Polynomial.coeff_contract (by decide : 3 ≠ 0), Polynomial.coeff_X,
+      Polynomial.coeff_zero, ite_eq_right (by omega : ¬ (1 = n * 3))]
+  have hψ1 : polynomialPsi 1 = 1 := by
+    simpa [polynomialPsi] using
+      (Polynomial.contract_expand (R := ℚ) (f := 1) 3 (by decide : 3 ≠ 0))
+  have h : polynomialPsi.comp ((Polynomial.expand ℚ 3).toLinearMap +
+      (Polynomial.lcoeff ℚ 0).smulRight Polynomial.X) =
+        LinearMap.id := by
+    apply LinearMap.ext
+    intro f
+    change polynomialPsi ((Polynomial.expand ℚ 3) f + f.coeff 0 • Polynomial.X) = f
+    rw [map_add, map_smul, hψX, smul_zero, add_zero]
+    exact Polynomial.contract_expand 3 (by decide : 3 ≠ 0)
+  refine ⟨h, ⟨1, by change polynomialPsi 1 - 1 = 0; rw [hψ1]; simp⟩, rfl, ?_, ?_⟩
+  · simp [oneSubPhiOnPsiOne, LinearMap.smulRight]
+  · intro hz
+    have hv := congrArg (fun y : LinearMap.ker polynomialPsi => (y : Polynomial ℚ)) hz
+    simp [oneSubPhiOnPsiOne, LinearMap.smulRight] at hv
+
 
 /-- The polynomial projector retains U, kills U³, and 1 − φ misses U on ψ-fixed vectors. -/
 example :
@@ -519,7 +653,8 @@ finite-character specialization and the residue-normalized Iwasawa pairing; H_e 
 exponential; the all-level exponential-image condition; unramified Wach base change,
 good bases and their coordinate maps; CharacterWeights and the Sen adapter; rank-one
 support graphs, coefficient line bundles, Triangulation, flattening modifications and
-coherent flags with t-power defects. Their full API and checks are in README.md.
+coherent flags with t-power defects; senModule and senPolynomial for arbitrary affinoid
+relative modules; finiteDiscreteHochschildSerreRoof with its coherent quotient action. Their full API and checks are in README.md.
 
 Additional README API targets for the light definitions are psiOfLinearization_unique;
 rankOnePsi_apply, rankOnePsi_leftInverse, rankOnePsi_basisChange;
