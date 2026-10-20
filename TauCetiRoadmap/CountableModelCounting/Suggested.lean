@@ -697,8 +697,9 @@ theorem exists_bfLevel_saturated_modelsOf [L.IsRelational] [Countable (Σ l, L.R
 
 /-- **Layer 5 milestone, the limit model.** A sequence of codes, consecutive ones back-and-forth
 equivalent at `α i + ω` along a monotone sequence of levels, has a limit code back-and-forth
-equivalent to the `i`-th at level `α i`. The offset `ω` replaces a finite offset in the
-block-move convention, because `BFEquiv` adds one element per step. -/
+equivalent to the `i`-th at level `α i`. The offset `ω` suffices because extending a tuple of
+length `n` costs `n` levels in the one-element convention of `BFEquiv` and the tuples of the
+construction grow without bound; no countability of the levels is needed. -/
 theorem exists_limit_of_bfEquiv_chain [L.IsRelational] (c : ℕ → StructureSpace L)
     (α : ℕ → Ordinal.{0}) (hα : Monotone α)
     (hc : ∀ i, bfEquivSetoid (α i + Ordinal.omega0) (c i) (c (i + 1))) :

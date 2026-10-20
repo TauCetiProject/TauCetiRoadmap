@@ -156,8 +156,9 @@ instead). This roadmap consumes:
   isomorphism (`StrongHomClass.realize_boundedFormulaInf` and `realize_sentenceInf`,
   [Tau Ceti #18035](https://github.com/TauCetiProject/TauCeti/pull/18035));
 * `BFEquiv` with `BFEquiv.succ`, `BFEquiv.limit`, monotonicity, reflexivity, symmetry,
-  transitivity and invariance under isomorphism (`TauCeti.BFEquiv`, `BFEquiv.refl`,
-  `BFEquiv.symm`, `BFEquiv.trans`, `FirstOrder.Language.Equiv.bfEquiv`);
+  transitivity, re-indexing of both tuples along a map `Fin m → Fin n`, and invariance under
+  isomorphism (`TauCeti.BFEquiv`, `BFEquiv.refl`, `BFEquiv.symm`, `BFEquiv.trans`, `BFEquiv.comp`,
+  `FirstOrder.Language.Equiv.bfEquiv`);
 * `countable_potentialIso_iff_iso` and `potentialIso_iff_bfEquiv_all`;
 * the Scott formulas `scottFormula a α` with `realize_scottFormula_iff_bfEquiv`, so that for
   `α < ω₁` the class `{d | bfEquivSetoid α c d}` is the model class of the sentence
@@ -660,18 +661,26 @@ the parent roadmap. In order:
    quantifier complexity `Π^in_α` of `θ`, so no quantifier-rank preservation theorem is needed.
 3. **The limit model.** `exists_limit_of_bfEquiv_chain`: for codes `c i` on `ℕ` and a monotone
    `α : ℕ → Ordinal.{0}` with `bfEquivSetoid (α i + ω) (c i) (c (i + 1))` for all `i`, there is a
-   code `d` with `bfEquivSetoid (α i) d (c i)` for all `i`. Construction: choose injective tuples
-   `a_s` in `c s` with `(c s, a_s)` and `(c (s+1), a_{s+1} restricted to |a_s|)` at level `α s + 1`,
-   and with every element of every `c i` eventually matched (by a dovetailed schedule, with level
-   `α i` between the extended tuples); extending a tuple of length `n` uses `n` forth steps from
-   level `α s + 1 + n < α s + ω` (`BFEquiv.limit` at `α s + ω`). The limit code's diagram on
-   positions is read from the `a_s`, consistent because the chain preserves atomic types. Then prove
-   by induction on `γ`, for all `i` with `γ ≤ α i`, that `(c i, a_i)` and the first `|a_i|`
-   positions of `d` are `BFEquiv γ`, using restriction to sub-tuples (`BFEquiv.comp`), symmetry and
-   transitivity, and the chain bound `(c i, a_i) ~ (c k, a_k restricted)` at level `α i + 1` for
-   `k ≥ i` (monotonicity of `α`). Ordinal offsets: Montalbán's hypothesis `≡_{α_i + 3}` is for block
-   moves; with one element per step the uniform offset is `ω`, and the conclusion is at `α i` with
-   no offset.
+   code `d` with `bfEquivSetoid (α i) d (c i)` for all `i`. Construction: build injective tuples
+   `a_s` of length `n_s` in `c s` such that the first `n_s` entries `b_s` of `a_{s+1}` satisfy
+   `BFEquiv (α s + 1) (c s, a_s) (c (s+1), b_s)` (the link at `s`): `c s` and `c (s+1)` are
+   equivalent at `α s + 1 + n_s < α s + ω` (`BFEquiv.limit`, monotonicity), and `n_s` forth steps
+   give `b_s`. Schedule each pair `(j, m)`, `m` an element of `c j`, at its own stage `k > j`. At
+   that stage, push `m` up the links `j, …, k − 1`, restricted to the first `n_j` entries by
+   `BFEquiv.comp`, each link one forth step from `α s + 1` to `α s ≥ α j`. This gives `m_k` in `c k`
+   with `BFEquiv (α j) (c j, snoc a_j m) (c k, snoc (b_{k−1} restricted to n_j) m_k)`. Put
+   `a_k := snoc b_{k−1} m_k`, or `a_k := b_{k−1}` if `m_k` already occurs in `b_{k−1}`. The
+   positions exhaust `ℕ`, since every `c j` is infinite and an element outside `a_j` is matched at a
+   position `≥ n_j`. The limit code `d` reads each relation bit on positions from any long enough
+   `a_k`, consistently because links preserve atomic types. Then prove by induction on `γ`, for all
+   `i` with `γ ≤ α i`, that `(c i, a_i)` and the first `n_i` positions of `d` are `BFEquiv γ`.
+   Forth: the induction hypothesis at a later `k`, restricted by `BFEquiv.comp`, and the back clause
+   of the chain bound `(c i, a_i) ~ (c k, a_k restricted to n_i)` at level `α i + 1` (transitivity
+   of links, monotonicity of `α`). Back: the match of the given element at level `α i` and the
+   induction hypothesis at its stage. Ordinal offsets: link `s` needs `α s + 1 + n_s` with `n_s`
+   unbounded, so `α s + ω` is a uniform offset that suffices. It is proved directly in the
+   one-element convention, not translated from Montalbán's `≡_{α_i + 3}`, whose `≡_β` moves blocks.
+   The conclusion is at `α i` with no offset.
 4. **The splitting tree.** Let `modelsOf Θ` be back-and-forth scattered and meet uncountably many
    classes, and suppose no `Θ.and θ` has minimally uncountable models. Call a set *large* if it
    meets uncountably many classes. Put `α_0 :=` the saturation level of `Θ`. Build codes `A_σ` (`σ`
