@@ -18,61 +18,118 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
+        - AdicEtaleGeometry
         - AdicSpaces
+        - AdicSpacesPartII
+        - AdicSpacesPartIII
+        - AdicSpacesPartIV
+        - AffineLieAlgebras
+        - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
+        - AmenableGroups
         - AnalyticToricGeometry
-        - ArithmeticDirichletSeries
+        - BanachAlgebras
+        - BanachSpaceTheory
         - BelyiMaps
+        - BordismFormalGroups
         - CFSGStatement
         - Chebotarev
         - ClassFieldTheory
+        - ClassicalArithmeticCompletion
         - ClassifyingSpaces
         - CombinatorialHeegaardFloer
+        - CompactOperators
+        - ComplexCurveModuli
+        - ComplexKahlerGeometry
+        - ComplexManifolds
+        - ComplexTori
         - ConformalMapping
         - DGAInfinity
         - DGFloer
         - DenseGraphLimits
+        - DerivedModuleAlgebra
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - EllipticCurves
+        - EnhancedDerivedSheaves
+        - EtaleCohomologyFoundations
         - Exchangeability
+        - FinancialMathematics
+        - FormalLaurentPuiseux
+        - FreeProbability
         - FuchsianOrbifolds
+        - GeneralizedCohomology
         - GeometricMeasureTheory
+        - GeometricRepresentationCategories
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
+        - GraphConnectivityAndFlows
         - GrothendieckEulerForms
+        - HamiltonianFloerOperations
         - HeegaardFloer
+        - HeightsAndUnits
         - HopfRinow
+        - Hyperfunctions
+        - ImaginaryQuadraticClassNumber
+        - InfinitaryLogic
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - KhovanovHomology
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - MassFormula
         - ModularCurves
         - ModularForms
+        - MorseNovikov
+        - MorseTheory
+        - NewtonPolygons
+        - NilpotentOrbits
+        - NoncommutativeGeometry
         - NumberFieldArithmetic
         - OneParameterSemigroups
+        - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
+        - Orbifolds
         - OrthogonalSpinGroups
         - PDE
+        - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
+        - PerfectoidSpaces
         - PeripheralActions
         - PivotalSpherical
         - PolynomialGaloisGroups
+        - PositiveScalarCurvature
         - ProfiniteArithmetic
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - QuantumGroups
         - RealAlgebraicGeometry
         - ReductiveGroups
+        - ReflectionInvariantTheory
+        - Regularity
         - RepresentationTheory
+        - RestrictedPowerSeries
+        - RiemannianGeometry
+        - RigidAnalyticGeometry
+        - SchemeAndStackFoundations
+        - SchubertGeometry
+        - SeibergWittenTheory
+        - SpinGeometry
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - SymplecticGeometry
+        - TauberianBoundaryConvergence
+        - TaubesGromov
+        - ThetaSeries
+        - TypeAHeckeAlgebras
+        - Yamabe
         - ZigzagPreprojective
     validations:
       required: true

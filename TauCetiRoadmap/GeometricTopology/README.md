@@ -3850,6 +3850,39 @@ following sequence of targets:
    Construct it directly from chart partitions of unity. For compact M use a
    finite chart cover; for noncompact M consume the shared target below.
 
+   <a id="covering-dimension-core"></a>
+
+   **CoveringDimensionCore (early shared prerequisite).** Own the common
+   Lebesgue covering-dimension interface independently of the manifold,
+   embedding and K-theory applications. For every topological space X and
+   d∈ℕ use the `HasCoveringDimensionLE X d`, `HasCoveringDimensionLT`,
+   `FiniteCoveringDimension`, `coveringDimension : WithBot ℕ∞` and
+   `Set.HasOrderLE` design cited below. Every indexed open cover has an
+   open refining cover whose range, as a set of distinct subsets of X,
+   has order at most d+1. Retain actual refinement/parent witnesses,
+   universe reindexing by range and the empty-space conventions; ⊥ is
+   dimension −1 and ⊤ means that no finite bound exists. Build its basic
+   usable API here: order monotonicity and passage to subfamilies,
+   invariance under homeomorphism, monotonicity of dimension bounds,
+   closed-subspace monotonicity, and the theorem that a finite closed
+   cover of a compact Hausdorff X by spaces of dimension at most d gives
+   `HasCoveringDimensionLE X d`. This is the sole generic predicate/value
+   and basic closed-cover development; the locally finite closed-cover
+   construction below extends it in its stated paracompact Hausdorff scope.
+
+   [AlgebraicKTheory A4](../AlgebraicKTheory/README.md#a4-stable-range-and-finite-matrix-sizes)
+   owns the compact-Hausdorff finite/indexed-cover characterization of
+   this common predicate, with finite subcovers, explicit deduplication,
+   reindexing and parent-map preservation; its partition-of-unity and
+   sphere-extension characterizations, nonextendability obstruction and
+   real/complex function-ring stable-rank calculations remain there.
+   A range-order bound is not an indexed bound before this conversion:
+   two copies of the one-point space have range order one and indexed
+   multiplicity two. Neither the generic core nor the constructions
+   immediately below use A4 or any K-theory output. In particular the
+   embedding proof uses its own direct partition-star construction below,
+   not A4's compact-space characterization.
+
    <a id="finite-colour-chart-refinement"></a>
 
    **FiniteColourChartRefinement.** For every Hausdorff, second-countable
@@ -4096,14 +4129,20 @@ following sequence of targets:
    `reducedKZero_freeAbelian_eq_zero`, including n=0.
    Consume the single common ring K-spectrum and its model comparisons from
    [GeometryOfNumbersAndQuadraticArithmetic §6.1.7 `ringKTheoryModels`
-   and §6.10 `plusConstructionComparison`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d63953a26ec1ff4f57cb1d0ee5aab223a4a48108/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#L2561-L2568).
+   and §6.10 `plusConstructionComparison`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01c64f0cc5f154a3d190697951ead2fffc2af693/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#L2643-L2650),
+   the right-projective/common-spectrum adapters to
+   [GeneralAlgebraicKTheory's ordinary ring models](https://github.com/TauCetiProject/TauCetiRoadmap/blob/57056743b0997d5f46fa8bca5f67b50d075c30bc/TauCetiRoadmap/GeneralAlgebraicKTheory/README.md).
+   GeneralAlgebraicKTheory owns the exact-category Q/S, ring plus/Q and
+   Bass/Schlichting constructions; its generic homotopy/plus foundations
+   are supplied by StableHomotopyKTheory. GeometryOfNumbersAndQuadraticArithmetic
+   transports them to the following shared convention.
    The carrier is the supplier's nonconnective spectrum of the actual split exact
    right-projective category
    `(TauCeti.finiteProjectiveModules Rᵐᵒᵖ).FullSubcategory`, for every associative
    unital ring R, including the zero ring. Use its Q/S and Γ-space connective
    comparison, all K₀ components, the natural zero-component stable-GL plus
    comparison and its Bass-loop/cofiber-to-Schlichting nonconnective equivalence.
-   These generic models and their equivalence are constructed by that supplier.
+   The ordinary models and their equivalences are supplied by GeneralAlgebraicKTheory; the right-projective/common-spectrum comparisons are constructed by GeometryOfNumbersAndQuadraticArithmetic.
    Its low-degree maps identify categorical/projective K₀, matrix K₁ and
    Steinberg K₂ through AlgebraicKTheory A0–A2/A5 before the higher comparisons.
    Retain its ring maps, stabilization, right/left opposite-ring adapter with
@@ -4115,12 +4154,14 @@ following sequence of targets:
    functor without an added flatness premise. Use the normalized Laurent boundary
    `∂[t]=[R]` and its low-degree surjective-leg Milnor-square comparison
    `δ([u])=[M(u)]−[Dⁿ]`, with `M(u)={(a,b) | uπ₁(a)=π₂(b)}`.
+   The ordinary supplier uses `π₁(a)=απ₂(b)`; with the same ordered
+   charts transport at `α=u⁻¹`, so `δ([u])=∂([u⁻¹])=−∂([u])`.
    The common-model comparison does not assert higher excision for every Milnor
    square or Nil vanishing for singular rings. Transport these actual comparison
    maps to the following GT-owned Laurent, torsion and group-ring applications.
    The generic construction consumes the low-degree inputs, not GT's later
    Whitehead/assembly or surgery outputs; its §6.10 plus comparison is at
-   [the selected complete clauses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d63953a26ec1ff4f57cb1d0ee5aab223a4a48108/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#L3455-L3461).
+   [the selected complete clauses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01c64f0cc5f154a3d190697951ead2fffc2af693/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#L3538-L3547).
    These are written construction interfaces, not already implemented native
    higher-K declarations. Define the Whitehead coefficient spectrum as
    the cofiber of the actual assembly
