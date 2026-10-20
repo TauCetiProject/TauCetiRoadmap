@@ -45,8 +45,9 @@ following divisions of responsibility determine the interfaces.
 * Tau Ceti **EllipticCurves**, Layers 1–4, provides Weierstrass equations,
   isogenies, torsion and Tate modules, finite-field traces, local reduction and
   the Tate curve. ArithmeticGaloisRepresentations **§§6.1–6.3** supplies the
-  arithmetic Galois representation, its determinant and Frobenius polynomial,
-  and the comparison of the elliptic conductor with Artin conductors.
+  arithmetic Galois representation, its determinant and Frobenius polynomial.
+  NeronModelsAndSemistableAbelianVarieties **§§5.3a and 5.3g–5.3i** supplies
+  the comparison of the elliptic conductor with Artin conductors.
 * Tau Ceti **ModularForms**, Layers 4, 5, 7 and 8G, supplies newforms,
   finiteness at fixed weight and level, the old/new decomposition, strong
   multiplicity one across levels, L-functions, and Galois conjugation of
@@ -212,9 +213,10 @@ the good-prime Frobenius polynomial, and the Tate-curve local comparison. In §6
 [Basis-free elliptic residual representation](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation),
 use `TateModule.residualRep E p`, abbreviated `residualRep E p` below. It is the basis-free
 representation on the native geometric p-torsion, with its `ZMod p`-linear action.
-Its scalar extension to `𝔽̄_p` and a choice of basis give the matrix representation
-used by AlgebraicModularFormsAndSerreWeights; attachment, trace, determinant and
-irreducibility are independent of that basis. Layer 3 supplies
+After finite coefficient extension and a choice of basis it gives the representation
+on `Fin 2 → k` used by AlgebraicModularFormsAndSerreWeights; further extension to
+`𝔽̄_p` gives the classical Serre spelling. Attachment, trace, determinant and
+irreducibility are independent of the basis. Layer 3 supplies
 Artin and Swan conductors, prime-to-p residual conductors and coefficient-extension
 invariance. NeronModelsAndSemistableAbelianVarieties §§5.3a, 5.3g–5.3i and 6.5–6.6
 supply the elliptic conductor, residual conductor formulas, equation/scheme reduction
@@ -256,12 +258,14 @@ and its explicit isogeny with the Γ₁ quotient. Section 16.7 supplies oldform 
 and Albanese Hecke action. For primitive weight-two forms its stated `N ≥ 5`
 hypothesis causes no gap: ModularForms Layer 10C's dimension formula gives zero cusp
 space at levels 1, 2, 3 and 4, so any such newform has `N ≥ 5`.
-The exhaustive Γ₀ old/new decomposition used in R29.6 is the Γ₀ specialization of
-§16.7, with both degeneracy maps and divisor multiplicities; rational Tate-module
+The exhaustive Γ₀ old/new decomposition is the target `J0_isogeny_decomposition`
+of R29.6, assembled from these orbit factors with all degeneracy maps and divisor
+multiplicities and the complete modular-form decomposition; rational Tate-module
 surjectivity for a surjective abelian-variety homomorphism is the local target
 `rationalTateMap_surjective` in R29.6. It uses Poincaré complete reducibility from
-AbelianSchemesAndArithmeticModuli A6.5 and the isogeny functoriality of A4.1 and
-ArithmeticGaloisRepresentations §6.1, following ModularCurvesPartII §16.3.
+AbelianSchemesAndArithmeticModuli A6.5 and the additive Tate-module functor of A4.1,
+with the rational isogeny and product deductions in R29.6, following
+ModularCurvesPartII §16.3.
 ModularCurvesPartII §§7.1–7.4 supplies the regular-differential/cusp-form dictionary. AlgebraicCurves Layers 6 and 12 supply
 projective curve/function-field degree. JacobianChallenge Layer F supplies the
 Abel–Jacobi universal property over the stated ground field.
@@ -543,7 +547,8 @@ cyclic 3-isogeny, there is `u∈ℚ`, `u≠0`, such that
 `j_E·u=(u+27)(u+3)³`. For a rational cyclic 5-isogeny there is `v∈ℚ`, `v≠0`, such
 that `j_E·v=(v²+10v+5)³`. These are necessary relations for the given curve, including
 the special j-values; they do not identify a rational kernel generator. Use the
-modular-curve/isogeny dictionary of ModularCurvesPartII §§6.1–6.3 and the native cyclic
+modular-curve/isogeny dictionary of ModularCurvesPartII §5.6 (cyclic subgroups and
+cyclic isogenies) and §3.9 (level structures), and the native cyclic
 subgroups above. The source for both relations is Barrios,
 [*Explicit classification of isogeny graphs of rational elliptic curves*](https://arxiv.org/abs/2208.05603),
 Theorem 2.3 and Table 1, p. 6. The choice of these isogeny Checks follows the Imperial
@@ -578,7 +583,7 @@ failure of semistability; González–Jiménez–Lario,
 [*Faltings elliptic curves in twisted ℚ-isogeny classes*, supplementary tables](https://web.mat.upc.edu/joan.carles.lario/types.pdf),
 §19.1, p. 91, gives their j-values. This target includes establishing the rational-point
 list of `X₀(15)` and evaluating its j-map: four cusps and four noncuspidal rational
-points. ModularCurvesPartII supplies the isogeny dictionary; the rational-point
+points. ModularCurvesPartII §5.6 supplies the isogeny dictionary; the rational-point
 calculation is owned here, using the descent and torsion theory of EllipticCurves
 Layers 2 and 6. EllipticCurves Layer 4 supplies the valuation criteria.
 
@@ -616,9 +621,11 @@ bad reduction types.
 The API has the following assertions. `exceptionalPrimes_finite` states that `Σ_E`
 is finite. Its consequence `nonexceptionalPrimes_infinite` states that
 `{p : ℕ | p.Prime ∧ p ∉ exceptionalPrimes E}` is infinite.
-`irreducible_of_not_mem` states that, for a prime `p∉Σ_E`,
-`Representation.IsIrreducible (residualRep E p)` holds for the supplied
-representation on `E[p]` over `𝔽_p`. The theorem `goodReduction_of_not_mem` gives good reduction at
+`irreducible_of_not_mem` states that, for a prime `p∉Σ_E`, every Galois-stable
+subgroup of the native geometric p-torsion is zero or the whole group. In the
+supplier's linear packaging this says
+`Representation.IsIrreducible (residualRep E p)` over `𝔽_p`: every additive subgroup
+of a group killed by p is a `𝔽_p`-subspace. The theorem `goodReduction_of_not_mem` gives good reduction at
 `p`, and `not_dvd_conductor_of_not_mem` presents its equivalent arithmetic form. The
 first two names above give the defining set and the rational-subgroup predicate; users
 of the remaining assertions need not unfold either.
@@ -814,9 +821,15 @@ hypotheses are the residual conclusions of Layer R29.1.
 <a id="elliptic-residual-attachment"></a>
 
 **Curve-level residual attachment** (`ArisesFrom`, `ArisesFromLevel`). For a prime p and
-a weight-two newform F of positive level N, abbreviate `ArisesFrom E p F` as
-`TauCeti.ResidualModularity.ArisesFrom` applied to `residualRep E p`, extended to `𝔽̄_p`
-and written in any basis. This uses AlgebraicModularFormsAndSerreWeights
+a weight-two newform F of positive level N, define `ArisesFrom E p F` to mean that
+there exist a finite extension `k/𝔽_p` and a `𝔽_p`-basis of `E[p]` for which
+`TauCeti.ResidualModularity.ArisesFrom` holds for the full eigenform `F.toEigenform`
+and the scalar extension of `residualRep E p` to k, written on `Fin 2 → k` in the
+extended basis. The supplier requires a finite field. The full eigenform is supplied
+by ModularForms Layer 4, with `Newform.toEigenform` in Tau Ceti's
+`NumberTheory/ModularForms/Newforms/FullEigenform.lean`; it has the same Fourier
+coefficients and character as F. Conjugating the action preserves unramifiedness and
+characteristic polynomials, so the predicate is independent of the basis. This uses AlgebraicModularFormsAndSerreWeights
 [Layer R15.6, S-type and modularity predicates](../AlgebraicModularFormsAndSerreWeights/README.md#target-s-type-arises-from-and-modular)
 and ArithmeticGaloisRepresentations
 [§6.1, Basis-free elliptic residual representation](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation).
@@ -844,7 +857,8 @@ cyclotomic determinants use ArithmeticGaloisRepresentations §§6.1–6.2.
 **Checks.**
 
 - `ArisesFromLevel (11a1) 5 11` holds although its residual module is reducible and
-  5 belongs to `Σ_E`; this is not a Serre witness existence claim at 5.
+  5 belongs to `Σ_E`; this is not a Serre witness existence claim at 5. The form's
+  rational integral coefficients permit `k=𝔽₅`, and extension to `𝔽₂₅` preserves attachment.
 - At p=3 the level-11 form gives trace `−2=1` and determinant 2 at Frobenius 2.
   The trivial rank-two representation has trace 2 and determinant 1 and fails attachment.
 - The rational degree-5 isogeny between 11a1 and 11a3 identifies their p-torsion for
@@ -858,8 +872,8 @@ It contains a form `form : Newform N 2`, trivial character and `ArisesFrom E p f
 This is a curve-specific specialization of the shared attachment predicate.
 A maximal ideal above p in the algebraic integers in ℂ, with a compatible residue
 embedding realizing the coefficient map, is obtained from that predicate's
-`iff_integralClosure_congruence` theorem. The prime and congruences are derived
-accessors, rather than an independent attachment condition.
+`iff_integralClosure_congruence` theorem after embedding k into `𝔽̄_p`. The prime
+and congruences are derived accessors, rather than an independent attachment condition.
 
 The operation `serreWitness E hp h` selects `SerreWitness E (conductor E) p` for
 `hp : p.Prime` and `h : p∉Σ_E`, using `hp` for the primality instance and
@@ -867,6 +881,16 @@ ClassicalSerreModularity §R27.6.
 The milestone `exists_serreWitness_family` states that every such p has this witness
 at `conductor E`. It has no residual modularity input. Its form and attachment give
 `ArisesFromLevel E p (conductor E)` for these primes.
+
+The ClassicalSerreModularity §R27.6 export uses newforms and `𝔽̄_p` coefficients.
+The passage to the finite-field predicate is part of `exists_serreWitness_family`:
+restrict the full coefficient reduction to its finite image in `𝔽̄_p`, take the
+finite subfield k that it generates, and extend `E[p]` from `𝔽_p` to k in a chosen
+basis. Finiteness follows because the coefficient ring lies in the integers of the
+coefficient number field and is a finite ℤ-module (ModularForms Layers 4 and 8G).
+The Frobenius identities descend along the injective map `k → 𝔽̄_p`.
+`ArisesFrom.baseChange` then carries them to any larger finite field. Descent of
+this coefficient map to `𝔽_p` requires its full image to lie there.
 
 The character and comparison properties are accessed through the API:
 
@@ -1286,7 +1310,8 @@ wild ramification at 2 and 3. Thus `N_E` throughout is `conductor E`.
 For `WeierstrassCurve.IsSemistable ℤ E`, `conductor_eq_semistableConductor` identifies this integer
 with the squarefree product of bad primes. This is the conductor assembled from the
 0/1 exponents of EllipticCurves Layers 4 and 4.5a on local minimal models; its equality
-with the Artin conductor is the semistable comparison in EllipticCurves Layers 7–8.
+with the Artin conductor is the semistable algorithmic–Artin comparison milestone
+in EllipticCurves Layer 8.
 The semistable product is used only under that hypothesis. The general conductor and
 both comparison assertions use NeronModelsAndSemistableAbelianVarieties §§5.3a,
 5.3e and 5.5, with ArithmeticGaloisRepresentations Layer 3 and §§6.1–6.3.
@@ -1631,9 +1656,15 @@ The proof uses rational coefficients even when r divides the finite isogeny kern
 
 *Sources and prerequisites.* Milne, *Abelian Varieties* (2022), Proposition 12.1,
 p. 19; Ribet–Stein, Appendix by B. Conrad, proof of Theorem 5.14, p. 73;
-ModularCurvesPartII §16.3's rational-exactness argument. Consume
-AbelianSchemesAndArithmeticModuli A6.5 for the complement and A4.1 with
-ArithmeticGaloisRepresentations §6.1 for products and isogeny functoriality.
+ModularCurvesPartII §16.3's rational-exactness argument.
+AbelianSchemesAndArithmeticModuli A6.5 supplies the complement and A4.1 supplies
+additive functoriality of `T_r` in homomorphisms, compatible with composition.
+For an isogeny `u:A→B`, an isogeny `v:B→A` satisfies `vu=[n]` and `uv=[n]`
+for some `n>0` (Milne, §8, p. 12). Hence `n⁻¹V_r(v)` is an inverse to `V_r(u)`.
+Additive functoriality also carries the inclusions and projections of `A×B` and
+their biproduct identities to the Tate modules, giving the product decomposition.
+These deductions apply to arbitrary abelian varieties; ArithmeticGaloisRepresentations
+§6.1 supplies the compatible elliptic representation.
 
 **Checks.**
 
@@ -1652,7 +1683,7 @@ newform `f` of level `M` and trivial character attached to `E`. It follows that 
 prime ℓ. The geometric hypothesis alone supplies this result; classical Serre modularity
 is not used in its proof.
 
-The imported old/new decomposition over ℚ has the form
+The old/new decomposition over ℚ has the form
 
 `J_0(N')∼_(ℚ) ∏_(M∣ N') ∏_([f]) (A_f^0)^(σ_0(N'/M)).`
 
@@ -1662,6 +1693,29 @@ record oldform multiplicity. They are essential even for rational newforms. The
 decomposition must exhaust the whole Jacobian up to ℚ-isogeny; a comparison for one
 selected orbit or for J₁ does not suffice to select a constituent of a general map out
 of J₀(`N'`).
+
+**Exhaustive Γ₀ decomposition** (`J0_isogeny_decomposition`). For every `N'≥1`,
+prove that `J₀(N')` is ℚ-isogenous to the displayed product. Use the complete
+trivial-character decomposition of `S₂(Γ₀(N'))` into the oldforms `V_d f` from
+ModularForms Layers 3–4. Specialize the orbit-factor argument of
+ModularCurvesPartII §16.7 to Γ₀ using its §16.6 quotient and degeneracy maps.
+Assemble the distinct rational Hecke blocks using Poincaré complete reducibility
+(AbelianSchemesAndArithmeticModuli A6.5). Rational Tate-module exactness (§16.3)
+and the quotient dimension formula (§16.6), together with completeness of the
+cusp-space decomposition, show that the blocks exhaust the Jacobian. The sources
+are Cremona §2.7, Lemma 2.7.1, p. 26, for divisor multiplicity, and Ribet–Stein,
+§3.6, p. 40, and Conrad's Appendix, Theorem 5.14 and its proof, p. 73, for the
+Hecke factors and their rational Tate modules.
+
+**Checks.**
+
+- At `N'=1` the weight-two cusp space is zero and the product is empty; its
+  zero-dimensional abelian variety agrees with `J₀(1)`.
+- At `N'=22`, with the level-22 newspace zero, the level-11 orbit contributes
+  `(A_f^0)²`, so `dim J₀(22)=2`. One copy would fail the dimension count.
+- For any primitive orbit of level M and prime q, its multiplicity at `Mq²` is
+  three, from `d=1,q,q²`, whether or not q divides M; the two prime-level
+  degeneracy maps alone do not give this multiplicity.
 
 Fix `r`. Apply `rationalTateMap_surjective` to obtain a surjective equivariant map
 `V_r(J_0(N'))→ V_r(E)`. The decomposition implies that it is nonzero on at least one
@@ -1695,9 +1749,9 @@ arbitrary Jacobian quotients and still recover a rational newform.
 *Sources and prerequisites.* Serre, §4.6, Theorem 4, p. 207, states the modular
 quotient formulation; this assertion supplies its converse. Cremona, §2.7 and Lemma
 2.7.1, p. 26, supplies the oldform divisor multiplicity. Carayol, §0.8, proof of the
-Corollaire, p. 411, supplies the newform/Tate-module comparison. Import the exhaustive
-J₀ decomposition from ModularCurvesPartII **§§16.2–16.8**, together with
-**§16.3** and **§16.6**. The realization of the
+Corollaire, p. 411, supplies the newform/Tate-module comparison. Use
+`J0_isogeny_decomposition` above, with the quotient and rational-exactness interfaces
+of ModularCurvesPartII **§§16.2–16.8**. The realization of the
 constituents is AutomorphicGaloisRepresentations
 **§6.1** and
 **§1.5**; the elliptic Frobenius data is
@@ -1749,8 +1803,10 @@ The names `modularity`, `modularity_quotient`, and `modularity_parametrisation` 
 these formulations. The first is R29.3 and R29.4 for `F_E`; the second composes the
 quotient map with the isogeny in R29.5; the third is the parametrisation there.
 ClassicalSerreModularity §R27.6 supplies the witness existence used in their proofs,
-so all three conclusions are unconditional. The target `modularity` gives a form in
-`Newform (conductor E) 2`, attached to E with every coefficient equal to that of E. Its level is the exact conductor. The corollary
+so all three conclusions are unconditional. The Lean target `modularity` exhibits a
+positive level with an attached form and the all-coefficient identity. The exact-level
+refinement `Newform (conductor E) 2` is the selected form `newformOf`; the comparison
+`IsNewformOf.level_eq_conductor` identifies the existential level with the conductor. The corollary
 `residualArisesFrom_conductor` gives `ArisesFromLevel E p (conductor E)` for every
 prime p, by `ArisesFrom.of_isNewformOf`. It has no nonexceptionality or residual
 irreducibility hypothesis; it does not assert that the residual conductor equals `N_E`

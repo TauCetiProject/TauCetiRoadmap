@@ -84,6 +84,16 @@ theorem nonexceptionalPrimes_infinite (E : WeierstrassCurve ℚ) [E.IsElliptic] 
 theorem goodReduction_of_not_mem (E : WeierstrassCurve ℚ) [E.IsElliptic]
     {p : ℕ} [Fact p.Prime] (h : p ∉ exceptionalPrimes E) : HasGoodReductionAt E p := sorry
 
+/-- Outside the exceptional set every Galois-stable subgroup of the geometric p-torsion
+is zero or the whole group, expressing irreducibility over `𝔽_p`. -/
+theorem irreducible_of_not_mem (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    {p : ℕ} [Fact p.Prime] (h : p ∉ exceptionalPrimes E)
+    (C : AddSubgroup (AddSubgroup.torsionBy
+      (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point (p : ℤ)))
+    (hC : ∀ σ : GQ, C.map
+      (Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) σ)).toAddMonoidHom = C) :
+    C = ⊥ ∨ C = ⊤ := sorry
+
 /-- A rational cyclic 3-isogeny supplies a noncuspidal rational parameter on `X₀(3)`
 with the indicated j-invariant relation, including j = 0. -/
 theorem rationalThreeIsogeny_hauptmodul (E : WeierstrassCurve ℚ) [E.IsElliptic]
@@ -303,6 +313,13 @@ theorem IsNewformOf.exists_entire_completed_LSeries
         Λ s = (M : ℂ) ^ (s / 2) * (2 * Real.pi : ℂ) ^ (-s) * Complex.Gamma s * E.LSeries s) ∧
       ∃ w : ℤ, (w = 1 ∨ w = -1) ∧ ∀ s : ℂ, Λ s = w * Λ (2 - s) := sorry
 
+/-- Every elliptic curve over ℚ has an attached weight-two newform of trivial character
+at a positive level, with every Fourier coefficient equal to the corresponding `a_n(E)`.
+The exact-conductor comparison identifies its level with the conductor. -/
+theorem modularity :
+    ∃ (N : ℕ) (_ : NeZero N) (F : Newform N 2),
+      IsNewformOf E F ∧ ∀ n : ℕ, coeff F n = (lCoeff E n : ℂ) := sorry
+
 /-- Every elliptic curve over ℚ has an entire completed L-series with sign ±1.
 The positive level is shared with its attached form and equals the conductor through
 R29.4's conductor comparison. Agreement uses the literal series only for Re s > 3/2. -/
@@ -315,7 +332,7 @@ theorem exists_entire_completed_LSeries :
 
 /-
 The README specifies the conductor-dependent forms and geometric constructions:
-rationalTateMap_surjective, not_dvd_conductor_of_not_mem, irreducible_of_not_mem,
+rationalTateMap_surjective, J0_isogeny_decomposition, not_dvd_conductor_of_not_mem,
 absolutelyIrreducible_of_not_mem,
 artinConductor_residualRep_of_not_mem, serreWeight_residualRep, SerreWitness,
 ArisesFrom, ArisesFromLevel, ArisesFrom.of_isNewformOf, ArisesFrom.of_torsionEquiv,
@@ -331,15 +348,20 @@ IsNewformOf.exists_hom_J0, IsNewformOf.exists_hom_X0, modularParametrisation,
 modularParametrisation_cusp, modularParametrisation_nonconstant,
 modularParametrisation_pullback, modularParametrisation_11a1,
 modularParametrisation_11a3, modularParametrisation_37a, exists_isNewformOf_of_J0,
-exists_isNewformOf_of_X0, conductor_dvd_of_J0, modularity, modularity_quotient,
-modularity_parametrisation, LFunction_eq and exists_entire_completed_LSeries.
-The irreducibility targets use predicates on ArithmeticGaloisRepresentations §6.1's
+exists_isNewformOf_of_X0, conductor_dvd_of_J0, modularity_quotient,
+modularity_parametrisation and LFunction_eq.
+The absolute-irreducibility target uses ArithmeticGaloisRepresentations §6.1's
 residualRep. The witness targets use AlgebraicModularFormsAndSerreWeights R15.6's
-shared ArisesFrom predicate on that representation. SerreWitness E N p contains
+shared ArisesFrom predicate on the full eigenform underlying the newform and the
+scalar extension of residualRep to a finite coefficient field, in an extended basis.
+The curve-level predicate existentially quantifies that finite extension; its witness
+comparison with ClassicalSerreModularity descends the full coefficient reduction
+from the algebraic closure to its finite image field. SerreWitness E N p contains
 its form, trivial character and shared attachment; coefficient-prime congruences are
 derived from attachment. The target exists_newform_coeff_eq takes a family of
 forms with trivial character and ArisesFrom E p F_p at a fixed positive level N.
-The exact-level target modularity and newformOf E use Newform (conductor E) 2.
+The exact-level choice newformOf E uses Newform (conductor E) 2; modularity exhibits
+the positive level and IsNewformOf.level_eq_conductor identifies it with the conductor.
 The selected form newformOf E uses unconditional existence from ClassicalSerreModularity
 R27.6 and the exact-coefficient argument. Its theorems have no existence input.
 The map modularParametrisation E λ carries a chosen
