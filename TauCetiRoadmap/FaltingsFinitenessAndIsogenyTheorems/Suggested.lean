@@ -100,7 +100,9 @@ variable {K : Type*} [Field K] [NumberField K]
 /-- Faltings' degree (§3, pp. 353–354) of the metrized line bundle on `Spec 𝓞 K` given by the
 nonzero fractional ideal `I`, with positive `c v` and norm `‖x‖_v = c v * v x` at the infinite place `v`:
 `deg = log #(I / 𝓞 K • p) − Σ_v ε_v log ‖p‖_v` for any nonzero `p ∈ I`, which equals
-`− log N(I) − Σ_v ε_v log (c v)` (see `fracIdealDegree_eq_of_mem`). Belongs to R28.1.5. -/
+`− log N(I) − Σ_v ε_v log (c v)` (see `fracIdealDegree_eq_of_mem`). This is
+ArakelovGeometryAndAbelianHeights' `HermitianBundle.arakelovDegree` of `(I, c_v|·|_v)`
+(R28.1.5). -/
 noncomputable def fracIdealDegree (I : FractionalIdeal (𝓞 K)⁰ K) (c : InfinitePlace K → ℝ) : ℝ :=
   -Real.log (FractionalIdeal.absNorm I : ℝ) - ∑ v : InfinitePlace K, (v.mult : ℝ) * Real.log (c v)
 
@@ -151,32 +153,19 @@ theorem exists_sum_four_squares_eq_neg_one (l : ℕ) [Fact l.Prime] :
 
 variable {k V : Type*} [Field k] [AddCommGroup V] [Module k V]
 
-/-- A `4 × 4` matrix acting on `V ^ 4 = Fin 4 → V` through the coefficients. -/
+open scoped Matrix.Module in
+/-- The `k`-linear map of Mathlib's scoped `Matrix.Module.matrixModule` action of
+`4 × 4` matrices on `V ^ 4 = Fin 4 → V` (R28.4.2). -/
 def matAct (v : Matrix (Fin 4) (Fin 4) k) : (Fin 4 → V) →ₗ[k] (Fin 4 → V) where
-  toFun x i := ∑ j, v i j • x j
-  map_add' x y := by
-    ext i
-    simp [Finset.sum_add_distrib, smul_add]
+  toFun x := v • x
+  map_add' := smul_add v
   map_smul' r x := by
     ext i
-    simp [Finset.smul_sum, smul_smul, mul_comm]
+    simp [Matrix.Module.smul_apply, Finset.smul_sum, smul_smul, mul_comm]
 
-/-- The coefficient action of the identity matrix is the identity (R28.4.2). -/
-theorem matAct_one : matAct (1 : Matrix (Fin 4) (Fin 4) k) =
-    (LinearMap.id : (Fin 4 → V) →ₗ[k] (Fin 4 → V)) := by
-  sorry
-
-/-- The coefficient action of the zero matrix is zero (R28.4.2). -/
-theorem matAct_zero : matAct (0 : Matrix (Fin 4) (Fin 4) k) =
-    (0 : (Fin 4 → V) →ₗ[k] (Fin 4 → V)) := by
-  sorry
-
-/-- Matrix multiplication agrees with composition of coefficient actions (R28.4.2). -/
-theorem matAct_mul (u v : Matrix (Fin 4) (Fin 4) k) :
-    (matAct (u * v) : (Fin 4 → V) →ₗ[k] (Fin 4 → V)) = (matAct u).comp (matAct v) := by
-  sorry
-
-/-- The orthogonal-sum form on `V ^ 8 = V ^ 4 × V ^ 4` induced by a form `B` on `V`. -/
+/-- The orthogonal-sum form on `V ^ 8 = V ^ 4 × V ^ 4` induced by a form `B` on `V`.
+It evaluates Tau Ceti's `LinearMap.BilinForm.prod` on the two coordinatewise sums over
+`Fin 4`; those coordinatewise forms have no dedicated pinned carrier (R28.4.2). -/
 def sumForm (B : LinearMap.BilinForm k V) (x y : (Fin 4 → V) × (Fin 4 → V)) : k :=
   ∑ i, B (x.1 i) (y.1 i) + ∑ i, B (x.2 i) (y.2 i)
 

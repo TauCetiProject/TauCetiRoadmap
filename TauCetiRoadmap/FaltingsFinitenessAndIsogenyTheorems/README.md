@@ -262,6 +262,8 @@ supplier states, the additional statement is part of that target here.
   `modularCyclotomicCharacter`, `Representation.ind`, the transfer `MonoidHom.transfer` with
   `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`.
 - Elliptic curves: `WeierstrassCurve`, `WeierstrassCurve.IsElliptic`, `WeierstrassCurve.VariableChange`.
+- `Matrix.Module.matrixModule` (scoped): matrices act on `V^n` through their coefficients, with
+  `one_smul`, `zero_smul`, `mul_smul` and `Matrix.Module.smul_apply`.
 
 ### From Tau Ceti (pinned)
 
@@ -281,6 +283,9 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   (the double centralizer theorem for a semisimple algebra acting
   on a finite module) and `TauCeti.finiteLocallyFreeCommAffineGroupSchemeProperty` (finite locally free
   commutative group schemes with Cartier duality).
+- `LinearMap.BilinForm.prod` in `TauCeti.LinearAlgebra.BilinearForm.Prod` gives the
+  block-diagonal sum of two bilinear forms. `sumForm` evaluates it on the two coordinatewise
+  sums over `Fin 4`; those coordinatewise forms have no dedicated pinned carrier.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -400,7 +405,9 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
 - *PadicPeriodRings*: §2 `tateSen` and `tateSen_character` (Tate's theorems on `C(ψ)`: `C(ψ) ≅ C` exactly when `ψ` has finite
   image on inertia; representations with finite image on inertia are `C`-trivial).
 - *ArakelovGeometryAndAbelianHeights*: §§1.3–1.6, 1.12–1.14 (the arithmetic degree of a hermitian line bundle on `Spec(O_K)`
-  and its comparison with projective heights), §§2.1–2.8 (the Hodge bundle with its integration metric), §§3.1–3.4
+  and its comparison with projective heights, including §1.3
+  `HermitianBundle.arakelovDegree_ofFractionalIdeal`, `HermitianBundle.arakelovDegree_eq_infinitePlace`
+  and `HermitianBundle.arakelovDegree_rescale`), §§2.1–2.8 (the Hodge bundle with its integration metric), §§3.1–3.4
   (the height of a semiabelian model and its base-change invariance), §§4.1–4.4 (the isogeny variation:
   flatness of an isogeny of semiabelian models, its quasi-finite flat kernel, the inclusion of Hodge lattices
   with cokernel `s^*(Ω^1_{G/R})`, the archimedean scaling by `deg φ`, and the bound
@@ -722,6 +729,11 @@ For a nonzero fractional ideal `I` of `R` with positive archimedean scalars `c =
 degree is `−log N(I) − Σ_v ε_v log c_v`; `Suggested.lean` records this light form as
 `fracIdealDegree`, with `fracIdealDegree_eq_of_mem` (the value computed with any nonzero `p ∈ I`) and
 `fracIdealDegree_smul` (rescaling every archimedean norm by `t > 0` lowers the degree by `[K : ℚ]·log t`).
+This is ArakelovGeometryAndAbelianHeights §1.3
+`HermitianBundle.arakelovDegree_ofFractionalIdeal` at `λ_v = −log c_v`.
+The section and rescaling identities are the fractional-ideal cases of
+`HermitianBundle.arakelovDegree_eq_infinitePlace` and `HermitianBundle.arakelovDegree_rescale`,
+with rescaling parameter `−log t`.
 
 **Checks.**
 - For an elliptic curve `E/ℚ` with semistable reduction everywhere and Néron differential `ω_E`,
@@ -1690,7 +1702,10 @@ with the same remaining hypotheses (finite dimension and nondegeneracy for the f
 The graph and recovery proofs below use only invertibility of `2`; these companions supply
 finite fields of odd characteristic as well as the characteristic-zero signatures.
 Give `V^4 = V ⊗ ℚ_l^4` and `V^8 = V^4 × V^4` the orthogonal-sum forms
-(`sumForm`) and let `v` act on `V^4` through the factor `ℚ_l^4` (`matAct`). For a subspace `W ⊆ V` with orthogonal complement `W^⊥` and
+(`sumForm`) and let `v` act on `V^4` through the factor `ℚ_l^4` (`matAct`), the
+`ℚ_l`-linear map of Mathlib's scoped `Matrix.Module.matrixModule` action. Its identity,
+zero and composition rules are `one_smul`, `zero_smul` and `mul_smul`.
+For a subspace `W ⊆ V` with orthogonal complement `W^⊥` and
 `a² + b² + c² + d² = −1`, define `QuaternionIsotropic.subspace B v W`
 `= {(x, vx) : x ∈ W^4} ⊕ {(y, −vy) : y ∈ (W^⊥)^4} ⊆ V^8`.
 
@@ -1698,8 +1713,6 @@ The API consists of the following statements:
 
 - `quatMatrix_mul_transpose`, `quatMatrix_transpose_mul`: `quatMatrix a b c d · (quatMatrix a b c d)ᵀ = (a² + b² + c² + d²)·1`,
   and likewise with the factors exchanged.
-- `matAct_one`, `matAct_zero`, `matAct_mul`: the identity matrix acts as the identity, the zero
-  matrix as zero, and matrix multiplication agrees with composition of the coefficient actions.
 - `sumForm_isAlt`, `sumForm_block`: alternating `e` gives an alternating orthogonal-sum form;
   inputs supported in distinct blocks pair to zero, and inputs in one block pair by `e`.
 - `QuaternionIsotropic.subspace_isotropic`: `W_1` is isotropic for the orthogonal-sum form on `V^8`.
@@ -1726,11 +1739,6 @@ preserves `W` and `W^⊥`. Every element of `W_1` is `(x + y, v(x − y))`, whic
 - Right multiplication by `(0, 1, 0, 0)` sends `(x₁, x₂, x₃, x₄)` to
   `(−x₂, x₁, x₄, −x₃)`. In particular the third basis vector goes to minus the fourth, fixing
   right multiplication rather than left multiplication.
-- The identity matrix fixes a nonzero vector supported in the first coordinate.
-- `matAct_zero`: the zero matrix kills that vector, rather than acting as the identity.
-- For composition, `E₁₂E₂₁ = E₁₁` projects to the first coordinate, while
-  `E₂₁E₁₂ = E₂₂` projects to the second. This fixes the order of composition; transposing the
-  right-multiplication matrix also gives the opposite sign in the preceding quaternion check.
 - For a symplectic pair `u, w` with `e(u, w) = 1`, vectors supported in
   the same coordinate of one block pair to `1`.
 - Putting `u` in the first block and `w` in the second gives `0`.
@@ -2519,6 +2527,12 @@ sum of two lines.
 Mathlib `IsSemisimpleModule`.
 
 **Checks.**
+- `ellipticRationalRepresentation W l` has `ℚ_l`-dimension `2`, using
+  `WeierstrassCurve.finrank_tateModule` on the geometric points over `K̄`.
+  The Weil pairing gives determinant `χ_0`; for `K = ℚ`, complex conjugation has eigenvalues
+  `1, −1`, including for `l = 2`, so the determinant character is nontrivial.
+  The map `x ↦ 1 ⊗ x` identifies the integral Tate module with a stable lattice, and the
+  restricted action is `WeierstrassCurve.tateModuleGaloisRepresentation` on the geometric points.
 - For `E/ℚ` without complex multiplication, `V_l(E)` is irreducible for every `l`, even when `E[l]` is reducible (for
   `11a1` and `l = 5`): a stable line in `V_l(E)` would give infinitely many cyclic isogenies of `l`-power degree,
   contradicting the finiteness of the isogeny class (R28.6.5).
@@ -2702,7 +2716,7 @@ a finite bad set `S_1`, and a genus bound `b`, all independent of `x ∈ X(K)`, 
 geometrically connected `Y(x)/K_1` of genus between `2` and `b`, good outside `S_1`, and finite maps
 `Y(x) → X_{K_1}` whose branch locus is exactly `{x}`; and finiteness of nonconstant maps
 `Y → X_{K_1}` for each fixed smooth projective `Y/K_1`. These are the Kodaira–Parshin covering
-input and de Franchis input (Milne, IV Theorems 5.1–5.2, p. 146). Under these hypotheses
+input and de Franchis input (Milne, IV Theorems 5.1–5.2, pp. 145–146). Under these hypotheses
 R28.5.15 makes `X(K)` finite. This is the application in Faltings 1983, §6, Satz 7, p. 365,
 rather than an additional unconditional rational-point target.
 
