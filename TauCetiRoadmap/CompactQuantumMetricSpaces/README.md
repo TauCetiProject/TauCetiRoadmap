@@ -72,9 +72,13 @@ milestones, without treating their whole roadmaps as prerequisites.
   decomposition. No pure-state hypothesis enters the compactness criterion.
 - [RepresentationTheory/CompactGroups Layers0–5.1](../RepresentationTheory/CompactGroups/README.md)
   supplies Haar probability, averaging, coefficient orthogonality, Peter–Weyl
-  and G-finite-vector approximation. Q4 owns the extra **C*-ergodic finite
-  multiplicity theorem** used below; finite multiplicity does not follow from
-  the compact-group theorem for arbitrary Banach representations.
+  and G-finite-vector approximation. Consume the early C*-sublayer
+  [V8.CompactErgodicActions](../VonNeumannAlgebras/README.md#v8-group-algebras-actions-and-discrete-crossed-products)
+  for Haar expectation, the unique faithful invariant trace, spectral
+  projections and ergodic finite multiplicity. It precedes V8's separate W*
+  continuity/predual and SU(2)/factor-classification applications. Q4 owns
+  the convolution, Lip-norm and metric consequences. Finite multiplicity
+  is not inferred for an arbitrary Banach representation.
 - [SmoothBanachRepresentations SB2/SB8](../RepresentationTheory/SmoothBanachRepresentations/README.md)
   supplies smooth vectors, derivatives and the smooth complete Fréchet
   star-algebra for compact Lie actions. Q4 owns the metric comparison with
@@ -243,8 +247,10 @@ milestones, without treating their whole roadmaps as prerequisites.
    from these conditions. Mere convexity alone is insufficient.
    Construct L by the ordinary Lipschitz constant of continuous affine
    functions and prove metric recovery by separation. As a concrete example,
-   take the probability simplex on three points, identify K−K with
-   `{x∈ℝ³:Σx_i=0}`, and give it Euclidean norm. The pairwise vertex
+   take the probability simplex on three points, identify span_ℝ(K−K) with
+   `{x∈ℝ³:Σx_i=0}`, and give this plane Euclidean norm. Prove
+   `K−K={x:Σx_i=0, Σ|x_i|≤2}` by its positive/negative-part decomposition;
+   the difference set itself is the bounded hexagon. The pairwise vertex
    distances are all √2, whereas the norm of `(1/2,1/2,−1)` is √(3/2),
    strictly less than the W₁ distance √2 for the corresponding equilateral
    three-point metric. Thus the full state metric carries information not
@@ -364,21 +370,21 @@ group is asserted to admit one. Define
    precisely A^G. Use the same formula on the self-adjoint part for
    order-unit metrics. Product estimates on all of A are additional
    structure, not determined by that self-adjoint restriction alone.
-2. Under ergodicity `A^G=ℂ1`, construct the invariant state η from Haar
-   averaging `E(a)=η(a)1`, prove uniqueness, positivity and faithfulness.
-   Faithfulness uses positivity and full support of Haar: if E(a*a)=0,
-   all positive scalar state evaluations of α_g(a*a) integrate to zero,
-   hence vanish at 1. Establish the **ergodic multiplicity theorem**:
-   each irreducible finite-dimensional unitary π occurs in A with
-   multiplicity at most dim π; in particular its isotypic subspace has
-   dimension at most (dim π)². Build the spectral matrix coefficient
-   projections and their C*-valued Schur identities, the multiplicity
-   inner products, and the finite-multiplet dimension bound. Include
-   the companion theorem that η is tracial, with the trace equality
-   first on spectral multiplets and then on their dense star algebra.
-   Prove these Høegh-Krohn–Landstad–Størmer conclusions as targets here;
-   do not assume finite multiplicity for the underlying Banach action,
-   or import a von Neumann factor classification to get it.
+2. Under ergodicity `A^G=ℂ1`, consume the early C*-theory in
+   V8.CompactErgodicActions: Haar expectation `E(a)=η(a)1`, uniqueness,
+   positivity, faithfulness and traciality of η; isotypic and matrix
+   coefficient projections; spectral multiplication/star identities,
+   the dense finite-orbit star algebra and multiplicity inner products;
+   and `multiplicity(π)≤dim π`, hence isotypic dimension at most
+   `(dim π)²`. Give the adapter with exactly the same normalized Haar
+   probability, point-norm continuous star action and CompactGroups
+   coefficient/projection conventions. This consumes the existing
+   Høegh-Krohn–Landstad–Størmer supplier, including its full-support
+   faithfulness proof and trace comparison on multiplets. Its theorem
+   is for arbitrary compact Hausdorff G and has no continuous-length
+   hypothesis; Q4's length is additional metric input here. Neither the
+   later W* normal-action/predual bridge nor SU(2) classification is a
+   prerequisite of this C*-sublayer or of Q4's metric consequences.
 3. For any L¹(G) kernel f, show α_f is compact when every isotypic
    space is finite dimensional: coefficient kernels give finite-rank
    maps and L¹ approximation gives operator-norm approximation.
@@ -397,7 +403,12 @@ group is asserted to admit one. Define
    `k_n=χ^n/∫χ^n`. Prove χ has its unique maximum at 1, by faithfulness
    and the trivial summand, and k_n concentrates at 1. Its coefficient
    support is finite; let B_n be the self-adjoint sum of the corresponding
-   isotypic spaces, containing 1. Prove `P_n=α_{k_n}` has range in B_n,
+   isotypic spaces, containing 1, with precisely the restriction of L_α.
+   Prove finiteness on B_n by the finite-coefficient Lipschitz estimates:
+   on the compact Lie group the continuous GroupNorm locally dominates
+   a fixed Lie-coordinate length, using powers which leave a fixed small
+   neighbourhood and its positive minimum length away from 1. Smooth
+   coefficient functions then have finite L_α. Prove `P_n=α_{k_n}` has range in B_n,
    `L(P_na)≤L(a)` and `‖a−P_na‖≤δ_nL(a)` where
    `δ_n=∫k_nℓ→0`. P_n need not be an idempotent; do not call it a
    conditional expectation or an orthogonal projection. The trivial
@@ -428,33 +439,79 @@ group is asserted to admit one. Define
 ## Q5. Order-unit quantum Gromov–Hausdorff distance
 
 1. Work with complete closed presentations from Q2, or their identified
-   dense finite domains. For (E,L_E),(F,L_F), call L on E⊕F
-   **admissible** when its quotient seminorms along the two coordinate
-   maps are exactly L_E,L_F. This is equality of infima over lifts,
-   not equality with L(a,0). Embed the two state spaces by coordinate
-   pullback and define `dist_q(E,F)` as the infimum, over admissible
-   Lip-norms, of their Hausdorff distance for ρ_L. Use native
-   `hausdorffEDist`/`hausdorffDist` after the finiteness hypotheses.
-   Prove existence and finiteness of admissible Lip-norms using centered
-   scalar-coordinate bridges and the radius bounds; the empty infimum
-   must not silently become a distance.
+   dense finite domains. A **quotient-admissible** Lip-norm M on E⊕F
+   has coordinate quotient seminorms exactly L_E,L_F. A bridge used for
+   gluing is **admissible** when it also has the full product finite domain
+   `dom M=dom L_E×dom L_F`. This is a finite seminorm on that entire
+   direct sum, extended by ∞ outside it. Quotient equality already forces
+   the reverse domain inclusion; prove the forward finiteness explicitly.
+   Quotient equalities are infima over lifts, not equality with M(a,0).
+   Embed the two state spaces by coordinate pullback and define
+   `dist_q(E,F)` as the infimum, over admissible bridges, of their
+   Hausdorff distance for ρ_M. Use native `hausdorffEDist`/`hausdorffDist`
+   after the finiteness hypotheses. Prove existence and finiteness using
+   centered scalar-coordinate bridges and radius bounds.
+
+   Retain the broader quotient-admissible class and prove that its distance
+   infimum is the same. For ε>0 and such M, with the maximum order-unit
+   norm on E⊕F, construct the finite continuous seminorm
+   `N_ε(v)=inf_w (M(w)+ε⁻¹‖v−w‖)` and set
+   `M_ε(a,b)=max(L_E(a),L_F(b),N_ε(a,b))`. Prove homogeneity,
+   subadditivity, `N_ε≤M`, `N_ε(v)≤ε⁻¹‖v‖` and its norm-Lipschitz
+   estimate. If `‖q(v)‖≤R M(v)` on dom M with R>0, prove
+   `N_ε(v)≥‖q(v)‖/max(R,ε)`. Deduce the diagonal scalar kernel,
+   full product domain and both exact coordinate quotients of M_ε.
+   Prove its Lip-norm property using the two centered endpoint balls
+   and the scalar-difference bound from N_ε; if L_E,L_F are closed,
+   M_ε is closed. On the common full state space prove the uniform bound
+   `ρ_M≤ρ_(M_ε)≤ρ_M+2ε`, using approximate w-lifts and that a difference
+   of states has norm at most2. Deduce the same bound for the Hausdorff
+   distances and equality of the two infima. Closing full-domain bridges
+   between complete closed endpoints preserves coordinate quotients, the product domain and state
+   metrics; also prove distance invariance under Q2's closed-completion
+   comparison with incomplete finite-domain presentations. No class of
+   compact quantum metric spaces or quotient-admissible example is discarded.
+
+   Exhibit why quotient equalities alone do not permit maximum gluing:
+   on the real L² circle use the compact injective Fourier multiplier
+   T with multipliers exp(−n²) and the orthogonal semicircle-sign map U.
+   Prove `ran T∩U ran T={0}` from analyticity and that
+   `x↦(Tx,TUx)` has dense range by its adjoint kernel. On the Lorentz
+   order-unit space ℝ⊕L² take `L(t,Tx)=‖x‖`, and on its square take
+   `M((t,Tx),(s,TUx))=max(‖x‖,|t−s|)`, extending each by ∞.
+   Verify closed Lip-norms, compact centered balls and attained coordinate
+   quotients. Gluing M with its reverse forces equal endpoint Hilbert
+   components, so neither the maximum nor its endpoint quotient has dense
+   finite domain. This example belongs to the broader class and its
+   regularized bridges above provide the required reduction.
 2. Develop the bridge lemma: for a continuous seminorm N on E⊕F
    with N(e_E,e_F)=0, N(e_E,0)>0, and approximate lift estimates
    which make `max(L_E,L_F,N)` induce both quotient seminorms,
    prove that maximum is an admissible Lip-norm. State approximate
    lifts with every ε>0; require exact lifts only in the closed compact
    sublevel case where Q2 gives attainment. Include the concrete common
-   ambient norm bridge `N(a,b)=δ⁻¹‖a−b‖` for an order-unit subspace
-   F⊆E and a map P:E→F with
+   ambient norm bridge `N(a,b)=δ⁻¹‖a−b‖` for δ>0, an order-unit
+   subspace F⊆E, compatible seminorms `L_E(b)≤L_F(b)` for every b∈F,
+   and a map P:E→F with
    `L_F(Pa)≤L_E(a)`, `‖a−Pa‖≤δL_E(a)`.
-   Prove `dist_q(E,F)≤δ` by state restriction and extension. No
-   linearity of P is needed for that estimate; linear positivity is
-   available in the convolution examples.
+   State all inequalities for the extended seminorms, including domains.
+   L_F equal to the restriction of L_E is the principal special case.
+   Prove the E-coordinate quotient using Pa and the F-coordinate quotient
+   using a=b. The maximum has the full product finite domain. Prove
+   `dist_q(E,F)≤δ` by state restriction and positive extension. No
+   linearity of P is needed; linear positivity is available in convolution
+   examples. Handle Q4's zero-error scalar model directly rather than
+   dividing by δ=0. Include E=F=ℝ², P=id, L_F=L_E/2 as a test
+   showing that the two P-estimates alone do not imply compatibility.
 3. Prove symmetry, zero self-distance, triangle inequality, scaling,
    and invariance under unital order isometry preserving L. For the
-   triangle, glue admissible seminorms on E⊕F and F⊕H by the maximum
-   on E⊕F⊕H and then take the quotient to E⊕H. Prove the two
-   quotient equalities, Lip-norm criterion and the state-space estimates;
+   triangle, first use the full-domain bridges of Q5.1, glue them by
+   `G(a,b,c)=max(M_EF(a,b),M_FH(b,c))`, and take the endpoint quotient
+   `K(a,c)=inf_b G(a,b,c)`. Prove dom G is the full triple product and
+   dom K is the full endpoint product; for the latter use a finite middle
+   scalar element, and use the original quotient lower bounds for the
+   converse. Prove the coordinate quotient equalities by successive
+   ε-lifts, the Lip-norm criterion and the state-space estimates;
    an arbitrary GH gluing on the underlying state sets need not respect
    affine structure. Prove `|diam E−diam F|≤2dist_q(E,F)` and the
    classical comparison
@@ -476,8 +533,11 @@ group is asserted to admit one. Define
 5. Construct the metric space of these isometry classes, controlling
    universes via the separability of Q1 and a fixed universal real
    Banach-space/function-space model. Prove completeness: pass to a
-   summable-distance subsequence, choose admissible adjacent bridges,
-   construct the subspace of product sequences a with
+   summable-distance subsequence, choose full-domain admissible adjacent
+   bridges, using Q5.1's reduction with summable additional errors if
+   starting from quotient-only bridges. Prove every finite-prefix maximum
+   and endpoint quotient has the full finite-domain product before passing
+   to infinite sequences. Construct the subspace of product sequences a with
    `sup_j M_j(a_j,a_(j+1))<∞`. Prove summable adjacent state-space
    distances make every such sequence norm bounded, using the uniform
    diameter bounds and compatible scalar centering. Equip this subspace
@@ -591,8 +651,9 @@ Q0 uses native ordered linear algebra, Hahn–Banach, weak duals and B5's
 regular-measure duality. Q1 uses Q0 and native Arzelà–Ascoli. Q2 uses Q0–Q1.
 Q3.1–Q3.4 use Q0–Q2 and the existing transport/Riesz interfaces; Q3.5–Q3.6
 add only the stated spectral/Dirac suppliers. Q4.1–Q4.3 use early C*-state
-foundations and compact-group averaging/Peter–Weyl, followed by their own
-multiplicity theorem; Q4.4 adds compact Lie representations and Q4.5 adds
+foundations, compact-group averaging/Peter–Weyl and the existing early
+C*-sublayer V8.CompactErgodicActions. Its later W* and factor applications
+are not inputs. Q4.4 adds compact Lie representations and Q4.5 adds
 SB2's differential API. Q5 uses Q0–Q2 and the ordinary native GH/Hausdorff
 interfaces; it has no input from Q6 or spectral triples. Q6 uses Q4–Q5,
 the scalar-twisted completion, ℤᵈ amenability, and its own continuous-field
@@ -627,7 +688,8 @@ zero-radius/singleton and rational-parameter branches.
 - Høegh-Krohn, Landstad and Størmer,
   [*Compact ergodic groups of automorphisms*](https://annals.math.princeton.edu/1981/114-1/p02),
   Annals of Mathematics114(1981),75–86, for the C*-ergodic multiplicity
-  and invariant-trace theorem, specified as Q4.2's own target.
+  and invariant-trace theorem consumed through V8.CompactErgodicActions
+  in Q4.2, with Q4 retaining its metric adapters and applications.
 - Native positive continuous maps follow
   [Mathlib PR42202](https://github.com/leanprover-community/mathlib4/pull/42202);
   C*-functional normalization follows

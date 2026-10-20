@@ -164,13 +164,21 @@ variable {F : Type v} [NormedAddCommGroup F] [NormedSpace ℝ F]
   [PartialOrder F] [IsOrderedAddMonoid F] [PosSMulMono ℝ F]
 variable {e : E} {f : F}
 
-/-- Admissibility is quotient equality, not restriction to (a,0). -/
-structure AdmissibleLipNorm (LE : ExtendedLipschitzSeminorm e)
+/-- Quotient-only admissibility permits a coupled dense finite domain.
+Q5 retains this class and proves its reduction to full-domain bridges. -/
+structure QuotientAdmissibleLipNorm (LE : ExtendedLipschitzSeminorm e)
     (LF : ExtendedLipschitzSeminorm f) where
   seminorm : ExtendedLipschitzSeminorm (e, f)
   lipNorm : IsLipNorm seminorm
   left_quotient : ∀ a : E, (⨅ b : F, seminorm (a,b)) = LE a
   right_quotient : ∀ b : F, (⨅ a : E, seminorm (a,b)) = LF b
+
+/-- Maximum gluing needs every pair of finite-domain elements, not merely
+coordinate quotient equality. The condition includes the exact domains. -/
+structure AdmissibleLipNorm (LE : ExtendedLipschitzSeminorm e)
+    (LF : ExtendedLipschitzSeminorm f) extends QuotientAdmissibleLipNorm LE LF where
+  finite_domain : ∀ (a : E) (b : F),
+    seminorm (a,b) < ∞ ↔ LE a < ∞ ∧ LF b < ∞
 
 /-- Coordinate pullbacks use native continuous-linear-map composition. -/
 def leftState (φ : stateSpace e) : stateSpace (e, f) := by
@@ -185,16 +193,35 @@ def rightState (ψ : stateSpace f) : stateSpace (e, f) := by
 
 /-- Native Hausdorff extended distance, locally using the admissible state
 metric rather than changing the weak-star instance globally. -/
-def bridgeEDist {LE : ExtendedLipschitzSeminorm e} {LF : ExtendedLipschitzSeminorm f}
-    (M : AdmissibleLipNorm LE LF) : ℝ≥0∞ :=
+def quotientBridgeEDist {LE : ExtendedLipschitzSeminorm e}
+    {LF : ExtendedLipschitzSeminorm f} (M : QuotientAdmissibleLipNorm LE LF) : ℝ≥0∞ :=
   letI := stateEMetricSpace M.seminorm
   Metric.hausdorffEDist (Set.range (leftState (f := f)))
     (Set.range (rightState (e := e)))
+
+/-- The same Hausdorff construction for bridges that support gluing. -/
+def bridgeEDist {LE : ExtendedLipschitzSeminorm e} {LF : ExtendedLipschitzSeminorm f}
+    (M : AdmissibleLipNorm LE LF) : ℝ≥0∞ :=
+  quotientBridgeEDist M.toQuotientAdmissibleLipNorm
 
 /-- Existence/finiteness and the metric laws are Q5 targets. -/
 def quantumGHEDist (LE : ExtendedLipschitzSeminorm e)
     (LF : ExtendedLipschitzSeminorm f) : ℝ≥0∞ :=
   ⨅ M : AdmissibleLipNorm LE LF, bridgeEDist M
+
+/-- The broader infimum is retained, rather than silently discarded. -/
+def quotientQuantumGHEDist (LE : ExtendedLipschitzSeminorm e)
+    (LF : ExtendedLipschitzSeminorm f) : ℝ≥0∞ :=
+  ⨅ M : QuotientAdmissibleLipNorm LE LF, quotientBridgeEDist M
+
+/-- Q5's quantitative infimal-convolution reduction proves equality of
+the full-domain and quotient-only distance definitions. -/
+theorem quantumGHEDist_eq_quotientQuantumGHEDist
+    (LE : ExtendedLipschitzSeminorm e) (LF : ExtendedLipschitzSeminorm f)
+    (he : IsOrderUnitNorm e) (hf : IsOrderUnitNorm f)
+    (hLE : IsLipNorm LE) (hLF : IsLipNorm LF) :
+    quantumGHEDist LE LF = quotientQuantumGHEDist LE LF := by
+  sorry
 
 end Bridges
 
