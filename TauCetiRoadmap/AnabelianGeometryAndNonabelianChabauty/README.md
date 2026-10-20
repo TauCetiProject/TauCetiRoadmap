@@ -2785,7 +2785,7 @@ The interface consists of the following named results.
 - A path over a nonidentity constant automorphism is excluded.
 - No assertion that sections at distinct rational points are conjugate.
 
-The construction and its conventions follow [The Stacks Project Authors](#reference-stacks), Theorem 58.6.2 (0BQ8); Lemma 58.14.3 (0BTX); [Minhyong Kim](#reference-kim2008), Published article, pp. 637–642 (PDF pp. 5–10); collated with arXiv:0804.1008v1, PDF pp. 4–9.
+The construction and its conventions follow [The Stacks Project Authors](#reference-stacks), Theorem 58.6.2 (0BND); Lemma 58.14.3 (0BTX); [Minhyong Kim](#reference-kim2008), Published article, pp. 637–642 (PDF pp. 5–10); collated with arXiv:0804.1008v1, PDF pp. 4–9.
 
 Use [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.0.2 (finite étale Galois categories, paths and monodromy); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.0.A2 (the arithmetic exact sequence); [InverseGaloisAndArithmeticFundamentalGroups](../InverseGaloisAndArithmeticFundamentalGroups/README.md) §IG.1.2 (tame tangential fibres at a boundary point); [Equivariant topological torsors and their isomorphisms](#nc-3-equivariant-topological-torsors); `CategoryTheory.Aut`; `CategoryTheory.Functor.isoWhiskerLeft`; `CategoryTheory.PreGaloisCategory.autEmbedding_isClosedEmbedding`; `TauCeti.AbsoluteGaloisGroup`; [Tangential fibre functors and their analytic comparison](#tangential-fibre-functors).
 
@@ -2811,7 +2811,7 @@ The interface consists of the following named results.
 - Path changes conjugate by geometric kernel elements.
 - Changing the rational point is not a path-choice change and has no automatic conjugacy conclusion.
 
-The construction and its conventions follow [The Stacks Project Authors](#reference-stacks), Theorem 58.6.2 (0BQ8); Lemma 58.14.3 (0BTX); [Minhyong Kim](#reference-kim2005), Section 1, Proposition 1 and proof, PDF pp. 5–7.
+The construction and its conventions follow [The Stacks Project Authors](#reference-stacks), Theorem 58.6.2 (0BND); Lemma 58.14.3 (0BTX); [Minhyong Kim](#reference-kim2005), Section 1, Proposition 1 and proof, PDF pp. 5–7.
 
 Use [Arithmetic path torsor](#nc-0-arithmetic-geometric-paths); `CategoryTheory.Aut`; `CategoryTheory.PreGaloisCategory.autEmbedding_isClosedEmbedding`; `ContinuousMonoidHom`.
 
@@ -2889,7 +2889,7 @@ Whisker natural isomorphisms by pullback on finite covers; compatibility on cons
 - Identity and composite k-morphisms preserve the corresponding cocycle formulas.
 - The constant Spec k test remains a singleton after finite field extension.
 
-The construction and its conventions follow [The Stacks Project Authors](#reference-stacks), Theorem 58.6.2 (0BQ8); Lemma 58.14.3 (0BTX); [Minhyong Kim](#reference-kim2005), Section 1, Proposition 1 and proof, PDF pp. 5–7.
+The construction and its conventions follow [The Stacks Project Authors](#reference-stacks), Theorem 58.6.2 (0BND); Lemma 58.14.3 (0BTX); [Minhyong Kim](#reference-kim2005), Section 1, Proposition 1 and proof, PDF pp. 5–7.
 
 Use [Cocycle of a geometric arithmetic path](#nc-0-arithmetic-path-cocycle); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.0.2 (finite étale Galois categories, paths and monodromy); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.0.A2 (the arithmetic exact sequence); [Functoriality of nonabelian `H⁰` and `H¹`](#nc-3-functoriality); `CategoryTheory.Functor.isoWhiskerLeft`.
 
@@ -3705,7 +3705,7 @@ The interface consists of the following named results.
 - For a proper genus-g curve, its surface relation retains the nonzero degree-two class.
 - For `S₃` and constant `F₃`, the maximal pro-3 quotient loses `H³`; this theorem does not assert a general full-group comparison.
 
-The construction and its conventions follow [Shinichi Mochizuki](#reference-m99), §0, geometric pro-p conventions, author pp. 5–7; §8, arithmetic Chern classes, pp. 42–47; [Shinichi Mochizuki](#reference-m96), §§1–2, printed pp. 576–582.
+The construction and its conventions follow [Shinichi Mochizuki](#reference-m99), §0, geometric pro-p conventions, author pp. 13–16; §8, arithmetic Chern classes, pp. 42–47; [Shinichi Mochizuki](#reference-m96), §§1–2, printed pp. 576–582.
 
 Use [InverseGaloisAndArithmeticFundamentalGroups](../InverseGaloisAndArithmeticFundamentalGroups/README.md) Layer IG.0; [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) Layer R02.1 (compact coefficients, limits and continuous extensions); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) Layer R02.2 (Hochschild–Serre); [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) Layer SF.2 (sites and scheme cohomology).
 
@@ -4714,7 +4714,7 @@ The interface consists of the following named results.
 - For a proper elliptic curve the symplectic relation kills `∧²H`, so the unipotent group is abelian.
 - For a proper genus-two curve the centre has dimension binom(4,2)−1=5.
 
-The construction and its conventions follow [Shinichi Mochizuki](#reference-m99), §4, two-step quotient and its Hodge–Tate analysis, author pp. 22–27; [Minhyong Kim](#reference-kim2009), §1, published pp. 97–101.
+The construction and its conventions follow [Shinichi Mochizuki](#reference-m99), §3, two-step quotient and its Hodge–Tate analysis, author pp. 21–27; [Minhyong Kim](#reference-kim2009), §1, published pp. 97–101.
 
 Use [Neutral tensor category and Hopf reconstruction](#neutral-tensor-reconstruction); [Geometric pro-p and arithmetic p-power comparison](#pro-p-curve-comparison); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §§0.11, F.5–F.6 (trace, Poincaré duality and purity).
 
@@ -4739,7 +4739,7 @@ The interface consists of the following named results.
 - On `P¹−{0,1,∞}` over Z, the unit tangent at 0 supplies the base point even though no ordinary Z-point exists.
 - A zero tangent fails to define the punctured tangential fibre.
 
-The construction and its conventions follow [Martin C. Olsson](#reference-olsson), §9.1–9.11, pp. 85–89; §9.17–9.23, pp. 90–94; Theorem 9.46 and §§9.47–9.58, pp. 104–110; [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §2, pp. 3–5.
+The construction and its conventions follow [Martin C. Olsson](#reference-olsson), §9.1–9.11, pp. 85–89; §9.17–9.23, pp. 90–94; Theorem 9.46 and §§9.47–9.58, pp. 104–110; [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §2.1, p. 8.
 
 Use [Neutral tensor category and Hopf reconstruction](#neutral-tensor-reconstruction); [Good-reduction comparison over ramified p-adic fields](#ramified-endpoint-comparison); [CrystallineCohomology](../CrystallineCohomology/README.md) Layers CR.5:log-algebra and CR.5 (logarithmic structures and logarithmic crystalline cohomology); [InverseGaloisAndArithmeticFundamentalGroups](../InverseGaloisAndArithmeticFundamentalGroups/README.md) §IG.1.2 (tame tangential fibres at a boundary point); [Olsson's nonabelian crystalline comparison in the unipotent case](#olsson-unipotent-comparison).
 
@@ -6132,7 +6132,7 @@ The interface consists of the following named results.
 - For a nonsurjective invariant map the unconditional difference assertion is unavailable.
 - For `R=E[ε]/(ε²)`, the equations retain their infinitesimal condition.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2009), §4, Proposition 6 and its proof, published pp. 127–130; [Minhyong Kim](#reference-kim2005), §1, Propositions 2–3, printed pp. 8–10.
+The construction and its conventions follow [Minhyong Kim](#reference-kim2009), §4, Comments II, central Selmer induction and the `H_w`-invariant lifting step, published pp. 127–130; [Minhyong Kim](#reference-kim2005), §1, Propositions 2–3, printed pp. 8–10.
 
 Use [Good-reduction comparison over ramified p-adic fields](#ramified-endpoint-comparison); [Integral tangential realization and comparison](#integral-tangential-realizations); [Finite-dimensional final topology on unipotent points](#unipotent-final-topology); [SelmerIwasawaCohomology](../SelmerIwasawaCohomology/README.md) Layer 4 (finite conditions); [Unipotent Frobenius Lang theorem](#nc-2-frobenius-lang).
 
@@ -6286,7 +6286,7 @@ The interface consists of the following named results.
 - Changing the tangent by a nonunit can change the crystalline condition.
 - At depth zero all path classes are neutral.
 
-The construction and its conventions follow [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §§2–3, pp. 3–7; [Minhyong Kim](#reference-kim2009), §1, pp. 91–96.
+The construction and its conventions follow [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §§2–3, pp. 8–14; [Minhyong Kim](#reference-kim2009), §1, pp. 91–96.
 
 Use [Integral tangential realization and comparison](#integral-tangential-realizations); [Good-model inertia and arithmetic factorization](#good-model-unramified-paths); [All-algebra local invariant lifting and differences](#central-local-invariant-lifts).
 
@@ -6303,7 +6303,7 @@ The central invariant factor in Kim's induction is `V^B/V`. It is a quotient of 
 At depth one, the crystalline Selmer condition agrees with the Bloch–Kato finite condition on the Jacobian's rational Tate module. Globally its exact sequence retains the rational Tate module of Sha. A nonzero Sha direction is therefore present in the full Selmer variety and is removed only by the separate Mordell–Weil cut of Layer 5.
 
 
-For the intersection on a supplied class carrier with supplied localizations, `Selmer.condition_mono` states that replacing each local condition by a subset shrinks `SelmerSet`. `Selmer.kummer_mem` carries the hypothesis that every global Kummer class satisfies every local condition. `Selmer.finite_points_of_refined_locus` combines that containment with an injective localization of global points into a finite refined locus. No dimension or representability conclusion follows from the set intersection alone; an empty refinement excluding infinitely many global points fails the containment hypothesis.
+For the intersection on a supplied class carrier with supplied localizations, `Selmer.condition_mono` states that replacing each local condition by a subset shrinks `SelmerSet` (by `Set.iInter_mono` applied to `Set.preimage_mono`). `Selmer.finite_points_of_refined_locus` assumes that every global Kummer class satisfies every local condition and combines this containment with an injective localization of global points into a finite refined locus. No dimension or representability conclusion follows from the set intersection alone; an empty refinement excluding infinitely many global points fails the containment hypothesis.
 
 ### Dependencies
 
@@ -7016,7 +7016,7 @@ The interface consists of the following named results.
 - At depth zero the target is a point.
 - A boundary point is excluded as an ordinary integral endpoint.
 
-The construction and its conventions follow [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §§2–3, pp. 3–7; [Minhyong Kim](#reference-kim2009), §§1 and 3, pp. 91–106 and 115–121.
+The construction and its conventions follow [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §§2–3, pp. 8–14; [Minhyong Kim](#reference-kim2009), §§1 and 3, pp. 91–106 and 115–121.
 
 Use [Tangential global Selmer conditions](#tangential-selmer-conditions); [Integral tangential realization and comparison](#integral-tangential-realizations); [Density on every open residue subdisc](#every-subdisc-density).
 
@@ -7791,7 +7791,7 @@ Separate proved injectivity and conditional dimension estimates from the section
 
 <a id="arithmetic-higher-k-inputs"></a>
 
-**Arithmetic higher K-group finiteness and rank.** For every number field F, write `K_m(𝒪_F)=exactKGroup(P(𝒪_F),m)` on the split exact category of finite projective modules supplied by GeometryOfNumbersAndQuadraticArithmetic §§6.1.1–6.1.7. Prove that these groups are finitely generated for `m≥0`, and, for `k≥2`, that `K_(2k−2)(𝒪_F)` is finite and `rank K_(2k−1)(𝒪_F)` is `r₁+r₂` for odd k and `r₂` for even k. Here r₁ and r₂ count the real embeddings and complex pairs of F. The arithmetic finite-generation theorem and its integer-ring consequences are targets here. The generic K-group carrier remains with its supplier; use ColemanIntegration L3.Fa.1 for scheme specialization/localization and L3.Fc.1 for the complex regulator and Borel rank theorem.
+**Arithmetic higher K-group finiteness and rank.** For every number field F, write `K_m(𝒪_F)=exactKGroup(P(𝒪_F),m)` on the split exact category of finite projective modules supplied by GeometryOfNumbersAndQuadraticArithmetic §§6.1.1–6.1.7; `exactKGroup` is its consumer alias of GeneralAlgebraicKTheory §§2.2–2.6's `KGroup`. Prove that these groups are finitely generated for `m≥0`, and, for `k≥2`, that `K_(2k−2)(𝒪_F)` is finite and `rank K_(2k−1)(𝒪_F)` is `r₁+r₂` for odd k and `r₂` for even k. Here r₁ and r₂ count the real embeddings and complex pairs of F. The arithmetic finite-generation theorem and its integer-ring consequences are targets here. The generic K-group carrier remains with its supplier; use ColemanIntegration L3.Fa.1 for scheme specialization/localization and L3.Fc.1 for the complex regulator and Borel rank theorem.
 
 For every positive-rank finite projective `𝒪_F`-module P, construct the integral Steinberg module as the top reduced homology of the building of proper nonzero subspaces of `P⊗F`, and prove finite generation of `H_i(Aut(P),St(P⊗F))` for all i≥0, with the usual rank-one augmented-homology convention. Quillen's filtration of the supplied Q-construction with these groups proves K-group finite generation. The rank-zero category contributes its zero object. The supplied localization sequence and finite-field K-groups identify `K_m(𝒪_F)⊗ℚ` with `K_m(F)⊗ℚ` for m≥2. Transport the supplied odd-degree Borel rank calculation through this identification. For the even-degree part, prove Borel's rational vanishing for `K_(2k−2)(𝒪_F)` by the even primitive part of stable rational arithmetic-group cohomology, and combine with finite generation to obtain finiteness. The rational vanishing alone would not imply integral finiteness. The complex regulator is imported on the common K-group carrier, not constructed again.
 
@@ -7805,7 +7805,7 @@ The API is `arithmeticK.finiteGeneration`, `arithmeticK.evenFinite` and `arithme
 
 Sources: [Christophe Soulé](#reference-soule), §2.1, p. 231, and §6.1, pp. 246–247; [Charles A. Weibel](#reference-weibel), Chapter IV, Theorems 1.17–1.18 and regulator discussion 1.18.1, pp. 270–272, and Theorem 6.9 for Quillen finite generation.
 
-*Needs:* [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md) §§6.1.1–6.1.7 and §6.10 (generic K-groups, plus comparison and finite-field K-groups); [ColemanIntegration](../ColemanIntegration/README.md) L3.Fa.1 and L3.Fc.1 (scheme localization, complex regulator and Borel rank theorem); TauCetiRoadmap.GlobalNumberFields (number fields and rings of integers). Arithmetic finite generation and its integer-ring consequences are owned here.
+*Needs:* [GeneralAlgebraicKTheory](../GeneralAlgebraicKTheory/README.md) §§2.1–2.6 (`QCat` and `KGroup`, specialized as `quillenQ` and `exactKGroup`); [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md) §§6.1.1–6.1.7 and §6.10 (consumer adapters for generic K-groups, plus comparison and finite-field K-groups); [ColemanIntegration](../ColemanIntegration/README.md) L3.Fa.1 and L3.Fc.1 (scheme localization, complex regulator and Borel rank theorem); TauCetiRoadmap.GlobalNumberFields (number fields and rings of integers). Arithmetic finite generation and its integer-ring consequences are owned here.
 
 <a id="higher-etale-chern-comparison"></a>
 
@@ -8052,8 +8052,8 @@ The interface consists of the following named results.
 - `kimDimensionConjecture_of_refined`: For a represented closed refinement `S′_n⊆S_n`, `dim S′_n≤dim S_n`, so the unrefined inequality implies the refined inequality. If every allowed global point has its Kummer class in `S′_n`, the refined inequality gives finiteness of that point set by §5.7. A dimension bound for a refinement alone gives no containment and does not imply the unrefined dimension conjecture.
 - `kimDimensionConjecture_basepoint`: The proposition does not depend on the integral base point b: change of base point gives isomorphic Selmer varieties (BDCKW §2.9) and the de Rham dimensions are independent of b.
 - `dim_Q_eq_sum`: `dim Q_n = Σ_{k=1}^{n} (d_k − f_k)`, where `d_k = dim gr_k U` and `f_k = dim F⁰ gr_k U_dR` ([Dimensions of the lower central quotients](#nc-6-graded-central-dimensions)).
-- `KimDimensionInequality`: The form on dimension sequences: for selDim, dRDim : `ℕ → ℕ`, `∃ n ≥ 1`, selDim n &lt; dRDim n; KimDimensionConjecture is the instance selDim `n = dim S_n`, dRDim `n = dim Q_n`.
-- `kimDimensionInequality_mono`: If selDim′ `≤` selDim pointwise, the inequality for selDim implies it for selDim′ (the dimension form of `kimDimensionConjecture_of_refined`).
+- `KimDimensionCondition` (the Lean name; `Frontier.KimDimensionCondition`): The form on dimension sequences: for selDim, dRDim : `ℕ → ℕ`, `∃ n ≥ 1`, selDim n &lt; dRDim n; KimDimensionConjecture is the instance selDim `n = dim S_n`, dRDim `n = dim Q_n`.
+- `kimDimensionCondition_mono`: If selDim′ `≤` selDim pointwise, the inequality for selDim implies it for selDim′ (the dimension form of `kimDimensionConjecture_of_refined`).
 
 **Checks.**
 
@@ -8363,6 +8363,8 @@ p odd; `𝒳(Z) = ∅` because z and 1 − z cannot both be units of Z. The dept
 - At `p=3`, `Φ₃(1+X)=X²+3X+3` is Eisenstein, so `ℚ₃` has no primitive cube root and hence no primitive sixth root. The depth-one integral locus is empty.
 `- p = 5: X(Z_5)_1 = ∅`.
 `- p = 7: X(Z_7)_1 = {3, 5}` modulo the identification of `ζ_6` with the Teichmüller lifts of 3 and 5, the primitive sixth roots of unity mod 7.
+- At `p=7`, BDCKW §6.3's nonvanishing gives `X(ℤ₇)_2=∅`, although `X(ℤ₇)_1` has two points.
+- The congruences `p ≡ 3,5 mod 8` make 2 nonsquare in `ℚ_p`; BDCKW §7.6 uses this for the genus-two cover `y²=8x⁶−108x⁴−1296x²+11664` of `y²=x³−891x+4374` with the origin removed. These are distinct curves from the thrice-punctured line.
 
 The construction and its conventions follow [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §6.1–6.3, pp. 43–45; §1.14, p. 7.
 
@@ -8378,7 +8380,7 @@ For `Λ=ℤ_p[[T₁,T₂]]`, the module `Λ/(p,T₁)=F_p[[T₂]]` is pseudo-null
 
 Let `L_n={0}∪{n,n+1,…}` in the natural numbers. This is a decreasing sequence with intersection {0}, but no `L_n` equals {0}. Thus intersection equality is weaker than eventual equality of the Chabauty–Kim loci. The named eventual-equality conjecture retains its quantifier `∃N`, `∀n≥N`.
 
-For the thrice-punctured line, use the integral unit tangent at 0. The depth-one coordinates are log z and `log(1−z)`. A common zero in `ℤ_p` with z and 1−z units makes both roots of unity and forces a primitive sixth root in the source-qualified calculation. At `p=3,5,7` the stringent depth-two set is empty; the higher-order nonvanishing argument uses the alternative congruences p≡3 or 5 mod 8. It does not conclude that the depth-one set is empty. The base point is tangential because this open curve has no ordinary Z-point.
+For the thrice-punctured line, use the integral unit tangent at 0. The depth-one coordinates are log z and `log(1−z)`. A common zero in `ℤ_p` with z and 1−z units makes both roots of unity and forces a primitive sixth root in the source-qualified calculation. For `p=3,5`, the depth-one locus is empty (BDCKW §6.1). For `p=7`, the two depth-one candidates disappear at depth two: BDCKW §6.3 establishes `Li₂(ζ₆) ≠ 0` numerically for primes `p ≡ 1 mod 3` below `10⁵`. The conditions `p ≡ 3,5 mod 8` in §7.6 concern a genus-two cover of a punctured elliptic curve, with `d=2` nonsquare in `ℚ_p`. The base point is tangential because this open curve has no ordinary Z-point.
 
 
 For an antitone family of loci containing all rational points, `Frontier.intersection_of_eventual_equality` deduces intersection equality from `EventualEquality`. Its hypotheses preserve the early loci as well as the tail; intersection equality by itself does not imply a stable tail.

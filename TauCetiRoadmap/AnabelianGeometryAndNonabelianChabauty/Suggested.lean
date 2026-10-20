@@ -364,7 +364,8 @@ namespace Selmer
 
 variable {C : Type u} {I : Type w} {L : I → Type*}
 
-/-- The intersection of local conditions on a supplied global class carrier.
+/-- The intersection of local conditions on a supplied global class carrier,
+equal to `⋂ i, localization i ⁻¹' condition i`.
 Its arithmetic instance uses native nonabelian H¹ and the localization maps of README.md. -/
 def SelmerSet (localization : ∀ i, C → L i)
     (condition : ∀ i, Set (L i)) : Set C :=
@@ -374,13 +375,6 @@ def SelmerSet (localization : ∀ i, C → L i)
 theorem condition_mono
     (localization : ∀ i, C → L i) (A B : ∀ i, Set (L i))
     (h : ∀ i, A i ⊆ B i) : SelmerSet localization A ⊆ SelmerSet localization B := by
-  sorry
-
-/-- Local Kummer containment puts each allowed global class in the refined Selmer set. -/
-theorem kummer_mem {P : Type v} (localization : ∀ i, C → L i)
-    (condition : ∀ i, Set (L i)) (kummer : P → C)
-    (hcontain : ∀ x i, localization i (kummer x) ∈ condition i) (x : P) :
-    kummer x ∈ SelmerSet localization condition := by
   sorry
 
 /-- A finite refined Selmer locus bounds a global point set when its Kummer classes satisfy
@@ -588,6 +582,14 @@ theorem cuspidalSectionConjecture_empty_boundary {P : Type u} {D : Type v} {S : 
 depth. In its geometric application the two functions are dimensions of the stated schemes. -/
 def KimDimensionCondition (selmerDimension deRhamDimension : ℕ → ℕ) : Prop :=
   ∃ n, 0 < n ∧ selmerDimension n < deRhamDimension n
+
+/-- Lowering the Selmer dimensions preserves a strict inequality at a positive depth. -/
+theorem kimDimensionCondition_mono {selmerDimension selmerDimension' deRhamDimension : ℕ → ℕ}
+    (h : ∀ n, selmerDimension' n ≤ selmerDimension n)
+    (hcondition : KimDimensionCondition selmerDimension deRhamDimension) :
+    KimDimensionCondition selmerDimension' deRhamDimension := by
+  obtain ⟨n, hn, hlt⟩ := hcondition
+  exact ⟨n, hn, lt_of_le_of_lt (h n) hlt⟩
 
 /-- Summing an eventual H² bound retains the full finite initial H² contribution.
 The Euler characteristic identities and tail estimates give this bound at every depth. -/
