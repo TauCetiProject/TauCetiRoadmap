@@ -1,5 +1,8 @@
 import Mathlib
 import TauCetiRoadmap.NumberFieldArithmetic.Suggested
+import TauCeti.Algebra.Polynomial.Card.RootSetUnion
+import TauCeti.NumberTheory.GeometryOfNumbers.Doubling
+import TauCeti.NumberTheory.EffectiveBounds.Regulator
 
 /-!
 # Global number fields, ray classes, adeles, and Hecke characters: target signatures
@@ -243,6 +246,7 @@ parametrizable in dimension `n-1`, the number of lattice points in the dilate `c
 `n-1` is where the power saving `δ = 1/n` in `rayClassIdealCount` comes from. -/
 theorem card_inter_smul_isBigO {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [MeasureTheory.MeasureSpace E] [BorelSpace E]
+    [MeasureTheory.Measure.IsAddHaarMeasure (MeasureTheory.volume : MeasureTheory.Measure E)]
     (Λ : Submodule ℤ E) [DiscreteTopology Λ] [IsZLattice ℝ Λ]
     (D : Set E) (hD : MeasurableSet D) (hbdd : Bornology.IsBounded D)
     (hfr : IsLipschitzParametrizable (Module.finrank ℝ E - 1) (frontier D)) :
@@ -348,6 +352,176 @@ theorem rayClassCharacter_partialSums (𝔪 : Modulus K) (χ : RayClassCharacter
     ∃ δ : ℝ, 0 < δ ∧
       (fun x : ℝ => rayClassCharacterPartialSum 𝔪 χ x) =O[atTop]
         (fun x : ℝ => ((x ^ (1 - δ) : ℝ) : ℂ)) := sorry
+
+/-! ## Layer 3G: lattice reconciliation and elementary all-rank regulator bounds
+
+The README fixes the actual primary coefficient/root-count constants and proof order.
+The existing unit lattice, logarithmic coordinates and regulator are consumed unchanged. -/
+
+/-- The native bounded-polynomial root-count budget with coefficient height `4^n`. -/
+def unitPowerRootBudget (n : ℕ) : ℕ := n * (2 * 4 ^ n + 1) ^ (n + 1)
+
+/-- Explicit separation scale; positivity is used only at positive number-field degrees. -/
+noncomputable def unitLogSeparation (n : ℕ) : ℝ :=
+  Real.log 2 / ((n * unitPowerRootBudget n : ℕ) : ℝ)
+
+/-- A degree-only lower bound, with no choice of a unit or unit basis as input. -/
+noncomputable def elementaryRegulatorBound (n : ℕ) : ℝ := unitLogSeparation n ^ n
+
+theorem unitPowerRootBudget_mono : Monotone unitPowerRootBudget := sorry
+
+theorem unitLogSeparation_pos {n : ℕ} (hn : 0 < n) : 0 < unitLogSeparation n := sorry
+
+theorem unitLogSeparation_le_one {n : ℕ} (hn : 0 < n) : unitLogSeparation n ≤ 1 := sorry
+
+open scoped Classical in
+/-- The finite root budget: all powers up to Q(n) have conjugates at most two under
+small logarithmic norm. The omitted place is controlled by the product formula. -/
+theorem norm_embedding_unit_pow_le_two (u : (𝓞 K)ˣ)
+    (hu : ‖NumberField.Units.logEmbedding K (Additive.ofMul u)‖ ≤
+      unitLogSeparation (Module.finrank ℚ K))
+    (k : ℕ) (hk : k ≤ unitPowerRootBudget (Module.finrank ℚ K)) (φ : K →+* ℂ) :
+    ‖φ (((u : 𝓞 K) : K) ^ k)‖ ≤ 2 := sorry
+
+open scoped Classical in
+/-- Integrality and the actual coefficient estimate put these powers in the bounded root union. -/
+theorem abs_coeff_minpoly_unit_pow_le (u : (𝓞 K)ˣ)
+    (hu : ‖NumberField.Units.logEmbedding K (Additive.ofMul u)‖ ≤
+      unitLogSeparation (Module.finrank ℚ K))
+    (k : ℕ) (hk : k ≤ unitPowerRootBudget (Module.finrank ℚ K)) (j : ℕ) :
+    |(minpoly ℤ (((u : 𝓞 K) : K) ^ k)).coeff j| ≤
+      ((4 ^ Module.finrank ℚ K : ℕ) : ℤ) := sorry
+
+open scoped Classical in
+/-- Q(n)+1 powers cannot all be distinct in a root union of cardinality at most Q(n).
+Minimal-polynomial witnesses are monic and nonzero; no zero-polynomial root convention is used. -/
+theorem exists_pos_pow_eq_one_of_small_log (u : (𝓞 K)ˣ)
+    (hu : ‖NumberField.Units.logEmbedding K (Additive.ofMul u)‖ ≤
+      unitLogSeparation (Module.finrank ℚ K)) :
+    ∃ m : ℕ, 0 < m ∧ u ^ m = 1 := sorry
+
+open scoped Classical in
+/-- Quantitative separation on the actual image lattice, in its native supremum norm. -/
+theorem unitLogSeparation_lt_norm (x : NumberField.Units.unitLattice K) (hx : x ≠ 0) :
+    unitLogSeparation (Module.finrank ℚ K) <
+      ‖(x : NumberField.Units.dirichletUnitTheorem.logSpace K)‖ := sorry
+
+open scoped Classical in
+/-- Product Lebesgue measure in omitted-place weighted-log coordinates; not hyperplane area. -/
+theorem measureReal_unit_log_cube (δ : ℝ) (hδ : 0 ≤ δ) :
+    MeasureTheory.volume.real
+      (Metric.closedBall (0 : NumberField.Units.dirichletUnitTheorem.logSpace K) δ) =
+        (2 * δ) ^ NumberField.Units.rank K := sorry
+
+open scoped Classical in
+/-- Minkowski first applied in the exact native coordinates. Rank zero uses R=1 separately. -/
+theorem regulator_ge_elementary_rank_bound :
+    unitLogSeparation (Module.finrank ℚ K) ^ NumberField.Units.rank K ≤
+      NumberField.Units.regulator K := sorry
+
+theorem regulator_ge_elementary_degree_bound :
+    elementaryRegulatorBound (Module.finrank ℚ K) ≤ NumberField.Units.regulator K := sorry
+
+theorem elementaryRegulatorBound_pos {n : ℕ} (hn : 0 < n) :
+    0 < elementaryRegulatorBound n := sorry
+
+theorem elementaryRegulatorBound_antitone {n m : ℕ} (hn : 0 < n) (hnm : n ≤ m) :
+    elementaryRegulatorBound m ≤ elementaryRegulatorBound n := sorry
+
+/-- Discriminant-only consequence of the existing effective degree bound. -/
+theorem regulator_ge_elementary_discriminant_bound (N : ℕ)
+    (hN : |NumberField.discr K| ≤ (N : ℤ)) :
+    elementaryRegulatorBound (max 1 (NumberField.hermiteTheorem.rankOfDiscrBdd N)) ≤
+      NumberField.Units.regulator K := sorry
+
+/-- A consumer of the already fixed 3E formula; the elementary regulator producer
+above has no ray-counting or analytic-continuation premise. All Euler factors stay present. -/
+theorem rayClassIdealMainTerm_ge_elementaryRegulatorBound (𝔪 : Modulus K) :
+    ((2 ^ NumberField.InfinitePlace.nrRealPlaces K *
+        (2 * Real.pi) ^ NumberField.InfinitePlace.nrComplexPlaces K *
+        elementaryRegulatorBound (Module.finrank ℚ K) *
+        (NumberField.classNumber K : ℝ)) /
+      ((NumberField.Units.torsionOrder K : ℝ) * Real.sqrt |(NumberField.discr K : ℝ)|)) /
+        (Nat.card (RayClassGroup 𝔪) : ℝ) *
+      (∏ v ∈ 𝔪.support, (1 - ((Ideal.absNorm v.asIdeal : ℝ))⁻¹)) ≤
+        rayClassIdealMainTerm 𝔪 := sorry
+
+section PolydiscReconciliation
+
+variable {ι : Type*} [Fintype ι]
+
+/-- Compatibility of the old engine name with Mathlib's existing region; no new region def. -/
+theorem native_box_eq_pi_closedBall (r : ι → ℝ) (c : ℝ) :
+    TauCeti.GeometryOfNumbers.box r c =
+      Set.pi Set.univ (fun j => Metric.closedBall (0 : ℂ) (c * r j)) := by
+  ext x
+  simp
+
+/-- The count is finite before ncard is used; spanning is not required here. -/
+theorem finite_lattice_inter_polydisc (L : Submodule ℤ (ι → ℂ)) [DiscreteTopology L]
+    (r : ι → ℝ) (c : ℝ) :
+    ((L : Set (ι → ℂ)) ∩
+      Set.pi Set.univ (fun j => Metric.closedBall (0 : ℂ) (c * r j))).Finite := sorry
+
+/-- Native packing as a comparison on the existing Mathlib region, without a new
+separation predicate or lattice carrier. The positive-scale hypotheses are retained. -/
+theorem finite_and_ncard_le_polydisc_of_separated (r : ι → ℝ) (hr : ∀ j, 0 < r j)
+    {c ε : ℝ} (hε : 0 < ε) (hεc : ε ≤ c) {S : Set (ι → ℂ)}
+    (hS : S ⊆ Set.pi Set.univ (fun j => Metric.closedBall (0 : ℂ) (c * r j)))
+    (hsep : ∀ x ∈ S, ∀ y ∈ S, x ≠ y → ∃ j, ε * r j < ‖x j - y j‖) :
+    S.Finite ∧ (S.ncard : ℝ) ≤ (4 * c / ε) ^ (2 * Fintype.card ι) := sorry
+
+/-- The product of the canonical complex real/imaginary coordinate equivalences,
+followed by reindexing. Its values, rather than an arbitrary choice of equivalence, are fixed. -/
+noncomputable def complexRealCoordinateEquiv :
+    (ι → ℂ) ≃L[ℝ] ((ι × Fin 2) → ℝ) := sorry
+
+theorem complexRealCoordinateEquiv_apply_re (x : ι → ℂ) (j : ι) :
+    complexRealCoordinateEquiv x (j, 0) = (x j).re := sorry
+
+theorem complexRealCoordinateEquiv_apply_im (x : ι → ℂ) (j : ι) :
+    complexRealCoordinateEquiv x (j, 1) = (x j).im := sorry
+
+/-- Product Lebesgue, with no Euclidean/supremum-norm identification assumed. -/
+theorem complexRealCoordinateEquiv_measurePreserving :
+    MeasureTheory.MeasurePreserving
+      (complexRealCoordinateEquiv (ι := ι))
+      MeasureTheory.volume MeasureTheory.volume := sorry
+
+/-- The lattice's covolume is preserved by the actual coordinate transport. Its image
+is proved discrete and full before applying real-Pi lattice counting. -/
+theorem covolume_map_complexRealCoordinateEquiv (L : Submodule ℤ (ι → ℂ))
+    [DiscreteTopology L] [IsZLattice ℝ L] :
+    ZLattice.covolume
+      (L.map ((complexRealCoordinateEquiv (ι := ι)).toLinearEquiv.restrictScalars ℤ).toLinearMap) =
+        ZLattice.covolume L := sorry
+
+/-- Native doubling, in the standard carrier and region, with its finiteness discharged. -/
+theorem lattice_polydisc_doubling (L : Submodule ℤ (ι → ℂ)) [DiscreteTopology L]
+    (r : ι → ℝ) (hr : ∀ j, 0 < r j) :
+    (((L : Set (ι → ℂ)) ∩
+      Set.pi Set.univ (fun j => Metric.closedBall (0 : ℂ) (2 * r j))).ncard : ℝ) ≤
+      49 ^ Fintype.card ι *
+        ((L : Set (ι → ℂ)) ∩
+          Set.pi Set.univ (fun j => Metric.closedBall (0 : ℂ) (r j))).ncard := sorry
+
+/-- Product Lebesgue normalization, including the zero-dimensional product. -/
+theorem measureReal_polydisc (r : ι → ℝ) (hr : ∀ j, 0 < r j) (c : ℝ) (hc : 0 ≤ c) :
+    MeasureTheory.volume.real
+      (Set.pi Set.univ (fun j => Metric.closedBall (0 : ℂ) (c * r j))) =
+      Real.pi ^ Fintype.card ι * (∏ j, r j ^ 2) * c ^ (2 * Fintype.card ι) := sorry
+
+/-- The actual cardinality/covolume comparison. Transport through complex real/imaginary
+coordinates; do not assume the supremum-norm Pi space carries a compatible inner product. -/
+theorem lattice_polydisc_count_limit (L : Submodule ℤ (ι → ℂ)) [DiscreteTopology L]
+    [IsZLattice ℝ L] (r : ι → ℝ) (hr : ∀ j, 0 < r j) :
+    Tendsto (fun c : ℝ =>
+      (((L : Set (ι → ℂ)) ∩
+        Set.pi Set.univ (fun j => Metric.closedBall (0 : ℂ) (c * r j))).ncard : ℝ) /
+        c ^ (2 * Fintype.card ι)) atTop
+      (nhds (Real.pi ^ Fintype.card ι * (∏ j, r j ^ 2) / ZLattice.covolume L)) := sorry
+
+end PolydiscReconciliation
 
 /-! ## Layers 4--8: adeles and ideles -/
 
@@ -748,10 +922,28 @@ noncomputable instance (O : NumberFieldOrder K) : IsFractionRing O.toSubalgebra 
 
 noncomputable def NumberFieldOrder.conductor (O : NumberFieldOrder K) : Ideal (𝓞 K) := sorry
 
-/-- A fractional ideal is proper when its multiplier ring is exactly the given order. This
-predicate does not include invertibility. -/
+/-- A fractional ideal is proper when it is nonzero and its multiplier ring
+`{x : K | ∀ y ∈ I, x * y ∈ I}` is exactly the given order. This predicate does not include
+invertibility. -/
 def NumberFieldOrder.IsProperFractionalIdeal (O : NumberFieldOrder K)
-    (I : FractionalIdeal (O.toSubalgebra)⁰ K) : Prop := sorry
+    (I : FractionalIdeal (O.toSubalgebra)⁰ K) : Prop :=
+  I ≠ 0 ∧ ∀ x : K,
+    ((∀ y : K, y ∈ I → x * y ∈ I) ↔ x ∈ O.toSubalgebra)
+
+/-- The trace-dual fractional ideal of the order. Membership means that multiplication by every
+order element has integral field trace. For the maximal order this is the codifferent. -/
+noncomputable def NumberFieldOrder.traceDual (O : NumberFieldOrder K) :
+    FractionalIdeal (O.toSubalgebra)⁰ K := sorry
+
+theorem NumberFieldOrder.mem_traceDual_iff (O : NumberFieldOrder K) (x : K) :
+    x ∈ O.traceDual ↔
+      ∀ y : K, y ∈ O.toSubalgebra →
+        ∃ z : ℤ, Algebra.trace ℚ K (x * y) = z := sorry
+
+/-- The trace pairing identifies the trace-dual lattice with the integral linear dual of the
+order. This is a target theorem, not an assumption about an unproved Gorenstein predicate. -/
+noncomputable def NumberFieldOrder.traceDualEquivZDual (O : NumberFieldOrder K) :
+    O.traceDual ≃ₗ[ℤ] Module.Dual ℤ O.toSubalgebra := sorry
 
 /-- The group-valued carrier used by `Pic` and `NarrowPic`: invertible fractional ideals.
 Every member is proper, but the converse requires an additional hypothesis on the order. -/
@@ -766,12 +958,16 @@ theorem NumberFieldOrder.invertible_isProper (O : NumberFieldOrder K)
 def NumberFieldOrder.properFractionalIdeals (O : NumberFieldOrder K) :=
   {I : FractionalIdeal (O.toSubalgebra)⁰ K // O.IsProperFractionalIdeal I}
 
-/-- The explicit hypothesis under which properness and invertibility agree. -/
-def NumberFieldOrder.IsGorenstein (O : NumberFieldOrder K) : Prop := sorry
+/-- A number-field order is Gorenstein when its trace-dual fractional ideal is invertible. -/
+def NumberFieldOrder.IsGorenstein (O : NumberFieldOrder K) : Prop := IsUnit O.traceDual
 
 theorem NumberFieldOrder.isProper_iff_isUnit_of_isGorenstein (O : NumberFieldOrder K)
     (hO : O.IsGorenstein) (I : FractionalIdeal (O.toSubalgebra)⁰ K) :
     O.IsProperFractionalIdeal I ↔ IsUnit I := sorry
+
+theorem NumberFieldOrder.isGorenstein_iff_forall_proper_isUnit (O : NumberFieldOrder K) :
+    O.IsGorenstein ↔ ∀ I : FractionalIdeal (O.toSubalgebra)⁰ K,
+      O.IsProperFractionalIdeal I → IsUnit I := sorry
 
 /-- Cox's proper-ideal equivalence is used only for quadratic orders. -/
 theorem NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two (O : NumberFieldOrder K)
@@ -859,22 +1055,95 @@ theorem NumberFieldOrder.ker_narrowToPic (O : NumberFieldOrder K) :
 
 /-! ### Functoriality of `Pic` and `NarrowPic`
 
-⚠ An arbitrary `ℤ`-algebra homomorphism `O →ₐ[ℤ] O'` does **not** induce a map on `Pic`. Two
-things are missing. First, the extension `I ↦ I·O'` of a fractional ideal is only defined when
-the two orders sit inside comparable fraction fields and the map is the restriction of that
-embedding, so a homomorphism of the abstract rings has nowhere to send a denominator. Second,
-`NarrowPic` is a quotient by ideals with a **totally positive** generator, so the map must carry
-real places of the target back to real places of the source and preserve positivity there. Both
-requirements are in the carrier below, and both have named lemmas. -/
+Every unital `ℤ`-algebra homomorphism between the finite order subalgebras in number fields is
+injective and extends uniquely to a ring homomorphism of their fraction fields. The extension is
+not extra input: it is constructed from the fraction-field universal property and is characterized
+by its values on the source order. Conversely, restriction of an ambient field homomorphism that
+carries the source order into the target recovers such an order algebra homomorphism. This gives an
+equivalence between the existing `Hom` carrier and ordinary unital order algebra maps, without a
+second morphism structure or an added injectivity hypothesis. The `Hom` carrier remains useful for
+stating the ambient map used in fractional-ideal extension. A target real place pulls back to a real
+source place, so the same canonical extension also preserves total positivity and induces both
+Picard maps. -/
 
-/-- A morphism of orders: a field embedding of the ambient number fields that carries the
-source order into the target order. This is the data that induces extension of fractional
-ideals; the underlying `ℤ`-algebra homomorphism of the orders alone is not. -/
+/-- A morphism of orders: the unique ambient field extension of a unital order algebra map,
+packaged with its order-preservation proof. Restriction to the order subalgebras recovers the
+ordinary algebra map. -/
 structure NumberFieldOrder.Hom {K K' : Type u} [Field K] [NumberField K]
     [Field K'] [NumberField K'] (O : NumberFieldOrder K) (O' : NumberFieldOrder K') where
   /-- The embedding of fraction fields along which fractional ideals are extended. -/
   toRingHom : K →+* K'
   maps_mem : ∀ x ∈ O.toSubalgebra, toRingHom x ∈ O'.toSubalgebra
+
+/-- Restrict an ambient order morphism to the source and target order subalgebras. -/
+noncomputable def NumberFieldOrder.Hom.toAlgHom {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.Hom O') : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra := by
+  sorry
+
+/-- Every unital order algebra map is injective: a nonzero kernel element would put a nonzero
+integer from its integral minimal polynomial in the kernel. -/
+theorem NumberFieldOrder.injective_orderAlgHom {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra) : Function.Injective f := by
+  sorry
+
+/-- Extend an ordinary unital order algebra map uniquely to the ambient fraction fields and package
+that extension in the existing `Hom` carrier. The extension agrees with the given map on `O`. -/
+noncomputable def NumberFieldOrder.Hom.ofAlgHom {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra) : O.Hom O' := by
+  sorry
+
+/-- Restriction of an ambient map has the prescribed values on the order subalgebra. -/
+theorem NumberFieldOrder.Hom.toAlgHom_apply {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.Hom O') (x : O.toSubalgebra) : (f.toAlgHom x).val = f.toRingHom x.val := by
+  sorry
+
+/-- The canonical extension has the prescribed values on every element of the source order. -/
+theorem NumberFieldOrder.Hom.ofAlgHom_apply {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra) (x : O.toSubalgebra) :
+    (NumberFieldOrder.Hom.ofAlgHom f).toRingHom x.val = (f x).val := by
+  sorry
+
+/-- Any ambient field map with these order values is the unique fraction-field extension. -/
+theorem NumberFieldOrder.Hom.ofAlgHom_unique {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra) (g : K →+* K')
+    (hg : ∀ x : O.toSubalgebra, g x.val = (f x).val) :
+    (NumberFieldOrder.Hom.ofAlgHom f).toRingHom = g := by
+  sorry
+
+/-- Extension respects the identity order map. -/
+theorem NumberFieldOrder.Hom.ofAlgHom_id {K : Type u} [Field K] [NumberField K]
+    (O : NumberFieldOrder K) :
+    (NumberFieldOrder.Hom.ofAlgHom (AlgHom.id ℤ O.toSubalgebra)).toRingHom = RingHom.id K := by
+  sorry
+
+/-- Extension respects composition of ordinary order algebra maps. -/
+theorem NumberFieldOrder.Hom.ofAlgHom_comp_toRingHom {K₁ K₂ K₃ : Type u}
+    [Field K₁] [NumberField K₁] [Field K₂] [NumberField K₂] [Field K₃] [NumberField K₃]
+    {O₁ : NumberFieldOrder K₁} {O₂ : NumberFieldOrder K₂} {O₃ : NumberFieldOrder K₃}
+    (f : O₁.toSubalgebra →ₐ[ℤ] O₂.toSubalgebra)
+    (g : O₂.toSubalgebra →ₐ[ℤ] O₃.toSubalgebra) :
+    (NumberFieldOrder.Hom.ofAlgHom (g.comp f)).toRingHom =
+      (NumberFieldOrder.Hom.ofAlgHom g).toRingHom.comp (NumberFieldOrder.Hom.ofAlgHom f).toRingHom := by
+  sorry
+
+/-- Restricting the canonical extension recovers the original order algebra map. -/
+theorem NumberFieldOrder.Hom.toAlgHom_ofAlgHom {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra) :
+    (NumberFieldOrder.Hom.ofAlgHom f).toAlgHom = f := by
+  sorry
+
+/-- Extending the restriction of an ambient morphism recovers that morphism. -/
+theorem NumberFieldOrder.Hom.ofAlgHom_toAlgHom {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.Hom O') : NumberFieldOrder.Hom.ofAlgHom f.toAlgHom = f := by
+  sorry
 
 /-- The inclusion of one order into a larger order of the same field: the fraction-field
 embedding is the identity. This is the case used to compare an order with the maximal order. -/
@@ -919,12 +1188,78 @@ theorem NumberFieldOrder.narrowToPic_natural {K K' : Type u} [Field K] [NumberFi
     (f : O.Hom O') :
     f.mapPic.comp O.narrowToPic = O'.narrowToPic.comp f.mapNarrowPic := sorry
 
+/-- The map on `Pic` induced by an ordinary unital order algebra homomorphism, via its unique
+ambient fraction-field extension and the existing `Hom.mapPic` construction. -/
+noncomputable abbrev NumberFieldOrder.mapPicOfAlgHom {K K' : Type u} [Field K] [NumberField K]
+    [Field K'] [NumberField K'] {O : NumberFieldOrder K} {O' : NumberFieldOrder K'}
+    (f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra) : Pic O →* Pic O' :=
+  (NumberFieldOrder.Hom.ofAlgHom f).mapPic
+
+/-- The corresponding ordinary order-algebra-map action on the narrow Picard group. -/
+noncomputable abbrev NumberFieldOrder.mapNarrowPicOfAlgHom {K K' : Type u} [Field K]
+    [NumberField K] [Field K'] [NumberField K'] {O : NumberFieldOrder K}
+    {O' : NumberFieldOrder K'} (f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra) :
+    NarrowPic O →* NarrowPic O' := (NumberFieldOrder.Hom.ofAlgHom f).mapNarrowPic
+
+/-- Picard maps for ordinary order algebra maps respect identity. -/
+theorem NumberFieldOrder.mapPicOfAlgHom_id {K : Type u} [Field K] [NumberField K]
+    (O : NumberFieldOrder K) :
+    NumberFieldOrder.mapPicOfAlgHom (AlgHom.id ℤ O.toSubalgebra) = MonoidHom.id (Pic O) := by
+  sorry
+
+/-- Picard maps for ordinary order algebra maps respect composition. -/
+theorem NumberFieldOrder.mapPicOfAlgHom_comp {K₁ K₂ K₃ : Type u}
+    [Field K₁] [NumberField K₁] [Field K₂] [NumberField K₂] [Field K₃] [NumberField K₃]
+    {O₁ : NumberFieldOrder K₁} {O₂ : NumberFieldOrder K₂} {O₃ : NumberFieldOrder K₃}
+    (f : O₁.toSubalgebra →ₐ[ℤ] O₂.toSubalgebra)
+    (g : O₂.toSubalgebra →ₐ[ℤ] O₃.toSubalgebra) :
+    NumberFieldOrder.mapPicOfAlgHom (g.comp f) = (NumberFieldOrder.mapPicOfAlgHom g).comp (NumberFieldOrder.mapPicOfAlgHom f) := by
+  sorry
+
+/-- Narrow Picard maps for ordinary order algebra maps respect identity. -/
+theorem NumberFieldOrder.mapNarrowPicOfAlgHom_id {K : Type u} [Field K] [NumberField K]
+    (O : NumberFieldOrder K) :
+    NumberFieldOrder.mapNarrowPicOfAlgHom (AlgHom.id ℤ O.toSubalgebra) = MonoidHom.id (NarrowPic O) := by
+  sorry
+
+/-- Narrow Picard maps for ordinary order algebra maps respect composition. -/
+theorem NumberFieldOrder.mapNarrowPicOfAlgHom_comp {K₁ K₂ K₃ : Type u}
+    [Field K₁] [NumberField K₁] [Field K₂] [NumberField K₂] [Field K₃] [NumberField K₃]
+    {O₁ : NumberFieldOrder K₁} {O₂ : NumberFieldOrder K₂} {O₃ : NumberFieldOrder K₃}
+    (f : O₁.toSubalgebra →ₐ[ℤ] O₂.toSubalgebra)
+    (g : O₂.toSubalgebra →ₐ[ℤ] O₃.toSubalgebra) :
+    NumberFieldOrder.mapNarrowPicOfAlgHom (g.comp f) =
+      (NumberFieldOrder.mapNarrowPicOfAlgHom g).comp (NumberFieldOrder.mapNarrowPicOfAlgHom f) := by
+  sorry
+
+/-- The ordinary algebra-map functoriality obeys the existing narrow-to-wide square. -/
+theorem NumberFieldOrder.narrowToPic_natural_ofAlgHom {K K' : Type u} [Field K]
+    [NumberField K] [Field K'] [NumberField K'] {O : NumberFieldOrder K}
+    {O' : NumberFieldOrder K'} (f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra) :
+    (NumberFieldOrder.mapPicOfAlgHom f).comp O.narrowToPic =
+      O'.narrowToPic.comp (NumberFieldOrder.mapNarrowPicOfAlgHom f) :=
+  NumberFieldOrder.narrowToPic_natural (NumberFieldOrder.Hom.ofAlgHom f)
+
+
 /-! Extension and contraction are group equivalences only after restricting to invertible ideals
 prime to the conductor. The restrictions are part of the carrier types, not side conditions erased
 from the public API. -/
 
+/-- The canonical inclusion of an order into the maximal order, proved from integrality of
+elements of a finite `ℤ`-algebra. -/
+noncomputable def NumberFieldOrder.orderToMaximalOrder (O : NumberFieldOrder K) :
+    O.toSubalgebra →+* 𝓞 K := sorry
+
+/-- Contract the maximal-order conductor to the order through that inclusion. -/
+noncomputable def NumberFieldOrder.conductorInOrder (O : NumberFieldOrder K) :
+    Ideal O.toSubalgebra :=
+  Ideal.comap O.orderToMaximalOrder O.conductor
+
+/-- An order prime is away from the conductor when it is prime and does not contain the
+contraction of the maximal-order conductor. -/
 def NumberFieldOrder.IsPrimeAwayFromConductor (O : NumberFieldOrder K)
-    (p : Ideal O.toSubalgebra) : Prop := sorry
+    (p : Ideal O.toSubalgebra) : Prop :=
+  p.IsPrime ∧ ¬ O.conductorInOrder ≤ p
 
 def NumberFieldOrder.primesAwayFromConductor (O : NumberFieldOrder K) :=
   {p : Ideal O.toSubalgebra // O.IsPrimeAwayFromConductor p}
