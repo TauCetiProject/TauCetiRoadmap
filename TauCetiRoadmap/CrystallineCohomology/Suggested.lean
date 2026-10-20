@@ -397,11 +397,13 @@ Layer CR.6 includes log rigid Hyodo–Kato cohomology; Layer CR.5:log-algebra in
 SNC Abhyankar theorem, compatible prime-to-residue-characteristic Kummer tower, universal tame
 pro-cover and full tame fundamental group used in the logarithmic Abhyankar lemma. LocalPurity
 §§2.1–2.2 supplies regular-local purity and codimension-two cover extension;
-PurityOfBranchLocus §2.1 supplies pointwise branch purity at equal positive stalk dimensions.
-CR.5:log-algebra.4 derives Crystalline.etale_of_genericallyEtale_codimOne for finite dominant
-generically étale morphisms from normal integral locally noetherian schemes to regular integral
-locally noetherian schemes, with unramifiedness at every codimension-one source point.
-Going down gives equal stalk dimensions; generic étaleness handles the zero-dimensional stalks.
+PurityOfBranchLocus §2.1 supplies pointwise branch purity at equal positive stalk dimensions, and
+its §2.2 Scheme.Hom.etale_of_etaleAt_codimOne the global corollary for finite dominant generically
+étale morphisms from normal integral to regular integral locally noetherian schemes.
+CR.5:log-algebra.4's Crystalline.etale_of_genericallyEtale_codimOne is the componentwise adapter
+to that corollary: a finite morphism from a normal scheme to a regular integral locally noetherian
+scheme, with every source component dominant and generically étale and unramifiedness at every
+codimension-one source point, is étale.
 The inseparable extension F_p(t)[u]/(u^p-t) has no codimension-one points but is not étale.
 The SNC normalization is generically étale because it extends a finite étale cover of the dense open.
 AbhyankarLemma Layers 0–3 supplies

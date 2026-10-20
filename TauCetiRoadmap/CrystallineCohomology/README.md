@@ -143,8 +143,9 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   schemes and line bundles (§4.6).
 - **LocalPurity** §§2.1–2.2 owns regular-local purity and extension of finite étale covers
   across missing points with regular local stalks of dimension at least two. **PurityOfBranchLocus** §2.1
-  owns pointwise branch purity; CR.5:log-algebra.4 derives its global corollary for finite dominant
-  generically étale maps. **AbhyankarLemma**
+  owns pointwise branch purity and §2.2 its global corollary for finite dominant generically étale
+  maps from normal integral to regular integral schemes; CR.5:log-algebra.4 applies that corollary
+  componentwise to finite normal covers. **AbhyankarLemma**
   Layers 0–3 owns DVR tameness, DVR Abhyankar, ramification in codimension one and the
   regular-divisor theorem. CR.5:log-algebra.4 owns the SNC Abhyankar theorem, the compatible
   tame Kummer tower and its full tame fundamental group, and the logarithmic application,
@@ -436,12 +437,19 @@ owned here, retaining the namespace of the DerivedDeRhamCohomology constructors 
   ([0EY7](https://stacks.math.columbia.edu/tag/0EY7)). Its
   `finiteEtale_extend_of_regular_codimTwo` and fully faithful restriction give unique extension
   from an open `U ⊆ X` when every `x ∈ X ∖ U` has a regular local stalk of dimension at least two.
-- **PurityOfBranchLocus**, §2.1: pointwise Zariski–Nagata branch purity (SGA 1 X,
+- **PurityOfBranchLocus**, §§0.1 and 2.1–2.2: §0.1's `Scheme.Hom.unramifiedAt_iff_stalkMap`
+  (for a morphism locally of finite type, unramified at a point iff the stalk map is formally
+  unramified) and pointwise Zariski–Nagata branch purity (SGA 1 X,
   Théorème 3.1; Stacks [0BMB](https://stacks.math.columbia.edu/tag/0BMB)). For a morphism of
   locally noetherian schemes, at a point x with normal source stalk, regular target stalk,
   quasi-finiteness, equal positive stalk dimensions and unramifiedness at all codimension-one
-  generalizations of x, the morphism is étale at x. CR.5:log-algebra.4 derives
-  *Generic branch-purity corollary* from this pointwise theorem, with generic étaleness explicit.
+  generalizations of x, the morphism is étale at x. §2.2's global corollary
+  `Scheme.Hom.etale_of_etaleAt_codimOne`: a finite dominant generically étale morphism from a
+  normal integral locally noetherian scheme to a regular integral locally noetherian scheme is
+  étale iff its stalk maps at the codimension-one points of the source are formally unramified;
+  generic étaleness is explicit there, with the purely inseparable field extension as its
+  boundary. CR.5:log-algebra.4's *Componentwise branch purity* applies this corollary to each
+  connected component of a finite normal cover.
 - **AbhyankarLemma**, §§0.1–0.3, 1.1 and 3.3–3.4: tame finite separable extensions of DVR
   fraction fields, their Kummer extensions and DVR Abhyankar
   ([0BRM](https://stacks.math.columbia.edu/tag/0BRM)); the codimension-one tame-cover predicate
@@ -563,7 +571,7 @@ filtration. CR.DDR.4.5 and CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 then build der
 and quasiregular crystalline theory; CR.3:duality uses its top-degree sheaf to build the trace.
 Layer CR.5:log-algebra is
 independent of all crystalline layers and can be built in parallel with CR.1–CR.4. Its
-Abhyankar targets use LocalPurity §§2.1–2.2, PurityOfBranchLocus §2.1 and
+Abhyankar targets use LocalPurity §§2.1–2.2, PurityOfBranchLocus §§0.1 and 2.1–2.2 and
 AbhyankarLemma Layers 0–3 as specified in *Exact supplier contracts*. Layer CR.5
 combines it with Layer CR.1 and the PD foundations to build log crystalline cohomology. CR.DDR.6 develops
 logarithmic classifiers and crystalline comparisons on DerivedDeRhamCohomology §6.20's shared
@@ -7962,36 +7970,44 @@ singularities, Theorem 8.2.) *Needs:* *Log regular schemes*; *Kato chart criteri
 - The toric coordinate crossing boundary on smooth affine space satisfies the rank formula after the
   log smooth chart.
 
-**Generic branch-purity corollary.** Prove `Crystalline.etale_of_genericallyEtale_codimOne`:
-a finite dominant generically étale morphism `f:X→Y` from a normal integral locally noetherian
-scheme to a regular integral locally noetherian scheme is étale if it is unramified at every
-codimension-one point of X. Apply the result componentwise to finite normal covers whose
-components are dominant and generically étale.
+**Componentwise branch purity.** Prove `Crystalline.etale_of_genericallyEtale_codimOne`, the
+componentwise adapter to PurityOfBranchLocus §2.2 `Scheme.Hom.etale_of_etaleAt_codimOne`: let
+`f:X→Y` be a finite morphism from a normal scheme X to a regular integral locally noetherian
+scheme Y such that every irreducible component of X dominates Y and is étale over Y at its generic
+point. If f is unramified at every codimension-one point of X, then f is étale. When X is integral
+this is the supplied corollary; the adapter covers finite normalizations with disconnected source.
 
-*Hypotheses.* Finiteness, dominance, generic étaleness, normal integral source, regular integral
-target, locally noetherian schemes and unramifiedness at every codimension-one source point.
+*Hypotheses.* Finiteness, normal source, regular integral locally noetherian target, dominance and
+generic étaleness of every irreducible component of the source, and unramifiedness at every
+codimension-one source point.
 
-*Proof sketch.* Over an affine target open, its affine inverse image gives an integral injective
-ring extension with integrally closed base. Going down, going up and incomparability give equality of the source
-and target stalk dimensions. At every nongeneric source point these dimensions are positive,
-so pointwise branch purity applies. At the generic point the finite extension of function fields
-is separable by generic étaleness, hence étale. ([Stacks,
-Lemma 58.21.4](https://stacks.math.columbia.edu/tag/0BMB), conditions (1)–(5);
-[Proposition 10.38.7](https://stacks.math.columbia.edu/tag/00H8), going down;
-[Lemma 10.143.4](https://stacks.math.columbia.edu/tag/00U3), étale algebras over fields.)
-*Needs:* PurityOfBranchLocus §2.1 (pointwise branch purity);
-SchemeAndStackFoundations §0.30 (normal schemes and finite dominant morphisms).
+*Proof sketch.* Being finite over Y, X is locally noetherian; being normal, it is the disjoint
+union of open and closed normal integral subschemes. The restriction of f to each of them is
+finite, dominant and generically étale, and its codimension-one points are those of X lying in
+it, with the same stalks. For a morphism locally of finite type, unramifiedness at a point is
+formal unramifiedness of the stalk map, so the supplied corollary makes each restriction étale,
+and étaleness is local on the source. ([Stacks,
+Lemma 28.7.7](https://stacks.math.columbia.edu/tag/033N), normal locally noetherian schemes as
+disjoint unions of normal integral schemes; [Lemma
+58.21.4](https://stacks.math.columbia.edu/tag/0BMB), the pointwise purity behind the supplied
+corollary.) *Needs:* PurityOfBranchLocus §0.1 (stalk form of unramifiedness) and §2.2
+(`Scheme.Hom.etale_of_etaleAt_codimOne`); SchemeAndStackFoundations §0.30 (normal schemes).
 
 **Checks.**
 
-- For a finite separable field extension `L/K`, `Spec L→Spec K` is étale; the codimension-one
-  condition is empty and generic étaleness supplies the conclusion.
+- Over a field k of characteristic ≠ 2, `Spec k[x,y]/(y²−1)→Spec k[x]` has source the disjoint
+  union of two copies of `𝔸¹_k` (`y=±1`), normal but not integral, so the supplied corollary does
+  not apply to it directly; each component maps isomorphically and the map is étale.
 - For every prime p, including 2, let `K=𝔽_p(t)` and `L=K[u]/(u^p−t)`. Both spectra are regular
   and zero-dimensional, so the codimension-one condition is empty, but `Ω¹_(L/K)=L du≠0`.
   The map is not étale; generic étaleness is necessary.
 - Over a characteristic-zero field k, `Spec k[t]→Spec k[x]`, `x↦t²`, is finite dominant and
   generically étale between regular schemes, but `Ω¹_(k[t]/k[x])=k[t]/(t)·dt`. It is ramified at
   the codimension-one point `t=0` and is excluded by the unramifiedness hypothesis.
+- `𝔸¹_k ⊔ Spec k→𝔸¹_k`, the identity on the first component and the origin on the second, is
+  finite, unramified, and an isomorphism over the dense open `𝔸¹_k∖{0}`, but is not flat at the
+  isolated point. The second component does not dominate, so the hypothesis must be imposed at
+  the generic point of every source component, not over a dense open of the target.
 
 **The classical Abhyankar lemma.** Let X = Spec A be a regular local scheme with residue
 characteristic p ≥ 0, f₁, …, f_r part of a regular system of parameters, D = Σ div(f_i) the strict
@@ -8017,10 +8033,10 @@ are prime to p: the f_i are units on U. For the extension statement, uniqueness 
 normal (the extension is the normalisation of `X′` in `V ×_U U′`). AbhyankarLemma §0.3 supplies
 the DVR extension at codimension-one points; its §1.1 supplies the tame-cover predicate.
 After spreading out these extensions, LocalPurity §§2.1–2.2 extends uniquely across the remaining
-complement, whose points have codimension at least two in the regular scheme `X′`. Generic
-branch purity for finite normalizations follows from *Generic branch-purity corollary*.
-Each dominant component of the normalization is generically étale because its restriction to
-the dense open `U′` is finite étale.
+complement, whose points have codimension at least two in the regular scheme `X′`. Branch
+purity for the finite normalization follows from *Componentwise branch purity*: every
+component of the normalization dominates `X′` and is generically étale, because over the dense
+open `U′` the normalization is the finite étale `V ×_U U′`.
 Primality of the n_i to p is proved
 by contradiction with a descent argument along X[T₁]/(T₁^p − f₁) on the strictly henselian local
 scheme. Over a strictly local `X`, the action of `μ_{n₁} × ⋯ × μ_{n_r}` on `U′` is compatible with
@@ -8029,7 +8045,7 @@ universal and gives the full tame fundamental group ([SGA 1](https://arxiv.org/a
 5.1, Proposition 5.2 (absolute Abhyankar lemma) and Corollaire 5.3, pp. 314–316 of the arXiv
 edition). *Needs:* Mathlib `IsRegularLocalRing` and `Algebra.Etale`; the strict normal crossings
 divisor of *Divisorial log structures*; LocalPurity §§2.1–2.2 (regular-local purity, spreading out
-and codimension-two cover extension); *Generic branch-purity corollary*;
+and codimension-two cover extension); *Componentwise branch purity* (PurityOfBranchLocus §2.2);
 AbhyankarLemma §§0.1–0.3, 1.1 and 3.3–3.4 (DVR tameness and Abhyankar, codimension-one
 tame covers, regular-divisor local structure and normalization).
 
