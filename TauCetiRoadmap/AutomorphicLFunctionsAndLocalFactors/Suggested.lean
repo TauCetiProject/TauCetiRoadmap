@@ -59,17 +59,6 @@ noncomputable section
 open MeasureTheory
 open scoped Topology NNReal ENNReal
 
-#check AddChar.compAddMonoidHom
-#check AddChar.mulShift
-#check AddChar.mulShift_mul
-#check AddChar.mulShift_mulShift
-#check SchwartzMap.fourierTransformCLM
-#check TemperedDistribution.delta
-#check LSeries
-#check Matrix.charpolyRev
-#check Matrix.eval_charpolyRev
-#check Matrix.coeff_charpolyRev_eq_neg_trace
-
 /-! ## Layer AL.0: local Fourier analysis -/
 
 namespace TauCeti.LocalFourier
@@ -447,26 +436,27 @@ abbrev localZetaIntegral {G : Type*} [MeasurableSpace G]
     (μ : Measure G) (a : G → ℝ) (χ : G → ℂ) (s : ℂ) (f : G → ℂ) : ℂ :=
   zetaIntegral μ a χ s f
 
-/-- The normalized rank-one matrix equation gives the gamma equation on
-punctured germs. In the local application Zdual is Z(fhat, chi inverse, 1-s),
-and Ldual is L(1-s, chi inverse); local L-factors are nonzero off their poles. -/
-theorem localZetaIntegral_functionalEquation
-    (Z Zdual L Ldual ε : ℂ → ℂ) (s₀ : ℂ)
-    (hL : ∀ᶠ s in 𝓝[≠] s₀, L s ≠ 0)
-    (hLdual : ∀ᶠ s in 𝓝[≠] s₀, Ldual s ≠ 0)
-    (hmat : (fun s => Zdual s / Ldual s) =ᶠ[𝓝[≠] s₀]
-      (fun s => ε s * (Z s / L s))) :
-    Zdual =ᶠ[𝓝[≠] s₀] (fun s => (ε s * Ldual s / L s) * Z s) := by sorry
-
-/-- A nonzero normalized standard-vector evaluation identifies the matrix epsilon
-with the arithmetic Gauss-sum constant, and hence identifies the gamma ratio.
-The hypotheses come from the matrix equation and the supplied standard evaluation;
-the arithmetic constant is evaluated at chi times the s-th norm power. -/
-theorem localGamma_eq_tateLocalConstant
-    (Z₀ Zdual₀ ε tateLocalConstant L Ldual : ℂ) (hZ : Z₀ ≠ 0)
-    (hmat : Zdual₀ = ε * Z₀) (hstd : Zdual₀ = tateLocalConstant * Z₀) :
-    ε = tateLocalConstant ∧
-      ε * Ldual / L = tateLocalConstant * Ldual / L := by sorry
+/-- The rank-one local functional equation supplies one scalar for every locally
+constant compactly supported test function on the common absolute-convergence
+domain. The Haar scaling identity specifies the normalized modulus `a`.
+Evaluation at `-x` converts Mathlib's Fourier integral to the positive kernel. -/
+theorem localZetaIntegral_functionalEquation {F : Type*} [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F] [MeasurableSpace F] [BorelSpace F]
+    (μ : Measure F) [μ.IsAddHaarMeasure] (ν : Measure Fˣ) [ν.IsHaarMeasure]
+    (ψ : AddChar F Circle) (hψ : Continuous ψ) (hψ1 : ψ ≠ 1)
+    (a : F → ℝ) (hmod : ∀ (x : F) (U : Set F), MeasurableSet U →
+      μ ((x * ·) '' U) = ENNReal.ofReal (a x) * μ U)
+    (χ : Fˣ →ₜ* ℂˣ) :
+    ∃ γ : ℂ → ℂ, ∀ s : ℂ,
+      (∀ g : F → ℂ, IsLocallyConstant g → HasCompactSupport g →
+        Integrable (fun x : Fˣ => g x * (χ x : ℂ) * (a x : ℂ) ^ s) ν) →
+      (∀ g : F → ℂ, IsLocallyConstant g → HasCompactSupport g →
+        Integrable (fun x : Fˣ => g x * ((χ x)⁻¹ : ℂ) * (a x : ℂ) ^ (1 - s)) ν) →
+      ∀ f : F → ℂ, IsLocallyConstant f → HasCompactSupport f →
+        zetaIntegral ν (fun x => a x) (fun x => ((χ x)⁻¹ : ℂ)) (1 - s)
+            (fun x => VectorFourier.fourierIntegral ψ μ (LinearMap.mul F F) f (-x)) =
+          γ s * zetaIntegral ν (fun x => a x) (fun x => (χ x : ℂ)) s
+            (fun x => f x) := by sorry
 
 /-- Gamma equals epsilon times the quotient of dual and original local L-factors.
 At finite places the full local API identifies epsilon with the canonical supplied
@@ -536,9 +526,6 @@ def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : �
 /-- Unit central local epsilon factors have a unit central finite product. -/
 theorem norm_globalEpsilon_half {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ)
     (h : ∀ v ∈ S, ‖ε v (1/2)‖ = 1) : ‖globalEpsilon S ε (1/2)‖ = 1 := by sorry
-
-def QuasiChar.IsUnramified {F : Type*} [Field F] [TopologicalSpace F]
-    (ω : Fˣ →ₜ* ℂˣ) (U : Subgroup Fˣ) : Prop := ∀ u : U, ω u = 1
 
 /-- Translation covariance after the supplied group integral is instantiated.
     The invariance condition is on the actual multiplicative Haar measure. -/
@@ -1016,12 +1003,16 @@ end TauCeti.AutomorphicLFunctions.AL3
 
 namespace TauCeti.AutomorphicLFunctions.AL4
 
-/-- Changing the matrix representative by an invertible conjugacy preserves its factor. -/
+/-- Changing the matrix representative by an invertible conjugacy preserves its factor.
+This is a one-line corollary of Mathlib `Matrix.reverse_charpoly` and
+`Matrix.charpoly_units_conj`. -/
 theorem LGroupLocalFactor.conjugacy {ι : Type*} [Fintype ι] [DecidableEq ι]
     (A B : Matrix ι ι ℂ) (hB : IsUnit B) :
     Matrix.charpolyRev (B*A*B⁻¹) = A.charpolyRev := by sorry
 
-/-- Direct sums multiply the native reverse characteristic polynomials. -/
+/-- Direct sums multiply the native reverse characteristic polynomials.
+This is a one-line corollary of Mathlib `Matrix.reverse_charpoly` and
+`Matrix.charpoly_fromBlocks_zero₁₂`, using reversal of a product. -/
 theorem LGroupLocalFactor.direct_sum {ι κ : Type*} [Fintype ι] [DecidableEq ι]
     [Fintype κ] [DecidableEq κ] (A : Matrix ι ι ℂ) (B : Matrix κ κ ℂ) :
     Matrix.charpolyRev (Matrix.fromBlocks A 0 0 B) = A.charpolyRev*B.charpolyRev := by sorry
@@ -1076,9 +1067,10 @@ theorem FiniteEulerCorrection.union {ι : Type*} [DecidableEq ι]
     FiniteEulerCorrection (S∪T) P q s =
       FiniteEulerCorrection S P q s*FiniteEulerCorrection T P q s := by sorry
 
-/-- The two corrections for a good-prime primitive GL₂ newform and a chosen refinement. -/
+/-- The two corrections for a good-prime primitive GL₂ newform and a chosen refinement.
+The integer exponent extends the expression beyond the critical range `j ≤ k`. -/
 def OrdinaryGl2EulerFactor (p : ℝ) (k j : ℕ) (α χp χinvp εp : ℂ) : ℂ :=
-  (1-χp*(p : ℂ)^j/α)*(1-χinvp*εp*(p : ℂ)^(k-j)/α)
+  (1-χp*(p : ℂ)^j/α)*(1-χinvp*εp*(p : ℂ)^((k : ℤ)-(j : ℤ))/α)
 
 /-- Zero-extended ramified character values remove both good-prime correction factors. -/
 theorem OrdinaryGl2EulerFactor.ramified (p : ℝ) (k j : ℕ) (α εp : ℂ) :
@@ -1087,7 +1079,7 @@ theorem OrdinaryGl2EulerFactor.ramified (p : ℝ) (k j : ℕ) (α εp : ℂ) :
 /-- The trivial character gives the two factors of the primitive newform correction. -/
 theorem OrdinaryGl2EulerFactor.unramified (p : ℝ) (k j : ℕ) (α εp : ℂ) :
     OrdinaryGl2EulerFactor p k j α 1 1 εp =
-      (1-(p : ℂ)^j/α)*(1-εp*(p : ℂ)^(k-j)/α) := by sorry
+      (1-(p : ℂ)^j/α)*(1-εp*(p : ℂ)^((k : ℤ)-(j : ℤ))/α) := by sorry
 
 /-- The central-sign argument uses an actual functional equation hypothesis. -/
 theorem CentralSignVanishing (Λ : ℂ → ℂ) (h : ∀ s, Λ s = -Λ (1-s)) :
@@ -1154,21 +1146,10 @@ theorem EulerCorrectionLeadingTerm (E L : ℂ → ℂ) (s₀ : ℂ)
 
 /-- The second primitive-newform correction is the stabilization factor for the other Hecke root. -/
 theorem OrdinaryGl2EulerFactor.refinement (p : ℝ) (hp : 0 < p)
-    (k j : ℕ) (hj : j ≤ k) (α χp χinvp εp : ℂ) (hα : α ≠ 0) :
+    (k j : ℕ) (α χp χinvp εp : ℂ) (hα : α ≠ 0) :
     OrdinaryGl2EulerFactor p k j α χp χinvp εp =
       (1-χp*(p : ℂ)^j/α)*
       (1-χinvp*(εp*(p : ℂ)^(k+1)/α)/(p : ℂ)^(j+1)) := by sorry
-
-/-- Scalar normalization and coefficient-field transport. The input `halg`
-    is membership after the full period/Gauss/archimedean normalization,
-    supplied by the critical-value algebraicity theorem;
-    this comparison does not prove that theorem. -/
-theorem CriticalValuePeriodInterface (E : Subfield ℂ)
-    (completed finite gamma normalization : ℂ)
-    (hgamma : gamma ≠ 0) (hnormalization : normalization ≠ 0)
-    (h : completed = gamma*finite) (halg : finite/normalization ∈ E) :
-    completed/(gamma*normalization) = finite/normalization ∧
-      completed/(gamma*normalization) ∈ E := by sorry
 
 /-- The first nonzero Taylor coefficient of a product is the product of those
 of its two factors, with the sum of their finite vanishing orders. -/
@@ -1298,7 +1279,7 @@ end LocalRepresentation
 
 section LocalNewvectors
 open scoped ValuativeRel
-variable {F : Type*} [Field F] [CharZero F] [ValuativeRel F]
+variable {F : Type*} [Field F] [ValuativeRel F]
     [TopologicalSpace F] [IsNonarchimedeanLocalField F]
 variable {V : Type*} [AddCommGroup V] [Module ℂ V]
 
