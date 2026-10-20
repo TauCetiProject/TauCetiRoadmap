@@ -7,7 +7,7 @@ import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 import TauCetiRoadmap.GlobalQuadraticForms.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
-import TauCetiRoadmap.RestrictedProducts.Suggested
+import Completed.RestrictedProducts.Suggested
 import TauCetiRoadmap.OrthogonalSpinGroups.Suggested
 
 /-!

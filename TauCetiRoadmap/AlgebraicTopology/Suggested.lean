@@ -186,6 +186,53 @@ theorem cellularToSingular_quasiIso (R : Type u) [CommRing R]
     QuasiIso (cellularToSingular R X) := by
   sorry
 
+/-! ## Comparing the categorical and classical CW structures -/
+
+/-- A categorical relative CW complex `f : X ⟶ Y` is a closed embedding.  No separation
+hypothesis is needed. -/
+theorem isClosedEmbedding_of_relativeCWComplex {X Y : TopCat.{u}} {f : X ⟶ Y}
+    (_c : TopCat.RelativeCWComplex f) : IsClosedEmbedding f := by
+  sorry
+
+/-- Attaching cells to a Hausdorff space gives a Hausdorff space. -/
+theorem t2Space_of_relativeCWComplex {X Y : TopCat.{u}} {f : X ⟶ Y}
+    (_c : TopCat.RelativeCWComplex f) [T2Space X] : T2Space Y := by
+  sorry
+
+/-- Categorical to classical: a categorical relative CW complex `f : X ⟶ Y` gives a classical
+CW structure on `Y` relative to the image of `f`.  No separation hypothesis is needed. -/
+@[instance_reducible]
+noncomputable def RelativeCWComplex.toRelCWComplex {X Y : TopCat.{u}} {f : X ⟶ Y}
+    (_c : TopCat.RelativeCWComplex f) : RelCWComplex (Set.univ : Set Y) (Set.range f) := by
+  sorry
+
+/-- The classical `n`-cells are the categorical cells attached at step `n`. -/
+noncomputable def RelativeCWComplex.cellEquiv {X Y : TopCat.{u}} {f : X ⟶ Y}
+    (c : TopCat.RelativeCWComplex f) (n : ℕ) :
+    letI := RelativeCWComplex.toRelCWComplex c
+    RelCWComplex.cell (Set.univ : Set Y) n ≃ {γ : c.Cells // γ.j = n} := by
+  sorry
+
+/-- The categorical skeleta are the classical ones. -/
+theorem RelativeCWComplex.range_incl_app {X Y : TopCat.{u}} {f : X ⟶ Y}
+    (c : TopCat.RelativeCWComplex f) (n : ℕ) :
+    letI := RelativeCWComplex.toRelCWComplex c
+    Set.range (c.incl.app n) = Set.range f ∪
+      ⋃ (m : ℕ) (_ : m < n) (j : RelCWComplex.cell (Set.univ : Set Y) m),
+        RelCWComplex.closedCell m j := by
+  sorry
+
+/-- Classical to categorical, in a Hausdorff ambient space: a classical CW structure on `C`
+relative to `D` makes the inclusion `D → C` a categorical relative CW complex.  Without
+`T2Space X` this is false: the two-point indiscrete space with two 0-cells is a classical
+`CWComplex`. -/
+noncomputable def RelCWComplex.toRelativeCWComplex {X : Type u} [TopologicalSpace X] [T2Space X]
+    (C D : Set X) [RelCWComplex C D] :
+    TopCat.RelativeCWComplex (TopCat.ofHom
+      ⟨Set.inclusion (RelCWComplex.base_subset_complex (C := C) (D := D)),
+        continuous_inclusion _⟩ : TopCat.of D ⟶ TopCat.of C) := by
+  sorry
+
 /-! ## Finite covers, transfer, and Cartan--Leray -/
 
 /-- A finite cover of constant degree. General finite covers are handled componentwise. -/
