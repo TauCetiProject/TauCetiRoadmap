@@ -23,9 +23,9 @@ Design choices.
   Banach and Hilbert specializations forget continuity and restrict the underlying representation;
   `IsKFinite` abbreviates that predicate on `(π.restrict K.subtype).toRepresentation`.
   `isGFinite_toRepresentation_iff` identifies it with the actual continuous-representation orbit span.
-  The generic Banach theorem `gFiniteSubmodule_dense` states density of this same subset
-  as density of `gFiniteSubmodule π.toRepresentation`; it uses the algebraic prefix before the
-  complete locally convex extension and the additional Hilbert comparisons.
+  The Banach comparison `gFiniteSubmodule_dense` expresses SmoothBanachRepresentations
+  SB4's compact-group density input as density of `gFiniteSubmodule π.toRepresentation`.
+  README §2.1 constructs the complete locally convex integration/projector comparison.
 * Lie tests and Banach smooth vectors use SmoothBanachRepresentations SB1–SB4. The smooth
   carrier has the supplied derivative topology, with its separate continuous inclusion;
   the identity-on-vectors `smoothVectorTopologyEquiv` compares it with the enveloping/Sobolev
@@ -205,11 +205,12 @@ theorem gFinite_map {W : Type*} [AddCommGroup W] [Module 𝕜 W]
 
 end CompactOrbits
 
-/-! ## Milestone: compact-finite density on the shared submodule -/
+/-! ## Milestone: comparison with supplied Banach compact-finite density -/
 
-/-- The shared finite-orbit-span submodule is dense in a strongly continuous complex Banach
-representation of a compact Hausdorff group (README §2.1, `gFiniteSubmodule_dense`).
-Continuity in operator norm is not required. -/
+/-- SmoothBanachRepresentations SB4's compact-group G-finite Banach density input,
+expressed on the algebraic submodule of README §2.1. Strongly continuous complex Banach
+representations of every compact Hausdorff group are included; operator-norm continuity
+is not required. -/
 theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
     [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
     [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
@@ -252,7 +253,8 @@ section InductionInversion
 variable {G : Type*} [Group G]
 
 /-- Inversion identifies left covariance by a character with right covariance by its inverse.
-For normalized induction the character includes the half-modulus. -/
+For normalized induction the character includes the half-modulus; the SL₂ specialization
+compares general induction with NoncompactQuantumSymmetry M4's supplied smooth models. -/
 theorem induction_inversion_covariance (P : Subgroup G) (χ : P →* ℂˣ) (f : G → ℂ) :
     (∀ (p : P) (g : G), f ((p : G) * g) = (χ p : ℂ) * f g) ↔
       ∀ (g : G) (p : P), f ((g * (p : G))⁻¹) = (χ p : ℂ)⁻¹ * f (g⁻¹) := by
