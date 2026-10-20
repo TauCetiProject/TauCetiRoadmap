@@ -674,7 +674,7 @@ These belong to separate roadmaps.
   and Vaught's conjecture: the CountableModelCounting roadmap, which consumes the interface listed
   under ownership.
 - Model existence, omitting types, Craig, Lyndon and Malitz interpolation, PC classes in general,
-  and the model-theoretic boundedness of well-ordered models (Marker's Corollary 4.4.2):
+  and the model-theoretic boundedness of well-ordered models:
   the InfinitaryModelExistence roadmap. Layer 6 proves the descriptive boundedness theorem for
   coded well-orders independently of it.
 - Vaught transforms, the Becker–Kechris theorem on finer Polish topologies, general Polish group
@@ -729,7 +729,7 @@ checkpoint.
 | 3 | `Descriptive/{KleeneBrouwer, AnalyticTreeBoundedness, AnalyticTree, TreeCodes}.lean` | the source states the tree representation level by level and has no `body`; here Mathlib #41946's vocabulary |
 | 4 | `Descriptive/{BFEquivBorel, IsomorphismBorel, StructureIsoSetoid, BFTree, BFSeparation}.lean`, `Scott/Height/{Defs, RankBounds}.lean`, `Scott/RefinementCount.lean`, `Scott/InternalRankBounds.lean` | the source's `scottHeight` lives in `Ordinal.{0}`, ranges over countable `N` in the universe of `M`, and is compared with the internal rank through `Ordinal.lift`; here `Ordinal.{w}`, `N : Type`, and no lifts. The constant-chain argument is `RefinementCount.lean`'s proof of `countableRefinementHypothesis` |
 | 5 | `Methods/LopezEscobar/*.lean`, `Descriptive/LopezEscobar.lean`, `Methods/Interpolation/CraigSeparation.lean` (`craig_pcSeparation_relational`) | the source codes trees in a functional witness vocabulary relationalized by graph translation, and proves disjointness through a countable fragment-elementary substructure; here the witness vocabulary is relational and its numeral axiom makes every model countable, so neither is needed |
-| 6 | `Descriptive/{InvariantSeparation, WellOrderClass, WellOrderNonBorel, WellOrderBridge, AnalyticWellOrderBoundedness}.lean` | the source obtains non-Borelness of the well-order class from López–Escobar, fragment Löwenheim–Skolem and Marker's Corollary 4.4.2; here from the descriptive boundedness theorem of Layer 3 |
+| 6 | `Descriptive/{InvariantSeparation, WellOrderClass, WellOrderNonBorel, WellOrderBridge, AnalyticWellOrderBoundedness}.lean` | the source obtains non-Borelness of the well-order class from López–Escobar, fragment Löwenheim–Skolem and the model-theoretic boundedness of well-ordered models; here from the descriptive boundedness theorem of Layer 3 |
 
 ## References
 
