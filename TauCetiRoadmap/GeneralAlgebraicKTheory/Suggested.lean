@@ -268,7 +268,9 @@ compare WaldhausenCategory.kSpectrum, kSpectrum.pi0K0Equiv,
 WaldhausenCategory.kSpectrum.map and its corrected connective zero space.
 WaldhausenCategory.additivity, relativeS/relativeS_delooping/iteratedS_spectrum
 compare the supplied source/quotient additivity, relative-S extra degeneracy and
-WaldhausenCategory.kSpectrum.sequentialComparison/isPositiveOmega/isSemistable.
+WaldhausenCategory.kSpectrum.sequentialComparison,
+WaldhausenCategory.kSpectrumLevelFibrant_isPositiveOmega and
+WaldhausenCategory.kSpectrum.isSemistable, retaining the level-fibrant replacement map.
 Local Layer 5 targets: WaldhausenCategory.ofExact, IsSaturated, HasExtensionAxiom,
 CylinderFunctor, standardTwoStepFlag, SConstruction.natIso_homotopy,
 AdditivityFibre/quotient/lastVertexSection/quotient_section/pushout_contraction,
