@@ -413,8 +413,9 @@ theorem WeilGroup.frobenius_degree (d : G →* A) (geo : Multiplicative ℤ →*
     (g : G) (e : ℤ) (hg : d g = geo (Multiplicative.ofAdd e)) :
     WeilGroup.degree d geo ⟨(g, Multiplicative.ofAdd e), hg⟩ = Multiplicative.ofAdd e := by sorry
 
-/-- Pull back the degree map along multiplication by a; the new coordinate is relative degree. -/
-def WeilGroup.baseExtension (d : G →* A) (geo : Multiplicative ℤ →* A) (a : ℕ) :
+/-- For a positive extension degree `a`, pull back the degree map along multiplication by `a`;
+the new coordinate is relative degree. -/
+def WeilGroup.baseExtension (d : G →* A) (geo : Multiplicative ℤ →* A) (a : ℕ) (_ha : 0 < a) :
     Subgroup (WeilGroup d geo × Multiplicative ℤ) :=
   WeilGroup (WeilGroup.degree d geo)
     { toFun := fun z => z ^ a, map_one' := by simp, map_mul' := by intros; simp [mul_pow] }
@@ -1071,7 +1072,7 @@ variable {E V : Type*} [Field E] [AddCommGroup V] [Module E V] [FiniteDimensiona
 /-- `IsIntegralEnd F`: every root of the characteristic polynomial of `F` in an algebraic
 closure is integral over `ℤ` (Weil II (3.3.2)). The roots are DWP.0's eigenvalue multiset. -/
 def IsIntegralEnd (F : V →ₗ[E] V) : Prop :=
-  ∀ α ∈ (F.charpoly.map (algebraMap E (AlgebraicClosure E))).roots, IsIntegral ℤ α
+  ∀ α ∈ eigenvalues F, IsIntegral ℤ α
 
 /-- For a rational Frobenius module, integrality is integrality of the characteristic
 polynomial's coefficients. -/
@@ -1113,10 +1114,14 @@ theorem newtonCouple_fst_add_snd (v : AddValuation K (WithTop ℚ)) {q : K} (hq 
     (n : ℤ) {α : K} (hα : α ≠ 0) :
     (newtonCouple v q n α).1 + (newtonCouple v q n α).2 = ((n : ℚ) : WithTop ℚ) := by sorry
 
-theorem newtonCouple_nonneg (v : AddValuation K (WithTop ℚ))
-    (hv : ∀ x : K, IsIntegral ℤ x → 0 ≤ v x) (q : K) (n : ℤ) {α : K} (hα : IsIntegral ℤ α)
-    (hα' : IsIntegral ℤ (q ^ n * α⁻¹)) :
-    0 ≤ (newtonCouple v q n α).1 ∧ 0 ≤ (newtonCouple v q n α).2 := by sorry
+/-- An integral Weil number has integral complementary conjugate `q^n α⁻¹`;
+valuations nonnegative on integral elements therefore give two nonnegative coordinates. -/
+theorem newtonCouple_nonneg [Algebra ℚ K] (v : AddValuation K (WithTop ℚ))
+    (hv : ∀ x : K, IsIntegral ℤ x → 0 ≤ v x) {q : ℕ} {n : ℤ} {α : K}
+    (hα : IsWeilNumber (q : ℝ) n α) (hint : IsIntegral ℤ α) :
+    IsIntegral ℤ ((q : K) ^ n * α⁻¹) ∧
+      0 ≤ (newtonCouple v (q : K) n α).1 ∧
+        0 ≤ (newtonCouple v (q : K) n α).2 := by sorry
 
 theorem newtonCouple_swap_conj (v : AddValuation K (WithTop ℚ)) {q : K} (hq : q ≠ 0) (n : ℤ)
     {α : K} (hα : α ≠ 0) :
@@ -1156,7 +1161,7 @@ variable {E W V : Type*} [Field E] [Group W] [AddCommGroup V] [Module E V]
 
 /-- `ρ` restricted to the subgroup `G` (the geometric fundamental group) is semisimple. -/
 def IsGeometricallySemisimple (ρ : Representation E W V) (G : Subgroup W) : Prop :=
-  IsSemisimpleModule (MonoidAlgebra E G) (Representation.asModule (ρ.comp G.subtype))
+  Representation.IsSemisimpleRepresentation (ρ.comp G.subtype)
 
 /-- A finite-dimensional semisimple representation restricts semisimply to a normal subgroup.
 The irreducible case already exists at the Tau Ceti pin as
@@ -1164,7 +1169,7 @@ The irreducible case already exists at the Tau Ceti pin as
 `TauCeti/RepresentationTheory/Induction/Clifford/Basic.lean`; apply it to each irreducible summand.
 Apply the existing Clifford theorem summandwise. -/
 theorem IsGeometricallySemisimple.of_isSemisimple [FiniteDimensional E V] (ρ : Representation E W V)
-    (G : Subgroup W) [G.Normal] (h : IsSemisimpleModule (MonoidAlgebra E W) ρ.asModule) :
+    (G : Subgroup W) [G.Normal] (h : ρ.IsSemisimpleRepresentation) :
     IsGeometricallySemisimple ρ G := by sorry
 
 end GeometricSemisimplicity
@@ -1319,7 +1324,7 @@ end TauCeti.HardLefschetz
 The geometric signatures isGeometricallySemisimple_iff_restrict_open,
 isGeometricallySemisimple_baseExtension and isGeometricallySemisimple_iff_reductive
 are specified in README §8.14: they use the actual sheaf, base-change and algebraic
-Zariski-closure carriers supplied there. The module predicate above is their
-numerical restriction interface. Mixed filtrations, derived weights and geometric
+Zariski-closure carriers supplied there. The representation predicate above is their
+restriction interface. Mixed filtrations, derived weights and geometric
 hard Lefschetz remain the README targets of DWP.5 and DWP.7–DWP.9.
 -/

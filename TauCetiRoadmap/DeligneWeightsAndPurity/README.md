@@ -227,6 +227,8 @@ Use these declarations in their existing namespaces, at Mathlib `6b7abb3` and Ta
 
 - [IsSemisimpleModule](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/SimpleModule/Basic.lean): Semisimplicity as a complemented submodule lattice.
 
+- [Representation.IsSemisimpleRepresentation](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RepresentationTheory/Semisimple.lean) and `Representation.isSemisimpleRepresentation_iff_isSemisimpleModule_asModule`: semisimplicity of a representation and its equivalence with semisimplicity of the associated monoid-algebra module.
+
 <a id="input-b34"></a>
 
 - [LinearMap.BilinForm.Nondegenerate](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Bilinear forms separating on both sides.
@@ -686,7 +688,7 @@ Uniform density of matrix coefficients and square-character approximation for th
 
 <a id="input-e68"></a>
 
-#### RepresentationTheory/CompactGroups, Layers `0`, `6`–`7` (Haar probability, characters and `SU(2)`)
+#### RepresentationTheory/CompactGroups, Layers `0`, `6` and the `SU(2)` engine case (Haar probability, characters and `SU(2)`)
 
 Normalized Haar, character orthogonality, class-function density and conjugacy separation, including `SU(2)` density `(2/π)sin²θ`. The compact-quotient disintegration, continuous clopen conditional masses and Dini uniform decay are targets of §3.7 here; the nullity of proper algebraic subsets of `ℓ`-adic symplectic cosets is a target of §3.6 here. Uses: [5.16](#target-5-16), [5.17](#target-5-17), [5.19](#target-5-19), [10.6](#target-10-6), [3.7](#target-3-7), [3.6](#target-3-6).
 
@@ -904,7 +906,7 @@ Its API includes:
 
 *Needs:* [0.1](#target-0-1), [0.4](#target-0-4), [LinearMap.charpoly_baseChange](#input-b9), [Module.End.hasEigenvalue_iff_isRoot_charpoly](#input-b10), [LinearMap.finrank_maxGenEigenspace_eq](#input-b11), [Module.End.iSup_maxGenEigenspace_eq_top](#input-b12), [Module.End.independent_maxGenEigenspace](#input-b13).
 
-(Sources: [WI](#ref-wi), §2, (2.6), p. 282; [WII](#ref-wii), §1.2, Variante (1.2.4), p. 154; [WII](#ref-wii), §1.2, (1.2.6), p. 154.)
+(Sources: [WI](#ref-wi), §2, (2.6), p. 281; [WII](#ref-wii), §1.2, Variante (1.2.4), p. 154; [WII](#ref-wii), §1.2, (1.2.6), p. 154.)
 
 <a id="target-0-8"></a>
 
@@ -916,7 +918,7 @@ The chosen vector-space complement need not be `F`-stable; characteristic-polyno
 
 *Needs:* [Matrix.charpoly_fromBlocks_zero₂₁](#input-b14), [LinearMap.charpoly_prodMap](#input-b15).
 
-(Sources: [WI](#ref-wi), §1, (1.5.3), p. 276.)
+(Sources: [WI](#ref-wi), §1, (1.5.3), p. 275.)
 
 <a id="target-0-9"></a>
 
@@ -1320,7 +1322,7 @@ Keep the fixed `ℚ_ℓ` model; `ℚ̄_ℓ` is used for characteristic roots. Th
 
 *Needs:* [5.3](#target-5-3), [0.7](#target-0-7), [0.15](#target-0-15), [1.10](#target-1-10), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#input-e49).
 
-(Sources: [WI](#ref-wi), §3, (3.1), p. 284; [WI](#ref-wi), §3, (3.1), p. 283.)
+(Sources: [WI](#ref-wi), §3, (3.1), p. 283.)
 
 <a id="target-2-2"></a>
 
@@ -1452,7 +1454,7 @@ For a finite-field Lefschetz pencil on a geometrically connected smooth projecti
 
 *Needs:* [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#input-e35), [LefschetzPencilsAndVanishingCycles §4.4 (radical quotient and pairing)](#input-e38), [EtaleCohomologyFoundations §§F.6, F.10.2–F.10.2b (equivariant pairings and traces)](#input-e20), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27).
 
-(Sources: [WI](#ref-wi), §6, (6.1), p. 295.)
+(Sources: [WI](#ref-wi), §6, (6.1), pp. 294–295.)
 
 <a id="target-3-2"></a>
 
@@ -1508,7 +1510,7 @@ For an `ℓ`-adic unit `δ` in the fixed finite coefficient field, the locus `Z_
 
 The unit condition defines `δ^a` for `a∈ℤ̂`. A zero quotient has empty eigenvalue locus.
 
-*Needs:* [3.5](#target-3-5), [RepresentationTheory/CompactGroups, Layers 0, 6–7 (Haar probability, characters and SU(2))](#input-e68).
+*Needs:* [3.5](#target-3-5), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#input-e68).
 
 (Sources: [WI](#ref-wi), §6, Lemme (6.12), p. 298; [WI](#ref-wi), §6, proof of (6.12), p. 298.)
 
@@ -1532,7 +1534,7 @@ Let `δ_1`, `…`, `δ_Q` be `ℓ`-adic units. The set `L` of `x ∈ |U₀|` suc
 
 Use finite-quotient Chebotarev with constant-field congruences, then approximate the closed null locus by open neighbourhoods of arbitrarily small Haar measure.
 
-*Needs:* [3.6](#target-3-6), [3.5](#target-3-5), [ArithmeticGaloisRepresentations §5.13 (finite function-field Chebotarev), with the degree refinements of §3.7 here](#input-e25), [RepresentationTheory/CompactGroups, Layers 0, 6–7 (Haar probability, characters and SU(2))](#input-e68).
+*Needs:* [3.6](#target-3-6), [3.5](#target-3-5), [ArithmeticGaloisRepresentations §5.13 (finite function-field Chebotarev), with the degree refinements of §3.7 here](#input-e25), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#input-e68).
 
 (Sources: [WI](#ref-wi), §6, (6.13), p. 298.)
 
@@ -1720,10 +1722,12 @@ Its API includes:
   with arithmetic coordinate a has geometric degree `e` and `a=−e`. The supporting
   integer inversion identity is Mathlib's `Multiplicative.toAdd_inv`.
 
-- `WeilGroup.baseExtension`: Over `𝔽_(qᵃ)`, the Weil group is the subgroup of degrees divisible by `a`, with the new degree divided by a.
+- `WeilGroup.baseExtension`: For `a ≥ 1`, over `𝔽_(qᵃ)` the Weil group is the subgroup of degrees divisible by `a`, with the new degree divided by `a`; the signature carries `0 < a`.
 
 #### Checks
 - For `Spec 𝔽_q`, `W=ℤ` with degree the identity and trivial geometric kernel.
+
+- At `a = 1`, `WeilGroup.baseExtension` is the graph `{(w, deg w)}`, isomorphic to `W(X₀,x)` by its first projection.
 
 - A pullback element `w=(g,e)`, using the specified geometric/arithmetic quotient maps, has Weil II degree `e` and Weil I arithmetic coordinate `−e`; in particular degree-one geometric Frobenius has coordinates `1` and `−1`.
 
@@ -2213,7 +2217,7 @@ prime decompositions); ArithmeticGaloisDuality §R02.3.2 (curve coinvariants).
 
 Let `G` be a locally compact extension of `Γ=ℤ` or `ℝ` by a compact group `G⁰`; in the `ℤ` case the center maps onto a finite-index subgroup of `Γ`, and in the `ℝ` case the extension is a product. Fix the norm character `ω₁`, a countable family of conjugacy classes with norms `N_v>1`, and absolute convergence of the trivial Euler product for real part `>1`. Regard `L` as a function on the representation Riemann surfaces `r=ρ⊗ω_s`. If it continues meromorphically to real part `≥1` and is holomorphic there except a simple pole at `r=ω₁`, then it has no zeros on real part `1` except possibly at one representation `r=ω₁ε` with `ε` a one-dimensional order-two character. The curve application excludes this exception by the connected double-cover zeta comparison. The norm-character translation is part of the statement, so imaginary twists are not incorrectly assigned separate pole conditions.
 
-*Needs:* [1.6](#target-1-6), [ArithmeticDirichletSeries, Layer 8 (Landau positivity)](#input-e59), [RepresentationTheory/CompactGroups, Layer 5 (Peter–Weyl)](#input-e67), [RepresentationTheory/CompactGroups, Layers 0, 6–7 (Haar probability, characters and SU(2))](#input-e68), [ArithmeticGaloisRepresentations §5.13 (finite function-field Chebotarev), with the degree refinements of §3.7 here](#input-e25).
+*Needs:* [1.6](#target-1-6), [ArithmeticDirichletSeries, Layer 8 (Landau positivity)](#input-e59), [RepresentationTheory/CompactGroups, Layer 5 (Peter–Weyl)](#input-e67), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#input-e68), [ArithmeticGaloisRepresentations §5.13 (finite function-field Chebotarev), with the degree refinements of §3.7 here](#input-e25).
 
 (Sources: [WII](#ref-wii), §2.1 (2.1.1)–(2.1.9), pp. 187–191; §2.2 Corollaire (2.2.9), pp. 195–196.)
 
@@ -2241,7 +2245,7 @@ elements of `G_R` conjugate in `G_ℂ` are already conjugate in `G_R`.
 
 *Needs:* §5.7's centralDegreeComparison; ReductiveGroups Layers 3, 6–7;
 RepresentationTheory/LieGroups Layer `7` / Complexification;
-RepresentationTheory/CompactGroups Layers `5`–`7` (Peter–Weyl and character separation).
+RepresentationTheory/CompactGroups Layers `5`–`6` and the `SU(2)` engine case (Peter–Weyl and character separation).
 (Source: [WII](#ref-wii), (2.2.1)–(2.2.3) and proof of (2.2.6), pp. 192–194.)
 
 **Checks.**
@@ -2294,7 +2298,7 @@ Its API includes:
 
 - `compact_normCharacter_sign`: The norm character `ω₁=q^(−deg)` has `Re(ω₁)=1` but the associated Tate line has weight `−2`, excluding the printed `+2Re` formula.
 
-*Needs:* complexCompactFormComparison above, [5.7](#target-5-7) (central-degree comparison), [5.9](#target-5-9), [5.3](#target-5-3), [RepresentationTheory/CompactGroups, Layers 0, 6–7 (Haar probability, characters and SU(2))](#input-e68), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66).
+*Needs:* complexCompactFormComparison above, [5.7](#target-5-7) (central-degree comparison), [5.9](#target-5-9), [5.3](#target-5-3), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#input-e68), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66).
 
 (Sources: [WII](#ref-wii), §2.2 (2.2.1)–(2.2.8), pp. 192–195; corrected sign in (2.2.8)(i), p. 195.)
 
@@ -2314,7 +2318,7 @@ For a smooth curve `U₀/𝔽_q` and a lisse sheaf punctually `ι`-pure of real 
 
 In the abstract compact-by-`ℤ` setting, add hypotheses `(C)` of (2.1.10): all irreducible Euler products are nonvanishing and holomorphic on `Re(s)≥1` except the simple trivial norm-character pole; and `(D)`: norms are powers of `q`. Fix a positive-degree central element `z` of degree `d`. The translated, normalized prime-power Dirac measures on degree `nd+i` conjugacy fibres converge weakly to the pushforward of normalized Haar on the corresponding degree-`i` fibre. The measures count powers with their degree weights; replacing them with rational-point Frobenius classes requires the actual identity (3.5.2.1).
 
-*Needs:* [5.16](#target-5-16), [RepresentationTheory/CompactGroups, Layers 0, 6–7 (Haar probability, characters and SU(2))](#input-e68).
+*Needs:* [5.16](#target-5-16), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#input-e68).
 
 (Sources: [WII](#ref-wii), §2.1 (2.1.10)–(2.1.13), pp. 191–192.)
 
@@ -2324,7 +2328,7 @@ At `q=2`, `diag(1,2)` has Newton vertices `(0,0)`,`(1,0)`,`(2,1)`; passing to `q
 
 ### Dependencies
 
-DWP.0–DWP.4, with §§5.1–5.3 preceding DWP.2 and the geometric part of §5.15 preceding §§5.5, `5.9`; EtaleCohomologyFoundations §§F.0–F.7, `F`.`3a`, F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§0.2–0.8, `1.1`–`1.6`, `5.1`; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 (rational constructible trace formula for all powers); EtaleCohomologyFoundations §§F.0.A1–F.0.A2; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.3, IG.1.2–IG.1.3; ArithmeticGaloisDuality §R02.3.2; ArithmeticGaloisRepresentations §§1.1–1.6, `5.13`; ReductiveGroups Layers `2`–`3`, `6`–`7`, `9`; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/CompactGroups Layers `0`, `5`–`7`; RepresentationTheory/LieGroups Layer `7`; ArithmeticDirichletSeries Layer `8`.
+DWP.0–DWP.4, with §§5.1–5.3 preceding DWP.2 and the geometric part of §5.15 preceding §§5.5, `5.9`; EtaleCohomologyFoundations §§F.0–F.7, `F`.`3a`, F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§0.2–0.8, `1.1`–`1.6`, `5.1`; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 (rational constructible trace formula for all powers); EtaleCohomologyFoundations §§F.0.A1–F.0.A2; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.3, IG.1.2–IG.1.3; ArithmeticGaloisDuality §R02.3.2; ArithmeticGaloisRepresentations §§1.1–1.6, `5.13`; ReductiveGroups Layers `2`–`3`, `6`–`7`, `9`; ReductiveGroupsPartII §RG2.0.2; RepresentationTheory/CompactGroups Layers `0`, `5`–`6` and the `SU(2)` engine case; RepresentationTheory/LieGroups Layer `7`; ArithmeticDirichletSeries Layer `8`.
 
 ## Layer DWP.6: Sharp curve purity by square improvement
 
@@ -2439,7 +2443,7 @@ Let `X` be a scheme of finite type over `ℤ[1/ℓ]`. A sheaf `ℱ` on `X` is in
 Integrality is over `ℤ`. It is stronger than the automatic `ℤ_ℓ`-integrality of an étale stalk eigenvalue.
 
 Its API includes:
-- `IsIntegralEnd`: `IsIntegralEnd (F : V →ₗ[E] V)` : `Prop := ∀ α ∈ eigenvalues F`, `IsIntegral ℤ α`, for `E` a field of characteristic `0` and `V` finite-dimensional, with `eigenvalues F` the DWP.0 multiset of roots of the characteristic polynomial in an algebraic closure.
+- `IsIntegralEnd`: `IsIntegralEnd (F : V →ₗ[E] V)` : `Prop := ∀ α ∈ eigenvalues F`, `IsIntegral ℤ α`, for `E` any field and `V` finite-dimensional (the sheaf-theoretic use has `E = ℚ̄_ℓ`), with `eigenvalues F` the DWP.0 multiset of roots of the characteristic polynomial in an algebraic closure.
 
 - `IsIntegralSheaf`: `IsIntegralSheaf ℱ : Prop := ∀ x ∈ |X|`, `IsIntegralEnd` (`F_x` acting on `ℱ_x̄`).
 
@@ -2469,6 +2473,8 @@ Its API includes:
 - For `ℓ ≠ 5`, the rank-one Weil sheaf on `Spec 𝔽_q` on which `F` acts by `b = (3 + 4i)/5` is punctually pure of weight `0` (every complex conjugate of `b` has absolute value `1`) but not integral: `b` is not an algebraic integer. A definition '`integral = weights ≥ 0`' fails this test.
 
 - The zero sheaf, and the zero Frobenius module, are integral.
+
+- Over `E = 𝔽_p(t)`, the identity on `E` is integral over `ℤ`, while multiplication by `t` is not: integrality here is equivalent to algebraicity over `𝔽_p`, so the predicate also distinguishes eigenvalues in positive characteristic.
 
 - The Frobenius module `(ℚ̄_ℓ², [[q, 1], [0, q]])` is integral: integrality reads the characteristic polynomial `(T − q)²`, not a diagonal form.
 
@@ -2615,7 +2621,7 @@ Its API includes:
 
 - `newtonCouple_fst_add_snd`: `v q = 1 → α ≠ 0 → (newtonCouple v q n α)`.`1 + (newtonCouple v q n α)`.`2 = n`.
 
-- `newtonCouple_nonneg`: If `α` and `q^n α⁻¹` are integral over `ℤ` (in particular if `α` is integral and a Weil `q`-number of weight `n`) and `v` is nonnegative on the integers of `K`, both coordinates are `≥ 0`.
+- `newtonCouple_nonneg`: For an integral Weil `q`-number `α` of weight `n` with `q ∈ ℕ`, `q^n α⁻¹` is integral over `ℤ`, since it has the same minimal polynomial as `α`. If `v` is nonnegative on elements integral over `ℤ`, both coordinates are `≥ 0`.
 
 - `newtonCouple_swap_conj`: For a Weil `q`-number `α` of weight `n`, the couple of `q^n α⁻¹` is the couple of `α` with its coordinates swapped.
 
@@ -2630,7 +2636,7 @@ Its API includes:
 
 - `q = p`, `α = √−p` (weight `1`, a root of `T² + p`): at the unique place above `p` of `ℚ(√−p)`, `(r, s) = (1/2, 1/2)`.
 
-- `q = 5`, `α = 1 + 2i` (weight `1`, `|α|² = 5`): at the place `v` of `ℚ(i)` with `v(1 + 2i) = 1` (normalised `v(5) = 1`), `(r, s) = (1, 0)`; at the conjugate place `(r, s) = (0, 1)`.
+- `q = 5`, `α = 1 + 2i` (weight `1`, `|α|² = 5`): at the place `v` of `ℚ(i)` with `v(1 + 2i) = 1` (normalised `v(5) = 1`), `(r, s) = (1, 0)`; at the conjugate place `(r, s) = (0, 1)`. The complementary conjugate `5/α = 1 − 2i` is integral without a separate integrality hypothesis.
 
 - `α = q^m` (weight `2m`): `(r, s) = (m, m)` at every place above `p`.
 
@@ -2919,10 +2925,10 @@ For `X` of finite type over `ℤ[1/ℓ]` with structure map a : `X → Spec ℤ[
 
 ### 8.14. Geometric monodromy and geometrically semisimple lisse sheaves
 
-For a normal connected finite-field scheme, a lisse finite-model Weil sheaf gives a representation `ρ` on its stalk `V`. Define geometric monodromy as the image of the geometric fundamental group and geometric semisimplicity as semisimplicity of the restricted representation, using Representation.asModule and IsSemisimpleModule. Arithmetic semisimplicity uses the full Weil representation. For schemes not geometrically connected work on each geometric component. Prove base-point conjugacy, dense-open and finite-base-extension invariance, subquotient/dual stability, and the characteristic-zero reductive-closure criterion specified in the API.
+For a normal connected finite-field scheme, a lisse finite-model Weil sheaf gives a representation `ρ` on its stalk `V`. Define geometric monodromy as the image of the geometric fundamental group and geometric semisimplicity as semisimplicity of the restricted representation, using `Representation.IsSemisimpleRepresentation`. Arithmetic semisimplicity uses the full Weil representation. For schemes not geometrically connected work on each geometric component. Prove base-point conjugacy, dense-open and finite-base-extension invariance, subquotient/dual stability, and the characteristic-zero reductive-closure criterion specified in the API.
 
 Its API includes:
-- `IsGeometricallySemisimple`: For `ρ : Representation E W V` and a subgroup `G ≤ W: IsGeometricallySemisimple ρ G : Prop := IsSemisimpleModule (MonoidAlgebra E G) (ρ.comp G.subtype).asModule`; for a lisse sheaf, `W = W(X₀, x̄)` and `G = π₁(X, x̄)`.
+- `IsGeometricallySemisimple`: For `ρ : Representation E W V` and a subgroup `G ≤ W: IsGeometricallySemisimple ρ G : Prop := Representation.IsSemisimpleRepresentation (ρ.comp G.subtype)`; for a lisse sheaf, `W = W(X₀, x̄)` and `G = π₁(X, x̄)`.
 
 - `IsGeometricallySemisimple.of_isSemisimple`: For a finite-dimensional representation `ρ` over a field and `G` normal in `W: ρ` semisimple `⇒ ρ|G` semisimple, by the pinned Tau Ceti Clifford theorem on each irreducible summand.
 
@@ -2949,7 +2955,7 @@ Its API includes:
 
 - For a finite-dimensional representation `ρ` of a group `W` over a field and a normal subgroup `G`, if `ρ` is semisimple then `ρ|G` is semisimple (Clifford), so arithmetic semisimplicity implies geometric semisimplicity.
 
-*Needs:* [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)](#input-e26), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [Representation](#input-b30), [IsSemisimpleModule](#input-b33), [Representation.asModule](#input-b31), [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](#input-b41), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66).
+*Needs:* [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#input-e12), [InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)](#input-e26), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#input-e27), [Representation](#input-b30), [Representation.IsSemisimpleRepresentation](#input-b33), [Representation.asModule](#input-b31), [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](#input-b41), [ReductiveGroups, Layer 6 (reductive and semisimple groups)](#input-e66).
 
 (Sources: [WII](#ref-wii), §1, (1.1.15), p. 153; [WII](#ref-wii), §3, Théorème (3.4.1) (iii), p. 207.)
 
@@ -3629,7 +3635,7 @@ and weights agree across realizations; ambient purity alone does not construct `
 
 *Needs:* §§1.10, 4.3–4.4, 10.1; EtaleCohomologyFoundations §§F.6, F.10.2–F.10.2b (Poincaré duality and Frobenius);
 InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 (constant-sheaf point count for every finite extension, applied componentwise); §0.12 (powers and multiplicities).
-(Sources: [WI](#ref-wi), (1.4)–(1.8), pp. 275–277;
+(Sources: [WI](#ref-wi), (1.4)–(1.8), pp. 274–277;
 [WII](#ref-wii), (3.3.9), p. 207.)
 
 <a id="target-10-3"></a>
@@ -3671,7 +3677,7 @@ In Weil II §2.2’s algebraic-by-`ℤ` monodromy setting, let `X₀/𝔽_q` be 
 
 For a smooth elliptic family `E₀→C₀` over a smooth geometrically connected finite-field curve with nonconstant `j`, use the imported full `SL₂` geometric monodromy of the universal-family comparison. Normalized `H¹` classes lie in `SU(2)`. For `x∈C₀(𝔽_(q^m))`, write `eigenvalues q^(m/2)e^(±iθ_x)`, `0≤θ_x≤π`. Then `#E_x(𝔽_(q^m))=1+q^m−2q^(m/2)cos θ_x`, and `q^(−m)Σ_xδ_(θ_x)` converges to `(2/π)sin²θ dθ`.
 
-*Needs:* [10.5](#target-10-5), [5.17](#target-5-17), [1.8](#target-1-8), [ModularCurves §5B and ModularCurvesPartII §§3.1–3.2, 4.11–4.12 (full level and geometric connectedness)](#input-e63), [RepresentationTheory/CompactGroups, Layers 0, 6–7 (Haar probability, characters and SU(2))](#input-e68).
+*Needs:* [10.5](#target-10-5), [5.17](#target-5-17), [1.8](#target-1-8), [ModularCurves §5B and ModularCurvesPartII §§3.1–3.2, 4.11–4.12 (full level and geometric connectedness)](#input-e63), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#input-e68).
 
 (Sources: [WII](#ref-wii), §3.5 (3.5.4)–(3.5.7), pp. 211–212.)
 
@@ -3704,7 +3710,7 @@ For a full-`SL₂` elliptic family, normalized trace is 2cos `θ`. Haar on `SU(2
 
 ### Dependencies
 
-DWP.0–DWP.9, including §§1.10, `4.4`, `8.24`; EtaleCohomologyFoundations §§F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§7a.1–7a.3, 7a.5; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4 (rational constructible trace and constant-sheaf point count for every finite extension); ModularCurves §5B; ModularCurvesPartII §§3.1–3.2, `4.11`–`4.12`; EtaleCohomologyFoundations §F.0.A2; ArithmeticGaloisRepresentations §§2.6, `6.1`; RepresentationTheory/CompactGroups Layers `0`, `6`–`7`.
+DWP.0–DWP.9, including §§1.10, `4.4`, `8.24`; EtaleCohomologyFoundations §§F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§7a.1–7a.3, 7a.5; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4 (rational constructible trace and constant-sheaf point count for every finite extension); ModularCurves §5B; ModularCurvesPartII §§3.1–3.2, `4.11`–`4.12`; EtaleCohomologyFoundations §F.0.A2; ArithmeticGaloisRepresentations §§2.6, `6.1`; RepresentationTheory/CompactGroups Layers `0`, `6` and the `SU(2)` engine case.
 
 ## Downstream consumers
 
