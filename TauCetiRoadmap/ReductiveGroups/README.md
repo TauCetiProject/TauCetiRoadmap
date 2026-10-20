@@ -1547,6 +1547,24 @@ algebra by its Killing-semisimple part.
    normalizer splitting and a VOA construction are separate from this adapter.
 
 
+
+**9A.1c. Numbered Geck frame and split-field adapter.** The constructor owner here
+also owns the normalized interface used by ChevalleyGroups C0–C1. On the actual
+native `DynkinType.lieAlgebra t ht`, construct the named all-root frame from its
+Geck basis, a specified equivalence `Fin t.numRoots ≃ {α : Weight ℚ H L // α.IsNonZero}`,
+and a separate extension at zero for `IsChevalleySystem`. Prove the simple E/F and
+coroot value equations, involution normalization, integer structure constants,
+root-string constants and their opposite-root signs. Compare with the full-Y
+integral Lie lattice of9A.1 by an integral basis map and inverse; a rational Lie
+isomorphism alone does not identify integral lattices. In the nonsymmetric types,
+`Base.cartanMatrix i j = α_i(h_j)` gives the **transpose** in the native H-row/E-column
+Serre relations. Consume LieHighestWeight Layer7's actual split-field generating
+Serre lift and its assigned injectivity/straightening theorem. This step neither
+uses group existence nor assumes distribution theory. All9A.1a/b signed ADE,
+section-change, full lift-group and folded fixed-Lie constructions remain separate
+live constructions, with their actual comparison maps and characteristic restrictions.
+
+
 2. In the native `UniversalEnvelopingAlgebra ℚ` of this rational Lie algebra,
    use `TauCeti.UniversalEnvelopingAlgebra.kostantForm` with **all** root
    vectors and `H_(y_j)` for a chosen ℤ-basis `(y_j)` of the full Y. Thus its
@@ -1603,58 +1621,200 @@ algebra by its Killing-semisimple part.
    The10B integral Weyl modules are compared with these earlier lattices after
    the group action and rational induction have been constructed.
 
+
+   **The split-field producer used here.** Supply this extension beside the existing
+   native highest-module API, once, under9A.5; do not introduce a second Verma or
+   irreducible-quotient definition. For a split Killing-semisimple Lie algebra over
+   any characteristic-zero field K and dominant integral highest weight, construct
+   the top-normalized contravariant form on the PBW Verma module from its Serre
+   anti-involution. On each finite-dimensional weight space its Gram matrix has
+   entries in K; identify its radical with the maximal proper highest-weight
+   submodule. Kernel formation for these finite matrices commutes with field
+   extension. Taking the direct weight sum proves
+   `Kbar ⊗ L_K(λ) ≃ L_Kbar(λ)` with highest-line and generator equations. Consume
+   native closed-field finite-dimensionality only on the right, then descend
+   finite generation of the left vector space by faithful field extension. Extend
+   componentwise for a reducible derived algebra and by the specified character
+   on the central Lie directions. This producer precedes9B and10B; it consumes
+   PBW, Verma quotients and native finite-dimensionality, not algebraic-group
+   highest-weight classification or the group being constructed.
+
+   Prove admissible-lattice finite generation by the ordered divided-power
+   straightening and the finite root-string bounds in these modules, and its
+   torsion-freeness inside the rational module; over ℤ it is finite free. The
+   highest line fixes the lattice `U_ℤ v⁺`, rather than an arbitrary integral
+   lattice. Weightwise stability includes all full-Y binomials. To obtain a
+   finite faithful weight family for a general reductive X, choose a strictly
+   dominant element σ in the root lattice of each nonempty component. For each
+   of finitely many generators λ of X use λ+Nσ dominant for N sufficiently large,
+   together with σ; their weights generate X. Root-free components instead use
+   the characters of the torus directly. This requires no integral splitting of
+   Y into central and coroot summands. An empty root set with nonzero X gives
+   `D(X)`, and X=0 gives the trivial group.
+
+
 The integral straightening/basis construction in 9A is an input to the following
 explicit group construction. Its proof does not assume 9C's distribution
 comparison for a group that is still being constructed.
 
 #### 9B. Pinned groups and their explicit carriers
 
-- **Split reductive group schemes over a base**, at least over `ℤ`: the definition, with the
-  split maximal torus as part of the data rather than an existence statement.
-- **Pinnings.** A pinning `(G, T, B, {X_α})` of a split reductive group scheme: the torus,
-  a Borel containing it, and a choice of root vector for each simple root. This is what
-  makes "the" graph automorphism well defined, so it is data, not a property.
-- **The Chevalley–Demazure construction.** For each root datum, an explicitly constructed
-  split reductive group scheme over `ℤ` realizing it, via a Chevalley basis and the Kostant
-  `ℤ`-form of the enveloping algebra. Constructed, not asserted to exist.
-- **Base change** along `ℤ → k` for any commutative ring `k`, and the compatibility of the
-  pinning with it.
-- **Root subgroup maps.** `x_α : 𝔾_a → G` for each root `α`, the Chevalley commutator
-  relations they satisfy, and the equations pinning them against the pinning. Downstream
-  work states its conventions against these, so they are part of the interface, not an
-  implementation detail.
-- **Points over an algebraically closed field** as a group, functorially in the field, so
-  that a field endomorphism induces a group endomorphism of the points. The `q`-power
-  Frobenius is the case a consumer asks for first.
-- **The isomorphism theorem for pinned groups**: a based root-data isomorphism lifts uniquely
-  to an isomorphism of pinned group schemes. This is what makes a diagram automorphism into
-  a named group automorphism, and it is the source of the uniqueness a consumer needs when
-  it pins `γ` by its action on simple root subgroups.
-- **Special isogenies in characteristics two and three.** For `B₂`/`C₂` and `F₄` in
-  characteristic two and `G₂` in characteristic three, the exceptional isogeny `τ` with
-  `τ² = Frob_p`, together with its action on the long and short root subgroups. This is a
-  statement about group schemes and belongs here rather than in any consumer. On the explicit
-  carriers the CFSG roadmap's carrier plan designates, the three targets are: `τ` on the
-  rank-two symplectic carrier (`TauCeti.SpStd.specialIsogeny`, done); `τ` on the short-root
-  `G₂` carrier over `𝔽₃`, the closed subgroup scheme of `GL₇` generated over `𝔽₃` by the reduced
-  root subgroups and torus of the toral closure of the seven-dimensional module, in characteristic
-  three; and `τ` on the short-root `F₄` carrier over `𝔽₂`, generated the same way inside `GL₂₆`
-  from the toral closure of the twenty-six-dimensional module, in characteristic two. The prime
-  field is the base because the isogeny exists only there and the restriction argument needs the
-  generated subgroup scheme's defining ideal to be maximal over that base; the CFSG roadmap's
-  carrier plan records the reason. The `G₂` and `F₄` maps are explicit polynomial maps on matrices realizing
-  the carrier's action on the quotient of its represented Chevalley Lie algebra by the short-root
-  ideal, read back in the module through a fixed identification; the `Sp₄` map is the analogous
-  action on the subquotient `ker φ ⧸ ⟨ω⟩` of the exterior square. Each comes with the pinning
-  equations on the simple root subgroups and the square relation, proved by computation or
-  structurally; the CFSG roadmap's carrier plan records the construction in detail.
-- **Explicit carriers with numbered symmetries.** The toral-closure carriers the CFSG roadmap
-  designates that do not yet exist: the short-root `G₂` and `F₄` carriers above, and the tripled
-  `D₄` carrier, the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄`, carrying triality as a
-  numbered symmetry the way the doubled `E₆` carrier carries its graph automorphism. Each comes
-  with its numbered simple root subgroups, weight torus, pinning equations against
-  `DynkinType.simplyConnectedRootDatum`, Frobenius, and the span statement that its weights
-  generate the full character lattice.
+**One constructor.** This phase owns the canonical integral Lie-to-group
+construction for every finite reduced **based reductive root datum**
+`𝓡=(X,Φ,Y,Φ∨)` with finite free perfectly paired X,Y. It includes arbitrary
+central tori and isogeny types. RootSystems owns the datum, numbering, reflection
+and diagram APIs;9A owns its full-Y integral Lie/Kostant construction. Here
+`pinnedModel 𝓡` is constructed from the finite faithful weight family and
+admissible lattices of9A.5 using the native Kostant toral closure. It is not a
+choice from the later existence theorem, and is not a second group selected
+from an arbitrary concrete realization. Fix finite presentations, weight bases
+and orders as construction data, and prove change-of-data isomorphisms below.
+The simply connected and adjoint Dynkin instances are specializations of this
+one construction, not separate engines. ChevalleyGroups C0–C7 supplies its
+explicit realization comparisons and point-group consumer theory.
+
+**9B.0. Relative notions and actual carriers.** For every commutative base R,
+use the split reductive definition with a specified immersion `D_R(X)→G`,
+affine smooth G, reductive geometric fibres, constant roots and coroots in X,Y,
+and **free rank-one root lines** realizing those same data in every fibre.
+A pinning chooses generators of those lines for the simple roots and the
+corresponding Borel. A nontrivial invertible module L in `GL(R⊕L)` shows that
+split fibrewise maximal torus alone is insufficient; twice an integral generator
+is not a pinning in characteristic2. These conditions and base-change maps
+are part of the interface over disconnected bases too.
+
+For the fixed integral representation write its actual native inputs as
+`e:I→L`, `h:κ→L`, `ρ:U_ℚ(L)→ₐ[ℚ]End_ℚ(V)`, an additive lattice M stable under
+`kostantForm e h`, nilpotent represented root operators, `b:Basis (Fin n) ℤ M`
+and integral weights `wt:Fin n→κ→ℤ`. Choose κ as coordinates on **X**, with
+Cartan operators from its dual basis in Y. The root character α in X supplies
+its exponent vector. Define the coordinate Hopf algebra to be exactly
+`CommHopfAlgCat.quotient (GeneralLinear.coordinateHopfAlgebra ℤ n)
+(kostantToralDefiningIdeal e h ρ M hM hnil b wt)` and its scheme to be native
+`kostantToralGroupScheme`. Points are native convolution homomorphisms
+`WithConv (O(G) →ₐ[ℤ] A)`, with `kostantToralSchemePointMulEquiv` and
+`kostantToralPointsSubgroup` as explicit scheme/matrix comparisons. Root maps
+and torus maps come from `kostantToralRootSubgroupPoints` and
+`kostantToralWeightTorusPoints`; prove the weight/eigenvector hypotheses of the
+native torus-conjugation theorem from9A. The subgroup point type is not
+identified with the subgroup generated by generator **points** merely by its
+name. In all universes keep the specified finite coordinate algebra small and
+allow A in a separate universe through the native point functor.
+
+**9B.1. Flatness, integral charts, fibres and specialization.** Consume
+`TauCeti.UniversalEnvelopingAlgebra.isTorsionFree_kostantToralCoordinateHopfAlgebra` for these
+actual parameters. It gives scalar torsion-freeness and flatness over ℤ.
+It does not give smoothness, generated-point equality, arbitrary base-change
+commutation of generated subgroup schemes, or specialization equality.
+Construct these remaining results here. First compute the finite rank-two
+integral collection polynomials from9A root strings, retaining constants2/3
+and the rank-one SL₂ Gauss relation. For each positive root order construct
+ordered multiplication, its coordinate functions and polynomial inverse on U±
+using the positive-height filtration; prove uniqueness by its successive
+root-coordinate quotients. Construct `U⁻×D(X)×U⁺→G`. In the weight basis,
+leading block minors define the ambient LDU open. Prove on its coordinate
+localization that multiplication identifies this open in G with the displayed
+product: construct mutually inverse commutative ℤ-algebra maps between
+the localized coordinate algebra of G and the polynomial/Laurent coordinate
+ring of the displayed product, using integral collection and the actual
+generator relations. Include the determinant localization and all torus units.
+Prove the resulting inverse scheme maps are natural under base change and
+agree on chart overlaps. These chart maps are ordinary algebra maps: the big
+cell is not a subgroup. Compare group multiplication in these coordinates on
+the open locus of pairs whose product also lies in the chart. The global group,
+root-subgroup and torus morphisms retain their Hopf-algebra compatibilities. The field Bruhat argument used in
+ChevalleyGroups C3/C4 is a consistency check, not the only supplied input to
+this integral inverse. Highest-weight coefficients are used only where they
+are actual functions of the chosen representation; the standard SL₂ coefficient
+does not descend to PGL₂, whereas these block minors do.
+
+Prove the Weyl-translated chart cover in every geometric fibre by rank-one
+collection and finite Weyl reduction, then the corresponding scheme cover:
+the uncovered closed locus has empty fibres over every prime, hence is empty.
+The charts prove smoothness, dimension `rank X + |Φ|`, geometrically connected
+reductive fibres, maximality/self-centralizer of the torus, root lines and the
+Borel. Extract the root datum and generator pinning from these coordinates.
+Only after this verification apply Layer7's structure theory of a **given**
+split reductive group. It does not presuppose9B's existence/classification.
+Construct specialization comparison with the subgroup scheme generated by the
+reduced root maps and torus over every field: its charts are the same integral
+coordinate charts after reduction, and the inverses agree on overlaps. Prove
+that these charts cover both schemes, and glue the inverse maps. This is the
+missing producer behind the comparison; flatness alone never substitutes for it.
+Over every field derive generation of points by root maps and the **whole**
+torus `Hom(X,kˣ)`; simply connected semisimple points are generated by roots
+alone, by the rank-one coroot formulas. No claim about generation over every
+commutative ring, or surjectivity of a central isogeny on every field's points,
+follows. Retain the adjoint A₁ over ℚ test and its nonsquare determinant class.
+
+**9B.2. Representation and root-datum comparisons.** For any other specified
+full admissible realization D, let Λ(D) be its actual weight span, not its
+saturation in the full weight lattice P. Require `Q⊆Λ(D)⊆P` in the semisimple
+faithful-Lie case and use its actual root datum. Construct the direct sum of
+D and the chosen canonical realization E of that datum. Prove its defining
+maps factor through the block-diagonal subgroup GL(D)×GL(E). Its coordinate
+algebra is generated by both sets of matrix coefficients together with the
+inverse determinant of each summand. On the block-diagonal locus these inverses
+are det(E)·(det(D)det(E))⁻¹ and det(D)·(det(D)det(E))⁻¹, so they belong to the
+ambient determinant localization. Construct the projections on coordinate
+Hopf algebras by sending each matrix coefficient to the corresponding block
+coefficient and each inverse determinant to the inverse determinant of that
+block. Prove these maps factor through the two defining ideals and satisfy
+the Hopf identities; a block projection on arbitrary GL matrices is not used.
+For the root-free datum X=ℤ, retain the faithful character model of Gₘ as a
+boundary test: these generators must recover ℤ[t,t⁻¹], including t⁻¹. The chart coordinates above
+agree under both projections, with the same X-characters and root parameters;
+construct inverse maps on the chart localizations and their Weyl translates,
+verify overlap equality and glue. This gives integral group-scheme
+isomorphisms matching roots, torus and pinning, natural in A and compatible
+with lattice/basis changes. Their composites are identity by the same chart
+identities. A rational intertwiner or equality of dimensions alone is not this
+proof. Thus existing Geck, spin, tripled D₄, minuscule/doubled E₆, E₇ and
+short-root G₂/F₄ carriers remain useful represented realizations with explicit
+comparisons, while there is only one canonical group per pinned datum.
+
+For inclusions `Λ(D)⊆Λ(E)` construct the canonical central isogeny
+`G_E→G_D`, its scheme kernel `D(Λ(E)/Λ(D))`, root equations and torus restriction
+map. Prove the map using the compatible local chart coordinates and fppf central
+quotient, with the required finite presentation/descent hypotheses from Layers0/3/4;
+equality of lattices gives an isomorphism. This comparison is not integral
+central splitting, nor surjectivity on arbitrary rational points. For a general
+full-X reductive datum retain its compatible central characters throughout.
+
+**9B.3. Pinned isomorphisms and exceptional maps.** Construct the isomorphism
+for a based root-datum isomorphism by its actual X,Y maps on the chart
+coordinates; prove inverse, uniqueness, composition and all base-change laws.
+This owns the scheme-level diagram automorphism. Its Lie comparison consumes
+9A.1c and the native Serre diagram action; the character pullback is the inverse
+of the geometric diagram action. D₄ order3 detects inverse mistakes.
+
+For B₂/C₂ and F₄ in characteristic2 and G₂ in characteristic3, retain all
+explicit polynomial constructions: the rank-two symplectic exterior-square
+subquotient; short-root G₂'s7-dimensional and F₄'s26-dimensional modules over
+the prime field, the stable short-root ideal I of the represented Chevalley
+Lie algebra, and a fixed normalized identification `𝔤/I≃V` with its actual
+zero-weight basis. Construct the polynomial action on that quotient, its
+multiplicativity and generator equations over `𝔽_p[t]`, not just `𝔽_p`.
+Use the **prime-field generated subgroup's** defining ideal to prove restriction,
+then9B.1/2 specialization and realization isomorphisms to transfer the map to
+`pinnedModel`. Verify its square is Frobenius and its scheme kernel is
+infinitesimal, noncentral; prove `CommHopfAlgCat.IsIsogeny` with its full
+hypotheses. This scheme producer uses chart/ideal relations, not ChevalleyGroups
+C5's point-map classification or C7 as an assumed theorem. C5 independently
+constructs the field-point map from the presentation and checks the specified
+integral character action; C7 compares it with this scheme map on all roots,
+torus and A-points. Long **source** root parameters have exponent1 and short
+source parameters exponent p; native root-isogeny exponents are indexed on
+pullback roots. Preserve signs, the B₂/𝔽₈ rejected reversed table, and the
+rank-one/±simple equations. This is not a second exceptional-isogeny owner.
+
+All former9B targets survive: explicit construction, base change, all roots,
+convolution points and field maps, pinning, simple connectivity/adjoint centre,
+pinned isomorphism, special isogenies, and numbered symmetries on every listed
+realization. Layer9C distributions/Frobenius and Layer10 rational/positive-
+characteristic representations remain unchanged consumers, never prerequisites
+of the integral constructor. Layers8's general relative/pseudo-reductive theory
+and11's spectral/topological programme are not restricted to this split model.
 
 #### 9C. Algebraic distributions and Frobenius
 
