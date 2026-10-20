@@ -154,11 +154,12 @@ theorem ArisesFrom.conjugate {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
     ArisesFrom ((MulAut.conj B).toMonoidHom.comp ρ) f ↔ ArisesFrom ρ f := by
   sorry
 
-/-- `R27.6/finite-flat-weight-two-export`: AlgebraicModularFormsAndSerreWeights R15.6's
-`TauCeti.ResidualModularity.ArisesFrom.iff_integralClosure_congruence` gives a coefficient
-prime and residue-field map for attachment, supplying the congruences in elliptic Serre witnesses. -/
+/-- Attachment on the newform carrier gives a coefficient prime and residue-field map,
+as in AlgebraicModularFormsAndSerreWeights R15.6's
+`TauCeti.ResidualModularity.ArisesFrom.iff_integralClosure_congruence`.
+The coefficient-map extension retains the defining exponent at every integer weight. -/
 theorem ArisesFrom.integral_reduction {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
-    (ρ : GQ →* GL (Fin 2) (FpBar p)) (f : Newform N k) (hk : 1 ≤ k)
+    (ρ : GQ →* GL (Fin 2) (FpBar p)) (f : Newform N k)
     (h : ArisesFrom ρ f) :
     ∃ P : Ideal (integralClosure ℤ ℂ), P.IsMaximal ∧ (p : integralClosure ℤ ℂ) ∈ P ∧
       ∃ φ : (integralClosure ℤ ℂ ⧸ P) →+* FpBar p,
@@ -288,12 +289,6 @@ theorem weight_interval_containment (m P p j : ℚ)
     (hlo : m * (P - 1) / (2 * m + 1) < j)
     (hhi : j ≤ (m + 1) * (P - 1) / (2 * m + 1)) :
     (2 ≤ j + 2 ∧ j + 2 ≤ p + 1) ∧ (2 ≤ P + 1 - j ∧ P + 1 - j ≤ p + 1) := by
-  sorry
-
-/-- `R26.3/weight-interval-containment`: a half-open interval of positive integral length `L`
-contains exactly one representative of every residue class modulo `L`. -/
-theorem half_open_interval_residue (L : ℕ) (hL : 0 < L) (a c : ℤ) :
-    ∃! j : ℤ, a < j ∧ j ≤ a + L ∧ Int.ModEq (L : ℤ) j c := by
   sorry
 
 /-- `R26.2/local-ring-at-q-smooth`: the commutation and determinant relations give the quadratic
@@ -544,7 +539,7 @@ end
 /-
 README-only interfaces over the supplier carriers:
 R27.4 and R33.6: arisesFrom_of_isModular, arisesFrom_optimal_of_isModular.
-R27.1: IsGoodDihedralPrime.inertia, IsGoodDihedralPrime.congruences,
+R27.1: IsGoodDihedralRep, IsGoodDihedralPrime.inertia, IsGoodDihedralPrime.congruences,
 IsGoodDihedralPrime.locallyGood, IsLocallyGoodDihedral.exists_good,
 IsGoodDihedralPrime.q_sq_dvd_conductor, isLocallyGoodDihedral_not_isSolvable.
 -/
