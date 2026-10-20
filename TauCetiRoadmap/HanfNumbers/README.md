@@ -51,7 +51,7 @@ Every layer below is required. The ordering is the dependency order: no layer us
 |---|---|---|---|
 | 0 | Homogeneous and end-homogeneous sets, the partition relation, pigeonhole, end-homogeneity, Erdős–Rado `ℶₙ(κ)⁺ → (κ⁺)ⁿ⁺¹_κ` and its beth form, the `ω₁`-pigeonhole | Mathlib cardinals, ordinals, `Finset.orderEmbOfFin` | `erdos_rado` at `n = 1`: `(2^κ)⁺ → (κ⁺)²_κ` |
 | 1 | Indiscernible sequences, templates, realization of templates, the Morley seed | InfinitaryLogic Layer 0 | an injective sequence in a model of `φ` is indiscernible for the Morley seed |
-| 2 | The Skolem tower of a countable set of formulas, Skolem templates, the Ehrenfeucht–Mostowski term model and its truth lemma, functoriality, Ehrenfeucht–Mostowski sources, stretching with the cardinality bound and with exact cardinality | 1; IME Layers 0.1, 0.4, 1.2, 2.2 | the EM model of the identity sequence of `(ℚ, <)` over any `J` |
+| 2 | The Skolem tower of a countable set of formulas, Skolem templates, the Ehrenfeucht–Mostowski term model and its truth lemma, functoriality, Ehrenfeucht–Mostowski sources, stretching with the cardinality bound and with exact cardinality | 1; IME Layers 0.1, 0.4, 1.2, 2.2 | the EM model over any `J` of the inclusion `ℕ → ℚ` on the atomic order fragment is `J` |
 | 3 | Approximation by homogeneous sets, the template construction, extraction of an Ehrenfeucht–Mostowski source, the Morley–Hanf theorem with exact cardinalities, Hanf bounds and Hanf numbers, the countable-theory and omitting-types corollaries | 0, 2; IME Layers 0.1–0.3, 1.1 | `morley_hanf` for the empty language |
 | 4 | The beth-ladder sentences and their maximal models, `Hanf(Lω₁ω) = ℶ_ω₁` | 3 for the upper bound; InfinitaryLogic Layer 0; Mathlib von Neumann hierarchy | the ladder at `α = 0`, with maximal model of size `2^ℵ₀` |
 | 5 | Highly order-transitive orders, small structures, small models of every infinite cardinality, countable companions, complete sentences, categorical completions | 2, 3; InfinitaryLogic Layers 1–3; IME Layers 0.1, 1.2, 2.3, 4.1 | every countable structure is small |
@@ -816,8 +816,8 @@ Discharge these alongside the layers; they check that the API describes real str
 2. **Morley seed.** `isIndiscernibleOn_morleySeed` for an injective sequence in any model of `φ`.
 3. **The height example.** The template-realizability counterexample of the Layer 1 warning, with
    its finitely realized and unrealizable template proved.
-4. **EM models of `(ℚ, <)`.** The Layer 2 acceptance check, with the skeleton order-isomorphic to
-   `J`.
+4. **EM models of the atomic order fragment.** The Layer 2 acceptance check, with the skeleton an
+   order isomorphism from `J` onto the EM model.
 5. **Pure sets.** For the empty language and `φ = "there are infinitely many elements"` (a countable
    conjunction of first-order sentences), the Layer 3 construction produces pure sets of every
    infinite cardinality; every pure set is small and the sentence is complete and
