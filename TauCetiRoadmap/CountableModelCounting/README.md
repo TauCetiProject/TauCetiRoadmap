@@ -24,10 +24,10 @@ perfect set of pairwise non-isomorphic ones.
 
 The roadmap is downstream of four others. The parent [InfinitaryLogic](../InfinitaryLogic/README.md)
 roadmap supplies the infinitary syntax, back-and-forth equivalence and Scott analysis. Three
-sibling roadmaps supply the descriptive set theory: **CountableStructureSpaces** (the coded space
+sibling roadmaps supply the descriptive set theory: **[CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (the coded space
 of structures, model classes, Borelness of back-and-forth equivalence, Scott height, López–Escobar,
-uniform back-and-forth separation), **BorelEquivalenceRelations** (perfect and Cantor antichains,
-Silver's theorem and its cardinality form), and **InfinitaryModelExistence** (fragments,
+uniform back-and-forth separation), **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)) (perfect and Cantor antichains,
+Silver's theorem and its cardinality form), and **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) (fragments,
 fragment types, Morleyization, the action of language maps on formulas, the small presentation of
 a countable language). Every
 statement consumed from them is quoted exactly in [Dependencies](#dependencies-on-other-roadmaps).
@@ -69,7 +69,7 @@ Gandy–Harrington topology; the coanalytic form of Silver's theorem. The descri
 themselves belong to BorelEquivalenceRelations; the space of structures, López–Escobar and
 external Scott height to CountableStructureSpaces; fragments, model existence and Morleyization to
 InfinitaryModelExistence; Ehrenfeucht–Mostowski models, Hanf numbers, small models and complete
-sentences to HanfNumbers.
+sentences to [HanfNumbers](../HanfNumbers/README.md) ([#1319](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)).
 
 ## Standing conventions
 
@@ -176,7 +176,7 @@ target; `Suggested.lean` carries it as a stand-in because the parent prototype l
 Each item is the exact statement consumed. Where a sibling roadmap names the object differently,
 use its name; the mathematics below is what is required.
 
-**From CountableStructureSpaces.**
+**From [CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)).
 
 * **(S1) Code spaces.** For a carrier `α`, the coding space `StructureSpaceOn L α` (one bit for each
   relation symbol `R` of arity `l` and tuple `Fin l → α`), with the product topology and product
@@ -210,7 +210,7 @@ use its name; the mathematics below is what is required.
   pairs of codes containing no isomorphic pair is separated at one level `β < ω₁`
   (that roadmap proves it from the forced back-and-forth tree and the boundedness theorem).
 
-**From BorelEquivalenceRelations.**
+**From [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)).
 
 * **(E0) Perfect-set vocabulary.** For a topological space `X`, a setoid `E` and `A : Set X`:
   `HasPerfectAntichainOn E A` (a nonempty perfect subset of `A` of pairwise `E`-inequivalent
@@ -228,7 +228,7 @@ use its name; the mathematics below is what is required.
 * **(E2) The cardinality form of Silver's theorem.** `mk_quotient_le_aleph0_or_eq_continuum`: on a
   standard Borel space, a Borel equivalence relation has `≤ ℵ₀` or exactly `𝔠` classes.
 
-**From InfinitaryModelExistence.**
+**From [InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)).
 
 * **(M0) Language maps (its Layer 0.1).** `onBoundedFormulaInf g`, the action of a language map
   `g : L →ᴸ L'` (Mathlib's `LHom`, languages in any universes) on infinitary formulas at every
