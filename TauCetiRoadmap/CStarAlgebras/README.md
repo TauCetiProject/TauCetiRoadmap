@@ -310,8 +310,11 @@ axioms; use its representation to prove Ruan's theorem.
 
 For a linear map u set `u_n([x_ij])=[u(x_ij)]` and define
 `‖u‖cb=sup_n‖u_n‖` on the maps for which this supremum is finite. Develop the
-Banach space CB(E,F), complete contractions, complete isometries, complete
-quotient maps, composition norm bounds and matrix amplification. Put the
+normed space CB(E,F), complete when F is complete, together with complete
+contractions, complete isometries, complete quotient maps, composition norm
+bounds and matrix amplification. Keep incomplete operator spaces in the
+construction; for E=ℂ the evaluation isometry CB(ℂ,F)≅F records this
+completeness boundary. Put the
 operator-space structure on CB(E,F) by `M_n(CB(E,F))=CB(E,M_n(F))`, and on E*
 by `M_n(E*)=CB(E,M_n)`. Prove the canonical E→E** is completely isometric,
 duality exchanges complete quotient maps and complete isometries, and a map
@@ -322,7 +325,8 @@ identifications, and finite row/column matrix norm formulas. Construct MIN(E)
 and MAX(E) for a Banach space E, prove their universal properties (bounded
 maps into MIN(E), respectively out of MAX(E), are CB with the same norm), and
 their duality. Give explicit examples distinguishing bounded from completely
-bounded maps, including transpose on M_n with cb norm n and operator norm 1.
+bounded maps, including transpose on M_n with cb norm n and operator norm 1
+for n≥1. At the zero matrix level both norms are 0; retain that level.
 An operator algebra is a norm-closed, not necessarily self-adjoint subalgebra
 of B(H), with its inherited operator-space structure; specify units when used.
 
@@ -750,9 +754,37 @@ representations, the restriction and unitization lemmas, and the subalgebra
 permanence of all three properties. Prove C and C″ pass to closed-ideal
 quotients using C2's central summand description. Prove C″ iff local
 reflexivity, using the operator-space duality of C3 and weak-star approximation
-of finite-dimensional matrix maps; prove C′ iff exactness, including the
-bounded strongly convergent family algebra and its quotient onto B** used
-in the tensor-kernel argument.
+of finite-dimensional matrix maps; prove C′ iff exactness using the
+following strong-star family construction in its tensor-kernel argument.
+For every C*-algebra B choose its faithful universal normal realization
+B**⊆B(H_u), with the canonical B inclusion. Take the common directed set
+I=Finset(H_u)×ℕ_(≥1), ordered by inclusion of the finite test set and
+increasing n; it is independent of the element to be approximated. In C5's
+native bounded product `lp (fun _ : I => B) ∞`, construct
+`D_I(B)={b : b_i converges strong-star in B**}` with its inherited norm.
+Use V1's bounded strong-star multiplication/star laws to prove it is a
+norm-closed star subalgebra, generally nonunital when B is nonunital. For
+closedness, the strong-star limits of a uniformly norm-Cauchy family are
+norm-Cauchy by the limit map's contractive estimate; the three-term vector
+estimate then gives strong-star convergence of the uniform limit family.
+Prove the limit map q:D_I(B)→B** is a contractive star homomorphism and
+`ker q={b : b_i→0 strong-star}`. For x∈B**, bounded strong-star Kaplansky
+density chooses b_(F,n)∈B with ‖b_(F,n)‖≤‖x‖ and both
+`‖(b_(F,n)−x)ξ‖<1/n`, `‖(b_(F,n)*−x*)ξ‖<1/n` for ξ∈F; for x=0 choose
+the zero family. Prove these families converge strong-star to x, so q is
+surjective, and construct the actual isometric C*-quotient comparison
+`D_I(B)/ker q≅B**`. When B is unital, the constant1 is its unit and q is
+unital; B=0 gives the zero algebra and quotient. Use common-universe lifts
+when needed. Prove transport under faithful normal realizations using V4's
+normality/vector-functional comparison of bounded strong-star convergence;
+do not replace this arbitrary directed set by a countable model. This
+uses C5's single bounded-product/quotient carrier, not a second family
+engine. Retain the algebraic/tensor maps and exactness conclusion above.
+
+Include the star-closure control B=K(ℓ²), B**=B(ℓ²): for n≥1,
+T_n=E_(0,n) has norm1 and T_nξ=ξ_n e₀→0 for every ξ, while
+T_n*e₀=e_n has no norm limit. Thus bounded SOT-convergent families alone
+are not star closed and cannot replace D_I(B).
 
 Prove nuclear algebras have C using C6's semidiscrete bidual theorem.
 Apply the AF-subquotient theorem to prove C, C′ and exactness equivalent
