@@ -475,22 +475,20 @@ Do not impose a single-entry hypothesis on the general API. Numeric cardinality
 bounds must include or establish finiteness: `Set.ncard` is zero on an infinite
 set and must not turn an asserted finite injury budget into a vacuous bound.
 
-The source uses a **strict** test in Sacks's routing on p.125, despite the
-inclusive displayed injury set on pp.112 and 123. Preserve both conventions.
-Define the auxiliary use-prefix breach batch
-$J^<(e,s)=\{x\in\Delta A_s:r(e,s)=\operatorname{some}(b),\ x<b\}$,
-its number set $I^<_e$, and its stage/event projections. These are named
-**use-prefix breaches**, not a redefinition of Soare's injury set. Prove
-$J(e,s)=J^<(e,s)\cup J^=(e,s)$, where the boundary batch consists of fresh
-entries equal to the active restraint, and prove disjointness of the two batches.
-Prove their uniform effective membership and projection APIs as for the inclusive
-objects. Prove finite $I_e$ implies finite $I^<_e$; the converse needs control of
-the boundary entries. In particular, eventual boundedness of the restraint implies finite boundary
-injury and finite inclusive injury as **number sets**, without requiring
-monotonicity of the stages or a bound on the earlier restraint values. Monotone
-stages then give finite injury stages and an injury-free tail. L9 must supply
-stabilization before invoking this
-bridge. This is an additional explicit proof step, not a silent endpoint change.
+A computation's use is exclusive and a restraint's protected interval is
+inclusive, so a restraint equal to the use protects one more number than the
+computation reads. The weaker condition that no entry falls strictly below the
+restraint is the **use-prefix breach** batch
+$J^<(e,s)=\{x\in\Delta A_s:r(e,s)=\operatorname{some}(b),\ x<b\}$, with number
+set $I^<_e$ and the same stage and event projections. It is a separate object,
+not a variant definition of $I_e$. Prove $J(e,s)=J^<(e,s)\cup J^=(e,s)$, where
+the boundary batch $J^=(e,s)$ consists of the fresh entries equal to the active
+restraint, that the two batches are disjoint, and the same effective membership
+and projection API as for the inclusive objects. Finite $I_e$ implies finite
+$I^<_e$. The converse fails (example 11 below), but eventual boundedness of the
+restraint alone gives finite $I_e$ as a number set, with no monotonicity of the
+stages and no bound on earlier restraint values. Monotone stages then give
+finitely many injury stages and an injury-free tail.
 
 ### L6.2. Quantitative causes and multiple oracles
 
@@ -563,9 +561,9 @@ Prove, as concrete mathematical examples:
 9. A fixed-oracle discovery is persistent; a moving-oracle discovery can fail.
 10. An event in one oracle cannot discharge the matching event claim for another.
 11. Boundary-only injuries with a growing restraint can be infinite even when the
-    use-prefix breach set is empty. An explicit example has $A_s=[0,s)$ and
-    $r(e,s)=\operatorname{some}(s)$. Thus the finite-prefix/stabilization bridge
-    cannot be omitted from the Sacks induction.
+    use-prefix breach set is empty: take $A_s=[0,s)$ and
+    $r(e,s)=\operatorname{some}(s)$. Finitely many use-prefix breaches do not give
+    finite injury without control of the restraint.
 12. A uniformly c.e. family of finite injury-number sets need not be uniformly
     computable: use a computable enumeration of $K$ and constant restraint
     $r(e,s)=\operatorname{some}(e)$ to obtain $I_e=K\cap[0,e]$. The diagonal
@@ -649,14 +647,13 @@ first disagreement as well as the computations at smaller arguments. Define the
 empty/no-convergence behavior explicitly. Prove computability uniformly from the
 enumerations and program index.
 
-On an interval free of use-prefix breaches, prove the simultaneous preservation
-equations, the
-stable-disagreement alternative, and the following key implication: if the
-limiting functional nevertheless computes $C$, then arbitrarily long agreement
-allows a computable search to decide $C$. No effective knowledge of the final
-injury stage is claimed; its fixed finite value can be a parameter in an
-existence proof for a computable decision procedure. Export the inclusive-injury version as a
-consequence of $I^<_e\subseteq I_e$, not as a different preservation proof.
+On an injury-free interval, prove the simultaneous preservation equations of
+the Remark in [S, VII.3, p.122], the stable-disagreement alternative, and the
+following key implication [S, VII.3.1, Lemma 1]: if the limiting functional
+nevertheless computes $C$, then arbitrarily long agreement allows a computable
+search to decide $C$. The stage after which there is no injury is not computed
+from the data; its fixed finite value is a parameter in an existence proof of a
+computable decision procedure.
 
 Prove restraint stabilization from the first limiting disagreement, including
 the case of a divergent limiting computation. Do not simply assume that lengths
@@ -674,26 +671,30 @@ This is a client of L9.1, not a premise of its generic preservation lemmas.
 
 Take a serialized enumeration of $B$ with pauses; build disjoint increasing
 finite stages for $A_0,A_1$, assigning every fresh element to exactly one side.
-For each negative requirement $(e,i)$, protect the computations of
-$\Phi_e^{A_i}$ against $C$. Choose the highest-priority currently threatened
-requirement and put the new element on the other side; use side zero if neither
-side has a threatened requirement.
+For each negative requirement $N_{(e,i)}:C\ne\Phi_e^{A_i}$, protect the
+computations of $\Phi_e^{A_i}$ against $C$. Order the pairs by $2e+i$. Put a
+fresh element $x$ on the side opposite the highest-priority pair with
+$x\le r^i(e,s)$, and on side zero if there is no such pair [S, VII.3, p.125].
+The routing test is the inclusive inequality of the injury set. The transition
+routes each fresh element separately against the stage-$s$ restraints, so it
+also applies to batched enumerations.
 
-The threat test is exactly the **strict** test $x<r^i(e,s)$ printed in
-[S, VII.3, p.125]. Only indices $e<s$ can threaten at stage $s$, since the stage
-bound makes all uses at $e\ge s$ zero; use this to justify the finite search.
-The public injury set still uses $x\le r^i(e,s)$.
+The search for the highest-priority threatened pair is finite. At stage $s$ no
+index $e\ge s$ has a convergent computation, so $\ell^i(e,s)=0$ and
+$r^i(e,s)=0$. A positive $x$ is therefore threatened only by pairs with $e<s$,
+and $x=0$ is threatened by $(s,0)$ at the latest. In both cases the least
+threatened pair, if any, has $e\le s$, and the search runs over $e\le s$ and
+$i\le 1$.
 
-Prove the induction over the paired priority in the following noncircular order:
-finite **use-prefix** breach set, satisfaction of $C\ne\Phi_e^{A_i}$,
-convergence of that requirement's restraint, and then finite **inclusive** injury
-set by L6's eventual-boundedness and boundary bridge. To obtain finite use-prefix breaches, higher
-priorities' stabilized restraints are bounded; once the corresponding finite
-prefix of $B$ has settled, routing prevents any further lower-priority breach.
-Boundary equality need not have been prevented by the routing test and cannot
-be dismissed before the current restraint stabilizes. This refinement preserves
-both printed endpoint conventions while making the omitted connection explicit.
-It does not assume an a priori computable bound on the number of injuries.
+Prove by induction on the priority of $(e,i)$ the three statements of
+[S, p.125]: $I^i_e$ is finite, $C\ne\Phi_e^{A_i}$, and $r^i(e,s)$ converges.
+For finite injury, the higher-priority restraints converge by the induction
+hypothesis, so from some stage on they are all below a number $r$. An element
+entering $A_i$ with $x\le r^i(e,s)$ is threatened by $(e,i)$, so it was routed
+by a higher-priority pair on the other side, and hence $x<r$. Once $B$ has
+settled below $r$, no such element enters. Nonreduction and convergence of
+$r^i(e,s)$ then follow from L9.1. There is in general no computable bound on
+$|I^i_e|$ [S, p.126], and none is assumed.
 
 Prove lowness of both halves by the agreement-length test in [S, pp.125–126]:
 compile a program which, at input zero, returns the fixed bit $C(0)$ exactly when

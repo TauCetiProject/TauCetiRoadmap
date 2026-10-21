@@ -507,7 +507,8 @@ theorem kleene_post :
 def injuriesAt (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e s : ℕ) : Finset ℕ :=
   (fresh A s).filter fun x => (r e s).any fun b => decide (x ≤ b)
 
-/-- Auxiliary strict use-prefix breaches; not a redefinition of the inclusive injury batch. -/
+/-- Use-prefix breaches: fresh entries strictly below an active restraint. A separate object from
+the inclusive injury batch. -/
 def useBreachesAt (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e s : ℕ) : Finset ℕ :=
   (fresh A s).filter fun x => (r e s).any fun b => decide (x < b)
 
@@ -516,7 +517,7 @@ def boundaryInjuriesAt (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ)
     (e s : ℕ) : Finset ℕ :=
   (fresh A s).filter fun x => r e s = some x
 
-/-- Number-valued strict-breach set used for the first step of the Sacks induction. -/
+/-- The number set of use-prefix breaches. -/
 def useBreachSet (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e : ℕ) : Set ℕ :=
   {x | ∃ s, x ∈ useBreachesAt A r e s}
 
@@ -711,7 +712,7 @@ theorem computation_preserved_by_live_restraint
     d.output ∈ Phi (stageLimit A) e x := by
   sorry
 
-/-- Strict breaches suffice when the current numerical bound covers the exclusive use. -/
+/-- Absence of use-prefix breaches suffices when the live restraint is at least the use. -/
 theorem computation_preserved_without_use_breaches
     (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (hA : Monotone A)
     {s e x req : ℕ} {d : Code.Halt}
@@ -813,7 +814,7 @@ example : injurySet (fun _ => ∅) growingRestraint 0 = ∅ ∧
     ¬ ∃ b s₀, ∀ s, s₀ ≤ s → growingRestraint 0 s = b := by
   sorry
 
-/-- Strict routing alone does not imply finite inclusive injury for arbitrary restraints. -/
+/-- No use-prefix breaches, yet infinitely many boundary injuries under a growing restraint. -/
 example : useBreachSet initialSegments growingRestraint 0 = ∅ ∧
     injurySet initialSegments growingRestraint 0 = Set.univ := by
   sorry
@@ -885,27 +886,6 @@ theorem agreement_cofinal_of_computes (A C : ℕ → Finset ℕ)
     ∀ n, ∃ s₀, ∀ s, s₀ ≤ s → n ≤ agreementLength s (A s : Set ℕ) (C s : Set ℕ) e := by
   sorry
 
-/-- Primary Sacks preservation theorem: actual strict breaches are sufficient. -/
-theorem nonreduction_of_finite_sacks_use_breaches (A C : CEApproximation) (e : ℕ)
-    (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage))
-    (hI : (useBreachSet A.stage (sacksRestraint A.stage C.stage) e).Finite) :
-    Phi (stageLimit A.stage) e ≠ oracle (stageLimit C.stage) := by
-  sorry
-
-theorem sacks_restraint_stabilizes_of_finite_use_breaches
-    (A C : CEApproximation) (e : ℕ)
-    (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage))
-    (hI : (useBreachSet A.stage (sacksRestraint A.stage C.stage) e).Finite) :
-    ∃ b s₀, ∀ s, s₀ ≤ s → sacksRestraint A.stage C.stage e s = some b := by
-  sorry
-
-/-- The inclusive/strict endpoint bridge uses the proved stabilization of this restraint. -/
-theorem finite_sacks_injury_of_finite_use_breaches (A C : CEApproximation) (e : ℕ)
-    (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage))
-    (hI : (useBreachSet A.stage (sacksRestraint A.stage C.stage) e).Finite) :
-    (injurySet A.stage (sacksRestraint A.stage C.stage) e).Finite := by
-  sorry
-
 /-- The use of the first disagreement is needed in the preservation proof of this lemma. -/
 theorem nonreduction_of_finite_sacks_injury (A C : CEApproximation) (e : ℕ)
     (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage))
@@ -917,6 +897,84 @@ theorem sacks_restraint_stabilizes (A C : CEApproximation) (e : ℕ)
     (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage))
     (hI : (injurySet A.stage (sacksRestraint A.stage C.stage) e).Finite) :
     ∃ b s₀, ∀ s, s₀ ≤ s → sacksRestraint A.stage C.stage e s = some b := by
+  sorry
+
+/-- At stage `s` no index `e ≥ s` has a convergent computation, so its restraint is zero. -/
+theorem sacksRestraint_of_le (A C : ℕ → Finset ℕ) {e s : ℕ} (h : s ≤ e) :
+    sacksRestraint A C e s = some 0 := by
+  have hstage : ∀ (σ : List ℕ) (x : ℕ), Code.stage s σ e x = none := by
+    intro σ x
+    unfold Code.stage
+    split <;> simp_all [Nat.not_lt.mpr h]
+  have hagree : ∀ x, agreesAt s (A s : Set ℕ) (C s : Set ℕ) e x = false := by
+    intro x
+    simp [agreesAt, Code.stageAt, hstage]
+  have hlen : agreementLength s (A s : Set ℕ) (C s : Set ℕ) e = 0 := by
+    simp [agreementLength, List.range_succ_eq_map, hagree]
+  simp [sacksRestraint, agreementRestraint, hlen, Code.stageUse, Code.stageAt, hstage]
+
+/-- The requirement pairs `(e, i)` with `e ≤ s`, in the priority order `2e + i`. -/
+def pairsThrough (s : ℕ) : List (ℕ × Bool) :=
+  (List.range (s + 1)).flatMap fun e => [(e, false), (e, true)]
+
+/-- The highest-priority pair whose current restraint `r i e` covers `x`, searched over `e ≤ s`. -/
+def leastThreat (r : Bool → ℕ → Option ℕ) (s x : ℕ) : Option (ℕ × Bool) :=
+  (pairsThrough s).find? fun p => (r p.2 p.1).any fun b => decide (x ≤ b)
+
+/-- The finite search is exhaustive for the Sacks restraints. With inclusive routing `x = 0` is
+covered by the zero restraint of every index `e ≥ s`, and the pair `(s, 0)` is among those
+searched. -/
+theorem leastThreat_sacks (A : Bool → ℕ → Finset ℕ) (C : ℕ → Finset ℕ) (s x : ℕ) :
+    let r : Bool → ℕ → Option ℕ := fun i e => sacksRestraint (A i) C e s
+    let threat : ℕ × Bool → Prop := fun p => ∃ b, r p.2 p.1 = some b ∧ x ≤ b
+    (∀ p, leastThreat r s x = some p →
+        threat p ∧ ∀ q : ℕ × Bool, 2 * q.1 + q.2.toNat < 2 * p.1 + p.2.toNat → ¬ threat q) ∧
+      (leastThreat r s x = none → ∀ q, ¬ threat q) := by
+  sorry
+
+/-- Soare's routing [S, VII.3, p.125]: the side opposite the least threatened pair, and side zero
+(`false`) when no pair is threatened. -/
+def routeSide (r : Bool → ℕ → Option ℕ) (s x : ℕ) : Bool :=
+  match leastThreat r s x with
+  | some (_, i) => !i
+  | none => false
+
+/-- The two halves at the end of each stage. The transition to `s + 1` reads the restraints from
+the stage-`s` halves and the stage-`s` approximation to `C`, and routes each fresh element of `B`. -/
+noncomputable def sacksSplit (B C : ℕ → Finset ℕ) : ℕ → Bool → Finset ℕ
+  | 0 => fun _ => ∅
+  | s + 1 => fun i =>
+      let r : Bool → ℕ → Option ℕ := fun j e =>
+        some (agreementRestraint s (sacksSplit B C s j : Set ℕ) (C s : Set ℕ) e)
+      sacksSplit B C s i ∪ (fresh B s).filter fun x => routeSide r s x = i
+
+theorem sacksSplit_union (B : CEApproximation) (C : ℕ → Finset ℕ) (s : ℕ) :
+    sacksSplit B.stage C s false ∪ sacksSplit B.stage C s true = B.stage s := by
+  sorry
+
+theorem sacksSplit_disjoint (B : CEApproximation) (C : ℕ → Finset ℕ) (s : ℕ) :
+    Disjoint (sacksSplit B.stage C s false) (sacksSplit B.stage C s true) := by
+  sorry
+
+theorem sacksSplit_computable (B C : CEApproximation) (i : Bool) :
+    Computable (fun s => finiteCode (sacksSplit B.stage C.stage s i)) := by
+  sorry
+
+/-- The three statements proved together by induction on the priority `2e + i` [S, p.125]. -/
+theorem sacksSplit_requirement (B C : CEApproximation)
+    (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage)) (e : ℕ) (i : Bool) :
+    let A := fun s => sacksSplit B.stage C.stage s i
+    (injurySet A (sacksRestraint A C.stage) e).Finite ∧
+      Phi (stageLimit A) e ≠ oracle (stageLimit C.stage) ∧
+      ∃ b s₀, ∀ s, s₀ ≤ s → sacksRestraint A C.stage e s = some b := by
+  sorry
+
+/-- The constructed halves satisfy the full statement of [S, VII.3.2]. -/
+theorem sacksSplit_spec (B C : CEApproximation)
+    (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage)) :
+    let A := fun i => stageLimit fun s => sacksSplit B.stage C.stage s i
+    Disjoint (A false) (A true) ∧ A false ∪ A true = stageLimit B.stage ∧
+      ∀ i, Low (A i) ∧ ¬ (stageLimit C.stage ≤ᵀ A i) := by
   sorry
 
 /-! ## L7–L9: unconditional construction endpoints over the concrete definitions -/
