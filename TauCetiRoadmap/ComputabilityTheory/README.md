@@ -803,8 +803,8 @@ the presence of a provenance link.
 **[S]** Robert I. Soare, *Recursively Enumerable Sets and Degrees: A Study of
 Computable Functions and Computably Generated Sets*, Perspectives in Mathematical
 Logic, Springer, 1987. References above are to printed pages and chapter/section
-numbers, not PDF-image indices. The requested scope is selected from I–IV, V.1,
-VI.1, and VII.1–3; it does not claim to cover every result of those chapters.
+numbers. The scope is drawn from I–IV, V.1, VI.1, and VII.1–3, and does not cover
+every result of those chapters.
 
 The following sources inform implementations, not the mathematical specification.
 Their declarations and proofs, not their status descriptions, determine what they
