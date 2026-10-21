@@ -44,7 +44,7 @@ convention in the compact-algebra-object correspondence is transported
 by explicit positive scalar rescaling in CA3. Left/right dimension and
 sphericality refer to the chosen dual functor, not just a dagger.
 
-- [PivotalSpherical, PR #57](https://github.com/TauCetiProject/TauCetiRoadmap/pull/57)
+- [PivotalSpherical](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md)
   supplies general pivotal/spherical, rigidity and finite semisimple
   categorical theory. Consume its merged specification and construct
   any missing targets in Tau Ceti with those interfaces. CA2a adds analytic unitary choices and their
@@ -186,10 +186,32 @@ a dual functor on a multitensor category.
 Define a unitary dual functor by chosen evaluations/coevaluations with
 unitary tensorator and `(f∨)†=(f†)∨`. Construct its pivotal comparison
 and left/right traces, positive dimensions and bi-involution. For a
-unitary `r:x→x∨`, prove the symmetric-evaluation equation equivalent
-to `r̄ r=φ_x`, where `x̄=x∨`, `f̄=(f†)∨` and
+unitary `r:x→x∨`, pin evaluation as ev_x:x∨⊗x→1 and the
+symmetric-evaluation equation as
+ev_x∘(r⊗id_x)=ev_(x∨)∘(φ_x⊗r), with unitors understood.
+Prove this equivalent to `r̄ r=φ_x`, where `x̄=x∨`, `f̄=(f†)∨` and
 `φ_x:x→x̄̄` is the chosen unitary pivotal comparison. Thus
 `r=r̄†φ_x`; use these typed formulas for real objects and transport. Define
+the signed self-duality variants by `r̄ r=ε φ_x`, ε∈{+1,−1},
+equivalently `r=ε r̄†φ_x`. Their evaluation equation is
+ev_x∘(r⊗id_x)=ε ev_(x∨)∘(φ_x⊗r).
+Construct their cup equations
+and unitary transport, retaining the negative
+Frobenius–Schur sign as distinct data. On a simple self-dual object prove
+the sign is independent of the normalized unitary identification; in the
+finite-Hilbert realization the negative sign gives an antiunitary J with
+J²=−1 and forces even Hilbert dimension. Compare both signs with standard
+conjugate solutions and their positive intrinsic dimension; positivity
+does not change a negative sign into symmetric self-duality. Define
+the tensor-product sign law `ε(r_x⊗_β r_y)=ε(r_x)ε(r_y)` for
+the constructed braided self-duality map under an explicit unitary
+symmetric braiding with its dual/pivotal compatibility and trivial
+induced twist on the generated tensor category. Construct the tensor
+self-duality map using the braiding to reverse the dual factors and
+prove the law.
+In a general rigid category the dual
+of X⊗Y has the reversed order Y∨⊗X∨; individual self-duality maps
+alone do not supply a self-duality of X⊗Y. Define
 pseudounitary pivotal structures by strictly positive left and right
 simple-object dimensions.
 Construct the universal grading groupoid from the simple unit summands,
@@ -200,9 +222,13 @@ Prove the canonical bijections between pseudounitary pivotal structures
 modulo monoidal natural isomorphism, unitary dual functors modulo unitary
 monoidal natural isomorphism, and groupoid homomorphisms to ℝ_{>0}.
 For a homogeneous simple X pin the character to `dim_L(X)/dim_R(X)`.
-Construct the inverse positive-character rescaling, check conjugate
-equations and tensor coherence, and prove the two composites and
-uniqueness of the comparison isomorphisms. Identify the balanced
+For equivalence of chosen dual functors require the canonical monoidal
+natural comparison determined by their evaluations/coevaluations to be
+unitary and to intertwine those data. Construct the inverse
+positive-character rescaling, check conjugate equations and tensor
+coherence, and prove the two composites and uniqueness of this
+duality-compatible comparison. Do not assert uniqueness among arbitrary
+unitary monoidal automorphisms of the underlying dual functor. Identify the balanced
 simple-unit choice with the spherical structure and prove, for simple
 unit, sphericality equivalent to the trivial grading character.
 For a nonsimple unit, a trivial character means equality of the scalar
@@ -530,9 +556,12 @@ projection summands, and prove its adjunction on all objects. Prove
 naturality and both inverse comparisons,
 including uniqueness of compatible unitary natural transformations.
 When V is ribbon, prove spherical objects correspond exactly to
-spherical chosen states. Define connectedness by the connected
-zero-box condition and prove its fully faithful Φ characterization;
-for the CA10 fusion setting it says P[0]≅1_V. Define finite depth by
+spherical chosen states. Write F=Forget∘Φ:V→C for the underlying
+action functor, distinct from its central lift Φ:V→Z†(C).
+Define connectedness by the connected zero-box condition and prove
+its characterization by full faithfulness of F; for the CA10 fusion
+setting it says P[0]≅1_V. Full faithfulness of the central lift alone
+is not this condition. Define finite depth by
 finitely many simple summand classes in the associated generated
 category, and prove the tensor-power criterion for the real generator.
 
@@ -560,18 +589,47 @@ identify the first map as `1−[X]`; no general compact-left-action
 class for X over all of B is assumed. General Cuntz generators retain
 Dynamics D6/OperatorKTheory K7 ownership.
 
-For a countable undirected graph Λ with positive vertex weights μ,
-construct the oriented-edge C₀(V)-correspondence, its Fock module,
-Toeplitz–Cuntz–Krieger algebra and weighted free-graph algebra S(Λ,μ).
-Replace each non-loop edge ε by opposite edges ε',ε'',
-and each loop by one fixed directed edge; retain multiple-edge
-multiplicity. Set `a=(μ(s(ε''))/μ(t(ε'')))^(1/4)` and
+For a countable undirected graph Λ with positive finite real vertex
+weights μ, construct the oriented-edge correspondence over B=C₀(V),
+its Fock module, Toeplitz–Cuntz–Krieger algebra and weighted free-graph
+algebra S(Λ,μ). On the finitely supported edge vectors fix
+`p_s(e) e=e=e p_t(e)` and `⟨e,f⟩=0` for distinct edges,
+`⟨e,e⟩=p_t(e)`. Complete in this B-valued inner product and retain
+the nondegenerate left B-action. Creation is left tensoring:
+`L(e)ξ=e⊗_B ξ`; prove its adjoint formula on every tensor length,
+including the vacuum B, and `L(e)†L(f)=⟨e,f⟩` acting on the left.
+Replace each non-loop edge ε by opposite edges ε',ε'', with
+ε':v→w, ε'':w→v, and each loop by one fixed directed edge;
+retain multiple-edge multiplicity. Set
+`a=(μ(s(ε'))/μ(t(ε')))^(1/4)>0`, so `a⁴=μ(v)/μ(w)`, and retain
 `T_ε=aL(ε')+a⁻¹L(ε'')†+a⁻¹L(ε'')+aL(ε')†`;
-for a loop set `T_ε=L(ε)+L(ε)†`. Define S(Λ,μ) as the
-C*-subalgebra generated by C₀(V) and these self-adjoint T_ε.
-Prove weighted creation/annihilation adjoint identities, the vertex expectation and semifinite
-trace. Construct transport under weighted graph isomorphisms and
-the identity comparison for μ↦cμ, c>0, with the trace scaled by c.
+for a loop retain `T_ε=L(ε)+L(ε)†`. Define S(Λ,μ) as the
+C*-subalgebra generated by B and these self-adjoint T_ε.
+For nonunital B construct the reduced-word/expectation comparison from
+the directed finite-vertex/finite-edge corners with their compatible
+vacuum maps and isometric inclusions, before applying the unital
+reduced-product interfaces of F4. No trace on the entire creation or
+Toeplitz algebra is inferred from the Gaussian/free-graph trace.
+Construct the faithful vacuum vertex expectation E:S(Λ,μ)→B and
+the faithful lower-semicontinuous semifinite trace on positive elements
+`τ_μ(y)=Σ_(v∈V) μ(v) E(y)(v)`, with its extended-positive-value
+convention and dense finite-trace ideal. In particular
+`τ_μ(p_v)=μ(v)`; this functional is not made a normalized state
+when the total vertex mass is infinite. Prove traciality on the dense
+finite-edge/finite-vertex word algebra by the weighted creation and
+reduced free-product moment identities, then extend to that trace.
+For x=p_v T_ε p_w pin
+`E(x†x)=a²p_w`, `E(xx†)=a⁻²p_v`, so
+`τ_μ(x†x)=a²μ(w)=a⁻²μ(v)=τ_μ(xx†)`.
+Require the one-edge regression μ(v)=16, μ(w)=1: a=2 gives both
+moments equal 4; the reciprocal a=1/2 instead gives 1/4 and 64 and must fail.
+Under reversal of the distinguished orientation interchange ε',ε''
+and a,a⁻¹; identify the same self-adjoint T_ε on the same doubled-edge
+correspondence, with E and τ_μ preserved. Prove the Fock intertwining
+and trace transport for weighted graph isomorphisms, and the identity
+comparison for μ↦cμ, c>0: ratios and T_ε are unchanged, while
+τ_(cμ)=cτ_μ. Keep loop generators and all multiplicities in these
+comparisons.
 For an edge-subgraph on the same vertex set with restricted weights,
 prove the canonical generator map is injective and construct its
 vertex-preserving conditional expectation using the reduced edge
@@ -776,19 +834,124 @@ U and unitary natural identifications `U⊗_S β(c)≃α(c)⊗_R U`,
 with tensor and unit coherence. Prove the induced positive structures
 agree; do not assert uniqueness between the type-II and III₁ classes.
 
-Construct the properly infinite factor endomorphism model: objects
-are normal unital endomorphisms ρ:M→M, together with a zero object;
-morphisms t:ρ→σ are t∈M with `tρ(a)=σ(a)t` for every a.
-Build its dagger, norms, sums/subobjects and tensor composition, and
-the complex-linear dagger equivalence with separable normal Bim(M),
-using the left-twisted model `_ρL²(M)`: left action `a·ξ=ρ(a)ξ`
-and ordinary right action. Map t:ρ→σ to left multiplication by t,
-proving complex linearity and covariance. On this endomorphism model
-call this category End_rev(M), with reversed composition
-`ρ⊗_rev σ=σ∘ρ`; for t:ρ→ρ′ and s:σ→σ′,
-the tensor intertwiner is `s σ(t)=σ′(t)s`. Construct the fusion
-tensorator `_ρL²(M)⊗_M _σL²(M)≃_(σ∘ρ)L²(M)` and prove its
-naturality, unitarity and associator/unit coherence.
+Construct the normal correspondence models with their size and
+standardization domains explicit. Keep the arbitrary-universe W*-category,
+generator and module-category targets above. Use VNA V4.Normality's
+normal representation amplification, V5's projection comparison and
+countable absorption, V11's general standard form and tensor commutation,
+and Subfactors S1's normal correspondences and Connes fusion. CA9 owns
+the following coordinate models and comparison functors, not a second
+standard-form, normal-representation or fusion construction.
+
+For any von Neumann factor M, write H₀=L²(M), with
+`aξb=aJb*Jξ`. Define End_rev(M) to have the normal unital endomorphisms
+ρ:M→M and a zero object; morphisms t:ρ→σ are t∈M with
+`tρ(a)=σ(a)t` for every a, with the usual zero-object Hom spaces.
+Build its complex-linear dagger, norms and reversed tensor composition
+`ρ⊗_rev σ=σ∘ρ`; for t:ρ→ρ′ and s:σ→σ′ the tensor
+intertwiner is `s σ(t)=σ′(t)s`. Define the full subcategory
+Bim_std(M) of normal M–M correspondences whose nonzero underlying right
+M-module admits a right-M-linear unitary to H₀, together with zero.
+Construct the complex-linear dagger tensor equivalence
+End_rev(M)≃Bim_std(M) by `_ρH₀`, with left action `a·ξ=ρ(a)ξ`
+and ordinary right action. Map t to left multiplication by t. From a
+chosen right standardization recover ρ using the commutant of the right
+action, and compare different choices by the corresponding unitary
+intertwiner. Construct
+`U_(ρ,σ):_ρH₀⊗_M _σH₀≃_(σ∘ρ)H₀` and prove its naturality,
+unitarity and associator/unit coherence. Do not infer closure of this
+right-standardizable subcategory under arbitrary sums or subobjects
+without proving standardizability of those particular ranges.
+
+For all normal M–M correspondences, construct instead the amplified
+corner category. In a common universe u choose an index type I:Type u,
+put `H_I=H₀⊗̂ℓ²(I)` and `A_I=M⊗̄B(ℓ²(I))`, identified with the
+commutant of the diagonal right M-action on H_I. An object consists of
+a projection p∈A_I and a normal unital star homomorphism
+`λ:M→pA_Ip`, where the corner unit is p. Its realization is pH_I,
+with left action λ and the restricted diagonal right action. Include
+I=∅ and p=0 as zero presentations. All Hilbert carriers and index sets
+lie in the common Type u, and the presentation category in Type(u+1);
+use universe lifts when comparing data initially given at different levels.
+There is no fixed countable bound on I. Consume V4/V11 to present every
+normal right M-module as such a reducing corner: decompose into cyclic
+normal subrepresentations, realize their positive functionals in the
+standard form, take their orthogonal sum and the commutant range
+projection, and transport the commuting left action to λ. Retain all
+normal correspondences, including nonseparable carriers.
+
+For objects (I,p,λ),(J,q,μ), the Hom space consists of rectangular
+operators `T∈q(M⊗̄B(ℓ²(I),ℓ²(J)))p` satisfying
+`Tλ(a)=μ(a)T` for every a∈M. Define the rectangular space as the
+appropriate off-diagonal corner in A_(I⊔J), not an algebra of
+rectangular matrices. Use operator norm, multiplication for composition
+and adjoint for dagger. Prove the intertwiner equations define a weak-*
+closed space; identify its actual quotient predual, separately normal
+composition and the C*-norm/dagger laws. Construct all Type-u-indexed
+orthogonal sums and all projection ranges by block sums and corners,
+including the zero case. Prove realization fully faithful using the
+right-action commutant and essentially surjective by the preceding
+presentation. Construct its inverse equivalence, unitary changes of
+presentation and common-amplification comparisons, with their coherence;
+do not declare the choices literally equal.
+
+For H=(I,p,λ), K=(J,q,μ), use the normal spatial matrix amplification
+`μ^[I]:A_I→(q⊗1_I)A_(J×I)(q⊗1_I)`, with
+`μ^[I](a⊗E_(i′,i))=μ(a)⊗E_(i′,i)`, under the fixed unitary
+`H₀⊗̂ℓ²(J×I)≃(H₀⊗̂ℓ²(J))⊗̂ℓ²(I)`.
+Set `P=μ^[I](p)` and `ν(a)=μ^[I](λ(a))`, a normal map with
+ν(1)=P. Define their composite presentation to be (J×I,P,ν).
+Construct the unitary
+`pH_I⊗_M qH_J≃P(H₀⊗̂ℓ²(J×I))` from S1's standard-form
+left unitor on each coordinate. Verify it first on the dense bounded-
+vector tensor domain, with S1's opposite-weight convention, and then
+complete and restrict by the range projection. Show a rectangular
+right-module operator T acts after this comparison by its amplified
+matrix μ(T); extend the finite-coordinate formulas normally, rather
+than assuming an infinite matrix sum converges in norm.
+
+For T:H→H′ with coordinate types I,I′ and S:K→K′ with
+coordinate types J,J′ and target left action μ′, the fusion morphism is
+`(S⊗1_(I′)) μ^[I′,I](T)
+ = μ′^[I′,I](T)(S⊗1_I)`, restricted to the composite corners.
+Construct the rectangular amplification from the same off-diagonal
+corner; prove this equality, the corner supports, intertwining,
+contractive tensor norm, dagger/interchange and separate normality.
+Construct the unit presentation (one coordinate,1,id_M), both unitors
+and, for a third coordinate type L, the associator from the canonical
+coordinate bijection between L×(J×I) and (L×J)×I. Check their projection/left-action equations,
+pentagon/triangle and compatibility with S1's fusion comparisons.
+Transport S1's conjugation and double-conjugation data by the presentation
+equivalence, with natural unitary comparisons. In the one-coordinate
+p=q=1 specialization the formulas give ν=σ∘ρ and
+`T⊗S=sσ(t)=σ′(t)s`, exactly End_rev(M), and give U_(ρ,σ).
+
+For a properly infinite factor M with separable predual, prove that
+H₀ is separable and every nonzero separable normal M–M correspondence
+is right standardizable. Use a countable amplification, V5's countable
+absorption and projection comparison: the represented left M makes
+its nonzero support corner properly infinite, so that support is
+equivalent to the unit in the sigma-finite amplified factor. Construct
+the resulting right-module unitary, and identify the model with all
+separable normal Bim(M). Prove finite and countable sums and every
+bimodule projection range stay in this separable model; arbitrary
+cardinal sums remain in the full amplified model. For any finite-
+statistical-dimension endomorphism pair, transport both standard
+conjugate cups and their adjoints through U and the unit comparison,
+preserving their equations and squared norm d. In End_rev,
+ρ⊗_rev ρ̄=ρ̄∘ρ, so a usual-composition
+`R_std:id→ρ̄∘ρ` becomes `U_(ρ,ρ̄)⁻¹ L_(R_std)`;
+the other cup uses the reversed pair. Keep these comparisons compatible
+with the tensor-reversal/cocycle bridge and normalized left inverses below.
+
+Include the size tests: for uncountable I, B(ℓ²(I)) has no nonzero
+normal representation on a separable Hilbert space, although its identity
+endomorphism has its standard right-module realization. For B(ℓ²),
+construct normal correspondences with uncountable right multiplicity
+and prove they cannot be `_ρL²(M)` on its fixed standard right carrier;
+the amplified model must realize them. Check zero presentations,
+arbitrary reindexing and common-universe lifts, finite matrix corners,
+and the above one-coordinate tensor and cup specializations.
 
 Construct the convention bridge to Tomatsu's usual-composition
 endomorphism category, whose tensor on objects is `ρ⊗σ=ρ∘σ` and
@@ -883,12 +1046,32 @@ For hyperfinite II∞ prove the Masuda–Tomatsu characterization
 endomorphisms. For hyperfinite III₁ prove every finite-index
 endomorphism approximately inner of each rank r>0. These are targets
 here, not consequences of V13's automorphism-only theorem. Construct
-Izumi's canonical extension on the core, its normalized version
-`ρ̌(x)=ρ(x)`, `ρ̌(u_t)=(D(φ∘φ_ρ):Dφ)_t u_t`, and the
-canonical extension `ρ̃=θ_(-log d_ρ)∘ρ̌`. Define having a
-Connes–Takesaki module by ρ̃ taking the core center into itself with
-automorphism restriction, and prove the rank comparison
-`mod(ρ)=θ_(log(r/d_ρ))` with V11's dual-flow sign.
+Izumi's canonical extension on V11's core, with the positive dual
+action fixed by `θ_s(x)=x` for x∈M, `θ_s(u_t)=exp(i s t)u_t`
+and `Tr∘θ_s=exp(s)Tr`. For a faithful normal semifinite weight φ
+and the designated standard left inverse φ_ρ, construct the normalized
+version `ρ̌(x)=ρ(x)`, `ρ̌(u_t)=(D(φ∘φ_ρ):Dφ)_t u_t` and
+pin the canonical extension by
+`ρ̃(x)=ρ(x)`, `ρ̃(u_t)=d_ρ^(it)(D(φ∘φ_ρ):Dφ)_t u_t`.
+Prove `ρ̃=θ_(+log d_ρ)∘ρ̌`, independence of weight via V11's
+specified cocycle comparison, and equivariance with the same dual action.
+Define having a Connes–Takesaki module by ρ̃ taking the core center
+into itself with automorphism restriction. For an approximately inner
+finite-index endomorphism of rank r>0, prove
+`mod(ρ)=θ_(log(d_ρ/r))|_(Z(core))` with this positive convention.
+When consuming negative-action formulas put `θ⁻_s=θ_(-s)` explicitly:
+`θ⁻_(-log d_ρ)∘ρ̌=θ_(+log d_ρ)∘ρ̌` and
+`θ⁻_(log(r/d_ρ))=θ_(log(d_ρ/r))`. Transport the source cocycle,
+module and rank statements together, keeping Tr and the weight normalization
+unchanged rather than renaming only one sign.
+Require the II∞ inner-amplification normalization for every integer n≥2:
+with `v_i†v_j=δ_ij1`, `Σ_i v_i v_i†=1`, put
+`ρ(x)=Σ_i v_i x v_i†`, `φ_ρ(x)=n⁻¹Σ_i v_i†xv_i`.
+Prove d_ρ=r=n, `τ∘φ_ρ=n⁻¹τ` and the scalar cocycle
+`(D(τ/n):Dτ)_t=n^(-it)`. In this trace core u_t is central;
+hence `ρ̌(u_t)=n^(-it)u_t`, `ρ̃(u_t)=u_t`, and its module is
+`θ_0=id`. The formula with a second negative phase would instead
+give n^(-2it)u_t and does not satisfy this regression.
 For II∞ build trace-scaled partial-isometry approximants. For III₁
 construct the locally trivial inclusion `diag(x,ρ(x))⊂M₂(M)`,
 its weighted conditional expectations and modular/finite-index API;
@@ -1033,9 +1216,12 @@ lifts braided with the stated reversal.
 Construct these balanced products with ladder-category morphisms, contraction composition, positive
 linking forms and finite additive/projection completion. Construct the
 tensor product, unit, dagger, unitary associators and standard dual
-functor on the balanced product. When both inputs are fusion and the
-central-action functor from Z(C) is fully faithful on the connected
-input M, prove finite semisimplicity and `End(1_(C⊠M))=ℂ`.
+functor on the balanced product. When both inputs are fusion and, for the central lift
+Φ:Z(C)^rev→Z†(M), its underlying action F=Forget∘Φ:Z(C)^rev→M
+is fully faithful on the connected input M, prove finite semisimplicity
+and `End(1_(C⊠M))=ℂ`. Retain the corresponding central lift and
+its braided compatibility; full faithfulness of that lift alone does
+not replace this hypothesis.
 Construct its canonical centralizing structure and prove Lemma 3.7 of the Henriques–Penneys–Tener finite-depth classification paper
 functor `M→Z_C(C⊠_(Z(C)^rev)M)` fully faithful. Use CA6's relative center. For spherical fusion C fully faithfully embedded in E with
 simple unit, using the algebraic central structure (unitary in the
