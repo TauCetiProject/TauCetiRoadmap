@@ -602,10 +602,11 @@ The model-existence engines of Layers 7 and 8 are run over relational languages,
 term of `L[[ℕ]]` is a constant. This layer transfers sentence-level statements between `L` and a
 relational language by the standard graph construction: an `n`-ary function symbol becomes an
 `(n + 1)`-ary relation symbol for its graph. It is a proof device for the theorems of Layers 7 and
-8, not a general relationalization: it translates single sentences and entailments together with the
-totality and functionality axioms of the symbols they mention, and it does not transfer the
-back-and-forth and Scott analysis of the parent roadmap to languages with function symbols, which
-belongs to the separate relationalization roadmap.
+8: it translates single sentences and entailments together with the totality and functionality
+axioms of the symbols they mention. This roadmap owns the graph-language translation and its
+semantic API, and no sibling roadmap builds a second one. Transferring Karp theory, back-and-forth
+analysis and Scott ranks across the translation is outside this series of roadmaps, and must reuse
+this API.
 
 * **The graph language.** `GraphRelation L n` with constructors `base (R : L.Relations n)` and
   `graph (f : L.Functions k)` at arity `k + 1`; `graphLanguage L`, with no function symbols and
@@ -871,9 +872,9 @@ The following belong to separate roadmaps or to the named sibling.
   characterization of sentences preserved by substructures as universal ones, and López-Escobar's
   homomorphism preservation theorem — and the equality-occurrence clause of López-Escobar's
   interpolation theorem, which needs a separate equality-occurrence recursion.
-* **Relationalization of the back-and-forth and Scott spine** for languages with function and
-  constant symbols. The graph translation of Layer 6 is a sentence-level proof device; transferring
-  the parent's analysis belongs to the separate relationalization roadmap.
+* **Transfer of Karp theory, back-and-forth analysis and Scott ranks** across the graph translation,
+  for languages with function and constant symbols. The translation and its semantic API are Layer
+  6 of this roadmap; the transfer is outside this series of roadmaps and must reuse that API.
 * **A deductive calculus for Lω₁ω and Karp's completeness theorem.** Every theorem here uses
   semantic entailment. An infinitary Hilbert calculus and its completeness belong with admissible
   sets and Barwise compactness, which also needs the calculus.
