@@ -175,7 +175,12 @@ target; `Suggested.lean` carries it as a stand-in because the parent prototype l
 ### Dependencies on other roadmaps
 
 Each item is the exact statement consumed. Where a sibling roadmap names the object differently,
-use its name; the mathematics below is what is required.
+use its name; the mathematics below is what is required. Each supplier owns its interface.
+`Suggested.lean` reproduces the suppliers' current proposed definitions, and the theorems it
+applies, as marked stand-ins, each block recording its owner and the owner's revision it was
+checked against; BorelEquivalenceRelations' perfect-set vocabulary is written out inline instead.
+These copies are prototype scaffolding, not authorization to implement a parallel API in Tau Ceti:
+Tau Ceti implements the owners' declarations and this roadmap imports them.
 
 **From [CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)).
 

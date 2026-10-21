@@ -19,7 +19,12 @@ owners' prototypes, cover the objects consumed from other roadmaps:
   `structureIsoSetoidOn`, `structureIsoSetoid`, `bfEquivSetoid`, `StabilizesCompletely`,
   `scottHeight`;
 * InfinitaryModelExistence: `onBoundedFormulaInf` and `realize_onBoundedFormulaInf` (its Layer 0.1);
+  `morleyize`, `lhomMorleyize`, `morleyExpansion`, `morleyize_isRelational`,
+  `countable_relations_morleyize` and `nonempty_morleyEquiv_iff` (its Layer 5);
 * Tau Ceti: `exs`, a parent-roadmap target missing only from the parent prototype.
+Each block of stand-ins records its owner and the owner's revision it was checked against. The
+copies are prototype scaffolding: the owners' declarations are authoritative and are the only ones
+Tau Ceti implements.
 The perfect-set vocabulary of the BorelEquivalenceRelations roadmap is written out where it is
 used rather than restated, and Silver's theorem enters only through proofs. Names and namespaces
 are provisional.
@@ -34,7 +39,13 @@ namespace TauCetiRoadmap.CountableModelCounting
 open FirstOrder FirstOrder.Language FirstOrder.Language.Structure Cardinal MeasureTheory Set
 open TauCetiRoadmap.InfinitaryLogic
 
-/-! ## Stand-ins for the CountableStructureSpaces roadmap (verbatim copies) -/
+/-! ## Stand-ins for the CountableStructureSpaces roadmap (verbatim copies)
+
+Owner: the CountableStructureSpaces roadmap (TauCetiRoadmap #1316), Layers 0, 2 and 4.
+Declarations: `RelQueryOn`, `StructureSpaceOn` with its topology and σ-algebra, `StructureSpace`,
+`StructureSpaceOn.toStructure`, `ofStructure`, `encodeVia`, `structureIsoSetoidOn`,
+`structureIsoSetoid`, `modelsOf`, `bfEquivSetoid`, `StabilizesCompletely`, `scottHeight`. Checked
+against revision c49a0b43 of that roadmap. Prototype scaffolding only. -/
 
 section StandIns
 
@@ -250,6 +261,10 @@ end Layer0
 section Transport
 
 section LanguageMaps
+
+/-! Owner: the InfinitaryModelExistence roadmap (TauCetiRoadmap #1315), Layer 0.1. Declarations:
+`onBoundedFormulaInf`, `realize_onBoundedFormulaInf`. Checked against revision 6da153fb of that
+roadmap. Prototype scaffolding only. -/
 
 variable {L' : FirstOrder.Language.{u', v'}} {ι : Type uι} {α : Type*}
 
