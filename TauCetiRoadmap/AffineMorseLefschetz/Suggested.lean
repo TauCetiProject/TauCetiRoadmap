@@ -1,3 +1,6 @@
+import Mathlib.LinearAlgebra.Projectivization.Basic
+import Mathlib.RingTheory.MvPolynomial.Homogeneous
+import Mathlib.RingTheory.MvPolynomial.EulerIdentity
 import TauCeti.Analysis.Calculus.Morse.Index
 import Mathlib.Analysis.InnerProductSpace.Spectrum
 import Mathlib.LinearAlgebra.Dimension.Finite
@@ -11,6 +14,40 @@ CW, triangulation and singular-pair statements are explicit README targets.
 
 noncomputable section
 namespace TauCetiRoadmap.AffineMorseLefschetz
+
+/-- Fixed-degree coefficient parameters use the native graded polynomial pieces. -/
+def projectiveCoefficientSpace {N : ℕ} {ι : Type*} (d : ι → ℕ) :=
+  ∀ i, MvPolynomial.homogeneousSubmodule (Fin N) ℂ (d i)
+
+/-- The incidence carrier retains the coefficient vector and native projective point. -/
+def complexProjectiveIncidence {N : ℕ} {ι : Type*} (d : ι → ℕ) :=
+  {q : projectiveCoefficientSpace (N := N) d × Projectivization ℂ (Fin N → ℂ) //
+    ∀ i, ∀ v ∈ (Projectivization.equivSubmodule ℂ (Fin N → ℂ) q.2).val,
+      MvPolynomial.eval v (q.1 i : MvPolynomial (Fin N) ℂ) = 0}
+
+/-- The punctured-cone Jacobian is the evaluated native partial-derivative matrix. -/
+def projectiveConeJacobian {N : ℕ} {ι : Type*}
+    (p : ι → MvPolynomial (Fin N) ℂ) (v : Fin N → ℂ) : Matrix ι (Fin N) ℂ :=
+  fun i j => MvPolynomial.eval v (MvPolynomial.pderiv j (p i))
+
+
+/-- A finite polynomial-family zero locus in the native space of complex lines.
+The README equips this subtype with K7.1's induced projective topology. -/
+def complexProjectiveZeroLocus {N : ℕ} {ι : Type*}
+    (p : ι → MvPolynomial (Fin N) ℂ) :=
+  {L : Projectivization ℂ (Fin N → ℂ) //
+    ∀ i, ∀ v ∈ (Projectivization.equivSubmodule ℂ (Fin N → ℂ) L).val,
+      MvPolynomial.eval v (p i) = 0}
+
+/-- Homogeneity makes testing one nonzero representative equivalent to testing
+its whole line, including degree-zero constant equations. -/
+theorem complexProjectiveZeroLocus_mk_iff {N : ℕ} {ι : Type*}
+    (p : ι → MvPolynomial (Fin N) ℂ) (d : ι → ℕ)
+    (hp : ∀ i, (p i).IsHomogeneous (d i)) (v : Fin N → ℂ) (hv : v ≠ 0) :
+    (∀ i, ∀ w ∈ (Projectivization.equivSubmodule ℂ (Fin N → ℂ)
+      (Projectivization.mk ℂ v hv)).val, MvPolynomial.eval w (p i) = 0) ↔
+      ∀ i, MvPolynomial.eval v (p i) = 0 := by
+  sorry
 
 variable {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
   [FiniteDimensional ℂ V]
