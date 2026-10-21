@@ -18,7 +18,8 @@ that contributors and reviewers converge on names and signatures; discharging ev
 here neither finishes a layer nor the roadmap.
 
 All definitions below have bodies. Every `sorry` is the proof of a stated theorem or example,
-never the body of a predicate or of an evaluator. The operational code prototype is deliberately
+never the body of a predicate or of an evaluator. The finite examples after L6, and the zero
+restraint of large indices in L9, are proved directly from the definitions as a check on them. The operational code prototype is deliberately
 concrete so that its use and adequacy obligations can be read against actual semantics.
 
 Names and namespaces are provisional. `Oracle.Single.Code` follows the shape of Mathlib
@@ -788,51 +789,138 @@ def resetOnce : ℕ → Option ℕ
   | _ + 1 => none
 
 example : injurySet zeroThenZero allInactive 0 = ∅ := by
-  sorry
+  ext x
+  simp [injurySet, injuriesAt, allInactive]
 
 example : injurySet zeroThenZero allZero 0 = {0} := by
-  sorry
+  ext x
+  simp only [injurySet, injuriesAt, fresh, allZero, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff,
+      Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
+  constructor
+  · rintro ⟨s, -, hx⟩
+    omega
+  · rintro rfl
+    exact ⟨0, ⟨by simp [zeroThenZero], by simp [zeroThenZero]⟩, le_rfl⟩
 
 example : injurySet zeroThenBoundary allOne 0 = {1} := by
-  sorry
+  ext x
+  simp only [injurySet, injuriesAt, fresh, allOne, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff,
+      Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
+  constructor
+  · rintro ⟨s, ⟨h, -⟩, -⟩
+    simpa [zeroThenBoundary] using h
+  · rintro rfl
+    exact ⟨0, ⟨by simp [zeroThenBoundary], by simp [zeroThenBoundary]⟩, le_rfl⟩
 
 /-- Address one is outside the exclusive prefix of length one. -/
 example : Code.initialSegment (zeroThenBoundary 0 : Set ℕ) 1 =
     Code.initialSegment (stageLimit zeroThenBoundary) 1 := by
-  sorry
+  have h : (0 : ℕ) ∉ stageLimit zeroThenBoundary := by
+    rintro ⟨s, hs⟩
+    cases s <;> simp [zeroThenBoundary] at hs
+  simp [Code.initialSegment, characteristic, zeroThenBoundary, h]
 
 example : injurySet zeroThenPair allOne 0 = {0, 1} ∧
     injuryStages zeroThenPair allOne 0 = {1} := by
-  sorry
+  refine ⟨?_, ?_⟩
+  · ext x
+    simp only [injurySet, injuriesAt, fresh, allOne, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff,
+      Option.any_some, decide_eq_true_eq, Set.mem_insert_iff,
+      Set.mem_singleton_iff]
+    constructor
+    · rintro ⟨s, ⟨h, -⟩, -⟩
+      simpa [zeroThenPair] using h
+    · intro hx
+      refine ⟨0, ⟨by simpa [zeroThenPair] using hx, by simp [zeroThenPair]⟩, ?_⟩
+      omega
+  · ext t
+    simp only [injuryStages, Set.mem_ofPred_eq, Set.mem_singleton_iff]
+    constructor
+    · rintro ⟨s, rfl, x, hx⟩
+      cases s with
+      | zero => rfl
+      | succ s => simp [injuriesAt, fresh, zeroThenPair] at hx
+    · rintro rfl
+      exact ⟨0, rfl, 0, by simp [injuriesAt, fresh, zeroThenPair, allOne]⟩
 
 /-- Dropping stage monotonicity destroys the finite-numbers/finite-stages equivalence. -/
 example : injurySet oscillatingZero allZero 0 = {0} ∧
     (injuryStages oscillatingZero allZero 0).Infinite := by
-  sorry
+  refine ⟨?_, ?_⟩
+  · ext x
+    simp only [injurySet, injuriesAt, fresh, allZero, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff,
+      Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
+    constructor
+    · rintro ⟨s, -, hx⟩
+      omega
+    · rintro rfl
+      exact ⟨0, ⟨by simp [oscillatingZero], by simp [oscillatingZero]⟩, le_rfl⟩
+  · refine Set.infinite_of_injective_forall_mem (f := fun k : ℕ => 2 * k + 1)
+      (fun a b h => by simp only at h; omega) fun k => ⟨2 * k, rfl, 0, ?_⟩
+    simp [injuriesAt, fresh, oscillatingZero, allZero, Nat.add_mod]
 
 example : injurySet (fun _ => ∅) growingRestraint 0 = ∅ ∧
     ¬ ∃ b s₀, ∀ s, s₀ ≤ s → growingRestraint 0 s = b := by
-  sorry
+  refine ⟨?_, ?_⟩
+  · ext x
+    simp [injurySet, injuriesAt, fresh]
+  · rintro ⟨b, s₀, h⟩
+    have := (h s₀ le_rfl).trans (h (s₀ + 1) (by omega)).symm
+    simp [growingRestraint] at this
 
 /-- No use-prefix breaches, yet infinitely many boundary injuries under a growing restraint. -/
 example : useBreachSet initialSegments growingRestraint 0 = ∅ ∧
     injurySet initialSegments growingRestraint 0 = Set.univ := by
-  sorry
+  refine ⟨?_, ?_⟩
+  · ext x
+    simp only [useBreachSet, useBreachesAt, fresh, initialSegments, growingRestraint,
+      Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff, Finset.mem_range, Option.any_some,
+      decide_eq_true_eq, Set.mem_empty_iff_false, iff_false, not_exists]
+    omega
+  · ext x
+    simp only [injurySet, injuriesAt, fresh, initialSegments, growingRestraint,
+      Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff, Finset.mem_range, Option.any_some,
+      decide_eq_true_eq, Set.mem_univ, iff_true]
+    exact ⟨x, by omega⟩
 
 example : injurySet lateZero droppedRestraint 0 = ∅ ∧
     Code.initialSegment (lateZero 0 : Set ℕ) 1 ≠ Code.initialSegment (stageLimit lateZero) 1 := by
-  sorry
+  refine ⟨?_, ?_⟩
+  · ext x
+    simp only [injurySet, injuriesAt, fresh, Set.mem_ofPred_eq, Finset.mem_filter,
+      Finset.mem_sdiff, Set.mem_empty_iff_false, iff_false, not_exists]
+    rintro s ⟨⟨h₁, h₂⟩, h₃⟩
+    rcases s with _ | _ | s
+    · simp [lateZero] at h₁
+    · simp [droppedRestraint] at h₃
+    · simp [lateZero] at h₁ h₂
+      exact h₂ h₁
+  · have h : (0 : ℕ) ∈ stageLimit lateZero := ⟨2, by simp [lateZero]⟩
+    simp [Code.initialSegment, characteristic, lateZero, h]
 
 example : initializationStages resetOnce 1 = {1} ∧
     injuryStages (fun _ => ∅) allOne 1 = ∅ := by
-  sorry
+  refine ⟨?_, ?_⟩
+  · ext t
+    simp only [initializationStages, Set.mem_ofPred_eq, Set.mem_singleton_iff]
+    constructor
+    · rintro ⟨s, i, rfl, hs, hi⟩
+      cases s with
+      | zero => rfl
+      | succ s => simp [resetOnce] at hs
+    · rintro rfl
+      exact ⟨0, 0, rfl, rfl, by omega⟩
+  · ext t
+    simp [injuryStages, injuriesAt, fresh]
 
 /-- A zero-use successful computation and an unanswered query are different. -/
 example : Code.run 1 (fun _ => none) .zero 0 = some ⟨0, 0⟩ ∧
     Code.run 1 (fun _ => none) .oracle 0 = none := by
   exact ⟨rfl, rfl⟩
 
-/-- Finite fibres do not supply a uniform decision procedure for the injury-number family. -/
+/-- Finite fibres do not supply a uniform decision procedure for the injury-number family. Unlike
+the other examples, this one is not a direct check of the definitions: it needs the adequacy of the
+numbering (L0) and the undecidability of `K` (L3.1). -/
 example : (∀ e, (injurySet haltingStages perIndexRestraint e).Finite) ∧
     ¬ ComputablePred (fun p : ℕ × ℕ =>
       p.2 ∈ injurySet haltingStages perIndexRestraint p.1) := by
