@@ -354,14 +354,50 @@ in differential cohomology.
 Construct transgression over closed oriented manifolds in dimensions
 0–3: evaluation at dimension0, loop gerbes at dimension1, circle bundles
 of surface trivializations at dimension2, and holonomy at dimension3.
-Use the functional diffeology on C∞(X,M): a parameter map from an
-open U⊆ℝ^n is a plot precisely when its adjoint U×X→M is smooth.
-Construct diffeological spaces and smooth maps with the plot locality,
-precomposition and constant-plot axioms, their products/pullbacks,
-differential forms as compatible forms on plots, and integration over
-the compact oriented X. Prove evaluation, pullback and exterior-derivative
-compatibility and the corresponding circle-bundle/gerbe descent.
-These mapping-space prerequisites are targets here on that chosen carrier. For loop
+Use Mathlib's `DiffeologicalSpace`, `Diffeology.IsPlot` and
+`Diffeology.DSmooth` for the mapping-space prerequisites. Construct the
+manifold diffeology using `DiffeologicalSpace.CorePlotsOn` and
+`DiffeologicalSpace.ofCorePlotsOn`: on open Euclidean parameter domains
+its plots are precisely `ContMDiffOn` maps to the given smooth manifold.
+Prove independence of the smooth atlas and the comparison
+`DSmooth f ↔ ContMDiff I J ∞ f` for finite-dimensional boundaryless source
+manifolds, with the specified target manifold diffeology. Construct the
+bundled smooth-map carrier and identify it with Mathlib's
+`ContMDiffMap I J X M ∞` in this manifold case. Use native diffeological
+products, subspaces and pullbacks, building their missing API on the same
+class. In particular, do not introduce a second class of diffeological spaces.
+
+Give the bundled maps X→M their functional diffeology: for every open
+U⊆ℝ^n a family p:U→C∞(X,M) is a plot exactly when its adjoint
+`(u,x)↦p(u)(x)` is smooth on U×X. Construct this diffeology from
+`CorePlotsOn`; prove the open-domain/whole-Euclidean plot comparison,
+locality, constants and reparametrization. On arbitrary diffeological
+spaces use `DSmooth` for the adjoint, and prove the manifold `ContMDiff`
+version by the preceding bridge. Prove smooth evaluation, composition,
+currying/uncurrying with inverse equations and naturality, and smooth
+pullback of families. Prove the equality of `dTopology` with the given
+topology on finite-dimensional boundaryless manifolds and compatibility
+with the selected product topology when one D-topology factor is locally
+compact. In other topological comparisons carry and discharge
+`Diffeology.IsDTopologyCompatible` explicitly; for normed-space smoothness
+comparisons use `Diffeology.IsContDiffCompatible`. Do not identify arbitrary
+product, subspace or mapping-space topologies with their D-topologies.
+
+Construct differential forms as compatible forms on plots, with exterior
+derivative, wedge, pullback and their laws; compare with ordinary manifold
+forms. For compact oriented X define fibre integration on the functional
+mapping space by pulling a plot family back along evaluation and integrating
+in the X direction. Pin the product orientation (parameter first, X second)
+and prove the resulting signs, smooth parameter dependence, pullback and
+exterior-derivative formulas, including Stokes in the form used here.
+Construct the circle-bundle and gerbe descent on this carrier. These are
+S3 targets, using DifferentialGeometry's finite-dimensional forms and
+integration; no general bordism-with-corners extension is inferred.
+The compatible manifold and functional-map development in
+[lean-catdg](https://github.com/peabrainiac/lean-catdg/tree/1ee4a2614b033dd1b4aded95759eb31eb9b0fbf4/CatDG/Diffeology)
+is a cited comparison for these constructions. Develop the bridges on
+Mathlib's present class and conventions; any code adaptation retains its
+license and attribution. For loop
 transgression prove the covering is loopable in the principal connected
 Spin case; carry loopability explicitly for general covers. Prove
 curvature, characteristic-class, pullback and trivialization comparisons,
@@ -511,26 +547,84 @@ from a coefficient-ring ideal or replace tmf by periodic TMF.
 
 ## S6. Curvature questions and elliptic refinements
 
-Define the positive-Ricci condition using the Ricci tensor as a positive
-quadratic form at every point of a closed Riemannian manifold. State the
-String vanishing conjecture for the S4 Witten genus under this hypothesis.
-For the specified orientation σ and its composite into periodic TMF, state
-separately the question of vanishing of the full homotopy class. Consume
-EllipticCohomology E5's genus/elliptic q-expansion comparison; σ factors
-through connective tmf, giving holomorphic modular forms before its
-periodic TMF localization. Keep
-its kernel, torsion and connective/periodic effects explicit: vanishing of
-a modular q-expansion does not imply vanishing of a tmf or TMF class.
-Consume SpinGeometry G6's Lichnerowicz theorem and IndexTheory I7's
-untwisted Spin Â-index comparison for Â=0 under positive scalar
-curvature. Combined with
-S4 modularity and the level-one modular-form dimensions, it proves the
-Witten-genus vanishing in dimensions 4, 8, 12, 16, 20 and 28: the relevant
+Define Ric>0 by positivity of the Ricci quadratic form at every point of
+a closed Riemannian manifold. State Stolz's one-direction Witten-genus
+vanishing conjecture for closed String manifolds of **positive dimension**
+with this metric property; no converse is asserted. Keep the dimension-zero
+calibration: a positively oriented point has genus 1 and orientation image
+the unit, while positivity on its zero tangent spaces is vacuous. Thus it
+is not part of the positive-dimensional conjecture.
+
+Separate this genus conjecture from the source questions whether Ric>0
+forces the full class `σ[M,s]∈π_n tmf` or its image in `π_n TMF` to vanish
+for an arbitrary chosen String lift s. Record these unrestricted refined
+assertions as false and prove the following geometric counterexamples.
+For G=SU(3) with its left-invariant tangent framing, use its induced stable
+String lift s_L and the bi-invariant metric g=−B, with B the Killing form.
+Compute `∇_X Y=[X,Y]/2`, `R(X,Y)Z=−[[X,Y],Z]/4` and
+`Ric(X,Y)=−B(X,Y)/4=g(X,Y)/4`. Give the same calculation for
+SU(2)≅S³ and identify the metric with a positive rescaling of the round
+metric. Construct the framed Pontryagin–Thom classes using S2's specified
+tangent-to-normal inverse and prove the unital diagram
+`π_n S → π_n MString → π_n tmf` equals the sphere-unit homomorphism.
+Identify the left-framed S³ class with a generator of `π_3 S≅ℤ/24`,
+fixing its sign by S2's framing convention. Compute its connective image
+as a generator of `π_3 tmf≅ℤ/24`; compute the left-framed SU(3) image
+u₈ as the nonzero order-2 element in `π_8 tmf`. Pin the actual framings
+and lifts in these statements, rather than identifying all lifts on these
+manifolds. Their primary Witten genera vanish: for SU(3) use the trivial
+stable tangent bundle and the absence of a positive-degree top component
+of the characteristic series; the dimension-3 genus is zero in its
+rational target. These zero genera do not kill the refined classes.
+
+Consume EllipticCohomology E4's actual permanent classes
+`d₂∈π_192 tmf_(2)`, `d₃∈π_72 tmf_(3)` and
+`D∈π_576 tmf`, detected respectively by Δ⁸, Δ³ and Δ²⁴.
+Use its ring maps `tmf→Tmf→TMF`, connective-cover comparison and
+`tmf[D⁻¹]≃Tmf[D⁻¹]≃TMF`. Prove the compatible choices give
+`D_(2)=d₂³` and `D_(3)=d₃⁸` (or specify and prove the corresponding
+unit factors). The needed low-class survival statement is on actual
+homotopy groups: every `d₂^j·u₈` is nonzero of order2, every
+`d₂^j·σ[S³,s_L]_(2)` has order8, and every
+`d₃^j·σ[S³,s_L]_(3)` has order3, for all j≥0. Obtain these from
+E4's coefficient calculation, including its Δ⁸ polynomial-extension
+comparison at2 and Δ³ multiplication injectivity at3, with the sphere
+unit detections and additive extensions identified. Do not substitute
+algebraic modular Δ, c₄ multiplication or a repeating spectral-sequence
+picture for these homotopy statements. Apply the localization criterion
+`x/1=0 ↔ ∃j, D^j·x=0`. Deduce the periodic SU(3) image has order2
+and the periodic S³ image has order24: localization cannot increase the
+connective orders, and the surviving primary parts give the reverse
+bounds. This supplies negative answers to both unrestricted refined
+questions, independently of q-expansion or a rational calculation.
+E4 owns the coefficient/localization engine; S6 owns these framed
+geometric and curvature comparisons.
+
+Keep the String-lift H³ action and the orientation's effect on changes of
+lift as part of the S1/S2/E5 comparisons for all chosen lifts, including
+these examples. Retain the integral and localized kernels and the
+Cayley-plane questions of S5, and determine which curvature conclusions
+hold for which lifts; the two counterexamples are not a classification of
+all refined images. Preserve the literal unrestricted source prompts as
+questions with these negative answers; do not replace them by a restricted
+claim about torsion-free classes or specially chosen String lifts.
+A condition on a metric-canonical 3-form, as in Redden's differently
+qualified question, is not Ric>0 alone and is not imposed on this
+all-lift programme. S3's arbitrary compatible String connections do not
+identify such a metric-canonical condition.
+
+Consume EllipticCohomology E5's genus/elliptic q-expansion comparison;
+σ factors through connective tmf with holomorphic modular forms before
+periodic TMF localization. Keep its kernel, torsion and the two spectra
+explicit: zero q-expansion is not a refined vanishing theorem. Consume
+SpinGeometry G6's Lichnerowicz theorem and IndexTheory I7's untwisted
+Spin Â-index comparison for Â=0 under positive scalar curvature. Combined
+with S4 modularity and level-one modular-form dimensions, this proves
+Witten-genus vanishing in dimensions 4, 8, 12, 16, 20 and28: each relevant
 modular-form space has dimension at most one and its constant term is
-injective. Prove these cases, including the zero space in weight 2.
-The full positive-Ricci assertion is Stolz's one-direction conjecture; no
-converse is asserted. The untwisted argument does not settle the remaining
-weights or the torsion-sensitive tmf/TMF questions.
+injective. Prove these cases, including the zero space in weight2.
+The untwisted argument does not settle the remaining weights of Stolz's
+genus conjecture, and does not prove refined vanishing.
 
 ## Order and references
 
@@ -543,7 +637,11 @@ S4 integrality uses S2 and IndexTheory I7's full Atiyah–Singer theorem. S5 use
 exceptional algebra/geometry, and builds its additional p-local proof inputs.
 EllipticCohomology E5 supplies the tmf orientation and genus comparison
 used by S5's I_OP questions and S6's tmf/TMF conclusions; E5 consumes
-S2's Thom ring and primary genus before those applications.
+S2's Thom ring and primary genus before those applications. E4's actual
+coefficient/localization and sphere-unit calculations precede S6's periodic
+counterexamples; no curvature claim is an input to those calculations.
+S3's native diffeology/manifold/functional-map bridges precede its
+plotwise forms, fibre integration and transgressed descent.
 No String genus theorem is an input to the obstruction or classifier.
 
 - Milnor–Stasheff, *Characteristic Classes*, for the characteristic normalization.
@@ -574,3 +672,17 @@ No String genus theorem is an input to the obstruction or classifier.
 - Ando–Blumberg–Gepner–Hopkins–Rezk,
   [*Units of ring spectra, orientations, and Thom spectra via rigid infinite loop space theory*](https://arxiv.org/abs/1403.4320),
   for coherent Thom orientations and the E∞ comparison.
+- Hopkins, [*Algebraic topology and modular forms*](https://arxiv.org/abs/math/0212397),
+  §4.3, for the low sphere-unit detections and the framed SU(3) example.
+- Behrens–Mahowald–Quigley,
+  [*The 2-primary Hurewicz image of tmf*](https://arxiv.org/abs/2011.08956),
+  Introduction and Theorem1.2, for the actual Δ⁸ periodic-extension and
+  sphere-unit comparisons; and Belmont–Shimomura,
+  [*Beta families arising from a v₂⁹ self map on S/(3,v₁⁸)*](https://arxiv.org/abs/2109.01059),
+  Theorem6.1, Lemma6.3 and Theorem6.5, for Δ³ injectivity and the
+  3-primary unit detection. These feed E4's coefficient engine, not a
+  second coefficient theory here.
+- Mathlib's [diffeology foundation](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Geometry/Diffeology/Basic.lean)
+  and peabrainiac's Apache-2.0
+  [lean-catdg manifold/functional-map comparison](https://github.com/peabrainiac/lean-catdg/tree/1ee4a2614b033dd1b4aded95759eb31eb9b0fbf4/CatDG/Diffeology),
+  for S3's native-carrier construction and its comparison with existing work.
