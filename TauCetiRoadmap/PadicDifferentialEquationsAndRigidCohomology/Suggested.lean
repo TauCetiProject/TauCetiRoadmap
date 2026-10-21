@@ -381,7 +381,8 @@ theorem artinSchreierHerbrand_at_break (p d : ℝ) : artinSchreierHerbrand p d d
   simp [artinSchreierHerbrand]
 
 /-- A degree-`p` single-break ramification profile gives the Artin–Schreier formula for the
-pinned Herbrand function, including its domain `[-1, ∞)` (README RD.2.44). -/
+pinned Herbrand function on `[-1, ∞)` (README RD.2.44). This is the finite-residue specialisation
+of the ramification theory supplied by LocalFieldsRamification Layers 3–4. -/
 theorem artinSchreierHerbrand_eq_herbrand
     (K L : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsNonarchimedeanLocalField K] [Field L] [ValuativeRel L] [TopologicalSpace L]
