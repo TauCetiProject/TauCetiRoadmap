@@ -96,10 +96,11 @@ def boxBoundaryWork {n : ℕ} (a b : Fin (n + 1) → ℝ) (μ : ℝ)
 
 /-- Reciprocity on a genuine box, without an assumed integration-by-parts law.
 Regularity is expressed at every point of the closed box. The PDE hypotheses
-are needed only in its coordinatewise interior. -/
-theorem box_reciprocity {n : ℕ} (hn : 1 ≤ n)
+are needed only in its coordinatewise interior. This includes dimension one
+and arbitrary constant real viscosity. -/
+theorem box_reciprocity {n : ℕ}
     (a b : Fin (n + 1) → ℝ) (hab : ∀ i, a i < b i)
-    (μ : ℝ) (hμ : 0 < μ)
+    (μ : ℝ)
     (u v f g : (Fin (n + 1) → ℝ) → (Fin (n + 1) → ℝ))
     (p q : (Fin (n + 1) → ℝ) → ℝ)
     (hu : ∀ x ∈ Set.Icc a b, ContDiffAt ℝ 2 u x)

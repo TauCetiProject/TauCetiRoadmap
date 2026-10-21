@@ -18,17 +18,21 @@ matrix or calculus lemmas placed alongside their existing supplier APIs.
 
 ## Scope and conventions
 
-Work in real Euclidean dimension `d ≥ 2`. Coordinate prototypes use `Fin d → ℝ`;
+The physical applications use real Euclidean dimension `d ≥ 2`.
+Coordinate prototypes use `Fin d → ℝ`;
 the geometric statements use `EuclideanSpace ℝ (Fin d)`. Supply the coordinate
 equivalence and derivative/volume bridges, rather than silently identifying their
 norms. All fields extend to an open neighbourhood of the closure of the domain.
 Velocities are `C²`, pressures `C¹`, and body-force densities continuous there.
-Both flows use the same constant dynamic viscosity `μ > 0`.
+Both flows use the same constant real viscosity `μ`.
 The equations hold on the domain interior; regularity holds on a neighbourhood
-of its closure. Algebraic identities and the local reciprocal identity are stated
-for arbitrary real `μ` and every finite dimension where meaningful; positivity
-of `μ` is required for the dissipation conclusions. The integrated targets here
-retain `d ≥ 2` and `μ > 0`.
+of its closure. Algebraic identities and local differential identities are stated
+for arbitrary real `μ` and every finite dimension. Integrated reciprocity and the
+dissipation equality use arbitrary real `μ` in every positive dimension `d ≥ 1`.
+Nonnegative dissipation and positive semidefiniteness require `μ ≥ 0`;
+response-matrix symmetry and congruence do not. Supply the physical corollaries
+for `d ≥ 2` and `μ > 0` without imposing those stronger assumptions on the
+underlying identities.
 
 For a velocity `u`, pressure `p`, and body-force density `f`, set
 
@@ -144,7 +148,9 @@ B_Q(v;u,p) = Σᵢ [∫Qᵢ v(ιᵢ⁺y)·σ(u,p)(ιᵢ⁺y)eᵢ dy
 
 Use `Fin.insertNth` and `Fin.succAbove` as in Mathlib's box theorem, writing
 `d = n+1` at that interface. Prove integrability of all face and volume
-integrands from the standing regularity and compactness. Prove the pairing
+integrands from the standing regularity and compactness. Include `n=0`: integration
+over the zero-dimensional face gives evaluation at the corresponding interval
+endpoint. Prove the pairing
 identity `J·n = v·σ(u,p)n − u·σ(v,q)n`, then establish
 
 ```
@@ -165,12 +171,15 @@ velocity. Individual faces need not have pressure-invariant work.
 Prove the work/dissipation identity
 
 ```
-B_Q(u;u,p) + ∫Q u·f dx = 2μ ∫Q e(u):e(u) dx ≥ 0.
+B_Q(u;u,p) + ∫Q u·f dx = 2μ ∫Q e(u):e(u) dx.
 ```
 
+The equality holds for arbitrary real `μ`; prove nonnegativity when `μ ≥ 0`.
+
 For a finite family of supplied zero-force solutions `(uₐ,pₐ)` on the same
-box, define `Rₐᵦ = B_Q(uₐ;uᵦ,pᵦ)`. Prove symmetry and positive
-semidefiniteness of `R`, identifying its quadratic form with the dissipation of
+box, define `Rₐᵦ = B_Q(uₐ;uᵦ,pᵦ)`. Prove symmetry for arbitrary real `μ` and
+positive semidefiniteness for `μ ≥ 0`, identifying its quadratic form with the
+dissipation of
 `Σₐ cₐuₐ`. Prove compatibility with linear changes of the family (congruence of
 the matrix) and pressure gauge changes. Explicitly, for
 `ũ_b = Σₐ Cₐb uₐ`, `p̃_b = Σₐ Cₐb pₐ`, the response is `Cᵀ R C`.
