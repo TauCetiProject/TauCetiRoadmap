@@ -206,7 +206,7 @@ Section 2.3 identifies the greatest active coefficient with that distinguished
 degree; §4.1 then reads the existing preparation theorem at this degree. Only
 the Newton interpretation and constant-one normalisation are additional targets.
 
-## Layer 0 Discrete convexity and supporting geometry
+## Layer 0: Discrete convexity and supporting geometry
 
 ### 0.1 Convex height functions and existence
 
@@ -439,7 +439,7 @@ finite-domain containment forced by the outside-`∞` convention.
 finite antidiagonals. Sources: [Koblitz] IV §§3–4; [Lazard] §1. The affine-hull
 specification and degenerate cases above are part of the required API.
 
-## Layer 1 Additive valuations and normalisation
+## Layer 1: Additive valuations and normalisation
 
 ### 1.1 From multiplicative to additive values
 
@@ -507,7 +507,7 @@ range there. Changing from base `p` to `exp 1` multiplies heights by `log p`.
 norm and completion theory; the named local-field comparison above. This layer
 has no dependency on Newton polygons. Sources: [Neukirch] II §§3–4, 6, 8.
 
-## Layer 2 Coefficients, Gauss values and active indices
+## Layer 2: Coefficients, Gauss values and active indices
 
 ### 2.1 Coefficient polygons and elementary operations
 
@@ -634,7 +634,7 @@ checks why a lattice Hodge polygon is not recovered from the polynomial alone.
 Sources: [Koblitz] IV §§3–4; [Lazard] §1, especially (1.7)–(1.11);
 [KedlayaNumerical] §3 for the operator comparison contract.
 
-## Layer 3 Products, polynomial roots and stability
+## Layer 3: Products, polynomial roots and stability
 
 ### 3.1 Products at a fixed radius
 
@@ -701,7 +701,7 @@ For `X²(1-pX)`, count the two zero roots separately from the single finite slop
 polynomial splitting and roots.
 Source: [Kedlaya] §§1–3 with the orientation translated; [Lazard] Proposition 1.
 
-## Layer 4 Disc factors, slope factors and analytic zeros
+## Layer 4: Disc factors, slope factors and analytic zeros
 
 Here the coefficient field is complete. Every analytic statement carries a
 positive radius and restrictedness at that radius.
@@ -790,7 +790,7 @@ translation, §3.2 for units and Layer 4 for preparation. Sources: [BGR] §5.2;
 [Koblitz] IV; [Lazard] §3. The distinction between active indices and geometric
 vertices is essential at the endpoint.
 
-## Layer 5 Convergence and entire products
+## Layer 5: Convergence and entire products
 
 ### 5.1 The intrinsic radius
 
@@ -865,7 +865,7 @@ extended-real limits, and Mathlib's factorial valuations/exponential for the
 last check. Sources: [Koblitz] IV; [Lazard] §1 and (4.13). The entire product
 is asserted on the whole affine line, not on an arbitrary open disc.
 
-## Layer 6 Discrete valuations and formal preparation
+## Layer 6: Discrete valuations and formal preparation
 
 ### 6.1 Denominators and irreducibility
 

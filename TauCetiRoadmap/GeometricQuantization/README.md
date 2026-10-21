@@ -342,10 +342,26 @@ isomorphisms of these spaces. Tensoring with a local parallel section of
 an added flat line identifies the local equations; globally a flat twist
 can change leaf holonomy and the space of sections.
 
-Characterize polarization-preserving Hamiltonians by
-`[X_f,Γ_local(P)]⊆Γ_local(P)` and prove their Q operators preserve
-polarized sections and form a Poisson subalgebra. Exhibit Hamiltonians
-that fail this condition. For regular real polarizations with smooth
+Characterize polarization-preserving real Hamiltonians by
+`[X_f,Γ_local(P)]⊆Γ_local(P)`. Over the shared HamiltonianSystems
+real Lie algebra of Hamiltonian smooth functions with the declared Poisson
+bracket, construct their native `LieSubalgebra ℝ`: prove closure under
+addition, real scalar multiplication and Poisson brackets, and inclusion of
+constants. Use Jacobi for the normalizer of local polarization fields and
+`X_{ {f,g} }=−[X_f,X_g]` for bracket closure. They need not be closed under
+pointwise multiplication. Prove their Q operators preserve polarized smooth
+sections and retain `[Q_f,Q_g]=−iℏ Q_{ {f,g} }` on the actual common domains
+of Q2 and their invariant polarized restrictions; do not assert closure
+under composition of first-order quantum operators.
+
+Retain the vertical cotangent regression on `T*ℝ`, `ω=dq∧dp` and
+`P=span{∂p}`: `X_p=∂q` normalizes every local vertical field, whereas
+`X_(p²)=2p∂q` and `[X_(p²),∂p]=−2∂q` is not vertical. In Q1's
+trivialization the smooth local polarized section `1` satisfies
+`Q_(p²)(1)=−p²`, which is not polarized; this is a local smooth-section
+test, not a claim that `1` lies in the compactly supported L² domain.
+Keep Q4's fibre-affine classification and kinetic-energy exclusion.
+For regular real polarizations with smooth
 Hausdorff leaf space, prove descent and its holonomy obstruction. Define
 Bohr–Sommerfeld leaves by trivial restricted prequantum holonomy and
 prove their transport under bundle/polarization isomorphisms. Pullback
