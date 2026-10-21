@@ -1,0 +1,14 @@
+# Progress log: BordismFormalGroups
+
+An append-only record of what landed on the BordismFormalGroups roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"d0aec0283e2eaea05b787d1425df852afb88b359","prs":[18287,18573,18848,19142,19427],"roadmap":"BordismFormalGroups","to_sha":"273ea28e12515bd7f9e5c2aefd933352264b83e1"}-->
+## BordismFormalGroups: 2026-10-18 to 2026-10-21 (`d0aec02` to `273ea28`)
+
+The Lazard ring arrived: [`LazardRing`](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/LazardRing.html#TauCeti.LazardRing) is built as ℤ[aᵢⱼ] modulo the associativity and commutativity relations of X + Y + Σ aᵢⱼ XⁱYʲ, carries a [universal formal group law](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/LazardRing.html#TauCeti.LazardRing.formalGroup), and its [universal property](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/LazardRing.html#TauCeti.LazardRing.lift) identifies ring maps L → R with commutative formal group laws over R, naturally in R. This is the ungraded bijection only; the graded version and Lazard's theorem that L is polynomial are still ahead.
+
+Toward that theorem, the [Lazard 2-cocycle](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/SymmetricCocycle.html#TauCeti.lazardCocycle) Cₙ = ((X+Y)ⁿ − Xⁿ − Yⁿ)/dₙ is now defined integrally, with dₙ the gcd of the inner binomial coefficients, shown to be [p for prime powers pᵏ](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/SymmetricCocycle.html#TauCeti.lazardGcd_eq_minFac_of_isPrimePow) and 1 otherwise. Cₙ is a symmetric homogeneous cocycle, and [r • Cₙ = 0 forces r = 0](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/SymmetricCocycle.html#TauCeti.smul_lazardCocycle_eq_zero_iff) over every commutative ring, torsion included. The converse half of the cocycle lemma, that every normalized symmetric cocycle of degree n is a multiple of Cₙ, has not landed.
+
+The general formal-group API also grew. The [formal inverse](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/AddInv.html#FormalGroup.addInvX) i(X), with F(i(X), X) = 0 and uniqueness, makes the power-series points of a formal group law into a group. Base change now covers formal group laws and their n-series, [multiplication by n scales the invariant differential by n](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/NSMul/Basic.html#FormalGroup.subst_nsmulSeries_invariantDifferential_mul_derivative) (Silverman IV.4.3), and the additive and multiplicative groups have their logarithms computed, including [log(1 + T)](https://taucetiproject.org/docs/TauCeti/RingTheory/FormalGroup/Logarithm.html#FormalGroup.log_𝔾ₘ) for 𝔾ₘ.

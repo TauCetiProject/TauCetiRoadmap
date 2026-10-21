@@ -66,10 +66,13 @@ prototypes are imported by OG's `Suggested.lean` or that their proofs are implem
 restricted-product maps, finite/away/full adelic packaging, and rational diagonals** belong to
 [RestrictedProducts](../../Completed/RestrictedProducts/README.md). That roadmap explicitly does not own
 strong approximation, reduction theory, Tamagawa measures, central-isogeny volume formulas, or
-Tamagawa numbers. **Affine group schemes,
-representability, root data, and reductive structure theory** belong to
-[ReductiveGroups](../ReductiveGroups/README.md); the orthogonal specializations `O_Q`, `SO_Q` and
-`Spin_Q` stay here. **Lattice stabilizers and their arithmetic**, isometry classes, genera, spinor
+Tamagawa numbers. **General affine group-scheme machinery, representability, root data and
+reductive structure theory** belong to [ReductiveGroups](../ReductiveGroups/README.md). This
+roadmap owns the point groups `O(Q)`, `SO(Q)` and `Spin(Q)` and their point-group APIs. Constructing
+their orthogonal affine group schemes `O_Q`, `SO_Q` and `Spin_Q`, proving representability and the
+scheme-to-point comparison, and establishing their specific reductive structure belong to
+`OrthogonalTamagawaAndLatticeMass` after ReductiveGroups exposes the required public point functor,
+as specified in Layer 3A. **Lattice stabilizers and their arithmetic**, isometry classes, genera, spinor
 genera and local densities over `ℤ` retain [IntegralLattices](../IntegralLattices/README.md)'s
 owned milestones. [GeometryOfNumbersAndQuadraticArithmetic §§2.4 and 3.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d63953a26ec1ff4f57cb1d0ee5aab223a4a48108/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#24-genus-and-proper-spinor-genus)
 owns its number-field genus/spinor-genus extension, finite stabilizers, class sets, adelic mass
@@ -160,9 +163,11 @@ Decided once here; every layer states its results against this table.
   Mathlib's `star` is `reverse ∘ involute`, giving the other anti-involution, and
   `star (ι v) * ι v = -Q v` by `star_ι`. The two norms agree on even homogeneous elements and
   differ by `(-1)^r` on a product of `r` vectors. This is not a cosmetic difference that a
-  square-class codomain absorbs: `[Q v]` and `[-Q v]` differ by `[-1]`, which is nontrivial over
-  ℚ and over `ℚ_p`, so the two conventions genuinely disagree on `O(Q)` at odd reflection length,
-  and agree on `SO(Q)`. Every statement below uses the `reverse` norm.
+  square-class codomain absorbs: `[Q v]` and `[-Q v]` differ by `[-1]`; these square classes are distinct
+  exactly when `[-1]` is nontrivial in `Kˣ/(Kˣ)²`. Thus they are distinct over ℚ, and over `ℚ_p`
+  exactly when `p = 2` or `p` is odd with `p ≡ 3 (mod 4)`. They agree over `ℚ_p` for odd
+  `p ≡ 1 (mod 4)`. Accordingly the two conventions disagree on `O(Q)` at odd reflection length
+  exactly when `[-1]` is nontrivial, and agree on `SO(Q)`. Every statement below uses the `reverse` norm.
 - **Places and adeles.** Over ℚ we write `ℚ_v` with `ℚ_∞ = ℝ`; for a number field the places are
   as GlobalNumberFields names them and RestrictedProducts packages their point groups. `𝔸_f`
   is the finite adeles, `𝔸` the full
@@ -395,10 +400,17 @@ and no statement below silently assumes `dim V ≥ 1`.
 invariant of `QuadraticMap.Equivalent`; a field extension `K → L` induces an injective
 `O(Q) →* O(Q ⊗ L)`, compatible with composition of extensions; an orthogonal direct sum gives
 `O(Q₁) × O(Q₂) ↪ O(Q₁ ⊞ Q₂)` whose **image is exactly the subgroup preserving each summand**,
-stated as that equality rather than as an unidentified obstruction. Any criterion for the embedding
-to be onto is a separate statement with its own hypotheses, and none is claimed here. Each of these
-carries its determinant compatibility, so the same statements hold for `SO`. This is the machinery
-every later layer localizes with.
+stated as that equality rather than as an unidentified obstruction. Inside total `SO(Q₁ ⊞ Q₂)`,
+the full subgroup preserving both summands corresponds instead to
+`{(g₁,g₂) ∈ O(Q₁) × O(Q₂) | det(g₁) det(g₂) = 1}`. The image of
+`SO(Q₁) × SO(Q₂)` is the subgroup requiring `det(g₁) = det(g₂) = 1`; do not identify these
+two subgroups. It need not be strictly smaller: if one summand has dimension zero, the
+determinant-product condition adds no pairs beyond this factor-group image. For the boundary case
+`Q₁ = Q₂ = ⟨1⟩` over `ℚ`, each factor `SO(Qᵢ)` is trivial, but `−I₂` preserves both summands and belongs to total `SO`, since both restrictions have
+determinant `−1`. Any criterion for either the `O(Q₁) × O(Q₂)` embedding into `O(Q₁ ⊞ Q₂)` or the
+`SO(Q₁) × SO(Q₂)` embedding into total `SO(Q₁ ⊞ Q₂)` to be onto is a separate statement
+with its own hypotheses, and none is claimed here. The determinant product condition is the compatibility
+for the full total-`SO` stabilizer. This is the machinery every later layer localizes with.
 
 **0C. The bilinear dictionary.** With `2` invertible, `O(Q)` and the automorphism group of the
 symmetric bilinear form `B = polarBilin Q` are the same group: an isometry of `Q` preserves `B` by
@@ -478,9 +490,10 @@ ambiguity, proved from `reverse_ι` and `ι_sq_scalar`.
 
 ⚠ Mathlib cuts `pinGroup Q` and `spinGroup Q` out with the **`star`**-unitary condition, and
 `star = reverse ∘ involute` is the *other* anti-involution, with `star (ι v) * ι v = -Q v`. The
-difference survives passage to square classes, since `[Q v]` and `[-Q v]` differ by `[-1]`, which
-is nontrivial over ℚ and over `ℚ_p`; the two conventions genuinely disagree on `O(Q)` at odd
-reflection length and agree on `SO(Q)`. Because 1E nevertheless states its exact sequence about
+square classes `[Q v]` and `[-Q v]` are distinct exactly when `[-1]` is nontrivial; this holds
+over ℚ and over `ℚ_p` precisely for `p = 2` or odd `p ≡ 3 (mod 4)`, but not for odd
+`p ≡ 1 (mod 4)`. Thus the conventions disagree on `O(Q)` at odd reflection length exactly in
+those cases and agree on `SO(Q)`. Because 1E nevertheless states its exact sequence about
 Mathlib's `spinGroup`, the reconciliation is three **named theorems** and not a remark inside a
 proof:
 
@@ -930,11 +943,12 @@ construction is introduced.
 The milestones are consequently about *applying* it rather than building it: that for `K` a local
 field and `V` finite-dimensional the module topology is the basis transport, so `IsModuleTopology`
 holds for the product topology through any basis and basis-independence is a corollary rather than
-a separate theorem; that `Module.End K V`, `V ≃ₗ[K] V` and `CliffordAlgebra Q` carry it, the last
+a separate theorem; that `Module.End K V` and `CliffordAlgebra Q` carry the module topology, the latter
 needing finite-dimensionality of the Clifford algebra, that is the Poincaré–Birkhoff–Witt
-statement `dim = 2^n`, recorded in the dependency table as an input; that it is Hausdorff and
-locally compact in this setting; and that every linear map between finite-dimensional spaces is
-continuous for it, which is what makes base change and change of basis continuous.
+statement `dim = 2^n`, recorded in the dependency table as an input; the linear automorphism group
+`V ≃ₗ[K] V` is instead given the induced group topology described in 2B, not a module topology;
+that it is Hausdorff and locally compact in this setting; and that every linear map between
+finite-dimensional spaces is continuous for it, which is what makes base change and change of basis continuous.
 
 ⚠ Every topological statement in Layers 2 and 3 carries `IsModuleTopology` as a hypothesis rather
 than an arbitrary `TopologicalSpace` instance, and `IsModuleTopology` **on its own is not enough**.
@@ -1189,9 +1203,12 @@ hypothesis, which is the form the integral lattices roadmap discharges for its l
 stabilizers; and the **absolute** one, discharging that hypothesis for the stabilizers of the
 `ℤ`-span of a chosen basis of `V`, by clearing denominators in the matrix of a rational isometry
 and of its inverse. The second exists so the roadmap's own objects rest on something; it develops
-no lattice arithmetic. Its carrier is `integralOrthogonalSubgroup`, cut out **as data** by
-integrality of the matrix entries of an isometry and of its inverse in the base-changed basis — one
-condition alone gives a submonoid and not a subgroup — with its openness, its compactness, and
+no lattice arithmetic. Its carrier is `integralOrthogonalSubgroup`, characterized **as data** by
+integrality of the matrix entries of an isometry and of its inverse in the base-changed basis.
+Record and prove both directions in the API. For an orthogonal matrix, however, integrality of the
+matrix already implies integrality of its inverse: its determinant is `±1`, and the inverse is the
+adjugate divided by that unit. Thus the first condition does define a subgroup in this orthogonal
+setting; it is not merely a submonoid. The carrier retains its openness, compactness, and
 `eventually_mem_integralOrthogonalSubgroup`, which is `eventually_mem_orth` discharged rather than
 assumed. It is also the family 3C's reference-image identification is stated for.
 
@@ -1270,8 +1287,15 @@ distinct comparison statements rather than one blanket change-of-`U` map, since 
 reference families give canonically equivalent ambient groups but do **not** automatically give a
 canonical bijection of double-coset sets: an inclusion `U ≤ U'` of compact opens induces a
 surjection of double-coset sets in the corresponding direction; conjugate compact opens induce a
-canonical bijection; and a componentwise equivalence carrying one tuple to another transports the
-double-coset set along 3B's canonical equivalence. Finiteness of the set is not claimed here.
+canonical bijection. For componentwise transport, let `Φ : G(𝔸_f) ≃* G'(𝔸_f)` be the equivalence
+induced by the componentwise local equivalences. Besides `Φ(U) = U'`, require and prove
+`Φ(ΔG(ℚ)) = ΔG'(ℚ)`. Then the representative rule `[g] ↦ [Φ(g)]` is well-defined, and the
+inverse is induced by `Φ.symm`; these equalities prove both inverse laws on double cosets. In the
+intended specialization where one rational isometry `f : Q ≃qᵢ Q'` induces every local equivalence,
+its rational group isomorphism `Φ_ℚ` commutes with localization at each place. Hence
+`Φ(ΔG(ℚ)) = ΔG'(ℚ)` follows by applying `Φ_ℚ` to rational points (with the inverse rational
+isometry giving onto-ness). This diagonal proof is separate from the compact-open transport.
+Finiteness of the set is not claimed here.
 
 **3H. Explicit stop point.** RestrictedProducts exports none of the norm-one subgroup,
 reduction theory, finite-covolume theorem, strong approximation, or Tamagawa infrastructure. This
@@ -1478,9 +1502,11 @@ convention drift.
 - Dimension one, `Q x = a x²` for `a ∈ Kˣ`: `O(Q) = {±1}`, `SO(Q)` is trivial, `-1` is the
   reflection in any `v ≠ 0`, and `θ(-1) = [a]`, which is nontrivial exactly when `a` is not a
   square. ⚠ The scalar has to be carried: for `Q x = x²` one gets `Q v = v²` and `θ(-1) = [1]`,
-  so that instance is the degenerate one and tests nothing. With `a` a nonsquare this is the
-  acceptance check that the square class detects `-1` and hence that the `reverse` and `star`
-  norms of 1A really do differ on `O(Q)` (Layers 0, 1).
+  so that instance is the degenerate one and tests nothing. Here “`a` is nonsquare” tests that the
+  `reverse` spinor norm of this reflection is nontrivial; it is a different condition from
+  “`-1` is nonsquare,” which is when the `reverse` and `star` norm classes differ. Over `ℚ_p`,
+  `-1` is nonsquare exactly for `p = 2` or odd `p ≡ 3 (mod 4)`, so the convention difference
+  does not occur at odd `p ≡ 1 (mod 4)` (Layers 0, 1).
 - The hyperbolic plane over any `K`: `SO(H) ≅ Kˣ` through the diagonal torus and `θ` on that torus
   is the square class of the parameter, so `θ : SO(H)(K) → Kˣ/(Kˣ)²` is **surjective**, and the
   image of `Spin(H)(K) → SO(H)(K)` is the square-parameter subgroup `(Kˣ)²`, which is `ker θ`. The
@@ -1581,7 +1607,9 @@ by the first of those two with the exact supplier interfaces above.
   at least three; §101 the adelic setting; 104:4 strong approximation for the spin group, which is
   `OrthogonalTamagawaAndLatticeMass`'s. ⚠ His Hasse symbol convention is `∏_{i≤j}`, translated
   per the quadratic form invariants roadmap's table. (104:5, Eichler's theorem for lattice
-  classes, is the integral lattices roadmap's.)
+  classes, is owned by the IntegralLattices roadmap; it is distinct from Layer 3A's affine
+  group-scheme construction and point comparison, which belong to
+  `OrthogonalTamagawaAndLatticeMass`.)
 - C. Chevalley, *The Algebraic Theory of Spinors*, Columbia (1954); reprinted in *Collected Works*
   vol. 2, Springer (1997). Chapter II for the Lipschitz group, the vector representation, the
   centre and graded centre computation of 1B, and the Clifford norm of 1A.
