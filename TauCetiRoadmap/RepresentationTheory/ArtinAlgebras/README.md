@@ -38,9 +38,9 @@ general categorical pieces that theory rests on:
   `TauCeti.ExactStructure.InjectiveStableCategory`), the material of the
   [stable, periodic and curved categories](../../StablePeriodicCurved/README.md) roadmap;
 - the transpose `Tr` over an arbitrary ring and its stable equivalence
-  (`TauCeti.AuslanderReitenTranspose`, `stableTransposeEquivalence`), and over a field the translate
+  (`TauCeti.AuslanderReitenTranspose`, `TauCeti.stableTransposeEquivalence`), and over a field the translate
   `τ = Hom_k(Tr -, k)` (`TauCeti.AuslanderReitenTranslate`, `ModuleCat.arTranslate`), the
-  Auslander-Reiten formula (`auslanderReitenExtEquiv`) and existence of almost-split sequences;
+  Auslander-Reiten formula (`LinearMap.auslanderReitenExtEquiv`) and existence of almost-split sequences;
 - nilpotence of the radical and the description of all maps by irreducible ones, for
   representation-finite Artin algebras and for Hom-finite linear categories with finitely many
   indecomposable objects;
@@ -48,7 +48,7 @@ general categorical pieces that theory rests on:
   (`IsIdempotentElem.isMoritaEquivalent_corner`), a semiperfect ring is Morita equivalent to a basic
   one (`TauCeti.IsSemiperfectRing.exists_isBasic_isMoritaEquivalent`), and an equivalence of module
   categories restricts to finitely generated and to finitely generated projective modules
-  (`finiteModulesEquivalence`, `finiteProjectiveModulesEquivalence`); Mathlib has the matrix case
+  (`CategoryTheory.Equivalence.finiteModulesEquivalence`, `CategoryTheory.Equivalence.finiteProjectiveModulesEquivalence`); Mathlib has the matrix case
   (`IsMoritaEquivalent.matrix`).
 
 What is missing is the theory at its natural generality. There is no notion of a Krull-Schmidt
@@ -81,7 +81,7 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 - **[Quiver representations](../QuiverRepresentations/README.md), Layer 6.** That layer develops
   Auslander-Reiten theory for a finite-dimensional algebra over a field, and Tau Ceti main already
   carries much of it: the translate over a field (`TauCeti.AuslanderReitenTranslate`,
-  `ModuleCat.arTranslate`), the Auslander-Reiten formula over a field (`auslanderReitenExtEquiv`),
+  `ModuleCat.arTranslate`), the Auslander-Reiten formula over a field (`LinearMap.auslanderReitenExtEquiv`),
   and existence of almost-split sequences for quiver representations. Layers 3 to 6 here state the
   same theory for Artin algebras, and the general constructions **replace** the field ones: the
   field declarations are redefined as the case `R = k`, with `E_k = k`, and where a definitional
@@ -105,7 +105,9 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 - Outside this roadmap: Auslander-Reiten triangles, Serre functors, derived categories and
   extriangulated categories; tilting and τ-tilting theory; covering theory; modules that are not
   finitely generated, except in the definitions of global dimension and of Morita equivalence;
-  functors that are not finitely presented, Grothendieck categories, purity, the defect formula
+  a theory of functors that are not finitely presented (the category of all additive functors
+  appears only as the ambient category of `mod C` and of the simple functors `S_Z`), Grothendieck
+  categories, purity, the defect formula
   and Auslander's formula, Krull-Gabriel dimension, and the description of whole components of the
   Auslander-Reiten quiver through functors; coherent rings as a ring-theoretic notion (they enter
   only through the Freyd-Auslander criterion of Layer 1); and dominant dimension of rings other than
@@ -152,14 +154,14 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   equivalences of categories.
 - **Indecomposables.** In a Krull-Schmidt category an object is indecomposable exactly when its
   endomorphism ring is local; the reverse implication holds in every preadditive category with
-  binary biproducts and is on main (`TauCeti.indecomposable_of_isLocalRing_end`).
+  binary biproducts and is in Tau Ceti (`TauCeti.indecomposable_of_isLocalRing_end`).
 - **Idempotents split.** A Krull-Schmidt category is idempotent complete
   (`CategoryTheory.IsIdempotentComplete`) (Krause).
 - **Uniqueness.** If `⨁ i, X i ≅ ⨁ j, Y j` with all `End (X i)` and `End (Y j)` local, there is a
   bijection `σ` of the index types with `X i ≅ Y (σ i)`. The proof is the exchange argument in the
   category, generalizing the module statement `TauCeti.exists_equiv_iso_of_iso_biproduct`.
 - **Recognition.** An idempotent-complete category with finite biproducts that is Hom-finite over a
-  commutative Artinian ring is Krull-Schmidt. The summand form of the decomposition is on main
+  commutative Artinian ring is Krull-Schmidt. The summand form of the decomposition is in Tau Ceti
   (`TauCeti.exists_isLocalRing_end_sum_comp_eq_id`); idempotent completeness turns it into a
   biproduct decomposition.
 - **Closure.** A full subcategory of a Krull-Schmidt category that is closed under isomorphisms,
@@ -172,7 +174,7 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 - **The radical in a Krull-Schmidt category.** For decompositions `X ≅ ⨁ i, X i` and
   `Y ≅ ⨁ j, Y j` into objects with local endomorphism rings, `f ∈ rad(X, Y)` exactly when no
   component `X i ⟶ Y j` of `f` is an isomorphism (from `TauCeti.mem_jacobsonRadical_iff_not_isIso`
-  and the biproduct description of the radical on main).
+  and the biproduct description of the radical in Tau Ceti).
 
 ### Layer 1: finitely presented functors
 
@@ -185,24 +187,27 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 - **Rings.** For a ring `A` and the category `proj A` of finitely generated projective `A`-modules,
   evaluation at `A` identifies `mod (proj A)` with the finitely presented `A`-modules. So the
   finitely presented `A`-modules form an abelian category exactly when `proj A` has weak kernels,
-  which the classical literature calls coherence of `A` (Chase); Noetherian rings are the main
-  example, and there the finitely presented modules are the finitely generated ones.
+  which the classical literature calls left coherence of `A` (Chase); left Noetherian rings are the
+  main example, and there the finitely presented modules are the finitely generated ones.
 - **Abelian categories with enough projectives.** For an abelian category `C` with enough
   projectives, restriction to the projectives is an equivalence `C ≌ mod (proj C)`. When `C` has a
   **progenerator** `P` (a projective object of which every object is a quotient of a finite sum of
   copies), `proj C = add P`, and `Hom(P, -)` is an equivalence from `C` to the finitely presented
-  right `End P`-modules. In particular every skeletally small abelian category with a progenerator
-  is the category of finitely presented modules over a ring.
+  right `End P`-modules. In particular every abelian category with a progenerator is the category of
+  finitely presented modules over a ring.
 - **Projective dimension at most two.** For an idempotent-complete additive category `C` with weak
   kernels, every object of `mod C` has projective dimension at most two exactly when `C` has
-  kernels (Auslander). If `g : Y → Z` has a kernel `X`, the presentation `(-, Y) → (-, Z) → F → 0`
+  kernels. If `g : Y → Z` has a kernel `X`, the presentation `(-, Y) → (-, Z) → F → 0`
   extends to an exact sequence `0 → (-, X) → (-, Y) → (-, Z) → F → 0`; conversely the kernel of
   `(-, Y) → (-, Z)` is then projective, hence representable because idempotents split, and
   represents a kernel of `g`. In particular this holds for every abelian category `C`.
-- **Projective covers.** If `C` is Krull-Schmidt, every finitely presented functor has a projective
-  cover in `mod C`, the projective cover of `S_X` being `(-, X) → S_X`, as for finitely generated
+- **Projective covers.** A **projective cover** of a finitely presented functor `F` is an
+  epimorphism `p : (-, P) → F` that is right minimal: every endomorphism `φ` of `P` with
+  `(-, φ) ≫ p = p` is an isomorphism. This needs no abelian structure on `mod C`. If `C` is
+  Krull-Schmidt, every finitely presented functor has a projective cover, as for finitely generated
   modules over a ring whose finitely generated projective modules form a Krull-Schmidt category
-  (Krause).
+  (Krause); for `X` with local endomorphism ring, `(-, X) → S_X` is a projective cover whenever
+  `S_X` is finitely presented.
 
 ### Layer 2: Matlis duality over a commutative Artinian ring
 
@@ -249,9 +254,11 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 - **The functorial picture.** Let `E` be a Krull-Schmidt exact category and `Z` indecomposable. A
   morphism `g : Y → Z` is right almost split exactly when the image of `(-, Y) → (-, Z)` is
   `rad(-, Z)`, so that `(-, Y) → (-, Z) → S_Z → 0` is a projective presentation of the simple functor
-  `S_Z`, and `g` is minimal right almost split exactly when this presentation is minimal. So `Z` is
-  the end of a right almost-split morphism exactly when `S_Z` is finitely presented (Auslander), and
-  the simple objects of `mod E` are the finitely presented `S_Z`. A conflation `X ↪ Y ↠ Z` with `Z`
+  `S_Z`, and `g` is minimal right almost split exactly when this presentation is minimal (its first
+  map is a projective cover in the sense of Layer 1). So `Z` is the end of a right almost-split
+  morphism exactly when `S_Z` is finitely presented, and a finitely presented functor is simple in
+  the category of additive functors exactly when it is `S_Z` for an indecomposable `Z` with `S_Z`
+  finitely presented. A conflation `X ↪ Y ↠ Z` with `Z`
   non-projective is almost split exactly when `0 → (-, X) → (-, Y) → (-, Z) → S_Z → 0` is a minimal
   projective resolution of `S_Z`; the sequence is exact because `Hom(W, -)` is left exact on
   conflations.
@@ -281,18 +288,19 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   `ModuleCat.arTranslate` are redefined as this construction with `R = k`.
 - **The stable equivalence.** `D_R` induces an anti-equivalence between the projective stable
   category of `mod Aᵐᵒᵖ` and the injective stable category of `mod A`. Composed with the transpose
-  (`stableTransposeEquivalence`, on main) it gives the equivalence `τ : E/[P] ≌ E/[I]` for the
+  (`TauCeti.stableTransposeEquivalence`) it gives the equivalence `τ : E/[P] ≌ E/[I]` for the
   abelian exact structure `E` on `mod A`, whose two stable categories are Tau Ceti's
   `ProjectiveStableCategory` and `InjectiveStableCategory`.
 - **The Auslander-Reiten formulas.** For finitely generated `M` and `N`, natural isomorphisms
   `Ext¹_A(M, N) ≅ D_R (Hom_A(N, τ M) modulo maps factoring through injectives)` and
   `Ext¹_A(M, N) ≅ D_R (Hom_A(τ⁻ N, M) modulo maps factoring through projectives)`. With the stable
   equivalence above, the first makes `τ` an Auslander-Reiten duality for `mod A`. Over a field this
-  is `auslanderReitenExtEquiv`, which becomes the case `R = k`.
+  is `LinearMap.auslanderReitenExtEquiv`, which becomes the case `R = k`.
 - **Almost-split sequences.** For every indecomposable non-projective finitely generated module
   `M` there is an almost-split sequence `0 → τ M → Y → M → 0` in `mod A`, unique up to isomorphism,
   and dually for every indecomposable non-injective module; this is Layer 3's existence theorem
-  applied to `mod A`. Equivalently, every simple functor on `mod A` is finitely presented. Over a
+  applied to `mod A`. Equivalently, every simple contravariant functor on `mod A` is finitely
+  presented, and dually every simple covariant functor is. Over a
   field the existence theorem of quiver representations Layer 6 becomes its case `R = k`.
 - **Source and sink maps.** Every indecomposable finitely generated module `M` has a minimal right
   almost-split map `Y → M` (for `M` projective, the inclusion of its radical) and a minimal left
@@ -312,8 +320,9 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   positive integers, with a partial injection `τ` on vertices such that for every vertex `z` in the
   domain of `τ` and every vertex `w`, there is an arrow `τ z → w` exactly when there is an arrow
   `w → z`, and the valuation of `τ z → w` is that of `w → z` with the two entries exchanged.
-  Forgetting valuations recovers Tau Ceti's `TauCeti.IrreducibleMorphismQuiver` with its
-  `TauCeti.ARTranslation`.
+  Over a field, Tau Ceti's `TauCeti.IrreducibleMorphismQuiver`, whose arrows `[M] → [N]` are a
+  `k`-basis of `Irr(M, N)`, has the same vertices and, with `TauCeti.ARTranslation`, the same
+  translation; its arrow counts are `dim_k Irr(M, N)`, computed from the valuations below.
 - **The valued quiver.** `valuedARQuiver A`: vertices the isomorphism classes of indecomposable
   finitely generated `A`-modules, an arrow `[M] → [N]` exactly when `Irr(M, N) ≠ 0`, labelled by
   its valuation, with `τ` defined exactly on the non-projective vertices.
@@ -329,8 +338,8 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 - **The Harada-Sai lemma.** Let `M₀, …, Mₙ` be indecomposable modules of length at most `b`, and
   `fᵢ : Mᵢ₋₁ ⟶ Mᵢ` non-isomorphisms. If `n ≥ 2 ^ b - 1`, then `fₙ ∘ ⋯ ∘ f₁ = 0`. Consequently, if `A`
   is representation-finite and every indecomposable has length at most `b`, then
-  `jacobsonRadicalIdeal (FGModuleCat A) ^ (2 ^ b - 1) = ⊥`, an explicit form of the nilpotence on
-  main.
+  `jacobsonRadicalIdeal (FGModuleCat A) ^ (2 ^ b - 1) = ⊥`, an explicit form of the nilpotence
+  already in Tau Ceti.
 - **Auslander's theorem.** Let `A` be connected (`0` and `1` are its only central idempotents) and
   let `𝒞` be a weakly connected component of `valuedARQuiver A` (Mathlib's
   `Quiver.WeaklyConnectedComponent`). If the lengths of the modules in `𝒞` are bounded, then `𝒞` is
@@ -349,17 +358,21 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   of `M`) to the finitely generated projective right `Γ`-modules, and `Hom_A(-, M)` is an
   anti-equivalence from `add M` to the finitely generated projective left `Γ`-modules; both send `M`
   to `Γ`. With Layer 1, `mod (add M)` is the category of finitely presented right `Γ`-modules. `Γ` is
-  an Artin `R`-algebra, since `M ⟶ M` is finitely generated over `R`.
+  an Artin `R`-algebra, since `M ⟶ M` is finitely generated over `R`; the `R`-algebra structure on
+  `Γ` and the `R`-linear structure on `mod A` are Mathlib's scoped `ModuleCat.Algebra` instances.
 - **The double centralizer.** If `M` is a generator of `mod A`, the action map
   `A → Module.End Γ M` is a ring isomorphism.
 - **Morita theory for Artin algebras.** For a finitely generated projective generator `P` of
   `mod A`, Layer 1 gives `mod A ≌` the finitely presented right `Module.End A P`-modules. The same
   presentation argument with arbitrary direct sums gives
   `IsMoritaEquivalent R A (Module.End A P)ᵐᵒᵖ`; it also follows from Mathlib's
-  `IsMoritaEquivalent.matrix` and Tau Ceti's `IsIdempotentElem.isMoritaEquivalent_corner`, since `P`
-  is a full corner of a matrix ring over `A`. Hence an `R`-linear equivalence `mod A ≌ mod B` exists
-  exactly when `IsMoritaEquivalent R A B`; one direction is `finiteModulesEquivalence` on main. A
-  Morita equivalence of Artin algebras preserves projectives, injectives, indecomposables,
+  `IsMoritaEquivalent.matrix` and Tau Ceti's `IsIdempotentElem.isMoritaEquivalent_corner`, since
+  `(Module.End A P)ᵐᵒᵖ ≅ e Matₙ(A) e` for a full idempotent `e` of a matrix ring `Matₙ(A)`. Hence an
+  `R`-linear equivalence `mod A ≌ mod B` exists exactly when `IsMoritaEquivalent R A B`: one
+  direction restricts the equivalence of module categories
+  (`CategoryTheory.Equivalence.finiteModulesEquivalence`, which is additive) and shows the
+  restriction is `R`-linear. A Morita equivalence of Artin algebras preserves projectives,
+  injectives, projective-injectives, indecomposables, minimal injective coresolutions,
   generator-cogenerators and additive generators; so it preserves representation-finiteness, global
   dimension and dominant dimension.
 - **Global dimension of a ring.** For an arbitrary ring `A`, the **left global dimension** is the
@@ -387,8 +400,10 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   dominant dimension at least two up to Morita equivalence.
 - **The Auslander correspondence.** If `M` is an additive generator of `mod A` (Layer 0; it exists
   exactly when `A` is representation-finite), then `add M = mod A`, so the finitely presented right
-  `Γ`-modules form `mod (mod A)` and have projective dimension at most two (Layer 1); hence
-  `Γ = Module.End A M` has global dimension at most two, besides `dom.dim Γ ≥ 2`. Conversely, if
+  `Γ`-modules form `mod (mod A)` and have projective dimension at most two (Layer 1); so the right
+  global dimension of `Γ = Module.End A M` is at most two, and so is its left global dimension, by
+  the agreement of left and right global dimension for Noetherian rings. Besides,
+  `dom.dim Γ ≥ 2`. Conversely, if
   `gl.dim Γ ≤ 2 ≤ dom.dim Γ`, the generator-cogenerator `Q` of the previous item is an additive
   generator of `mod B`. So the Morita-Tachikawa bijection restricts to a bijection between Morita
   classes of representation-finite Artin algebras and Morita classes of **Auslander algebras**, the
@@ -440,8 +455,7 @@ hulls and projective-injectives.
 - M. Auslander, *Representation dimension of Artin algebras*, Queen Mary College Mathematics
   Notes, London (1971): the Auslander correspondence.
 - M. Auslander, *Representation theory of Artin algebras II*, Comm. Algebra 1 (1974), 269–310:
-  `rad^∞` and representation-finiteness, components of bounded length, almost-split sequences and
-  simple functors.
+  `rad^∞` and representation-finiteness, components of bounded length.
 - M. Auslander, I. Reiten, S. O. Smalø, *Representation Theory of Artin Algebras*, Cambridge
   Studies in Advanced Mathematics 36, Cambridge University Press (1995): Chapter II (Artin algebras,
   projectivization and duality), Chapter IV (the transpose and the dual, with the defect formula in

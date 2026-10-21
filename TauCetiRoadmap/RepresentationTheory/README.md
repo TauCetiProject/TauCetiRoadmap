@@ -62,11 +62,12 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   algebras, representations of a quiver, Krull-Schmidt, Gabriel's theorem (finite type ⇔ ADE Dynkin,
   indecomposables ↔ positive roots), reflection and Coxeter functors, and Auslander-Reiten theory.
 - [**Krull-Schmidt categories and Auslander-Reiten theory of Artin algebras**](ArtinAlgebras/README.md) -
-  Krull-Schmidt categories, Matlis duality over commutative Artinian rings, `Ext¹` and
-  almost-split conflations in exact categories, the translate and almost-split sequences for Artin
-  algebras, the valued Auslander-Reiten quiver, and the classical finiteness theorems: the
-  Harada-Sai lemma, Auslander's theorem on components of bounded length, and the first
-  Brauer-Thrall conjecture; and the Morita-Tachikawa and Auslander correspondences.
+  Krull-Schmidt categories, finitely presented functors, Matlis duality over commutative Artinian
+  rings, `Ext¹` and almost-split conflations in exact categories, the translate and almost-split
+  sequences for Artin algebras, the valued Auslander-Reiten quiver, the classical finiteness
+  theorems (the Harada-Sai lemma, Auslander's theorem on components of bounded length, and the first
+  Brauer-Thrall conjecture), and Morita theory, global and dominant dimension, and the
+  Morita-Tachikawa and Auslander correspondences.
 
 ## How they depend on one another
 

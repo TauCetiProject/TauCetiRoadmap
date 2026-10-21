@@ -150,7 +150,7 @@ variable (R : Type u) [CommRing R] [IsArtinianRing R] (A : Type u) [Ring A] [Alg
 include R in
 /-- **The first Brauer-Thrall conjecture** (Roiter's theorem): if the finitely generated
 indecomposable modules over an Artin algebra have bounded length, there are only finitely many
-of them up to isomorphism. -/
+of them up to isomorphism. The conclusion is the body of `TauCeti.IsRepresentationFinite A`. -/
 theorem finite_skeleton_of_length_le (b : ℕ)
     (h : ∀ M : ModuleCat.{u} A, Module.Finite A M → Indecomposable M → Module.length A M ≤ b) :
     Finite (Skeleton (ObjectProperty.FullSubcategory
