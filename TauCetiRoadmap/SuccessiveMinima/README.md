@@ -70,7 +70,8 @@ These are used without restatement:
     `ZLattice.exists_basis_triangular`;
   - the lattice basis of controlled gauge, the general form of HeightsAndUnits 2.1,
     `ZLattice.exists_basis_gauge_le` and `ZLattice.exists_basis_gauge_le_max_one_mul` (Cassels,
-    Ch. V, Lemma 8).
+    Ch. V, Lemma 8, p.135; the per-index constant of the second follows from it when the given
+    vectors are ordered by gauge).
 - The squared-norm successive minima of a positive definite integral lattice
   ([IntegralLattices](../IntegralLattices/README.md) 2F), in Tau Ceti as
   `TauCeti.IntegralLattice.successiveMinimum`, and their Minkowski bound
@@ -195,7 +196,7 @@ Equality concerns real prefix spans, not equality of the vectors or of their int
 Tau Ceti's `ZLattice.exists_basis_triangular` gives an integral basis `b` with `b_j` in the real
 span of `w_0, …, w_j`. So the `k`-th flag of `b` lies in that of `w`. Both have dimension `k`,
 because `b` is real-linearly independent: its real span contains every `w_i`, so it is all of `E`.
-(Source: Cassels, Ch. I, Theorem I; Henk2002, p.3, prefix-span equality and (2.1).)
+(Source: Cassels, Ch. I, Theorem I B, pp.11–13; Henk2002, p.3, prefix-span equality and (2.1).)
 *Needs:* Tau Ceti `ZLattice.exists_basis_triangular`; Mathlib `Module.Basis.flag`,
 `Module.Basis.span`, `linearIndependent_of_top_le_span_of_card_eq_finrank`,
 `Submodule.eq_of_le_of_finrank_eq`, `finrank_span_eq_card`.
@@ -233,7 +234,8 @@ where a statement needs it.
 
 The symmetric-body source for the definition and gauge calculus of 1.1–1.7 and the scaling law of
 1.10 is Evertse2023, §2.3, Lemma 2.8, printed pp.23–24 (physical pp.13–14). The proofs below also
-give the stated nonsymmetric extension.
+give the stated nonsymmetric extension. 1.7 is Cassels, Ch. VIII, Lemma 1, p.204, which is stated
+for any bounded star body and so needs no symmetry.
 
 *Standing hypotheses.* `E` is a finite-dimensional real normed vector space; `L` is a discrete full
 `ℤ`-submodule (the `IsZLattice` carrier). `K` is a `ConvexBody E` with `0` in its interior. No
@@ -537,7 +539,8 @@ attained real basis's flag is preserved. The form that bounds the vectors, at th
 its general form is Tau Ceti's `ZLattice.exists_basis_gauge_le_max_one_mul`.
 Apply 0.2.1 to the real basis of 1.7: the integral basis it returns has the same real flags, and
 those contain the strict sublevels.
-(Source: Henk2002, pp.3–4, (2.1)–(2.3).)
+(Source: Cassels, Ch. VIII, Lemma 2, p.204, there with integer coefficients; Henk2002, pp.3–4,
+(2.1)–(2.3).)
 *Needs:* Mathlib `Module.Basis.flag`, 1.7 `exists_successiveMin_witnesses`, 0.2.1
 `exists_integral_basis_same_flag`.
 **Checks.**
@@ -1096,9 +1099,9 @@ copying its interfaces.
 | 3.21 | `MinkowskiSecond.lean` | `prod_successiveMinimum_mul_measure_le` |
 | 0.1.2 (real matrix form) | `Hadamard.lean` | `det_mul_transpose_self_le_prod`, `sum_sq_norm_plucker_row_le_prod` |
 
-Its proof of the upper inequality takes Weyl's route, as in Cassels, Ch. VIII, not Henk's. The
-lattice bases of `AdaptedBasis.lean` and `MinimaBasis.lean` are already in Tau Ceti as
-`ZLattice.exists_basis_triangular` and `ZLattice.exists_basis_gauge_le`.
+Its proof of the upper inequality takes Weyl's route, as in Cassels, Ch. VIII, §4, Theorems IV–V,
+pp.215–218, not Henk's. The lattice bases of `AdaptedBasis.lean` and `MinimaBasis.lean` are already
+in Tau Ceti as `ZLattice.exists_basis_triangular` and `ZLattice.exists_basis_gauge_le`.
 
 ## References
 
