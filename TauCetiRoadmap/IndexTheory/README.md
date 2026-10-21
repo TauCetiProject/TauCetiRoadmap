@@ -897,7 +897,7 @@ tests representative native interfaces; this README is definitive.
    multipliers of df are q and q⁻¹, so the local sum is
    `1/(1−q)+q/(1−q⁻¹)=1+q`, matching pullback on the two linear sections.
    The trivial line gives `1/(1−q)+1/(1−q⁻¹)=1`.
-   The representative `FixedPointTargets.lean` records these local matrix
+   The representative `Suggested.lean` records these local matrix
    and rank-one scalar interfaces; it does not replace the manifold,
    bundle, heat-kernel or cohomology construction above.
 
