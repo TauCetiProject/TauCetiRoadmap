@@ -238,11 +238,14 @@ that proposal's merge status.
    Develop the generic finite-rank smooth-subbundle API on a family of
    submodules locally admitting smooth frames and coefficient maps: induced
    fiber and total-space topology, smooth inclusion, local trivializations,
-   pullback, restriction, internal sums inside an ambient bundle and kernel/image constructions for
-   constant-rank smooth bundle maps. Compare tangent subbundles with the
-   native distribution predicate. Real subalgebroids use these subbundles
-   before imposing bracket and anchor conditions. Complex subbundle constructions
-   are constructed in G1.6, after their complexification and eigenbundle suppliers.
+   pullback and restriction. Form an internal sum only on a locus where its
+   fiber rank is locally constant, or construct it as the image subbundle of
+   the addition map on a locus where that map has constant rank. Prove the
+   kernel/image constructions for constant-rank smooth bundle maps. Compare
+   tangent subbundles with the native distribution predicate. Real
+   subalgebroids use these subbundles before imposing bracket and anchor
+   conditions. Complex subbundle constructions are constructed in G1.6,
+   after their complexification and eigenbundle suppliers.
 
    Own the finite-dimensional boundaryless constant-rank theorem without
    T2: if `rank(mfderiv f)=r` on an open neighborhood of `x`, construct
@@ -753,6 +756,62 @@ this distinction.
    facts from the existing smooth-flow theory, and prove independence of the
    auxiliary bundle connection. The smooth quotient charts on `Σ(A)` are owned
    by G5.5 under its local-uniform-discreteness hypothesis.
+
+   Construct the A-homotopy foliation of the admissible-path Banach manifold
+   used above, without changing its `C¹` path model or the G5.1 homotopy
+   relation. For a fixed admissible path `a` over a `C²` base path `γ`, use
+   the Banach space of `C²` sections `b` of `γ* A` satisfying
+   `b(0)=b(1)=0`, with its finite-chart `C²` norm. For a connection ∇,
+   represent the variation by
+   `(u, φ) = (∂ₜb − T∇(a,b), ρ(b))`, where
+   `T∇(a,b)=∇_{ρ(a)}b−∇_{ρ(b)}a−[a,b]`. Make the regularity maps explicit:
+   the variation operator is a bounded linear map from this endpoint-zero
+   `C²` section space to the `C¹` tangent model of the admissible-path
+   manifold, and its image satisfies the linearized anchor equation.
+   For the split proof, first allow `b(1)` to be free while imposing
+   `b(0)=0`. Prove the same operator identifies this initial-zero section
+   space by a bounded inverse with the closed subspace of admissible tangent
+   vectors whose base-start variation vanishes; the inverse is the
+   linearized anchor initial-value ODE. This subspace has codimension
+   `dim M`. On it, define the continuous endpoint map by solving for `b`
+   and taking `b(1) ∈ A_{γ(1)}`. Prove this endpoint map is onto and split
+   using C² sections supported near `t=1`. The distribution is its kernel,
+   so it is closed and split and has codimension `dim M + rank A`.
+   Establish these statements in the fixed path charts rather than infer
+   them from a finite-rank distribution API.
+   Prove the operator and its split data depend smoothly on `a` in the
+   fixed path Banach charts and are independent of ∇ as actual tangent
+   vectors.
+
+   The `C²` section domain is a variation coordinate, not a restriction of
+   the `C¹` admissible paths or their homotopy classes. For every G5.1
+   homotopy family, differentiate in its specified local `C¹` path norms:
+   the forcing `∂εa` is `C¹` in `t`, and the defining linear equation
+   `∇ₜb=∂εa+T∇(a,b)` has `C¹` coefficients and forcing. Prove its initial-value
+   solution is `C²` in `t`, with a bounded solution operator in these norms;
+   conversely, show the resulting `C²` endpoint-zero variations are exactly
+   the tangent vectors represented by that equation. Thus every infinitesimal
+   variation of a permitted G5.1 family is represented, while arbitrary
+   `C¹` sections that would produce a non-`C¹` component `u` are not used as
+   tangent coordinates. Prove that the local boundary-value charts integrate
+   this distribution and that its leaves are exactly the full G5.1
+   A-homotopy classes, including all `C¹` representatives.
+
+   Prove the distribution and its leaves are independent of ∇, construct
+   the holonomy maps, and prove saturation is open in the quotient topology.
+   Construct the algebroid-geodesic exponential from a neighborhood of the
+   zero section into admissible paths and prove that its image gives
+   finite-dimensional transversals near zero paths.
+
+   In G5.5, prove the monodromy-to-slice bridge: under local uniform
+   discreteness, choose a finite-dimensional transversal in a quotient
+   neighborhood that meets each entire A-homotopy class at most once in
+   that neighborhood. Prove the induced holonomy transitions are smooth
+   and use them to construct the quotient atlas. Show the atlas has
+   Hausdorff source fibers and a second-countable total space, while the
+   total arrow space is allowed to be non-Hausdorff. The proof is specific
+   to this path foliation and does not assume a general Banach Frobenius
+   theorem or a finite-rank foliation API.
 3. Define monodromy `N_x(A)⊆Z(kerρ_x)` as the central isotropy vectors whose
    constant isotropy `A`-paths are `A`-homotopic to the zero path; develop its
    relation to the simply-connected isotropy Lie group, the leaf-sphere boundary
@@ -880,14 +939,65 @@ this distinction.
    Prove this distinction by the raw right-invariant bracket computation.
 4. Prove a Poisson manifold has a source-simply-connected symplectic integration
    iff its cotangent algebroid is integrable, hence iff G5's cotangent monodromy
-   groups are locally uniformly discrete. On that integration construct the
-   multiplicative symplectic form and prove uniqueness with the specified
-   cotangent-algebroid identification. Include the pair symplectic groupoid
-   `(M×M,pr₁*ω-pr₂*ω)` for symplectic `M`, its fundamental-groupoid cover, the
-   additive cotangent bundle for zero Poisson, and `T*G` for linear Lie–Poisson.
-   The last is source-simply-connected precisely when `G` is connected and
-   simply connected; use the simply-connected integrating group for that
-   example of the source-simply-connected theorem.
+   groups are locally uniformly discrete. Assign the construction of the
+   multiplicative form, rather than treating a bundle isomorphism as an
+   integration theorem. For a Lie algebroid A and an algebroid isomorphism
+   `σ:A→T*M`, state and prove the closed IM two-form identities
+   `⟨σ(a),ρ(b)⟩ = −⟨σ(b),ρ(a)⟩` and
+   `σ([a,b]) = L_{ρ(a)}σ(b) − ι_{ρ(b)}dσ(a)`.
+
+   Construct the tangent prolongation and prove the canonical-flip
+   identification `A(TΓ) ≃ TA(Γ)` and the componentwise identification
+   `A(TΓ ×_Γ TΓ) ≃ TA(Γ) ×_A TA(Γ)`, including the cotangent-algebroid
+   formulas from G6.2's translated-covector operations. For `k=2,3`, write
+   `T^[k]Γ` for the groupoid of k tangent vectors at the same arrow, with
+   componentwise source, target, and multiplication. Its source fiber over
+   a fixed k-tuple in `T^[k]M` projects to `s⁻¹(x)` with fiber the product
+   of the affine solution spaces `ds_g(v_i)=v_i^x`. Use local source-submersion
+   charts to prove these are affine bundles with contractible fibers; hence
+   their source fibers are connected and simply connected whenever those of
+   Γ are. This is a fiberwise argument and assumes no global tangent-bundle
+   splitting, partition of unity, or Hausdorff total arrow space.
+
+   Construct the scalar Lie-algebroid 1-cocycle on
+   `A(TΓ ×_Γ TΓ) ≃ TA(Γ) ×_A TA(Γ)` by the explicit formula
+   `λσ(ȧ,ḃ) = (−dθ_can)_{σ(a)}(Tσ(ȧ),Tσ(ḃ))`, where
+   `ȧ,ḃ ∈ T_aA` and `θ_can` is the tautological one-form on `T*M`.
+   Prove this formula is well-defined and coordinate-independent under the
+   canonical flip, is linear on the algebroid fibers, and satisfies the
+   Lie-algebroid 1-cocycle identity exactly by the two displayed IM
+   identities. Lie-II integrates λσ on the source-simply-connected twofold
+   tangent groupoid to an additive cocycle. Prove the integrated function is
+   bilinear and alternating in the two tangent vectors. Use the threefold
+   tangent groupoid and the differentiated IM identity to prove the
+   closedness equation `dΩ=0`. Its bilinear cocycle is the multiplicative
+   two-form Ω: prove the cocycle equation is precisely
+   `m*Ω=pr₁*Ω+pr₂*Ω` on composable tangent pairs.
+
+   Recover the cotangent-groupoid morphism `ΞΩ:TΓ→T*Γ` with
+   `ΞΩ(v_g)(w_g)=−Ω_g(v_g,w_g)`. Prove its groupoid-morphism identities
+   from multiplicativity and G6.2, and verify at units that
+   `σΩ(a)(X) := −Ω(a,du(X)) = ΞΩ(a)(du(X)) = σ(a)(X)`.
+   Prove Ω is nondegenerate from the vector-bundle-isomorphism hypothesis
+   on σ and uniqueness from Lie-II uniqueness of the scalar cocycle.
+
+   Fix the sign against G1/G4's convention explicitly. With
+   `θ_can=p_i dx^i` and `ω_can=−dθ_can=dx^i∧dp_i`, the map ΞΩ has local
+   cotangent coordinates `p_j=−v^iΩ_{ij}`; compute
+   `ΞΩ*ω_can = dx^j∧d(−v^iΩ_{ij})`. At a unit, its value on `a` and
+   `du(X)` is `ΞΩ(a)(du(X))=−Ω(a,du(X))=σ(a)(X)`. For the pair groupoid
+   with `Ω=pr₁*ω−pr₂*ω`, this gives `σΩ=−ω♭`, and the pinned convention
+   `π♯=−(ω♭)⁻¹` makes `π♯∘σΩ` the identity. Use this calculation to
+   verify the canonical cotangent two-form sign; do not infer it from an
+   unqualified convention. These constructions prove existence and
+   uniqueness of the multiplicative symplectic form on the integration.
+
+   Include the pair symplectic groupoid `(M×M,pr₁*ω-pr₂*ω)` for symplectic
+   `M`, its fundamental-groupoid cover, the additive cotangent bundle for
+   zero Poisson, and `T*G` for linear Lie–Poisson. The last is
+   source-simply-connected precisely when `G` is connected and simply
+   connected; use the simply-connected integrating group for that example
+   of the source-simply-connected theorem.
 
 ## G7. Symplectic actions and the reduction comparison
 
