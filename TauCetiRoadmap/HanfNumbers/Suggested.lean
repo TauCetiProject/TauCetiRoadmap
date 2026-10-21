@@ -385,6 +385,30 @@ theorem hanfNumber_le_beth_omega_one (φ : Sentenceω L) :
     hanfNumber.{u, v, w} φ ≤ ℶ_ (Ordinal.omega.{w} 1) := by
   sorry
 
+/-- **Layer 3, Morley's omitting-types theorem**, over any language. Partial first-order types are
+tagged with their arity. Countability of each type is a hypothesis separate from countability of
+the family: without it the omitting sentence is not in Lω₁ω, and the theorem fails (README 3.4). -/
+theorem morley_omitting_types (T : L.Theory) (S : Set (Σ n, Set (L.BoundedFormula Empty n)))
+    (hT : T.Countable) (hS : S.Countable) (hSc : ∀ p ∈ S, p.2.Countable)
+    (h : ∀ α < Ordinal.omega.{w} 1, ∃ (M : Type w) (_ : L.Structure M), T.Model M ∧
+      (∀ p ∈ S, ∀ a : Fin p.1 → M, ∃ θ ∈ p.2, ¬ θ.Realize Empty.elim a) ∧ ℶ_ α ≤ #M)
+    {κ : Cardinal.{w}} (hκ : ℵ₀ ≤ κ) :
+    ∃ (M : Type w) (_ : L.Structure M), T.Model M ∧
+      (∀ p ∈ S, ∀ a : Fin p.1 → M, ∃ θ ∈ p.2, ¬ θ.Realize Empty.elim a) ∧ #M = κ := by
+  sorry
+
+/-- **Layer 3.** Over a language with countably many symbols, only the family of types needs to be
+countable. -/
+theorem morley_omitting_types_of_countable [Countable (Σ n, L.Functions n)]
+    [Countable (Σ n, L.Relations n)] (T : L.Theory)
+    (S : Set (Σ n, Set (L.BoundedFormula Empty n))) (hS : S.Countable)
+    (h : ∀ α < Ordinal.omega.{w} 1, ∃ (M : Type w) (_ : L.Structure M), T.Model M ∧
+      (∀ p ∈ S, ∀ a : Fin p.1 → M, ∃ θ ∈ p.2, ¬ θ.Realize Empty.elim a) ∧ ℶ_ α ≤ #M)
+    {κ : Cardinal.{w}} (hκ : ℵ₀ ≤ κ) :
+    ∃ (M : Type w) (_ : L.Structure M), T.Model M ∧
+      (∀ p ∈ S, ∀ a : Fin p.1 → M, ∃ θ ∈ p.2, ¬ θ.Realize Empty.elim a) ∧ #M = κ := by
+  sorry
+
 end Hanf
 
 /-! ## Layer 4: the Hanf number of Lω₁ω -/

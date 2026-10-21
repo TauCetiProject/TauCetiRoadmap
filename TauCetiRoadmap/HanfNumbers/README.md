@@ -628,11 +628,22 @@ Targets:
 - **`morley_hanf_theory`**: a countable `T : Theoryω L` (IME 1.1), through `Theoryω.conjunction`,
   satisfying the Morley–Hanf hypothesis
   has models of every infinite cardinality.
-- **`morley_omitting_types`** (Morley 1965): let `T` be a countable first-order theory and `Σ` a
-  countable set of first-order types in finitely many variables. If `T` has models omitting every
-  type of `Σ` of cardinality at least `ℶ_α` for every `α < ω₁`, it has such models of every infinite
-  cardinality. Apply the headline to the Lω₁ω sentence `⋀T ∧ ⋀_{p ∈ Σ} ∀x̄ ⋁_{θ ∈ p} ¬θ(x̄)`, built
-  with `BoundedFormula.toOmega` and `iInfAlong`/`iSupAlong`.
+- **`morley_omitting_types`** (Morley 1965): over any language, let `T` be a first-order theory and
+  `Σ : Set (Σ n, Set (L.BoundedFormula Empty n))` a set of partial first-order types, each tagged
+  with its arity, with `T.Countable`, `Σ.Countable` and `∀ p ∈ Σ, p.2.Countable`. If `T` has models
+  omitting every type of `Σ` of cardinality at least `ℶ_α` for every `α < ω₁`, it has such models
+  of every infinite cardinality. Apply the headline to the Lω₁ω sentence
+  `⋀T ∧ ⋀_{p ∈ Σ} ∀x̄ ⋁_{θ ∈ p} ¬θ(x̄)`, built with `BoundedFormula.toOmega` and
+  `iInfAlong`/`iSupAlong`; the three countability hypotheses are exactly what makes its
+  conjunctions and disjunctions countable. Countability of each type is needed separately from
+  countability of the family, and the theorem fails without it: over constants `cᵢ` for `i` in a set
+  `I` of cardinality `ℶ_ω₁`, the empty theory and the single type `{x ≠ cᵢ | i ∈ I}`, the models
+  omitting the type are those in which every element is some `cᵢ`; they exist in every nonzero
+  cardinality up to `ℶ_ω₁` and in none above it. This follows the separate hypotheses `hP` and
+  `hPc` of IME's `model_existence_omitting`.
+- **`morley_omitting_types_of_countable`**: for a language with countably many function and relation
+  symbols, the three countability hypotheses reduce to `Σ.Countable`, since every set of
+  first-order formulas is then countable.
 
 **Acceptance check:** `morley_hanf` for the empty language, where the EM model of the template of
 an injective sequence is a pure set of the prescribed cardinality.
@@ -829,8 +840,9 @@ Discharge these alongside the layers; they check that the API describes real str
    `cₙ` are pairwise distinct" has exactly one model up to isomorphism, of cardinality `ℵ₀`, so
    `ℵ₀ < lomega1omegaHanfNumber`.
 8. **The ladder at `α = 0`.** The Layer 4 acceptance check with `Set ℕ`.
-9. **Omitting types.** The Hanf number for omitting a countable set of types in a countable
-   first-order theory is at most `ℶ_ω₁`, via `morley_omitting_types`.
+9. **Omitting types.** The Hanf number for omitting a countable set of countable types in a
+   countable first-order theory is at most `ℶ_ω₁`, via `morley_omitting_types`; the example of 3.4
+   with uncountably many constants shows that countability of each type cannot be dropped.
 
 ## Out of scope
 
