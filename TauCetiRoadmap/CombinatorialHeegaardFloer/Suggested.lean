@@ -25,6 +25,8 @@ or a proof of the general graph/surface targets. Grid homology, link types,
 bigraded polynomial modules, and the broader lattice models remain roadmap targets.
 -/
 
+noncomputable section
+
 namespace TauCetiRoadmap.CombinatorialHeegaardFloer
 
 abbrev NativePlumbingComplex {V : Type*} [DecidableEq V] [Fintype V]
