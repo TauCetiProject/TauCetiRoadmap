@@ -1,5 +1,10 @@
 import Mathlib
 import TauCeti.LinearAlgebra.RootSystem.Weyl.Chamber
+import TauCeti.LinearAlgebra.RootSystem.DynkinType
+import TauCeti.LinearAlgebra.RootSystem.NumberOfRoots
+import TauCeti.LinearAlgebra.RootSystem.RootLength
+import TauCeti.LinearAlgebra.RootSystem.SimplyConnectedRootDatum.Assembly
+import TauCeti.LinearAlgebra.RootSystem.SimplyConnectedRootDatum.Rational
 
 /-!
 # Root systems, Weyl groups, and the Cartan-Killing classification: target signatures
@@ -283,19 +288,30 @@ theorem nonempty_equiv_of_hasCartanType {ι₂ M₂ N₂ : Type*}
 
 end Classification
 
+/-- The number of roots of each Dynkin type. This is the cardinality of the root index set, not
+its rank (the number of simple roots). In particular `A 1` has rank one and two root indices. -/
+def DynkinType.numRoots : DynkinType → ℕ
+  | .A n => n * (n + 1)
+  | .B n | .C n => 2 * n ^ 2
+  | .D n => 2 * n * (n - 1)
+  | .E6 => 72 | .E7 => 126 | .E8 => 240 | .F4 => 48 | .G2 => 12
+
 /-- **The classification (existence/realization).** Each **valid** Dynkin type is realized by an
-irreducible reduced crystallographic finite root system over `ℚ`, in its ambient space of dimension
-equal to the rank, built from an explicit coordinate model (so realization is independent of the
-classification theorems it supports and introduces no circularity). Pinning the carrier to
-`Fin t.rank → ℚ` is a deliberate choice: it keeps the statement instance-light, at the cost that the
-type-`A` model (the sum-zero hyperplane of `ℚ^{n+1}`, README worked example) enters through an
-explicit basis of that hyperplane rather than in its natural ambient space; an implementation may
-add an ambient-existential variant alongside, but this fixed-carrier form is the pinned target. -/
+irreducible reduced crystallographic finite root system over `ℚ`, in an ambient space of dimension
+equal to the rank, obtained by transport from the native pinned rational family through the
+constructor dictionary below (so realization is independent of this roadmap's classification theorem).
+The root-index carrier is
+`Fin t.numRoots`; the ambient vector and covector carriers are `Fin t.rank → ℚ`. These differ already
+for `A 1`. Pinning the ambient carrier to `Fin t.rank → ℚ` keeps the statement
+instance-light, at the cost that the type-`A` model (the sum-zero hyperplane of `ℚ^{n+1}`, README
+worked example) enters through an explicit basis of that hyperplane rather than in its natural ambient
+space; an implementation may add an ambient-existential variant alongside, but this fixed-carrier
+form is the pinned target. -/
 theorem exists_rootPairing_of_dynkinType (t : DynkinType) (ht : t.Valid) :
-    ∃ (P : RootPairing (Fin t.rank) ℚ (Fin t.rank → ℚ) (Fin t.rank → ℚ)) (b : P.Base)
+    ∃ (P : RootPairing (Fin t.numRoots) ℚ (Fin t.rank → ℚ) (Fin t.rank → ℚ)) (b : P.Base)
       (_hrs : P.IsRootSystem) (hcrys : P.IsCrystallographic) (_hred : P.IsReduced)
       (_hirr : P.IsIrreducible),
-      @HasCartanType (Fin t.rank) ℚ (Fin t.rank → ℚ) (Fin t.rank → ℚ) _ _ _ _ _ P hcrys b t := sorry
+      @HasCartanType (Fin t.numRoots) ℚ (Fin t.rank → ℚ) (Fin t.rank → ℚ) _ _ _ _ _ P hcrys b t := sorry
 
 /-! ## Layer 6: the Bourbaki numbering and integral root data
 
@@ -323,14 +339,6 @@ def DynkinType.IsLongSimpleRoot : (t : DynkinType) → Fin t.rank → Prop
   | .C n, i => (i : ℕ) + 1 = n
   | .F4, i => (i : ℕ) < 2
   | .G2, i => (i : ℕ) = 1
-
-/-- The number of roots of each Dynkin type, so that the root index set of the pinned datum below can
-be `Fin t.numRoots` rather than an abstract type. -/
-def DynkinType.numRoots : DynkinType → ℕ
-  | .A n => n * (n + 1)
-  | .B n | .C n => 2 * n ^ 2
-  | .D n => 2 * n * (n - 1)
-  | .E6 => 72 | .E7 => 126 | .E8 => 240 | .F4 => 48 | .G2 => 12
 
 /-- **The pinned simply connected root datum** of a valid Dynkin type. Both lattices are
 `Fin t.rank → ℤ`: the cocharacter lattice has the simple coroots as its standard basis, and the
@@ -361,6 +369,100 @@ consumer that needs it takes `RootPairing.flip` of the corresponding datum rathe
 pinned definition. -/
 theorem DynkinType.span_coroot_simplyConnectedRootDatum (t : DynkinType) (ht : t.Valid) :
     Submodule.span ℤ (Set.range (t.simplyConnectedRootDatum ht).coroot) = ⊤ := sorry
+
+/-! ### Compatibility with the existing Tau Ceti Dynkin/root-datum API
+
+The roadmap enumeration below is intentionally local and remains the statement carrier for this
+roadmap. Its constructor dictionary to the installed native enumeration is explicit; all transport
+lemmas are independent of the classification theorem. -/
+
+/-- Constructor-preserving dictionary to the installed Tau Ceti enumeration. -/
+def toNativeDynkinType : DynkinType → _root_.TauCeti.DynkinType
+  | .A n => _root_.TauCeti.DynkinType.A n
+  | .B n => _root_.TauCeti.DynkinType.B n
+  | .C n => _root_.TauCeti.DynkinType.C n
+  | .D n => _root_.TauCeti.DynkinType.D n
+  | .E6 => _root_.TauCeti.DynkinType.E6
+  | .E7 => _root_.TauCeti.DynkinType.E7
+  | .E8 => _root_.TauCeti.DynkinType.E8
+  | .F4 => _root_.TauCeti.DynkinType.F4
+  | .G2 => _root_.TauCeti.DynkinType.G2
+
+/-- The dictionary preserves the classifier's rank, separately from its root count. -/
+theorem toNative_rank (t : DynkinType) :
+    t.rank = (toNativeDynkinType t).rank := sorry
+
+/-- The dictionary preserves the exact root-index cardinality; this is not the rank equality. -/
+theorem toNative_numRoots (t : DynkinType) :
+    t.numRoots = (toNativeDynkinType t).numRoots := sorry
+
+/-- Validity predicates agree under the constructor dictionary. -/
+theorem toNative_valid (t : DynkinType) :
+    t.Valid ↔ (toNativeDynkinType t).Valid := sorry
+
+/-- The cast induced by the rank equality sends each local Bourbaki node to the same native node. -/
+def toNativeNode (t : DynkinType) (i : Fin t.rank) :
+    Fin (toNativeDynkinType t).rank := Fin.cast (toNative_rank t) i
+
+/-- The cast induced by the root-count equality sends each local root label to the same native
+root label. -/
+def toNativeRootIndex (t : DynkinType) (i : Fin t.numRoots) :
+    Fin (toNativeDynkinType t).numRoots := Fin.cast (toNative_numRoots t) i
+
+/-- The dictionary preserves the oriented Cartan entries, not merely their unoriented diagram. -/
+theorem toNative_cartanMatrix (t : DynkinType) (i j : Fin t.rank) :
+    t.cartanMatrix i j =
+      (toNativeDynkinType t).cartanMatrix (toNativeNode t i) (toNativeNode t j) := sorry
+
+/-- For any crystallographic pairing/base, local and native `HasCartanType` agree after the
+rank-index cast. This is the oriented statement; it does not quotient by transpose. -/
+theorem hasCartanType_iff_native {ι R M N : Type*}
+    [CommRing R] [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
+    (P : RootPairing ι R M N) [P.IsCrystallographic]
+    (b : P.Base) (t : DynkinType) :
+    HasCartanType P b t ↔ _root_.TauCeti.HasCartanType P b (toNativeDynkinType t) := sorry
+
+/-- Long/short labels agree at the same Bourbaki node. This includes the B/C orientation and G₂'s
+short-first convention. -/
+theorem toNative_isLongSimpleRoot (t : DynkinType) (i : Fin t.rank) :
+    t.IsLongSimpleRoot i ↔
+      (toNativeDynkinType t).IsLongSimpleRoot (toNativeNode t i) := sorry
+
+/-- The native rational realization, exposed for local roadmap consumers through the dictionary. -/
+noncomputable def nativeRationalRootSystem (t : DynkinType) (ht : t.Valid) :=
+  (toNativeDynkinType t).rationalRootSystem ((toNative_valid t).mp ht)
+
+/-- Its native Bourbaki-numbered base. -/
+noncomputable def nativeRationalBase (t : DynkinType) (ht : t.Valid) :=
+  (toNativeDynkinType t).rationalBase ((toNative_valid t).mp ht)
+
+/-- Reindex the native supplied realization to the local oriented Cartan type. The proof uses the
+native `hasCartanType_rationalRootSystem` theorem plus `toNative_cartanMatrix`, and does not invoke
+`existsUnique_dynkinType`. -/
+theorem nativeRationalRootSystem_has_local_type (t : DynkinType) (ht : t.Valid) :
+    HasCartanType (nativeRationalRootSystem t ht) (nativeRationalBase t ht) t := sorry
+
+/-- Transport the native simply connected datum to the local named datum. The equivalence must
+commute with roots and coroots under `toNativeRootIndex`, preserve the integral pairing, carry the
+native `simpleIndex` to the local first-`rank` simple-root indexing, and commute with base change to
+`ℚ`. The character coordinates are the fundamental-weight basis and the cocharacter coordinates
+are the simple-coroot basis; the transport proves their Kronecker pairing and Cartan-row equations.
+This is the construction source for the local datum, not a second independent coordinate model. -/
+theorem simplyConnectedRootDatum_native_equiv (t : DynkinType) (ht : t.Valid) :
+    Nonempty (RootPairing.Equiv (t.simplyConnectedRootDatum ht)
+      ((toNativeDynkinType t).simplyConnectedRootDatum ((toNative_valid t).mp ht))) := sorry
+
+/-- The transported integral base has the local oriented Bourbaki type. This comparison must use
+native `simpleSupportEquivSimplyConnectedBase` and `simpleIndex`, then `toNative_cartanMatrix`.
+In the pinned fundamental-weight/simple-coroot coordinates, simple-root vectors are the rows of
+the Cartan matrix and simple-coroot vectors are the standard basis vectors; their pairing is
+`⟨ω_i, α_j^∨⟩ = δᵢⱼ`. A Cartan transpose belongs to the reversed pairing/dual-coordinate convention,
+not to these root and coroot coordinate vectors. -/
+theorem nativeSimplyConnectedDatum_has_local_type (t : DynkinType) (ht : t.Valid) :
+    HasCartanType
+      ((toNativeDynkinType t).simplyConnectedRootDatum ((toNative_valid t).mp ht))
+      ((toNativeDynkinType t).simplyConnectedBase ((toNative_valid t).mp ht)) t := sorry
+
 
 /-! ## Worked examples (acceptance criteria) -/
 
