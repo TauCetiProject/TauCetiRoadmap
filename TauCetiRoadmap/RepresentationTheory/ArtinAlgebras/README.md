@@ -39,7 +39,13 @@ general categorical pieces that theory rests on:
   Auslander-Reiten formula (`auslanderReitenExtEquiv`) and existence of almost-split sequences;
 - nilpotence of the radical and the description of all maps by irreducible ones, for
   representation-finite Artin algebras and for Hom-finite linear categories with finitely many
-  indecomposable objects.
+  indecomposable objects;
+- Morita theory: a ring is Morita equivalent to the corner `eAe` of a full idempotent
+  (`IsIdempotentElem.isMoritaEquivalent_corner`), a semiperfect ring is Morita equivalent to a basic
+  one (`TauCeti.IsSemiperfectRing.exists_isBasic_isMoritaEquivalent`), and an equivalence of module
+  categories restricts to finitely generated and to finitely generated projective modules
+  (`finiteModulesEquivalence`, `finiteProjectiveModulesEquivalence`); Mathlib has the matrix case
+  (`IsMoritaEquivalent.matrix`).
 
 What is missing is the theory at its natural generality. There is no notion of a Krull-Schmidt
 category and no uniqueness of decompositions beyond modules and quiver representations; no `Ext¹` of
@@ -48,7 +54,9 @@ that is not a field; no translate, Auslander-Reiten formula or almost-split sequ
 algebras; no valued Auslander-Reiten quiver; none of the classical finiteness theorems: the
 Harada-Sai lemma, Auslander's theorem on components of bounded length, the first Brauer-Thrall
 conjecture, and `rad^∞ = 0` for representation-finite algebras; no global or dominant dimension;
-and no Morita theory beyond matrix rings, so no Morita-Tachikawa or Auslander correspondence.
+no Morita equivalence with the endomorphism ring of a progenerator, and no Morita invariance of
+injectives, indecomposables, global or dominant dimension; so no Morita-Tachikawa or Auslander
+correspondence.
 
 This roadmap builds them. Its three summits are **existence of almost-split sequences for Artin
 algebras**, as the case `mod A` of existence of almost-split conflations in a Hom-finite
@@ -290,11 +298,12 @@ conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/Ar
 - **The double centralizer.** If `M` is a generator of `mod A`, the action map
   `A → Module.End Γ M` is a ring isomorphism.
 - **Morita theory for Artin algebras.** For a finitely generated projective generator `P` of
-  `mod A`, `Hom_A(P, -)` is an equivalence from `A`-modules to right `Module.End A P`-modules, so
-  `IsMoritaEquivalent R A (Module.End A P)ᵐᵒᵖ`. A Morita equivalence between Artin `R`-algebras
-  restricts to an equivalence of their categories of finitely generated modules, and preserves
-  projectives, injectives, indecomposables, generator-cogenerators and additive generators; so it
-  preserves representation-finiteness, global dimension and dominant dimension.
+  `mod A`, `IsMoritaEquivalent R A (Module.End A P)ᵐᵒᵖ`: `P` is a full corner of a matrix ring over
+  `A`, so this follows from Mathlib's `IsMoritaEquivalent.matrix` and Tau Ceti's
+  `IsIdempotentElem.isMoritaEquivalent_corner`. A Morita equivalence between Artin `R`-algebras
+  restricts to finitely generated and projective modules (`finiteModulesEquivalence`, on main), and
+  it also preserves injectives, indecomposables, generator-cogenerators and additive generators; so
+  it preserves representation-finiteness, global dimension and dominant dimension.
 - **Global dimension of a ring.** For an arbitrary ring `A`, the **left global dimension** is the
   supremum of the projective dimensions (Mathlib's `CategoryTheory.projectiveDimension` in
   `ModuleCat A`) of all left `A`-modules, and the **right global dimension** is the left global
