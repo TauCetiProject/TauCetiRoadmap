@@ -76,7 +76,8 @@ conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/Ar
 - Outside this roadmap: Auslander-Reiten triangles, Serre functors, derived categories and
   extriangulated categories; tilting and τ-tilting theory; covering theory; modules that are not
   finitely generated, except in the definition of global dimension; and dominant dimension of
-  rings other than Artin algebras, together with its variants through flat modules.
+  rings other than Artin algebras, where the terms of the minimal injective coresolution are asked
+  to be flat rather than projective (Hoshino); for Artin algebras the two conditions agree.
 
 ## Standing conventions
 
@@ -323,6 +324,9 @@ additive generator.
   Algebras*, Vol. 1, London Mathematical Society Student Texts 65, Cambridge University Press
   (2006), Chapter IV.
 - T. Bühler, *Exact categories*, Expo. Math. 28 (2010), 1–69: `Ext¹` and the long exact sequences.
+- M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280:
+  dominant dimension of arbitrary rings through flat injective modules, and its left-right symmetry
+  for Noetherian rings.
 - H. Enomoto, *Classifications of exact structures and Cohen-Macaulay-finite algebras*, Adv. Math.
   335 (2018), 838–877, arXiv:1705.02163: Appendix A, Auslander-Reiten theory of exact categories.
 - M. Harada, Y. Sai, *On categories of indecomposable modules I*, Osaka J. Math. 7 (1970),
