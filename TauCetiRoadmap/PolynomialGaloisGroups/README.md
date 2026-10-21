@@ -383,11 +383,14 @@ resolvent layer, `universalResolvent`, `esymmSubst`, `vietaHom`, `ResolventSpec`
 `ResolventSeparationEvidence`, `galResolvent`, `resolventCubic`, `resolventSextic`,
 `tschirnhausPolynomial`, and `TschirnhausAdmissible`; for the certificates of Layer 6,
 `HasFactorDegrees`, `HasSexticRoot`, `HasSecondRootInRootField`, and `QuinticCertificate` with
-its `label`, `Verifies` and `check`; and for Layer 10, `RadicalConverse.exists_normal_prime_index_subgroup` and
-`RadicalConverse.finiteGalois_iff_image_mem_solvableByRad`; `Suggested.lean` also names
-`finiteGalois_solvable_implies_image_mem_solvableByRad`. The helper target has the explicit form
-`theorem exists_normal_prime_index_subgroup {G} [Group G] [Finite G] [Nontrivial G]
-  (hG : Group.IsSolvable G) : ∃ H : Subgroup G, H.Normal ∧ H.index.Prime`.
+its `label`, `Verifies` and `check`; and for Layer 10,
+`RadicalConverse.finiteGalois_iff_image_mem_solvableByRad` and
+`RadicalConverse.finiteGalois_solvable_implies_image_mem_solvableByRad`.
+The normal-prime-index input is the existing native
+`Group.IsSolvable.exists_normal_index_prime` from `TauCeti.GroupTheory.Solvable`:
+for `(G : Type*) [Group G] [Finite G] [Group.IsSolvable G] [Nontrivial G]`, it gives
+`∃ H : Subgroup G, H.Normal ∧ H.index.Prime`. Layer 10 consumes this declaration;
+it does not define another helper or composition-series engine.
 `Suggested.lean` fixes forms for selected targets; it is not exhaustive.
 
 ## What Mathlib provides
@@ -706,7 +709,7 @@ group action, in Mathlib's vocabulary. No statement mentions a field.
   *Needs:* `RegularWreathProduct` (Mathlib); `SemidirectProduct` (Mathlib); `Equiv.Perm`
   (Mathlib).
 
-- **Imprimitivity gives a wreath embedding.** For a transitive action with a block `B` of size
+- **Imprimitivity gives a wreath embedding.** For a faithful transitive action with a block `B` of size
   `l`, with `1 < l < n`, the block system `{g • B}` has `m = n/l` members. The induced map
   `G →* Equiv.Perm (block system)` has a kernel that embeds in `∏ Perm(block)`. The group `G`
   embeds in `WreathProduct (Perm B) (block system)`, compatibly with a bijection
@@ -817,7 +820,7 @@ displays as `nT(j+1)`.
   *Needs:* `Equiv.Perm` and `Subgroup.map` with `MulAut.conj` (Mathlib); `MulAction.IsPretransitive`
   (Mathlib).
 
-- **The classification theorems.** For each `n ≤ 5`, every transitive subgroup of
+- **The classification theorems.** For each `1 ≤ n ≤ 5`, every transitive subgroup of
   `Equiv.Perm (Fin n)` is conjugate to exactly one `referenceSubgroup n j`. The statement splits
   into existence, which conjugates an arbitrary transitive subgroup onto a reference, and
   disjointness, which shows that no two references are conjugate.
@@ -844,8 +847,10 @@ displays as `nT(j+1)`.
      cyclic group `F₂₀/P` of order 4.
   3. If it is 6, then `6` divides `|G|`, so `30` divides `|G|`.
   4. `S₅` has no subgroup of order 30. Such a subgroup has index 4, so the action on its cosets
-     gives a morphism `S₅ → S₄` whose kernel has order at least 5 and lies in the subgroup. The
-     normal subgroups of `S₅` are `1`, `A₅`, and `S₅`, and none of them is both. The kernel need not have order exactly 5, since the image need not be all of `S₄`.
+     gives a morphism `S₅ → S₄`. Its image has order at most 24, hence its kernel `N`
+     has `5 ≤ |N|`; the kernel fixes every coset and is contained in the order-30
+     subgroup, hence `|N| ≤ 30`. The normal subgroups of `S₅` have orders 1, 60 and 120,
+     so none lies in this interval. No surjectivity onto `S₄` or exact kernel order 5 is used.
   5. So `|G|` is 60 or 120. A subgroup of order 60 has index 2 and is therefore `A₅`, and order
      120 is `S₅`.
 
@@ -1444,8 +1449,9 @@ membership statement to which every downstream recognition theorem is applied.
   roots equal to `factorDegrees f p`. **This roadmap does not prove that.** It is
   `exists_gal_fullCycleType_eq_factorizationType` of Number Field Arithmetic Layer 3.10, and the
   milestone here is to record that its statement, spelled with the abbreviations of Layers 0 and
-  5, is the abbreviated form — a proof with no `sorry`, so that a change on either side of the
-  contract fails the build.
+  5, is the abbreviated form — an application with no local `sorry`, so that a change on
+  either side of the contract fails the build. Its proof status inherits the supplier's
+  admitted theorem; the interface check does not make that theorem a closed proof.
 
   - *Source:* Dedekind; see Cohen, §6.3.2, and van der Waerden, *Algebra* I, §61. The proof is
     the supplier's, and its route is written out there.
@@ -1619,9 +1625,11 @@ soundness theorem. A **search** for such evidence is neither of those, and is no
   predicate.
 
   - *False generalization:* bijectivity of `galActionHom` alone does not say that the Galois
-    group is `Sₙ` in degree `n`. The polynomial `X ^ n` has one distinct root, a trivial Galois
-    group, and a bijection from that group onto the permutations of a one-point set. A regression
-    test states that `X ^ n` does not satisfy the predicate.
+    group is `Sₙ` in degree `n`. For `n ≥ 2`, the polynomial `X ^ n` has one distinct root,
+    a trivial Galois group, and a bijection from that group onto the permutations of a
+    one-point set, but is not separable. The regression theorem uses this `n ≥ 2`
+    hypothesis. At `n = 1`, `X` is separable and has full `S₁`; this is a positive
+    boundary calibration, not a counterexample.
 
   *Needs:* `galActionHom` with `galActionHom_injective` (Mathlib); the degree bookkeeping
   (Layer 0).
@@ -1728,21 +1736,18 @@ of embeddings as part of this theorem.
 
 The forward proof uses the following targets and route.
 
-1. **One-step group lemma.** Own
-   `RadicalConverse.exists_normal_prime_index_subgroup`: for `[Finite G] [Nontrivial G]
-   [Group.IsSolvable G]`, produce `H : Subgroup G` with `H.Normal` and prime index. In the
-   proof, `Group.IsSolvable.commutator_lt_top_of_nontrivial` first shows that the commutator
-   subgroup is proper. Then choose a coatom above it using the finite-group `IsCoatomic` instance.
-   `Subgroup.Normal.of_commutator_le` makes this coatom normal;
-   `Group.isSimpleGroup_of_isCoatom` makes its quotient simple. Quotient solvability and
-   `IsSimpleGroup.comm_iff_isSolvable` make the quotient commutative; install the resulting
-   `CommGroup` structure (and its finite instance) before applying `IsSimpleGroup.prime_card`, then
-   `isCyclic_of_prime_card`. The helper is one-step: the subgroup is normal in `G`, so it can be
-   applied afresh to each smaller Galois group in the induction. The finite-group `IsCoatomic`
-   instance, quotient solvability, commutator normality, coatom simplicity, prime-cardinality,
-   cyclicity, and Lagrange divisibility are explicit prerequisites, not an assumed composition-series
-   API.
-
+1. **Consume the native normal-prime-index theorem.** Import
+   `TauCeti.GroupTheory.Solvable` in the implementation and use
+   `Group.IsSolvable.exists_normal_index_prime G` for the actual finite, nontrivial,
+   solvable Galois group at each induction stage. If solvability is supplied as an
+   explicit proof `hG`, install `letI : Group.IsSolvable G := hG` before this application.
+   The result is a subgroup `H` normal in that group with `H.index.Prime`. Install
+   the returned normality proof when forming its quotient and fixed field. The quotient
+   has cardinality `H.index` by `Subgroup.index_eq_card`, and
+   `isCyclic_of_prime_card` makes it cyclic. No new proof of the native finite-group
+   theorem, no locally owned wrapper, and no assumed composition-series API are required.
+   This is a one-step input that is applied afresh to each smaller Galois group in
+   the relative-field induction.
 2. Put `G := E ≃ₐ[F] E` and `N := Nat.card G`. `Finite G` follows from finite-dimensionality
    of `E/F`; together with `Nonempty G`, this gives `0 < N`. `CharZero F` then gives
    `NeZero (N : F)`. The algebraic-closure instance
@@ -1777,7 +1782,7 @@ The forward proof uses the following targets and route.
    of `Gal(L_c/F₁)`. If `Gal(L_c/K)` is trivial, `IsGalois.card_aut_eq_finrank` gives
    `Module.finrank K L_c = 1`; `IntermediateField.finrank_eq_one_iff_eq_top` in
    `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean` then gives `K = ⊤`, so the containment hypothesis is the goal.
-   Otherwise apply the one-step group lemma to this actual finite solvable group, obtaining a
+   Otherwise apply the native theorem from Step 1 to this actual finite solvable group, obtaining a
    normal subgroup `H` of prime index; write `p := H.index`. Then `p` divides
    `Nat.card Gal(L_c/K)` by Lagrange. Restriction injects this group into `Gal(L_c/F₁)`, which
    injects into `Gal(E₀/F) ≃ G`; transitivity of divisibility gives `p ∣ N`. Let
@@ -1849,10 +1854,9 @@ natural degree `p ≥ 5`. The two-nonreal-roots hypothesis is the exact native p
 and do not give this conclusion.
 
 *Needs:* `CharZero F`, `IsGalois F E`, and `FiniteDimensional F E` (Mathlib);
-`RadicalConverse.exists_normal_prime_index_subgroup` (Layer 10); finite-group `IsCoatomic`, quotient
-solvability, `Subgroup.Normal.of_commutator_le`, `Group.isSimpleGroup_of_isCoatom`,
-`IsSimpleGroup.comm_iff_isSolvable`, `IsSimpleGroup.prime_card`, and
-`isCyclic_of_prime_card` (Mathlib); Lagrange's theorem (Mathlib);
+`Group.IsSolvable.exists_normal_index_prime` from `TauCeti.GroupTheory.Solvable` (Tau Ceti);
+`Subgroup.index_eq_card`, quotient and subgroup solvability, `isCyclic_of_prime_card`,
+and Lagrange's theorem (Mathlib);
 `AlgebraicClosure.hasEnoughRootsOfUnity`, `HasEnoughRootsOfUnity.exists_primitiveRoot`,
 `IntermediateField.finiteDimensional_sup`, `IntermediateField.adjoin.finiteDimensional`,
 `IntermediateField.finrank_eq_one_iff_eq_top`, `Module.finrank_mul_finrank`,
@@ -1869,8 +1873,7 @@ solvability, `Subgroup.Normal.of_commutator_le`, `Group.isSimpleGroup_of_isCoato
 `Normal.of_isSplittingField`, `isGalois_iff`,
 `IsSplittingField.lift`, `IsSplittingField.adjoin_rootSet_eq_range`,
 `card_rootSet_eq_natDegree`, `Polynomial.Gal.galActionHom_bijective_of_prime_degree`,
-`Group.IsSolvable.commutator_lt_top_of_nontrivial`, `Equiv.Perm.not_isSolvable`, and
-`isSolvable_gal_of_irreducible` (Mathlib).
+`Equiv.Perm.not_isSolvable` and `isSolvable_gal_of_irreducible` (Mathlib).
 
 ## Worked examples, as acceptance tests
 
@@ -1996,7 +1999,7 @@ Layer 1C names the earlier pure-permutation part of the former aggregate Layer 6
 | 5 | 0, 1, 3, 4; Number Field Arithmetic 3.10 | factor degrees, good primes, finite-field orbit theorem and factorization membership |
 | 6 | 0, 1C; 1D for generic labels through11; 2,3,4,5 for the existing low-degree decision/certificate routes | polynomial labels, decision packages and sound certificates |
 | 9 | 1, 3, 5; 1C/6 for labelled alternating examples; NFA 3.8/8.4 and IR 2.1/2.2 for the fixed-field example | arbitrary-degree symmetric realization, the three alternating examples, and the S₁₆ Gassmann example |
-| 10 | Mathlib | characteristic-zero finite-Galois radical criterion and its all-roots/some-root polynomial consequences |
+| 10 | Mathlib; Tau Ceti `Group.IsSolvable.exists_normal_index_prime` | characteristic-zero finite-Galois radical criterion and its all-roots/some-root polynomial consequences |
 
 The pure criterion `Group.IsSolvable G ↔ G ≤ conjugate(F₂₀)` is proved in Layer 1C
 by classification. Layer 4 transports it to the Galois image and combines it with the
