@@ -419,10 +419,13 @@ implication-and-falsum syntax: the existential quantifier is `¬∀¬`, so `not_
 clause, and the universal clause instantiates only constants because every element of the model
 will be named by one.
 
-Two clauses familiar from finitary presentations are deliberately absent. There is no
-chain-closure clause and no clause adding `φ` or `¬φ` to every member: Lω₁ω is not compact (Layer
-1), the family of satisfiable sets has neither property, and the inseparable pairs used for
-interpolation fail both. Substitution of equals is required for atomic `φ` only, which is all the
+Two clauses familiar from finitary presentations are deliberately absent: closure under unions of
+increasing chains, and a decision clause adding `φ` or `¬φ` to every member. The reasons differ.
+Satisfiable sets need not be closed under unions of increasing chains, because Lω₁ω is not compact
+(Layer 1). They do admit decision extensions: a model of `s` satisfies `φ` or `¬φ`, so `s + φ` or
+`s + ¬φ` is satisfiable. The decision clause is omitted because the construction of 3.2 never uses
+it; requiring it would add an obligation to every instance, including the inseparability families
+of Layer 7, for no use. Substitution of equals is required for atomic `φ` only, which is all the
 term model needs and is what a countable enumeration domain can be closed under.
 
 ### 3.2 Model existence
@@ -919,7 +922,7 @@ universe-general statements here are part of the work. The map below says where 
 | L0 | `Methods/GeneratedSublanguage.lean`, `Methods/SymbSublangExpansion.lean`, `Methods/LanguageMapOccurrence.lean`, `Lomega1omega/Operations.lean` (`mapLanguage`, `openBounds`), `Methods/ConstantSupport.lean`, `Methods/ConstantAbstraction.lean` | the source's operations are at carrier `ℕ` only; `substBounds` and the `constantsVarsEquiv` form are new |
 | L1 | `Lomega1omega/Theory.lean`, `Lomega1omega/Entailment.lean`, `Lomega1omega/Fragment.lean`, `Lomega1omega/NegationClosure.lean`, `Lomega1omega/FirstOrderImage.lean`; design in `docs/fragments-audit.md` | the source entailment is over nonempty models in `Type`; formation-closed fragments are new |
 | L2 | `ModelTheory/AElementary.lean`, `ModelTheory/FragmentLowenheimSkolem.lean`, `ModelTheory/AElementaryChains.lean`, `ModelTheory/AElementaryDirectLimit.lean`, `ModelTheory/LowenheimSkolem.lean` | the source's `downward_LS` goes through the legacy consistency property; Layer 2's sentence-level form uses the substructure theorem instead |
-| L3 | `Methods/Henkin/CountableCompletion/{ConsistencyPropertyEqOn, FairEnumeration, GeneratedUniverse, QuotientTermModel, QuotientTruthLemma}.lean`; design in `docs/craig-audit.md` §5 | the source engine is relational (closed terms are constants); the function-symbol clauses `eq_name`/`eq_subst` and the omission requests are new. `Methods/Henkin/{ConsistencyProperty, Construction, ModelExistence, Completeness}.lean` is a legacy Zorn-based interface with chain-closure and decision clauses that the satisfiable sets do not satisfy; it is not a migration target, and its `karp_completeness` and `omitting_types` are not the theorems of Layers 3–4 |
+| L3 | `Methods/Henkin/CountableCompletion/{ConsistencyPropertyEqOn, FairEnumeration, GeneratedUniverse, QuotientTermModel, QuotientTruthLemma}.lean`; design in `docs/craig-audit.md` §5 | the source engine is relational (closed terms are constants); the function-symbol clauses `eq_name`/`eq_subst` and the omission requests are new. `Methods/Henkin/{ConsistencyProperty, Construction, ModelExistence, Completeness}.lean` is a legacy Zorn-based interface with a chain-closure clause, which the satisfiable sets do not satisfy, and a decision clause; it is not a migration target, and its `karp_completeness` and `omitting_types` are not the theorems of Layers 3–4 |
 | L4 | `ModelTheory/InfinitaryTypes.lean`, `ModelTheory/FragmentType.lean`, `ModelTheory/TypeIsolation.lean`, and from `ModelTheory/CountableCompanion.lean` only the isolator seed (`isolatorSeed`, `isolatorFragment` and their countability; the countable companion itself belongs to HanfNumbers) | the fragment omitting types theorem and its first-order corollary are new |
 | L5 | `ModelTheory/Morleyization.lean`, `ModelTheory/MorleyizationElementary.lean` | the source has the definitional expansion only; the first-order presentation is new |
 | L6 | `Methods/Interpolation/{GraphLanguage, TermGraph, Relationalize, GraphAxioms, GraphReconstruction, BackTranslate}.lean`, `Lomega1omega/FiniteQuantification.lean`, `Methods/Interpolation/LyndonRelationalize.lean` (polarity); design in `docs/craig-audit.md` §9b | the source's `entails_graphTranslation` is in `CraigArbitrary.lean` |

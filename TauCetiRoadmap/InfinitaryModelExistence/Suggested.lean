@@ -401,9 +401,10 @@ abbrev hc (c : ℕ) : L[[ℕ]].Term (Empty ⊕ Fin 0) := (L.con c).term
 
 /-- **Layer 3, consistency properties** over the Henkin expansion `L[[ℕ]]`, following Marker, Chapter 4,
 and Keisler. Each clause either forbids a contradiction or lets one decomposition target be added
-consistently; double negation is the `not_imp` clause at `ψ = ⊥`. There is no chain-closure or
-decide-every-sentence clause: `Lω₁ω` is not compact, and the satisfiable sets do not have either
-property. -/
+consistently; double negation is the `not_imp` clause at `ψ = ⊥`. There is no chain-closure
+clause, because `Lω₁ω` is not compact and the satisfiable sets are not closed under unions of
+chains. There is no decide-every-sentence clause either: the satisfiable sets do satisfy it, but
+model existence does not use it, so no instance is asked to prove it. -/
 structure ConsistencyProperty (L : FirstOrder.Language.{u, v}) where
   sets : Set (Set (Sentenceω L[[ℕ]]))
   no_falsum : ∀ s ∈ sets, (BoundedFormulaInf.falsum : Sentenceω L[[ℕ]]) ∉ s
