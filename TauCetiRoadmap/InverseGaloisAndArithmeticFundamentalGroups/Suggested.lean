@@ -918,6 +918,9 @@ and versal families, admissible `G`-covers, the cohomological comparisons, compo
 fixed branch divisor (connectedness uses chosen local primes with a common branch prime and
 generating stabilisers), the Euler characteristic of `ℓ`-torsion local systems on affine curves, and
 the steps of Serre, Raynaud and Harbater towards Abhyankar's conjecture.
+LocalFieldsRamification Layers 3–4 supply upper numbering on open subgroups, and
+ArithmeticGaloisRepresentations §3.4 supplies Swan-conductor scaling under tame base change
+for Serre's solvable step.
 Layer IG.6: the data map `FieldRealization.transport`, specialization with its integral cover model,
 and generic-polynomial universality.
 Further API targets specified in the README (IG.2.1–IG.2.3, IG.3.4–IG.3.5):

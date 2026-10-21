@@ -165,8 +165,9 @@ It does not own, and consumes by name:
   and finite Tor amplitude); Weil restriction
   and norm tori (**ReductiveGroupsPartII**, Layer RG2.0a); the Hasse principle for torsors under
   semisimple simply connected groups and their weak approximation (**AdelicAlgebraicGroups**, Layer
-  4, §4.1); Swan conductors of local Galois representations and the upper numbering on open
-  subgroups (**ArithmeticGaloisRepresentations**, Layer 3); resolution and normal crossings
+  4, §4.1); Swan conductors of local Galois representations and their tame-base-change scaling
+  (**ArithmeticGaloisRepresentations**, §§3.1, 3.4), and upper numbering on open subgroups
+  (**LocalFieldsRamification**, Layers 3–4); resolution and normal crossings
   compactification (**ResolutionOfSingularitiesCharacteristicZero**, §§5.5, 6.2, consumed through
   **AlgebraicModuliForArithmeticGeometry**, §§9.4–9.5); complex analytic spaces,
   scheme and algebraic-space analytification and proper coherent GAGA
@@ -408,8 +409,9 @@ EtaleCohomologyFoundations §§F.5–F.6 /
 purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
 norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
 connected groups, and *Weak approximation*, `Approximation.hasWeakApproximation_of_simplyConnected`);
-ArithmeticGaloisRepresentations Layer 3, §3.1 (Swan conductors with finite coefficients over a
-perfect residue field, and the upper numbering on open subgroups);
+ArithmeticGaloisRepresentations §§3.1, 3.4 (Swan conductors with finite coefficients over a
+perfect residue field and their tame-base-change scaling); LocalFieldsRamification Layers 3–4
+(upper numbering on open subgroups);
 ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace` and
 `complexSchemeAnalytification`), §§C−1.2, C1.9 (`complexSpaceAnalytification`, proper coherent GAGA);
 ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` (resolution of
@@ -6706,8 +6708,8 @@ does not split. In the split case, a surjective lift exists once the inflation
 local systems on affine curves* gives `d(φ) := dim H¹(π₁^ét(𝔸¹_k), H) = Sw_∞(H) − dim H`. Pull `φ`
 back along `z ↦ z^m`, `p ∤ m`. The result `φ_m` is still surjective, because the Kummer cover is
 totally ramified over `0`, where the `Q`-cover is étale. The base change at `∞` is tame of
-ramification index `m`, which multiplies the Swan conductor by `m` (the upper numbering on open
-subgroups of ArithmeticGaloisRepresentations Layer 3), so
+ramification index `m`. LocalFieldsRamification Layers 3–4 supply upper numbering on open
+subgroups, and ArithmeticGaloisRepresentations §3.4 gives Swan-conductor scaling by `m`, so
 
 ```text
 d(φ_m) = m · d(φ) + (m − 1) · dim H.
@@ -6723,7 +6725,8 @@ sketch and Corollary 3.7, PDF pp. 10–11 (Serre's theorem), whose sketch prints
 curves). *Needs:* *Euler characteristic of `ℓ`-torsion local systems on affine curves*; Layer IG.1
 *Tame and prime-to-`p` fundamental quotients*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; ArithmeticGaloisRepresentations
-Layer 3 (Swan conductors under tame base change); ProfiniteCohomology Layers 1, 5 and 10
+§3.4 (Swan conductors under tame base change); LocalFieldsRamification Layers 3–4 (upper
+numbering on open subgroups); ProfiniteCohomology Layers 1, 5 and 10
 (inflation–restriction, corestriction); ProfiniteProPGroups Layer 5 (lifting along embedding
 problems); SchemeAndStackFoundations Layers 2 and 3 (Artin–Schreier and Kummer sequences,
 Hochschild–Serre for Galois coverings, Tsen, Picard groups of curves).
