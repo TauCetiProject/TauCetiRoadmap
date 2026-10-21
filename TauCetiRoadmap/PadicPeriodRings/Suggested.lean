@@ -226,7 +226,9 @@ The remaining targets are specified in the README:
 §0.1 naturality in the coefficients and transport along a procyclic group isomorphism;
 §0.2 continuous inflation–restriction and finite descent, using the supplied explicit H1,
 explicitInfl1 and explicitRes1;
-§1.3 periodTraceIdeal, senTowerEstimates, tate_algebraicTraceDescent (finite-stage
+§1.3 periodTraceIdeal and senTowerEstimates on LocalFieldsRamification Layers 3–4's
+different and ramification package and ClassFieldTheory Layer 7's unit-filtration reciprocity;
+tate_algebraicTraceDescent (finite-stage
 degree and trace compatibility, exact integral preimages and trace-one valuation bounds),
 tate_normalizedTrace and tate_almostEtale;
 §1.4 tate_finiteCochainControl (uniform algebraic cochain approximation with its defect),
@@ -236,9 +238,12 @@ tate_cyclotomicBanachH1 and the untwisted part of tate_H1_padicComplex_twist
 §1.5 the canonical BDeRhamPlus/BDeRham topologies, valuation, action, t and graded pieces,
 with joint multiplication on BDeRhamPlus, separate multiplication on BDeRham and
 joint multiplication on each pair of fixed filtration stages;
-§2 PadicFieldCompletion, the general-base periodTraceIdeal, senUpperBreaks (including geometric
-reciprocity and unramified-completion invariance) and senTowerEstimates,
-completedUnramifiedDescent, tateSen, tateSen_H0, tateSen_H1, tateSen_character,
+§2 PadicFieldCompletion, the general-base periodTraceIdeal and senTowerEstimates on the same
+supplied different and ramification package; senUpperBreaks using its finite/absolute filtrations,
+Herbrand functions, full Hasse–Arf and completed maximal unramified comparison, with the
+geometric reciprocity map π₁(U_F)→Gal(F^ab/F) and its unit-filtration compatibility constructed here;
+completedUnramifiedDescent for semilinear modules over the supplied completed unramified field;
+tateSen, tateSen_H0, tateSen_H1, tateSen_character,
 normalisedTrace, tateSen_cyclotomic_twist, tateSen_trivial, tateSen_unramified_character
 and tateSen_H1_trivial_ne_zero, with the general-base forms of tate_algebraicTraceDescent,
 tate_finiteCochainControl and tate_cocycleLimit on infinitely ramified splitting towers;
