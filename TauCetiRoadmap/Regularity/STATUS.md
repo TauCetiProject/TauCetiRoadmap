@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"Regularity","to_sha":"68a457ec2b1aee486f4192ee3ea36a04f70efb8c","ts":"2026-10-20T05:58:24Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"graph hom densities normalized by powers and injective densities by the falling factorial","state":"partial"},{"id":"Layer 1","remaining":"the hypergraph-level analogue of weighted energy","state":"partial"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","remaining":"steppedCount, cutDiscrepancy and the direct finite frieze_kannan theorem","state":"untouched"},{"id":"Layer 4","remaining":"StrongRegular, exists_strong_regular, and StrongRegular.inducedGraphCount3_estimate","state":"partial"},{"id":"Layer 5","remaining":"labelled copies of a fixed hypergraph complex","state":"partial"},{"id":"Layer 6","state":"done"},{"id":"Layer 7","remaining":"slicing, inheritance and exceptional-mass lemmas; arity-2 comparison of vertex-box and pair regularity","state":"partial"},{"id":"Layer 8","remaining":"TriadicComplex3, polyad decompositions, regularityBound3 and exists_strong_regular_approximation3","state":"partial"},{"id":"Layer 9","remaining":"placements, the expected induced count, local counting and the six-charge assembly","state":"partial"}],"readme_sha":"2c256222d15d1e8e30ff6f1a1e0940c9deb8420f61c5c1498ac20368f6d27ba1","roadmap":"Regularity","to_sha":"68a457ec2b1aee486f4192ee3ea36a04f70efb8c"}-->
+# Status: Regularity
+
+This file documents the status of the Regularity roadmap up until `68a457e` (2026-10-20T05:58:24Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The Szemerédi bridge (Layer 2) is done. The finite partition, energy and hypergraph vocabulary (Layers 0, 1, 5, 6) is in place apart from a few named items. Strong graph regularity, top regularity, the strong approximation and induced counting have only their first definitions or lemmas. Finite Frieze–Kannan (Layer 3) has not begun.
+
+### Named results
+
+- **Seeded Szemerédi regularity** — every equipartition of a finite graph is almost refined, within ε in each of its cells, by an ε-uniform equipartition with at most `refiningRegularityBound ε #P₀.parts` parts ([`exists_regular_equipartition_almost_refining`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Regularity/Graph/SeededRegularity.html#SimpleGraph.exists_regular_equipartition_almost_refining)). It needs no large-host hypothesis, because small hosts take the singleton partition.
+- **Regularity refining a partition exactly** — every equipartition is refined exactly by a δ-uniform equipartition of bounded complexity ([`exists_regular_exact_refining_equipartition`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Regularity/Graph/SeededRegularity.html#SimpleGraph.exists_regular_exact_refining_equipartition)). This is the nesting step strong regularity iterates.
+- **Energy gap controls deviation** — for a refinement whose size-weighted energy rises by at most ε, the weighted mean absolute deviation of fine block densities from their coarse parents is at most √ε ([`weightedDensityDeviation_abs_le`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Regularity/Partition/Energy.html#SimpleGraph.weightedDensityDeviation_abs_le)). It rests on the exact defect identity [`weightedDensityDeviation_sq`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Regularity/Partition/Energy.html#SimpleGraph.weightedDensityDeviation_sq).
+- **Repeated-cell bound** — all but `3·m·|V|²` labelled induced copies of a three-vertex graph meet three distinct cells, when cells have size at most `m` ([`inducedGraphCount3_le_sum_card_induced_add`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Regularity/Graph/InducedCount.html#SimpleGraph.inducedGraphCount3_le_sum_card_induced_add)). This is one of the three error terms in the Layer 4 counting estimate.
+
+### Notable definitions and infrastructure
+
+- **The lower skeleton** — [`PairSkeleton3`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Hypergraph/PairColor/Regular.html#TauCeti.PairSkeleton3) bundles vertex cells with a coherent pair-coloring. Its coordinatewise [pair regularity](https://taucetiproject.org/docs/TauCeti/Combinatorics/Hypergraph/PairColor/Regular.html#TauCeti.PairSkeleton3.IsPairColorRegular) reduces to Mathlib's graph uniformity at arity 2, which ties the hypergraph tower back to the graph layer.
+- **Polyads and relative density** — [`Polyad3`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Hypergraph/Polyad/Basic.html#TauCeti.Polyad3), its Rödl–Schacht-style [`Subpolyad3`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Hypergraph/Polyad/Subpolyad.html#TauCeti.Subpolyad3), and the color-indexed [`relativeDensity`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Hypergraph/Polyad/Density.html#TauCeti.Colored3Graph.relativeDensity) are the supports on which every arity-3 density and regularity statement is tested.
+- **Top regularity over a polyad** — [`IsTopRegularOverPolyad`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Hypergraph/Polyad/TopRegular.html#TauCeti.Colored3Graph.IsTopRegularOverPolyad) is the rank-r test against unions of subpolyads, the hypothesis Layer 9's counting will consume. It is shown to imply the vertex-box condition.
+
+### Roadmap coverage
+
+Layer 2 is done. Layer 6 is done: polyads, subpolyads, the face-key dictionary, relative densities with their laws, and worked density examples. Layer 0 is done except for the hom and injective density API. Layer 1 is done except for the hypergraph-level energy analogue. Layer 5 is done except for labelled copies of a fixed complex. Four layers are partial with only their first pieces. Layer 4 has the exact nested refinement and repeated-cell bookkeeping, but not `StrongRegular`, `exists_strong_regular` or the induced counting estimate. Layer 7 has the conditions but not the slicing, inheritance or exceptional-mass lemmas, nor the arity-2 comparison gate. Layer 8 has only the edit discrepancy and `Approximates3`. Layer 9 has only patterns and `inducedCopyCount`. Layer 3 is untouched: neither `steppedCount`, `cutDiscrepancy` nor the finite Frieze–Kannan theorem exists. The dense-graph-limits comparison results have not started.
+
+## The frontier
+
+- **Strong graph regularity (Layer 4)** — define `StrongRegular` and prove `exists_strong_regular` by iterating the exact-refinement lemma with energy-gap stopping. Then assemble `inducedGraphCount3_estimate` from the √ε deviation bound, the repeated-cell bound and a fine-regularity estimate.
+- **Finite Frieze–Kannan (Layer 3)** — build `steppedCount`, `cutDiscrepancy` and the direct `frieze_kannan` with its `4^(⌈1/ε²⌉+1)` bound. It needs only Layer 1's energy, which is now available.
+- **Top-regularity calculus (Layer 7)** — slicing, inheritance and exceptional-mass lemmas for `IsTopRegularOverPolyad`, plus the arity-2 comparison of vertex-box and pair regularity.
+- **Small Layer 0/1/5 gaps** — hom and injective densities normalized by powers and falling factorials, a hypergraph block energy, and labelled copies of a fixed hypergraph complex.
+- **The strong arity-3 approximation (Layer 8)** — `TriadicComplex3`, its complexity and polyad decomposition, and `exists_strong_regular_approximation3`. This is the roadmap's hardest step and waits on Layer 7.

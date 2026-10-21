@@ -15,8 +15,9 @@ Use Mathlib `FiberBundle`, `VectorBundle`, `VectorBundleCore`, `Bundle.TotalSpac
 pullbacks, Hom/dual constructions and `ContMDiffVectorBundle`. The continuous
 finite-rank category, locally constant ranks, finite embeddings, metrics,
 Grassmannians, Stiefel spaces and numerable BO/BU classification are
-[TopologicalKTheory T1](../TopologicalKTheory/README.md) dependencies. Its T6.4
-supplies continuous principal/associated bundles and descent. Use TopK T1.5's actual finite real Grassmannians and tautological bundles.
+[TopologicalKTheory T1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7575afad9ceed0ff19ecf5629ba196e54fdf7637/TauCetiRoadmap/TopologicalKTheory/README.md)
+dependencies. Its T6.4 supplies continuous principal/associated bundles and
+descent. Use TopK T1.5's actual finite real Grassmannians and tautological bundles.
 C1.0 and C1.1a construct their positive-rank oriented double covers, lifted
 finite cells and coordinate maps. TopK T1.6a owns the fixed-rank and stable
 colimits, universal-bundle diagrams and classifier comparison on those
@@ -46,7 +47,7 @@ on clopen strata, with the singular cohomology product comparison for disjoint
 unions. Smooth statements use finite-dimensional Hausdorff second-countable
 Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses.
 
-- [AlgebraicTopology Stages2–6,8.1–8.7](../AlgebraicTopology/README.md) owns singular
+- [AlgebraicTopology Stages2–6,8.1–8.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0e8b058a97cc4f9401d2679313e0e937761c1024/TauCetiRoadmap/AlgebraicTopology/README.md) owns singular
   chains/cochains, local systems, cup/cap/cross products and pair
   sequences, excision, cellular comparison, Künneth and homotopy
   comparison. Consume actual Tau Ceti `TopCat.singularCohomology`,
@@ -63,7 +64,7 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   its pair LES has a separate compatibility check against S5, while proper AT8.5
   consumes the needed support interfaces. This is not a whole-Stage6 dependency
   or a feedback edge into C1.2a.
-- [DGFloer Layer1 item2](../DGFloer/README.md) consumes native
+- [DGFloer Layer1 item2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/89625499d1d7cf3880f125d675164e30990f72ba/TauCetiRoadmap/DGFloer/README.md) consumes native
   `TauCeti.TopCat.serreFibrations`,
   `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` for locally
   trivial TopCat morphisms, and `TauCeti.TopCat.mem_serreFibrations_proj`
@@ -73,18 +74,25 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   pin; their generic LES and spectral-sequence developments remain targets.
   The local-trivialization theorem uses one
   common typical fibre F for every chart of that morphism; variable-rank
-  bundles are treated on their rank strata. DGFloer
-  owns the actual homotopy exact sequence, ordinary Serre spectral
-  sequences and arbitrary-space connected-map/local-coefficient homology comparisons.
-  C1.1 specializes the sequence to its numerable bundles; C1.2 consumes
-  its coefficient-chain/Hom comparison. The actual Milnor counit theorem
+  bundles are treated on their rank strata. The public DGF Layer1.2 text at
+  PR963 states CW approximation and weak-equivalence invariance for singular
+  homology with local coefficients. The named `connectedMapHomologyComparison`
+  used below is a separate DGF roadmap target to construct with those exact
+  inputs; it is not claimed to be an API in that public text or in the
+  installed a91 pin. DGFloer owns the actual homotopy exact sequence and
+  ordinary Serre spectral sequence as roadmap targets. C1.1 specializes the
+  required sequence to its numerable bundles; C1.2 consumes the separately
+  named coefficient-chain/Hom comparison target. Construct these generic
+  targets before their C1 applications. Construct the multiplicative cohomological
+  Serre comparison before its application in C5a.5 and its later use in C5a.6.
+  The actual Milnor counit theorem
   remains C1.2, distinct from the abstract CW-approximation existence theorem.
-- [DifferentialGeometry Layers1–2,5–10](../DifferentialGeometry/README.md) owns
+- [DifferentialGeometry Layers1–2,5–10](https://github.com/TauCetiProject/TauCetiRoadmap/blob/43f7d956d73eee21a2d99457f62e29981359b82e/TauCetiRoadmap/DifferentialGeometry/README.md) owns
   forms, wedge, d, orientations, integration/Stokes, compact supports and the
   multiplicative singular/de Rham comparison. C2 builds cohomological Thom,
   fibre integration and their comparison on those objects, including the
   compact-support singular/de Rham comparison.
-- [SmoothBundlesConnections B1–B4,B6](../SmoothBundlesConnections/README.md)
+- [SmoothBundlesConnections B1–B4,B6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e3abb0d30aff607a392b1d2d8a3f7c9daccbbb33/TauCetiRoadmap/SmoothBundlesConnections/README.md)
   owns principal/associated smooth bundles, connections, curvature, Bianchi,
   local transition conventions and the normalized integral circle class.
   [ComplexKahlerGeometry K4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k4-holomorphic-and-hermitian-bundles)
@@ -96,34 +104,35 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   generator and inclusion compatibility, before the universal-class
   comparison. The line-curvature/smooth comparison uses K4 and K7.2's
   independent form and SBC B6 circle-class comparisons.
-- [GeometricTopology Layers1,3,10](../GeometricTopology/README.md) owns
+- [GeometricTopology Layers1,3,10](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0e8b058a97cc4f9401d2679313e0e937761c1024/TauCetiRoadmap/GeometricTopology/README.md) owns
   embeddings/tubular maps, the smooth mapping topology and the oriented-plane
-  Euler interface.
+  Euler target. These are roadmap contracts in the linked current-main text,
+  not claims that a built supplier API already exists.
   C2 constructs general Euler/Thom and compares its rank2 restriction with
   that standalone plane construction.
 - [LieGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0942b6c99c9c9baff3c962bc672bcaab81baff48/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md) owns Lie groups,
   closed subgroups, adjoint action, tori, Weyl groups and root planes;
-  [CompactGroups](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1047) owns Haar
+  [CompactGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/25f5db0a4ece65ab7f56a303e887ac90676c511f/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md) owns Haar
   averaging and Peter–Weyl. C1 builds finite faithful representations as the
   universal-approximation connector. C5 builds invariant-polynomial restriction;
   it uses [LieHighestWeight L1,L7 and L9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e2bb7060603f59e7b353b224589766a18e9e396e/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md#layer-7-the-center-of-ul-harish-chandra-freudenthal-and-serres-relations)
   for Cartan/root decomposition, generic Lie-algebra Chevalley restriction
   with its homogeneous compatibility, and the reductive decomposition.
-- [LieGroupoidsPoisson G1.3a](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1050)
+- [LieGroupoidsPoisson G1.3a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4391caecad1cd4979caa27e490e2bbfd69598d81/TauCetiRoadmap/LieGroupoidsPoisson/README.md)
   owns the all-degree real Lie-algebra CE complex, its coefficient modules
   and low-degree native comparison. C5a constructs the compact-group
   invariant-form and Haar homotopies on that complex.
-  [ReflectionInvariantTheory §§1–3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1118)
+  [ReflectionInvariantTheory §§1–3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ba65e6647efb7064b63960dac02437b095fb9989/TauCetiRoadmap/ReflectionInvariantTheory/README.md)
   owns the early fixed-polynomial algebra, homogeneous basic-invariant
   evaluation, regular sequence, coinvariant and character-lattice scalar-change
   interfaces independently of topology. C5a consumes those maps and owns
   their compact cohomology/transgression application. Its exterior theorem is
   not a premise for the reflection invariant-algebra theorem.
-- [TopologicalKTheory T2–T5](../TopologicalKTheory/README.md) owns actual SplitK0
+- [TopologicalKTheory T2–T5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7575afad9ceed0ff19ecf5629ba196e54fdf7637/TauCetiRoadmap/TopologicalKTheory/README.md) owns actual SplitK0
   K-rings, relative triples/complexes, compact supports, λ-operations, Bott and
   the dual-Koszul Thom class. C6 constructs ch on these functors and its Thom
   correction, rather than replacing relative classes by their absolute image.
-- [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md)
+- [SpinRepresentations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0e8b058a97cc4f9401d2679313e0e937761c1024/TauCetiRoadmap/RepresentationTheory/SpinRepresentations/README.md)
   supplies exterior/half-spin modules and weight characters. C7 translates
   specified root characters into characteristic series; spin lifts, geometric
   chirality, Dirac operators and index theorems are geometric consumers.
@@ -138,7 +147,7 @@ Abbreviations below use the linked suppliers: TopK=TopologicalKTheory,
 AT=AlgebraicTopology, SBC=SmoothBundlesConnections, CKG=ComplexKahlerGeometry,
 GT=GeometricTopology and DG=DifferentialGeometry.
 
-[ConvexityToric T2](../SymplecticGeometry/ConvexityToric/README.md) owns Borel
+[ConvexityToric T2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0e8b058a97cc4f9401d2679313e0e937761c1024/TauCetiRoadmap/SymplecticGeometry/ConvexityToric/README.md#L73-L103) owns Borel
 equivariant cohomology, moment-map Morse theory and localization, consuming C1's
 torus model/cohomology and C2/C3's ordinary Thom, Euler and Leray–Hirsch theory.
 Compare its finite products of spheres/projective spaces with C1's torus model
@@ -255,11 +264,11 @@ and C3.5 owns the separate universal Spin obstruction.
    SO inclusion by the cyclic block permutation corrected on the added
    line by sign(−1)^(n−1), and its path in SO(n). Prove the bundle and
    orientation-forgetting homotopy comparisons. This precursor uses no
-   Milnor join or TopK T6.4; TopK T1.6 owns the fixed-rank/stable oriented
+   Milnor join or TopK T6.4; TopK T1.6a owns the fixed-rank/stable oriented
    colimits and their HomotopySpheres classifier comparison.
 
    **C1.1b. Numerable joins and frame specialization.** After TopK
-   T1.6 and T6.4, for compact Lie G construct the Milnor countable join EG with free right
+   T1.6a and T6.4, for compact Lie G construct the Milnor countable join EG with free right
    G-action and quotient B_join(G),
    using the strong coordinate topology generated by the weights t_i and
    g_i on {t_i>0}, with finite-support points and Σt_i=1. Prove the compact
@@ -267,11 +276,21 @@ and C3.5 owns the separate universal Spin obstruction.
    contractibility by an explicit shift/rotation
    homotopy, and classification of numerable principal G-bundles by [X,B_join(G)].
    Build the bundle-map/isomorphism and homotopy comparisons, independence of
-   partitions and refinement. For a locally finite partition (t_j), construct
-   `q_E=max(0,min_(j∈E)t_j−max_(j∉E)t_j)` for finite nonempty E. Prove
-   same-cardinality positive supports disjoint, `Σ_E |E|q_E=1`, and glue
-   their trivializations to countably many colours before mapping into the
-   countable join. This handles uncountable trivializing covers. For the join
+   partitions and refinement. For an uncountable locally finite trivializing
+   family, consume TopK T1.6a's
+   [public early countable-colour producer](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7575afad9ceed0ff19ecf5629ba196e54fdf7637/TauCetiRoadmap/TopologicalKTheory/README.md#L340-L399):
+   its generic gap formula, zero-complement convention, tie and zero-weight
+   cases, disjoint same-cardinality strata, telescoping normalization, and
+   native countable partition. Consume its locally finite finite-stage
+   weighted-frame construction with chart, partition and refinement
+   homotopies. A locally finite uncountable chart family alone gives no
+   countable coordinate stage. Apply the supplied countable partition to the
+   chosen principal-bundle trivializations to construct this stage's
+   equivariant join map and prove its pullback isomorphism and classifier
+   naturality; retain those G-specific constructions here. For the comparison
+   with the O/U Grassmannian carriers below, consume the same early finite-stage
+   frame and homotopy interfaces rather than re-proving their generic
+   construction. This handles uncountable trivializing covers. For the join
    weights themselves, prove that summable point-finite weights admit a locally
    finite subordinate refinement by truncating at 1/n and normalizing a
    countable union of locally finite families; the original weights are not
@@ -296,11 +315,12 @@ and C3.5 owns the separate universal Spin obstruction.
    Consume native `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`
    from that API, with one common typical fibre F
    for all charts of each join, quotient or pullback TopCat morphism, and
-   `TauCeti.TopCat.mem_serreFibrations_proj` for native `FiberBundle` carriers,
-   together with DGFloer 1.2's homotopy exact sequence,
-   specializing the actual boundary π_n(B)→π_(n−1)(F) to these numerable
-   bundles, with basepoints, basepoint change, group laws and pointed-set
-   exactness at π1/π0. Do not identify the fibre inclusion with an NDR pair. Prove
+  `TauCeti.TopCat.mem_serreFibrations_proj` for native `FiberBundle` carriers.
+  The associated DGFloer 1.2 homotopy exact sequence is a target to construct,
+  not a theorem supplied by these membership declarations. Construct its
+  specialization of the actual boundary π_n(B)→π_(n−1)(F) to these numerable
+  bundles, with basepoints, basepoint change, group laws and pointed-set
+  exactness at π1/π0. Do not identify the fibre inclusion with an NDR pair. Prove
    Dold's theorem that a numerable bundle with contractible fibre is a homotopy
    equivalence, including the local contraction/partition construction.
 2. **Bockstein input.** Consume AlgebraicTopology Stage6.1's coefficient long exact sequence and
@@ -410,9 +430,11 @@ and C3.5 owns the separate universal Spin obstruction.
    [#42435](https://github.com/leanprover-community/mathlib4/pull/42435)
    (`SSet.KanComplex.π`) and [#42488](https://github.com/leanprover-community/mathlib4/pull/42488)
    (`SSet.FundamentalGroupoid`); construct any missing interfaces in Tau Ceti.
-   Consume DGFloer 1.2's `connectedMapHomologyComparison`, including its
-   face-compatible Eilenberg compression, local-coefficient prism maps and
-   weak-equivalence coefficient-chain/Hom comparison. Apply it to this actual
+   Construct the DGFloer 1.2 target `connectedMapHomologyComparison`, including
+   its face-compatible Eilenberg compression, local-coefficient prism maps and
+   weak-equivalence coefficient-chain/Hom comparison; the public PR963 text
+   supplies the weak-equivalence/local-coefficient input, not this named map.
+   Apply the constructed comparison to this actual
    counit after proving the counit weak equivalence; do not build another
    arbitrary-space weak-equivalence or CW-approximation theorem here.
    Pull back the bundle and deleted/projective/flag bundles; item1's homotopy
@@ -424,7 +446,7 @@ and C3.5 owns the separate universal Spin obstruction.
    [#35073](https://github.com/leanprover-community/mathlib4/pull/35073), and
    sheaf/derived cohomology of [#35790](https://github.com/leanprover-community/mathlib4/pull/35790)
    where that comparison is used. Consume
-   [TopologicalSheafCohomology TS1.1–TS1.2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/973)'s
+   [TopologicalSheafCohomology TS1.1–TS1.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f06755a218b4dc5eeccc6b0f4a7782e14ccb9b55/TauCetiRoadmap/TopologicalSheafCohomology/README.md)'s
    early, purely cover-theoretic interface for arbitrary topological spaces:
    fixed-cover native tuple complexes, actual raw refinement cochain maps,
    their identity/composition laws and explicit cochain homotopies between
@@ -472,8 +494,8 @@ and C3.5 owns the separate universal Spin obstruction.
    isomorphism in the stable range; its inverse defines universal classes.
    Use the common associated space `EG×_G E_m`: its map to B_m has contractible
    fibre EG and is a homotopy equivalence by item1; its map to B_join(G) has
-   fibre E_m. Apply DGFloer 1.2's connected-map comparison after the consumed
-   Serre homotopy fibre sequence. State the bound,
+   fibre E_m. Apply the constructed DGFloer 1.2 connected-map comparison after
+   its separately stated Serre homotopy-fibre-sequence target. State the bound,
    for example choose `2(m−N)≥d+1`. The cohomology comparison uses integral
    homology and universal coefficients, not an assumed cohomology Serre theory. These comparisons include local coefficients and coefficient
    naturality. Use SBC B6.0's finite smooth good cover and Mayer–Vietoris to prove
@@ -886,7 +908,7 @@ AT8.1's relative-cell connectivity and transport theorem.
    from `Connected` for ranks≥2, including the rank2 squaring-cover
    nontriviality detected by restriction to SO(2) and e mod2.
    `realCliffordSpinLastLocalSection` is a section over the unit sphere and
-   is not an SO-cover section. SpinGeometry G4.1a owns rank0/rank1 and
+   is not an SO-cover section. [SpinGeometry G4.1a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/eb728c1c5a918754ff785dcfd561aad6185d14a4/TauCetiRoadmap/SpinGeometry/README.md) owns rank0/rank1 and
    frame transport through the native abstract/units-range/matrix comparisons;
    G4.1b owns the
    independent smooth refinement on the native units-range carriers;
@@ -905,7 +927,7 @@ AT8.1's relative-cell connectivity and transport theorem.
    and compare on finite smooth approximations/good covers. H²(BSO(n);F2)
    is generated by w₂ for n≥2; restriction to SO(2) identifies the central
    squaring-cover obstruction with e mod2. Prove stabilization and the rank0/1
-   cases. In rank0 consume SpinGeometry G4.1a's geometric μ2→SO(0)={1},
+   cases. In rank0 consume [SpinGeometry G4.1a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/eb728c1c5a918754ff785dcfd561aad6185d14a4/TauCetiRoadmap/SpinGeometry/README.md)'s geometric μ2→SO(0)={1},
    rather than the trivial native Mathlib Spin(0). Its canonical SO(0) frame
    bundle lifts as a principal Z2 bundle; w₂=0 and the trivial lift exists.
    Retain the signed rank0 orientation separately. The same trivial-base-cover
@@ -1124,7 +1146,7 @@ change. An integral class, its rational image and its de Rham representative
 remain distinct objects.
 
 **C5a.1. The compact invariant-form comparison.** Consume
-[LieGroupoidsPoisson G1.3a](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1050)'s
+[LieGroupoidsPoisson G1.3a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4391caecad1cd4979caa27e490e2bbfd69598d81/TauCetiRoadmap/LieGroupoidsPoisson/README.md)'s
 all-degree real CE complex, including its scalar trivial-module comparison,
 and DG's smooth alternating forms, wedge, d, pullback and Cartan homotopy
 formula. Construct the left-trivialization map
@@ -1195,7 +1217,7 @@ products with arbitrary finite groups are not included in this finiteness
 claim.
 
 **C5a.2. Actual invariant generators and the rational structure.** Consume
-[ReflectionInvariantTheory §§1–3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1118)'s early graded polynomial evaluation
+[ReflectionInvariantTheory §§1–3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ba65e6647efb7064b63960dac02437b095fb9989/TauCetiRoadmap/ReflectionInvariantTheory/README.md)'s early graded polynomial evaluation
 isomorphism, regular-sequence and coinvariant interfaces for the actual Weyl
 action on the maximal-torus character representation. These early interfaces
 use no BG, compact cohomology, Schubert geometry or transgression theorem.
@@ -1324,7 +1346,7 @@ graded Hopf isomorphism from the exterior algebra on these primitive
 classes, with each generator in degree2d_i−1. There is no claim that the
 chosen averaging map respects multiplication or the coproduct on forms.
 
-Apply DGFloer Layer1.2's multiplicative cohomological Serre construction to
+Construct DGFloer Layer1.2's multiplicative cohomological Serre target and apply it to
 `K→EK→BK` on C1's same numerable model, with local coefficients and their
 trivialization proved from connectedness (`π1(BK)=π0(K)=0`). Use
 `d_r:E_r^(p,q)→E_r^(p+r,q−r+1)` and compare with the filtered finite
@@ -1360,8 +1382,8 @@ associated fibrations on the same EK, construct
 `K/T→EK/T→BK`, `K/N(T)→EK/N(T)→BK`, and the free finite covering
 `EK/T→EK/N(T)` with deck W. Prove the universal-bundle comparison maps with
 BT and BN, not a new classifier. Consume SchubertGeometry S9.6's rational
-acyclicity of K/N(T) and finite-cover transfer, and use DGF's actual
-cohomological Serre comparison to recover the BN proof of
+acyclicity of K/N(T) and finite-cover transfer, and use the DGF cohomological
+Serre comparison constructed by the earlier C5a.5 target to recover the BN proof of
 `H^*(BK;Q)≃H^*(BT;Q)^W`. Compare its **maps** with the already independent
 C5.2–3 Borel theorem. This application does not enter the proof of C5.2 or
 SchubertGeometry's acyclicity. Distinguish the finite W cover BT→BN from
@@ -1405,7 +1427,7 @@ generator with a homology generator without its Hurewicz degree.
 For tori use C1.5's actual CP∞ products, standard character −h and the dual
 character +h; match the degree1 Maurer–Cartan integral and degree2
 transgression with those signs. For compact simple factors consume the purely root-theoretic
-[ReflectionInvariantTheory §4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1118) degree/exponent convention `e_i=d_i−1`, and hence
+[ReflectionInvariantTheory §4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ba65e6647efb7064b63960dac02437b095fb9989/TauCetiRoadmap/ReflectionInvariantTheory/README.md) degree/exponent convention `e_i=d_i−1`, and hence
 odd degrees2e_i+1; central directions have d=1 and e=0. Keep the single
 Coxeter number only for an irreducible semisimple factor, and use
 componentwise formulas on reducible groups. Verify the E8 eight-entry
@@ -1554,7 +1576,7 @@ the constructions here or an additional generic characteristic-class owner.
 C1 and C2 precede C3. C3.6's away2/odd-prime rings consume C3.1–4 and
 C1–2 and AT4/6's compact-image/cochain/Milnor foundation, before C4–5
 and independently of Spin or bordism. C3.5 consumes the native topological spin cover
-and SpinGeometry G4.1a's topological carrier adapters; it uses no smooth
+and [SpinGeometry G4.1a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/eb728c1c5a918754ff785dcfd561aad6185d14a4/TauCetiRoadmap/SpinGeometry/README.md)'s topological carrier adapters; it uses no smooth
 refinement. The spin-lift obstruction/torsor consumes C3.5 afterwards.
 C4's invariant-form construction and line comparison use
 C1–C3 and the smooth suppliers; C5.5 proves the Pfaffian comparison after
