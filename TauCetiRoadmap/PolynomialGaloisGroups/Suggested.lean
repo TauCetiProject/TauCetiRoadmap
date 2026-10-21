@@ -1,5 +1,6 @@
 import Mathlib
 import TauCetiRoadmap.NumberFieldArithmetic.Suggested
+import TauCeti.FieldTheory.GaloisGroups.Cubic
 
 /-!
 # Galois groups of polynomials: target signatures
@@ -70,6 +71,35 @@ the `Fact`. -/
 local instance factSplitsSplittingField {F : Type u} [Field F] (p : F[X]) :
     Fact ((p.map (algebraMap F p.SplittingField)).Splits) :=
   ⟨IsSplittingField.splits p.SplittingField p⟩
+
+/-! ## Layer 0: transport across a base-field isomorphism -/
+
+/-- Cross-base splitting-field uniqueness, expressed as an algebra equivalence over `F` after
+pulling the `F̄`-algebra structure on `L` back along `η`. -/
+theorem splittingField_algEquiv_of_baseEquiv
+    {F Fbar E L : Type*} [Field F] [Field Fbar] [Field E] [Field L]
+    [Algebra F E] [Algebra Fbar L] (η : F ≃+* Fbar) (p : Polynomial F)
+    [Polynomial.IsSplittingField F E p]
+    [Polynomial.IsSplittingField Fbar L (Polynomial.map η.toRingHom p)] :
+    (letI : Algebra F L := ((algebraMap Fbar L).comp η.toRingHom).toAlgebra;
+     Nonempty (E ≃ₐ[F] L)) := by
+  letI : Algebra Fbar F := η.symm.toRingHom.toAlgebra
+  letI : Algebra F L := ((algebraMap Fbar L).comp η.toRingHom).toAlgebra
+  letI : IsScalarTower Fbar F L := IsScalarTower.of_algebraMap_eq fun x => by
+    change algebraMap Fbar L x =
+      ((algebraMap Fbar L).comp η.toRingHom) (η.symm x)
+    simp
+  have hmap : Polynomial.map (algebraMap Fbar F) (Polynomial.map η.toRingHom p) = p := by
+    rw [Polynomial.map_map]
+    ext x
+    simp [RingHom.algebraMap_toAlgebra]
+  haveI : Polynomial.IsSplittingField F L p := by
+    rw [← hmap]
+    infer_instance
+  let eE : E ≃ₐ[F] p.SplittingField := Polynomial.IsSplittingField.algEquiv E p
+  let eL : L ≃ₐ[F] p.SplittingField := Polynomial.IsSplittingField.algEquiv L p
+  exact ⟨eE.trans eL.symm⟩
+
 
 /-! ## Prototypes: suggested forms for the basic objects -/
 
@@ -366,7 +396,7 @@ variable {F : Type u} [Field F]
 /-- **Non-vacuity.** The smallest interesting Galois group of a polynomial: `x³ − 2` over `ℚ`
 has Galois group of order 6 (it is `S₃ = 3T2`; LMFDB field `3.1.108.1`). -/
 example : Nat.card (X ^ 3 - 2 : ℚ[X]).Gal = 6 :=
-  sorry
+  TauCeti.natCard_gal_X_pow_three_sub_two
 
 /-- **Layer 0, degree bookkeeping.** A separable polynomial has exactly `natDegree` distinct
 roots in its splitting field. This is what makes the degree-`n` permutation picture available,
@@ -1190,5 +1220,119 @@ example (n : ℕ) (hn : 2 ≤ n) :
   sorry
 
 end Frobenius
+
+section ElementaryEmbeddingExamples
+
+open IntermediateField Polynomial
+
+/-- The residual quadratic after adjoining the real cube root. -/
+noncomputable def cubicQuadratic (α : ℝ) : ℚ⟮α⟯[X] :=
+  X ^ 2 + C (AdjoinSimple.gen ℚ α) * X + C ((AdjoinSimple.gen ℚ α) ^ 2)
+
+theorem cubic_factor_after_adjoin (α : ℝ) (hα : α ^ 3 = 2) :
+    (X ^ 3 - 2 : ℚ[X]).map (algebraMap ℚ ℚ⟮α⟯) =
+      (X - C (AdjoinSimple.gen ℚ α)) * cubicQuadratic α := by
+  sorry
+
+theorem cubicQuadratic_irreducible (α : ℝ) (hα : α ^ 3 = 2) :
+    Irreducible (cubicQuadratic α) := by
+  sorry
+
+example (α : ℝ) (hα : α ^ 3 = 2) : Module.finrank ℚ ℚ⟮α⟯ = 3 := by
+  sorry
+
+/-- The quotient field carries the rational algebra through the cubic tower. -/
+example (α : ℝ) (hα : α ^ 3 = 2) [Fact (Irreducible (cubicQuadratic α))] :
+    IsSplittingField ℚ (AdjoinRoot (cubicQuadratic α)) (X ^ 3 - 2) := by
+  sorry
+
+example (α : ℝ) (hα : α ^ 3 = 2) [Fact (Irreducible (cubicQuadratic α))] :
+    Nat.card (ℚ⟮α⟯ →ₐ[ℚ] AdjoinRoot (cubicQuadratic α)) = 3 := by
+  sorry
+
+example (α : ℝ) (hα : α ^ 3 = 2) [Fact (Irreducible (cubicQuadratic α))] :
+    Module.finrank ℚ (AdjoinRoot (cubicQuadratic α)) = 6 := by
+  sorry
+
+example (α : ℝ) (hα : α ^ 2 = 2) : IsSplittingField ℚ ℚ⟮α⟯ (X ^ 2 - 2) := by
+  sorry
+
+example : Irreducible (X ^ 2 + 3 : ℚ[X]) := by
+  sorry
+
+example :
+    ((X ^ 2 + 3 : ℚ[X]).map (algebraMap ℚ (AdjoinRoot (X ^ 2 + 3 : ℚ[X])))).Splits := by
+  sorry
+
+example (α : ℝ) (hα : α ^ 2 = 2) (K : Type*) [Field K] [Algebra ℚ K]
+    (hsplit : ((X ^ 2 - 2 : ℚ[X]).map (algebraMap ℚ K)).Splits) :
+    Nonempty (ℚ⟮α⟯ →ₐ[ℚ] K) := by
+  sorry
+
+/-- The splitting-tower comparison is the existing universal-property equivalence. -/
+noncomputable def cubicTowerSplittingFieldEquiv (α : ℝ)
+    [Fact (Irreducible (cubicQuadratic α))]
+    [IsSplittingField ℚ (AdjoinRoot (cubicQuadratic α)) (X ^ 3 - 2)] :
+    AdjoinRoot (cubicQuadratic α) ≃ₐ[ℚ] (X ^ 3 - 2 : ℚ[X]).SplittingField :=
+  IsSplittingField.algEquiv (AdjoinRoot (cubicQuadratic α)) (X ^ 3 - 2)
+
+example : ¬ IsSplittingField ℚ ℝ (X ^ 2 - 2) := by
+  sorry
+
+/-- This consumes the existing cubic theorem instead of reproving its Galois group. -/
+example : Module.finrank ℚ (X ^ 3 - 2 : ℚ[X]).SplittingField = 6 := by
+  let : IsGalois ℚ (X ^ 3 - 2 : ℚ[X]).SplittingField :=
+    IsGalois.of_separable_splitting_field TauCeti.irreducible_X_pow_three_sub_two.separable
+  rw [← IsGalois.card_aut_eq_finrank ℚ (X ^ 3 - 2 : ℚ[X]).SplittingField]
+  exact TauCeti.natCard_gal_X_pow_three_sub_two
+
+/-- A real quadratic simple field has the two expected self-embeddings. -/
+example (α : ℝ) (hα : α ^ 2 = 2) :
+    Nat.card ((IntermediateField.adjoin ℚ ({α} : Set ℝ)) →ₐ[ℚ]
+      (IntermediateField.adjoin ℚ ({α} : Set ℝ))) = 2 := by
+  sorry
+
+/-- The real cubic field is not its normal closure: only one embedding lands back in it. -/
+example (α : ℝ) (hα : α ^ 3 = 2) :
+    Nat.card ((IntermediateField.adjoin ℚ ({α} : Set ℝ)) →ₐ[ℚ]
+      (IntermediateField.adjoin ℚ ({α} : Set ℝ))) = 1 := by
+  sorry
+
+/-- A quadratic field embedding must preserve the square-root relation. -/
+example (α β : ℝ) (hα : α ^ 2 = 2) (hβ : β ^ 2 = 3) :
+    IsEmpty ((IntermediateField.adjoin ℚ ({α} : Set ℝ)) →ₐ[ℚ]
+      (IntermediateField.adjoin ℚ ({β} : Set ℝ))) := by
+  sorry
+
+end ElementaryEmbeddingExamples
+
+/-! ## Finite Galois extensions and radicals in an algebraic closure
+
+The ambient closure is deliberate: these declarations do not assert an internal radical tower
+inside the original Galois extension.
+-/
+
+namespace RadicalConverse
+
+/-- Finite Galois extensions in characteristic zero are radical inside the chosen algebraic
+closure exactly when their automorphism group is solvable. -/
+theorem finiteGalois_iff_image_mem_solvableByRad
+    (F E : Type*) [Field F] [CharZero F] [Field E] [Algebra F E]
+    [FiniteDimensional F E] [IsGalois F E]
+    (ι : E →ₐ[F] AlgebraicClosure F) :
+    Group.IsSolvable (E ≃ₐ[F] E) ↔
+      ∀ x : E, ι x ∈ solvableByRad F (AlgebraicClosure F) := by
+  sorry
+
+/-- The finite solvable-group tower proves the forward direction in the ambient closure. -/
+theorem finiteGalois_solvable_implies_image_mem_solvableByRad
+    (F E : Type*) [Field F] [CharZero F] [Field E] [Algebra F E]
+    [FiniteDimensional F E] [IsGalois F E]
+    (ι : E →ₐ[F] AlgebraicClosure F)
+    (hG : Group.IsSolvable (E ≃ₐ[F] E)) :
+    ∀ x : E, ι x ∈ solvableByRad F (AlgebraicClosure F) := by
+  sorry
+
+end RadicalConverse
 
 end TauCetiRoadmap.PolynomialGaloisGroups
