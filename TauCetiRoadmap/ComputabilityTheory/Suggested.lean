@@ -2,7 +2,7 @@ import Mathlib.Computability.Halting
 import Mathlib.Computability.Primrec.List
 import Mathlib.Computability.Reduce
 import Mathlib.Computability.TuringDegree
-import Mathlib.Data.Finset.Lattice
+import Mathlib.Data.Finset.Lattice.Fold
 import Mathlib.Data.Set.Finite.Basic
 import Mathlib.Data.Set.Card
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
@@ -122,11 +122,11 @@ def encode : Code → ℕ
 /-- Fuel makes decoding a structural recursion even on arbitrary numeric inputs. -/
 def decodeFuel : ℕ → ℕ → Option Code
   | 0, _ => none
-  | k + 1, 0 => some .zero
-  | k + 1, 1 => some .succ
-  | k + 1, 2 => some .left
-  | k + 1, 3 => some .right
-  | k + 1, 4 => some .oracle
+  | _ + 1, 0 => some .zero
+  | _ + 1, 1 => some .succ
+  | _ + 1, 2 => some .left
+  | _ + 1, 3 => some .right
+  | _ + 1, 4 => some .oracle
   | k + 1, n + 5 =>
       let m := n / 4
       match n % 4 with
@@ -216,12 +216,12 @@ def stage (s : ℕ) (σ : List ℕ) (e x : ℕ) : Option Halt :=
       if e < s ∧ x < s ∧ d.output < s ∧ d.use ≤ s then some d else none
 
 /-- The initial segment on addresses strictly below `n`. -/
-noncomputable def prefix (Z : Set ℕ) (n : ℕ) : List ℕ :=
+noncomputable def initialSegment (Z : Set ℕ) (n : ℕ) : List ℕ :=
   List.ofFn fun i : Fin n => characteristic Z i
 
 /-- Bounded evaluation on the complete set oracle, exposed through a finite prefix. -/
 noncomputable def stageAt (s : ℕ) (Z : Set ℕ) (e x : ℕ) : Option Halt :=
-  stage s (prefix Z s) e x
+  stage s (initialSegment Z s) e x
 
 /-- Stage use is zero on nonconvergence, not an indication that use zero diverges. -/
 noncomputable def stageUse (s : ℕ) (Z : Set ℕ) (e x : ℕ) : ℕ :=
@@ -461,9 +461,9 @@ theorem computable_of_computable_modulus (a : ℕ → ℕ → ℕ) (f m : ℕ �
   sorry
 
 /-- Every genuine limit computation is eventually seen along pointwise-convergent oracles. -/
-theorem eventually_stage_of_limit_computation (Z : ℕ → Set ℕ) (Z∞ : Set ℕ)
-    (hZ : ∀ n, ∃ s₀, ∀ s, s₀ ≤ s → (n ∈ Z s ↔ n ∈ Z∞))
-    {e x y : ℕ} (h : y ∈ Phi Z∞ e x) :
+theorem eventually_stage_of_limit_computation (Z : ℕ → Set ℕ) (Zlim : Set ℕ)
+    (hZ : ∀ n, ∃ s₀, ∀ s, s₀ ≤ s → (n ∈ Z s ↔ n ∈ Zlim))
+    {e x y : ℕ} (h : y ∈ Phi Zlim e x) :
     ∃ (s₀ : ℕ) (d : Code.Halt), d.output = y ∧
       ∀ s, s₀ ≤ s → Code.stageAt s (Z s) e x = some d := by
   sorry
@@ -505,17 +505,11 @@ theorem kleene_post :
 
 /-- The finite batch of numbers injuring `e` in the transition to stage `s + 1`. -/
 def injuriesAt (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e s : ℕ) : Finset ℕ :=
-  (fresh A s).filter fun x =>
-    match r e s with
-    | none => False
-    | some b => x ≤ b
+  (fresh A s).filter fun x => (r e s).any fun b => decide (x ≤ b)
 
 /-- Auxiliary strict use-prefix breaches; not a redefinition of the inclusive injury batch. -/
 def useBreachesAt (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e s : ℕ) : Finset ℕ :=
-  (fresh A s).filter fun x =>
-    match r e s with
-    | none => False
-    | some b => x < b
+  (fresh A s).filter fun x => (r e s).any fun b => decide (x < b)
 
 /-- Fresh entries at the active restraint boundary; inactive restraint has no boundary. -/
 def boundaryInjuriesAt (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ)
@@ -802,8 +796,8 @@ example : injurySet zeroThenBoundary allOne 0 = {1} := by
   sorry
 
 /-- Address one is outside the exclusive prefix of length one. -/
-example : Code.prefix (zeroThenBoundary 0 : Set ℕ) 1 =
-    Code.prefix (stageLimit zeroThenBoundary) 1 := by
+example : Code.initialSegment (zeroThenBoundary 0 : Set ℕ) 1 =
+    Code.initialSegment (stageLimit zeroThenBoundary) 1 := by
   sorry
 
 example : injurySet zeroThenPair allOne 0 = {0, 1} ∧
@@ -825,7 +819,7 @@ example : useBreachSet initialSegments growingRestraint 0 = ∅ ∧
   sorry
 
 example : injurySet lateZero droppedRestraint 0 = ∅ ∧
-    Code.prefix (lateZero 0 : Set ℕ) 1 ≠ Code.prefix (stageLimit lateZero) 1 := by
+    Code.initialSegment (lateZero 0 : Set ℕ) 1 ≠ Code.initialSegment (stageLimit lateZero) 1 := by
   sorry
 
 example : initializationStages resetOnce 1 = {1} ∧
