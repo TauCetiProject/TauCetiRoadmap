@@ -145,8 +145,8 @@ replace the corresponding local constructions when they become available.
    results are owned here; groupoid actions and Hamiltonian reduction consume
    them. From the principal local trivializations prove
    `ker(dπ_p)=range(d(g↦p·g)_1)`, with the orbit map a diffeomorphism onto
-   its fiber. Isomorphisms have inverses,
-   composition, restriction, transport and extensionality APIs.
+   its fiber. Isomorphisms have inverses, composition, restriction, transport
+   and extensionality APIs.
 2. Construct trivial bundles, restrictions, pullbacks and products over a
    common base, with universal properties and coherent identity/composition
    comparisons. Convert a left principal action to a right action by
@@ -172,9 +172,8 @@ replace the corresponding local constructions when they become available.
    define an Ehresmann connection as a distribution H complementary to
    `ker(mfderiv π)` at every point, with native
    `TauCeti.IsContMDiffDistribution` from DifferentialGeometry Layer4.
-   Consume LieGroupoidsPoisson G0.1's smooth constant-rank kernel
-   distribution and construct H by orthogonal complement for an auxiliary
-   metric from DG12.1.
+   Consume G0.1's smooth constant-rank kernel distribution and construct
+   H by orthogonal complement for an auxiliary metric from DG12.1.
    Specialize this same construction to smooth fiber bundles. Develop pullback,
    restriction and local horizontal lifts; transport exists on its maximal
    interval and need not be complete for an arbitrary connection. Prove
@@ -211,7 +210,17 @@ Complex bundles over a real base are real smooth vector bundles with fiberwise
 complex structure and complex-linear transition maps; supply the compatible
 `VectorBundle ℂ` structures without asserting a complex structure on the base.
 Construct complexification of real bundles and the decomposition maps needed
-for complex tangent spaces. Build Hermitian bundle metrics with their real
+for complex tangent spaces. For finite-rank real bundles V and D, construct the smooth complex-linear comparison
+`(V_ℂ)*⊗_ℂ D_ℂ ≃ (V*⊗_ℝ D)_ℂ`, with complex-linear dual on the left
+and real dual on the right. Fix the dual map by
+`(z⊗ℓ)(w⊗v)=zwℓ(v)` and use the complexified tensor map for D.
+On the complex dual define conjugation by
+`(κξ)(u)=conj(ξ(κu))`. Prove inverse, chart compatibility, conjugation
+equivariance, real-inclusion compatibility and naturality under bundle
+isomorphisms and base diffeomorphisms.
+[ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md#k5-compact-hermitian-elliptic-theory-and-serre-duality) applies this generic comparison to its real density line, including its
+absolute-Jacobian transition and pushforward laws; B2 does not construct that line.
+Build Hermitian bundle metrics with their real
 metric comparison, positivity, local matrices, dual/tensor and pullback APIs.
 
 For the analytic section theory work over `[RCLike 𝕜]` (both real Riemannian and
@@ -453,18 +462,33 @@ universal cover, identifying its path model and right deck action
 `[a,g]·h=[a,gh]`; prove lifted γ ends at `[a₀,ρ(γ)]`, giving
 holonomy ρ. Supply the adapter to the existing universal-cover representation. Associated vector bundles give the linear equivalence.
 
-Build the restricted holonomy group and holonomy reduction as immersed Lie
-subgroups/subbundles, using LieGroups’ `integralSubgroup` carrier and B2’s
-immersed reduction notion. Prove the subgroup theorem used here: a subgroup
-connected by piecewise C¹ arcs is an immersed Lie subgroup. Prove
-Ambrose–Singer: its Lie algebra is the linear span of curvature values transported
-to the base point; prove that span is bracket closed. Construct the full holonomy
-group's immersed Lie structure and reduction as well: identify restricted
-holonomy with its identity component, construct the surjection from π₁(M) to
-the component quotient, prove π₁(M) is countable using a countable good cover,
-and give the countable coset union its Lie-group topology. Prove smooth inclusion
-and action, and construct the corresponding immersed reduced principal bundle.
-Closedness is not asserted. Flat torus connections and
+On a connected based M with a chosen point of P over the basepoint, construct
+the restricted holonomy H⁰ and full holonomy H with their immersed Lie-group
+topologies, using LieGroups’ `integralSubgroup` carrier. Prove the subgroup
+theorem used here: a subgroup connected by piecewise C¹ arcs is an immersed
+Lie subgroup. Prove Ambrose–Singer: Lie(H⁰) is the linear span of curvature
+values transported to the base point, and that span is bracket closed.
+Identify H⁰ with the identity component of H in its immersed topology;
+construct π₁(M)→H/H⁰, and consume
+[LieGroupoidsPoisson G0.0](../LieGroupoidsPoisson/README.md)'s independent
+topological theorem that the fundamental group of a connected second-countable
+manifold is countable. Verify its local path-connectedness and local simple
+connectedness hypotheses using sufficiently small convex coordinate neighborhoods.
+That theorem uses countable coordinate neighborhoods and components of their
+overlaps, without connections or holonomy. Give the
+countable coset union its Lie-group topology.
+
+Construct the connection-preserving immersed principal **H** reduction Q→M
+using B2's reduction notion, with smooth inclusion Q→P and the restricted
+connection. Form the regular covering `M'=Q/H⁰→M` and prove its deck-group
+identification with H/H⁰; for right-action conventions use the left deck
+action `[h]·[q]=[q h⁻¹]`. Construct the principal H⁰-bundle Q→M' and its
+connection-preserving map `q↦([q],q)` into the pullback of P to M'. After
+pullback to the universal cover, construct the restricted-holonomy reduction
+there as well. Over M itself this reduction applies when H=H⁰, in particular
+when M is simply connected. Prove the base-change and basepoint-conjugation
+comparisons on these actual bundles. Closedness of holonomy in G is not
+asserted. Flat torus connections and
 circle bundles with prescribed loop holonomy are acceptance examples.
 
 ## B6. Circle bundles, integral classes, and flat ambiguity
@@ -510,8 +534,69 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
    `smoothSheafAddCommGroup.compLeft`; compare with the multiplicative
    circle sheaf. Construct the locally constant integer sheaf and identify
    it with the exponential kernel, proving exactness of `t↦exp(2πit)` on stalks.
-   Prove acyclicity of smooth real functions by partitions of unity. Build
-   Čech cochains, refinement and comparison with singular integral cohomology
+   Prove acyclicity of smooth real functions by partitions of unity.
+
+   **Native fixed-cover complex and the displayed coordinates.** For every
+   indexed open cover `U : ι → Opens M`, use Mathlib's actual
+   `CategoryTheory.cechComplexFunctor U` on the actual presheaf underlying each
+   relevant sheaf. In degree `p` its factors are indexed by every ordered
+   tuple `i : Fin (p+1) → ι`, including repetitions, and are sections over the
+   categorical product `∏ᶜ fun j ↦ U (i j)`, which in `Opens M` is their
+   intersection. Construct the canonical product/intersection isomorphism,
+   including repeated factors; do not replace the native tuple index by
+   distinct finite subsets. Identify the concrete module `cechConstants U p`
+   with the native complex of the locally constant real sheaf by the map that
+   sends a scalar on each nonempty good intersection to its constant section.
+   The finite contraction in B6.0 makes each nonempty intersection connected,
+   so every locally constant real section there is constant. On an empty
+   intersection the locally constant sheaf has the zero module, matching the
+   zero-only factor in `cechConstants`; the pointwise constant presheaf with a
+   spurious ℝ-valued section on `∅` is not this sheaf. Prove the degreewise
+   maps are mutually inverse and commute with every face restriction. Thus
+   the native alternating-coface differential
+   `δc(i)=Σ_j (-1)^j c(i∘j.succAbove)|_{∩U_{i_k}}` is exactly the displayed
+   formula, for repeated tuples and empty intersections as well as distinct
+   nonempty ones. Do this for integer and real locally constant coefficients;
+   use the additive-group-valued native sheaf for `AdditiveCircle`, not a
+   fictitious ℝ-module structure on the circle.
+
+   **Augmentation is a separate, conditional comparison.** For the actual terminal object
+   `T=⊤` of `Opens M`, consume Tau Ceti's `cechAugmentation U hT P`. Its degree-zero
+   component followed by the projection indexed by `a : Fin 1 → ι` is exactly
+   `P.map (hT.from (∏ᶜ fun j : Fin 1 => U (a j))).op`. Prove this component equation
+   for the locally constant, smooth-function, and additive-circle sheaves. Do not infer
+   from `cechConstantsNativeIso` that the augmentation is a quasi-isomorphism. Tau Ceti's
+   criterion says this happens exactly when the presieve sheaf condition holds and the
+   native Čech complex is exact in each positive degree; prove those hypotheses at the
+   later good-cover/fine-sheaf comparison where they apply. A fixed-cover augmentation
+   for an arbitrary presheaf or arbitrary cover is not automatically a quasi-isomorphism.
+
+   Construct raw refinement maps from a function `r : κ → ι` and actual
+   inclusions `V_a ⊆ U_(r a)`: on tuple `j` precompose by `r ∘ j` and restrict
+   to the smaller intersection. Prove the cochain-map equation, coefficient
+   and sheaf-morphism naturality, identity and composition equations. For two
+   refinement functions of the same covers, build the explicit native
+   refinement cochain homotopy; repeated indices are retained, so do not claim
+   the category of raw refinement functions is filtered. Consume TS973 TS1.1–1.2
+   here for its arbitrary-space fixed-cover, raw-map, homotopy and small-cofinal
+   cohomological-colimit constructions. Only after that raw construction prove
+   independence in cohomology and pass to its directed refinement preorder.
+   Do not import TS1's later compact-derived or support comparisons, or its
+   advanced duality, as a prerequisite.
+
+   Prove the locally constant, smooth-function and additive-circle coefficient
+   maps commute with the native Čech maps. Compare the stalk-exact sequence
+   `0 → ℤ → C^∞(ℝ) → C^∞(AdditiveCircle) → 0`, with its maps fixed by
+   `t ↦ exp(2πit)`, to the native exponential sequence of sheaves. Construct
+   the induced connecting morphism by lifting cochains after a cover
+   refinement, record its alternating-Čech sign, and prove the comparison
+   square with AlgebraicTopology Stage6.1's singular Bockstein commutes.
+   Sheaf exactness is stalkwise: do not assert that the exponential sequence
+   is sectionwise surjective on each arbitrary open set or that an arbitrary
+   cover augmentation is a quasi-isomorphism. Use the good-cover/fine-sheaf
+   hypotheses at the exact later comparison where they apply.
+
+   Build Čech cochains, refinement and comparison with singular integral cohomology
    on smooth manifolds using B6.0's locally finite smooth good covers. In the double complex
    `Č^p(U;S^q)` use `D=δ+(-1)^p d_sing` and both edge inclusions.
    Require coefficient naturality for ℤ, ℝ and ℝ/ℤ and exact compatibility
@@ -539,7 +624,19 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
    coefficient/sign normalization; there is one de Rham comparison.
    Prove the real-constant-coefficient Čech–de Rham isomorphism using the
    specified smooth contractions and partition-of-unity double-complex maps,
-   with refinement naturality. Pin the actual cochain maps and inverse
+   with refinement naturality. Write the two edge cochains explicitly: a global
+   q-form restricts to the p=0 column, and a locally constant real p-cochain is
+   included as a constant q=0 form. Check horizontal restriction and vertical de Rham
+   differential separately, then verify the total sign `D=δ+(-1)^p d` makes both
+   inclusions cochain maps. The vertical contraction and horizontal
+   partition-of-unity contraction give the two comparison directions; state their
+   chain homotopies and refinement/coefficient naturality instead of postulating an
+   abstract isomorphism. Identify the horizontal row with the native fixed-cover
+   Čech complex above before using its augmentation or refinement colimit; identify
+   the vertical column with the actual smooth de Rham resolution on that intersection.
+   The integer-to-real and real-to-circle connecting squares use these same edge maps
+   and the pinned exponential/Bockstein sign consumed by B6.2–B6.4.
+   Pin the actual cochain maps and inverse
    homotopies by contracting each vertical column with
    dK+Kd=1−ι∘ev_q and each horizontal row by the partition of unity.
    Prove the finite-degree homological perturbation/totalization lemma for
@@ -558,24 +655,14 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
    for this good-cover comparison; do not duplicate its general proof.
 2. **B6.2.** Define `c₁(P)` using the exponential connecting map on the transition
    cocycle for the **dual-character** associated line. With the comparison
-   fixed in B6.1, construct a smooth singular representative of AT6's
-   homological fundamental class on K7.1's common ℂP¹ carrier by DG8.3's
-   smoothing. Choose the class whose local images match K7.1's complex
-   orientation through AT6.3's tangent-orientation comparison.
-   Prove `∫_(ℂP¹)η=⟨deRhamHom[η],[ℂP¹]⟩`, where the left
-   side is DG5's oriented top-form integral with K7.1's complex orientation.
-   For a bump top form supported in a chart ball, use Stokes to reduce its
-   smooth-chain evaluation to AT6's local relative simplex generator.
-   First construct the smooth/continuous relative comparison for
-   `(M,M∖B)`, where B is a closed chart ball containing the bump support,
-   by the five lemma from DG8.3 on M and the open complement. Choose these
-   balls inside interiors of scaled generator simplices
-   `φ⁻¹(φ(x)+ε·Δ_AT)` with ε>0 small enough to fit the chart. Prove this
-   representative gives the prescribed local generator at every interior
-   point. Prove
-   `H₂(M,M∖B;ℝ)≅H₂(M,M∖{x};ℝ)` with matching generators for their centres x.
-   Apply the chart/Jacobian orientation comparison. Extend by a finite
-   partition of unity to all smooth two-forms on ℂP¹.
+   fixed in B6.1, consume DG9.3's general fundamental-class integration
+   comparison on K7.1's common ℂP¹ carrier, oriented by its complex
+   orientation and AT6.3's tangent-orientation comparison:
+   `∫_(ℂP¹)η=⟨deRhamHom[η],[ℂP¹]_ℝ⟩`.
+   The integral uses DG5's top-form carrier; the class is the real image
+   of AT6.3's integral fundamental class. Consume DG8.3's smooth/continuous
+   relative-chain comparison and DG9.3's local-generator comparison for this
+   identification.
    Prove the Hopf normalization above as a theorem and prove circle-bundle
    classification by `H²(M;ℤ)`. Tensor, dual and pullback give sum, negation
    and pullback. Construct tensor products of bundles **with connection**
@@ -594,8 +681,10 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
    finite-generation-free identification with torsion is asserted.
 5. **B6.5.** If fixed curvature F has a realization, its bundle-with-connection
    isomorphism classes form a torsor for `H¹(M;ℝ/ℤ)`. On a fixed underlying
-   bundle the equal-curvature gauge classes are
-   `H¹_dR(M;ℝ)/(2π image H¹(M;ℤ))`. Prove the exact-sequence relationship
+   bundle with a curvature-F connection A₀, the equal-curvature gauge classes
+   form a torsor for `H¹_dR(M;ℝ)/(2π image H¹(M;ℤ))`. The chosen origin A₀
+   identifies it with that group by `[A]↦[A−A₀]`; replacing A₀ by A₁
+   translates coordinates by `−[A₁−A₀]`. Prove the exact-sequence relationship
    retaining torsion classes and the distinction between bundle and
    connection isomorphisms.
 6. **B6.6.** Generalize the exponential/Čech theory to an integral rank-n lattice
@@ -614,8 +703,12 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
 ## B7. Acceptance and dependency order
 
 B1 precedes B2; B3 uses B1–B2 and generic differential forms. B4 follows B3.
-B5 uses B3–B4, B6.0 for countable good covers, and universal covers/Lie subgroup theory. B6.0–B6.1 use differential forms, smooth partitions of unity and the
-cohomological/convex-neighbourhood suppliers independently of B1–B5; the
+B5 uses B3–B4, LieGroupoidsPoisson G0.0's independent fundamental-group
+countability theorem, and universal covers/Lie subgroup theory. B6.0–B6.1 use differential forms, smooth partitions of unity, the early
+arbitrary-space TS973 TS1.1–1.2 raw fixed-cover/refinement interfaces, and
+the cohomological/convex-neighbourhood suppliers independently of B1–B5;
+TS1 is used only at its generic cover-map/homotopy/cofinality scope here, not
+through later compact-derived or support comparisons. The
 circle-bundle and connection items B6.2–B6.6 consume B1–B5 as specified above,
 singular cohomology and the de Rham comparison, while B6.0–B6.1 build the missing
 Čech/sheaf comparison and convex-neighborhood results from HopfRinow.
@@ -626,7 +719,12 @@ can be developed independently of B6's integral theory.
 In addition to the examples already named, compute circle bundles and
 connections on the two-torus, the trivial flat bundle with nontrivial holonomy,
 and a torsion circle bundle on a lens space with nonzero integral class and zero
-real class. Use these to test the tensor/pullback operations and the distinction
+real class. For the flat connection on p*Hopf fixed below, with holonomy
+`ζ=exp(2πi/n)`, compute full holonomy μ_n and trivial restricted holonomy;
+its full holonomy reduction is the S³ covering and its restricted reduction
+has base S³. For character `exp(2πik/n)`, prove that full holonomy is
+`μ_(n/gcd(n,k))` and the covering underlying the full reduction is
+`S³/μ_gcd(n,k)`, which is also the base of the restricted reduction. Use these to test the tensor/pullback operations and the distinction
 between curvature, integral class and holonomy. Consume Tau Ceti’s existing lens-space manifold and fundamental-group APIs;
 construct on the native `LensSpace n ![1,1]` carrier a CW structure with
 one cell in each degree 0–3, with explicit characteristic maps. The

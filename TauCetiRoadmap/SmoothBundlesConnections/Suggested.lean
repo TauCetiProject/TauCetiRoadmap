@@ -11,6 +11,14 @@ import TauCetiRoadmap.DifferentialGeometry.Suggested
 import TauCeti.Geometry.Lie.Tangent.LieEquiv
 import Mathlib.Algebra.Homology.Homotopy
 import Mathlib.Algebra.Homology.QuasiIso
+import Mathlib.CategoryTheory.Sites.ConstantSheaf
+import Mathlib.CategoryTheory.Sites.SheafCohomology.Cech
+import Mathlib.Topology.Sheaves.Sheaf
+import Mathlib.Algebra.Category.ModuleCat.Colimits
+import Mathlib.Algebra.Category.ModuleCat.Limits
+import Mathlib.Algebra.Category.ModuleCat.FilteredColimits
+import Mathlib.CategoryTheory.Sites.Equivalence
+import TauCeti.CategoryTheory.Sites.SheafCohomology.Cech
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -388,7 +396,7 @@ end TrivialBundleL2
 section SmoothGoodCovers
 open CategoryTheory
 open scoped Manifold
-variable {E H M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
+variable {E H M ι κ χ : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
   [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
 
@@ -418,6 +426,82 @@ theorem exists_finite_smoothGoodCover [FiniteDimensional ℝ E] [T2Space M]
     [CompactSpace M] [I.Boundaryless] :
     ∃ C : SmoothGoodCover I (M := M), Finite C.Index := by
   sorry
+
+/-- The genuine locally constant real sheaf, obtained from the native constant-sheaf functor;
+its sections on a nonempty connected open are constants and its sections on `∅` are zero. -/
+noncomputable def locallyConstantRealSheaf :
+    TopCat.Sheaf (ModuleCat ℝ) (TopCat.of M) :=
+  (CategoryTheory.constantSheaf (Opens.grothendieckTopology (TopCat.of M)) (ModuleCat ℝ)).obj
+    (ModuleCat.of ℝ ℝ)
+
+/-- The actual presheaf used by Mathlib's native fixed-cover Čech complex. -/
+abbrev locallyConstantRealPresheaf : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ :=
+  (locallyConstantRealSheaf (M := M)).presheaf
+
+/-- Mathlib's Čech complex of an actual module-valued presheaf on the opens category.
+This is the native tuple-indexed complex, not the coordinate presentation below. -/
+noncomputable def nativeCechComplex (U : ι → TopologicalSpace.Opens M)
+    (P : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ) : CochainComplex (ModuleCat ℝ) ℕ :=
+  (CategoryTheory.cechComplexFunctor U).obj P
+
+/-- Native fixed-cover coefficient/refinement morphisms are the functorial maps supplied by the
+same `cechComplexFunctor`; callers supply an actual presheaf morphism. -/
+noncomputable def nativeCechCoefficientMap (U : ι → TopologicalSpace.Opens M)
+    {P Q : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ} (f : P ⟶ Q) :
+    nativeCechComplex (M := M) U P ⟶ nativeCechComplex (M := M) U Q :=
+  (CategoryTheory.cechComplexFunctor U).map f
+
+/-- A raw refinement induces the native restriction map from the coarse-cover complex to the
+finer-cover complex. The actual inclusions, not only a pointwise index function, are arguments. -/
+noncomputable def nativeCechRefinementMap (U : ι → TopologicalSpace.Opens M)
+    (V : κ → TopologicalSpace.Opens M) (r : κ → ι)
+    (hRef : ∀ a, V a ≤ U (r a))
+    (P : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ) :
+    nativeCechComplex (M := M) U P ⟶ nativeCechComplex (M := M) V P := by
+  sorry
+
+theorem nativeCechRefinementMap_id (U : ι → TopologicalSpace.Opens M)
+    (P : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ) :
+    nativeCechRefinementMap (M := M) U U id (fun _ => le_rfl) P = 𝟙 _ := by
+  sorry
+
+theorem nativeCechRefinementMap_comp
+    (U : ι → TopologicalSpace.Opens M) (V : κ → TopologicalSpace.Opens M)
+    (W : χ → TopologicalSpace.Opens M) (r : κ → ι) (s : χ → κ)
+    (hr : ∀ a, V a ≤ U (r a)) (hs : ∀ b, W b ≤ V (s b))
+    (P : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ) :
+    nativeCechRefinementMap (M := M) U V r hr P ≫
+        nativeCechRefinementMap (M := M) V W s hs P =
+      nativeCechRefinementMap (M := M) U W (r ∘ s)
+        (fun b => (hs b).trans (hr (s b))) P := by
+  sorry
+
+theorem nativeCechRefinementMap_natural
+    (U : ι → TopologicalSpace.Opens M) (V : κ → TopologicalSpace.Opens M)
+    (r : κ → ι) (hr : ∀ a, V a ≤ U (r a))
+    {P Q : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ} (f : P ⟶ Q) :
+    nativeCechRefinementMap (M := M) U V r hr P ≫ nativeCechCoefficientMap (M := M) V f =
+      nativeCechCoefficientMap (M := M) U f ≫
+        nativeCechRefinementMap (M := M) U V r hr Q := by
+  sorry
+
+/-- Tau Ceti's actual augmentation of the native Čech complex; the terminal object is the whole
+space in the opens category. -/
+noncomputable def nativeCechAugmentation (U : ι → TopologicalSpace.Opens M)
+    {T : TopologicalSpace.Opens M} (hT : CategoryTheory.Limits.IsTerminal T)
+    (P : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ) :
+    (CochainComplex.single₀ (ModuleCat ℝ)).obj (P.obj (Opposite.op T)) ⟶
+      nativeCechComplex (M := M) U P :=
+  TauCeti.CategoryTheory.cechAugmentation U hT P
+
+/-- The native augmentation is restriction to each one-fold cover member, using Tau Ceti's
+proved component formula rather than an assumed quasi-isomorphism. -/
+theorem nativeCechAugmentation_f_zero_comp_pi (U : ι → TopologicalSpace.Opens M)
+    {T : TopologicalSpace.Opens M} (hT : CategoryTheory.Limits.IsTerminal T)
+    (P : (TopologicalSpace.Opens M)ᵒᵖ ⥤ ModuleCat ℝ) (a : Fin 1 → ι) :
+    (nativeCechAugmentation (M := M) U hT P).f 0 ≫ CategoryTheory.Limits.Pi.π _ a =
+      P.map (hT.from (∏ᶜ fun j : Fin 1 => U (a j))).op := by
+  exact TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π U hT P a
 
 /-- The open intersection indexed by an ordered Čech tuple. -/
 def cechIntersection (C : SmoothGoodCover I (M := M)) {p : ℕ}
@@ -458,6 +542,105 @@ def cechRealComplex (C : SmoothGoodCover I (M := M)) : CochainComplex (ModuleCat
       apply ModuleCat.hom_ext
       change (cechCoboundary I C (p + 1)).comp (cechCoboundary I C p) = 0
       exact cechCoboundary_comp I C p)
+
+/-- The canonical scalar section on the native product-open factor. It is literally the unit of
+Mathlib's `constantSheafAdj`, followed by restriction along the unique map from this product open
+to the terminal open. There is no free linear-map parameter that could rescale the comparison. -/
+noncomputable def cechTupleConstantSection (C : SmoothGoodCover I (M := M)) {p : ℕ}
+    (i : Fin (p + 1) → C.Index) :
+    ModuleCat.of ℝ ℝ ⟶ (locallyConstantRealPresheaf (M := M)).obj
+      (Opposite.op (∏ᶜ fun j : Fin (p + 1) => C.openSet (i j))) := by
+  let hT : CategoryTheory.Limits.IsTerminal (⊤ : TopologicalSpace.Opens M) :=
+    CategoryTheory.Limits.isTerminalTop
+  exact (CategoryTheory.constantSheafAdj
+      (Opens.grothendieckTopology (TopCat.of M)) (ModuleCat ℝ) hT).unit.app
+        (ModuleCat.of ℝ ℝ) ≫
+      (locallyConstantRealPresheaf (M := M)).map
+        (hT.from (∏ᶜ fun j : Fin (p + 1) => C.openSet (i j))).op
+
+/-- The point of the good-cover contraction, viewed in the intersection subtype. The witness
+`hne` rules out the empty factor; the point is the chosen centre from B6.0 for the finite set of
+entries of the ordered tuple. -/
+noncomputable def cechTupleCentre (C : SmoothGoodCover I (M := M)) {p : ℕ}
+    (i : Fin (p + 1) → C.Index)
+    (hne : Set.Nonempty (cechIntersection I C i : Set M)) : cechIntersection I C i := by
+  classical
+  have hs : (Finset.univ.image i).Nonempty := Finset.image_nonempty.mpr Finset.univ_nonempty
+  simpa [cechIntersection] using C.centre (Finset.univ.image i) hs hne
+
+/-- Evaluation of a locally constant real section at the B6.0 contraction centre. Its construction
+uses the canonical point-evaluation map for the constant sheaf, transported through the native
+product/intersection isomorphism. The good-cover contraction makes this evaluation inverse to
+`cechTupleConstantSection`. -/
+noncomputable def cechTupleEvaluation (C : SmoothGoodCover I (M := M)) {p : ℕ}
+    (i : Fin (p + 1) → C.Index)
+    (hne : Set.Nonempty (cechIntersection I C i : Set M)) :
+    ((locallyConstantRealPresheaf (M := M)).obj
+      (Opposite.op (∏ᶜ fun j : Fin (p + 1) => C.openSet (i j)))) →ₗ[ℝ] ℝ := by
+  classical
+  sorry
+
+/-- A normalized comparison carries the actual chain isomorphism together with its coordinate
+formulas. The forward maps are fixed to be the adjunction-unit constant sections; the inverse maps are
+fixed by the two inverse laws to be their unique centre-evaluation inverse (and zero on empty
+factors). Since the forward map is defined literally from the native adjunction unit, simultaneous
+rescaling of forward and inverse maps is impossible. The laws below rule out arbitrary isomorphism
+data. -/
+structure NormalizedCechConstantsNativeIso (C : SmoothGoodCover I (M := M)) where
+  iso : cechRealComplex I C ≅ nativeCechComplex (M := M) C.openSet
+    (locallyConstantRealPresheaf (M := M))
+  forward_coordinate : ∀ (p : ℕ) (c : cechConstants I C p)
+      (i : Fin (p + 1) → C.Index),
+    (CategoryTheory.Limits.Pi.π
+      (fun j : Fin (p + 1) → C.Index =>
+        (locallyConstantRealPresheaf (M := M)).obj
+          (Opposite.op (∏ᶜ fun k : Fin (p + 1) => C.openSet (j k)))) i).hom
+        ((iso.hom.f p) c) =
+      cechTupleConstantSection I C i
+        ((c : (Fin (p + 1) → C.Index) → ℝ) i)
+  inverse_coordinate_nonempty : ∀ (p : ℕ)
+      (s : (nativeCechComplex (M := M) C.openSet
+        (locallyConstantRealPresheaf (M := M))).X p)
+      (i : Fin (p + 1) → C.Index)
+      (h : Set.Nonempty (cechIntersection I C i : Set M)),
+    ((show cechConstants I C p from (iso.inv.f p) s).val i) =
+      cechTupleEvaluation I C i h
+        ((CategoryTheory.Limits.Pi.π
+          (fun j : Fin (p + 1) → C.Index =>
+            (locallyConstantRealPresheaf (M := M)).obj
+              (Opposite.op (∏ᶜ fun k : Fin (p + 1) => C.openSet (j k)))) i).hom s)
+  inverse_coordinate_empty : ∀ (p : ℕ)
+      (s : (nativeCechComplex (M := M) C.openSet
+        (locallyConstantRealPresheaf (M := M))).X p)
+      (i : Fin (p + 1) → C.Index)
+      (h : ¬ Set.Nonempty (cechIntersection I C i : Set M)),
+    ((show cechConstants I C p from (iso.inv.f p) s).val i) = 0
+  evaluation_constant : ∀ (p : ℕ) (i : Fin (p + 1) → C.Index)
+      (h : Set.Nonempty (cechIntersection I C i : Set M)) (r : ℝ),
+    cechTupleEvaluation I C i h (cechTupleConstantSection I C i r) = r
+  constant_evaluation : ∀ (p : ℕ) (i : Fin (p + 1) → C.Index)
+      (h : Set.Nonempty (cechIntersection I C i : Set M))
+      (s : (locallyConstantRealPresheaf (M := M)).obj
+        (Opposite.op (∏ᶜ fun j : Fin (p + 1) => C.openSet (i j)))),
+    cechTupleConstantSection I C i (cechTupleEvaluation I C i h s) = s
+  empty_factor_zero : ∀ (p : ℕ) (i : Fin (p + 1) → C.Index)
+      (h : ¬ Set.Nonempty (cechIntersection I C i : Set M)),
+    Subsingleton ((locallyConstantRealPresheaf (M := M)).obj
+      (Opposite.op (∏ᶜ fun j : Fin (p + 1) => C.openSet (i j))))
+
+/-- The B6.1 comparison is a normalized data construction: its chain maps have the required
+constant-section and centre-evaluation coordinates on every ordered tuple, including repetitions.
+Its construction proves the displayed inverse laws from the B6.0 contraction, the canonical
+product/intersection isomorphism, and the zero section over empty intersections. -/
+noncomputable def cechConstantsNativeIsoData (C : SmoothGoodCover I (M := M)) :
+    NormalizedCechConstantsNativeIso I C := by
+  sorry
+
+/-- The underlying chain isomorphism of the normalized comparison data. -/
+noncomputable def cechConstantsNativeIso (C : SmoothGoodCover I (M := M)) :
+    cechRealComplex I C ≅ nativeCechComplex (M := M) C.openSet
+      (locallyConstantRealPresheaf (M := M)) :=
+  (cechConstantsNativeIsoData I C).iso
 
 /-- Actual local form modules in the Čech/de Rham double complex. Empty intersections
 have only the zero form. Restrictions and δ are those specified in B6.1. -/
