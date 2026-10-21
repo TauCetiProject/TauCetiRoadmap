@@ -690,8 +690,11 @@ These belong to separate roadmaps.
   actions beyond the logic action of S∞, Borel completeness of isomorphism of countable graphs or
   linear orders, coanalytic rank theory beyond the tree heights of Layer 3, and the rest of
   effective descriptive set theory.
-- Admissible sets, Barwise compactness, Nadel's bound, Scott processes, Lκλ for `κ > ω₁`,
-  many-sorted logic, and relationalization of function and constant symbols.
+- Admissible sets, Barwise compactness, Nadel's bound, Scott processes, Lκλ for `κ > ω₁`, and
+  many-sorted logic.
+- The graph-language translation of function and constant symbols and its semantic API belong to
+  InfinitaryModelExistence (its Layer 6). Transferring Karp theory, back-and-forth analysis and
+  Scott ranks across that translation is outside this series of roadmaps and must reuse that API.
 
 ## Coordination
 
