@@ -25,10 +25,6 @@ Names and namespaces are provisional. `Oracle.Single.Code` follows the shape of 
 PR #38973 inside this roadmap-only namespace, not a competing root namespace. Integrators must
 adopt the current Mathlib/Tau Ceti API. The set notation below expands directly to Mathlib's
 partial-function reducibility; it introduces no second notion of reducibility.
-
-This draft has not been elaborated in Lean. See the package-root HANDOFF.md for the exact
-validation state and commands. In particular, its coding/effectivity signatures and the
-primitive-coding integration must be checked against the repository pin before submission.
 -/
 
 set_option autoImplicit false
@@ -55,7 +51,7 @@ local notation:50 A " ≡ᵀ " B => _root_.TuringEquivalent (oracle A) (oracle B
 def REPredIn (Z : Set ℕ) (p : ℕ → Prop) : Prop :=
   RecursiveIn {oracle Z} (fun x => Part.assert (p x) fun _ => Part.some ())
 
-/-- Relative decidability means an actual computable characteristic procedure. -/
+/-- Decidability relative to `Z`: a decision procedure computable in `Z`. -/
 def ComputablePredIn (Z : Set ℕ) (p : ℕ → Prop) : Prop :=
   ∃ d : DecidablePred p,
     ComputableIn {oracle Z} (fun x => @decide (p x) (d x))
@@ -67,7 +63,7 @@ theorem computablePredIn_empty_iff (p : ℕ → Prop) :
     ComputablePredIn ∅ p ↔ ComputablePred p := by
   sorry
 
-/-- Soare's parity join, not ordinary union. -/
+/-- The parity join `A ⊕ B = {2x | x ∈ A} ∪ {2x + 1 | x ∈ B}`. -/
 def join (A B : Set ℕ) : Set ℕ :=
   {n | if n % 2 = 0 then n / 2 ∈ A else n / 2 ∈ B}
 
@@ -81,7 +77,7 @@ theorem join_le_iff (A B C : Set ℕ) :
     (join A B ≤ᵀ C) ↔ (A ≤ᵀ C) ∧ (B ≤ᵀ C) := by
   sorry
 
-/-- The enumeration hypotheses, not inclusion alone, supply these reductions. -/
+/-- [S, VII.3.3]. The reductions use the enumerations of both halves. -/
 theorem ce_split_reductions (B A₀ A₁ : Set ℕ)
     (h₀ : REPred (fun x => x ∈ A₀)) (h₁ : REPred (fun x => x ∈ A₁))
     (hd : Disjoint A₀ A₁) (hu : A₀ ∪ A₁ = B) :
@@ -92,7 +88,7 @@ theorem ce_split_reductions (B A₀ A₁ : Set ℕ)
 
 namespace Oracle.Single
 
-/-- Shape aligned with the single-oracle Mathlib proposal. -/
+/-- Oracle programs, in the shape of the single-oracle code of Mathlib PR #38973. -/
 inductive Code where
   | zero
   | succ
@@ -107,7 +103,7 @@ inductive Code where
 
 namespace Code
 
-/-- A fully specified numeric coding for this prototype. -/
+/-- A numeric coding of oracle programs. -/
 def encode : Code → ℕ
   | .zero => 0
   | .succ => 1
@@ -159,7 +155,7 @@ structure Halt where
   use : ℕ
   deriving DecidableEq
 
-/-- Sequential bounded minimization: an unanswered earlier test is not skipped. -/
+/-- Bounded minimization. A test with no answer stops the search rather than being skipped. -/
 def search (test : ℕ → Option Halt) : ℕ → ℕ → ℕ → Option Halt
   | 0, _, _ => none
   | k + 1, n, used =>
@@ -223,11 +219,12 @@ noncomputable def initialSegment (Z : Set ℕ) (n : ℕ) : List ℕ :=
 noncomputable def stageAt (s : ℕ) (Z : Set ℕ) (e x : ℕ) : Option Halt :=
   stage s (initialSegment Z s) e x
 
-/-- Stage use is zero on nonconvergence, not an indication that use zero diverges. -/
+/-- Stage use, zero when there is no convergent computation [S, III.1.7]. A convergent
+computation can also have use zero. -/
 noncomputable def stageUse (s : ℕ) (Z : Set ℕ) (e x : ℕ) : ℕ :=
   ((stageAt s Z e x).map Halt.use).getD 0
 
-/-- Code translation uses the existing ordinary syntax, not a new ordinary machine. -/
+/-- The query-free embedding of Mathlib's ordinary codes. -/
 def embed : Nat.Partrec.Code → Code
   | .zero => .zero
   | .succ => .succ
@@ -261,7 +258,7 @@ theorem stage_bounds {s e x : ℕ} {σ : List ℕ} {d : Halt}
     e < s ∧ x < s ∧ d.output < s ∧ d.use ≤ s ∧ d.use ≤ σ.length := by
   sorry
 
-/-- Bounded simulation returns encoded data, so the computability statement needs no code instance. -/
+/-- Bounded simulation is computable, with the program given by its index. -/
 theorem stage_computable :
     Computable (fun p : ℕ × (List ℕ × (ℕ × ℕ)) =>
       (stage p.1 p.2.1 p.2.2.1 p.2.2.2).map fun d => (d.output, d.use)) := by
@@ -286,7 +283,7 @@ open Oracle.Single
 noncomputable def Phi (Z : Set ℕ) (e : ℕ) : ℕ →. ℕ :=
   Code.eval (characteristic Z) (Code.ofNat e)
 
-/-- The represented c.e. domain, not an arbitrary supplied family of sets. -/
+/-- `W^Z_e`, the domain of `Φ^Z_e`. -/
 def W (Z : Set ℕ) (e : ℕ) : Set ℕ := {x | (Phi Z e x).Dom}
 
 /-- Raw bounded domain approximation; serialization is a separate theorem. -/
@@ -298,7 +295,8 @@ theorem mem_phi_iff_stage (Z : Set ℕ) (e x y : ℕ) :
     y ∈ Phi Z e x ↔ ∃ s d, Code.stageAt s Z e x = some d ∧ d.output = y := by
   sorry
 
-/-- Both directions are required; a negative theorem cannot use a too-weak private machine. -/
+/-- Adequacy of the numbering for Mathlib's `RecursiveIn`. Nonreducibility results use the
+direction from `RecursiveIn` to codes; positive algorithms use the converse. -/
 theorem recursiveIn_iff_code (Z : Set ℕ) (f : ℕ →. ℕ) :
     RecursiveIn {oracle Z} f ↔ ∃ e, Phi Z e = f := by
   sorry
@@ -326,7 +324,7 @@ theorem fixed_point_uniform_in_oracle (f : ℕ → ℕ) (hf : Computable f) :
 
 /-! ## L1: finite stages and c.e. limits -/
 
-/-- Canonical binary code of a finite set of numbers. It does not require a Finset coding instance. -/
+/-- The canonical index `∑ x ∈ F, 2 ^ x` of a finite set [S, II.2]. -/
 def finiteCode (F : Finset ℕ) : ℕ := ∑ x ∈ F, 2 ^ x
 
 /-- A concrete decoder; a set bit of `n` has index less than `n`. -/
@@ -369,7 +367,7 @@ theorem re_iff_finiteStages (C : Set ℕ) :
     REPred (fun x => x ∈ C) ↔ ∃ A : CEApproximation, stageLimit A.stage = C := by
   sorry
 
-/-- Allows pauses, and therefore covers finite and empty inputs uniformly. -/
+/-- Serialization with pauses, covering finite and empty sets uniformly. -/
 theorem serialized_ce_approximation (A : CEApproximation) :
     ∃ B : CEApproximation,
       stageLimit B.stage = stageLimit A.stage ∧ ∀ s, (fresh B.stage s).card ≤ 1 := by
@@ -395,7 +393,7 @@ def iterateJump : ℕ → Set ℕ → Set ℕ
   | 0, Z => Z
   | n + 1, Z => jump (iterateJump n Z)
 
-/-- Lowness is not merely an unspecified upper-bound oracle interface. -/
+/-- `A` is low if `A' ≡ᵀ ∅'`. -/
 def Low (A : Set ℕ) : Prop := jump A ≡ᵀ jump ∅
 
 theorem jump_strict (Z : Set ℕ) : (Z ≤ᵀ jump Z) ∧ ¬ (jump Z ≤ᵀ Z) := by
@@ -412,7 +410,7 @@ theorem relative_ce_reduces_jump {Z C : Set ℕ}
     ManyOneReducible (fun x => x ∈ C) (fun x => x ∈ jump Z) := by
   sorry
 
-/-- Alternating number-quantifier normal forms; jumps do not appear in this definition. -/
+/-- `Σ⁰ₙ(Z)` by alternating number quantifiers over a `Z`-computable matrix. -/
 def SigmaIn : ℕ → Set ℕ → (ℕ → Prop) → Prop
   | 0, Z, p => ComputablePredIn Z p
   | n + 1, Z, p =>
@@ -460,7 +458,8 @@ theorem computable_of_computable_modulus (a : ℕ → ℕ → ℕ) (f m : ℕ �
     (h : IsModulus a f m) : Computable f := by
   sorry
 
-/-- Every genuine limit computation is eventually seen along pointwise-convergent oracles. -/
+/-- A convergent computation relative to the pointwise limit of oracles `Z s` is seen at all
+large stages. -/
 theorem eventually_stage_of_limit_computation (Z : ℕ → Set ℕ) (Zlim : Set ℕ)
     (hZ : ∀ n, ∃ s₀, ∀ s, s₀ ≤ s → (n ∈ Z s ↔ n ∈ Zlim))
     {e x y : ℕ} (h : y ∈ Phi Zlim e x) :
@@ -468,7 +467,7 @@ theorem eventually_stage_of_limit_computation (Z : ℕ → Set ℕ) (Zlim : Set 
       ∀ s, s₀ ≤ s → Code.stageAt s (Z s) e x = some d := by
   sorry
 
-/-! ## L5: ordinary definitions and independently meaningful construction goals -/
+/-! ## L5: inseparable sets, simple sets and Kleene–Post -/
 
 def Immune (B : Set ℕ) : Prop :=
   B.Infinite ∧ ∀ C : Set ℕ, REPred (fun x => x ∈ C) → C ⊆ B → C.Finite
@@ -521,7 +520,7 @@ def boundaryInjuriesAt (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ)
 def useBreachSet (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e : ℕ) : Set ℕ :=
   {x | ∃ s, x ∈ useBreachesAt A r e s}
 
-/-- Soare's injury set is a set of numbers, not a set of stages. -/
+/-- Soare's injury set `I_e` [S, VII.1, p.112], a set of numbers. -/
 def injurySet (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e : ℕ) : Set ℕ :=
   {x | ∃ s, x ∈ injuriesAt A r e s}
 
@@ -529,7 +528,7 @@ def injurySet (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e : ℕ
 def injuryEvents (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e : ℕ) : Set (ℕ × ℕ) :=
   {p | p.2 ∈ injuriesAt A r e p.1}
 
-/-- Actual stage labels, so stage zero never belongs. -/
+/-- The stages `s + 1` at which some number injures `e`. -/
 def injuryStages (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (e : ℕ) : Set ℕ :=
   {t | ∃ s, t = s + 1 ∧ (injuriesAt A r e s).Nonempty}
 
@@ -618,7 +617,7 @@ theorem mem_injurySet_iff_through (A : ℕ → Finset ℕ) (r : ℕ → ℕ → 
     x ∈ injurySet A r e ↔ ∃ n, x ∈ injuriesThrough A r e n := by
   sorry
 
-/-- Repeated injuries of one number are ruled out by entry monotonicity, not by definition. -/
+/-- Under monotone stages a number injures `e` at most once. -/
 theorem injury_number_projection_injective (A : ℕ → Finset ℕ)
     (r : ℕ → ℕ → Option ℕ) (e : ℕ) (hA : Monotone A) :
     Set.InjOn (fun p : ℕ × ℕ => p.2) (injuryEvents A r e) := by
@@ -646,7 +645,7 @@ theorem injuryStages_ncard_eq_of_single_entry (A : ℕ → Finset ℕ)
     (injuryStages A r e).ncard = (injurySet A r e).ncard := by
   sorry
 
-/-- Computability is uniform in the requirement index, not just separately for each `e`. -/
+/-- Membership in the injury batches is computable uniformly in the requirement index. -/
 theorem injury_membership_computable (A : ℕ → Finset ℕ)
     (r : ℕ → ℕ → Option ℕ) (hA : Computable (fun s => finiteCode (A s)))
     (hr : Computable (fun p : ℕ × ℕ => r p.1 p.2)) :
@@ -658,7 +657,7 @@ theorem injurySet_uniformly_ce (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Opt
     REPred (fun p : ℕ × ℕ => p.2 ∈ injurySet A r p.1) := by
   sorry
 
-/-- A stage label has a computable finite injury test, not just a c.e. one. -/
+/-- The injury-stage sets are uniformly computable. -/
 theorem injuryStages_uniformly_computable (A : ℕ → Finset ℕ)
     (r : ℕ → ℕ → Option ℕ)
     (hA : Computable (fun s => finiteCode (A s)))
@@ -671,7 +670,7 @@ theorem injuryStages_uniformly_ce (A : ℕ → Finset ℕ) (r : ℕ → ℕ → 
     REPred (fun p : ℕ × ℕ => p.2 ∈ injuryStages A r p.1) := by
   sorry
 
-/-- Contributions are attached to actual entries, not a free-standing ledger. -/
+/-- The fresh entries attributed to contributor `i`. -/
 def contributions (A : ℕ → Finset ℕ) (owner : ℕ → ℕ → ℕ) (i : ℕ) : Set ℕ :=
   {x | ∃ s, x ∈ fresh A s ∧ owner s x = i}
 
@@ -695,13 +694,14 @@ theorem monitoredInjuryEvents_mem {κ : Type*} (A : κ → ℕ → Finset ℕ)
       x ∈ injuriesAt (A (target e)) r e s := by
   simp [monitoredInjuryEvents, injuryEvents]
 
-/-- This is the semantic telescope used to turn restraints into preserved computations. -/
+/-- If nothing below `u` enters after stage `s`, the limit agrees with `A s` below `u`. -/
 theorem limit_agrees_of_no_fresh_below (A : ℕ → Finset ℕ) (hA : Monotone A)
     (s u : ℕ) (h : ∀ t, s ≤ t → ∀ z, z < u → z ∉ fresh A t) :
     ∀ z, z < u → (z ∈ A s ↔ z ∈ stageLimit A) := by
   sorry
 
-/-- No injury is useful only while the live protected interval still covers the recorded use. -/
+/-- A computation is preserved if its use stays inside the live protected interval and that
+interval is never injured. -/
 theorem computation_preserved_by_live_restraint
     (A : ℕ → Finset ℕ) (r : ℕ → ℕ → Option ℕ) (hA : Monotone A)
     {s e x req : ℕ} {d : Code.Halt}
@@ -722,7 +722,7 @@ theorem computation_preserved_without_use_breaches
     d.output ∈ Phi (stageLimit A) e x := by
   sorry
 
-/-- Actual attention stages; this is not the number-valued injury set. -/
+/-- The stages at which requirement `e` acts. -/
 def attentionStages (action : ℕ → Option ℕ) (e : ℕ) : Set ℕ :=
   {t | ∃ s, t = s + 1 ∧ action s = some e}
 
@@ -742,7 +742,7 @@ theorem initialization_finite_of_attention (action : ℕ → Option ℕ) (e : �
     (initializationStages action e).Finite := by
   sorry
 
-/-! ## L6 examples: concrete data rather than an abstract field named `injured`. -/
+/-! ## L6 examples -/
 
 namespace Examples
 
@@ -844,7 +844,7 @@ example : Code.run 1 (fun _ => some 0) .oracle 0 = some ⟨0, 1⟩ := by
 
 end Examples
 
-/-! ## L9: the first-disagreement endpoint is present in the definition. -/
+/-! ## L9: agreement length, restraint and Sacks splitting -/
 
 noncomputable def agreesAt (s : ℕ) (A C : Set ℕ) (e x : ℕ) : Bool :=
   match Code.stageAt s A e x with
@@ -859,7 +859,7 @@ noncomputable def agreementLength (s : ℕ) (A C : Set ℕ) (e : ℕ) : ℕ :=
 noncomputable def agreementRestraint (s : ℕ) (A C : Set ℕ) (e : ℕ) : ℕ :=
   (Finset.range (agreementLength s A C e + 1)).sup fun x => Code.stageUse s A e x
 
-/-- The actual restraint computed from the two stage sequences. -/
+/-- Sacks's restraint `r(e, s)`, always active, from the two stage sequences. -/
 noncomputable def sacksRestraint (A C : ℕ → Finset ℕ) (e s : ℕ) : Option ℕ :=
   some (agreementRestraint s (A s : Set ℕ) (C s : Set ℕ) e)
 
@@ -879,14 +879,14 @@ theorem sacksRestraint_computable (A C : ℕ → Finset ℕ)
     Computable (fun p : ℕ × ℕ => sacksRestraint A C p.1 p.2) := by
   sorry
 
-/-- No hypothetical stabilization modulus is supplied to this statement. -/
+/-- If `Φ^A_e = C`, the agreement length tends to infinity. -/
 theorem agreement_cofinal_of_computes (A C : ℕ → Finset ℕ)
     (hA : Monotone A) (hC : Monotone C) (e : ℕ)
     (h : Phi (stageLimit A) e = oracle (stageLimit C)) :
     ∀ n, ∃ s₀, ∀ s, s₀ ≤ s → n ≤ agreementLength s (A s : Set ℕ) (C s : Set ℕ) e := by
   sorry
 
-/-- The use of the first disagreement is needed in the preservation proof of this lemma. -/
+/-- [S, VII.3.1, Lemma 1]. The proof uses the restraint on the first disagreement. -/
 theorem nonreduction_of_finite_sacks_injury (A C : CEApproximation) (e : ℕ)
     (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage))
     (hI : (injurySet A.stage (sacksRestraint A.stage C.stage) e).Finite) :
@@ -977,9 +977,9 @@ theorem sacksSplit_spec (B C : CEApproximation)
       ∀ i, Low (A i) ∧ ¬ (stageLimit C.stage ≤ᵀ A i) := by
   sorry
 
-/-! ## L7–L9: unconditional construction endpoints over the concrete definitions -/
+/-! ## L7–L9: construction endpoints -/
 
-/-- Soare VII.1.1; the README additionally specifies the construction and injury bound. -/
+/-- [S, VII.1.1]. The README also specifies the construction and its injury bound. -/
 theorem exists_low_simple : ∃ A : Set ℕ, Simple A ∧ Low A := by
   sorry
 
@@ -988,19 +988,19 @@ theorem exists_intermediate_ce_degree :
       ¬ ComputablePred (fun x => x ∈ A) ∧ (A ≤ᵀ jump ∅) ∧ ¬ (jump ∅ ≤ᵀ A) := by
   sorry
 
-/-- Soare VII.2.1, in Mathlib's reducibility, not only a private code model. -/
+/-- [S, VII.2.1]. -/
 theorem friedberg_muchnik :
     ∃ A B : Set ℕ, REPred (fun x => x ∈ A) ∧ REPred (fun x => x ∈ B) ∧
       ¬ (A ≤ᵀ B) ∧ ¬ (B ≤ᵀ A) := by
   sorry
 
-/-- Soare VII.3.1, a separate client of agreement preservation. -/
+/-- [S, VII.3.1]. -/
 theorem exists_simple_avoiding (C : Set ℕ) (hC : REPred (fun x => x ∈ C))
     (hNC : ¬ ComputablePred (fun x => x ∈ C)) :
     ∃ A : Set ℕ, Simple A ∧ ¬ (C ≤ᵀ A) := by
   sorry
 
-/-- Full low-half, cone-avoiding statement of Soare VII.3.2; `B` may be finite. -/
+/-- [S, VII.3.2]. `B` may be finite. -/
 theorem sacks_splitting (B C : Set ℕ)
     (hB : REPred (fun x => x ∈ B)) (hC : REPred (fun x => x ∈ C))
     (hNC : ¬ ComputablePred (fun x => x ∈ C)) :
@@ -1022,7 +1022,7 @@ theorem sacks_splitting_uniform_indices :
           ¬ (W ∅ c ≤ᵀ A₀) ∧ ¬ (W ∅ c ≤ᵀ A₁) := by
   sorry
 
-/-- Soare VII.3.4 with the lower reductions displayed, not left to subset reasoning. -/
+/-- [S, VII.3.4], with the reductions of each half to `B`. -/
 theorem low_incomparable_split (B : Set ℕ) (hB : REPred (fun x => x ∈ B))
     (hNB : ¬ ComputablePred (fun x => x ∈ B)) :
     ∃ A₀ A₁ : Set ℕ,

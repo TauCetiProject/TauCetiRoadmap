@@ -356,8 +356,8 @@ downward closure among set degrees, and that a noncomputable low c.e. set is
 incomplete.
 
 **Examples:** ordinary and relative halting; deciding a predicate with c.e.
-complement using the jump; computable sets are low; $K$ is not low. Do not claim
-the jump preserves joins.
+complement using the jump; computable sets are low; $K$ is not low. The jump does
+not preserve joins (the $K$ example in L9.4).
 
 ### L3.2. The arithmetical hierarchy and index sets
 
@@ -431,7 +431,7 @@ requirement characterization
 $W_e\text{ infinite}\Rightarrow W_e\cap A\ne\varnothing$ together with
 coinfinitude. Construct a simple set by effective positive requirements with the
 witness condition $x>2e$, and prove the counting invariant ensuring coinfinitude.
-Derive noncomputability. Do not infer incompleteness from simplicity.
+Derive noncomputability. Simplicity does not imply incompleteness.
 
 Construct the Kleene–Post pair of incomparable sets below $\varnothing'$ by a
 $\varnothing'$-computable finite-extension procedure [S, VI.1.2]. State the
@@ -506,8 +506,8 @@ assigned to a higher-priority contributor $i<e$, contributor $i$ supplies at mos
 $b_i$ distinct entries, and the assignment is certified for the actual entries.
 Then $|I_e|\le\sum_{i<e}b_i$. Export the one-entry-per-contributor specialization
 used to obtain $|I_e|\le e$ in L7 and in the simple-set construction of L9.
-A purported contributor ledger is not a substitute for proving that it accounts
-for the actual stage difference.
+The assignment must account for the actual stage differences; a ledger of
+contributions alone does not.
 
 For several constructed sets, parameterize the monitored oracle by a target map
 from requirements to set labels. Instantiate the same injury API on each
@@ -737,7 +737,7 @@ a pair at least one of which works and uniformly selecting the successful half.
 against a fixed noncomputable c.e. target; splitting the low simple set from L7;
 splitting $K$; and splitting relative to a target different from the set being
 split. In the $K$ example prove both halves low but their join not low. This also
-refutes a purported unrestricted jump-distributes-over-join identity.
+refutes an unrestricted jump-distributes-over-join identity.
 
 ## Suggested organization of implementation modules
 
@@ -795,8 +795,8 @@ numbers, not PDF-image indices. The requested scope is selected from I–IV, V.1
 VI.1, and VII.1–3; it does not claim to cover every result of those chapters.
 
 The following sources inform implementations, not the mathematical specification.
-Inspect their declarations and proofs rather than adopting status prose as a
-statement of scope.
+Their declarations and proofs, not their status descriptions, determine what they
+supply.
 
 | Pinned source | Material to compare or adapt | Required integration work |
 | --- | --- | --- |
