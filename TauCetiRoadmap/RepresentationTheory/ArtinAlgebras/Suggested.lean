@@ -1,7 +1,5 @@
 import Mathlib
 import TauCeti.CategoryTheory.AlmostSplit.Sequence
-import TauCeti.CategoryTheory.Exact.ExactStructure
-import TauCeti.CategoryTheory.Preadditive.Indecomposable
 import TauCeti.Algebra.Module.Injective.Envelope.Basic
 
 /-!
@@ -53,7 +51,7 @@ theorem isIdempotentComplete_of_isKrullSchmidt [IsKrullSchmidt C] : IsIdempotent
 
 /-- **Uniqueness of the Krull-Schmidt decomposition**: two decompositions of the same object
 into objects with local endomorphism rings match up to a bijection of the summands. -/
-theorem exists_equiv_iso_of_iso_biproduct {ι κ : Type} [Finite ι] [Finite κ] (X : ι → C)
+theorem exists_equiv_iso_of_iso_biproduct {ι κ : Type*} [Finite ι] [Finite κ] (X : ι → C)
     (Y : κ → C) (hX : ∀ i, IsLocalRing (End (X i))) (hY : ∀ j, IsLocalRing (End (Y j)))
     (e : ⨁ X ≅ ⨁ Y) : ∃ σ : ι ≃ κ, ∀ i, Nonempty (X i ≅ Y (σ i)) :=
   sorry
@@ -98,11 +96,10 @@ variable (R : Type u) [CommRing R] [IsArtinianRing R] (A : Type u) [Ring A] [Alg
 
 include R in
 /-- **The Auslander-Reiten theorem for Artin algebras**: every indecomposable non-projective
-finitely generated module ends an almost-split sequence of finitely generated modules. -/
-theorem exists_isAlmostSplit (M : ModuleCat.{u} A) [Module.Finite A M] (hM : Indecomposable M)
+object of `mod A` ends an almost-split sequence in `mod A`. -/
+theorem exists_isAlmostSplit (M : FGModuleCat.{u} A) (hM : Indecomposable M.obj)
     (hP : ¬ Projective M) :
-    ∃ S : ShortComplex (ModuleCat.{u} A), S.IsAlmostSplit ∧ Module.Finite A S.X₁ ∧
-      Module.Finite A S.X₂ ∧ Nonempty (S.X₃ ≅ M) :=
+    ∃ S : ShortComplex (FGModuleCat.{u} A), S.IsAlmostSplit ∧ Nonempty (S.X₃ ≅ M) :=
   sorry
 
 end ArtinAlgebra
