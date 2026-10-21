@@ -1,0 +1,12 @@
+# Progress log: ComplexKahlerGeometry
+
+An append-only record of what landed on the ComplexKahlerGeometry roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"e4757581fac32d474c7072e637ad5ee50f4d6838","prs":[18983,19067],"roadmap":"ComplexKahlerGeometry","to_sha":"273ea28e12515bd7f9e5c2aefd933352264b83e1"}-->
+## ComplexKahlerGeometry: 2026-10-20 to 2026-10-21 (`e475758` to `273ea28`)
+
+The foundational analytic step of the roadmap's K3.0 milestone landed in this window. **Osgood's lemma** is now proved: a function of finitely many complex variables that is continuous and holomorphic in each variable separately is jointly analytic, both at a point ([`ContinuousOn.analyticAt_of_differentiableAt_update`](https://taucetiproject.org/docs/TauCeti/Analysis/Complex/CauchyIntegralPolydisc.html#ContinuousOn.analyticAt_of_differentiableAt_update)) and on open sets, with the resulting characterisation of analyticity on open subsets of ℂⁿ ([`TauCeti.analyticOnNhd_iff_continuousOn_and_differentiableAt_update`](https://taucetiproject.org/docs/TauCeti/Analysis/Complex/CauchyIntegralPolydisc.html#TauCeti.analyticOnNhd_iff_continuousOn_and_differentiableAt_update)). The proof goes through a version of the polydisc Cauchy integral formula for separately holomorphic functions (TauCeti#18983).
+
+The manifold consequences followed in TauCeti#19067. On a boundaryless finite-dimensional complex model, the `C^m` groupoids agree for all nonzero `m`. So a complex manifold of class `C^1` is automatically of class `C^ω`, and with the same charts it is a real-analytic manifold modelled on the underlying real space ([`IsManifold.restrictScalars_of_ne_zero`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Complex/Analytic.html#IsManifold.restrictScalars_of_ne_zero)). This realified atlas is the smooth structure that the roadmap's real differential geometry of complex manifolds is meant to sit on. The same work shows that a map between complex manifolds is holomorphic exactly when it is `C^n` for some (equivalently every) nonzero `n` ([`TauCeti.contMDiff_iff_mdifferentiable`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Complex/Analytic.html#TauCeti.contMDiff_iff_mdifferentiable)), which is the comparison the roadmap's conventions rely on when they take holomorphic to mean `MDifferentiable ℂ`.
