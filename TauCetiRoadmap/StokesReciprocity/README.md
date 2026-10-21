@@ -23,7 +23,9 @@ Coordinate prototypes use `Fin d → ℝ`;
 the geometric statements use `EuclideanSpace ℝ (Fin d)`. Supply the coordinate
 equivalence and derivative/volume bridges, rather than silently identifying their
 norms. All fields extend to an open neighbourhood of the closure of the domain.
-Velocities are `C²`, pressures `C¹`, and body-force densities continuous there.
+Solution velocities are `C²`, pressures `C¹`, and body-force densities continuous
+there. The general boundary-work identity only requires its comparison velocity
+to be `C¹`, as specified in S3.
 Both flows use the same constant real viscosity `μ`.
 The equations hold on the domain interior; regularity holds on a neighbourhood
 of its closure. Algebraic identities and local differential identities are stated
@@ -64,6 +66,9 @@ merely from the reciprocal identity.
 ## Suppliers and ownership
 
 * Mathlib: matrices, finite sums, `fderiv`, `ContDiffOn`, product and chain rules,
+  gradient and the vector-valued Laplacian in
+  `Mathlib/Analysis/InnerProductSpace/Laplacian.lean` (positive trace of the
+  Hessian), continuous linear isometries and affine isometries,
   Bochner integration, and
   `MeasureTheory.integral_divergence_of_hasFDerivAt_off_countable` in
   `Mathlib/MeasureTheory/Integral/DivergenceTheorem.lean` for boxes.
@@ -111,9 +116,27 @@ For trace-free `A,B` deduce reciprocal contraction; prove
 `σμ(A,p):A = 2μ sym(A):sym(A)` when `tr A=0`. These algebraic statements
 must not assume the PDE or a domain.
 
+Prove orthogonal covariance of the matrix operations: for an orthogonal matrix
+`O`, symmetric gradient and stress transform by `A ↦ O A Oᵀ`, traction by
+`n ↦ O n`, and contraction is invariant. Include reflections as well as rotations.
+These are algebraic targets independent of boundary integration.
+
 ## S2 — Differential identities
 
 Connect the matrix entries to the Fréchet derivative in the standard basis.
+Prove the constant-viscosity bridge
+
+```
+Div σ(u,p) = −grad p + μ Δu + μ grad(div u).
+```
+
+Use Mathlib's gradient and vector-valued Laplacian on EuclideanSpace, proving
+their agreement with the coordinate formulas and the required interchange of
+second derivatives for C² velocities. For incompressibility on an open set,
+deduce equivalence of the momentum equation with `−grad p + μ Δu + f = 0`
+there. Vanishing divergence only at one point does not justify dropping its
+gradient. No sign or nonzero assumption on `μ` is needed.
+
 Develop the product rule for `Div` and the velocity/stress pairing, with explicit
 differentiability assumptions. For the flux `J = σ(u,p)ᵀv − σ(v,q)ᵀu`, prove
 
@@ -131,6 +154,15 @@ real scalar multiplication, scaling the body force with the solution. Include
 finite linear combinations and constant pressure shifts. State the equations as
 explicit hypotheses, or as a transparent predicate containing exactly those
 equations; regularity and domain hypotheses remain separate.
+
+For `T(x)=O x+c`, transport fields by `u'(T x)=O u(x)`, `p'(T x)=p(x)` and
+`f'(T x)=O f(x)`. Prove covariance of derivatives, stress, traction, and the
+momentum/incompressibility equations using S1 and the chain rule. Establish the
+corresponding coordinate-free formulation on any positive-dimensional finite
+real inner-product space via a linear isometry, and prove independence of the
+chosen orthonormal basis. Use the existing isometry and derivative APIs, not a
+second notion of Euclidean vector or tensor. Boundary-work transport is in S5;
+arbitrary rotations need not preserve coordinate boxes.
 
 ## S3 — Box boundary work and Lorentz reciprocity
 
@@ -151,6 +183,18 @@ Use `Fin.insertNth` and `Fin.succAbove` as in Mathlib's box theorem, writing
 integrands from the standing regularity and compactness. Include `n=0`: integration
 over the zero-dimensional face gives evaluation at the corresponding interval
 endpoint. Prove the pairing
+identity for a single stress and comparison field and integrate it to obtain
+the general boundary-work identity
+
+```
+B_Q(v;u,p) + ∫Q v·f dx = ∫Q (2μ e(u):e(v) − p div v) dx.
+```
+
+Here `u` is C², `p` is C¹, `f` is continuous, and `Div σ(u,p)+f=0` in
+the interior; `v` need only be C¹ near the closure. Neither a PDE for `v` nor
+incompressibility of either field is needed for this identity. Prove integrability
+at this regularity. Derive reciprocity for two incompressible solutions and
+dissipation by specialization. In particular, prove the reciprocal-flux pairing
 identity `J·n = v·σ(u,p)n − u·σ(v,q)n`, then establish
 
 ```
@@ -194,9 +238,10 @@ modes and force/torque convention, which is outside this scope.
 Consume GMT G2/G6 and PDE A.6 for a bounded open `Ω` with `C¹` boundary.
 Here `C¹` boundary means that the existing local graph charts can be chosen with
 `C¹` graph functions; use those supplier charts and their classical-normal
-comparison, rather than an unrelated smooth-domain class. Establish the bridge
-from these charts to the supplier's Lipschitz-domain hypotheses by shrinking
-charts and using compactness of the boundary.
+comparison, rather than an unrelated smooth-domain class. Consume PDE A.6's
+C¹-to-Lipschitz local-graph comparison, chart shrinking, and finite-cover API.
+Those general geometry results belong to PDE A.6; this milestone discharges
+their hypotheses for the Stokes domain and fields.
 The required supplier statement, in their canonical domain and measure APIs, is
 
 ```
@@ -218,9 +263,26 @@ explicitly obtain finite perimeter of `Ω` and identify its reduced-boundary
 normal and perimeter measure with the classical ones through G6's comparison.
 Apply Gauss–Green
 to the actual flux and use S1–S2 to obtain reciprocity with
-`B_Ω(v;u,p) = ∫∂Ω v·σ(u,p)n dH^(d−1)`. Prove the corresponding dissipation,
-pressure-gauge invariance, finite response-matrix results, and additivity over
-finite measurable boundary partitions. Do not derive this theorem by assuming
+`B_Ω(v;u,p) = ∫∂Ω v·σ(u,p)n dH^(d−1)`. First establish the general
+boundary-work identity from S3 on Ω, with the same C¹ comparison-field
+regularity and without incompressibility assumptions. Prove the corresponding
+dissipation, pressure-gauge invariance, and finite response-matrix results.
+
+Define boundary integrals with the normalized surface measure restricted to
+`frontier Ω`. Prove independence of measurable normal representatives that
+agree almost everywhere for this measure. For finite measurable pieces covering
+the frontier up to a null set and pairwise intersecting in null sets, prove
+boundary-work additivity; establish integrability of each restricted integrand.
+No pressure-gauge invariance of an individual piece is asserted.
+
+Using S2, the suppliers' normal transformation laws, and isometry invariance of
+volume and surface measure, prove boundary-work and dissipation invariance under
+`T(x)=O x+c`, with transformed fields as specified in S2 and outward normal
+`n'(T x)=O n(x)` almost everywhere. No determinant sign enters the unsigned
+surface measure, including for reflections. Transport the general-domain results
+to arbitrary positive-dimensional finite real inner-product spaces and prove
+independence of the chosen orthonormal identification.
+Do not derive this theorem by assuming
 the reciprocal identity, or by declaring a private Gauss–Green axiom.
 
 Completion of S3–S4 is independent of this supplier contract. Completion of the
@@ -229,11 +291,13 @@ interface; citing G6 alone does not discharge this milestone.
 
 ## Completion criteria
 
-S1–S2 supply definitions, their usable algebra/calculus API, and local identities.
-S3 supplies the explicit face-integral theorem and its zero-force and gauge
+S1–S2 supply definitions, their usable algebra/calculus API, the Laplacian bridge,
+coordinate covariance and basis independence, and local identities.
+S3 supplies the general boundary-work identity, explicit face-integral theorem, and zero-force and gauge
 corollaries. S4 supplies dissipation, finite superposition, and the response-matrix
-API. S5 supplies the geometric specialization on canonical surface/domain APIs.
-All four acceptance examples below must use the developed definitions and
+API. S5 supplies the geometric specialization on canonical surface/domain APIs,
+normal-representative independence, partition additivity, and isometric transport.
+All acceptance examples below must use the developed definitions and
 theorems. An abstract bilinear form assumed symmetric, or a boundary-work identity
 assumed as a hypothesis, does not implement the Stokes results. No claim about
 strict positivity or existence of solutions is part of the completion criterion.
@@ -250,6 +314,27 @@ strict positivity or existence of solutions is part of the completion criterion.
    `f=(-2μ,0,…,0)`, and comparison flow `v=(1,0,…,0)`, `q=0`, `g=0`.
    Check both sides of the forced reciprocal identity on a box. This detects a
    sign error that zero-force examples cannot expose.
+5. In dimension `d≥2`, use the affine flow `u(x)=Ax`, where
+   `A=diag(1,−1,0,…,0)`, with zero pressure and force on a ball and on a
+   concentric annulus `r<‖x‖<R`, `0<r<R`. Establish the required domain-chart
+   hypotheses using the supplier APIs, and compute total work as `4μ|Ω|`.
+   On the annulus, compute outer and inner contributions as
+   `4μ|ball 0 R|` and `−4μ|ball 0 r|`, respectively. This exercises S5's
+   surface measure, inner normal, and partition API.
+6. On a box in dimension `d≥2`, take zero-pressure, zero-force velocities
+   `u₁=x₂e₁` and `u₂=x₁e₂`. Compute
+   `R=μ|Q| [[1,1],[1,1]]`. For the new family `(u₁+u₂,u₁−u₂)`, compute
+   `CᵀRC=μ|Q| diag(4,0)` with `C=[[1,1],[1,−1]]`. Verify the quadratic-form
+   identity and positive semidefiniteness when `μ≥0`.
+7. Rigid rotation `u(x)=Wx` with a nonzero skew-symmetric `W`, and zero
+   pressure and force: strain, stress, and dissipation vanish although velocity
+   need not vanish. Include this on a box and a ball; it tests the null direction
+   in the preceding response example without claiming coercivity.
+8. Apply a translation and an orthogonal map, including a reflection, to the
+   ball/annulus examples and verify unchanged work and transformed tractions.
+   Verify the one-dimensional endpoint specialization and `μ=0` identities,
+   and use an affine comparison field with nonzero divergence and constant
+   nonzero pressure to test the pressure term in the general boundary-work identity.
 
 ## Mathematical references
 

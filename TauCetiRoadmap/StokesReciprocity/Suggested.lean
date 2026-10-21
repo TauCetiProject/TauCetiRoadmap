@@ -94,6 +94,23 @@ def boxBoundaryWork {n : ℕ} (a b : Fin (n + 1) → ℝ) (μ : ℝ)
         ∑ j, v (i.insertNth (a i) y) j *
           stress μ u p (i.insertNth (a i) y) j i)
 
+/-- General boundary work: no incompressibility or comparison-field PDE is assumed. -/
+theorem box_boundary_work {n : ℕ}
+    (a b : Fin (n + 1) → ℝ) (hab : ∀ i, a i < b i) (μ : ℝ)
+    (u v f : (Fin (n + 1) → ℝ) → (Fin (n + 1) → ℝ))
+    (p : (Fin (n + 1) → ℝ) → ℝ)
+    (hu : ∀ x ∈ Set.Icc a b, ContDiffAt ℝ 2 u x)
+    (hv : ∀ x ∈ Set.Icc a b, ContDiffAt ℝ 1 v x)
+    (hp : ∀ x ∈ Set.Icc a b, ContDiffAt ℝ 1 p x)
+    (hf : ContinuousOn f (Set.Icc a b))
+    (huf : ∀ x, (∀ i, a i < x i ∧ x i < b i) →
+      stressDivergence (stress μ u p) x + f x = 0) :
+    boxBoundaryWork a b μ v u p + (∫ x in Set.Icc a b, ∑ i, v x i * f x i) =
+      ∫ x in Set.Icc a b,
+        2 * μ * contraction (symGradientMatrix (velocityGradient u x))
+          (symGradientMatrix (velocityGradient v x)) - p x * velocityDivergence v x := by
+  sorry
+
 /-- Reciprocity on a genuine box, without an assumed integration-by-parts law.
 Regularity is expressed at every point of the closed box. The PDE hypotheses
 are needed only in its coordinatewise interior. This includes dimension one
