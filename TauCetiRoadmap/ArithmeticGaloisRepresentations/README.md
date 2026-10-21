@@ -65,7 +65,8 @@ The roadmap owns:
   shared natural-base scalar predicate, and Deligne–Langlands local constants (Layer 2).
   The downstream client DeligneWeightsAndPurity §0.19 owns the real-base adapter comparison
   and the ordinary/graded-purity comparison;
-- the absolute upper-numbering filtration of `G_K`, breaks, Swan and Artin conductors with
+- representation break decompositions on the supplied absolute upper-numbering filtration of `G_K`,
+  Swan and Artin conductors with
   integrality, induction and twist formulas, the conductor of a Weil–Deligne representation,
   global conductors and the prime-to-`p` conductor `N(ρ̄)`, and the behaviour of conductors under
   reduction (Layer 3);
@@ -106,12 +107,15 @@ Galois correspondence (Mathlib); finite-group representation theory, induction a
 Clifford theory, Brauer induction, projective representations and the Schur multiplier
 (`TauCetiRoadmap.RepresentationTheory`); Artin–Wedderburn and central simple algebras
 (`RepresentationTheory/SemisimpleAlgebras`, Tau Ceti's Brauer group and index); the finite-level
-lower and upper ramification filtrations, Herbrand's theorem and Hasse–Arf for nonarchimedean local
-fields, and the tame quotient (`TauCetiRoadmap.LocalFieldsRamification`); the local inertia and
+lower and upper ramification filtrations, Herbrand functions and their subgroup and quotient
+comparisons, the different, the absolute upper filtration and the full Hasse–Arf theorem over
+complete discretely valued fields with perfect residue field, and the tame quotient
+(`TauCetiRoadmap.LocalFieldsRamification` Layers 3–4); the local inertia and
 wild inertia subgroups of `G_K`, arithmetic Frobenius lifts, the cyclotomic character and the
-`ℓ`-adic tame character (Tau Ceti); the local Weil group, its degree map and the local Artin map
-(`TauCetiRoadmap.ClassFieldTheory`); completions and decomposition-group embeddings of a number
-field (`TauCetiRoadmap.NumberFieldArithmetic`); the Chebotarev density theorem for finite Galois
+`ℓ`-adic tame character (Tau Ceti); the local Weil group, its degree map, the local Artin map
+and unit-filtration reciprocity (`TauCetiRoadmap.ClassFieldTheory` Layers 7 and 9);
+completions and decomposition-group embeddings of a number field
+(`TauCetiRoadmap.NumberFieldArithmetic`); the Chebotarev density theorem for finite Galois
 extensions (`TauCetiRoadmap.Chebotarev`, `TauCetiRoadmap.ArithmeticDirichletSeries`); continuous
 cohomology of profinite groups (`TauCetiRoadmap.ProfiniteCohomology`); torsion, the Weil pairing,
 the Tate curve and isogenies for Weierstrass curves
@@ -249,9 +253,9 @@ introduces no second local cyclotomic character.
   `χ(G^0) ≠ 1` and `χ(G^u) = 1` for `u > 0`, so its Artin conductor is `1` (tame term `1`, Swan `0`);
   the Weil–Deligne representation `Sp(2)` of the Tate curve has `r` trivial on inertia, `V^{I} = V`
   of dimension `2`, `ker N` of dimension `1`, hence conductor `0 + 0 + (2 − 1) = 1`, the conductor
-  exponent of multiplicative reduction. The ramification filtration is used for nonarchimedean local
-  fields; its extension to complete discretely valued fields with perfect residue field is a target
-  of §3.1.
+  exponent of multiplicative reduction. LocalFieldsRamification Layers 3–4 supply the ramification
+  filtration over complete discretely valued fields with perfect residue field, including infinite
+  residue fields; §3.1 uses it for representation breaks and Swan conductors.
 - A complex conjugation at a real place `v` of a number field `F` is an element `c ∈ G_F` with
   `ι ∘ c = conj ∘ ι` for some embedding `ι : F̄ → ℂ` above `v` (`GaloisRep.IsComplexConjugation`).
   Oddness of a rank-two representation is `det ρ(c_v) = −1` for every complex conjugation at every
@@ -375,19 +379,35 @@ from the `a91d3aaf` pin; its point-level construction belongs to the same native
 Layer 0: finite extensions of nonarchimedean local fields, with Mathlib's Krasner lemma as an input;
 the comparison `F̄_v = F_v · ι(F̄)` is §2.1 here. Layer 2: `IsUnramified`, the maximal unramified
 extension with `Gal(K^ur/K) ≅ Ẑ` sending arithmetic Frobenius to `1`, and the unramified extension of
-each degree; inertia under finite extensions is §2.2 here. Layer 3: the lower and upper numbering for
-finite Galois extensions, `upperRamificationGroup_quotient`, the Herbrand functions and Hasse–Arf.
+each degree; inertia under finite extensions is §2.2 here. Layers 3–4 own the finite and absolute
+ramification package over complete discretely valued fields with arbitrary perfect residue field,
+in equal and mixed characteristic. The finite lower groups use `Ideal.ramificationGroup` on the
+maximal ideal of `O_L`, with the ceiling-indexed `TauCeti.IsLocalRing.ramificationGroupReal` and
+local-ring index `TauCeti.IsLocalRing.lowerIndex`; no local compactness is required. Layer 3 supplies
+the Herbrand functions `φ, ψ`, their inverse and tower identities, subgroup compatibility of lower
+numbering, `upperRamificationGroup_quotient` for normal quotients, the different formula, and the
+full Hasse–Arf theorem: every upper jump of a finite abelian extension is integral, without residue
+finiteness (Serre, *Local Fields*, IV §§1–3 and V §7, Thm 1). These objects agree with its
+`TauCeti.LocalFieldsRamification` finite-local-field API on the common domain.
 Layer 4: `I_K` and `P_K` closed and normal in `G_K`, with images `G_0` and `G_1` in finite quotients,
 `P_K` pro-`p`, the tame quotient `I_K/P_K ≅ ∏_{ℓ ≠ p} ℤ_ℓ(1)` with its `G_K`-equivariance, and
-arithmetic Frobenius lifts forming a coset of `I_K`. The absolute upper filtration `G_K^u`, the
-formula `G_K^u ∩ G_L = G_L^{ψ_{L/K}(u)}` and the extension of the filtration to perfect infinite
-residue fields are §3.1 here.
+arithmetic Frobenius lifts forming a coset of `I_K`, for finite residue fields. Over every perfect
+residue field, Layers 3–4 supply the absolute upper filtration `G_K^u` by inverse limit, its
+surjections onto the finite upper groups, `G_K^0 = I_K`, `G_K^{0+} = P_K`, separation, and the
+open-subgroup formula `G_K^u ∩ G_L = G_L^{ψ_{L/K}(u)}` for finite separable `L/K`.
+They also supply the preservation of inertia, nonnegative upper numbering and the normalized
+different under completed maximal unramified base change. Section 3.1 consumes these objects;
+it owns the representation break decomposition and Swan conductor.
 
 ### From `TauCetiRoadmap.ClassFieldTheory`
 
 Layer 7: `artinMap` with its normalisation (a uniformiser maps to an arithmetic Frobenius lift,
 `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`), `normResidue` and `characterConductorExp`; the
-comparison of unit groups with the upper numbering is §3.2 here. Layer 9: `WeilGroup K` with the Weil
+unit-filtration reciprocity is owned by the same layer: for every nonarchimedean local field,
+`U_K^n` maps onto `Gal(L/K)^n` for finite abelian `L/K`, and its absolute image is dense in the
+abelianized image of `G_K^n`, including `n = 0` (Serre, *Local Fields*, XV §2, Thm 2 and Cor. 3).
+Section 3.2 uses this to compare the Artin conductor of a finite-order character with
+`characterConductorExp`. Layer 9: `WeilGroup K` with the Weil
 topology in which inertia is open (`isOpenEmbedding_inertiaToWeil`), `weilDegree` (kernel inertia, value
 `1` on arithmetic lifts through `unramifiedCoordinate_weilDegree`), `weilTransfer` with
 `weilDegree_weilTransfer`, and `localWeilArtinEquiv` for `K/ℚ_p` finite. Layer 13: `kroneckerWeber`.
@@ -2457,8 +2477,8 @@ ClassFieldTheory Layers 11–12 for reciprocity; finite-order character globalis
 
 This layer defines the breaks, Swan and Artin conductors of local Galois representations, the
 conductor of a Weil–Deligne representation, global conductors and the prime-to-`p` conductor
-`N(ρ̄)`; it proves Hasse–Arf integrality, functoriality, the induction and conductor–discriminant
-formulas and the behaviour under reduction modulo `ℓ`. Layers 4–7 and every level statement
+`N(ρ̄)`; it proves conductor integrality from Hasse–Arf, functoriality, the induction and
+conductor–discriminant formulas and the behaviour under reduction modulo `ℓ`. Layers 4–7 and every level statement
 consume these numbers; the downstream elliptic conductor comparisons are owned by
 NeronModelsAndSemistableAbelianVarieties §§5.3a–5.3i.
 
@@ -2475,15 +2495,18 @@ Proposed names live in the namespace `Conductor`.
 
 ### 3.1 Finite wild image, breaks and the Swan conductor
 
-**Ramification filtrations over a perfect residue field.** Prove that the lower numbering
-`G_i(L/K)`, the Herbrand functions `φ_{L/K}`, `ψ_{L/K}`, Herbrand's theorem `(G/H)^v = G^v H/H` for
-`H` normal in `G = Gal(L/K)`, and the Hasse–Arf theorem for finite
-abelian `L/K` hold for finite Galois extensions of a complete discretely valued field with perfect
-(possibly infinite) residue field, with the same statements and proofs as for finite residue field
-(Serre, *Local Fields*, Ch. IV, §§1–3, and Ch. V, §7, Thm 1). For finite residue field these are
-`TauCetiRoadmap.LocalFieldsRamification` layer 3 (`upperRamificationGroup_quotient`, the Herbrand
-functions, Hasse–Arf), and nothing below needs more than they provide when `K` is a nonarchimedean
-local field. *Needs:* `TauCetiRoadmap.LocalFieldsRamification` layer 3.
+LocalFieldsRamification Layers 3–4 supply the ramification foundations in the conductor setting:
+the finite lower groups on `Ideal.ramificationGroup`, their real ceiling extension on
+`TauCeti.IsLocalRing.ramificationGroupReal`, the Herbrand functions `φ_{L/K}`, `ψ_{L/K}`,
+Herbrand's normal-quotient theorem `(G/H)^u = G^u H/H`, and Hasse–Arf for every finite abelian
+`L/K`, with no finiteness assumption on the perfect residue field (Serre, *Local Fields*, IV §§1–3
+and V §7, Thm 1). The same owner supplies the closed normal absolute groups `G_K^u` for real
+`u ≥ −1`, defined by restriction to all finite Galois extensions, and
+`G_K^{u+} = closure(⋃_{w > u} G_K^w)`, with surjections `G_K^u ↠ Gal(L/K)^u`,
+`G_K^{−1} = G_K`, `G_K^0 = I_K`, `G_K^{0+} = P_K` and `⋂_u G_K^u = 1`.
+For function fields, use LocalFieldsRamification Layer 3's comparison of the lower groups of
+completions with `Place.ramificationGroup` of AlgebraicCurves Layer 8.
+Representation breaks and conductors below use this supplied filtration.
 
 **Finite wild image.** Prove that for `ρ` continuous on a finite-dimensional `V`, `ρ(P_K)` is a finite
 `p`-group when the coefficients are (a) discrete, (b) `ℂ` (then `ρ(G_K)` is finite), (c) a finite
@@ -2498,11 +2521,8 @@ finite, `L` can be chosen with inertia acting through `Gal(L/K)_0` (Ulmer, §4, 
 `Field.absoluteGaloisGroup.exists_finiteDimensional_normal_fixingSubgroup_le`. *Lean:*
 `Conductor.finite_range_wildInertia` (case (c), with the open normal subgroup).
 
-**The absolute upper numbering and the break decomposition.** Define
-`Conductor.absUpperRamificationGroup K u : Subgroup (Field.absoluteGaloisGroup K)` for real `u ≥ −1`:
-`G_K^u` is the closed normal subgroup of those `σ` whose restriction to every finite Galois `L/K` lies
-in `Gal(L/K)^u`, and `G_K^{u+}` is the closure of `⋃_{w > u} G_K^w`; then `G_K^{−1} = G_K`,
-`G_K^0 = I_K`, `G_K^{0+} = P_K` and `⋂_u G_K^u = 1`. For `V` of the setting define the break
+**Break decomposition and Swan conductor.** For `V` of the setting, using the absolute upper
+filtration supplied by LocalFieldsRamification Layers 3–4, define the break
 decomposition: the unique `G_K`-stable `V = ⊕_{λ ∈ ℚ_{≥0}} V(λ)`, almost all zero, with
 `V(0) = V^{ρ(P_K)}` and, for `λ > 0`, `V(λ)^{G_K^λ} = 0` and `V(λ)^{G_K^{λ+}} = V(λ)`. The `breaks` are
 the `λ` with `V(λ) ≠ 0` and `highestBreak` their maximum (`0` for `V = 0`). Define
@@ -2515,13 +2535,12 @@ Sw(V) = Σ_λ λ · dim V(λ)                          (sum over the breaks)
 
 a nonnegative rational number, the last sum for any finite Galois `L/K` with
 `Gal(K^sep/L) ∩ P_K ⊆ ker ρ`, `G_i` (`i ≥ 1`) acting through lifts in `P_K`. Intended signatures:
-`Conductor.breaks ρ : Finset ℚ`, `Conductor.swanConductor ρ : ℚ`. Its API is the surjection
-`G_K^u ↠ Gal(L/K)^u` onto `upperRamificationGroup`, the values at `0` and `0+`, the equality of the
-three expressions for every admissible `L`, `Sw = 0` iff `ρ(P_K) = 1`, dependence only on `ρ|_{P_K}` up
-to isomorphism, invariance under extension of coefficients, `Sw ≤ highestBreak · dim V` with equality
-iff there is at most one break, and agreement of the lower groups of completions with Tau Ceti's
-`Place.ramificationGroup` of `TauCetiRoadmap.AlgebraicCurves` layer 8 for function fields (Ulmer, §4,
-(4.1), pp. 3–4). *Needs:* Mathlib `Representation.invariants`, `PerfectField`;
+`Conductor.breaks ρ : Finset ℚ`, `Conductor.swanConductor ρ : ℚ`. Its API is the equality of the
+three expressions for every admissible `L`, using the supplied finite-quotient surjections;
+`Sw = 0` iff `ρ(P_K) = 1`; dependence only on `ρ|_{P_K}` up
+to isomorphism, invariance under extension of coefficients, and `Sw ≤ highestBreak · dim V` with
+equality iff there is at most one break (Ulmer, §4, (4.1), pp. 3–4). *Needs:* Mathlib
+`Representation.invariants`, `PerfectField`;
 `TauCetiRoadmap.LocalFieldsRamification` layers 3–4; the targets above.
 
 **Checks.**
@@ -2534,9 +2553,14 @@ iff there is at most one break, and agreement of the lower groups of completions
   codimension `1` each; the weighted sum is `2` and the unweighted sum `3`. The weighted sums over
   `ℚ_2(√2)` and over `ℚ_2(ζ_8)` both equal `2`, so the expression is independent of `L`.
 - `G_K^0` and `G_K^{0+}` are the `I_K` and `P_K` of Tau Ceti.
+- For every perfect `k` of characteristic `p`, including `k = F̄_p`, the character of
+  `y^p − y = t⁻¹` over `k((t))` has its single break at `1` and `Sw = 1`.
+- For odd `p` and `K = Frac W(F̄_p)`, a nontrivial character of `K(ζ_p)/K` is tame:
+  `V = V(0)` and `Sw = 0`, despite the infinite residue field.
 
-**Upper numbering on open subgroups.** Prove that for `L/K` finite separable in `K^sep` (not
-necessarily Galois) with ramification index `e`, residue degree `f` and different exponent `d(L/K)`,
+LocalFieldsRamification Layers 3–4 also supply upper numbering on open subgroups. For `L/K`
+finite separable in `K^sep` (not necessarily Galois), with ramification index `e`, residue degree `f`
+and different exponent `d(L/K)`,
 and `M ⊇ L` finite Galois over `K`, the function `ψ_{L/K} := φ_{M/L} ∘ ψ_{M/K}` on `[−1, ∞)` (a) is
 independent of `M`, is Herbrand's `ψ` for Galois `L/K`, is continuous, strictly increasing, piecewise
 linear and the identity on `[−1, 0]`, and `ψ_{M/K} = ψ_{M/L} ∘ ψ_{L/K}`; (b) satisfies
@@ -2544,8 +2568,8 @@ linear and the identity on `[−1, 0]`, and `ψ_{M/K} = ψ_{M/L} ∘ ψ_{L/K}`; 
 `ψ_{L/K}(u) = (1/f) ∫_0^u [G_K : G_K^t G_L] dt` for `u ≥ 0`; and (d) beyond every break equals
 `e u − d(L/K) + e − 1`, equivalently
 `∫_0^∞ ([L : K] − [G_K : G_K^t G_L]) dt = f(d(L/K) − e + 1) = δ(L/K) − [L : K] + f` with
-`δ(L/K) := f · d(L/K)` (Serre 1961, n° 3.1, Prop. 4 and Remarque, p. 128). *Needs:* §3.1;
-`TauCetiRoadmap.LocalFieldsRamification` layer 3.
+`δ(L/K) := f · d(L/K)` (Serre 1961, n° 3.1, Prop. 4 and Remarque, p. 128).
+Section 3.5 uses these supplied identities in the conductor induction formulas.
 
 ### 3.2 The Artin conductor and its integrality
 
@@ -2557,9 +2581,10 @@ it contains the monodromy term, for a residual `ρ̄` it is computed from `ρ̄`
 lift. Its API is `a = ε + Sw`; the lower sum `a(V) = Σ_{i ≥ 0} (|G_i|/|G_0|) · codim V^{G_i}` when
 inertia has finite image, over any admissible `L`; dependence only on `ρ|_{I_K}` up to isomorphism;
 invariance under extension of coefficients; `V^{ρ(I_K)} = (ker N)^{r(I_K)}` for an `ℓ`-adic `ρ` with
-`WD(ρ) = (r, N)` (§2.4); and for `K/ℚ_p` finite and `χ` of finite order, `a(χ)` equals
-`characterConductorExp (χ ∘ artinMap)` of `TauCetiRoadmap.ClassFieldTheory` layer 7, by the next
-target (Serre 1987, §1.2, (1.2.1)–(1.2.2), pp. 180–181). *Needs:* §3.1; §2.4; Mathlib
+`WD(ρ) = (r, N)` (§2.4); and for `K` a nonarchimedean local field and `χ` of finite order, `a(χ)` equals
+`characterConductorExp (χ ∘ artinMap)` by `TauCetiRoadmap.ClassFieldTheory` Layer 7's
+unit-filtration reciprocity (Serre 1987, §1.2, (1.2.1)–(1.2.2), pp. 180–181). *Needs:* §3.1; §2.4;
+`TauCetiRoadmap.ClassFieldTheory` Layer 7; Mathlib
 `Module.finrank`.
 
 **Checks.**
@@ -2569,17 +2594,28 @@ target (Serre 1987, §1.2, (1.2.1)–(1.2.2), pp. 180–181). *Needs:* §3.1; §
   (`N e₂ = e₁`) reduces to an unramified `ρ̄` with `a = 0`: the conductor of a reduction is computed from
   the reduction.
 
-**Unit filtration and upper numbering.** Prove that for `K` a nonarchimedean local field of
-characteristic zero (or any nonarchimedean local field) and `n ≥ 0`, the image of the unit group
+ClassFieldTheory Layer 7 supplies unit-filtration reciprocity for every nonarchimedean local field,
+in either characteristic: for `n ≥ 0`, the image of the unit group
 `U_K^n` under the local Artin map is dense in the image of `G_K^n` in `G_K^{ab}` (with `U_K^0 = O_K^×`);
 equivalently, for every finite abelian `L/K`, the reciprocity map carries `U_K^n` onto `Gal(L/K)^n`.
-Hence a character `χ` of finite order has `a(χ) = characterConductorExp (χ ∘ artinMap)` (Serre,
-*Local Fields*, Ch. XV, §2, Thm 2 and its corollaries). *Needs:* `TauCetiRoadmap.ClassFieldTheory`
-layer 7 (`artinMap`, `characterConductorExp`, `normResidue`); §3.1.
+The representation-theoretic consequence here is
+`a(χ) = characterConductorExp (χ ∘ artinMap)` for finite-order `χ`, with
+`artinMap`, `characterConductorExp` and `normResidue` from that owner (Serre,
+*Local Fields*, XV §2, Thm 2 and Cor. 3).
 
 **Characters.** Prove that a ramified character `χ` with finite wild image has an integer upper break
 `u(χ)` with `Sw(χ) = u(χ)` and `a(χ) = 1 + u(χ)`, and a tamely ramified `χ` has break `0` (Serre 1970,
-§2.1, p. 7). *Needs:* Hasse–Arf (§3.1).
+§2.1, p. 7). *Needs:* §3.1; LocalFieldsRamification Layer 3's Hasse–Arf theorem over every
+perfect residue field; ClassFieldTheory Layer 7's unit-filtration reciprocity for the local-field
+character-conductor comparison.
+
+**Checks.**
+- A nontrivial tame quadratic character over `ℚ_p`, `p` odd, has break `0` and Artin conductor `1`;
+  its Artin-map pullback is trivial on `U_K^1` and nontrivial on `U_K^0`.
+- Over `ℚ_2`, `χ_8` has break `2` and conductor `3`; its Artin-map pullback is trivial on `U_K^3`
+  and nontrivial on `U_K^2`.
+- An unramified character has conductor `0` and Artin-map pullback trivial on `U_K^0`; the formula
+  `a = 1 + u` applies only to ramified characters.
 
 **Wild characters and their extensions.** Let `M/K_0` be finite, totally ramified and Galois in the
 setting, with `G_0 ⊇ G_1` and lower groups `G_i`, and let `C` be algebraically closed of

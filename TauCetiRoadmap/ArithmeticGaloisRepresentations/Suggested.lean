@@ -1920,8 +1920,13 @@ end GaloisRep
 
 /-! ## Layer 3: Artin and Swan conductors
 
-The conductors themselves rest on the absolute upper-numbering filtration of §3.1 and are README
-targets; the finiteness statements on which their definition depends are stated here. -/
+LocalFieldsRamification Layers 3–4 own finite and absolute ramification, Herbrand functions and
+the full Hasse–Arf theorem over complete discretely valued fields with perfect residue field,
+on `Ideal.ramificationGroup` and `TauCeti.IsLocalRing.ramificationGroupReal` at finite level.
+ClassFieldTheory Layer 7 owns unit-filtration reciprocity. Section 3.1 uses the supplied absolute
+filtration for representation break decompositions and Swan conductors; §3.2 compares character
+conductors with the supplied reciprocity filtration. Conductors are README targets; the finiteness
+statements on which their definition depends are stated here. -/
 
 namespace Conductor
 
