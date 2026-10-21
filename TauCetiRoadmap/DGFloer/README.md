@@ -48,12 +48,16 @@ Out of scope, so nobody mistakes them for later stages:
   structures, which nothing here builds.
 - **The Cayley plane** in Proposition 6.39. It needs the octonionic projective plane as a
   Riemannian manifold. The quaternionic half of Proposition 6.39 is in scope.
-- **The two classification applications:** the finite-rank diagonal group in Lemma6.35 and
-  the compact non-torus Lie-group consequence used by Proposition6.31 have the coordination
-  contracts in the source-owner table below. Stable real Bott is supplied by HomotopySpheres
-  Stage4A–4B; it does not by itself compute the diagonal π_(n−1)(SO(n)). Proposition6.34 retains
-  its independent second proof. Proposition6.31 retains its explicit compact connected
-  non-K(π,1) hypothesis until the bounded compact-Lie application is constructed.
+- **The finite-rank and compact-Lie applications of §§6.4.3–6.4.4 are in scope.** Layer 11.3
+  constructs Lemma 6.35's complete odd-rank `π_(n−1)(SO(n))` torsion proof and both proofs of
+  Proposition 6.34, and constructs the finite-cover and higher-homotopy comparison that makes
+  Proposition 6.31 unconditional for every compact connected Lie group other than a torus.
+  HomotopySpheres Stage 4A–4B supplies stable real Bott periodicity only; the finite-rank
+  Stiefel and low-rank calculations, and their use in the sphere-evaluation fibration, remain
+  explicit targets here. The LieGroups dependency supplies its stated compact structure and
+  maximal-torus interfaces; the DGFloer-specific finite-cover/`K(π,1)` comparison is assigned
+  here. These targets preserve the source's full statements rather than reclassifying them as
+  coverage-only contracts.
 
 Also out of scope:
 - chain-level higher structures, meaning `A∞` refinements of the DG Floer maps, products, and the
@@ -86,7 +90,7 @@ This table specifies mathematical owner boundaries. A **coordination contract** 
 | Floer analogue of Reidemeister torsion (Hutchings physical p106) | Section7.T owns the w⁺ seamed Floer–Novikov parity complex, periodic-flow zeta correction and actual degenerate bifurcation application, with rational total-quotient coefficients and separate monotone strengthening. MN N1/N4 retain the generic completion/torsion/localization algebra; MN N6 is its different finite-dimensional dynamical theorem. Layer8’s Serre/family theory alone does not construct Floer torsion. |
 | Qualified autonomous virtual cancellation | DGF7.C.5c owns the energy-cutoff/isolating relative virtual comparison below. The regular R×S¹ dimension argument and PSS homology comparison are separate results, not raw coefficient cancellation. |
 | Multiple realization | [GeneralizedCohomology](../GeneralizedCohomology/README.md) G5 and [TangentialBordism](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md) B5/B6.3 supply Thom/PT/rational bordism inputs. DGF10.5 owns their smooth-target multiple-realization application and the resulting TheoremB/5.14 endpoint. |
-| Finite-rank Bott and compact-Lie applications | HomotopySpheres Stage4A–4B supplies stable real Bott. The finite-rank boundary map for SO(n)→SO(n+1)→Sⁿ and its actual extension data are needed for Lemma6.35's dimensions. LieGroups supplies compact-group structure; the compact non-torus non-K(π,1) consequence requires its own finite-cover/higher-homotopy application. Keep Proposition6.34's second proof and Proposition6.31's present hypothesis independent of those coordination targets. |
+| Finite-rank odd-sphere and compact-Lie applications | [HomotopySpheres](https://github.com/TauCetiProject/TauCetiRoadmap/blob/84eb50c63d08d9dafdc05a330be675d762bf62a3/TauCetiRoadmap/HomotopySpheres/README.md) Stage4A–4B supplies stable real Bott and its stable orthogonal-group calculation, not the unstable diagonal groups. DGF Layer11.3 owns the low-rank values, the stable-plus-Stiefel decomposition for `π_(n−1)(SO(n))`, its use in the exact sequence of `SO(n)→SO(n+1)→Sⁿ`, and the resulting first proof of Proposition6.34; the geometric second proof remains a separate complete proof. The pinned public [LieGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0e8b058a97cc4f9401d2679313e0e937761c1024/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md) source supplies the universal-cover/central-kernel construction, compact Lie-algebra structure, simply-connected integration, maximal-torus and root `SU(2)` interfaces at their stated hypotheses. The pinned public [CompactGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0e8b058a97cc4f9401d2679313e0e937761c1024/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md) source supplies Haar/Peter–Weyl and its `SU(2)`/torus engine, not the finite-cover decomposition or `K(π,1)` conclusion. Neither source states the specific decomposition/`K(π,1)` bridge, so DGF Layer11.3 owns the bounded proof of the finite cover `T×K→G` from these Lie-group inputs, the `π_j` comparison for `j≥2`, the proof that a nontrivial compact simply connected semisimple factor has nonzero `π₃`, and the conclusion `G is K(π,1) iff G is a torus`; it then applies Proposition6.29 to prove Proposition6.31. This application does not rebuild general Lie theory, compact representation theory, or stable Bott theory. |
 
 **The n=1 polar/index adapter.** In the supplied A=PU factor order, write the positive symplectic factor as P=exp([[a,b],[b,−a]]), (a,b)∈ℝ². Construct its disc coordinate (a,b)/sqrt(1+a²+b²), inverse v/sqrt(1−‖v‖²), and prove the actual smooth inverse and factor-order maps. Identify U(1) with the real rotation circle and transport its winding and crossing conventions to the single HF Maslov/CZ construction, including the factor2 loop/frame-change law and the existing μ=−CZ_HF calibration. This specializes the full C2.0/C2.1 polar theorem and does not introduce a second index.
 
@@ -1572,13 +1576,63 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
      class is a generator. Also nonvanishing of the Stiefel class in `H_{2n−3}(Ω²Sⁿ)`
      (Proposition 6.17).
    - Spheres `S^{4k−1}`: the class in `H_{n−2}(Ω²Sⁿ) ≅ ℤ` is a generator (Proposition 6.21).
-   - Sphere bundles over highly connected bases (Proposition 6.23).
+   - **Sphere bundles over highly connected bases (Proposition 6.23).** Work in the standing
+     closed, connected, oriented total-space setting of §6.4.2. A smooth `Sⁿ`-bundle
+     `Sⁿ ↪ Q → B`, `n≥2`, whose structure group reduces to `O(n+1)` is the unit-sphere bundle
+     of a rank-`n+1` real vector bundle with a fiberwise metric; construct this equivalence and
+     the vertical tangent bundle `TᵥQ`. Prove the two alternatives separately:
+       * `n` even and `B` is `2n`-connected. The parameter fibre over `q∈Q` is the oriented
+         manifold `Stiefel₂(Tᵥ,q)` of ordered orthonormal two-frames in the tangent space to the
+         sphere fibre. Put the explicit Example6.16 sphere-family map into these fibres and
+         include each sphere fibre into `Q` to obtain `Σ→Q` and `σ:Σ→Map(S²,Q)`.
+       * `n≡3 (mod 4)` and `B` is `(n+1)`-connected, with two everywhere independent vertical
+         vector fields `u,v`. Normalize them to an orthonormal pair. For `q` in the fibre, put
+         `V_x=u(x)⊥` in the ambient rank-`n+1` Euclidean bundle and take the unit sphere in
+         `V_x∩v(x)⊥`, the carrier `E_{V_x,x,v(x)}` of Example6.20. Here `x` and `v(x)` are
+         orthogonal unit vectors in `V_x`, so this is the equator `S^{n−2}` through `x`; its
+         points are sphere-fibre points, not tangent vectors at `x`. Use the explicit two-field
+         sphere-family map and the sphere-fibre inclusion to construct
+         the corresponding oriented `Σ→Q` and `σ:Σ→Map(S²,Q)`.
+     In both cases prove the carrier's orientation and local triviality, continuity/smoothness
+     of the family map, compatibility of the fibre map with the based loop inclusion
+     `Ω²Sⁿ→Ω²Q`, and nonvanishing of its fibre class. For the even case the fibre class is in
+     `H_(2n−3)(Ω²Sⁿ;ℤ)`; `2n`-connectivity gives `π_i(Ω²B)=0` for `i≤2n−2`, hence
+     `H_i(Ω²B;ℤ)=0` for `1≤i≤2n−2`, and the Serre spectral sequence gives the inclusion
+     isomorphism through degree `2n−3`. For the odd case the class is the generator in
+     `H_(n−2)(Ω²Sⁿ;ℤ)`; `(n+1)`-connectivity gives `π_i(Ω²B)=0` for `i≤n−1` and the same
+     spectral-sequence comparison through degree `n−2`. Include basepoint-change and coefficient
+     maps in these comparisons; do not infer either conclusion from connectivity without its
+     looped fibration, Hurewicz, and spectral-sequence argument. Since either connectedness
+     assumption makes `B` simply connected and `Sⁿ` has trivial fundamental group, prove `Q` is
+     simply connected; use this to trivialize the carrier's orientation local system over `Q`.
+     The odd-case two-field condition
+     is an actual hypothesis; quaternionic Hermitian sphere bundles are one verified source of
+     such fields, not a substitute for the general target.
 3. **Covering by diffeomorphisms** (Definitions 6.26 and 6.32, over geometric topology's `Diff(M)`).
    - Abundance of manifolds covered, or `ℓ`-covered, by diffeomorphisms (Propositions 6.29
      and 6.33).
-   - For a compact connected Lie group G supplied with the explicit hypothesis that it is not K(π,1), construct the left-translation smooth family G→Diff(G), its evaluation/covering witness and the actual sphere/homology class required by Proposition6.31, then apply the abundance criterion. The hypothesis is input data; deriving it from “non-torus” is the separately coordinated structural/higher-homotopy application.
-   - For odd Sⁿ retain the independent second proof of Proposition6.34. Use GT3 and Layer1.6's local evaluation bundle, Layer1.8's fixed-p rotation family of degree2 with domain S^(n−1)×S¹, and construct the actual ℓ-covered-by-diffeomorphisms witness of Definition6.32. Apply Proposition6.33 with the degree2/non-2-torsion sphere class and the stated homological comparison. This is an explicit degree/evaluation proof, with no Pontryagin–Thom or unstable Bott premise.
-4. **Homogeneous spaces** (Proposition 6.36), including `S² = SO(3)/SO(2)`.
+   - **Compact connected Lie groups (Proposition6.31).** Consume LieGroups' public interfaces for the universal cover and discrete central kernel, compact Lie-algebra splitting into center and semisimple derived ideal, simply-connected integration, and Layer6 maximal-torus/root `SU(2)` structure. Build only the needed finite-cover decomposition. Split the compact Lie algebra into its center and semisimple derived ideal; integrate the simply connected factors to identify the simply connected cover as `ℝ^r×K`, where `K` is compact, connected, simply connected and semisimple. Prove `Z(K)` is finite. Its deck kernel `Γ` is discrete and central, hence lies in `ℝ^r×Z(K)`. Compactness of `(ℝ^r×K)/Γ` implies `Λ=Γ∩(ℝ^r×{1})` is a full lattice in `ℝ^r`; projection embeds `Γ/Λ` into the finite group `Z(K)`, so `Λ` has finite index in `Γ`. Since `Λ` is central, the quotient map `(ℝ^r/Λ)×K→(ℝ^r×K)/Γ≅G` is a finite covering `T×K→G`, with `T=ℝ^r/Λ` a torus. Prove finite coverings induce isomorphisms on `π_j` for every `j≥2`. For nontrivial `K`, choose a root `SU(2)` subgroup and prove its map on `π₃` has nonzero image (state the integral homology/`π₃` comparison that establishes this); hence `π₃(K)≠0`. Since higher homotopy of `T` vanishes, derive `G` is a `K(π,1)` exactly when `K` is trivial, equivalently when `G` is a torus; conversely, a finite quotient of a torus is a torus. This proves the non-`K(π,1)` hypothesis in Example6.30 for every non-torus compact connected `G`. Then use `G→Diff(G)` by left translation, its evaluation identity at `e`, and Proposition6.29 to prove Proposition6.31. The product decomposition and its homotopy consequence are the DGF-specific bridge absent from the pinned current LieGroups and CompactGroups statements; all generic Lie, compact representation, and Haar theory stays with those suppliers.
+   - **Finite-rank odd-sphere group (Lemma6.35).** For every odd `n≥3`, prove torsion of `π_(n−1)(SO(n))` with finite-rank data, not stable periodicity alone. Give explicit low-rank computations
+     `π₂(SO(3))=0`, `π₄(SO(5))=ℤ/2`, `π₆(SO(7))=0`, `π₈(SO(9))=(ℤ/2)²`, and
+     `π₁₀(SO(11))=π₁₂(SO(13))=π₁₄(SO(15))=ℤ/2`, including maps/fibration exact sequences that certify each value. For odd `n≥17`, construct the finite-rank comparison/splitting
+     `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))`; prove the stated stable term is `0` or `ℤ/2` by HomotopySpheres Stage4A–4B's stable real Bott computation and prove the Stiefel term is `ℤ/2` in this range from the named Stiefel fibration/extension data. State the comparison maps and the range in which stabilization applies. The source's Lemma6.35 proof prints `π₈(SO(9))=ℤ/4`; retain that literal value as a source error, not as a theorem target. The corrected value is `(ℤ/2)²`: construct the stabilization `π₈(SO(9))→π₈(SO)=ℤ/2`, its kernel `ℤ/2` and a splitting, as described in [Crowley–Schick–Steimle, proof of Lemma2.2](https://www.researchgate.net/publication/347965860_The_derivative_map_for_diffeomorphism_of_disks_An_example) (arXiv:2012.13634v1). Compare with the `SO(8)→SO(9)→S⁸` exact sequence and `π₈(SO(8))=(ℤ/2)³` to certify the exponent-two result. The other cited values and large-rank splitting remain construction targets with their actual maps, ranges and extension data; a source table alone does not prove them. The torsion conclusion and both proofs of Proposition6.34 retain their full scope.
+   - **First proof of odd-sphere covering (Proposition6.34).** Use the evaluation fibration
+     `SO(n)→SO(n+1)→Sⁿ` and its exact segment
+     `π_n(SO(n+1))→π_n(Sⁿ)→π_(n−1)(SO(n))`. Since `π_n(Sⁿ)=ℤ` and the last group is torsion, the boundary map has a nonzero kernel; exactness gives a class mapping to `ℓ[Id_(Sⁿ)]`, `ℓ>0`. Carry it through the Hurewicz map to `H_n(SO(n+1);ℤ)`, then through the standard action `SO(n+1)→Diff(Sⁿ)` and evaluation to obtain `ev_*A=ℓ[Sⁿ]`. Apply Proposition6.33 using that `π_n(Sⁿ)=ℤ` is not `ℓ`-torsion. Retain the second geometric proof below as a separate complete route, including its degree-2 rotation family; neither proof may stand in for the other.
+   - **Second proof of odd-sphere covering (Proposition6.34).** Retain the independent proof already specified: use GT3 and Layer1.6's local evaluation bundle, Layer1.8's fixed-`p` rotation family of degree `1+(-1)^(n−1)=2` for odd `n`, with domain `T¹_pSⁿ×S¹`; construct its homology class and verify its evaluation is `2[Sⁿ]`. Apply Proposition6.33 with the degree-2/non-2-torsion sphere class and its stated homological comparison. This is the direct degree/evaluation proof, with no Pontryagin–Thom or unstable Bott premise.
+4. **Homogeneous spaces (Proposition6.36), including `S²=SO(3)/SO(2)`.** For a compact connected Lie group `G` and a closed, positive-dimensional Lie subgroup `H`, define the left actions
+   `Φ_H:H×Ω²(G/H)→Ω²(G/H)` and
+   `Φ:G×Map(S²,G/H)→Map(S²,G/H)`, and the evaluation fibration
+   `ev:Map(S²,G/H)→G/H` with fibre `Ω²(G/H)` over `eH`. Given
+   `α∈H_*(Ω²(G/H);ℤ)` such that `(Φ_H)_*([H]×α)≠0`, construct the map of fibrations induced by
+   `H↪G→G/H` and `Map(S²,G/H)→G/H`. Prove `j_![G]=[H]` for the fibre inclusion and prove shriek naturality, with the coefficient maps, degree shifts, cross-product signs and basepoint identifications, to obtain
+   `j_!Φ_*([G]×α)=(Φ_H)_*([H]×α)`. Because `dim H>0`, verify the source's reduced-homology condition after the degree shift; then show the class lies over the base fundamental class and satisfies Definition6.11.
+
+   The source states the result for every closed `H`, even when `M=G/H` is not orientable, while Definition6.11 is stated for oriented manifolds. Preserve this generality with the evaluation-pullback orientation system `ev*or_M`. Choose a generator `o` of its fibre at `eH` and a left-invariant orientation of `G`. For `π:G→M`, construct the flat trivialization `τ(g)=d(L_g)_(eH)(o)` of `π*or_M`, and prove its compatibility with paths and the action's coefficient map. On `H` it is `τ(h)=χ(h)o`, where `χ(h)` is the sign of the isotropy action on `T_(eH)M`. Compute the fibre-coorientation sign relative to the left-invariant orientation of `H`; it is the same `χ(h)`. Thus the twisted shriek satisfies `j_![G]_τ=[H]` with the ordinary left-oriented fundamental cycle on all components: the two signs cancel. Ordinary untwisted `j_![G]` must not silently be identified with that cycle when the quotient is nonorientable.
+
+   Form `β=Φ_*([G]_τ×α)` in `H_(dimG+degα)(Map(S²,M);ev*or_M)` using the actual action coefficient map, and prove the same square gives `j_!β=(Φ_H)_*([H]×α)` in ordinary homology after the chosen basepoint-fibre identification. Because `dim H>0`, the class has degree above `dim M` and its nonzero shriek has positive degree. Construct the twisted abundance implication by tensoring the path-fibration DG coefficient system in the Theorem6.12 proof with the evaluation-pullback `or_M`, including its restriction along constant loops and the actual chain/transport comparison. Identify the total path-space readout with `H_*(M;or_M)`, whose groups above `dim M` vanish; then apply the already stated nonorientable form of Proposition6.7 with the resulting nonzero shriek and zero constant-loop image. This is an assigned coefficient construction and proof, not an assumption that the oriented theorem already applies. Recover the ordinary oriented statement by an orientation trivialization; no connectedness of `H` is imposed.
+
+   For `S²=SO(3)/SO(2)`, take `α` in `H₀(Ω²S²;ℤ)` represented by a degree-one map. Compute its `SO(2)` action class `α′∈H₁(Ω²S²;ℤ)` and prove it is nonzero by identifying it with the cycle `σ_{p*}[Σ′_p]` of Remark6.19. Under `β_*:H₁(Ω²S²)→H₂(ΩS²)`, identify the class with the Pontryagin square of the generator of `H₁(ΩS²)`. Then compare the resulting `SO(3)` action class in `H₃(Map(S²,S²);ℤ)` with `σ_*[Σ′]`, including orientation choices and the evaluation shriek map. This is the worked instance of the general action/shriek construction, not an appeal to Proposition6.36 alone.
 5. **Projective spaces.** `CPᵈ` (Proposition 6.38) and `HPᵈ` (Proposition 6.39 without the Cayley
    plane), from Layer 5 item 7. These give **Theorem I** within the scope boundary.
 6. **Knotted hypersurfaces.** **Theorem G** (= Theorem 7.1), through Proposition 7.5 and
@@ -1694,9 +1748,9 @@ version (TeX source of 13 May 2026, compiled).
 | Def 6.11, Thm 6.12, Prop 6.13 | 11.1 |
 | Def 6.14, Props 6.15, 6.17, 6.18, 6.21, 6.23 | 11.2 (degree computation 1.8) |
 | Defs 6.26, 6.32, Props 6.29, 6.33 | 11.3 (evaluation fibration 1.6) |
-| Prop 6.31 | 11.3, for non-aspherical groups |
-| Prop 6.34 | 11.3, second proof (degree computation 1.8) |
-| Lem 6.35 | finite-rank sphere-fibration coordination contract; 6.34 second proof remains independent |
+| Prop 6.31 | 11.3, including the finite-cover proof that compact connected non-tori are not `K(π,1)` |
+| Prop 6.34 | 11.3, both the Lemma6.35/LES proof and the independent degree-computation proof (1.8) |
+| Lem 6.35 | 11.3, low ranks and stable-plus-Stiefel finite-rank comparison; used by the first proof of Prop6.34 |
 | Prop 6.36 | 11.4 |
 | Props 6.38, 6.39 | 11.5, consuming 5.7's Riem R2/R3 and MorseTheory M5 based-loop application and its actual index/perfectness/generators; without `CaP²` |
 | Thm 7.1, Prop 7.5, Lems 7.6, 7.7 | 11.6 (collapse 1.5) |
