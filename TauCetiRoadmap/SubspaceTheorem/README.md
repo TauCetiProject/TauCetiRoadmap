@@ -113,7 +113,7 @@ has there, with subdirectories `Roth/`, `Parallelepiped/`, `Subspace/`, `Transce
   `MvPolynomial.divMonomial`, `MvPolynomial.modMonomial`. Exterior powers: `⋀[R]^n M`,
   `exteriorPower.ιMulti`, `Module.Basis.exteriorPower`. Geometry of numbers: `ZLattice`,
   `ZLattice.covolume`, `ZLattice.covolume_comap`, `NumberField.mixedEmbedding` with `latticeBasis`,
-  `latticeBasis_repr_apply`, `integralBasis`, `norm_mixedSpace`, `ZSpan.fract`, and
+  `latticeBasis_repr_apply`, `integralBasis`, `norm` with `norm_apply`, `ZSpan.fract`, and
   `Int.Matrix.exists_ne_zero_int_vec_norm_le`. `Asymptotics.IsLittleO`. `OnePoint`.
 - **Tau Ceti.** The Hasse derivative `MvPolynomial.hasseDeriv` with `hasseDeriv_comp`,
   `hasseDeriv_mul`, `coeff_taylor` and `eval_add_eq_finsum_hasseDeriv`
@@ -175,33 +175,34 @@ has there, with subdirectories `Roth/`, `Parallelepiped/`, `Subspace/`, `Transce
   (`TauCeti/NumberTheory/DiophantineApproximation/Roth/IndexEstimate.lean`). §1.7
   `MvPolynomial.exists_eval_hasseDeriv_ne_zero_of_blockLinearForm` with
   `hasseDeriv_aeval_blockLinearForm_hasseDeriv` and `degreeOf_aeval_blockLinearForm_le`
-  (`TauCeti/RingTheory/MvPolynomial/HasseDeriv/ChainRule.lean`), and the block-homogeneous
-  calculus: residual block degrees, a zero block, and blocks of degree `0`. §2.1
-  `TauCeti.InGeneralPosition` with `inGeneralPosition_iff_det_ne_zero`,
-  `inGeneralPosition_coords_add_sum` and `InGeneralPosition.map`
-  (`TauCeti/LinearAlgebra/LinearIndependent/GeneralPosition.lean`). §2.3 `IsNondegenerateSolution`
-  and `IsNondegenerateHomogeneousSolution`. §2.5 `TauCeti.plucker` with Cauchy–Binet,
-  `det_mul_transpose_eq_sum_plucker_mul` (`TauCeti/LinearAlgebra/ExteriorPower/Plucker.lean`);
-  `Submodule.relativePluckerPoint` (`TauCeti/LinearAlgebra/Projectivization/Plucker.lean`);
-  `Submodule.relativeSubspaceHeight` with `relativeSubspaceHeight_euclideanDual`,
-  `relativeSubspaceArakelovHeight`, `subspaceHeight` with `subspaceHeight_euclideanDual`,
-  `finite_subspaceHeight_le`, `height2` and `arakelovMulHeight` (`TauCeti/NumberTheory/Height/`);
-  and `orthogonalBilin_eq_dualAnnihilator_comap`, `relativeSubspaceHeight_dualAnnihilator` and
-  `subspaceHeight_le_prod`. §2.6 the grid lemma `exists_rectangular_int_grid_jet` and the block
-  form `exists_nonzero_block_grid_jet_of_restriction`. §2.8 the extraction lemma
+  (`TauCeti/RingTheory/MvPolynomial/HasseDeriv/ChainRule.lean`), and the block-homogeneous calculus:
+  residual block degrees, a zero block, and blocks of degree `0`. §2.1 `TauCeti.InGeneralPosition`
+  with `inGeneralPosition_iff_det_ne_zero`, `inGeneralPosition_coords_add_sum` and
+  `InGeneralPosition.map` (`TauCeti/LinearAlgebra/LinearIndependent/GeneralPosition.lean`);
+  `finite_small_linear_form` (one linear form, Theorem 7.7) and
+  `finite_approximation_bounded_degree` (Theorem 7.8), which 7.1 consumes as stated. §2.3
+  `IsNondegenerateSolution` and `IsNondegenerateHomogeneousSolution`. §2.5 `TauCeti.plucker` with
+  Cauchy–Binet, `det_mul_transpose_eq_sum_plucker_mul`
+  (`TauCeti/LinearAlgebra/ExteriorPower/Plucker.lean`); `Submodule.relativePluckerPoint`
+  (`TauCeti/LinearAlgebra/Projectivization/Plucker.lean`); `Submodule.relativeSubspaceHeight` with
+  `relativeSubspaceHeight_euclideanDual`, `relativeSubspaceArakelovHeight`, `subspaceHeight` with
+  `subspaceHeight_euclideanDual`, `finite_subspaceHeight_le`, `height2` and `arakelovMulHeight`
+  (`TauCeti/NumberTheory/Height/`); and `orthogonalBilin_eq_dualAnnihilator_comap`,
+  `relativeSubspaceHeight_dualAnnihilator` and `subspaceHeight_le_prod`. §2.6 the grid lemma
+  `exists_rectangular_int_grid_jet` and the block form
+  `exists_nonzero_block_grid_jet_of_restriction`. §2.8 the extraction lemma
   `TauCeti.exists_linearIndependent_comp_finrank_mul`
   (`TauCeti/LinearAlgebra/LinearIndependent/Extraction.lean`), `exists_ne_zero_height2_le`,
   `siegelKernelBasis`, `siegelRelativeKernelBasis` and `siegelCoefficientConditions`.
 - **HAU**, by milestone. 0.1 and 0.2, the affine height and the value bounds (in Tau Ceti); 1.1
   Northcott on projective space (in Tau Ceti); 1.2 the `Northcott` instances for DAT's three
-  subspace heights (in Tau Ceti); 1.3 Kronecker's theorem (in Tau Ceti); 2.1 the basis from the
-  minima; 3.1 the unit height identities; 4.1 the height of an `S`-integer (in Tau Ceti); 4.2 the
-  `S`-unit theorem with a fundamental system (in Tau Ceti); 4.3 the `S`-logarithmic lattice (in Tau
-  Ceti).
+  subspace heights (in Tau Ceti); 1.3 Kronecker's theorem (in Tau Ceti); 4.1 the height of an
+  `S`-integer (in Tau Ceti); 4.2 the `S`-unit theorem with a fundamental system (in Tau Ceti); 4.3
+  the `S`-logarithmic lattice (in Tau Ceti).
 - **GlobalNumberFields** Layer 0, through the Tau Ceti declarations named above: the place
   carrier `Place K`, the normalized absolute values, the product formula and its functoriality
   under a finite extension with the local degrees in the exponents.
-- **SM** (TauCetiRoadmap #1298), by milestone. 1.1
+- **SM**, by milestone. 1.1
   `successiveMin` for a `ZLattice` and a `ConvexBody`, zero-based; 1.7
   `exists_successiveMin_witnesses`; 2.1.4 `minkowski_second_lower` and 3.21
   `minkowski_second_upper`; 0.1.2 `hermitian_gram_hadamard`.
@@ -220,10 +221,9 @@ lands the milestone discharges the instance in the same pull request.
 | §2.1 `subspace_theorem`, `subspace_theorem_general_position` | 6.3 and 6.5 at `K = ℚ`, `S∞ = {∞}`, `S₀ = ∅`, integer points |
 | §2.1 `padic_subspace_theorem`, `padic_subspace_theorem_general_position` | 6.3 and 6.5 at `K = ℚ` with `S₀` the chosen primes |
 | §2.1 `finite_two_forms_strict`, `roth_of_subspace_theorem` | 3.4 and 6.6 at `K = ℚ` |
-| §2.1 `finite_small_linear_form` (one linear form, Theorem 7.7) and `finite_approximation_bounded_degree` (Theorem 7.8) | 7.1, which consumes them as stated |
 | §2.3 the `p`-adic Roth theorem over `ℚ` with targets in the completions | 3.3, `K = ℚ`, through Layer 0.1 |
 | §2.3 `finite_thueMahler` over `ℤ` | 8.4 at `K = ℚ` |
-| §2.3 `finite_two_term_unit_equation_rat`, `finite_nondegenerate_solutions_rat`; §2.4 `finite_two_term_unit_equation`, `finite_nondegenerate_solutions` for finitely generated `Γ ≤ Kˣ` | 8.1 and 8.2, through `Γ ≤ S.unit K` for a finite `S` |
+| §2.3 `finite_two_term_unit_equation_rat`, `finite_nondegenerate_solutions_rat` | 8.1 and 8.2 at `K = ℚ`, through `Γ ≤ S.unit ℚ` for a finite `S` |
 
 ### Not owned here
 
@@ -510,8 +510,8 @@ The non-vanishing technology Layers 3 and 5 share. The Hasse derivative, the wei
 generalized Wronskian and Roth's lemma are Tau Ceti's and DAT's; this layer adds the two estimates
 Bombieri–Gubler's Chapter 6 needs beyond them.
 
-**2.1 Counting and volume** (Bombieri–Gubler 6.3.3, Lemma 6.3.5, (7.23)–(7.25)). With
-`Real.simplexVolume m t` the volume `V_m(t)` of `{x ∈ [0,1]^m | ∑ x j ≤ t}`:
+**2.1 Counting and volume** (Bombieri–Gubler 6.3.3 and the proof of Lemma 6.3.4, Lemma 6.3.5,
+(7.23)–(7.25)). With `Real.simplexVolume m t` the volume `V_m(t)` of `{x ∈ [0,1]^m | ∑ x j ≤ t}`:
 - *lattice points*: the number of `i` with `0 ≤ i j ≤ d j` and `∑ j, i j / d j ≤ t` lies between
   `V_m(t) ∏ d j` and `V_m(t) (1 + max 1 t⁻¹ ∑ j, 1 / d j) ^ m ∏ d j`, the upper bound for `t > 0`;
 - *the tail*: `V_m((1/2 − ε) m) ≤ exp (−6 m ε²)` for `0 ≤ ε`;
@@ -618,8 +618,8 @@ constant-target case is `NumberField.roth_no_chain`, and Roth's theorem is that 
 reduction. Route, Steps 0–V of 6.4.2–6.4.10: discard the finitely many `β` of height at most `1`
 (Northcott) and the at most `|S|` values equal to a target; classify the rest by the profile
 `log Λ_v(β) / log Λ(β)` (3.1) with `N` chosen so `|S| / N` is small; take `m` with
-`[F : K] |S| exp (−6 m ε²) < 1/2` and an `(L, M)`-independent `m`-tuple in one class; build `P` by
-2.2 at the target points `(α 0 v, …, α m v)` with `d j = ⌈D / h(β j)⌉` (Steps I, II,
+`[F : K] |S| exp (−6 m ε²) < 1/2` and an `(L, M)`-independent `(m + 1)`-tuple in one class; build
+`P` by 2.2 at the target points `(α 0 v, …, α m v)` with `d j = ⌈D / h(β j)⌉` (Steps I, II,
 `NumberField.exists_auxiliary_deriv`); find by Roth's lemma
 (`TauCeti.weightedIndex_le_of_logHeight_le`) a derivative `Q` of `P` of small
 weighted order with `Q(β) ≠ 0`; bound `Q(β)` above at each place of `S` by the Taylor expansion at
@@ -838,11 +838,11 @@ Three pieces of infrastructure sit beneath 4.1, each its own target.
   `ι → mixedSpace K` when `Λ` is finitely generated and spans, with its `DiscreteTopology` and
   `IsZLattice ℝ` instances: the bridge from `𝓞 K`-modules to SM's vocabulary.
 
-**4.2 Successive minima over `K`** (Bombieri–Gubler, Definition C.2.9, Theorem C.2.11). For an
-`𝓞 K`-module `Λ` and a body `B` as in 4.1, the `K`-minimum
-`NumberField.successiveMinimum Λ B l`, indexed from `0` like SM's `successiveMin`, is the infimum
-of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors linearly independent over `K`, and
-`0` for `l ≥ card ι`. Statements take `Λ` only through
+**4.2 Successive minima over `K`** (Bombieri–Gubler, Definition C.2.9; Theorem C.2.11 in shape, with
+the constants of SM 2.1.4 and 3.21). For an `𝓞 K`-module `Λ` and a body `B` as in 4.1, the
+`K`-minimum `NumberField.successiveMinimum Λ B l`, indexed from `0` like SM's `successiveMin`, is
+the infimum of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors linearly independent over
+`K`, and `0` for `l ≥ card ι`. Statements take `Λ` only through
 `[DiscreteTopology Λ.mixedImage] [IsZLattice ℝ Λ.mixedImage]`. Deliverables:
 - *Attainment by one family*,
   `NumberField.exists_linearIndependent_mem_smul_successiveMinimum`: there are `card ι` vectors of
@@ -960,20 +960,20 @@ over `ℚ`.
   `exteriorPower.finrank_wedgeSpan_add_one`). Route through the dual basis, with no pairing
   between `⋀^p` and `⋀^k`: if a coordinate form `f j₀` with `j₀ ≥ k` is nonzero on `u`, putting `u`
   in place of `x j₀` in the top block gives a wedge on which the kernel form is `f j₀ u`.
-- **Lemma 7.5.31** (`NumberField.exists_plucker_mem_approxDomain_wedgeForms`): for vectors `x`
-  realizing the `K`-minima `μ` of the domain of `L`, `c` at a level `Q > 1`, Evertse's lemma with
-  `ν v i = Q ^ c v i` gives `y` and `π v` whose Plücker vectors `y J`, `J` meeting the first `k`
-  indices, lie in the approximation domain of `wedgeForms` with exponents
-  `NumberField.wedgeExponent` (the book's `S(Q)`, (7.44)–(7.45)), with a constant depending only
-  on `K` and `card ι`. The constant is absorbed into the exponent,
-  `c + Real.logb Q (C · μ)`, so `S(Q)` is an approximation domain whose exponents move with `Q`
-  and 4.2–4.3 apply with constants uniform in `Q`; the book's normalization (7.42) disappears.
+- **(7.44)–(7.45) in 7.5.30** (`NumberField.exists_plucker_mem_approxDomain_wedgeForms`): for
+  vectors `x` realizing the `K`-minima `μ` of the domain of `L`, `c` at a level `Q > 1`, Evertse's
+  lemma with `ν v i = Q ^ c v i` gives `y` and `π v` whose Plücker vectors `y J`, `J` meeting the
+  first `k` indices, lie in the approximation domain of `wedgeForms` with exponents
+  `NumberField.wedgeExponent` (the book's `S(Q)`), with a constant depending only on `K` and
+  `card ι`. The constant is absorbed into the exponent, `c + Real.logb Q (C · μ)`, so `S(Q)` is an
+  approximation domain whose exponents move with `Q` and 4.2–4.3 apply with constants uniform in
+  `Q`; the book's normalization (7.42) disappears.
 - *The weight of `S(Q)`*, exact: `Q ^ approxWeight (wedgeExponent …)` equals `Q ^ (e · weight)`
-  times `(C ^ M · (∏ l, μ l) ^ e · μ (k − 1) / μ k) ^ d`, with `e = (card ι − 1).choose (p − 1)`
-  and `M` the number of `p`-subsets (`NumberField.rpow_approxWeight_wedgeExponent`), since each
-  index lies in `e` subsets and exactly one subset is the top block; hence it is at most a
-  constant times `(μ (k − 1) / μ k) ^ d` (`NumberField.rpow_approxWeight_wedgeExponent_le`). This
-  is what 6.1 consumes. The book's packaged form, all minima of `S(Q)` but the last at most `1`
+  times `(C ^ M · (∏ l, μ l) ^ e · μ (k − 1) / μ k) ^ d`, with `e = (card ι − 1).choose (p − 1)` and
+  `M` the number of `p`-subsets (`NumberField.rpow_approxWeight_wedgeExponent`), since each index
+  lies in `e` subsets and exactly one subset is the top block; hence it is at most a constant times
+  `(μ (k − 1) / μ k) ^ d` (`NumberField.rpow_approxWeight_wedgeExponent_le`). This is what 6.1
+  consumes. The book's packaged form, Lemma 7.5.31, all minima of `S(Q)` but the last at most `1`
   and the last at least a constant times `μ k / μ (k − 1)`, is
   `NumberField.exists_successiveMinimum_wedge`, with its consequence (7.41)
   (`NumberField.exists_div_pow_le_inv`: for rank `R` with `1 ≤ R < card ι` some `k ∈ [R, card ι)`
@@ -1525,8 +1525,10 @@ Bombieri–Gubler, Theorem 7.4.2 and Corollary 7.4.3). For `a : ι → Kˣ`, fin
   values of each ratio `x i / x j`, which 8.6 consumes.
 - *Finitely generated groups* (`NumberField.finite_setOf_sum_mem_eq_one`): the same for `x i ∈ Γ`,
   `Γ ≤ Kˣ` finitely generated, since such a `Γ` lies in `S.unit K` for a finite `S`
-  (`NumberField.exists_finset_le_unit`). This discharges DAT §2.4's
-  `finite_nondegenerate_solutions` for `K` a number field.
+  (`NumberField.exists_finset_le_unit`). At `K = ℚ` this discharges DAT §2.3's
+  `finite_nondegenerate_solutions_rat`. DAT §2.4's `finite_nondegenerate_solutions`, over an
+  arbitrary field of characteristic zero, follows from it by DAT's own specialization lemma and is
+  not an instance of anything here.
 - *Subsums* (`NumberField.exists_subset_sum_eq_forall_ne_zero`): a sum equal to `c` has a subsum
   equal to `c` with no vanishing nonempty subsum, and the nonempty variant
   `NumberField.exists_subset_nonempty_sum_eq_zero_forall_ne_zero` for a vanishing sum; a proper
@@ -1706,9 +1708,10 @@ Layer 0, the product formula, determinant bounds and Layer 4's geometry of numbe
 2–6 only 6.4, in Theorem A: it bounds how many subspaces the solutions in a range of heights
 need. Write `N = Fintype.card ι`. Heights are **affine**, Tau Ceti's `Height.mulHeightAff`, and its
 `[K : ℚ]`-th root, as Evertse states them; his absolute values are the `[K : ℚ]`-th roots of
-Mathlib's, so the exponents are his and only the constants change. The count of the large
+Mathlib's, so the exponents are his and only the constants change. The sharp count of the large
 solutions for general `N`, Evertse's Theorem 2.1 and its successors, is DAT §2.8's
-(`parametric_subspace_theorem`, `subspace_theorem_for_systems`).
+(`parametric_subspace_theorem`, `subspace_theorem_for_systems`); 9.5 proves the weaker count that
+Layers 4–6 give, with `[E : ℚ]`, `[E : K]` and `R` in place of the absolute theory's constants.
 
 **9.1 Systems of inequalities** (Evertse, §2, systems (2.3) and normalization (2.4)). For `S`, `w`
 and forms as in 6.4, constants `C p` and exponents `c p i` indexed by `p : InfinitePlace K ⊕ S`:
@@ -1791,16 +1794,16 @@ below the threshold from `log (1 + log₂ N) ≤ N − 1`, which Evertse's const
   embeddings (0.1), Evertse's vector being `(φ (L i x) / t i)_i` with `t i` the `mult v`-th root of
   the bound, and `M = (9/2) ^ (N / 2)` beats the doubled window;
 - *over `ℚ`*: at most `200 ^ N` subspaces per window
-  (`Rat.exists_finset_submodule_of_window_two_mul`) and
-  `δ⁻¹ (10 ^ (3 N) + 4 N log log (4 H))` in all (`Rat.exists_finset_submodule_of_not_isLargeSolution`),
-  from *Lemma 4.5* (`Rat.exists_finset_submodule_of_det_le`): `S`-integral points any `N` of which
-  have determinant at most `D v` at every place lie in at most
+  (`Rat.exists_finset_submodule_of_window_two_mul`) and `δ⁻¹ (10 ^ (3 N) + 4 N log log (4 H))` in
+  all (`Rat.exists_finset_submodule_of_not_isLargeSolution`), from *Lemma 4.5* with another constant
+  (`Rat.exists_finset_submodule_of_det_le`; the paper has `100 ^ N D ^ (1 / (N − 1))`): `S`-integral
+  points any `N` of which have determinant at most `D v` at every place lie in at most
   `3 ^ N (4 N² + 2)² · max 1 (∏ v, D v) ^ (1 / (N − 1))` proper subspaces, with *Lemma 4.4*
   (`Rat.exists_finset_submodule_of_abs_det_le`, `100 ^ N`) its case `S = ∅`. Route for 4.5, proved
   directly: the dual of the lattice `⋂ v, M v` is an approximation module of Layer 4 at level `1`
   with exponents `0`, so 4.2 with 4.1's volume and covolume gives `∏ k, μ k ≤ ∏ v, D v` with no
-  loss; the minimal vectors take integer values of size at most `2 N μ k` on the points by
-  Cramer's rule, and a pigeonhole on a prefix of them
+  loss; the minimal vectors take integer values of size at most `2 N μ k` on the points by Cramer's
+  rule, and a pigeonhole on a prefix of them
   (`Module.Dual.exists_finset_submodule_of_forall_eq_intCast`) finishes. `max 1` is needed, since a
   set in a proper subspace needs one subspace however small `D` is.
 
@@ -1817,18 +1820,18 @@ system of forms and 6.1's `exists_forall_mem_interval_approxDomain`, and the abs
 §2.8's. `ω ≥ 1` is load-bearing, since for `ω < 1` the bound can be negative while the intervals
 are empty.
 
-**9.5 The count for normalized systems** (Schlickewei 1992; Evertse 2010, proof of Theorem 2.1, by
-Schmidt's route). For a normalized system of 9.1 with forms over a Galois extension `E/K`, `N`
-forms per place, `t` places and coefficients of absolute height at most `H`, the solutions with
-`log H(x) ≥ NumberField.systemThreshold` lie in at most `NumberField.systemLargeCount` proper
-subspaces, a number depending only on `N`, `δ`, `[E : ℚ]`, `[E : K]` and the number `R` of
-distinct forms, not on `t` or `|S|` (`NumberField.exists_finset_submodule_of_systemThreshold_le`);
-all solutions lie in at most that number plus 9.3's count plus
-`1 + log ω / log (1 + δ / (2 N))` (`NumberField.exists_finset_submodule_of_isNormalizedSystem`);
-and the threshold is linear in `log H` (`NumberField.systemThreshold_le`). This is the
-doubly-logarithmic dependence on the heights of Schlickewei's count; the sharp absolute count is
-DAT §2.8's `subspace_theorem_for_systems`, and 9.5 is the statement Layers 4–6 prove without the
-absolute theory. Deliverables:
+**9.5 The count for normalized systems** (Schlickewei 1992; Evertse 2010, the proof of Theorem 2.1
+from Theorem 3.1 and Proposition 4.1, with 6.1 in place of Theorem 3.1). For a normalized system of
+9.1 with forms over a Galois extension `E/K`, `N` forms per place, `t` places and coefficients of
+absolute height at most `H`, the solutions with `log H(x) ≥ NumberField.systemThreshold` lie in at
+most `NumberField.systemLargeCount` proper subspaces, a number depending only on `N`, `δ`,
+`[E : ℚ]`, `[E : K]` and the number `R` of distinct forms, not on `t` or `|S|`
+(`NumberField.exists_finset_submodule_of_systemThreshold_le`); all solutions lie in at most that
+number plus 9.3's count plus `1 + log ω / log (1 + δ / (2 N))`
+(`NumberField.exists_finset_submodule_of_isNormalizedSystem`); and the threshold is linear in
+`log H` (`NumberField.systemThreshold_le`). The heights enter only the threshold; the sharp absolute
+count is DAT §2.8's `subspace_theorem_for_systems`, and 9.5 is the statement Layers 4–6 prove
+without the absolute theory. Deliverables:
 - *From systems to domains over `E`* (`NumberField.mem_approxDomain_conjSystem`): an `S`-integral
   `x` with `systemValue p i x ≤ Q ^ c' p i` at every place, for a level `Q ≥ 0` and exponents `c'`,
   read in `ι → E`, lies in the approximation domain over `E` of 6.3's conjugated forms
@@ -2043,7 +2046,7 @@ here.
   §1.5 the fundamental and Liouville inequalities; Chapter 5 the unit equation, Thue–Mahler and the
   hyperelliptic equation; Chapter 6 Roth's theorem and its proof (6.3–6.5); Chapter 7 the Subspace
   Theorem (7.2), its applications (7.3–7.4) and its proof (7.5, Steps 0–IX); Appendix C.2. Layer 4
-  replaces the adelic part of 7.5 and nothing else, and the route takes Remark 7.5.3 (`F = K`) with
+  replaces the adelic part of 7.5 and nothing else, and the route takes 7.5.3 (Step 0, `F = K`) with
   Remark 7.2.3.
 - W. M. Schmidt, "Norm form equations", *Ann. of Math.* **96** (1972), 526–551; "Simultaneous
   approximation to algebraic numbers by rationals", *Acta Math.* **125** (1970), 189–201;
