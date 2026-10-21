@@ -163,6 +163,12 @@ it:
   type isolators `exists_isolatingFormula`, and the countable seed of isolators and their
   one-variable existential closures. Layer 5 uses all of them.
 
+IME owns all of these. `Suggested.lean` copies the current proposed declarations of
+`onBoundedFormulaInf`, `infinitaryType` and `realizedTypes` as marked stand-ins, recording the IME
+revision they were checked against. The copies are prototype scaffolding, not authorization to
+implement a parallel API in Tau Ceti: Tau Ceti implements IME's declarations and this roadmap
+imports them.
+
 IME's model existence (Layer 3), omitting types (Layer 4.2), Morleyization (Layer 5), graph
 translation (Layer 6), interpolation (Layer 7) and well-ordering (Layer 8) are not consumed. The
 Ehrenfeucht–Mostowski model of Layer 2 is built directly as a term model from a template, over

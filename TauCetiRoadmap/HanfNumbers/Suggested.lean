@@ -17,7 +17,9 @@ the construction of the Ehrenfeucht–Mostowski term model are specified in the 
 they need `substBounds` and `Fragment` of the InfinitaryModelExistence roadmap, which this
 prototype does not import; the source and stretching theorems are stated here semantically. The
 three stand-ins below, `onBoundedFormulaInf`, `infinitaryType` and `realizedTypes`, copy that
-roadmap's prototype signatures and bodies exactly.
+roadmap's prototype signatures and bodies exactly, as checked against its revision 6da153fb
+(TauCetiRoadmap #1315). They are prototype scaffolding: InfinitaryModelExistence owns these
+declarations, and Tau Ceti implements only the owner's.
 Names are provisional.
 -/
 
@@ -184,6 +186,9 @@ section LanguageMaps
 
 variable {L : FirstOrder.Language.{u, v}} {L' : FirstOrder.Language.{u'', v''}}
 variable {ι : Type uι} {α : Type*}
+
+/-! Owner: InfinitaryModelExistence (TauCetiRoadmap #1315), Layer 0.1. Declaration:
+`onBoundedFormulaInf`. Checked against revision 6da153fb of that roadmap. Scaffolding only. -/
 
 /-- Stand-in for `onBoundedFormulaInf` of the InfinitaryModelExistence roadmap (its Layer 0.1),
 with the same signature and body: the symbol-by-symbol action of a language map. -/
@@ -449,6 +454,10 @@ end Sharpness
 section Small
 
 variable {L : FirstOrder.Language.{u, v}}
+
+/-! Owner: InfinitaryModelExistence (TauCetiRoadmap #1315), Layer 4.1. Declarations:
+`infinitaryType`, `realizedTypes`. Checked against revision 6da153fb of that roadmap. Scaffolding
+only. -/
 
 /-- Stand-in for `infinitaryType` of the InfinitaryModelExistence roadmap (its Layer 4.1), with the
 same signature and body: the complete Lω₁ω-type of a tuple, i.e. all formulas in `n` bound
