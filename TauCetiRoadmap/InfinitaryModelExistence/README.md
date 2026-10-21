@@ -468,8 +468,12 @@ stages form an increasing chain of members), the quotient model with its atomic 
   model interpreting the constants form a consistency property, provided `A` is formation-closed.
   Each clause is checked by modifying the interpretation of finitely many constants.
 
-**Acceptance example.** `ConsistencyProperty.ofModel` for a fixed countable structure, and
-`model_existence` applied to its theory, giving a countable model of the same Lω₁ω-theory.
+**Acceptance example.** `ConsistencyProperty.ofModel` for a fixed countable structure `M` in a
+language with countably many symbols and a surjection `e : ℕ → M`, and `model_existence` applied
+to a specified countable set of sentences true in the named expansion, for instance its atomic
+diagram (the atomic and negated atomic `L[[ℕ]]`-sentences it satisfies), giving a countable model
+of that set in which every element is named. The full Lω₁ω-theory of `M` is not a countable set of
+sentences and is not used.
 
 ## Layer 4: types and omitting types
 
