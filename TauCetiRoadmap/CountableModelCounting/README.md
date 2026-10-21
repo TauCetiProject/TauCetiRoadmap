@@ -542,14 +542,24 @@ classical definition of a scattered sentence.
 
 **4g. Morleyization transport.** For a countable set `Φ` of formulas (M3): by (M3)'s instances
 `morleyize L Φ` is relational with countably many relation symbols when `L` is, and by (M3)'s
-`nonempty_morleyEquiv_iff` canonical expansions are isomorphic exactly when the base structures are;
-the expansion code `morleyCode Φ : StructureSpace L → StructureSpace (morleyize L Φ)` (base bits
-copied, a defined bit the truth of its formula, so `toStructure (morleyCode Φ c)` is the canonical
-expansion of `toStructure c`) is Borel and injective, hence a measurable embedding (Lusin–Souslin);
-its range is the set of codes whose defined bits agree with the truth of their formulas in the
-reduct; and it preserves and reflects isomorphism. Hence, by (E0)'s
-`hasCantorAntichainOn_image_iff`, a class of base codes is thin, or carries a Cantor antichain,
-exactly when its image does.
+`nonempty_morleyEquiv_iff` canonical expansions are isomorphic exactly when the base structures are.
+The targets, all stated in `Suggested.lean` against (M3)'s objects:
+
+* `morleyCode Φ : StructureSpace L → StructureSpace (morleyize L Φ)`, the expansion code: base bits
+  copied (`morleyCode_inl`), the bit of the symbol of `φ` at `v` the truth of `φ` at `v` in the
+  decoded structure (`morleyCode_inr_eq_true_iff`);
+* `morleyBase`, reading off the base bits, with `morleyBase_morleyCode` and `morleyCode_injective`;
+* `toStructure_morleyCode`, decoding agreement: `toStructure (morleyCode Φ c)` is (M3)'s
+  `morleyExpansion Φ` of `toStructure c`;
+* `measurableEmbedding_morleyCode`: Borel because satisfaction is Borel in the code, injective,
+  hence a measurable embedding by Lusin–Souslin (countably many relation symbols, `Φ` countable);
+* `structureIsoSetoid_morleyCode_iff`: expansion codes are isomorphic exactly when the base codes
+  are, which is `nonempty_morleyEquiv_iff` after decoding agreement;
+* `range_morleyCode`: the range is the set of codes whose new bits agree with the truth of their
+  formulas in the decoded base code;
+* `hasCantorAntichainOn_image_morleyCode_iff`: by (E0)'s `hasCantorAntichainOn_image_iff` with the
+  two previous items, a class of base codes carries a Cantor antichain, or is thin, exactly when its
+  image does.
 
 **4h. Rank analyses of thinness.** `ThinRankAnalysis r A`, the evidence for the standard route to
 thinness (a rank below `ω₁`, countable fixed-rank antichains, and a bound on the rank over a

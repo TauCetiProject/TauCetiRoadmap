@@ -549,6 +549,152 @@ theorem isThin_iff_countable_sentenceSpectra [Countable (Σ l, L.Relations l)]
 
 end Layer4
 
+/-! ## Layer 4g: Morleyization transport -/
+
+section MorleyStandIns
+
+/-! ### Stand-ins owned by InfinitaryModelExistence: the Morleyization
+
+Owner: the InfinitaryModelExistence roadmap (TauCetiRoadmap #1315), Layer 5. Declarations:
+`morleyize`, `lhomMorleyize`, `morleyExpansion`, `morleyize_isRelational`,
+`countable_relations_morleyize`, `nonempty_morleyEquiv_iff`. Checked against revision 6da153fb of
+that roadmap. These copies are prototype scaffolding, so that this file compiles without the
+owner's prototype; the owner's declarations are authoritative and are the only ones Tau Ceti
+implements. -/
+
+variable {L : FirstOrder.Language.{u, v}}
+
+/-- **Stand-in (InfinitaryModelExistence, verbatim).** The Morleyization of `L` by a family `Φ`:
+the base signature together with one `n`-ary relation symbol for each member of `Φ` at arity
+`n`. -/
+def morleyize (L : FirstOrder.Language.{u, v}) (Φ : Set (Σ n, BoundedFormulaω L Empty n)) :
+    FirstOrder.Language.{u, max u v} where
+  Functions := L.Functions
+  Relations n := L.Relations n ⊕ {φ : BoundedFormulaω L Empty n // ⟨n, φ⟩ ∈ Φ}
+
+/-- **Stand-in (InfinitaryModelExistence, verbatim).** The inclusion of the base language. -/
+def lhomMorleyize (Φ : Set (Σ n, BoundedFormulaω L Empty n)) : L →ᴸ morleyize L Φ where
+  onFunction _ f := f
+  onRelation _ R := Sum.inl R
+
+/-- **Stand-in (InfinitaryModelExistence, verbatim).** The canonical expansion: `R_φ(a)` holds
+exactly when `φ(a)` does. Nothing is chosen. -/
+@[instance_reducible] def morleyExpansion (Φ : Set (Σ n, BoundedFormulaω L Empty n)) (M : Type w)
+    [L.Structure M] :
+    (morleyize L Φ).Structure M where
+  funMap f x := Structure.funMap (L := L) f x
+  RelMap
+    | Sum.inl R, x => Structure.RelMap R x
+    | Sum.inr φ, x => φ.1.Realize Empty.elim x
+
+/-- **Stand-in (InfinitaryModelExistence, verbatim).** The Morleyization of a relational language
+is relational. -/
+instance morleyize_isRelational [L.IsRelational] (Φ : Set (Σ n, BoundedFormulaω L Empty n)) :
+    (morleyize L Φ).IsRelational :=
+  fun n => (inferInstance : IsEmpty (L.Functions n))
+
+/-- **Stand-in (InfinitaryModelExistence, verbatim).** Morleyizing by a countable family keeps the
+relation symbols countable. -/
+theorem countable_relations_morleyize [Countable (Σ n, L.Relations n)]
+    {Φ : Set (Σ n, BoundedFormulaω L Empty n)} (hΦ : Φ.Countable) :
+    Countable (Σ n, (morleyize L Φ).Relations n) := by
+  sorry
+
+/-- **Stand-in (InfinitaryModelExistence, verbatim).** Isomorphisms of `L`-structures lift to
+isomorphisms of the canonical expansions and restrict back. -/
+theorem nonempty_morleyEquiv_iff (Φ : Set (Σ n, BoundedFormulaω L Empty n)) {M : Type w}
+    {N : Type w'} [L.Structure M] [L.Structure N] :
+    Nonempty (@Language.Equiv (morleyize L Φ) M N (morleyExpansion Φ M) (morleyExpansion Φ N)) ↔
+      Nonempty (M ≃[L] N) := by
+  sorry
+
+end MorleyStandIns
+
+section MorleyCode
+
+variable {L : FirstOrder.Language.{u, v}} [L.IsRelational]
+  (Φ : Set (Σ n, BoundedFormulaω L Empty n))
+
+/-- **Layer 4g, the expansion code.** A base bit is copied; the bit of the new symbol of `φ ∈ Φ`
+at a tuple is the truth of `φ` there in the decoded structure. -/
+noncomputable def morleyCode (c : StructureSpace L) : StructureSpace (morleyize L Φ) := by
+  classical
+  exact fun ⟨⟨l, R⟩, v⟩ => match R with
+    | Sum.inl R => c ⟨⟨l, R⟩, v⟩
+    | Sum.inr φ => decide (letI : L.Structure ℕ := c.toStructure; φ.1.Realize Empty.elim v)
+
+/-- **Layer 4g.** The base code of a code of the Morleyization: its bits at the base symbols. -/
+def morleyBase (e : StructureSpace (morleyize L Φ)) : StructureSpace L :=
+  fun q => e ⟨⟨q.1.1, Sum.inl q.1.2⟩, q.2⟩
+
+theorem morleyCode_inl (c : StructureSpace L) {l : ℕ} (R : L.Relations l) (v : Fin l → ℕ) :
+    morleyCode Φ c ⟨⟨l, Sum.inl R⟩, v⟩ = c ⟨⟨l, R⟩, v⟩ :=
+  rfl
+
+theorem morleyCode_inr_eq_true_iff (c : StructureSpace L) {l : ℕ}
+    (φ : {φ : BoundedFormulaω L Empty l // ⟨l, φ⟩ ∈ Φ}) (v : Fin l → ℕ) :
+    morleyCode Φ c ⟨⟨l, Sum.inr φ⟩, v⟩ = true ↔
+      (letI : L.Structure ℕ := c.toStructure; φ.1.Realize Empty.elim v) := by
+  simp [morleyCode]
+
+theorem morleyBase_morleyCode (c : StructureSpace L) : morleyBase Φ (morleyCode Φ c) = c :=
+  rfl
+
+theorem morleyCode_injective : Function.Injective (morleyCode Φ) := fun c d h => by
+  rw [← morleyBase_morleyCode Φ c, h, morleyBase_morleyCode]
+
+/-- **Layer 4g, decoding agreement.** Decoding the expansion code gives the canonical expansion of
+the decoded base structure. -/
+theorem toStructure_morleyCode (c : StructureSpace L) :
+    (morleyCode Φ c).toStructure = @morleyExpansion L Φ ℕ c.toStructure := by
+  ext
+  · exact isEmptyElim ‹(morleyize L Φ).Functions _›
+  · rename_i l R v
+    rcases R with R | φ
+    · rfl
+    · exact (morleyCode_inr_eq_true_iff Φ c φ v)
+
+/-- **Layer 4g.** The expansion code is a measurable embedding: Borel because satisfaction is
+Borel in the code, injective by `morleyCode_injective`, hence an embedding by Lusin–Souslin. -/
+theorem measurableEmbedding_morleyCode [Countable (Σ l, L.Relations l)] (hΦ : Φ.Countable) :
+    MeasurableEmbedding (morleyCode Φ) := by
+  sorry
+
+/-- **Layer 4g.** Expansion codes are isomorphic exactly when the base codes are: by decoding
+agreement, this is `nonempty_morleyEquiv_iff` for the decoded structures. -/
+theorem structureIsoSetoid_morleyCode_iff (c d : StructureSpace L) :
+    structureIsoSetoid (morleyize L Φ) (morleyCode Φ c) (morleyCode Φ d) ↔
+      structureIsoSetoid L c d := by
+  show Nonempty (@Language.Equiv _ ℕ ℕ (morleyCode Φ c).toStructure
+    (morleyCode Φ d).toStructure) ↔ _
+  rw [toStructure_morleyCode, toStructure_morleyCode]
+  exact @nonempty_morleyEquiv_iff L Φ ℕ ℕ c.toStructure d.toStructure
+
+/-- **Layer 4g.** The range of the expansion code: the codes whose new bits agree with the truth of
+their formulas in the decoded base code. -/
+theorem range_morleyCode :
+    Set.range (morleyCode Φ) =
+      {e | ∀ (l : ℕ) (φ : {φ : BoundedFormulaω L Empty l // ⟨l, φ⟩ ∈ Φ}) (v : Fin l → ℕ),
+        e ⟨⟨l, Sum.inr φ⟩, v⟩ = true ↔
+          (letI : L.Structure ℕ := (morleyBase Φ e).toStructure; φ.1.Realize Empty.elim v)} := by
+  sorry
+
+/-- **Layer 4g milestone, Morleyization transport.** A class of base codes carries a Cantor
+antichain for isomorphism (the BorelEquivalenceRelations roadmap's `HasCantorAntichainOn`, written
+out) exactly when its image under the expansion code does. This is that roadmap's
+`hasCantorAntichainOn_image_iff` applied with `measurableEmbedding_morleyCode` and
+`structureIsoSetoid_morleyCode_iff`. -/
+theorem hasCantorAntichainOn_image_morleyCode_iff [Countable (Σ l, L.Relations l)]
+    (hΦ : Φ.Countable) (K : Set (StructureSpace L)) :
+    (∃ f : (ℕ → Bool) → StructureSpace (morleyize L Φ), Continuous f ∧
+        (∀ x, f x ∈ morleyCode Φ '' K) ∧
+        ∀ x y, x ≠ y → ¬ structureIsoSetoid (morleyize L Φ) (f x) (f y)) ↔
+      ∃ f : (ℕ → Bool) → StructureSpace L, Continuous f ∧ (∀ x, f x ∈ K) ∧
+        ∀ x y, x ≠ y → ¬ structureIsoSetoid L (f x) (f y) := by
+  sorry
+
+end MorleyCode
+
 /-! ## Layer 5: Vaught's conjecture, stated, and its reformulations -/
 
 section Layer5
