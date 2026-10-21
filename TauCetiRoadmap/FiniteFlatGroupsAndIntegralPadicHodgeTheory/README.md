@@ -115,19 +115,22 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   field, Frobenius and Verschiebung of elliptic curves, supersingular Frobenius kernels and the two
   `p`-divisible groups of an elliptic curve over an algebraically closed field). ModularCurves
   schedules neither Dieudonné theory nor the Oort–Tate classification; both are owned here.
-- TauCetiRoadmap.LocalFieldsRamification: Layer 3 (Herbrand functions, upper numbering and the
-  different for finite residue fields; PadicPeriodRings §2 owns the mixed-characteristic
-  perfect-residue extension, and §R07.6.1a owns its equal-characteristic counterpart) and
-  Layer 4 (the tame quotient `I_K/P_K ≅ lim_{p ∤ m} μ_m` and the tame character,
+- TauCetiRoadmap.LocalFieldsRamification: Layers 3–4 own the finite and absolute ramification
+  package over complete discretely valued fields with arbitrary perfect residue field in equal
+  and mixed characteristic: lower and upper numbering, Herbrand functions, the different,
+  normal-quotient and open-subgroup identities, full Hasse–Arf and completed maximal unramified
+  comparison, as specified in §R07.6.1a. Layer 4 also supplies
+  the finite-residue tame quotient `I_K/P_K ≅ lim_{p ∤ m} μ_m` and the tame character,
   which Tau Ceti implements as `TauCeti.inertiaTameCharacter` and
-  `TauCeti.quotientWildInertiaSubgroupEquiv`). §R07.1.26 keeps only what lies beyond Layer 4:
+  `TauCeti.quotientWildInertiaSubgroupEquiv`. §R07.1.26 keeps only what lies beyond Layer 4:
   the tame quotient for arbitrary perfect residue fields and its agreement with that carrier.
   ArithmeticGaloisRepresentations §2.3 owns the finite-residue fundamental characters and their
   Frobenius, norm and cyclotomic facts; §R07.1.26 supplies their perfect-residue generalisation
   and agreement theorem.
 - TauCetiRoadmap.EllipticCurves Layer 4 (the Tate curve), TauCetiRoadmap.ProfiniteCohomology Layer 9
   (Hilbert `90` and Kummer theory) and TauCetiRoadmap.ClassFieldTheory Layers 5, `7` and `11` (local Tate
-  duality and the local and global Artin maps); ClassFieldTheory Layer 11 (global Artin reciprocity) and GlobalNumberFields
+  duality and the local and global Artin maps), including Layer 7's unit-filtration reciprocity
+  for nonarchimedean local fields; ClassFieldTheory Layer 11 (global Artin reciprocity) and GlobalNumberFields
   Layers 9–10 supply the global character and Hecke infinity-type inputs of §R07.P7.3.
 
 **Imported from the arithmetic-geometry and representation-theory roadmaps.**
@@ -162,8 +165,9 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   the principal `O_C` envelope, presentation, completion, `θ_cris` and logarithm (§3),
   and the general-base topological period carriers, actions, invariant functors, rational
   predicates, fixed fields, regularity and underlying fundamental sequence (§§4.1–4.3).
-  Its §2 also owns mixed-characteristic perfect-residue Herbrand theory, the different and
-  the completed maximal unramified filtration comparison used in §R07.6.
+  Its §§1.3 and 2 own the trace-ideal formula, upper-break spacing and Sen tower estimates,
+  consuming LocalFieldsRamification Layers 3–4's ramification and different package and
+  ClassFieldTheory Layer 7's unit-filtration reciprocity on its local-field domain.
   Sections R07.P2–R07.P5 import their finite-`K` specializations and supply the
   crystalline-to-de Rham implication. Section R07.P3 specializes the continuous sections,
   both period-sequence long exact sequences and `blochKatoExp` supplied by
@@ -391,12 +395,19 @@ laws) with `FormalGroup.IsComm`.
   in §R07.1.23). Nothing in this roadmap assumes more of them than is stated there; in particular
   the finite-level connected–étale sequence of `7E` is used over henselian local rings, and its
   splitting only on the special fibre over a perfect residue field.
-- **LocalFieldsRamification.** Layer 3 (the lower and upper numbering, Herbrand's functions, the
-  different for finite residue fields) and Layer 4 (the tame character `I_K/P_K ≅ lim μ_m` and its Frobenius twist).
+- **LocalFieldsRamification.** Layers 3–4 supply lower and upper numbering, Herbrand functions,
+  the different, absolute upper numbering by inverse limit, normal-quotient and open-subgroup
+  identities, full Hasse–Arf and completed maximal unramified comparison for complete discretely
+  valued fields with arbitrary perfect residue field, in equal and mixed characteristic
+  (§R07.6.1a). Layer 4 also supplies the finite-residue tame character
+  `I_K/P_K ≅ lim μ_m` and its Frobenius twist.
 - **EllipticCurves.** Layer 4 (the Tate curve `E_q` and its `p`-torsion).
 - **ProfiniteCohomology.** Layer 9 (Hilbert `90` and Kummer theory for local fields).
 - **ClassFieldTheory.** Layer 5 (local Tate duality, its target `tateDualityPairing_perfect_mixed`),
-  Layer 7 (the local Artin map) and Layer 11 (global Artin reciprocity), used in §R07.1.35 and
+  Layer 7 (the local Artin map and unit-filtration reciprocity: for a nonarchimedean local field
+  `K` and finite abelian `L/K`, `U_K^n` maps onto `Gal(L/K)^n`, including `n=0`; its absolute
+  image is dense in the abelianized image of `G_K^n`, Serre, *Local Fields*, XV §2,
+  Theorem 2 and Corollary 3) and Layer 11 (global Artin reciprocity), used in §R07.1.35 and
   §R07.5.14; Layer 11 (global Artin reciprocity) supplies the global character input of §R07.P7.3.
 - **GlobalNumberFields.** Layers 9–10 supply Hecke characters, algebraic infinity types and
   unit relations for §R07.P7.3.
@@ -433,11 +444,11 @@ laws) with `FormalGroup.IsComm`.
   `B_dR^+`, `B_dR`, the period `t` with `g(t) = χ(g)t`, the continuous Galois action,
   `padicComplex_fixed_eq`, `tate_normalizedTrace`, `tate_almostEtale`,
   `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist`.
-  Section `2` supplies mixed-characteristic perfect-residue ramification and Herbrand theory
-  through the prerequisite of `senUpperBreaks`, and the different inputs of general-base
-  `periodTraceIdeal` and `senTowerEstimates`. These include quotient compatibility of upper
-  numbering and the inertia, upper-filtration and normalized-different comparisons under
-  completed maximal unramified base change, on the existing `Ideal.ramificationGroup` carrier.
+  Sections 1.3 and 2 supply `periodTraceIdeal`, `senUpperBreaks` and `senTowerEstimates`,
+  consuming LocalFieldsRamification Layers 3–4's general perfect-residue ramification and
+  different package, including completed maximal unramified comparison, and ClassFieldTheory
+  Layer 7's unit-filtration reciprocity on its local-field domain. Section 2 owns the separate
+  geometric reciprocity input over algebraically closed residue fields used in these estimates.
   Section `3` supplies the principal `O_C` envelope, its presentation and completion, `θ_cris`
   and logarithm. Sections 4.1–4.3 supply the crystalline and semistable carriers, actions,
   period maps, invariant functors, rational predicates, fixed fields, regularity and underlying
@@ -8139,39 +8150,41 @@ abelian scheme.)
 - `abelianTorsion_rank`: `A[n]` has rank `n^{2g}`, not `n^g`: for an elliptic curve, `E[2]` has rank
   `4`, with three nonzero points of order `2` over `K̄` when `2` is invertible.
 
-### R07.6.1a Herbrand theory over complete DVRs with perfect residue field
+### R07.6.1a Supplied Herbrand theory over complete DVRs with perfect residue field
 
-Prove `perfectResidueHerbrand`. Let `K` be complete discretely valued with perfect residue
-field of characteristic `p>0`, and `L/K` finite Galois. Its mixed-characteristic case is
-supplied by PadicPeriodRings §2: the ramification prerequisite of `senUpperBreaks` and the
-different inputs of general-base `periodTraceIdeal` and `senTowerEstimates`.
-This target owns the equal-characteristic extension, `char K=p`; the combined statement
-uses the supplied mixed-characteristic case. The following contract holds in both cases.
+Consume LocalFieldsRamification Layers 3–4's input contract `perfectResidueHerbrand`.
+Let `K` be complete discretely valued with arbitrary perfect residue field of characteristic
+`p>0`, and `L/K` finite Galois. The same supplier owns the following package in both equal
+and mixed characteristic.
 
 Use the existing congruence carrier `Ideal.ramificationGroup` for the maximal ideal of `O_L`
 and its real-indexed ceiling extension `TauCeti.IsLocalRing.ramificationGroupReal`.
 Use Serre's normalization
 `φ(s)=∫₀ˢ [G₀:G_t]⁻¹ dt` for `s≥0`, extended by `φ(s)=s` on `[-1,0]`, and its inverse `ψ`.
 The contract comprises strict monotonicity, continuity, the inverse identities, subgroup
-compatibility of lower numbering, tower compatibility of the Herbrand functions and quotient compatibility of upper
-numbering for every normal subgroup, and the different formula
+compatibility of lower numbering, tower compatibility of the Herbrand functions and quotient
+compatibility of upper numbering for every normal subgroup, and the different formula
 `v_L(𝒟_{L/K})=Σ_{j≥0} (|G_j|−1)`, with `v_L` normalized to have value group `ℤ`.
-It includes the absolute upper filtration by inverse limit and invariance of inertia,
-nonnegative upper ramification and the normalized different after completed maximal unramified
-base change, with the finite extension there obtained by compositum. In mixed characteristic
-this is the supplied algebraically closed residue reduction used in §R07.6.5.
+Full Hasse–Arf asserts that every upper jump of a finite abelian extension is integral,
+without a residue-finiteness hypothesis. The absolute upper filtration is the inverse limit
+of the finite upper filtrations, with surjective finite projections, `G_K^0=I_K`,
+`G_K^{0+}=P_K` and trivial intersection. For every finite separable `L/K` it satisfies
+`G_K^u ∩ G_L = G_L^{ψ_{L/K}(u)}` for `u≥−1`. For such `L/K`, use
+`φ_{L/K}=φ_{M/K} ∘ ψ_{M/L}` for a finite Galois closure `M/K`, independently of the closure.
+The package includes invariance of inertia, nonnegative upper ramification and the normalized
+different `v_K(𝒟_{L/K})=v_L(𝒟_{L/K})/e_{L/K}` after completed maximal unramified base change,
+with the finite extension there obtained by compositum. This supplies the algebraically
+closed residue reduction used in §R07.6.5.
 
-These are extensions of LocalFieldsRamification Layer 3 on the same local-ring congruence
-carrier: PadicPeriodRings owns the mixed-characteristic theory, and this target proves the
-equal-characteristic theory. In each case require agreement of all groups, functions and
-different ideals with LocalFieldsRamification when the residue field is finite. Use
+All groups, functions and different ideals agree with LocalFieldsRamification's
+finite-local-field API on the common domain. Use
 `TauCeti.IsLocalRing.lowerIndex` for the local-ring index, without assuming local compactness.
-(Serre, *Local Fields*, IV §§1–3, especially Propositions 4 and 14;
-Fontaine 1985, §§1.1–1.3, pp.517–518 and §2.1, p.525.)
+(Serre, *Local Fields*, IV §§1–3, especially Propositions 4 and 14, and V §7, Theorem 1;
+Fontaine 1985, §§1.1–1.3, pp.517–518 and §2.1, p.525;
+Brinon–Conrad 2009, Exercise 1.4.4(3), p.10 and §13.1, pp.200–201.)
 
-*Needs:* PadicPeriodRings §2 (`senUpperBreaks` ramification prerequisite and general-base
-`periodTraceIdeal`, `senTowerEstimates` different inputs); LocalFieldsRamification Layer 3
-(finite-residue interface); Mathlib `differentIdeal`;
+*Needs:* LocalFieldsRamification Layers 3–4 (the full perfect-residue finite and absolute
+ramification package in both characteristics); Mathlib `differentIdeal`;
 Tau Ceti `Ideal.ramificationGroup` (`RingTheory/Ideal/RamificationGroup.lean`) and
 `TauCeti.IsLocalRing.lowerIndex` (`RingTheory/LocalRing/RamificationGroup.lean`).
 
@@ -8188,7 +8201,10 @@ Tau Ceti `Ideal.ramificationGroup` (`RingTheory/Ideal/RamificationGroup.lean`) a
 - For any perfect `k` of characteristic `p`, the Artin–Schreier extension of `k((t))`
   given by `y^p−y=t⁻¹` has degree `p`, lower and upper break `1`, and different exponent
   `2(p−1)`. The element `y⁻¹` is a uniformizer, and each nonidentity automorphism changes
-  it by an element of valuation `2`.
+  it by an element of valuation `2`; its integral upper break is a Hasse–Arf check.
+- For a finite unramified `L/K`, `ψ_{L/K}(u)=u`, so the open-subgroup identity is
+  `G_K^u ∩ G_L=G_L^u`. For a totally tamely ramified extension of degree `e`, it is
+  `G_K^u ∩ G_L=G_L^{eu}` for `u≥0`; keeping the same upper index would miss this rescaling.
 
 ### R07.6.2 Fontaine's normalisation of the ramification filtration
 
@@ -8203,8 +8219,7 @@ normalised by `v_K(K^*) = ℤ` and extended to `K̄`; for `L/K` finite Galois wi
 ramification index and `a^m_{L/K} = {x ∈ O_L : v_K(x) ≥ m}` (Fontaine 1985, §1). Serre's lower and
 upper numbering, Herbrand's functions, compatibility with quotients (Local Fields IV, Prop. `14`) and
 `v(𝒟) = Σ i_G(g)` (Local Fields IV, Prop. `4`) are supplied in this generality by
-PadicPeriodRings §2 in mixed characteristic and §R07.6.1a in equal characteristic, agreeing
-with LocalFieldsRamification Layer 3 for finite residue fields. This
+LocalFieldsRamification Layers 3–4 in both characteristics, with the contract of §R07.6.1a. This
 target adds Fontaine's shifted normalisation and the invariants `u_{L/K}, i_{L/K}`.
 
 *Construction.* Fontaine's `i_{L/K}(g)` is Serre's `i_G(g)` divided by `e_{L/K}` (`v_K` rather than `v_L`),
@@ -8222,7 +8237,9 @@ The API:
 - `fontaineUpper_eq_serreUpper`: `G^(u) = G^{u−1}` in Serre's upper numbering.
 - `valuation_different_eq`: `v_K(𝒟_{L/K}) = u_{L/K} − i_{L/K}`.
 
-*Needs:* Mathlib `differentIdeal`; §R07.6.1a.
+*Needs:* Mathlib `differentIdeal`; LocalFieldsRamification Layers 3–4
+(Serre numbering, Herbrand functions, quotient compatibility, different and absolute upper
+filtration, as specified in §R07.6.1a).
 
 **Checks.**
 
@@ -8336,7 +8353,9 @@ locaux*, Astérisque `47`–`48, n`° 4.3), which is part of this target. For `e
 SmallRamificationAndAbelianVarietyBaseCases uses, the embedding is not needed (Fontaine 1985,
 2.2(a)).
 
-*Proof sketch.* Reduce to `k` algebraically closed (Fontaine 1985, 2.1). `(a) ω_J` free over `O_K/pⁿ: J_k`
+*Proof sketch.* Reduce to `k` algebraically closed using LocalFieldsRamification Layers 3–4's
+completed maximal unramified comparison, preserving inertia, nonnegative upper numbering and
+the normalized different (Fontaine 1985, 2.1). `(a) ω_J` free over `O_K/pⁿ: J_k`
 is the product of an étale group and a connected group with affine algebra `k[X₁, …, X_h]/(X₁^{p^{r₁}}, …, X_h^{p^{r_h}})` (Dieudonné), so `B` is a local complete intersection, and
 `Ω¹_{B/O_K} ≅ B ⊗ ω_J` is a free `B/pⁿ`-module; apply §R07.6.4 with `a = pⁿ, v_K(a) = ne`. `(b)` General `J`:
 embed `J` in a Barsotti–Tate group `Γ`; then `J(K̄) ⊆ Γ_{pⁿ}(K̄)`, and from `0 → Γ_{pⁿ} → Γ → Γ → 0` one
@@ -8346,8 +8365,9 @@ gets `0 → ω_Γ → ω_Γ → ω_{Γ_{pⁿ}} → 0` with `ω_Γ` free over `O_
 Introduction, Théorème A, p. 515: Théorème A; Fontaine 1985, §2.1, Théorème 1, p. 525: Théorème 1;
 Fontaine 1985, §2.2, Remarque a), p. 526: the case `e = n = 1`.)
 
-*Needs:* §R07.6.4; PadicPeriodRings §2 (perfect-residue Herbrand theory, different and
-completed maximal unramified comparison); §R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
+*Needs:* §R07.6.4; LocalFieldsRamification Layers 3–4 (perfect-residue Herbrand theory,
+different and completed maximal unramified comparison, as specified in §R07.6.1a);
+§R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
 
 **Checks.**
 
@@ -8726,9 +8746,10 @@ for good reduction at `p > 2`, by Fontaine's bound against the root discriminant
 ### Dependencies
 
 Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedModuleAlgebra §§0.4, 0.8;
-PadicPeriodRings §2 (mixed-characteristic perfect-residue ramification);
+TauCetiRoadmap.LocalFieldsRamification Layers 3–4 (general perfect-residue finite and absolute
+ramification, different and completed maximal unramified comparison);
 PurityOfBranchLocus §§2.1–2.2 (purity for finite normal covers of regular bases);
-TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKrasner.krasner`,
+Mathlib `differentIdeal`, `IsKrasner.krasner`,
 `DividedPowers`, `KaehlerDifferential`, `WeierstrassCurve.HasGoodReduction`.
 
 ## Downstream consumers

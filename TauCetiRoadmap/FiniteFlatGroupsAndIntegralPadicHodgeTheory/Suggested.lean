@@ -1450,12 +1450,17 @@ further instances of the statements above.
   means trivial wild inertia or the restricted nontrivial-wild Serre predicate);
   `peuRamifieH1Int`; `peuRamifieIntegralLifting`; `SerreWeight`, `compactInduction`,
   `heckeOperatorT`, `endEquivPolynomial`.
-* Layer R07.6: `abelianSchemeTorsionFiniteFlat` (generic Galois and Tate-module compatibility); `fontaineLowerIndex`, `fontaineUpper`;
-  `perfectResidueHerbrand` combines PadicPeriodRings §2's mixed-characteristic Herbrand,
-  different and completed-unramified comparison contract with the equal-characteristic
-  extension owned here, on the shared local-ring ramification carrier. It agrees with
-  LocalFieldsRamification for finite residue. Over k((t)), y^p-y=t⁻¹ has lower and upper
-  break 1 and different exponent 2(p-1). `krasnerEmbeddingCriterion` uses the boundary
+* Layer R07.6: `abelianSchemeTorsionFiniteFlat` (generic Galois and Tate-module compatibility);
+  `perfectResidueHerbrand` is the input contract supplied by LocalFieldsRamification Layers 3–4
+  in equal and mixed characteristic on the shared local-ring ramification carrier: Herbrand
+  functions, different, finite and absolute upper numbering, normal-quotient and open-subgroup
+  identities, full Hasse–Arf and completed maximal unramified comparison. It agrees with that
+  supplier's finite-local-field API. Over k((t)), y^p-y=t⁻¹ has lower and upper break 1 and
+  different exponent 2(p-1). ClassFieldTheory Layer 7 supplies unit-filtration reciprocity on
+  its local-field domain; PadicPeriodRings retains its trace-ideal and Sen tower estimates.
+  `fontaineLowerIndex` and `fontaineUpper` give Fontaine's shifted-numbering dictionary on the
+  supplied filtration, used by `fontaineRamificationBound` with the supplied different and
+  completed maximal unramified comparison. `krasnerEmbeddingCriterion` uses the boundary
   `eψ(u_{L/K}-1/e)=e i_{L/K}-1/d`, `d=|G_(i_{L/K})|`; `lciLiftingAndRamification`,
   whose lifting proof uses the Jacobian J = aU with U invertible. For μ_p and a = p,
   J = pX^(p-1), so U is a unit but J is not. Unramified extensions have u = 0
