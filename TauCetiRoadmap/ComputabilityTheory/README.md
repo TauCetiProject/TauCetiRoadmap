@@ -313,11 +313,16 @@ self-reference and the fact that the compiler is computable independently of the
 oracle. Give interoperability theorems for the adopted numberings.
 
 Specialize Mathlib's Turing reducibility to total set characteristic functions.
-Develop reflexivity, transitivity, computable changes of presentation,
-complement invariance, many-one/one-one implications, and the parity-join least
-upper bound. Prove the bottom-degree characterization, computable invariance of
-columns, and the induced statements in Mathlib's degree quotient on the
-set-represented slice. Ordinary subset inclusion is not a reducibility theorem.
+Develop reflexivity, transitivity, computable changes of presentation, complement
+invariance, many-one/one-one implications, and the parity-join least upper bound.
+Prove the bottom-degree characterization, computable invariance of columns, and the
+induced statements in Mathlib's degree quotient on the set-represented slice.
+Ordinary subset inclusion is not a reducibility theorem. [Mathlib #37062][join-pr] proposes a
+join of partial functions, splitting both input and output by parity, with its
+least-upper-bound lemmas and a `SemilatticeSup` instance on `TuringDegree`. Prove
+that the characteristic function of $A\oplus B$ is Turing equivalent to the join of
+the two characteristic functions, and obtain the set-level least upper bound from
+that interface.
 
 For a **disjoint c.e. split** $B=A_0\cup A_1$, prove [S, VII.3.3]:
 
@@ -773,11 +778,18 @@ Delete superseded local declarations and repair their consumers rather than
 retaining compatibility-only aliases or forwarding modules. Opening a Mathlib PR
 is not a roadmap target.
 
-In particular coordinate with [Mathlib #38973][oracle-pr], the single-oracle code,
-reducibility and jump work by Edwin Park and Tanner Duve, and the contributors to
-Mathlib's existing `RecursiveIn` and `TuringDegree`. The source proposal's
-`Oracle.Single.Code`/evaluation interface is design evidence for L0–L3; its
-auxiliary tactics and duplicate convenience predicates are not prescribed here.
+In particular coordinate with:
+
+* [Mathlib #38973][oracle-pr] by Edwin Park, the single-oracle code, evaluation,
+  reducibility and jump work. Its `Oracle.Single.Code` and evaluation interface is
+  design evidence for L0–L3; its auxiliary tactics and duplicate convenience
+  predicates are not prescribed here.
+* [Mathlib #37062][join-pr] by Tanner Duve, the join of partial functions, its
+  least-upper-bound lemmas and the `SemilatticeSup` instance on `TuringDegree`.
+  It overlaps L2's joins and degree statements. It also changes
+  `TuringReducible f g` to unfold to `Nat.RecursiveIn {g} f`, which the L0
+  representation theorem must follow if it lands.
+* The contributors to Mathlib's existing `RecursiveIn` and `TuringDegree`.
 
 Coordinate with the authors of the source projects below before integrating
 code. Cite adaptations at their actual source. Where contact is not possible,
@@ -802,7 +814,8 @@ supply.
 | --- | --- | --- |
 | [Cameron Freer, computable-model-theory at `a1fe761`][cmt] | `Computability/OraclePred`, `RecursiveIn`, `Jump`, `StagedPartial`, `StagedRace`, `FiniteInjury` | Extract only the generic layers; construct the actual relative jump and staged representation; retain the distinction between injury sets and a record-reset kernel |
 | [Ara Aslyan, friedberg-muchnik-lean at `d5b3463`][fm-source] | `OracleComputability` code/use/bridge modules; original FM; splitting-with-non-reducibility | Harmonize codes and predicates, complete positive/negative semantic bridges, fit current Lean and Tau Ceti proof constraints, and establish the low-half strengthening required by [S, VII.3.2] |
-| [Single-oracle Mathlib proposal at `302800b`][oracle-source] | Single-oracle codes, evaluation, reducibility, jump and `SingleReducibleIff` | Coordinate shape and remove duplicate ordinary API; add the explicit stage/use and finite-injury interfaces required here |
+| [Single-oracle Mathlib proposal at `302800b`][oracle-source] | Single-oracle codes, evaluation, reducibility, jump and `SingleReducibleIff`, upstreamed from the core of CiL | Coordinate shape and remove duplicate ordinary API; add the explicit stage/use and finite-injury interfaces required here |
+| [Edwin Park, CiL at `3f44ae2`][cil] | The same single-oracle core, plus set oracles and their jump (`Set_lt_SetJump`, `CEIn_deg`), the use principle (`Use/Principle.lean`), a simple set (`exists_simple_set`) and the Kleene–Post pair below $\varnothing'$ (`ex_incomparable_sets_below_j1` in `Constructions/KP54.lean`), all proved. `LowSimple.lean` is an unfinished start of a low simple construction, with no lowness statement, and `Post.lean` is commented out | CiL has its own `Code`, `RecursiveIn`, reducibility and degrees, bridged to Mathlib only by `SingleReducibleIff`; connect its codes to `Nat.Partrec.Code` and its degrees to Mathlib's `TuringDegree`. The use principle can supply L0.2, the jump results L3.1, and the simple set and Kleene–Post proofs L5. The low simple set of L7 and Post's theorem of L3.2 remain new work |
 
 The original FM and Sacks applications should share the oracle/use and injury
 infrastructure without importing one another's construction proofs. A successful
@@ -812,6 +825,8 @@ computability, degree, or injury-interface consequences.
 [policy]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/README.md#working-with-mathlib
 [porting]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/README.md#porting-existing-work
 [oracle-pr]: https://github.com/leanprover-community/mathlib4/pull/38973
+[join-pr]: https://github.com/leanprover-community/mathlib4/pull/37062
 [cmt]: https://github.com/cameronfreer/computable-model-theory/tree/a1fe76155a98f03933f7de0811e03b2473dd2e21/ComputableModelTheory/Computability
 [fm-source]: https://github.com/aaslyan/friedberg-muchnik-lean/tree/d5b34637724cdcb55c7fc20be4c89ac60fec4954
 [oracle-source]: https://github.com/hyeoniuwu/mathlib4/tree/302800b4882ddd8037580014ffa89a824639ce09/Mathlib/Computability/SingleOracle
+[cil]: https://github.com/hyeoniuwu/CiL/tree/3f44ae202755cd7185a53714eafa6c91e7ed871f/Computability

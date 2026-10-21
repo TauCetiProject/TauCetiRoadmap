@@ -74,6 +74,8 @@ def column (e : ℕ) : Set ℕ := {n | n.unpair.2 = e}
 theorem column_infinite (e : ℕ) : (column e).Infinite := by
   sorry
 
+/-- The set-level least upper bound. Mathlib PR #37062 proposes the join of partial functions and
+the `SemilatticeSup` instance on `TuringDegree` that this specializes. -/
 theorem join_le_iff (A B C : Set ℕ) :
     (join A B ≤ᵀ C) ↔ (A ≤ᵀ C) ∧ (B ≤ᵀ C) := by
   sorry
