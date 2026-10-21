@@ -37,11 +37,14 @@ realization of `Sₙ`. It does not develop a second route to the theorem.
 
 The boundary is part of the specification.
 
-- **Complete classification of the transitive subgroups of `Sₙ`, for `n ≤ 5` only.** For these
-  degrees the roadmap proves that each transitive subgroup is conjugate to exactly one named
-  reference subgroup. Every separable irreducible polynomial of positive degree at most 5
-  therefore has exactly one label. A reducible, inseparable, or constant polynomial has none,
-  and that is the intended behaviour.
+- **Complete classification of the transitive subgroups of `Sₙ`, for `1 ≤ n ≤ 11`.** Pure
+  Layer1C retains the fourteen degree-at-most-five references and their proofs. Pure Layer1D
+  extends the same native reference/index/conjugacy-predicate API by the160 fixed higher
+  rows and proves completeness and uniqueness. Thus a separable irreducible polynomial
+  of positive degree at most11 has exactly one reference label. The polynomial decision
+  packages and finite certificate routes of Layer6 remain the existing degree-at-most-five
+  ones; no higher-degree polynomial search or recognition algorithm is claimed. Reducible,
+  inseparable and constant polynomials receive no transitive label.
 - **The consequences of Dedekind's factorization theorem.** Let `f : ℤ[X]` be monic, and let `p`
   be a prime that does not divide `disc f`. The degrees of the irreducible factors of `f mod p`
   are then the cycle lengths of one element of the Galois group. That theorem is **not** proved
@@ -64,12 +67,13 @@ The following subjects are outside this roadmap. They are not later milestones o
 - Hilbert irreducibility, thin sets, and specialization from `ℚ(t)` to `ℚ`.
 - The realization of `Aₙ` over `ℚ` for general `n`. Serre derives it from Hilbert
   irreducibility.
-- Completeness of the classification of transitive subgroups in degrees 6 to 11.
-- Stored database exports, precomputed transitive-group tables, and stored collections of
-  Galois-group certificates. Those may be appropriate for a computational database such as Hex,
-  but not for this roadmap. The certificate *type* of Layer 6 and its soundness theorem are
-  mathematics and are owned here; what is outside is storing certificates, searching for one,
-  and any claim that a search succeeds or terminates.
+- Completeness of reference classification above degree11.
+- Unproved raw database exports and stored collections of polynomial Galois-group
+  certificates, searches for them, and claims that such a search succeeds or terminates.
+  The theorem-backed reference permutations of Layers1C–1D and the Layer6 certificate
+  type/soundness are mathematical deliverables here. The fixed higher generator input
+  is secondary data; all of its closure, transitivity, conjugacy and completeness claims
+  are proved in Layer1D rather than accepted from a database.
 - Chebotarev density.
 - Ramification theory of number fields: the different, the relative discriminant ideal,
   decomposition fields, and inertia fields. It is Number Field Arithmetic that owns them, and
@@ -78,8 +82,10 @@ The following subjects are outside this roadmap. They are not later milestones o
   declaration whose statement mentions only `Polynomial.Gal`, a root action, and a factorization over
   `ZMod p`. The separate Layer 9 fixed-field example consumes number-field and representation-theory
   contracts; it does not move their arithmetic or finite-group constructions into this roadmap.
-- Data about abstract groups, such as character tables and abstract group names. This roadmap
-  owns only the permutation data of `nTj`.
+- General abstract-group databases and character tables. This roadmap owns the permutation
+  data of `nTj` and the concrete group identifications needed for its reference comparisons,
+  such as the specified degree-six action of `6T6`; it does not own a second abstract-group
+  classification.
 - The replacement for the discriminant test in characteristic 2, which is Berlekamp's
   invariant.
 
@@ -91,8 +97,9 @@ Two directories, because the two halves have different customers.
   That is: the block-stabilizer correspondence, wreath products, imprimitivity, the
   recognition theorems, the classification, and the label predicates on subgroups.
 - `TauCeti/FieldTheory/GaloisGroups/` holds Layers 0, 2 to 6, and 9 to 10. That is: the polynomial
-  dictionary, discriminants, resolvents, Frobenius specialization, degree-at-most-five labels,
-  and the realization of `Sₙ`.
+  dictionary, discriminants, resolvents, Frobenius specialization, generic labels through
+  degree11 after the pure reference extension, the existing degree-at-most-five polynomial
+  decision procedures, and the realization of `Sₙ`.
 
 The split follows Mathlib, which keeps its permutation library in
 `Mathlib/GroupTheory/GroupAction/` and its Galois groups in `Mathlib/FieldTheory/`. It also
@@ -182,14 +189,14 @@ Layer 6 supplies the polynomial labels and certificates. These cuts also identif
 older Belyi references to this roadmap's transitive-group layers. Branch cycles and
 peripheral-power theorems stay in `BelyiMaps` and create no reverse prerequisite here.
 
-The native reference family is empty in degrees greater than five. The aliases preserve
-that fact: they do not deliver Belyi's degree-6–11 classification or named-label requests.
-Those remain a separate Belyi producer/consumer milestone: extend the canonical native
-reference family with proved representatives, completeness, uniqueness and an exact label
-comparison before using such indices. A connected degree-six cyclic passport already
-exists, so emptiness of `TransitiveGroupIndex 6` cannot be treated as completion of that
-milestone. No second `nTj` predicate or unproved database table is introduced here; this
-roadmap's own classification boundary remains degree at most five.
+At the pinned revision the native reference family is empty above degree five, and the
+aliases preserve that fact. The required **producer** for degrees6–11 is this roadmap's
+pure Layer1D, with the fixed generator rows in
+[HighDegreeReferenceData.md](HighDegreeReferenceData.md), completeness, uniqueness and the
+native lower-degree comparison. BelyiMaps1.6/14 consumes that extension and the exact
+`6T6` comparison; it does not own another reference-group family. The aliases remain
+reducible names of the same evolved native objects. No theorem here treats today's empty
+`TransitiveGroupIndex 6` as a completed higher-degree contract or as inhabited data.
 
 The factorization-type row above is an exact contract, not a gesture at a subject.
 
@@ -244,11 +251,14 @@ order on the roots is ever fixed.
 
 For `n ≤ 47` the LMFDB numbers the conjugacy classes of transitive subgroups of `Sₙ` as
 `nT1, nT2, …`. The numbering follows the transitive group tables of Butler and McKay for
-`n ≤ 11`. This roadmap uses only the fully proved classification for `n ≤ 5`; it does not import
-or store the larger database tables. The data model is:
+`n ≤ 11`. Layers1C–1D supply the proved classification through degree11, with exact
+external-order comparisons on the single native family. The data model is:
 
-- `numTransitiveGroups : ℕ → ℕ` is the number of proved classes for `1 ≤ n ≤ 5`, and is `0`
-  outside that range.
+- `numTransitiveGroups : ℕ → ℕ` has values `1,1,2,5,5,16,7,50,34,45,8` for degrees1–11
+  in the required evolved API, and0 at degree0 and above11. The actual pinned native
+  definition has only the first five entries. Layer1D is its explicit evolution target,
+  with comparison to that pinned lower-degree API, not an assertion that the new entries
+  already exist.
 - `TransitiveGroupIndex n := Fin (numTransitiveGroups n)`. A label index is valid by
   construction. No unconstrained natural number is used as one.
 - `referenceSubgroup n j ≤ Equiv.Perm (Fin n)` is a proved library representative.
@@ -775,8 +785,10 @@ The reference subgroups for these degrees, in cycle notation:
 | `5T4` | `(123), (345)` | `A₅` | 60 | + | yes | no |
 | `5T5` | `(12), (12345)` | `S₅` | 120 | − | yes | no |
 
-These rows specify the proved representatives for degrees at most five. Their implementation is
-ordinary theorem-backed library data; this roadmap stores no raw LMFDB export or larger table.
+These rows specify the fourteen degree-at-most-five representatives. Their implementation
+is ordinary theorem-backed library data; Layer1D gives the additional fixed degree6–11
+permutation inputs and proves their classification claims. No raw database assertion is
+used as a proof of any row or of completeness.
 
 In Lean these entries are `referenceSubgroup n j`, for `j : TransitiveGroupIndex n`. The
 function `numTransitiveGroups` takes the values `1, 1, 2, 5, 5` in degrees 1 to 5. Index `j`
@@ -874,6 +886,88 @@ have the same order or abstract isomorphism type. `PrescribedGenerators.lean` gi
 six explicit comparison proofs on the canonical reference subgroups. The remaining rows
 are already defined by their displayed generators. These comparisons precede polynomial
 consumers and do not introduce a second group family.
+
+### Layer 1D: the single reference family in degrees six through eleven
+
+This pure finite-group producer follows Layer1/1C and has **no Belyi, polynomial,
+resolvent, arithmetic, cohomology or analytic prerequisite**. Its consumers are this
+roadmap's generic Layer6 label corollary and BelyiMaps1.6/14. The current polynomial
+certificate searches are not extended by this contract.
+
+**Fixed inputs and values.** The160 rows in
+[HighDegreeReferenceData.md](HighDegreeReferenceData.md) specify every generator as a
+permutation of `Fin n`, in standard `nTj` order. The row counts for `n=6,…,11` are
+`16,7,50,34,45,8`. For each row form its subgroup by `Subgroup.closure` of those actual
+permutations; prove the displayed generators equal the resulting reference subgroup,
+not merely that two groups have equal cardinality or the same abstract name. A cycle
+`(a0,…,ar)` sends each listed point to the next and fixes unlisted points. Generator
+products use function composition; source one-based coordinates are translated by
+subtracting one. The source list is a fixed mathematical input, not a proof of its
+classification assertions.
+
+**Evolve the canonical declarations in place.** Extend `TauCeti.numTransitiveGroups`,
+`TransitiveGroupIndex`, `referenceSubgroup` and `TransitiveGroupLabel` in their existing
+native modules. Keep the predicate as ambient conjugacy to `referenceSubgroup`, with
+`TransitiveGroupIndex n = Fin(numTransitiveGroups n)`. Do not create a second high-degree
+index, subgroup family, label predicate or a `Prop` field standing for completeness.
+Prove the defining count equations, explicit comparison/transport equations for all
+`n≤5`, and preservation of every lower reference, alias and label theorem. Where the
+dependent index type is transported by a count equality, state that transport. The
+current theorem `numTransitiveGroups_eq_zero_of_five_lt` and its Compatibility alias
+express the old data boundary; on evolution replace them by the proved `11<n` boundary
+and refactor their uses. They are not retained as false equalities for degrees6–11.
+The conservative aliases themselves continue to unfold to the same native objects.
+
+**Complete basic API for every new row.** Prove transitivity, the exact generator
+closure, order, parity, primitivity, solvability, cyclicity and normalizer/centralizer
+comparisons needed by label/passport consumers. Naturality under renumbering and ambient
+conjugation is the existing generic API, extended to the new valid indices. Give
+`∃! j, TransitiveGroupLabel j G` for each transitive `G≤Sym(Fin n)`, `1≤n≤11`, and the
+pairwise nonconjugacy of distinct reference rows. Keep the degree-zero and out-of-range
+empty-index cases, and distinguish equal abstract groups in nonconjugate permutation
+actions. No order-only recognition is asserted in higher degree.
+
+**A finite proof producer, not a completeness oracle.** Build a subgroup-classification
+certificate with concrete generator lists and conjugating permutations. At a node `H`,
+a finite list of proper subgroups covers every proper subgroup of `H` up to conjugacy in
+`H`; prove that local covering assertion from finite subgroup/normalizer calculations,
+using blocks and primitive cases where efficient. Start at `Sym(Fin n)`, recurse on
+strictly smaller subgroup orders, and discard an intransitive node only after proving
+all its subgroups intransitive. A transitive subgroup lies in one of the remaining
+children or equals the current node, so induction gives a complete finite list. Match
+each surviving global conjugacy class to one fixed row by an explicit ambient
+permutation, and prove nonconjugacy of the rows, for example by a finite orbit test or
+separating invariants plus their proofs. The verifier's soundness, termination by strict
+order, local-covering proofs and final matching are named targets. As a finite fallback,
+enumerate subgroups of the finite symmetric group and their conjugacy orbits; prove the
+filter/matching complete. No runtime bound or efficient search is inferred from that
+fallback, and no external CAS result is a Lean proof premise. The final160-row count is
+a consequence of the complete matching, not its assumed justification.
+
+**The required `6T6` acceptance comparison.** Put
+`r=(0,2,4)(1,3,5)` and `t=(2,5)`. Conjugating `t` by powers of `r` gives the three
+independent pair flips `(2,5),(1,4),(0,3)`. They generate `C₂³`; `r` cyclically permutes
+them and has order3, hence the closure has order24 and is transitive. The diagonal flip
+splits off the central `C₂`, and the even flips with `r` give `V₄⋊C₃≃A₄`, so the group
+is `A₄×C₂` with this **degree-six action**. Prove its exact equality to the sixth
+reference, with zero-based index5, and its invariant block system
+`{{0,3},{1,4},{2,5}}`. The quotient is the degree-three cyclic reference `3T1`.
+BelyiMaps14.6 must additionally match its actual carried `6T6-6_6_3.3-a` triple to this
+reference and match its carried quotient triple to the `3T1` record. The group and the
+quotient comparisons remain separate certificate equations.
+
+**Outputs and order.** Layer6 uses the resulting classification to give the unique
+`HasGaloisLabel` of a separable irreducible polynomial of degree≤11. Its existing
+quartic/quintic tests, arithmetic input and sound finite certificates remain unchanged.
+BelyiMaps1.6 consumes only the early pure reference/classification cut; its topology,
+branch cycles and database record proofs create no reverse edge. No implementation
+wait or unpublished native index is used as a mathematical premise.
+
+*Sources:* Butler–McKay's degree-at-most-eleven classification; the
+[GAP TransGrp fixed generator source](https://github.com/hulpke/transgrp/tree/165fc21ff497b24b7a5975582b331e6692ba04f1)
+and the [LMFDB6T6 entry](https://www.lmfdb.org/GaloisGroup/6T6) for the explicit data
+comparison. The source credits are recorded with the secondary generator list. All
+mathematical group and completeness assertions are the proved targets above.
 
 ### Layer 2: the dictionary between Galois theory and permutations
 
@@ -1399,6 +1493,12 @@ membership statement to which every downstream recognition theorem is applied.
 
 ### Layer 6: polynomial labels, decision packages, and certificates
 
+The generic label predicate uses the same native family. After1D, prove unique label
+existence for every separable irreducible polynomial of positive degree≤11 by the root
+action's transitivity and the pure classification, with invariance under numbering.
+This extends the reference-label theorem, not the later quartic/quintic recognition tests
+or their finite arithmetic-certificate search scope.
+
 The pure reference family, table, invariant comparisons, exact generators, and classification
 are in Layer 1C. This layer transports them to polynomials and combines the independent
 resolvent and good-prime evidence. It does not supply a premise of Layer 1C or Layer 4.
@@ -1888,12 +1988,13 @@ Layer 1C names the earlier pure-permutation part of the former aggregate Layer 6
 |---|---|---|
 | 0 | Mathlib | root action, orbit/factor dictionary, intrinsic invariants and base-field isomorphism transport |
 | 1 | Mathlib | blocks, wreath products, imprimitivity and generic recognition |
-| 1C | 1, Mathlib/native permutation APIs | canonical reference family, exact generators, all fourteen rows, classification, order recognition and pure solvability |
+| 1C | 1, Mathlib/native permutation APIs | all fourteen lower references, exact generators, classification, order recognition and pure solvability |
+| 1D | 1, 1C for lower comparison, Mathlib/native finite subgroup API | same-family degree6–11 extension,160 fixed rows, completeness/uniqueness and Belyi supplier; no polynomial or arithmetic input |
 | 2 | 0, 1 | field and permutation dictionary |
 | 3 | 0 | discriminants and alternating image |
 | 4 | 0, 3, 1C for the quintic criterion | resolvents, quartic and quintic specifications; the group-side criterion consumes early classification |
 | 5 | 0, 1, 3, 4; Number Field Arithmetic 3.10 | factor degrees, good primes, finite-field orbit theorem and factorization membership |
-| 6 | 0, 1C, 2, 3, 4, 5 | polynomial labels, decision packages and sound certificates |
+| 6 | 0, 1C; 1D for generic labels through11; 2,3,4,5 for the existing low-degree decision/certificate routes | polynomial labels, decision packages and sound certificates |
 | 9 | 1, 3, 5; 1C/6 for labelled alternating examples; NFA 3.8/8.4 and IR 2.1/2.2 for the fixed-field example | arbitrary-degree symmetric realization, the three alternating examples, and the S₁₆ Gassmann example |
 | 10 | Mathlib | characteristic-zero finite-Galois radical criterion and its all-roots/some-root polynomial consequences |
 
