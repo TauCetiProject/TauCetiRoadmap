@@ -1,12 +1,12 @@
 # Roadmap: Ehrenfeucht–Mostowski models and Hanf numbers for Lω₁ω
 
-A first-order theory with an infinite model has models of every infinite cardinality. An Lω₁ω
-sentence need not: the Scott sentence of a countable structure can have only countable models,
-and for every countable ordinal α there are sentences whose largest models have cardinality
-exactly ℶ_(α+1). The **Morley–Hanf theorem** says that this is the whole story: if an Lω₁ω
-sentence has models of cardinality at least ℶ_α for every α < ω₁, it has models of every
-infinite cardinality. Together with those bounded examples it computes the **Hanf number** of the
-logic,
+A first-order theory in a countable language with an infinite model has models of every infinite
+cardinality. An Lω₁ω sentence need not, even in a countable language: the Scott sentence of a
+countable structure can have only countable models, and for every countable ordinal α there are
+sentences whose largest models have cardinality exactly ℶ_(α+1). The **Morley–Hanf theorem** says
+that this is the whole story: if an Lω₁ω sentence has models of cardinality at least ℶ_α for every α
+< ω₁, it has models of every infinite cardinality. Together with those bounded examples it computes
+the **Hanf number** of the logic,
 
 ```math
 \mathrm{Hanf}(L_{\omega_1\omega})=\beth_{\omega_1}.
