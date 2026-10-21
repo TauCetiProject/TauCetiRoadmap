@@ -14,8 +14,11 @@ body:
     attributes:
       label: Roadmap area
       options:
+        - AdicEtaleGeometry
         - AdicSpaces
         - AdicSpacesPartII
+        - AdicSpacesPartIII
+        - AdicSpacesPartIV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
@@ -23,6 +26,7 @@ body:
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticToricGeometry
+        - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
         - BordismFormalGroups
@@ -34,6 +38,9 @@ body:
         - CombinatorialHeegaardFloer
         - CompactOperators
         - ComplexCurveModuli
+        - ComplexKahlerGeometry
+        - ComplexManifolds
+        - ComplexTori
         - ConformalMapping
         - DGAInfinity
         - DGFloer
@@ -42,9 +49,12 @@ body:
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - EllipticCurves
+        - EnhancedDerivedSheaves
+        - EtaleCohomologyFoundations
         - Exchangeability
         - FinancialMathematics
         - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
@@ -60,6 +70,7 @@ body:
         - HeightsAndUnits
         - HopfRinow
         - Hyperfunctions
+        - ImaginaryQuadraticClassNumber
         - InfinitaryLogic
         - IntegralLattices
         - Isoperimetry
@@ -67,14 +78,15 @@ body:
         - KhovanovHomology
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - LocalPurity
         - MassFormula
         - ModularCurves
         - ModularForms
         - MorseNovikov
         - MorseTheory
         - NewtonPolygons
+        - NilpotentOrbits
         - NoncommutativeGeometry
-        - NumberFieldArithmetic
         - OneParameterSemigroups
         - OperatorAlgebraDynamics
         - OperatorTheory
@@ -84,6 +96,7 @@ body:
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
+        - PerfectoidSpaces
         - PeripheralActions
         - PivotalSpherical
         - PolynomialGaloisGroups
@@ -93,20 +106,27 @@ body:
         - ProfiniteProPGroups
         - QuadraticFormInvariants
         - QuantumGroups
+        - Rank24LatticeConstructions
         - RealAlgebraicGeometry
         - ReductiveGroups
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
         - RestrictedPowerSeries
+        - RiemannianGeometry
         - RigidAnalyticGeometry
         - SchemeAndStackFoundations
         - SchubertGeometry
+        - SeibergWittenTheory
         - SpinGeometry
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - SymplecticGeometry
+        - TauberianBoundaryConvergence
         - TaubesGromov
+        - ThetaSeries
+        - TypeAHeckeAlgebras
         - Yamabe
         - ZigzagPreprojective
     validations:
