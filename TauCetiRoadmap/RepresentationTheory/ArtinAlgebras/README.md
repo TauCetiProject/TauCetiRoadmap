@@ -324,13 +324,13 @@ additive generator.
   Algebras*, Vol. 1, London Mathematical Society Student Texts 65, Cambridge University Press
   (2006), Chapter IV.
 - T. Bühler, *Exact categories*, Expo. Math. 28 (2010), 1–69: `Ext¹` and the long exact sequences.
-- M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280:
-  dominant dimension of arbitrary rings through flat injective modules, and its left-right symmetry
-  for Noetherian rings.
 - H. Enomoto, *Classifications of exact structures and Cohen-Macaulay-finite algebras*, Adv. Math.
   335 (2018), 838–877, arXiv:1705.02163: Appendix A, Auslander-Reiten theory of exact categories.
 - M. Harada, Y. Sai, *On categories of indecomposable modules I*, Osaka J. Math. 7 (1970),
   323–344.
+- M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280:
+  dominant dimension of arbitrary rings through flat injective modules, and its left-right symmetry
+  for Noetherian rings.
 - O. Iyama, H. Nakaoka, Y. Palu, *Auslander-Reiten theory in extriangulated categories*,
   arXiv:1805.03776: existence of almost-split conflations from an Auslander-Reiten duality, here in
   its exact-category case.
