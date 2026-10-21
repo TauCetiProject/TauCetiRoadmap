@@ -432,6 +432,13 @@ theorem toNative_isLongSimpleRoot (t : DynkinType) (i : Fin t.rank) :
 noncomputable def nativeRationalRootSystem (t : DynkinType) (ht : t.Valid) :=
   (toNativeDynkinType t).rationalRootSystem ((toNative_valid t).mp ht)
 
+/-- The local wrapper uses the native rational realization's proved crystallographic instance. -/
+noncomputable instance instIsCrystallographicNativeRationalRootSystem
+    (t : DynkinType) (ht : t.Valid) :
+    (nativeRationalRootSystem t ht).IsCrystallographic := by
+  change ((toNativeDynkinType t).rationalRootSystem ((toNative_valid t).mp ht)).IsCrystallographic
+  infer_instance
+
 /-- Its native Bourbaki-numbered base. -/
 noncomputable def nativeRationalBase (t : DynkinType) (ht : t.Valid) :=
   (toNativeDynkinType t).rationalBase ((toNative_valid t).mp ht)
