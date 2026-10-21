@@ -58,7 +58,8 @@ substrate yields quickly to blueprint-driven effort.
 --
 -- v3: the analytic invariant for a pointed Heegaard diagram, over 𝔽₂:
 -- def HFhat (D : PointedHeegaardDiagram) (hD : D.WeaklyAdmissible) (J : ...) :
---     GradedModule (ZMod 2) := ...   -- Lagrangian-Floer-type homology in Sym^g
+--     ModuleCat (ZMod 2) := ...     -- initial ungraded homology in Sym^g
+-- F4.B adds the actual relative grading; F4.5q adds its normalized torsion-Spinᶜ ℚ lift.
 -- theorem HFhat_invariant : ...      -- diagram moves + J-independence, naturality-ready
 ```
 
@@ -146,10 +147,14 @@ function/sublevel theory and DG's smooth flow. Manifold orientations and degree 
 the [differential-geometry roadmap](../DifferentialGeometry/README.md) (its layers 2 and 10) and
 consumed here.
 
-The combinatorics of pointed Heegaard diagrams — generators, domains, periodic
-domains, admissibility — that Lane F4 puts a holomorphic count on are built in the
-[combinatorial roadmap](../CombinatorialHeegaardFloer/README.md)'s Lane H; consume
-them rather than rebuild.
+Consume the native incidence/domain algebra and the
+[combinatorial roadmap](../CombinatorialHeegaardFloer/README.md)'s Lane H
+carriers, nice moves and combinatorial complexes. F4.A–C here own their
+smooth pointed cut-system realization, represented-manifold reconstruction,
+Spinᶜ/Chern comparison and globally admissible presentation/connectivity.
+F4.M owns the balanced multipointed geometric and analytic bridges used by
+reconciliation1. These constructions consume the combinatorics and GT's
+ordinary splitting theory; neither supplier asserts these smooth identifications.
 
 ---
 
@@ -2202,7 +2207,183 @@ energy package; no general monotone chapter is required as its replacement.
 Ozsváth–Szabó ([arXiv:math/0101206](https://arxiv.org/abs/math/0101206)) §§2–4
 over 𝔽₂, consuming F0–F2's analytic/orientation foundations, F3's
 formal strip/gluing arguments on independently verified hypotheses, and the
-diagram combinatorics of the combinatorial roadmap's Lane H.1:
+diagram combinatorics of the combinatorial roadmap's Lane H.1. The following
+geometric and topological producers precede the analytic counts and their
+interpretation as manifold invariants.
+
+**F4.A. Geometric pointed diagrams and the represented manifold.** Before
+putting a count on incidence data, construct geometric cut-system diagrams.
+For a connected closed oriented smooth surface Σ of genus g, take two actual
+handlebodies with boundary identifications, complete systems of compression
+discs and their boundary curves, and a basepoint z outside the curves. Curves
+within one family are disjoint; opposite families are transverse. Record
+orientations, local corner order, complementary regions and their Euler data.
+Glue the handlebodies by the specified orientation-reversing boundary
+identification. Construct the resulting closed oriented based three-manifold
+Y and its based marking. Prove extraction from a smooth based Heegaard
+splitting and reconstruction recover that splitting and Y up to the stated
+based oriented diffeomorphism. Reconstruction is on the geometric realizable
+subclass, not a realization theorem for every abstract region system.
+
+Extract the native `HeegaardRegionSystem`, its generator and domain carriers,
+basepoint multiplicities and corner measures. Construct the generator
+bijection with T_α∩T_β, the integral two-chain/domain comparison and its
+boundary, periodicity, Euler-measure and multiplicity laws. If the chosen
+native arc enumeration requires intersections on every curve, arrange them
+by explicit small finger isotopies away from z before extracting, and prove
+the comparison with the unmodified geometric diagram. Do not impose that
+extra combinatorial presentation as a restriction on three-manifolds.
+Construct the Mayer–Vietoris identification
+H₁(Y;ℤ)=H₁(Σ;ℤ)/⟨[α_i],[β_j]⟩ independently. Map native `CurveHomology`
+injectively to its appropriate image in this quotient, with the native
+ε(x,y) represented by α arcs from x to y followed by β arcs from y to x.
+Its image can be proper; it is not the whole H₁(Y) by definition.
+
+Consume [GeometricTopology Layer9](../GeometricTopology/README.md)'s ordinary
+splitting-existence/genus construction and M.5's Cerf/handle comparisons.
+Construct the pointed conversion: choose adapted Morse functions and gradient
+data relative to the marked point, identify their compression discs, and
+translate critical-value exchanges, handle creation/cancellation and changes
+of disc systems into surface isotopies, α/β handleslides and genus
+stabilizations/destabilizations. Prove disc-system connectivity in each
+handlebody by outermost-disc surgery, decreasing the intersection number
+with a reference complete disc system. Translate the based Cerf path into a
+finite cut-system move sequence after those disc slides. Construct the
+converse based diffeomorphism for every move. Track markings, generators,
+domain maps and basepoints; the resulting presentation theorem connects any
+two diagrams for the same based oriented Y. A path moving the basepoint has
+its specified basepoint-moving map, not an identity imposed by quotienting.
+
+**F4.B. Spinᶜ, periodic surfaces and the grading carrier.** Construct Turaev's
+nonvanishing-vector-field model and s_z(x) by modifying the adapted Morse
+field along the trajectories selected by x. Construct c₁ of its oriented
+orthogonal two-plane field and the affine H²(Y;ℤ) action. With the arc
+orientation in F4.A prove s_z(x)−s_z(y)=PD(ε(x,y)); check the sign under
+reversal and relabelling. Prove the basepoint-change law separately with
+its actual traced one-cycle. Construct the topological Spinᶜ torsor and all
+its structures, even if a particular diagram has no generator in a chosen
+structure; never define Spinᶜ(Y) as the image of its generators.
+
+For a periodic domain P normalized by n_z(P)=0, cap its α/β boundary by the
+actual compression discs and smooth the seams to construct
+H(P)∈H₂(Y;ℤ). Prove independence of caps up to homology, additivity and
+naturality for each pointed move. For singly pointed diagrams identify this
+normalized periodic-domain group with H₂(Y;ℤ); give the corresponding exact
+sequence when unnormalized domains include the whole surface. Prove by
+relative Euler obstruction on the capped surface that
+⟨c₁(s_z(x)),H(P)⟩=e(P)+2n_x(P).
+Compare F1's clutching/spectral-flow index for an actual Whitney class φ
+with the geometric domain formula
+μ(φ)=e(D(φ))+n_x(D(φ))+n_y(D(φ)). Use the actual Euler data extracted in
+F4.A. Establish its integrality on these geometric classes and its
+concatenation, reversal and periodic-translation laws. Native
+`maslovIndex` is a rational additive expression with an Euler-data argument;
+integrality and this analytic comparison are additional theorems, not
+properties of an arbitrary incidence record. For a general periodic
+Whitney class the identity is
+μ(P)−2n_z(P)=⟨c₁(s_z(x)),H(P−n_z(P)Σ)⟩.
+Prove the relative-homotopy/domain exact sequence and the sphere-class
+ambiguity in the genera where it applies. Verify the genus-zero/one/two
+variants or their specified stabilization comparisons before using the
+higher-genus sphere generator, whose μ=2 and n_z=1.
+
+For fixed s let d(s)≥0 generate the image of the c₁(s) pairing on H₂(Y;ℤ).
+Construct the relative grading by
+gr(x)−gr(y)=μ(φ)−2n_z(φ) modulo d(s), whenever x,y have structure s.
+Prove existence of the required connecting class in the declared geometric
+range and use the preceding exact sequence in the exceptional cases.
+Independence follows from the Chern-period identity and sphere calculation.
+Use a relative ℤ/d(s) grading, interpreted as a relative ℤ grading if d(s)=0;
+no origin in either torsor is supplied by this construction. Extend to the
+flavor generators with gr([x,i])=gr(x)+2i, so U lowers degree by two.
+Prove ∂ has degree −1 and allowed continuation/move maps degree zero with
+the transported Spinᶜ and relative grading data. Construct these laws before
+using a graded invariant; the first ungraded 𝔽₂ complex remains an earlier
+milestone. This construction precedes the absolute rational lift in item5.
+
+**F4.C. Admissible presentations and globally connecting moves.** Define weak
+admissibility for a fixed s using nonzero normalized periodic P with
+⟨c₁(s),H(P)⟩=0: P has positive and negative coefficients. Define strong
+admissibility for fixed s by requiring that every nonzero normalized P with
+⟨c₁(s),H(P)⟩=2r≥0 has a coefficient greater than r. Keep these distinct
+from native `WeaklyAdmissible`, which tests all normalized periodic domains.
+Give the precise implication from that stronger incidence condition and
+the comparison on the zero-pairing sublattice; do not identify the
+predicates by their names.
+
+Construct winding away from z along finitely many auxiliary curves dual to
+the relevant periodic-domain lattice. Choose an integral lattice basis,
+bound the c₁ functional by its basis coefficients and construct winding
+regions whose positive and negative coefficients detect a norm on that
+lattice. Prove the resulting coefficient estimates uniformly for every
+lattice element, including elements with unbounded coefficients. Choose
+the winding amounts to dominate the c₁ bound; a finite check of basis
+domains alone is not strong admissibility. This gives weak and strong
+admissible presentations for each fixed Spinᶜ structure and simultaneous
+ones for a specified finite set of structures. State separate bounds for
+the weak zero-pairing sublattice and the strong inequality.
+
+Prove relative winding with prescribed endpoint diagrams and a finite
+ordinary move sequence: add common auxiliary windings away from the
+supports, transport them across each elementary move, and compare the
+endpoints by admissible unwinding/rewinding moves. Construct a connecting
+sequence whose intermediate diagrams and required triples satisfy the
+appropriate fixed-s admissibility, with the finite lattice estimates for
+each stage. Arbitrary unmodified Cerf paths need not stay admissible.
+Track the Spinᶜ, domain, basepoint and based-manifold marking maps. Supply
+the compatible triangle and compact-parameter versions consumed by F4.3a;
+prove their topological winding part without using later Floer counts.
+Then item3 proves the positive-domain finiteness and analytic energy
+bounds on these data. This is the global presentation/connectivity input
+for promoting the specified move equivalences of item4 to HF̂(Y,s).
+
+**F4.M. Balanced multipointed geometry shared with reconciliation1.** For
+b≥1 marked points use k=g+b−1 curves in each family: compressing along
+either complete family gives b spheres, or cutting the corresponding
+handlebody along its discs gives b balls, each containing exactly one
+marked point. Construct the equivalent balanced geometric definition and
+its incidence extraction. Use Sym^k(Σ), T_α,T_β of dimension k and all
+divisors V_(z₁),…,V_(z_b). The hat differential avoids every divisor.
+Prove the multipointed index and periodic-domain comparisons on this
+carrier, rather than apply the singly pointed sphere calculation unchanged:
+in the higher-degree symmetric-product range a sphere generator has
+μ=2b and n_(z_i)=1 for every i. The grading expression uses
+μ−2∑_i n_(z_i), and each individual U_i lowers degree by two when
+the corresponding polynomial version is constructed. Relate its periodic
+and relative grading data to the auxiliary singly pointed presentation in
+R1.twisted, keeping the actual extra H₂ classes and low-degree exceptions.
+Construct pointed extraction/reconstruction, based moves, relative
+period and admissibility comparisons for this balanced carrier, including
+g=0,k=0 and the explicit low-genus stabilizations. Forgetting marks in an
+unbalanced tuple is not a basepoint-stabilization theorem.
+
+Construct the local basepoint-addition operation, adding one α curve,
+one β curve and one point, and its inverse together with the comparison
+of represented Y. Prove the raw chain homotopy equivalence
+CF̂_(b+1)(Y)≃CF̂_b(Y)⊗W, where W has two generators, zero differential
+and relative degree difference one. Keep the actual choices and grading
+shifts attached to the maps; b=1 recovers the ordinary theory. Ordinary
+genus stabilization, basepoint addition and connected sum with S¹×S²
+have different presentation data even where chain comparisons relate
+them. Construct those comparisons rather than equate the operations.
+
+Consume the combinatorial carriers and nice-diagram moves of
+[CombinatorialHeegaardFloer LaneH](../CombinatorialHeegaardFloer/README.md).
+Here construct their smooth balanced realization, niceification by
+admissible pointed moves, and the holomorphic-count bridge: an index-one
+class avoiding all z_i in a nice diagram contributes exactly when its
+nonconstant domain is an empty embedded bigon or rectangle, with the
+specified constant coordinates; each such domain contributes one over
+𝔽₂ and all other domains contribute zero. Prove existence, uniqueness
+modulo translation and regularity in the two local models by the surface
+holomorphic mapping argument, the product/symmetric-product comparison
+and F1/F2 estimates; exclude other domains by positivity and the index
+formula. This local surface argument does not require the cylindrical
+moduli-of-domains package of F5. Nice-diagram combinatorics alone is not
+this analytic identification. Its integral version includes coherent
+orientations and the actual signs. This early balanced hat construction
+also supplies the relevant underlying geometry to F5, without consuming
+its later link-hypercube or bordered pairing theorems.
 
 1. **`Sym^g(Σ)` geometry:** smooth complex structure (elementary symmetric
    functions), totally real Heegaard tori T_α,T_β, π₂ and relative-period
@@ -2216,15 +2397,24 @@ diagram combinatorics of the combinatorial roadmap's Lane H.1:
    and make both tori Lagrangian for this form. Totally-real boundary analysis
    remains the general F1/F2 input; it does not substitute for the Lagrangian
    form needed by this Hamiltonian-handleslide route.
-2. **Spin^c structures** (Turaev's vector-field model) and `s_z`; domains and the
-   combinatorial Maslov index (Lipshitz's formula `e(D) + n_x(D) + n_y(D)`,
-   stateable now, against F1.3 later).
+2. **Geometric index and Spinᶜ comparison:** consume F4.A/B's actual
+   extraction, s_z, capped periodic surface and relative grading maps.
+   Compare the native rational expression `e(D)+n_x(D)+n_y(D)` with the
+   analytic index of each actual Whitney class using F1's boundary
+   clutching/spectral-flow construction. Record geometric integrality,
+   the Chern-period and sphere identities and the low-genus variants
+   before using them for finiteness or graded counts. This milestone
+   supplies the comparison; a formal rational expression is not its proof.
 3. **Nearly-symmetric J and admissibility:** instantiate F0/F1's actual
    universal-section and Oh/Sard–Smale hypotheses, keeping V_z holomorphic and
    the required product behavior; prove the comparison with the chosen smooth
-   symplectic form. Construct positive-domain/periodic-domain finiteness and
-   energy bounds with fixed Spin^c, asymptotics, Maslov index and n_z, before
-   compactification. Give uniform compact-parameter versions.
+   symplectic form. On F4.C's actual fixed-Spinᶜ weak/strong admissible
+   data construct positive-domain/periodic-domain finiteness and energy
+   bounds with fixed asymptotics, Maslov index and n_z before
+   compactification. Compare the native all-periodic finiteness theorem
+   only where its stronger hypothesis holds; prove the zero-Chern-slice
+   version needed by the stated weak condition. Give uniform
+   compact-parameter versions.
 
    **F4.3a. The handleslide triangle/degeneration floor.** Before handleslide
    counts, construct the actual admissible pointed triple
@@ -2260,10 +2450,60 @@ diagram combinatorics of the combinatorial roadmap's Lane H.1:
    do not claim that
    the citation eliminates the triangle-finiteness proof or reduces this
    nonexact application to F3's exact continuation.
-5. **Then, staged:** orientation systems and ℤ; `HF^±`, `HF^∞` (boundary
-   degenerations now matter: OS Theorem 3.15); holomorphic triangles and cobordism
-   maps; surgery exact triangles; `d`-invariants; naturality (JTZ) as the
-   capstone. Each is its own milestone; none blocks v3.
+   Use F4.A/C's based presentation theorem and admissible connecting
+   sequences to promote these specified diagram equivalences to the
+   invariant of the represented oriented based Y. Retain the chosen
+   move maps; coherent independence of arbitrary paths and nontrivial
+   basepoint actions are the JTZ milestone, not a quotient declaration.
+5. **Then, staged:** construct orientation systems and the integral signed
+   theory; CF^∞ and its actual subcomplex/quotient giving HF^− and HF^+
+   (including OS Theorem3.15's boundary degenerations); holomorphic
+   triangles and cobordism maps; surgery exact triangles; normalized
+   absolute rational gradings and correction terms; and JTZ naturality.
+   Each stage has its own construction and does not block the initial
+   ungraded/relatively graded hat invariant. Retain all non-torsion Spinᶜ
+   and positive-b₁ versions of the flavors with their actual relative
+   grading sets; an absolute ℚ grading is not asserted for non-torsion c₁.
+
+   **F4.5q. Absolute grading before numerical d.** For torsion Spinᶜ
+   structures construct the absolute rational lift, normalized by the
+   generator of HF̂(S³) having degree zero and U having degree −2.
+   Start from surgery presentations and adapted pointed triples for
+   reference cobordisms, their topological Spinᶜ extensions and F4.B's
+   integral triangle/Whitney index comparisons. Construct the grading
+   of every generator using the index of a reference triangle class,
+   basepoint multiplicities and the topological cobordism correction;
+   a class need not have a nonzero counted map to define its index.
+   Construct reference classes and prove independence from the chosen
+   class, presentation, auxiliary generators and Spinᶜ extension using
+   periodic-domain identities, handle moves and triple gluing. Compute
+   the standard generators on #^r(S¹×S²) with their exterior-algebra
+   degree shifts; do not choose an arbitrary origin in each relative
+   torsor. Display the triangle grading formula on the actual carriers
+   and derive its normalization from the zero-, one- and two-handle
+   models, rather than assuming a desired absolute lift as input.
+
+   Prove that the lift refines F4.B's relative grading and that maps for
+   an oriented cobordism W with torsion boundary Spinᶜ restrictions are
+   homogeneous of degree
+   (c₁(t)²−2χ(W)−3σ(W))/4.
+   Define the rational square using a rational relative lift of c₁(t),
+   prove independence, and handle disconnected boundary/handle
+   normalizations with the specified tensor factors. Prove composition,
+   orientation-reversal and auxiliary-choice laws with the same triangle
+   and topological index computations. No numerical d is defined before
+   this normalization and its invariance are available.
+
+   For a rational homology sphere and its Spinᶜ structure, construct the
+   HF^∞→HF^+ comparison and its tower/finite-generation theorem, and
+   define d as the least absolute grading of a nonzero class in its
+   image in the usual tower convention. Prove existence of that least
+   grading, the S³ value zero, orientation and cobordism laws. Treat
+   positive-b₁ correction-term variants in their own milestones with
+   the specified tower, exterior-action and torsion hypotheses; do not
+   use the rational-homology-sphere definition without them. Naturality
+   then constructs the coherent based systems and the actual
+   nontrivial basepoint-moving actions on these normalized theories.
 
 ### Lane F5: cylindrical, bordered and knot Floer constructions
 
@@ -2592,11 +2832,68 @@ analytic track is the blocker, and the reconciliations are owned and tracked her
 rather than split across both roadmaps. The combinatorial side keeps only pointers
 back to this section.
 
-1. **`HF̂_st` = stabilized holomorphic `HF̂`** (the appendix of
-   [arXiv:0912.0830](https://arxiv.org/abs/0912.0830)): the Ozsváth–Stipsicz–Szabó
-   stable invariant agrees with the holomorphic `HF̂` of Lane F4 up to the tracked
-   `(𝔽 ⊕ 𝔽)`-factors, exactly `HF̂` for `b₁(Y) = 0`. Depends on F4.4 (stabilization
-   and diagram-move invariance) and the combinatorial Lane H.
+1. **Raw, stable and twisted nice-diagram comparisons.** Construct three
+   different comparisons on F4.M's balanced b-pointed geometry and all
+   its basepoint divisors, with k=g+b−1. The coefficient field here is
+   𝔽=𝔽₂; the integral signed extension remains a separate target.
+
+   **R1.raw.** Identify the combinatorial nice complex with the
+   holomorphic complex by the actual generator/domain bijections and
+   F4.M's empty-bigon/rectangle count theorem. For a connected Y prove
+   H(CF̂_b(Y))≅HF̂(Y)⊗W^(⊗(b−1)), with W the two-dimensional zero-
+   differential factor and its relative grading difference one.
+   Construct chain-level basepoint-addition and comparison maps, their
+   inverses up to homotopy and their compatibility with the transported
+   markings and Spinᶜ structures. This factor remains for rational
+   homology spheres: b₁(Y)=0 does not remove extra basepoints.
+
+   **R1.stable.** Construct the stable object represented by a complex
+   together with its point count, using the specified equivalences
+   (C,b)↦(C⊗W,b+1). Prove nice-move invariance and identify this object
+   with the Ozsváth–Stipsicz–Szabó stable invariant of
+   [arXiv:0912.0830](https://arxiv.org/abs/0912.0830), using R1.raw and
+   admissible connectivity. Keep the tensor-factor/point-count maps;
+   cancellation of a vector-space rank is not a canonical ordinary HF̂
+   identification. All identifications carry their actual relative
+   gradings and later F4.5q's absolute normalizations where defined.
+
+   **R1.twisted.** Construct the auxiliary singly pointed presentation
+   of Y_b=Y#^(b−1)(S¹×S²) associated to the balanced diagram and identify
+   its generators/counts with the relevant all-divisor model. Identify
+   H₂(Y_b;ℤ), its periodic domains and the additional point-stabilization
+   classes explicitly. Use the group ring R=𝔽[H₂(Y_b;ℤ)], not an
+   unannounced identification with 𝔽[H₂(Y;ℤ)]. For each Spinᶜ sector
+   choose reference generators, paths and caps and construct an
+   additive assignment A(φ)∈H₂(Y_b;ℤ) on Whitney classes. Prove
+   A(φ*ψ)=A(φ)+A(ψ), its periodic-domain normalization and its vanishing
+   on the relevant sphere ambiguity. Weight a rigid class by the
+   group-ring basis element t^A(φ). Prove finiteness and ∂²=0 over R
+   using admissibility and the actual additive labels on broken ends.
+   Changing references gives the explicit diagonal monomial chain
+   isomorphism x↦t^a(x)x, with its inverse and compatibility with the
+   induced homology-group/ring identifications. Construct the weighted
+   nice-count, move, stabilization and coefficient-change chain maps;
+   prove their gluing and choice-change laws. Fixing an additive
+   assignment is data, not a consequence of abstract incidence alone.
+
+   For rational-homology-sphere Y and the summand s#s₀ on Y_b, prove
+   the separate twisted comparison: the auxiliary S¹×S² factors have
+   the Koszul differential t_i+1, so the twisted homology is HF̂(Y,s)
+   with R acting through the augmentation on those free H₂ factors.
+   Construct this connected-sum/weighted-chain comparison and its
+   coefficient action, rather than infer it from R1.raw. Other Spinᶜ
+   sectors and positive-b₁ manifolds retain their own twisted groups;
+   make only the comparison established on their actual coefficients.
+
+   In the twice-pointed S³ example the raw complex has two generators
+   and zero differential over 𝔽, hence rank two. Its twisted comparison
+   has R=𝔽[t,t⁻¹] and differential multiplication by 1+t; this is
+   injective, and its homology R/(1+t) has 𝔽-rank one. Augmenting
+   t↦1 at the chain level produces the rank-two raw complex. Prove the
+   derived coefficient-change/Tor comparison that accounts for the
+   extra class; do not commute homology and nonflat augmentation.
+   These are three distinct theorems, all owned here; none is replaced
+   by the other two or by a bare rank calculation.
 2. **Completed lattice/surgery comparison and its extension problems.**
    The source-backed first theorem is for an integrally weighted spherical
    plumbing TREE G, Y(G)=∂X(G) with outward-boundary orientation, over
@@ -2697,6 +2994,18 @@ Concrete checks that rule out vacuous or mis-stated definitions:
 - **The two definitions meet:** `HF̂(L(p,q))` computed analytically from the genus-1
   diagram agrees with the combinatorial roadmap's Lane H computation: the first
   reconciliation seam crossed end to end.
+- **Pointed adequacy and grading:** reconstruct the based oriented manifold
+  after each disc slide/genus stabilization, while retaining the prescribed
+  basepoint-moving map. Test normalized periodic surfaces and the Chern
+  pairing, relative ℤ versus ℤ/d(s), and the higher-genus sphere-class
+  μ=2,n_z=1 identity; check the balanced sphere μ=2b separately. Normalize
+  HF̂(S³) in absolute degree zero and verify the cobordism degree formula
+  before evaluating d(L(p,q)).
+- **Raw/stable/twisted separation:** the twice-pointed S³ diagram has raw
+  rank two, represents the stable class with one W factor and has twisted
+  differential 1+t with rank-one quotient homology. Verify the augmented
+  chain complex and its nonzero Tor contribution, and that the pointed
+  stabilization/choice-change maps carry the stated coefficient labels.
 
 ## References
 
