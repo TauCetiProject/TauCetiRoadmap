@@ -87,7 +87,6 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeGeometry
-        - NumberFieldArithmetic
         - OneParameterSemigroups
         - OperatorAlgebraDynamics
         - OperatorTheory
@@ -107,6 +106,7 @@ body:
         - ProfiniteProPGroups
         - QuadraticFormInvariants
         - QuantumGroups
+        - Rank24LatticeConstructions
         - RealAlgebraicGeometry
         - ReductiveGroups
         - ReflectionInvariantTheory
