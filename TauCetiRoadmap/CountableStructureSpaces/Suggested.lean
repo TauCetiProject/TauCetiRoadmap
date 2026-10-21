@@ -14,8 +14,8 @@ neither finishes a layer nor the roadmap.
 The infinitary syntax, back-and-forth relation and Scott analysis are imported from the
 InfinitaryLogic roadmap's prototype (`TauCetiRoadmap.InfinitaryLogic`), whose Tau Ceti
 implementation lives under `TauCeti/ModelTheory/{Infinitary,BackAndForth,Scott}`. Two declarations
-below, `PCMem` and `pcSeparation`, are stand-ins for the InfinitaryModelExistence roadmap and are
-marked as such. The PC sentence of a tree is recorded by its specification
+below, `PCMem` and `pcSeparation`, are stand-ins for the InfinitaryModelExistence roadmap, marked
+with their owner and the owner's revision they were checked against. The PC sentence of a tree is recorded by its specification
 (`exists_pcSentence`); the README gives its explicit construction. Names and namespaces are
 provisional.
 -/
@@ -602,6 +602,13 @@ theorem measurableSet_iso_inter_iff_exists_bfLevel [L.IsRelational]
   sorry
 
 /-! ## Layer 5: the López–Escobar theorem -/
+
+/-! ### Stand-ins owned by InfinitaryModelExistence
+
+Owner: the InfinitaryModelExistence roadmap (TauCetiRoadmap #1315), Layer 7. Declarations: `PCMem`,
+`pcSeparation`. Checked against revision 6da153fb of that roadmap. These copies are prototype
+scaffolding, so that this file compiles without the owner's prototype; the owner's declarations are
+authoritative and are the only ones Tau Ceti implements. -/
 
 /-- **Stand-in for `PCMem` of the InfinitaryModelExistence roadmap**: `M` itself, on the same
 carrier, expands along `g` to a model of `Θ`. -/

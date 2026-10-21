@@ -169,7 +169,12 @@ action on every carrier with `orbitRel_iff_nonempty_equiv`, `structureIsoSetoidO
 `structureIsoSetoid_le_bfEquivSetoid`; `scottHeight` with `scottHeight_lt_omega_one`,
 `scottHeight_congr`, `scottHeight_le_internalScottRank_add_omega0` and
 `nonempty_equiv_of_bfEquiv_of_scottHeight_le`; `exists_sentence_separating`; and
-`exists_uniform_bfSeparation`.
+`exists_uniform_bfSeparation`. This roadmap owns that interface. The CountableModelCounting
+prototype reproduces its definitions as marked stand-ins, each recording the revision of this
+roadmap it was checked against. The copies are prototype scaffolding, not authorization to
+implement a parallel API in Tau Ceti. Changes to the interface here are propagated to the copies
+and rechecked by substituting these declarations for them, until the consumer imports them
+directly.
 
 The following Mathlib proposal fixes the shape of targets here. Those targets are built in Tau
 Ceti now, named and stated as the proposal does, and replaced by Mathlib's declarations when it
@@ -701,7 +706,8 @@ These belong to separate roadmaps.
   ([Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726)) supplies the
   extension axioms of worked example 4.
 - **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)). The single dependency is `pcSeparation`, with `PCMem`, as stated
-  under ownership. Its application here uses relational PC sentences whose models are countable by
+  under ownership. That roadmap owns both; `Suggested.lean` carries copies of its current proposed
+  declarations as stand-ins, which are prototype scaffolding only. Its application here uses relational PC sentences whose models are countable by
   construction, so it needs neither Löwenheim–Skolem, nor graph translation, nor that roadmap's
   boundedness of well-ordered models.
 - **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)). This roadmap consumes exactly four general results of that
