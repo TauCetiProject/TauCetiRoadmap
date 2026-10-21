@@ -150,9 +150,14 @@ This roadmap owns the objects in the layers below. Its sibling roadmaps consume 
   relational and countable instances of `morleyize`, `nonempty_morleyEquiv_iff`,
   `Theoryω.conjunction`, `smallPresentation` and `smallPresentationEquiv`.
 
-The signatures of `PCMem`, `pcSeparation`, `onBoundedFormulaInf`, `realize_onBoundedFormulaInf`,
-`infinitaryType` and `realizedTypes` are copied by the sibling roadmaps and are fixed as in
-`Suggested.lean`.
+This roadmap owns these interfaces. The sibling prototypes reproduce the current proposed
+declarations of `PCMem`, `pcSeparation`, `onBoundedFormulaInf`, `realize_onBoundedFormulaInf`,
+`infinitaryType`, `realizedTypes`, `morleyize`, `lhomMorleyize`, `morleyExpansion`,
+`morleyize_isRelational`, `countable_relations_morleyize` and `nonempty_morleyEquiv_iff` as marked
+stand-ins, each recording the revision of this roadmap it was checked against. The copies are
+prototype scaffolding, not authorization to implement a parallel API in Tau Ceti. Changes to the
+interface here are propagated to the copies and rechecked by substituting these declarations for
+them, until the consumers import this roadmap's declarations directly.
 
 ## Layer 0: the signature calculus of infinitary formulas
 
@@ -681,7 +686,7 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
   every nonempty member of the first class and fails in every nonempty member of the second, in
   every universe. The hypothesis is only about countable structures `M : Type` (by Layer 2), and
   the conclusion holds for nonempty `M : Type w`; this is the interface the López–Escobar theorem
-  of CountableStructureSpaces consumes, so its signature is fixed as in `Suggested.lean`.
+  of CountableStructureSpaces consumes, and its proposed signature is in `Suggested.lean`.
 
   Route. Work in `L⁺ := L.sum (L₁.sum L₂)`, where the two new vocabularies are disjoint even when
   `L₁ = L₂`. Let `Θ₁⁺` and `Θ₂⁺` be the images of `Θ₁` and `Θ₂` along
