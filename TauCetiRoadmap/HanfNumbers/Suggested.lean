@@ -330,13 +330,17 @@ section Hanf
 
 variable {L : FirstOrder.Language.{u, v}}
 
-/-- A sentence has arbitrarily large models in the universe `w`. -/
+/-- A sentence has arbitrarily large models in the universe `w`. From `κ = 1` on these models are
+nonempty, so no nonemptiness condition is needed here. -/
 def HasArbLargeModels (φ : Sentenceω L) : Prop :=
   ∀ κ : Cardinal.{w}, ∃ (M : Type w) (_ : L.Structure M), SentenceInf.Realize φ M ∧ κ ≤ #M
 
-/-- `κ` is a Hanf bound for `φ`: a model of size at least `κ` forces arbitrarily large models. -/
+/-- `κ` is a Hanf bound for `φ`: a nonempty model of size at least `κ` forces arbitrarily large
+models. Empty models are not counted, so that Hanf bounds and Hanf numbers are invariant under
+language expansion: otherwise `∀x ⊥` over the empty language would have Hanf number `1` and its
+image in a language with a constant, which has no model, Hanf number `0`. -/
 def IsHanfBound (φ : Sentenceω L) (κ : Cardinal.{w}) : Prop :=
-  (∃ (M : Type w) (_ : L.Structure M), SentenceInf.Realize φ M ∧ κ ≤ #M) →
+  (∃ (M : Type w) (_ : L.Structure M), Nonempty M ∧ SentenceInf.Realize φ M ∧ κ ≤ #M) →
     HasArbLargeModels.{u, v, w} φ
 
 /-- The Hanf number of a sentence: its least Hanf bound. -/

@@ -92,8 +92,14 @@ only through the upper bound and the existence of a global Hanf bound.
    cardinality. At `κ = ℶ_ω₁` the two forms agree, since the `ℶ_α` with `α < ω₁` are cofinal below
    `ℶ_ω₁`. `IsHanfBound` (Convention 6) is the single-model form, implied by the cofinal one.
 6. **Arbitrarily large models.** `HasArbLargeModels φ` means a model of cardinality at least `κ`
-   for every `κ : Cardinal.{w}`; `IsHanfBound φ κ` means that a model of cardinality at least `κ`
-   implies `HasArbLargeModels φ`; `hanfNumber φ` is the least Hanf bound.
+   for every `κ : Cardinal.{w}` (these models are nonempty from `κ = 1` on); `IsHanfBound φ κ`
+   means that a **nonempty** model of cardinality at least `κ` implies `HasArbLargeModels φ`;
+   `hanfNumber φ` is the least Hanf bound. The Hanf predicates count nonempty models only, as
+   IME's satisfiability conventions do. With empty models counted, the Hanf number would not be
+   invariant under language expansion: over the empty language `∀x ⊥` has only the empty model
+   and Hanf number `1`, while its image in a language with one constant has no model and Hanf
+   number `0`. The Ehrenfeucht–Mostowski construction of Layer 2 still allows empty index orders
+   and empty structures.
 7. **Complete sentences** are semantic: `σ` is complete when, for every Lω₁ω sentence `ψ` of the
    same language, all models of `σ` satisfy `ψ` or all satisfy `¬ψ`. `κ`-categoricity of `φ` means
    any two models of `φ` of cardinality `κ` are isomorphic (`M ≃[L] N`).
@@ -529,7 +535,9 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Defs, Approximation, Morle
 cardinal bounds all its models); `hanfNumber_isHanfBound`, `hanfNumber_le_of_isHanfBound`,
 `hanfNumber_le_iff_isHanfBound` and `lt_hanfNumber_iff_not_isHanfBound`; invariance of all three
 notions under sentence equivalence and under `onBoundedFormulaInf` along an injective language map
-(IME 0.1).
+(IME 0.1). The invariance uses that the Hanf predicates count only nonempty models (Convention 6):
+a nonempty model of `φ` expands to a model of its image, interpreting the new symbols arbitrarily,
+and a model of the image restricts to a model of `φ` on the same carrier.
 
 ### 3.2 Reduction to a countable Skolemized setting
 
@@ -669,8 +677,8 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Global, Ladder, VonNeumann
 `Language.{u, v}`. `lomega1omegaHanfNumber` is the least such cardinal. Targets:
 `beth_omega_one_isLω₁ωHanfBound` (from `morley_hanf`), the attained infimum, the universal property
 `lomega1omegaHanfNumber_le_iff`, and the bounded-spectrum criterion
-`lt_lomega1omegaHanfNumber_of_maximal_model`: a sentence with a model of cardinality at least `κ`
-and no model of cardinality greater than `κ` shows `κ < lomega1omegaHanfNumber`.
+`lt_lomega1omegaHanfNumber_of_maximal_model`: a sentence with a nonempty model of cardinality at
+least `κ` and no model of cardinality greater than `κ` shows `κ < lomega1omegaHanfNumber`.
 
 ### 4.2 The beth ladder
 
