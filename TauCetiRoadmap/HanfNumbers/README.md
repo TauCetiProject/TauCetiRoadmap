@@ -878,8 +878,11 @@ The following belong to separate roadmaps.
   effective topology; the coanalytic form of Silver's theorem and Burgess's dichotomy for analytic
   equivalence relations: a separate roadmap.
 - Admissible sets, Barwise compactness and Nadel's bound; Scott processes; Lκλ for `κ > ω₁` beyond
-  what L∞ω gives; many-sorted logic; relationalization of function and constant symbols;
-  effective and computable Scott analysis.
+  what L∞ω gives; many-sorted logic; effective and computable Scott analysis.
+- Transfer of Karp theory, back-and-forth analysis and Scott ranks across the graph translation of
+  function and constant symbols. The translation and its semantic API belong to
+  InfinitaryModelExistence (its Layer 6); the transfer is outside this series of roadmaps and must
+  reuse that API.
 - Hanf numbers of other logics (Lκω for `κ > ω₁`, logics with generalized quantifiers), Löwenheim
   numbers, two-cardinal theorems, and the theory of abstract elementary classes, including Shelah's
   categoricity transfer for Lω₁ω.
