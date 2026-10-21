@@ -393,7 +393,9 @@ uniqueness of almost-split sequences; (6F) the AR quiver. The `τ = D Tr` compos
 definition: it is well-defined only up to projectives, through minimal presentations and duality on
 finite-dimensional modules, so 6B-6D are prerequisites. The single acceptance target of this roadmap is
 the **AR quiver of a representation-finite algebra** (finite, computable); the general almost-split
-existence theorem is stated but flagged as the deep sublayer.
+existence theorem is stated but flagged as the deep sublayer. The generalization of this layer to
+Artin algebras over a commutative Artinian ring, and to Krull-Schmidt exact categories, is the
+[Artin algebras](../ArtinAlgebras/README.md) roadmap; the statements here are its case `R = k`.
 
 - **Irreducible morphisms.** `IsIrreducibleMorphism f`: `f` is neither a split mono nor a split epi, and
   in every factorization `f = h ∘ g` either `g` is a split mono or `h` is a split epi. The **radical**
