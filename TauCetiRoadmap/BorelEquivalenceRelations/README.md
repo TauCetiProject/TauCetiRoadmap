@@ -318,16 +318,17 @@ a comeagre set (second factor second countable) is part of the API.
 meagre for every `n`. There is a continuous injection `f : (ℕ → Bool) → X` such that for every
 `n` and every injective `a : Fin (k n) → (ℕ → Bool)`, the tuple `f ∘ a` is not in `R n`.
 
-Write each complement as a countable intersection of dense open sets and build, by recursion on
-levels, a scheme of nonempty open sets with closures shrinking to diameter at most `2⁻ⁿ` in a
-compatible complete metric. At level `m` each node splits into two children with disjoint
-closures, and then a finite fold over the injective `k`-tuples of distinct level-`m` nodes
-shrinks them so that the product of their closures lies in the first `m` dense open sets of every
-relation `R n` with `n ≤ m`. The induced map of the scheme (`CantorScheme.inducedMap`) is total,
-continuous and injective, and avoids every `R n` on injective tuples, because two distinct
-branches lie in distinct nodes from their first difference on. Avoidance holds only in the limit:
-a dense meagre relation meets every product of open sets, so no finite stage avoids it. This is
-why the construction does not factor through `CantorScheme.exists_antichain_map`.
+Cover each `R n` by countably many closed nowhere-dense sets; their complements are dense open sets
+whose intersection is contained in the complement of `R n` (the complement itself need not be `Gδ`).
+Then build, by recursion on levels, a scheme of nonempty open sets with closures shrinking to
+diameter at most `2⁻ⁿ` in a compatible complete metric. At level `m` each node splits into two
+children with disjoint closures, and then a finite fold over the injective `k`-tuples of distinct
+level-`m` nodes shrinks them so that the product of their closures lies in the first `m` dense open
+sets of every relation `R n` with `n ≤ m`. The induced map of the scheme (`CantorScheme.inducedMap`)
+is total, continuous and injective, and avoids every `R n` on injective tuples, because two distinct
+branches lie in distinct nodes from their first difference on. Avoidance holds only in the limit: a
+dense meagre relation meets every product of open sets, so no finite stage avoids it. This is why
+the construction does not factor through `CantorScheme.exists_antichain_map`.
 
 Corollaries: `mycielski_cantor`, the binary case on Cantor space for one meagre
 `M ⊆ (ℕ → Bool) × (ℕ → Bool)`; and a meagre equivalence relation on a nonempty perfect Polish
