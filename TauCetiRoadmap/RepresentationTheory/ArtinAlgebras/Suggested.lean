@@ -142,6 +142,21 @@ end Finiteness
 
 /-! ## Layer 6: the Morita-Tachikawa and Auslander correspondences -/
 
+section GlobalDimension
+
+/-- **The left global dimension** of an arbitrary ring: the supremum of the projective dimensions
+of all left modules. The right global dimension is `leftGlobalDimension Aᵐᵒᵖ`. -/
+noncomputable def leftGlobalDimension (A : Type u) [Ring A] : WithBot ℕ∞ :=
+  ⨆ X : ModuleCat.{u} A, projectiveDimension X
+
+/-- **Auslander**: over a ring that is left and right Noetherian, the left and right global
+dimensions agree. -/
+theorem leftGlobalDimension_mulOpposite (A : Type u) [Ring A] [IsNoetherianRing A]
+    [IsNoetherianRing Aᵐᵒᵖ] : leftGlobalDimension Aᵐᵒᵖ = leftGlobalDimension A :=
+  sorry
+
+end GlobalDimension
+
 section Auslander
 
 variable (R : Type u) [CommRing R] [IsArtinianRing R] (A : Type u) [Ring A] [Algebra R A]

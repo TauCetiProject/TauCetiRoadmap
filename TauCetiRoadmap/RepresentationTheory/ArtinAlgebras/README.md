@@ -75,7 +75,8 @@ conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/Ar
   conflations and Auslander-Reiten duality.
 - Outside this roadmap: Auslander-Reiten triangles, Serre functors, derived categories and
   extriangulated categories; tilting and τ-tilting theory; covering theory; modules that are not
-  finitely generated.
+  finitely generated, except in the definition of global dimension; and dominant dimension of
+  rings other than Artin algebras, together with its variants through flat modules.
 
 ## Standing conventions
 
@@ -143,7 +144,10 @@ conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/Ar
   `mod Aᵐᵒᵖ`; it exchanges projectives and injectives, and `D_R A` is an injective cogenerator of
   `mod A`. The **Nakayama functor** `ν = D_R ∘ Hom_A(-, A)` is an equivalence from finitely generated
   projective to finitely generated injective `A`-modules, sending the projective cover of a simple
-  module to its injective hull.
+  module to its injective hull. Every finitely generated `A`-module `M` has a finitely generated
+  injective hull, `D_R` of a projective cover of the right module `D_R M`
+  (`TauCeti.IsInjectiveEnvelope`), and hence a minimal injective coresolution by finitely generated
+  injective modules.
 
 ### Layer 2: `Ext¹` and almost-split conflations in exact categories
 
@@ -171,7 +175,9 @@ conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/Ar
   indecomposable object that is not injective; (b) there is an Auslander-Reiten duality. In that case
   the almost-split conflation ending at `Z` is `τ Z ↪ Y ↠ Z`, and `τ` is a bijection from the
   isomorphism classes of indecomposable non-projective objects to those of indecomposable
-  non-injective objects.
+  non-injective objects. For exact categories this is Enomoto, *Classifications of exact
+  structures and Cohen-Macaulay-finite algebras*, Appendix A, and the exact-category case of
+  Iyama-Nakaoka-Palu.
 
 ### Layer 3: Auslander-Reiten theory of Artin algebras
 
@@ -241,12 +247,18 @@ conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/Ar
   `R`-algebra, since `M ⟶ M` is finitely generated over `R`.
 - **The double centralizer.** If `M` is a generator of `mod A`, the action map
   `A → Module.End Γ M` is an isomorphism.
-- **Global dimension.** The global dimension of an Artin algebra is the supremum of the projective
-  dimensions (Mathlib's `CategoryTheory.projectiveDimension`) of its finitely generated modules. It
-  equals the supremum over the finitely many simple modules, and bounds the projective dimension of
-  every module.
+- **Global dimension of a ring.** For an arbitrary ring `A`, the **left global dimension** is the
+  supremum of the projective dimensions (Mathlib's `CategoryTheory.projectiveDimension` in
+  `ModuleCat A`) of all left `A`-modules, and the **right global dimension** is the left global
+  dimension of `Aᵐᵒᵖ`. Auslander's theorems: the left global dimension is the supremum over the
+  cyclic modules `A ⧸ I`; for a left Noetherian ring it is the supremum over the finitely generated
+  modules; for a ring that is left and right Noetherian the left and right global dimensions agree;
+  and for a semiprimary ring, in particular an Artin algebra, both equal the projective dimension of
+  `A ⧸ J(A)`, the supremum over the simple modules. For Artin algebras the global dimension is
+  written `gl.dim`.
 - **Dominant dimension.** For an Artin algebra `Γ` with minimal injective coresolution
-  `0 → Γ → I⁰ → I¹ → ⋯` of the regular module, `dom.dim Γ ≥ n` when `I⁰, …, Iⁿ⁻¹` are projective.
+  `0 → Γ → I⁰ → I¹ → ⋯` of the regular module (Layer 1), `dom.dim Γ ≥ n` when `I⁰, …, Iⁿ⁻¹` are
+  projective.
   For `n = 1`, this says that `Γ` embeds in a projective-injective module.
 - **The Morita-Tachikawa correspondence.** If `M` is a generator-cogenerator of `mod A` (every
   indecomposable projective and every indecomposable injective is a summand of `M`), then
@@ -294,6 +306,9 @@ additive generator.
 
 ## References
 
+- M. Auslander, *On the dimension of modules and algebras III. Global dimension*, Nagoya Math. J.
+  9 (1955), 67–77: global dimension from cyclic modules, left and right global dimension of
+  Noetherian and semiprimary rings.
 - M. Auslander, *Representation dimension of Artin algebras*, Queen Mary College Mathematics
   Notes, London (1971): the Auslander correspondence.
 - M. Auslander, *Representation theory of Artin algebras II*, Comm. Algebra 1 (1974), 269–310:
@@ -308,6 +323,8 @@ additive generator.
   Algebras*, Vol. 1, London Mathematical Society Student Texts 65, Cambridge University Press
   (2006), Chapter IV.
 - T. Bühler, *Exact categories*, Expo. Math. 28 (2010), 1–69: `Ext¹` and the long exact sequences.
+- H. Enomoto, *Classifications of exact structures and Cohen-Macaulay-finite algebras*, Adv. Math.
+  335 (2018), 838–877, arXiv:1705.02163: Appendix A, Auslander-Reiten theory of exact categories.
 - M. Harada, Y. Sai, *On categories of indecomposable modules I*, Osaka J. Math. 7 (1970),
   323–344.
 - O. Iyama, H. Nakaoka, Y. Palu, *Auslander-Reiten theory in extriangulated categories*,
