@@ -703,6 +703,11 @@ The following belong to separate roadmaps.
   `exists_invariant_measurableSet_separating` (Layer 2.2), for separation invariant under the
   logic action, since the orbit equivalence relation of a continuous action of a Polish group
   is analytic.
+- **Ownership of the consumed interface.** This roadmap owns the interface of 4.3 and the four
+  results above. The CountableModelCounting prototype writes the perfect-set vocabulary out inline
+  instead of copying it. Those inline forms are prototype scaffolding, not authorization to
+  implement a parallel API in Tau Ceti. Changes to the interface here are propagated to them and
+  rechecked by substituting this roadmap's declarations, until the consumer imports them directly.
 - **Mathlib.** The proposals listed under *Existing library and ownership* fix the shape of the
   Kuratowski–Ulam, Gδ, Borel-graph and perfect-space targets. They are design references, not
   assumptions that their code has merged. Mathlib's closed-set Cantor–Bendixson decomposition is
