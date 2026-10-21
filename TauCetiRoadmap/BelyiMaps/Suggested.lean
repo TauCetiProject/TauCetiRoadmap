@@ -456,17 +456,19 @@ example : s3Triple.σinf ^ 5 * s3Triple.σ1 ^ 5 * s3Triple.σ0 ^ 5 ≠ 1 := by d
 
 /-
 /-- **Layer 12.12, the class-by-class ingredients.** What survives the counterexample above
-is a statement about **conjugacy classes**, one slot at a time, and passport invariance
-follows from these two finite facts alone. Powering by a unit modulo the order preserves the
-full cycle type... -/
+is a statement about **conjugacy classes**, one slot at a time. The cycle-type ingredient
+is separate from the whole-representation precomposition/image comparison in README12.12;
+these finite power facts alone do not prove monodromy/passport invariance. Powering by a
+unit modulo the order preserves the full cycle type... -/
 theorem fullCycleType_pow_of_coprime {α : Type u} [Fintype α] [DecidableEq α]
     (σ : Equiv.Perm α) {k : ℕ} (hk : Nat.Coprime k (orderOf σ)) :
     (σ ^ k).fullCycleType = σ.fullCycleType := by
   sorry
 -/
 
-/-- ...and it does not change the generated subgroup, which is why the monodromy group is a
-Galois invariant. -/
+/-- Common powers by a unit modulo the group exponent preserve this generated subgroup.
+This does not permit independently chosen conjugators. Galois monodromy invariance uses
+README12.12's whole-representation image comparison, with its left/right transport pinned. -/
 theorem closure_pow_eq (t : PermutationTriple n) {k : ℕ}
     (hk : Nat.Coprime k (Monoid.exponent t.monodromyGroup)) :
     Subgroup.closure {t.σ0 ^ k, t.σ1 ^ k} = t.monodromyGroup := by
@@ -557,9 +559,10 @@ example (t : PermutationTriple n) :
 
 /-- **Layer 1.6.** The stable part of a passport label, its degree, `nTj` group and three
 partitions, is `TauCeti.PassportLabel`, and its semantics is `TauCeti.PassportSpec.HasLabel`
-through PolynomialGaloisGroups' `TauCeti.TransitiveGroupLabel`. Layer 1.6 covers degrees at
-most five, where Tau Ceti's reference data (`TauCeti.numTransitiveGroups`) stops; degrees six
-and above are outside this roadmap. -/
+through PolynomialGaloisGroups' `TauCeti.TransitiveGroupLabel`. The pinned native reference
+family stops at degree five. README1.6 and the reciprocal PolynomialGaloisGroups1D contract
+require its same-carrier extension through degree eleven; no element of the current empty
+higher index is asserted here. This existing generic interface is preserved verbatim. -/
 example (P : PassportSpec n) (L : PassportLabel n) :
     P.HasLabel L ↔
       TransitiveGroupLabel L.group P.G ∧ P.lam0 = L.lam0 ∧ P.lam1 = L.lam1 ∧
@@ -1252,10 +1255,11 @@ theorem ConnectedFiberNumberedCover.isRegular_iff
 end Deck
 /-! ## Deferred compact-Riemann-surface crossing
 
-The analytic carrier, ramification API, and Riemann–Roch/Riemann–Hurwitz interfaces are not
-prototyped until the compact-Riemann-surface owner publishes a compiled carrier and theorem
-names. The former local interfaces are intentionally disabled rather than presented as supplier
-declarations. -/
+README8–9 specifies the full analytic carrier, ramification, local-DVR and
+Riemann–Roch/Riemann–Hurwitz targets on their named owners. The signatures below are
+historical sketches, disabled to avoid exporting private replacement carriers. The
+mathematical targets are required; their specification and construction do not wait for
+another owner's implementation. New consumers use that owner's actual carrier when stated. -/
 
 /-
 

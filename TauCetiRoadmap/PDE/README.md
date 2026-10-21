@@ -77,6 +77,15 @@ ellipticity is the case that does earn a named definition: its two-sided bound
 
 ## Getting the statements right
 
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G3–G6, extends this roadmap's
+weak-derivative and `W¹,¹` APIs to distributional BV, finite perimeter, scalar coarea, BV
+compactness, and BV traces. Lane A retains ownership of Sobolev spaces, smooth density,
+Sobolev Poincaré and domain trace/extension theory; GMT proves agreement of its BV versions
+with those canonical constructions. [Isoperimetry](../Isoperimetry/README.md), I3 and I5,
+owns sharp periodic Wirtinger with equality, and the sharp whole-space BV Sobolev inequality
+with its extremizers. Lane A's general embedding and nonsharp estimates are independent
+of those sharp results; no second weak-derivative or trace definition is introduced.
+
 A few cross-cutting rules for the *shape* of a PDE statement: which hypotheses it carries
 and which notion it names. These recur across the lanes below, and getting them right at
 statement time is what keeps the formalized API reusable.
@@ -198,7 +207,9 @@ statement time is what keeps the formalized API reusable.
   theorem.
 - **Parabolic & evolution equations:** Bochner spaces `L²(0,T;H)`, the Gelfand triple
   `V ↪ H ↪ V*`, the **Galerkin method**, existence for linear parabolic equations, the
-  parabolic maximum principle, the **heat semigroup** and **Hille–Yosida**.
+  parabolic maximum principle, the **heat semigroup** and **Hille–Yosida**. Lane F also
+  owns bounded parabolic Hölder spaces, classical whole-space Schauder theory,
+  uniformly continuous traces and spatial weights.
 
 ---
 
@@ -234,7 +245,22 @@ Almost everything downstream waits on this, so do it first and do it right.
    and **Rellich–Kondrachov**: `W^{1,p}(Ω) ↪↪ L^p(Ω)` **compact** for bounded `Ω` (via
    Fréchet–Kolmogorov / Arzelà–Ascoli). This is the keystone for Lane D and the
    eigenvalue theory.
+   This lane owns the common Lipschitz-domain predicate for open Euclidean sets: at each
+   frontier point, after an affine isometry, the domain in an open product cylinder is
+   the region above a Lipschitz graph over a hyperplane. Supply restriction to smaller
+   charts, rigid-coordinate transport, and positive dilation; for bounded domains supply
+   a finite chart cover with explicit Lipschitz constants. Use normalized Euclidean
+   Hausdorff measure `μHE[n−1]` on the frontier. GMT G6 consumes this predicate for BV
+   traces and proves its surface-measure comparisons. The chart-integration formulas for
+   Sobolev traces consume GMT G2's area formula, independently of G6's BV trace comparison.
+   `C¹` domains satisfy it by a
+   proved local-graph comparison; cone conditions are separate hypotheses and do not
+   redefine the Lipschitz predicate.
 7. **Hölder spaces `C^{k,α}(Ω)`** as Banach spaces, the target spaces for Schauder.
+   Include the bounded global variant `C_b^{k,α}(ℝⁿ)`: its norm is the sum of the
+   supremum norms of spatial derivatives through k and the spatial α seminorm of
+   the kth derivative, using continuous multilinear operator norms for iterated
+   Fréchet derivatives. Lane F consumes these spatial trace spaces.
 
 ### Lane B: harmonic-analysis estimates
 
@@ -323,6 +349,179 @@ classical elliptic theory (Schauder, De Giorgi–Nash–Moser).
     maximum principle.
 26. **Semigroups.** The **heat semigroup**, generators, and **Hille–Yosida**; the heat
     kernel on `ℝⁿ` (consume the Fourier transform) and the smoothing estimates.
+27. **Classical whole-space parabolic Schauder theory.** Work with scalar real
+    functions on `Q=ℝⁿ×[0,T]`, `T>0`, and fix `0<α<1`. Build the following
+    interfaces in order; all estimates are global in the spatial variable.
+
+    **F27.1 Spaces, calculus and traces.** Use the parabolic distance
+    `d_par((x,t),(y,s))=‖x−y‖+√|t−s|`. Reuse Mathlib's
+    [`Metric.Snowflaking`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/MetricSpace/Snowflaking.html#Metric.Snowflaking)
+    for time, the native [`WithLp 1` product metric](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Lp/ProdLp.html#WithLp.instProdMetricSpace), and
+    [`HolderOnWith`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/MetricSpace/Holder.html#HolderOnWith).
+    Transport a function through the coordinate homeomorphism to ordinary
+    Euclidean space-time before differentiating. Spatial derivatives are
+    `iteratedFDeriv ℝ` with their continuous multilinear operator norms.
+    On every nondegenerate closed slab `[a,b]`, time derivatives use
+    `derivWithin` on `Icc a b`, agreeing with interior derivatives and their
+    continuous one-sided endpoint extensions; prove this agreement and
+    uniqueness. Supply restriction and time reversal using the same carriers.
+
+    Use native [`BoundedContinuousFunction`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/ContinuousMap/Bounded/Basic.html#BoundedContinuousFunction) (`→ᵇ`) for bounded continuous
+    derivative maps. For a map v on the slab subtype, use
+    [`eHolderNorm α v`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/MetricSpace/HolderNorm.html#eHolderNorm); require its finiteness (`MemHolder α v`) before
+    taking its real value, denoted `[v]_{α,par}`. Native Hölder exponents are
+    in `ℝ≥0`. Prove `[v]_{α,par}=sup_{z≠z′} ‖v(z)−v(z′)‖/d_par(z,z′)^α`
+    and equivalence with the sum of the separate spatial α and temporal
+    α/2 seminorms. For ordinary time slices, define `[v]_{t,γ}` as the real
+    value of `⨆ x, eHolderNorm γ (fun t : Icc a b ↦ v(x,t))`, again
+    requiring finiteness first. Use this with `γ=(1+α)/2`. For every integer
+    `k≥0`, define `C_{par,b}^{k+α}(Q)` by continuous mixed derivatives
+    `D_t^r D_x^β u` for `2r+|β|≤k`. Prove by Schwarz/Peano induction that
+    every ordering of these factors exists, is continuous on the closed
+    slab and agrees, including the one-sided endpoint derivatives.
+    Its norm is the sum of their supremum norms, the parabolic α seminorms for `2r+|β|=k`, and the separate
+    temporal `(1+α)/2` seminorms for `2r+|β|=k−1` (the last sum is empty
+    for k=0). Here β is a spatial multi-index; prove equivalence with
+    iterated-Fréchet-derivative operator norms. The time seminorms in this
+    definition are required also when k is odd. Prove completeness,
+    continuous inclusions between consecutive orders, restriction, product
+    and bounded multiplication estimates. The k=0 and k=2 spaces are also
+    denoted `C_b^{α,α/2}` and `C_b^{2+α,1+α/2}`.
+
+    In the order-two norm the temporal `(1+α)/2` seminorm of `D_xu` is
+    controlled by `C(n,α)([D_x²u]_{α,par}+[u_t]_{α,par})`; prove this
+    using spatial centered differences at scale `√|t−s|`. Thus the norm
+    obtained by omitting this controlled term is equivalent. For
+    any slab `[a,b]` with `a<b` and `0<ε≤min(1,√((b−a)/2))`, prove the
+    interpolation bounds
+    `‖D_xu‖∞≤C(n)(ε‖D_x²u‖∞+ε⁻¹‖u‖∞)`,
+    `‖D_x²u‖∞≤C(n,α)(ε^α[D_x²u]_{α,par}+ε⁻²‖u‖∞)`, and
+    `‖u_t‖∞≤C(α)(ε^α[u_t]_{α,par}+ε⁻²‖u‖∞)`.
+    Derive absorption of the lower-order spatial/time Hölder norms:
+    `‖u‖_{α,par}+‖D_xu‖_{α,par}≤η‖u‖_{2+α,par}+C(n,α,T,η)‖u‖∞`
+    for every `η>0`, with T replaced by b−a on `[a,b]`; all constants are
+    independent of a. Prove the bounded initial/terminal trace maps into
+    Lane A.7's spatial spaces `C_b^{k,α}(ℝⁿ)`, with its specified norm.
+
+    **F27.2 Classical comparison and heat potentials.** Let
+    `P u=u_t−a^{ij}u_{ij}−b^i u_i−cu`. Assume a symmetric matrix a and
+    `a^{ij},b^i,c∈C_b^{α,α/2}(Q)`, with explicit `0<λ≤Λ` and
+    `λI≤a≤ΛI`. Prove comparison for bounded functions continuous on Q,
+    classical `C^{2,1}` for `t>0`, using a barrier at spatial infinity and
+    a finite-horizon exponential change for c. For bounded f with `Pu≤f`,
+    prove
+    `‖u⁺‖∞≤exp(C_+ T)(‖u(·,0)⁺‖∞+T‖f⁺‖∞)`,
+    where `C_+=max(0,sup_Q c)`; obtain uniqueness by applying comparison
+    to differences. This is the classical whole-space theorem, with its
+    own proof, rather than an inference from the weak Galerkin theorem.
+    Consume Lane F's heat-kernel/semigroup item to construct the Cauchy
+    potential `Γ(t)*u₀` and Duhamel potential `∫₀ᵗΓ(t−s)*f(s)ds`.
+    F27 owns the pointwise kernel estimates used here: for every m,j≥0,
+    `‖∂_t^j D_x^m Γ(x,t)‖≤C(n,m,j)t^{−(n+m+2j)/2}exp(−‖x‖²/(8t))`
+    for t>0, as well as positivity, `∫Γ(t)=1`, and
+    `∫D_x^m Γ(t)=0` for m≥1. Prove integrability and differentiation under
+    these integrals. Prove the potentials' full order-two Hölder estimates
+    and trace attainment,
+    using `∫D²Γ=0` for the differentiated Duhamel term and estimates of
+    both spatial and temporal differences. Reduce each constant symmetric
+    elliptic matrix a₀ to the Laplacian by a linear coordinate change.
+    Prove that `u↦(u_t−a₀^{ij}u_{ij},u(·,0))` is a bounded linear
+    isomorphism from `C_b^{2+α,1+α/2}(Q)` onto
+    `C_b^{α,α/2}(Q)×C_b^{2,α}(ℝⁿ)`. F27 owns this isomorphism and its
+    Hölder estimates; the semigroup item supplies the kernel.
+
+    **F27.3 Variable coefficients and backward problems.** For the
+    coefficients in F27.2 and data `f∈C_b^{α,α/2}(Q)`,
+    `u₀∈C_b^{2,α}(ℝⁿ)`, prove existence and uniqueness in
+    `C_b^{2+α,1+α/2}(Q)`, the equation `Pu=f`, trace `u(·,0)=u₀`, and
+    `‖u‖_{2+α,par}≤K(‖u₀‖_{2,α}+‖f‖_{α,par})`. K depends only on
+    n, α, T, λ, Λ and coefficient norms. Prove freezing, interpolation,
+    absorption and localization with space-time cutoffs and constants
+    independent of the spatial center; obtain a global a priori estimate.
+    Cutoffs near the initial slice equal one at t=0 on the smaller patch,
+    so the localized estimate retains the initial trace.
+    Apply the method of continuity from F27.2's heat operator along a
+    uniformly elliptic coefficient path. The estimate is uniform on the
+    path; invertibility is open by a Neumann series and closed by applying
+    the estimate to differences as the parameter converges. This route
+    uses no bounded-cylinder solvability theorem. Export the resulting
+    bounded linear initial-data isomorphism `u↦(Pu,u(·,0))`.
+
+    With `R(x,s)=(x,T−s)`, prove R is a parabolic isometry, preserves Q,
+    and sends restrictions to the corresponding reversed slabs. If
+    `v=u∘R`, `ã=a∘R`, `b̃=b∘R`, `c̃=c∘R`, and
+    `P_back u=u_t+a^{ij}u_{ij}+b^i u_i+cu`, prove
+    `P_back u=g` iff `P̃v=−g∘R`, with `v(·,0)=u(·,T)`; P̃ is the
+    forward operator with reversed coefficients. Export the terminal-data
+    isomorphism for P_back, including inhomogeneous traces. Prove
+    continuity of the forward and backward inverses in operator norm as
+    a,b,c vary in `C_b^{α,α/2}`, locally on uniformly elliptic sets with
+    fixed ellipticity and coefficient-norm bounds.
+
+    **F27.4 Uniformly continuous traces.** Here `BUC(ℝⁿ)` means the
+    closed vector subspace of `ℝⁿ →ᵇ ℝ` consisting of `UniformContinuous`
+    functions. For such u₀ and the coefficients/forcing of F27.3, construct
+    a bounded continuous solution on Q, classical for `t>0`, with
+    `‖u(·,t)−u₀‖∞→0` as `t↓0` and bounded
+    `C_b^{2+α,1+α/2}` norm on every `[δ,T]`, `0<δ<T`.
+    Prove the quantitative interior target
+    `sup_{0<δ<T} δ^{1+α/2}‖u‖_{2+α,par;[δ,T]}≤C(‖u(·,0)‖∞+‖f‖_{α,par})`
+    first for solutions in the base closed-slab space. C depends only on
+    n, α, T, ellipticity and coefficient norms. Use time cutoffs on
+    `[δ/2,T]`, interpolation at scale `√δ`, and absorption of the weighted
+    supremum. The cutoff forcing `χ′u` requires this interpolation step;
+    its Hölder norm is not bounded by `‖u‖∞` alone. The weighted supremum
+    is finite for each smooth-data approximant before absorption, which
+    makes the bound uniform independently of its higher initial norms.
+    Use uniform smooth approximation, comparison to make solutions
+    uniformly Cauchy, this weighted estimate, and compact-exhaustion
+    derivative convergence. Prove uniqueness among bounded functions
+    continuous on Q and `C^{2,1}` for `t>0` that solve the equation and
+    have the specified initial trace. For a uniformly bounded family
+    `g_i:ℝⁿ →ᵇ ℝ`, assume Mathlib's [`UniformEquicontinuous`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/UniformSpace/Equicontinuity.html#UniformEquicontinuous), namely one
+    common modulus of continuity on all of ℝⁿ. For fixed coefficients and
+    forcing, obtain the quantitative common-modulus estimate
+    `‖u_i(·,t)−g_i‖∞≤C(ω(√t)+t(‖g_i‖∞+‖f‖∞))`,
+    where ω is a nonnegative nondecreasing common modulus with
+    `‖g_i(x)−g_i(y)‖≤ω(‖x−y‖)` and `ω(r)→0` as `r↓0`.
+    Prove it by compactly supported unit-mass mollification at scale
+    `√t` and classical comparison, including the first/second derivative
+    bounds of the mollifications from ω. Thus
+    `sup_i ‖u_i(·,t)−g_i‖∞→0` and positive-time estimates are uniform
+    over the family. Transport this version by time reversal.
+
+    **F27.5 Every derivative order.** For every integer `k≥0`, take
+    `a,b,c,f∈C_{par,b}^{k+α}(Q)` in the full norm of F27.1, the same
+    ellipticity, and `u₀∈C_b^{k+2,α}(ℝⁿ)`. Prove that the initial and
+    terminal operators are isomorphisms between `C_{par,b}^{k+2+α}(Q)`
+    and `C_{par,b}^{k+α}(Q)×C_b^{k+2,α}(ℝⁿ)`, with estimates and
+    coefficient/data dependence in these norms. Start the higher-space
+    method of continuity from the heat potentials with the corresponding
+    higher estimates. Prove the inductive a priori estimate for functions
+    already in the higher space, absorbing lower terms via F27.1.
+    Spatial differentiation reduces the order by one; use the equation
+    to recover time derivatives and their temporal Hölder seminorms.
+    Combine this estimate with higher-space continuity and base-space
+    uniqueness. A separate regularity proof uses spatial difference
+    quotients and the equation, with passage to the derivative limits and
+    continuous one-sided endpoint traces. No extra boundary compatibility
+    is needed on the whole space. Smooth data and coefficients whose derivatives
+    of every required order are bounded and Hölder give solutions in
+    every finite-order space. Export the corresponding positive-time
+    estimates for F27.4.
+
+    **F27.6 Spatial weights.** Let w(x)>0 be smooth and time-independent,
+    with bounded, α-Hölder derivatives of `log w` of positive orders
+    1 through `k+2`. There is no boundedness requirement on `log w`
+    itself. Define the weighted class by `v=u/w∈C_{par,b}^{k+2+α}(Q)`.
+    Prove `(Pu)/w=P_w v` with unchanged a and
+    `b_w^i=b^i+2a^{ij}∂_j log w`,
+    `c_w=c+a^{ij}(∂_{ij} log w+∂_i log w ∂_j log w)+b^i∂_i log w`.
+    The forcing and trace become `f/w` and `u₀/w`. Prove these transformed
+    coefficients belong to the required Hölder spaces, then transport
+    the estimates, inverses, BUC trace theorem in the weighted uniform
+    norm `‖u/w‖∞`, and time reversal.
+    Include `w(x)=1+exp(x)` in dimension one, in every finite order.
 
 ### Stretch goals (state once the lanes above are solid)
 
@@ -361,6 +560,9 @@ Concrete sanity checks that rule out vacuous or mis-stated definitions:
 - L. C. Evans, *Partial Differential Equations*, the default modern graduate text;
   Sobolev spaces (Ch. 5), second-order elliptic (Ch. 6), parabolic/Galerkin (Ch. 7),
   semigroups (Ch. 7), Hamilton–Jacobi & conservation laws.
+- A. Lunardi, [*Linear and nonlinear diffusion problems*](https://people.dmi.unipr.it/alessandra.lunardi/LectureNotes/Cortona2004.pdf),
+  Cortona lecture notes (2004), Corollary 4.2.10: the whole-space heat Cauchy problem
+  in parabolic Hölder spaces; Chapter 3 supplies the interpolation framework.
 - D. Gilbarg, N. Trudinger, *Elliptic Partial Differential Equations of Second Order*:
   maximum principles (Ch. 3), Schauder (Ch. 6), `Lᵖ` theory (Ch. 9), De Giorgi–Nash–Moser
   (Ch. 8); the canonical elliptic reference.

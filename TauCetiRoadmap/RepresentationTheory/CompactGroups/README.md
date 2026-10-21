@@ -323,7 +323,11 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   proved *without* assuming point separation (which is Peter-Weyl itself). Split it into explicit,
   individually non-circular lemmas:
   - `convolutionOperator k : Lp ℂ 2 (haarProb G) →L[ℂ] Lp ℂ 2 (haarProb G)`, `f ↦ k * f`;
-  - `convolutionOperator_isCompact` - the operator is compact (`IsCompactOperator`);
+  - `convolutionOperator_isCompact` - the operator is compact (`IsCompactOperator`), which
+    consumes the Hilbert–Schmidt operator API and "Hilbert–Schmidt ⇒ compact" of
+    [`OperatorTheory/OperatorIdeals`](../../OperatorTheory/OperatorIdeals/README.md) Part C;
+    the remaining step, "continuous kernel on a compact space ⇒ Hilbert–Schmidt integral
+    operator", is kernel theory and stays here;
   - `convolutionOperator_isSelfAdjoint` for a symmetric kernel `k g⁻¹ = conj (k g)`;
   - `nonzero_eigenspace_finite_dim_continuous_rep` - each nonzero eigenspace is
     finite-dimensional (Mathlib's `IsCompactOperator.finite_dimensional_eigenspace`, pinned as
