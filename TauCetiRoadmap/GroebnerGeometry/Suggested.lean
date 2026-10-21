@@ -180,7 +180,9 @@ def fourLeafPlucker : MvPolynomial (Fin 6) R :=
   MvPolynomial.X 0 * MvPolynomial.X 5 -
     MvPolynomial.X 1 * MvPolynomial.X 4 + MvPolynomial.X 2 * MvPolynomial.X 3
 
-/-- G4's parameter has the toric fibre at zero. -/
+/-- G4's parameter has the toric fibre at zero. The affine family is the primary target. Its
+projective Hilbert-polynomial/K₀ consequences use a standard degree-one presentation, or the
+README's explicit sufficiently-divisible Veronese with actual polarization comparisons. -/
 def split12Family : Polynomial (MvPolynomial (Fin 6) R) :=
   Polynomial.C (MvPolynomial.X 1 * MvPolynomial.X 4 -
     MvPolynomial.X 2 * MvPolynomial.X 3) -

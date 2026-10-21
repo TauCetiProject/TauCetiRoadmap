@@ -301,16 +301,59 @@ retaining all scalar factors. These steps give the finite-type family
 and its actual special-fibre maps without changing A.
 Prove flatness over k[t] from the actual
 torsion-free module/PID theorem and identify every fibre and base change.
-For homogeneous data construct the projective flat family using relative Proj.
-Prove preservation of the Hilbert function, Hilbert polynomial, dimension
-and degree. For every finitely generated Z-graded module over a standard
-polynomial ring (bounded below, allowing graded shifts), define its Hilbert function by the finite-dimensional rank
-of each graded piece, its formal Laurent Hilbert series and its eventual
-polynomial.
+For homogeneous data with a positive grading and degree-zero part `k`, construct
+the projective flat family using relative Proj. The standard projective route
+applies when the entire family has a fixed standard-graded presentation: use a
+quotient of `k[t][Z_0, …, Z_N]` with each `Z_i` of degree one, and require the
+presentation maps and fibre maps to preserve this grading. In this route prove
+preservation of every graded-piece Hilbert function, Hilbert polynomial,
+projective dimension and degree in the fixed `P^N_{k[t]}`.
+
+Keep nonstandard positive gradings in scope. For a finitely generated graded
+Rees-family algebra `B` over `k[t]`, construct a sufficiently divisible
+Veronese algebra `B^(r) = ⨁_{n≥0} B_{rn}` that is generated in degree one, prove
+that construction and its fibre maps commute with base change, and give the
+canonical `Proj B ≃ Proj B^(r)` comparison with
+`O_{Proj B^(r)}(1) ≃ O_{Proj B}(r)`. Construct the fixed projective embedding
+from the degree-one generators of `B^(r)` and prove the standard-graded
+Hilbert-polynomial and ambient `K₀` conclusions there. This is the general projective-polynomial conclusion for nonstandard grading:
+define the polynomial from the ample Veronese polarization by
+`P_r(n)=χ(X,F⊗O_B(r)^{⊗ n})`, and compare fibres in the new Veronese degree
+`n`. Further Veronese refinement by `s≥1` gives
+`B^(rs)=(B^(r))^(s)`. Prove this further Veronese is generated in degree
+one by grouping degree-one generators into `s`-fold products, and construct
+the same-`Proj` comparison and polarization
+`O_B(rs) ≃ O_{B^(r)}(s) ≃ O_B(r)^{⊗ s}` from the degree-divisible
+localizations and their transition maps. Its Hilbert
+polynomial is `P_{rs}(n)=P_r(sn)`, and its degree is `s^d` times the degree
+for `O_B(r)`. This handles all chosen Veronese polarizations without asserting
+an eventual polynomial in the original component index.
+
+A separate comparison with an ample invertible sheaf `L` is licensed only when
+the roadmap constructs a family-level isomorphism
+`O_B(r) ≃ L^{⊗ r}` compatible with base change. Define
+`P_L(m)=χ(X,F⊗L^{⊗ m})`; after that isomorphism and the large-degree
+section comparison, the Veronese polynomial is `P_L(rn)` and its degree in
+dimension `d` is `r^d deg_L(X)`. For another refinement `s`, use the tensor
+power of the same isomorphism to identify `O_B(rs) ≃ L^{⊗ rs}` and obtain
+`P_L(rsn)` and `(rs)^d deg_L(X)`. Ample invertibility of `O_B(1)` alone does
+not supply these twist identifications. Do not assert that the graded twists
+`O_B(m)` are powers of `O_B(1)` without constructing the multiplication
+isomorphisms; do not identify a nonstandard graded ring's component function
+with an eventual polynomial unless that statement is separately proved. For every original degree
+`m`, retain the Hilbert-function comparison at that graded piece: in a
+finite-type positively graded flat family over `k[t]`, each graded piece is a
+finite `k[t]`-module and a submodule of the flat total module, hence torsion-free
+and therefore finite free; its rank is constant. These statements distinguish
+preservation of all graded-piece ranks from existence of an eventual polynomial.
+
+For every finitely generated `Z`-graded module over a standard polynomial ring (bounded below, allowing graded shifts), define its Hilbert function by the finite-dimensional rank of each graded piece, its formal Laurent Hilbert series and its eventual polynomial.
 Prove rationality and the alternating graded-syzygy numerator formula; compare
 with G2's monoid-counting functions. Here κ denotes the same field k, under PR779's fixed-field
-notation. For a homogeneous flat family embedded in a fixed `P^N_{κ[t]}`,
-prove `[i_0* O_{X_0}]=[i_1* O_{X_1}]` in `Chow.K0(P^N_κ)`. First form
+notation. For the standard-graded family above embedded in a fixed `P^N_{κ[t]}`, prove
+`[i_0* O_{X_0}]=[i_1* O_{X_1}]` in `Chow.K0(P^N_κ)`. For a nonstandard
+family, use the fixed projective embedding obtained from the chosen Veronese
+algebra and state the equality in that embedding's ambient `P^M_κ`. First form
 the coherent pushforward classes in `Chow.G0`, then transport through PR779's
 `K0.toG0_bijective` for the regular ambient projective space. This roadmap
 owns the projective-space comparison. Consume O(d), coherent cohomology,
@@ -331,7 +374,8 @@ and localization charts, exactness, `S(−d)~ = O(−d)`,
 over κ[x_0,...,x_N], giving finite graded free resolutions and their
 sheafified locally free resolutions. Identify each fibre class's polynomial
 with its preserved Hilbert polynomial; injectivity proves the equality.
-For the graded-flat initial families, also prove the direct numerator formula
+For the standard-graded (including Veronese-regraded) flat initial families,
+also prove the direct numerator formula
 `[i_*O_X]=Σ_d k_d[O(−d)]` where
 `Σ_d k_d T^d = HS_(S/I)(T)(1−T)^(N+1)`. Their preserved full Hilbert
 function makes these numerators equal. For every closed subscheme X of P^N_A over a Noetherian ring A,
