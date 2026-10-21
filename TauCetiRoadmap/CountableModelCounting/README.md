@@ -56,20 +56,22 @@ TauCeti/ModelTheory/RowAssembly/                   -- Layer 6: row assemblies, r
 | 5 | The perfect-set, cardinal and first-order Vaught conjectures as precise `Prop`s, their proved reformulations with the right hypotheses, minimally uncountable sentences, and the Harnik–Makkai reduction to minimal counterexamples | 0–4 |
 | 6 | A countable structure of internal Scott rank exactly ω whose level-ω class meets continuum many isomorphism classes; internal Scott rank is not isolating | parent Layers 1–3; 0–1; CountableStructureSpaces (Scott height, S5) |
 
-**Out of scope here**, each a separate future roadmap: a proof or refutation of Vaught's
-conjecture; Vaught's conjecture for
-special classes of sentences or theories (for example ω-stable theories); the uncountable models
-of counterexamples and their spectra; the topological Vaught conjecture for general Polish group
-actions; the bound "at most ℵ₁ classes or a perfect set of inequivalent points" for arbitrary
-analytic equivalence relations. Also out of scope for this
-and the four sibling roadmaps: admissible sets, Barwise compactness and Nadel's bound; Scott
-processes; Lκλ for κ > ω₁ beyond L∞ω; many-sorted logic; relationalization of function and
-constant symbols; effective Scott analysis; the general Harrington–Kechris–Louveau dichotomy and
-Gandy–Harrington topology; the coanalytic form of Silver's theorem. The descriptive dichotomies
-themselves belong to BorelEquivalenceRelations; the space of structures, López–Escobar and
-external Scott height to CountableStructureSpaces; fragments, model existence and Morleyization to
-InfinitaryModelExistence; Ehrenfeucht–Mostowski models, Hanf numbers, small models and complete
-sentences to [HanfNumbers](../HanfNumbers/README.md) ([#1319](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)).
+**Out of scope here**, each a separate future roadmap: a proof or refutation of Vaught's conjecture;
+Vaught's conjecture for special classes of sentences or theories (for example ω-stable theories);
+the uncountable models of counterexamples and their spectra; the topological Vaught conjecture for
+general Polish group actions; the bound "at most ℵ₁ classes or a perfect set of inequivalent points"
+for arbitrary analytic equivalence relations. Also out of scope for this and the four sibling
+roadmaps: admissible sets, Barwise compactness and Nadel's bound; Scott processes; Lκλ for κ > ω₁
+beyond L∞ω; many-sorted logic; transfer of Karp theory, back-and-forth analysis and Scott ranks
+across the graph translation of function and constant symbols, which must reuse
+InfinitaryModelExistence's translation and its semantic API (that roadmap's Layer 6); effective
+Scott analysis; the general Harrington–Kechris–Louveau dichotomy and Gandy–Harrington topology; the
+coanalytic form of Silver's theorem. The descriptive dichotomies themselves belong to
+BorelEquivalenceRelations; the space of structures, López–Escobar and external Scott height to
+CountableStructureSpaces; fragments, model existence and Morleyization to InfinitaryModelExistence;
+Ehrenfeucht–Mostowski models, Hanf numbers, small models and complete sentences to
+[HanfNumbers](../HanfNumbers/README.md)
+([#1319](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)).
 
 ## Standing conventions
 
@@ -632,8 +634,10 @@ Prove, with exactly the hypotheses shown:
   `infiniteSentence L`, has the models of `T` on `ℕ` as its models; completeness is not used in the
   implication. The two conjectures are distinct definitions: no target identifies them, and the
   converse implication is not a target. `FirstOrderVaughtConjecture` is stated for countable
-  relational vocabularies; languages with function or constant symbols reduce to it by
-  relationalization, which belongs to the separate relationalization roadmap;
+  relational vocabularies. Reducing languages with function or constant symbols to it means
+  transferring the count of countable models across InfinitaryModelExistence's graph translation;
+  that transfer is outside this series of roadmaps and must reuse that roadmap's translation and
+  its semantic API;
 * universes: `vaughtConjecture_iff_forall_universe`, the conjecture over `Language.{0, 0}` equals
   the conjecture over countable relational languages in any universe, by the transport results of
   Layer 0 ((M4)'s `smallPresentationEquiv`, `lift_countableModelCount_onBoundedFormulaInf`,
