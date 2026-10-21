@@ -11,10 +11,10 @@ contributors and reviewers converge on names and signatures; discharging all of 
 finishes neither a layer nor the roadmap. `sorry` is allowed in this human-owned roadmap
 library -- these are goals, not proofs.
 
-Layers as in `README.md`: 0 Krull-Schmidt categories; 1 Matlis duality over a commutative
-Artinian ring; 2 `Ext¹` and almost-split conflations in exact categories; 3 Auslander-Reiten
-theory of Artin algebras; 4 the valued Auslander-Reiten quiver; 5 finiteness theorems; 6 the
-Morita-Tachikawa and Auslander correspondences.
+Layers as in `README.md`: 0 Krull-Schmidt categories; 1 finitely presented functors; 2 Matlis
+duality over a commutative Artinian ring; 3 `Ext¹` and almost-split conflations in exact
+categories; 4 Auslander-Reiten theory of Artin algebras; 5 the valued Auslander-Reiten quiver;
+6 finiteness theorems; 7 Morita theory, global and dominant dimension, and the correspondences.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.ArtinAlgebras
@@ -65,7 +65,29 @@ theorem isKrullSchmidt_of_module_finite (R : Type w) [CommRing R] [IsArtinianRin
 
 end KrullSchmidt
 
-/-! ## Layer 1: Matlis duality over a commutative Artinian ring -/
+/-! ## Layer 1: finitely presented functors -/
+
+section FinitelyPresented
+
+variable {C : Type u} [Category.{v} C] [Preadditive C] [HasFiniteBiproducts C]
+
+/-- **A finitely presented functor** on `C`: an additive functor `Cᵒᵖ ⥤ AddCommGrpCat` that is the
+cokernel of a morphism between representable functors. -/
+def IsFinitelyPresentedFunctor (F : Cᵒᵖ ⥤ AddCommGrpCat.{v}) : Prop :=
+  ∃ (X Y : C) (f : X ⟶ Y) (p : preadditiveYoneda.obj Y ⟶ F)
+    (h : preadditiveYoneda.map f ≫ p = 0), Epi p ∧ (ShortComplex.mk _ _ h).Exact
+
+/-- **The Freyd-Auslander criterion**: `C` has weak kernels exactly when the finitely presented
+functors are closed under kernels in the functor category, so that `mod C` is abelian. -/
+theorem hasWeakKernels_iff_isFinitelyPresentedFunctor_kernel :
+    HasWeakKernels C ↔ ∀ {F G : Cᵒᵖ ⥤ AddCommGrpCat.{v}} (φ : F ⟶ G),
+      IsFinitelyPresentedFunctor F → IsFinitelyPresentedFunctor G →
+        IsFinitelyPresentedFunctor (kernel φ) :=
+  sorry
+
+end FinitelyPresented
+
+/-! ## Layer 2: Matlis duality over a commutative Artinian ring -/
 
 section Matlis
 
@@ -87,7 +109,7 @@ theorem bijective_applyₗ_of_isInjectiveEnvelope {E : Type u} [AddCommGroup E] 
 
 end Matlis
 
-/-! ## Layer 3: almost-split sequences for Artin algebras -/
+/-! ## Layer 4: almost-split sequences for Artin algebras -/
 
 section ArtinAlgebra
 
@@ -104,7 +126,7 @@ theorem exists_isAlmostSplit (M : FGModuleCat.{u} A) (hM : Indecomposable M.obj)
 
 end ArtinAlgebra
 
-/-! ## Layer 5: finiteness theorems -/
+/-! ## Layer 6: finiteness theorems -/
 
 section Finiteness
 
@@ -137,7 +159,7 @@ theorem finite_skeleton_of_length_le (b : ℕ)
 
 end Finiteness
 
-/-! ## Layer 6: the Morita-Tachikawa and Auslander correspondences -/
+/-! ## Layer 7: Morita theory, global and dominant dimension, and the correspondences -/
 
 section GlobalDimension
 
