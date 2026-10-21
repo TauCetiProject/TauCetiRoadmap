@@ -27,16 +27,17 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 
 | Supplier | Consumed interface | Boundary |
 | --- | --- | --- |
-| [GeometricTopology](../GeometricTopology/README.md) | collars, corner rounding, smooth embeddings, actual normal bundles, open-subset tubes and relative/parametric transversality | B1 assembles structured bordism witnesses and B5 their PT comparisons |
+| [GeometricTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/622534516cc85c19310c068dd76c1d66e55e4317/TauCetiRoadmap/GeometricTopology/README.md) | collars, corner rounding, smooth embeddings, actual normal bundles, open-subset tubes and relative/parametric transversality | B1 assembles structured bordism witnesses and B5 their PT comparisons |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages2–4,6,8 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT |
-| [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, stable category/HA, arbitrary-CW comparison, finite duality, compatible universal bundle diagrams, MO/MSO/MSpin and quaternionic smooth carriers | geometric cycles/PT, coefficient rings and transfer/kernel calculations are here |
-| [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T2.5/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6 | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
-| [SpinGeometry](../SpinGeometry/README.md), G4/G5.0/G6.0/G6.7 ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/902)) | Spin lifts and H1 torsors, circle/surface refinements, real Clifford-graded spinor bundles, closed real Dirac realization and its KO-valued index, Lichnerowicz and untwisted four-dimensional quaternionic symmetry | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
+| [GeneralizedCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a1d957790d6eeec3bd02001c7fb83bc6d824abd4/TauCetiRoadmap/GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, stable category/HA, arbitrary-CW comparison, finite duality, compatible universal bundle diagrams, MO/MSO/MSpin and quaternionic smooth carriers | geometric cycles/PT, coefficient rings and transfer/kernel calculations are here |
+| [TopologicalKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7575afad9ceed0ff19ecf5629ba196e54fdf7637/TauCetiRoadmap/TopologicalKTheory/README.md), T1/T2.5/T3–5/T7; [CharacteristicClasses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f2659392124fc032737ba5793d6a82218c18805/TauCetiRoadmap/CharacteristicClasses/README.md), C1–C4/C6 | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
+| [SpinGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/312e1bbec838a044c0cd479374d1a62e7a2c1e2e/TauCetiRoadmap/SpinGeometry/README.md), G4/G5.0/G6.0/G6.7 ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/902)) | Spin lifts and H1 torsors, circle/surface refinements, real Clifford-graded spinor bundles, closed real Dirac realization and its KO-valued index, Lichnerowicz and untwisted four-dimensional quaternionic symmetry | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
 | [HomotopySpheres, finite and stable Stage5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6c0b09a600e12d442f71728d1c7292592d36cac2/TauCetiRoadmap/HomotopySpheres/README.md#stage-5-stable-framings-and-pontryagin--thom) and the finite-rank interface specified in B5.2 | convenient pointed spaces, stable framed PT and framing-change/product laws; the separate honest-rank construction below | B5 builds general normal structures and the structured finite/stable carrier comparisons; the single finite framed theorem remains with HomotopySpheres |
-| [FourManifolds](../FourManifolds/README.md), early example constructions | F7.0 quarticKThree carrier/characteristic calculation and ellipticEOneFiberComplement, E(1) minus a regular elliptic fibre with its actual Lie-spin T3 boundary | these examples precede bordism consequences; later Four Wu/Rokhlin applications consume B3/B4 |
+| [FourManifolds](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a9dd1d946e387e1518ffb29914b51ab0ccea6e53/TauCetiRoadmap/FourManifolds/README.md), early example constructions | F7.0 quarticKThree carrier/characteristic calculation and ellipticEOneFiberComplement, E(1) minus a regular elliptic fibre with its actual Lie-spin T3 boundary | these examples precede bordism consequences; later Four Wu/Rokhlin applications consume B3/B4 |
 | [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2 constructs the finite-F2 Arf invariant used by surface and Seifert refinements |
-| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer8 compact algebra sublane ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/949)); [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4 | division octonions/formally real compact Albert algebra, generic closed subgroup smooth charts | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms |
-| [IndexTheory](../IndexTheory/README.md), I1/I2/I3/I5/I7; [PseudodifferentialOperators](../PseudodifferentialOperators/README.md); G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
+| [StringOrientation S1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/b297b8eb78f5c2fd9336677d587433dd78470d98/TauCetiRoadmap/StringOrientation/README.md) | normalized λ on the stable Spin classifier, BString mapping-path fibre, relative lifts and H3 torsor | only this early obstruction/lift lane precedes B3.8; String bordism and TMF/genus calculations follow this roadmap |
+| [LieHighestWeight](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6fd68532c72d55b040f855ecb1158537f1b784fa/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md), Layer8 compact algebra sublane ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/949)); [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4 | division octonions/formally real compact Albert algebra, generic closed subgroup smooth charts | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms |
+| [IndexTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/592b12da97670f7eaea4fbed01def6b55554af66/TauCetiRoadmap/IndexTheory/README.md), I1/I2/I3/I5/I7; [PseudodifferentialOperators](https://github.com/TauCetiProject/TauCetiRoadmap/blob/063cf517a1dcc4d929e0602c6e6f585953aceab8/TauCetiRoadmap/PseudodifferentialOperators/README.md); G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 
 O/SO/Spin mean stable unoriented, oriented and Spin structures, with explicit
 finite-rank representatives and stabilization. A normal diagram ξ consists of
@@ -69,7 +70,7 @@ intersection product requires an oriented manifold target and its separate
 construction. There is no ordinary covariant bordism ring on every space X.
 
 BordismFormalGroups owns real/complex orientation formal laws, completed
-projective coordinates and coefficient-law universality. StringOrientation and
+projective coordinates and coefficient-law universality. [StringOrientation](https://github.com/TauCetiProject/TauCetiRoadmap/blob/b297b8eb78f5c2fd9336677d587433dd78470d98/TauCetiRoadmap/StringOrientation/README.md) and
 EllipticCohomology own BString/string lifts, String/TMF genera and the
 qualified transfer statements on B3's fixed Cayley-plane carrier.
 PositiveScalarCurvature owns connection-metric
@@ -160,7 +161,7 @@ and KO kernel interfaces below.
    boundary using their fibre half-space charts, radial collars and native
    vector-bundle transition maps. Compare all these chosen carriers with the
    literal quotient/total-space sets and their topology. Consume item1 of GT's
-   [smoothing-and-triangulation comparison](../GeometricTopology/README.md#the-smoothing-and-triangulation-comparison),
+   [smoothing-and-triangulation comparison](https://github.com/TauCetiProject/TauCetiRoadmap/blob/622534516cc85c19310c068dd76c1d66e55e4317/TauCetiRoadmap/GeometricTopology/README.md#the-smoothing-and-triangulation-comparison),
    with its relative boundary triangulations, and Layer11 CW transport to obtain native
    finite CW pairs for compact sources/witnesses; this precedes B2 weak-pair
    invariance and B5 lifting, independently of the bordism coefficients.
@@ -476,7 +477,7 @@ and KO kernel interfaces below.
    the torsion-free chosen carrier without an unowned equal-rank Weyl
    invariant quotient theorem. Pin u by p2=6u and the orientation by
    ⟨u²,[OP2]⟩=1; compute Euler class3u², χ=3, signature1 and Â=0.
-   The H4=0 calculation makes λ=p1/2 zero; with StringOrientation's early
+   The H4=0 calculation makes λ=p1/2 zero; with [StringOrientation S1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/b297b8eb78f5c2fd9336677d587433dd78470d98/TauCetiRoadmap/StringOrientation/README.md)'s early
    BString homotopy-fibre/lift contract construct its specified String lift,
    unique up to its H3 torsor, before any String/TMF coefficient calculation.
    Riem/Spin/String consumers use this fixed carrier; their metric/genus/transfer
@@ -715,8 +716,10 @@ and KO kernel interfaces below.
    Construct neat collared embedded bordisms in R^(n+k)×I and their
    relative versions. Retain the actual embedding, Gauss lift, normal-bundle
    isomorphism and map to the parameter space as part of each finite cycle.
-   Give compatible isotopy/structure-homotopy witnesses and the collapse
-   map to the designated G/CC Thom quotient. For a fixed embedded smooth
+   Give compatible isotopy/structure-homotopy witnesses and the coefficient
+   collapse to the designated G/CC Thom quotient. Item4 constructs the
+   collapse-with-parameter from these same tube data and the retained map
+   to X; keep that coordinate in its bordism invariance. For a fixed embedded smooth
    normal-structured cycle prove independence of tubular/radius choices
    and of auxiliary approximation or corner-rounding choices through the
    specified compatible relative isotopies or embedded ξ-bordisms. Prove
@@ -726,8 +729,8 @@ and KO kernel interfaces below.
    The generic tube is an open-subset diffeomorphism, including empty
    embeddings; whole-total-space PartialDiffeomorph corollaries retain
    their nonempty-source hypothesis.
-2. Prove the finite-codimension bijection with based homotopy classes
-   [S^(n+k),Th(ξ_k)] under the actual compact/CW/cofibration hypotheses,
+2. For parameter space a point, prove the finite-codimension bijection
+   with based homotopy classes [S^(n+k),Th(ξ_k)] under the actual compact/CW/cofibration hypotheses,
    and compare Euclidean and sphere embeddings with the marked-point
    and ambient identifications specified. The source remains the quotient
    of actual finite embedded ξ-normal cycles by the compatible embedded
@@ -782,8 +785,8 @@ and KO kernel interfaces below.
    after the finite comparison, using the fixed sphere/disk, normal/
    tangent, ordered target-frame and boundary conventions.
 
-3. Construct the inverse for arbitrary CW B_k without assuming that it is
-   smooth. Replace B_k→BO(k) by G2.10's `MappingPathSpace` endpoint
+3. Construct this coefficient inverse for arbitrary CW B_k without
+   assuming that it is smooth. Replace B_k→BO(k) by G2.10's `MappingPathSpace` endpoint
    Serre fibration,
    pull back over finite smooth Grassmannian carriers, approximate a map
    into the projected universal Thom space away from the basepoint, and
@@ -814,14 +817,121 @@ and KO kernel interfaces below.
    structure-preserving isotopy/bordism comparison and its collapse/suspension
    square before concluding independence of embedding choices for that
    abstract stable ξ-cycle. Prove separation of disjoint sums and all
-   classifier/block-permutation laws in the same stabilized diagram. Obtain
-   natural group isomorphisms
-   Ω^ξ_n(X,A)≃π_n(Mξ smash Σ∞(X/A)) on CW pairs, with X/∅=X₊,
-   and with the stated
-   homotopy-cofiber replacement for arbitrary pairs. Include all small cell
-   sets, integer degrees for the connective extension, products, units,
-   boundary/MV maps and structure forgetting. Construct the tangent–normal
-   comparison M(−θ) with O/SO/Spin spectra explicitly.
+   classifier/block-permutation laws in the same stabilized diagram.
+
+   **B5.4a. Collapse with a continuous parameter.** Use the single geometric
+   ξ-bordism homology theory of B1/B2, with the actual normal diagram and
+   its structure maps; prove B2's witness/excision/continuity constructions
+   for these ξ-structures before comparing theories. The finite bijection
+   of items2–3 is its coefficient construction. For a closed embedded cycle
+   (M,e,lift,ν-isomorphism,f), f:M→X continuous, construct
+   `PT_(k,X):S^(n+k)→Th(ξ_k)∧X₊`. On a smaller normal disc tube use
+   its inverse to write a point as (m,v); send it to the smash class of
+   `(lift(m),v)` in the designated Thom quotient and f(m) in X. Map the
+   tube boundary and the complement to the basepoint. Use the actual
+   rescaling to the disc/sphere quotient and bundle isomorphism, not an
+   arbitrary global trivialization of ν. Prove continuity by quotient
+   gluing on the closed disc/complement; the value at infinity is the
+   basepoint and the empty cycle gives the constant map. Use G's
+   convenient pointed product/smash models and their quotient comparisons.
+   Arbitrary X is only a continuous coordinate: no smoothness or
+   transversality in X is required.
+
+   For a compatible embedded ξ-bordism W with its continuous F:W→X,
+   construct the full collapse homotopy using F on the tube footpoint
+   throughout the trace. Retain its endpoint/collar restrictions and
+   normal-structure homotopies. Prove independence of tube/radius and
+   auxiliary smoothing choices through those same parameter-preserving
+   traces, naturality for every continuous X→Y and invariance under a
+   homotopy of f. Compare with the coefficient collapse after X→pt.
+   Prove the finite suspension square for the actual ξ stabilization
+   bundle map and G's increasing-left suspension coordinates. Pass to the
+   stable class using these squares and prove compatibility with the
+   stabilized embedding/structure comparison already constructed above.
+   No finite-stage bijection over a parameter space is needed here.
+
+   **B5.4b. Relative faces and boundary comparison.** For a CW pair (X,A)
+   represent a relative cycle by a compact collared M with f(∂M)⊂A.
+   Make f constant in the collar direction by the explicit collar
+   retraction homotopy, keeping its boundary values; retain this homotopy
+   in the representative comparison. Use a neat embedding into a finite
+   half-space, with the given boundary embedding and normal ξ data on
+   its boundary face, and a product-compatible normal tube. Compactifying
+   the half-space gives a disc D^(n+k) with its boundary sphere. Construct
+   the actual map of pairs
+   `(D^(n+k),S^(n+k−1))→(Th(ξ_k)∧X₊,Th(ξ_k)∧A₊)`.
+   Its boundary uses the restricted map to A, and its infinity and
+   tube-complement parts use the basepoint. Pass through the quotient
+   comparison to obtain a based map to `Th(ξ_k)∧(X/A)`. On a relative
+   bordism keep the two end faces and the entire free face mapping into A;
+   the collared corner/tube construction supplies the required homotopy
+   of maps of pairs. Prove choice-independence and pair/triple naturality.
+   At n=0 the boundary is empty; interpret its boundary map as zero rather
+   than a negative-dimensional sphere. Stabilize first when a positive
+   ambient dimension is needed; retain the finite rank0 carrier of item2.
+
+   Construct the comparison with the homotopy-cofiber group for an
+   arbitrary map A→X through its mapping-cylinder CW replacement, retaining
+   both comparison maps and homotopies. For a CW subcomplex the actual
+   cofibration quotient identifies this with X/A; at A=∅ use X₊.
+   Do not assert that a literal quotient computes every arbitrary pair.
+   Compare the geometric free-face boundary with the spectral connecting
+   morphism by restricting the disc collapse to its boundary sphere.
+   Use outward-normal-first tangent orientations, the induced boundary
+   normal-bundle identification and G's fixed increasing-left suspension
+   order. Construct the sphere/Thom block-permutation adapters and prove
+   their sign equations, so that `δ_spectral PT=PT ∂_geometric` under
+   those fixed adapters. Check the positively oriented interval has
+   boundary [1]−[0] with the positive point unit; prove the same boundary
+   square in every degree, with no freely chosen simultaneous sign change.
+
+   **B5.4c. Natural transformation and CW comparison.** On the stable
+   geometric quotients construct the actual homomorphisms
+   `PT_(X,A):Ω^ξ_n(X,A)→π_n(Mξ∧Σ∞(X/A))`.
+   Prove them well-defined and natural, preserving the preceding boundary
+   and suspension comparisons. Compare disjoint union with sphere pinch
+   after stabilization, inverses and the point unit when the ξ diagram
+   has a unit. With the supplied block-sum maps prove external products
+   and coefficient actions through the actual Thom/smash permutation
+   diagrams, retaining the SO/Spin Koszul signs. Prove structure forgetting
+   using the specified maps of normal diagrams, not an untyped change of
+   structure predicate. Prove the excision and ordered Mayer–Vietoris
+   squares using B2's separating-hypersurface/collar witnesses and G1's
+   actual pair/cofiber connecting maps. Thus this is a morphism of the
+   specified homology theories, not merely a natural family at a point.
+
+   Prove the wedge/direct-sum and filtered-CW continuity squares. Compact
+   cycles, bordisms and their homotopies have image in a finite subcomplex
+   after the chosen CW comparisons; use the finite-support theorem for
+   small arbitrary cell sets. On the spectral side use G's sphere
+   compactness, smash/homotopy-colimit and cofiber comparisons. Retain
+   injectivity as well as surjectivity in these colimit comparisons; a
+   class becoming zero has a compact witness at a later finite stage.
+   Prove the coefficient transformation is an isomorphism: stabilize the
+   actual finite inverse identities from items2–3, compare their colimit
+   with π_nMξ in G's model, and compare the unit and suspension maps.
+   The Thom cells have dimensions at least their bundle rank, so prove
+   Mξ connective and the negative coefficient groups zero, matching the
+   geometric zero extension. These statements require no coefficient
+   ring calculation from B3, B4 or B6.
+
+   Prove the cellular comparison theorem for this actual transformation.
+   Identify the relative group of each finite cell pair with the shifted
+   coefficient group by the fixed suspension. Induct on finite CW pairs
+   using their attaching mapping-cylinder pairs, long exact sequences and
+   the five lemma; include the degree0/negative-degree endpoints. Pass to
+   arbitrary CW pairs by the proved filtered continuity, and to arbitrary
+   cell sets by the wedge/direct-sum comparisons. Obtain the natural group
+   isomorphisms `Ω^ξ_n(X,A)≃π_n(Mξ∧Σ∞(X/A))` with all the preceding
+   products, units, suspension, boundary/MV and forgetting squares.
+   Transport through the specified singular CW/homotopy-cofiber replacement
+   for arbitrary spaces/pairs. Construct the tangent–normal comparison
+   M(−θ) with the O/SO/Spin spectra on these actual transformations.
+   As an over-space test, positive points over the two components of
+   X={x,y} give the two distinct basis vectors of ΩSO_0(X)=Z² and of
+   MSO_0(X), while X→pt sums the coordinates. Include the relative
+   endpoint boundary test and the labelled four-point finite coefficient
+   test; neither its labels nor the map to X may be discarded.
 5. Compare the stable framed special case with HomotopySpheres' stable PT
    and augmentation, and compare the finite unstable framed embedded
    specialization of item2 with that stabilization. Compare the
@@ -1186,6 +1296,12 @@ not bordism coefficients. B4.8's odd MSO/Spin Adams computation, B6.1's
 odd-primary Hurewicz/Newton lattice and B6.2's 2-primary Wall calculation
 supply the integral oriented ring together, without a BFG/Quillen cycle;
 B5 consumes G's already constructed bundle/Thom diagrams and GT geometry.
+Its finite inverse is the coefficient construction. B5.4a–b supply the
+collapse-with-parameter and actual pair boundary map; B5.4c first proves the
+homology-theory transformation and its continuity/product/forgetting laws,
+then the coefficient and cellular comparison. This precedes every B3/B4/B6
+use of the all-CW geometric-to-spectral isomorphism and B2.5's spectral AHSS;
+no coefficient-ring or transfer-kernel result proves this comparison.
 B4's MO calculation and B5 PT prove the O column and the B6
 orientation/Wall inputs; the B3 SO column then consumes the independent
 B6.1–2 integral rank/torsion computation. B3's Wu/Spin surgery route gives
