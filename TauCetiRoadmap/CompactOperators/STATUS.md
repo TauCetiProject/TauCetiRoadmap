@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"CompactOperators","to_sha":"c1c6773446bac0f89a4abc381a38d2ab43040bc5","ts":"2026-10-21T00:36:19Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"lattice-gauge comparison with Huber complete continuity, kernels and radius improvement, (Pr) modules, compactoid sets and IsCompactOperator","state":"partial"},{"id":"Layer 1","remaining":"determinants on (Pr) modules, idempotent splitting on Banach modules, completed-tensor base change","state":"partial"},{"id":"Layer 2","remaining":"fredholmDet and its multiplicativity, good zeros, invertibility of 1 - au and nonzero spectrum","state":"partial"},{"id":"Layer 3","state":"untouched"},{"id":"Layer 4","remaining":"everything but the two-sided matrix minor estimates: slopes, finite-slope projectors, Hodge and exact polygons","state":"partial"}],"readme_sha":"6da9096f90a31cc99819c0e5c8cc02c8de7e54fcb42b7704fecff91700019924","roadmap":"CompactOperators","to_sha":"c1c6773446bac0f89a4abc381a38d2ab43040bc5"}-->
+# Status: CompactOperators
+
+This file documents the status of the CompactOperators roadmap up until `c1c6773` (2026-10-21T00:36:19Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The model-space core is in place. Row compactness and complete continuity agree on `c₀`, and the Fredholm determinant of a row-compact operator is entire, continuous and cyclic, with its resolvent identity. Layers 0–2 are partial, Layer 4 has only its two-sided matrix estimates, and Riesz–Coleman spectral theory (Layer 3) has not begun.
+
+### Named results
+
+- **Serre's criterion** — over a complete ultrametric field, a map between `c₀` model spaces is row compact exactly when it is completely continuous ([`isRowCompact_iff_isCompletelyContinuous`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/RowCompact/CompletelyContinuous.html#ContinuousLinearMap.isRowCompact_iff_isCompletelyContinuous)). Over Tate rings the forward implication needs finitely generated submodules of the target to be closed ([`isRowCompact_of_forall_fg_isClosed`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/RowCompact/CompletelyContinuous.html#ContinuousLinearMap.IsCompletelyContinuous.isRowCompact_of_forall_fg_isClosed)).
+- **The identity criterion** — the identity of a complete normed module is completely continuous if and only if the module is finitely generated, with no Noetherian hypothesis ([`isCompletelyContinuous_id_iff`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/CompletelyContinuous.html#ContinuousLinearMap.isCompletelyContinuous_id_iff)).
+- **Entirety of the Fredholm determinant** — if the row norms of a matrix tend to zero, its principal-minor series `det(1 − Tu)` converges at every radius ([`isRestricted_charPowerSeries`](https://taucetiproject.org/docs/TauCeti/Analysis/Matrix/CharPowerSeries/Basic.html#Matrix.isRestricted_charPowerSeries)). It moves continuously in every Gauss norm along norm-convergent sequences of row-compact operators ([`tendsto_gaussNorm_charPowerSeries_sub_charPowerSeries_of_tendsto_ringOpNorm`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/Nonarchimedean/CharPowerSeries.html#TauCeti.tendsto_gaussNorm_charPowerSeries_sub_charPowerSeries_of_tendsto_ringOpNorm)).
+- **Cyclicity of Fredholm determinants** — `det(1 − Tuv) = det(1 − Tvu)` for maps between two model spaces when `u` is row compact, giving invariance under conjugation ([`charPowerSeries_matrixCoeff_comp_comm`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/Nonarchimedean/Cyclicity.html#ContinuousLinearMap.IsRowCompact.charPowerSeries_matrixCoeff_comp_comm)).
+- **The resolvent identity** — the Fredholm resolvent `V(T)` satisfies `(1 − Tu)V(T) = V(T)(1 − Tu) = det(1 − Tu)` ([`one_sub_C_mul_X_mul_resolventSeries`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/Nonarchimedean/Resolvent.html#ContinuousLinearMap.one_sub_C_mul_X_mul_resolventSeries)) and is entire in operator norm ([`isRestricted_resolventSeries`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/Nonarchimedean/Resolvent.html#ContinuousLinearMap.IsRowCompact.isRestricted_resolventSeries)).
+
+### Notable definitions and infrastructure
+
+- **Row compactness** ([`IsRowCompact`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/RowCompact.html#ContinuousLinearMap.IsRowCompact)) — the roadmap's working notion of compact operator, with the operator norm as [the supremum of row norms](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/RowCompact.html#ContinuousLinearMap.ringOpNorm_eq_iSup_rowNorm). The maps form a closed class, stable under composition, and every row-compact map is approximated by its finite output truncations.
+- **The principal-minor series** ([`Matrix.charPowerSeries`](https://taucetiproject.org/docs/TauCeti/Analysis/Matrix/CharPowerSeries/Basic.html#Matrix.charPowerSeries)) — the determinant `H_u` as a series on arbitrary index sets. It comes with uniform tail bounds under a common majorant, block-triangular factorisation, base change along ring maps, and invariance under transposition and diagonal intertwining.
+- **Lattice gauge norms** ([`latticeGauge`](https://taucetiproject.org/docs/TauCeti/Analysis/LocallyConvex/LatticeGauge.html#TauCeti.latticeGauge)) — the complete ultrametric norm cut out by a bounded open lattice, inducing the given topology. It is the first half of the comparison with affinoid complete continuity in §0.1.
+
+### Roadmap coverage
+
+Layer 0 is partial. Finite rank, complete continuity, row compactness, the identity and nilpotence criteria, and Serre's criterion are proved. Still missing are the discrete gauge comparison and the comparison with `Huber.IsCompletelyContinuous`, kernels and radius improvement (§0.3), (Pr) modules (§0.4), and compactoid sets with the `IsCompactOperator` comparison (§0.5). Layer 1 is partial. Finite matrices, principal-minor bounds, entirety, continuity, cyclicity, block factorisation and coefficientwise base change are proved on model spaces. (Pr)-module determinants, the idempotent splitting `H_u = H_(ue) H_(u(1−e))` and the completed-tensor comparison are not. Layer 2 is partial: the resolvent and its identity are proved, but `fredholmDet`, good zeros and the invertibility criterion are not. Layer 3 is untouched. Layer 4 is partial only in the sense that the two-sided weighted minor estimates of §4.4 exist; slopes, finite-slope projectors and the exact and lattice polygon results are untouched.
+
+## The frontier
+
+- **Invertibility and nonzero spectrum (§2.5)** — the resolvent identity is in hand. What remains is `fredholmDet u = H_u(1)` with its multiplicativity, evaluation of `V` at a scalar, and `1 − au` invertible iff `H_u(a)` is a unit.
+- **Good zeros (§2.3)** — orders, the factorisation `F = (T − a)^h G` and the unit-root lemma. These need the Hasse-derivative and division interfaces from RestrictedPowerSeries.
+- **The Riesz projector at a good zero (§3.1)** — the first Layer 3 target. It needs both items above and §0.4's finite projective range for row-compact idempotents.
+- **(Pr) modules (§§0.4, 1.5)** — transport of row compactness and the determinant along retracts, with independence of the presentation. Cyclicity already supplies the key identity.
+- **Coleman's transform (§3.3)** — the bounded resultant `colemanDBounded`, majorants and Gauss-norm convergence. This is mostly finite polynomial algebra and could proceed in parallel with Layer 2.

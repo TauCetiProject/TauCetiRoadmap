@@ -89,16 +89,22 @@ of two when used for Q. Normalized flow adds `−(2r̄/n)Rop`.
   R2 owns the additional finite-rank bundle charts and frame changes, the
   comparison of its section norms with F27.1, connection-induced coupled
   lower-order terms, the spectral/weak closed-manifold base, closed-manifold
-  continuation, and the quasilinear tensor-bundle theorem. Consume the actual
-  `TauCeti.exists_memLp_forall_setIntegral_eq_add_inner` variational solution
-  and `TauCeti.PDE.existsUnique_galerkinSolution` finite approximations; the
-  former alone does not establish its weak time derivative or exact pivot
-  initial trace. R4.2 owns evolving-manifold scalar/tensor maximum principles.
+  continuation, and the quasilinear tensor-bundle theorem. Consume PDE F24–F25's
+  weak parabolic and autonomous finite-trial interfaces; R2.2 owns their
+  compact-bundle spectral, weak-derivative and exact pivot-trace comparisons.
+  The comparison signatures `TauCeti.exists_memLp_forall_setIntegral_eq_add_inner`
+  and `TauCeti.PDE.existsUnique_galerkinSolution` are specified in Tau Ceti
+  revision `b9ec3ab4b3fc4ca543e85dbd09b00087735cde9f`; they are not declarations
+  available from the selected `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` floor.
+  Use them as comparison locators for PDE's single assigned producer, not as
+  required imports or an assumption that the selected pin has changed. The weak
+  integral formulation alone supplies neither a weak time derivative nor an
+  exact pivot initial trace. R4.2 owns evolving-manifold maximum principles.
   R2's spatial Sobolev inputs consume [CKG K5a](../ComplexKahlerGeometry/README.md),
   and its Hölder inputs consume [PDO P5–P7](../PseudodifferentialOperators/README.md).
   Elliptic estimates or a static eigenbasis alone are not a time-dependent
   existence theorem.
-* [VariationalMethods V1–V6](../VariationalMethods/README.md) supplies energy
+* [VariationalMethods V1–V6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md) supplies energy
   and scalar mean-zero Poisson connectors. R8 constructs the time-dependent
   surface Green/potential comparison on the shared Hilbert scales.
   [HopfRinow](../HopfRinow/README.md) supplies actual geodesics, exponential
@@ -259,17 +265,33 @@ identity. If λ_i are the eigenvalues of P7’s shifted L=1+∇̄*∇̄, use
 The ith heat coefficient is
 `exp(−μ_i t)(u₀)_i+∫₀ᵗexp(−μ_i(t−s))f_i(s)ds`.
 Prove convergence in `C⁰_t L²∩L²_t H¹`, the `L²_t H⁻¹` derivative and trace,
-and the weak equation by energy estimates on finite spectral sums, comparing
-the finite coefficient ODEs with `existsUnique_galerkinSolution`: this
-Hölder forcing is continuous into H⁻¹, and endpoint-constant extension gives
-the globally continuous forcing that the finite ODE theorem requires.
-Identify this spectral solution with the native
-`exists_memLp_forall_setIntegral_eq_add_inner` solution on the real pair
-H¹⊂L²: test against each eigenvector times a C¹ scalar function with terminal
-value zero, recover the unique one-dimensional weak coefficient ODE and its
-initial boundary value, and use basis completeness to prove AE equality.
-This supplies that variational solution’s weak Gelfand derivative and exact
-pivot trace, without presupposing them. For smooth initial data and forcing,
+and the weak equation by energy estimates on finite spectral sums. Compare
+the finite coefficient ODEs with PDE F25's autonomous Galerkin interface,
+whose newer-source comparison name is `TauCeti.PDE.existsUnique_galerkinSolution`.
+Use a finite-dimensional real trial space and a trial map injective into the
+pivot L² space. The energy map is bounded and autonomous; this theorem does
+not assert a nonautonomous Galerkin result. Hölder forcing is continuous into
+H⁻¹, and endpoint-constant extension gives the globally continuous forcing
+required for its unique global C¹ coordinate solution.
+
+Identify the spectral solution with PDE F25's weak integral solution, whose
+newer-source comparison name is
+`TauCeti.exists_memLp_forall_setIntegral_eq_add_inner`. On the real pair
+H¹⊂L² supply its complete form space, continuous injective dense pivot
+inclusion, a.e. measurable bounded energy form and quantitative Gårding
+bound with positive coercivity coefficient. The lower-bound shift may have
+either sign; use L²(0,T;H⁻¹) forcing and the actual L² initial datum. Density
+of the pivot inclusion makes its initial boundary pairing detect the full
+datum, rather than only its projection onto the pivot range closure. The
+weak conclusion is an L²(0,T;H¹) representative satisfying the terminal-zero
+C¹-test integral identity. Test against each eigenvector times a C¹ scalar
+function with terminal value zero, recover the unique one-dimensional weak
+coefficient ODE and its initial boundary value, and use basis completeness
+to prove AE equality. This comparison supplies the variational solution's
+weak Gelfand derivative and its C⁰([0,T];L²) representative with exact pivot
+trace; neither is presupposed in the weak integral conclusion. These
+comparisons consume PDE F24–F25 and the preceding spectral construction;
+they do not rely on importing either newer name at the selected native pin. For smooth initial data and forcing,
 use the spectral characterization of every power of `1+∇̄*∇̄` from PDO P7
 to prove convergence of the heat series in every spatial `H^{2k}`, uniformly
 on compact time slabs. Differentiate the coefficient ODEs to obtain the same
@@ -511,13 +533,19 @@ Define the nonnegative-operator path `D_b` for `0≤b≤1/2` by
 For `u≥0` continue with
 `E_u=ℓ_((1+u)/2,1/2){R≥0, Ric≥(p_u/n)Scal Id}`,
 `p_u=1−4/(n+2+4u)`; its `u=0` cone is exactly `D_(1/2)`.
-Use Lemmas 3.4 and 3.5 for ODE invariance and strict inward transversality
-away from zero on these paths. Concatenate the three pieces as the single path: first `A_b` from `b=0` to
+Use Lemma 3.4 for ODE invariance of `D_b` for `0≤b≤1/2`, and for strict
+inward transversality at every nonzero boundary tensor only for `0<b≤1/2`.
+At `b=0` the entire cone `D_0={R≥0}` is invariant, but is not asserted strictly
+inward: the rank-one product curvature of `S²×ℝ^(n−2)` has `Q(R)=2R` on its
+nonzero boundary ray. Use Lemma 3.5 for both properties of `E_u` for every
+`u≥0`. Concatenate the three pieces as the single path: first `A_b` from `b=0` to
 `b=b_*`; then `A_(b_*)∩D_b` from `b=0` to `b=1/2`; then
 `A_(b_*)∩E_u` from `u=0` to `u=∞`. Reparameterize the concatenated compactified
 interval continuously onto `[0,1)`. The first cone is `A_0=C_2`; the second
 starts at `A_(b_*)∩D_0=A_(b_*)` because `A_(b_*)⊆{R≥0}`, so the first and
-second pieces meet at `A_(b_*)`. The last two meet at
+second pieces meet at `A_(b_*)`. At this join strict transversality is that
+of `A_(b_*)`, since `b_*>0`; it is not a strictness claim about all of `D_0`.
+The last two meet at
 `A_(b_*)∩D_(1/2)=A_(b_*)∩E_0`. Since intersections of invariant closed convex
 cones remain invariant, the strictness, full dimension, positive scalar,
 continuity of scalar-normalized sections, and round-ray limit must be checked
