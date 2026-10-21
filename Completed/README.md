@@ -37,5 +37,7 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-07)
 - [Arithmetic Dirichlet series and Tauberian methods](ArithmeticDirichletSeries/README.md)
   (declared complete 2026-10-07)
+- [Number fields, ramification, Frobenius, and the LMFDB invariants](NumberFieldArithmetic/README.md)
+  (declared complete 2026-10-07)
 - [The Chebotarev density theorem](Chebotarev/README.md)
   (declared complete 2026-10-07)
