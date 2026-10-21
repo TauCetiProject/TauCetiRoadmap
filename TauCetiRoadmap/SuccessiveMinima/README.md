@@ -43,6 +43,7 @@ Layer 0.2.
 - The integral basis with the flags of a prescribed real basis of lattice vectors (0.2).
 - The foundational `MeasureTheory.successiveMin` of Mathlib's successive-minima proposal, its real
   `Fin d` adapter `successiveMin` and the natural-index extension `successiveMinNat`, with:
+  - the proposal's lemmas on the foundational definition (1.1b);
   - the threshold calculus;
   - positivity and monotonicity in the index;
   - attainment by one real basis;
@@ -51,6 +52,7 @@ Layer 0.2.
   - the integral minimum flag (Layer 1).
 - Minkowski's second theorem, both halves, with an explicit additive Haar measure, and the box and
   cross-polytope minima that show both are sharp (2.1, 3).
+- Minkowski's first theorem on successive minima, `λ_0^d·μ(K) ≤ 2^d·covolume(L,μ)` (3.22).
 - Minkowski's linear forms theorem with its boundary convention (2.2).
 
 ### Already in Mathlib or Tau Ceti
@@ -109,9 +111,10 @@ signature and definition of
 [revision `8423d1c`, lines 63–304](https://github.com/khwilson/mathlib4/blob/8423d1c878e50d8504a230ffd9b6ec76ce6a08eb/Mathlib/MeasureTheory/Group/GeometryOfNumbers.lean#L63-L304),
 so that adopting the proposal if it lands is a deletion plus an import. The
 [Zulip design discussion](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Minkowski.20Lattice.20Theorem.html)
-motivates the arbitrary-set core and the separate geometric hypotheses. Reuse the proposal's
-monotonicity, threshold-attainment and directional-family and basis results with their hypotheses.
-A directional basis is a real ambient basis, not necessarily an integral lattice basis. The
+motivates the arbitrary-set core and the separate geometric hypotheses. The proposal's junk-value,
+monotonicity, threshold-attainment and directional-family and basis lemmas are built here as well,
+with its names and hypotheses (1.1b). A directional basis is a real ambient basis, not necessarily
+an integral lattice basis. The
 proposal's `proof_wanted` form of Minkowski's second theorem supplies no proof. Both product
 inequalities, the gauge flags and the transport laws are targets here.
 
@@ -133,8 +136,7 @@ For every family, dependent or not, Mathlib's Gram–Schmidt orthonormal basis `
 and `det_e` differ by the determinant of an orthonormal change of basis, which has norm one.
 (Source: Couveignes2020, §3, printed p.494 (physical PDF p.8), Gram/covolume calculation.)
 *Needs:* Mathlib `InnerProductSpace.gramSchmidtOrthonormalBasis`,
-`InnerProductSpace.gramSchmidtOrthonormalBasis_det`, `norm_inner_le_norm`,
-`Orientation.abs_volumeForm_apply_le`, `LinearMap.normDet_sq_eq_det_gram`.
+`InnerProductSpace.gramSchmidtOrthonormalBasis_det`, `norm_inner_le_norm`.
 **Checks.**
 
 - Orthogonal real columns (2,0),(0,3) attain determinant norm 6 and product norm 6.
@@ -180,7 +182,10 @@ The bound is on squared norms, not individual coefficients; `n = 0` is allowed.
 ### 0.2 Integral bases with a prescribed flag
 
 `E` is a finite-dimensional real normed space, `L` a discrete `ℤ`-submodule, and
-`d = finrank ℝ E`. Reuse `Basis` and `Basis.flag`. Flag indices are zero-based.
+`d = finrank ℝ E`. Reuse `Basis` and `Basis.flag`. Flag indices are zero-based. Prefix spans
+of an integral basis `b` are written `span ℝ {b j | j < k}`, because its real extension
+`Basis.ofZLatticeBasis` needs the fullness instance that 0.2.1 derives. After 0.2.1 they are
+`(Basis.ofZLatticeBasis ℝ L b).flag k`.
 
 Prove `exists_integral_basis_same_flag` (0.2.1): for a real basis `w : Fin d → E` with `w_i ∈ L`,
 there is an integral basis `b : Fin d → L` whose real extension has exactly the same basis flags as
@@ -309,6 +314,63 @@ reindexing of 1.1; the out-of-range value is the explicit convention here.)
   proved dimension equality, which supplies the bounds of `successiveMinNat_of_lt` and
   `successiveMinNat_of_le`.
 
+**Foundational lemmas** (1.1b). Build, with the names and hypotheses of the proposal's revision
+`8423d1c`, its lemmas on `MeasureTheory.successiveMin L s i`. `E` is finite-dimensional
+throughout. Every lemma except `successiveMin_of_finrank_le` and `successiveMin_of_setFinrank_le`
+assumes `DiscreteTopology L`.
+1. The junk values: `successiveMin_of_finrank_le` (`finrank ℝ E ≤ i`),
+   `successiveMin_of_setFinrank_le` (`Set.finrank ℝ L ≤ i`) and `successiveMin_of_finrank_int_le`
+   (`finrank ℤ L ≤ i`) each give `0`.
+2. For absorbent `s`, the threshold set is nonempty: `exists_lt_setFinrank_smul_inter`
+   (`i < finrank ℤ L`) and `exists_lt_setFinrank_smul_inter_zLattice` (`IsZLattice ℝ L`,
+   `i < finrank ℝ E`). Below the rank the minima are monotone in the index, `successiveMin_mono`
+   (`i ≤ j`, `j < finrank ℤ L`).
+3. For convex `s` with `s ∈ 𝓝 0` and `i < finrank ℤ L`,
+   `exists_linearIndependent_of_successiveMin_lt`: for `successiveMin L s i < r`, the set
+   `r • s ∩ L` contains `i+1` integrally independent vectors.
+4. For convex compact `s` with `s ∈ 𝓝 0`, attainment. For `i < finrank ℤ L` the threshold set is
+   closed, `isClosed_setOf_lt_setFinrank_smul_inter`, so it contains its infimum,
+   `lt_setFinrank_successiveMin_smul`. The directional family `exists_directional_set'` is a
+   real-independent `v : Fin (finrank ℤ L) → E` with `v j ∈ successiveMin L s j • s ∩ L`.
+   `exists_directional_set` is the same family as an integrally independent family in `L`.
+   For `IsZLattice ℝ L`, `exists_directional_basis` is a real basis of `E` with the same property.
+
+They rest on five auxiliary lemmas of the same revision, built here with its names and statements.
+The first two are in its
+[`ZLattice/Basic.lean`](https://github.com/khwilson/mathlib4/blob/8423d1c878e50d8504a230ffd9b6ec76ce6a08eb/Mathlib/Algebra/Module/ZLattice/Basic.lean#L681-L693):
+`setFinrank_real_eq_setFinrank_int_of_subset_discreteTopology` (a set of vectors of a discrete `L`
+has equal real and integral `Set.finrank`) and `setFinrank_real_eq_finrank_int`. Both come from
+Mathlib's `Real.finrank_eq_int_finrank_of_discrete`. The next two are in its
+[`Gauge.lean`](https://github.com/khwilson/mathlib4/blob/8423d1c878e50d8504a230ffd9b6ec76ce6a08eb/Mathlib/Analysis/Convex/Gauge.lean#L493-L513):
+`setOf_gauge_le_eq_closure_smul_of_pos` and `setOf_gauge_le_eq_closure_smul`, which say
+`{x | gauge s x ≤ a} = closure (a • s)` for convex `s ∈ 𝓝 0`, with `a > 0`, or with `a ≥ 0` and
+`s` von Neumann bounded in a `T1Space`. The last is in its
+[`Convex/Basic.lean`](https://github.com/khwilson/mathlib4/blob/8423d1c878e50d8504a230ffd9b6ec76ce6a08eb/Mathlib/Analysis/Convex/Basic.lean#L573-L574):
+`Convex.smul_mono_of_zero_mem`, `p • s ⊆ q • s` for convex `s ∋ 0` and `0 ≤ p ≤ q`.
+
+The adapter laws below are the `Fin d` forms of these lemmas. 1.3 reads its attained threshold off
+`lt_setFinrank_successiveMin_smul`, 1.5 is `successiveMin_mono`, and 1.7 strengthens
+`exists_directional_basis` by the gauge equalities and the strict-sublevel flags. A `ConvexBody`
+with `0` in its interior is convex, compact and a neighbourhood of `0`.
+(Source: the proposal, revision `8423d1c`, lines 80–304.)
+*Needs:* Mathlib `Real.finrank_eq_int_finrank_of_discrete`, `ZLattice.rank`,
+`Module.Free.exists_basis`, `Absorbent.absorbs_finite`, `absorbent_nhds_zero`,
+`Submodule.exists_fun_fin_finrank_span_eq`, `Set.finrank_mono`, `setOfPred_gauge_le_eq`,
+`gauge_le_one_iff_mem_closure`, `closure_smul₀'`, `AddSubgroup.isClosed_of_discreteTopology`,
+`IsSeqClosed.isClosed`, `IsClosed.csInf_mem`, `LinearIndependent.finSnoc`,
+`basisOfLinearIndependentOfCardEqFinrank`, 1.1 `MeasureTheory.successiveMin`.
+**Checks.**
+
+- For `L = ℤ(1,0)` in `ℝ²` and the unit square, `successiveMin L s 1 = 0` by
+  `successiveMin_of_setFinrank_le`, although `1 < finrank ℝ E = 2`. Since `λ_0 = 1`,
+  `successiveMin_mono` fails at `j = 1` without `j < finrank ℤ L`.
+- For `L = 2ℤ` and `s = [−1,1]` the index-0 threshold set is `[2,∞)` and contains its infimum `2`.
+  For the open interval `s = (−1,1)`, which is convex and a neighbourhood of `0` but not compact, it
+  is `(2,∞)`, and `2 • (−1,1) ∩ 2ℤ = {0}`: `lt_setFinrank_successiveMin_smul` fails, so compactness
+  is load-bearing.
+- For `ℤ²` and the unit square, `(1,1),(1,−1)` satisfies the conclusion of
+  `exists_directional_basis` but spans a sublattice of index two.
+
 Prove `finite_gauge_sublevel` (1.2): for every real `R`, the set `{x ∈ L : gauge K x ≤ R}` is
 finite. `K` need not be symmetric.
 For `R < 0` the set is empty. For `R ≥ 0` it lies in the compact dilate `R·K`, because the closed
@@ -327,14 +389,14 @@ A discrete lattice meets a bounded set in finitely many points.
 
 Prove `successiveMin_isLeast` (1.3): for every `i : Fin d`, `λ_i(L,K)` is the least element of
 `A_i = {r ≥ 0 : dim span_ℝ{x ∈ L : gauge K x ≤ r} ≥ i.val+1}`.
-The rank `r ↦ dim span_ℝ{x ∈ L : gauge K x ≤ r}` is a nondecreasing step function of `r` whose jumps
-lie among the finitely many gauge values of lattice vectors below any bound (1.2), and a full
-lattice reaches rank `d`. So `A_i` is a closed ray starting at one of those values. For `r > 0` its
-members are the admissible dilations of `successiveMin_def`, because `x ∈ r·K` exactly when
-`gauge K x ≤ r`. `r = 0` is not a member, since only the zero vector has gauge zero.
+For `r > 0` the members of `A_i` are the `r` with `i.val < Set.finrank ℝ (r • K ∩ L)`, because
+`x ∈ r·K` exactly when `gauge K x ≤ r`. `r = 0` is not a member, since only the zero vector has
+gauge zero, and the foundational threshold at `0` has rank zero as well. So `λ_i` is a lower bound
+of `A_i` by definition. It is a member by `lt_setFinrank_successiveMin_smul` (1.1b), whose index
+bound `i.val < finrank ℤ L` is `ZLattice.rank`.
 *Needs:* Mathlib `Submodule.finrank_mono`, `finrank_span_eq_card`, `gauge_le_one_iff_mem_closure`,
-`gauge_eq_zero`, `absorbent_nhds_zero`, `ConvexBody.isCompact`, `IsCompact.isVonNBounded`, 1.1
-`successiveMin_def`, 1.2 `finite_gauge_sublevel`.
+`gauge_eq_zero`, `absorbent_nhds_zero`, `ConvexBody.isCompact`, `IsCompact.isVonNBounded`,
+`ZLattice.rank`, 1.1 `successiveMin_def`, 1.1b `lt_setFinrank_successiveMin_smul`.
 **Checks.**
 
 - `A_i` contains its endpoint; replacing ≤ by < in the membership assertion is false.
@@ -357,9 +419,9 @@ vector, which is below `i.val+1`, so `λ_i ≠ 0`.
 
 Prove `successiveMin_monotone` (1.5): the function `i ↦ λ_i(L,K)` on `Fin d` is monotone. `K` need
 not be symmetric.
-For `i ≤ j` the threshold set `A_j` of 1.3 is contained in `A_i`, so its least element is at least
-that of `A_i`.
-*Needs:* 1.3 `successiveMin_isLeast`.
+This is `successiveMin_mono` (1.1b) on the adapter, with `j.val < d = finrank ℤ L` by
+`ZLattice.rank` and `K` absorbent by `absorbent_nhds_zero`.
+*Needs:* Mathlib `ZLattice.rank`, `absorbent_nhds_zero`, 1.1b `successiveMin_mono`.
 **Checks.**
 
 - The unit cube has a constant sequence of minima; strict monotonicity is false.
@@ -380,7 +442,8 @@ Prove `successiveMin_le_iff` (1.6): for `r ≥ 0`, `λ_i(L,K) ≤ r` if and only
 Prove `exists_successiveMin_witnesses` (1.7): there exists a real basis `b` indexed by `Fin d` such
 that `b_i ∈ L`, `gauge K b_i = λ_i(L,K)`, and every `x ∈ L` of gauge `< λ_i` lies in
 `span_ℝ{b_j : j < i}`. In particular `b_i ∈ λ_i K`, and all minimum bounds are attained by one
-independent family. `K` need not be symmetric.
+independent family. `K` need not be symmetric. This strengthens `exists_directional_basis` (1.1b)
+by the gauge equalities and the strict-sublevel flags.
 The family is chosen greedily, in two steps.
 1. Prove `exists_min_gauge_outside`: if `W < E` is a proper real subspace, there is `v ∈ L ∖ W` with
    `gauge K v ≤ gauge K x` for every `x ∈ L ∖ W`; in particular the selected gauge is positive. A
@@ -443,11 +506,14 @@ Since `gauge_(cK) = c⁻¹·gauge_K`, the threshold set `A_i` of 1.3 for `cK` is
 
 Prove `successiveMin_linearEquiv` (1.11): let `e : E ≃ₗ[ℝ] F`, `L' = e(L)` as integral submodules,
 and `K' = e(K)` as convex bodies. For valid indices `i, j` with `i.val = j.val`,
-`λ_j(L',K') = λ_i(L,K)`. `E, F` are finite-dimensional normed real spaces, and the discrete, full
-and interior hypotheses are understood. The equivalence need not be orthogonal or unimodular.
+`λ_j(L',K') = λ_i(L,K)`. `E, F` are finite-dimensional normed real spaces, and `L`, `K` satisfy the
+standing hypotheses. `L'` is discrete and full and `0 ∈ interior K'` as a consequence of `L' = e(L)`
+and `K' = e(K)`, not as hypotheses. The equivalence need not be orthogonal or unimodular.
 (Source: Evertse2023, §2.3, change-of-coordinates remark after Theorem 2.9, printed pp.24–25
 (physical pp.14–15); the nonsingularity hypothesis is corrected as in Misprints M2.)
-*Needs:* Mathlib `LinearEquiv.finrank_eq`, 1.6 `successiveMin_le_iff`, 1.4 `successiveMin_pos`.
+*Needs:* Mathlib `LinearEquiv.finrank_eq`, `LinearEquiv.toContinuousLinearEquiv`,
+`Submodule.map_equiv_eq_comap_symm`, `ZLattice.comap_discreteTopology`, `instIsZLatticeComap`,
+`Homeomorph.image_interior`, 1.6 `successiveMin_le_iff`, 1.4 `successiveMin_pos`.
 **Checks.**
 
 - Scaling both ℤ and `[−1,1]` by 2 preserves minimum 1; scaling only the lattice gives 2.
@@ -981,6 +1047,21 @@ bound.
   `3·24 = 4·18`.
 - Twice canonical volume doubles both sides; an equality box remains an equality for `c > 0`; in
   dimension zero both sides equal `μ({0})`.
+
+Prove `minkowski_first_successiveMin` (3.22): under the hypotheses of 3.21 and `0 < d`,
+`λ_0(L,K)^d·μ.real(K) ≤ 2^d·covolume(L,μ)`. This is Minkowski's first theorem on successive minima,
+read off the first minimum rather than a lattice point.
+By 1.5 and 1.4, `0 < λ_0 ≤ λ_i` for every `i`, so `λ_0^d ≤ ∏_i λ_i`, and 3.21 gives the bound.
+(Source: Henk2002, p.2, Theorem 1.2.)
+*Needs:* Mathlib `Finset.prod_le_prod`, `Finset.prod_const`, 1.4 `successiveMin_pos`, 1.5
+`successiveMin_monotone`, 3.21 `minkowski_second_upper`.
+**Checks.**
+
+- For `L = ℤ` and `K = [−1,1]`, `1·2 ≤ 2·1`, with equality.
+- For `L = 2ℤ` and `K = [−3,3]`, `(2/3)·6 = 4 = 2·2`.
+- For `L = 2ℤ×3ℤ` and `K = [−2,2]×[−1,1]`, `1²·8 = 8 < 24 = 4·6`, while 3.21 is an equality for the
+  same pair: the first theorem is weaker than the second.
+- `d = 0` is excluded because there is no first minimum to evaluate.
 
 ### Examples
 

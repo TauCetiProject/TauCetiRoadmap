@@ -21,7 +21,7 @@ Design choices made explicit here:
 -/
 
 noncomputable section
-open scoped BigOperators Pointwise NNReal
+open scoped BigOperators Pointwise NNReal Topology
 open MeasureTheory Module
 
 /-- The nonnegative dilation threshold at which the real span has dimension greater than `i`, for
@@ -30,6 +30,119 @@ proposal. -/
 noncomputable def MeasureTheory.successiveMin {E : Type*} [NormedAddCommGroup E]
     [NormedSpace ℝ E] (L : Submodule ℤ E) (s : Set E) (i : ℕ) : ℝ≥0 :=
   sInf {r : ℝ≥0 | i < Set.finrank ℝ (r • s ∩ (L : Set E))}
+
+/-! ## The proposal's lemmas on the foundational definition (1.1b)
+
+Names and hypotheses are those of the proposal, so that adopting it is a deletion plus an import.
+-/
+
+section ProposalAuxiliary
+
+/-- A set of vectors of a discrete `ℤ`-submodule has equal real and integral rank (1.1b). -/
+theorem setFinrank_real_eq_setFinrank_int_of_subset_discreteTopology {E : Type*}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E] (L : Submodule ℤ E)
+    [DiscreteTopology L] {s : Set E} (hs : s ⊆ L) :
+    Set.finrank ℝ s = Set.finrank ℤ s := by sorry
+
+/-- The real rank of a discrete `ℤ`-submodule is its integral rank (1.1b). -/
+@[simp] theorem setFinrank_real_eq_finrank_int {E : Type*} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] [FiniteDimensional ℝ E] (L : Submodule ℤ E) [DiscreteTopology L] :
+    Set.finrank ℝ (L : Set E) = finrank ℤ L := by sorry
+
+/-- A positive gauge sublevel of a convex neighbourhood of zero is the closure of its dilate
+(1.1b). -/
+theorem setOf_gauge_le_eq_closure_smul_of_pos {E : Type*} [AddCommGroup E] [Module ℝ E]
+    [TopologicalSpace E] [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] {s : Set E} {a : ℝ}
+    (hc : Convex ℝ s) (hs₀ : s ∈ 𝓝 0) (ha : 0 < a) :
+    {x | gauge s x ≤ a} = closure (a • s) := by sorry
+
+/-- A nonnegative gauge sublevel of a bounded convex neighbourhood of zero is the closure of its
+dilate (1.1b). -/
+theorem setOf_gauge_le_eq_closure_smul {E : Type*} [AddCommGroup E] [Module ℝ E]
+    [TopologicalSpace E] [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [T1Space E]
+    {s : Set E} {a : ℝ} (hc : Convex ℝ s) (hb : Bornology.IsVonNBounded ℝ s) (hs₀ : s ∈ 𝓝 0)
+    (ha : 0 ≤ a) : {x | gauge s x ≤ a} = closure (a • s) := by sorry
+
+/-- Dilates of a convex set containing zero increase with the factor (1.1b). -/
+theorem Convex.smul_mono_of_zero_mem {𝕜 E : Type*} [Field 𝕜] [LinearOrder 𝕜]
+    [IsStrictOrderedRing 𝕜] [AddCommGroup E] [Module 𝕜 E] {s : Set E} (h_conv : Convex 𝕜 s)
+    (zero_mem : (0 : E) ∈ s) {p q : 𝕜} (hp : 0 ≤ p) (hpq : p ≤ q) : p • s ⊆ q • s := by sorry
+
+end ProposalAuxiliary
+
+namespace MeasureTheory
+
+section ProposalLemmas
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {L : Submodule ℤ E} {s : Set E} {i j : ℕ}
+
+/-- At and beyond the ambient dimension the foundational minimum is the junk value `0` (1.1b). -/
+@[simp] theorem successiveMin_of_finrank_le (hi : finrank ℝ E ≤ i) :
+    successiveMin L s i = 0 := by sorry
+
+/-- At and beyond the real rank of `L` the foundational minimum is `0` (1.1b). -/
+@[simp] theorem successiveMin_of_setFinrank_le (hi : Set.finrank ℝ (L : Set E) ≤ i) :
+    successiveMin L s i = 0 := by sorry
+
+/-- At and beyond the integral rank of a discrete `L` the foundational minimum is `0` (1.1b). -/
+theorem successiveMin_of_finrank_int_le [DiscreteTopology L] (hi : finrank ℤ L ≤ i) :
+    successiveMin L s i = 0 := by sorry
+
+/-- Below the rank, the threshold set of an absorbent set is nonempty (1.1b). -/
+theorem exists_lt_setFinrank_smul_inter [DiscreteTopology L] (hs : Absorbent ℝ s)
+    (hi : i < finrank ℤ L) : ∃ r : ℝ≥0, i < Set.finrank ℝ (r • s ∩ L) := by sorry
+
+/-- Below the dimension, the threshold set of an absorbent set for a lattice is nonempty
+(1.1b). -/
+theorem exists_lt_setFinrank_smul_inter_zLattice [DiscreteTopology L] [IsZLattice ℝ L]
+    (hs : Absorbent ℝ s) (hi : i < finrank ℝ E) :
+    ∃ r : ℝ≥0, i < Set.finrank ℝ (r • s ∩ L) := by sorry
+
+/-- Below the rank, the foundational minima are monotone in the index (1.1b). -/
+@[gcongr] theorem successiveMin_mono [DiscreteTopology L] (hs : Absorbent ℝ s) (hij : i ≤ j)
+    (hj : j < finrank ℤ L) : successiveMin L s i ≤ successiveMin L s j := by sorry
+
+/-- Above the `i`-th minimum, the dilate contains `i + 1` integrally independent lattice vectors
+(1.1b). -/
+theorem exists_linearIndependent_of_successiveMin_lt [DiscreteTopology L] {r : ℝ≥0}
+    (hsc : Convex ℝ s) (hs₀ : s ∈ 𝓝 0) (hi : i < finrank ℤ L) (hr : successiveMin L s i < r) :
+    ∃ v : Fin (i + 1) → L, (∀ j, (v j : E) ∈ r • s ∩ L) ∧ LinearIndependent ℤ v := by sorry
+
+/-- For a compact convex neighbourhood of zero the threshold set is closed (1.1b). -/
+theorem isClosed_setOf_lt_setFinrank_smul_inter [DiscreteTopology L] (hsc : Convex ℝ s)
+    (hs : IsCompact s) (hs₀ : s ∈ 𝓝 0) (hi : i < finrank ℤ L) :
+    IsClosed {r : ℝ≥0 | i < Set.finrank ℝ (r • s ∩ L)} := by sorry
+
+/-- The `i`-th minimum is attained: its own dilate meets `L` in rank greater than `i` (1.1b). -/
+theorem lt_setFinrank_successiveMin_smul [DiscreteTopology L] (hsc : Convex ℝ s)
+    (hs : IsCompact s) (hs₀ : s ∈ 𝓝 0) (hi : i < finrank ℤ L) :
+    i < Set.finrank ℝ (successiveMin L s i • s ∩ L) := by sorry
+
+variable (L) in
+/-- A real-independent family of lattice vectors, the `j`-th in the dilate by the `j`-th minimum
+(1.1b). -/
+theorem exists_directional_set' [DiscreteTopology L] (hsc : Convex ℝ s) (hs : IsCompact s)
+    (hs₀ : s ∈ 𝓝 0) :
+    ∃ v : Fin (finrank ℤ L) → E,
+      (∀ j, (v j : E) ∈ successiveMin L s j.val • s ∩ L) ∧ LinearIndependent ℝ v := by sorry
+
+variable (L) in
+/-- The directional family as an integrally independent family in `L` (1.1b). -/
+theorem exists_directional_set [DiscreteTopology L] (hsc : Convex ℝ s) (hs : IsCompact s)
+    (hs₀ : s ∈ 𝓝 0) :
+    ∃ v : Fin (finrank ℤ L) → L,
+      (∀ j, (v j : E) ∈ successiveMin L s j.val • s) ∧ LinearIndependent ℤ v := by sorry
+
+variable (L) in
+/-- For a lattice, the directional family is a real basis of `E`; it need not be an integral
+basis (1.1b). -/
+theorem exists_directional_basis [DiscreteTopology L] [IsZLattice ℝ L] (hsc : Convex ℝ s)
+    (hs : IsCompact s) (hs₀ : s ∈ 𝓝 0) :
+    ∃ b : Basis (Fin (finrank ℝ E)) ℝ E, ∀ i, b i ∈ successiveMin L s i.val • s ∩ L := by sorry
+
+end ProposalLemmas
+
+end MeasureTheory
 
 namespace TauCetiRoadmap.SuccessiveMinima
 
@@ -104,9 +217,8 @@ lattice is full as a consequence. -/
 theorem exists_integral_basis_same_flag
     (L : Submodule ℤ E) [DiscreteTopology L]
     (w : Basis (Fin (finrank ℝ E)) ℝ E) (hw : ∀ i, w i ∈ L) :
-    ∃ b : Basis (Fin (finrank ℝ E)) ℤ L, ∀ k : ℕ,
-      Submodule.span ℝ {x : E | ∃ i, i.val < k ∧ w i = x} =
-        Submodule.span ℝ {x : E | ∃ i, i.val < k ∧ (b i : E) = x} := by sorry
+    ∃ b : Basis (Fin (finrank ℝ E)) ℤ L, ∀ k : Fin (finrank ℝ E + 1),
+      w.flag k = Submodule.span ℝ {x : E | ∃ i, i.castSucc < k ∧ (b i : E) = x} := by sorry
 
 end SameFlag
 
@@ -182,8 +294,8 @@ theorem exists_successiveMin_witnesses :
       (∀ i, b i ∈ L) ∧
       (∀ i, gauge (K : Set E) (b i) = successiveMin L K i) ∧
       (∀ i, b i ∈ successiveMin L K i • (K : Set E)) ∧
-      ∀ i, ∀ x : L, gauge (K : Set E) x < successiveMin L K i →
-        (x : E) ∈ Submodule.span ℝ {y : E | ∃ j, j < i ∧ b j = y} := by sorry
+      ∀ i, ∀ x : L, gauge (K : Set E) x < successiveMin L K i → (x : E) ∈ b.flag i.castSucc := by
+  sorry
 
 /-- Enlarging the body decreases every successive minimum (1.8). -/
 theorem successiveMin_antitone_body (K' : ConvexBody E)
@@ -199,11 +311,12 @@ theorem successiveMin_monotone_lattice (M : Submodule ℤ E)
 theorem successiveMin_smul_body (c : ℝ) (hc : 0 < c) (i : Fin (finrank ℝ E)) :
     successiveMin L (c • K) i = successiveMin L K i / c := by sorry
 
-/-- Transporting lattice and body by the same linear equivalence preserves the minima (1.11). -/
+/-- Transporting lattice and body by the same linear equivalence preserves the minima (1.11).
+The image lattice is discrete and full, and `0` is interior to the image body, as consequences of
+`hL'` and `heK`. -/
 theorem successiveMin_linearEquiv
     {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] [FiniteDimensional ℝ F]
-    (e : E ≃ₗ[ℝ] F) (L' : Submodule ℤ F) [DiscreteTopology L'] [IsZLattice ℝ L']
-    (K' : ConvexBody F) (hK' : (0 : F) ∈ interior (K' : Set F))
+    (e : E ≃ₗ[ℝ] F) (L' : Submodule ℤ F) (K' : ConvexBody F)
     (hL' : L' = L.map (e.toLinearMap.restrictScalars ℤ))
     (heK : (K' : Set F) = e '' (K : Set E))
     (i : Fin (finrank ℝ E)) (j : Fin (finrank ℝ F)) (hij : i.val = j.val) :
@@ -329,6 +442,17 @@ theorem coordinate_flag_upper {d : ℕ} (K : ConvexBody (Fin d → ℝ))
     (hflag : ∀ (i : Fin d) (z : Fin d → ℤ),
       gauge (K : Set (Fin d → ℝ)) (fun j ↦ (z j : ℝ)) < a i → ∀ j, i ≤ j → z j = 0) :
     (∏ i, a i) * volume.real (K : Set (Fin d → ℝ)) ≤ 2 ^ d := by sorry
+
+/-- **Minkowski's first theorem on successive minima** (3.22):
+`λ_0^d μ(K) ≤ 2^d covol L` in positive dimension. -/
+theorem minkowski_first_successiveMin {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
+    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E) [Measure.IsAddHaarMeasure μ]
+    (hd : 0 < finrank ℝ E) :
+    successiveMin L K ⟨0, hd⟩ ^ finrank ℝ E * μ.real (K : Set E) ≤
+      2 ^ finrank ℝ E * ZLattice.covolume L μ := by sorry
 
 end UpperInequality
 
