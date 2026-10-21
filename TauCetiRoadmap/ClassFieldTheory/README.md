@@ -207,7 +207,8 @@ starting point for the profinite audit.
   class formation and Tate's theorem, `ClassFormation`
   (Tau Ceti's, re-exported), Tau Ceti's `ClassFormation.fundamentalClass` and
   `ClassFormation.fundamentalClass_generates`, and this roadmap's `tateTheorem` and `artinMap_conj`;
-  the Nakayama–Rim theorem `projective_ker_of_isZero_res`; and `scd_p_absoluteGaloisGroup_eq_two`. The smoothness hypotheses of `finite_H`,
+  the Nakayama–Rim theorem `projective_ker_of_isZero_res` and
+  `primaryComponent_tateCohomology_eq_bot`; and `scd_p_absoluteGaloisGroup_eq_two`. The smoothness hypotheses of `finite_H`,
   `tateDualityPairing_perfect_mixed` and `eulerCharacteristic_finrank_fp` are instance arguments,
   found at `μ_p`, at its Tate dual and at the trivial module `𝔽_p`, the modules this consumer uses.
   `cyclotomicCharacter_artinMap` is proved in Layer 7, from the explicit local symbols of the
@@ -714,6 +715,13 @@ Do not begin by writing a new `tateH` definition.
      consumes these statements, for coefficient modules of any size, through a resolution of length
      one, and `LocalGaloisGroups` consumes `projective_ker_of_isZero_res` at `k = ℤ_[p]` for its
      Tate module.
+   - `p`-primary Tate cohomology sees only `p`: `primaryComponent_tateCohomology_eq_bot`. If
+     multiplication by a prime `p` is bijective on `A`, the `p`-primary component of
+     `Ĥⁿ(S, A)` is trivial for every subgroup `S` and every `n ∈ ℤ`, because it is killed by `#S`
+     and multiplication by `p` on `A` induces a bijection of it. With the long exact sequences, a
+     morphism whose kernel and cokernel have bijective multiplication by `p` therefore induces
+     isomorphisms on the `p`-primary components of Tate cohomology. `LocalGaloisGroups` applies this
+     to `Lˣ → A(L)`, the `p`-adic completion of the multiplicative group of a `p`-adic field.
 
 5. Give comparison theorems with ordinary cohomology in positive degrees and with the existing
    explicit cyclic Tate theory. Do not expose duplicate public carriers.
@@ -726,7 +734,7 @@ Do not begin by writing a new `tateH` definition.
 `artinEquiv` using imported Tate groups and imported cup products, with no locally defined
 cohomology object, and states the four Nakayama–Rim theorems on Mathlib's `tateCohomology` with the
 hypothesis shape of Tau Ceti's criterion and no finiteness hypothesis on the representation,
-together with `Submodule.free_of_isPrincipalIdealRing`.
+together with `Submodule.free_of_isPrincipalIdealRing` and `primaryComponent_tateCohomology_eq_bot`.
 
 ### Layer 1: formations and finite normal layers
 
@@ -2059,7 +2067,9 @@ It contains:
 
 - the four Nakayama–Rim theorems of Layer 0, stated on Mathlib's `tateCohomology` with the
   hypothesis shape of Tau Ceti's `TateCohomology.isZero_of_forall_isPGroup`, and the freeness of
-  submodules of free modules over a principal ideal domain, `Submodule.free_of_isPrincipalIdealRing`;
+  submodules of free modules over a principal ideal domain, `Submodule.free_of_isPrincipalIdealRing`,
+  and `primaryComponent_tateCohomology_eq_bot`, which compares `p`-primary Tate cohomology across a
+  morphism whose kernel and cokernel are uniquely `p`-divisible;
 - the re-export `ClassFormation` of Tau Ceti's class formation, on which Layers 3 and 4 are stated;
   every other object of Layers 1 and 2 is Tau Ceti's and is consumed by name, not restated
   (formations, layers, restriction, corestriction, inflation, conjugation, fundamental classes and

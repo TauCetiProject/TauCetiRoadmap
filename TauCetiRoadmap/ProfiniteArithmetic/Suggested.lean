@@ -63,11 +63,13 @@ There is one profinite-integers object, `TauCeti.zHat`. Layer 0 puts the ring st
 additive presentation `Additive TauCeti.zHat`, written `ẑ`, and Layer 1 defines the profinite
 power `x ^ᶻ a` as `TauCeti.zHat.lift x a`. Layer 2 builds the groups `ContinuousAut G` and
 `ContinuousOut G` with the congruence topology, and Layer 3 the `ℤ_p`-linear graded Lie algebra of
-the closed lower central series with its spanning theorem. Tau Ceti implements all four layers in
-the forms pinned here. Every definition below is a reducible alias of a Tau Ceti declaration,
-except `frattiniKernel`, which presents the kernel of Tau Ceti's `MulAut.mapQuotient` by its
-membership condition. Every instance is Tau Ceti's, and every theorem is Tau Ceti's or follows
-from it.
+the closed lower central series with its spanning theorem. The ring, power, automorphism and
+closed-series aliases and their existing laws use the native declarations and instances.
+`frattiniKernel` presents the native quotient kernel by its membership condition. The three
+additional Layer 2.4 target signatures pin the full characteristic-family cofinality,
+quotient-Frattini comparison and unique reconstruction; their proofs remain roadmap targets.
+The closed compatibility subgroup, inverse and topological equivalence laws are also required
+by the definitive README; the suggested signatures are not an exhaustive checklist.
 -/
 
 namespace TauCetiRoadmap.ProfiniteArithmetic
@@ -711,6 +713,42 @@ theorem isPGroup_frattiniKernel (p : ℕ) [Fact p.Prime] (P : Type u) [Group P] 
   by
     rw [show frattiniKernel P = _ from Subgroup.copy_eq _ _ _]
     exact IsPGroup.isPGroup_ker_mapQuotient_frattini hP
+
+/-- **Layer 2.4.** All characteristic open normal quotients inside the pro-`p` Frattini
+subgroup. No choice of a smaller sequence is part of this index. -/
+abbrev FrattiniCharacteristicIndex (p : ℕ) : Type u :=
+  {N : OpenNormalSubgroup G // IsTopCharacteristic G N ∧
+    (N : Subgroup G) ≤ TauCeti.proPFrattini p G}
+
+/-- **Layer 2.4.** The complete characteristic family is cofinal among open quotients. -/
+theorem frattiniCharacteristicIndex_cofinal (p : ℕ) [Fact p.Prime] [CompactSpace G]
+    [TotallyDisconnectedSpace G] (hG : TauCeti.IsProP p G)
+    (hfg : TauCeti.IsTopologicallyFinitelyGenerated G) (U : OpenNormalSubgroup G) :
+    ∃ N : FrattiniCharacteristicIndex G p, N.1 ≤ U := sorry
+
+/-- **Layer 2.4.** Exact image of the pro-`p` Frattini subgroup in every finite coordinate. -/
+theorem frattiniCharacteristicIndex_map_Frattini (p : ℕ) [Fact p.Prime] [CompactSpace G]
+    [TotallyDisconnectedSpace G] (hG : TauCeti.IsProP p G)
+    (N : FrattiniCharacteristicIndex G p) :
+    (TauCeti.proPFrattini p G).map (QuotientGroup.mk' (N.1 : Subgroup G)) =
+      frattini (G ⧸ (N.1 : Subgroup G)) := sorry
+
+/-- **Layer 2.4.** Every family in the full finite kernels satisfying all quotient
+commutation squares comes from a unique element of the entire global kernel. This is
+reconstruction, not a transition map between arbitrary individual finite kernels. -/
+theorem frattiniCompatibleFamily_existsUnique (p : ℕ) [Fact p.Prime] [CompactSpace G]
+    [TotallyDisconnectedSpace G] (hG : TauCeti.IsProP p G)
+    (hfg : TauCeti.IsTopologicallyFinitelyGenerated G)
+    (σ : ∀ N : FrattiniCharacteristicIndex G p, MulAut (G ⧸ (N.1 : Subgroup G)))
+    (hσker : ∀ N, σ N ∈ frattiniKernel (G ⧸ (N.1 : Subgroup G)))
+    (hσ : ∀ ⦃N M : FrattiniCharacteristicIndex G p⦄ (hle : N.1 ≤ M.1)
+      (q : G ⧸ (N.1 : Subgroup G)),
+      TauCeti.QuotientGroup.mapOfLE hle (σ N q) = σ M (TauCeti.QuotientGroup.mapOfLE hle q)) :
+    ∃! φ : ContinuousAut G,
+      φ ∈ (ContinuousAut.mapQuotient G (TauCeti.proPFrattini p G)
+        (isTopCharacteristic_proPFrattini G p)).ker ∧
+      ∀ N : FrattiniCharacteristicIndex G p,
+        ContinuousAut.mapQuotient G (N.1 : Subgroup G) N.2.1 φ = σ N := sorry
 
 /-- **Layer 2.4, the pro-`p` theorem.** For a topologically finitely generated pro-`p` group the
 automorphisms acting trivially on the Frattini quotient form an open pro-`p` subgroup. -/
