@@ -38,11 +38,17 @@ are application theories, not consequences built into this headline.
 Use one intrinsic real-current carrier `Current k M`, acting continuously and
 real-linearly on compactly supported smooth **k-forms**, and its integer-rectifiable,
 locally integral, finite integral and compactly supported integral subgroups. These
-are subobjects of the same current theory, not independent models. In a Euclidean
-chart the test forms are Mathlib's `TestFunction Ω (E [⋀^Fin k]→L[ℝ] ℝ) ⊤`.
-Construct the manifold LF test-form topology and chart comparisons on
-DifferentialGeometry's form bundle. The real ambient vector space of currents
-does not make its integral subgroup an ℝ-vector space.
+are subobjects of the same current theory, not independent models. Put
+`A_k = Λ^k T* M`, let `D = DensityBundle M`, and put `V_k = A_k* ⊗ D`.
+Consume the early real finite-rank `BundleTest(V_k* ⊗ D)` foundation of
+[ComplexKahlerGeometry K5a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/17de96c131cb4bba925c11191595b59dd39cde98/TauCetiRoadmap/ComplexKahlerGeometry/README.md).
+The canonical evaluation/bidual and density-dual cancellation give
+`V_k* ⊗ D ≃ A_k`. G1 specializes this test space to forms and owns its
+current-specific differential, boundary and mass. In a Euclidean chart the test
+forms compare with native `TestFunction Ω (E [⋀^Fin k]→L[ℝ] ℝ) ⊤`.
+No complex structure, orientation or compactness is required for this real
+specialization. The real ambient vector space of currents does not make its
+integral subgroup an ℝ-vector space.
 
 Pin
 
@@ -69,6 +75,7 @@ Consume the following suppliers at their indicated item boundaries:
 
 | Supplier | Input used here |
 | --- | --- |
+| [ComplexKahlerGeometry K5a early real bundle-test foundation](https://github.com/TauCetiProject/TauCetiRoadmap/blob/17de96c131cb4bba925c11191595b59dd39cde98/TauCetiRoadmap/ComplexKahlerGeometry/README.md) | Density line, compactly supported smooth finite-rank bundle tests, fixed-compact derivative seminorms, canonical LF topology, native chart/frame extension maps and their linear universal property, restriction/gluing and real scalar compatibility. G1 owns the real form specialization below; no later PDO, elliptic, Hodge or complex-current comparison is an input. |
 | [GeometricMeasureTheory G2–G6](../GeometricMeasureTheory/README.md) | Countable rectifiability, approximate tangents/tangential differentiation, weighted area/coarea, BV/local perimeter, De Giorgi structure, trace and Gauss–Green. Build their manifold/chart and current comparison here. GMT does not own currents or minimizing-current regularity. |
 | [DifferentialGeometry0–2,5,8–9,12](../DifferentialGeometry/README.md) | Generic alternating form bundles, exterior derivative/pullback, orientation, outward-first integration/Stokes/corners, smooth simplices, real smooth-chain comparison and induced metrics/densities. Use its actual form and simplex carriers. |
 | [CalibratedGeometry C1/C2](../CalibratedGeometry/README.md) | Comass; the **single integral finite smooth-chain complex** on DG8.3's `SmoothSimplex →₀ ℤ`, integral smooth-to-singular comparison, and finite oriented relative fundamental chains from GT's smooth triangulation. G2–G3 build their evaluation into currents, not another integral smooth complex. |
@@ -79,7 +86,8 @@ Consume the following suppliers at their indicated item boundaries:
 | [TopologicalKTheory T1.5](../TopologicalKTheory/README.md) | The finite coordinate real Grassmannian/submodule carrier used for the auxiliary tangent-plane bundle; GC constructs its intrinsic fibre comparison and proves compactness; no bundle classification or Bott theorem is needed. |
 | [RiemannianGeometry R5](../RiemannianGeometry/README.md) | Earlier immersion geometry B/S/H, Gauss/Codazzi/Ricci and first volume variation; R5a.1's density-volume theorem and R5b's general smooth normal Hessian/Jacobi/stability and Dirichlet API. |
 | [CalibratedGeometry C3](../CalibratedGeometry/README.md) | C3's calibration-minimum/stability consequence and oriented-chain comparison, consuming R5a.1's orientation-free C² relative-volume theorem. C6 retains its specialized Lagrangian Hessian. |
-| [PDE A.1–7/B.8–10/C.12–13/D16–19/E20–22](../PDE/README.md), [VariationalMethods V2.4/V3–V5.2](../VariationalMethods/README.md) | Scalar Sobolev/trace, Marcinkiewicz interpolation and Mihlin–Hörmander multipliers, harmonic mean-value/regularity and maximum/comparison principles, local and bounded-domain elliptic/Dirichlet theory; abstract semibounded compact form/represented-operator theory. R5b owns their finite-chart Riemannian normal-bundle/metric/potential specialization. A compact-boundaryless pseudodifferential theorem is not a Dirichlet boundary theorem. Geometric excess/height/iteration and nonlinear minimizing-graph arguments are targets here. |
+| [PDE scalar Sobolev/trace, harmonic theory, ABP and non-divergence estimates](https://github.com/TauCetiProject/TauCetiRoadmap/blob/90cd3694d4b5bd2a5b4d3b89652a958b951210a1/TauCetiRoadmap/PDE/README.md) | Lane A Sobolev/trace and Hölder carriers; B.8–10 interpolation and Mihlin–Hörmander/CZ bounds; C.12–13 harmonic comparison and the single generic strong-solution ABP/contact engine with GMT's area input; D16–19 variational/represented operators; the **non-divergence Calderón–Zygmund** and **non-divergence Schauder/classical Dirichlet** families (E.26/E.25 in this edition). G6 constructs the additional Hessian-intersection/common-fixed-point and nonlinear graph upgrade. Divergence-form estimates are not substituted for those non-divergence families. |
+| [RiemannianGeometry R5b](https://github.com/TauCetiProject/TauCetiRoadmap/blob/fe24665114fd3848f928d85e00f717f248bc6c56/TauCetiRoadmap/RiemannianGeometry/README.md), with [VariationalMethods V2.3–V2.4/V3–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md) and [UnboundedOperators UO-D06](https://github.com/TauCetiProject/TauCetiRoadmap/blob/24e97bb6ab2f84e01c5a3caca0b6cd4d8ec72787/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md) | R5b's named normal Hessian/Jacobi/full-scalar stability and boundary-H²/Dirichlet-domain exports consume the single generic closed-form/represented-operator and compact-form comparisons. Use that finite-chart Riemannian metric/normal-bundle specialization, not another generic spectral or Jacobi construction. A compact-boundaryless PDO theorem is not a Dirichlet boundary theorem. All geometric excess/height/iteration and nonlinear minimizing-graph constructions remain targets here. |
 
 [CalibratedGeometry C2](../CalibratedGeometry/README.md#c2-calibrated-immersions-and-integration)
 supplies the integral smooth-to-singular quasi-isomorphism: integer generator
@@ -128,13 +136,38 @@ shapes; no target waits for an upstream merge.
 
 ## G1. Test forms, currents and mass
 
-Construct compactly supported smooth test k-forms on open subsets and on M.
-Give the LF topology from fixed-compact-support smooth seminorms; prove chart,
-partition-of-unity and trivialization independence, continuous evaluation,
-restriction/extension by zero where support permits it, and continuity of exterior
-derivative and smooth multiplication. Prove this Euclidean test-form space is the
-native vector-valued `TestFunction` above. Form pullbacks retain their actual
-regularity and support hypotheses.
+Define `TestForm k M` as K5a's compactly supported smooth real bundle tests
+`BundleTest(V_k* ⊗ D)`, transported through the canonical smooth fibre isomorphism
+`c_k : V_k* ⊗ D ≃ A_k`. Its pointwise formula is bidual evaluation followed by
+`D* ⊗ D → ℝ`; prove it and its inverse commute with every chart and frame change.
+Use the same construction on each open subset. Prove that postcomposition with
+`c_k` and its inverse gives mutually inverse real continuous-linear test maps,
+preserves the exact support and each permitted extension by zero, and commutes
+with restriction and locally finite gluing. On every fixed compact support,
+compare the derivative seminorms in both directions using smoothness of `c_k`
+and bounded derivatives of it and its inverse on finitely many charts. Thus the
+transported topology is exactly the supplier's LF topology, independent of atlas,
+frame, auxiliary connection and partition of unity; do not define a second generic
+LF topology or repeat its general foundation.
+
+Pin the native chart map: a smooth local frame sends a native
+`TestFunction Ω F ⊤` to the corresponding compactly supported section by
+extension by zero, with precisely that pointwise formula and support. In a
+Euclidean open chart with the standard form frame, prove `TestForm` is
+real topologically linearly equivalent to
+`TestFunction Ω (E [⋀^Fin k]→L[ℝ] ℝ) ⊤`; both maps preserve evaluation,
+fixed-compact supports and their derivative seminorms. Use K5a's final locally
+convex universal property to prove continuity of these maps and their inverse,
+rather than the raw final topology of topological spaces. Prove the induced
+compact-convergence dual equivalence with real `BundleDistribution(V_k)`;
+G4's weak test-evaluation convergence remains a distinct topology.
+
+G1 owns continuous exterior derivative and smooth multiplication on these same
+form tests, consuming DG's form operations and K5a's chart seminorm estimates;
+prove the actual pointwise, chart and restriction equations. Form pullbacks
+retain their actual regularity and support hypotheses. All these constructions
+are real and precede C5.4's downstream real/complex current comparison; neither
+that comparison nor K5a's later distribution-operator/Hodge theory is an input.
 
 Define real currents as continuous real-linear functionals on these tests.
 Develop evaluation/extensionality, zero/addition/scalars, restriction to open sets,
@@ -558,6 +591,28 @@ bound. Prove support, boundary, infimum attainment, lower semicontinuity and
 invariance under isometries/scaling. Do not state that every cycle bounds on an
 arbitrary manifold.
 
+For this confinement, after G4's closure theorem construct the extension of G2's
+pushforward to **finite-mass normal currents in complete Euclidean space** under
+a globally Lipschitz map, even when that map is not proper on the support.
+Choose radial cutoffs χ_R=1 on B_R, supported in B_(2R), with
+`|dχ_R|≤C/R`. The already-constructed compact-support pushforwards of χ_R T
+are Cauchy in mass; their boundaries converge to the pushforward of ∂T because
+`∂(χ_R T)=χ_R ∂T−T⌟dχ_R` and the extra term has mass at most
+`(C/R) M(T⌞(B_(2R)\B_R))`, before the appropriate Lipschitz power.
+Use finite mass of both T and ∂T to prove cutoff independence, boundary
+naturality and `M(f_*T)≤Lip(f)^k M(T)`, with the degree-zero boundary separate.
+For integral currents use a.e. integral ball restrictions and choose radii in
+[R,2R] by coarea so their slice boundary errors are bounded by the same vanishing
+annular mass/R estimate. Their pushforwards are integral, and G4 closure identifies
+the same limit as integral; smooth real cutoffs are not claimed to preserve
+integrality. Prove composition and agreement with G2's proper-support definition.
+For a convex projection, Lip≤1 and it fixes B, so this extension preserves the
+boundary and does not increase mass, giving equality of confined and unconfined
+infima. Completeness of this Euclidean source and finite mass/boundary mass are
+part of this adapter: G2's general incomplete-source properness/support conditions
+remain in force. No arbitrary noncompact homology constraint is transported
+without its own constraint-preserving map and proof.
+
 On a compact Riemannian manifold construct minimizing integral representatives
 of each fixed integral homology class. Pin the trapped versions as separate
 theorems. Let K be a compact locally Lipschitz neighborhood retract in M,
@@ -583,11 +638,32 @@ additional support conclusions.
 Define local area minimization by comparisons with `T+∂Q`, Q an integral current
 of one higher dimension with compact support in a relatively compact variation
 domain; compare masses on a region containing the changed support. Prove locality,
-restriction, agreement with absolute boundary minimization on small balls and the
-implication from the homological minimizers above. The homotopy/product formula
-makes smooth compactly supported variations admissible; their first variation
-and smooth stability consequences are proved in G6, not assumed here.
-No positive-mass or Morse comparison theorem is an input to these existence results.
+restriction and the implication from the homological minimizers above. For
+**k≥1**, prove agreement with fixed-boundary minimization on sufficiently small
+contractible balls for competitors agreeing outside a compact subset of the ball:
+the difference is a compactly supported k-cycle, and the local cone/homotopy
+operator fills it inside the ball. This comparison is interior to any admissible
+trap, not a claim that all manifold cycles bound.
+
+For **k=0** retain the ordinary differential `∂_0=0`. The corresponding
+fixed-boundary comparison must also impose **equal augmentation** on the compactly
+supported difference. Prove that the degree-zero cone formula fills precisely
+augmented-zero differences. The augmentation is evaluated against a smooth cutoff
+equal to1 near the changed support and is independent of that cutoff; no constant
+noncompact test is inserted into the LF domain. Retain ordinary H_0, relative
+homology and all degree-zero targets. For the rank-one integral local-system
+version in G3, trivialize over this ball and impose vanishing of the transported
+coefficient sum; the zero condition is independent of the trivialization.
+
+As an acceptance regression, for p in an interval of ℝ, the point current δ_p
+is minimizing against every compactly supported boundary perturbation: its
+augmentation remains1, so the mass is at least1. The current0 has the same ordinary
+boundary and agrees outside the interval, but has mass0 and different augmentation.
+It is excluded from the equal-augmentation class, not from the ordinary current
+complex. The homotopy/product formula makes smooth compactly supported variations
+admissible; their first variation and smooth stability consequences are proved in
+G6, not assumed here. No positive-mass or Morse comparison theorem is an input
+to these existence results.
 
 ## G6. First variation, normal stability and interior regularity
 
@@ -692,21 +768,33 @@ dimension m≥1, for `0<α<1`, symmetric locally uniformly elliptic
 following analytic steps explicitly, using PDE's estimates and solvability as
 inputs rather than assuming they already assert this qualitative upgrade.
 
-- Construct `strongSolution_abp_maximumPrinciple` on a positive-radius ball B in ℝᵐ. For measurable
-  symmetric coefficients with `λI≤a≤ΛI`, `0<λ≤Λ`, and
+- Consume PDE C13's single generic strong-solution ABP/contact theorem and export
+  its instance `strongSolution_abp_maximumPrinciple` on a positive-radius ball B
+  in ℝᵐ, m≥1. For measurable symmetric `λI≤a≤ΛI`, `0<λ≤Λ`, and
   `w∈W^{2,m}_loc(B)∩C⁰(B̄)` satisfying `aⁱʲDᵢDⱼw≥g` a.e. with
-  `g⁻∈Lᵐ(B)`, prove
+  `g⁻∈Lᵐ(B)`, obtain
   `sup_B w≤sup_∂B w⁺+(C_m/λ)diam(B)‖g⁻‖_{Lᵐ(B)}`.
-  Prove the smooth upper-contact-set/gradient-image estimate by the determinant
-  bound and GMT G2's area formula, then its W^{2,m} approximation version.
-  Localize above positive boundary levels so the contact argument stays compactly
-  inside B; include the local-Sobolev/continuous-boundary form just stated.
-  Deduce uniqueness for boundary-zero strong homogeneous solutions with p≥m.
-  This principle also gives every nondivergence comparison used below; no
-  additional solution-class version of PDE C13 is assumed.
+  The generic convex envelope/contact set, gradient-image inclusion,
+  determinant/ellipticity bound, GMT G2 area estimate and Sobolev approximation
+  are owned by PDE C13, not constructed a second time here. Match its sign by
+  applying the lower-bound formulation to −w, with the same λ and actual
+  Lebesgue/Lᵐ norm; track the ball dilation and dimension-only constant C_m.
+  If the chosen supplier formulation requires an explicit localization adapter,
+  own only that adapter: for ε>0 the set
+  `{w≥sup_∂B w⁺+ε}` is compactly contained in B. On a neighborhood of its
+  relevant contact pieces the local W²,ᵐ hypotheses give the supplier's
+  approximation inputs; extend by cutoff there, apply its compact contact
+  inequality, and let ε↓0. Prove the estimates independent of the cutoff and
+  exhaustion; do not assume the positive part of a W²,ᵐ function is itself
+  W²,ᵐ. No new convex-envelope, area or generic ABP engine is assigned to GC.
+  Apply both signs with g=0 to deduce uniqueness for boundary-zero strong
+  homogeneous solutions with p≥m, using local finite-volume inclusion when p>m.
+  This is the named non-divergence comparison used below, with precisely the
+  local-Sobolev/continuous-boundary solution class just stated.
 - Construct `constCoeffHessianOperator A₀ p`, abbreviated R_A₀, as a bounded
-  linear map from scalar Lᵖ to matrix-valued Lᵖ using PDE B10/E21's
-  Calderón–Zygmund theory. For a symmetric positive-definite A₀ its multiplier is
+  linear map from scalar Lᵖ to matrix-valued Lᵖ using PDE B10's singular-integral
+  bounds and its **non-divergence Calderón–Zygmund** constant-coefficient theorem
+  (E26 in the linked edition). For a symmetric positive-definite A₀ its multiplier is
   `ξᵢξⱼ/(A₀ξ·ξ)` away from ξ=0, with value zero there, using the fixed PDE
   Fourier convention. Prove its Lᵖ bounds for `1<p<∞`, real-valued restriction,
   Hessian/inverse identity for compactly supported W²,ᵖ functions,
@@ -724,21 +812,22 @@ inputs rather than assuming they already assert this qualitative upgrade.
   `f∈Lᑫ_loc` and `u∈W²,²_loc` satisfying `a:D²u=f` a.e., prove
   `u∈W²,ᑫ_loc`. For q≤2 use local finite-volume inclusion; for q>2 the
   iteration stops at q. No W²,ᵖ Dirichlet theorem is assumed here.
-- On a smaller ball use E22's C^{2,α} Dirichlet solvability with smooth
-  approximations of the continuous boundary data. Apply the ABP theorem with
-  g=0 to both signs of the difference of classical approximants; their
-  sup-norm difference is bounded by that of the boundary data. This and E22
-  interior estimates give a C^{2,α}_loc solution with those boundary values.
-  The strong-solution ABP principle above identifies it with u. Prove the
+- On a smaller ball use PDE's **non-divergence Schauder/classical Dirichlet**
+  theorem (E25 in the linked edition) for C^{2,α} Dirichlet solvability with smooth
+  approximations of the continuous boundary data. Apply the consumed ABP theorem
+  with g=0 to both signs of the difference of classical approximants; their
+  sup-norm difference is bounded by that of the boundary data. This and the same
+  non-divergence interior estimates give a C^{2,α}_loc solution with those boundary
+  values. The strong-solution ABP instance above identifies it with u. Prove the
   approximation, compactness and localization steps, using native Arzelà–Ascoli
   for the functions and derivatives on smaller compact balls and preserving the
   α-seminorm by its pairwise difference inequality at limits. This gives k=0.
 - For higher orders use coordinate difference quotients on nested interior balls:
   `aⁱʲDᵢDⱼ(δ_hu)=δ_hf−(δ_haⁱʲ)DᵢDⱼu(·+h)`.
-  E22's interior estimates bound the quotients uniformly in C^{2,α} when a,f are
-  C^{1,α}. Pass to the derivative limit, retaining the α-seminorm bound; iterate
-  this difference-quotient argument at each order. Do not assume a differentiated
-  solution already has the Sobolev regularity one is proving.
+  The same non-divergence Schauder interior estimates bound the quotients uniformly
+  in C^{2,α} when a,f are C^{1,α}. Pass to the derivative limit, retaining the
+  α-seminorm bound; iterate this difference-quotient argument at each order. Do not
+  assume a differentiated solution already has the Sobolev regularity one is proving.
 
 Apply the upgrade first at k=0 to the C1,α graph after the geometric W²,² step.
 Its C2,α regularity makes `aⁱʲ(x,u,Du)` and the geometric forcing C1,α; repeat
@@ -872,18 +961,25 @@ conclusions cannot be inputs to G1–G7.
 
 The item graph is
 
-`{native analysis, DG forms/integration, Calib C1 comass algebra, HopfRinow L0} → G1`,
+`{native analysis, DG form/density bundles, K5a early real BundleTest LF, Calib C1 comass algebra, HopfRinow L0} → G1 form specialization/d/boundary/mass`,
 `{G1, GMT G2–6, Calib C2 evaluation, HopfRinow L0, Morse M3 early smooth exhaustion} → G2`,
 `{G2, AT local chart topology} → G4a`,
 `{G2, G4a, Calib C2, AT/GT, DGF0 adapter} → G3`,
 `{G2, G4a, G3 ordinary comparison, AT2.6/AT3, DG bundles} → G3 orientation-line coefficients → twisted constancy/intersection`,
 `{G2, G4a} → G4b`, `{G3, G4a, G4b} → G5`,
 `R5a immersion geometry → R5a.1 C²-density volume → R5a.2/R5b`,
-`{PDE A Sobolev, GMT G2 area} → strong-solution ABP`,
-`{PDE A Sobolev, B10 multipliers/E21} → constCoeffHessianOperator → interior W²,p upgrade`,
-`{ABP, interior W²,p upgrade, E22} → strong-solution Schauder upgrade`,
+`{PDE A Sobolev, GMT G2 area} → PDE C13 generic ABP → G6 compact-contact/local-class instance`,
+`{PDE A Sobolev, B10 multipliers/non-divergence CZ} → constCoeffHessianOperator → simultaneous-exponent interior W²,p upgrade`,
+`{consumed ABP instance, interior W²,p upgrade, non-divergence Schauder/classical Dirichlet} → strong-solution Schauder upgrade`,
 `{G4b, G5, R5a/R5b, GMT perimeter, strong-solution upgrades, PDE harmonic estimates, Calib C1 quotient topology/TopK T1.5} → G6`,
 `{G6, GT collars, Calib C2–C4 comparison} → G7`.
+
+K5a's early real density/test foundation precedes all its PDO/elliptic/Hodge
+applications and C5.4's real/complex current comparison. Only that early cut enters
+G1; C5.4 later consumes the G1 specialization. R5b's normal Jacobi and represented
+Dirichlet exports consume VM/UO's single generic form engine and do not require
+current regularity. The finite Euclidean nonproper confinement adapter uses G4
+closure before G5, so its integral limit does not assume Plateau existence.
 
 The local current homology proof uses its deformation/filling portion of G4 before
 G4's compactness theorem; G4's geometric deformation construction uses G1–G2 and
@@ -905,7 +1001,13 @@ No characteristic/Bott theorem is a prerequisite of these early constructions. T
 regularity and PMT follow G6–G7.
 
 Acceptance includes: point currents with integer coefficients and augmentation;
-interval endpoint signs, oriented cube faces and product/Koszul signs; unit disk and
+the point-versus-zero small-ball example distinguishing ordinary fixed boundary
+from equal augmentation, its augmented-zero cone filling and its rank-one local-system
+transport; agreement of finite Euclidean nonproper projection with proper compact
+truncations and its mass/boundary limits; fixed-compact K5a/native-test evaluation,
+support and LF comparison equations, including degree0 and above-dimension zero
+form fibres; the ABP sign/ball-rescaling/local-class instance and two-exponent
+common Hessian fixed point; interval endpoint signs, oriented cube faces and product/Koszul signs; unit disk and
 sphere fundamental currents and relative connecting maps; reversal and cancellation
 of two identical oppositely oriented sheets; a folded/repeated circle's parameter
 mass versus current mass; tangential-rank-deficient pushforward zero; a Borel
