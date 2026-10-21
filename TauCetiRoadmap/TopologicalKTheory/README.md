@@ -71,7 +71,10 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   the finite orientation-cover/cyclic-SO precursor before T1.6, then the
   numerable join/frame specialization after T1.6 and T6.4. The early
   precursor uses neither the join nor T6.4; stable BSO comparisons belong
-  to T1.6 and are consumed by C1.1b and T7.
+  to T1.6 and are consumed by C1.1b and T7. TopK T1.6a itself owns the
+  earlier pure finite-subset colouring lemma needed to countabilize arbitrary
+  locally finite classifier data. C1.1b's later join/frame colouring is a
+  consumer of that lemma, never a premise for T1.6a.
 - [ComplexKahlerGeometry K5–K7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/13b2335ea038b439655df55654e71b19603d8ee1/TauCetiRoadmap/ComplexKahlerGeometry/README.md) supplies
   static Laplace-type estimates, Dolbeault Hodge theory, Kähler identities and
   projective examples. T6 owns the continuous-parameter, vertically smooth
@@ -332,10 +335,74 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    Set BSO(0)=pt for the canonically positively oriented zero bundle.
    HomotopySpheres §4A consumes this carrier/classification and owns ΩBSO≃SO
    and its comparison with its stable homogeneous-space models.
-   This supplies T7's BO/BSO classification input. Prove numerable fixed-rank
-   BO(n)/BU(n) classification for n≥0 and BSO(n) classification for n≥1
-   over paracompact Hausdorff bases, with the universal numerable bundle and
-   locally finite partition/classifying-map proof explicitly constructed.
+   This supplies T7's BO/BSO classification input.
+
+   **Early countable-colour producer (part of T1.6a).** Use Mathlib's actual
+   `PartitionOfUnity J X Set.univ` and its `IsSubordinate` predicate for the
+   original open bundle-chart family. Obtain this partition from native
+   `PartitionOfUnity.exists_isSubordinate`: normality follows from the stated
+   paracompact Hausdorff base hypotheses. The pure construction below only
+   assumes a supplied partition, not normality or paracompactness separately.
+   Write its weights as `(t_j)_{j∈J}`, with no countability assumption on `J`. For each nonempty finite `E⊂J`, set
+   `q_E=max(0, min_{j∈E} t_j − sup_{j∉E} t_j)`, with the supremum of an
+   empty complement defined as zero. Prove `q_E` is continuous by restricting
+   near each point to its finite active chart family. At a point, list the
+   positive active weights with multiplicity in decreasing order
+   `a₁≥⋯≥a_m>0`, put `a_(m+1)=0`, and set `a_n=0` for `n>m`. A positive
+   `q_E` occurs exactly when
+   `E` is the strict top-`|E|` initial segment, with `q_E=a_n−a_(n+1)`;
+   ties give zero rather than competing positive strata. Thus, for each fixed
+   `n≥1`, the sets `{q_E>0 : |E|=n}` are pairwise disjoint and
+   `Σ_{|E|=n} n q_E = n(a_n−a_(n+1))`. Summing over n telescopes to
+   `Σ_E |E|q_E=Σ_j t_j=1`. Zero weights, the last active segment and ties
+   are part of this argument, not generic-position exceptions.
+
+   Use native `PartitionOfUnity.finsupport` and `exists_finset_nhds` to reduce
+   these identities and sums locally to finite sums. Define the resulting
+   countable weights by those finite-support sums and package them as the
+   actual native `PartitionOfUnity ℕ X Set.univ`, with the prescribed gap
+   formula as an additional equation. No second partition carrier is used.
+   A `tsum` expression, when used, is compared with this finite sum by the
+   proved finite-support identity, not an extra summability premise.
+   Original chart subordination implies `x∈U_j` for every `j∈E` whenever
+   `q_E(x)>0`; retain this compatibility in the frame construction. The
+   coloured weights need not have their topological supports contained in
+   their own positive sets; their weighted frame maps use the norm-bound
+   and vanishing-weight extension argument below.
+
+   On each positive stratum `{q_E>0}`, choose an index in `E` and use its
+   subordinate local frame, normalized by the previously constructed bundle
+   metric. Glue these data over the disjoint positive strata of fixed size n;
+   define the resulting countable colour weight by
+   `w_n(x)=n Σ_{|E|=n}q_E(x)` (the positive sum has at most one term).
+   Prove these weights are continuous across stratum boundaries
+   and sum to one. The support family over all colours is locally finite:
+   near a point only finitely many original charts are active, so only
+   finitely many colour sizes occur. Multiplication of the chosen frame
+   coordinates by `sqrt(w_n)` gives a fibrewise isometric injection into the
+   countable direct sum `ℕ→₀𝕜`. Prove continuity at zero-weight boundaries,
+   and prove that near every base point the image lies in a single finite
+   coordinate stage. This local stage bound, not merely pointwise finite
+   support, gives continuity into the final topology on the finite-stage
+   Grassmannian carrier. Construct the tautological pullback isomorphism.
+   Construct partition, chart-frame and refinement independence homotopies
+   by passing to a common locally finite refinement and using the explicit
+   path `v ↦ (cos(πs/2) f(v), sin(πs/2) g(v))` in disjoint finite coordinate
+   blocks. On a real comparison use one spare coordinate
+   so each ambient path is a product of determinant-one plane rotations; on a
+   complex comparison use unitary two-plane rotations. Verify the bundle map
+   agrees on every overlap before gluing the homotopy. Prove pullback
+   naturality and the corresponding oriented lift using the early C1.1a
+   orientation cover. Positive-rank oriented frames preserve the given
+   orientation; the two rank-zero signs remain separate and are not classified
+   by `BSO(0)=pt`. These are early T1.6a obligations and use neither the later
+   join, T6.4, Bott periodicity, nor the classification theorem itself.
+
+   Prove numerable fixed-rank BO(n)/BU(n) classification for n≥0 and BSO(n)
+   classification for n≥1 over arbitrary paracompact Hausdorff bases, using
+   the preceding countable-colour producer, the universal numerable bundle,
+   and the locally finite partition/classifying-map construction explicitly.
+   This does not narrow the bases to countably numerated covers.
    Oriented classification is up to isomorphisms preserving the supplied
    orientation; a bare SO(0) frame reduction does not classify arbitrary
    chosen zero-dimensional orientations.

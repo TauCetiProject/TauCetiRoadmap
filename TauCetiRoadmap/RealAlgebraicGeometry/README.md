@@ -494,16 +494,17 @@ each input. Use the unique factorization APIs for `MvPolynomial` and
 irreducibility bridges. Separate factors independent of the distinguished
 variable into the content, and handle zero inputs explicitly.
 
-Define a `d`-dimensional analytic submanifold `S ⊆ Fin n → ℝ` as a
-nonempty set with `d ≤ n` and ambient `PartialHomeomorph` charts around each
-point. The chart and its inverse satisfy `AnalyticOnNhd ℝ` on their respective
-open source and target, and the chart sends its source intersected with `S`
-onto its target intersected with `{y | ∀ i, d ≤ i.val → y i = 0}`. Define
-analytic functions on `S` using the first `d` coordinates of these charts:
-locally their coordinate expressions extend to functions satisfying
-`AnalyticOnNhd ℝ` on an open subset of `Fin d → ℝ`. Prove independence of
-charts, composition, restriction to relatively open subsets, and the product
-and graph constructions. Ordinary analytic delineability is a `Delineation`
+Consume native `TauCeti.IsAnalyticSubmanifold` and `TauCeti.AnalyticOnSubmanifold`
+from `TauCeti.Analysis.Analytic.Submanifold.Basic`, with their `IsAnalyticChart`
+ambient partial-homeomorph charts, nonemptiness and dimension bounds. Consume the
+implemented coordinate-subspace/open-set examples, analytic extension in first
+coordinates, chart independence, relative-open restriction and composition API.
+Consume `TauCeti.Analysis.Analytic.Submanifold.Product` and `.Graph`,
+`IsAnalyticSubmanifold.prod`, `AnalyticOnSubmanifold.prodMap` and
+`IsAnalyticSubmanifold.graph` with their dimension, scalar-graph and coordinate
+conventions. Build the vector-valued graph, coordinate-reindexing and delineation adapters
+on these carriers rather than introducing another analytic-submanifold definition.
+Ordinary analytic delineability is a `Delineation`
 whose root functions are analytic in this sense. For Lazard analytic
 delineability, use the ordered root coverage and constant positive
 multiplicities of the Lazard evaluations, together with analyticity of those
@@ -515,22 +516,40 @@ The finite-dimensional analytic toolkit below is part of this layer. Use
 of `Fin m → ℂ` with `ℂ`. A polydisc is a product of open balls of positive
 radii; the distinguished disc is centered at zero. Establish these targets:
 
-* **Analytic inversion and implicit roots.** For `𝕜 = ℝ` and `𝕜 = ℂ`, a map
-  analytic at `a` with derivative a continuous linear equivalence has a
-  `PartialHomeomorph` near `a` whose forward and inverse maps are
-  `AnalyticOnNhd 𝕜` on source and target. Derive the local implicit-root
-  theorem for an analytic `f(w,z)` with `∂f/∂z ≠ 0`. Prove local
-  complexification of real analytic functions and chart maps, and the
-  conjugation compatibility of extensions of real-valued germs.
-* **Analytic dependence on parameters.** Prove the iterated Cauchy integral
-  formula on a smaller closed polydisc contained in an open domain and
-  deduce `AnalyticOnNhd ℂ f U` from `DifferentiableOn ℂ f U` for open
-  `U ⊆ Fin m → ℂ`. In particular, if an integrand is jointly analytic on
-  a neighborhood of a parameter point times a fixed circle, its contour
-  integral is analytic in the parameter near that point. Establish the
-  uniform convergence and integration of the resulting power series.
-  Mathlib's one-variable Cauchy theorem is an input to this development,
-  not a several-variable theorem to assume.
+* **Analytic inversion and implicit roots.** Consume
+  `TauCeti.Analysis.Analytic.Inverse`,
+  `AnalyticAt.exists_openPartialHomeomorph` (with invertible derivative,
+  Banach-domain hypotheses and any prescribed neighborhood), and
+  `AnalyticAt.exists_analyticAt_eventually_eq_zero_iff` (simple scalar zero
+  and complete scalar field). Build chart and root-coordinate transport
+  adapters from these implemented theorems. Consume `TauCeti.Analysis.Analytic.Complexification`:
+  `ContinuousMultilinearMap.complexifyPi`, its real-restriction, uniqueness,
+  conjugation and norm APIs; `FormalMultilinearSeries.complexifyPi` and
+  `le_radius_complexifyPi`; `AnalyticAt.exists_complexification` and
+  `exists_complexification_pi`; and the real-locus germ uniqueness and
+  conjugation theorems `eventuallyEq_of_eventually_real` and
+  `eventually_apply_star`. The native norm bound is `(card ι)^k` and its
+  radius bound is the original radius divided by `card ι`; the native
+  existence theorem also handles zero-dimensional coordinates. Prove the
+  sharper estimate independent of the coordinate dimension n,
+  `‖p.complexifyPi‖≤2^k‖p‖` by real/imaginary multilinear expansion, and
+  derive convergence on every radius strictly below half a real radius
+  for that same native complexified series. This is a strengthening, not
+  a second extension or germ-existence theorem. Build shrinking and chart
+  transport adapters using native uniqueness. RealAnalyticGeometry consumes
+  these local results for its global complexification and Stein/embedding
+  targets.
+* **Analytic dependence on parameters.** Consume the implemented
+  `TauCeti.Analysis.Complex.CauchyIntegralPolydisc` polydisc Cauchy formula and
+  `DifferentiableOn.analyticOnNhd_of_finiteDimensional`, with its complete
+  codomain, finite-dimensional complex domain and open-set hypotheses.
+  Consume `TauCeti.analyticAt_circleIntegral` and
+  `TauCeti.analyticOnNhd_circleIntegral` for joint analyticity near the
+  parameter set times the fixed circle. Prove the local-polydisc and
+  parameter-coordinate adapters used in preparation and analytic root
+  dependence, and the uniform convergence/integration laws for their
+  power-series presentations; no second iterated Cauchy formula or
+  differentiable-to-analytic theorem is constructed here.
 * **Extension across a coordinate hyperplane.** For a polydisc `U` and disc
   `D`, if `f` is `AnalyticOnNhd ℂ` on `U × (D \ {0})` and locally bounded
   near every point of `U × {0}`, construct `g` with
@@ -563,14 +582,14 @@ radii; the distinguished disc is centered at zero. Establish these targets:
   each root at the basepoint extends to a lift, and uniqueness of lifts
   makes the `d` lifts pointwise distinct. Obtain global analytic root
   sections from these `d` lifts and their analytic local expressions.
-* **Constant order in a distinguished variable.** For `𝕜 = ℝ` and
-  `𝕜 = ℂ` and `g(x,y)` analytic near the origin of `(Fin k → 𝕜) × 𝕜`
-  and not identically zero, prove that the following are equivalent:
-  `analyticOrderAt (fun y ↦ g (a,y)) 0 = m` for every `a` near `0`, and
-  `g = y^m u` near the origin with `u` analytic and `u(0,0) ≠ 0`
-  (McCallum–Parusiński–Paunescu, Lemma 4.4). After shrinking the polydisc
-  `u` is nowhere zero, which is the form of the `y^a u` hypotheses of the
-  parameterized root theorem below.
+* **Constant order in a distinguished variable.** Consume
+  `TauCeti.Analysis.Analytic.ConstantOrder` and
+  `AnalyticAt.eventually_analyticOrderAt_eq_natCast_iff`: finite order m
+  on nearby distinguished-variable slices is equivalent to a centered
+  mth-power factor times an analytic unit. Build the polydisc-origin
+  specialization and shrinking adapter making that unit nowhere zero;
+  use it in the parameterized root theorem below.
+
 
 Use these results and the root bounds of Layer 4 to prove the
 Puiseux-with-parameters theorem: for a monic polynomial in `z` with analytic

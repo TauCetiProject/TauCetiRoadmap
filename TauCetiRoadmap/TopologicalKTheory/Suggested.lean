@@ -3,6 +3,7 @@ import Mathlib.RingTheory.PowerSeries.Derivative
 import Mathlib.Topology.VectorBundle.Basic
 import Mathlib.Topology.VectorBundle.Constructions
 import Mathlib.Topology.VectorBundle.Hom
+import Mathlib.Topology.PartitionOfUnity
 import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 import Mathlib.RingTheory.Grassmannian
 import Mathlib.Analysis.Matrix.Normed
@@ -51,6 +52,66 @@ example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C]
     [MonoidalPreadditive C] [BraidedCategory C] : CommRing (BundleCategoryK0 C) :=
   inferInstance
 end Presentation
+
+section NumerableClassifierColours
+variable {X : Type u} [TopologicalSpace X] {ι : Type v}
+
+/-- The finite-subset gap of a native partition of unity. Empty `E` has
+zero gap, and an empty outside index set has supremum zero. -/
+noncomputable def partitionGap (P : PartitionOfUnity ι X Set.univ)
+    (E : Finset ι) (x : X) : ℝ := by
+  classical
+  exact if hE : E.Nonempty then
+    max 0 (sInf (Set.range fun i : {j // j ∈ E} => P i.1 x) -
+      if hOutside : ∃ j, j ∉ E then
+        sSup (Set.range fun i : {j // j ∉ E} => P i.1 x)
+      else 0)
+  else 0
+
+/-- Local finiteness of the input reduces each gap to finite continuous
+minima and maxima, including the zero outside value. -/
+theorem continuous_partitionGap (P : PartitionOfUnity ι X Set.univ)
+    (E : Finset ι) : Continuous (partitionGap P E) := by
+  sorry
+
+/-- At a point, only subsets of the finite active chart family can have
+nonzero gap. This is finite support even when `ι` is uncountable. -/
+theorem finite_support_partitionGap (P : PartitionOfUnity ι X Set.univ) (x : X) :
+    (Function.support (fun E : Finset ι => partitionGap P E x)).Finite := by
+  sorry
+
+/-- The prescribed colour indexed by `n : ℕ` has size `n+1`. Native `finsum`
+is used; finite support, not an extra summability hypothesis, controls it. -/
+noncomputable def prescribedPartitionColourWeight
+    (P : PartitionOfUnity ι X Set.univ) (n : ℕ) (x : X) : ℝ :=
+  (n + 1 : ℝ) * ∑ᶠ E : {F : Finset ι // F.card = n + 1}, partitionGap P E.1 x
+
+/-- The sorted positive-weight gap identity, including ties and zero entries. -/
+theorem sum_card_mul_partitionGap (P : PartitionOfUnity ι X Set.univ) (x : X) :
+    (∑ᶠ E : Finset ι, (E.card : ℝ) * partitionGap P E x) = 1 := by
+  sorry
+
+/-- Original native chart subordination is retained wherever a gap is positive.
+No subordination of an output weight to its own positive set is assumed. -/
+theorem partitionGap_pos_imp_chart_mem
+    (P : PartitionOfUnity ι X Set.univ) (U : ι → Set X)
+    (hsub : P.IsSubordinate U) (E : Finset ι) (x : X)
+    (hgap : 0 < partitionGap P E x) : ∀ i ∈ E, x ∈ U i := by
+  sorry
+
+/-- A native countable partition with the prescribed finite-subset gap formula.
+Continuity, nonnegativity, finite-sum normalization and local finiteness are the
+fields of `PartitionOfUnity`, not a parallel partition record. -/
+structure CountablePartitionColouring (P : PartitionOfUnity ι X Set.univ) where
+  partition : PartitionOfUnity ℕ X Set.univ
+  weight_eq : ∀ n x, partition n x = prescribedPartitionColourWeight P n x
+
+/-- The finite-subset gap construction on the native carrier. It needs no
+countability assumption on `ι` and no separation axiom once `P` is supplied. -/
+theorem countablePartitionColouring (P : PartitionOfUnity ι X Set.univ) :
+    Nonempty (CountablePartitionColouring P) := by
+  sorry
+end NumerableClassifierColours
 
 /-- The monoid exercise used to turn a stabilized sequence monoid into a group. -/
 theorem bijective_of_surjective_trivial_identity_fiber
