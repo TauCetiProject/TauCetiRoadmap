@@ -33,7 +33,8 @@ normalization `(1+c r^(2−n))^(4/(n−2))δ` has mass2c.
 | --- | --- |
 | [RiemannianGeometry R1–R5,R7.8](../RiemannianGeometry/README.md) | Native metric/connection/curvature, distance, Gauss and hypersurface variation, radial density, R4.3 covering criterion, R4.6 cut-locus and rigidity interfaces, and smooth Lipschitz approximation. R5b's normal Hessian/Jacobi identity is used with its compact-support and two-sidedness hypotheses. |
 | [DifferentialGeometry 12.2–12.5](../DifferentialGeometry/README.md) | Native-compatible gradient, divergence, Laplace–Beltrami and density/Green identities. |
-| [PDE Lanes A,C–E](../PDE/README.md), [VariationalMethods V1–V5](../VariationalMethods/README.md) | Euclidean weak spaces, local and boundary estimates, scalar elliptic/Dirichlet theory and abstract form methods. Weighted/noncompact/end and Spin-boundary adaptations are constructed here. |
+| [PDE Lanes A,C–E](../PDE/README.md), [VariationalMethods V1–V5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md), [UnboundedOperators D0.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md) | Euclidean weak spaces, local and boundary estimates and scalar Dirichlet theory. VM V2.3 supplies realification and complex tests; UO D0.6 owns the dense form-domain self-adjoint realization, and VM V5 its compact specialization. Weighted/noncompact/end and Spin-boundary adaptations are constructed here. |
+| [RiemannianGeometry R8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/fe24665114fd3848f928d85e00f717f248bc6c56/TauCetiRoadmap/RiemannianGeometry/README.md) | R8.1 finite scalar spherical harmonics and R8.2 their complete compact realization. P1 constructs the radial scalar inverse from these inputs. Round spinor spectrum and its ambient-bundle comparison are separate P1 producers. |
 | [ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md) | Generic real/complex bundle distributions, local elliptic regularity and compact Hilbert Sobolev/L² comparisons. Its compact resolvent theorem is not a weighted noncompact inverse. |
 | [SpinGeometry G3–G6](../SpinGeometry/README.md) | Geometric Spin lifts, spinor bundles, Clifford-compatible connections, Dirac operator, formal adjoint and Schrödinger–Lichnerowicz formula. P4–P7 extend their analytic use to the actual complete/end/boundary domains. |
 | [GeometricCurrents G1–G7](../GeometricCurrents/README.md) | Integral current minimization, compactness, barriers, codimension-one interior regularity in ambient dimensions≤7 and G7's smooth stable-limit/no-cancellation interfaces. P3 verifies their hypotheses for its AE hypersurface family and owns the induced-end estimates. |
@@ -42,9 +43,19 @@ normalization `(1+c r^(2−n))^(4/(n−2))δ` has mass2c.
 | [DifferentialGeometry 2,10](../DifferentialGeometry/README.md), [AlgebraicTopology Stages 2–3,6–7](../AlgebraicTopology/README.md) | Orientation cover and its smooth/local-system comparison, integral cup/cap products, degree and Poincaré duality, finite CW Euler characteristic, and Sard for regular exhaustion boundaries. P3 constructs its complete AE metric/end comparison and orientation-free mass corollary. |
 
 Order the common analytic identities and linear inputs before P0–P7,
-then prove the mass theorems P8. Yamabe Y6–Y8 uses P8 afterward. In
-particular neither Yamabe existence nor positive mass is used to construct
-the minimizing-current or weighted-Dirac inputs of its own proof.
+then prove the mass theorems P8. For compact form inputs use the acyclic
+chain VM V2.3 → UO D0.6 → VM V5 → CKG K5a's closed-base domain
+comparison → Yamabe Y1.2/Y3.1 → P3a. R5b consumes the same form
+representation for its compact normal-Jacobi Dirichlet specialization;
+that boundary domain is distinct from K5a's closed-base domain. In UO's construction a dense
+continuous injective j:V→H and a bounded Hermitian shifted-coercive form
+specify Dom A={j u : ∃h, ∀v, a(u,v)=⟨h,j v⟩} and A(j u)=h.
+Use that same graph, scalar structure and inner-product convention in
+VM/CKG; prove the geometric H²/domain identification and compactness
+hypotheses before its spectral application. Do not construct a second
+form-realization engine. Yamabe Y6–Y8 uses P8 afterward. In particular
+neither Yamabe existence nor positive mass is used to construct the
+minimizing-current or weighted-Dirac inputs of its own proof.
 
 ## P0. Ends, decay and the mass functional
 
@@ -63,11 +74,18 @@ the minimizing-current or weighted-Dirac inputs of its own proof.
    Establish isometry/pullback invariance, scale covariance and the local
    mass comparison under a covering isometry of a specified end.
 3. Define weighted C^(k,α) and W^(k,p) asymptotic hypotheses with their
-   precise chart/derivative norms, prove the comparison with the stated
-   C² class, and specify the versions of coordinate invariance each
-   admits. Construct cutoffs and weighted partitions with controlled
-   derivatives. No invariance theorem assumes an arbitrary coordinate
-   change preserves the asymptotic class without proof.
+   precise chart/derivative norms and coordinate-invariance domains.
+   With P1's sign of the weight, O_k(r^(−t)) implies W^(k,p)_δ
+   membership for finite p only at δ>−t: the model tail integral is
+   ∫ r^(−p(t+δ)−1)dr, with logarithmic divergence at equality.
+   The supremum decay norm at δ=−t is a different endpoint statement.
+   Construct cutoffs and weighted partitions with controlled derivatives.
+   Separate the headline O_2 class from stronger order-dependent analytic
+   classes: smoothness in the interior does not supply uniform weighted
+   bounds on higher derivatives. Specify these additional bounds in P1
+   and use P2's approximation and mass-limit transport for the headline
+   theorems, retaining their C² AE hypotheses. No invariance theorem
+   assumes an arbitrary coordinate change preserves the class without proof.
 4. Compute Euclidean mass0, Schwarzschild mass, finite covers of ends,
    conformal leading-term changes and inversion of a normalized Green
    expansion. For `u=1+c r^(2−n)+o_2(r^(2−n))` prove the conformal
@@ -76,58 +94,239 @@ the minimizing-current or weighted-Dirac inputs of its own proof.
 
 ## P1. Weighted scalar and bundle analysis on AE manifolds
 
+### P1a. Spaces, ranges, coefficients and domains
+
 For a complete finite-ended AE manifold with compact remaining region,
-choose a smooth positive radius ρ equal to r near each end. Set
+choose a smooth positive radius ρ equal to r near each end. For 1≤p<∞ set
 
 `‖v‖_(Lp_δ)=(∫|v|^p ρ^(−δp−n)dV)^(1/p)`,
 
-`‖v‖_(Wkp_δ)=Σ_(j=0)^k ‖∇^jv‖_(Lp_(δ−j))`;
+`‖v‖_(Wkp_δ)=Σ_(j=0)^k ‖∇^jv‖_(Lp_(δ−j))`.
 
-the p=∞ norm is ess sup |v|ρ^(−δ), and H^k_δ=W^(k,2)_δ.
-Construct these spaces as complete native Lp/weak-section spaces with
-the trace and closure conventions specified, including compact boundary
-when present. Prove independence of admissible radii/frames, density,
-weak derivatives, weighted multiplication, duality, local compactness,
-Rellich on compact regions and weighted elliptic estimates at infinity.
-For the Euclidean model Laplacian the exceptional weights are
-`{k:k∈ℕ}∪{2−n−k:k∈ℕ}`; for the Euclidean Dirac operator they are
-`{k:k∈ℕ}∪{1−n−k:k∈ℕ}`. Derive these from the spherical harmonic and
-spinor indicial decompositions, including multiplicities and weighted
-mapping conventions `L:W^(k,p)_δ→W^(k−2,p)_(δ−2)` and
-`D:W^(k,p)_δ→W^(k−1,p)_(δ−1)`. Construct the AE Fredholm theory away
-from the corresponding exceptional weights. The scalar interval used is
-`2−n<δ<0`; the Dirac weight `δ=−(n−2)/2` lies in `1−n<δ<0`.
-Global invertibility still requires the kernel/coercivity hypotheses;
-membership in a model weight interval alone does not imply it.
+Define the p=∞ norm by ess sup |v|ρ^(−δ), and H^k_δ=W^(k,2)_δ.
+Construct all these complete native Lp/weak-section spaces, with the
+specified trace and closure conventions. Prove equivalent norms for
+admissible radii, charts and frames, weak differentiation and the bounded
+multiplication/decay operations at the exponents where they hold. Smooth
+compact-support density on a boundaryless manifold is asserted for
+1≤p<∞, not for the whole W^(k,∞)_δ space. Define its compact-support
+closure separately; give the appropriate local or weak endpoint
+approximation statements without promoting them to norm density.
+On compact-boundary domains distinguish unrestricted sections, zero-trace
+and graph/trace-constrained closures. Keep the boundary trace, collar
+lifting, duality, local compactness and compact-region Rellich targets
+at their actual exponents and trace orders. Under the volume integral
+pairing prove (Lp_δ)*≃Lp′_(−n−δ) for 1≤p<∞ (p′=∞ at p=1),
+and the indicated L¹ predual pairing at p=∞ without identifying the
+whole Banach dual with L¹. Prove Hölder multiplication
+Lp_δ × Lq_ε → Lr_(δ+ε) when 1/r=1/p+1/q≤1, and its derivative
+versions with their explicitly required Sobolev embedding orders.
+
+The Sobolev elliptic estimates and Fredholm theorems below have
+1<p<∞, integer k≥2 for scalar order two and k≥1 for Dirac order one:
+
+`L:W^(k,p)_δ→W^(k−2,p)_(δ−2)`,
+`D:W^(k,p)_δ→W^(k−1,p)_(δ−1)`.
+
+Do not assert these estimates at p=1 or p=∞ merely because those spaces
+are defined. Define the weighted Hölder realization separately for
+0<α<1, with its explicit C^(k,α)→C^(k−2,α) scalar and
+C^(k,α)→C^(k−1,α) Dirac domains. For each finite k, a sufficient
+higher-order working hypothesis is g−δ∈C^(k,α)_(−s), s>0, with
+uniform scaled-annulus bounds, uniform ellipticity and the corresponding
+induced frame/connection bounds; an extra bundle connection is required
+to have C^(k−1,α)_(−1−s) coefficients relative to its Euclidean model.
+A scalar potential is C^(k−2,α)_(−2−s), or is handled on its explicitly
+stated lower-regularity domain. Bind these derivatives and the cutoff
+commutators before the order-k estimate; prove all-order consequences
+only with the corresponding all-order data. Prove separately the basic
+finite-p W^(2,p) scalar and W^(1,p) Dirac estimates for the headline
+O_2 metric, using uniformly scaled Lipschitz principal coefficients and
+bounded lower coefficients. No uniform weighted C^(2,α) or higher metric
+derivatives are inferred from smoothness plus O_2. The stronger working
+classes do not replace P0/P8's original metric hypotheses.
+
+The global theorem is on a boundaryless complete finite-ended manifold,
+or on a specified elliptic compact-boundary domain with its own estimate.
+For scalar Dirichlet problems use
+`{u∈W^(k,p)_δ : Tr u=0}` with the trace in W^(k−1/p,p)(∂M);
+construct the inhomogeneous boundary lifting separately. For the doubled
+Dirac/Callias problem use
+`{u∈W^(k,p)_δ(S) : χ Tr u=Tr u}` with P5's actual χ and trace order,
+first proving the boundary elliptic estimate. The Hilbert instance is
+P5/P6's H¹_δ(S;χ). The unrestricted exterior-ball W^(k,p) domain is
+not Fredholm: infinitely many scalar modes r^(2−n−j)Y_j lie in it
+for 2−n<δ<0, and the analogous negative Dirac modes give the
+first-order warning. Avoiding an indicial weight cannot replace a
+boundary condition. Model end inverses below are localized parametrix
+inputs and do not assert an unrestricted exterior-domain inverse.
+
+### P1b. Scalar spherical harmonics and indicial inverse
+
+Consume the full early R8 scalar harmonic decomposition on S^(n−1).
+For degree j≥0 the eigenvalue is j(j+n−2), with multiplicity
+`binomial(n+j−1,j)−binomial(n+j−3,j−2)`, the second term zero
+for j<2. Use the complete orthogonal eigenspaces in the actual compact
+L² realization, not just the existence of harmonic polynomials.
+Derive the positive Euclidean polar Laplacian
+
+`Δ⁺=−∂r²−(n−1)r⁻¹∂r+r⁻²Δ_S⁺`.
+
+On r^δ Y_j its indicial factor is
+`j(j+n−2)−δ(δ+n−2)=−(δ−j)(δ+j+n−2)`.
+Thus the scalar exceptional set is `{j:j≥0}∪{2−n−j:j≥0}`.
+Check j=0 and the multiplicity convention; for n≥3 the two roots for
+each j are distinct. Record the repeated-root/logarithmic convention
+when comparing a dimension-two radial formula, without applying that
+formula as an n≥3 inverse. Derive the exact radial weighted norm after
+the cylindrical variable log r, the derivative shifts and the Green
+operators away from the exceptional set. Prove Hilbert mode estimates
+and the finite-p kernel estimates specified in P1d. This scalar route
+is separate from the monogenic spinor construction.
+
+### P1c. Round Spin comparison, monogenic decomposition and full spectrum
+
+Fix n≥3, m=n−1, the unit round sphere with outward radial normal ν,
+and c(v)c(w)+c(w)c(v)=−2⟨v,w⟩. Through SpinGeometry G3–G6
+construct the round Spin lift from TS^m⊕ℝ≃S^m×ℝ^n and compare
+its associated intrinsic spinor bundle, metric and Levi-Civita spin
+connection with the ambient restriction. Prove the transition and
+Clifford intertwiners and their connection identity, not just equality
+of ranks or positive-scalar kernel vanishing. For even n use a fixed
+ambient half-spin space Σ_n^+; its restriction is the intrinsic
+odd-dimensional chosen-factor spinor bundle. The opposite Σ_n^− is
+retained to construct the other spectral branch. For odd n use one
+ambient irreducible Clifford factor Σ_n; its restriction is the full
+intrinsic even-dimensional spinor bundle, with both intrinsic chiral
+parts. In both cases the intrinsic complex rank is 2^floor(m/2).
+Do not substitute SpinGeometry's doubled faithful odd-dimensional module
+and thereby double the multiplicities. P1 owns this concrete round
+restriction/connection comparison; the generic bundle and connection
+engines remain SpinGeometry's. Its G6.5 sphere kernel example alone is
+not the full spectrum producer.
+
+On ambient spinor-valued homogeneous polynomials define
+X=Σ x_j c(e_j), D=Σ c(e_j)∂_j and E=Σ x_j∂_j. Prove
+
+`X²=−r²`, `D²=−Σ_j ∂_j²=Δ⁺`, `DX+XD=−(2E+n)`.
+
+Write P_k for degree-k polynomials and M_k=ker(D|P_k).
+Construct the monogenic Fischer decomposition
+`P_k=M_k⊕X P_(k−1)`, P_(−1)=0, by finite induction. For a
+monogenic homogeneous v of degree ℓ, compute
+
+`D(X^(2a)v)=−2a X^(2a−1)v`,
+`D(X^(2a+1)v)=−(2ℓ+n+2a)X^(2a)v`.
+
+The nonzero coefficients and injectivity of X prove invertibility of
+D∘X on P_(k−1), surjectivity D:P_k→P_(k−1), directness and all
+inverse maps. For even n use the chiral versions
+`P_k^±=M_k^±⊕X P_(k−1)^∓`; D and X switch ambient chirality.
+Compute dim M_k (or each dim M_k^±) by this exact sequence and
+Pascal's identity, keeping the actual ambient rank.
+
+From the hypersurface connection comparison derive, with the intrinsic
+Dirac sign fixed by this equation,
+
+`D_R=c(ν)(∂r+(m/2+D_S)/r)`.
+
+Pin also the Fourier symbol i c(ξ), rather than changing the geometric
+Clifford sign. A degree-k monogenic polynomial restricts to eigenvalue
+−(k+m/2). For even n construct the positive eigenspace on the chosen
+Σ_n^+ restriction by c(ν) times restricted M_k^−; for odd n use
+c(ν) times restricted M_k in the chosen ambient module. Prove the
+required anticommutation of c(ν) with this extrinsic realization of
+D_S and the inverse branch maps. These are the degree-(k+1) X M_k
+terms of Fischer decomposition on the sphere, not an extra copy of
+the negative branch. Hence each eigenvalue ±(k+m/2) has multiplicity
+
+`2^floor(m/2) * binomial(k+m−1,k)`.
+
+Prove full eigenspace equality and completeness. Fischer decomposition
+spans all restricted polynomial spinors; their density follows from the
+ambient bundle comparison/orthogonal projection and Stone–Weierstrass
+for coefficient functions, then continuous/smooth L² density. Use the
+closed self-adjoint round Dirac realization from generic compact G6/CKG
+and its graph-norm/H¹ elliptic comparison to get orthogonality, exclude
+additional spectrum and identify the actual H¹ domain. Reverse Dirac
+sign only by an explicit comparison exchanging the branches. Do not use
+scalar harmonic completeness, Lichnerowicz, minimal eigenmaps, highest
+weights or positive mass to prove this monogenic spectrum.
+
+For a homogeneous solution r^δ ψ the polar equation gives
+δ=−m/2−λ; thus the Euclidean Dirac exceptional set is
+`{k:k≥0}∪{1−n−k:k≥0}`. Derive the radial/Mellin mode inverse,
+weighted norm, derivative shift and branch multiplicities from these
+actual carriers. A critical homogeneous mode obstructs the Fredholm
+estimate by cutoffs spreading in the logarithmic radial variable;
+it is not asserted to be globally Lp on an uncut whole end.
+
+### P1d. Finite-p estimates, gluing and kernel/range
+
+For p=2 use the complete angular decompositions and radial Green
+operators. For general 1<p<∞ construct a cylinder/dyadic-annulus kernel
+parametrix, with angular derivatives and off-diagonal bounds, the actual
+local Calderón–Zygmund estimates and scaling, and summable radial
+exponential estimates away from the exceptional weights. Prove the
+finite-p derivative estimates and their agreement with the Hilbert
+construction on common smooth compactly supported data by uniqueness
+on the chosen model realization and density. L² spectral-projector
+bounds alone do not give the Lp estimate. Treat the separate Hölder
+realizations at 0<α<1 with their own Schauder estimates.
+
+Glue to a compact-interior elliptic parametrix using P0's cutoffs and
+controlled commutators. Prove compact error by local Rellich and the
+asymptotically small coefficient perturbation, first at each permitted
+finite order. Prove Fredholmness away from the corresponding indicial
+sets, index invariance in each weight component and the changes across
+modes with their actual multiplicities. Retain the boundary conditions
+and estimates of P1a/P5 when a compact boundary is present. The scalar
+interval used is 2−n<δ<0; δ=−(n−2)/2 for Dirac lies in 1−n<δ<0.
+An interval alone does not imply invertibility: identify kernels,
+adjoint/cokernel and coercivity for each operator and geometric domain.
+Conformal-Laplace potentials are handled with their actual decay/sign
+and kernel assumptions, not inferred to have the Laplacian's kernel.
 
 Construct scalar Laplace and conformal-Laplace parametrices on the ends,
-their compact error operators and Fredholm indices in the weight
-intervals actually used. Prove maximum-principle uniqueness and
-solvability for the positive harmonic/conformal corrections tending to1.
-Give the asymptotic expansion, differentiated remainder and coefficient
-flux formula for those solutions. For the scalar Laplacian also solve the
-end-value problem with one independently prescribed real constant at each
-of the finitely many ends: subtract a smooth end-constant seed, solve its
-compactly supported Laplacian in a decay weight 2−n<δ<0, and prove the
-required Fredholm index0, kernel/range and maximum-principle statements.
-For nonnegative nonzero end data prove strict interior positivity and
-the leading harmonic expansions on harmonically flat ends; the Kelvin
-removable-singularity and positive leading-coefficient assertions used
-for P3b end capping are part of this scalar API. Derive the required Sobolev/coercive
-estimates before using Lax–Milgram. On arbitrary other complete ends only
-local Sobolev/elliptic theory is presumed; these global AE Fredholm
-statements are not applied there.
+their compact errors and indices in the intervals actually used. Prove
+maximum-principle uniqueness and solvability for the positive harmonic
+and conformal corrections tending to1. Give their asymptotic expansion,
+differentiated remainder and coefficient flux formula. For the scalar
+Laplacian also solve the end-value problem with one independently
+prescribed real constant at each finite end: subtract a smooth
+end-constant seed, solve its compactly supported Laplacian in a decay
+weight 2−n<δ<0, and prove the required index0 and kernel/range
+statements. For nonnegative nonzero end data prove strict interior
+positivity and the leading harmonic expansions on harmonically flat
+ends; Kelvin removability and the positive leading coefficient used
+for P3b capping are part of this scalar API. Derive the Sobolev/coercive
+estimates before Lax–Milgram. On arbitrary other complete ends only
+local theory is presumed; no global AE Fredholm inverse is assigned
+to that remainder. Lichnerowicz is a later P4–P7 positivity/coercivity
+input, not a circular input to the model Dirac spectrum or parametrix.
 
 ## P2. Scalar-curvature reductions and rigidity variations
 
-1. Construct harmonic-flat-at-infinity approximation of finite-ended AE
-   metrics, preserving nonnegative scalar curvature and approximating
-   each mass, with the exact weighted convergence. Solve the conformal
-   corrections and prove their sign and mass estimates. For a negative
-   chosen-end mass construct a reduced metric with that negative mass,
-   nonnegative scalar curvature and the strict scalar positivity needed
-   in the hypersurface argument. Prove preservation of completeness
-   and all end/boundary hypotheses under the perturbations.
+1. For the original smooth O_2(r^(−t)) finite-ended AE metric with
+   t>(n−2)/2 and absolute scalar L¹, construct harmonic-flat-at-infinity
+   approximating metrics with Scal≥0 when the original Scal≥0.
+   Fix (n−2)/2<q<min(t,n−2) and any fixed p>n. Require convergence
+   in W^(2,p)_(−q) for the end coefficient differences and in C² on
+   every compact set, with uniform ellipticity/completeness comparisons.
+   Use the strict q<t loss to place the original metric in this finite-p
+   class. Build the smoother order-dependent working metrics and
+   conformal corrections rather than assuming higher weighted derivatives
+   of the original metric. Prove separately, at every end,
+   |m(E,g_j)−m(E,g)|→0 by the scalar divergence/flux identity,
+   integrable scalar tails, quadratic metric errors and the computed
+   conformal leading coefficient. Weaker weighted norm convergence alone
+   is not a mass-continuity theorem. Prove the sign estimates and preserve
+   strict negativity of a selected negative mass, then the strict scalar
+   positivity needed for P3b. Preserve completeness and all relevant
+   end/boundary hypotheses. For use with the C² headline theorem prove
+   the actual positivity limit step by convergence of each mass; prove
+   zero rigidity by P2.2/P2.3 and P6/P7 on their stated domains, not by
+   claiming a sequence of positive masses gives equality rigidity.
 2. Prove the zero-mass deformation lemma: if Ricci is nonzero somewhere,
    use a compactly supported metric variation and its scalar-curvature
    linearization, then the conformal correction, to produce a metric
@@ -288,13 +487,22 @@ global cutoff extension; identify its finite Dirac/gradient errors.
 
 Extend the SpinGeometry Dirac and Lichnerowicz identities to compact
 domains with smooth boundary and to weak H¹ sections by density.
-Derive the Green boundary term from the fixed inward normal and the
-negative Clifford action. On coordinate spheres prove its limit equals
-`(n−1)|S^(n−1)|m_ADM|v_∞|²/2` with this mass normalization.
-Track every frame, density, normal and differentiated remainder term.
-Prove that corrections in H¹_(-(n−2)/2) have exactly the vanishing
-error/flux behavior used in the identity; an arbitrary pointwise decay
-claim is not substituted for that weak-space statement.
+With ν inward to the truncated domain define the signed raw term
+`G_r(u)=∫_(S_r) Re⟨u,c(ν)Du+∇_νu⟩ dS_g`.
+Derive the integrated identity with this sign. For the asymptotically
+constant solutions used below its mass contribution is
+`lim G_r(u)=−(n−1)|S^(n−1)|m_ADM|v_∞|²/2`.
+The positive mass-side quantity is −G_r, obtained by moving this term
+across the identity; do not silently replace ν by the outward normal
+or change the negative Clifford action. Track every frame, density,
+normal and differentiated remainder. For the actual weak solutions with
+correction in H¹_(-(n−2)/2), prove the required annular cutoff/trace
+and error limits and their agreement with the mass identity; mere
+weighted H¹ membership does not supply an arbitrary all-radius boundary
+trace limit. Use a justified exhaustion/cutoff limit when that is the
+weak formulation. P0's ADM radius limit remains the full radius limit.
+An arbitrary pointwise decay assertion is not substituted for these
+weak-space estimates.
 
 ## P5. Doubled Callias operators and compact-boundary problems
 
@@ -433,4 +641,12 @@ estimates in the spin setting*, provide the spin and arbitrary-other-ends
 routes. The mathematical statements above fix full scalar curvature,
 ordinary ADM mass, derivative-weight order and boundary Clifford signs;
 comparisons with other printed conventions prove the corresponding
-conversion rather than changing those definitions.
+conversion rather than changing those definitions. In particular compare
+the inward raw Green term in Cecchini–Zeidler, Proposition2.5, with
+P4's −G_r mass side, and the factor2 between P0's ordinary mass and
+the normalization used in the cited Schoen–Yau compactification.
+The full R8 scalar harmonic and P1 monogenic spinor constructions are
+independent radial-model inputs; positive-scalar kernel vanishing alone
+is not a spectral-completeness reference. Weighted-space arguments must
+prove the finite-p and separate Hölder estimates and their precise
+coefficient/boundary hypotheses stated in P1.
