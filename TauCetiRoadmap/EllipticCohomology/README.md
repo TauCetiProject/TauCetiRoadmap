@@ -201,7 +201,9 @@ construction targets precede the elliptic gluing.
    homotopy fixed points for profinite groups by continuous cochains on
    finite quotients and derived limits, with their descent spectral
    sequences, products, naturality and convergence hypotheses.
-   Consume native `PadicInt.mahler`, `hasSum_mahler` and `mahlerEquiv`
+   Consume native root `mahler`, `PadicInt.hasSum_mahler` and
+   `PadicInt.mahlerEquiv`, with their complete ultrametric normed additive
+   group, bounded ℤ_p-module and continuous-function hypotheses.
    for continuous functions on ℤ_p; use completed function/tensor modules,
    not uncompleted polynomial rings. Prove the translation-difference exact
    sequence on C(ℤ_p,ℤ_p) from the binomial basis and transport through a
@@ -369,6 +371,76 @@ base change and product pairings. Consume E1's depth-two Hartogs
 comparison for H⁰. Include these groups and their differentials/extensions in the compactified
 descent calculation. Identify the connective cover through E3's actual map.
 
+### E4.S. Independent sphere inputs
+
+Own the following specific sphere calculations here, using F4's single
+MU/BP resolution, normalized cobar, convergence and coherent Toda APIs.
+These are upstream of the elliptic DSS and Gap Theorem. Use the same
+spectral sphere and its p-localizations, not a private stable-stem carrier.
+
+1. At2 construct homogeneous normalized BP-cobar representatives and
+   their resolution lifts detecting η, ν, ε and κ, with κ in stem14
+   and Adams–Novikov filtration2. Construct the required permanent-cycle
+   and nonzero-detection proofs and prove 2κ=0. Obtain them by a bounded
+   algebraic-resolution calculation: enumerate the homogeneous cobar
+   bases and differential matrices, exhibit cocycle and boundary
+   witnesses, compute their kernels/images over ℤ_(2), and compare the
+   resulting exact-couple classes with the actual sphere tower. Prove
+   the filtration/connectivity bounds which make the retained region
+   sufficient, including every differential entering or leaving it;
+   do not read a chart as a proof of survival. The internal-degree≤60
+   region is a concrete starting window for stems14,20,29 and adjacent
+   differentials; verify its boundary closure using the positive-degree
+   cobar and sphere-tower vanishing bounds, enlarging only the proof
+   window if a boundary term requires it. Resolve the needed additive
+   extensions by the actual tower and Moore-spectrum connecting maps.
+2. Construct compatible nullhomotopies of the consecutive composites
+   and chosen lower faces defining ⟨κ,2,η,ν⟩ in π₂₀S_(2).
+   Compute its indeterminacy as ⟨ν²κ⟩, prove that π₂₀S_(2) is cyclic
+   of order8 and that this bracket is a coset of generators, and prove
+   ν²κ is its nonzero order2 element. Choose κ̄_S in this bracket with
+   its complete defining system; prove 4κ̄_S=ν²κ and keep the change
+   of choice κ̄_S↦κ̄_S+ν²κ explicit. Construct the corresponding
+   filtration2 sphere ANSS detection and its comparison with the
+   classical bracket via F4's tower maps. This calculation includes
+   the lower κ/η/ν/ε bracket and product relations used for detection;
+   in particular construct ηκ∈⟨2ν,ν,ε⟩ with its actual stem15 target
+   and indeterminacy. Do not infer κ from cancellation of η.
+3. In the same independent sphere calculation prove π₂₉S_(2)=0:
+   give the finite cobar/resolution reductions, all relevant sphere
+   differentials and convergence/extension bounds making the stem's
+   associated graded zero. Turn this into an actual nullhomotopy of
+   ν³κ̄_S for each allowed bracket choice. The nullhomotopy, rather
+   than an imported sphere table or a completed tmf calculation, is
+   the exported input. A nullhomotopy is supplied as a map in the
+   chosen sphere model, with its change-of-choice comparison.
+4. At3 construct α₁ in stem3 and β₁ in stem10, with a complete
+   defining system for β₁∈⟨α₁,α₁,α₁⟩. In F4's BP-cobar convention
+   construct the algebraic Greek-letter class β₃/₃ in E₂^(2,36),
+   and representatives for α₁∈E₂^(1,4) and β₁∈E₂^(2,12).
+   Prove in the SPHERE ANSS that
+   d₅(β₃/₃)=±α₁β₁³ in E₅^(7,40), with nonzero target and a single
+   consistent generator/sign choice. Construct the filtered lift of
+   the β₃/₃ representative through the first four stages; calculate
+   its fifth obstruction using the Moore/cofiber connecting maps
+   and chosen defining homotopies, identify that obstruction with
+   the displayed cobar product, and prove the lower obstructions
+   vanish with their indeterminacies. Check the required finite
+   Ext-region, no earlier hit and no alternative source/target by
+   explicit cobar reductions and the sphere filtration bounds.
+   β₃/₃ is a page class, not a falsely asserted permanent stable
+   sphere element. This is a separate construction/proof target in
+   this lane; generic naturality does not establish the differential.
+
+After the synthetic sphere exists below, transport these actual sphere
+classes, choices and tower comparisons to it. The chosen proof follows
+the sphere inputs isolated in [Carrick–Davies–van Nigtevecht §5.2 and
+§7.1](https://arxiv.org/abs/2412.01640v2), while the resolution reductions,
+nullhomotopies and fifth obstruction above are assigned here, not assumed
+from that citation. F4 remains the sole owner of the generic machinery.
+
+### E4.A. Algebraic and synthetic descent
+
 Compute the algebraic cubic and compactified stack cohomology before
 identifying either with an Adams–Novikov E₂ page for tmf. On the E3-defined
 Tmf descent tower prove the Gap Theorem π_n Tmf=0 for −21<n<0,
@@ -413,28 +485,131 @@ branch under the hypotheses used below; the unrestricted stable-comodule
 category remains distinct. Construct the τ-adic truncation towers, connecting
 maps and Bockstein/signature spectral sequence with their descent and
 completeness hypotheses. Construct the filtered-spectra model
-and its Day tensor product, the symmetric monoidal realization of the
-τ-tower, and the comparison of filtered and synthetic total differentials. These categorical,
+and its Day tensor product. Construct the signature functor
+σ:Syn_MU→Fil(Sp) with its lax symmetric monoidal unit and product maps,
+and the comparison of filtered and synthetic total differentials. This
+signature is distinct from strong symmetric monoidal τ-inversion
+Syn_MU→Sp; prove the unit/product and algebra/module comparison diagrams
+for each named functor separately. These categorical,
 localization and comparison constructions are targets here, using E1/E2's
 homotopy-sheaf machinery and F4's MU comodules; no synthetic category is
 assumed as a native supplier.
 
 Construct the fpqc moduli stack M_FG of one-dimensional commutative formal
-groups from the graded MU Hopf algebroid, with the coordinate-change,
-G_m-grading and invariant-differential line ω dictionary. Prove the
-graded-comodule/quasi-coherent equivalence, derived pushforward and its
-lax symmetric monoidal comparison. Construct the cubic and elliptic
-derived pushforwards of their structure sheaves as E∞ algebras in derived
-graded comodules, including the map induced by the elliptic open in the
-cubic stack. Identify the cubic algebra with its actual normalized
-Hopf-algebroid cochain model and E∞ multiplication.
+groups from the MU Hopf algebroid, with its coordinate-change and
+invariant-differential line ω. Write C_Z for F4's full internally
+ℤ-graded MU_*MU-comodules and C_ev for its even-internal-degree full
+subcategory. MU_* and MU_*MU are even, so every comodule splits into its
+even and odd components. Keep C_Z, its Hovey stable category, ordinary
+derived category, local branch and hypercompletion throughout this
+programme; none is replaced by an even-only theory.
+
+Construct the exact symmetric monoidal equivalence
+E:QCoh(M_FG)≃C_ev, with topological internal degree2k corresponding
+to Hodge weightk. Pin the shift direction: define (T_kM)_n=M_(n+2k)
+and prove E(P⊗ω^k)≃T_kE(P). Thus the free unit whose generator is in
+degree−2 maps to ω, and one whose generator is in degree+2 maps to
+ω⁻¹. On cohomology fix
+Ext^(s,2k)(MU_*,E(P))≃H^s(M_FG,P⊗ω^k), with the same cobar and
+Hodge-trivialization convention. Construct the exact fully faithful
+strong symmetric monoidal inclusion i:C_ev→C_Z, its unit/tensor maps,
+and the even/odd projections; its image is not all of C_Z.
+
+Retain the full category explicitly by its parity-pair comparison.
+For the internal shift (SM)_n=M_(n−1), construct
+M≃iE(P)⊕S iE(Q), where P and Q correspond to M_(2k) and M_(2k+1).
+Prove S²=T_(−1) and the tensor formula
+(P,Q)⊗(P′,Q′)≃
+(P⊗P′ ⊕ Q⊗Q′⊗ω⁻¹, P⊗Q′ ⊕ Q⊗P′).
+Construct the associativity/unit/distributivity and symmetry comparisons
+from the actual graded tensor product: odd–odd interchange has sign−1,
+even–odd has sign+1, with the canonical ω⁻¹ line transports. Prove the
+pentagon, hexagon, reindexing and S/T_k diagrams, including the triple-
+odd associator and the square of (0,O), which is (ω⁻¹,0).
+This retains odd objects without creating a square root of ω in ordinary
+QCoh. The rational BG_m character test must recover the primitive Hodge
+character, not a half-integral character. Internal shifts and
+cohomological shifts are different: on complexes use braiding
+(−1)^(ab+ij) for internal/cohomological bidegrees (a,i),(b,j).
+In internal degree a take the totalized differential to be (−1)^a
+times the original cochain differential, with total stem n=a−i.
+On finite-supported bidegree models write Tot(C)_n=⊕_(a−i=n) C_a^i.
+Define Tot(C)⊗Tot(D)→Tot(C⊗D) on x∈C_a^i and y∈D_b^j by
+x⊗y↦(−1)^(ib)x⊗y; construct its general-complex extension in each derived branch
+through the actual K-flat/resolution and required derived-limit
+comparisons, without exchanging arbitrary product and sum totalizations; prove it carries that braiding to
+(−1)^((a−i)(b−j)) in total stem degree, with its differential and
+associativity diagrams. Do not identify the two shift functors.
+
+Derive E and i degreewise with the actual quasi-isomorphism and tensor
+comparisons. For each chosen stack/cobar derived carrier construct the
+needed resolution/descent comparison before identifying its pushforward;
+this is not an unqualified equivalence between all possible unbounded
+stack-derived models. Construct the cubic and elliptic derived
+pushforwards of their structure sheaves first in the geometric even
+category, with lax symmetric monoidal pushforward, and then apply i.
+Construct their E∞ algebras in the full derived graded-comodule category,
+including the map from the elliptic open in the cubic stack. Identify
+the cubic algebra with its normalized Hopf-algebroid cochain model and
+E∞ multiplication using this same regrading. Carry these functors,
+shifts, units and products into the local Cτ-module comparison above.
+For an arbitrary parity pair retain both group formulas: its even
+internal degree2k gives H^s(P⊗ω^k), and degree2k+1 gives
+H^s(Q⊗ω^k); their tensor/symmetry comparisons use the displayed twist.
+Only the structure-sheaf pushforwards used below have Q=0.
+
+Construct the synthetic sphere 𝟙_syn=νS and its τ-localization and
+Cτ/tower comparisons using the full C_Z theory. Lift E4.S's sphere
+classes with their stated ANSS filtrations, prove τ-inversion is
+injective in the (14,2) and (20,2) groups used for the relations, and
+construct the complete synthetic defining system
+κ̄_S∈⟨κ,2,η,ν⟩⊆π_(20,2)𝟙_syn,(2).
+Prove 4κ̄_S=τ²ν²κ by the classical relation and this injectivity.
+From E4.S's actual classical nullhomotopy and the filtered-colimit
+model of τ-inversion, extract a finite exponent N and a nullhomotopy
+τ^Nν³κ̄_S=0 in π_(29,5−N)𝟙_syn,(2), for each allowed choice.
+Do not assign a uniform exponent without proving it or infer this
+nullhomotopy from elliptic coefficients.
 
 Construct the synthetic elliptic sheaf and Smf global sections from E3,
-with τ-inversion Tmf and the bigraded homotopy/descent comparison
+with τ-inversion Tmf. Through the even equivalence and inclusion above
+prove the bigraded comparison
 π_(n,s)(Smf/τ)≃H^s(Mbar_ell,ω^((n+s)/2)) when n+s is even,
-and zero otherwise. In the νMU-local Cτ-module branch prove its E∞
-algebra identification with the elliptic derived pushforward just
-constructed. Identify the signature filtered E∞ algebra of Smf[J⁻¹]
+and zero otherwise; it is the Q=0 case of the full parity dictionary.
+In the νMU-local Cτ-module branch prove its E∞ algebra identification
+with i of the elliptic derived pushforward, with its actual unit.
+
+**E4.U: unit and atomic inputs, before DSS/Gap.** Construct the
+unit-induced map from the sphere's MU Adams–Novikov resolution to the
+elliptic descent tower. On E₂ identify it with the formal-group map
+Mbar_ell→M_FG and the MU/Weierstrass Hopf-algebroid map, through E and i
+with the stated internal grading, Hodge twists and filtration. Prove its
+product, differential and abutment-detection diagrams. The sphere class
+κ̄_S and the elliptic class below are distinct named data. From the
+algebraic stack/cobar computation prove the mod-τ vanishings in
+bidegrees (21,1),(21,2),(20,2),(20,3); use the τ² cofiber sequence to
+prove τ²:π_(20,4)Smf_(2)→π_(20,2)Smf_(2) is an isomorphism.
+Define κ̄_ell as the unique preimage of unit(κ̄_S), prove its mod-τ
+reduction is the order8 generator g, and prove 4κ̄_ell=ν²κ.
+Construct κ's detection by d using the ηκ bracket, the relevant
+mod-τ vanishings and nonzero Massey detection; never cancel η.
+Transport changes of the chosen sphere defining system and its
+indeterminacy along the same unit map. These arguments use algebraic
+cohomology and the constructed sheaf, not the Gap Theorem or MU_*tmf.
+
+Use the finite τ-torsion of ν³κ̄_S, the unit equation
+unit(κ̄_S)=τ²κ̄_ell, the normalized h₂ and g detections, the synthetic
+Leibniz/total-differential comparison and the algebraic source/target
+bounds to force d₅(Δ)=±h₂g at2. At3 transport E4.S's actual sphere
+fifth obstruction and α₁/β₁ detections; the only possible hit on
+α₁β₁³ is d₅(±β₁Δ), so permanence of β₁ and the product calculation
+force d₅(Δ)=±α₁β₁². Prove these uniqueness/nonzero assertions from
+the computed E₂ groups, including all earlier differentials and
+indeterminacy. Fix signs by the same generators, keep the later higher
+atomic differentials as separate targets, and export these two atomic
+inputs before the DSS/Gap calculation.
+
+Identify the signature filtered E∞ algebra of Smf[J⁻¹]
 with the E3 Tmf[J⁻¹] descent tower for every set J of primes, including
 products, abutment filtration and the actual convergence hypotheses.
 Construct the analogous level/log-site comparison. These structured
@@ -499,11 +674,9 @@ establish its own coefficient input. Supply the synthetic/filtered version
 of each higher operation used in the independent DSS argument, on the
 same coherent systems as F4's operations after τ-inversion.
 
-Construct the unit-induced map from the sphere's MU Adams–Novikov
-resolution to the elliptic descent tower. On E₂ identify it with the
-formal-group-classifying map Mbar_ell→M_FG and the MU/Weierstrass
-Hopf-algebroid map, with its grading and filtration. Prove compatibility
-with products, differentials and abutment detection. Instantiate F4's
+Consume E4.U's constructed unit-induced sphere-to-elliptic tower map,
+including its even/full grading adapter, actual Hodge twists, products,
+differentials and abutment detection. Instantiate F4's
 ring/module-spectrum higher Toda comparisons in this descent tower.
 Use its threefold Moss theorem only under its explicit synthetic
 annihilation hypotheses. For each higher application construct the
@@ -515,8 +688,9 @@ provides the required filtered system in each case before applying the
 all-arity forward comparison.
 
 Compute the integral graded coefficient groups and products of tmf and
-Tmf, using F4's sphere Adams–Novikov/cobar comparisons and their Toda
-brackets and differentials, separate p=2 and p=3 descent calculations, the torsion-free
+Tmf, using E4.S's independent sphere calculations, E4.U's unit and
+atomic inputs, and F4's single generic Adams–Novikov/cobar and coherent
+Toda APIs, with separate p=2 and p=3 descent calculations, the torsion-free
 calculation away from 6 and the arithmetic square. In the 2-local
 ring, construct the six-fold systems of Bauer Lemma8.6 and Corollary8.7,
 including a value of `⟨ν,2ν,ν,4ν,ν,η⟩` detected by g and generating
@@ -695,8 +869,13 @@ assumed in this spectral construction.
 
 E1 and F5's deformation and F6's localization lanes precede E2. E2 plus E1 descent supplies E3;
 E6’s early log-level construction then supplies E4’s synthetic transfers;
-E4 computes coefficients and the Gap Theorem, after which E6 proves
-the connective DA(1) comparison. E5 uses E3/E4, E6’s independently constructed Γ₁(3)/DA(1) sublane
+E4.S independently constructs the needed sphere classes, relations,
+nullhomotopies and3-primary differential using F4. E4.A constructs the
+full/even category adapters and synthetic sphere, then Smf and E4.U's
+unit/normalization/atomic comparisons. These and the early E6 lane
+supply E4's independent DSS/Gap computation; completed tmf coefficients
+are not inputs. After the Gap Theorem E6 proves the connective DA(1)
+comparison. E5 uses E3/E4, E6’s independently constructed Γ₁(3)/DA(1) sublane
 and String S2/S4, while the
 String S4 genus uses F/G and index theory independently of E5;
 E5 owns its identification with the spectral orientation and q-expansion,
