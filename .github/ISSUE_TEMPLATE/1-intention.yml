@@ -82,6 +82,7 @@ body:
         - KhovanovHomology
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - LocalPurity
         - MassFormula
         - ModularCurves
         - ModularForms
