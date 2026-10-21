@@ -601,19 +601,46 @@ curvature and the real de Rham comparison, including torsion invisible to
 curvature, tensor powers and conjugate/dual signs.
 
 Prove that H¹(M,𝒪)=H²(M,𝒪)=0 makes c₁:Pic_hol(M)→H²(M,ℤ) an isomorphism.
-Combine it with SBC B2/B6's smooth complex-line classification to give each
-topological line-bundle isomorphism class exactly one holomorphic isomorphism
-class. This asserts neither a unique literal Dolbeault operator on a fixed
-smooth bundle nor a lift of a specified group action. Without the vanishing
+On the underlying smooth manifold consume
+[TopologicalKTheory T1.6d](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7575afad9ceed0ff19ecf5629ba196e54fdf7637/TauCetiRoadmap/TopologicalKTheory/README.md#L608-L611)'s
+finite-rank bundle and isomorphism smoothing in **unstabilized rank one**.
+Write Pic_sm(M) and Pic_cont(M) for smooth and continuous complex-line
+isomorphism classes, respectively. Construct the forgetful group isomorphism
+F_M:Pic_sm(M)≃Pic_cont(M): every continuous line has a smooth representative
+continuously isomorphic to it, and continuously isomorphic smooth lines admit
+a smooth isomorphism. The latter makes the inverse on classes independent of
+all representative and smoothing choices. This is a bijection of actual
+rank-one isomorphism classes, not merely stable K₀ classes and not a claimed
+bijection between the individual smooth and continuous morphism sets.
+Identify F_M with forgetting regularity of the SAME underlying complex line.
+Prove compatibility with the trivial line, tensor product and dual, and
+F_N(f*L)=f*F_M(L) for smooth maps f:N→M, in particular for holomorphic maps.
+Use the same integral singular c₁ on both sides and prove
+c₁_cont(F_M[L])=c₁_sm([L]), including torsion, through the transition-cocycle
+and sheaf/singular comparisons already fixed above.
+
+Compose Pic_hol(M)→Pic_sm(M)→[F_M]Pic_cont(M). Prove that it is the ordinary
+forgetful map on underlying lines and respects tensor, dual and holomorphic
+pullback. Under H¹(M,𝒪)=H²(M,𝒪)=0, the exponential c₁ isomorphism and
+SBC B2/B6's smooth complex-line classification make the first map an
+isomorphism; F_M then gives each **continuous** complex-line isomorphism
+class exactly one holomorphic isomorphism class. This asserts neither a
+unique literal Dolbeault operator on a fixed smooth bundle nor a lift of a
+specified group action. Without the vanishing
 hypotheses retain the exact sequence, its kernel and image, instead of an
 unrestricted Picard–H² identification. For compact connected M prove that
 global holomorphic units are constants; identify automorphisms of a
 holomorphic line with those units. Give the disconnected componentwise
 version without replacing componentwise constants by one global scalar.
 
-This generic construction uses K2's local ∂̄/Dolbeault resolution, K3's
-function sheaf, K4's line bundles, SBC's Čech/curvature comparisons and
-AlgebraicTopology's sheaf/singular comparison. These are its explicit lower
+This generic construction uses K2's local ∂̄/Dolbeault resolution and
+Čech/derived comparison, K3's function sheaf and K4's line bundles.
+SBC B6.1 owns the manifold good-cover/sheaf/singular comparison; consume
+SBC B6's smooth line classification and curvature comparisons through it.
+AlgebraicTopology supplies singular cochains and their coefficient exact
+sequences, not a second manifold sheaf/singular bridge. The continuous-line
+corollary additionally consumes TopologicalKTheory T1.6d's unstabilized
+rank-one smoothing interface specified above. These are its explicit lower
 inputs. Its conditional Picard isomorphism uses supplied vanishing and does
 not assume Borel–Weil, Kodaira embedding, flag cohomology or K7's section
 dimension calculations. SchubertGeometry S3P constructs the flag-specific
