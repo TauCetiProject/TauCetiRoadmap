@@ -307,6 +307,9 @@ additive generator.
 
 ## References
 
+- I. Assem, D. Simson, A. Skowroński, *Elements of the Representation Theory of Associative
+  Algebras*, Vol. 1, London Mathematical Society Student Texts 65, Cambridge University Press
+  (2006), Chapter IV.
 - M. Auslander, *On the dimension of modules and algebras III. Global dimension*, Nagoya Math. J.
   9 (1955), 67–77: global dimension from cyclic modules, left and right global dimension of
   Noetherian and semiprimary rings.
@@ -320,9 +323,6 @@ additive generator.
   the Auslander-Reiten formulas), Chapter VI (the Harada-Sai lemma, Auslander's theorem,
   and the Auslander correspondence in Section VI.5), Chapter VII (the valued Auslander-Reiten
   quiver).
-- I. Assem, D. Simson, A. Skowroński, *Elements of the Representation Theory of Associative
-  Algebras*, Vol. 1, London Mathematical Society Student Texts 65, Cambridge University Press
-  (2006), Chapter IV.
 - T. Bühler, *Exact categories*, Expo. Math. 28 (2010), 1–69: `Ext¹` and the long exact sequences.
 - H. Enomoto, *Classifications of exact structures and Cohen-Macaulay-finite algebras*, Adv. Math.
   335 (2018), 838–877, arXiv:1705.02163: Appendix A, Auslander-Reiten theory of exact categories.
