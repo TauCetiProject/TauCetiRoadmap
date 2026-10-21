@@ -15,7 +15,8 @@ library -- these are goals, not proofs.
 
 Layers as in `README.md`: 0 Krull-Schmidt categories; 1 Matlis duality over a commutative
 Artinian ring; 2 `Ext¹` and almost-split conflations in exact categories; 3 Auslander-Reiten
-theory of Artin algebras; 4 the valued Auslander-Reiten quiver; 5 finiteness theorems.
+theory of Artin algebras; 4 the valued Auslander-Reiten quiver; 5 finiteness theorems; 6 the
+Morita-Tachikawa and Auslander correspondences.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.ArtinAlgebras
@@ -138,5 +139,40 @@ theorem finite_skeleton_of_length_le (b : ℕ)
   sorry
 
 end Finiteness
+
+/-! ## Layer 6: the Morita-Tachikawa and Auslander correspondences -/
+
+section Auslander
+
+variable (R : Type u) [CommRing R] [IsArtinianRing R] (A : Type u) [Ring A] [Algebra R A]
+  [Module.Finite R A]
+
+include R in
+/-- **Morita-Tachikawa, dominant dimension**: for a generator-cogenerator `M` of `mod A`, the
+regular module of `Γ = Module.End A M` has an injective copresentation `0 → Γ → I⁰ → I¹` by
+finitely generated projective-injective modules, that is, `dom.dim Γ ≥ 2`. -/
+theorem exists_projective_injective_copresentation (M : ModuleCat.{u} A) [Module.Finite A M]
+    (hproj : ∀ P : ModuleCat.{u} A, Module.Finite A P → Projective P → Indecomposable P →
+      ∃ (i : P ⟶ M) (q : M ⟶ P), i ≫ q = 𝟙 P)
+    (hinj : ∀ I : ModuleCat.{u} A, Module.Finite A I → Injective I → Indecomposable I →
+      ∃ (i : I ⟶ M) (q : M ⟶ I), i ≫ q = 𝟙 I) :
+    ∃ (I₀ I₁ : ModuleCat.{u} (Module.End A M)) (f : ModuleCat.of _ (Module.End A M) ⟶ I₀)
+      (g : I₀ ⟶ I₁) (hfg : f ≫ g = 0),
+      Mono f ∧ (ShortComplex.mk f g hfg).Exact ∧ Module.Finite (Module.End A M) I₀ ∧
+        Module.Finite (Module.End A M) I₁ ∧ Projective I₀ ∧ Injective I₀ ∧ Projective I₁ ∧
+          Injective I₁ :=
+  sorry
+
+include R in
+/-- **The Auslander correspondence, global dimension**: for an additive generator `M` of `mod A`,
+every finitely generated module over `Γ = Module.End A M` has projective dimension at most two. -/
+theorem hasProjectiveDimensionLE_two (M : ModuleCat.{u} A) [Module.Finite A M]
+    (hM : ∀ X : ModuleCat.{u} A, Module.Finite A X → Indecomposable X →
+      ∃ (i : X ⟶ M) (q : M ⟶ X), i ≫ q = 𝟙 X)
+    (X : ModuleCat.{u} (Module.End A M)) [Module.Finite (Module.End A M) X] :
+    HasProjectiveDimensionLE X 2 :=
+  sorry
+
+end Auslander
 
 end TauCetiRoadmap.RepresentationTheory.ArtinAlgebras

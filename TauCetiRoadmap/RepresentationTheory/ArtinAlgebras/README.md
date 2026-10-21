@@ -40,13 +40,18 @@ almost-split conflations; no Matlis duality over a commutative Artinian ring tha
 translate, Auslander-Reiten formula or almost-split sequences for Artin algebras; no valued
 Auslander-Reiten quiver; and none of the classical finiteness theorems: the Harada-Sai lemma,
 Auslander's theorem on components of bounded length, the first Brauer-Thrall conjecture, and
-`rad^∞ = 0` for representation-finite algebras.
+`rad^∞ = 0` for representation-finite algebras; and no global or dominant dimension, so no
+Morita-Tachikawa or Auslander correspondence.
 
-This roadmap builds them. Its two summits are **existence of almost-split sequences for Artin
+This roadmap builds them. Its three summits are **existence of almost-split sequences for Artin
 algebras**, as the case `mod A` of existence of almost-split conflations in a Hom-finite
-Krull-Schmidt exact category with an Auslander-Reiten duality, and **Auslander's theorem**: a
+Krull-Schmidt exact category with an Auslander-Reiten duality; **Auslander's theorem**: a
 connected Artin algebra with a component of the Auslander-Reiten quiver of bounded length is
-representation-finite, and that component is the whole quiver. Suggested homes in Tau Ceti are
+representation-finite, and that component is the whole quiver; and the **Auslander
+correspondence**: representation-finite Artin algebras correspond, up to Morita equivalence, to
+Artin algebras of global dimension at most two and dominant dimension at least two, as the case of
+an additive generator in the **Morita-Tachikawa correspondence** between generator-cogenerators and
+algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 `TauCeti/CategoryTheory/KrullSchmidt/`, `TauCeti/CategoryTheory/Exact/` (for `Ext¹` and almost-split
 conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/ArtinAlgebra/`.
 
@@ -228,6 +233,38 @@ conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/Ar
 - **Connectedness.** For a connected representation-finite `A`, the underlying graph of
   `valuedARQuiver A` is connected.
 
+### Layer 6: the Morita-Tachikawa and Auslander correspondences
+
+- **Projectivization.** For a finitely generated `A`-module `M` with `Γ = Module.End A M`,
+  `Hom_A(M, -)` is an equivalence from `add M` (the direct summands of finite sums of copies of `M`)
+  to the finitely generated projective right `Γ`-modules, sending `M` to `Γ`. `Γ` is an Artin
+  `R`-algebra, since `M ⟶ M` is finitely generated over `R`.
+- **The double centralizer.** If `M` is a generator of `mod A`, the action map
+  `A → Module.End Γ M` is an isomorphism.
+- **Global dimension.** The global dimension of an Artin algebra is the supremum of the projective
+  dimensions (Mathlib's `CategoryTheory.projectiveDimension`) of its finitely generated modules. It
+  equals the supremum over the finitely many simple modules, and bounds the projective dimension of
+  every module.
+- **Dominant dimension.** For an Artin algebra `Γ` with minimal injective coresolution
+  `0 → Γ → I⁰ → I¹ → ⋯` of the regular module, `dom.dim Γ ≥ n` when `I⁰, …, Iⁿ⁻¹` are projective.
+  For `n = 1`, this says that `Γ` embeds in a projective-injective module.
+- **The Morita-Tachikawa correspondence.** If `M` is a generator-cogenerator of `mod A` (every
+  indecomposable projective and every indecomposable injective is a summand of `M`), then
+  `dom.dim (Module.End A M) ≥ 2`. Conversely, for an Artin algebra `Γ` with `dom.dim Γ ≥ 2`, let `Q`
+  be the sum of the indecomposable projective-injective `Γ`-modules, one of each isomorphism class,
+  and `B = Module.End Γ Q`; then `Q` is a generator-cogenerator of `mod B`, and `Γ` is Morita
+  equivalent to `Module.End B Q`. These constructions are inverse bijections between pairs `(A, M)`,
+  with `M` a generator-cogenerator up to `add M = add M'` and Morita equivalence of `A`, and Artin
+  algebras of dominant dimension at least two up to Morita equivalence (Mathlib's
+  `MoritaEquivalence`).
+- **The Auslander correspondence.** If `M` is an additive generator of `mod A` (every
+  indecomposable finitely generated module is a summand of `M`; such `M` exists exactly when `A` is
+  representation-finite), then `Γ = Module.End A M` has global dimension at most two, besides
+  `dom.dim Γ ≥ 2`. Conversely, if `gl.dim Γ ≤ 2 ≤ dom.dim Γ`, the generator-cogenerator `Q` of the
+  previous item is an additive generator of `mod B`. So the Morita-Tachikawa bijection restricts
+  to a bijection between Morita classes of representation-finite Artin algebras and Morita classes
+  of **Auslander algebras**, the Artin algebras with `gl.dim Γ ≤ 2 ≤ dom.dim Γ`.
+
 ## Worked examples (acceptance criteria)
 
 - **A field.** For `R = A = k`, `E_k = k`, `D_k = Hom_k(-, k)`, and `τ` agrees with
@@ -241,22 +278,32 @@ conflations), `TauCeti/RingTheory/Matlis/`, and `TauCeti/RepresentationTheory/Ar
   whose valuation is not of the form `(n, n)`.
 - **The Kronecker algebra.** Over a field, the indecomposables of the Kronecker algebra have
   unbounded length; consistently with Layer 5, it is not representation-finite and `rad^∞ ≠ ⊥`.
+- **Auslander algebras.** For `A = k[x]/(x²)` and `M = A ⊕ k`, `Module.End A M` is
+  five-dimensional over `k`, with global dimension two and dominant dimension at least two. For
+  `A = ℤ/p²ℤ` and `M = ℤ/p²ℤ ⊕ ℤ/pℤ`, `Module.End A M` likewise has global dimension two and dominant
+  dimension at least two. For a semisimple `A`, every additive generator has a semisimple
+  endomorphism ring, of global dimension zero.
 
 ## Ordering
 
 Layer 0 and Layer 1 are independent. Layer 2 needs Layer 0 for Krull-Schmidt and Layer 1 for
 `D_R`. Layer 3 needs Layers 1 and 2. Layer 4 needs Layers 0 and 3. Layer 5 needs Layers 3 and 4; its
-Harada-Sai lemma needs only Layer 0.
+Harada-Sai lemma needs only Layer 0. Layer 6 needs Layer 0, Layer 1 for injectives and
+projective-injectives, and Layer 5 for the characterization of representation-finiteness by an
+additive generator.
 
 ## References
 
+- M. Auslander, *Representation dimension of Artin algebras*, Queen Mary College Mathematics
+  Notes, London (1971): the Auslander correspondence.
 - M. Auslander, *Representation theory of Artin algebras II*, Comm. Algebra 1 (1974), 269–310:
   `rad^∞` and representation-finiteness, components of bounded length.
 - M. Auslander, I. Reiten, S. O. Smalø, *Representation Theory of Artin Algebras*, Cambridge
   Studies in Advanced Mathematics 36, Cambridge University Press (1995): Chapter II (Artin algebras
   and duality), Chapter IV (the transpose and the translate), Chapter V (almost-split sequences and
-  the Auslander-Reiten formulas), Chapter VI (the Harada-Sai lemma and Auslander's theorem),
-  Chapter VII (the valued Auslander-Reiten quiver).
+  the Auslander-Reiten formulas), Chapter VI (the Harada-Sai lemma, Auslander's theorem,
+  and the Auslander correspondence in Section VI.5), Chapter VII (the valued Auslander-Reiten
+  quiver).
 - I. Assem, D. Simson, A. Skowroński, *Elements of the Representation Theory of Associative
   Algebras*, Vol. 1, London Mathematical Society Student Texts 65, Cambridge University Press
   (2006), Chapter IV.
@@ -273,3 +320,5 @@ Harada-Sai lemma needs only Layer 0.
 - A. V. Roiter, *Unboundedness of the dimensions of the indecomposable representations of an algebra
   which has infinitely many indecomposable representations*, Izv. Akad. Nauk SSSR Ser. Mat. 32
   (1968), 1275–1282.
+- H. Tachikawa, *Quasi-Frobenius Rings and Generalizations*, Lecture Notes in Mathematics 351,
+  Springer (1973): dominant dimension and the Morita-Tachikawa correspondence.
