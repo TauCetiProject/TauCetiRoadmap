@@ -185,6 +185,9 @@ It leaves to other roadmaps, and consumes from them:
   full-group specialization of finite covers and its Frattini application for 6.0.
 - **NumberFieldArithmetic**, Layer 5, and **LocalFieldsRamification**, Layer 2:
   finite places, completions and arithmetic Frobenius for 5.0b.
+  LocalFieldsRamification Layers 3–4 supply the finite and absolute ramification filtrations,
+  lower and upper numbering, Herbrand functions and Hasse–Arf over perfect residue fields
+  for the conductor comparisons in 5.3a–5.7.
 - **AlgebraicVectorBundles**, L0C (finite-projective determinants), and
   **SchemeAndStackFoundations**, §2.6 (proper coherent cohomology), supply the
   determinant-of-cohomology construction in 5.3d; **StableReduction** Layer 2
@@ -513,7 +516,9 @@ parameter fields and coefficient descent/extension. Its `wd-parameter-operations
 rescaling isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image, and
 `wd-frobenius-semisimplification` supplies Frobenius semisimplification.
 ArithmeticGaloisRepresentations Layer 2 (§§2.1–2.5) supplies local-field inertia, the arithmetic
-quasi-unipotence and prime-to-residue Weil–Deligne adapters, and local Euler factors;
+quasi-unipotence and prime-to-residue Weil–Deligne adapters, and local Euler factors.
+LocalFieldsRamification Layers 3–4 supply the finite and absolute ramification filtrations
+over complete discretely valued fields with perfect residue field, including infinite ones.
 ArithmeticGaloisRepresentations §§3.1–3.7 supplies Artin, Swan, global and residual
 conductor theory; §§6.1–6.2 supplies the Tate representation and pairing adapters, and
 §6.3 **Local Euler factors** supplies the generic factor on the cohomological dual with
@@ -3189,9 +3194,9 @@ For 5.3a–5.3e, `K` is complete for a discrete valuation `v_K` with
 `v_K(K^×) = ℤ`, `R = O_K`, perfect residue field `k` of characteristic `p > 0`,
 and `char K ∈ {0,p}`. The elliptic curve `E/K` is given by a Weierstrass curve `W`
 with `IsElliptic`; the coefficient prime `ℓ` is different from `p`. For finite `k`,
-`K` is a nonarchimedean local field. Use the inertia and conductor conventions of
-ArithmeticGaloisRepresentations Layer 3, including its perfect-residue-field
-ramification filtration, rather than assuming residue finiteness throughout.
+`K` is a nonarchimedean local field. Use the finite and absolute ramification filtrations
+supplied by LocalFieldsRamification Layers 3–4 over perfect residue fields and the conductor
+conventions of ArithmeticGaloisRepresentations Layer 3; residue finiteness is not assumed.
 
 **The conductor exponent.** Define `f(E) := a(V_{ℓ₀}E)` with `ℓ₀` the least prime `≠ p`, the tame part
 `ε(E) := codim (V_{ℓ₀}E)^{I_K}`, the wild part `δ(E) := Sw(V_{ℓ₀}E)`, and over a number field
@@ -3204,7 +3209,8 @@ bare integral equation) has good, multiplicative or additive reduction
 reduction; and that `a((V_ℓE)^∨) = f(E)`. Its API is the comparison with the Artin conductor, `f = 0`
 iff good reduction, `f = 1` iff multiplicative reduction, invariance under unramified base change and
 under duality (Serre 1970, n° 2.4, cases b), c), p. 10; Brumer–Kramer 1994, §6, (6.1), p. 243).
-*Needs:* ArithmeticGaloisRepresentations §§3.2, 3.4, 3.6, 6.2; 5.1a; EllipticCurves
+*Needs:* LocalFieldsRamification Layers 3–4; ArithmeticGaloisRepresentations §§3.2, 3.4, 3.6, 6.2;
+5.1a; EllipticCurves
 Layers 2–5; Mathlib `WeierstrassCurve.minimal`,
 `WeierstrassCurve.hasGoodReduction_or_hasMultiplicativeReduction_or_hasAdditiveReduction`.
 
@@ -3320,7 +3326,7 @@ Prove that for `C = E`, `ord Δ_{X/R} = v(Δ_min)`, `χ(X_k̄) = m − 1 + ε(E)
 residue characteristic, including `2` and `3`, in mixed and equal characteristic (Liu 1994,
 Introduction, p. 51). *Needs:* 5.3a–5.3d (conductor, special fibre, étale Euler characteristics,
 determinant of cohomology and discriminant valuation);
-ArithmeticGaloisRepresentations §3.1 (Swan conductor and ramification).
+ArithmeticGaloisRepresentations §3.1 (Swan conductor).
 
 **Checks.**
 

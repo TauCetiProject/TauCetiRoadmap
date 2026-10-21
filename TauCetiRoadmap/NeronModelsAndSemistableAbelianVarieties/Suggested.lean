@@ -728,7 +728,10 @@ README 5.0a–5.0c specifies finite-étale torsion specialization and the good-r
 Frobenius and Euler-factor comparisons; 5.1a specifies potential good reduction.
 README 5.3a–5.3e, 5.3g–5.3i specifies the elliptic conductor, special fibre, étale Euler
 characteristics, determinant/discriminant, Ogg/Saito formula, bounds, residual conductors
-and comparison with Mathlib's local polynomial. README 6.0 specifies independence and
+and comparison with Mathlib's local polynomial. LocalFieldsRamification Layers 3–4 supply
+the finite and absolute ramification filtrations over complete discretely valued fields with
+perfect residue field; ArithmeticGaloisRepresentations Layer 3 supplies the conductor conventions.
+README 6.0 specifies independence and
 closed-point specialization. Their general abelian Tate-system and cohomological carriers
 are supplied by the cited roadmaps.
 AbelianSchemesAndArithmeticModuli A1.8 supplies Weil extension for the consequence
