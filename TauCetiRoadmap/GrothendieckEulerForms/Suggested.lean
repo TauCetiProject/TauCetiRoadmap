@@ -3,6 +3,8 @@ import TauCeti.CategoryTheory.Exact.Functor
 import TauCeti.CategoryTheory.Exact.Split
 import TauCeti.CategoryTheory.Exact.Abelian
 import TauCeti.CategoryTheory.GrothendieckGroup.Exact
+import TauCeti.CategoryTheory.Exact.Graded.Basic
+import TauCeti.CategoryTheory.GrothendieckGroup.Graded
 import TauCeti.CategoryTheory.GrothendieckGroup.Triangulated
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Descent
 import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
@@ -420,21 +422,22 @@ structure ForgetGradingData
     {Cg : Type u} {Cu : Type w}
     [Category.{v} Cg] [Preadditive Cg] [HasZeroObject Cg] [HasBinaryBiproducts Cg]
     [Category.{v} Cu] [Preadditive Cu] [HasZeroObject Cu] [HasBinaryBiproducts Cu]
-    (Eg : ExactStructure Cg) (Eu : ExactStructure Cu) (shift : Cg ⥤ Cg)
-    [shift.Additive] [shift.IsEquivalence] where
-  shift_exact : Eg.IsConflationExact Eg shift
+    (Eg : ExactStructure Cg) (Eu : ExactStructure Cu) (shift : Cg ≌ Cg)
+    [shift.functor.Additive] where
+  shift_exact : Eg.IsConflationExact Eg shift.functor
+  shift_inverse_exact : Eg.IsConflationExact Eg shift.inverse
   forget : Cg ⥤ Cu
   [forget_additive : forget.Additive]
   forget_exact : Eg.IsConflationExact Eu forget
-  forget_shift : shift ⋙ forget ≅ forget
+  forget_shift : shift.functor ⋙ forget ≅ forget
 
 namespace ForgetGradingData
 
 variable {Cg : Type u} {Cu : Type w}
 variable [Category.{v} Cg] [Preadditive Cg] [HasZeroObject Cg] [HasBinaryBiproducts Cg]
 variable [Category.{v} Cu] [Preadditive Cu] [HasZeroObject Cu] [HasBinaryBiproducts Cu]
-variable {Eg : ExactStructure Cg} {Eu : ExactStructure Cu} {shift : Cg ⥤ Cg}
-variable [shift.Additive] [shift.IsEquivalence]
+variable {Eg : ExactStructure Cg} {Eu : ExactStructure Cu} {shift : Cg ≌ Cg}
+variable [shift.functor.Additive]
 
 /-- The map before imposing `q = 1`; its factorization uses `forget_shift`. -/
 noncomputable def k0Map (D : ForgetGradingData Eg Eu shift)
@@ -591,6 +594,47 @@ theorem exactK0NativeEquiv_map (E : ExactStructure C) (E' : ExactStructure D)
         (exactK0NativeEquiv C E x) := sorry
 
 end NativeFunctorComparisons
+
+section NativeGradingComparisons
+
+variable {Cg : Type u} {Cu : Type w}
+variable [Category.{v} Cg] [Preadditive Cg] [HasZeroObject Cg] [HasBinaryBiproducts Cg]
+variable [Category.{v} Cu] [Preadditive Cu] [HasZeroObject Cu] [HasBinaryBiproducts Cu]
+variable {Eg : ExactStructure Cg} {Eu : ExactStructure Cu} {shift : Cg ≌ Cg}
+variable [shift.functor.Additive]
+
+/-- Both local exactness witnesses give the actual native grading datum. No equality of the local
+and native exact-structure carriers is assumed; the existing conflation comparison is used twice. -/
+noncomputable def ForgetGradingData.nativeGrading (D : ForgetGradingData Eg Eu shift) :
+    _root_.TauCeti.GradedExactStructure Cg where
+  toExactStructure := exactStructureNativeEquiv Cg Eg
+  shift := shift
+  shift_exact := (conflationExact_native_iff Eg Eg shift.functor).mp D.shift_exact
+  shift_inverse_exact := (conflationExact_native_iff Eg Eg shift.inverse).mp D.shift_inverse_exact
+
+/-- The local invertible shift is the conjugate of the native exact-K-zero shift equivalence.
+The ordinary forgetful map above continues to use only its own exactness witness. -/
+noncomputable def ForgetGradingData.shiftEquiv (D : ForgetGradingData Eg Eu shift)
+    [EssentiallySmall.{w} Cg] : ExactK0 Eg ≃+ ExactK0 Eg :=
+  (exactK0NativeEquiv Cg Eg).trans
+    ((D.nativeGrading).shiftEquiv.trans (exactK0NativeEquiv Cg Eg).symm)
+
+/-- Its object-class equation has the prescribed positive internal shift, before Laurent packaging.
+This closed adapter uses the existing class-comparison target and native shiftEquiv_of. -/
+theorem ForgetGradingData.shiftEquiv_class (D : ForgetGradingData Eg Eu shift)
+    [EssentiallySmall.{w} Cg] (X : Cg) :
+    D.shiftEquiv (exactK0Class Eg X) = exactK0Class Eg (shift.functor.obj X) := by
+  apply (exactK0NativeEquiv Cg Eg).injective
+  change (exactK0NativeEquiv Cg Eg)
+      ((exactK0NativeEquiv Cg Eg).symm
+        ((D.nativeGrading).shiftEquiv (exactK0NativeEquiv Cg Eg (exactK0Class Eg X)))) =
+    exactK0NativeEquiv Cg Eg (exactK0Class Eg (shift.functor.obj X))
+  rw [(exactK0NativeEquiv Cg Eg).apply_symm_apply,
+    exactK0NativeEquiv_class Cg Eg X,
+    exactK0NativeEquiv_class Cg Eg (shift.functor.obj X)]
+  exact _root_.TauCeti.GradedExactStructure.shiftEquiv_of (D.nativeGrading) X
+
+end NativeGradingComparisons
 
 section NativeTriangleComparisons
 

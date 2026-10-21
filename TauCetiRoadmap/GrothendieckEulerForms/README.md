@@ -100,8 +100,12 @@ localization machinery is introduced to obtain them.
   annihilated by every first argument.  They and their quotients remain distinct unless an explicit
   duality proves otherwise.
 - **Graded throughout.**  The internal grading is not an afterthought added in Layer 6.  A graded
-  exact category is an exact category with a chosen grading-shift autoequivalence `{1}` preserving
-  conflations; every construction in Layers 1--5 has a graded counterpart over that datum, and the
+  exact category is an exact category with a chosen additive grading-shift autoequivalence `{1}`
+  whose functor and inverse both preserve conflations, equivalently whose functor preserves and
+  reflects them. Use native `TauCeti.GradedExactStructure`, including `shift_exact` and
+  `shift_inverse_exact`, or the explicit local/native exact-structure comparison with both fields.
+  Forward preservation alone does not make the induced K₀ map invertible. Every construction in
+  Layers 1--5 has a graded counterpart over that datum, and the
   graded counterpart is a target of this roadmap, built alongside the ungraded one rather than
   after it.  Concretely: graded exact and abelian `K₀` with their shift action, graded finite and
   linear resolutions, the graded Cartan map and matrix, graded Ext with its internal degree, and
@@ -269,9 +273,15 @@ Specialize Layer 1 while retaining a uniform public API.
   complex level.  A derived category of a general Quillen exact category would require
   exact-acyclic localization infrastructure and is outside this roadmap; do not smuggle that
   construction into this milestone.
-- **Graded exact categories and graded K₀.**  Define a graded exact category as an exact category
-  with a chosen conflation-exact autoequivalence `{1}`, together with graded conflation-exact
-  functors and graded exact equivalences.  Build graded split, exact, abelian and triangulated K₀
+- **Graded exact categories and graded K₀.** Consume native
+  `TauCeti.GradedExactStructure` from
+  [`Exact/Graded/Basic`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/Exact/Graded/Basic.lean#L61-L78): an exact structure with a chosen additive
+  autoequivalence `{1}` and conflation-exactness of BOTH its functor and inverse. Through the
+  Layer0 local/native comparison identify the two conflation predicates and transport both
+  exactness witnesses; do not identify the structures by a name match. Equivalently use preservation
+  and reflection, with the native inverse-exactness theorem. Retain native graded conflation-exact
+  functors and graded exact equivalences and their chosen shift-commutation isomorphisms.
+  Build graded split, exact, abelian and triangulated K₀
   by the same Layer 1 engine, each carrying the induced `ℤ`-action `[M{n}]` of the shift, with the
   universal property for invariants equipped with a compatible invertible shift action.  Prove
   that forgetting the grading along a conflation-exact functor `U` with `{1} ⋙ U ≅ U` induces a
@@ -287,7 +297,7 @@ comparisons.
 
 This algebraic specialization applies to arbitrary associative unital rings A,B, including the zero ring. Generic categorical Layers 1–2 are constructed independently before it; their small presentations and splitK₀ universal properties have no finite-projective-module premise. The module, balanced tensor, retract and idempotent constructions below are independent of that generic group-completion engine. Only the final comparison consumes both these module constructions and the already constructed Layers 1–2. None of these algebraic steps assumes finite-dimensional algebra, an involution, topology, positivity or a C*-norm. The category of left modules follows the standing convention; a source right A-module is a native Module Aᵐᵒᵖ. Retain right-sided formulas explicitly in the comparison below, and derive the left-handed version by taking opposite rings.
 
-**Balanced extension of scalars.** Consume AlgebraicKTheory’s associative balanced quotient through the explicit left-module/opposite-ring transport in KTheoryLowDegrees, and identify its right-module carrier M⊗_A B for f:A→+*B with the quotient of the free abelian group on pairs (m,b) by the additive relations in each variable and (ma,b)=(m,f(a)b). Define the right B action on generators by (m,b)c=(m,bc), prove it preserves every relation, and prove all module laws. Export the universal property for biadditive A-balanced maps to abelian groups and its right-B-linear specialization. Do not instantiate Mathlib TensorProduct over a noncommutative A: its base CommSemiring hypothesis is real. AlgebraicKTheory first forms the additive tensor over ℤ and then imposes the A-balancing relations. Prove its comparison with the free-abelian-on-pairs presentation by the additive-tensor and free-group universal properties; both maps preserve m⊗b, kill the displayed relations and are inverse by generator induction. The ℤ-base use satisfies native commutativity, whereas the balancing ring A remains arbitrary. Compare the arbitrary-ring characteristic-predicate interface specified by that balanced construction through the concrete balanced map flippedTmul:N→ₗ[A](M→+X), with domain-precomposition A action (a•h)(m)=h(ma). Prove explicitly that this linearity is exactly the balancing equation. Export lift, lift_comp and lift_uniq in that shape, generation/induction and the unique additive comparison between any two universal carriers. Use a local domain-action instance so it is not confused with an unrelated codomain module action. Construct the characteristic predicate and induced left/right bimodule actions for this quotient; an ordinary commutative-base TensorProduct example does not supply the arbitrary-ring quotient carrier. For N=B with left A action through f and right B multiplication, supply the actual commuting A/Bᵐᵒᵖ actions and identify the quotient right Module Bᵐᵒᵖ with the prototype IsTensorProduct.rightModule by uniqueness on generators. Preserve universes: a characteristic predicate quantifying target P only in the universe of X is a same-universe specialization. Prove the concrete quotient universal property for abelian groups P in arbitrary universes directly by the free-group quotient eliminator, and construct ULift comparisons, independence of lifts and the natural comparison at a common maximum universe. Instantiate that specialization without weakening the exported cross-universe universal property. A Tensor-Hom adjunction restricted to a commutative base does not supply this arbitrary-A carrier. Installed Mathlib `IsTensorProduct` in `Mathlib.RingTheory.IsTensorProduct` assumes `CommSemiring`; its bilinear lift is used only for the commutative specialization. The arbitrary-ring flipped characteristic predicate and its right-module action are explicit comparisons with the Part II balanced quotient, not an assertion that the installed commutative predicate has weaker hypotheses.
+**Balanced extension of scalars.** Consume AlgebraicKTheory’s associative balanced quotient through the explicit left-module/opposite-ring transport in KTheoryLowDegrees, and identify its right-module carrier M⊗_A B for f:A→+*B with the quotient of the free abelian group on pairs (m,b) by the additive relations in each variable and (ma,b)=(m,f(a)b). Define the right B action on generators by (m,b)c=(m,bc), prove it preserves every relation, and prove all module laws. Export the universal property for biadditive A-balanced maps to abelian groups and its right-B-linear specialization. Do not instantiate Mathlib TensorProduct over a noncommutative A: its base CommSemiring hypothesis is real. AlgebraicKTheory first forms the additive tensor over ℤ and then imposes the A-balancing relations. Prove its comparison with the free-abelian-on-pairs presentation by the additive-tensor and free-group universal properties; both maps preserve m⊗b, kill the displayed relations and are inverse by generator induction. The ℤ-base use satisfies native commutativity, whereas the balancing ring A remains arbitrary. Compare the arbitrary-ring characteristic-predicate interface specified by that balanced construction through the concrete balanced map flippedTmul:N→ₗ[A](M→+X), with domain-precomposition A action (a•h)(m)=h(ma). Prove explicitly that this linearity is exactly the balancing equation. Export lift, lift_comp and lift_uniq in that shape, generation/induction and the unique additive comparison between any two universal carriers. Use a local domain-action instance so it is not confused with an unrelated codomain module action. Construct the characteristic predicate and induced left/right bimodule actions for this quotient; an ordinary commutative-base TensorProduct example does not supply the arbitrary-ring quotient carrier. For N=B with left A action through f and right B multiplication, supply the actual commuting A/Bᵐᵒᵖ actions and identify the quotient right Module Bᵐᵒᵖ with the right-module action of the arbitrary-ring characteristic-predicate quotient constructed here by uniqueness on generators. Preserve universes: a characteristic predicate quantifying target P only in the universe of X is a same-universe specialization. Prove the concrete quotient universal property for abelian groups P in arbitrary universes directly by the free-group quotient eliminator, and construct ULift comparisons, independence of lifts and the natural comparison at a common maximum universe. Instantiate that specialization without weakening the exported cross-universe universal property. A Tensor-Hom adjunction restricted to a commutative base does not supply this arbitrary-A carrier. Installed Mathlib `IsTensorProduct` in `Mathlib.RingTheory.IsTensorProduct` assumes `CommSemiring`; its bilinear lift is used only for the commutative specialization. The arbitrary-ring flipped characteristic predicate and its right-module action are explicit comparisons with the Part II balanced quotient, not an assertion that the installed commutative predicate has weaker hypotheses.
 
 Construct maps induced by right-linear maps, their identity/composition equations, and the additive functor on module categories. Construct explicit natural right-module equivalences A⊗_A B≃B, M⊗_A A≃M and (M⊕N)⊗_A B≃(M⊗_A B)⊕(N⊗_A B). Their maps are a⊗b↦f(a)b, m⊗a↦ma and componentwise inclusion/projection; prove their inverses and naturality by induction on tensor generators. For A→B→C construct (M⊗_A B)⊗_B C≃M⊗_A C by (m⊗b)⊗c↦m⊗g(b)c, inverse m⊗c↦(m⊗1)⊗c. Prove unit, associativity and base-change coherence on generators, including zero modules and zero rings.
 
@@ -442,11 +452,25 @@ The reusable finite-support theorem comes before the Ext specialization.
 - **Descent.**  Descend the object-level value to a biadditive pairing on the exact/abelian
   Grothendieck groups of the two selected subcategories.  Give the universal characterization and
   naturality under functors carrying Ext and preserving the chosen finiteness data.
-- **Projectives and resolutions.**  Prove projective evaluation
-  `χ(P,N)=dim_k Hom(P,N)` and, under the split hypothesis, `χ(P_i,S_j)=δ_{ij}`; retain the
-  `dim_k D_i` diagonal over a general field and the separate integral multiplicity pairing.  Under
-  finite projective resolutions, compute `χ(M,N)` from the alternating Hom complex and identify its
-  matrix with the inverse/transposed Cartan matrix in the pinned bases.
+- **Projectives and resolutions.** Prove projective evaluation
+  `χ(P,N)=dim_k Hom(P,N)`. For the finite exhaustive pairwise nonisomorphic simple and
+  indecomposable-projective families with projective covers `P_i→S_i`, put
+  `C_ij=[P_j:S_i]`, `E_ij=χ(S_i,S_j)` and `D=diag(dim_k End_A(S_i))`.
+  Under the actual Euler-admissibility hypotheses prove `χ(P_i,S_j)=δ_ij D_ii` and
+  **`CᵀE=D`**. Consume native
+  `TauCeti.cartanMatrix_transpose_mul_extEulerMatrix_eq_diagonal` in
+  [`ExtEulerMatrix`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RepresentationTheory/GrothendieckGroup/ExtEulerMatrix.lean#L83-L98),
+  with its Artinian, finite-family, projective-cover and Euler-admissibility inputs.
+  For a finite-dimensional algebra, when finitely generated modules admit the specified finite
+  resolutions by finitely generated projectives, compute the Euler form by the alternating Hom
+  complex and use the resulting invertible Cartan comparison to prove **`E=C⁻ᵀD`**.
+  Reuse native `TauCeti.extEulerMatrix_eq_inverseCartanMatrix_transpose_mul_diagonal`
+  and its actual resolution hypotheses; the diagonal is on the RIGHT, so
+  `E_ij=(C⁻¹)_ji dim_k End_A(S_j)`. The unweighted `CᵀE=I` and `E=C⁻ᵀ` are the
+  separate corollaries requiring `∀i, dim_k End_A(S_i)=1`, for example in the split/absolutely-simple
+  case. Retain the separate integral multiplicity pairing instead of conflating it with raw
+  k-dimension. As a compulsory nonsplit check take `k=ℝ`, `A=ℂ`, `S=P=ℂ`: higher Ext vanishes,
+  `C=[1]`, `D=[2]` and raw `E=[2]`, while the multiplicity pairing is `[1]`.
 - **Graded Ext and graded descent.**  Redo the layer for a graded abelian category: bigraded
   `Ext^{n,j}`, Euler-admissibility with both the cohomological and the internal support finite,
   the graded long exact sequences in both variables, and descent to graded `K₀`.  Keep the two
@@ -475,8 +499,12 @@ are already built in Layers 2--5.  This layer adds only the coefficient ring and
 it.  Let `R = ℤ[q,q⁻¹]`, represented by `LaurentPolynomial ℤ`, with bar involution
 `LaurentPolynomial.invert`.
 
-- **Shift-module structure.**  For a graded exact category from Layer 2, construct the `R`-module
-  structure on its graded K₀ and prove
+- **Shift-module structure.** For Layer2's two-sided exact grading datum, consume native
+  `TauCeti.GradedExactStructure.shiftEquiv` from
+  [`GrothendieckGroup/Graded`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/GrothendieckGroup/Graded.lean#L300-L315).
+  Its inverse is induced by the actual inverse shift, using inverse conflation-exactness.
+  Transport it through the class-preserving local/native K₀ comparison, then construct the `R`-module
+  structure on graded K₀ and prove
   `[M{n}]=q^n[M]` for every `n : ℤ`, in particular `[M{1}]=q[M]`.  State the universal
   property for additive invariants equipped with a compatible invertible shift action.
 - **Finite Laurent support.**  Define graded dimension only for graded vector spaces whose pieces
