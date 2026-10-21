@@ -66,7 +66,7 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   almost-split conflations in exact categories, the translate and almost-split sequences for Artin
   algebras, the valued Auslander-Reiten quiver, and the classical finiteness theorems: the
   Harada-Sai lemma, Auslander's theorem on components of bounded length, and the first
-  Brauer-Thrall conjecture.
+  Brauer-Thrall conjecture; and the Morita-Tachikawa and Auslander correspondences.
 
 ## How they depend on one another
 
