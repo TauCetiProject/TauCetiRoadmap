@@ -23,6 +23,19 @@ Consume [RealAlgebraicGeometry Layer 7](../RealAlgebraicGeometry/README.md#layer
 
 RealAlgebraicGeometry owns polynomial semialgebraic definitions, CAD and quantifier elimination. Its Layer 6 formula-level elimination is used for R2's coefficient-parametric projection step; it does not supply semianalytic normal decomposition or triangulation. RealAlgebraicGeometry Layer 7 owns the shared real analytic submanifold and local-complexification carriers, and RealAlgebraicGeometry Layer 4 owns continuity/constancy of ordered real roots in its stated fixed-degree/gcd hypotheses. R1 builds real semianalytic local decompositions using these suppliers and the RealAlgebraicGeometry Layer 1 Thom/subresultant sign data, without duplicating their analytic roots or CAD.
 
+R1.1 owns the analytic-algebraic (Nash) germ comparison and R2.1 owns the analytic-simplex
+strengthening of finite semialgebraic triangulation, together with
+the real multiprojective theorem. Consume [AffineMorseLefschetz A4.1](../AffineMorseLefschetz/README.md#a4-compact-algebraic-pairs-triangulation-and-complement-duality)
+for the shared finite compact semialgebraic construction: quasi-monic coordinate changes,
+compatible base refinements, section-closure extension, simplicial lifting and compact gluing.
+Consume its arbitrary marked-family and face-stack invariants, and prove the additional Nash
+invariant in that construction here; do not
+implement a second compact topological triangulation library. A4.1 owns its semialgebraic
+dimension and complex-projective algebraic-pair applications. R1.1 proves the comparison of its
+semianalytic dimension with that dimension. AlgebraicTopology Stage4.6 owns real projective
+topology/smooth charts; R2.1 owns their Nash/projector comparison. CK K7.1 owns complex
+projective charts on the same generic quotient topology.
+
 ## R0. Real analytic charts and germs
 
 Use RealAlgebraicGeometry Layer 7's convergent real-to-complex germ extension and chart-map complexification, its conjugation-fixed characterization, and its common-radius estimate `‖p_ℂ‖≤2^k‖p‖` (hence extension radius at least `r/2`). Consume CK K3.0's real-analytic chart comparison and CK K3's convergent complex local algebra. Build the real chart-local analytic function and germ API using `AnalyticAt`, including restriction, pullback, composition, shrinking, equality and transport across analytic chart equivalences. Prove these operations agree with RealAlgebraicGeometry Layer7's complexification/restriction maps. Do not provide a second complexification theorem or identify formal series with convergent germs without the RealAlgebraicGeometry Layer7 radius theorem.
@@ -40,6 +53,88 @@ Use the RealAlgebraicGeometry Layer 7 `TauCeti.IsAnalyticSubmanifold` carrier an
 Prove the local normal-decomposition theorem for a finite family of real analytic functions on a coordinate neighborhood. After shrinking, give a finite partition into connected, locally closed analytic submanifolds on which every function has constant sign. Each piece and each connected component is semianalytic. Inside the neighborhood, closures are unions of pieces, and a boundary piece has strictly smaller dimension. Keep this theorem local; do not attempt to glue arbitrary chartwise decompositions into a global stratification. The proof induction is: use RealAlgebraicGeometry Layer7 complexification, CK K3 convergent Weierstrass preparation, and the conjugation/uniqueness theorem to obtain real Weierstrass preparation; remove repeated factors using squarefree reduction and RealAlgebraicGeometry Layer 2 subresultant/gcd criteria (the discriminant of a repeated product may vanish identically); put every principal subresultant coefficient of `(P_i,P_i')` and `(P_i,P_j)`, together with leading coefficients and the discriminant/resultant loci, into the base induction family; on each cell prove fixed degrees and fixed gcd degrees before using RealAlgebraicGeometry Layer 4; and on each complementary connected cell use RealAlgebraicGeometry Layer 4 root matching plus RealAlgebraicGeometry Layer 1 Thom encodings to order the real roots and describe each selected root section by its Thom signs. Own analytic-coefficient delineability on these cells: subresultants are polynomial expressions in the analytic coefficients, and constant-rank gcd/squarefree formulas are analytic where their selected pivot minors do not vanish. Simple roots of the resulting monic squarefree polynomial are analytic by RealAlgebraicGeometry Layer7 implicit inversion; RealAlgebraicGeometry Layer4 gives ordered continuity, multiplicity constancy and pairwise root matching under the proved fixed-degree/gcd hypotheses. Thom descriptions prove each section semianalytic. Include local connectedness at frontier points as an induction invariant and prove section/sector boundary compatibility from that invariant and the root-matching neighborhoods. Prove the induction terminates by strict dimension drop. Do not use a global analytic atlas refinement as a substitute for this bad-set induction.
 
 Prove local dimension invariance for semianalytic sets: define dimension by the maximum dimension of pieces in a compatible local normal decomposition, with `dim ∅=−∞`; show independence of decomposition, `dim closure(A)=dim A`, and `dim(closure(A)\A)<dim A` for nonempty A. State empty and zero-dimensional cases. Do not assert the ambient boundary of a lower-dimensional closed set has smaller dimension. Prove local finiteness of connected components and semianalyticity of every component. The local normal decompositions satisfy the frontier condition. State both parts of the frontier condition: `S ∩ closure(T)≠∅ → S ⊆ closure(T)`, and `S ⊆ closure(T), S≠T → dim S<dim T`. The first is a containment assertion; the second gives the dimension drop for incident distinct strata.
+### R1.1. Analytic-algebraic germs and locally semialgebraic sets
+
+Use `TauCeti.IsSemialgebraic` on finite real coordinate spaces, and
+`TauCeti.IsSemialgebraicOn` for graphs on specified domains. The latter includes
+semialgebraicity of the domain and uses `Equiv.sumArrowEquivProdArrow` to encode its graph.
+The native `Semialgebraic.Image` and `Semialgebraic.QuantifierElimination` APIs require a
+projection-closure hypothesis; discharge it using RealAlgebraicGeometry Layer 6, rather than
+treating the conditional theorems as an implemented Tarski–Seidenberg theorem. Derive the
+semialgebraicity of closure and interior from the ordered-ring formulas for arbitrarily small
+Euclidean balls meeting a set and their complements. Prove finite-coordinate/norm transport;
+a sup-norm ball in `Fin n → ℝ` and a Euclidean ball are both semialgebraic neighborhoods.
+
+For an analytic scalar function on an open `Ω⊂ℝⁿ`, an **analytic-algebraic relation on Ω**
+means a single nonzero `P∈ℝ[x₁,…,xₙ,t]` satisfying `P(x,f(x))=0` for every `x∈Ω`.
+A **Nash germ at x** is an analytic germ having such a relation on some neighborhood of x.
+The polynomial and neighborhood may depend on x. Define maps coordinatewise and identify
+equal germs; prove restriction, equality, finite tuples, sum/product, reciprocal on a
+nonvanishing neighborhood and composition. The analytic inverse/implicit-function theorems
+come from RealAlgebraicGeometry Layer 7; prove the Nash comparison for those constructions
+here. A Nash function on Ω means an analytic function whose germ at every point of Ω
+is Nash. For an open semialgebraic Ω, its finitely many connected components and analytic
+uniqueness extend one local relation to each component; their product is a single
+nonzero relation on Ω. Derive finiteness/semialgebraicity of components from
+RealAlgebraicGeometry Layer6's finite connected CAD cells and the finite adjacency union.
+A Nash function on an open semialgebraic domain has a semialgebraic graph; an analytic
+function with semialgebraic graph is Nash. For the local theorem, state this precisely as:
+`f` is a Nash germ at x iff it is analytic at x and there is an open semialgebraic
+neighborhood U of x on which its graph is semialgebraic. Prove a common smaller U for any
+finite list of germs. On a connected open domain, analytic uniqueness extends a relation
+from one nonempty open neighborhood to the whole domain; retain the semialgebraic-domain
+hypothesis when asserting global graph semialgebraicity.
+
+Prove the graph criterion with its singular cases. For the relation-to-graph direction,
+remove polynomial content and repeated factors over `ℝ(x)` and clear denominators. Off the
+nonzero leading-coefficient/discriminant polynomial's zero locus, take a CAD compatible with
+these polynomials **and U's defining polynomials**. Each cell lies inside or outside U;
+the cells inside U are connected with continuously ordered distinct roots. Analytic f
+chooses a single root on each such cell by continuity and separation. Layer 1's Thom signs
+describe that section semialgebraically. Their finite union is the graph over a dense open
+part of U; continuity implies that its closure, restricted to `U×ℝ`, is the entire graph.
+Prove density, the graph-closure equality and the cleared-denominator identities; values
+over a vanishing coefficient locus cannot be freely chosen. In the reverse direction,
+write a finite sign description of the graph in disjunctive normal form. The graph has
+empty ambient interior, so every nonempty sign piece includes a genuinely nonzero polynomial
+equality; a product of these polynomials vanishes on the graph. Handle empty pieces and
+identically zero polynomials before taking that product. This proof uses polynomial
+sign/CAD/QE and analytic continuity, not an assertion that all analytic graphs are algebraic.
+
+Define **locally semialgebraic in the ambient affine space** by: for every ambient point x,
+there is an open semialgebraic neighborhood U of x with `S∩U` semialgebraic. Prove equivalence
+with a finite Boolean presentation near x by zero and strict positivity loci of Nash germs.
+Use the graph criterion and projection for one direction, polynomial functions for the
+other. The quantifier includes frontier points outside S. Prove finite Boolean operations,
+locally finite unions, Nash preimages/chart transport, local component and frontier APIs.
+Prove that a bounded locally semialgebraic set is globally semialgebraic: its closure is
+compact, a finite subcover by these neighborhoods suffices, and the finitely many restricted
+pieces have a semialgebraic union. Include the empty set and zero-dimensional ambient case.
+
+Prove R1's finite local normal decomposition in the Nash category: pieces are semialgebraic
+analytic submanifolds, root/graph maps are Nash, closures/frontiers remain semialgebraic and
+the same dimension/frontier conditions hold. Prove Nashness of the Weierstrass preparation
+coefficients used here, beyond their analyticity: first prove algebraic realification and
+Nashness of the real/imaginary components of a Nash germ's local holomorphic extension on
+a smaller conjugation-invariant semialgebraic tube. Prove the algebraic realification lemma:
+the extension w and its conjugate satisfy the original and conjugate polynomial relations;
+field-extension/resultant elimination makes `(w+conjugate(w))/2` and
+`(w−conjugate(w))/(2i)` algebraic. A nonzero real or imaginary coefficient part gives a
+nonzero real relation for each real-valued component, then the Nash graph criterion applies.
+Containment in the simultaneous real/imaginary polynomial zero set is not the graph criterion.
+Isolate the finite root cluster, express
+the factor coefficients by elementary symmetric functions of that cluster, counted with
+multiplicity. Prove differentiation preserves Nash germs by implicit differentiation off
+the nonzero squarefree discriminant locus and the graph-closure criterion at its frontier.
+Describe each root multiplicity by vanishing of the preceding derivatives and nonvanishing
+of the next one; the finite list is bounded by the fixed Weierstrass degree. Use real
+and imaginary polynomial coordinates and Layer 6 elimination for its graph. Prove the
+root-cluster isolation and coefficient uniqueness on a smaller neighborhood; complex
+conjugation makes the required coefficients real. Compare the dimension of the resulting
+pieces with A4.1's semialgebraic dimension. On semialgebraic analytic submanifolds, define
+Nash maps by analytic maps with semialgebraic graphs in finite affine coordinates, and
+prove restriction, products, composition and Nash inverse/implicit chart transport.
+
 ## R2. Łojasiewicz's affine triangulation theorem
 
 For every finite-dimensional real affine space `A` and locally finite family `(Bν)` of semianalytic
@@ -79,8 +174,28 @@ for each piece of dimension at most m. The proof uses CK K3's convergent Weierst
 and division, RealAlgebraicGeometry Layer 7's analytic inversion, and R1's local sign decomposition; these normal
 root/graph and projection assertions remain R2 targets.
 
+First export the independent **relative convex-polyhedral subdivision lemma**: a finite or
+locally finite family of compact convex polytopes with disjoint relative interiors, every
+proper face a finite union of controlling lower-dimensional polytopes and common intersections
+unions of common lower faces has a compatible affine simplicial subdivision, finite on each
+polytope. Preserve prescribed compatible boundary triangulations. Prove by dimension induction,
+retaining lower-face triangulations and coning to an interior point; prove independence of the
+cone point from every boundary-simplex affine span, common-face agreement and coverage.
+Use only native affine independence, convex hulls, finite polytopes and simplices. This lemma
+precedes the analytic induction and is the single subdivision supplier for A4.1's finite
+lifting; it does not depend on A4.1, R1.1 or the semianalytic theorem.
+
+Also export Lemmas11–12's band-closure and endpoint/restriction calculus and
+Lemma14's closed-band continuity clause as independent helpers before the analytic
+induction. They use only continuous endpoint/base maps, bounded graph closures,
+the collapsed-endpoint condition and elementary topology; they consume neither
+A4.1, R1.1 nor Lemmas1–10. A4.1 consumes these same helpers. Lemma13's analytic
+isomorphism clause and Lemma14's property(A⁻¹) clause remain in the analytic
+proof below and are not prerequisites of A4.1.
+
 The affine proof is by induction on `n=dim A`, with dimensions zero and one handled directly.
-Establish Lemmas 1–15 as usable targets in this order, with empty and zero-dimensional cases included.
+Establish the remaining analytic Lemmas1–15 in the order below, using the independently
+proved clauses just exported, with empty and zero-dimensional cases included.
 
 1. Lemma 1 is the analytic Sard-meagerness statement: if countable-basis analytic manifolds
    `X,Y` and analytic `g:X→Y` satisfy `rank g<dim Y`, then `g(X)` is meager. Prove it by
@@ -204,10 +319,24 @@ Establish Lemmas 1–15 as usable targets in this order, with empty and zero-dim
    bounds through the two coordinate changes (first at most 1, then at most 3) so Lemma 6 applies.
    Inside this strip,
    cover each compact vertical segment by finitely many adapted normal boxes and place truncated
-   cones with locally finite bases. Take as pieces the lower-dimensional normal strata clipped to
-   the cones, cone sides, and the two boundary planes. Prove the union is closed and has (P): use
-   (P) for each stratum, local finiteness, and the fact the cone boundary is in the union. Prove
-   every connected subset compatible with these pieces is compatible with each input `Bν`,
+   cones with locally finite bases. Keep each lower-dimensional normal stratum clipped to each
+   truncated cone as an individual family piece, together with the cone sides and the two boundary
+   planes. These individual pieces remain the objects used for the partially-semialgebraic and
+   topographic conditions and for compatibility transfer to each input `Bν`. For proving (P),
+   group the strata only as an auxiliary union: for each adapted normal box indexed by `(ν,σ)`, put
+   `C_{νσ}=⋃_{k<n,κ} Γ^k_κ(ν,σ)`. Obtain (P) for `C_{νσ}` from the lower-dimensional-union clause
+   of the adapted decomposition; do not assume (P) for any individual stratum. For each truncated
+   cone `O` in that box, its intersection `C_{νσ}∩O` is open in `C_{νσ}`, so the restricted
+   projection has (P). This restricted grouped set is exactly the union of the individually clipped
+   strata in that cone. Thus the union of all individual pieces, cone sides, and boundary planes has
+   (P), using also the (P) established from their explicit constructions for the cone-side and
+   boundary-plane pieces. The projection of a relatively open subset of this total union is the
+   union of the open projections obtained from the grouped restrictions, sides, and planes. Prove
+   closedness separately: within each closed cone region, prove the grouped normal set is relatively
+   closed; any limit point leaving the open cone lies on its included cone side or one of the two
+   strip boundary planes. Local finiteness then gives closedness of the total union. Property (P)
+   alone does not imply closedness. Prove every connected subset compatible with the individual
+   pieces is compatible with each input `Bν`,
    separately outside and inside the strip. Record all six properties needed later: partially semialgebraic
    topographic pieces whose intersections with `B×ℝ` are bounded for every
    bounded base set B (including the two boundary planes); local finiteness; compact/disjoint tails; closed
@@ -287,15 +416,210 @@ Establish Lemmas 1–15 as usable targets in this order, with empty and zero-dim
    lower-dimensional face of this polytope. These assertions concern the
    rectilinear cells, whose nonlinear images under τ need not be convex.
    Prove all faces are finite unions of the controlling lower-dimensional
-   affine cells, using step6's ordering/equality compatibility. Induct on cell
-   dimension, preserve the already chosen boundary triangulations and cone
-   each to an interior point; prove common-face intersections and coverage.
+   affine cells, using step6's ordering/equality compatibility. Apply the independent
+   relative convex-polyhedral subdivision lemma above after verifying its hypotheses.
+   It preserves chosen boundary triangulations and gives common-face intersections and coverage.
    Every cell receives finitely many simplices, so local finiteness of the
    cell family gives local finiteness of the subdivided complex. Its support
    is all A. Composing the affine simplex charts with τ proves simultaneous
    compatibility, property(A), and the analytic-isomorphism condition on every
    open simplex. This is a finite polyhedral subdivision target, rather than
    a triangulation assertion for arbitrary CW complexes.
+
+### R2.1. Bounded affine and real multiprojective semialgebraic triangulation
+
+Prove the following separate targets, with R1.1's Nash/semialgebraic API. Use the native
+`Geometry.SimplicialComplex ℝ E` for the affine complex, its `faces` and `space`, and
+`Affine.Simplex` for simplex charts. The open simplex is its intrinsic interior in its
+affine span, not its interior in the full ambient space. Prove the comparison with the
+abstract complex/realization carrier consumed by A4.1 and the topology on its affine
+support. A finite set of faces implies compact support. Include the empty complex,
+zero-dimensional simplices and finite restrictions/subdivisions.
+For a real affine torsor choose an affine coordinate equivalence to the native vector
+carrier, prove semialgebraicity independent of that choice, and transport the complex's
+vertices/affine simplices back by that equivalence. All coordinates in the theorem refer
+to this same original affine space.
+
+**Bounded affine theorem (Łojasiewicz §3 Theorem 3, printed p.464).** Given any finite family
+of bounded semialgebraic subsets `B₁,…,B_k` of a finite-dimensional real affine space M,
+put `X=⋃ᵢ closure(Bᵢ)`. Produce a finite simplicial complex K **in M** and a semialgebraic
+homeomorphism `τ:|K|→X`. For every open simplex σ, `τ(σ)` is an analytic submanifold of
+dimension `dim σ`, and `τ|σ` is an analytic isomorphism onto it, including analyticity of
+the inverse in the native submanifold charts. For every i and σ, require
+`τ(σ)⊆Bᵢ` or `τ(σ)⊆M\Bᵢ`. The Bᵢ need not be closed; they correspond to unions of open
+simplices, and become subcomplexes only when they are closed in X. The map and inverse
+have semialgebraic graphs; the analytic open-simplex maps are therefore Nash. If the
+family is empty or all members are empty, X and K are empty. Prove compatibility with
+additional marked semialgebraic subsets of X, restriction to a closed marked member,
+common marked-family refinements, and transport under Nash automorphisms of the fixed
+ambient M. For the latter postcompose the map and transport the marked sets while retaining
+the affine K in M; a nonlinear image of its vertices is not itself an affine complex.
+Common marked-family refinement means one new compatible triangulation for the union of
+the finite families; it does not assert every change of triangulation is piecewise linear.
+
+Consume A4.1's exposed **parametrized finite compact lifting data**, not merely its final
+closed-subset/subcomplex consequence. Those data retain the original marked-family signs,
+the adapted cells, base maps, extended sections, completed face stacks and distinguished
+vertices. Prove Theorem3 by induction on ambient dimension n. For n=0 use the
+empty complex or the single point; for n=1 subdivide a bounding interval at the
+finitely many polynomial roots and marked endpoints, retaining exactly the cells
+of X. Before choosing the higher-dimensional bounding box, make the generic
+invertible linear change rendering the nonconstant defining polynomials quasi-monic
+in the last variable. Choose a compact semialgebraic box containing the transformed
+X and polynomial descriptions of **the original Bᵢ**, their closures and X.
+Choose M>0 bounding its last coordinate, adjoin `t²−M²`, and close this finite
+quasi-monic family F under last-variable differentiation, treating zero and constant
+polynomials separately. Cut every completed section list to [−M,M]. Build the
+projection CAD including its discriminant, gcd and frontier refinements before
+handing it to A4.1; no unrelated CAD is substituted after this handoff.
+Let Y be the projected bounding box. Apply Theorem3 in ambient dimension n−1
+to Y itself and the projection-CAD cells intersected with Y as the finite bounded
+marked family. Its map Φ has support onto Y and is an analytic isomorphism on
+every open base simplex, which lies in one projection cell. Supply this base
+complex and Φ together with F and that projection CAD to A4.1's parametrized
+lifting theorem. Use each
+section's exported nonzero witnessing polynomial P and constant fiber multiplicity m:
+its `∂_t^(m−1)P` vanishes on the section and `∂_t^m P` does not. The native analytic
+implicit-function theorem and R1.1's graph criterion make each global section a Nash
+analytic submanifold over its analytic base cell; pull it back through the
+inductively supplied Nash map Φ on each open base simplex. Apply A4.1's continuous
+closure extension using the already refined projection CAD.
+Retain the sign membership of each original Bᵢ on every section/sector; replacing the
+family by its closures loses this invariant.
+
+Prove the analytic invariant of A4.1's ordered auxiliary-section construction. Its
+initial barycentric subdivision and fixed ordered-top-vertex matching first produce
+face-coherent boundary lists inside each original gap; consume their natural index maps,
+including sections present only on a boundary face and copies coinciding with the upper
+endpoint. Consume its element regime `I={x∈L(F_d):a|F_d<x≤b|F_d}` and
+its explicit restrictions on the other facets. Auxiliary indices take the lower
+endpoint at the top vertex, while the original upper endpoint retains its value.
+No coherent boundary list on an arbitrary unsubdivided simplex is assumed.
+Whenever I is nonempty, a<b on every open facet entering the extension formula;
+normalized boundary heights `(c−a)/(b−a)` lie in [0,1] and are Nash there.
+If the opposite-facet gap collapses, I is empty and no auxiliary E-map is created.
+On a d-simplex
+with barycentric coordinates λ, let F_i be its i-th facet and
+`p_i(λ)_j=λ_j/(1−λ_i)` for j≠i, with i-th coordinate0. For d>0 set
+`w_i=∏_{j≠i}λ_j` and `w_*=∏_j λ_j`. For each ordered boundary ratio r_l, extend it by
+`E_l(λ)=(w_* α_l+Σ_i w_i r_l(p_i(λ)))/(w_*+Σ_i w_i)`,
+with fixed `0<α₁<⋯<α_L<1`. A4.1 owns this finite semialgebraic extension and its
+boundary/matching theorem. Prove here that it is Nash on the open simplex: every p_i
+lands in an open facet, its known map is Nash by the auxiliary construction's
+face-dimension recursion and the ambient-dimension induction for Φ, and the
+denominator is positive. The positive w_* term gives strict interior order, even when
+sections coincide on faces. Return to heights by `c_l=a+(b−a)E_l`. At a collapsed
+boundary gap, only boundedness of the ratios is needed: the factor b−a tends to zero.
+Consume A4.1's continuity theorem there and at vertices, with prescribed boundary heights
+and its dominant/negligible facet-weight estimates. Treat d=0 directly. Consume its
+finite ordered-face preparation and dimension-decreasing recursion; R2.1 proves Nashness
+of those same extension maps, not another boundary-matching or topological construction.
+
+After completing these stacks, consume A4.1's **second** barycentric refinement: every resulting
+simplex has a vertex in its controlling open simplex where all its noncollapsed gaps
+are strictly positive. Face chains have the same property with their own controlling
+simplex. The affine interpolants of vertex heights are therefore strictly ordered on
+each open simplex. Consume its proof that completed consecutive sections restrict to **equal or
+consecutive** sections on every face; an extra boundary section has been extended into
+the incident stacks, not discarded. Graph lifts are Nash isomorphisms by projection.
+Band lifts use R2 Lemmas12–14 with positive width in source and target and the exact
+collapsed-endpoint condition; these face/order invariants prove agreement with the
+already chosen face maps. Rectilinear bands are finite polytopes, so consume the independent
+relative convex-polyhedral subdivision lemma after its hypotheses are verified. This is
+the same affine-geometric helper used in R2 step8 and A4.1. Compose the affine
+simplex charts with the lift and prove that every image remains inside one original
+sign cell, including all lower-dimensional pieces. Own the native analytic
+restriction/image/transitivity adapter used by both subdivisions: if an open affine
+k-simplex δ lies inside an old open d-simplex σ and Φ|σ is an analytic isomorphism
+onto a native analytic submanifold T of the ambient affine space, then Φ(δ) is a
+native analytic k-submanifold of that ambient space and Φ|δ and its inverse are
+analytic in its submanifold charts. Construct its flattening charts by transporting
+the affine submanifold δ⊂σ into T and composing with T's ambient flattening charts;
+prove the corresponding local product/normal-coordinate extensions and dimension
+comparison. State this only for nonempty δ, as required by the native carrier.
+Use this adapter for lower-dimensional simplices introduced by both subdivisions
+and by the polyhedral subdivision; an analytic immersion alone does not supply it.
+Transport the final complex and map back by the inverse initial linear change;
+the transported vertices and faces still form an affine complex in the original M,
+and all analytic and semialgebraic properties are preserved.
+Finite union of the semialgebraic
+graphs and compact-to-Hausdorff give the global map and its inverse. R2's noncompact
+Lemma10 uses analytic approximation and a transcendental coordinate change; it is not
+a proof of semialgebraicity of this finite map.
+
+**Real projective coordinates and semialgebraic transport.** Use
+`Projectivization ℝ (Fin (n+1) → ℝ)` for lines and its native quotient by nonzero scalar
+multiples. Consume AlgebraicTopology Stage4.6's single generic quotient topology/open-map
+API following [Mathlib PR44117](https://github.com/leanprover-community/mathlib4/pull/44117),
+its real finite atlas and its homeomorphism with the native antipodal
+`TauCeti.RealProjectiveSpace n`. Stage4.6 owns those constructions and builds the missing
+generic Mathlib interface; R2.1 adds the analytic/Nash comparison of its real charts.
+Pin the ratio-coordinate enumeration as `Fin.succAbove i` and inverse `Fin.insertNth i 1`,
+and compare it with Stage4.6's enumeration/model by the explicit linear permutation and
+norm-model equivalence to `Fin n → ℝ`. Prove the comparison on chart functions and
+transitions. Keep the supplier's chosen `ChartedSpace H M` and model I, and upgrade it
+to `IsManifold I ω M` by this analytic ratio-transition comparison; do not introduce
+another global charted-space instance. Give the `Fin n` formulas through the proved
+comparison and identify the smooth restriction with the supplied C∞ structure.
+Consume that stage's quotient/atlas
+topology, proving the Hausdorff, second-countable and compact comparisons needed here.
+Use `EuclideanSpace.equiv` for the norm adapter. Reduce arbitrary finite real vector
+spaces and complements of arbitrary hyperplanes to these charts by a linear coordinate
+equivalence. The n=0 chart is a single point; no second quotient instance is introduced.
+
+Use the finite-product carrier `(i : Fin m) → Projectivization ℝ (Fin (n i+1) → ℝ)`.
+Flatten its representatives to `(Σ i, Fin (n i+1)) → ℝ` and its matrix entries to
+`(Σ i, Fin (n i+1) × Fin (n i+1)) → ℝ`; prove the finite-coordinate equivalences.
+For such M a subset S is semialgebraic iff its preimage under
+the product of punctured-vector quotient maps, viewed in finite affine coordinates, is
+semialgebraic. Prove equivalence to global semialgebraicity in every standard product
+affine chart, and to local semialgebraicity at **every point of M** in those charts.
+For the local-to-global step use compactness and finitely many bounded semialgebraic
+chart patches; an unbounded affine chart alone does not justify that step. Define maps
+between such spaces by semialgebraic graphs; prove finite Boolean operations, products,
+diagonals, composition, images and preimages through the chart/quotient comparison and
+Layer 6 projection closure. Extend this pullback/chart definition to products of affine
+spaces and real multiprojective spaces, and to graphs between any such mixed spaces;
+in particular it defines semialgebraic maps from an affine complex's support to M.
+Graph semialgebraicity does not assert continuity; analytic
+Nash maps carry both the graph and analytic conditions. Include the empty product.
+
+Construct the projector embedding from the scale-invariant formula
+`P(x)ᵢⱼ=xᵢxⱼ/(∑ₖ xₖ²)` for **all n+1 coordinates** and x≠0, using
+`Projectivization.lift`. This replaces the inconsistent printed p.464 formula, which
+uses only indices1,…,n and target ℝⁿ² despite representatives with n+1 coordinates.
+The sum-of-squares denominator is strictly positive. Its image
+is exactly the real matrices with `Aᵀ=A`, `A²=A`, and `trace A=1`. Prove that symmetry and
+idempotence make the eigenvalues 0 or 1, so trace one forces rank one, and conversely
+recover the line from the image of A. Prove quotient injectivity, continuity, a
+homeomorphism onto this closed compact bounded real algebraic locus, and analyticity
+with injective differential in the projective charts. In the i-th chart the inverse
+ratios are `Aⱼᵢ/Aᵢᵢ` with `Aᵢᵢ>0`, hence analytic and semialgebraic. This proves the
+Nash embedding/inverse rather than merely a continuous compact embedding. For finite
+products use the product projector locus in a finite affine matrix-coordinate space.
+Prove equivalence of quotient/chart semialgebraicity of S with semialgebraicity of its
+embedded image, and transport relative complements inside that locus.
+
+**Real multiprojective theorem (Łojasiewicz §3 Theorem 4, printed p.464).** For any finite
+family of semialgebraic subsets Bᵢ of this real multiprojective M, produce a finite
+simplicial complex K in some real affine space and a semialgebraic homeomorphism
+`τ:|K|→M`, onto **all M**, in the mixed affine/projective graph definition above.
+Require the same wholly-in/wholly-out condition for every original Bᵢ. Pin analyticity
+chartwise: for every open d-simplex σ and standard product chart φ_I:U_I→ℝᴺ, on each
+nonempty `σ∩τ⁻¹(U_I)` the map φ_I∘τ is an analytic isomorphism onto
+`φ_I(τ(σ)∩U_I)`, a native `TauCeti.IsAnalyticSubmanifold d`; analyticity of both directions
+uses `AnalyticOnSubmanifold` in their affine coordinates. Empty intersections impose no
+nonempty-submanifold assertion. Prove chart independence and equivalence to the matrix
+model: an ambient analytic submanifold contained in the projector locus is an analytic
+submanifold of that locus, and the rational chart/embedding maps transport its analytic
+charts and dimension. Own this containment/chart adapter here, using the native analytic
+chart calculus rather than treating every analytic immersion as an embedding.
+Apply the bounded affine theorem to the compact projector locus itself and the images
+of all Bᵢ; retaining the whole locus as an input forces the support to cover it. Compose
+with the Nash inverse projector map; prove analytic and semialgebraic chart transport
+for every simplex and family member. This theorem uses real projective spaces and
+arbitrary semialgebraic marked sets, separately from A4.1's complex-projective algebraic
+pairs. It has no dependence on R3/R4's Stein or proper analytic embedding arguments.
 
 ## R3. Complexification, strict psh exhaustion, Stein theory and coherent sheaves
 
@@ -699,11 +1023,13 @@ triangulation, not analytic-cycle theory.
 
 ## Source and proof-route references
 
+The finite semialgebraic branch has the item-level order RealAlgebraicGeometry Layers1/3/5/6/7 + R0/R1 + CK K3's local preparation + A4.1's CAD dimension API → R1.1, then R1.1 + A4.1's parametrized compact lifting + R2 Lemmas12–14 + the independent relative convex-polyhedral subdivision lemma + AlgebraicTopology Stage4.6's generic projective topology/real atlas + native RealProjectiveSpace → R2.1. The subdivision lemma precedes A4.1 lifting and uses only native affine geometry. A4.1's common semialgebraic lifting and dimension targets do not use R2.1's analytic invariant; R2.1 proves that invariant in their construction.
+
 The item-level dependency order is RealAlgebraicGeometry Layer7 complexification/carriers → R0/R1, RealAlgebraicGeometry Layer1/2/4 plus R0 → R1, R1 + RealAlgebraicGeometry Layer6 parameter QE + RealAlgebraicGeometry Layer7 complexification + CK K3 Noetherian germs/components → R2, R0 + GeometricTopology Layer1 tubular neighborhoods + CK K1/K2/K4/K6.0 + SBC B2 + CK K5a local estimates + CK K5b.0 local symbol/adjoint → R3.0/R3.1, R3.1 → R4, R3.1 + CK K2’s Čech-colimit comparison + CK K3 local coherence + CK K4/[#279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279) bundle cocycle gluing → R3.2 item0 coherent-module calculus → R3.2 compact/global Cartan theory, and R1 + R2 + R4 → R5. RealAlgebraicGeometry Layer 4 is consumed only under its stated fixed-degree/gcd hypotheses; RealAlgebraicGeometry Layer 6 supplies formula-level QE for every assignment of analytic coefficient parameters. CK K3.0/K3, SBC B2 and named earlier CK K5a local analytic tools are external inputs as stated above. CK K6 consumes
 R5 after its own K3 singular-locus/stratification targets; K6.0 is earlier and independent of R5. There is no edge from R5 back to CK K6,
 and no R3 proof depends on K5a's compact global Hodge theory.
 
-- S. Łojasiewicz, [“Triangulation of semi-analytic sets”](https://numdam.org/article/ASNSP_1964_3_18_4_449_0.pdf), *Annali della Scuola Normale Superiore di Pisa* (3) 18 (1964), 449–474. Theorem 1 is §3, printed p. 463; Theorem 2 and the Grauert reduction are printed p. 464. The paper's introduction explicitly says §1's basic semianalytic properties are only stated and their proofs were to appear separately.
+- S. Łojasiewicz, [“Triangulation of semi-analytic sets”](https://numdam.org/article/ASNSP_1964_3_18_4_449_0.pdf), *Annali della Scuola Normale Superiore di Pisa* (3) 18 (1964), 449–474. Theorem 1 is §3, printed p. 463; Theorem 2 and the Grauert reduction are printed p. 464; §1.VI's Nash/projective comparisons are on p.454 and Theorems3–4 are on p.464. The paper's introduction explicitly says §1's basic semianalytic properties are only stated and their proofs were to appear separately.
 - H. Grauert, [“On Levi's Problem and the Imbedding of Real-Analytic Manifolds”](https://doi.org/10.2307/1970257), *Annals of Mathematics* (2) 68 (1958), 460–472. Use its real-analytic embedding theorem together with the Stein/Levi proof machinery specified in R3.
 - F. Forstnerič, [“Holomorphic embeddings and immersions of Stein manifolds: a survey”](https://arxiv.org/abs/1709.05630), §2.1, Theorem 2.1 and Proposition 2.2, for the almost-proper residual maps, Bishop polyhedral shells and fixed-dimension embedding targets in R4. R4 owns the required constrained transversality and shell-approximation proofs.
 - J.-P. Demailly, [*Complex Analytic and Differential Geometry*](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/agbook.pdf), Chapter VIII §§3–5, especially Theorems 3.2 and 4.5, for the complete-metric graph-domain and inverse-curvature estimate.

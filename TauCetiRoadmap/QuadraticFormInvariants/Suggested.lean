@@ -2,7 +2,15 @@ import Mathlib
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
-import TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras.Suggested
+import TauCeti.Algebra.Quaternion.BrauerClass
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Clifford
+import TauCeti.Algebra.CrossedProduct.CentralSimple
+import TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic
+import TauCeti.NumberTheory.LocalField.QuadraticForm.Defect
+import TauCeti.NumberTheory.LocalField.QuadraticForm.Bimultiplicativity
+import TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic
+import TauCeti.LinearAlgebra.Matrix.PinPlusPlane
 import TauCeti.Algebra.Quaternion.Binary
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.Algebra.Quaternion.SplittingCriterion
@@ -34,9 +42,10 @@ finishes neither a layer nor the roadmap.
 The narrative roadmap, that is Layers 0 to 9, the convention table, the worked examples,
 and the references, is in `README.md`. Mathlib has the linear algebra of quadratic forms,
 that is diagonalization, `Anisotropic`, `Nondegenerate`, and isometry equivalence, and it
-has quaternion algebras. It has none of the arithmetic theory: no Witt decomposition, no
-Witt cancellation, no Witt ring, no Hasse invariant, no Hilbert symbol, no transfer, and
-no Stiefel-Whitney classes. We build that theory in `TauCeti/`.
+has quaternion algebras. Tau Ceti supplies the arithmetic engines listed in the README.
+These signatures consume their actual objects and retain the complete comparisons,
+explicit computations and relative-formula programme. An admitted interface is not an
+assertion that its native supplier is missing or that its proof has been implemented.
 
 This file fixes the design decisions that are most likely to fork two implementations:
 
@@ -80,11 +89,16 @@ Layer-6 conventions follow Serre (*A Course in Arithmetic*, ch. III and IV) and 
 classification of quaternion algebras and no local hypothesis. Every theorem about the
 symbol carries the local hypotheses.
 
-Statements elaborate against the pinned Mathlib and use `sorry`, which is allowed in this
-human-owned roadmap library.
+These are illustrative target signatures against the pinned native carriers. Admitted
+statements use `sorry`; successful elaboration, when recorded separately, does not
+implement the admitted mathematics.
 -/
 
 namespace TauCetiRoadmap.QuadraticFormInvariants
+
+/-- Use the actual tensor-product Brauer law throughout these signatures. -/
+noncomputable local instance qfiNativeBrauerCommGroup (F : Type*) [Field F] :
+    CommGroup (BrauerGroup F) := TauCeti.BrauerGroup.instCommGroup
 
 open QuadraticMap CategoryTheory
 open scoped Quaternion
@@ -483,52 +497,52 @@ theorem signedDiscr_eq_sign_mul_discr [Invertible (2 : K)] {n : ℕ}
 
 /-! ## Layer 5: the Brauer group and the Hasse invariant
 
-The carrier and the group law are both canonical. The law is the accepted
-semisimple-algebras declaration `brauerCommGroup`, whose multiplication is induced by
-`⊗_K`; this file imports it. What Layer 5 adds is the central simplicity of quaternion
-algebras, and then the symbol is the class of `ℍ[K,a,b]` and nothing else. -/
+The carrier and group law are native. `qfiNativeBrauerCommGroup` selects
+`TauCeti.BrauerGroup.instCommGroup`, whose product is tensor product, and the quaternion
+CSA and class are native aliases. The general central-simple mathematics remains owned
+by the semisimple-algebras owner; no arbitrary admitted group law is used here. -/
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, quaternion algebras are central.** The hypothesis `Invertible (2 : K)` is
 the standing one, and it is what the proof of central simplicity uses. -/
 instance quaternionAlgebra_isCentral [Invertible (2 : K)] (a b : Kˣ) :
     Algebra.IsCentral K ℍ[K, (a : K), (b : K)] :=
-  sorry
+  inferInstance
 
 /-- **Layer 5, quaternion algebras are simple.** -/
 instance quaternionAlgebra_isSimpleRing [Invertible (2 : K)] (a b : Kˣ) :
     IsSimpleRing ℍ[K, (a : K), (b : K)] :=
-  sorry
+  inferInstance
 
 /-- **Layer 5, quaternion algebras are four-dimensional.** -/
 instance quaternionAlgebra_finiteDimensional (a b : Kˣ) :
     FiniteDimensional K ℍ[K, (a : K), (b : K)] :=
-  sorry
+  inferInstance
 
 /-- The quaternion algebra as a central simple algebra. -/
-noncomputable def quaternionCSA [Invertible (2 : K)] (a b : Kˣ) : CSA.{u, u} K :=
-  { toAlgCat := AlgCat.of K ℍ[K, (a : K), (b : K)] }
+noncomputable abbrev quaternionCSA [Invertible (2 : K)] (a b : Kˣ) : CSA.{u, u} K :=
+  TauCeti.BrauerGroup.quaternionCSA a b
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the quaternion symbol** `[(a,b)] = ⟦ℍ[K,a,b]⟧` in `BrauerGroup K`, with the
-group law `brauerCommGroup` of the semisimple-algebras roadmap. -/
-noncomputable def quaternionClass [Invertible (2 : K)] (a b : Kˣ) : BrauerGroup.{u, u} K :=
-  Quotient.mk _ (quaternionCSA a b)
+native tensor-product group law `TauCeti.BrauerGroup.instCommGroup`. -/
+noncomputable abbrev quaternionClass [Invertible (2 : K)] (a b : Kˣ) : BrauerGroup.{u, u} K :=
+  TauCeti.BrauerGroup.quaternionClass a b
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, symmetry of the symbol.** -/
 theorem quaternionClass_symm [Invertible (2 : K)] (a b : Kˣ) :
     quaternionClass a b = quaternionClass b a :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the symbol is 2-torsion**, from `ℍ[K,a,b]ᵒᵖ ≃ₐ[K] ℍ[K,a,b]` through
 `star`. -/
 theorem quaternionClass_sq [Invertible (2 : K)] (a b : Kˣ) :
     quaternionClass a b ^ 2 = 1 :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, bilinearity of the symbol** (Gille-Szamuely 1.5.2 for the statement,
 Lam III.2.11 for the linkage). This is a statement about the tensor-product law, and it
 consumes `tensorProduct_isSimpleRing` and `tensorOp_algEquiv_matrix`. -/
@@ -536,7 +550,7 @@ theorem quaternionClass_mul [Invertible (2 : K)] (a b c : Kˣ) :
     quaternionClass a (b * c) = quaternionClass a b * quaternionClass a c :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the symbol on equivalent binary forms.** This is the Layer 3 binary
 quaternion lemma read in `BrauerGroup K`, and it is what the descent of the Hasse
 invariant uses. It does not follow from symmetry, 2-torsion, and bilinearity alone: a
@@ -548,21 +562,20 @@ theorem quaternionClass_congr [Invertible (2 : K)] (a b c d : Kˣ)
     quaternionClass a b = quaternionClass c d :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the Steinberg relation** for `a : Kˣ` with `1 − a ≠ 0`. -/
 theorem quaternionClass_one_sub [Invertible (2 : K)] (a : Kˣ) (h : (1 : K) - a ≠ 0) :
     quaternionClass a (Units.mk0 ((1 : K) - a) h) = 1 :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the Hasse invariant** on a diagonal tuple, in the Lam and Serre convention
 `∏_{i<j}`, with the empty product in ranks `0` and `1`. -/
-noncomputable def hasseInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
+noncomputable abbrev hasseInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     BrauerGroup.{u, u} K :=
-  ∏ ij ∈ Finset.univ.filter fun ij : Fin n × Fin n => ij.1 < ij.2,
-    quaternionClass (w ij.1) (w ij.2)
+  TauCeti.RegularFormClass.hasseInvariant (Quotient.mk (regularFormSetoid K) ⟨n, w⟩)
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, well-definedness of the Hasse invariant**, through the three hypotheses of the
 Layer 0 descent principle. Permutation invariance is `quaternionClass_symm`, and binary invariance
 is `quaternionClass_mul` together with `quaternionClass_congr`; these feed Tau Ceti's
@@ -576,7 +589,7 @@ theorem hasseInvariant_congr [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → K�
     hasseInvariant w = hasseInvariant w' :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the orthogonal-sum formula** (Lam p. 119):
 `s(q ⊥ r) = s(q) · s(r) · [(d(q), d(r))]`. -/
 theorem hasseInvariant_append [Invertible (2 : K)] {m n : ℕ} (w : Fin m → Kˣ)
@@ -585,7 +598,7 @@ theorem hasseInvariant_append [Invertible (2 : K)] {m n : ℕ} (w : Fin m → K�
       hasseInvariant w * hasseInvariant w' * quaternionClass (∏ i, w i) (∏ i, w' i) :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the scaling formula** (Lam V.3.16):
 `s(λ • q) = s(q) · [(λ, −1)]^{n(n−1)/2} · [(λ, d(q))]^{n−1}`. It is written out because
 each source states it in a different convention. -/
@@ -611,9 +624,9 @@ and declares no second ring, ideal, discriminant map or Pfister form.
 
 `GlobalQuadraticForms` cites the Witt ring and the quotient map under the names `wittRing` and
 `toWittRing` of this namespace, so those two are reducible aliases of Tau Ceti's declarations.
-The Witt ring of a field extension, `TauCeti.WittRing.baseChange`, and the criterion
-`TauCeti.pfisterFormClass_two_tfae` landed in Tau Ceti after this repository's pin. No statement
-here applies them, so no stand-in is declared; the README names them. -/
+The Witt base-change and Pfister-hyperbolicity APIs are native as well.
+The README retains their complete mathematical outputs; these illustrative signatures
+do not create stand-ins for them. -/
 
 /-- **Layer 4, the Witt ring** `W(K)`, under the name that `GlobalQuadraticForms` cites: Tau
 Ceti's `TauCeti.WittRing K`, the Witt-Grothendieck ring modulo the hyperbolic ideal. -/
@@ -724,14 +737,14 @@ example (a b : K) (c : Kˣ)
       (weightedSumSquares K ![1, -a, -b, a * b]) :=
   TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet a b c hc
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the Clifford invariant.** The Brauer class of `C(q)` in even rank and of
 `C₀(q)` in odd rank. Central simplicity of those algebras is a Layer 5 milestone. -/
-noncomputable def cliffordInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
+noncomputable abbrev cliffordInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     BrauerGroup.{u, u} K :=
-  sorry
+  TauCeti.RegularFormClass.cliffordInvariant (Quotient.mk (regularFormSetoid K) ⟨n, w⟩)
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, the comparison of the two Brauer-valued invariants** (Lam V.3.20), with
 the ⚠ Wall caution of the README's convention table. -/
 theorem cliffordInvariant_eq [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
@@ -740,7 +753,7 @@ theorem cliffordInvariant_eq [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) 
         quaternionClass (-1) (-1) ^ ((n + 1) * n * (n - 1) * (n - 2) / 24) :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, step 1 of `c : I² → Br(K)[2]`: additivity of the Clifford invariant on `I²`.**
 `c(q ⊥ r) = c(q) · c(r)` when the Witt classes of both summands lie in Tau Ceti's `I²`, that is
 when each has even rank and trivial signed discriminant
@@ -756,7 +769,7 @@ theorem cliffordInvariant_append_of_mem_I2 [Invertible (2 : K)] {m n : ℕ}
     cliffordInvariant (Fin.append w w') = cliffordInvariant w * cliffordInvariant w' :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, step 2: the value on a 2-fold Pfister generator.** `c(⟨⟨a,b⟩⟩) = [(a,b)]`, from
 `cliffordInvariant_eq` and `hasseInvariant` of `⟨1,−a,−b,ab⟩`. Together with additivity and
 Tau Ceti's `TauCeti.fundamentalIdeal_sq_eq_addClosure`, it determines `c` on all of `I²`. -/
@@ -764,7 +777,7 @@ theorem cliffordInvariant_pfisterForm_two [Invertible (2 : K)] (a b : Kˣ) :
     cliffordInvariant (pfisterForm ![a, b]) = quaternionClass a b :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, step 3: the value on a 3-fold Pfister generator vanishes** (Lam V.3.4). This is
 the computation that the vanishing on `I³` reduces to, and it is stated on the generator itself
 rather than only on the ideal, because that is what Tau Ceti's
@@ -773,7 +786,7 @@ theorem cliffordInvariant_pfisterForm_three [Invertible (2 : K)] (a b c : Kˣ) :
     cliffordInvariant (pfisterForm ![a, b, c]) = 1 :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, step 4: the homomorphism `c : I² → Br(K)[2]`** induced by the Clifford invariant.
 It exists by additivity (step 1) together with the additive generation of `I²` by the 2-fold
 Pfister classes (`TauCeti.fundamentalIdeal_sq_eq_addClosure`); `cliffordHomI2_pfisterClass` is
@@ -783,7 +796,7 @@ noncomputable def cliffordHomI2 [Invertible (2 : K)] :
     ↥(fundamentalIdeal K ^ 2) →+ Additive (BrauerGroup.{u, u} K) :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, `c` computes the Clifford invariant on the generators**: its value on the 2-fold
 Pfister class `⟨⟨a,b⟩⟩ ∈ I²` (`TauCeti.pfisterClass_mem_fundamentalIdeal_pow`) is `[(a,b)]`, which
 is `cliffordInvariant_pfisterForm_two` read through `c`. -/
@@ -792,14 +805,14 @@ theorem cliffordHomI2_pfisterClass [Invertible (2 : K)] (a b : Kˣ) :
       Additive.ofMul (quaternionClass a b) :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, `c` lands in the 2-torsion**, said additively, which is the statement
 `c : I² → Br(K)[2]` of the README. -/
 theorem cliffordHomI2_two_torsion [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2)) :
     cliffordHomI2 x + cliffordHomI2 x = 0 :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, step 5: `c` vanishes on `I³`**, checked on the 3-fold Pfister generators
 (Lam V.3.4) through Tau Ceti's `TauCeti.fundamentalIdeal_cube_eq_addClosure`. -/
 theorem cliffordHomI2_eq_zero [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2))
@@ -812,7 +825,7 @@ noncomputable abbrev fundamentalI3InI2 (K : Type u) [Field K] [Invertible (2 : K
     Submodule (WittRing K) ↥(fundamentalIdeal K ^ 2) :=
   Submodule.comap (fundamentalIdeal K ^ 2).subtype (fundamentalIdeal K ^ 3)
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 5, step 6: the quotient homomorphism `c̄ : I²/I³ → Br(K)[2]`.** It is a named
 declaration together with the equation `cliffordHomI2Bar_mk` that computes it on a
 representative, and not the phrase "by the universal property": an unnamed map out of the
@@ -825,7 +838,7 @@ noncomputable def cliffordHomI2Bar [Invertible (2 : K)] :
     (↥(fundamentalIdeal K ^ 2) ⧸ fundamentalI3InI2 K) →+ Additive (BrauerGroup.{u, u} K) :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- `c̄` on a representative is `c`, which is the equation that makes the previous declaration
 the descent of `cliffordHomI2` and not an unrelated map of the same type. -/
 theorem cliffordHomI2Bar_mk [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2)) :
@@ -1010,8 +1023,8 @@ end LocalField
 /-! ## Layer 6B: the quadratic defect
 
 Two decisions are fixed here. The carrier of the defect is a fractional ideal, because
-for a general `a` the intersection `⋂_ξ (a − ξ²)·𝒪` has negative valuation once
-`v(a) < 0`. Its exponent is `⊤` on squares, because the approximation order is then
+negative ODD `v(a)` gives defect exponent `v(a)<0`; negative valuation alone
+does not force this (`a=5/4` over Q2 has defect exponent0). Its exponent is `⊤` on squares, because the approximation order is then
 unbounded. -/
 
 section Defect
@@ -1031,15 +1044,16 @@ def IsQuadraticDefect (a : Kˣ) (𝔡 : FractionalIdeal (nonZeroDivisors 𝒪[K]
     ∀ 𝔢 : FractionalIdeal (nonZeroDivisors 𝒪[K]) K,
       (∀ ξ : K, 𝔢 ≤ FractionalIdeal.spanSingleton _ ((a : K) - ξ ^ 2)) → 𝔢 ≤ 𝔡
 
-/-- **Layer 6B, the defect exists and is unique.** Uniqueness is antisymmetry. Existence
-is the content: the ideals `(a − ξ²)·𝒪[K]` are totally ordered, so the family has an
-infimum. -/
+/-- **Layer 6B, the defect exists and is unique.** Uniqueness is antisymmetry.
+Consume the native compactness/attained-approximation construction and its
+`isGLB_quadraticDefect` theorem. Total order alone does not supply an infinite
+infimum; the square case has zero defect and is treated separately. -/
 theorem existsUnique_isQuadraticDefect (a : Kˣ) : ∃! 𝔡, IsQuadraticDefect a 𝔡 :=
   sorry
 
 /-- **Layer 6B, the defect** as a function, from the previous milestone. -/
-noncomputable def quadraticDefect (a : Kˣ) : FractionalIdeal (nonZeroDivisors 𝒪[K]) K :=
-  (existsUnique_isQuadraticDefect a).choose
+noncomputable abbrev quadraticDefect (a : Kˣ) : FractionalIdeal (nonZeroDivisors 𝒪[K]) K :=
+  TauCeti.quadraticDefect a
 
 /-- **Layer 6B, the defect measures squareness**: it vanishes exactly on squares. -/
 theorem quadraticDefect_eq_zero_iff (a : Kˣ) : quadraticDefect a = 0 ↔ IsSquare a :=
@@ -1053,8 +1067,8 @@ theorem quadraticDefect_mul_sq (a c : Kˣ) :
 
 /-- **Layer 6B, the defect exponent** `δ(a) = sup_ξ v_K(a − ξ²)`, with `⊤` on squares,
 where the supremum is unbounded. -/
-noncomputable def defectExponent (a : Kˣ) : WithTop ℤ :=
-  sorry
+noncomputable abbrev defectExponent (a : Kˣ) : WithTop ℤ :=
+  TauCeti.defectExponent a
 
 /-- **Layer 6B, the exponent detects squares.** -/
 theorem defectExponent_eq_top_iff (a : Kˣ) : defectExponent a = ⊤ ↔ IsSquare a :=
@@ -1091,6 +1105,36 @@ theorem exists_sq_mul_eq_unramified [Invertible (2 : K)] (a : Kˣ) (ha : ¬ IsSq
 
 end Defect
 
+section IntegralBasisUnitNorm
+
+open scoped ValuativeRel
+
+variable [ValuativeRel K] [TopologicalSpace K]
+  [IsNonarchimedeanLocalField K] [Invertible (2 : K)]
+  {L : Type v} [Field L] [ValuativeRel L] [TopologicalSpace L]
+  [IsNonarchimedeanLocalField L] [Algebra K L] [ValuativeExtension K L]
+  [FiniteDimensional K L]
+
+/-- **Layer6B, the corrected unit families in an actual maximal-order basis.**
+The earlier basis construction must prove `hIntegers`; it is not an integrality
+assertion for the generally smaller order O_K[sqrt(a)]. Both fields and the actual
+valuation-extension data are explicit. The unit target b is normalized to valuation0.
+This includes ramified and unramified extensions and arbitrary finite dyadic bases. -/
+theorem unitNorm_iff_integralBasis_families
+    (B : Module.Basis (Fin 2) K L) (hOne : B 0 = 1)
+    (hIntegers : ∀ z : L, z ∈ 𝒪[L] ↔ ∀ i, B.repr z i ∈ 𝒪[K])
+    (b : Kˣ) (hb : (TauCeti.normalizedValuation K b).toAdd = 0) :
+    (∃ z : L, Algebra.norm K z = (b : K)) ↔
+      ∃ u : Kˣ, (TauCeti.normalizedValuation K u).toAdd = 0 ∧
+        ∃ t : K, t ∈ 𝒪[K] ∧
+          ((b : K) = (u : K) ^ 2 *
+              (1 + Algebra.trace K L (B 1) * t + Algebra.norm K (B 1) * t ^ 2) ∨
+           (b : K) = (u : K) ^ 2 *
+              (Algebra.norm K (B 1) + Algebra.trace K L (B 1) * t + t ^ 2)) := by
+  sorry
+
+end IntegralBasisUnitNorm
+
 /-! ## Layer 6C: the Hilbert symbol and the local Hasse invariant
 
 The symbol is defined from the norm equation, so its definition needs no classification
@@ -1101,8 +1145,8 @@ local classes by the symbol". Every theorem below carries the local hypotheses. 
 open Classical in
 /-- **Layer 6C, the Hilbert symbol**: `+1` when `b` is a norm from `K(√a)`, and `−1`
 otherwise. It is total on `Kˣ × Kˣ`, so no junk-value convention is needed. -/
-noncomputable def hilbertSymbol (a b : Kˣ) : ℤˣ :=
-  if ∃ x y : K, (b : K) = x ^ 2 - (a : K) * y ^ 2 then 1 else -1
+noncomputable abbrev hilbertSymbol (a b : Kˣ) : ℤˣ :=
+  TauCeti.hilbertSymbol a b
 
 /-- **Layer 6C, the local Hasse invariant** on a diagonal tuple, in the Lam and Serre
 convention `∏_{i<j}`, with the empty product in ranks `0` and `1`. Its codomain is `ℤˣ`,
@@ -1279,7 +1323,7 @@ theorem equivalent_of_anisotropic_four (w w' : Fin 4 → Kˣ)
       (weightedSumSquares K fun i => ((w' i : K))) :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 6E, the two Hasse invariants agree.** The quaternion classes over a local
 field form a group of order two, by Layer 6D, so the map that sends the class of the
 division algebra to `−1` identifies them with `ℤˣ`, and it carries `hasseInvariant` to
@@ -1460,8 +1504,8 @@ theorem isUnit_natCast_two [Invertible (2 : K)] : IsUnit ((2 : ℕ) : K) := by
 one additive equivalence `ZMod 2 ≃+ ZMod 2`, so no normalization law is needed beyond
 equivariance below. It needs `2` invertible, because both the bridge and the Kummer isomorphism
 fail in characteristic two. -/
-noncomputable def mu2EquivZMod2 [Invertible (2 : K)] : KummerCoeff K 2 ≃+ ZMod 2 :=
-  sorry
+noncomputable abbrev mu2EquivZMod2 [Invertible (2 : K)] : KummerCoeff K 2 ≃+ ZMod 2 :=
+  TauCeti.mu2EquivZMod2 K
 
 /-- **Layer 7A adapter, the action on `μ₂` is trivial.** This is the content of the bridge: `μ₂`
 is `{±1} ⊆ K`, so `G_K` fixes it pointwise, and that is what makes the two coefficient objects
@@ -1476,10 +1520,10 @@ theorem mu2EquivZMod2_equivariant [Invertible (2 : K)] (g : AbsoluteGaloisGroup 
 at `n = 2` and its trivial `𝔽₂` object are isomorphic in `TopRep ℤ G_K`, by the bridge and its
 equivariance. This is the transport that carries the supplier's Kummer classes into the carrier
 of this roadmap, and it is the only coefficient transport used below. -/
-noncomputable def kummerCoeffIsoTrivialF2 [Invertible (2 : K)] :
+noncomputable abbrev kummerCoeffIsoTrivialF2 [Invertible (2 : K)] :
     ofDiscreteModule (AbsoluteGaloisGroup K) (KummerCoeff K 2) ≅
       trivialF2 (AbsoluteGaloisGroup K) :=
-  sorry
+  TauCeti.kummerCoeffIsoTrivialF2 K
 
 variable {K}
 
@@ -1580,7 +1624,7 @@ end Transfer
 
 section BrauerComparison
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
+open TauCeti.BrauerGroup
 
 variable (K)
 
@@ -1600,7 +1644,7 @@ because Layer 7A's passage from `L/K` to the open subgroup `G_L ≤ G_K` is inde
 theorem exists_finiteSeparable_splittingField (A : Type u) [Ring A] [Algebra K A]
     [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A] :
     ∃ L : IntermediateField K (SeparableClosure K),
-      FiniteDimensional K ↥L ∧ IsSplittingField K A ↥L :=
+      FiniteDimensional K ↥L ∧ TauCeti.Algebra.IsSplittingField K A ↥L :=
   sorry
 
 /-- **Layer 7B, milestone 1(b): a finite Galois splitting field.** The Galois closure of the
@@ -1610,7 +1654,7 @@ milestone here and not an assumption: the crossed-product construction indexes i
 theorem exists_finiteGalois_splittingField (A : Type u) [Ring A] [Algebra K A]
     [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A] :
     ∃ L : IntermediateField K (SeparableClosure K),
-      FiniteDimensional K ↥L ∧ IsGalois K ↥L ∧ IsSplittingField K A ↥L :=
+      FiniteDimensional K ↥L ∧ IsGalois K ↥L ∧ TauCeti.Algebra.IsSplittingField K A ↥L :=
   sorry
 
 /-! ### Layer 7B, milestone 2: the crossed-product package
@@ -1646,77 +1690,95 @@ def Cohomologous {L : Type u} [Field L] [Algebra K L] (z w : TwoCocycle (K := K)
     (w.toFun σ τ : L) =
       (z.toFun σ τ : L) * σ ((b τ : L)) * ((b (σ * τ) : L))⁻¹ * (b σ : L)
 
-/-- **Layer 7B, milestone 2(i), the algebra.** The crossed product of a cocycle. Its carrier is
-pinned as **data** — the free `L`-module on the symbols `u_σ`, that is functions
-`Gal(L/K) → L` — so that every statement below is typeable before the multiplication is built.
-A construction whose carrier were opaque would leave `basis_mul_basis` and the finrank formula
-unstatable, which is exactly the failure a black-box comparison hides. -/
-structure CrossedProduct (L : Type u) [Field L] [Algebra K L] (_z : TwoCocycle (K := K) L) where
-  /-- The coordinates in the basis `u_σ`. -/
-  coeff : (L ≃ₐ[K] L) → L
+/-- Read the existing public cocycle convention in Tau Ceti's actual cocycle carrier.
+The identity is the same inhomogeneous identity, with its two commutative factors reordered. -/
+def TwoCocycle.toNative {L : Type u} [Field L] [Algebra K L]
+    (z : TwoCocycle (K := K) L) : TauCeti.TwoCocycle K L where
+  toFun := z.toFun
+  isMulCocycle₂ σ τ ρ := by
+    apply Units.ext
+    change (z.toFun (σ * τ) ρ : L) * z.toFun σ τ =
+      σ (z.toFun τ ρ : L) * z.toFun σ (τ * ρ)
+    rw [mul_comm]
+    exact (z.isCocycle σ τ ρ).symm
+
+/-- **Layer 7B, the crossed-product carrier, consumed.** This is the existing native
+finitely supported carrier. For finite Galois extensions it is equivalent to the former
+finite function-coordinate presentation; it also supports arbitrary automorphism groups.
+No second ring or unnormalized-cocycle multiplication is postulated here. -/
+abbrev CrossedProduct (L : Type u) [Field L] [Algebra K L]
+    (z : TwoCocycle (K := K) L) := TauCeti.CrossedProduct z.toNative
 
 variable {L : Type u} [Field L] [Algebra K L]
 
-/-- The ring structure: `u_σ · x = σ(x) · u_σ` and `u_σ · u_τ = c(σ,τ) · u_{στ}`, extended
-`L`-linearly. The two equations that characterize it are `basis_mul_inc` and
-`basis_mul_basis`. -/
-noncomputable instance (z : TwoCocycle (K := K) L) : Ring (CrossedProduct L z) := sorry
-
-/-- The crossed product is a `K`-algebra, `K` sitting inside through `CrossedProduct.inc`. It is
-**not** an `L`-algebra: `L` is not central in it unless `L = K`. -/
-noncomputable instance (z : TwoCocycle (K := K) L) : Algebra K (CrossedProduct L z) := sorry
-
-/-- **Layer 7B, milestone 2(i): the crossed product is central simple of degree `[L:K]`.** This
-is the theorem that makes `crossedProductClass` well formed, and it is proved from the two
-multiplication equations below. -/
+/-- Native centrality, under the actual finite-Galois hypotheses. -/
 instance crossedProduct_isCentral (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
-    [IsGalois K L] : Algebra.IsCentral K (CrossedProduct L z) := sorry
+    [IsGalois K L] : Algebra.IsCentral K (CrossedProduct L z) := inferInstance
 
+/-- Native simplicity. The public finite-Galois specialization is retained. -/
 instance crossedProduct_isSimpleRing (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
-    [IsGalois K L] : IsSimpleRing (CrossedProduct L z) := sorry
+    [IsGalois K L] : IsSimpleRing (CrossedProduct L z) := inferInstance
 
 instance crossedProduct_finiteDimensional (z : TwoCocycle (K := K) L) [FiniteDimensional K L] :
-    FiniteDimensional K (CrossedProduct L z) := sorry
+    FiniteDimensional K (CrossedProduct L z) := inferInstance
 
-/-- The copy of `L` inside the crossed product, `x ↦ x · u_1`. -/
-noncomputable def CrossedProduct.inc (z : TwoCocycle (K := K) L) : L →ₐ[K] CrossedProduct L z :=
-  sorry
+/-- The actual unital scalar embedding is x |-> x*c(1,1)^(-1)*u_1.
+Arbitrary unnormalized cocycles are retained; u_1 need not be the identity. -/
+noncomputable abbrev CrossedProduct.inc (z : TwoCocycle (K := K) L) : L →ₐ[K] CrossedProduct L z :=
+  TauCeti.CrossedProduct.inc z.toNative
 
-open Classical in
-/-- The basis symbol `u_σ`, pinned as data: the indicator of `σ`. -/
-noncomputable def CrossedProduct.basis (z : TwoCocycle (K := K) L) (σ : L ≃ₐ[K] L) :
-    CrossedProduct L z :=
-  ⟨fun τ => if τ = σ then 1 else 0⟩
+/-- The existing native basis symbol u_sigma. -/
+noncomputable abbrev CrossedProduct.basis (z : TwoCocycle (K := K) L) (σ : L ≃ₐ[K] L) :
+    CrossedProduct L z := TauCeti.CrossedProduct.basis z.toNative σ
 
-/-- **The semilinearity equation** `u_σ · x = σ(x) · u_σ`. -/
+/-- The generic native finitely supported constructor; no finiteness of the automorphism group. -/
+def CrossedProduct.ofFinsupp (z : TwoCocycle (K := K) L) (f : (L ≃ₐ[K] L) →₀ L) :
+    CrossedProduct L z := TauCeti.CrossedProduct.ofFinsupp f
+
+/-- Compatibility with the former finite function-coordinate constructor.
+The necessary finiteness is explicit; arbitrary functions on an infinite group are
+not a free-module carrier. Generic crossed products use `ofFinsupp` above. -/
+noncomputable def CrossedProduct.mk (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
+    (f : (L ≃ₐ[K] L) → L) : CrossedProduct L z :=
+  TauCeti.CrossedProduct.ofFinsupp (Finsupp.equivFunOnFinite.symm f)
+
+/-- Recover function coordinates from the native finitely supported coordinate map. -/
+noncomputable def CrossedProduct.coeff (z : TwoCocycle (K := K) L) (x : CrossedProduct L z) :
+    (L ≃ₐ[K] L) → L := fun σ => (TauCeti.CrossedProduct.basis z.toNative).repr x σ
+
+/-- The same semilinear multiplication rule, supplied by the native construction. -/
 theorem CrossedProduct.basis_mul_inc (z : TwoCocycle (K := K) L) (σ : L ≃ₐ[K] L) (x : L) :
     basis z σ * inc z x = inc z (σ x) * basis z σ :=
-  sorry
+  TauCeti.CrossedProduct.basis_mul_inc (c := z.toNative) σ x
 
-/-- **The cocycle equation** `u_σ · u_τ = c(σ,τ) · u_{στ}`. Together with `basis_mul_inc` and
-`L`-linearity this determines the multiplication, and it is why the cocycle identity is exactly
-associativity. -/
+/-- The same unnormalized cocycle multiplication rule. -/
 theorem CrossedProduct.basis_mul_basis (z : TwoCocycle (K := K) L) (σ τ : L ≃ₐ[K] L) :
     basis z σ * basis z τ = inc z ((z.toFun σ τ : L)) * basis z (σ * τ) :=
-  sorry
+  TauCeti.CrossedProduct.basis_mul_basis (c := z.toNative) σ τ
 
-/-- `dim_K (L, G, c) = [L : K]²`, so the crossed product has degree `[L:K]`. -/
-theorem CrossedProduct.finrank (z : TwoCocycle (K := K) L) [FiniteDimensional K L] :
+/-- The actual generic dimension. Finiteness alone does not identify #Aut with [L:K]. -/
+theorem CrossedProduct.finrank_mul_card (z : TwoCocycle (K := K) L) :
+    Module.finrank K (CrossedProduct L z) = Module.finrank K L * Nat.card (L ≃ₐ[K] L) :=
+  TauCeti.CrossedProduct.finrank_eq_finrank_mul_card z.toNative
+
+/-- The public squared-dimension statement, with its necessary Galois hypothesis. -/
+theorem CrossedProduct.finrank (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
+    [IsGalois K L] :
     Module.finrank K (CrossedProduct L z) = Module.finrank K L ^ 2 :=
-  sorry
+  TauCeti.CrossedProduct.finrank_eq_finrank_sq z.toNative
 
 /-- The crossed product as a central simple algebra. -/
 noncomputable def crossedProductCSA (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
     [IsGalois K L] : CSA.{u, u} K :=
   { toAlgCat := AlgCat.of K (CrossedProduct L z) }
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(i): the Brauer class of a cocycle.** -/
 noncomputable def crossedProductClass (z : TwoCocycle (K := K) L) [FiniteDimensional K L]
     [IsGalois K L] : BrauerGroup.{u, u} K :=
   Quotient.mk _ (crossedProductCSA z)
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(ii): cohomologous cocycles give Brauer-equivalent algebras.** The
 crossed products are then isomorphic, not merely equivalent, but the class equality is the form
 the comparison uses. -/
@@ -1725,7 +1787,7 @@ theorem crossedProductClass_eq_of_cohomologous (z w : TwoCocycle (K := K) L)
     crossedProductClass z = crossedProductClass w :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(iii): multiplying cocycles is tensoring algebras.** The pointwise
 product of two cocycles presents the product of the two Brauer classes, that is the class of the
 tensor product. This is the milestone that makes the comparison a homomorphism, and it is where
@@ -1736,7 +1798,7 @@ theorem crossedProductClass_mul (z w v : TwoCocycle (K := K) L) [FiniteDimension
   sorry
 
 open scoped TensorProduct in
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(iv): the cocycle of a split algebra with chosen descent data.** The
 descent datum is the chosen `L`-algebra isomorphism `φ : L ⊗_K A ≃ M_n(L)`. Each
 `σ ∈ Gal(L/K)` moves `φ` by a `σ`-semilinear automorphism of `M_n(L)`, Skolem-Noether makes that
@@ -1750,7 +1812,7 @@ noncomputable def cocycleOfSplitting (A : Type u) [Ring A] [Algebra K A]
   sorry
 
 open scoped TensorProduct in
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(v), first half: independence of the descent data.** Two choices of
 `φ` over the same `L` give cohomologous cocycles, so the class is a function of `A` and `L`
 alone. The conjugators of milestone 2(iv) are determined only up to `Lˣ`, and this records that
@@ -1776,7 +1838,7 @@ def TwoCocycle.comap {M : Type u} [Field M] [Algebra K M] (π : (M ≃ₐ[K] M) 
   toFun σ τ := Units.map ι.toRingHom.toMonoidHom (z.toFun (π σ) (π τ))
   isCocycle := sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(v): inflation does not change the class**, so the classes computed
 from two splitting fields are comparable and the colimit over finite Galois `L/K` is well
 defined. Without this milestone the comparison is a family of unrelated maps. -/
@@ -1788,7 +1850,7 @@ theorem crossedProductClass_comap {M : Type u} [Field M] [Algebra K M]
   sorry
 
 open scoped TensorProduct in
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(vii), first half: the cocycle of a splitting presents the algebra.**
 One of the two identifications the comparison needs. -/
 theorem crossedProductClass_cocycleOfSplitting (A : Type u) [Ring A] [Algebra K A]
@@ -1799,7 +1861,7 @@ theorem crossedProductClass_cocycleOfSplitting (A : Type u) [Ring A] [Algebra K 
       Quotient.mk _ ({ toAlgCat := AlgCat.of K A } : CSA.{u, u} K) :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(vii), second half: the two maps are mutually inverse.** Equal
 crossed-product classes over the same `L` come from cohomologous cocycles. With the previous
 theorem this identifies the two directions, and it is what makes the comparison of milestone 3
@@ -1828,12 +1890,12 @@ attribute [instance] GaloisCocycle.finite GaloisCocycle.galois
 
 variable {K}
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- The Brauer class of a bundled crossed product. -/
 noncomputable def GaloisCocycle.brauerClass (g : GaloisCocycle K) : BrauerGroup.{u, u} K :=
   crossedProductClass g.cocycle
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 7B, milestone 2(vi): every Brauer class is obtained.** Surjectivity of the
 comparison. It composes milestone 1(b) with milestone 2(iv), and it is stated separately because
 a consumer that needs a crossed-product presentation of a given class cites this and nothing
@@ -1913,7 +1975,8 @@ set_option synthInstance.maxHeartbeats 400000 in
 `Gal(L/K) × Gal(L/K)`, which is discrete because `L/K` is finite, and the restriction map
 `G_K → Gal(L/K)` is continuous by Mathlib's `InfiniteGalois.restrictNormalHom_continuous`.
 ⚠ Finiteness of `L/K` is where it is used: for an infinite normal subextension the same formula
-is a cocycle but not a continuous one, so no class of `H²_cont` results. -/
+need not be continuous without its own continuity proof; a continuous infinite-level
+cocycle is not excluded. -/
 theorem continuous_unitsCochain_inflate {L : IntermediateField K (SeparableClosure K)}
     [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
     Continuous (unitsCochain z.inflate) := by
@@ -2659,7 +2722,7 @@ theorem sw_append [Invertible (2 : K)] {m n : ℕ} (w : Fin m → Kˣ) (w' : Fin
         sw2 w + sw2 w' + cup11 (sw1 w) (sw1 w') :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 8, `w₂` is the image of the Hasse invariant** under the canonical `ι` of
 Layer 7B. Both sides are defined on a diagonalization. -/
 theorem brauer2EquivH2_hasseInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ)
@@ -2667,7 +2730,7 @@ theorem brauer2EquivH2_hasseInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n 
     brauer2EquivH2 K (Additive.ofMul ⟨hasseInvariant w, h⟩) = sw2 w :=
   sorry
 
-open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
+open TauCeti.BrauerGroup in
 /-- **Layer 8, the comparison with the Clifford invariant** (Lam V.3.20 read in
 cohomology), with the exponents `A_n` and `B_n` of the README. -/
 theorem brauer2EquivH2_cliffordInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ)
@@ -2706,7 +2769,7 @@ construction. -/
 def scharlauTransfer {L : Type v} [Field L] [Algebra K L] {V : Type v} [AddCommGroup V]
     [Module L V] [Module K V] [IsScalarTower K L V] (s : L →ₗ[K] K)
     (q : QuadraticForm L V) : QuadraticForm K V :=
-  s.compQuadraticMap' q
+  q.scharlauTransfer s
 
 /-- **Layer 9, the transfer respects isometry.** Isometric forms over `L` transfer to isometric
 forms over `K`. Without it the transfer is a function of a form and not of its class, and the
@@ -2741,8 +2804,9 @@ For `L = K(x)` with `x² = d` and `a : Lˣ`, the transfer `Tr_*⟨a⟩ : y ↦ T
 rank-one form `⟨a⟩`. The statements use this file's `scharlauTransfer s q`, Tau Ceti's class
 `formClass` of a regular form, and Tau Ceti's discriminant `TauCeti.RegularFormClass.discr`, valued
 in the additive `SquareClassGroup K`. Tau Ceti's `TauCeti/LinearAlgebra/QuadraticForm/Transfer/`,
-which landed after this repository's Tau Ceti pin, writes the same transfer `q.scharlauTransfer s`
-and `q.traceTransfer K`. -/
+writes the native transfer `q.scharlauTransfer s` and `q.traceTransfer K`.
+The public argument-order wrapper below is the native construction, and its remaining
+statements are exact comparisons or illustrative target interfaces. -/
 
 /-- **Layer 9, the norm in square-root coordinates,** `N(u + v x) = u² − v² d`. Tau Ceti's
 `Algebra.IsQuadraticExtension.norm_algebraMap_add_algebraMap_mul` gives
@@ -3114,15 +3178,8 @@ open Classical in
 /-- **Layer 9, the signed-permutation representation of `C₂ ≀ C₂`,**
 `(a, b, c) ↦ diag((−1)^a, (−1)^b) · e₂^c`: the base coordinates are signs and the top coordinate
 swaps. It is a homomorphism by the supplier's coordinate rule `WreathC2.mk_mul_mk`. -/
-def wreathSignedPerm : WreathC2 →* Matrix (Fin 2) (Fin 2) F where
-  toFun g := Matrix.diagonal ![if WreathC2.coordA g = 0 then 1 else -1,
-      if WreathC2.coordB g = 0 then 1 else -1] *
-    (if WreathC2.coordC g = 0 then 1 else pinE2)
-  map_one' := by
-    rw [← WreathC2.mk_zero]
-    simp only [WreathC2.coordA_mk, WreathC2.coordB_mk, WreathC2.coordC_mk, ↓reduceIte, mul_one]
-    ext i j; fin_cases i <;> fin_cases j <;> rfl
-  map_mul' := sorry
+noncomputable abbrev wreathSignedPerm : WreathC2 →* Matrix (Fin 2) (Fin 2) F :=
+  TauCeti.wreathSignedPerm
 
 /-- **Layer 9, `D₁₆` in `M₂(F)`,** on Mathlib's `DihedralGroup 8`: `r ↦ e₁ t`, the rotation by
 `π/4`, and `f = sr 0 ↦ t`, so that `r i ↦ (e₁ t)^i` and `sr i = f r^i ↦ t (e₁ t)^i`. Its image is
@@ -3249,6 +3306,58 @@ theorem pinDiagonalLift_mul (ε ε' : Fin 2 → ZMod 2) :
         ext i j <;> fin_cases i <;> fin_cases j <;>
         simp [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two])
   simpa [pinDiagonalLift] using key (ε 0) (ε 1) (ε' 0) (ε' 1)
+
+/-- The explicit matrix generators are the existing native generators. -/
+theorem pinE1_eq_native : (pinE1 : Matrix (Fin 2) (Fin 2) F) = TauCeti.pinE1 := rfl
+
+theorem pinE2_eq_native : (pinE2 : Matrix (Fin 2) (Fin 2) F) = TauCeti.pinE2 := rfl
+
+/-- Compare the public matrix-equation predicate with native orthogonal-group membership. -/
+theorem isPinLift_iff_native (x w : Matrix (Fin 2) (Fin 2) F) :
+    IsPinLift x w ↔ TauCeti.IsPinLift x w := by
+  constructor
+  · rintro ⟨hx, hact⟩
+    refine ⟨(Matrix.mem_orthogonalGroup_iff' (Fin 2) F).2 hx, fun y => ?_⟩
+    simpa [pinVec, pinE1, pinE2, TauCeti.pinVec_apply, TauCeti.pinE1, TauCeti.pinE2]
+      using hact y
+  · intro h
+    refine ⟨(Matrix.mem_orthogonalGroup_iff' (Fin 2) F).1 h.mem_orthogonalGroup, fun y => ?_⟩
+    simpa [pinVec, pinE1, pinE2, TauCeti.pinVec_apply, TauCeti.pinE1, TauCeti.pinE2]
+      using h.det_smul_mul_pinVec_mul_transpose y
+
+/-- The total public formula agrees with the native homomorphism on its actual square-root data. -/
+theorem pinDihedral_eq_native [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) :
+    pinDihedral r2 = fun z => TauCeti.pinDihedral hr2 z := by
+  let : NeZero (2 : F) := ⟨two_ne_zero' F⟩
+  funext z
+  cases z <;>
+    simp only [pinDihedral, TauCeti.pinDihedral_r, TauCeti.pinDihedral_sr,
+      TauCeti.pinT_def, pinT, pinE1, pinE2, TauCeti.pinE1, TauCeti.pinE2]
+
+/-- Compare the two actual section implementations on their eight coordinate values. -/
+theorem wreathSection_eq_native (g : WreathC2) :
+    TauCetiRoadmap.ProfiniteCohomology.wreathSection g = TauCeti.wreathSection g := by
+  rw [TauCetiRoadmap.ProfiniteCohomology.wreathSection, TauCeti.wreathSection_apply]
+  change WreathC2.sectionTable (WreathC2.coordA g) (WreathC2.coordB g) (WreathC2.coordC g) =
+    if WreathC2.coordC g = 0 then
+      if WreathC2.coordA g = 0 then
+        (if WreathC2.coordB g = 0 then DihedralGroup.r 0 else DihedralGroup.sr 5)
+      else (if WreathC2.coordB g = 0 then DihedralGroup.sr 7 else DihedralGroup.r 2)
+    else
+      if WreathC2.coordA g = 0 then
+        (if WreathC2.coordB g = 0 then DihedralGroup.sr 0 else DihedralGroup.r 3)
+      else (if WreathC2.coordB g = 0 then DihedralGroup.r 1 else DihedralGroup.sr 6)
+  generalize WreathC2.coordA g = a
+  generalize WreathC2.coordB g = b
+  generalize WreathC2.coordC g = c
+  revert a b c
+  decide
+
+/-- The same comparison for the section lift; arbitrary public total inputs remain defined. -/
+theorem pinLift_eq_native [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) (g : WreathC2) :
+    pinLift r2 g = TauCeti.pinLift hr2 g := by
+  let : NeZero (2 : F) := ⟨two_ne_zero' F⟩
+  rw [pinLift, TauCeti.pinLift_def, pinDihedral_eq_native hr2, wreathSection_eq_native]
 
 end PinModel
 

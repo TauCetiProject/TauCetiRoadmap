@@ -1,8 +1,13 @@
 import Mathlib.Analysis.Analytic.Basic
+import Mathlib.Analysis.Convex.Intrinsic
+import Mathlib.Analysis.Convex.SimplicialComplex.Basic
 import Mathlib.Geometry.Manifold.IsManifold.ExtChartAt
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.LinearAlgebra.Projectivization.Basic
 import Mathlib.Topology.Defs.Induced
 import Mathlib.Topology.Maps.Proper.Basic
 import TauCeti.Analysis.Analytic.Submanifold.Basic
+import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Function
 
 /-!
 # Real analytic geometry: suggested target signatures
@@ -71,6 +76,105 @@ theorem semianalytic_preimage_local {n m : ℕ}
     (hs : SemiAnalyticAt s (f x))
     (hf : AnalyticAt ℝ f x) :
     Nonempty (SemiAnalyticAt (f ⁻¹' s) x) := by
+  sorry
+
+/-- A Nash germ is analytic and satisfies a genuinely nonzero polynomial relation on a
+neighborhood. The polynomial may depend on the point; no global graph claim is built in. -/
+def IsNashAt {n : ℕ} (f : RealCoordinates n → ℝ) (x : RealCoordinates n) : Prop :=
+  AnalyticAt ℝ f x ∧
+    ∃ P : MvPolynomial (Fin n ⊕ Unit) ℝ, P ≠ 0 ∧
+      ∃ r : ℝ, 0 < r ∧ ∀ y ∈ Metric.ball x r,
+        MvPolynomial.eval (Sum.elim y (fun _ => f y)) P = 0
+
+/-- R1.1's graph criterion includes both analyticity and an open semialgebraic neighborhood.
+The scalar output uses the native graph carrier's one-coordinate function representation. -/
+theorem isNashAt_iff_local_semialgebraic_graph {n : ℕ}
+    (f : RealCoordinates n → ℝ) (x : RealCoordinates n) :
+    IsNashAt f x ↔ AnalyticAt ℝ f x ∧
+      ∃ U : Set (RealCoordinates n), IsOpen U ∧ x ∈ U ∧
+        TauCeti.IsSemialgebraicOn (fun y (_ : Unit) => f y) U := by
+  sorry
+
+/-- Local semialgebraicity is tested at every ambient point, including points outside the set. -/
+def IsLocallySemialgebraic {n : ℕ} (s : Set (RealCoordinates n)) : Prop :=
+  ∀ x, ∃ U : Set (RealCoordinates n), IsOpen U ∧ x ∈ U ∧
+    TauCeti.IsSemialgebraic U ∧ TauCeti.IsSemialgebraic (s ∩ U)
+
+theorem IsLocallySemialgebraic.isSemialgebraic_of_isBounded {n : ℕ}
+    {s : Set (RealCoordinates n)} (hs : IsLocallySemialgebraic s)
+    (hb : Bornology.IsBounded s) : TauCeti.IsSemialgebraic s := by
+  sorry
+
+/-- A finite affine triangulation with the full bounded theorem's analytic and marked-set
+conditions. Total ambient extensions let the native graph/submanifold APIs express the maps;
+their values off the support and target are unrestricted. -/
+structure FiniteCompatibleAnalyticTriangulation {n k : ℕ}
+    (B : Fin k → Set (RealCoordinates n)) where
+  complex : Geometry.SimplicialComplex ℝ (RealCoordinates n)
+  finite_faces : complex.faces.Finite
+  homeomorph : complex.space ≃ₜ (⋃ i, closure (B i))
+  forward : RealCoordinates n → RealCoordinates n
+  inverse : RealCoordinates n → RealCoordinates n
+  forward_agrees : ∀ x : complex.space, forward x = (homeomorph x).val
+  inverse_agrees : ∀ y : (⋃ i, closure (B i)), inverse y = (homeomorph.symm y).val
+  semialgebraic : TauCeti.IsSemialgebraicOn forward complex.space
+  analytic_simplex : ∀ s ∈ complex.faces,
+    let U := intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n)))
+    TauCeti.IsAnalyticSubmanifold (s.card - 1) U ∧
+      TauCeti.IsAnalyticSubmanifold (s.card - 1) (forward '' U) ∧
+      TauCeti.AnalyticOnSubmanifold (s.card - 1) forward U ∧
+      TauCeti.AnalyticOnSubmanifold (s.card - 1) inverse (forward '' U)
+  compatible : ∀ s ∈ complex.faces, ∀ i,
+    forward '' intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n))) ⊆ B i ∨
+      forward '' intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n))) ⊆ (B i)ᶜ
+
+/-- Theorem 3 retains possibly nonclosed input sets and a finite complex in the original
+ambient space. The full Nash lifting proof belongs to R2.1. -/
+theorem bounded_semialgebraic_analytic_triangulation {n k : ℕ}
+    (B : Fin k → Set (RealCoordinates n))
+    (hB : ∀ i, TauCeti.IsSemialgebraic (B i))
+    (hb : ∀ i, Bornology.IsBounded (B i)) :
+    Nonempty (FiniteCompatibleAnalyticTriangulation B) := by
+  sorry
+
+/-- Correct n+1-coordinate projector formula, totalized at zero only for convenient notation. -/
+def rankOneProjector {n : ℕ} (x : RealCoordinates (n + 1)) :
+    Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ :=
+  fun i j => x i * x j / ∑ k, (x k) ^ 2
+
+theorem rankOneProjector_smul {n : ℕ} (t : ℝ) (ht : t ≠ 0)
+    (x : RealCoordinates (n + 1)) :
+    rankOneProjector (t • x) = rankOneProjector x := by
+  sorry
+
+/-- Descent uses the existing linear-projectivization quotient, without a private carrier. -/
+def projectiveProjector {n : ℕ}
+    (p : Projectivization ℝ (RealCoordinates (n + 1))) :
+    Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ :=
+  Projectivization.lift (fun x => rankOneProjector x.val) (by
+    intro a b t h
+    have ht : t ≠ 0 := by
+      intro ht
+      apply a.property
+      simpa [ht] using h
+    change rankOneProjector (a : RealCoordinates (n + 1)) =
+      rankOneProjector (b : RealCoordinates (n + 1))
+    rw [h]
+    exact rankOneProjector_smul t ht b.val) p
+
+/-- Symmetric idempotents of trace one are exactly rank-one orthogonal projectors over ℝ. -/
+def ProjectorLocus (n : ℕ) : Set (Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ) :=
+  {A | A.transpose = A ∧ A * A = A ∧ Matrix.trace A = 1}
+
+theorem range_projectiveProjector (n : ℕ) :
+    Set.range (projectiveProjector (n := n)) = ProjectorLocus n := by
+  sorry
+
+/-- Matrix entries are flattened to the native coordinate-index semialgebraic carrier. -/
+theorem isSemialgebraic_projectorLocus (n : ℕ) :
+    TauCeti.IsSemialgebraic
+      {a : Fin (n + 1) × Fin (n + 1) → ℝ |
+        (fun i j => a (i, j)) ∈ ProjectorLocus n} := by
   sorry
 
 /-- Use a fixed real-linear coordinate equivalence after the native extended charts.
