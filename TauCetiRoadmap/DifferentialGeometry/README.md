@@ -79,21 +79,24 @@ instead of inheriting the book's:
   interior points as stated. Layer3.6 separately constructs strict inward
   fields and forward semiflows on every finite-dimensional real model with
   corners; 8.3 consumes them for smoothing.
-- **Layer 5 is stated for the half-space model.** Its boundary is a manifold (Tau Ceti's
-  `isManifold_boundary`), and Stokes reads `∫_M dω = ∫_{∂M} ι^*ω`. ⚠ For a genuine model with
-  corners the boundary is *not* a manifold: the boundary of `[0, ∞)²` admits no smooth structure
-  making its inclusion an immersion at the corner, and the set `I.boundary M` forgets the face
-  multiplicity Stokes needs. The corners version (5.5) therefore uses an **abstract boundary**
-  `∂̃M`: pairs of a point and a local face through it, a manifold with corners one dimension down,
-  with a map to `M` whose fibre over `x` has as many points as `x` has local faces; each face
-  carries the outward-first orientation, and Stokes is `∫_M dω = ∫_{∂̃M} ι^*ω` [Lee, Thm. 16.25].
-  `integralTopForm` itself (5.2) is defined over any model, since the boundary is null; only Stokes
-  needs the face structure. Boundary-orientation signs are recomputed for Mathlib's half-space,
-  never transcribed from [Lee].
-- **Homotopy and simplex integration do not need corner Stokes.** Homotopy invariance (6.3) uses a
-  directly proved cochain-homotopy identity on `M × [0, 1]` — a manifold with corners when `M` has
-  boundary — instead of Stokes on it, and the de Rham theorem (8.4) uses a self-contained Stokes
-  formula for the standard simplex. Nothing in layers 6–12 depends on 5.5.
+- **5.1–5.3 use the half-space model.** Its boundary is Tau Ceti's smooth
+  manifold, with the outward-first orientation. **5.5a defines densities over
+  every finite-dimensional real `ModelWithCorners`, independently of faces.**
+  **5.5b adds `SmoothFaceStructure I M` for face-indexed boundary and corner
+  Stokes.** This is additional smooth local quadrant/face data, not a theorem
+  that an arbitrary convex model range has smooth faces. It supplies an abstract
+  boundary `∂̃M` of local boundary germs and a smooth proper immersion to M,
+  with one point for each germ, including multiplicity at corners. Standard
+  half-space, quadrant, product and restriction constructions are required.
+  Integration of top forms and densities retains the generic-model scope;
+  the face hypothesis belongs only to the face-boundary/Stokes branch.
+- **Homotopy and simplex integration do not need corner Stokes.** Homotopy
+  invariance (6.3) uses the directly proved cochain-homotopy identity of 5.4;
+  de Rham (8.4–8.5) uses the independent standard-simplex Stokes formula.
+  Neither consumes 5.5b. Layer12.4 and circle volume do consume 5.5a's
+  densities and its elementary integration gates. The early flat Green
+  results in 5.6 are independent of the manifold comparison, which is owned
+  by the later compatibility milestone12.6.
 
 ## What Mathlib already has (consume)
 
@@ -249,29 +252,25 @@ against the pinned dependency.
 
 ### Existing distribution and Frobenius implementation
 
-Layer 4 consumes the existing distribution, foliation and graph-coordinate
-Frobenius modules named there. These are present at Tau Ceti revision
-`f963990be62acce3c25fd8cc43d316712fd3f900`, ahead of the signature file's
-`a780c7ad` pin. They are existing code, not unimplemented roadmap targets.
-The local record and predicate in `Suggested.lean` describe their input data
-at the older pin; they do not authorize a parallel implementation. Implement
-Layer 4 on a working Tau Ceti revision containing those modules, extending
-their APIs and consumers. Updating this roadmap's shared toolchain or
-manifest is not itself a mathematical completion criterion.
+Layer4 consumes the existing distribution, foliation and graph-coordinate
+Frobenius APIs. `TauCeti.IsRegularDistribution`, local
+`TauCeti.IsInvolutiveDistribution`, the foliation carrier and the local
+integral-graph theorem are the shared production interfaces. Extend them
+with the restrictions, transport laws and consumers below; do not build a
+parallel distribution or involutivity theory. The bundled local record in
+`Suggested.lean` is a signature presentation of this data.
 
-Source snapshots: [distribution and local involutivity](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Distribution.lean),
-[the existing foliation carrier](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Foliation/Basic.lean),
+Immutable source snapshots: [distribution and local involutivity](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Distribution.lean),
+[the foliation carrier](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Foliation/Basic.lean),
 and [graph-coordinate Frobenius](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Distribution/Graph.lean).
 
-The gradient definition, characteristic identities and C^(n+1)/C^n smoothness
-are present in `Riemannian/Gradient.lean` at Tau Ceti source revision
-`b4a17624635c02c7e5844919e6680fe8284faaf5`. The signature file's dependency
-revision does not export that module. Its local Riesz expression and admitted
-smoothness interface illustrate the same API against that earlier pin; their
-compilation does not discharge those admissions. Production consumes the native
-name and proofs, while 12.2 owns the additional chain/product/transport and
-flat-model comparisons. This source distinction requires no dependency-pin
-update or duplicate production gradient.
+Layer12.2 consumes the native Riesz gradient, its characteristic identities
+and C^(n+1)/C^n regularity from
+[`Riemannian/Gradient.lean`](https://github.com/TauCetiProject/TauCeti/blob/b4a17624635c02c7e5844919e6680fe8284faaf5/TauCeti/Geometry/Manifold/Riemannian/Gradient.lean).
+The local Riesz expression `mgradient` is compatibility notation for that
+interface. Layer12.2 owns the additional chain/product/isometry/flat-model
+comparisons, not a second production gradient. Signature elaboration of
+admitted compatibility targets is not a proof of those targets.
 
 ## What is missing (build here)
 
@@ -668,15 +667,15 @@ integral-graph theorem
 `TauCeti.IsInvolutiveDistribution.exists_eventually_hasFDerivAt`, using
 `TauCeti/Analysis/ODE/Frobenius.lean`. These are consumed, not scheduled again.
 
-The local `Distribution` record in `Suggested.lean` is only a bundled
-signature model at that file's older dependency pin. Its `fiber` is the
+The local `Distribution` record in `Suggested.lean` is a bundled
+signature presentation of that shared data. Its `fiber` is the
 canonical family; its rank and frame fields express the existing regularity
 predicate. Its local `IsInvolutive` spelling expands the canonical local
 predicate. Neither is a target for a second production implementation.
 Any convenience wrapper retained in Tau Ceti must package the existing family
 and predicates, and the theorem implementations must use that shared API.
-Already-merged work is not to be reimplemented merely because the roadmap's
-signature-checking pin is older.
+Consume the proved native results through that shared API; a signature
+presentation is not a reason to duplicate their implementation.
 
 - **4.1 Distributions and frames.** Consume the existing rank, frame,
   regularity, constant-distribution and contact-distribution APIs. Add the
@@ -772,7 +771,7 @@ stronger quantifier order.
   case of the flat divergence theorem. Corollaries: `integralTopForm_mextDeriv_eq_zero` on
   boundaryless `M`, the interval case against `intervalIntegral`, the smooth-boundary
   specialization of Green's theorem, and agreement with `curveIntegral`. The planar
-  comparison theorem is owned by 5.6.3.
+  post-manifold comparison theorem is owned by 12.6, after the flat 5.6 theorem.
 - **5.4 The homotopy operator.** `homotopyOperator` on `M × Icc 0 1`, with `homotopyOperator_spec`:
   for a `C¹` form `ω` with values in a complete space, `hω` is `C¹` and
   `ι₁^*ω − ι₀^*ω = d(hω) + h(dω)`, proved directly rather than through Stokes, so `M` may have
@@ -810,12 +809,94 @@ stronger quantifier order.
   and prove that slicing commutes with it; positive-degree closed slice forms
   then have jointly smooth primitives. No contraction of N is required. Separately, Stokes on
   `M × Icc 0 1` for boundaryless `M`, for 10.5.
-- **5.5 Densities, and Stokes with corners.** `Density`, `RoughDensity`, `toDensity`
-  (`toDensity_apply`), `integralDensity` and `integralTopForm_eq_integralDensity`, making
-  integration on nonorientable manifolds a special case [Lee, Ch. 16, "Densities"]; and Stokes on
-  manifolds with corners through the abstract boundary [Lee, Thm. 16.25], whose faces the
-  geometric-topology roadmap consumes. *Acceptance:* `∫_{Icc 0 1} df = f 1 − f 0`;
-  `|∫_{S¹} dθ| = 2π` for `circleAngularForm`; Green's theorem on the unit square.
+- **5.5a Densities, for every finite-dimensional real model.** `Density`,
+  `RoughDensity`, `toDensity` (`toDensity_apply`), `integralDensity` and
+  `integralTopForm_eq_integralDensity` give orientation-free integration
+  [Lee, Ch.16, "Densities"]. Prove independence of chart, basis and partition
+  by the absolute determinant change-of-variables formula. This uses 5.2's
+  integral construction and not 5.5b's faces or corner Stokes. Retain the
+  elementary gates: the half-space interval FTC from 5.3,
+  `|∫_{S¹} dθ|=2π` for `circleAngularForm`, and the unit-square Green formula
+  from the independent flat theorem. Circle volume and 12.4 consume this lane.
+- **5.5b Smooth faces, abstract boundary and corner Stokes.** Supply the
+  following additional geometric **data** `SmoothFaceStructure I M`, on a
+  Hausdorff second-countable smooth n-manifold, n≥1. It is not a placeholder
+  proposition and is not inferred from convexity of `range I`.
+
+  **Local quadrant data.** Give a covering by open U⊆M and homeomorphisms
+  `q_U:U≃ₜV_U`, where V_U is relatively open in the standard quadrant
+  Q^n=[0,∞)^n. Both directions are smooth for the given I-atlas and the
+  native quadrant model. On every overlap and at every point give the
+  bijection of germs of vanishing coordinate hypersurfaces induced by the
+  transition diffeomorphism. Require its compatibility with composition,
+  inverses and restriction, and identify its restriction on a face with a
+  smooth diffeomorphism of the corresponding (n−1)-dimensional quadrant
+  charts. The transition maps preserve inward normal rays in the quotient
+  tangent lines. This is concrete compatible face-atlas data; no choice of
+  global labels or globally embedded connected faces is required. Prove
+  compatibility with the native intrinsic interior/boundary: a point is
+  interior exactly when all these local coordinates are positive, and
+  its depth is the number of zero coordinates, invariant on overlaps.
+
+  **Boundary carrier and its charts.** Construct `LocalBoundaryGerm x` by
+  gluing the germs `{i : Fin n | (q_U x)_i=0}` under those overlap bijections;
+  prove its independence of chart and `Fintype` equivalences with those sets.
+  Define `∂̃M=Σ x:M, LocalBoundaryGerm x`, with projection j. The structure
+  also selects its finite-dimensional boundary model J (of dimension n−1)
+  and compatible smooth atlas. Over U it is the disjoint union of
+  `{z∈V_U | z_i=0}`, with coordinate deletion and smooth comparison to the
+  standard Q^(n−1) face model. Select that quadrant model for the standard
+  corner construction and the existing Euclidean model for the half-space
+  boundary. Rechart through a fresh carrier when the comparison changes
+  model; never install two conflicting canonical atlases on one type.
+  Prove the overlap/cocycle laws, Hausdorffness, second countability, and
+  that j is a smooth proper immersion with image `I.boundary M`. Each fibre
+  is exactly the finite set of local germs; at depth d it has d elements,
+  not one element obtained by forgetting multiplicity. Show local finiteness
+  over M from the finite sheets over each face chart, and properness by a
+  finite shrunk-chart cover of compact subsets. In dimension zero define
+  the abstract boundary to be empty and retain the signed-point integral.
+
+  **Instances and coherence.** Construct the data for the native half-space,
+  identify its abstract boundary and projection smoothly with Tau Ceti's
+  existing boundary subtype/inclusion, and match 5.1's orientation. For Q^n
+  the carrier is the disjoint union of its n coordinate facets (empty for
+  n=0); include n=1 and n=2 with their actual endpoint/corner multiplicities.
+  Construct the standard simplex face data in barycentric charts: at a
+  point choose a positive barycentric coordinate as pivot, use the other
+  n coordinates, and restrict the positive coordinates to stay positive.
+  The vanishing barycentric coordinates give exactly its local facets;
+  prove compatibility of pivot changes and the affine orientation signs.
+  This does not feed the independent smooth-simplex Stokes proof8.4.
+  Construct open restrictions, disjoint unions and products. For dimensions
+  m,n the product boundary is `(∂̃M×N) ⊔ (M×∂̃N)` over M×N, and depths add.
+  The data are transported under compatible diffeomorphisms and satisfy
+  restriction, factor-swap and product associativity coherence. A general
+  convex model may receive this structure only via an actual compatible
+  local quadrant atlas; its generic forms, densities and inward smoothing
+  require no such structure. Do not assert that every convex range admits it.
+
+  **Orientations and Stokes.** Given an orientation on M, orient each sheet
+  outward-first through the injective derivative of j. On Q^n with standard
+  orientation, facet i with its remaining coordinates in their original
+  order has coefficient (-1)^(i+1), since its outward vector is -e_i.
+  The two ordered lifts at each codimension-two corner have opposite
+  induced orientations. The product boundary orientations are the product
+  orientation on `∂̃M×N` and (-1)^m times that on `M×∂̃N`; prove all chart,
+  restriction and product comparisons. For compactly supported C¹
+  (n−1)-forms prove `∫_M dω=∫_{∂̃M} j*ω`, using the local quadrant formula
+  and a partition of unity. Properness of j makes the pulled-back support
+  compact; prove integrability of both sides. The codimension-two pieces
+  are null for the face measures, with the double-boundary sign comparison
+  supplying the expected cancellation. Recover the interval FTC, the square
+  formula with its four oriented edges, simplex and product specializations,
+  and naturality under compatible face diffeomorphisms. This constructs
+  [Lee, Thm.16.25]'s smooth-corner scope with explicit data; it attributes no
+  smooth-boundary theorem to an arbitrary nonsmooth convex model.
+
+  GeometricTopology consumes this face geometry and its product charts for
+  collars/gluing. Its global collars are not prerequisites of this
+  construction, Stokes, the generic inward semiflow or chain smoothing.
 
 ### Layer 5.6: Green's theorem for planar regions and curves
 
@@ -1021,10 +1102,12 @@ Deduce the HOL Light specialization: `filledHull K ⊆ U`, and the existing wind
 `1` at every point of `filledHull K \ K`. The area integral is over `filledHull K \ K`, and
 area and boundary integrability are conclusions. Derive the flux version by replacing
 `(P,Q)` with `(-Y,X)`: the boundary expression is `X dy − Y dx`, and the area expression is
-`∂x X + ∂y Y`, again with both integrability conclusions. This layer owns the comparison
-with smooth manifold boundaries and corners: prove agreement with 5.3–5.5's outward-first
-orientation, `integralTopForm`, coordinate area, and 12.5's Euclidean divergence theorem.
-Those layers own their general manifold theorems and consume this comparison.
+`∂x X + ∂y Y`, again with both integrability conclusions. The post-manifold compatibility target12.6 proves agreement of these completed
+flat identities with the half-space theorem5.3 and face-structured theorem5.5b,
+their outward-first orientations, `integralTopForm`, coordinate area, and
+12.5's Euclidean divergence theorem. The flat theorem and the general
+manifold theorems are constructed independently before that comparison;
+neither consumes it as a prerequisite.
 
 **Acceptance examples.** Prove the unit-circle and ellipse area formulas from
 `P=-y/2, Q=x/2`. For `a,b>0`, define the closed ellipse
@@ -1042,7 +1125,7 @@ speed. Discharge a weak-field example `P(x,y)=|x-1/2|, Q(x,y)=x` on the unit squ
 and `∂x Q=1` are needed, although the field is not `C¹` on a neighbourhood of the square.
 For the gauge FTC, take `h(0)=0` and `h(t)=t² sin(t⁻²)` for `0<t≤1`: prove that the
 Henstock–Kurzweil integral of `h'` is `sin 1`, and that `h'` is not Bochner integrable.
-These supplement the unit-square sign check of 5.5. The area formula for a general cycle is
+These supplement the unit-square sign check of 5.5a. The area formula for a general cycle is
 **signed area counted with index**, not the area of the union of its bounded complementary
 components.
 
@@ -1057,13 +1140,14 @@ every real α; it is closed exactly when `α=1`. State non-exactness in the same
 there is no real `g : ℂ → ℝ`, differentiable on `U`, such that `fderiv ℝ g z = ω_α(z)` for every
 `z∈U`. Derive this from the chain rule and interval FTC along the unit-circle parametrization;
 the pulled-back derivative is the continuous coefficient `ω_α(γ(t))(γ'(t))`. This argument
-uses the flat differentiable-form calculus on `U` and does not consume DG5.5 or DG6.3. The form
+uses the flat differentiable-form calculus on `U` and does not consume DG5.5a, DG5.5b or DG6.3. The form
 `ω_α` itself is globally defined on `U`; no global real-valued angle potential is asserted.
 
 **Ownership and ordering.** This layer owns the AC and directional planar extensions and
 their comparisons with existing rectangle and manifold results. Layers
-5.3–5.5 retain manifold integration and Stokes; layer 12.5 retains Riemannian divergence and
-Green's integration-by-parts identities. The completed
+5.3 and 5.5b retain half-space and face-structured Stokes, and 5.5a retains
+generic density integration. Layer12.5 retains Riemannian divergence and
+Green's integration-by-parts identities; 12.6 owns their later planar comparison. The completed
 [contour integration roadmap](../../Completed/ContourIntegration/README.md) owns the contour
 and index APIs consumed above; [conformal mapping](../ConformalMapping/README.md), L5, owns
 the filled-hull and planar-separation APIs consumed here. [PDE](../PDE/README.md) owns Green functions, boundary-value
@@ -1071,7 +1155,9 @@ problems, and weak PDE solutions; [modular forms](../ModularForms/README.md) own
 Petersson/region-Stokes application and can consume these identities. Sequence 5.6.1's curve
 calculus and 5.6.2's finite divisions before the approximation and limit passage in 5.6.3.
 They use Mathlib's flat calculus and
-integration directly; the manifold comparison uses 5.2–5.5.
+integration directly. The subsequent comparison12.6 consumes the completed
+flat theorem, 5.2/5.3/5.5a, the face data and theorem5.5b when corners occur,
+and 12.4–12.5; it has no edge back into any of those producers.
 
 Follow Mathlib's existing `curveIntegral` design, including
 [`curveIntegral_eq_intervalIntegral_deriv`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Integral/CurveIntegral/Basic.html#curveIntegral_eq_intervalIntegral_deriv)
@@ -1310,7 +1396,7 @@ and the comparison with de Rham cohomology on those carriers, and never a second
 - **8.4 Simplices, Stokes for chains, the de Rham map.** The full-dimensional `fullSimplex` bridged
   to Mathlib's barycentric `Convexity.StdSimplex`, faces `simplexFace`, `SmoothSimplex.integral` and
   `chainIntegral` (vector-valued forms in complete spaces); Stokes for the simplex
-  (`SmoothSimplex.integral_mextDeriv`, independent of 5.5) and for chains [Lee, Thm. 18.12];
+  (`SmoothSimplex.integral_mextDeriv`, independent of 5.5b) and for chains [Lee, Thm. 18.12];
   `deRhamHom` into `realSingularCohomology`, under 8.3's smoothing hypotheses, natural and
   compatible with connecting maps [Lee, Prop. 18.13]. Naturality carries those hypotheses on
   both source and target. Construct `smoothSingularCochains` by the native
@@ -1806,7 +1892,7 @@ Riesz duality.*
   Build product, `Opens` and boundary metrics. Consume the existing analytic
   `sphereRoundMetric` and its instances on spheres and Circle; `roundMetricCircle`
   in the prototype selects that same native instance. The new circle target is
-  its volume comparison `volume_circle`, using the integral from 5.5.
+  its volume comparison `volume_circle`, using the angular integral gate of 5.5a.
 - **12.2 Gradient.** Consume
   [`TauCeti.Manifold.riemannianGradient`](https://github.com/TauCetiProject/TauCeti/blob/b4a17624635c02c7e5844919e6680fe8284faaf5/TauCeti/Geometry/Manifold/Riemannian/Gradient.lean),
   its fibrewise Riesz definition, characteristic inner-product/zero/negation
@@ -1828,16 +1914,65 @@ Riesz duality.*
   functions (`integral_riemannianVolume_eq_integralDensity`), full support, and positivity through
   `lintegral` (⚠ never the junk-valued Bochner integral); and `d(ι_X dV) = (div X) dV`
   (`mextDeriv_interior_riemannianVolumeForm`).
-- **12.5 Divergence theorem and Green.** `∫_M div X dV = ∫_{∂M} ⟪X, N⟫ dṼ` with the outward unit
-  normal [Lee, Thm. 16.32]; `integral_divergence_eq_zero`, `integral_mul_laplaceBeltrami`,
-  `integral_laplaceBeltrami_symm` on boundaryless `M`. PDE owns scalar Euclidean
-  Sobolev/PDE estimates; PseudodifferentialOperators P1.0 owns differential operators,
-  symbols and formal density adjoints; ComplexKahlerGeometry K5 owns finite-rank
-  real/complex bundle distributions, the all-real-order Hilbert scale, smooth
-  Laplace-type regularity, real Hodge star and compact real/complex Hodge theory.
-  The general pseudodifferential calculus consumes that scale.
-  *Acceptance:* `laplaceBeltrami_eq_laplacian` (the sign gate), `Δ‖x‖² = 2n`, and
-  `volume_circle = 2π`.
+- **12.5 Divergence theorem and Green.** For a Hausdorff second-countable
+  smooth manifold over the standard half-space model `𝓡∂ (n+1)`, n≥0,
+  take a smooth positive-definite Riemannian metric, the native Borel
+  structures and volume measure, and a smooth vector field X. Assume
+  **either M is compact or X vanishes outside a compact subset of M**.
+  Construct the induced boundary metric by pullback along the native smooth
+  boundary immersion, with its smoothness/continuity and native
+  `TauCeti.riemannianVolume` on that boundary. Construct the unique smooth
+  outward unit normal N along the boundary: norm one, orthogonal to the
+  image of its tangent space, with decreasing constrained coordinate.
+  Then prove integrability of `div X` and `x↦⟪X(x),N(x)⟫` for their respective
+  measures and the equality `∫_M div X dV = ∫_{∂M} ⟪X,N⟫ dṼ`
+  [Lee, Thm.16.32]. The signature `integral_divergence_eq_boundaryFlux`
+  includes exactly that support alternative, and its integrability companion
+  proves that neither side is being interpreted through a nonintegrable
+  Bochner junk value. The same result holds at C² manifold/C¹ metric/C¹
+  field regularity where the connection and density identity are defined;
+  specify those finite-regularity restrictions and their smoothing/direct
+  local proof. The representative prototype uses the smooth case.
+
+  No global orientation is necessary: on oriented M identify this with
+  5.3 applied to `ι_X dV`; in general patch the oriented chart identities
+  as densities. Prove independence of local orientation. Empty boundary
+  recovers `integral_divergence_eq_zero`. On boundaryless M retain
+  `integral_mul_laplaceBeltrami` and `integral_laplaceBeltrami_symm` for the
+  stated compact supports. On M with boundary retain the boundary Green
+  identities obtained by substituting f grad g, with their same support
+  hypotheses and outward-normal term. In the face-structured case use
+  `SmoothFaceStructure I M`: pull back the metric to each sheet of ∂̃M,
+  use its own outward normal N(x,germ), and integrate the flux on that
+  abstract boundary with multiplicity. Prove the same compact/support
+  alternatives and integrability, via 5.5b. A single normal on the
+  unresolved boundary set is not asserted at a corner.
+
+  PDE owns scalar Euclidean Sobolev/PDE estimates;
+  PseudodifferentialOperators P1.0 owns differential operators, symbols and
+  formal density adjoints; ComplexKahlerGeometry K5 owns finite-rank
+  real/complex bundle distributions, the all-real-order Hilbert scale,
+  smooth Laplace-type regularity, real Hodge star and compact real/complex
+  Hodge theory. The general pseudodifferential calculus consumes that scale.
+  *Acceptance:* `laplaceBeltrami_eq_laplacian` (the sign gate), `Δ‖x‖²=2n`,
+  `volume_circle=2π`; the half-line compact-support formula is
+  `∫₀^∞ X'(t)dt=-X(0)`, and n=0 boundary volume assigns each endpoint mass
+  one. The unsupported constant field X=1 on the half-line is excluded
+  by the support hypothesis, not by an integrability convention.
+- **12.6 Planar/manifold compatibility, after both producers.** Consume
+  the completed flat theorems5.6.1–5.6.3, half-space Stokes5.3,
+  density integration5.5a, the face construction/theorem5.5b when needed,
+  and 12.4–12.5. Identify the complex plane orientation, its coordinate
+  area with the Euclidean metric measure, AC/rectifiable line integrals
+  with smooth-boundary pullback integrals where their hypotheses overlap,
+  outward-first boundary signs and the outward flux of (Q,-P) with
+  circulation P dx+Q dy (so div(Q,-P)=∂x Q-∂y P). Derive the rectangle, square, smooth Jordan, finite-hole
+  and compatible face-boundary specializations, including orientation
+  reversal and repeated traversal. This is an equality of already
+  constructed statements at their common scope; it neither strengthens
+  the directional/HK theorem to C¹ nor uses an HK statement to infer
+  unsupported manifold regularity. It feeds downstream consumers without
+  becoming a prerequisite of 5.3, 5.5 or 12.5.
 
 ## Statements that must not enter the library
 
@@ -1915,8 +2050,9 @@ Each is a tempting mistake with its refutation.
 arclength, variation–speed identities, and Hausdorff length. Consume those results in
 planar curve calculus rather than building another metric length theory. The flat planar
 Green targets of [layer 5.6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826)
-own winding numbers, curve integration, and the actual area identity; layers 5.3–5.5
-retain manifold integration and Stokes. In 5.6.1, AC trace-nullity and variation–speed
+own winding numbers, curve integration, and the actual area identity; 5.3
+and 5.5b retain half-space and face-structured Stokes, 5.5a retains generic
+density integration, and 12.6 owns their post-construction comparison. In 5.6.1, AC trace-nullity and variation–speed
 are specializations consumed from G1, whose general metric statements are the single
 owned targets; this layer builds their integral and index compatibility.
 
@@ -1944,8 +2080,9 @@ One owner per shared construction, stated identically on both sides.
   in the half-space specialization for its collar theorem, the orientation
   interface (2), the canonical
   Tau Ceti distribution and foliation APIs and their integral-manifold/leaf
-  extensions (4), densities and form integration (5.5, 12.4), and the abstract
-  boundary of manifolds with corners (5.5). The half-space boundary manifold
+  extensions (4), generic densities and form integration (5.5a, 12.4),
+  and the abstract boundary/product charts from the additional
+  `SmoothFaceStructure` data (5.5b). The half-space boundary manifold
   is Tau Ceti's and consumed by both. Geometric topology owns the Riemannian
   volume measure, already `TauCeti.riemannianVolume` and consumed by 12.4,
   curvature, hyperbolic structures, tubular and collar neighbourhoods,
@@ -1984,31 +2121,56 @@ One owner per shared construction, stated identically on both sides.
 
 ## Ordering
 
-Layers 0–1 first. Layers 2, 3 (except the form half of 3.4) and 12.1–12.3 are independent of them;
-3.5's finite-dimensional suspension adapters use the native maximal-flow theorem,
-while its Banach case needs 3.1–3.2; 4
-needs 3 and 1.4; 12.4–12.5 need 0, 2 and 5. The manifold integration track is
-5.1–5.5 → {6, 7} → 8 → 9; 5.6 runs in parallel from Mathlib's flat calculus and integration
-and compares with 5.2–5.5. Layers 6 and
-most of 7 are available once 0–1 land (6.3 needs only 5.4's homotopy identity).
-The vector-target approximation8.3a and finite-parameter relative transversality10.2a
-use only native approximation/cutoffs, the differential/level-set charts and
-finite-dimensional Sard; their RS2G/LG6 applications are downstream. They do
-not consume8.3's smooth-chain equivalences,3.6 inward domination or degree.
-The regular-point/value definitions in 10.1 need only `mfderiv`; its inverse-function
-consequence consumes the native inverse theorem. Sard in 10.2 needs only the
-finite-dimensional chart/calculus floor and countable-chart null-set arguments.
-The integration/degree comparisons in 10.3–10.5 need 2, 5, 7 and 9.2; 11 uses
-the degree calculus. Start 3.1 and the direct boundaryless lane of8.3 early;
-8.3's generic corner smoothing requires3.6.
-9.3's fundamental-class integration comparison also needs AT6.3, after layers 2
-and 5.1; its boundaryless and interior-support formulas precede the smooth-boundary
-collar compatibility target.
-The relative maps in 8.4 precede their isomorphism, which uses 8.5 on both opens;
-8.5's absolute proof does not consume that relative isomorphism.
-Claim single numbered items or smaller; the headline
-theorems (5.3, 8.5, 9.3, 10.4, 11.1) are staged claims whose intermediate lemmas land as reusable
-pull requests.
+The stages below separate mathematical producers from later comparisons.
+The numbered order is not an additional dependency edge.
+
+- Native chart/calculus and bundle foundations support0–1. Orientations2,
+  the vector-field part of3, and metrics/gradient/divergence12.1–12.3 can
+  be developed independently of form integration; Cartan's form identity
+  in3.4 uses1. The finite-dimensional suspension in3.5 consumes the native
+  maximal flow; its Banach extension needs3.1–3.2. Frobenius4 needs3 and1.4.
+- Half-space geometry5.1 uses native boundary charts and2. Top-form
+  integration5.2 uses0 and2. Half-space Stokes5.3 uses5.1–5.2 and flat box
+  integration. The direct homotopy identity5.4 uses0–1 and interval
+  integration, not Stokes. Generic densities5.5a use5.2 and the absolute
+  determinant law, not the face branch. The geometric face data5.5b use
+  native quadrant charts and2; their Stokes theorem then uses integration
+  and the local half-space/quadrant formula. No GT collar is an input.
+- Flat Green5.6.1→5.6.2→5.6.3 uses native flat calculus, contour/index and
+  gauge integration, plus GMT's early arclength/variation targets at their
+  stated scope. Neither manifold Stokes nor Riemannian divergence is an
+  input to that producer. The compatibility theorem is12.6, downstream.
+- De Rham algebra6 and most of7 need0–1;6.3 uses5.4. Integration pairings
+  use5.2. Boundaryless smoothing8.3 is independent of inward domination;
+  generic-corner smoothing8.3 uses3.6. Standard-simplex Stokes8.4 is proved
+  directly, and8.5's absolute proof consumes it, not5.5b. The relative
+  cochain maps8.4 precede their isomorphism, which follows8.5 on both opens;
+  the absolute proof never consumes that relative isomorphism.
+- Smooth-chain integration and9 use those8 comparisons and5.2. The full
+  compact-class comparison9.3 additionally consumes AT6.3, whose early
+  orientation construction follows DG2/5.1. Its boundaryless/interior
+  formulas precede its smooth-boundary collar compatibility. It does not
+  consume AT's downstream duality or DG degree.
+- The regular-point/value definitions10.1 need only mfderiv; their local
+  inverse consequence uses the native inverse theorem. Sharp Sard10.2
+  needs finite-dimensional calculus and countable charts. The independent
+  vector approximation8.3a and relative finite-parameter incidence10.2a
+  use native approximation/cutoffs, differential/level-set charts and
+  finite-dimensional Sard. Their RS2G/LG6 applications are downstream;
+  they use neither chain smoothing,3.6 domination nor degree. The
+  integration/degree comparisons10.3–10.5 use2,5.2–5.3,7 and9.2;11 uses10.
+- Volume/density12.4 uses native metric volume and5.5a, with0/2 for its
+  oriented form bridge. Divergence/Green12.5 uses12.3–12.4 and half-space
+  Stokes5.3, or5.5b for the face version. Circle volume uses the angular
+  gate5.5a. Finally12.6 consumes the independently completed5.6 and12.5
+  producers, plus the appropriate integration/face comparisons, and has
+  no edge back into any of them. Global collars/gluing remain GT targets
+  consuming3.6 and5.5b's geometric data, not prerequisites of those targets.
+
+Claim single numbered items or smaller; the headline theorems5.3,8.5,9.3,
+10.4 and11.1 remain staged claims with reusable intermediate results.
+All continuous-path, relative, general-model, compact-support and
+zero-dimensional branches retain their stated hypotheses and obligations.
 
 ## Acknowledgements
 

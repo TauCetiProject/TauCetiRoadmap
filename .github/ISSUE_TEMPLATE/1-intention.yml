@@ -43,6 +43,7 @@ body:
         - CompactOperators
         - ComplexCurveModuli
         - ComplexKahlerGeometry
+        - ComplexManifolds
         - ComplexTori
         - ConformalMapping
         - DGAInfinity
@@ -57,6 +58,7 @@ body:
         - Exchangeability
         - FinancialMathematics
         - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
@@ -80,6 +82,7 @@ body:
         - KhovanovHomology
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - LocalPurity
         - MassFormula
         - ModularCurves
         - ModularForms

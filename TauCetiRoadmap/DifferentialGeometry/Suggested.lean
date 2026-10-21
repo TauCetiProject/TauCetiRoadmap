@@ -66,7 +66,7 @@ import TauCeti.MeasureTheory.Integral.DivergenceTheorem
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-Every load-bearing layer has at least one compiled declaration here. Where the pin cannot
+Every load-bearing layer has at least one representative declaration here. Where the pin cannot
 yet express a type, the file fixes it *provisionally*: a definition with a `sorry` body
 (never a `Prop`-typed placeholder) whose type pins the data, followed by the theorems that
 pin its characteristic equations. The implementation need not match these definitions
@@ -75,7 +75,7 @@ wherever the pin allows (`mpullback`, `flowDomain`, `degreeAtRegularValue`, `mgr
 `laplaceBeltrami`, …), so that the statements about them mean exactly what they say.
 
 `mgradient` is compatibility notation for the Riesz expression; the native gradient
-source and its revision status are pinned separately in README12.2.
+source and its additional comparison obligations are named in README12.2.
 
 Existing Tau Ceti declarations are imported and consumed rather than restated: the
 boundary manifold (`TauCeti.isManifold_boundary`), the manifold inverse function theorem at
@@ -2089,7 +2089,7 @@ end HomotopyOperator
 
 section Densities
 
-/-- **Layer 5.5.** A density on a real vector space: a function of `m`-tuples that transforms
+/-- **Layer 5.5a.** A density on a real vector space: a function of `m`-tuples that transforms
 by `|det|`. -/
 structure Density (V : Type*) [AddCommGroup V] [Module ℝ V] (m : ℕ) where
   toFun : (Fin m → V) → ℝ
@@ -2103,12 +2103,12 @@ variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensi
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
   [ChartedSpace H M] {m : ℕ}
 
-/-- **Layer 5.5.** Rough densities on a manifold. -/
+/-- **Layer 5.5a.** Rough densities on a manifold. -/
 abbrev RoughDensity (I : ModelWithCorners ℝ E H) (M : Type*) [TopologicalSpace M]
     [ChartedSpace H M] (m : ℕ) : Type _ :=
   (x : M) → Density (TangentSpace I x) m
 
-/-- **Layer 5.5.** The density `φ · sign_o` of a top form and an orientation; pinned by
+/-- **Layer 5.5a.** The density `φ · sign_o` of a top form and an orientation; pinned by
 `toDensity_apply`. -/
 noncomputable def RoughForm.toDensity (φ : RoughForm I M ℝ m) (o : Manifold.Orientation I M (Fin m)) :
     RoughDensity I M m :=
@@ -2121,7 +2121,7 @@ theorem RoughForm.toDensity_apply (hm : Module.finrank ℝ E = m) (φ : RoughFor
     (φ.toDensity o x).toFun b = if b.orientation = orientationAt o x then φ x b else -φ x b :=
   sorry
 
-/-- **Layer 5.5.** Integration of compactly supported continuous densities, orientation-free;
+/-- **Layer 5.5a.** Integration of compactly supported continuous densities, orientation-free;
 `integralTopForm_eq_integralDensity` identifies it with 5.2 on oriented manifolds, and 12.4
 identifies Tau Ceti's `riemannianVolume` with integration of `riemannianDensity` through it. -/
 noncomputable def integralDensity (μ : RoughDensity I M m) : ℝ :=
@@ -2135,7 +2135,7 @@ end Densities
 
 section Gates
 
-/-- **Layer 5.5, acceptance: the angular form.** The flat form `x dy − y dx` on `ℂ = ℝ²`, and its
+/-- **Layer 5.5a, acceptance: the angular form.** The flat form `x dy − y dx` on `ℂ = ℝ²`, and its
 pullback `dθ` to the circle along the inclusion. -/
 noncomputable def planeAngularForm : RoughForm 𝓘(ℝ, ℂ) ℂ ℝ 1 :=
   fun z ↦ ContinuousAlternatingMap.ofSubsingleton ℝ ℂ ℝ (0 : Fin 1)
@@ -2150,7 +2150,7 @@ theorem abs_integralTopForm_circleAngularForm (o : Manifold.Orientation (𝓡 1)
     |integralTopForm o circleAngularForm| = 2 * Real.pi :=
   sorry
 
-/-- **Layer 5.5, acceptance: the fundamental theorem of calculus on `Icc 0 1`.** The standard
+/-- **Layer 5.5a, acceptance: the fundamental theorem of calculus on `Icc 0 1`.** The standard
 orientation of the interval is the one positive on Mathlib's tangent vector `1`. -/
 noncomputable def Icc.standardOrientation :
     Manifold.Orientation (𝓡∂ 1) (Set.Icc (0 : ℝ) 1) (Fin 1) :=
@@ -2980,7 +2980,7 @@ flat integral target; chain additivity cannot establish it for an opaque simplex
   sorry
 
 /-- **Layer 8.4, Stokes for the simplex** — its own flat target, an iterated-integral/FTC
-computation that neither uses nor waits for the corners Stokes of 5.5. -/
+computation that neither uses nor waits for the face-structured corners Stokes of 5.5b. -/
 theorem SmoothSimplex.integral_mextDeriv [IsManifold I 1 M] [CompleteSpace F]
     (σ : SmoothSimplex I M (p + 1))
     {φ : RoughForm I M F p} (hφ : IsSmoothForm I 1 φ) :
@@ -3285,7 +3285,7 @@ theorem smoothBoundary_circleLoop :
 noncomputable def circleAngularFormClosed' : closedForms (𝓡 1) Circle 1 :=
   ⟨⟨circleAngularForm, sorry⟩, sorry⟩
 
-/-- The period of `dθ` on the loop is `2π` — the number from 5.5 again, to catch orientation
+/-- The period of `dθ` on the loop is `2π` — the number from 5.5a again, to catch orientation
 drift — computed at chain level, where no universal-coefficient map is needed. -/
 theorem circleLoop_integral_circleAngularForm :
     circleLoop.integral circleAngularForm = 2 * Real.pi :=
@@ -3829,7 +3829,7 @@ theorem riemannianVolumeForm_apply_orthonormal (hm : Module.finrank ℝ E = m)
 
 variable (I M) in
 /-- **Layer 12.4.** The Riemannian density, orientation-free: value `1` on orthonormal bases. It is
-what 5.5's densities are for; its chart coefficient is Tau Ceti's `chartVolumeDensity`, and
+what 5.5a's densities are for; its chart coefficient is Tau Ceti's `chartVolumeDensity`, and
 `integral_riemannianVolume_eq_integralDensity` ties it to `TauCeti.riemannianVolume`. -/
 noncomputable def riemannianDensity : RoughDensity I M (Module.finrank ℝ E) :=
   sorry
@@ -3848,7 +3848,7 @@ is Tau Ceti's `TauCeti.riemannianVolume I M` (`Geometry/Manifold/Riemannian/Volu
 Borel measure glued from the chart volumes, orientation-free, characterized by
 `TauCeti.eq_riemannianVolume_iff`, and locally finite by the instance
 `TauCeti.isLocallyFiniteMeasure_riemannianVolume`. No second measure is defined here. What this
-layer adds is the bridge to 5.5: the measure integrates compactly supported continuous functions
+layer adds is the bridge to 5.5a: the measure integrates compactly supported continuous functions
 as `integralDensity` of the invariant `riemannianDensity`, whose chart coefficient is Tau Ceti's
 `chartVolumeDensity`; hence as `∫_M f dV_g` on oriented `M`. -/
 theorem integral_riemannianVolume_eq_integralDensity [MeasurableSpace M] [BorelSpace M]
@@ -3884,8 +3884,9 @@ theorem mextDeriv_interior_riemannianVolumeForm [IsManifold I ∞ M]
   sorry
 
 /-- **Layer 12.5, the divergence theorem and Green's identities** on boundaryless `M`, for
-compactly supported fields and functions; the boundary version, with the outward unit normal
-and the induced metric of 5.1 and 12.1, is stated in `README.md`. -/
+compactly supported fields and functions. The supported smooth-boundary theorem, induced
+metric/measure and outward unit normal are represented in SupportedBoundaryDivergence below;
+face-structured extensions and the finite-regularity scope remain in README12.5. -/
 theorem integral_divergence_eq_zero [MeasurableSpace M] [BorelSpace M] [T2Space M]
     [SigmaCompactSpace M] [BoundarylessManifold I M] [IsManifold I ∞ M]
     [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
@@ -3962,12 +3963,141 @@ theorem immersionMetric_eq_induced (n : ℕ∞ω) (f : SM → F)
 end EuclideanAgreement
 end ImmersionMetrics
 
+section SupportedBoundaryDivergence
+
+variable {n : ℕ} {M : Type*} [TopologicalSpace M]
+  [ChartedSpace (EuclideanHalfSpace (n + 1)) M]
+  [IsManifold (𝓡∂ (n + 1)) ∞ M] [T2Space M] [SecondCountableTopology M]
+  [SigmaCompactSpace M] [MeasurableSpace M] [BorelSpace M]
+  [RiemannianBundle (fun x : M => TangentSpace (𝓡∂ (n + 1)) x)]
+  [IsContMDiffRiemannianBundle (𝓡∂ (n + 1)) ∞
+    (EuclideanSpace ℝ (Fin (n + 1))) (fun x : M => TangentSpace (𝓡∂ (n + 1)) x)]
+  [IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin (n + 1)))
+    (fun x : M => TangentSpace (𝓡∂ (n + 1)) x)]
+
+/-- Restrict smooth ambient metric regularity explicitly for the native divergence API. -/
+local instance supportedBoundaryMetricC1 :
+    IsContMDiffRiemannianBundle (𝓡∂ (n + 1)) 1
+      (EuclideanSpace ℝ (Fin (n + 1))) (fun x : M => TangentSpace (𝓡∂ (n + 1)) x) :=
+  IsContMDiffRiemannianBundle.of_le (n := ∞) (by simp)
+
+local instance supportedBoundarySmooth :
+    IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ ((𝓡∂ (n + 1)).boundary M) :=
+  TauCeti.isManifold_boundary (n := n) (k := ∞) M (by simp)
+
+/-- DG12.5 uses the actual metric pulled back by the native boundary immersion. -/
+@[instance_reducible]
+noncomputable def halfSpaceBoundaryMetric :
+    RiemannianBundle (fun x : (𝓡∂ (n + 1)).boundary M =>
+      TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) :=
+  immersionMetric (IS := 𝓘(ℝ, EuclideanSpace ℝ (Fin n))) (IN := 𝓡∂ (n + 1))
+    (fun x : (𝓡∂ (n + 1)).boundary M => (x : M))
+    ((TauCeti.isImmersion_subtypeVal_boundary (n := n) (k := ∞) M
+      (by simp)).mfderiv_injective (by simp))
+
+theorem halfSpaceBoundaryMetric_inner (x : (𝓡∂ (n + 1)).boundary M)
+    (v w : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) :
+    letI := halfSpaceBoundaryMetric (n := n) (M := M)
+    inner ℝ v w = inner ℝ
+      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x v)
+      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x w) := by
+  sorry
+
+theorem halfSpaceBoundaryMetric_contMDiff :
+    letI := halfSpaceBoundaryMetric (n := n) (M := M)
+    IsContMDiffRiemannianBundle 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞
+      (EuclideanSpace ℝ (Fin n)) (fun x : (𝓡∂ (n + 1)).boundary M =>
+        TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) := by
+  sorry
+
+theorem halfSpaceBoundaryMetric_continuous :
+    letI := halfSpaceBoundaryMetric (n := n) (M := M)
+    IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin n))
+      (fun x : (𝓡∂ (n + 1)).boundary M =>
+        TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) := by
+  sorry
+
+/-- This selects the native measure of the induced metric, not an arbitrary boundary measure. -/
+noncomputable def halfSpaceBoundaryVolume : MeasureTheory.Measure ((𝓡∂ (n + 1)).boundary M) := by
+  letI := halfSpaceBoundaryMetric (n := n) (M := M)
+  letI := halfSpaceBoundaryMetric_continuous (n := n) (M := M)
+  exact TauCeti.riemannianVolume 𝓘(ℝ, EuclideanSpace ℝ (Fin n))
+    ((𝓡∂ (n + 1)).boundary M)
+
+/-- Pointwise finite-dimensional metric geometry supplies the unique outward orthogonal unit
+vector. The norm/inner-product predicates explicitly retain the ambient metric parameter. -/
+theorem exists_halfSpaceOutwardUnitNormal (x : (𝓡∂ (n + 1)).boundary M) :
+    ∃ v : TangentSpace (𝓡∂ (n + 1)) (x : M),
+      ‖v‖ = 1 ∧ IsOutwardPointing (x : M) v ∧
+        ∀ w : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x,
+          inner ℝ v
+            (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x w) = 0 := by
+  sorry
+
+/-- Chosen from the metric-dependent existence theorem; no divergence identity is an input. -/
+noncomputable def halfSpaceOutwardUnitNormal (x : (𝓡∂ (n + 1)).boundary M) :
+    TangentSpace (𝓡∂ (n + 1)) (x : M) :=
+  Classical.choose (exists_halfSpaceOutwardUnitNormal x)
+
+theorem halfSpaceOutwardUnitNormal_norm (x : (𝓡∂ (n + 1)).boundary M) :
+    ‖halfSpaceOutwardUnitNormal x‖ = 1 := by
+  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).1
+
+theorem halfSpaceOutwardUnitNormal_outward (x : (𝓡∂ (n + 1)).boundary M) :
+    IsOutwardPointing (x : M) (halfSpaceOutwardUnitNormal x) := by
+  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).2.1
+
+theorem halfSpaceOutwardUnitNormal_orthogonal (x : (𝓡∂ (n + 1)).boundary M)
+    (v : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) :
+    inner ℝ (halfSpaceOutwardUnitNormal x)
+      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x v) = 0 := by
+  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).2.2 v
+
+theorem halfSpaceOutwardUnitNormal_contMDiff :
+    ContMDiff 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)).tangent ∞
+      (fun x : (𝓡∂ (n + 1)).boundary M =>
+        (⟨(x : M), halfSpaceOutwardUnitNormal x⟩ : TangentBundle (𝓡∂ (n + 1)) M)) := by
+  sorry
+
+/-- The same ambient metric is used in the flux and the normal's defining laws. -/
+noncomputable def halfSpaceBoundaryFlux (X : (x : M) → TangentSpace (𝓡∂ (n + 1)) x)
+    (x : (𝓡∂ (n + 1)).boundary M) : ℝ :=
+  inner ℝ (X (x : M)) (halfSpaceOutwardUnitNormal x)
+
+/-- Both integrals genuinely exist under compactness of M or compact support of X. -/
+theorem integrable_divergence_and_boundaryFlux
+    {X : (x : M) → TangentSpace (𝓡∂ (n + 1)) x}
+    (hX : ContMDiff (𝓡∂ (n + 1)) (𝓡∂ (n + 1)).tangent ∞
+      (fun x => (⟨x, X x⟩ : TangentBundle (𝓡∂ (n + 1)) M)))
+    (hSupport : IsCompact (Set.univ : Set M) ∨
+      ∃ K : Set M, IsCompact K ∧ ∀ x ∉ K, X x = 0) :
+    MeasureTheory.Integrable (divergence (𝓡∂ (n + 1)) X)
+        (TauCeti.riemannianVolume (𝓡∂ (n + 1)) M) ∧
+      MeasureTheory.Integrable (halfSpaceBoundaryFlux X)
+        (halfSpaceBoundaryVolume (n := n) (M := M)) := by
+  sorry
+
+/-- DG12.5 smooth-boundary divergence: no orientability assumption, no unrestricted support. -/
+theorem integral_divergence_eq_boundaryFlux
+    {X : (x : M) → TangentSpace (𝓡∂ (n + 1)) x}
+    (hX : ContMDiff (𝓡∂ (n + 1)) (𝓡∂ (n + 1)).tangent ∞
+      (fun x => (⟨x, X x⟩ : TangentBundle (𝓡∂ (n + 1)) M)))
+    (hSupport : IsCompact (Set.univ : Set M) ∨
+      ∃ K : Set M, IsCompact K ∧ ∀ x ∉ K, X x = 0) :
+    (∫ x, divergence (𝓡∂ (n + 1)) X x
+      ∂TauCeti.riemannianVolume (𝓡∂ (n + 1)) M) =
+      ∫ x, halfSpaceBoundaryFlux X x
+        ∂halfSpaceBoundaryVolume (n := n) (M := M) := by
+  sorry
+
+end SupportedBoundaryDivergence
+
 section RoundMetric
 
 local instance : Fact (Module.finrank ℝ ℂ = 1 + 1) := ⟨by simp⟩
 
 /-- **Layer 12.1.** The round metric on the circle, the pullback of the ambient inner product along
-the inclusion; `volume_circle` is the gate `vol(S¹) = 2π`, reusing the integral from 5.5. -/
+the inclusion; `volume_circle` is the gate `vol(S¹) = 2π`, reusing the angular integral gate from 5.5a. -/
 @[instance_reducible]
 noncomputable def roundMetricCircle : RiemannianBundle (fun x : Circle ↦ TangentSpace (𝓡 1) x) :=
   inferInstanceAs (RiemannianBundle
