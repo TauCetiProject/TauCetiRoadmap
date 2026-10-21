@@ -63,8 +63,10 @@ remain its targets.
 | [TemperleyLiebOperatorAlgebras](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ed1b1e8ba58e1ea36c3873d0c8607461298a2e91/TauCetiRoadmap/TemperleyLiebOperatorAlgebras/README.md) | A1–A5 adjoints, positive trace quotients, finite blocks, faithful pre-singular levels, sign transport and towers. |
 | [TypeAHeckeAlgebras](https://github.com/TauCetiProject/TauCetiRoadmap/blob/632834b86fde0501e5e376aa30bc650e02732160/TauCetiRoadmap/TypeAHeckeAlgebras/README.md) | Full H1–H4a Hecke/Ocneanu/HOMFLY and signed countable factor/mixed estimates. |
 | [FourManifolds](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c889a5beb172bc1339a815edfd763f8b465443f1/TauCetiRoadmap/FourManifolds/README.md) | F3 marked cyclic disk, TOP surgery, knot-exterior normal filling and ball recognition; the dimension-four normal/transversality comparisons specified below. |
-| [AlgebraicKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7ecab00a30fddb0f594c087038b2c8242cd881c7/TauCetiRoadmap/AlgebraicKTheory/README.md) | A0–A3 arbitrary-ring projective K₀ and stable-matrix K₁; A6 normalized Milnor patching. |
-| [GeometryOfNumbersAndQuadraticArithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d63953a26ec1ff4f57cb1d0ee5aab223a4a48108/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md) | §6.1.7 common right-projective ring K-spectrum, Q/S/Γ and Bass–Schlichting comparisons; §6.10 stable-GL plus comparison and normalized low-K maps. GT retains BHS, Nil/regularity, Whitehead, assembly and surgery. |
+| [AlgebraicKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md) | A0–A3 arbitrary-ring projective K₀, stable-matrix K₁ and relative K₁; A5 stable Steinberg K₂; A6 normalized Milnor patching. For ordered first-to-second clutching u, use the ordinary parameter α=u⁻¹ and δ([u])=∂([u⁻¹])=−∂([u]). |
+| [StableHomotopyKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8b81fab0d6464d52bbe253bd9fd7f1ee5345efa5/TauCetiRoadmap/StableHomotopyKTheory/README.md) | Layers1–2 realized nerves, homotopy fibres and Quillen A/B; §§3.3,3.8,3.10–3.13,3.25–3.27 acyclic/local-coefficient plus and functorial comparison; §§4.3–4.21 monoidal group completion, stable-GL and projective-complement/cofinality adapters; §§6.1–6.2 Waldhausen/S foundations, additivity and relative-S delooping. These generic constructions precede the ring-specific comparisons. |
+| [GeneralAlgebraicKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/57056743b0997d5f46fa8bca5f67b50d075c30bc/TauCetiRoadmap/GeneralAlgebraicKTheory/README.md) | §§3.1–3.5,3.12 ordinary exact-category Q/S and ring plus/Q comparisons; §§10.10–10.11,12.10 Bass/Schlichting nonconnective spectrum comparison, with its §1.7 supplied-spectrum adapters. This is the single owner of the ordinary models consumed in3d.0. |
+| [GeometryOfNumbersAndQuadraticArithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01c64f0cc5f154a3d190697951ead2fffc2af693/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md) | §6.1.7 right-projective/common-spectrum convention adapters to those ordinary models; §6.10 `plusConstructionComparison` and normalized low-K comparison. Retain all K₀ components, ∂[t]=[R] and the inverse-parameter Milnor adapter. GT retains BHS, Nil/regularity, Whitehead, assembly and surgery. |
 | [GeneralizedCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/GeneralizedCohomology/README.md) | G2.8 group completion, G2.9 topological-group classifiers and G3.4 mapping telescopes. |
 | [CharacteristicClasses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/76a0952b2687a743d384a9ba88769e71d3c9f55e/TauCetiRoadmap/CharacteristicClasses/README.md) | C1.1 numerable join classification and C2 Euler-class obstruction/evaluation comparison. |
 | [SpinGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/SpinGeometry/README.md) | G6.7 untwisted spin-four quaternionic parity. |
@@ -3870,7 +3872,7 @@ following sequence of targets:
    and basic closed-cover development; the locally finite closed-cover
    construction below extends it in its stated paracompact Hausdorff scope.
 
-   [AlgebraicKTheory A4](../AlgebraicKTheory/README.md#a4-stable-range-and-finite-matrix-sizes)
+   [AlgebraicKTheory A4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md#a4-stable-range-and-finite-matrix-sizes)
    owns the compact-Hausdorff finite/indexed-cover characterization of
    this common predicate, with finite subcovers, explicit deduplication,
    reindexing and parent-map preservation; its partition-of-unity and
@@ -4111,12 +4113,12 @@ following sequence of targets:
 
    **3d.0. Ordinary PL surgery and its algebraic engine.** Own the generic PL Whitehead-torsion
    and s-cobordism interfaces needed here. Define Wh(π)=K₁(ℤ[π])/⟨±g⟩
-   using native group rings and [AlgebraicKTheory A0–A3](../AlgebraicKTheory/README.md)'s
+   using native group rings and [AlgebraicKTheory A0–A3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md)'s
    single arbitrary-ring stable-matrix K₁ and projective-module K₀, including
    its elementary relations, idempotent comparison and Morita maps. Construct
    the based finite-free cellular chain torsion, basis-change/simple-collapse
    invariance, composition and duality. Own the rank summand and reduced K₀
-   used here. Consume AlgebraicKTheory A6's normalized Milnor patching maps
+   used here. Consume [AlgebraicKTheory A6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md#a6-milnor-patching-and-the-boundary)'s normalized Milnor patching maps
    when constructing the following localization/patching comparisons. On the common
    ring K-spectrum specified below, prove the Bass–Heller–Swan decomposition in
    degrees0/1, with augmentation, t-multiplication,
@@ -4131,10 +4133,10 @@ following sequence of targets:
    [GeometryOfNumbersAndQuadraticArithmetic §6.1.7 `ringKTheoryModels`
    and §6.10 `plusConstructionComparison`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01c64f0cc5f154a3d190697951ead2fffc2af693/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#L2643-L2650),
    the right-projective/common-spectrum adapters to
-   [GeneralAlgebraicKTheory's ordinary ring models](https://github.com/TauCetiProject/TauCetiRoadmap/blob/57056743b0997d5f46fa8bca5f67b50d075c30bc/TauCetiRoadmap/GeneralAlgebraicKTheory/README.md).
+   [GeneralAlgebraicKTheory §§3.1–3.5,3.12,10.10–10.11,12.10](https://github.com/TauCetiProject/TauCetiRoadmap/blob/57056743b0997d5f46fa8bca5f67b50d075c30bc/TauCetiRoadmap/GeneralAlgebraicKTheory/README.md).
    GeneralAlgebraicKTheory owns the exact-category Q/S, ring plus/Q and
    Bass/Schlichting constructions; its generic homotopy/plus foundations
-   are supplied by StableHomotopyKTheory. GeometryOfNumbersAndQuadraticArithmetic
+   are supplied by [StableHomotopyKTheory Layers1–4 and6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8b81fab0d6464d52bbe253bd9fd7f1ee5345efa5/TauCetiRoadmap/StableHomotopyKTheory/README.md). GeometryOfNumbersAndQuadraticArithmetic
    transports them to the following shared convention.
    The carrier is the supplier's nonconnective spectrum of the actual split exact
    right-projective category
@@ -4144,7 +4146,7 @@ following sequence of targets:
    comparison and its Bass-loop/cofiber-to-Schlichting nonconnective equivalence.
    The ordinary models and their equivalences are supplied by GeneralAlgebraicKTheory; the right-projective/common-spectrum comparisons are constructed by GeometryOfNumbersAndQuadraticArithmetic.
    Its low-degree maps identify categorical/projective K₀, matrix K₁ and
-   Steinberg K₂ through AlgebraicKTheory A0–A2/A5 before the higher comparisons.
+   Steinberg K₂ through [AlgebraicKTheory A0–A2/A5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md#a5-steinberg-groups-and-k₂) before the higher comparisons.
    Retain its ring maps, stabilization, right/left opposite-ring adapter with
    inverse transpose, and the positive-size Morita module dictionary: for n≥1,
    the right regular M_n(R)-module corresponds to R^n, while the right module
@@ -4160,7 +4162,7 @@ following sequence of targets:
    square or Nil vanishing for singular rings. Transport these actual comparison
    maps to the following GT-owned Laurent, torsion and group-ring applications.
    The generic construction consumes the low-degree inputs, not GT's later
-   Whitehead/assembly or surgery outputs; its §6.10 plus comparison is at
+   Whitehead/assembly or surgery outputs; GeometryOfNumbersAndQuadraticArithmetic’s §6.10 plus comparison is at
    [the selected complete clauses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01c64f0cc5f154a3d190697951ead2fffc2af693/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#L3538-L3547).
    These are written construction interfaces, not already implemented native
    higher-K declarations. Define the Whitehead coefficient spectrum as
