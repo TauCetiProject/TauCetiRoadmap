@@ -168,26 +168,27 @@ model-theory and randomness clients can consume these APIs, but neither owns
 them. A client needing a c.e.-complement decision procedure, finite-use
 preservation, or effective least-witness search obtains it from the modules here.
 
-A proposed dependency graph is:
+The dependencies are:
 
-```text
-Mathlib ordinary computability + finite data
-  ├─ L0 operational oracle codes / use
-  ├─ L1 c.e. presentations / serialization
-  └─ L2 numberings / reductions / set degrees
-          ├─ L3 jump / hierarchy
-          │     └─ L4 modulus / limit lemmas
-          └─ L5 diagonalization / simple sets / finite extension
-finite data ── L6 injury calculus ──────────────────────┐
-L0 + L1 + L3 + L4 + L5 + L6 ── L7 low simple           │
-L0 + L1 + L2 + L5 + L6 ───────── L8 original FM         │
-L0 + L1 + L2 + L3 + L4 + L5 + L6 ── L9 Sacks methods ─┘
-```
+| Layer | Uses |
+| --- | --- |
+| L0 oracle codes and use | Mathlib only |
+| L1 c.e. stages and serialization | Mathlib; L0 for the relative forms |
+| L2 numberings, reductions, joins, splits | L0, L1 |
+| L3.1 jump and low sets | L0–L2 |
+| L3.2 arithmetical hierarchy, Post's theorem, index sets | L3.1 |
+| L4 moduli and limit lemmas | L3.1; L3.2 only for the $\Delta^0_2$ form |
+| L5 inseparable and simple sets; Kleene–Post | L0–L2; L3.1 for Kleene–Post |
+| L6 injury calculus | finite data; L0 for the preservation lemmas |
+| L7 low simple set | L0, L1, L3.1, L4, L5, L6 |
+| L8 original Friedberg–Muchnik | L0–L2, L6; L3.1 for the degree corollary |
+| L9 Sacks methods | L0, L1, L6; L5 for the simple set; L2, L3.1, L4 for low splitting and its corollaries |
 
-The diagram indicates dependencies, not a demand that all proofs be linearized.
-L6's set-theoretic injury theory is independent of oracle simulation. L7, L8 and
-L9 are independent application modules over the shared foundation. L9's
-nonvacuity examples can import L7 or L8 in a separate examples module.
+L3.2 and L5's Kleene–Post construction are required results, but no
+construction in L7–L9 depends on them, so they can be developed in parallel with
+the priority constructions. L6's set-theoretic injury theory is independent of
+oracle simulation. L7, L8 and L9 are independent of one another; L9's examples
+that use the L7 set belong in a separate examples module.
 
 ## L0. Operational oracle computation and the use principle
 
@@ -341,12 +342,24 @@ parameter compilation and a genuinely self-referential index.
 
 **Source:** [S, III.2; IV.1–4].
 
+### L3.1. The jump and low sets
+
 Define $Z'$ using the indexed evaluator and prove $Z<_T Z'$, monotonicity on
 reductions, invariance under Turing equivalence, the equivalence of diagonal and
 paired halting sets, and completeness for $Z$-c.e. sets. Prove finite iterates and
 their index/degree transport. A relation saying that some oracle can decide every
 $Z$-halting question is an upper-bound interface, not the definition or
 construction of the actual jump. Derive that interface from the concrete jump.
+
+Define low sets by $A'\equiv_T\varnothing'$ and prove degree invariance,
+downward closure among set degrees, and that a noncomputable low c.e. set is
+incomplete.
+
+**Examples:** ordinary and relative halting; deciding a predicate with c.e.
+complement using the jump; computable sets are low; $K$ is not low. Do not claim
+the jump preserves joins.
+
+### L3.2. The arithmetical hierarchy and index sets
 
 Define the arithmetical pointclasses by **number quantifiers over computable
 matrix predicates**, with explicit pairing/relabeling conventions, rather than
@@ -370,14 +383,10 @@ normal forms in the proofs, not a circular definition of the pointclasses.
 
 As applications, prove exact classifications and many-one completeness for the
 halting set ($\Sigma^0_1$), `TOT` ($\Pi^0_2$), `FIN` ($\Sigma^0_2$), and `INF`
-($\Pi^0_2$), with explicit index-set definitions. Define low sets by
-$A'\equiv_T\varnothing'$ and prove degree invariance, downward closure among set
-degrees, and that a noncomputable low c.e. set is incomplete.
+($\Pi^0_2$), with explicit index-set definitions.
 
-**Examples:** ordinary/relative halting; the distinction between membership in an
-axiom list and a decision procedure for its c.e. closure; deciding a predicate
-with c.e. complement using the jump; `TOT` versus a single halting query;
-computable sets are low; $K$ is not low. Do not claim the jump preserves joins.
+**Examples:** the distinction between membership in an axiom list and a decision
+procedure for its c.e. closure; `TOT` versus a single halting query.
 
 ## L4. Moduli, limit approximation, and stabilization information
 
@@ -390,12 +399,12 @@ Prove finite-coordinate aggregation, shifts, effective reindexing, and the
 computability of a limit from a uniformly computable sequence and a computable
 modulus. State the exact relativized hypotheses for each version.
 
-Prove the Modulus Lemma for c.e. oracle sets [S, III.3.2], and the Limit Lemma
-[S, III.3.3] for total natural-valued functions. Supply the characteristic-function
-specialization and the equivalence with $\Delta^0_2$. Also prove [S, III.3.4]: a
-total function has c.e. degree exactly when it has a computable approximation
-with a modulus computable from that function. Use graph coding for total-function
-oracles when translating to set-degree statements.
+Prove the Modulus Lemma for c.e. oracle sets [S, III.3.2], and the Limit Lemma [S,
+III.3.3] for total natural-valued functions. Supply the characteristic-function
+specialization and, using L3.2, the equivalence with $\Delta^0_2$. Also prove [S,
+III.3.4]: a total function has c.e. degree exactly when it has a computable
+approximation with a modulus computable from that function. Use graph coding for
+total-function oracles when translating to set-degree statements.
 
 Export the finite-use lemma that makes genuine computations in an approximated
 oracle eventually visible, and the separate preservation lemma for stage
@@ -571,7 +580,7 @@ Prove, as concrete mathematical examples:
 
 ## L7. Low simple sets
 
-**Source:** [S, VII.1.1–2]. **Dependencies:** L0–L6.
+**Source:** [S, VII.1.1–2]. **Dependencies:** L0, L1, L3.1, L4, L5, L6.
 
 Use the positive requirements $P_i$ for simplicity and the negative requirements
 $N_e$ that turn infinitely recurrent convergence of $\Phi_{e,s}^{A_s}(e)$ into
@@ -599,7 +608,7 @@ intermediate-degree corollary $\varnothing<_T A<_T K$.
 
 ## L8. The original Friedberg–Muchnik construction
 
-**Source:** [S, VII.2.1]. **Dependencies:** L0–L2, L5–L6; L3 for the degree corollary.
+**Source:** [S, VII.2.1]. **Dependencies:** L0–L2, L6; L3.1 for the degree corollary.
 
 Use the interleaved negative requirements specified above, distinct witness
 columns, inactive restraints, and least eligible attention. A requirement that
@@ -631,7 +640,8 @@ statement and derive that both constructed degrees are nonzero and below $0'$.
 
 ## L9. Agreement preservation and low Sacks splitting
 
-**Source:** [S, VII.3.1–7]. **Dependencies:** L0–L6.
+**Source:** [S, VII.3.1–7]. **Dependencies:** L0, L1, L6; L5 for L9.2; L2, L3.1 and L4
+for L9.3–L9.4.
 
 ### L9.1. Length of agreement and its restraint
 
