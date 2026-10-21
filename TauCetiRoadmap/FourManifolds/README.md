@@ -896,29 +896,206 @@ Construct the charge-one BPST solution on the actual oriented S⁴ carrier,
 with its two charts, connection/gauge transition, c₂ and energy comparisons.
 Supply scale/center/framing parameters and their behavior at the ideal limit.
 
-Prove Uhlenbeck's small-L²-curvature Coulomb-gauge theorem on balls with the
-precise boundary condition, estimates and scaling, then removable singularities,
-compactness modulo gauge, bubble-energy quantization and the Uhlenbeck
-compactification for every charge. Build gluing with its analytic inverse,
-obstruction bundle and orientation comparison, rather than assuming a moduli
-space has a manifold compactification. Prove regularity, metric perturbation
-transversality and the index formula
-`dim_virtual=8k−3(1−b₁+b₂⁺)`.
+**F5.G0. All-base deformation and flat strata.** Retain the connection,
+gauge, compactification and gluing programme on every closed connected
+oriented smooth four-manifold and every SU(2) bundle; do not impose simple
+connectivity on this general theory. For each smooth ASD connection A and
+a fixed smooth metric g, construct its actual elliptic deformation complex
+`Ω⁰(ad P) --d_A--> Ω¹(ad P) --d_A⁺--> Ω²_+(ad P)` and the finite-dimensional
+harmonic spaces `H_A⁰=ker d_A`, `H_A¹=ker(d_A*⊕d_A⁺)` and
+`H_A²=ker(d_A⁺)*`, with their native Sobolev/closed-operator and smooth-kernel
+comparisons. Let `Γ_A` be the actual compact stabilizer of A in the gauge
+group, with `Lie Γ_A=H_A⁰`. Construct its action on the complex, harmonic
+spaces and Coulomb slice, retaining the centre and the effective quotient.
+The index formula is `8k−3(1−b₁+b₂⁺)=dim H_A¹−dim H_A⁰−dim H_A²`;
+it is not a manifold-dimension assertion at an obstructed point.
+
+Construct `asdKuranishiReduction` on these carriers. In the Coulomb slice
+write `a=x+v`, with `x∈H_A¹` and v in its L²-orthogonal complement.
+The restricted derivative `d_A⁺` is a bounded isomorphism from that
+complement in the H^s slice to `(H_A²)^⊥` in H^(s−1) self-dual forms.
+Prove closed range, elliptic estimates and bounded inverse `G_A` before
+using the Banach IFT. Let Π₂ be the actual harmonic projection to H_A²;
+solve `(1−Π₂)(d_A⁺a+(a∧a)⁺)=0` uniquely for v=v(x) near0. Define
+`κ_A(x)=Π₂(d_A⁺a(x)+(a(x)∧a(x))⁺)`. Prove κ_A(0)=0, Dκ_A(0)=0,
+Γ_A-equivariance, and the actual local moduli comparison with
+`κ_A⁻¹(0)/Γ_A`. The invariant orthogonal splittings and uniqueness of the
+IFT solution supply equivariance; do not assume a free stabilizer action
+or a desired zero-set equivalence. Give the regularity, change-of-Sobolev,
+gauge/isometry, metric-variation and overlap/stabilization comparisons.
+Across dimension jumps use compatible finite-dimensional reductions;
+H_A² is not asserted to be a vector bundle over an arbitrary singular
+union of strata.
+
+Retain every flat stratum in this construction, including irreducible
+flats on bases with nontrivial fundamental group. For a flat A let `L_A`
+be its actual unitary adjoint local system, with fibre `su(2)` and pairing
+`−tr(XY)`. Compare the full twisted de Rham complex `(Ω*(ad P),d_A)`
+with AT's cohomology of this local system, using the shared bundle-valued
+forms, elliptic/Hodge estimates and local-coefficient carriers. Keep every
+cohomology degree. The ASD complex is a different three-term complex:
+construct the chain projection `(id,id,P_g⁺)` in degrees0,1,2, with zero
+maps in the higher degrees, from the full complex to
+`Ω⁰(ad P)→Ω¹(ad P)→Ω²_+(ad P)`. Flatness gives `d_A²=0` and makes this
+a chain map. It is not a quasi-isomorphism of the full complexes.
+
+Prove the closed-oriented metric Hodge comparisons for these actual
+flat unitary coefficients. Identify H_A⁰ and H_A¹ with the corresponding
+full twisted de Rham cohomology through their harmonic representatives.
+For degree1 prove this using Stokes:
+`∫⟨d_Aa∧d_Aa⟩=0` and hence `‖(d_Aa)⁺‖²=‖(d_Aa)⁻‖²`, so a Coulomb
+ASD infinitesimal deformation is closed. Hodge star preserves the harmonic
+twisted two-forms. Construct the full splitting
+`H²(M;L_A)=H²_+(M;L_A)⊕H²_−(M;L_A)`, with the induced positive/negative
+twisted intersection pairings, and identify `H_A²` with `H²_+(M;L_A)`.
+The induced degree2 map is the self-dual harmonic projection, with kernel
+`H²_−(M;L_A)`; do not identify H_A² with the full twisted H². These are
+metric-dependent Hodge subspaces for the actual local system, not
+untwisted Betti numbers multiplied by3 for nontrivial holonomy. Prove the
+Sobolev/smooth-kernel, gauge/isometry and parameter/reduction comparisons.
+Retain the regression of the trivial flat SU(2) connection on product-oriented
+`S²×S²`: `dim H_A²=3` whereas `dim H²(M;L_A)=6`; H_A⁰ has dimension3 and
+H_A¹ is zero, giving the ASD index−6 rather than−9.
+
+Construct the flat Maurer–Cartan reduction on the same Coulomb slice
+from `d_Aa+a∧a=0`, with obstruction map into the FULL harmonic twisted
+H². Use the full de Rham Hodge homotopy/Green operator and a small-ball
+contraction to solve the exact-component equation, then the covariant
+Bianchi identity and the quantitative smallness estimate to prove that
+vanishing of the harmonic obstruction also kills the remaining coexact
+residual. Prove this actual zero-set parametrization and Γ_A-equivariance;
+no full-curvature inverse onto all two-forms or desired local-model
+identity is assumed. Compare it with `asdKuranishiReduction`, whose
+obstruction target is instead H²_+. On a common sufficiently small
+neighborhood identify their H¹ harmonic coordinates using the proved
+comparison. Send each zero to its actual connection, then to the other
+slice reduction by its proved uniqueness. Since the bundle/closed-metric
+charge-zero energy identity makes an ASD solution flat and a flat solution
+is ASD, these maps are inverse on the zero sets and retain the stabilizer
+action. Prove their regularity and overlap/stabilization laws. Their
+quadratic obstruction terms compare by P_g⁺ on the cup/Lie-bracket class;
+the full nonlinear obstruction maps and their ambient target spaces are
+not silently equated away from their zero sets. In families with harmonic
+dimension jumps use the earlier compatible finite-dimensional reductions.
+
+Identify Γ_A with the holonomy centralizer. Construct the marked holonomy
+and gauge-inverse comparison with the conjugacy classes of
+`Hom(π₁(M),SU(2))` whose associated flat bundle is the fixed P, retaining
+the full representation space and its associated-bundle class map when
+all flat bundles are considered. Compare both local reductions with that
+actual flat-moduli carrier; preserve all H⁰, full H¹/H², self-dual and
+anti-self-dual data instead of using holonomy to erase obstructions.
+A charge-zero ASD connection is flat by the energy identity and elliptic
+regularity. Thus its Kuranishi zero set still describes flat solutions,
+with actual H_A⁰,H_A¹,H_A² and possibly nonzero obstruction map. It is
+not assigned metric-generic regularity. Retain as a regression the Q₈
+representation on Σ₂×Σ₂ given by a₁=a₂=i,b₁=b₂=j on the first factor:
+its flat connection is irreducible, k=0,b₁=8,b₂⁺=9 and virtual index−6,
+so dim H_A²=dim H_A¹+6 for every metric. At F_A=0 the pure metric derivative
+`(D_g P⁺)[h]F_A` vanishes. Negative charges have empty ASD moduli by the
+same nonnegative-energy identity. These branches are part of the
+all-charge programme, not excluded source cases.
+
+**F5.G1. Metric transversality on its positive-charge branch.** On a
+closed connected oriented simply connected smooth four-manifold M, fix a
+principal SU(2) bundle P with `k=⟨c₂(P),[M]⟩>0`. Work on the irreducible
+Sobolev connection quotient by the effective gauge group and the Banach
+manifold of C^ℓ positive metrics, with the chosen homology orientation.
+Irreducibility excludes the continuous stabilizer; k>0 excludes flatness
+by the energy identity. Construct the bundle of H^(s−1) g-self-dual forms
+over this parameter space and the actual universal section
+`𝔉([A],g)=P_g⁺F_A`. Near a fixed metric compare self-dual form bundles by
+the restricted Hodge projections and prove their local inverse by the
+small-operator-norm inverse theorem. Give the gauge/slice transition maps;
+no fixed-metric target is silently used for all g.
+
+Own `asdMetricUniversal_splitSurjective` before applying HF F0.
+Its derivative in a Coulomb slice is
+`L_(A,g)(a,h)=d_A⁺a+(D_gP⁺)[h]F_A`.
+Prove this formula and elliptic regularity for every distributional
+cokernel vector. To prove surjectivity, suppose a harmonic self-dual
+ad P-valued two-form ψ annihilates both summands. Localize arbitrary
+metric variations with compactly supported symmetric tensors. The
+pointwise identification of trace-free metric variations with
+`Hom(Λ⁻,Λ⁺)` implies that every Lie-algebra component of ψ is orthogonal
+to every component of F_A. Prove that linear-algebra identification and
+pairing formula in oriented orthonormal frames; conformal directions
+contribute zero and are not used to span a cokernel.
+
+Supply the SU(2) rank and unique-continuation argument here. On a region
+where ψ has rank1, write ψ=ω⁺⊗σ with σ unit. From d_A*ψ=0 obtain
+d_Aψ=0; projecting to σ^⊥ and using invertibility of wedge with the
+nonzero self-dual two-form gives d_Aσ=0. Curvature then lies in the
+centralizer line of σ, while the annihilator equation makes it orthogonal
+to that line, so F_A=0 there. If F_A had rank at least2 where both forms
+are nonzero, orthogonality would force this forbidden rank1 case for ψ.
+Consequently F_A has rank1 on a nonempty common nonzero region; its
+anti-self-dual Bianchi equation similarly constructs a parallel reducing
+line. Nonflatness and unique continuation ensure that a nonzero ψ has
+such a common region. Prove the needed gauge-covariant unique-continuation
+and `asdLocalStabilizerContinuation`: extend this parallel reducing line
+through overlapping Coulomb gauges, including the curvature-zero locus,
+prove uniqueness and path-homotopy compatibility, and identify its
+monodromy with π₁(M). Simple connectivity removes the monodromy and
+orients the line, giving a global parallel adjoint section and a circle
+stabilizer, contrary to irreducibility. This continuation lemma and its
+regularity estimates are proof targets of F5, not an assumption supplied
+by generic Sard–Smale. Thus ψ=0.
+
+Use the closed finite-codimension range of d_A⁺ to choose finitely many
+actual smooth metric variations spanning its cokernel. Combine their
+bounded finite-dimensional lifting with the elliptic complement inverse
+to construct a bounded right inverse to L_(A,g), hence its split kernel.
+Consume HF F0's native parameter-projection kernel/cokernel/index algebra
+on this actual surjective total linearization. Construct the regular
+universal zero manifold, its countable quotient/slice atlas and its
+Fredholm projection to metrics, with index `i=8k−3(1−b₁+b₂⁺)`.
+Only then apply HF F0's sharp Banach-manifold Sard–Smale theorem.
+For an integer index upper bound N choose finite q>max(N,0), s≥3 and
+ℓ≥q+s+1, prove the section/projection has this actual C^q regularity,
+and prove the preceding elliptic/continuation steps at that regularity.
+The native quadratic kernel-bound theorem alone is not the sharp budget.
+Construct the residual smooth-metric comparison by compatible finite
+collections of smooth localized variations, density, openness and a
+countable Baire argument in the smooth topology; do not merely intersect
+a Banach residual set with smooth metrics. Export regularity of all
+irreducible ASD solutions for those metrics, with H_A²=0. No arbitrary-base,
+charge-zero or flat-stratum metric-regularity theorem is asserted here.
+
+**F5.G2. All-charge compactification and obstruction gluing.** Prove
+Uhlenbeck's small-L²-curvature Coulomb-gauge theorem on balls with its
+precise boundary condition, estimates and scaling, then removable
+singularities, compactness modulo gauge and bubble-energy quantization.
 Pin the small-curvature theorem first on the unit Euclidean4-ball:
 ‖F_A‖_L²<ε yields a gauge with d* a=0, a(ν)=0 on the boundary and
 ‖a‖_W¹,²+‖a‖_L⁴≤C‖F_A‖_L², modulo constant SU(2) transformations.
-Prove its critical-norm approximation/compactness step and higher-L^p
+Prove the critical-norm approximation/compactness step and higher-L^p
 regularity, and transport to controlled metric charts with scale-invariant
-L² curvature. Quantize each ASD bubble by its actual S³ clutching class;
-compare that charge with the BPST c₂ normalization. For transversality,
-consume HF F0's generic Banach-manifold Sard–Smale theorem and build the
-universal ASD section over C^ℓ metrics here. For an index bound N and
-Sobolev order s take projection regularity q>N and ℓ≥q+s+1, prove that
-regularity before applying Sard–Smale, and prove the smooth-metric residual
-comparison by compatible finite-dimensional smooth metric perturbations.
-The gluing construction must give the uniform right inverses, quadratic
-error estimates and parameter/orientation maps; its charge1 unobstructed
-branch supplies the actual collar and reducible cones below.
+L² curvature. Quantize each ASD bubble by its actual S³ clutching class
+and compare that charge with the BPST c₂ normalization. Construct the
+Uhlenbeck compactification for every charge on the general bases of G0,
+including the actual flat and reducible lower-charge strata; do not
+assume the compactification is a manifold.
+
+Construct gluing from the actual G0 deformation complexes and stabilizer
+representations. On a fixed obstruction/isotropy stratum use the harmonic
+cokernel spaces and cutoff-transport/neck modes to construct a finite
+obstruction space and its orthogonal projection for the spliced operator.
+Prove the projected operator's elliptic splitting and right inverse on
+the specified complements, then solve its projected nonlinear equation
+by quantitative contraction. Define the remaining finite-dimensional
+obstruction map by projecting the actual ASD residual; its zero set,
+modulo the retained stabilizers, is the gluing domain. Construct its
+parameter maps, overlap/stabilization comparisons and determinant-line
+orientation, including the flat H_A⁰,H_A¹,H_A² data. When dimensions jump,
+retain compatible finite-dimensional reduction charts rather than a
+fictitious constant-rank obstruction bundle. State the rescaled Sobolev
+norms and compact parameter ranges and prove the uniform projected-inverse,
+quadratic-error and contraction estimates there, with their scale/end
+comparisons. A right inverse to the unprojected operator is used only
+after its actual cokernel has been proved zero. The charge1 unobstructed
+branch supplies the actual collar and reducible cones below; G1 does not
+replace their separate reducible-regularity proof.
 
 For this charge1 negative-definite application, own the separate generic
 metric reducible-regularity theorem. For each line class c with c²=−1,
