@@ -308,7 +308,10 @@ lattice theory.
 11. **Names.** All new declarations live under `TauCeti.AlgebraicGeometry.Neron` (the mapping
     property, models, components, semistability and monodromy) and
     `TauCeti.AlgebraicGeometry.Curves.SemistablePicard` (the Picard theory of Layer 4); Lean
-    names below describe the intended API; `Suggested.lean` records the forms statable at the pins.
+    names below describe the intended API. `Suggested.lean` states the headline theorems
+    `LocalExistence` (§1.7), `DedekindExistence` (§1.9) and `EquationGoodComparison` (§6.5);
+    its module documentation
+    identifies the geometric carriers needed to state the other headline results.
 
 ## Exact supplier contracts
 
@@ -824,9 +827,7 @@ on `R`-points alone does not give the mapping property.
 
 Prove `LocalExistence` for every discrete valuation ring `R`: every abelian variety over its
 fraction field has a finite-type Néron model over `R` (Bosch–Lütkebohmert–Raynaud, §1.3,
-Corollary 2, p. 17). `Suggested.lean` states `LocalExistence` on the pinned
-`AbelianVariety` and `Over` carriers, including the generic marking, smoothness, separatedness,
-quasi-compactness and bijective restriction for all smooth test schemes. Construct the model
+Corollary 2, p. 17). Construct the model
 over the complete, hence excellent, ring `R̂` by
 `Smoothening`, then descend existence along `R ⊂ R̂` by §7.2, Theorem 1(i), p. 176.
 The boundedness comparison of §1.1, Proposition 5, p. 10, is part of this descent; it does
@@ -836,6 +837,10 @@ ReductiveGroupsPartII's object) nor for a genus-one curve without a rational poi
 *Needs:* 1.5, 1.6; excellence of a ring is SchemeAndStackFoundations §§0.16, 0.20–0.21
 (catenary, Nagata and excellent rings); dilatations and blow-ups along closed subschemes of the
 special fibre are SchemeAndStackFoundations §§4.11–4.13 (modifications).
+
+*Lean:* `LocalExistence` in `Suggested.lean` states this existence theorem on the pinned
+`AbelianVariety` and `Over` carriers, with a generic marking, smoothness, separatedness,
+quasi-compactness and bijective restriction for every smooth test scheme.
 
 **Checks.**
 
@@ -891,6 +896,11 @@ and their cocycle condition, and checks the mapping property locally on the fini
 of integers and the rings of `S`-integers of a number field. *Needs:* 1.4, 1.7, 1.8;
 `AbelianSchemesAndArithmeticModuli:A0.1–A1`; Mathlib `AlgebraicGeometry.Scheme.OpenCover`, `Scheme.GlueData`.
 
+*Lean:* `DedekindExistence` in `Suggested.lean` states the resulting global existence theorem
+for every connected Dedekind scheme and abelian variety over its function field. The base is
+expressed as an integral Noetherian scheme of dimension one with integrally closed stalks;
+the generic restriction uses Mathlib's function field and generic-point inclusion.
+
 **Checks.**
 
 - Only finitely many closed points of `S` lie outside `U`.
@@ -912,8 +922,8 @@ Proposition 2(c), p. 13). A smooth `S'`-scheme is smooth over `S`, its generic m
 the mapping property over `S`, and the structure morphism to `S'` is forced by the extension;
 separatedness and finite type survive base change. Arbitrary ramified base change of the full
 model is false and is not asserted; 3.3 and 3.4 give the identity-component statement that does
-hold. The `EtaleBasechange` signature states the full mapping-property comparison for arbitrary
-`j`; smoothness, separatedness and quasi-compactness are preserved by the same base change.
+hold. Prove the full mapping-property comparison for arbitrary `j`; smoothness, separatedness
+and quasi-compactness are preserved by the same base change.
 *Needs:* 1.2, 1.4; Mathlib `AlgebraicGeometry.Etale`, `Smooth` (composition and base change
 instances).
 
@@ -1040,9 +1050,9 @@ RG2.3.1 (quotients over a discrete valuation ring and over a field).
 - `nonsplit_test` — for `k` finite and `E` with nonsplit multiplicative reduction and geometric
   component group `ℤ/n`, residue Frobenius acts by `−1`, so `Φ_E(k)` has order `1` for odd `n`
   and `2` for even `n`; this differs from `n` exactly when `n ≥ 3`, the two counts agreeing at
-  `n = 1, 2`. `ComponentGroup.card_fixedPoints_neg` has the
-  instances `n = 4, 5, 1`, and `n = 0` (where `ℤ/0 = ℤ` has one fixed point while the formula
-  would say `2`) as the negative control for the hypothesis `0 < n`.
+  `n = 1, 2`. Check the fixed-point formula at `n = 4, 5, 1`, and exclude `n = 0`:
+  `ℤ/0 = ℤ` has one fixed point while the formula would say `2`, so the hypothesis `0 < n`
+  is necessary.
 
 ### 2.3 The Chevalley decomposition of the identity fibre
 
@@ -2139,7 +2149,7 @@ and with the `p`-divisible-group construction at the residue prime),
 `basechange` (a base change of ramification index `e` multiplies `u` by `e` under the identity
 torus comparison of 3.3), `functorial` (for `f : A → B`, `y ∈ X_{A^∨}` and `x ∈ X_B`,
 `u_A(y, f^* x) = u_B((f^∨)^* y, x)`) and `zero_torus` (zero lattices give the zero pairing with
-zero cokernel). The suggested lattice-level objects are `LatticePairing.adjoint`,
+zero cokernel). Define the lattice-level objects `LatticePairing.adjoint`,
 `componentGroup` (the cokernel of `u♯`) and `rankOne n`, the pairing `(y, x) ↦ n·x·y` on
 `ℤ × ℤ`. These light definitions inherit the additive and scalar-multiplication
 API of Mathlib's `LinearMap`, `Module.Dual` and `Submodule.Quotient`: the adjoint
@@ -2177,9 +2187,9 @@ Inertia acts trivially on the toric term, so this formula also gives square-zero
 For a Tate curve with `q = π^n`, in the ordered toric/period basis the operator after a
 choice of generator of `ℤ_ℓ(1)` is `[[0,n],[0,0]]`; at `n = 5` it sends `(0,1)` to `(5,0)`.
 It is zero for `n = 0` algebraically, although that parameter has no multiplicative Tate
-curve. `TateMonodromy.operator` records this integral arithmetic witness. Its API is
-`operator_apply`, `operator_square_zero`, and the zero, basis-image and nonzero/square-zero
-Checks stated below; `Suggested.lean` states the sign and square-zero identities.
+curve. The integral arithmetic operator sends `(a,b)` to `(n*b,0)`; prove its evaluation
+formula and square-zero identity, with the zero, basis-image and nonzero/square-zero Checks
+stated below.
 
 Prove the signed comparison `prime_adic` in two parts. Write the Weil pairing additively
 as `e_A : T_ℓ(A) × T_ℓ(A^∨) → ℤ_ℓ(1)`, with biduality convention
@@ -2202,13 +2212,11 @@ polarised form in Illusie, formulas (4.3)–(4.11), pp. 94–95, Theorem 4.1 and
 p. 95: his Weil quotient and the positive period quotient have opposite orientations.
 Both twists and the order of the pairing are essential. In the ordered toric/period basis,
 `e((a,b),(c,d)) = ad-bc`, so `alpha(a,b) = -b` while `beta(a,b) = b`.
-The arithmetic APIs `TateMonodromy.periodProjection`, `weilForm`, `weilQuotient`,
-`weilQuotient_eq_neg_periodProjection` and `operator_eq_weil_coordinates` record this witness.
-Their basic API also asks for `periodProjection_apply`, which is `beta(v) = v.2`,
-`weilForm_add_left` and `weilForm_add_right` (additivity in either input), and
-`weilForm_skew`, namely `weilForm v w = -weilForm w v`, for all `v,w,v'` in `ℤ × ℤ`.
-These are arithmetic identities in the displayed coordinate form, not constructions
-of geometric Tate-module or pairing carriers.
+Prove the corresponding coordinate identities: `beta(v) = v.2`, `alpha = -beta`,
+`N(a,b) = (-n*alpha(a,b),0)`, additivity of the displayed Weil form in either input,
+and `e(v,w) = -e(w,v)` for all `v,w` in `ℤ × ℤ`. These are arithmetic identities in
+the displayed coordinate form; the geometric Tate-module and pairing comparisons are the
+targets above.
 
 At `p = char k > 0`, use `prime_adic_finite_flat`, not the tame inertia formula. For each
 `m = p^r`, `r ≥ 1`, use the toric, finite and quotient pieces of the finite flat torsion
@@ -2325,8 +2333,8 @@ fibre graph. *Needs:* 2.2, 4.3; 4.2–4.4 for the graph specialization.
 
 **Checks.**
 
-- For the Tate pairing `[n]` the cokernel is `ℤ/n` (`LatticePairing.rankOne_componentGroup`);
-  for `n = 0` the cokernel is `ℤ`, infinite (`LatticePairing.rankOne_zero_infinite`), so
+- For the Tate pairing `[n]` the cokernel is `ℤ/n`;
+  for `n = 0` the cokernel is `ℤ`, infinite, so
   nondegeneracy is a genuine hypothesis.
 - For `n = 1` the cokernel is trivial.
 - An integral adjoint of index `n > 0` has cokernel of order `n`; the index alone does not
@@ -3838,11 +3846,13 @@ abelian scheme, if and only if `E` has good reduction in the sense of 1.8; the s
 property is independent of the chosen minimal model (Bosch–Lütkebohmert–Raynaud, §1.5,
 pp. 20–23). The smooth-locus comparison 2.7 is stated over an arbitrary discrete valuation
 ring, so it is applied over `R` itself, with no passage to a larger residue field.
-The `EquationGoodComparison` signature expresses the abelian-scheme model as an object of
-`Over (Spec R)` with a group structure, smooth proper geometrically connected structure morphism
-and marked generic fibre, and also states smoothness of the projective integral equation.
 *Needs:* 1.8, 2.7; Mathlib `WeierstrassCurve.HasGoodReduction`,
 `hasGoodReduction_iff_isElliptic_reduction`; EllipticCurves Layer 4; ModularCurves Layer 1.
+
+*Lean:* `EquationGoodComparison` in `Suggested.lean` states these equivalences for every DVR
+and minimal elliptic equation. It expresses the abelian-scheme model as an object of
+`Over (Spec R)` with a group structure, smooth proper geometrically connected structure morphism
+and marked generic fibre, and also states smoothness of the projective integral equation.
 
 **Checks.**
 
@@ -3921,7 +3931,7 @@ geometric component count `m` and `#Φ_E(k̄)` are different invariants (Tate, �
 **Checks.**
 
 - Nonsplit `Iₙ` has `c_p = 1` for odd `n` and `2` for even `n`, while `#Φ(k̄) = n` and `m = n`
-  (`ComponentGroup.card_fixedPoints_neg`).
+  by the fixed-point calculation of 2.2.
 - `I₀*` has `m = 5` and `#Φ(k̄) = 4`; `c_p ∈ {1, 2, 4}` according to the Galois action.
 - Split `Iₙ` has `c_p = n`.
 
@@ -4072,16 +4082,14 @@ comparison over a PD base), CR.3.4 (semilinear Frobenius and its linearization),
 Mathlib `Matrix.trace`, `Matrix.det_fin_two`, exterior powers and characteristic polynomials
 supply the linear algebra.
 
-The rank-one calculation is `SemistableTrace.toricFrobenius q delta d`, the diagonal
-matrix `diag(delta,q^d delta)` on the period/torus graded pieces; in the geometric
-elliptic instances `delta = 1` or `-1` is the action of the **chosen element** `g` on
-both lattices. Its API is `toricFrobenius_trace`, `toricFrobenius_det`,
-`SemistableTrace.degree_zero` and `SemistableTrace.zero_action`, together with `frobenius_monodromy_relation` for
-`N_n = [[0,n],[0,0]]`, namely `N_n F = q^d (F N_n)`; it is an arithmetic witness for the full trace formula.
-For all rational `q,delta` and natural `d`, the trace is `delta + q^d*delta`
-and the determinant is `q^d*delta²`; `degree_zero` gives `F(q,delta,0) = delta·I₂`,
-and `zero_action` gives `F(q,0,d) = 0`. These last two are arithmetic identities
-also at scalars excluded by the geometric interpretation.
+For the rank-one calculation take the diagonal matrix `F = diag(delta,q^d delta)`
+on the period/torus graded pieces; in the geometric elliptic instances `delta = 1` or `-1`
+is the action of the **chosen element** `g` on both lattices. For `N_n = [[0,n],[0,0]]`,
+verify `N_n F = q^d (F N_n)`. For all rational `q,delta` and natural `d`, the trace is
+`delta + q^d*delta` and the determinant is `q^d*delta²`. At degree zero,
+`F(q,delta,0) = delta·I₂`, and for zero lattice action `F(q,0,d) = 0`.
+These last two arithmetic identities also hold at scalars excluded by the geometric
+interpretation.
 
 **Checks.**
 
@@ -4092,7 +4100,7 @@ also at scalars excluded by the geometric interpretation.
 - For split multiplicative reduction at `q = 2`, `d = 1`, the full trace is `1+2 = 3`,
   whereas the trace on `ker N` used for the local Euler factor is `1`. For the nonsplit
   case with `delta = -1` the full trace is `-3` and the kernel trace is `-1`.
-  `SemistableTrace` records the matrices and determinants `2` in both cases.
+  The diagonal matrices have determinant `2` in both cases.
 - At `q = 2`, `d = 2`, a nonsplit Frobenius generator has `delta = (-1)^2 = 1`, so
   the full trace is `5`. At degree zero the arithmetic matrix has trace `2 delta`,
   but the open-subgroup argument excludes `d = 0`: an inertia element can generate a
@@ -4184,8 +4192,8 @@ to `N`); `C ×_K K'` is semistable at those valuations by the curve–Jacobian c
 StableReduction Layer 7. Here the residue fields at these places are finite over
 the perfect constant field. Deligne–Mumford, §2, Theorem 2.4, pp. 87–90, states the
 criterion with algebraically closed residue field; passage to a strict henselisation and
-descent of the stable model give this perfect-residue-field form; and `[K' : K] < N^{4g²}` because `Gal(K'/K)` injects into `GSp_{2g}(ℤ/N)`
-(`Interfaces.card_lt_of_subgroup_matrix`) (Yuan, Lemma 4.9 and the full-level paragraph, p. 75,
+descent of the stable model give this perfect-residue-field form; and `[K' : K] < N^{4g²}` because `Gal(K'/K)` injects into `GSp_{2g}(ℤ/N)`,
+whose order is less than `N^{4g²}` (Yuan, Lemma 4.9 and the full-level paragraph, p. 75,
 where `J` is the Jacobian of `C`). No height lower bound is asserted. *Needs:* 3.12;
 StableReduction Layer 7; `ArithmeticGaloisRepresentations:§§6.1–6.2`,
 `AbelianSchemesAndArithmeticModuli:A3` (the Galois action on `J[N]` preserves the Weil pairing).
