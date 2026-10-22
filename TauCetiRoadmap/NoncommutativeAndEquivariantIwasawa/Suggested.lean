@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RepresentationTheory.Induction.Monomial
 
 /-!
 # NoncommutativeAndEquivariantIwasawa: representative target signatures
@@ -6,8 +7,8 @@ import Mathlib
 This file is not the roadmap and it is not exhaustive. The roadmap is `README.md`, which is
 definitive; references of the form §k.n are to its subsections. The file records the light
 definitions and the theorem signatures that can be stated against the pinned Mathlib and Tau Ceti,
-with `example` checks of the kept definitions. The README also specifies the arithmetic and
-localization milestones whose required carriers and comparison APIs are formalisation targets.
+with `example` checks of the kept definitions and the proved finite-`p`-group monomiality adapter.
+The README also specifies the arithmetic and localization milestones whose required carriers and comparison APIs are formalisation targets.
 
 Design choices made explicit here:
 
@@ -132,6 +133,25 @@ end Canonical
 
 /-! ## Layer 6: The main theorems for totally real fields -/
 
+section Monomial
+
+universe u
+
+open CategoryTheory
+
+/-- Every irreducible representation of a finite `p`-group over an algebraically closed
+characteristic-zero field is induced from a linear character (§6.17). This specializes Tau Ceti's
+nilpotent-group monomiality theorem. -/
+theorem pGroup_monomial {k Q : Type u} [Field k] [IsAlgClosed k] [CharZero k]
+    [Group Q] [Finite Q] (p : ℕ) [Fact p.Prime] (hQ : IsPGroup p Q)
+    (W : FDRep k Q) [Simple W] :
+    ∃ (P : Subgroup Q) (χ : P →* kˣ),
+      Nonempty (W ≅ TauCeti.indFDRep (FDRep.ofLinearCharacter χ)) := by
+  have : Group.IsNilpotent Q := hQ.isNilpotent
+  exact FDRep.exists_nonempty_iso_indFDRep_ofLinearCharacter_of_isNilpotent W
+
+end Monomial
+
 section Carry
 
 /-- The carry exponent of the twisted group ring presentation (§6.7): for representatives
@@ -212,8 +232,8 @@ Layer 6: twisted group rings (6.7; their carry exponent is defined above), congr
 (6.8), additive trace maps and ψ (6.9), relative and integral logarithms (6.11, 6.12), partial
 zeta and smoothed values (6.19), and the Ritter–Weiss logarithmic pseudomeasure (6.27).
 Layer 7: the Bockstein (7.1), semisimplicity and order (7.2), its trivialization (7.3), leading
-terms (7.4), the global zeta proposition and fundamental line (7.9), the p-adic Stark proposition
-(7.11) with Greenberg's p-adic Artin L-functions, the cyclotomic height (7.17), local epsilon maps and their conjecture (7.15; gammaStar is defined above), the
+terms (7.4), the ordinary-real global zeta proposition and fundamental line (7.9), the p-adic Stark
+proposition (7.11) with Greenberg's p-adic Artin L-functions, the cyclotomic height (7.17), local epsilon maps and their conjecture (7.15; gammaStar is defined above), the
 Dabrowski–Panchishkin condition and Selmer complexes (7.16), Fitting orders (7.19), integrality
 rings and denominator ideals (7.20), and maximal Fitting invariants (7.21).
 
