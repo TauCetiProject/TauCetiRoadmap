@@ -361,14 +361,13 @@ the fixed-field almost route. Layer 2 computes characteristic-`p` quotients
 by radicals and their inverse-Frobenius root ideals. Each uses the common
 supplier contracts above and states its extra conclusion explicitly.
 
-[Suggested.lean](Suggested.lean) records the light ambient root-closure
-definition, independent statements on existing Witt, quotient, localization
-and perfection carriers, and the proved root-closure fixed-point Check in
-`TauCetiRoadmap.PerfectoidQuotients`. Targets using the supplier's integral
-predicate, prisms, finite Witt maps, derived or almost carriers remain full
-README targets. Those carriers are not defined by placeholder data in Lean.
-The closing comment names these targets. The Witt torsion and nonradical
-quotient boundary Checks are named theorem targets in Suggested.lean.
+[Suggested.lean](Suggested.lean) states the bound-one Witt quotient torsion
+theorem of §0.3 as `Witt.witt_principal_quotient_p_torsion` in the namespace
+`TauCetiRoadmap.PerfectoidQuotients`. The other headline results need the
+supplier's integral-perfectoid predicate, universal perfectoidization, prisms,
+derived or almost carriers, or the finite Witt operators and Fontaine maps;
+these objects are absent at the pins. Their statements remain full README
+targets, and the module docstring identifies the missing objects.
 Elaboration with `sorry` checks types and does not supply mathematical proofs.
 
 ## Layer 0: integral perfectoid algebra
@@ -705,6 +704,9 @@ including zero divisors and products in `k`.
 3. `Witt.witt_principal_quotient_p_torsion`: in `W(k)/(ξ)`,
    `p^n x=0` implies `px=0` for every natural `n`.
 
+The bound-one assertion is stated in Suggested.lean as
+`Witt.witt_principal_quotient_p_torsion`.
+
 For the first lemma compare the initial Teichmüller digits, with digit one
 `F⁻¹(ξ₁)`, and use reducedness of perfect `k`. For the second, express the
 ideal membership as `p²f=ξg`, divide `g` by `p` using the first lemma, and
@@ -825,14 +827,10 @@ positive exponent, since each root then satisfies a monic polynomial; the
 prime hypothesis suffices. Exponent `0` makes the closure the whole ring.
 For positive exponents the root closure need not equal ordinary integral closure.
 
-The API consists of the following named statements.
-
-- `pIntegralClosure.le` — The source subring lies in its p-integral closure.
-- `pIntegralClosure.isClosed` — If `b^p` is in the closure then `b` is in it.
-- `pIntegralClosure.minimal` — The closure is contained in every p-integrally closed intermediate subring containing `A`.
-- `pIntegralClosure.idempotent` — Taking p-integral closure twice gives the same subring.
-- `pIntegralClosure.mono` — An inclusion of source subrings induces an inclusion of their closures.
-- `pIntegralClosure.le_integralClosure` — For a positive exponent, the p-integral closure is contained in the baseline integral closure.
+Develop the source inclusion, closure under ambient `p`th roots, and
+minimality among root-closed intermediate subrings. Prove idempotence,
+monotonicity in the source subring, and containment in the ordinary integral
+closure for positive exponents.
 
 **Checks.**
 
@@ -873,9 +871,9 @@ Let `ϖ` be a nonzerodivisor in `A` with `ϖ^p | p`. The map
 `p`-integrally closed in `A[1/ϖ]`
 (`perfectoid_p_integral_closedness`). Apply this to the torsion-free image of
 an integral perfectoid ring to obtain `p`-root closedness of its image in the
-localization even when the original ring has `ϖ`-torsion. Suggested.lean states the equivalent representative criterion
-`∀ x ∈ A, ϖ^p | x^p → ϖ | x`, which is the injectivity condition without
-constructing a new quotient map. Its equivalence with ambient root closedness
+localization even when the original ring has `ϖ`-torsion. The equivalent
+representative criterion `∀ x ∈ A, ϖ^p | x^p → ϖ | x` expresses the
+injectivity condition. Its equivalence with ambient root closedness
 holds for every nonzerodivisor `ϖ` without `ϖ^p | p`; that divisibility
 makes the quotient power map well defined. The torsion-removal application and
 completion criterion below are separate conclusions. The nonzerodivisor
