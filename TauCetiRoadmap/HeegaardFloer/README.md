@@ -538,8 +538,8 @@ critical components and diagonally interpolated on the regular cylinder.
 The reflection removes angular/normal cross terms; rotation alone does not.
 Prove meridian flow, identify each pole-to-equator quotient with S¹ by its
 endpoint diffeomorphism, and identify descending compactifications with
-hemispherical disks. Choose the two unstable orientations so both endpoint
-pushforwards are +[C]. The component-homology differential is
+hemispherical disks. Choose the two unstable orientations so both signed endpoint
+correspondences F_CD send their pole generator to +[C]. The component-homology differential is
 ℤ²_(degree2)→ℤ_(degree1), (a,b)↦a+b; prove H₂=ℤ⟨(1,−1)⟩, H₁=0,
 H₀=ℤ and the comparison with an oriented sphere fundamental class.
 This two-cap example is separate from the torus arc and surgery-sphere models.
@@ -624,20 +624,97 @@ hypotheses.
 **M.8 Filtrations and bundle comparison.** Consume DGFloer1.3's independent
 filtered-complex algebra. Construct the critical-value filtration and its
 shifted critical-component homology, convergence filtration and extension
-data, with explicit torus/sphere computations. Construct index filtrations
-only under the stated index-monotonicity hypotheses. Weak self-indexing can
-retain same-index trajectory terms in d₀; do not identify E₁ with the sum
-of component homologies in that regime.
+data. Construct index filtrations only under the stated index-monotonicity
+hypotheses. Weak self-indexing can retain same-index trajectory terms in d₀;
+do not identify E₁ with the sum of component homologies in that regime.
 
-For a smooth bundle with closed fiber over a closed Morse base, construct the pullback Bott
-function, the pullback base negative spaces/orientation systems and a
-horizontal connection/adapted metric making projected trajectories
-index-decreasing. Build the actual filtered chain comparison with the
-ordinary Serre construction owned by DGFloer1.2, identifying E₂ onward
-with monodromy, natural maps and the abutment filtration. Include the
-actual SU(2)→SU(3)→S⁵ bundle and its cohomology calculation. This comparison
-follows M.4–M.7 and the independent ordinary Serre supplier. A point-fiber
-specialization of a later DG-coefficient theorem is not an input to M.4.
+For the index filtration, assume every nonconstant trajectory between distinct
+critical components strictly lowers the negative-normal rank λ. With total
+degree p+q, identify
+`E¹_(p,q)=⊕_(λ_C=p) H_q(C;o(ν⁻_C))` and
+`d_r:Eʳ_(p,q)→Eʳ_(p−r,q+r−1)` for r≥1.
+For a transverse cycle σ on C and λ_C−λ_D=1, prove that the trajectory
+space has no broken ends. Identify the D-component of d₁[σ] with
+`[F_CD(σ)]`, using M.7's signed endpoint pushforward and orientation-line
+transport. For higher pages start with a leading representative x of total
+degree p+q, choose corrections `τ_j∈F_(p−j) C_(p+q)`, 1≤j<r, so that
+`D(x+Σ_j τ_j)∈F_(p−r) C_(p+q−1)`, and read d_r from that boundary class.
+Prove independence of all choices. Fix the page identifications by this
+homological representative-boundary convention, and verify the mapping-cone
+and reindexing signs in DGFloer1.3's native adapter.
+
+For the critical-value filtration, group equal values as
+`a₀<⋯<a_N`, put all components at a_p in the p-th graded piece, and identify
+`E¹_(p,q)=⊕_(f(C)=a_p) H_(p+q−λ_C)(C;o(ν⁻_C))`.
+Prove finite convergence in both filtrations as
+`E∞_(p,q)≃F_p H_(p+q)/F_(p−1) H_(p+q)`, where F_p on homology is the image
+of the filtered subcomplex. Identify the abutment with ordinary homology
+through M.7's comparison, and retain the extension data rather than asserting
+a canonical direct-sum splitting. Construct a filtered comparison with
+[MorseTheory M5](../MorseTheory/README.md#m5-morsebott-normal-bundles-and-attachments)'s
+critical-band sequence: compactified unstable flowout sends a chain on C
+into `{f≤f(C)}`. Use regular-value buffers between successive critical
+levels and compatible relative smooth-chain comparisons to construct the
+actual filtered chain maps or zigzag; prove support control in these
+neighborhoods. Identify the E¹ map with the negative-bundle Thom map, hence
+the spectral sequences and their abutment filtrations.
+
+For M.7's two-cap sphere and its signed correspondence orientations, prove
+that the index filtration has
+`d₂:E²_(2,0)=ℤ²→E²_(0,1)=ℤ`, `(a,b)↦a+b`.
+All other d_r for r≥1 vanish and E₃=E∞. For the critical-value filtration
+the same map is `d₁:E¹_(1,1)→E¹_(0,1)` and E₂=E∞. Recover M.7's H₂,H₁,H₀
+in both cases. For the torus `S¹×S¹` with `f(θ,φ)=cos θ`, compare M.7's
+symmetric and nonsymmetric regular metrics: d₁ vanishes on component
+homology, E₂=E∞, and the abutment has H₀=ℤ, H₁=ℤ², H₂=ℤ.
+
+For a smooth bundle π:Z→B with closed fiber over a closed Morse base,
+construct the pullback Bott function and its pulled-back base negative
+spaces/orientation systems. Choose a Morse–Smale base metric standard on
+M.0b's disjoint Morse balls. Choose a smooth Ehresmann connection equal to
+the product connection of a local bundle trivialization on each ball;
+construct it by relative patching. Take an orthogonal sum metric on Z,
+with the horizontal part pulled back from the base and the vertical part
+constant in the base coordinate on these balls. Prove that the pulled-back
+gradient is the horizontal lift of the base gradient, with the standard-normal
+Bott flow required by M.6. Nonconstant projected trajectories strictly lower
+the base Morse index. Trivialize the negative orientation line on each
+critical fiber using its fixed base negative Hessian space.
+
+Verify M.6's actual pointwise unstable/stable transversality, componentwise
+transversality and all iterated endpoint fiber-product hypotheses for this
+data. Construct the trajectory-space identification
+`𝓜_Z(Z_x,Z_y)≃𝓜_B(x,y)×Z_x` by horizontal lifting, extending it over
+compactifications with parallel transport composing on broken strata.
+Prove source/target submersivity and the dimension formula
+`λ_x−λ_y+dim Z_x−1=dim 𝓜_B(x,y)+dim Z_x`.
+On the index E¹ page, identify d₁ with the base Morse differential with
+coefficients `L_q(b)=H_q(Z_b;ℤ)` and parallel transport along base paths.
+Pin its signs against M.7's product differential, including its F_CD sign
+and the orientation-line/fiber-product reorderings. Construct here the
+base Morse comparison for arbitrary integral local systems using AT's
+local-coefficient cellular/singular maps, without a freeness or flatness
+assumption. Deduce `E²_(p,q)=H_p(B;L_q)`, naturally under changes of the
+chosen critical-fiber orientation trivializations.
+
+Build the actual filtered chain comparison with DGFloer1.2's ordinary Serre
+construction, using M.4's unstable-cell CW structure on B. The lifted
+unstable flowout over x lands over the closure of its base cell. Construct
+support-controlled comparisons through compatible neighborhoods of the base
+skeleta, rather than assuming an unrestricted current-to-singular comparison
+preserves arbitrary closed supports. Identify the E¹ relative fiber/Thom
+maps and the E² local systems, prove naturality from E² onward and agreement
+of the abutment filtration. This uses M.4–M.7 and the independent ordinary
+Serre supplier; a point-fiber specialization of a later DG-coefficient
+theorem is not an input to M.4.
+
+Include `SU(2)→SU(3)→S⁵` with block inclusion `B↦diag(1,B)` and projection
+`A↦Ae₁`, constructing its smooth local trivializations. Pull back a standard
+height function on S⁵: the two critical fibers are S³ with indices0 and5.
+Compute H_*(SU(3);ℤ), equal to ℤ in degrees0,3,5,8 and zero otherwise,
+by collapse for degree reasons, with no additive extension ambiguity.
+Consume DGFloer1.2's multiplicative cohomological Serre sequence to prove
+`H*(SU(3);ℤ)=Λ_ℤ(x₃,x₅)`, including the generator and product comparisons.
 
 **M.9 Products and duality.** Construct the signed product complex and
 its actual chain comparison for product Morse data. Prove Künneth with
