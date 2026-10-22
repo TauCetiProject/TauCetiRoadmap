@@ -239,6 +239,15 @@ rings and denominator ideals (7.20), and maximal Fitting invariants (7.21).
 
 The homological, localization, arithmetic and main-theorem milestones on these objects likewise
 remain README targets. No substitute carrier is introduced for them here.
+
+Section F.5 owns the shared Hilbert coefficient-family, ordinary-projector, moment-map,
+control and Hecke-duality core, including finite freeness. Its geometric presentation is
+transported through the componentwise integral expansion comparison. Section F.6 owns the
+generic D_pst and PadicWeilDeligneRealization core on actual semistable period invariants,
+with period monodromy N_p, for potentially semistable representations over every finite K/ℚ_p
+and every prime. This prefix uses the period-ring and raw-parameter suppliers independently of
+de Rham semistabilization; deRhamWeilDeligne composes the latter theorem with that realization.
+These constructions and their comparison APIs are README targets on the stated suppliers.
 -/
 
 end TauCeti.NoncommIwasawa
