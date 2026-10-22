@@ -6,10 +6,13 @@ The polarized route includes conjugate-self-dual cuspidal representations over C
 
 The general-rank construction is independent of the classical and Hilbert `GL₂` constructions.
 Their representations are identified on the regular-weight overlap in AG2.6 and AG2.7.
-`Suggested.lean` starts with `hlttFactorSeparation`, the general-rank construction from the
-boundary family, and `goodPolynomial_unique`, its dense-polynomial uniqueness interface.
-It also records weight, eigenvalue and matrix milestones. The automorphic specialization,
-local period comparisons and compatible-system assembly use the supplier carriers specified here.
+`Suggested.lean` states `hlttFactorSeparation` in AG2.4 and
+`infinitelyManyDecomposedGenericPrimes` in AG2.7. The latter uses
+`FiniteModelDecomposedGenericPrime`, a definition on finite Galois realizations of residual
+representations. These are the file's compiled declarations. The other Lean names below
+specify interfaces to build, and the Checks specify mathematical examples. Automorphic
+existence, local period comparisons and compatible-system assembly require the supplier
+carriers specified here.
 
 ## Scope and ownership
 
@@ -584,26 +587,23 @@ For a number field `F`, rank `n≥1` and algebraically closed characteristic-zer
 
 Throughout this target, dominance is the ordering `a_{τ,1} ≥ ⋯ ≥ a_{τ,n}`, with repetitions allowed; regularity of the attached Hodge–Tate numbers comes from the shift by `n − i` (the Hodge multiset below), not from strictness of `a`. The arithmetic use of `(ℤⁿ)_w` pairs `τ` with `τ∘c` and `i` with `n + 1 − i` and assumes `F` totally real or CM. The coordinate predicate is defined for any index involution, including rank zero. `Ξ_a` is a representation of the complex group `GL_n^{Hom(F,ℂ)} = (Res_{F/ℚ} GL_n)_ℂ`. Its highest-weight theory is supplied by ArithmeticLocallySymmetricSpaces §ALS.F.7 (algebraic highest weights).
 
-The required API is:
-
-- `DominantWeight n ι := ι → TauCeti.DominantWeight n`: One pinned Tau Ceti dominant weight per embedding (`TauCeti.RepresentationTheory.ClassicalGroups.DominantWeight`); `IsInW`, `baseChange` and `IsExtremelyRegular` are the embedding-indexed additions to the highest-weight datum of ArithmeticLocallySymmetricSpaces §ALS.F.7.
-- `DominantWeight.IsInW`: `a.IsInW c w :⇔ ∀ τ i, a τ i + a (c τ) (rev i) = w`, for an involution `c` of `ι`.
-- `DominantWeight.baseChange`: `(a.baseChange f) τ′ = a (f τ′)` for the restriction `f: Hom(F′, Ω) → Hom(F, Ω)`.
-- `DominantWeight.IsExtremelyRegular`: Some `τ` has no two distinct equal-size subsets of `{a τ i + n − 1 − i}` with equal sums.
-- `DominantWeight.xi`: `Ξ_a` is the imported ArithmeticLocallySymmetricSpaces §ALS.F.7 representation `V_a`, identified with its embedding-wise tensor product; no highest-weight classification is reproved here.
-- `DominantWeight.isInW_baseChange`: `a ∈ (ℤⁿ)_w` implies `a_{F′} ∈ (ℤⁿ)_w` when `F′ ⊇ F` is CM or totally real.
-- `DominantWeight.mk`: An embedding-indexed family `a` of antitone `Fin n → ℤ` functions constructs its `DominantWeight`.
-- `DominantWeight.ext`: Two dominant weights are equal when every embedding-wise coordinate is equal.
-- `DominantWeight.baseChange_id`: `a.baseChange id = a`.
-- `DominantWeight.baseChange_comp`: `(a.baseChange f).baseChange g = a.baseChange (f ∘ g)`.
+The embedding-indexed weight family uses one `TauCeti.DominantWeight n` per embedding
+from `TauCeti.RepresentationTheory.ClassicalGroups.DominantWeight`. Supply coordinate
+construction from antitone functions and extensionality, the conjugation condition,
+embedding pullback and extreme regularity. These specialize the highest-weight datum of
+ArithmeticLocallySymmetricSpaces §ALS.F.7. Pullback preserves the common weight when
+restriction commutes with conjugation, preserves coordinates along the identity and
+composes along restriction maps. The highest-weight representation is the imported
+ArithmeticLocallySymmetricSpaces §ALS.F.7 representation `V_a`, identified with its
+embedding-wise tensor product.
 
 **Checks.**
 
-- `DominantWeight.isInW_classical` — For `F = ℚ, n = 2`, integer `k≥2` and `a = (k − 2, 0)`: `a` is dominant and lies in `(ℤ²)_{k−2}`
+- For `F = ℚ, n = 2`, integer `k≥2` and `a = (k − 2, 0)`: `a` is dominant and lies in `(ℤ²)_{k−2}`
 
 - For `n = 1` every `a ∈ ℤ^{Hom(F,ℂ)}` is dominant, and `a ∈ (ℤ¹)_w` iff `a_τ + a_{cτ} = w` for all `τ`.
 
-- `DominantWeight.not_isInW_unpaired` — For `F` imaginary quadratic, `n = 2, a_τ = (1, 0)` and `a_{cτ} = (0, 0): a_{τ,1} + a_{cτ,2} = 1` but `a_{τ,2} + a_{cτ,1} = 0`, so `a` lies in no `(ℤ²)_w`
+- For `F` imaginary quadratic, `n = 2, a_τ = (1, 0)` and `a_{cτ} = (0, 0): a_{τ,1} + a_{cτ,2} = 1` but `a_{τ,2} + a_{cτ,1} = 0`, so `a` lies in no `(ℤ²)_w`
 
 - `(0, 1)` is not dominant: a definition with `a_{τ,1} ≤ ⋯ ≤ a_{τ,n}` would accept it.
 
@@ -627,13 +627,13 @@ The required API is:
 
 **Checks.**
 
-- `hasWeight_heckeCharacter` — `n = 1: ψ` with `ψ_∞(x) = ∏ τ(x)^{−a_τ}` on `(F_∞^×)⁰` has weight `(a_τ)`
+- `n = 1: ψ` with `ψ_∞(x) = ∏ τ(x)^{−a_τ}` on `(F_∞^×)⁰` has weight `(a_τ)`
 
-- `hasWeight_classical` — For a classical newform `f` of integer weight `k≥2, π_f ⊗ ‖det‖^{1−k/2}` has weight `(k − 2, 0)`
+- For a classical newform `f` of integer weight `k≥2, π_f ⊗ ‖det‖^{1−k/2}` has weight `(k − 2, 0)`
 
-- `not_isRegularAlgebraic_odd_weight_unitary` — `π_f` with `f` of odd weight `k` is not regular algebraic: its infinitesimal character `(±(k − 1)/2)` is not a shifted integral weight
+- `π_f` with `f` of odd weight `k` is not regular algebraic: its infinitesimal character `(±(k − 1)/2)` is not a shifted integral weight
 
-- `hasWeight_trivial` — The trivial representation of `GL_1(𝔸_F)` has weight 0.
+- The trivial representation of `GL_1(𝔸_F)` has weight 0.
 
 *Needs:* AG2.0: dominant weights; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
@@ -660,7 +660,7 @@ The required API is:
 
 **Checks.**
 
-- `polarized_heckeCharacter_cm` — `n = 1, ψ` of weight `(1, 0)` over an imaginary quadratic field: `(ψ, ψ|_{𝔸_ℚ}δ)` is totally odd; `(ψ, ψ|_{𝔸_ℚ})` is not
+- `n = 1, ψ` of weight `(1, 0)` over an imaginary quadratic field: `(ψ, ψ|_{𝔸_ℚ}δ)` is totally odd; `(ψ, ψ|_{𝔸_ℚ})` is not
 
 - For `F=ℚ(√−3)`, base change of the newform of `y²=x³−x` has multipliers 1 and
   `η_{ℚ(i)/ℚ}`; their quotient is neither 1 nor `δ_{F/ℚ}`, since its restriction to `G_F`
@@ -670,11 +670,11 @@ The required API is:
   The isobaric sum `π=1⊞η` is self-dual and invariant under `η`, so `χ=1` and `χ=ν` are
   multipliers of `π`. Their ratio is neither 1 nor `δ_{F/ℚ}`.
 
-- `isConjSelfDual_iff_multiplier_one` — `π.IsConjSelfDual ↔ π.IsEssConjSelfDual 1`
+- `π.IsConjSelfDual ↔ π.IsEssConjSelfDual 1`
 
-- `polarized_totallyReal` — For `F` totally real, `π^c = π` and polarized means essentially self-dual with `χ_v(−1)` independent of `v`
+- For `F` totally real, `π^c = π` and polarized means essentially self-dual with `χ_v(−1)` independent of `v`
 
-- `not_totallyOdd_blggt_sign_odd_w` — A pair satisfying BLGGT's printed `χ_v(−1) = (−1)^n` with `w` odd (the CM elliptic curve character) is not totally odd: its Galois multiplier takes `c_v` to `+1`.
+- A pair satisfying BLGGT's printed `χ_v(−1) = (−1)^n` with `w` odd (the CM elliptic curve character) is not totally odd: its Galois multiplier takes `c_v` to `+1`.
 
 *Needs:* AG2.0: regular algebraicity; AG2.0: dominant weights; GlobalNumberFields / layer 9 hecke and ray class characters; GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic.
 
@@ -699,13 +699,13 @@ The required API is:
 
 **Checks.**
 
-- `galoisChar_norm_rat` — `F = ℚ` gives `F₀=ℚ`, `c=id` and `r_{l,ι}(‖·‖) = ε_l`, with `HT {−1}` and wt `−2`. No imaginary CM subfield of `ℚ` is required.
+- `F = ℚ` gives `F₀=ℚ`, `c=id` and `r_{l,ι}(‖·‖) = ε_l`, with `HT {−1}` and wt `−2`. No imaginary CM subfield of `ℚ` is required.
 
-- `galoisChar_trivial` — `r_{l,ι}(1) = 1`, with `a = 0` and wt 0
+- `r_{l,ι}(1) = 1`, with `a = 0` and wt 0
 
-- `galoisChar_finite_order` — For `ω` of finite order unramified at `p ∤ l: r_{l,ι}(ω)(Frob_p^{geom}) = ω_p(p)`, and `r_{l,ι}(ω)(Frob_p^{arith}) = ω_p(p)^{−1}`
+- For `ω` of finite order unramified at `p ∤ l: r_{l,ι}(ω)(Frob_p^{geom}) = ω_p(p)`, and `r_{l,ι}(ω)(Frob_p^{arith}) = ω_p(p)^{−1}`
 
-- `galoisChar_restrict_complexConj` — For `F` imaginary and `ψ` algebraic on `F, r_{l,ι}(ψ|_{𝔸_{F⁺}})(c_v) = +1` because the transfer sends `c_v` to `c_v² = 1`, whatever `ψ_v(−1)` is: the Galois sign is not `χ_v(−1)` unless wt/2 is even.
+- For `F` imaginary and `ψ` algebraic on `F, r_{l,ι}(ψ|_{𝔸_{F⁺}})(c_v) = +1` because the transfer sends `c_v` to `c_v² = 1`, whatever `ψ_v(−1)` is: the Galois sign is not `χ_v(−1)` unless wt/2 is even.
 
 *Needs:* ClassFieldTheory / layer 11 the global class formation and global artin reciprocity; GlobalNumberFields / layer 9 hecke and ray class characters; GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic; ArithmeticGaloisRepresentations Layer 2; AG2.P: finite-coefficient periods and comparison.
 
@@ -727,15 +727,9 @@ For `a ∈ (ℤⁿ)^{Hom(F,ℂ),+}, ι: ℚ̄_l ≅ ℂ` and `τ: F → ℚ̄_l`
 
 Throughout this target, this is the target that AG2.6 proves for `r_{l,ι}(π)` (BLGGT Theorem 2.1.1(3), ACC+ Theorem 2.3.3(b)); here it is only the dictionary from `a` to a multiset. The integer `w + n − 1` is BLGGT's `w` in Theorem 2.1.1(3). The two integers must not be confused.
 
-The required API is:
-
-- `expectedHodgeTate`: `expectedHodgeTate a =` multiset of `a i + (n − 1 − i), i : Fin n` (0-indexed).
-- `expectedHodgeTate_strictAnti`: `i ↦ a i + (n − 1 − i)` is strictly antitone when `a` is antitone.
-- `expectedHodgeTate_conj`: `a ∈ (ℤⁿ)_w ⇒ HT` at `τc` is {`w + n − 1 − h : h ∈ HT` at `τ`}.
-- `expectedHodgeTate_twist`: `expectedHodgeTate (a − t) = (expectedHodgeTate a).map (· − t)`.
-- `expectedHodgeTate_card`: The multiset `expectedHodgeTate a` has cardinality `n`.
-- `expectedHodgeTate_nodup`: For antitone `a`, `expectedHodgeTate a` has no repetitions, by strict antitonicity of the shifted coordinates.
-- `sum_expectedHodgeTate`: The sum of the shifted coordinates is `Σ_i a_i+n(n−1)/2`, the determinant Hodge sum.
+The shifted-coordinate function must be strictly antitone for antitone `a`, so its
+multiset has cardinality `n` and no repetitions. Prove its conjugation and twist formulas
+above and its sum `Σ_i a_i+n(n−1)/2`, retaining the full multiset as well as the determinant sum.
 
 **Checks.**
 
@@ -743,9 +737,9 @@ The required API is:
 
 - For `n≥1, a = 0`, the multiset is `{n − 1, …, 1, 0}`: parallel weight 0 gives the Hodge–Tate numbers of `Symⁿ⁻¹` of the dual Tate module of an elliptic curve.
 
-- `expectedHodgeTate_regular` — The elements are pairwise distinct, so the multiset is regular in BLGGT's sense `(|HT_τ| = n)`
+- The elements are pairwise distinct, so the multiset is regular in BLGGT's sense `(|HT_τ| = n)`
 
-- `not_expectedHodgeTate_unshifted` — The unshifted multiset `{a_{τ,i}}` fails regularity for `a = 0` and `n ≥ 2`, so the shift `n − i` is part of the definition.
+- The unshifted multiset `{a_{τ,i}}` fails regularity for `a = 0` and `n ≥ 2`, so the shift `n − i` is part of the definition.
 
 *Needs:* AG2.0: dominant weights.
 
@@ -771,28 +765,27 @@ The required API is:
 
 - `IsAttached`: `r.IsAttached ι π :⇔ ∃ S` finite, `∀ v ∉ S, r` unramified at `v ∧ ι det(X − r(Frob_v)) = P_v(π_v)`.
 - `IsAttached.unique`: `r, r′` semisimple and both attached to `π ⇒ r ≅ r′`.
-  Its matrix form `goodPolynomial_unique` applies over an algebraically closed Hausdorff
-  topological field of characteristic zero to continuous semisimple representations of a
-  topological group with equal characteristic polynomials on a dense set. For Galois
-  attachment, use the dense union of conjugacy classes of good geometric Frobenius lifts.
+  Apply dense-set polynomial recognition over an algebraically closed Hausdorff
+  topological field of characteristic zero to continuous semisimple representations
+  with equal characteristic polynomials on a dense set. For Galois attachment, use the dense union of conjugacy classes of good geometric Frobenius lifts.
 - `IsAttached.twist`: `r.IsAttached π → (r ⊗ r_{l,ι}(ψ)).IsAttached (π ⊗ ψ∘det)`.
 - `IsAttached.dual`: `r.IsAttached π → (r^∨ ⊗ ε_l^{1−n}).IsAttached π^∨`.
 - `IsAttached.conj`: `r.IsAttached π → r^c.IsAttached π^c`.
 
 **Checks.**
 
-- `isAttached_heckeCharacter` — `n = 1: r_{l,ι}(ψ).IsAttached ι ψ`
+- `n = 1: r_{l,ι}(ψ).IsAttached ι ψ`
 
-- `isAttached_classical` — `ρ_f^∨` is attached to `π_f ⊗ ‖det‖^{1−k/2}`; for `Δ` the polynomial at 2 is `X² +` 24X `+ 2^{11}`
+- `ρ_f^∨` is attached to `π_f ⊗ ‖det‖^{1−k/2}`; for `Δ` the polynomial at 2 is `X² +` 24X `+ 2^{11}`
 
-- `not_isAttached_classical_rho` — `ρ_f` is not attached to `π_f ⊗ ‖det‖^{1−k/2}` (for `Δ` its geometric polynomial at 2 is `X² + 24·2^{−11}X + 2^{−11}`)
+- `ρ_f` is not attached to `π_f ⊗ ‖det‖^{1−k/2}` (for `Δ` its geometric polynomial at 2 is `X² + 24·2^{−11}X + 2^{−11}`)
 
 - Equal characteristic polynomials alone do not give uniqueness without semisimplicity:
   the trivial rank-two representation of `ℤ` and the unipotent representation
   `m↦[[1,m],[0,1]]` over a characteristic-zero field have polynomial `(X−1)²`
   at every element and are not isomorphic. Give `ℤ` the discrete topology.
 
-- `isAttached_dual_twist` — The two rules compose consistently: `(r^∨ε^{1−n})^∨ε^{1−n} = r`, matching `π^∨∨ = π`.
+- The two rules compose consistently: `(r^∨ε^{1−n})^∨ε^{1−n} = r`, matching `π^∨∨ = π`.
 
 *Needs:* AG2.0: integral Frobenius polynomial; AG2.0: regular algebraicity; ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 5.
 
@@ -914,11 +907,11 @@ The required API is:
 
 **Checks.**
 
-- `CompactPEL.zeroPower` — `m=0` gives `X_U`, not an empty scheme
+- `m=0` gives `X_U`, not an empty scheme
 
-- `CompactPEL.signatureDimension` — `n=3` gives a proper surface of dimension 2 and an abelian scheme of relative dimension `3[F⁺:ℚ]`; the signature (3,3) datum has complex dimension `9[F⁺:ℚ]`
+- `n=3` gives a proper surface of dimension 2 and an abelian scheme of relative dimension `3[F⁺:ℚ]`; the signature (3,3) datum has complex dimension `9[F⁺:ℚ]`
 
-- `CompactPEL.ramifiedFactor` — An unramified-only local datum cannot satisfy the API for ramified `F_w`.
+- An unramified-only local datum cannot satisfy the API for ramified `F_w`.
 
 *Needs:* PELModuli M0; PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10.
 
@@ -971,7 +964,7 @@ which applies also to the noncommutative endomorphism ring. The correction agree
 such `T` with Caraiani’s `((X−1)^D+1)^D` for odd `D`: their difference is divisible by
 `X^D(X−1)^D`.
 
-Prove the filtration statement as `CoefficientProjector.lerayCorrection`: if `T` preserves
+Prove the filtration statement: if `T` preserves
 an increasing filtration `0=F₀⊆⋯⊆F_D=V` and is idempotent on its graded pieces, then
 `(T−T²)F_{i+1}⊆F_i`, hence `(T−T²)^D=0`. For a smooth proper base of dimension `d`,
 Leray has base degrees 0 through `2d`, so `D=2d+1` suffices on every total degree.
@@ -986,27 +979,25 @@ leaves a single row and gives the coefficient-cohomology identity below. All ass
 carry the selected central exponent, CM type and Tate twist, sufficiently small `U` and
 rational coefficients.
 
-The required API is:
-
-- `CoefficientProjector.correction`: `P_D(T)` in a ring, with its polynomial congruences.
-- Idempotence of `correction D T` under `(T−T²)^D=0` is Mathlib’s `isIdempotentElem_one_sub_one_sub_pow_pow T D` (`Mathlib.RingTheory.Idempotents`), used directly.
-- `CoefficientProjector.commuting_idempotent`: In any ring, if `ε²=ε`, `εT=Tε` and `(T−T²)^D=0`, then `ε P_D(T)` is idempotent.
-- `CoefficientProjector.comparison`: For linear maps `u:V→W`, `T:V→V` and `S:W→W` with `uT=Su`, one has `u P_D(T)=P_D(S)u`. Together with `geometricCoefficientPrimeComparison`, an intertwining linear equivalence identifies the corrected projector images.
-- `CoefficientProjector.idempotent`: `a_ξ²=a_ξ` on each global cohomology group with `D=2d+1`.
-- `CoefficientProjector.relativeDegree`: The corrected projector has coefficient image only in relative degree `m_ξ`.
-- `CoefficientProjector.centralTwist`: Twisting `ξ` by `ν^t` changes the central character and Tate normalization by the algebraic dictionary.
-- `CoefficientProjector.level`: The corrected operator commutes with level and Hecke maps commuting with `T` and `ε_ξ`.
-- The same polynomial in every realization commutes with the geometric period comparisons;
-  their restrictions identify the corrected images, with the coefficient and Tate normalizations retained.
+Prove the correction polynomial's congruences. Its idempotence under `(T−T²)^D=0`
+is Mathlib's `isIdempotentElem_one_sub_one_sub_pow_pow T D`
+(`Mathlib.RingTheory.Idempotents`), used directly. Multiplying by the commuting Young
+idempotent preserves idempotence. Every linear comparison intertwining the selectors
+intertwines their corrections; an intertwining equivalence identifies their images.
+The geometric coefficient-prime comparison must carry these corrected images to one another.
+Prove `a_ξ²=a_ξ` in each global degree with `D=2d+1`, the relative-degree assertion,
+the central-character and Tate normalization under `ν^t`, and commutation with level and
+Hecke maps. The same polynomial in every realization commutes with the geometric period
+comparisons, retaining the coefficient and Tate normalizations on the corrected images.
 
 **Checks.**
 
 - For `N=2, y=0` the denominator is 1; for `y=2` it is `−2`.
 - On `H⁰` of one abelian factor the selector is zero;
   on `H¹` it is one, and `P_D` preserves these values.
-- `CoefficientProjector.zeroPower` — For `ξ=1, m_ξ=t_ξ=0` and `ε_ξ=1` the empty selector is
+- For `ξ=1, m_ξ=t_ξ=0` and `ε_ξ=1` the empty selector is
   the identity and `P_D(1)=1`. The condition `m_ξ=0` alone does not force a trivial Tate twist.
-- For `Fixtures.lerayJordan = [[1,1],[0,1]]` over `ℚ` and `D=5`, `(T⁵)²−T⁵=[[0,5],[0,0]]≠0`,
+- For `T=[[1,1],[0,1]]` over `ℚ` and `D=5`, `(T⁵)²−T⁵=[[0,5],[0,0]]≠0`,
   whereas `P₅(T)=I`. The graded identity does not make `T⁵` idempotent.
 - For the nilpotent matrix `J=T−I, P₅(J)=0`. For `D=1` an already idempotent `T` is unchanged;
   `D=0` does not satisfy the filtration hypothesis.
@@ -1191,11 +1182,11 @@ The required API is:
 
 **Checks.**
 
-- `ActualConstituent.stableRank` — Case ST `n=3` gives rank 3 after removing `C_G` copies
+- Case ST `n=3` gives rank 3 after removing `C_G` copies
 
-- `ActualConstituent.endRank` — For `n=5,m₁=3,m₂=2` the two sign cases give rank 3 and 2 respectively
+- For `n=5,m₁=3,m₂=2` the two sign cases give rank 3 and 2 respectively
 
-- `ActualConstituent.rankOnly` — A semisimple rank-4 representation with irreducible multiplicities 1 and 3 cannot be divided into two copies merely because 2 divides 4.
+- A semisimple rank-4 representation with irreducible multiplicities 1 and 3 cannot be divided into two copies merely because 2 divides 4.
 
 *Needs:* AG2.1b: middle-degree concentration; AG2.1b: archimedean multiplicity; AG2.1a: Shin raw-cohomology adapter; AG2.0: algebraic Galois characters; ArithmeticGaloisRepresentations Layer 5; AG2.P: finite-coefficient periods and comparison.
 
@@ -1266,11 +1257,11 @@ The required API is:
 
 **Checks.**
 
-- `DiscreteAssembly.singleBlock` — `n=1,m₁=1,n₁=2` gives `r₁ε^−1⊕r₁ε^−2`
+- `n=1,m₁=1,n₁=2` gives `r₁ε^−1⊕r₁ε^−2`
 
-- `DiscreteAssembly.cuspidal` — `n₁=1,m₁=2n` gives `r₁ε^−n`, tracking the cohomological twist on `π₁`
+- `n₁=1,m₁=2n` gives `r₁ε^−n`, tracking the cohomological twist on `π₁`
 
-- `DiscreteAssembly.rank` — Taking only one copy of each `r_i` gives the wrong rank when some `n_i>1`.
+- Taking only one copy of each `r_i` gives the wrong rank when some `n_i>1`.
 
 *Needs:* AG2.0: integral Frobenius polynomial; AG2.0: attachment operations; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; ArithmeticGaloisRepresentations Layer 1.
 
@@ -1372,11 +1363,11 @@ The required API is:
 
 **Checks.**
 
-- `DefiniteFamily.fixedWeight` — Varying a weight at an embedding not attached to `v₀` violates the family contract
+- Varying a weight at an embedding not attached to `v₀` violates the family contract
 
-- `DefiniteFamily.missingRefinement` — An infinite-slope eigensystem does not give a point of a finite-slope chart
+- An infinite-slope eigensystem does not give a point of a finite-slope chart
 
-- `DefiniteFamily.classicalSpecialization` — At a classical point the good Hecke polynomial is the integral polynomial specialized to `Π`.
+- At a classical point the good Hecke polynomial is the integral polynomial specialized to `Π`.
 
 *Needs:* AG2.0: polarized pairs; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; LocallyAnalyticDistributions §§4.15–4.16; LocallyAnalyticDistributions §§4.2, 4.15–4.16; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
@@ -1461,11 +1452,11 @@ The required API is:
 
 **Checks.**
 
-- `SGeneralFamily.quantifier` — An infinite collection all containing one fixed nontrivial extension is not S-general
+- An infinite collection all containing one fixed nontrivial extension is not S-general
 
-- `SGeneralFamily.split` — At a prescribed split place the local completion of each branch is the original field
+- At a prescribed split place the local completion of each branch is the original field
 
-- `SGeneralFamily.forbidden` — No splitting assertion is made for `v∈S` unless included in the local prescription.
+- No splitting assertion is made for `v∈S` unless included in the local prescription.
 
 *Needs:* GlobalNumberFields / layer 9 hecke and ray class characters;
 ArithmeticGaloisDuality §R02.4.6, Grunwald–Wang with its exact dyadic obstruction;
@@ -1581,11 +1572,11 @@ The required API is:
 
 **Checks.**
 
-- `HLTTModel.zeroKuga` — `m=0` has dimension `[F⁺:ℚ]n²`
+- `m=0` has dimension `[F⁺:ℚ]n²`
 
-- `HLTTModel.oneKuga` — `n=1,m=1` has dimension `3[F⁺:ℚ]`
+- `n=1,m=1` has dimension `3[F⁺:ℚ]`
 
-- `HLTTModel.boundaryIdeal` — Canonical sections without the boundary ideal include noncuspidal classes and cannot replace the subcanonical module.
+- Canonical sections without the boundary ideal include noncuspidal classes and cannot replace the subcanonical module.
 
 *Needs:* EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; PELModuli M4; AdicSpacesPartIV §F1.12.
 
@@ -1606,11 +1597,11 @@ The required API is:
 
 **Checks.**
 
-- `BoundaryCohomology.localIdeal` — For `∂=(t=0)`, the degree-zero term is `tO^†`, not `O^†`
+- For `∂=(t=0)`, the degree-zero term is `tO^†`, not `O^†`
 
-- `BoundaryCohomology.empty` — With `∂=∅` recover ordinary dagger de Rham cohomology
+- With `∂=∅` recover ordinary dagger de Rham cohomology
 
-- `BoundaryCohomology.support` — Dropping `I_∂` gives logarithmic cohomology with different boundary classes.
+- Dropping `I_∂` gives logarithmic cohomology with different boundary classes.
 
 *Needs:* AG2.4: HLTT ordinary boundary geometry; AdicSpacesPartIV §F1.12.
 
@@ -1894,11 +1885,11 @@ The required API is:
 
 **Checks.**
 
-- `TensorSquareInstance.rankTwo` — `n=2` gives a two-dimensional Shimura variety and a rank-four tensor-square constituent
+- `n=2` gives a two-dimensional Shimura variety and a rank-four tensor-square constituent
 
-- `TensorSquareInstance.dimension` — The single-signature Shin variety cannot replace the dimension-`2n−2` model
+- The single-signature Shin variety cannot replace the dimension-`2n−2` model
 
-- `TensorSquareInstance.monodromy` — For nonzero tensor factors `V₁,V₂` with `N₁=0` and `N₂≠0`, total monodromy is `1⊗N₂≠0`. For the tensor square with `N=0`, total monodromy is zero.
+- For nonzero tensor factors `V₁,V₂` with `N₁=0` and `N₂≠0`, total monodromy is `1⊗N₂≠0`. For the tensor square with `N=0`, total monodromy is zero.
 
 *Needs:* AG2.3: arbitrary regular existence; AG2.1a: corrected Kuga–Sato coefficient projector; PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; LefschetzPencilsAndVanishingCycles LPV.6; ArithmeticGaloisRepresentations Layer 2.
 
@@ -2720,18 +2711,18 @@ The required API is:
 
 **Checks.**
 
-- `compatibleSystem_rank_one` — For an algebraic Hecke character `ψ`, this is its class-field-theoretic compatible system
+- For an algebraic Hecke character `ψ`, this is its class-field-theoretic compatible system
 
-- `compatibleSystem_weight_k` — At `n=2, a=(k−2,0)`, the Hodge multiset is `{k−1,0}` and its sum is `k−1`
+- At `n=2, a=(k−2,0)`, the Hodge multiset is `{k−1,0}` and its sum is `k−1`
 
-- `compatibleSystem_R19` — On the exact classical/Hilbert overlap, each `λ`-member is `M_R19`, equivalently the dual of `r_R19,arith`, after the stated Hilbert adapters
+- On the exact classical/Hilbert overlap, each `λ`-member is `M_R19`, equivalently the dual of `r_R19,arith`, after the stated Hilbert adapters
 
 - Over `F=ℚ(i)`, pull an order-three Dirichlet character modulo 7 back along the norm.
   Its coefficient field is `M_π=ℚ(ζ₃)`. At `ℓ=2` the two embeddings induce the same inert
   place, but conjugate primitive cube-root Frobenius values give nonisomorphic lines.
   Their reductions over `𝔽̄₂` are conjugate by `x↦x²` and remain distinct.
 
-- `compatibleSystem_no_automatic_strictness` — A weak instance with only good-place polynomials cannot supply an equality of monodromy at an unspecified bad place.
+- A weak instance with only good-place polynomials cannot supply an equality of monodromy at an unspecified bad place.
 
 *Needs:* AG2.0: good-place attachment; AG2.0: integral Frobenius polynomial; AG2.0: Hodge multiset; AG2.0: Rationality of the good Hecke polynomials; AG2.6: embedding independence; AG2.6: Nonselfdual spherical and Iwahori admissibility; AG2.6: Totally real polarized coefficient-prime descent; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
@@ -2760,13 +2751,13 @@ The required API is:
 
 **Checks.**
 
-- `strongCoefficientField_character` — A rank-one character whose values lie in `E` has the expected `E_λ-realizations`
+- A rank-one character whose values lie in `E` has the expected `E_λ-realizations`
 
-- `strongCoefficientField_extension` — Changing `E` to a finite extension gives exactly the coefficient base-change operation of SmallRamificationAndAbelianVarietyBaseCases §5.0d at every `λ′`
+- Changing `E` to a finite extension gives exactly the coefficient base-change operation of SmallRamificationAndAbelianVarietyBaseCases §5.0d at every `λ′`
 
-- `strongCoefficientField_not_rationality` — The definition does not identify rational Frobenius traces with a canonical `E_λ-model`; a nontrivial Schur obstruction must be split
+- The definition does not identify rational Frobenius traces with a canonical `E_λ-model`; a nontrivial Schur obstruction must be split
 
-- `strongCoefficientField_scalar_intertwiner` — Nonzero scalar multiples of an intertwiner remain intertwiners, so uniqueness is of the isomorphism class.
+- Nonzero scalar multiples of an intertwiner remain intertwiners, so uniqueness is of the isomorphism class.
 
 *Needs:* AG2.6: embedding independence; AG2.0: Rationality of the good Hecke polynomials; ArithmeticGaloisRepresentations Layer 5; SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 
@@ -2906,13 +2897,13 @@ The required API is:
 
 **Checks.**
 
-- `residualRep_rank_one` — For an integral character `ψ, r̄` is its reduction and no semisimplification changes it
+- For an integral character `ψ, r̄` is its reduction and no semisimplification changes it
 
-- `residualRep_diagonal_reduction` — Reduction of `diag(1,2)` modulo 3 has polynomial `(X−1)(X−2)`, the reduction of the characteristic-zero polynomial
+- Reduction of `diag(1,2)` modulo 3 has polynomial `(X−1)(X−2)`, the reduction of the characteristic-zero polynomial
 
-- `residualRep_R19_dual` — For the classical weight-`k` overlap at fixed `λ, r̄_AG2≅M̄_R19≅(r̄_R19,arith)^∨` under the same actual residue embedding
+- For the classical weight-`k` overlap at fixed `λ, r̄_AG2≅M̄_R19≅(r̄_R19,arith)^∨` under the same actual residue embedding
 
-- `residualRep_noncanonical_lattice` — For the `ℤ_5`-action `r(t)=[[1,5t],[0,1]]`, lattices with bases `(e1,e2)` and `(5e1,e2)` give identity and nontrivial unipotent reductions; both semisimplify to `1⊕1`.
+- For the `ℤ_5`-action `r(t)=[[1,5t],[0,1]]`, lattices with bases `(e1,e2)` and `(5e1,e2)` give identity and nontrivial unipotent reductions; both semisimplify to `1⊕1`.
 
 *Needs:* AG2.7: finite local realization; ArithmeticGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations Layer 5; ArithmeticGaloisRepresentations §7.4; Mathlib `Matrix.GeneralLinearGroup.map`; Mathlib `Representation.IsSemisimpleRepresentation`.
 
@@ -2938,15 +2929,10 @@ For a Galois-type maximal ideal `m` of rank `n`, the contragredient Hecke ideal 
 
 Let `L/ℚ_p` be any finite extension with residue cardinality `q, ℓ≠p, k` a finite field of characteristic `ℓ`, and `r:G_L→GL_n(k)` continuous. It is ACC+-generic at `L` if inertia acts trivially and, over `k̄`, the eigenvalues `α_i∈k̄×` of `r(Frob_L^geom)`, listed with multiplicity, satisfy `α_i/α_j≠q` for every `i≠j`. Arithmetic instead of geometric Frobenius gives the same predicate because inversion reverses the ordered pair. Repeated eigenvalues are permitted when `q≠1` in `k`; pairwise distinctness alone is insufficient. The local condition has no global irreducibility, adequacy or enormousness clause.
 
-The required API is:
-
-- `IsGenericEigenvalues`: For a list `α:Fin n→k×`, require `α_i/α_j≠q` for `i≠j`; list multiplicities are retained.
-- `IsGeneric`: Trivial inertia together with the eigenvalue predicate over `k̄`.
-- `isGeneric_unramified`: A locally generic representation kills inertia.
-- `isGeneric_frobenius_independent`: If `r` kills `I` and `frob₁⁻¹frob₂∈I`, the two Frobenius matrices and their local genericity predicates agree.
-- `isGenericEigenvalues_smul`: Multiplication of every `α_i` by the same nonzero scalar preserves the eigenvalue predicate.
-- `isGenericEigenvalues_reindex`: Reordering the list by a permutation leaves the predicate unchanged.
-- `isGenericEigenvalues_inverse`: Inverting every eigenvalue preserves the predicate by exchanging ordered pairs.
+Supply the ordered eigenvalue nonratio predicate with multiplicities and the local
+representation predicate including trivial inertia. Prove independence of the Frobenius
+lift when inertia acts trivially, and invariance under a common nonzero scalar,
+permutation and inversion of the eigenvalues.
 
 **Checks.**
 
@@ -2956,10 +2942,10 @@ The required API is:
 
 - Every one-term nonzero list is generic.
 
-- `not_isGeneric_repeated_q_one` — Over `𝔽_3` with `q=1`, `(1,1)` is not generic
+- Over `𝔽_3` with `q=1`, `(1,1)` is not generic
 
-- `isGeneric_matrix_diagonal` — When `r(Frob)=diag(α)`, `IsGeneric` is equivalent to trivial inertia and `IsGenericEigenvalues α q`.
-- `isStrongGeneric_matrix_diagonal` — Under the same diagonal hypothesis, `IsStrongGeneric` is equivalent to trivial inertia and `IsStrongGenericEigenvalues α q`.
+- When `r(Frob)=diag(α)`, `IsGeneric` is equivalent to trivial inertia and `IsGenericEigenvalues α q`.
+- Under the same diagonal hypothesis, `IsStrongGeneric` is equivalent to trivial inertia and `IsStrongGenericEigenvalues α q`.
 
 *Needs:* AG2.7: residual representation; ArithmeticGaloisRepresentations Layer 1; Mathlib `Matrix.charpoly`; Mathlib `Matrix.GeneralLinearGroup.map`.
 
@@ -2977,11 +2963,11 @@ The required API is:
 
 **Checks.**
 
-- `decomposedGenericPrime_Q` — For `F=ℚ` there is exactly one place over `p`; the splitting clause is automatic
+- For `F=ℚ` there is exactly one place over `p`; the splitting clause is automatic
 
-- `decomposedGenericPrime_not_inert` — An inert prime in a quadratic `F` is not decomposed generic even when the local ratio condition holds
+- An inert prime in a quadratic `F` is not decomposed generic even when the local ratio condition holds
 
-- `decomposedGenericPrime_not_ell` — `p=ℓ` is excluded independently of eigenvalues.
+- `p=ℓ` is excluded independently of eigenvalues.
 
 *Needs:* AG2.7: Local residual genericity; ArithmeticGaloisRepresentations Layer 1.
 
@@ -2999,11 +2985,11 @@ The required API is:
 
 **Checks.**
 
-- `decomposedGeneric_trivial_F3` — For `F=ℚ, k=𝔽_3, r=1⊕1`, the prime `p=2` is a witness
+- For `F=ℚ, k=𝔽_3, r=1⊕1`, the prime `p=2` is a witness
 
-- `decomposedGeneric_not_irreducible` — The preceding decomposed-generic representation is reducible
+- The preceding decomposed-generic representation is reducible
 
-- `decomposedGeneric_not_every_prime` — For the same `r, p=7` has `q=1 mod 3` and is not a witness, although `p=2` is.
+- For the same `r, p=7` has `q=1 mod 3` and is not a witness, although `p=2` is.
 
 *Needs:* AG2.7: split generic prime.
 
@@ -3013,22 +2999,17 @@ The required API is:
 
 For any finite extension `L/ℚ_p, ℓ≠p`, define the Caraiani–Scholze Definition 1.9 specialization: `r` is unramified and `α_i/α_j∉{1,q}` for all `i≠j` over `k̄`. Equivalently its eigenvalues are pairwise distinct and ACC+-generic. The local field need not be `ℚ_p`. This stronger predicate has its own name and implies the ACC+ local predicate. Liu Appendix D’s displayed distinctness is unnecessary for its later noncompact concentration input, as its footnote 37 explicitly records; the stronger definition is not silently substituted for ACC+.
 
-The required API is:
-
-- `IsStrongGenericEigenvalues`: `IsGenericEigenvalues(α,q)` and `α` injective, equivalently ratios avoid `{1,q}`.
-- `isStrongGenericEigenvalues_iff_ratios`: For every unit-valued tuple over a field, identify the strong predicate with exclusion of both ordered ratios `1` and `q`.
-- `IsStrongGeneric`: Trivial inertia plus the stronger eigenvalue predicate over `k̄`.
-- `strongGeneric_generic`: Forget the ratio-1 exclusion.
-- `strongGeneric_distinct`: The Frobenius eigenvalues have no repeated roots.
-- `IsStrongGeneric` is applied with `q=|k_L|=p^f` for every finite `L/ℚ_p`.
+Supply the strong eigenvalue and local representation predicates, prove equivalence
+with exclusion of the two ordered ratios `1` and `q`, and the implications to pairwise
+distinctness and ACC+ genericity. Use `q=|k_L|=p^f` for every finite `L/ℚ_p`.
 
 **Checks.**
 
-- `strongGeneric_not_repeated` — Over `𝔽_3, q=2`, `(1,1)` is ACC+-generic but not strong-generic
+- Over `𝔽_3, q=2`, `(1,1)` is ACC+-generic but not strong-generic
 
-- `strongGeneric_distinct_ratios` — Over `𝔽_7, q=2`, `(1,3)` is strong-generic: the two ordered ratios are 3 and 5.
+- Over `𝔽_7, q=2`, `(1,3)` is strong-generic: the two ordered ratios are 3 and 5.
 
-- `strongGeneric_rank_one` — Every single nonzero eigenvalue is strong-generic
+- Every single nonzero eigenvalue is strong-generic
 
 - For an unramified quadratic `L/ℚ_2` and `ℓ=3`, use `q=4≡1`; the ratio-1 clause remains explicit.
 
@@ -3038,7 +3019,18 @@ The required API is:
 
 ### Infinitely many decomposed generic primes
 
-If `r:G_F→GL_n(k)` is continuous and decomposed generic, there are infinitely many such rational primes, and witnesses can avoid any specified finite set. Let `K` be a normal closure of `F`, the field cut out by `r` and `ℚ(ζ_ℓ)`. A witness determines a conjugacy class in `Gal(K/ℚ)` whose restriction fixes `F`, fixes the all-place eigenvalue ratios and fixes `p mod ℓ`. Chebotarev gives a positive Dirichlet-density set of primes with this class. Every such unramified prime is again a witness.
+If `r:G_F→GL_n(k)` is continuous and decomposed generic, there are infinitely many such rational primes, and witnesses can avoid any specified finite set.
+The compiled statement `infinitelyManyDecomposedGenericPrimes` uses a finite Galois
+realization `r:Gal(L/F)→GL_n(k)`, where `F` is any number field and `k` any finite field.
+Every continuous finite-coefficient representation of `G_F` factors through such a realization;
+faithfulness, semisimplicity and absolute irreducibility are not required.
+`FiniteModelDecomposedGenericPrime` requires `p≠char(k)`, complete splitting in `F`,
+trivial image of inertia at every prime of `L` above `p`, and the ordered eigenvalue
+nonratio condition for its Frobenius matrices. Complete splitting is expressed by the
+number of primes of `O_F` above `p` being `[F:ℚ]`. The definition tests arithmetic
+Frobenius; inversion exchanges ordered pairs, giving the geometric condition above.
+
+Let `K` be a normal closure of `F`, the field cut out by `r` and `ℚ(ζ_ℓ)`. A witness determines a conjugacy class in `Gal(K/ℚ)` whose restriction fixes `F`, fixes the all-place eigenvalue ratios and fixes `p mod ℓ`. Chebotarev gives a positive Dirichlet-density set of primes with this class. Every such unramified prime is again a witness.
 
 *Needs:* AG2.7: decomposed genericity; ArithmeticGaloisRepresentations Layer 5.
 
@@ -3048,14 +3040,10 @@ If `r:G_F→GL_n(k)` is continuous and decomposed generic, there are infinitely 
 
 The eigenvalue nonratio predicate is invariant under permutation, nonzero scalar multiplication, inversion and coefficient-field extension. Local representation genericity is invariant under conjugacy, semisimplification of an already unramified representation, and unramified scalar twists. An arbitrary ramified scalar twist preserves the projective representation but can destroy local unramifiedness. The global existential decomposed-generic condition is invariant under finite residual-character twists: use infinitely many witnesses and avoid the finite ramification set of the character. Strong local genericity obeys the same rules with distinctness retained.
 
-The algebraic milestones `isGenericEigenvalues_coeffExtension` and
-`isStrongGenericEigenvalues_coeffExtension` preserve and reflect the tuple predicates along
-any field embedding `k→K`. The matrix forms `isGeneric_coeffExtension` and
-`isStrongGeneric_coeffExtension` use `Matrix.GeneralLinearGroup.map` and the image of `q`.
-For two representations related by `s(g)=A r(g) A⁻¹`, `isGeneric_conjugate` and
-`isStrongGeneric_conjugate` preserve and reflect the respective predicates.
-`genericityTransfer` and `strongGenericityTransfer` give the scalar-twist comparisons when
-the twisting character is trivial on the specified inertia subgroup.
+Prove preservation and reflection of the tuple predicates along every field embedding
+`k→K`. The matrix comparisons use `Matrix.GeneralLinearGroup.map` and the image of `q`.
+Conjugating a representation by an invertible matrix preserves and reflects both local
+predicates. Scalar-twist comparisons retain triviality of the twisting character on inertia.
 
 *Needs:* AG2.7: Local residual genericity; AG2.7: Strong local decomposed genericity; AG2.7: infinitely many generic primes; Mathlib `Matrix.charpoly_units_conj`; Mathlib `Matrix.charpoly_map`.
 
@@ -3081,11 +3069,11 @@ The required API is:
 
 **Checks.**
 
-- `goodPrimeExport_character` — At `n=1` it is the algebraic-character good-prime package
+- At `n=1` it is the algebraic-character good-prime package
 
-- `goodPrimeExport_polynomial` — For a weight-`k` classical overlap its polynomial is `X²−a_qX+ψ(q)q^{k−1}`
+- For a weight-`k` classical overlap its polynomial is `X²−a_qX+ψ(q)q^{k−1}`
 
-- `goodPrimeExport_not_fullWD` — The package cannot supply `N` at a ramified place without branch evidence.
+- The package cannot supply `N` at a ramified place without branch evidence.
 
 *Needs:* AG2.6: automorphic compatible system;
 SmallRamificationAndAbelianVarietyBaseCases §5.0d.
@@ -3107,11 +3095,11 @@ The required API is:
 
 **Checks.**
 
-- `nonselfdualExport_rank_one` — For an algebraic character the Hodge multiset has one element and `N=0`
+- For an algebraic character the Hodge multiset has one element and `N=0`
 
-- `nonselfdualExport_good_crystalline` — At a spherical coefficient-prime place the upper bound `N=0` and trivial inertia recover the crystalline supplier criterion
+- At a spherical coefficient-prime place the upper bound `N=0` and trivial inertia recover the crystalline supplier criterion
 
-- `nonselfdualExport_not_polarized_fullWD` — The export supplies neither a polarized pairing nor full ramified WD equality from an ss comparison alone.
+- The export supplies neither a polarized pairing nor full ramified WD equality from an ss comparison alone.
 
 *Needs:* AG2.7: Good-prime characteristic-zero export; AG2.6: nonselfdual de Rham comparison; AG2.6: nonselfdual monodromy bound; AG2.6: Nonselfdual spherical and Iwahori admissibility.
 
@@ -3132,11 +3120,11 @@ The required API is:
 
 **Checks.**
 
-- `polarizedExport_weight_k` — For a weight-`k` base-change form it returns `H={0,k−1}, W=k−1` and determinant `ε^{1−k}r_ψ`
+- For a weight-`k` base-change form it returns `H={0,k−1}, W=k−1` and determinant `ε^{1−k}r_ψ`
 
-- `polarizedExport_forget` — The forgotten good package has exactly the same `λ`-members and `P_v`
+- The forgotten good package has exactly the same `λ`-members and `P_v`
 
-- `polarizedExport_nonselfdual_rejected` — AHTW ss comparison plus an `N` bound does not fulfill a full-WD comparison field.
+- AHTW ss comparison plus an `N` bound does not fulfill a full-WD comparison field.
 
 *Needs:* AG2.7: Good-prime characteristic-zero export; AG2.6: full polarized comparison; AG2.6: Totally real polarized coefficient-prime descent; AG2.6: system purity/polarization.
 
@@ -3151,7 +3139,7 @@ Throughout this target, for the literal CS Corollary 5.5.5 application, retain t
 The required API is:
 
 - `UnitaryDiscreteExport`: Build the labelled direct sum with explicit algebraic character twists.
-- `unitaryDiscreteExport_exists`: Given two matrix representations over any field and two unit-valued characters, construct a block sum with the prescribed twisted diagonal blocks.
+- Given two matrix representations over any field and two unit-valued characters, construct a block sum with the prescribed twisted diagonal blocks.
 - `unitaryDiscreteExport_constituent`: Retrieve `r_i, ε_i` and its inclusion into the direct sum.
 - `unitaryDiscreteExport_goodPolynomial`: Its good polynomial is the product of the twisted constituent polynomials and the specialized degree-n Hecke polynomial.
 
@@ -3161,7 +3149,7 @@ The required API is:
 
 - The direct-sum dimension is `n_1+n_2`, with neither twist changing dimension.
 
-- `unitaryDiscreteExport_not_cuspidal_irreducibility` — For positive `n_1,n_2`, the first block is a nonzero proper invariant subspace, so the block sum is not irreducible. In particular a two-character endoscopic sum cannot certify global irreducibility.
+- For positive `n_1,n_2`, the first block is a nonzero proper invariant subspace, so the block sum is not irreducible. In particular a two-character endoscopic sum cannot certify global irreducibility.
 
 *Needs:* AG2.2: Caraiani–Scholze discrete normalization; AutomorphicGaloisRepresentationsPartII AG2.5; AG2.0: algebraic Galois characters; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
@@ -3184,11 +3172,11 @@ The required API is:
 
 **Checks.**
 
-- `residualExport_rank_one` — Reduction of an integral character is its residual character
+- Reduction of an integral character is its residual character
 
-- `residualExport_diagonal_mod3` — The diagonal integral test reduces `X²−3X+2` to `X²+2` modulo 3
+- The diagonal integral test reduces `X²−3X+2` to `X²+2` modulo 3
 
-- `residualExport_unipotent_lattices` — The two `ℤ_5`-unipotent lattices have unequal reductions but equal semisimplifications; the package cannot identify the raw reductions.
+- The two `ℤ_5`-unipotent lattices have unequal reductions but equal semisimplifications; the package cannot identify the raw reductions.
 
 *Needs:* AG2.7: residual representation; Mathlib `Matrix.charpoly_map`; AG2.7: Hecke ideal independence; Mathlib `Representation.IsSemisimpleRepresentation`.
 
@@ -3214,10 +3202,9 @@ AG2.0–AG2.6; ArithmeticGaloisRepresentations Layers 1 and 5 and §7.4; Integra
 
 ### Dominant coordinates, extreme regularity and coefficient exponents
 
-`DominantWeight` is the light coordinate specialization of ArithmeticLocallySymmetricSpaces
-§ALS.F.7, with the arithmetic conjugation condition `IsInW` and the embedding pullback
-`baseChange` described in AG2.0. The constructor `mk` and its rank-two specialization `mk2`
-have the coordinate-evaluation and extensionality API there. `IsExtremelyRegular` uses sums
+The coordinate specialization of ArithmeticLocallySymmetricSpaces §ALS.F.7 has the
+arithmetic conjugation condition and embedding pullback described in AG2.0. Construction
+from antitone coordinates and extensionality include rank two. Extreme regularity uses sums
 of equal-sized subsets after the Hodge shift, rather than distinctness of individual entries.
 (Source: BLGGT, §2.1, p.32.)
 
@@ -3225,17 +3212,17 @@ of equal-sized subsets after the Hodge shift, rather than distinctness of indivi
 
 - For rank one and a nonempty embedding index every weight is extremely regular; for an
   empty embedding index the existential embedding condition is false, even in rank zero.
-- `DominantWeight.extremelyRegular_binary`: For rank four, weight `(5,2,1,1)` shifts to `(8,4,2,1)`. Binary uniqueness makes all subset
+- For rank four, weight `(5,2,1,1)` shifts to `(8,4,2,1)`. Binary uniqueness makes all subset
   sums distinct, so it is extremely regular.
-- `DominantWeight.not_extremelyRegular_parallel`: The dominant weight `(0,0,0,0)` shifts to `(3,2,1,0)`. Its two-element subsets `(3,0)` and
+- The dominant weight `(0,0,0,0)` shifts to `(3,2,1,0)`. Its two-element subsets `(3,0)` and
   `(2,1)` both sum to 3, so dominance and regular Hodge weights do not imply extreme regularity.
 - Pullback along the identity preserves every coordinate; composing two restriction maps
   gives the same weight as their composite. For an involution-compatible restriction, `IsInW`
   is preserved. A map that exchanges conjugate embeddings incorrectly fails this condition.
 
-In `Fixtures`, define `coefficientWeight(c,s) = −2c−s` and
-`labelledInteger(c,a,k) = k−1−a−c`. Their API is evaluation, translation of the central
-exponent and compatibility with the compact coefficient dictionary of AG2.0.
+The coefficient weight `−2c−s` and formal labelled integer `k−1−a−c` retain
+translation of the central exponent and compatibility with the compact coefficient
+dictionary of AG2.0.
 (Source: Shin, §3.6, (3.18), p.20; §6.2 preceding Corollary 6.7, p.48.)
 
 **Checks.**
@@ -3248,9 +3235,9 @@ exponent and compatibility with the compact coefficient dictionary of AG2.0.
 
 ### Relative-degree selector
 
-Define the rational scalar `Fixtures.selectorFactor(N,y,z) = (z−N^y)/(N−N^y)`.
-The geometric use takes an integer `N≥2` and `y≠1`, so its denominator is nonzero. Its API gives
-value 0 at `z=N^y` and value 1 at `z=N`, and the product over `y≠1` selects degree one.
+The rational scalar `(z−N^y)/(N−N^y)` uses an integer `N≥2` and `y≠1` in the
+geometric construction, so its denominator is nonzero. It has value 0 at `z=N^y` and
+value 1 at `z=N`, and the product over `y≠1` selects degree one.
 This scalar recipe is distinct from the corrected global correspondence in AG2.1a.
 (Source: TY, §2, p.12.)
 
@@ -3263,8 +3250,8 @@ This scalar recipe is distinct from the corrected global correspondence in AG2.1
 
 ### Discrete ranks and exponent conversion
 
-Define `Fixtures.discreteRank` on a finite list of pairs `(m_i,n_i)` by `Σ_i m_i n_i`.
-Its API is empty-list value, addition under list concatenation and additivity of multiplicities.
+The rank attached to a finite list of pairs `(m_i,n_i)` is `Σ_i m_i n_i`.
+It vanishes on the empty list, adds under concatenation and is additive in multiplicities.
 The corresponding representation is the actual direct sum of AG2.2, with every character
 and twist retained. (Source: HLTT, Proposition 1.2 and Corollary 1.3, p.31.)
 
@@ -3278,10 +3265,10 @@ and twist retained. (Source: HLTT, Proposition 1.2 and Corollary 1.3, p.31.)
 
 ### Hasse increments and Kuga slopes
 
-Define `Fixtures.hasseShift(p,M,j) = (p−1)p^(M−1)j` for the modulus-`M` comparison with `M≥1`.
-Its API is zero at `j=0`, additivity in `j` and multiplication by `p` when `M` increases by one.
-Define `Fixtures.kugaSlope(s,m,n,d) = s+mnd`; its API is the inverse subtraction formula,
-zero-copy identity and additivity of the shift. (Source: HLTT, Lemma 6.1,
+The Hasse increment is `(p−1)p^(M−1)j` for the modulus-`M` comparison with `M≥1`.
+It is zero at `j=0`, additive in `j` and multiplied by `p` when `M` increases by one.
+The Kuga slope is `s+mnd`, with inverse subtraction formula, zero-copy identity and
+additivity of the shift. (Source: HLTT, Lemma 6.1,
 pp.192–195, and Proposition 6.15/Corollary 6.17, pp.215–218.)
 
 **Checks.**
@@ -3296,16 +3283,12 @@ pp.192–195, and Proposition 6.15/Corollary 6.17, pp.215–218.)
 
 ### Equal first ranks with different nilpotent strings
 
-For a list of nilpotent block lengths, define `Fixtures.blockPowerRank(blocks,k)` by
-`Σ_d max(d−k,0)`. Its API is the empty-list value, concatenation additivity, `k=0` dimension
-and eventual vanishing. The three explicit matrices are fixed test data:
-`frobeniusFixture = diag(8,2,2,1/2,1/2,1/8)`;
-`pureChainFixture` has arrows `0→1→3→5` and `2→4`;
-`impureChainFixture` has arrows `0→1→3` and `2→4→5`.
-Their API is the stated matrix entries, the relation `FN = (1/4)NF`, nilpotence and the ranks
-of all powers. The matrix milestone `Fixtures.monodromyFirstRankDoesNotDetermineStrings`
-asserts the common Weil relation, equal first ranks, different third ranks and the stated
-nilpotence bounds. (Source: TY, Lemma 1.4(4) and its proof, pp.6–7;
+For nilpotent block lengths `d`, the rank of the `k`th power is `Σ_d max(d−k,0)`.
+It vanishes on the empty list, adds under concatenation, gives dimension at `k=0`
+and eventually vanishes. Consider `F=diag(8,2,2,1/2,1/2,1/8)`, with one nilpotent
+matrix having arrows `0→1→3→5` and `2→4`, and the other having arrows `0→1→3` and
+`2→4→5`. Verify their entries, the common relation `FN = (1/4)NF`, nilpotence and the
+ranks of all powers, including equal first ranks and different third ranks. (Source: TY, Lemma 1.4(4) and its proof, pp.6–7;
 Varma, §9, pp.20–21.)
 
 **Checks.**
@@ -3322,12 +3305,12 @@ Varma, §9, pp.20–21.)
 
 ### Matrix and scalar genericity
 
-The light predicates `IsGeneric` and `IsStrongGeneric` take an actual subgroup `I` of `G`, an
-actual matrix representation, an element `Frob` and `q`. Specialization to a local Galois group
-requires the specified inertia, geometric Frobenius and residue cardinality in AG2.7.
-The complete eigenvalue and representation invariance APIs are the ones stated there.
+The matrix forms of local genericity use an actual subgroup `I` of `G`, a matrix
+representation, an element `Frob` and `q`. Specialization to a local Galois group
+requires the specified inertia, geometric Frobenius and residue cardinality in AG2.7,
+with the eigenvalue and representation invariance properties stated there.
 `TauCeti.diagGL` (`TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Diagonal.Basic`)
-is the pinned matrix homomorphism of tuples of units used in the diagonal specialization Checks.
+is the pinned matrix homomorphism of tuples of units for the diagonal Checks.
 (Source: ACC+, Definition 4.3.1, p.972; CS, Definition 1.9, p.652.)
 
 **Checks.**
@@ -3340,17 +3323,17 @@ is the pinned matrix homomorphism of tuples of units used in the diagonal specia
   displayed Frobenius has acceptable eigenvalues. An unramified rank-one character is
   strong generic for every `q`.
 
-For `residualGenericityOutsideFiniteSet`, let `O` be a commutative ring, `k` a field and `red:O→k`
+Let `O` be a commutative ring, `k` a field and `red:O→k`
 an actual ring map. If each reduced difference `α_i−α_j` and `α_i−qα_j` is nonzero for `i≠j`,
 with `α_i` units, the reduced list is strong generic. The automorphic finiteness theorem in
 AG2.7 additionally proves that only finitely many coefficient places need be excluded.
 The local algebraic statement asserts no rational-prime Chebotarev conclusion.
 
-The light `UnitaryDiscreteExport` bundles the actual block representation and its specified
-matrix identity; its constituent and polynomial API is the algebraic part of the full labelled
-CS export in AG2.7. Rank-two character sums have the two linear factors, zero-dimensional
-summands contribute polynomial 1, and two nonzero character summands retain a proper invariant
-line. These are the three discriminating Checks for the bundle.
+The block representation with its specified matrix identity supplies the algebraic
+constituent inclusions and polynomial identities for the full labelled CS export in AG2.7.
+Rank-two character sums have the two linear factors, zero-dimensional summands contribute
+polynomial 1, and two nonzero character summands retain a proper invariant line.
+These are discriminating Checks for the labelled direct sum.
 (Source: CS, Corollary 5.5.5 and Remark 5.5.6, pp.745–746.)
 
 ## Downstream consumers
