@@ -117,7 +117,7 @@ AInfCohomology §AI.3.3 supplies `TauCetiRoadmap.AInfCohomology.qInteger q n = �
 
 ## How to read the build
 
-Construct canonical Breuil–Kisin twists and Nygaard filtrations, absolute cohomology through the Cartier–Witt stack, and multiplicative q-crystalline and q-de Rham models. The relative Nygaard object is the Frobenius pullback; orientation choices never enter its canonical definition. Within a layer, the explicit prerequisites determine construction order. Earlier parts are consumed by roadmap name and section. Suggested.lean states the discrete Nygaard ideal laws, the infinitesimal Witt identity and the polynomial q-derivative laws over Mathlib carriers; the geometric constructions and comparisons are specified in the layers below.
+Construct canonical Breuil–Kisin twists and Nygaard filtrations, absolute cohomology through the Cartier–Witt stack, and multiplicative q-crystalline and q-de Rham models. The relative Nygaard object is the Frobenius pullback; orientation choices never enter its canonical definition. Within a layer, the explicit prerequisites determine construction order. Earlier parts are consumed by roadmap name and section. `Suggested.lean` explains why the headline theorems have no signatures at the library pins: prisms, prismatic cohomology and its Nygaard filtration, Cartier–Witt geometry, q-crystalline cohomology and AΩ are absent. The Lean names in the layers specify the intended library API.
 
 ## Layer 3: Nygaard filtration and Breuil–Kisin twists
 
@@ -169,23 +169,18 @@ For `J=(d)` this reads `φ(x)∈d^iB`. Initial QRSP prisms are imported at Prism
 
 *Needs:* [PrismaticCohomology §2.15](../PrismaticCohomology/README.md#s2-15), [PrismaticCohomology §0.72](../PrismaticCohomology/README.md#s0-72), [PrismaticCohomology §0.73](../PrismaticCohomology/README.md#s0-73), [PrismaticCohomology §0.84](../PrismaticCohomology/README.md#s0-84), Mathlib `Ideal.comap`, Mathlib `Ideal.mem_comap`.
 
-- `Prismatic.Nygaard.fil`: `φ⁻¹(J^i), i≥0`.
-- `Prismatic.Nygaard.mem_fil_iff`: Membership is `φ(x)∈J^i`.
-- `Prismatic.Nygaard.fil_zero`: `Fil⁰=B`.
-- `Prismatic.Nygaard.fil_antitone`: `i≤j ⇒ Fil^j⊂Fil^i`.
-- `Prismatic.Nygaard.fil_mul_le`: `Fil^i·Fil^j⊂Fil^(i+j)`.
-- `Prismatic.Nygaard.fil_map_le`: Prism maps preserve `Fil^i`.
-- `Prismatic.Nygaard.fil_eq_span_pow_of_perfect`: For perfect `(B,(d)), φ(e)=d ⇒ Fil^i=(e^i)`.
+The ideal filtration has membership criterion `x∈Fil_N^i ⇔ φ(x)∈J^i`, zero term `Fil⁰=B`, decreasingness `i≤j ⇒ Fil^j⊂Fil^i`, and product law `Fil^i·Fil^j⊂Fil^(i+j)`. Maps commuting with Frobenius and carrying J into K preserve each step. For perfect `(B,(d))`, an element e with `φ(e)=d` gives `Fil^i=(e^i)`.
+
 - `Prismatic.Nygaard.gr`: `gr^i=Fil^i/Fil^(i+1)`.
 - `Prismatic.Nygaard.intersection_fil`: For QRSP prisms, `∩Fil^i=ker φ` by I-separation; this is the completion kernel.
 
 **Checks.**
 
-- `pr3_nygaard_fil_zero`: `Fil^0_N B = B` for every prism `(B, J)`.
-- `pr3_nygaard_fil_frobenius_id`: If `φ_B` is the identity (for example `(Z_p, (p))`) then `Fil^i_N B = J^i`.
-- `pr3_nygaard_fil_perfect`: For a perfect prism `(B, (d))` with `e = φ^{-1}(d): Fil^i_N B = (e^i)`; for B the `(p, [p]_q)`-completion of `Z_p[q^{1/p^∞}]` and `d = [p]_q` this is `([p]_{q^{1/p}})^i`.
-- `pr3_nygaard_fil_one_perfect`: For a perfect prism `(B, (d)): x ∈ Fil^1_N B` if and only if x maps to 0 under `B → B/dB` composed with `φ`, that is, `Fil^1_N B` is the kernel of `θ ∘ φ`.
-- `pr3_nygaard_fil_not_powers`: It is false that `Fil^i_N B = (Fil^1_N B)^i` for all prisms and all i: in the key case `Y^p/[p]_q!` lies in `Fil^p_N Δ_S` and not in `(Fil^1_N Δ_S)^p`.
+- `Fil^0_N B = B` for every prism `(B, J)`.
+- If `φ_B` is the identity (for example `(Z_p, (p))`) then `Fil^i_N B = J^i`.
+- For a perfect prism `(B, (d))` with `e = φ^{-1}(d): Fil^i_N B = (e^i)`; for B the `(p, [p]_q)`-completion of `Z_p[q^{1/p^∞}]` and `d = [p]_q` this is `([p]_{q^{1/p}})^i`.
+- For a perfect prism `(B, (d)): x ∈ Fil^1_N B` if and only if x maps to 0 under `B → B/dB` composed with `φ`, that is, `Fil^1_N B` is the kernel of `θ ∘ φ`.
+- It is false that `Fil^i_N B = (Fil^1_N B)^i` for all prisms and all i: in the key case `Y^p/[p]_q!` lies in `Fil^p_N Δ_S` and not in `(Fil^1_N Δ_S)^p`.
 
 **Proof route.** `Fil^i_N B` is the preimage of the ideal `J^i` under the ring map `φ_B`, hence an ideal (Mathlib: comap of an ideal); it decreases with i because `J^{i+1} ⊂ J^i`.
 
@@ -248,10 +243,10 @@ Filtered objects lie in `DF(A)`, indexed by Z and constant below zero. BS22 Prop
 
 **Checks.**
 
-- `pr3_nygaard_derived_fil_zero`: `Fil^0_N Δ_{S/A} ≅ Δ_{S/A}` for every S.
-- `pr3_nygaard_derived_gr_zero`: `gr^0_N Δ_{S/A} ≅ (φ_A)_* S` (derived p-completion of S, with A acting through `φ_A`), for every S; for `S = A/I` it is concentrated in degree 0.
-- `pr3_nygaard_derived_base`: For `S = A/I` perfectoid: `gr^i_N Δ_{S/A} ≅ (φ_A)_*(I^i/I^{i+1})` in degree 0 for all `i ≥ 0`; concretely it is `(e^i)/(e^{i+1})` with `e = φ_A^{-1}(d)`.
-- `pr3_nygaard_derived_not_truncation`: For `R = A/I ≠ 0, gr^0_N Δ_{R/A}` is not isomorphic to `τ^{≤0} Δ_{R/A} = A`: the graded pieces are truncations of Hodge–Tate cohomology, not of prismatic cohomology.
+- `Fil^0_N Δ_{S/A} ≅ Δ_{S/A}` for every S.
+- `gr^0_N Δ_{S/A} ≅ (φ_A)_* S` (derived p-completion of S, with A acting through `φ_A`), for every S; for `S = A/I` it is concentrated in degree 0.
+- For `S = A/I` perfectoid: `gr^i_N Δ_{S/A} ≅ (φ_A)_*(I^i/I^{i+1})` in degree 0 for all `i ≥ 0`; concretely it is `(e^i)/(e^{i+1})` with `e = φ_A^{-1}(d)`.
+- For `R = A/I ≠ 0, gr^0_N Δ_{R/A}` is not isomorphic to `τ^{≤0} Δ_{R/A} = A`: the graded pieces are truncations of Hodge–Tate cohomology, not of prismatic cohomology.
 
 **Proof route.** `(a)`: each `B̃^k` satisfies Theorem 12.2 by §3.3 and Zariski localisation`; Δ_{B̃^•}` computes `Δ_{B/A}` by the Hodge–Tate comparison and quasisyntomic descent (PrismaticCohomology §2.17).
 
@@ -299,10 +294,10 @@ This agrees with BL22 Definition 2.1.3. Transversality is `(d,p)`-regularity whe
 
 **Checks.**
 
-- `pr3_transversal_ir_zero_one`: `I_0 = A` and `I_1 = I` for every prism.
-- `pr3_transversal_q_de_rham_ir`: If `I = ([p]_q)` with `δ(q) = 0`, then `I_r = ([p^r]_q)` where `[p^r]_q = 1 + q + … + q^{p^r − 1}`.
-- `pr3_transversal_torsion_free`: For a transversal prism, `p x = 0` in A implies `x = 0`.
-- `pr3_transversal_not_crystalline`: A crystalline prism `(A, (p))` with `A/p ≠ 0` is not transversal.
+- `I_0 = A` and `I_1 = I` for every prism.
+- If `I = ([p]_q)` with `δ(q) = 0`, then `I_r = ([p^r]_q)` where `[p^r]_q = 1 + q + … + q^{p^r − 1}`.
+- For a transversal prism, `p x = 0` in A implies `x = 0`.
+- A crystalline prism `(A, (p))` with `A/p ≠ 0` is not transversal.
 
 **Proof route.** `(1): I^m/I^{m+1}` is an invertible A/I-module, hence p-torsion-free, so `A/I^n` is p-torsion-free for all n and A, being I-complete, is p-torsion-free (BL22 Remark 2.1.7); the criterion is Remark 2.1.8.
 
@@ -345,10 +340,10 @@ For transversal `(A,I)`, define `A{1}=lim_r(I_r/I_r²,c_r)`, using the divided t
 
 **Checks.**
 
-- `pr3_bk_transversal_proj_one`: `π_1` induces `A{1}/IA{1} ≅ I/I²`: it is surjective with kernel `I · A{1}`.
-- `pr3_bk_transversal_q_system`: If `I = ([p]_q)` with `δ(q) = 0` on a transversal prism, then `[p^{r+1}]_q − p [p^r]_q ∈ I_r²` for all r, so the classes of `[p^r]_q` are a compatible system.
-- `pr3_bk_transversal_undivided`: The canonical maps `I_{r+1}/I_{r+1}² → I_r/I_r²` are not the transition maps: each has image in `p · (I_r/I_r²)`.
-- `pr3_bk_transversal_proj_zero`: `π_0` is the zero map to `I_0/I_0² = 0`.
+- `π_1` induces `A{1}/IA{1} ≅ I/I²`: it is surjective with kernel `I · A{1}`.
+- If `I = ([p]_q)` with `δ(q) = 0` on a transversal prism, then `[p^{r+1}]_q − p [p^r]_q ∈ I_r²` for all r, so the classes of `[p^r]_q` are a compatible system.
+- The canonical maps `I_{r+1}/I_{r+1}² → I_r/I_r²` are not the transition maps: each has image in `p · (I_r/I_r²)`.
+- `π_0` is the zero map to `I_0/I_0² = 0`.
 
 **Proof route.** `A{1}` is p-complete and p-torsion-free because each `I_r/I_r²` is; by the criterion for invertibility modulo `p^n` it suffices that `A{1}/p` is invertible over `A/p`, where it is the limit of the modules `Ī^{m_r}/Ī^{2m_r}, m_r = (p^r − 1)/(p − 1)`, invertible over `(A/p)/Ī^{m_r}`, and `A/p` is Ī-adically complete (BL22 Proposition 2.2.12).
 
@@ -380,11 +375,11 @@ For any prism, take the colimit of `A⊗_(A₀)A₀{1}` over transversal prisms 
 
 **Checks.**
 
-- `pr3_bk_twist_pow_zero`: `A{0} ≅ A`.
-- `pr3_bk_twist_module_add`: `(M{m}){n} ≅ M{m+n}` for all `m, n ∈ Z`.
-- `pr3_bk_twist_free_of_principal`: If `I = (d)` then `A{1}` is free of rank one.
-- `pr3_bk_twist_q_generator`: If `δ(q) = 0` and `I = ([p]_q)`, then `A{1}` has a generator e with `[p]_q · φ_{A{1}}(e) = e` in `I^{−1} ⊗ A{1}`, where e is viewed in `I^{−1} ⊗ A{1}` through `I ⊂ A`.
-- `pr3_bk_twist_no_fixed_generator`: For a crystalline prism `(A, (p))` with `A ≠ 0` no generator e of `A{1}` satisfies `φ_{A{1}}(e) = e`: the twist is not the unit Frobenius module.
+- `A{0} ≅ A`.
+- `(M{m}){n} ≅ M{m+n}` for all `m, n ∈ Z`.
+- If `I = (d)` then `A{1}` is free of rank one.
+- If `δ(q) = 0` and `I = ([p]_q)`, then `A{1}` has a generator e with `[p]_q · φ_{A{1}}(e) = e` in `I^{−1} ⊗ A{1}`, where e is viewed in `I^{−1} ⊗ A{1}` through `I ⊂ A`.
+- For a crystalline prism `(A, (p))` with `A ≠ 0` no generator e of `A{1}` satisfies `φ_{A{1}}(e) = e`: the twist is not the unit Frobenius module.
 
 **Proof route.** Existence: C has weakly contractible nerve (§3.7 `(4)`) and the diagram has invertible transition maps by part `(2)` of §3.8, so the colimit exists and every structure map is an isomorphism (BL22 Proposition 2.5.1).
 
@@ -414,7 +409,7 @@ For an oriented prism `(B,(d))`, define additive semilinear `φ_i=φ/d^i` on `Fi
 *Needs:* [§3.1](#s3-1), [§3.4](#s3-4), [§3.5](#s3-5), [§3.9](#s3-9), [PrismaticCohomology §1.9](../PrismaticCohomology/README.md#s1-9), [PrismaticCohomology §0.72](../PrismaticCohomology/README.md#s0-72).
 
 - `Prismatic.Nygaard.dividedFrobenius`: `φ_i=φ/d^i` on `Fil^i`.
-- `Prismatic.Nygaard.dividedFrobenius_spec`: `d^iφ_i(x)=φ(x)`, uniquely. On a ring endomorphism φ and regular d, its value is characterised by `∃! y, d^i y=φ(x)` for `x∈φ⁻¹((d)^i)`.
+- The divided value satisfies `d^iφ_i(x)=φ(x)`, uniquely. For a ring endomorphism φ and regular d, its characterization is `∃! y, d^i y=φ(x)` for `x∈φ⁻¹((d)^i)`.
 - `Prismatic.Nygaard.dividedFrobenius_mul`: `φ_(i+j)(xy)=φ_i(x)φ_j(y)`.
 - `Prismatic.Nygaard.dividedFrobenius_succ`: `φ_i=dφ_(i+1)` on `Fil^(i+1)`.
 - `Prismatic.Nygaard.dividedFrobenius_mem_iff`: `φ_i(x)∈dB` iff `x∈Fil^(i+1)`.
@@ -425,11 +420,11 @@ For an oriented prism `(B,(d))`, define additive semilinear `φ_i=φ/d^i` on `Fi
 
 **Checks.**
 
-- `pr3_divided_frobenius_zero`: `φ_0(x) = φ(x)` for all x.
-- `pr3_divided_frobenius_perfect`: For a perfect prism `(B, (d))` and `φ(e) = d: φ_i(e^i a) = φ(a)` for all `a ∈ B`.
-- `pr3_divided_frobenius_crystalline`: For a crystalline prism `(B, (p))` with `φ = id` (for example `Z_p): φ_i(p^i a) =` a.
-- `pr3_divided_frobenius_kernel`: `φ_i(x) ∈ dB` exactly when `x ∈ Fil^{i+1}_N B`, so `φ_i` induces an injection `gr^i_N B → B/dB`.
-- `pr3_divided_frobenius_not_multiplicative`: For a nonzero perfect prism, `φ_1` is not multiplicative. For every oriented prism and `x, y ∈ Fil^1_N B` one has `φ_1(xy) = d · φ_1(x)φ_1(y)`; in the nonzero perfect case, `x = y = φ^{-1}(d)` gives `φ_1(x²) = d ≠ 1 = φ_1(x)²`. Derived `(p,d)`-completeness forces `B=0` if `d=1`. For the zero prism the unique divided Frobenius is multiplicative.
+- `φ_0(x) = φ(x)` for all x.
+- For a perfect prism `(B, (d))` and `φ(e) = d: φ_i(e^i a) = φ(a)` for all `a ∈ B`.
+- For a crystalline prism `(B, (p))` with `φ = id` (for example `Z_p): φ_i(p^i a) =` a.
+- `φ_i(x) ∈ dB` exactly when `x ∈ Fil^{i+1}_N B`, so `φ_i` induces an injection `gr^i_N B → B/dB`.
+- For a nonzero perfect prism, `φ_1` is not multiplicative. For every oriented prism and `x, y ∈ Fil^1_N B` one has `φ_1(xy) = d · φ_1(x)φ_1(y)`; in the nonzero perfect case, `x = y = φ^{-1}(d)` gives `φ_1(x²) = d ≠ 1 = φ_1(x)²`. Derived `(p,d)`-completeness forces `B=0` if `d=1`. For the zero prism the unique divided Frobenius is multiplicative.
 
 **Proof route.** `(a): J = (d)` is invertible, so d is a nonzerodivisor and `x ∈ Fil^i_N` means `φ(x) ∈ d^iB; φ_i(x)` is the unique quotient. The identities follow by cancelling powers of `d; φ_i(x) ∈ dB ⇔ φ(x) ∈ d^{i+1}B ⇔ x ∈ Fil^{i+1}_N`.
 
@@ -476,10 +471,10 @@ A quasisyntomic A/I-algebra is p-completely flat, derived p-complete and has Lha
 
 **Checks.**
 
-- `pr3_large_base`: Ā is large over itself.
-- `pr3_large_generated_by_roots`: If S is generated as an Ā-algebra by elements with compatible p-power roots, then S is large; this covers the p-completion of `Ā[X^{1/p^∞}]/(X)`.
-- `pr3_large_kaehler`: For large S every Kähler differential of S over Ā is p times another one.
-- `pr3_large_not_polynomial`: If `Ā/p≠0`, the p-completed polynomial algebra `Ā⟨X⟩` is quasisyntomic but not large: its reduction has the nonzero differential dX.
+- Ā is large over itself.
+- If S is generated as an Ā-algebra by elements with compatible p-power roots, then S is large; this covers the p-completion of `Ā[X^{1/p^∞}]/(X)`.
+- For large S every Kähler differential of S over Ā is p times another one.
+- If `Ā/p≠0`, the p-completed polynomial algebra `Ā⟨X⟩` is quasisyntomic but not large: its reduction has the nonzero differential dX.
 
 **Proof route.** Equivalence: a surjection from `Ā⟨X_t^{1/p^∞}⟩` exhibits generators with compatible roots; conversely generators `x_t` of `S/p` with compatible roots in S define `Ā⟨X_t^{1/p^∞}⟩ → S`, surjective modulo p and hence surjective by p-completeness.
 
@@ -526,10 +521,10 @@ For animated `R/A/I` set `Δ¹=Δ⊗`̂^`L_(A,φ_A)A`, with A-linear `φ_rel:Δ�
 
 **Checks.**
 
-- `pr3_rel_fil_zero`: `Fil^0_N φ_A^*Δ_{R/A} ≅ φ_A^*Δ_{R/A}`.
-- `pr3_rel_fil_base`: For `R = A/I` and all `i: Fil^i_N φ_A^*Δ_{R/A} ≅ I^i` in degree 0.
-- `pr3_rel_gr_zero_base`: For `R = A/I: gr^0_N φ_A^*Δ_{R/A} ≅ A/I` in degree 0.
-- `pr3_rel_fil_needs_twist`: The Nygaard ideal `Fil^1_N A = φ_A^{-1}(I)` of the base prism is not I in general: for the q-de Rham prism it is `(q − 1)`, while the relative filtration of `R = A/I` on `φ_A^*Δ = A` is `I = ([p]_q)`.
+- `Fil^0_N φ_A^*Δ_{R/A} ≅ φ_A^*Δ_{R/A}`.
+- For `R = A/I` and all `i: Fil^i_N φ_A^*Δ_{R/A} ≅ I^i` in degree 0.
+- For `R = A/I: gr^0_N φ_A^*Δ_{R/A} ≅ A/I` in degree 0.
+- The Nygaard ideal `Fil^1_N A = φ_A^{-1}(I)` of the base prism is not I in general: for the q-de Rham prism it is `(q − 1)`, while the relative filtration of `R = A/I` on `φ_A^*Δ = A` is `I = ([p]_q)`.
 
 **Proof route.** `(a)` is §3.13. `(b)`: large algebras form a basis of the quasisyntomic site (§3.12)`; R ↦ φ_A^*Δ_{R/A}` and `R ↦ I^•Δ_{R/A}` satisfy quasisyntomic descent (BL22 Lemma 5.1.7, from the conjugate filtration and flat descent for exterior powers of the cotangent complex, DerivedDeRhamCohomology §§5.1–5.7; PrismaticCohomology §2.17), hence are right Kan extended from large algebras, and so is the filtered Frobenius.
 
@@ -636,10 +631,10 @@ For a prism define Bhat`=lim_i B/Fil_N^i`, with kernel filtration; the API gives
 
 **Checks.**
 
-- `pr3_completion_perfect`: For a perfect prism `(B, (d))` with B classically `(p, d)`-adically complete, `c : B → B̂` is bijective.
-- `pr3_completion_quotient`: `B̂ → B/Fil^i_N B` is surjective with kernel `Fil^i_N B̂`, and `c^{-1}(Fil^i_N B̂) = Fil^i_N B`.
-- `pr3_completion_frobenius`: `φ̂ ∘ c = φ`: the Frobenius of the completion restricts to `φ` on B.
-- `pr3_completion_not_surjective`: It is false that c is surjective for every prism: for the prism of `F_p[X^{1/p^∞}]/(X)` the element `Σ_m Y^m/m!` of B̂ is not in the image.
+- For a perfect prism `(B, (d))` with B classically `(p, d)`-adically complete, `c : B → B̂` is bijective.
+- `B̂ → B/Fil^i_N B` is surjective with kernel `Fil^i_N B̂`, and `c^{-1}(Fil^i_N B̂) = Fil^i_N B`.
+- `φ̂ ∘ c = φ`: the Frobenius of the completion restricts to `φ` on B.
+- It is false that c is surjective for every prism: for the prism of `F_p[X^{1/p^∞}]/(X)` the element `Σ_m Y^m/m!` of B̂ is not in the image.
 
 **Proof route.** `(a)`: the inverse limit of rings along surjections; the kernel of `B̂ → B/Fil^i_N B` is the limit of `Fil^i_N/Fil^j_N`, the transition maps are surjective, so `B̂ → B/Fil^i_N` is surjective and the quotients and graded pieces are unchanged; completeness of B̂ is the standard statement for limits of towers.
 
@@ -869,9 +864,9 @@ Site cohomology below assumes X bounded. All site prisms are bounded; an initial
 
 **Checks.**
 
-- `pr5_site_perfect_initial`: For a perfect prism `(A,I)`, the triple `(A,I,id)` is initial in the category of triples of `Spf(A/I)`, hence final in its opposite prismatic site: every site object has exactly one arrow to it.
-- `pr5_site_char_p_crystalline`: If R has characteristic p then every object `(A, I, u)` of `(Spf R)_Δ` has `I = (p)`.
-- `pr5_site_structure_map_matters`: A prism endomorphism of `(A, I)` that does not induce the identity on `A/I` is not a morphism of the object `(A, I, id)` of `(Spf A/I)_Δ`: the site is not the category of all bounded prisms.
+- For a perfect prism `(A,I)`, the triple `(A,I,id)` is initial in the category of triples of `Spf(A/I)`, hence final in its opposite prismatic site: every site object has exactly one arrow to it.
+- If R has characteristic p then every object `(A, I, u)` of `(Spf R)_Δ` has `I = (p)`.
+- A prism endomorphism of `(A, I)` that does not induce the identity on `A/I` is not a morphism of the object `(A, I, id)` of `(Spf A/I)_Δ`: the site is not the category of all bounded prisms.
 
 **Proof route.** Category: triples `(A, I, u)` with the maps of prisms of PrismaticCohomology §0.73 compatible with the structure maps; composition and identities are those of prisms (Bhatt–Scholze F-crystals, Definition 2.3; Bhatt–Lurie, Definition 4.4.27).
 
@@ -898,11 +893,11 @@ Use the natural Witt δ-structure, not reconstruction from F in the presence of 
 
 **Checks.**
 
-- `pr5_cw_p_distinguished`: `p ∈ W(Z/p^{n+1})` lies in `WCart_0`: its coordinates begin `(p, 1 − p^{p−1})`.
-- `pr5_cw_verschiebung_one`: `V(1) ∈ W(R)` lies in `WCart_0(R)`: its coordinates are `(0, 1, 0, …)`.
-- `pr5_cw_one_not_distinguished`: Over a nonzero ring, `1 ∈ W(R)` is not distinguished: condition `(a)` fails.
-- `pr5_cw_teichmuller_not_distinguished`: Over a nonzero ring, no Teichmüller element `[a]` is distinguished: condition `(b)` fails.
-- `pr5_cw_empty_of_p_not_nilpotent`: If p is not nilpotent in R then R has no Cartier–Witt divisor.
+- `p ∈ W(Z/p^{n+1})` lies in `WCart_0`: its coordinates begin `(p, 1 − p^{p−1})`.
+- `V(1) ∈ W(R)` lies in `WCart_0(R)`: its coordinates are `(0, 1, 0, …)`.
+- Over a nonzero ring, `1 ∈ W(R)` is not distinguished: condition `(a)` fails.
+- Over a nonzero ring, no Teichmüller element `[a]` is distinguished: condition `(b)` fails.
+- If p is not nilpotent in R then R has no Cartier–Witt divisor.
 
 **Proof route.** Definition: Bhatt–Lurie, Definition 3.1.4, on the generalized Cartier divisors of the previous target and the Witt vectors of Mathlib (WittVector, with constantCoeff for restriction).
 
@@ -928,10 +923,10 @@ The variance is `R→S` giving `WCart(R)→WCart(S)`, correcting BL22 Remark 3.1
 
 **Checks.**
 
-- `pr5_wcart_hom_principal`: Morphisms `(W(R), f·) → (W(R), g·)` in `WCart(R)` correspond to the units u of `W(R)` with `g = u f`.
-- `pr5_wcart_zero_ring`: Over the zero ring any two Cartier–Witt divisors are uniquely isomorphic.
-- `pr5_wcart_pullback_principal`: `f^*(W(R), x·) ≅ (W(S), W(f)(x)·)` for a distinguished Witt vector x.
-- `pr5_wcart_nontrivial_automorphism`: Over the dual numbers `F_p[ε]/(ε²)` the divisor `(W, V(1)·)` has an automorphism different from the identity: WCart is not a functor to sets.
+- Morphisms `(W(R), f·) → (W(R), g·)` in `WCart(R)` correspond to the units u of `W(R)` with `g = u f`.
+- Over the zero ring any two Cartier–Witt divisors are uniquely isomorphic.
+- `f^*(W(R), x·) ≅ (W(S), W(f)(x)·)` for a distinguished Witt vector x.
+- Over the dual numbers `F_p[ε]/(ε²)` the divisor `(W, V(1)·)` has an automorphism different from the identity: WCart is not a functor to sets.
 
 **Proof route.** Pullback: `W(f)` is a δ-map with `W(f)(x)_i = f(x_i)` (Mathlib WittVector.map), so conditions `(a)` and `(b)` in coordinate form are preserved; the pseudofunctor structure is that of Cart applied to W (the preceding targets).
 
@@ -985,9 +980,9 @@ A ring map `f:A→R` from a prism lifts uniquely to a δ-map `A→W(R)`. Its pul
 
 **Checks.**
 
-- `pr5_point_crystalline_is_p`: For a crystalline prism the point `ρ_A(f)` is isomorphic to the principalized divisor `(W(R), p·)`.
-- `pr5_point_orientable_principal`: If I is principal then `ρ_A(f)` is isomorphic to a principalized divisor.
-- `pr5_point_to_cart`: `μ(ρ_A(f))` is isomorphic in Cart`(R)` to the pullback along f of the Cartier divisor `(I ⊂ A)`.
+- For a crystalline prism the point `ρ_A(f)` is isomorphic to the principalized divisor `(W(R), p·)`.
+- If I is principal then `ρ_A(f)` is isomorphic to a principalized divisor.
+- `μ(ρ_A(f))` is isomorphic in Cart`(R)` to the pullback along f of the Cartier divisor `(I ⊂ A)`.
 
 **Proof route.** `Δ`-lift: the adjunction δ-rings ⇄ rings with right adjoint W gives f̃ with `f̃(a)_0 = f(a)` (PrismaticCohomology §0.56). Conditions `(a)` and `(b)`: the image of `f̃^*(I)` in R is `f(I)R`; and `p ∈ I + φ(I)A` (PrismaticCohomology §0.72) with δ-compatibility of f̃ shows that `δ(f̃(I))` generates the unit ideal of `W(R)` once `f(I)` and `f(p)` are nilpotent (Bhatt–Lurie, Construction 3.2.4).
 
@@ -1039,9 +1034,9 @@ Take the enhanced pointwise limit before the homotopy category. The formal ident
 
 **Checks.**
 
-- `pr5_qcoh_pullback_unit`: `ρ_A^*` of the unit object is A in degree 0.
-- `pr5_qcoh_ideal_pow_zero`: `I^0` is isomorphic to the unit object `O_WCart`.
-- `pr5_qcoh_ideal_not_trivial`: The Hodge–Tate ideal sheaf I is not isomorphic to `O_WCart`.
+- `ρ_A^*` of the unit object is A in degree 0.
+- `I^0` is isomorphic to the unit object `O_WCart`.
+- The Hodge–Tate ideal sheaf I is not isomorphic to `O_WCart`.
 - For identity flat base change on WCart, the comparison for `ρ_(B*)` is the identity.
 - Pullback along a transversal atlas computes `ρ_(B*)` by restriction of scalars on the completed formal fibre product, compatibly on its double and triple overlaps.
 - For `E=I^m`, including negative m, the dualizable projection formula retains exactly that ideal power; at `m=0` it is the unit formula.
@@ -1085,9 +1080,9 @@ The kernel identification is over `Z_(p)`, not Z: after inverting p the Witt ker
 
 **Checks.**
 
-- `pr5_gmsharp_padic_points`: The image of `G_m^♯(Z_p) → Z_p^×` is `1 + pZ_p`.
-- `pr5_gmsharp_rational`: For a Q-algebra R the map `G_m^♯(R) → R^×` is bijective.
-- `pr5_gmsharp_fp_trivial`: `G_m^♯(F_4)` is trivial when `p=2`, whereas `G_m(F_4)` has three elements. For `p>2`, use `F_p`. Thus the comparison to `G_m` is not an isomorphism, including at `p=2`.
+- The image of `G_m^♯(Z_p) → Z_p^×` is `1 + pZ_p`.
+- For a Q-algebra R the map `G_m^♯(R) → R^×` is bijective.
+- `G_m^♯(F_4)` is trivial when `p=2`, whereas `G_m(F_4)` has three elements. For `p>2`, use `F_p`. Thus the comparison to `G_m` is not an isomorphism, including at `p=2`.
 
 **Proof route.** Divided power envelope and group structure: Bhatt–Lurie, Notation 3.4.9 and Remark 3.4.10, with the envelopes of DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21; the comultiplication formula `c((t−1)^n/n!) = Σ_{a+b=n} t^a (t−1)^b/b! ⊗ (t−1)^a/a!`.
 
@@ -1113,10 +1108,10 @@ The fpqc classifying stack is not a formal scheme`; η` is a cover, not an isomo
 
 **Checks.**
 
-- `pr5_ht_p_eq_verschiebung_one`: In `W(R)` for R of characteristic `p: p = V(1)`; the de Rham point restricted to `F_p`-algebras is `η`.
-- `pr5_ht_p_not_hodge_tate`: The divisor `(W(Z/p²), p·)` is not in the Hodge–Tate divisor: its coordinate `x_0` is `p ≠ 0`.
-- `pr5_ht_unit_times_v_one`: `u V(1) = V(F(u))` for every `u ∈ W(R)`.
-- `pr5_ht_aut_eta_fp`: Over `F_p` the point `η` has only the identity automorphism: `W^×`[F](F_p) `= 1`.
+- In `W(R)` for R of characteristic `p: p = V(1)`; the de Rham point restricted to `F_p`-algebras is `η`.
+- The divisor `(W(Z/p²), p·)` is not in the Hodge–Tate divisor: its coordinate `x_0` is `p ≠ 0`.
+- `u V(1) = V(F(u))` for every `u ∈ W(R)`.
+- Over `F_p` the point `η` has only the identity automorphism: `W^×`[F](F_p) `= 1`.
 
 **Proof route.** Closed substack, fibre description and the pullback square for a prism: Bhatt–Lurie, Definition 3.4.1, Remark 3.4.2 and the diagram after Example 3.4.3; the image of `ρ_A(f)` in R is `f(I)R`.
 
@@ -1137,14 +1132,14 @@ Define `D(WCart^HT)` by §4.0, equivalently `lim D̂(A/I)≃Tot D̂(A^•/I^•)
 - `Prismatic.WCart.senOperator_unit`: `Θ_O=0`.
 - `Prismatic.WCart.senOperator_twist`: `Θ_(O{n})=n`.
 - `Prismatic.WCart.fibreEta_twist`: `η*O{n}=Z_p[0]`.
-- `Prismatic.WCart.one_add_teichmuller_eps_mul_verschiebung`: `(1+[ε])V(y)=V(y)` when `ε²=0`, giving the infinitesimal automorphism.
+- The infinitesimal Witt identity `(1+[ε])V(y)=V(y)` when `ε²=0` gives the infinitesimal automorphism.
 
 **Checks.**
 
-- `pr5_sen_unit_zero`: The Sen operator of the structure sheaf of `WCart^HT` is zero.
-- `pr5_sen_ideal_identity`: The Sen operator of the restricted Hodge–Tate ideal sheaf is the identity of its fibre.
-- `pr5_sen_ideal_ne_zero`: The Sen operator of the restricted Hodge–Tate ideal sheaf is not zero; hence that sheaf is not isomorphic to the structure sheaf.
-- `pr5_sen_teichmuller_frobenius`: `F([ε]) = 0` in W of the dual numbers over any ring.
+- The Sen operator of the structure sheaf of `WCart^HT` is zero.
+- The Sen operator of the restricted Hodge–Tate ideal sheaf is the identity of its fibre.
+- The Sen operator of the restricted Hodge–Tate ideal sheaf is not zero; hence that sheaf is not isomorphic to the structure sheaf.
+- `F([ε]) = 0` in W of the dual numbers over any ring.
 
 **Proof route.** Categories and functors: Bhatt–Lurie, Definition 3.5.1, Example 3.5.2 and Remark 3.5.3, by the same descent argument as Quasi-coherent complexes on WCart are prismatic crystals applied to the prisms `(A^n, I^n)` modulo `I^n`.
 
@@ -1186,10 +1181,10 @@ F is not an equivalence; its twist formula is the Frobenius of §3.9.
 
 **Checks.**
 
-- `pr5_frob_eta_is_p`: `F(V(1)) = p` in `W(R)` for every ring R.
-- `pr5_frob_preserves_distinguished`: If p is nilpotent in R and `f ∈ WCart_0(R)` then `F(f) ∈ WCart_0(R)`.
-- `pr5_frob_kills_sen_automorphism`: `F(1 + [ε]) = 1` over the dual numbers: F is not faithful on automorphism groups, so it is not an equivalence.
-- `pr5_point_frobenius`: `ρ_A(f ∘ φ_A) ≅ F(ρ_A(f))`.
+- `F(V(1)) = p` in `W(R)` for every ring R.
+- If p is nilpotent in R and `f ∈ WCart_0(R)` then `F(f) ∈ WCart_0(R)`.
+- `F(1 + [ε]) = 1` over the dual numbers: F is not faithful on automorphism groups, so it is not an equivalence.
+- `ρ_A(f ∘ φ_A) ≅ F(ρ_A(f))`.
 
 **Proof route.** F is an endomorphism of the δ-ring `W(R)`, natural in R (PrismaticCohomology §0.56); in coordinates `F(x)_0 = x_0^p + p x_1` and `F(x)_1 ≡ x_1^p` modulo `(p, x_0)`, so the coordinate form of the Cartier–Witt conditions is preserved (Bhatt–Lurie, Construction 3.6.1).
 
@@ -1245,10 +1240,10 @@ No completeness of animated R is required. BL22 Construction 4.4.19’s affine-p
 
 **Checks.**
 
-- `pr5_abs_sheaf_integers`: `H_Δ(Z)` is the unit object `O_WCart`.
-- `pr5_abs_sheaf_zero_ring`: `H_Δ` of the zero ring is a zero object.
-- `pr5_abs_fp`: `Δ_{F_p}` is `Z_p` placed in degree 0.
-- `pr5_abs_sheaf_fp_not_unit`: `H_Δ(F_p)` is not isomorphic to `O_WCart`: its pullback to a transversal prism A is `A{p/I}^∧`, not A.
+- `H_Δ(Z)` is the unit object `O_WCart`.
+- `H_Δ` of the zero ring is a zero object.
+- `Δ_{F_p}` is `Z_p` placed in degree 0.
+- `H_Δ(F_p)` is not isomorphic to `O_WCart`: its pullback to a transversal prism A is `A{p/I}^∧`, not A.
 
 **Proof route.** Crystal data: the base-change isomorphism of derived prismatic cohomology (PrismaticCohomology §1.21 for the derived complexes of PrismaticCohomology §2.1; Bhatt–Lurie, Remark 4.1.5) gives an object of `lim D̂(A)`, hence of `D(WCart)` (Bhatt–Lurie, Construction 4.4.1).
 
@@ -1323,10 +1318,10 @@ Set `H_Δ̄(R)=ι*H_Δ(R), Δ̄_R{n}=RΓ_HT(H_Δ̄(R){n})`, and Ωhat^DHod_R`=η
 
 **Checks.**
 
-- `pr5_ht_integers_h1`: `H^1(Δ̄_Z) ≅ Z_p`.
-- `pr5_ht_integers_twist_h0`: `H^0(Δ̄_Z{n}) = 0` for `n ≠ 0`: the twist cannot be ignored.
-- `pr5_ht_sheaf_integers`: `H_Δ̄(Z)` is the unit object of `D(WCart^HT)`.
-- `pr5_ht_diffracted_integers`: `Ω̂`^DHod_Z is `Z_p` in degree 0.
+- `H^1(Δ̄_Z) ≅ Z_p`.
+- `H^0(Δ̄_Z{n}) = 0` for `n ≠ 0`: the twist cannot be ignored.
+- `H_Δ̄(Z)` is the unit object of `D(WCart^HT)`.
+- `Ω̂`^DHod_Z is `Z_p` in degree 0.
 
 **Proof route.** Sheaf and conjugate filtration: the relative conjugate filtration of PrismaticCohomology §2.3 is compatible with base change, so it defines filtered objects of `D(WCart^HT) ≃ lim D̂(A/I)` (Complexes on the Hodge–Tate divisor and the Sen operator; Bhatt–Lurie, Construction 4.5.1, Remarks 4.5.2–4.5.4); the graded pieces use `A{1}/I ≅ I/I²` (§3.9).
 
@@ -1396,10 +1391,10 @@ The filtration uses p-complete de Rham without Hodge completion. Affine-point li
 
 **Checks.**
 
-- `pr5_nyg_fil_zero`: `Fil^0_N Δ_R{n} ≅ Δ_R{n}`.
-- `pr5_nyg_gr_fp`: `gr^m_N Δ_{F_p} ≅ F_p` in degree 0 for every `m ≥ 0`: the filtration of `Z_p` by the ideals `p^m Z_p`.
-- `pr5_nyg_gr_zero_integers`: `gr^0_N Δ_Z ≅ Z_p` in degree 0.
-- `pr5_nyg_gr_one_integers`: `gr^1_N Δ_Z = 0`, whereas the first graded piece of the p-adic filtration of `Δ_Z` is not zero.
+- `Fil^0_N Δ_R{n} ≅ Δ_R{n}`.
+- `gr^m_N Δ_{F_p} ≅ F_p` in degree 0 for every `m ≥ 0`: the filtration of `Z_p` by the ideals `p^m Z_p`.
+- `gr^0_N Δ_Z ≅ Z_p` in degree 0.
+- `gr^1_N Δ_Z = 0`, whereas the first graded piece of the p-adic filtration of `Δ_Z` is not zero.
 
 **Proof route.** `(a)`: the base-change isomorphism `B ⊗`̂^`L_A Fil^•_N F^* Δ_{R′/A} ≅ Fil^•_N F^* Δ_{(B ⊗^L_A R′)/B}` of the relative filtration (Bhatt–Lurie, Remark 5.1.10) and Quasi-coherent complexes on WCart are prismatic crystals give the filtered sheaf (Notation 5.5.1).
 
@@ -1422,9 +1417,9 @@ Write `q=1+t` and `p̃=∑_(e∈F_p)q^[e]` in `Z_p[[t]]`, where `[e]` is the Tei
 
 **Checks.**
 
-- `pr5_cyclotomic_two`: `p=2` gives `p̃=[2]_q`.
-- `pr5_cyclotomic_three`: `p=3` gives `p̃=q^(-1)[3]_q`, so the ideals agree.
-- `pr5_cyclotomic_not_unique`: The Hodge–Tate trivialization is ambiguous by `G_m^♯(Z_p)`; treating it as unique discards its automorphisms.
+- `p=2` gives `p̃=[2]_q`.
+- `p=3` gives `p̃=q^(-1)[3]_q`, so the ideals agree.
+- The Hodge–Tate trivialization is ambiguous by `G_m^♯(Z_p)`; treating it as unique discards its automorphisms.
 
 **Proof route.** Each `q^[e]` differs from `q^e` by a multiple of `q^p−1`; therefore `p̃=[p]_q(1+t f)` with the last factor a unit. Invariants under `F_p^×` are exact because `p−1` is invertible.
 
@@ -1511,10 +1506,10 @@ The shift `•−n` corrects the `•+n` printed in BL22 Remark 5.7.8, Propositi
 
 **Checks.**
 
-- `pr5_frob_fp_iso`: `φ` is an isomorphism of `Δ_{F_p}`.
-- `pr5_frob_zp_not_iso`: `φ` is not an isomorphism of `Δ_{Z_p}`: its cofibre is `Z_p[−1]`.
-- `pr5_frob_twist_zp_iso`: `φ{n} : Fil^n_N Δ_{Z_p}{n} → Δ_{Z_p}{n}` is an isomorphism for `n > 0`.
-- `pr5_frob_filtered_index`: At `m=n=1` the target ideal exponent `m−n` is 0; at `m=2,n=1` it is 1. On the crystalline coefficient model, divided Frobenius sends `p·a` to a, so at `p=2` it sends 6 to 3. Using `m+n` would instead insert the extra factor p² already in the first of these two stages.
+- `φ` is an isomorphism of `Δ_{F_p}`.
+- `φ` is not an isomorphism of `Δ_{Z_p}`: its cofibre is `Z_p[−1]`.
+- `φ{n} : Fil^n_N Δ_{Z_p}{n} → Δ_{Z_p}{n}` is an isomorphism for `n > 0`.
+- At `m=n=1` the target ideal exponent `m−n` is 0; at `m=2,n=1` it is 1. On the crystalline coefficient model, divided Frobenius sends `p·a` to a, so at `p=2` it sends 6 to 3. Using `m+n` would instead insert the extra factor p² already in the first of these two stages.
 
 **Proof route.** `(a)`: the relative filtered Frobenius and its graded pieces are §3.14 and §3.10 in the animated form of Bhatt–Lurie Proposition 5.1.1; compatibility with base change in the prism globalises them to `D(WCart)` (Construction 5.7.1, Remarks 5.7.2 and 5.7.3).
 
@@ -1601,7 +1596,7 @@ For `K=(p,t)`, assume also D,P p-torsion-free, `P/p` classically K-complete and 
 
 For a D-algebra E with commuting D-automorphisms `γ_s` satisfying the displayed coordinate and divisibility laws, with `tX_s` regular, define `QFraming.qDeriv(s,f)` by `tX_s∇_s(f)=γ_s(f)−f`. These D-linear operators have `∇_s(1)=0, ∇_s(fg)=∇_s(f)g+γ_s(f)∇_s(g), ∇_s(X_s^n)=[n]_qX_s^(n−1), n≥1`, and `∇_s∇_u=∇_u∇_s`. For finite S define `QFraming.qDeRhamComplex` with term `E⊗_D∧^iD^S` and differential `Σ_s∇_s dX_s∧`−. It is D-linear, also linear over common invariants, with the two-direction sign fixed in Conventions; coordinate-injective naturality requires extra automorphisms to fix the image. (SQDEF §3, pp.6–7; BS22 Constructions 16.19–16.20, pp.114–115.)
 
-On the polynomial ring over any commutative D, define `QCrys.polynomialNabla` by `∇_q(Σ a_n X^n)=Σ a_n [n]_q X^(n−1)`, with the constant term sent to zero. This finite-sum definition requires no regularity of `q−1`, including at `q=1`. Its identities are `QCrys.polynomialNabla_spec`, the formula `f(qX)−f(X)=(q−1)X∇_q(f)`, and `QCrys.polynomialNabla_mul`, the twisted Leibniz rule above. The specialisation `QCrys.pr6_qdr_at_q_one_derivative` is `∇_1=Polynomial.derivative`. These are the polynomial instances of the q-derivative laws, before completion. (BS22 Construction 16.19, p.114; SQDEF §3, pp.6–7.)
+On the polynomial ring over any commutative D, define `∇_q(Σ a_n X^n)=Σ a_n [n]_q X^(n−1)`, with the constant term sent to zero. This finite-sum definition requires no regularity of `q−1`, including at `q=1`. It satisfies `f(qX)−f(X)=(q−1)X∇_q(f)`, the twisted Leibniz rule above, and the specialisation `∇_1=Polynomial.derivative`. These are the polynomial instances of the q-derivative laws, before completion. (BS22 Construction 16.19, p.114; SQDEF §3, pp.6–7.)
 
 For finite completely étale framings flat over a t-torsion-free coefficient ring, division before reduction identifies this complex modulo t with completed ordinary de Rham (p-complete when `K=(p,t)`). On tori `dX_s=X_s dlog X_s` identifies it with `Koszul((γ_s−1)/t)`, hence `η_t Koszul(γ_s−1)`. If `φ(q)=q^p, φ(X_s)=X_s^p` and `φγ_s=γ_sφ`, then `∇_sφ=[p]_qX_s^(p−1)φ∇_s`. API: `qDeriv_spec`, `qDeriv_add`, `qDeriv_smul`, `qDeriv_mul`, `qDeriv_X_pow`, `qDeriv_comm`, `qDeRhamComplex_map`, `qDeRhamComplex_mod`, `qDeRhamComplex_toric`, `qDeriv_frobenius`; the associative product is §5.18’s skew product.
 
@@ -1640,11 +1635,11 @@ The two complete ideals in BS22’s printed comparison are distinct, as above. `
 
 **Checks.**
 
-- `pr6_gamma_q_sub_one`: If `δ(q) = 0` and `[p]_q` is a nonzerodivisor on D then `q − 1 ∈ N(D)` and `γ(q−1) = (q−1) − δ(q−1)`.
-- `pr6_gamma_at_q_one`: If `q = 1` then `p·γ(x) = x^p` for every `x ∈ N(D)`.
-- `pr6_gamma_p_padic`: In `Z_p` with `q = 1` (any δ-structure): `p ∈ N(Z_p)` and `γ(p) = p^{p−1}`.
-- `pr6_pAnalog_two`: For `p = 2: [2]_q = 1 + q`.
-- `pr6_p_not_mem_frobenius_preimage`: In `Z_p[[q−1]]` with `q = 1 + X`, for every δ-structure: p ∉ N; so a definition of N as `(p, q−1)` is wrong.
+- If `δ(q) = 0` and `[p]_q` is a nonzerodivisor on D then `q − 1 ∈ N(D)` and `γ(q−1) = (q−1) − δ(q−1)`.
+- If `q = 1` then `p·γ(x) = x^p` for every `x ∈ N(D)`.
+- In `Z_p` with `q = 1` (any δ-structure): `p ∈ N(Z_p)` and `γ(p) = p^{p−1}`.
+- For `p = 2: [2]_q = 1 + q`.
+- In `Z_p[[q−1]]` with `q = 1 + X`, for every δ-structure: p ∉ N; so a definition of N as `(p, q−1)` is wrong.
 
 **Proof route.** `[p]_q` and the prism `(A, ([p]_q))` come from Layer 0's q-de Rham prism. Facts `(i)` and `(ii)` are the identities `Φ_p(q)·(q−1) = q^p − 1` and `Φ_p(1) = p` for the p-th cyclotomic polynomial, which Mathlib has (cyclotomic_prime, cyclotomic_prime_mul_X_sub_one, eval_one_cyclotomic_prime).
 
@@ -1672,11 +1667,11 @@ Completeness of the ideal is part of the definition (BS22 Remark 16.3`(a)`, Coro
 
 **Checks.**
 
-- `pr6_qpd_pair_initial`: There is a q-PD pair on `Z_p[[X]]` with `q = 1 + X` and `I = (X)`.
-- `pr6_qpd_pair_classical`: There is a q-PD pair on `Z_p` with `q = 1` and `I = (p)`: the classical PD pair `(Z_p, (p))`.
-- `pr6_qpd_pair_zero_ideal`: There is a q-PD pair on `Z_p` with `q = 1` and `I = 0`.
-- `pr6_qpd_pair_p_not_mem`: No q-PD pair on `Z_p[[X]]` with `q = 1 + X` has `p ∈ I`.
-- `pr6_qpd_pair_sub_one_frobenius`: In every q-PD pair, `φ(q−1) = [p]_q·(q−1)`.
+- There is a q-PD pair on `Z_p[[X]]` with `q = 1 + X` and `I = (X)`.
+- There is a q-PD pair on `Z_p` with `q = 1` and `I = (p)`: the classical PD pair `(Z_p, (p))`.
+- There is a q-PD pair on `Z_p` with `q = 1` and `I = 0`.
+- No q-PD pair on `Z_p[[X]]` with `q = 1 + X` has `p ∈ I`.
+- In every q-PD pair, `φ(q−1) = [p]_q·(q−1)`.
 
 **Proof route.** State the data (D, I, the δ-A-algebra structure) and the conditions; by `(1)` and `(2)` the operation `γ` of The q-analogue `[p]_q` and the operation `γ` is defined on I.
 
@@ -1769,10 +1764,10 @@ For q-PD `(D,I)`, complete completely flat δ-D-algebra P and finite completely 
 
 **Checks.**
 
-- `pr6_envelope_empty_sequence`: For the empty sequence and `P = D`, the map `D → D_{I,q}(D)` is bijective.
-- `pr6_envelope_frobenius_divisible`: In the envelope of a one-element sequence x, there is z with `[p]_q·z = φ(x)` and `γ(x) = z − δ(x)` lies in K.
-- `pr6_envelope_universal_identity`: The lift of the envelope map itself is the identity of `D_{J,q}(P)`.
-- `pr6_envelope_not_surjective`: For `D = Z_p[[q−1]]` and `x = X: X^p` is not divisible by `[p]_q` in the polynomial ring `D[X]`, nor in its completion (so `P → D_{J,q}(P)` is not an isomorphism, and a definition of the envelope as P itself is wrong).
+- For the empty sequence and `P = D`, the map `D → D_{I,q}(D)` is bijective.
+- In the envelope of a one-element sequence x, there is z with `[p]_q·z = φ(x)` and `γ(x) = z − δ(x)` lies in K.
+- The lift of the envelope map itself is the identity of `D_{J,q}(P)`.
+- For `D = Z_p[[q−1]]` and `x = X: X^p` is not divisible by `[p]_q` in the polynomial ring `D[X]`, nor in its completion (so `P → D_{J,q}(P)` is not an isomorphism, and a definition of the envelope as P itself is wrong).
 - With `q=1`, let `M=∏_(n≥0)Z_p`, with standard coordinate vectors `e_n`, `D=Z_p⋉M`, `I=0⊕M`, `M²=0`, and `φ(a,m)=(a,0)`. The induced `δ(a,m)=((a−a^p)/p,−a^(p−1)m)` gives a q-PD pair: D and I are p-complete and p-torsion-free, and `φ(I)=γ(I)=0`. For `P=D⟨X⟩`, `δ(X)=0` and the empty sequence, `E=P`, but `K=closure(IP)` strictly contains `J=IP`. Indeed `f=Σ_(n≥0)p^n e_n X^n` lies in K, whereas coefficients of any element of IP lie in a finitely generated `Z_p`-submodule of M; the vectors `p^n e_n` are linearly independent over `Q_p`. Thus the map `P/J→E/K` has a nonzero kernel, for every prime including 2.
 - For `P=D⟨X₁,…,X_r⟩` and `J=ker(P→D/I)` given by `X_i↦0`, the quotient is the derived p-complete ring `D/I`. The equivalence applies to this complete kernel, including when `(IP,X₁,…,X_r)` requires completion.
 
@@ -1829,10 +1824,10 @@ For q-PD `(D,I)` and p-completely smooth `R/D/I`, define (`R/D)_(`q-crys) as the
 
 **Checks.**
 
-- `pr6_qcrys_base`: For `R = D/I` the evaluation map at the thickening `(D, I)` is an isomorphism `qΩ_{(D/I)/D} ≅ D`.
-- `pr6_qcrys_eval_natural`: Evaluation maps are compatible with morphisms of thickenings: for a morphism `(E, J) → (E′, J′)` the evaluation at E′ factors through the evaluation at E.
-- `pr6_qcrys_map_id`: The map induced by the identity of R is the identity of `qΩ_{R/D}`.
-- `pr6_qcrys_not_structure_ring`: Evaluation at a thickening is not an isomorphism in general: over `D = Z_p[[q−1]]` there are R and a thickening, namely `R = Z_p⟨T⟩` and `(D⟨T⟩, (q−1))`, for which `qΩ_{R/D} → D⟨T⟩` is not an isomorphism.
+- For `R = D/I` the evaluation map at the thickening `(D, I)` is an isomorphism `qΩ_{(D/I)/D} ≅ D`.
+- Evaluation maps are compatible with morphisms of thickenings: for a morphism `(E, J) → (E′, J′)` the evaluation at E′ factors through the evaluation at E.
+- The map induced by the identity of R is the identity of `qΩ_{R/D}`.
+- Evaluation at a thickening is not an isomorphism in general: over `D = Z_p[[q−1]]` there are R and a thickening, namely `R = Z_p⟨T⟩` and `(D⟨T⟩, (q−1))`, for which `qΩ_{R/D} → D⟨T⟩` is not an isomorphism.
 
 **Proof route.** Objects, morphisms and the topology are as stated; with the indiscrete topology the cohomology of a presheaf is its derived limit over the opposite category.
 
@@ -1860,10 +1855,10 @@ This supplies §5.7’s quotient hypothesis after local regular presentations an
 
 **Checks.**
 
-- `pr6_cech_alexander_independent`: The complexes of two presentations of R have isomorphic images in `D(D)`.
-- `pr6_cech_alexander_weakly_initial_base`: The thickening `(D, I)` of `D/I` receives a morphism from the term of degree 0 of every presentation of `D/I`.
-- `pr6_cech_alexander_base_presentation`: For `R = D/I` and the presentation `P = D` the complex represents D in degree 0.
-- `pr6_cech_alexander_not_cech_nerve`: The Čech nerve `P^•` of `D → P` without envelopes does not compute `qΩ_{R/D}`: for a faithfully flat P its totalisation is D in degree 0, while over `Z_p[[q−1]]` there is R (namely `Z_p⟨T⟩`) with `qΩ_{R/D}` not isomorphic to D in degree 0.
+- The complexes of two presentations of R have isomorphic images in `D(D)`.
+- The thickening `(D, I)` of `D/I` receives a morphism from the term of degree 0 of every presentation of `D/I`.
+- For `R = D/I` and the presentation `P = D` the complex represents D in degree 0.
+- The Čech nerve `P^•` of `D → P` without envelopes does not compute `qΩ_{R/D}`: for a faithfully flat P its totalisation is D in degree 0, while over `Z_p[[q−1]]` there is R (namely `Z_p⟨T⟩`) with `qΩ_{R/D}` not isomorphic to D in degree 0.
 - For the square-zero base of §5.7 and the presentation `P=D⟨X⟩→R=Z_p⟨X⟩`, the kernel is `closure(IP)`. The restricted series `Σ p^n e_n X^n` vanishes in the complete quotient; retaining only IP would give the wrong degree-zero quotient.
 
 **Proof route.** `(1)`: push out `P^• → F^•` along `P^• → P` and then along `P → R`. `(2)`: the construction carrying a surjection `(P → R)` to the thickening `D_{J,q}(F)` takes tensor products of the input to coproducts of algebraic q-PD thickenings, hence products in the opposite site (universal properties of the free δ-algebra and of the q-PD envelope), so the cosimplicial object is a Čech nerve; this is the argument of BS22 Constructions 4.17–4.18 (Layer 1's Weakly initial objects and Čech–Alexander complexes).
@@ -1939,10 +1934,10 @@ The topology is `(p,q−1)`, not merely p-adic: scaling must be infinitesimally 
 
 **Checks.**
 
-- `pr6_framed_nabla_coord_pow`: If `(q−1)X_s` is a nonzerodivisor then `∇_{q,s}(X_s^{n+1}) = [n+1]_q·X_s^n`, with `[n+1]_q = Σ_{i≤n} q^i`.
-- `pr6_framed_nabla_const`: If `(q−1)X_s` is a nonzerodivisor then `∇_{q,s}` vanishes on the image of D.
-- `pr6_framed_gamma_frobenius`: `γ_s` commutes with the Frobenius lift `φ` of the δ-structure.
-- `pr6_framed_two_framings_gamma`: If two framed structures on the same P with one coordinate have `X′ = X + 1`, then `γ′(X) = qX + (q−1)`; so the automorphism depends on the framing and is not determined by P.
+- If `(q−1)X_s` is a nonzerodivisor then `∇_{q,s}(X_s^{n+1}) = [n+1]_q·X_s^n`, with `[n+1]_q = Σ_{i≤n} q^i`.
+- If `(q−1)X_s` is a nonzerodivisor then `∇_{q,s}` vanishes on the image of D.
+- `γ_s` commutes with the Frobenius lift `φ` of the δ-structure.
+- If two framed structures on the same P with one coordinate have `X′ = X + 1`, then `γ′(X) = qX + (q−1)`; so the automorphism depends on the framing and is not determined by P.
 
 **Proof route.** Import from Layer 5.0 the framed algebra `(P, S)` with its automorphisms and q-derivatives, for the base ring D, the element q and the ideal `(p, q−1)`: the automorphism of `D[S]^∧` scaling `X_s` by q is congruent to the identity modulo the topologically nilpotent element `(q−1)X_s`, so it extends uniquely along the completely ind-étale framing (Construction 16.19).
 
@@ -2013,14 +2008,14 @@ For finite-coordinate reductions, require a filtered presentation of the precomp
 
 **Checks.**
 
-- `pr6_qdr_polynomial_nabla`: In the polynomial ring `D[X]` with the automorphism `X ↦ qX: γ(X^{n+1}) − X^{n+1} = (q−1)·X·([n+1]_q·X^n)`.
-- `pr6_qdr_at_q_one_derivative`: The formula `Σ_n a_n [n]_q X^{n−1}` for the q-derivative on `D[X]` specialises at `q = 1` to Mathlib's Polynomial.derivative.
+- In the polynomial ring `D[X]` with the automorphism `X ↦ qX: γ(X^{n+1}) − X^{n+1} = (q−1)·X·([n+1]_q·X^n)`.
+- The formula `Σ_n a_n [n]_q X^{n−1}` for the q-derivative on `D[X]` specialises at `q = 1` to Mathlib's Polynomial.derivative.
 - For `E=D⟨X,Y⟩`, the X-only Koszul differential kills Y, whereas the full differential sends Y to dY. The inclusion on the fixed E is not a chain map.
 - For varying polynomial algebras `E_a=D⟨X_s:s∈S_a⟩` and their trivial-envelope data, extra derivatives vanish on each image, and the completed colimit gives the infinite polynomial q-de Rham complex.
 - A constant finite framed datum gives the identity finite-data presentation; the empty datum gives E in degree zero.
-- `pr6_qdr_no_coordinates`: For `S = ∅` all terms of the complex in nonzero degrees vanish: the complex is `D_{J,q}(P)` in degree 0.
-- `pr6_qdr_two_framings_differ`: For two framed structures on P with one coordinate and `X′ = X + 1`, with `(q−1)X` and `(q−1)X′` nonzerodivisors: `∇′(X²) = ∇(X²) + (q−1)`; so the complex depends on the framing as a complex.
-- `pr6_qdr_leibniz`: The twisted Leibniz rule `∇_{q,s}(fg) = f·∇_{q,s}(g) + γ_s(g)·∇_{q,s}(f)` holds when `(q−1)X_s` is a nonzerodivisor.
+- For `S = ∅` all terms of the complex in nonzero degrees vanish: the complex is `D_{J,q}(P)` in degree 0.
+- For two framed structures on P with one coordinate and `X′ = X + 1`, with `(q−1)X` and `(q−1)X′` nonzerodivisors: `∇′(X²) = ∇(X²) + (q−1)`; so the complex depends on the framing as a complex.
+- The twisted Leibniz rule `∇_{q,s}(fg) = f·∇_{q,s}(g) + γ_s(g)·∇_{q,s}(f)` holds when `(q−1)X_s` is a nonzerodivisor.
 
 **Proof route.** Extend the `γ_s` to `D_{J,q}(P)` and form the commuting q-derivatives `∇_{q,s}` (Extension of the automorphisms `γ_s` to the q-PD envelope); take their Koszul complex (Layer 5.0, AInfCohomology Layer AI.1).
 
@@ -2140,15 +2135,15 @@ AInfCohomology §§AI.3.2–AI.3.3 supplies the chart rings and `AΩ` computatio
 
 **Checks.**
 
-- `pr6_mu_torus_coordinate`: If the map of the chart sends the coordinate `x_s` to an element y, then `μ_0(x_s) = y` and `σ_s(y) = q·y`: for the torus, `y = [x^♭]` and `σ([x^♭]) = [ε][x^♭]`.
-- `pr6_mu_point`: For `R = O_C` (no coordinates) `qΩ_{O_C/A} ≅ A`.
-- `pr6_mu_frobenius_square`: The square formed by `μ_R` and the two Frobenius maps commutes.
-- `pr6_mu_needs_decalage`: Without `η_{q−1}` the target is wrong: if `σ(y) = q′·y` with `q′^p = q` and `σ(q′) = q′`, then `(q−1)·y = (σ − 1)([p]_{q′}·y)`, so the class of y in the cokernel of `σ − 1` is `(q−1)`-torsion; for the torus this class is nonzero, while `AΩ` has no such torsion.
+- If the map of the chart sends the coordinate `x_s` to an element y, then `μ_0(x_s) = y` and `σ_s(y) = q·y`: for the torus, `y = [x^♭]` and `σ([x^♭]) = [ε][x^♭]`.
+- For `R = O_C` (no coordinates) `qΩ_{O_C/A} ≅ A`.
+- The square formed by `μ_R` and the two Frobenius maps commutes.
+- Without `η_{q−1}` the target is wrong: if `σ(y) = q′·y` with `q′^p = q` and `σ(q′) = q′`, then `(q−1)·y = (σ − 1)([p]_{q′}·y)`, so the class of y in the cokernel of `σ − 1` is `(q−1)`-torsion; for the torus this class is nonzero, while `AΩ` has no such torsion.
 
-- `pr6_mu_duplicate_labels`: On a map sending two units to the same unit, retain two independent root towers in the enlarged target. Replacing that family by a subset would lose the required injection.
-- `pr6_mu_index_category`: Two parallel embeddings into a family with duplicate values cannot be equalised by an injection. The construction uses contractibility and equivalences, not filteredness.
-- `pr6_mu_skew_product`: In a one-coordinate torus `eX=qXe`; imposing `eX=Xe` gives the wrong Leibniz law away from `q=1`.
-- `pr6_mu_composition`: For `R→R′→R″`, using all three sets of labels and then enlarging gives the same derived map as composing the two spans. Changing the added framing is connected through their disjoint union.
+- On a map sending two units to the same unit, retain two independent root towers in the enlarged target. Replacing that family by a subset would lose the required injection.
+- Two parallel embeddings into a family with duplicate values cannot be equalised by an injection. The construction uses contractibility and equivalences, not filteredness.
+- In a one-coordinate torus `eX=qXe`; imposing `eX=Xe` gives the wrong Leibniz law away from `q=1`.
+- For `R→R′→R″`, using all three sets of labels and then enlarging gives the same derived map as composing the two spans. Changing the added framing is connected through their disjoint union.
 
 **Proof route.** Disjoint union with a fixed good labelled family contracts the indexing category; each chart computes the same intrinsic complex, so its homotopy colimit does too. Perfection gives the δ-map from the torus and the q-PD universal property extends it to `μ₀`; equivariance gives the Koszul map, while §5.18 and labelled-family spans supply coherent multiplicativity and naturality (BS22 Theorem 17.2, p.117, construction pp.118–119; BMS1 Lemma 7.3 and Theorem 9.4(iii), pp.56,70).
 
