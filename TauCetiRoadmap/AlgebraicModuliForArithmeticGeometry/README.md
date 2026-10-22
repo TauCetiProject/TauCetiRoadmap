@@ -159,7 +159,9 @@ asserted only when the stated hypotheses supply one.
 
 Declaration names are relative to `TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry`; the
 displayed prefixes fix their namespaces. Scheme statements are made over schemes; each
-algebraic-space extension is a separate target.
+algebraic-space extension is a separate target. Names in target descriptions and intended signatures
+specify the library to be built; `Suggested.lean` contains headline theorem statements and the
+definitions needed to state them.
 
 A site has fixed object and arrow universes. A gerbe is a predicate on Mathlib's `Cat`-valued
 pseudofunctors: a stack (`Pseudofunctor.IsStack`) with groupoid fibres, local objects and local
@@ -323,7 +325,7 @@ The API gives `ProjectiveBundles.projectiveBundle.projection`: The structure map
 
 - `ProjectiveBundleTests.rankOne`: the identity quotient of an invertible `L` gives `P(L) = S`.
 - `ProjectiveBundles.noLineQuotientZero`: no invertible quotient of the zero module exists on a nonempty test
-  scheme, so `P(0)` is empty. The Lean theorem uses `ProjectiveBundles.LineQuotient`.
+  scheme, so `P(0)` is empty.
 - `ProjectiveBundleTests.rankTwo`: Over `Spec R`, points over the identity of `P(O²)` correspond to rank-one quotient Grassmannian data for `R²`.
 - `ProjectiveBundleTests.baseChange`: A nonflat base change also gives `P(f*E)≅P(E)×_S T`.
 
@@ -356,8 +358,8 @@ For the proof, both constructions represent invertible quotients of `f*E`, modul
 
 ### 1.1a Signatures of the projective-bundle carriers
 
-The Lean file states `ProjectiveBundles.LineQuotient f E`: an invertible module `line` on `T`, a
-morphism `quotient : f^*E → line` and the proof `surjective` that it is an epimorphism. It retains
+The intended carrier `ProjectiveBundles.LineQuotient f E` records an invertible module `line` on
+`T`, a morphism `quotient : f^*E → line` and the proof `surjective` that it is an epimorphism. It retains
 the quotient map, not only the isomorphism class of the line, and is the data of a `T`-point of
 `P(E)` over `f`. The projective bundle itself, its structure map, universal quotient, classifying
 maps, base change and rank-one comparison (§1.1), the integer twists with their unit, tensor and
@@ -488,7 +490,7 @@ end ProjectiveBundles
 **Checks.**
 
 - `ProjectiveBundles.noLineQuotientZero`: no invertible quotient of the zero module exists on a nonempty test
-  scheme, so `P(0)` is empty. The Lean theorem uses `ProjectiveBundles.LineQuotient`.
+  scheme, so `P(0)` is empty.
 - `ProjectiveBundleTests.rankOne`: the identity quotient of an invertible `L` gives `P(L) = S`.
 - `TwistingSheafTests.rankOne`: on `P(L)`, the universal quotient line is `L`, fixing the quotient
   convention against its dual.
@@ -611,11 +613,6 @@ trivializing `E`; the tangent space at a quotient `q` is computed by first-order
 
 *Needs:* ModularCurves §0G, Mathlib `Module.Grassmannian`, Mathlib `AlgebraicGeometry.Smooth`.
 
-The Lean file states the extreme ranks for Mathlib's module Grassmannian `G(k, M; R)` of a free
-module: `ProjectiveParameterSpaces.grassmannian_zero_subsingleton`,
-`ProjectiveParameterSpaces.grassmannian_top_subsingleton` and
-`ProjectiveParameterSpaces.grassmannian_isEmpty_of_lt`.
-
 **Checks.**
 
 - `GrassmannTests.dimension`: `Gr_2(O^4)` has relative dimension `4`.
@@ -629,7 +626,7 @@ Here E quasi-coherent finite type; exterior and determinant sheaves are imported
 
 ([Ulrich Görtz](https://math.ug/alggeom3-ws2324/pdf/AG3-WS2324-Goertz-20240526.pdf), §5, Theorem 5.10, pp.59–60).
 
-The API gives `pluckerEmbedding.isClosedImmersion`: The exterior-quotient classifying map is a closed immersion; `pluckerEmbedding.pullback_twist`: Pullback `O(1)≅det Q`, naturally in the quotient; `pluckerEmbedding.over`: The embedding is over S; the exterior and determinant maps commute with pullback; `pluckerEmbedding.chartCoordinates`: For a two-row quotient matrix of `O⁴`, compute the six Plücker coordinates as its ordered `2×2` minors. Over any commutative ring R, on the unit p12 quotient graph chart with matrix `((1,0,a,b),(0,1,c,d))`, they are (1,c,d,-a,-b,ad-bc), ordered as p12,p13,p14,p23,p24,p34. The Lean statement computes these six determinants with zero-based increasing column indices; the scheme map is identified with these coordinates.
+The API gives `pluckerEmbedding.isClosedImmersion`: The exterior-quotient classifying map is a closed immersion; `pluckerEmbedding.pullback_twist`: Pullback `O(1)≅det Q`, naturally in the quotient; `pluckerEmbedding.over`: The embedding is over S; the exterior and determinant maps commute with pullback; `pluckerEmbedding.chartCoordinates`: For a two-row quotient matrix of `O⁴`, compute the six Plücker coordinates as its ordered `2×2` minors. Over any commutative ring R, on the unit p12 quotient graph chart with matrix `((1,0,a,b),(0,1,c,d))`, they are (1,c,d,-a,-b,ad-bc), ordered as p12,p13,p14,p23,p24,p34. The coordinate formula uses zero-based increasing column indices; the scheme map is identified with these coordinates.
 
 For the coordinate formula, trivialize a rank-d quotient `Rⁿ→Rᵈ` and apply its exterior power to each wedge of standard basis vectors with increasing column indices. Multilinearity and alternation give the determinant of the selected `d×d` submatrix. A change of quotient basis multiplies every coordinate by the same unit determinant, so the resulting line quotient is independent of that basis. Normalize a unit minor to the identity block to identify the exterior-quotient map with the graph chart; expand the six `2×2` determinants for the displayed matrix. These polynomial identities commute with arbitrary ring maps and hold in every characteristic. This is the quotient form of Görtz §5, Theorem 5.10 and its coordinate proof, p.59.
 
@@ -703,12 +700,12 @@ Here Artinian A, finite graded M, standard degree-one grading; arbitrary positiv
 
 ([Stacks](https://stacks.math.columbia.edu/download/algebra.pdf), §58, Proposition 58.7 and proof, pp.136–137).
 
-For the proof, induct on the e generators using the exact sequence for multiplication by the last generator, including its kernel and cokernel. They are finite graded modules over `e−1` generators; A-length additivity yields `(1-T)H_M=H_coker−T H_kernel`; then after a finite shift, use the coefficient formula for `h/(1-T)^e` to obtain the eventual polynomial. Negative degrees contribute only a Laurent shift; finite lengths are proved before converting them to natural numbers. The Lean file states the eventual polynomiality as `ProjectiveParameterSpaces.exists_artinianHilbertPolynomial`, and over a field, with the degree bound `deg P ≤ e − 1`, as `ProjectiveParameterSpaces.exists_hilbertPolynomial`; the Hilbert function there is Mathlib's `Module.finrank` (or `Module.length`) of the graded piece, with no separate definition.
+For the proof, induct on the e generators using the exact sequence for multiplication by the last generator, including its kernel and cokernel. They are finite graded modules over `e−1` generators; A-length additivity yields `(1-T)H_M=H_coker−T H_kernel`; then after a finite shift, use the coefficient formula for `h/(1-T)^e` to obtain the eventual polynomial. Negative degrees contribute only a Laurent shift; finite lengths are proved before converting them to natural numbers. `Suggested.lean` states this as `ProjectiveParameterSpaces.hilbertSerre`, including finite lengths, vanishing in sufficiently negative degrees, the shifted integer Hilbert-series numerator and the eventual rational polynomial of degree less than e. Its integer grading allows negative generator degrees. Restricting scalars along the polynomial algebra on the e chosen generators covers the standard graded algebra B. Over a field, lengths are dimensions, giving the dimension-polynomial statement.
 
 *Needs:* `gradedPiecesFinite`, Mathlib `Module.length`, Mathlib `Module.length_eq_add_of_exact`, Mathlib `Polynomial.hilbertPoly`, Mathlib `Polynomial.coeff_mul_invOneSubPow_eq_hilbertPoly_eval`.
 
-The shared field interface is `ProjectiveParameterSpaces.exists_hilbertPolynomial`, the
-nonnegative-grading specialization of GroebnerGeometry `G4's` graded-module construction.
+Over a field, `ProjectiveParameterSpaces.hilbertSerre` gives the shared dimension-polynomial
+interface of GroebnerGeometry `G4's` graded-module construction.
 For a finite graded module over a standard polynomial ring over any field k, the coefficients
 of its Hilbert series are the rational images of `Module.finrank k (ℳ n)`. After a graded
 shift makes the series nonnegative, a presentation `p(T)/(1−T)^e` gives the eventual polynomial
@@ -797,10 +794,10 @@ For F, apply `relativeSerre` and coherent cohomology and base change over the qu
 
 The Hilbert function of a graded module with finite pieces is `n ↦ Module.finrank k (ℳ n)` over a
 field and `n ↦ Module.length A (ℳ n)` over an Artinian ring; both are Mathlib's, and no separate
-carrier is introduced. The theorems `ProjectiveParameterSpaces.exists_hilbertPolynomial` and
-`ProjectiveParameterSpaces.exists_artinianHilbertPolynomial` require a finitely generated graded
-module over the standard graded polynomial ring, its direct-sum decomposition and the graded scalar
-action. Over Artinian `A` the coefficients are lengths over `A`, mapped to rational numbers; no
+carrier is introduced. The theorem `ProjectiveParameterSpaces.hilbertSerre` requires a finitely
+generated integer-graded module over the standard graded polynomial ring, its direct-sum
+decomposition and compatibility with homogeneous scalar multiplication. Over Artinian `A` the
+coefficients are lengths over `A`, mapped to rational numbers; no
 characteristic hypothesis is placed on `A`. (Stacks, Algebra, §58, Lemmas 58.5–58.6 and
 Proposition 58.7, pp. 136–137.)
 
@@ -1017,7 +1014,7 @@ Prove `homAndIsomSchemes`. Let S be locally Noetherian, `X → S` projective fla
 
 ### 2.1a Nonflat test points
 
-`HomIsom.dualNumberPoint k` is the scheme map `Spec k → Spec k[ε]/ε²` induced by the augmentation, and `HomIsom.not_flat_dualNumberPoint` states that it is not flat; both are in the Lean file. Its further API `HomIsom.dualNumberPoint.augmentation`, `HomIsom.dualNumberPoint.closed` gives the underlying ring map and its closed immersion. It is a test input for graph and Hilbert constructions: the universal family is flat over its parameter, which does not require that parameter to be flat over the original base. (The augmentation formula and the tensor test: the nonzero ideal `(ε)` injects into `k[ε]/ε²`, while its inclusion becomes zero after tensoring with k.)
+The scheme map `Spec k → Spec k[ε]/ε²` induced by the augmentation is a closed immersion and is not flat. It is a test input for graph and Hilbert constructions: the universal family is flat over its parameter, which does not require that parameter to be flat over the original base. (The augmentation formula and the tensor test: the nonzero ideal `(ε)` injects into `k[ε]/ε²`, while its inclusion becomes zero after tensoring with k.)
 
 **Checks.**
 
@@ -1103,7 +1100,7 @@ The API gives `ModuleDescentCoalgebra.equivalence`: An equivalence preserving th
 - `ModuleCoalgebraTests.product`: For the diagonal `R→R×R` the transition identifies the two component modules and recovers one R-module.
 - `ModuleCoalgebraTests.cocycle`: Arbitrary pairwise invertible maps that fail the triple-overlap equation do not define a coalgebra.
 
-Prove `affineModuleDescentEquivalence`. For a faithfully flat commutative ring map `R→A`, Mathlib's canonical functor ModuleCat R→affine ModuleCat DescentData for the singleton `f.op` is an equivalence. The Lean file states this as `AffineModuleDescent.faithfullyFlatDescent`, for Mathlib's module pseudofunctor reindexed by affine arrows (`AffineModuleDescent.affineModulePullback`). Under the tensor-overlap comparison its inverse is `M={n∈N | 1⊗n=θ(n⊗1)}`. The comparison `A⊗R M→N` is `a↦(m↦a m)` and is an isomorphism of the descent data, not merely of modules.
+Prove `affineModuleDescentEquivalence`. For a faithfully flat commutative ring map `R→A`, Mathlib's canonical functor ModuleCat R→affine ModuleCat DescentData for the singleton `f.op` is an equivalence. Under the tensor-overlap comparison its inverse is `M={n∈N | 1⊗n=θ(n⊗1)}`. The comparison `A⊗R M→N` is `a↦(m↦a m)` and is an isomorphism of the descent data, not merely of modules.
 
 Here Commutative rings R,A in one fixed universe, a specified ring map `f:R→A` with f faithfully flat, and arbitrary R- and A-modules with all module morphisms. No Noetherian, finite-generation or finite-presentation hypotheses.
 
@@ -1163,7 +1160,7 @@ For the proof, this is SchemeAndStackFoundations §1.1's `qcoh_fpqc_descent`, de
 
 *Needs:* `fpqcQuasicoherentDescentFaithful`, `fpqcQuasicoherentDescentFull`, `fpqcQuasicoherentDescentEffective`, SchemeAndStackFoundations §1.1 (`qcoh_fpqc_descent`).
 
-Prove `finitePresentationModuleDescent`. If S is faithfully flat over a commutative ring R and `S⊗R M` is a finitely presented S-module, then M is finitely presented over R. The Lean file states this as `finite_presentation_of_faithfully_flat`; Mathlib has the finitely generated case and the case of algebras.
+Prove `finitePresentationModuleDescent`. If S is faithfully flat over a commutative ring R and `S⊗R M` is a finitely presented S-module, then M is finitely presented over R. Mathlib has the finitely generated case and the case of algebras.
 
 Here S is a faithfully flat commutative R-algebra; M is an arbitrary R-module; no Noetherian hypothesis.
 
@@ -1486,9 +1483,9 @@ The abbreviation `ModuliDescent.P` is `Schemeᵒᵖ ⥤ Type`, at the fixed sche
 
 ### 3.3a Signatures of the descent carriers
 
-The Lean file states `AffineModuleDescent.affineModulePullback`, Mathlib's extension-of-scalars
-pseudofunctor reindexed by affine scheme arrows, and the effective descent theorem
-`AffineModuleDescent.faithfullyFlatDescent` for it. The quasi-coherent pseudofunctor of §3.1, the
+The affine presentation uses Mathlib's extension-of-scalars pseudofunctor reindexed by affine
+scheme arrows, `AffineModuleDescent.affineModulePullback`, with the effective descent theorem
+`AffineModuleDescent.faithfullyFlatDescent`. These and the quasi-coherent pseudofunctor of §3.1, the
 singleton descent category `AffineModuleDescent.SingletonDescentData f` and the coalgebra category
 `AffineModuleDescent.ScalarExtensionCoalgebra f` (Mathlib's `Comonad.Coalgebra` for extension
 followed by restriction of scalars), the comparisons `AffineModuleDescent.forgetDescentData`,
@@ -1925,7 +1922,7 @@ For the proof, for `z∈G(U)` locally choose `y∈F` and an isomorphism `η(y)�
 
 *Needs:* `BandPreserving`, `band_morphism_full_faithful`, Mathlib `CategoryTheory.Pseudofunctor.isEquivalence_toDescentData`, `GerbeMorphismDescent.global_preimage`, `GerbeMorphismDescent.componentEssSurj`.
 
-Prove `band_morphism_equivalence`. Every band-preserving morphism of A-gerbes is a pseudonatural equivalence over the site, with a band-preserving inverse. Its fibrewise statement is `band_morphism_componentEquivalence` in the Lean file: for every site object U the component functor `η_U` is an equivalence of fibre categories. The pseudonatural inverse is `CoherentInverse.inverse` (§4.21), with band preservation given by `GerbeBandEquivalence.inverse_preserving`.
+Prove `band_morphism_equivalence`. Every band-preserving morphism of A-gerbes is a pseudonatural equivalence over the site, with a band-preserving inverse. For every site object U the component functor `η_U` is an equivalence of fibre categories. The pseudonatural inverse is `CoherentInverse.inverse` (§4.21), with band preservation given by `GerbeBandEquivalence.inverse_preserving`.
 
 Here A specified site `(C,J)`, with fixed object and morphism universes; all stacks have groupoid fibres.
 
@@ -3038,7 +3035,7 @@ For the proof, project the defining subgroup membership equation; no descent or 
 
 ### 4.6a Compatible centre carriers
 
-`intrinsicBandSectionSubgroup F U` is the subgroup of slice-indexed centre units satisfying all restriction equations; it and `IntrinsicBandSection F U` are stated in the Lean file. The theorem `intrinsicBandSection_evaluation_bijective` states the bijectivity of evaluation underlying `IntrinsicBandSections.evalEquiv` for a gerbe with commutative inertia. The remaining carriers have the intended signatures of §4.24. Its API `IntrinsicBandSections.commGroup`, `IntrinsicBandSections.restrict`, `IntrinsicBandSections.eval` gives commutative pointwise composition, reindexing along a slice arrow, and evaluation at an object. `IntrinsicBandSections.pullbackArrow` names the composite slice arrow used by that reindexing. The presheaf `IntrinsicBandSections.presheaf` packages these groups and restriction maps. With gerbe locality and commutative inertia, `IntrinsicBandSections.evalEquiv` identifies the compatible family with the automorphism group of a chosen object over U, evaluated at the identity arrow of U. The subgroup and its commutativity do not require gerbe locality; bijectivity of evaluation does. (The endomorphism interchange calculation, followed by Hom-sheaf descent in §§4.6–4.7.)
+`intrinsicBandSectionSubgroup F U` is the subgroup of slice-indexed centre units satisfying all restriction equations, and `IntrinsicBandSection F U` is its section carrier. Evaluation underlying `IntrinsicBandSections.evalEquiv` is bijective for a gerbe with commutative inertia. The carriers have the intended signatures of §4.24. Its API `IntrinsicBandSections.commGroup`, `IntrinsicBandSections.restrict`, `IntrinsicBandSections.eval` gives commutative pointwise composition, reindexing along a slice arrow, and evaluation at an object. `IntrinsicBandSections.pullbackArrow` names the composite slice arrow used by that reindexing. The presheaf `IntrinsicBandSections.presheaf` packages these groups and restriction maps. With gerbe locality and commutative inertia, `IntrinsicBandSections.evalEquiv` identifies the compatible family with the automorphism group of a chosen object over U, evaluated at the identity arrow of U. The subgroup and its commutativity do not require gerbe locality; bijectivity of evaluation does. (The endomorphism interchange calculation, followed by Hom-sheaf descent in §§4.6–4.7.)
 
 The intrinsic band has the further API: `IntrinsicBandSections.eval_surjective` (for a gerbe whose
 automorphism groups are commutative, evaluation at an object over `U` is surjective; with
@@ -7307,7 +7304,7 @@ The API gives `BandedMorphism.selfHomChartGlobalIso_hom`: The forward morphism o
 
 ### 4.18a Orbit and modification carriers
 
-`BandedMorphism.HomCategory` is the full category of strong transformations preserving the specified common band; its arrows are all modifications. Its API `BandedMorphism.homIso`, `BandedMorphism.hom_isIso`, `BandedMorphism.groupoid` records pointwise inverse modifications. `BandedMorphism.selfHomOrbitSetoid` identifies (x,`p:x`≅Xx) with simultaneous transport along a fibre isomorphism; `BandedMorphism.selfHomOrbitPresheaf` and `BandedMorphism.selfHomOrbitFunctor` retain base restriction and every modification. Their API `selfHomOrbitRestrict`, `selfHomOrbitMap`, `selfHomGlobalSheafFunctor`, `selfHomChartGlobalIso` is the quotient restriction, the modification action, universe-lifted sheafification and slice chart comparison. The last comparison uses the displayed sheafification/local-bijection assumptions at independent universes; at matched fibre and site universes the instance supplies those assumptions. `GerbeLimitFamily` and `GerbeLimitFamily.Hom`, with the componentwise category and evaluation, are stated in the Lean file; `GerbeLimitFamily.Hom` stores every stage arrow and its transition square; its API `GerbeLimitFamily.Hom.component`, `GerbeLimitFamily.Hom.naturality`, `GerbeLimitFamily.hom_ext`, `GerbeLimitFamily.evaluation_map` retains the family morphisms. (The transport equations of §§4.15–4.18 and sheafification's universal property.)
+`BandedMorphism.HomCategory` is the full category of strong transformations preserving the specified common band; its arrows are all modifications. Its API `BandedMorphism.homIso`, `BandedMorphism.hom_isIso`, `BandedMorphism.groupoid` records pointwise inverse modifications. `BandedMorphism.selfHomOrbitSetoid` identifies (x,`p:x`≅Xx) with simultaneous transport along a fibre isomorphism; `BandedMorphism.selfHomOrbitPresheaf` and `BandedMorphism.selfHomOrbitFunctor` retain base restriction and every modification. Their API `selfHomOrbitRestrict`, `selfHomOrbitMap`, `selfHomGlobalSheafFunctor`, `selfHomChartGlobalIso` is the quotient restriction, the modification action, universe-lifted sheafification and slice chart comparison. The last comparison uses the displayed sheafification/local-bijection assumptions at independent universes; at matched fibre and site universes the instance supplies those assumptions. The intended carriers `GerbeLimitFamily` and `GerbeLimitFamily.Hom` have the componentwise category and evaluation; `GerbeLimitFamily.Hom` stores every stage arrow and its transition square; its API `GerbeLimitFamily.Hom.component`, `GerbeLimitFamily.Hom.naturality`, `GerbeLimitFamily.hom_ext`, `GerbeLimitFamily.evaluation_map` retains the family morphisms. (The transport equations of §§4.15–4.18 and sheafification's universal property.)
 
 **Checks.**
 
@@ -7385,7 +7382,7 @@ Define `universeNormalizedGerbe` for independently specified coefficient and fib
 
 ### 4.22 Arbitrary affine kernels and gerbe images
 
-Prove `hopfInclusion_faithfullyFlat`: for a field k and an injective morphism `A→B` of **commutative** Hopf k-algebras, B is faithfully flat as an A-module, without finite-type, reducedness, perfection or characteristic-zero assumptions. This target and `affineNormalQuotient` below are owned by this roadmap: no group-scheme roadmap states them for affine groups that are not of finite type, and the pinned Tau Ceti has the finite-type, reduced, algebraically closed case `TauCeti.CommHopfAlgCat.faithfullyFlat_of_dominant`, which is consumed where it applies. A finite set of elements of a commutative Hopf algebra is contained in a finite-type Hopf subalgebra: take a finite-dimensional subcomodule containing the elements and its coefficient coalgebra, then generate by its coefficients and their antipodes (the antipode squares to the identity in this commutative setting). Choose paired finite-type Hopf subalgebras `Aᵢ⊂Bᵢ` containing each finite set of the map's data. Finite-type faithful flatness gives flatness of the filtered union. If a proper ideal of A generated 1 in B, this finite equation would occur at one `Aᵢ⊂Bᵢ` and contradict its faithful flatness. This is Milne, Algebraic Groups, Lie Groups, and their Arithmetic Subgroups, version 3.00 (2011), Theorem 6.43, pp. 69–72, and Corollary 8.25, pp. 104–105. The commutative condition matters; no assertion is made for arbitrary noncommutative Hopf subalgebras.
+Prove `hopfInclusion_faithfullyFlat`: for a field k and an injective morphism `A→B` of **commutative** Hopf k-algebras, B is faithfully flat as an A-module, without finite-type, reducedness, perfection or characteristic-zero assumptions. `Suggested.lean` states `hopfInclusion_faithfullyFlat`. This target and `affineNormalQuotient` below are owned by this roadmap: no group-scheme roadmap states them for affine groups that are not of finite type, and the pinned Tau Ceti has the finite-type, reduced, algebraically closed case `TauCeti.CommHopfAlgCat.faithfullyFlat_of_dominant`, which is consumed where it applies. A finite set of elements of a commutative Hopf algebra is contained in a finite-type Hopf subalgebra: take a finite-dimensional subcomodule containing the elements and its coefficient coalgebra, then generate by its coefficients and their antipodes (the antipode squares to the identity in this commutative setting). Choose paired finite-type Hopf subalgebras `Aᵢ⊂Bᵢ` containing each finite set of the map's data. Finite-type faithful flatness gives flatness of the filtered union. If a proper ideal of A generated 1 in B, this finite equation would occur at one `Aᵢ⊂Bᵢ` and contradict its faithful flatness. This is Milne, Algebraic Groups, Lie Groups, and their Arithmetic Subgroups, version 3.00 (2011), Theorem 6.43, pp. 69–72, and Corollary 8.25, pp. 104–105. The commutative condition matters; no assertion is made for arbitrary noncommutative Hopf subalgebras.
 
 For a closed normal subgroup N of an arbitrary affine k-group G, the fpqc sheaf quotient `G/N` is an affine group and `G→G/N` is faithfully flat with kernel N. Define `affineNormalQuotient` together with its quotient map and universal property for homomorphisms killing N; its API is `affineNormalQuotient.kernel`, `affineNormalQuotient.faithfullyFlat`, `affineNormalQuotient.fpqcSheaf`, `affineNormalQuotient.baseChange`, `affineNormalQuotient.homEquiv`, `affineNormalQuotient.doubleQuotient`. On Hopf coordinates write `O(G)` as the union of finite-type Hopf subalgebras `Aᵢ`, and let `Nᵢ` be the scheme-theoretic image of N in `Gᵢ=Spec Aᵢ`. It is normal: lift group elements fpqc locally along `G→Gᵢ` and descend conjugation stability. Its ideal is `Aᵢ∩I(N)`. Finite-type normal quotients `Qᵢ=Gᵢ/Nᵢ` form an inverse system. The union of their coordinate Hopf subalgebras defines Q; arbitrary-affine faithful flatness applies to `O(Q)↪O(G)`. The kernel ideal is the union of the extended ideals `Aᵢ∩I(N)`, hence equals `I(N)`, so the kernel is exactly N. The kernel-pair comparison `G×N≅G`×QG identifies Q with the fpqc quotient. This construction does not require an infinite affine group to admit one faithful finite-dimensional representation. Faithfully flat descent identifies its kernel and sheaf universal property. Source: Milne version 3.00, Theorems 8.70, 8.75 and 8.77, pp. 119–121, with §7k, Proposition 7.73, p. 92. Both theorems are exported from here to any later group-scheme consumer; `affineNormalQuotient` is distinct from an unsupported assertion that every nonnormal homogeneous quotient is affine.
 
@@ -7422,15 +7419,13 @@ For a locally full map `f:Γ→Δ`, the synchronized index records a locally ful
 
 ### 4.24 Signatures of the Layer 4 carriers
 
-The Lean file states `IsGerbe`, `AbelianBanding`, `Neutralization`, `IsNeutral`, `BandPreserving`,
-`GerbeLimitFamily` with its category, and `intrinsicBandSectionSubgroup`, together with
-`IsGerbe.equivalence_iff`, `banded_aut_commute`, `BandPreserving.id`, `BandPreserving.comp` and
-`band_morphism_componentEquivalence`. The other carriers of this layer (the intrinsic band presheaf and
-sheaf with its evaluation and banding, the cover comparisons and conjugation transport, the
+The carriers `IsGerbe`, `AbelianBanding`, `Neutralization`, `IsNeutral`, `BandPreserving`,
+`GerbeLimitFamily` with its category, and `intrinsicBandSectionSubgroup` are specified in this layer.
+The intrinsic band presheaf and sheaf with its evaluation and banding, the cover comparisons and conjugation transport, the
 constant, connected and restriction test diagrams, the Isom torsors and their actions, the pullback,
 descent and coherent inverse of banded morphisms, the fibre Hom sheaves with their transport,
 base-change and endpoint comparisons, local covers and chart comparisons, and the global orbit
-sheaf) are targets with the following intended signatures. Throughout, `C` is a category with a
+sheaf are targets with the following intended signatures. Throughout, `C` is a category with a
 Grothendieck topology `J`, `F` and `G` are `Cat`-valued pseudofunctors on `Cᵒᵖ` and `A` is an abelian
 sheaf on `(C, J)`; the variables `variable {C : Type u} [Category.{v} C]` and
 `variable {I : Type uI} [Category.{vI} I]` are in force.
@@ -8911,11 +8906,11 @@ Layer 4; SchemeAndStackFoundations §1.20 (inertia), §1.23 (coarse spaces and t
 
 ### 6.0 The approximation predicate
 
-Define `Approximation.HasArtinApproximation A` for a commutative local ring A: for each finitely presented A-algebra B, each A-algebra map B→Â to the maximal-ideal completion, and each `n≥0`, there is an A-algebra map `B→A` agreeing modulo the extended maximal ideal to power n on every element of B. Finite presentation translates this to finitely many polynomial equations and variables. Its API `Approximation.HasArtinApproximation.equations`, `Approximation.HasArtinApproximation.finitePresentation`, `Approximation.HasArtinApproximation.transport`, `Approximation.HasArtinApproximation.congruence` gives this translation, transport by local ring isomorphism and the congruence of every polynomial in the chosen generators. This definition does not require A to be complete or henselian. The G-ring approximation theorem below gives the predicate for henselian Noetherian local G-rings. (Stacks, Smoothing Ring Maps, Theorems 16.13.1–16.13.2, tags 07QY–07QZ, pp. 32–33.)
+Define `Approximation.HasArtinApproximation A` for a commutative local ring A: for each finitely presented A-algebra B, each A-algebra map B→Â to the maximal-ideal completion, and each `n≥0`, there is an A-algebra map `B→A` agreeing modulo the extended maximal ideal to power n on every element of B. Finite presentation translates this to finitely many polynomial equations and variables. Its basic theory gives this translation, transport by local ring isomorphism and the congruence of every polynomial in the chosen generators. This definition does not require A to be complete or henselian. The G-ring approximation theorem below gives the predicate for henselian Noetherian local G-rings. (Stacks, Smoothing Ring Maps, Theorems 16.13.1–16.13.2, tags 07QY–07QZ, pp. 32–33.)
 
 **Checks.**
 
-- `ApproximationTests.complete`: a complete Noetherian local A has the predicate by identifying A≅Â; every formal solution is matched exactly, at every n. In the Lean file this is the theorem `Approximation.hasArtinApproximation_of_isAdicComplete`.
+- `ApproximationTests.complete`: a complete Noetherian local A has the predicate by identifying A≅Â; every formal solution is matched exactly, at every n.
 - `ApproximationTests.field`: a field has zero maximal ideal and completion itself; the solution at `n=1` is already the original solution. This distinguishes exact equations from merely solving their reductions.
 - `ApproximationTests.nonhenselian`: for `A=ℚ[t]_(t)`, the formal branch of `z²=1+t` with z≡1 modulo t exists in `ℚ[[t]]`, but no rational function squares to `1+t`, since its valuation at `t+1` is odd. Thus A lacks the predicate even though it is a local G-ring. A pointed étale extension, rather than A itself, is necessary in the nonhenselian approximation theorem.
 
@@ -8942,6 +8937,15 @@ For the proof, use the localization and quotient permanence of formal-fibre regu
 Prove `polynomial_approximation`. Let `(R,m)` be Noetherian local and a G-ring. Every solution in R̂ of a finite polynomial system over R can, for each `N≥1`, be approximated modulo `m^N` by a solution in a pointed étale R-algebra `R′` with the same residue field. If R is henselian the solution can be chosen in R itself.
 
 Here Finitely many equations and variables; `N≥1`; the completion of `R′` at its specified point is identified with R̂.
+
+`Suggested.lean` states the pointed étale form as `Approximation.polynomial_approximation` and the
+henselian form as `Approximation.artinApproximation`, with conclusion
+`Approximation.HasArtinApproximation`. The definition
+`Approximation.HasGeometricallyRegularFormalFibres` expresses the formal-fibre hypothesis using
+`Ideal.ResidueField`, finite residue-field extensions, tensor products and `IsRegularRing`: for
+Noetherian local R this says the completion map is regular. In the pointed étale statement an
+R-algebra map `ι:R′→R̂` specifies the point; its composite with `R̂→R/𝔪` is surjective and has
+residue field `R/𝔪`. The solution is compared with the given formal solution through ι.
 
 ([Stacks](https://stacks.math.columbia.edu/download/smoothing.pdf), Theorems 16.13.1–16.13.2, tags 07QY–07QZ, pp. 32–33).
 
@@ -9115,7 +9119,7 @@ For the proof, construct versal deformation hulls, retaining infinitesimal autom
 
 ### 7.1a A concrete gluing failure
 
-`ArtinCriteria.StrongGluingTests.subsetImage` sends a commutative ring to its set of subsets and a ring map to direct image. Direct image sends the empty set to the empty set and `{1}` to `{1}`, and it is functorial; the Lean file proves the functor laws. It is a covariant functor, but it does not satisfy strong infinitesimal gluing: distinct subsets of a ring pullback can have identical images under both projections. (Direct-image functoriality and the explicit dual-number pullback.)
+`ArtinCriteria.StrongGluingTests.subsetImage` sends a commutative ring to its set of subsets and a ring map to direct image. Direct image sends the empty set to the empty set and `{1}` to `{1}`, and it is functorial. It is a covariant functor, but it does not satisfy strong infinitesimal gluing: distinct subsets of a ring pullback can have identical images under both projections. (Direct-image functoriality and the explicit dual-number pullback.)
 
 **Checks.**
 
@@ -9397,9 +9401,9 @@ Here no division by n and no separability hypothesis; `n ≥ 1`.
 
 ([George Boxer, Frank Calegari, Toby Gee and Vincent Pilloni](https://arxiv.org/pdf/1812.09269v3), Proposition 3.8.17 proof, pp. 61–62).
 
-The statement is in the Lean file. The construction of the induced map, its value on classes and its
-uniqueness are Mathlib's (`Submodule.mapQLinear`, `Submodule.mapQ_apply`); no separate carrier of
-boundary functionals is introduced.
+The construction of the induced map, its value on classes and its uniqueness are Mathlib's
+(`Submodule.mapQLinear`, `Submodule.mapQ_apply`); no separate carrier of boundary functionals is
+introduced.
 
 *Needs:* Mathlib `Submodule.compatibleMaps`, Mathlib `Submodule.mapQLinear`, Mathlib `Ideal.Quotient.mkₐ`.
 
@@ -9561,7 +9565,7 @@ Equality of classes means equality after fppf sheafification. A global formula `
 
 ### 7.6a Scheme Picard presheaf
 
-`RelativePicard.relativePicardPresheaf f` sends `T→B` to line-bundle classes on `T×_B X`, using the existing `LineBundleClass` carrier. This is the raw scheme version. Its API `RelativePicard.relativePicardPresheaf_id_obj`, `RelativePicard.relativePicardPresheaf.map`, `RelativePicard.relativePicardPresheaf.map_id`, `RelativePicard.relativePicardPresheaf.map_comp` gives the identity-family comparison and contravariant pullback of classes. Its fppf sheafification gives the relative Picard sheaf, including quotienting base classes locally. It is stated in the Lean file with real functoriality. The algebraic-space construction of §7.7 uses the ringed small étale site. (Stacks, §99.11, Situation 99.11.1 and the pullback discussion preceding it, tag 0D24.)
+`RelativePicard.relativePicardPresheaf f` sends `T→B` to line-bundle classes on `T×_B X`, using the existing `LineBundleClass` carrier. This is the raw scheme version. Its API `RelativePicard.relativePicardPresheaf_id_obj`, `RelativePicard.relativePicardPresheaf.map`, `RelativePicard.relativePicardPresheaf.map_id`, `RelativePicard.relativePicardPresheaf.map_comp` gives the identity-family comparison and contravariant pullback of classes. Its fppf sheafification gives the relative Picard sheaf, including quotienting base classes locally. The algebraic-space construction of §7.7 uses the ringed small étale site. (Stacks, §99.11, Situation 99.11.1 and the pullback discussion preceding it, tag 0D24.)
 
 **Checks.**
 
