@@ -78,8 +78,8 @@ It uses, and does not redevelop:
   §R28.5.1 supplies Weil-polynomial finiteness and §R28.5.2 the semisimple Frobenius test set; the semisimple trace criterion
   is ArithmeticGaloisRepresentations §1.8;
 - Strassmann's theorem over a complete nonarchimedean field (RestrictedPowerSeries §2.4);
-- the universal Legendre curve over `ℤ[1/2][λ, 1/(λ(λ−1))]` (TauCetiRoadmap ModularCurves, Layer 4C);
-- the one-dimensional affine group `TauCeti.AffineGroup F = F ⋊ F^×` with its translation and linear
+- The universal Legendre curve over `ℤ[1/2][λ, 1/(λ(λ−1))]` (TauCetiRoadmap ModularCurves, Layer 4C);
+- The one-dimensional affine group `TauCeti.AffineGroup F = F ⋊ F^×` with its translation and linear
   subgroups, its order and its Frobenius-group structure (Tau Ceti at `a91d3aa`,
   `TauCeti/GroupTheory/SpecificGroups/Affine/Basic.lean`); this roadmap adds the permutation-group statements
   about `Aff(q)` that the covers need;
@@ -107,7 +107,7 @@ It uses, and does not redevelop:
 
 It leaves to other roadmaps:
 
-- the sections of Lawrence–Venkatesh after §8 (hypersurfaces, the Ax–Schanuel input, unlikely
+- The sections of Lawrence–Venkatesh after §8 (hypersurfaces, the Ax–Schanuel input, unlikely
   intersections); this roadmap covers the one-dimensional S-unit and Mordell arguments of §§2–8;
 - any effective bound on the number or the height of the rational points: the method is ineffective and
   nothing here computes `Y(K)`.
@@ -173,9 +173,10 @@ its compactification `π : Z → Y` (9.1). `Z_1, …, Z_N` represent the isomorp
 `Mod(Y ∖ {y})'` is the common stabilizer of these classes, `π₁(Y, y)'` its inverse image under
 point-pushing, and `Mon` the product monodromy map of 9.4.
 
-**Names.** Lean names are relative to the namespace `TauCetiRoadmap.MordellLawrenceVenkatesh` of
-[Suggested.lean](Suggested.lean), which states the declarations that can be typed against the pinned
-libraries. Section numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkatesh
+**Lean statements.** [Suggested.lean](Suggested.lean) states selected headline theorems in the namespace
+`TauCetiRoadmap.MordellLawrenceVenkatesh`. Construction and API requirements in the layers below
+are mathematical specifications; the compiled statements are named in their targets. Section
+numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkatesh
 (see References), and its section, lemma and page numbers are those of arXiv version 3.
 
 ## Exact supplier contracts
@@ -461,19 +462,19 @@ density in a product of symplectic groups to excluding graphs between two factor
 **Definition.** Let `σ` be a field automorphism of `E` and `φ : V → V` a `σ`-semilinear bijection of a finite-dimensional `E`-vector space `(φ(ev) = σ(e)φ(v))`. The centralizer `Z(φ) := {f ∈ End_E(V) : f ∘ φ = φ ∘ f}`. It is a subalgebra of `End_E(V)` over the fixed field `F = E^σ` (not an `E`-subspace in general), and its unit group `Z(φ)^× = Z(φ) ∩ GL_E(V)` is the group of `E`-linear automorphisms commuting with `φ`.
 
 - `semilinearCentralizer`: `Z(φ)` as an `F`-subalgebra of `End_E(V), F = fixedField σ`.
-- `mem_semilinearCentralizer`: `f ∈ Z(φ) ↔ f ∘ φ = φ ∘ f`.
-- `semilinearCentralizer_le_pow`: `Z(φ) ⊆ Z(φ^n)` for every `n ≥ 1` (`φ^n` is `σ^n`-semilinear).
-- `units_semilinearCentralizer`: `Z(φ)^× = {g ∈ GL_E(V) : gφ = φg}`; it acts on subspaces of `V` and on filtrations preserving the `φ`-stable structure.
-- `semilinearCentralizer_linear`: When `σ = id, Z(φ)` is the usual centralizer of the linear map `φ` (Mathlib `Subalgebra.centralizer`).
-- `semilinearCentralizer_conj`: For an `E`-linear iso `u : V ≅ W, u Z(φ) u⁻¹ = Z(uφu⁻¹)`.
-- `semilinearCentralizer_scalar`: If `φ = σ ⊗ 1` on `E ⊗_F V₀` then `Z(φ) = End_F(V₀) ⊗ 1`.
-- `semilinearCentralizer_fixedScalar`: For a base field `F` fixed pointwise by `σ`, scalar multiplication by every `a∈F` commutes with `φ`.
+- `f ∈ Z(φ) ↔ f ∘ φ = φ ∘ f`.
+- `Z(φ) ⊆ Z(φ^n)` for every `n ≥ 1` (`φ^n` is `σ^n`-semilinear).
+- `Z(φ)^× = {g ∈ GL_E(V) : gφ = φg}`; it acts on subspaces of `V` and on filtrations preserving the `φ`-stable structure.
+- When `σ = id, Z(φ)` is the usual centralizer of the linear map `φ` (Mathlib `Subalgebra.centralizer`).
+- For an `E`-linear iso `u : V ≅ W, u Z(φ) u⁻¹ = Z(uφu⁻¹)`.
+- If `φ = σ ⊗ 1` on `E ⊗_F V₀` then `Z(φ) = End_F(V₀) ⊗ 1`.
+- For a base field `F` fixed pointwise by `σ`, scalar multiplication by every `a∈F` commutes with `φ`.
 
 *Construction.* Define `Z(φ)` as the kernel of the `F`-linear map `End_E(V) → End(V), f ↦ fφ − φf`; check that `fφ − φf` is additive and that for `c ∈ F, (cf)φ = c(fφ)` since `σ(c) = c`. Closure under composition and identity is immediate, so `Z(φ)` is an `F`-subalgebra. (LV20, §2.1, Lemma 2.1, p. 9.)
 
 **Checks.**
 
-- For `V=E` and `φ=σ`, multiplication by `a` belongs to `Z(φ)` iff `σ(a)=a` (`semilinearCentralizer_scalar_mem_iff`).
+- For `V=E` and `φ=σ`, multiplication by `a` belongs to `Z(φ)` iff `σ(a)=a`.
 - For `σ=id` and `φ=id` on `E², Z(φ)=M₂(E)`.
 - For `E=ℂ` over `ℝ` and `φ=complex conjugation` on `E`, multiplication by `i` is not in `Z(φ)`, while multiplication by 1 is. The same obstruction occurs in `ℚ(i)`.
 - `Z(id_V) = End_E(V)` when `σ = id`.
@@ -495,11 +496,11 @@ density in a product of symplectic groups to excluding graphs between two factor
 
 **Construction.** Let `K` be a field and `A` a finite-dimensional associative `K`-algebra. The functor `R ↦ (A ⊗_K R)^×` on commutative `K`-algebras is represented by the principal open subscheme `GL₁(A) := {a : N(a) ≠ 0}` of the affine space `𝔸(A)`, where `N(a) = det(L_a)` is the determinant of left multiplication; multiplication is polynomial and inversion is regular, so `GL₁(A)` is an affine algebraic group over `K`. It is smooth and connected, of dimension `dim_K A`, its `K`-points are `A^×`, and its formation commutes with field extension and with products of algebras.
 
-- `unitGroupScheme`: `GL₁(A)`, the principal open `D(det L)` of `𝔸(A)`, with its group law.
-- `unitGroupScheme_points`: `GL₁(A)(R) = (A ⊗_K R)^×` naturally in `R`.
-- `unitGroupScheme_smooth`: `GL₁(A)` is smooth, connected, of dimension `dim_K A`.
-- `unitGroupScheme_baseChange`: `GL₁(A)_L = GL₁(A ⊗_K L)` for a field extension `L/K`.
-- `unitGroupScheme_prod`: `GL₁(A × B) = GL₁(A) × GL₁(B)`.
+- `GL₁(A)`, the principal open `D(det L)` of `𝔸(A)`, with its group law.
+- `GL₁(A)(R) = (A ⊗_K R)^×` naturally in `R`.
+- `GL₁(A)` is smooth, connected, of dimension `dim_K A`.
+- `GL₁(A)_L = GL₁(A ⊗_K L)` for a field extension `L/K`.
+- `GL₁(A × B) = GL₁(A) × GL₁(B)`.
 
 *Construction.* An element `a` of `A ⊗ R` is a unit if and only if `L_a` is invertible, if and only if `N(a)` is a unit of `R` (Cramer’s rule gives the inverse as a polynomial in `a` divided by `N(a)`). So the functor is the basic open `D(N)` of the affine space, which is smooth and irreducible of dimension `dim A` (nonempty because `N(1) = 1`); the group law is the restriction of the algebra multiplication. Base change and products are immediate from the description. (LV20, §3.5, proof of Proposition 3.4, p. 20; §6, proof of Lemma 6.2, p. 31.) *Needs:* SchemeAndStackFoundations Layer 0; TauCetiRoadmap ReductiveGroups Layer 3.
 
@@ -522,20 +523,20 @@ density in a product of symplectic groups to excluding graphs between two factor
 
 ### 0.7 The faithful affine permutation action of a prime field
 
-**Definition.** For a prime `q`, define `affinePermGroup q` as the subgroup of `Sym(𝔽_q)` consisting of permutations `x ↦ ax+b` with `a ≠ 0`. This target adds the permutation realization and its evaluation API to the semidirect-product carrier specified in the boundaries. The linear coefficient is recoverable from the action as `g(1)−g(0)`; write it `λ(g)`. The stabilizer of 0 consists exactly of the maps `x ↦ ax`. The action and these formulas also hold for `q = 2`; centre-freeness and the commutator conclusions below require `q ≥ 3`.
+**Definition.** For a prime `q`, define the affine permutation group as the subgroup of `Sym(𝔽_q)` consisting of permutations `x ↦ ax+b` with `a ≠ 0`. This target adds the permutation realization and its evaluation API to the semidirect-product carrier specified in the boundaries. The linear coefficient is recoverable from the action as `g(1)−g(0)`; write it `λ(g)`. The stabilizer of 0 consists exactly of the maps `x ↦ ax`. The action and these formulas also hold for `q = 2`; centre-freeness and the commutator conclusions below require `q ≥ 3`.
 
-- `affinePermGroup`: The image of `Aff(q)` in `Equiv.Perm (ZMod q)`: the permutations `x ↦ ax + b` with a a unit.
-- `affinePermGroup.mulEquiv`: `Aff(q) ≃* affinePermGroup q`, by faithfulness of the action.
-- `affinePermGroup.mem_iff`: `σ ∈ affinePermGroup q ↔ ∃ a ≠ 0, ∃ b, ∀ x, σ x = a x + b`; a and `b` are then unique.
-- `affineLinearPart`: `λ : affinePermGroup q →* (ZMod q)ˣ`, read off as `σ 1 − σ 0`; it is the projection to the linear factor of `Aff(q)`.
-- `affineLinearPart_apply`: `λ(x ↦ ax + b) = a`.
-- `affineLinearPart_surjective`: `λ` is surjective.
-- `mem_ker_affineLinearPart`: `ker λ` is the translation subgroup, normal and isomorphic to `ZMod q`.
-- `affinePermGroup.stabilizer_zero`: The stabilizer of 0 is the linear subgroup `H_q ≃* (ZMod q)ˣ`, of index `q`; `Aff(q)/H_q ≃ 𝔽_q` as `Aff(q)`-sets.
-- `affinePermGroup.mul_apply`: `(x ↦ ax + b) ∘ (x ↦ a′x + b′) = (x ↦ aa′x + ab′ + b)`, and `(x ↦ ax + b)^{−1} = (x ↦ a^{−1}x − a^{−1}b)`.
-- `affinePermGroup.commutator_eq`: The commutator of `(a, b)` and (a′, `b′`) is the translation by `b(1 − a′) − b′(1 − a)`; for `q ≥ 3` the derived subgroup is the translation subgroup.
-- `existsUnique_affinePermGroup_pair`: For `x₁ ≠ x₂` and `y₁ ≠ y₂` in `𝔽_q` there is a unique `g ∈ Aff(q)` with `g(x₁) = y₁` and `g(x₂) = y₂` (sharp two-transitivity).
-- `affinePermGroup_three`: `affinePermGroup 3 = ⊤: Aff(3) = Sym(𝔽₃)`.
+- The image of `Aff(q)` in `Equiv.Perm (ZMod q)`: the permutations `x ↦ ax + b` with a a unit.
+- `Aff(q) ≃* Aff(q)`, by faithfulness of the action.
+- `σ ∈ Aff(q) ↔ ∃ a ≠ 0, ∃ b, ∀ x, σ x = a x + b`; a and `b` are then unique.
+- `λ : Aff(q) →* (ZMod q)ˣ`, read off as `σ 1 − σ 0`; it is the projection to the linear factor of `Aff(q)`.
+- `λ(x ↦ ax + b) = a`.
+- `λ` is surjective.
+- `ker λ` is the translation subgroup, normal and isomorphic to `ZMod q`.
+- The stabilizer of 0 is the linear subgroup `H_q ≃* (ZMod q)ˣ`, of index `q`; `Aff(q)/H_q ≃ 𝔽_q` as `Aff(q)`-sets.
+- `(x ↦ ax + b) ∘ (x ↦ a′x + b′) = (x ↦ aa′x + ab′ + b)`, and `(x ↦ ax + b)^{−1} = (x ↦ a^{−1}x − a^{−1}b)`.
+- The commutator of `(a, b)` and (a′, `b′`) is the translation by `b(1 − a′) − b′(1 − a)`; for `q ≥ 3` the derived subgroup is the translation subgroup.
+- For `x₁ ≠ x₂` and `y₁ ≠ y₂` in `𝔽_q` there is a unique `g ∈ Aff(q)` with `g(x₁) = y₁` and `g(x₂) = y₂` (sharp two-transitivity).
+- `Aff(3) = Sym(𝔽₃)`.
 
 *Construction.* Define `Aff(q)` as the image of the injective homomorphism `𝔽_q^+ ⋊ 𝔽_q^× → Sym(𝔽_q), (b, a) ↦ (x ↦ ax + b)`. `λ` is the projection to `𝔽_q^×`; its kernel is the image of `𝔽_q^+`. The stabilizer of 0 consists of the maps with `b = 0`. (LV20, §2.6, p. 14.) *Needs:* Mathlib `ZMod.card_units_eq_totient`; Mathlib `AffineEquiv`.
 
@@ -549,7 +550,7 @@ density in a product of symplectic groups to excluding graphs between two factor
 
 ### 0.8 Cycle types of elements of `Aff(q)`
 
-**Lemma.** Let `q ≥ 3` be prime and `g = (x ↦ ax + b) ∈ Aff(q)`. If `a ≠ 1`, then `g` has exactly one fixed point and all its other cycles have length `ord(a)`, the order of a in `𝔽_q^×`. If `a = 1` and `b ≠ 0, g` is a `q`-cycle. If `g = 1` all cycles are fixed points. Here cycle type means the full partition, including fixed points. Mathlib’s `Equiv.Perm.cycleType` omits length-one cycles: the Lean signatures therefore encode `(1,4)` as `{4}, (1,2,2)` as `{2,2}`, and the identity as `∅`. In particular the cycle type of `g` in `Sym(𝔽_q)` determines whether `λ(g) = 1`, and when `λ(g) ≠ 1` it determines `ord(λ(g))` (`cycleType_of_affineLinearPart_ne_one`, `cycleType_of_affineLinearPart_eq_one`).
+**Lemma.** Let `q ≥ 3` be prime and `g = (x ↦ ax + b) ∈ Aff(q)`. If `a ≠ 1`, then `g` has exactly one fixed point and all its other cycles have length `ord(a)`, the order of a in `𝔽_q^×`. If `a = 1` and `b ≠ 0, g` is a `q`-cycle. If `g = 1` all cycles are fixed points. Here cycle type means the full partition, including fixed points. Mathlib’s `Equiv.Perm.cycleType` omits length-one cycles: this convention encodes `(1,4)` as `{4}, (1,2,2)` as `{2,2}`, and the identity as `∅`. In particular the cycle type of `g` in `Sym(𝔽_q)` determines whether `λ(g) = 1`, and when `λ(g) ≠ 1` it determines `ord(λ(g))`.
 
 *Proof sketch.* If `a ≠ 1`, conjugating by the translation moving the unique fixed point `b/(1 − a)` to 0 turns `g` into `x ↦ ax`, whose nonzero orbits are cosets of `⟨a⟩` in `𝔽_q^×`. If `a = 1, b ≠ 0`, the orbit of any `x` is `x + 𝔽_q b = 𝔽_q` since `q` is prime. (LV20, §8.3, p. 42.) *Needs:* 0.7.
 
@@ -559,7 +560,7 @@ density in a product of symplectic groups to excluding graphs between two factor
 
 ### 0.9 `Aff(q)` is centre-free, has trivial centralizer and is self-normalizing in `Sym(𝔽_q)`
 
-**Lemma.** For a prime `q ≥ 3: (a)` the centralizer of `Aff(q)` in `Sym(𝔽_q)` is trivial; in particular `Aff(q)` has trivial centre; `(b)` the normalizer of `Aff(q)` in `Sym(𝔽_q)` is `Aff(q)`. Consequently, for a group `Γ`, two surjections `Γ → Aff(q)` are conjugate under `Sym(𝔽_q)` (as transitive actions on `𝔽_q` with image `Aff(q)`) if and only if they are conjugate under `Aff(q)`, and a surjection `Γ → Aff(q)` has trivial stabilizer under conjugation by `Aff(q)` (`centralizer_affinePermGroup`, `normalizer_affinePermGroup`).
+**Lemma.** For a prime `q ≥ 3: (a)` the centralizer of `Aff(q)` in `Sym(𝔽_q)` is trivial; in particular `Aff(q)` has trivial centre; `(b)` the normalizer of `Aff(q)` in `Sym(𝔽_q)` is `Aff(q)`. Consequently, for a group `Γ`, two surjections `Γ → Aff(q)` are conjugate under `Sym(𝔽_q)` (as transitive actions on `𝔽_q` with image `Aff(q)`) if and only if they are conjugate under `Aff(q)`, and a surjection `Γ → Aff(q)` has trivial stabilizer under conjugation by `Aff(q)`.
 
 *Proof sketch.* `(a)` A permutation `c` commuting with all translations satisfies `c(x + 1) = c(x) + 1`, so `c` is a translation `x ↦ x + t`; commuting with `x ↦ ax (a ≠ 1)` forces `at = t`, so `t = 0`. `(b)` If `s ∈ Sym(𝔽_q)` normalizes `Aff(q)`, it normalizes the unique Sylow `q`-subgroup `𝔽_q^+` (normal, of index `q − 1` prime to `q`); after composing with a translation `s` fixes 0 and normalizes `⟨x ↦ x+1⟩`, so `s(x + 1) = s(x) + c` for some `c ≠ 0`, whence `s(x) = cx ∈ Aff(q)`. The consequences follow: a `Sym`-conjugacy between two surjections is given by an element normalizing `Aff(q)`; the stabilizer of a surjection `φ` under conjugation is the centralizer of `φ(Γ) = Aff(q)`, which is trivial. (LV20, §8.2, footnote 5, p. 39; §8.2.1, p. 40.) *Needs:* 0.7.
 
@@ -581,21 +582,21 @@ density in a product of symplectic groups to excluding graphs between two factor
 
 ### 0.11 Counting generating tuples of `ℤ/N`
 
-**Lemma.** For integers `N ≥ 1` and `k ≥ 0`, the number of `k`-tuples `(y₁, …, y_k) ∈ (ℤ/N)^k` whose entries generate `ℤ/N` as a group is `J_k(N) = N^k ∏_{ℓ | N prime} (1 − ℓ^{−k})`, and for `k ≥ 2` one has `J_k(N) ≥ N^k/2` (`generatingTuples`, `card_generatingTuples`, `two_mul_card_generatingTuples_ge`).
+**Lemma.** For integers `N ≥ 1` and `k ≥ 0`, the number of `k`-tuples `(y₁, …, y_k) ∈ (ℤ/N)^k` whose entries generate `ℤ/N` as a group is `J_k(N) = N^k ∏_{ℓ | N prime} (1 − ℓ^{−k})`, and for `k ≥ 2` one has `J_k(N) ≥ N^k/2`.
 
 *Proof sketch.* A tuple generates `ℤ/N` iff for every prime `ℓ | N` not all entries lie in `ℓℤ/N` (the maximal subgroups of `ℤ/N` are the `ℓℤ/N`). By the Chinese remainder theorem the count is multiplicative in `N`; for `N = ℓ^a` the non-generating tuples are those in `(ℓℤ/ℓ^a)^k`, of which there are `ℓ^{(a−1)k}`, giving `ℓ^{ak}(1 − ℓ^{−k})`. `∏_ℓ (1 − ℓ^{−k}) ≥ ∏_ℓ (1 − ℓ^{−2}) ≥ 1 − Σ_ℓ ℓ^{−2}`. `Σ_{ℓ prime} ℓ^{−2} ≤ 1/4 + Σ_{j≥1} (2j+1)^{−2} < 1/4 + Σ_{j≥1} 1/(4j(j+1)) = 1/2`, since `(2j+1)² > 4j(j+1)`. (LV20, §5, proof of Theorem 5.4, p. 28.) *Needs:* Mathlib `Ideal.quotientInfRingEquivPiQuotient`; Mathlib `ZMod.card_units_eq_totient`.
 
 **Checks.**
 
-- `N = 6, k = 2: J₂(6) = 36 · (3/4) · (8/9) = 24 ≥ 18` (`card_generatingTuples_six_two`).
+- `N = 6, k = 2: J₂(6) = 36 · (3/4) · (8/9) = 24 ≥ 18`.
 - `N` prime: `J_k(N) = N^k − 1`.
-- Empty tuples generate the trivial group but not `ℤ/2`; the respective counts are `1` and `0` (`card_generatingTuples_empty`).
+- Empty tuples generate the trivial group but not `ℤ/2`; the respective counts are `1` and `0`.
 
 ### 0.12 Isotropic subgroups for a perfect pairing on a finite abelian group
 
 Unlike Tau Ceti’s `FiniteBilinearModule`, this target does not assume a symmetric pairing; its application is alternating.
 
-**Lemma.** Let `A` be a finite abelian group and `⟨·,·⟩ : A × A → ℚ/ℤ` a biadditive pairing that is perfect in the sense that `a ↦ ⟨·, a⟩` is a bijection from `A` to its character module `Hom(A, ℚ/ℤ)`. If `B ≤` A satisfies `⟨B, B⟩ = 0` then `|B|² ≤ |A|`. No symmetry of the pairing is assumed. (A pairing with values in `ℤ/N ⊂ ℚ/ℤ`, or in a cyclic group `μ_N^∨ ≅ ℤ/N` after a choice of generator, is a special case.) (`card_sq_le_of_isotropic`).
+**Lemma.** Let `A` be a finite abelian group and `⟨·,·⟩ : A × A → ℚ/ℤ` a biadditive pairing that is perfect in the sense that `a ↦ ⟨·, a⟩` is a bijection from `A` to its character module `Hom(A, ℚ/ℤ)`. If `B ≤` A satisfies `⟨B, B⟩ = 0` then `|B|² ≤ |A|`. No symmetry of the pairing is assumed. (A pairing with values in `ℤ/N ⊂ ℚ/ℤ`, or in a cyclic group `μ_N^∨ ≅ ℤ/N` after a choice of generator, is a special case.).
 
 *Proof sketch.* `B^⊥ := {a : ⟨b, a⟩ = 0 for all b ∈ B}` contains `B` by isotropy. The composite `A → Hom(A, ℚ/ℤ) → Hom(B, ℚ/ℤ)` is surjective: the first map is bijective and restriction of `ℚ/ℤ`-valued characters along the injection `B ↪ A` is surjective. Its kernel is `B^⊥`, so `|B^⊥| = |A| / |Hom(B, ℚ/ℤ)|`; and `|Hom(B, ℚ/ℤ)| = |B|` because `ℚ/ℤ`-valued characters of the finite group `B` are the same as `ℂ`-valued ones (`t ↦ exp(2πit)` identifies `ℚ/ℤ` with the roots of unity in `ℂ^×`) and there are `|B|` of those. Hence `|B| ≤ |B^⊥| = |A|/|B|`. (LV20, §5, proof of Theorem 5.4, p. 28.) *Needs:* Mathlib `CharacterModule`; Mathlib `CharacterModule.dual_surjective_of_injective`; Mathlib `AddChar.card_eq`.
 
@@ -606,7 +607,7 @@ Unlike Tau Ceti’s `FiniteBilinearModule`, this target does not assume a symmet
 
 ### 0.13 Minimal subrepresentations of a representation with an invariant form up to similitude
 
-**Lemma.** Let `G` be a group, `k` a field, `V` a finite-dimensional `k`-linear representation of `G` and `B` a nondegenerate bilinear form on `V` that is symmetric or alternating, with `B`(gx, gy) `= χ(g)B(x, y)` for a character `χ : G → k^×`. If `V` is not irreducible and `W ⊆ V` is a nonzero subrepresentation of minimal dimension, then `dim W ≤ dim V / 2` (`finrank_le_half_of_minimal`).
+**Lemma.** Let `G` be a group, `k` a field, `V` a finite-dimensional `k`-linear representation of `G` and `B` a nondegenerate bilinear form on `V` that is symmetric or alternating, with `B`(gx, gy) `= χ(g)B(x, y)` for a character `χ : G → k^×`. If `V` is not irreducible and `W ⊆ V` is a nonzero subrepresentation of minimal dimension, then `dim W ≤ dim V / 2`.
 
 *Proof sketch.* `W^⊥` is a subrepresentation because `G` preserves `B` up to scalars, and so is `W ∩ W^⊥`. By minimality `W ∩ W^⊥` is 0 or `W`. If `W ⊆ W^⊥` then `dim W ≤ dim V − dim W`. If `W ∩ W^⊥ = 0` then `W^⊥` is a nonzero subrepresentation of dimension `dim V − dim W` (`V ≠ W` since `V` is reducible), so by minimality `dim W ≤ dim W^⊥ = dim V − dim W`. (LV20, §6, proof of Lemma 6.1, p. 32.) *Needs:* Mathlib `LinearMap.BilinForm.finrank_orthogonal`.
 
@@ -619,18 +620,18 @@ Unlike Tau Ceti’s `FiniteBilinearModule`, this target does not assume a symmet
 
 **Definition.** Let `(V, ω)` be a finite-dimensional symplectic space over any field `k` (`ω` nondegenerate alternating, written `⟨·,·⟩`). For `v ∈ V` and `r ∈ k, T_v^r : V → V` is `x ↦ x + r⟨v, x⟩v`, and `T_v := T_v^1`. It is the Mathlib transvection with linear form `r⟨v, ·⟩` and vector `v` (the form vanishes on `v`).
 
-- `symplecticTransvection`: `T_v^r ∈ Sp(V, ω)` (as an element of `TauCeti.BilinForm.isometryGroup ω`).
-- `symplecticTransvection_apply`: `T_v^r x = x + r⟨v, x⟩ v`.
-- `symplecticTransvection_add`: `T_v^r T_v^s = T_v^{r+s}`; `T_v^0 = 1`; `(T_v^r)⁻¹ = T_v^{−r}`.
-- `symplecticTransvection_smul`: `T_{cv}^r = T_v^{c² r}`.
-- `conj_symplecticTransvection`: `g T_v^r g⁻¹ = T_{gv}^r` for `g ∈ Sp(V, ω)`.
-- `isUnipotent_symplecticTransvection`: `T_v^r` is unipotent: `(T_v^r − 1)² = 0`.
-- `fixedPoints_symplecticTransvection`: For `v ≠ 0` and `r ≠ 0` the fixed space of `T_v^r` is `v^⊥`, of codimension 1, and the image of `T_v^r − 1` is `k·v`.
-- `eq_symplecticTransvection_of_codim_one`: A unipotent element of `Sp(V, ω)` whose fixed space has codimension 1 equals `T_v^r` for some `v ≠ 0, r ≠ 0`.
-- `symplecticTransvection_eq_transvection`: `T_v^r = LinearMap.transvection (r • ω v) v`.
-- `symplecticTransvection_sl2`: On `(k², det)` the transvections `T_e^r, T_f^r` are the elementary matrices of `SL(2, k)`.
-- `symplecticTransvection_isometry`: `T_v^r` preserves `ω: ω(T_v^r x, T_v^r y) = ω(x, y)`.
-- `symplecticTransvection_sub_one_sq`: `(T_v^r − 1)² = 0`.
+- `T_v^r ∈ Sp(V, ω)` (as an element of `TauCeti.BilinForm.isometryGroup ω`).
+- `T_v^r x = x + r⟨v, x⟩ v`.
+- `T_v^r T_v^s = T_v^{r+s}`; `T_v^0 = 1`; `(T_v^r)⁻¹ = T_v^{−r}`.
+- `T_{cv}^r = T_v^{c² r}`.
+- `g T_v^r g⁻¹ = T_{gv}^r` for `g ∈ Sp(V, ω)`.
+- `T_v^r` is unipotent: `(T_v^r − 1)² = 0`.
+- For `v ≠ 0` and `r ≠ 0` the fixed space of `T_v^r` is `v^⊥`, of codimension 1, and the image of `T_v^r − 1` is `k·v`.
+- A unipotent element of `Sp(V, ω)` whose fixed space has codimension 1 equals `T_v^r` for some `v ≠ 0, r ≠ 0`.
+- `T_v^r = LinearMap.transvection (r • ω v) v`.
+- On `(k², det)` the transvections `T_e^r, T_f^r` are the elementary matrices of `SL(2, k)`.
+- `T_v^r` preserves `ω: ω(T_v^r x, T_v^r y) = ω(x, y)`.
+- `(T_v^r − 1)² = 0`.
 
 *Construction.* Define `T_v^r := LinearMap.transvection (r·⟨v, ·⟩) v`; since `⟨v, v⟩ = 0` it is invertible with inverse `T_v^{−r}`. Check `⟨T_v^r x, T_v^r y⟩ = ⟨x, y⟩` using bilinearity and `⟨v, v⟩ = 0`. (LV20, §2.7, (2.4), p. 15.) *Needs:* Mathlib `LinearMap.transvection`; Tau Ceti `TauCeti.BilinForm.isometryGroup`; Mathlib `LinearEquiv.transvection`.
 
@@ -639,7 +640,7 @@ Unlike Tau Ceti’s `FiniteBilinearModule`, this target does not assume a symmet
 - For `ω(e,f)=1, T_e^2(f)=f+2e` and `T_e^2(e)=e`.
 - `T_0^r=id` and `T_v^0=id`.
 - As a linear map, `T_v^r` equals `LinearMap.transvection (r • ω(v,·)) v`; its inverse is `T_v^(−r)`.
-- In the basis `(e, f)` of `k²` with `⟨e, f⟩ = 1, T_e^r = [[1, r], [0, 1]]` and `T_f^r = [[1, 0], [−r, 1]]` (`symplecticTransvection_sl2`).
+- In the basis `(e, f)` of `k²` with `⟨e, f⟩ = 1, T_e^r = [[1, r], [0, 1]]` and `T_f^r = [[1, 0], [−r, 1]]`.
 - `T_0^r = id`.
 
 ### 0.15 Finite-index, normality and connectedness properties of subgroup closures
@@ -652,7 +653,7 @@ Compared with the closure and image API of ArithmeticGaloisRepresentations §7.6
 
 ### 0.16 The symplectic Lie algebra in characteristic zero
 
-**Theorem.** Let `k` be a field of characteristic zero and `(V, ω)` a symplectic space of dimension `2n ≥ 2`. `(i) 𝔰𝔭(V, ω)` (Mathlib `skewAdjointLieSubalgebra ω`, isomorphic to `LieAlgebra.Symplectic.sp` after a choice of symplectic basis) is a simple Lie algebra of dimension `n(2n + 1)`. (ii) If `k` is algebraically closed, every Lie algebra automorphism of `𝔰𝔭(V, ω)` is `Ad(h)` for some `h ∈ Sp(V, ω)(k)`, and `h` is unique up to sign. (iii) The adjoint representation identifies `Sp(V, ω)/{±1}` with the identity component of the automorphism group scheme of `𝔰𝔭(V, ω)` (`isSimple_skewAdjointLieSubalgebra`).
+**Theorem.** Let `k` be a field of characteristic zero and `(V, ω)` a symplectic space of dimension `2n ≥ 2`. `(i) 𝔰𝔭(V, ω)` (Mathlib `skewAdjointLieSubalgebra ω`, isomorphic to `LieAlgebra.Symplectic.sp` after a choice of symplectic basis) is a simple Lie algebra of dimension `n(2n + 1)`. (ii) If `k` is algebraically closed, every Lie algebra automorphism of `𝔰𝔭(V, ω)` is `Ad(h)` for some `h ∈ Sp(V, ω)(k)`, and `h` is unique up to sign. (iii) The adjoint representation identifies `Sp(V, ω)/{±1}` with the identity component of the automorphism group scheme of `𝔰𝔭(V, ω)`.
 
 *Proof sketch.* After a symplectic basis, `𝔰𝔭(V, ω)` is the split simple Lie algebra of type `C_n` (for `n = 1` it is `𝔰𝔩₂`); simplicity follows from the root decomposition: every nonzero ideal contains a root vector, hence all root vectors, since the root system is irreducible. An automorphism of a split semisimple Lie algebra is the product of an inner automorphism and a diagram automorphism; the Dynkin diagram of type `C_n` has no nontrivial automorphisms, so every automorphism is inner, `Ad(g)` for `g` in the adjoint group `PSp(V)(k) = Sp(V)(k)/{±1}` (`k` algebraically closed). (Mil-LAG, Example `(C_n)`, pp. 94–95; Automorphisms of split semisimple Lie algebras, p. 100; Mil-iAG, Corollary 22.120, p. 418; forms of `Sp_{2n}`, p. 482.) *Needs:* TauCetiRoadmap ReductiveGroups Layer 2; TauCetiRoadmap ReductiveGroups Layer 7; Mathlib `LieAlgebra.IsSimple`; Mathlib `LieAlgebra.Symplectic.sp`.
 
@@ -705,7 +706,7 @@ This target specializes the reductive-group structure theory to geometric closed
 
 ### 0.22 Two-factor Goursat dichotomy for simple Lie algebras
 
-**Lemma.** Let `k` be a field and `s,t` nonabelian simple `k`-Lie algebras. If `h ≤ s × t` projects surjectively to both factors, either `h = s × t` or `h` is the graph of a `k`-Lie equivalence `s ≃ t` (`lieSubalgebra_prod_eq_top_or_graph`).
+**Lemma.** Let `k` be a field and `s,t` nonabelian simple `k`-Lie algebras. If `h ≤ s × t` projects surjectively to both factors, either `h = s × t` or `h` is the graph of a `k`-Lie equivalence `s ≃ t`.
 
 *Proof sketch.* The kernels of the two restricted projections induce ideals `I = {x | (x,0) ∈ h}` in `s` and `J = {y | (0,y) ∈ h}` in `t`: lift any element of a factor to `h` before taking the bracket. Simplicity makes `I` and `J` either zero or the whole factor. If either is whole, surjectivity shows both are whole and `h` is the product. Otherwise both projections are bijective; compose one inverse with the other to obtain the equivalence and graph description. (LV20, §2.7, discussion and Lemma 2.12, p. 14.)
 
@@ -826,23 +827,23 @@ proves this extension; the direct image-algebra proof below fixes the test-set u
 
 ### 1.4 The largest CM-or-totally-real subfield of a number field
 
-**Definition.** Let `K ⊆ ℚ̄` be a number field, `H ⊆ Gal(ℚ̄/ℚ)` the closed subgroup topologically generated by `{c₁c₂ : c₁, c₂ ∈ C}` and `H⁺` the closed subgroup generated by `C`. Put `E_K := K ∩ ℚ̄^H` and use `E_K⁺ := NumberField.maximalRealSubfield K`, identified with `K ∩ ℚ̄^{H⁺}`. Then `E_K⁺` is the maximal totally real subfield of `K, E_K` is the largest subfield of `K` that is totally real or CM, `[E_K : E_K⁺] ≤ 2`, and `E_K` is CM if and only if `K` has a CM subfield (in which case `E_K` is the maximal CM subfield of LV20 Definition 2.7 and `E_K⁺` its maximal totally real subfield) (`largestCMSubfield_isTotallyReal_or_isCMField`).
+**Definition.** Let `K ⊆ ℚ̄` be a number field, `H ⊆ Gal(ℚ̄/ℚ)` the closed subgroup topologically generated by `{c₁c₂ : c₁, c₂ ∈ C}` and `H⁺` the closed subgroup generated by `C`. Put `E_K := K ∩ ℚ̄^H` and use `E_K⁺ := NumberField.maximalRealSubfield K`, identified with `K ∩ ℚ̄^{H⁺}`. Then `E_K⁺` is the maximal totally real subfield of `K, E_K` is the largest subfield of `K` that is totally real or CM, `[E_K : E_K⁺] ≤ 2`, and `E_K` is CM if and only if `K` has a CM subfield (in which case `E_K` is the maximal CM subfield of LV20 Definition 2.7 and `E_K⁺` its maximal totally real subfield).
 
-- `largestCMSubfield`: `E_K` as an IntermediateField `ℚ K`.
-- `le_largestCMSubfield_iff`: A subfield `F ≤ K` satisfies `F ≤ E_K` iff `F` is totally real or CM.
-- `isCMField_largestCMSubfield_iff`: IsCMField `E_K ↔ K` has a CM subfield `↔ E_K ≠ E_K⁺`.
-- `finrank_largestCMSubfield_div`: `[E_K : E_K⁺] ∈ {1, 2}`.
-- `largestCMSubfield_map`: For a field isomorphism `σ : K ≃ K', σ(E_K) = E_{K'}`.
-- `embeddings_eq_on_largestCMSubfield_iff`: Two embeddings `τ, τ' : K → ℚ̄` agree on `E_K` iff `τ' = hτ` for some `h` in the closure `H`.
-- `largestCMSubfield_cyclotomic`: `E_{ℚ(ζ_n)} = ℚ(ζ_n)` for `n ≥ 3`; `E_{ℚ(2^{1/3})} = ℚ`.
+- `E_K` as an IntermediateField `ℚ K`.
+- A subfield `F ≤ K` satisfies `F ≤ E_K` iff `F` is totally real or CM.
+- IsCMField `E_K ↔ K` has a CM subfield `↔ E_K ≠ E_K⁺`.
+- `[E_K : E_K⁺] ∈ {1, 2}`.
+- For a field isomorphism `σ : K ≃ K', σ(E_K) = E_{K'}`.
+- Two embeddings `τ, τ' : K → ℚ̄` agree on `E_K` iff `τ' = hτ` for some `h` in the closure `H`.
+- `E_{ℚ(ζ_n)} = ℚ(ζ_n)` for `n ≥ 3`; `E_{ℚ(2^{1/3})} = ℚ`.
 
 *Construction.* A subfield `F ⊆ K` is fixed by `H` iff it is totally real or CM (1.3), so `E_K` is the largest such subfield; similarly `F` is fixed by `H⁺` iff it is totally real. `H` has index at most 2 in `H⁺` (every `c ∈ C` lies in `cH` for a fixed `c`), so `[E_K : E_K⁺] ≤ 2`. If `K` contains a CM field `F` then `F ⊆ E_K` is not totally real, so `E_K ≠ E_K⁺` and `E_K` is CM; conversely `E_K` CM gives a CM subfield. (Mil-CM, Chapter `I`, Remark 1.7, pp. 10–11; Chapter `I`, Corollary 1.5, p. 10.) *Needs:* 1.3; Mathlib `InfiniteGalois.fixedField_fixingSubgroup`; Mathlib `InfiniteGalois.fixingSubgroup_fixedField`; Mathlib `NumberField.maximalRealSubfield`.
 
 **Checks.**
 
-- For every CM number field `K, E_K=K` (`largestCMSubfield_eq_top_of_isCMField`); in particular this applies to `ℚ(i,√2)`.
+- For every CM number field `K, E_K=K`; in particular this applies to `ℚ(i,√2)`.
 - For every totally real number field `K, E_K=K` and `E_K⁺=K`.
-- If `[K:ℚ]=3` and `K` is not totally real, `E_K=ℚ` (`largestCMSubfield_eq_bot_of_cubic`); this distinguishes `ℚ`(real cube root of 2) from a totally real cubic field.
+- If `[K:ℚ]=3` and `K` is not totally real, `E_K=ℚ`; this distinguishes `ℚ`(real cube root of 2) from a totally real cubic field.
 - `K = ℚ(ζ_n), n ≥ 3: E_K = K`.
 - `K = ℚ(2^{1/3}): E_K = E_K⁺ = ℚ`.
 - `E_{ℚ(i,√2)}=ℚ(i,√2)` and `E⁺=ℚ(√2)`.
@@ -851,13 +852,13 @@ proves this extension; the direct image-algebra proof below fixes the test-set u
 
 **Definition.** Let `K` be a number field and `v` a finite place of `K`. If `K` has a CM subfield, `v` is friendly when it is unramified over `ℚ` and lies above a place of `E_K⁺` that is inert in the CM field `E_K`. If `K` has no CM subfield, `v` is friendly when it is unramified over `ℚ`.
 
-- `IsFriendly`: The predicate on HeightOneSpectrum `(𝓞 K)`.
-- `IsFriendly.isUnramified`: A friendly place is unramified over `ℚ`.
-- `isFriendly_iff_of_not_hasCMSubfield`: If `K` has no CM subfield, IsFriendly `v ↔ v` is unramified over `ℚ`.
-- `isFriendly_iff_exists_decomposition`: IsFriendly `v ↔ v` unramified over `ℚ ∧` (`E_K` CM `→ ∃ δ` in the decomposition group at `v` with `δ` acting on `E_K` as its complex conjugation).
-- `isFriendly_of_frobenius`: If `Frob_℘ ∈ Gal(K'/ℚ)` (`K'` Galois over `ℚ` containing `K`) restricts to the nontrivial automorphism of `E_K` over `E_K⁺`, then the place of `K` below `℘` is friendly when unramified over `ℚ` (used with Chebotarev in Layer LV.11).
-- `isFriendly_map`: Friendliness is preserved by isomorphisms of number fields.
-- `isFriendly_rat`: Over `ℚ` every prime is friendly; over `ℚ(i)` exactly the primes above `p ≡ 3 mod 4`.
+- The predicate on HeightOneSpectrum `(𝓞 K)`.
+- A friendly place is unramified over `ℚ`.
+- If `K` has no CM subfield, IsFriendly `v ↔ v` is unramified over `ℚ`.
+- IsFriendly `v ↔ v` unramified over `ℚ ∧` (`E_K` CM `→ ∃ δ` in the decomposition group at `v` with `δ` acting on `E_K` as its complex conjugation).
+- If `Frob_℘ ∈ Gal(K'/ℚ)` (`K'` Galois over `ℚ` containing `K`) restricts to the nontrivial automorphism of `E_K` over `E_K⁺`, then the place of `K` below `℘` is friendly when unramified over `ℚ` (used with Chebotarev in Layer LV.11).
+- Friendliness is preserved by isomorphisms of number fields.
+- Over `ℚ` every prime is friendly; over `ℚ(i)` exactly the primes above `p ≡ 3 mod 4`.
 
 *Construction.* Define IsFriendly `v` by cases on whether `E_K` is CM, using the largest CM subfield and the decomposition behaviour of the place of `E_K⁺` below `v`. Equivalently, in group-theoretic terms: for an embedding `ι_p : ℚ̄ → ℚ̄_p` inducing `v` on `K` and its decomposition group `D ⊆ Gal(ℚ̄/ℚ), v` is friendly iff `v` is unramified over `ℚ` and, when `E_K` is CM, some `δ ∈ D` satisfies `δ ∘ τ = τ ∘ s_{E_K}` on `E_K` for the embedding `τ =` inclusion. (LV20, §2.4, Definition 2.7, p. 12.) *Needs:* 1.4; Mathlib `IsArithFrobAt`.
 
@@ -929,33 +930,32 @@ proves this extension; the direct image-algebra proof below fixes the test-set u
 
 ### 1.12 The weight of a filtration (LV20 (2.2))
 
-**Definition and comparison.** Over any field `k`, `FiniteFiltration k D` bundles a decreasing
+**Definition and comparison.** Over any field `k`, a finite filtration `F` on `D` is a decreasing
 integer-indexed filtration of a vector space with explicit integer bounds `lo, hi`: the step is
 all of `D` at indices at most `lo` and zero at indices at least `hi`. Unlike the supplied `p`-adic
 filtered Frobenius modules, it needs neither a valuation, Frobenius nor a characteristic-zero
-hypothesis. For finite-dimensional `D`, define `FiniteFiltration.hodgeDegree` by the finite sum
+hypothesis. For finite-dimensional `D`, define the Hodge degree `t_H(D)` by the finite sum
 `Σ_(lo ≤ j < hi) j·(dim F^j − dim F^(j+1))`. For nonzero `D`, define
-`FiniteFiltration.filtrationWeight` as that degree divided by `dim D`. The intended signatures are
-`FiniteFiltration k D : Type`, `FiniteFiltration.hodgeDegree : FiniteFiltration k D → ℤ`,
-and, for nonzero `D`, `FiniteFiltration.filtrationWeight : FiniteFiltration k D → ℚ`.
+the mean weight as that degree divided by `dim D`. The degree is an integer and the mean weight
+is rational.
 In the `p`-adic setting, forget the finite bounds to identify this filtration with the filtration
 of the supplied period module; its degree is `FilteredPhiNModule.tH` and its mean weight is
 PadicHodgeTheory §3.2'`s` `hodgeWeight`. Prove these comparison equalities, preserving every
 negative jump. When `F⁰D = D`, this is LV20'`s` nonnegative-index sum.
 
-- `filtrationWeight`: the mean weight, with the preceding dictionary to the supplier.
-- `filtrationWeight_eq`: `weight_F(D) · dim D = Σ_j j dim gr^j D`.
-- `filtrationWeight_det`: `t_H(det D) = t_H(D)`, so the jump of `det D` is `dim D · weight_F(D)`.
-- `filtrationWeight_directSum`: `weight_F(D ⊕ D') = (dim D weight_F(D) + dim D' weight_F(D'))/(dim D + dim D')`.
-- `filtrationWeight_restrictScalars`: For `F'/F` finite and `D` an `F'`-filtered space viewed over `F, t_H` over `F` is `[F':F]` times `t_H` over `F'`, so the weight is unchanged.
-- `filtrationWeight_sub_quotient`: `t_H` is additive on strict short exact sequences.
-- `filtrationWeight_twist`: For the supplied twist `F^i(D[n]) = F^(i+n)(D)`, the mean weight of a nonzero `D[n]` is `weight(D) − n`.
-- `filtrationWeight_reindex`: For `F′^i = F^(i−n)`, the mean weight is `weight(F′) = weight(F) + n`.
-- `filtrationWeight_example`: A two-step filtration with `dim F¹ = a` on a nonzero space of dimension `n` has weight `a/n`.
-- `FiniteFiltration.hodgeDegree_eq_of_step_eq`: identical filtration steps have the same Hodge degree, independently of the bounds.
-- `FiniteFiltration.hodgeDegree_shift`: reindexing by `F′^i = F^(i−n)` adds `n·dim D` to the degree.
-- `filtrationWeight_two_step`: over any field, a filtration on `k²` with `F⁰ = k²`, `F¹` a line and `F² = 0` has mean weight `1/2`.
-- `filtrationWeight_negative_one`: a line with its unique jump at `−1` has Hodge degree and mean weight `−1`, regardless of its chosen finite bounds.
+- The mean weight, with the preceding dictionary to the supplier.
+- `weight_F(D) · dim D = Σ_j j dim gr^j D`.
+- `t_H(det D) = t_H(D)`, so the jump of `det D` is `dim D · weight_F(D)`.
+- `weight_F(D ⊕ D') = (dim D weight_F(D) + dim D' weight_F(D'))/(dim D + dim D')`.
+- For `F'/F` finite and `D` an `F'`-filtered space viewed over `F, t_H` over `F` is `[F':F]` times `t_H` over `F'`, so the weight is unchanged.
+- `t_H` is additive on strict short exact sequences.
+- For the supplied twist `F^i(D[n]) = F^(i+n)(D)`, the mean weight of a nonzero `D[n]` is `weight(D) − n`.
+- For `F′^i = F^(i−n)`, the mean weight is `weight(F′) = weight(F) + n`.
+- A two-step filtration with `dim F¹ = a` on a nonzero space of dimension `n` has weight `a/n`.
+- Identical filtration steps have the same Hodge degree, independently of the bounds.
+- Reindexing by `F′^i = F^(i−n)` adds `n·dim D` to the degree.
+- Over any field, a filtration on `k²` with `F⁰ = k²`, `F¹` a line and `F² = 0` has mean weight `1/2`.
+- A line with its unique jump at `−1` has Hodge degree and mean weight `−1`, regardless of its chosen finite bounds.
 
 *Construction.* Use the finite-sum definitions on submodules over an arbitrary field and build their comparisons and arithmetic adapters to the supplied mean weight and Hodge number (PadicHodgeTheory §§3.2–3.4, Brinon–Conrad Definition 8.1.1). (LV20, §2.5, (2.2), p. 13; BC09, Definition 8.1.1, p. 102.) *Needs:* PadicHodgeTheory §§3.2–3.4.
 
@@ -963,7 +963,7 @@ negative jump. When `F⁰D = D`, this is LV20'`s` nonnegative-index sum.
 
 - A two-dimensional filtration with jumps 0 and 1 has weight 1/2.
 - A one-dimensional `ℚ`-vector space with its only filtration jump at 0 has filtration weight 0.
-- A one-dimensional filtration with jump `−1` has weight `−1`; after direct sum with a line of jump 1 the degree and weight are 0 (`filtrationWeight_opposite_jumps`).
+- A one-dimensional filtration with jump `−1` has weight `−1`; after direct sum with a line of jump 1 the degree and weight are 0.
 - `H¹_dR` of an abelian variety of positive dimension `g` with the Hodge filtration has weight 1/2. The zero abelian variety has `H¹_dR=0`, with no defined mean weight.
 - `D_dR(ℚ_p(−1))`: weight 1.
 - Twisting a jump-zero line by the supplied `[1]` gives jump and mean weight `−1`; reindexing by `i↦i−1` gives `+1`.
@@ -1046,14 +1046,14 @@ fibres.
 
 **Definition.** Let `B` be a scheme and `Y` a `B`-scheme. An abelian-by-finite family over `Y` is a pair of morphisms `X →f Y' →π Y` together with a polarization `λ` of `f`, where `π` is finite étale and (`f : X → Y'`, zero section, `λ`) is a polarized abelian scheme of constant relative dimension `d`. The composite `π ∘ f` is smooth and proper of relative dimension `d`. For a point `y` of `Y, E_y := Γ(π^{-1}(y), 𝒪)` is a finite étale `κ(y)`-algebra and the fibre `X_y = (π∘f)^{-1}(y)` is naturally an `E_y`-scheme. A polarized abelian scheme over `Y` is the case `π = id`.
 
-- `AbelianByFiniteFamily`: The structure `(Y', π, X, f, e, λ)` over a `B`-scheme `Y`.
-- `AbelianByFiniteFamily.relDim`: The relative dimension `d` of `f`.
-- `AbelianByFiniteFamily.total`: The composite `π ∘ f : X → Y`, smooth and proper of relative dimension `d`.
-- `AbelianByFiniteFamily.baseChange`: Pullback along `Y₁ → Y` and along `B₁ → B`, with base change of `π, f` and `λ`; compatible with composition and identity.
-- `AbelianByFiniteFamily.fibreAlgebra`: `E_y = Γ(π^{-1}(y), 𝒪)`, a finite étale `κ(y)`-algebra whose factors are the residue fields of the points of `Y'` over `y`.
-- `AbelianByFiniteFamily.fibre`: The fibre `X_y` as an `E_y`-scheme; over each point `y'` of `π^{-1}(y)` it is the polarized abelian variety `X_{y'}` over `κ(y')`.
-- `AbelianByFiniteFamily.ofAbelianScheme`: A polarized abelian scheme over `Y` is an abelian-by-finite family with `π = id`.
-- `AbelianByFiniteFamily.restrictScalars`: The total space as a smooth proper `Y`-scheme, forgetting the factorization.
+- The structure `(Y', π, X, f, e, λ)` over a `B`-scheme `Y`.
+- The relative dimension `d` of `f`.
+- The composite `π ∘ f : X → Y`, smooth and proper of relative dimension `d`.
+- Pullback along `Y₁ → Y` and along `B₁ → B`, with base change of `π, f` and `λ`; compatible with composition and identity.
+- `E_y = Γ(π^{-1}(y), 𝒪)`, a finite étale `κ(y)`-algebra whose factors are the residue fields of the points of `Y'` over `y`.
+- The fibre `X_y` as an `E_y`-scheme; over each point `y'` of `π^{-1}(y)` it is the polarized abelian variety `X_{y'}` over `κ(y')`.
+- A polarized abelian scheme over `Y` is an abelian-by-finite family with `π = id`.
+- The total space as a smooth proper `Y`-scheme, forgetting the factorization.
 
 *Construction.* Bundle the data (`Y', π, X, f`, zero section, `λ`) with the finite-étale and abelian-scheme predicates. The composite is smooth and proper as a composite of smooth proper morphisms. (LV20, §5, Definition 5.1, p. 25.) *Needs:* AbelianSchemesAndArithmeticModuli §§A0.1, A1.1; AbelianSchemesAndArithmeticModuli §A2.5; Mathlib `AlgebraicGeometry.IsFinite`; Mathlib `AlgebraicGeometry.Etale`; Mathlib `AlgebraicGeometry.IsProper`; Mathlib `AlgebraicGeometry.Smooth`.
 
@@ -1083,12 +1083,12 @@ fibres.
 
 **Definition.** Let `K` be a number field, `S` a finite set of places containing the archimedean ones and `𝒪 = 𝒪_S`. A good model over `𝒪` of an abelian-by-finite family `X → Y' → Y` over a smooth `K`-variety `Y` is an abelian-by-finite family `𝒳 → 𝒴' → 𝒴` over `𝒪` whose base change to `K` is the given one, with `𝒴` smooth, separated and of finite type over `𝒪` (and proper over `𝒪` when `Y` is proper over `K`), and such that the relative de Rham cohomology `H¹_dR(𝒳/𝒴')` and its Hodge filtration `F¹` are locally free with locally free quotient and commute with base change, and the integral connection constructed in 2.1a induces the generic-fibre Gauss–Manin connection on `H¹_dR(X/Y)` (LV20 §3.1). For the integral symplectic structures used below, also require the degree of the polarization to be invertible on the model; this is achieved by enlarging `S`. This strengthened convention allows nonproper bases, as the `S`-unit application needs.
 
-- `IsGoodModel`: The predicate that an abelian-by-finite family over `𝒪_S` is a good model of a family over `K`.
-- `IsGoodModel.baseChange`: A good model over `𝒪_S` gives a good model over `𝒪_{S'}` for `S ⊆ S'`.
-- `IsGoodModel.integralPoints`: If `Y` is proper, every `K`-point of `Y` extends uniquely to an `𝒪`-point of `𝒴`.
-- `IsGoodModel.fibre_goodReduction`: For `y ∈ 𝒴(𝒪)` and `y'` over `y, X_{y'}` has good reduction at every place of `K(y')` not above `S`, and `K(y')/K` is unramified outside `S`.
-- `IsGoodModel.deRham_locallyFree`: `H¹_dR(𝒳/𝒴')` and `F¹` are locally free with locally free quotient.
-- `IsGoodModel.of_polarizedAbelianScheme`: The case `π = id`.
+- The predicate that an abelian-by-finite family over `𝒪_S` is a good model of a family over `K`.
+- A good model over `𝒪_S` gives a good model over `𝒪_{S'}` for `S ⊆ S'`.
+- If `Y` is proper, every `K`-point of `Y` extends uniquely to an `𝒪`-point of `𝒴`.
+- For `y ∈ 𝒴(𝒪)` and `y'` over `y, X_{y'}` has good reduction at every place of `K(y')` not above `S`, and `K(y')/K` is unramified outside `S`.
+- `H¹_dR(𝒳/𝒴')` and `F¹` are locally free with locally free quotient.
+- The case `π = id`.
 
 *Construction.* The underlying Hodge bundles, their local freeness and base change are supplied by AbelianSchemesAndArithmeticModuli §A4.3. The integral connection over the smooth `𝒪`-base is constructed in 2.1a. Thus a separated smooth model of the polarized family, with polarization degree invertible, has the required de Rham structures. (LV20, §5, Definition 5.1, p. 25; §3.1, p. 15.) *Needs:* 2.1; 2.1a; AbelianSchemesAndArithmeticModuli §A4.3; Mathlib `Set.integer`; Mathlib `AlgebraicGeometry.IsProper.eq_valuativeCriterion`.
 
@@ -1117,15 +1117,15 @@ fibres.
 
 **Construction.** For a good model `𝒳 →f 𝒴' →π 𝒴` over `𝒪 = 𝒪_S`, put `ℰ := π_*𝒪_{𝒴'}` (a finite étale `𝒪_𝒴`-algebra) and `ℋ := π_* H¹_dR(𝒳/𝒴')`. Then `ℋ` is a locally free `ℰ`-module of rank `2d`, with: `(a)` the Hodge sub-bundle `F¹ℋ = π_*F¹`, locally free of `ℰ`-rank `d` with locally free quotient; `(b)` the polarization pairing `⟨·,·⟩ : ℋ × ℋ → ℰ, ℰ`-bilinear, alternating and perfect, for which `F¹ℋ` is Lagrangian; `(c)` the Gauss–Manin connection `∇ : ℋ → ℋ ⊗ Ω¹_{𝒴/𝒪}`, integrable, satisfying `∇(e·x) = d_ℰ(e)·x + e·∇x` for the canonical integrable connection `d_ℰ` on the étale algebra `ℰ`, and horizontal pairing `d_ℰ⟨x, x'⟩ = ⟨∇x, x'⟩ + ⟨x, ∇x'⟩`. For `y ∈ 𝒴(R)` with `R` an `𝒪`-algebra, `y^*ℋ = H¹_dR(X_y/R)` as a module over `E_y = y^*ℰ`, compatibly with `(a)`–`(c)` and with the de Rham cohomology of the total space `X → Y`.
 
-- `deRhamBundle`: `ℋ` as a locally free `ℰ`-module of rank `2d` on `𝒴`.
-- `deRhamBundle.hodge`: The Hodge sub-bundle `F¹ℋ` of `ℰ`-rank `d`.
-- `deRhamBundle.pairing`: The `ℰ`-bilinear perfect alternating pairing with `F¹ℋ` Lagrangian.
-- `deRhamBundle.gaussManin`: The integrable connection `∇` with the `ℰ`-Leibniz rule and horizontal pairing.
-- `deRhamBundle.fibreEquiv`: `y^*ℋ ≃ H¹_dR(X_y/R)` as `E_y`-modules with filtration and pairing.
-- `deRhamBundle.fibreDecomp`: Over a field `L ⊇ K, H¹_dR(X_y/L) = ∏` over the factors of `E_y ⊗ L` of the de Rham cohomology of the corresponding abelian varieties (LV20 (6.2)).
-- `deRhamBundle.baseChange`: Compatibility with base change of the family and with restriction to open subschemes of `𝒴`.
-- `deRhamBundle.eq_gaussManin_total`: `∇` is the Gauss–Manin connection of the smooth proper morphism `𝒳 → 𝒴` on `H¹_dR(𝒳/𝒴) = ℋ`.
-- `deRhamBundle.legendre`: For the Legendre family, the basis `dx/y, x dx/y` and its connection matrix.
+- `ℋ` as a locally free `ℰ`-module of rank `2d` on `𝒴`.
+- The Hodge sub-bundle `F¹ℋ` of `ℰ`-rank `d`.
+- The `ℰ`-bilinear perfect alternating pairing with `F¹ℋ` Lagrangian.
+- The integrable connection `∇` with the `ℰ`-Leibniz rule and horizontal pairing.
+- `y^*ℋ ≃ H¹_dR(X_y/R)` as `E_y`-modules with filtration and pairing.
+- Over a field `L ⊇ K, H¹_dR(X_y/L) = ∏` over the factors of `E_y ⊗ L` of the de Rham cohomology of the corresponding abelian varieties (LV20 (6.2)).
+- Compatibility with base change of the family and with restriction to open subschemes of `𝒴`.
+- `∇` is the Gauss–Manin connection of the smooth proper morphism `𝒳 → 𝒴` on `H¹_dR(𝒳/𝒴) = ℋ`.
+- For the Legendre family, the basis `dx/y, x dx/y` and its connection matrix.
 
 *Construction.* Use the supplied degree-one Hodge bundles and polarization pairing of `𝒳/𝒴′`, with the integral connection of 2.1a. `Push` forward along the finite étale `π: π_*` of a locally free module is locally free; `ℰ` acts through `π_*𝒪_{𝒴'}`; since `π` is étale, `Ω¹_{𝒴'/𝒪} = π^*Ω¹_{𝒴/𝒪}`, so the Gauss–Manin connection of `𝒳/𝒴'` pushes forward to a connection on `ℋ` with the stated Leibniz rule; it coincides with the Gauss–Manin connection of the composite `𝒳 → 𝒴`. The pairing pushes forward to an `ℰ`-valued pairing; perfectness and the Lagrangian property of `F¹` are fibrewise statements for abelian varieties. Base change of `π_*` along `y` is exact because `π` is finite flat. (LV20, §6, proof of Proposition 5.3, p. 29; §4.3, proof of Lemma 4.2, p. 22.) *Needs:* 2.1a; 2.2; AbelianSchemesAndArithmeticModuli §A4.3; AbelianSchemesAndArithmeticModuli §A2.5; Mathlib `AlgebraicGeometry.Etale`; Mathlib `AlgebraicGeometry.IsFinite`.
 
@@ -1141,14 +1141,14 @@ fibres.
 
 **Definition.** Let `𝒴` be smooth of finite type and relative dimension `m` over `𝒪_S`, and let `v ∉ S` with `K_v/ℚ_p` unramified. For `y₀ ∈ 𝒴(𝒪_v)`, define `Ω_v(y₀) = {y ∈ 𝒴(𝒪_v) : y and y₀ have the same reduction}`. After base change to `𝒪_v` choose parameters `z₁,…,z_m` along this section. The completed local ring at its special point is `𝒪_v[[z₁,…,z_m]]`, and these coordinates identify `Ω_v(y₀)` with `(p𝒪_v)^m`. Parameters and Taylor coefficients can be chosen over `𝒪_(v)` when `y₀` comes from an `𝒪_(v)`-section; that extra hypothesis is needed for the common `K`-coefficient series of 3.14.
 
-- `residueDisk`: `Ω_v(y₀)` as a subset of `𝒴(𝒪_v)`.
-- `residueDisk.coords`: The bijection `z : Ω_v(y₀) ≃ (p𝒪_v)^m` attached to a system of parameters.
-- `residueDisk.coords_germ`: Taylor expansion in coordinates based at an `𝒪_v`-section has coefficients in `𝒪_v`. For an `𝒪_(v)`-section and parameters defined there, the coefficients lie in `𝒪_(v)`.
-- `residueDisk.mem_iff`: `y ∈ Ω_v(y₀) ↔ y` and `y₀` have the same reduction.
-- `residueDisk.coords_change`: Two systems of parameters differ by an `𝒪_v`-analytic isomorphism given by power series in `𝒪_v[[z]]`.
-- `residueDisk.finiteEtale`: Over the completed disk a finite étale cover splits into disks over finite unramified `𝒪_v`-algebras. Its `𝒪_v`-points over `Ω_v` are exactly the sections from residue-degree-one factors; a degree `> 1` field factor contributes points only after unramified base change.
-- `residueDisk.cover`: `𝒴(𝒪_v)` is the finite disjoint union of the residue disks of its points; if `𝒴` is proper, `Y(K_v) = 𝒴(𝒪_v)`.
-- `residueDisk.affineLine`: The residue disks of `𝔸¹(ℤ_p)` are the cosets of `pℤ_p`.
+- `Ω_v(y₀)` as a subset of `𝒴(𝒪_v)`.
+- The bijection `z : Ω_v(y₀) ≃ (p𝒪_v)^m` attached to a system of parameters.
+- Taylor expansion in coordinates based at an `𝒪_v`-section has coefficients in `𝒪_v`. For an `𝒪_(v)`-section and parameters defined there, the coefficients lie in `𝒪_(v)`.
+- `y ∈ Ω_v(y₀) ↔ y` and `y₀` have the same reduction.
+- Two systems of parameters differ by an `𝒪_v`-analytic isomorphism given by power series in `𝒪_v[[z]]`.
+- Over the completed disk a finite étale cover splits into disks over finite unramified `𝒪_v`-algebras. Its `𝒪_v`-points over `Ω_v` are exactly the sections from residue-degree-one factors; a degree `> 1` field factor contributes points only after unramified base change.
+- `𝒴(𝒪_v)` is the finite disjoint union of the residue disks of its points; if `𝒴` is proper, `Y(K_v) = 𝒴(𝒪_v)`.
+- The residue disks of `𝔸¹(ℤ_p)` are the cosets of `pℤ_p`.
 
 *Construction.* Parameters exist because `𝒴` is smooth over `𝒪` at `ȳ₀` and `y₀` is a section through `ȳ₀`. Since `K_v` is unramified, `𝒪_v = W(k_v)` and the completed local ring of the smooth `𝒪_v`-scheme at the `k_v`-point `ȳ₀` is `𝒪_v[[z]]`. `𝒪_v`-points reducing to `ȳ₀` are continuous `𝒪_v`-algebra maps `𝒪_v[[z]] → 𝒪_v`, i.e. values `z ∈ (p𝒪_v)^m` (formal smoothness and completeness). For general `𝒪_v`-sections carry out the parameter construction after base change to `𝒪_v`; use the rational-section variant only when the section is defined over `𝒪_(v)`. Finiteness of the residue partition uses finite type and the finite residue field. (LV20, §3.3, pp. 16–17.) *Needs:* SchemeAndStackFoundations Layer 0; Mathlib `AlgebraicGeometry.Smooth`; Mathlib `MvPowerSeries`; TauCetiRoadmap LocalFieldsRamification Layer 2; Stacks Tag `054L` (smooth morphisms are étale-locally affine spaces); DeformationAndDerivedPatchingAlgebra §1.10 (Cohen structure: `𝒪_v = W(k_v)`).
 
@@ -1198,15 +1198,15 @@ fibres.
 
 At a local point `y` write `𝓔_y = y^*ℰ` and `ℋ_y = y^*ℋ` for the integral fibres and `E_y = 𝓔_y[1/p]` for the local étale `K_v`-algebra. Residue fields `K(y′)` and their completions are available only for `K`-rational `y`, and a common formal series over `K` needs a `K`-rational base point.
 
-- `gaussManinTransport`: `T_v(y) : ℋ_{y₀} ≃ ℋ_y` for `y ∈ Ω_v(y₀)`.
-- `gaussManinTransport_self`: `T_v(y₀) = id`.
-- `gaussManinTransport_trans`: Transitivity `T_v(y'') = T_{y'}(y'') ∘ T_v(y')` for `y', y''` in one disk.
-- `gaussManinTransport_algebra`: The integral transport is a ring isomorphism `𝓔_{y₀} ≃ 𝓔_y`, and `T_v(y)` is semilinear over it; after inverting `p` it identifies the local étale `K_v`-algebras.
-- `gaussManinTransport_pairing`: `⟨T_v(y)x, T_v(y)x'⟩ = T_ℰ(⟨x, x'⟩)`.
-- `gaussManinTransport_matrix`: In a basis near `ȳ₀`, the matrix of `T_v(y)` is `Φ(z(y))`, with entries restricted power series in `z/p`.
-- `gaussManinTransport_indep`: `T_v(y)` does not depend on the basis or on the parameters.
-- `gaussManinTransport_pairs`: For `K`-rational `y` and `y₀`, the local-factor bijection becomes the bijection of pairs `(y′,w)` over `(y,v)` with `K(y′)_w ≅ K(y₀′)_{w₀}`. For general local points use the factors of `𝓔_y[1/p]`.
-- `gaussManinTransport_constant`: For a constant family `T_v(y) = id`.
+- `T_v(y) : ℋ_{y₀} ≃ ℋ_y` for `y ∈ Ω_v(y₀)`.
+- `T_v(y₀) = id`.
+- Transitivity `T_v(y'') = T_{y'}(y'') ∘ T_v(y')` for `y', y''` in one disk.
+- The integral transport is a ring isomorphism `𝓔_{y₀} ≃ 𝓔_y`, and `T_v(y)` is semilinear over it; after inverting `p` it identifies the local étale `K_v`-algebras.
+- `⟨T_v(y)x, T_v(y)x'⟩ = T_ℰ(⟨x, x'⟩)`.
+- In a basis near `ȳ₀`, the matrix of `T_v(y)` is `Φ(z(y))`, with entries restricted power series in `z/p`.
+- `T_v(y)` does not depend on the basis or on the parameters.
+- For `K`-rational `y` and `y₀`, the local-factor bijection becomes the bijection of pairs `(y′,w)` over `(y,v)` with `K(y′)_w ≅ K(y₀′)_{w₀}`. For general local points use the factors of `𝓔_y[1/p]`.
+- For a constant family `T_v(y) = id`.
 
 *Construction.* For an `𝒪_v`-section the connection matrix has coefficients in `𝒪_v[[z]]`. For a section and coordinates defined over `𝒪_(v)`, its coefficients are in `𝒪_(v)[[z]]`; only this latter case gives the common formal solution over `K`. The formal solution `Φ` converges on `(p𝒪_v)^m` with values in `GL_r(𝒪_v)`; define `T_v(y)` as the map sending the fibre at `y₀` of a horizontal formal section to its value at `y`. Independence of choices: two formal horizontal frames differ by a constant matrix, and a change of parameters is an analytic substitution. `ℰ` is itself a module with integrable connection `d_ℰ`; its transport is a ring isomorphism, and the Leibniz rule makes `T_v(y)` semilinear over it; horizontality of the pairing makes `T_v(y)` preserve it. The cocycle identity follows from uniqueness of horizontal sections. (LV20, §3.3, (3.7), p. 17; §6, (6.3)–(6.6), p. 30.) *Needs:* 2.4; 2.5; 2.7.
 
@@ -1222,13 +1222,13 @@ At a local point `y` write `𝓔_y = y^*ℰ` and `ℋ_y = y^*ℋ` for the integr
 
 **Construction.** Let `ι:K→ℂ, y₀∈Y(ℂ)`, and `Ω_ℂ` a contractible open neighbourhood. Horizontal sections of the analytic Gauss–Manin bundle define `T_ℂ(y):ℋ^an_{y₀}≃ℋ^an_y`. Under de Rham–Betti comparison this is parallel transport in `R¹(π∘f)_*ℂ` along paths in `Ω_ℂ`, compatible with the étale algebra and polarization. If `y₀` is `K`-rational and local coordinates and frames are defined over `K`, its matrix near `y₀` is `ι(Φ)(z(y))` for the same `K`-coefficient formal solution as in the `p`-adic construction.
 
-- `gaussManinTransportComplex`: `T_ℂ(y)` for `y` in a contractible neighbourhood of `y₀`.
-- `gaussManinTransportComplex_eq_parallel`: `T_ℂ(y)` is Betti parallel transport under the de Rham–Betti comparison.
-- `gaussManinTransportComplex_series`: For a `K`-rational base point with coordinates and frame over `K`, the matrix near that point is `ι(Φ)(z(y))`. For an arbitrary complex point use the corresponding complex formal solution.
-- `gaussManinTransportComplex_trans`: Transitivity along paths in `Ω_ℂ`.
-- `gaussManinTransportComplex_pairing`: Compatibility with the polarization and the `ℰ`-structure.
-- `gaussManinTransportComplex_monodromy`: Analytic continuation along a loop `γ` at `y₀` gives forward Betti transport `T_γ=μ(op γ)⁻¹`, where Layer LV.3 uses backward transport on `π₁^op`.
-- `gaussManinTransportComplex_legendre`: The Legendre family's period matrix.
+- `T_ℂ(y)` for `y` in a contractible neighbourhood of `y₀`.
+- `T_ℂ(y)` is Betti parallel transport under the de Rham–Betti comparison.
+- For a `K`-rational base point with coordinates and frame over `K`, the matrix near that point is `ι(Φ)(z(y))`. For an arbitrary complex point use the corresponding complex formal solution.
+- Transitivity along paths in `Ω_ℂ`.
+- Compatibility with the polarization and the `ℰ`-structure.
+- Analytic continuation along a loop `γ` at `y₀` gives forward Betti transport `T_γ=μ(op γ)⁻¹`, where Layer LV.3 uses backward transport on `π₁^op`.
+- The Legendre family's period matrix.
 
 *Construction.* 2.8 gives a holomorphic fundamental matrix from the formal horizontal solution over `ℂ`. When the base point and frame are defined over `K`, uniqueness identifies it with `ι(Φ)`. Continue along paths in the contractible neighbourhood. Horizontal sections of the analytic Gauss–Manin connection are the locally constant sections of the Betti local system (de Rham–Betti comparison for proper smooth families with Gauss–Manin compatibility, in degree one for abelian schemes). `ℰ ⊗ ℂ` corresponds to the locally constant functions on the covering `Y'(ℂ) → Y(ℂ)`, giving the decomposition over the points above `y`. (LV20, §3.3, (3.8), p. 17; §3.2, p. 16.) *Needs:* 2.4; 2.8; ComplexComparisonPartII §§C5.1–C5.2; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; Mathlib `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`; Tau Ceti `TauCeti.LocalCoefficientSystem.monodromyRepresentation`.
 
@@ -1244,13 +1244,13 @@ At a local point `y` write `𝓔_y = y^*ℰ` and `ℋ_y = y^*ℋ` for the integr
 
 **Construction.** In the unramified `p`-adic setting with `p>2`, put `V_y=ℋ_y[1/p]` and `E_y=𝓔_y[1/p]` for `y∈𝒴(𝒪_v)`. The crystalline Frobenius on `H¹_cris(X_ȳ/W(k_v))[1/p]` transports under Berthelot–Ogus comparison to a bijective map `φ_y` of `V_y`. It is semilinear for arithmetic Frobenius on `K_v` and on each unramified field factor `L_i` of `E_y`; on the corresponding abelian-variety cohomology it is its crystalline Frobenius. For `y` and `y₀` in the same disk, `T_v(y)φ_{y₀}=φ_yT_v(y)`. When `y` is `K`-rational the factors `L_i` are the completions `K(y′)_w` indexed by pairs over `(y,v)`.
 
-- `crystallineFrobenius`: `φ_y` on `ℋ_y ⊗ K_v` for `y ∈ 𝒴(𝒪_v)`.
-- `crystallineFrobenius_semilinear`: `φ_y`(a `x`)`=σ(a)φ_y(x)` for `a∈K_v`, and `φ_y(e x)=Frob(e)φ_y(x)` for `e∈E_y=𝓔_y[1/p]`.
-- `crystallineFrobenius_bijective`: `φ_y` is bijective.
-- `crystallineFrobenius_transport`: `T_v(y) ∘ φ_{y₀} = φ_y ∘ T_v(y)` for `y` in the disk of `y₀`.
-- `crystallineFrobenius_factor`: On a factor `L_i` of `E_y=𝓔_y[1/p], φ_y` is crystalline Frobenius semilinear over arithmetic Frobenius of `L_i/ℚ_p`. For rational `y, L_i=K(y′)_w`.
-- `crystallineFrobenius_pairing`: `⟨φx, φx'⟩ = p·Frob⟨x, x'⟩` for the polarization pairing.
-- `crystallineFrobenius_example`: Ordinary and supersingular elliptic curves.
+- `φ_y` on `ℋ_y ⊗ K_v` for `y ∈ 𝒴(𝒪_v)`.
+- `φ_y`(a `x`)`=σ(a)φ_y(x)` for `a∈K_v`, and `φ_y(e x)=Frob(e)φ_y(x)` for `e∈E_y=𝓔_y[1/p]`.
+- `φ_y` is bijective.
+- `T_v(y) ∘ φ_{y₀} = φ_y ∘ T_v(y)` for `y` in the disk of `y₀`.
+- On a factor `L_i` of `E_y=𝓔_y[1/p], φ_y` is crystalline Frobenius semilinear over arithmetic Frobenius of `L_i/ℚ_p`. For rational `y, L_i=K(y′)_w`.
+- `⟨φx, φx'⟩ = p·Frob⟨x, x'⟩` for the polarization pairing.
+- Ordinary and supersingular elliptic curves.
 
 *Construction.* The Berthelot–Ogus comparison identifies crystalline cohomology of the special fibre with the de Rham cohomology of any smooth proper lift; the crystalline Frobenius is `σ`-semilinear and bijective after inverting p. The relative crystalline cohomology of `𝒳_{k_v}/𝒴_{k_v}` is a crystal whose value on the formal completion of `𝒴` along `ȳ₀` is `ℋ` with `∇`, and whose transition isomorphisms between the two sections `y, y₀` (same reduction) are given by the Taylor series of `∇`; for `p > 2` and `v` unramified this series converges on the PD-thickening defined by `p` and equals `T_v(y)`. Crystalline Frobenius is functorial for the transition isomorphisms of the crystal, hence commutes with `T_v(y)`. The finite étale `𝒴'` contributes `H⁰`, on which crystalline Frobenius is the Frobenius of the étale algebra; the `E`-semilinearity follows from compatibility of Frobenius with cup product. (LV20, §3.3, (3.9), p. 17; §3.3, p. 17; BO78, §7, Corollary 7.4, p. 7.4.) *Needs:* 2.4; 2.9; CrystallineCohomology §§CR.1.3–CR.1.4; CrystallineCohomology §CR.2.3; CrystallineCohomology Layer CR.3:Frobenius-isogeny and §CR.3.4; CrystallineCohomology §CR.7.3; TauCetiRoadmap LocalFieldsRamification Layer 2.
 
@@ -1291,7 +1291,7 @@ finitely many points.
 
 This field-independent algebraic target differs from the real-vector-space `Geometry/Symplectic/Lagrangian` API: no `ℝ` coefficient field, norm or manifold structure is assumed.
 
-**Lemma.** Every isotropic subspace `L` of a `2d`-dimensional symplectic space has dimension at most `d`. It is Lagrangian `(L=L^⊥)` exactly when its dimension is `d` (`two_mul_finrank_le_of_isotropic`, `isLagrangian_iff_finrank`).
+**Lemma.** Every isotropic subspace `L` of a `2d`-dimensional symplectic space has dimension at most `d`. It is Lagrangian `(L=L^⊥)` exactly when its dimension is `d`.
 
 *Proof sketch.* `(a) dim L + dim L^⊥ = 2d` for nondegenerate `ω`, and `L ⊆ L^⊥` for isotropic `L`. (Own linear-algebra derivation from the dimension formula; LV20, §6, Lemma 6.4, p. 33, uses this criterion.) *Needs:* Mathlib `LinearMap.BilinForm.IsAlt`; Mathlib `LinearMap.BilinForm.Nondegenerate`; Mathlib `LinearMap.BilinForm.orthogonal`; Mathlib `LinearMap.BilinForm.finrank_orthogonal`; Tau Ceti `TauCeti.BilinForm.isometryGroup`.
 
@@ -1345,15 +1345,15 @@ MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`, supplies tran
 
 **Definition.** Let `k` be a field and `(V, ω)` a symplectic `k`-vector space of dimension `2d`, as in 3.1. `LGr(V, ω)` is the functor on commutative `k`-algebras `A ↦ {W ∈ G(d, A ⊗ V; A) : ω_A(W, W) = 0}`, where `G(d, A ⊗ V; A)` is Mathlib's Grassmannian of submodules with locally free quotient of rank `d` (for `W` isotropic of corank `d` this is the same as `W` being a rank-`d` direct summand); it is represented by a closed subscheme of the Grassmannian scheme `Gr(V, d)`. Its `k'`-points for a field `k' ⊇ k` are the Lagrangian subspaces of `V ⊗ k'`. It carries the action of `Sp(V, ω)`, the open charts `U_{L'}` (Lagrangians transverse to a fixed Lagrangian `L'`), each isomorphic to the affine space of symmetric maps `L → L' ≅ L^*`, and the Plücker embedding into `ℙ(∧^d V)` restricted from `Gr(V, d)`.
 
-- `LagrangianGrassmannian`: `LGr(V, ω)` as a closed subscheme of `Gr(V, d)` representing the isotropic-submodule subfunctor.
-- `LagrangianGrassmannian.functor`: The subfunctor `A ↦ {W ∈ G(d, A ⊗ V; A) : ω_A(W, W) = 0}` of `Module.Grassmannian.functor`.
-- `LagrangianGrassmannian.mem_points_iff`: For a field `k' ⊇ k`, the `k'`-points are the Lagrangian subspaces of `V ⊗ k'`.
-- `LagrangianGrassmannian.chart`: For a Lagrangian `L'` with complement `L`, the open subscheme `U_{L'} ≅ 𝔸(Sym(L → L'))` of Lagrangians transverse to `L'`.
-- `LagrangianGrassmannian.chart_cover`: For a symplectic basis, the `2^d` charts `U_{Λ_I}` cover `LGr(V, ω)`.
-- `LagrangianGrassmannian.plucker`: The closed immersion `LGr(V, ω) → ℙ(∧^d V)` restricted from the Plücker embedding.
-- `LagrangianGrassmannian.action`: The action of `Sp(V, ω)` on `LGr(V, ω)` induced by `g ↦ (W ↦ gW)`.
-- `LagrangianGrassmannian.baseChange`: `LGr(V, ω) ⊗ k' = LGr(V ⊗ k', ω ⊗ k')` for a field extension `k'/k`.
-- `LagrangianGrassmannian.dimOne`: For `d = 1, LGr(V, ω) = ℙ(V)`.
+- `LGr(V, ω)` as a closed subscheme of `Gr(V, d)` representing the isotropic-submodule subfunctor.
+- The subfunctor `A ↦ {W ∈ G(d, A ⊗ V; A) : ω_A(W, W) = 0}` of `Module.Grassmannian.functor`.
+- For a field `k' ⊇ k`, the `k'`-points are the Lagrangian subspaces of `V ⊗ k'`.
+- For a Lagrangian `L'` with complement `L`, the open subscheme `U_{L'} ≅ 𝔸(Sym(L → L'))` of Lagrangians transverse to `L'`.
+- For a symplectic basis, the `2^d` charts `U_{Λ_I}` cover `LGr(V, ω)`.
+- The closed immersion `LGr(V, ω) → ℙ(∧^d V)` restricted from the Plücker embedding.
+- The action of `Sp(V, ω)` on `LGr(V, ω)` induced by `g ↦ (W ↦ gW)`.
+- `LGr(V, ω) ⊗ k' = LGr(V ⊗ k', ω ⊗ k')` for a field extension `k'/k`.
+- For `d = 1, LGr(V, ω) = ℙ(V)`.
 
 *Construction.* Define the subfunctor of Mathlib's Grassmannian functor by the isotropy condition; it is compatible with base change because `ω_A` is. Representability: on the Grassmannian scheme the isotropy condition is the vanishing of the section of `(∧²𝒲)^∨` induced by `ω` on the tautological subbundle `𝒲`, a closed condition (R09.1). Charts: `U_{L'}` is the intersection with the open Schubert chart of subspaces transverse to `L'`; by 3.4, over every A its points are the graphs of symmetric `A`-linear maps, so `U_{L'} ≅ 𝔸^{d(d+1)/2}`. (LV20, §6, Lemma 6.4, p. 33; §6, proof of Lemma 6.4, p. 33.) *Needs:* 3.1; 3.2; MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`; 3.4; 3.5; Mathlib `Module.Grassmannian`; Mathlib `Module.Grassmannian.functor`; AlgebraicModuliForArithmeticGeometry §§1.3, 1.7.
 
@@ -1383,16 +1383,16 @@ MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`, supplies tran
 
 Isotropy forces the componentwise rank: an isotropic `E ⊗ A`-submodule whose quotient has total rank `d[E:k]` has rank `d` on every component of `E ⊗ A`, since on each component it is isotropic for a perfect form of rank `2d`. The stable Grassmannian without isotropy needs the componentwise condition explicitly (see the Checks).
 
-- `periodVariety`: `LGr_E(V, ω)` as a closed subscheme of `LGr`(`V`, tr `∘ ω`).
-- `periodVariety.mem_iff`: `W ∈ LGr_E(V, ω)(A) ↔ W` is an `E ⊗ A`-submodule, `(A ⊗ V)/W` locally free of rank `d[E:k]`, and `ω_A(W, W) = 0`.
-- `periodVariety.mem_points_iff_free`: Over a field `k' ⊇ k` the points are the free rank-`d (E ⊗ k')`-submodules isotropic for `ω`.
-- `periodVariety.traceForm`: `ω_tr = tr_{E/k} ∘ ω`, nondegenerate and alternating.
-- `periodVariety.baseChange`: `LGr_E(V, ω) ⊗ k' = LGr_{E⊗k'}(V ⊗ k', ω ⊗ k')`.
-- `periodVariety.prodEquiv`: For `E = E₁ × E₂` (so `V = V₁ × V₂`), `LGr_E(V, ω) ≅ LGr_{E₁}(V₁, ω₁) × LGr_{E₂}(V₂, ω₂)`, the projections sending `W` to `e_i W`.
-- `periodVariety.semilinearAction`: The group of `k`-linear automorphisms `g` of `V` for which some `s ∈ Aut_k(E)` satisfies `g`(ex) `= s(e)g(x)` and `ω`(gx, gy) `= s(ω(x, y))` acts on `LGr_E(V, ω)`; it contains the `E`-linear symplectic group `Sp_E(V, ω)`.
-- `periodVariety.plucker`: The Plücker embedding `LGr_E(V, ω) → ℙ(∧^{d[E:k]} V)` restricted from `LGr(V, ω_tr)`.
-- `periodVariety.stableGrassmannian`: `Gr_E(V,d)` is the componentwise rank-`d` part of the `E`-stable locus in `Gr_k(V,d[E:k])`: over A require the quotient to be finite locally free of rank `d` over `E⊗_k A`. This is `Res_{E/k} Gr_E(V,d)`, not the whole stable locus; it contains `LGr_E(V,ω)`, and `GL_E(V)` acts on it.
-- `periodVariety.dimOne`: For `d = 1` every `E`-line is isotropic and `LGr_E(V, ω)` is the variety of free rank-one `E`-submodules (LV20 §4.3).
+- `LGr_E(V, ω)` as a closed subscheme of `LGr`(`V`, tr `∘ ω`).
+- `W ∈ LGr_E(V, ω)(A) ↔ W` is an `E ⊗ A`-submodule, `(A ⊗ V)/W` locally free of rank `d[E:k]`, and `ω_A(W, W) = 0`.
+- Over a field `k' ⊇ k` the points are the free rank-`d (E ⊗ k')`-submodules isotropic for `ω`.
+- `ω_tr = tr_{E/k} ∘ ω`, nondegenerate and alternating.
+- `LGr_E(V, ω) ⊗ k' = LGr_{E⊗k'}(V ⊗ k', ω ⊗ k')`.
+- For `E = E₁ × E₂` (so `V = V₁ × V₂`), `LGr_E(V, ω) ≅ LGr_{E₁}(V₁, ω₁) × LGr_{E₂}(V₂, ω₂)`, the projections sending `W` to `e_i W`.
+- The group of `k`-linear automorphisms `g` of `V` for which some `s ∈ Aut_k(E)` satisfies `g`(ex) `= s(e)g(x)` and `ω`(gx, gy) `= s(ω(x, y))` acts on `LGr_E(V, ω)`; it contains the `E`-linear symplectic group `Sp_E(V, ω)`.
+- The Plücker embedding `LGr_E(V, ω) → ℙ(∧^{d[E:k]} V)` restricted from `LGr(V, ω_tr)`.
+- `Gr_E(V,d)` is the componentwise rank-`d` part of the `E`-stable locus in `Gr_k(V,d[E:k])`: over A require the quotient to be finite locally free of rank `d` over `E⊗_k A`. This is `Res_{E/k} Gr_E(V,d)`, not the whole stable locus; it contains `LGr_E(V,ω)`, and `GL_E(V)` acts on it.
+- For `d = 1` every `E`-line is isotropic and `LGr_E(V, ω)` is the variety of free rank-one `E`-submodules (LV20 §4.3).
 
 *Construction.* `ω_tr` is nondegenerate because the trace form of an étale algebra is nondegenerate and `ω` is perfect. For an `E`-stable `W, ω(W, W) = 0` if and only if tr`(e·ω(x, y)) = ω_tr`(ex, `y`) `= 0` for all `e, x, y`, i.e. if and only if `ω_tr(W, W) = 0`. `E`-stability is a closed condition on the Grassmannian (stability of the tautological subbundle under the finitely many endomorphisms given by `a k`-basis of `E`; R09.1), so `LGr_E(V, ω)` is a closed subscheme of `LGr(V, ω_tr)`. Over a field, an `E`-stable isotropic `W` splits along the idempotents of `E ⊗ k'` into `ω`-isotropic pieces of rank `≤ d`; the total dimension `d[E:k]` forces rank exactly `d` in each factor, giving the description of the points. (LV20, §6, proof of Proposition 5.3, p. 29.) *Needs:* 0.1; 3.6; Mathlib `AlgebraicGeometry.Etale`; AlgebraicModuliForArithmeticGeometry §§1.3, 1.7.
 
@@ -1427,14 +1427,14 @@ Isotropy forces the componentwise rank: an isotropic `E ⊗ A`-submodule whose q
 
 **Definition.** Let `X →f Y' →π Y` be an abelian-by-finite family of relative dimension `d` over a smooth connected complex variety `Y`, and `y₀ ∈ Y(ℂ)`. The Betti local system `𝕍 := R¹(π∘f)_*ℚ` on `Y(ℂ)` has fibre `V_B = H¹_B(X_{y₀}(ℂ), ℚ) = ⊕_{y' ∈ π^{-1}(y₀)} H¹_B(X_{y'}(ℂ), ℚ)`, and parallel transport defines `μ : π₁(Y(ℂ), y₀)^op → GL(V_B)`, with `μ(op δ) = T_δ⁻¹`, transport backwards along the loop `δ`. Here `π₁` uses Mathlib multiplication `p*q=q.trans p`, so forward transport satisfies `T_{p*q}=T_p∘T_q` and inverse transport is a homomorphism on the opposite group. The algebraic monodromy group `Γ ⊆ GL(V_B ⊗ ℂ)` is the Zariski closure of `μ(π₁(Y(ℂ), y₀))`. Each `μ(op δ)` permutes the summands `H¹_B(X_{y'})` according to the inverse of the forward covering monodromy of `π` and preserves the total polarization form `Σ_{y'} ω_{y'}`. The family has full monodromy if `Γ ⊇ ∏_{y' ∈ π^{-1}(y₀)} Sp(H¹_B(X_{y'}(ℂ), ℂ), ω_{y'})`. For a family over a `K`-variety and `ι : K → ℂ`, these notions refer to the base change along `ι`, and the de Rham–Betti comparison identifies `V_B ⊗ ℂ` with `V_ℂ = ℋ_{y₀} ⊗_ι ℂ`, the summands with the factors of `E₀ ⊗_ι ℂ = ℂ^{π^{-1}(y₀)}`, and the polarization pairings with their Tate lines retained. Write `c : V_ℂ ≅ V_B ⊗ ℂ` for integration comparison. With `ℚ(1)` of period `2πi` and the algebraic degree-one trace, `ω_B(c(x),c(y)) = (2πi)·ω_dR(x,y)` componentwise. Thus comparison identifies the symplectic groups and Lagrangian varieties; scalar-valued forms agree after this rescaling.
 
-- `monodromyRep`: `μ : π₁(Y(ℂ), y₀)^op →* GL(V_B), μ(op δ)=T_δ⁻¹`. It is the opposite-group form of the forward local-system representation; its image equals the image of forward transport.
-- `algebraicMonodromyGroup`: `Γ`, the Zariski closure of the image of `μ` in `GL(V_B ⊗ ℂ)`.
-- `HasFullMonodromy`: The predicate `Γ ⊇ ∏_{y'} Sp(H¹_B(X_{y'}), ω_{y'})`.
-- `algebraicMonodromyGroup_le_normalizer`: `Γ` normalizes `ℂ^{π^{-1}(y₀)} ⊆ End(V_B ⊗ ℂ)` and preserves `Σ_{y'} ω_{y'}`; hence `Γ` acts on `H_ℂ = LGr_{E₀⊗ℂ}(V_ℂ)`.
-- `hasFullMonodromy_iff_basepoint`: Full monodromy does not depend on `y₀ ∈ Y(ℂ)`.
-- `algebraicMonodromyGroup_deRham`: Under the de Rham–Betti comparison `V_B ⊗ ℂ ≅ V_ℂ` the summands correspond to the factors of `E₀ ⊗_ι ℂ`, and the component pairings satisfy `ω_B(c(x),c(y)) = (2πi)·ω₀(x,y)` with the stated Tate-period normalization. Their isometry groups and isotropic-subspace varieties therefore correspond.
-- `HasFullMonodromy.orbit_eq`: If the family has full monodromy then `Γ·h = H_ℂ(ℂ)` for every `h ∈ H_ℂ(ℂ)` (transitivity on the period variety).
-- `hasFullMonodromy_legendre`: The Legendre family has full monodromy; a constant family with `d ≥ 1` and a nonempty finite étale cover does not.
+- `μ : π₁(Y(ℂ), y₀)^op →* GL(V_B), μ(op δ)=T_δ⁻¹`. It is the opposite-group form of the forward local-system representation; its image equals the image of forward transport.
+- `Γ`, the Zariski closure of the image of `μ` in `GL(V_B ⊗ ℂ)`.
+- The predicate `Γ ⊇ ∏_{y'} Sp(H¹_B(X_{y'}), ω_{y'})`.
+- `Γ` normalizes `ℂ^{π^{-1}(y₀)} ⊆ End(V_B ⊗ ℂ)` and preserves `Σ_{y'} ω_{y'}`; hence `Γ` acts on `H_ℂ = LGr_{E₀⊗ℂ}(V_ℂ)`.
+- Full monodromy does not depend on `y₀ ∈ Y(ℂ)`.
+- Under the de Rham–Betti comparison `V_B ⊗ ℂ ≅ V_ℂ` the summands correspond to the factors of `E₀ ⊗_ι ℂ`, and the component pairings satisfy `ω_B(c(x),c(y)) = (2πi)·ω₀(x,y)` with the stated Tate-period normalization. Their isometry groups and isotropic-subspace varieties therefore correspond.
+- If the family has full monodromy then `Γ·h = H_ℂ(ℂ)` for every `h ∈ H_ℂ(ℂ)` (transitivity on the period variety).
+- The Legendre family has full monodromy; a constant family with `d ≥ 1` and a nonempty finite étale cover does not.
 
 *Construction.* The local system and its monodromy come from the proper smooth morphism `π∘f` (Ehresmann) and the covering `π`. Mathlib multiplication traverses the right factor first. Thus `T_{p*q}=T_p∘T_q`, and `μ(op p * op q)=T_{q*p}⁻¹=T_p⁻¹∘T_q⁻¹`. The inverse-image subgroup equals the forward-image subgroup. Zariski closure of the abstract subgroup `μ(π₁)` in the algebraic group `GL(V_B ⊗ ℂ)` (ReductiveGroups Layer 3); it is contained in the closed subgroup of elements normalizing the subalgebra `ℂ^{π^{-1}(y₀)}` of `End(V_B ⊗ ℂ)` and preserving `Σω_{y'}`, because `μ(π₁)` is. Full monodromy is a property of the pair (`Γ`, decomposition); it does not depend on `y₀`, since transport along a path conjugates the data. (LV20, §3.2, (3.5), p. 16; §5, (5.1), p. 25.) *Needs:* 0.15; 2.1; 2.10; 3.10; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; ComplexComparisonPartII §§C5.1–C5.2 (`properDeRhamBetti`, `multiplicativePeriodInterface`, trace and the `2πi` period); Tau Ceti `TauCeti.LocalCoefficientSystem.monodromyRepresentation`; Mathlib `IsCoveringMap.monodromyPerm`; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap Completed/UniversalCovers Stage 2; Mathlib `FundamentalGroup.mul_def`.
 
@@ -1453,12 +1453,12 @@ Isotropy forces the componentwise rank: an isotropic `E ⊗ A`-submodule whose q
 
 **Construction.** In setting `P`, the `p`-adic period map is `Φ_v : Ω_v → H(K_v), Φ_v(y) := T_v(y)^{-1}(F¹ℋ_y ⊗ K_v)`, where `T_v(y)` is the Gauss–Manin transport of 2.9. It satisfies `Φ_v(y₀) = h₀` and, for every `y ∈ Ω_v, T_v(y)` is an isomorphism of `E`-semilinear filtered `φ`-modules `(ℋ_{y₀} ⊗ K_v, φ_{y₀}, Φ_v(y)) ≅ (ℋ_y ⊗ K_v, φ_y, F¹ℋ_y ⊗ K_v)`, semilinear over the transport isomorphism `E₀ ⊗ K_v ≅ E_y ⊗ K_v`.
 
-- `padicPeriodMap`: `Φ_v : Ω_v → H(K_v), y ↦ T_v(y)⁻¹(F¹ℋ_y ⊗ K_v)`.
-- `padicPeriodMap_base`: `Φ_v(y₀) = h₀`.
-- `padicPeriodMap_mem`: `Φ_v(y)` is an `(E₀ ⊗ K_v)`-stable Lagrangian subspace of `V_v`.
-- `padicPeriodMap_transport`: `T_v(y) : (V_v, φ_{y₀}, Φ_v(y)) ≅ (ℋ_y ⊗ K_v, φ_y, F¹)` as filtered `φ`-modules, semilinear over `E₀ ⊗ K_v ≅ E_y ⊗ K_v`.
-- `padicPeriodMap_rebase`: For `y₁ ∈ Ω_v` the period map based at `y₁` is `Φ_v^{y₁}(y) = T_v(y₁)(Φ_v^{y₀}(y))`, since `T_{y₁,y} = T_{y₀,y} ∘ T_{y₀,y₁}^{−1}`.
-- `padicPeriodMap_constant`: A constant family has constant period map.
+- `Φ_v : Ω_v → H(K_v), y ↦ T_v(y)⁻¹(F¹ℋ_y ⊗ K_v)`.
+- `Φ_v(y₀) = h₀`.
+- `Φ_v(y)` is an `(E₀ ⊗ K_v)`-stable Lagrangian subspace of `V_v`.
+- `T_v(y) : (V_v, φ_{y₀}, Φ_v(y)) ≅ (ℋ_y ⊗ K_v, φ_y, F¹)` as filtered `φ`-modules, semilinear over `E₀ ⊗ K_v ≅ E_y ⊗ K_v`.
+- For `y₁ ∈ Ω_v` the period map based at `y₁` is `Φ_v^{y₁}(y) = T_v(y₁)(Φ_v^{y₀}(y))`, since `T_{y₁,y} = T_{y₀,y} ∘ T_{y₀,y₁}^{−1}`.
+- A constant family has constant period map.
 
 *Construction.* `T_v(y)` is semilinear over the ring isomorphism `E₀ ⊗ K_v ≅ E_y ⊗ K_v` and carries `ω₀` to `ω_y` up to that isomorphism, so the preimage of the `E_y`-stable Lagrangian `F¹ℋ_y ⊗ K_v` is an `(E₀ ⊗ K_v)`-stable Lagrangian of the right rank, i.e. a `K_v`-point of `H`. `T_v(y₀) = id` gives `Φ_v(y₀) = h₀`. The compatibility with Frobenius is the transport compatibility of 2.11; the filtration statement is the definition of `Φ_v`. (LV20, §3.4, p. 18; §6, proof of Proposition 5.3, p. 29.) *Needs:* 2.4; 2.5; 2.9; 2.11; 3.8.
 
@@ -1474,14 +1474,14 @@ Isotropy forces the componentwise rank: an isotropic `E ⊗ A`-submodule whose q
 
 **Construction.** In setting `P`, let `Ω_ℂ ⊆ Y(ℂ)` be a connected, simply connected open neighbourhood of `y₀` (for `Y = Y_ι^an`). The complex period map is `Φ_ℂ : Ω_ℂ → H_ℂ(ℂ), Φ_ℂ(y) := T_ℂ(y)^{-1}(F¹ℋ_y ⊗ ℂ)`. Let `q : Ỹ → Y(ℂ)` be the universal cover with base point `ỹ₀` over `y₀`. The map `Φ̃ : Ỹ → H_ℂ(ℂ), [γ] ↦ T_γ^{-1}(F¹ℋ_{γ(1)} ⊗ ℂ)` (`T_γ` the parallel transport along the path `γ` from `y₀`), is holomorphic, satisfies `Φ̃(ỹ₀) = h₀`, agrees with `Φ_ℂ ∘ q` on the sheet over `Ω_ℂ` through `ỹ₀`, and is equivariant: `Φ̃(op δ·x) = μ(op δ)·Φ̃(x)` for `op δ ∈ π₁(Y(ℂ), y₀)^op`. Its left deck action prepends `δ` to a path from `y₀`; this is an opposite-group action for Mathlib multiplication.
 
-- `complexPeriodMap`: `Φ_ℂ : Ω_ℂ → H_ℂ(ℂ)`.
-- `complexPeriodMap.lift`: `Φ̃ : Ỹ → H_ℂ(ℂ)` on the universal cover.
-- `complexPeriodMap.lift_base`: `Φ̃(ỹ₀) = h₀`.
-- `complexPeriodMap.lift_equivariant`: `Φ̃(op δ·x)=μ(op δ)·Φ̃(x)`, with the opposite-group left deck action by prepending `δ`.
-- `complexPeriodMap.lift_holomorphic`: `Φ̃` is holomorphic in Plücker charts.
-- `complexPeriodMap.lift_eq`: `Φ̃ = Φ_ℂ ∘ q` on the sheet over `Ω_ℂ` containing `ỹ₀`.
-- `complexPeriodMap.mem`: `Φ̃` takes values in `H_ℂ(ℂ)`, the `(E₀ ⊗ ℂ)`-stable Lagrangians.
-- `complexPeriodMap.legendre`: The Legendre period map on the upper half-plane.
+- `Φ_ℂ : Ω_ℂ → H_ℂ(ℂ)`.
+- `Φ̃ : Ỹ → H_ℂ(ℂ)` on the universal cover.
+- `Φ̃(ỹ₀) = h₀`.
+- `Φ̃(op δ·x)=μ(op δ)·Φ̃(x)`, with the opposite-group left deck action by prepending `δ`.
+- `Φ̃` is holomorphic in Plücker charts.
+- `Φ̃ = Φ_ℂ ∘ q` on the sheet over `Ω_ℂ` containing `ỹ₀`.
+- `Φ̃` takes values in `H_ℂ(ℂ)`, the `(E₀ ⊗ ℂ)`-stable Lagrangians.
+- The Legendre period map on the upper half-plane.
 
 *Construction.* On `Ω_ℂ` the transport `T_ℂ(y)` is defined (2.10) and is semilinear over `E₀ ⊗ ℂ ≅ E_y ⊗ ℂ` and symplectic, so `Φ_ℂ` lands in `H_ℂ`, as in the `p`-adic case. Parallel transport in the local system `R¹(π∘f)_*ℂ` depends only on the homotopy class of `γ`, which defines `Φ̃` on the universal cover (Tau Ceti's universal cover as homotopy classes of paths from the base point). Local holomorphy follows from the complex convergence theorem for horizontal sections (2.8) and holomorphic local frames of the Hodge subbundle. Transition between these frames is holomorphic; no appeal to 3.14 is needed. Prepending `δ` to `γ` gives `T_{δ.trans γ}=T_γ∘T_δ` and `Φ̃(op δ·[γ])=T_δ⁻¹Φ̃([γ])=μ(op δ)·Φ̃([γ])`. Two successive prependings `δ` then `ε` prepend `ε`.trans `δ`, representing `δ*ε`; equivalently the deck maps compose according to `π₁^op`. This fixes the left-action convention without changing the monodromy image or its Zariski closure. (LV20, §3.4, p. 18.) *Needs:* 2.8; 2.10; 3.8; 3.11; ComplexComparisonPartII §C0.4; Tau Ceti `TauCeti.UniversalCover`; Mathlib `IsCoveringMap.existsUnique_continuousMap_lifts`; TauCetiRoadmap Completed/UniversalCovers Stage 2; Mathlib `FundamentalGroup.mul_def`.
 
@@ -1664,10 +1664,10 @@ family of branched covers over a configuration space with lifted point-pushing.
 
 **Definition.** A surface is `Σ ∖ P`, where `Σ` is a compact connected oriented Hausdorff second-countable topological 2-manifold with boundary and `P` is a finite subset of its interior. Boundary charts and orientation are actual topological data; genus, Euler characteristic, integral homology and intersection perfectness are consequences, not fields of this structure.
 
-- `Surface`: A surface as a punctured compact connected oriented 2-manifold with boundary.
-- `Surface.numPunctures`: The number `n` of punctures.
-- `Surface.cut`: A finite disjoint union of connected surfaces obtained by cutting along a simple closed curve or a properly embedded arc, with all boundary and gluing data (GeometricTopology Layer 1). It has one connected component exactly for a nonseparating cut.
-- `Surface.examples`: Closed surfaces, the thrice- and four-times-punctured spheres, the torus with one boundary circle.
+- A surface as a punctured compact connected oriented 2-manifold with boundary.
+- The number `n` of punctures.
+- A finite disjoint union of connected surfaces obtained by cutting along a simple closed curve or a properly embedded arc, with all boundary and gluing data (GeometricTopology Layer 1). It has one connected component exactly for a nonseparating cut.
+- Closed surfaces, the thrice- and four-times-punctured spheres, the torus with one boundary circle.
 
 *Construction.* Form the complement of `P` with its subspace topology and induced oriented manifold-with-boundary atlas. No classification or homology theorem is used to define a surface. (LV20, §8.1, p. 39; FM12, §1.1, p. 18.)
 
@@ -1677,7 +1677,7 @@ family of branched covers over a configuration space with lifted point-pushing.
 - Removing one interior point from an oriented compact torus gives the once-punctured torus with its induced orientation.
 - The real projective plane admits no orientation and is excluded.
 - The definition includes closed oriented surfaces, annuli and punctured surfaces; their type and homology are provided separately.
-- Cutting the equator of `S²` gives two disks, a two-component disjoint union rather than one `Surface`.
+- Cutting the equator of `S²` gives two disks, a two-component disjoint union rather than one connected surface.
 
 ### 5.2 The Jordan–Schönflies theorem
 
@@ -1687,7 +1687,7 @@ family of branched covers over a configuration space with lifted point-pushing.
 
 **Checks.**
 
-- For the identity of a round circle, the identity of the plane is an extension.
+- For the identity of a Euclidean circle, the identity of the plane is an extension.
 - Reflection of the unit circle extends by plane reflection; the boundary map need not preserve orientation.
 - A homeomorphism from the unit circle to a Koch snowflake extends over the plane and identifies the closed disk with the closure of its bounded component; boundary smoothness is not required.
 
@@ -1720,11 +1720,11 @@ Compared with AlgebraicTopology Stage 6’s smooth-manifold formulation, this ta
 
 **Lemma.** For an oriented surface `Σ ∖ P` of type `(g,b,n), χ = 2−2g−b−n`. If `b+n=0, H₁(−;ℤ) ≃ ℤ^(2g)`; otherwise `H₁ ≃ ℤ^(2g+b+n−1)`. The intersection form has a standard unimodular symplectic rank-`2g` summand and a radical of rank `max(b+n−1,0)`; in particular it is perfect when `b+n≤1`.
 
-- `Surface.genus`: The genus `g`.
-- `Surface.numBoundary`: The number `b` of boundary circles.
-- `Surface.eulerChar_eq`: `χ(S) = 2 − 2g − b − n`, computed from singular homology.
-- `Surface.intersectionForm`: The algebraic intersection form `î` on `H₁(S; ℤ)`, alternating.
-- `Surface.intersectionForm_perfect`: `î` is perfect when `b + n ≤ 1`.
+- The genus `g`.
+- The number `b` of boundary circles.
+- `χ(S) = 2 − 2g − b − n`, computed from singular homology.
+- The algebraic intersection form `î` on `H₁(S; ℤ)`, alternating.
+- `î` is perfect when `b + n ≤ 1`.
 
 *Proof sketch.* Apply classification to the capped compact surface to define genus and boundary count; choose its finite polygon/CW model. The cellular chain computation gives the handle basis and the boundary/peripheral generators, with their single sum relation when there are boundary components or punctures. Apply Poincaré–Lefschetz duality. Handles intersect in standard pairs; boundary and peripheral loops form the radical. Removing punctures is modeled by replacing each with a small boundary circle. (FM12, §1.1, Theorem 1.1, p. 18.) *Needs:* 5.1; 5.4; 5.5; TauCetiRoadmap AlgebraicTopology Stage 4; TauCetiRoadmap AlgebraicTopology Stage 6.
 
@@ -1750,12 +1750,12 @@ Compared with AlgebraicTopology Stage 6’s smooth-manifold formulation, this ta
 
 **Definition.** An oriented simple closed curve in `S` is an embedding `S¹→int(S)`, up to ambient isotopy and orientation-preserving reparameterization. Its class in integral `H₁` is induced by the standard orientation of `S¹`. Separating means that the complement of its image is disconnected. Essential/nonperipheral is a separate predicate: a disk-bounding embedded circle is still a simple closed curve.
 
-- `SimpleClosedCurve`: The oriented embedding/isotopy quotient, without an essentialness condition.
-- `SimpleClosedCurve.homologyClass`: The induced oriented integral `H₁` class.
-- `SimpleClosedCurve.IsSeparating`: The complement of the image is disconnected.
-- `SimpleClosedCurve.reverse`: Reverse the parameter orientation; the homology class changes sign and separation is unchanged.
-- `SimpleClosedCurve.map`: Map by an orientation-preserving homeomorphism, compatibly with `H₁` and separation.
-- `SimpleClosedCurve.cut`: The finite disjoint union of connected surfaces from cutting along the image, with its boundary and gluing data.
+- The oriented embedding/isotopy quotient, without an essentialness condition.
+- The induced oriented integral `H₁` class.
+- The complement of the image is disconnected.
+- Reverse the parameter orientation; the homology class changes sign and separation is unchanged.
+- Map by an orientation-preserving homeomorphism, compatibly with `H₁` and separation.
+- The finite disjoint union of connected surfaces from cutting along the image, with its boundary and gluing data.
 
 *Construction.* Use topological embeddings of the oriented circle. Form the isotopy quotient using the annular neighbourhoods of 5.7, and show its image, separation and homology class are well-defined. (LV20, §8.3, p. 42.) *Needs:* 5.1; 5.6; 5.7.
 
@@ -1770,13 +1770,13 @@ Compared with AlgebraicTopology Stage 6’s smooth-manifold formulation, this ta
 
 **Definition.** For a surface `S, Mod(S)` is the group of isotopy classes of orientation-preserving homeomorphisms of `S` that restrict to the identity on `∂S`, isotopies being required to fix `∂S` pointwise; homeomorphisms may permute the punctures. For `x` in the interior, `S*` denotes `S` with the marked point `x` (equivalently `S ∖ {x}` with the new puncture fixed), and `Mod(S*)` the corresponding group of classes fixing `x`. `Mod(S)` acts on `H₁(S; ℤ)` preserving `î` (the symplectic representation `Ψ`), on the set of isotopy classes of simple closed curves, and, through `Out(π₁(S))`, on the set of isomorphism classes of finite coverings of `S`.
 
-- `MappingClassGroup`: `Mod(S) = Homeo⁺(S, ∂S)`/isotopy rel `∂S`.
-- `MappingClassGroup.marked`: `Mod(S*)` for a marked interior point `x`.
-- `MappingClassGroup.homologyRep`: `Ψ : Mod(S) → Aut(H₁(S; ℤ), î)`.
-- `MappingClassGroup.actCurves`: The action on isotopy classes of simple closed curves.
-- `MappingClassGroup.actCovers`: The action on isomorphism classes of finite coverings of `S` via `Out(π₁ S)`.
-- `MappingClassGroup.forget`: `Forget : Mod(S*) → Mod(S)`, filling in the marked point; surjective.
-- `MappingClassGroup.examples`: `Mod(D²) = 1` (Alexander lemma) and `Mod`(annulus) `= ℤ`.
+- `Mod(S) = Homeo⁺(S, ∂S)`/isotopy rel `∂S`.
+- `Mod(S*)` for a marked interior point `x`.
+- `Ψ : Mod(S) → Aut(H₁(S; ℤ), î)`.
+- The action on isotopy classes of simple closed curves.
+- The action on isomorphism classes of finite coverings of `S` via `Out(π₁ S)`.
+- `Forget : Mod(S*) → Mod(S)`, filling in the marked point; surjective.
+- `Mod(D²) = 1` (Alexander lemma) and `Mod`(annulus) `= ℤ`.
 
 *Construction.* Homeomorphisms isotopic relative to `∂S` induce the same map on `H₁`, on isotopy classes of curves and on conjugacy classes of homomorphisms `π₁(S) → G`, so the actions factor through `Mod(S)`. The action on coverings: `f` sends the class of a covering `p : Z → S` to the class of `f ∘ p : Z → S`; in terms of monodromy this is precomposition with the outer automorphism `(f⁻¹)_*` of `π₁(S)`. (FM12, §2.1, printed p. 46 (PDF p. 56); §1.3.2, printed p. 40 (PDF p. 50).) *Needs:* 5.1; 5.4; 5.6; Tau Ceti `TauCeti.CoveringSpace.monodromyEquivalence`; TauCetiRoadmap Completed/UniversalCovers Stage 2.
 
@@ -1804,13 +1804,13 @@ Compared with AlgebraicTopology Stage 6’s smooth-manifold formulation, this ta
 
 **Definition.** For a simple closed curve `α` in a surface `S`, a regular neighbourhood `N ≅ S¹ × [0, 1]` whose chart preserves the model orientation `dt∧dθ`, and the twist map `T(θ, t) = (θ + 2πt, t)` of the annulus, the Dehn twist `T_α` is `φ ∘ T ∘ φ⁻¹` on `N` and the identity outside `N`. The model orientation is that induced from the positively oriented plane by `(θ,t)↦(1+t)e^(iθ)`; annulus charts used for point-pushing in 5.19 have this same orientation. Its class `T_a ∈ Mod(S)` depends only on the isotopy class a of `α`; `T_{f(a)} = f T_a f⁻¹` for `f ∈ Mod(S)`; twists about disjoint curves commute; `T_a = 1` when a bounds a disk or a once-punctured disk.
 
-- `dehnTwist`: `T_a ∈ Mod(S)` for an isotopy class a of simple closed curves.
-- `dehnTwist_conj`: `f T_a f⁻¹ = T_{f(a)}`.
-- `dehnTwist_commute`: `T_a T_b = T_b T_a` when a and `b` are disjoint.
-- `dehnTwist_eq_one`: `T_a = 1` if a bounds a disk or a once-punctured disk.
-- `dehnTwist_support`: `T_α` is supported in any prescribed regular neighbourhood of `α`.
-- `multitwist`: `∏ T_{e_i}^{m_i}` for pairwise disjoint curves `e_i`.
-- `dehnTwist_torus`: The twists about the two standard curves of the torus.
+- `T_a ∈ Mod(S)` for an isotopy class a of simple closed curves.
+- `f T_a f⁻¹ = T_{f(a)}`.
+- `T_a T_b = T_b T_a` when a and `b` are disjoint.
+- `T_a = 1` if a bounds a disk or a once-punctured disk.
+- `T_α` is supported in any prescribed regular neighbourhood of `α`.
+- `∏ T_{e_i}^{m_i}` for pairwise disjoint curves `e_i`.
+- The twists about the two standard curves of the torus.
 
 *Construction.* Well-definedness from the uniqueness of regular neighbourhoods up to isotopy. Conjugation formula: `f T_α f⁻¹` is the twist in the neighbourhood `f(N)` of `f(α)`. Disjoint curves have disjoint neighbourhoods, so the twists commute; a twist in the neighbourhood of a curve bounding a (once-punctured) disk is isotopic to the identity by the Alexander lemma. (FM12, §3.1.1, p. 68.) *Needs:* 5.1; 5.6; 5.7; 5.8; 5.9.
 
@@ -1905,12 +1905,12 @@ Compared with AlgebraicTopology Stage 6’s smooth-manifold formulation, this ta
 
 Conventions: annulus charts preserve the `dt∧dθ` orientation fixed in 5.11. Mathlib’s `FundamentalGroup.mul_def` makes `α * β` traverse `β` first. `Push(α)` is the endpoint mapping class of an isotopy moving the marked point along `α`; it acts on based loops by `γ ↦ α * γ * α^{−1}`, which traverses `α^{−1}`, then `γ`, then `α`.
 
-- `pointPush`: `Push : π₁(S, x) →* Mod(S*)`.
-- `pointPush_apply`: `Push(α)` is the class of the end map of any isotopy extending the motion of `x` along `α`.
-- `forget_pointPush`: `Forget (Push α) = 1`.
-- `pointPush_action`: With Mathlib multiplication `p*q=q.trans p`, endpoint point-pushing acts on based loops by `γ ↦ α*γ*α⁻¹`; equivalently the path `α⁻¹` followed by `γ` followed by `α`.
-- `pointPush_homology`: `Push(α)` acts trivially on `H₁(S)` and on `H₁(S ∖ {x})` when `S` is closed.
-- `pointPush_torus`: On the torus `Push` is trivial.
+- `Push : π₁(S, x) →* Mod(S*)`.
+- `Push(α)` is the class of the end map of any isotopy extending the motion of `x` along `α`.
+- `Forget (Push α) = 1`.
+- With Mathlib multiplication `p*q=q.trans p`, endpoint point-pushing acts on based loops by `γ ↦ α*γ*α⁻¹`; equivalently the path `α⁻¹` followed by `γ` followed by `α`.
+- `Push(α)` acts trivially on `H₁(S)` and on `H₁(S ∖ {x})` when `S` is closed.
+- On the torus `Push` is trivial.
 
 *Construction.* Isotopy extension for a point in the interior of a surface gives `φ_t`. Independence of the choices: the evaluation map Homeo`(S, ∂S) → S ∖ ∂S, f ↦ f(x)`, is a locally trivial fibre bundle with fibre Homeo`(S*, ∂S)`; the connecting map of its homotopy sequence is `Push`, which is therefore well defined on `π₁(S, x)` and a homomorphism (Farb–Margalit §4.2). `φ_1` is isotopic to the identity in `S` by construction, so `Forget(Push(α)) = 1`; tracking the base point along the isotopy shows that `φ_1` acts on `π₁(S, x)` by conjugation by `α`. (FM12, §4.2, Theorem 4.6, p. 102.) *Needs:* 5.9; 5.11; 5.17; TauCetiRoadmap GeometricTopology Layer 1; TauCetiRoadmap AlgebraicTopology Stage 8; Mathlib `FundamentalGroup.mul_def`.
 
@@ -2082,8 +2082,8 @@ of `2` and `3` give the two independent integer coordinates, while the sign is i
 
 ### 6.4 The Legendre family and its cyclic variant (LV20 §4.2)
 
-The universal smooth family is ModularCurves Layer `4C`. The light coefficient model
-`legendreCurve t : WeierstrassCurve R` here is defined over every commutative ring, including
+The universal smooth family is ModularCurves Layer `4C`. The coefficient model
+`y² = x(x − 1)(x − t)` is to be defined as a `WeierstrassCurve R` over every commutative ring, including
 singular parameters and characteristic two, so that the discriminant and specialization tests
 make sense before any ellipticity assumption. It does not introduce another moduli family.
 
@@ -2091,15 +2091,15 @@ make sense before any ellipticity assumption. It does not introduce another modu
 
 The Legendre curve is the base change of the universal curve of the Legendre problem of TauCetiRoadmap ModularCurves, Layer `4C`, along `ℤ[1/2][λ, 1/(λ(λ − 1))] → 𝒪[t, 1/(t(1 − t))]`, `λ ↦ t`; what is new here is the cyclic variant and its structure as an abelian-by-finite family.
 
-- `legendreCurve`: for every commutative ring `R` and `t : R`, the coefficient model `y² = x(x − 1)(x − t)` as a `WeierstrassCurve R`; its specialization over `O[t, 1/(t(1−t))]` is the supplied universal smooth family.
-- `legendreCurve.isElliptic`: Its discriminant `16t²(t − 1)²` is a unit when 2 is.
-- `legendreCurve.j_eq`: `j = 2⁸(t² − t + 1)³/(t²(t − 1)²)`.
-- `legendreVariant`: The abelian-by-finite family `X → 𝒴' → 𝒴` with `π(u) = u^m`.
-- `legendreVariant.isGoodModel`: It is a good model over `𝒪_S` when `S` contains the places above 2.
-- `legendreVariant.fibreAlgebra`: `E_{t₀} = K[u]/(u^m − t₀)`.
-- `legendreVariant.analytic`: Over `ℂ`, the total space of `X` over `𝒴'(ℂ) = ℂ ∖ ({0} ∪ μ_m)` is the restriction of the Legendre family over `ℂ ∖ {0, 1}`.
-- `legendreCurve.j_one_seven_two_eight`: `j(−1) = j(2) = j(1/2) = 1728`.
-- `legendreCurve.Δ_eq`: `Δ = 16t²(t − 1)²`.
+- for every commutative ring `R` and `t : R`, the coefficient model `y² = x(x − 1)(x − t)` as a `WeierstrassCurve R`; its specialization over `O[t, 1/(t(1−t))]` is the supplied universal smooth family.
+- Its discriminant `16t²(t − 1)²` is a unit when 2 is.
+- `j = 2⁸(t² − t + 1)³/(t²(t − 1)²)`.
+- The abelian-by-finite family `X → 𝒴' → 𝒴` with `π(u) = u^m`.
+- It is a good model over `𝒪_S` when `S` contains the places above 2.
+- `E_{t₀} = K[u]/(u^m − t₀)`.
+- Over `ℂ`, the total space of `X` over `𝒴'(ℂ) = ℂ ∖ ({0} ∪ μ_m)` is the restriction of the Legendre family over `ℂ ∖ {0, 1}`.
+- `j(−1) = j(2) = j(1/2) = 1728`.
+- `Δ = 16t²(t − 1)²`.
 
 *Construction.* Compute the discriminant of the Weierstrass equation; a Weierstrass curve with unit discriminant over a ring is elliptic (Mathlib) and is an abelian scheme with its canonical principal polarization. `π` is standard étale: `u^m − t` is monic in `u` with derivative mu`^{m−1}`, a unit because `m` and `u = t/u^{m−1}` are. The supplied Hodge bundles and the integral connection of 2.1a give the good-model conditions over the smooth separated `𝒪_S`-scheme `𝒴`. The fibre of `π` over `t₀` is `Spec K[u]/(u^m − t₀)`, and the fibre of `X` over it is the Legendre curve with parameter `u`. (LV20, §4.2, p. 21.) *Needs:* 2.1; 2.1a; 2.2; AbelianSchemesAndArithmeticModuli §§A0.2, A1.6; AbelianSchemesAndArithmeticModuli §A2.5; AbelianSchemesAndArithmeticModuli §A4.3; Mathlib `WeierstrassCurve`; Mathlib `WeierstrassCurve.IsElliptic`; Mathlib `WeierstrassCurve.j`; Mathlib `StandardEtalePair`.
 
@@ -2175,7 +2175,7 @@ DiophantineApproximationAndTranscendence §2.4'`s`
 containing the archimedean ones. Write `U(K,S) := {t ∈ O_Sˣ : 1 − t ∈ O_Sˣ}`; this is the
 solution set identified with the supplied two-term unit equation. The finite-generation hypothesis for `Γ` follows
 from the pinned `Set.unit_fg_of_units` and `Group.fg_iff_subgroup_fg`, as in §6.1
-(HeightsAndUnits §4.2). This is a proof of that supplied declaration, with no second local finiteness declaration.
+(HeightsAndUnits §4.2). The statement `sUnitEquation_finite` in Suggested.lean expresses this proof target on the native S-unit subgroup.
 
 *Proof sketch.* By 6.1, assume `μ_8 ⊆ K` and that `S` contains the places above 2; it suffices to show that `U₁` is finite. `U₁` is the finite union of the `U_{1,L}` over the Kummer fields `L` (Hermite–Minkowski). For each `L` choose `v` by 6.3. `𝒴(𝒪_S)` meets finitely many residue classes modulo `v` (`k_v` is finite); in each class that meets `U_{1,L}` choose `t₀` in it and apply 6.9 (LV20 Lemma 4.2). (LV20, §4, Theorem 4.1, p. 20; §4, p. 20.) *Needs:* 6.1; 6.2; 6.3; 6.9.
 
@@ -2207,22 +2207,22 @@ the finiteness criterion together with Faltings's finiteness lemma.
 
 ### 7.1 The proportion of small Frobenius orbits (LV20 Definition 5.2)
 
-**Definition.** Let `K` be a number field, `v` a finite place and `E` a nonempty finite set with a continuous action of `G_K` that is unramified at `v` (the inertia groups at the places of `K̄` above `v` act trivially). For an arithmetic Frobenius `Frob_v` at a place of `K̄` above `v, size_v(E) :=` #`{e ∈ E : the ⟨Frob_v⟩-orbit of e has fewer than 8 elements}` / #`E`. It does not depend on the choice of place above `v` or of Frobenius. For a nonempty finite étale `K`-scheme `Z, size_v(Z) := size_v(Z(K̄))`. The total finite-permutation function in `Suggested.lean` assigns value zero on the empty set, using rational division by zero; this total-function convention supplies no arithmetic finiteness assertion for empty fibres. In setting Q the hypothesis `n ≥ 1` supplies nonemptiness in every fibre. If `f : E → E'` is a `G_K`-equivariant map all of whose fibres have the same cardinality, then `size_v(E) ≤ size_v(E')` (LV20 (5.3)).
+**Definition.** Let `K` be a number field, `v` a finite place and `E` a nonempty finite set with a continuous action of `G_K` that is unramified at `v` (the inertia groups at the places of `K̄` above `v` act trivially). For an arithmetic Frobenius `Frob_v` at a place of `K̄` above `v, size_v(E) :=` #`{e ∈ E : the ⟨Frob_v⟩-orbit of e has fewer than 8 elements}` / #`E`. It does not depend on the choice of place above `v` or of Frobenius. For a nonempty finite étale `K`-scheme `Z, size_v(Z) := size_v(Z(K̄))`. Extending the finite-permutation proportion to the empty set by rational division assigns value zero; this total-function convention supplies no arithmetic finiteness assertion for empty fibres. In setting Q the hypothesis `n ≥ 1` supplies nonemptiness in every fibre. If `f : E → E'` is a `G_K`-equivariant map all of whose fibres have the same cardinality, then `size_v(E) ≤ size_v(E')` (LV20 (5.3)).
 
-- `sizeV`: `size_v(E) ∈ ℚ` for a nonempty finite `G_K`-set unramified at `v`.
-- `sizeV_indep`: Independence of the place above `v` and of the Frobenius.
-- `sizeV_le_of_fibres`: `size_v(E) ≤ size_v(E')` for an equivariant map with fibres of constant cardinality.
-- `sizeV_mem_Icc`: `0 ≤ size_v(E) ≤ 1`.
-- `sizeV_scheme`: `size_v` of a nonempty finite étale `K`-scheme through its `K̄`-points.
-- `sizeV_eq_places`: For `Z = Spec E` with `E` a nonzero finite étale algebra unramified at `v: size_v(Z) = Σ_{[E_w : K_v] < 8} [E_w : K_v] / [E : K]`, the sum over the factors `E_w` of `E ⊗_K K_v`.
-- `sizeV_cycle`: A single `k`-cycle: size 1 if `k < 8`, else 0.
+- `size_v(E) ∈ ℚ` for a nonempty finite `G_K`-set unramified at `v`.
+- Independence of the place above `v` and of the Frobenius.
+- `size_v(E) ≤ size_v(E')` for an equivariant map with fibres of constant cardinality.
+- `0 ≤ size_v(E) ≤ 1`.
+- `size_v` of a nonempty finite étale `K`-scheme through its `K̄`-points.
+- For `Z = Spec E` with `E` a nonzero finite étale algebra unramified at `v: size_v(Z) = Σ_{[E_w : K_v] < 8} [E_w : K_v] / [E : K]`, the sum over the factors `E_w` of `E ⊗_K K_v`.
+- A single `k`-cycle: size 1 if `k < 8`, else 0.
 
 *Construction.* Two choices of Frobenius are conjugate by some `g ∈ G_K` modulo inertia; `g` maps the small-orbit elements for one choice bijectively onto those for the other. (5.3): all fibres having the same cardinality `c > 0, f` is surjective and #`E = c·`#`E'`. The orbit of `e` maps onto the orbit of `f(e)`, so small-orbit elements of `E` lie over small-orbit elements of `E'`, and `#small(E) ≤ c·#small(E')`. (LV20, §5, Definition 5.2, p. 25; §5, (5.3), p. 25.) *Needs:* Mathlib `IsArithFrobAt`; Tau Ceti `NumberField.exists_isArithFrobAt`; TauCetiRoadmap LocalFieldsRamification Layer 2.
 
 **Checks.**
 
-- A single 7-cycle has `size_v=1`; a single 8-cycle has `size_v=0` (`sizeV_seven_cycle`, `sizeV_eight_cycle`).
-- A disjoint union of one fixed point and one 8-cycle has `size_v=1/9`, not 1/2 (`sizeV_fixedPoint_eight_cycle`).
+- A single 7-cycle has `size_v=1`; a single 8-cycle has `size_v=0`.
+- A disjoint union of one fixed point and one 8-cycle has `size_v=1/9`, not 1/2.
 - An 8-cycle mapping to a singleton is equivariant with constant fibre size and gives `0≤1` in the monotonicity inequality.
 - `E = 𝔽_{q^k}`-points of a set permuted by Frobenius as a single `k`-cycle: `size_v(E) = 1` if `k < 8` and 0 otherwise.
 - For `E = Υ ⊆ (ℤ/N)^{2g}` and `E → Υ` with fibres of constant size (Layer LV.11), `size_v(E) ≤ size_v(Υ)`.
@@ -2351,21 +2351,21 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 ### 8.2 Surjections nontrivial on a peripheral class and their symmetries (LV20 Lemma 7.4, group part)
 
-**Definition.** Let `Γ` be a group (or a profinite group, with continuous homomorphisms), `G` a finite group with trivial centre and `c` a set of elements of `Γ` closed under conjugation. `S(Γ, c, G)` is the set of surjective homomorphisms `φ : Γ → G` with `φ(γ) ≠ 1` for `γ ∈ c`. It carries commuting actions of `Γ, γ·φ := φ ∘ Ad(γ)⁻¹`, and of `G, φ·h := Ad(h⁻¹) ∘ φ`; `G` acts freely, and `S(Γ, c, G)/G` is the set of `G`-conjugacy classes of such surjections, on which `Γ` acts trivially. The stabilizer of `φ` in `Γ × G^op` is `{(γ, h) : h⁻¹ = φ(γ)}`, and `φ` is determined by its stabilizer (`singlyRamifiedSurjections_conj_free`).
+**Definition.** Let `Γ` be a group (or a profinite group, with continuous homomorphisms), `G` a finite group with trivial centre and `c` a set of elements of `Γ` closed under conjugation. `S(Γ, c, G)` is the set of surjective homomorphisms `φ : Γ → G` with `φ(γ) ≠ 1` for `γ ∈ c`. It carries commuting actions of `Γ, γ·φ := φ ∘ Ad(γ)⁻¹`, and of `G, φ·h := Ad(h⁻¹) ∘ φ`; `G` acts freely, and `S(Γ, c, G)/G` is the set of `G`-conjugacy classes of such surjections, on which `Γ` acts trivially. The stabilizer of `φ` in `Γ × G^op` is `{(γ, h) : h⁻¹ = φ(γ)}`, and `φ` is determined by its stabilizer.
 
-- `singlyRamifiedSurjections`: `S(Γ, c, G)` as a set of (continuous) surjective homomorphisms nontrivial on `c`.
-- `singlyRamifiedSurjections.actLeft`: The `Γ`-action `γ·φ = φ ∘ Ad(γ)⁻¹`.
-- `singlyRamifiedSurjections.actRight`: The `G`-action `φ·h = Ad(h⁻¹) ∘ φ`, free when `Z(G) = 1`.
-- `singlyRamifiedSurjections.quotient`: `S(Γ, c, G)/G`, the conjugacy classes, with trivial `Γ`-action.
-- `singlyRamifiedSurjections.stabilizer_eq`: `Stab_{Γ × G^op}(φ) = {(γ, φ(γ)⁻¹)}`.
-- `singlyRamifiedSurjections.comap`: For a surjection `Γ → Γ̄` through which the `Γ`-action factors, `S(Γ̄, c̄, G) = S(Γ, c, G)`.
-- `card_singlyRamifiedSurjections_aff3_genus_two`: The `Aff(3)` surjection count 810, giving 135 conjugacy classes.
+- `S(Γ, c, G)` as a set of (continuous) surjective homomorphisms nontrivial on `c`.
+- The `Γ`-action `γ·φ = φ ∘ Ad(γ)⁻¹`.
+- The `G`-action `φ·h = Ad(h⁻¹) ∘ φ`, free when `Z(G) = 1`.
+- `S(Γ, c, G)/G`, the conjugacy classes, with trivial `Γ`-action.
+- `Stab_{Γ × G^op}(φ) = {(γ, φ(γ)⁻¹)}`.
+- For a surjection `Γ → Γ̄` through which the `Γ`-action factors, `S(Γ̄, c̄, G) = S(Γ, c, G)`.
+- The `Aff(3)` surjection count 810, giving 135 conjugacy classes.
 
 *Construction.* `γ·φ = Ad(φ(γ))⁻¹ ∘ φ`, so the `Γ`-action preserves `G`-orbits and commutes with the `G`-action. `φ·h = φ` means `Ad(h⁻¹)` is trivial on the image `G`, so `h` is central, hence `h = 1`. `(γ, h)` fixes `φ` iff `Ad(φ(γ)h)⁻¹ ∘ φ = φ`, iff `φ(γ)h` is central (`φ` is surjective), i.e. `h = φ(γ)⁻¹`; so `φ` is recovered from its stabilizer as the map sending `γ` to the inverse of its partner `h`. (LV20, §7.3, proof of Lemma 7.4, p. 38.) *Needs:* 0.9; 0.10.
 
 **Checks.**
 
-- For `Γ = FreeGroup (Fin 4)`, standard generators `x₀,…,x₃`, `c` the conjugacy class of `[x₀,x₁][x₂,x₃]` and `G=Aff(3)`, `|S|=810` (`card_singlyRamifiedSurjections_aff3_genus_two`) and `|S/G|=135`: the 15 generating linear-part tuples each have `3³·2=54` lifts, and conjugation is free with orbits of size 6 (LV20 Lemma 2.11, p. 14).
+- For `Γ = FreeGroup (Fin 4)`, standard generators `x₀,…,x₃`, `c` the conjugacy class of `[x₀,x₁][x₂,x₃]` and `G=Aff(3)`, `|S|=810` and `|S/G|=135`: the 15 generating linear-part tuples each have `3³·2=54` lifts, and conjugation is free with orbits of size 6 (LV20 Lemma 2.11, p. 14).
 - For `c` containing the identity, `S` is empty.
 - If the target has nontrivial centre, its conjugation action on surjections is not free; that case is excluded from the free-action conclusion.
 - `G = S₃ = Aff(3), Γ` free on `x₁, x₁', x₂, x₂'` and `c` the conjugacy class of `[x₁, x₁'][x₂, x₂']`: #`S(Γ, c, G) = 810` and #`S/G = 135` (LV20 Lemma 2.11 in Layer LV.0).
@@ -2398,13 +2398,13 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 **Construction.** `Y` is a smooth projective geometrically connected curve of genus `g ≥ 2` over a number field `K ⊂ ℂ`, and `G` is a finite group with trivial centre. Fix `y₀ ≠ y₁` in `Y(ℂ), Γ := π₁(Y(ℂ) ∖ {y₀}, y₁), c` the conjugacy class of a small loop around `y₀`, and `Γ̃ := π₁(F(Y(ℂ)), (y₁, y₀))` for the configuration space `F(Y(ℂ)) = Y(ℂ)² ∖ Δ`. The `Γ̃ × G`-set `S(Γ, c, G)` (8.3, with `Γ ⊴ Γ̃` by Layer LV.5) defines a covering `Z° → F(Y(ℂ))` with free `G`-action, whose quotient `Z°/G` is the pullback along `(y, y') ↦ y'` of a finite covering `e : Y' → Y(ℂ)` with fibres `S(y) := S(π₁(Y(ℂ) ∖ {y}), c_y, G)/G`. So `Z° → Y' × Y(ℂ) ∖ Γ_e` (`Γ_e` the graph of `e`) is a `G`-torsor. By Riemann existence `Y'` is a smooth projective curve and `Z°` is algebraic; `Z :=` the normalization of `Y' × Y` in `Z°` is a smooth projective surface with a `G`-action and a finite morphism `f : Z → Y' × Y`, and the composite `Z → Y'` is a smooth proper relative curve whose fibre `Z_{y'} → Y` over `y'` is the connected `G`-covering classified by `y' ∈ S(e(y'))`, branched exactly at `e(y')`; near `f⁻¹(Γ_e), f` is `(z, w) ↦ (z, wⁿ)` in suitable local coordinates. The finite étale parameter scheme `Y′` may be disconnected (or empty for some `G`); it is not required to be a geometrically connected curve. Its individual relative curve fibres are connected.
 
-- `hurwitzComplex`: The complex curve `Y'` with `e : Y' → Y` and the `G`-covering `Z → Y' × Y`.
-- `hurwitzComplex.fibre`: `e⁻¹(y) ≃ S(y)` naturally in `y`.
-- `hurwitzComplex.torsor`: `Z → Y' × Y` is a `G`-torsor off the graph `Γ_e`.
-- `hurwitzComplex.localForm`: Near `Γ_e, Z → Y' × Y` is `(z, w) ↦ (z, wⁿ)`.
-- `hurwitzComplex.relativeCurve`: `Z → Y'` is smooth and proper, with fibre `Z_{y'}` the `G`-cover branched at `e(y')`.
-- `hurwitzComplex.configuration`: `Z°` is the covering of the configuration space attached to `S(Γ, c, G)`; its monodromy is described by 5.26.
-- `hurwitzComplex.aff3`: Degree 135 for `Aff(3)` and `g = 2`.
+- The complex curve `Y'` with `e : Y' → Y` and the `G`-covering `Z → Y' × Y`.
+- `e⁻¹(y) ≃ S(y)` naturally in `y`.
+- `Z → Y' × Y` is a `G`-torsor off the graph `Γ_e`.
+- Near `Γ_e, Z → Y' × Y` is `(z, w) ↦ (z, wⁿ)`.
+- `Z → Y'` is smooth and proper, with fibre `Z_{y'}` the `G`-cover branched at `e(y')`.
+- `Z°` is the covering of the configuration space attached to `S(Γ, c, G)`; its monodromy is described by 5.26.
+- Degree 135 for `Aff(3)` and `g = 2`.
 
 *Construction.* The `Γ̃`-action on `S(Γ, c, G)` exists by 8.3 (`Γ̄ = Γ` is normal in `Γ̃` and `Γ̃` preserves `c`, Layer LV.5); covering-space theory gives `Z°` with fibre `S` at `(y₁, y₀)` and `G` acting freely. `Γ` acts trivially on `S/G`, so the `Γ̃`-action on `S/G` factors through `π₁(Y(ℂ), y₀)` (Layer LV.5 exact sequence), and `Z°/G` is the pullback of the covering `e` with fibre `S/G`. ComplexComparisonPartII §C6.2, `riemannExistence`: finite topological coverings of the analytifications of `Y` and of `Y' × Y ∖ Γ_e` are algebraic; `Y'` is proper because it is finite over `Y`. Local structure: in coordinates `(z, u)` on `Y' × Y` near `Γ_e` with `Γ_e = {u = ẽ(z)}` (`e` is étale), put `w := u − ẽ(z)`; over the punctured polydisk the `G`-torsor is a disjoint union of copies of `(z, w') ↦ (z, w'ⁿ)`, where `n` is the order of `φ(c)`, and its normalization over the polydisk is the same map on the full polydisk, smooth over `z`. The normalization of `Y' × Y` in `Z°` analytifies to the normalization of the analytic space (8.4), which is the space just described; so `Z → Y'` is smooth and proper with the stated fibres. (LV20, §7.3, p. 36; §7.3, p. 37; SGA1, Exposé XII, Théorème 5.1, p. 251.) *Needs:* 3.10; 5.23; 8.1; 8.3; 8.4; ComplexComparisonPartII §C0.4; ComplexComparisonPartII Layer C2; ComplexComparisonPartII §C4.5; ComplexComparisonPartII §C6.2, `riemannExistence`; InverseGaloisAndArithmeticFundamentalGroups §IG.1.3; Tau Ceti `TauCeti.CoveringSpace.monodromyEquivalence`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`; Mathlib `CommAlgCat.FiniteEtale`; TauCetiRoadmap Completed/UniversalCovers Stage 2.
 
@@ -2441,7 +2441,7 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 ### 8.8 The idempotents `e, e′` and `e`″ of `ℚ[Aff(q)]`
 
-**Lemma.** For a prime `q ≥ 3, G = Aff(q)` and `H = H_q` the stabilizer of 0, use the supplied averages `e_H := TauCeti.groupAlgebraSubgroupAverage ℚ H` and `e_G := TauCeti.groupAlgebraSubgroupAverage ℚ ⊤`, `e := e_H − e_G, e' := 1 − e` and `e'' :=` #`G·e' ∈ ℤ[G]`. Then `e`, `e'` are idempotents, `e_G e_H = e_H e_G = e_G`, and all four are fixed by the anti-involution `g ↦ g⁻¹`. For every `ℚ[G]`-module `M: e·M = M^H ∩ ker(e_G)`, which is a complement of `M^G` in `M^H`, and `ker(e'' : M → M) = e·M` (`averagingIdempotent_top_mul`, `isIdempotentElem_averagingIdempotent_sub`).
+**Lemma.** For a prime `q ≥ 3, G = Aff(q)` and `H = H_q` the stabilizer of 0, use the supplied averages `e_H := TauCeti.groupAlgebraSubgroupAverage ℚ H` and `e_G := TauCeti.groupAlgebraSubgroupAverage ℚ ⊤`, `e := e_H − e_G, e' := 1 − e` and `e'' :=` #`G·e' ∈ ℤ[G]`. Then `e`, `e'` are idempotents, `e_G e_H = e_H e_G = e_G`, and all four are fixed by the anti-involution `g ↦ g⁻¹`. For every `ℚ[G]`-module `M: e·M = M^H ∩ ker(e_G)`, which is a complement of `M^G` in `M^H`, and `ker(e'' : M → M) = e·M`.
 
 *Proof sketch.* The supplied averaging theorem applies to `H` and `G`, and `e_G e_H = e_H e_G = e_G` because `G ⊇ H`. `(e_H − e_G)² = e_H − 2e_G + e_G = e_H − e_G`; `e'` is the complementary idempotent. `e'' =` #`G −` (#`G`/#`H`)`Σ_{h∈H} h + Σ_{g∈G} g` has integer coefficients. `e·M ⊆ M^H ∩ ker e_G`, and conversely `x` in the intersection satisfies `e·x = x`; `ker e'' = ker e' = e·M`. (LV20, §7.2, p. 36.) *Needs:* 0.7.
 
@@ -2468,13 +2468,13 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 **Construction.** Let `q ≥ 3` be prime, `B` a smooth scheme of finite type over a field of characteristic zero and `Z → B` a smooth projective relative curve with geometrically connected fibres of positive genus, fixed on each connected component of `B`, and an action of `G = Aff(q)` over `B`. Let `P := Pic⁰_{Z/B}`, an abelian scheme with its canonical principal polarization, on which `G` acts (by pushforward; the idempotents are invariant under `g ↦ g⁻¹`, so the choice does not matter), and `e'' ∈ End(P)`. If the dimension of `ker(e''_b)` is constant in `b ∈ B`, the reduced Prym is `X := (ker e'')°`, the relative identity component, an abelian subscheme of `P` with the restricted polarization; its fibre at `b` is `(ker e''_b)°`.
 
-- `reducedPrym`: `X := (ker e'')° ⊆ Pic⁰_{Z/B}` for such a smooth projective relative curve of positive genus with `Aff(q)`-action and constant kernel dimension.
-- `reducedPrym.isAbelianScheme`: `X` is an abelian scheme over `B`.
-- `reducedPrym.polarization`: The restriction of the principal polarization of `Pic⁰`.
-- `reducedPrym.fibre`: `X_b = (ker e''_b)°` for every point `b`.
-- `reducedPrym.baseChange`: Formation of `X` commutes with base change on `B`.
-- `reducedPrym.dim`: The relative dimension of `X` over a base whose complex fibres are singly ramified `Aff(q)`-covers of a genus-`g` curve is `(2g − 1)(q − 1)/2`.
-- `reducedPrym.example`: `q = 3, g = 2`: relative dimension 3.
+- `X := (ker e'')° ⊆ Pic⁰_{Z/B}` for such a smooth projective relative curve of positive genus with `Aff(q)`-action and constant kernel dimension.
+- `X` is an abelian scheme over `B`.
+- The restriction of the principal polarization of `Pic⁰`.
+- `X_b = (ker e''_b)°` for every point `b`.
+- Formation of `X` commutes with base change on `B`.
+- The relative dimension of `X` over a base whose complex fibres are singly ramified `Aff(q)`-covers of a genus-`g` curve is `(2g − 1)(q − 1)/2`.
+- `q = 3, g = 2`: relative dimension 3.
 
 *Construction.* Apply JacobianChallengePartII §1.2, `RelativeJacobian.RelativeJacobian`, and §1.4, `RelativeJacobian.PrincipalPolarization`, to the smooth projective curve family of positive genus, componentwise on `B`, to obtain `Pic⁰_{Z/B}` and its principal polarization. Functoriality gives the `G`-action and `e'' ∈ ℤ[G] → End(P)`. Writing `n=|G|` and `e''=n(1−e)`, the idempotence `e²=e` gives `(e'')²=[n]e''`. Apply 8.9 on each connected component of the smooth base; the polarization restricts and formation commutes with base change. (LV20, §7.2, p. 36; §7.2, p. 35.) *Needs:* 8.8; 8.9; AlgebraicModuliForArithmeticGeometry §7.9; AbelianSchemesAndArithmeticModuli §§A0.1, A1.1; JacobianChallengePartII §§1.2–1.4 (`RelativeJacobian.RelativeJacobian`, `RelativeJacobian.PrincipalPolarization`).
 
@@ -2509,13 +2509,13 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 **Definition.** Let `Y` be a smooth projective geometrically connected curve of genus `g ≥ 2` over a number field `K` and `q ≥ 3` a prime. The Kodaira–Parshin curve family `Z_q → Y'_q → Y` is the Hurwitz space of LV20 Proposition 7.1 for `G = Aff(q)`, and the Kodaira–Parshin family is `X_q → Y'_q → Y` with `X_q` the reduced Prym of `Z_q → Y'_q`. It is an abelian-by-finite family of relative dimension `d_q = (g − 1/2)(q − 1)`, it admits a good model over `𝒪_S` for some finite `S` (with `𝒴` proper), and for `y ∈ Y(K)` the fibre `π⁻¹(y)` is `G_K`-equivariantly the set of `Aff(q)`-conjugacy classes of surjections `π₁^geom(Y_{K̄} ∖ {y}) → Aff(q)` nontrivial on a loop around `y` (LV20 property (iii)).
 
-- `kodairaParshinCurves`: `Z_q → Y'_q → Y`.
-- `kodairaParshin`: `X_q → Y'_q → Y` as an abelian-by-finite family.
-- `kodairaParshin.relDim`: `d_q = (g − 1/2)(q − 1)`, i.e. `2d_q = (2g − 1)(q − 1)`.
-- `kodairaParshin.exists_goodModel`: A good model over some `𝒪_S` with `𝒴` proper.
-- `kodairaParshin.fibreEquiv`: `π⁻¹(y)(K̄) ≃` conjugacy classes of surjections `π₁^geom(Y ∖ y) → Aff(q)` nontrivial at `y, G_K`-equivariantly for `y ∈ Y(K)`.
-- `kodairaParshin.fibreHomology`: `H₁(X_{q,y'}(ℂ), ℚ) ≅ H₁^Pr(Z_{q,y'} ×^{Aff(q)} 𝔽_q, Y(ℂ); ℚ)`.
-- `kodairaParshin.example`: `q = 3, g = 2: d = 3`, fibre of size 135.
+- `Z_q → Y'_q → Y`.
+- `X_q → Y'_q → Y` as an abelian-by-finite family.
+- `d_q = (g − 1/2)(q − 1)`, i.e. `2d_q = (2g − 1)(q − 1)`.
+- A good model over some `𝒪_S` with `𝒴` proper.
+- `π⁻¹(y)(K̄) ≃` conjugacy classes of surjections `π₁^geom(Y ∖ y) → Aff(q)` nontrivial at `y, G_K`-equivariantly for `y ∈ Y(K)`.
+- `H₁(X_{q,y'}(ℂ), ℚ) ≅ H₁^Pr(Z_{q,y'} ×^{Aff(q)} 𝔽_q, Y(ℂ); ℚ)`.
+- `q = 3, g = 2: d = 3`, fibre of size 135.
 
 *Construction.* `Aff(q)` has trivial centre (Layer LV.0), so the Hurwitz space exists. The Hurwitz curve family is projective over `Y′_q` because `Z_q → Y′_q × Y` is finite and `Y` is projective. Riemann–Hurwitz for its degree-`q(q−1)` fibres over a genus-`g ≥ 2` curve gives positive genus, constant on each connected component of `Y′_q`; hence the relative-Jacobian hypotheses of 8.10 hold. The fibre dimension of `ker e''` is constant by 8.12 (computed at complex points, which lie over every point of `Y'_q`), so the reduced Prym is an abelian scheme of relative dimension `d_q` with polarization. Good model: Layer LV.2 (existence after enlarging `S`), with `𝒴` proper because `Y` is. Property (iii) is 8.7 (LV20 Proposition 7.1 `(i)`); `Aff(q)`-conjugacy and `Sym(𝔽_q)`-conjugacy classes agree (Layer LV.0). (LV20, §7.1, Definition 7.2, p. 35; §7.2, Definition 7.3, p. 36; §5, p. 26.) *Needs:* 0.9; 2.1; 2.3; 8.7; 8.10; 8.12.
 
@@ -2565,15 +2565,15 @@ circle, where explicit curves are available.
 
 **Definition.** For a surface `Y` (with boundary or punctures allowed), an `Aff(q)`-cover is a connected surface `Z` with a degree-`q` covering map `π : Z → Y` whose monodromy on a fibre, for some labelling of the fibre by `𝔽_q`, has image `Aff(q)`. After a choice of base point it determines a homomorphism `Cov : π₁(Y, y₀) → Aff(q)`, well defined up to `Aff(q)`-conjugation (the normalizer of `Aff(q)` in `Sym(𝔽_q)` is `Aff(q)`); two `Aff(q)`-covers are isomorphic (homeomorphic over `Y`) if and only if their classes `Cov` agree. The cycle type of `Cov(η)` is well defined for `η ∈ π₁(Y, y₀)` and for free loops. For a closed `Y` of genus `g` and `y ∈ Y`, a singly ramified `Aff(q)`-cover is an `Aff(q)`-cover of `Y ∖ {y}` with nontrivial monodromy around `y` (a `q`-cycle); its compactification `Z` has genus gq `− (q − 1)/2` and a single point over `y`. Up to isomorphism there are finitely many, `Z_1, …, Z_N`, and `Mod(Y ∖ {y})` acts on this finite set.
 
-- `AffineCover`: An `Aff(q)`-cover of a surface with its monodromy class `Cov`.
-- `AffineCover.cov`: `Cov : π₁(Y, y₀) → Aff(q)` up to conjugacy.
-- `AffineCover.iso_iff`: `Z₁ ≅ Z₂` over `Y ↔ Cov₁` and `Cov₂` are `Aff(q)`-conjugate.
-- `AffineCover.cycleType`: The cycle type of `Cov(η)`, a partition of `q`, for loops `η`.
-- `SinglyRamified`: Singly ramified `Aff(q)`-covers of `(Y, y)` and their compactifications.
-- `SinglyRamified.genus`: `g(Z) =` gq `− (q − 1)/2`.
-- `SinglyRamified.finite`: Finitely many isomorphism classes `Z_1, …, Z_N`.
-- `SinglyRamified.modAction`: The action of `Mod(Y ∖ {y})` on `{Z_1, …, Z_N}`.
-- `SinglyRamified.example`: `q = 3, g = 2: N = 135`, genus 5.
+- An `Aff(q)`-cover of a surface with its monodromy class `Cov`.
+- `Cov : π₁(Y, y₀) → Aff(q)` up to conjugacy.
+- `Z₁ ≅ Z₂` over `Y ↔ Cov₁` and `Cov₂` are `Aff(q)`-conjugate.
+- The cycle type of `Cov(η)`, a partition of `q`, for loops `η`.
+- Singly ramified `Aff(q)`-covers of `(Y, y)` and their compactifications.
+- `g(Z) =` gq `− (q − 1)/2`.
+- Finitely many isomorphism classes `Z_1, …, Z_N`.
+- The action of `Mod(Y ∖ {y})` on `{Z_1, …, Z_N}`.
+- `q = 3, g = 2: N = 135`, genus 5.
 
 *Construction.* Covering-space classification (Layer LV.5): isomorphism classes of connected degree-`q` coverings correspond to conjugacy classes of transitive actions `π₁ → Sym(𝔽_q)`; if the image is `Aff(q)`, conjugacy under `Sym(𝔽_q)` is conjugacy under the normalizer `Aff(q)` (Layer LV.0). The monodromy around `y` lies in `[Aff(q), Aff(q)] = 𝔽_q^+` (the peripheral class is a product of commutators), so if nontrivial it is a `q`-cycle; the compactification has one point over `y` with ramification index `q`, and Riemann–Hurwitz gives `2g(Z) − 2 = q(2g − 2) + (q − 1)`. `π₁(Y ∖ {y})` is finitely generated, so there are finitely many homomorphisms to `Aff(q)`; mapping classes act through `Out(π₁(Y ∖ {y}))`. (LV20, §8.2, p. 39.) *Needs:* 0.8; 0.9; 5.9; 5.23; 5.24; TauCetiRoadmap Completed/UniversalCovers Stage 2.
 
@@ -2589,14 +2589,14 @@ circle, where explicit curves are available.
 
 **Definition.** For a positive-degree finite (possibly branched) cover `π:Z→Y` of closed oriented surfaces, allowing disconnected `Z`, primitive rational homology is `H₁^Pr(Z,Y):=ker(π_*:H₁(Z;ℚ)→H₁(Y;ℚ))`. It is the kernel of a linear map; transfer and perfectness are theorems about it (9.3), not part of the definition.
 
-- `primitiveHomology`: `H₁^Pr(Z, Y) = ker(π_* : H₁(Z; ℚ) → H₁(Y; ℚ))`.
-- `transfer`: `π^* : H₁(Y; ℚ) → H₁(Z; ℚ)` with `π_*π^* = q`.
-- `isCompl_primitiveHomology`: `H₁(Z) = π^*H₁(Y) ⊕ H₁^Pr(Z, Y)`, with projection `x ↦ x − q⁻¹π^*π_*x`.
-- `primitiveHomology_eq_orthogonal`: `H₁^Pr(Z, Y) = (π^*H₁(Y))^⊥`.
-- `primitiveHomology.symplectic`: The restricted intersection form is nondegenerate and alternating.
-- `primitiveHomology.equivariant`: A lift of a homeomorphism of `Y` preserves `π^*H₁(Y)` and `H₁^Pr`.
-- `primitiveHomology.finrank`: `dim H₁^Pr = dim H₁(Z;ℚ) − 2g(Y) = 2Σ_C g(C) − 2g(Y)`, where `C` ranges over the connected components of `Z`. For connected `Z` this is `2g(Z)−2g(Y)`.
-- `primitiveHomology.trivialCover`: The sum-zero subspace for a trivial cover.
+- `H₁^Pr(Z, Y) = ker(π_* : H₁(Z; ℚ) → H₁(Y; ℚ))`.
+- `π^* : H₁(Y; ℚ) → H₁(Z; ℚ)` with `π_*π^* = q`.
+- `H₁(Z) = π^*H₁(Y) ⊕ H₁^Pr(Z, Y)`, with projection `x ↦ x − q⁻¹π^*π_*x`.
+- `H₁^Pr(Z, Y) = (π^*H₁(Y))^⊥`.
+- The restricted intersection form is nondegenerate and alternating.
+- A lift of a homeomorphism of `Y` preserves `π^*H₁(Y)` and `H₁^Pr`.
+- `dim H₁^Pr = dim H₁(Z;ℚ) − 2g(Y) = 2Σ_C g(C) − 2g(Y)`, where `C` ranges over the connected components of `Z`. For connected `Z` this is `2g(Z)−2g(Y)`.
+- The sum-zero subspace for a trivial cover.
 
 *Construction.* Take the kernel (Mathlib `LinearMap.ker`) of the singular-homology pushforward. The branched transfer, the decomposition and the symplectic comparison are 9.3. (LV20, §8.2, p. 39; §8.2, pp. 39–40.) *Needs:* 9.1.
 
@@ -2610,7 +2610,7 @@ circle, where explicit curves are available.
 
 ### 9.3 Transfer complement and symplectic primitive homology
 
-**Lemma.** Let `π : Z → Y` be a finite covering of positive degree `q` between closed oriented surfaces (allowing disconnected source), orientation-preserving away from the branch points, possibly branched over finitely many points. With rational coefficients, `π_* : H₁(Z) → H₁(Y)` and the transfer `π^* : H₁(Y) → H₁(Z)` satisfy `π_*π^* = q, ⟨π^*a, π^*b⟩ = q⟨a, b⟩` and `⟨π^*a, x⟩ = ⟨a, π_*x⟩` for the intersection forms. Hence `H₁(Z) = π^*H₁(Y) ⊕ H₁^Pr(Z, Y)` with `H₁^Pr(Z, Y) := ker π_* = (π^*H₁(Y))^⊥`, the projection onto `H₁^Pr` is `x ↦ x − q⁻¹π^*π_*x`, and the intersection form restricts to a symplectic form on `H₁^Pr(Z, Y)`. Homeomorphisms of `Z` covering homeomorphisms of `Y` preserve the decomposition (`isCompl_primitiveHomology`, `primitiveHomology_orthogonal_transfer`). For a finite branched `G`-cover with quotient `Y`, also prove `branchedTransfer_deckSum`: `π^*π_* = Σ_(g∈G) g_*` on `H₁(Z;ℚ)`.
+**Lemma.** Let `π : Z → Y` be a finite covering of positive degree `q` between closed oriented surfaces (allowing disconnected source), orientation-preserving away from the branch points, possibly branched over finitely many points. With rational coefficients, `π_* : H₁(Z) → H₁(Y)` and the transfer `π^* : H₁(Y) → H₁(Z)` satisfy `π_*π^* = q, ⟨π^*a, π^*b⟩ = q⟨a, b⟩` and `⟨π^*a, x⟩ = ⟨a, π_*x⟩` for the intersection forms. Hence `H₁(Z) = π^*H₁(Y) ⊕ H₁^Pr(Z, Y)` with `H₁^Pr(Z, Y) := ker π_* = (π^*H₁(Y))^⊥`, the projection onto `H₁^Pr` is `x ↦ x − q⁻¹π^*π_*x`, and the intersection form restricts to a symplectic form on `H₁^Pr(Z, Y)`. Homeomorphisms of `Z` covering homeomorphisms of `Y` preserve the decomposition. For a finite branched `G`-cover with quotient `Y`, also prove `branchedTransfer_deckSum`: `π^*π_* = Σ_(g∈G) g_*` on `H₁(Z;ℚ)`.
 
 *Proof sketch.* Define transfer on the unbranched part using AlgebraicTopology Stage 5. Quotient its `H₁` by peripheral loops to recover the homology of the compact surfaces. A transferred peripheral loop is a sum of peripheral loops upstairs (with local ramification multiplicities), so transfer descends. For a `G`-cover, the unbranched identity `π^*π_* = Σ_g g_*` descends through the same quotient, proving `branchedTransfer_deckSum`. `π_*π^* = q` is the degree; the projection formula `⟨π^*a, x⟩ = ⟨a, π_*x⟩` holds for transverse cycles by counting preimages of intersection points; `⟨π^*a, π^*b⟩ = q⟨a, b⟩` follows. Hence `π^*` is injective, `π^*H₁(Y) ∩ ker π_* = 0`, and the decomposition and orthogonality follow by dimension count; nondegeneracy on `ker π_*` follows from nondegeneracy on `H₁(Z)` and on `π^*H₁(Y)`. (LV20, §8.2, p. 39; §8.2, pp. 39–40.) *Needs:* 5.1; 5.6; 9.1; 9.2; TauCetiRoadmap AlgebraicTopology Stage 5; TauCetiRoadmap AlgebraicTopology Stage 6.
 
@@ -2624,15 +2624,15 @@ circle, where explicit curves are available.
 
 **Construction.** In setting `C`, for a singly ramified `Aff(q)`-cover `Z`, let `Mod(Y ∖ {y})_Z` be the stabilizer of its isomorphism class. Each `f ∈ Mod(Y ∖ {y})_Z` has a unique lift `f̃ ∈ Mod(Z)` (the centralizer of `Aff(q)` in `Sym(𝔽_q)` is trivial), giving a homomorphism `Mod(Y ∖ {y})_Z → Mod(Z)` and `Mon_Z : Mod(Y ∖ {y})_Z → Sp(H₁^Pr(Z, Y))`. Let `Mod(Y ∖ {y})' := ⋂_i Mod(Y ∖ {y})_{Z_i}`, a normal subgroup of finite index (the kernel of the action on `{Z_1, …, Z_N}`); `Mon := (Mon_{Z_i})_i : Mod(Y ∖ {y})' → ∏_i Sp(H₁^Pr(Z_i, Y))` (LV20 (8.3)); `π₁(Y, y)' := Push⁻¹(Mod(Y ∖ {y})')`, a normal subgroup of finite index in `π₁(Y, y)`, and `Mon ∘ Push` on it (LV20 (8.5)). For `f ∈ Push(π₁(Y, y)) ∩ Mod(Y ∖ {y})_Z`, the lift acts trivially on `π^*H₁(Y)`.
 
-- `liftMappingClass`: `Mod(Y ∖ {y})_Z →* Mod(Z), f ↦ f̃`.
-- `liftMappingClass_unique`: `f̃` is the only mapping class of `Z` covering `f`.
-- `monodromyMap`: `Mon_Z : Mod(Y ∖ {y})_Z →* Sp(H₁^Pr(Z, Y))`.
-- `stabilizerAll`: `Mod(Y ∖ {y})' = ⋂ Mod(Y ∖ {y})_{Z_i}`, normal of finite index.
-- `pushSubgroup`: `π₁(Y, y)' = Push⁻¹(Mod(Y ∖ {y})')`, normal of finite index.
-- `monodromyMap.prod`: `Mon : Mod(Y ∖ {y})' → ∏_i Sp(H₁^Pr(Z_i, Y))`.
-- `monodromyMap_push_transfer`: Lifts of point-pushes act trivially on `π^*H₁(Y)`.
-- `monodromyMap_twist`: `Mon_Z(T_e^{n_e})` is the multitwist `∏ T_{e_i}^{n_e/d_i}` on homology.
-- `monodromyMap.example`: `q = 3, g = 2: 135` factors.
+- `Mod(Y ∖ {y})_Z →* Mod(Z), f ↦ f̃`.
+- `f̃` is the only mapping class of `Z` covering `f`.
+- `Mon_Z : Mod(Y ∖ {y})_Z →* Sp(H₁^Pr(Z, Y))`.
+- `Mod(Y ∖ {y})' = ⋂ Mod(Y ∖ {y})_{Z_i}`, normal of finite index.
+- `π₁(Y, y)' = Push⁻¹(Mod(Y ∖ {y})')`, normal of finite index.
+- `Mon : Mod(Y ∖ {y})' → ∏_i Sp(H₁^Pr(Z_i, Y))`.
+- Lifts of point-pushes act trivially on `π^*H₁(Y)`.
+- `Mon_Z(T_e^{n_e})` is the multitwist `∏ T_{e_i}^{n_e/d_i}` on homology.
+- `q = 3, g = 2: 135` factors.
 
 *Construction.* Existence of a lift: `f` preserves the class of `Cov`, so the pullback covering is isomorphic to `Z`; composing gives a homeomorphism of `Z°` covering `f`, which extends over the point above `y` (Layer LV.5). Uniqueness: two lifts differ by a deck transformation, i.e. by an element of the centralizer of the monodromy group `Aff(q)` in `Sym(𝔽_q)`, which is trivial (Layer LV.0); the same argument applies to isotopies, so lifting is well defined on mapping classes and multiplicative. `Mon_Z` preserves the intersection form and the decomposition of primitive homology 9.2, so it lands in `Sp(H₁^Pr)`. The action of `Mod(Y ∖ {y})` on the finite set `{Z_i}` has a normal kernel of finite index; its preimage under the homomorphism `Push` is normal of finite index. A point-push is isotopic to the identity on `Y`, so it acts trivially on `H₁(Y ∖ {y}) = H₁(Y)`; by equivariance of the transfer its lift acts trivially on `π^*H₁(Y)`. (LV20, §8.2.1, p. 40; §8.2.2, p. 40.) *Needs:* 0.9; 5.20; 5.24; 5.25; 5.26; 9.1; 9.2; 9.3; Tau Ceti `TauCeti.BilinForm.isometryGroup`.
 
@@ -2672,13 +2672,13 @@ circle, where explicit curves are available.
 
 The order of the arguments matters: Layer LV.0 writes `T_v^r(x) = x + r·ω(v, x)·v`, while the Dehn-twist formula uses `î(x, v)`, so the parameter is `−q` when the two forms are identified.
 
-- `IsLiftable`: `λ(Cov(e))` generates `𝔽_q^×`.
-- `IsLiftable.nonseparating`: Liftable curves are nonseparating.
-- `IsLiftable.liftPlus`: The degree-one lift `e⁺`.
-- `IsLiftable.primitiveClass`: `ẽ ∈ H₁^Pr(Z, Y)`, nonzero.
-- `IsLiftable.mon_twist`: With `ω` equal to the topological intersection pairing, `Mon_Z(T_e^{q−1}) = T_{ẽ}^{−q}` in the Layer LV.0 convention `T_v^r(x)=x+rω(v,x)v`. Equivalently the actual action is `x↦x+qω(x,ẽ)ẽ`.
-- `IsLiftable.inner_eq`: `Ã·B̃ = A⁺·B⁺ − q⁻¹ A·B`.
-- `IsLiftable.example`: `Aff(3)` and a reflection monodromy.
+- `λ(Cov(e))` generates `𝔽_q^×`.
+- Liftable curves are nonseparating.
+- The degree-one lift `e⁺`.
+- `ẽ ∈ H₁^Pr(Z, Y)`, nonzero.
+- With `ω` equal to the topological intersection pairing, `Mon_Z(T_e^{q−1}) = T_{ẽ}^{−q}` in the Layer LV.0 convention `T_v^r(x)=x+rω(v,x)v`. Equivalently the actual action is `x↦x+qω(x,ẽ)ẽ`.
+- `Ã·B̃ = A⁺·B⁺ − q⁻¹ A·B`.
+- `Aff(3)` and a reflection monodromy.
 
 *Construction.* Define liftability by the order of the linear part; conjugation changes neither that order nor the underlying unbased curve. The lift, nonzero primitive class, intersection identity and monodromy formula are established in 9.8. (LV20, §8.3, p. 42; §8.3, p. 43.) *Needs:* 0.8; 5.8; 9.1.
 
@@ -2714,7 +2714,7 @@ The order of the arguments matters: Layer LV.0 writes `T_v^r(x) = x + r·ω(v, x
 
 ### 9.10 Primitive integral lift of a cyclic quotient
 
-**Lemma.** Let `r≥2` and `N≥1`. Every surjective homomorphism `ℤ^r → ℤ/N` has a lift `ℤ^r → ℤ` that is surjective (a primitive integral covector) (`exists_surjective_lift`).
+**Lemma.** Let `r≥2` and `N≥1`. Every surjective homomorphism `ℤ^r → ℤ/N` has a lift `ℤ^r → ℤ` that is surjective (a primitive integral covector).
 
 *Proof sketch.* Choose integer coordinate lifts `a₁,…,aᵣ`. Their joint `gcd` with `N` is 1. If needed, add `N` to one of `a₂,…,aᵣ` to make `g=gcd(a₂,…,aᵣ)` nonzero. For each prime dividing `g` and `N, a₁` is already nonzero modulo that prime. For each prime dividing `g` but not `N`, choose `k` so `a₁+Nk` is nonzero modulo that prime; use the Chinese remainder theorem for the finitely many choices. Then `gcd(a₁+Nk,a₂,…,aᵣ)=1`, so Bézout gives a surjective integral covector reducing to the given cyclic quotient. Extend a primitive covector to a unimodular basis for its use in normal forms. (LV20, §8.4, p. 43.)
 
@@ -2792,28 +2792,27 @@ Kodaira–Parshin family.
 
 ### 10.3 Signed primitive lattice representatives affinely span
 
-A vector `v : ℤ^r` is primitive when the `gcd` of all its coordinates is `1`
-(`IsPrimitiveVector`). Its API identifies this with a cyclic quotient of `ℤ^r` having a
+A vector `v : ℤ^r` is primitive when the `gcd` of all its coordinates is `1`. Its API identifies this with a cyclic quotient of `ℤ^r` having a
 surjective integral lift, with membership in an integral basis for `r ≥ 1`, and with coprime
 coordinates; changing sign and applying a unimodular matrix preserve primitivity. These use
 Mathlib's `gcd` and the integral basis theory, together with §9.10. Source: LV20 §8.4, p. 43,
 and §8.5, proof of Lemma 8.10, p. 48.
 
-**Lemma.** Let `r≥2`. Assign an arbitrary sign `ε(v)∈{−1,1}` to every primitive vector `v` of `ℤ^r`. The differences of the signed vectors `ε(v)v` span `ℚ^r`; in particular choosing one representative of each pair `{v,−v}` suffices (choose `ε(−v)=−ε(v)`) (`IsPrimitiveVector`, `span_sub_signedPrimitive`).
+**Lemma.** Let `r≥2`. Assign an arbitrary sign `ε(v)∈{−1,1}` to every primitive vector `v` of `ℤ^r`. The differences of the signed vectors `ε(v)v` span `ℚ^r`; in particular choosing one representative of each pair `{v,−v}` suffices (choose `ε(−v)=−ε(v)`).
 
 *Proof sketch.* If a rational linear functional `ℓ` has constant value `c` on the chosen representatives, then `ℓ(v)∈{c,−c}` on every primitive vector. For `i≠j` every `eᵢ+n eⱼ` is primitive, for all integers `n`. The sequence `ℓ(eᵢ)+nℓ(eⱼ)` taking only two values forces `ℓ(eⱼ)=0`. Vary `j` to conclude `ℓ=0` and `c=0`. The annihilator of the span of all differences is zero; finite-dimensional duality proves it is the entire rational space. This is a rational spanning claim, not an integral index-one claim. (LV20, §8.5, Lemma 8.10, p. 48; application in §8.6, pp. 50–51.)
 
 **Checks.**
 
 - `(1,0)` is primitive; `(2,4)` is not, since its coordinate `gcd` is `2`.
-- In rank zero the empty-coordinate `gcd` is `0`, so the unique vector is not primitive (`not_isPrimitiveVector_empty`).
+- In rank zero the empty-coordinate `gcd` is `0`, so the unique vector is not primitive.
 - `(2,3)` is primitive although neither coordinate is a unit of `ℤ`; requiring a unit coordinate would be too strong.
 - For rank two, arbitrary signs still give rational affine span `ℚ²`.
 - Rank one is excluded: one signed representative gives no nonzero difference.
 
 ### 10.4 Primitive vectors avoiding two intersection constraints
 
-**Lemma.** On `ℤ^r` with `r≥2`, let `ℓ₁,ℓ₂` be nonzero rational linear forms. For every bound `B` there is a primitive integral vector `w` with `|ℓ₁(w)|>B` and `|ℓ₂(w)|>B` (`exists_primitive_large`).
+**Lemma.** On `ℤ^r` with `r≥2`, let `ℓ₁,ℓ₂` be nonzero rational linear forms. For every bound `B` there is a primitive integral vector `w` with `|ℓ₁(w)|>B` and `|ℓ₂(w)|>B`.
 
 *Proof sketch.* Choose `u=(1,n,n²,…,n^(r−1))` outside the finitely many roots of the two nonzero evaluation polynomials. Then `u` is primitive and both forms are nonzero on `u`. Extend `u` to an integral basis and let `v` be another basis vector. Every `w=v+m u` is primitive, since its coordinates in this basis include 1. As `|m|` grows both absolute values tend to infinity. Signs assigned to primitive representatives leave these absolute values unchanged. (LV20, §8.5, Lemma 8.10, p. 48; application in §8.6, pp. 50–51.)
 
@@ -2909,7 +2908,7 @@ Layer LV.7 then shows that `Y(K)` is finite.
 
 ### 11.1 Choice of the prime `q` (LV20 §5, conditions `(i)`–(iii))
 
-**Lemma.** Let `K` be a number field with Galois closure `K'` over `ℚ, g ≥ 2` and `B > 0`. There is a prime `q > B` such that: `(i) 4 ∤ q − 1`, and no odd prime `ℓ < 8[K : ℚ]` divides `q − 1`; (ii) no odd prime dividing `q − 1` divides `disc(K)`; consequently, writing `q − 1 = 2m'` (`m'` odd), `ℚ(ζ_{q−1}) = ℚ(ζ_{m'}), K' ∩ ℚ(ζ_{q−1}) = ℚ` and `Gal(K'(ζ_{m'})/ℚ) ≅ Gal(K'/ℚ) × (ℤ/m')^× ≅ Gal(K'/ℚ) × (ℤ/(q − 1))^×`; (iii) `8·2^{g+1}/(q − 1)^g < 1/((g − 1/2)(q − 1) + 1)` (`exists_admissible_prime`).
+**Lemma.** Let `K` be a number field with Galois closure `K'` over `ℚ, g ≥ 2` and `B > 0`. There is a prime `q > B` such that: `(i) 4 ∤ q − 1`, and no odd prime `ℓ < 8[K : ℚ]` divides `q − 1`; (ii) no odd prime dividing `q − 1` divides `disc(K)`; consequently, writing `q − 1 = 2m'` (`m'` odd), `ℚ(ζ_{q−1}) = ℚ(ζ_{m'}), K' ∩ ℚ(ζ_{q−1}) = ℚ` and `Gal(K'(ζ_{m'})/ℚ) ≅ Gal(K'/ℚ) × (ℤ/m')^× ≅ Gal(K'/ℚ) × (ℤ/(q − 1))^×`; (iii) `8·2^{g+1}/(q − 1)^g < 1/((g − 1/2)(q − 1) + 1)`.
 
 *Proof sketch.* Let `L` be the set of odd primes `ℓ` with `ℓ < 8[K : ℚ]` or `ℓ | disc(K)`, and `N := 4∏_{ℓ∈L} ℓ`. By Dirichlet's theorem there are primes `q > B` with `q ≡ −1 mod N`; then `q − 1 ≡ 2 mod 4` and `q − 1 ≡ −2 ≢ 0 mod ℓ` for `ℓ ∈ L`, which gives `(i)` and (ii). (ii): the primes ramified in `K'` are those ramified in `K`, i.e. those dividing `disc(K)` (Mathlib). The odd primes dividing `q − 1` are unramified in `K'`, so `|disc K'|` is coprime to `m'`, and the Tau Ceti compositum isomorphism gives `Gal(K'(ζ_{m'})/ℚ) ≅ Gal(K'/ℚ) × (ℤ/m')^×`; also `(ℤ/2m')^× = (ℤ/m')^×` and `ℚ(ζ_{2m'}) = ℚ(ζ_{m'})` since `m'` is odd. (iii): the left side is `O(q^{−g})` and the right side is of order `q^{−1}`; since `g ≥ 2` the inequality holds for all large `q`. (LV20, §5, proof of Theorem 5.4, p. 26.) *Needs:* Mathlib `Nat.forall_exists_prime_gt_and_eq_mod`; Mathlib `NumberField.not_dvd_discr_iff_isUnramifiedIn`; Mathlib `NumberField.exists_not_isUnramifiedIn`; Mathlib `IsCyclotomicExtension.Rat.ramificationIdx_eq_of_not_dvd`; Tau Ceti `IsCyclotomicExtension.Rat.prime_dvd_of_dvd_natAbs_discr`; Tau Ceti `IsCyclotomicExtension.galEquivProd`; Mathlib `ZMod.card_units_eq_totient`; TauCetiRoadmap LocalFieldsRamification Layer 2.
 
@@ -2942,7 +2941,7 @@ Layer LV.7 then shows that `Y(K)` is finite.
 
 ### 11.4 Few elements lie in small Frobenius orbits
 
-**Lemma.** Let `N = 2m'` with `m'` odd, `M` a free `ℤ/N`-module of rank `2g` with a perfect alternating pairing into a cyclic group `C ≅ ℤ/N`, and `T` an automorphism of `M` with `⟨Tm₁, Tm₂⟩ = u⟨m₁, m₂⟩` for a unit `u ∈ (ℤ/N)^×` such that `u^i ≢ 1 mod r` for every prime `r | m'` and `1 ≤ i ≤ 7`. Then `|ker(T^i − 1)| ≤ 2^g N^g` for `1 ≤ i ≤ 7`, and at most `7·2^g N^g ≤ 8·2^g N^g` elements of `M` lie in `T`-orbits with fewer than 8 elements (`card_fixed_le`).
+**Lemma.** Let `N = 2m'` with `m'` odd, `M` a free `ℤ/N`-module of rank `2g` with a perfect alternating pairing into a cyclic group `C ≅ ℤ/N`, and `T` an automorphism of `M` with `⟨Tm₁, Tm₂⟩ = u⟨m₁, m₂⟩` for a unit `u ∈ (ℤ/N)^×` such that `u^i ≢ 1 mod r` for every prime `r | m'` and `1 ≤ i ≤ 7`. Then `|ker(T^i − 1)| ≤ 2^g N^g` for `1 ≤ i ≤ 7`, and at most `7·2^g N^g ≤ 8·2^g N^g` elements of `M` lie in `T`-orbits with fewer than 8 elements.
 
 *Proof sketch.* For `m₁, m₂ ∈ ker(T^i − 1): (u^i − 1)⟨m₁, m₂⟩ = 0`, and `u^i − 1` is a unit modulo `m'`, so the `ℤ/m'`-component of `⟨m₁, m₂⟩` vanishes and `⟨2m₁, 2m₂⟩ = 4⟨m₁, m₂⟩ = 0`. `2M ≅ (ℤ/m')^{2g}` with the pairing `(2a, 2b) ↦ 4⟨a, b⟩ ∈ 2C ≅ ℤ/m'` is perfect (2 is invertible modulo `m'`); by Layer LV.0 (isotropic subgroups) `|2·ker(T^i − 1)|² ≤ |2M| = m'^{2g}`. The kernel of `x ↦ 2x` on `ker(T^i − 1)` lies in `M[2] ≅ (ℤ/2)^{2g}`, so `|ker(T^i − 1)| ≤ 2^{2g}·m'^g = 2^g N^g`. An element in an orbit of size `s < 8` lies in `ker(T^s − 1)` with `1 ≤ s ≤ 7`. (LV20, §5, proof of Theorem 5.4, p. 27; §5, proof of Theorem 5.4, p. 28.) *Needs:* 0.12; Mathlib `CharacterModule`.
 
@@ -2965,7 +2964,7 @@ Layer LV.7 then shows that `Y(K)` is finite.
 
 ### 11.6 Faltings's theorem (LV20 Theorem 5.4)
 
-**Proof target.** Give the Lawrence–Venkatesh proof of HeightsRationalPointsAndObstructions §§5.12, 6.4, `TauCetiRoadmap.HeightsRationalPointsAndObstructions.mordell_finite`, on its native scheme/genus/rational-point signature. For a number field `K` and a smooth projective geometrically connected curve `Y/K` of genus `g ≥ 2`, the proof contract is that `Y(K)` is finite. The native signature uses a smooth proper geometrically connected one-dimensional scheme, `Scheme.genus K`, finite-dimensional `H¹(C, O_C)`, and its morphisms over `Spec K`; for curves proper and projective are equivalent.
+**Proof target.** Give the Lawrence–Venkatesh proof of HeightsRationalPointsAndObstructions §§5.12, 6.4, `TauCetiRoadmap.HeightsRationalPointsAndObstructions.mordell_finite`, on its native scheme/genus/rational-point signature. For a number field `K` and a smooth projective geometrically connected curve `Y/K` of genus `g ≥ 2`, the proof contract is that `Y(K)` is finite. The native signature uses a smooth proper geometrically connected one-dimensional scheme, `Scheme.genus K`, finite-dimensional `H¹(C, O_C)`, and its morphisms over `Spec K`; for curves proper and projective are equivalent. The statement `mordell_finite` in Suggested.lean expresses this proof target.
 
 *Proof sketch.* Fix an embedding `K ⊂ ℂ`. Choose an admissible prime `q` and form the Kodaira–Parshin family `X_q → Y'_q → Y` (Layer LV.8); choose `S` such that it has a good model over `𝒪_S` with `𝒴` proper. The family has full monodromy (Layer LV.10), and `Y(ℂ)` is connected. Choose `v` by 11.2 with `T` the set of places in `S`, above 2, and above the primes lying below `S`; then `v` is friendly, `v ∉ S`, its residue characteristic is odd and lies below no place of `S`, and `(c), (d)` hold. By 11.5, `Y(K)* = Y(K)` for `d = d_q`; 7.9 (LV20 Proposition 5.3) shows that `Y(K)*` is finite. (LV20, §5, Theorem 5.4, p. 26; §5, proof of Theorem 5.4, p. 26.) *Needs:* 2.3; 3.10; 7.9; 8.13; 10.10; 11.1; 11.2; 11.5; ComplexComparisonPartII §C4.5.
 
@@ -3026,18 +3025,18 @@ Layers LV.0, LV.1, LV.2, LV.3, LV.7, LV.8, LV.10; TauCetiRoadmap LocalFieldsRami
   pages are the PDF pages.
 - **BC09**: Olivier Brinon and Brian Conrad, [CMI summer school notes on p-adic Hodge theory](https://math.stanford.edu/~conrad/papers/notes.pdf),
   preliminary version (2009).
-- **FM12**: Benson Farb and Dan Margalit, [A primer on mapping class groups](https://pagine.dm.unipi.it/~a019210/Farb%20Magalit_Primer%20on%20Teichmuller%20theory.pdf),
+- **FM12**: Benson Farb and Dan Margalit, A primer on mapping class groups,
   version 5.0 (Princeton University Press, 2012); printed page numbers (PDF page minus ten).
 - **Mil-CM**: `J`. `S`. Milne, [Complex Multiplication](https://www.jmilne.org/math/CourseNotes/CM.pdf), course notes.
 - **SGA1**: `A`. Grothendieck and `M`. Raynaud, [Revêtements étales et groupe fondamental (SGA 1)](https://arxiv.org/pdf/math/0206203),
   arXiv:math/0206203v2 (Documents Mathématiques 3, SMF, 2003); page numbers of that edition.
 - **Del85**: Pierre Deligne, [Preuve des conjectures de Tate et de Shafarevitch](http://www.numdam.org/item/SB_1983-1984__26__25_0.pdf),
   Séminaire Bourbaki, exposé 616 (1983/84), Astérisque 121–122 (1985).
-- **Fal83**: Gerd Faltings, [Endlichkeitssätze für abelsche Varietäten über Zahlkörpern](https://math.uchicago.edu/~drinfeld/Deligne%27s_conjecture_Manin_conf/Faltings_argument/Faltings.pdf),
-  Invent. Math. 73 (1983), 349–366.
-- **BO78**: Pierre Berthelot and Arthur Ogus, [Notes on Crystalline Cohomology](https://math.bu.edu/people/yangzhe/BO_Crystalline.pdf),
+- **Fal83**: Gerd Faltings, Endlichkeitssätze für abelsche Varietäten über Zahlkörpern,
+  Invent. Math. 73 (1983), 349–366; DOI: 10.1007/BF01388432.
+- **BO78**: Pierre Berthelot and Arthur Ogus, Notes on Crystalline Cohomology,
   Princeton University Press (1978).
-- **GX13**: Jean Gallier and Dianna Xu, [A Guide to the Classification Theorem for Compact Surfaces](https://www.cis.upenn.edu/~jean/surfclassif-root.pdf),
+- **GX13**: Jean Gallier and Dianna Xu, A Guide to the Classification Theorem for Compact Surfaces,
   Springer (2013); printed page numbers (PDF page minus ten).
 - **Hat02**: Allen Hatcher, [Algebraic Topology](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Cambridge University Press
   (2002); printed page numbers.
