@@ -220,6 +220,8 @@ This layer adds Pan’s odd-involution and trace/deformation comparisons to Inte
 ### 0.1 Determinants, pseudocharacters and field reconstruction
 
 **Odd-involution field descent.** Use the continuous rank-two determinant and trace equivalence of IntegralHeckeAndGaloisDeterminants §0.5, with normalization `T(1)=2` and `D(g)=(T(g)²−T(g²))/2`, including coefficient change, restriction and the Cayley–Hamilton identities. Let Γ be profinite, K a topological field with 2 invertible, T a continuous rank-two pseudocharacter and c an involution with `T(c)=0`. Prove that the semisimple reconstruction of its determinant descends to a continuous representation over K, uniquely up to isomorphism. The projectors `(1±c)/2` split the obstruction; Pan’s formulas for `a(σ),d(σ),x(σ,τ)` give the descent and its coefficient-change compatibility. Apply this to the residue fields and normalization fraction fields in §§10.1–10.4. Without the odd involution use only the supplier’s reconstruction over an algebraic coefficient extension.
+The theorem `odd_involution_descent` in `Suggested.lean` states the field-descent conclusion using Mathlib's `Representation`, `Representation.IsSemisimpleRepresentation`, character and representation isomorphisms. Its hypotheses expand the three rank-two trace identities on the continuous function T, and its conclusion includes continuity of all matrix entries and uniqueness up to isomorphism over K.
+
 Source: Pan §§2.1.1–2.1.6, pp.7–8, and Taylor’s pseudocharacter theorem cited there. Use the supplied generic pseudodeformation functor rather than defining a second representing ring. Apply reconstruction to the residue fields and normalization fraction fields occurring in §§10.1–10.4.
 
 **Checks.**
@@ -407,7 +409,7 @@ Refine the soluble tower of the allowable change to cyclic steps of prime degree
 
 ### 1.7 Soluble extensions with prescribed completions
 
-This roadmap owns `cht_soluble_prescribed_completions`, the prescribed-completion theorem below.
+The theorem `cht_soluble_prescribed_completions` in `Suggested.lean` states the prescribed-completion result below. Its `completionAt` selects Mathlib's native adic completion or infinite-place completion. The conclusion expresses the prescribed completions by an algebra isomorphism `F_v ⊗[F] E ≅ ∏_{i : Fin n_v} E_v` for a positive multiplicity `n_v`, so every completion above v is included.
 
 Let F be a number field, D/F finite Galois, S a finite set of places, and `E_v/F_v` finite Galois for each v in S (at real places either R or C). There is a finite soluble Galois E/F linearly disjoint from D/F such that for every w above v in S, `E_w` is isomorphic to `E_v` as an `F_v-algebra`. Taking `E_v=R` at every real place makes E totally real when F is totally real. No assertion of cyclic E of a prescribed degree is made.
 
@@ -891,7 +893,7 @@ Provide the following operations and compatibility statements.
 - `PatchingDatum`: The displayed level-m rings, module, presentations, scalar maps and augmentation maps.
 - `PatchingDatum.reduce`: The level-(m+1) datum reduces via `D/(c_m+m_D^{(r_m)})` and `L/c_m`, preserving every structure map.
 - `PatchingDatum.isomorphism`: An isomorphism preserves both coefficient maps, the A-presentation, the R-augmentation, the module action and the augmentation to `M^□/c_m`.
-- `patchingRadius: r_m = s·m·p^{m(h+j)}` as a function of natural numbers; it is monotone in m for `p ≥ 1 (patchingRadius_mono_level)`, equals s·m when `h + j = 0`, and is 18 at `s = 1, p = 3, m = 2, h + j = 1`.
+- The radius `r_m = s·m·p^{m(h+j)}` is monotone in m for `p ≥ 1`, equals s·m when `h + j = 0`, and is 18 at `s = 1, p = 3, m = 2, h + j = 1`.
 
 **Checks.**
 
@@ -2045,10 +2047,7 @@ Solvability is Mathlib's `Group.IsSolvable`. Subgroups and extensions: `Group.is
 
 A reducible subgroup preserves a line; in an adapted basis it is contained in Tau Ceti’s upper-triangular subgroup, whose solvability is already proved by UpperTriangularGroup.instIsSolvable. Solvability passes to subgroups and conjugates, giving (i). `Im(ρ̄|G_K)` is normal in Im `ρ̄`, with quotient a quotient of `Gal(K/ℚ)`. If it were solvable, Im `ρ̄` would be solvable. Then apply (i) to `ρ̄|G_K`; this gives (ii). `ℚ(ζ_{p^n})/ℚ` is abelian, and `ℚ(√p*) ⊂ ℚ(ζ_p)` (`TauCeti.Multiquadratic.exists_mem_sq_eq_oddPrimeDiscriminant`); this gives (iii).
 
-The algebraic statements hold for any group G and field k, using Mathlib’s [Representation.IsIrreducible](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RepresentationTheory/Irreducible.lean):
-
-- `irreducible_of_nonsolvable_image`: For `ρ : Representation k G (Fin 2 → k)`, nonsolvability of the range of `ρ.asGroupHom` implies irreducibility.
-- `nonsolvable_image_restriction`: If N is normal in G and `G/N` is solvable, the restriction to N retains nonsolvable image and is irreducible. Specializing to `k = 𝔽̄_p` gives the absolute irreducibility in (i)–(ii).
+The algebraic statements hold for any group G and field k, using Mathlib’s [Representation.IsIrreducible](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RepresentationTheory/Irreducible.lean). For `ρ : Representation k G (Fin 2 → k)`, nonsolvability of the range of `ρ.asGroupHom` implies irreducibility. If N is normal in G and `G/N` is solvable, restriction to N retains nonsolvable image and irreducibility. Specializing to `k = 𝔽̄_p` gives the absolute irreducibility in (i)–(ii).
 
 **Checks.**
 
@@ -2068,9 +2067,7 @@ Use the tensor-product and cyclotomic-twist formula of PadicHodgeTheory §3.3 an
 
 Hodge–Tate weights shift by −a under `⊗ ε^{−a}`, because `HT(ε^{−a}) = −a` and Hodge–Tate weights add under tensor products.
 
-Provide the following operations and compatibility statements.
-
-- `normalizedWeight: k = b − a + 1` for weights `a < b`; invariant under a common shift `(normalizedWeight_shift)`, at least 2 when `a < b (two_le_normalizedWeight)`, and 1 for equal weights.
+The weight `k = b − a + 1` is invariant under a common shift of a and b, is at least 2 when `a < b`, and equals 1 for equal weights.
 
 **Checks.**
 
@@ -2149,9 +2146,7 @@ Let `ρ:G_ℚ→GL₂(𝒪)` and c be complex conjugation, where `𝒪` has char
 
 `c² = 1` gives `det ρ(c) ∈` {±1}, and its reduction `det ρ̄(c) = −1 ≠ 1` when p is odd.
 
-Provide the following operations and compatibility statements.
-
-- `odd_det_of_odd_reduction`: Over a domain R with `φ : R → k` to a field with `2 ≠ 0`, an involution c whose reduction has determinant −1 has determinant −1.
+The determinant argument holds over any domain R with `φ : R → k` to a field with `2 ≠ 0`: an involution c whose reduction has determinant −1 has determinant −1.
 
 **Checks.**
 
@@ -2520,17 +2515,11 @@ Provide the following operations and compatibility statements.
 
 ### 10.3 Good components of the pseudodeformation space
 
-Pan Definition 7.4.1: a component C of `Spec R^{ps}` is good if a finite chain `C₁,…,C_t=C` has potentially nice `q₁,…,q_t`, with `q_i∈C_{i−1}∩C_i` for `i≥2`, and `q₁∈C₁∩closure(A^{ord})`, where `A^{ord}` is the set of irreducible regular de Rham ordinary primes of Corollary 7.2.3. A chain of length one is allowed. Equivalently, on the component index set, take the reflexive transitive closure of adjacency by a potentially nice common point, starting at a component containing such a point in `closure(A^{ord})`. The prototype takes concrete component subsets, a potentially-nice point set and the seed-point set; its intended specialization is this spectrum.
+Pan Definition 7.4.1: a component C of `Spec R^{ps}` is good if a finite chain `C₁,…,C_t=C` has potentially nice `q₁,…,q_t`, with `q_i∈C_{i−1}∩C_i` for `i≥2`, and `q₁∈C₁∩closure(A^{ord})`, where `A^{ord}` is the set of irreducible regular de Rham ordinary primes of Corollary 7.2.3. A chain of length one is allowed. Equivalently, on the component index set, take the reflexive transitive closure of adjacency by a potentially nice common point, starting at a component containing such a point in `closure(A^{ord})`. The component subsets, potentially nice points and seed points are those of this spectrum.
 
 Use §10.2 and the ordinary arithmetic locus constructed in §§10.8–10.9; goodness is an incidence predicate, with modularity of that locus used in the separate good-component-to-automorphy argument. Use Mathlib `Relation.ReflTransGen` for finite reachability. A starting component contains a point in the intersection of the potentially-nice and seed sets; adjacency requires a potentially nice point in both components. The reflexive case encodes `t=1`, not an empty unseeded chain.
 
-Provide the following operations and compatibility statements.
-
-- `panGoodComponent_iff`: Goodness is equivalent to a seeded component followed by `Relation.ReflTransGen` of potentially-nice-point adjacency.
-- `panGoodComponent_seed`: A component containing a potentially nice seed point is good by a length-one chain.
-- `panGoodComponent_step`: If C is good and C,C′ contain a common potentially nice point, then C′ is good.
-- `panGoodComponent_mono`: Enlarging the potentially-nice point set and the seed-point set preserves goodness.
-- `panGoodComponent_congr`: Pointwise equality of component subsets and equality of the nice and seed sets give equivalent goodness predicates.
+Prove the seeded-reachability characterization using `Relation.ReflTransGen` of potentially-nice-point adjacency. A component containing a potentially nice seed point is good by a length-one chain. If C is good and C,C′ contain a common potentially nice point, C′ is good. Enlarging the potentially nice point set and the seed-point set preserves goodness. Pointwise equality of component subsets and equality of the nice and seed sets give equivalent goodness predicates.
 
 **Checks.**
 
@@ -2549,13 +2538,7 @@ Pan Definition 7.4.21: for a nonzero extension class `B∈Ext¹_{E[G_F,S]}(ψ₁
 
 Use the supplied characteristic-zero deformation functor and construct its arithmetic trace map as in the Layer 10 refinements, not a new representation deformation functor. Identify components with minimal prime ideals using the pinned Mathlib order equivalence. Intersect those generic points with the image of `PrimeSpectrum.comap f_B`.
 
-Provide the following operations and compatibility statements.
-
-- `panExtensionComponents_mem_iff`: P lies in the set iff P is a minimal prime point of A and `P=comap f Q` for some Q in Spec B.
-- `panExtensionComponents_minimal`: Every member indexes an actual irreducible component of Spec A.
-- `panExtensionComponents_id`: For the identity map, this set is exactly the minimal-prime points of A.
-- `panExtensionComponents_kernel_le`: The kernel of f is contained in every member P.asIdeal.
-- `panExtensionComponents_comp_subset`: For ring maps `f:A→B` and `g:B→C`, panExtensionComponents (g.comp f) is a subset of panExtensionComponents f, by composition of spectrum comaps.
+Prove that P lies in the detected set exactly when P is a minimal prime point of A and `P=comap f Q` for some Q in Spec B. Every member indexes an irreducible component of Spec A and contains the kernel of f in its prime ideal. For the identity map the set is exactly the minimal-prime points of A. For ring maps `f:A→B` and `g:B→C`, the components detected by `g.comp f` form a subset of those detected by f, by composition of spectrum comaps.
 
 **Checks.**
 
@@ -2625,6 +2608,8 @@ Use the characteristic-zero trace/deformation comparison of Pan Corollary 2.2.3,
 **Abelian unit-rank and reducible-locus input.** Import qualitative p-adic Baker–Brumer from LinearFormsInLogarithms §8.10, `PadicBaker.eq_zero_of_add_sum_mul_eq_zero`. For a finite family of algebraic p-adic units `αᵢ` in `ℂ_p`, supply its logarithm normalization adapter: choose one positive integer N killing the residue-field torsion of every αᵢ and containing a sufficiently large p-power, so `αᵢ^N` lies in the logarithm/exponential inverse domain and `N log_p αᵢ` lies in the strict exponential disc. Then `exp(N log_p αᵢ)=αᵢ^N` is algebraic. If the original logarithms are linearly independent over `ℚ`, multiplication by N preserves that independence. Apply the imported theorem with zero constant term and divide by N to obtain their independence over the algebraic numbers in `ℂ_p`. The exponential-disc proof stays with that supplier. Use Dirichlet’s unit theorem and the character decomposition of the unit module for an abelian extension to prove `abelian_leopoldt`: for a totally real abelian number field F and every prime p, the diagonal logarithm map
 `𝒪_Fˣ⊗_ℤ ℚ_p → ∏_{v|p} F_v`
 has rank `[F:ℚ]−1`. Its kernel on units before tensoring is the torsion subgroup. Retain the embeddings, coefficient extension, and the local logarithm normalization `log_p(p)=0` of DirichletPadicLFunctions §0.6.
+
+The theorem `abelian_leopoldt` in `Suggested.lean` states this full unit-logarithm rank after an embedding `F ↪ K` into any finite complete normed extension K of `ℚ_p`. The function `unitLogVector` evaluates `N⁻¹ log(σ(u)^N)` at every embedding `σ : F ↪ K`; a common positive N puts every unit coordinate in the principal-unit disc of Mathlib's logarithm. The K-span of these vectors has dimension `[F:ℚ]−1`.
 
 Prove the class-field-theory adapter: the maximal abelian pro-p quotient of `G_{F,S}`, for finite S containing the p-places, is a finitely generated `ℤ_p`-module of rank one. Its torsion need not vanish. At each p-place the image of local units has finite index in this quotient: the cyclotomic quotient is nonzero on those units and the global rank is one. For odd p, fixed totally odd determinant χ, residual trace `1+χ̄`, and the fixed tame conditions of Pan’s global pseudo-ring, the closed reducible locus has dimension at most two (and at most one after reduction modulo p). Construct this bound via the one-character deformation ring and the determinant relation determining the other character; this is the input used in §§10.8–10.10 and 10.13. Here Pan’s Leopoldt defect is zero; the rank-one Galois quotient is not a rank-zero quotient.
 
@@ -2728,7 +2713,7 @@ Assume hypothesis LC (Conditional arithmetic hypotheses). Under §10.11’s hypo
 
 The degree is enlarged sufficiently for the strict dimension inequalities of the proof; they are not asserted for `d=1`.
 
-Partition the union of components in `Z_B` into nonempty unions `Z₁,Z₂` and pull the partition back to `Spec R_B`. Connectedness dimension `≥2d−1` gives an intersection prime Q with `dim R_B/Q≥2d−1`. Since 2d−1>d+1 in the degree-enlarged setting, Q is outside the reducible locus. The trace-map dimension gain gives an intersection in the pseudodeformation space of dimension at least 2d. Use the trace-cut prime selection of GlobalGaloisDeformations §§3.3–3.8 (with the arithmetic refinements here) on this intersection, with the `|S\Σ_p|` equations, reducible-locus bound and finite-away-p-image check, to obtain a potentially nice common point. The step lemma `panGoodComponent_step` of §10.3 propagates goodness across the partition, ruling out a good/bad partition.
+Partition the union of components in `Z_B` into nonempty unions `Z₁,Z₂` and pull the partition back to `Spec R_B`. Connectedness dimension `≥2d−1` gives an intersection prime Q with `dim R_B/Q≥2d−1`. Since 2d−1>d+1 in the degree-enlarged setting, Q is outside the reducible locus. The trace-map dimension gain gives an intersection in the pseudodeformation space of dimension at least 2d. Use the trace-cut prime selection of GlobalGaloisDeformations §§3.3–3.8 (with the arithmetic refinements here) on this intersection, with the `|S\Σ_p|` equations, reducible-locus bound and finite-away-p-image check, to obtain a potentially nice common point. The propagation of goodness through a potentially nice common point (§10.3) rules out a good/bad partition.
 
 **Checks.**
 
