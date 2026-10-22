@@ -642,7 +642,7 @@ Throughout this target, `A` is a product of copies of `ℝ/ℤ` over an arbitrar
 
 <a id="solid-free-structure"></a>
 
-**Solidity of profinite free solid groups.** For profinite `S`, the pinned `ℤ[S]_solid` is `Hom(C(S,Z),Z)`, hence a product of copies of `Z` by Nöbeling’s theorem already in Mathlib. It is solid as a condensed group and as a complex. A profinite hypercover gives an exact augmented complex of these free solid objects. The pinned solidification map is an isomorphism for finite `S` (`SolidAb.freeStructure` and `SolidAb.freeStructure_finite`).
+**Solidity of profinite free solid groups.** For profinite `S`, the pinned `ℤ[S]_solid` is `Hom(C(S,Z),Z)`, hence a product of copies of `Z` by Nöbeling’s theorem already in Mathlib. It is solid as a condensed group and as a complex. A profinite hypercover gives an exact augmented complex of these free solid objects. The pinned solidification map is an isomorphism for finite `S`.
 
 Throughout this target, `S` is a profinite set. Nöbeling's theorem is the pinned Mathlib instance. (CS, Corollary 5.5; Propositions 5.6–5.7, pp.34–35.)
 
@@ -650,7 +650,7 @@ Throughout this target, `S` is a profinite set. Nöbeling's theorem is the pinne
 
 <a id="solid-abelian-groups"></a>
 
-**The abelian category of solid groups.** Take the existing `CondensedAb` and its integer predicate `CondensedMod.IsSolid`. Define `SolidAb` as the full subcategory on that property. Prove that its fully faithful inclusion creates kernels, cokernels and all small limits and colimits, and that solid objects are closed under extensions. This makes `SolidAb` abelian (`SolidAb.abelian`); `SolidAb.createsLimits` and `SolidAb.createsColimits` state the creation results, and `SolidAb.zero_isSolid` states solidity of zero. Products of discrete copies of `ℤ` are compact projective generators in this category. Use the site/cutoff comparison when transporting the source formulation.
+**The abelian category of solid groups.** Take the existing `CondensedAb` and its integer predicate `CondensedMod.IsSolid`. Define `SolidAb` as the full subcategory on that property. Prove that its fully faithful inclusion creates kernels, cokernels and all small limits and colimits, and that solid objects are closed under extensions. The headline statement `SolidAb.abelian` in `Suggested.lean` asserts that this category is abelian. Products of discrete copies of `ℤ` are compact projective generators in this category. Use the site/cutoff comparison when transporting the source formulation.
 
 Throughout this target, solidity is the pinned predicate over the universe-lifted integers. Use the regular-cardinal/site comparison of the conventions above. (CS, Theorem 5.8(i); proof in Lecture VI, pp.35–41.)
 
@@ -658,7 +658,7 @@ Throughout this target, solidity is the pinned predicate over the universe-lifte
 
 <a id="solidification"></a>
 
-**Solidification as a reflection.** Construct the reflection `L:CondensedAb→SolidAb` as the colimit-preserving extension of the existing maps `ℤ[S]→ℤ[S]_solid` on profinite compact-projective generators. The existence milestone is `SolidAb.inclusion_isRightAdjoint`. The intended construction signatures are `solidification : CondensedAb ⥤ SolidAb` and `solidificationAdjunction : solidification ⊣ i`, where `i` is the native full-subcategory inclusion. For profinite `S`, `solidification_freeIso S` has source `i(L(ℤ[S]))` and target `ℤ[S]_solid`; composing its forward map with the unit is exactly `Condensed.profiniteSolidification.app S`. Its unit gives `Hom(LA,B)≃Hom(A,iB)` for solid `B`; its counit is invertible. On the common enhancement the inclusion `D(SolidAb)→D(CondensedAb)` is fully faithful, with image those complexes whose cohomology groups are solid. Its left adjoint is the left derived reflection `L^L`, which need not preserve concentration in degree zero.
+**Solidification as a reflection.** Construct the reflection `L:CondensedAb→SolidAb` as the colimit-preserving extension of the existing maps `ℤ[S]→ℤ[S]_solid` on profinite compact-projective generators. The headline statement `SolidAb.inclusion_isRightAdjoint` in `Suggested.lean` asserts existence of this reflection. For profinite `S`, give an isomorphism from `i(L(ℤ[S]))` to `ℤ[S]_solid`, where `i` is the native full-subcategory inclusion; composing its forward map with the unit is exactly `Condensed.profiniteSolidification.app S`. Its unit gives `Hom(LA,B)≃Hom(A,iB)` for solid `B`; its counit is invertible. On the common enhancement the inclusion `D(SolidAb)→D(CondensedAb)` is fully faithful, with image those complexes whose cohomology groups are solid. Its left adjoint is the left derived reflection `L^L`, which need not preserve concentration in degree zero. The headline statement `SolidAb.derived_inclusion_isRightAdjoint` asserts existence of the reflection onto this full subcategory in Mathlib's unbounded derived category, using solid cohomology to specify its objects.
 
 Throughout this target, solidity is the pinned predicate over the integers. The derived statements use the common enhancement. (CS, Theorem 5.8; Lemmas 5.9–5.10; Theorem 6.2, pp.35–38,43.)
 
@@ -676,32 +676,32 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `SolidAb.abelian` | `SolidAb` is abelian, and its inclusion creates kernels and cokernels. |
-| `SolidAb.limits` | All small limits and colimits exist and are created by the inclusion. |
-| `SolidAb.extensions` | In a short exact sequence in `CondensedAb` with solid end terms, the middle term is solid. |
-| `SolidAb.generators` | The integer products form compact projective generators in `SolidAb`. |
-| `solidification` | The reflection functor `L:CondensedAb→SolidAb`. |
-| `solidificationAdjunction` | `L` is left adjoint to the actual full-subcategory inclusion. |
-| `solidification_unit` | The unit `A→iLA` is universal for maps to solid objects. |
-| `solidification_homEquiv` | Composition with the unit bijects `Hom(LA,B)` and `Hom(A,iB)`. |
-| `solidification_counit` | The counit `LiB→B` is an isomorphism for solid `B`. |
-| `solidification_free` | On a profinite free group, `iLℤ[S]` is canonically `ℤ[S]_solid` and its unit is the pinned solidification map. |
-| `solidification_derived` | The derived reflection has image characterized by solid cohomology and agrees with left derived `L`. |
-| `SolidTensor.tensor` | Solid tensor is the solidification of ambient condensed tensor; the derived tensor uses its left derived form. |
-| `SolidTensor.unit` | The integer-solid `Z` is the tensor unit. |
-| `SolidTensor.product` | Tensor of integer products is the product on the Cartesian index set. |
-| `SolidTensor.hom` | `Map(A⊗solid B,C)≃Map(A,RHomsolid(B,C))`. |
-| `SolidTensor.changeCoefficients` | Solid algebra scalar extension is derived solid tensor, with coherent identity/composition. |
-| `SolidTensor.inclusionHom` | The derived internal Hom into a solid target agrees with the ambient condensed Hom in the source’s solid setting. |
+| Abelian structure | `SolidAb` is abelian, and its inclusion creates kernels and cokernels. |
+| Limits and colimits | All small limits and colimits exist and are created by the inclusion. |
+| Extensions | In a short exact sequence in `CondensedAb` with solid end terms, the middle term is solid. |
+| Generators | The integer products form compact projective generators in `SolidAb`. |
+| Reflection | The reflection functor `L:CondensedAb→SolidAb`. |
+| Adjunction | `L` is left adjoint to the actual full-subcategory inclusion. |
+| Unit | The unit `A→iLA` is universal for maps to solid objects. |
+| Universal Hom property | Composition with the unit bijects `Hom(LA,B)` and `Hom(A,iB)`. |
+| Counit | The counit `LiB→B` is an isomorphism for solid `B`. |
+| Free objects | On a profinite free group, `iLℤ[S]` is canonically `ℤ[S]_solid` and its unit is the pinned solidification map. |
+| Derived reflection | The derived reflection has image characterized by solid cohomology and agrees with left derived `L`. |
+| Tensor | Solid tensor is the solidification of ambient condensed tensor; the derived tensor uses its left derived form. |
+| Tensor unit | The integer-solid `Z` is the tensor unit. |
+| Integer products | Tensor of integer products is the product on the Cartesian index set. |
+| Tensor–Hom adjunction | `Map(A⊗solid B,C)≃Map(A,RHomsolid(B,C))`. |
+| Coefficient extension | Solid algebra scalar extension is derived solid tensor, with coherent identity/composition. |
+| Ambient Hom comparison | The derived internal Hom into a solid target agrees with the ambient condensed Hom in the source’s solid setting. |
 
 **Checks.**
 
-- `SolidAb.zero`: The zero condensed group is integer-solid and gives the zero object of `SolidAb`.
-- `SolidAb.freeProfinite`: The pinned integer profiniteSolid object is solid for every profinite set and lies in this category.
-- `SolidAb.finiteSet`: For a finite profinite set `S`, the pinned solidification map `ℤ[S]→ℤ[S]_solid` is an isomorphism, hence the two free objects agree.
-- `solidification_zero`: Solidification sends the zero condensed group to a zero solid group.
-- `solidification_solid`: The unit of an integer-solid group is an isomorphism.
-- `solidification_finite`: The unit of the free condensed group on a finite profinite set is an isomorphism.
+- The zero condensed group is integer-solid and gives the zero object of `SolidAb`.
+- The pinned integer profiniteSolid object is solid for every profinite set and lies in this category.
+- For a finite profinite set `S`, the pinned solidification map `ℤ[S]→ℤ[S]_solid` is an isomorphism, hence the two free objects agree.
+- Solidification sends the zero condensed group to a zero solid group.
+- The unit of an integer-solid group is an isomorphism.
+- The unit of the free condensed group on a finite profinite set is an isomorphism.
 - `SolidTensor.zero`: Zero tensored with any solid complex is zero.
 - `SolidTensor.unit_test`: `ℤ⊗solid A≃A` with the unit constraints.
 - `SolidTensor.different_primes`: For `p≠ℓ`, `ℤ_p⊗solid ℤ_ℓ=0`, distinguishing solid tensor from a naive algebraic tensor.
@@ -737,7 +737,7 @@ Use analytic measures when the coefficient field carries its nonarchimedean topo
 
 <a id="general-ring-solidity"></a>
 
-**Correct solidity for general discrete rings.** For a discrete ring `R` and `M∈CondensedMod R`, define general-ring solidity by testing every ring homomorphism `ℤ[X]→R`: the restricted module must satisfy the existing finite-type integer-algebra solidity predicate. Thus one tests every `r∈R` by sending `X` to `r`. For `R` finitely generated over `ℤ` this agrees with that existing predicate (`IsSolidGeneral.finiteType`); `IsSolidGeneral.integer`, `IsSolidGeneral.zero` and `IsSolidGeneral.polynomial` state the integer, zero and polynomial cases. For general `R` it is not replaced by inversion of all `R`-profinite-solid maps. This predicate does not supply analytic measures for an arbitrary condensed ring.
+**Correct solidity for general discrete rings.** For a discrete ring `R` and `M∈CondensedMod R`, define general-ring solidity by testing every ring homomorphism `ℤ[X]→R`: the restricted module must satisfy the existing finite-type integer-algebra solidity predicate. Thus one tests every `r∈R` by sending `X` to `r`. For `R` finitely generated over `ℤ` this agrees with that existing predicate, including the integer and polynomial coefficient cases. For general `R` it is not replaced by inversion of all `R`-profinite-solid maps. This predicate does not supply analytic measures for an arbitrary condensed ring.
 
 Throughout this target, `R` is a ring and `M` a condensed `R`-module. The test is over all ring maps `ℤ[X]→R`, using the pinned predicate over `ℤ[X]`. (CS, Lecture VII: Definition 7.1; Examples 7.3(iii)–(iv) with footnote 14; Proposition 7.8; Remark 7.9, pp.45–48; the docstring of `CondensedMod.IsSolid` in the pinned `Mathlib/Condensed/Solid.lean`.)
 
@@ -771,11 +771,11 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `IsSolidGeneral` | Corrected solidity is exactly the stated universal polynomial restriction criterion. |
-| `IsSolidGeneral.restrict` | Restriction along a ring homomorphism preserves corrected solidity, by composing polynomial test maps. |
-| `IsSolidGeneral.iso` | An isomorphism of condensed `R`-modules preserves the criterion. |
-| `IsSolidGeneral.finiteType` | For finite-type `Z`-algebra `R` the corrected predicate agrees with the pinned finite-type predicate. |
-| `IsSolidGeneral.polynomial` | For `R=ℤ[X]`, corrected solidity implies the pinned polynomial solidity by the identity test. |
+| Polynomial restriction criterion | Corrected solidity is exactly the stated universal polynomial restriction criterion. |
+| Restriction | Restriction along a ring homomorphism preserves corrected solidity, by composing polynomial test maps. |
+| Isomorphism invariance | An isomorphism of condensed `R`-modules preserves the criterion. |
+| Finite-type comparison | For finite-type `Z`-algebra `R` the corrected predicate agrees with the pinned finite-type predicate. |
+| Polynomial identity test | For `R=ℤ[X]`, corrected solidity implies the pinned polynomial solidity by the identity test. |
 | `SolidECoefficients.category` | The category is the analytic complete modules for topological `E`. |
 | `SolidECoefficients.free` | Its free solid object on `S` is `E⊗solid_Z ℤ[S]_solid`. |
 | `SolidECoefficients.tensorHom` | Derived tensor and internal Hom satisfy the closed adjunction. |
@@ -789,9 +789,9 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 **Checks.**
 
-- `IsSolidGeneral.integer`: For the universe-lifted integers the corrected predicate is equivalent to pinned integer solidity.
-- `IsSolidGeneral.zero`: The zero condensed module satisfies every polynomial restriction test.
-- `IsSolidGeneral.dualNumbers`: For every prime `ℓ`, set `R=𝔽_ℓ[X]` and `M=R/(X²)`. Its discrete condensed `R`-module is corrected-solid, while `X` acts nontrivially and its square acts as zero: `X·1≠0` and `X·(X·m)=0` for every `m∈M`. This tests solidity with a nonsemisimple polynomial action, including `ℓ=2`. (CS Theorem 5.8(i), p.36; the polynomial criterion in the pinned `CondensedMod.IsSolid` docstring.)
+- For the universe-lifted integers the corrected predicate is equivalent to pinned integer solidity.
+- The zero condensed module satisfies every polynomial restriction test.
+- For every prime `ℓ`, set `R=𝔽_ℓ[X]` and `M=R/(X²)`. Its discrete condensed `R`-module is corrected-solid, while `X` acts nontrivially and its square acts as zero: `X·1≠0` and `X·(X·m)=0` for every `m∈M`. This tests solidity with a nonsemisimple polynomial action, including `ℓ=2`. (CS Theorem 5.8(i), p.36; the polynomial criterion in the pinned `CondensedMod.IsSolid` docstring.)
 - `SolidECoefficients.zero`: The zero topological vector space realizes the zero solid `E`-module.
 - `SolidECoefficients.finite`: For finite `S`, the free object is `E^S`.
 - `SolidECoefficients.smith`: For an infinite product, `(product_I O_E)[1/p]` consists of uniformly bounded denominators and differs from arbitrary `product_I E`; omitting analytic measures gives the wrong Smith generator.
@@ -839,11 +839,11 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `CondensedQCQS.quasicompact` | Quasicompactness is existence of a profinite epimorphic cover. |
-| `CondensedQCQS.quasiseparated` | The diagonal condition is equivalent to quasicompact profinite-source fibre products. |
-| `CondensedQCQS.baseChange` | Quasicompact maps are preserved by base change. |
-| `CondensedQCQS.subobject` | A condensed subobject of a quasiseparated condensed set is quasiseparated. |
-| `CondensedQCQS.profinite` | The pinned profinite realization satisfies both properties. |
+| Quasicompactness | Quasicompactness is existence of a profinite epimorphic cover. |
+| Quasiseparatedness | The diagonal condition is equivalent to quasicompact profinite-source fibre products. |
+| Base change | Quasicompact maps are preserved by base change. |
+| Subobjects | A condensed subobject of a quasiseparated condensed set is quasiseparated. |
+| Profinite realizations | The pinned profinite realization satisfies both properties. |
 | `AffineCondensedPoints.evaluate` | Sections are `Hom_Ralg(B,A(S))` with their restriction maps. |
 | `AffineCondensedPoints.sheaf` | The represented functor preserves the products and equalizers required by sheaf descent. |
 | `AffineCondensedPoints.map` | Ring maps in `B` act contravariantly and maps in `A` covariantly, respecting identity/composition. |
@@ -853,13 +853,13 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 **Checks.**
 
-- `CondensedQCQS.empty`: The empty condensed set is qcqs (`CondensedQCQS.empty`).
-- `CondensedQCQS.profinite`: Every profinite set has the identity profinite cover and qc diagonal.
-- `CondensedQCQS.infiniteDiscrete`: An infinite discrete set is quasiseparated but is not quasicompact, since a continuous image of a compact set in a discrete set is finite.
-- For `CondensedQCQS.IsQuasicompact`, the empty and one-point profinite sources give the empty and terminal condensed sets, while infinite discrete `ℕ` has no profinite epimorphic cover.
-- For `CondensedQCQS.IsQuasicompactMap`, identities are quasicompact. `CondensedQCQS.profinite_to_terminal` states that `S→*` from a profinite set is quasicompact; `CondensedQCQS.infiniteDiscrete_to_terminal_not` states that `ℕ_disc→*` fails the test after pullback along the one-point profinite set.
-- For `CondensedQCQS.IsQuasiseparated`, fibre products of two profinite sources over a profinite target are closed compact subspaces of their product; over a discrete target the equalizer is still closed; this remains true for infinite discrete targets even though they fail quasicompactness.
-- `CondensedQCQS` requires both properties: empty and finite sets satisfy both, and infinite discrete sets fail exactly its first conjunct.
+- The empty condensed set is qcqs.
+- Every profinite set has the identity profinite cover and qc diagonal.
+- An infinite discrete set is quasiseparated but is not quasicompact, since a continuous image of a compact set in a discrete set is finite.
+- For quasicompactness, the empty and one-point profinite sources give the empty and terminal condensed sets, while infinite discrete `ℕ` has no profinite epimorphic cover.
+- For quasicompact maps, identities are quasicompact. The map `S→*` from a profinite set is quasicompact; `ℕ_disc→*` fails the test after pullback along the one-point profinite set.
+- For quasiseparatedness, fibre products of two profinite sources over a profinite target are closed compact subspaces of their product; over a discrete target the equalizer is still closed; this remains true for infinite discrete targets even though they fail quasicompactness.
+- The qcqs condition requires both properties: empty and finite sets satisfy both, and infinite discrete sets fail exactly its first conjunct.
 - `AffineCondensedPoints.affineZero`: Affine zero-space is the terminal condensed set.
 - `AffineCondensedPoints.affineLine`: Affine one-space has condensed points the underlying condensed set of `A`.
 - `AffineCondensedPoints.polynomial`: For `R[x₁,…,x_n]` the points are `A^n`, preserving sheaf products; the constant two-element accessible functor fails even the empty-cover sheaf condition.
@@ -1525,10 +1525,10 @@ Locators below refer to the following editions, using their printed page numbers
 
 - **FS**: Laurent Fargues and Peter Scholze, [*Geometrization of the local Langlands correspondence*](https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf), author-hosted 356-page edition. The geometry and coefficient constructions here use Chapters IV, V and VII; the Hecke interface uses IX.2. The roadmap states the corrected discrete-group exception in Remark IV.1.10 and uses a single annular convention throughout.
 - **CS**: Peter Scholze, [*Lectures on Condensed Mathematics*](https://people.mpim-bonn.mpg.de/scholze/Condensed.pdf), 78-page author-hosted edition. Use Theorems 3.2–3.3, Lectures IV–VIII and the appendix to Lecture IV.
-- **SW**: Peter Scholze and Jared Weinstein, [*Berkeley Lectures on p-adic Geometry*](https://people.mpim-bonn.mpg.de/scholze/Berkeley.pdf), author-hosted 2020 edition. Printed pages 114 and 144 are PDF pages 124 and 154. The field in the printed Theorem 13.5.7 and Lemma 16.3.2 is `ℚ_p`; the general-local-field extension uses the bundle-classification input named below.
+- **SW**: Peter Scholze and Jared Weinstein, *Berkeley Lectures on p-adic Geometry*, 2020 edition. Printed pages 114 and 144 are PDF pages 124 and 154. The field in the printed Theorem 13.5.7 and Lemma 16.3.2 is `ℚ_p`; the general-local-field extension uses the bundle-classification input named below.
 - **BCGP**: George Boxer, Frank Calegari, Toby Gee and Vincent Pilloni, [*Modularity theorems for abelian surfaces*](https://math.uchicago.edu/~fcale/papers/Modular.pdf), author-hosted edition. Only the solid coefficient and analytic-stack conventions of §2.2.1 and §2.4.1 are used here; the modularity theorems belong to their own roadmap.
 - **PQ**: Vytautas Paškūnas and Julian Quast, [*On local Galois deformation rings: generalised reductive groups*](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/2D7C5400C4BA7789C0E1CFF008D12E60/S2050508626100304a.pdf/on_local_galois_deformation_rings_generalised_reductive_groups.pdf), *Forum of Mathematics, Pi* **14**, e15 (2026), published 96-page edition, [doi:10.1017/fmp.2026.10030](https://doi.org/10.1017/fmp.2026.10030). Appendix A, pp.88–91, supplies the qcqs condensed-set applications. For affine points use the representable `Hom` functor, which preserves sheaf limits; accessibility of an arbitrary functor is insufficient. Treat simultaneous equations as a map to `A^r`, with the compact intersection argument for arbitrary relations.
 
-The [suggested Lean forms](Suggested.lean) accompany the definitions and interfaces. The mathematical targets, their hypotheses and their examples are specified below. API names use the suffix after the common `TauCeti.Blueprint.VStack` namespace. Construction signatures below use the mathematical categories and functors specified in their defining targets.
+The [suggested Lean statements](Suggested.lean) use the common `TauCeti.Blueprint.VStack` namespace. The file defines `SolidAb` and states `SolidAb.abelian`, `SolidAb.inclusion_isRightAdjoint` and `SolidAb.derived_inclusion_isRightAdjoint`. Other names attached to mathematical targets specify intended interfaces, whose hypotheses and Checks are given in the layers above. The module docstring identifies the headline results whose prerequisite objects are absent from the pinned libraries.
 
 - **AG**: Peter Scholze, [*Lectures on Analytic Geometry*](https://people.mpim-bonn.mpg.de/scholze/Analytic.pdf), Appendix to Lecture VI, Definition 6.12 and Proposition 6.14, pp.39–40.
