@@ -1565,6 +1565,53 @@ the constructions here or an additional generic characteristic-class owner.
    Include the universal p_r=e² relation, w₂ reduction/central-cover test,
    the rank-one Hopf sign, and a flat torsion circle bundle with nonzero
    integral c₁ and zero de Rham Chern form using SBC B6's lens-space example.
+3a. **Real-projective tangent classes and immersion obstruction.** For every
+   m≥0 use AT4.6's smooth native real-projective carrier. Transport TopK
+   T1.5's tautological line γ along [GeneralizedCohomology G4.0b](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a1d957790d6eeec3bd02001c7fb83bc6d824abd4/TauCetiRoadmap/GeneralizedCohomology/README.md)'s actual
+   projectiveRealGrassHomeomorph and rank-one diffeomorphism, including
+   their bundle-chart comparison. Consume that item's smooth graph-chart
+   upgrade and SBC B2's smooth Hom/dual/sum interfaces. Differentiate
+   these charts to construct
+   `T(RP^m) ≅ Hom(γ,γ^⊥)`. Identify End(γ) with the trivial real line by
+   scalar multiplication and γ* with γ by the Euclidean metric. Prove the
+   resulting actual bundle isomorphism
+   `T(RP^m) ⊕ ε¹ ≅ γ^(⊕(m+1))`, including its chart overlap comparison.
+   From AT4.6's mod2 cellular complex and C1.5's finite-stage cup
+   comparison prove restriction from RP∞ is an isomorphism through degree m
+   and the finite-stage groups vanish above m. Match the pulled-back
+   tautological lines using T1.5–T1.6 to prove w₁(γ)=a and the actual ring
+   isomorphism `H*(RP^m;F₂)=F₂[a]/(a^(m+1))`. C3.2's Whitney and
+   normalization laws then give
+   `w(T(RP^m))=(1+a)^(m+1)`. Export its degree-j components
+   `w_j(T(RP^m))=binom(m+1,j) a^j`, with coefficients reduced mod2.
+
+   For a smooth immersion f:M^m→ℝ^(m+q), q≥0, of a closed smooth
+   manifold, construct the normal rank-q bundle ν_f over M as the
+   orthogonal complement of the image of the injective tangent map.
+   Construct its local frames by the constant-rank image construction and
+   smooth orthogonal projection in those frames. Use SBC B2 for the smooth
+   bundle operations; forget smoothness and apply TopK T1.1's FiniteRankAtlas
+   reconstruction and its actual bundle isomorphism to TM and ν_f, using
+   paracompactness of the Hausdorff second-countable base. Thus these native
+   tangent/normal bundles lie in C3's numerable continuous category. Prove
+   the bundle isomorphism
+   `TM ⊕ ν_f ≅ ε^(m+q)` induced by df and the complement, and consequently
+   `w(ν_f)w(TM)=1`. Define the inverse total tangent class w̄(M) in
+   the degree-≤m quotient of H*(M;F₂), prove existence and uniqueness
+   using the nilpotent positive-degree ideal, and prove the reusable obstruction:
+   for 1≤j≤m, w̄_j(M)≠0 excludes every such immersion with q<j.
+   The normal bundle lives over the source M even when f has multiple points.
+
+   For m=2^k, k≥1, compute in the displayed truncated ring
+   `(1+a)^(m+1)(1+a)^(m−1)=(1+a)^(2m)=1` and
+   `(1+a)^(m−1)=Σ_(j=0)^(m−1) a^j` by characteristic2 Frobenius.
+   Thus w̄_(m−1)(RP^m)=a^(m−1)≠0, and RP^m admits no smooth immersion
+   into ℝ^(2m−2), whose required normal rank would be m−2.
+   Include the cases RP²→ℝ², RP⁴→ℝ⁶ and RP⁸→ℝ¹⁴. This calculation
+   consumes C1–C3, AT4.6, TopK T1.1–T1.3/T1.5–T1.6,
+   GeneralizedCohomology G4.0b's real carrier/chart comparison, SBC B2 and
+   native differential calculus; it precedes the rational curvature and
+   genus calculations.
 4. Verify ch respects the relative symbol gluing and external tensor blocks
    on the excisive/supported pairs,
    the compact complex Thom point normalization, the inverse Todd correction,
@@ -1583,7 +1630,10 @@ C1–C3 and the smooth suppliers; C5.5 proves the Pfaffian comparison after
 rational 2-plane splitting. C5 uses the universal Chern–Weil map of C4, not an assumed
 isomorphism, and proves the isomorphism by restriction and fibre integration.
 C6 constructs the multiplicative series before its Chern-character and Thom
-comparisons; C7's coefficient and acceptance calculations then use C5–C6. The projective cohomology theorem is
+comparisons; C7's rational coefficient and genus comparisons then use C5–C6.
+C7.3a's real-projective and normal-bundle calculation instead uses C1–C3,
+AT4.6, TopK T1.1–T1.3/T1.5–T1.6, GeneralizedCohomology G4.0b's real
+carrier/chart comparison and SBC B2, independently of C4–C6. The projective cohomology theorem is
 independent of K-theoretic Bott/Thom, and the characteristic development has no
 analytic-index or generic pseudodifferential prerequisite.
 
@@ -1605,6 +1655,7 @@ No KKS moment-Morse application,
 analytic index or Floer count enters these compact constructions.
 
 - Milnor–Stasheff, [*Characteristic Classes*](https://aareyanmanzoor.github.io/assets/books/characteristic-classes.pdf), §§9–15,18 and AppendixC, for Thom, Euler, universal classes and curvature; Theorem15.3 records the integral Pontryagin correction.
+- Cohen, [*The Topology of Fiber Bundles*](https://math.stanford.edu/~ralph/fiber.pdf), Chapter1 §2.2 and Chapter3 §4.2, for projective tangent bundles and the normal characteristic-class obstruction to immersions.
 - Dupont, [*Fibre Bundles and Chern–Weil Theory*](https://data.math.au.dk/publications/ln/2003/imf-ln-2003-69.pdf), §§9–10, for invariant curvature forms, transgression and classical polynomials.
 - Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups.
 - Bott–Tu, *Differential Forms in Algebraic Topology*, §§6,11–14,20–23, for fibre integration, Thom and projective splitting.
