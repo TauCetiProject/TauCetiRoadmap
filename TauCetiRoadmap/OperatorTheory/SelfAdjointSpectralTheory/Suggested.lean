@@ -776,4 +776,21 @@ theorem tendsto_yosidaGroup (hA : IsSelfAdjoint A) (t : ℝ) (ψ : H) :
 
 end SpectralMeasure
 
+section FiniteEuclideanExample
+
+/-- SA-C87: the course's concrete matrix on the Euclidean Hilbert carrier. -/
+def courseMatrix : Matrix (Fin 5) (Fin 5) ℂ :=
+  !![3, 8, 0, -10, 2; -3, 4, 1, 0, -7; 3, -4, 1, 0, 7;
+     3, 4, 0, 15, -3; 3, -4, 0, -5, -13]
+
+noncomputable def courseMatrixOperator :
+    EuclideanSpace ℂ (Fin 5) →L[ℂ] EuclideanSpace ℂ (Fin 5) :=
+  (Matrix.toEuclideanLin courseMatrix).toContinuousLinearMap
+
+/-- The operator norm uses the Hilbert norm on both sides. -/
+theorem norm_courseMatrixOperator : ‖courseMatrixOperator‖ = Real.sqrt 350 := by
+  sorry
+
+end FiniteEuclideanExample
+
 end TauCetiRoadmap.SelfAdjointSpectralTheory
