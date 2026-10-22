@@ -50,7 +50,7 @@ In PEL Dieudonné comparison, record contravariant and covariant conventions sep
 
 For a right geometric action, `r_(gh)=r_h∘r_g`, so direct pullback `g↦r_g*` gives a left representation on cohomology. For a left geometric action `a`, use inverse pullback `g↦a_(g⁻¹)*`. Frame inversion in §7.3 identifies these conventions. Keep the `GL_n`, division-algebra and Weil actions, the central quotient, contragredients and Tate twist in the same comparison. In Dat's convention, a tensor sector with right action `v·d=d⁻¹v` selects the dual division-algebra representation. Rational Grothendieck classes are signed alternating classes; a finite trace factorization proves virtual support and does not imply concentration or positivity.
 
-`Suggested.lean` records only signatures over the pinned existing carriers. Its definitions `kottwitzSign`, `kappaSum`, `chevalleyMap`, `kostantSectionGL`, `endoscopicCoefficient`, `unitaryComponentCount`, `AcceptableValuations`, `specialMonodromy`, `specialFrobenius` and `comparisonTrace` fix selected numerical conventions below. They do not supply reductive-group, moduli, representation-category or cohomology constructions. The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`.
+`Suggested.lean` has no headline signatures: the pinned libraries lack the stable-class, endoscopic, Hitchin, automorphic, Igusa and tower-cohomology objects needed to state them. Its module docstring identifies the missing objects for each group of layers. The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`.
 
 ## Exact supplier contracts
 
@@ -73,7 +73,7 @@ Each external input below is used only at the scope its roadmap states. The addi
 - Mathlib `AlgebraicGeometry.IsFinite.of_comp`: If `f ≫ g` is finite and `g` is separated, then `f` is finite; §8.2 applies it to the Igusa quotient leg and a complementary monoid map.
 - Mathlib `Matrix.vandermonde`: Finite matrix whose `(i,j)`-entry is `v_i^j`.
 - Mathlib `Matrix.det_vandermonde`: The product formula `det(V)=`product over `i<j` of `(v_j−v_i)`, over a commutative ring.
-- Mathlib `Matrix.eq_zero_of_forall_pow_sum_mul_pow_eq_zero`: over a domain, distinct bases and vanishing power sums at exponents `0,…,n−1` force zero coefficients. The target `powerSum_coefficients_eq_zero_of_eventually` applies it after reindexing the finite family and shifting to coefficients `c_i α_i^M` for an exponent `M` in the eventual range; nonzero bases allow cancellation of `α_i^M`.
+- Mathlib `Matrix.eq_zero_of_forall_pow_sum_mul_pow_eq_zero`: over a domain, distinct bases and vanishing power sums at exponents `0,…,n−1` force zero coefficients. For eventual vanishing, reindex the finite family and shift to coefficients `c_i α_i^M` for an exponent `M` in the eventual range; nonzero bases allow cancellation of `α_i^M`.
 - Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety` (`TauCeti.AlgebraicGeometry.AbelianVariety.Basic`): A proper geometrically integral group scheme over a field, with derived smoothness, commutativity and geometric connectedness. This is an existing carrier, not finite-field Tate full faithfulness or Honda existence.
 - Mathlib `Matrix.diagonal`: The matrix with prescribed diagonal and zero off the diagonal, used in the two-dimensional special-block regression.
 - Mathlib `Matrix.trace`: The finite square-matrix trace, the sum of its diagonal entries, over an additive commutative monoid.
@@ -258,7 +258,7 @@ The centralizer facts used here are also targets: over `F̄` the identity compon
 
 **Checks.**
 
-- `stableConj_gln`. For `G = GL_n`, two semisimple elements of `GL_n(F)` are stably conjugate iff they have the same characteristic polynomial iff they are `GL_n(F)`-conjugate. The suggested `isConj_iff_charpoly_eq_of_isSemisimple` states rational conjugacy over an arbitrary field using Mathlib `Module.End.IsSemisimple` on `Matrix.toLin'` of each matrix; this permits repeated characteristic roots. The target `isConj_iff_charpoly_eq_of_separable` specializes to an arbitrary field `K` and two invertible matrices whose first characteristic polynomial is separable. For `n=2`, the non-scalar semisimple case follows from Tau Ceti’s `isConj_iff_of_notMem_range_scalar`. Without semisimplicity, the identity and `[[1,1],[0,1]]` over `Q` have equal characteristic polynomials and are not conjugate (`identity_not_isConj_unipotent`).
+- `stableConj_gln`. For `G = GL_n`, two semisimple elements of `GL_n(F)` are stably conjugate iff they have the same characteristic polynomial iff they are `GL_n(F)`-conjugate. The rational-conjugacy assertion holds over an arbitrary field using Mathlib `Module.End.IsSemisimple` on `Matrix.toLin'` of each matrix; this permits repeated characteristic roots. A separable characteristic polynomial is a sufficient special case. For `n=2`, the non-scalar semisimple case follows from Tau Ceti’s `isConj_iff_of_notMem_range_scalar`. Without semisimplicity, the identity and `[[1,1],[0,1]]` over `Q` have equal characteristic polynomials and are not conjugate.
 - `stableConj_sl2_elliptic`. For `G = SL₂` over a `p`-adic `F` and `E/F` quadratic, the element of `SL₂(F)` acting on `E = F²` by multiplication by `u ∈ E¹ \ {±1}` and its conjugate by `diag(a, 1)` with `a ∉ N E^×` are stably conjugate but not `SL₂(F)`-conjugate.
 - `stableConj_torus`. For `G = T` a torus, stable conjugacy is equality.
 - `stableConj_not_geometric`. In `PGL₂(F)`, the images of `diag(1, −1)` and of the matrix with rows (0, 1) and `(a, 0), a ∉ F^{×2}`, are geometrically conjugate (both are involutions), but the identity components of their centralizers are a split and a nonsplit torus, so they are not stably conjugate.
@@ -512,7 +512,7 @@ The interface consists of the following operations and identities.
 - `TauCeti.kottwitzSign`: `e(G) ∈ ℤˣ` for an inner form `G` of a quasi-split group over a local field of characteristic 0.
 - `TauCeti.kottwitzSign_eq_neg_one_pow_rank`: for nonarchimedean `F, e(G)=(−1)^{r(G*)−r(G)}` with `r` the `F`-rank of the derived group. The real comparison instead uses the symmetric-space half-dimension `q`.
 - `TauCeti.kottwitzSign_real`: `e(G)=(−1)^{q(G*)−q(G)}` for real inner forms, with the integral difference specified above.
-- `kottwitzSign`: the light numerical function in Suggested.lean takes two nonnegative integers and returns `(−1)` raised to their integer difference. Its application to derived ranks is nonarchimedean; a real application needs integral `q`-values or a separate encoding of their integral difference.
+- Numerical rank differences use integer subtraction in the exponent of `−1`, even when the two ranks are nonnegative integers. Their application to derived ranks is nonarchimedean; a real application needs integral `q`-values or their integral difference.
 - `TauCeti.kottwitzSign_eq_dual`: `e(G) = (−1)^{⟨2ρ, ν⟩}` for `ν` the character of `Z(Ĝ_sc)^Γ` attached to the inner twist.
 - `TauCeti.kottwitzSign_quasiSplit`: `e(G*) = 1`.
 - `TauCeti.prod_kottwitzSign`: `∏_v e(G_v) = 1` for a connected reductive group over a number field.
@@ -522,7 +522,7 @@ Well definedness: `α_{G*_ad}` is defined on `H¹(F, G*_ad)` (§1.11), and `⟨2
 
 **Checks.**
 
-- The numerical `kottwitzSign 0 0` is `+1` and `kottwitzSign 1 0` is `−1`. The latter agrees with the quaternionic `GL₂` inner form. The numerical milestone `kottwitzSign_gl` gives the exponent `n−r` from derived ranks `n−1` and `r−1`, for `1≤r≤n`.
+- Rank pairs `(0,0)` and `(1,0)` give signs `+1` and `−1`. The latter agrees with the quaternionic `GL₂` inner form. Derived ranks `n−1` and `r−1` give exponent `n−r`, for `1≤r≤n`.
 - `kottwitzSign_quasiSplit`. `e(G*) = 1` for every quasi-split `G*`.
 - `kottwitzSign_quaternion`. For `D^×` with `D` a quaternion division algebra over a `p`-adic `F`, an inner form of `GL₂, e(D^×) = −1`; more generally `e(GL_m(D)) = (−1)^{n − m}` for `D` central division of degree `d` over `F` and `n = md`.
 - `kottwitzSign_compact_real`. For the compact form `U(n)` of the quasi-split unitary group over `ℝ, e(U(n))=(−1)^{⌊n²/4⌋}: q(U(n))=0` and `q(U(a,b))=ab`, with `(a,b)=`(⌈`n/2`⌉,⌊`n/2`⌋) for the quasi-split form. In particular compact `U(3)` has sign `+1`; using its real-rank difference would incorrectly give `−1`. The compact `U(2)` and `U(4)` signs are `−1` and `+1`.
@@ -673,7 +673,7 @@ Each item is a direct computation with §1.2, §1.11, §1.14 and §1.4.
 
 ### Examples
 
-For a quadratic extension `E/F` of a `p`-adic field, the norm-one torus `T` has `H¹(F,T)=F×/N(E×)`, of order two. An elliptic regular element of `SL₂` with this centralizer therefore has two rational classes in its stable class, since `H¹(F,SL₂)=1`. Connectedness of `T` does not remove the second class. In contrast, a regular-semisimple `GL_n` element has centralizer a product of restrictions of scalars of `G_m`, whose `H¹` vanishes. For `GL₁` of a quaternion division algebra the rank difference from `GL₂` is one, so the inner-form sign is `−1`; `kottwitzSign` retains this parity.
+For a quadratic extension `E/F` of a `p`-adic field, the norm-one torus `T` has `H¹(F,T)=F×/N(E×)`, of order two. An elliptic regular element of `SL₂` with this centralizer therefore has two rational classes in its stable class, since `H¹(F,SL₂)=1`. Connectedness of `T` does not remove the second class. In contrast, a regular-semisimple `GL_n` element has centralizer a product of restrictions of scalars of `G_m`, whose `H¹` vanishes. For `GL₁` of a quaternion division algebra the rank difference from `GL₂` is one, so the inner-form sign is `−1`; the rank-difference formula retains this parity.
 
 ### Dependencies
 
@@ -761,7 +761,7 @@ Let `G` be a connected reductive group over `ℝ` (more generally a real reducti
 
 ### 2.4 `κ`-orbital integrals and stable orbital integrals
 
-For the finite invariant group with multiplicatively written law, `kappaSum` in Suggested.lean fixes the convention `∑_d κ(d)O(d)`. Its `kappaSum_rebase` multiplier is `κ(d₀)⁻¹` when the old orbital values are reindexed by `d↦d₀d`; this finite calculation is separate from constructing the orbital distributions.
+For the finite invariant group with multiplicatively written law, use the character-weighted sum `∑_d κ(d)O(d)`. Reindexing the old orbital values by `d↦d₀d` multiplies the sum by `κ(d₀)⁻¹`; this finite calculation is separate from constructing the orbital distributions.
 
 Let `F` be local of characteristic 0, `G` connected reductive, `γ ∈ G(F)` strongly regular semisimple with centralizer the maximal torus `T`, and for each `γ′` in the stable class of `γ` let `inv(γ, γ′) ∈ D(T, G; F)` be its invariant (§1.14); measures on the centralizers `T_{γ′}` are transported from `T`. For a character `κ` of `E(T, G; F)` (equivalently an element of Kottwitz's `𝔎(T/F)`, §1.14 `(b)`) and `f ∈ C_c^∞(G(F))`, the `κ`-orbital integral is `O^κ_γ(f) = Σ_{γ′} κ(inv(γ, γ′)) e(G_{γ′}) O_{γ′}(f)`, the sum running over representatives of the `G(F)`-classes in the stable class of `γ` (a finite set) and `e` the Kottwitz sign (trivial for tori; it enters for singular `γ` with non-quasi-split centralizers). The stable orbital integral is `SO_γ(f) = O^1_γ(f)`. For `γ` semisimple but not strongly regular one sums over the rational classes in the stable class weighted by `e(G_{γ′})` and the measure conventions of Kottwitz 1986 §5. Changing `γ` within its stable class multiplies `O^κ_γ` by `κ(inv(γ, γ′))⁻¹`, so `O^κ` is not a function of the stable class alone unless `κ = 1`; `SO_γ` is. A distribution on `G(F)` is stable if it is a limit of linear combinations of the `SO_γ`. The same definitions apply on the Lie algebra `𝔤(F)`.
 
@@ -1078,7 +1078,7 @@ The elliptic pairing used for uniqueness is also a target: for unitary square-in
 
 ### Examples
 
-If a stable class has two rational classes with orbital values a and `b`, the stable sum is `a+b` and the nontrivial order-two kappa sum is a-`b`. At `a=b=1`, the former is 2 and the latter is 0, so replacing a kappa sum by a stable sum fails immediately. `kappaSum` states this finite calculation. For `GL₁` the root system and discriminant correction are empty, and a transferred character is evaluated through the field norm. Rescaling a quotient measure rescales its orbital integral and must be transported to the matching side.
+If a stable class has two rational classes with orbital values a and `b`, the stable sum is `a+b` and the nontrivial order-two kappa sum is a-`b`. At `a=b=1`, the former is 2 and the latter is 0, so replacing a kappa sum by a stable sum fails immediately. For `GL₁` the root system and discriminant correction are empty, and a transferred character is evaluated through the field norm. Rescaling a quotient measure rescales its orbital integral and must be transported to the matching side.
 
 ### Dependencies
 
@@ -1138,7 +1138,7 @@ For `GL_n` construct bounded lattice charts `t^m R[[t]]^n⊂L⊂t^(−m)R[[t]]^n
 
 ### 3.3 The Chevalley quotient and the characteristic map
 
-The light `chevalleyMap` in Suggested.lean records the non-leading `Matrix.charpoly` coefficients from the constant coefficient upward, indexed by Fin `n`. This reverses the usual `a₁,…,a_n` order but preserves the same polynomial; the coordinate-order adapter belongs to its comparison API.
+For `GL_n`, record the non-leading `Matrix.charpoly` coefficients from the constant coefficient upward, indexed by `Fin n`. This reverses the usual `a₁,…,a_n` order but preserves the same polynomial; the coordinate-order adapter belongs to the characteristic-map comparison API.
 
 The algebraic quotient and characteristic map here, and the Kostant section in §3.4, are the common carriers for characteristic-zero oper applications. `FormalConnectionsOpers` F4.3 uses these carriers; its comparison with the oper-negative principal slice and chosen canonical complement, and its Drinfeld–Sokolov gauge statements over all test algebras, belong to that application. For connected reductive `G` over a characteristic-zero field, the comparison between algebraic-group invariants and infinitesimal Lie invariants is an adapter of this section: use the native Lie algebra, dual and symmetric-algebra carriers, identify the actual Cartan restriction, and retain the central affine factor. On each finite homogeneous polynomial degree, a vector killed by `Lie(G)` has stabilizer with full Lie algebra; characteristic zero makes that stabilizer smooth, and connectedness forces it to equal `G`. This identifies the two invariant subalgebras and their restriction maps. The characteristic bound and the general reductive section below remain part of this roadmap.
 
@@ -1162,7 +1162,7 @@ The interface consists of the following operations and identities.
 
 **Checks.**
 
-- For the one-by-one matrix `[c]`, `chevalleyMap` has constant coefficient `−c`. For a two-by-two matrix it gives `(det X,−tr X)`, in that order.
+- For the one-by-one matrix `[c]`, the characteristic map has constant coefficient `−c`. For a two-by-two matrix it gives `(det X,−tr X)`, in that order.
 - For Fin 0 the characteristic polynomial is 1 and the coefficient vector is empty.
 - `chevalleyQuotient_gln`. For `G = GL_n, 𝔠 = 𝔸^n` and `χ(X)` is the coefficient vector of the characteristic polynomial of `X` (Mathlib's Matrix.charpoly).
 - `chevalleyQuotient_sl2`. For `G = SL₂, 𝔠 = 𝔸¹` with `χ(X) = −det X = (tr X²)/2` of weight 2, and `𝔇 = {0}`.
@@ -1173,7 +1173,7 @@ The interface consists of the following operations and identities.
 
 ### 3.4 The Kostant section
 
-The light `kostantSectionGL` uses subdiagonal ones and last column `−a_i` in the constant-first coordinates of `chevalleyMap`. Its milestone identities `charpoly_kostantSectionGL` and `chevalleyMap_kostantSectionGL` state the companion characteristic polynomial and the section equation; `chevalleyMap_conj` states conjugation invariance. These matrix formulas do not construct the general reductive Kostant section.
+In constant-first characteristic coordinates, the `GL_n` companion matrix has subdiagonal ones and last column `−a_i`. Its characteristic polynomial has the prescribed coefficients, so it is a section of the characteristic map; characteristic coefficients are conjugation invariant. These matrix formulas do not construct the general reductive Kostant section.
 
 In the setting of §3.3, let `G` be split and pinned and `e=Σ_{α simple}X_α`. Choose a graded complement `V` to `[e,𝔫⁻]` in the opposite Borel Lie algebra `𝔟⁻`. Then `χ:e+V→𝔠` is an isomorphism with regular image, giving `ε:𝔠→𝔤^reg`. Under `char(k)∤|W|`, the root-differential and lattice hypotheses (C1)–(C2) of Riche hold; this complement construction works without identifying `V` with the centralizer of an opposite member of an `sl₂`-triple. Its equivariance uses `t·X=t²Ad((2ρ^∨)(t)⁻¹)X` and weights `2e_i` on `𝔠`. Over a curve, choose `D′` with `D′²≅D`. Extend the frame torsor of `D′` along `t↦(2ρ^∨)(t)⁻¹` to obtain the Kostant `G`-torsor `E_{D′}`. The doubled-weight equivariance gives a regular Higgs field in `p*ad(E_{D′})⊗p*D` over `p:𝔠_D→X`, with characteristic value the tautological invariant. Equivalently it gives a section `ε_D:𝔠_D→[𝔤_D^reg/G]`, where `𝔤_D=𝔤⊗D` is the ordinary twist; the underlying torsor is `p*E_{D′}`. For a quasi-split form, choose the complement invariant under the finite diagram action and descend along the splitting torsor. Every regular element `X` of `𝔤(K)` is `G(K̄)`-conjugate to `ε(χ(X))`. For `K` a field, `G` quasi-split and `a ∈ 𝔠^rs(K)`, sending `γ = Ad(g)ε(a) ∈ χ⁻¹(a)(K)` to the class of `σ ↦ g⁻¹σ(g)` is a bijection from the `G(K)`-conjugacy classes in `χ⁻¹(a)(K)` onto `ker[H¹(K, J_a) → H¹(K, G)]`, and the isomorphism classes of pairs `(E, φ)` (`E` a `G`-torsor over `K, φ ∈ ad(E)` with `χ(φ) = a`) are in bijection with `H¹(K, J_a)` (Ngô §§1.5.1–1.5.2; §3.5). For `G = GL_n, ε(a)` is the companion matrix of the polynomial with coefficients `a`.
 
@@ -1194,7 +1194,7 @@ For the characteristic bound stated here use [S. Riche — On the Kostant sectio
 
 **Checks.**
 
-- For `n=1` and coefficient `a₀`, `kostantSectionGL` is `[−a₀]`. For `n=2` and coefficients `(a₀,a₁)`, it is `[[0,−a₀],[1,−a₁]]`.
+- For `n=1` and coefficient `a₀`, the companion section is `[−a₀]`. For `n=2` and coefficients `(a₀,a₁)`, it is `[[0,−a₀],[1,−a₁]]`.
 - At `(a₀,a₁)=(0,0)` the companion is a nonzero nilpotent with characteristic polynomial `X²`; at `n=0` both its matrix and the coefficient vector are empty.
 - `kostantSection_gln`. For `G = GL_n, ε(a)` is the companion matrix of `t^n + a_1t^{n−1} + … + a_n`, whose characteristic polynomial is that polynomial (Mathlib: Matrix.charpoly of a companion matrix).
 - `kostantSection_regular`. `ε(a)` is regular for every `a`, including `a = 0` where `ε(0) = e` is regular nilpotent.
@@ -1545,7 +1545,7 @@ Apply Grothendieck–Lefschetz to the proper Deligne–Mumford fibre, using the 
 
 **Cofinite Frobenius-count descent.** For finite-type lattice quotients `[M/P]` and finite-order Frobenius-invariant component characters as in §3.16, retain the connected-group factors: `#P⁰(k_m)·#[M/P](k_m)_κ` is the alternating trace of `Φ^m` on the finite-dimensional compactly supported character cohomology. If two such expressions agree for every `m≥m₀`, they agree for `m=1`; the same holds with a factor `q^{rm}` after incorporating the corresponding Tate twist. For quotient counts themselves, first clear the connected-group factors on both sides using their finite-dimensional cohomology, and then cancel their nonzero `k`-point counts. ([Ngô, arXiv v3](https://arxiv.org/abs/0801.0446v3), Proposition 8.1.13, p. 160, and Corollaire 8.1.14, p. 161.)
 
-The finite linear-algebra target `powerSum_coefficients_eq_zero_of_eventually` takes distinct nonzero `α_i` in a field and coefficients `c_i`, with `Σ_i c_i α_i^m=0` for all sufficiently large natural `m`, and concludes `c_i=0` for every `i`. Group equal nonzero Frobenius eigenvalues across all cohomological degrees and both sides. A consecutive block of as many exponents as there are distinct eigenvalues has matrix equal to a Vandermonde matrix times invertible diagonal powers. Mathlib `Matrix.det_vandermonde` and `Matrix.det_vandermonde_ne_zero_iff` give invertibility, and `Matrix.eq_zero_of_forall_pow_sum_mul_pow_eq_zero` gives coefficient vanishing after the shift. This proves descent in characteristic-zero cohomological coefficients even without Frobenius semisimplicity; traces ignore the nilpotent part of each generalized eigenspace.
+For distinct nonzero `α_i` in a field and coefficients `c_i`, vanishing `Σ_i c_i α_i^m=0` for all sufficiently large natural `m` implies `c_i=0` for every `i`. Group equal nonzero Frobenius eigenvalues across all cohomological degrees and both sides. A consecutive block of as many exponents as there are distinct eigenvalues has matrix equal to a Vandermonde matrix times invertible diagonal powers. Mathlib `Matrix.det_vandermonde` and `Matrix.det_vandermonde_ne_zero_iff` give invertibility, and `Matrix.eq_zero_of_forall_pow_sum_mul_pow_eq_zero` gives coefficient vanishing after the shift. This proves descent in characteristic-zero cohomological coefficients even without Frobenius semisimplicity; traces ignore the nilpotent part of each generalized eigenspace.
 
 **Checks.**
 
@@ -2045,7 +2045,7 @@ Use Kottwitz 1984 §5: pass through a `z`-extension to a group with simply conne
 
 ### 6.6 Base-change groups and the `L`-morphisms BC and `ζ̃`
 
-The light `unitaryComponentCount` in Suggested.lean computes the component order from `d=[F⁺:ℚ]` and the positive block sizes. Its group interpretation requires `d>0` and at least one block. On an empty block list its numerical value is one; this is a boundary value of the function, not an empty-rank unitary-similitude theorem.
+The component-order formula uses `d=[F⁺:ℚ]` and positive block sizes, with `d>0` and at least one block. Its numerical extension to an empty block list has value one; this has no empty-rank unitary-similitude interpretation.
 
 Let `F = F^+F₀` be a CM field (`F₀` imaginary quadratic, `[F^+:ℚ] ≥ 2`), `n⃗ = (n₁,…,n_s)` and `G_n⃗` the quasi-split unitary similitude group of §1.8, with the character `ϖ : 𝔸_{F₀}^×/F₀^× → ℂ^×` extending the quadratic character of `F₀/ℚ` fixed there. Put `𝒢_n⃗ = R_{F₀/ℚ}(G_n⃗ ×_ℚ F₀)`; then `𝒢_n⃗ ≅ R_{F₀/ℚ}𝔾_m × R_{F/ℚ}GL_n⃗` and its dual group is `ℂ^× × ℂ^× × ∏_{σ ∈ Φ} GL_n⃗(ℂ)` (`Φ` the embeddings `F → ℂ`), `W_{F₀}` permuting the `σ`-factors and `w ∉ W_{F₀}` acting by `(λ_+, λ_−, (g_σ)) ↦ (λ_− ∏_{σ ∉ Φ^+} det g_σ, λ_+ ∏_{σ ∈ Φ^+} det g_σ, (Φ_n⃗ ᵗg_{c w⁻¹σ}⁻¹ Φ_n⃗⁻¹)_σ)`. The construction gives: `(a)` the base-change `L`-morphism `BC_n⃗ : ^LG_n⃗ → ^L𝒢_n⃗, (λ,(g_σ)_{σ∈Φ^+}) ⋊ w ↦ (λ, λ, (g_σ)_{σ∈Φ^+}, (g_{cσ})_{σ∉Φ^+}) ⋊ w`; `(b)` for `n₁ + n₂ = N` the `L`-morphism `ζ̃_{n₁,n₂} : ^L𝒢_{n₁,n₂} → ^L𝒢_N` extending `GL_{n₁} × GL_{n₂} ⊂ GL_N` by the `ϖ`-twist of `η̃_{n₁,n₂}` on `W_{F₀}` and the element `(a_{n₁,n₂}, a_{n₁,n₂}, (Φ_{n₁,n₂}Φ_N⁻¹)_σ)` on a fixed `w* ∉ W_{F₀}`; `(c)` the commutative square `BC_N ∘ η̃_{n₁,n₂} = ζ̃_{n₁,n₂} ∘ BC_{n₁,n₂}`; `(d)` the automorphism `θ` of `𝒢_n⃗` induced by the non-trivial element of `Gal(F₀/ℚ), θ(λ, g) = (λ^c, λ^c g^♯)` with `g^♯ = Φ_n⃗ ᵗ(g^c)⁻¹ Φ_n⃗⁻¹` (the inverse is required, as the inverse-transpose identity below checks), so that `𝒢_n⃗ ⋊ Gal(F₀/ℚ) ≅ 𝒢^+_n⃗ = 𝒢_n⃗ ⋊ {1, θ}`.
 
@@ -2068,8 +2068,8 @@ Compute the dual group of `R_{F₀/ℚ}(G_n⃗)_{F₀}` from the Weil-restrictio
 
 **Checks.**
 
-- The numerical `unitaryComponentCount 0 []` is 1, by the empty list and even-degree branch. This has no number-field group interpretation because `d>0` and positive nonempty blocks are required.
-- `unitaryComponentCount 1 [1]` is 1 and `unitaryComponentCount 1 [2,2]` is 4: these test the odd-degree, odd-block branch and the all-even branch of Shin 2011 Lemma 3.1. The degree-one numerical inputs test the formula; the global comparison retains its standing degree hypothesis.
+- The numerical component-order expression at `d=0` and an empty block list is 1, by the empty list and even-degree branch. This has no number-field group interpretation because `d>0` and positive nonempty blocks are required.
+- At `d=1`, block lists `[1]` and `[2,2]` give component-order expressions 1 and 4: these test the odd-degree, odd-block branch and the all-even branch of Shin 2011 Lemma 3.1. The degree-one numerical inputs test the formula; the global comparison retains its standing degree hypothesis.
 - `BaseChangeGroup.rank_one`. For `n⃗ = (1), 𝒢_{(1)}(ℚ) = F₀^× × F^×`.
 - `BaseChangeGroup.theta_fixed`. The `θ`-fixed points of `𝒢_n⃗(ℚ)` are `G_n⃗(ℚ)`.
 - `BCLMorphism_comm_test`. The square `BC_N ∘ η̃ = ζ̃ ∘ BC` holds on `W_{F₀}` and on `w*`.
@@ -2080,7 +2080,7 @@ Compute the dual group of `R_{F₀/ℚ}(G_n⃗)_{F₀}` from the Weil-restrictio
 
 ### 6.7 The stable elliptic distribution `ST^H_e` and the coefficient `ι(G,H)`
 
-The light `endoscopicCoefficient` in Suggested.lean computes `τ(G)/τ(H)/|Out(H)|` over `ℚ`. In the group application both `τ(H)>0` and `|Out(H)|≥1`; the formal rational function at denominator zero has no Tamagawa interpretation.
+The coefficient `ι(G,H)=τ(G)/(τ(H)|Out(H)|)` retains both denominators. In the group application both `τ(H)>0` and `|Out(H)|≥1`; evaluating a formal rational expression at denominator zero has no Tamagawa interpretation.
 
 Let `(H,s,η)` be an elliptic endoscopic triple of a connected reductive `ℚ`-group `G`. Work in the space of smooth functions compactly supported modulo `A_{H,∞}⁰` (the positive real points of the maximal `ℚ`-split central torus), transforming under a fixed compatible central character `χ`; all quotient measures and traces use this same convention. For stable-cuspidal `h_∞` define `ST^H_e(h) = τ(H) Σ_{[γ_H]_st,ℓ} |π₀(H_{γ_H})(ℚ)|⁻¹ SO_{γ_H}(h)`, with the connected-centralizer measures and signs specified by Shin 2010 (7.3), p. 26. The coefficient is `ι(G,H)=τ(G)τ(H)⁻¹|Out(H,s,η)|⁻¹`. For the unitary similitude endoscopic groups of this layer the centralizers are connected, so the component factor is 1.
 
@@ -2093,19 +2093,19 @@ The interface consists of the following operations and identities.
 - `StableEllipticDistribution`: Let `(H,s,η)` be an elliptic endoscopic triple of a connected reductive `ℚ`-group `G`. Work in the space of smooth functions compactly supported modulo `A_{H,∞}⁰` (the positive real points of the maximal `ℚ`-split central torus), transforming under a fixed compatible central character `χ`; all quotient measures and traces use this same convention. For stable-cuspidal `h_∞` define `ST^H_e(h) = τ(H) Σ_{[γ_H]_st,ℓ} |π₀(H_{γ_H})(ℚ)|⁻¹ SO_{γ_H}(h)`, with the connected-centralizer measures and signs specified by Shin 2010 (7.3), p. 26. The coefficient is `ι(G,H)=τ(G)τ(H)⁻¹|Out(H,s,η)|⁻¹`. For the unitary similitude endoscopic groups of this layer the centralizers are connected, so the component factor is 1.
 - `StableEllipticDistribution.isStable`: `ST^H_e` vanishes on `h` all of whose stable orbital integrals vanish.
 - `StableEllipticDistribution.linear`: `ST^H_e` is linear in `h`.
-- `endoscopicCoefficient`: `ι(G,H) = τ(G)τ(H)⁻¹|Out(H,s,η)|⁻¹`.
-- `endoscopicCoefficient_self`: `ι(G,G) = 1` for the trivial triple. Its rational identity is `endoscopicCoefficient τ τ 1 = 1` under `τ≠0`.
+- Define `ι(G,H) = τ(G)τ(H)⁻¹|Out(H,s,η)|⁻¹`.
+- For the trivial triple, `ι(G,G) = 1`; numerically, `τ/τ/1 = 1` under `τ≠0`.
 - `endoscopicCoefficient_iso`: `ι(G,H)` depends only on the isomorphism class of `(H,s,η)`.
 
 Use the central quotient, support conditions and summation convention of Shin 2010 §1.2 and (7.3). Compactness modulo the entire centre alone does not imply finiteness: a torus would leave all rational central translates. Any finiteness assertion must be made on the specified quotient and support, not inferred from compact support modulo `Z(H)`. `ST^H_e` is a stable distribution: each `SO_{γ_H}` is stable (§2.4). `ι(G,H)` depends only on the isomorphism class of the triple.
 
 **Checks.**
 
-- For `G₄` and `G₂,₂`, Shin Remark 3.2 gives `τ(G₄)=2` and `τ(G₂,₂)=4`; outer order 2 gives `endoscopicCoefficient 2 4 2 = 1/4`. After multiplying by `τ(G₂,₂)` in §6.25, the coefficient is `τ(G₄)/2=1`, with relative factor `ε=1/2`.
-- For `τ(G)=τ(H)=2` and outer order 2, `endoscopicCoefficient` is `1/2`; outer order 1 instead gives 1.
+- For `G₄` and `G₂,₂`, Shin Remark 3.2 gives `τ(G₄)=2` and `τ(G₂,₂)=4`; outer order 2 gives `2/4/2 = 1/4`. After multiplying by `τ(G₂,₂)` in §6.25, the coefficient is `τ(G₄)/2=1`, with relative factor `ε=1/2`.
+- For `τ(G)=τ(H)=2` and outer order 2, the coefficient is `1/2`; outer order 1 instead gives 1.
 - At `τ(H)=0` the numerical rational function evaluates to 0 in Lean, so denominator nonvanishing must be checked before any group interpretation.
 - `StableEllipticDistribution.torus`. For a torus the connected-centralizer component factor is 1, and the formula is `τ(T)` times the rational sum with `A_{T,∞}⁰` and the central-character convention fixed; no finiteness follows merely from compact support modulo the whole torus.
-- `endoscopicCoefficient_equal_blocks`. For `G = G_{2n}` and `H = G_{n,n}, |Out(H,s,η)| = 2`, so `ι(G,H) = τ(G)/(2τ(H))`. The rational identity `endoscopicCoefficient τG τH 2 = τG/(2τH)` holds for all rational inputs; the group interpretation retains `τH>0`.
+- For `G = G_{2n}` and `H = G_{n,n}, |Out(H,s,η)| = 2`, so `ι(G,H) = τ(G)/(2τ(H))`. The rational identity `τG/τH/2 = τG/(2τH)` holds for all rational inputs; the group interpretation retains `τH>0`.
 - `StableEllipticDistribution.non_elliptic_zero`. A semisimple class that is not elliptic at infinity has zero orbital integral against `h_∞` stable cuspidal. A sum of stable orbital integrals over more classes remains stable; the ellipticity test checks the selected geometric term, not stability.
 - `endoscopicCoefficient_self_test`. For the trivial triple `(G,1,id), ι(G,G) = 1`.
 
@@ -2555,7 +2555,7 @@ Labesse Theorem 5.1 compares the unitary trace to the twisted GL trace with the 
 
 ### Examples
 
-With `τ(G)=τ(H)=2` and an endoscopic outer-automorphism group of order two, `endoscopicCoefficient` is `1/2`. At a full twisted Levi with two nonzero blocks, the anti-invariant determinant factor is `1/4`; it is a different coefficient and must not replace `1/2`. For the inverse-conjugate-transpose involution, (gh)`^(−t)=g^(−t)h^(−t)`; using conjugate transpose without inversion reverses the factors. Changing an order-two intertwiner by `−1` changes its twisted trace, which is why the global normalized extension is part of the spectral statement.
+With `τ(G)=τ(H)=2` and an endoscopic outer-automorphism group of order two, the endoscopic coefficient is `1/2`. At a full twisted Levi with two nonzero blocks, the anti-invariant determinant factor is `1/4`; it is a different coefficient and must not replace `1/2`. For the inverse-conjugate-transpose involution, (gh)`^(−t)=g^(−t)h^(−t)`; using conjugate transpose without inversion reverses the factors. Changing an order-two intertwiner by `−1` changes its twisted trace, which is why the global normalized extension is part of the spectral statement.
 
 ### Dependencies
 
@@ -2877,7 +2877,7 @@ Finite coefficient correspondences and scalar/Frobenius shifts lead to polarized
 
 ### 8.1 Acceptable support and acceptable functions
 
-The light `AcceptableValuations` in Suggested.lean fixes only the strict cross-block valuation inequality. Empty or single-block lists satisfy that predicate vacuously; in geometry the eigenvalue lists have the specified positive block dimensions. It is not the full acceptable-function or quasi-isogeny construction.
+The numerical acceptability condition is the strict cross-block valuation inequality. Empty or single-block lists satisfy it vacuously; in geometry the eigenvalue lists have the specified positive block dimensions. This inequality alone does not construct acceptable functions or quasi-isogenies.
 
 For `δ∈J_b(ℚ_p)` write `δ_i` on the BT slope `λ_i`. It is acceptable when every pair of eigenvalues satisfies `v_p(e_i)<v_p(e_j)` for `i<j`. Equivalently transport its semisimple stable class through the inner twist to `M_b` and require `v_p(α(δ_s))>0` iff `⟨α,ν_b⟩>0` for every root outside `M_b`, with `ν_i=−λ_i`. The parabolic `P(ν_b)` has positive roots with `⟨α,ν_b⟩<0`. A locally constant compactly supported `φ` on `G(A_f^p)×J_b(ℚ_p)` is acceptable if its support is in `G(A_f^p)×S_b` with acceptable `δ` and it admits a finite double-coset expansion at neat level `U` whose algebraic correspondences have finite fixed-point sets and satisfy the compact-support stalk-trace formula. Support acceptability alone is weaker than this definition. The normalized function `e_g=1_{UgU}/vol(U)` is used when comparing with a correspondence.
 
@@ -2897,7 +2897,7 @@ Translate the dual slope weights to the root condition, keeping `ν=−λ`. Use 
 
 **Checks.**
 
-- For the light `AcceptableValuations`, two singleton blocks `{0},{1}` pass; `{1},{0}` and `{0},{0}` fail. Every cross-block pair must be checked.
+- For the cross-block valuation inequality, two singleton blocks `{0},{1}` pass; `{1},{0}` and `{0},{0}` fail. Every cross-block pair must be checked.
 - An empty or one-block numerical family passes vacuously. Empty valuation sets in several blocks also pass the predicate, but cannot describe nonzero geometric slope blocks.
 - `ordinary_pair`. For slopes (1,0), `δ=(1,p)` is acceptable and `δ=(p,1)` is not.
 - `basic_not_geometric`. One slope makes every `δ` acceptable as an element, but a `δ` with `δ⁻¹` not an isogeny is not in `S_b`.
@@ -3919,7 +3919,7 @@ The archimedean normalization uses the unitary LLC of AutomorphicLFunctionsAndLo
 
 ### 10.23 The segment-to-monodromy adapter
 
-For the raw special block, `specialMonodromy` and `specialFrobenius` in Suggested.lean give `N e_j=e_(j+1)` and geometric Frobenius `e_i↦q^(−i)e_i` over `ℚ`. Their covariance is `F N=q⁻¹N F`. The matrix identity still holds at `q=0` or `q=1` as a numerical formula, but an invertible Weil action requires the actual residue cardinality `q>1`. The API is `specialFrobenius_mul_monodromy` for covariance, `specialMonodromy_pow_length` for `Nᵏ=0`, and `specialMonodromy_pow_ne_zero` for `Nᵏ⁻¹≠0` when `k>0`. The normalized special block is obtained by the separately specified half twist.
+For the raw special block, use `N e_j=e_(j+1)` and geometric Frobenius `e_i↦q^(−i)e_i`. Their covariance is `F N=q⁻¹N F`. The matrix identity holds over `ℚ` at `q=0` or `q=1` as a numerical formula, but an invertible Weil action requires the actual residue cardinality `q>1`. The length-`k` block satisfies `Nᵏ=0` and `Nᵏ⁻¹≠0` when `k>0`. The normalized special block is obtained by the separately specified half twist.
 
 Use SmoothRepresentationsOfLocalGroups §SR.5.2’s `GL_n` segment classification (*segment-representations*) and special pairs, together with §SR.5.3’s endpoint-shortening formula (*highest-derivative-adapter*). For a segment `Δ=[ρ⊗|det|^a,…,ρ⊗|det|^b]`, with `ℓ=b−a+1` a positive integer, send its essentially square-integrable constituent `D(Δ)` to `σ_ss(ρ)⊗ω^a⊗Sp(ℓ)`. Here `Sp(ℓ)` has weights 1,`ω,…,ω^{ℓ−1}` and `N e_i=e_{i+1}, N e_{ℓ−1}=0`, as in the imported unnormalized special object. The normalized unitary Steinberg block is `ω^{(1−ℓ)/2}Sp(ℓ)`. This construction defines only the adapter, not another multisegment classification or WD carrier.
 
@@ -3941,8 +3941,8 @@ Use the existing segment endpoint, essentially square-integrable classification 
 
 **Checks.**
 
-- The light `specialMonodromy 2` is `[[0,0],[1,0]]`, has square zero and is nonzero; at `k=1` it is zero. At `k=0` the empty matrix ring has `1=0`, so the nilpotence-index nonvanishing claim must require `k>0`.
-- The light `specialFrobenius 3 2` is `diag(1,1/3)`, and `F N F⁻¹=(1/3)N`. At `q=1` it is the identity; at `q=0` and `k=2` it is `diag(1,0)` and is not invertible. The numerical covariance still holds, but these latter values are not residue cardinalities.
+- At length 2, the raw monodromy matrix is `[[0,0],[1,0]]`, has square zero and is nonzero; at `k=1` it is zero. At `k=0` the empty matrix ring has `1=0`, so the nilpotence-index nonvanishing claim must require `k>0`.
+- At `q=3` and length 2, the raw Frobenius matrix is `diag(1,1/3)`, and `F N F⁻¹=(1/3)N`. At `q=1` it is the identity; at `q=0` and `k=2` it is `diag(1,0)` and is not invertible. The numerical covariance still holds, but these latter values are not residue cardinalities.
 - `SegmentWDAdapter.lengthOne`. `Sp(1)` is trivial with `N=0` and `D([ρ])` maps to `σ_ss(ρ)`.
 - `SegmentWDAdapter.lengthTwo`. For `ℓ=2, ker N` is the second basis line and `N²=0` while `N≠0`.
 - `RawSpecialBlock2.sameWeilDifferentMonodromy`. The same `F(t)` with `N` and with 0 has identical trace and characteristic polynomial, but their kernels have dimensions 1 and 2.
@@ -4140,7 +4140,7 @@ Evaluate the imported rank-one Euler factor and arithmetic special block at geom
 
 ### Examples
 
-For an unramified character `chi` with `chi(ϖ)=α`, rank-one reciprocity gives `L(s,chi)=(1-α q^(−s))⁻¹`. The trivial `GL₂` representation has `rec_un=1` direct-sum `ω` and unitary-normalized parameter `ω^(−1/2)` direct-sum `ω^(1/2)`, with `N=0`. `St₂` has the same underlying Weil weights but `N` has rank one. Its kernel is the terminal `ω^(1/2)` line, so its `L`-factor has one factor and its conductor is 1, while the trivial representation has conductor 0. At `q=3` the raw matrices `F=diag(1,1/3)` and `N=[[0,0],[1,0]]` satisfy `F N F⁻¹=(1/3)N`, not `3N`. `specialFrobenius` and `specialMonodromy` pin this convention.
+For an unramified character `chi` with `chi(ϖ)=α`, rank-one reciprocity gives `L(s,chi)=(1-α q^(−s))⁻¹`. The trivial `GL₂` representation has `rec_un=1` direct-sum `ω` and unitary-normalized parameter `ω^(−1/2)` direct-sum `ω^(1/2)`, with `N=0`. `St₂` has the same underlying Weil weights but `N` has rank one. Its kernel is the terminal `ω^(1/2)` line, so its `L`-factor has one factor and its conductor is 1, while the trivial representation has conductor 0. At `q=3` the raw matrices `F=diag(1,1/3)` and `N=[[0,0],[1,0]]` satisfy `F N F⁻¹=(1/3)N`, not `3N`.
 
 ### Dependencies
 
@@ -5103,9 +5103,9 @@ The finite ledger records coefficients only after the analytic and spectral fini
 
 ### 15.1 A finite signed coefficient ledger
 
-The light `comparisonTrace` in Suggested.lean records the finite sum of signed multiplicities, endoscopic coefficients and the three local/auxiliary/spherical trace factors. Its diagonal-matrix identity is a finite-sum comparison only. The empty sum is zero, and a zero local factor kills every summand. The geometric trace formula must supply the finite expansion before this function is used.
+The finite ledger records signed multiplicities, endoscopic coefficients and the three local/auxiliary/spherical trace factors. Its diagonal-matrix identity is a finite-sum comparison only. The empty sum is zero, and a zero local factor kills every summand. The geometric trace formula must supply the finite expansion before forming this ledger.
 
-For a finite set `s` of spectral terms and rational numbers `mult_i, sign_i, local_i, bad_i, unram_i`, define comparisonTrace`(s)=Σ_(i∈s) mult_i sign_i local_i bad_i unram_i`. The fields stand respectively for virtual spectral multiplicity, the endoscopic/inner-form coefficient, local Red trace, auxiliary twisted trace and spherical eigenvalue. This finite calculation is a normalization check on fixed test functions; it is not a definition of the infinite automorphic trace formula.
+For a finite set `s` of spectral terms and rational numbers `mult_i, sign_i, local_i, bad_i, unram_i`, form the ledger `Σ_(i∈s) mult_i sign_i local_i bad_i unram_i`. The fields stand respectively for virtual spectral multiplicity, the endoscopic/inner-form coefficient, local Red trace, auxiliary twisted trace and spherical eigenvalue. This finite calculation is a normalization check on fixed test functions; it is not a definition of the infinite automorphic trace formula.
 
 *Hypotheses.* Every analytic/spectral finiteness and trace identity has already been proved before instantiating the ledger.
 
@@ -5113,21 +5113,21 @@ For a finite set `s` of spectral terms and rational numbers `mult_i, sign_i, loc
 
 The interface consists of the following operations and identities.
 
-- `comparisonTrace`: Evaluate the finite signed coefficient sum on the existing rational carrier.
-- `comparisonTrace_addMultiplicity`: Adding multiplicity functions adds the trace.
-- `comparisonTrace_zeroLocal`: If every local factor is zero, the trace is zero.
-- `comparisonTrace_merge`: For finite index types `ι, κ` and a map `f : ι → κ`, if the coefficient and three trace factors depend only on `f(i)`, the full sum equals the sum over `κ` with multiplicity `Σ_{f(i)=j} mult_i`. Empty fibres have zero multiplicity.
-- `comparisonTrace_eq_trace_diagonal`: Over all of a finite index type, the ledger equals the Mathlib trace of the diagonal matrix whose entries are the five-fold products.
+- Evaluate the finite signed coefficient sum over the rational numbers.
+- Adding multiplicity functions adds the trace.
+- If every local factor is zero, the trace is zero.
+- For finite index types `ι, κ` and a map `f : ι → κ`, if the coefficient and three trace factors depend only on `f(i)`, the full sum equals the sum over `κ` with multiplicity `Σ_{f(i)=j} mult_i`. Empty fibres have zero multiplicity.
+- Over all of a finite index type, the ledger equals the Mathlib trace of the diagonal matrix whose entries are the five-fold products.
 
 The factorization theorem supplies the finite indexing set. The virtual multiplicity and the sign/endoscopic constant remain separate factors of the rational sum. Prove additivity and invariance under merging terms with identical remaining trace factors.
 
 **Checks.**
 
-- The light `comparisonTrace` on the empty finite set is 0. On any finite set with every local trace zero it is also 0, irrespective of multiplicities.
-- `comparisonTrace.balanced`. One numerical term with multiplicity and trace factors all 1 and prescribed coefficient `1/2` evaluates to `1/2`; this Check does not identify `ι(G,H)` for a balanced datum.
-- `comparisonTrace.cancellation`. Two terms with identical trace factors and multiplicities 1 and `−1` have sum zero.
-- `comparisonTrace.innerForm`. A term with multiplicity 2, sign `−1` and trace factors 3,5,7 evaluates to `−210`.
-- `comparisonTrace.matrixTrace`. For two terms with products 2 and 3 the ledger equals Matrix.trace of the diagonal matrix `diag(2,3)`, namely 5.
+- The ledger on the empty finite set is 0. On any finite set with every local trace zero it is also 0, irrespective of multiplicities.
+- One numerical term with multiplicity and trace factors all 1 and prescribed coefficient `1/2` evaluates to `1/2`; this Check does not identify `ι(G,H)` for a balanced datum.
+- Two terms with identical trace factors and multiplicities 1 and `−1` have sum zero.
+- A term with multiplicity 2, sign `−1` and trace factors 3,5,7 evaluates to `−210`.
+- For two terms with products 2 and 3 the ledger equals Matrix.trace of the diagonal matrix `diag(2,3)`, namely 5.
 
 *Needs:* §14.5; §14.4; Mathlib `Matrix.trace`; Mathlib `Matrix.trace_diagonal`.
 
@@ -5221,7 +5221,7 @@ List the shared convention choices and compare their effects on each branch. Run
 
 ### Examples
 
-A single ledger term with all trace factors 1 and coefficient `1/2` has trace `1/2`. A term with virtual multiplicity 2, inner-form sign `−1` and trace factors 3,5,7 has trace `−210`. Two identical trace terms with multiplicities 1 and `−1` cancel. Over a two-element full index set, products 2 and 3 give `comparisonTrace``=5`, equal to the trace of the diagonal matrix `diag(2,3)`. These finite identities check the coefficients after the full trace formula has justified the finite test expansion.
+A single ledger term with all trace factors 1 and coefficient `1/2` has trace `1/2`. A term with virtual multiplicity 2, inner-form sign `−1` and trace factors 3,5,7 has trace `−210`. Two identical trace terms with multiplicities 1 and `−1` cancel. Over a two-element full index set, products 2 and 3 give a ledger value of `5`, equal to the trace of the diagonal matrix `diag(2,3)`. These finite identities check the coefficients after the full trace formula has justified the finite test expansion.
 
 ### Dependencies
 
