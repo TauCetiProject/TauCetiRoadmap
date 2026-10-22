@@ -35,13 +35,20 @@ Coleman interpolation, its arithmetic image, and the conditional
 cyclic module (Layer 7) need the compatible local tower and its norm-unit limit.
 The analytic constructions (Layers 5–6) need the canonical Kubota–Leopoldt and
 Deligne–Ribet pseudomeasures. The finite CM Fitting identities (§9.7) need the
-arithmetic Selmer and generalized Ritter–Weiss modules, and the Eisenstein
-argument needs its ordinary Hecke and Hilbert-form lattices. The integral main
+arithmetic Selmer and generalized Ritter–Weiss modules. The integral
+Sinnott–Kurihara statements (§§8.2, 12.5) also carry the unramified,
+root-killing smoothing hypotheses; their fractional ideals remain unrestricted.
+The Eisenstein argument needs its ordinary Hecke and Hilbert-form lattices,
+the compactification, equivariant cusp-constant lifts and level-one Hasse lifts
+of §9.3, and §9.5's separate classical attachment, ordinary filtration and
+nonreduced oldform assembly. The integral main
 conjecture and its arithmetic presentation (§11.7) need the bounded Burns–Flach
 complex with its canonical determinant lattice and total-fraction trivialization.
 The character formulations, étale special-value comparisons, Brumer–Stark and
 Rubin–Stark consequences (Layer 12) also need these arithmetic modules, the adic
 étale coefficient objects, or the smoothed equivariant L-values and unit lattices.
+The dyadic descent comparison (§10.5) retains the same ramification set S on
+both sides, with the ring of S-integers as its étale input.
 No substitute predicates or arbitrary complexes stand in for these constructions.
 -/
 
