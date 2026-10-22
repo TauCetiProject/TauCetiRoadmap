@@ -209,9 +209,9 @@ individual modules; the scheme `Proj (reesAlgebra.grade I)` is an existing carri
   `Spec R`).
 
 `Suggested.lean` imports `TauCeti.RingTheory.Ideal.AffineBlowup` and uses `ChartRing I a` as a type
-synonym for the carrier of `Ideal.affineBlowup I a (Localization.Away a)`. Its inclusion
-`ChartRing.toLocalization` and restricted action `ChartRing.moduleLocalizedModule` on `M[1/a]`
-are notation for the supplied rings. The grading and geometric chart modules above supply the
+synonym for the carrier of `Ideal.affineBlowup I a (Localization.Away a)`.
+The restricted action `ChartRing.moduleLocalizedModule` on `M[1/a]` is induced by the
+inclusion of this algebra in `R[1/a]`. The grading and geometric chart modules above supply the
 README constructions; their carriers are not copied into `Suggested.lean`.
 
 ### From TauCetiRoadmap roadmaps
@@ -454,20 +454,19 @@ a_J(M, d) = ∏_{0 ≤ j < d} Ann_R H^j_J(M),
 a finite product of ideals of `R`. It is a product, not an intersection, and the cutoff `d` is an
 explicit natural number, so that no infinite or bottom dimension is converted to a number.
 Česnavičius's `a(M)` for a finite module over a Noetherian local ring is `a_𝔪(M, dim Supp M)` when
-`M ≠ 0`; for `M = 0` it is the empty product `R`. `Suggested.lean` declares `annihilatorProduct`
-and `annihilatorProduct_le_annihilator`.
+`M ≠ 0`; for `M = 0` it is the empty product `R`. `Suggested.lean` declares `annihilatorProduct`.
 
 *Hypotheses.* `R` any commutative ring, `M` any module; no locality or finiteness.
 
 The API:
 
-- `annihilatorProduct_zero`: `a_J(M, 0) = R`, for every `M` including `0`.
-- `annihilatorProduct_succ`: `a_J(M, d + 1) = a_J(M, d) · Ann_R H^d_J(M)` (the new factor has degree
+- The empty-product identity: `a_J(M, 0) = R`, for every `M` including `0`.
+- The successor identity: `a_J(M, d + 1) = a_J(M, d) · Ann_R H^d_J(M)` (the new factor has degree
   `d`).
-- `annihilatorProduct_le_annihilator`: for `j < d`, `a_J(M, d) ⊆ Ann_R H^j_J(M)`.
-- `annihilatorProduct_eq_top_of_subsingleton`: if `H^j_J(M) = 0` for every `j < d`, then
+- Containment in each factor: for `j < d`, `a_J(M, d) ⊆ Ann_R H^j_J(M)`.
+- The unit-product criterion: if `H^j_J(M) = 0` for every `j < d`, then
   `a_J(M, d) = R`.
-- `annihilatorProduct_congr`: a linear equivalence `M ≃ N` gives `a_J(M, d) = a_J(N, d)`.
+- Invariance under linear equivalence: a linear equivalence `M ≃ N` gives `a_J(M, d) = a_J(N, d)`.
 
 *Proof sketch.* Expand the finite product over `Finset.range d`; the empty product is the unit ideal,
 the successor splits off the last factor, a product of ideals lies in each factor, and the
@@ -488,11 +487,10 @@ p. 10; Lemma 3.6, p. 11.) *Needs:* Mathlib `localCohomology`, `Module.annihilato
 
 **Prefix quotients.** For an arbitrary `R`-module `M` and a finite list `rs`, the notation
 `prefixQuotient M rs` means `M ⧸ (Ideal.ofList rs • ⊤)`. This is a specialization of Mathlib's
-module quotient, with no local or Noetherian hypothesis. Its notation API is
-`prefixQuotient_nil` (a linear equivalence with `M`), `prefixQuotient_append` (a linear equivalence
-between the quotient by `rs ++ qs` and the iterated quotient by `rs`, then `qs`), and
-`prefixQuotient_perm` (the equivalence induced by equality of the generated ideals under a
-permutation). Each equivalence commutes with the quotient maps from `M`; it is not an equality
+module quotient, with no local or Noetherian hypothesis. Build linear equivalences from the
+empty-list quotient to `M`, from the quotient by `rs ++ qs` to the iterated quotient by `rs`,
+then `qs`, and between quotients by permuted lists, using equality of their generated ideals.
+Each equivalence commutes with the quotient maps from `M`; it is not an equality
 of carrier types. (Česnavičius, Definition 3.1 and Remark 3.2, pp. 9–10.) *Needs:* Mathlib
 `Ideal.ofList`, `Submodule.mkQ`, `Submodule.mapQ`.
 
@@ -518,26 +516,25 @@ Since `dim(∅) = ⊥`, only the empty list is secant for the zero module. `Sugg
 
 The API:
 
-- `isSecant_nil`: the empty list is secant for every `M`.
-- `isSecant_iff_supportDim`: for `M ≠ 0`, `rs` is secant iff its entries lie in `𝔪` and
+- The empty-list case: the empty list is secant for every `M`.
+- The secant dimension formula: for `M ≠ 0`, `rs` is secant iff its entries lie in `𝔪` and
   `dim Supp M/(rs)M + length rs = dim Supp M` (each step drops the dimension by at most one, since
   `dim Supp N ≤ dim Supp N/xN + 1` for `x ∈ 𝔪`); in particular a secant list is a part of a system of
   parameters and has length at most `dim Supp M`. The hypothesis `M ≠ 0` is needed: for `M = 0` both
   sides of the formula are `⊥` for every list.
-- `IsSecant.perm`: a permutation of a secant list is secant; `IsSecant.sublist`: a sublist of a
-  secant list is secant.
-- `IsSecant.pow`: replacing any entry by a positive power of itself keeps the list secant.
-- `IsSecant.take_mul`: if `r₁, …, rₛ` is secant and `i ≤ j ≤ s`, then the truncated list
+- A permutation or sublist of a secant list is secant.
+- Invariance under positive powers: replacing any entry by a positive power of itself keeps the list secant.
+- The truncated-product property: if `r₁, …, rₛ` is secant and `i ≤ j ≤ s`, then the truncated list
   `r₁, …, r_{i-1}, rᵢr_j` is secant. Replacing `rᵢ` by `rᵢr_j` inside the full list is not allowed:
   `r₁r₂, r₂` is never secant, since its second step does not lower the dimension.
-- `isSecant_of_isRegular`: a regular sequence on a nonzero `M` is secant.
-- `IsSecant.append_iff`: `rs ++ qs` is secant for `M` iff `rs` is secant for `M` and `qs` is secant
+- Secancy of regular sequences: a regular sequence on a nonzero `M` is secant.
+- Secant concatenation: `rs ++ qs` is secant for `M` iff `rs` is secant for `M` and `qs` is secant
   for `M/(rs)M`.
 
 *Proof sketch.* The dimension inequality `dim Supp N ≤ dim Supp N/xN + 1` for `x ∈ 𝔪` is Mathlib's
 `Module.supportDim_le_supportDim_quotSMulTop_succ`; secancy is therefore the dimension formula, which
 depends only on the closed set `V(r₁, …, rₛ) ∩ Supp M` and so is invariant under permutations and
-under replacing an entry by a positive power. For `IsSecant.take_mul`, neither `rᵢ` nor `r_j` vanishes
+under replacing an entry by a positive power. For the truncated-product property, neither `rᵢ` nor `r_j` vanishes
 at a point of maximal coheight of `Supp M/(r₁, …, r_{i-1})M`, hence neither does `rᵢr_j`. A regular
 element in `𝔪` drops the dimension by exactly one
 (`Module.supportDim_quotSMulTop_succ_eq_supportDim`). (Česnavičius, Definition 3.1(i), p. 9, and
@@ -555,14 +552,14 @@ Remark 3.2, p. 10.) *Needs:* Mathlib `Module.supportDim`, `Ideal.ofList`,
 
 **Existence and completion of secant parameter lists.** For a nonzero finite module `M` over a
 Noetherian local ring, every secant list `rs` extends to a secant list `rs ++ qs` with
-zero-dimensional terminal quotient. `Suggested.lean` declares `isSecant_exists_append`.
+zero-dimensional terminal quotient. This is the secant parameter-completion theorem.
 
 *Proof sketch.* Induct on the support dimension of the nonzero finite module `M/(rs)M`.
 In positive dimension, finite minimal-prime avoidance chooses an element of `𝔪` outside the
 minimal primes of its annihilator; none of these primes is `𝔪`. Mathlib's
 `Module.supportDim_quotSMulTop_succ_eq_of_notMem_minimalPrimes_of_mem_maximalIdeal` gives a drop
 by exactly one. Nakayama keeps the quotient nonzero. Stop at dimension zero and concatenate
-using `IsSecant.append_iff`. (Česnavičius, Remark 3.2, p. 10; Stacks, Proposition 10.60.9,
+using secant concatenation. (Česnavičius, Remark 3.2, p. 10; Stacks, Proposition 10.60.9,
 tag 00KQ, for `R/Ann M`.) *Needs:* K0.3's secant API; Mathlib finite prime avoidance,
 `Module.supportDim_eq_ringKrullDim_quotient_annihilator`, and the dimension-drop theorem above.
 
@@ -578,7 +575,7 @@ tag 00KQ, for `R/Ann M`.) *Needs:* K0.3's secant API; Mathlib finite prime avoid
 local ring, say that the low local cohomology of `N` vanishes when `H^j_𝔪(N) = 0` for every natural
 `j < dim Supp N`. `Suggested.lean` declares `LowLocalCohomologyVanishes`. The zero module satisfies
 it vacuously. The comparison
-`lowLocalCohomologyVanishes_iff_isCohenMacaulay : LowLocalCohomologyVanishes R N ↔ Module.IsCohenMacaulay N`
+`LowLocalCohomologyVanishes R N ↔ Module.IsCohenMacaulay N`
 holds for finite `N` over a Noetherian local ring: for `N ≠ 0`, depth is the least `j` with
 `H^j_𝔪(N) ≠ 0` and depth is at most the support dimension.
 (SchemeAndStackFoundations §2.7, depth and local cohomology, from Stacks Lemma 47.11.1, tag 0AVZ;
@@ -590,8 +587,7 @@ holds for finite `N` over a Noetherian local ring: for `N ≠ 0`, depth is the l
 - `ℚ⟦X⟧` satisfies it: `H^0_𝔪(ℚ⟦X⟧) = 0` and the dimension is `1`.
 - `R = k⟦x, y⟧/(x², xy)` does not: it has dimension `1` and the class of `x` is a nonzero element
   killed by `𝔪`, so `H^0_𝔪(R) ≠ 0`. Equivalently the same quotient as a module over
-  `k⟦x⟧⟦y⟧` fails `LowLocalCohomologyVanishes`;
-  `not_lowLocalCohomologyVanishes_embeddedPoint` states this boundary Check for `k = ℚ`.
+  `k⟦x⟧⟦y⟧` fails `LowLocalCohomologyVanishes`.
 
 **CM-secant sequences.** For a finite module `M` over a Noetherian local ring `(R, 𝔪)`, a list
 `r₁, …, rₛ` is CM-secant for `M` when it is secant for `M`, the terminal quotient `M/(r₁, …, rₛ)M` is
@@ -605,7 +601,7 @@ Cohen–Macaulayness is required of the terminal quotient only; the intermediate
 be Cohen–Macaulay, and the prefixes of a CM-secant sequence are not asserted to be CM-secant. The
 empty list is CM-secant exactly when `M` is Cohen–Macaulay. `Suggested.lean` declares `IsCMSecant`
 (with the terminal condition in the form `LowLocalCohomologyVanishes` and the dimension of each
-nonzero prefix quotient given as a natural number `d`) and `isCMSecant_nil_iff`.
+nonzero prefix quotient given as a natural number `d`).
 
 *Hypotheses.* `R` Noetherian local, `M` finite. The dimension of a prefix quotient before a step is
 finite and not `⊥` (the quotient is nonzero because the step drops its dimension), which is what
@@ -613,18 +609,18 @@ makes the natural-number cutoff available.
 
 The API:
 
-- `IsCMSecant.mem_maximalIdeal`: every entry lies in `𝔪`.
-- `IsCMSecant.supportDim_lt`: every step strictly lowers the support dimension.
-- `IsCMSecant.isCohenMacaulay_terminal`: the terminal quotient is Cohen–Macaulay.
-- `IsCMSecant.mem_annihilatorProduct`: at step `i` the prefix quotient has a natural support
+- Maximal-ideal membership: every entry lies in `𝔪`.
+- Strict dimension drop: every step strictly lowers the support dimension.
+- The terminal Cohen–Macaulay condition: the terminal quotient is Cohen–Macaulay.
+- The annihilator memberships: at step `i` the prefix quotient has a natural support
   dimension `d` and `rᵢ ∈ a_𝔪(M/(r₁, …, r_{i-1})M, d)`.
-- `isCMSecant_nil_iff`: `[]` is CM-secant iff `M` is Cohen–Macaulay (including `M = 0`).
-- `isCMSecant_iff`: `IsCMSecant M rs` iff `IsSecant M rs`, `Module.IsCohenMacaulay (M/(rs)M)` and the
+- The empty-list criterion: `[]` is CM-secant iff `M` is Cohen–Macaulay (including `M = 0`).
+- The Cohen–Macaulay comparison: `IsCMSecant M rs` iff `IsSecant M rs`, `Module.IsCohenMacaulay (M/(rs)M)` and the
   annihilator memberships hold; this is the comparison with SchemeAndStackFoundations' predicate.
 
 *Proof sketch.* Projections of the defining conjunction; the empty case is the terminal condition.
-For `isCMSecant_iff` apply `lowLocalCohomologyVanishes_iff_isCohenMacaulay`, and for the natural
-cutoff use that a nonzero finite module over a Noetherian local ring has finite support dimension
+For the Cohen–Macaulay comparison apply its local-cohomology characterization, and for the
+natural cutoff use that a nonzero finite module over a Noetherian local ring has finite support dimension
 (Nakayama rules out a zero prefix quotient before a step). (Česnavičius, Definition 3.1(ii), p. 10,
 and §1.14, p. 4, with the support-restricted Cohen–Macaulay convention.) *Needs:* K0.2, K0.3;
 SchemeAndStackFoundations §0.17 `Module.IsCohenMacaulay`, §2.7 (depth and local cohomology); Mathlib
@@ -677,7 +673,7 @@ the full-system result makes this cycle a boundary after multiplication by `a`; 
 coordinate gives `a x ∈ (q₁ᴺ,…,q_{d-s}ᴺ)(M/(r₁,…,r_{s-1})M)`. This holds for every `N > 0`.
 Krull intersection makes `a x = 0` (the ideal of the added entries lies in `𝔪`). If there are
 no added entries the boundary already gives zero. Replace `rₛ` by `rₛⁿ` to obtain the
-positive-power statement, using `IsSecant.pow` without changing `a(M)`.
+positive-power statement, using invariance under positive powers without changing `a(M)`.
 (Česnavičius, Remark 3.3, p. 10; Kawasaki 1996, Lemma 2.4, p. 42; the double-complex argument
 uses Stacks §15.29, tag 0621, and Lemma 47.9.1, tag 0A6R.) *Needs:* K0.1–K0.3, including
 secant parameter completion; DerivedModuleAlgebra §0.K.1 (finite Koszul complex);
@@ -687,10 +683,10 @@ of a filtered complex** (convergence and total-cohomology filtration);
 
 The CM API is built after this bound:
 
-- `isSMulRegular_of_isCohenMacaulay`: for nonzero finite Cohen–Macaulay `N`, if `x ∈ 𝔪` and
+- Regularity of parameters on Cohen–Macaulay modules: for nonzero finite Cohen–Macaulay `N`, if `x ∈ 𝔪` and
   `dim Supp(N/xN) + 1 = dim Supp N`, then `x` is `N`-regular. Apply the bound to `[x]` with
   `a(N) = R`. `Suggested.lean` carries Cohen–Macaulayness as `LowLocalCohomologyVanishes`.
-- `IsCMSecant.of_isCohenMacaulay`: every secant list on a finite Cohen–Macaulay module is
+- CM-secancy on Cohen–Macaulay modules: every secant list on a finite Cohen–Macaulay module is
   CM-secant. Apply the preceding regularity statement at each secant step and the regular-quotient
   CM criterion of SchemeAndStackFoundations §0.17; all intermediate annihilator products are `R`.
 
@@ -710,11 +706,11 @@ a Noetherian local ring extends to a CM-secant system of parameters `r₁, …, 
 zero-dimensional terminal quotient. `Suggested.lean` declares `isCMSecant_exists_append`.
 
 *Proof sketch.* The terminal quotient `N = M/(r₁, …, rₛ)M` is nonzero (Nakayama) and Cohen–Macaulay;
-choose a system of parameters `q₁, …, q_e` of `N` by `isSecant_exists_append` (K0.3).
-It is regular on `N` by K0.5 (`isSMulRegular_of_isCohenMacaulay`), each `N/(q₁, …, q_{k})N` is again Cohen–Macaulay, so every annihilator product along the
-extension is `R` (`annihilatorProduct_eq_top_of_subsingleton`), and the concatenated list is secant by
-`IsSecant.append_iff`. (Česnavičius, Remark 3.4, p. 10.) *Needs:* K0.2–K0.5, including K0.3
-`isSecant_exists_append`; SchemeAndStackFoundations §0.17.
+choose a system of parameters `q₁, …, q_e` of `N` by the secant parameter-completion theorem (K0.3).
+It is regular on `N` by K0.5, each `N/(q₁, …, q_{k})N` is again Cohen–Macaulay, so every
+annihilator product along the extension is `R` (the unit-product criterion), and concatenation
+preserves secancy (K0.3). (Česnavičius, Remark 3.4, p. 10.) *Needs:* K0.2–K0.5, including
+K0.3's secant parameter-completion theorem; SchemeAndStackFoundations §0.17.
 
 **Checks.**
 
@@ -728,8 +724,7 @@ extension is `R` (`annihilatorProduct_eq_top_of_subsingleton`), and the concaten
 Cohen–Macaulay). Then `r₁, …, r_d` is CM-secant for `M` iff the reversed list `x_j = r_{d+1-j}` is a
 `p`-standard system of parameters of type `d − 1` in Kawasaki's sense, that is, `x_d ∈ a(M)` and
 `x_j ∈ a(M/(x_{j+1}, …, x_d)M)` for `j < d`. This is a statement about the reversed order, not about
-permutations. In dimension zero the empty list satisfies both conditions vacuously. `Suggested.lean`
-declares `isCMSecant_iff_pStandard_reverse`.
+permutations. In dimension zero the empty list satisfies both conditions vacuously.
 
 *Proof sketch.* The quotient `M/(x_{j+1}, …, x_d)M` is the prefix quotient before `r_{d+1-j}`, so the
 two lists of annihilator memberships coincide term by term, and the terminal condition holds
@@ -806,9 +801,8 @@ ArithmeticGaloisDuality D7.1
 
 **The Matlis annihilator lemma.** Let `R` be Noetherian local and `E` an injective `R`-module
 into which `κ` embeds. For every finite `R`-module `N`,
-`Ann_R N = Ann_R Hom_R(N, E)`. `Suggested.lean` declares
-`annihilator_eq_annihilator_linearMap_injectiveHull`, carrying an injective module
-`E` and an injection `e : κ → E`; essentiality is not required for this identity.
+`Ann_R N = Ann_R Hom_R(N, E)`. Essentiality of the embedding `κ → E` is not required for
+this identity.
 
 *Proof sketch.* `Ann N ⊆ Ann Hom(N, E)` always. Conversely a nonzero finite module has `κ` as a
 quotient (Nakayama) and `κ ⊆ E`, so `Hom(N', E) = 0` forces `N' = 0`; applying the exact functor
@@ -947,24 +941,23 @@ module over an arbitrary commutative ring.
 ```
 
 that is, on the image of `JM` in the `i`-th prefix quotient, where `J = (r₁, …, rₛ)`. There is no
-properness, finiteness, locality or nonvanishing hypothesis. `Suggested.lean` declares `IsDSequence`,
-`isDSequence_of_isWeaklyRegular` and `isDSequence_iff_torsion`.
+properness, finiteness, locality or nonvanishing hypothesis. `Suggested.lean` declares `IsDSequence`.
 
 The API:
 
-- `isDSequence_nil`: the empty list is a d-sequence for every module.
-- `isDSequence_of_subsingleton`: every list is a d-sequence for the zero module.
-- `isDSequence_of_isWeaklyRegular`: a weakly regular sequence (Mathlib
+- The empty-list case: the empty list is a d-sequence for every module.
+- The zero-module case: every list is a d-sequence for the zero module.
+- Weakly regular sequences: a weakly regular sequence (Mathlib
   `RingTheory.Sequence.IsWeaklyRegular`) is a d-sequence, by restricting injectivity on the prefix
   quotient to a submodule; no final nonvanishing (`IsRegular`) is needed.
-- `isDSequence_singleton_iff`: `[r]` is a d-sequence iff multiplication by `r` is injective on `rM`
+- The singleton criterion: `[r]` is a d-sequence iff multiplication by `r` is injective on `rM`
   (not on all of `M`).
-- `isDSequence_congr`: a linear equivalence `M ≃ N` preserves d-sequences (it induces equivalences of
+- Invariance under linear equivalence: a linear equivalence `M ≃ N` preserves d-sequences (it induces equivalences of
   the prefix quotients compatible with the submodules and the scalar action, via `Submodule.mapQ`).
-- `isDSequence_iff_torsion`: `rs` is a d-sequence iff for all `i ≤ j` the `r_j`-torsion and the
+- The torsion characterization: `rs` is a d-sequence iff for all `i ≤ j` the `r_j`-torsion and the
   `rᵢr_j`-torsion of `M/(r₁, …, r_{i-1})M` coincide.
 
-*Proof sketch.* The first five are unfolding. For `isDSequence_iff_torsion`, forward: if
+*Proof sketch.* The first five are unfolding. For the torsion characterization, forward: if
 `rᵢr_j x = 0` in the `i`-th prefix quotient then `r_j x` lies in the image of `JM` and is killed by
 `rᵢ`, so `r_j x = 0`. Converse, by induction on the length: let `x` be in the image of `JM` in the
 `i`-th prefix quotient with `rᵢx = 0`; the `(i, s)` condition gives `rₛx = 0`; write `x = y + rₛz` with
@@ -997,8 +990,8 @@ Let `rs = (r₁, …, rₛ)` be a d-sequence for `M`, `J = (r₁, …, rₛ)` an
 (Qᵢ :_M rᵢ) ∩ JⁿM  =  Qᵢ ∩ JⁿM  =  (r₁, …, r_{i-1})·J^{n-1}M.
 ```
 
-**The colon identity.** `Suggested.lean` declares `goto_yamagishi_colon`, the first equality, with
-the colon `(Qᵢ :_M rᵢ)` written as the preimage of `Qᵢ` under multiplication by `rᵢ`.
+**The colon identity.** The first equality uses the colon `(Qᵢ :_M rᵢ)`, the preimage of `Qᵢ`
+under multiplication by `rᵢ`.
 
 *Proof sketch.* For `n = 1` this is the definition of a d-sequence: an element of `JM` whose image is
 `rᵢ`-torsion in `M/Qᵢ` maps to zero. Since `JⁿM ⊆ JM` for `n ≥ 1` the same argument applies.
@@ -1058,17 +1051,16 @@ I_s = ∏_{0 ≤ i < s} (rs.take (i+1)) = (r₁)·(r₁, r₂)·⋯·(r₁, …,
 
 with `I₀ = R`. It is not the `s`-th power of `(r₁, …, rₛ)`. The definition is total in `s`; for `s > t`
 the extra factors repeat `(r₁, …, rₜ)`. The recurrence holds for every natural `s`, while the
-geometric statements use `s ≤ t`. `Suggested.lean` declares
-`prefixProduct` and `prefixProduct_succ`.
+geometric statements use `s ≤ t`. `Suggested.lean` declares `prefixProduct`.
 
 The API:
 
-- `prefixProduct_zero`: `I₀ = R`.
-- `prefixProduct_succ`: `I_{s+1} = I_s·(r₁, …, r_{s+1})`; this is the recurrence that matches the
+- The empty product: `I₀ = R`.
+- The successor recurrence: `I_{s+1} = I_s·(r₁, …, r_{s+1})`; this is the recurrence that matches the
   product-of-ideals identity for blowing-ups (K3.5).
-- `prefixProduct_one`: `I₁ = (r₁)` for a nonempty list.
-- `prefixProduct_take`: for `s ≤ length rs`, computing `I_s` from `rs.take s` gives the same ideal.
-- `prefixProduct_le`: for `0 < s`, `I_s ⊆ (rs.take s)^s ⊆ (rs.take s)`; when the list is nonempty,
+- The first product: `I₁ = (r₁)` for a nonempty list.
+- Compatibility with truncation: for `s ≤ length rs`, computing `I_s` from `rs.take s` gives the same ideal.
+- The prefix-ideal bounds: for `0 < s`, `I_s ⊆ (rs.take s)^s ⊆ (rs.take s)`; when the list is nonempty,
   `I_s` contains `r₁ˢ` (also for `s > length rs`).
 
 *Proof sketch.* Finite products over `Finset.range s`; `take (i+1) (take s rs) = take (i+1) rs` for
@@ -1103,13 +1095,12 @@ K1.1 `IsDSequence`; K2.1 `prefixProduct`; Mathlib `IsSMulRegular`.
 
 The API:
 
-- `KawasakiConditions.isDSequence_reverse`, `KawasakiConditions.torsion_eq`,
-  `KawasakiConditions.isSMulRegular`: the three projections.
-- `kawasakiConditions_nil`: the empty list satisfies the conditions on every module.
-- `kawasakiConditions_of_subsingleton`: every list satisfies them on the zero module.
-- `KawasakiConditions.isDSequence_reverse_self`: taking the empty auxiliary list in (i), `rₛ, …, r₁` is
+- The three clauses can each be extracted from the conjunction.
+- The empty-list case: the empty list satisfies the conditions on every module.
+- The zero-module case: every list satisfies them on the zero module.
+- The reversed d-sequence consequence: taking the empty auxiliary list in (i), `rₛ, …, r₁` is
   a d-sequence for `M` itself.
-- `KawasakiConditions.prefixQuotient` (robustness, K2.4).
+- The conditions persist under auxiliary quotients (K2.4).
 
 **Checks.**
 
@@ -1147,7 +1138,7 @@ Proposition 3.4, p. 5.) *Needs:* K0.3, K0.5, K0.6.
 
 **Reversed prefixes are d-sequences after auxiliary quotients.** With `M' = M/(r'₁, …, r'_{s'})M`, the
 reversed prefix `rₛ, …, r₁` is a d-sequence for `M'`. The reversal and the quotient by the auxiliary
-sequence are essential. (README name `IsCMSecant.isDSequence_reverse_take`.)
+sequence are essential. This is clause (i) of Kawasaki's proposition.
 
 *Proof sketch.* This is the case of a `p`-standard system of type `d − 1` of Kawasaki's lemma on
 `p`-standard sequences, deduced from Schenzel's bound (K0.5) applied to the concatenation of the
@@ -1251,8 +1242,8 @@ positive-dimensional induction.
 For `s=1` this clause imposes no torsion condition; `M/I₀ⁿM=0` for `n>0`.
 
 **The torsion identity.** For `s ≥ 2`, `M' = M/(r'₁, …, r'_{s'})M` and all `m, n > 0`, the `rₛᵐ`-torsion
-and the `(r₁, …, rₛ)`-torsion of `M'/I_{s-1}ⁿM'` coincide. (README name
-`IsCMSecant.torsion_prefixProduct`.)
+and the `(r₁, …, rₛ)`-torsion of `M'/I_{s-1}ⁿM'` coincide. This is clause (ii) of Kawasaki's
+proposition.
 
 *Proof sketch.* Extend to parameters (K0.6) and reverse the list, putting it in the
 `p`-standard case of type `d − 1`. Apply the five colon and intersection estimates proved together
@@ -1286,7 +1277,7 @@ pp. 12–13.) *Needs:* the reversed-prefix target; `kawasaki_colon_A`, `kawasaki
 **Regularity of the last auxiliary element.** If `s' ≥ 1`, `M' = M/(r'₁, …, r'_{s'-1})M` and the last
 auxiliary element `r'_{s'}` is regular on `M'/(r₁, …, rₛ)M'`, then `r'_{s'}` is regular on `M'` and on
 `M'/I_sⁿM'` for every `n > 0`. The element is the last auxiliary element, not an element of the
-original sequence. (README name `IsCMSecant.isSMulRegular_prefixProduct`.)
+original sequence. This is clause (iii) of Kawasaki's proposition.
 
 *Proof sketch.* The same colon-estimate induction as the previous target, with a final auxiliary
 parameter regular on the terminal quotient. Use Kawasaki's 1999 author preprint, Theorem 3.6,
@@ -1325,10 +1316,10 @@ pp. 12–13.) *Needs:* the three targets above; K2.2.
 `M/(r'₁, …, r'_{s'})M`. In particular this applies to an initial segment of a CM-secant sequence. It
 is a statement about one list `rs`: to transfer the conditions of every initial segment of a longer
 list one needs the auxiliary list to be secant for each of the corresponding prefix quotients (see
-K4.1). `Suggested.lean` declares `KawasakiConditions.prefixQuotient`.
+K4.1).
 
 *Proof sketch.* A further auxiliary list `r''` secant for `(M/(r')M)/(rs)` gives the concatenation
-`r' ++ r''`, which is secant for `M/(rs)M` (`IsSecant.append_iff`); apply each condition to it and
+`r' ++ r''`, which is secant for `M/(rs)M` (secant concatenation); apply each condition to it and
 identify `(M/(r')M)/(r'')(M/(r')M)` with `M/(r', r'')M` (and, for (iii), the quotient by all but the
 last element). (Česnavičius, Remark 3.12, p. 13.) *Needs:* K2.2; K0.3.
 
@@ -1372,7 +1363,7 @@ reesModule I M = ⊕_{n≥0} IⁿM · tⁿ  ⊆  M[t],
 
 a module over `R[It] = reesAlgebra I` by convolution (closure uses `Iⁱ·IʲM ⊆ I^{i+j}M`). Its degree-`n`
 piece is `IⁿM`, including `I⁰M = M`; it is not `M ⊗_R R[It]`, which can carry torsion that `M[t]`
-does not. `Suggested.lean` declares `reesModule` and `mem_reesModule_iff`.
+does not. Denote this submodule by `reesModule I M`.
 
 *Hypotheses.* `R` any commutative ring, `I` any ideal, `M` any module.
 
@@ -1414,31 +1405,31 @@ The modules in this subsection live over the chart rings `R[I/a]` fixed in the s
 
 **Chart modules.** For an ideal `I`, `a ∈ R` and an `R`-module `M`, the chart module `M_(a)` is the
 `R[I/a]`-submodule of the localization `M[1/a]` spanned by the image of `M`. `Suggested.lean` declares
-`chartModule`, `chartModule_isSMulRegular` and `mem_annihilator_chartModule_iff`.
+`chartModule`.
 
 *Hypotheses.* `R` any commutative ring and `M` any module for the definition and the first four API
 items; `R` Noetherian and `M` finite where finiteness is concluded.
 
 The API:
 
-- `chartModule_isSMulRegular`: `a` is regular on `M_(a)` (it is invertible on `M[1/a]`), so the module
+- Regularity of the chart element: `a` is regular on `M_(a)` (it is invertible on `M[1/a]`), so the module
   blowing-up has no nonzero sections supported on the exceptional divisor when `a ∈ I`.
-- `mem_annihilator_chartModule_iff`: an element of `R[I/a]` kills `M_(a)` iff it kills the image of `M`
+- The annihilator criterion: an element of `R[I/a]` kills `M_(a)` iff it kills the image of `M`
   in `M[1/a]`.
-- `chartModule.tensor_surjective`: the multiplication map `R[I/a] ⊗_R M → M_(a)`, `c ⊗ m ↦ c·m/1`, is
+- The tensor-to-chart comparison: the multiplication map `R[I/a] ⊗_R M → M_(a)`, `c ⊗ m ↦ c·m/1`, is
   surjective, and its kernel is the `a`-power torsion of `R[I/a] ⊗_R M`; it is an isomorphism after
   inverting `a`.
 - `chartModule.map`: an `R`-linear `f : M → N` induces the `R[I/a]`-linear map `M_(a) → N_(a)` obtained by
-  restricting the localization of `f`; `chartModule.map_mk`: it sends the image of `m` to the image of
-  `f m`, which determines it because these images span; `chartModule.map_id`, `chartModule.map_comp`.
-- `chartModule_principal`: for `I = (r)` and `a = r`, `R[(r)/r]` is the image `R/R⟨r^∞⟩` of `R` in
+  restricting the localization of `f`. It sends the image of `m` to the image of `f m`, which
+  determines it because these images span, and respects identity maps and composition.
+- The principal-ideal comparison: for `I = (r)` and `a = r`, `R[(r)/r]` is the image `R/R⟨r^∞⟩` of `R` in
   `R[1/r]` and `M_(r) ≅ M/M⟨r^∞⟩` as `R`-modules; `r` is regular on it even when it is a zero divisor on
   `M`.
-- `chartModule_self`: for `M = R`, `M_(a) = R[I/a]` (under `R[1/a] = R[1/a]`).
-- `chartModule_of_subsingleton`: for `M = 0`, `M_(a) = 0`.
-- `chartModule_top_one`: for `I = R` and `a = 1`, `R[R/1] = R` and `M_(1) = M`.
+- The ring-as-module comparison: for `M = R`, `M_(a) = R[I/a]` (under `R[1/a] = R[1/a]`).
+- The zero-module case: for `M = 0`, `M_(a) = 0`.
+- The unit-ideal comparison: for `I = R` and `a = 1`, `R[R/1] = R` and `M_(1) = M`.
 - `chartModule.finite`: for `R` Noetherian and `M` finite, `M_(a)` is a finite `R[I/a]`-module.
-- `chartModule_equiv_homogeneousLocalization`: for `a ∈ I`, the degree-zero homogeneous localization of
+- The comparison with homogeneous localization: for `a ∈ I`, the degree-zero homogeneous localization of
   `reesModule I M` at `a t` is isomorphic to `M_(a)`, the class of `x tⁿ/(a t)ⁿ` (`x ∈ IⁿM`) going to
   `x/aⁿ`; this is the module form of Tau Ceti's `reesAlgebra.awayEquivAffineBlowup`.
 
@@ -1458,7 +1449,7 @@ Mathlib `LocalizedModule`, `LocalizedModule.mkLinearMap`,
 
 - For `R = ℤ`, `I = (2)`, `a = 2` and `M = ℤ/2`: `M[1/2] = 0`, so `M_(2) = 0`, whereas
   `ℤ[(2)/2] ⊗ ℤ/2 = ℤ/2 ≠ 0`: the chart module is the image, not the tensor product.
-- For `I = R` and `a = 1`, `M_(1) = M[1/1] = M` (in `Suggested.lean`, the chart module is everything).
+- For `I = R` and `a = 1`, `M_(1) = M[1/1] = M`.
 - For `R = M = k⟦x, y⟧/(xy)`, `I = (x)`, `a = x`: `M⟨x^∞⟩ = (y)`, so `M_(x) ≅ k⟦x⟧`, not `M`.
 - For `M = R`, `M_(a) = R[I/a]`.
 
@@ -1538,7 +1529,7 @@ finite. No local hypothesis.
 The API:
 
 - `moduleBlowup.chartIso`: for `a ∈ I`, the pullback of `Bl_I(M)` along `affineBlowupι` is isomorphic to
-  `tilde M_(a)` (by `chartModule_equiv_homogeneousLocalization`).
+  `tilde M_(a)` (by the comparison with homogeneous localization).
 - `moduleBlowup.offCentre`: over `Spec R ∖ V(I)`, where the blow-down is an isomorphism, `Bl_I(M)` is
   the restriction of `tilde M` (on `D(a) ⊆ D₊(a t)`, `M_(a)[1/a] = M[1/a]`).
 - `moduleBlowup.map`: an `R`-linear `f : M → N` induces `Bl_I(M) → Bl_I(N)` from `reesModule.map`;
@@ -1564,11 +1555,11 @@ The API:
 **Chartwise Cohen–Macaulayness.** The predicate `IsCMBlowupChartwise I M` means that at every prime
 of every chart of `a ∈ I`, the localized chart module has vanishing local cohomology below its
 support dimension. It is a light predicate over the existing chart rings and localized modules;
-its geometric comparison requires `R` Noetherian and `M` finite as above. Its API consists of
-`isCMBlowupChartwise_of_subsingleton` (zero modules), `isCMBlowupChartwise_zeroIdeal` (the empty
-blow-up), `isCMBlowupChartwise_unitIdeal_iff` (for finite modules over Noetherian rings, equivalence
-with Cohen–Macaulayness of `M_𝔭` at every prime of `R`), and the sheaf comparison
-`moduleBlowup.isCohenMacaulay_iff`. (Česnavičius, §3.13 and §1.14, pp. 13–14 and 4; the chart cover
+its geometric comparison requires `R` Noetherian and `M` finite as above. Prove that it holds
+for zero modules and for the zero ideal (the empty blow-up). For the unit ideal and finite
+modules over Noetherian rings, prove equivalence with Cohen–Macaulayness of `M_𝔭` at every
+prime of `R`, together with the sheaf comparison `moduleBlowup.isCohenMacaulay_iff`.
+(Česnavičius, §3.13 and §1.14, pp. 13–14 and 4; the chart cover
 and stalk comparison above.)
 
 **Checks for the predicate.**
@@ -1586,7 +1577,7 @@ and stalk comparison above.)
 
 *Proof sketch.* The construction is the sheaf of a graded module on `Proj` (Stacks, Constructions,
 Section 27.8, tag 01M3, Lemmas 27.8.4 and 27.8.7) applied to the Rees module; the chart description is
-`chartModule_equiv_homogeneousLocalization`, compatibly with Tau Ceti's ring isomorphism
+the comparison with homogeneous localization, compatibly with Tau Ceti's ring isomorphism
 `awayEquivAffineBlowup`. Functoriality, the zero and unit cases follow chart by chart, since a sheaf
 morphism is determined by its pullbacks to an open cover. (Česnavičius, §3.13, pp. 13–14.) *Needs:*
 K3.1, K3.2; the preceding graded-module sheaf target; Mathlib `AlgebraicGeometry.Proj`,
@@ -1644,7 +1635,7 @@ surjection from the pullback `b*(tilde M)` along the blow-down `b : Bl_I(Spec R)
 `Bl_I(M)`, which on the chart of `a` is `R[I/a] ⊗ M → M_(a)`, has kernel the sections supported on the
 exceptional divisor; hence `Bl_I(M)` is the strict transform of `tilde M` along `b`.
 
-*Proof sketch.* Chartwise, by `chartModule.tensor_surjective`: the kernel is the `a`-power torsion and
+*Proof sketch.* Chartwise, by the tensor-to-chart comparison: the kernel is the `a`-power torsion and
 the exceptional divisor is `V(a)` on the chart; the chart identifications glue because both sides are
 quotients of the same pullback. (Česnavičius, §3.13, p. 14; Stacks, Definition 31.34.1, tag 080D, and
 Lemma 31.34.2, tag 080E.) *Needs:* K3.2, K3.3, the previous target; TauCetiRoadmap StableReduction
@@ -1708,7 +1699,7 @@ gives exactly the same span as the product chart. (Česnavičius, §3.13, (3.13.
 **The support of the module blowing-up.** For `R` Noetherian, `M` finite and `A = R/Ann_R M`, the
 support of `Bl_I(M)` is the closed image of `Bl_{IA}(Spec A)` in `Bl_I(Spec R)`; on the chart of `a` it is
 `V(ker(R[I/a] → A[1/ā]))`. This is an equality of closed subsets; no scheme structure on the support
-is asserted. `Suggested.lean` declares the annihilator form `mem_annihilator_chartModule_iff`.
+is asserted.
 
 *Proof sketch.* The image of `R[I/a]` in `A[1/ā]` is the chart ring of `IA`, and the induced
 surjection defines the closed immersion of the chart of `Bl_{IA}(Spec A)`. Since `M_(a)` is finite over
@@ -1733,9 +1724,9 @@ domains `A⊂B` and a prime `q` of `B` over `p` of `A`, prove `finiteType_height
 ht(q) + trdeg_{κ(p)} κ(q) ≤ ht(p) + trdeg_{Frac(A)} Frac(B).
 ```
 
-No catenarity hypothesis is required. `Suggested.lean` uses `Algebra.trdeg A B` for the
-fraction-field transcendence degree and the algebra structure on residue fields induced by
-`Ideal.ResidueField.map`; the finite transcendence degrees are converted to naturals.
+No catenarity hypothesis is required. Mathlib's `Algebra.trdeg A B` gives the
+fraction-field transcendence degree; `Ideal.ResidueField.map` induces the algebra structure
+on residue fields.
 (Stacks, Lemma 10.113.1, tag 02IJ.) *Needs:* Mathlib prime height, transcendence bases,
 fraction and residue fields, finite-type algebras.
 
@@ -1757,7 +1748,7 @@ flat local dimension formula used here, are built within this target.
 
 **The dimension of a Rees algebra.** For a Noetherian ring `A` and an ideal `J`,
 `dim A[Jt] ≤ dim A + 1` (extended Krull dimension; automatic when `dim A = ∞`). No equality is
-claimed; for `J = 0` the Rees algebra is `A`. `Suggested.lean` declares `ringKrullDim_reesAlgebra_le`.
+claimed; for `J = 0` the Rees algebra is `A`. Denote the bound by `ringKrullDim_reesAlgebra_le`.
 
 *Proof sketch.* `A[Jt]` is of finite type over `A` (`reesAlgebra.fg`). For a domain `A`, `A[Jt] ⊆ A[t]` is a
 domain of transcendence degree at most one over `A`, and `finiteType_height_le` bounds the height of
@@ -1847,7 +1838,8 @@ quotient `M/(r₁, …, rₜ)M`. Then:
   `Bl_{I_t}(M)`.
 
 The scheme is not replaced by `Bl_{I_t}(Spec R/(r'))`. If the terminal quotient is Cohen–Macaulay of
-positive dimension, a parameter `r' ∈ 𝔪` of it is regular on it (K0.5, `isSMulRegular_of_isCohenMacaulay`), and `M/(r₁, …, rₜ, r')M` is Cohen–Macaulay of dimension one less. Regularity on `M/I_sⁿM` is
+positive dimension, a parameter `r' ∈ 𝔪` of it is regular on it (K0.5), and
+`M/(r₁, …, rₜ, r')M` is Cohen–Macaulay of dimension one less. Regularity on `M/I_sⁿM` is
 asserted only for the full product `I_t`, which is all the reduction uses: Kawasaki's condition (iii)
 for a shorter prefix would need `r'` to be regular on `M/(r₁, …, r_s)M`.
 
@@ -1859,7 +1851,7 @@ gives regularity of `r'` on `M` and on `M/I_tⁿM`; the snake lemma for multipli
 `0 → I_tⁿM → M → M/I_tⁿM → 0` identifies `I_tⁿM/r'I_tⁿM` with `I_tⁿ(M/r'M)`, including degree zero.
 Apply `Proj.tildeModule.exact`. Since `r' ∈ 𝔪` vanishes at every closed point of the blow-up, the depth
 at a closed point drops by exactly one. (Česnavičius, proof of Theorem 3.14, pp. 14–15.) *Needs:* K0.3, K2.2–K2.4, K3.1,
-K3.3; K0.5 (`isSMulRegular_of_isCohenMacaulay`); SchemeAndStackFoundations §0.17.
+K3.3; K0.5 (regularity of parameters on Cohen–Macaulay modules); SchemeAndStackFoundations §0.17.
 
 **Checks.**
 
@@ -1878,7 +1870,7 @@ K3.3; K0.5 (`isSMulRegular_of_isCohenMacaulay`); SchemeAndStackFoundations §0.1
 **The first two stages.** For `s = 0`, `I₀ = R` and `Bl_{I₀}(M) = tilde M` on `Spec R`. For `s = 1`,
 `I₁ = (r₁)`, `Bl_{(r₁)}(Spec R) = Spec R/R⟨r₁^∞⟩` and `Bl_{(r₁)}(M)` is the sheaf of `M/M⟨r₁^∞⟩`, on which
 `r₁` is regular, even when `r₁` is a zero divisor on `M`. These are the base cases of the depth
-induction. (Česnavičius, proof of Theorem 3.14, p. 15.) *Needs:* K3.2 (`chartModule_principal`), K3.3.
+induction. (Česnavičius, proof of Theorem 3.14, p. 15.) *Needs:* K3.2 (the principal-ideal comparison), K3.3.
 
 **Checks.**
 
@@ -1913,10 +1905,10 @@ a monic irreducible polynomial.
 
 *Proof sketch.* By K3.5 the previous blow-up is the blow-up of `Bl_{I_{s-2}}` along `(r₁, …, r_{s-1})`, on
 whose charts this ideal is generated by one `rᵢ`, regular on the chart ring and on the chart module
-(`chartModule_isSMulRegular`). The chart ring of `(rᵢ, rₛ)R'` at `r_b` is `R'[T]/(r_bT − r_a)` modulo
+(regularity of the chart element). The chart ring of `(rᵢ, rₛ)R'` at `r_b` is `R'[T]/(r_bT − r_a)` modulo
 `r_b`-power torsion (evaluate `T ↦ r_a/r_b`), and the chart module is the image of `M'` in `M'[1/r_b]`
 spanned over it, i.e. `M' ⊗ R'[T]/(r_bT − r_a)` modulo `r_b`-power torsion (K3.2,
-`chartModule.tensor_surjective`). Localize at the closed point. (Česnavičius, proof of Theorem 3.14,
+the tensor-to-chart comparison). Localize at the closed point. (Česnavičius, proof of Theorem 3.14,
 p. 15; Stacks, Section 10.70, tag 052P, Lemma 10.70.6, and Lemma 31.33.2, tag 0804.) *Needs:* K3.2,
 K3.3, K3.5, K3.6; TauCetiRoadmap StableReduction Layer 4; SchemeAndStackFoundations §0.3.
 
@@ -2003,7 +1995,7 @@ The printed relation `aT−b` also acts by zero under both coefficient hypothese
 **The relation kills `H¹`.** Over a Noetherian ring `R'`, if `a` and `b` kill `H^1_{(a,b)}(N)`, then
 `b T − a` kills `H^1_{(a,b)}(N[T])` over `R'[T]`. In the chart this is applied with `(a, b) = (r_a, r_b)`; the
 map in the exact sequence `0 → M'[T] →(r_bT − r_a) M'[T] → M'[T]/(r_bT − r_a) → 0` is multiplication by
-`r_bT − r_a`. `Suggested.lean` declares `chart_relation_mem_annihilator`.
+`r_bT − r_a`.
 
 *Proof sketch.* Flat base change along `R' → R'[T]` gives `H^1_{(a,b)}(N[T]) ≅ H^1_{(a,b)}(N) ⊗ R'[T]`, on which
 `a` and `b` act through the first factor, hence by zero, so `bT − a` acts by zero. (Česnavičius, proof of
@@ -2109,9 +2101,14 @@ proposition (K2.3) gives the conditions on every initial segment; apply the prev
 four monomials. Then `A` is a two-dimensional Noetherian Cohen–Macaulay local domain, but
 `Bl_𝔪(Spec A)` has a local ring that is not Cohen–Macaulay: on the chart of `x³`, writing `Y = y/x`, the
 chart ring is `B = k[x³, x⁵Y³, x¹⁴Y², x⁴Y⁷]` (localized), and its local ring at the maximal ideal `𝔫` generated
-by these four monomials has dimension two and depth one. `Suggested.lean` declares
-`exists_isCohenMacaulay_not_isCMBlowupChartwise_maximalIdeal` (an existence statement weaker than
-this concrete target).
+by these four monomials has dimension two and depth one.
+
+`Suggested.lean` defines `huckabaAlgebra` as this monomial subalgebra of Mathlib's polynomial
+ring, `huckabaOrigin` as the kernel of its constant-coefficient map, and `huckabaLocalRing` as
+the localization at that maximal ideal. Its statement
+`huckaba_not_isCMBlowupChartwise_maximalIdeal` says, for every field, that this local ring is a
+two-dimensional Noetherian Cohen–Macaulay domain whose maximal-ideal blowing-up fails to be
+Cohen–Macaulay.
 
 *Proof sketch.* Put `u = x³, v = x⁵y³, w = x¹⁵y², z = y⁷`. Then `v³ = wz` and `w⁷ = u³⁵z²`, and `A₀` is free over
 `k[u, z]` with basis `vⁱwʲ`, `0 ≤ i < 3`, `0 ≤ j < 7`: the two monic relations give spanning, and distinct
@@ -2129,7 +2126,7 @@ monomial and a unit has a nonzero constant term. But `d·c² = a·b³·c`, so `d
 Česnavičius, §3, opening paragraph, p. 9, which cites Herrmann–Ikeda–Orbanz 14.11 for the phenomenon.)
 The example is Huckaba's, as HJLS state; HJLS assert the chart's non-Cohen–Macaulayness,
 and the monomial argument above supplies its proof.
-*Needs:* K3.2, K3.3; SchemeAndStackFoundations §0.17; K0.5 (`isSMulRegular_of_isCohenMacaulay`).
+*Needs:* K3.2, K3.3; SchemeAndStackFoundations §0.17; K0.5 (regularity of parameters on Cohen–Macaulay modules).
 
 **Checks.**
 
@@ -2150,7 +2147,7 @@ and the monomial argument above supplies its proof.
 ### Dependencies
 
 Layers K0–K3; SchemeAndStackFoundations §§0.17–0.18 and §2.7;
-K0.5 (`isSMulRegular_of_isCohenMacaulay`);
+K0.5 (regularity of parameters on Cohen–Macaulay modules);
 TauCetiRoadmap StableReduction (Layer 4); Tau Ceti (affine blow-up charts).
 
 ## Worked examples
