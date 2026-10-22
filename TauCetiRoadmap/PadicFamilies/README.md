@@ -2,6 +2,8 @@
 
 **Summary.** Build integral ordinary families of modular forms, their period modules and two-variable measures, and finite-slope families through the modular-symbol eigencurve. The central comparisons are ordinary control, rank-one freeness under residual multiplicity-one hypotheses, the eigenvariety's finite-slope charts, and Bellaïche's one-dimensional critical eigensymbol theorem at decent refinements. The final layers construct the compatible Galois representations and reciprocity maps, and extend the ordinary construction to totally real fields. Integral lattices, coefficient radii, and the two independent weight variables remain visible throughout these comparisons.
 
+`Suggested.lean` states the locally finite ordinary-projector theorem of §0a.22, the ordinary idempotent and perfect splitting of §0a.17, and the representative independence of the perfect ordinary factor in §0a.25. Its supporting definitions express local finiteness, complete-flatness and existence of a finite projective model on Mathlib modules and complexes. Other Lean names below specify interfaces to construct.
+
 ## Scope and ownership
 
 This roadmap owns the passage from single forms and single-weight symbols to families. It uses the shared rational ordinary towers and control of `IntegralIwasawaTheory`, §9.0, and constructs their Katz and weight-coordinate comparisons, the odd-prime cuspidal extension, integral homology period modules, branch congruence modules, distribution coefficients varying over weight space, the global family eigenmodule sheaf, and its additional Eisenstein critical L-functions. The cuspidal local critical suite, including its local families and secondary functions, belongs to `ModularSymbolsPadicLFunctions`, §3.0; its identification with the global model is §2.7a here. It also owns the ordinary and Coleman-family Galois and regulator applications needed here. A period is a trivialisation of a module; its existence and its comparison with a different integral period convention are separate theorems.
@@ -194,10 +196,9 @@ Changing `m` to any upper bound `N ≥ |M|` gives the same endomorphism `(U^{N!}
 - `ordinaryProjector_eq_pow_factorial`: `e_U = U^{n!}` for all `n ≥ |M|`.
 - `isIdempotentElem_ordinaryProjector`: `e_U² = e_U`.
 - `commute_ordinaryProjector`: `U e_U = e_U U`.
-- `ordinaryProjector_of_isUnit`: `U` a unit `⇒ e_U = 1`.
-- `ordinaryProjector_of_isNilpotent`: `U` nilpotent `⇒ e_U = 0`.
+- For a unit `U`, prove `e_U = 1`.
+- For nilpotent `U`, prove `e_U = 0`.
 - `ordinaryPart`: `M_ord := range e_U`, with `nonOrdinaryPart` :`= ker e_U`.
-- `finite_ordinary_milestone`: the stabilisation, idempotence, complement, bijectivity and nilpotence statements of §§0a.1–0a.4 for `U`, as one statement.
 
 **Checks.**
 
@@ -219,7 +220,7 @@ For `M` finite as a set and `U ∈ End_R(M): range e_U = ⨅_n range(Uⁿ)` and 
 
 `range e_U = range U^{m!} ⊆ range Uⁿ` for `n ≤ m!`, and `range Uⁿ` is constant for `n ≥ m` (§0a.1, image clause), so `range e_U = ⨅ range Uⁿ`. `ker e_U ⊇ ker Uⁿ` for `n ≤ m!`; if `Uⁿx = 0` then `e_U x = U^{N!}x = 0` for `N ≥ max(m, n)`; so `ker e_U = ⨆ ker Uⁿ`. An idempotent is the projection onto its range along its kernel `(LinearMap.isProj_iff_isIdempotentElem)`; compare with LinearMap.linearProjOfIsCompl for the Fitting complement pair.
 
-State the comparison as an equation of linear maps with the Mathlib projection, not only as equal submodules; the two submodule equalities are the milestone `finite_ordinary_fitting`.
+State the comparison as an equation of linear maps with the Mathlib projection, together with the two submodule equalities.
 
 See [KT](#ref-kt), §2.4, Lemma 2.10 and proof, p. 9 (arXiv v2).
 
@@ -247,7 +248,7 @@ For `M` finite as a set and `U ∈ End_R(M)`, `M = M_ord ⊕ M_nord` with both s
 
 Existence: `e_U` is idempotent, so `M = range e_U ⊕ ker e_U`; apply ordinary-part-bijective. Uniqueness: `U(A) = A` gives `A = Uⁿ(A) ⊆ range Uⁿ` for all `n`, so `A ⊆ ⨅ range Uⁿ = M_ord`; every `b ∈ B` lies in some `ker Uⁿ`, so `B ⊆ ⨆ ker Uⁿ = M_nord` (§0a.3). Since `M = A ⊕ B = M_ord ⊕ M_nord` are finite, `|A|·|B| = |M_ord|·|M_nord|` with `|A| ≤ |M_ord|` and `|B| ≤ |M_nord|`, so both inclusions are equalities.
 
-The milestone `finite_ordinary_unique` identifies both summands under these hypotheses.
+The uniqueness theorem identifies both summands under these hypotheses.
 
 **Checks.**
 
@@ -269,7 +270,7 @@ The two operators act on their respective source and target modules.
 
 Take `n ≥ max(|M|, |N|): e_{U₁} = U₁^{n!}` and `e_{U₂} = U₂^{n!}`, and `f U₁^{n!} = U₂^{n!} f` by induction.
 
-The same `n` must serve both modules; this is why the threshold `n ≥ |M|` (not a fixed exponent) is recorded. The milestone is `finite_ordinary_naturality`.
+The same `n` must serve both modules; this is why the threshold `n ≥ |M|` (not a fixed exponent) is recorded.
 
 See [KT](#ref-kt), §2.4, Lemma 2.10 and proof, p. 9 (arXiv v2); [Hida](#ref-hida), §1, (1.17b), p. 244.
 
@@ -283,7 +284,7 @@ Exactness in Mathlib's sense Function.Exact `f g (range f = ker g)`.
 
 If `x ∈ M_ord` and `g x = 0`, write `x = f y`; then `x = e x = e f y = f e' y ∈ f(M'_ord)` (naturality). The reverse inclusion is naturality and `g f = 0`. If `g` is surjective and `z ∈ M''_ord`, choose `g y = z`; then `g(e y) = e'' g y = z` with `e y ∈ M_ord`. The ordinary part is a natural direct summand of the identity functor, hence a retract of an exact sequence.
 
-The milestone `finite_ordinary_exact` states the image–kernel identity and preservation of surjections.
+State both the image–kernel identity and preservation of surjections.
 
 **Checks.**
 
@@ -457,7 +458,7 @@ Let `R` be a complete noetherian local ring with finite residue field, `C` a goo
 
 `End_{K(R)}(C)` is a quotient of the finite `R`-module of chain endomorphisms, hence a finite `R`-algebra; apply the finite-algebra supplier contract to `t`. For a representative `T`, `e_T` (§0a.16) is a chain idempotent with `e_T = T^{n!}` modulo `mᵏ` for `n` large, so its class is `lim t^{n!} = e`: this splits `e` in `K(R)`. Properties on cohomology follow from ordinary-part-complexes. Uniqueness: idempotents of the finite commutative `R`-algebra `R[t] = ∏ R[t]_𝔪` (`R` complete) correspond to sets of maximal ideals; the cohomological conditions force the set `{𝔪 : t ∉ 𝔪}`.
 
-Do not assume that `D(R)` is idempotent complete in the library: the splitting is produced from the degreewise ordinary part of a representative. The complete local and finite-residue hypotheses remain in force.
+Do not assume that `D(R)` is idempotent complete in the library: the splitting is produced from the degreewise ordinary part of a representative. The complete local and finite-residue hypotheses remain in force. The statement `perfect_complex_ordinary_projector` in `Suggested.lean` gives the factorial-limit idempotent in the native homotopy endomorphism ring, its membership in `R[t]`, and a splitting with finite projective terms in the same term interval.
 
 See [KT](#ref-kt), §2.4, Lemma 2.12, p. 10 (arXiv v2); [KT](#ref-kt), §2.2, definition of good and minimal complexes, p. 6 (arXiv v2).
 
@@ -488,16 +489,16 @@ The two formulations agree: the span of an orbit is `T`-stable, and a sum of fin
 A finite `R`-module carries only locally finite endomorphisms; the notion is new only for modules that are not finitely generated, such as completed direct sums of copies of `R` or completed cohomology.
 
 - `IsLocallyFiniteEnd`: The predicate on `(M, T)`: for all `n` and `v ∈ M/mⁿM`, the orbit span of `v` is finitely generated over `R`.
-- `isLocallyFiniteEnd_iff_directed_union`: `T` is locally finite iff every `M/mⁿM` is the union of its `T`-stable finitely generated submodules.
-- `isLocallyFiniteEnd_of_finite`: If `M` is a finite `R`-module, every `T` is locally finite.
-- `isLocallyFiniteEnd_of_finiteQuotientSystem`: If every `M/mⁿM` is finite, `T` is locally finite and `(mⁿM)_n` is a finite quotient system for `(M, T)` (§0a.10).
-- `IsLocallyFiniteEnd.mul`: Products of commuting locally finite endomorphisms are locally finite (BCGP Lemma 2.11.2).
+- Prove that `T` is locally finite iff every `M/mⁿM` is the union of its `T`-stable finitely generated submodules.
+- Prove that if `M` is a finite `R`-module, every `T` is locally finite.
+- Prove that if every `M/mⁿM` is finite, `T` is locally finite and `(mⁿM)_n` is a finite quotient system for `(M, T)` (§0a.10).
+- Prove that products of commuting locally finite endomorphisms are locally finite (BCGP Lemma 2.11.2).
 
 **Checks.**
 
 - On `M = R²` over `R = ℤ_p` every endomorphism is locally finite, and the projector agrees with the adic projector of §0a.14.
 - The zero endomorphism and the identity of any complete `M` are locally finite (orbit spans have at most one generator). In the Lean predicate this holds for every ideal of any commutative coefficient ring.
-- `polynomial_shift_not_locallyFinite`: on `(ℤ/2)[X]` as a vector space over `ℤ/2`, multiplication by `X` is not locally finite for `I=0`: the orbit of 1 consists of the independent monomials `Xⁿ`.
+- On `(ℤ/2)[X]` as a vector space over `ℤ/2`, multiplication by `X` is not locally finite for `I=0`: the orbit of 1 consists of the independent monomials `Xⁿ`.
 - On the completed direct sum `M` of countably many copies of `ℤ_p`, the shift `e_i ↦ e_{i+1}` is not locally finite: modulo `p` the orbit of `e_0` spans an infinite-dimensional `𝔽_p`-space.
 - On the same `M`, the diagonal endomorphism `e_i ↦ p^i e_i` is locally finite: modulo `pⁿ` it kills all `e_i` with `i ≥ n`, so each orbit span is finitely generated.
 
@@ -551,7 +552,7 @@ No uniform exponent `N` with `e = T^{N!}` on all of `M` is asserted; on the diag
 - `ordinaryProjectorLF_topNilpotent`: `T` is topologically nilpotent on `(1 − e(T))M`.
 - `ordinaryProjectorLF_unique`: An idempotent commuting with `T` with these two properties equals `e(T)`.
 - `ordinaryProjectorLF_eq_profinite`: If every `M/mⁿM` is finite, `e(T)` is the projector of §0a.11 for `(mⁿM)_n`.
-- `locally_finite_ordinary_milestone`: for `IsLocallyFiniteEnd m T`, a unique idempotent commuting with `T`, with `T` bijective on its range, `T^{N!}v` converging to it and `T` topologically nilpotent on its kernel; `ordinaryProjectorLF_unique` also characterises it by bijectivity and topological nilpotence alone.
+- `locally_finite_ordinary_milestone` in `Suggested.lean`: for `IsLocallyFiniteEnd m T`, a unique idempotent commuting with `T`, with `T` bijective on its range, `T^{N!}v` converging to it and `T` topologically nilpotent on its kernel; `ordinaryProjectorLF_unique` also characterises it by bijectivity and topological nilpotence alone.
 
 **Checks.**
 
@@ -613,7 +614,7 @@ Let `T` be a locally finite endomorphism of `M• ∈ D^flat(R)`. A locally fini
 
 On each `Hⁱ(M• ⊗^L R/m)` the operators `T₀` and `T₁` induce the same locally finite endomorphism; by §0a.23 the projectors induced by `e₀` and `e₁` both equal its ordinary projector there, so `ē₀M• → ē₁M•` is an isomorphism modulo `m`. `ē₁M•` is perfect because its reduction modulo `m` has finite cohomology (complete flat complexes with finite residual cohomology are perfect). A map of complete flat complexes that is a quasi-isomorphism modulo `m` is a quasi-isomorphism. On a perfect `M•` the endomorphism algebra is finite over `R` and the factorial-power idempotent is unique (Pilloni Remark 2.3.1), which identifies the construction with §0a.17.
 
-The statement asserts independence of the direct factor up to canonical quasi-isomorphism, never equality of idempotents in `End_{D(R)}(M•)` for non-perfect `M•`.
+The statement asserts independence of the direct factor up to canonical quasi-isomorphism, never equality of idempotents in `End_{D(R)}(M•)` for non-perfect `M•`. The statement `locally_finite_derived_ordinary_independence` in `Suggested.lean` uses two complete-flat chain representatives and splittings of their degreewise factorial limits. A derived isomorphism intertwining the operators induces an isomorphism of the ordinary factors when one factor has a finite projective model; the other then has one as well. The supporting predicates `CompleteFlatComplex` and `HasFiniteProjectiveModel` express these hypotheses on native Mathlib complexes and derived objects.
 
 - `derivedOrdinaryPart`: `e(T)M• ∈ D^perf(R)`, defined from any locally finite representative when one gives a perfect direct factor.
 - `derivedOrdinaryPart_isPerfect`: `e(T)M•` is perfect.
@@ -1097,7 +1098,7 @@ Freeness gives a coordinate isomorphism `θ^±:M^±_m→T_m`, whose inverse send
 A period line is not a globally chosen basis: `θ^±` is data, and statements depending on it are equalities up to `T_m^×` (integrally) or up to `O(℘)^×` at `℘`, not up to a field scalar. Where `M^±_m` is not free (`p`-distinguishedness fails) only the module, not a trivialisation, is available.
 
 - `familyPeriod`: `A` coordinate trivialisation `θ^±:M^±_m≅T_m`; its inverse at 1 is the chosen basis.
-- `familyPeriod_unique_up_to_unit`: Two trivialisations differ by a unit of `T_m`.
+- Prove that two trivialisations differ by a unit of `T_m`.
 - `familyPeriod_specialise`: The inverse coordinate basis specializes to a generator of the homology eigenquotient. Equality with the saturated eigensymbol normalization is conditional on the integral duality/control comparison.
 
 **Checks.**
@@ -1163,8 +1164,8 @@ The Hecke-module instances in automorphic congruences, level optimisation and in
 
 - `congruenceModule`: `Ψ_λ(M) = M/(M[𝔭_λ] + M[I_λ])`.
 - `congruenceModule_map`: An `A`-linear map `M → M′` induces `Ψ_λ(M) → Ψ_λ(M′)`, with `map_id` and `map_comp`.
-- `congruenceModule_annihilated`: `𝔭_λ + I_λ` annihilates `Ψ_λ(M)`.
-- `congruenceModule_self`: `Ψ_λ(A) = A/(I_λ + Ann_A(I_λ))`.
+- Prove that `𝔭_λ + I_λ` annihilates `Ψ_λ(M)`.
+- Identify `Ψ_λ(A) = A/(I_λ + Ann_A(I_λ))`.
 - `congruenceModule_isTorsion`: For `A` in `C_O(0)` and `M` finitely generated, `Ψ_λ(M)` is torsion of finite length.
 - `congruenceModule_compare_ikm`: For `depth_A M ≥ 1` it agrees with Iyengar–Khare–Manning's `Ψ_A(M)` in codimension zero.
 - `congruenceModule_mk`: The canonical `A`-linear map `M→Ψ_λ(M)`, with kernel `M[ker λ]+M[I_λ]`.
@@ -1177,7 +1178,7 @@ The Hecke-module instances in automorphic congruences, level optimisation and in
 - For `A = {(a, b) ∈ ℤ_p × ℤ_p : a ≡ b mod pⁿ}` and `λ` the first projection, `𝔭_λ = 0 × pⁿℤ_p`, `I_λ = pⁿℤ_p × 0` and `Ψ_λ(A) ≅ ℤ/pⁿ`. At `p=5`, `n=1`, this is the `ZMod 5` quotient of the equalizer of the two residue maps.
 - For `A = O` and `λ = id`, `𝔭_λ = 0`, `I_λ = A` and `Ψ_λ(M) = 0` for every `M`.
 - For reduction `λ:ℤ/4→ℤ/2`, `Ann(ker λ)=(2)`, `η_λ=0` and `Ψ_λ(ℤ/4)` has two elements. This uses the general commutative-ring definition; the domain hypothesis is unnecessary for this computation.
-- `congruenceModule_dualNumber_boundary`: for `A = O[t]/(t²)` and `λ(t) = 0`, `I_λ = 𝔭_λ = (t)` and `Ψ_λ(A) ≅ O` is not torsion: `A` is not reduced at `𝔭_λ`, so the finite-length statement needs its hypothesis. The named boundary theorem gives the case `O=ℤ`.
+- For `A = O[t]/(t²)` and `λ(t) = 0`, `I_λ = 𝔭_λ = (t)` and `Ψ_λ(A) ≅ O` is not torsion: `A` is not reduced at `𝔭_λ`, so the finite-length statement needs its hypothesis.
 - For `A = O[[t]]/(ϖ²t)` and `M = A/(ϖ³)`, `M/(M[𝔭] + M[I]) ≅ O/(ϖ)` while Iyengar–Khare–Manning's `Ψ_A(M) = 0` (Example 2.11). At `O=ℤ₅`, the ideals are `(25t)` and `(125)` and the raw quotient is additively `ZMod 5`.
 
 See [IKM](#ref-ikm), §2.2 (congruence modules), pp. 13–14; Proposition 2.10 and Example 2.11, pp. 16–17.
@@ -1199,7 +1200,6 @@ For the fibre product of two copies of `ℤ_p` glued modulo `pⁿ`, `η_λ = p�
 - `congruenceIdeal_ne_bot`: `η_λ ≠ 0` for `A` reduced, finite flat over `O`.
 - `congruenceIdeal_map`: `A` surjection `A → A′` through which `λ` factors gives `η_λ(A) ⊆ η_λ(A′)`.
 - `mem_congruenceIdeal_iff`: Under surjective `λ:A→O`, `o∈η_λ` exactly when `o=λ(a)` for some `a∈Ann_A(ker λ)`; retain surjectivity to identify the generated image ideal with the set image.
-- `congruence_milestone`: for surjective `λ` with `Ann_A(I_λ) = ker λ`, an additive isomorphism `Ψ_λ(A) ≅ O/η_λ`.
 
 **Checks.**
 
@@ -1207,7 +1207,7 @@ For the fibre product of two copies of `ℤ_p` glued modulo `pⁿ`, `η_λ = p�
 - For `A = O`, `η_λ = O`.
 - For `A = O × O` (no congruence) and `λ` the first projection, `η_λ = O`.
 - For `A = O[t]/(t²)`, `η_λ = 0` although `A` is finite flat over `O`.
-- `congruenceModule_polynomial_boundary`: take `A=B=O[x]`, finite flat over `B` by the identity, and `λ` evaluation at `x=0`. Then `𝔭=(x)`, `Ann(𝔭)=0`, and `Ann(Ann(𝔭))=A≠𝔭`. Thus `η_λ=0` but the raw congruence quotient is zero. The named boundary theorem gives the case `O=ℤ`. The base `B` maps onto `O`, but that does not make `𝔭` minimal.
+- Take `A=B=O[x]`, finite flat over `B` by the identity, and `λ` evaluation at `x=0`. Then `𝔭=(x)`, `Ann(𝔭)=0`, and `Ann(Ann(𝔭))=A≠𝔭`. Thus `η_λ=0` but the raw congruence quotient is zero. The base `B` maps onto `O`, but that does not make `𝔭` minimal.
 
 See [IKM](#ref-ikm), §2.2 and Proposition 2.10, pp. 13–17; [Hida](#ref-hida), §0 and §6, Numdam.
 
