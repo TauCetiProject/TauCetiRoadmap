@@ -6,6 +6,7 @@ pinching and full conductor ideals, passes through actual fiber schemes, canonic
 Picard lattices, and ends with the classification of fourteen equation representatives. The fourteen equations
 and their resolved invariants are Checks of one classification-list target. The classification theorem follows
 from bounded Weierstrass normal forms, admissible equivalence and the geometric and arithmetic fibre conditions.
+The signatures in `Suggested.lean` use native Mathlib and Tau Ceti carriers.
 
 ## Scope and ownership
 
@@ -71,8 +72,9 @@ are different notions.
 Point counts include singular points and ignore nilpotent thickening, because maps from fields factor through
 reduction. `WeierstrassCurve.pointCount` counts all affine equation solutions plus the point at infinity; it
 is an elliptic group cardinality only under smoothness. In the tables Eᵢ denotes the smooth binary curve with
-i points. Lean's `F2Model` and `modelEquations` use zero-based indices; mathematical model numbers start at
-one. Every extension-count assertion has r≥1; q is an actual finite-field size and is at least two.
+i points. The five-curve list `F2Model` and the fourteen-equation list use zero-based Lean indices;
+mathematical model numbers start at one. Every extension-count assertion has r≥1; q is an actual
+finite-field size and is at least two.
 
 The Weierstrass equation is y²+a₁xy+a₃y=x³+a₂x²+a₄x+a₆. Coefficients have weights 1,2,3,4,6; the discriminant
 has weight 12. At s=1/t, use x′=s²x, y′=s³y and aᵢ′(s)=sⁱaᵢ(1/s). Reversal is at the specified weight,
@@ -238,7 +240,13 @@ constructs canonical bundles, geometric lattices and the bounded global cubic; L
 counts and marked graph arguments into Picard constancy. Layer 6 gives the fourteen-model list with equations
 and resolved invariants as Checks. Layer 7 proves admissible equivalence and classification by normal-form case
 analysis, with uniqueness from the fibre and j-invariants. The README specifies every geometric target;
-Suggested.lean keeps light constructions and signatures whose carriers already exist.
+`Suggested.lean` states Ferrand's scheme existence theorem
+(`ferrand_scheme_pushout_exists`), the affine matrix classification
+(`canonicalFiber_affineMatrixClassification`), finite-field genus-one rational points
+(`genusOne_finiteField_hasPoint`), the five-class geometric classification
+(`genusOne_F2_classification`) and the characteristic restriction for regular nonsmooth
+genus-one curves (`regularGenusOne_char_two_or_three`). Its only supporting definition is
+`F2Model`. Lean names elsewhere specify the library API to be built by the roadmap.
 
 | Layer | Mathematical content |
 | --- | --- |
@@ -378,9 +386,9 @@ The construction needs the following maps and laws.
 
 - c(B,B)=B.
 
-- `AffinePinching.conductor_cusp`: the conductor of k[t²,t³]⊂k[t] is t²k[t].
+- The conductor of k[t²,t³]⊂k[t] is t²k[t].
 
-- `AffinePinching.conductor_nonreduced_diagonal`: the diagonal ℤ/4⊂ℤ/4×ℤ/4 has conductor zero,
+- The diagonal ℤ/4⊂ℤ/4×ℤ/4 has conductor zero,
   although its ambient ring contains the nonzero square-zero element (2,2).
 
 - For char k≠2 the conductor of k+(t²−1)k[t] is (t²−1)k[t].
@@ -494,6 +502,10 @@ essential to scheme existence; the algebraic-space theorem below has a different
 Build affine pushouts on §1.4. Use `localization_complement` and uniqueness of
 affine lifts to identify intersections. Glue the schemes and structure sheaves; cartesian, finite and closed
 properties are local on P.
+
+The categorical and cartesian existence statement, including
+finiteness and closedness of the canonical maps, is `ferrand_scheme_pushout_exists` in
+`Suggested.lean`.
 
 ([Ferrand](https://numdam.org/item/BSMF_2003__131_4_553_0.pdf), §§4.1,5.1,5.4,7.1, pp565,568,570,575–578.)
 
@@ -829,7 +841,7 @@ Example4.2.3, pp11–12; compare Ferrand7.1.)
 
 ### 1.12 cartesian criterion for common-ideal squares
 
-The native representative `AffinePinching.commonIdeal_isPullback_iff` states this reconstruction criterion under the literal image-ideal hypothesis.
+Prove `AffinePinching.commonIdeal_isPullback_iff` under the literal image-ideal hypothesis.
 
 For f:A→B and I⊂A, impose the literal equality f(I)=I.map f of underlying sets. Prove the quotient square is
 cartesian exactly when ker(f)∩I=0. The comparison into the native pullback is always defined; its kernel is
@@ -842,7 +854,7 @@ the native ring equivalence and categorical isomorphism; transfer the existing p
 Conversely, a cartesian square identifies the comparison with the unique isomorphism between two limits; its
 kernel is zero, giving the required intersection condition.
 
-The light map `AffinePinching.commonIdealComparison f I` is the actual lift to `CommRingCat.pullbackCone`. Its
+Construct `AffinePinching.commonIdealComparison f I` as the actual lift to `CommRingCat.pullbackCone`. Its
 API consists of the two projection equations, `commonIdealComparison_kernel` with kernel ker(f)∩I, and
 `commonIdealComparison_surjective_iff` with the literal image condition. The proof constructs a preimage by
 correcting a residue representative by an element of I. Checks: for Z→F₂ and I=0 it is bijective although f is
@@ -3949,7 +3961,11 @@ the incidence distinction between I₂/III and I₃/IV.
 identification: a nonempty finite connected symmetric integral matrix with diagonal −2, nonnegative
 off-diagonal entries and a positive primitive integral null vector is, under simultaneous reindexing,
 the negative Cartan matrix of a valid affine ADE diagram. The same reindexing sends the null vector to
-its marks. Use the native `TauCeti.AffineDynkinType` carrier from ZigzagPreprojective Layer 0, supplied
+its marks.
+
+This statement is `canonicalFiber_affineMatrixClassification` in `Suggested.lean`.
+
+Use the native `TauCeti.AffineDynkinType` carrier from ZigzagPreprojective Layer 0, supplied
 by `TauCeti/LinearAlgebra/RootSystem/AffineDynkinType/Basic.lean`; this classification converse is local work.
 Connectedness means that positive off-diagonal entries connect every pair of indices. Primitive means
 the gcd of the positive entries is one. Prove the radical comparison, bound off-diagonal entries by two,
@@ -4094,7 +4110,8 @@ rational preimages and add the single node.
 
 ### 2.11 nonsplit I₁ point count
 
-`QuadraticPinch.nonsplit_pointCount` records the binary quadratic-node specialization over every finite extension, with r>0.
+For the binary quadratic-node equation, prove the count formula over every finite extension
+of degree r>0.
 
 For a nonsplit I₁ over `𝔽_q` in the same descended-component setting, prove `#C(𝔽_q)=q+2`. The normalization has
 q+1 rational points, none over the degree-two conductor; the pinched point adds one. This is the first
@@ -4175,7 +4192,9 @@ only three points.
 Apply the prose target *lang-theorem* of ReductiveGroupsPartII §RG2.3.7 to the smooth connected Jacobian
 of a smooth proper geometrically connected genus-one curve over `𝔽_q`. Its torsor class vanishes, so the curve has an `𝔽_q`-point and becomes a
 pointed elliptic curve. This consumer requires the scheme torsor/Picard comparison, not a new proof of Lang or
-the assumption that a regular nonsmooth genus-one curve is elliptic.
+the assumption that a regular nonsmooth genus-one curve is elliptic. The statement
+`genusOne_finiteField_hasPoint` in `Suggested.lean` uses genuine coherent genus and expresses
+the rational point as a section over the field.
 
 Use the genuine Jacobian torsor structure. Apply surjectivity of `x↦x⁻¹Frob_q(x)` and the Frobenius descent
 argument of Lang Theorem 2 to obtain a fixed point. For an abelian variety the Lang map is `Frob_q − 1`;
@@ -4308,7 +4327,9 @@ Prove every smooth proper geometrically connected genus-one curve over F₂ is i
 Lang provides an origin; construct its actual projective Weierstrass presentation and compare rational points
 with the native count. Enumerate 32 binary coefficient tuples, retain the 16 smooth ones and the eight
 admissible infinity-preserving changes, and give orbit witnesses with sizes 2,4,4,4,2. The count identifies
-the unique orbit only after smoothness is checked.
+the unique orbit only after smoothness is checked. The geometric statement
+`genusOne_F2_classification` in `Suggested.lean` quantifies over smooth proper curves and
+asserts an isomorphism over F₂ with exactly one native projective model; it assumes no origin.
 
 Obtain the Weierstrass presentation of a pointed smooth proper geometrically connected genus-one curve over
 F₂, with its scheme model and rational-point comparison, from the Weierstrass normal forms of elliptic function
@@ -4394,15 +4415,15 @@ The construction needs the following maps and laws.
   nonzero j; the only nonzero element of F₂ is1. This establishes the whole displayed vector without a new
   geometric ordinary/supersingular definition.
 
-- `F2Model.orbit_witnesses`: For each W over F₂ with Δ(W)=1 there are i∈Fin5 and a native C∈VariableChange(F₂)
-  such that C•W=F2Model i. The durable sixteen-row certificate records every smooth coefficient tuple, its
+- Binary orbit witnesses: For each W over F₂ with Δ(W)=1 there are i∈Fin5 and a native C∈VariableChange(F₂)
+  such that C•W=F2Model i. The sixteen-row witness table records every smooth coefficient tuple, its
   1-based source class and the triple (r,s,t), with u=1. Uses §2.23. The smooth-split lemma reduces the32
   coefficient choices to the displayed16 rows. For each row substitute its (r,s,t) into the binary change
   formula and check all five coefficients against the indicated model. Equal native coefficients give equality
   of WeierstrassCurve objects. This is a complete finite witness table, not an appeal to an unavailable search
   log or to the size of an orbit alone.
 
-- `F2Model.orbits_disjoint`: For i,j∈Fin5, (∃C∈VariableChange(F₂), C•F2Model i=F2Model j) iff i=j. The index
+- Disjoint binary orbits: For i,j∈Fin5, (∃C∈VariableChange(F₂), C•F2Model i=F2Model j) iff i=j. The index
   is unique; the witnessing change generally is not unique because a model can have automorphisms. Uses §2.23,
   `WeierstrassCurve.pointCount_eq_card_point`, `WeierstrassCurve.Affine.Point.equivVariableChange`. Use the
   native additive point equivalence under C and the elliptic pointCount/card-point comparison to identify the
@@ -4436,7 +4457,8 @@ The construction needs the following maps and laws.
 
 ### 2.24 point counts classify smooth binary equations
 
-The light classifier is `F2Model.count_classifier`: every smooth native binary equation has the point count of a unique representative.
+The equation-level count classifier assigns every smooth native binary equation the point count
+of a unique representative.
 
 For a native binary equation with Δ=1, prove its rational point count lies in {1,2,3,4,5} and determines its
 unique `F2Model` orbit under `VariableChange`. Establish invariance of the equation count under the projective
@@ -4458,7 +4480,7 @@ preceding paragraph.)
 
 **Checks.**
 
-- `F2Model.singular_count_collision`: the singular equation y²=x³ over F₂ has Δ=0 and the same
+- Singular count collision: the singular equation y²=x³ over F₂ has Δ=0 and the same
   three-point count as E₃. Smoothness is necessary in the classifier.
 
 - Translating x on E₃ by one gives another smooth equation with the same three-point count.
@@ -4473,8 +4495,6 @@ preceding paragraph.)
 Construct an additive isomorphism Eᵢ(F₂)≃Z/iZ for each i=1,…,5. Counts two, three and five give cyclic groups
 directly; count one gives the trivial group. For count four compute a point of order four, rather than
 concluding cyclicity from the order alone.
-
-*Lean name:* `F2Model.point_group`.
 
 The coefficient field in every finite computation is exactly F₂=ZMod2; it is not an arbitrary field of
 characteristic two. Existing WeierstrassCurve and VariableChange carriers are used.
@@ -4934,9 +4954,9 @@ nilpotent fiber thickening having this reduction.
 finite-field embedding criterion. For I₁ use the complement isomorphism: `#(P¹ ∖ Spec E)+#Spec 𝔽_q`. This is
 Q+1−0+1 or Q+1−2+1. For I₂ remove the two copies of Spec E from P¹⊔P¹ and add one Spec E: 2(Q+1)−2e+e where e
 is0 or2. A field-valued morphism kills nilpotents; import the reduction comparison. At n=1 recover the two
-inherited Schröer3.2 counts. The separately checked native pointCount_extension_power now proves the odd/even
+inherited Schröer3.2 counts. Prove pointCount_extension_power, the odd/even
 formula for the one-component equation over every actual finite receiving-field algebra;
-quadratic_root_iff_even and quadraticRootCount_extension_parity supply the native conductor-polynomial
+use quadratic_root_iff_even and quadraticRootCount_extension_parity for the native conductor-polynomial
 criterion. Identify the actual projective pinch and its conductor field with this chart before transporting
 the count. These facts do not prove I₂ or schematic reduction; the numerical trace defect is only an auxiliary
 check.
@@ -5288,8 +5308,8 @@ The construction needs the following maps and laws.
 
 - For every a,b over any field and every i∈ℕ⊕ℕ, the actual ambient b(i) has natural degree unequal to1.
 
-- Round-trip arbitrary P,Q over F₂ at q=t²; multiplication of the second unit violates the product algebra
-  formula.
+- Apply both inverse composites to arbitrary P,Q over F₂ at q=t²; multiplication of the second unit
+  violates the product algebra formula.
 
 *Needs:* §2.32; §2.26; `Polynomial.aeval`; `Polynomial.aeval_subalgebra_coe`; `Polynomial.comp_eq_aeval`;
 `LinearEquiv.ofBijective`; `LinearEquiv.ofBijective_apply`.
@@ -5903,7 +5923,7 @@ imposed.
 Use the existing native WeierstrassCurve carrier and its projective Equation; no new projective scheme or
 smoothness predicate is defined.
 
-The representative light equation constructor `QuadraticPinch.curve a b` is precisely the five-coefficient
+Define `QuadraticPinch.curve a b` by the five-coefficient
 formula specified for `QuadraticPinch.InfinityChart.curve`. It records equation data before any scheme
 comparison. Its additional API is `curve_param`, sending t to (q(t),tq(t)), and `affine_count`, counting the
 origin separately from parameters with q(t)≠0. Checks: q=t² gives a cusp; q=t²−1 in characteristic unequal to
@@ -8073,13 +8093,13 @@ The construction needs the following maps and laws.
 - `QuadraticPinch.Global.absoluteSectionsClosureEquiv_inverse_val`: For `z∈integralClosure(A_U,K_C)`, the
   generic germ of `E_U⁻¹(z)` equals σ(z). k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native
   generic-point stalk fields. Uses §2.60, §2.57. Apply the ambient-value identity to `E_U⁻¹(z)`, simplify the
-  inverse round trip and cancel the injective map σ⁻¹.
+  inverse identity and cancel the injective map σ⁻¹.
 
 - `QuadraticPinch.Global.absoluteSectionsClosureEquiv_inverse_restrict`: Let nonempty affine V⊂U and let `z_U`
   and `z_V` lie in the two native closures inside `K_C` with equal ambient values. Then the actual restriction of
   `E_U⁻¹(z_U)` equals `E_V⁻¹(z_V)`. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native generic-point
   stalk fields. Uses §2.60. Apply injectivity of `E_V`, then subtype extensionality. Forward restriction
-  compatibility and the two inverse round trips reduce the claim to the equality of ambient field values.
+  compatibility and the two inverse identities reduce the claim to the equality of ambient field values.
 
 - `QuadraticPinch.Global.normalizationSectionsClosureEquiv_coefficient`: For `r∈A_U`, `e_U(ν.app(U)(r))` is the
   native coefficient image in `integralClosure(A_U,K_N)`. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are
@@ -8088,7 +8108,7 @@ The construction needs the following maps and laws.
 - `QuadraticPinch.Global.normalizationSectionsClosureEquiv_inverse_val`: For `z∈integralClosure(A_U,K_N)`, the
   actual source generic germ of `e_U⁻¹(z)` is z itself. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the
   native generic-point stalk fields. Uses §2.59. Apply the ambient-value law to the inverse image and use the
-  inverse round trip.
+  inverse identity.
 
 - `QuadraticPinch.Global.normalizationFunctionFieldAlgEquiv_coefficient`: For `r∈A_U`, the field algebra
   equivalence sends the actual curve generic germ of r to `c_U(r)`. k is any field, a,b∈k and q=t²+at+b. `K_C` and
@@ -8957,15 +8977,15 @@ closure.
 Compute the three intersections using the section and §4.4. The determinant is−1, so the
 inverse matrix is integral; use it to project every divisor class onto span(F,O).
 
-The numerical definition `fiberSectionGram` is the integral matrix [[0,1],[1,−1]] in the ordered basis (F,O).
-Its API evaluates the four entries, proves `fiberSectionGram_det=−1`, identifies its integral inverse
-[[1,1],[1,0]], and computes the projection of any geometric class through the established comparison.
+In the ordered basis (F,O), compute the integral Gram matrix [[0,1],[1,−1]], its determinant −1
+and its integral inverse [[1,1],[1,0]]. Use the established geometric comparison to compute
+the projection of any class.
 
 **Checks.**
 
-- `fiberSectionGram`: F has square zero.
-- `fiberSectionGram`: O has square −1 and pairs with F as +1.
-- `fiberSectionGram`: F+O has square +1; changing the sign of O² fails this test.
+- For the fiber–section Gram matrix, F has square zero.
+- For the fiber–section Gram matrix, O has square −1 and pairs with F as +1.
+- For the fiber–section Gram matrix, F+O has square +1; changing the sign of O² fails this test.
 - This plane is odd; it is not the even hyperbolic plane in the basis(F,O).
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Proposition 9.5 proof, p. 27; arXiv v3.)
@@ -9061,12 +9081,12 @@ weights, involutivity for bounded tuples, and `inverseChart_discriminant` under 
 
 **Checks.**
 
-- `reverseWeight`: weight six sends 1 to t⁶, including over Z/4.
-- `reverseWeight`: weight six sends t⁶ to 1.
-- `reverseWeight`: weight six sends t⁷ to zero, so the degree bound in involutivity is necessary.
-- `inverseChart`: the zero tuple remains zero.
-- `inverseChart`: the tuple (t,0,0,0,t⁶) has reciprocal sixth coefficient 1.
-- `inverseChart`: reversing (0,0,0,0,t⁷) twice does not recover the original tuple.
+- Weight-six reversal sends 1 to t⁶, including over Z/4.
+- Weight-six reversal sends t⁶ to 1.
+- Weight-six reversal sends t⁷ to zero, so the degree bound in involutivity is necessary.
+- The reciprocal chart of the zero tuple remains zero.
+- The tuple (t,0,0,0,t⁶) has reciprocal sixth coefficient 1.
+- Reversing (0,0,0,0,t⁷) twice does not recover the original tuple.
 - The coefficient a₁=1 becomes s, not1, on the second chart.
 - The coefficient a₆=t⁶ becomes1 on the second chart.
 - All five zero coefficients satisfy the bounds but have Δ=0, so this carrier does not certify an elliptic
@@ -9210,6 +9230,9 @@ characteristic two, the fibers are II, III, `I*_(2n)`, III* or II*, with compone
 Jacobian section group is killed by two. With geometric Shioda–Tate, deduce `ρ=2+Σ(r_b−1)`; for ρ=10 the sum is
 eight. This includes the nonsmooth compactification and genus-change arguments absent from the smooth-model
 theorem.
+
+The characteristic restriction is `regularGenusOne_char_two_or_three` in `Suggested.lean`,
+using the actual scheme, coherent genus and regularity of every stalk over an arbitrary field.
 
 Supply `regularGenusOne_geometricGenusChange` from the genus-change formula after purely inseparable
 extension; `quasielliptic_picard_additiveCompactification` identifies the smooth connected Pic⁰ as a twisted
@@ -9400,15 +9423,15 @@ Re(ζ)≤1, with equality only at ζ=1. Faithfulness of tensoring the torsion-fr
 on the integral lattice. Compare the étale torsion-free Picard group scheme with this Galois module; the
 criterion does not identify Picard-functor points with actual line bundles without the obstruction sequence.
 
-Define the numerical function `rationalSurfaceCount(q)=1+10q+q²` separately from the geometric count. Its API
-evaluates it, proves the displayed trace specialization for the resolved surface under the cycle-class
-hypotheses, and proves `small_fiber_bound : 10+7+7<rationalSurfaceCount(2)`.
+Use the numerical expression `1+10q+q²` in the trace specialization for the resolved surface
+under the cycle-class hypotheses. The numerical inequality `10+7+7<25` supplies the count
+contradiction of §5.9.
 
 **Checks.**
 
-- `rationalSurfaceCount`: q=2 gives 25.
-- `rationalSurfaceCount`: q=3 gives 40.
-- `rationalSurfaceCount`: q=0 gives 1 and q=1 gives 12 as numerical expressions; neither is a finite-field size.
+- For the expression `1+10q+q²`, q=2 gives 25.
+- For the expression `1+10q+q²`, q=3 gives 40.
+- For the expression `1+10q+q²`, q=0 gives 1 and q=1 gives 12 as numerical expressions; neither is a finite-field size.
 - A smooth rational ruled surface has rank two, so its q=2 count nine cannot be substituted into the rank-ten criterion.
 - A singular Weierstrass cubic can have fewer rational points than its smooth resolution.
 
@@ -9676,12 +9699,10 @@ functional j-invariants, resolved fibres, local minimality on both charts and re
 and their individual invariants below are Checks of this single list target; completeness and uniqueness are
 §7.4.
 
-The plain list `modelEquations : Fin 14→WeierstrassCurve F₂[t]` carries the displayed equations, with model i
-at index i−1. The vector `modelDiscriminant : Fin 14 → F₂[t]` records the displayed Δ column in the same
-order. The laws `modelEquations_bounded`, `modelEquations_injective` and `modelEquations_discriminant`
-give the five coefficient bounds, distinctness of the coefficient tuples, and each displayed discriminant
-together with `c₄ = a₁⁴`. The per-model invariants are Checks of this list.
-Geometric equivalence is the relation of §7.2.
+The equation list uses the native carrier `Fin 14→WeierstrassCurve F₂[t]`, with model i at
+index i−1. Establish the five coefficient bounds, distinctness of the coefficient tuples and
+each displayed discriminant together with `c₄ = a₁⁴`. The per-model invariants are Checks of
+this list. Geometric equivalence is the relation of §7.2.
 
 Models 1–8 are the nonzero-j equations in Schröer's Theorem 10.4 (p. 29), and models 9–11 are the zero-j
 equations in Theorem 10.5 (p. 31). Models 12–14 complete the twisted semistable case in the proof of Theorem
@@ -9735,9 +9756,9 @@ closed points. The count column is the sum of the three resolved rational-fibre 
 | 13 | (t,t,t³,0,0) | t¹¹ | t | I₃*, E₄, nonsplit I₁ | minimal, minimal | 17+4+4=25 |
 | 14 | (t,t²,t²,0,0) | t⁸(t²+t+1) | t⁴/(t²+t+1) | IV*, E₄, nonsplit I₂ | minimal, minimal | 15+4+6=25 |
 
-- `modelDiscriminant`: model 1 has Δ=t⁸ and c₄=t⁴, giving j=c₄³/Δ=t⁴.
-- `modelDiscriminant`: model 2 has Δ=t¹⁰(t²+t+1), with a nonrational discriminant place.
-- `modelDiscriminant`: model 14 has Δ=t⁸(t²+t+1), distinct from model 12’s t¹⁰ despite equal resolved counts.
+- In the discriminant column, model 1 has Δ=t⁸ and c₄=t⁴, giving j=c₄³/Δ=t⁴.
+- In the discriminant column, model 2 has Δ=t¹⁰(t²+t+1), with a nonrational discriminant place.
+- In the discriminant column, model 14 has Δ=t⁸(t²+t+1), distinct from model 12’s t¹⁰ despite equal resolved counts.
 - Models 9–11 have c₄=0 and Δ=t⁸≠0, so their generic curves are smooth with j=0.
 - The weight bounds are 1,2,3,4,6 for every row, including model 12's constant a₂=1.
 - The nonsplit I₂ and I₁ counts are six and four, respectively, as in §§2.11–2.12.
@@ -9819,16 +9840,16 @@ degree bound. The geometric interpretation uses nonzero Δ and local minimality.
 
 **Checks.**
 
-- `coefficientPolynomial`: the zero vector gives zero.
-- `coefficientPolynomial`: the vector (0,1,0) gives t at weight two.
-- `coefficientPolynomial`: the weight-zero vector (2) over Z/4 gives the nonzero nilpotent constant 2.
-- `normalizedCoefficients_card`: the dimensions 2+4+5+7=18 give 4·16·32·128=2¹⁸ coefficient tuples.
-- `NormalizedCoefficients`: an a₆=t⁷ coefficient is outside the weight-six bound.
-- `normalizedEquation`: the zero vector has Δ=0, while the top a₆ coordinate gives t⁶.
-- `normalizedEquation`: the slope vector (0,1) gives a₁=t with the other coordinates zero.
-- `normalizeA2`: a₂=0 fixes the equation.
-- `normalizeA2`: (t,t,0,0,0) maps to (t,0,t²,t²,0).
-- `normalizeA2`: (0,1,0,0,0) maps to (0,0,0,1,0).
+- The coefficient polynomial of the zero vector is zero.
+- The coefficient vector (0,1,0) gives t at weight two.
+- The weight-zero coefficient vector (2) over Z/4 gives the nonzero nilpotent constant 2.
+- The dimensions 2+4+5+7=18 give 4·16·32·128=2¹⁸ coefficient tuples.
+- An a₆=t⁷ coefficient is outside the weight-six bound.
+- The normalized equation of the zero vector has Δ=0, while the top a₆ coordinate gives t⁶.
+- The slope vector (0,1) gives a₁=t with the other coordinates zero.
+- An equation with a₂=0 is fixed by x-translation by a₂.
+- Translating x by a₂ sends (t,t,0,0,0) to (t,0,t²,t²,0).
+- Translating x by a₂ sends (0,1,0,0,0) to (0,0,0,1,0).
 
 *Needs:* §4.10; §4.14; Mathlib `Polynomial.degreeLTEquiv`, `Polynomial.mem_degreeLT` and
 `Polynomial.degreeLT_succ_eq_degreeLE`.
@@ -9857,11 +9878,11 @@ smooth relatively minimal Jacobian hypotheses on both surfaces for the equation 
 
 **Checks.**
 
-- `admissibleParameters_card`: 2²·2³·2⁴=512 translation triples; PGL₂(F₂) has six elements.
-- `AdmissibleParameters`: r=t² obeys the bound and r=t³ does not.
-- `admissibleChange`: zero parameters give the identity.
-- `admissibleChange`: the middle vector (0,1,0) gives r=t and s=0.
-- `admissibleChange`: the first vector (0,1) gives s=t and r=0.
+- There are 2²·2³·2⁴=512 translation triples; PGL₂(F₂) has six elements.
+- The translation r=t² obeys the bound and r=t³ does not.
+- Zero translation parameters give the identity.
+- The middle translation vector (0,1,0) gives r=t and s=0.
+- The first translation vector (0,1) gives s=t and r=0.
 - Base inversion uses the weight-reversed chart and transports the zero-section; applying it twice gives the
   identity base map.
 - A surface isomorphism moving the chosen zero-section to a different section does not satisfy the relation.
