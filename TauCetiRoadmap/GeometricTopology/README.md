@@ -1663,6 +1663,46 @@ Own group-Z⇒unknot with its actual loop theorem/Dehn lemma and compressible-bo
 
 For each finite strand number n, consume native Artin braid groups/words and construct the positive braid monoid, its embedding into B_n and its group-of-fractions comparison. Construct the Garside half twist Δ, its finite simple divisors identified with permutations, left/right gcd/lcm and the greedy normal form Δ^k s₁⋯s_r with each adjacent pair left-weighted. Prove existence, uniqueness and executable multiplication/inversion/reduction; thus decide equality of finite braid words. For the conjugacy theorem cited on source090, construct super-summit representatives with maximal infimum and minimal supremum in the conjugacy class, an effective terminating procedure finding one, and the finite graph of simple-element conjugations staying in that set. Prove its nonemptiness, finiteness and connectedness within one conjugacy class, including central/periodic and n=0/1/2 cases. The algorithm decides conjugacy iff the two complete finite reachable sets intersect, returning an actual conjugator on success and an exhaustive certificate on failure. A normal form alone does not decide conjugacy, and cycling alone is not asserted complete. This mathematical target is not a Markov-equivalence algorithm; the source's historical absence-of-known-Markov-algorithm sentence stays dated provenance.
 
+<a id="five-one-group-fox"></a>
+##### Worked group and Fox calculation for `5₁`
+
+For the positive two-strand braid closure `σ₁⁵`, identified geometrically with
+the torus knot `T(2,5)`, carry out the Wirtinger eliminations giving
+`⟨x,y | R=1⟩`, where
+`R=xyxyx y⁻¹x⁻¹y⁻¹x⁻¹y⁻¹`, equivalently `xyxyx=yxyxy`.
+Both x and y are positive meridians. Use native `PresentedGroup` and give the
+explicit isomorphism to `⟨a,b | a²=b⁵⟩`: set `a=xyxyx`, `b=xy`, with inverse
+`x=b⁻²a`, `y=a⁻¹b³`. Check both relations and all four generator identities.
+The meridional homomorphism sends x,y to1, hence a to5 and b to2.
+Compare this actual presentation with the native complement fundamental group
+by the geometric Wirtinger theorem and the chosen basepoint paths.
+
+Over the existing Laurent ring `Λ=ℤ[T;T⁻¹]`, write `t^k` for the native monomial
+`T k` for integer k, and specialize both meridians to `t=T 1`. Then
+compute the Fox row exactly as `(A,−A)`, where
+`A=t⁴−t³+t²−t+1`. For the signed word, each positive occurrence contributes
+`t^s` and each negative occurrence contributes `−t^(s−1)`, with s the exponent
+sum of its preceding letters. Prove that this word computation agrees with
+the generic group-ring Fox derivative and is unchanged by free reduction.
+Its reduced Alexander module is `Λ/(A)`; its unreduced module is
+`Λ ⊕ Λ/(A)`, with the augmentation and chosen-meridian splitting above.
+For the quotient of `Λ²` by the row `(A,−A)`, the splitting maps are
+`[u,v]↦(u+v,[−v])` and `(c,[d])↦[c+d,−d]`; prove their independence
+of representatives and their mutual inverse laws.
+Give the presentation maps and compare their Fitting ideals to the native
+PD module, retaining `E₀=0` and `E₁=(A)` for that unreduced module.
+
+The symmetric normalization is `Δ=t⁻²A=t²−t+1−t⁻¹+t⁻²`, so `Δ(1)=1`,
+`Δ(−1)=5`, and the knot determinant is5. The five-crossing two-Seifert-circle
+surface has genus2; the Alexander degree bound proves minimality. The reduced
+Fox-coloring space over `ZMod p`, for prime p, has dimension1 for p=5 and0
+otherwise: specialization at t=−1 gives the relation `5(x−y)=0`.
+In particular there are25 full5-colorings and20 nonconstant ones.
+These computations are attached to the realized positive braid; its mirror
+has the same Alexander polynomial and determinant.
+The literal signed word, native presentation types and representative targets
+are in [`FiveOneTargets.lean`](FiveOneTargets.lean).
+
 #### GT4: Jones trace, special values and braid obstructions
 
 Consume actual TL operator A1–A5's positive quotients and trace/finite-block interfaces, GT4's geometric Jones/bracket/Markov comparison, and the full [TypeAHeckeAlgebras H1–H4a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/632834b86fde0501e5e376aa30bc650e02732160/TauCetiRoadmap/TypeAHeckeAlgebras/README.md) supplier only for the full Hecke statements. Construct no second generic TL presentation, normalized trace or two-variable HOMFLY owner. Pin the level: source n projections generate the(n+1)-strand algebra, whereas a closure of a braid on n strands uses the appropriate n-strand level. For t≠0,−1 and a chosen u≠0,u²=t, normalized projections satisfy p_i p_(i±1) p_i=τp_i with τ=t/(1+t)² and braid units g_i=u*((1+t)*p_i−1). Prove inverse, far commutation, braid relation, trace(g_i)=trace(g_i⁻¹)=−u/(1+t), inclusions, and agreement with the current native signed-loop crossing representation. Check these identities against the native signed-loop crossing convention.

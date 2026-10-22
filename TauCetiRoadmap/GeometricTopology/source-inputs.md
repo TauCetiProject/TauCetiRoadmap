@@ -161,3 +161,22 @@ by the orientation-reversal/invertibility construction in
 [GT4's torus model](README.md#gt4-torus-models). The square-torus coordinate swap
 requires the actual ambient S³ isotopy given there. This note records source
 wording and the precise corrected target; it is not a diagram-identity certificate.
+
+
+<a id="five-one-presentation-source"></a>
+## Problem79: the cinquefoil presentation
+
+Physical page13 of *Knot Theory - problems.pdf* asks for the knot group of
+`5₁` with relator `xyxyxy⁻¹x⁻¹y⁻¹x⁻¹y⁻¹` and its Alexander polynomial.
+The signed word is `(x,+),(y,+),(x,+),(y,+),(x,+),(y,−),(x,−),(y,−),(x,−),(y,−)`.
+In particular, there are five positive letters followed by five negative
+letters, and the relator equation is `xyxyx=yxyxy`.
+
+The [worked group/Fox target](README.md#five-one-group-fox)
+uses the positive braid `σ₁⁵` and the torus model `T(2,5)` to fix the geometric
+representative, while keeping both generator maps and the meridional
+specialization explicit. `FiveOneTargets.lean` supplies this literal word,
+native presented groups, the inverse-generator-map target, and exact Laurent
+Fox calculations. Its raw-word formula still requires the stated comparison
+with generic group-ring Fox differentiation and the geometric Wirtinger/PD
+module. An abstract presentation alone does not choose a chirality.
