@@ -171,6 +171,10 @@ Keep the pseudo-hyperbolic expression
   classification is `TauCeti.exists_forall_unitDisc_eq_unitDiscStandardAutomorphismEquiv`;
   `TauCeti.existsUnique_eq_unitDiscStandardAutomorphismEquiv` pins uniqueness of its rotation
   and center parameters. Preserve the holomorphic inverse/maps-to hypotheses of those APIs.
+  For the concrete disk-interpolation example, a function `f : ℂ → ℂ` holomorphic on the unit disk with
+  `MapsTo f (ball 0 1) (ball 0 1)` and `f(1/2)=3/4` satisfies
+  `|f′(1/2)|≤(1−(3/4)²)/(1−(1/2)²)=7/12`. Deduce that the additional datum
+  `f′(1/2)=2/3` is impossible, by specializing the native infinitesimal Schwarz–Pick estimate.
   Build the Cayley metric comparison explicitly: for z,w∈ℍ and
   `c(z)=(z−i)/(z+i)`, prove
   `dist_ℍ(z,w) = 2 * hyperbolicDist(c(z),c(w))`, using Mathlib's native
