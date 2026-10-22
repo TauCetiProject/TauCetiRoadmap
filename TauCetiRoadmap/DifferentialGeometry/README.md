@@ -787,6 +787,13 @@ stronger quantifier order.
   `homotopyOperator (H^*(A dx∧dy)) = η` with this slot order and sign, and prove `η` is
   `C¹`, vanishes at `a`, and satisfies `∂ₓ(uI)−∂ᵧ(−vI)=A`. For smooth `A`, prove the
   output is smooth. This pins the coordinate formula to the existing operator.
+  For a smooth real- or complex-valued closed one-form `ω=P dx+Q dy` on the same disk,
+  prove the degree-one comparison
+  `homotopyOperator (H^*ω)(p)=u∫₀¹ P(a+t(p−a))dt+v∫₀¹ Q(a+t(p−a))dt`.
+  This function g is smooth, satisfies `g(a)=0` and `dg=ω`, and is the unique primitive
+  normalized to vanish at a. In coordinates, prove `∂ₓg=P` and `∂ᵧg=Q` from
+  `∂ᵧP=∂ₓQ`; differentiation under the compact parameter integral and FTC give the
+  comparison directly. The formula at a=0 is `g(x,y)=x∫₀¹P(tx,ty)dt+y∫₀¹Q(tx,ty)dt`.
   For the separate vertical-disk formula, let `D={x+iy: |x+iy-a|<r}`, `r>0`,
   `a=a₁+ia₂`, and let `ω` be a smooth `F`-valued 2-form on `D`, for any complete normed real
   space `F`. Define its scalar-coordinate coefficient by `f(z)=−ω_z(1,i)`, since
