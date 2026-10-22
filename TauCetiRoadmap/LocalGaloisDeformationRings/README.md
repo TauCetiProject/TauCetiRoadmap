@@ -1,6 +1,6 @@
 # Roadmap: local Galois deformation rings and their components
 
-**Summary.** Build generic deformation functors and representing rings, then local framed lifting rings, their tangent and obstruction theory, tame conditions, Hodge-type quotients, finite-flat model resolutions, ordinary flag spaces and component comparisons. The outputs are actual universal rings, maps between them and descriptions of their components, for modularity lifting, potential automorphy, compatible systems and patching. Explicit small-rank equations distinguish a condition from its reduced flat closure, a flag space from its image and a full Weil–Deligne type from an inertia type.
+**Summary.** Build generic deformation functors and representing rings, then local framed lifting rings `R□`, their tangent and obstruction theory, tame conditions, Hodge-type quotients, finite-flat model resolutions, ordinary flag spaces and component comparisons. The outputs are actual universal rings, maps between them and descriptions of their components, for modularity lifting, potential automorphy, compatible systems and patching. Explicit small-rank equations distinguish a condition from its reduced flat closure, a flag space from its image and a full Weil–Deligne type from an inertia type.
 
 ## Scope and ownership
 
@@ -72,6 +72,8 @@ Mathlib at the pins supplies `MvPowerSeries`, `ProfiniteGrp`, `Module.Finite`, `
 ## How to read the build
 
 The generic foundations in Layer F precede the coefficient and comparison prerequisites in Layer 0 and the eight local deformation layers. Then construct the local universal rings, character coefficients, bounded-height lattices, Fontaine–Laffaille condition and ordinary incidence space. Tame rigidity then precedes Hodge-type quotients, finite-flat and dyadic geometry. Layer 6 gives ordinary and `GL₃` component comparisons; Layer 7 compares the determinant-ordinary image with flags; Layer 8 exports the selected local rings. Dependencies refer to numbered targets or exact external roadmap/layer addresses. API names are intended for `TauCetiRoadmap.LocalGaloisDeformationRings` unless explicitly qualified. README.md specifies every target; Suggested.lean records only representative signatures whose carriers are expressible at the pinned APIs.
+
+The headline signatures in `Suggested.lean` state the odd-real quadric geometry of [1.14](#t1-14) and [8.7](#t8-7), and the ordered-flag theorem of [7.4](#t7-4). The API lists below specify the intended interfaces of the mathematical development.
 
 ## Layer F: Generic deformation foundations
 
@@ -233,10 +235,6 @@ The API:
 Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `IsArtinianRing`,
 `IsLocalRing`, `ContinuousMonoidHom`.
 
-*Lean:* `strictKernel`, `Lift`, `Lift.conj`, `Lift.conj_apply`, `Lift.map`, `Lift.map_apply`,
-`Lift.map_id`, `Lift.map_comp`, `Lift.reduce_map`, `Lift.charpoly_map`, `Lift.trace_map`,
-`Lift.det_map`, the `MulAction` instance of `strictKernel` on `Lift`, the proved residue-field `example`.
-
 **Checks.**
 
 - **lift_trivial_char_Zp.** For `G=ℤ_p`, `n=1` and `ρ̄=1`, evaluation at `1` identifies
@@ -311,8 +309,6 @@ The API:
 *Needs:* [F.1.1](#lifting-functor); Mathlib `Matrix.GeneralLinearGroup`, `MonoidHom.ker`,
 `MulAction.orbitRel`.
 
-*Lean:* `Def`, `Def.mk`, `Def.mk_eq_mk_iff`, `Def.map`, `Def.map_mk` and `def_rank_one_eq_lift`.
-
 **Checks.**
 
 - **def_residue.** `Def_ρ̄(k)` is a singleton.
@@ -381,8 +377,6 @@ non-Schur failure and the failure for an arbitrary surjection onto `k` are recor
 *Needs:* [F.1.3](#strict-deformation-functor); Mathlib `Matrix.GeneralLinearGroup`;
 [F.0.1](#completed-coefficient-products).
 
-*Lean:* `IsSchur`, `strict_of_full` and the two proved `example`s on rank one and on `1 ⊕ 1`.
-
 **Checks.**
 
 - **strict_of_full_not_schur.** for `ρ̄ = 1 ⊕ 1` the dual-number lifts in §F.1.3 are
@@ -410,8 +404,6 @@ groups ([Gee22], §§3.20–3.21, p. 15).
 
 *Needs:* [F.1.1](#lifting-functor); [F.1.3](#strict-deformation-functor); Mathlib
 `ContinuousMonoidHom`.
-
-*Lean:* `Lift.restrict`, `Lift.restrict_apply`, `framed_restrict_invariant` and the proved trivial-subgroup restriction `example`.
 
 **Checks.**
 
@@ -442,8 +434,6 @@ The API:
 *Needs:* [F.1.1](#lifting-functor); [F.1.3](#strict-deformation-functor); Mathlib
 `Matrix.GeneralLinearGroup.det`.
 
-*Lean:* `LiftDet`, `mem_LiftDet_iff`, `LiftDet.conj`, `liftDetSubMulAction` and `DefDet`.
-
 **Checks.**
 
 - **liftDet_rank_one.** for `n = 1`, `Lift_{ρ̄,χ}(A) = {χ_A}`; a definition imposing the determinant only
@@ -473,8 +463,6 @@ The API:
 
 *Needs:* [F.0.1](#completed-coefficient-products); [F.1.1](#lifting-functor);
 [F.1.3](#strict-deformation-functor); [F.1.7](#fixed-determinant-functors).
-
-*Lean:* `isSchur_baseChange`.
 
 **Checks.**
 
@@ -587,8 +575,6 @@ The API:
 `IsTopologicallyFinitelyGenerated`, `IsTopologicallyFinitelyGenerated.finite_monoidHom_isOpen_ker`,
 `maximalProPQuotient`, `topologicalGeneratorRankNat_le_of_openSubgroup`,
 `IsProP.topologicalGeneratorRank_eq_rank_continuousZModDual`.
-
-*Lean:* `PhiP`, `PhiP.open` (written `PhiP.«open»`), `phiP_of_fg`, the proved finite-group `example`.
 
 **Checks.**
 
@@ -796,8 +782,6 @@ Remark (1.2.2)(3), p. 2).
 [F.2.4](#universal-continuous-lift); [F.1.7](#fixed-determinant-functors);
 [F.0.2](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4; Mathlib `MvPowerSeries`, `Algebra.FormallySmooth`.
 
-*Lean:* `TFramedLift`, its simultaneous action and `UnrestrictedTFramedDef`.
-
 **Checks.**
 
 - **framed_vars_rank_one.** for `n = 1` the number of framing variables is `0`, and `R^□ = R`.
@@ -897,8 +881,6 @@ condition use `D ∩ LiftDet_χ`, as in F.3.2. None of these universal propertie
 *Needs:* [F.1.7](#fixed-determinant-functors); [F.2.3](#universal-lifting-ring);
 [F.2.5](#universal-deformation-ring); [F.2.4](#universal-continuous-lift); [F.2.1](#phi-p-condition); Mathlib
 `Matrix.GeneralLinearGroup.det`.
-
-*Lean:* `exists_unique_nthRoot_of_residue_eq_one` adds uniqueness and the `p∤n` formulation to the supplied Hensel existence theorem.
 
 **Checks.**
 
@@ -1122,8 +1104,6 @@ p. 15; `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*).
 [F.2.9](#fixed-determinant-rings); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
 `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*.
 
-*Lean:* `adjoint_coboundary_mem_slIdeal`.
-
 **Checks.**
 
 - **ideal_unrestricted.** `I(unrestricted) = 0` and `L(unrestricted) = H¹`.
@@ -1324,7 +1304,7 @@ For continuous `ρ̄`:`Γ→GL_d(k)`, with `Γ` a local absolute Galois group sa
 
 For a complete Noetherian family `V_A` and imported étale `M_A`, use projective rank-`d` `𝔖_B`-lattices spanning `M_B` with `φ`-cokernel killed by `E(u)^h`. On nilpotent coefficient algebras this is the lattice functor; integral/rational points use its model scheme. Tensoring gives functoriality, extensionality and height monotonicity. Finite-flat `ℤ_p` coefficients give uniqueness; existence requires coefficient projectivity. `V*` and `V(−1)` are distinct normalizations.
 
-For a chosen free lattice with square Frobenius matrix `X`, the coordinate predicate `HasHeightLE E X h` means that there is a matrix `Y` with `XY=E^h I`. Its API `height_zero_iff_isUnit` identifies height zero with invertibility over a commutative ring. This coordinate predicate checks a fixed free lattice; the projective-lattice functor above additionally retains the étale ambient module and base change.
+For a chosen free lattice with square Frobenius matrix `X`, the coordinate height condition means that there is a matrix `Y` with `XY=E^h I`. Height zero is equivalent to invertibility over a commutative ring. This checks a fixed free lattice; the projective-lattice functor above additionally retains the étale ambient module and base change.
 
 The construction provides the following API.
 
@@ -1526,7 +1506,7 @@ For the preceding multiplicity-free Fontaine–Laffaille objects, prove the exac
 
 At `p=2` in rank two, odd lifts complete the quadric `a²+bc=1` for matrices `(a,b;c,−a)`. This flat domain is a relative complete intersection of dimension two, with regular scheme generic fibre and integral special fibre. Its completed local deformation rings at closed characteristic-zero points are formally smooth for their maximal-ideal topology. At the identity involution the equation is `X²+2X+YZ`; at the nonidentity unipotent involution it is `X²+2X+YZ+Z`.
 
-The light equation `OddInvolutionEquation a b c` is `a²+bc=1`. The API `odd_involution_matrix_iff` identifies it with both `M²=I` and `det M=−1` for `M=[[a,b],[c,−a]]`, over every commutative ring; no division by two occurs.
+The equation `a²+bc=1` is equivalent to both `M²=I` and `det M=−1` for `M=[[a,b],[c,−a]]`, over every commutative ring; no division by two occurs. In `Suggested.lean`, `oddRealIdeal` and `OddRealRing` give the completed quadric at any residual coordinates satisfying this equation. The theorem `oddRealRing_geometry` states that over a complete characteristic-zero DVR it is a flat domain of absolute dimension three, with regular generic fibre of dimension two.
 
 **Checks.**
 
@@ -1817,7 +1797,7 @@ Away from `p`, `H⁰(ad ρ̄(1))=0` gives an unrestricted rank-`d` ring `𝒪[[X
 
 For trivial residual data and `q≡1 mod p`, impose unipotent inertia and a `q`-chain `α`,`qα`,…,`q^{d−1}α` of Frobenius roots, then take the reduced flat closure. In rank two `q(tr Φ)²=(1+q)²det Φ`. Monodromy may drop on the boundary. Compare separately with the filtered discrete-series condition.
 
-The fixed-basis predicate `SteinbergFrobRelation q Φ` is `q(tr Φ)²=(1+q)²det Φ` over a commutative ring. It is the rank-two Frobenius equation; the condition quotient also retains inertia, residual continuity and its flat closure.
+The fixed-basis equation `q(tr Φ)²=(1+q)²det Φ` makes sense over a commutative ring. It is the rank-two Frobenius equation; the condition quotient also retains inertia, residual continuity and its flat closure.
 
 The construction provides the following API.
 
@@ -1850,7 +1830,7 @@ The construction provides the following API.
 
 For `p∤q`, `T_q=ℤ_p⋊ℤ̂` with `φtφ⁻¹=t^q`. For `b≥1` the closed subgroup generated by `t` and `φ^b` is `T_{q^b}`. Write `P_{K,p}=ker(I_K→ℤ_p)`, using a choice of the coefficient-`p` projection of tame inertia. Then `G_K/P_{K,p}≅T_q`; `P_{K,p}` generally contains more than the wild `ℓ`-inertia, unlike the full tame quotient of LocalFieldsRamification. In maximal-ideal-topological coefficients, tame matrices with pro-`p` inertia and `BAB⁻¹=A^q` give a unique continuous representation. Dense generators detect equality. The abelianisation is `ℤ_p/(q−1)×ℤ̂`.
 
-In fixed matrix coordinates, `IsTameMatrixPair q Φ σ` requires both matrices to be units and `Φσ=σ^qΦ`. It is available over any commutative ring; the representation theorem additionally requires the profinite continuity and pro-`p` inertia hypotheses stated above.
+In fixed matrix coordinates, a tame pair consists of two units satisfying `Φσ=σ^qΦ`. These equations make sense over any commutative ring; the representation theorem additionally requires the profinite continuity and pro-`p` inertia hypotheses stated above.
 
 The construction provides the following API.
 
@@ -1947,7 +1927,7 @@ For rank two, odd `p`, `q≡1 mod p`, distinct residual Frobenius eigenvalues an
 
 For `p≥3`, `exp₂(N)=1+N+N²/2+N³/2` and `log₂(U)=(U−1)−(U−1)²/2` are inverse on the specified symplectic schemes. Frobenius gives `ΦNΦ⁻¹=qN+((q−q³)/3)N³`, retaining the characteristic-three correction. Centralizers are smooth of dimensions 11,7,5,3 for ranks 0–3. The pair scheme `ΦNΦ⁻¹=qN+q*N³` identifies with the unipotent specialization of the reciprocal-eigenvalue tame matrix model.
 
-Use `modifiedExp`, `modifiedLog` and `modifiedPowerCoefficient` for these explicit matrix formulas, with 2 invertible in the coefficient ring. The last computes `(q−q³)/3` in `ℤ` before mapping to the coefficient ring, so characteristic three causes no division by zero. The APIs `modified_exp_log_inverse` and `modified_exp_pow` state inverse and powering identities for any `4×4` matrix with fourth power zero; the symplectic local model additionally imposes its alternating-form equations.
+Use these explicit matrix formulas with 2 invertible in the coefficient ring. Compute `(q−q³)/3` in `ℤ` before mapping to the coefficient ring, so characteristic three causes no division by zero. The inverse and powering identities apply to any `4×4` matrix with fourth power zero; the symplectic local model additionally imposes its alternating-form equations.
 
 The construction provides the following API.
 
@@ -2026,7 +2006,7 @@ For trivial rank-`d` residual data, `ℓ≠p` and `q≡1 mod p`, take finite `p`
 
 Pairwise distinct `χᵢ` give geometrically irreducible `Spec Rχ` of integral dimension `d²+1` with characteristic-zero generic point; `Rχᶠˡᵃᵗ`,`ʳᵉᵈ` is a domain of the same dimension. The equation quotients satisfy `Rχ/ϖ=R₁/ϖ`. For trivial characters, all components of `Spec R₁` have that dimension and characteristic-zero generic points, and each special generic point has a unique generic generalisation. These component statements pass to the reduced flat closures; equality of their special-fibre rings is not inferred from equality of the equation quotients. The Steinberg closure is a domain; the rank-two fixed-determinant comparison requires `p>2`.
 
-*Lean:* `IsTameMatrixPair.charpoly_pow` gives the necessary Frobenius stability.
+Frobenius conjugacy forces the inertia characteristic polynomial to be invariant under the `q`-power map.
 
 **Checks.**
 
@@ -2379,7 +2359,7 @@ Construct bounded semistability first, then fixed Hodge and inertia conditions. 
 
 A Hodge type specifies a filtration on `K⊗E` of rank `d` with labelled multiplicities `m_{τ,i}`, using contravariant `D*` and the explicit `HT` dictionary. A `p`-adic Galois type is finite-image inertia extendible to `W_K`. Define `Δ(v)=Σ_τ(d²−Σ_i m_{τ,i}²)/2`, equal to `fd(d−1)/2` for regular type. Give equality and coefficient-transport APIs.
 
-For one labelled filtration, `filtrationFlagDimension` computes `((Σm_i)²−Σm_i²)/2` from its jump multiplicities. It gives 3 for `(1,1,1)`, 2 for `(2,1)`, and 0 for (3), agreeing with the full, partial and scalar flag spaces. This arithmetic function records only the dimension; HodgeType retains the labelled jump values and its filtered-module realization.
+For one labelled filtration, `((Σm_i)²−Σm_i²)/2` computes the flag dimension from its jump multiplicities. It gives 3 for `(1,1,1)`, 2 for `(2,1)`, and 0 for (3), agreeing with the full, partial and scalar flag spaces. This number records only the dimension; HodgeType retains the labelled jump values and its filtered-module realization.
 
 The construction provides the following API.
 
@@ -3239,7 +3219,7 @@ For odd `p`, trivial rank-two residual data and `μ_p⊂K`, the fixed-determinan
 
 For `p≥3` and trivial rank-two residual data, choose weight `n≥2`, `χ=εω⁻¹≡1 mod ϖ`, and Frobenius `φ_p` with `χ(φ_p)=1`. Adjoin to the ordinary lift of determinant `χ^{n−1}` an eigenvalue `α≡1` for the unramified quotient. Define the ring by the inertia trace, ordered product and Frobenius compatibility equations listed below, then take its reduced flat form `R̃†`. Its image forgetting `α` is `R†`. With `β=α−1` and entries `φ_i` of `ρ(φ_p)−1`, the eigenvalue equation is `β²−(φ₁+φ₄)β−(φ₁+φ₄)=0`. Define the unramified quotient, its pullback, the kernel ideal `I` and doubling annihilator `J` in the original universal framed ring. Here `n` is a weight, not the matrix rank.
 
-The light predicate `OrdinaryEigenvalueEquation t β` is `β²−tβ−t=0`. For `det Φ=1` and `t=tr Φ−2`, `ordinary_eigenvalue_equation_iff` says precisely that `α=1+β` is a characteristic-polynomial root. For scalar `Φ`, `β=0` works over `ℤ`, `β=3` also works over `ℤ/9` since `3²=0` there, and `β=1` over `ℤ/9` fails. Keeping `β` distinguishes the eigenvalue cover from its flag-forgetting image.
+The equation `β²−tβ−t=0`, for `det Φ=1` and `t=tr Φ−2`, says precisely that `α=1+β` is a characteristic-polynomial root. For scalar `Φ`, `β=0` works over `ℤ`, `β=3` also works over `ℤ/9` since `3²=0` there, and `β=1` over `ℤ/9` fails. Keeping `β` distinguishes the eigenvalue cover from its flag-forgetting image.
 
 Write `Φ=ρ(φ_p)`, `G=ρ(g)`, `G′=ρ(g′)`, `c_g=χ^{n−1}(g)` for `g`,`g′` in inertia. Require the following equations for every such pair:
 
@@ -3280,7 +3260,7 @@ The construction provides the following API.
 
 For representations descending to integers of finite coefficient extensions, define `ρ₁∼ρ₂` by equivalent reductions, equal labelled Hodge types, potential crystallinity and membership in one geometric irreducible component of a common sufficiently-large-extension crystalline lifting ring. Away from `p` use the unrestricted geometric lifting ring. Strong connection additionally requires `ρ₁` on a unique component. Prove independence of the residual equivalence, coefficient splitting and sufficiently large extension, and conjugacy invariance. Connection is symmetric and is an equivalence relation on points lying on unique components; a common-component relation is not transitive at arbitrary component intersections.
 
-The matrix-independent predicate `Connects x y` retains a common minimal prime `P` contained in both point kernels. The API `connects_trans_of_unique_component` gives transitivity when every minimal prime through the middle point is equal. The identity map of a field connects to itself, while the two projections of `E×E` to `E` do not connect; an intersection point of a node is the negative control for unconditional transitivity.
+For two ring-valued points, membership in a common component means that a common minimal prime `P` is contained in both point kernels. This relation is transitive when every minimal prime through the middle point is equal. The identity map of a field connects to itself, while the two projections of `E×E` to `E` do not connect; an intersection point of a node is the negative control for unconditional transitivity.
 
 The construction provides the following API.
 
@@ -3308,9 +3288,9 @@ The construction provides the following API.
 
 For unramified `K` of degree `f` and a 1-generic tame `GL₃` type, choose its lowest-alcove presentation `(s,μ)`, permutation order `r∈{1,2,3}`, `f′=fr`, the unramified `K′/K` and `L′=K′((-p)^{1/(p^{f′}−1)})`. Extend the height-bounded coefficient Kisin modules of FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.2 and R07.4.36 over `𝔖_{L′,R}` by a semilinear `Gal(L′/K)`-action commuting with `φ`. Construct their coefficient-compatible étale descent and contravariant realization `T*_dd`, and prove the eigenbasis transformation law. The group action, its cocycle law and its commutation with Frobenius are part of the module data. The type condition on reduction modulo `u′` is `τ∨`; type `(η,τ)` realizes the original Galois representation with weights `{0,1,2}`.
 
-Put `v=(u′)^{p^{f′}−1}`. The Kisin Frobenius matrix `C^{(j′)}` lies over the `u′` power-series ring, and the shifted-isotypic matrix `A^{(j)}` lies in `Mat₃(R[[v]])` after splitting the Witt coefficient factors. Their linearized Frobenius cokernels are killed by `E_{L′}(u′)^h=(v+p)^h`, as in `HasHeightLE`. They become invertible after localizing at that height polynomial. For the étale realization use `𝒪_{ℰ,K}=completion_p(W(k)[[v]][1/v])` and `𝒪_{ℰ,L′}=completion_p(W(k′)[[u′]][1/u′])`. For a complete local `R` define `𝒪_{ℰ,K,R}=𝒪_{ℰ,K}⊗̂_{ℤ_p}R` as the inverse limit of `((W(k)⊗R/𝔪_R^n)[[v]][1/v])`; use the analogous `u′` carrier for `L′`. The topology is the inverse-limit coefficient topology. A continuous local coefficient map induces maps on these limits, with identity, composition and Artinian reduction compatibility. The Kisin-to-étale map sends `v+p` to a unit in this completed carrier. In the descended basis the invertible étale Frobenius matrix is `A^{(j)}s_j* v^{μ_j*+η_j*}`, over the corresponding factor of `𝒪_{ℰ,K,R}`.
+Put `v=(u′)^{p^{f′}−1}`. The Kisin Frobenius matrix `C^{(j′)}` lies over the `u′` power-series ring, and the shifted-isotypic matrix `A^{(j)}` lies in `Mat₃(R[[v]])` after splitting the Witt coefficient factors. Their linearized Frobenius cokernels are killed by `E_{L′}(u′)^h=(v+p)^h`, the coordinate height condition of 1.2. They become invertible after localizing at that height polynomial. For the étale realization use `𝒪_{ℰ,K}=completion_p(W(k)[[v]][1/v])` and `𝒪_{ℰ,L′}=completion_p(W(k′)[[u′]][1/u′])`. For a complete local `R` define `𝒪_{ℰ,K,R}=𝒪_{ℰ,K}⊗̂_{ℤ_p}R` as the inverse limit of `((W(k)⊗R/𝔪_R^n)[[v]][1/v])`; use the analogous `u′` carrier for `L′`. The topology is the inverse-limit coefficient topology. A continuous local coefficient map induces maps on these limits, with identity, composition and Artinian reduction compatibility. The Kisin-to-étale map sends `v+p` to a unit in this completed carrier. In the descended basis the invertible étale Frobenius matrix is `A^{(j)}s_j* v^{μ_j*+η_j*}`, over the corresponding factor of `𝒪_{ℰ,K,R}`.
 
-The representative `EtaleCoeffRing R I` is Mathlib's adic completion of `LaurentSeries R` at the extension of a coefficient ideal `I`. For a split coefficient factor use `I=𝔪_R`; `etale_height_factor_isUnit` makes `v+a` invertible for `a∈I`, and `laurent_height_factor_isUnit_of_nilpotent` gives its Artinian counterpart. Iwahori eigenbasis changes act on the power-series matrices by the prescribed twisted conjugation. Discrete shapes are Iwahori double cosets in `GL₃(k′((v)))` on residual field fibres, after principal-series base change when necessary. For 3-generic `τ` the shape attached to a residual representation is unique. Keep each stronger genericity hypothesis at its own theorem.
+Use Mathlib's adic completion of `LaurentSeries R` at the extension of a coefficient ideal `I`. For a split coefficient factor use `I=𝔪_R`; `v+a` is invertible for `a∈I`, and a nilpotent `a` gives the corresponding unit in ordinary Laurent series. Iwahori eigenbasis changes act on the power-series matrices by the prescribed twisted conjugation. Discrete shapes are Iwahori double cosets in `GL₃(k′((v)))` on residual field fibres, after principal-series base change when necessary. For 3-generic `τ` the shape attached to a residual representation is unique. Keep each stronger genericity hypothesis at its own theorem.
 
 The construction provides the following API.
 
@@ -3327,7 +3307,7 @@ The construction provides the following API.
 - For `ρ̄ = T*_dd` of the semisimple Kisin module of shape `t_1` (`A^{(j)}` diagonal), the shape `w̃(ρ̄, τ)` is the identity at every `j`.
 - `w̃(ρ̄, τ)` lies in `Adm^∨(η)` whenever `ρ̄` has a potentially crystalline lift of type `(η, τ)` (LLHLM Theorem 3.3.11).
 - Trivial descent over `K` gives the supplied coefficient Kisin module and its étale realization; a semilinear group action that fails to commute with `φ` does not define a point, even when its underlying module has the correct height.
-- For `R=k[x₀,x₁,…]` and the ideal `I=(x₀,x₁,…)`, which is not finitely generated, `v+x₀` is still a unit in `EtaleCoeffRing R I`: modulo the extended ideal's `n`-th power its inverse is `v⁻¹Σ_{j<n}(−v⁻¹x₀)^j`, compatibly in `n`.
+- For `R=k[x₀,x₁,…]` and the ideal `I=(x₀,x₁,…)`, which is not finitely generated, `v+x₀` is still a unit in that coefficient-adic completion: modulo the extended ideal's `n`-th power its inverse is `v⁻¹Σ_{j<n}(−v⁻¹x₀)^j`, compatibly in `n`.
 - For 10-generic semisimple `ρ̄` and non-1-generic `τ`, `R^τ=0`. Dropping residual genericity fails: trivial residual data have trivial-type crystalline lifts.
 - Rank one over `ℤ_p`: `v+p` is not a unit of `ℤ_p[[v]][1/v]`, since convergent evaluation at `v=−p` maps that ring to `ℚ_p` and kills `v+p`. Modulo `p^n` its inverse is `Σ_{i=0}^{n−1}(−p)^i v^{−i−1}`. These inverses are compatible and give a unit in the `p`-adic completed étale ring; their unbounded negative exponents exclude an ordinary Laurent-series inverse over `ℤ_p`.
 - A coefficient map preserves each finite geometric inverse above and hence the inverse-limit unit. Reduction to `k′` gives `v`, whose residual matrix shape uses the usual `k′((v))`.
@@ -3895,9 +3875,9 @@ For `p>2` and finite-flat `ρ̄⊗ε̄`, all ordinary pure crystalline weight-tw
 
 ### Examples
 
-In the `GL₃` identity chart, `identityFrobenius` is the polynomial matrix `A(v)=[[a+va*,b,c],[vd,e+ve*,f],[vg,vh,i+vi*]]`, where `a*`,`e*`,`i*` are unit coordinates. Its `v²` coefficient is `a e*i*+e a*i*+i a*e*−a*fh−e*cg−i*bd+chd`, and its `v³` coefficient is `a*e*i*`. The theorem `identity_frobenius_determinant_coefficients` states those equalities over every commutative coefficient ring. For `a=e=i=c=d=h=0`, `b=f=g=a*=e*=i*=1`, the determinant is `v³+v`: the cubic `v²` relation holds, while the `v` relation fails. For `a=1` and all other residual coordinates zero, with stars one, the determinant is `v³+v²` and the cubic relation fails. At zero residual coordinates and stars one it is `v³`. Target 6.28 includes the additional relation `c₁₂c₃₃=0` together with that actual cubic coefficient; its prime list cannot be checked using a different matrix chart.
+In the `GL₃` identity chart, use the polynomial matrix `A(v)=[[a+va*,b,c],[vd,e+ve*,f],[vg,vh,i+vi*]]`, where `a*`,`e*`,`i*` are unit coordinates. Its `v²` coefficient is `a e*i*+e a*i*+i a*e*−a*fh−e*cg−i*bd+chd`, and its `v³` coefficient is `a*e*i*`. These equalities hold over every commutative coefficient ring. For `a=e=i=c=d=h=0`, `b=f=g=a*=e*=i*=1`, the determinant is `v³+v`: the cubic `v²` relation holds, while the `v` relation fails. For `a=1` and all other residual coordinates zero, with stars one, the determinant is `v³+v²` and the cubic relation fails. At zero residual coordinates and stars one it is `v³`. Target 6.28 includes the additional relation `c₁₂c₃₃=0` together with that actual cubic coefficient; its prime list cannot be checked using a different matrix chart.
 
-The helpers `affineNodeIdeal`, `AffineNode` and `affineNodePoint` give the coordinate ring `ℚ[x,y]/(xy)` and evaluation maps at `(1,0)`, `(0,0)`, `(0,1)`. The theorem `connects_not_transitive` states that the common-component relation of 6.8 is not transitive on this nodal ring: an intersection point belongs to both branches of `E[x,y]/(xy)`, so a point on each separate branch connects to the intersection point without the two outer points connecting to each other. At a regular crystalline point the unique-component conclusion gives the stronger local statement used in the weight-zero application.
+The coordinate ring `ℚ[x,y]/(xy)` has evaluation maps at `(1,0)`, `(0,0)`, `(0,1)`. The common-component relation of 6.8 is not transitive on this nodal ring: an intersection point belongs to both branches of `E[x,y]/(xy)`, so a point on each separate branch connects to the intersection point without the two outer points connecting to each other. At a regular crystalline point the unique-component conclusion gives the stronger local statement used in the weight-zero application.
 
 ### Dependencies
 
@@ -3931,13 +3911,11 @@ The construction provides the following API.
 - A diagonal lift `diag(χ̃_1, …, χ̃_n)` satisfies (6.2.7) and (6.2.8).
 - Over `ℤ/9`, `M=diag(4,7)`, `U=(1 1;0 1)` generate a group with every characteristic polynomial `(X−1)²`, yet `(M−I)(U−I)=(0 3;0 0)`. The ordered-product equations are independent constraints.
 
-The Lean helper `controlMatrixUnit` constructs invertible rank-two matrices from two-sided inverses. The helper `nilpotentShiftCharacters` gives reciprocal characters generated by 4 and 7 over `ℤ/9`.
-
 **Checks for `HasOrderedTriangularization`.**
 
 - The rank-two diagonal representation has the specified flag and satisfies `IsDetOrdinary` for its two diagonal characters.
 - The nonsplit upper extension generated by `diag(2,1)` and `I+E₁₂` has only its first coordinate line as a stable line. Its given order works; the reversed order fails both triangularization and the ordered-product equation. This is the matrix control for 1.7's reversed extension.
-- The theorem `det_ordinary_nilpotent_shift_not_flag` states that over `ℤ/9`, the scalar representation `I` of the free group on one generator satisfies `IsDetOrdinary` for the characters generated by 4 and 7: their shifts are divisible by 3 and every length-two product vanishes. It has no direct-summand flag with those characters, since conjugating `I` leaves `I`. A nilpotent eigenvalue shift does not produce the prescribed graded action.
+- Over `ℤ/9`, the scalar representation `I` of the free group on one generator satisfies `IsDetOrdinary` for the characters generated by 4 and 7: their shifts are divisible by 3 and every length-two product vanishes. It has no direct-summand flag with those characters, since conjugating `I` leaves `I`. A nilpotent eigenvalue shift does not produce the prescribed graded action.
 
 *Needs:* [1.1](#t1-1); [1.3](#t1-3).
 
@@ -3967,7 +3945,7 @@ If a lift over `R` acquires ordered characters satisfying both determinant-ordin
 
 ### 7.4 Characteristic polynomials and ordered products give a flag
 
-Over a field, a rank-`d` representation with pairwise distinct prescribed characters, their characteristic-polynomial identities and every ordered-product identity admits a stable full flag with those ordered graded characters. Use the distinct-character separation in the induction proof. This is a field theorem and does not recover an integral flag over an arbitrary nonreduced ring.
+Over a field, a rank-`d` representation with pairwise distinct prescribed characters, their characteristic-polynomial identities and every ordered-product identity admits a stable full flag with those ordered graded characters. Use the distinct-character separation in the induction proof. This is a field theorem and does not recover an integral flag over an arbitrary nonreduced ring. In `Suggested.lean`, `IsDetOrdinary` and `HasOrderedTriangularization` express the two conditions on Mathlib general linear groups, and `det_ordinary_iff_ordered_triangularization` states their equivalence.
 
 *Needs:* [7.1](#t7-1).
 
@@ -3995,7 +3973,7 @@ For trivial residual data and `f=[K:ℚ_p]>d(d+1)/2+1`, take `E` splitting the `
 
 ### Examples
 
-Over `ℤ/9`, `z9Family a b` is `[[1+3a,b],[0,1−3a]]`. Its API `z9_family_determinant_and_charpoly` gives determinant one and characteristic polynomial `(T−1)²` for every `a`,`b`. Let `M=diag(4,7)=z9Family 1 0` and `U=[[1,1],[0,1]]=z9Family 0 1`. The Lean helpers `z9Generators` and `z9Subgroup` give these invertible generators and their actual generated subgroup. Every element of that subgroup has diagonal `(1+3a,1−3a)`, hence determinant one and characteristic polynomial `(T−1)²`. Nevertheless `(M−1)(U−1)=[[0,3],[0,0]]≠0`. The theorem `charpoly_not_det_ordinary` states this failure on the subgroup representation. Thus the characteristic-polynomial equations alone do not define the determinant-ordinary condition; the ordered products must also vanish.
+Over `ℤ/9`, the matrices `[[1+3a,b],[0,1−3a]]` have determinant one and characteristic polynomial `(T−1)²` for every `a`,`b`. Let `M=diag(4,7)` and `U=[[1,1],[0,1]]`, both in this family. Their two-sided inverses are `diag(7,4)` and `[[1,−1],[0,1]]`. Every element of the subgroup they generate has diagonal `(1+3a,1−3a)`, hence determinant one and characteristic polynomial `(T−1)²`. Nevertheless `(M−1)(U−1)=[[0,3],[0,0]]≠0`. The subgroup representation therefore fails the determinant-ordinary ordered-product equation. Thus the characteristic-polynomial equations alone do not define the determinant-ordinary condition; the ordered products must also vanish.
 
 For `d=1`, the extended ring is `R□⊗_ΛΛ̃` and its determinant-ordinary equation identifies the universal Galois character with `χ̃₁` on every `g`. Its image in the extended quotient is the ring of this character condition. In higher rank, descent to the image requires an injection of coefficient rings `R↪S`; tensoring full characters into `R□` first is part of the construction, required by the universal property.
 
@@ -4064,7 +4042,7 @@ For `F_v=ℚ_p` and irreducible rank-two residual representation of Serre weight
 
 For odd `p`, `F_v=ℚ_p` and irreducible residual Serre weight `3≤k≤p`, use the nontrivial principal-series weight-two type `ω^{k−2}⊕1`. After the required coefficient extension and unit rescaling, its unframed ring is `𝒪[[T₁,T₂]]/(T₁T₂−p)`, and the framed ring adds three variables. It is a flat domain of relative dimension four with regular generic fibre, but is not formally smooth over `𝒪`. At `k=2` the type is trivial, so the preceding smooth crystalline ring applies instead of Savitt's distinct-character formula.
 
-For the coefficient-ring equation, `nodalIdeal A π u` is the principal ideal `(XY−πu)` in `A[[X,Y]]`, and `NodalRing A π u` is its actual quotient. The API `nodal_ring_flat_domain` gives a flat domain for a DVR `A`, nonzero nonunit `π` and unit `u`; `π` may equal `p` in a ramified coefficient DVR.
+For the coefficient-ring equation, take the quotient of `A[[X,Y]]` by the principal ideal `(XY−πu)`. It is a flat domain for a DVR `A`, nonzero nonunit `π` and unit `u`; `π` may equal `p` in a ramified coefficient DVR.
 
 **Checks.**
 
@@ -4120,7 +4098,7 @@ The construction provides the following API.
 
 ### 8.7 odd archimedean rings
 
-Export the odd real quadric ring as a flat domain of relative dimension two with regular generic fibre. It is formally smooth when the residual involution is not the identity (always for odd `p`). At `p=2` and identity residual involution it is the hypersurface `𝒪[[X,Y,Z]]/(X²+2X+YZ)`. Identify the chosen determinant quotient and its universal involution with Layer 1's construction.
+Export the odd real quadric ring as a flat domain of relative dimension two with regular generic fibre. It is formally smooth when the residual involution is not the identity (always for odd `p`). At `p=2` and identity residual involution it is the hypersurface `𝒪[[X,Y,Z]]/(X²+2X+YZ)`. Identify the chosen determinant quotient and its universal involution with Layer 1's construction. The flat-domain, dimension and regular-generic-fibre assertions are stated as `oddRealRing_geometry` in `Suggested.lean`, using `OddRealRing` at the specified residual coordinates.
 
 *Needs:* [1.11](#t1-11); [1.14](#t1-14); [8.1](#t8-1).
 
