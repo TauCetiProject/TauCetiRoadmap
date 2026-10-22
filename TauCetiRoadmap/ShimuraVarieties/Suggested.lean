@@ -1,32 +1,53 @@
 import Mathlib
 
 /-!
-# ShimuraVarieties: representative target signatures
+# Shimura varieties and canonical models: target signatures
 
-The roadmap is README.md. This file records definitions and theorem signatures
-statable against the pinned APIs and is not exhaustive. Its group carriers give
-the genuine two-sided orbit relation, retaining the domain coordinate and right
-level action. They do not carry the complex analytic topology. Inverting a
-supplied homomorphism with abelian target fixes the geometric Artin convention;
-constructing number-field reciprocity and its continuity is a separate input.
-CM types are sets of ring maps to `ℂ` closed under the partition condition with
-Mathlib's conjugate embedding `star φ`; the reflex norm, which needs the
-reflex-field module and its determinant, stays in the README.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones;
+discharging them finishes neither a layer nor the roadmap.
+
+Section 5.1's reflex-field theorems are stated for arbitrary nonempty finite
+products of CM number fields: the trace-generated reflex field is a CM number
+field, and it is the exact field of realization of the type-trace character,
+with uniqueness up to module isomorphism. The definitions use Mathlib's ring
+maps to `ℂ`, conjugate embeddings, intermediate fields and linear-map trace.
+
+The other headline signatures are deferred for lack of their mathematical
+objects at the pins:
+
+* Layers 0–1's component decomposition, abelianized component formula and
+  analytic tower require pure Shimura data, their Hermitian domains and the
+  effective arithmetic analytic quotients.
+* Layers 2–3's Baily–Borel compactification, finite generation, Koecher principle
+  and Borel algebraicity require those quotients, the admissible automorphic
+  section ring, complex analytic spaces and scheme analytification. The
+  period-map and definable-Chow route also needs polarized variations and the
+  specified analytic and o-minimal structures.
+* Layer 4's disjoint special reflex fields, translation descent and uniqueness
+  require special torus data, cocharacter reflex norms and the canonical-model
+  condition with its complex comparison.
+* Layer 5's main CM theorem and Siegel canonical model require CM actions on
+  abelian varieties with their Tate realizations, polarizations, reflex norms
+  and Siegel moduli comparison. The pinned abelian-variety carrier alone does
+  not provide these objects.
+* Layers 6–7's abelian-type and general canonical existence, connected/full
+  reconstruction and marked conjugation require canonical towers with their
+  completed symmetry and the Serre/Taniyama torsors.
+* Layer 8's arithmetic component reciprocity, modular comparisons and
+  reflex-field minimal compactifications require the actual canonical models,
+  their analytic comparisons and boundary constructions, including the
+  broader finite-domain auxiliary data.
+
 -/
 
 namespace TauCetiRoadmap.ShimuraVarieties
 
-universe u v w
-
-/-! ## Layer 5: complex multiplication and Siegel existence -/
-
-section CMTypes
 open scoped ComplexConjugate
 
-/-- A CM type on a commutative ring `E`: a set of ring maps `E →+* ℂ` containing exactly one
-of `φ` and its complex conjugate `star φ` for every `φ` (Milne, *Complex Multiplication*,
-Definition 1.8). Layer 5 applies it to CM algebras, finite products of CM fields in the sense
-of `NumberField.IsCMField`; a ring with a real embedding has no CM type. -/
+/-- A set of complex embeddings selecting exactly one from each conjugate pair.
+The theorems apply this partition to nonempty finite products of CM number fields
+(Section 5.1; Milne, *Complex Multiplication*, Definition 1.8). -/
 structure CMType (E : Type*) [CommRing E] where
   /-- The selected complex embeddings. -/
   toSet : Set (E →+* ℂ)
@@ -34,12 +55,6 @@ structure CMType (E : Type*) [CommRing E] where
 
 namespace CMType
 variable {E : Type*} [CommRing E]
-
-/-- The conjugate type `ιΦ = {star φ | φ ∈ Φ}`, which is the complement of `Φ`. -/
-def conjugate (Φ : CMType E) : CMType E where
-  toSet := Φ.toSetᶜ
-  star_mem_iff φ := by
-    simp only [Set.mem_compl_iff, Φ.star_mem_iff, not_not]
 
 /-- The type trace `a ↦ ∑_{φ ∈ Φ} φ a`. -/
 noncomputable def typeTrace (Φ : CMType E) (a : E) : ℂ :=
@@ -50,315 +65,34 @@ noncomputable def typeTrace (Φ : CMType E) (a : E) : ℂ :=
 noncomputable def reflexField (Φ : CMType E) : IntermediateField ℚ ℂ :=
   IntermediateField.adjoin ℚ (Set.range Φ.typeTrace)
 
-/-- Section 5.1, `CMType.card`: a type on a reduced finite-dimensional `ℚ`-algebra
-selects half of its complex embeddings: `2 |Φ| = [E : ℚ]`. -/
-theorem card [Algebra ℚ E] [IsReduced E] [FiniteDimensional ℚ E] (Φ : CMType E) :
-    2 * Nat.card Φ.toSet = Module.finrank ℚ E := by
-  sorry
-
-/-- Section 5.1, `CMType.typeTrace_conjugate`: conjugating the type conjugates its traces. -/
-theorem typeTrace_conjugate [Finite (E →+* ℂ)] (Φ : CMType E) (a : E) :
-    Φ.conjugate.typeTrace a = conj (Φ.typeTrace a) := by
-  sorry
-
-/-- Section 5.1, `CMType.reflexField_le_iff`: the reflex field is contained in a
-subfield exactly when all type traces lie in that subfield. -/
-theorem reflexField_le_iff (Φ : CMType E) (F : IntermediateField ℚ ℂ) :
-    Φ.reflexField ≤ F ↔ ∀ a : E, Φ.typeTrace a ∈ F := by
-  sorry
-
-/-- Section 5.1, `CMType.reflexField_stabilizer`: a complex automorphism fixes the
-reflex field pointwise exactly when it preserves the selected embeddings. -/
-theorem reflexField_stabilizer [Algebra ℚ E] [IsReduced E] [FiniteDimensional ℚ E]
-    (Φ : CMType E) (σ : ℂ ≃+* ℂ) :
-    (∀ a : Φ.reflexField, σ (a : ℂ) = (a : ℂ)) ↔
-      ∀ φ : E →+* ℂ, σ.toRingHom.comp φ ∈ Φ.toSet ↔ φ ∈ Φ.toSet := by
-  sorry
-
-/-- Section 5.1, `CMType.reflexField_conjugate`: a CM partition and its conjugate
-generate the same reflex field on a reduced finite-dimensional rational algebra. -/
-theorem reflexField_conjugate [Algebra ℚ E] [IsReduced E] [FiniteDimensional ℚ E]
-    (Φ : CMType E) : Φ.conjugate.reflexField = Φ.reflexField := by
-  sorry
-
-/-- Section 5.1, `CMType.reflexField_isCMField`: the reflex field of a nonempty finite
-product of CM number fields is itself a CM number field (Milne CM, Proposition 1.18(a)). -/
+/-- Section 5.1: the reflex field of any CM algebra with a CM type is a CM number
+field (Milne, *Complex Multiplication*, Proposition 1.18(a), p.14). -/
 theorem reflexField_isCMField {ι : Type*} [Fintype ι] [Nonempty ι]
     (F : ι → Type*) [∀ i, Field (F i)] [∀ i, NumberField (F i)]
     [∀ i, NumberField.IsCMField (F i)] (Φ : CMType (∀ i, F i)) :
     NumberField Φ.reflexField ∧ NumberField.IsCMField Φ.reflexField := by
   sorry
 
+/-- Section 5.1: the type-trace character has a finite-dimensional realization over
+`k` exactly when `k` contains the reflex field; that realization is unique up to
+isomorphism (Milne, *Complex Multiplication*, Proposition 1.21, p.15, and Corollary
+1.22, pp.15–16). A `k`-linear action of the CM algebra is equivalently a module over
+its tensor product with `k`. Choosing a basis writes every such module as `kⁿ`;
+the intertwining linear equivalence retains its full module structure. This is
+the module-existence theorem used to construct the determinant reflex norm. -/
+theorem reflexField_representation {ι : Type*} [Fintype ι] [Nonempty ι]
+    (F : ι → Type*) [∀ i, Field (F i)] [∀ i, NumberField (F i)]
+    [∀ i, NumberField.IsCMField (F i)] (Φ : CMType (∀ i, F i))
+    (k : IntermediateField ℚ ℂ) [NumberField k] :
+    (∃ (n : ℕ) (ρ : (∀ i, F i) →ₐ[ℚ] Module.End k (Fin n → k)),
+      (∀ a, (LinearMap.trace k (Fin n → k) (ρ a) : ℂ) = Φ.typeTrace a) ∧
+      ∀ (m : ℕ) (ρ' : (∀ i, F i) →ₐ[ℚ] Module.End k (Fin m → k)),
+        (∀ a, (LinearMap.trace k (Fin m → k) (ρ' a) : ℂ) = Φ.typeTrace a) →
+        ∃ e : (Fin n → k) ≃ₗ[k] (Fin m → k),
+          ∀ a v, e (ρ a v) = ρ' a (e v)) ↔
+      Φ.reflexField ≤ k := by
+  sorry
+
 end CMType
 
--- A real embedding prevents the partition condition: `ℚ` admits no CM type.
-example : IsEmpty (CMType ℚ) := by
-  refine ⟨fun Φ => ?_⟩
-  have h := Φ.star_mem_iff (algebraMap ℚ ℂ)
-  have heq : star (algebraMap ℚ ℂ) = algebraMap ℚ ℂ := Subsingleton.elim _ _
-  rw [heq] at h
-  tauto
-
--- Neither extreme embedding set satisfies the CM partition on a ring admitting an embedding.
-example {E : Type*} [CommRing E] [Nonempty (E →+* ℂ)] (Φ : CMType E) :
-    Φ.toSet ≠ Set.univ ∧ Φ.toSet ≠ ∅ := by
-  constructor <;> intro h
-  · have hp := Φ.star_mem_iff (Classical.choice (inferInstance : Nonempty (E →+* ℂ)))
-    simp [h] at hp
-  · have hp := Φ.star_mem_iff (Classical.choice (inferInstance : Nonempty (E →+* ℂ)))
-    simp [h] at hp
-
-/-- Section 5.1, `CMType.test_reflex_induced`: an induced quartic cyclotomic type has
-quadratic reflex field `ℚ(√−2)`, so its reflex field is smaller than the original field. -/
-theorem CMType.test_reflex_induced : ∃ (ζ : CyclotomicField 8 ℚ)
-    (Φ : CMType (CyclotomicField 8 ℚ)),
-    IsPrimitiveRoot ζ 8 ∧
-    (∀ φ : CyclotomicField 8 ℚ →+* ℂ,
-      φ ∈ Φ.toSet ↔
-        φ ζ =
-          Complex.exp (Complex.I * (Real.pi : ℂ) / 4) ∨
-        φ ζ =
-          (Complex.exp (Complex.I * (Real.pi : ℂ) / 4)) ^ 3) ∧
-    Module.finrank ℚ (CyclotomicField 8 ℚ) = 4 ∧
-    Φ.reflexField = IntermediateField.adjoin ℚ {Complex.I * (Real.sqrt 2 : ℂ)} ∧
-    Module.finrank ℚ Φ.reflexField = 2 := by
-  sorry
-
-end CMTypes
-
-/-! ## Layer 1: the complex analytic tower -/
-
-section Points
-variable {Q : Type u} {A : Type v} {X : Type w}
-variable [Group Q] [Group A] [MulAction Q X]
-
-/-- Inversion turns the right level action into a commuting left action. -/
-@[instance_reducible] def doubleAction (ι : Q →* A) (K : Subgroup A) :
-    MulAction (Q × K) (X × A) where
-  smul q xa := (q.1 • xa.1, ι q.1 * xa.2 * (q.2 : A)⁻¹)
-  one_smul xa := by
-    change ((1 : Q) • xa.1, ι 1 * xa.2 * (1 : A)⁻¹) = xa
-    simp
-  mul_smul q r xa := by
-    change ((q.1 * r.1) • xa.1, ι (q.1 * r.1) * xa.2 *
-      ((q.2 : A) * (r.2 : A))⁻¹) =
-      (q.1 • (r.1 • xa.1), ι q.1 * (ι r.1 * xa.2 * (r.2 : A)⁻¹) * (q.2 : A)⁻¹)
-    simp [mul_smul, mul_assoc]
-
-/-- The native orbit setoid, retaining the domain and finite-adelic coordinates. -/
-def pointSetoid (ι : Q →* A) (K : Subgroup A) : Setoid (X × A) :=
-  letI := doubleAction (X := X) ι K
-  MulAction.orbitRel (Q × K) (X × A)
-
-/-- The two-sided orbit carrier of Layer 1, before its quotient topology is supplied. -/
-def AnalyticPoints (ι : Q →* A) (K : Subgroup A) : Type (max v w) :=
-  Quotient (pointSetoid (X := X) ι K)
-
-namespace AnalyticPoints
-variable (ι : Q →* A) (K : Subgroup A)
-
-/-- The class of a domain point and adelic representative. -/
-def mk (x : X) (a : A) : AnalyticPoints (X := X) ι K :=
-  Quotient.mk (pointSetoid ι K) (x, a)
-
-/-- Equality is the actual two-sided orbit condition, with either right-inverse
-convention equivalent by replacing the level element with its inverse. -/
-theorem mk_eq (x y : X) (a b : A) :
-    mk ι K x a = mk ι K y b ↔
-      ∃ q : Q, ∃ k : K, y = q • x ∧ b = ι q * a * (k : A) := by
-  sorry
-
-end AnalyticPoints
-end Points
-
-section PointExamples
-
--- A singleton domain retains the rational quotient in the equality criterion.
-example {Q A : Type*} [Group Q] [Group A] [MulAction Q PUnit]
-    (ι : Q →* A) (K : Subgroup A) (a b : A) :
-    AnalyticPoints.mk ι K PUnit.unit a = AnalyticPoints.mk ι K PUnit.unit b ↔
-      ∃ q : Q, ∃ k : K, b = ι q * a * (k : A) := by
-  simp [AnalyticPoints.mk_eq]
-
-/-- The trivial rational group fixes every domain point. -/
-@[instance_reducible] def trivialDomainAction (X : Type*) : MulAction PUnit X where
-  smul _ x := x
-  one_smul _ := rfl
-  mul_smul _ _ _ := rfl
-
-local instance (X : Type*) : MulAction PUnit X := trivialDomainAction X
-
--- Distinct domain points remain distinct when both group coordinates are trivial.
-example {X : Type*} (x y : X) (h : x ≠ y) :
-    AnalyticPoints.mk (MonoidHom.id PUnit) (⊤ : Subgroup PUnit) x PUnit.unit ≠
-      AnalyticPoints.mk (MonoidHom.id PUnit) (⊤ : Subgroup PUnit) y PUnit.unit := by
-  intro heq
-  obtain ⟨q, k, hxy, _⟩ := (AnalyticPoints.mk_eq _ _ _ _ _ _).mp heq
-  exact h (by simpa [trivialDomainAction] using hxy.symm)
-
-end PointExamples
-
-/-! ## Layer 4: reciprocity, canonical models and foundational descent -/
-
-section Artin
-variable {I : Type u} {B : Type v} [Group I] [CommGroup B]
-
-/-- The Layer 4 geometric convention inverts a supplied arithmetic homomorphism. -/
-def geometricArtin (rec : I →* B) : I →* B where
-  toFun s := (rec s)⁻¹
-  map_one' := by simp
-  map_mul' s t := by simp [mul_comm]
-
-/-- Norm/restriction compatibility survives changing the reciprocity convention. -/
-theorem geometricArtin_norm {J C : Type*} [Group J] [CommGroup C]
-    (recF : I →* B) (recL : J →* C) (norm : J →* I) (res : C →* B)
-    (h : ∀ s, recF (norm s) = res (recL s)) (s : J) :
-    geometricArtin recF (norm s) = res (geometricArtin recL s) := by
-  sorry
-
-/-- Section 4.1: changing the Artin convention preserves the reciprocity kernel. -/
-theorem geometricArtin_kernel (rec : I →* B) : (geometricArtin rec).ker = rec.ker := by
-  sorry
-
--- An arithmetic Frobenius image becomes geometric Frobenius.
-example (rec : I →* B) (uniformizer : I) (arithFrob : B)
-    (h : rec uniformizer = arithFrob) :
-    geometricArtin rec uniformizer = arithFrob⁻¹ := by
-  change (rec uniformizer)⁻¹ = arithFrob⁻¹
-  rw [h]
-
--- The cyclotomic normalization transports to a supplied character.
-example {U : Type*} [CommGroup U] (rec : I →* B) (chi : B →* U)
-    (unit : I) (u : U) (h : chi (rec unit) = u⁻¹) :
-    chi (geometricArtin rec unit) = u := by
-  change chi ((rec unit)⁻¹) = u
-  rw [map_inv, h, inv_inv]
-
-end Artin
-
-/-! ## Layer 8: arithmetic towers and minimal compactifications -/
-
-section NativeCategories
-open CategoryTheory CategoryTheory.Limits
-
-namespace CanonicalHecke
-
-variable {C : Type*} [Category C] {L M R A A' : C}
-variable (p1 : A ⟶ L) (p2 : A ⟶ M) (q1 : A' ⟶ M) (q2 : A' ⟶ R)
-variable [HasPullback p2 q1]
-
-/-- Successive ordered spans compose through the actual pullback of their middle legs.
-For canonical schemes take `C = Over (Spec E)`. The normalization comparison at coarse
-level and the double-coset isomorphism at effective-free common target are separate
-statements of Sections 1.5 and 8.4. -/
-noncomputable def compose : WalkingSpan ⥤ C :=
-  span (pullback.fst p2 q1 ≫ p1) (pullback.snd p2 q1 ≫ q2)
-
-/-- The composite apex is the native fibre product, with its full scheme structure
-when the objects are schemes over the reflex field. -/
-theorem compose_apex :
-    (compose p1 p2 q1 q2).obj WalkingSpan.zero = pullback p2 q1 := rfl
-
-/-- The composite retains the ordered outer legs through the two pullback projections. -/
-theorem compose_legs :
-    (compose p1 p2 q1 q2).map WalkingSpan.Hom.fst = pullback.fst p2 q1 ≫ p1 ∧
-    (compose p1 p2 q1 q2).map WalkingSpan.Hom.snd = pullback.snd p2 q1 ≫ q2 :=
-  ⟨rfl, rfl⟩
-
-end CanonicalHecke
-
-end NativeCategories
-
 end TauCetiRoadmap.ShimuraVarieties
-
-/-
-README prerequisite constructions on the analytic/algebraic supplier carriers:
-TauCeti.Shimura.PureDatum,
-TauCeti.Shimura.hermitian_components,
-TauCeti.Shimura.hodge_reflex_foundations,
-TauCeti.Shimura.level_foundations,
-TauCeti.Shimura.real_approximation_tori,
-TauCeti.Shimura.finite_analytic_quotient,
-TauCeti.Shimura.quasi_projective_finite_quotient,
-TauCeti.Shimura.ran_exp_o_minimal,
-TauCeti.Shimura.complex_cusp_charts,
-TauCeti.Shimura.nilpotent_orbit_factorization,
-TauCeti.Shimura.ordered_sector_hodge_norm,
-TauCeti.Shimura.polarized_period_definable,
-TauCeti.Shimura.definable_chow,
-TauCeti.Shimura.cocharacter_incidence,
-TauCeti.Shimura.continuous_field_descent,
-TauCeti.Shimura.rational_siegel_moduli,
-TauCeti.Shimura.siegel_moduli_uniformization,
-TauCeti.Shimura.unit_congruence_topology,
-TauCeti.Shimura.SerreProtorus,
-TauCeti.Shimura.TaniyamaExtension,
-TauCeti.Shimura.finite_normalizer_index,
-TauCeti.Shimura.s_arithmetic_reconstruction,
-TauCeti.Shimura.global_centre_adjoint_comparison,
-TauCeti.Shimura.quadratic_torus_norms,
-TauCeti.Shimura.compact_negative_ke_metric,
-TauCeti.Shimura.clozel_top_forms_growth,
-TauCeti.Shimura.abelian_absolute_hodge,
-TauCeti.Shimura.hodge_tensor_moduli_conjugation,
-TauCeti.Shimura.broader_pure_canonical.
-
-Section 7.0b constructs TaniyamaExtension from the relative/global Weil carriers of
-GL2AutomorphicRepresentationsAndTransfer Section R17.5.0, with their projections,
-fundamental classes, transitions and transfer/reciprocity comparisons. The local
-Serre-torus pushouts preserve these data; the Serre protorus, proalgebraic extension,
-finite-adelic section and marked torsors are the Shimura constructions.
-Section 5.0's siegel_moduli_uniformization compares AA.5.2's analytic components
-with ModularCurvesPartII Section 3.14's algebraic-curve uniformization, preserving
-ordered bases and pairing values; Sections 8.9–8.13 give its arithmetic comparisons.
-
-Sections 7.0i–7.0j use the suppliers' abelian-family and realization carriers.
-For any complex abelian variety, abelian_absolute_hodge transports every rational
-(0,0) tensor in degree-one cohomology, its dual and Tate twists under every field
-automorphism of C, preserving the de Rham and finite-adelic comparisons. Its family
-form includes horizontal algebraic realizations. hodge_tensor_moduli_conjugation
-uses these tensors, neat level structures and the specified finite central-isogeny
-quotients to identify conjugates of Hodge/abelian-type arithmetic quotients.
-Section 3.3's TauCeti.Shimura.unique_algebraization uses Borel only for maps into
-the established Baily–Borel model, then proves those maps are isomorphisms from
-smoothness, their analytic tangent maps and bijectivity on complex points.
-
-Further README definitions and constructions:
-TauCeti.Shimura.Level, TauCeti.Shimura.AutomorphicRing, TauCeti.CM.CMType.reflexNorm,
-TauCeti.Shimura.ReflexNorm, TauCeti.Shimura.CanonicalModel,
-TauCeti.Shimura.torusModel, TauCeti.Shimura.CMAbelianVariety,
-TauCeti.Shimura.ConnectedTower, TauCeti.Shimura.conjugatedDatum,
-CanonicalTower.ofLevelMaps, CanonicalHecke.span, ZeroDimShimura.shimuraSet.
-The Shimura-specific analytic, arithmetic and canonical-symmetry carriers are
-constructed by the README targets. The native ordered-span laws above
-describe composition on supplied diagrams.
-README-only laws on actual canonical models:
-CanonicalTower.ofLevelMaps_obj, CanonicalTower.ofLevelMaps_map,
-CanonicalTower.ofLevelMaps_id, CanonicalTower.ofLevelMaps_comp,
-CanonicalTower.ofLevelMaps_baseChange, CanonicalHecke.span_apex,
-CanonicalHecke.span_first, CanonicalHecke.span_second, CanonicalHecke.span_baseChange,
-CanonicalTower.test_gl2_jline_degree, CanonicalTower.test_not_constant,
-CanonicalTower.abelian_type, CanonicalTower.general_data,
-CanonicalTower.level_map_finite, CanonicalTower.translation_comp,
-CanonicalHecke.test_gl2_Tp_index. The actual schemes and their complex comparisons
-are the inputs to these Shimura-specific specializations.
-Further README-only Checks on canonical models and supplied diagrams:
-CanonicalTower.test_identity_level, CanonicalTower.test_nested_levels,
-CanonicalTower.test_preserves_supplied_arrow, CanonicalTower.test_base_change,
-CanonicalHecke.test_identity,
-CanonicalHecke.test_ordered_nat_legs, CanonicalHecke.test_distinct_legs,
-CanonicalHecke.test_base_change, CanonicalHecke.test_gl2_T2_node.
-
-CM API and Checks specified in Section 5.1 on the embedding/reflex-field carriers:
-TauCeti.CM.CMType.mem_conjugate_iff, TauCeti.CM.CMType.conjugate_conjugate,
-TauCeti.CM.CMType.induced_mem, TauCeti.CM.CMType.induced_trans,
-TauCeti.CM.CMType.primitive_core_unique, TauCeti.CM.CMType.reflexField_prod, TauCeti.CM.CMType.reflexField_induced,
-TauCeti.CM.CMType.reflexField_generic, TauCeti.CM.CMType.typeNorm_identities,
-TauCeti.CM.CMType.test_gaussian, TauCeti.CM.CMType.test_not_full,
-TauCeti.CM.CMType.test_product, TauCeti.CM.CMType.test_zeta8_induced,
-TauCeti.CM.CMType.test_reflex_quadratic, TauCeti.CM.CMType.test_reflex_not_Q,
-TauCeti.CM.CMType.test_typeNorm_gaussian,
-TauCeti.CM.CMType.test_typeNorm_conjugate, TauCeti.CM.CMType.test_typeNorm_transitivity.
-Section 1.1's TauCeti.Shimura.AnalyticPoints.keep_domain is the GL₂ domain Check;
-the distinct-domain-points example states its group-carrier negative control.
--/

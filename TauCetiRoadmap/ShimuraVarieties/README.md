@@ -1,6 +1,6 @@
 # Roadmap: complex Shimura varieties and canonical models
 
-**Summary.** Construct the complex analytic and algebraic towers attached to pure Shimura data, their Baily–Borel compactifications, and canonical models over their cocharacter reflex fields. The arithmetic input is reduction theory and adelic levels; the geometric input is Hermitian domains, analytification and scheme descent. Complex multiplication first constructs the Siegel model, from which Hodge and abelian-type existence follow. A separate marked-conjugation construction handles general data, including exceptional Hermitian factors. The resulting towers carry finite level maps, right translations, ordered Hecke correspondences, component reciprocity and arithmetic minimal compactifications.
+**Summary.** Construct the complex analytic and algebraic towers attached to pure Shimura data, their Baily–Borel compactifications, and canonical models over their cocharacter reflex fields. The arithmetic input is reduction theory and adelic levels; the geometric input is Hermitian domains, analytification and scheme descent. Complex multiplication first constructs the Siegel model, from which Hodge and abelian-type existence follow. A separate marked-conjugation construction handles general data, including exceptional Hermitian factors. The resulting towers carry finite level maps, right translations, ordered Hecke correspondences, component reciprocity and arithmetic minimal compactifications. `Suggested.lean` states the reflex-field theorems of §5.1.
 
 ## Scope and ownership
 
@@ -38,7 +38,7 @@ For `GL₂` the determinant component datum uses `Y=ℝˣ/ℝ_{>0}={±1}`. At pr
 
 ### From Mathlib
 
-Use `MulAction.orbitRel`, `MulAction.orbitRel.Quotient` and `MulAction.stabilizer` from `Mathlib.GroupTheory.GroupAction.Defs` for the actual orbit relation and subgroup. They supply no quotient topology or analytic structure. The analytic point specialization in Suggested.lean retains the two coordinates through a genuine product-group action.
+Use `MulAction.orbitRel`, `MulAction.orbitRel.Quotient` and `MulAction.stabilizer` from `Mathlib.GroupTheory.GroupAction.Defs` for the actual orbit relation and subgroup. They supply no quotient topology or analytic structure. The point quotient of §1.1 retains both the domain and finite-adelic coordinates.
 
 Use `AlgebraicGeometry.Scheme`, its native morphisms, `AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.IsProper` and `AlgebraicGeometry.IsOpenImmersion`. Finite means affine with finite ring maps; proper means separated, universally closed and locally of finite type. These predicates do not assert any Shimura comparison. `IntermediateField.LinearDisjoint` is the actual subalgebra-based field relation used in the disjoint-reflex-field argument.
 
@@ -134,7 +134,9 @@ The following contracts specify mathematical inputs, within the scope of their n
 
 ## How to read the build
 
-Layers 0–3 construct arithmetic components, the complex tower, its minimal compactification and algebraicity. The extension of general datum maps, the codimension-one complex partial extension and its logarithmic section embedding follow the algebraization of maps and finite quotients in Layer 3. The earlier full-ring argument uses its own local cusp/logarithmic calculation on the separating projective realization; it does not invoke that later global linear-system theorem. Layer 4 fixes canonical reciprocity and proves the three foundational descent results—disjoint special reflex fields, descent of translations and uniqueness—conditionally on actual models. They precede the existence constructions, so inheritance and independence do not depend on the final tower theorem. Layer 5 constructs the CM and Siegel instance; Layer 6 gives the Hodge/abelian-type route. Layer 7 supplies a separate general-data route. Layer 8 applies conditional tower and compactification functoriality to whichever existence route supplied the models. Its abelian-type application does not use Layer 7; §8.16a constructs its auxiliary finite-domain models from the abelian-type strict models. Suggested.lean records the point and reciprocity interfaces over native group carriers, the CM types of Section 5.1 over Mathlib's complex embeddings, and representative categorical assembly and ordered-span laws on supplied diagrams. Analytic topology, schemes and the remaining heavy constructions are developed through the targets below.
+Layers 0–3 construct arithmetic components, the complex tower, its minimal compactification and algebraicity. The extension of general datum maps, the codimension-one complex partial extension and its logarithmic section embedding follow the algebraization of maps and finite quotients in Layer 3. The earlier full-ring argument uses its own local cusp/logarithmic calculation on the separating projective realization; it does not invoke that later global linear-system theorem. Layer 4 fixes canonical reciprocity and proves the three foundational descent results—disjoint special reflex fields, descent of translations and uniqueness—conditionally on actual models. They precede the existence constructions, so inheritance and independence do not depend on the final tower theorem. Layer 5 constructs the CM and Siegel instance; Layer 6 gives the Hodge/abelian-type route. Layer 7 supplies a separate general-data route. Layer 8 applies conditional tower and compactification functoriality to whichever existence route supplied the models. Its abelian-type application does not use Layer 7; §8.16a constructs its auxiliary finite-domain models from the abelian-type strict models.
+
+`Suggested.lean` states the reflex-field and type-trace realization theorems of §5.1. The remaining headline signatures require the datum, analytic, realization and canonical-model carriers specified below.
 
 ## Prerequisites constructed here
 
@@ -346,8 +348,8 @@ Expose the following named operations and laws.
 **Checks.**
 
 - `TauCeti.Shimura.AnalyticPoints.trivial`: The trivial datum has one point at its unique level.
-- `TauCeti.Shimura.AnalyticPoints.torus`: For singleton torus datum, `Sh_K^pts=T(ℚ)∖T(𝔸_f)/K`, including the rational quotient. The native singleton-domain example retains the rational element in the equality criterion.
-- `TauCeti.Shimura.AnalyticPoints.keep_domain`: For `GL₂` the fibre of one finite component is `Γ_a∖ℍ`, an infinite set, not a singleton finite double coset. The native `trivialDomainAction` fixes an arbitrary domain under the trivial rational group; its point quotient distinguishes every pair of distinct domain points.
+- `TauCeti.Shimura.AnalyticPoints.torus`: For singleton torus datum, `Sh_K^pts=T(ℚ)∖T(𝔸_f)/K`, including the rational quotient.
+- `TauCeti.Shimura.AnalyticPoints.keep_domain`: For `GL₂` the fibre of one finite component is `Γ_a∖ℍ`, an infinite set, not a singleton finite double coset.
 
 ([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), §5, definition before Lemma 5.13, p.57; [Tau Ceti Project, Adelic algebraic groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md), layer-4-approximation-neat-levels-and-hecke-maps.)
 
@@ -1296,57 +1298,57 @@ Earlier constructions used here are 0.5 Finite analytic component decomposition;
 
 ### 5.1 CM types, reflex fields and reflex norms
 
-Define `TauCeti.CM.CMType` as follows. A CM algebra is a finite product `E=E₁×⋯×E_r`, with `r≥1`, of CM fields (`NumberField.IsCMField`), with the involution `ι_E` acting as complex conjugation on every factor; `ι` is complex conjugation on `ℂ`. A CM type on `E` is a subset `Φ⊂Hom_{ℚ-alg}(E,ℂ)` such that `Hom(E,ℂ)` is the disjoint union of `Φ` and `ιΦ={ι∘φ : φ∈Φ}`; equivalently its indicator function `χ` satisfies `χ(φ)+χ(ι∘φ)=1` for every `φ`. Choosing `Φ` amounts to choosing one complex extension of each real embedding of the maximal totally real subalgebra, and gives `E⊗_ℚℝ≅ℂ^Φ` (Milne CM, Definition 1.8 and the paragraph after it, p.11). A type `Φ₀` on a CM subalgebra `E₀⊂E` induces the type `Φ={φ : φ|E₀∈Φ₀}` on `E`. When `E` is a field, the pair `(E,Φ)` is primitive if `Φ` is induced from no proper CM subfield; every such pair is induced from a unique primitive pair, whose field is the fixed field of the right stabilizer of the extended type in a Galois CM `closure` (Milne CM, p.11, and Proposition 1.9, p.12). For `σ∈Aut(ℂ), σΦ={σ∘φ : φ∈Φ}` is again a CM type, because `ι` commutes with `σ` on the image of a CM field (Milne CM, p.13, footnote 3). In Suggested.lean the partition condition is imposed on ring maps `E→ℂ` for any commutative ring `E`, with `ι∘φ` written `star φ`; the results below assume that `E` is a CM algebra.
+Define a CM type as follows. A CM algebra is a finite product `E=E₁×⋯×E_r`, with `r≥1`, of CM fields (`NumberField.IsCMField`), with the involution `ι_E` acting as complex conjugation on every factor; `ι` is complex conjugation on `ℂ`. A CM type on `E` is a subset `Φ⊂Hom_{ℚ-alg}(E,ℂ)` such that `Hom(E,ℂ)` is the disjoint union of `Φ` and `ιΦ={ι∘φ : φ∈Φ}`; equivalently its indicator function `χ` satisfies `χ(φ)+χ(ι∘φ)=1` for every `φ`. Choosing `Φ` amounts to choosing one complex extension of each real embedding of the maximal totally real subalgebra, and gives `E⊗_ℚℝ≅ℂ^Φ` (Milne CM, Definition 1.8 and the paragraph after it, p.11). A type `Φ₀` on a CM subalgebra `E₀⊂E` induces the type `Φ={φ : φ|E₀∈Φ₀}` on `E`. When `E` is a field, the pair `(E,Φ)` is primitive if `Φ` is induced from no proper CM subfield; every such pair is induced from a unique primitive pair, whose field is the fixed field of the right stabilizer of the extended type in a Galois CM `closure` (Milne CM, p.11, and Proposition 1.9, p.12). For `σ∈Aut(ℂ), σΦ={σ∘φ : φ∈Φ}` is again a CM type, because `ι` commutes with `σ` on the image of a CM field (Milne CM, p.13, footnote 3). The definition `CMType` in `Suggested.lean` imposes the partition condition on ring maps `E→ℂ` for any commutative ring `E`, with `ι∘φ` written `star φ`; the headline statements assume that `E` is a CM algebra.
 
-Expose the following named operations and laws.
+Require the following properties.
 
-- `TauCeti.CM.CMType.ext`: Two CM types with the same embedding set are equal.
-- `TauCeti.CM.CMType.mem_conjugate_iff`: `φ∈ιΦ` iff `φ∉Φ`; thus `ιΦ` is the CM type complementary to `Φ`.
-- `TauCeti.CM.CMType.conjugate_conjugate`: `ι(ιΦ)=Φ`.
-- `TauCeti.CM.CMType.card`: `2|Φ|=[E:ℚ]`.
-- `TauCeti.CM.CMType.galois`: `σΦ` is a CM type, `(στ)Φ=σ(τΦ)` and `ι(σΦ)=σ(ιΦ)`.
-- `TauCeti.CM.CMType.induced_mem`: `φ` lies in the type induced from `Φ₀` iff `φ|E₀∈Φ₀`.
-- `TauCeti.CM.CMType.induced_trans`: Inducing along `E₀⊂E₁⊂E₂` in two steps equals inducing directly.
-- `TauCeti.CM.CMType.primitive_core_unique`: For a CM field `E`, the primitive pair inducing `Φ` is unique.
-
-**Checks.**
-
-- `TauCeti.CM.CMType.test_gaussian`: For `E=ℚ(i), Hom(E,ℂ)` consists of `i↦i` and `i↦−i`; each singleton is a CM type, of cardinal one.
-- `TauCeti.CM.CMType.test_not_full`: For `E=ℚ(i)` neither the full embedding set nor the empty set is a CM type, and `ℚ` has no CM type at all, since its only embedding is real. The Lean examples prove the rational obstruction and reject the full and empty embedding sets whenever an embedding exists. A condition asking only for at least one embedding from each conjugate pair would accept the full set.
-- `TauCeti.CM.CMType.test_product`: CM types on `E₁×E₂` correspond to pairs of CM types, with `|Φ|=|Φ₁|+|Φ₂|`; on `ℚ(i)×ℚ(√−3)` every CM type has cardinal two.
-- `TauCeti.CM.CMType.test_zeta8_induced`: On `ℚ(ζ₈)` the type `{ζ₈↦ζ₈, ζ₈↦ζ₈³}` is induced from `ℚ(√−2)`, since both embeddings send `√−2=ζ₈+ζ₈³` to `i√2`; it is not primitive.
-
-Define `TauCeti.CM.CMType.reflexField` as follows. The type trace of `(E,Φ)` is `typeTrace_Φ(a)=Σ_{φ∈Φ}φ(a)`. For this nonzero CM algebra, the reflex field `E*⊂ℂ` is the subfield generated by all `typeTrace_Φ(a), a∈E`. Equivalently, by Dedekind's independence of characters, `σ∈Aut(ℂ)` fixes `E*` pointwise iff `σΦ=Φ` (Milne CM, Proposition 1.16 and Definition 1.17, p.13). `E*` is a CM field of finite degree; the reflex field of a product of CM pairs is the compositum of their reflex fields; inducing a type does not change its reflex field (Milne CM, Proposition 1.18, p.14). For the CM torus datum `(Res_{E/ℚ}G_m,h_Φ)` of the local datum foundations of §§P.1–P.4, whose cocharacter `μ_Φ` has exponent one at the embeddings in `Φ` and zero at those in `ιΦ`, the cocharacter reflex field `E(T,h_Φ)` of §P.3 is `E*` (SVI Example 12.4(b), p.112).
-
-Expose the following named operations and laws.
-
-- `TauCeti.CM.CMType.typeTrace`: `typeTrace_Φ(a)=Σ_{φ∈Φ}φ(a)`; it is `ℚ`-linear in a.
-- `TauCeti.CM.CMType.reflexField_le_iff`: `E*⊂F` iff `typeTrace_Φ(a)∈F` for every `a∈E`.
-- `TauCeti.CM.CMType.reflexField_stabilizer`: `σ∈Aut(ℂ)` fixes `E*` pointwise iff `σΦ=Φ`.
-- `TauCeti.CM.CMType.reflexField_isCMField`: `E*` is a CM number field. The Lean statement treats every nonempty finite product of CM number fields on the native product-ring carrier.
-- `TauCeti.CM.CMType.typeTrace_conjugate`: `typeTrace_{ιΦ}=ι∘typeTrace_Φ`.
-- `TauCeti.CM.CMType.reflexField_conjugate`: `ιΦ` has the same reflex field as `Φ`. The Lean statement holds for every reduced finite-dimensional `ℚ`-algebra with a CM partition.
-- `TauCeti.CM.CMType.reflexField_prod`: The reflex field of a product of CM pairs is the compositum of their reflex fields.
-- `TauCeti.CM.CMType.reflexField_induced`: An induced type has the reflex field of the type it is induced from.
-- `TauCeti.CM.CMType.reflexField_generic`: `E*` equals the cocharacter reflex field of the CM torus datum, as subfields of `ℂ`.
+- Two CM types with the same embedding set are equal.
+- `φ∈ιΦ` iff `φ∉Φ`; thus `ιΦ` is the CM type complementary to `Φ`.
+- `ι(ιΦ)=Φ`.
+- `2|Φ|=[E:ℚ]`.
+- `σΦ` is a CM type, `(στ)Φ=σ(τΦ)` and `ι(σΦ)=σ(ιΦ)`.
+- `φ` lies in the type induced from `Φ₀` iff `φ|E₀∈Φ₀`.
+- Inducing along `E₀⊂E₁⊂E₂` in two steps equals inducing directly.
+- For a CM field `E`, the primitive pair inducing `Φ` is unique.
 
 **Checks.**
 
-- `TauCeti.CM.CMType.test_reflex_quadratic`: For `E=ℚ(i)` and `Φ={i↦i}, typeTrace_Φ(i)=i`, so `E*=ℚ(i)⊂ℂ`.
-- `TauCeti.CM.CMType.test_reflex_not_Q`: The same computation gives `E*≠ℚ`. The full trace over all embeddings vanishes at `i`, so a definition using it would give `ℚ`.
-- `TauCeti.CM.CMType.test_reflex_induced`: The induced `ℚ(ζ₈)` type above has reflex field `ℚ(√−2)`, of degree two; taking `E*` to be `E` would give `ℚ(ζ₈)`, of degree four. The named Lean theorem uses the native CyclotomicField `8 ℚ` carrier and an actual primitive eighth root, selecting its first/third complex images and asserting these two degrees.
+- For `E=ℚ(i), Hom(E,ℂ)` consists of `i↦i` and `i↦−i`; each singleton is a CM type, of cardinal one.
+- For `E=ℚ(i)` neither the full embedding set nor the empty set is a CM type, and `ℚ` has no CM type at all, since its only embedding is real. A condition asking only for at least one embedding from each conjugate pair would accept the full set.
+- CM types on `E₁×E₂` correspond to pairs of CM types, with `|Φ|=|Φ₁|+|Φ₂|`; on `ℚ(i)×ℚ(√−3)` every CM type has cardinal two.
+- On `ℚ(ζ₈)` the type `{ζ₈↦ζ₈, ζ₈↦ζ₈³}` is induced from `ℚ(√−2)`, since both embeddings send `√−2=ζ₈+ζ₈³` to `i√2`; it is not primitive.
 
-Define `TauCeti.CM.CMType.reflexNorm` as follows. For a number field `k⊂ℂ` there is a finitely generated `E⊗_ℚk`-module `V` with `Tr_k(a|V)=typeTrace_Φ(a)` for all `a∈E` exactly when `k⊇E*`, and `V` is then unique up to isomorphism (Milne CM, Proposition 1.21, p.15, and Corollary 1.22, pp.15–16). For a `ℚ`-algebra `R` and `a∈(k⊗_ℚR)^×` put `N_{k,Φ}(a)=det_{E⊗R}(a|V⊗_ℚR)`. This is a homomorphism `(k⊗R)^×→(E⊗R)^×`, functorial in `R` and independent of `V`, hence a morphism of tori `Res_{k/ℚ}G_m→Res_{E/ℚ}G_m`; write `N_Φ` when `k=E*`. Taking `R` to be the adeles gives the idelic map, and passing to fractional ideals gives the ideal map (Milne CM, p.16, and Remark 1.25, p.17).
+Define the reflex field as follows. The type trace of `(E,Φ)` is `typeTrace_Φ(a)=Σ_{φ∈Φ}φ(a)`, defined by `CMType.typeTrace` in `Suggested.lean`. For this nonzero CM algebra, the reflex field `E*⊂ℂ` is the subfield generated by all `typeTrace_Φ(a), a∈E`, as in `CMType.reflexField`. Equivalently, by Dedekind's independence of characters, `σ∈Aut(ℂ)` fixes `E*` pointwise iff `σΦ=Φ` (Milne CM, Proposition 1.16 and Definition 1.17, p.13). `E*` is a CM field of finite degree; the reflex field of a product of CM pairs is the compositum of their reflex fields; inducing a type does not change its reflex field (Milne CM, Proposition 1.18, p.14). For the CM torus datum `(Res_{E/ℚ}G_m,h_Φ)` of the local datum foundations of §§P.1–P.4, whose cocharacter `μ_Φ` has exponent one at the embeddings in `Φ` and zero at those in `ιΦ`, the cocharacter reflex field `E(T,h_Φ)` of §P.3 is `E*` (SVI Example 12.4(b), p.112).
 
-Prove `TauCeti.CM.CMType.typeNorm_identities` as follows. `(a)` For `E*⊂k⊂ℂ, N_{k,Φ}=N_Φ∘Nm_{k/E*}` (Milne CM, Proposition 1.23, p.16). `(b) N_{k,Φ}(a)·ι_E(N_{k,Φ}(a))=Nm_{k⊗R/R}(a)` for `a∈(k⊗R)^×`; hence `N_{k,ιΦ}=ι_E∘N_{k,Φ}`, and `N_{k,Φ}` factors through the subtorus of `Res_{E/ℚ}G_m` of elements `x` with `xι_E(x)∈G_m` (Milne CM, Remark 1.24(b), formulas `(8)`–`(10)`, p.16, and Remark 1.25, p.17). `(c)` Assume `E` is a field. If `k` is a finite extension of `E*` containing all conjugates of `E`, then `N_{k,Φ}(a)=∏_{φ∈Φ}φ⁻¹(Nm_{k/φE}a)` for every nonzero element or fractional ideal a of `k` (Milne CM, Proposition 1.26, p.17). `(d)` When `E` is a field, choose `L⊂ℂ` Galois over `ℚ` and containing `E`, put `Φ_L={σ∈Gal(L/ℚ) : σ|E∈Φ}`, and write `Φ_L⁻¹` as a disjoint union of cosets `ψ_jGal(L/E*)`. Then `Φ*={ψ_j|E*}` is the reflex type on `E*`, and `a↦∏_{ψ∈Φ*}ψ(a)` maps `E*` into `E` and equals `N_Φ` (Milne CM, Example 1.28, p.18). For `E=∏E_j`, write `Φ_j` for its component types and `E_j*⊂E*`. Apply the field formula `(c)` separately to each `(E_j,Φ_j)` with the same `k`; the resulting tuple is `N_{k,Φ}`. Thus `(a)`–`(b)` and componentwise `(c)` hold for products; no single reflex pair is claimed.
+Require the following properties.
+
+- `typeTrace_Φ(a)=Σ_{φ∈Φ}φ(a)`; it is `ℚ`-linear in a.
+- `E*⊂F` iff `typeTrace_Φ(a)∈F` for every `a∈E`.
+- `σ∈Aut(ℂ)` fixes `E*` pointwise iff `σΦ=Φ`.
+- `E*` is a CM number field. `CMType.reflexField_isCMField` in `Suggested.lean` states this for every nonempty finite product of CM number fields on the native product-ring carrier.
+- `typeTrace_{ιΦ}=ι∘typeTrace_Φ`.
+- `ιΦ` has the same reflex field as `Φ`; this also holds for every reduced finite-dimensional `ℚ`-algebra with a CM partition.
+- The reflex field of a product of CM pairs is the compositum of their reflex fields.
+- An induced type has the reflex field of the type it is induced from.
+- `E*` equals the cocharacter reflex field of the CM torus datum, as subfields of `ℂ`.
+
+**Checks.**
+
+- For `E=ℚ(i)` and `Φ={i↦i}, typeTrace_Φ(i)=i`, so `E*=ℚ(i)⊂ℂ`.
+- The same computation gives `E*≠ℚ`. The full trace over all embeddings vanishes at `i`, so a definition using it would give `ℚ`.
+- The induced `ℚ(ζ₈)` type above has reflex field `ℚ(√−2)`, of degree two; taking `E*` to be `E` would give `ℚ(ζ₈)`, of degree four.
+
+Define the reflex norm as follows. For a number field `k⊂ℂ` there is a finitely generated `E⊗_ℚk`-module `V` with `Tr_k(a|V)=typeTrace_Φ(a)` for all `a∈E` exactly when `k⊇E*`, and `V` is then unique up to isomorphism (Milne CM, Proposition 1.21, p.15, and Corollary 1.22, pp.15–16). `CMType.reflexField_representation` in `Suggested.lean` states this existence criterion and uniqueness using native finite-dimensional vector spaces and algebra homomorphisms. For a `ℚ`-algebra `R` and `a∈(k⊗_ℚR)^×` put `N_{k,Φ}(a)=det_{E⊗R}(a|V⊗_ℚR)`. This is a homomorphism `(k⊗R)^×→(E⊗R)^×`, functorial in `R` and independent of `V`, hence a morphism of tori `Res_{k/ℚ}G_m→Res_{E/ℚ}G_m`; write `N_Φ` when `k=E*`. Taking `R` to be the adeles gives the idelic map, and passing to fractional ideals gives the ideal map (Milne CM, p.16, and Remark 1.25, p.17).
+
+Prove the type-norm identities as follows. `(a)` For `E*⊂k⊂ℂ, N_{k,Φ}=N_Φ∘Nm_{k/E*}` (Milne CM, Proposition 1.23, p.16). `(b) N_{k,Φ}(a)·ι_E(N_{k,Φ}(a))=Nm_{k⊗R/R}(a)` for `a∈(k⊗R)^×`; hence `N_{k,ιΦ}=ι_E∘N_{k,Φ}`, and `N_{k,Φ}` factors through the subtorus of `Res_{E/ℚ}G_m` of elements `x` with `xι_E(x)∈G_m` (Milne CM, Remark 1.24(b), formulas `(8)`–`(10)`, p.16, and Remark 1.25, p.17). `(c)` Assume `E` is a field. If `k` is a finite extension of `E*` containing all conjugates of `E`, then `N_{k,Φ}(a)=∏_{φ∈Φ}φ⁻¹(Nm_{k/φE}a)` for every nonzero element or fractional ideal a of `k` (Milne CM, Proposition 1.26, p.17). `(d)` When `E` is a field, choose `L⊂ℂ` Galois over `ℚ` and containing `E`, put `Φ_L={σ∈Gal(L/ℚ) : σ|E∈Φ}`, and write `Φ_L⁻¹` as a disjoint union of cosets `ψ_jGal(L/E*)`. Then `Φ*={ψ_j|E*}` is the reflex type on `E*`, and `a↦∏_{ψ∈Φ*}ψ(a)` maps `E*` into `E` and equals `N_Φ` (Milne CM, Example 1.28, p.18). For `E=∏E_j`, write `Φ_j` for its component types and `E_j*⊂E*`. Apply the field formula `(c)` separately to each `(E_j,Φ_j)` with the same `k`; the resulting tuple is `N_{k,Φ}`. Thus `(a)`–`(b)` and componentwise `(c)` hold for products; no single reflex pair is claimed.
 
 Prove `TauCeti.Shimura.ReflexNorm.cm_type` as follows. For the CM torus datum `(Res_{E/ℚ}G_m,h_Φ)` of the local datum foundations of §§P.1–P.4, so that `E(T,h_Φ)=E*`, the cocharacter reflex norm `r_{h_Φ}:Res_{E*/ℚ}G_m→Res_{E/ℚ}G_m` of [4.2 Reflex norm of a special torus](#42-reflex-norm-of-a-special-torus) equals `N_Φ`, as morphisms of tori and on finite ideles. In split coordinates both send a to the element whose `φ`-component is the product of `ρ(a)` over the embeddings `ρ:E*→ℂ` for which `σ⁻¹∘φ∈Φ`, where `σ∈Aut(ℚ̄/ℚ)` extends `ρ`. This condition is independent of the extension: two such `σ` differ on the right by an automorphism fixing `E*`, and that stabilizer preserves `Φ`. Embeddings and compositions here are restricted to `ℚ̄` (SVI Example 12.4(b), p.112, and `(60)`, p.114; Milne CM, Proposition 1.26, p.17).
 
 **Checks.**
 
-- `TauCeti.CM.CMType.test_typeNorm_gaussian`: For `E=ℚ(i)` and `Φ={i↦i}, E*=ℚ(i)` and `N_Φ` is the identity under the selected embedding; `N_Φ(2+i)·ι(N_Φ(2+i))=(2+i)(2−i)=5=Nm(2+i)`.
-- `TauCeti.CM.CMType.test_typeNorm_conjugate`: For the same field, `N_{ιΦ}(2+i)=2−i`, not `2+i`: conjugating the type conjugates the norm.
-- `TauCeti.CM.CMType.test_typeNorm_transitivity`: For `k=ℚ(i,√2)⊃E*=ℚ(i), N_{k,Φ}(√2)=N_Φ(Nm_{k/E*}√2)=N_Φ(−2)=−2`. Omitting the norm from `k` to `E*` gives `√2`, which is not in `E`.
+- For `E=ℚ(i)` and `Φ={i↦i}, E*=ℚ(i)` and `N_Φ` is the identity under the selected embedding; `N_Φ(2+i)·ι(N_Φ(2+i))=(2+i)(2−i)=5=Nm(2+i)`.
+- For the same field, `N_{ιΦ}(2+i)=2−i`, not `2+i`: conjugating the type conjugates the norm.
+- For `k=ℚ(i,√2)⊃E*=ℚ(i), N_{k,Φ}(√2)=N_Φ(Nm_{k/E*}√2)=N_Φ(−2)=−2`. Omitting the norm from `k` to `E*` gives `√2`, which is not in `E`.
 - For `E=ℚ(i)×ℚ(i)`, embeddings factor through projections and have nonzero kernels. The norm formula gives a pair of Gaussian field norms; no inverse embedding into `E` is used.
 - For `E=ℚ(ζ₈)` with induced type `{1,3}` and `E*=ℚ(√−2), φ(E)` cannot lie in the degree-two image `ρ(E*)`. Extending `ρ` to `σ` makes the split-coordinate formula well-defined.
 - `TauCeti.Shimura.ReflexNorm.test_cm_gaussian`: For `E=ℚ(i)` and `Φ={φ}`, the special-torus reflex norm `r_{h_Φ}` sends `a∈(E*)^×` to `φ⁻¹(a)`, in agreement with `N_Φ` and not with its inverse or with `N_{ιΦ}`.
