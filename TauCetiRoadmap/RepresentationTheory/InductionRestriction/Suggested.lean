@@ -349,7 +349,7 @@ variable {k : Type u} [Field k] {G : Type u} [Group G]
 /-- **The induced class function** `Ind_H^G f : G → k` of `f : H → k`, the linearization of the
 induced-character formula (`character_ind` computes it on genuine characters); the map turning `R(H) → R(G)`
 into a module homomorphism over `R(G)` by the projection formula (Layer 0). -/
-noncomputable def indClassFun {H : Subgroup G} [Fintype G] (f : H → k) : G → k := Subgroup.indClassFun H f
+noncomputable def indClassFun {H : Subgroup G} [Fintype G] (f : H → k) : G → k := H.indClassFun f
 
 /-- **The virtual-character lattice** in the class functions: the additive subgroup of `G → k` spanned by
 the characters of `FDRep k G` (closed under the tensor-product product `char_tensor`). The primary object

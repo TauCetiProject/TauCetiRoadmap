@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.RingTheory.Huber.Pair
 import TauCeti.RingTheory.Huber.PowerBounded
 import TauCeti.RingTheory.Huber.TopologicallyFiniteType.Basic
+import TauCeti.RingTheory.Huber.TopologicallyFiniteType.Pair
 import TauCeti.RingTheory.Huber.Uniform
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
 import TauCeti.Topology.Algebra.Module.Compact
