@@ -58,7 +58,7 @@ From ArithmeticStatisticsPartVI require [ArithmeticStatisticsPartVI: height mome
 
 Build §5.4 and the Poonen–Rains weights, normalization, moments and parity of §5.5 first. Build the general Oesterlé measure and the orthogonal geometry/counts of §5.29 next. Then build the alternating laws of §5.6, the Delaunay weights and compatibility in §5.5, and §5.7. Build §§5.23–5.24 and the character-duality targets before §5.26; build the finite-flat cohomology adapters before §5.27. The arithmetic conjectures and applications follow their respective model inputs, and the three-isogeny applications retain their counting hypotheses. The subsection numbers preserve the common layer notation across parts.
 
-The mathematical specification is this README; `Suggested.lean` gives representative light definitions and signatures on the pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers, with the definitions needed to express them. The required API lists specify library targets; only the signatures explicitly identified below are declarations in `Suggested.lean`. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
 ## Layer 5: Quadratic probability models and twist applications
 
@@ -311,7 +311,7 @@ For the proof, Define the finite-`g` law as the Haar measure of the set of `F` w
 
 <a id="zero-cokernel-probability-at-two"></a>
 
-**Zero cokernel probability at two.** `Distributions.dyadic_zero_cokernel_probability` states the finite matrix probability. For `F` uniform in `M_g(𝔽₂)`, `P(1 − F² ∈ GL_g(𝔽₂)) = |GL_g(𝔽₂)|/2^{g²} = ∏_{j=1}^{g}(1 − 2^{−j})`; it decreases to `∏_{j≥1}(1 − 2^{−j}) = c_{2,0} ≈ 0.2888 > 0`. Hence `CL^{(g)}_{(1,2),2}(0, 0) = ∏_{j=1}^{g}(1 − 2^{−j})`.
+**Zero cokernel probability at two.** For `F` uniform in `M_g(𝔽₂)`, `P(1 − F² ∈ GL_g(𝔽₂)) = |GL_g(𝔽₂)|/2^{g²} = ∏_{j=1}^{g}(1 − 2^{−j})`; it decreases to `∏_{j≥1}(1 − 2^{−j}) = c_{2,0} ≈ 0.2888 > 0`. Hence `CL^{(g)}_{(1,2),2}(0, 0) = ∏_{j=1}^{g}(1 − 2^{−j})`.
 
 `g ∈ ℕ`
 
@@ -329,7 +329,7 @@ For the proof, In characteristic 2, `1 − F² = (1 − F)²`, which is invertib
 
 <a id="zero-cokernel-probability-lower-bound-at-odd-primes"></a>
 
-**Zero cokernel probability lower bound at odd primes.** `Distributions.odd_zero_cokernel_probability_lower_bound` states the positive uniform bound. For an odd prime `ℓ` and every `g`, `F` uniform in `M_g(𝔽_ℓ): P(1 − F² ∈ GL_g(𝔽_ℓ)) ≥ 2c_{3,0} − 1 = 2∏_{k≥1}(1 − 3^{−k}) − 1 ≈ 0.1202 > 0`. This proves a positive lim inf of `CL^{(g)}_{(1,2),ℓ}(0, 0)`, not the existence of the limit.
+**Zero cokernel probability lower bound at odd primes.** For an odd prime `ℓ` and every `g`, `F` uniform in `M_g(𝔽_ℓ): P(1 − F² ∈ GL_g(𝔽_ℓ)) ≥ 2c_{3,0} − 1 = 2∏_{k≥1}(1 − 3^{−k}) − 1 ≈ 0.1202 > 0`. This proves a positive lim inf of `CL^{(g)}_{(1,2),ℓ}(0, 0)`, not the existence of the limit.
 
 `ℓ` odd prime `g ∈ ℕ`
 
@@ -377,15 +377,7 @@ For the proof, Represent the family by probability mass functions `P_g` on finit
 
 `V` finite-dimensional over `K`; `Q` a quadratic form on `V`
 
-The required API is:
-
-- `IsMaxIsotropic`: `IsMaxIsotropic Q W ↔ (∀ w ∈ W, Q w = 0) ∧ W^⊥ = W`, with `W^⊥` for the polar form.
-- `maxIsotropicSubspaces`: `I_V := {W : Submodule K V | IsMaxIsotropic Q W}`.
-- `IsWeaklyMetabolic`: Polar form nondegenerate and `I_V` nonempty.
-- `IsMaxIsotropic.finrank_eq`: If the polar form is nondegenerate and `finrank V = 2n` then `finrank W = n` for `W ∈ I_V`.
-- `isMaxIsotropic_iff_finrank`: For nondegenerate polar form and `finrank V = 2n: W ∈ I_V ↔ Q|_W = 0 ∧ finrank W = n`.
-- `IsMaxIsotropic.map_isometryEquiv`: An isometry `V ≃ V'` of quadratic spaces maps `I_V` bijectively to `I_{V'}`.
-- `maxIsotropicSubspaces_hyperbolicPlane`: For `Q(x, y) = xy` on `K²`, `I_V = {K × 0, 0 × K}`.
+The parameter-space definitions in `Suggested.lean` are `IsMaxIsotropic`, `maxIsotropicSubspaces` and `IsWeaklyMetabolic`. Develop their dimension and isometry theory: a maximal isotropic in a nondegenerate space of dimension `2n` has dimension `n`; conversely a quadratic-isotropic subspace of dimension `n` is maximal. Quadratic isometries transport maximal isotropics bijectively. For `Q(x,y)=xy` on `K²`, the maximal isotropics are exactly the two coordinate axes.
 
 For the proof, Define `W^⊥` as `LinearMap.BilinForm.orthogonal` of `QuadraticMap.polarBilin Q`. Define `IsMaxIsotropic Q W := (∀ w ∈ W, Q w = 0) ∧ W^⊥ = W`, and `I_V` as the set of such `W`. Nondegenerate: `LinearMap.BilinForm.Nondegenerate` of the polar form; weakly metabolic: nondegenerate and `I_V` nonempty.
 
@@ -441,7 +433,7 @@ For the proof, Well-definedness of `Q_X`: for `x ∈ X` and `v ∈ X^⊥`, `Q(v 
 
 `(V, Q)` weakly metabolic over `𝔽_p`, `dim V = 2n`; `X` isotropic
 
-For the proof, Reduce to `dim X = 1` by choosing a full flag `0 = X_0 ⊂ X_1 ⊂ … ⊂ X_k = X` and factoring `π_X` as the composite of the reductions `π_{X_{i}/X_{i−1}}` ([isotropic reduction map](#isotropic-reduction-map), API `isotropicReduction_comp`); the space at stage `i` has dimension `2(n − i + 1)`. Case `X = 𝔽_p v`: fix `W̄ ∈ I_{X^⊥/X}` and its preimage `W ⊇ X` in `I_V`. The map `Z ↦ Z ∩ W` from the fibre over `W̄` to `{hyperplanes of W not containing v} ∪ {W}` is a bijection: if `v ∈ Z` then `Z = W`; if `v ∉ Z` then `Z ∩ W` is a hyperplane `W_1` of `W`. Conversely, for a hyperplane `W_1 ⊂ W` not containing `v`, the `Z ∈ I_V` containing `W_1` correspond to maximal isotropic lines of the 2-dimensional weakly metabolic space `W_1^⊥/W_1 ≅ (𝔽_p², xy)`, of which there are exactly two ([maximal isotropic subspaces of a quadratic space](#maximal-isotropic-subspaces-of-a-quadratic-space), API `maxIsotropicSubspaces_hyperbolicPlane`): one is `W`, the other `Z` has `Z ∩ W = W_1` and reduces to `W̄`. Since `v∉W₁`, the other `Z` cannot contain `v` (otherwise it contains `W₁+𝔽_pv=W` and equals `W`). The printed source omits this necessary hyperplane restriction. Count: the hyperplanes of the `n`-dimensional `W` not containing `v` number `(p^n − 1)/(p − 1) − (p^{n−1} − 1)/(p − 1) = p^{n−1}`; adding `Z = W` gives `p^{n−1} + 1` elements in each fibre when `dim X = 1`; the product over the flag gives `∏_{i=1}^{dim X}(p^{n−i} + 1)`.
+For the proof, Reduce to `dim X = 1` by choosing a full flag `0 = X_0 ⊂ X_1 ⊂ … ⊂ X_k = X` and factoring `π_X` as the composite of the reductions `π_{X_{i}/X_{i−1}}` ([isotropic reduction map](#isotropic-reduction-map), API `isotropicReduction_comp`); the space at stage `i` has dimension `2(n − i + 1)`. Case `X = 𝔽_p v`: fix `W̄ ∈ I_{X^⊥/X}` and its preimage `W ⊇ X` in `I_V`. The map `Z ↦ Z ∩ W` from the fibre over `W̄` to `{hyperplanes of W not containing v} ∪ {W}` is a bijection: if `v ∈ Z` then `Z = W`; if `v ∉ Z` then `Z ∩ W` is a hyperplane `W_1` of `W`. Conversely, for a hyperplane `W_1 ⊂ W` not containing `v`, the `Z ∈ I_V` containing `W_1` correspond to maximal isotropic lines of the 2-dimensional weakly metabolic space `W_1^⊥/W_1 ≅ (𝔽_p², xy)`, of which there are exactly two ([maximal isotropic subspaces of a quadratic space](#maximal-isotropic-subspaces-of-a-quadratic-space), the hyperbolic-plane classification): one is `W`, the other `Z` has `Z ∩ W = W_1` and reduces to `W̄`. Since `v∉W₁`, the other `Z` cannot contain `v` (otherwise it contains `W₁+𝔽_pv=W` and equals `W`). The printed source omits this necessary hyperplane restriction. Count: the hyperplanes of the `n`-dimensional `W` not containing `v` number `(p^n − 1)/(p − 1) − (p^{n−1} − 1)/(p − 1) = p^{n−1}`; adding `Z = W` gives `p^{n−1} + 1` elements in each fibre when `dim X = 1`; the product over the flag gives `∏_{i=1}^{dim X}(p^{n−i} + 1)`.
 
 *Needs:* [isotropic reduction map](#isotropic-reduction-map), [maximal isotropic subspaces of a quadratic space](#maximal-isotropic-subspaces-of-a-quadratic-space), [ArithmeticStatisticsPartIV: gaussian binomial coefficient](../ArithmeticStatisticsPartIV/README.md#gaussian-binomial-coefficient).
 
@@ -454,7 +446,7 @@ For the proof, Reduce to `dim X = 1` by choosing a full flag `0 = X_0 ⊂ X_1 �
 
 <a id="number-of-maximal-isotropic-subspaces"></a>
 
-**Number of maximal isotropic subspaces.** If `(V, Q)` is a weakly metabolic quadratic space of dimension `2n` over a finite field `𝔽_q`, then `#I_V = ∏_{j=0}^{n−1} (q^j + 1)`. The signature is `Distributions.card_maxIsotropicSubspaces`, using the actual submodule parameter set.
+**Number of maximal isotropic subspaces.** If `(V, Q)` is a weakly metabolic quadratic space of dimension `2n` over a finite field `𝔽_q`, then `#I_V = ∏_{j=0}^{n−1} (q^j + 1)`. The count uses the actual submodule parameter set.
 
 `(V, Q)` weakly metabolic over a finite field `𝔽_q`, `dim V = 2n`
 
@@ -513,17 +505,7 @@ For the proof, Rewrite the generating function as `∏_{i=0}^{n−1}(1 + p^{−i
 
 `p` prime
 
-The required API is:
-
-- `poonenRainsConstant`: `c_p := ∏'_{j≥0} (1 + p^{−j})^{−1}`.
-- `poonenRainsWeight`: `a_d := c_p ∏_{j=1}^{d} p/(p^{j} − 1)`.
-- `poonenRainsDistribution`: The probability mass function on `ℕ` with weights `a_d`.
-- `poonenRainsConstant_eq_half_prod`: `c_p = (1/2) ∏'_{i≥0} (1 − p^{−(2i+1)})`.
-- `poonenRainsWeight_succ`: `a_{d+1} = a_d · p/(p^{d+1} − 1)`.
-- `poonenRainsWeight_pos`: `a_d > 0` for every `d`.
-- `poonenRainsDistribution_apply`: `poonenRainsDistribution p d = a_d`.
-- `poonenRainsDistribution_even`: The total mass on even `d` is 1/2 (parity equidistribution).
-- `poonenRainsDistribution_eq_alternatingKernelLimit`: `a_d` equals the parity-averaged limit law of `dim ker` of a random alternating `n×n` matrix over `𝔽_p` ([alternating kernel law limit is poonen rains](#alternating-kernel-law-limit-is-poonen-rains)).
+The weights in `Suggested.lean` are `poonenRainsConstant` and `poonenRainsWeight`. Package the normalized weights as a probability mass function, prove the alternate product for `c_p`, the recurrence `a_(d+1)=a_d p/(p^(d+1)−1)` and positivity of every weight. Identify its even mass as one half and its weights with the parity-averaged alternating-kernel limit.
 
 For the proof, Define `c_p` as the convergent infinite product `∏_{j≥0}(1 + p^{−j})^{−1}` (convergent since `Σ p^{−j} < ∞`; `mathlib:tprod`, `mathlib:Multipliable`). Define the weights `a_d` by the finite products and the measure from the summation theorem. The second expression for `c_p`: substitute `1 + p^{−j} = (1 − p^{−2j})/(1 − p^{−j})` for `j ≥ 1` and cancel (telescoping of even exponents).
 
@@ -542,7 +524,7 @@ For the proof, Define `c_p` as the convergent infinite product `∏_{j≥0}(1 + 
 
 <a id="intersection-law-converges-to-poonen-rains"></a>
 
-**Intersection law converges to poonen rains.** `Distributions.poonenRainsWeight_total` states summability and total mass one for the limiting weights. For every `d ≥ 0`, `a_{d,n} → a_d` as `n → ∞; Σ_{d≥0} a_d = 1; Σ_d a_d z^d = ∏_{i≥0}(1 + p^{−i}z)/(1 + p^{−i})` for every complex `z` (both sides converge absolutely); and the laws of `X_n` converge in total variation to the Poonen–Rains distribution.
+**Intersection law converges to poonen rains.** `Distributions.intersectionLaw_tendsto_poonenRains` states normalization of the limiting weights and total-variation convergence of the actual finite quadratic intersection laws, whose probabilities are `Distributions.intersectionWeight`. For every `d ≥ 0`, `a_{d,n} → a_d` as `n → ∞; Σ_{d≥0} a_d = 1; Σ_d a_d z^d = ∏_{i≥0}(1 + p^{−i}z)/(1 + p^{−i})` for every complex `z` (both sides converge absolutely); and the laws of `X_n` converge in total variation to the Poonen–Rains distribution.
 
 `p` prime
 
@@ -578,7 +560,7 @@ For the proof, Substitute `z = p^m` in the generating function of [intersection 
 
 <a id="poonen-rains-parity"></a>
 
-**Poonen rains parity.** `Distributions.poonenRainsWeight_parity` gives each parity-restricted sum. `Prob(X_n even) = 1/2` for every `n > 0` and `Prob(X_{Sel_p} even) = 1/2`. Conditioning on either parity leaves the moments `E[p^{m X_{Sel_p}}]` unchanged, and the same holds for `E[p^{m X_n}]` when `m < n`.
+**Poonen rains parity.** `Prob(X_n even) = 1/2` for every `n > 0` and `Prob(X_{Sel_p} even) = 1/2`. Conditioning on either parity leaves the moments `E[p^{m X_{Sel_p}}]` unchanged, and the same holds for `E[p^{m X_n}]` when `m < n`.
 
 `p` prime `n > 0`
 
@@ -600,13 +582,7 @@ For the proof, Substitute `z = −1` in the generating function ([intersection d
 
 `p` prime `r ≥ 0`
 
-The required API is:
-
-- `delaunayWeight`: `delaunayWeight p r n = Prob(X_{Ш[p],r} = 2n)`.
-- `delaunayWeight_zero`: `delaunayWeight p r 0 = ∏'_{i≥1}(1 − p^{−(2r+2i−1)})`.
-- `delaunayWeight_pos`: All weights are positive.
-- `hasSum_delaunayWeight`: `Σ_n delaunayWeight p r n = 1`.
-- `delaunayWeight_eq_alternatingCokernel`: `delaunayWeight p 0 n` is the limit, over even sizes `2m → ∞`, of the probability that a random alternating `2m × 2m` matrix over `𝔽_p` has kernel of dimension `2n` (the `p`-rank marginal of `A_0`).
+The definition in `Suggested.lean` is `delaunayWeight`. Prove its zero-dimensional product formula, positivity and total mass one at every fixed rank. Identify the rank-zero law with the even-size alternating-kernel limit, the `p`-rank marginal of `A_0`.
 
 For the proof, Define the weights by the convergent product (`mathlib:tprod`); total mass one follows for every `r≥0` from [bklpr alternating cokernel limit](#bklpr-alternating-cokernel-limit), by its `dim G[p]` marginal. The compatibility theorem then uses these normalized laws.
 
@@ -629,7 +605,7 @@ For the proof, Define the weights by the convergent product (`mathlib:tprod`); t
 
 `p` prime `R` is a nonnegative-integer-valued prior; conditionally on `R=r`, draw the Sha-dimension from the Delaunay law with that parameter. No unconditional independence of `R` and the resulting dimension is assumed.
 
-For the proof, Existence: the identities `Prob(X_{Sel_p} = 2n) = (1/2)Prob(X_{Ш[p],0} = 2n)` and `Prob(X_{Sel_p} = 2n + 1) = (1/2)Prob(X_{Ш[p],1} = 2n)`, obtained by rewriting `c_p ∏_{j=1}^{2n} p/(p^j − 1)` with `c_p = (1/2)∏(1 − p^{−(2i+1)})` ([poonen rains distribution](#poonen-rains-distribution), API `poonenRainsConstant_eq_half_prod`) and splitting even and odd factors; routine product manipulation. Uniqueness: with `f_r(s) := Prob(X_{Ш[p],r} = s − r)`, the hypothesis gives `Σ_r Prob(R = r) f_r = Σ_r Prob(R' = r) f_r` for the conjectured `R'`; the `f_r` are linearly independent in the `ℓ¹` sense because `f_r(s) = 0` for `s < r` and `f_r(r) > 0` ([delaunay sha p rank law](#delaunay-sha-p-rank-law), API `delaunayWeight_pos`); induct on `r`.
+For the proof, Existence: the identities `Prob(X_{Sel_p} = 2n) = (1/2)Prob(X_{Ш[p],0} = 2n)` and `Prob(X_{Sel_p} = 2n + 1) = (1/2)Prob(X_{Ш[p],1} = 2n)`, obtained by rewriting `c_p ∏_{j=1}^{2n} p/(p^j − 1)` with `c_p = (1/2)∏(1 − p^{−(2i+1)})` ([poonen rains distribution](#poonen-rains-distribution), the alternate product for `c_p`) and splitting even and odd factors; routine product manipulation. Uniqueness: with `f_r(s) := Prob(X_{Ш[p],r} = s − r)`, the hypothesis gives `Σ_r Prob(R = r) f_r = Σ_r Prob(R' = r) f_r` for the conjectured `R'`; the `f_r` are linearly independent in the `ℓ¹` sense because `f_r(s) = 0` for `s < r` and `f_r(r) > 0` ([delaunay sha p rank law](#delaunay-sha-p-rank-law), positivity of Delaunay weights); induct on `r`.
 
 *Needs:* [poonen rains distribution](#poonen-rains-distribution), [delaunay sha p rank law](#delaunay-sha-p-rank-law).
 
@@ -645,7 +621,7 @@ For the proof, Existence: the identities `Prob(X_{Sel_p} = 2n) = (1/2)Prob(X_{Ш
 
 <a id="count-of-nondegenerate-alternating-matrices"></a>
 
-**Count of nondegenerate alternating matrices.** `Distributions.alternating_nondegenerate_proportion` states the even-size proportion. Let `M_m(𝔽_p)^alt` be the set of alternating `m × m` matrices over `𝔽_p` (zero diagonal, `Aᵗ = −A`), of cardinality `p^{m(m−1)/2}`, and `GL_m(𝔽_p)^alt` its subset of invertible ones. If `m` is odd, `GL_m(𝔽_p)^alt = ∅`. If `m` is even, `#GL_m(𝔽_p)^alt / #M_m(𝔽_p)^alt = ∏_{i=1}^{m/2} (1 − p^{1−2i})`.
+**Count of nondegenerate alternating matrices.** Let `M_m(𝔽_p)^alt` be the set of alternating `m × m` matrices over `𝔽_p` (zero diagonal, `Aᵗ = −A`), of cardinality `p^{m(m−1)/2}`, and `GL_m(𝔽_p)^alt` its subset of invertible ones. If `m` is odd, `GL_m(𝔽_p)^alt = ∅`. If `m` is even, `#GL_m(𝔽_p)^alt / #M_m(𝔽_p)^alt = ∏_{i=1}^{m/2} (1 − p^{1−2i})`.
 
 `p` prime `m ≥ 0`
 
@@ -667,15 +643,7 @@ For the proof, `#M_m(𝔽_p)^alt = p^{m(m−1)/2}`: an alternating matrix is det
 
 `p` prime `0 ≤ j ≤ n`
 
-The required API is:
-
-- `alternatingKernelLaw`: `P_p(j | n)` as a rational number (finite count divided by `p^{n(n−1)/2}`).
-- `alternatingKernelLaw_eq_zero_of_parity`: `j ≢ n (mod 2) ⇒ P_p(j | n) = 0`.
-- `alternatingKernelLaw_self`: `P_p(n | n) = p^{−n(n−1)/2}`.
-- `sum_alternatingKernelLaw`: `Σ_{j=0}^{n} P_p(j | n) = 1`.
-- `alternatingKernelLaw_eq_formula`: Closed formula ([alternating kernel law formula](#alternating-kernel-law-formula)).
-- `alternatingKernelLimit`: `P_p(j | ∞) := lim (1/2)(P_p(j | 2n) + P_p(j | 2n+1))`.
-- `alternatingKernelLimit_eq_poonenRains`: `P_p(j | ∞) = poonenRainsWeight p j`.
+The finite law in `Suggested.lean` is `alternatingKernelLaw`. Prove its parity support, its full-nullity mass `p^(−n(n−1)/2)`, its normalization and the closed formula below. Define the parity-averaged limit and identify it with the Poonen–Rains law. The limit signature is `alternatingKernelLimit_eq_poonenRains`.
 
 For the proof, Define the finite count over the finite set of alternating matrices (`Matrix (Fin n) (Fin n) (ZMod p)` with zero diagonal and transpose equal to the negative) and the kernel dimension via `Module.finrank` of `LinearMap.ker` of `mulVecLin`. Define the parity-averaged limit as a limit of real sequences; its existence and value are [alternating kernel law limit is poonen rains](#alternating-kernel-law-limit-is-poonen-rains).
 
@@ -714,11 +682,11 @@ For the proof, Count by kernels: for each `j`-dimensional subspace `K ⊆ 𝔽_p
 
 <a id="alternating-kernel-law-limit-is-poonen-rains"></a>
 
-**Alternating kernel law limit is poonen rains.** `Distributions.alternatingKernelLimit_eq_poonenRains` states the parity-averaged convergence. For every `j ≥ 0: lim_{n→∞, n ≡ j (mod 2)} P_p(j | n) = 2 a_j`, where `a_j = c_p ∏_{i=1}^{j} p/(p^{i} − 1)` is the Poonen–Rains weight. Consequently `P_p(j | ∞) = a_j`, and for `p = 2` Smith's starting law `P^Alt(j | ∞)` is the Poonen–Rains distribution `X_{Sel_2}`; the laws `(1/2)(P_p(· | 2n) + P_p(· | 2n+1))` converge to it in total variation.
+**Alternating kernel law limit is poonen rains.** `Distributions.alternatingKernelLimit_eq_poonenRains` states total-variation convergence of the parity-averaged laws. For every `j ≥ 0: lim_{n→∞, n ≡ j (mod 2)} P_p(j | n) = 2 a_j`, where `a_j = c_p ∏_{i=1}^{j} p/(p^{i} − 1)` is the Poonen–Rains weight. Consequently `P_p(j | ∞) = a_j`, and for `p = 2` Smith's starting law `P^Alt(j | ∞)` is the Poonen–Rains distribution `X_{Sel_2}`; the laws `(1/2)(P_p(· | 2n) + P_p(· | 2n+1))` converge to it in total variation.
 
 `p` prime
 
-For the proof, From [alternating kernel law formula](#alternating-kernel-law-formula), as `n → ∞` with `n ≡ j: ∏_{k=1}^{j}(1 − p^{−(n−j)−k}) → 1` and `∏_{k=1}^{(n−j)/2}(1 − p^{1−2k}) → ∏_{k≥1}(1 − p^{1−2k}) = 2c_p` ([poonen rains distribution](#poonen-rains-distribution), API `poonenRainsConstant_eq_half_prod`). `p^{−j(j−1)/2}∏_{k=1}^{j}(1 − p^{−k})^{−1} = ∏_{k=1}^{j} p^{−(k−1)}/(1 − p^{−k}) = ∏_{k=1}^{j} p/(p^{k} − 1)`; so the limit is `2a_j`. For fixed `j` only one of `P_p(j | 2n)`, `P_p(j | 2n+1)` is nonzero, giving `P_p(j | ∞) = a_j`. Total variation: pointwise convergence and total mass `Σ a_j = 1` ([intersection law converges to poonen rains](#intersection-law-converges-to-poonen-rains)) give convergence in total variation (Scheffé).
+For the proof, From [alternating kernel law formula](#alternating-kernel-law-formula), as `n → ∞` with `n ≡ j: ∏_{k=1}^{j}(1 − p^{−(n−j)−k}) → 1` and `∏_{k=1}^{(n−j)/2}(1 − p^{1−2k}) → ∏_{k≥1}(1 − p^{1−2k}) = 2c_p` ([poonen rains distribution](#poonen-rains-distribution), the alternate product for `c_p`). `p^{−j(j−1)/2}∏_{k=1}^{j}(1 − p^{−k})^{−1} = ∏_{k=1}^{j} p^{−(k−1)}/(1 − p^{−k}) = ∏_{k=1}^{j} p/(p^{k} − 1)`; so the limit is `2a_j`. For fixed `j` only one of `P_p(j | 2n)`, `P_p(j | 2n+1)` is nonzero, giving `P_p(j | ∞) = a_j`. Total variation: pointwise convergence and total mass `Σ a_j = 1` ([intersection law converges to poonen rains](#intersection-law-converges-to-poonen-rains)) give convergence in total variation (Scheffé).
 
 *Needs:* [alternating kernel law formula](#alternating-kernel-law-formula), [poonen rains distribution](#poonen-rains-distribution), [intersection law converges to poonen rains](#intersection-law-converges-to-poonen-rains).
 
@@ -876,7 +844,7 @@ For the proof, Match the universal locally direct-summand subbundle and its quad
 
 <a id="bklpr-injection-moments"></a>
 
-**Bklpr injection moments.** For `q = p^e` and `m ≥ 0`, let `I_m(G)` be the number of injective homomorphisms `(ℤ/qℤ)^m → G`. As `Z`, `W` range over `OGr_n(ℤ/qℤ)` (uniformly and independently), the average of `I_m(Z ∩ W)`, for `m≤n`, equals `q^{m(m+1)/2} ∏_{i=0}^{m−1}(1 − p^{i−n}) ∏_{i=n−m}^{n−1}(1 + p^{−i})^{−1}`, which tends to `q^{m(m+1)/2}` as `n → ∞`. If `m>n` the injection count is zero. The reciprocal on the last product corrects the displayed simplification in the cited preprint.
+**Bklpr injection moments.** `Distributions.bklpr_injection_moments` states the limiting moment, using the actual quadratic-isotropic direct summands `Distributions.hyperbolicSummands` and their uniform injection average `Distributions.isotropicInjectionAverage`. For `q = p^e` and `m ≥ 0`, let `I_m(G)` be the number of injective homomorphisms `(ℤ/qℤ)^m → G`. As `Z`, `W` range over `OGr_n(ℤ/qℤ)` (uniformly and independently), the average of `I_m(Z ∩ W)`, for `m≤n`, equals `q^{m(m+1)/2} ∏_{i=0}^{m−1}(1 − p^{i−n}) ∏_{i=n−m}^{n−1}(1 + p^{−i})^{−1}`, which tends to `q^{m(m+1)/2}` as `n → ∞`. If `m>n` the injection count is zero. The reciprocal on the last product corrects the displayed simplification in the cited preprint.
 
 `q = p^e`, `e ≥ 1 m ≥ 0`
 
@@ -1062,7 +1030,7 @@ For the proof, Use AnalyticNumberTheoryPartII §5.29 only for its quadratic larg
 
 <a id="parity-sensitive-twist-moment-determinacy"></a>
 
-**Parity-sensitive twist moment determinacy.** Prove `parity_sensitive_twist_moment_determinacy`: let `ν_N(r)` be probability laws on nonnegative reduced dimensions, with all moments summable and uniformly bounded, `sup_N Σ_r ν_N(r)2^(kr)≤R_k<∞` for each integer `k≥0`. Assume these moments converge to `M_k=∏_{i=1}^k(2^i+1)` for every `k`, and `Σ_r(−1)^rν_N(r)→0`. Then every dimension frequency converges to the Poonen–Rains weight `a_r`. This is the recovery theorem for the central-window twist laws just constructed.
+**Parity-sensitive twist moment determinacy.** The signature is `Distributions.parity_sensitive_twist_moment_determinacy`: let `ν_N(r)` be probability laws on nonnegative reduced dimensions, with all moments summable and uniformly bounded, `sup_N Σ_r ν_N(r)2^(kr)≤R_k<∞` for each integer `k≥0`. Assume these moments converge to `M_k=∏_{i=1}^k(2^i+1)` for every `k`, and `Σ_r(−1)^rν_N(r)→0`. Then every dimension frequency converges to the Poonen–Rains weight `a_r`. This is the recovery theorem for the central-window twist laws just constructed.
 
 For the proof, Bound the weighted tail after dimension `L` by `R_(k+1)2^(−L)`; subsequential limits retain the moments and parity. Their generating functions are entire, and the limiting coefficient bound is `O(2^(−r(r−1)/2))`, obtained by optimizing `ν(r)≤M_k2^(−kr)`. Prove Kane's entire-function uniqueness argument with values at `−1,1,2,4,…`, then use subsequence compactness to recover every coefficient. The scalar exponential-moment criterion for `#Sel₂` is not an input.
 
@@ -1079,7 +1047,7 @@ For the proof, Bound the weighted tail after dimension `L` by `R_(k+1)2^(−L)`;
 
 <a id="two-selmer-distribution-in-full-two-torsion-twist-families"></a>
 
-**Two selmer distribution in full two torsion twist families.** Let `E` : `y² = (x − c_1)(x − c_2)(x − c_3)` with `c_i ∈ ℚ` distinct and none of `(c_i − c_j)(c_i − c_k)` a rational square (equivalently `E(ℚ)[2] = E[2]` and `E` has no `ℚ`-rational cyclic subgroup of order 4), and for `b ∈ ℤ \ {0}` let `E_b` : `y² = (x − bc_1)(x − bc_2)(x − bc_3)` be the quadratic twist by `ℚ(√b)`. Then for every `d ≥ 0`, `lim_{N→∞} #{b ∈ ℤ : 0 < |b| ≤ N, dim_{𝔽₂} Sel_2(E_b) = d + 2}/(2N) = a_d`, the Poonen–Rains weight at `p = 2` ([poonen rains distribution](#poonen-rains-distribution)); the same holds among positive `b`, and among squarefree `b` prime to any fixed `D` divisible by 8 and the bad primes (relative density). For `E` : `y² = x³ − x` this is Heath-Brown's theorem.
+**Two selmer distribution in full two torsion twist families.** `two_selmer_twist_distribution` states the signed and positive integer limits using `twistTwoSelmerCard`, the cardinality of Tau Ceti’s native two-Selmer group for the twist at every finite place and the real place. Its twist model is `W.quadraticTwistOf 0 (−b)`, whose parameter `4b` has the same squareclass as `b`. Let `E` : `y² = (x − c_1)(x − c_2)(x − c_3)` with `c_i ∈ ℚ` distinct and none of `(c_i − c_j)(c_i − c_k)` a rational square (equivalently `E(ℚ)[2] = E[2]` and `E` has no `ℚ`-rational cyclic subgroup of order 4), and for `b ∈ ℤ \ {0}` let `E_b` : `y² = (x − bc_1)(x − bc_2)(x − bc_3)` be the quadratic twist by `ℚ(√b)`. Then for every `d ≥ 0`, `lim_{N→∞} #{b ∈ ℤ : 0 < |b| ≤ N, dim_{𝔽₂} Sel_2(E_b) = d + 2}/(2N) = a_d`, the Poonen–Rains weight at `p = 2` ([poonen rains distribution](#poonen-rains-distribution)); the same holds among positive `b`, and among squarefree `b` prime to any fixed `D` divisible by 8 and the bad primes (relative density). For `E` : `y² = x³ − x` this is Heath-Brown's theorem.
 
 `c_1`, `c_2`, `c_3 ∈ ℚ` distinct `(c_i − c_j)(c_i − c_k) ∉ ℚ^{×2}` for `{i, j, k} = {1, 2, 3}`
 
@@ -1456,7 +1424,7 @@ For the proof, Apply [isogeny factorisation selmer exact sequence](#isogeny-fact
 
 <a id="finite-set-twist-density-zero"></a>
 
-**Finite set twist density zero.** Prove `finite_set_twist_density_zero`: for finite squareclass height slices `F(X)` with `N(X)=#F(X)→∞`, every finite set `B` of squareclasses has relative density zero. The same assertion holds in any family with finite sublevels and a growing denominator.
+**Finite set twist density zero.** Prove that for finite squareclass height slices `F(X)` with `N(X)=#F(X)→∞`, every finite set `B` of squareclasses has relative density zero. The same assertion holds in any family with finite sublevels and a growing denominator.
 
 For the proof, `0≤#(B∩F(X))/N(X)≤#B/N(X)` eventually, and the upper bound tends to zero. The positive squareclass denominator supplies growth in each inhabited finite-local-condition family.
 
@@ -1602,18 +1570,11 @@ For the proof, Maximal order: if `End(E) ≅ O_K`, let `𝔭 ⊂ O_K` have norm 
 
 <a id="refinement-lc-quadratic"></a>
 
-**Lc quadratic.** `Distributions.LCQuadraticData` on a locally compact Hausdorff topological abelian group `V` consists of a continuous `QuadraticMap ℤ V (ℝ/ℤ) q` together with a polar adjoint `V ≃ₜ+ Hom_cont(V,ℝ/ℤ)`, with compact-open topology; its value on `(x,y)` is `q(x+y)−q(x)−q(y)`. Store this homeomorphic additive equivalence, not just injectivity. Second countability is imposed on the measure theorem, not on the carrier.
+**Lc quadratic.** Locally compact quadratic data on a locally compact Hausdorff topological abelian group `V` consist of a continuous `QuadraticMap ℤ V (ℝ/ℤ) q` together with a polar adjoint `V ≃ₜ+ Hom_cont(V,ℝ/ℤ)`, with compact-open topology; its value on `(x,y)` is `q(x+y)−q(x)−q(y)`. Store this homeomorphic additive equivalence, not just injectivity. Second countability is imposed on the measure theorem, not on the carrier.
 
 `V` is locally compact, Hausdorff and a topological abelian group.
 
-The required API is:
-
-- `Distributions.LCQuadraticData.orthogonal`: For an additive subgroup `W`, `W⊥` consists of `x` with `polar(q)(x,y)=0` for every `y∈W`.
-- `Distributions.LCQuadraticData.mem_orthogonal`: Membership in `W⊥` is exactly the displayed vanishing condition.
-- `Distributions.LCQuadraticData.polar_formula`: The adjoint evaluates to `q(x+y)−q(x)−q(y)`, agreeing with `QuadraticMap`.polar.
-- `Distributions.LCQuadraticData.polar_self`: The value on `(x,x)` is `2q(x)`, including at `p=2`.
-- `Distributions.LCQuadraticData.adjoint_bijective`: The adjoint is bijective onto all continuous characters.
-- `Distributions.LCQuadraticData.orthogonal_antitone`: `W≤U` implies `U⊥≤W⊥`.
+Develop orthogonal subgroups with their membership criterion and order reversal. Prove the polar formula, its diagonal value `2q(x)` including at two, and bijectivity of the stored adjoint onto all continuous characters.
 
 For the proof, Use the existing quadratic-map and continuous-homomorphism carriers. Record the adjoint equation as a constraint on the actual topological additive equivalence. Obtain orthogonal subgroups from the kernel equations of the polar bilinear map.
 
@@ -1633,12 +1594,7 @@ For the proof, Use the existing quadratic-map and continuous-homomorphism carrie
 
 `D` is as in the locally compact quadratic carrier.
 
-The required API is:
-
-- `Distributions.LCQuadraticData.weaklyMetabolic_iff`: Equivalent to the four explicit conditions in the definition.
-- `Distributions.LCQuadraticData.weaklyMetabolic_isotropic`: `q(x)=0` for every `x∈W`.
-- `Distributions.LCQuadraticData.weaklyMetabolic_self_orthogonal`: The computed orthogonal subgroup equals `W`.
-- `Distributions.LCQuadraticData.weaklyMetabolic_intersection_open`: The intersection of two such distinguished subgroups is open.
+Prove the characterization by compactness, openness, quadratic vanishing and self-annihilation, together with each of these consequences. The intersection of two distinguished weakly metabolic subgroups is open.
 
 For the proof, Define the predicate by compactness, openness, quadratic vanishing and computed self-annihilation. Transport its conclusions by subgroup intersections and isometries.
 
@@ -1661,12 +1617,7 @@ For the proof, Define the predicate by compactness, openness, quadratic vanishin
 
 `D` is locally compact quadratic data.
 
-The required API is:
-
-- `Distributions.LCQuadraticData.maximalIsotropics_injective`: The underlying-subgroup map is injective.
-- `Distributions.LCQuadraticData.maximalIsotropics_closed`: The underlying subgroup of each point is closed.
-- `Distributions.LCQuadraticData.maximalIsotropics_isotropic`: For a point `Z` and `x` in its underlying subgroup, `q(x)=0`.
-- `Distributions.LCQuadraticData.maximalIsotropics_self_orthogonal`: Each point equals its computed annihilator.
+Prove injectivity of the underlying-subgroup map and that every point has a closed, quadratic-isotropic, self-annihilating underlying subgroup.
 
 For the proof, Form the closed, quadratic-isotropic, self-annihilating subtype. Construct the inverse-limit topology only after the finite quotient comparison.
 
@@ -1684,17 +1635,11 @@ For the proof, Form the closed, quadratic-isotropic, self-annihilating subtype. 
 
 <a id="refinement-joint-parity-weight"></a>
 
-**Joint parity weight.** For `k` selected prime factors and weights `w_i(d)`, define `Distributions.parityCoupledWeight` on `d∈ℕ^k` to be 1 when `k=0`; for `k>0` it is `2^(k−1)∏_i w_i(d_i)` when all `d_i` have the same parity, and zero otherwise. Each marginal must have total even and total odd mass 1/2. The `k=0` carrier is the singleton function space, corresponding to `n=1`.
+**Joint parity weight.** For `k` selected prime factors and weights `w_i(d)`, define the common-parity weight on `d∈ℕ^k` to be 1 when `k=0`; for `k>0` it is `2^(k−1)∏_i w_i(d_i)` when all `d_i` have the same parity, and zero otherwise. Each marginal must have total even and total odd mass 1/2. The `k=0` carrier is the singleton function space, corresponding to `n=1`.
 
 The prime laws are nonnegative and summable; each parity has mass 1/2.
 
-The required API is:
-
-- `Distributions.parityCoupledWeight_empty`: The weight on the unique empty rank vector is 1.
-- `Distributions.parityCoupledWeight_single`: For `k=1` the joint weight is precisely `w₀(d₀)`.
-- `Distributions.parityCoupledWeight_mixed`: If two coordinates have different parity, the joint weight is zero.
-- `Distributions.parityCoupledWeight_nonneg`: Nonnegative marginals give nonnegative joint weights.
-- `Distributions.parityCoupledWeight_total`: Under nonnegativity, summability and half-mass of each parity, the joint weights are summable and sum to 1.
+Prove that the empty rank vector has weight one, that one prime recovers its marginal and that mixed parity has weight zero. Prove nonnegativity and, under summability and half-mass in each parity, summability and total mass one.
 
 For the proof, Use a finite dependent product indexed by `Fin k`. Mix the two common-parity conditional product laws with equal weight. Treat the empty product directly, rather than applying the nonempty normalization.
 
@@ -1792,7 +1737,7 @@ For the proof, Choose an exhaustion of the countable discrete dual `W*` and its 
 **Checks.**
 
 - A finite hyperbolic plane has only intersection dimensions zero and one; do not assign its law the positive tail of the infinite-dimensional distribution.
-- `Distributions.dyadic_quadratic_value_boundary` supplies the quadratic map `q(x,y)=(x²−y²)/4 mod ℤ` on `V=(ℤ/2)²`, its diagonal zero locus and a value not killed by two. It has nondegenerate polar matrix `diag(1/2,1/2)`, but its only maximal quadratic-isotropic subgroup is the diagonal. Its intersection dimension is always one. It fails `2q=0`, although `2V=0`; the half-zero/half-one law does not apply.
+- The quadratic map `q(x,y)=(x²−y²)/4 mod ℤ` on `V=(ℤ/2)²` has the diagonal as its zero locus and a value not killed by two. This map has nondegenerate polar matrix `diag(1/2,1/2)`, but its only maximal quadratic-isotropic subgroup is the diagonal. Its intersection dimension is always one. It fails `2q=0`, although `2V=0`; the half-zero/half-one law does not apply.
 - For `V=0`, intersection dimension is identically zero, with no half-parity conclusion.
 
 <a id="refinement-lc-restricted-product"></a>
@@ -2220,7 +2165,7 @@ For the proof, Express the precise finite-height averaging assertion on the supp
 
 <a id="bounded-exponent-splitting"></a>
 
-**Bounded-exponent splitting.** For `n>0`, every abelian group killed by `n` is a possibly infinite direct sum of cyclic groups of positive orders dividing `n`. Supply `bounded_exponent_decomposition` at this generality, without finite generation. Consequently `bounded_exponent_splitting` says: if `δ:A→B` is a homomorphism between groups killed by `n` and `A/mA→B/mB` is injective for every `m|n`, then `δ` admits an additive retraction; in particular its image is a direct summand. Equivalently the pure subgroup of a bounded group splits.
+**Bounded-exponent splitting.** For `n>0`, every abelian group killed by `n` is a possibly infinite direct sum of cyclic groups of positive orders dividing `n`. Prove this at the stated generality, without finite generation. Consequently: if `δ:A→B` is a homomorphism between groups killed by `n` and `A/mA→B/mB` is injective for every `m|n`, then `δ` admits an additive retraction; in particular its image is a direct summand. Equivalently the pure subgroup of a bounded group splits.
 
 For the proof, Decompose into primary parts and construct cyclic bases by induction on the exponent, choosing bases of the successive `p`-power layers and lifting compatible generators. For the splitting criterion take `C=coker δ`; the modulo-`m` condition gives surjectivity `B[m]→C[m]`. Lift the generator of every cyclic summand of `C` with its exact order to obtain a section. This also splits Kummer sequences whose torsion in the quotient has such order-preserving lifts.
 
@@ -2529,13 +2474,13 @@ The symmetric two-by-two matrices over `𝔽₃` have rank counts `1,8,18`, tota
 
 For a prime law with half even and half odd mass, the `k`-prime common-parity weight is `2^(k-1)∏w_i` for `k≥1`. At `k=0` the carrier is a singleton of mass one; substituting `k=0` into the scalar factor would incorrectly give one half. A symplectic rank-zero all-prime model is infinite almost surely, whereas restricting to primes with convergent `Σ1/p` yields a finite group almost surely.
 
-The light quadratic definitions in `Suggested.lean` are `binaryHyperbolic=QuadraticMap.proj 0 1`, `binaryAnisotropic=QuadraticMap.proj 0 0+QuadraticMap.proj 0 1+QuadraticMap.proj 1 1`, and `quaternaryHyperbolic=QuadraticMap.proj 0 1+QuadraticMap.proj 2 3` on the indicated `ZMod 2` coordinate spaces. They give the split plane, anisotropic plane and split four-dimensional space in the Checks of §5.4. The characteristic-two value-group boundary is the named target `Distributions.dyadic_quadratic_value_boundary` in §5.26.
+The split plane, anisotropic plane and split four-dimensional space in the Checks of §5.4 have forms `xy`, `x²+xy+y²` and `x₁y₁+x₂y₂` over `𝔽₂`. The characteristic-two value-group example is described in §5.26.
 
 **Checks.**
 
-- The diagonal in `binaryHyperbolic` equals its polar orthogonal but contains a vector of nonzero quadratic value.
-- Every nonzero vector of `binaryAnisotropic` has nonzero quadratic value, so polar isotropy cannot replace quadratic isotropy.
-- `quaternaryHyperbolic` has six maximal quadratic-isotropic planes, as counted by `Distributions.card_maxIsotropicSubspaces`.
+- The diagonal in the split plane equals its polar orthogonal but contains a vector of nonzero quadratic value.
+- Every nonzero vector of the anisotropic plane has nonzero quadratic value, so polar isotropy cannot replace quadratic isotropy.
+- The split four-dimensional space has six maximal quadratic-isotropic planes, by the count in §5.4.
 
 The locally compact quadratic data carry a continuous quadratic map and a polar topological self-duality. For the parity-coupled law the empty prime set has weight one and mixed-parity rank vectors have weight zero. The normalization theorem assumes summability and exactly half-mass in each parity.
 
