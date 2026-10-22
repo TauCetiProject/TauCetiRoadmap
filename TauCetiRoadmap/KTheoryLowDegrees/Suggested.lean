@@ -1,26 +1,39 @@
 import Mathlib
-import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
-import TauCeti.RingTheory.Idempotents.Projective
+import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Monoidal
+import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
 
-/-! # KTheoryLowDegrees: representative target signatures
+/-!
+# KTheoryLowDegrees: headline target signatures
 
-The roadmap is README.md. This file records definitions and theorem signatures statable
-against the pinned APIs and is not exhaustive. It specializes the existing split
-Grothendieck group, uses native matrix groups, and fixes finite-rank and Koszul
-sign conventions. Coherent K-spaces, determinant groupoids and arithmetic completions
-are specified in the README.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. These statements suggest Lean forms for headline results; discharging
+all of them finishes neither a layer nor the roadmap.
+
+The statements cover the rank splitting and semilocal rank classification (Layer 2),
+Steinitz decomposition and the Dedekind rank–Picard ring classification (Layer 5),
+Euclidean elementary generation and stable nonvanishing of the real circle rotation
+(Layer 8), and elementary generation over S-integers and finite generation of their
+arithmetic SL₂ groups and finite-index subgroups (Layer 11). The circle statement uses
+finite identity-padded matrices, so it does not require a stable K₁ carrier.
+
+The other headline signatures need objects absent from these pins: projective λ/Adams
+operations and integral algebraic representation Grothendieck rings (Layers 3–4);
+Milnor patching, stable and relative K₁, Mennicke symbols, arithmetic defect groups
+and congruence completions (Layers 1 and 7–11); vector-bundle K₀ and coherent G₀ of
+schemes for the regular-curve classification (Layer 12); plus-construction K-spaces,
+Steinberg groups and their based boundary maps (Layer 13); and graded-line spectra,
+enhanced perfect-complex K-theory and Witt-supported K-theory for the determinant
+and finite-length filtration theorems (Layer 14). Their constructions are specified
+in the README and its supplier contracts; no signatures for those results are given here.
 -/
 
 namespace TauCetiRoadmap.KTheoryLowDegrees
 
-open CategoryTheory
-open scoped Pointwise
+open IsDedekindDomain
 
 universe u
 
-/-! ## Layer 1: projective classes and patching -/
-
-/-- The existing full subcategory of finitely generated projective left modules. -/
+/-- The native full subcategory of finitely generated projective left modules. -/
 abbrev FiniteProjectives (R : Type u) [Ring R] :=
   (TauCeti.finiteProjectiveModules R).FullSubcategory
 
@@ -38,256 +51,128 @@ noncomputable def projectiveClass {R : Type u} [Ring R]
     (P : FiniteProjectives R) : RingK0 R :=
   TauCeti.SplitK0.of P
 
-/-- AlgebraicKTheory A0's finite-free-complement normal form in left-projective notation
-(Weibel II.2, Lemma 2.1, p. 68). -/
-theorem exists_projective_sub_free {R : Type u} [Ring R] (x : RingK0 R) :
-    ∃ (P : FiniteProjectives R) (n : ℕ),
-      x = projectiveClass P - projectiveClass (freeProjective R n) := by
-  sorry
+/-! ## Layer 2: rank splitting and semilocal classification -/
 
-/-- AlgebraicKTheory A0's stable-equality criterion in left-projective class notation. -/
-theorem projectiveClass_eq_iff_stableFreeSum {R : Type u} [Ring R]
-    (P Q : FiniteProjectives R) :
-    projectiveClass P = projectiveClass Q ↔
-      ∃ n : ℕ, Nonempty ((P.obj × (Fin n → R)) ≃ₗ[R] (Q.obj × (Fin n → R))) := by
-  sorry
-
-/-- Rank-zero free modules have zero class, including over the zero ring. -/
-theorem projectiveClass_free_zero (R : Type u) [Ring R] :
-    projectiveClass (freeProjective R 0) = 0 := by
-  sorry
-
-/-! ## Layer 2: locally constant rank and its kernel -/
-
-/-- The additive specialization of SchemeKTheoryOperations §6.2.4's rank section,
-transported through the affine comparison. It applies without connectedness or a
-nonzero-ring assumption (Weibel II.2, pp. 71–72). -/
+/-- The locally constant rank is a split surjection of rings, without a connectedness
+or nonzero-ring hypothesis (Weibel II.2, pp. 71–72). -/
 theorem rank_exists_split (R : Type u) [CommRing R] :
-    ∃ (ρ : RingK0 R →+ LocallyConstant (PrimeSpectrum R) ℤ)
-      (σ : LocallyConstant (PrimeSpectrum R) ℤ →+ RingK0 R),
+    ∃ (ρ : RingK0 R →+* LocallyConstant (PrimeSpectrum R) ℤ)
+      (σ : LocallyConstant (PrimeSpectrum R) ℤ →+* RingK0 R),
       (∀ (P : FiniteProjectives R) (p : PrimeSpectrum R),
         ρ (projectiveClass P) p = (Module.rankAtStalk P.obj p : ℤ)) ∧
       (∀ f, ρ (σ f) = f) := by
   sorry
 
-/-- The finite image of the native stalk-rank function, using compactness of Spec R. -/
-noncomputable def rankFibres {R : Type u} [CommRing R] (P : FiniteProjectives R) :
-    Finset ℕ := by
-  letI : Module.FinitePresentation R P.obj := Module.finitePresentation_of_projective R P.obj
-  exact (Module.isLocallyConstant_rankAtStalk (R := R) (M := P.obj)).range_finite.toFinset
-
-/-- A finite free module has singleton rank-image on every nonempty affine spectrum. -/
-theorem rankFibres_free (R : Type u) [CommRing R] [Nontrivial R] (n : ℕ) :
-    rankFibres (freeProjective R n) = {n} := by
+/-- Over a commutative semilocal ring, rank completely classifies virtual projectives,
+with one coordinate per connected component (Weibel Exercise II.2.6, p. 79). -/
+theorem semilocal_rank_equiv_exists (R : Type u) [CommRing R]
+    [Finite (MaximalSpectrum R)] :
+    ∃ e : RingK0 R ≃+* LocallyConstant (PrimeSpectrum R) ℤ,
+      ∀ (P : FiniteProjectives R) (p : PrimeSpectrum R),
+        e (projectiveClass P) p = (Module.rankAtStalk P.obj p : ℤ) := by
   sorry
 
-/-- The projective R ⊕ R(0,1) over R = ℚ × ℚ has component ranks one and two. -/
-noncomputable def twoRankProjective : FiniteProjectives (ℚ × ℚ) := by
-  letI : Module.Projective (ℚ × ℚ) (Ideal.span {((0, 1) : ℚ × ℚ)} : Ideal (ℚ × ℚ)) :=
-    (show IsIdempotentElem ((0, 1) : ℚ × ℚ) from by
-      change ((0 : ℚ) * 0, (1 : ℚ) * 1) = (0, 1)
-      norm_num).projective_span_singleton
-  exact ⟨ModuleCat.of (ℚ × ℚ)
-    ((ℚ × ℚ) × (Ideal.span {((0, 1) : ℚ × ℚ)} : Ideal (ℚ × ℚ))),
-    ⟨inferInstance, inferInstance⟩⟩
+/-! ## Layer 5: Steinitz and the Dedekind rank–Picard classification -/
 
-/-- The concrete disconnected projective realizes two distinct stalk ranks. -/
-theorem rankFibres_twoRanks : rankFibres twoRankProjective = {1, 2} := by
+/-- A positive-rank projective over a Dedekind domain is a free module plus its actual
+top exterior power (Weibel I.3, Proposition 3.4, pp. 19–20). -/
+theorem steinitz_decomposition {R : Type u} [CommRing R]
+    [IsDedekindDomain R] (P : FiniteProjectives R) (r : ℕ)
+    (hr : Module.finrank R P.obj = r + 1) :
+    Nonempty (P.obj ≃ₗ[R]
+      ((Fin r → R) × (⋀[R]^(r + 1) P.obj))) := by
   sorry
 
-/-- The zero projective has rank-image {0} on every nonempty affine spectrum. -/
-theorem rankFibres_zero_nontrivial (R : Type u) [CommRing R] [Nontrivial R] :
-    rankFibres (freeProjective R 0) = {0} := by
-  sorry
-
-/-- A zero ring has empty spectrum, hence an empty rank-image even for the zero module. -/
-theorem rankFibres_zeroRing (R : Type u) [CommRing R] [Subsingleton R] :
-    rankFibres (freeProjective R 0) = ∅ := by
-  sorry
-
-/-! ## Layer 5: Dedekind domains, ideal classes and transfer -/
-
-/-- An invertible module regarded as an object of the existing projective category. -/
+/-- The native invertible module representing a Picard class, as a finite projective. -/
 noncomputable def lineProjective (R : Type u) [CommRing R] (L : CommRing.Pic R) :
     FiniteProjectives R :=
   ⟨ModuleCat.of R L, ⟨inferInstance, inferInstance⟩⟩
 
-/-- The finite-projective-to-lattice comparison transports ClassicalArithmeticCompletion
-§7.0 to positive-rank projectives, identifying the Steinitz line with the determinant.
-The nonzero hypothesis excludes the zero projective (Weibel I.3, pp. 18–20). -/
-theorem steinitz_decomposition {R : Type u} [CommRing R]
-    [IsDedekindDomain R] (P : FiniteProjectives R) [Nontrivial P.obj] :
-    ∃ (n : ℕ) (L : CommRing.Pic R),
-      Nonempty (P.obj ≃ₗ[R] ((Fin n → R) × L)) := by
-  sorry
+/- The right integer action is the same integer scalar action. It equips Mathlib's
+square-zero extension with its native commutative ring structure. -/
+noncomputable local instance picardIntOpModule (R : Type u) [CommRing R] :
+    Module ℤᵐᵒᵖ (Additive (CommRing.Pic R)) :=
+  Module.compHom _ ((RingHom.id ℤ).fromOpposite (fun a b => mul_comm a b))
 
-/-- The normalized additive rank–Picard classification, including arbitrary virtual ranks. -/
+local instance picardIntCentralScalar (R : Type u) [CommRing R] :
+    IsCentralScalar ℤ (Additive (CommRing.Pic R)) where
+  op_smul_eq_smul _ _ := rfl
+
+/-- The rank–Picard classification as a ring equivalence to the trivial square-zero
+extension, normalized on free modules and lines (Weibel II.2.6.2–2.6.3, p. 75). -/
 theorem rank_pic_equiv_exists (R : Type u) [CommRing R]
     [IsDedekindDomain R] :
-    ∃ e : RingK0 R ≃+ (ℤ × Additive (CommRing.Pic R)),
-      (∀ n : ℕ, e (projectiveClass (freeProjective R n)) = ((n : ℤ), 0)) ∧
+    ∃ e : RingK0 R ≃+* TrivSqZeroExt ℤ (Additive (CommRing.Pic R)),
+      (∀ n : ℕ, e (projectiveClass (freeProjective R n)) = ⟨(n : ℤ), 0⟩) ∧
       (∀ L : CommRing.Pic R,
-        e (projectiveClass (lineProjective R L)) = (1, Additive.ofMul L)) := by
+        e (projectiveClass (lineProjective R L)) = ⟨1, Additive.ofMul L⟩) := by
   sorry
 
-/-- The supplied lattice rank/class criterion cancels a finite-projective stabilizer
-after the lattice–determinant comparison, including rank zero. -/
-theorem projective_cancellation {R : Type u} [CommRing R]
-    [IsDedekindDomain R] (P Q T : FiniteProjectives R)
-    (h : Nonempty ((P.obj × T.obj) ≃ₗ[R] (Q.obj × T.obj))) :
-    Nonempty (P.obj ≃ₗ[R] Q.obj) := by
-  sorry
+/-! ## Layer 8: elementary generation and circle nonvanishing -/
 
-/-! ## Layer 6: finite matrices and stable representatives -/
-
-/-- The native closure expression for AlgebraicKTheory A1's elementary subgroup at `Fin n`.
-Reordering the existential witnesses gives the same generator set. -/
+/-- AlgebraicKTheory A1's elementary subgroup on the native finite GL carrier. -/
 abbrev finiteElementaryGroup (R : Type u) [Ring R] (n : ℕ) :
     Subgroup (Matrix.GeneralLinearGroup (Fin n) R) :=
   Subgroup.closure {g | ∃ (i j : Fin n) (a : R), i ≠ j ∧
     (g : Matrix (Fin n) (Fin n) R) = 1 + Matrix.single i j a}
 
-/-- With only one index there are no elementary generators, even when GL₁ is nontrivial. -/
-example (R : Type u) [Ring R] : finiteElementaryGroup R 1 = ⊥ := by
-  have h : {g : Matrix.GeneralLinearGroup (Fin 1) R |
-      ∃ (i j : Fin 1) (a : R), i ≠ j ∧
-        (g : Matrix (Fin 1) (Fin 1) R) = 1 + Matrix.single i j a} = ∅ := by
-    ext g
-    simp
-  simp only [finiteElementaryGroup, h, Subgroup.closure_empty]
-
-/-- The integral rank-two elementary group contains a nonidentity transvection. -/
-example : ∃ g ∈ finiteElementaryGroup ℤ 2, g ≠ 1 := by
-  let g : Matrix.GeneralLinearGroup (Fin 2) ℤ :=
-    Matrix.GeneralLinearGroup.mk'' (Matrix.transvection 0 1 1) (by simp)
-  refine ⟨g, Subgroup.subset_closure ⟨0, 1, 1, by decide, rfl⟩, ?_⟩
-  intro h
-  have hentry := congrArg (fun u : Matrix.GeneralLinearGroup (Fin 2) ℤ =>
-    (u : Matrix (Fin 2) (Fin 2) ℤ) 0 1) h
-  norm_num [g, Matrix.transvection] at hentry
-
-/-- The opposite-root commutator retains the negative sign and coefficient order ba
-for arbitrary associative rings (Weibel III.1.3, equation (1.3.1), p. 182). -/
-theorem finiteElementary_commutator {R : Type u} [Ring R] (n : ℕ)
-    (i j k : Fin n) (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) (a b : R) :
-    (1 + Matrix.single i j a) * (1 + Matrix.single k i b) *
-        (1 - Matrix.single i j a) * (1 - Matrix.single k i b) =
-      (1 + Matrix.single k j (-(b * a)) : Matrix (Fin n) (Fin n) R) := by
-  sorry
-
-/-- Rank zero has no elementary roots, including over the zero ring. -/
-theorem finiteElementaryGroup_zero (R : Type u) [Ring R] :
-    finiteElementaryGroup R 0 = ⊥ := by
-  sorry
-
-/-- Every finite elementary group over a zero ring is trivial. -/
-theorem finiteElementaryGroup_zeroRing (R : Type u) [Ring R] [Subsingleton R] (n : ℕ) :
-    finiteElementaryGroup R n = ⊥ := by
-  sorry
-
-/-- The rank-two elementary group over 𝔽₂ is not perfect, unlike stable E. -/
-theorem finiteElementaryGroup_F2_not_perfect :
-    ¬ Group.IsPerfect (finiteElementaryGroup (ZMod 2) 2) := by
-  sorry
-
-/-! ## Layer 8: determinants, stable range and a nontrivial circle class -/
-
-/-- AlgebraicKTheory A4's all-longer-row stable-range predicate on the opposite ring,
-written as left-ideal generation and left-column shortening. -/
-abbrev HasStableRange (R : Type u) [Ring R] (n : ℕ) : Prop :=
-  1 ≤ n ∧ ∀ (r : ℕ), n ≤ r → ∀ a : Fin (r + 1) → R,
-    Ideal.span (Set.range a) = ⊤ →
-      ∃ b : Fin r → R,
-        Ideal.span (Set.range (fun i : Fin r =>
-          a i.castSucc + b i * a (Fin.last r))) = ⊤
-
-/-- The Dedekind specialization of AlgebraicKTheory A4's dimension bound gives
-stable range at most two, including for fields. -/
-theorem stableRange_dedekind (R : Type u) [CommRing R]
-    [IsDedekindDomain R] : HasStableRange R 2 := by
-  sorry
-
-/-- The bound two over ℤ cannot be replaced by one: the unimodular pair (2,5)
-cannot be shortened to a unit 2+5b. -/
-theorem integers_not_stableRange_one : ¬ HasStableRange ℤ 1 := by
-  sorry
-
-/-- Euclidean division gives elementary generation in every positive finite rank;
-this generalizes the supplied field and integer results (Weibel III.1, Ex. 1.5, p. 190). -/
+/-- Over a Euclidean domain, every determinant-one matrix of positive size is
+elementary (Weibel Exercise III.1.5, p. 190). -/
 theorem euclidean_elementary_generation (R : Type u) [EuclideanDomain R]
     (n : ℕ) (hn : 1 ≤ n) (g : Matrix.GeneralLinearGroup (Fin n) R)
     (hg : Matrix.GeneralLinearGroup.det g = 1) :
     g ∈ finiteElementaryGroup R n := by
   sorry
 
-/-- Size zero cannot satisfy the positive-rank surjectivity claim for the determinant:
-the only empty matrix has determinant one, whereas −1 is a distinct rational unit. -/
-theorem sizeZero_det_not_surjective :
-    ¬ Function.Surjective
-      (Matrix.GeneralLinearGroup.det : Matrix.GeneralLinearGroup (Fin 0) ℚ →* ℚˣ) := by
+/-- The coordinate ring of the real algebraic circle. -/
+abbrev CircleRing :=
+  MvPolynomial (Fin 2) ℝ ⧸ Ideal.span
+    {MvPolynomial.X 0 ^ 2 + MvPolynomial.X 1 ^ 2 - (1 : MvPolynomial (Fin 2) ℝ)}
+
+/-- The determinant-one rotation matrix over the circle coordinate ring. -/
+noncomputable def circleRotation : Matrix.SpecialLinearGroup (Fin 2) CircleRing := by
+  let q : MvPolynomial (Fin 2) ℝ →+* CircleRing := Ideal.Quotient.mk _
+  let x := q (MvPolynomial.X 0)
+  let y := q (MvPolynomial.X 1)
+  have h : q (MvPolynomial.X 0 ^ 2 + MvPolynomial.X 1 ^ 2 - 1) = 0 :=
+    Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_singleton _))
+  have hxy : x ^ 2 + y ^ 2 = 1 := by
+    apply sub_eq_zero.mp
+    simpa only [map_sub, map_add, map_pow, map_one] using h
+  refine ⟨!![x, -y; y, x], ?_⟩
+  simp only [Matrix.det_fin_two]
+  dsimp
+  linear_combination hxy
+
+/-- The circle rotation remains non-elementary after every identity stabilization,
+so it gives a nonzero stable SK₁ class (Weibel III.1.5.4, p. 185). -/
+theorem circle_rotation_not_stably_elementary (n : ℕ) :
+    ¬ ∃ g ∈ finiteElementaryGroup CircleRing (2 + n),
+      g.val =
+        Matrix.reindex finSumFinEquiv finSumFinEquiv
+          (Matrix.fromBlocks (circleRotation : Matrix (Fin 2) (Fin 2) CircleRing)
+            0 0 (1 : Matrix (Fin n) (Fin n) CircleRing)) := by
   sorry
 
-/-! ## Layer 11: arithmetic finite generation -/
+/-! ## Layer 11: arithmetic elementary generation and finite generation -/
 
-/-- A finite overlap set for an open translate cover of a connected space gives
-finite generation (Morris, Proposition 4.7.4, pp. 61–62). -/
-theorem coarseFundamentalDomain_finitelyGenerated
-    (G X : Type*) [Group G] [TopologicalSpace X] [ConnectedSpace X]
-    [MulAction G X] [ContinuousConstSMul G X] (U : Set X) (hU : IsOpen U)
-    (hcover : ∀ x : X, ∃ g : G, x ∈ g • U)
-    (hoverlap : Set.Finite {g : G | ((g • U) ∩ U).Nonempty}) :
-    Group.FG G := by
+/-- All determinant-one matrices over S-integers are elementary in ranks at least
+three, for every number field and finite S (BMS Theorem 4.1 and Corollary 4.3,
+pp. 94–96). In particular their stable SK₁ vanishes. -/
+theorem sinteger_elementary_generation (F : Type u) [Field F] [NumberField F]
+    (S : Set (HeightOneSpectrum (NumberField.RingOfIntegers F))) [Finite S]
+    (n : ℕ) (hn : 3 ≤ n)
+    (g : Matrix.GeneralLinearGroup (Fin n) (S.integer F))
+    (hg : Matrix.GeneralLinearGroup.det g = 1) :
+    g ∈ finiteElementaryGroup (S.integer F) n := by
   sorry
 
-/-! ## Layer 14: graded determinants and Witt support -/
-
-/-- The Koszul sign uses integer powers in the unit group, including negative grades. -/
-def koszulSign (R : Type u) [CommRing R] (a b : ℤ) : Rˣ :=
-  (-1 : Rˣ) ^ (a * b)
-
-/-- A negative odd grade and a positive odd grade still produce a minus sign. -/
-example : koszulSign ℤ (-1) 1 = -1 := by
-  norm_num [koszulSign]
-
-/-- In characteristic two the odd–odd Koszul sign is the identity unit. -/
-example : koszulSign (ZMod 2) 1 1 = 1 := by
-  apply Units.ext
-  norm_num [koszulSign]
-
-/-- The Koszul sign is additive in a grade, which supplies the signed hexagon. -/
-theorem koszulSign_add_left (R : Type u) [CommRing R] (a b c : ℤ) :
-    koszulSign R (a + b) c = koszulSign R a c * koszulSign R b c := by
+/-- Every finite-index subgroup of SL₂ over S-integers is finitely generated,
+without a unit-rank restriction (Serre 1970, §1.2, p. 490). -/
+theorem arithmeticSL2_finitelyGenerated (F : Type u) [Field F] [NumberField F]
+    (S : Set (HeightOneSpectrum (NumberField.RingOfIntegers F))) [Finite S]
+    (H : Subgroup (Matrix.SpecialLinearGroup (Fin 2) (S.integer F)))
+    [H.FiniteIndex] : Group.FG H := by
   sorry
-
-/-
-The README specifies the supplied objects, their convention transports and the
-additional targets: FreeSummandData, IdempotentPresentation,
-imageIdempotent, StableIdempotent, zeroPad and conjugate;
-matrixRingK0Equiv,
-the opposite-transpose patching comparisons, rank, rankSection, ReducedK0,
-clopenModule and componentwiseFree;
-the ordered exterior-sum and determinant comparisons with the supplied
-TauCeti.LambdaRing and TauCeti.RepresentationRing operations;
-picardClassDifference, dedekindRankPicEquiv, projectiveLatticeComparison, projectiveLattice_steinitz_det,
-dedekindK0Localization, dedekindTransferCoordinates, lineMapIndexIdeal and Picard norm;
-finite-representative equality and block-sum class formulas, matrixRingK1Equiv, matrixClass, unitsToK1,
-projectiveAutClass, the supplied Bass presentation comparison, SpecialK1 and DieudonneDet;
-the additional rightModuleEnd, projectiveTensorK1Action, transfer comparisons,
-circleEvaluation and specialLinear_QR_deformation;
-RelativeGL, RelativeK1, RelativeUnits and relative K₀ opposite-side comparisons;
-MennickePairs, IsMennickeSymbol, UniversalMennicke, firstRowPair, specialK1Symbol,
-kubotaValue, kubotaHom, RelativeUnimodularColumn, OrientedRelated,
-ExtensionConditions, StandardForm, standardFormValue, extendedValue,
-MultiplierSubgroup, ValueConjugationStabilizer, reflectedTranspose, extendedHom,
-FiniteLevelDefect, arithmeticSymbol, defectExponent, defectOrder, CongruenceCompletion,
-LatticeCongruenceKernel, SerreElementary and RelativeCentralExtension;
-curveDivisorClassToK0, rankDegree, the Euler/Cartan and transfer comparisons, congruenceLoop,
-relativeK1PlusEquiv, Steinberg, steinbergProjection, SteinbergK2,
-the normalized inverse lifted-word boundary and double comparisons;
-GradedLine, projectiveGradedDet, projectiveGroupCompletion_spectrumComparison,
-projectiveLoopClass, ringSpectrumDet,
-schemeSpectrumDet, integerGradedDet_parityComparison and wittSupportedDet.
-
--/
 
 end TauCetiRoadmap.KTheoryLowDegrees
