@@ -304,10 +304,10 @@ the Hom statements here are faithfulness and saturation.
   `Ω ↦ (AΩ + B)(CΩ + D)^{-1}`.
 - **Lean.** Declarations live in `TauCetiRoadmap.AbelianSchemesAndArithmeticModuli`; names below are
   relative to it, except the crystalline-site and `LogCrystalline.dieudonneEvaluation` APIs
-  of A4.CR.7.2, which use `TauCetiRoadmap.CrystallineCohomology`. `Suggested.lean` contains the
-  light definitions with real bodies and the theorems
-  whose carriers exist at the pinned Mathlib and Tau Ceti; the remaining targets are specified in this
-  README and listed at the end of that file.
+  of A4.CR.7.2, which use `TauCetiRoadmap.CrystallineCohomology`. `Suggested.lean` states headline
+  theorems on the pinned Mathlib and Tau Ceti carriers, with the definitions needed to express them.
+  Its module docstring identifies the geometric objects needed to state the other headline results.
+  Names in the targets and API descriptions below also specify declarations to be built.
 
 ## Exact supplier contracts
 
@@ -326,8 +326,8 @@ its additional carriers are used in the README statements.
 - Group objects: `CategoryTheory.GrpObj`, `IsCommMonObj`, `IsMonHom`, `Functor.grpObjObj`, the group
   structure on morphisms into a group object (`CategoryTheory.Hom.group`),
   `yonedaGrpObj`, `GrpObj.ofRepresentableBy`, `yonedaGrpObjIsoOfRepresentableBy`,
-  `yonedaGrpFullyFaithful`, `isCommMonObj_iff_isMulCommutative`, `Over.mapPullbackAdj`,
-  `isCommMonObj_of_isProper_of_geometricallyIntegral`,
+  `yonedaGrpFullyFaithful`, `CategoryTheory.isCommMonObj_iff_isMulCommutative`, `Over.mapPullbackAdj`,
+  `AlgebraicGeometry.isCommMonObj_of_isProper_of_geometricallyIntegral`,
   `smooth_of_grpObj`.
 - Algebra: `TensorProduct`, `Algebra.TensorProduct`, `IsSemisimpleRing`,
   `isSemisimpleRing_iff_pi_matrix_divisionRing`, `Module.Free`, `Module.Finite`,
@@ -583,19 +583,18 @@ commutativity axiom, no dimension and no ample line bundle is part of the struct
 (Kass, *Notes on abelian schemes*, §1, the definition on p. 1 and Theorem 1, p. 2; Olsson, *Compactifications of
 moduli of abelian varieties: an introduction*, §2.1.4, p. 298; Faltings–Chai I.1.1–1.2, pp. 1–2).
 
-The API is: `AbelianScheme.zeroSection_comp` (the zero section is a section of the structure
-morphism); `AbelianScheme.baseChange` (for `f : T ⟶ S`, the pullback `Over.pullback f` of `toOver`
-with the transported group structure `Functor.grpObjObj`; properness, smoothness and geometric
-connectedness are stable under base change) and `AbelianScheme.baseChange_toOver` (its `Over`
-object is exactly `(Over.pullback f).obj A.toOver`); `AbelianScheme.ofAbelianVariety` (a Tau Ceti
+Prove that the zero section is a section of the structure morphism. The API includes
+`AbelianScheme.baseChange`: for `f : T ⟶ S`, take the pullback `Over.pullback f` of `toOver`
+with the transported group structure `Functor.grpObjObj`. Properness, smoothness and geometric
+connectedness are stable under base change, and its `Over` object is exactly
+`(Over.pullback f).obj A.toOver`. The field adapters are `AbelianScheme.ofAbelianVariety` (a Tau Ceti
 `AbelianVariety K` is an abelian scheme over `Spec K`, using its derived `smooth` and
 `geometricallyConnected` instances); `AbelianScheme.toAbelianVariety` (over `Spec K`, an abelian
 scheme is geometrically integral, `AbelianScheme.geometricallyIntegral`, since a smooth group scheme
 with geometrically connected fibres over a field is geometrically irreducible and geometrically
-reduced, hence an `AbelianVariety K`) with `AbelianScheme.toAbelianVariety_ofAbelianVariety` (the
-two adapters are inverse on underlying group objects); `AbelianScheme.identity` (the identity
-`S ⟶ S` with its trivial group law is an abelian scheme; its fibres are geometrically connected,
-`geometricallyConnected_id`);
+reduced, hence an `AbelianVariety K`) with the
+two adapters inverse on underlying group objects; `AbelianScheme.identity` (the identity
+`S ⟶ S` with its trivial group law is an abelian scheme; its fibres are geometrically connected);
 `AbelianScheme.relativeDimension` (the function `s ↦ dim A_s`, locally constant by A1.1, and
 pulled back by composition under base change); `AbelianScheme.fieldEquivalence` (over `Spec K`
 the adapters give an equivalence between abelian schemes with zero-preserving morphisms and Tau
@@ -619,7 +618,7 @@ These are Mathlib's constructions, with no additional points-law carrier.
 Prove `groupPointsHom_iff`: for `G, H : Over S` with group structures and `f : G ⟶ H`,
 `IsMonHom f` holds exactly when postcomposition by `f` preserves the unit and multiplication
 on `T`-points for every `T : Over S`. Inversion then follows from the group laws.
-Use `isCommMonObj_iff_isMulCommutative` to test commutativity on all `T`-point groups.
+Use `CategoryTheory.isCommMonObj_iff_isMulCommutative` to test commutativity on all `T`-point groups.
 Prove `groupPointsBaseChange`: for `b : S′ ⟶ S` and `T : Over S′`, the pullback group
 structure gives a group isomorphism
 `(T ⟶ (Over.pullback b).obj G) ≃* ((Over.map b).obj T ⟶ G)`.
@@ -630,7 +629,7 @@ Apply this API to `A.toOver` for abelian schemes. The points interface follows t
 the Imperial College London FLT project, using the existing categorical carriers
 (Mathlib `CategoryTheory/Monoidal/Cartesian/Grp.lean`, `Hom.group`,
 `GrpObj.ofRepresentableBy`, `yonedaGrpFullyFaithful`;
-`CategoryTheory/Monoidal/Cartesian/Mon.lean`, `isCommMonObj_iff_isMulCommutative`;
+`CategoryTheory/Monoidal/Cartesian/Mon.lean`, `CategoryTheory.isCommMonObj_iff_isMulCommutative`;
 `CategoryTheory/Comma/Over/Pullback.lean`, `Over.mapPullbackAdj`).
 *Needs:* Mathlib's cartesian monoidal structure on `Over S`, group-valued Yoneda constructions
 and pullback adjunction.
@@ -640,7 +639,7 @@ and pullback adjunction.
 - `AbelianScheme.identity`: the identity `Spec K → Spec K` is the dimension-zero abelian scheme;
   its multiplication by any integer, `p` included, is an isomorphism. A definition requiring
   positive dimension fails.
-- `AbelianScheme.field_agreement`: for an elliptic curve `E/K`, `ofAbelianVariety` followed by
+- For an elliptic curve `E/K`, `ofAbelianVariety` followed by
   `toAbelianVariety` returns `E` with its group law.
 - `AbelianScheme.nonproper`: `𝔾_m` over a field is a smooth geometrically connected group scheme
   but is not an abelian scheme; a definition without properness accepts it.
@@ -741,7 +740,7 @@ zero-dimensional fibre is a single rational point, so the zero section is a surj
 closed immersion (Faltings–Chai I.1.1–1.2, pp. 1–2; Milne, *Abelian varieties* (2022 revision),
 §20, pp. 42–43). On a base with two components carrying dimensions one and two the dimension
 function takes both values; the product with the identity scheme `S` is canonically `A`.
-`Suggested.lean` states the dimension-zero case as `isIso_zeroSection_of_relDim_zero`. *Needs:*
+*Needs:*
 A0.1; Mathlib `SmoothOfRelativeDimension`, `IsProper`, `GeometricallyConnected`.
 
 ### A1.2 Rigidity over arbitrary bases
@@ -760,8 +759,9 @@ Proposition 20.1 and Corollary 20.2, pp. 42–43; Katz, *Serre–Tate local modu
 1.1.3, pp. 141–143). Over a field, (1) for zero-preserving maps is Tau Ceti's `isMonHom_of_one_hom`;
 the content here is the arbitrary base. Translation by a nonzero section is not zero-preserving, and
 on `S = Spec K[ε]` an infinitesimal translation of `E_S` is a morphism different from the zero map.
-`Suggested.lean` states (1) for zero-preserving morphisms as `isMonHom_of_zero_preserving`, (2) as
-`isCommMonObj` and (4) as `eq_of_restrict_nilpotent`. *Needs:* A0.1, A0.3; SchemeAndStackFoundations Layer 4 §4.1 (formal smoothness).
+`Suggested.lean` states (1) for zero-preserving maps to any separated group scheme as
+`AbelianScheme.isMonHom_of_zero_preserving`, (2) as
+`AbelianScheme.isCommMonObj` and (4) as `AbelianScheme.eq_of_restrict_nilpotent`. *Needs:* A0.1, A0.3; SchemeAndStackFoundations Layer 4 §4.1 (formal smoothness).
 
 ### A1.3 Invariant differentials
 
@@ -871,7 +871,8 @@ reduced-base fibre test is not used there. The proof uses fibrewise constancy of
 base change on reduced bases, and the full rigidified Picard class in general
 (Xie–Yuan, proof of Lemma 4.1, p. 20; Conrad–Feng, Theorem 3.1.1 and Exercise 3.1.4, pp. 25–26). A
 nonzero infinitesimal point of `A^∨` over `K[ε]` is trivial on the geometric fibre but is not the
-trivial Picard section; on a product `X × S`, `π^*M` is recovered from `M` by `e^*`. *Needs:* A0.3;
+trivial Picard section; on a product `X × S`, `π^*M` is recovered from `M` by `e^*`.
+`Suggested.lean` states the reduced-base class identity as `relativeSeesaw`. *Needs:* A0.3;
 AlgebraicModuli Layer 1; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`).
 
 ### A1.5 The theorem of the cube and multiplication pullbacks
@@ -890,7 +891,9 @@ included), and normalizes at zero for uniqueness (Faltings–Chai, Theorem I.1.3
 Lemma 4.1(1), pp. 19–20; Conrad–Feng, Theorem 3.1.6 and its proof, pp. 26–28). For `n = 0` the pullback is `O_A`
 after rigidification, and for `n = −1` the formula returns `[−1]^*L`; the exponent of `L` in `[2]^*L`
 is three, not the symmetric four, unless `L` is symmetric. On `E × E` the mixed biextension term
-cancels in the sum–difference pullback. *Needs:* A0.3, A1.2, A1.4; JacobianChallenge Layer E.
+cancels in the sum–difference pullback. `Suggested.lean` states the cube and integer
+multiplication identities on line-bundle classes as `AbelianScheme.relativeCube`, with a
+zero-rigidified line bundle as input. *Needs:* A0.3, A1.2, A1.4; JacobianChallenge Layer E.
 
 ### A1.6 Relative elliptic equivalence
 
@@ -947,7 +950,8 @@ Proposition 8 and its proof, p. 15. Separatedness of `A` and schematic density o
 of the flat source give uniqueness (affine-locally, Tau Ceti's `ext_of_genericFiberι_eq`), so these
 local extensions glue over arbitrary connected Dedekind schemes. This construction uses only the
 early carrier, smooth local geometry, properness, Hartogs and descent; relative Hom
-representability is A6.25. *Needs:* A0.1, A1.1; SchemeAndStackFoundations §§0.6, 0.8–0.9;
+representability is A6.25. `Suggested.lean` states the bijection as `AbelianScheme.weilExtension`.
+*Needs:* A0.1, A1.1; SchemeAndStackFoundations §§0.6, 0.8–0.9;
 Mathlib `Over.pullback`, the valuative criterion and subcanonicity of the fpqc topology;
 Tau Ceti `isRegularLocalRing_stalk_of_smooth` and `AlgebraicGeometry/Fibers/SchematicDensity`.
 
@@ -1024,14 +1028,13 @@ identity component, together with `AbelianScheme.poincare`, the universal line b
 `A ×_S A^∨` rigidified along `e_A × id` and along `id × e_{A^∨}`, the two rigidifications agreeing
 at `(0, 0)`. A point of `A^∨` over `T` is a line bundle on `A_T`, algebraically trivial on fibres and
 rigidified along zero, up to unique isomorphism (Olsson, §2.1.4, p. 298; Faltings–Chai I.1,
-pp. 3–5; Kass §3, Theorems 5–7, pp. 5–6, for the field case). The API is:
-`AbelianScheme.dual_baseChange` (`(A_T)^∨ ≅ (A^∨)_T` with the Poincaré data); `AbelianScheme.dualMap`
+pp. 3–5; Kass §3, Theorems 5–7, pp. 5–6, for the field case). The API includes base change of the dual (`(A_T)^∨ ≅ (A^∨)_T` with the Poincaré data); `AbelianScheme.dualMap`
 (a homomorphism `f : A → B` induces `f^∨ : B^∨ → A^∨` by pullback of rigidified line bundles, with
 `dualMap_id` and `dualMap_comp` contravariant); `AbelianScheme.bidual` (evaluation on the Poincaré
 bundle gives a group isomorphism `κ_A : A ≅ A^∨∨`, natural in `A`, with `f^∨∨ ∘ κ_A = κ_B ∘ f`);
-`AbelianScheme.dual_prod` (`(A ×_S B)^∨ ≅ A^∨ ×_S B^∨`, with Poincaré bundle the tensor product of the
-two pullbacks); `AbelianScheme.dual_field` (over `Spec K` this is the dual abelian variety of
-JacobianChallenge Layer E, with its Poincaré bundle rigidified along both zero sections); `AbelianScheme.dual_elliptic` (for an elliptic curve it
+duality of products (`(A ×_S B)^∨ ≅ A^∨ ×_S B^∨`, with Poincaré bundle the tensor product of the
+two pullbacks); the field comparison (over `Spec K` this is the dual abelian variety of
+JacobianChallenge Layer E, with its Poincaré bundle rigidified along both zero sections); the elliptic comparison (for an elliptic curve it
 is ModularCurves 2D's Picard dual, with self-duality compared by `ι_E = λ_E ∘ [−1]`
 and Poincaré pullback transported by `id × [−1]`).
 
@@ -1047,14 +1050,14 @@ rigidifications. *Needs:* A0.2, A0.3, A1.2, A2.1; JacobianChallenge Layer E; Mod
 
 **Checks.**
 
-- `AbelianScheme.dual_zero`: the dual of the dimension-zero abelian scheme `S` is `S`, and its
+- The dual of the dimension-zero abelian scheme `S` is `S`, and its
   Poincaré bundle is `O_S` with the identity rigidifications.
-- `AbelianScheme.dual_field`: over `Spec K` the dual is the dual abelian variety of JacobianChallenge
+- Over `Spec K` the dual is the dual abelian variety of JacobianChallenge
   Layer E, with its doubly rigidified Poincaré bundle; a definition by all of `Pic_{A/S}` instead of `Pic⁰` would contain the
   Néron–Severi components and fail this.
-- `AbelianScheme.dual_product`: `(E × E′)^∨ ≅ E^∨ × E′^∨`, and the Poincaré bundle is the exterior
+- For a product, `(E × E′)^∨ ≅ E^∨ × E′^∨`, and the Poincaré bundle is the exterior
   tensor product of the two; a definition without rigidification would differ by a base line bundle.
-- `AbelianScheme.dual_elliptic`: for `E` elliptic, `a ↦ O([−a] − [0])` identifies `E` with `E^∨`, and
+- For `E` elliptic, `a ↦ O([−a] − [0])` identifies `E` with `E^∨`, and
   the pullback of `P` along `id × (that map)` restricted to `E × {a}` is `t_a^*O(0) ⊗ O(0)^{-1}`.
 - Over `ℂ`, for a nonzero point `a` of order three, `O([−a] − [0])` and
   `O([a] − [0])` are different classes, testing the inversion in the elliptic comparison.
@@ -1338,10 +1341,9 @@ fppf torsor under `ker f`, and the rank of `f` (Mathlib `Scheme.Hom.finrank`) eq
 `ker f` and is locally constant (Faltings–Chai I.1, p. 5). The API is `IsAbelianIsogeny.kernel` (the
 finite locally free kernel with its closed immersion); `IsAbelianIsogeny.quotient` (for a
 homomorphism `g : A → C`, `g` factors uniquely through `f` iff it kills `ker f`; this is A3.3);
-`IsAbelianIsogeny.baseChange`; `IsAbelianIsogeny.comp_rank` (ranks multiply under composition); and
-`IsAbelianIsogeny.field_iff` (over `Spec K` it is equivalent to Tau Ceti's `IsIsogeny`, finite and
-surjective: `surjectiveHom_flat` below supplies flatness; stated
-in `Suggested.lean` as `OverField.isAbelianIsogeny_iff`). The
+`IsAbelianIsogeny.baseChange`; multiplicativity of ranks under composition; and
+the field comparison (over `Spec K` it is equivalent to Tau Ceti's `IsIsogeny`, finite and
+surjective: `surjectiveHom_flat` below supplies flatness). The
 proof uses that a finite locally free surjection is an fppf cover; translation identifies
 `A ×_B A` with `A × ker f`. *Needs:* A0.1, A1.2; Tau Ceti `IsIsogeny`, `GroupScheme.IsIsogeny`, `GroupScheme/Kernel`
 ; SchemeAndStackFoundations Layer 1.
@@ -1351,7 +1353,7 @@ proof uses that a finite locally free surjection is an fppf cover; translation i
 - `IsAbelianIsogeny.identity`: the identity has kernel zero and rank one.
 - Translation by a nonzero section is an isomorphism of schemes but does not preserve
   zero and fails `IsMonHom`, so it is excluded from `IsAbelianIsogeny`.
-- `IsAbelianIsogeny.elliptic_two`: `[2]` on an elliptic curve over any base has rank `4`.
+- On an elliptic curve, `[2]` on an elliptic curve over any base has rank `4`.
 - `IsAbelianIsogeny.inclusion`: the closed immersion `E → E × E`, `x ↦ (x, 0)`, is a homomorphism but
   not an isogeny (not surjective).
 - `IsAbelianIsogeny.supersingular`: `[p]` on a supersingular elliptic curve in characteristic `p` has
@@ -1368,8 +1370,7 @@ closed point, hence cover the finite-type `K̄`-scheme `B_{K̄}`. Descend flatne
 faithfully flat field extension (Stacks, Lemma 35.23.17, tag 02L2), using Mathlib's
 `Module.Flat.of_flat_tensorProduct` on affine charts: if `T` is a faithfully flat `R`-algebra
 and `T ⊗_R M` is flat over `T`, then `M` is flat over `R`. Surjectivity then gives
-faithful flatness. `Suggested.lean` states the flatness conclusion with surjectivity as a
-hypothesis as `OverField.surjectiveHom_flat`. *Needs:* A0.1; SchemeAndStackFoundations §4.12
+faithful flatness. *Needs:* A0.1; SchemeAndStackFoundations §4.12
 (`generic_flatness`); Mathlib flatness and `Module.Flat.of_flat_tensorProduct`.
 
 **Checks.**
@@ -1396,16 +1397,16 @@ boundedly many components would then contain the `ℓ^{2gr}` points of `A[ℓ^r]
 `A[ℓ^r]` in at most `ℓ^{2br}` points (Milne 2022, Proposition 20.7, p. 44, and §8, Theorem 8.2 and
 its proof, pp. 13–14; Kass, Corollary 1, p. 3; Xie–Yuan §1.1, p. 3, and §5.3, p. 27). `[p]` is not
 étale on a positive-dimensional fibre in characteristic `p`; on the zero-dimensional object `[p]` is
-étale even in characteristic `p`. `Suggested.lean` states (1) as `mulBy_isAbelianIsogeny` and
-`etale_mulBy`, for the multiplication map `mulBy`, and (2) as `OverField.dense_primeToChar_torsion`.
+étale even in characteristic `p`. `Suggested.lean` states the isogeny and rank conclusions of (1)
+as `AbelianScheme.mulBy_isAbelianIsogeny` and (2) as `OverField.dense_primeToChar_torsion`.
 *Needs:* A1.1, A1.5, A2.4, A3.1; JacobianChallenge Layer E.
 
 **Checks.**
 
-- `mulBy_one`: `[1] = id_A`, including on positive-dimensional abelian schemes.
-- `mulBy_zero`: `[0]` is the zero homomorphism, the multiplicative unit `1` in the Hom group.
-- `mulBy_neg_one`: `[−1]` is the group inversion morphism.
-- `mulBy_add`: `[m + n]` is the pointwise sum of `[m]` and `[n]`, written as their product
+- Multiplication by one: `[1] = id_A`, including on positive-dimensional abelian schemes.
+- Multiplication by zero: `[0]` is the zero homomorphism, the multiplicative unit `1` in the Hom group.
+- Multiplication by minus one: `[−1]` is the group inversion morphism.
+- Multiplication by a sum: `[m + n]` is the pointwise sum of `[m]` and `[n]`, written as their product
   in the multiplicative Hom group.
 
 ### A3.3 Quotients by finite locally free subgroups
@@ -1420,7 +1421,9 @@ connectedness by fppf descent, and applies A2.1 to obtain a scheme; the universa
 of the sheaf coequalizer (Faltings–Chai I.1.7–1.9, pp. 4–7). The API is `AbelianQuotient.mk`
 (the quotient and its isogeny), `AbelianQuotient.desc` (unique descent of a homomorphism killing
 `H`), `AbelianQuotient.baseChange` (`(A/H)_T ≅ A_T/H_T`, respecting quotient maps) and
-`AbelianQuotient.kernel_rank` (`ker q = H` and `rk q = rk H`). *Needs:* A2.1, A3.1;
+`AbelianQuotient.kernel_rank` (`ker q = H` and `rk q = rk H`). `Suggested.lean` states existence,
+the scheme-theoretic kernel, the rank and the universal property as
+`AbelianScheme.exists_abelianQuotient`. *Needs:* A2.1, A3.1;
 ModularCurves 0E; SchemeAndStackFoundations Layer 1 §§1.5–1.6 (quotient sheaves), §1.17 (`artinBootstrap`); AlgebraicModuli Layer 3
 (`ModuliDescent.finiteQuotientComparison`).
 
@@ -1443,8 +1446,7 @@ A4.1). The proof
 uses `A/A[n] ≅ A` (A3.3) and the quotient property; uniqueness holds because `n · h = 0` makes `h`
 land in the finite group `B[n]`, and a smooth connected source maps trivially to it (Milne 2022, §8,
 p. 12, and Lemmas 12.2 and 12.6, pp. 20–21; Lipnowski–Tsimerman §4.5, pp. 21–22). On a supersingular
-`E`, vanishing on `E[p](K̄)` does not imply divisibility by `p`. `Suggested.lean` states
-torsion-freeness over a field as `OverField.hom_torsionFree`. *Needs:* A3.2, A3.3.
+`E`, vanishing on `E[p](K̄)` does not imply divisibility by `p`. *Needs:* A3.2, A3.3.
 
 ### A3.5 Dual isogenies, Cartier-dual kernels and Weil pairings
 
@@ -1774,6 +1776,8 @@ varieties*, §1.2, pp. 3–4, for the complex case). The API is `AbelianTate.mk`
 `AbelianTate.baseChange`; `AbelianTate.dualPairing` (`T_ℓ(A^∨) ≅ Hom_{ℤ_ℓ}(T_ℓ A, ℤ_ℓ(1))` through the
 pairings `e_{ℓ^r}` of A3.5, with `ℤ_ℓ(1) = lim μ_{ℓ^r}`); `AbelianTate.divisible_iff` (a homomorphism
 `f` is divisible by `ℓ^r` in `Hom(A, B)` iff `T_ℓ f` is divisible by `ℓ^r`, the realization form of A3.4).
+`Suggested.lean` states the field-level rank theorem as `OverField.tateModule_rank`, on
+`OverField.tateModule` of the geometric point group `OverField.geometricPoints`.
 *Needs:* A3.2, A3.4, A3.5; Tau Ceti `TateModule`; SchemeAndStackFoundations Layer 1.
 
 **Checks.**
@@ -2578,8 +2582,7 @@ notes, §1, Definitions 1.13–1.14 and Theorems 1.17–1.18, pp. 5–8; Falting
 Type `(1, 2)` for `g = 2` has `d = 2`, `deg λ = 4` and `(L²) = 4`; for `g = 0`, `d = 1`. Over a field
 the analogue of (1), with every `d_i = 1`, is Tau Ceti's symplectic basis theorem
 `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`; the integral statement with
-elementary divisors is the target here, stated in `Suggested.lean` as
-`alternating_elementaryDivisors`. *Needs:* A2.4, A3.7, A5.2, A5.3 for (2); Mathlib Smith normal form
+elementary divisors is the target here. *Needs:* A2.4, A3.7, A5.2, A5.3 for (2); Mathlib Smith normal form
 for (1).
 
 ### A5.5 The polarized Hodge equivalence
@@ -2674,9 +2677,7 @@ linear constructor to the `Sp_{2g}(ℤ)` action with linear maps `R_M(Ω) = (CΩ
 `ρ(M) = M^{-T}`. The construction here verifies the cocycle law of `R` and the period-equivariance law
 `R_M(Ω) Π_Ω(v) = Π_{M·Ω}(M^{-T} v)` (checking the transpose), and identifies torsion with the lattice
 modulo `N`. The API is `SiegelFamily.fibre`, `SiegelFamily.polarization`, `SiegelFamily.symplecticAction`
-(the compatible period, lattice and fibre actions) and `SiegelFamily.level`. `Suggested.lean` states
-the period space as `SiegelUpperHalfSpace`, with `siegelAction`, `siegelAction_mem`,
-`siegelAction_one`, `siegelAction_translation` and `siegelAction_mul`. *Needs:* A3.7, A3.8, A5.2,
+(the compatible period, lattice and fibre actions) and `SiegelFamily.level`. *Needs:* A3.7, A3.8, A5.2,
 A5.6; ComplexTori Milestones 2–3; Mathlib `Matrix.symplecticGroup`, `Matrix.PosDef`.
 
 The light predicate has intended signature
@@ -2743,13 +2744,13 @@ the dimension of `A`.
 Define `Hom.deg f` for `f : A ⟶ B`: the rank `Scheme.Hom.finrank` of the scheme morphism of `f` at the zero
 point of `B` when `f` is an isogeny (Tau Ceti `IsIsogeny`), and `0` otherwise. For an isogeny it is the
 degree `[K(A) : K(B)]` of the function-field extension, inseparable degree included (Milne 2008, §10,
-p. 46, and Theorem 10.9, p. 46; Remark 10.11, p. 47). The API is `deg_comp` (for `A`, `B`, `C` of equal
-dimension, `deg(f ≫ h) = deg f · deg h`: a composite of equal-dimensional maps is an isogeny exactly when
-both factors are); `deg_mulBy` (`deg [n] = |n|^{2g}`, with `0⁰ = 1` in dimension zero, from A3.2);
-`isIsogeny_iff_deg_ne_zero` (for equal dimensions); `deg_dual` (`deg f^∨ = deg f`, from A3.5);
-`deg_functionField` (the comparison with the function-field degree, through SchemeAndStackFoundations
-§5.2 (proper pushforward)); `deg_dimension_zero` (every endomorphism of a zero-dimensional abelian variety
-has degree one); and `End.degRat`, the extension to `End⁰(A)` by `deg(q) = deg(nq)/n^{2g}` for any `n > 0`
+p. 46, and Theorem 10.9, p. 46; Remark 10.11, p. 47). Prove multiplicativity for `A`, `B`, `C` of equal
+dimension: `deg(f ≫ h) = deg f · deg h`, since a composite of equal-dimensional maps is an isogeny
+exactly when both factors are. The multiplication formula is `deg [n] = |n|^{2g}`, with `0⁰ = 1` in
+dimension zero (A3.2); `isIsogeny_iff_deg_ne_zero` applies in equal dimensions; duality preserves
+degree, `deg f^∨ = deg f` (A3.5). Compare with the function-field degree through
+SchemeAndStackFoundations §5.2 (proper pushforward). Every endomorphism of a zero-dimensional
+abelian variety has degree one. Define `End.degRat`, the extension to `End⁰(A)` by `deg(q) = deg(nq)/n^{2g}` for any `n > 0`
 with `nq ∈ End A`, independent of `n` because `End A` is torsion-free (A3.4), and nonzero exactly on
 units of `End⁰(A)`. An endomorphism with finite kernel has a quasi-inverse through the quotient
 property (A3.3, A3.4). *Needs:* A3.1–A3.5; Mathlib `Scheme.Hom.finrank`; Tau Ceti `IsIsogeny`, `End`,
@@ -2757,12 +2758,12 @@ property (A3.3, A3.4). *Needs:* A3.1–A3.5; Mathlib `Scheme.Hom.finrank`; Tau C
 
 **Checks.**
 
-- `deg_mulBy_two_elliptic`: on an elliptic curve `deg [2] = 4` in every characteristic.
-- `deg_zero`: for `g > 0`, `deg 0 = 0` and `deg 1 = 1`; for `g = 0`, the zero endomorphism is the
+- On an elliptic curve `deg [2] = 4` in every characteristic.
+- For `g > 0`, `deg 0 = 0` and `deg 1 = 1`; for `g = 0`, the zero endomorphism is the
   identity and has degree one.
-- `deg_frobenius_ne_card_ker`: for the Frobenius `π` of an elliptic curve over `𝔽_p`, `deg π = p` although
+- For the Frobenius `π` of an elliptic curve over `𝔽_p`, `deg π = p` although
   `π` is injective on geometric points; a definition by counting kernel points fails.
-- `deg_neg_one`: `deg [−1] = 1`, consistent with `deg [n] = n^{2g}`.
+- For inversion, `deg [−1] = 1`, consistent with `deg [n] = n^{2g}`.
 
 ### A6.2 Faithfulness on Tate modules
 
@@ -2772,7 +2773,8 @@ in `Hom(A, B)`. A map with zero Tate realization kills all `ℓ`-power torsion, 
 (A3.2), so it is zero; this argument uses neither polarizations nor degree polynomials. Divisibility
 of `T_ℓ f` by `ℓ^n` means that `f` vanishes on `A[ℓ^n]`, which is finite étale, so A3.4 applies (Milne 2008,
 Lemma 10.6, p. 45). For an ordinary elliptic curve over `𝔽̄_p`, `End E` embeds in `End(T_ℓ E) ≅ M₂(ℤ_ℓ)` for
-`ℓ ≠ p`; for `ℓ = p` and `E` supersingular `T_p E = 0` and injectivity fails. *Needs:* A3.2, A3.4, A4.1.
+`ℓ ≠ p`; for `ℓ = p` and `E` supersingular `T_p E = 0` and injectivity fails. `Suggested.lean` states faithfulness
+and the divisibility criterion as `OverField.homTateInjective`, using `OverField.tateMap`. *Needs:* A3.2, A3.4, A4.1.
 
 ### A6.3 Images of homomorphisms over the original field
 
@@ -2791,7 +2793,7 @@ characteristic zero Lemma 39.8.2, tag 047N); so `f(A)` is geometrically integral
 variety; `A → f(A)` is faithfully flat by A3.1 `surjectiveHom_flat`. No cited abelian-variety
 source states this over imperfect fields; the argument above is the proof to be formalized. Over an
 arbitrary base a connected kernel need not be smooth, and nothing is asserted there.
-`Suggested.lean` states the factorization as `OverField.exists_abelianImage`. *Needs:* A3.1;
+*Needs:* A3.1;
 JacobianChallenge Layer E; Tau Ceti `ClosedSubgroupScheme`.
 
 ### A6.4 Simple abelian varieties
@@ -2817,8 +2819,7 @@ the kernel needs geometric reducedness over an imperfect field, which A6.3 and t
 avoid). A supersingular
 elliptic curve over `𝔽̄_p` has `End⁰` the quaternion algebra over `ℚ` ramified at `p` and `∞`, a division
 algebra; `E × E` is not simple (the diagonal is an abelian subvariety) and `End⁰(E × E) = M₂(End⁰ E)` is
-not a division algebra. `Suggested.lean` states `IsSimple` with `isIsogeny_of_isSimple` and
-`isUnit_of_isSimple`. *Needs:* A2.2, A2.5, A2.8, A3.1, A3.3, A3.4, A6.3; Tau Ceti `prod`, `fst`, `snd`.
+not a division algebra. *Needs:* A2.2, A2.5, A2.8, A3.1, A3.3, A3.4, A6.3; Tau Ceti `prod`, `fst`, `snd`.
 
 **Checks.**
 
@@ -2841,6 +2842,7 @@ is finite and the sum is an isogeny; induct on dimension; uniqueness follows fro
 (Conrad–Feng, Theorem 7.6.1, pp. 73–74; Milne 2022, Proposition 12.1, p. 19). For non-isogenous elliptic
 curves `E`, `E′`, the abelian subvarieties of `E × E′` are `0`, `E × 0`, `0 × E′` and `E × E′`; for the
 diagonal of `E × E` the antidiagonal is a complement and the addition map has kernel of order `4`.
+`Suggested.lean` states the complement theorem as `OverField.poincareReducibility`.
 *Needs:* A2.3, A2.5, A2.8, A3.4, A6.3, A6.4.
 
 ### A6.6 The degree is a homogeneous polynomial function
@@ -2856,7 +2858,7 @@ whose top intersection vanishes; so the coefficients are rational and the degree
 scaling all variables by an integer gives homogeneity; in dimension zero the function is the constant
 `1` (Milne 2008, Proposition 10.13 and Lemma 10.12, p. 47). Integrality of coefficients is not inferred
 from integer values. For `End E = ℤ[i]`, `deg(a + bi) = a² + b²`; on `E × E`, `deg diag(a, b) = a²b²`.
-`Suggested.lean` states the integral form `degree_polynomial`. *Needs:* A1.5, A2.4, A6.1;
+*Needs:* A1.5, A2.4, A6.1;
 SchemeAndStackFoundations Layer 5 §5.3 (`Chow.c1`), §5.6 (intersection products), §5.2 (proper pushforward).
 
 ### A6.7 Hom is free of finite rank
@@ -2876,7 +2878,8 @@ isogenies of A6.5; finite generation then gives the `ℤ_ℓ` statement and satu
 saturated `N = W ∩ End A` rather than an arbitrary submodule, and must prove finite-dimensionality
 before choosing a rational basis). Dimension zero gives `Hom = 0`. A non-CM elliptic curve in
 characteristic zero has `End E = ℤ`; a supersingular `E` over `𝔽̄_p` has `End E` a maximal order of rank
-`4 = 4 · 1 · 1` in a quaternion algebra, attaining the bound. *Needs:* A6.2, A6.4, A6.5, A6.6.
+`4 = 4 · 1 · 1` in a quaternion algebra, attaining the bound. `Suggested.lean` states freeness,
+finite generation and the rank bound as `OverField.homFreeFinite`. *Needs:* A6.2, A6.4, A6.5, A6.6.
 
 ### A6.8 Semisimplicity of the endomorphism algebra
 
@@ -2890,6 +2893,7 @@ Semisimplicity is of `End⁰(A)`, not of the order `End A`. The proof transports
 non-isogenous non-CM elliptic curves; `End⁰(E × E) = M₂(ℚ)`; for `E` with CM by an imaginary quadratic
 `F`, `End⁰(E²) = M₂(F)`. *Needs:* A6.4, A6.5, A6.7; Tau Ceti `prod`; Mathlib
 `isSemisimpleRing_iff_pi_matrix_divisionRing`.
+The finite-dimensional semisimplicity conclusion is `OverField.endQ_isSemisimple` in `Suggested.lean`.
 
 ### A6.9 Two polynomial lemmas
 
@@ -2932,7 +2936,8 @@ finite kernel), and both vanish for a non-isogeny; applying this to `G(α)` for 
 lemmas of A6.9 identifies `P_α` with `det(X − V_ℓ α)`. Finite generation of `End A` (A6.7) makes `α`
 integral over `ℤ` by the determinant trick, so its Tate eigenvalues are algebraic integers and the
 rational coefficients of `P_α` are integers. Integer values alone do not give integral coefficients.
-Additivity of the trace is that of the matrix trace on `V_ℓ A`. The API is `End.charpoly`,
+Additivity of the trace is that of the matrix trace on `V_ℓ A`. `Suggested.lean` states
+`OverField.exists_charpoly` using the finite-flat rank definition `OverField.Hom.deg`. The API is `End.charpoly`,
 `End.charpoly_eval`, `End.charpoly_monic`, `End.trace`, `End.charpoly_coeff_zero` and `End.trace_add`.
 *Needs:* A3.5, A4.1, A6.1, A6.6, A6.7, A6.9; Mathlib `Polynomial.funext`.
 
@@ -2957,7 +2962,9 @@ in the construction of A6.10, exported (Milne 2008, Proposition 10.20, p. 50); t
 is its reduction through `T_ℓ A / ℓ^r ≅ A[ℓ^r]` (A4.1, `AbelianTate.modPow`). For `ℓ = p` the
 `p`-adic Tate module can have rank less than `2g` and the statement fails. For the Frobenius of
 `E/𝔽_q` and every `ℓ ≠ p` the characteristic polynomial on `V_ℓ E` is `X² − aX + q`, and on `E[ℓ^r]`
-its reduction modulo `ℓ^r`. A single level does not determine the trace: `[1 + ℓ^r]` and `[1]` act
+its reduction modulo `ℓ^r`. `Suggested.lean` states the integral Tate-module comparison as
+`OverField.charpolyTate`; extending scalars gives the rational comparison.
+A single level does not determine the trace: `[1 + ℓ^r]` and `[1]` act
 identically on `E[ℓ^r]`, while their traces are `2 + 2ℓ^r` and `2`. *Needs:* A4.1, A6.10.
 
 ### A6.12 Trace and degree through a subfield
@@ -3087,7 +3094,8 @@ Their centres are `ℝ` or `ℂ`. On each matrix factor the positive involution 
 Hermitian form; rescale its defining form to be positive and conjugate by its internal positive
 square root to obtain the standard adjoint. In that normal form, the original `t` is a positive
 multiple of the real matrix trace on each factor. This gives the intrinsic positivity comparison
-without identifying geometric trace with reduced trace (Voight, §8.4.5–§8.4.9, pp. 116–118;
+without identifying geometric trace with reduced trace. `Suggested.lean` states the general
+positive-involution normal form as `realRosatiDecomposition`, using `IsRosatiPositive` (Voight, §8.4.5–§8.4.9, pp. 116–118;
 Lipnowski–Tsimerman, §4.3.2 and Proposition 4.10, pp. 19–20, for the resulting cones).
 *Needs:* the operator adapter and square-root target above; `realCentralDivisionAlgebra`;
 RepresentationTheory/SemisimpleAlgebras Layers 4–5;
@@ -3197,8 +3205,7 @@ p. 63). At `n = 2`, `ζ = −1`, `π = −1`, `m = 2` satisfy the remaining hypo
 and the conclusion fails. As an interface on the field carrier, prove
 `eq_one_of_finiteOrder_congruence`: if `α : End A` has `α^m = 1` for `m > 0` and
 `α = 1 + n • β` for some `β : End A` and integer `n ≥ 3`, then `α = 1`.
-This is the finite-order congruence milestone stated in `Suggested.lean`; (1) above
-supplies finite order for polarized automorphisms.
+Statement (1) above supplies finite order for polarized automorphisms.
 
 **Checks.**
 
@@ -3364,7 +3371,9 @@ monodromy statement uses the
 fixed-part argument with A5.6 (Faltings–Chai I.1.7, pp. 4–5, and I.2.7, pp. 9–11; Kisin–Pappas, *Integral
 models of Shimura varieties with parahoric level structure*, proof of Lemma 4.5.2, p. 194; Gao–Habegger,
 proof of Lemma 5.6, p. 25, arXiv v3). The algebraic monodromy-invariant extension used by Gao–Habegger is part of this target;
-relative GAGA over a nonproper base is not used. `Hom(E, E)`
+relative GAGA over a nonproper base is not used. `Suggested.lean` states (2) as
+`AbelianScheme.homRestriction_bijective`, expressing normality by integrally closed domain
+stalks. `Hom(E, E)`
 contains infinitely many `[n]`, with graphs of distinct Hilbert polynomials, so global finiteness can
 fail; for elliptic curves `E`, `E′` over a field with no homomorphism between them over an algebraic
 closure, the Hom functor is the zero group, represented by the base, and is finite. A jump of the
