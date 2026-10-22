@@ -64,6 +64,24 @@ Dependencies and ownership:
   of laws on configuration spaces. Milestone 8 specializes these to `S = ℝ` and `S = ℂ`.
   Here we build determinantal point processes, their trace-class and Fredholm functional
   analysis, the Pfaffian formulas for GOE, and the determinantal convergence criterion.
+- [Polar decomposition](../OperatorTheory/PolarDecomposition/README.md), PD-A51–PD-A53,
+  owns the Courant–Fischer min–max formula, Loewner monotonicity of sorted eigenvalues and
+  Weyl's operator-norm bound for symmetric endomorphisms of finite-dimensional inner-product
+  spaces. Milestone 1 consumes them through `Matrix.toEuclideanLin`, proving the comparison
+  of their sorted eigenvalues with `Matrix.IsHermitian.eigenvalues₀`; it builds the max–min
+  form, interlacing, rank and Hoffman–Wielandt estimates and the spectral-measure corollaries.
+- [Operator ideals](../OperatorTheory/OperatorIdeals/README.md), OI-B01–OI-B19, OI-B29,
+  OI-B30, OI-B23 and Part C, owns the operator-ideal carriers, the nuclear gauge, the
+  trace-class family and its completeness, and the Hilbert–Schmidt column model.
+  Milestone 8 consumes these classes and builds on them the trace functional, integral-kernel
+  representations, Fredholm determinants, restriction to windows and trace-norm continuity.
+  No second generic trace-class carrier is introduced.
+- The stochastic-calculus roadmap ([Add stochastic calculus, Brownian motion and diffusion roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1030))
+  owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian integration,
+  continuous integral processes and localization (S3.2–S3.4), brackets (S4.1–S4.3), the
+  `C²` Itô formula on open domains (S5.1), Lévy's characterization (S5.5), and strong,
+  local and maximal solutions with Lyapunov nonexplosion (S9.1–S9.2). Milestone 10 consumes
+  these contracts through the adapters stated there and builds only the random-matrix layer.
 
 Missing prerequisites explicitly assigned below are built in Tau Ceti. Follow Mathlib's
 existing and proposed APIs; an open PR determines interface direction, not timing. Implement
@@ -131,8 +149,8 @@ laws, sub-Gaussian MGFs, and Brownian motion. Relevant entry points include:
 | Brownian motion | `Mathlib.Probability.BrownianMotion.Basic` |
 
 Brownian motion alone does not provide the Itô and SDE toolkit required by Milestone 10;
-that toolkit is an explicit target there. Existing moment determinacy alone does not prove
-convergence from moments; Milestone 3 builds that bridge.
+that toolkit comes from the stochastic-calculus roadmap listed above. Existing moment
+determinacy alone does not prove convergence from moments; Milestone 3 builds that bridge.
 
 ## Milestone 0 — Probability arguments invariant under extension
 
@@ -166,18 +184,24 @@ the library must expose explicit, composable theorems.
 
 **Sources:** T §1.3; AGZ Appendix A, §2.3.1; PB ch. 1.
 
-- Define empirical finite measures for any finite family in a measurable space. Prove total
-  mass, probability normalization in nonempty dimension, integration, pushforward, reindexing,
-  concatenation, and measurability into measures. Specialize to Hermitian eigenvalues,
+- Define empirical finite measures for any finite family in a measurable space, indexed by
+  an arbitrary finite type. For a nonempty index type, prove that the underlying measure of
+  Tau Ceti's `TauCeti.Probability.empiricalMeasureOfFintype` equals it, and reuse that API's
+  probability normalization, evaluation, integration, pushforward from the uniform index law
+  and measurability; do not build a second empirical probability measure. Add the empty
+  zero-measure case, total mass, reindexing, concatenation, and measurability into finite
+  measures; `Fin n` families are a specialization. Specialize to Hermitian eigenvalues,
   singular values, squared singular values, and complex characteristic roots. Prove
   measurability of the latter multiset/measure without requiring continuous ordered complex roots.
-- Prove continuity and measurability of ordered Hermitian eigenvalues; prove min–max and
-  max–min formulas, Weyl inequalities, Cauchy interlacing, and the rank perturbation bound
-  `sup_t |L_A(-∞,t] - L_B(-∞,t]| ≤ rank(A-B)/n`.
+- Prove continuity and measurability of ordered Hermitian eigenvalues. Take the min–max
+  formula, eigenvalue monotonicity and the operator-norm eigenvalue bound from PD-A51–PD-A53
+  through the comparison stated in the dependencies. Prove the max–min formula, the
+  additive Weyl inequalities `λ_{i+j-1}(A+B) ≤ λᵢ(A)+λⱼ(B)`, Cauchy interlacing, and
+  the rank perturbation bound `sup_t |L_A(-∞,t] - L_B(-∞,t]| ≤ rank(A-B)/n`.
   Give principal-minor and rectangular Gram corollaries.
 - Prove Hoffman–Wielandt:
-  `∑ᵢ |λᵢ(A)-λᵢ(B)|² ≤ ‖A-B‖_F²`, the operator-norm eigenvalue bound, and
-  the singular-value analogues. Deduce the Lipschitz estimate
+  `∑ᵢ |λᵢ(A)-λᵢ(B)|² ≤ ‖A-B‖_F²` and the singular-value analogues of it and of the
+  operator-norm eigenvalue bound. Deduce the Lipschitz estimate
   `|∫ f dL_A - ∫ f dL_B| ≤ Lip(f) ‖A-B‖_F/√n` and spectral Wasserstein bounds.
 - Develop the resolvent identity, Schur complements, determinant lemma, Sherman–Morrison–Woodbury,
   and Hermitian dilation for rectangular matrices. In the upper half-plane prove invertibility,
@@ -484,27 +508,49 @@ Dependencies: 1, 3, 5, the Hermite-function development, and the point-process r
   kernels with their reference measures. Prove Christoffel–Darboux, reproducing/projection
   identities, correlation functions, mean/variance of counts and linear statistics.
   Reuse Hermite orthogonality; build the Laguerre/Jacobi Rodrigues, norm, and recurrence API.
-- For locally trace-class positive contraction kernels, construct determinantal point
-  processes. For `f≥0` continuous with compact support prove the Laplace functional
+- Construct determinantal point processes from continuous kernels. The constructor takes a
+  locally compact Polish space `S` with a locally finite reference measure `μ` and a
+  continuous Hermitian kernel `K : S → S → ℂ` that is positive semidefinite, in the sense
+  that every finite matrix `[K(xᵢ,xⱼ)]` is positive semidefinite, and whose integral operator
+  on `L²(μ)` is a contraction. Build on the operator-ideal carriers the trace-class
+  integral-operator and Fredholm-determinant theory: summability, the trace functional,
+  exterior powers, determinant series, continuity in trace norm, and restriction to windows.
+  For each relatively compact Borel window `W`, apply Mercer's theorem to `K` on the compact
+  support of `μ|_W` to prove that `K_W` is a positive trace-class contraction with
+  `tr K_W = ∫_W K(x,x) dμ(x)` and `tr Λ^k K_W = (k!)⁻¹ ∫_{W^k} det[K(xᵢ,xⱼ)] dμ^k(x)`,
+  hence the Fredholm series `det(I-K_W) = ∑_k ((-1)^k/k!) ∫_{W^k} det[K(xᵢ,xⱼ)] dμ^k(x)`.
+  These identities come before `det[K(xᵢ,xⱼ)]` is used as the `k`-point correlation function
+  relative to `μ`. Continuity is what makes the diagonal meaningful: for Lebesgue measure on
+  `ℝ`, the measurable kernel `1_{x=y}` has positive semidefinite finite matrices and zero
+  integral operator, yet `∫_{[0,1]} K(x,x) dx = 1`, and the correlation functions
+  `det[K(xᵢ,xⱼ)]` are those of the unit-rate Poisson process, whose void probability on
+  `[0,1]` is `e^{-1} ≠ det(I-0)`. Kernels defined only up to null sets, which need the
+  trace-compatible spectral representative of
+  [Soshnikov, *Determinantal random point fields*](https://arxiv.org/abs/math/0002099)
+  (§1, Lemmas 1–2 and (1.14)) and AGZ §4.2.2, are outside this constructor.
+  For `f≥0` continuous with compact support prove the Laplace functional
   `E exp(-∫f dN) = det(I-(1-e^{-f})K)` on `L²(supp f)`, from the point-process roadmap's
-  factorial expansion, and deduce uniqueness of the law from the point-process roadmap's
-  Laplace-functional determination. The exponential count moments that expansion needs on
-  each bounded window `W` come from Hadamard's bound `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)` for
-  positive semidefinite kernels, which gives `α_k(W^k) = ∫_{W^k} det[K(xᵢ,xⱼ)] ≤ (tr K_W)^k`.
+  factorial expansion, applying the identities above to the continuous kernel
+  `√φ(x)K(x,y)√φ(y)` with `φ = 1-e^{-f}`, and deduce uniqueness of the law from the
+  point-process roadmap's Laplace-functional determination. The exponential count moments
+  that expansion needs on each bounded window `W` come from Hadamard's bound
+  `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)` for positive semidefinite kernels, which together with the
+  Mercer trace identity gives `α_k(W^k) = ∫_{W^k} det[K(xᵢ,xⱼ)] ≤ (∫_W K(x,x) dμ)^k = (tr K_W)^k`.
   Take Hadamard's bound from `hermitian_gram_hadamard` in the geometry-of-numbers roadmap
   ([Geometry of numbers, quadratic forms and homogeneous arithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/pull/851),
-  §0.1.2) by realizing each finite kernel matrix as a Gram matrix. Build the needed trace-class
-  integral-operator and Fredholm-determinant theory: summability, determinant series,
-  continuity in trace norm, restriction, and `P(N(B)=0)=det(I-K_B)`.
+  §0.1.2) by realizing each finite kernel matrix as a Gram matrix. Prove
+  `P(N(B)=0)=det(I-K_B)` for relatively compact Borel `B`.
   Prove Bernoulli-sum representation of bounded-set counts and their CLT when variance
-  diverges. The trace-class and positivity hypotheses must be verified for each kernel.
-  Prove the convergence criterion used below: let `Kₙ` be continuous kernels of determinantal
-  processes on `ℝ` with Lebesgue reference measure, converging uniformly on compact sets to a
-  continuous `K`. Prove that `K` defines a locally trace-class positive contraction (via
-  Hilbert–Schmidt convergence on each bounded window and Mercer's theorem), that the
-  continuous versions `det[Kₙ(xᵢ,xⱼ)]` of the correlation functions converge locally
-  uniformly, and, using Hadamard's bound to dominate the Fredholm expansions, that the
-  processes converge in law in the point-process roadmap's weak topology on `PointMeasure ℝ`.
+  diverges. Continuity, positive semidefiniteness and the contraction bound must be verified
+  for each kernel.
+  Prove the convergence criterion used below: let `Kₙ` be kernels accepted by the constructor
+  on `ℝ` with Lebesgue reference measure, converging uniformly on compact sets to a
+  continuous `K`. Prove that `K` is accepted by the constructor (positive semidefiniteness
+  passes to the pointwise limit; the contraction bound follows from Hilbert–Schmidt
+  convergence on each bounded window), that the correlation functions `det[Kₙ(xᵢ,xⱼ)]`
+  converge locally uniformly, and, using Hadamard's bound to dominate the Fredholm expansions,
+  that the processes converge in law in the point-process roadmap's weak topology on
+  `PointMeasure ℝ`.
 - Prove Hermite bulk/turning-point asymptotics with uniform bounds strong enough to pass
   to correlation functions and gap probabilities. For GUE and `E∈(-2,2)`, scale points
   by `nρ_SC(E)(λ-E)`; the limiting kernel is
@@ -563,18 +609,39 @@ Dependencies: 1, 3, 5, the Hermite-function development, and the point-process r
 
 ## Milestone 10 — Itô calculus and Dyson Brownian motion
 
-**Sources:** AGZ §4.3.1–4.3.2; T §3.1; PB chs. 8–9. Dependencies: 0–3, 5–6.
+**Sources:** AGZ §4.3.1–4.3.2; T §3.1; PB chs. 8–9. Dependencies: 0–3, 5–6, and the
+stochastic-calculus roadmap.
 
-- Starting with Mathlib Brownian motion and filtrations, construct finite-dimensional
-  Itô integrals for predictable square-integrable integrands, isometry, martingale and
-  continuous-version properties, localization, quadratic covariation, and Itô's formula
-  for `C²` functions. Construct finite-dimensional vector Brownian motion with independent
-  coordinates. Prove local strong existence/pathwise uniqueness for locally Lipschitz SDE
-  coefficients up to exit times, stopping/pasting, and the nonexplosion criterion from a
-  coercive Lyapunov bound. These targets cover the coefficients below and OU processes.
-- Construct Hermitian matrix Brownian motion with entry variances matching Milestone 5.
+- Consume the generic stochastic calculus from the stochastic-calculus roadmap
+  ([Add stochastic calculus, Brownian motion and diffusion roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1030)).
+  Its supplier contracts are vector Brownian motion on a finite-dimensional real
+  inner-product space with independent orthonormal coordinates and linear-isometry transport
+  (S1.2–S1.3); the predictable `L²` Brownian integral with its isometry, continuous integral
+  process and localization (S3.2–S3.4); quadratic and mutual variation with
+  `[∫H dM,∫K dN]=∫HK d[M,N]` (S4.1–S4.3); the `C²` Itô formula on an open domain stopped
+  before its boundary, in coordinate form (S5.1); the vector Lévy characterization (S5.5);
+  and strong solutions, pathwise uniqueness, local and maximal solutions with compatible
+  truncations, and coercive `C²` Lyapunov nonexplosion (S9.1–S9.2). The OU and linear
+  equations are its S9.4 examples. Here we state and prove the adapters to that interface.
+  Time is `ℝ≥0` with finite horizons measured by its `timeMeasure T`, and collision and
+  exit times are stopping times valued in `WithTop ℝ≥0`. The Brownian hypotheses are its
+  filtration-relative Brownian predicates of S1.3, `IsFilteredBrownian` in the scalar case,
+  for a filtration on which the matrix noise is Brownian; usual conditions are assumed only where that roadmap's theorems require them,
+  and conclusions are transported back through its raw-filtration adapters. Integrands are
+  its predictable or progressive Brownian classes, localized at collision and exit times, with
+  Hilbert–Schmidt norms for matrix noise. Brackets follow its normalization
+  `[⟨u,W⟩,⟨v,W⟩]_t=⟨u,v⟩t` for standard Brownian motion `W` on an inner-product space.
+  Solutions use the finite-dimensional strong-solution predicate of S9.1, whose scalar
+  case is its `IsStrongSolution`, with state space `ℝⁿ`; singular Dyson coefficients are
+  handled by globally locally Lipschitz truncations agreeing with them on
+  `{x₁>⋯>xₙ, min_{i<j}(xᵢ-xⱼ) ≥ 1/k, ‖x‖ ≤ k}` and pasted by S9.2 up to the exit times.
+- Construct real symmetric (`β=1`) and complex Hermitian (`β=2`) matrix Brownian motion
+  as standard Brownian motion on that real space with inner product `(β/2) Re tr(AB)`, so
+  `[tr(AH),tr(BH)]_t=(2/β) Re tr(AB) t` and the time-one entry variances match Milestone 5.
   For distinct starting eigenvalues, derive the eigenvalue SDE up to the first collision,
-  including derivatives of eigenvalues/projectors and the quadratic-variation computation.
+  including derivatives of eigenvalues/projectors, the quadratic-variation computation, and
+  the identification of the martingale parts as independent Brownian motions by Lévy's
+  characterization.
   With decreasing order and normalized matrix noise it is
   `dλᵢ=√(2/(βn)) dBᵢ + n⁻¹∑_{j≠i}(λᵢ-λⱼ)⁻¹dt`, for `β=1,2`.
 - Construct the same ordered-particle SDE for every real `β≥1`, prove global strong
@@ -644,7 +711,7 @@ finite noncrossing combinatorics → 3, 4, 6
 1–6 → 7 (covariance and spikes)
 1,3,5 + Hermite theory + point processes → 8 (Gaussian local statistics)
 1,3,5 → 9 (large deviations)
-0–3,5–6 → 10 (stochastic dynamics)
+0–3,5–6 + stochastic calculus (S1, S3.2–S3.4, S4, S5.1, S5.5, S9.1–S9.2) → 10 (stochastic dynamics)
 0–5 → 11 (circular law)
 ```
 

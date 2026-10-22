@@ -6,6 +6,7 @@ import Mathlib.Probability.HasLawExists
 import Mathlib.Probability.IdentDistribIndep
 import Mathlib.Probability.Moments.SubGaussian
 import TauCeti.Probability.Moments.Determinacy
+import TauCeti.Probability.Process.EmpiricalMeasure
 
 /-!
 # Random matrices: suggested target signatures
@@ -50,14 +51,23 @@ theorem ae_extension_iff (X : Ω → F) (s : Set F) (hs : MeasurableSet s)
 
 end Extensions
 
-/-- The empty family gives the zero finite measure; positive dimension gives mass one. -/
-def empiricalMeasure {E : Type*} [MeasurableSpace E] {n : ℕ} (x : Fin n → E) : Measure E :=
-  (n : ℝ≥0∞)⁻¹ • ∑ i, Measure.dirac (x i)
+/-- The empty family gives the zero finite measure; a nonempty family gives mass one. -/
+def empiricalMeasure {E ι : Type*} [MeasurableSpace E] [Fintype ι] (x : ι → E) : Measure E :=
+  (Fintype.card ι : ℝ≥0∞)⁻¹ • ∑ i, Measure.dirac (x i)
 
-theorem empiricalMeasure_isProbabilityMeasure {E : Type*} [MeasurableSpace E]
-    {n : ℕ} (hn : 0 < n) (x : Fin n → E) :
+/-- For a nonempty index type this is the measure underlying Tau Ceti's empirical probability
+measure, so its evaluation, integration, pushforward and measurability API applies. -/
+theorem empiricalMeasure_eq_empiricalMeasureOfFintype {E ι : Type*} [MeasurableSpace E]
+    [Fintype ι] [Nonempty ι] (x : ι → E) :
+    empiricalMeasure x = (TauCeti.Probability.empiricalMeasureOfFintype x : Measure E) := by
+  rw [TauCeti.Probability.empiricalMeasureOfFintype_toMeasure, empiricalMeasure,
+    Finset.smul_sum]
+
+theorem empiricalMeasure_isProbabilityMeasure {E ι : Type*} [MeasurableSpace E]
+    [Fintype ι] [Nonempty ι] (x : ι → E) :
     IsProbabilityMeasure (empiricalMeasure x) := by
-  sorry
+  rw [empiricalMeasure_eq_empiricalMeasureOfFintype]
+  infer_instance
 
 /-- A concrete measure, rather than an unspecified spectral-distribution predicate. -/
 def spectralMeasure {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ) (hA : A.IsHermitian) :

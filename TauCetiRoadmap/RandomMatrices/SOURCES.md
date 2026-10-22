@@ -146,8 +146,10 @@ Itô formula or SDE existence theorem.
 
 The [second-phase discussion](https://leanprover.zulipchat.com/#narrow/channel/509433-Brownian-motion/topic/Second.20phase.20of.20the.20project)
 records the stochastic-integration effort, including Yongxi Lin (Aaron), Kexing Ying,
-Lorenzo Luccioli, Alessio Rondelli, and Pietro Monticone. Milestone 10 must coordinate with
-this work, use its agreed designs, and supply any missing theorems in Tau Ceti.
+Lorenzo Luccioli, Alessio Rondelli, and Pietro Monticone. The generic Itô and SDE theorems
+that Milestone 10 needs are supplier contracts of the
+[stochastic-calculus roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1030),
+whose reusable-implementation audit covers this repository; Milestone 10 consumes them.
 
 ## Mathlib source and PR audit
 
