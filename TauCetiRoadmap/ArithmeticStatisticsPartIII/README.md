@@ -1,6 +1,6 @@
 # Roadmap: arithmetic statistics, Part III: uniform orbit counts and sieves
 
-**Summary.** Count the integral representations with finite congruences and prove the cuspidal and large-prime estimates needed for infinitely many local conditions. The even-degree binary sieve and the number-field three-isogeny count retain their explicit quantitative supplier hypotheses.
+**Summary.** Count the integral representations with finite congruences and prove the cuspidal and large-prime estimates needed for infinitely many local conditions. The even-degree binary sieve and the number-field three-isogeny count retain their explicit quantitative supplier hypotheses. The headline signatures include `Counting.hypersurface_local_density`.
 
 ## Scope and ownership
 
@@ -71,7 +71,7 @@ From ArithmeticStatisticsPartII require [ArithmeticStatisticsPartII, stabilizer 
 
 ## How to read the build
 
-The mathematical specification is this README; `Suggested.lean` gives representative light definitions and signatures on the pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+The mathematical specification is this README; `Suggested.lean` states headline counting, tail and sieve theorems on the pinned carriers, with the simple definitions needed to express them. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
 The quartic dependency order starts with maximal-order suborders and items 2–4 of the class-group/conductor inputs (quadratic characters, quadratic genus and reducible étale algebras). These supply the fixed-resolvent bound and the reducible-resolvent discard in Lemma 12, then the §2.8 finite congruence count and maximal-field upper counts. The noncyclic cubic mass sum (item 1) follows that finite count and supplies the overramified tail. The §2.8 nonmaximal tail and the separate non-`S4` field estimate supply quartic-field transport before §2.5 weak transport and its sieve. The fixed-resolvent bound precedes its large-stabilizer consumer in §2.3. The function-field constructions at the start of §2.10 precede all three global-field counts. The degree-two monic weak tail precedes the summed monic tail; the row-spanning and paired-fibre contracts precede every conditional even-degree estimate.
 
@@ -84,8 +84,6 @@ Start with compact semialgebraic counts and then average arithmetic fundamental 
 <a id="chebyshev-bounds-for-prime-sums"></a>
 
 **Chebyshev bounds for prime sums.** (a) There is an absolute constant `C` such that `π(x) ≤ C·x/log x` for every real `x ≥ 2`, where `π(x)` is the number of primes `p ≤ x`. (b) For every real `s > 1` there is a constant `C_s` such that `Σ_{p prime, p > N} p^{−s} ≤ C_s·N^{1−s}/log N` for every real `N ≥ 2`. (c) Consequently, for every integer `k ≥ 2` there is `C_k` with `Σ_{p prime, M < p ≤ r} r^n/p^k ≤ C_k·r^n/(M^{k−1} log M)` for all reals `2 ≤ M ≤ r` and every `n ≥ 0`.
-
-`Counting.prime_count_bound`, `Counting.prime_tail_bound` and `Counting.prime_sieve_sum_bound` state (a), (b) and (c) on Mathlib’s prime-counting and prime carriers; the tail statement also asserts summability.
 
 `x, N, M ≥ 2` so that the logarithms are positive; the sums run over rational primes The constants are absolute `(C)` or depend only on `s (C_s)` or `k (C_k)`; in particular they are independent of `N, M, r` and `n`
 
@@ -184,6 +182,8 @@ For the proof, After discarding finitely many primes, the reduction of `Y` is co
 <a id="quantitative-ekedahl-geometric-sieve"></a>
 
 **Quantitative ekedahl geometric sieve.** Let `B ⊂ ℝ^n` be a compact set and let `Y ⊆ 𝔸^n_ℤ` be a closed subscheme of codimension `k ≥ 1` (Krull dimension of its coordinate ring `≤ n + 1 − k`). Then there is a constant `C = C(B, Y)` such that for all reals `r ≥ 1` and `M ≥ 2, #{a ∈ rB ∩ ℤ^n : a mod p ∈ Y(𝔽_p) for some prime p > M} ≤ C·(r^n/(M^{k−1} log M) + r^{n−k+1})`.
+
+`Counting.quantitative_ekedahl_sieve` states this estimate on Mathlib’s coordinate ideals and Krull dimension, retaining the arbitrary compact coefficient region.
 
 `r ≥ 1` and `M ≥ 2` The content is for `k ≥ 2`; for `k = 1` the right side is of order `r^n` and the statement is trivial The region is a fixed compact set dilated by `r`; Bhargava's Theorem 3.5 (diagonal `SL_n`-transforms of `rB`) is a variant not needed by the consumers here
 
@@ -497,8 +497,6 @@ For the proof, Iwasawa: Gram-Schmidt on the rows of `g` gives `g =` (lower unitr
 
 **Hyperbolic area of the modular fundamental domain.** For the invariant measure on the upper half-plane (Mathlib's volume on `ℍ`, density `1/(Im z)^2` with respect to Lebesgue measure), `volume(ModularGroup.fd) = π/3`.
 
-`Counting.modular_fd_volume` states this value using Mathlib’s measure on `ℍ` and `ENNReal.ofReal(π/3)`.
-
 For the proof, By `UpperHalfPlane.volume_eq_lintegral, volume(fd) = ∫∫ y^{−2} dy dx` over `{|x| ≤ 1/2, y ≥ √(1 − x^2)}`. The inner integral is `∫_{√(1−x^2)}^∞ y^{−2} dy = (1 − x^2)^{−1/2}`. `∫_{−1/2}^{1/2} (1 − x^2)^{−1/2} dx = arcsin(1/2) − arcsin(−1/2) = π/3` by the fundamental theorem of calculus (`intervalIntegral.integral_deriv_eq_sub` with `Real.hasDerivAt_arcsin`; the integrand is continuous on `[−1/2, 1/2]`).
 
 *Needs:* `ModularGroup.fd` (Mathlib), `UpperHalfPlane.volume_eq_lintegral` (Mathlib), `ModularGroup.volume_fd_lt_top` (Tau Ceti), `Real.hasDerivAt_arcsin` (Mathlib), `intervalIntegral.integral_deriv_eq_sub` (Mathlib).
@@ -635,7 +633,7 @@ For the proof, Coefficient bounds: `R_X(h·L) ⊆ N′A′KΛh·L` with `h·L` i
 
 <a id="reducible-monic-binary-cubic-forms"></a>
 
-**Reducible monic binary cubic forms.** For a monic integral binary cubic form `g = x^3 + rx^2y + sxy^2 + ty^3` put `I(g) := r^2 − 3s`, `J(g) := −2r^3 + 9rs − 27t` and `H(g) := max(|I(g)|^3, J(g)^2/4)`; the univariate carrier uses `Counting.monicCubicI`, `Counting.monicCubicJ` and `Counting.monicCubicHeight`; these are invariant under the group `F_{ℤ,1}` of lower unitriangular integer matrices acting by `g ↦ g((x, y)γ)`. For every `ε > 0` the number of `F_{ℤ,1}`-orbits of monic integral binary cubic forms that are reducible over `ℚ` and have `H(g) < X` is `O_ε(X^{1/2+ε})`.
+**Reducible monic binary cubic forms.** For a monic integral binary cubic form `g = x^3 + rx^2y + sxy^2 + ty^3` put `I(g) := r^2 − 3s`, `J(g) := −2r^3 + 9rs − 27t` and `H(g) := max(|I(g)|^3, J(g)^2/4)`; these are invariant under the group `F_{ℤ,1}` of lower unitriangular integer matrices acting by `g ↦ g((x, y)γ)`. For every `ε > 0` the number of `F_{ℤ,1}`-orbits of monic integral binary cubic forms that are reducible over `ℚ` and have `H(g) < X` is `O_ε(X^{1/2+ε})`.
 
 Monic means `g(1, 0) = 1` The invariants agree with those of the binary quartic whose monic cubic resolvent is `g` ([ArithmeticStatisticsPartII, embedding into pairs of ternary quadratic forms][AS-II-2])
 
@@ -655,7 +653,7 @@ For the proof, The substitution `x ↦ x + ky` changes `r` by `3k`, so every `F_
 
 - `g=x³−2y³` is irreducible over `Q` and has `(I,J,H)=(0,54,729)`, fixing the sign in `J`.
 
-- `Counting.monicCubic_translation`: for a monic degree-three polynomial, composition with `X+k` preserves `I,J,H`; this is the `F_{ℤ,1}` API law.
+- For a monic degree-three polynomial, composition with `X+k` preserves `I,J,H`; this is the `F_{ℤ,1}` invariance law.
 
 <a id="orbits-with-large-stabilizer-are-negligible"></a>
 
@@ -756,6 +754,8 @@ For the proof, `F·L^(i) = N′A′K_+Λ·L^(i) = F_PGL2·(Λ·L^(i))` as multis
 <a id="count-of-binary-quartic-forms-of-bounded-height"></a>
 
 **Count of binary quartic forms of bounded height.** For every `ε > 0`: `N(V_ℤ^(0); X) = (4/135)ζ(2)X^{5/6} + O_ε(X^{3/4+ε})`; `N(V_ℤ^(1); X) = (32/135)ζ(2)X^{5/6} + O_ε(X^{3/4+ε})`; `N(V_ℤ^(2); X) = (8/135)ζ(2)X^{5/6} + O_ε(X^{3/4+ε})`, where `V_ℤ^(2) = V_ℤ^(2+) ⊔ V_ℤ^(2−)` and each of the two definite parts contributes `(4/135)ζ(2)X^{5/6}`. Equivalently, with `h^(i)(I, J)` the number of `GL_2(ℤ)`-classes of irreducible integral binary quartic forms with `4 − 2i` real roots and invariants `(I, J), Σ_{H(I,J) < X} h^(i)(I, J)` has the same asymptotics.
+
+`Counting.quartic_count` states the unweighted class asymptotics for real root counts `4,2,0`, using the integral substitution quotient and the displayed invariant height.
 
 Irreducible over `ℚ`; classes under `GL_2(ℤ)` (equivalently `PGL_2(ℤ)`, as `−1` acts trivially) Height `H(f) = max(|I(f)|^3, J(f)^2/4)` When concluding that `O(X^{3/4+epsilon})` is lower order than `X^{5/6}`, choose `0<epsilon<1/12`; the bound itself is stated for every positive `epsilon`.
 
@@ -941,6 +941,8 @@ For the proof, Apply [averaging formula for binary quartic forms](#averaging-for
 
 **Squarefree sieve for binary quartic forms.** Let `φ` : `V_ℤ → [0, 1]` be acceptable (for `Δ`) and defined by congruence conditions via local functions `φ_p` : `V_{ℤ_p} → [0, 1]` ([ArithmeticStatisticsPartI, acceptable weight function][AS-I-2]), with each `φ_p` invariant under `GL_2(ℤ)`. For `i ∈ T` let `N_φ(V_ℤ^(i); X)` be the number of irreducible `GL_2(ℤ)`-orbits in `V_ℤ^(i)` of height `< X`, each orbit `GL_2(ℤ)·f` counted with weight `φ(f)`. Then `N_φ(V_ℤ^(i); X) = N(V_ℤ^(i); X)·∏_p ∫_{V_{ℤ_p}} φ_p(f) df + o(X^{5/6})`, and the Euler product converges.
 
+`Counting.quartic_acceptable_sieve` states the weighted infinite sieve. `Counting.AcceptableBinaryWeight` expresses the local range, substitution invariance, constancy off a closed null set and eventual good-discriminant condition on the native coefficient lattices.
+
 Acceptability: `φ_p = 1` on `{p^2 ∤ Δ}` for all large `p GL_2(ℤ)`-invariance of the `φ_p` makes `N_φ` an orbit count; the source uses it implicitly ('with notation as in Theorem 2.12')
 
 For the proof, For `n≥1`, define `psi_{p,n}` and `psiPrime_{p,n}` as the infimum and supremum of `phi_p` on each residue cylinder modulo `p^n`. These are actual pointwise lower and upper bounds, including on the exceptional null set, and they converge to `phi_p` at every point where `phi_p` is locally constant. They inherit `GL2(Z)`-invariance because that action permutes the cylinders. Bounded convergence gives convergence of their integrals. Do not assert a lower bound `psi_{p,0}=1≤phi_p`. For sufficiently large `p` and `n≥2`, a residue cylinder not meeting `{p²|Δ}` lies entirely in the region `phi_p=1`, so both approximants equal one there. Level `n=1` is insufficient for a condition modulo `p²`. In particular acceptability and the local `O(p^{-2})` density bound imply convergence of `product_p integral(phi_p)`. Fix `M` above the acceptability threshold. For the finitely many primes `p≤M`, take cylinder approximants of level `n` and use the weighted finite-congruence count. The global product `phi` is at most the product of the upper approximants. The product of the lower approximants is at most `phi` outside the tail `union_{p>M} W_p`, so subtract that tail count for the lower bound. First take `limsup` or `liminf` as `X→∞`, next `n→∞` with `M` fixed. This gives upper and lower bounds involving the finite product of the actual local masses and an error bounded by the uniform tail `delta(M)`. Finally let `M→∞`: the finite products converge and `delta(M)→0`. This order of limits avoids the false assertion that level `floor(Y/p)` always resolves a `p²` condition. The unweighted leading constant exists by count-of-binary-quartic-forms-of-bounded-height. The stabilizer correction is negligible since the weights lie in `[0,1]`.
@@ -1001,7 +1003,7 @@ For the proof, As in part (c) of [real orbits and stabilizers of binary cubic fo
 
 - An irreducible integral binary cubic form with `Disc<0` has trivial stabilizer in `GL₂(Z)`; `x³−2y³`, with discriminant `−108`, is an example.
 
-- The reducible form `x³+xy²` has discriminant `−4` and stabilizer `{1,diag(−1,1)}` for the twisted action, so the negative-discriminant assertion needs irreducibility. Suggested.lean mirrors its discriminant and the determinant-twisted substitution fixing it.
+- The reducible form `x³+xy²` has discriminant `−4` and stabilizer `{1,diag(−1,1)}` for the twisted action, so the negative-discriminant assertion needs irreducibility.
 
 <a id="reducible-binary-cubic-forms-in-the-main-body"></a>
 
@@ -1145,6 +1147,8 @@ For the proof, Under the twisted action, `n(u)` with `|u| ≤ 1/2` adds to each 
 
 **Davenport count of binary cubic forms.** (a) `N(U_ℤ^(0); X) = (π^2/72)X + O(X^{5/6})` and `N(U_ℤ^(1); X) = (π^2/24)X + O(X^{5/6})`, where `N(U_ℤ^(i); X)` is the number of `GL_2(ℤ)`-classes of irreducible integral binary cubic forms `f` with `0 < (−1)^i Disc(f) < X`. (b) For every `v ∈ U_ℝ^(i), Vol(R_X(v)) = π^2X/12`, where `R_X(v) = {w ∈ F·v : |Disc(w)| < X}` is the multiset over the strict Gauss domain; so `Vol(R_X(v))/n_i = π^2X/(12n_i)`. (c) Cusp tail: there is `c = c(C)` such that for every `S ⊆ U_ℤ^(i), T ≥ 3^{1/4}/√2` and `X ≥ 1, (1/(2M_i)) ∫_{t > T} #{x ∈ S^irr ∩ B(n, t, λ, X)} t^{−2} du d^×t d^×λ ≤ c·X/T^2 + O(X^{5/6})`.
 
+`Counting.cubic_count` states the unweighted class asymptotics for both discriminant signs, with the determinant-twisted integral substitution quotient.
+
 Classes under `GL_2(ℤ)` with the twisted action; the classes with stabiliser `C_3` are counted with weight 1 (their number is `O(X^{3/4+ε})`) Davenport's original error was `O(X^{15/16})` When concluding that `O(X^{3/4+epsilon})` is lower order than `X^{5/6}`, choose `0<epsilon<1/12`; the bound itself is stated for every positive `epsilon`.
 
 For the proof, By [averaging formula for binary cubic forms](#averaging-formula-for-binary-cubic-forms) with `S = U_ℤ^(i)`, the integrand vanishes unless `t^3 ≤ Cλ` and `λ ≤ X^{1/4}` ([binary cubic lattice points in the cusp](#binary-cubic-lattice-points-in-the-cusp); `B` has `|Disc| ≥ 1` and points with `a = 0` are reducible). Irreducible points `=` points with `a ≠ 0` minus reducible ones: `O(X^{3/4+ε})` by [reducible binary cubic forms in the main body](#reducible-binary-cubic-forms-in-the-main-body); the `C_3`-classes change the count by `O(X^{3/4+ε})` ([binary cubic forms with cyclic stabilizer](#binary-cubic-forms-with-cyclic-stabilizer)). The error `O(max(C^3t^3λ^3, 1))` integrates over `t^3 ≤ Cλ, λ ≤ X^{1/4}` to `O(X^{5/6})`; the part of the main term with `t^3 > Cλ` is `O(X^{5/6})` since `Vol(B(n, t, λ, X)) ≪ λ^4`. Main term: `∫ Vol(B(n, t, λ, X))` over all of `N′A′Λ` is `2∫_F Vol(gB ∩ {|Disc| < X}) dg`; writing `Vol(gB ∩ …) = ∫_{w ∈ B} 1[|Disc(gw)| < X]·|Disc(gw)|/|Disc(w)| dw` and applying [invariant measure on binary cubic forms](#invariant-measure-on-binary-cubic-forms) gives `(1/4π) Vol(R_X(v)) ∫_B |Disc|^{−1}`, so the main term is `Vol(R_X(v))/n_i` (`Vol(R_X(w))` does not depend on `w ∈ U_ℝ^(i)`, as `F·w` is `n_i` fundamental domains). (b) For `|Disc(v)| = 1, Vol(R_X(v)) = ∫_{g ∈ F} 1[λ^4 < X]·4π|Disc(g·v)| dg = 4π ∫_0^{X^{1/4}} λ^4 d^×λ · ∫_{N′A′K_+} t^{−2} du d^×t dk = 4π·(X/4)·(π/12) = π^2X/12` by [covolume of pgl2 z](#covolume-of-pgl2-z) (b); for general `v` rescale by `λ·1`. (a) follows with `n_0 = 6`, `n_1 = 2`. (c) `Vol(B(n, t, λ, X)) ≪ λ^4, ∫_{t > T} t^{−2} d^×t ≤ T^{−2}/2` and `∫^{X^{1/4}} λ^4 d^×λ = X/4`; the error terms integrate to `O(X^{5/6})`.
@@ -1239,6 +1243,8 @@ For the proof, Decomposition for `p ≥ 3`: if `f ∈ W_p(U)` and `f mod p ∉ Y
 
 **Sieve to acceptable functions for binary cubic forms.** Let `φ` : `U_ℤ → [0, 1]` be acceptable for `Disc` and defined by congruence conditions via `GL_2(ℤ)`-invariant local functions `φ_p` : `U_{ℤ_p} → [0, 1]` ([ArithmeticStatisticsPartI, acceptable weight function][AS-I-2]). For `i ∈ {0, 1}` let `N_φ(U_ℤ^(i); X)` be the number of irreducible `GL_2(ℤ)`-classes in `U_ℤ^(i)` with `|Disc| < X`, each class counted with weight `φ`. Then `N_φ(U_ℤ^(i); X) = (π^2/(12n_i))·∏_p ∫_{U_{ℤ_p}} φ_p(f) df · X + o(X)`, and the Euler product converges. In particular, for an acceptable set `S = ⋂_p S_p, lim_{X→∞} N(S ∩ U_ℤ^(i); X)/X = (π^2/(12n_i))∏_p μ_p(S_p)`.
 
+`Counting.cubic_acceptable_sieve` states this asymptotic with the actual local Haar integrals and the global product weight on cubic classes.
+
 Acceptability: `φ_p = 1` on `{p^2 ∤ Disc}` for large `p` The cubic-ring translation (maximality, splitting types, local masses `Σ 1/(Disc_p(R)|Aut(R)|)`) belongs to Layer 3 and Layer 1
 
 For the proof, Approximate `φ_p` from above and below by functions defined modulo `p^n`, as in [squarefree sieve for binary quartic forms](#squarefree-sieve-for-binary-quartic-forms); convergence of the Euler product from `1 − ∫φ_p ≤ μ_p{p^2 | Disc} ≤ Cp^{−2}` ([local density of values divisible by p squared](#local-density-of-values-divisible-by-p-squared), `Disc` being primitive and coprime to `∂Disc/∂d` by [discriminant loci of codimension two](#discriminant-loci-of-codimension-two)). Upper bound: a weight defined modulo finitely many prime powers is a finite linear combination of indicators of translates of `mU_ℤ`; [binary cubic counts with congruence conditions](#binary-cubic-counts-with-congruence-conditions) gives its limit; let the truncation grow. Lower bound: fix `M` above the acceptability threshold and approximate each of the finitely many factors `p≤M` by its actual infimum on residue cylinders modulo `p^n`, with `n≥2`. The finite approximation has the required lattice-count limit as `X→∞`. Its difference from the full weight has two contributions: the finite-prime approximation error, whose integral tends to zero as `n→∞`, and the tail union over `p>M`, bounded by the uniformity estimate. Take `X→∞`, then `n→∞` at fixed `M`, then `M→∞`. The finite approximation error is not supported only on the tail union.
@@ -1287,7 +1293,7 @@ Prove the local estimates by enumerating multiplicatively closed index lattices 
 
 - At `k=1` the unique suborder is `O_L`.
 - For `O_L=Z⁴` there are six index-`p` suborders, one for each pair of equal residue coordinates, and exactly `6^omega(k)` index-`k` suborders for squarefree `k`. The global `k^epsilon` loss absorbs these factors; a constant bound at all squarefree indices would fail.
-- For every prime `p` and `[a:b]∈P¹(F_p)`, the subring `R_[a:b]={(x,y,z,w)∈Z⁴: x≡y≡z mod p, a(x−z)+b(y−z)≡0 mod p²}` has index `p³`. The last condition is independent of the integer lifts of `a,b`. These are `p+1` distinct suborders, so `s_(Q⁴)(p³)≥p+1`; they contribute at least `(p+1)/p⁶` to the weighted local series. `Counting.split_quartic_suborder` states the subring/index assertion; `Counting.split_quartic_suborders_lower_bound` states finiteness and the lower bound on the native `Subring` carrier.
+- For every prime `p` and `[a:b]∈P¹(F_p)`, the subring `R_[a:b]={(x,y,z,w)∈Z⁴: x≡y≡z mod p, a(x−z)+b(y−z)≡0 mod p²}` has index `p³`. The last condition is independent of the integer lifts of `a,b`. These are `p+1` distinct suborders, so `s_(Q⁴)(p³)≥p+1`; they contribute at least `(p+1)/p⁶` to the weighted local series.
 - For `L=Q⁴`, the order `Z+pO_L` has index `p³` and content `p`, hence `p+1` resolvent structures over the fixed order. Its content-series weight is `(p+1)/p⁶`, even when the primitive index `j=1`; the suborder count alone does not count pair orbits.
 
 <a id="quartic-class-group-and-conductor-inputs"></a>
@@ -1506,15 +1512,7 @@ For the proof, Replace squarefree-index nonmaximal conditions by simple-root/dou
 
 **Square divisor tail.** Given an integer-valued invariant `Delta` and real height `H` on a type `A, T(Delta,H;M,X)` consists of a with `H(a)<X, Delta(a)` nonzero, and an integer `m>M, m>=1`, squarefree, with `m^2` dividing `Delta(a)`. The multiplicity `w_M(a)` counts these `m` by filtering the natural divisors of `|Delta(a)|`. At `Delta=0` define `w_M=0`. This finite multiplicity is the one used in summed tails; a union-tail bound alone does not bound it.
 
-The required API is:
-
-- `Counting.squareDivisorTail`: Membership is exactly `H(a)<X, Delta(a)` nonzero, and existence of the indicated squarefree positive square divisor.
-
-- `Counting.squareDivisorMultiplicity`: Return the finite filtered positive-divisor cardinal, with the deliberate value 0 at `Delta=0`.
-
-- `Counting.tail_iff_multiplicity_pos`: For `H(a)<X` and `Delta(a)` nonzero, membership is equivalent to `0<w_M(a)`, whose natural cardinal equals the finite filtered-divisor count.
-
-- `Counting.tail_antitone`: If `M<=`Mprime, `T`(Mprime,`X`) is contained in `T(M,X)` and `w_Mprime(a)<=w_M(a)`.
+The tail has exactly the stated membership condition. On the nonsingular height box, membership is equivalent to positivity of `Counting.squareDivisorMultiplicity`. Both the tail set and its multiplicity decrease with the modulus cutoff. The multiplicity is the finite filtered-divisor count, with value zero at zero discriminant.
 
 For the proof, Use the finite positive divisor set of the nonzero invariant. Restrict its squarefree members by `m>M` and `m^2` divisibility. The zero convention agrees with removal of the singular locus, not with the infinitely many actual square divisors of 0.
 
@@ -1534,15 +1532,7 @@ For the proof, Use the finite positive divisor set of the nonzero invariant. Res
 
 **Weighted kappa acceptability.** Extend ArithmeticStatisticsPartI’s **Kappa acceptable specifications** with factors valued in `[0,1]`. For coordinate rank `r`, invariant `Delta:Z^r→Z` and `kappa≥0`, each factor must descend modulo `p^kappa`, and one threshold `P` must give `phi_p(a)=1` whenever `p>P` and `p²∤Delta(a)`. This adds weights and the cases `kappa=0,1` to the existing specification interface. Infinite products and real signatures use the congruence-function interface. For monic degree-`n` coefficients and `kappa≥2`, indicator factors are acceptable exactly when their residue subsets satisfy Part I’s predicate; the intersection of their one-loci is exactly `ArithmeticStatisticsPartI.localSpecificationFamily`.
 
-The required API is:
-
-- `Counting.IsKappaAcceptable`: The predicate is the conjunction of residue dependence, range `[0,1]`, and eventual good-discriminant factor 1.
-
-- `Counting.kappa_good_prime`: An acceptable family has a threshold `P` with `phi_p(a)=1` for every prime `p>P` with `p^2` not dividing `Delta(a)`.
-
-- `Counting.kappa_finite_product_residue`: For a finite set of distinct primes, the product factors through the coefficient residue modulo their product to the `kappa` power. This is compatible with the finite congruence function.
-
-- The indicator comparison at `kappa≥2` identifies both the acceptability predicate and the family with ArithmeticStatisticsPartI’s **Kappa acceptable specifications** and `localSpecificationFamily`.
+The weight predicate records residue dependence, range `[0,1]`, and one eventual good-discriminant threshold. Its basic theory exposes that threshold and proves that a finite product over distinct primes factors through the coefficient residue modulo their product to the `kappa` power. At `kappa≥2`, indicator factors recover both ArithmeticStatisticsPartI’s acceptability predicate and its `localSpecificationFamily`.
 
 For the proof, Compare coordinates modulo `p^kappa`. Keep a single threshold valid for every coefficient vector. The modulus dependence is what controls the total small-modulus error.
 
@@ -1693,7 +1683,7 @@ For the proof, Lift weak forms to marked distinguished slices with preserved inv
 
 **Monic summed tail.** For every `n>=2` and `epsilon>0`, the sum over squarefree `m>M` of `# {monic weighted-box f : Delta(f) nonzero, m^2 divides Delta(f)}` is `O_{n,epsilon}(X^(D+epsilon)/sqrt(M)+X^(D−1/5+epsilon))`, for `X>=2,M>=1`.
 
-`Counting.monicWeightedBox(n,X)` is the same strict coefficient box on `ℤ[X]`: monic degree `n` polynomials whose descending coefficient `a_i` satisfies `|a_i|<X^i`. `Counting.monicWeightedBox_finite` gives its finiteness. `Counting.monic_summed_tail` states the bound as the sum of `Counting.squareDivisorMultiplicity` over this box, using Mathlib’s `Polynomial.discr`. For a real cutoff `M≥1`, the natural cutoff is `floor(M)`; these select exactly the same integral moduli. Finiteness of the box and the nonzero-discriminant divisor sets makes this sum equal to the displayed sum over moduli.
+`Counting.monicWeightedBox` with parameters `n,X` is the same strict coefficient box on `ℤ[X]`: monic degree `n` polynomials whose descending coefficient `a_i` satisfies `|a_i|<X^i`. This box is finite. `Counting.monic_summed_tail` states the bound as the sum of `Counting.squareDivisorMultiplicity` over this box, using Mathlib’s `Polynomial.discr`. For a real cutoff `M≥1`, the natural cutoff is `floor(M)`; these select exactly the same integral moduli. Finiteness of the box and the nonzero-discriminant divisor sets makes this sum equal to the displayed sum over moduli.
 
 For the proof, Factor the squarefree `m` into strong and weak parts; one exceeds `sqrt(M)`. Sum nonzero-invariant divisor multiplicities with an `epsilon` loss. Use dyadic ranges and uniform strong/weak estimates, with the preceding degree-two monic weak tail when `n=2`. Nonzero `Delta` bounds `m` and makes the exchange of sums finite. The degree-two input is the preceding named target.
 
@@ -1712,6 +1702,8 @@ For the proof, Factor the squarefree `m` into strong and weak parts; one exceeds
 <a id="refinement-monic-fixed-modulus-sieve"></a>
 
 **Monic fixed modulus sieve.** Let `n>=2,kappa>=1, Sigma_p` residue conditions modulo `p^kappa` be acceptable, and `Sigma_infinity` a nonempty collection of permitted real root types. Then the count in the weighted box equals `vol(Sigma_infinity∩{H<1}) product_p vol(Sigma_p) X^D + O_{n,Sigma,kappa,epsilon}(X^(D−min(1/5,1/(2kappa))+epsilon))`. Here `Sigma=(Sigma_infinity,(Sigma_p)_p)` is fixed before `X` tends to `infinity`; the implied constant may depend on its exceptional primes and residue conditions. The infinite product and singular-locus removal are included in the assertion.
+
+`Counting.monic_fixed_modulus_sieve` states this estimate with the residue specifications themselves, the permitted real root counts and the convergent product of finite residue probabilities.
 
 For the proof, Use Mobius truncation only on `Delta` nonzero and CRT for the small squarefree moduli. Bound `Delta=0` by `O(X^(D−1))`. For fixed `Sigma` the excluded residue density satisfies `theta_bar(m)≪_{Sigma,epsilon}m^(−2+epsilon)` on squarefree `m`, after absorbing its finitely many exceptional primes. Truncate at `Y=X^(1/kappa)`. The congruence remainder is `X^(D−1)` times the sum of `theta_bar(m)m^kappa` for `m≤Y`, hence `O_{Sigma,kappa,epsilon}(X^(D−1/kappa+epsilon))`, with the logarithm absorbed when `kappa=1`. The Euler-product remainder is `O_{Sigma,epsilon}(X^D/Y^(1−epsilon))`; combine both with the summed tail at `Y`. The displayed source middle exponent `D−n` is not used.
 
@@ -1826,7 +1818,7 @@ Here `theta_n=min(1/(4n),(n−2)/(2n²+2n+2))`. The hypothesis includes coverage
 
 <a id="even-tail-parameters"></a>
 
-**Even-tail parameters.** The light real function `Counting.sieveCutoff(δ,η,ξ)` is `max(η,(η+ξ)/δ)`, with total field division at `δ=0`. The predicate `Counting.EvenTailParameters(n,δ,η,ξ)` requires `n≥4, n` even, `δ>0, η>0, ξ≥0` and both strict inequalities `τ<1` and `(2n+1)τ<n+1` for this cutoff `τ`. Its API exposes each conjunct and the positive slack
+**Even-tail parameters.** The real cutoff `τ=max(η,(η+ξ)/δ)` uses total field division at `δ=0`. The parameter conditions require `n≥4, n` even, `δ>0, η>0, ξ≥0` and both strict inequalities `τ<1` and `(2n+1)τ<n+1`. Together they give the positive slack
 
 `min(η,1−τ,n+1−(2n+1)τ)>0`.
 
@@ -1836,7 +1828,7 @@ These are parameter arithmetic, over real `δ,η,ξ` and natural `n`, rather tha
 
 - For `n=4, δ=1/2, η=1/100, ξ=0, τ=1/50` and both inequalities hold.
 - For `n=4, δ=1/2, η=9/10, ξ=0, τ=9/5` fails the first inequality.
-- For `n=4, δ=1, η=3/5, ξ=0, τ=3/5<1` but `9τ=27/5>5` fails the second inequality. The same small positive parameters in the first Check do not meet the degree conditions at `n=2` or `n=3`. At `δ=0`, Lean's total division gives `τ=η`, but the predicate still fails `δ>0`.
+- For `n=4, δ=1, η=3/5, ξ=0, τ=3/5<1` but `9τ=27/5>5` fails the second inequality. The same small positive parameters in the first Check do not meet the degree conditions at `n=2` or `n=3`. At `δ=0`, Lean's total division gives `τ=η`, but the parameter condition `δ>0` still fails.
 
 *Needs:* Mathlib ordered-field arithmetic; this predicate supplies no analytic estimate. The sieve use is the generalized truncation of [[82]](#ref-82), Theorem 7.1 pp.51–52.
 
@@ -1926,6 +1918,8 @@ For the proof, Enumerate saturated row lattices and successive-minimum ranges wh
 
 **Binary summed tail.** For odd `n>=3` and `epsilon>0`, the sum over squarefree `m>M` of the coefficient-box counts with nonzero `Delta` and `m^2` dividing `Delta` is `O_{n,epsilon}(X^(n+1+epsilon)/sqrt(M)+X^(n+1−1/(2n)+epsilon))`. For even `n>=4` the target is existence of positive `delta,eta` and `xi>=0` with `tau=max(eta,(eta+xi)/delta)<1` and `(2n+1)tau<n+1`, and a bound `O_{n,epsilon}(X^(n+1+xi+epsilon)/M^delta+X^(n+1−eta+epsilon))`. The even clause assumes the row-spanning count, the paired-fibre counting hypothesis with all three summation clauses, the restricted Gram hypothesis and a quantitative non-Sn coefficient-box exclusion; no published numerical endpoint is certified.
 
+`Counting.odd_binary_summed_tail` states the odd-degree clause. `Counting.binaryDiscriminantPolynomial` is the universal fixed-degree discriminant; specializing it by `Counting.binaryDiscriminant` retains the binary invariant when the leading coefficient vanishes.
+
 For the proof, Split a squarefree modulus into its strong and weak factors; control the total divisor multiplicity on the nonzero locus. Use a union bound by the sum of the strong-large and weak-large counts; neither count separately bounds the original union. Use the odd tail directly. In the even case balance restricted deep, shallow, small-discriminant, small-constant-term and non-Sn terms with slack. The inequalities in `tau` make the general finite-modulus sieve errors subleading. Recover the source truncation `3(eta+xi)` only with a tail exponent `delta>=1/3`.
 
 *Needs:* [square divisor tail](#refinement-square-divisor-tail), [binary strong tail](#refinement-binary-strong-tail), [odd binary weak tail](#refinement-odd-binary-weak-tail), [even binary constant term tail](#refinement-even-binary-constant-term-tail), [even binary main shallow](#refinement-even-binary-main-shallow), [even binary restricted deep tail](#refinement-even-binary-restricted-deep-tail), [coefficient sieves](#support-sieves), [even binary small discriminant](#refinement-even-binary-small-discriminant).
@@ -1953,6 +1947,8 @@ For the proof, For each fixed nonzero `Delta=N`, fix `a1` and count divisors of 
 <a id="refinement-binary-fixed-modulus-sieve"></a>
 
 **Binary fixed modulus sieve.** Let `n>=2`, impose a fixed finite initial modulus `N^2` and require `p^2` not dividing `Delta` at every prime, including `p|N`. If the normalized finite residue count is `nu_N` and the other prime good densities are `alpha_n(p)`, the nonzero-discriminant count has main coefficient `nu_N product_{p not dividing N} alpha_n(p)` times the real-box volume `X^(n+1)`. For `n>=3` a tail with parameters `delta>0,eta>0,xi>=0` yields, for `tau=max(eta,(eta+xi)/delta)`, error `O_epsilon(X^(n+1−eta+epsilon)+N^2 X^(n+tau+epsilon)+N^(2n+2) X^((2n+1)tau+epsilon))`. Require `tau<1` and `(2n+1)tau<n+1` for a subleading error at fixed `N`. If `delta>=1/3`, the larger source truncation `tau_source=3(eta+xi)` gives the displayed source exponents `n+3(eta+xi)` and `(6n+3)(eta+xi)`. Odd `n` uses `delta=1/2,eta=1/(2n),xi=0`, so the sharper `tau` is `1/n`. The even conclusion assumes the row-spanning count, paired-fibre counting hypothesis, restricted Gram hypothesis and quantitative non-Sn exclusion used in the binary summed tail; `n=2` requires the separate finite-modulus truncation.
+
+`Counting.binary_fixed_modulus_sieve` states the implication from the explicit summed-tail inequality, with its cutoff conditions and all three error terms. Its initial residue density includes the squarefree restrictions at primes dividing `N`.
 
 For the proof, Build the initial residue set so it already contains the squarefree restrictions at `p|N`, then use Mobius sums only for `m` coprime to `N`. Compare finite-modulus lattice errors and nonzero summed tails. Products and main coefficients are Layer 0 local-data inputs; Appendix local-density formulas are not reproved here. For truncation `M=X^tau` retain the Euler-product remainder `X^(n+1)/M` and the tail `X^(n+1+xi)/M^delta`. The chosen `tau` makes both `O(X^(n+1−eta))`; an arbitrary positive `delta` does not justify the source exponent `3(eta+xi)`.
 
@@ -2128,15 +2124,7 @@ For the proof, Approximate the finite local factors by residue step functions. A
 
 **Section kernel.** For a group action `G` on `U`, maps `inv:U→I` and `kappa:I→U`, and real functions `Theta` on `G` and `phi` on `I`, define `K(u)` by the native real sum over all `g`, with summand `Theta(g)phi(inv(u))` when `g kappa(inv(u))=u` and 0 otherwise. Any formula replacing this totalized sum by an ordinary transporter sum requires a finite fibre or a summability hypothesis. In the source application `inv` is invariant, `kappa` is a smooth section over a regular invariant region, the real stabilizers are finite, and `Theta,phi` are smooth compactly supported; on the represented real component each transporter fibre has the full stabilizer multiplicity.
 
-The required API is:
-
-- `Counting.sectionKernel`: The transporter sum defines the kernel for the supplied action, `inv`, section and functions.
-
-- `Counting.sectionKernel_zero`: If `phi` is `identically0` then the kernel is 0, without a transporter hypothesis.
-
-- `Counting.sectionKernel_unique`: If exactly one `g` carries `kappa(inv(u))` to `u`, then `K(u)=Theta(g)phi(inv(u))`; this agrees with a one-term finite sum.
-
-- `Counting.sectionKernel_finite_fibre`: If the transporter set `{g:g kappa(inv(u))=u}` is finite, `K(u)` is its finite sum of `Theta(g)phi(inv(u))`, with every stabilizer element counted once.
+The transporter sum retains every stabilizer element. Its basic theory gives zero when `phi` is identically zero, gives `Theta(g)phi(inv(u))` when the transporter consists of exactly one element `g`, and identifies it with the finite transporter sum whenever that fibre is finite.
 
 For the proof, Use the native action and equality of vectors in the transporter fibre; attach `inv` and section rather than replacing them by an arbitrary weight. For a genuine invariant section the summand restricts to a coset of the stabilizer. Finite stabilizers and compact support justify finite summation. Use invariant differential-form integration with the specified Haar normalization.
 
@@ -2207,6 +2195,8 @@ For the proof, use the general-abelian dictionary and uniform local integrality 
 `#H_smooth(F_q) ≥ q^(n−1)−C(n,d)(q^(n−3/2)+q^(n−2))`.
 Consequently `q>Q(n,d)` guarantees a smooth rational point, uniformly in the defining coefficients and characteristic. This uniform-in-the-model statement is stronger than the fixed-model estimate imported from InverseGaloisAndArithmeticFundamentalGroups §IG.2.
 
+`Counting.degree_uniform_hypersurface_smooth_points` states the bound for homogeneous polynomials irreducible over the algebraic closure, counting their smooth points on Mathlib’s projectivization.
+
 Prove degree-uniform Lang–Weil by induction on dimension: the curve case uses the genus bound and the curve Weil estimate; average hyperplane sections and bound their bad locus by equations of bounded degree. For the smooth-locus version, at least one partial derivative is nonzero for an absolutely irreducible polynomial over the perfect field `F_q`. Intersect with that derivative, obtaining dimension at most `n−2` and degree at most `d(d−1)`, and subtract its `O_(n,d)(q^(n−2))` points. Sources: [Lang–Weil, *Number of points of varieties in finite fields*](https://doi.org/10.2307/2372655), Theorem 1 and Lemmas 1–2, pp.819–823; [[83]](#ref-83), proof of Theorem 3.6 p.3, for this smooth-point consequence. *Needs:* DeligneWeightsAndPurity §1.6 (curve point bound); the [plane-curve normalization bounds](#plane-curve-normalization-bounds); AlgebraicCurves Layers 2,12 (normalization and scheme comparison); SchemeAndStackFoundations Layers 0–3,5 (projective intersections, dimension, degree and hyperplane families); [uniform subscheme point bound](#uniform-bound-for-points-of-a-subscheme-modulo-p). The hyperplane bad-locus degree bound is part of the local induction, not an assumption of smoothness of `H`.
 
 **Checks.**
@@ -2250,6 +2240,8 @@ For the proof, Use Mobius inversion for the common coefficient `gcd`, CRT and bo
 <a id="refinement-hypersurface-local-density"></a>
 
 **Hypersurface local density.** For `d>=2,n>=d,(n,d)!=(2,2)`, the ratio of locally soluble projective hypersurfaces with primitive Euclidean coefficient height`<=A` has limit `c_infinity,ball` `product_p c_p>0`. The unit-ball real factor and normalized `p`-adic factors are those of the finite count; the product is not silently assigned PV’s coefficient-cube real factor. This asserts local solubility only; the global Hasse-principle comparison is owned by Layer 5.
+
+`Counting.hypersurface_local_density` states convergence to the positive product, using the primitive integral coefficient quotient by sign, the Euclidean unit-ball real factor and normalized local Haar probabilities.
 
 For the proof, For each finite place set use the primitive ball count. The uniform tail controls the difference, so take A first and `M` second. Local smooth soluble examples give each factor positivity and the real factor positivity; uniform codimension-two finite-field counting yields `1−c_p=O(p^-2)`, hence positive product. Explicit boundary-null and chart adapters are `G`-local.
 
@@ -2408,7 +2400,7 @@ For the invariant `Δ(a)=a`, one residue out of `p²` is divisible by `p²`. For
 
 For quartic invariant height, the positive and negative real regions have respective areas `8/5` and `32/5` at height one. Combining them as equal sign masses loses a factor four. The ordered `PGL2` tangent basis `(E11,E12,E21)` gives the orbit-Jacobian determinant `-1/27`; the measure uses its absolute value. At `p=3` that factor is 27, whereas it is one at every other prime. A coupled CRT condition such as equal residues modulo two and three must use its actual proportion modulo six, rather than multiplying its full marginal projections.
 
-For the light tail interfaces, `Δ=36` and `M=5` has exactly one contributing squarefree square divisor, `m=6`. With `M=6` the same tail is empty and its multiplicity is zero; at `Δ=0` both are zero by the separate singular convention. Under the trivial action of the two-element permutation group, transporter weights two and section weight three give kernel twelve. Setting either weight to zero gives zero, so the stabilizer multiplicity cannot be removed. The rational-root milestone in Lean expands the exact strict weighted coefficient box and descending monic polynomial from Part `I` directly on `Fin n → ℤ`; its `n≥2` and `X≥2` hypotheses are unchanged.
+For the light tail interfaces, `Δ=36` and `M=5` has exactly one contributing squarefree square divisor, `m=6`. With `M=6` the same tail is empty and its multiplicity is zero; at `Δ=0` both are zero by the separate singular convention. Under the trivial action of the two-element permutation group, transporter weights two and section weight three give kernel twelve. Setting either weight to zero gives zero, so the stabilizer multiplicity cannot be removed. The rational-root estimate uses the strict weighted coefficient box and descending monic polynomial from Part `I`, with `n≥2` and `X≥2`.
 
 ### Dependencies
 
