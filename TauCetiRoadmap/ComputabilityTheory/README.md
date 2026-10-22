@@ -75,15 +75,15 @@ semantic definitions and proofs; it is not an implementation of a stage search.
    uniform computable translations to Mathlib's ordinary code numbering and to
    any adopted single-oracle API. Numeric equality of different numberings is
    not a mathematical target.
-3. $W_e=\operatorname{dom}\varphi_e$ and
-   $W_e^Z=\operatorname{dom}\Phi_e^Z$.
-   $K^Z=\{e:\Phi_e^Z(e)\downarrow\}=Z'$ and
-   $K_0^Z=\{\langle x,e\rangle:x\in W_e^Z\}$.
+3. $W_e=\mathop{\mathrm{dom}}\varphi_e$ and
+   $W_e^Z=\mathop{\mathrm{dom}}\Phi_e^Z$.
+   $K^Z=\lbrace e:\Phi_e^Z(e)\downarrow\rbrace=Z'$ and
+   $K_0^Z=\lbrace\langle x,e\rangle:x\in W_e^Z\rbrace$.
    The order of the two coordinates in $K_0^Z$ is deliberate.
 4. Use Mathlib's pairing machinery. Soare's columns become
-   $\omega^{[e]}=\{\langle x,e\rangle:x\in\mathbb N\}$.
+   $\omega^{[e]}=\lbrace\langle x,e\rangle:x\in\mathbb N\rbrace$.
    The binary join is the parity join
-   $A\oplus B=\{2x:x\in A\}\cup\{2x+1:x\in B\}$.
+   $A\oplus B=\lbrace2x:x\in A\rbrace\cup\lbrace2x+1:x\in B\rbrace$.
 5. $A_s$ is the finite content **at the end of stage $s$**. Thus
    $\Delta A_s=A_{s+1}\setminus A_s$ consists of entries made at stage $s+1$.
    A restraint read when selecting those entries is $r(e,s)$, not $r(e,s+1)$.
@@ -114,14 +114,14 @@ Soare sometimes writes $-1$ for an inactive restraint. Represent inactivity by
 encoding of the distinction, not a change of the protected interval:
 
 * `none` protects no number;
-* `some r` protects $\{x:x\le r\}$;
+* `some r` protects $\lbrace x:x\le r\rbrace$;
 * `some 0` therefore protects $0$, and is not the same state as `none`.
 
 The public **injury set** is Soare's set of **numbers**, with the inclusive
 inequality of [S, VII.1, p.112; VII.3, p.123]:
 
 $$
- I_e=\{x:\exists s\ (x\in A_{s+1}\setminus A_s\ \land\ x\le r(e,s))\}.
+ I_e=\lbrace x:\exists s\ (x\in A_{s+1}\setminus A_s\ \land\ x\le r(e,s))\rbrace.
 $$
 
 For an inactive restraint the last condition is false. The separate
@@ -149,7 +149,7 @@ Mathlib branch.
 
 | Existing foundation | Reused interface | New work above it |
 | --- | --- | --- |
-| `Mathlib.Computability.Partrec` and `PartrecCode` | Ordinary computation, codes, `Code.eval`, bounded evaluation, $s$-$m$-$n$, fixed points | Certified oracle code layer, finite-use traces, translations, relative forms |
+| `Mathlib.Computability.Partrec` and `PartrecCode` | Ordinary computation, codes, `Code.eval`, bounded evaluation, $s\text{-}m\text{-}n$, fixed points | Certified oracle code layer, finite-use traces, translations, relative forms |
 | `Mathlib.Computability.RE` | `ComputablePred`, `REPred`, closure, computable iff c.e. and co-c.e. | Uniform enumeration and stage APIs; relative counterparts and their bridges |
 | `Mathlib.Computability.Halting` | Halting undecidability and Rice's theorem | Relative statements, completeness and index-set applications |
 | `Mathlib.Computability.Reduce` | Many-one/one-one reducibility and existing degree theory | Their interfaces with oracle reduction and canonical examples |
@@ -306,7 +306,7 @@ its serialization; two enumerations of the same set with different entry times.
 
 **Source:** [S, I.3; II.2–3; III.1–2].
 
-Reuse Mathlib's ordinary enumeration, $s$-$m$-$n$ and recursion theorems.
+Reuse Mathlib's ordinary enumeration, $s\text{-}m\text{-}n$ and recursion theorems.
 Build an injective padding compiler and its semantic preservation theorem on
 the adopted code syntax. Establish the oracle-relative forms, including parameterized
 self-reference and the fact that the compiler is computable independently of the
@@ -399,7 +399,7 @@ procedure for its c.e. closure; `TOT` versus a single halting query.
 
 Define pointwise eventual agreement for a sequence of total functions and a
 modulus $m$ by
-$\forall x\,\forall s\ge m(x)\ f_s(x)=f(x)$.
+$\forall x\ \forall s\ge m(x)\ f_s(x)=f(x)$.
 Prove finite-coordinate aggregation, shifts, effective reindexing, and the
 computability of a limit from a uniformly computable sequence and a computable
 modulus. State the exact relativized hypotheses for each version.
@@ -462,11 +462,11 @@ succeeds.
 For any finite-stage sequence $A_s$ and restraint data $r(e,s)$, define:
 
 * the finite injury batch
-  $J(e,s)=\{x\in\Delta A_s:r(e,s)=\operatorname{some}(b),\ x\le b\}$;
-* the event relation $\operatorname{InjuresAt}(e,s,x)$ iff $x\in J(e,s)$,
+  $J(e,s)=\lbrace x\in\Delta A_s:r(e,s)=\mathrm{some}(b),\ x\le b\rbrace$;
+* the event relation $\mathrm{InjuresAt}(e,s,x)$ iff $x\in J(e,s)$,
   describing injury **at stage $s+1$**;
 * the number set $I_e=\bigcup_s J(e,s)$ and the injury-stage set
-  $S_e=\{s+1:J(e,s)\ne\varnothing\}$.
+  $S_e=\lbrace s+1:J(e,s)\ne\varnothing\rbrace$.
 
 Give membership equations, extensionality under equality of stage and restraint
 data, finite-horizon unions, inclusion of each batch in $I_e$, and the projections
@@ -480,7 +480,7 @@ for each $e$, prove:
 
 $$
  I_e\text{ finite}\ \Longleftrightarrow\ S_e\text{ finite}
- \ \Longleftrightarrow\ \exists s_0\,\forall s\ge s_0\ J(e,s)=\varnothing.
+ \ \Longleftrightarrow\ \exists s_0\ \forall s\ge s_0\ J(e,s)=\varnothing.
 $$
 
 This equivalence is not assumed by the definitions. When the sets are finite,
@@ -493,7 +493,7 @@ A computation's use is exclusive and a restraint's protected interval is
 inclusive, so a restraint equal to the use protects one more number than the
 computation reads. The weaker condition that no entry falls strictly below the
 restraint is the **use-prefix breach** batch
-$J^<(e,s)=\{x\in\Delta A_s:r(e,s)=\operatorname{some}(b),\ x<b\}$, with number
+$J^<(e,s)=\lbrace x\in\Delta A_s:r(e,s)=\mathrm{some}(b),\ x<b\rbrace$, with number
 set $I^<_e$ and the same stage and event projections. It is a separate object,
 not a variant definition of $I_e$. Prove $J(e,s)=J^<(e,s)\cup J^=(e,s)$, where
 the boundary batch $J^=(e,s)$ consists of the fresh entries equal to the active
@@ -576,11 +576,11 @@ Prove, as concrete mathematical examples:
 10. An event in one oracle cannot discharge the matching event claim for another.
 11. Boundary-only injuries with a growing restraint can be infinite even when the
     use-prefix breach set is empty: take $A_s=[0,s)$ and
-    $r(e,s)=\operatorname{some}(s)$. Finitely many use-prefix breaches do not give
+    $r(e,s)=\mathrm{some}(s)$. Finitely many use-prefix breaches do not give
     finite injury without control of the restraint.
 12. A uniformly c.e. family of finite injury-number sets need not be uniformly
     computable: use a computable enumeration of $K$ and constant restraint
-    $r(e,s)=\operatorname{some}(e)$ to obtain $I_e=K\cap[0,e]$. The diagonal
+    $r(e,s)=\mathrm{some}(e)$ to obtain $I_e=K\cap[0,e]$. The diagonal
     membership query would decide $K$.
 
 ## L7. Low simple sets
@@ -655,7 +655,7 @@ length of agreement $\ell(e,s)$ to be the first argument where bounded evaluatio
 is absent or differs from $C_s$. Soare's stage bound ensures such an argument
 exists (at latest $s$). Define
 
-$$ r(e,s)=\max\{u(A_s;e,x,s):x\le\ell(e,s)\}. $$
+$$ r(e,s)=\max\lbrace u(A_s;e,x,s):x\le\ell(e,s)\rbrace. $$
 
 The upper index is **inclusive**. Preserve any convergent computation at the
 first disagreement as well as the computations at smaller arguments. Define the
@@ -691,7 +691,7 @@ computations of $\Phi_e^{A_i}$ against $C$. Order the pairs by $2e+i$. Put a
 fresh element $x$ on the side opposite the highest-priority pair with
 $x\le r^i(e,s)$, and on side zero if there is no such pair [S, VII.3, p.125].
 The routing test is the inclusive inequality of the injury set. The transition
-routes each fresh element separately against the stage-$s$ restraints, so it
+routes each fresh element separately against the stage $s$ restraints, so it
 also applies to batched enumerations.
 
 The search for the highest-priority threatened pair is finite. At stage $s$ no
