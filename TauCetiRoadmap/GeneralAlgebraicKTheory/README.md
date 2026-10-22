@@ -78,27 +78,19 @@ Layer 1 supplies homotopy tools for Q-theory (Layer 2) and the ring/plus compari
 
 ### 1.1 Homotopies from functors
 
-Use StableHomotopyKTheory §§1.1, 1.7–1.16: `classifyingSpace C` and `classifyingSpaceMap F` are aliases for the same Mathlib realized nerve and nerve map, retaining their vertices. The natural-transformation, equivalence, contraction, product, opposite and filtered-continuity names below are supplied aliases on these carriers. Compare products through the realized projections in the compactly generated topology, and opposites by reversing both arrow strings and simplex coordinates. The additional local target is `classifyingSpace_finitePosetDetection`: for nonempty C, if every functor from a finite poset into C realizes to a nullhomotopic map, BC is contractible, by finite sphere triangulations, face-poset subdivision and CW Whitehead. Here a nullhomotopy includes its constant value; it is not merely vanishing of positive homotopy groups.
+Use StableHomotopyKTheory §§1.1, 1.7–1.16: `classifyingSpace C` and `classifyingSpaceMap F` are aliases for the same Mathlib realized nerve and nerve map, retaining their vertices. The natural-transformation, equivalence, contraction, product, opposite and filtered-continuity comparisons are supplied on these carriers. Compare products through the realized projections in the compactly generated topology, and opposites by reversing both arrow strings and simplex coordinates. The additional local target is the finite-poset contractibility criterion: for nonempty C, if every functor from a finite poset into C realizes to a nullhomotopic map, BC is contractible, by finite sphere triangulations, face-poset subdivision and CW Whitehead. Here a nullhomotopy includes its constant value; it is not merely vanishing of positive homotopy groups.
 
 (Weibel IV, §3.1–3.3, pp.IV.24–27;§6.4, pp.IV.55–56;Schlichting 2003, Appendix A.10, p.26.)
 
-Use:
-
-- `classifyingSpace_natTrans`: cylinder homotopy has endpoints BF and BG.
-- `classifyingSpace_equivalence`: An equivalence realizes to a homotopy equivalence.
-- `classifyingSpace_filtered`: Nonempty filtered categories have contractible realization.
-- `classifyingSpace_product`: the realized projections identify a finite product realization with the compactly generated product by a homeomorphism, hence a homotopy equivalence.
-- `classifyingSpace_op`: reversing simplices gives a homeomorphism with the opposite-category realization.
-- `classifyingSpaceMap_id`, `classifyingSpaceMap_comp`: realization preserves identity and composition.
-- `classifyingSpace_filteredColimit_pi`: filtered diagrams of small categories give the corresponding filtered-colimit comparison on based homotopy groups, with compatible basepoints.
+Prove the natural-transformation cylinder homotopy has endpoints BF and BG, and that an equivalence realizes to a homotopy equivalence. Nonempty filtered categories have contractible realization. The realized projections identify a finite product realization with the compactly generated product by a homeomorphism. Reversing simplices gives a homeomorphism with the opposite-category realization. Realization preserves identity and composition. Filtered diagrams of small categories give the filtered-colimit comparison on based homotopy groups, with compatible basepoints.
 
 **Checks.**
 
-- `classifyingSpace_point`: the discrete category on one object realizes to a contractible space.
-- `classifyingSpace_discreteTwo_not_contractible`: the discrete category on two objects has two components and is not contractible.
-- `classifyingSpace_empty_not_contractible`: the empty category realizes to the empty space, which is not contractible; the nonempty hypothesis cannot be discarded from the finite-poset criterion by interpreting nullhomotopy as a statement only about positive homotopy groups.
-- `classifyingSpace_initialEndpoint` and `classifyingSpace_terminalEndpoint`: for `[1]`, either endpoint inclusion is a homotopy equivalence; a category with a zero object is therefore contractible even if it has many morphisms.
-- Realizing an identity functor gives the identity continuous map, and realizing a composite gives the composite continuous map; Suggested.lean states these map laws and both endpoint inclusions as named theorem targets.
+- The discrete category on one object realizes to a contractible space.
+- The discrete category on two objects has two components and is not contractible.
+- The empty category realizes to the empty space, which is not contractible; the nonempty hypothesis cannot be discarded from the finite-poset criterion by interpreting nullhomotopy as a statement only about positive homotopy groups.
+- For `[1]`, either endpoint inclusion is a homotopy equivalence; a category with a zero object is therefore contractible even if it has many morphisms.
+- Realizing an identity functor gives the identity continuous map, and realizing a composite gives the composite continuous map.
 
 *Needs:* StableHomotopyKTheory §§1.1, 1.7–1.16; Mathlib nerve, realization, paths and homotopy groups; the space-level suppliers in Scope and ownership.
 
@@ -149,7 +141,7 @@ Use:
 
 Use StableHomotopyKTheory §§2.31–2.35's `quillenTheoremA`, `quillenTheoremB` and their dual and prefibred forms. The names here identify these supplied criteria on §1.1's realized nerves: contractible d↓F makes BF a homotopy equivalence, and equivalences `B(d′↓F)→B(d↓F)` for all `d→d′` identify `B(d↓F)` with the fibre over d. The dual F↓d version uses the outgoing-arrow paths of the supplier. Compare the projections and specified homotopies by §1.2's path reversal and §1.1's opposite homeomorphism. For prefibred functors use the supplied strict-fibre/comma adjunction, retaining the base-change-equivalence hypothesis for Theorem B.
 
-The named targets are `QuillenA`, `QuillenB`, `QuillenA_dual`, `QuillenB_dual` with the hypotheses and conclusions above.
+The named targets are `QuillenA`, `QuillenB`, `QuillenA_dual`, `QuillenB_dual` with the hypotheses and conclusions above. Suggested.lean states `QuillenA` and `QuillenA_dual` on Mathlib’s realized nerves, retaining the realized functor as the homotopy equivalence.
 
 (Weibel IV, T 3.7 and 3.8, C 3.7.4, pp.IV.30–32;Quillen, §1, T A and B, pp.93–97.)
 
@@ -240,7 +232,7 @@ Use GeneralizedCohomology G2.4's derived smash, unit and sphere symmetry. For th
 Use:
 
 - `kTheoryPairingComparison`: comparison of K-theory level pairings with the supplied derived smash, retaining their integer-graded products and coherences.
-- `sphereInterchangeSign i j`: the arithmetic unit `(−1)^(ij)` in `ℤ×`; its zero-degree, symmetry and degree-addition formulas are the sign API used in the pairing identities.
+- The arithmetic unit `(−1)^(ij)` in `ℤ×` satisfies the zero-degree, symmetry and degree-addition formulas used in the pairing identities.
 
 **Checks.**
 
@@ -249,7 +241,7 @@ Use:
 - The transported external product `{[t],[R]}` has Laurent boundary `+[R]`; replacing t by `t⁻¹` gives `−[R]` (§9.17).
 - Exchanging two one-spheres acts by `−1` on their two-sphere smash.
 - Exchanging a one-sphere and a two-sphere acts by +1.
-- `sphereInterchangeSign (−1) 1=−1`, so the formula uses integer degrees and not truncated natural subtraction.
+- `(−1)^((−1)·1)=−1`, so the formula uses integer degrees and not truncated natural subtraction.
 - In characteristic two, the integer sign maps to `−1=1` in `𝔽₂`.
 - An odd-degree square is annihilated by 2; it is not asserted to be zero without excluding 2-torsion.
 
@@ -956,14 +948,14 @@ Use:
 - `ClassicalRelativeK0`: abelian group presented by triple sum and composition relations.
 - `ClassicalRelativeK0.difference`: map to split `K0(C),[(P,α,Q)]↦[P]−[Q]`.
 - `ClassicalRelativeK0.map`: Maps from additive commuting squares with a specified comparison isomorphism.
-- `relativeDifference a b=a−b` in any abelian group records the orientation; prove the zero, diagonal and swap formulas used by `ClassicalRelativeK0.difference`.
+- In any abelian group the orientation is `a−b`; prove its zero, diagonal and swap formulas for `ClassicalRelativeK0.difference`.
 
 **Checks.**
 
 - `[P,id,P]=0` follows from the composition relation.
 - `[P,α,Q]=−[Q,α⁻¹,P]`, so the difference map changes sign under inversion.
 - For `C=finite`-dimensional k-spaces and `D=0`, the group is `ℤ` and [k,unique,0] maps to +1; for `T=id` the relative group is zero.
-- In `ℤ`, `relativeDifference 2 1=1`, `relativeDifference 1 2=−1` and `relativeDifference 1 1=0`; these distinguish the orientation from its negative and from a sum.
+- In `ℤ`, `2−1=1`, `1−2=−1` and `1−1=0`; these distinguish the orientation from its negative and from a sum.
 
 *Needs:* the layer prerequisites.
 
@@ -1930,7 +1922,7 @@ For a Serre subcategory `B⊂A`, let `α:X→X` be a morphism whose image is inv
 
 The quotient automorphism supplies the `K₁` class. Its kernel/cokernel belong to B; use `coker−ker`. Noetherianness ensures finite-generation of the ring-example kernel.
 
-Define the convention helper `indexClass ker coker=coker−ker` for any abelian group. Its API is the diagonal-zero formula, additivity in pairs and `indexClass k c=−indexClass c k`. This arithmetic helper does not construct the localization boundary.
+The convention `coker−ker` in an abelian group is zero on the diagonal, additive in pairs and negated by exchanging kernel and cokernel. These arithmetic identities do not construct the localization boundary.
 
 (Weibel V, E 5.1 and Example 6.1.2, p.V.38;Weibel IV, E 7.9, p.IV.65.)
 
@@ -1939,7 +1931,7 @@ Define the convention helper `indexClass ker coker=coker−ker` for any abelian 
 - Over a DVR, multiplication by `π` has kernel zero and cokernel k, giving `+[k]`.
 - For a unit, both kernel and cokernel are zero and the boundary vanishes.
 - For multiplication by `ε` on `k[ε]/(ε²)`, kernel and cokernel are both k; their difference is zero. Dropping the kernel term gives a false answer.
-- The two-term class calculations are `indexClass 0 1=1`, `indexClass 1 0=−1` and `indexClass 1 1=0` in `ℤ`.
+- The two-term class calculations are `1−0=1`, `0−1=−1` and `1−1=0` in `ℤ`.
 
 *Needs:* §4.14; §2.4.
 
@@ -1963,7 +1955,7 @@ The named targets are `localizationBoundary_product` with the hypotheses and con
 
 `i≥1` and `j≥0`; the uniformizer-last formula has `n≥1`. `B⊂A` and `B′⊂A′` are Serre subcategories; the pairing preserves them and is exact in each variable. The right-module suspension convention is fixed by `∂[π]=+[k]`.
 
-Define `uniformizerLastSign n=(−1)^(n−1)` in `ℤ×` for natural n; only `n≥1` is used by the boundary theorem. Its API gives value 1 at `n=1`, negation on each positive successor and period two. This function records the normalization, not a degree-zero boundary.
+The normalization sign `(−1)^(n−1)` in `ℤ×`, for natural `n≥1`, has value 1 at `n=1`, negates on each positive successor and has period two. It does not specify a degree-zero boundary.
 
 (Weibel V, E 5.3, p.V.38;§6.6.1, pp.V.41–42;Weibel IV, E 1.23, p.IV.17.)
 
@@ -2004,7 +1996,7 @@ Use:
 - `ProjectiveLine.koszul`: Exact `0→F(−2)→F(−1)²→F→0`.
 - `ProjectiveLine.directImage`: `H⁰=ker(d)`, `H¹=coker(d)`, `d(x,y)=α(x)−y`.
 - `ProjectiveLine.map`: Exact unital bundle base change, compatible with `u_i`, twists, identity and composition.
-- `twistExponent i n=i−n` for integers i,n: the zero-twist and successive-twist identities encode the exponent calculation in `ProjectiveLine.u_twist`.
+- For integers i,n the exponent is `i−n`; prove the zero-twist and successive-twist identities in `ProjectiveLine.u_twist`.
 
 **Checks.**
 
@@ -2013,7 +2005,7 @@ Use:
 - `R¹π_*(u_2(R)) ≅ R` and `π_*(u_2(R)) = 0`.
 - For `R = 0` the category `VB(P¹_0)` is zero, so `K(P¹_0)` is contractible.
 - `u_i(P)(n) ≅ u_{i−n}(P)` for all integers i and n, naturally in P.
-- The computed exponents are `twistExponent 0 1=−1`, `twistExponent 1 1=0` and `twistExponent 2 (−1)=3`.
+- The computed exponents are `0−1=−1`, `1−1=0` and `2−(−1)=3`.
 
 *Needs:* §3.2; §3.1; §2.5; `ModuleCat`; `Polynomial`; `LaurentPolynomial`.
 
@@ -2025,13 +2017,13 @@ The named targets are `ProjectiveLine.koszul_exact` with the hypotheses and conc
 
 Use the central-variable right-module convention of §9.1 for arbitrary unital associative R. No commutative scheme result is needed.
 
-For the chart calculation define `koszulLeft t x=(t*x,−x)` and `koszulRight t (a,b)=a+t*b` on any ring. Prove `koszulRight_left` (zero composite), `koszulLeft_zero` and `koszulRight_zero`; the chart maps of a general module use its scalar action. These helpers fix the signs without asserting exactness from a zero composite alone.
+For the chart calculation on any ring, compose `x↦(tx,−x)` with `(a,b)↦a+tb` and prove the composite is zero and both maps preserve zero. The chart maps of a general module use its scalar action. These formulas fix the signs without asserting exactness from a zero composite alone.
 
 **Checks.**
 
-- Over `ℤ`, `koszulLeft 2 1=(2,−1)` and `koszulRight 2 (2,−1)=0`; replacing `−1` by +1 gives 4.
-- `koszulLeft 0 1=(0,−1)` and `koszulLeft 2 0=(0,0)`; the first map is not zero when `t=0`.
-- `koszulRight 0 (2,3)=2` and `koszulRight 2 (0,1)=2`; the second map retains both summands and is onto, including in characteristic two.
+- Over `ℤ`, `1↦(2,−1)↦2+2(−1)=0`; replacing `−1` by +1 gives 4.
+- `1↦(0,−1)` at `t=0` and `0↦(0,0)` at `t=2`; the first map is not zero when `t=0`.
+- `(2,3)↦2` at `t=0` and `(0,1)↦2` at `t=2`; the second map retains both summands and is onto, including in characteristic two.
 
 (Quillen, §8.3, p.135/PDF59, displayed sequence after T 3.1.)
 
@@ -2328,7 +2320,7 @@ For F from unital rings to abelian groups, define `NF(R)=coker(F(R)→F(R[t]))` 
 
 R is associative unital and the polynomial variable is central. The diagonal, difference and cokernel maps are part of the data, as is naturality of the section.
 
-The convention helper `chartDifference : A×A→A` is the homomorphism `(a,b)↦a−b` for an abelian group A. Its API is vanishing on the diagonal, compatibility with homomorphisms and negation on exchanging the factors. In the Laurent sequence the two chart images are first mapped into the common target before taking this difference.
+The chart difference is the homomorphism `(a,b)↦a−b` for an abelian group A. It vanishes on the diagonal, commutes with homomorphisms and negates on exchanging the factors. In the Laurent sequence the two chart images are first mapped into the common target before taking this difference.
 
 (Weibel, III.4.1.1, p.210.)
 
@@ -2347,7 +2339,7 @@ Use:
 - The diagonal sends 1 to (1,1) and the chart difference sends (a,b) to `a−b`; replacing the difference by sum makes their composite 2 at `a=b=1`.
 - For `F=K₀` and a field k, `NK₀(k)=LK₀(k)=0`; the Laurent sequence reduces to `ℤ→ℤ²→ℤ` with diagonal and difference.
 - Evaluation at `t=0` identifies NF with the kernel of evaluation, so an element coming from `F(R)` has zero N-class.
-- In `ℤ`, `chartDifference (1,1)=0`, `chartDifference (1,0)=1` and `chartDifference (0,1)=−1`.
+- In `ℤ`, `1−1=0`, `1−0=1` and `0−1=−1`.
 
 *Needs:* §10.1; `Polynomial`; `LaurentPolynomial`.
 
@@ -2630,7 +2622,7 @@ T is essentially small; dense means that every T-object is a direct summand of a
 Use:
 
 - `DenseClasses`: Stable direct-sum quotient of T by A.
-- `DenseClasses.zero_iff`: `class(X)=0` iff `X∈A`.
+- The zero-class criterion: `class(X)=0` iff `X∈A`.
 - `DenseClasses.euler`: distinguished triangle gives `class(Y)=class(X)+class(Z)`.
 - `DenseClasses.quotientEquiv`: `G_A≃K₀(T)/im K₀(A)`.
 
@@ -2648,7 +2640,7 @@ Prove `X∈A` exactly when `[X]` belongs to `im(K₀A→K₀T)`. Conversely, for
 
 The named targets are `DenseClasses.membership_iff`, `DenseClasses.classification` and `DenseClasses.map_injective` with the hypotheses and conclusions above.
 
-Use the dense triangulated hypotheses of §11.3 and the Euler `K₀` presentation. Suggested.lean uses `TauCeti.TriangulatedK0`, its class map and functorial map from `TauCeti.CategoryTheory.GrothendieckGroup.Triangulated`; density is `A.retractClosure = ⊤` for Mathlib’s triangulated object property A. A non-dense triangulated subcategory need not be determined by its `K₀` image.
+Use the dense triangulated hypotheses of §11.3 and the Euler `K₀` presentation. Suggested.lean states all three targets using `TauCeti.TriangulatedK0`, its class map and functorial map from `TauCeti.CategoryTheory.GrothendieckGroup.Triangulated`; density is `A.retractClosure = ⊤` for Mathlib’s triangulated object property A. A non-dense triangulated subcategory need not be determined by its `K₀` image.
 
 (Thomason, T 2.1 and C 2.3, pp.5–6/PDF5–6.)
 
@@ -2976,10 +2968,10 @@ Define A-domination of a bounded U-complex V by a finite A-complex D, chain maps
 
 Use:
 
-- `FiniteChainDomination`: finite A-complex D, chain maps f,g and homotopy `gf≃id`.
-- `FiniteChainDomination.transport`: Transport along a chain homotopy equivalence.
-- `FiniteChainDomination.fg`: fg is idempotent up to the induced homotopy.
-- `FiniteChainDomination.sum`: Direct sums of the given finite dominations.
+- `FiniteChainDomination`: finite A-complex D, chain maps f,g and homotopy `gf≃id`. Suggested.lean records these data on Mathlib’s integer-indexed cochain complexes, with a finite support set and zero objects outside it.
+- Transport finite domination along a chain homotopy equivalence.
+- Prove fg is idempotent up to the induced homotopy.
+- Construct direct sums of the given finite dominations.
 
 **Checks.**
 
@@ -2995,24 +2987,19 @@ From a finite domination form the corrected idempotent p on `F=⊕D_i` using the
 
 Use the source homotopy convention throughout. Correct fg to an actual p; shifting once negates Euler class.
 
-For a ring element p put `topProjector n p=p` for even n and `1−p` for odd n; prove the even/odd evaluation and two-step parity formulas, and idempotence when `p²=p`. This arithmetic function does not turn a homotopy idempotent into an idempotent. For an abelian group put `twoTermEuler a b=a−b`; its API gives the zero-term formulas, sum compatibility and sign change on swapping degrees.
+For a ring element p the top projector is p for even n and `1−p` for odd n; prove the even/odd evaluation and two-step parity formulas, and idempotence when `p²=p`. This parity rule does not turn a homotopy idempotent into an idempotent. The two-term Euler class in an abelian group is `a−b`; prove its zero-term formulas, sum compatibility and sign change on swapping degrees.
 
 (Ranicki, P 3.1 full proof,pp118–122/PDF14–18;P 3.2,123/PDF19.)
 
-Use:
-
-- `FiniteDomination.idempotent`: actual finite block idempotent p on `⊕D_i`.
-- `FiniteDomination.finiteModel`: truncated complex E in `A^♮` with the parity-dependent top idempotent.
-- `FiniteDomination.modelEquivalence`: Chain homotopy equivalence `V≃E` in `U^♮`.
-- `FiniteDomination.euler`: `[V]=[F,p]−[D_odd]`, including its image in `U^♮`.
+Construct the actual finite block idempotent on `⊕D_i`, the truncated finite complex in `A^♮` with its parity-dependent top idempotent, and its chain homotopy equivalence with V in `U^♮`. Prove `[V]=[F,p]−[D_odd]`, including its image in `U^♮`. Suggested.lean states the finite-model conclusion as `FiniteDomination.rectification` for a fully faithful additive inclusion and a `FiniteChainDomination`.
 
 **Checks.**
 
 - If f,g split strictly and D has only degree0, `p=fg` is the usual projector.
 - For identity domination the Euler class is the usual alternating sum of `D_i`.
 - At top degree 1 with `p=1`, the complementary projector `1−p` is 0; using p would give 1.
-- `topProjector 0 1=1`, `topProjector 1 1=0`, and `topProjector 2 0=0` over `ℤ` test both parity branches and the zero projector.
-- The two-term Euler values in `ℤ` are `twoTermEuler 2 3=−1`, `twoTermEuler 0 1=−1`, `twoTermEuler 1 0=1`; the boundary index uses the opposite order.
+- Over `ℤ`, the top projector at `(n,p)=(0,1)` is 1, at `(1,1)` is 0, and at `(2,0)` is 0; these test both parity branches and the zero projector.
+- The two-term Euler values in `ℤ` are `2−3=−1`, `0−1=−1`, `1−0=1`; the boundary index uses the opposite order.
 
 *Needs:* §12.5.
 
@@ -3020,7 +3007,7 @@ Use:
 
 A bounded `A^♮`-complex is homotopy equivalent to a bounded A-complex exactly when its Euler class lies in `im(K₀A→K₀A^♮)`. Prove this by adding complementary elementary complexes and moving the last remaining summand to a single degree. For `A⊂U` put `H=(K₀A^♮→K₀U^♮)⁻¹(im K₀U)`. An A-dominated U-complex has a finite model over `A^H`, the full objects whose classes lie in H, after adjoining those objects to U. This is the restricted completion needed in the quotient fibre.
 
-The named targets are `restrictedCompletion_eulerCriterion` with the hypotheses and conclusions above.
+The named target is `restrictedCompletion_eulerCriterion` with the hypotheses and conclusions above. Suggested.lean states the bounded-complex criterion using `TauCeti.SplitK0.eulerChar`, the map induced by Mathlib’s `toKaroubi`, and chain homotopy equivalence.
 
 Take the image in `K₀(U^♮)`. The obstruction is membership in that image, not zero in the ambient group.
 
@@ -3162,13 +3149,13 @@ The named targets are `NonunitalBass.corner_morita` with the hypotheses and conc
 
 The matrix index is finite nonempty. Specify both maps and their Morita comparisons.
 
-For the two-by-two integer test define `cornerUnitizationSecond z c=diag(c,z)`. Its API is additivity, multiplicativity on coordinatewise products and preservation of the pair (1,1). It tests the coordinate change in the general unitization map, not a unital structure on the original corner embedding.
+In the two-by-two integer test, `(z,c)↦diag(c,z)` is additive, multiplicative on coordinatewise products and sends (1,1) to the identity. This tests the coordinate change in the general unitization map, not a unital structure on the original corner embedding.
 
 **Checks.**
 
-- `cornerUnitizationSecond 1 1=I₂`; using diag(c,0) would fail preservation of one.
-- `cornerUnitizationSecond 1 0=diag(0,1)`, so the augmentation coordinate survives even at `c=0`.
-- `cornerUnitizationSecond 0 1=diag(1,0)`, recovering the nonunital corner on the augmentation kernel.
+- `diag(1,1)=I₂`; using diag(c,0) would fail preservation of one.
+- At `(z,c)=(1,0)` the matrix is `diag(0,1)`, so the augmentation coordinate survives even at `c=0`.
+- At `(z,c)=(0,1)` the matrix is `diag(1,0)`, recovering the nonunital corner on the augmentation kernel.
 
 (Weibel, Corollary II.2.7.1 and Example 2.7.2, p.II.12;Definition III.4.4, p.III.32;the unitization coordinate calculation above.)
 
@@ -3358,7 +3345,7 @@ The following outbound interfaces retain the names used throughout this roadmap.
 
 | Interface here | Supplied construction and comparison | Additional targets owned here |
 | --- | --- | --- |
-| §1.1, `classifyingSpace` and its map/homotopy API | StableHomotopyKTheory §§1.1, 1.7–1.16: the same realized nerve, projections, opposite reversal and filtered homotopy maps. | `classifyingSpace_finitePosetDetection` is not stated there and remains local. |
+| §1.1, `classifyingSpace` and its map/homotopy API | StableHomotopyKTheory §§1.1, 1.7–1.16: the same realized nerve, projections, opposite reversal and filtered homotopy maps. | The finite-poset contractibility criterion is not stated there and remains local. |
 | §1.2, `HomotopyFibre` | GeneralizedCohomology G2.10's `MappingPathFiber`; StableHomotopyKTheory §§2.4–2.11's boundary and comma/fibre maps on that carrier. | Incoming-path reversal, its sign, projection and K-group compatibility. |
 | §1.3, `bisimplicialRealization` | StableHomotopyKTheory §§2.17–2.25 and 2.28: `BisimplicialSet.realization`, `BisimplicialSet.diagonalRealizationIso` and the proper connected fibre comparisons. | `edgewiseSubdivision`, `edgewiseSubdivision_homeomorph` and `isomorphismDoubleNerve` are not stated there and remain local. |
 | §1.4, `QuillenA`, `QuillenA_dual`, `QuillenB`, `QuillenB_dual` | StableHomotopyKTheory §§2.31–2.35: `quillenTheoremA`, `quillenTheoremB` and their dual/prefibred forms, with path-reversal and projection homotopies. | Q-theory applications of these supplied criteria. |
