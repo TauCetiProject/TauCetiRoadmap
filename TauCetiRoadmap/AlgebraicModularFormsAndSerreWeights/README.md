@@ -53,7 +53,7 @@ The section and coefficient calculations use Mathlib's existing `PresheafOfModul
 
 For `p>0`, coefficient-linear `V` on `PowerSeries A` is Mathlib `PowerSeries.expand p hp`, with `hp : p ≠ 0`. Use `PowerSeries.coeff_expand`, `PowerSeries.coeff_expand_mul`, `PowerSeries.expand_C` and its `AlgHom` linearity. There is no separate `qV` definition or coefficient API. Mathlib `PowerSeries.derivative` supplies the formal derivation used to compare the series operation `q d/dq` with the geometric theta operator.
 
-The generic coefficient-selection API [TauCeti/RingTheory/PowerSeries/Cartier.lean](https://github.com/TauCetiProject/TauCeti/blob/a3a2f35c018d741d724b689c2a90aab4d6eecf68/TauCeti/RingTheory/PowerSeries/Cartier.lean#L32-L47), at `a3a2f35`, is later than the declared pin `a91d3aa`. Its semiring-linear `PowerSeries.cartier A q r` selects coefficient `qn+r`. At the declared pin, `qU p` is the real-bodied coefficient-selection definition below and `qU_coefficient` is its coefficient equation. Their API follows the residue-zero specialization `PowerSeries.cartier A p 0` and `PowerSeries.coeff_cartier`, so adopting that library API replaces the local definition and coefficient equation. Geometric preservation and Hecke comparison belong to R15.3.
+The generic coefficient-selection API [TauCeti/RingTheory/PowerSeries/Cartier.lean](https://github.com/TauCetiProject/TauCeti/blob/a3a2f35c018d741d724b689c2a90aab4d6eecf68/TauCeti/RingTheory/PowerSeries/Cartier.lean#L32-L47), at `a3a2f35`, is later than the declared pin `a91d3aa`. Its semiring-linear `PowerSeries.cartier A q r` selects coefficient `qn+r`. The coefficient-selection construction must follow the residue-zero specialization `PowerSeries.cartier A p 0` and its coefficient equation `PowerSeries.coeff_cartier`. Geometric preservation and Hecke comparison belong to R15.3.
 
 Tau Ceti `TauCeti.integralClosure.isDedekindDomain` is supplied by `TauCeti.RingTheory.DedekindDomain.IntegralClosure`. It takes a Dedekind domain `O`, a chosen fraction field `K`, a field extension `L` with compatible `O/K` algebra structures and `Module.Finite K L`; no separability or `O`-module finiteness of the normalization is assumed.
 
@@ -95,7 +95,7 @@ Weight-one `T_p` over `O/ϖ^m` uses ModularCurvesPartII §9.11 `coherentHecke` a
 
 #### The Raynaud input and its boundary
 
-Use the Raynaud statements supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.1 for a mixed-characteristic DVR `R`, residue characteristic `p` and absolute ramification `e`. For a finite extension `F/𝔽_p` of order `q=p^r`, put `K=Frac R`. For a `K`-scheme in `F`-vector spaces of rank `q` admitting a finite flat model, the target `TauCeti.SerreWeight.raynaud_maximal_model` here proves that the maximal model is characterized by `v(δ_i)≤p−1` for all `i` and strict inequality for at least one `i`, in Raynaud coordinates `X_i^p=δ_i X_(i+1)`, taken étale locally to split the `F×` characters, with normalized valuation `v(ϖ)=1` and `0≤v(δ_i)≤e`. It also extends the generic `F`-action functorially to the maximal model. This maximal-model criterion is constructed here from Raynaud Propositions 3.3.1–3.3.2; it is separate from the supplied uniqueness, boundary and tame-inertia statements. If `e<p−1` the model is unique and retains the `F`-action. At `e=p−1`, with simple generic fibre and henselian `R`, either the model is unique or there are exactly two, one étale and one multiplicative; the `F`-action remains in either case.
+Use the Raynaud statements supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.1 for a mixed-characteristic DVR `R`, residue characteristic `p` and absolute ramification `e`. For a finite extension `F/𝔽_p` of order `q=p^r`, put `K=Frac R`. For a `K`-scheme in `F`-vector spaces of rank `q` admitting a finite flat model, prove here that the maximal model is characterized by `v(δ_i)≤p−1` for all `i` and strict inequality for at least one `i`, in Raynaud coordinates `X_i^p=δ_i X_(i+1)`, taken étale locally to split the `F×` characters, with normalized valuation `v(ϖ)=1` and `0≤v(δ_i)≤e`. Extend the generic `F`-action functorially to the maximal model. This maximal-model criterion is constructed here from Raynaud Propositions 3.3.1–3.3.2; it is separate from the supplied uniqueness, boundary and tame-inertia statements. If `e<p−1` the model is unique and retains the `F`-action. At `e=p−1`, with simple generic fibre and henselian `R`, either the model is unique or there are exactly two, one étale and one multiplicative; the `F`-action remains in either case.
 
 Under `e<p−1` every commutative `p`-power-torsion finite generic-fibre group scheme has at most one finite flat model. For commutative finite flat group schemes killed by a power of `p`, generic-fibre morphisms extend uniquely; their kernels and cokernels are flat and the corresponding Ext map is injective. Over a strictly henselian mixed-characteristic DVR, the tame-character classification expresses a prolongable character as a product of fundamental characters with exponents `0≤n_j≤e`; the Jordan–Hölder factors of a prolongable `p`-power group have this form. At `e≥p−1` that numerical bound supplies no restrictive classification.
 
@@ -171,21 +171,21 @@ For the compactified moduli family supplied by ModularCurvesPartII, define the s
 
 Here `A` is a base algebra and `K` a module over the integral base. Pullback and the affine projection formula identify the two conventions when `K=A`. Negative powers use `ω∨`, and every section is required to extend across `C`. Full level `n≥3`, with `n` invertible on the base, gives the fine-scheme construction; `Γ₁(N)` and small levels use the moduli stack or its effective descent presentation. Evaluating at a Tate curve with `ω_can` produces the expansion. The construction takes place on that actual stack: a line on the coarse `j`-line would discard the stabilizer action and give the wrong odd-weight spaces.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.KatzModularForms.forms`: `M_k(K)=H⁰(X,ω^k⊗K)`, with `ω` supplied by the modular-curve owner.
+- `M_k(K)=H⁰(X,ω^k⊗K)`, with `ω` supplied by the modular-curve owner.
 
-- `TauCeti.KatzModularForms.forms_add`: `M_k(K)` has its section-module structure; restriction and coefficient maps are linear.
+- `M_k(K)` has its section-module structure; restriction and coefficient maps are linear.
 
-- `TauCeti.KatzModularForms.forms_ext`: Two forms are equal when their sections agree on a cover of the moduli stack.
+- Two forms are equal when their sections agree on a cover of the moduli stack.
 
 **Checks.**
 
-- `TauCeti.KatzModularForms.forms_weight_zero` (degenerate): On a geometrically connected compactified modular curve over an algebraically closed field, weight-zero forms are precisely constants.
+- On a geometrically connected compactified modular curve over an algebraically closed field, weight-zero forms are precisely constants.
 
-- `TauCeti.KatzModularForms.forms_negative` (degenerate): Over an algebraically closed field of characteristic prime to the level, `M_k=0` for `k<0`.
+- Over an algebraically closed field of characteristic prime to the level, `M_k=0` for `k<0`.
 
-- `TauCeti.KatzModularForms.forms_odd_low_level` (non-example): At level 1 or 2 with 2 invertible, odd-weight forms vanish because `−1` acts as `(−1)^k` on the Hodge power.
+- At level 1 or 2 with 2 invertible, odd-weight forms vanish because `−1` acts as `(−1)^k` on the Hodge power.
 
 *Needs:* ModularCurvesPartII §§4.4, 7.1–7.1a; ModularCurvesPartII §§4.1–4.4; ModularCurvesPartII §5.21.
 
@@ -197,21 +197,21 @@ The interface consists of:
 
 Define the cusp module by `S_k(K)=H⁰(X,ω^k(−C)⊗K)`. Equivalently it is the kernel of restriction from `M_k(K)` to `H⁰(C,ω^k|_C⊗K)`, using the full reduced Cartier divisor supplied by the modular-curve geometry. The equivalence uses the exact cusp-ideal sequence, and vanishing at a Tate cusp means zero constant coefficient in its normalized expansion. Inclusion into `M_k` is linear and injective. This kernel description does not assert that restriction to `C` is surjective: its cokernel is governed by the subsequent `H¹` term.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.KatzModularForms.cuspForms`: `S_k=H⁰(ω^k(−C))`.
+- `S_k=H⁰(ω^k(−C))`.
 
-- `TauCeti.KatzModularForms.cuspForms_inclusion`: The cusp ideal inclusion induces an injective linear map `S_k→M_k`.
+- The cusp ideal inclusion induces an injective linear map `S_k→M_k`.
 
-- `TauCeti.KatzModularForms.cuspForms_iff`: A form is cuspidal iff its restriction to the entire cusp divisor is zero.
+- A form is cuspidal iff its restriction to the entire cusp divisor is zero.
 
 **Checks.**
 
-- `TauCeti.KatzModularForms.cuspForms_weight_zero` (degenerate): `S_0=0` on a connected proper geometric curve with a nonempty cusp divisor.
+- `S_0=0` on a connected proper geometric curve with a nonempty cusp divisor.
 
-- `TauCeti.KatzModularForms.delta_section` (computation): At level 1, `Δ` is a weight-12 cusp form with leading coefficient 1 and order one at the cusp.
+- At level 1, `Δ` is a weight-12 cusp form with leading coefficient 1 and order one at the cusp.
 
-- `TauCeti.KatzModularForms.eisenstein_not_cuspidal` (non-example): `E₄` at level 1 has constant term 1, so is not a cusp form over `ℂ`.
+- `E₄` at level 1 has constant term 1, so is not a cusp form over `ℂ`.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); ModularCurvesPartII §§4.1–4.4.
 
@@ -223,21 +223,21 @@ The interface consists of:
 
 An `O`-linear map `u:K→L` induces the `O`-linear section map `H⁰(id⊗u):M_k(K)→M_k(L)`, and the same construction preserves cusp spaces. It respects identity and composition and carries each Tate coefficient through `u`. For an `O`-algebra `B` there is consequently a canonical `B`-linear map `B⊗_O M_k(O)→M_k(B)`. Define it without a flatness hypothesis; identify it as an isomorphism only under the appropriate base-change theorem. In particular, the weight-one level-one map in characteristic two need not be onto.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.KatzModularForms.coefficientMap`: The map on sections induced by a linear coefficient map.
+- The map on sections induced by a linear coefficient map.
 
-- `TauCeti.KatzModularForms.coefficientMap_id`: `M_k(id)=id`.
+- `M_k(id)=id`.
 
-- `TauCeti.KatzModularForms.coefficientMap_comp`: `M_k(v∘u)=M_k(v)∘M_k(u)`.
+- `M_k(v∘u)=M_k(v)∘M_k(u)`.
 
 **Checks.**
 
-- `TauCeti.KatzModularForms.coefficientMap_zero` (degenerate): The zero coefficient map induces the zero map.
+- The zero coefficient map induces the zero map.
 
-- `TauCeti.KatzModularForms.coefficientMap_tate` (compatibility): Every `q` coefficient is sent by the coefficient map.
+- Every `q` coefficient is sent by the coefficient map.
 
-- `TauCeti.KatzModularForms.coefficientMap_not_always_iso` (non-example): Reduction at level 1 from `ℤ` to `𝔽₂` is not surjective in weight 1; the Hasse invariant has no lift.
+- Reduction at level 1 from `ℤ` to `𝔽₂` is not surjective in weight 1; the Hasse invariant has no lift.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Cusp forms and the cusp ideal](#target-cusp-ideal-section-forms).
 
@@ -253,29 +253,29 @@ For `k≥1`, level-two base change is an isomorphism for every algebra in which 
 
 The level-one assertion fails without excluding 2 and 3. The Hasse section has weight one in characteristic two and weight two in characteristic three although the corresponding characteristic-zero level-one spaces vanish; multiplying by `Δ` gives cusp examples in weights 13 and 14. This identifies the stated level-one limitation and makes no corresponding blanket failure assertion for level two.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.KatzModularForms.formsLevelTwo`: `M(K,2,k)` is the level-four holomorphic section module invariant under the mod-two kernel in `GL₂(ℤ/4)`.
+- `M(K,2,k)` is the level-four holomorphic section module invariant under the mod-two kernel in `GL₂(ℤ/4)`.
 
-- `TauCeti.KatzModularForms.formsLevelOne`: `M(K,1,k)` is the fibre product of the `GL₂(ℤ/3)`-invariant level-three and `GL₂(ℤ/4)`-invariant level-four holomorphic modules, localized as above, with equal pullbacks at level twelve.
+- `M(K,1,k)` is the fibre product of the `GL₂(ℤ/3)`-invariant level-three and `GL₂(ℤ/4)`-invariant level-four holomorphic modules, localized as above, with equal pullbacks at level twelve.
 
-- `TauCeti.KatzModularForms.formsLevelTwo_baseChange`: `M(ℤ[1/2],2,k)⊗R₀≃M(R₀,2,k)` for `k≥1` and 2 invertible in `R₀`.
+- `M(ℤ[1/2],2,k)⊗R₀≃M(R₀,2,k)` for `k≥1` and 2 invertible in `R₀`.
 
-- `TauCeti.KatzModularForms.formsLevelOne_baseChange`: `M(ℤ,1,k)⊗R₀≃M(R₀,1,k)` for `k≥1` and both 2 and 3 invertible in `R₀`.
+- `M(ℤ,1,k)⊗R₀≃M(R₀,1,k)` for `k≥1` and both 2 and 3 invertible in `R₀`.
 
 **Checks.**
 
-- `TauCeti.KatzModularForms.levelOne_E4` (computation): `E₄=1+240Σσ₃(m)q^m` belongs to the holomorphic module `M(ℤ[1/6],1,4)`.
+- `E₄=1+240Σσ₃(m)q^m` belongs to the holomorphic module `M(ℤ[1/6],1,4)`.
 
-- `TauCeti.KatzModularForms.levelOne_baseChange_fails_at_2_3` (non-example): Remark 1.8.2.2: over `𝔽₂` or `𝔽₃` there are level-one forms that are not reductions of forms over `ℤ` (the Hasse invariant of weight 1 over `𝔽₂`, weight 2 over `𝔽₃`), so Theorem 1.8.2 fails without inverting 2 and 3.
+- Remark 1.8.2.2: over `𝔽₂` or `𝔽₃` there are level-one forms that are not reductions of forms over `ℤ` (the Hasse invariant of weight 1 over `𝔽₂`, weight 2 over `𝔽₃`), so Theorem 1.8.2 fails without inverting 2 and 3.
 
-- `TauCeti.KatzModularForms.levelOne_via_rigid` (compatibility): A level-one form is determined by its stabilizer-invariant images at levels 3 and 4 agreeing at level 12. Over `𝔽̄₂` the level-four term and overlap are zero, but invariance at level three is still required: on a fixed-pairing `X(3)`, `dim M₁(3)=2`, while `dim M₁(1)=1`.
+- A level-one form is determined by its stabilizer-invariant images at levels 3 and 4 agreeing at level 12. Over `𝔽̄₂` the level-four term and overlap are zero, but invariance at level three is still required: on a fixed-pairing `X(3)`, `dim M₁(3)=2`, while `dim M₁(1)=1`.
 
 **Checks (level two).**
 
-- `TauCeti.KatzModularForms.levelTwo_weight_two`: Over `ℂ`, `M₂` at full level two has dimension 2, whereas level-one `M₂` is zero.
-- `TauCeti.KatzModularForms.levelTwo_cusp_dimensions`: At full level two over `ℂ`, `S₂=0` and `dim S₆=1`: `ω²` descends to `O(1)` on the `λ`-line and the three cusps impose `O(−3)`.
-- `TauCeti.KatzModularForms.levelTwo_parity_baseChange`: Odd weights vanish when 2 is invertible, while `dim M₂` over `𝔽₃` is still 2.
+- Over `ℂ`, `M₂` at full level two has dimension 2, whereas level-one `M₂` is zero.
+- At full level two over `ℂ`, `S₂=0` and `dim S₆=1`: `ω²` descends to `O(1)` on the `λ`-line and the three cusps impose `O(−3)`.
+- Odd weights vanish when 2 is invertible, while `dim M₂` over `𝔽₃` is still 2.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Holomorphic base change](#target-base-change-for-spaces-of-forms-and-the-weight-one-boundary).
 
@@ -391,7 +391,7 @@ On a proper fine modular curve over a noetherian base, the coherent Hodge-power 
 
 #### Integral geometric Hecke operators
 
-The formal coefficient model is `seriesHecke (ℓ : ℕ) (c d : A) (f : PowerSeries A) : PowerSeries A`, over a commutative ring `A`, with nth coefficient `a_(ℓn)+c d a_(n/ℓ)` when `ℓ` divides `n` and `a_(ℓn)` otherwise. Here `c=ℓ^(k−1)` and `d` is the diamond scalar for a character space. Its API `seriesHecke_coefficient` and `seriesHecke_map` specifies this formula and compatibility with any ring homomorphism on coefficients. This arithmetic definition has no moduli-preservation assertion; the geometric target below retains the two Tate level structures. (Katz 1973, Formula 1.11.1, printed p.92.)
+The formal coefficient model acts on `PowerSeries A`, over a commutative ring `A`, with nth coefficient `a_(ℓn)+c d a_(n/ℓ)` when `ℓ` divides `n` and `a_(ℓn)` otherwise. Here `c=ℓ^(k−1)` and `d` is the diamond scalar for a character space. Require this coefficient formula and compatibility with any ring homomorphism on coefficients. This arithmetic definition has no moduli-preservation assertion; the geometric target below retains the two Tate level structures. (Katz 1973, Formula 1.11.1, printed p.92.)
 
 **Checks.**
 
@@ -411,21 +411,21 @@ with the first coefficient zero when `ℓ∤i`. The first level structure `α′
 
 The operator preserves holomorphy, cusp forms and polynomial expansions. The q-expansion principle and base change extend it uniquely to every `ℤ[1/n]`-module `K` when (`n≥2` and `k≥2`) or (`3≤n≤11` and `k≥1`), for all primes `ℓ∤n`, including residue-characteristic `ℓ`. At level one the same extension is valid for `k≥2` and any `ℤ`-module `K`. A prime dividing the level is outside this particular quotient formula; the relevant `U` correspondence has its own supplied definition.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.KatzModularForms.heckeT`: `T_l` for `l ∤ n` invertible in `R`, by (1.11.0.2): `l^{k−1} ∑_H f(E/H, π̌^*ω, π(α_n))`.
+- `T_l` for `l ∤ n` invertible in `R`, by (1.11.0.2): `l^{k−1} ∑_H f(E/H, π̌^*ω, π(α_n))`.
 
-- `TauCeti.KatzModularForms.heckeT_qExpansion`: `b_i(α_n) = l^{k−1} a_{i/l}(α′_n) + a_{li}(α″_n)` (Formula 1.11.1).
+- `b_i(α_n) = l^{k−1} a_{i/l}(α′_n) + a_{li}(α″_n)` (Formula 1.11.1).
 
-- `TauCeti.KatzModularForms.heckeT_integral`: For `ℓ` prime to `n`, the operator extends to every `ℤ[1/n]`-coefficient module when `n≥2,k≥2` or `3≤n≤11,k≥1` (Proposition 1.11.3); at level one it extends to every `ℤ`-module for `k≥2` (Corollary 1.11.4).
+- For `ℓ` prime to `n`, the operator extends to every `ℤ[1/n]`-coefficient module when `n≥2,k≥2` or `3≤n≤11,k≥1` (Proposition 1.11.3); at level one it extends to every `ℤ`-module for `k≥2` (Corollary 1.11.4).
 
 **Checks.**
 
-- `TauCeti.KatzModularForms.heckeT_delta` (computation): For `Δ` and `l = 2`: `b₁ = a₂ = τ(2) = −24`, so `T₂Δ = −24Δ`.
+- For `Δ` and `l = 2`: `b₁ = a₂ = τ(2) = −24`, so `T₂Δ = −24Δ`.
 
-- `TauCeti.KatzModularForms.heckeT_other_normalisation` (non-example): Using the level structure `α_n ∘ π̌ = l·π(α_n)` instead of `π(α_n)` gives the operator twisted by the diamond operator `⟨l⟩`, not `T_l`.
+- Using the level structure `α_n ∘ π̌ = l·π(α_n)` instead of `π(α_n)` gives the operator twisted by the diamond operator `⟨l⟩`, not `T_l`.
 
-- `TauCeti.KatzModularForms.heckeT_level_divisible` (degenerate): For `l | n` the formula is not defined (`l` must be prime to the level); `U_l` is a different operator.
+- For `l | n` the formula is not defined (`l` must be prime to the level); `U_l` is a different operator.
 
 *Needs:* [The q-expansion principle](#target-q-expansion-principle-and-its-vanishing-theorem); [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); ModularCurvesPartII §§9.1–9.3, 9.9–9.11; [Holomorphic base change](#target-base-change-for-spaces-of-forms-and-the-weight-one-boundary).
 
@@ -445,13 +445,13 @@ Compare the geometric operators on the finite integral lattice with the integral
 
 #### Ring-valued eigensequences and coefficient realization
 
-For any commutative ring `R` and sequences `e,a:ℕ→R`, define `TauCeti.ResidualModularity.IsEigensequence e a` by `a(1)=1` and, for every prime `ℓ` and every `n≥0`,
+For any commutative ring `R` and sequences `e,a:ℕ→R`, define the normalized Hecke eigensequence predicate by `a(1)=1` and, for every prime `ℓ` and every `n≥0`,
 
 `a(ℓn)+e(ℓ)·(if ℓ∣n then a(n/ℓ) else 0)=a(ℓ)a(n)`.
 
-Here `e(ℓ)` is the second Euler coefficient. Mapping both sequences through any unital ring homomorphism preserves the predicate (`IsEigensequence.map`), including reduction to rings with nilpotents. In a complex character space set `e(ℓ)=χ(ℓ)ℓ^(k−1)`, with `χ` extended by zero. The theorem `TauCeti.ResidualModularity.isEigensequence_iff_eigenform` identifies this predicate for the q-expansion of a cusp form with `a₁=1` with the pinned full `HeckeRing.GL2.Eigenform` coefficient characterization. It includes the bad-prime `U_ℓ` equations; it does not assert newness.
+Here `e(ℓ)` is the second Euler coefficient. Mapping both sequences through any unital ring homomorphism preserves the predicate, including reduction to rings with nilpotents. In a complex character space set `e(ℓ)=χ(ℓ)ℓ^(k−1)`, with `χ` extended by zero. Identify this predicate for the q-expansion of a cusp form with `a₁=1` with the pinned full `HeckeRing.GL2.Eigenform` coefficient characterization. It includes the bad-prime `U_ℓ` equations; it does not assert newness.
 
-Define `TauCeti.ResidualModularity.IsRealizedIn R ι N k b` to mean that `b` is the q-expansion, through the specified ring map `ι:R→ℂ`, of a cusp form of integer weight `k` on `Γ₁(N)`, with `N≥1`. This imposes neither eigen-ness nor a character; a use in a character space carries that membership separately. The theorem `TauCeti.ResidualModularity.IsRealizedIn_baseChange` transports realization along `φ:R→S` and `j:S→ℂ` with `j∘φ=ι`. Q-expansion injectivity makes the realizing form unique. The ring-valued coefficient interface follows the design of the Imperial College London FLT project.
+Define coefficient realization to mean that `b` is the q-expansion, through the specified ring map `ι:R→ℂ`, of a cusp form of integer weight `k` on `Γ₁(N)`, with `N≥1`. This imposes neither eigen-ness nor a character; a use in a character space carries that membership separately. Transport realization along `φ:R→S` and `j:S→ℂ` with `j∘φ=ι`. Q-expansion injectivity makes the realizing form unique. The ring-valued coefficient interface follows the design of the Imperial College London FLT project.
 
 **Checks.**
 
@@ -467,7 +467,7 @@ Define `TauCeti.ResidualModularity.IsRealizedIn R ι N k b` to mean that `b` is 
 
 #### The integral cusp lattice and its reduction image
 
-For a number field `K⊂ℂ`, let `S_k(Γ₀(N),K)` be the coefficient-rational cusp space, `N≥1` and `k≥2`, and let `O=O_(K,λ)` at any finite place, including places dividing `N`. The q-integral submodule `L_q={f : a_n(f)∈O for every n}` is finite free over `O`, spans this `K`-space and is stable under every `T_n`, including `U_ℓ` at level primes. These are theorems `TauCeti.ResidualModularity.integralQExpansionLattice_finiteFree`, `TauCeti.ResidualModularity.integralQExpansionLattice_spans` and `TauCeti.ResidualModularity.integralQExpansionLattice_hecke_stable`, obtained from ModularForms Layer 8's finite integral Hecke algebra and the coefficient pairing `⟨T,f⟩=a₁(Tf)`, together with Layer 8G's rational structure. They are properties of the actual coefficient submodule, not conditions in a lattice constructor. The analogous statement in weight one uses Layer 8W. For a fixed nebentypus the coefficient field contains its values and the same argument uses its full integral Hecke action. Reduction mod `λ` means the image of this lattice; it does not mean all Katz forms. The formulation of this interface follows the Imperial College London FLT project.
+For a number field `K⊂ℂ`, let `S_k(Γ₀(N),K)` be the coefficient-rational cusp space, `N≥1` and `k≥2`, and let `O=O_(K,λ)` at any finite place, including places dividing `N`. The q-integral submodule `L_q={f : a_n(f)∈O for every n}` is finite free over `O`, spans this `K`-space and is stable under every `T_n`, including `U_ℓ` at level primes. Obtain these properties from ModularForms Layer 8's finite integral Hecke algebra and the coefficient pairing `⟨T,f⟩=a₁(Tf)`, together with Layer 8G's rational structure. They are properties of the actual coefficient submodule, not conditions in a lattice constructor. The analogous statement in weight one uses Layer 8W. For a fixed nebentypus the coefficient field contains its values and the same argument uses its full integral Hecke action. Reduction mod `λ` means the image of this lattice; it does not mean all Katz forms. The formulation of this interface follows the Imperial College London FLT project.
 
 At primes away from `N` compare this coefficient lattice with the geometric lattice as follows. Let `O` be the localization of a number-field integer ring at a place `λ` over `p`, with `p∤N`. Choose an integral lift of the diamond character, and assume that its projector is integral. Take the character part of `L=H⁰(X_O,ω^k(−C))`; compare it with the analytic all-cusp integral lattice through the actual moduli family and Tate trivializations. Define the reduction space as
 
@@ -475,21 +475,21 @@ At primes away from `N` compare this coefficient lattice with the geometric latt
 
 Its definition retains the map from the lattice, rather than identifying its image with every Katz cusp form. If `H¹` of the cusp sheaf has no `λ`-torsion, reduction is onto in the setting with the stated integral character projector. Fine-level holomorphic base change in `k≥2`, or `k=1` with `3≤n≤11`, does not establish that claim for every cusp twist, stabilizer invariant or nonintegral character projector. The weight-13 characteristic-two form `AΔ` gives a concrete level-one obstruction to a universal same-weight assertion.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.ResidualModularity.modpCuspForms`: `S_red` is the image of the integral cusp lattice reduction map.
+- `S_red` is the image of the integral cusp lattice reduction map.
 
-- `TauCeti.ResidualModularity.modpCuspForms_mem`: Membership means a preimage in `L/λL`.
+- Membership means a preimage in `L/λL`.
 
-- `TauCeti.ResidualModularity.modpCuspForms_baseChange`: Scalar extension maps the reduction image to the reduction image of the extended lattice.
+- Scalar extension maps the reduction image to the reduction image of the extended lattice.
 
 **Checks.**
 
-- `TauCeti.ResidualModularity.modpCuspForms_zero` (degenerate): The reduction image of a zero cusp lattice is zero.
+- The reduction image of a zero cusp lattice is zero.
 
-- `TauCeti.ResidualModularity.katz_vs_reduction` (non-example): At level 1, `AΔ` has weight 13 in characteristic 2 and is a nonzero Katz cusp form although the characteristic-zero weight-13 space is zero.
+- At level 1, `AΔ` has weight 13 in characteristic 2 and is a nonzero Katz cusp form although the characteristic-zero weight-13 space is zero.
 
-- `TauCeti.ResidualModularity.reduced_delta` (computation): At any residue characteristic, integral `Δ` reduces to a nonzero series with coefficient `a₁=1`.
+- At any residue characteristic, integral `Δ` reduces to a nonzero series with coefficient `a₁=1`.
 
 - At a prime dividing `N`, the q-integral lattice is still Hecke-stable and spanning; its existence asserts no smooth prime-to-level geometric base-change theorem.
 
@@ -525,21 +525,21 @@ For a modular function `f` holomorphic on `Y(2N)`, choose `m` so `fΔ^m` is holo
 
 For the supplied compactified fine auxiliary curve, the actual level action defines diamonds on `H^i(X,ω^n⊗A)`, `H^i(X,ω^n(−C)⊗A)` and the boundary, for `n∈ℤ`, `i=0,1` and any `O`-module `A`. They satisfy the group law, commute with coefficient maps and preserve the cusp sequence. Their action at `i=0` compares with the analytic diamonds. The element `−1` acts by `(−1)^n`; thus parity belongs to the Hodge action, including negative powers and torsion coefficients.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.GeometricHecke.diamond`: The diamond endomorphism on each listed cohomology group.
+- The diamond endomorphism on each listed cohomology group.
 
-- `TauCeti.GeometricHecke.diamond_one`: `⟨1⟩=id`.
+- `⟨1⟩=id`.
 
-- `TauCeti.GeometricHecke.diamond_mul`: `⟨ab⟩=⟨a⟩∘⟨b⟩`.
+- `⟨ab⟩=⟨a⟩∘⟨b⟩`.
 
 **Checks.**
 
-- `TauCeti.GeometricHecke.diamond_cusp` (compatibility): Restriction to the cusp divisor commutes with diamonds.
+- Restriction to the cusp divisor commutes with diamonds.
 
-- `TauCeti.GeometricHecke.diamond_torsion` (compatibility): Reduction of `⟨a⟩` modulo `ϖ^m` agrees with its coefficient action there.
+- Reduction of `⟨a⟩` modulo `ϖ^m` agrees with its coefficient action there.
 
-- `TauCeti.GeometricHecke.diamond_minus_one` (characterisation): `⟨−1⟩` on a weight-`n` form is multiplication by `(−1)^n`.
+- `⟨−1⟩` on a weight-`n` form is multiplication by `(−1)^n`.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Cusp forms and the cusp ideal](#target-cusp-ideal-section-forms); ModularCurvesPartII §9.2.
 
@@ -576,21 +576,21 @@ Work in the Calegari–Geraghty fine-curve setting: `p` is odd, `N≥5`, `p∤N`
 
 The inverse Hodge isogeny map supplies negative powers, since `x` is a unit. For `y∣Q` use the analogous `U_y` correspondence with the forbidden subgroup omitted. The compactified projections, isogeny maps and trace belong to ModularCurvesPartII. The operators recover section and analytic Hecke at `i=0`, commute with coefficient maps, diamonds and one another, and yield the corresponding `O[group]`-polynomial algebra action. Torsion coefficients remain legitimate; no assertion that the operator image is torsion-free is used. This odd-`p` integral package is distinct from the all-prime field package above.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.GeometricHecke.heckeCohomology`: `T_x` on the specified coherent cohomology, with integral invertible-`x` normalization.
+- `T_x` on the specified coherent cohomology, with integral invertible-`x` normalization.
 
-- `TauCeti.GeometricHecke.heckeCohomology_coefficients`: Coefficient maps intertwine `T_x` and `U_y`.
+- Coefficient maps intertwine `T_x` and `U_y`.
 
-- `TauCeti.GeometricHecke.heckeCohomology_commute`: The allowed `T_x,U_y` and diamonds commute.
+- The allowed `T_x,U_y` and diamonds commute.
 
 **Checks.**
 
-- `TauCeti.GeometricHecke.heckeCohomology_sections` (compatibility): At `i=0` the operator is the geometric q-expansion Hecke operator.
+- At `i=0` the operator is the geometric q-expansion Hecke operator.
 
-- `TauCeti.GeometricHecke.heckeCohomology_boundary` (computation): A nonzero boundary common eigenvector supported on the diamond orbit of `∞`, with character `ε`, has `T_x`-eigenvalue `1+ε(x)x^{n−1}`. The unrestricted all-cusp assertion is false; see the two-character boundary calculation below.
+- A nonzero boundary common eigenvector supported on the diamond orbit of `∞`, with character `ε`, has `T_x`-eigenvalue `1+ε(x)x^{n−1}`. The unrestricted all-cusp assertion is false; see the two-character boundary calculation below.
 
-- `TauCeti.GeometricHecke.heckeCohomology_zero_coefficients` (degenerate): Zero coefficient module has zero cohomology and zero operator.
+- Zero coefficient module has zero cohomology and zero operator.
 
 *Needs:* [Diamonds on coherent cohomology](#target-diamond-cohomology-action); [Logarithmic Kodaira–Spencer](#target-logarithmic-kodaira-spencer); ModularCurvesPartII §9.1; [Integral geometric Hecke operators](#target-integral-hecke-operators-from-q-expansions).
 
@@ -606,21 +606,21 @@ On the auxiliary curve with `Γ₀(x)` data, construct the map on elliptic tuple
 
 The quotient/contraction interface of ModularCurvesPartII §§2.6–2.7, 3.7 extends it across compactification and the compatible `Δ` quotient. If `π₁,π₂` are the degeneracy maps, prove `π₁∘w_x=π₂` and `w_x²=⟨x⟩`. The double quotient sends the level structure through multiplication by `x`; omitting that change would incorrectly call `w_x` an involution. A generic `N=5,x=2` point with `2P≠±P` tests the distinction. The supplier provides the extension of the quotient geometry; this layer constructs `w_x` and proves these identities.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.GeometricHecke.curveFricke`: The compactified map `w_x` induced by quotienting the auxiliary subgroup.
+- The compactified map `w_x` induced by quotienting the auxiliary subgroup.
 
-- `TauCeti.GeometricHecke.curveFricke_sq`: `w_x` composed twice is the curve diamond map `⟨x⟩`.
+- `w_x` composed twice is the curve diamond map `⟨x⟩`.
 
-- `TauCeti.GeometricHecke.curveFricke_projection`: `π₁∘w_x=π₂`.
+- `π₁∘w_x=π₂`.
 
 **Checks.**
 
-- `TauCeti.GeometricHecke.curveFricke_quotient` (computation): For an ordinary geometric point `(E,α,C_x)`, forgetting the subgroup after `w_x` gives `(E/C_x,π∘α)`, the second projection.
+- For an ordinary geometric point `(E,α,C_x)`, forgetting the subgroup after `w_x` gives `(E/C_x,π∘α)`, the second projection.
 
-- `TauCeti.GeometricHecke.curveFricke_double` (compatibility): For the same point, quotienting twice gives `(E,xα,C_x)` under `E/E[x]≅E`; the subgroup and level structure must both be tracked.
+- For the same point, quotienting twice gives `(E,xα,C_x)` under `E/E[x]≅E`; the subgroup and level structure must both be tracked.
 
-- `TauCeti.GeometricHecke.curveFricke_not_involution` (non-example): On a fine level with a geometric point moved by `⟨x⟩`, `w_x²` is not identity. For example take `N=5`, `Q=1`, `Δ` trivial, `x=2` and a generic elliptic curve with only `±1` automorphisms: 2P is neither `P` nor `−P` for `P` of order5.
+- On a fine level with a geometric point moved by `⟨x⟩`, `w_x²` is not identity. For example take `N=5`, `Q=1`, `Δ` trivial, `x=2` and a generic elliptic curve with only `±1` automorphisms: 2P is neither `P` nor `−P` for `P` of order5.
 
 *Needs:* ModularCurvesPartII §9.1; ModularCurvesPartII §9.2; ModularCurvesPartII §§2.6–2.7, 3.7; ModularCurvesPartII §§3.1–3.2, 3.9.
 
@@ -636,21 +636,21 @@ Pull back along `w_x` and combine it with the quotient isogeny's differential ma
 
 The diamond comes from the curve square, and `x^n` comes from the double-isogeny differential [x] on `ω`. This accounts for positive, zero and negative weights, and the action is natural in coefficients. The weight-zero square is the diamond alone; weight one adds `x`. At weight two with trivial diamond action, `x>1` and a nonzero characteristic-zero module, the scalar `x²` obstructs involutivity.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.GeometricHecke.fricke`: The Hodge-power operator `W_x` induced by the constructed curve map `w_x`.
+- The Hodge-power operator `W_x` induced by the constructed curve map `w_x`.
 
-- `TauCeti.GeometricHecke.fricke_sq`: `W_x²=x^n⟨x⟩`.
+- `W_x²=x^n⟨x⟩`.
 
-- `TauCeti.GeometricHecke.fricke_coefficients`: `W_x` commutes with coefficient maps.
+- `W_x` commutes with coefficient maps.
 
 **Checks.**
 
-- `TauCeti.GeometricHecke.fricke_weight_zero` (degenerate): At `n=0`, `W_x²=⟨x⟩`.
+- At `n=0`, `W_x²=⟨x⟩`.
 
-- `TauCeti.GeometricHecke.fricke_weight_one` (computation): At `n=1`, `W_x²=x⟨x⟩`.
+- At `n=1`, `W_x²=x⟨x⟩`.
 
-- `TauCeti.GeometricHecke.fricke_not_involution` (non-example): At weight 2, `x>1` and trivial diamond character, on a nonzero characteristic-zero cohomology module `W_x²=x² id≠id`. On the zero module the two endomorphisms coincide; for example the genus-zero `X₁(5;2)` has zero weight-two cusp `H⁰`.
+- At weight 2, `x>1` and trivial diamond character, on a nonzero characteristic-zero cohomology module `W_x²=x² id≠id`. On the zero module the two endomorphisms coincide; for example the genus-zero `X₁(5;2)` has zero weight-two cusp `H⁰`.
 
 *Needs:* [Diamonds on coherent cohomology](#target-diamond-cohomology-action); [The auxiliary curve Fricke map](#target-curve-fricke-map).
 
@@ -704,23 +704,23 @@ In characteristic `p` the Hasse section changes weight without changing its q-ex
 
 #### The elliptic Hasse invariant
 
-For an elliptic curve in characteristic `p`, choose an invariant differential `ω` and the Serre-dual basis `η` of `H¹(O_E)`. Absolute Frobenius acts `p`-linearly by `F(η)=A(E,ω)η`. Replacing `ω` by `λω` multiplies that scalar by `λ^(1−p)`, so it defines a section `A` of `ω^(p−1)`. The Tate expansion is 1. The rank-one arithmetic milestone `hasseScalar_weight` states `λF(λ⁻¹)=λ^(1−p)F(1)` for a Frobenius-semilinear map `F:A→A` over a commutative characteristic-`p` ring and a unit `λ`. Compare this elliptic section with the imported general `BT₁ determinant(V*)` construction, keeping the determinant-line and dual-Frobenius conventions. The general Hasse determinant remains owned by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.21. The mod-five `E₄` expansion, the failure of a level-one characteristic-two weight-one lift, and filtration zero of the expansion 1 test the specialization.
+For an elliptic curve in characteristic `p`, choose an invariant differential `ω` and the Serre-dual basis `η` of `H¹(O_E)`. Absolute Frobenius acts `p`-linearly by `F(η)=A(E,ω)η`. Replacing `ω` by `λω` multiplies that scalar by `λ^(1−p)`, so it defines a section `A` of `ω^(p−1)`. The Tate expansion is 1. The rank-one scalar calculation gives `λF(λ⁻¹)=λ^(1−p)F(1)` for a Frobenius-semilinear map `F:A→A` over a commutative characteristic-`p` ring and a unit `λ`. Compare this elliptic section with the imported general `BT₁ determinant(V*)` construction, keeping the determinant-line and dual-Frobenius conventions. The general Hasse determinant remains owned by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.21. The mod-five `E₄` expansion, the failure of a level-one characteristic-two weight-one lift, and filtration zero of the expansion 1 test the specialization.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.ModPModularForms.hasseInvariant`: `A(E, ω) ∈ R` defined by `F_abs(η) = A(E, ω)η`, `η` dual to `ω`, for `E` over an `𝔽_p`-algebra `R`.
+- `A(E, ω) ∈ R` defined by `F_abs(η) = A(E, ω)η`, `η` dual to `ω`, for `E` over an `𝔽_p`-algebra `R`.
 
-- `TauCeti.ModPModularForms.hasseInvariant_weight`: `A(E, λω) = λ^{1−p}A(E, ω)`: `A` is a level-one form of weight `p − 1` over `𝔽_p`.
+- `A(E, λω) = λ^{1−p}A(E, ω)`: `A` is a level-one form of weight `p − 1` over `𝔽_p`.
 
-- `TauCeti.ModPModularForms.hasseInvariant_tate`: `A(Tate(q), ω_can) = 1`.
+- `A(Tate(q), ω_can) = 1`.
 
 **Checks.**
 
-- `TauCeti.ModPModularForms.hasse_E4_mod5` (computation): At `p=5` the weight-four Hasse section equals `E₄` modulo 5 by the q-expansion principle; its coefficient check is `5∣240`.
+- At `p=5` the weight-four Hasse section equals `E₄` modulo 5 by the q-expansion principle; its coefficient check is `5∣240`.
 
-- `TauCeti.ModPModularForms.hasse_no_level_one_lift_p2` (non-example): In characteristic two `A` has no holomorphic level-one lift over `ℚ∩ℤ₂` in weight one. Fine-level lifting in odd `3≤n≤11` and its pullbacks to multiples are stated separately above.
+- In characteristic two `A` has no holomorphic level-one lift over `ℚ∩ℤ₂` in weight one. Fine-level lifting in odd `3≤n≤11` and its pullbacks to multiples are stated separately above.
 
-- `TauCeti.ModPModularForms.hasse_weight_zero_filtration` (degenerate): `A` has q-expansion 1, the q-expansion of the constant form of weight 0, so its filtration is `w(A) = 0`.
+- `A` has q-expansion 1, the q-expansion of the constant form of weight 0, so its filtration is `w(A) = 0`.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Level-one and level-two descent](#target-level-one-and-two-by-descent-with-explicit-inverted-primes); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.21.
 
@@ -742,9 +742,7 @@ For `p=2` or 3 the Hasse section has no holomorphic level-one characteristic-zer
 
 #### Theta and filtration
 
-Define the series operation `seriesTheta (f : PowerSeries A) : PowerSeries A` by coefficient `n` equal to `n a_n` for a commutative ring `A`. Its API is the coefficient formula, the derivation law, vanishing on pth powers in characteristic `p`, and the formal weight-shifted Hecke relation `seriesTheta_hecke`: over every commutative coefficient ring, `seriesHecke(ℓ,ℓ²c,d,seriesTheta(f))=ℓ seriesTheta(seriesHecke(ℓ,c,d,f))`. The series operator agrees with `q` times Mathlib's formal derivative and is distinct from the geometric form operator with degree `p+1`. For the geometric `theta_hecke` comparison, the shift from `ℓ^(k−1)` to `ℓ^(k+p)` equals multiplication by `ℓ²` in characteristic `p`, for prime `p` and `ℓ≠p`. (Katz 1977, §II, pp.55–56; Edixhoven §3.1, author DVI p.7.)
-
-The named milestones `seriesTheta_coefficient`, `seriesTheta_eq_X_mul_derivative`, `seriesTheta_mul` and `seriesTheta_pow_charP` state these characterizing properties; the last carries prime `p` and `CharP A p` as hypotheses.
+Define the series operation `Θ` on `PowerSeries A` by coefficient `n` equal to `n a_n` for a commutative ring `A`. Require the coefficient formula, the derivation law, vanishing on pth powers in characteristic `p`, and the formal weight-shifted Hecke relation: over every commutative coefficient ring, `T_(ℓ,ℓ²c,d)(Θf)=ℓ Θ(T_(ℓ,c,d)f)`, with the formal coefficient model of R15.2. The series operator agrees with `q` times Mathlib's formal derivative and is distinct from the geometric form operator with degree `p+1`. For the geometric Hecke comparison, the shift from `ℓ^(k−1)` to `ℓ^(k+p)` equals multiplication by `ℓ²` in characteristic `p`, for prime `p` and `ℓ≠p`. Vanishing on pth powers carries prime `p` and `CharP A p` as hypotheses. (Katz 1977, §II, pp.55–56; Edixhoven §3.1, author DVI p.7.)
 
 **Checks.**
 
@@ -758,23 +756,23 @@ Construct a derivation `θ` of degree `p+1` whose normalized expansion is `q d/d
 
 In Edixhoven's normalization `T_ℓ^*θ=ℓθT_ℓ^*`, including `T_p^*θ=0`. For `θf≠0`, an eigenform of type `(N,k,ε)` with eigenvalues `a_ℓ` becomes one of type `(N,k+p+1,ε)` with eigenvalues `ℓa_ℓ`. Once the representations have been attached by [Residual attachment for reduction eigensystems](#target-residual-attachment-for-reduction-eigensystems), semisimple recognition gives `ρ_(θf)≃ρ_f⊗χ̄_p`. Attachment is needed for this consequence, not for constructing `θ`.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.ModPModularForms.filtration`: `w(f) = min{k − i(p − 1) : f ∈ A^i M(N, k − i(p − 1))}`.
+- `w(f) = min{k − i(p − 1) : f ∈ A^i M(N, k − i(p − 1))}`.
 
-- `TauCeti.ModPModularForms.theta`: The derivation `θ : M(N) → M(N)` of degree `p + 1` acting by `q d/dq` on every q-expansion.
+- The derivation `θ : M(N) → M(N)` of degree `p + 1` acting by `q d/dq` on every q-expansion.
 
-- `TauCeti.ModPModularForms.theta_filtration`: If `w(f) = k` and `p ∤ k` then `w(θf) = k + p + 1`.
+- If `w(f) = k` and `p ∤ k` then `w(θf) = k + p + 1`.
 
-- `TauCeti.ModPModularForms.theta_hecke`: `T_l^*(θf) = l θ(T_l^* f)`; for an eigenform `f` with `θf≠0` and residual attachments satisfying the reduction-image or justified-shift hypotheses, `ρ_{θf} = ρ_f ⊗ χ`.
+- `T_l^*(θf) = l θ(T_l^* f)`; for an eigenform `f` with `θf≠0` and residual attachments satisfying the reduction-image or justified-shift hypotheses, `ρ_{θf} = ρ_f ⊗ χ`.
 
 **Checks.**
 
-- `TauCeti.ModPModularForms.theta_qexp` (computation): `θ(∑a_nq^n) = ∑ n a_n q^n`; for `Δ` mod 5 the coefficient of `q²` in `θΔ` is `2·τ(2) = −48 ≡ 2`.
+- `θ(∑a_nq^n) = ∑ n a_n q^n`; for `Δ` mod 5 the coefficient of `q²` in `θΔ` is `2·τ(2) = −48 ≡ 2`.
 
-- `TauCeti.ModPModularForms.theta_kills_pth_powers` (non-example): `θ(g^p) = 0` although `g^p ≠ 0`: `θ` is not injective, and the kernel in weight `pk` consists of `p`-th powers.
+- `θ(g^p) = 0` although `g^p ≠ 0`: `θ` is not injective, and the kernel in weight `pk` consists of `p`-th powers.
 
-- `TauCeti.ModPModularForms.theta_hasse` (degenerate): `θA = 0`, as `A` has constant q-expansion 1.
+- `θA = 0`, as `A` has constant q-expansion 1.
 
 *Needs:* [The elliptic Hasse invariant](#target-hasse-invariant-as-a-form-of-weight-p-minus-one); [Integral geometric Hecke operators](#target-integral-hecke-operators-from-q-expansions); [The q-expansion principle](#target-q-expansion-principle-and-its-vanishing-theorem); [Logarithmic Kodaira–Spencer](#target-logarithmic-kodaira-spencer). For the representation consequence only: [Residual attachment for reduction eigensystems](#target-residual-attachment-for-reduction-eigensystems).
 
@@ -784,31 +782,31 @@ The interface consists of:
 
 #### Coefficient-linear `U` and `V`
 
-On expansions use the coefficient-linear `V` of the exact Mathlib supplier contract and the residue-zero Cartier specialization `U(Σa_mq^m)=Σa_(pm)q^m`. Its intended signature is `qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A` for every commutative ring `A`; its coefficient API at the pin is `qU_coefficient`, with the same equation as the residue-zero case of the later `PowerSeries.coeff_cartier`. Then `UV=1` for `p>0`. The formal weight-one identity `seriesHecke_weightOne` is `seriesHecke(p,1,d,f)=U(f)+dV(f)`. Absolute Frobenius instead sends `f` to `f^p`, with coefficients `a_m^p`. These maps coincide only under the appropriate coefficient restriction; the field `𝔽₂(t)` distinguishes them immediately. The geometric meaning of the form operations uses relative Frobenius and Verschiebung of elliptic curves and the actual modular correspondence.
+On expansions use the coefficient-linear `V` of the exact Mathlib supplier contract and the residue-zero Cartier specialization `U(Σa_mq^m)=Σa_(pm)q^m`. For every commutative ring `A`, this is an `A`-linear map on `PowerSeries A`, with the same coefficient equation as the residue-zero case of the later `PowerSeries.coeff_cartier`. Then `UV=1` for `p>0`. The formal weight-one identity is `T_(p,1,d)(f)=U(f)+dV(f)`. Absolute Frobenius instead sends `f` to `f^p`, with coefficients `a_m^p`. These maps coincide only under the appropriate coefficient restriction; the field `𝔽₂(t)` distinguishes them immediately. The geometric meaning of the form operations uses relative Frobenius and Verschiebung of elliptic curves and the actual modular correspondence.
 
-The theorem `seriesTheta_expand` gives `Θ(V(f))=p V(Θ(f))` over every commutative coefficient ring for `p>0`, where `Θ` is `seriesTheta`. Its characteristic-`p` specialization `seriesTheta_expand_charP` gives `Θ(V(f))=0`. The scalar `p` cannot be dropped for torsion coefficients.
+Prove `Θ(V(f))=p V(Θ(f))` over every commutative coefficient ring for `p>0`, where `Θ` is the series operator `q d/dq`. Its characteristic-`p` specialization gives `Θ(V(f))=0`. The scalar `p` cannot be dropped for torsion coefficients.
 
 The Hecke formula is `T_p=U+p^(k−1)⟨p⟩V`. In characteristic `p` it reduces to `U` for `k≥2`, while in weight one it remains `U+⟨p⟩V`. Defining `U` on arbitrary series is not a proof that it preserves a specified geometric form space; that assertion uses its correspondence or the weight-one construction.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.ModPModularForms.qU`: The residue-zero Cartier linear map on formal power series.
+- The residue-zero Cartier linear map on formal power series.
 
-- `TauCeti.ModPModularForms.qU_qV`: `qU(p)(V(p)(f))=f` for `p>0`, with `V` supplied by `PowerSeries.expand`.
+- `U(V(f))=f` for `p>0`, with `V` supplied by `PowerSeries.expand`.
 
 **Checks.**
 
-- `TauCeti.ModPModularForms.qV_X` (computation): `V(q)=q^p` and `U(q^p)=q`.
+- `V(q)=q^p` and `U(q^p)=q`.
 
-- `TauCeti.ModPModularForms.qV_linear_not_power` (non-example): Over `𝔽₂(t)`, `V(tq)=tq²` while `(tq)²=t²q²`.
+- Over `𝔽₂(t)`, `V(tq)=tq²` while `(tq)²=t²q²`.
 
 - Over `ℤ/9` with `p=3`, `Θ(V(q))=3q³≠0`, whereas over `𝔽₃` it is zero.
 
 - Over `ℤ`, `V(q²)=q^(2p)` and `Θ(V(q²))=2p q^(2p)=p V(Θ(q²))`; the identity holds for arbitrary series coefficient by coefficient.
 
-- `TauCeti.ModPModularForms.qU_constant` (degenerate): For `p>0`, `U` and `V` fix constants. For `p≥2`, `U(q)=0` although `q≠0` over a nonzero ring, so `U` is not injective.
+- For `p>0`, `U` and `V` fix constants. For `p≥2`, `U(q)=0` although `q≠0` over a nonzero ring, so `U` is not injective.
 
-- At `p=0`, every coefficient of `qU 0 f` equals the constant coefficient of `f`, as for the general Cartier operator at modulus zero; the expansion and left-inverse identities require `p>0`.
+- At `p=0`, every coefficient of `U₀(f)` equals the constant coefficient of `f`, as for the general Cartier operator at modulus zero; the expansion and left-inverse identities require `p>0`.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Integral geometric Hecke operators](#target-integral-hecke-operators-from-q-expansions); [EllipticCurves Layer 3](../EllipticCurves/README.md#layer-3-elliptic-curves-over-finite-fields--the-hasse-bound-aec-v1).
 
@@ -830,9 +828,9 @@ On the ordinary Igusa cover the tautological invariant differential a trivialize
 
 #### Ordinary weight congruences
 
-Define `ordinaryWeightDivisor (p m : ℕ) : ℕ` by the following displayed formulas for primes `p` and `m≥1`; the total arithmetic function uses the same expressions outside that range without a geometric interpretation. Its API computes the odd-prime and three dyadic branches and identifies the divisor with the exponent of `(ℤ/p^m)×`. (Katz 1973, §§4.4.1–4.4.2, pp.151–152.)
+Define the ordinary weight divisor `D_(p,m)` by the following displayed formulas for primes `p` and `m≥1`; the total arithmetic function uses the same expressions outside that range without a geometric interpretation. Compute the odd-prime and three dyadic branches and identify the divisor with the exponent of `(ℤ/p^m)×`. (Katz 1973, §§4.4.1–4.4.2, pp.151–152.)
 
-The milestone `ordinaryWeightDivisor_eq_exponent` identifies it with Mathlib's `Monoid.exponent (ZMod (p^m))ˣ` for prime `p` and `m≥1`.
+Identify it with Mathlib's `Monoid.exponent (ZMod (p^m))ˣ` for prime `p` and `m≥1`.
 
 **Checks.**
 
@@ -856,7 +854,7 @@ If two weights give congruent expansions and at least one coefficient is nonzero
 
 #### Socles of torsion section modules
 
-The theorem `injective_of_injective_on_uniformizer_torsion` states: for a commutative ring `O`, an element `ϖ`, an `O`-module `M` with `Module.IsTorsion' M (Submonoid.powers ϖ)`, and an `O`-linear map `F:M→P`, injectivity on `M[ϖ]` implies injectivity on `M`. No torsion assumption on `P` is needed. Indeed, a nonzero kernel element killed by a least power `ϖ^r` yields a nonzero kernel element `ϖ^(r−1)x` killed by `ϖ`.
+Prove the following socle criterion: for a commutative ring `O`, an element `ϖ`, an `O`-module `M` with `Module.IsTorsion' M (Submonoid.powers ϖ)`, and an `O`-linear map `F:M→P`, injectivity on `M[ϖ]` implies injectivity on `M`. No torsion assumption on `P` is needed. Indeed, a nonzero kernel element killed by a least power `ϖ^r` yields a nonzero kernel element `ϖ^(r−1)x` killed by `ϖ`.
 
 For a DVR `O` with residue field `κ`, a flat fine modular curve `X/O`, an invertible sheaf `L=ω^n` or `ω^n(−C)`, and `m≥1`, identify
 
@@ -905,25 +903,25 @@ Let `p∤N`, `N≥5`, and work over `𝔽̄_p`. The elliptic Hasse zero locus `Z
 
 Evaluation at each point gives extensionality. Restriction of global forms and the fibrewise tensor-product identifications define the restriction and multiplication maps. For primes `ℓ∤pN`, the `T_ℓ^*` action is induced from the restricted good-prime correspondences. The exact sheaf sequence is `0→ω^(k−p+1)→ω^k→ω^k|_Z→0`, with the first map multiplication by `A`. The full supersingular locus here is nonempty. For a general empty finite locus the section space is zero; on this supersingular locus negative-weight fibres still have sections, and weight-zero sections are arbitrary functions on `Z` rather than only constants. Prove the simple-zero assertion for the elliptic Hasse section using the supplied local Igusa geometry and its deformation parameters; a direct-sum description alone does not prove it.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.ModPModularForms.supersingularForms`: `SS_k` is the section module of `ω^k` on the actual finite reduced supersingular locus, with evaluation at each point.
+- `SS_k` is the section module of `ω^k` on the actual finite reduced supersingular locus, with evaluation at each point.
 
-- `TauCeti.ModPModularForms.supersingularForms_eval`: The `K`-linear evaluation `SS_k→ω_x^k` is the `x`-component of its finite direct-sum description.
+- The `K`-linear evaluation `SS_k→ω_x^k` is the `x`-component of its finite direct-sum description.
 
-- `TauCeti.ModPModularForms.supersingularForms_ext`: Two supersingular sections are equal iff their values at every supersingular point agree.
+- Two supersingular sections are equal iff their values at every supersingular point agree.
 
-- `TauCeti.ModPModularForms.supersingularRestriction`: Restricting a global modular form evaluates it on the actual Hodge fibres at all supersingular points; the map is linear.
+- Restricting a global modular form evaluates it on the actual Hodge fibres at all supersingular points; the map is linear.
 
-- `TauCeti.ModPModularForms.supersingularForms_mul`: Pointwise tensor product gives `SS_a×SS_b→SS_(a+b)` using the Hodge-power identifications; multiplication by a fixed section is linear and detected on every fibre.
+- Pointwise tensor product gives `SS_a×SS_b→SS_(a+b)` using the Hodge-power identifications; multiplication by a fixed section is linear and detected on every fibre.
 
 **Checks.**
 
-- `TauCeti.ModPModularForms.supersingularForms_p2_five` (computation): At `p=2,N=5` the supersingular locus on `X₁(5)` has one point, so `dim SS_k=1` for every integer `k`, including `k<0`. The unique supersingular elliptic isomorphism class has 24 automorphisms acting freely on its 24 points of exact order 5.
+- At `p=2,N=5` the supersingular locus on `X₁(5)` has one point, so `dim SS_k=1` for every integer `k`, including `k<0`. The unique supersingular elliptic isomorphism class has 24 automorphisms acting freely on its 24 points of exact order 5.
 
-- `TauCeti.ModPModularForms.supersingularForms_weight_zero` (computation): At weight zero, two distinct supersingular points allow different values; the space is all functions on the finite set, not just constants.
+- At weight zero, two distinct supersingular points allow different values; the space is all functions on the finite set, not just constants.
 
-- `TauCeti.ModPModularForms.supersingularForms_negative` (non-example): On a nonempty finite supersingular locus every Hodge power, including negative weights, has a nonzero section after fibre trivializations; this contrasts with global negative-weight forms.
+- On a nonempty finite supersingular locus every Hodge power, including negative weights, has a nonzero section after fibre trivializations; this contrasts with global negative-weight forms.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [The elliptic Hasse invariant](#target-hasse-invariant-as-a-form-of-weight-p-minus-one); [All-prime field coherent Hecke and trace duality](#target-field-coherent-hecke-action); ModularCurvesPartII §11.1.
 
@@ -955,23 +953,23 @@ Hence multiplication by `B^(p−1)` gives a good-prime Hecke-equivariant period 
 
 Over a field of any characteristic prime to NQ containing `ζ_(NQ)`, or after extending `O` to contain `ζ_(NQ)` with NQ a unit in `O`, use the supplied root-dependent curve map `w_ζ` and its universal NQ-isogeny. Combine curve pullback with the isogeny differential on integer Hodge powers to define `W_ζ` on the actual cohomology modules, respecting the `Δ` quotient. It is natural in all coefficient modules, including `O/ϖ^m` and `K/O`, and has a dual action by precomposition `λ↦λ∘W_ζ`. At weight zero the Hodge factor is the identity and the operation is curve pullback. Its dual evaluation identity fixes the convention needed by the twisted duality below. Replacing `ζ` by `ζ⁻¹` negates the dual-kernel generator; the resulting `−1` isomorphism acts by `−1` on `ω`, so `W_(ζ⁻¹)=(−1)^n W_ζ` in weight `n` even though the coarse curve maps coincide. The curve construction is imported; this target supplies the Hodge and coefficient-module action.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.GeometricHecke.rootFricke`: Section pullback by `w_ζ` followed by the universal isogeny map on `ω^n`.
+- Section pullback by `w_ζ` followed by the universal isogeny map on `ω^n`.
 
-- `TauCeti.GeometricHecke.rootFricke_coefficients`: `W_ζ` commutes with natural maps of coefficient modules.
+- `W_ζ` commutes with natural maps of coefficient modules.
 
-- `TauCeti.GeometricHecke.rootFricke_dual`: The action on a functional `λ` is `λ∘W_ζ`.
+- The action on a functional `λ` is `λ∘W_ζ`.
 
-- `TauCeti.GeometricHecke.rootFricke_dual_evaluation`: `W_ζ^∨λ(f)=λ(W_ζ f)`, the evaluation formula for precomposition.
+- `W_ζ^∨λ(f)=λ(W_ζ f)`, the evaluation formula for precomposition.
 
 **Checks.**
 
-- `TauCeti.GeometricHecke.rootFricke_weight_zero` (degenerate): At weight0 the isogeny map on the trivial line is identity, so `W_ζ` is curve pullback.
+- At weight0 the isogeny map on the trivial line is identity, so `W_ζ` is curve pullback.
 
-- `TauCeti.GeometricHecke.rootFricke_torsion` (compatibility): The coefficient square commutes after `O→O/ϖ^m` and after `O→K/O`; flatness of these coefficient modules is not assumed.
+- The coefficient square commutes after `O→O/ϖ^m` and after `O→K/O`; flatness of these coefficient modules is not assumed.
 
-- `TauCeti.GeometricHecke.rootFricke_inverse_root` (computation): At weight one `W_(ζ⁻¹)=−W_ζ` although the coarse curve maps coincide. Over a field of characteristic different from two, `λ(W_ζ f)≠0` implies `λ(W_(ζ⁻¹)f)≠λ(W_ζ f)`, detecting the Hodge sign in the dual action.
+- At weight one `W_(ζ⁻¹)=−W_ζ` although the coarse curve maps coincide. Over a field of characteristic different from two, `λ(W_ζ f)≠0` implies `λ(W_(ζ⁻¹)f)≠λ(W_ζ f)`, detecting the Hodge sign in the dual action.
 
 *Needs:* ModularCurvesPartII §9.3; [Functorial coefficient maps](#target-coefficient-maps); [Fricke on Hodge powers](#target-fricke-hodge-action).
 
@@ -1012,7 +1010,7 @@ For the Hasse sequence, take `n=p+1−k`. Its connecting map followed by the sec
 
 #### Theta cycles
 
-Define the finite arithmetic tables `smallThetaCycle (p k : ℕ) (ordinary : Bool) : Option (List ℕ)` and `largeThetaCycle` of the same signature by the two tables below. A row outside their displayed admissible ranges has value `none`. Their API includes the small-prime boundary values and `thetaCycles`: for `p>3` prime, `1≤k≤p+1` and an admissible ordinarity row, the list exists and has length `p−1`. The geometric cycle theorem identifies this arithmetic list with actual filtrations; the tables themselves do not classify a representation or construct theta. (Edixhoven Proposition 3.3, author DVI pp.8–9.)
+Define the finite arithmetic theta-cycle tables below, indexed by prime, weight and ordinarity. Rows outside their displayed admissible ranges are absent. Prove the small-prime boundary values and the length statement: for `p>3` prime, `1≤k≤p+1` and an admissible ordinarity row, the list exists and has length `p−1`. The geometric cycle theorem identifies this arithmetic list with actual filtrations; the tables themselves do not classify a representation or construct theta. (Edixhoven Proposition 3.3, author DVI pp.8–9.)
 
 **Checks.**
 
@@ -1070,7 +1068,7 @@ For an eigenform `f` of type `(N,k,ε)`, with `p∤N`, find an eigenform `g` of 
 
 At `N≥5` the proof uses the Hasse cohomology sequence, the weight-`(p+1)` supersingular periodicity with its Hecke twist and the boundary comparison `SS_k→S_(p+1−k)∨`. To extract eigenvectors, use support over the finite-dimensional commutative image algebra and its preservation by field duality; a semisimple Hecke action is unnecessary. Smaller levels are obtained through rigidifying covers and `G`-invariants only when `p∤#G`. The exceptional `N=1,p=2,3` cases require Serre's level-one weight reduction (Serre 1975, Théorème 3, printed p.114), as an additional source input. These form-theoretic operations do not themselves prove universal residual modularity or optimize the classical target.
 
-The algebraic milestone `TauCeti.EigenvalueLifting.dual_support` states this support comparison for a finite-dimensional commutative `κ`-algebra acting on a finite-dimensional `κ`-space and its field dual. The dual action is specified by transposing each operator.
+Prove this support comparison for a finite-dimensional commutative `κ`-algebra acting on a finite-dimensional `κ`-space and its field dual. The dual action is specified by transposing each operator.
 
 **Checks.**
 
@@ -1112,39 +1110,39 @@ Let `ρ_p:G_(ℚ_p)→GL₂(𝔽̄_p)` be continuous. Its image is finite. On th
 
 #### The tame weight table
 
-The arithmetic carrier `LocalData` has constructors `niveauOne (a b : ℕ)`, `niveauTwo (a b : ℕ)` and `wild (α β : ℕ) (peu : Bool)`. It records classified data, with admissible ranges stated below; obtaining such data and the extension-class test from an actual local representation is a separate mathematical target. Its API consists of the projections `tameExponents : LocalData → Option (ℕ × ℕ)` and `wildExponents` of the same type, and the arithmetic table `serreWeight (p : ℕ) : LocalData → ℕ`. These definitions use the displayed branch formulas. (Serre 1987, §§2.2–2.4, pp.183–187.)
+The classified arithmetic data have three branches: niveau-one exponents `(a,b)`, niveau-two exponents `(a,b)`, and ordered wild exponents `(α,β)` with the peu/très distinction. Retain the admissible ranges stated below. Obtaining these data and the extension-class test from an actual local representation is a separate mathematical target. Provide tame and wild exponent projections, each absent on the other kind of data, and define the arithmetic weight by the displayed branch formulas. (Serre 1987, §§2.2–2.4, pp.183–187.)
 
 **Checks.**
 
-- `niveauTwo 1 3` has tame exponents `(1,3)`, with wild projection absent.
-- `wild 3 1 false` has wild exponents `(3,1)`, preserving quotient/stable-line order, and its tame projection is absent.
-- `niveauOne 0 0` is distinguished from the wild constructor with the same integers and receives the unramified classical branch.
+- Niveau-two data `(1,3)` have tame exponents `(1,3)`, with wild projection absent.
+- Très wild data `(3,1)` have wild exponents `(3,1)`, preserving quotient/stable-line order, and its tame projection is absent.
+- Niveau-one data `(0,0)` are distinguished from the wild branch with the same integers and receives the unramified classical branch.
 
-The tame projection must compute `(0,1)` for the supersingular niveau-two branch, compute `(0,0)` for the unramified niveau-one branch, and give no result on wild data. The wild projection preserves the ordered pair `(α,β)` and is absent on tame constructors. The original `LocalData` value retains the peu/très branch and must be passed to the weight table; the projection gives `(0,1)` for both dyadic wild branches even though their weights are 2 and 4.
+The tame projection must compute `(0,1)` for the supersingular niveau-two branch, compute `(0,0)` for the unramified niveau-one branch, and give no result on wild data. The wild projection preserves the ordered pair `(α,β)` and is absent on tame branches. The full classified data retain the peu/très branch and must be passed to the weight table; the projection gives `(0,1)` for both dyadic wild branches even though their weights are 2 and 4.
 
 For the tame niveau-two branch normalize integers `0≤a<b≤p−1` and express the characters using exponent `pa+b`. Define `k=1+pa+b`. For the niveau-one branch normalize `0≤a≤b≤p−2` and define the same expression except that the pair `(0,0)` has classical weight `p` instead of 1. Thus a supersingular elliptic pair has weight 2, and an unramified representation has classical weight `p`.
 
 In niveau two the arithmetic twist relation reads `k(a,b)=k(0,b−a)+a(p+1)` before a change reaches the normalization boundary. A cyclotomic twist of a representation must normalize its characters again and reapply the table; an unrestricted additive weight rule is invalid. The two exponent ranges are different, including at `p=2`.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.SerreWeight.tameExponents`: The normalised exponents `(a, b)` of Serre 2.2 (level 2, `0 ≤ a < b ≤ p − 1`) or 2.3 (level 1, `0 ≤ a ≤ b ≤ p − 2`) of a tamely ramified `ρ_p`.
+- The normalised exponents `(a, b)` of Serre 2.2 (level 2, `0 ≤ a < b ≤ p − 1`) or 2.3 (level 1, `0 ≤ a ≤ b ≤ p − 2`) of a tamely ramified `ρ_p`.
 
-- `TauCeti.SerreWeight.serreWeight`: The arithmetic table on classified `LocalData` computes `k(ρ_p) = 1 + pa + b` in the tame cases, with `k = p` when `ρ_p` is unramified.
+- The arithmetic table on classified local data computes `k(ρ_p) = 1 + pa + b` in the tame cases, with `k = p` when `ρ_p` is unramified.
 
-- `TauCeti.SerreWeight.serreWeight_twist`: In the level-2 case, `k(χ^a ⊗ ρ′_p) = k(ρ′_p) + a(p + 1)` (Serre (2.2.5)).
+- In the level-2 case, `k(χ^a ⊗ ρ′_p) = k(ρ′_p) + a(p + 1)` (Serre (2.2.5)).
 
-- `TauCeti.SerreWeight.serreWeight_baseChange`: `k(ρ_p)` depends only on the isomorphism class of `ρ_p ⊗ 𝔽̄_p`.
+- `k(ρ_p)` depends only on the isomorphism class of `ρ_p ⊗ 𝔽̄_p`.
 
 **Checks.**
 
-- `TauCeti.SerreWeight.serreWeight_supersingular` (computation): For the `p`-torsion of a supersingular elliptic curve over `ℚ_p` (characters `ψ`, `ψ′` of level 2, `a = 0`, `b = 1`) `k = 2`.
+- For the `p`-torsion of a supersingular elliptic curve over `ℚ_p` (characters `ψ`, `ψ′` of level 2, `a = 0`, `b = 1`) `k = 2`.
 
-- `TauCeti.SerreWeight.serreWeight_unramified_shift` (degenerate): For `ρ_p` unramified, `(a, b) = (0, 0)` and `k = p`, not the formula's value 1.
+- For `ρ_p` unramified, `(a, b) = (0, 0)` and `k = p`, not the formula's value 1.
 
-- `TauCeti.SerreWeight.serreWeight_level_two_p5` (computation): `p = 5`, level 2 with `(a, b) = (1, 3)`: `k = 1 + 5 + 3 = 9 = k′ + a(p + 1)` with `k′ = 1 + (3 − 1) = 3`.
+- `p = 5`, level 2 with `(a, b) = (1, 3)`: `k = 1 + 5 + 3 = 9 = k′ + a(p + 1)` with `k′ = 1 + (3 − 1) = 3`.
 
-- `TauCeti.SerreWeight.serreWeight_normalisation_nonexample` (non-example): Using the level-2 range `0 ≤ a < b ≤ p − 1` in the level-1 case would allow `b = p − 1`, whose character `χ^{p−1}` is trivial; the level-1 range stops at `p − 2`.
+- Using the level-2 range `0 ≤ a < b ≤ p − 1` in the level-1 case would allow `b = p − 1`, whose character `χ^{p−1}` is trivial; the level-1 range stops at `p − 2`.
 
 *Needs:* [Tame inertia alternatives](#target-tame-inertia-characters-of-a-local-residual-representation).
 
@@ -1162,25 +1160,25 @@ For `β=α+1` the extension class changes the answer. A peu ramifiée extension 
 
 The ordered stable line, coefficient extension invariance and representation isomorphism invariance enter the API. Extensions with the same semisimplification can have weights 2 and `p+1`, or 2 and 4 in the dyadic case. In the dyadic très case, Serre's wild parameter is defined by `2^m=[K:K₀]=|ρ(P₂)|`, with `K₀=ℚ₂^nr`, and satisfies `m∈{1,2}`. The Kummer generators can be chosen in `ℚ₂×`; their square classes are generated by `−1,2,5`, and the class of 5 vanishes over `K₀` because `ℚ₂(√5)/ℚ₂` is unramified. Thus their span over `K₀` has dimension at most two. Edixhoven's broader bound `m∈{1,2,3}` does not assert attainment of 3.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.SerreWeight.wildExponents`: The ordered quotient and stable-line exponents `(α,β)`, with `0≤α≤p−2` and `1≤β≤p−1`, where the stable line is `D=V^(P_p)` for wild inertia `P_p`.
+- The ordered quotient and stable-line exponents `(α,β)`, with `0≤α≤p−2` and `1≤β≤p−1`, where the stable line is `D=V^(P_p)` for wild inertia `P_p`.
 
-- `TauCeti.SerreWeight.serreWeight_wild`: For prime `p≠2`, the très weight exceeds the peu weight by `p−1` at adjacent exponents `(α,α+1)`. The branch formula itself is the definition.
+- For prime `p≠2`, the très weight exceeds the peu weight by `p−1` at adjacent exponents `(α,α+1)`. The branch formula itself is the definition.
 
-- `TauCeti.SerreWeight.serreWeight_wild_symm`: For every natural `p`, if `β≠α+1` and `α≠β+1`, exchanging `(α,β)` preserves the generic wild weight.
+- For every natural `p`, if `β≠α+1` and `α≠β+1`, exchanging `(α,β)` preserves the generic wild weight.
 
-- `TauCeti.SerreWeight.serreWeight_wild_isomorphic`: Isomorphic wild local representations have the same ordered exponents and peu/très branch, hence the same weight.
+- Isomorphic wild local representations have the same ordered exponents and peu/très branch, hence the same weight.
 
 **Checks.**
 
-- `TauCeti.SerreWeight.serreWeight_wild_same_ss` (non-example): For odd `p`, two extensions of 1 by `χ` with the same semisimplification, one peu and one très ramifiée, receive weights 2 and `p+1`; at `p=2` they receive weights2 and4.
+- For odd `p`, two extensions of 1 by `χ` with the same semisimplification, one peu and one très ramifiée, receive weights 2 and `p+1`; at `p=2` they receive weights2 and4.
 
-- `TauCeti.SerreWeight.serreWeight_wild_generic` (computation): `p = 5`, `α = 1`, `β = 3` (`β ≠ α + 1`): `k = 1 + 5·1 + 3 = 9`.
+- `p = 5`, `α = 1`, `β = 3` (`β ≠ α + 1`): `k = 1 + 5·1 + 3 = 9`.
 
 - The generic wild rows at `p=5` with `(α,β)=(1,3)` and `(3,1)` both give 9; neither adjacent exceptional branch occurs. The symmetry concerns the arithmetic table, not an interchange of stable line and quotient in a representation.
 
-- `TauCeti.SerreWeight.serreWeight_wild_p2` (degenerate): At `p = 2 (α = 0, β = 1)` the très ramifiée correction is `+2`, giving `k = 4`, not `+(p − 1) = +1`.
+- At `p = 2 (α = 0, β = 1)` the très ramifiée correction is `+2`, giving `k = 4`, not `+(p − 1) = +1`.
 
 - For `L=ℚ₂(√−1,√2,√5)`, the total degree is 8 but the ramification degree is 4: `L K₀=K₀(√−1,√2)` has degree 4 over `K₀`, so the wild parameter is `m=2`. The extension `K₀(√2)/K₀` gives `m=1`. Both très branches have classical weight 4.
 
@@ -1202,7 +1200,7 @@ For every branch of the complete local recipe, `det(ρ_p)|_(I_p)=χ̄_p^(k−1)`
 
 #### Invariance and renormalized twists
 
-Prove that the normalized recipe is invariant under change of basis, unramified twist and coefficient-field extension, with the actual wild extension test transported in each case. Every valid normalized branch gives `k≥2`. A cyclotomic twist first transports the local representation and then renormalizes its inertia data; crossing a boundary can change the branch, so adding one fixed quantity to all weights is not a valid global rule. For `p>2` prove ∃ `i∈ℤ`, `2≤k(ρ_p⊗χ̄_p^i)≤p+1`. For `p=2` prove separately that `k∈{2,4}` and every cyclotomic twist preserves `k: χ̄₂` takes values in `𝔽₂×={1}`. The representative `TauCeti.SerreWeight.dyadicCyclotomicCharacter` states that every integer power of a character valued in `𝔽₂×` is trivial. These are local arithmetic conclusions and do not produce a modular form or minimize the weight of an existing modularity witness.
+Prove that the normalized recipe is invariant under change of basis, unramified twist and coefficient-field extension, with the actual wild extension test transported in each case. Every valid normalized branch gives `k≥2`. A cyclotomic twist first transports the local representation and then renormalizes its inertia data; crossing a boundary can change the branch, so adding one fixed quantity to all weights is not a valid global rule. For `p>2` prove ∃ `i∈ℤ`, `2≤k(ρ_p⊗χ̄_p^i)≤p+1`. For `p=2` prove separately that `k∈{2,4}` and every cyclotomic twist preserves `k`: `χ̄₂` takes values in `𝔽₂×={1}`. Every integer power of a character valued in `𝔽₂×` is trivial. These are local arithmetic conclusions and do not produce a modular form or minimize the weight of an existing modularity witness.
 
 **Checks.**
 
@@ -1250,9 +1248,9 @@ where finite means that its étale generic-fibre group of type (p,p) extends to 
 
 #### Edixhoven and classical weights
 
-The arithmetic signature is `edixhovenWeight (p : ℕ) : LocalData → ℕ`: on tame branches it is `1+pa+b`; on wild data it is `1+p min(α,β)+max(α,β)`, plus `p−1` exactly when `β=α+1` and the extension is très ramifiée. Its API computes the normalized branches and the two exceptional comparisons with `serreWeight`. The local-representation definition composes this table with the actual classification and extension test. (Edixhoven Definition 4.3, author DVI p.10.)
+Define Edixhoven's arithmetic weight as follows: on tame branches it is `1+pa+b`; on wild data it is `1+p min(α,β)+max(α,β)`, plus `p−1` exactly when `β=α+1` and the extension is très ramifiée. Compute the normalized branches and the two exceptional comparisons with the classical Serre weight. The local-representation definition composes this table with the actual classification and extension test. (Edixhoven Definition 4.3, author DVI p.10.)
 
-The milestone `edixhovenWeight_comparison` gives the complete comparison on normalized `LocalData`: its value is 1 on unramified niveau-one data, 3 on dyadic très data, and `serreWeight p d` on every other branch.
+Prove the complete comparison on normalized local data: its value is 1 on unramified niveau-one data, 3 on dyadic très data, and the classical Serre weight on every other branch.
 
 **Checks.**
 
@@ -1288,7 +1286,7 @@ Let `p≥3` and `1≤r≤p−2`. For a rank-two residual Fontaine–Laffaille mo
 
 Applying the local recipe gives `k=r+1`. A semisimplification alone would not determine the ordered wild line or the finite/peu case, so those are indispensable hypotheses. The case `r=0` instead permits unramified classical weight `p`; `r=p−1` and `p=2` lie outside this comparison. This calculation uses the existing functor and local classification, independently of any modular-form existence theorem.
 
-The arithmetic milestones `fontaineLaffailleWeight` and `fontaineLaffailleWildWeight` cover the tame and ordered wild rows respectively; the wild row retains the peu hypothesis when `r=1`.
+The arithmetic comparison covers the tame and ordered wild rows; the wild row retains the peu hypothesis when `r=1`.
 
 **Checks.**
 
@@ -1306,7 +1304,7 @@ The arithmetic milestones `fontaineLaffailleWeight` and `fontaineLaffailleWildWe
 
 For semistable elliptic `E/ℚ_p`, the residual representation `E[p]` has weight 2 in the good-reduction case, using its finite flat model and the local inertia classification. In the multiplicative case its Tate parameter `q_E` determines the actual extension class. For odd `p` its weight is 2 if `p∣v_p(j(E))` and `p+1` otherwise. At `p=2` the same divisible case has weight 2 and the other case has weight 4. Nonsplit multiplicative reduction is the unramified quadratic twist of the Tate case. Derive the exact sequence `0→μ_p→E_q[p]→ℤ/pℤ→0` and its Kummer class `[q_E]∈ℚ_p×/ℚ_p×p` from the Galois-equivariant Tate uniformisation of EllipticCurves Layer 4, then transport it through the unramified quadratic twist. Use the finite-flat local criterion from FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.5; the numerical weights follow from the full recipe.
 
-The numerical milestone `TauCeti.SerreWeight.semistableMultiplicativeWeight` specializes the wild table to `(α,β)=(0,1)`; the torsion-sequence and Kummer identification above provide its arithmetic input.
+The numerical comparison specializes the wild table to `(α,β)=(0,1)`; the torsion-sequence and Kummer identification above provide its arithmetic input.
 
 **Checks.**
 
@@ -1358,23 +1356,23 @@ Let `O` be a ring, `k` an `O`-algebra field and `M` a `k`-module. If every opera
 
 #### The invariant-line eigencharacter
 
-Let `H` be an `O`-algebra acting on the `k`-vector space `M` by an `O`-algebra homomorphism `r:H→End_k(M)`, with the compatible scalar tower. If `f≠0` and each `h∈H` sends `f` into `kf`, the unique scalar `χ(h)` in `hf=χ(h)f` defines an `O`-algebra homomorphism `χ:H→k`. The intended constructor `eigencharacter` returns the existing `AlgHom` carrier; the statable milestone `existsUnique_eigencharacter` asserts existence and uniqueness with the displayed eigenvector equation, without constructing a new character type. Nonzero `f` gives uniqueness of each scalar and hence compatibility with addition, multiplication and `O`-scalars. Rescaling by a nonzero scalar leaves `χ` unchanged. Commutativity of `H` is unnecessary for this invariant-line construction, though the lifting argument subsequently uses a commutative operator algebra.
+Let `H` be an `O`-algebra acting on the `k`-vector space `M` by an `O`-algebra homomorphism `r:H→End_k(M)`, with the compatible scalar tower. If `f≠0` and each `h∈H` sends `f` into `kf`, the unique scalar `χ(h)` in `hf=χ(h)f` defines an `O`-algebra homomorphism `χ:H→k`. Use the existing `AlgHom` carrier and prove existence and uniqueness with the displayed eigenvector equation. Nonzero `f` gives uniqueness of each scalar and hence compatibility with addition, multiplication and `O`-scalars. Rescaling by a nonzero scalar leaves `χ` unchanged. Commutativity of `H` is unnecessary for this invariant-line construction, though the lifting argument subsequently uses a commutative operator algebra.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.EigenvalueLifting.eigencharacter_apply`: For every `h`, `r(h)f=eigencharacter(r,f)(h) f`.
+- For every `h`, `r(h)f=eigencharacter(r,f)(h) f`.
 
-- `TauCeti.EigenvalueLifting.eigencharacter_unique`: Any `R`-algebra map `ψ` with `r(h)f=ψ(h)f` for every `h` equals `eigencharacter(r,f)`.
+- Any `R`-algebra map `ψ` with `r(h)f=ψ(h)f` for every `h` equals `eigencharacter(r,f)`.
 
-- `TauCeti.EigenvalueLifting.eigencharacter_rescale`: Replacing `f` by `u f` for a nonzero `u` in `k`, with the induced stability witness, does not change the character.
+- Replacing `f` by `u f` for a nonzero `u` in `k`, with the induced stability witness, does not change the character.
 
 **Checks.**
 
-- `TauCeti.EigenvalueLifting.scalar_character_test` (computation): For `H=k` and a scalar action `r(a)x=a x` on `V=k`, the character obtained from `f=1` evaluates at `a` as `a`.
+- For `H=k` and a scalar action `r(a)x=a x` on `V=k`, the character obtained from `f=1` evaluates at `a` as `a`.
 
-- `TauCeti.EigenvalueLifting.nilpotent_character_test` (degenerate): Every nilpotent `h` in `H` maps to zero under the constructed character, including when `r(h)` is a nonzero nilpotent operator.
+- Every nilpotent `h` in `H` maps to zero under the constructed character, including when `r(h)` is a nonzero nilpotent operator.
 
-- `TauCeti.EigenvalueLifting.diagonal_character_test` (non-example): For `H=k x k` acting diagonally on `V=k x k`, the lines through `(1,0)` and `(0,1)` produce different characters: at `(1,0)` their values are 1 and 0. The constructor must retain the chosen line.
+- For `H=k x k` acting diagonally on `V=k x k`, the lines through `(1,0)` and `(0,1)` produce different characters: at `(1,0)` their values are 1 and 0. The constructor must retain the chosen line.
 
 *Needs:* Mathlib algebra homomorphisms and module actions, with the stated `O/k` scalar tower and scalar commutation.
 
@@ -1486,7 +1484,7 @@ On `O²` consider `T=[[0,ϖ],[0,0]]`. Reduction makes `T` zero, so the residual 
 
 The operator `[[0,ϖ],[1,0]]` satisfies `T²=ϖ·id`. Its residual eigenvalue is zero, but a generic eigenvalue must satisfy `λ²=ϖ`. Such a root need not lie in `K`, so a fraction-field extension is necessary. When `K` has characteristic two the extension can be inseparable; the character-lift formulation must allow that possibility. This example also tests the valuation-ring output rather than requiring an unramified coefficient extension.
 
-The named boundary theorem `TauCeti.EigenvalueLifting.uniformizer_requires_eigenvalue_extension` states that a uniformizer has no square root in the DVR fraction field and that this companion operator has no nonzero eigenvector over that field.
+Prove that a uniformizer has no square root in the DVR fraction field and that this companion operator has no nonzero eigenvector over that field.
 
 **Checks.**
 
@@ -1516,7 +1514,7 @@ Let `H=k×k` act on `k` through the first projection. The second-projection char
 
 Fix a finite free integral cusp lattice `L` over a DVR `O` at a characteristic-zero coefficient place, with residue characteristic `p`, weight `k`, `p∤N`, integral character `ε` and a specified commuting family of integral Hecke and diamond operators. Start with a nonzero residual eigenvector actually in `L/ϖL`. If the input is a Katz form, require its witness in that reduction image. Deligne–Serre lifts this eigenvalue family to characteristic zero after a finite fraction-field extension and a dominating DVR, preserving weight, level and those specified eigenvalues.
 
-A common eigenvector for the full analytic `T_n` and `U_ℓ` family has `a₁≠0` by the owned coefficient identities, and scales uniquely to `a₁=1`. The milestone `normalizeTrueEigenform` states `a₁((a₁(f))⁻¹f)=1` for a linear coefficient functional over a field with `a₁(f)≠0`. A primitive newform conclusion then invokes the old/new theorem of ModularForms Layer 4 and records its level dividing `N` and the precise character and bad-prime data. A good-prime eigenvector alone does not certify a full normalized eigenform at level `N`.
+A common eigenvector for the full analytic `T_n` and `U_ℓ` family has `a₁≠0` by the owned coefficient identities, and scales uniquely to `a₁=1`. Normalization gives `a₁((a₁(f))⁻¹f)=1` for a linear coefficient functional over a field with `a₁(f)≠0`. A primitive newform conclusion then invokes the old/new theorem of ModularForms Layer 4 and records its level dividing `N` and the precise character and bad-prime data. A good-prime eigenvector alone does not certify a full normalized eigenform at level `N`.
 
 For a low-weight reduction form, Deligne–Serre's shift multiplies by a level-one `E_n` with `n≥4` even, `(p−1)∣n` and `E_n≡1` mod `p`. It reaches weight `k+n≥2` with unchanged level and character and congruent good-prime eigenvalues and determinant powers. The Eisenstein integrality is an input. A Katz form outside the integral reduction image instead needs a Hasse-power shift into a range where the exact cusp `H¹` and character-projector conditions make reduction surjective. No universal same-weight lift of arbitrary Katz forms is asserted.
 
@@ -1528,9 +1526,9 @@ For a low-weight reduction form, Deligne–Serre's shift multiplies by a level-o
 
 #### Weight one to weight two at three
 
-Write `χ₋₃(n)=0,1,−1` for `n≡0,1,2 mod 3`. Construct the holomorphic Eisenstein form `E₁(χ₋₃)∈M₁(Γ₀(3),χ₋₃)` with expansion `1+6Σ_(n≥1)(Σ_(d∣n)χ₋₃(d))q^n`. In particular its coefficients are integers and `E₁(χ₋₃)≡1 mod 3` (`TauCeti.ResidualModularity.eisenstein_chiNegThree_mod_three`). For a weight-one form of level `N` and character `χ`, multiplication gives weight two at `M=lcm(N,3)` with character the product of the inflated `χ` and `χ₋₃`; cuspidality is preserved. If `3∣N` and `χ=χ₋₃` inflated to level `N`, this is a weight-two form on `Γ₀(N)` with trivial character.
+Write `χ₋₃(n)=0,1,−1` for `n≡0,1,2 mod 3`. Construct the holomorphic Eisenstein form `E₁(χ₋₃)∈M₁(Γ₀(3),χ₋₃)` with expansion `1+6Σ_(n≥1)(Σ_(d∣n)χ₋₃(d))q^n`. In particular its coefficients are integers and `E₁(χ₋₃)≡1 mod 3`. For a weight-one form of level `N` and character `χ`, multiplication gives weight two at `M=lcm(N,3)` with character the product of the inflated `χ` and `χ₋₃`; cuspidality is preserved. If `3∣N` and `χ=χ₋₃` inflated to level `N`, this is a weight-two form on `Γ₀(N)` with trivial character.
 
-For a normalized integral weight-one eigenform at a number-field place over 3, the product has the same reduced q-expansion. Away from `3N`, its second Euler coefficients agree with the original ones modulo that place, since `χ₋₃(ℓ)≡ℓ mod 3`. Apply R15.5 eigenvalue lifting to the weight-two integral coefficient lattice at that place to obtain a characteristic-zero weight-two eigenform with congruent eigenvalues and the product character (`TauCeti.ResidualModularity.weightOne_three_weightTwo`). For holomorphic input use the holomorphic coefficient lattice, whose finite-free and spanning properties follow from the all-prime denominator target and coefficient rationality; for cuspidal input use the cusp lattice and obtain a cusp eigenform. If `3∣N`, the bad-prime `U` equations also agree. Apply lifting to the full Hecke family and normalize the lifted eigenform: all its positive-index Fourier coefficients are congruent to those of the weight-one form in a common residue field. Thus character `χ₋₃` gives a normalized weight-two eigenform on `Γ₀(N)` congruent modulo 3, with cuspidality retained for cusp input. No congruence of constant terms is inferred from eigenvalue lifting for noncuspidal input. A primitive cusp associate has level dividing `M` and retains the away-`3N` congruence. The integral analytic lattice is used even though 3 divides `M`; the smooth prime-to-level geometric lifting theorem is not invoked at 3. This weight-change interface follows the Imperial College London FLT project.
+For a normalized integral weight-one eigenform at a number-field place over 3, the product has the same reduced q-expansion. Away from `3N`, its second Euler coefficients agree with the original ones modulo that place, since `χ₋₃(ℓ)≡ℓ mod 3`. Apply R15.5 eigenvalue lifting to the weight-two integral coefficient lattice at that place to obtain a characteristic-zero weight-two eigenform with congruent eigenvalues and the product character. For holomorphic input use the holomorphic coefficient lattice, whose finite-free and spanning properties follow from the all-prime denominator target and coefficient rationality; for cuspidal input use the cusp lattice and obtain a cusp eigenform. If `3∣N`, the bad-prime `U` equations also agree. Apply lifting to the full Hecke family and normalize the lifted eigenform: all its positive-index Fourier coefficients are congruent to those of the weight-one form in a common residue field. Thus character `χ₋₃` gives a normalized weight-two eigenform on `Γ₀(N)` congruent modulo 3, with cuspidality retained for cusp input. No congruence of constant terms is inferred from eigenvalue lifting for noncuspidal input. A primitive cusp associate has level dividing `M` and retains the away-`3N` congruence. The integral analytic lattice is used even though 3 divides `M`; the smooth prime-to-level geometric lifting theorem is not invoked at 3. This weight-change interface follows the Imperial College London FLT project.
 
 **Checks.**
 
@@ -1605,7 +1603,7 @@ The milestone `TauCeti.ClassicalModularGalois.higherWeight_attachment` states th
 
 For cusp forms pass to the normalized primitive associate with the same good-prime eigensystem and dualize its primitive cohomological multiplicity from R15.5A.1, allowing `ℓ|N`. At an auxiliary full level `m` divisible by `N`, use good-fibre specialization only at primes `q∤mℓ`. The q-isogeny correspondence gives `T_q=F+ε(q)V` and `FV=VF=q^(k−1)`, with `F` geometric Frobenius. On the primitive rank-two multiplicity construct a nondegenerate alternating pairing `B_f` from the coefficient pairing with the adjoint character block and root-dependent Fricke transport, extending coefficients to contain the required level roots. Its target is the one-dimensional Galois character `ε⁻¹χ_cyc^(1−k)`, whose geometric Frobenius at `q` acts by `ε(q)q^(k−1)`. Prove alternation using the isogeny adjoint and Fricke-square identities, including odd `k`; the natural cup pairing alone need not pair a character block with itself. Carry the transpose identity to this pairing as `B_f(Fx,y)=B_f(x,ε(q)Vy)`.
 
-The theorem `TauCeti.ClassicalModularGalois.frobeniusPolynomial_of_pairing` supplies the rank-two algebraic conclusion. Writing `c=q^(k−1)`, the transpose identity gives `B_f(Fx,Fy)=ε(q)c B_f(x,y)`, so the induced action on the top exterior power gives `det F=ε(q)c`. For an alternating pairing in dimension two the adjoint of `F` is `(tr F)I−F`. Thus `F+ε(q)V=λ_q(f)I` gives tr `F=λ_q(f)`, and `det(1−FT)=1−λ_q(f)T+ε(q)cT²`. This argument also covers scalar `F`. The dual has this polynomial at arithmetic Frobenius. For each `q∤Nℓ` choose a dominating full level `m` with `q∤m` and use auxiliary-level independence to obtain the polynomial and unramifiedness at `q`. Proper/parabolic specialization and tame cusps apply over `Spec ℤ[1/(mℓ)]`; no fibre at `ℓ` is required. Descent to `K_λ` uses the trace algebra of degree `≤2`: the rank-one idempotent `(1+c_∞)/2` for complex conjugation `c_∞` splits its possible central simple obstruction. In the reducible case, traces of `g` and `c_∞g` recover the two character values, so they descend too. This constructs a model, beyond equality of rationality fields.
+Derive the rank-two Frobenius polynomial from this pairing. Writing `c=q^(k−1)`, the transpose identity gives `B_f(Fx,Fy)=ε(q)c B_f(x,y)`, so the induced action on the top exterior power gives `det F=ε(q)c`. For an alternating pairing in dimension two the adjoint of `F` is `(tr F)I−F`. Thus `F+ε(q)V=λ_q(f)I` gives tr `F=λ_q(f)`, and `det(1−FT)=1−λ_q(f)T+ε(q)cT²`. This argument also covers scalar `F`. The dual has this polynomial at arithmetic Frobenius. For each `q∤Nℓ` choose a dominating full level `m` with `q∤m` and use auxiliary-level independence to obtain the polynomial and unramifiedness at `q`. Proper/parabolic specialization and tame cusps apply over `Spec ℤ[1/(mℓ)]`; no fibre at `ℓ` is required. Descent to `K_λ` uses the trace algebra of degree `≤2`: the rank-one idempotent `(1+c_∞)/2` for complex conjugation `c_∞` splits its possible central simple obstruction. In the reducible case, traces of `g` and `c_∞g` recover the two character values, so they descend too. This constructs a model, beyond equality of rationality fields.
 
 The API includes Good-place trace `λ_p(f)` and determinant; determinant `εχ_cyc^(k−1)`; coefficient embeddings and auxiliary-level independence; uniqueness of semisimple attachments; invariance under nonzero rescaling and passage to the same primitive good-prime eigensystem; finite generation of a compact-image stable lattice over the coefficient valuation ring.
 
@@ -1736,23 +1734,23 @@ Expose the form, weight, level, coefficient field and place projections. Brauer�
 
 This is auxiliary witness data for the comparison with the coefficient-defined `ArisesFrom` below. For a general residual representation the isomorphism compares its semisimplification; an isomorphism to the given representation requires semisimplicity, in particular absolute irreducibility.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.ResidualModularity.Witness`: A witness contains the eigenform, field, place, stable lattice and residual semisimplification comparison.
+- A witness contains the eigenform, field, place, stable lattice and residual semisimplification comparison.
 
-- `TauCeti.ResidualModularity.Witness.weight`: The weight of its characteristic-zero normalized eigenform.
+- The weight of its characteristic-zero normalized eigenform.
 
-- `TauCeti.ResidualModularity.Witness.level`: The level of its normalized eigenform.
+- The level of its normalized eigenform.
 
-- `TauCeti.ResidualModularity.witness_lattice_independent`: Replacing the stable lattice preserves the residual semisimplification.
+- Replacing the stable lattice preserves the residual semisimplification.
 
 **Checks.**
 
-- `TauCeti.ResidualModularity.witness_11a1_trivial` (non-example): The 11a1 weight-two newform at `p=3` cannot witness the trivial rank-two representation. Counting `E(𝔽₂)` gives 5 points, so at Frobenius 2 its reduction has trace `−2=1` and determinant 2 in `𝔽₃`, whereas the trivial representation has trace 2 and determinant 1; their characteristic polynomials differ.
+- The 11a1 weight-two newform at `p=3` cannot witness the trivial rank-two representation. Counting `E(𝔽₂)` gives 5 points, so at Frobenius 2 its reduction has trace `−2=1` and determinant 2 in `𝔽₃`, whereas the trivial representation has trace 2 and determinant 1; their characteristic polynomials differ.
 
-- `TauCeti.ResidualModularity.witness_scalar_extension` (compatibility): A witness extends to a larger finite residue field with the same weight and level.
+- A witness extends to a larger finite residue field with the same weight and level.
 
-- `TauCeti.ResidualModularity.witness_place_sensitive` (characterisation): Simultaneous transport of the form, place and residue embedding gives `aₗ(σf) mod σ(λ) = σ(aₗ(f)) mod σ(λ) = σ̄(aₗ(f) mod λ)`. Applying `ι′=ι ∘ σ̄⁻¹` recovers `ι(aₗ(f) mod λ)`.
+- Simultaneous transport of the form, place and residue embedding gives `aₗ(σf) mod σ(λ) = σ(aₗ(f)) mod σ(λ) = σ̄(aₗ(f) mod λ)`. Applying `ι′=ι ∘ σ̄⁻¹` recovers `ι(aₗ(f) mod λ)`.
 
 - For the weight-one form `47.1.b.a`, set `a=a₂(f)=(√5−1)/2`, so `a²+a−1=0`. At 11, let `λ=(11,a−3)` and `σ(a)=−1−a`, giving `σ(λ)=(11,a−7)`. The residue fields are `𝔽₁₁` and `σ̄` is the identity. Reducing the unchanged coefficient at the other place gives `7≠3`; conjugating it gives `σ(a) mod σ(λ)=−1−7=3`, as required.
 
@@ -1768,7 +1766,7 @@ The coefficient-defined predicate below is the shared interface for the consumer
 
 #### S-type and modularity predicates
 
-For a continuous `ρ̄:G_ℚ→GL₂(𝔽̄_p)`, define S-type to mean absolute irreducibility and odd determinant. In characteristic two the determinant condition for complex conjugation is automatic, while irreducibility remains a separate condition. For a normalized cuspidal full eigenform `f` of positive weight `k` and level `N`, let `A_f=TauCeti.ResidualModularity.coefficientRing f⊂ℂ` be the subring generated by all positive-index Hecke eigenvalues and unit nebentypus values. Under first-coefficient normalization these eigenvalues are its Fourier coefficients; extending the character by zero adds no generators. Define `TauCeti.ResidualModularity.ArisesFrom f p ρ̄` by the existence of one unital ring map `φ:A_f→F` to the residual coefficient field of characteristic `p`, such that at every prime `ℓ∤Np`, `ρ̄` is unramified and every arithmetic Frobenius lift satisfies `tr ρ̄(Frob_ℓ)=φ(a_ℓ(f))` and `det ρ̄(Frob_ℓ)=φ(χ_f(ℓ))ℓ^(k−1)`. This is the single residual attachment predicate; it applies to normalized full eigenforms and in particular newforms. Define `TauCeti.ResidualModularity.IsModular p ρ̄:=∃ N k f, 1≤k ∧ ArisesFrom f p ρ̄`, including the nonzero level and full cusp eigenform in the existential. The Lean attachment predicate uses the same characteristic polynomial, with integer weight exponent `k−1`, on `Representation F (Field.absoluteGaloisGroup ℚ) (Fin 2 → F)` for finite `F`; its inertia and Frobenius conditions are imposed at every maximal ideal above each good prime. Continuity is carried by consumers that use it, including the integral-model comparison. Primitive associates give the equivalent newform formulation. Rescaling a full eigenform leaves this coefficient ring and attachment predicate unchanged; normalization gives the stated Fourier-coefficient formulation. The trace/determinant design follows the Imperial College London FLT project.
+For a continuous `ρ̄:G_ℚ→GL₂(𝔽̄_p)`, define S-type to mean absolute irreducibility and odd determinant. In characteristic two the determinant condition for complex conjugation is automatic, while irreducibility remains a separate condition. For a normalized cuspidal full eigenform `f` of positive weight `k` and level `N`, let `A_f⊂ℂ` be the subring generated by all positive-index Hecke eigenvalues and unit nebentypus values. Under first-coefficient normalization these eigenvalues are its Fourier coefficients; extending the character by zero adds no generators. Define `ArisesFrom(f,p,ρ̄)` by the existence of one unital ring map `φ:A_f→F` to the residual coefficient field of characteristic `p`, such that at every prime `ℓ∤Np`, `ρ̄` is unramified and every arithmetic Frobenius lift satisfies `tr ρ̄(Frob_ℓ)=φ(a_ℓ(f))` and `det ρ̄(Frob_ℓ)=φ(χ_f(ℓ))ℓ^(k−1)`. This is the single residual attachment predicate; it applies to normalized full eigenforms and in particular newforms. Define `IsModular(p,ρ̄):=∃ N k f, 1≤k ∧ ArisesFrom(f,p,ρ̄)`, including the nonzero level and full cusp eigenform in the existential. The attachment formulation uses the same characteristic polynomial, with integer weight exponent `k−1`, on `Representation F (Field.absoluteGaloisGroup ℚ) (Fin 2 → F)` for finite `F`; its inertia and Frobenius conditions are imposed at every maximal ideal above each good prime. Continuity is carried by consumers that use it, including the integral-model comparison. Primitive associates give the equivalent newform formulation. Rescaling a full eigenform leaves this coefficient ring and attachment predicate unchanged; normalization gives the stated Fourier-coefficient formulation. The trace/determinant design follows the Imperial College London FLT project.
 
 The integral-model reading is a theorem, not the definition: for continuous absolutely irreducible `ρ̄`, `ArisesFrom(ρ̄,f)` is equivalent to an integral model of the attachment of `f` having semisimple reduction isomorphic to `ρ̄` after compatible coefficient extension. For a general continuous `ρ̄` only its semisimplification is identified; Frobenius polynomials do not recover a nonsplit extension. The coefficient map specifies the place and residue embedding. Equivalently there are a maximal ideal `P` of `integralClosure ℤ ℂ` containing `p` and an embedding of its residue field into `𝔽̄_p` giving the same coefficient and character congruences. For a smaller residual field make this comparison in its algebraic closure. The coefficient-prime formulation is a comparison theorem, not the primary predicate.
 
@@ -1776,47 +1774,47 @@ Through AutomorphicFormsOnReductiveGroups [§5.8](../AutomorphicFormsOnReductive
 
 Prove coefficient-field invariance using the actual scalar extension, finite-field descent and residue-place transport. The rational elliptic curve 11a1, `y²+y=x³−x²−10x−20`, supplies a test: its residual representation at 3 is S-type with conductor 11, weight 2 and trivial determinant character, and its associated newform gives a witness. At 5 its rational isogeny supplies a proper invariant line, so it fails S-type. At 2 an involution has determinant `−1` in the residue field without requiring the matrix to equal the identity.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.ResidualModularity.IsSType`: `ρ̄` continuous, absolutely irreducible and odd.
+- `ρ̄` continuous, absolutely irreducible and odd.
 
-- `TauCeti.ResidualModularity.coefficientRing`: The subring generated by the full Hecke eigenvalues and unit character values.
+- The subring generated by the full Hecke eigenvalues and unit character values.
 
-- `TauCeti.ResidualModularity.ArisesFrom`: A single coefficient ring map gives unramifiedness and the trace/determinant identities at all primes away from `Np`.
+- A single coefficient ring map gives unramifiedness and the trace/determinant identities at all primes away from `Np`.
 
-- `TauCeti.ResidualModularity.IsModular`: A full cusp eigenform of positive weight and nonzero level satisfies `ArisesFrom f p ρ̄`.
+- A full cusp eigenform of positive weight and nonzero level satisfies `ArisesFrom f p ρ̄`.
 
-- `TauCeti.ResidualModularity.isSType_baseChange`: IsSType `ρ̄ ↔` IsSType (`ρ̄ ⊗_F F′`).
+- IsSType `ρ̄ ↔` IsSType (`ρ̄ ⊗_F F′`).
 
-- `TauCeti.ResidualModularity.arisesFrom_baseChange`: For a fixed coefficient map `φ:A_f→F` and an injective field map `F→F′`, the defining identities hold before extension if and only if they hold after extension with the composite map. The existential predicate is invariant between algebraically closed coefficient fields. Descent to a smaller field also requires the reduced full eigensystem to have values in that field.
+- For a fixed coefficient map `φ:A_f→F` and an injective field map `F→F′`, the defining identities hold before extension if and only if they hold after extension with the composite map. The existential predicate is invariant between algebraically closed coefficient fields. Descent to a smaller field also requires the reduced full eigensystem to have values in that field.
 
-- `TauCeti.ResidualModularity.ArisesFrom.baseChange`: For an injective map `ι:F→F′` between finite characteristic-`p` fields and representations whose standard-basis matrices satisfy `ρ′(σ)=map ι (ρ(σ))`, extending coefficients carries the coefficient map and Frobenius polynomials forward. This implication needs no irreducibility.
+- For an injective map `ι:F→F′` between finite characteristic-`p` fields and representations whose standard-basis matrices satisfy `ρ′(σ)=map ι (ρ(σ))`, extending coefficients carries the coefficient map and Frobenius polynomials forward. This implication needs no irreducibility.
 
-- `TauCeti.ResidualModularity.ArisesFrom.of_dvd`: If `N∣M`, a form at level `N` gives the same system away from `Mp` on its oldspace at level `M`; there exists a full eigenform `g` of the same positive weight at level `M` with the same prime eigenvalues and character values away from `M`, and attachment to the scalar-extended representation over some finite `F′/F`. A primitive associate still has its actual level dividing `M`; a newform of level `N` is never relabelled as a newform of level `M`.
+- If `N∣M`, a form at level `N` gives the same system away from `Mp` on its oldspace at level `M`; there exists a full eigenform `g` of the same positive weight at level `M` with the same prime eigenvalues and character values away from `M`, and attachment to the scalar-extended representation over some finite `F′/F`. A primitive associate still has its actual level dividing `M`; a newform of level `N` is never relabelled as a newform of level `M`.
 
-- `TauCeti.ResidualModularity.ArisesFrom.iff_integral_model`: For continuous absolutely irreducible residual representations, the coefficient predicate is equivalent to the integral-model witness, with compatible place and residue embeddings.
+- For continuous absolutely irreducible residual representations, the coefficient predicate is equivalent to the integral-model witness, with compatible place and residue embeddings.
 
-- `TauCeti.ResidualModularity.ArisesFrom.iff_agrees_galoisAnemicEigenSystem`: The two arithmetic Hecke coordinates agree exactly when the Frobenius trace/determinant identities do.
+- The two arithmetic Hecke coordinates agree exactly when the Frobenius trace/determinant identities do.
 
-- `TauCeti.ResidualModularity.ArisesFrom.iff_exists_maximalIdeal_hecke`: The fixed-form predicate is equivalent over `𝔽̄_p` to the maximal-ideal and residue-embedding condition, including containment of the form's characteristic-zero eigenkernel.
+- The fixed-form predicate is equivalent over `𝔽̄_p` to the maximal-ideal and residue-embedding condition, including containment of the form's characteristic-zero eigenkernel.
 
-- `TauCeti.ResidualModularity.ArisesFrom.iff_integralClosure_congruence`: Over `𝔽̄_p`, a coefficient reduction extends to a prime of the algebraic integers in `ℂ`; conversely that prime and its residue embedding give the defining coefficient map.
+- Over `𝔽̄_p`, a coefficient reduction extends to a prime of the algebraic integers in `ℂ`; conversely that prime and its residue embedding give the defining coefficient map.
 
 **Checks for S-type.**
 
-- `TauCeti.ResidualModularity.isSType_11a1_three` (computation): `E[3]` for 11a1 is of S-type with `N = 11`, `k = 2`, `ε = 1`, and arises from 11a1.
+- `E[3]` for 11a1 is of S-type with `N = 11`, `k = 2`, `ε = 1`, and arises from 11a1.
 
-- `TauCeti.ResidualModularity.not_isSType_11a1_five` (non-example): `E[5]` for 11a1 is reducible, hence not of S-type.
+- `E[5]` for 11a1 is reducible, hence not of S-type.
 
-- `TauCeti.ResidualModularity.isSType_p2_odd` (degenerate): At `p = 2` oddness is automatic: `det ρ̄(c) = 1 = −1` in `F`.
+- At `p = 2` oddness is automatic: `det ρ̄(c) = 1 = −1` in `F`.
 
 **Checks for ArisesFrom.**
 
-- `TauCeti.ResidualModularity.arisesFrom_11a1_three` (computation): `E[3]` for 11a1 arises from its normalized weight-two newform, using its rational coefficient field and the place at 3.
+- `E[3]` for 11a1 arises from its normalized weight-two newform, using its rational coefficient field and the place at 3.
 
-- `TauCeti.ResidualModularity.not_arisesFrom_trivial_11a1_three` (non-example): The trivial rank-two `𝔽₃` representation does not arise from that form: at Frobenius 2 its polynomial is `(X−1)²`, while the form gives `X²−X+2`.
+- The trivial rank-two `𝔽₃` representation does not arise from that form: at Frobenius 2 its polynomial is `(X−1)²`, while the form gives `X²−X+2`.
 
-- `TauCeti.ResidualModularity.not_arisesFrom_11a1_three_delta` (non-example): `E[3]` for 11a1 does not arise from `Δ`. At Frobenius 2 its trace is `−2=1` in `𝔽₃`, whereas `τ(2)=−24` reduces to 0. The different traces give different characteristic polynomials.
+- `E[3]` for 11a1 does not arise from `Δ`. At Frobenius 2 its trace is `−2=1` in `𝔽₃`, whereas `τ(2)=−24` reduces to 0. The different traces give different characteristic polynomials.
 
 - A nonsplit unipotent representation and its semisimplification can have identical Frobenius trace and determinant; the integral-model isomorphism theorem therefore retains absolute irreducibility.
 
@@ -1826,11 +1824,11 @@ The interface consists of:
 
 **Checks for IsModular.**
 
-- `TauCeti.ResidualModularity.isModular_11a1_three` (computation): The weight-two newform of 11a1 supplies a modularity witness for `E[3]`.
+- The weight-two newform of 11a1 supplies a modularity witness for `E[3]`.
 
-- `TauCeti.ResidualModularity.isModular_11a1_five` (boundary): The semisimplification of `E[5]` for 11a1 is modular through the same newform. The rational point `(5,5)` has order 5 and supplies an invariant line, so this representation fails S-type.
+- The semisimplification of `E[5]` for 11a1 is modular through the same newform. The rational point `(5,5)` has order 5 and supplies an invariant line, so this representation fails S-type.
 
-- `TauCeti.ResidualModularity.not_isModular_trivial_three` (non-example): The trivial rank-two `𝔽₃` representation is not modular. Every newform attachment has determinant `−1` at complex conjugation, since `ε(−1)=(−1)^k` and `det ρ_f=εχ_cyc^(k−1)`; reduction and semisimplification preserve this determinant. The trivial representation has determinant `1≠−1` in `𝔽₃`.
+- The trivial rank-two `𝔽₃` representation is not modular. Every newform attachment has determinant `−1` at complex conjugation, since `ε(−1)=(−1)^k` and `det ρ_f=εχ_cyc^(k−1)`; reduction and semisimplification preserve this determinant. The trivial representation has determinant `1≠−1` in `𝔽₃`.
 
 *Needs:* AutomorphicFormsOnReductiveGroups §§5.8, 7.3; ModularForms Layers 4, 8, 8G and 8W; [A residual modularity witness](#target-residual-modularity-witness); [Invariance and renormalized twists](#target-recipe-well-definedness-and-twisting); [Determinant and parity](#target-determinant-parity-and-weight-mod-p-minus-one); ArithmeticGaloisRepresentations Layer 3; ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7.
 
@@ -1844,21 +1842,21 @@ For an S-type `ρ̄` define `ClassicalTarget(ρ̄)` to assert a residual modular
 
 Serre's bad-prime eigenvalue prediction is a further refinement: `a_ℓ≠0` precisely when the local representation admits the relevant one-dimensional unramified quotient, and then `a_ℓ` is its Frobenius eigenvalue. The `p`-unramified classical weight-`p` situation allows two `p`-eigenvalues with product `ε(p)`. These data distinguish the exact target from a bare good-prime eigensystem. The unramified local branch uses classical weight `p`, and the dyadic très branch uses 4; replacing them by Edixhoven's 1 and 3 would change this predicate.
 
-The interface consists of:
+Required objects and properties:
 
-- `TauCeti.ResidualModularity.ClassicalTarget`: Existence of a witness of the invariant level, weight and residual character.
+- Existence of a witness of the invariant level, weight and residual character.
 
-- `TauCeti.ResidualModularity.classicalTarget_implies_modular`: A classical-target witness is a modularity witness.
+- A classical-target witness is a modularity witness.
 
-- `TauCeti.ResidualModularity.classicalTarget_baseChange`: The target is invariant under extending the finite residual field.
+- The target is invariant under extending the finite residual field.
 
 **Checks.**
 
-- `TauCeti.ResidualModularity.target_weight_two` (characterisation): The requested weight is 2 precisely under the explicit local finite-flat and determinant criterion.
+- The requested weight is 2 precisely under the explicit local finite-flat and determinant criterion.
 
-- `TauCeti.ResidualModularity.target_unramified` (non-example): At odd `p` and unramified local representation the requested classical weight is `p`, rather than Edixhoven’s weight 1.
+- At odd `p` and unramified local representation the requested classical weight is `p`, rather than Edixhoven’s weight 1.
 
-- `TauCeti.ResidualModularity.target_dyadic` (computation): At `p=2` a wild très-ramifiée local representation requests weight4, not3.
+- At `p=2` a wild très-ramifiée local representation requests weight4, not3.
 
 *Needs:* [A residual modularity witness](#target-residual-modularity-witness); [S-type and modularity predicates](#target-s-type-arises-from-and-modular); ArithmeticGaloisRepresentations Layer 3; [Invariance and renormalized twists](#target-recipe-well-definedness-and-twisting).
 
@@ -1886,7 +1884,7 @@ R15.4–R15.5A; ArithmeticGaloisRepresentations Layers 1, 3 and 5; [Residual att
 
 ## Reading and suggested Lean statements
 
-The [suggested file](Suggested.lean) opens with the higher-weight and weight-one classical attachments, residual attachment for reduction eigensystems, Deligne–Serre eigenvalue lifting and bounded denominators. It then states algebraic milestones, light series definitions and arithmetic tables against the pinned carriers. It is not an exhaustive checklist. Geometric section spaces, coherent correspondences, Galois classification and the full place-sensitive witness structures have their intended signatures in the targets above. Their API names and Checks also identify the mathematical statements that implementations must supply.
+The [suggested file](Suggested.lean) states seven headline results: the higher-weight and weight-one classical attachments, the weight-one prime-moment and finite-eigenvalue density theorems, residual attachment for reduction eigensystems, Deligne–Serre eigenvalue lifting and all-prime bounded denominators. It is not an exhaustive checklist. Geometric section spaces, coherent correspondences, local Galois classification and the full place-sensitive witness comparisons require objects absent from the library pins; their mathematical targets are specified in the layers above. The compiled statements use the native analytic, representation and commutative-algebra carriers.
 
 The prose Checks distinguish negative global weights from negative supersingular fibres, weight-zero functions from constants, integral reductions from all Katz forms, linear `V` from absolute Frobenius, curve Fricke from its Hodge scalar, full-boundary characters from a single cusp orbit, peu from très with the same semisimplification, and eigenvalue lifting from a prescribed residual vector.
 
