@@ -2,7 +2,7 @@
 
 **Summary.** Quantitative primes, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
 
-The headline signatures in `Suggested.lean` are `siegel_walfisz` and `siegel_walfisz_primeCount` (§0.32), `half_interval_explicit_formula` (§1.4), `artin_euler_series_eq` (§2.18, including the degree-one Euler series in §2.3), `bounded_degree_brauer_siegel` (§2.32), `halasz_mean` (§3.33), `smoothCount_dickman` (§3.34), `zetaSecondMoment.atkinson_bound` and `zetaSecondMoment.mean_square` (§3.23, assuming `BBRFiniteInput`), and `zetaFourthMoment.asymptotic` (§3.24). Their definitions and conventions precede the headline statements; the auxiliary signatures follow them.
+`Suggested.lean` states the headline theorems on native library carriers: finite-order Hadamard factorization, Siegel and Siegel–Walfisz (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas, Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments and the Beurling remainder equivalence (Layer 3). Its definitions serve those statements. Other API names below specify library targets.
 
 ## Scope and ownership
 
@@ -176,7 +176,7 @@ Start with entire-function factorization and the pole-cancelled `ξ`-function. T
 
 ### 0.1 Exceptional real zero
 
-For `c>0` define the `c`-exceptional predicate for a nontrivial primitive quadratic character `χ` of conductor `N>1` by `L(β,χ)=0` and `1−c/log N<β<1`, with `β` real. The exceptional zero used in Proposition 7.1 is this predicate specialized to its effective absolute `c_star>0`; its conductor is called exceptional. The general parameter does not assert the existence of any zero. The representative predicate is `IsExceptionalRealZero`; `IsExceptionalRealZero.mono` increases the positive width parameter.
+For `c>0` define the `c`-exceptional predicate for a nontrivial primitive quadratic character `χ` of conductor `N>1` by `L(β,χ)=0` and `1−c/log N<β<1`, with `β` real. The exceptional zero used in Proposition 7.1 is this predicate specialized to its effective absolute `c_star>0`; its conductor is called exceptional. The general parameter does not assert the existence of any zero. The exceptional predicate increases with the positive width parameter.
 
 - `ExceptionalRealZero.iff`: For `c>0` and `N>1`, the predicate holds exactly when `χ` is primitive, nonprincipal and quadratic, `L(β,χ)=0`, and `1−c/log N<β<1`. Equivalently, for arbitrary `c,N` it is the conjunction of all these conditions, including `c>0` and `N>1`.
 - `ExceptionalRealZero.bounds`: An exceptional `β` lies strictly below 1 and strictly above the specified logarithmic cutoff.
@@ -199,9 +199,9 @@ See [47][R47], Section 7, Proposition 7.1 and following paragraph, pp. 373-374.
 
 ### 0.2 Chebyshev sum in a residue class
 
-The nonunit boundary target is `thetaAP_two_zero`: for `x≥2`, the zero class modulo 2 contributes exactly `log 2`.
+For `x≥2`, the zero class modulo 2 contributes exactly `log 2`.
 
-For `q≥1` and `a∈ZMod q, θ(x;a,q)=Σ_{p prime, p≤x, p≡a mod q} log p`. Inclusive real cutoff, empty for `x<2`. This specializes the Chebyshev sum; a coprimality hypothesis is required by asymptotic theorems, not by the finite sum. The representative sums are `thetaAP`, `psiAP` and `primeCountAP`; `thetaAP_one` identifies level one and `sum_thetaAP` sums over the full residue system.
+For `q≥1` and `a∈ZMod q, θ(x;a,q)=Σ_{p prime, p≤x, p≡a mod q} log p`. Inclusive real cutoff, empty for `x<2`. This specializes the Chebyshev sum; a coprimality hypothesis is required by asymptotic theorems, not by the finite sum. The signatures use `psiAP` and `primeCountAP`; identify level one and sum over the full residue system for the corresponding theta sum.
 
 - `theta_ap.sum`: Evaluation is the finite filtered prime sum just displayed.
 - `theta_ap.level_one`: `θ(x;0,1)=Chebyshev.theta x`.
@@ -223,9 +223,9 @@ See [47][R47], §§6–9, especially p. 369.
 
 ### 0.3 Schoenfeld explicit Chebyshev bound
 
-Under `SchoenfeldFiniteRangeInput`, for `x>0, θ(x)=Σ_{p prime,p≤x}log p < 1.000081*x`. Suggested form: `theta_lt`.
+Under `SchoenfeldFiniteRangeInput`, for `x>0, θ(x)=Σ_{p prime,p≤x}log p < 1.000081*x`.
 
-Fix the conservative analytic cutoff `X=exp(10000)`. Define `SchoenfeldFiniteRangeInput` to mean `∀ x, 0<x<X → θ(x)<1.000081x`. The separate unconditional analytic target `theta_lt_tail` proves the same inequality for every `x≥X`; `theta_lt` combines it with that finite-range hypothesis. This split needs no RH table. The analytic tail follows from the explicit zero-free-region Chebyshev error of [Rosser–Schoenfeld (1962)](https://doi.org/10.1215/ijm/1255631807), Theorem 11, (3.34), p.71: its relative error at `log x=10000` is below `0.000081` and decreases thereafter. The finite input includes all real cutoffs below `X`, including the intervals between primes. Every use of this literal constant, including §3.2, carries `SchoenfeldFiniteRangeInput`.
+Fix the conservative analytic cutoff `X=exp(10000)`. Define `SchoenfeldFiniteRangeInput` to mean `∀ x, 0<x<X → θ(x)<1.000081x`. The separate unconditional analytic tail proves the same inequality for every `x≥X`; the full-range bound combines it with that finite-range hypothesis. This split needs no RH table. The analytic tail follows from the explicit zero-free-region Chebyshev error of [Rosser–Schoenfeld (1962)](https://doi.org/10.1215/ijm/1255631807), Theorem 11, (3.34), p.71: its relative error at `log x=10000` is below `0.000081` and decreases thereafter. The finite input includes all real cutoffs below `X`, including the intervals between primes. Every use of this literal constant, including §3.2, carries `SchoenfeldFiniteRangeInput`.
 
 Checks: `θ(1)=0`; at 2 the finite input gives `log2<2.000162`; the cutoff `X` belongs to the analytic tail, while the finite hypothesis uses a strict upper endpoint.
 
@@ -251,9 +251,9 @@ See [47][R47], §6 end of Case I, pp. 369–370; Schoenfeld Theorem 6*, (5.3*)�
 
 ### 0.5 Rosser–Schoenfeld explicit prime-count bounds
 
-Under `RosserSchoenfeldFiniteRangeInput`, for `x≥59`, `(x/log x)(1+1/(2 log x))<π(x)<(x/log x)(1+3/(2 log x))`. Suggested real-cutoff form: `rosser_schoenfeld_primeCounting`.
+Under `RosserSchoenfeldFiniteRangeInput`, for `x≥59`, `(x/log x)(1+1/(2 log x))<π(x)<(x/log x)(1+3/(2 log x))`.
 
-Use the same conservative cutoff `X=exp(10000)`. Define `RosserSchoenfeldFiniteRangeInput` as the displayed pair of strict inequalities for every real `59≤x<X`. The separate analytic target `rosser_schoenfeld_primeCounting_tail` proves the pair for every `x≥X`; the combined theorem carries the finite-range input. Use Rosser–Schoenfeld (1962), §7, pp.81–82, Lemmas 1–5 and its analytic Chebyshev estimates to prove this restricted analytic tail. The source’s smaller numerical ranges are covered by the explicit input here.
+Use the same conservative cutoff `X=exp(10000)`. Define `RosserSchoenfeldFiniteRangeInput` as the displayed pair of strict inequalities for every real `59≤x<X`. The separate analytic tail proves the pair for every `x≥X`; the combined theorem carries the finite-range input. Use Rosser–Schoenfeld (1962), §7, pp.81–82, Lemmas 1–5 and its analytic Chebyshev estimates to prove this restricted analytic tail. The source’s smaller numerical ranges are covered by the explicit input here.
 
 Checks: `π(59)=17` satisfies both inequalities; the lower inequality fails at 58, where `π(58)=16`; at `X` the analytic theorem applies without a finite-input endpoint assumption.
 
@@ -265,7 +265,7 @@ See [47][R47], §9 proof, p. 382; Rosser–Schoenfeld Theorem 1.
 
 ### 0.6 Bounded-height Landau–Page theorem
 
-The signature `landau_page` expresses uniqueness of the primitive character and its simple real zero without asserting that an exception exists.
+The theorem expresses uniqueness of the primitive character and its simple real zero without asserting that an exception exists.
 
 There is an effective absolute `c>0` such that among primitive Dirichlet characters of moduli `q≤T, T≥2`, there is at most one zero `ρ=β+i*t` with `|t|≤T` and `β>1-c/log T`. Any exception is a simple real zero of a real character.
 
@@ -320,7 +320,7 @@ For the no-near-zero case integrate the logarithmic derivative on `[1,1+1/logq]`
 
 Checks: `χ=χ₁` gives a double pole at 1 and belongs to the finite positive minimum; distinct primitive quadratic characters have nonprincipal product even after passage to a common modulus; for `x≥1` the `n=1` summand equals 1 and every other smoothed summand is nonnegative.
 
-See [49][R49], Theorem12.9 and its Goldfeld proof pp.125–127. The proof just described uses its contour/positivity argument and retains all character and conductor factors. The theorem here is the L-value form; the zero-separation form follows with the derivative adapter specified below.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem12.9 and its Goldfeld proof pp.125–127. The proof just described uses its contour/positivity argument and retains all character and conductor factors. The theorem here is the L-value form; the zero-separation form follows with the derivative adapter specified below.
 
 *Needs:* `DirichletCharacter.LFunction`; `DirichletCharacter.LFunction_ne_zero_of_one_le_re`; [§0.31a][R134]; [§0.30a][R135]; [§0.30][R129]; native Mellin inversion and finite contour shift.
 
@@ -340,13 +340,11 @@ See [50][R50], §3.5, proof of Theorem2, p.25.
 
 ### 0.11 Mertens's first theorem and `Σ_{p | N} log p/p = O(log log N)`
 
-The bounded-remainder signature is `mertens_first`.
-
 For `X≥2, Σ_{p<X}(log p)/p=log X+O(1)`, with an absolute implied constant.
 
 Sum `log n=Σ_(d|n)Λ(d)` to get `Σ_(n≤x)log n=Σ_(d≤x)Λ(d)floor(x/d)`. Chebyshev `ψ(x)=O(x)` controls floor replacement. Insert `xlog x−x+O(log x)`, divide by `x`, and remove higher powers with the convergent majorant `Σ_(m≥2)log m/[m(m−1)]`. The layer's Mertens note specifies both elementary inputs. Changing `p≤x` to `p<x` costs at most `log x/x` for `x≥2`.
 
-See [49][R49], Theorem3.4(a) and proof, p.40.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(a) and proof, p.40.
 
 *Needs:* `ArithmeticFunction.vonMangoldt_sum`; `Chebyshev.psi_le_const_mul_self`; `sum_mul_eq_sub_sub_integral_mul`.
 
@@ -392,9 +390,7 @@ See [51][R51], §7.2 Definition7.5 and its enumeration paragraph, p.61.
 
 ### 0.14 Pole-cancelled Riemann xi
 
-The entire-function signature is `riemannXi_entire`.
-
-`ξ(s)=1/2+(1/2)s(s−1)completedRiemannZeta₀(s)`. This is the entire extension of `(1/2)s(s−1)π^(−s/2)Γ(s/2)ζ(s)` away from the completed poles, not the pointwise pole-multiplication convention at `s=0,1`. Use `riemannXi` for the pole-cancelled entire function, `riemannXi_eq` for the identity off 0 and 1, and `riemannXi_one_sub` for its reflection.
+`ξ(s)=1/2+(1/2)s(s−1)completedRiemannZeta₀(s)`. This is the entire extension of `(1/2)s(s−1)π^(−s/2)Γ(s/2)ζ(s)` away from the completed poles, not the pointwise pole-multiplication convention at `s=0,1`. Prove the identity off 0 and 1 and the reflection for this pole-cancelled entire function.
 
 The comparison is `2 * riemannXi = entireCompletion (dirichletData 1)`, using [LFunctions 4][R52] and [ZerosOfLFunctions 0.2][R11]. This equality is of analytic extensions, including 0 and 1. Entirety, symmetry and order one are inherited from that completion. In particular `ξ(0)=ξ(1)=1/2` and `ξ(2)=ξ(−1)=π/6`; omitting the factor 2 would fail both pairs of values.
 
@@ -444,7 +440,7 @@ Assume `ModEightFiniteInput`. With `ε=0.002811`, for `a=3` or 5 and `k≥2*10^1
 Set `X=exp(10000)`. The contract `ModEightFiniteInput` consists of
 `∀ a∈{3,5}, ∀ x, 10^10≤x<X → |θ(x;a,8)−x/4|≤0.002811x/4`,
 together with the bounded-zero assertion: for every Dirichlet character modulo 8, every zero with `0<Re s<1` and `|Im s|≤10000` has `Re s=1/2`. This is [Ramaré–Rumely][RR-primes], Theorem 2.1.1, p.399, specialized to the primitive conductors 1, 4 and 8.
-Prove the same theta error inequality for `x≥X` using that bounded-zero input, the high-height zero-free region and the smoothed explicit estimate of [Ramaré–Rumely][RR-primes], §§3.6 and 4.1–4.3, especially Theorem 4.3.1, pp.415–416. The low zeros contribute a bounded zero count times `x^(−1/2)`; bound the high-zero integral with the stated zero-free region at `log x≥10000`. Combine the two theta ranges, then subtract at `k` and `k/2`; the errors sum to `3εk/8`. The representative theorem `thetaAP_mod_eight_mass` carries the full `ModEightFiniteInput` and the restriction `a=3` or `a=5`.
+Prove the same theta error inequality for `x≥X` using that bounded-zero input, the high-height zero-free region and the smoothed explicit estimate of [Ramaré–Rumely][RR-primes], §§3.6 and 4.1–4.3, especially Theorem 4.3.1, pp.415–416. The low zeros contribute a bounded zero count times `x^(−1/2)`; bound the high-zero integral with the stated zero-free region at `log x≥10000`. Combine the two theta ranges, then subtract at `k` and `k/2`; the errors sum to `3εk/8`. The interval theorem carries the full `ModEightFiniteInput` and the restriction `a=3` or `a=5`.
 
 Checks: at `k=2·10^10` the lower argument is exactly `10^10` and is included; if `k=2X`, both arguments belong to the analytic range, whose proof retains the bounded-zero hypothesis; for `k=X`, the upper argument is analytic and the lower one uses the finite theta contract. Height 10000 is included in the bounded-zero input; deleted-factor zeros on `Re s=0` are excluded. The theta hypothesis concerns the two unit classes3 and5, and asserts no error bound for the nonunit class0.
 
@@ -470,7 +466,7 @@ See [47][R47], Proposition 7.1(i), (23), p. 373.
 
 ### 0.18 Effective character prime-number estimate
 
-The signature `effective_character_pnt` uses `IsExceptionalRealZero` and an empty or singleton exceptional-zero sum, with absolute constants chosen before the conductor.
+Use an empty or singleton exceptional-zero sum, with absolute constants chosen before the conductor.
 
 For a primitive nonprincipal character `χ` of conductor `N>1` and `X` sufficiently large, `Σ_{m≤X}χ(m)*Λ(m)=-X^β/β+O(X*exp(-c*log X/(√(log X)+log N))*(log N)^4)`, with the `β` term only when an exceptional zero exists; `c>0` and the implied constant are absolute and effective.
 
@@ -508,15 +504,13 @@ See [47][R47], §9 p.384; Rosser–Schoenfeld Theorem 6, p.70.
 
 ### 0.21 Mertens's second theorem: the reciprocal-prime sum
 
-The constant-term signature is `mertens_second`.
-
 There is a real `B` such that `Σ_{p≤x}1/p=log log x+B+O(1/log x)` for real `x≥2`, with an absolute implied constant.
 
 Pass to inclusive primes at cost `≤log x/x`. For bounded `R(t)=Σ_(p≤t)log p/p−log t`, Abel summation with `1/log t` gives `Σ_(p≤x)1/p=log log x+B+R(x)/log x−∫_x^∞R(t)/[t(log t)²]dt`. The defining integral for `B` converges absolutely; the remaining tail `≤sup|R|/log x`, for `x≥2`.
 
 One `B` and one absolute error constant work for every real `x≥2`. At `x=2` the prime 2 is included; changing the endpoint convention only changes the bounded remainder.
 
-See [49][R49], Theorem3.4(b) and its proof, pp.40–41.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(b) and its proof, pp.40–41.
 
 *Needs:* [§0.11](#s0-11); `sum_mul_eq_sub_sub_integral_mul`.
 
@@ -542,7 +536,7 @@ See [53][R53], Theorem 8.7 proof, p.49, and Exercise 8.4.10, p.52. This adapter 
 
 ### 0.23 Finite-order Hadamard factorization
 
-The signatures `finite_order_hadamard` and `finite_order_zero_summable` state the canonical product, polynomial degree bound and multiplicity-weighted zero summability directly using native analytic multiplicities. Their growth hypotheses spell out the compact-boundedness formulation of the supplier’s `OrderLE`.
+The signature `finite_order_hadamard` states the locally uniform canonical product, polynomial degree bound and multiplicity-weighted zero summability directly using native analytic multiplicities. Its growth hypothesis spells out the compact-boundedness formulation of the supplier’s `OrderLE`.
 
 For nonzero entire `f` of finite order at most `ρ≥0`, set `n=floor ρ`. Its nonzero zeros `α` with multiplicity satisfy `Σ|α|^(−n−1)<∞` and `f(z)=z^m exp(h(z))∏E_n(z/α)`, where `E_n(w)=(1−w)exp(Σ_{j=1}^n w^j/j), h` is a polynomial of degree `≤n` and the product converges locally uniformly. Finite/empty zero sets are allowed.
 
@@ -599,13 +593,11 @@ See [47][R47], §5 proof of Lemma 5.1, p.365; alternate direct input from Rosser
 
 ### 0.26 Mertens's third theorem: the Euler product
 
-The bounded Euler-product remainder is `mertens_third`.
-
 For real `x≥2, ∏_{p≤x}(1−1/p)^−1=e^γ log x+O(1)`, with `γ` Euler’s constant and an absolute implied constant.
 
 From reciprocal-prime Mertens and `−log(1−u)−u=O(u²), 0≤u≤1/2`, obtain `log∏_(p≤x)(1−1/p)^−1=log log x+κ+O(1/log x)`; the square-power tail is `O(1/x)`. Identify `κ=γ` through the real Euler product at `1+ε/log x` and Exercise5.4(c)–(d)'s corrected integral. The tilted-product, prime-tail and Euler-constant comparisons remain required named inputs. Exponentiating after identifying `κ` gives the additive `O(1)`; a two-sided comparison alone cannot identify it.
 
-See [49][R49], Theorem3.4(c), (3.6), pp.40–41; Exercise5.4, p.61.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(c), (3.6), pp.40–41; Exercise5.4, p.61.
 
 *Needs:* [§0.21](#s0-21).
 
@@ -641,7 +633,7 @@ See [51][R51], §7.2 proof of Proposition7.6, (7.7), p.62.
 
 ### 0.29 Strict derivative positivity requires nonpolynomiality
 
-The native-carrier specialization is `paired_derivatives_positive`, with reality and strict positivity asserted for every derivative.
+The specialization asserts reality and strict positivity for every derivative.
 
 Let `f` be a nonzero entire function with `OrderLE f 1`, let `m` be its vanishing order at 0, and suppose `f(−z)=(−1)^m f(z)`, every zero of `f` is purely imaginary, and `f(x)>0` for all sufficiently large positive real `x`. If `f` is not a polynomial, every derivative `f^(k)(x)` is strictly positive for `x>0`, and its Taylor coefficients of degrees `m+2j`, `j≥0`, are positive. Consume [AL.2][AL-paired]'s `AL2.PairedHadamard_derivatives_positive` through `AL2.IsCenteredOrderOne_iff_orderLE`, with exactly these hypotheses.
 
@@ -709,7 +701,7 @@ API: `primitiveL.bounded_height_count`, `.local_log_derivative`, `.safe_height_b
 - A zero of analytic multiplicity 2 contributes `2/(s−ρ)`, not one copy.
 - Imprimitive deleted factors have zeros on `Re s=0` and are outside this primitive signature; a trivial zero at 0 must be separated before dividing.
 
-See [49][R49], Lemma11.2 p.113, Lemma11.4 pp.114–115 and Lemmas8.5–8.6 pp.89–91. *Needs:* [§0.30][R129]; ZerosOfLFunctions 3.3–3.4 and 4.5–4.8; its Gamma bounds; native finite analytic orders, maximum modulus and Cauchy estimates.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Lemma11.2 p.113, Lemma11.4 pp.114–115 and Lemmas8.5–8.6 pp.89–91. *Needs:* [§0.30][R129]; ZerosOfLFunctions 3.3–3.4 and 4.5–4.8; its Gamma bounds; native finite analytic orders, maximum modulus and Cauchy estimates.
 
 <a id="s0-31"></a>
 
@@ -721,7 +713,7 @@ Use the reciprocal Mertens product asymptotic and positivity. Extend the two-sid
 
 For `y=2` the product is 1/2; extend the eventual comparison to `y≥2` using its finitely many values below any fixed threshold. Removing a fixed finite set of primes multiplies the product by finitely many positive inverse factors; the resulting constants may depend on that set.
 
-See [49][R49], Theorem3.4(c), pp.40–41; [58][R58], Lemma4.9 and proof pp.713–714; Lemma4.11 and proof pp.715–716.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(c), pp.40–41; [58][R58], Lemma4.9 and proof pp.713–714; Lemma4.11 and proof pp.715–716.
 
 *Needs:* [§0.26](#s0-26).
 
@@ -737,7 +729,7 @@ API: `dirichletL.near_one_derivative`, `.fixed_width_derivative`. Checks: the pr
 
 **§0.31b Quadratic zero separation from an `L`-value.** Let `χ` be a primitive real nonprincipal character of conductor `q≥3`. If `β` is a real zero in `[1−1/log q,1)`, the real mean-value theorem gives `1−β≥L(1,χ)/(C log²q)`; if it is farther left the same desired weaker power bound is immediate. Thus Siegel with exponent `ε/2` yields `1−β≥c_ε q^(−ε)`, with ineffective `c_ε`. The effective quadratic class-number/regulator lower bound `L(1,χ_D)≥c/√Q_D` gives the effective exponent `1/2+ε` result, using `h≥1`, the explicit imaginary roots-of-unity factor and the elementary real unit lower bound `(sqrt(D+4)+sqrt D)/2` for the positive norm-one generator. No ineffective Siegel constant enters this latter deduction.
 
-API: `dirichletL.near_one_derivative`, `.gap_of_lvalue`, `.siegel_gap`, `.effective_quadratic_gap`. Checks: a zero left of `1−1/log q` uses the distance alternative, not the derivative interval; `q=3` is included; the principal character is excluded; `Q_D≤4|D|` is applied before absorbing logarithms. Source: [49][R49], Lemma11.2 p.113 and (12.11)–(12.12) p.124; [48][R48], Lemma6.3 pp.491–492 for the effective unit and class-number normalization.
+API: `dirichletL.near_one_derivative`, `.gap_of_lvalue`, `.siegel_gap`, `.effective_quadratic_gap`. Checks: a zero left of `1−1/log q` uses the distance alternative, not the derivative interval; `q=3` is included; the principal character is excluded; `Q_D≤4|D|` is applied before absorbing logarithms. Source: Koukoulopoulos, *The Distribution of Prime Numbers*, Lemma11.2 p.113 and (12.11)–(12.12) p.124; [48][R48], Lemma6.3 pp.491–492 for the effective unit and class-number normalization.
 
 *Needs:* [§0.31a][R134]; [§0.9](#s0-9); native partial summation; the quadratic class-number formula and native unit carriers; [Quadratic field-character dictionary](#from-tau-ceti-multiquadratic-and-contourintegration).
 
@@ -819,7 +811,7 @@ See [58][R58], Lemma3.2 and proof reference, p.690.
 
 <a id="s1-2a"></a>
 
-**§1.2a Uniform Möbius major/minor arcs.** Use the authorized [49][R49], §23 pp.237–249, especially the proofs of Theorems23.5–23.6, pp.242–246, and Exercise23.4, pp.248–249. Fix `A>0`, choose `D>2(A+5)`, then `C>D+A+6`. Dirichlet approximation with `Q=x/(log x)^C` gives coprime `a,q` with `q≤Q` and `|θ−a/q|≤1/(qQ)≤1/q²`. All subsequent estimates are eventual in `x`; the remaining bounded range is absorbed in `C_A`.
+**§1.2a Uniform Möbius major/minor arcs.** Use the authorized Koukoulopoulos, *The Distribution of Prime Numbers*, §23 pp.237–249, especially the proofs of Theorems23.5–23.6, pp.242–246, and Exercise23.4, pp.248–249. Fix `A>0`, choose `D>2(A+5)`, then `C>D+A+6`. Dirichlet approximation with `Q=x/(log x)^C` gives coprime `a,q` with `q≤Q` and `|θ−a/q|≤1/(qQ)≤1/q²`. All subsequent estimates are eventual in `x`; the remaining bounded range is absorbed in `C_A`.
 
 For `(log x)^C≤q≤x/(log x)^C`, put `U=V=(log x)^D` and use the exact identity
 `μ=−μ_(≤U)∗μ_(≤V)∗1+μ_(>U)∗μ_(>V)∗1+μ_(≤U)+μ_(≤V).`
@@ -954,10 +946,10 @@ The strict `Re s>0` excludes trivial zeros and imprimitive deleted-factor zeros 
 
 - `DirichletGRH`: The proposition defined above, for one character.
 - `GRH`: For all `N ≥ 1` and all `χ` modulo `N`, DirichletGRH `χ`.
-- `DirichletGRH.re_eq_half`: If DirichletGRH `χ, 0 < Re s`, (`χ ≠ 1` or `s ≠ 1`) and `L(s,χ) = 0`, then `Re s = 1/2`.
-- `dirichletGRH_one_iff_riemannHypothesis`: For the trivial character modulo 1, DirichletGRH holds if and only if RiemannHypothesis holds: `L(s,1) = ζ(s)`, and `ζ` has no zeros with `Re s ≤ 0` other than the trivial zeros `−2, −4, …`.
-- `DirichletGRH.of_primitive`: DirichletGRH `χ` holds if and only if DirichletGRH holds for the primitive character inducing `χ`: the two `L`-functions differ by finitely many Euler factors, whose zeros lie on `Re s = 0`.
-- `GRH.riemannHypothesis`: GRH implies RiemannHypothesis.
+- Zero location: If DirichletGRH `χ, 0 < Re s`, (`χ ≠ 1` or `s ≠ 1`) and `L(s,χ) = 0`, then `Re s = 1/2`.
+- Conductor one: For the trivial character modulo 1, DirichletGRH holds if and only if RiemannHypothesis holds: `L(s,1) = ζ(s)`, and `ζ` has no zeros with `Re s ≤ 0` other than the trivial zeros `−2, −4, …`.
+- Primitive induction: DirichletGRH `χ` holds if and only if DirichletGRH holds for the primitive character inducing `χ`: the two `L`-functions differ by finitely many Euler factors, whose zeros lie on `Re s = 0`.
+- Riemann specialization: GRH implies RiemannHypothesis.
 
 **Checks.**
 
@@ -987,6 +979,8 @@ See [47][R47], §12 proof of Proposition 12.1, p. 386; Bombieri §5 remark after
 <a id="s1-8"></a>
 
 ### 1.8 Weil's explicit formula (Mestre's formalism)
+
+The signature `weil_explicit_formula` uses `WeilTestFunction`, `weilTransform` and `weilGammaTerm` for the admissible test, bilateral transform and combined Gamma subtraction.
 
 The consumer is Chenevier–Taïbi §2.3, pp.275–276, (2.3.5), applied to automorphic Rankin–Selberg pairs in the classical-group multiplicity programme. Their gamma factors and paired functional equations are not confined to the degree-one Dedekind/Hecke families of [ZerosOfLFunctions 8.2–8.4][R18]. This target retains that generality and its test-function carrier; the degree-one specializations use the supplier.
 
@@ -1160,9 +1154,9 @@ See [64][R64], Euler-factor adapter for Tsimerman, Corollary 3.3, p.384; compare
 
 ### 2.8 Partial ideal zeta series
 
-The coefficient partition signature is `sum_partialIdealZetaCoeff`; `sum_partialIdealZeta_series` and `sum_narrowPartialIdealZeta_series` give the ordinary and narrow analytic class sums on `Re s>1`.
+The coefficient partition gives the ordinary and narrow analytic class sums on `Re s>1`.
 
-For a number field `K`, choose its ordinary or narrow ideal class group, and a class A. Write `ζ_A` for [LFunctions Layer 2][R9]’s partial ray-class zeta series transported through the class equivalence at trivial finite modulus, with empty infinity part for ordinary classes and all real places for narrow classes. Its coefficient `a_A` is the supplier's `normCoeff` of the class indicator. Prove the adapter formula counting nonzero integral ideals of norm `n` in A, with `a_A(0)=0`. Quadratic period applications use narrow classes for real quadratic `K` and ordinary classes for imaginary quadratic `K`. Index ideals, not their generators. The finite class sum agrees with `NumberField.dedekindZeta` as an `LSeries`: the latter may have a different zeroth coefficient, which `LSeries` ignores. The representative ordinary-class coefficient abbreviation is `partialIdealZetaCoeff`, defined through the native `TauCeti.normCoeff`; `partialIdealZetaCoeff_eq_card` proves its cardinality expression. The analytic function and its continuation are the supplier's throughout.
+For a number field `K`, choose its ordinary or narrow ideal class group, and a class A. Write `ζ_A` for [LFunctions Layer 2][R9]’s partial ray-class zeta series transported through the class equivalence at trivial finite modulus, with empty infinity part for ordinary classes and all real places for narrow classes. Its coefficient `a_A` is the supplier's `normCoeff` of the class indicator. Prove the adapter formula counting nonzero integral ideals of norm `n` in A, with `a_A(0)=0`. Quadratic period applications use narrow classes for real quadratic `K` and ordinary classes for imaginary quadratic `K`. Index ideals, not their generators. The finite class sum agrees with `NumberField.dedekindZeta` as an `LSeries`: the latter may have a different zeroth coefficient, which `LSeries` ignores. Use `TauCeti.normCoeff` of the ordinary-class indicator, with its cardinality expression. The analytic function and its continuation are the supplier's throughout.
 
 Identify the supplier's ray classes with `ClassGroup` or `NumberField.NarrowClassGroup` at these two moduli, and transport its indicator before applying `normCoeff`, fixing coefficient 0. Convergence and class sums are consumed from LFunctions Layer 2; the class-character identity is the specialization of Layer 5 in §2.12. The local extension is quadratic conjugation and the subsequent period-normalization comparisons. Quadratic conjugation preserves norms and inverts narrow classes, hence ordinary classes through the quotient. The general conjugation identity assumes class inversion; the canonical quadratic specialization proves it.
 
@@ -1431,9 +1425,9 @@ For a finite Galois `L/K` and finite-dimensional complex `ρ`, use AdelicAlgebra
 For `P(0)=1` recursively set `a₀=1, a_(n+1)=−Σ_(j=0)^nP_(j+1)a_(n−j)`, and extend by unique ideal factorization multiplicatively, not completely multiplicatively. Expanding each reciprocal polynomial into `m=dim V^I≤d` geometric factors bounds its absolute coefficients by `(1−Np^−σ)^−d`. The `d`-fold Dedekind majorant proves ideal-indexed absolute convergence in artin-absolute-convergence. ADS1 regroupByNorm and ADS3 EulerProductData identify the canonical normCoeff `LSeries` and unordered all-prime product on `Re s>1`. Trivial `ρ` recovers all Dedekind factors, including ramified primes; zero `ρ` gives1.
 
 - `artin_euler_series.series`: The absolutely convergent Euler product equals the norm-regrouped coefficient `LSeries` on `Re s>1`.
-- `artin_euler_series.deleted`: Omitting a finite bad-prime set multiplies `L_K` by exactly `∏_{p bad}P_p((Np)^−s)`. The signature `artin_euler_series_deleted` states this for the native norm-regrouped coefficients and their restriction away from the deleted primes.
+- `artin_euler_series.deleted`: Omitting a finite bad-prime set multiplies `L_K` by exactly `∏_{p bad}P_p((Np)^−s)`. Use the native norm-regrouped coefficients and their restriction away from the deleted primes.
 
-The signature `artin_euler_series_eq` constructs native `TauCeti.EulerProductData` from polynomials `P_v(T)=∏_(i<d)(1−α_(v,i)T)` with `|α_(v,i)|≤1`. Its local power series is the formal reciprocal of `P_v`; its ideal series and norm-regrouped `LSeries` converge absolutely on `Re s>1`, and the latter is the unrestricted product of `P_v((Nv)^(−s))⁻¹`. For finite-image Artin representations, use the inertia-invariant Frobenius eigenvalues and pad to the common dimension with zeros. For unitary Hecke characters use `d=1`, with zero at a deleted prime. This states the coefficient construction and analytic comparison without a carrier for the supplier's canonical continued Artin or Hecke function; the full arithmetic identification remains the target above and in §2.3. The signature admits all bounded-degree unit-disc inverse-root systems, independently of a representation.
+The coefficient construction gives native `TauCeti.EulerProductData` from polynomials `P_v(T)=∏_(i<d)(1−α_(v,i)T)` with `|α_(v,i)|≤1`. Its local power series is the formal reciprocal of `P_v`; its ideal series and norm-regrouped `LSeries` converge absolutely on `Re s>1`, and the latter is the unrestricted product of `P_v((Nv)^(−s))⁻¹`. For finite-image Artin representations, use the inertia-invariant Frobenius eigenvalues and pad to the common dimension with zeros. For unitary Hecke characters use `d=1`, with zero at a deleted prime. This coefficient construction applies to all bounded-degree unit-disc inverse-root systems, independently of a representation. Identify it with the supplier's canonical continued Artin or Hecke function as specified above and in §2.3.
 
 **Checks.**
 
@@ -1606,7 +1600,7 @@ Source: [LFunctions Layer 5][R57], primitive/presented Euler correction, and [Ar
 
 ### 2.30 Sign of the quadratic Gauss sum from the Dedekind functional equation
 
-Let `D ≠ 1` be a fundamental discriminant, `δ = |D|, ε_D` the primitive quadratic Dirichlet character of conductor `δ` attached to `ℚ(√D)`, and `κ(D) = 1` if `D > 0, κ(D) = i` if `D < 0`. Then `(i) DirichletCharacter.rootNumber ε_D = 1`; equivalently (ii) the Gauss sum `Σ_{n mod δ} ε_D(n) e(n/δ)` equals `κ(D) δ^{1/2}`, and for every integer `r, Σ_{n mod δ} ε_D(n) e(rn/δ) = ε_D(r) κ(D) δ^{1/2}` (zero when `gcd(r,δ) > 1`); (iii) if `D` is odd and `gcd(R,δ) = 1`, then `Σ_{n mod δ} e(Rn²/δ) = κ(D) δ^{1/2} ε_D(R)`. The representative root-number signature is `rootNumber_eq_one_of_isPrimitive_of_sq_eq_one`.
+Let `D ≠ 1` be a fundamental discriminant, `δ = |D|, ε_D` the primitive quadratic Dirichlet character of conductor `δ` attached to `ℚ(√D)`, and `κ(D) = 1` if `D > 0, κ(D) = i` if `D < 0`. Then `(i) DirichletCharacter.rootNumber ε_D = 1`; equivalently (ii) the Gauss sum `Σ_{n mod δ} ε_D(n) e(n/δ)` equals `κ(D) δ^{1/2}`, and for every integer `r, Σ_{n mod δ} ε_D(n) e(rn/δ) = ε_D(r) κ(D) δ^{1/2}` (zero when `gcd(r,δ) > 1`); (iii) if `D` is odd and `gcd(R,δ) = 1`, then `Σ_{n mod δ} e(Rn²/δ) = κ(D) δ^{1/2} ε_D(R)`. Prove the root-number assertion for the canonical primitive quadratic character.
 
 Continue `ζ_K=ζLε_D` for `K=Q(√D)`. The root-one Dedekind and Riemann completed equations, with `Γ_R(s+a)`, give reflection for the quotient. Compare Mathlib `IsPrimitive.completedLFunction_one_sub` and use `ε_D⁻¹=ε_D` and a nonzero function to force `rootNumber=1` (the imaginary case is §2.16). Its definition `gaussSumχ/(I^a√N)` gives(i); `gaussSum_mulShift_of_isPrimitive` gives shifted sums for every residue, including nonunits. For squarefree odd `δ`, expand the root count `∏_(p|δ)(1+(m/p))`; only the full product survives, yielding the shifted `ε_D` Gauss sum at `R`.
 
@@ -1691,7 +1685,7 @@ Required interfaces are `regularizedHecke_circle_bound`, `regularizedHecke_value
 
 ### 2.32 Bounded-degree Brauer-Siegel
 
-For number fields of bounded degree and discriminant `D` tending to infinity, `log(h_K R_K)=(1/2+o(1)) log D`. Keep fixed-degree uniformity and possible ineffectivity explicit. The representative hR comparison is `bounded_degree_brauer_siegel`.
+For number fields of bounded degree and discriminant `D` tending to infinity, `log(h_K R_K)=(1/2+o(1)) log D`. Keep fixed-degree uniformity and possible ineffectivity explicit. The signature `bounded_degree_brauer_siegel` gives the hR comparison uniformly in degree at most a fixed bound.
 
 Use the [§2.31e][R164], which includes nonnormal fields, and the explicit residue upper bound. Apply the real analytic class-number formula; bounded degree bounds the roots-of-unity and archimedean factors, and finite adjustment handles bounded discriminants.
 
@@ -1929,8 +1923,6 @@ See [64][R64], Proof of Corollary 3.3, p. 384; [64][R64], Theorem3.2 and proof o
 
 ### 2.46 Uniform subpolynomial Dedekind residues
 
-The bounded-degree signature is `dedekindZeta_residue_subpower`.
-
 For each `n≥1` and `ε>0` there are `c,C>0` depending only on `n,ε` such that `c*D_K^(-ε)≤κ_K≤C*D_K^ε` for every number field of degree at most `n`. Constants may be ineffective. Derive from bounded-degree Brauer-Siegel, the explicit residue formula, the bounded number of roots of unity, and a finite adjustment for small discriminants. Normality is not added to the bounded-degree contract.
 
 Use bounded-degree Brauer–Siegel and the explicit positive residue formula. Uniformly bound roots of unity by degree and absorb the finite small-discriminant range.
@@ -2150,7 +2142,7 @@ For each real `ε>0` there is a natural `K>e` such that for every natural `n≥K
 
 Put `δ=ε/(4log2+2ε)∈(0,1)`, so `log2/(1−δ)≤log2+ε/2`. Set `L=log n`, `y=L^(1−δ)` and increase the natural threshold until `L≥e,y≥2` and §3.7c applies with `η=ε/2`. Factorization gives `logτ(n)=Σ_(p|n)log(v_p(n)+1)`. §§3.7a,c bound the small-prime part by `εL/(2log L)`; §3.7b bounds the large part by `(log2)L/((1−δ)log L)`. Add and exponentiate. The uniform subpower theorem is not an input.
 
-See [49][R49], Exercise2.9(b),(e),(f), pp.33–34, `k=2`; [50][R50], arXiv v3, proof of Lemma 3.1, p. 18, citing [18, §18.1, Theorem 317] (Hardy–Wright, sixth edition); subpower use in the proof of Lemma 12.3, p. 60.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Exercise2.9(b),(e),(f), pp.33–34, `k=2`; [50][R50], arXiv v3, proof of Lemma 3.1, p. 18, citing [18, §18.1, Theorem 317] (Hardy–Wright, sixth edition); subpower use in the proof of Lemma 12.3, p. 60.
 
 *Needs:* `Nat.prime_of_mem_primeFactors`; `Nat.prod_primeFactors_pow_factorization`; `Real.log_pow`; `Real.log_le_log`; `Real.log_prod`; `isLittleO_log_rpow_rpow_atTop`; `Real.log_rpow`; `Nat.card_divisors`; `exists_nat_ge`; [§3.7a](#s3-7a); [§3.7b](#s3-7b); [§3.7c](#s3-7c).
 
@@ -2160,7 +2152,7 @@ See [49][R49], Exercise2.9(b),(e),(f), pp.33–34, `k=2`; [50][R50], arXiv v3, p
 
 Since `p^v_p(n)|n` and `p≥2`, `v_p(n)≤log n/log2`. Bound each summand by `log(1+log n/log2)` and use at most `⌊y⌋` prime divisors.
 
-See [49][R49], Exercise2.9(b),(e),(f), pp.33–34, `k=2`.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Exercise2.9(b),(e),(f), pp.33–34, `k=2`.
 
 <a id="s3-7b"></a>
 
@@ -2250,7 +2242,7 @@ See [58][R58], Equation(3.6), proof of Lemma3.11, p.699.
 `Σ_{n≤x}f_z(n)=x Σ_{j<J} q_j(z)(log x)^{α(z)−j−1}/Γ(α(z)−j)+O_(Z,k,J)(x(log x)^{Re α(z)−J−1}),`
 where `q_j` are the Taylor coefficients of `Q_z(s)/s` at1, understood through its smooth right-half-plane extension. All constants are fixed before `z` and `x`. If `f_z` is analytic in `z` on a neighbourhood of a closed disk and has the same uniform bounds there, `q_j` are analytic on its interior; the remainder is analytic in `z` for each fixed `x`. A weaker error `O(x/log^B x)`, for any prescribed `B`, also suffices for the coefficient application below.
 
-Use [Granville–Koukoulopoulos][R81], Theorem 1 pp.2–3, §2 Lemmas 2–3 pp.3–7, §3 pp.7–10; compare [49][R49], Theorem 13.2 pp.134–139 at `Q=2`. Arbitrary prime-error exponents give arbitrarily many terms; constants depend only on divisor bounds, derivative count and uniform prime errors. Factor the square-full remainder (normal convergence on `Re s>1/2`), integrate prime errors for `Q`’s closed-half-plane derivatives, and use Cauchy for Taylor remainders. Smooth at relative width `1/T` with `|ψ^(j)|≤C_jT^j`. Repeated Mellin integration bounds `|t|≥1` by prime-error derivatives and `|t|≤1` by Taylor terms. Evaluate via twice-integrated Perron/Gamma–Laplace, remove smoothing by the short-interval divisor majorant and remove the logarithmic weight by parts. Choose the prime-error exponent after all derivative indices. This gives the compact-`Z` uniformity.
+Use [Granville–Koukoulopoulos][R81], Theorem 1 pp.2–3, §2 Lemmas 2–3 pp.3–7, §3 pp.7–10; compare Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 13.2 pp.134–139 at `Q=2`. Arbitrary prime-error exponents give arbitrarily many terms; constants depend only on divisor bounds, derivative count and uniform prime errors. Factor the square-full remainder (normal convergence on `Re s>1/2`), integrate prime errors for `Q`’s closed-half-plane derivatives, and use Cauchy for Taylor remainders. Smooth at relative width `1/T` with `|ψ^(j)|≤C_jT^j`. Repeated Mellin integration bounds `|t|≥1` by prime-error derivatives and `|t|≤1` by Taylor terms. Evaluate via twice-integrated Perron/Gamma–Laplace, remove smoothing by the short-interval divisor majorant and remove the logarithmic weight by parts. Choose the prime-error exponent after all derivative indices. This gives the compact-`Z` uniformity.
 
 Here `f_z(p^a)` is bounded by a fixed power of `a+1`, or vanishes for `a≥2` with `|f_z(p)|≤R`; choose `k≥max(1,R)` for divisor domination. Higher-power logarithms converge normally for `Re s>1/2` by `Σ_pp^−2σ<∞`, after separating finitely many small primes. Keep small-prime factors finite analytic factors even when they vanish; fixed-modulus nonvanishing fixes the remaining branches near 1.
 
@@ -2272,6 +2264,8 @@ API: `eisensteinNorm.mul`, `.euclidean_remainder`, `.inert_prime`, `.split_prime
 
 ### 3.13 Landau–Ramanujan count of sums of two squares
 
+The signature `landau_ramanujan` uses `sumsOfTwoSquaresCount` and specifies the positive constant by its convergent Euler product.
+
 For `K→∞, #{1≤k≤K:k=u²+v² for some integers u,v}∼C_L K/√log K` with the positive Landau–Ramanujan constant `C_L`.
 
 Assume `K` tends to infinity through positive real cutoffs; `u,v` are integers and represented integers are counted once, not by representation multiplicity.
@@ -2280,7 +2274,7 @@ Convert integer-square witnesses to natural-square witnesses and use the `Nat.eq
 
 `C_L=(1/√2)∏_{p≡3 mod4}(1−p^(−2))^(−1/2)`, with a convergent positive product; using `L(1,χ_−4)=π/4` and `Γ(1/2)=√π`. At `K=1` the count is1; at `K=5` it is4 `(1,2,4,5)`. The count at `K=3` is2, so3 is excluded. `9=0²+3²` is counted: the forbidden prime3 may occur to an even power. Counting only integers supported on `p=2` or `p≡1` mod4 would fail this test.
 
-See [82][R82], §1, p.3; §4.1, pp.12–13; §8, p.24, arXiv:1706.06712v3 (final version); [49][R49], Chapter13, (13.1)–(13.2), Theorem13.2 pp.130–134 and Exercise13.4 p.140; [82][R82], Introduction p.3, exceptional families; §4.1 pp.12–13.
+See [82][R82], §1, p.3; §4.1, pp.12–13; §8, p.24, arXiv:1706.06712v3 (final version); Koukoulopoulos, *The Distribution of Prime Numbers*, Chapter13, (13.1)–(13.2), Theorem13.2 pp.130–134 and Exercise13.4 p.140; [82][R82], Introduction p.3, exceptional families; §4.1 pp.12–13.
 
 *Needs:* `Nat.eq_sq_add_sq_iff`; [§0.32][R171]; [§3.12a][R163].
 
@@ -2324,7 +2318,7 @@ Use the unrestricted-power0/1 indicator with Euler factors `(1−p^−s)⁻¹` a
 
 For `M=4, R={1}, H={1}`; class3 has count0. Allowing arbitrary reduced classes would give a false positive count. For `M=4, R={3}, H={1,3}`; both classes have positive asymptotic-sized counts; the identity class includes `ν=1` and products of an even number of3 mod4 primes. 9 is allowed when `M=4,R={3}`, whereas3 is forbidden for `R={1}`; this distinguishes the unrestricted-support and squarefree indicators. The exact half-cardinality condition has no solution for `M=1` or2, since `φ(M)=1`; rounding `φ(M)/2` would falsely admit the empty prime family.
 
-See [82][R82], §1, p.3; §4.1, pp.12–13; §8, p.24, arXiv:1706.06712v3 (final version); [82][R82], §8, Proposition8.1 and ensuing density discussion, pp.22–24; [49][R49], Chapter13 (13.1)–(13.2), Theorem13.2 pp.130–134.
+See [82][R82], §1, p.3; §4.1, pp.12–13; §8, p.24, arXiv:1706.06712v3 (final version); [82][R82], §8, Proposition8.1 and ensuing density discussion, pp.22–24; Koukoulopoulos, *The Distribution of Prime Numbers*, Chapter13 (13.1)–(13.2), Theorem13.2 pp.130–134.
 
 *Needs:* [§0.32][R171]; `DirichletCharacter.LFunction_ne_zero_of_one_le_re`; [§3.12a][R163].
 
@@ -2346,7 +2340,7 @@ See [83][R83], Proof of Proposition 5.2, p.27.
 
 ### 3.18 Pretentious distance
 
-For complex-valued `f,g` on positive integers and `x≥1, D(f,g;x)=√(Σ_{p≤x}(1−Re(f(p)conj(g(p))))/p)`, used under `|f(p)|,|g(p)|≤1`. This is a distance on prime data, not a metric on all multiplicative functions: `D(f,f;x)` can be positive if `|f(p)|<1`. The representative prime-data distance is `pretentiousDist`, with multiplicative triangle inequality `pretentiousDist_mul_le` for disk-valued functions.
+For complex-valued `f,g` on positive integers and `x≥1, D(f,g;x)=√(Σ_{p≤x}(1−Re(f(p)conj(g(p))))/p)`, used under `|f(p)|,|g(p)|≤1`. This is a distance on prime data, not a metric on all multiplicative functions: `D(f,f;x)` can be positive if `|f(p)|<1`. The prime-data distance used in Halász’s theorem is `pretentiousDist`; prove its multiplicative triangle inequality for disk-valued functions.
 
 Use finite primes `p≤⌊x⌋` and the real square root. Unit-disc values make every summand nonnegative; finite sums and square-root laws give evaluation, symmetry, prime-data dependence and cutoff monotonicity. The squared-sum identity is §3.18b.
 
@@ -2396,6 +2390,8 @@ See [84][R84], p.4 first paragraph, extension of the η product inequality to th
 
 ### 3.19 Logarithmic-derivative coefficient class
 
+The definition `HalaszCoefficientClass` supplies the coefficient hypothesis for the Shiu and integral Halász signatures.
+
 For `κ>0, C(κ)` is a predicate on the ArithmeticFunction `C`, with its fixed value `f(0)=0` and ordinary coprime multiplicativity `f(1)=1`. Membership is witnessed by an ArithmeticFunction `C` coefficient `b=Λ_f` with `|b(n)|≤κΛ(n)` for every `n`, including0,1. For each `Re s>1` the three series `F(s)=LSeries f s, LSeries b s` and `H(s)=LSeries (n↦b(n)/log n) s` are absolutely convergent, `F(s)=exp(H(s))`, and `−F′(s)/F(s)=LSeries b s`. Division at `n=0,1` is totalized to0, since `b(0)=b(1)=0`. This exponential identity fixes the Euler logarithm branch; it is not an arbitrary Prop field or an unrelated logarithm. Coefficient uniqueness follows from the logarithmic derivative and `LSeries` uniqueness, including the normalized zero coefficient.
 
 Use `ArithmeticFunction ℂ` and its coprime multiplicativity. The concrete zero-extended witness `b` satisfies the majorant, three summability conditions and both analytic identities. Choice exposes `b`; `LSeries.eq_of_LSeries_eventually_eq` proves uniqueness at positive indices, with zero fixed separately. The exponential gives nonvanishing; the coefficient bound gives monotonicity in `κ`. Extensionality uses the underlying functions; the Checks compare their exact coefficients.
@@ -2422,7 +2418,7 @@ See [85][R85], §1 p.1, first three displayed series and definition of C(κ).
 
 ### 3.20 Smooth-number counting function
 
-For `x≥1,y≥2, Ψ(x,y)=#{1≤n≤floor x:every prime factor of n is≤y}`. Express the set using `Nat.smoothNumbers`(floor `y+1`); the carrier uses prime factors strictly below its cutoff. The representative inclusive count is `smoothCount`; `smoothCount_eq` compares it with the library’s strict prime cutoff.
+For `x≥1,y≥2, Ψ(x,y)=#{1≤n≤floor x:every prime factor of n is≤y}`. Express the set using `Nat.smoothNumbers`(floor `y+1`); the carrier uses prime factors strictly below its cutoff. The representative inclusive count is `smoothCount`; compare it with the library’s strict prime cutoff.
 
 Use `Nat.smoothNumbersUpTo ⌊x⌋ (⌊y⌋+1)`, with positive naturals and inclusive arithmetic cutoff. On `x≥1,y≥2`, strict prime cutoff is equivalent to `p≤y`. Floor monotonicity and finite inclusion give monotonicity; `p|n` implies `p≤n`, giving the large-`y` case. For `x<1`, the count is zero. The finite Checks fix the endpoints.
 
@@ -2446,7 +2442,7 @@ See [86][R86], Introduction, p.411 (terminology); Introduction p.412 and §1 p.4
 
 ### 3.21 Dickman function
 
-The construction and uniqueness signature is `existsUnique_dickman`; it specifies the negative extension separately from continuity on `[0,∞)`. The signatures `dickman_positive_antitone` and `dickman_interval_identity` provide positivity, monotonicity and the integral identity, with the negative extension required only for the identity on the whole real line.
+The signature `smoothCount_dickman` includes construction and uniqueness, specifying the negative extension separately from continuity on `[0,∞)`. Prove positivity, monotonicity and the integral identity, with the negative extension required only for the identity on the whole real line.
 
 `ρ:R→R` is0 for `u<0`, equals1 for `0≤u≤1`, is continuous on `[0,∞)`, and satisfies `uρ′(u)=−ρ(u−1)` on `u>1`. Construct it recursively on intervals `[k,k+1]` by integration; the value at0 is1, so no continuity across negative `u` is claimed.
 
@@ -2477,15 +2473,13 @@ See [86][R86], Introduction, p.411 (terminology); p.414 equation(1.5); §2 Lemma
 
 ### 3.22 Dirichlet divisor average
 
-The square-root error signature is `divisorError_isBigO`.
-
 For `x≥2, Σ_{1≤n≤x}τ(n)=x log x+(2γ−1)x+O(√x)`, with an absolute constant and inclusive real cutoff.
 
 Put `M=⌊√x⌋≥1` and use §3.22b. Replacing `⌊x/a⌋` by `x/a` costs `O(M)`; §3.22a gives `H_M=log M+γ+O(1/M)`. With `δ=√x−M∈[0,1)`, expansion shows `2xlog M−M²=xlog x−x+O(1)` and `x/M=O(√x)`. Combine with absolute constants, without divisor subpower bounds.
 
 The exact divisor sums at `x=1` and `x=4` are1 and8; the asymptotic is asserted on `x≥2` with a single absolute constant. A perfect-square endpoint is included once. The error `O(sqrt x)` requires the harmonic remainder rate, not merely existence of the Euler-constant limit.
 
-See [49][R49], Theorem3.3 and complete hyperbola proof, pp.38–39; Theorem1.11 pp.15–16.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.3 and complete hyperbola proof, pp.38–39; Theorem1.11 pp.15–16.
 
 *Needs:* `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`; `Real.eulerMascheroniConstant_lt_eulerMascheroniSeq'`; `Real.log_le_sub_one_of_pos`; [§3.22a](#s3-22a); [§3.22b](#s3-22b).
 
@@ -2495,7 +2489,7 @@ See [49][R49], Theorem3.3 and complete hyperbola proof, pp.38–39; Theorem1.11 
 
 Subtract the Euler-sequence inequalities to obtain `0<H_N−log N−γ<log(N+1)−log N`. Rewrite this as `log(1+1/N)≤1/N`. The Euler constant is Mathlib’s.
 
-See [49][R49], Theorem1.11 and complete proof, pp.15–16; Euler-sequence inequalities.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem1.11 and complete proof, pp.15–16; Euler-sequence inequalities.
 
 <a id="s3-22b"></a>
 
@@ -2503,7 +2497,7 @@ See [49][R49], Theorem1.11 and complete proof, pp.15–16; Euler-sequence inequa
 
 Partition positive pairs `ab≤x` into `a≤M` and `b≤M`, since `(M+1)²>x`. Transposition equates their counts; the intersection has `M²` pairs. Regroup by ab using the divisor carrier.
 
-See [49][R49], Hyperbola discussion, pp.37–39, (3.4)–(3.5) and Theorem3.3 proof.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Hyperbola discussion, pp.37–39, (3.4)–(3.5) and Theorem3.3 proof.
 
 <a id="s3-23"></a>
 
@@ -2513,9 +2507,9 @@ As `T→∞, ∫_0^T|ζ(1/2+it)|²dt=T log(T/(2π))+(2γ−1)T+O(√T log T)`, w
 
 Define `zetaSecondMoment.error` by `E(T)=∫_0^T|ζ(1/2+it)|²dt−T log(T/(2π))−(2γ−1)T`, using the existing `riemannZeta` and Euler constant. Under `BBRFiniteInput` of §3.23a, the sufficient quantitative target is `zetaSecondMoment.atkinson_bound`: `|E(T)|≤110√T log T` for `T≥10^30`. The proof uses the endpoint divisor remainder, the Voronoi transform and the two saddle families below, followed by Atkinson's finite sums. It requires no smoothed second-moment theorem.
 
-- `zetaSecondMoment.error_zero`: `E(0)=0` with the native interval-integral and real-`log` conventions.
-- `zetaSecondMoment.error_continuous`: `E` is continuous on `[0,∞)`; the factor `T log T` has its continuous value zero at0.
-- `zetaSecondMoment.error_increment`: for `0<S≤T, E(T)−E(S)=∫_S^T|ζ(1/2+it)|²dt−[T log(T/(2π))−S log(S/(2π))]−(2γ−1)(T−S)`.
+- Lower endpoint: `E(0)=0` with the native interval-integral and real-`log` conventions.
+- Continuity: `E` is continuous on `[0,∞)`; the factor `T log T` has its continuous value zero at0.
+- Increments: for `0<S≤T, E(T)−E(S)=∫_S^T|ζ(1/2+it)|²dt−[T log(T/(2π))−S log(S/(2π))]−(2γ−1)(T−S)`.
 - `zetaSecondMoment.mean_square`: under the same `BBRFiniteInput`, the displayed absolute-constant asymptotic follows from `atkinson_bound`, absorbing the compact initial interval.
 
 **Checks.**
@@ -2558,7 +2552,7 @@ Use `divisorCoprimeError D t = Σ_(δ|D)μ(δ)Δ(t/δ²)` for `D>0`, and `diviso
 - For `1≤T≤10^7`, `|I_1(T,7/4)|≤0.4077`, `|I_1(T,3/2)|≤κ₃`, `|I_2(T,7/4)|≤0.902`, `|I_6(T,7/4)|≤0.0945`, `|I_6(T,3/2)|≤0.131`.
 - `|I_6(10^7,3/2)+0.056667|≤10^−6`.
 
-The initial interval has unconditional targets. The signature `divisorRemainderIntegral_one` gives `I_D(1,σ)=0` for every D and σ. The signature `divisorRemainderIntegral_kappa7_bounds` gives `0.400<κ₇<0.415`, using the convergent alternating eta series for `ζ(3/4)` and the Euler-sequence bounds for γ. The signature `divisorRemainderIntegral_initial` gives, for `1≤T≤2`, both
+The initial interval has unconditional targets: `I_D(1,σ)=0` for every D and σ, and `0.400<κ₇<0.415`, using the convergent alternating eta series for `ζ(3/4)` and the Euler-sequence bounds for γ. For `1≤T≤2`, prove both
 
 `I_1(T,7/4)=(4/3)(1−T^(−3/4))−4T^(1/4)(log T+2γ−5)+8γ−20`
 
@@ -2566,7 +2560,7 @@ and `T^(1/4)|I_1(T,7/4)−κ₇|≤1/2`. Here `D(u)=1` almost everywhere on `[1,
 
 The coefficient API is finite Möbius inversion, specialization at D=1 and evaluation of each finite divisor sum. Checks: `divisorCoprimeError 1 x=Δ(x)`; `divisorCoprimeError 2 x=Δ(x)−Δ(x/4)`; at `x=0` every summand is0. The integral API is its defining interval integral, reversal of endpoints, and additivity on positive compact intervals. Checks: `I_D(1,σ)=0`; `I_1(T,σ)=∫_1^T Δ(u)u^(−σ)du`; for positive `S,T`, `I_D(T,σ)−I_D(S,σ)=∫_S^T divisorCoprimeError D u·u^(−σ)du`, including `S=T` and reversed endpoints. Local integrability follows from finitely many divisor jumps on compact positive intervals.
 
-These aggregate finite bounds are supplied as hypotheses, not as floating-point certificates. Their source is [BBR], §§6–7 pp.1034–1037, Lemmas8.3,8.6,8.9 pp.1040–1041, Lemmas9.1,9.4 p.1042 and Lemmas10.1,10.3 pp.1042–1043. The real intervals include all integer right values and, by taking left limits, their left values; between integers the smooth main term is retained. Prove the analytic tails by BBR §§8–10, including (10.1)–(10.2), with the finite bounds substituted only at the indicated split points. In particular the global square-root and cubic bounds, all literal bounds in §§3.23a–g that use them, `zetaSecondMoment.atkinson_remainder_budget`, `zetaSecondMoment.atkinson_bound` and `zetaSecondMoment.mean_square` carry the same `BBRFiniteInput`. The qualitative divisor and moment-error identities require no such input.
+These aggregate finite bounds are supplied as hypotheses, not as floating-point certificates. Their source is [BBR], §§6–7 pp.1034–1037, Lemmas8.3,8.6,8.9 pp.1040–1041, Lemmas9.1,9.4 p.1042 and Lemmas10.1,10.3 pp.1042–1043. The real intervals include all integer right values and, by taking left limits, their left values; between integers the smooth main term is retained. Prove the analytic tails by BBR §§8–10, including (10.1)–(10.2), with the finite bounds substituted only at the indicated split points. In particular the global square-root and cubic bounds, all literal bounds in §§3.23a–g that use them, the explicit Atkinson remainder bound, `zetaSecondMoment.atkinson_bound` and `zetaSecondMoment.mean_square` carry the same `BBRFiniteInput`. The qualitative divisor and moment-error identities require no such input.
 
 For the split-point estimates put `R₇(T)=T^(1/4)|I_1(T,7/4)−κ₇|`. The initial estimate and the overlapping finite ranges give `R₇≤1/2` on `[1,10^7]`. Before using any cubic bound, the hyperbola inequality `|Δ(u)|≤√u+1/2` gives `R₇(T)≤4+2/(3√T)` by integration from T to ∞. For `T≥10^7`, this yields `|I_1(T,7/4)|<0.479`; [BBR], Lemma8.2 gives `|I_1(T,3/2)|≤κ₃+4+7/(6√T)+(9/2)T^(−0.72)<4.71`. Together with the finite absolute-integral bounds these are the global inputs of §9. Its detailed estimate and the finite divisor bounds give `|Δ(u)|≤0.475√u` for `u≥4033`. Hence `R₇≤1.90` there by tail integration, and on `[1,4033]` by the finite estimate. Lemma8.2 now gives `|I_1(T,3/2)|<2.61` for `T≥10^7`; the finite interval supplies the rest. Thus §10 retains the constants0.953,0.163 for the two coprime `7/4` integrals and3.91,5.98 for the two coprime `3/2` integrals. In (10.1) every scaled argument has `T/δ²≥10^7/36>4033`; in the `3/2` comparison it exceeds1, so the global `R₇≤1.90` applies. These estimates give the same cubic divisor bound and the same Atkinson budget in §3.23g.
 
@@ -2578,9 +2572,9 @@ Checks of the input: `x=1` uses the inclusive `Δ(1)=2−2γ`; the cubic interva
 - At `T=2`, the scaled tail lies between0.30190 and0.30191. The initial formula and both applicable bounds include this endpoint; the divisor jump contributes no mass to the integral.
 - At `T=3/2`, the exact formula gives `0.19574<I_1(T,7/4)<0.19575`. This interior value uses the smooth main term throughout the interval.
 
-The explicit divisor-bound signatures are `divisorError_sqrt_bound` and `divisorError_cubic_bound`, both carrying `BBRFiniteInput`.
+Both explicit divisor bounds carry `BBRFiniteInput`.
 
-The cap API is `endpointCap.nonneg`, `endpointCap.le_one`, `endpointCap.even`, and `endpointCap.eq_inv_abs` for `|u|≥1`; it is continuous everywhere. Real reciprocal totalization must not replace its value at zero.
+Prove that the cap is nonnegative, at most one, even, continuous everywhere, and equal to `|u|⁻¹` for `|u|≥1`. Real reciprocal totalization must not replace its value at zero.
 
 **Checks of the divisor remainders.**
 
@@ -2602,7 +2596,7 @@ The cap API is `endpointCap.nonneg`, `endpointCap.le_one`, `endpointCap.even`, a
 
 `Y_ν(z)=π⁻¹∫_0^π sin(z sinθ−νθ)dθ−π⁻¹∫_0^∞[exp(νt)+cos(πν)exp(−νt)]exp(−z sinh t)dt.`
 
-The signatures `besselY_connection`, `besselY_ode`, `besselY_recurrence` and `besselY_half` give the connection, differential equation, recurrence and half-order normalizations.
+Prove the connection, differential equation, recurrence and half-order normalizations.
 
 Both integrals are absolutely convergent on this domain, locally uniformly in `(ν,z)`. Outside it the native totalized integral is only a value, with no asserted analytic identity. This representation avoids division by `sin(πν)` at integral orders.
 
@@ -2623,7 +2617,7 @@ For integers `r,s≥1` with `|ν|<min(2r+1/2,2s+3/2)`, set `ω=x−πν/2−π/4
 
 where `|U|≤|a_(2r)(ν)|x^(−2r)` and `|V|≤|a_(2s+1)(ν)|x^(−2s−1)`. At half-integral orders use the exact terminating expressions: a remainder is zero once its cutoff is beyond the last nonzero coefficient. This does not assert a first-omitted-term bound for a truncation outside the displayed order restrictions. Prove `besselKY.positive_axis_remainders` from the convergent integral definitions, contour deformation and integration by parts, retaining the integral remainders; no merely formal asymptotic series is used. [Nemes], (1.9), (1.14) pp.2–3, (1.22)–(1.23) p.5, Theorem1.5 and (1.30) p.6, AppendixA (A.3) p.25 supply this route. The positive-axis specialization needs no incomplete-Gamma or terminant carrier.
 
-The real second-kind remainder signature is `besselY_positive_axis_remainders`; `besselAsymptoticCoeff_half` states the terminating half-order boundary.
+Prove the real second-kind remainder bounds and the terminating half-order boundary.
 
 The proof of these positive-axis bounds can stay entirely with positive-axis `K` values. For integer `N≥1` and real `|ν|<N+1/2`, prove `besselKY.remainder_integrals`: with `C_ν=√(2/π)cos(πν)/π`,
 
@@ -2703,7 +2697,7 @@ Deform the real segment along `x±η(1+i)μ(x)`, choose the sign away from the s
 
 <a id="s3-23d"></a>
 
-**§3.23d Logarithmic saddle family.** For positive `α,β,γ` with `α≠1, T≥T₀≥1, k≥1, 0<a≤min(1,T/(8πk))` and `b≥T`, put `atkinson.logRatio(y)=L(y)=log((1+y)/y)` for `y>0` and `atkinson.logarithmicWeight(α,β,γ,y)=y^(−α)(1+y)^(−β)L(y)^(−γ)`. Their API is positivity and smoothness on `y>0, L′(y)=−1/(y(1+y))`, and the weight comparison `Φ` and derivative estimates below. Prove `atkinson.logarithmic_saddle` for
+**§3.23d Logarithmic saddle family.** For positive `α,β,γ` with `α≠1, T≥T₀≥1, k≥1, 0<a≤min(1,T/(8πk))` and `b≥T`, put `atkinson.logRatio(y)=L(y)=log((1+y)/y)` for `y>0` and `atkinson.logarithmicWeight(α,β,γ,y)=y^(−α)(1+y)^(−β)L(y)^(−γ)`. Their API is positivity and smoothness on `y>0, L′(y)=−1/(y(1+y))`, and the weight comparison `Φ` and derivative estimates below. Prove the logarithmic saddle estimate for
 
 `I_±=∫_a^b y^(−α)(1+y)^(−β)L(y)^(−γ)exp(i[TL(y)±2πky])dy.`
 
@@ -2717,7 +2711,7 @@ For the minus sign there is no saddle and no main term. Both remainders are boun
 `μ(x)=x/2, F(x)=T/(1+x), Φ(x)=x^(−α)(1+x)^(γ−β),`
 `A₁=2^(α+β−γ)3^γ, A₂=1/π, A₃=27π, η=129/(3800√2).`
 
-All complex logarithms and powers are principal on these discs, which avoid the cut. `atkinson.logarithmic_saddle_uniform` bounds these explicit remainder expressions uniformly in either range `1≤k≤A″T` or `k≥A′T`, for fixed positive A′,A″. The respective local-error scales are
+All complex logarithms and powers are principal on these discs, which avoid the cut. The uniform logarithmic saddle estimate bounds these explicit remainder expressions uniformly in either range `1≤k≤A″T` or `k≥A′T`, for fixed positive A′,A″. The respective local-error scales are
 
 `T^((γ−α−β)/2−1/4)k^(−(γ−α−β)/2−5/4)`,  and  `T^(−1/2−α)k^(α−1)`.
 
@@ -2729,7 +2723,7 @@ Endpoint scales are `a^(1−α)/T`, `b^(γ−α−β)/k`; retain the far error�
 - Here `ψ(1)=4πlog2+2π` and `ψ″(1)=3π`. The Gaussian phase has `+π/4` and scale `√(2/3)`, fixing both the `2π` convention and orientation.
 - For the first moment-sum parameters `α=β=1/2,γ=1`, the amplitude behaves like1 at∞. Each unpaired complex improper integral fails to converge at this boundary. In the paired imaginary parts the sine supplies decay; with `α>1/2` the endpoint `b^(1/2−α)` first vanishes in the required order of limits.
 
-The named boundary target `atkinson.logarithmic_boundary_nonconvergence` states failure of the ordinary unpaired improper limit at `T=4π,k=1,α=β=1/2,γ=1`; it retains the paired-integral convention above.
+The logarithmic boundary theorem states failure of the ordinary unpaired improper limit at `T=4π,k=1,α=β=1/2,γ=1`; it retains the paired-integral convention above.
 
 **Checks of the `log` ratio and weight.**
 
@@ -2749,7 +2743,7 @@ The named boundary target `atkinson.logarithmic_boundary_nonconvergence` states 
 
 Their API is positivity of `Q` for `T,x>0`, smoothness in both positive parameters, `Q_(c²T)(cx)=Q_T(x)` and `h_(c²T)(cx)=c²h_T(x)` for `c>0`, and `h′_T(x)=2πx−2√(π²x²+2πT)`. Every denominator in `Q` is strictly positive on this domain.
 
-Prove `atkinson.moving_saddle` for the improper integral `∫_a^∞x^(−α)Q_T(x)exp(i[4πx√n+h_T(x)])dx`. There is a saddle in `[a,∞)` exactly when `n<T/(2π)` and `(T/(2π)−n)²/n≥a²`. Its position is `x₀=(T/(2π)−n)/√n` and its main term is
+Prove the moving saddle estimate for the improper integral `∫_a^∞x^(−α)Q_T(x)exp(i[4πx√n+h_T(x)])dx`. There is a saddle in `[a,∞)` exactly when `n<T/(2π)` and `(T/(2π)−n)²/n≥a²`. Its position is `x₀=(T/(2π)−n)/√n` and its main term is
 
 `(4π/T)n^((α−1)/2)(log(T/(2πn)))⁻¹(T/(2π)−n)^(3/2−α)exp(i[T−Tlog(T/(2πn))−2πn+π/4])`.
 
@@ -2774,7 +2768,7 @@ Define `atkinson.cutoff(T,b)=(√(b+2T/π)−√b)²/4` for `T,b>0`. Its API is 
 
 `n≤cutoff(T,b) ↔ n<T/(2π)` and `(T/(2π)−n)²/n≥b,  n>0`.
 
-The signature `atkinson.cutoff_bounds` gives positivity and the strict upper cutoff.
+Prove positivity and the strict upper cutoff.
 
 Thus for `b=N+1/2, a=√b`, the finite main-sum cutoff includes `n` exactly at the saddle endpoint. Also `2√cutoff=√(b+2T/π)−√b`, so its endpoint error is precisely `c(2√n−2√cutoff)`. For proportional `b/T` these formulas give compact positive lower and upper multiples of `T` for cutoff and for `T/(2π)−cutoff`; the explicit inequalities are [87][R87], (100)–(102) p.32.
 
@@ -2845,17 +2839,17 @@ Extend `e(T,0)=1` for `T>0` by its continuous right limit; `f(T,0)=−π/4`. Def
 
 The light Lean names for `e,f,g,S₁,S₂` are respectively `atkinson.amplitude`, `atkinson.phase₁`, `atkinson.phase₂`, `atkinson.firstSum`, `atkinson.secondSum`. Here `N` is a natural number, `Z` is a real cutoff, and the analytic domain of `S₂` is `0≤Z<T/(2π)`; it is not defined analytically by a sum containing a zero logarithmic denominator. The light totalized Lean formula outside this domain asserts no analytic identity. The API is continuous extension of `e` at `0, 0<e(T,n)<1` for `0<πn/(2T)≤50`, homogeneous scaling `e(cT,cn)=e(T,n)` for `c>0`, finite-sum cutoff and jump identities, and the phase evaluations below. See [87][R87], (5)–(10) p.2 and the beginning of §7 p.35.
 
-The amplitude extension signature is `atkinson.amplitude_tendsto_zero`. The proportional-truncation signature is `zetaSecondMoment.atkinson_formula`.
+Prove the continuous amplitude extension. The proportional-truncation signature is `zetaSecondMoment.atkinson_formula`.
 
 `atkinson.formula`: for any fixed `0<A′≤A″`, uniformly for positive integers `N` with `A′T≤N≤A″T` as `T→∞`,
 
 `E(T)=S₁(T,N)+S₂(T,cutoff(T,N+1/2))+O_(A′,A″)(log²T).`
 
-Assume `BBRFiniteInput` for the explicit remainder and moment bounds in this target. For the explicit specialization `T≥10^30, (9/10)T≤N≤(11/10)T`, prove `zetaSecondMoment.atkinson_remainder_budget` with the actual remainder `ℛ=E−S₁−S₂`:
+Assume `BBRFiniteInput` for the explicit remainder and moment bounds in this target. For the explicit specialization `T≥10^30, (9/10)T≤N≤(11/10)T`, prove the explicit Atkinson remainder bound with the actual remainder `ℛ=E−S₁−S₂`:
 
 `|ℛ|≤95log²T+275log T+7.3·10^18`.
 
-Here is the proof chain and the quantitative accounting. For `b=N+1/2`, apply the zeta functional equation to the two-variable off-diagonal Dirichlet series, subtract the Gamma main term, and use finite Poisson/Stieltjes summation. Continue the divisor tail from `Re u<1/2` to `Re u<2/3` using §3.23a's cubic estimate. It yields the contour decomposition `atkinson.contour_decomposition`, `E=E₁−E₂+E₃−E₄+R`, with
+Here is the proof chain and the quantitative accounting. For `b=N+1/2`, apply the zeta functional equation to the two-variable off-diagonal Dirichlet series, subtract the Gamma main term, and use finite Poisson/Stieltjes summation. Continue the divisor tail from `Re u<1/2` to `Re u<2/3` using §3.23a's cubic estimate. It yields the contour decomposition, `E=E₁−E₂+E₃−E₄+R`, with
 
 `E₁=4Σ_(n≤N)d(n)∫_0^∞sin(TL(y))cos(2πny)/[√(y(1+y))L(y)]dy,`
 `E₂=4Δ*(b)∫_0^∞sin(TL(y))cos(2πby)/[√(y(1+y))L(y)]dy,`
@@ -2869,13 +2863,13 @@ Integrals over an unbounded interval are successive improper limits in the displ
 
 Estimate `E₁−S₁` using §3.23d at `α↓1/2`, `E₂` using the cubic divisor bound, and `E₃` by splitting at `1/(2N+1),1`, retaining the residue `u=0`, then applying §3.23d at `α=3/2`. For `E₄` split into Tcos, `−sin/2` and `−sin/L`; use §3.23d inside. Apply §3.23f only to the first outer integral: §3.23e at `α=3/2` gives main term `−S₂`, at `α=5/2` controls the correction; §3.23a’s transition sum controls endpoints. Absolute Voronoi remainder and the cubic bound control other tails. Thus the `−E₄ sign` produces `+S₂`.
 
-Retain §3.23c’s `R_end,R_far,R_loc` and §3.23e’s `V_j`. Equations (81), (86), (93)–(95), (104), (106) of [87][R87], pp.24–35 bound the four errors. At `A′=0.9,A″=1.1,T₀=10^30,η=1/20`, use `A=√0.9` and §3.23e’s `A′=√(1.1+1/(2T₀))`. Collect all errors, including `R`, into `b₁log²T+b₂logT+b₃(T)` as in the proof of Theorem 2. Prove `atkinson.budget_bound`: `b₁≤95,b₂≤275,b₃(T)≤7.3·10^18` for `T≥T₀`; more precisely `94.38860<b₁<94.38861`, `274.80674<b₂<274.80675`. The bound retains the decreasing exponential terms. Elementary `π,γ,log,exp`, square-root/`arcsinh` inequalities and the integral-test `ζ` tail give these combined bounds (Theorem 2 and Table 1 p.4; §6 pp.34–35), with the displayed analytic errors retained.
+Retain §3.23c’s `R_end,R_far,R_loc` and §3.23e’s `V_j`. Equations (81), (86), (93)–(95), (104), (106) of [87][R87], pp.24–35 bound the four errors. At `A′=0.9,A″=1.1,T₀=10^30,η=1/20`, use `A=√0.9` and §3.23e’s `A′=√(1.1+1/(2T₀))`. Collect all errors, including `R`, into `b₁log²T+b₂logT+b₃(T)` as in the proof of Theorem 2. Prove the combined budget estimate: `b₁≤95,b₂≤275,b₃(T)≤7.3·10^18` for `T≥T₀`; more precisely `94.38860<b₁<94.38861`, `274.80674<b₂<274.80675`. The bound retains the decreasing exponential terms. Elementary `π,γ,log,exp`, square-root/`arcsinh` inequalities and the integral-test `ζ` tail give these combined bounds (Theorem 2 and Table 1 p.4; §6 pp.34–35), with the displayed analytic errors retained.
 
 At these fixed parameters, set `u=1+√(1+20/(9π)), v=1+√(1+20/(11π)), H=V₁(3/2)/√π·(11/10+1/(2T₀))^(1/4)√v`, with `V₁` evaluated at the preceding `A,A′,η`. Then `b₁=1.445H` and `b₂=H[15.35−2.89log((9/10)π²u²)]`. Define `b₃(T)` as the sum of the remaining positive error terms in (81), (86), (93)–(95), (104), (106)–(108) and (21), after extracting those two logarithmic terms. Its bound is the combined `7.3·10^18` allowance above.
 
 Check of the residual scale: at `a=0.9,T=T₀`, let `η_a=√(1/(2πa)+1/4)−1/2` and `U₄₄=3.5·10^19(aη_a)^(−1/2)(1+1/(2πa))²` as in (54). The positive term `6(7+log(aT))/(aT)^(1/6)·12U₄₄` from (95) lies between `7.264·10^18` and `7.265·10^18`. This term belongs to the upper error envelope for the combined remainder; it is not a lower bound for the oscillatory remainder itself.
 
-Take `N=⌊T⌋`, so `0.9T≤N≤1.1T`, and `Z=cutoff(T,N+1/2)` lies between fixed positive multiples of `T` below `T/(2π)`. From `e≤1` and §3.23a prove `atkinson.main_sum_bound`: `|S₁|+|S₂|≤3.87√TlogT−1.1√T`. For the explicit comparison put `z₊=(√(0.9+2/π)−√0.9)²/4`, `C₁=4√2/(2π)^(1/4)`, `C₂=4√z₊/log(1/(2πz₊))`. Then `Z≤z₊T`, `C₁+C₂<3.862`, `C₂logz₊<−1.111`; monotonicity of `√ZlogZ/log(T/(2πZ))` gives the bound, with positive logarithmic denominator by (100)–(102). Add the remainder and discard `−1.1√T`: the normalized error is at most `3.87+95logT/√T+275/√T+7.3·10^18/(√TlogT)<109.55` at `T₀`, decreasing thereafter. Hence `|E(T)|≤110√TlogT` at the full endpoint ([87][R87], §7 (109), p.35).
+Take `N=⌊T⌋`, so `0.9T≤N≤1.1T`, and `Z=cutoff(T,N+1/2)` lies between fixed positive multiples of `T` below `T/(2π)`. From `e≤1` and §3.23a prove the finite main-sum bound: `|S₁|+|S₂|≤3.87√TlogT−1.1√T`. For the explicit comparison put `z₊=(√(0.9+2/π)−√0.9)²/4`, `C₁=4√2/(2π)^(1/4)`, `C₂=4√z₊/log(1/(2πz₊))`. Then `Z≤z₊T`, `C₁+C₂<3.862`, `C₂logz₊<−1.111`; monotonicity of `√ZlogZ/log(T/(2πZ))` gives the bound, with positive logarithmic denominator by (100)–(102). Add the remainder and discard `−1.1√T`: the normalized error is at most `3.87+95logT/√T+275/√T+7.3·10^18/(√TlogT)<109.55` at `T₀`, decreasing thereafter. Hence `|E(T)|≤110√TlogT` at the full endpoint ([87][R87], §7 (109), p.35).
 
 **Checks of `e`.**
 
@@ -2920,9 +2914,9 @@ On `[T,2T]`, `|ζ|²=2ReS+O(logt)`. The diagonal of `∫|S|²` is `T(logT)^4/(4�
 
 ### 3.25 Beurling prime system
 
-The exponent-vector definitions are `BeurlingPrimeSystem.integerNorm` and `BeurlingPrimeSystem.integerCount`. Their bounded fibres are finite by `BeurlingPrimeSystem.finite_integerNorm_le`. The multiplicity boundary target `BeurlingPrimeSystem.primeCount_repeated_two` counts two separate indices at value 2 when the third prime is larger.
+The exponent-vector definitions are `BeurlingPrimeSystem.integerNorm` and `BeurlingPrimeSystem.integerCount`. Prove that their bounded fibres are finite. Two separate indices at value 2 are counted twice when the third prime is larger.
 
-A discrete Beurling prime system is a nondecreasing sequence of real numbers `1<p₁≤p₂≤…` tending to∞. Generalized integers are finite-support exponent vectors `a:N→N`, with `norm∏p_j^(a_j)`; coincident real values are counted with multiplicity. `N(x)` counts these vectors of `norm≤x`, and `π_P(x)` counts the prime indices with `p_j≤x`. The representative structure is `BeurlingPrimeSystem`, with indexed count `BeurlingPrimeSystem.primeCount`; `exists_beurlingPrimeSystem_nth_prime` gives the ordinary prime sequence.
+A discrete Beurling prime system is a nondecreasing sequence of real numbers `1<p₁≤p₂≤…` tending to∞. Generalized integers are finite-support exponent vectors `a:N→N`, with `norm∏p_j^(a_j)`; coincident real values are counted with multiplicity. `N(x)` counts these vectors of `norm≤x`, and `π_P(x)` counts the prime indices with `p_j≤x`. The representative structure is `BeurlingPrimeSystem`, with indexed count `BeurlingPrimeSystem.primeCount`; the ordinary prime sequence gives such a system.
 
 Use the indexed sequence and exponent vectors `ℕ→₀ℕ`. For `x≥1`, escape to infinity leaves finitely many indices `p(i)≤x`, and every contributing exponent is at most `log x/log p(0)`; all positive exponents use these indices. The vectors embed in a finite product of finite intervals. For `x<1`, `norm≥1` leaves none. Coordinatewise addition multiplies norms and zero has norm 1. Ordinary unique factorization gives compatibility without identifying coincident generalized norms.
 
@@ -2952,7 +2946,7 @@ See [90][R90], Introduction p.1, definition and counting functions (1); §2.1 p.
 
 ### 3.26 Uniform divisor subpower bound
 
-For each `ε>0` there is a real `C≥1` such that `τ(n)≤C n^ε` for every positive integer `n`. One choice is `C=max(1,(ε log 2)⁻¹)^B` for any natural `B≥exp(1/ε)`. Suggested form: `card_divisors_le`.
+For each `ε>0` there is a real `C≥1` such that `τ(n)≤C n^ε` for every positive integer `n`. One choice is `C=max(1,(ε log 2)⁻¹)^B` for any natural `B≥exp(1/ε)`.
 
 Choose natural `B≥exp(1/ε)` by `exists_nat_ge`; the explicit bound of §3.1 gives `C≥1`, uniformly for `n>0`. This is existence for arbitrary real `ε>0`.
 
@@ -3047,7 +3041,7 @@ Use squarefree-supported real weights `λ_d`, `d≤z`, `λ₁=1`, omitting zero-
 
 To prove `G(z)≫log z`, fixed-modulus distribution modulo 12 gives `Σ_(p≤y)g(p)=loglog y+O(1)` and `Σg(p)logp≤C logy`, `C≥1`. Thus `W(y)=∏(1+h(p))≍logy`. On squarefree primorial divisors use probability `h(d)/W(y)`; its expected `log d` is `Σg(p)logp`. At `y=z^(1/(2C))`, Markov gives probability `d≤z` at least 1/2, so `G(z)≥W(y)/2`. Choose `z=X^(1/40)` to get `X/G(z)+O(z^10)≪X/logX`. Exact-valuation-one exclusions are necessary conditions, not exclusion of all inert prime factors.
 
-API: `shiftedNorm.forbidden_card`, `.crt_count`, `.selberg_quadratic_diagonal`, `.weights_remainder`, `.intersection_bound`, `.union_constant`. Checks: for `p=2` the forbidden set is `{3 mod4}`, of size1; for `p=3` it is `{3,6 mod9}`, of size2; for `p=11` both families contribute and `#Ω_11=20`, not10 or `121; k=9` is allowed in A because `v_3(9)=2`; an integer avoiding every `Ω_p` maps to the empty product 1 and is retained by the native sieve. The local Selberg adapter transports the mod-`p²` counts and weights through the three supplied Mathlib theorems. The standard square-majorant method is in Koukoulopoulos, [49][R49], Chapter21 §§21.1–21.2 pp.213–218. The particular forbidden classes and the primorial probability lower bound are derived here for this application.
+API: `shiftedNorm.forbidden_card`, `.crt_count`, `.selberg_quadratic_diagonal`, `.weights_remainder`, `.intersection_bound`, `.union_constant`. Checks: for `p=2` the forbidden set is `{3 mod4}`, of size1; for `p=3` it is `{3,6 mod9}`, of size2; for `p=11` both families contribute and `#Ω_11=20`, not10 or `121; k=9` is allowed in A because `v_3(9)=2`; an integer avoiding every `Ω_p` maps to the empty product 1 and is retained by the native sieve. The local Selberg adapter transports the mod-`p²` counts and weights through the three supplied Mathlib theorems. The standard square-majorant method is in Koukoulopoulos, *The Distribution of Prime Numbers*, Chapter21 §§21.1–21.2 pp.213–218. The particular forbidden classes and the primorial probability lower bound are derived here for this application.
 
 Prove the source asymptotic independently of two-sided comparison. At cutoff 13 the union is `{1,2,4,5,8,9,10,13}`, size 8; subtract overlaps. Removing `k=0` changes the count by at most 1.
 
@@ -3097,11 +3091,11 @@ See [85][R85], Theorem1.1 and Corollary1.2 p.2; full §2, especially Lemmas2.1�
 
 ### 3.34 Dickman fixed-`u` asymptotic
 
-The fixed-parameter limit signature is `smoothCount_dickman`, quantified over the unique continuous delay-equation solution. The signature `dickman_compact_limit` gives its uniform version on each fixed compact interval of positive parameters.
+The signature `smoothCount_dickman` constructs the unique continuous delay-equation solution and gives uniform convergence on each fixed compact interval of positive parameters, including the fixed-parameter limit.
 
 For each fixed `u>0, Ψ(x,x^(1/u))/x→ρ(u)` as `x→∞`. This statement is not uniform for `u` tending to infinity.
 
-Prove `dickman_compact_limit`: uniform convergence on each fixed `[a,U]`, `0<a≤U`. Put `Q(x,u)=Ψ(x,x^(1/u))/x`; for `u≤1` it is `⌊x⌋/x`. Induct on `U` by §3.34a. The adapter `prime_harmonic_rescaling` states `Σ_(x^b<p≤x^c)h(logp/logx)/p→∫_b^ch(t)dt/t` for continuous `h` and `[b,c]⊂(0,1)`, by §0.21’s uniform interval-mass `O(1/logx)` and step approximation. Discard `p>x^(1−η)` at cost `−log(1−η)+o(1)`, using `0≤Q≤1`. Else `x/p≥x^η` and the recursive parameter is in `[η/(1−η),U−1]`, so compact induction applies. The limit is `1−∫_(1/u)^1ρ(1/t−1)dt/t=1−∫₀^(u−1)ρ(v)dv/(v+1)=ρ(u)`. Send `x→∞` then `η↓0`; continuity handles `u=1` and moving endpoints. No growing-`U` claim is made.
+Prove uniform convergence on each fixed `[a,U]`, `0<a≤U`. Put `Q(x,u)=Ψ(x,x^(1/u))/x`; for `u≤1` it is `⌊x⌋/x`. Induct on `U` by §3.34a. The adapter `prime_harmonic_rescaling` states `Σ_(x^b<p≤x^c)h(logp/logx)/p→∫_b^ch(t)dt/t` for continuous `h` and `[b,c]⊂(0,1)`, by §0.21’s uniform interval-mass `O(1/logx)` and step approximation. Discard `p>x^(1−η)` at cost `−log(1−η)+o(1)`, using `0≤Q≤1`. Else `x/p≥x^η` and the recursive parameter is in `[η/(1−η),U−1]`, so compact induction applies. The limit is `1−∫_(1/u)^1ρ(1/t−1)dt/t=1−∫₀^(u−1)ρ(v)dv/(v+1)=ρ(u)`. Send `x→∞` then `η↓0`; continuity handles `u=1` and moving endpoints. No growing-`U` claim is made.
 
 The specialization `u=1` has exact `Ψ(x,x)=floor x` for `x≥2`. At `u=2` the limit is `1−log2`. Constants may depend on a fixed compact `u` range; this yields no growing-`u` uniformity.
 
@@ -3119,8 +3113,6 @@ See [86][R86], Introduction p.411 (terminology); unnumbered fixed-u limit preced
 - At `x=1`, the smooth fibre contains 1 and the prime sum is empty.
 - At `x=8,y=2`, `Ψ(8,2)=4`; the largest-prime fibres at 3, 5 and 7 have sizes 2, 1 and 1, respectively.
 
-The finite partition signature is `smoothCount_decomposition`.
-
 Partition positive `n≤⌊x⌋` by smoothness and largest prime `p>y`. Division by one `p` identifies each nonsmooth fibre with positive `p`-smooth `m≤⌊x/p⌋`, inverse `m↦pm`. Repeated `p` is allowed; 1 belongs to the smooth fibre. Sum the disjoint cardinalities.
 
 See [86][R86], Introduction, p.411 (terminology); p.414 unnumbered fixed-u limit preceding (1.5)–(1.6); elementary largest-prime partition used for its limiting recursion.
@@ -3128,8 +3120,6 @@ See [86][R86], Introduction, p.411 (terminology); p.414 unnumbered fixed-u limit
 <a id="s3-35"></a>
 
 ### 3.35 Rankin smooth-number upper bound
-
-The positive-exponent signature is `smoothCount_rankin`.
 
 For `x≥1,y≥2` and `σ>0, Ψ(x,y)≤x^σ∏_{p≤y}(1−p^−σ)^−1`. The finite-prime Euler product is finite and each geometric series converges.
 
@@ -3153,7 +3143,7 @@ See [86][R86], Introduction, p.411 (terminology); p.414 equation(1.3), finite-pr
 
 ### 3.36 Zeta function of an indexed Beurling system
 
-The indexed-series signatures are `BeurlingPrimeSystem.zeta_summable` and `BeurlingPrimeSystem.eulerProduct`, under absolute real convergence for every `σ>1`.
+Prove absolute summability and the indexed Euler product under absolute real convergence for every `σ>1`.
 
 For an indexed Beurling prime system `P` and `Re s>1` with `Σ_(a∈N^(N))norm_P(a)^−σ` summable for every real `σ>1`, define `ζ_P(s)=Σ_a exp(−s log(norm_P(a)))` over finitely supported exponent vectors. Repeated prime values remain different indices. The totalized sum outside this domain is not its analytic continuation.
 
@@ -3194,6 +3184,8 @@ API: `roughProgression.crt_density`, `.selberg_weights`, `.weight_l1_bound`, `.u
 <a id="s3-37"></a>
 
 ### 3.37 Shiu bound for the Halász coefficient class
+
+The signature `shiu_bound` keeps its constant and threshold uniform in the function, interval and reduced residue class.
 
 For fixed `κ>0` and `0<ε<1` there are `C(κ,ε)>0` and `X(κ,ε)>1` such that for every `f∈C(κ), x≥X, x^ε≤z≤x`, positive integer `q≤z^(1−ε)`, and integer a coprime to `q`, the sum of `|f(n)|` over positive integers `x−z≤n≤x` with `n≡a` mod `q` is at most `C z/(φ(q) log x) exp(Σ_{p≤x, p∤q}|f(p)|/p)`. The constants are independent of `f,a,q,z`. Modulus one is included.
 
@@ -3274,6 +3266,8 @@ See [58][R58], Lemma4.3, pp.705–706. *Needs:* [§3.40](#s3-40); finite-sum int
 <a id="s3-41"></a>
 
 ### 3.41 Restricted squarefree Sathe–Selberg bounds
+
+The signature `restricted_sathe_selberg` uses `restrictedSquarefreeCount` and keeps one pair of constants throughout each fixed positive A range.
 
 Let `D_r(N)={n∈D(N):ω(n)=r}`, with `D(N)` the strict-cutoff squarefree family defined in `restricted_squarefree_landau_count` and `ω(n)` the number of distinct prime divisors. For each fixed `A>0` there are `C₁,C₂>0` and `N₀≥3`, depending only on A, such that for every real `N≥N₀` and integer `1≤r≤A log log N, C₁(N/log N)(½ log log N)^(r−1)/(r−1)!≤#D_r(N)≤C₂(N/log N)(½ log log N)^(r−1)/(r−1)!`. No `r=0` or varying-A uniformity is asserted.
 
@@ -3380,6 +3374,8 @@ See [58][R58], §3.1 definitions and Corollary3.3, p.691.
 
 ### 3.45 Halász integral mean bound
 
+The signature `halasz_integral_mean` uses the compact supremum of `|F(s)/s|` and fixes its threshold before the coefficient-class member.
+
 For fixed `κ>0, f∈C(κ)` and sufficiently large `x, |Σ_{n≤x}f(n)|≤C_κ x/log x ·∫_{1/log x}^1 max_{|t|≤(log x)^κ}|F(1+σ+it)/(1+σ+it)| dσ/σ + C_κ x(log log x)^κ/log x`. The constant is uniform in `f`.
 
 Use the small/large-prime convolution, Lemma 2.2’s exact double integral, local Shiu/Lemma 2.3, Lemmas 2.4–2.5 and Proposition 2.1. Set `T=(logx)^(κ+1)`, `y=T²`, `η=1/logy`; eventually `1≤T≤x^0.9`, `10≤y≤√x`. Apply §3.45a’s single-`Λ` mean bound to both large-prime polynomials, then Cauchy–Schwarz and Chebyshev summation (2.6). Integrate `α`, put `σ=β+1/logx`, and reduce the height maximum to `(logx)^κ` using `|F(1+σ+it)|≤ζ(1+σ)^κ` and the denominator `s`. The discarded height tail is `O_κ(x/logx)`; enlarge `σ` to 1 and collect `O_κ(x(loglogx)^κ/logx)` errors. Unweighted mean square does not replace §3.45a.
@@ -3392,7 +3388,7 @@ See [85][R85], Theorem1.1 p.2; §2 pp.7–12, Lemmas2.2–2.6, Proposition2.1 an
 
 <a id="s3-45a"></a>
 
-**§3.45a Prime-weighted Dirichlet-polynomial mean bound.** The signature is `prime_weighted_mean_square`. There is an absolute `C>0` such that for `T≥1, x≥1` and any complex coefficients `a(n)`, the integral from `−T` to `T` of `|∑_{T²≤n≤x}a(n)Λ(n)exp(−it log n)|²` is at most `C∑_{T²≤n≤x}n|a(n)|²Λ(n)`. The finite sums use inclusive real cutoffs. If `x<T²` they are empty.
+**§3.45a Prime-weighted Dirichlet-polynomial mean bound.** There is an absolute `C>0` such that for `T≥1, x≥1` and any complex coefficients `a(n)`, the integral from `−T` to `T` of `|∑_{T²≤n≤x}a(n)Λ(n)exp(−it log n)|²` is at most `C∑_{T²≤n≤x}n|a(n)|²Λ(n)`. The finite sums use inclusive real cutoffs. If `x<T²` they are empty.
 
 Use `Φ(t)=(sint/t)²/(sin1)²` with continuous value at 0. Expand the finite square under this nonnegative majorant; its angular Fourier transform is `π(2−|u|)_+/(2sin²1)`, supported on `[−2,2]`. Thus off-diagonal pairs satisfy `|log(n/m)|≤2/T`. Apply `2|a(m)a(n)|≤|a(m)|²+|a(n)|²`, symmetry and §3.43 at `c₀=2`; retain the diagonal and `κ,T,y` dependence. The rough indicator’s `C(1)` witness has logarithmic coefficient `Λ` on allowed prime powers and zero elsewhere; `ζ` majorizes its convergent series.
 
@@ -3430,7 +3426,7 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 
 - **47.** [Michael A. Bennett and Samir Siksek — A conjecture of Erdős, supersingular primes and short character sums][R47].
 - **48.** [Michael A. Bennett, Greg Martin, Kevin O'Bryant and Andrew Rechnitzer — Explicit bounds for primes in arithmetic progressions][R48].
-- **49.** [Dimitris Koukoulopoulos — The Distribution of Prime Numbers][R49].
+- **49.** Dimitris Koukoulopoulos — The Distribution of Prime Numbers.
 - **50.** [Lior Bary-Soroker, Dimitris Koukoulopoulos and Gady Kozma — Irreducibility of random polynomials: general measures][R50].
 - **51.** [Peter Koymans, Carlo Pagano — On Stevenhagen’s conjecture][R51].
 - **53.** [Kiran S. Kedlaya — Notes on analytic number theory][R53].
@@ -3443,7 +3439,7 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 - **62.** [H. L. Montgomery and R. C. Vaughan — Hilbert’s inequality][R62].
 - **63.** [Gaëtan Chenevier, Olivier Taïbi — Discrete series multiplicities for classical groups over Z and level 1 algebraic cusp forms][R63].
 - **64.** [Jacob Tsimerman — The André–Oort conjecture for `A_g`][R64].
-- **65.** [John Tate — Fourier analysis in number fields and Hecke's zeta-functions][R65], additive-character/measure, Fourier-transform and local-zeta-integral definitions and conventions only.
+- **65.** John Tate — Fourier analysis in number fields and Hecke's zeta-functions, additive-character/measure, Fourier-transform and local-zeta-integral definitions and conventions only.
 - **66.** [Robert Lemke Oliver, Jiuya Wang and Melanie Matchett Wood — The average size of 3-torsion in class groups of 2-extensions][R66].
 - **67.** [Asif Ali Zaman — Analytic estimates for the Chebotarev Density Theorem and their applications][R67].
 - **71.** [Benedict H. Gross, Don B. Zagier — Heegner points and derivatives of L-series][R71].
@@ -3519,7 +3515,6 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 [R46]: ../Chebotarev/README.md#layer-8-the-cyclic-fixed-field-fibre
 [R47]: https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p02-s.pdf
 [R48]: https://personal.math.ubc.ca/~gerg/papers/downloads/EBPAP.pdf
-[R49]: https://dms.umontreal.ca/~koukoulo/documents/publications/primes.pdf
 [R50]: https://arxiv.org/pdf/2007.14567v3
 [R51]: https://arxiv.org/pdf/2201.13424v1
 [R52]: https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/README.md#layer-4-dirichlet-l-functions-and-factorizations
@@ -3535,7 +3530,6 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 [R62]: https://personal.science.psu.edu/rcv4/personal/Publications/s2-8-1-73.pdf
 [R63]: https://pmihes.centre-mersenne.org/item/10.1007/s10240-020-00115-z.pdf
 [R64]: https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p02-p.pdf
-[R65]: https://sites.math.rutgers.edu/~alexk/2023S572/Tate1950.pdf
 [R66]: https://doi.org/10.1017/S2050508625000009
 [R67]: https://www.math.toronto.edu/zaman/files/thesis.pdf
 [R68]: https://arxiv.org/pdf/1201.3932v1
