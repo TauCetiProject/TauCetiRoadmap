@@ -128,8 +128,12 @@ traces. A model-independent scalar trace cannot discard the p-power degree of
 Frobenius. Finite-model Frobenius descent is additional data for the classical
 trace bridge; a geometric ULA object alone does not define its arithmetic trace.
 
-All short declaration names below belong to `TauCeti.GeometricSatake`. The
-associated [Suggested.lean](Suggested.lean) records suggested forms for the elementary lattice, matrix, disjointness and normalization statements on pinned carriers. The geometric definitions, their full APIs and the Satake equivalences are targets of this README. The flat-module integral-recovery lemma is also statable directly with pinned module and localization carriers.
+The short names below label mathematical targets in `TauCeti.GeometricSatake`.
+The associated [Suggested.lean](Suggested.lean) states `neutralTannakaReconstruction`
+from GS4 on the pinned module and comodule categories. The geometric targets,
+including the Satake equivalences, require the Grassmannians, Hecke v-stacks and
+sheaf categories specified here; their signatures require those constructions.
+Other short names specify the mathematical interfaces to be constructed.
 
 ## Exact supplier contracts
 
@@ -227,9 +231,9 @@ Provide the following API.
 
 **Checks.**
 
-- `loop_gm_units`: For `G_m` the evaluation at A agrees with the unit group of A.
-- `loop_trivial`: The trivial affine group has one loop at every ring.
-- `loop_affine_evaluation`: For the affine line the positive loops are the completed divisor ring, while the full loops are its localization; a negative power of a Cartier equation belongs only to the latter at a nonempty geometric divisor.
+- For `G_m` the evaluation at A agrees with the unit group of A.
+- The trivial affine group has one loop at every ring.
+- For the affine line the positive loops are the completed divisor ring, while the full loops are its localization; a negative power of a Cartier equation belongs only to the latter at a nonempty geometric divisor.
 
 ([FS](#source-fs), VI.1.5, p. 192.)
 
@@ -251,9 +255,9 @@ Provide the following API.
 
 **Checks.**
 
-- `hecke_trivial_group`: For the trivial group there is one modification and one automorphism.
-- `hecke_identity_automorphisms`: In Multiplicative `ℤ`, the nonidentity diagonal label (1,1) fixes the identity modification; an orbit set loses it.
-- `hecke_double_action`: For `G=H`, (h,1) sends the identity to `h`, whereas (1,h) sends it to `h` inverse.
+- For the trivial group there is one modification and one automorphism.
+- In Multiplicative `ℤ`, the nonidentity diagonal label (1,1) fixes the identity modification; an orbit set loses it.
+- For `G=H`, (h,1) sends the identity to `h`, whereas (1,h) sends it to `h` inverse.
 
 
 ([FS](#source-fs), VI.1.6–VI.1.7, p. 193.)
@@ -277,9 +281,9 @@ Provide the following API.
 
 **Checks.**
 
-- `grassmannian_gm_components`: On a one-leg geometric fibre, the split `G_m` Grassmannian is discrete with components indexed by `ℤ`.
-- `grassmannian_gl2_minuscule`: The generic `GL₂` bound `(1,0)` is the projective-line diamond; its Witt special fibre is the perfected projective line.
-- `grassmannian_identity_inertia`: A punctured trivialization forces every automorphism of the unit modification to be the identity; the corresponding object of Hck has diagonal positive-loop inertia.
+- On a one-leg geometric fibre, the split `G_m` Grassmannian is discrete with components indexed by `ℤ`.
+- The generic `GL₂` bound `(1,0)` is the projective-line diamond; its Witt special fibre is the perfected projective line.
+- A punctured trivialization forces every automorphism of the unit modification to be the identity; the corresponding object of Hck has diagonal positive-loop inertia.
 
 ([FS](#source-fs), VI.1.8–VI.1.9, pp. 193–194; VI.2.2–VI.2.3 and VI.2.6, pp. 196–200; [SW](#source-sw), 21.1.3, pp. 191–192.)
 
@@ -293,9 +297,9 @@ Use the affine quotient `H/G` and the closed condition that its punctured sectio
 
 **Checks.**
 
-- `grassmannian_closed_identity`: The identity homomorphism gives the identity closed immersion.
-- `grassmannian_closed_trivial`: The trivial subgroup gives the closed unit section in `Gr_H`.
-- `grassmannian_closed_nonsplit_torus`: The norm-one torus of a separable quadratic extension embeds in `SL₂` through its regular representation; the resulting Grassmannian map is closed before splitting the torus.
+- The identity homomorphism gives the identity closed immersion.
+- The trivial subgroup gives the closed unit section in `Gr_H`.
+- The norm-one torus of a separable quadratic extension embeds in `SL₂` through its regular representation; the resulting Grassmannian map is closed before splitting the torus.
 
 ([SW](#source-sw), Lemma 19.1.5, printed p. 171; its proof over a geometric base and descent give the stated `E`-group version.)
 
@@ -346,9 +350,9 @@ Provide the following API.
 
 **Checks.**
 
-- `bound_zero_component`: For a torus of rank one the bound is equality, not the usual integer order.
-- `bound_gl2`: `GL₂` coweight (1,1) is below (2,0).
-- `bound_wrong_degree`: The cocharacter (1,0) is not below (2,0), despite its smaller partial sums.
+- For a torus of rank one the bound is equality, not the usual integer order.
+- `GL₂` coweight (1,1) is below (2,0).
+- The cocharacter (1,0) is not below (2,0), despite its smaller partial sums.
 
 ([FS](#source-fs), VI.2.2–VI.2.3, pp. 196–197.)
 
@@ -382,9 +386,9 @@ Provide the following API.
 
 **Checks.**
 
-- `demazure_empty`: With no simple-reflection steps the Demazure space is the base and its endpoint is `ω`; the initial and final flags coincide when `ω=1`.
-- `demazure_one_step`: For `w=sω` the space is `L⁺P_s/L⁺𝓘≅(ℙ¹)^⋄`, with endpoint `pω`, rather than the unanchored incidence space of two variable flags.
-- `demazure_torus_translation`: For `G_m` and `ω=t¹` there are no simple-reflection steps, but the endpoint has weight one rather than zero.
+- With no simple-reflection steps the Demazure space is the base and its endpoint is `ω`; the initial and final flags coincide when `ω=1`.
+- For `w=sω` the space is `L⁺P_s/L⁺𝓘≅(ℙ¹)^⋄`, with endpoint `pω`, rather than the unanchored incidence space of two variable flags.
+- For `G_m` and `ω=t¹` there are no simple-reflection steps, but the endpoint has weight one rather than zero.
 
 ([FS](#source-fs), VI.5.1–VI.5.7, pp. 209–211.)
 
@@ -456,9 +460,9 @@ Provide the following API.
 
 **Checks.**
 
-- `truncation_one`: At `m=1` the quotient is G(A/I), not the congruence kernel.
-- `truncation_trivial_group`: Every finite quotient of the trivial group is trivial.
-- `truncation_ring_quotient`: For the additive group over a one-leg DVR, level `m=2` is the additive group of `B⁺/(ξ²)` and the class of `ξ` is nonzero; replacing it by level one or by the congruence kernel loses this class.
+- At `m=1` the quotient is G(A/I), not the congruence kernel.
+- Every finite quotient of the trivial group is trivial.
+- For the additive group over a one-leg DVR, level `m=2` is the additive group of `B⁺/(ξ²)` and the class of `ξ` is nonzero; replacing it by level one or by the congruence kernel loses this class.
 
 ([FS](#source-fs), VI.1.10–VI.1.11, pp. 194–195; VI.2.8, p. 201, for the later bounded-action application.)
 
@@ -527,7 +531,7 @@ The two pole bounds on a lattice are locally uniform; coefficients perfect; quot
 
 Use finite projectivity and bounded denominators to define the functor.
 
-For the algebraic carrier `WittLattice(B,K,n)`, allow any commutative rings `B,K` with a specified `B`-algebra structure on `K`. Its points are finite-projective `B`-submodules of `K^n` whose `K`-span is the whole space. The geometric specialization supplies localization, coefficient perfection and locally uniform pole bounds.
+More generally, for commutative rings `B,K` with a specified `B`-algebra structure on `K`, lattices are finite-projective `B`-submodules of `K^n` whose `K`-span is the whole space. The geometric specialization supplies localization, coefficient perfection and locally uniform pole bounds.
 
 The embedded-module projection is the supplied `Subtype.val`. Provide the following geometric lattice API.
 
@@ -537,9 +541,9 @@ The embedded-module projection is the supplied `Subtype.val`. Provide the follow
 
 **Checks.**
 
-- `lattice_rank_zero`: There is only one rank-zero lattice; `WittLattice_rank_zero_exists` also supplies its existence over every coefficient algebra.
-- `lattice_standard_field`: Over `B=K` the standard lattice agrees with the top Submodule of `K^n`.
-- `lattice_span`: Exclude the zero rank-one submodule over a nonzero field.
+- The unique rank-zero lattice exists over every coefficient algebra.
+- Over `B=K` the standard lattice agrees with the top Submodule of `K^n`.
+- Exclude the zero rank-one submodule over a nonzero field.
 
 
 ([BS](#source-bs), 8.1 and 9.4–9.5, pp. 32, 36–37.)
@@ -563,11 +567,11 @@ Provide the following API.
 
 **Checks.**
 
-- `witt_type_zero`: The zero bound admits only zero nonnegative quotient parts.
-- `witt_type_210`: For `λ=(2,1,0)`, the successive column ranks are two and one.
-- `witt_columns_zero`: The zero tuple has no nonzero columns at any index.
-- `witt_columns_one`: For a tuple of `n` ones the zeroth column has rank `n` and every subsequent column has rank zero; transposing the row and column convention fails this test.
-- `witt_type_not_component_order`: (1,0,0) is not below (2,1,0): the total lengths differ.
+- The zero bound admits only zero nonnegative quotient parts.
+- For `λ=(2,1,0)`, the successive column ranks are two and one.
+- The zero tuple has no nonzero columns at any index.
+- For a tuple of `n` ones the zeroth column has rank `n` and every subsequent column has rank zero; transposing the row and column convention fails this test.
+- (1,0,0) is not below (2,1,0): the total lengths differ.
 
 
 ([BS](#source-bs), 7.1–7.9, pp. 27–32.)
@@ -582,7 +586,7 @@ The isomorphism uses a choice of lifting; h>N, not `h=N`. Nonperfect Greenberg t
 
 Use ReductiveGroupsPartII §RG2.3.7, `finite-level-jet-realizations`, for the Greenberg ring scheme and SchemeAndStackFoundations §§0.24–0.26 for perfect finite models.
 
-For the elementary matrix statement, `jetDeterminantLocus(B,n,π,N)` is the set of matrices over any commutative ring `B` with determinant `uπ^N` for some unit `u`. The finite-jet geometric application uses the actual Greenberg ring and the displayed depth bound; the elementary predicate alone asserts no representability.
+The determinant condition over a commutative ring `B` is `det(A)=uπ^N` for some unit `u`. The finite-jet geometric application uses the actual Greenberg ring and the displayed depth bound; the determinant condition alone asserts no representability.
 
 Provide the following API.
 
@@ -592,9 +596,9 @@ Provide the following API.
 
 **Checks.**
 
-- `jet_level_zero`: For `N=0` the determinant is a unit.
-- `jet_identity`: The identity matrix is in the `N=0` locus.
-- `jet_zero_excluded`: A zero rank-one matrix is excluded at `N=0` over a nonzero field.
+- For `N=0` the determinant is a unit.
+- The identity matrix is in the `N=0` locus.
+- A zero rank-one matrix is excluded at `N=0` over a nonzero field.
 
 ([Zhu](#source-zhu), 1.9–1.11, pp. 418–421.)
 
@@ -632,9 +636,9 @@ Provide the following API.
 
 **Checks.**
 
-- `filtration_length_zero`: A length-zero filtration forces the module to be zero.
-- `filtration_one_step`: A one-column filtration has first piece `Q` and all subsequent pieces zero, and exists exactly when `pQ=0` and `Q` is locally free of that column rank over the base.
-- `filtration_direction`: The filtration decreases; increasing kernels of `p` must first be reverse-indexed.
+- A length-zero filtration forces the module to be zero.
+- A one-column filtration has first piece `Q` and all subsequent pieces zero, and exists exactly when `pQ=0` and `Q` is locally free of that column rank over the base.
+- The filtration decreases; increasing kernels of `p` must first be reverse-indexed.
 
 
 ([BS](#source-bs), 7.10–7.13 and 8.4–8.6, pp. 29–34.)
@@ -703,9 +707,9 @@ Provide the following API.
 
 **Checks.**
 
-- `determinant_zero`: The zero bound has the trivial invertible sheaf.
-- `determinant_existing_carrier`: On the rank-one quotient Grassmannian `ℙ^{n−1}`, the descended `InvertibleSheaf` is the quotient line `O(1)`, whose inverse has degree `−1` on a Schubert line and is excluded.
-- `determinant_quotient_sign`: On a one-step quotient Grassmannian the line is the quotient determinant, with positive sign.
+- The zero bound has the trivial invertible sheaf.
+- On the rank-one quotient Grassmannian `ℙ^{n−1}`, the descended `InvertibleSheaf` is the quotient line `O(1)`, whose inverse has degree `−1` on a Schubert line and is excluded.
+- On a one-step quotient Grassmannian the line is the quotient determinant, with positive sign.
 
 
 ([BS](#source-bs), 6.11 and 8.8, pp. 25, 33–34.)
@@ -780,9 +784,9 @@ Use the loop quotient construction and successive minimal-parahoric quotients to
 
 **Checks.**
 
-- `equal_characteristic_torus`: For `G_m`, the perfect affine Grassmannian is the discrete weight lattice `ℤ`, with weight `a` represented by `t^aR[[t]]`.
-- `equal_characteristic_two_layers`: For `E=𝔽_p((t))`, `R=𝔽_p` and `Q=R[[t]]/(t²)`, the two graded pieces `Q/tQ` and `tQ/t²Q` are lines. Here `pQ=0` but `tQ≠0`, so the p-adic filtration cannot replace the t-adic one.
-- `equal_characteristic_minuscule`: For `GL₂` and bound `(1,0)`, the ordinary model is `ℙ¹` and the perfect model is its perfection, with quotient determinant `O(1)`.
+- For `G_m`, the perfect affine Grassmannian is the discrete weight lattice `ℤ`, with weight `a` represented by `t^aR[[t]]`.
+- For `E=𝔽_p((t))`, `R=𝔽_p` and `Q=R[[t]]/(t²)`, the two graded pieces `Q/tQ` and `tQ/t²Q` are lines. Here `pQ=0` but `tQ≠0`, so the p-adic filtration cannot replace the t-adic one.
+- For `GL₂` and bound `(1,0)`, the ordinary model is `ℙ¹` and the perfect model is its perfection, with quotient determinant `O(1)`.
 
 ([PR](#source-pr), Theorem 1.4, p. 9; §§8.b–8.c, especially Proposition 8.8, pp. 37–39; [SW](#source-sw), §§20.3–20.5, pp. 185–190; [Zhu](#source-zhu), §1.4.1, pp. 425–426, for ramified restriction of scalars.)
 
@@ -820,9 +824,9 @@ Use the faithful representation with quasi-affine quotient and Zhu 1.20.
 
 **Checks.**
 
-- `parahoric_torus_connected`: For the connected parahoric torus model, the geometric flag space is the discrete inertia-coinvariant coweight scheme, with Frobenius action.
-- `parahoric_torus_disconnected`: For the norm-one torus of `ℚ₃(√3)/ℚ₃`, the smooth model `x²−3y²=1` has two special-fibre components. Its Witt flag is a point, while the connected parahoric model gives `π₁(T)_I=ℤ/2`; the denominator removes precisely this difference.
-- `parahoric_split_gl2`: For the connected hyperspecial `GL₂` model, the component label is the determinant valuation in `ℤ`, with no component-group quotient.
+- For the connected parahoric torus model, the geometric flag space is the discrete inertia-coinvariant coweight scheme, with Frobenius action.
+- For the norm-one torus of `ℚ₃(√3)/ℚ₃`, the smooth model `x²−3y²=1` has two special-fibre components. Its Witt flag is a point, while the connected parahoric model gives `π₁(T)_I=ℤ/2`; the denominator removes precisely this difference.
+- For the connected hyperspecial `GL₂` model, the component label is the determinant valuation in `ℤ`, with no component-group quotient.
 
 ([SW](#source-sw), 21.1.1–21.1.4, pp. 191–192.)
 
@@ -858,9 +862,9 @@ Provide the following API.
 
 **Checks.**
 
-- `canonical_model_zero`: The `N=0` canonical bound is Spec `k`, over the specified perfect coefficient field.
-- `canonical_model_rank_one`: For `GL₁` and N<h the canonical bound is Spec `k`, representing `p^N` `W(k)`.
-- `canonical_model_not_choice`: The dual-number `F₂` algebra has `ε≠0` with `ε²=0`, forgotten by perfection; a shared perfection does not determine a finite model.
+- The `N=0` canonical bound is Spec `k`, over the specified perfect coefficient field.
+- For `GL₁` and N<h the canonical bound is Spec `k`, representing `p^N` `W(k)`.
+- The dual-number `F₂` algebra has `ε≠0` with `ε²=0`, forgotten by perfection; a shared perfection does not determine a finite model.
 
 
 ([Zhu](#source-zhu), B.4–B.9, pp. 484–486.)
@@ -877,7 +881,7 @@ Use the projective-bundle extension `E/p` and its splitting to identify the reso
 
 **Checks.**
 
-- `rank_two_right_factor_not_unique`: Over `ℤ/27`, `A=3·Id` and `g=Id+9E₁₂` satisfy `Ag=A`, det `g=1`, `g≠Id`. Zhu B.11 specifies A uniquely, not `g`.
+- Over `ℤ/27`, `A=3·Id` and `g=Id+9E₁₂` satisfy `Ag=A`, det `g=1`, `g≠Id`. Zhu B.11 specifies A uniquely, not `g`.
 
 
 ([Zhu](#source-zhu), B.10–B.11, pp. 486–488.)
@@ -904,10 +908,10 @@ Provide the following API.
 
 **Checks.**
 
-- `normalized_standard`: The standard lattice has normalized determinant `R`.
-- `normalized_equal_characteristic_boundary`: For `E=𝔽_p((t))` and `R=𝔽_p`, the coefficient ring is `𝔽_p[[t]]`, killed by p; it is not finite free over `W(R)=ℤ_p`, and negative p-powers cannot define these truncations.
-- `normalized_zero_quotient`: Two zero truncation quotients have the unit determinant.
-- `normalized_tensor_carrier`: Enlarge both truncation quotients by the same filtered quotient `T`. The tensor/dual formula cancels `det(T)` with its inverse and leaves the normalized line unchanged; retaining only the numerator fails this comparison.
+- The standard lattice has normalized determinant `R`.
+- For `E=𝔽_p((t))` and `R=𝔽_p`, the coefficient ring is `𝔽_p[[t]]`, killed by p; it is not finite free over `W(R)=ℤ_p`, and negative p-powers cannot define these truncations.
+- Two zero truncation quotients have the unit determinant.
+- Enlarge both truncation quotients by the same filtered quotient `T`. The tensor/dual formula cancels `det(T)` with its inverse and leaves the normalized line unchanged; retaining only the numerator fails this comparison.
 
 
 ([BS](#source-bs), 10.1 and discussion through 10.4, pp. 37–39.)
@@ -924,9 +928,9 @@ Prove and use the Frobenius-model section-colimit description of line bundles on
 
 **Checks.**
 
-- `sections_trivial_rank`: For `n=0,1` the Grassmannian is a point, its line is trivial and its section space is one-dimensional.
-- `sections_positive_bound`: For `n≥2`, a positive-dimensional perfected projective bound has infinitely many independent sections in the Frobenius colimit.
-- `sections_standard_point`: Restriction to the standard-lattice point is onto its one-dimensional determinant fibre.
+- For `n=0,1` the Grassmannian is a point, its line is trivial and its section space is one-dimensional.
+- For `n≥2`, a positive-dimensional perfected projective bound has infinitely many independent sections in the Frobenius colimit.
+- Restriction to the standard-lattice point is onto its one-dimensional determinant fibre.
 
 ([BS](#source-bs), 10.5 and 10.6, pp. 39–40.)
 
@@ -946,11 +950,11 @@ Provide the following API.
 
 **Checks.**
 
-- `admissible_empty`: The empty label set gives the empty locus.
-- `admissible_singleton`: A singleton label gives exactly its Schubert stratum.
-- `admissible_nonlabel`: Exclude points in no admissible stratum, including wrong components.
-- `admissible_parahoric_projection`: An Iwahori-to-parahoric model morphism takes the full Iwahori admissible union into its parahoric image, including non-minuscule bounds.
-- `admissible_model_identity`: For the identity model morphism, both the local-model map and its special-fibre factorization are identities.
+- The empty label set gives the empty locus.
+- A singleton label gives exactly its Schubert stratum.
+- Exclude points in no admissible stratum, including wrong components.
+- An Iwahori-to-parahoric model morphism takes the full Iwahori admissible union into its parahoric image, including non-minuscule bounds.
+- For the identity model morphism, both the local-model map and its special-fibre factorization are identities.
 
 ([AGLR](#source-aglr), Definition 4.11, pp. 25–26, Proposition 4.16, pp. 27–28, and Theorem 6.16, p. 36; [GLX](#source-glx), §3.2 and §3.3, Lemmas 3.3–3.4, pp. 822–823; [vH](#source-vh), §2.2.14–§2.2.15, pp. 15–16.)
 
@@ -972,9 +976,9 @@ Provide the following API.
 
 **Checks.**
 
-- `incidence_identity_left`: If the first relation is the diagonal, `z` is uniquely `x`.
-- `incidence_empty`: An empty first relation gives empty incidence.
-- `incidence_no_unrestricted_middle`: For both diagonal relations, a middle flag different from `x` cannot occur.
+- If the first relation is the diagonal, `z` is uniquely `x`.
+- An empty first relation gives empty incidence.
+- For both diagonal relations, a middle flag different from `x` cannot occur.
 
 ([He](#source-he), 5.3–5.4, pp. 9–12.)
 
@@ -1053,9 +1057,9 @@ Provide the following API.
 
 **Checks.**
 
-- `ct_torus`: For `G=T` with identity correspondence, constant term is the identity functor.
-- `ct_pgl2_minuscule`: For split `PGL₂` on a one-leg geometric fibre and the minuscule object `Λ[1]`, shifted Borel constant terms have rank one in degree zero at the two extremal coweights and vanish at every other coweight. ([FS](#source-fs), VI.7.4, pp. 217–219; [Zhu](#source-zhu), Lemma 2.11, pp. 436–437.)
-- `ct_order`: In a two-distinct-support fibre, the torus label is the sum of the local labels; two coincident `G_m` legs labelled `(1,0)` have total label one although the product Cartier equation is `t²`. Multiplying by the support multiplicity a second time gives two and fails.
+- For `G=T` with identity correspondence, constant term is the identity functor.
+- For split `PGL₂` on a one-leg geometric fibre and the minuscule object `Λ[1]`, shifted Borel constant terms have rank one in degree zero at the two extremal coweights and vanish at every other coweight. ([FS](#source-fs), VI.7.4, pp. 217–219; [Zhu](#source-zhu), Lemma 2.11, pp. 436–437.)
+- In a two-distinct-support fibre, the torus label is the sum of the local labels; two coincident `G_m` legs labelled `(1,0)` have total label one although the product Cartier equation is `t²`. Multiplying by the support multiplicity a second time gives two and fails.
 
 
 ([FS](#source-fs), VI.3.1–VI.3.5, pp. 201–206.)
@@ -1134,10 +1138,10 @@ Provide the following API.
 
 **Checks.**
 
-- `ula_moving_support`: On the minuscule `PGL₂` chart `ℙ¹` over a geometric point, a nonzero point skyscraper with perfect stalk is ULA but has no descent for the transitive finite-jet action: its support is not invariant.
-- `ula_trivial_group`: For the trivial geometric group the relative modification space is the base. Its bounded ULA complexes are perfect local systems, and the trivial action introduces no automorphism labels.
-- `ula_connected_point_maps`: On a geometric point with connected finite-jet group, a degree-zero perfect coefficient sheaf has only the trivial equivariant structure, and every underlying degree-zero map between two such objects descends. This does not imply ULA for sheaves whose rank jumps along the leg base. ([FS](#source-fs), Lemma VI.7.3, pp. 216–217.)
-- `ula_action_identity`: The identity descent arrow acts identically. Even with this action, a torus coefficient sheaf supported on a proper closed subset of a connected leg base, with a rank jump at the boundary, is not ULA; equivariance alone cannot define this category.
+- On the minuscule `PGL₂` chart `ℙ¹` over a geometric point, a nonzero point skyscraper with perfect stalk is ULA but has no descent for the transitive finite-jet action: its support is not invariant.
+- For the trivial geometric group the relative modification space is the base. Its bounded ULA complexes are perfect local systems, and the trivial action introduces no automorphism labels.
+- On a geometric point with connected finite-jet group, a degree-zero perfect coefficient sheaf has only the trivial equivariant structure, and every underlying degree-zero map between two such objects descends. This does not imply ULA for sheaves whose rank jumps along the leg base. ([FS](#source-fs), Lemma VI.7.3, pp. 216–217.)
+- The identity descent arrow acts identically. Even with this action, a torus coefficient sheaf supported on a proper closed subset of a connected leg base, with a rank jump at the boundary, is not ULA; equivariance alone cannot define this category.
 
 ([FS](#source-fs), VI.6.1–VI.6.5, pp. 211–214.)
 
@@ -1153,7 +1157,7 @@ For the forward direction, hyperbolic localization preserves ULA and proper toru
 
 **Checks.**
 
-- `perfect_complex_cohomology_not_projective`: For `R=ℤ/4`, `H¹(R —2→ R)=R/(2)` is not projective, although the complex is perfect.
+- For `R=ℤ/4`, `H¹(R —2→ R)=R/(2)` is not projective, although the complex is perfect.
 
 
 ([FS](#source-fs), VI.6.4–VI.6.6, VI.6.8, pp. 212–215.)
@@ -1198,9 +1202,9 @@ Provide the following API.
 
 **Checks.**
 
-- `perverse_torus`: For a torus, normalized CT is identity and relative perversity is ordinary perversity.
-- `perverse_wrong_shift`: For nonzero `Λ` on a nonempty smooth d-cell, `Λ[d−1]` is outside the perverse heart: its restriction is in ordinary degree `1−d`, violating the nonpositive bound. ([FS](#source-fs), VI.7.1 and VI.7.4, pp. 215, 217–219.)
-- `perverse_shifted_cell`: A smooth d-cell uses `Λ[d]`; normalized torus constant term is in degree zero.
+- For a torus, normalized CT is identity and relative perversity is ordinary perversity.
+- For nonzero `Λ` on a nonempty smooth d-cell, `Λ[d−1]` is outside the perverse heart: its restriction is in ordinary degree `1−d`, violating the nonpositive bound. ([FS](#source-fs), VI.7.1 and VI.7.4, pp. 215, 217–219.)
+- A smooth d-cell uses `Λ[d]`; normalized torus constant term is in degree zero.
 
 ([FS](#source-fs), VI.7.1–VI.7.4, pp. 215–219.)
 
@@ -1234,9 +1238,9 @@ On the one-point torus, identify geometric coefficient flatness with the supplie
 
 **Checks.**
 
-- `flat_perverse_nonflat_point`: For `Λ=ℤ/4`, `p≠2`, the degree-zero point sheaf `Λ/(2)` is perverse but is not coefficient-flat: tensoring the injection `(2)↪Λ` with `Λ/(2)` kills a nonzero source. The elementary Lean target states `¬Module.Flat Λ (Λ/(2))`. This module is also not perfect, so this test makes no ULA assertion. ([FS](#source-fs), VI.7.7, pp. 220–221.)
-- `flat_perverse_torus_field`: On a geometric torus weight point over a coefficient field, a finite-dimensional degree-zero vector space is ULA and flat perverse.
-- `flat_perverse_perfect_nonperverse`: For `Λ=ℤ/4`, `p≠2`, on a geometric torus weight point the perfect complex `[Λ —2→ Λ]` in degrees `−1,0` is ULA but not perverse: both `H⁻¹=(2)` and `H⁰=Λ/(2)` are nonzero. It is therefore not flat perverse.
+- For `Λ=ℤ/4`, `p≠2`, the degree-zero point sheaf `Λ/(2)` is perverse but is not coefficient-flat: tensoring the injection `(2)↪Λ` with `Λ/(2)` kills a nonzero source. Algebraically, `¬Module.Flat Λ (Λ/(2))`. This module is also not perfect, so this test makes no ULA assertion. ([FS](#source-fs), VI.7.7, pp. 220–221.)
+- On a geometric torus weight point over a coefficient field, a finite-dimensional degree-zero vector space is ULA and flat perverse.
+- For `Λ=ℤ/4`, `p≠2`, on a geometric torus weight point the perfect complex `[Λ —2→ Λ]` in degrees `−1,0` is ULA but not perverse: both `H⁻¹=(2)` and `H⁰=Λ/(2)` are nonzero. It is therefore not flat perverse.
 
 
 ([FS](#source-fs), VI.7.7, pp. 220–221.)
@@ -1263,9 +1267,9 @@ Provide the following API.
 
 **Checks.**
 
-- `standard_zero_cell`: At the zero modification, `Δ₀=∇₀=Λ` in degree zero.
-- `standard_gl2_minuscule`: For `GL₂` and bound `(1,0)`, both objects are `Λ[1]` on the projective line, while unshifted nonzero `Λ` is not perverse.
-- `standard_rank_one_mod_two`: For `PGL₂`, `p≠2`, `Λ=𝔽₂` and `μ` twice the minuscule coweight, the canonical map `Δ_μ→∇_μ` has a one-dimensional kernel and a one-dimensional cokernel, both supported at the zero modification. The quadratic-cone chart has exceptional curve of self-intersection `−2`, so its rank-one intersection form vanishes modulo two. ([Zhu](#source-zhu), Lemma B.10 and its preceding resolution, pp. 486–487; [FS](#source-fs), VI.7.5, pp. 219–220.)
+- At the zero modification, `Δ₀=∇₀=Λ` in degree zero.
+- For `GL₂` and bound `(1,0)`, both objects are `Λ[1]` on the projective line, while unshifted nonzero `Λ` is not perverse.
+- For `PGL₂`, `p≠2`, `Λ=𝔽₂` and `μ` twice the minuscule coweight, the canonical map `Δ_μ→∇_μ` has a one-dimensional kernel and a one-dimensional cokernel, both supported at the zero modification. The quadratic-cone chart has exceptional curve of self-intersection `−2`, so its rank-one intersection form vanishes modulo two. ([Zhu](#source-zhu), Lemma B.10 and its preceding resolution, pp. 486–487; [FS](#source-fs), VI.7.5, pp. 219–220.)
 
 ([FS](#source-fs), VI.7.5 and VI.7.9, pp. 219–222.)
 
@@ -1299,7 +1303,7 @@ Use `demazureFibreAffineStratification` for the geometric parity input, with Wit
 
 - For a torus weight point, the comparison is the identity over `ℤ_ℓ`, so exponent `a=0` suffices.
 - For `PGL₂` and twice the minuscule coweight, the quadratic cone has rational IC stalk parity even and the rational comparison is an isomorphism, despite its singular zero modification.
-- For the same bound with `p≠2`, the nonzero kernel and cokernel of `standard_rank_one_mod_two` prevent a uniform exponent zero at `ℓ=2`; rational equality does not imply integral semisimplicity.
+- For the same bound with `p≠2`, the canonical map in the characteristic-two rank-one Check in [standard and costandard objects](#standard-costandard-objects) has nonzero kernel and cokernel, preventing a uniform exponent zero at `ℓ=2`; rational equality does not imply integral semisimplicity.
 
 ([FS](#source-fs), VI.7.5 end and proof, pp. 219–220; [Zhu](#source-zhu), Lemma 2.1 and its proof, printed pp. 429–430.)
 
@@ -1350,9 +1354,9 @@ Provide the following API.
 
 **Checks.**
 
-- `satake_nonflat_point`: Over `Λ=ℤ/4` with `p≠2`, the degree-zero point object `Λ/(2)` is excluded from Satake by coefficient nonflatness; it also fails ULA perfection. Perversity alone does not imply Satake membership. ([FS](#source-fs), VI.7.7–VI.7.8, pp. 220–221.)
-- `satake_inclusion_fully_faithful`: For the trivial group and the unit over a geometric base, its endomorphism ring in Satake and in ULA is the coefficient ring. Passing to isomorphism classes would destroy these morphisms and fail full faithfulness.
-- `satake_wrong_degree`: For the trivial group on a geometric point and nonzero `Λ`, the perfect complex `Λ[1]` is ULA and is excluded from Satake by its nonzero degree.
+- Over `Λ=ℤ/4` with `p≠2`, the degree-zero point object `Λ/(2)` is excluded from Satake by coefficient nonflatness; it also fails ULA perfection. Perversity alone does not imply Satake membership. ([FS](#source-fs), VI.7.7–VI.7.8, pp. 220–221.)
+- For the trivial group and the unit over a geometric base, its endomorphism ring in Satake and in ULA is the coefficient ring. Passing to isomorphism classes would destroy these morphisms and fail full faithfulness.
+- For the trivial group on a geometric point and nonzero `Λ`, the perfect complex `Λ[1]` is ULA and is excluded from Satake by its nonzero degree.
 
 
 ([FS](#source-fs), VI.7.8–VI.7.9, pp. 221–222.)
@@ -1379,10 +1383,10 @@ Provide the following API.
 
 **Checks.**
 
-- `fibre_torus_rank_one`: A torus skyscraper with one rank-one cohomology module has total cohomology `R`.
-- `fibre_zero`: If all cohomology modules vanish, total cohomology is the zero module.
-- `fibre_existing_module`: A finite filtration with finite-projective shifted weight pieces has finite-projective total cohomology over the same coefficient ring. Replacing a weight piece by `ℤ/2` over `ℤ` fails projectivity, so finite generation by itself is insufficient.
-- `fibre_unbounded_nonexample`: One `ℚ` in every integer degree has infinite-dimensional direct sum despite degreewise finite projectivity.
+- A torus skyscraper with one rank-one cohomology module has total cohomology `R`.
+- If all cohomology modules vanish, total cohomology is the zero module.
+- A finite filtration with finite-projective shifted weight pieces has finite-projective total cohomology over the same coefficient ring. Replacing a weight piece by `ℤ/2` over `ℤ` fails projectivity, so finite generation by itself is insufficient.
+- One `ℚ` in every integer degree has infinite-dimensional direct sum despite degreewise finite projectivity.
 
 
 ([FS](#source-fs), VI.7.10–VI.7.11, pp. 222–223.)
@@ -1422,9 +1426,9 @@ Provide the following API.
 
 **Checks.**
 
-- `convolution_unit`: Convolving with the identity kernel returns the other kernel.
-- `convolution_torus_labels`: For a torus, two skyscraper labels convolve to the skyscraper at their sum.
-- `convolution_twisted_diagram`: `A⋆B=b_*a*(A⊠B)`; omitting either a* or `b_*` fails this formula.
+- Convolving with the identity kernel returns the other kernel.
+- For a torus, two skyscraper labels convolve to the skyscraper at their sum.
+- `A⋆B=b_*a*(A⊠B)`; omitting either a* or `b_*` fails this formula.
 
 ([FS](#source-fs), VI.8 opening, pp. 224–225.)
 
@@ -1534,7 +1538,7 @@ Use t-exact base change and the all-module tensor criterion on the ULA equivalen
 
 - For `G_m` and any weight, a degree-zero finite-projective coefficient module gives corresponding Satake objects on both fibres; convolution adds the weights.
 - For `GL₂` and `(1,0)`, the comparison carries `Λ[1]` on the projective-line bound to `Λ[1]` on its perfected special fibre, preserving flat perversity.
-- For `PGL₂`, `p≠2` and `Λ=𝔽₂`, the comparison carries the canonical map in `standard_rank_one_mod_two` to the corresponding special-fibre map, with its nonzero point-supported kernel and cokernel. It preserves this failure of standard–costandard equality.
+- For `PGL₂`, `p≠2` and `Λ=𝔽₂`, the comparison carries the canonical [standard-to-costandard map](#standard-costandard-objects) to the corresponding special-fibre map, with its nonzero point-supported kernel and cokernel. It preserves this failure of standard–costandard equality.
 
 ([FS](#source-fs), VI.6.7, VI.7.4–VI.7.8 and VI.8, pp. 214, 217–226.)
 
@@ -1586,9 +1590,9 @@ Provide the following API.
 
 **Checks.**
 
-- `test_disjoint_oneBlock`: A constant block map gives `U_b=X^I`.
-- `test_disjoint_twoSingletons`: For two singleton blocks, `U_b={(x,y):x≠y}`.
-- `test_disjoint_internalCollision`: For blocks {1,2},{3}, (x,x,y) with `x≠y` is allowed.
+- A constant block map gives `U_b=X^I`.
+- For two singleton blocks, `U_b={(x,y):x≠y}`.
+- For blocks {1,2},{3}, (x,x,y) with `x≠y` is allowed.
 - For `I=∅`, the condition is vacuous and `U_b=Spd k`.
 
 
@@ -1614,7 +1618,7 @@ Filter the complement by smooth partial diagonals of positive `ℓ-codimension`.
 
 Use `⟨2ρ,α∨⟩=2` for each simple coroot and dominance differences to prove constancy on closure relations.
 
-On a finite index set, the elementary `supportParity` function accepts an arbitrary integer dimension family and reduces its sum modulo two. Its numerical dominance statement assumes each pointwise difference is even; the geometric theorem proves that hypothesis from the coroot pairing and identifies the resulting clopen decomposition. For `fusionSign` the real body on `ZMod 2` is `−1` exactly at `(1,1)` and `+1` otherwise.
+For any two finite integer dimension families whose pointwise differences are even, the sums have the same parity. The geometric theorem proves this evenness from the coroot pairing and identifies the resulting clopen decomposition. The correction scalar is `−1` exactly when both parities are odd, and `+1` otherwise.
 
 Provide the following API.
 
@@ -1628,16 +1632,16 @@ Provide the following API.
 
 **Checks for support parity.**
 
-- `test_parity_unit`: The zero-cocharacter unit has parity zero, for every finite leg set.
-- `test_parity_oneLeg`: A one-leg tuple retains its integer dimension modulo two.
-- `test_parity_twoOdd`: Two odd-dimensional legs have even total parity.
+- The zero-cocharacter unit has parity zero, for every finite leg set.
+- A one-leg tuple retains its integer dimension modulo two.
+- Two odd-dimensional legs have even total parity.
 
 **Checks for the fusion sign.**
 
-- `fusionSign_unit`: The unit has trivial correction in both tensor slots.
-- `fusionSign_add_left`: Addition in the first parity slot gives the tensor-coherence law in that slot.
-- `fusionSign_add_right`: Addition in the second parity slot gives the other tensor-coherence law.
-- `fusionSign_char_two`: In any coefficient field of characteristic two, the scalar image of every integer correction is one, including the odd/odd case.
+- The unit has trivial correction in both tensor slots.
+- Addition in the first parity slot gives the tensor-coherence law in that slot.
+- Addition in the second parity slot gives the other tensor-coherence law.
+- In any coefficient field of characteristic two, the scalar image of every integer correction is one, including the odd/odd case.
 
 
 ([FS](#source-fs), VI.9 pp228–229.)
@@ -1660,9 +1664,9 @@ Provide the following API.
 
 **Checks.**
 
-- `test_fusion_unit`: Fusion with the unit is isomorphic to the original object.
-- `test_fusion_disjoint`: On distinct divisors fusion is the exterior product, with no diagonal extension summand.
-- `test_fusion_oddSymmetry`: On odd/odd objects `F` sends corrected braiding to the ordinary flip; uncorrected braiding is its negative if 2 is invertible.
+- Fusion with the unit is isomorphic to the original object.
+- On distinct divisors fusion is the exterior product, with no diagonal extension summand.
+- On odd/odd objects `F` sends corrected braiding to the ordinary flip; uncorrected braiding is its negative if 2 is invertible.
 
 
 ([FS](#source-fs), `Definition/Proposition` VI.9.4 pp228–230.)
@@ -1690,9 +1694,9 @@ Provide the following API.
 
 **Checks.**
 
-- `test_collision_threeLegs`: The two successive three-leg merging orders have the canonical associativity comparison and commuting pentagon.
-- `test_collision_permutation`: A transposition composed with itself gives the identity comparison.
-- `test_collision_emptyFibre`: `∅→{1}` sends the coefficient unit to the zero modification.
+- The two successive three-leg merging orders have the canonical associativity comparison and commuting pentagon.
+- A transposition composed with itself gives the identity comparison.
+- `∅→{1}` sends the coefficient unit to the zero modification.
 
 
 ([FS](#source-fs), VI.9 pp226–227, including the footnote p227; Proposition VI.9.4 pp228–229.)
@@ -1711,8 +1715,8 @@ compatible coefficient limits for the stated adic extension.
 
 **Checks.**
 
-- `test_drinfeld_emptyGeometricBase`: For `I=∅`, the source is finite projective local systems on `Spd k` and the target is finite projective `Λ`-modules, since `W_E^∅=1`.
-- `test_drinfeld_emptyArithmeticBase`: For `E=ℚ₅`, `Λ=𝔽₃`, `G=1` and no legs over `Perf_𝔽₅`, the constant rank-one local system and the rank-one system with arithmetic Frobenius `−1` are nonisomorphic. The latter descends along `𝔽₂₅/𝔽₅` using its sign character. Both are flat perverse ULA for the identity base map. Their pullbacks to `Perf_k` are isomorphic constant systems; this pullback forgets their distinct Frobenius descent structures.
+- For `I=∅`, the source is finite projective local systems on `Spd k` and the target is finite projective `Λ`-modules, since `W_E^∅=1`.
+- For `E=ℚ₅`, `Λ=𝔽₃`, `G=1` and no legs over `Perf_𝔽₅`, the constant rank-one local system and the rank-one system with arithmetic Frobenius `−1` are nonisomorphic. The latter descends along `𝔽₂₅/𝔽₅` using its sign character. Both are flat perverse ULA for the identity base map. Their pullbacks to `Perf_k` are isomorphic constant systems; this pullback forgets their distinct Frobenius descent structures.
 - For singleton `I` the action is the local Weil action; for two legs it is `W_E²`, with two independent actions rather than one diagonal action.
 
 ([FS](#source-fs), Proposition VI.9.2 p226; Proposition IV.7.3 pp165–166 (full faithfulness begins p164).)
@@ -1744,7 +1748,7 @@ VI.8.2 supplies convolution duals before fusion; VI.7.12 supplies F(D `A)=F(A)^�
 
 ### Examples
 
-For blocks `{1,2}` and `{3}`, a tuple `(x,x,y)` with `x≠y` is disjoint across blocks. Fusion thus permits the internal collision. For `PGL₂`, a minuscule factor has odd dimension; exchanging two such factors gives the graded sign `−1` on cohomology, and multiplying the geometric commutativity by `fusionSign(1,1)=−1` yields the ordinary flip. Merging three legs in either order is the same composite finite-set map; its canonical comparisons extend from the disjoint locus and satisfy the pentagon.
+For blocks `{1,2}` and `{3}`, a tuple `(x,x,y)` with `x≠y` is disjoint across blocks. Fusion thus permits the internal collision. For `PGL₂`, a minuscule factor has odd dimension; exchanging two such factors gives the graded sign `−1` on cohomology, and multiplying the geometric commutativity by `(−1)^{1·1}=−1` yields the ordinary flip. Merging three legs in either order is the same composite finite-set map; its canonical comparisons extend from the disjoint locus and satisfy the pentagon.
 
 ### Dependencies
 
@@ -1773,9 +1777,9 @@ Provide the following API.
 
 **Checks.**
 
-- `test_generator_zeroBound`: For a bound containing only weight zero, the generator is the unit with fibre `Λ`.
-- `test_generator_productBound`: Singleton generators fuse to the product-bound generator, preserving adjunction maps.
-- `test_generator_dualOrientation`: `H_W=(F_W X_W)∨`. For `W⊂W′`, `H_W→H_W′` is dual to `X_W′→X_W`.
+- For a bound containing only weight zero, the generator is the unit with fibre `Λ`.
+- Singleton generators fuse to the product-bound generator, preserving adjunction maps.
+- `H_W=(F_W X_W)∨`. For `W⊂W′`, `H_W→H_W′` is dual to `X_W′→X_W`.
 
 ([FS](#source-fs), Proposition VI.10.1 pp230–232.)
 
@@ -1799,6 +1803,13 @@ Prove the following four assertions, including their transition maps and univers
 - A rigid category of finite projective modules over a general ring need not be abelian or semisimple. The split-coequalizer hypothesis remains explicit; conservation alone cannot replace preservation.
 
 Also prove `neutral-tannaka-reconstruction`: for an essentially small rigid abelian tensor category over a field `k` with `End(1)=k` and a faithful exact `k`-linear tensor fibre functor to finite-dimensional vector spaces, its tensor-automorphism functor is represented by an affine group and the category is its finite-dimensional representation category. Prove `tannaka-finiteness-recognition` (the group is of finite type exactly when the category admits a tensor generator) and, over a characteristic-zero field, `tannaka-connectedness-recognition` (the group is connected exactly when no representation with nontrivial group action has its subquotient-and-finite-sum closure stable under tensor products). In the connectedness criterion use the precise form of [DM](#source-dm), Corollary 2.22: for every object `X`, if the category generated by `X` is closed under tensor products, then `X` is trivial; “generated” here means subquotients of finite direct sums, rather than tensor generation. ([DM](#source-dm), Theorem 2.11, Proposition 2.20 and Corollary 2.22, pp. 20–25.) The generic Satake application proves these recognition hypotheses from its highest-weight growth. Characteristic-zero finite-type reductivity then uses ReductiveGroups Layer 6.
+
+The statement `neutralTannakaReconstruction` in [Suggested.lean](Suggested.lean)
+expresses the neutral reconstruction theorem as existence of a commutative Hopf
+algebra, a symmetric monoidal equivalence with its finite-dimensional comodules,
+and a monoidal natural isomorphism with the given fibre functor. The pinned
+`TauCeti.FGComoduleCat` supplies the algebraic representation category; the Hopf
+algebra is a conclusion of the theorem.
 
 **Checks.** A split torus has a faithful tensor generator and is connected while retaining nontrivial characters. A nontrivial finite constant group has a nontrivial representation with finite tensor hull and fails connectedness recognition. An infinite product of multiplicative groups is connected but has no finite tensor generator, so finite type must be checked separately.
 
@@ -1832,9 +1843,9 @@ Provide the following API.
 
 **Checks.**
 
-- `test_hopf_trivialGroup`: For the trivial `G`, `H=Λ` and the geometric affine group is the trivial group.
-- `test_hopf_torus`: For split `T`, `H=Λ[X_*(T)]`, with `Δ(e^μ)=e^μ⊗e^μ` and `counit(e^μ)=1`.
-- `test_hopf_torusAntipode`: `e^μ` maps to `e^(−μ)`; identity fails for nonzero `G_m` weights.
+- For the trivial `G`, `H=Λ` and the geometric affine group is the trivial group.
+- For split `T`, `H=Λ[X_*(T)]`, with `Δ(e^μ)=e^μ⊗e^μ` and `counit(e^μ)=1`.
+- `e^μ` maps to `e^(−μ)`; identity fails for nonzero `G_m` weights.
 
 
 ([FS](#source-fs), Propositions VI.10.2–VI.10.3 pp232–235.)
@@ -1887,9 +1898,9 @@ Zhu's ring `W_O(R) =` `W(R)` `⊗_{W(k)} O` equals `W(R)` `⊗_{W(F_q)} O_E`, so
 
 **Checks.**
 
-- `witt_comparison_identity_inertia`: For `G_m`, the identity in Hck has positive-loop automorphisms, while the Grassmannian chart has trivial inertia.
-- `witt_comparison_torus_weights`: The torus weight-point sheaves correspond to one-dimensional character representations, compatibly with their tensor sum.
-- `witt_comparison_unit`: The unit sheaf corresponds to the trivial representation and its total cohomology is `Q̄_ℓ` in degree zero.
+- For `G_m`, the identity in Hck has positive-loop automorphisms, while the Grassmannian chart has trivial inertia.
+- The torus weight-point sheaves correspond to one-dimensional character representations, compatibly with their tensor sum.
+- The unit sheaf corresponds to the trivial representation and its total cohomology is `Q̄_ℓ` in degree zero.
 
 ([Zhu](#source-zhu), §2 opening p429; §2.1.1 p430; §2.5 p454, first paragraph; [FS](#source-fs), VI.7 p219 after the proof of Proposition VI.7.4; Remark I.2.14 p17.)
 
@@ -1930,9 +1941,9 @@ Compute `N(T)/T` as the constant group of order two, its action by inversion on 
 
 **Checks.**
 
-- `frobenius_infinitesimal_torus`: The r-th Frobenius image of `μ_{ℓ^r}` is trivial and reduced; the original group scheme need not be reduced.
-- `sl2_connected_cases`: `T`, the upper and lower Borels, and `SL₂` realize all four connected cases; `N(T)` demonstrates why connectedness is required.
-- `sl2_normalizer_two`: In characteristic two, the normalizer has three invariants in the fourth tensor power of the standard module, whereas `SL₂` has two; in odd characteristic the two highest-weight-zero characters already separate the normalizer case.
+- The r-th Frobenius image of `μ_{ℓ^r}` is trivial and reduced; the original group scheme need not be reduced.
+- `T`, the upper and lower Borels, and `SL₂` realize all four connected cases; `N(T)` demonstrates why connectedness is required.
+- In characteristic two, the normalizer has three invariants in the fourth tensor power of the standard module, whereas `SL₂` has two; in odd characteristic the two highest-weight-zero characters already separate the normalizer case.
 
 ([FS](#source-fs), proof of Lemma VI.11.2, p. 237, for the Frobenius reduction and connected subgroup classification; the stated normalizer calculation retains the characteristic-two distinction.)
 
@@ -2025,9 +2036,9 @@ Provide the following API.
 
 **Checks.**
 
-- `test_normalized_torus`: For `T=G_m`, weight `n` is the point object on component `n`, with no `ρ` twist.
-- `test_normalized_pgl2`: The `SL₂` standard representation gives `Λ[1](1/2)` on the `PGL₂` minuscule `P¹`, with eigenvalues `r⁻¹,r`.
-- `test_normalized_rootChoice`: Replacing `r` by −r changes odd-component half twists by −1.
+- For `T=G_m`, weight `n` is the point object on component `n`, with no `ρ` twist.
+- The `SL₂` standard representation gives `Λ[1](1/2)` on the `PGL₂` minuscule `P¹`, with eigenvalues `r⁻¹,r`.
+- Replacing `r` by −r changes odd-component half twists by −1.
 - For `G=1`, `E=ℚ₅`, `Λ=𝔽₉` and `I=∅`, both sides are finite projective `𝔽₉`-modules over the geometric base. Before base change, the Frobenius `+1` and `−1` rank-one systems remain distinct despite `q=5` having a square root in `𝔽₉`.
 
 
@@ -2130,9 +2141,9 @@ Provide the following API.
 
 **Checks.**
 
-- `test_perfect_unit`: The trivial representation gives the convolution unit.
-- `test_perfect_shift`: V[1] maps to `D(S_V)∨[1]`.
-- `test_perfect_badPrimeAllowed`: For `G=SL₂` and `ℓ=2≠p`, dual `PGL₂` has `π₁` of order two; the extension still applies.
+- The trivial representation gives the convolution unit.
+- V[1] maps to `D(S_V)∨[1]`.
+- For `G=SL₂` and `ℓ=2≠p`, dual `PGL₂` has `π₁` of order two; the extension still applies.
 
 
 ([FS](#source-fs), IX.2 p321.)
@@ -2156,7 +2167,7 @@ Use Frobenius-equivariant finite-type models and the existing constructible trac
 
 <a id="normalized-frobenius-function"></a>
 
-**Normalized Frobenius function** (`normalizedTraceFunction`). Assume `G` is unramified with a reductive `O_E`-model and hyperspecial `K=G(O_E)`, and work rationally over a field `L` containing `Q_ℓ` and a chosen `r` with `r²=q`. A bounded Satake object A with a specified Frobenius descent structure is represented on its finite-type special-fibre model. The pointwise operation `normalizedTraceFunction : (G(E)→ZMod 2)→(G(E)→L)→(G(E)→L)` changes the sign exactly on the odd components. Apply it to the raw alternating trace of the specified sheaf. For homogeneous support parity `ε(A)`, define `τ_A(g)=(-1)^{ε(A)} Σ_i(-1)^i Tr(Frob_q;H^i(A_{ḡ}))`; add this over even/odd summands. Geometric Frobenius acts on `L(1)` by `q^{-1}`; for the explicit IC formulas use the canonical Frobenius descent of the constant sheaf on the open Schubert stratum, and the sheaf `IC_μ` is normalized as `j_{!*}L[d_μ](d_μ/2)`, `d_μ=⟨2ρ,μ⟩`, using `r^{-d_μ}` for the half twist. The function is `K-biinvariant` with bounded double-coset support. A geometric object without Frobenius descent has no specified trace function.
+**Normalized Frobenius function** (`normalizedTraceFunction`). Assume `G` is unramified with a reductive `O_E`-model and hyperspecial `K=G(O_E)`, and work rationally over a field `L` containing `Q_ℓ` and a chosen `r` with `r²=q`. A bounded Satake object A with a specified Frobenius descent structure is represented on its finite-type special-fibre model. Correct the raw alternating trace of the specified sheaf by changing its sign exactly on the odd components. For homogeneous support parity `ε(A)`, define `τ_A(g)=(-1)^{ε(A)} Σ_i(-1)^i Tr(Frob_q;H^i(A_{ḡ}))`; add this over even/odd summands. Geometric Frobenius acts on `L(1)` by `q^{-1}`; for the explicit IC formulas use the canonical Frobenius descent of the constant sheaf on the open Schubert stratum, and the sheaf `IC_μ` is normalized as `j_{!*}L[d_μ](d_μ/2)`, `d_μ=⟨2ρ,μ⟩`, using `r^{-d_μ}` for the half twist. The function is `K-biinvariant` with bounded double-coset support. A geometric object without Frobenius descent has no specified trace function.
 
 Use the finite-type special-fibre model and Frobenius-equivariant constructible realization, rather than counting points of an arbitrary diamond.
 
@@ -2170,9 +2181,9 @@ Provide the following API.
 
 **Checks.**
 
-- `test_trace_unit`: With canonical descent, `τ_unit=1_K` with coefficient +1.
-- `test_trace_torusWeight`: For `G_m`, weight `n` and canonical descent, `τ=1_{πⁿO_E×}`.
-- `test_trace_oddMinuscule`: For `PGL₂`, `d=1` and canonical IC Frobenius descent, `τ=r⁻¹1_{Kμ(π)K}`; the raw trace has the opposite sign.
+- With canonical descent, `τ_unit=1_K` with coefficient +1.
+- For `G_m`, weight `n` and canonical descent, `τ=1_{πⁿO_E×}`.
+- For `PGL₂`, `d=1` and canonical IC Frobenius descent, `τ=r⁻¹1_{Kμ(π)K}`; the raw trace has the opposite sign.
 
 
 ([Zhu](#source-zhu), §2.2 pp434–436, equations (2.2.7)–(2.2.10); [Gross](#source-gross), §3 pp6–8, (3.3), (3.4), (3.6), (3.13); §8 pp15–16 for choices of normalization.)
