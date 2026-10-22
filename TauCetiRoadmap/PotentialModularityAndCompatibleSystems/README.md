@@ -30,7 +30,7 @@ A prerequisite names its roadmap and section or target label, with all hypothese
 
 Layer 1 uses the shared carrier of SmallRamificationAndAbelianVarietyBaseCases §5.0d and its compatibility predicates from AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations”, as consumed in AutomorphicGaloisRepresentations §7.1: `AutomorphicSystemData` with the supplied weak and strict predicates and AutomorphicGaloisRepresentations §7.1’s almost-strict predicate and the operations of coefficient extension, direct sum, dual, tensor product, algebraic-character twist, finite restriction and conjugation. It also builds on the polarized representations of ArithmeticGaloisRepresentations §7.4 and on the algebraic Hecke characters of AutomorphicGaloisRepresentationsPartII AG2.0 and AutomorphicGaloisRepresentations §3.13. It adds what those do not contain: the Khare–Wintenberger rank-two predicates, the rank-one and purity comparisons for very weak and extremely weak data, induction and symmetric and exterior powers of families, polarized families, regularity and purity, Artin and character families, L-functions, the arithmetic representation ring, monodromy and density-one irreducibility. The raw carrier and operations take no eigenform or potential-modularity theorem as a premise. The construction of an eigenform family belongs to AutomorphicGaloisRepresentations §7.3; proving that a supplied lift becomes automorphic belongs to Layer 5; assembling its descended family belongs to Layer 12.
 
-Tau Ceti supplies line-bundle classes and their tensor group, arbitrary-morphism rigidified line bundles, their isomorphism classes, pullback, forgetting and the global-unit criterion for equality. AlgebraicVectorBundles Layer 0 supplies geometric tensor/dual infrastructure, and JacobianChallenge Layer D supplies the ordinary relative Picard functor. Layer 2 uses these objects for a finite flat boundary and adds the relative group-sheaf, representability, degree and divisor-fibration results. LocalGaloisGroups Layer 0 and Conventions, and ProfiniteArithmetic §§0.2–0.4 and 1.1–1.3, supply local Galois and profinite primitives; RestrictedProducts in Completed, Layers 0–2, supplies the restricted-product carrier. Those objects are imported. Tau Ceti's `HeckeCharacter/Purity.lean` supplies the purity of infinity types of algebraic Hecke characters. RepresentationTheory/InductionRestriction Layer 6 owns finite-group Brauer induction, and Tau Ceti’s `TauCeti.exists_simple_character_eq_of_characterPairing_self_eq_one` is the norm-one criterion for virtual characters of a finite group; the arithmetic ring of §1.16 needs the analogue for continuous representations of `G_F`, whose coordinate form is `RepRing.eq_single_one_of_norm_one`. Tau Ceti also supplies `TauCeti.repRing` for arbitrary monoids, its character homomorphism `repRingCharacter`, restriction `repRingRes`, and finite-index induction `repRingInd` in `RepresentationTheory/RepresentationRing/{Basic,Restriction,Induction}.lean`. This is the split Grothendieck ring of all algebraic finite-dimensional representations, without continuity or ramification conditions. The additional arithmetic carrier restricts to continuous, finitely ramified representations of `G_F` and imposes semisimplification relations; its trace recognition and arithmetic Euler factors require these additional conditions. It reuses the tensor, restriction and induction infrastructure rather than constructing another generic representation ring.
+Tau Ceti supplies line-bundle classes and their tensor group, arbitrary-morphism rigidified line bundles, their isomorphism classes, pullback, forgetting and the global-unit criterion for equality. AlgebraicVectorBundles Layer 0 supplies geometric tensor/dual infrastructure, and JacobianChallenge Layer D supplies the ordinary relative Picard functor. Layer 2 uses these objects for a finite flat boundary and adds the relative group-sheaf, representability, degree and divisor-fibration results. LocalGaloisGroups Layer 0 and Conventions, and ProfiniteArithmetic §§0.2–0.4 and 1.1–1.3, supply local Galois and profinite primitives; RestrictedProducts in Completed, Layers 0–2, supplies the restricted-product carrier. Those objects are imported. Tau Ceti's `HeckeCharacter/Purity.lean` supplies the purity of infinity types of algebraic Hecke characters. RepresentationTheory/InductionRestriction Layer 6 owns finite-group Brauer induction, and Tau Ceti’s `TauCeti.exists_simple_character_eq_of_characterPairing_self_eq_one` is the norm-one criterion for virtual characters of a finite group; the arithmetic ring of §1.16 needs the analogue for continuous representations of `G_F`, using the irreducible-multiplicity argument. Tau Ceti also supplies `TauCeti.repRing` for arbitrary monoids, its character homomorphism `repRingCharacter`, restriction `repRingRes`, and finite-index induction `repRingInd` in `RepresentationTheory/RepresentationRing/{Basic,Restriction,Induction}.lean`. This is the split Grothendieck ring of all algebraic finite-dimensional representations, without continuity or ramification conditions. The additional arithmetic carrier restricts to continuous, finitely ramified representations of `G_F` and imposes semisimplification relations; its trace recognition and arithmetic Euler factors require these additional conditions. It reuses the tensor, restriction and induction infrastructure rather than constructing another generic representation ring.
 
 Layer 8 builds the rank-two ordinary theory on definite unitary groups in two variables (ordinary Hecke algebras, ordinary patching for adequate residual image, ordinary automorphy lifting and finiteness) that the ordinary finiteness and Newton–Thorne applications use; the arbitrary-rank versions are downstream applications in PotentialAutomorphyInfrastructure. Skinner–Wiles level adjustment is supplied by OrdinaryAutomorphicFormsAndModularityLifting §6.14; Layer 4 derives its even-degree, residual-inertia-killing application and proves Taylor's crystalline lifting theorem.
 
@@ -73,7 +73,7 @@ The owner table in Scope and ownership gives the imported layers. Consume their 
 
 SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData` at arbitrary positive rank and over arbitrary number fields: common good polynomials over M, labelled Hodge data, and continuous semisimple members realized over specified finite extensions `L_λ/M_λ`. It also supplies raw coefficient extension, direct sum, tensor product, dual, Tate twist, finite restriction and convention adapters. AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations”, supplies `Weak`, `Strict` and their preservation by these operations. AutomorphicGaloisRepresentations §7.1 supplies the rank-two `AutomorphicSystemData.IsAlmostStrictlyCompatible` and its precise omitted-pair transport. Good polynomials over M alone do not imply an `M_λ`-model. When rank-two arguments need chosen completed-coefficient-field models, use that section’s `HilbertSystemRealizations` after the stated common coefficient extension. The all-place WD parameter is allowed over an algebraic closure of the common field with its field of definition; choose a model over one enlarged number field when an application requires it.
 
-Use `TauCetiRoadmap.PotentialModularityAndCompatibleSystems` for the names below. The README states the complete mathematics. [Suggested.lean](Suggested.lean) gives representative signatures expressible using the pinned declarations; further constructions require the supplier APIs specified at their targets.
+Use `TauCetiRoadmap.PotentialModularityAndCompatibleSystems` for the names below. The README states the complete mathematics. [Suggested.lean](Suggested.lean) states split-field Zariski density, additive strong approximation away from one place and the finite-presentation complete-intersection theorem. Its module docstring identifies the missing objects needed to state the other headline results. The names below specify mathematical targets and their supplier interfaces.
 
 ### Conditional inputs
 
@@ -239,7 +239,7 @@ The construction has the following API:
 - `pred_newform`: A newform of weight `k ≥ 2` is regular, strictly pure of weight `k − 1`, irreducible and automorphic.
 - `extreme_positive`: H=`{0,1,3,7}` has distinct sums of distinct equal-size subsets and is extremely regular; it is realized by a sum of Tate characters.
 - `extreme_collision`: H=`{0,1,2,3}` is regular but not extremely regular: `{0,3}` and `{1,2}` have the same cardinality and sum.
-- `extreme_repetition`: H=`{0,0}` is not regular and hence not extremely regular. The finite-multiset predicate `HodgeChecks.IsExtremelyRegular` in Suggested.lean distinguishes the positive and equal-sum collision cases; the system-level realizations are README-only because the system carrier is supplied separately.
+- `extreme_repetition`: H=`{0,0}` is not regular and hence not extremely regular.
 - `pred_regular_fails`: `ε ⊕ ε` is not regular `(H = {−1, −1})`.
 - `pred_odd_purity`: For n odd and v real, purity forces w even (BLGGT p. 53).
 - `pred_strict_vs_almost_strict`: Check the away-coefficient WD comparison separately from the coefficient-prime conditions. BLGGT strictness has no coefficient-prime WD clause, and KW almost strictness requires additional conditions there.
@@ -255,7 +255,7 @@ Over a common coefficient field use the direct sums, semisimplified tensor produ
 
 These operations, restriction and induction preserve weak and away-coefficient strict compatibility with the appropriate enlargement of S. Pure direct sums require equal weights; tensor weights add, duality negates weight, and the k-th powers have weight kw. Restriction and induction preserve weight with their canonical transported Hodge data; local strict purity uses the analogous WD preservation. Duality and restriction preserve regularity. The other operations can create Hodge collisions. Duality preserves irreducibility, while arbitrary sums, tensors, restrictions and inductions need not. Cuspidal automorphy is asserted only through a theorem establishing it for the particular operation.
 
-For the dual characteristic polynomial, define `Factors.dualPolynomial Q=C(Q(0)⁻¹)Q.reverse` only with the intended monic, nonzero-constant domain.
+For the dual characteristic polynomial, use the normalized reciprocal expression `C(Q(0)⁻¹)Q.reverse` only with the intended monic, nonzero-constant domain.
 
 The shared raw carrier has positive rank. Extend the family interface to rank zero by adjoining `rankZeroSystem`: its members are the zero representation, its good polynomial is 1, and its Hodge multisets and local WD parameters are empty and zero. The API identifies its unique memberwise isomorphism class, transports it under coefficient extension and finite restriction, makes it the direct-sum identity and the tensor-product absorbing object, and identifies exterior powers above rank with it. Its L-factor is 1. These are targets here, with the same sources as the linear-algebra operations below; they do not change the supplier's positive-rank type. Symmetric powers of the zero system are zero for positive exponent and the rank-one unit for exponent zero.
 
@@ -263,17 +263,16 @@ The shared raw carrier has positive rank. Extend the family interface to rank ze
 
 The construction has the following API:
 
-- `Factors.dualPolynomial`: The normalized reciprocal of a monic polynomial with nonzero constant term, for the supplied contragredient operation.
 - `symmetricPower`: `Sym^k` members and repeated k-fold weight sums; `rank binomial(n+k−1,k)` for `n≥1`, with the rank-zero cases just specified.
 - `exteriorPower`: `∧^k` members and distinct k-fold weight sums; rank binomial(n,k), zero if `k>n`.
-- `Factors.dual_charpoly`: The contragredient of an invertible matrix has the normalized reciprocal characteristic polynomial, monic of rank n; for `rank 2, X²−aX+b` becomes `X²−(a/b)X+1/b`.
+- The contragredient of an invertible matrix has the normalized reciprocal characteristic polynomial, monic of rank n; for `rank 2, X²−aX+b` becomes `X²−(a/b)X+1/b`.
 - `directSum_pure`: Pure systems of the same weight w have pure direct sum of weight w; differing weights invalidate the conclusion.
 
 **Checks.**
 
 - `dual_polynomial_rank_one`: over `ℚ, X−2` becomes `X−1/2`.
 - `dual_polynomial_rank_zero`: the polynomial 1 remains 1.
-- `dual_polynomial_singular`: X has zero constant term, and the raw helper returns 0; it is outside the invertible-operator domain.
+- `dual_polynomial_singular`: X has zero constant term, and the normalized reciprocal expression evaluates to 0; it is outside the invertible-operator domain.
 
 - `dual_rank_two`: `X²−aX+b` with `b≠0` becomes `X²−(a/b)X+1/b`.
 - `sym2_distinct`: For `h₁≠h₂, {2h₁,h₁+h₂,2h₂}` is distinct, so Sym² of regular rank two stays regular.
@@ -420,15 +419,15 @@ At a real place let `d_+=d_−=n/2` for even n; for odd n and even w let `d_±=(
 
 `ε_v=i^(d_−+Σ_(h∈H_τ)|h−w/2|)`.
 
-Complete the function by `Λ=L∏_(v|∞)L_v` and define the global ε-factor as the product of local WD ε-factors and these infinite factors, using the standard additive character of `A_F/F`. Interpret the archimedean quotient formulas as meromorphic expressions, with cancellation before evaluation at removable singularities. The pointwise helper `Factors.archimedeanGammaFactor` uses Mathlib’s total complex Gamma functions: its quotient agrees with the meromorphic expression only where `Γ_C(s−w/2)` is nonzero, namely `s−w/2∉{0,−1,−2,…}`. At other arguments use the continued, cancelled factor. The helper `Factors.archimedeanD` is interpreted as multiplicities only for `det(c_v)∈{−1,1}` and, when n is odd, even w. These formulas use BLGGT v4; its v1 separate Hodge-factor expression is not used for odd w. Do not infer a functional equation for every system merely from defining its completed function.
+Complete the function by `Λ=L∏_(v|∞)L_v` and define the global ε-factor as the product of local WD ε-factors and these infinite factors, using the standard additive character of `A_F/F`. Interpret the archimedean quotient formulas as meromorphic expressions, with cancellation before evaluation at removable singularities. Evaluating the displayed quotients with Mathlib’s total complex Gamma functions agrees with the meromorphic expression only where `Γ_C(s−w/2)` is nonzero, namely `s−w/2∉{0,−1,−2,…}`. At other arguments use the continued, cancelled factor. The real-place formulas for d± are interpreted as multiplicities only for `det(c_v)∈{−1,1}` and, when n is odd, even w. These formulas use BLGGT v4; its v1 separate Hodge-factor expression is not used for odd w. Do not infer a functional equation for every system merely from defining its completed function.
 
 The construction has the following API:
 
 - `partialLFunction`: `L^S(ıℛ, s)` as an Euler product.
 - `lFunction`: `L(ıℛ, s)` for strictly compatible `ℛ`.
-- `Factors.archimedeanGammaFactor`: `L_v(ıℛ, s)` at complex and real v in BLGGT v4's form, through Complex.Gammaℝ and Complex.Gammaℂ.
-- `Factors.archimedeanEpsilon`: `ε_v(ıℛ, ψ_v, s) = i^{Σ|h − w/2|}` (complex v) or `i^{d− + Σ|h − w/2|}` (real v).
-- `Factors.archimedeanD`: `d±` at a real place: n/2, or `(n ± (−1)^{w/2}det ℛ(c_v))/2` for n odd.
+- Archimedean L-factors: `L_v(ıℛ, s)` at complex and real v in BLGGT v4's form, through Complex.Gammaℝ and Complex.Gammaℂ.
+- Archimedean root numbers: `ε_v(ıℛ, ψ_v, s) = i^{Σ|h − w/2|}` (complex v) or `i^{d− + Σ|h − w/2|}` (real v).
+- Real-place multiplicities: `d±` at a real place: n/2, or `(n ± (−1)^{w/2}det ℛ(c_v))/2` for n odd.
 - `completedLFunction`: `Λ(ıℛ, s)` and `ε(ıℛ, s)`.
 - `partialLFunction_converges`: Convergence on `Re s > 1 + w/2` for pure `ℛ`.
 - `partialLFunction_eq_of_lambda`: `L^S(ıℛ, s) = L^S(ı̃r_λ, s)` when S contains the places above l.
@@ -459,7 +458,7 @@ The construction has the following API:
 - `RepRing`: `Rep_{F,l}` with ⊗ as multiplication.
 - `RepRing.trace`: `tr σ` : `Rep_{F,l} → ℚ̄_l`, a ring homomorphism.
 - `RepRing.pairing`: `(A, B) = dim Hom`, extended bilinearly.
-- `RepRing.eq_irreducible_of_pairing_eq_one`: Positive dimension and `(A,A)=1` imply A is the class of one genuine irreducible; expand A in the irreducible basis and use `Σn_i²=1`. The coordinate statement is `RepRing.eq_single_one_of_norm_one` in Suggested.lean.
+- `RepRing.eq_irreducible_of_pairing_eq_one`: Positive dimension and `(A,A)=1` imply A is the class of one genuine irreducible; expand A in the irreducible basis and use `Σn_i²=1`.
 - `RepRing.res`: Restriction, a ring homomorphism.
 - `RepRing.ind`: Induction with trace formula, projection formula, Frobenius reciprocity and Mackey.
 - `RepRing.brauer_transport`: Inflate the supplied finite-quotient Brauer decomposition and use the arithmetic projection formula to obtain `A = Σ n_i ind([ı^{−1}ψ_i] res A)`.
@@ -706,7 +705,7 @@ The sources are [Moret–Bailly II][moret-bailly-1989-II], 3.1, pp. 186–187, 3
 <a id="target-additive-strong-approximation-away-from-place"></a>
 ### 2.5a Additive approximation away from one place
 
-For a number field K and any chosen place w, prove `additiveStrongApproximationAwayFromPlace`: the diagonal K is dense in the restricted product of all K_v with v≠w, using O_v at finite places. Concretely, for a finite set T of places disjoint from {w} and containing all archimedean places other than w, arbitrary nonempty local opens at T admit an element of K lying in those opens and integral at every finite v outside T∪{w}. The omitted place can be finite; omitting all archimedean places alone does not give this assertion.
+For a number field K and any chosen place w, prove `additiveStrongApproximationAwayFromPlace`: the diagonal K is dense in the restricted product of all K_v with v≠w, using O_v at finite places. Concretely, for a finite set T of places disjoint from {w} and containing all archimedean places other than w, arbitrary nonempty local opens at T admit an element of K lying in those opens and integral at every finite v outside T∪{w}. The omitted place can be finite; omitting all archimedean places alone does not give this assertion. Suggested.lean states this finite-open formulation as `additiveStrongApproximationAwayFromPlace`.
 
 For the function-field case import `TauCeti.Place.exists_forall_mem_valuation_sub_le_and_forall_mem_integers` from `TauCeti.FieldTheory.FunctionField.Consequences.StrongApproximation`, with exact finite constants and a proper set of places on which approximation and integrality are imposed. Local-field targets follow by density of K in each completion.
 
@@ -804,6 +803,8 @@ Fix a number field K and finite set S of places, and let `K_S` be the maximal su
 
 Prove it as `splitField_points_dense`.
 
+In Suggested.lean, `maximalSplitExtension` constructs the maximal split extension as a supremum of finite intermediate fields, and `splitField_points_dense` states Zariski density over it. The statement applies to separated smooth schemes of finite type by affine-open reduction. The refinement prescribing local opens uses the scheme-point topology of §2.2.
+
 The sources are [KW II][kw-serre-modularity-II], Proof of Theorem 6.1, ordinary case, p. 56; [Taylor, Fontaine–Mazur][taylor-2002-fontaine-mazur], Introduction, Theorem G, pp. 4-5, Introduction, Theorem G, p. 5.
 
 *Needs:* [Layer 2, The integral-point theorem](#target-moret-bailly-theorem-incomplete-skolem-data-have-integral-points); [Layer 2, From integral points to split-field density](#target-theorem-g-from-moret-bailly).
@@ -842,7 +843,7 @@ The sources are [Snowden v1][snowden], §5.2, proof of Proposition 5.2.2, p. 16.
 <a id="target-forcing-linear-disjointness-by-extra-split-places"></a>
 ### 2.13 Avoidance by extra split primes
 
-Given a finite Galois avoidance field D/K, add finitely many unramified places outside the forbidden set whose Frobenius elements generate Gal(D/K), and at which the variety has local points. Alternatively, select a nonsplit place for each simple Galois subextension. A finite **Galois** K′/K split at these places is linearly disjoint from D. Indeed `K′ ∩ D` is normal over K, and all chosen Frobenius elements act trivially on it. They generate the quotient, so the intersection is K; this Galois-theoretic step is `Fields.eq_bot_of_fixed_by_generators` in Suggested.lean. For non-Galois avoidance data, first take the normal closure. Prime selection must preserve all originally prescribed local conditions.
+Given a finite Galois avoidance field D/K, add finitely many unramified places outside the forbidden set whose Frobenius elements generate Gal(D/K), and at which the variety has local points. Alternatively, select a nonsplit place for each simple Galois subextension. A finite **Galois** K′/K split at these places is linearly disjoint from D. Indeed `K′ ∩ D` is normal over K, and all chosen Frobenius elements act trivially on it. They generate the quotient, so the intersection is K. For non-Galois avoidance data, first take the normal closure. Prime selection must preserve all originally prescribed local conditions.
 
 Prove it as `disjointness_by_extra_split_places`.
 
@@ -855,7 +856,7 @@ The sources are [KW II][kw-serre-modularity-II], Proof of Theorem 6.1, last para
 
 Work inside a common overfield with `C⊆B⊆A` and `C⊆D`. If A and D are linearly disjoint over C, then A and BD are linearly disjoint over B and `A∩BD=B`. Use tensor injectivity and the tower algebra structures to prove the transport. A converse from intersection alone requires the finite Galois hypotheses of Mathlib's `IntermediateField.LinearDisjoint.iff_inf_eq_bot`.
 
-Prove it as `Fields.inf_sup_eq_of_linearDisjoint`; Suggested.lean states its intersection conclusion, with D finite over C.
+Prove the tensor and intersection conclusions together.
 
 The sources are [Qian][qian], §2 opening facts, preceding Lemma 2.1, p. 5 (arXiv v1).
 
@@ -902,7 +903,7 @@ The sources are [CHT][cht], Lemma 4.1.2, statement p. 116 and proof p. 117.
 <a id="target-moret-bailly-three-local-conditions"></a>
 ### 2.17 Three kinds of local conditions
 
-For a smooth geometrically connected variety over a number field K, take a finite partition `S=S₁ ⊔ S₂ ⊔ S₃`, with every place in S₂ nonarchimedean. Prescribe nonempty opens in T(K_v) for v∈S₁, in T(K_v^nr) for v∈S₂, and in T(K̄_v) for v∈S₃; require local Galois invariance in the latter two cases. Obtain a finite Galois K′/K, disjoint from a specified finite extension, and a point with every local embedding satisfying the corresponding open. The first set splits in K′ and the second is unramified. `LocalConditionPartition` records a finite set `places`, its three-way classification `kind`, and `unramified_nonarchimedean`, requiring class 1 to consist of nonarchimedean places; classes 0 and 2 denote splitting and arbitrary finite extension.
+For a smooth geometrically connected variety over a number field K, take a finite partition `S=S₁ ⊔ S₂ ⊔ S₃`, with every place in S₂ nonarchimedean. Prescribe nonempty opens in T(K_v) for v∈S₁, in T(K_v^nr) for v∈S₂, and in T(K̄_v) for v∈S₃; require local Galois invariance in the latter two cases. Obtain a finite Galois K′/K, disjoint from a specified finite extension, and a point with every local embedding satisfying the corresponding open. The first set splits in K′ and the second is unramified. Record a finite set of places with a three-way classification into splitting, unramified extension and arbitrary finite extension, requiring the unramified class to consist of nonarchimedean places.
 
 **Checks.**
 
@@ -1267,7 +1268,7 @@ The descent returns to E. The intermediate fields E₁ and E₂ may fail the spl
 **Checks.**
 
 - For `p=5`, coefficient field `ℚ(√5)` is ramified at 5, but the rational coefficient-idempotent and Hodge argument still gives weights {0,−1}; no unramified coefficient hypothesis is required.
-- `aux_transfer_p_three`: for `p=3` the ratio `ε̄₃` restricted to the index-two inertia subgroup is trivial, so step 2 fails and `p=3` is excluded (`Auxiliary.half_order_gt_one` in Suggested.lean records the order `(p−1)/2>1` for `p>3`).
+- `aux_transfer_p_three`: for `p=3` the ratio `ε̄₃` restricted to the index-two inertia subgroup is trivial, so step 2 fails and `p=3` is excluded.
 - `aux_transfer_tate_curve`: a member with multiplicative reduction at a place above p, such as the Tate module of a Tate curve, has nonzero monodromy and is not crystalline, so step 1 fails without good reduction.
 - `aux_transfer_level_one`: for the CM seed with level prime to p and a residual representation unramified away from p after the first base change, the level bound of §4.4 is 1.
 - `aux_transfer_descent_field`: the conclusion is over E, not over E₂, so the splitting conditions imposed on E in Layer 3 are retained.
@@ -1836,9 +1837,9 @@ The sources are [Böckle][bockle-appendix-2003], Proposition 1, p. 2, Proof of P
 
 Let O be a complete DVR with uniformizer `π`, let A=O[[x₁,…,x_n]], and take f₁,…,f_m in its maximal ideal with `m≤n`. Suppose R=A/(f₁,…,f_m) is nonzero, complete noetherian local, has the same residue field as O, and is finite over O. Then `m=n`, (π,f₁,…,f_n) is A-regular, and R is a finite flat complete intersection over O with `R[1/π]≠0`. Import the regular-local/Cohen–Macaulay proof from DeformationAndDerivedPatchingAlgebra Layer 3 and, when Frac(O) has characteristic zero, point extraction through Layer 9 from DeformationAndDerivedPatchingAlgebra Layer 4. Finiteness is essential: O[[x]] has no relations and is flat but is not finite over O, so it cannot imply `m=n`.
 
-Define `Presentations.HasPresentation O R r s` by an O-algebra equivalence with the quotient of r-variable formal power series by s equations. Define `Presentations.IsFlatCompleteIntersection O R d` by O-flatness and such a presentation with `s+d` variables and an s-term regular sequence, including a nonzero final quotient.
+A presentation is an O-algebra equivalence with the quotient of r-variable formal power series by s equations. A flat complete intersection of relative dimension d is O-flat and has such a presentation with `s+d` variables and an s-term regular sequence, including a nonzero final quotient.
 
-The API exposes the presentation equivalence, flatness and regular sequence; `Presentations.finite_presentation_complete_intersection` derives equal counts and regularity starting with an arbitrary uniformizer `π`.
+Suggested.lean states `Presentations.finite_presentation_complete_intersection`: equal counts, flatness, regularity of the equations with and without the initial uniformizer, and a nonzero generic fibre.
 
 **Checks.**
 
@@ -1846,11 +1847,11 @@ The API exposes the presentation equivalence, flatness and regular sequence; `Pr
 - `presentation_variable`: O also has the one-variable presentation O[[x]]/(x).
 - `presentation_unit`: O[[x]]/(1) is a valid presentation of the zero algebra, so presentation alone does not imply nontriviality.
 - `ci_empty`: every nonzero O is flat over itself and has relative dimension zero via the empty regular sequence.
-- `Presentations.ci_variable`: for nonzero noetherian O, O[[x]] is O-flat of relative dimension one; arbitrary coefficient rings are excluded.
-- `Presentations.ci_unit`: over any coefficient ring and in any relative dimension, the quotient by (1) fails the regular-sequence nonzero-quotient condition; in particular this excludes `ℚ[[x]]/(1)`.
-- `Presentations.ci_torsion`: a nonzero scalar annihilating a nonzero algebra over a domain obstructs flatness in every relative dimension. In particular `ℤ/2` is not ℤ-flat, so it fails the flat-complete-intersection predicate.
+- For nonzero noetherian O, O[[x]] is O-flat of relative dimension one; arbitrary coefficient rings are excluded.
+- Over any coefficient ring and in any relative dimension, the quotient by (1) fails the regular-sequence nonzero-quotient condition; in particular this excludes `ℚ[[x]]/(1)`.
+- A nonzero scalar annihilating a nonzero algebra over a domain obstructs flatness in every relative dimension. In particular `ℤ/2` is not ℤ-flat, so it fails the flat-complete-intersection predicate.
 
-The sources are [Böckle][bockle-appendix-2003], Lemma 2, p. 5; [Stacks Project, §10.97, Lemma 10.97.2](https://stacks.math.columbia.edu/tag/00MB) for noetherian completion flatness in `ci_variable`.
+The sources are [Böckle][bockle-appendix-2003], Lemma 2, p. 5; [Stacks Project, §10.97, Lemma 10.97.2](https://stacks.math.columbia.edu/tag/00MB) for noetherian completion flatness.
 
 *Needs:* `mathlib:RingTheory.Sequence.IsRegular`; `mathlib:IsLocalRing`; `mathlib:ringKrullDim`; `mathlib:Module.Flat`; DeformationAndDerivedPatchingAlgebra §§3.2–3.5; [Layer 9](#layer-r24-2).
 
@@ -1888,7 +1889,7 @@ Consume ClassicalSerreModularity `I.3/prescribed-lifts`. Fix an S-type `ρ̄:G_�
 3. Let q be odd with q∥N(ρ̄), `p|(q−1)` and residual inertia `(χ,*;0,1)`. At p use type 2, and be minimal away from p,q. At q prescribe `(χ′,*;0,1)`, where `χ′=ω_q^i` lifts `χ` and `0<i≤q−2`. Require i even when `p=2`.
 4. Let `q≠p, p|(q+1)`, and assume residual decomposition-group shape `(χ_p,*;0,1)` up to unramified twist. At p use type 2 and be minimal away from p,q. At q prescribe `χ′⊕χ′^q`, with `χ′=ω_(q,2)^iω_(q,2)^(qj)` of p-power order and genuinely level two, `0≤j<i≤q−1`. Require `i+j` even when `p=2`. Such a character is unavailable in the dyadic case `v₂(q+1)=1`.
 
-The numerical part is `LiftParameters.RequiredLiftParameters`, with the four constructors and the displayed prime, exponent, order and parity restrictions. Its `auxiliaryPrime` returns q only in cases 3–4. Its `requiresSteinberg` is false for the minimal crystalline case and otherwise tests `(p=2 ∧ k=4) ∨ (p≠2 ∧ k=p+1)`. These parameters do not encode the residual local representation, determinant or point of a deformation ring; `RequiredLiftType` includes all those arithmetic data.
+The four cases retain the displayed prime, exponent, order and parity restrictions, with an auxiliary prime q only in cases 3–4. The minimal crystalline case has no Steinberg requirement; the other prescriptions require Steinberg monodromy exactly when `(p=2 ∧ k=4) ∨ (p≠2 ∧ k=p+1)`. The lift-type interface includes the residual local representation, determinant and point of a deformation ring, as well as these numerical restrictions.
 
 Minimality uses Diamond's condition and the dyadic version from KW II §3.3.1, imported through LocalGaloisDeformationRings Layer 8. In type 4 the distinct inertia characters split any characteristic-zero extension. If q∥N(ρ̄) and `p∤q−1`, a geometric lift with q∥N(ρ) is automatically minimal there; this explains the divisibility hypothesis of type 3.
 
@@ -2177,7 +2178,7 @@ For an E-rational odd irreducible rank-two almost-strict family over `ℚ`, take
 
 For `q≠l` the residual Artin conductor divides that of `r_q`. Finite inertia of order prime to l reduces injectively, preserving its shape, including the dihedral case of order `2t^a` with `l∤2t`. At an odd l outside ramification, the member is crystalline. If the residual member is S-type and `**1≤a−b≤l−2**`, its normalized Serre weight is `a−b+1` after twisting. Equal weights are excluded: an odd absolutely irreducible unramified Artin residual member has normalized weight l, not one. The general-rank regular-system theorem gives the cyclotomic restriction statement for every constituent on a density-one set, rather than this rank-two cofinite conclusion.
 
-Prove it as `residual_members`; the weight inequality is `ResidualMembers.weight_ne_half_weights` in Suggested.lean.
+Prove it as `residual_members`.
 
 The sources are [KW I][kw-serre-modularity-I], Proof of Theorem 10.1, p. 20 of the preprint, §8.4, p. 17 of the preprint, Lemma 6.2(ii), p. 11 of the preprint, §1, p. 2 of the preprint; §10.1, p. 20; [Swinnerton-Dyer][swinnerton-dyer-1973], §2, Corollary 1, p. 15; §4, Theorem 4 and its corollary, pp. 31–33, which use the weight-12 congruences (2)–(3) of p. 4; [Dieulefait–Pacetti v2][dieulefait-pacetti], Lemma 1.14, proof, p. 9 of arXiv:2108.07577v2.
 
