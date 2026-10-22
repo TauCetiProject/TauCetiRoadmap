@@ -6,10 +6,11 @@ import TauCeti.Probability.Process.MarkovChain
 /-!
 # Markov chains and renewal processes: suggested target signatures
 
-**`README.md` is the definitive roadmap document.** This file is not the roadmap and is
-not exhaustive: it records suggested Lean forms for selected milestones. Discharging
-every statement here neither finishes a milestone nor the roadmap. The admitted proofs
-are targets, not claimed implementations; definitions below have explicit bodies.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones, so that
+contributors and reviewers converge on names and signatures; discharging all of them
+finishes neither a milestone nor the roadmap. The admitted proofs are targets, not
+claimed implementations; definitions below have explicit bodies.
 
 These examples consume Tau Ceti's existing path law, Mathlib's kernel powers, invariant
 measures, and hitting times. Later interfaces must use the supplier APIs identified in
@@ -33,7 +34,7 @@ variable {S : Type*} [MeasurableSpace S] [Countable S]
 def Reaches (x y : S) : Prop := ∃ n : ℕ, 0 < (κ ^ n) x {y}
 
 /-- Countable-state irreducibility. -/
-def Irreducible : Prop := ∀ x y : S, Reaches κ x y
+def IsIrreducible : Prop := ∀ x y : S, Reaches κ x y
 
 /-- Strictly positive return lengths; a state with none has period zero. -/
 def returnLengths (x : S) : Set ℕ := {n | 0 < n ∧ 0 < (κ ^ n) x {x}}
@@ -61,13 +62,13 @@ theorem recurrent_iff_green_eq_top (x : S) :
   sorry
 
 /-- Layer 3: finite irreducible chains have a unique invariant probability. -/
-theorem existsUnique_invariant_probability [Finite S] (hκ : Irreducible κ) :
+theorem existsUnique_invariant_probability [Finite S] (hκ : IsIrreducible κ) :
     ∃! π : Measure S, IsProbabilityMeasure π ∧ κ.Invariant π := by
   sorry
 
 /-- Layer 3: Kac's singleton formula, without an aperiodicity hypothesis. -/
 theorem invariant_mass_eq_inv_meanReturn (π : Measure S) [IsProbabilityMeasure π]
-    (hκ : Irreducible κ) (hπ : κ.Invariant π) (x : S) :
+    (hκ : IsIrreducible κ) (hπ : κ.Invariant π) (x : S) :
     π {x} = (meanReturn κ x)⁻¹ := by
   sorry
 

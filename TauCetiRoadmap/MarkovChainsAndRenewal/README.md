@@ -191,18 +191,33 @@ their elementary transition laws.
    closed class as a Markov kernel on a subtype.
 2. Define recurrence by $\mathbb P_x(T_x^+<\infty)=1$, transience by its failure,
    positive recurrence by recurrence and $m_x<\infty$, and null recurrence by
-   recurrence and $m_x=\infty$. Prove the recurrence dichotomy and
+   recurrence and $m_x=\infty$. Write $\rho_x:=\mathbb P_x(T_x^+<\infty)$,
+   $V_x:=\sum_{n\geq1}\mathbf1_{\{X_n=x\}}$ for the number of positive-time visits,
+   and $G(y,x):=\sum_{n\geq0}p_n(y,x)\in[0,\infty]$. Prove the dichotomy:
+   $\mathbb P_x(V_x\geq k)=\rho_x^k$ for every $k\geq0$, so a recurrent $x$ has
+   $V_x=\infty$ $\mathbb P_x$-almost surely, while for a transient $x$ the variable
+   $1+V_x$ is geometric with parameter $1-\rho_x$ and
+   $\mathbb E_xV_x=\rho_x/(1-\rho_x)<\infty$. Prove the Green-function identities
+   $G(x,x)=(1-\rho_x)^{-1}$ in `ℝ≥0∞` and
+   $G(y,x)=\mathbb P_y(H_{\{x\}}<\infty)\,G(x,x)$, and deduce
 
    $$x\text{ recurrent}\quad\Longleftrightarrow\quad
    \sum_{n\geq0}p_n(x,x)=\infty.$$
 
-   Give the geometric law of the number of positive-time returns in the transient
-   case, its mean, the Green-function identities, and almost-sure finiteness of
-   visits to a transient state from every initial law.
-3. Prove that recurrence, transience and positive/null recurrence are class
-   properties. A recurrent class is closed; every finite closed communicating
-   class is positive recurrent. On a finite nonempty state space there is a
-   closed class, and the chain enters the union of closed classes almost surely.
+   For every initial law $\nu$, prove that the total number of visits
+   $\sum_{n\geq0}\mathbf1_{\{X_n=x\}}$ has $\mathbb P_\nu$-mean
+   $\mathbb P_\nu(H_{\{x\}}<\infty)\,G(x,x)$; hence visits to a transient state are
+   almost surely finite from every initial law.
+3. If $x$ reaches $y$ and $x$ is recurrent, prove that $y$ is recurrent and
+   $\mathbb P_x(H_{\{y\}}<\infty)=\mathbb P_y(H_{\{x\}}<\infty)=1$. Deduce that
+   recurrence and transience are class properties, that a recurrent class is
+   closed, and that an irreducible recurrent chain satisfies
+   $\mathbb P_\nu(H_{\{y\}}<\infty)=1$ for every initial law $\nu$ and every $y$.
+   Prove that positive and null recurrence are class properties, using the
+   occupation limits of item 4. Every finite closed communicating class is
+   positive recurrent. On a finite nonempty state space there is a closed
+   communicating class, and the chain enters the union of closed communicating
+   classes almost surely.
 4. For $V_y(n):=\sum_{k=1}^n\mathbf1_{\{X_k=y\}}$, prove
    $V_y(n)/n\to r_y$ almost surely under $\mathbb P_y$. Under an arbitrary
    initial law $\nu$, the limit is
@@ -236,17 +251,32 @@ for these classifications; their recurrence labels are not assumptions.
    laws, and prove irreducibility and aperiodicity of the product of two
    irreducible aperiodic chains. For two chains with the same transition kernel,
    construct the meeting-time coupling and show that following one chain after
-   their first meeting preserves the other marginal law. Bound total variation
-   at time $n$ by the probability of not having met by $n$. For an irreducible
-   aperiodic positive recurrent kernel, prove almost-sure meeting using the
-   recurrent product chain.
-5. For an irreducible aperiodic positive recurrent chain and every initial
-   probability $\nu$, prove convergence to $\pi$ in total variation. On a
-   countable space identify this distance with
-   $\frac12\sum_y |(\nu\kappa^n)(\{y\})-\pi(\{y\})|$.
+   their first meeting preserves the other marginal law. Bound the total-variation
+   distance of item 5 at time $n$ by twice the probability of not having met
+   by $n$. Whenever the product kernel is irreducible and recurrent, prove that
+   the two coordinates meet almost surely for arbitrary initial laws, by Layer
+   2.3 applied to the product chain. For an irreducible aperiodic positive
+   recurrent kernel, the product kernel has invariant probability
+   $\pi\otimes\pi$ and is therefore positive recurrent.
+5. Measure total variation with Mathlib's `MeasureTheory.tvDist`
+   ([mathlib4 #37730][tv-pr]), which takes values in $[0,2]$ on probability
+   measures. On a countable space prove
+   $\mathrm{tvDist}(\mu,\mu')=\sum_y|\mu(\{y\})-\mu'(\{y\})|$; the coupling bound
+   of item 4 reads $\mathrm{tvDist}\leq2\,\mathbb P(\text{no meeting by }n)$.
+   For an irreducible aperiodic positive recurrent chain and every initial
+   probability $\nu$, prove $\mathrm{tvDist}(\nu\kappa^n,\pi)\to0$.
    For an irreducible aperiodic null recurrent or transient chain, prove
-   $(\nu\kappa^n)(\{y\})\to0$ for each $y$. Do not turn that pointwise limit
-   into total-variation convergence to the zero measure.
+   $(\nu\kappa^n)(\{y\})\to0$ for each $y$ by cases on the product chain. If
+   it is transient, $(\nu\kappa^n)(\{y\})^2$ is the probability that the product
+   chain started from $\nu\otimes\nu$ is at $(y,y)$ at time $n$, which tends to
+   zero by Layer 2.2. If it is recurrent, then $y$ is recurrent because
+   $p_n(y,y)^2\leq p_n(y,y)$, hence null recurrent. Couple the chains
+   started from $\nu$ and $\nu\kappa^i$ to get
+   $|(\nu\kappa^n)(\{y\})-(\nu\kappa^{n+i})(\{y\})|\to0$ for each fixed $i$. By the strong Markov property at the first visit to $y$
+   after time $n$, prove
+   $\frac1k\sum_{i=1}^k(\nu\kappa^{n+i})(\{y\})\leq(1+\mathbb E_yV_y(k))/k$
+   uniformly in $n$; Layer 2.4 makes the right side small. Do not turn the
+   pointwise limit into total-variation convergence to the zero measure.
 6. Formalize the hard-core sampling example on a finite nonempty simple graph.
    For activity $\lambda>0$, the state space consists of independent vertex
    sets and $\pi(I)\propto\lambda^{|I|}$. A step chooses a vertex uniformly,
@@ -304,7 +334,7 @@ for these classifications; their recurrence labels are not assumptions.
    $C:=\{j\in\mathbb N:\mathbb P(L>j)>0\}$ that moves from $j>0$ to
    $j-1$ and from zero to a fresh $L-1$. Prove irreducibility, identify its
    return-time law as the law of $L$, and show its period is one by maximality
-   of the span. For the chain started at zero, prove
+   of the span. Let $(R_n)_{n\geq0}$ be this chain started at zero, and prove
    $U(\{an\})=\mathbb P_0(R_n=0)/q$ for every $n\geq0$.
    Prove $\mathbb E L=\mu/(aq)$, including infinite mean. Layer 3 then
    yields the displayed limit. These identities account for zero-increment
@@ -312,9 +342,16 @@ for these classifications; their recurrence labels are not assumptions.
 4. For nonlattice $F$, prove, for every $h\geq0$,
    $m(t+h)-m(t)\to hr$. This includes infinite mean. Prove the local renewal bound
    $U([t,t+h])\leq U([0,h])$ for $t,h\geq0$ by conditioning at the first
-   arrival at or after $t$, counting $S_0$ in $U$. Supply the nonlattice
-   approximation argument for Blackwell's theorem, including the infinite-mean
-   case; the local bound alone does not establish the limit.
+   arrival at or after $t$, counting $S_0$ in $U$. Prove the limit by Feller's
+   argument (vol. II, Chapter XI): by the local bound, every sequence $t_k\to\infty$
+   has a subsequence along which the translates of $U$ by $-t_k$ converge vaguely
+   on $\mathbb R$ to a Radon measure $\eta$ with $\eta=\eta*F$. Prove that for
+   nonlattice $F$ every such measure with $\sup_x\eta([x,x+1])<\infty$ is a
+   multiple $c$ of Lebesgue measure.
+   Identify $c=r$ from $\int_{[0,t]}\mathbb P(T_1>t-s)\,U(ds)=1$ for $t\geq0$:
+   pass to the limit by dominated convergence, using the local bound, when
+   $\mu<\infty$, and by Fatou's lemma, giving $c=0$, when $\mu=\infty$.
+   The local bound alone does not establish the limit.
 
 ## Layer 6: Renewal equations and excess life
 
@@ -346,9 +383,9 @@ for these classifications; their recurrence labels are not assumptions.
 
    Prove that the limit is a probability distribution and identify its density
    as $\overline F(x)/\mu$. Apply Layer 6.3 to the tail forcing, not directly to
-   $h_x$, which need not be nonincreasing. For $\mu=\infty$ prove
-   $\mathbb P(E_t\leq x)\to0$ for every finite $x$, using
-   $\{E_t\leq x\}\subseteq\{N_{t+x}-N_t\geq1\}$ and Layer 5.
+   $h_x$, which need not be nonincreasing. For $\mu=\infty$, lattice or not,
+   prove $\mathbb P(E_t\leq x)\to0$ for every finite $x$, using
+   $\{E_t\leq x\}\subseteq\{N_{t+x}-N_t\geq1\}$ and Layer 5.3 or 5.4.
 
 ## Layer 7: Connections to Poisson processes
 
@@ -434,6 +471,7 @@ Chapters 3 and 5 for construction, mapping, marking and thinning.
 [traj]: https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Probability/Kernel/IonescuTulcea/Traj.lean
 [chain]: https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Probability/Process/MarkovChain.lean
 [excursions]: https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Probability/Exchangeability/Recurrence/MarkovChain.lean
+[tv-pr]: https://github.com/leanprover-community/mathlib4/pull/37730
 [invariant-pr]: https://github.com/leanprover-community/mathlib4/pull/44889
 [stationary-pr]: https://github.com/leanprover-community/mathlib4/pull/34713
 [period-pr]: https://github.com/leanprover-community/mathlib4/pull/39913
