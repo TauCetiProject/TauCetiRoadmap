@@ -16,12 +16,22 @@ Ferrero–Washington statement uses the finite fields E(μ_{p^{n+1}}), retaining
 finite torsion part of the cyclotomic tower; finite initial shifts are absorbed by
 the eventual growth equation.
 
+The definitions below support the README's generator-membership target
+`cyclotomicNumbers_generator_mem` and unit-membership target
+`cyclotomicUnits_mem_iff` (§1.2), the prime-power generator targets
+`cyclotomicUnits_generators` and `realCyclotomicUnits_generators` (§1.3), and
+`realCyclotomicUnits_cyclic` (§1.4), which gives generation over the real Galois
+group ring with sign torsion retained. These supporting API targets are specified
+in the README alongside the tower roots and normalized real generators.
+
 Other headline signatures are deferred because the pinned libraries lack the
 arithmetic objects they mention. The general-conductor circular-unit formula
 (§1.8) needs the norm-generated circular subgroup and Sinnott distribution lattice.
 Weak Leopoldt and the global-local sequence (Layer 2), and abelian Leopoldt
 (§4.4), need the restricted-ramification Galois modules and completed global-unit
-localization. Coleman interpolation, its arithmetic image, and the conditional
+localization. The procyclic Hochschild–Serre comparison (§2.4a) needs the
+relative continuous-cochain complex, its quotient action and compact homology.
+Coleman interpolation, its arithmetic image, and the conditional
 cyclic module (Layer 7) need the compatible local tower and its norm-unit limit.
 The analytic constructions (Layers 5–6) need the canonical Kubota–Leopoldt and
 Deligne–Ribet pseudomeasures. The finite CM Fitting identities (§9.7) need the
