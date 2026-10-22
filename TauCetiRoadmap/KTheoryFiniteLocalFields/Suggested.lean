@@ -128,8 +128,8 @@ variable {k : Type*} [CommRing k]
 /-- The residue-coordinate expression for the left-linear boundary:
 `∂{π^r u, π^s v} = (-1)^(r*s) * ū^s * v̄^(-r)`.
 The boundary is the degree-two adapter `∂₂ = -B₂` of the raw localization boundary.
-Its agreement with K2SymbolsBrauer's last-slot residue on the common Milnor carrier is
-`tameBoundary_symbol` of README §3.2. -/
+Specializing K2SymbolsBrauer §§11.1, 11.3 and 11.8's DVR comparison identifies it with
+the last-slot residue on the common Milnor carrier, as `tameBoundary_symbol` in README §3.2. -/
 def tameCoordinate (r s : ℤ) (u v : kˣ) : kˣ :=
   (-1 : kˣ) ^ (r * s) * u ^ s * v ^ (-r)
 
@@ -279,7 +279,8 @@ maps exported to motive-category applications, and its additional
 `genuineModernCyclotomicComparison` with its integral arithmetic pullback and separate
 p-completed comparison, the Connes operator, the HM Tate-cochain comparison and Tate
 spectral sequence, the logarithmic DVR THH/TR/TC objects, the absolute logarithmic
-de Rham–Witt complex, the Frobenius-twisted derivation and hW module, logarithmic trace structure
+de Rham–Witt complex, modified Verschiebung and its iterates across finite levels with their
+unit coefficients, the Frobenius-twisted derivation and hW module, logarithmic trace structure
 maps, the normalized log-THH class κ, the Lubin–Tate unit and α coordinates, TR Bott classes,
 the Geisser–Levine comparisons, the Dwyer–Friedlander comparison, the étale edge and Chern
 maps, the weightwise twisted-TR inverse limits, the local Iwasawa module and the height-one
