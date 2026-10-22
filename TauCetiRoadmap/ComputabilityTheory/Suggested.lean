@@ -19,8 +19,9 @@ here neither finishes a layer nor the roadmap.
 
 All definitions below have bodies. Every `sorry` is the proof of a stated theorem or example,
 never the body of a predicate or of an evaluator. The finite examples after L6, and the zero
-restraint of large indices in L9, are proved directly from the definitions as a check on them. The operational code prototype is deliberately
-concrete so that its use and adequacy obligations can be read against actual semantics.
+restraint of large indices in L9, are proved directly from the definitions as a check on them.
+The operational code prototype is deliberately concrete so that its use and adequacy obligations
+can be read against actual semantics.
 
 Names and namespaces are provisional. `Oracle.Single.Code` follows the shape of Mathlib
 PR #38973 inside this roadmap-only namespace, not a competing root namespace. Integrators must
@@ -577,7 +578,8 @@ theorem finite_injurySet_of_eventually_bounded_restraint (A : ℕ → Finset ℕ
     (injurySet A r e).Finite := by
   sorry
 
-/-- Stabilization implies boundedness; only the further injury-stage conclusion needs monotonicity. -/
+/-- Stabilization implies boundedness; only the further injury-stage conclusion needs
+monotonicity. -/
 theorem finite_injurySet_of_restraint_stabilizes (A : ℕ → Finset ℕ)
     (r : ℕ → ℕ → Option ℕ) (e : ℕ)
     (hr : ∃ (b : Option ℕ) (s₀ : ℕ), ∀ s, s₀ ≤ s → r e s = b) :
@@ -796,8 +798,8 @@ example : injurySet zeroThenZero allInactive 0 = ∅ := by
 
 example : injurySet zeroThenZero allZero 0 = {0} := by
   ext x
-  simp only [injurySet, injuriesAt, fresh, allZero, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff,
-      Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
+  simp only [injurySet, injuriesAt, fresh, allZero, Set.mem_ofPred_eq, Finset.mem_filter,
+      Finset.mem_sdiff, Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨s, -, hx⟩
     omega
@@ -806,8 +808,8 @@ example : injurySet zeroThenZero allZero 0 = {0} := by
 
 example : injurySet zeroThenBoundary allOne 0 = {1} := by
   ext x
-  simp only [injurySet, injuriesAt, fresh, allOne, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff,
-      Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
+  simp only [injurySet, injuriesAt, fresh, allOne, Set.mem_ofPred_eq, Finset.mem_filter,
+      Finset.mem_sdiff, Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨s, ⟨h, -⟩, -⟩
     simpa [zeroThenBoundary] using h
@@ -826,8 +828,8 @@ example : injurySet zeroThenPair allOne 0 = {0, 1} ∧
     injuryStages zeroThenPair allOne 0 = {1} := by
   refine ⟨?_, ?_⟩
   · ext x
-    simp only [injurySet, injuriesAt, fresh, allOne, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff,
-      Option.any_some, decide_eq_true_eq, Set.mem_insert_iff,
+    simp only [injurySet, injuriesAt, fresh, allOne, Set.mem_ofPred_eq, Finset.mem_filter,
+      Finset.mem_sdiff, Option.any_some, decide_eq_true_eq, Set.mem_insert_iff,
       Set.mem_singleton_iff]
     constructor
     · rintro ⟨s, ⟨h, -⟩, -⟩
@@ -850,8 +852,8 @@ example : injurySet oscillatingZero allZero 0 = {0} ∧
     (injuryStages oscillatingZero allZero 0).Infinite := by
   refine ⟨?_, ?_⟩
   · ext x
-    simp only [injurySet, injuriesAt, fresh, allZero, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_sdiff,
-      Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
+    simp only [injurySet, injuriesAt, fresh, allZero, Set.mem_ofPred_eq, Finset.mem_filter,
+      Finset.mem_sdiff, Option.any_some, decide_eq_true_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨s, -, hx⟩
       omega
@@ -1030,7 +1032,8 @@ def routeSide (r : Bool → ℕ → Option ℕ) (s x : ℕ) : Bool :=
   | none => false
 
 /-- The two halves at the end of each stage. The transition to `s + 1` reads the restraints from
-the stage-`s` halves and the stage-`s` approximation to `C`, and routes each fresh element of `B`. -/
+the stage-`s` halves and the stage-`s` approximation to `C`, and routes each fresh element of
+`B`. -/
 noncomputable def sacksSplit (B C : ℕ → Finset ℕ) : ℕ → Bool → Finset ℕ
   | 0 => fun _ => ∅
   | s + 1 => fun i =>
