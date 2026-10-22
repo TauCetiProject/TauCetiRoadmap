@@ -13,8 +13,9 @@ subgroups, and states the milestones whose carriers already exist: the compact-t
 vanishing, the Cohen/Witt coefficient embedding and Dwork's ghost criterion, the
 characteristic-`p` logarithmic-derivative identity used in the Tate comparison, and the
 elementary Tate-module lemmas on Tau Ceti's `TateModule`. The K-theory, homotopy,
-logarithmic and trace constructions, the shared Bloch cycle complexes and their
-motivic-to-K comparisons are targets of the README.
+logarithmic and trace constructions, the integral TC arithmetic pullback retaining circle
+homotopy fixed points, the shared Bloch cycle complexes with arbitrary-scheme localization
+and smooth-target incidence moving, and their motivic-to-K comparisons are targets of the README.
 -/
 
 namespace TauCetiRoadmap.KTheoryFiniteLocalFields
@@ -269,9 +270,13 @@ torsor and its geometric classifying comparison, henselian rigidity and the prim
 localization splittings, the supplier adapter `milnorResidueNorm`, the full norm-residue map
 and its kernel,
 the adapted boundary identity `localizationBockstein` and its order-three theorem
-`localizationBockstein_orderThree`, the shared `motivicCycles` cycle/moving package and
-its additional `motivicToK` comparisons, the linear Waldhausen THH
-model, classical TR and TC, the Connes operator, the HM Tate-cochain comparison and Tate
+`localizationBockstein_orderThree`, the shared `motivicCycles` package on separated finite-type
+schemes over arbitrary fields, its localization and homotopy invariance on singular schemes,
+its incidence moving and correspondence actions on smooth targets with affine-to-global descent,
+its derived coefficients and actual proper/flat/product/transfer maps, and its additional
+`motivicToK` comparisons, the linear Waldhausen THH model, classical TR and TC,
+`genuineModernCyclotomicComparison` with its integral arithmetic pullback and separate
+p-completed comparison, the Connes operator, the HM Tate-cochain comparison and Tate
 spectral sequence, the logarithmic DVR THH/TR/TC objects, the absolute logarithmic
 de Rham–Witt complex, the Frobenius-twisted derivation and hW module, logarithmic trace structure
 maps, the normalized log-THH class κ, the Lubin–Tate unit and α coordinates, TR Bott classes,
