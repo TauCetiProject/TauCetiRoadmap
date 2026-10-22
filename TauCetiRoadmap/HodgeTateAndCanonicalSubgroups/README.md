@@ -101,7 +101,7 @@ Tau Ceti at the same pin further supplies the following, which are used as they 
 - Test groups and twists: the group scheme `μ_n` over any ring (`TauCeti.RootsOfUnityGroup.groupScheme`), the Hopf algebra of `α_p (TauCeti.AlphaP.CoordinateRing)` and `ℤ_p(1)` with its Galois action (`TauCeti.PadicTateTwist`); the Checks of 0.1, 0.2 and 0.11 and the Tate twists of 2.10 and 7.35 use these.
 - Monogenic differents: `TauCeti.natCast_differentExponent_eq_addVal_aeval_derivative_minpoly` computes the different exponent of a monogenic extension of local fields as the valuation of f′(x); the monogenic case of 0.20 has the same shape over nondiscrete valuation rings, which this discretely valued statement does not cover.
 
-Tau Ceti also provides `TauCeti.RestrictedProducts.CompactOpenSubgroups` in `TauCeti/Topology/Algebra/RestrictedProduct/Basic.lean`: a chosen family of compact open subgroups, with one subgroup in each factor. Layer 2 uses the poset of all compact open levels of one group and its intersection cones; its light subtype in Suggested.lean specializes the existing subgroup/topology notions and does not construct restricted-product theory.
+Tau Ceti also provides `TauCeti.RestrictedProducts.CompactOpenSubgroups` in `TauCeti/Topology/Algebra/RestrictedProduct/Basic.lean`: a chosen family of compact open subgroups, with one subgroup in each factor. Layer 2 uses the poset of all compact open levels of one group and its intersection cones, built from the existing subgroup/topology notions.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -159,7 +159,7 @@ Within Layer 2 build 2.14, then 2.11, before 2.8–2.10. Within Layer 3 build 3.
 
 ## Suggested signatures
 
-README.md specifies the mathematics; Suggested.lean records representative signatures against the pinned APIs. `HodgeTate.CompactOpenSubgroup` and `CompactOpenSubgroup.isCofiltered` record 2.1's index. `hasseValuation`, `canonicalSum`, `WeakCanonicalRange`, `StrongCanonicalRange`, `bhwConstant`, `BHWPositionRange` and `weakCanonicalRange_of_strong` encode the scalar inequalities of 3.1, 3.4 and 4.6. Subgroup existence, degree formulas and period inclusions are the geometric targets of those sections. `autFactor`, `coordAction`, `autFactor_mul`, `coordAction_eq_smul`, `coordAction_mul` and `aipExponent` record 4.4 and 5.8. The coordinate action agrees with Mathlib's `OnePoint` action where its denominator is invertible.
+README.md specifies the mathematics; Suggested.lean states `HodgeTate.farguesHodgeTateCokernel_finite`, the finite flat conclusion of Fargues's uniform cokernel bound in [0.5](#section-0-5). Its definition `HodgeTate.characterDifferentialSpan` expresses the image of the linearized character differential on the pinned augmentation cotangent space. The module docstring identifies the missing objects needed to state the p-divisible, canonical-subgroup, period-map and logarithmic comparison headlines.
 
 ## Layer 0: p-divisible groups and integral differentials
 
@@ -270,6 +270,8 @@ Sources: [SW13], §5.1, Prop. 5.1.6 and its proof, pp. 49–50.
 ### 0.5 Fargues's bound on the cokernel of the Hodge–Tate map
 
 Prove `TauCeti.HodgeTate.farguesHodgeTateCokernel`. For p-divisible `G/O_C`, the complex `Lie(G)⊗O_C(1)→T_pG⊗O_C→ω_{G^D}` has zero composite and cohomology killed by every `a∈O_C` with `v(a)≥1/(p−1)`; it is exact over C. For finite flat `H⊂G`, G/H is p-divisible; the surjections `T_p(G/H)⊗O_C↠H(O_C)⊗O_C` and `ω_{(G/H)^D}↠ω_{H^D}` intertwine characters, so `coker α_H` inherits the bound. Every finite flat commutative p-power H embeds into an abelian scheme with abelian quotient by R07.1.40 (the local base makes this global), giving the same bound for all H.
+
+The finite flat conclusion is stated as `HodgeTate.farguesHodgeTateCokernel_finite` in Suggested.lean: for the coordinate Hopf algebra of H, the span of group-like character differentials contains `a·ω_H` whenever `v(a)≥1/(p−1)`. Apply the bound to the Cartier dual to obtain the cokernel assertion for `α_H`. This includes every prime and every p-power order over `O_C`.
 
 **Checks.**
 
@@ -1157,7 +1159,7 @@ For truncated BTs set `w=min(v(Ha),1)`. Over p-complete flat bases containing `p
 
 **Checks.**
 
-- At a uniformizer π with normalized `v(π)=1`, `hasseValuation v π=1`; for a Hasse lift with `v(Ha)=1/3`, the height is `1/3`, strictly between 0 and 1.
+- At a uniformizer π with normalized `v(π)=1`, its truncated valuation is 1; for a Hasse lift with `v(Ha)=1/3`, the height is `1/3`, strictly between 0 and 1.
 
 - `TauCeti.HodgeTate.hasseValuation_ordinary`: `Ha(μ_{p^∞}[p] ⊕ ℚ_p/ℤ_p[p]) = 0`.
 - `TauCeti.HodgeTate.hasseValuation_le_one`: `0 ≤ Ha(G) ≤ 1` for every BT₁ over `O_K` (truncation at 1, because it is computed in `O_K/p`).
@@ -1218,7 +1220,7 @@ Use `CohomologyComparisons` §6.2's shared `smallHasseCanonicalSubgroups` packag
 
 **Checks.**
 
-- The numerical guards give `canonicalSum 5 1=1`; `WeakCanonicalRange 2 2 (1/6)` fails at equality and `StrongCanonicalRange 2 2 (1/16)` holds.
+- For `p=5,n=1`, `S_n=1`; for `p=2,n=2,w=1/6`, the weak inequality fails at equality, while `w=1/16` satisfies the strong inequality.
 
 - `TauCeti.HodgeTate.canonicalSubgroup_ordinary`: If `Ha(A₁)` is a unit, `C_m = A[p^m]^0 (multiplicative)`.
 - `TauCeti.HodgeTate.canonicalSubgroup_ellipticDegree`: For E elliptic over `O_C` with `Ha(E[p]) = w < 1/2` and `p ≥ 5`, `deg C₁ = 1 − w` and `deg(E[p]/C₁) = w`.
@@ -1489,7 +1491,7 @@ Boundary estimates require Layer 0/C4’s full dual one-motive flag and conormal
 
 - For `p=2,n=1`, the position guard admits height `1/4` and rejects `1/3`; for `p=5,n=1`, it admits `1/3` and rejects `1/2`. These distinguish the inclusive all-prime endpoint from the strict odd-prime endpoint.
 
-- At `p=3,n=1`, `BHWPositionRange 3 1 (1/4)` holds and `BHWPositionRange 3 1 (1/3)` fails at its strict endpoint.
+- At `p=3,n=1`, height `1/4` lies in the BHW position range and height `1/3` is excluded by its strict endpoint.
 
 - For `F = ℚ`, `p ≥ 5`, `m = 1`, `r = 1/p` and `ε = 1/(4p)`: `n = 2` and `x = 2 − p/(4(p − 1)) ≥ 27/16 > 1`, so `π_HT` of the anticanonical locus lies in the union of discs of radius 1/p around `ℤ_p`. The endpoint `ε = 1/(2p)` is excluded for `p ≥ 3`; for `p = 2` the endpoint `ε = 1/8` at `m = 1` is allowed.
 
@@ -1696,7 +1698,7 @@ In 5.3 define the congruence torsor below, analytic over Igusa and étale over `
 
 **Checks.**
 
-- `aipExponent 2 1 (1/8)=3/4`, while `aipExponent 3 1 (1/9)=5/6` and the ordinary value is `aipExponent 3 1 0=1`.
+- At `m=1`, the exponent is `3/4` for `p=2,ε=1/8` and `5/6` for `p=3,ε=1/9`; its ordinary value at `p=3,ε=0` is 1.
 
 - `TauCeti.HodgeTate.aipTorsor_ordinary`: At `ε = 0`, `B_m = 𝒪_p^×(1 + p^m Res 𝔾̂_a)` and `𝔉_m` is the torsor of generators of `ω⁺` congruent to the Igusa generator `mod p^m`.
 - `TauCeti.HodgeTate.aipTorsor_bound_direction`: The reverse inclusion `𝒪_p^×(1 + p^x Res 𝔾̂_a) ⊂ B_m` fails at points where `|Ha| > |p|^ε`, since there `I′_m ⊊ p^xO⁺`.
@@ -1855,7 +1857,7 @@ Prove `TauCeti.LogAdic.characteristic_stalks` on any étale-sheafy analytic adic
 - On `Spa(C,O_C)`, let N be the logification of `P=⟨u,e | u²=1, ue=e⟩`, with `u↦−1`, `e↦0`. The standard integral log point `M=C××ℕ` maps to N by the identity on units and characteristics, but `(v,n)` and `(−v,n)` have the same image for `n>0`. Thus the log morphism with comparison `M→N` is not strict despite bijective characteristic stalk maps; N is coherent and nonintegral.
 - The trivial log structure is `O^×_X`, whose characteristic is 0; the one-element monoid mapping to 1 is not a log structure on `Spa(ℚ_p, ℤ_p)`.
 
-Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Def. 2.2.2 (4), (7)–(8), p. 8; [Ogus, Lectures on Log Algebraic Geometry](https://math.uchicago.edu/~drinfeld/p-adic_periods/Ogus_logbook.pdf), Chapter I, Proposition 4.1.2, p. 73 (unit and characteristic isomorphisms, with the quasi-integrality hypothesis satisfied by integral log structures).
+Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Def. 2.2.2 (4), (7)–(8), p. 8; Ogus, *Lectures on Log Algebraic Geometry*, Chapter I, Proposition 4.1.2, p. 73 (unit and characteristic isomorphisms, with the quasi-integrality hypothesis satisfied by integral log structures).
 
 *Needs:* [6.0](#section-6-0); `AdicEtaleGeometry` A1 (etale site); `AdicEtaleGeometry` A1 (etale structure sheaf); `CrystallineCohomology` CR.5:log-algebra (characteristic monoid).
 
@@ -2726,7 +2728,7 @@ Prove `TauCeti.LogAdic.proper_smooth_local_system`. For proper smooth rigid `f:X
 - For f: `E → Y` the Tate curve over the punctured disc `0 < |q| < 1` (proper smooth), `R¹f_*𝔽_p` is a local system of rank two that is not constant (it is trivialized only after adjoining `μ_p` and `q^{1/p}`); over the whole disc f is not smooth, and `R¹f_*𝔽_p` is not a local system at `q = 0`.
 - For the open immersion j (smooth, not proper) of the punctured disc into the disc, `R¹j_*𝔽_p` is supported at the puncture, where it is `𝔽_p(−1)`, so it is not a local system.
 
-Sources: Scholze–Weinstein, [*Berkeley Lectures on p-adic Geometry*](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf), Thm. 10.5.1 and proof, Appendix to Lecture 10, pp. 82–88; [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Cor. 6.3.5 and its proof, p. 89.
+Sources: Scholze–Weinstein, *Berkeley Lectures on p-adic Geometry*, Thm. 10.5.1 and proof, Appendix to Lecture 10, pp. 82–88; [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Cor. 6.3.5 and its proof, p. 89.
 
 *Needs:* [6.33](#section-6-33); [6.34](#section-6-34); [6.31](#section-6-31); [7.4](#section-7-4); [7.5](#section-7-5); `AdicEtaleGeometry` A1 (étale descent); `DiamondEtaleCohomology` C7.9 (local systems of finitely generated `Λ`-modules); `PadicHodgeTheory` §2.7 (early primitive comparison and finiteness); `AdicSpacesPartII` R0 (smooth morphism).
 
@@ -3427,7 +3429,7 @@ Locators refer to the versions named here, identified by SHA-256, and not to the
 - **AIPH.** Fabrizio Andreatta, Adrian Iovita, Vincent Pilloni, [*The adic, cuspidal, Hilbert eigenvarieties*](https://www.imo.universite-paris-saclay.fr/~pilloni/Hilbert_adicfinal.pdf). Res. Math. Sci. 3 (2016); author copy `Hilbert_adicfinal.pdf` dated 16 May 2016 (40 pp.). SHA-256 34f517fd8d02d778f16f19745f4303b3955d48646d0ce6665b88a10f6fcdebbd.
 - **AIP15.** Fabrizio Andreatta, Adrian Iovita, Vincent Pilloni, [*p-adic families of Siegel modular cuspforms*](https://arxiv.org/abs/1212.3812). arXiv:1212.3812v1 (16 Dec 2012); published Ann. of Math. 181 (2015), 623–697. SHA-256 546120d2dcbf50bc86a3b980602728c9dcebd90cc2b08528df4415ec2f7ea851.
 - **HALO.** Fabrizio Andreatta, Adrian Iovita, Vincent Pilloni, [*Le halo spectral*](https://mypage.concordia.ca/mathstat/iovita/Halo_spectral.pdf). Author copy `Halo_spectral.pdf`; Appendix A. SHA-256 154459bdefa0e91b5a103ba5a78d81bcced20e67d8bb9a0fb737de22494bee27.
-- **CDM12.** Peter Scholze, [*Perfectoid spaces: a survey*](https://people.mpim-bonn.mpg.de/scholze/CDM.pdf). Current author copy of the 2012 Current Developments in Mathematics survey. SHA-256 85a0b85e13163d8953c25d521c7f568afcc2a67c8f192228a8608f533b5f11eb.
+- **CDM12.** Peter Scholze, [*Perfectoid spaces: a survey*](https://people.mpim-bonn.mpg.de/scholze/CDM.pdf). Author copy of the 2012 Current Developments in Mathematics survey. SHA-256 85a0b85e13163d8953c25d521c7f568afcc2a67c8f192228a8608f533b5f11eb.
 - **ZIE.** Paul Ziegler, [*Graded and filtered fiber functors on Tannakian categories*](https://arxiv.org/pdf/1111.1981v2). arXiv:1111.1981v2. SHA-256 7e553f590404cd31f92bf528d925755043ad4e2bb009e058a6ca39ab8d39ed40.
 - **BPC25.** George Boxer, Vincent Pilloni, [*Higher Coleman theory*](https://www.imo.universite-paris-saclay.fr/~pilloni/HigherColeman.pdf). Author revised manuscript dated 3 March 2025, HigherColeman.pdf (180 pp.); locators refer to this version. SHA-256 `d340c9a020cc5fdbca781a8630b6fae35e14607142bed700d6ab82334faa80ae`.
 - **DLLZ-adic.** Hansheng Diao, Kai-Wen Lan, Ruochuan Liu, Xinwen Zhu, [*Logarithmic adic spaces: some foundational results*](https://www.kwlan.org/articles/log-adic.pdf). Public author copy, 100 pages; arXiv:1912.09836v2 final-version record (2022-10-30); published chapter `DOI 10.1007/978-3-031-21550-6_3 (2022)`. SHA-256 209e59836048eabbbf9735012a38c7c393fb2a30f69ce50ffac7e83b37ee1105.
