@@ -84,8 +84,8 @@ descent of polarizations along isotropic subgroups, the
 finiteness of direct factors and its integral-order orbit input, the finiteness of stable lattices in a semisimple `l`-adic
 representation, the rational Torelli theorem as used here, and the bridge from Weierstrass curves to
 abelian varieties of dimension one. The arithmetic degree and height here are the explicit
-Faltings-1983 specialization of ArakelovGeometryAndAbelianHeights Layers 1–3; the new light
-`fracIdealDegree` formula uses the existing fractional-ideal carrier rather than constructing
+Faltings-1983 specialization of ArakelovGeometryAndAbelianHeights Layers 1–3; the
+fractional-ideal degree formula uses the existing fractional-ideal carrier rather than constructing
 another arithmetic intersection theory. R28.1.5 is an adapter to that supplied degree and semistable
 height. R28.1.6–R28.1.8 use ArakelovGeometryAndAbelianHeights §§5.1–5.4, and R28.2.1–R28.2.2
 use its §§4.1–4.4: the names here are aliases or specializations in the same Faltings normalization,
@@ -222,12 +222,17 @@ metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties ove
   field named (over `K`, not over `K̄`), of the objects together with the structure named
   (a polarization when one is fixed).
 - **Lean.** Declarations live in `TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems`; names below are
-  relative to it. `Suggested.lean` contains the light definitions with real bodies and the
-  statements whose carriers exist at the pinned Mathlib and Tau Ceti: the degree of a metrized
-  fractional ideal, the quaternion construction, sums of four squares in `ℤ_l`, the finiteness of
-  Weil polynomials and of stable lattices, integral idempotent and direct-factor finiteness,
-  and the elliptic-curve statements over Tau Ceti's homomorphisms of Weierstrass curves and
-  rational Tate representations. The other targets are specified in this README only.
+  relative to it. `Suggested.lean` declares `hasGoodReductionAt`,
+  `finite_isogenyClasses`, `finite_directFactors`, `shafarevich_unpolarized`,
+  `curveHasGoodReductionAt`, `finite_curves_goodReduction`,
+  `ellipticRationalRepresentation`, `elliptic_semisimple`, `elliptic_tate_hom_iso`,
+  `elliptic_isogenous_iff_rationalTateModule`, `elliptic_isogenous_iff_ap` and
+  `finite_ellipticIsogenyClass`. These state finiteness for abelian varieties and curves,
+  and the elliptic Tate and isogeny theorems against the pinned carriers. Good reduction
+  uses smooth proper local models with geometrically connected fibres, with a
+  commutative group structure for abelian varieties. The rational elliptic representation
+  is the scalar extension of the integral Tate action. The other targets are specified
+  in this README.
 
 ## Exact supplier contracts
 
@@ -433,7 +438,7 @@ ArakelovGeometryAndAbelianHeights §2.0 `GroupScheme.IsSemiAbelianFamily` and
 a proper toroidal stack over all of `ℤ`, a normal projective minimal coarse scheme over `ℤ`,
 and a positive Hodge power pulled back from an ample line on that scheme. The integral
 base and all primes are retained; a space over `ℤ[1/n]` alone does not provide this contract.
-The current roadmap's `CorrespondenceStack` adds a stable-curve family and a saturated
+This roadmap's `CorrespondenceStack` adds a stable-curve family and a saturated
 Hodge subline over an integral proper correspondence, rather than a second Siegel compactification.
 
 ## How to read the build
@@ -726,9 +731,8 @@ semiabelian model.
 `NumberField.RingOfIntegers`, `FractionalIdeal.absNorm`.
 
 For a nonzero fractional ideal `I` of `R` with positive archimedean scalars `c = (c_v)` (norm `‖x‖_v = c_v·|x|_v`), the
-degree is `−log N(I) − Σ_v ε_v log c_v`; `Suggested.lean` records this light form as
-`fracIdealDegree`, with `fracIdealDegree_eq_of_mem` (the value computed with any nonzero `p ∈ I`) and
-`fracIdealDegree_smul` (rescaling every archimedean norm by `t > 0` lowers the degree by `[K : ℚ]·log t`).
+degree is `−log N(I) − Σ_v ε_v log c_v`. Computing with any nonzero `p ∈ I` gives
+this value, and rescaling every archimedean norm by `t > 0` lowers it by `[K : ℚ]·log t`.
 This is ArakelovGeometryAndAbelianHeights §1.3
 `HermitianBundle.arakelovDegree_ofFractionalIdeal` at `λ_v = −log c_v`.
 The section and rescaling identities are the fractional-ideal cases of
@@ -1692,7 +1696,7 @@ matrix printed in Milne's proof of Zarhin's trick),
 
 so that `v·vᵀ = vᵀ·v = (a² + b² + c² + d²)·1` (left multiplication would serve equally; only this identity is
 used). The scalar matrix identities are over any commutative ring. The `matAct`, `sumForm` and
-subspace declarations in Suggested.lean use an arbitrary field `k`; isotropy and invariance hold
+subspace constructions use an arbitrary field `k`; isotropy and invariance hold
 in any characteristic, whereas the dimension and recovery statements assume characteristic zero
 (and dimension assumes finite-dimensional `V`). The similitude factor is nonzero. This generality
 specializes to `k = ℚ_l`, including `l = 2`. Also prove the companion targets
@@ -2018,6 +2022,12 @@ the finite-quotient consequence of Frobenius density; Mathlib `Submodule.FG`, Na
 Prove `finite_isogenyClasses` (Faltings 1983, §6, Satz 5 and its proof, pp. 362–363; Deligne, Corollaire
 3.2, p. 41): for a number field `K`, a finite set `S` of places and `g ≥ 0`, there are only finitely many isogeny
 classes of abelian varieties of dimension `g` over `K` with good reduction outside `S`.
+
+The statement `finite_isogenyClasses` uses `hasGoodReductionAt A v`: over the native
+local ring `v.valuationSubringAtPrime K`, there is a smooth proper commutative group
+scheme with geometrically connected fibres whose generic fibre is group-isomorphic
+to `A`. The finite set in the Lean statement consists of finite places; including
+infinite places in `S` does not affect good reduction.
 
 *Proof route.* For `g = 0` there is just the zero abelian variety. Assume `g > 0` and fix a prime `l`. For `A` of dimension `g` with good reduction outside `S`, `V_l(A)` is unramified outside
 `S` and the places above `l` (Néron–Ogg–Shafarevich) and semisimple (R28.4.5). Take `T` from R28.5.2 for the finite
@@ -2357,6 +2367,9 @@ Prove `shafarevich_unpolarized` (Milne, *Abelian varieties*, IV Theorem 1.4, p. 
 p. 61; Deligne, Corollaire 3.3, p. 41): for a number field `K`, a finite set `S` of places and `g ≥ 0`, there are only
 finitely many isomorphism classes of abelian varieties of dimension `g` over `K` with good reduction outside `S`.
 
+The statement `shafarevich_unpolarized` uses the same local-model definition
+`hasGoodReductionAt` as R28.5.3, for every `g ≥ 0`.
+
 *Proof route.* For such an `A`, `A^∨` has good reduction outside `S` (the dual of an abelian scheme is an abelian
 scheme), so `C = (A × A^∨)^4` has good reduction outside `S` and a principal polarization (R28.5.12). Satz 6 with
 `d = 1` and dimension `8g` gives finitely many `C`, and each has finitely many direct factors, among them `A`.
@@ -2432,6 +2445,12 @@ Prove `finite_curves_goodReduction` (Faltings 1983, §6, Korollar 1 to Satz 6 an
 *Abelian varieties*, IV Theorem 4.3, p. 144): for a number field `K`, a finite set `S` and `g ≥ 2`, there are only finitely
 many isomorphism classes of smooth projective geometrically connected curves of genus `g` over `K` with good
 reduction outside `S`.
+
+The statement `finite_curves_goodReduction` uses native schemes over `K`, with genus
+expressed as the rank of `H¹(C, O_C)` and good reduction expressed by
+`curveHasGoodReductionAt`: a smooth proper model with geometrically connected fibres
+over each local ring outside `S`. Smooth proper curves over a field are projective;
+no rational-point hypothesis is imposed.
 
 *Proof route.* `X ↦ (J(X), θ_X)` sends such curves to principally polarized abelian varieties of dimension `g` with
 good reduction outside `S` (good reduction of a curve gives good reduction of its Jacobian: Milne, IV
@@ -2561,6 +2580,11 @@ are `K`-isogenous if and only if `V_l(E) ≅ V_l(E')` as `π`-modules for one (e
 if `a_v(E) = a_v(E')` for almost all places `v` of good reduction of both.
 The equivalence with rational Tate representations at each prime `l` is
 `elliptic_isogenous_iff_rationalTateModule`.
+
+The statement `elliptic_isogenous_iff_ap` compares the degree-one coefficients of
+Mathlib's `WeierstrassCurve.localPolynomial` outside a finite set of finite places.
+At good places this coefficient is `−a_v`, so its equality is exactly equality of
+Frobenius traces; the finite bad sets do not change the almost-all-places condition.
 
 *Proof route.* Transport R28.4.7 along R28.6.1; at a place of good reduction `L_v(E, s)^{−1} = 1 − a_v Nv^{−s} + Nv^{1−2s}`, so
 equality of local factors is equality of `a_v`.
@@ -2779,7 +2803,7 @@ then bounds the fibres of the map to curve isomorphism classes.
 - M. Raynaud, *Schémas en groupes de type (p, …, p)*, Bull. Soc. Math. France 102 (1974), 241–280,
   https://www.numdam.org/item/BSMF_1974__102__241_0/; §4, Théorème 4.1.1 (p. 272), appendix Définition 8 (p. 279).
 - A. Grothendieck, *Modèles de Néron et monodromie*, SGA 7 I, Exposé IX, Lecture Notes in Math. 288 (1972),
-  https://library.slmath.org/nonmsri/sga/sga/pdf/sga7-1.pdf; 7.3–7.4 (pp. 407–409).
+  7.3–7.4 (pp. 407–409).
 - G. Faltings and C.-L. Chai, *Degeneration of abelian varieties*, Springer (1990),
   Chapter V, Definition 4.2 and Remark 4.3, p. 167; Propositions 4.4–4.5, pp. 168–169.
 - S. L. Kleiman, *The Picard scheme*, arXiv:math/0504020v1 (2005); Theorem 5.11 (p. 42, the tangent space of
