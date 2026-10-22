@@ -18,6 +18,8 @@ The roadmap owns:
 
 It does not construct any algebraic object attached to these functions: no pre-Bloch or Bloch group, no symbol complex, no algebraic K-theory, no regulator map or its normalisation against Borel's regulator, no hyperbolic volume, no arithmetic certificate format, no configuration complex, no multiple polylogarithm or multiple zeta value, no p-adic polylogarithm or formal polylogarithm series over a general ring, and no quantum dilogarithm. Those subjects consume the analytic statements here; the roadmaps that do so are listed under Downstream consumers, and none of them is an input to this roadmap. A complex embedding of a number field enters only as a complex argument, with no condition on the field.
 
+The general Lerch transcendent is a downstream construction of **AnalyticNumberTheoryPartII** §4.1. Its comparison with `Liₙ` and the continuation of that comparison from matching initial germs belong there; the principal integer-weight family and its analytic API belong here.
+
 It leaves to named roadmaps and libraries:
 
 - the thrice-punctured sphere `U = ℂ∖{0,1}` as a space, its basepoint `1/2`, the two counterclockwise peripheral loops `γ₀(t) = e^{2πit}/2` and `γ₁(t) = 1 − e^{2πit}/2`, their classes `periph0` and `periph1`, the semilocal simple connectivity of `U` and the computation `π₁(U, 1/2) ≅ FreeGroup (Fin 2)` whose inverse sends the free generators to `periph0` and `periph1`, to Tau Ceti **BelyiMaps**, Layer 5 (§§5.1, 5.2, 5.6); this roadmap uses those loops and that computation and does not prove generation of `π₁` again;
@@ -605,7 +607,13 @@ Prove `singleValued_three_differential`: for `z ∉ {0, 1}`, with `ℓ = log|z|`
 dL₃(z)[v] = −L₂(z)·Im(v/z) + (ℓ·log|1−z|/3)·Re(v/z) + (ℓ²/3)·Re(v/(1−z)).
 ```
 
-Expand the `n = 3` case of §4.5 with `c₀ = 1, c₁ = −1, c₂ = 1/3` and combine the imaginary parts of `Li₂` and `Li₁` into `L₂`. Prove `hasFDerivAt_singleValued_three_one`: `L₃` is real differentiable at 1 with derivative 0. Near `1`, `L₂ = O(ρ(1 + |log ρ|))` and `ℓ = O(ρ)` with `ρ = |z − 1|`, so the displayed differential is `O(ρ(1 + |log ρ|))`; integrating along segments from 1, split at the cut, gives `L₃(1 + h) − L₃(1) = o(|h|)`. Prove `singleValued_three_neg_one`: `L₃(−1) = −3ζ(3)/4`, from the circle formula `Li₃(−1) = −(3/4)ζ(3)` or from distribution at `z = 1`; and `singleValued_three_one_pos`: `L₃(1) = ζ(3) > 0`, from the positive series.
+Expand the `n = 3` case of §4.5 with `c₀ = 1, c₁ = −1, c₂ = 1/3` and combine the imaginary parts of `Li₂` and `Li₁` into `L₂`. Prove `hasFDerivAt_singleValued_three_one`: `L₃` is real differentiable at 1 with derivative 0. By §4.7, `L₂(z) → 0` as `z → 1`. With `ρ = |z − 1|`, we have `ℓ = O(ρ)` and `1/|z|` bounded near 1, so the displayed differential satisfies
+
+```text
+‖dL₃(z)‖ ≤ C (|L₂(z)| + ρ |log ρ| + ρ) → 0.
+```
+
+Apply this uniform bound along radial segments punctured at 1, then use continuity of `L₃` at 1 from §4.7 to obtain `L₃(1 + h) − L₃(1) = o(|h|)`. Prove `singleValued_three_neg_one`: `L₃(−1) = −3ζ(3)/4`, from the circle formula `Li₃(−1) = −(3/4)ζ(3)` or from distribution at `z = 1`; and `singleValued_three_one_pos`: `L₃(1) = ζ(3) > 0`, from the positive series.
 
 **Checks.**
 - The differential formula agrees with difference quotients at `z = 0.3 + 0.7i` and at the cut point `z = 2.5`.
@@ -1021,6 +1029,7 @@ These roadmaps take the analytic statements of this roadmap as inputs; none of t
 - **HabiroNahmSeries**: takes `D` at all complex embeddings of algebraic Nahm solutions (§5.1), its conjugation sign (§5.3), the Rogers values (§6.5) and the finite-sum bounds (§7.7).
 - **HabiroNumberFields**: takes the complex five-term identity on an explicit branch domain (§3.4, §3.5) for comparison with its cyclic quantum dilogarithm, which remains its own object.
 - **PeriodsAndSpecialValues**: takes the classical analytic realisation `Liₙ, Lₙ` and the zeta endpoint values (§§1.7, 4.2) alongside its multiple-zeta and motivic objects.
+- **AnalyticNumberTheoryPartII** §4.1: owns `lerch_transcendent.polylog`, the comparison `Liₙ(z) = z Φ(z,n,1)` for every `n ∈ ℤ` and `‖z‖ < 1`, where `Φ(z,s,c) = ∑_{k≥0} z^k exp(−s Log(k+c))`. Reindexing the series of §1.3 proves the initial equality; at `z = 0` the prefactor gives `Liₙ(0) = 0` although `Φ(0,n,1) = 1`. It also owns continuation of the comparison from matching initial germs along the same paths in `U`, using Layer 2; principal values and lower boundary values agree when the branches match.
 - **ColemanIntegration**: its consumer contract assigns the complex analytic construction, closed-disc/distribution/expZeta API and single-valued inversion/distribution/conjugation to this roadmap. L2.Fa obtains `complexPolylog` by restricting §§1.1–1.7 and §3.1: `complexPolylog k z = polylog k z` for `k ≥ 1, ‖z‖ ≤ 1` (the value at `k = 1, z = 1` is totalised); off-disc values of that wrapper carry no analytic contract. L3.Fc.3 obtains `zagierPolylog` from §§4.2–4.7: for `n ≥ 2, z ∉ {0,1}`, it is `(singleValued n z : ℂ)` in odd weight and `Complex.I * singleValued n z` in even weight. Its ordered weight-one root-of-unity boundary series, formal and p-adic functions and arithmetic comparisons are its own targets. L2.Fb transports §5.8's homogeneous comparison, Möbius invariance and `normalize_five` through `OnePoint.equivProjectivization`, with its bracket equal to `1 − crossRatioSphere` on distinct tuples. Its symbol constructions, field-map API, scalar-to-group descent, algebraic Bloch groups and p-adic comparisons are its own targets.
 
 ## References
