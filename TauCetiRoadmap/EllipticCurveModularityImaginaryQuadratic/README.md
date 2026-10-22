@@ -58,10 +58,14 @@ three new lifts, independently of the desired modularity of E.
 
 The definitions of smooth proper curves, relative Jacobians, continuous
 compatible systems and automorphic representations use the supplier carriers
-below. Their source-specific constructions are README targets on those geometric carriers. `Suggested.lean` records the
-arithmetic milestones and light formulas on existing carriers, with a proved test of the cyclic operator on constant vectors. It does not
-encode the endpoint by an arbitrary proposition or by postulating its witness
-as data.
+below. Their source-specific constructions are targets on those geometric carriers.
+`Suggested.lean` declares `cm_discriminant_descent`, `discriminant_coupling`,
+`nonCM_elliptic_large_residual_primes` and `SymplecticTorsionEquiv`. The first
+three are headline arithmetic statements; the last defines the actual
+Galois-equivariant, pairing-preserving torsion isomorphisms needed for coupling.
+The other named targets specify mathematical interfaces in this README.
+The module docstring identifies the geometric, cohomological and automorphic
+objects absent at the pins that prevent stating the remaining headline results.
 
 ## Conventions
 
@@ -179,15 +183,15 @@ CrystallineLocalGlobalCompatibilityCM. These suppliers precede this
 roadmap in the supplier order. Its typed elliptic and general large-prime
 exports are inputs to the downstream modularity extensions.
 
-The pinned ingredients in `Suggested.lean` are Mathlib
-`Finsupp.single`, `Finsupp.sum`, `RatFunc.mk`, `RatFunc.eval`, `Polynomial.C`,
-`Polynomial.X`, `ZMod`, `Matrix.circulant`, `Matrix.mulVec`, `Matrix.det`,
-`Matrix.trace`, `Units`, `orderOf`, and the norm and conjugation of `Complex`.
-The pins are Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
+The arithmetic statements in `Suggested.lean` use Mathlib's CM fields,
+splitting fields, algebraic closures, finite torsion groups, bases and special
+linear groups, together with Tau Ceti's elliptic endomorphisms, finite-torsion
+Galois action and Weil pairing. The pins are Mathlib
+`6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
 `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Matrix transvections, circulants,
 root-of-unity groups and generic character orthogonality already belong to
-the libraries; only the source-specific combination `2−u−u⁻¹` and its word
-are named here. Tau Ceti supplies the elliptic Tate Galois representation
+the libraries; §§3.3 and 7.1 specify the family's combination `2−u−u⁻¹`
+and its word. Tau Ceti supplies the elliptic Tate Galois representation
 `WeierstrassCurve.tateModuleGaloisRepresentation`; it is consumed through
 ArithmeticGaloisRepresentations, not redeclared with a new carrier.
 
@@ -199,7 +203,7 @@ ArithmeticGaloisRepresentations, not redeclared with a new carrier.
 | `RatFunc.mk`, `RatFunc.eval` | `Mathlib.FieldTheory.RatFunc.Defs` and `Mathlib.FieldTheory.RatFunc.AsPolynomial`: polynomial fractions and evaluation after reduction. A zero denominator is totalized; §2.2’s displayed evaluation theorem retains its nonvanishing guards. |
 | `Matrix.circulant`, `Matrix.circulant_apply`, `Matrix.transpose_circulant`, `Matrix.circulant_isSymm_iff` | `Mathlib.LinearAlgebra.Matrix.Circulant`: entry `v(i−j)`, transpose and symmetry. These supply the generic operator API; §3.3 specializes to `2−u−u⁻¹`. |
 | `Matrix.mulVec`, `Matrix.det`, `Matrix.trace` | `Mathlib.Data.Matrix.Mul`, `Mathlib.LinearAlgebra.Matrix.Determinant.Basic`, `Mathlib.LinearAlgebra.Matrix.Trace`: column action, determinant and trace. The family’s word and independent signs are §7.1. |
-| `Polynomial.C`, `Polynomial.X`, `ZMod`, `orderOf`, `Complex.norm_mul`, `star` | Polynomial scalars/variable, cyclic indices, element order and complex norm/conjugation, used directly for the six light formulas. |
+| `Polynomial.C`, `Polynomial.X`, `ZMod`, `orderOf`, `Complex.norm_mul`, `star` | Polynomial scalars/variable, cyclic indices, element order and complex norm/conjugation, used in the explicit formulas of §§1.2, 2.2, 3.3, 7.1 and 8.5. |
 | `AlgebraicGeometry.Scheme.Hom.normalization`, `AlgebraicGeometry.Scheme.Hom.normalizationPullback` | `Mathlib.AlgebraicGeometry.Normalization`: relative normalization and its smooth-base-change isomorphism; the input for the actual curve constructions, without asserting their smoothness in advance. |
 | `groupCohomology.H1ofAutOnUnitsUnique` | `Mathlib.RepresentationTheory.Homological.GroupCohomology.Hilbert90`: multiplicative Hilbert 90 for a finite Galois field extension; §0.2 separately proves that its paired projective cocycle has the required lift. |
 
@@ -354,9 +358,9 @@ with `q_v ≠ 1 mod p` and `H²(F_v,ad⁰ρ̄)=0`, as in the cited proofs.
 If every g with det(g)≠1 satisfies that trace identity, every
 rational decomposed-generic witness q satisfies `q ≡ 1 mod p`. Indeed,
 for eigenvalues α,β with αβ=det(g), the identity forces
-`α/β ∈ {det(g),det(g)⁻¹}`. This is the algebraic implication
-`trace_identity_eigenvalue_ratio`, over any field; applying it at any
-place over q contradicts genericity when q≠1 mod p. Thus q splits
+`α/β ∈ {det(g),det(g)⁻¹}`. This algebraic implication
+holds over any field; applying it at any place over q contradicts genericity
+when q≠1 mod p. Thus q splits
 completely in K_c=K(ζp), since it already splits in K. Make this preliminary
 cyclotomic base change, then perform residual-disjoint preparation over
 K_c. The all-places witness survives, and
@@ -536,6 +540,8 @@ let L be the splitting field of `T^n − a/aᶜ`. Then L/K is soluble CM and
 there is `z ∈ L⁺ˣ` with `a/z ∈ (Lˣ)^n`. The nonzero hypothesis permits
 `a/aᶜ` and the multiplicative power class. Specialize to n=6 for the
 Weierstrass discriminant. (AKT, Corollary 9.4, p.74.)
+`Suggested.lean` states `cm_discriminant_descent` on Mathlib's CM-field
+and splitting-field types.
 
 **`fixed_pairing_twist`** — For every number field F, p∈{3,5}, continuous
 ρ̄:GF→GL₂(𝔽p) with cyclotomic determinant, and specified equivariant
@@ -629,6 +635,11 @@ with `ΔC/ΔA ∈ (Kˣ)^6` and symplectic isomorphisms `C[2] ≅ A[2]`,
 divisors of degrees three and four give a degree-one divisor; the
 irreducibility assumption excludes rational cusps. (AKT, Lemma 9.6,
 pp.74–75; ModularCurves §5C; ModularCurvesPartII §5.14.)
+The statement `discriminant_coupling` in `Suggested.lean` uses
+`SymplecticTorsionEquiv`, a subtype of additive isomorphisms between actual
+torsion groups over the algebraic closure, preserving their Galois actions
+and Tau Ceti's Weil pairings. Irreducibility of E[3] is expressed by the
+absence of proper nonzero Galois-stable subgroups.
 
 The local nonemptiness and open-condition application is AKT Lemma 9.7,
 pp.75–76, used in `hilbert_local_selection`. The CM globalization target
@@ -898,9 +909,9 @@ preserves every integral fiber and negates its divisor, so every vertical
 valuation is zero. No further shrinking of U is needed. (OpenAI Lemma 3.1
 and proof, p.5; JacobianChallenge Layer D.)
 
-**API.** `coverDivisor_degree`, `coverDivisor_abel` and
-`coverDivisor_abel_mul` give degree, Abel sum and its vanishing for S=[n]R.
-`coverFunction.divisor` and `coverFunction.at_origin` specify f and its scalar;
+**API.** Prove the degree and Abel-sum formulas above, including vanishing
+of the Abel sum for S=[n]R. `coverFunction.divisor` and
+`coverFunction.at_origin` specify f and its scalar;
 `coverFunction.negation` proves `f(−Z)=f(Z)⁻¹` by comparing divisors and
 values at O. `coverFunction.baseChange` identifies the normalized functions
 under field extension, restriction to an open of U and the constant-family
@@ -1045,9 +1056,8 @@ the components and the actual gluing, not just their arithmetic genus.
 **API.** `compactTypeModel.components` returns the leaves, spine and nodes;
 `compactTypeModel.rotation` identifies the regular permutation action;
 `compactTypeModel.picard` identifies Pic⁰ with the product of the leaf
-Jacobians. `exceptionalFunction_eval` is the displayed formula where
-v+n and v−1 are nonzero; `exceptionalFunction_cancel` is the substitution
-identity for m>0,m|n; `exceptionalFunction_at_zero` gives the odd-n value.
+Jacobians. Prove the displayed evaluation formula where v+n and v−1 are
+nonzero, the substitution identity for m>0,m|n and the odd-n value at zero.
 At infinity the reduced numerator and denominator have the same leading
 coefficient, giving value 1. These rational identities hold on RatFunc over
 any field where stated; the geometric semistability conclusion retains the
@@ -1204,9 +1214,7 @@ paths through the compact-type neighborhood. Two independent choices of
 bases would not show that the two unipotents have different fixed lines.
 (OpenAI Theorem 4.5, pp.10–11.)
 
-**API.** `cyclicLaplacian_symmetric` identifies the transpose;
-`cyclicLaplacian_row_sum` gives row sum zero for m>0;
-`cyclicLaplacian_pairing` gives
+**API.** Prove symmetry, row sum zero for m>0 and the pairing identity
 `Σ_i x_i(Ly)_i=Σ_i(x_i−x_(i+1))(y_i−y_(i+1))` over Z.
 The target `common_basis_monodromy.character` evaluates u at a character
 value λ to give the two opposite-root unipotents with entries
@@ -1221,8 +1229,8 @@ and trace tests. Its sign is retained rather than guessed.
   or either minus sign.
 - On a vector with x₀=1 and all other x_i=0 at m=3, the quadratic value
   is 2, the sum of the two adjacent squared differences. Constants have
-  value zero and are fixed by both transformations. The proved Lean example
-  shows that the cyclic operator kills constant vectors for every m>0.
+  value zero and are fixed by both transformations. The cyclic operator
+  kills constant vectors for every m>0.
 - At a primitive cubic root λ, `c(λ)=3`; the trivial character gives c=0.
   Irreducibility below excludes the trivial character and coefficient
   characteristic dividing the character order.
@@ -1446,6 +1454,12 @@ extension, in particular the normal closure of k, where E remains
 geometrically non-CM. No bound independent of E and k is asserted.
 (Serre, *Propriétés galoisiennes*, §4.2, Théorème 2, p.294;
 Le Hung §4.4, p.8.)
+`Suggested.lean` states `nonCM_elliptic_large_residual_primes` using
+`TauCeti.Isogeny.Hom` over the algebraic closure for the geometric non-CM
+hypothesis and `WeierstrassCurve.torsionGaloisAction` on actual p-torsion.
+For every sufficiently large prime and every torsion basis, each matrix
+in SL₂(𝔽p) is realized by a Galois automorphism. The basis type is
+inhabited by Tau Ceti's rank-two finite-torsion theorem.
 
 *Needs:* ArithmeticGaloisRepresentations Layers 1–2 and
 [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation),
@@ -1826,15 +1840,12 @@ equation makes λ a root of a nonzero polynomial of degree at most four
 over F₃. It would lie in F_(3^e), e≤4, so its order p divides 3^e−1≤80,
 contrary to p>100. Signs are allowed to vary; the word length still works.
 
-**API.** `switchCoefficient_factor`, `switchCoefficient_inv` and
-`switchCoefficient_ne_zero` give the factorization, inversion symmetry
-and nonvanishing criterion. `switchMonodromyWord_det` and
-`switchMonodromyWord_trace` give the exact determinant and trace;
-`prime_order_switch_regular` gives `c²≠4,−4` in characteristic three for
-an order-p unit, p>100 prime. `opposite_unipotents_fixed` identifies the
-fixed lines, and `opposite_unipotents_noncommute` gives the noncommutation
-used for the auxiliary elliptic curve. The geometric identification of these
-matrices with this family's image is `common_basis_monodromy.character`;
+**API.** Prove the coefficient's factorization, inversion symmetry and
+nonvanishing criterion, and the word's exact determinant and trace.
+For an order-p unit in characteristic three, p>100 prime, prove `c²≠4,−4`.
+Identify the two fixed lines and prove noncommutation of the opposite
+unipotents, as used for the auxiliary elliptic curve. The geometric identification
+of these matrices with this family's image is `common_basis_monodromy.character`;
 the formula on arbitrary matrices alone does not assert geometric image.
 
 **Checks.**
@@ -1882,8 +1893,7 @@ has SL₂(F_p) in its image. Adjoining
 the required cyclotomic constants is abelian over that normal closure,
 so perfectness preserves SL₂. Apply the same subdirect-product argument
 to the d conjugate curves; independence is still unnecessary. The fraction
-bound is `2dp/(p²−1)<1`, recorded as the Lean milestone
-**`conjugate_trace_union_bound`**. This is the generality of the residual
+bound is `2dp/(p²−1)<1`. This is the generality of the residual
 image step used in §7.4, not a modularity theorem over arbitrary k.
 (Le Hung §4.4, p.8, extending OpenAI Lemma 8.2.)
 
@@ -2204,15 +2214,12 @@ archimedean normalization. At a good finite place q,a, the eigenvalues
 `(1−a q^(−s)+q^(1−2s))⁻¹`. This two-root computation fixes the shift's
 direction. (OpenAI Theorem 1.1, p.1, §2, p.4, §9.4, p.27.)
 
-**API.** `complexInfinityParameter_det` gives determinant one for z≠0;
-`complexInfinityParameter_mul` gives multiplicativity of the matrix formula;
-`complexInfinityParameter_conj` exchanges the two entries under conjugation.
-The normalization witness **`unitary_euler_shift_witness`** in Lean uses
-q=4,α=β=2: its two geometric Euler factors have product
+**API.** Prove determinant one for z≠0, multiplicativity of the matrix
+formula and exchange of the two entries under conjugation.
+For q=4,α=β=2 the two geometric Euler factors have product
 `(1−2T)²=1−4T+4T²`, and the unitary roots are both 1, so the variable
-change T_unitary=2T_cohomological recovers them. The equality is a
-polynomial witness; local Satake and Hodge comparisons remain on their
-actual supplier carriers.
+change T_unitary=2T_cohomological recovers them. The local Satake and
+Hodge comparisons use their actual supplier carriers.
 
 **Checks.**
 
