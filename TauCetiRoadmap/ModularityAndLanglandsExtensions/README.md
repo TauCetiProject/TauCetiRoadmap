@@ -375,6 +375,8 @@ For `ψ_w=ψ_v∘Tr_{L_w/F_v}`,`L_ind=∏_{w|v}L(s,recσ_w)`,`ε_ind=∏_{w|v}λ
 The layer numbers organize the targets; the following dependencies fix the construction order. Construct §1.10's all-place predicate before §4.15, then deduce §1.10's Galois equivalence and prove §4.12. Prove §2.39 before §2.38. Construct only §3.13's parameter/component-group definitions before §3.15, then deduce §3.13's packet bijections. Prove §3.17 before §3.4's transfer characterization. Prove §5.1's forward generic transfer, then §5.4's descent, then §5.1's image/converse characterization. Other targets follow their stated prerequisites. `Suggested.lean` gives suggested forms over existing carriers; this README specifies every target and its prerequisites.
 
 
+Lean names in target descriptions specify the library to construct. The acceptance statement in `Suggested.lean` is the elliptic Sato–Tate theorem in §4.34; its module documentation identifies the missing carriers for the other headline statements.
+
 Supplier abbreviations in the build (their contracts and hypotheses remain as above): AG2 = AutomorphicGaloisRepresentationsPartII; AG = AutomorphicGaloisRepresentations; AF = AutomorphicFormsOnReductiveGroups; AL = AutomorphicLFunctionsAndLocalFactors; PMCS = PotentialModularityAndCompatibleSystems; PAI = PotentialAutomorphyInfrastructure; ET = EndoscopicTransferAndUnitaryTraceComparison; GL2T = GL2AutomorphicRepresentationsAndTransfer; GL2ML = GL2ModularityLifting; CSM = ClassicalSerreModularity; SWLO = SerreWeightAndLevelOptimisation; LGD = LocalGaloisDeformationRings; GGD = GlobalGaloisDeformations; ALS = ArithmeticLocallySymmetricSpaces; HMV = HilbertModularVarietiesAndShimuraCurves; SR = SmoothRepresentationsOfLocalGroups; PH = PadicHodgeTheory; CR = CrystallineCohomology; LAD = LocallyAnalyticDistributions; RAG = RigidAnalyticGeometry; IG = InverseGaloisAndArithmeticFundamentalGroups. Local links use the target’s section number.
 
 ## Layer 0: realization comparisons and the singular-weight Hodge prediction
@@ -425,10 +427,7 @@ The predicate depends only on `ρ` up to isomorphism and is independent of `ι` 
 
 For `k∈ℕ`,`r∈ℤ`, `singularWeightHodgeList(k,r)=[0,r−2,r+k−1,k+2r−3]`, retaining repetitions. Nodup iff `r≠2`,`k+r≠1`,`k+2r≠3`; `k+1>0` excludes the remaining pair equality. This numerical list does not assert Hodge realization.
 
-- `TauCeti.LanglandsRegister.singularWeightHodgeList`: The stated list, with four positions even when values coincide.
-- `TauCeti.LanglandsRegister.singularWeightHodgeList_length`: Its length equals four.
-- `TauCeti.LanglandsRegister.singularWeightHodgeList_nodup_iff`: No repeated entries iff the three exclusions hold, for `k≥0`.
-- `TauCeti.LanglandsRegister.singularWeightHodgeList_r_two`: `H(k,2)=[0,0,k+1,k+1]`.
+Develop the numerical list with length four, the stated distinctness criterion and the specialization `H(k,2)=[0,0,k+1,k+1]`.
 
 Proof: compare the six pairwise differences; `k+1>0` leaves precisely the three displayed exclusions.
 
@@ -616,10 +615,7 @@ Construction: finite and archimedean LLC; uniqueness by isobaric strong multipli
 
 For group G, finite field `k↪^ι K` and `ρ:G→GL₂(K)`, `ProjectiveImageSandwich(p,a,n,ι,ρ)` means p prime,`a≥1`,`n≥1`,`#k=p^a>max(5,2n−1)`, and one `c∈PGL₂(K)` with `PSL₂(k)≤c(range Pρ)c⁻¹≤PGL₂(k)`, both embedded by `ι`. `K=F̄_p` recovers NT II 2.1’s image hypothesis; neither `p>n` nor automorphy is asserted.
 
-- `TauCeti.SymmetricPower.ProjectiveImageSandwich`: The explicit conjunction and two subgroup inclusions.
-- `TauCeti.SymmetricPower.ProjectiveImageSandwich.bound`: The hypothesis gives `p^a`>max(5,`2n−1`).
-- `TauCeti.SymmetricPower.ProjectiveImageSandwich.mono`: For `1≤m≤n` the same data satisfy the rank-m bound.
-- `TauCeti.SymmetricPower.ProjectiveImageSandwich.conjugation`: Conjugating the actual `GL₂` representation preserves the condition.
+Develop the image condition with its strict field-size bound, monotonicity for `1≤m≤n` and invariance under conjugation of the actual `GL₂` representation.
 
 Construction: central quotient, one conjugation, and the two subgroup images under the same field embedding; rank monotonicity follows from the strict bound.
 
@@ -1966,10 +1962,7 @@ BCGP 2.4.6 check: `χ₁×χ₂⋊σ` is irreducible iff `χ₁`,`χ₂`,`χ₁�
 
 For finite I,`d_i∈ℕ`,define ker(`Σ_i`(`d_i` mod2)`s_i`)⊂`(ℤ/2)^I`. Via `s_i↦(−1)^{s_i}`,this is `∏sign_i^{d_i}=1`,the orthogonal determinant-one constraint **before** central quotient. A singleton odd block gives zero; all-even dimensions give the full sign group.
 
-- `TauCeti.Arthur.orthogonalSignKernel`: The actual additive subgroup cut out by the weighted mod-two sum.
-- `TauCeti.Arthur.orthogonalSignKernel_mem_iff`: Membership is exactly the weighted sum being zero.
-- `TauCeti.Arthur.orthogonalSignKernel_even`: If every `d_i` is even the subgroup is the full function group.
-- `TauCeti.Arthur.orthogonalSignKernel_one_odd`: For I a singleton and d odd the subgroup is zero.
+Develop this additive subgroup with the weighted-sum membership equation, the all-even full-group comparison and the singleton-odd zero-group comparison.
 
 Construction: kernel of the weighted additive sum; reduce dimensions mod 2 for the comparisons.
 
@@ -2323,7 +2316,7 @@ Import AF §5.4’s derived cohomological-induction complex and AF §§6.1–6.5
 - Packet size may exceed component-group size; indexing gives no general injectivity.
 - `ψ∘j` and `ψ` retain different `SL₂` data.
 
-([Vogan, *Unitarizability of certain series of representations*](https://www.math.utah.edu/~ptrapa/math-library/vogan/vogan-unitarizability-annals-1984.pdf), Thms. 1.2–1.3, p.142, for weak-good-range induction and strict-range nonvanishing; [Adams–Johnson], (2.1)–(2.2) p.277, Lemma 2.5 and character transport pp.278–280, Defs. 2.9/2.11 and Lemma 2.10 p.281, §3 pp.285–287, and §10 Thm. 10.3/Prop. 10.4 pp.305–308, for the AJ data and packet construction.)
+([Vogan, *Unitarizability of certain series of representations*](https://doi.org/10.2307/2007074), Thms. 1.2–1.3, p.142, for weak-good-range induction and strict-range nonvanishing; [Adams–Johnson], (2.1)–(2.2) p.277, Lemma 2.5 and character transport pp.278–280, Defs. 2.9/2.11 and Lemma 2.10 p.281, §3 pp.285–287, and §10 Thm. 10.3/Prop. 10.4 pp.305–308, for the AJ data and packet construction.)
 
 *Needs:* AF §5.4, the derived induction complex, and §§6.1–6.5, Harish–Chandra modules and real cohomology; EnhancedDerivedSheaves E0/E5, derived functors; the weak-good-range and AJ comparisons specified here; [actual local parameter objects](#contract-c-arthur).
 
@@ -2967,12 +2960,7 @@ For `n=1: Λ=N^{1/2·s}Γ_ℂ(s)L(E,s)`.
 
 For number field F,RA `GL₂` `π` with dominant `λ_τ=(λ_{τ,1},λ_{τ,2})`,parallel weight means `λ_{τ,1}−λ_{τ,2}` constant,equivalently an RA twist of weight`(m−1,0)_τ`,`m≥1`;parallel weight `k≥2` means a twist`(k−2,0)_τ`. For CM F,cuspidal RA `π` satisfies Clozel purity `λ_{τ,1}+λ_{τc,2}=w` constant;imaginary quadratic F then gives parallel weight (BCGNT§1.6).
 
-- `TauCeti.SymmetricPower.IsParallelWeight`: weight-function coordinate differences constant;Lean permits any embedding-index type,AF Layers 5–6 attaches `π`.
-- `TauCeti.SymmetricPower.parallelWeight`: `k=λ_{τ,1}−λ_{τ,2}+2`,`≥2` for dominant `λ`,embedding-independent when parallel.
-- `TauCeti.SymmetricPower.IsParallelWeight.twist`: adding `a_τ` to both coordinates preserves/reflexively characterizes parallelity.
-- Import AF §5.5’s purity identity.
-- `TauCeti.SymmetricPower.isParallelWeight_of_imagQuadratic`: for weights indexed by an involution c with every embedding equal to τ or cτ, the identities `λ_{τ,1}+λ_{cτ,2}=w` force parallel weight. Apply AF §5.5 to obtain these identities for imaginary-quadratic cuspidal RA representations.
-- `TauCeti.SymmetricPower.parallelWeight_independent`: equal computed k at `τ`,`σ`.
+Develop parallel weight on weight functions over any embedding-index type, attached to `π` by AF Layers 5–6. The classical value `k=λ_{τ,1}−λ_{τ,2}+2` is at least two for dominant weights and independent of the embedding when parallel. Adding `a_τ` to both coordinates preserves and reflects parallelity. Import AF §5.5's purity identity; for an involution c with every embedding equal to τ or cτ, its cross-sum identities force parallel weight, giving the imaginary-quadratic cuspidal RA conclusion.
 
 Proof route: Clozel Lemme 4.9 pp.144–145 (also p.112 before 3.13; AF §5.5). Subtract the two CM cross-sum identities: weight differences agree within each conjugate pair, hence globally for imaginary quadratic F. The motivic weight is `w+1`; finite-place purity requires [§4.19].
 
@@ -3237,7 +3225,7 @@ Proof route: BCGNT 7.1.1’s rank-one determinant normalization, finite-order sq
 
 Let `E/ℚ` be an elliptic curve without complex multiplication, and for good p let `α_p` be the root of `X² − a_pX + p` with nonnegative imaginary part and `θ_p = arg(α_p/√p) ∈ [0, π]`. Then `(θ_p)` is equidistributed for `(2/π)sin²θ` `dθ`, the push-forward of Haar measure on SU(2).
 
-API: `TauCeti.SymmetricPower.satoTate_elliptic`.
+In `Suggested.lean`, `SymmetricPower.satoTate_elliptic` states this theorem for every `E : WeierstrassCurve ℚ` with `E.IsElliptic`. The non-CM hypothesis is surjectivity of the integer map to Tau Ceti's geometric endomorphism ring `TauCeti.Isogeny.Hom` after base change to ℂ. The definitions `SymmetricPower.goodReductionPrimes` and `SymmetricPower.frobeniusAngle` use Mathlib's minimal models over `ℤ_p` and their residue-field point counts. Equidistribution is the limit of the averages of every continuous function on `[0,π]`, ordered by increasing prime bound, against `(2/π)sin²θ dθ`.
 
 Proof route: `SU₂` irreducibles are `Sym^n` and the Weyl measure is `(2/π)sin²θ` `dθ` (Kedlaya §24.5). For `n≥1`, [§4.29](#non-cm-symmetric-powers) and AL.3 make `L(Sym^nE,s+n/2)` entire and nonzero on `Re s≥1`; apply [§4.14].
 
@@ -3314,13 +3302,7 @@ Proof route: Clozel’s cross-sums and parallel differences give an algebraic we
 
 For CM F,non-CM cuspidal RA `GL₂` `π` of weight `λ` with `λ_{τ,1}+λ_{τc,2}=w`,`ω_π=|·|^{−w}ψ`,unitary type-`A₀` `ψ`,define `ST(π)={g∈U₂(ℝ):det(g)^a=1}` if `ψ` has finite order a,and `U₂(ℝ)` otherwise. This is compact in `GL₂(ℂ)`;for unramified essentially tempered `π_v`,the class of `q_v^{−w/2}rec(π_v)(Frob_v)` meets it in a unique ST-conjugacy class `[π_v]` (7.2.2).
 
-- `TauCeti.SymmetricPower.SatoTateGroup`: the subgroup of `Matrix.unitaryGroup (Fin 2) ℂ` cut out by `det(g)^a=1`, for `a∈ℕ`. Use the order of ψ when finite and `a=0` when infinite; its image in `GL₂(ℂ)` is `ST(π)`.
-- `TauCeti.SymmetricPower.SatoTateGroup.isCompact`: this determinant kernel is compact for every a, including zero.
-- `TauCeti.SymmetricPower.SatoTateGroup.ofFiniteOrder`: for `a>0`, membership is exactly `det(g)^a=1` inside `U₂`.
-- `TauCeti.SymmetricPower.SatoTateGroup.orderOne`: membership at `a=1` is membership in `SU₂`.
-- `TauCeti.SymmetricPower.SatoTateGroup.orderZero`: the kernel at `a=0` is the full unitary group.
-- `TauCeti.SymmetricPower.satoTateClass`: `[π_v] ∈ ST(π)`/conjugacy for `π_v` unramified and essentially tempered.
-- `TauCeti.SymmetricPower.satoTateClass_unique`: for every a, two elements of the determinant kernel are conjugate in `GL₂(ℂ)` iff conjugate in that kernel. In particular `[π_v]` is unique (Lemma 7.2.2).
+Construct the determinant kernel on `Matrix.unitaryGroup (Fin 2) ℂ` with its compactness and conjugacy comparison. For finite character order `a>0`, membership is `det(g)^a=1`; order one gives `SU₂`, and `a=0` denotes the full unitary group for an infinite-order character. Construct `[π_v]` for unramified essentially tempered `π_v`. For every a, conjugacy of two kernel elements in `GL₂(ℂ)` is equivalent to conjugacy in the kernel, giving uniqueness (Lemma 7.2.2).
 
 Proof route: the determinant condition is closed in `U₂`, hence compact. Essential temperedness gives unit-modulus normalized eigenvalues with product `ψ(ϖ_v)`; `GL₂`-conjugate unitary elements are `SU₂`-conjugate. Parallel-weight temperedness is supplied by [§4.38]; arbitrary-weight local class construction retains it as a hypothesis.
 
@@ -3758,10 +3740,10 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 - James Arthur. [The principle of functoriality](https://www.claymath.org/library/cw/arthur/pdf/57.pdf). Bull. Amer. Math. Soc. (N.S.) 40 (2003), no. 1, 39–53 (electronically published 10 October 2002) Author archive at Clay; printed pages 39–53, 15 PDF pages.
 
 <a id="ref-arthur-2013"></a>
-- James Arthur. [The Endoscopic Classification of Representations: Orthogonal and Symplectic Groups](http://web.archive.org/web/20120511125150id_/http://claymath.org/cw/arthur/pdf/Book.pdf). Book manuscript (pdfTeX, dated 30 May 2011, 535 pp.) formerly posted at claymath.org/cw/arthur/pdf/Book.pdf; published as AMS Colloquium Publications 61 (2013). Wayback Machine snapshot of 11 May 2012.
+- James Arthur. *The Endoscopic Classification of Representations: Orthogonal and Symplectic Groups*. Book manuscript (pdfTeX, dated 30 May 2011, 535 pp.) published as AMS Colloquium Publications 61 (2013). Locators use the 2011 manuscript.
 
 <a id="ref-arthur-clozel-1989"></a>
-- James Arthur and Laurent Clozel. [Simple algebras, base change, and the advanced theory of the trace formula](https://www.claymath.org/library/cw/arthur/pdf/30.pdf). Annals of Mathematics Studies 120 (1989). Author archive at Clay; Chapter III, §6, pp. 214–219, supplies cyclic automorphic induction and its cuspidality criterion.
+- James Arthur and Laurent Clozel. *Simple algebras, base change, and the advanced theory of the trace formula*. Annals of Mathematics Studies 120 (1989). Chapter III, §6, pp. 214–219, supplies cyclic automorphic induction and its cuspidality criterion.
 
 <a id="ref-bcg-2025"></a>
 - George Boxer, Frank Calegari, Toby Gee. [Cuspidal cohomology classes for GL_n(Z)](https://arxiv.org/pdf/2309.15944v3). (12 Sep 2024); published J. Amer. Math. Soc. 38 (2025)
@@ -3887,7 +3869,7 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 - Ralf Schmidt. [Packet structure and paramodular forms](https://sites.math.unt.edu/~schmidt/papers/packets_paramodular.pdf). Trans. Amer. Math. Soc. 370 (2018), 3085–3112; §§1.1–1.2, pp. 3088–3092.
 
 <a id="ref-clozel-1990"></a>
-- Laurent Clozel. [Motifs et formes automorphes : applications du principe de fonctorialité](https://www.jmilne.org/math/Books/AA1988a.pdf). In L. Clozel and J. S. Milne (eds.), Automorphic Forms, Shimura Varieties, and L-functions, vol. I, Perspectives in Mathematics 10, Academic Press (1990), pp. 77–159. Editor's public scan; printed page p is PDF page `p+11`. Theorem 3.13, p. 112, proof pp. 112–129; Lemme 4.9 and proof, pp. 144–145.
+- Laurent Clozel. *Motifs et formes automorphes : applications du principe de fonctorialité*. In L. Clozel and J. S. Milne (eds.), Automorphic Forms, Shimura Varieties, and L-functions, vol. I, Perspectives in Mathematics 10, Academic Press (1990), pp. 77–159. Printed page p is PDF page `p+11`. Theorem 3.13, p. 112, proof pp. 112–129; Lemme 4.9 and proof, pp. 144–145.
 
 <a id="ref-adams-johnson-1987"></a>
 - Jeffrey Adams and Joseph F. Johnson. [Endoscopic groups and packets of non-tempered representations](https://www.numdam.org/item/CM_1987__64_3_271_0.pdf). Compositio Mathematica 64 (1987), no. 3, pp. 271–309; §§2–3, pp. 277–286, and §10, pp. 305–308.
@@ -3947,7 +3929,7 @@ Unless marked journal/published or otherwise, locators use the linked edition be
 - Masaki Kashiwara and Michèle Vergne. [On the Segal–Shale–Weil representations and harmonic polynomials](https://www.cmls.polytechnique.fr/perso/vergne/publications2/Remplacer/78onthesegalshaleweil.pdf). Inventiones mathematicae 44 (1978), pp.1–47. Chapter II §§1–7, pp.9–28.
 
 <a id="ref-howe-real"></a>
-- Roger Howe. [Transcending classical invariant theory](https://www.math.utah.edu/~ptrapa/math-library/howe/howe-transcending-JAMS.pdf). Journal of the American Mathematical Society 2 (1989), pp.535–552. Theorems 1, 1A and 2.1; §§2–5, pp.537–550.
+- Roger Howe. [Transcending classical invariant theory](https://doi.org/10.1090/S0894-0347-1989-0985172-6). Journal of the American Mathematical Society 2 (1989), pp.535–552. Theorems 1, 1A and 2.1; §§2–5, pp.537–550.
 
 <a id="ref-roberts-similitudes"></a>
 - Brooks Roberts. [The theta correspondence for similitudes](https://www.brooksroberts.org/A1996a.pdf). Israel Journal of Mathematics 94 (1996), pp.285–317. Propositions 3.3–3.5, pp.303–304; Lemma 4.2 and Theorem 4.4, pp.306–310.
