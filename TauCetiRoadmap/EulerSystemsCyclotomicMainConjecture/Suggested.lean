@@ -139,10 +139,12 @@ section Chi
 
 variable {O M Δ : Type*} [CommRing O] [AddCommGroup M] [Module O M] [Group Δ]
 
-/-- The `χ`-component `M^χ = {x | δ x = χ(δ) x}` of an `O[Δ]`-module
-(§0.18; Rubin, Definition I.6.2). Coefficient extension and any compact
-completion of a multiplicative input precede this construction; an existing
-discrete `ℤ_p`-module is not completed again. -/
+/-- The representation adapter to the character eigensubmodule of
+CyclotomicClassGroupsAndStickelberger §0.2 (§0.18). It agrees with
+`characterEigenspace ρ χ 1`; for finite groups of invertible order its
+projector range is PadicMeasuresIwasawaAlgebras §4.6's `isotypicComponent`.
+Coefficient extension and any compact completion of a multiplicative input
+precede this construction; an existing discrete `ℤ_p`-module is not completed again. -/
 def chiComponent (ρ : Representation O Δ M) (χ : Δ →* Oˣ) : Submodule O M where
   carrier := {x | ∀ δ, ρ δ x = (χ δ : O) • x}
   zero_mem' := fun δ => by simp
@@ -157,12 +159,27 @@ variable (ρ : Representation O Δ M) (χ : Δ →* Oˣ)
 theorem mem_chiComponent (x : M) : x ∈ chiComponent ρ χ ↔ ∀ δ, ρ δ x = (χ δ : O) • x :=
   Iff.rfl
 
+/-- The adapter is the intersection-of-kernels carrier
+`characterEigenspace ρ χ 1` of CyclotomicClassGroupsAndStickelberger §0.2,
+for arbitrary groups and commutative coefficient rings (§0.18). -/
+theorem chiComponent_eq_iInf_ker :
+    chiComponent ρ χ = ⨅ δ : Δ, LinearMap.ker (ρ δ - (χ δ : O) • LinearMap.id) := by
+  ext x
+  simp only [mem_chiComponent, Submodule.mem_iInf, LinearMap.mem_ker,
+    LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, sub_eq_zero]
+
 /-- Scalar injectivity is needed on the module itself, not merely on the coefficient ring. -/
 theorem chiComponent_trivial_eq_bot (δ : Δ)
     (hδ : Function.Injective (fun x : M => ((χ δ : O) - 1) • x)) :
     chiComponent (Representation.trivial O Δ M) χ = ⊥ := sorry
 
 variable [Fintype Δ]
+
+/-- The eigensubmodule equals the range of the normalized character projector,
+the `isotypicComponent` contract of PadicMeasuresIwasawaAlgebras §4.6 (§0.18). -/
+theorem chiComponent_eq_projector_range [Invertible (Fintype.card Δ : O)] :
+    chiComponent ρ χ = LinearMap.range
+      (⅟ (Fintype.card Δ : O) • ∑ δ : Δ, (((χ δ)⁻¹ : Oˣ) : O) • ρ δ) := sorry
 
 /-- Every vector in the regular character component has a unique scalar coordinate
 on the character sum of `[1]` (§0.18). -/
@@ -367,7 +384,8 @@ arithmetic carriers specified in the README. They include finite Kolyvagin desce
 Iwasawa divisibility, the main-conjecture equality, the all-prime abelian formulas,
 and the Tate-twisted Selmer consequences.
 
-The further API of §§0.18–0.19 is specified in the README:
+The supplied generic API and the arithmetic adapters of §§0.18–0.19
+are specified in the README:
 chiComponent_map, chiComponent_map_eq, chiComponent_ext.
 Its further checks are chiComponent_one, chiComponent_trivial_rep,
 chiComponent_torsion_counterexample, chiSum_trivial and chiSum_sign_regular.
