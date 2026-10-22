@@ -29,6 +29,13 @@ nonequivariant target of §1.0c, followed by the cyclotomic equivariance of §1.
 the broader theories of PadicHodgeTheory §§4–5 and 7, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4 and
 VectorBundlesAndIsocrystals VB4.
 
+NoncommutativeAndEquivariantIwasawa §F.6 specifies the same finite-field Robba realization and de Rham
+differential lattice. Sections 1.0 and 5.6a identify their presentations with that earlier contract, preserving
+the period-ring maps and the embedded lattice, rather than merely their isomorphism classes. The field-core
+prerequisite direction is NoncommutativeAndEquivariantIwasawa → this roadmap; its §F.3 compact-cochain
+contract has the same direction. PadicHodgeTheory §§4.1 and 5.1 are downstream consumers of these common
+objects; their cyclotomic and differential presentations use the comparison maps specified here.
+
 The ordinary finite local Artinian coefficient category is the finite-dimensional coefficient specialization
 of §1.2; its Herr/Ext comparison is in §3.6. The localized Artinian construction of §3.9 additionally allows
 inversion of t and requires an underlying stable lattice. It does not identify those two categories.
@@ -180,6 +187,13 @@ On the finite-`O_E`/E domain, NoncommutativeAndEquivariantIwasawa §F.3 supplies
 independence, coefficient maps, evaluation cups, restriction/corestriction and the normalized local invariant.
 Section 0.6 constructs its specified derived-limit and bar models and compares them with those objects and
 maps. The period-coefficient acyclicity and Herr comparisons remain the targets of §3.6.
+
+NoncommutativeAndEquivariantIwasawa §F.6 supplies the common field-coefficient Robba core for every finite
+K and E: annuli, restrictions, commuting Frobenius and cyclotomic actions, exact tensor étale realization,
+overconvergence and compatible radius models. It also specifies the unique differential lattice with the
+unfiltered cyclotomic de Rham localizations. Sections 1.0 and 5.6a construct the comparisons for their stated
+presentations on this common domain, including embeddings in the localized realization, connection, φ, Γ,
+twists, tensor and dual. Its monodromy and Weil–Deligne constructions use this same core.
 
 ### From analytic roadmaps
 
@@ -488,6 +502,15 @@ Theorems 9.5.4–9.5.6; CC-1998 Corollary III.5.2 and its integral comparisons; 
 `fieldEtaleRealization_exact`, `fieldEtaleRealization_tensor`, `fieldEtaleRealization_reduce`,
 `fieldOverconvergence`, `fieldRadiusModel` and the comparison with finite coefficients.
 
+Construct `fieldRobbaCoreComparison` with NoncommutativeAndEquivariantIwasawa §F.6's common finite-K/E
+core. Its ring maps identify the annular restrictions and the Frobenius and Γ maps; the natural tensor
+isomorphism on realizations commutes with the embeddings in the universal periods, the étale unit/counit,
+coefficient change and finite-extension trace. On radius models these equations hold after a common shrink
+and commute with further restriction and Frobenius generation. Sources: KL-I Theorems 9.5.4–9.5.6;
+CC-1998 Corollary III.5.2; the §F.6 contract. *Needs:* NoncommutativeAndEquivariantIwasawa §F.6; the
+norm-field and realization constructions above. Downstream, PadicHodgeTheory §4.1 uses this comparison
+for its cyclotomic presentation, including sums, tensor, duals and all Tate twists.
+
 **Checks.**
 
 - The trivial lattice realizes as `A_K⊗O_E`, with its prescribed `φ` and `Γ` action; the inverse functor
@@ -500,6 +523,11 @@ Theorems 9.5.4–9.5.6; CC-1998 Corollary III.5.2 and its integral comparisons; 
   rationalization can vanish without the integral object vanishing.
 - The non-surjective scalar Frobenius example in §0.1 still has invertible linearization; the field
   equivalence imposes étaleness, rather than an inverse semilinear operator on every Robba module.
+- The core comparison sends 1 to 1 on the trivial realization and intertwines its annular restriction maps;
+  an arbitrary module isomorphism without those equations does not specify this comparison.
+- On E(r), it preserves the Tate basis and the period `t^(−r)e_r` with Frobenius `p^(−r)`, for every integer r.
+- For a ramified K or E and a finite diagram of radius models, both cores give the same maps after a common
+  shrink; changing radius does not replace the norm-field coefficient by K₀.
 
 ### 1.0b Field slopes and pure local systems
 
@@ -1090,7 +1118,9 @@ Definition 2.3.3 and Remark 2.3.4, pp.20–21.
 
 Here `E/ℚ_p` and `K/ℚ_p` are finite, and all Robba coefficients are field-valued. The constructions below
 use §1.0b's field slope filtration and localization, without relative finiteness or the later ψ-finiteness
-argument of §4.3.
+argument of §4.3. Prove the finiteness and duality bootstrap first with `E=ℚ_p`, using Shapiro to reduce
+the slope arguments to `K=ℚ_p`. Obtain the auxiliary objects over general K and E by scalar extension.
+Recover the general E-valued cohomology theorems by the coefficient restriction and trace comparison below.
 
 **Étale field comparison.** For every finite-dimensional continuous E-representation V of G_K, construct
 `fieldHerrGaloisComparison V` between continuous `RΓ(K,V)` of §0.6 and the arithmetic signed Herr complex of
@@ -1098,7 +1128,7 @@ its realization from §1.0. Use the norm-field Frobenius exact sequence and the 
 cocycle, transfer and tensor maps. Transfer finiteness, the Euler formula and local duality from §0.6 to
 étale modules. The cohomological cup is the signed tensor cup, with degree-one formula
 `x₂⊗γ(y₁)−x₁⊗φ(y₂)`, and its invariant is the normalized Galois invariant. Sources: Liu §2, especially
-Theorem 2.6 and Corollary 2.9; KPX Proposition 2.3.7 and Definition 2.3.10, pp.22–23. API:
+Theorem 2.8 and Corollary 2.9; KPX Proposition 2.3.7 and Definition 2.3.10, pp.22–23. API:
 `fieldHerrGaloisComparison_cup`, restriction/trace and coefficient-field extension.
 
 **Checks.**
@@ -1140,10 +1170,12 @@ isomorphisms on individual groups. Source: Liu Lemma 4.1, manuscript p.22.
 **Auxiliary pure extension.** For every integer `d≥1`, construct `fieldAuxiliaryPureExtension d`, a
 rank-d pure field module of slope `−1/d` in the standing KPX convention, with a filtration whose first
 nonzero term is `tR` and whose remaining successive factors are unit lines. Induct by a nonsplit extension
-of the unit line by the rank-`d−1` object. Its nonzero `H¹` follows solely from the étale unit Euler formula,
-t-twist invariance and extension additivity. A destabilizing subobject would inject into the unit quotient
-and force the extension to split, proving purity. The same construction works over `R_{E,K}` for the
-stated finite E and K. Source: Liu Lemma 4.2, manuscript p.22; his slope `+1/d` has the opposite sign. No general field finiteness theorem or ψ-cokernel theorem is used in this construction.
+over `R_{ℚ_p,ℚ_p}` of the unit line by the rank-`d−1` object. Its nonzero `H¹` follows solely from the
+étale unit Euler formula, t-twist invariance and extension additivity. A destabilizing subobject would inject into the unit quotient
+and force the extension to split, proving purity using integral degrees over `ℚ_p`. Extend this object to
+`R_{E,K}` using §1.0b's scalar-extension compatibility of purity and the base change of its filtration.
+Source: Liu Lemma 4.2, manuscript p.22; his slope `+1/d` has the opposite sign. No general field finiteness
+theorem or ψ-cokernel theorem is used in this construction.
 
 **Checks.**
 
@@ -1155,12 +1187,15 @@ stated finite E and K. Source: Liu Lemma 4.2, manuscript p.22; his slope `+1/d` 
 
 **General field finiteness and Euler characteristic.** For every generalized field module D, prove
 `fieldHerrEulerCharacteristic`: its Herr groups are finite-dimensional, vanish outside degrees 0,1,2,
-and satisfy `χ(D)=−[K:ℚ_p]rank(D)`, where rank ignores the torsion part. Use the torsion calculation,
-Shapiro and the slope filtration. For a pure module, tensor products, duals and t-twists of the auxiliary
+and satisfy `χ_E(D)=−[K:ℚ_p]rank_(R_(E,K))(D)`, where rank ignores the torsion part. First take `E=ℚ_p`.
+Use the torsion calculation, Shapiro and the slope filtration. For a pure module, tensor products, duals
+and t-twists of the auxiliary
 objects give a pure F of opposite slope with a filtration by integer t-twists of unit lines. Then `D⊗F`
 is étale and is filtered by t-twists of D. The independent localization bound on `H⁰` and the long exact
 sequences first give finiteness of `H¹`, then `H²`; t-twist invariance and Euler additivity give
-`χ(D⊗F)=rank(F)χ(D)`. The étale formula therefore gives the general formula. Sources: Liu Theorem 4.3
+`χ(D⊗F)=rank(F)χ(D)`. The étale formula therefore gives the `ℚ_p`-coefficient formula. For general E,
+apply it to the restricted module, whose rank and cohomology dimensions are multiplied by `[E:ℚ_p]`,
+and divide the resulting equality by that degree. Sources: Liu Theorem 4.3
 and its proof, manuscript pp.22–23; KPX Theorem 2.3.11, p.24.
 
 **Checks.**
@@ -1173,14 +1208,15 @@ and its proof, manuscript pp.22–23; KPX Theorem 2.3.11, p.24.
 
 **General field Tate duality.** For every finite-projective field module D, prove `fieldHerrTateDuality`:
 the normalized signed cup `H^i(D)×H^(2−i)(D^∨(1))→E` is perfect. First prove the two-out-of-three result
-for a short exact sequence from the paired long exact sequences. For `K=ℚ_p`, obtain the seed for `R(|x|)`
-and `tR` from a nonsplit étale extension `0→tR→U→R(|x|)→0`, using the general Euler formula and étale
+for a short exact sequence from the paired long exact sequences. Work first with `E=K=ℚ_p`, obtaining the
+seed for `R(|x|)` and `tR` from a nonsplit étale extension `0→tR→U→R(|x|)→0`, using the general Euler formula and étale
 duality. For a pure D use the degree `ν(D)=−deg(D)` in Liu's convention; duality permits `ν(D)≥0`.
-At degree zero use étale duality. At positive degree s the Euler formula produces a nonsplit extension
+At degree zero use étale duality. At positive integral degree s the Euler formula produces a nonsplit extension
 `0→D→U→R(|x|)→0`. The slope argument gives pure factors of U with nonnegative ν-degree strictly below s,
 whose total ν-degree is `s−1`; induction and the seed give duality for D. Shapiro and extension stability
-then handle arbitrary K and slope filtrations. Sources: Liu Lemmas 4.4–4.5 and Theorem 4.7, manuscript
-pp.24–25; KPX Theorem 2.3.11, p.24. Retain naturality, restriction/trace and coefficient-field extension.
+then handle arbitrary K and slope filtrations with `ℚ_p` coefficients. Recover general E by the trace
+comparison below, rather than applying this degree-lowering step to E-degrees. Sources: Liu Lemmas 4.4–4.5
+and Theorem 4.7, manuscript pp.24–25; KPX Theorem 2.3.11, p.24. Retain naturality, restriction/trace and coefficient-field extension.
 Integral/affinoid extensions are §3.6 and the residue normalization is §3.8. Section 4.3 uses the already
 constructed `fieldAuxiliaryPureExtension`, rather than supplying an input to this field proof.
 
@@ -1189,8 +1225,42 @@ constructed `fieldAuxiliaryPureExtension`, rather than supplying an input to thi
 - A nonzero-slope rank-one D is covered even though it need not come from a Galois representation.
 - The degree-zero induction case is precisely the étale theorem; a slope filtration alone leaves the
   positive ν-degree cases unresolved.
-- The `d=2` auxiliary pure extension has `ν=1`; the lowering extension has total `ν=0` and is étale,
-  whereas the split `tR⊕R` cannot replace that pure auxiliary object.
+- Over `E=K=ℚ_p`, the `d=2` auxiliary pure extension has `ν=1`; the lowering extension has total `ν=0`
+  and is étale, whereas the split `tR⊕R` cannot replace that pure auxiliary object.
+- For `K=ℚ_p`, `E=ℚ_p(ϖ)` with `ϖ²=p`, and `D=R_Ee` with `φ(e)=ϖe` and `γ(e)=e`, one has
+  `ν_E(D)=1/2`. Every extension `0→D→U→R_E(|x|)→0` has `ν_E(U)=−1/2`; its pure factors cannot all have
+  nonnegative ν-degree. The restricted D instead has rank 2 and integral `ν_(ℚ_p)=1`.
+
+**Coefficient restriction and trace.** Construct `fieldHerrRestrictScalars` for every finite `E/ℚ_p`,
+identifying the Herr complex and cohomology of `Res_(E/ℚ_p)D` with the scalar restriction of those of D,
+term by term, including torsion invariants and the signed differentials. If `n=[E:ℚ_p]`, its underlying
+`R_K` rank and degree are `n rank_(R_(E,K))(D)` and `n deg_E(D)`; scalar extension instead preserves rank
+and degree. Define the coefficientwise trace `Tr_R=1⊗Tr_(E/ℚ_p):R_(E,K)→R_K`. For finite-projective D,
+construct `fieldHerrTraceDual`: the isomorphism
+`Res Hom_(R_(E,K))(D,R_(E,K)) ≃ Hom_(R_K)(Res D,R_K)` sends `f` to `Tr_R∘f` and commutes with φ, Γ and
+Tate twists. This follows from the perfect finite-separable trace pairing and finite-projective duality.
+The light signature `coefficientTraceDual_exists` states the underlying dual identification for every
+finite separable field extension `E/F` and every E-vector space, with its evaluation formula.
+
+Prove `fieldHerrTraceCup`: under these identifications the signed evaluation cup for the restricted module
+is `Tr_R` applied to the E-linear evaluation cup. Its invariant satisfies
+`inv_(ℚ_p)(Tr_R z)=Tr_(E/ℚ_p)(inv_E z)` for `z∈H²(R_(E,K)(1))`. Establish this equality from the étale
+comparison and §0.6's coefficient naturality before invoking general field duality. Thus the restricted
+pairing is exactly the trace of the E-valued pairing. The `ℚ_p` theorem and nondegeneracy of the trace
+give E-linear perfectness, with the ranks and dimensions above. Sources: Liu §4, manuscript pp.22–25,
+for the `ℚ_p` bootstrap; Stacks Tag 0BIL and Mathlib `Algebra.traceForm_nondegenerate` in
+`RingTheory.Trace.Basic` for finite separable trace; §0.6 and the étale cup comparison for the invariant.
+*Needs:* §§1.0–1.0b, 0.6 and the étale field comparison; native finite-projective duality.
+
+**Checks.**
+
+- For `E=ℚ_p` restriction and the trace dual map are identities, and the cup/invariant square is unchanged.
+- For `E=ℚ_p(ϖ)`, `ϖ²=p`, the trace form on the basis `(1,ϖ)` has matrix `diag(2,2p)`; its dual basis
+  is `(1/2,ϖ/(2p))`, including `p=2`. It is perfect over `ℚ_p` without asserting integral perfection.
+- For a rank-r module, restriction has rank `nr` while its E-rank is r. For the ramified line above,
+  the restricted Frobenius has determinant `−p` and ν-degree 1; the unrestricted ν-degree is `1/2`.
+- For classes with E-valued invariant a, the restricted cup has invariant `Tr_(E/ℚ_p)(a)`. A nonzero
+  trace-zero a need not stay nonzero; testing also the E-multiples of a is what detects nondegeneracy.
 
 ### 3.5 Invertibility on ψ-zero and field character calculations
 
@@ -1874,9 +1944,22 @@ containments for bounded Hodge–Tate weights. Sources: Berger-intro §IV.4, esp
 manuscript pp.29–30, and Berger-diffeq Theorem 5.10 for the construction proof; Berger-exp-2003 §II
 for the crystalline exponential specialization; Colmez-GL2 §VI.4 and §§VIII.1–VIII.2 for the `ℚ_p`
 realization used in §5.7. API: `deRhamDiffEq_rank`, `deRhamDiffEq_localize`,
-`deRhamDiffEq_unique`, `deRhamDiffEq_connection`, `deRhamDiffEq_twist` and the cyclotomic localization square.
+`deRhamDiffEq_unique`, `deRhamDiffEq_connection`, `deRhamDiffEq_twist`, `deRhamDiffEq_tensor`,
+`deRhamDiffEq_dual` and the cyclotomic localization square.
 *Needs:* §§1.0–1.4, the de Rham period carriers and invariant functor, continuous cyclotomic localization and
 its connection.
+
+Construct `deRhamDiffEq_coreComparison` with NoncommutativeAndEquivariantIwasawa §F.6's differential lattice
+under `fieldRobbaCoreComparison`. The map is the restriction of the ambient localized-realization comparison:
+`j_F6 ∘ c_V = fieldRobbaCoreComparison(V)[1/t] ∘ j_here`, where j denotes the actual lattice embedding.
+It intertwines every sufficiently deep cyclotomic localization, ∂, φ and Γ, and is natural for field and
+coefficient change, twists, tensor and dual. The localization characterization and uniqueness force this
+comparison and its composition law; no choice of a horizontal basis is part of it. PadicHodgeTheory §5.1
+is a downstream specialization of this same embedded-lattice contract, with its `_localization` spelling
+corresponding to `deRhamDiffEq_localize`; its monodromy applications use that identification. Sources:
+Berger-diffeq Theorem 5.10 and its construction by cyclotomic localization; Berger-intro §IV.4.1 for arbitrary
+weights by twists; the §F.6 contract. *Needs:* NoncommutativeAndEquivariantIwasawa §F.6; §1.0's core
+comparison and the construction and uniqueness above.
 
 **Checks.**
 
@@ -1888,6 +1971,12 @@ its connection.
   connection weights.
 - A non-de Rham representation does not satisfy the full-rank `D_dR` hypothesis; naming its period invariants
   does not construct a rank-d differential equation.
+- The core comparison sends the embedded constant 1 to 1 for V=E; for V=E(1) it sends the embedded
+  horizontal generator `t⁻¹e_1` to that same period, rather than to `e_1`.
+- Tensor and dual comparisons commute with the ambient embeddings and localizations; the evaluation of
+  `t⁻¹e_1` against `te_(−1)` is 1 in each presentation.
+- At rank zero the comparison is the unique zero-module map; for any rank, two comparisons inducing the
+  same ambient embedding agree by injectivity, including after field or coefficient change.
 
 ### 5.7 The local exponential and the all-level image condition
 

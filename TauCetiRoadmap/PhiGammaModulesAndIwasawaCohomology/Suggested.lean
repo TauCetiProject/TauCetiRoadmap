@@ -638,6 +638,18 @@ example : herrGeneratorSum (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 0 = 0 �
 
 end Operators
 
+/-! ## Layer 3: coefficient trace and restriction of duals -/
+
+/-- Finite separable coefficient trace identifies the restricted E-dual with the F-dual,
+with evaluation given by the unnormalized field trace. -/
+theorem coefficientTraceDual_exists
+    (F E : Type u) [Field F] [Field E] [Algebra F E]
+    [FiniteDimensional F E] [Algebra.IsSeparable F E]
+    (M : Type v) [AddCommGroup M] [Module E M] [Module F M] [IsScalarTower F E M] :
+    ∃ e : (M →ₗ[E] E) ≃ₗ[F] (M →ₗ[F] F),
+      ∀ (f : M →ₗ[E] E) (x : M), e f x = Algebra.trace F E (f x) := by
+  sorry
+
 /-!
 Definitions and constructions specified in README.md whose arithmetic carriers are not
 present at the pins: PhiModule and its skew-ring cohomology; fixed-idempotent decomposition;
@@ -671,7 +683,15 @@ Further milestones: psiCokernel_finite;
 psiFixed_generation and psiFixed_pairingPerfect. The field bootstrap comprises
 fieldTorsionHerrCohomology, fieldHerrTTwist, fieldAuxiliaryPureExtension,
 fieldHerrEulerCharacteristic and fieldHerrTateDuality, in that order after the etale
-fieldHerrGaloisComparison. The predicate geometricallyNontriangulineLocalized excludes
+fieldHerrGaloisComparison. Their degree inductions use Q_p coefficients after Shapiro to
+K = Q_p; fieldAuxiliaryPureExtension over general K and E is obtained by scalar extension.
+The general E-valued theorems use fieldHerrRestrictScalars, fieldHerrTraceDual and
+fieldHerrTraceCup, preserving the signed evaluation cup and trace-compatible invariant.
+The coefficient trace duality above is their field-linear algebra input. The field-core
+adapters fieldRobbaCoreComparison and deRhamDiffEq_coreComparison preserve the annular
+maps, period embeddings and cyclotomic localizations, connection, phi, Gamma, tensor,
+dual and twists; deRhamDiffEq_tensor and deRhamDiffEq_dual use these identifications.
+The predicate geometricallyNontriangulineLocalized excludes
 rank-one localized subobjects after every finite coefficient extension;
 nontriangulineLocalized_psiCokernel_vanish and the tNrig_psiCokernels_vanish application
 carry this hypothesis. The Wach targets wachGoodBasis_exists and
