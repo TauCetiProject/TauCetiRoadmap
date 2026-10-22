@@ -23,9 +23,11 @@ Design choices.
   Banach and Hilbert specializations forget continuity and restrict the underlying representation;
   `IsKFinite` abbreviates that predicate on `(π.restrict K.subtype).toRepresentation`.
   `isGFinite_toRepresentation_iff` identifies it with the actual continuous-representation orbit span.
-  The Banach comparison `gFiniteSubmodule_dense` expresses SmoothBanachRepresentations
-  SB4's compact-group density input as density of `gFiniteSubmodule π.toRepresentation`.
-  README §2.1 constructs the complete locally convex integration/projector comparison.
+  The independent Banach prefix of README §2.1 owns `gFiniteSubmodule_dense`, using
+  compact-group Peter–Weyl and normed Haar integration. SmoothBanachRepresentations SB4
+  consumes it for its compact-Lie real adapter and stronger smooth-topology density;
+  README §2.7 compares these additional results. Section 2.1 also constructs the complete
+  locally convex integration/projector extension and its agreement with the Banach prefix.
 * Lie tests and Banach smooth vectors use SmoothBanachRepresentations SB1–SB4. The smooth
   carrier has the supplied derivative topology, with its separate continuous inclusion;
   the identity-on-vectors `smoothVectorTopologyEquiv` compares it with the enveloping/Sobolev
@@ -205,12 +207,13 @@ theorem gFinite_map {W : Type*} [AddCommGroup W] [Module 𝕜 W]
 
 end CompactOrbits
 
-/-! ## Milestone: comparison with supplied Banach compact-finite density -/
+/-! ## Milestone: independent Banach compact-finite density -/
 
-/-- SmoothBanachRepresentations SB4's compact-group G-finite Banach density input,
-expressed on the algebraic submodule of README §2.1. Strongly continuous complex Banach
-representations of every compact Hausdorff group are included; operator-norm continuity
-is not required. -/
+/-- Finite-orbit-span vectors are dense in every strongly continuous complex Banach
+representation of a compact Hausdorff group. README §2.1 owns this theorem independently
+of Lie smooth-vector theory, using CompactGroups' Peter–Weyl density and normed Haar
+integration. SmoothBanachRepresentations SB4 consumes it for its real and stronger
+smooth-topology extensions on compact Lie groups. Operator-norm continuity is not required. -/
 theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
     [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
     [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
@@ -541,7 +544,7 @@ fixed-support derivative and locally convex final topologies. Banach `smoothVect
 uses SB2's `smoothLieVectors` and its separate complete Fréchet topology, with
 `smoothVectorTopologyEquiv` the identity-on-vectors continuous linear equivalence
 to the ordered-monomial Sobolev topology, intertwining inclusions and the real and
-complexified Lie/enveloping actions. SB4's generic density and native
+complexified Lie/enveloping actions. SB4's smooth-vector density and native
 `StronglyContinuousSemigroup.smoothVectors` comparison precede the compact-Lie
 comparison using §2.1. Arbitrary smooth Fréchet `dixmierMalliavin` and the complete
 locally convex extensions are specified here; the continuous nondegenerate Schwartz-algebra
