@@ -237,9 +237,9 @@ theorem height_self_smul (h : V →ₗ[ℚ] V →ₗ[ℚ] ℝ) (a : ℚ) (x : V)
 end Heights
 
 /-
-The following geometric constructions and the relative reconstruction data require
-carriers not supplied at the pins. Their signatures, APIs and Checks are specified
-in README:
+The following geometric constructions, supplier contracts and relative reconstruction
+data require carriers not supplied at the pins. Their signatures, APIs and Checks
+are specified in README:
 Layer 0: graded correspondences, adequate equivalences, numerical cycles,
 diagonal decompositions, characteristic-power alterations of supports,
 intermediate indices, universal CH₀ support and
@@ -255,9 +255,10 @@ Suslin and Tate complexes, boundary Picard, relative finite cycles and
 standard-triple excision, contraction, singular-base relative-cycle operations,
 adapted smooth-pair coordinates, Gersten resolutions and strict homotopy
 invariance, effective derived localization and
-its unbounded compact comparison, higher Chow complexes and moving/localization
-with transfers and good-position descent, cancellation, exact cdh pullback and
-the complex comparison;
+its unbounded compact comparison; KTheoryFiniteLocalFields §3.0a's motivicCycles
+supplies the BlochCycle and HigherChow carriers, derived coefficients,
+moving/localization/homotopy, products, transfers and good-position descent
+consumed in README §§4.7–4.8; cancellation, exact cdh pullback and the complex comparison;
 then geometric and compact-support motives, relative cycles, bivariant cycle
 complexes, motivic Gysin maps, Chow embedding and motivic measure.
 Layer 5: diagram endomorphism coalgebras and universal diagram categories, good
