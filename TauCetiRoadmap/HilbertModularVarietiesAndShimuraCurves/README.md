@@ -2,7 +2,7 @@
 
 **Summary.** Construct the finite-level Hilbert modular varieties of a totally real field and the quaternionic Shimura curves attached to quaternion algebras split at exactly one real place, together with the integral, cohomological and p-adic structures that arithmetic applications use. The Hilbert strand keeps ordered, possibly nonprincipal polarization modules, the Deligne–Pappas integral models at ramified primes and at 2, paired full levels and the exact positive-unit quotient, and ends with paired torsion twists that have prescribed real and finite local points (the input to potential modularity). The quaternionic strand builds the canonical compact curves and their auxiliary PEL bridge, the Drinfeld half-plane and its formal model, Čerednik–Drinfeld uniformisation at a division prime, integral model towers with their Hodge lines and p-divisible groups, finite-level coefficient cohomology with Hecke actions, and the integral Ihara lemma. Definite quaternion algebras supply finite integral Hecke modules, a definite Ihara lemma over every totally real field, auxiliary Taylor–Wiles levels and dyadic norm twists. The end theorems are the Čerednik–Drinfeld uniformisation (§R18.5.15), the Ihara lemma for Shimura curves with its integral saturation (§§R18.4.32–R18.4.33), the definite Ihara lemma (§R18.3.8) and the realization of paired torsion twists with local points (§§H6.2–H6.8). The uniformisation and the Ihara lemma for curves rest on the formal Drinfeld quotient (§§R18.5.7, R18.5.11), basic PEL uniformisation (§R18.5.13), weak patching (§R18.4.29) and regular-base flatness (§R18.4.30), and the local points rest on Taylor's input contract (§H6.5).
 
-Every theorem below keeps the prime, level, lattice and component hypotheses that make it true: a polarization-class quotient, a selected Weil-pairing component and a fine moduli space are different objects, and a construction in characteristic zero gives nothing integral at a ramified prime. Each definition has its API and Checks, which are tests a plausible wrong definition fails. [Suggested.lean](Suggested.lean) states the light definitions and the milestones that can be typed at the pinned Mathlib and Tau Ceti. Everything else is a target of this document.
+Every theorem below keeps the prime, level, lattice and component hypotheses that make it true: a polarization-class quotient, a selected Weil-pairing component and a fine moduli space are different objects, and a construction in characteristic zero gives nothing integral at a ramified prime. Each definition has its API and Checks, which are tests a plausible wrong definition fails. [Suggested.lean](Suggested.lean) explains which objects the headline theorems require beyond the pinned Mathlib and Tau Ceti. The mathematical targets and their APIs are specified in this document.
 
 ## Scope and ownership
 
@@ -75,7 +75,7 @@ Let `U=O_F×, U⁺` its totally positive subgroup, `U_M={u∈U : u≡1 mod MO}` 
 
 **Non-finite topological coefficients (R18.4).** Every use of ordinary sheaf/singular comparison outside ComplexComparisonPartII §C6.1's finite coefficient domain assumes ArithmeticLocallySymmetricSpaces ALS.F.3's `TopologicalCoefficientInput(R)`, on all the spaces, local systems and maps used. This includes `R=O`, its characteristic-zero fraction field and `ℂ`, the Hilbert Borel–Serre pairs, quaternionic curves and the connected-compact arithmetic quotients with their central tori. The hypothesis includes restriction, coefficient maps, level pullback, finite-cover trace and support maps; it is retained by every target and export using these comparisons. Section R18.4.12 deduces the ordinary/derived-adic cochain identification under this hypothesis and the supplied finite-cell models.
 
-**Names.** Lean names in this document are relative to the namespace `TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves` of [Suggested.lean](Suggested.lean); a name that does not occur there is the intended name of a README-only target.
+**Names.** Lean names in this document are intended names for mathematical targets in the namespace `TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves`. They do not assert the existence of declarations in [Suggested.lean](Suggested.lean).
 
 ## Exact supplier contracts
 
@@ -186,7 +186,7 @@ The layers carry the identifiers by which other roadmaps cite them. The numbered
 | R18.3, part 2, §§30–32 | The Steinberg obstruction, localized control and ramified signs, using the preceding individual and Hecke-valued realizations. |
 | R18.6 | The interfaces consumed by arithmetic applications; it has no targets of its own. |
 
-Suggested.lean records the real-bodied definitions available over native carriers: the trace lattice and trace forms, congruence and unit-square groups with the tame polarization quotient, the adjugate level action, the paired height lattice, the chart-separation predicate, the division character value, the Taylor–Wiles torsion kernel, liftable residue images, norm twists, component Hecke operators and the degeneracy Gram operator. It also records the algebraic milestones statable over these definitions.
+The headline theorems require Hilbert and quaternionic moduli, their integral and formal models, adelic quaternionic forms and arithmetic coefficient cohomology. These carriers are not available at the pins, so [Suggested.lean](Suggested.lean) contains no theorem signatures. The lattice, unit-group and linear-algebra APIs below specify the infrastructure for those results.
 
 ## Layer H0: Integral Hilbert data and trace lattices
 
@@ -257,8 +257,6 @@ Its API:
 - `lattice_nonprincipal`: `L_c` is defined for a nonprincipal c without choosing a generator.
 - `lattice_different`: For `c=O` the second summand is the pinned trace dual of O, not O unless d is trivial.
 
-In [Suggested.lean](Suggested.lean): `HilbertFractionalIdeal`, `inverseDifferent`, `polarizationLattice`, `polarizationLattice_rank`.
-
 (Source: [BHW23](#references) Notation 5.1(3) and Definition 5.2(1), pp.1740–1741.)
 
 *Needs:* [§H0.0 Rational Hilbert data and trace embedding](#h00-rational-hilbert-data-and-trace-embedding); [ShimuraVarieties, §§P.1–P.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ShimuraVarieties/README.md#p1-pure-data-and-special-pairs); Mathlib `FractionalIdeal.dual`, `FractionalIdeal.dual_eq_mul_inv`.
@@ -285,8 +283,6 @@ Its API:
 - `traceFamily_zero`: The `a=0` form is zero, hence is not declared nondegenerate.
 - `traceFamily_ramified`: For `F=ℚ(√2)`, the second summand uses `d⁻¹=(2√2)⁻¹O`, preventing a false O² self-duality assertion.
 
-In [Suggested.lean](Suggested.lean): `integralTraceFamily`, `integralTraceFamily_alternating`, `integralTraceFamily_integral`, `integralTraceFamily_nondegenerate`.
-
 (Source: [BHW23](#references) Notation 5.1(3), p.1740; compare DP §2.12.)
 
 *Needs:* [H0.3 Polarization lattice](#h03-polarization-lattice); [§H0.0 Rational Hilbert data and trace embedding](#h00-rational-hilbert-data-and-trace-embedding); [ShimuraVarieties, §§P.1–P.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ShimuraVarieties/README.md#p1-pure-data-and-special-pairs); Mathlib `Submodule.mem_traceDual`, `Algebra.trace`.
@@ -296,8 +292,6 @@ In [Suggested.lean](Suggested.lean): `integralTraceFamily`, `integralTraceFamily
 **Theorem** (`latticeDuality`). For `ψ(x, y)=Tr(x₁y₂−x₂y₁)`, the ℤ-dual lattice of `L_c` is `c⊕d⁻¹=c L_c`. Its finite adelic row stabilizer is the unit group `K_c` of the order `[[Ô,(cd)⁻¹Ô],[cdÔ,Ô]]`: equivalently, its matrices have these entry ideals and determinant in `Ô×`. Invertibility over `A_{F,f}` alone is insufficient. Intersecting with `G*(A_f)` imposes rational scalar determinant. These are equalities of lattices and groups, including nonprincipal c.
 
 *Proof route.* Dualize the two summands using the pinned fractional-ideal trace-dual formula. Use the row action: `L_c γ⊆L_c` determines the four entry ideals, and `L_c γ=L_c` additionally requires determinant in `Ô×`. The adjugate then preserves the same order and division by the unit determinant gives its inverse. Apply the calculation locally, then take restricted products.
-
-In [Suggested.lean](Suggested.lean): `traceAlternatingDual`, `lattice_duality`.
 
 **Checks.** For `F=ℚ` and `c=ℤ, K_c=GL₂(Ẑ)`. The matrix diag(2,1) satisfies the integral entry conditions and belongs to `GL₂(A_{ℚ,f})`, but contracts `ℤ₂²` strictly and is excluded by its nonunit determinant. The identity satisfies both conditions.
 
@@ -763,8 +757,6 @@ Its API:
 - `units_sign`: Both `η and−η` have totally positive square, but only those congruent 1 modulo N contribute to `S_N`.
 - `units_squareRoot`: Congruence of `η²` to 1 modulo N alone does not imply `η∈U_N`.
 
-In [Suggested.lean](Suggested.lean): `congruenceUnits`, `mem_congruenceUnits`, `integerLevelIdeal`.
-
 (Source: [BHW23](#references) Proposition 8.4 and Lemma 8.12, pp.1766,1771.)
 
 *Needs:* Tau Ceti `NumberField.totallyPositiveIntegerUnits`, `NumberField.sq_mem_totallyPositiveIntegerUnits`; Mathlib `QuotientGroup.mk'`.
@@ -784,8 +776,6 @@ Its API:
 - `squareImage_Q`: For `F=ℚ, M≥3` the image is the trivial subgroup.
 - `squareImage_positive`: Every image element lies in NumberField.totallyPositiveIntegerUnits F by the pinned square-positivity theorem.
 - `squareImage_root`: For `F=ℚ(√2), M=12, ε⁸` is not in `S_12` although `ε⁸≡1` modulo 12: its only roots `±ε⁴` both fail the congruence.
-
-In [Suggested.lean](Suggested.lean): `congruenceUnitSquares`, `congruenceUnitSquares_missingRoot` (the `squareImage_root` Check).
 
 (Source: [BHW23](#references) Proposition 8.4 and Lemma 8.12, pp.1766,1771.)
 
@@ -835,8 +825,6 @@ Its API:
 - `delta_square`: Every `ν∈U_N` maps `ν²` to 1 in `Δ(N)`.
 - `delta_notPositiveRoot`: The denominator permits square roots that are not totally positive; replacing it by positive-root squares can change the quotient.
 
-In [Suggested.lean](Suggested.lean): `TamePolarizationGroup`, `tameDelta_mk`, `tameDelta_eq`, `tameDelta_lift`, `HilbertTamePolarizationGroup`.
-
 (Source: [BHW23](#references) Proposition 8.4, p.1766.)
 
 *Needs:* [H3.2 Congruence square image](#h32-congruence-square-image); Mathlib `QuotientGroup.mk'`.
@@ -852,8 +840,6 @@ In [Suggested.lean](Suggested.lean): `TamePolarizationGroup`, `tameDelta_mk`, `t
 - For `F=ℚ` the totally positive unit quotient is trivial at every positive M.
 - At `M=0` the arbitrary-subgroup quotient is P itself; `P=⊥` is trivial even for `F=ℚ(√2)`, whereas the full or totally positive unit group of positive unit rank is infinite.
 - The quotient uses squares of `U_M`, including roots that are not totally positive; replacing them by squares of `U_M∩U⁺` can change its size.
-
-In [Suggested.lean](Suggested.lean): `tamePolarizationGroup_finite`.
 
 (Source: [BHW23](#references) Proposition 8.4, p.1766.)
 
@@ -1002,8 +988,6 @@ Its API:
 - `adjugateAction_scalar`: `uI₂` acts by u, since `adj(uI₂)=uI₂` in rank two (`adjugateFrameAction_scalar`). Precomposition by the inverse would act by `u⁻¹`, and precomposition by `det γ·γ` would act by `u³`.
 - `adjugateAction_notRight`: Precomposition by γ gives a right action. Over `ℤ/pⁿℤ` with `n≥1`, take `u=[[1,1],[0,1]]` and `v=[[1,0],[1,1]]`; then `uv=[[2,1],[1,1]]` and `vu=[[1,1],[1,2]]` differ, so this rule fails the left-action law on a faithful frame.
 
-In [Suggested.lean](Suggested.lean): `adjugateFrameAction`, `adjugate_level_action`, `adjugateFrameAction_one`, `adjugateFrameAction_scalar`.
-
 (Source: [BHW23](#references) Remark 5.8 and Lemma 8.9, pp.1744,1769–1770.)
 
 *Needs:* [H4.1 Hybrid full Hilbert level](#h41-hybrid-full-hilbert-level), [H4.2 Hilbert full-level pairing multiplier](#h42-hilbert-full-level-pairing-multiplier), [H3.3 Positive unit action on polarizations](#h33-positive-unit-action-on-polarizations); Mathlib `Matrix.adjugate_mul_distrib`, `Matrix.det_adjugate`.
@@ -1119,8 +1103,6 @@ Its API:
 - `connectedDelta_noninjective`: For `F=ℚ(√2), p=3, N=4` the inclusion-induced `Δ₁(4)→Δ(4)` is not injective, as the counterexamples of [H4.19 Counterexamples to the printed unit stabilization proof](#h419-counterexamples-to-the-printed-unit-stabilization-proof) show.
 - `connectedDelta_square`: For `η∈U_{pⁿ N}`, the class of `η²` is trivial in `Δ_n(N)`.
 
-In [Suggested.lean](Suggested.lean): `connectedCongruenceUnits`, `connectedSquareDenominator`, `ConnectedPolarizationGroup`, `connectedDelta_eq`.
-
 (Source: [BHW23](#references) Definition 8.14 and Lemma 8.16, pp.1771–1773.)
 
 *Needs:* [H3.2 Congruence square image](#h32-congruence-square-image), [H3.4 Finite tame polarization group](#h34-finite-tame-polarization-group); Mathlib `QuotientGroup.mk'`.
@@ -1181,8 +1163,6 @@ Its API:
 - `gamma0_m0`: For `m=0` the lower-left condition is void and `Γ₀=GL₂(O/pⁿ O)`.
 - `gamma0_mn`: For `m=n` the lower-left entry is 0 in `O/pⁿ O`.
 - `effective_Q`: For `F=ℚ, N≥4, U_N={1}`; hence `Z_n` is trivial and `PΓ₀=Γ₀`.
-
-In [Suggested.lean](Suggested.lean): `HilbertResidueRing`, `HilbertFiniteGamma0`.
 
 (Source: [BHW23](#references) Definition 8.17 and §8.3.1, pp.1773–1775.)
 
@@ -1785,8 +1765,6 @@ Its API:
 - `DrinfeldHalfPlane.scalarAction`: Every central scalar in `GL₂(K)` acts trivially.
 - `DrinfeldHalfPlane.algebraicComplement`: Removing finitely many K-rational points is insufficient: all P¹(K) must be excluded.
 
-In [Suggested.lean](Suggested.lean): `DrinfeldHalfPlane.points`, `DrinfeldHalfPlane.affineChart`, `DrinfeldHalfPlane.infinity`.
-
 (Source: [BC91](#references) Part I §§1–2, pp.49–53; [CDN20](#references) §1.2, pp.12–13.)
 
 *Needs:* [AdicSpacesPartIII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdicSpacesPartIII/README.md) `R2.3`; [ReductiveGroupsPartII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroupsPartII/README.md) `RG2.2`.
@@ -1930,8 +1908,6 @@ Its API:
 - `PelHeightLattice.negativeDiagonal`: `(−1,−1)` is permitted and has difference zero; using nonnegative heights fails.
 - `PelHeightLattice.translation`: Adding (1,1) preserves `Λ` and the difference character; changing only one coordinate by 1 does not preserve `Λ`.
 
-In [Suggested.lean](Suggested.lean): `PelHeightLattice`, `PelHeightLattice.mem`, `PelHeightLattice.diagonal`, `PelHeightLattice.difference`, `PelHeightLattice.difference_contract`.
-
 (Source: [BZ22](#references) §5, (5.10) and (5.12), pp.36–37; (5.13), (5.15), (5.23), Proposition 5.11, pp.37–40; §6, (6.39), p.48 ((5.10) labels the open and closed pieces RZ(a,b) by half the relative heights of the two quasi-isogeny components, (5.12) shows a+b is even, (5.23) writes RZ as RZ(0,0) times `Λ`, and (6.39) maps the quaternionic heights diagonally into `Λ`; the difference-character quotient is an elementary consequence))
 
 *Needs:* [R18.5.6 Height action and Frobenius descent](#r1856-height-action-and-frobenius-descent); Mathlib `AddSubgroup`.
@@ -1958,8 +1934,6 @@ Its API:
 - `VeryFreeChartAction.translationTwo`: The free action `n: x ↦ x+2n` fails: `n=1` has displacement 2.
 - `VeryFreeChartAction.fixedVertex`: An action with a nonidentity element fixing a vertex fails even if other orbits have long displacement.
 - The rule `move(g,v)=v+3` for every element of C₂ fails the identity axiom and is not a MulAction input, even though every nonidentity displacement exceeds two.
-
-In [Suggested.lean](Suggested.lean): `VeryFreeChartAction`, `VeryFreeChartAction.integerTranslationAction` (the actual integer translation actions for the distance Checks).
 
 (Source: [BC91](#references) Part III §5.3.1, pp.141–142 (Strict displacement greater than two allows standard formal vertex charts to descend and glue))
 
@@ -2504,8 +2478,6 @@ Its API:
 - `QuaternionHodgeLine.metric_offAxis`: At `z=1+i`, the norm of dz is 2, whereas `2|z|=2√2`.
 - `QuaternionHodgeLine.metric_real`: At real z the formula gives 0; it defines a norm on the Hodge line only for `z∈ℍ`.
 
-In [Suggested.lean](Suggested.lean): `QuaternionHodgeLine.metric`.
-
 (Source: [YZ18](#references) §4.2, Theorem 4.7 and its proof, pp.567–568.)
 
 *Needs:* [R18.2.11 ℚ-factorial coarse models](#r18211-ℚ-factorial-coarse-models), [R18.2.10 Integral Hecke extensions](#r18210-integral-hecke-extensions); Tau Ceti roadmap [JacobianChallenge, layer a line bundles divisors picard group degree](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/JacobianChallenge/README.md#layer-a-line-bundles-divisors-picard-group-degree); Tau Ceti roadmap [AlgebraicVectorBundles, roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AlgebraicVectorBundles/README.md).
@@ -2695,8 +2667,6 @@ Its API:
 - At a coefficient prime ramified in F, the tensor lattice still has the stated rank when the local splitting and stable integral model are given.
 - `QuaternionWeight.factorialObstruction`: At `p=2` and `k=4` the natural pairing on `Sym²(Z₂²)` pairs X² with Y² to ±2 and XY with itself to ±1, so its Gram matrix has determinant ±4 and it is not perfect over `Z₂`.
 
-In [Suggested.lean](Suggested.lean): `SymWeight`, `QuaternionWeight`, `QuaternionWeight.rank`.
-
 (Source: [KW09](#references) §7 (opening), pp.58–59; [Tay06](#references) §1, pp.741–742.)
 
 *Needs:* [QuaternionicModularForms](../QuaternionicModularForms/README.md) `§1.3`; [GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1663-hilbert-cohomological-algebraic-weights); Mathlib `Representation`.
@@ -2722,8 +2692,6 @@ Its API:
 - Replacing t by dtu z transports both stabilizer and coefficient value and preserves the recovered function.
 - For `t∈U∩Z`, the decompositions `uz=(ut)(t⁻¹z)` act equally by `τ(t)⁻¹=ψ(t)`; omitting this inverse breaks the central-character specialization.
 - Two noncommuting coefficient operators satisfy the inverse right-action order, rather than a left-action order; test the associated singleton Hecke cosets under inversion.
-
-In [Suggested.lean](Suggested.lean): `definiteCoefficient_rightAction`.
 
 (Source: [KW09](#references) §7 (opening), pp.58–59, display (5).)
 
@@ -2874,8 +2842,6 @@ Its API:
 - `QuaternionTWLevel.cyclicOrder`: For `Δ′=C₈` and `N=2, Δ=C₄`.
 - `QuaternionTWLevel.torsionNotPowers`: For `Δ′=C₈` and `N=2` the quotient by Nth powers has order 2, and is the wrong quotient.
 
-In [Suggested.lean](Suggested.lean): `QuaternionTWLevel.torsionSubgroup`, `QuaternionTWLevel.diamondFactor`.
-
 (Source: [KW09](#references) §7.4, p.63 (auxiliary levels before Lemma 7.4).)
 
 *Needs:* [R18.3.10 Quaternionic isotropy exponent bound](#r18310-quaternionic-isotropy-exponent-bound); [§R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms); Mathlib `QuotientGroup.mk`.
@@ -2910,7 +2876,7 @@ Invariant coefficient summands finite free as established in the KW setting; an 
 
 For the CDN application p>2, local `F=ℚ_p`, global E even degree with p completely split, `D₀` definite and finite-unramified; keep E distinct from the earlier auxiliary CM field. `q_v` is a unit in k; arithmetic Frobenius convention fixed.
 
-*Construction.* Specialize the supplier’s universal presentation to the quaternionic good places and its eigensystem map to the given residual traces and determinants. Here O acts on k through the specified coefficient reduction, so polynomial evaluation is an O-algebra map. The generic signatures in Suggested.lean use `V={v ∉ S}` as the variable index and Mathlib’s polynomial carrier directly; they introduce no second universal algebra. Use surjective coefficient reduction for maximality of the kernel. Galois-to-Hecke compatibility is not part of this target: the descent `actingFactor` is constructed only under the explicit hypothesis that the relations of the acting quotient vanish under evaluation, and it is not inferred from a formal evaluation.
+*Construction.* Specialize the supplier’s universal presentation to the quaternionic good places and its eigensystem map to the given residual traces and determinants. Here O acts on k through the specified coefficient reduction, so polynomial evaluation is an O-algebra map. Use `V={v ∉ S}` as the variable index and Mathlib’s polynomial carrier directly, without introducing a second universal algebra. Use surjective coefficient reduction for maximality of the kernel. Galois-to-Hecke compatibility is not part of this target: the descent `actingFactor` is constructed only under the explicit hypothesis that the relations of the acting quotient vanish under evaluation, and it is not inferred from a formal evaluation.
 
 Its API:
 
@@ -2926,8 +2892,6 @@ Its API:
 - `ResidualHeckeIdeal.scalarDeterminant`: The arithmetic polynomial has constant term `qS=det ρ̄(Frob)`.
 - `ResidualHeckeIdeal.nonsurjective`: The kernel of `Z→Q` is zero and not maximal; surjectivity cannot be dropped.
 - In the acting quotient with relation `T_v=0, a` proposed trace value one prevents descent.
-
-In [Suggested.lean](Suggested.lean): `residualEvaluation`, `ResidualHeckeIdeal`, `ResidualHeckeIdeal.maximal`, `ResidualHeckeIdeal.actingFactor`. These are the residual adapter on the shared polynomial presentation, with generic good-place index V, rather than a separate eigensystem carrier.
 
 (Source: [CDN23](#references) §4.1.3, pp.48–49.)
 
@@ -2979,8 +2943,6 @@ Its API:
 - `DivisionParityCharacter.nontrivialCentre`: For `ψ_v(Nrd Π)=4` in a coefficient ring containing 1/2, `r=1/2` satisfies central compatibility and `r=1` does not.
 - `DivisionParityCharacter.scalarUniformiser`: A scalar uniformiser has `ν_D=2` and acts by r², as required by `ψ_v⁻¹`. For `r=2∈ℚ×`, the values at valuations 2 and −2 are 4 and 1/4, distinguishing the coefficient character from its inverse.
 - `DivisionParityCharacter.dyadicSigns`: Over `Z_2`, the characters with values ±1 at `Π` reduce to the same `F_2`-character.
-
-In [Suggested.lean](Suggested.lean): `divisionCharacterValue`.
 
 (Source: [PRR23](#references) §1.4.2, pp.31–33, (1.16) and the uniformiser construction (For index two, twice the extended valuation is v∘Nrd, takes all integer values, and has the stated maximal compact kernel); [KW09](#references) §7 opening, pp.57–58; §7.1, Lemma 7.2 and remark, pp.60–61 (The full division factors and their uniformiser eigenvalues determine the dyadic coefficient extension and inverse Galois sign))
 
@@ -3111,10 +3073,8 @@ Its API:
 
 - `LiftableReductionImage.signAtTwo`: The `Z_2` sign representation of `C₂` has zero liftable image but one-dimensional residual invariants.
 - `LiftableReductionImage.trivialAction`: For a trivial `C₂` action on `Z_2` the liftable image is the full `F_2`.
-- `LiftableReductionImage.oddIsotropy`: For `C₃` over `Z_2` averaging makes every residual invariant liftable. The native mirror `LiftableReductionImage.cyclicPermutation` acts on `ℤ³` by a cyclic coordinate shift; both integral and mod-two invariants are diagonal, and every residual diagonal has an integral invariant lift.
-- `LiftableReductionImage.directSum`: For the direct sum of the trivial and sign `Z_2` characters the liftable subspace has dimension one while residual invariants have dimension two. The integral mirror on `ℤ²` has liftable image `{(a,0):a∈F_2}` under coordinatewise reduction.
-
-In [Suggested.lean](Suggested.lean): `liftableResidueImage`, `mem_liftableResidueImage`, `LiftableReductionImage.reductionInjective`, `LiftableReductionImage.unitIsotropy`, `LiftableReductionImage.directSum`, `LiftableReductionImage.oddIsotropy`.
+- `LiftableReductionImage.oddIsotropy`: For `C₃` over `Z_2` averaging makes every residual invariant liftable. For the cyclic coordinate-shift action on `ℤ³`, both integral and mod-two invariants are diagonal, and every residual diagonal has an integral invariant lift.
+- `LiftableReductionImage.directSum`: For the direct sum of the trivial and sign `Z_2` characters the liftable subspace has dimension one while residual invariants have dimension two. The same representation on `ℤ²` has liftable image `{(a,0):a∈F_2}` under coordinatewise reduction.
 
 (Source: [KW09](#references) Lemma 7.4(1) and proof, pp.64–65 (The comparison is between images of integral reduction, not all residual forms); [Tay06](#references) Corollary 1.2, p.739 (Prime-to-p isotropy is the stronger situation where arbitrary base change is available))
 
@@ -3155,8 +3115,6 @@ In [Suggested.lean](Suggested.lean): `liftableResidueImage`, `mem_liftableResidu
 - For `N=1` the ratio kernel is trivial in the 2-primary quotient, hence still square; this edge case satisfies the determinant conclusion.
 - At `Δ′=C₂,N=2` the whole ratio group survives as kernel and contains a nonsquare; the strict inequality a>b is essential.
 
-In [Suggested.lean](Suggested.lean): `twDiagonalTorsion_isSquare`.
-
 (Source: [KW09](#references) §7.4, pp.63–64; §7.5 preceding Proposition 7.6, p.66 (Provides the quotient convention and uses square determinants to prove well-definedness of the twist))
 
 *Needs:* [R18.3.12 Quaternionic Taylor–Wiles level](#r18312-quaternionic-taylorwiles-level); Tau Ceti `QuaternionAlgebra.normForm_coe`.
@@ -3181,8 +3139,6 @@ Its API:
 - `DyadicNormTwist.trivial`: The trivial `χ` gives the identity.
 - `DyadicNormTwist.scalar`: A central scalar z contributes `χ(z²)=1`.
 - `DyadicNormTwist.nonquadratic`: An order-four character with `χ(z)=i` changes the scalar action by `−1` and does not preserve `ψ`.
-
-In [Suggested.lean](Suggested.lean): `normTwist`, `normTwist_involutive`.
 
 (Source: [KW09](#references) §7.5, p.66, before Proposition 7.6.)
 
@@ -3381,8 +3337,6 @@ Its API:
 - `component_central`: For `C_K` cyclic of order 3 and `c_v` a generator, `S_v` is a nonidentity permutation.
 - `component_change_uniformizer`: Multiplying `π_v` by `O_v×` leaves both operators unchanged.
 
-In [Suggested.lean](Suggested.lean): `componentTranslation`, `componentT`, `componentS`, `components_character`.
-
 (Source: [MS19](#references) §§2.7–2.9 and proof of Proposition 2.3, pp.8–10 (The component Hecke action forces a reducible unramified characteristic polynomial))
 
 *Needs:* [R18.1.3 Canonical quaternionic curve and uniformization](#r1813-canonical-quaternionic-curve-and-uniformization), [R18.4.1 Quaternionic algebraic local systems](#r1841-quaternionic-algebraic-local-systems); [IntegralHeckeAndGaloisDeterminants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md) `§3a.1`.
@@ -3531,8 +3485,6 @@ Its API:
 - `gram_central_factor`: Over `Q, q=2, T=3, S=2` gives `G(0,1)=(3/2,3)`; removing `S⁻¹` fails.
 - `gram_level_raise`: For `q=2,T=3,S=1` over `Q, Δ=0` and `G(1,−1)=0`.
 
-In [Suggested.lean](Suggested.lean): `degeneracyGram`, `degeneracyDiscriminant`, `degeneracyAdjugate`, `gram_adjugate`.
-
 (Source: [MS19](#references) §§2.6–2.7 and §2.11, pp.8,10–11 (Right-level maps and double cosets determine the two trace-pullback entries; the matrix is derived here with the central adjoint retained))
 
 *Needs:* [R18.4.9 Adjoint Hecke localization and integral duality](#r1849-adjoint-hecke-localization-and-integral-duality); [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md) `ALS.3.5–ALS.3.7`.
@@ -3572,8 +3524,6 @@ The freeness conclusion additionally assumes O a DVR and `M_0` finite free.
 
 - The left inverse contains the central operator in J.
 
-In [Suggested.lean](Suggested.lean): `oldspace_split`.
-
 (Source: [MS19](#references) §§2.7 and 2.11, pp.8,10–11 (The trace and degeneracy operators supply the input; this unit-discriminant conclusion is an explicit algebraic deduction))
 
 *Needs:* [R18.4.15 Geometric degeneracy Gram identity](#r18415-geometric-degeneracy-gram-identity); Mathlib `Module.free_of_finite_type_torsion_free'`.
@@ -3590,8 +3540,6 @@ O is a nonfield DVR; `λ` generates its maximal ideal; M and N are finite free.
 
 - Multiplication by `λ` on O is injective but has nonsaturated image and zero residual map.
 - The assertion needs both source and target free; rational injectivity alone is insufficient.
-
-In [Suggested.lean](Suggested.lean): `residual_injectivity_saturation`.
 
 (Source: [MS19](#references) Theorem 6.5, p.34, and §2.10, p.10 (The residual theorem is intended for integral localized modules; the equivalence here is the separate DVR algebra needed to deduce saturation))
 
@@ -3673,7 +3621,7 @@ The following three targets use the same totally real F, odd prime l, residual r
 
 (Source: [MS19](#references) §4.2, Lemma 4.10, pp.22–24, and its reference to Kisin Proposition 3.2.5 for the detecting argument.)
 
-**Theorem** (`msDualSelmerKilling`). Successively choose detecting primes for a class in the current common localization kernel until it vanishes. Pad to a fixed cardinal r with distinct primes having the same congruence and eigenvalue conditions. Export sets `Q_n` disjoint from S with zero modified adjoint dual Selmer group, chosen residual eigenvalues, and `Nv≡1 mod lⁿ`.
+**Theorem** (`msDualSelmerKilling`). Successively choose detecting primes for a class in the common localization kernel until it vanishes. Pad to a fixed cardinal r with distinct primes having the same congruence and eigenvalue conditions. Export sets `Q_n` disjoint from S with zero modified adjoint dual Selmer group, chosen residual eigenvalues, and `Nv≡1 mod lⁿ`.
 
 **Checks.**
 
@@ -4117,8 +4065,6 @@ All image, smallness and coefficient hypotheses of the residual theorem hold.
 - A level-raising ideal with `Δ≡0` is still allowed by Ihara.
 - The result is not asserted for arbitrary integral weights that act nontrivially at w.
 - For the inclusion `O→O², x↦(x,0)`, the reduced cokernel is `O/λⁿ`. It is free over `O/λⁿ` but has nonzero λ-torsion, so DVR saturation cannot be asserted after Artinian reduction.
-
-In [Suggested.lean](Suggested.lean): `integral_ihara_split`.
 
 (Source: [MS19](#references) Theorem 6.5, p.34, with §2.10 and Lemma 6.4, pp.10,34 (Residual injectivity and local coefficient control are the inputs; saturation is derived here by the stated DVR criterion))
 
