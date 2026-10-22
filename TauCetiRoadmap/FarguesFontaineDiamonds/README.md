@@ -133,7 +133,7 @@ hypotheses.
 
 Declaration names are proposed in **TauCeti.FFDiamond**. The mathematical
 specification here includes the topological, geometric and enhanced coherence
-hypotheses and the Lean theorem retains all hypotheses needed for its algebraic assertion.
+hypotheses.
 
 ## Exact supplier contracts
 
@@ -405,7 +405,7 @@ The API is used by FS II.1.2 and II.1.17 to build the fixed-field product formul
 - `affinoid_product_excludes_char_p` (non-example): A nonempty untilt with `p=0` does not occur in either side with `Spd ℚ_p`; its induced integral analytic map cannot factor through `Y`.
 - `affinoid_product_empty` (degenerate): For `T=Spa(0,0)=∅` with its unique empty marked untilt, `α_T` is the bijection `{*} ≃ {*}×{*}`. Here `p=0` is invertible; the unique maps to `Y` and `Spa(ℚ_p,ℤ_p)` exist. Both maps of the product comparison and their naturality include this test.
 - `affinoid_product_teichmuller` (computation): For the inverse of `(f,u)`, `[ϖ]` maps to `f(ϖ)^♯`, a unit in the untilt Tate ring; its plus-ring membership does not assert that it is a plus-ring unit.
-- `affinoid_product_compatible_roots` (computation): For `F=completion(𝔽_p((t^{1/p^∞})))`, choose the `ℚ_p(p^{1/p^∞})`-completion untilt with `t^♯=p` and compatible roots. The inverse of `(id_S,u)` sends every `[t^{1/p^m}]` to `p^{1/p^m}`, with the `p`-power relations retained and both `p` and `[t]` invertible in the untilt Tate field. No algebraic-closedness assumption is used. In the algebraic signature,
+- `affinoid_product_compatible_roots` (computation): For `F=completion(𝔽_p((t^{1/p^∞})))`, choose the `ℚ_p(p^{1/p^∞})`-completion untilt with `t^♯=p` and compatible roots. The inverse of `(id_S,u)` sends every `[t^{1/p^m}]` to `p^{1/p^m}`, with the `p`-power relations retained and both `p` and `[t]` invertible in the untilt Tate field. No algebraic-closedness assumption is used. For the source family,
   `tRoots(m+1)^p=tRoots(m)` is a hypothesis on the source family;
   multiplicativity of `f` and sharp, together with the marked values, gives
   `pRoots(m+1)^p=pRoots(m)` in the target.
@@ -771,19 +771,17 @@ Checks: On the relevant boundary `|s_m|=1`, while `s_{m+1}^p=s_m`. The reciproca
 
 (FS Proof of II.1.1, p.48.)
 
-The algebraic component, stated in Suggested.lean as
-`compatibleRoots_ratio_pow`, has the following exact hypotheses, independently
-of the geometric construction. In a commutative
+Checks: The compatible-root equation has an elementary algebraic verification,
+independently of the geometric construction. In a commutative
 ring `B`, take sequences `pRoot`, `varpiRoot` and `ratioRoot` indexed by natural
 numbers, with `ratioRoot(m)·varpiRoot(m)=pRoot(m)`, both numerator and denominator
 satisfying the `p`-power transition equations, and each `varpiRoot(m)` a unit.
-Then `ratioRoot(m+1)^p=ratioRoot(m)`. This algebraic step is the only Lean
-signature associated with this target; the perfectoid annulus and tilt remain
-the geometric target above.
+Then `ratioRoot(m+1)^p=ratioRoot(m)` by taking powers of the product equation
+and cancelling the unit denominator.
 For `p=2` in `ℚ`, numerator roots constantly 1 and denominator roots constantly 1
 give ratio roots constantly 1. A nonconstant real instance has `p=2`, numerator
-`4^(1/2^m)`, denominator `2^(1/2^m)`, and ratio `2^(1/2^m)`; the ratio transition
-follows from `compatibleRoots_ratio_pow`. Dropping denominator regularity fails: in
+`4^(1/2^m)`, denominator `2^(1/2^m)`, and ratio `2^(1/2^m)` satisfy the same ratio
+transition. Dropping denominator regularity fails: in
 `ℤ/4`, take the numerator and denominator sequences constantly 0 and ratio roots
 constantly 2; the displayed product and power equations for numerator and
 denominator hold, but `2² ≠ 2`. The actual period chart inverts its denominator.
@@ -1076,11 +1074,13 @@ F3; DiamondEtaleCohomology §§C2.2–C2.5, C2.9–C2.12 and Layer C3; EnhancedD
 ## Suggested Lean forms
 
 [Suggested.lean](Suggested.lean) records suggested forms, not an exhaustive
-checklist. This README is definitive. Its one theorem signature,
-`compatibleRoots_ratio_pow`, expresses the compatible-root equation of F4
-in an existing commutative ring, with all its algebraic hypotheses present.
-The product, quotient, sites, Cartier objects and enhanced comparisons have their intended signatures in the
-corresponding subsections above; their carriers are mathematical targets.
+checklist. This README is definitive. No headline theorem can be stated against
+the pinned libraries: the fixed-field period annuli and adic structure sheaves,
+perfectoid test category, marked untilts, diamond functor and étale sites are
+absent, as are the analytic Cartier and enhanced coefficient categories.
+The file contains no declarations; its module docstring identifies the missing
+carriers for F0–F5. The corresponding subsections above specify the mathematical
+targets and their hypotheses.
 
 The reusable API should expose morphisms, their naturality and uniqueness,
 not just existence of unstructured bijections. Keep both coordinates in the
