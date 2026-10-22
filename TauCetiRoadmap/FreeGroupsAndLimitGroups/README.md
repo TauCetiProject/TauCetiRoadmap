@@ -23,7 +23,7 @@ This roadmap owns:
 What it builds on, and does not plan again:
 
 - **Mathlib** (at the Tau Ceti pin) already has the free group with reduced words and cyclic reduction (`FreeGroup.reduce`, `FreeGroup.toWord`, `FreeGroup.IsCyclicallyReduced`, `FreeGroup.reduceCyclically`), torsion-freeness and uniqueness of roots for a fixed exponent (the `IsMulTorsionFree` instance on `FreeGroup α`), free bases (`FreeGroupBasis`, `IsFreeGroup`), the non-constructive Nielsen–Schreier theorem (`subgroupIsFreeOfIsFree`), the Schreier inequality `Subgroup.rank_le_index_mul_rank`, amalgamated products and HNN extensions with their normal forms (`Monoid.PushoutI.NormalWord`, `HNNExtension.NormalWord`, hence Britton's lemma), free products and the ping-pong lemma (`Monoid.CoprodI`, `Monoid.CoprodI.lift_injective_of_ping_pong`, and the free-group form `FreeGroup.injective_lift_of_ping_pong`), presented and finitely presented groups, first-order syntax and semantics with prenex normal form (`FirstOrder.Language.BoundedFormula.toPrenex`), list encodings of terms and formulas, and the computability framework. These are cited, never re-planned. Reduced-word equality and the trivial-word criterion are consumed directly, and syntax encoding and prenex transformations have no second implementation here.
-- **Shared free-group centralizer interfaces.** [Mathlib PR #42677](https://github.com/leanprover-community/mathlib4/pull/42677), commit `b38ce379d898d1284bae5582be27de1d2af39f67`, proposes `FreeGroup/Center.lean` with `FreeGroup.centralizer_of_eq_closure`, `FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`, `FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. These overlap §§1.5–1.8. Coordinate the shared signatures with that work and build the required theory in Tau Ceti using its interface shape wherever the pinned Mathlib lacks it; adopt the Mathlib declarations when available. The maximal-root identification and malnormality targets remain here. No reuse of the proposed proofs is required.
+- **Shared free-group centralizer interfaces.** [Mathlib’s free-group centralizer interface](https://github.com/leanprover-community/mathlib4/commit/b38ce379d898d1284bae5582be27de1d2af39f67), at commit `b38ce379d898d1284bae5582be27de1d2af39f67`, provides the proposed `FreeGroup/Center.lean` with `FreeGroup.centralizer_of_eq_closure`, `FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`, `FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. These overlap §§1.5–1.8. Coordinate the shared signatures with that work and build the required theory in Tau Ceti using its interface shape wherever the pinned Mathlib lacks it; adopt the Mathlib declarations when available. The maximal-root identification and malnormality targets remain here. No reuse of the proposed proofs is required.
 - **Tau Ceti at the pin** already has malnormal subgroups, as trivial-intersection subgroups: `TauCeti.IsTISubgroup` (TauCeti/GroupTheory/TrivialIntersection.lean), with its lattice form `TauCeti.isTISubgroup_iff_inf_conj_smul_eq_bot`. The CSA condition of Layer 1 is stated with it, and malnormality is not defined again here; `RepresentationTheory/CharacterTheory`, Layer 8 “Frobenius groups and Frobenius’s theorem,” uses the same notion for finite groups.
 - **Tau Ceti at the pin** supplies free-group residual finiteness, residual `p` and the sharper Schreier inequality through the exact contracts below. The equality for finite-index free subgroups is Layer 2.
 - **Tau Ceti roadmaps.** [GraphConnectivityAndFlows, Target 1.1](../GraphConnectivityAndFlows/README.md#11-undirected-walks-isomorphisms-and-representation-bridges) supplies native multigraph walks, connectivity and components; §§2.1–2.1a own the Serre-dart adapter. §§2.2–2.2a own graph path groups, spanning-tree presentations, finite multigraph integral and binary cycle kernels, forest bases, coefficient comparison and rank formulas. §§6.0a–6.1a own the finite polygonal surface models, normal forms, face presentations and marked boundary comparisons used here; §6.0d owns combinatorial two-sided curves, proper arcs, their cut models and the cutting-to-splitting comparisons. These are item-level inputs, without flow, Menger or mapping-class-group prerequisites. `AlgebraicTopology's` surface topology and `FuchsianOrbifolds`' analytic surfaces have different applications. QH vertices here have hyperbolic surface groups and trivial fiber (§6.10); `GeometricTopology's` geometric JSJ is distinct from Layer 10's group-theoretic JSJ. `ProfiniteProPGroups` and `PeripheralActions` concern pro-`p` groups. [ClassifyingSpaces, Stage 2 item 7](../ClassifyingSpaces/README.md#stage-2-the-cellular-model) supplies presentation complexes and their fundamental-group comparison to §10.1a, hence §10.2 and downstream JSJ consumers; §2.2 is combinatorial and independent of that input. These roadmap contracts are specifications, distinct from the declarations implemented at the library pin.
@@ -61,13 +61,13 @@ What it builds on, and does not plan again:
 - `FirstOrder.Language.BoundedFormula.IsQF`: Quantifier-free bounded formulas. Used in §3.4.
 - `FirstOrder.Language.BoundedFormula.IsUniversal`: Universal formulas. Used in §3.5.
 - `FirstOrder.Language.BoundedFormula.Realize`: Satisfaction of a bounded formula. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
-- `FirstOrder.Language.BoundedFormula.listEncode`: List encoding of a bounded formula at a fixed number `n` of bound variables; `listDecode` and its round trip `listDecode_encode_list` go through `Σ n`, `BoundedFormula α n`. Mathlib gives Countable instances, no Encodable or Primcodable structure on formulas. Used in the first-order truth-set statements of Layer 7.
+- `FirstOrder.Language.BoundedFormula.listEncode`: List encoding of a bounded formula at a fixed number `n` of bound variables; `listDecode` and its encoding–decoding identity `listDecode_encode_list` go through `Σ n`, `BoundedFormula α n`. Mathlib gives Countable instances, no Encodable or Primcodable structure on formulas. Used in the first-order truth-set statements of Layer 7.
 - `FirstOrder.Language.BoundedFormula.realize_toPrenex`: `toPrenex` preserves satisfaction in every nonempty structure. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
 - `FirstOrder.Language.BoundedFormula.toPrenex`: A prenex normal form transformation of bounded formulas. Used in the semantic correspondence of §3.2 and the positive normal forms of §7.9.
 - `FirstOrder.Language.Sentence`: Sentences: formulas without free variables. Used in §3.5.
 - `FirstOrder.Language.Structure`: An interpretation of a language in a type. Used in §3.1.
 - `FirstOrder.Language.Term`: First-order terms over a language with variables in a type. Used in §3.2.
-- `FirstOrder.Language.Term.listEncode`: List encoding of terms, with `listDecode` and the round trip `listDecode_encode_list`; Encodable instance on terms. Used in the first-order truth-set statements of Layer 7.
+- `FirstOrder.Language.Term.listEncode`: List encoding of terms, with `listDecode` and the encoding–decoding identity `listDecode_encode_list`; Encodable instance on terms. Used in the first-order truth-set statements of Layer 7.
 - `FirstOrder.Language.withConstants`: The language `L[[A]]` obtained by adding constant symbols for the elements of `A`. Used in §3.1.
 - `FreeGroup`: The free group on a type, as the quotient of words List `(α × Bool)` by one-step reduction; (a, true) is the letter `a` and (a, false) its inverse. Used in §1.2, §2.2, §2.3, §3.2, §3.3, §5.1, §5.8, §6.1, §7.1, §8.3, §9.1, §9.4.
 - `FreeGroup.IsCyclicallyReduced`: A word is cyclically reduced when it is reduced and its last letter is not the inverse of its first. Used in §1.1.
@@ -81,7 +81,7 @@ What it builds on, and does not plan again:
 - `FreeGroup.reduce.sound`: mk `L₁ =` mk `L₂` implies reduce `L₁ =` reduce `L₂`. Used in word equality and path membership throughout Layers 1–2.
 - `FreeGroup.reduceCyclically`: Cyclic reduction of a word (defined on every list), with the conjugator; `reduceCyclically L` is cyclically reduced when `L` is reduced. Used in §1.1 and §1.4.
 - `FreeGroup.reduceCyclically.conj_conjugator_reduceCyclically`: A word equals conjugator `· reduceCyclically · conjugator⁻¹` (as words, so in the group). Used in §1.1, §1.4.
-- `FreeGroup.toWord`: The reduced word of an element of `FreeGroup α`, with `toWord_injective` and `mk_toWord`. Used throughout Layer 1 and Layer 2.
+- `FreeGroup.toWord`: The reduced word of an element of `FreeGroup α`, with `FreeGroup.toWord_injective` and `FreeGroup.mk_toWord`. Used throughout Layer 1 and Layer 2.
 - `FreeGroup.toWord_injective`: `toWord` is injective on `FreeGroup α`. Used throughout Layer 1 and Layer 2.
 - `FreeGroup.toWord_inv`: `toWord x⁻¹ = invRev (toWord x)`. Used in the word-length and path statements.
 - `FreeGroup.toWord_mul`: `toWord (x * y) =` reduce `(toWord x ++ toWord y)`. Used in the word-length and path statements.
@@ -137,9 +137,14 @@ Cross-layer prerequisites are explicit: §§8.5–8.6 precede §6.8; §§8.8–8
 
 ## How to read the build
 
-The representative Lean boundary targets are `rad_sq` (§5.2),
-`trivial_coefficients_closure_boundary` (§5.6), `centralizerExt_proper_power` (§8.5),
-and `compatible_no_lift` (§11.1).
+`Suggested.lean` states headline theorems on native library carriers: conjugacy, maximal roots,
+centralizers and malnormality; Howson and the exact Schreier formula; Grushko–Neumann;
+equational Noetherianity and irreducibility; constrained satisfiability and Merzljakov formal
+solutions; limit-group characterizations and finite presentability; free length functions;
+the descending-chain theorem; and the complete regular quadratic implicit function theorem.
+Its definitions express the equations, coordinate groups and regular quadratic shapes needed
+by those statements. Graph, surface, tower and diagram constructions remain mathematical
+targets of the sections below; their carriers are not supplied by the library pins.
 
 Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Layer 2 adds Serre graphs and the Stallings correspondence; Layer 3 supplies the language of groups and the term–word and formula–system dictionaries. Layer 4 develops Bass–Serre theory. Layer 5 gives algebraic geometry over a coefficient group; Layer 6 treats surface groups and quadratic equations. Layer 7 supplies cancellation families, solution bounds and positive formal solutions. Layer 8 identifies limit groups, fully residually free groups and irreducible coordinate groups and builds NTQ towers. Layer 9 gives length functions, infinite words and subgroup graphs. Layer 10 proves finite JSJ and Makanin–Razborov factorization theorems; Layer 11 proves the regular implicit function theorems. The subsection contracts fix the proof order: §§8.5–8.6 supply §6.8; §§6.8–6.9 and §8.8 supply normalized tower discrimination and embeddings in §8.9 independently of §8.7; §§8.6a–8.6b and §8.9 supply §8.7; §8.7 supplies §8.2's finite-rank centralizers and §9.5's limit-group length-function corollary.
 
@@ -148,6 +153,8 @@ Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Laye
 This layer proves the elementary structure of free groups: conjugacy, maximal roots, cyclic centralizers and CSA. Proper powers and primitive elements are different notions, and root and centralizer statements explicitly distinguish the identity.
 
 ### 1.1 Conjugacy criterion: cyclic reductions agree up to cyclic permutation
+
+`Suggested.lean` states the criterion as `isConj_iff_isRotated`.
 
 Prove the following statement. For `x`, `y ∈ FreeGroup α`, `x` and `y` are conjugate if and only if the cyclically reduced words `reduceCyclically (toWord x)` and `reduceCyclically (toWord y)` are cyclic permutations of each other `(List.IsRotated)`. Moreover every element is conjugate, by the explicit word conjugator `(toWord x)`, to the element of its cyclic reduction.
 
@@ -163,7 +170,7 @@ Use [MRS-REGULAR] §3, Lemma 3.8, p. 13 of the author copy: For infinite words o
 
 *Needs:* Mathlib `FreeGroup.reduceCyclically.conj_conjugator_reduceCyclically`; Mathlib `FreeGroup.IsCyclicallyReduced`; Mathlib `FreeGroup.reduceCyclically`; Mathlib `IsConj`.
 
-The finite-word background is also a mathematical target. For a `Primcodable` alphabet `α` with decidable equality, use the standard list code of `α×Bool` and identify free-group elements with their reduced words. Prove that reducedness, free reduction, word equality, conjugacy and proper-power membership are primitive recursive on these codes. Multiplication is reduction of concatenation; inversion is reversal with inverted signs. For a finite enumerated `α` and a primitively encoded group `H` whose multiplication and inversion are primitive recursive, evaluation under a finite table `α→H` is primitive recursive; so are substitutions of free-group words and maps induced by finite basis maps. State the round-trip relation between valid reduced-word codes and `FreeGroup α` using `toWord` and `mk`, without constructing a second free-group carrier or an encoding instance. The shortest-period description of §1.4 gives primitive-recursive maximal-root data, with the identity distinguished. Sources: [LEAN] Mathlib/GroupTheory/FreeGroup/Reduce.lean and Mathlib/Computability/Primrec/List.lean; [IFT] §2.1, p. 4; [SUBGROUPS] §5, proof of Lemma 21, p. 36.
+The finite-word background is also a mathematical target. For a `Primcodable` alphabet `α` with decidable equality, use the standard list code of `α×Bool` and identify free-group elements with their reduced words. Prove that reducedness, free reduction, word equality, conjugacy and proper-power membership are primitive recursive on these codes. Multiplication is reduction of concatenation; inversion is reversal with inverted signs. For a finite enumerated `α` and a primitively encoded group `H` whose multiplication and inversion are primitive recursive, evaluation under a finite table `α→H` is primitive recursive; so are substitutions of free-group words and maps induced by finite basis maps. State the encoding–decoding relation between valid reduced-word codes and `FreeGroup α` using `toWord` and `mk`, without constructing a second free-group carrier or an encoding instance. The shortest-period description of §1.4 gives primitive-recursive maximal-root data, with the identity distinguished. Sources: [LEAN] Mathlib/GroupTheory/FreeGroup/Reduce.lean and Mathlib/Computability/Primrec/List.lean; [IFT] §2.1, p. 4; [SUBGROUPS] §5, proof of Lemma 21, p. 36.
 
 For the finite substitution `a↦a b`,`b↦b`, the word `[a,b]=a⁻¹b⁻¹a b` maps to `b⁻¹a⁻¹b⁻¹a b²`. The empty word has code for the empty list, the word `a a⁻¹` represents that same group element, and an unreduced list is not itself a valid reduced-word representative.
 
@@ -182,10 +189,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `FreeGroup.isProperPower_of_sq`: `of a ^ 2` is a proper power in `FreeGroup α`.
-- `FreeGroup.not_isProperPower_of`: `of a` is not a proper power: in particular not every nontrivial element of a free group is a proper power, and a definition allowing `n = 1` is wrong.
-- `FreeGroup.not_isProperPower_commutator`: For `a ≠ b`, the commutator `⁅of a, of b⁆` is not a proper power, although it is not primitive either (§1.3): the two notions differ.
-- `Group.isProperPower_one`: The identity is a proper power, so ‘not a proper power’ is used only for nontrivial elements.
+- `of a ^ 2` is a proper power in `FreeGroup α`.
+- `of a` is not a proper power: in particular not every nontrivial element of a free group is a proper power, and a definition allowing `n = 1` is wrong.
+- For `a ≠ b`, the commutator `⁅of a, of b⁆` is not a proper power, although it is not primitive either (§1.3): the two notions differ.
+- The identity is a proper power, so ‘not a proper power’ is used only for nontrivial elements.
 
 In `F(a,b)`, `a²` and `(a b)³` are proper powers; a, `a b` and `[a,b]` are not.
 
@@ -210,10 +217,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `FreeGroup.isPrimitive_of_mul`: of a * of `b` is primitive in `F(a,b)`, witnessed by the basis `(a b, b)`.
-- `FreeGroup.not_isPrimitive_commutator`: `⁅of a, of b⁆` is not primitive and not a proper power (its abelianisation is 0): being primitive is not the negation of being a proper power.
-- `FreeGroup.not_isPrimitive_one`: 1 is not primitive.
-- `FreeGroup.not_isPrimitive_sq`: `of a ^ 2` is not primitive.
+- of a * of `b` is primitive in `F(a,b)`, witnessed by the basis `(a b, b)`.
+- `⁅of a, of b⁆` is not primitive and not a proper power (its abelianisation is 0): being primitive is not the negation of being a proper power.
+- 1 is not primitive.
+- `of a ^ 2` is not primitive.
 
 In `F(a,b): a`, `a b` (basis `(a b, b)`) and `a b²` (basis `(a b², b)`) are primitive; `a²`, `[a,b]` and 1 are not.
 
@@ -224,6 +231,8 @@ Use [KM02] §11 (algebraic extensions and free factors), pp. 31–33: Free facto
 *Needs:* Mathlib `IsFreeGroup`; Mathlib `FreeGroupBasis`.
 
 ### 1.4 Maximal roots and their uniqueness
+
+`exists_maximalRoot` in `Suggested.lean` states existence, uniqueness and the description of all positive-exponent roots.
 
 For every nontrivial `x ∈ FreeGroup α` there is a unique pair `(r, k)` with `r ∈ FreeGroup α`, `k ∈ ℕ`, `k ≥ 1`, `r^k = x` and `r` not a proper power. Prove `FreeGroup.exists_maximalRoot` with this exact existence and uniqueness statement. Prove also that every positive-exponent root `y^n = x` satisfies `n ∣ k` and `y = r^(k/n)`, and that conjugation and inversion transport the pair to `(g r g⁻¹, k)` and `(r⁻¹, k)`. For a positive integer `m` the pair for `x^m` is `(r, m k)`. These statements specify roots by their intrinsic properties.
 
@@ -256,6 +265,8 @@ Use [SUBGROUPS] §5, proof of Lemma 21, p. 36 of the author copy: Centralizers o
 
 ### 1.6 Centralizers of nontrivial elements are the cyclic groups of their maximal roots
 
+`centralizer_eq_zpowers` in `Suggested.lean` states the cyclic-centralizer theorem.
+
 Prove the following statement. For `x ∈ FreeGroup α` with `x ≠ 1`: For the maximal-root pair `(r,k)` of §1.4, Subgroup.centralizer `{x} =` Subgroup.zpowers `r`. For `x=1` the centralizer is `⊤`; it need not be cyclic.
 
 Combine §1.5 with §1.4 (Maximal roots and their uniqueness): an element commuting with `x` is a power of the common root, which is a power of the maximal root.
@@ -278,17 +289,17 @@ The public interface should expose the following named results:
 - `Group.IsCSA`: Every maximal abelian subgroup `M` satisfies `TauCeti.IsTISubgroup M`.
 - `Group.IsCommTransitive`: Commutation is transitive on nontrivial elements.
 - `Group.IsCSA.isCommTransitive`: CSA groups are commutative transitive.
-- `Group.IsCSA.centralizer_isMaximalAbelian`: In a CSA group, for `g ≠ 1` the centralizer of `g` is abelian and is the unique maximal abelian subgroup containing `g`.
-- `Group.IsCSA.of_injective`: Subgroups of CSA groups are CSA (a maximal abelian subgroup of a subgroup is its intersection with a maximal abelian subgroup of the group, by the previous item).
-- `Group.IsCSA.of_commGroup`: Abelian groups are CSA.
+- In a CSA group, for `g ≠ 1` the centralizer of `g` is abelian and is the unique maximal abelian subgroup containing `g`.
+- Subgroups of CSA groups are CSA (a maximal abelian subgroup of a subgroup is its intersection with a maximal abelian subgroup of the group, by the previous item).
+- Abelian groups are CSA.
 
 **Checks.**
 
-- `Group.isCSA_freeGroup`: `FreeGroup α` is CSA (§1.8).
-- `Group.isCSA_of_commGroup`: Multiplicative `ℤ` is CSA, so CSA does not imply nonabelian; the trivial group is CSA.
-- `Group.not_isCSA_prod_int`: `FreeGroup (Fin 2) ×` Multiplicative `ℤ` is not commutative transitive, hence not CSA, although the centralizers of the generators `(a, 0)`, `(b, 0)`, `(a, 1)` are abelian: a definition testing only the elements of some generating set would accept it.
-- `Group.not_isCSA_amalgam_sq`: `F(a,b) ∗_{⟨a²⟩} (⟨a²⟩ × ⟨t⟩)` is not CSA: `a` commutes with `a²`, `a²` commutes with `t`, but `a` and `t` do not commute (the test `LimitGroup.centralizerExt_proper_power` of Layer 8).
-- `Group.IsCSA.center_eq_bot`: A nonabelian CSA group has trivial centre (Mathlib's Subgroup.center `G = ⊥`): a nontrivial central element would make every two elements commute by commutation transitivity.
+- `FreeGroup α` is CSA (§1.8).
+- Multiplicative `ℤ` is CSA, so CSA does not imply nonabelian; the trivial group is CSA.
+- `FreeGroup (Fin 2) ×` Multiplicative `ℤ` is not commutative transitive, hence not CSA, although the centralizers of the generators `(a, 0)`, `(b, 0)`, `(a, 1)` are abelian: a definition testing only the elements of some generating set would accept it.
+- `F(a,b) ∗_{⟨a²⟩} (⟨a²⟩ × ⟨t⟩)` is not CSA: `a` commutes with `a²`, `a²` commutes with `t`, but `a` and `t` do not commute (the test `LimitGroup.centralizerExt_proper_power` of Layer 8).
+- A nonabelian CSA group has trivial centre (Mathlib's Subgroup.center `G = ⊥`): a nontrivial central element would make every two elements commute by commutation transitivity.
 
 Every abelian group is CSA (its only maximal abelian subgroup is the whole group, and there is no `g` outside it). `F(a,b) × ℤ` is not commutative transitive: `(a, 0)` and `(b, 0)` both commute with `(1, 1)` but not with each other.
 
@@ -299,6 +310,8 @@ Use [ALG] §1, p. 4, and §2.1, pp. 15–16: Malnormal subgroups and CSA groups 
 *Needs:* Mathlib `Subgroup.centralizer`; Mathlib `IsMulCommutative`; Tau Ceti `TauCeti.IsTISubgroup`.
 
 ### 1.8 Maximal cyclic subgroups are malnormal; free groups are CSA
+
+`Suggested.lean` states `zpowers_malnormal` and `isCSA_freeGroup` using Tau Ceti’s malnormality predicate.
 
 Prove the following statement. Let `u ∈ FreeGroup α` be nontrivial and not a proper power, and `M =` zpowers `u`. Then `M` is a maximal abelian subgroup and is malnormal (`TauCeti.IsTISubgroup M`; in the lattice form, `g M g⁻¹ ⊓ M = ⊥` for `g ∉ M`). Consequently `FreeGroup α` is a CSA group (§1.7) (every maximal abelian subgroup is malnormal), and commutation is transitive on nontrivial elements.
 
@@ -348,12 +361,12 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `SerreGraph.rose_one_not_tree`: The rose with one petal (one vertex, edges `e` and `rev e`, a loop) is connected but not a tree: the path `[e]` is a reduced closed path. A definition of graphs that drops loops (for instance through Mathlib's `SimpleGraph`) would call it a tree.
-- `SerreGraph.segment_isTree`: The segment (vertices 0, 1; edges `e: 0→1` and `rev e`) is a tree and the unique reduced path from 0 to 1 is `[e]`.
-- `SerreGraph.single_vertex_isTree`: One vertex and no edges is connected and a tree, in both representations.
+- The rose with one petal (one vertex, edges `e` and `rev e`, a loop) is connected but not a tree: the path `[e]` is a reduced closed path. A definition of graphs that drops loops (for instance through Mathlib's `SimpleGraph`) would call it a tree.
+- The segment (vertices 0, 1; edges `e: 0→1` and `rev e`) is a tree and the unique reduced path from 0 to 1 is `[e]`.
+- One vertex and no edges is connected and a tree, in both representations.
 - With `V=E=`Empty, preconnectivity holds vacuously, but connectedness and the tree predicate are false; the underlying Graph is also not connected and has no components.
-- `SerreGraph.double_edge_not_tree`: Two vertices joined by two edge pairs `e`, `f` is not a tree (`[e, rev f]` is a reduced closed path): multiple edges are allowed and detected.
-- `SerreGraph.toQuiver_reverse`: Under `toQuiver`, Mathlib's Quiver.reverse of the arrow `e` is `rev e`.
+- Two vertices joined by two edge pairs `e`, `f` is not a tree (`[e, rev f]` is a reduced closed path): multiple edges are allowed and detected.
+- Under `toQuiver`, Mathlib's Quiver.reverse of the arrow `e` is `rev e`.
 - A one-loop rose has one underlying loop and two Serre darts; the paths `[e]` and `[rev e]` have the same forgotten walk but represent opposite generators in §2.2.
 - The graph of two isolated vertices is neither preconnected nor connected, and has two components in both representations; a connectedness hypothesis cannot be inferred from the presence of a basepoint.
 
@@ -392,7 +405,7 @@ Throughout this subsection assume: `Γ` connected (for (2), (3)); for (3), `Γ` 
 (2) Every reduced closed path factors uniquely as a reduced product of the `T`-loops of the edges it crosses outside `T`.
 (3) A finite tree has #`E⁺ =` #`V − 1` (KM02 Lemma 8.2 counts #`E⁺(Γ − T)`).
 
-**Target.** Build the reduced-path group and its spanning-tree presentation here, for arbitrary connected based Serre graphs. `SerreGraph.SpanningTree` consists of a reversal-closed dart subset retaining every vertex whose restricted graph is a tree (`SerreGraph.restrict`); `SerreGraph.exists_spanningTree` gives its existence. `SerreGraph.IsOrientation` chooses one dart of each reversal pair. The representative `SerreGraph.graphRelators` imposes `e·rev(e)=1` for every dart and `e=1` for tree darts; `SerreGraph.GraphPresentation` is the resulting `PresentedGroup`. Prove `SerreGraph.graphPresentation_reducedLoop_bijective`: sending a reduced closed path to its dart word gives a bijection onto this presentation. Transport of concatenation and reversal identifies it with the reduced-path group. Prove `SerreGraph.graphPresentation_free`, with free generators the positive non-tree darts, and `SerreGraph.graphPresentation_rank` for finite graphs, together with finite generation (`SerreGraph.graphPresentation_fg`). The representative rank signature carries the resulting `Group.FG` instance explicitly.
+**Target.** Build the reduced-path group and its spanning-tree presentation here, for arbitrary connected based Serre graphs. `SerreGraph.SpanningTree` consists of a reversal-closed dart subset retaining every vertex whose restricted graph is a tree (`SerreGraph.restrict`); `SerreGraph.exists_spanningTree` gives its existence. `SerreGraph.IsOrientation` chooses one dart of each reversal pair. Define `SerreGraph.graphRelators` to impose `e·rev(e)=1` for every dart and `e=1` for tree darts; `SerreGraph.GraphPresentation` is the resulting `PresentedGroup`. Prove `SerreGraph.graphPresentation_reducedLoop_bijective`: sending a reduced closed path to its dart word gives a bijection onto this presentation. Transport of concatenation and reversal identifies it with the reduced-path group. Prove `SerreGraph.graphPresentation_free`, with free generators the positive non-tree darts, and `SerreGraph.graphPresentation_rank` for finite graphs, together with finite generation (`SerreGraph.graphPresentation_fg`). The rank formula uses the resulting finite-generation instance.
 
 Prove compatibility with based connected subgraph inclusions and with a change of spanning tree. A non-tree dart `e` represents the tree path to `src(e)`, then `e`, then the tree path back. Each finite reduced path lies in a finite connected based subgraph; adjoining its finitely many tree paths gives a finite subgraph with the restricted tree basis. Thus the arbitrary-graph statement agrees with the finite presentations. Native unsigned walks are used only for connectivity (§2.1a); a loop and its reverse remain distinct group elements. `SerreGraph.rose` and `SerreGraph.roseTree` specify the petal and empty-tree examples below; `SerreGraph.parallelGraph` and `SerreGraph.parallelTree` specify the segment, double-edge and theta examples.
 
@@ -451,10 +464,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `StallingsGraph.rose_subgroup_top`: For the rose `R_α` (one vertex, one petal per letter), subgroup `R_α = ⊤`.
-- `StallingsGraph.edge_subgroup_bot`: A tree (for instance one edge labelled a) accepts `⊥` at every vertex.
-- `StallingsGraph.unfolded_reads_nonreduced`: In the unfolded graph with two loops labelled a at `v`, the closed path `a · ā` (first loop, then the reverse of the second) has label `a a⁻¹` although it is a reduced path; so for unfolded graphs reduced paths need not have reduced labels, and the characterisation by reduced paths needs `IsFolded`.
-- `StallingsGraph.subgroup_basepoint`: In the cycle of length 2 labelled a, `b`, the subgroups at the two vertices are `⟨a b⟩` and `⟨b a⟩`: conjugate and distinct, so based equality differs from conjugacy.
+- For the rose `R_α` (one vertex, one petal per letter), subgroup `R_α = ⊤`.
+- A tree (for instance one edge labelled a) accepts `⊥` at every vertex.
+- In the unfolded graph with two loops labelled a at `v`, the closed path `a · ā` (first loop, then the reverse of the second) has label `a a⁻¹` although it is a reduced path; so for unfolded graphs reduced paths need not have reduced labels, and the characterisation by reduced paths needs `IsFolded`.
+- In the cycle of length 2 labelled a, `b`, the subgroups at the two vertices are `⟨a b⟩` and `⟨b a⟩`: conjugate and distinct, so based equality differs from conjugacy.
 
 The rose with petals labelled a, `b` accepts `F(a,b)` at its vertex. A single edge labelled a from `v` to `w ≠ v` accepts the trivial subgroup at `v`.
 
@@ -512,10 +525,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `FreeGroup.stallingsGraph_ab_ac`: `stallingsGraph [a b, a c]` has two vertices and three edge pairs, and accepts `⟨a b, a c⟩`.
-- `FreeGroup.stallingsGraph_nil_bot`: `stallingsGraph []` accepts `⊥`.
-- `FreeGroup.stallingsGraph_a_a2`: `stallingsGraph [a², a³]` is the rose with one petal labelled `a: ⟨a², a³⟩ = ⟨a⟩`.
-- `FreeGroup.stallingsGraph_conj_basepoint`: `stallingsGraph [b a b⁻¹]` is a cycle labelled `a` with a hanging `b`-edge at the base vertex: the core is taken at the base vertex, so a definition removing every degree-one vertex would change the accepted subgroup to `⟨a⟩`.
+- `stallingsGraph [a b, a c]` has two vertices and three edge pairs, and accepts `⟨a b, a c⟩`.
+- `stallingsGraph []` accepts `⊥`.
+- `stallingsGraph [a², a³]` is the rose with one petal labelled `a: ⟨a², a³⟩ = ⟨a⟩`.
+- `stallingsGraph [b a b⁻¹]` is a cycle labelled `a` with a hanging `b`-edge at the base vertex: the core is taken at the base vertex, so a definition removing every degree-one vertex would change the accepted subgroup to `⟨a⟩`.
 
 `stallingsGraph [a b, a c]` has 2 vertices and 3 edge pairs. `stallingsGraph []` is the single vertex with no edges.
 
@@ -562,10 +575,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `StallingsGraph.rank_ab_ac`: rank `⟨a b, a c⟩ = 2` computed from `stallingsGraph [a b, a c]`.
-- `StallingsGraph.rank_bot`: For the one-vertex graph without edges, the basis is empty and the subgroup is `⊥`.
-- `StallingsGraph.rank_a2_a3`: For ws `= [a², a³]` the Stallings graph has rank 1 although ws has two elements: the rank is not the length of the generating list.
-- `StallingsGraph.basisEquiv_compat`: The composition `FreeGroup (E⁺ ∖ T) ≃*` subgroup `Γ v → FreeGroup α` equals `FreeGroup.lift` of the basis words.
+- rank `⟨a b, a c⟩ = 2` computed from `stallingsGraph [a b, a c]`.
+- For the one-vertex graph without edges, the basis is empty and the subgroup is `⊥`.
+- For ws `= [a², a³]` the Stallings graph has rank 1 although ws has two elements: the rank is not the length of the generating list.
+- The composition `FreeGroup (E⁺ ∖ T) ≃*` subgroup `Γ v → FreeGroup α` equals `FreeGroup.lift` of the basis words.
 
 For `Γ(⟨a b, a c⟩)` with `T` the `a`-edge, the basis words are `a b` and `a c` and the rank is `3 − 2 + 1 = 2`. For the index-2 subgroup `⟨a², a b, a b⁻¹⟩` of `F(a,b)` (words of even length) the graph is complete with 2 vertices and 4 edge pairs, and the rank is `4 − 2 + 1 = 3`.
 
@@ -579,7 +592,7 @@ Use [KM02] §6, Lemma 6.1, p. 12, Proposition 6.7 and Corollary 6.8, p. 15; §8,
 
 Define `StallingsGraph.prod` as the pullback of two labelled graphs over the rose: vertices are pairs and an edge is a pair of equally labelled edges, with coordinatewise incidence and reversal. For folded graphs `Γ` and `Δ` the product is folded. Prove `StallingsGraph.prod_subgroup` with both foldedness hypotheses: subgroup (`Γ`.prod `Δ`) `(v,w) =` subgroup `Γ v ⊓` subgroup `Δ w`. For arbitrary labelled graphs assert only containment in that intersection. For folded factors the based core consequently represents the intersection. Its non-tree edges give the free basis of §2.8.
 
-The representatives `LabelledGraph.prod`, `LabelledGraph.prod_accepted_le` and `LabelledGraph.prod_accepted` carry the product, unconditional containment and folded-factor equality. The API includes the two graph projections, preservation of reversal and labels, the accepted-subgroup equality, preservation of foldedness, and compatibility with based cores. Membership in a folded graph is the closed-path criterion of §2.3; index and conjugacy are the complete-graph and type-graph criteria of §§2.7 and 2.11.
+The API includes the two graph projections, preservation of reversal and labels, the accepted-subgroup equality, preservation of foldedness, and compatibility with based cores. Membership in a folded graph is the closed-path criterion of §2.3; index and conjugacy are the complete-graph and type-graph criteria of §§2.7 and 2.11.
 
 **Checks.**
 
@@ -600,6 +613,8 @@ On finite enumerated alphabets, code a finite labelled graph by finite vertex an
 
 ### 2.10 Intersections: product graphs and the Howson property
 
+`fg_inf` in `Suggested.lean` states the Howson conclusion on Mathlib subgroups.
+
 Prove the following statement. For subgroups `H`, `K ≤ FreeGroup α`: the core at the pair of base vertices `(1_H, 1_K)` of the product graph `Γ(H) × Γ(K)` is the subgroup graph of `H ∩ K`; at another pair of vertices `(v, w)` the product graph accepts the intersection of the conjugates of `H` and `K` accepted at `v` and `w`. Consequently (Howson) the intersection of two finitely generated subgroups of a free group is finitely generated, and the non-tree loops of the product-core give a free basis of it.
 
 The product of folded graphs is folded (KM02 Lemma 9.2) and a closed path at `(v, w)` projects to closed paths in both factors; conversely two closed paths with the same reduced label combine (KM02 Proposition 9.4).
@@ -612,6 +627,8 @@ Use [KM02] §9, Lemma 9.2, p. 25, Proposition 9.4, pp. 25–26, Corollaries 9.5�
 *Needs:* §2.9 (Product graphs and subgroup tests as graph criteria); §2.7 (Stallings correspondence: subgroups and based folded core graphs); §2.8 (Explicit free bases and embeddings from a Stallings graph).
 
 ### 2.11 Finite index and the Schreier formula
+
+`rank_sub_one_eq_index_mul` in `Suggested.lean` includes finite generation and the exact integer equality for every finite basis.
 
 Prove the following statement. Let `α` be finite and `H ≤ FreeGroup α`. (1) `H` has finite index if and only if `Γ(H)` is finite and complete (every vertex has an outgoing edge with each label in `α × Bool`), and then H.index `=` #`V(Γ(H))`. (2) (Schreier formula, exact form) If `H` has finite index `i` then `H` is finitely generated and, as integers, Group.rank `H − 1 = i · (|α| − 1)`.
 
@@ -640,7 +657,7 @@ The first-order language of groups with constants for a basis and the dictionary
 
 ### 3.1 The language of groups and its coefficient extensions
 
-Define `FirstOrder.Language.group` as follows. Language.group is the first-order language with one constant symbol one, one unary function symbol `inv` and one binary function symbol `mul`, and no relation symbols. Every group `G` is a Language.group-structure by interpreting the symbols as 1, `x ↦ x⁻¹` and multiplication. For a type A of coefficient names, `L_A :=` Language.group[`[A]`] adds a constant for each `a ∈ A`; a group `G` together with `c : A → G` is an `L_A`-structure. For a coefficient group generated by `A` (in particular `F(A)` with `c =` of), the sentences of `L_A` over `(G, c)` are the sentences of the source's language `L_A`. The theory of groups is the set of the three group axioms as `L`-sentences (representative `groupTheory`).
+Define `FirstOrder.Language.group` as follows. Language.group is the first-order language with one constant symbol one, one unary function symbol `inv` and one binary function symbol `mul`, and no relation symbols. Every group `G` is a Language.group-structure by interpreting the symbols as 1, `x ↦ x⁻¹` and multiplication. For a type A of coefficient names, `L_A :=` Language.group[`[A]`] adds a constant for each `a ∈ A`; a group `G` together with `c : A → G` is an `L_A`-structure. For a coefficient group generated by `A` (in particular `F(A)` with `c =` of), the sentences of `L_A` over `(G, c)` are the sentences of the source's language `L_A`. The theory of groups is the set of the three group axioms as `L`-sentences.
 
 Define the language by its function-symbol family indexed by arity `(0, 1, 2)` and the empty relation family.
 Instances: Group `G` gives `Language.group.Structure G`; a map `c : A → G` gives the constants structure, hence an `L_A`-structure (Mathlib's `constantsOn` structure for `withConstants`).
@@ -656,10 +673,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `FirstOrder.Language.group.realize_comm_false`: The `L_A`-sentence `mul(a,b) = mul(b,a)` is false in `FreeGroup (Fin 2)` with `c =` of: a language with only equality and no constants could not express this.
-- `FirstOrder.Language.group.realize_comm_true`: The same sentence is true in Multiplicative `(Fin 2 → ℤ)` with the standard basis as constants.
-- `FirstOrder.Language.group.trivial_models`: In the trivial group every atomic sentence is true.
-- `FirstOrder.Language.group.models_theory`: Every Group `G` satisfies the theory of groups; for a Language.group-structure satisfying the theory, the induced operations form a group whose structure agrees with `instStructure`.
+- The `L_A`-sentence `mul(a,b) = mul(b,a)` is false in `FreeGroup (Fin 2)` with `c =` of: a language with only equality and no constants could not express this.
+- The same sentence is true in Multiplicative `(Fin 2 → ℤ)` with the standard basis as constants.
+- In the trivial group every atomic sentence is true.
+- Every Group `G` satisfies the theory of groups; for a Language.group-structure satisfying the theory, the induced operations form a group whose structure agrees with `instStructure`.
 
 Every group is a model of the theory of groups; a monoid that is not a group (`ℕ` under addition, with `inv` interpreted arbitrarily) is not. With `A = Fin 2` and `c =` of : `Fin 2 → F(a,b)`, the atomic `L_A`-sentence `mul(a, b) = mul(b, a)` is false in `F(a,b)` and true in `ℤ²` with `c(0) = (1,0)`, `c(1) = (0,1)`.
 
@@ -669,7 +686,7 @@ Use [IFT] §2.3, p. 4: The standard language of group theory has symbols for mul
 
 *Needs:* Mathlib `FirstOrder.Language`; Mathlib `FirstOrder.Language.Structure`; Mathlib `FirstOrder.Language.withConstants`.
 
-The finite-syntax background uses Mathlib's list encodings. For a `Primcodable` coefficient alphabet `A` and variable alphabet `X`, require primitive-recursive validity for terms and for `Σn`,`L_A`.`BoundedFormula X n`, using Mathlib’s encode/decode round trips, with an empty variable alphabet for sentences. Terms agree with Mathlib's existing Encodable instance; formula codes explicitly include the number of bound variables. Substitution with a finite table, renaming along a primitive-recursive map, bound-index shifting, Boolean connectives, quantifiers and prenex forms are primitive recursive on these encodings; a merely computable renaming has only the corresponding computability assertion. Satisfaction follows Mathlib's substitution and prenex theorems in nonempty structures. These are mathematical statements about finite syntax, without an executable decoder or extra encoding instance. Sources: [LEAN] Mathlib/ModelTheory/Encoding.lean, Syntax.lean and Complexity.lean; [IFT] §2.3, pp. 4–5 and §3, Corollaries 2–7, pp. 11–13.
+The finite-syntax background uses Mathlib's list encodings. For a `Primcodable` coefficient alphabet `A` and variable alphabet `X`, require primitive-recursive validity for terms and for `Σn`,`L_A`.`BoundedFormula X n`, using Mathlib’s encode/decode identities, with an empty variable alphabet for sentences. Terms agree with Mathlib's existing Encodable instance; formula codes explicitly include the number of bound variables. Substitution with a finite table, renaming along a primitive-recursive map, bound-index shifting, Boolean connectives, quantifiers and prenex forms are primitive recursive on these encodings; a merely computable renaming has only the corresponding computability assertion. Satisfaction follows Mathlib's substitution and prenex theorems in nonempty structures. These are mathematical statements about finite syntax, without an executable decoder or extra encoding instance. Sources: [LEAN] Mathlib/ModelTheory/Encoding.lean, Syntax.lean and Complexity.lean; [IFT] §2.3, pp. 4–5 and §3, Corollaries 2–7, pp. 11–13.
 
 **Checks.**
 
@@ -682,7 +699,7 @@ The finite-syntax background uses Mathlib's list encodings. For a `Primcodable` 
 
 Define `FirstOrder.Language.group.Term.toWord` as follows. Define `toWord : L_A`.Term `X → FreeGroup (X ⊕ A)` by recursion: var `x ↦` of `(inl x)`, the constant `a ↦` of `(inr a)`, one `↦ 1`, `inv t ↦ (toWord t)⁻¹`, `mul t s ↦ toWord t * toWord s`; and `ofWord : FreeGroup (X ⊕ A) → L_A`.Term `X` sending the reduced word to the left-nested product of letters and inverted letters (the identity to one). An atomic formula `t = s` corresponds to the word equation `toWord t * (toWord s)⁻¹ = 1`.
 
-Structural recursion on terms; `ofWord` by recursion on `toWord` of the element (representative `wordToTerm`).
+Structural recursion on terms; `ofWord` by recursion on `toWord` of the element.
 
 The public interface should expose the following named results:
 
@@ -694,10 +711,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `FirstOrder.Language.group.Term.toWord_conj`: `toWord (mul(inv(a), mul(x, a))) = (of (inr a))⁻¹ * of (inl x) * of (inr a)`.
-- `FirstOrder.Language.group.Term.toWord_one`: `toWord` one `= 1` and `toWord (mul(t, inv t)) = 1` although `mul(t, inv t)` and one are distinct terms.
-- `FirstOrder.Language.group.Term.ofWord_toWord_ne`: `ofWord (toWord (mul(t, inv t))) =` one `≠ mul(t, inv t)`: the correspondence is a bijection up to the group axioms, not on syntax.
-- `FirstOrder.Language.group.Term.realize_lift_compat`: In `G = FreeGroup A` with `c =` of, realize (`v`, of) `t = FreeGroup.lift` (Sum.elim `v` of) `(toWord t)`, i.`e`. substitution of Mathlib `FreeGroup.lift` and substitution.
+- `toWord (mul(inv(a), mul(x, a))) = (of (inr a))⁻¹ * of (inl x) * of (inr a)`.
+- `toWord` one `= 1` and `toWord (mul(t, inv t)) = 1` although `mul(t, inv t)` and one are distinct terms.
+- `ofWord (toWord (mul(t, inv t))) =` one `≠ mul(t, inv t)`: the correspondence is a bijection up to the group axioms, not on syntax.
+- In `G = FreeGroup A` with `c =` of, realize (`v`, of) `t = FreeGroup.lift` (Sum.elim `v` of) `(toWord t)`, i.`e`. substitution of Mathlib `FreeGroup.lift` and substitution.
 
 `toWord (mul(inv(a), mul(x, a))) = a⁻¹ x a`. `toWord (ofWord w) = w` for every `w`.
 
@@ -723,10 +740,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `FreeGroup.EqIneqSystem.solution_commuting`: In `F(a,b)`, `x = a`, `y = a²` solves `([x y x⁻¹ y⁻¹], [x])`.
-- `FreeGroup.EqIneqSystem.empty_system`: The empty system `([], [])` is solved by every assignment.
-- `FreeGroup.EqIneqSystem.ineq_not_eq`: The system `([], [x])` is solved by `x = a` but not by `x = 1`: inequations are not equations, and a definition storing all constraints as equations `w = 1` is wrong.
-- `FreeGroup.EqIneqSystem.isSolution_iff_formula`: `v` solves `(S, T)` iff the conjunction of the atomic formulas (`toWord`-preimages of `S`, negated preimages of `T`) is realized by `(v, c)` in `G`.
+- In `F(a,b)`, `x = a`, `y = a²` solves `([x y x⁻¹ y⁻¹], [x])`.
+- The empty system `([], [])` is solved by every assignment.
+- The system `([], [x])` is solved by `x = a` but not by `x = 1`: inequations are not equations, and a definition storing all constraints as equations `w = 1` is wrong.
+- `v` solves `(S, T)` iff the conjunction of the atomic formulas (`toWord`-preimages of `S`, negated preimages of `T`) is realized by `(v, c)` in `G`.
 
 The system `([x y x⁻¹ y⁻¹], [x])` over `F(a,b)` has the solution `x = a`, `y = a²`. The system `([x a x⁻¹ a⁻¹, x b x⁻¹ b⁻¹], [x])` has no solution in `F(a,b)`: an element commuting with `a` and `b` is trivial.
 
@@ -787,10 +804,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GraphOfGroups.segment_eq_pushout`: For the segment with groups A, `B`, `C` and maps `C → A`, `C → B`, `π₁` is isomorphic to Mathlib's `Monoid.PushoutI` over the two-element index (§4.5).
-- `GraphOfGroups.trivial_groups`: If all vertex and edge groups are trivial, `π₁(𝔸, v)` is the free group `π₁(A, v)` of §2.2.
-- `GraphOfGroups.noninjective_rejected`: Data with a non-injective `ω_e` is not a graph of groups: with `ω_e` non-injective the vertex groups would not embed (the normal form theorem fails).
-- `GraphOfGroups.BS12`: The loop with `A_v = A_e = ℤ = ⟨a⟩`, `α = id`, `ω = ×2` has `π₁ ≅ ⟨a, t | t a² t⁻¹ = a⟩ ≅` BS(1,2), with the convention of §4.2: `e ω_e(c) e⁻¹ = α_e(c)`.
+- For the segment with groups A, `B`, `C` and maps `C → A`, `C → B`, `π₁` is isomorphic to Mathlib's `Monoid.PushoutI` over the two-element index (§4.5).
+- If all vertex and edge groups are trivial, `π₁(𝔸, v)` is the free group `π₁(A, v)` of §2.2.
+- Data with a non-injective `ω_e` is not a graph of groups: with `ω_e` non-injective the vertex groups would not embed (the normal form theorem fails).
+- The loop with `A_v = A_e = ℤ = ⟨a⟩`, `α = id`, `ω = ×2` has `π₁ ≅ ⟨a, t | t a² t⁻¹ = a⟩ ≅` BS(1,2), with the convention of §4.2: `e ω_e(c) e⁻¹ = α_e(c)`.
 
 The segment with vertex groups `ℤ`, `ℤ` and edge group `ℤ` mapped by 2 and 3 is a graph of groups (`π₁` is the torus-knot-type group `⟨x, y | x² = y³⟩`). A one-vertex graph with one loop pair, `A_v = A_e = ℤ`, `α_e = id`, `ω_e = ×2`, is a graph of groups (`π₁ ≅` BS(1,2)).
 
@@ -822,10 +839,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GraphOfGroups.π₁_segment`: `π₁` of the segment with `ℤ ← ℤ → ℤ` by 2 and 3 is `⟨x, y | x² = y³⟩`, whose abelianisation is `ℤ`.
-- `GraphOfGroups.π₁_trivial`: For a single vertex with group `G` and no edges, `π₁ = G`.
-- `GraphOfGroups.π₁_rose_trivial`: For the rose with `n` petals and trivial groups, `π₁` is free of rank `n`.
-- `GraphOfGroups.π₁_tree_relation_needed`: Omitting the relations `e = 1` for `e ∈ T` in (2) adds a free factor of rank #`E⁺(T)`: the presentation must kill tree edges.
+- `π₁` of the segment with `ℤ ← ℤ → ℤ` by 2 and 3 is `⟨x, y | x² = y³⟩`, whose abelianisation is `ℤ`.
+- For a single vertex with group `G` and no edges, `π₁ = G`.
+- For the rose with `n` petals and trivial groups, `π₁` is free of rank `n`.
+- Omitting the relations `e = 1` for `e ∈ T` in (2) adds a free factor of rank #`E⁺(T)`: the presentation must kill tree edges.
 
 For the segment, `π₁(𝔸, T)` is the amalgam `A ∗_C B`. Changing the maximal tree gives isomorphic groups (§4.4).
 
@@ -890,10 +907,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GTree.cayley_hyperbolic`: In the Cayley tree of `F(a,b)`, `ℓ(a b) = 2` and `ℓ(a b a⁻¹) = 1`.
-- `GTree.point_all_elliptic`: On the one-vertex tree every subgroup is elliptic, and every `G`-tree dominates the one-vertex tree.
-- `GTree.inversion_excluded`: The action of `ℤ/2` on the segment swapping its two vertices inverts the edge, so it is not a `G`-tree action; after subdivision it becomes one with an elliptic generator.
-- `GTree.dominates_iff`: `T` dominates `T′` iff every vertex stabilizer of `T` is elliptic in `T′` (checked on the Bass–Serre trees of `A ∗ B` and of the trivial splitting).
+- In the Cayley tree of `F(a,b)`, `ℓ(a b) = 2` and `ℓ(a b a⁻¹) = 1`.
+- On the one-vertex tree every subgroup is elliptic, and every `G`-tree dominates the one-vertex tree.
+- The action of `ℤ/2` on the segment swapping its two vertices inverts the edge, so it is not a `G`-tree action; after subdivision it becomes one with an elliptic generator.
+- `T` dominates `T′` iff every vertex stabilizer of `T` is elliptic in `T′` (checked on the Bass–Serre trees of `A ∗ B` and of the trivial splitting).
 
 `F(a,b)` acting on its Cayley tree: every nontrivial element is hyperbolic. In the Bass–Serre tree of `A ∗_C B`, A and `B` are elliptic and `a b (a ∈ A ∖ C, b ∈ B ∖ C)` is hyperbolic.
 
@@ -920,10 +937,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GraphOfGroups.bassSerreTree_free_product`: For `ℤ ∗ ℤ` the vertex `⟨a⟩` has neighbours `a^k⟨b⟩` for `k ∈ ℤ`, so degree `ℵ₀`.
-- `GraphOfGroups.bassSerreTree_point`: For a one-vertex graph of groups without edges, `X` is a point.
-- `GraphOfGroups.bassSerreTree_BS12`: For BS(1,2) the vertex `A_v` has `1 + 2 = 3` incident edge orbits representatives: index `[A : α(C)] = 1` and `[A : ω(C)] = 2`, so each vertex has degree 3.
-- `GraphOfGroups.bassSerreTree_not_quotient_paths`: Taking all `𝔸`-paths without the relation `≈` gives a graph with a vertex for each element of `A_v` at the base, not a tree with the correct stabilizers.
+- For `ℤ ∗ ℤ` the vertex `⟨a⟩` has neighbours `a^k⟨b⟩` for `k ∈ ℤ`, so degree `ℵ₀`.
+- For a one-vertex graph of groups without edges, `X` is a point.
+- For BS(1,2) the vertex `A_v` has `1 + 2 = 3` incident edge orbits representatives: index `[A : α(C)] = 1` and `[A : ω(C)] = 2`, so each vertex has degree 3.
+- Taking all `𝔸`-paths without the relation `≈` gives a graph with a vertex for each element of `A_v` at the base, not a tree with the correct stabilizers.
 - For two isolated vertices with trivial groups and basepoint at one, `X` and `X/π₁` have one vertex, while A has two; the other vertex group has no based `vertexHom` supplied by §4.2.
 
 For `F(a,b) = ℤ ∗ ℤ` with the segment of trivial edge group, `X` is the tree whose vertices are cosets of `⟨a⟩` and `⟨b⟩`, bipartite with all vertices of infinite degree. For a graph of groups with all groups trivial, `X` is the universal cover of the component of `v₀` in `A`.
@@ -982,11 +999,11 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GraphOfGroups.induced_cyclic`: For `U = ⟨a b⟩` in `⟨a⟩ ∗ ⟨b⟩` the induced splitting on `X_{U,x₀}` is a cycle with two vertices and two edge pairs, all groups trivial: a definition that quotients by the subgroup generated by `a` and `b` separately, or that forgets one vertex orbit, gives a one-vertex loop instead.
-- `GraphOfGroups.induced_vertex_subgroup`: For `U ≤ A_{v₀}`, `U` fixes `x₀`, `X_{U,x₀} = {x₀}`, and the induced splitting is the single vertex `U`.
+- For `U = ⟨a b⟩` in `⟨a⟩ ∗ ⟨b⟩` the induced splitting on `X_{U,x₀}` is a cycle with two vertices and two edge pairs, all groups trivial: a definition that quotients by the subgroup generated by `a` and `b` separately, or that forgets one vertex orbit, gives a one-vertex loop instead.
+- For `U ≤ A_{v₀}`, `U` fixes `x₀`, `X_{U,x₀} = {x₀}`, and the induced splitting is the single vertex `U`.
 - For `U=1` and `S=∅`, `K_S={x₀}` and `X_{U,x₀}/U` has one vertex and no edges, with trivial vertex group; it is not the empty graph.
-- `GraphOfGroups.induced_infinite`: For the commutator subgroup of `F(a,b)` the induced graph is infinite: finiteness needs finite generation.
-- `GraphOfGroups.induced_kurosh`: For `𝔸` with trivial edge groups (a free product), the induced splitting gives the Kurosh decomposition of `U` (§4.11).
+- For the commutator subgroup of `F(a,b)` the induced graph is infinite: finiteness needs finite generation.
+- For `𝔸` with trivial edge groups (a free product), the induced splitting gives the Kurosh decomposition of `U` (§4.11).
 
 For `U = ⟨a b⟩ ≤ ℤ ∗ ℤ = ⟨a⟩ ∗ ⟨b⟩`, `X_{U,x₀}` is the axis of `a b`, on which `a b` translates by two edges, so the induced graph of groups is a cycle with two vertices (one orbit of cosets of `⟨a⟩`, one of `⟨b⟩`) and two edge pairs, all groups trivial, with `π₁ ≅ ℤ`. The commutator subgroup of `F(a,b)` (infinitely generated) has an infinite induced graph on the Cayley tree.
 
@@ -1011,6 +1028,8 @@ Sources: [FOLD] §3, Definition 3.1, Convention 3.2 and Definition 3.3, pp. 8–
 *Needs:* §§4.1–4.3 (graphs of groups, path presentations and normal forms); §4.10 (induced splittings); §2.2 (graph rank); Mathlib `Group.rank`.
 
 ### 4.11 Kurosh subgroup theorem, Grushko–Neumann theorem and Grushko decompositions
+
+`rank_coprod` in `Suggested.lean` states rank additivity for Mathlib’s binary free product, including its finite generation.
 
 Prove the following statement. (1) (Kurosh) Every subgroup `U` of a free product `∗_i G_i` is a free product of a free group and of subgroups `U ∩ g G_i g⁻¹` (one for each double `coset U g G_i` with nontrivial intersection). (2) (Grushko–Neumann) For finitely generated nontrivial `G₁`, `G₂`, rank `(G₁ ∗ G₂) =` rank `G₁ +` rank `G₂`. (3) (Grushko decomposition) Every finitely generated group `G` is a free product `G = G₁ ∗ ⋯ ∗ G_p ∗ F_q` with each `G_i` nontrivial, not `ℤ` and freely indecomposable; `p`, `q` are unique and the `G_i` are unique up to conjugacy and permutation. (4) (Relative version) For a finite family `ℋ` of finitely generated subgroups, the same holds for free decompositions in which every `H ∈ ℋ` is conjugate into some factor, with the `G_i` freely indecomposable relative to the conjugates of `ℋ` they contain. Such a relative factor may be infinite cyclic when it carries a nontrivial peripheral subgroup; only unconstrained cyclic factors are collected into `F_q`. The trees of these decompositions form one deformation space (the Grushko deformation space relative to `ℋ`).
 
@@ -1058,13 +1077,13 @@ The public interface should expose the following named results:
 - `GraphOfGroups.dehnTwist_mul`: `τ_z ∘ τ_w = τ_{z w}`; `τ_1 = id`.
 - `GraphOfGroups.dehnTwist_edge`: `τ_z` fixes the edge group pointwise and preserves the conjugacy class of every elliptic subgroup.
 - `GraphOfGroups.dehnTwistAmalgam_eq_refl_iff`: With the boundary maps injective and `z∈B` centralizing `C`, the amalgam twist is the identity iff `z` is central in `B`. In particular centrality in `G` suffices.
-- `GraphOfGroups.dehnTwistHNN_eq_refl_iff`: With injective associated-subgroup inclusions and `z∈A` centralizing `C₁`, the HNN twist `t↦`tz is the identity iff `z=1`. The representative `dehnTwistHNN_eq_refl_iff` gives this criterion for any automorphism with the prescribed values on A and `t`.
+- `GraphOfGroups.dehnTwistHNN_eq_refl_iff`: With injective associated-subgroup inclusions and `z∈A` centralizing `C₁`, the HNN twist `t↦`tz is the identity iff `z=1`. The criterion applies to any automorphism with the prescribed values on A and `t`.
 
 **Checks.**
 
-- `GraphOfGroups.dehnTwist_one`: `τ_1 = MulEquiv.refl`.
-- `GraphOfGroups.dehnTwist_surface`: On `⟨a₁,b₁⟩ ∗_{c = [a₁,b₁] = [b₂,a₂]} ⟨a₂,b₂⟩`, `τ_c` maps `a₂ ↦ c a₂ c⁻¹` and fixes `a₁`.
-- `GraphOfGroups.dehnTwist_requires_centralizer`: For `z ∈ B` not centralizing `C`, the rule `a ↦ a`, `b ↦ z b z⁻¹` does not respect `c ∈ C` (it sends `c` to both `c` and `z c z⁻¹ ≠ c`), so no homomorphism is defined: the centralizer hypothesis is necessary.
+- `τ_1 = MulEquiv.refl`.
+- On `⟨a₁,b₁⟩ ∗_{c = [a₁,b₁] = [b₂,a₂]} ⟨a₂,b₂⟩`, `τ_c` maps `a₂ ↦ c a₂ c⁻¹` and fixes `a₁`.
+- For `z ∈ B` not centralizing `C`, the rule `a ↦ a`, `b ↦ z b z⁻¹` does not respect `c ∈ C` (it sends `c` to both `c` and `z c z⁻¹ ≠ c`), so no homomorphism is defined: the centralizer hypothesis is necessary.
 - For an amalgam, central `z∈B` gives the identity twist; injectivity of `B` shows that identity forces `z` to commute with all of `B`.
 - For the identity HNN extension `⟨a,t | tat⁻¹=a⟩≅ℤ²`, `z=a` is central but the twist `t↦ta` is nonidentity. Cancellation in `τ_z(t)=t` and injectivity of the base inclusion force `z=1`.
 
@@ -1110,10 +1129,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GroupAlgGeom.eval_commutator`: For `G = FreeGroup (Fin 2)`, `X = Unit`, `eval (fun _ => a ^ 2) (x a x⁻¹ a⁻¹) = 1` and `eval (fun _ => b) (x a x⁻¹ a⁻¹) ≠ 1`.
-- `GroupAlgGeom.GX_empty`: For `X` empty, `G[X] ≅ G` (`Monoid.Coprod G` (`FreeGroup` Empty) with trivial right factor).
-- `GroupAlgGeom.GX_trivial_G`: For `G` trivial, `G[X] ≅ FreeGroup X` and eval agrees with `FreeGroup.lift`.
-- `GroupAlgGeom.GX_not_product`: `G[X]` is not `G × F(X)`: in `G[X]` the elements `inl a` and `inr` (of `x`) do not commute for `a ≠ 1`.
+- For `G = FreeGroup (Fin 2)`, `X = Unit`, `eval (fun _ => a ^ 2) (x a x⁻¹ a⁻¹) = 1` and `eval (fun _ => b) (x a x⁻¹ a⁻¹) ≠ 1`.
+- For `X` empty, `G[X] ≅ G` (`Monoid.Coprod G` (`FreeGroup` Empty) with trivial right factor).
+- For `G` trivial, `G[X] ≅ FreeGroup X` and eval agrees with `FreeGroup.lift`.
+- `G[X]` is not `G × F(X)`: in `G[X]` the elements `inl a` and `inr` (of `x`) do not commute for `a ≠ 1`.
 
 For `G = F(a,b)` and `X = {x}`, the element `x a x⁻¹ a⁻¹ ∈ G[X]` evaluated at `x = a²` is 1. eval is the unique `G`-homomorphism `G[X] → H` sending `x` to `v x`.
 
@@ -1142,10 +1161,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GroupAlgGeom.rad_sq`: Over `G = FreeGroup (Fin 2)` and `X = Unit`, `Rad({x²}) = ncl({x})` while `ncl({x²}) ≠ ncl({x})`: the radical is not the normal closure.
-- `GroupAlgGeom.V_empty`: `V(∅) =` everything and `Rad(∅) = I(X → G)`, which is `⊥` when `G` is a nonabelian free group and `X` finite (`G[X]` is `G`-separated by `G`).
-- `GroupAlgGeom.V_centralizer`: `V({x a x⁻¹ a⁻¹}) =` {`v` | `v ∈` zpowers a} over `F(a,b)` (§1.6).
-- `GroupAlgGeom.rad_abelian`: Over `G = ℤ` (abelian), `Rad({x²}) = ncl(x)` as well, but over `G = ℤ/2`, `V({x²})` is everything and `Rad({x²}) = I(G)`. With `G = F(a,b)` fixed, the radical also depends on the `G`-group `H`: over `H = G × ℤ/2` (coefficients `g ↦ (g, 0)`) the point `x = (1, 1)` solves `x² = 1` and does not satisfy `x = 1`, so `x ∉ Rad_H({x²})` although `x ∈ Rad_G({x²})`. `Rad` must carry the group `H` in which points are taken.
+- Over `G = FreeGroup (Fin 2)` and `X = Unit`, `Rad({x²}) = ncl({x})` while `ncl({x²}) ≠ ncl({x})`: the radical is not the normal closure.
+- `V(∅) =` everything and `Rad(∅) = I(X → G)`, which is `⊥` when `G` is a nonabelian free group and `X` finite (`G[X]` is `G`-separated by `G`).
+- `V({x a x⁻¹ a⁻¹}) =` {`v` | `v ∈` zpowers a} over `F(a,b)` (§1.6).
+- Over `G = ℤ` (abelian), `Rad({x²}) = ncl(x)` as well, but over `G = ℤ/2`, `V({x²})` is everything and `Rad({x²}) = I(G)`. With `G = F(a,b)` fixed, the radical also depends on the `G`-group `H`: over `H = G × ℤ/2` (coefficients `g ↦ (g, 0)`) the point `x = (1, 1)` solves `x² = 1` and does not satisfy `x = 1`, so `x ∉ Rad_H({x²})` although `x ∈ Rad_G({x²})`. `Rad` must carry the group `H` in which points are taken.
 
 Over `G = F(a,b)`, `X = {x}: V({x²}) = {1}` and `Rad({x²}) = ncl(x) ≠ ncl(x²)`, so `G_S ≠ G_{R(S)}`. `V({x a x⁻¹ a⁻¹}) = ⟨a⟩` (the centralizer of a).
 
@@ -1171,10 +1190,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GroupAlgGeom.prod_separated_not_discriminated`: `FreeGroup (Fin 2) × FreeGroup (Fin 2)` is separated by `FreeGroup (Fin 2)` through the two projections, but not discriminated: no homomorphism to a free group keeps both `(1, b)` and `(⁅a, b⁆, 1)` nontrivial, since the image of `(1, b)` would commute with the images of `(a, 1)` and `(b, 1)`, forcing them to commute with each other.
-- `GroupAlgGeom.self_discriminated`: Every `G`-group `H` is `H`-discriminated by itself through the identity.
-- `GroupAlgGeom.Z2_not_separated_by_Z`: `ℤ/2` is not separated by `ℤ (G = 1)`: no nontrivial homomorphism `ℤ/2 → ℤ`.
-- `GroupAlgGeom.free_discriminated_compat`: For `G = 1` and `H` free, `IsDiscriminatedBy K H` is Layer 8's `IsFullyResiduallyFree K` when `H` has rank at least 2.
+- `FreeGroup (Fin 2) × FreeGroup (Fin 2)` is separated by `FreeGroup (Fin 2)` through the two projections, but not discriminated: no homomorphism to a free group keeps both `(1, b)` and `(⁅a, b⁆, 1)` nontrivial, since the image of `(1, b)` would commute with the images of `(a, 1)` and `(b, 1)`, forcing them to commute with each other.
+- Every `G`-group `H` is `H`-discriminated by itself through the identity.
+- `ℤ/2` is not separated by `ℤ (G = 1)`: no nontrivial homomorphism `ℤ/2 → ℤ`.
+- For `G = 1` and `H` free, `IsDiscriminatedBy K H` is Layer 8's `IsFullyResiduallyFree K` when `H` has rank at least 2.
 
 `F × F` (with `G = 1`, `H = F` free nonabelian) is separated but not discriminated by `F`. Every `G`-subgroup of a `G`-group discriminated by `H` is discriminated by `H`.
 
@@ -1195,14 +1214,14 @@ The public interface should expose the following named results:
 - `GroupAlgGeom.IsZeroDivisor`: `x` is a `G`-zero divisor in `H`.
 - `GroupAlgGeom.IsGDomain`: No `G`-zero divisors.
 - `GroupAlgGeom.IsGDomain.mono`: If `H` is a `G`-domain then `H` is a domain (larger conjugating set).
-- `GroupAlgGeom.IsGDomain.of_CSA`: A CSA `H` with a specified embedding of nonabelian `G` is a `G`-domain (ALG Proposition 1).
+- A CSA `H` with a specified embedding of nonabelian `G` is a `G`-domain (ALG Proposition 1).
 
 **Checks.**
 
-- `GroupAlgGeom.free_isDomain`: `FreeGroup (Fin 2)` is a domain.
-- `GroupAlgGeom.abelian_not_domain`: A nontrivial abelian group is not a domain (`x = y` works), so `ℤ` is not a domain although `ℤ` is torsion-free: being a domain is not torsion-freeness.
-- `GroupAlgGeom.trivial_domain`: The trivial group is a domain (no nontrivial elements).
-- `GroupAlgGeom.prod_not_domain`: `F × F` is not a domain: `(a,1)` commutes with every conjugate of `(1,b)`.
+- `FreeGroup (Fin 2)` is a domain.
+- A nontrivial abelian group is not a domain (`x = y` works), so `ℤ` is not a domain although `ℤ` is torsion-free: being a domain is not torsion-freeness.
+- The trivial group is a domain (no nontrivial elements).
+- `F × F` is not a domain: `(a,1)` commutes with every conjugate of `(1,b)`.
 
 A nonabelian free group is a domain (§5.5). `ℤ²` is not a domain: any two nontrivial elements commute.
 
@@ -1243,11 +1262,11 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GroupAlgGeom.union_cyclic_closed`: For `H = G = FreeGroup (Fin 2)`, `X = Unit`: zpowers `a ∪` zpowers `b` is algebraic, cut out by the words `[[x,a], g [x,b] g⁻¹]` for `g ∈ G`.
+- For `H = G = FreeGroup (Fin 2)`, `X = Unit`: zpowers `a ∪` zpowers `b` is algebraic, cut out by the words `[[x,a], g [x,b] g⁻¹]` for `g ∈ G`.
 - For `G=H=1` and `X=Unit` every algebraic set is the singleton ambient space, whereas closure `∅=∅` and `V(I(∅))` is the ambient space. Thus a trivial domain does not satisfy closed iff algebraic or closure `Y=V(I(Y))`.
-- `GroupAlgGeom.zariski_finite_discrete`: For a finite group `H = G` (with `ι` the identity) every subset of `X → H` (`X` finite) is closed, because points are closed and there are finitely many.
-- `GroupAlgGeom.zariski_not_algebraic_abelian`: For `H = G =` Multiplicative `ℤ` (not a domain) and `X = Unit`, the set `{0, 1}` is closed (a union of two points) but not algebraic: every algebraic subset of `ℤ` is `∅`, a point or `ℤ` (the solutions of one linear equation `n x = m`), so the domain hypothesis is necessary.
-- `GroupAlgGeom.zariski_t1_points`: For `H = G`, singletons are closed: `{v} = V({x (v x)⁻¹ | x ∈ X})`; for `G = 1` and `H = FreeGroup (Fin 2)` the closure of {of 0} is all of `H`, so T1 needs coefficients for every point (the coefficient-free counterexample below).
+- For a finite group `H = G` (with `ι` the identity) every subset of `X → H` (`X` finite) is closed, because points are closed and there are finitely many.
+- For `H = G =` Multiplicative `ℤ` (not a domain) and `X = Unit`, the set `{0, 1}` is closed (a union of two points) but not algebraic: every algebraic subset of `ℤ` is `∅`, a point or `ℤ` (the solutions of one linear equation `n x = m`), so the domain hypothesis is necessary.
+- For `H = G`, singletons are closed: `{v} = V({x (v x)⁻¹ | x ∈ X})`; for `G = 1` and `H = FreeGroup (Fin 2)` the closure of {of 0} is all of `H`, so T1 needs coefficients for every point (the coefficient-free counterexample below).
 
 Over `F(a,b)` with `X = {x}`, the set `⟨a⟩ ∪ ⟨b⟩` is closed and algebraic. Over `ℤ²` (not a domain) the topology is still defined but closed sets need not be algebraic.
 
@@ -1266,16 +1285,16 @@ A predicate quantifying over finite variable types and subsets of `G[X]`.
 The public interface should expose the following named results:
 
 - `GroupAlgGeom.IsEquationallyNoetherian`: Every system has a finite subsystem with the same solutions in `H`.
-- `GroupAlgGeom.IsEquationallyNoetherian.exists_finite`: For `S ⊆ G[X]`, a finite `S₀ ⊆ S` with `V S₀ = V S` (existence only, not an algorithm).
+- For `S ⊆ G[X]`, a finite `S₀ ⊆ S` with `V S₀ = V S` (existence only, not an algorithm).
 - `GroupAlgGeom.IsEquationallyNoetherian.subgroup`: `G`-subgroups of `G`-equationally Noetherian groups are `G`-equationally Noetherian.
-- `GroupAlgGeom.IsEquationallyNoetherian.rad_finite`: `Rad_H(S) = Rad_H(S₀)` for the finite subsystem.
+- `Rad_H(S) = Rad_H(S₀)` for the finite subsystem.
 
 **Checks.**
 
-- `GroupAlgGeom.abelian_eqNoetherian`: `ℤ` is equationally Noetherian: every system in one variable over `ℤ` is equivalent to one equation `n x = m`.
-- `GroupAlgGeom.finite_eqNoetherian`: Every finite group is equationally Noetherian.
-- `GroupAlgGeom.eqNoetherian_rank_zero`: With no variables, an inconsistent system is equivalent to a single nontrivial coefficient equation, whereas a consistent system is equivalent to the empty subsystem; nonemptiness is not assumed.
-- `GroupAlgGeom.restrictedProduct_not_eqNoetherian`: The restricted direct product of countably many copies of `FreeGroup (Fin 2)`, as a group over itself, is not equationally Noetherian: the system `{[x, a_n] : n ∈ ℕ}`, with `a_n` the letter a in the `n`-th factor, is equivalent to none of its finite subsystems (ALG Proposition `4(1)`); so the property is not automatic.
+- `ℤ` is equationally Noetherian: every system in one variable over `ℤ` is equivalent to one equation `n x = m`.
+- Every finite group is equationally Noetherian.
+- With no variables, an inconsistent system is equivalent to a single nontrivial coefficient equation, whereas a consistent system is equivalent to the empty subsystem; nonemptiness is not assumed.
+- The restricted direct product of countably many copies of `FreeGroup (Fin 2)`, as a group over itself, is not equationally Noetherian: the system `{[x, a_n] : n ∈ ℕ}`, with `a_n` the letter a in the `n`-th factor, is equivalent to none of its finite subsystems (ALG Proposition `4(1)`); so the property is not automatic.
 
 Abelian groups are equationally Noetherian (ALG Theorem 1). Equivalently the Zariski topology on `H^n` is Noetherian for all `n` (§5.10).
 
@@ -1299,6 +1318,8 @@ Use [ALG] §2.2, p. 20 and the introduction, p. 5: Free groups are linear; the e
 *Needs:* Mathlib `Monoid.CoprodI.lift_injective_of_ping_pong`; Mathlib `FreeGroup.injective_lift_of_ping_pong`; Mathlib `Matrix.SpecialLinearGroup`; Mathlib `FreeGroup`; §2.8 (Explicit free bases and embeddings from a Stallings graph).
 
 ### 5.9 Linear groups are equationally Noetherian; so are free groups of finite rank
+
+`Suggested.lean` states `isEquationallyNoetherian_of_linear` for arbitrary matrix size over a commutative Noetherian ring, and `isEquationallyNoetherian_freeGroup` for every finite basis.
 
 Prove the following statement. If `H` embeds in `GL(n, R)` for a commutative Noetherian ring `R`, then `H` is equationally Noetherian (with coefficients in `H`, hence `G`-equationally Noetherian for every `G ≤ H`). In particular every free group of finite rank, and every finitely generated free group as an `F`-group, is equationally Noetherian.
 
@@ -1329,7 +1350,9 @@ Use [ALG] §3.6, Proposition 10, p. 37; Theorem D1 (introduction p. 9, proof §3
 
 ### 5.11 Irreducibility is discrimination of the coordinate group
 
-Prove the following statement. Let `H` be a `G`-equationally Noetherian `G`-domain, `X` a finite variable type and `Y ⊆ (X → H)` a nonempty closed set. Then `Y` is irreducible if and only if `Γ(Y)` is `G`-discriminated by `H`. Every coordinate `G`-group `Γ(Y)` for nonempty `Y` is `G`-separated by `H`. For systems `S` with `V_H(S)` nonempty, `Rad_H(S)=ncl(S)` if and only if the bundled `G`-group `G_S` is `G`-separated by `H`; a point supplies injectivity of its coefficient map. The representative `radical_eq_normalClosure_iff_separated` uses arbitrary coefficient homomorphisms. For arbitrary `S`, use groups with arbitrary coefficient homomorphisms: `Rad_H(S)=ncl(S)` if and only if the intersection of the kernels of all coefficient-preserving maps `G_S→H` is trivial, including the empty intersection. In particular, for a reducible `Y`, `Γ(Y)` is `G`-separated but not `G`-discriminated by `H`: a radical quotient need not be fully residually `H`.
+`isIrreducible_iff_discriminated` in `Suggested.lean` states the criterion for an arbitrary injective coefficient map into an equationally Noetherian domain and a nonempty closed set.
+
+Prove the following statement. Let `H` be a `G`-equationally Noetherian `G`-domain, `X` a finite variable type and `Y ⊆ (X → H)` a nonempty closed set. Then `Y` is irreducible if and only if `Γ(Y)` is `G`-discriminated by `H`. Every coordinate `G`-group `Γ(Y)` for nonempty `Y` is `G`-separated by `H`. For systems `S` with `V_H(S)` nonempty, `Rad_H(S)=ncl(S)` if and only if the bundled `G`-group `G_S` is `G`-separated by `H`; a point supplies injectivity of its coefficient map. For arbitrary `S`, use groups with arbitrary coefficient homomorphisms: `Rad_H(S)=ncl(S)` if and only if the intersection of the kernels of all coefficient-preserving maps `G_S→H` is trivial, including the empty intersection. In particular, for a reducible `Y`, `Γ(Y)` is `G`-separated but not `G`-discriminated by `H`: a radical quotient need not be fully residually `H`.
 
 Throughout this subsection assume: `H a G`-equationally Noetherian `G`-domain, `X` finite and `Y` nonempty for the irreducibility criterion. For nontrivial `G` the closed/algebraic identification uses §5.6 with that hypothesis; for `G=1` the domain `H` is trivial and the nonempty criterion is the singleton case directly. The empty algebraic set has no points and is not irreducible; its trivial radical quotient, with its arbitrary coefficient map, is outside the bundled `G`-group category when `G` is nontrivial.
 
@@ -1404,7 +1427,7 @@ Sources: [SURFACES] Chapter 6, Definitions 6.1–6.2, pp. 80–83 (polygons, cor
 
 **Target.** Define `SurfaceModel.Move` on polygonal presentations by edge subdivision `e↦uv` (and `rev(e)↦rev(v)rev(u)`, with a new intervening vertex), face splitting `XY↦Xd,d⁻¹Y` along a fresh side, their inverses, incidence relabellings, cyclic changes and reversal of a face orientation. Require the new sides and face occurrences to be fresh, the inverse face split to join distinct faces, and every endpoint to retain the indicated corner incidence. Prove these moves preserve the surface-link condition, orientability and `χ`, and induce boundary-component bijections carrying traversals to their subdivided paths. Use their finite equivalence closure for normal-form existence: every connected model is equivalent to an orientable handle or nonorientable square polygon with one hole block `c_j p_j c_j⁻¹` per boundary component. The connecting arcs `c_j` retain the boundary vertices. The closed orientable genus-zero form is the sphere digon `aa⁻¹`. The nonorientable genus is positive; if `m` is the number of holes, `χ=2−2g−m` or `2−g−m`, respectively.
 
-Prove this normal-form theorem locally, including the elimination of adjacent inverse pairs, vertex and face reductions, and extraction of handles or crosscaps from the paired interior sides. Each reduction is a finite sequence of the specified moves, preserving the marked boundary components. A collapse used only for a group presentation need not be a surface move. The representative signatures `presentation_adjoin_edge` and `presentation_split_face` give the associated algebraic presentation isomorphisms. `SurfaceModel.presentation_normalForm` records the resulting standard group presentation, orientability, boundary count, Euler characteristic and the peripheral comparison of §6.1a.
+Prove this normal-form theorem locally, including the elimination of adjacent inverse pairs, vertex and face reductions, and extraction of handles or crosscaps from the paired interior sides. Each reduction is a finite sequence of the specified moves, preserving the marked boundary components. A collapse used only for a group presentation need not be a surface move. Prove the associated algebraic presentation isomorphisms for edge subdivision and face splitting. `SurfaceModel.presentation_normalForm` records the resulting standard group presentation, orientability, boundary count, Euler characteristic and the peripheral comparison of §6.1a.
 
 **Checks.**
 
@@ -1420,7 +1443,7 @@ Sources: [SURFACES] Chapter 6, Definition 6.3, pp. 84–85 (the two subdivisions
 
 **Target.** For a finite connected based polygonal complex `C` and a spanning tree `T` in its one-skeleton, define `PolygonalComplex.faceRelators` to consist of the reversal and tree relations of §2.2 and the dart word of every face. `PolygonalComplex.FacePresentation` is the corresponding `PresentedGroup`; for a surface model write `SurfaceModel.faceGroup`. Prove `PolygonalComplex.facePresentation_quotient`: this group is the graph path group modulo the normal closure of the based face traversals. Base each face by the tree path to its starting vertex; tree edges disappear in the presentation. Prove `PolygonalComplex.facePresentation_tree_independent`, and compatibility with arbitrary changes of connecting paths, starting corners and orientations. Connecting-path changes conjugate relators and boundary words; orientation reversal inverts them.
 
-Prove subdivision invariance using §6.0b's edge and face isomorphisms. Track every marked boundary traversal through these maps, with composition and inverse compatibility. The representative `SurfaceModel.boundaryWord` sends a boundary circuit to the chosen face presentation. `SurfaceModel.MarksBoundary` requires a bijection from actual boundary components to the standard peripheral indices and takes each circuit to that peripheral element up to conjugacy and inversion. These are combinatorial presented-group results and require no topological fundamental-group comparison. They supply the presentation and peripheral comparison in §6.1a.
+Prove subdivision invariance using §6.0b's edge and face isomorphisms. Track every marked boundary traversal through these maps, with composition and inverse compatibility. Define `SurfaceModel.boundaryWord` to send a boundary circuit to the chosen face presentation. `SurfaceModel.MarksBoundary` requires a bijection from actual boundary components to the standard peripheral indices and takes each circuit to that peripheral element up to conjugacy and inversion. These are combinatorial presented-group results and require no topological fundamental-group comparison. They supply the presentation and peripheral comparison in §6.1a.
 
 **Checks.**
 
@@ -1475,11 +1498,11 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `SurfaceGroup.torus`: `S⁺(1, 0) ≃*` Multiplicative `(Fin 2 → ℤ)`.
-- `SurfaceGroup.projectivePlane`: `S⁻(1, 0)` has order 2.
-- `SurfaceGroup.disc`: `S⁺(0, 1)` is trivial (the relator is `p₁`), and `S⁺(0, 0)` is trivial (the sphere).
-- `SurfaceGroup.pants_free`: `S⁺(0, 3)` is free of rank 2 on `p₁`, `p₂` (`IsFreeGroup` with `FreeGroupBasis`), agreeing with §6.2.
-- `SurfaceGroup.klein_not_torus`: `S⁻(2, 0)` (Klein bottle) has abelianisation `ℤ × ℤ/2` and is not isomorphic to `S⁺(1, 0)` although both have `χ = 0`: the orientability type is part of the data.
+- `S⁺(1, 0) ≃*` Multiplicative `(Fin 2 → ℤ)`.
+- `S⁻(1, 0)` has order 2.
+- `S⁺(0, 1)` is trivial (the relator is `p₁`), and `S⁺(0, 0)` is trivial (the sphere).
+- `S⁺(0, 3)` is free of rank 2 on `p₁`, `p₂` (`IsFreeGroup` with `FreeGroupBasis`), agreeing with §6.2.
+- `S⁻(2, 0)` (Klein bottle) has abelianisation `ℤ × ℤ/2` and is not isomorphic to `S⁺(1, 0)` although both have `χ = 0`: the orientability type is part of the data.
 
 `S⁺(1, 0) ≅ ℤ² (χ = 0)`; `S⁻(1, 0) ≅ ℤ/2` (the projective plane, `χ = 1`); `S⁺(0, 3)` is free of rank 2 with `p₃ = (p₁ p₂)⁻¹` (pair of pants, `χ = −1`). `S⁺(2, 0)` is the genus-two surface group, `χ = −2`.
 
@@ -1552,6 +1575,8 @@ Use [GL-JSJ] §5.1, Definition 5.1, p. 42: The Euler characteristic of a compact
 
 ### 6.5 Quadratic words, standard quadratic equations and their solutions
 
+`Suggested.lean` represents the four shapes by `StandardQuadratic`, with variables `QuadraticVars`, atoms `quadraticAtoms` and left side `StandardQuadratic.toWord` on the native free product.
+
 Define `GroupAlgGeom.Quadratic.IsQuadratic` as follows. Let `G` be a group and `S ⊆ G[X]`. `S` is quadratic when every variable occurring in `S` occurs at most twice (as `x` or `x⁻¹`) in the reduced forms of the elements of `S`, and strictly quadratic when exactly twice. A standard quadratic equation over `G` is one of: (1) `∏_{i=1}^{n} [x_i, y_i] = 1`, `n > 0`; (2) `∏_{i=1}^{n} [x_i, y_i] ∏_{j=1}^{m} z_j⁻¹ c_j z_j d = 1`, `n`, `m ≥ 0`, `n + m ≥ 1`; (3) `∏_{i=1}^{n} x_i² = 1`, `n > 0`; (4) `∏_{i=1}^{n} x_i² ∏_{j=1}^{m} z_j⁻¹ c_j z_j d = 1`, `n > 0`, `m ≥ 0`, with `d`, `c_j` nontrivial elements of `G`; types (1)–(2) are orientable and (3)–(4) non-orientable of genus `n`. Atoms are `[x, y]`, `x²`, `z⁻¹ c z`; the atomic rank `r(S)` is the number of atoms. A solution `φ` of a standard equation written `r₁ ⋯ r_k d = 1 (k ≥ 2)` is degenerate if some `r_i^φ = 1`, commutative if `[r_i^φ, r_{i+1}^φ] = 1` for all `i`, and in general position if `[r_i^φ, r_{i+1}^φ] ≠ 1` for all `i`. `S` is consistent when it has a solution in `G`.
 
 Predicates on elements of `G[X]` (occurrence counts in the reduced form of `Monoid.Coprod` words) and an inductive description of the four standard shapes. The orientation case split uses type (2) for every standard coefficient-conjugacy word with no squares or commutators, and types (3)–(4) only for positive square genus. In particular `GroupAlgGeom.Quadratic.Standard` carries `n > 0` in its type-(4) constructor. This disambiguates the overlapping zero-square notation in [IFT] Definition 3 before forming a surface or basic sequence.
@@ -1570,12 +1595,12 @@ The public interface should expose the following named results:
 **Checks.**
 
 - Over `F(a,b)`, `z₁⁻¹ a z₁ · z₂⁻¹ b z₂ · z₃⁻¹ a z₃ · (aba)⁻¹ = 1` has solution `(1,1,1)`, noncommuting adjacent atom values `a`,`b`,a and `κ=4`, hence is regular. It is type (2), `n=0`,`m=3`: its surface is `S⁺(0,4)`, with `χ=−2`, and §11.3 uses the conjugacy-only orientable sequence of length 2. It is excluded from type (4) and the mixed one-square or two-square branches.
-- `GroupAlgGeom.Quadratic.isStandard_x2y2z2`: `x² y² z² = 1` is standard of type (3) with genus 3 and atomic rank 3.
-- `GroupAlgGeom.Quadratic.not_quadratic_cubic`: `x y x⁻¹ y⁻¹ x = 1` is not quadratic, although it has length 5 and only two variables.
-- `GroupAlgGeom.Quadratic.commutator_solution_degenerate`: For `[x₁,y₁][x₂,y₂] = 1` the solution `x_i = y_i = 1` is degenerate and commutative.
-- `GroupAlgGeom.Quadratic.genus2_no_general_position`: In `F(a,b)`, `x₁ = a`, `y₁ = b`, `x₂ = b`, `y₂ = a` solves `[x₁,y₁][x₂,y₂] = 1` but is commutative: `r₂ = [b,a] = r₁⁻¹`. Indeed every solution of this equation has `r₂^φ = (r₁^φ)⁻¹`, so it has no solution in general position (IFT Theorem 1 needs `n > 2` for type (1)); a definition of general position that ignored the order of the atoms would wrongly accept it.
-- `GroupAlgGeom.Quadratic.genus3_general_position`: In `F(a,b)`, `x₁ = a`, `y₁ = b`, `x₂ = b`, `y₂ = a²`, `x₃ = a`, `y₃ = a⁻¹ b a` solves `[x₁,y₁][x₂,y₂][x₃,y₃] = 1` (`[a,b][b,a²] = [a⁻¹ b a, a]`, and `r₃ = [a, a⁻¹ b a]` is its inverse) and is in general position: `[a,b]` and `[b,a²]` do not commute, nor do `[b,a²]` and `r₃ = ([a,b][b,a²])⁻¹`.
-- `GroupAlgGeom.Quadratic.strict_conjugate_inconsistent`: `z⁻¹ c z = 1` with `c ≠ 1` is strictly quadratic but inconsistent. It is not a standard equation under the nontrivial-`d` convention; it normalizes to the coefficient-only equation `c=1`. The representative `conjugate_coeff_algSet_eq_empty` states its empty solution set.
+- `x² y² z² = 1` is standard of type (3) with genus 3 and atomic rank 3.
+- `x y x⁻¹ y⁻¹ x = 1` is not quadratic, although it has length 5 and only two variables.
+- For `[x₁,y₁][x₂,y₂] = 1` the solution `x_i = y_i = 1` is degenerate and commutative.
+- In `F(a,b)`, `x₁ = a`, `y₁ = b`, `x₂ = b`, `y₂ = a` solves `[x₁,y₁][x₂,y₂] = 1` but is commutative: `r₂ = [b,a] = r₁⁻¹`. Indeed every solution of this equation has `r₂^φ = (r₁^φ)⁻¹`, so it has no solution in general position (IFT Theorem 1 needs `n > 2` for type (1)); a definition of general position that ignored the order of the atoms would wrongly accept it.
+- In `F(a,b)`, `x₁ = a`, `y₁ = b`, `x₂ = b`, `y₂ = a²`, `x₃ = a`, `y₃ = a⁻¹ b a` solves `[x₁,y₁][x₂,y₂][x₃,y₃] = 1` (`[a,b][b,a²] = [a⁻¹ b a, a]`, and `r₃ = [a, a⁻¹ b a]` is its inverse) and is in general position: `[a,b]` and `[b,a²]` do not commute, nor do `[b,a²]` and `r₃ = ([a,b][b,a²])⁻¹`.
+- `z⁻¹ c z = 1` with `c ≠ 1` is strictly quadratic but inconsistent. It is not a standard equation under the nontrivial-`d` convention; it normalizes to the coefficient-only equation `c=1`.
 
 `x² y² z² = 1` is standard of type (3), genus 3, `r(S) = 3`. `x y x⁻¹ y⁻¹ x = 1` is not quadratic (`x` occurs three times).
 
@@ -1604,6 +1629,8 @@ Sources: [IFT] §2.7, Definitions 2–3 and Lemma 1, p. 8; [VAR-I] §1, Lemma 6,
 
 ### 6.7 Regular standard quadratic equations
 
+`StandardQuadratic.IsRegular` in `Suggested.lean` uses this consistency condition and equivalent formulation, including the closed genus-two clause.
+
 Define `GroupAlgGeom.Quadratic.kappa` as follows. Let `S = 1` be a standard quadratic equation over a nonabelian freely discriminated group `G` (written `r₁ ⋯ r_k d = 1`). Put `κ(S) = |X| + ε(S)`, with `ε(S) = 1` when the coefficient `d` occurs and 0 otherwise. Require `S` to have a solution in `G`. Within this consistent class `S = 1` is regular when it is `[x, y] = d` with `d ≠ 1`, or `[x₁, y₁][x₂, y₂] = 1`, or `r(S) ≥ 2`, `S` has a non-commutative solution and `S` is not of one of the types `c₁^{z₁} c₂^{z₂} = c₁ c₂`, `x² c^z = a² c`, `x₁² x₂² = a₁² a₂²`. Equivalently, `S` is regular precisely when it is consistent and `κ(S) ≥ 4` and `S` has a non-commutative solution in `G`, or `S` is `[x, y] d = 1 (d ≠ 1)`, or `S` is `[x₁, y₁][x₂, y₂] = 1`; the last clause is needed because that equation has `κ = 4` but only commutative solutions `(r₂^φ = (r₁^φ)⁻¹)`, which `IFT's` equivalent formulation overlooks (see the genus-two exception below).
 
 A predicate combining the shape of `S` with the existence of a non-commutative solution.
@@ -1613,14 +1640,14 @@ The public interface should expose the following named results:
 - `GroupAlgGeom.Quadratic.kappa`: `κ(S) = |X| + ε(S)`.
 - `GroupAlgGeom.Quadratic.IsRegular`: The regularity predicate.
 - `GroupAlgGeom.Quadratic.isRegular_iff`: `IsRegular S ↔ S` is consistent and ((`κ S ≥ 4 ∧ ∃` non-commutative solution) `∨ S` is `[x, y] d = 1` with `d ≠ 1 ∨ S` is `[x₁, y₁][x₂, y₂] = 1`).
-- `GroupAlgGeom.Quadratic.IsRegular.of_genus`: Consistent orientable equations of positive genus other than `[x, y] = 1` are regular (IFT Corollary `1(1)`).
+- Consistent orientable equations of positive genus other than `[x, y] = 1` are regular (IFT Corollary `1(1)`).
 
 **Checks.**
 
-- `GroupAlgGeom.Quadratic.isRegular_genus2`: `[x₁,y₁][x₂,y₂] = 1` over `F(a,b)` is regular, by its explicit clause: all its solutions are commutative, so a definition by ‘`κ ≥ 4` and a non-commutative solution’ alone would reject it.
-- `GroupAlgGeom.Quadratic.not_isRegular_comm`: `[x, y] = 1` is consistent and orientable of genus 1 but not regular: all its solutions commute.
-- `GroupAlgGeom.Quadratic.not_isRegular_lyndon`: `x₁² x₂² x₃² = 1` has `κ = 3` and only commutative solutions in a free group (Lyndon), so it is not regular; a definition by genus alone would wrongly accept it.
-- `GroupAlgGeom.Quadratic.isRegular_xy_d`: A consistent equation `[x, y] = d` with `d ≠ 1 (κ = 3)` is regular by the explicit clause. In `F(a,b)`, `[x,y]=[a,b]` qualifies, while `[x,y]=a` is inconsistent and is excluded even though its constant is nontrivial.
+- `[x₁,y₁][x₂,y₂] = 1` over `F(a,b)` is regular, by its explicit clause: all its solutions are commutative, so a definition by ‘`κ ≥ 4` and a non-commutative solution’ alone would reject it.
+- `[x, y] = 1` is consistent and orientable of genus 1 but not regular: all its solutions commute.
+- `x₁² x₂² x₃² = 1` has `κ = 3` and only commutative solutions in a free group (Lyndon), so it is not regular; a definition by genus alone would wrongly accept it.
+- A consistent equation `[x, y] = d` with `d ≠ 1 (κ = 3)` is regular by the explicit clause. In `F(a,b)`, `[x,y]=[a,b]` qualifies, while `[x,y]=a` is inconsistent and is excluded even though its constant is nontrivial.
 
 `[x₁,y₁][x₂,y₂] = 1` is regular; `[x, y] = 1` is not; `x₁² x₂² x₃² = 1` is not (all its solutions commute, Lyndon).
 
@@ -1632,9 +1659,11 @@ Use [IFT] §2.7, Definition 6 and the remark after it, p. 9: Definition of regul
 
 ### 6.8 Radicals of consistent standard quadratic equations
 
+`radical_regular_quadratic` in `Suggested.lean` states equality with the defining normal closure for the regular subclass over every nonabelian fully residually free coefficient group.
+
 Prove the following statement. Let `G` be freely discriminated (fully residually free and nonabelian) and `S = 1` a standard quadratic equation over `G` with a solution in `G`. Then: (1) for `S = [x, y] d` or `[x₁, y₁][x₂, y₂]`, `R(S) = ncl(S)`; (2) for `S = x² d`, `R(S) = ncl(x b)` where `b² = d`; (3) for `S = c^z d`, `R(S) = ncl({[z b⁻¹,h] : h∈C_G(c)})` where `d⁻¹ = c^b`; the single-relator formula holds when `C_G(c)=⟨c⟩`; (4) for `S = x₁² x₂²`, `R(S) = ncl(x₁x₂)`; (5) for `S = x₁² x₂² x₃²`, `R(S) = ncl(x₁x₂x₃, [x₁,x₂], [x₁,x₃], [x₂,x₃])`; (6) if `r(S) ≥ 2` and `S` has a non-commutative solution, `R(S) = ncl(S)`; (7) if all solutions of `S` are commutative and `S` is either of type (4) or of type (2) with `n=0`, `R(S)` is the normal closure of the system consisting of `x₁⋯x_n = s₁⋯s_n`, pairwise commutators of the `x_k` and of `u_i := a_i⁻¹z_i`, the mixed commutators `[u_i,x_k]`, and `[x_k,C]`, `[u_i,C]`, where `(s,a)` is a fixed solution and `C = C_G(c₁^{a₁},…,c_m^{a_m},s₁,…,s_n)`, and `G_{R(S)}` is an extension of a centralizer. In addition (general position) the equation has a solution in general position in the cases listed in IFT Theorem 1 (type (1) with `n > 2`, type (2) with `n > 0` and `n + m > 1`, type (3) with `n > 3`, type (4) with `n > 2`, and `r(S) ≥ 2` with a non-commutative solution).
 
-Throughout this subsection assume: `G` nonabelian freely discriminated; `S` consistent over `G` (has a solution in `G`). The representative `radical_conjugacy_eq` carries these coefficient hypotheses and the specified conjugator for case (3).
+Throughout this subsection assume: `G` nonabelian freely discriminated; `S` consistent over `G` (has a solution in `G`). Case (3) uses these coefficient hypotheses and the specified conjugator.
 
 VAR-I §§2–3 treat the standard types one by one (Propositions 3–8), using discrimination by big powers (§8.5a) and Lemma 9. For (3), set `t=z b⁻¹`: every solution centralizes all of `C_G(c)` by commutative transitivity. The quotient with these full-centralizer relations is `G(c,ℤ)`, discriminated by §8.6, which gives the reverse radical inclusion. VAR-I §3, Form 2, p. 28 distinguishes `C_G(c)=⟨c⟩` from the larger-centralizer case; IFT Theorem `2(3)` omits those additional relations.
 The general-position statement is VAR-I Theorem 1 as recalled in IFT Theorem 1. For (4), uniqueness of square roots gives `x₂=x₁⁻¹`, and the quotient by `x₁x₂` is `G∗ℤ`. For (5), Lyndon’s three-squares theorem gives pairwise commutation, and torsion-freeness then gives `x₁x₂x₃=1`; the resulting quotient is `G∗ℤ²`. These quotients are `G`-discriminated by centralizer-extension embeddings (VAR-I Lemma 16, p. 28; §8.6), giving the reverse radical inclusions. The commutators alone printed in IFT Theorem `2(4)`–(5), p. 9, do not contain the original equation, so those two formulas require the product relations stated here.
@@ -1683,10 +1712,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GTree.isQH_surface_vertex`: In `F(a,b) ∗_{a ~ [x,y]⁻¹} F(x, y)` the vertex `F(x, y) = S⁺(1, 1)` is QH with one used boundary component.
-- `GTree.not_isQH_abelian`: A vertex with stabilizer `ℤ²` is not QH: it is not a hyperbolic surface group; `χ`(torus)`=0`, so a definition omitting `χ<0` would accept it.
-- `GTree.not_isQH_unbounded_edge`: An incident edge subgroup not contained in a boundary conjugate (for instance the subgroup of a non-peripheral essential curve) violates the QH condition for the specified surface data.
-- `GTree.isQH_pants_degenerate`: A pair-of-pants vertex `S⁺(0, 3)` with its three boundary subgroups as incident edge groups is QH `(χ = −1)` but admits no essential simple closed curve, so its dual splittings are trivial.
+- In `F(a,b) ∗_{a ~ [x,y]⁻¹} F(x, y)` the vertex `F(x, y) = S⁺(1, 1)` is QH with one used boundary component.
+- A vertex with stabilizer `ℤ²` is not QH: it is not a hyperbolic surface group; `χ`(torus)`=0`, so a definition omitting `χ<0` would accept it.
+- An incident edge subgroup not contained in a boundary conjugate (for instance the subgroup of a non-peripheral essential curve) violates the QH condition for the specified surface data.
+- A pair-of-pants vertex `S⁺(0, 3)` with its three boundary subgroups as incident edge groups is QH `(χ = −1)` but admits no essential simple closed curve, so its dual splittings are trivial.
 - `S⁺(2,0)×ℤ` at a point vertex does not satisfy this surface QH interface: its nontrivial center prevents it from being a hyperbolic surface group. Its projection to `S⁺(2,0)` has infinite fiber and is QH in the broader orbifold-extension definition, which is outside this interface.
 
 In the splitting of §6.9, the surface vertex is QH with `Σ` of genus `n` and `m+1` boundary components, all used. A vertex group `ℤ²` is never QH.
@@ -1726,11 +1755,11 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `FreeGroup.GenEq.fig2_solution`: The generalised equation of IFT Fig. 2 has the solution read off the cancellation tree there (`h₃ = b`, `h₄ = a`, `h₉ = a`, `h₁₀ = b` and the corresponding variable items).
-- `FreeGroup.GenEq.empty`: The generalised equation with `ρ = 0` and no bases has exactly one solution (the empty tuple).
-- `FreeGroup.GenEq.items_nonempty`: Assigning the empty word to an item is not a solution: items are nonempty, which is how inequations `w ≠ 1` are encoded (§7.2).
-- `FreeGroup.GenEq.graphical_vs_group`: For the basic equation `h₁ h₂ = h₃` with `U = (a, a⁻¹ b, b)`, the group equation holds but `U₁U₂ = a a⁻¹ b` is not reduced as written, so `U` is a group solution and not a solution.
-- `FreeGroup.GenEq.coordGroup_compat`: `coordGroup Ω` is Layer 5's `coordGroup` of the system `toSystem Ω` over `G = FreeGroup A`.
+- The generalised equation of IFT Fig. 2 has the solution read off the cancellation tree there (`h₃ = b`, `h₄ = a`, `h₉ = a`, `h₁₀ = b` and the corresponding variable items).
+- The generalised equation with `ρ = 0` and no bases has exactly one solution (the empty tuple).
+- Assigning the empty word to an item is not a solution: items are nonempty, which is how inequations `w ≠ 1` are encoded (§7.2).
+- For the basic equation `h₁ h₂ = h₃` with `U = (a, a⁻¹ b, b)`, the group equation holds but `U₁U₂ = a a⁻¹ b` is not reduced as written, so `U` is a group solution and not a solution.
+- `coordGroup Ω` is Layer 5's `coordGroup` of the system `toSystem Ω` over `G = FreeGroup A`.
 
 The generalised equation of IFT Fig. 2 has ten items `h₁`, `…`, `h₁₀`, eleven boundaries, basic equations `h₁ = h₇`, `h₂ = h₈`, `h₅ = h₆`, `h₁h₂h₃h₄ = h₆h₇`, `h₅ = h₈h₉h₁₀` and coefficient equations `h₃ = b`, `h₄ = a`, `h₉ = a`, `h₁₀ = b`. A generalised equation with a solution is formally consistent (IFT Lemma `12(1)`).
 
@@ -1812,6 +1841,8 @@ Sources: [IFT] §5.3–§5.5, pp. 35–58 (the tree `T(Ω)`, periodized equation
 
 ### 7.7 Satisfiability and small constrained examples
 
+`satisfiability_recursive` in `Suggested.lean` states computability of `HasConstrainedSolution` on `SystemCode`. These native finite-list codes carry equations, inequations and sub-basis constraints, uniformly in the number of occurring variables.
+
 For finite A and `X`, state the recursive decidability of the set of finite equation–inequation systems over `F(A)` having a solution, also with each variable restricted to the subgroup on a specified sub-basis. This target is the mathematical decidability theorem `FreeGroup.satisfiability_recursive`, grounded in the length-bound theorem of §7.6. Correctness means the recursive set is exactly `{s | ∃v, s.IsSolution FreeGroup.of v}`, with the subgroup constraints included in the existential quantifier.
 
 **Checks.**
@@ -1860,6 +1891,8 @@ Use [IFT] §3.1, Definition 7 and Lemma 3, pp. 10–11; Corollaries 2–6 and Le
 *Needs:* §1.8 (Maximal cyclic subgroups are malnormal; free groups are CSA); §3.4 (Quantifier-free formulas are finite disjunctions of systems); Mathlib substitution and prenex semantics; §1.7 (CSA groups and commutation transitivity).
 
 ### 7.10 Merzljakov's theorem: formal solutions of positive sentences
+
+`merzljakov` in `Suggested.lean` states the formal-solution theorem with the prefix dependence expressed by subgroup membership and by the equivalent prefix dependence of Skolem witnesses.
 
 Prove the following statement. Let `F = F(A)` be a nonabelian free group of finite rank and `S(X, Y, A) = 1` an equation with `X = (x₁, …, x_k)`, `Y = (y₁, …, y_k)`. If `F ⊨ ∀x₁∃y₁ … ∀x_k∃y_k (S(X, Y, A) = 1)`, then there are words `q₁(x₁)`, `q₂(x₁, x₂)`, `…`, `q_k(x₁, …, x_k)` with `q_i ∈ F[x₁, …, x_i]` (the free product `F ∗ F(x₁, …, x_i)`) such that `S(x₁, q₁(x₁), …, x_k, q_k(x₁, …, x_k), A) = 1` in `F[X]`: the equation has a solution in the free group `F[X]` whose `i`-th component depends only on `x₁`, `…`, `x_i`.
 
@@ -1913,16 +1946,16 @@ The public interface should expose the following named results:
 - `LimitGroup.IsResiduallyFree`: Residually free.
 - `LimitGroup.IsFullyResiduallyFree`: Fully residually free.
 - `LimitGroup.IsFullyResiduallyFree.isResiduallyFree`: Full residual freeness implies residual freeness.
-- `LimitGroup.IsFullyResiduallyFree.of_injective`: Subgroups (injective homomorphisms into) of fully residually free groups are fully residually free.
+- Subgroups (injective homomorphisms into) of fully residually free groups are fully residually free.
 - `LimitGroup.isFullyResiduallyFree_iff_discriminatedBy`: `IsFullyResiduallyFree G ↔ G` is discriminated by `FreeGroup (Fin 2)` (Layer 5 with trivial coefficient group), for countable `G`.
 
 **Checks.**
 
-- `LimitGroup.free_prod_int_not_frf`: `FreeGroup (Fin 2) ×` Multiplicative `ℤ` is residually free and not fully residually free.
-- `LimitGroup.zn_frf`: Multiplicative `(Fin n → ℤ)` is fully residually free (discriminate by maps to `ℤ`).
-- `LimitGroup.trivial_frf`: The trivial group is fully residually free (the condition is vacuous).
-- `LimitGroup.Z2_not_rf`: `ℤ/2` is not residually free (free groups are torsion-free).
-- `LimitGroup.closed_surface_frf`: `S⁺(2, 0)` is fully residually free (Baumslag), while `S⁻(3, 0)` (relator `x² y² z²`) is not even residually free: by Lyndon's theorem every homomorphism to a free group kills `⁅x, y⁆ ≠ 1`.
+- `FreeGroup (Fin 2) ×` Multiplicative `ℤ` is residually free and not fully residually free.
+- Multiplicative `(Fin n → ℤ)` is fully residually free (discriminate by maps to `ℤ`).
+- The trivial group is fully residually free (the condition is vacuous).
+- `ℤ/2` is not residually free (free groups are torsion-free).
+- `S⁺(2, 0)` is fully residually free (Baumslag), while `S⁻(3, 0)` (relator `x² y² z²`) is not even residually free: by Lyndon's theorem every homomorphism to a free group kills `⁅x, y⁆ ≠ 1`.
 
 `F₂ × ℤ` is residually free and not fully residually free (not commutative transitive). `ℤⁿ` and free groups are fully residually free.
 
@@ -1958,14 +1991,14 @@ The public interface should expose the following named results:
 - `LimitGroup.MarkedGroup.compactSpace`: `𝒢_n` is compact (and totally disconnected).
 - `LimitGroup.MarkedGroup.ofMarking`: The point of `𝒢_n` given by a generating `n`-tuple of a group.
 - `LimitGroup.IsLimitGroup`: `G` finitely generated and some marking is a limit of markings of free groups.
-- `LimitGroup.IsLimitGroup.marking_independent`: If one marking of `G` is a limit of free markings then every marking is.
+- If one marking of `G` is a limit of free markings then every marking is.
 
 **Checks.**
 
-- `LimitGroup.Z2_isLimitGroup`: Multiplicative `(Fin 2 → ℤ)` is a limit group: the markings `(ℤ, (1, k))` converge to its marking as `k → ∞`.
-- `LimitGroup.free_isLimitGroup`: Every free group of finite rank is a limit group (constant sequence).
-- `LimitGroup.finite_not_limit`: `ℤ/2` is not a limit group: its marking is isolated from free markings (a relator `a²` survives in a neighbourhood but holds in no nontrivial free marking).
-- `LimitGroup.marked_topology_compat`: Convergence in `𝒢_n` is pointwise convergence of the indicator functions of the kernels.
+- Multiplicative `(Fin 2 → ℤ)` is a limit group: the markings `(ℤ, (1, k))` converge to its marking as `k → ∞`.
+- Every free group of finite rank is a limit group (constant sequence).
+- `ℤ/2` is not a limit group: its marking is isolated from free markings (a relator `a²` survives in a neighbourhood but holds in no nontrivial free marking).
+- Convergence in `𝒢_n` is pointwise convergence of the indicator functions of the kernels.
 
 The 2-markings `(ℤ, (1, k))` of `ℤ` converge, as `k → ∞`, to the marking of `ℤ² = ⟨x, y | [x, y]⟩: a` fixed word dies for all large `k` iff both its exponent sums vanish. Finite non-trivial groups are isolated from free groups' markings and are not limit groups.
 
@@ -1976,6 +2009,8 @@ Use [LIMITS] §2.1, Definition 2.1, p. 8, and Definition 2.4, p. 12: The set of 
 *Needs:* Mathlib `FreeGroup`; Mathlib `Subgroup.normalClosure`.
 
 ### 8.4 Limit groups are the finitely generated fully residually free groups
+
+`Suggested.lean` states `isLimitGroup_iff` for the marked-limit characterization and `discriminated_iff_irreducible_coordinate_group` for the coefficient-preserving characterization by a finite irreducible system.
 
 Prove the following statement. For a finitely generated group `G` the following are equivalent: (1) `G` is a limit group (§8.3); (2) `G` is fully residually free; (3) `G` has the same universal theory as some free group (in the language of groups without constants; as `F₂` when `G` is nonabelian, as `ℤ` when `G` is nontrivial abelian; for the trivial group, the free group of rank zero). Separately, for an `F`-group `G` (`F ≤ G` free nonabelian of finite rank, `G` finitely generated as an `F`-group), the following two relative conditions are equivalent to each other: (4) `G` is `F`-discriminated by `F`; (5) `G` is `F`-isomorphic to the coordinate group `F_{R(S)}` of an irreducible nonempty algebraic set over `F`, with `S` a finite system (by equational Noetherianity).
 
@@ -1994,7 +2029,7 @@ Use [LIMITS] §1, Theorem 1.1 and the remark following it, p. 4: Equivalence of:
 
 ### 8.5 Extensions of centralizers and iterated extensions
 
-Define `LimitGroup.centralizerExt` as follows. For a group `G`, `u∈G` and `n∈ℕ`, the extension is `G(u,ℤⁿ):=G∗_{C_G(u)}(C_G(u)×ℤⁿ)`, using the full centralizer. For `n=1` it is the HNN extension `⟨G,t | [c,t]=1, c∈C_G(u)⟩`; `n=0` gives `G`. This construction is unrestricted. Separately, `LimitGroup.IsAdmissibleCentralizerStep` requires `u≠1`, `u` not a proper power, and `n>0` (the representative `IsAdmissibleCentralizerStep` uses these three conditions). In a nonabelian fully residually free lower group, `C_G(u)` is then maximal abelian. An ICE group over a nonabelian free group `F` is a finite chain `F=G₀<G₁<⋯<G_m` with `G_{i+1}=G_i(u_i,ℤ^{n_i})` and every step admissible. The empty chain is permitted; positive rank makes every displayed step strict. §8.6 reduces any nonidentity parameter to a non-proper-power with the same full centralizer.
+Define `LimitGroup.centralizerExt` as follows. For a group `G`, `u∈G` and `n∈ℕ`, the extension is `G(u,ℤⁿ):=G∗_{C_G(u)}(C_G(u)×ℤⁿ)`, using the full centralizer. For `n=1` it is the HNN extension `⟨G,t | [c,t]=1, c∈C_G(u)⟩`; `n=0` gives `G`. This construction is unrestricted. Separately, `LimitGroup.IsAdmissibleCentralizerStep` requires `u≠1`, `u` not a proper power, and `n>0`. In a nonabelian fully residually free lower group, `C_G(u)` is then maximal abelian. An ICE group over a nonabelian free group `F` is a finite chain `F=G₀<G₁<⋯<G_m` with `G_{i+1}=G_i(u_i,ℤ^{n_i})` and every step admissible. The empty chain is permitted; positive rank makes every displayed step strict. §8.6 reduces any nonidentity parameter to a non-proper-power with the same full centralizer.
 
 Defined through `Monoid.PushoutI` with the two inclusions; the HNN description through `HNNExtension` with `A = B = C_G(u)` and `φ = id`.
 
@@ -2009,10 +2044,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `LimitGroup.centralizerExt_Z`: `centralizerExt` (Multiplicative `ℤ`) `(ofAdd 1) ℤ ≅ ℤ²` (the centralizer of a generator of `ℤ` is `ℤ`).
-- `LimitGroup.centralizerExt_free`: `centralizerExt F(a,b) a ℤ ≅ ⟨a, b, t | [a, t] = 1⟩`.
-- `LimitGroup.centralizerExt_proper_power`: Extending the centralizer of `a²` in `F(a,b)` with the centralizer taken as `⟨a²⟩` instead of `C(a²) = ⟨a⟩` gives a group in which `a` and `t` do not commute but `a²` and `t` do; it is not CSA, so the construction must use the full centralizer.
-- `LimitGroup.centralizerExt_trivial_n`: For `n = 0`, `G(u, ℤ⁰) = G`.
+- `centralizerExt` (Multiplicative `ℤ`) `(ofAdd 1) ℤ ≅ ℤ²` (the centralizer of a generator of `ℤ` is `ℤ`).
+- `centralizerExt F(a,b) a ℤ ≅ ⟨a, b, t | [a, t] = 1⟩`.
+- Extending the centralizer of `a²` in `F(a,b)` with the centralizer taken as `⟨a²⟩` instead of `C(a²) = ⟨a⟩` gives a group in which `a` and `t` do not commute but `a²` and `t` do; it is not CSA, so the construction must use the full centralizer.
+- For `n = 0`, `G(u, ℤ⁰) = G`.
 - For `u=1`, `F(a,b)(1,ℤ)≅F(a,b)×ℤ` is outside ICE: if a map to a free group preserves the central generator `t`, cyclic centralizers force it to kill `[a,b]`. Thus `{t,[a,b]}` cannot be discriminated. Every coefficient-fixing map to `F(a,b)` kills `t`.
 - The raw extension at `a²` has the same full centralizer and group as the extension at `a`; its parameter is replaced by `a` before recording an admissible step. A rank-zero extension is a repetition, not an ICE step.
 
@@ -2026,7 +2061,7 @@ Use [IFT] §2.5, pp. 6–7: The extension `G(u, t)` of the centralizer of a non-
 
 ### 8.5a Big powers and discrimination
 
-Define `Group.IsBP` (representative `IsBP`): for every finite nonempty tuple `(u₁,…,u_k)` of nonidentity elements whose consecutive entries do not commute, there is `N≥1` such that `u₁^{e₁}⋯u_k^{e_k}≠1` whenever all natural exponents `e_i≥N`. Prove `isBP_freeGroup` for every `FreeGroup α` by cyclic reduction and bounded cancellation between consecutive noncommuting powers. Own the bounded-cancellation estimate: after recording conjugators and maximal roots, the overlap between adjacent power blocks is bounded independently of their exponents; otherwise their axes have a common ray and the elements commute. This uses the Cayley tree and the cyclic-centralizer theorem, not an embedding theorem for limit groups. Prove `IsBP.of_injective` and `IsBP.of_discriminated`, giving BP inheritance by subgroups and by groups discriminated by BP groups, preserving the tuple entries and adjacent commutators in a single discriminating map. Thus prove `IsFullyResiduallyFree.isBP`.
+Define `Group.IsBP`: for every finite nonempty tuple `(u₁,…,u_k)` of nonidentity elements whose consecutive entries do not commute, there is `N≥1` such that `u₁^{e₁}⋯u_k^{e_k}≠1` whenever all natural exponents `e_i≥N`. Prove `isBP_freeGroup` for every `FreeGroup α` by cyclic reduction and bounded cancellation between consecutive noncommuting powers. Own the bounded-cancellation estimate: after recording conjugators and maximal roots, the overlap between adjacent power blocks is bounded independently of their exponents; otherwise their axes have a common ray and the elements commute. This uses the Cayley tree and the cyclic-centralizer theorem, not an embedding theorem for limit groups. Prove `IsBP.of_injective` and `IsBP.of_discriminated`, giving BP inheritance by subgroups and by groups discriminated by BP groups, preserving the tuple entries and adjacent commutators in a single discriminating map. Thus prove `IsFullyResiduallyFree.isBP`.
 
 **Checks.**
 
@@ -2044,7 +2079,7 @@ Sources: [IFT] §2.5, Definition 1 and following paragraph, p. 6 (BP and its inh
 
 Prove the following statement. Let `G` be a nonabelian CSA group with the big powers property (in particular a nonabelian fully residually free group), and let `u≠1` be not a proper power. Then `G(u,ℤ)` is `G`-discriminated by the retractions `ξ_k:t↦u^k`: for every `w≠1` there is `N_w` with `ξ_k(w)≠1` for every `k≥N_w`. Over a nonabelian fully residually free `G`, positive-rank extensions are successive rank-one admissible steps and their discriminations compose on finite sets. Consequently every ICE group over nonabelian `F` is `F`-discriminated by `F` and fully residually free. For nonabelian CSA BP groups, `G[X]` is `G`-discriminated by `G` as well.
 
-Throughout this subsection assume: `G` nonabelian, CSA, big powers (BP); `u≠1` and not a proper power. The finite-rank iteration and root reduction below use full residual freeness. The representative `isFullyResiduallyFree_centralizerExt` carries a nonabelian base and an admissible rank-one step.
+Throughout this subsection assume: `G` nonabelian, CSA, big powers (BP); `u≠1` and not a proper power. The finite-rank iteration and root reduction below use full residual freeness.
 
 Write `w` in normal form for the amalgam (§4.3) and apply big powers to the alternating product `g₀ u^{k m₁} g₁ ⋯` (IFT §2.5, Theorem of [40]).
 
@@ -2102,6 +2137,8 @@ Sources: [VAR-II] §0, Theorems 2–3, p. 4, and §§1–9, pp. 7–37; [IFT] §
 
 ### 8.7 Embedding theorems and finite presentability
 
+`Suggested.lean` states `residuallyFree_embeds_finite_product` and `isFinitelyPresented_of_fullyResiduallyFree` on native group carriers.
+
 Prove the following statement. `Fix a` nonabelian free group `F` of finite rank. (1) (Kharlampovich–Myasnikov) A finitely generated group is fully residually free if and only if it embeds in Lyndon's group `F^{ℤ[x]}`; equivalently it embeds in an admissible ICE group over a nonabelian free group of finite rank. (2) Every finitely generated residually free group embeds in a direct product of finitely many fully residually free groups. (3) Every finitely generated fully residually free group is finitely presented, and so is every finitely generated subgroup of it (they are themselves fully residually free). (4) Every finitely generated subgroup of an ICE group over `F` is built from free abelian groups of finite rank by finitely many free products, amalgams over abelian groups one of which is maximal abelian, free extensions of centralizers, and separated HNN extensions with abelian associated subgroups one of which is maximal abelian.
 
 (1) Use the irreducible-coordinate-group embedding into a normalized tower of §8.6b, the independently proved tower-to-ICE embedding of §8.9(4), and the completion/ICE comparison of §8.6a. Conversely ICE groups are discriminated by §8.6. VAR-II Theorem 4 passes from an abstract finitely generated fully residually free group to its coefficient-free presentation over `F`; it does not assert discrimination fixing an arbitrary embedded coefficient subgroup.
@@ -2125,7 +2162,7 @@ A normalized NTQ tower `LimitGroup.NTQ.Tower` is instead built from the bottom u
 3. `H∗ℤ^{|X_i|}`.
 4. `H∗F(X_i)`.
 
-`LimitGroup.NTQ.IsAdmissibleCentralizerLevel` requires `u_i≠1`, `u_i` not a proper power, an abelian `C_H(u_i)`, and a finite set `U_i` generating that entire subgroup, with positive added rank. The representative `IsAdmissibleCentralizerLevel` records these conditions over the fixed lower carrier `H`. At a quadratic conjugacy level `c^z d=1`, `d⁻¹=c^b`, use all relations `[z b⁻¹,h]=1` for `h∈C_H(c)`, whether or not the raw level was labelled type (2). Root reduction concerns the full centralizer and does not remove these relations. For towers with finite presentations, record finite generators for every centralizer used in exceptional quadratic radicals as well. Over finite-rank free `F`, §8.9 supplies these finite centralizer data independently of §8.7.
+`LimitGroup.NTQ.IsAdmissibleCentralizerLevel` requires `u_i≠1`, `u_i` not a proper power, an abelian `C_H(u_i)`, and a finite set `U_i` generating that entire subgroup, with positive added rank. At a quadratic conjugacy level `c^z d=1`, `d⁻¹=c^b`, use all relations `[z b⁻¹,h]=1` for `h∈C_H(c)`, whether or not the raw level was labelled type (2). Root reduction concerns the full centralizer and does not remove these relations. For towers with finite presentations, record finite generators for every centralizer used in exceptional quadratic radicals as well. Over finite-rank free `F`, §8.9 supplies these finite centralizer data independently of §8.7.
 
 Write `U^sat` for the union of the tower's defining relators, lifting coefficients and fixed-`H` radical generators to words in the lower variables and `G`. Its defining quotient is `T₁`. A raw system and a tower obtained by adding these relators have a defining-presentation quotient map, but need not have the same `G`-points or the same global radical. The comparison for all solutions is the finite tower cover of §8.6b. In particular, a lower specialization killing `c` can release `z` from the fixed-`H` centralizer relations and must be represented by another branch.
 
@@ -2142,10 +2179,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `LimitGroup.NTQ.genus2`: The one-level equation `[x₁,y₁][x₂,y₂]=1` over `F(a,b)` is regular, with tower `F∗S⁺(2,0)`.
-- `LimitGroup.NTQ.empty`: One empty level gives `F∗F(X)=F[X]`.
-- `LimitGroup.NTQ.lyndon_not_regular`: The quadratic level `x₁²x₂²x₃²=1` is consistent but nonregular; its normalized carrier is `F∗ℤ²` with `x₁x₂x₃=1` as well as pairwise commutation.
-- `LimitGroup.NTQ.degenerate_example`: `[x,y]=a` over `F(a,b)` has no solution by abelianization and gives no quadratic tower level.
+- The one-level equation `[x₁,y₁][x₂,y₂]=1` over `F(a,b)` is regular, with tower `F∗S⁺(2,0)`.
+- One empty level gives `F∗F(X)=F[X]`.
+- The quadratic level `x₁²x₂²x₃²=1` is consistent but nonregular; its normalized carrier is `F∗ℤ²` with `x₁x₂x₃=1` as well as pairwise commutation.
+- `[x,y]=a` over `F(a,b)` has no solution by abelianization and gives no quadratic tower level.
 - Over `F(a,b)`, `[x,a]=[x,b]=1` with `U={a,b}` and `u=1` has the solution `x=1` but fails centralizer admissibility. Its defining quotient `F₂×ℤ` differs from its radical quotient `F₂`.
 - Over `H=⟨a,b,t | [a,t]=1⟩`, both a type-(2) level at a with `U={a,t}` and the normalized quadratic level `a^x a⁻¹=1` include `[x,t]=1` as well as `[x,a]=1`.
 - With lower raw system `[u,v]=1` and upper quadratic equation `u^x u⁻¹=1`, the raw nondegeneracy condition holds, but normalization gives `F∗ℤ³` and excludes the raw point `(u,v,x)=(1,a,b)`. The additional free branch `u=1` in §8.6b retains that point.
@@ -2173,8 +2210,8 @@ Derive (2) from (4), §8.6's discrimination and §5.11's `G`-domain open-set arg
 - After extending `C_F(a)`, the centralizer of `a` is `⟨a,t⟩≅ℤ²`, supplying both generators for the next normalized conjugacy level.
 - In the same extension `F(a,b)(a,ℤ)`, the hyperbolic normal form bt has cyclic centralizer. The identity is excluded from the finite free abelian centralizer statement, since `C_E(1)=E` can be nonabelian.
 - Over the abelian base `ℤ a` genus-two equation does not have its defining relator as radical; the nonabelian base hypothesis is necessary.
-- `quadratic_specialization_radical_gap`: For `S={[u,v],[u,x]}` over `F(a,b)`, both `u` and `[v,x]` survive in `K=F_{R_F(S)}`, by the solutions `(a,1,1)` and `(1,a,b)`. Every map from `K` to a free group preserving `u` kills `[v,x]`, so `K` is neither fully residually free nor `F`-discriminated. Over the fixed lower `H=F∗ℤ²`, however, the radical of `u^x u⁻¹` contains `[v,x]`. This verifies the fixed-coefficient/global distinction using `radical`, `CoordGroup` and discrimination.
-- `quadratic_specialization_reducible`: `V_F(S)=V_F(u=1)∪V_F([u,v]=[u,x]=[v,x]=1)`, with both subsets proper, witnessed by those same two solutions. The normalized pairwise-commuting carrier and the free `u=1` carrier both occur in the finite cover.
+- For `S={[u,v],[u,x]}` over `F(a,b)`, both `u` and `[v,x]` survive in `K=F_{R_F(S)}`, by the solutions `(a,1,1)` and `(1,a,b)`. Every map from `K` to a free group preserving `u` kills `[v,x]`, so `K` is neither fully residually free nor `F`-discriminated. Over the fixed lower `H=F∗ℤ²`, however, the radical of `u^x u⁻¹` contains `[v,x]`. This verifies the fixed-coefficient/global distinction using `radical`, `CoordGroup` and discrimination.
+- `V_F(S)=V_F(u=1)∪V_F([u,v]=[u,x]=[v,x]=1)`, with both subsets proper, witnessed by those same two solutions. The normalized pairwise-commuting carrier and the free `u=1` carrier both occur in the finite cover.
 - For `H=F(a,b)∗⟨z⟩` and `K=H∗_{⟨z⟩}⟨z,x | [z,x]=1⟩`, level retractions followed by `z↦1` force `x↦1`, whereas `z↦1`,`x↦a` is an `F`-homomorphism `K→F`. All tower homomorphisms, rather than only iterated level retractions, enter the finite-cover interface.
 
 Sources: [VAR-I] §1, Theorem 1, p. 7, and §3, Form 2, p. 28 (fixed-coefficient quadratic embeddings); [LIFT] §5, Propositions 5.1–5.2, pp. 266–270 (general-position regular embeddings); [IFT] §§2.5–2.7, pp. 6–9 (full centralizers, commutation transitivity and quadratic forms); [SUBGROUPS] §5, Lemmas 19–21, pp. 36–37 (normal-form centralizers in ICE chains, used directly for finite centralizer data). The induction is on normalized fixed-coefficient carriers; the counterexample prevents applying [VAR-I] Theorem 2 or [VAR-II] Theorem 1 to the global radical under raw solvability alone.
@@ -2205,15 +2242,15 @@ The public interface should expose the following named results:
 - `LyndonLength.gromov`: `c(g, f)` in the divisible hull of `Λ`.
 - `LyndonLength.IsFree`: (L4) and (L5).
 - `LyndonLength.IsRegular`: (L6).
-- `LyndonLength.le_add`: `l(g f) ≤ l(g) + l(f)` and `0 ≤ c(g, f) ≤ min(l(g), l(f))`.
+- `l(g f) ≤ l(g) + l(f)` and `0 ≤ c(g, f) ≤ min(l(g), l(f))`.
 - `LyndonLength.comap`: Restriction along an injective homomorphism is a Lyndon length function, free if the original is.
 
 **Checks.**
 
-- `LyndonLength.freeGroup_norm`: `FreeGroup.norm` (Mathlib, `ℕ`-valued), cast to `ℤ`, is a free regular Lyndon length function with values in `ℤ`.
-- `LyndonLength.zero`: `l ≡ 0` is a Lyndon length function on any group, free only on the trivial group.
-- `LyndonLength.torsion_not_free`: On `ℤ/2` the function `l(1) = 0`, `l(g) = 1` for `g ≠ 1` is a Lyndon length function failing (L5): it is not free `(l(g²) = 0)`.
-- `LyndonLength.Z2_lex`: On `ℤ²` with `Λ = Lex (Fin 2 → ℤ)`, `l(g) = |g|` (absolute value for the lexicographic order) is a free regular Lyndon length function: `ℤ²` acts freely on the `Λ`-tree `Λ` by translations.
+- `FreeGroup.norm` (Mathlib, `ℕ`-valued), cast to `ℤ`, is a free regular Lyndon length function with values in `ℤ`.
+- `l ≡ 0` is a Lyndon length function on any group, free only on the trivial group.
+- On `ℤ/2` the function `l(1) = 0`, `l(g) = 1` for `g ≠ 1` is a Lyndon length function failing (L5): it is not free `(l(g²) = 0)`.
+- On `ℤ²` with `Λ = Lex (Fin 2 → ℤ)`, `l(g) = |g|` (absolute value for the lexicographic order) is a free regular Lyndon length function: `ℤ²` acts freely on the `Λ`-tree `Λ` by translations.
 
 The word length on `FreeGroup α` is a free regular `ℤ`-valued Lyndon length function. The function `l ≡ 0` on `ℤ` is a Lyndon length function that is not free.
 
@@ -2245,12 +2282,12 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `LambdaTree.self`: `Λ` itself with `d(a, b) = |a − b|` is a `Λ`-tree; `ℤ` acts freely on the `ℤ`-tree `ℤ` by translations.
+- `Λ` itself with `d(a, b) = |a − b|` is a `Λ`-tree; `ℤ` acts freely on the `ℤ`-tree `ℤ` by translations.
 - The empty convex subset of `ℤ` has no `Λ`-tree carrier, since the metric-space definition requires nonemptiness.
-- `LambdaTree.point`: A one-point space is a `Λ`-tree, on which every isometry is elliptic, so only the trivial group acts freely on it.
-- `LambdaTree.circle_not_tree`: The vertex set of a cycle of length 4 with the path metric is a geodesic `ℤ`-metric space but not a `ℤ`-tree: two segments between opposite vertices meet only in their endpoints, so (T3) fails; a definition asking only for geodesics would accept it.
-- `LambdaTree.reflection_inversion`: On the `ℤ`-tree `ℤ`, the isometry `n ↦ 1 − n` is an inversion (no fixed point, its square is the identity), so an action of `ℤ/2` by it is not free without inversions.
-- `LambdaTree.cayley_compat`: For the Cayley tree of `FreeGroup α` (a `ℤ`-tree) and the base point 1, the based length function is Mathlib's `FreeGroup.norm`.
+- A one-point space is a `Λ`-tree, on which every isometry is elliptic, so only the trivial group acts freely on it.
+- The vertex set of a cycle of length 4 with the path metric is a geodesic `ℤ`-metric space but not a `ℤ`-tree: two segments between opposite vertices meet only in their endpoints, so (T3) fails; a definition asking only for geodesics would accept it.
+- On the `ℤ`-tree `ℤ`, the isometry `n ↦ 1 − n` is an inversion (no fixed point, its square is the identity), so an action of `ℤ/2` by it is not free without inversions.
+- For the Cayley tree of `FreeGroup α` (a `ℤ`-tree) and the base point 1, the based length function is Mathlib's `FreeGroup.norm`.
 
 `Λ` with `d(a, b) = |a − b|` is a `Λ`-tree, and so is every nonempty convex subset of `Λ` (KMS-ACTIONS Example 9). A `ℤ`-metric space is a `ℤ`-tree iff it is the vertex set of a simplicial tree with the path metric (KMS-ACTIONS Example 10), which links `ℤ`-trees to the Serre trees of Layer 2.
 
@@ -2290,11 +2327,11 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `InfWord.ZFreeGroup`: For `Λ = ℤ` and `X = Fin 2`, `InfWord ℤ X ≃ FreeGroup (Fin 2)` as groups, matching `toWord`.
+- For `Λ = ℤ` and `X = Fin 2`, `InfWord ℤ X ≃ FreeGroup (Fin 2)` as groups, matching `toWord`.
 - For a discretely ordered non-Archimedean `Λ`, P1–P4 alone do not justify a universal-group normal form; that theorem applies only after P5 is proved for the chosen subset.
-- `InfWord.empty`: The empty word `(α = 0)` is the identity for `∗`.
-- `InfWord.at_mul_a`: In `R(ℤ[t], {a, b})`, `a^t ∗ a = a^{t+1}` and `|a^t ∗ b| = t + 1`.
-- `InfWord.undefined_product`: In `R(ℤ[t], {a, b})` let `v` be the word on `[1, t]` that is `a` at the integers 1, 2, 3, `…` and `b` at the other elements of `[1, t]`; the common initial segment of `a^t` and `v` is `{1, 2, 3, …}`, which has no largest element, so `(a^t)⁻¹ ∗ v` is undefined: `∗` is genuinely partial, and `R(Λ, X)` is not a group.
+- The empty word `(α = 0)` is the identity for `∗`.
+- In `R(ℤ[t], {a, b})`, `a^t ∗ a = a^{t+1}` and `|a^t ∗ b| = t + 1`.
+- In `R(ℤ[t], {a, b})` let `v` be the word on `[1, t]` that is `a` at the integers 1, 2, 3, `…` and `b` at the other elements of `[1, t]`; the common initial segment of `a^t` and `v` is `{1, 2, 3, …}`, which has no largest element, so `(a^t)⁻¹ ∗ v` is undefined: `∗` is genuinely partial, and `R(Λ, X)` is not a group.
 
 For `Λ = ℤ[t]` with `t ≫ 1`, the word `a^t` (the constant function `a` on `[1, t]`) is an infinite word of length `t`; `a^t ∗ a = a^{t+1}`. `R(ℤ, X)` with `∗` is `FreeGroup X` via `toWord`.
 
@@ -2305,6 +2342,8 @@ Use [MRS-REGULAR] §3, Theorem 3.4, p. 10; §4, Theorem 4.1 and Corollary 4.2, p
 *Needs:* Mathlib `Lex`; Mathlib `FreeGroup`.
 
 ### 9.5 Lyndon's group `F^{ℤ[t]}` as infinite words, and free length functions on limit groups
+
+`exists_free_lyndonLength` in `Suggested.lean` states the free lexicographic integer length-function conclusion for every finitely generated fully residually free group.
 
 Use the completion and ICE comparison of §8.6a as the carrier `F^{ℤ[t]}`; this subsection constructs its infinite-word representation.
 
@@ -2346,6 +2385,8 @@ Sources: [SUBGROUPS] §§2.4–2.5, conditions `(i)`–`(x)`, p. 9, and Proposit
 
 ### 9.7 Intersections and the Howson property
 
+`fg_inf_of_fullyResiduallyFree` in `Suggested.lean` states the Howson conclusion. It applies to any fully residually free ambient group, since the two finite generating sets lie in a finitely generated subgroup.
+
 For finitely generated subgroups `H`,`K` of `F^{ℤ[t]}`, prove that `H∩K` is finitely generated, represented by the core of the appropriate product of `U`-folded graphs. Consequently every finitely generated fully residually free group has the Howson property. Membership is the accepted-path characterization on the `U`-folded graph; preserve the compatibility with the ordinary Stallings criterion. This asks for mathematical subgroup descriptions.
 
 The subgroup `⟨a^t⟩` contains `a^{2t}` but not `a^{t+1}`; `k t=t+1` has no solution `k∈ℤ`.
@@ -2382,10 +2423,10 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `GTree.JSJ.free_group`: For `FreeGroup (Fin 2)` over cyclic groups, every minimal free action on a tree is a JSJ tree (vertex stabilizers trivial).
-- `GTree.JSJ.surface_flexible`: For `S⁺(2, 0)` over cyclic groups the JSJ tree is a point and the vertex is flexible: the cyclic splittings along intersecting curves are not universally elliptic.
-- `GTree.JSJ.trivial_group`: For the trivial group the point is the JSJ tree.
-- `GTree.JSJ.not_unique_tree`: JSJ trees are not unique up to isomorphism (outer space for `F₂` has many points): a definition demanding a unique displayed graph of groups is wrong; equality is equality of deformation spaces.
+- For `FreeGroup (Fin 2)` over cyclic groups, every minimal free action on a tree is a JSJ tree (vertex stabilizers trivial).
+- For `S⁺(2, 0)` over cyclic groups the JSJ tree is a point and the vertex is flexible: the cyclic splittings along intersecting curves are not universally elliptic.
+- For the trivial group the point is the JSJ tree.
+- JSJ trees are not unique up to isomorphism (outer space for `F₂` has many points): a definition demanding a unique displayed graph of groups is wrong; equality is equality of deformation spaces.
 
 For `F_n` (any `𝒜` containing the trivial subgroup) the JSJ trees are the free actions of `F_n` on trees (outer space); all vertex stabilizers are trivial. For a closed surface group `S⁺(g, 0)`, `g ≥ 2`, over cyclic groups, the JSJ tree is a point and the vertex is flexible (QH).
 
@@ -2482,12 +2523,12 @@ The public interface should expose the following named results:
 
 **Checks.**
 
-- `LimitGroup.MRDiagram.inconsistent`: For `x²=a` over `F(a,b)`, the solution diagram is empty: there are no branches and no solutions, and no `F`-embedding of its trivial radical quotient.
-- `LimitGroup.MRDiagram.free_root`: For `G` free, the one-edge diagram `G → G` (leaf `G` free) is complete.
+- For `x²=a` over `F(a,b)`, the solution diagram is empty: there are no branches and no solutions, and no `F`-embedding of its trivial radical quotient.
+- For `G` free, the one-edge diagram `G → G` (leaf `G` free) is complete.
 - For the empty one-variable system over nonabelian `F`, the two root edges `F∗⟨x⟩→F∗⟨x⟩` (identity) and `F∗⟨x⟩→F (x↦1)` form a sound complete diagram. Their images are `F` and `{1}`; it fails `IsComponentNormalized`, and maximal-closure extraction returns only `F`.
-- `LimitGroup.MRDiagram.centralizer`: For `S = [x, a] = 1` over `F(a,b)`, the diagram root `⟨F, t | [a, t]⟩ →` (identity) the same group with modular generator `t ↦ t a → (t ↦ 1)` leaf `F` is `F`-complete; its composites are exactly `x ↦ a^k`.
-- `LimitGroup.MRDiagram.need_modular`: For `S = [x₁,y₁][x₂,y₂] = 1` over `F`, the leaf maps without the modular group of the QH vertex `S⁺(2, 0)` miss solutions: completeness requires precomposing with `Mod(G_v)`.
-- `LimitGroup.MRDiagram.proper_quotients`: Edges below the root are proper epimorphisms; a diagram with an isomorphism edge has a redundant vertex, so the canonical diagrams exclude it.
+- For `S = [x, a] = 1` over `F(a,b)`, the diagram root `⟨F, t | [a, t]⟩ →` (identity) the same group with modular generator `t ↦ t a → (t ↦ 1)` leaf `F` is `F`-complete; its composites are exactly `x ↦ a^k`.
+- For `S = [x₁,y₁][x₂,y₂] = 1` over `F`, the leaf maps without the modular group of the QH vertex `S⁺(2, 0)` miss solutions: completeness requires precomposing with `Mod(G_v)`.
+- Edges below the root are proper epimorphisms; a diagram with an isomorphism edge has a redundant vertex, so the canonical diagrams exclude it.
 
 For the empty system over `F (G = F[X])`, the one-edge diagram with leaf `F[X]` and the identity is `F`-complete: every solution is a specialisation of the leaf. For `S = [x, a] = 1` over `F(a,b)`: the root is `G = F_{R(S)} = ⟨F, t | [a, t]⟩ (x = t)`, with one edge (the identity) to a vertex labelled `G` itself whose modular group is generated by the twist `t ↦ t a`, and one proper epimorphism `t ↦ 1` from it to the leaf `F`; the composites are `t ↦ a^k`, exactly the solutions.
 
@@ -2498,6 +2539,8 @@ Use [JSJ] §11, Theorems 11.1–11.3, pp. 191–194 (stated in the introduction,
 *Needs:* §8.1 (Residually free and fully residually free groups); §10.2 (Existence of abelian and cyclic JSJ decompositions of limit groups); §4.13 (Dehn twists of one-edge splittings); §6.10 (Quadratically hanging (QH) vertices and their peripheral data).
 
 ### 10.7 Finite Makanin–Razborov diagrams and factorization
+
+`limitGroup_quotient_chain_stabilizes` in `Suggested.lean` states the descending-chain theorem as stabilization of increasing normal kernels in a fixed finitely generated group.
 
 For every finite equation system `S` over a nonabelian finite-rank free group `F`, prove existence of a finite `F`-complete `Hom_F(F_{R(S)},F)`-diagram `C`. Every allowed branch composite, including its modular automorphisms and final free-leaf specialization, is an `F`-homomorphism and hence a solution of `S`; every solution factors as such a composite. Below the root, edges are proper epimorphisms between finitely generated fully residually free groups, and leaves are `F∗F(Y)`. An inconsistent system has the empty solution diagram and no coefficient-preserving map to `F`. The target is the finite factorization theorem. Its solution-tree construction uses the normalized terminal towers and word maps of §8.6b. First prove finite shortening-quotient factorization for all `F`-homomorphisms `T_j→F` using the tower's JSJ modular groups and the descending-chain theorem below. Composing with `θ_j` gives the required root branches. The finite cover proves completeness, including the branches where lower coefficient words vanish; tower discrimination alone does not. The `Hom`-diagram leaves are `F∗F(Y)`.
 
@@ -2559,6 +2602,8 @@ Lifts of compatible equations to generic points, the basic automorphisms, discri
 
 ### 11.1 Compatible equations, `S`-lifts and complete `S`-lifts
 
+`IsCompatible`, `HasLift` and `HasCompleteLift` in `Suggested.lean` express these conditions using native free products and radical quotients, including the separate ordinary-lift requirement.
+
 Define `GroupAlgGeom.Lift.IsCompatible` as follows. Let `G` be a group, `S(X) = 1` a system over `G` with a solution in `G`, and `μ : G[X] → G_{R(S)}` the canonical map. A formula `Φ(X, Y)` of `L_A` (in particular `T(X, Y) = 1`, or `T(X, Y) = 1 ∧ W(X, Y) ≠ 1`) is compatible with `S` over `G` when for every solution `a` of `S` in `G` there is `b` with `Φ(a, b)` true in `G` (`V_G(S)` is the projection of the truth set of `Φ ∧ S = 1`). A compatible `Φ` admits an `S`-lift (a lift to a generic point) when `∃Y Φ(X^μ, Y)` is true in `G_{R(S)}`, the elements `X^μ` treated as constants; a solution `Y(X) ∈ G_{R(S)}^{|Y|}` is a formal solution. A compatible equation `T(X, Y) = 1` admits a complete `S`-lift when it admits an ordinary `S`-lift and every formula `T = 1 ∧ W ≠ 1` compatible with `S` admits an `S`-lift. The ordinary lift is required even when there is no compatible inequation extension. A family `Θ` of solutions of `S` is generic when every equation `V(X, Y) = 1` such that `V(X^θ, Y) = 1` is solvable in `G` for all `θ ∈ Θ` admits a complete `S`-lift.
 
 Predicates on systems and formulas, using Layer 5 coordinate groups and Layer 3 formulas.
@@ -2567,20 +2612,20 @@ The public interface should expose the following named results:
 
 - `GroupAlgGeom.Lift.IsCompatible`: `Φ` is compatible with `S` over `G`.
 - `GroupAlgGeom.Lift.HasLift`: `Φ` admits an `S`-lift: `∃Y Φ(X^μ, Y)` in `G_{R(S)}`.
-- `GroupAlgGeom.Lift.HasCompleteLift`: `T` admits an ordinary `S`-lift, and every compatible `T = 1 ∧ W ≠ 1` admits an `S`-lift. The representative predicate also accepts finite equation systems.
-- `GroupAlgGeom.Lift.IsGenericFamily`: A family of `S`-solutions on which solvability of each single equation implies a complete `S`-lift; the representative signature uses auxiliary variables indexed by `Fin n`.
+- `GroupAlgGeom.Lift.HasCompleteLift`: `T` admits an ordinary `S`-lift, and every compatible `T = 1 ∧ W ≠ 1` admits an `S`-lift. The definition also applies to finite equation systems.
+- `GroupAlgGeom.Lift.IsGenericFamily`: A family of `S`-solutions on which solvability of each single equation implies a complete `S`-lift; finite auxiliary variable tuples may be indexed by `Fin n`.
 - `GroupAlgGeom.Lift.hasLift_isCompatible`: For an equation, or more generally a positive formula, a generic-point solution specialises to compatibility (compose with the points `G_{R(S)} → G`). This implication does not hold for an arbitrary formula containing inequations.
 
 **Checks.**
 
-- `GroupAlgGeom.Lift.hasLift_square`: For `S` empty over `F(a,b)`, `T = (y² = x²)` admits the lift `y = x`.
-- `GroupAlgGeom.Lift.not_compatible_sqrt`: `T = (y² = x)` is not compatible with the empty system over `F(a,b)`.
-- `GroupAlgGeom.Lift.compatible_no_lift`: For `S = ([x, y] = 1)`, which is not regular, the formula `x = z² ∨ y = z² ∨ x y = z²` (a single equation over `F` by §7.9) is compatible with `S`, since for `x = u^m`, `y = u^n` one of `m`, `n`, `m + n` is even, but admits no `S`-lift: in `F_{R(S)} = F ∗ ⟨x, y | [x, y]⟩` none of `x`, `y`, `x y` is a square. Compatibility does not imply lifting outside the regular class.
+- For `S` empty over `F(a,b)`, `T = (y² = x²)` admits the lift `y = x`.
+- `T = (y² = x)` is not compatible with the empty system over `F(a,b)`.
+- For `S = ([x, y] = 1)`, which is not regular, the formula `x = z² ∨ y = z² ∨ x y = z²` (a single equation over `F` by §7.9) is compatible with `S`, since for `x = u^m`, `y = u^n` one of `m`, `n`, `m + n` is even, but admits no `S`-lift: in `F_{R(S)} = F ∗ ⟨x, y | [x, y]⟩` none of `x`, `y`, `x y` is a square. Compatibility does not imply lifting outside the regular class.
 - For `S:x=1` over `F`, the singleton family `x↦1` is generic: the coordinate group is `F`, so every equation solvable on the family and every compatible equation–inequation system has its witness at that unique generic point.
 - Over the trivial group, `S` and `T` empty have an ordinary lift and a complete lift; no inequation is compatible. Requiring the ordinary lift explicitly prevents the inequation clause alone from defining completeness.
 - The empty family for `S:x=1` is not generic: the equation `a=1` with `a≠1` is vacuously solvable on the family but has no lift.
 - For `S:[x,y]=1`, the family of all `F`-solutions discriminates `F∗ℤ²` but is not generic: the square disjunction above, encoded as a single equation by §7.9, is solvable on the whole family and has no lift.
-- `GroupAlgGeom.Lift.trivial`: Every equation `T` with a solution `Y(X) ∈ G[X]` admits an `S`-lift for every consistent `S`, by composing with `μ`. A generic solution of `y=x` with `y≠1` for `S` empty is not compatible at `x=1`, so the statement must be restricted to equations.
+- Every equation `T` with a solution `Y(X) ∈ G[X]` admits an `S`-lift for every consistent `S`, by composing with `μ`. A generic solution of `y=x` with `y≠1` for `S` empty is not compatible at `x=1`, so the statement must be restricted to equations.
 
 Over `F`, `T = (y² = x²)` is compatible with the empty system `S` and admits the lift `y = x`. Over `F`, `T = (y² = x)` is not compatible with the empty system (`x = a` has no square root).
 
@@ -2620,10 +2665,10 @@ The public interface should expose the following named results:
 **Checks.**
 
 - The regular equation `z₁⁻¹ a z₁ · z₂⁻¹ b z₂ · z₃⁻¹ a z₃ · (aba)⁻¹ = 1` uses `S⁺(0,4)` and the two conjugacy-only orientable basic automorphisms. Killing coefficients and abelianizing gives zero in `ℤ³`; a coefficient-fixing automorphism preserves this, whereas one or two distinct square variables give a nonzero vector. Thus no mixed square form is assigned to this equation.
-- `GroupAlgGeom.Lift.basicSeq_length`: For `m = 0`, `n = 2` the basic sequence has `K = 4 · 2 − 1 = 7` automorphisms.
-- `GroupAlgGeom.Lift.basicSeq_fixes_S`: Each `γ_i` fixes `[x₁,y₁][x₂,y₂]` in `F[X]`.
-- `GroupAlgGeom.Lift.phi_zero`: `φ_{K,(0,…,0)} = id`.
-- `GroupAlgGeom.Lift.not_for_irregular`: For `x₁² x₂² x₃² = 1` (not regular) no such family produces non-commutative solutions: all solutions commute, so the construction is restricted to regular equations.
+- For `m = 0`, `n = 2` the basic sequence has `K = 4 · 2 − 1 = 7` automorphisms.
+- Each `γ_i` fixes `[x₁,y₁][x₂,y₂]` in `F[X]`.
+- `φ_{K,(0,…,0)} = id`.
+- For `x₁² x₂² x₃² = 1` (not regular) no such family produces non-commutative solutions: all solutions commute, so the construction is restricted to regular equations.
 
 For `S = [x₁,y₁][x₂,y₂]` over `F` (no coefficient `d`, so the surface is closed of genus two) the basic sequence has `K = 7` automorphisms, twists along a chain of curves; they fix the word `S₀ = [x₁,y₁][x₂,y₂]` (IFT p. 68). Each `γ_i` fixes the word `S(X)` in `G[X]`.
 
@@ -2646,7 +2691,7 @@ Treat the coefficient-free genus-two equation separately. Put `H=F∗F(x₂,y₂
 - For a finite set of nontrivial `K`-words, first choose an `E→H` specialization preserving them, then an `H→F` specialization preserving their images. Choosing these independently without the finite-set conditions is insufficient.
 - For `S:[x,y]=[a,b]` over `F(a,b)`, `K=3`, `J=2` and `P=ℕ⁶`, the six moves are `y`,`x`,`y`,`y`,`x`,`y` in evaluation order; reversing the exponent indices leaves this family unchanged. Define `A₀=a`, `B₀=b`. At `i∈{1,3,4,6}`, impose `[t_i,A_{i−1}]=1` and put `(A_i,B_i)=(A_{i−1},t_i B_{i−1})`; at `i∈{2,5}`, impose `[t_i,B_{i−1}]=1` and put `(A_i,B_i)=(t_i A_{i−1},B_{i−1})`. Add `x=A₆`,`y=B₆`. The `A_i`,`B_i` are word abbreviations, so this is a finite system `T` in six auxiliary variables. It is solvable on every twist tuple by taking `t_i` to be the corresponding power of the unchanged entry.
 - The bounded-twist system has no `S`-lift: in `D=F(a,b)∗_{[a,b]=[x,y]}F(x,y)`, every primitive coefficient element `w` has `C_D(w)=⟨w⟩`. Its nonzero abelianization excludes membership in any coefficient conjugate of the edge group, so its fixed subtree is just the coefficient vertex; a centralizer preserves that vertex. Inductively every `t_i` lies in the coefficient factor and each `(A_i,B_i)` remains a basis of it. Thus `A₆`,`B₆` cannot equal the generic `x`,`y`, which lie outside that factor by normal form.
-- Conjunction encoding (§7.9) is valid in both `F` and its fully residually free `D` and gives a single-equation obstruction to genericity. Increasing exponents or restricting to a cofinal subset preserves the obstruction; the same argument applies to any fixed finite depth. The representative signatures are `oneCommutatorEquation`, `boundedTwistStages`, `boundedTwistSystem`, `boundedTwist_family_solvable` and `boundedTwist_no_lift`.
+- Conjunction encoding (§7.9) is valid in both `F` and its fully residually free `D` and gives a single-equation obstruction to genericity. Increasing exponents or restricting to a cofinal subset preserves the obstruction; the same argument applies to any fixed finite depth.
 
 Throughout this subsection assume: `G` nonabelian finitely generated fully residually free; `S` regular; `β` in general position (exists by §6.8).
 
@@ -2716,6 +2761,8 @@ Sources: [IFT] §7.3, pp. 105–109 (small-cancellation solutions); §7.4, pp. 1
 
 ### 11.5 Implicit function theorem for regular quadratic equations
 
+`implicit_function_regular_quadratic` in `Suggested.lean` states the complete theorem for all four regular standard shapes, with finite auxiliary variables and a nonabelian free coefficient group of arbitrary rank.
+
 Prove the following statement. Let `S(X, A) = 1` be a regular standard quadratic equation over a nonabelian free group `F = F(A)`, with finite variable tuples `X`,`Y`. Every equation `T(X, Y, A) = 1` compatible with `S` over `F` admits an ordinary `S`-lift and a complete `S`-lift: for every `W(X, Y)` such that `T = 1 ∧ W ≠ 1` is compatible with `S`, there is `Y(X) ∈ F_{R(S)}^{|Y|}` (words in `X ∪ A` modulo `R(S) = ncl(S)`) with `T(X, Y(X)) = 1` and `W(X, Y(X)) ≠ 1` in `F_{R(S)}`. The theorem is stated over `F`; for finitely generated fully residually free coefficient groups the sources provide the discriminating families (IFT Theorem 10, Corollary 12) used at the levels of NTQ systems, not a separate implicit function theorem.
 
 Throughout this subsection assume: `S` regular standard quadratic over `F`; `T` compatible with `S` (and `W` such that `T ∧ W ≠ 1` is compatible).
@@ -2777,10 +2824,10 @@ A separate development of the first-order theory of free groups (Tarski's proble
 ## References
 
 - [LEAN] The Mathlib Community, *Mathlib (free groups, amalgams, HNN extensions, model theory, computability)*, Mathlib commit 6b7abb3c7686292736be2955bd3eb9ebf63b456a. <https://github.com/leanprover-community/mathlib4/tree/6b7abb3c7686292736be2955bd3eb9ebf63b456a>
-- [SURFACES] Jean Gallier and Dianna Xu, *A Guide to the Classification Theorem for Compact Surfaces*, Springer, 2013, author copy, Chapter 6 (printed pages cited). <https://www.cis.upenn.edu/~jean/surfclassif-root.pdf>
-- [HATCHER] Allen Hatcher, *Algebraic Topology*, Cambridge University Press, 2002, §§1.2–1.3, §1.A and §§2.1–2.2 (cellular presentations, covering spaces, graph bases and incidence homology). <https://pi.math.cornell.edu/~hatcher/AT/AT.pdf>
-- [DIESTEL] Reinhard Diestel, *Graph Theory*, 3rd edition, Springer, 2005, §1.9, pp. 23–27 (binary cycle space, fundamental cycles and incidence). <https://webhomes.maths.ed.ac.uk/~v1ranick/papers/diestel1.pdf>
-- [TREES] Jean-Pierre Serre, *Trees*, Springer Monographs in Mathematics, corrected 2nd printing 2003 (translation of Arbres, amalgames, `SL₂`, Astérisque 46, 1977). <https://link.springer.com/book/10.1007/978-3-642-61856-7>. The corresponding targets also cite FOLD, KM02 or `GL`-JSJ.
+- [SURFACES] Jean Gallier and Dianna Xu, *A Guide to the Classification Theorem for Compact Surfaces*, Springer, 2013, Chapter 6 (printed pages cited).
+- [HATCHER] Allen Hatcher, *Algebraic Topology*, Cambridge University Press, 2002, §§1.2–1.3, §1.A and §§2.1–2.2 (cellular presentations, covering spaces, graph bases and incidence homology).
+- [DIESTEL] Reinhard Diestel, *Graph Theory*, 3rd edition, Springer, 2005, §1.9, pp. 23–27 (binary cycle space, fundamental cycles and incidence).
+- [TREES] Jean-Pierre Serre, *Trees*, Springer Monographs in Mathematics, corrected 2nd printing 2003 (translation of Arbres, amalgames, `SL₂`, Astérisque 46, 1977). The corresponding targets also cite FOLD, KM02 or `GL`-JSJ.
 - [FOLD] Ilya Kapovich, Richard Weidmann, Alexei Myasnikov, *Foldings, graphs of groups and the membership problem*, Internat. `J`. Algebra Comput. 15 (2005), 95–128; `arXiv`:math/0302206v2 (PDF pages cited). <https://arxiv.org/abs/math/0302206>
 - [KM02] Ilya Kapovich, Alexei Myasnikov, *Stallings foldings and the subgroup structure of free groups*, `J`. Algebra 248 (2002), 608–668; `arXiv`:math/0202285v1 (PDF pages cited). <https://arxiv.org/abs/math/0202285>
 - [ALG] Gilbert Baumslag, Alexei Myasnikov, Vladimir Remeslennikov, *Algebraic geometry over groups I. Algebraic sets and ideal theory*, `J`. Algebra 219 (1999), 16–79; authors' copy from A. Myasnikov's publication page (58 pp.; PDF pages cited). <https://web.stevens.edu/algebraic/alexeim/Publications/All_files_new/FINAL_AL_51_38.pdf>

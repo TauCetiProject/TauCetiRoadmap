@@ -2,1081 +2,175 @@ import Mathlib
 import TauCeti.GroupTheory.TrivialIntersection
 
 /-!
-# FreeGroupsAndLimitGroups: representative target signatures
+# Free groups and limit groups: headline theorems
 
-This file is not the roadmap. The roadmap is `README.md`,
-which is definitive; this file is not exhaustive. It records light definitions with real bodies
-over carriers that exist in Mathlib, and theorem signatures statable against the pinned APIs, so
-that the conventions and signatures are explicit. Theorem targets use `sorry`; the examples
-record proved boundary cases of the local definitions.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. These statements are acceptance targets for its mathematical milestones.
 
-Design choices made explicit here:
-* word and conjugacy statements use Mathlib's words `List (α × Bool)` and `FreeGroup α`;
-* roots are specified by existence and uniqueness, with the identity excluded;
-* no executable procedure or algorithm implementation is a declaration here;
-* equations over a group `G` are elements of `G[X] := Monoid.Coprod G (FreeGroup X)`;
-* coordinate groups are quotients by kernels of evaluation maps, so normality is automatic;
-* malnormality is Tau Ceti's `TauCeti.IsTISubgroup` and abelian subgroups use Mathlib's
-  `IsMulCommutative`; neither is defined again here;
-* heavy constructions (graphs of groups and their fundamental groups, Bass–Serre trees,
-  generalised equations, JSJ decompositions, Makanin–Razborov diagrams, infinite words) are
-  README targets and do not appear here.
+The statements cover free-group conjugacy, roots and malnormal centralizers; Howson and
+Schreier; Grushko–Neumann; linear equational Noetherianity and irreducibility; constrained
+satisfiability and Merzljakov formal solutions; the absolute and relative characterizations
+of limit groups; finite-product embeddings, finite presentability and the Howson property;
+free lexicographic integer length functions; the descending-chain theorem; regular quadratic
+radicals; and the complete implicit function theorem over a nonabelian free group.
+
+The pins do not supply Stallings graphs, graphs of groups or Bass–Serre trees, polygonal
+surface models, generalised or cut equations, normalized NTQ towers, Lyndon's completion,
+infinite-word groups, or group-theoretic JSJ and Makanin–Razborov diagrams. Their structural,
+representation and factorization theorems, and the regular NTQ implicit function theorem,
+need these carriers and are not stated here. First-order fragment truth sets also need the
+coefficient-language and syntax-code interfaces of Layer 3; the solution-set and formal-word
+theorems below use native lists and free groups directly.
 -/
 
 namespace TauCetiRoadmap.FreeGroupsAndLimitGroups
-
-open FreeGroup
-open scoped commutatorElement
-
-/-! ## Layer 1: free-group conjugacy, roots and centralizers -/
-
-section layer1
-
-variable {α : Type*} [DecidableEq α]
-
-/-- Conjugacy criterion (§1.1): two elements are conjugate iff their cyclic reductions are
-rotations of each other. -/
-theorem isConj_iff_isRotated (x y : FreeGroup α) :
-    IsConj x y ↔ (FreeGroup.reduceCyclically x.toWord).IsRotated
-      (FreeGroup.reduceCyclically y.toWord) := by
-  sorry
-
-end layer1
 
 /-- A proper power: `x = y ^ n` with `n ≥ 2` (§1.2). The identity is a proper power, so
 ‘not a proper power’ is used for nontrivial elements only. -/
 def IsProperPower {G : Type*} [Group G] (x : G) : Prop :=
   ∃ y : G, ∃ n : ℕ, 2 ≤ n ∧ x = y ^ n
 
-/-- A primitive element of a free group: a member of some free basis (§1.3). Being primitive is
-not the negation of being a proper power. The README API includes
-`FreeGroup.IsPrimitive.map_mulEquiv` (invariance under isomorphisms) and
-`FreeGroup.IsPrimitive.not_isProperPower` (basis elements are not proper powers). -/
-def IsPrimitive {G : Type u} [Group G] (x : G) : Prop :=
-  ∃ (ι : Type u) (b : FreeGroupBasis ι G) (i : ι), b i = x
-
-/-- CSA groups: every maximal abelian subgroup is malnormal, malnormality being Tau Ceti's
-`TauCeti.IsTISubgroup` (§1.7). The README additionally asks for
-`Group.IsCSA.centralizer_isMaximalAbelian`, identifying the centralizer of a nontrivial
-member with its unique maximal abelian subgroup; `Group.IsCSA.of_injective` and
-`Group.IsCSA.of_commGroup`, for subgroup inheritance and abelian groups; and
-`Group.IsCSA.center_eq_bot`, with the explicit nonabelian hypothesis. -/
+/-- Every maximal abelian subgroup is malnormal (§1.7). -/
 def IsCSA (G : Type*) [Group G] : Prop :=
   ∀ M : Subgroup G, IsMulCommutative M →
     (∀ N : Subgroup G, M ≤ N → IsMulCommutative N → N = M) → TauCeti.IsTISubgroup M
 
-/-- Commutation is transitive on nontrivial elements (§1.7). -/
-def IsCommTransitive (G : Type*) [Group G] : Prop :=
-  ∀ x y z : G, y ≠ 1 → Commute x y → Commute y z → Commute x z
-
-/-- CSA groups are commutative transitive (§1.7). -/
-theorem IsCSA.isCommTransitive {G : Type*} [Group G] (hG : IsCSA G) : IsCommTransitive G := by
+/-- Conjugacy criterion (§1.1): two elements are conjugate iff their cyclic reductions are
+rotations of each other. -/
+theorem isConj_iff_isRotated {α : Type*} [DecidableEq α] (x y : FreeGroup α) :
+    IsConj x y ↔ (FreeGroup.reduceCyclically x.toWord).IsRotated
+      (FreeGroup.reduceCyclically y.toWord) := by
   sorry
-
-section roots
-
-variable {α : Type*} [DecidableEq α]
 
 /-- Every nontrivial element has a unique non-proper-power root with positive exponent;
 all its positive-exponent roots are powers of that root. -/
-theorem exists_maximalRoot (x : FreeGroup α) (hx : x ≠ 1) :
+theorem exists_maximalRoot {α : Type*} [DecidableEq α] (x : FreeGroup α) (hx : x ≠ 1) :
     ∃ (r : FreeGroup α) (k : ℕ), 1 ≤ k ∧ r ^ k = x ∧ ¬ IsProperPower r ∧
       (∀ (s : FreeGroup α) (m : ℕ), 1 ≤ m → s ^ m = x → ¬ IsProperPower s →
         s = r ∧ m = k) ∧
       ∀ (y : FreeGroup α) (n : ℕ), 1 ≤ n → y ^ n = x → n ∣ k ∧ y = r ^ (k / n) := by
   sorry
 
-/-- Commuting elements are powers of a common element (§1.5). -/
-/- Shared Mathlib interface names (README, Scope and ownership):
-`FreeGroup.centralizer_of_eq_closure`,
-`FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`,
-`FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. -/
-theorem commute_iff_exists_zpow (x y : FreeGroup α) :
-    Commute x y ↔ ∃ r : FreeGroup α, ∃ m n : ℤ, x = r ^ m ∧ y = r ^ n := by
-  sorry
-
 /-- Centralizers of nontrivial elements are cyclic, generated by the maximal root (§1.6). -/
-theorem centralizer_eq_zpowers (x : FreeGroup α) (hx : x ≠ 1) :
+theorem centralizer_eq_zpowers {α : Type*} [DecidableEq α] (x : FreeGroup α) (hx : x ≠ 1) :
     ∃ r : FreeGroup α, ¬ IsProperPower r ∧
       Subgroup.centralizer {x} = Subgroup.zpowers r := by
   sorry
 
 /-- Maximal cyclic subgroups are malnormal (§1.8). -/
-theorem zpowers_malnormal (u : FreeGroup α) (hu : u ≠ 1) (hu' : ¬ IsProperPower u) :
+theorem zpowers_malnormal {α : Type*} [DecidableEq α]
+    (u : FreeGroup α) (hu : u ≠ 1) (hu' : ¬ IsProperPower u) :
     TauCeti.IsTISubgroup (Subgroup.zpowers u) := by
   sorry
 
 /-- Free groups are CSA (§1.8). -/
-theorem isCSA_freeGroup : IsCSA (FreeGroup α) := by
+theorem isCSA_freeGroup (α : Type*) : IsCSA (FreeGroup α) := by
   sorry
 
-end roots
-
-/-! ## Layer 2: Stallings graphs and finitely generated free subgroups -/
-
-/-- Serre graphs: an origin map and a fixed-point-free involution on edges; loops and multiple
-edges are allowed (§2.1). The README's `SerreGraph.toQuiver_reverse` identifies reversal
-with that of the associated quiver, and `SerreGraph.IsTree.unique_reduced_path` fixes the
-path characterization of trees. The boundary targets `SerreGraph.single_vertex_isTree`,
-`SerreGraph.segment_isTree` and `SerreGraph.double_edge_not_tree` distinguish an isolated
-vertex, a segment and parallel edges. -/
-structure SerreGraph (V : Type*) (E : Type*) where
-  /-- The origin of an edge. -/
-  src : E → V
-  /-- Edge reversal. -/
-  rev : E → E
-  rev_rev : ∀ e, rev (rev e) = e
-  rev_ne : ∀ e, rev e ≠ e
-
-namespace SerreGraph
-
-variable {V E : Type*} (Γ : SerreGraph V E)
-
-/-- The terminus of an edge. -/
-def tgt (e : E) : V := Γ.src (Γ.rev e)
-
-/-- `IsPath u es w`: the list of edges `es` is a path from `u` to `w`. -/
-def IsPath : V → List E → V → Prop
-  | u, [], w => u = w
-  | u, e :: es, w => Γ.src e = u ∧ IsPath (Γ.tgt e) es w
-
-/-- Reduced paths: no edge is followed by its reverse. -/
-def IsReducedPath (es : List E) : Prop :=
-  es.IsChain fun e f => f ≠ Γ.rev e
-
-/-- Pairwise path reachability, allowing the empty vertex type (§2.1). -/
-def Preconnected : Prop := ∀ u w : V, ∃ es, Γ.IsPath u es w
-
-/-- Nonempty path preconnectivity, matching shared multigraph connectedness (§§2.1–2.1a). -/
-def Connected : Prop := Nonempty V ∧ Γ.Preconnected
-
-/-- Trees are nonempty, preconnected, and have no reduced closed path of positive length. -/
-def IsTree : Prop :=
-  Nonempty V ∧ Γ.Preconnected ∧
-    ∀ (v : V) (es : List E), Γ.IsPath v es v → Γ.IsReducedPath es → es = []
-
-/-- The dart adapter for Mathlib simple graphs (§2.1). -/
-def ofSimpleGraph {W : Type*} (G : SimpleGraph W) : SerreGraph W G.Dart where
-  src e := e.fst
-  rev e := e.symm
-  rev_rev := by sorry
-  rev_ne := by sorry
-
-/-- The simple-graph dart adapter preserves connectedness, including empty graphs (§2.1). -/
-theorem connected_ofSimpleGraph {W : Type*} (G : SimpleGraph W) :
-    (ofSimpleGraph G).Connected ↔ G.Connected := by sorry
-
-/-- The empty Serre graph is preconnected but neither connected nor a tree (§2.1). -/
-example :
-    let Γ : SerreGraph Empty Empty :=
-      { src := Empty.elim
-        rev := Empty.elim
-        rev_rev := by intro e; cases e
-        rev_ne := by intro e; cases e }
-    Γ.Preconnected ∧ ¬ Γ.Connected ∧ ¬ Γ.IsTree := by
-  simp [Preconnected, Connected, IsTree]
-
-/-- A reversal-closed edge subset with all the original vertices. -/
-def restrict (T : Set E) (hT : ∀ e ∈ T, Γ.rev e ∈ T) : SerreGraph V T where
-  src e := Γ.src e
-  rev e := ⟨Γ.rev e, hT e e.property⟩
-  rev_rev := by sorry
-  rev_ne := by sorry
-
-/-- Spanning trees retain every vertex (§2.2). -/
-structure SpanningTree where
-  edges : Set E
-  rev_mem : ∀ e ∈ edges, Γ.rev e ∈ edges
-  isTree : (Γ.restrict edges rev_mem).IsTree
-
-/-- Every connected based Serre graph has a spanning tree (§2.2). -/
-theorem exists_spanningTree (v : V)
-    (hΓ : Γ.Connected) : Nonempty Γ.SpanningTree := by sorry
-
-/-- An orientation chooses one dart from each reversal pair. -/
-def IsOrientation (O : Set E) : Prop := ∀ e, Γ.rev e ∈ O ↔ e ∉ O
-
-/-- Reversal relations and the edges of a spanning tree (§2.2). -/
-def graphRelators (T : Γ.SpanningTree) : Set (FreeGroup E) :=
-  {w | (∃ e, w = FreeGroup.of e * FreeGroup.of (Γ.rev e)) ∨
-    ∃ e ∈ T.edges, w = FreeGroup.of e}
-
-/-- The graph group in its spanning-tree presentation (§2.2). -/
-abbrev GraphPresentation (T : Γ.SpanningTree) := PresentedGroup (Γ.graphRelators T)
-
-/-- Closed reduced paths give exactly one representative of each graph-group element. -/
-theorem graphPresentation_reducedLoop_bijective (T : Γ.SpanningTree) (v : V) :
-    Function.Bijective (fun p : {es : List E // Γ.IsPath v es v ∧ Γ.IsReducedPath es} =>
-      PresentedGroup.mk (Γ.graphRelators T) ((p.val.map FreeGroup.of).prod)) := by sorry
-
-/-- Positive darts outside a spanning tree freely generate the graph group (§2.2). -/
-theorem graphPresentation_free (T : Γ.SpanningTree) (O : Set E)
-    (hO : Γ.IsOrientation O) :
-    Nonempty (Γ.GraphPresentation T ≃* FreeGroup {e : E // e ∈ O ∧ e ∉ T.edges}) := by sorry
-
-/-- A finite graph presentation is finitely generated (§2.2). -/
-theorem graphPresentation_fg [Finite E] (T : Γ.SpanningTree) :
-    Group.FG (Γ.GraphPresentation T) := by sorry
-
-/-- The rank of a finite connected graph counts unoriented edges, including loops. -/
-theorem graphPresentation_rank [Finite V] [Finite E] (T : Γ.SpanningTree)
-    (O : Set E) (hO : Γ.IsOrientation O) [Group.FG (Γ.GraphPresentation T)] :
-    Group.rank (Γ.GraphPresentation T) = Nat.card O + 1 - Nat.card V := by sorry
-
-/-- The tree loops also give the free integral abelianization (§2.2a). -/
-theorem graphPresentation_abelianization (T : Γ.SpanningTree) (O : Set E)
-    (hO : Γ.IsOrientation O) :
-    Nonempty (Additive (Abelianization (Γ.GraphPresentation T)) ≃+
-      FreeAbelianGroup {e : E // e ∈ O ∧ e ∉ T.edges}) := by sorry
-
-/-- Binary incidence in finite-function coordinates on actual edge type `O` (§2.2a).
-Both ends of a loop are counted. -/
-noncomputable def cycleBoundary [Fintype V] [Fintype E] (O : Set E) :
-    (O → ZMod 2) →ₗ[ZMod 2] (V → ZMod 2) := by
-  classical
-  exact
-    { toFun := fun c v => ∑ e : O,
-        c e * ((if Γ.src e = v then 1 else 0) + (if Γ.tgt e = v then 1 else 0))
-      map_add' := by
-        intro c d
-        ext v
-        simp [add_mul, Finset.sum_add_distrib]
-      map_smul' := by
-        intro a c
-        ext v
-        simp [Finset.mul_sum, mul_assoc] }
-
-/-- Binary cycle space in finite-function coordinates on actual edge type `O` (§2.2a). -/
-noncomputable def cycleSpace [Fintype V] [Fintype E] (O : Set E) :
-    Submodule (ZMod 2) (O → ZMod 2) := (Γ.cycleBoundary O).ker
-
-/-- Signed integral incidence retains loops and parallel edge identities (§2.2a). -/
-noncomputable def integralCycleBoundary (O : Set E) : (O →₀ ℤ) →ₗ[ℤ] (V →₀ ℤ) :=
-  Finsupp.linearCombination ℤ
-    (fun e : O => Finsupp.single (Γ.tgt e) 1 - Finsupp.single (Γ.src e) 1)
-
-/-- The integral cycle lattice is the signed incidence kernel (§2.2a). -/
-noncomputable def cycleLattice (O : Set E) : Submodule ℤ (O →₀ ℤ) :=
-  (Γ.integralCycleBoundary O).ker
-
-/-- The binary incidence kernel on finitely supported edge coefficients (§2.2a). -/
-noncomputable def modTwoCycleSpace (O : Set E) : Submodule (ZMod 2) (O →₀ ZMod 2) :=
-  LinearMap.ker (Finsupp.linearCombination (ZMod 2)
-    (fun e : O => Finsupp.single (Γ.tgt e) (1 : ZMod 2) -
-      Finsupp.single (Γ.src e) (1 : ZMod 2)))
-
-/-- A loop's integral unit vector is a cycle, fixing the signed incidence convention. -/
-example (O : Set E) (e : O) (he : Γ.tgt e = Γ.src e) :
-    Finsupp.single e (1 : ℤ) ∈ Γ.cycleLattice O ∧ Finsupp.single e (1 : ℤ) ≠ 0 := by
-  classical
-  simp [cycleLattice, integralCycleBoundary, LinearMap.mem_ker, he]
-
-/-- Separate parallel edges give a signed difference cycle without identifying their coordinates. -/
-example (O : Set E) (e f : O) (hef : e ≠ f)
-    (hs : Γ.src e = Γ.src f) (ht : Γ.tgt e = Γ.tgt f) :
-    Finsupp.single e (1 : ℤ) - Finsupp.single f 1 ∈ Γ.cycleLattice O ∧
-      Finsupp.single e (1 : ℤ) - Finsupp.single f 1 ≠ 0 ∧
-      (Γ.src e ≠ Γ.tgt e → Finsupp.single e (1 : ℤ) ∉ Γ.cycleLattice O) := by
-  classical
-  refine ⟨?_, ?_, ?_⟩
-  · simp [cycleLattice, integralCycleBoundary, LinearMap.mem_ker, hs, ht]
-  · intro h
-    have hcoord := congrArg (fun c : O →₀ ℤ => c e) h
-    simp [hef] at hcoord
-  · intro he h
-    have hb : Γ.integralCycleBoundary O (Finsupp.single e 1) = 0 := h
-    have hv := congrArg (fun c : V →₀ ℤ => c (Γ.tgt e)) hb
-    simp [integralCycleBoundary, Ne.symm he] at hv
-
-/-- A loop's binary unit vector survives because its two incidence contributions cancel. -/
-example (O : Set E) (e : O) (he : Γ.tgt e = Γ.src e) :
-    Finsupp.single e (1 : ZMod 2) ∈ Γ.modTwoCycleSpace O := by
-  simp [modTwoCycleSpace, LinearMap.mem_ker, he]
-
-/-- A non-loop column has coefficient −1 at its source and +1 at its target. -/
-example (O : Set E) (e : O) (he : Γ.src e ≠ Γ.tgt e) :
-    (Γ.integralCycleBoundary O (Finsupp.single e 1)) (Γ.src e) = -1 ∧
-      (Γ.integralCycleBoundary O (Finsupp.single e 1)) (Γ.tgt e) = 1 := by
-  classical
-  simp [integralCycleBoundary, he, Ne.symm he]
-
-/-- A binary non-loop unit is excluded in both cycle coordinate systems. -/
-example [Fintype V] [Fintype E] [DecidableEq E] (O : Set E) (e : O) (he : Γ.src e ≠ Γ.tgt e) :
-    Finsupp.single e (1 : ZMod 2) ∉ Γ.modTwoCycleSpace O ∧
-      (fun f : O => if f = e then (1 : ZMod 2) else 0) ∉ Γ.cycleSpace O := by
-  classical
-  constructor
-  · intro h
-    have hv := congrArg (fun c : V →₀ ZMod 2 => c (Γ.tgt e))
-      (LinearMap.mem_ker.mp h)
-    simp only [Finsupp.linearCombination_single, one_smul] at hv
-    change Finsupp.single (Γ.tgt e) (1 : ZMod 2) (Γ.tgt e) -
-      Finsupp.single (Γ.src e) (1 : ZMod 2) (Γ.tgt e) = 0 at hv
-    simp [Ne.symm he] at hv
-    norm_num at hv
-  · intro h
-    have hv := congrFun (LinearMap.mem_ker.mp h) (Γ.tgt e)
-    simp [cycleBoundary, he] at hv
-
-/-- A loop also gives a nonzero cycle in finite-function coordinates. -/
-example [Fintype V] [Fintype E] [DecidableEq E] (O : Set E) (e : O) (he : Γ.tgt e = Γ.src e) :
-    (fun f : O => if f = e then (1 : ZMod 2) else 0) ∈ Γ.cycleSpace O ∧
-      (fun f : O => if f = e then (1 : ZMod 2) else 0) ≠ 0 := by
-  classical
-  constructor
-  · apply LinearMap.mem_ker.mpr
-    ext v
-    simp [cycleBoundary, he]
-    split_ifs
-    · exact (show (1 : ZMod 2) + 1 = 0 by decide)
-    · exact (show (0 : ZMod 2) + 0 = 0 by decide)
-  · intro h
-    have hv := congrFun h e
-    simp at hv
-
-/-- The simple support retains all vertices and is used only for connectivity (§2.2a). -/
-def supportGraph (O : Set E) : SimpleGraph V :=
-  SimpleGraph.fromRel (fun v w => ∃ e : O, Γ.src e = v ∧ Γ.tgt e = w)
-
-/-- Spanning forests retain reachability, contain no loops or duplicate endpoint pairs,
-and have acyclic simple support (§2.2a). -/
-def IsSpanningForest (O F : Set E) : Prop :=
-  F ⊆ O ∧ (∀ e ∈ F, Γ.src e ≠ Γ.tgt e) ∧
-    (∀ e ∈ F, ∀ f ∈ F,
-      ((Γ.src e = Γ.src f ∧ Γ.tgt e = Γ.tgt f) ∨
-        (Γ.src e = Γ.tgt f ∧ Γ.tgt e = Γ.src f)) → e = f) ∧
-    (Γ.supportGraph F).IsAcyclic ∧
-    ∀ v w, (Γ.supportGraph F).Reachable v w ↔ (Γ.supportGraph O).Reachable v w
-
-/-- A non-loop actual edge remains adjacent in the simple support. -/
-example (O : Set E) (e : O) (he : Γ.src e ≠ Γ.tgt e) :
-    (Γ.supportGraph O).Adj (Γ.src e) (Γ.tgt e) := by
-  exact ⟨he, Or.inl ⟨e, rfl, rfl⟩⟩
-
-/-- With no actual edges each vertex is its own support component. -/
-example : Γ.supportGraph (∅ : Set E) = ⊥ ∧
-    ∀ v w : V, (Γ.supportGraph (∅ : Set E)).Reachable v w ↔ v = w := by
-  have h : Γ.supportGraph (∅ : Set E) = ⊥ := by
-    ext v w
-    simp [supportGraph, SimpleGraph.fromRel_adj]
-  exact ⟨h, by intro v w; rw [h, SimpleGraph.reachable_bot]⟩
-
-/-- A spanning forest excludes every loop even though simple support forgets loops. -/
-example (O F : Set E) (hF : Γ.IsSpanningForest O F) (e : E)
-    (he : Γ.src e = Γ.tgt e) : e ∉ F := by
-  intro hmem
-  exact hF.2.1 e hmem he
-
-/-- Parallel actual edges cannot both belong to a spanning forest. -/
-example (O F : Set E) (hF : Γ.IsSpanningForest O F) (e f : E) (hef : e ≠ f)
-    (hs : Γ.src e = Γ.src f) (ht : Γ.tgt e = Γ.tgt f) : ¬ (e ∈ F ∧ f ∈ F) := by
-  rintro ⟨he, hf⟩
-  exact hef (hF.2.2.1 e he f hf (Or.inl ⟨hs, ht⟩))
-
-/- The forest existence and count use pinned
-`SimpleGraph.exists_isAcyclic_reachable_eq_le` and `SimpleGraph.IsTree.card_edgeFinset`. -/
-
-/-- Every finite endpoint multigraph has a spanning forest, including the empty graph (§2.2a). -/
-theorem exists_spanningForest [Fintype V] [Fintype E] (O : Set E) :
-    ∃ F : Set E, Γ.IsSpanningForest O F := by sorry
-
-/-- Forest edges plus components count all vertices (§2.2a). The component count agrees
-with GraphConnectivityAndFlows Target 1.1's `Graph.componentCount`. -/
-theorem spanningForest_card [Fintype V] [Fintype E] (O F : Set E)
-    (hF : Γ.IsSpanningForest O F) :
-    Nat.card F + Nat.card (Γ.supportGraph O).ConnectedComponent = Nat.card V := by sorry
-
-/-- Every spanning forest gives integral and binary chord bases with matching reductions,
-without connectedness or orientation hypotheses (§2.2a). -/
-theorem exists_forest_cycleBasis [Fintype V] [Fintype E] [DecidableEq E]
-    (O F : Set E) (hF : Γ.IsSpanningForest O F) :
-    ∃ (b : Module.Basis {e : O // e.val ∉ F} ℤ (Γ.cycleLattice O))
-      (b₂ : Module.Basis {e : O // e.val ∉ F} (ZMod 2) (Γ.modTwoCycleSpace O)),
-      (∀ e f : {e : O // e.val ∉ F}, (b e).val f.val = if e = f then 1 else 0) ∧
-      ∀ (e : {e : O // e.val ∉ F}) (i : O), (b₂ e).val i = ((b e).val i : ZMod 2) := by
+/-- Howson's theorem (§2.10). -/
+theorem fg_inf {α : Type*} (H K : Subgroup (FreeGroup α))
+    (hH : H.FG) (hK : K.FG) : (H ⊓ K).FG := by
   sorry
 
-/-- Coefficient reduction identifies the base-changed integral lattice with binary cycles;
-each pure tensor `1 ⊗ c` maps to the edgewise reduction of `c` (§2.2a). -/
-theorem cycleLattice_modTwoEquiv [Fintype V] [Fintype E] (O : Set E) :
-    ∃ e : TensorProduct ℤ (ZMod 2) (Γ.cycleLattice O) ≃ₗ[ZMod 2] Γ.modTwoCycleSpace O,
-      ∀ (c : Γ.cycleLattice O) (i : O),
-        (e (TensorProduct.tmul ℤ (1 : ZMod 2) c)).val i = (c.val i : ZMod 2) := by sorry
-
-/-- The integral cycle rank counts edges, vertices and components for every finite multigraph
-(§2.2a), including disconnected and empty graphs. -/
-theorem finrank_cycleLattice [Fintype V] [Fintype E] (O : Set E) :
-    Module.finrank ℤ (Γ.cycleLattice O) + Nat.card V =
-      Nat.card O + Nat.card (Γ.supportGraph O).ConnectedComponent := by sorry
-
-/-- The binary cycle dimension counts edges, vertices and components without connectedness
-(§2.2a). The support component count is the shared `Graph.componentCount`. -/
-theorem modTwoCycleSpace_finrank [Fintype V] [Fintype E] (O : Set E) :
-    Module.finrank (ZMod 2) (Γ.modTwoCycleSpace O) + Nat.card V =
-      Nat.card O + Nat.card (Γ.supportGraph O).ConnectedComponent := by sorry
-
-/-- Finite-function/Finsupp coordinates commute with binary incidence (§2.2a). -/
-theorem cycleBoundary_finsupp [Fintype V] [Fintype E] (O : Set E) (c : O → ZMod 2) :
-    (Finsupp.linearEquivFunOnFinite (ZMod 2) (ZMod 2) V).symm (Γ.cycleBoundary O c) =
-      Finsupp.linearCombination (ZMod 2)
-        (fun e : O => Finsupp.single (Γ.tgt e) (1 : ZMod 2) -
-          Finsupp.single (Γ.src e) (1 : ZMod 2))
-        ((Finsupp.linearEquivFunOnFinite (ZMod 2) (ZMod 2) O).symm c) := by sorry
-
-/-- The boundary comparison gives a coordinate-preserving equivalence of binary kernels
-(§2.2a). -/
-theorem exists_cycleSpace_finsuppEquiv [Fintype V] [Fintype E] (O : Set E) :
-    ∃ e : Γ.cycleSpace O ≃ₗ[ZMod 2] Γ.modTwoCycleSpace O,
-      ∀ (c : Γ.cycleSpace O) (i : O), (e c).val i = c.val i := by sorry
-
-/-- The binary forest basis specializes to the parity vectors of spanning-tree loops (§2.2a). -/
-theorem cycleSpace_basis [Fintype V] [Fintype E] [DecidableEq E] (T : Γ.SpanningTree)
-    (O : Set E) (hO : Γ.IsOrientation O) :
-    ∃ b : Module.Basis {e : E // e ∈ O ∧ e ∉ T.edges} (ZMod 2) (Γ.cycleSpace O),
-      ∀ e f : {e : E // e ∈ O ∧ e ∉ T.edges},
-        (b e).val ⟨f.val, f.property.1⟩ =
-        if e.val = f.val then 1 else 0 := by sorry
-
-/-- The component-count formula specializes to a connected nonempty graph (§2.2a). -/
-theorem cycleSpace_finrank [Fintype V] [Fintype E] (T : Γ.SpanningTree)
-    (O : Set E) (hO : Γ.IsOrientation O) :
-    Module.finrank (ZMod 2) (Γ.cycleSpace O) = Nat.card O + 1 - Nat.card V := by sorry
-
-/-- A rose retains two darts for each petal (§2.2). -/
-def rose (n : ℕ) : SerreGraph Unit (Fin n × Bool) where
-  src _ := ()
-  rev e := (e.1, !e.2)
-  rev_rev := by sorry
-  rev_ne := by sorry
-
-/-- The edgeless spanning tree of a rose. -/
-def roseTree (n : ℕ) : (rose n).SpanningTree where
-  edges := ∅
-  rev_mem := by sorry
-  isTree := by sorry
-
-/-- Parallel edge pairs retain their identities in the finite graph examples (§2.2). -/
-def parallelGraph (n : ℕ) : SerreGraph (Fin 2) (Fin n × Bool) where
-  src e := if e.2 then 0 else 1
-  rev e := (e.1, !e.2)
-  rev_rev := by sorry
-  rev_ne := by sorry
-
-/-- One edge pair spans the two vertices of a nonempty parallel-edge graph. -/
-def parallelTree (n : ℕ) (hn : 0 < n) : (parallelGraph n).SpanningTree where
-  edges := {e | e.1.val = 0}
-  rev_mem := by sorry
-  isTree := by sorry
-
--- README `SerreGraph.rose_one_not_tree`: a loop is a reduced closed path.
-example (e : E) (he : Γ.tgt e = Γ.src e) : ¬ Γ.IsTree := by
-  intro hT
-  have h := hT.2.2 (Γ.src e) [e] (by simp [IsPath, he])
-    (by simp [IsReducedPath])
-  simp at h
-
-end SerreGraph
-
-/-- `α`-labelled graphs with labels compatible with reversal: the README's `StallingsGraph`
-(§2.3), with the base vertex passed as an argument. -/
-structure LabelledGraph (α : Type*) (V : Type*) (E : Type*) extends SerreGraph V E where
-  /-- The label of an edge: a letter and an exponent sign. -/
-  label : E → α × Bool
-  label_rev : ∀ e, label (rev e) = ((label e).1, !(label e).2)
-
-namespace LabelledGraph
-
-variable {α V E : Type*} (Γ : LabelledGraph α V E)
-
-/-- The subgroup of `FreeGroup α` accepted at a vertex: generated by the labels of closed paths
-(the README's `StallingsGraph.subgroup`, §2.3). -/
-def accepted (v : V) : Subgroup (FreeGroup α) :=
-  Subgroup.closure
-    {g | ∃ es : List E, Γ.toSerreGraph.IsPath v es v ∧ g = FreeGroup.mk (es.map Γ.label)}
-
-/-- Folded graphs: at each vertex at most one edge with each label. -/
-def IsFolded : Prop :=
-  ∀ e f : E, Γ.src e = Γ.src f → Γ.label e = Γ.label f → e = f
-
-/-- The labels of closed paths at `v` already form a subgroup, so the closure adds nothing. -/
-theorem mem_accepted_iff (v : V) (g : FreeGroup α) :
-    g ∈ Γ.accepted v ↔
-      ∃ es : List E, Γ.toSerreGraph.IsPath v es v ∧ g = FreeGroup.mk (es.map Γ.label) := by
+/-- Exact Schreier formula, including finite generation (§2.11). -/
+theorem rank_sub_one_eq_index_mul {α : Type*} [Finite α]
+    (H : Subgroup (FreeGroup α)) [H.FiniteIndex] :
+    ∃ hfg : Group.FG H,
+      (@Group.rank H _ hfg : ℤ) - 1 = H.index * ((Nat.card α : ℤ) - 1) := by
   sorry
 
-/-- For folded graphs, a reduced word lies in the accepted subgroup iff it is the label of a
-reduced closed path at `v` (§2.3; KM02 Lemma 3.2). -/
-theorem mem_accepted_iff_of_isFolded (hΓ : Γ.IsFolded) (v : V) (w : List (α × Bool))
-    (hw : FreeGroup.IsReduced w) :
-    FreeGroup.mk w ∈ Γ.accepted v ↔
-      ∃ es : List E, Γ.toSerreGraph.IsPath v es v ∧ Γ.toSerreGraph.IsReducedPath es ∧
-        es.map Γ.label = w := by
+/-- Grushko–Neumann rank additivity (§4.11). -/
+theorem rank_coprod {G H : Type*} [Group G] [Group H] [Group.FG G] [Group.FG H] :
+    ∃ hfg : Group.FG (Monoid.Coprod G H),
+      @Group.rank (Monoid.Coprod G H) _ hfg = Group.rank G + Group.rank H := by
   sorry
-
-/-- The labelled-graph product over the rose (§2.9). -/
-def prod {W D : Type*} (Δ : LabelledGraph α W D) :
-    LabelledGraph α (V × W) {p : E × D // Γ.label p.1 = Δ.label p.2} where
-  src e := (Γ.src e.1.1, Δ.src e.1.2)
-  rev e := ⟨(Γ.rev e.1.1, Δ.rev e.1.2), by sorry⟩
-  rev_rev := by sorry
-  rev_ne := by sorry
-  label e := Γ.label e.1.1
-  label_rev := by sorry
-
-/-- Product labels belong to both accepted subgroups, with no foldedness hypothesis. -/
-theorem prod_accepted_le {W D : Type*} (Δ : LabelledGraph α W D) (v : V) (w : W) :
-    (Γ.prod Δ).accepted (v, w) ≤ Γ.accepted v ⊓ Δ.accepted w := by
-  sorry
-
-/-- Folded factors give the intersection equality (§2.9). -/
-theorem prod_accepted {W D : Type*} (Δ : LabelledGraph α W D)
-    (hΓ : Γ.IsFolded) (hΔ : Δ.IsFolded) (v : V) (w : W) :
-    (Γ.prod Δ).accepted (v, w) = Γ.accepted v ⊓ Δ.accepted w := by
-  sorry
-
-end LabelledGraph
-
-section layer2
-
-variable {α : Type*} [DecidableEq α]
-
-/-- Howson property (§2.10). -/
-theorem fg_inf (H K : Subgroup (FreeGroup α)) (hH : H.FG) (hK : K.FG) : (H ⊓ K).FG := by
-  sorry
-
-/-- The exact Schreier formula (§2.11); this is the equality for free groups. -/
-theorem rank_sub_one_eq_index_mul (n : ℕ) (H : Subgroup (FreeGroup (Fin n)))
-    [H.FiniteIndex] [Group.FG H] :
-    (Group.rank H : ℤ) - 1 = H.index * ((n : ℤ) - 1) := by
-  sorry
-
-end layer2
-
-/-! ## Layer 3: first-order group syntax and solution statements -/
-
-/-- Function symbols of the language of groups. -/
-inductive GroupFunc : ℕ → Type
-  | one : GroupFunc 0
-  | inv : GroupFunc 1
-  | mul : GroupFunc 2
-
-/-- The first-order language of groups (§3.1; the README's `FirstOrder.Language.group`). Coefficients are carried by free variables
-interpreted through a map `c : A → G`, as in the term–word correspondence. -/
-def groupLang : FirstOrder.Language where
-  Functions := GroupFunc
-  Relations := fun _ => Empty
-
-/-- Interpretation of a group symbol in a group. -/
-def GroupFunc.eval {G : Type*} [Group G] : {n : ℕ} → GroupFunc n → (Fin n → G) → G
-  | _, .one, _ => 1
-  | _, .inv, x => (x 0)⁻¹
-  | _, .mul, x => x 0 * x 1
-
-/-- Every group is a structure for the language of groups (§3.1). -/
-instance groupStructure (G : Type*) [Group G] : groupLang.Structure G where
-  funMap f x := GroupFunc.eval f x
-  RelMap r _ := Empty.elim r
-
-/-- The three universally quantified group axioms (§3.1). -/
-noncomputable def groupTheory : groupLang.Theory :=
-  let x : groupLang.Term (Empty ⊕ Fin 3) := .var (.inr 0)
-  let y : groupLang.Term (Empty ⊕ Fin 3) := .var (.inr 1)
-  let z : groupLang.Term (Empty ⊕ Fin 3) := .var (.inr 2)
-  let one : groupLang.Term (Empty ⊕ Fin 3) := .func .one ![]
-  let mul := fun a b : groupLang.Term (Empty ⊕ Fin 3) =>
-    FirstOrder.Language.Term.func GroupFunc.mul ![a,b]
-  let inv := fun a : groupLang.Term (Empty ⊕ Fin 3) =>
-    FirstOrder.Language.Term.func GroupFunc.inv ![a]
-  {((mul (mul x y) z).equal (mul x (mul y z))).iAlls (Fin 3),
-    ((mul one x).equal x ⊓ (mul x one).equal x).iAlls (Fin 3),
-    ((mul (inv x) x).equal one ⊓ (mul x (inv x)).equal one).iAlls (Fin 3)}
-
-/-- The term–word correspondence (§3.2; the README's `Term.toWord` with no coefficient letters): the
-word of a term is its value in the free group. -/
-def termToWord {X : Type*} (t : groupLang.Term X) : FreeGroup X :=
-  t.realize FreeGroup.of
-
-/-- A reduced word gives a left-nested product term (§3.2). -/
-noncomputable def wordToTerm {X : Type*} (w : FreeGroup X) : groupLang.Term X := by
-  classical
-  exact w.toWord.foldl (fun t a =>
-    .func .mul ![t, if a.2 then .var a.1 else .func .inv ![.var a.1]])
-      (.func .one ![])
-
-/-- Terms evaluate through their words in every group (§3.2). -/
-theorem realize_eq_lift {X G : Type*} [Group G] (v : X → G) (t : groupLang.Term X) :
-    t.realize v = FreeGroup.lift v (termToWord t) := by
-  sorry
-
-/-- Finite systems of equations and inequations with variables `X` and coefficient letters `A`
-(§3.3). The README's `FreeGroup.EqIneqSystem.isSolution_map` requires an injective
-coefficient-preserving homomorphism to transfer inequations, and
-`FreeGroup.EqIneqSystem.isSolution_iff_formula` matches the conjunction of its atoms.
-`FreeGroup.EqIneqSystem.isSolution_iff_reduced` specializes this predicate to the
-empty/nonempty reduced-word criteria over a free group. -/
-structure EqIneqSystem (X A : Type*) where
-  /-- Equations `w = 1`. -/
-  eqs : List (FreeGroup (X ⊕ A))
-  /-- Inequations `w ≠ 1`. -/
-  ineqs : List (FreeGroup (X ⊕ A))
-
-/-- Solutions of a system in a group `G` with coefficient map `c` (§3.3).
-`FreeGroup.EqIneqSystem.ineq_not_eq` distinguishes an inequation from an equation;
-`FreeGroup.EqIneqSystem.solution_commuting` combines both kinds of constraint. -/
-def EqIneqSystem.IsSolution {X A G : Type*} [Group G] (s : EqIneqSystem X A) (c : A → G)
-    (v : X → G) : Prop :=
-  (∀ w ∈ s.eqs, FreeGroup.lift (Sum.elim v c) w = 1) ∧
-    ∀ w ∈ s.ineqs, FreeGroup.lift (Sum.elim v c) w ≠ 1
-
-example {A : Type*} :
-    ¬ (⟨[], [FreeGroup.of (Sum.inl ())]⟩ : EqIneqSystem Unit A).IsSolution FreeGroup.of
-      (fun _ => 1) := by
-  simp [EqIneqSystem.IsSolution]
-
--- README `FreeGroup.EqIneqSystem.empty_system`: all assignments solve no constraints.
-example {X A G : Type*} [Group G] (c : A → G) (v : X → G) :
-    (⟨[], []⟩ : EqIneqSystem X A).IsSolution c v := by
-  simp [EqIneqSystem.IsSolution]
-
-/-! ## Layer 4: Bass–Serre theory and relative splittings -/
-
-section layer4
-
-/-- Dehn twists of HNN extensions (§4.13): for `z` centralizing the associated subgroup `A`,
-there is an automorphism fixing the base group and sending `t` to `t * z`. -/
-theorem exists_dehnTwist_hnn {G : Type*} [Group G] (A B : Subgroup G) (φ : A ≃* B) (z : G)
-    (hz : ∀ a : A, Commute z a) :
-    ∃ τ : HNNExtension G A B φ ≃* HNNExtension G A B φ,
-      (∀ g : G, τ (HNNExtension.of g) = HNNExtension.of g) ∧
-        τ HNNExtension.t = HNNExtension.t * HNNExtension.of z := by
-  sorry
-
-/-- An HNN twist with the prescribed base and stable-letter values is the identity exactly
-when its parameter is the identity (§4.13). -/
-theorem dehnTwistHNN_eq_refl_iff {G : Type*} [Group G] (A B : Subgroup G) (φ : A ≃* B)
-    (z : G) (τ : HNNExtension G A B φ ≃* HNNExtension G A B φ)
-    (hbase : ∀ g : G, τ (HNNExtension.of g) = HNNExtension.of g)
-    (ht : τ HNNExtension.t = HNNExtension.t * HNNExtension.of z) :
-    τ = MulEquiv.refl _ ↔ z = 1 := by
-  sorry
-
-/-- Grushko–Neumann theorem (§4.11). -/
-theorem rank_coprod {G H : Type*} [Group G] [Group H] [Group.FG G] [Group.FG H]
-    [Group.FG (Monoid.Coprod G H)] [Nontrivial G] [Nontrivial H] :
-    Group.rank (Monoid.Coprod G H) = Group.rank G + Group.rank H := by
-  sorry
-
-end layer4
-
-/-! ## Layer 5: equations, radicals, and algebraic geometry over groups -/
-
-section layer5
-
-variable {G : Type*} [Group G]
 
 /-- The free `G`-group `G[X] = G ∗ F(X)` (§5.1). -/
 abbrev GX (G : Type*) [Group G] (X : Type*) := Monoid.Coprod G (FreeGroup X)
 
-/-- Evaluation of `G[X]` at a point of a `G`-group (§5.1; the README's `GroupAlgGeom.eval`). -/
-def evalAt {X H : Type*} [Group H] (ι : G →* H) (v : X → H) : GX G X →* H :=
+/-- Evaluation of `G[X]` at a point of a `G`-group (§5.1). -/
+def evalAt {G X H : Type*} [Group G] [Group H] (ι : G →* H) (v : X → H) : GX G X →* H :=
   Monoid.Coprod.lift ι (FreeGroup.lift v)
 
-/-- Algebraic sets `V_H(S)` (§5.2; the README's `GroupAlgGeom.V`). -/
-def algSet {X H : Type*} [Group H] (ι : G →* H) (S : Set (GX G X)) : Set (X → H) :=
+/-- Algebraic sets `V_H(S)` (§5.2). -/
+def algSet {G X H : Type*} [Group G] [Group H] (ι : G →* H) (S : Set (GX G X)) : Set (X → H) :=
   {v | ∀ s ∈ S, evalAt ι v s = 1}
 
-/-- The ideal `I_H(Y)` of a set of points, as the kernel of the joint evaluation (§5.2; the README's
-`GroupAlgGeom.I`). -/
-abbrev idealOf {X H : Type*} [Group H] (ι : G →* H) (Y : Set (X → H)) : Subgroup (GX G X) :=
+/-- The ideal `I_H(Y)` of a set of points, as the kernel of the joint evaluation (§5.2). -/
+abbrev idealOf {G X H : Type*} [Group G] [Group H]
+    (ι : G →* H) (Y : Set (X → H)) : Subgroup (GX G X) :=
   (MonoidHom.pi fun v : Y => evalAt ι v.1).ker
 
-/-- The radical `Rad_H(S) = I_H(V_H(S))` of a system over `H` (§5.2; the README's `GroupAlgGeom.Rad`). -/
-abbrev radical {X H : Type*} [Group H] (ι : G →* H) (S : Set (GX G X)) : Subgroup (GX G X) :=
+/-- The radical `Rad_H(S) = I_H(V_H(S))` of a system over `H` (§5.2). -/
+abbrev radical {G X H : Type*} [Group G] [Group H]
+    (ι : G →* H) (S : Set (GX G X)) : Subgroup (GX G X) :=
   idealOf ι (algSet ι S)
 
-/-- The coordinate group `G[X] ⧸ Rad(S)` (§5.2; the README's `GroupAlgGeom.coordGroup`). -/
-abbrev CoordGroup {X H : Type*} [Group H] (ι : G →* H) (S : Set (GX G X)) : Type _ :=
+/-- The coordinate group `G[X] ⧸ Rad(S)` (§5.2). -/
+abbrev CoordGroup {G X H : Type*} [Group G] [Group H] (ι : G →* H) (S : Set (GX G X)) : Type _ :=
   GX G X ⧸ radical ι S
 
-/-- Separation by coefficient-preserving maps (§§5.3, 5.11), with arbitrary coefficient
-homomorphisms; injective maps give the bundled `G`-group specialization. -/
-def IsSeparatedBy (K H : Type*) [Group K] [Group H] (ιK : G →* K) (ιH : G →* H) : Prop :=
-  ∀ k : K, k ≠ 1 → ∃ φ : K →* H, φ.comp ιK = ιH ∧ φ k ≠ 1
+/-- Finite-variable equational Noetherianity over a specified coefficient map (§5.7). -/
+def IsEquationallyNoetherian {G H : Type*} [Group G] [Group H] (ι : G →* H) : Prop :=
+  ∀ (n : ℕ) (S : Set (GX G (Fin n))),
+    ∃ S₀ ⊆ S, S₀.Finite ∧ algSet ι S₀ = algSet ι S
 
-/-- `K` is `G`-discriminated by `H` (fully residually `H`) (§5.3). -/
-def IsDiscriminatedBy (K H : Type*) [Group K] [Group H] (ιK : G →* K) (ιH : G →* H) : Prop :=
+/-- Full residual separation by coefficient-preserving homomorphisms (§5.3). -/
+def IsDiscriminatedBy {G K H : Type*} [Group G] [Group K] [Group H]
+    (ιK : G →* K) (ιH : G →* H) : Prop :=
   ∀ s : Finset K, (1 : K) ∉ s → ∃ φ : K →* H, φ.comp ιK = ιH ∧ ∀ k ∈ s, φ k ≠ 1
 
-/-- `G`-domains: no `G`-zero divisors (§5.4). The README's
-`GroupAlgGeom.IsGDomain.of_CSA` requires a CSA target and an injective map from a
-nonabelian coefficient group. -/
-def IsGDomain (H : Type*) [Group H] (ι : G →* H) : Prop :=
-  ∀ x y : H, x ≠ 1 → y ≠ 1 → ∃ g : G,
-    x * (ι g * y * (ι g)⁻¹) * x⁻¹ * (ι g * y * (ι g)⁻¹)⁻¹ ≠ 1
+/-- The absence of zero divisors relative to the coefficient group (§5.4). -/
+def IsGDomain {G H : Type*} [Group G] [Group H] (ι : G →* H) : Prop :=
+  ∀ x y : H, x ≠ 1 → y ≠ 1 → ∃ g : G, ¬ Commute x (ι g * y * (ι g)⁻¹)
 
-/-- Equationally Noetherian groups (§5.7). The README API
-`GroupAlgGeom.IsEquationallyNoetherian.exists_finite` gives the finite subsystem and
-`GroupAlgGeom.IsEquationallyNoetherian.rad_finite` identifies its radical with the original. -/
-def IsEquationallyNoetherian (H : Type*) [Group H] : Prop :=
-  ∀ (X : Type) [Finite X] (S : Set (GX H X)),
-    ∃ S₀ ⊆ S, S₀.Finite ∧ algSet (MonoidHom.id H) S₀ = algSet (MonoidHom.id H) S
-
-/-- The Zariski topology: generated by complements of algebraic sets (§5.6). -/
-abbrev zariski {X H : Type*} [Group H] (ι : G →* H) : TopologicalSpace (X → H) :=
+/-- Zariski topology generated by complements of algebraic sets (§5.6). -/
+abbrev zariski {G X H : Type*} [Group G] [Group H] (ι : G →* H) :
+    TopologicalSpace (X → H) :=
   TopologicalSpace.generateFrom {U | ∃ S : Set (GX G X), U = (algSet ι S)ᶜ}
 
-/-- Closed sets over a `G`-domain with an injective, nontrivial coefficient group are algebraic
-(§5.6); the nontrivial coefficient provides an inconsistent equation for the empty set. -/
-theorem isClosed_iff_algebraic {X H : Type*} [Group H] [Nontrivial G]
-    (ι : G →* H) (hι : Function.Injective ι) (hD : IsGDomain H ι) (Y : Set (X → H)) :
-    @IsClosed _ (zariski ι) Y ↔ ∃ S : Set (GX G X), algSet ι S = Y := by
+/-- Linear groups over commutative Noetherian rings are equationally Noetherian (§5.9). -/
+theorem isEquationallyNoetherian_of_linear {H R : Type*} [Group H]
+    [CommRing R] [IsNoetherianRing R] (n : ℕ)
+    (f : H →* Matrix.GeneralLinearGroup (Fin n) R) (hf : Function.Injective f) :
+    IsEquationallyNoetherian (MonoidHom.id H) := by
   sorry
 
-/-- Closure is the zero set of the vanishing ideal for a `G`-domain with injective,
-nontrivial coefficients (§5.6). -/
-theorem closure_eq_V_I {X H : Type*} [Group H] [Nontrivial G]
-    (ι : G →* H) (hι : Function.Injective ι) (hD : IsGDomain H ι) (Y : Set (X → H)) :
-    @closure _ (zariski ι) Y = algSet ι (idealOf ι Y : Set (GX G X)) := by
+/-- Equational Noetherianity of finite-rank free groups (§5.9). -/
+theorem isEquationallyNoetherian_freeGroup {α : Type*} [Finite α] :
+    IsEquationallyNoetherian (MonoidHom.id (FreeGroup α)) := by
   sorry
 
-/-- The radical equals the defining normal closure exactly when the quotient is separated
-by coefficient-preserving maps (§5.11). Here the coefficient homomorphisms are arbitrary;
-an injective target coefficient map and a nonempty solution set make the quotient a
-bundled `G`-group. -/
-theorem radical_eq_normalClosure_iff_separated {X H : Type*} [Group H]
-    (ι : G →* H) (S : Set (GX G X)) :
-    radical ι S = Subgroup.normalClosure S ↔
-      IsSeparatedBy (GX G X ⧸ Subgroup.normalClosure S) H
-        ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) ι := by
+/-- Irreducibility is discrimination, over any equationally Noetherian domain (§5.11). -/
+theorem isIrreducible_iff_discriminated {G H X : Type*} [Group G] [Group H] [Finite X]
+    (ι : G →* H) (hι : Function.Injective ι)
+    (hN : IsEquationallyNoetherian ι) (hD : IsGDomain ι)
+    (Y : Set (X → H)) (hY : Y.Nonempty) (hclosed : @IsClosed _ (zariski ι) Y) :
+    @IsIrreducible _ (zariski ι) Y ↔
+      IsDiscriminatedBy ((QuotientGroup.mk' (idealOf ι Y)).comp Monoid.Coprod.inl) ι := by
   sorry
 
-/-- Free groups of rank two are linear over `ℤ` (§5.8). -/
-theorem exists_injective_freeGroup_SL :
-    ∃ f : FreeGroup (Fin 2) →* Matrix.SpecialLinearGroup (Fin 2) ℤ, Function.Injective f := by
+/-- Native finite codes for equations, inequations and sub-basis constraints (§7.7).
+Variables are numbered by `ℕ`; only finitely many occur. The constraint list restricts
+its initial variables, and unlisted variables range over the whole coefficient group. -/
+abbrev SystemCode (n : ℕ) :=
+  (List (List ((ℕ ⊕ Fin n) × Bool)) × List (List ((ℕ ⊕ Fin n) × Bool))) ×
+    List (List (Fin n))
+
+/-- Solvability of a finite system with its sub-basis constraints (§7.7). -/
+def HasConstrainedSolution {n : ℕ} (s : SystemCode n) : Prop :=
+  ∃ v : ℕ → FreeGroup (Fin n),
+    (∀ w ∈ s.1.1, FreeGroup.lift (Sum.elim v FreeGroup.of) (FreeGroup.mk w) = 1) ∧
+    (∀ w ∈ s.1.2, FreeGroup.lift (Sum.elim v FreeGroup.of) (FreeGroup.mk w) ≠ 1) ∧
+    ∀ i : Fin s.2.length, v i ∈ Subgroup.closure (FreeGroup.of '' {a | a ∈ s.2[i]})
+
+/-- Makanin's constrained satisfiability theorem (§7.7), uniform in the number of variables. -/
+theorem satisfiability_recursive (n : ℕ) :
+    ComputablePred (HasConstrainedSolution : SystemCode n → Prop) := by
   sorry
-
-/-- Free groups of finite rank are equationally Noetherian (§5.9). -/
-theorem isEquationallyNoetherian_freeGroup (n : ℕ) :
-    IsEquationallyNoetherian (FreeGroup (Fin n)) := by
-  sorry
-
-/-- Irreducibility is discrimination of the coordinate group (§5.11), for a `G`-equationally
-Noetherian `G`-domain `H` (stated here with `H = G`). -/
-theorem isIrreducible_iff_discriminated {X : Type*} [Finite X]
-    (hG : IsEquationallyNoetherian G) (hD : IsGDomain G (MonoidHom.id G))
-    (S : Set (GX G X)) (hS : (algSet (MonoidHom.id G) S).Nonempty) :
-    @IsIrreducible _ (zariski (MonoidHom.id G)) (algSet (MonoidHom.id G) S) ↔
-      IsDiscriminatedBy (CoordGroup (MonoidHom.id G) S) G
-        ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) (MonoidHom.id G) := by
-  sorry
-
-/-- The radical of `x²` over a free group is the normal closure of `x`, not of `x²` (§5.2). -/
-theorem rad_sq :
-    radical (MonoidHom.id (FreeGroup (Fin 2))) {Monoid.Coprod.inr (FreeGroup.of ()) ^ 2} =
-      Subgroup.normalClosure {(Monoid.Coprod.inr (FreeGroup.of ()) : GX (FreeGroup (Fin 2)) Unit)} := by
-  sorry
-
-end layer5
-
-/-! ## Layer 6: surface groups and quadratic equations -/
-
-section layer6
-
-/-- Polygonal incidence records actual closed Serre face traversals (§6.0a).
-Repeated edge and vertex occurrences remain distinct corners. -/
-structure PolygonalComplex (V E F : Type*) where
-  graph : SerreGraph V E
-  faceBase : F → V
-  faceWord : F → List E
-  face_closed : ∀ f, graph.IsPath (faceBase f) (faceWord f) (faceBase f)
-  face_nonempty : ∀ f, (faceWord f).length > 0
-
-namespace PolygonalComplex
-
-variable {V E F : Type*} (C : PolygonalComplex V E F)
-
-/-- Corners are occurrences in a face, rather than pairs of vertex labels. -/
-abbrev Corner := Σ f : F, Fin (C.faceWord f).length
-
-/-- The two outgoing edge germs at a face corner. -/
-def cornerEnds (c : C.Corner) : E × E :=
-  let w := C.faceWord c.1
-  let prev : Fin w.length := ⟨(c.2.val + w.length - 1) % w.length, by sorry⟩
-  (C.graph.rev (w.get prev), w.get c.2)
-
-/-- Corner incidence gives a Serre link, retaining loops and parallel link edges. -/
-def vertexLink (v : V) : SerreGraph {e : E // C.graph.src e = v}
-    {p : C.Corner × Bool // C.graph.src (C.cornerEnds p.1).1 = v} where
-  src p := ⟨if p.val.2 then (C.cornerEnds p.val.1).2 else (C.cornerEnds p.val.1).1,
-    by sorry⟩
-  rev p := ⟨(p.val.1, !p.val.2), p.property⟩
-  rev_rev := by sorry
-  rev_ne := by sorry
-
-/-- For a finite face type, the local degree counts link darts; a link loop contributes two. -/
-noncomputable def linkDegree [Finite F] (e : E) : ℕ :=
-  Nat.card {p : C.Corner × Bool //
-    (if p.2 then (C.cornerEnds p.1).2 else (C.cornerEnds p.1).1) = e}
-
-/-- With finitely many faces, a surface link is a nonempty connected circle or a nondegenerate
-interval. -/
-def HasSurfaceLink [Finite F] (v : V) : Prop :=
-  (C.vertexLink v).Connected ∧
-  ((∀ e : {e : E // C.graph.src e = v}, C.linkDegree e = 2) ∨
-    ∃ a b : {e : E // C.graph.src e = v}, a ≠ b ∧
-      C.linkDegree a = 1 ∧ C.linkDegree b = 1 ∧
-      ∀ e : {e : E // C.graph.src e = v}, e ≠ a → e ≠ b → C.linkDegree e = 2)
-
-/-- Face relators supplement the reversal and tree relations (§6.0c). -/
-def faceRelators (T : C.graph.SpanningTree) : Set (FreeGroup E) :=
-  C.graph.graphRelators T ∪ Set.range (fun f => ((C.faceWord f).map FreeGroup.of).prod)
-
-/-- The finite face presentation is a quotient of the graph presentation (§6.0c). -/
-abbrev FacePresentation (T : C.graph.SpanningTree) := PresentedGroup (C.faceRelators T)
-
-/-- Changing the spanning tree preserves the face group (§6.0c). -/
-theorem facePresentation_tree_independent (T U : C.graph.SpanningTree) :
-    Nonempty (C.FacePresentation T ≃* C.FacePresentation U) := by sorry
-
-/-- Face relations give exactly the kernel of the graph-to-face quotient (§6.0c). -/
-theorem facePresentation_quotient (T : C.graph.SpanningTree) :
-    Nonempty (C.FacePresentation T ≃*
-      (C.graph.GraphPresentation T ⧸ Subgroup.normalClosure
-        (Set.range fun f => PresentedGroup.mk (C.graph.graphRelators T)
-          (((C.faceWord f).map FreeGroup.of).prod)))) := by sorry
-
-end PolygonalComplex
-
-/-- Compact connected polygonal surface models with incidence links (§6.0a). -/
-structure SurfaceModel where
-  vertexCount : ℕ
-  edgeCount : ℕ
-  faceCount : ℕ
-  complex : PolygonalComplex (Fin vertexCount) (Fin edgeCount × Bool) (Fin faceCount)
-  vertices_nonempty : 0 < vertexCount
-  faces_nonempty : 0 < faceCount
-  connected : complex.graph.Connected
-  surface_links : ∀ v, complex.HasSurfaceLink v
-
-namespace SurfaceModel
-
-/-- The integer cell Euler characteristic counts reversal pairs as edges. -/
-def eulerChar (M : SurfaceModel) : ℤ :=
-  (M.vertexCount : ℤ) - (M.edgeCount : ℤ) + M.faceCount
-
-/-- A coherent choice of face orientations uses each oriented dart at most once. -/
-def IsOrientable (M : SurfaceModel) : Prop :=
-  ∃ ε : Fin M.faceCount → Bool, ∀ e,
-    (((List.finRange M.faceCount).flatMap fun f =>
-      if ε f then M.complex.faceWord f
-      else (M.complex.faceWord f).reverse.map M.complex.graph.rev).count e) ≤ 1
-
-/-- Boundary darts have one incident face corner. -/
-def boundaryDarts (M : SurfaceModel) : Set ((Fin M.edgeCount × Bool)) :=
-  {e | M.complex.linkDegree e = 1}
-
-/-- Actual boundary vertices exclude interior vertices from the boundary component count. -/
-abbrev BoundaryVertex (M : SurfaceModel) :=
-  {v : Fin M.vertexCount // ∃ e ∈ M.boundaryDarts, M.complex.graph.src e = v}
-
-/-- Components of the boundary subgraph (§6.0a). -/
-abbrev BoundaryComponent (M : SurfaceModel) :=
-  Quot (fun u w : M.BoundaryVertex => ∃ e ∈ M.boundaryDarts,
-    M.complex.graph.src e = u.val ∧ M.complex.graph.tgt e = w.val)
-
-/-- The boundary class of an incident boundary dart. -/
-def boundaryClass (M : SurfaceModel) (e : Fin M.edgeCount × Bool)
-    (he : e ∈ M.boundaryDarts) : M.BoundaryComponent :=
-  Quot.mk _ ⟨M.complex.graph.src e, e, he, rfl⟩
-
-/-- A boundary circuit traverses each edge of its component once, in either orientation. -/
-structure BoundaryCircuit (M : SurfaceModel) (b : M.BoundaryComponent) where
-  baseVertex : M.BoundaryVertex
-  component_eq : Quot.mk _ baseVertex = b
-  word : List (Fin M.edgeCount × Bool)
-  nonempty_word : word ≠ []
-  closed : M.complex.graph.IsPath baseVertex.val word baseVertex.val
-  reduced : M.complex.graph.IsReducedPath word
-  boundary_edges : ∀ e ∈ word, e ∈ M.boundaryDarts
-  once : ∀ e (he : e ∈ M.boundaryDarts),
-    word.count e + word.count (M.complex.graph.rev e) ≤ 1 ∧
-      (word.count e + word.count (M.complex.graph.rev e) = 1 ↔ M.boundaryClass e he = b)
-
-/-- Each boundary component has a cyclic traversal (§6.0a). -/
-theorem boundaryCircuit_exists (M : SurfaceModel) (b : M.BoundaryComponent) :
-    Nonempty (M.BoundaryCircuit b) := by sorry
-
-/-- The local face group retains the chosen tree presentation (§6.0c). -/
-abbrev faceGroup (M : SurfaceModel) (T : M.complex.graph.SpanningTree) :=
-  M.complex.FacePresentation T
-
-/-- A boundary circuit is based by collapsing the chosen tree paths (§6.0c). -/
-def boundaryWord (M : SurfaceModel) (T : M.complex.graph.SpanningTree)
-    {b : M.BoundaryComponent} (c : M.BoundaryCircuit b) : M.faceGroup T :=
-  PresentedGroup.mk (M.complex.faceRelators T) ((c.word.map FreeGroup.of).prod)
-
-/-- A group comparison marks boundary classes bijectively, allowing conjugacy and inversion. -/
-def MarksBoundary (M : SurfaceModel) (T : M.complex.graph.SpanningTree)
-    {K : Type*} [Group K] (φ : M.faceGroup T →* K)
-    (p : Fin (Nat.card M.BoundaryComponent) → K) : Prop :=
-  ∃ β : M.BoundaryComponent ≃ Fin (Nat.card M.BoundaryComponent),
-    ∀ b (c : M.BoundaryCircuit b),
-      IsConj (φ (M.boundaryWord T c)) (p (β b)) ∨
-        IsConj (φ (M.boundaryWord T c)) (p (β b))⁻¹
-
-/-- Each surface edge has one or two face incidences, and boundary reversal is preserved. -/
-theorem boundary_incidence (M : SurfaceModel) (e : (Fin M.edgeCount × Bool)) :
-    (M.complex.linkDegree e = 1 ∨ M.complex.linkDegree e = 2) ∧
-      (M.complex.graph.rev e ∈ M.boundaryDarts ↔ e ∈ M.boundaryDarts) := by sorry
-
-/-- The boundary graph retains exactly the boundary sides and their actual endpoints (§6.0a). -/
-def boundary (M : SurfaceModel) :
-    SerreGraph M.BoundaryVertex {e : Fin M.edgeCount × Bool // e ∈ M.boundaryDarts} where
-  src e := ⟨M.complex.graph.src e, e.val, e.property, rfl⟩
-  rev e := ⟨M.complex.graph.rev e, by sorry⟩
-  rev_rev := by sorry
-  rev_ne := by sorry
-
-end SurfaceModel
-
-/-- Adjoining an edge determined by an old word preserves a presentation (§6.0b). -/
-theorem presentation_adjoin_edge {A : Type*} (R : Set (FreeGroup A)) (w : FreeGroup A) :
-    Nonempty (PresentedGroup R ≃*
-      PresentedGroup ((FreeGroup.map Sum.inl '' R) ∪
-        {FreeGroup.of (Sum.inr () : A ⊕ Unit) * (FreeGroup.map Sum.inl w)⁻¹})) := by sorry
-
-/-- Splitting a face along a new edge preserves its presented group (§6.0b). -/
-theorem presentation_split_face {A : Type*} (R : Set (FreeGroup A)) (u v : FreeGroup A) :
-    Nonempty (PresentedGroup (R ∪ {u * v}) ≃*
-      PresentedGroup ((FreeGroup.map Sum.inl '' R) ∪
-        {FreeGroup.map Sum.inl u * FreeGroup.of (Sum.inr () : A ⊕ Unit),
-          (FreeGroup.of (Sum.inr () : A ⊕ Unit))⁻¹ * FreeGroup.map Sum.inl v})) := by sorry
-
-namespace PolygonalComplex
-
-/-- A one-vertex polygon with paired darts, for the basic surface examples (§6.0a). -/
-def polygon (n : ℕ) (w : List (Fin n × Bool)) (hw : 0 < w.length) :
-    PolygonalComplex (Fin 1) (Fin n × Bool) (Fin 1) where
-  graph := {
-    src := fun _ => 0
-    rev := fun e => (e.1, !e.2)
-    rev_rev := by sorry
-    rev_ne := by sorry }
-  faceBase _ := 0
-  faceWord _ := w
-  face_closed := by sorry
-  face_nonempty _ := hw
-
-end PolygonalComplex
-
-namespace SurfaceModel
-
-/-- The disc polygon has one unpaired boundary side (§6.0a). -/
-def disc : SurfaceModel where
-  vertexCount := 1
-  edgeCount := 1
-  faceCount := 1
-  complex := PolygonalComplex.polygon 1 [(0, true)] (by sorry)
-  vertices_nonempty := by sorry
-  faces_nonempty := by sorry
-  connected := by sorry
-  surface_links := by sorry
-
-/-- The torus polygon uses the source commutator's four sides (§6.0a). -/
-def torus : SurfaceModel where
-  vertexCount := 1
-  edgeCount := 2
-  faceCount := 1
-  complex := PolygonalComplex.polygon 2 [(0, false), (1, false), (0, true), (1, true)]
-    (by sorry)
-  vertices_nonempty := by sorry
-  faces_nonempty := by sorry
-  connected := by sorry
-  surface_links := by sorry
-
-/-- The projective-plane polygon traverses one paired side twice (§6.0a). -/
-def projectivePlane : SurfaceModel where
-  vertexCount := 1
-  edgeCount := 1
-  faceCount := 1
-  complex := PolygonalComplex.polygon 1 [(0, true), (0, true)] (by sorry)
-  vertices_nonempty := by sorry
-  faces_nonempty := by sorry
-  connected := by sorry
-  surface_links := by sorry
-
-end SurfaceModel
-
-/-- The source commutator `x⁻¹ y⁻¹ x y`, equal to Mathlib's `⁅x⁻¹, y⁻¹⁆`. -/
-def comm {G : Type*} [Group G] (x y : G) : G := x⁻¹ * y⁻¹ * x * y
-
-/-- The orientable surface relator of genus `g` with `m` boundary elements (§6.1), with the
-source commutator convention of `comm`. -/
-def orientableRelator (g m : ℕ) : FreeGroup ((Fin g × Bool) ⊕ Fin m) :=
-  ((List.finRange g).map fun i : Fin g =>
-      comm (FreeGroup.of (Sum.inl (i, false) : (Fin g × Bool) ⊕ Fin m))
-        (FreeGroup.of (Sum.inl (i, true)))).prod *
-    ((List.finRange m).map fun j : Fin m =>
-      FreeGroup.of (Sum.inr j : (Fin g × Bool) ⊕ Fin m)).prod
-
-/-- The orientable surface group `S⁺(g, m)` (§6.1; the README's `SurfaceGroup.orientable`). -/
-abbrev OrientableSurfaceGroup (g m : ℕ) : Type :=
-  PresentedGroup {orientableRelator g m}
-
-/-- The non-orientable surface relator `c₁² ⋯ c_g² p₁ ⋯ p_m` (§6.1). -/
-def nonorientableRelator (g m : ℕ) : FreeGroup (Fin g ⊕ Fin m) :=
-  ((List.finRange g).map fun i : Fin g => FreeGroup.of (Sum.inl i : Fin g ⊕ Fin m) ^ 2).prod *
-    ((List.finRange m).map fun j : Fin m => FreeGroup.of (Sum.inr j : Fin g ⊕ Fin m)).prod
-
-/-- The non-orientable surface group `S⁻(g, m)` (§6.1; the README's `SurfaceGroup.nonorientable`). -/
-abbrev NonorientableSurfaceGroup (g m : ℕ) : Type :=
-  PresentedGroup {nonorientableRelator g m}
-
-/-- Euler characteristic of `S⁺(g, m)`. -/
-def orientableEulerChar (g m : ℕ) : ℤ := 2 - 2 * g - m
-
-/-- Polygonal normalization gives the standard surface presentation with the boundary
-count, marked peripheral classes and Euler characteristic of the incidence model (§§6.0b,6.1a). -/
-theorem SurfaceModel.presentation_normalForm (M : SurfaceModel)
-    (T : M.complex.graph.SpanningTree) :
-    ∃ (o : Bool) (g : ℕ),
-      (o = true ↔ M.IsOrientable) ∧ (o = false → 1 ≤ g) ∧
-      M.eulerChar = (if o then 2 - 2 * (g : ℤ) - Nat.card M.BoundaryComponent
-        else 2 - (g : ℤ) - Nat.card M.BoundaryComponent) ∧
-      (if o then ∃ e : M.faceGroup T ≃*
-          OrientableSurfaceGroup g (Nat.card M.BoundaryComponent),
-        M.MarksBoundary T e.toMonoidHom (fun j => PresentedGroup.of (Sum.inr j))
-      else ∃ e : M.faceGroup T ≃*
-          NonorientableSurfaceGroup g (Nat.card M.BoundaryComponent),
-        M.MarksBoundary T e.toMonoidHom (fun j => PresentedGroup.of (Sum.inr j))) := by sorry
-
-/-- Surface groups with boundary are free (§6.2). -/
-theorem isFreeGroup_orientable (g m : ℕ) (hm : 1 ≤ m) :
-    IsFreeGroup (OrientableSurfaceGroup g m) := by
-  sorry
-
-/-- Closed orientable surface groups of positive genus are not free (§6.2). -/
-theorem not_isFreeGroup_orientable_closed (g : ℕ) (hg : 1 ≤ g) :
-    ¬ IsFreeGroup (OrientableSurfaceGroup g 0) := by
-  sorry
-
-/-- A conjugate of a nonidentity coefficient has no solutions (§6.5, the README's
-`GroupAlgGeom.Quadratic.strict_conjugate_inconsistent`); its quadratic normalization is the
-coefficient-only branch of `GroupAlgGeom.Quadratic.exists_standardForm`. -/
-theorem conjugate_coeff_algSet_eq_empty {G : Type*} [Group G] (c : G) (hc : c ≠ 1) :
-    algSet (MonoidHom.id G)
-      {(Monoid.Coprod.inr (FreeGroup.of ()) : GX G Unit)⁻¹ * Monoid.Coprod.inl c *
-        Monoid.Coprod.inr (FreeGroup.of ())} = ∅ := by
-  sorry
-
-end layer6
-
-/-! ## Layer 7: generalised equations, equation solving, and positive formal solutions -/
-
-section layer7
 
 /-- Merzljakov's theorem (§7.10): if the positive `∀∃` sentence holds in `F`, witnessed by Skolem
-functions in which `yᵢ` depends only on `x₁, …, xᵢ`, then it has a formal solution in `F[X]` with
+functions in which `yᵢ` depends only on `x₁, …, xᵢ`, it has a formal solution in `F[X]` with
 the same dependence. -/
 theorem merzljakov (k n : ℕ) (hn : 2 ≤ n) (S : FreeGroup ((Fin k ⊕ Fin k) ⊕ Fin n))
     (h : ∃ f : (Fin k → FreeGroup (Fin n)) → Fin k → FreeGroup (Fin n),
@@ -1091,50 +185,14 @@ theorem merzljakov (k n : ℕ) (hn : 2 ≤ n) (S : FreeGroup ((Fin k ⊕ Fin k) 
           (fun a => FreeGroup.of (Sum.inr a))) S = 1 := by
   sorry
 
-end layer7
-
-/-! ## Layer 8: fully residually free groups, limit groups, and NTQ towers -/
-
-section layer8
-
 /-- Residually free groups (§8.1). -/
 def IsResiduallyFree (G : Type u) [Group G] : Prop :=
   ∀ g : G, g ≠ 1 → ∃ (F : Type u) (_ : Group F), IsFreeGroup F ∧ ∃ φ : G →* F, φ g ≠ 1
 
-/-- Fully residually free (freely discriminated) groups (§8.1).
-`LimitGroup.IsFullyResiduallyFree.of_injective` in the README transfers the finite-set
-condition along an injective homomorphism. -/
+/-- Fully residually free (freely discriminated) groups (§8.1). -/
 def IsFullyResiduallyFree (G : Type u) [Group G] : Prop :=
   ∀ s : Finset G, (1 : G) ∉ s →
     ∃ (F : Type u) (_ : Group F), IsFreeGroup F ∧ ∃ φ : G →* F, ∀ g ∈ s, φ g ≠ 1
-
-/-- Big powers for nonidentity tuples with noncommuting consecutive entries (§8.5a). -/
-def IsBP (G : Type*) [Group G] : Prop :=
-  ∀ (k : ℕ), 0 < k → ∀ u : Fin k → G,
-    (∀ i, u i ≠ 1) →
-    (∀ i j : Fin k, i.val + 1 = j.val → ¬ Commute (u i) (u j)) →
-    ∃ N : ℕ, 1 ≤ N ∧ ∀ e : Fin k → ℕ,
-      (∀ i, N ≤ e i) → ((List.finRange k).map fun i => u i ^ e i).prod ≠ 1
-
-/-- Reduced-word cancellation bounds give big powers in free groups (§8.5a). -/
-theorem isBP_freeGroup (α : Type*) : IsBP (FreeGroup α) := by
-  sorry
-
-/-- Big powers pass to a subgroup through its injective inclusion (§8.5a). -/
-theorem IsBP.of_injective {K H : Type*} [Group K] [Group H]
-    (hH : IsBP H) (f : K →* H) (hf : Function.Injective f) : IsBP K := by
-  sorry
-
-/-- One discriminating map preserves the tuple and its adjacent commutators (§8.5a). -/
-theorem IsBP.of_discriminated {K H : Type*} [Group K] [Group H]
-    (hH : IsBP H) (hKH : IsDiscriminatedBy K H (1 : Unit →* K) (1 : Unit →* H)) :
-    IsBP K := by
-  sorry
-
-/-- Fully residually free groups have big powers (§8.5a). -/
-theorem IsFullyResiduallyFree.isBP {G : Type*} [Group G]
-    (hG : IsFullyResiduallyFree G) : IsBP G := by
-  sorry
 
 /-- The point of the Cantor space `FreeGroup (Fin n) → Bool` given by a subgroup. -/
 noncomputable def markedPoint {n : ℕ} (N : Subgroup (FreeGroup (Fin n))) :
@@ -1142,94 +200,52 @@ noncomputable def markedPoint {n : ℕ} (N : Subgroup (FreeGroup (Fin n))) :
   classical
   exact fun w => decide (w ∈ N)
 
-/-- Limit groups: some marking is a limit of markings of free groups (§8.3).
-The README's `LimitGroup.IsLimitGroup.marking_independent` makes this independent of the
-chosen finite generating tuple. -/
+/-- Limit groups: some marking is a limit of markings of free groups (§8.3). -/
 def IsLimitGroup (G : Type*) [Group G] : Prop :=
   ∃ (n : ℕ) (f : FreeGroup (Fin n) →* G), Function.Surjective f ∧
     markedPoint f.ker ∈
       closure (Set.range fun ψ : FreeGroup (Fin n) →* FreeGroup (Fin 2) => markedPoint ψ.ker)
 
 /-- Limit groups are the finitely generated fully residually free groups (§8.4). -/
-theorem isLimitGroup_iff (G : Type) [Group G] [Group.FG G] :
+theorem isLimitGroup_iff (G : Type*) [Group G] [Group.FG G] :
     IsLimitGroup G ↔ IsFullyResiduallyFree G := by
   sorry
 
-/-- Fully residually free groups are commutative transitive (§8.2). -/
-theorem IsFullyResiduallyFree.commute_trans {G : Type u} [Group G] (hG : IsFullyResiduallyFree G)
-    {a b c : G} (hb : b ≠ 1) (hab : Commute a b) (hbc : Commute b c) : Commute a c := by
+/-- The coefficient-preserving characterization by irreducible coordinate groups (§8.4). -/
+theorem discriminated_iff_irreducible_coordinate_group {K : Type*} [Group K] [Group.FG K]
+    (n : ℕ) (hn : 2 ≤ n) (ι : FreeGroup (Fin n) →* K) (hι : Function.Injective ι) :
+    IsDiscriminatedBy ι (MonoidHom.id _) ↔
+      ∃ (m : ℕ) (S : Finset (GX (FreeGroup (Fin n)) (Fin m)))
+        (e : K ≃* CoordGroup (MonoidHom.id (FreeGroup (Fin n)))
+          (S : Set (GX (FreeGroup (Fin n)) (Fin m)))),
+        @IsIrreducible _ (zariski (MonoidHom.id (FreeGroup (Fin n))))
+          (algSet (MonoidHom.id (FreeGroup (Fin n)))
+            (S : Set (GX (FreeGroup (Fin n)) (Fin m)))) ∧
+        e.toMonoidHom.comp ι = (QuotientGroup.mk' _).comp Monoid.Coprod.inl := by
   sorry
 
-/-- The extension of the centralizer of `u` by `ℤ` (§8.5; the case `n = 1` of the README's
-`LimitGroup.centralizerExt`), as an HNN extension along the identity of the centralizer. -/
-abbrev CentralizerExt (G : Type*) [Group G] (u : G) : Type _ :=
-  HNNExtension G (Subgroup.centralizer {u}) (Subgroup.centralizer {u}) (MulEquiv.refl _)
-
-/-- Admissible ICE steps use a nonidentity non-proper-power and positive added rank (§8.5;
-the README's `LimitGroup.IsAdmissibleCentralizerStep`). The extension uses the full centralizer. -/
-def IsAdmissibleCentralizerStep {G : Type*} [Group G] (u : G) (n : ℕ) : Prop :=
-  u ≠ 1 ∧ ¬ IsProperPower u ∧ 0 < n
-
-/-- An admissible normalized tower centralizer level over the fixed lower carrier `G` has
-a finite generating set of its full abelian centralizer and positive added rank
-(§8.8; `LimitGroup.NTQ.IsAdmissibleCentralizerLevel`). -/
-def IsAdmissibleCentralizerLevel {G : Type*} [Group G] (u : G) (U : Finset G) (n : ℕ) : Prop :=
-  IsAdmissibleCentralizerStep u n ∧
-    Subgroup.closure (U : Set G) = Subgroup.centralizer {u} ∧
-    IsMulCommutative (Subgroup.centralizer {u})
-
-/-- An admissible rank-one centralizer extension of a nonabelian fully residually free group
-is fully residually free (§8.6). -/
-theorem isFullyResiduallyFree_centralizerExt {G : Type} [Group G] (hG : IsFullyResiduallyFree G)
-    (hnonabelian : ∃ a b : G, ¬ Commute a b) (u : G)
-    (hadmissible : IsAdmissibleCentralizerStep u 1) :
-    IsFullyResiduallyFree (CentralizerExt G u) := by
+/-- Finitely generated residually free groups embed in finite products of fully residually
+free groups (§8.7). -/
+theorem residuallyFree_embeds_finite_product {G : Type u} [Group G] [Group.FG G]
+    (hG : IsResiduallyFree G) :
+    ∃ (n : ℕ) (K : Fin n → Type u) (gK : ∀ i, Group (K i)),
+      letI := gK
+      (∀ i, IsFullyResiduallyFree (K i)) ∧
+        ∃ f : G →* (∀ i, K i), Function.Injective f := by
   sorry
 
-/-- A raw two-level quadratic system has two surviving elements that cannot be preserved
-simultaneously by a map to a free group (§8.9). -/
-theorem quadratic_specialization_radical_gap :
-    let F := FreeGroup (Fin 2)
-    let u : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 0)
-    let v : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 1)
-    let x : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 2)
-    let S : Set (GX F (Fin 3)) := {comm u v, comm u x}
-    let K := CoordGroup (MonoidHom.id F) S
-    let q : GX F (Fin 3) →* K := QuotientGroup.mk' _
-    q u ≠ 1 ∧ q (comm v x) ≠ 1 ∧ ¬ IsFullyResiduallyFree K ∧
-      ¬ IsDiscriminatedBy K F (q.comp Monoid.Coprod.inl) (MonoidHom.id F) := by
-  sorry
-
-/-- The raw quadratic specialization locus is the union of two proper closed branches
-(§§8.6b, 8.9); the free branch retains solutions lost by fixed-coefficient saturation. -/
-theorem quadratic_specialization_reducible :
-    let F := FreeGroup (Fin 2)
-    let u : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 0)
-    let v : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 1)
-    let x : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 2)
-    let V := algSet (MonoidHom.id F) {comm u v, comm u x}
-    let A := algSet (MonoidHom.id F) ({u} : Set (GX F (Fin 3)))
-    let B := algSet (MonoidHom.id F) {comm u v, comm u x, comm v x}
-    V = A ∪ B ∧ A ⊂ V ∧ B ⊂ V ∧
-      ¬ @IsIrreducible _ (zariski (MonoidHom.id F)) V := by
-  sorry
-
-/-- Finitely generated fully residually free groups are finitely presented (§8.7). -/
-theorem isFinitelyPresented_of_fullyResiduallyFree (G : Type) [Group G] [Group.FG G]
+/-- Finite presentability of finitely generated fully residually free groups (§8.7). -/
+theorem isFinitelyPresented_of_fullyResiduallyFree (G : Type*) [Group G] [Group.FG G]
     (hG : IsFullyResiduallyFree G) : Group.IsFinitelyPresented G := by
   sorry
 
-end layer8
+/-- Howson property of every fully residually free group (§9.7). -/
+theorem fg_inf_of_fullyResiduallyFree {G : Type*} [Group G]
+    (hG : IsFullyResiduallyFree G) (H K : Subgroup G) (hH : H.FG) (hK : K.FG) :
+    (H ⊓ K).FG := by
+  sorry
 
-/-! ## Layer 9: length functions and infinite-word representations -/
-
-section layer9
-
-/-- Lyndon length functions with values in an ordered abelian group `Λ` (§9.1). The Gromov
-product is used doubled, `2 c(g, f) = l g + l f - l (g⁻¹ f)`, to stay inside `Λ`. The README's `LyndonLength.le_add` supplies the triangle inequality
-and bounds for Gromov products; `LyndonLength.torsion_not_free` uses the nonidentity
-in ℤ/2 to distinguish Lyndon length from free length, and `LyndonLength.Z2_lex`
-uses ordered absolute value on lexicographically ordered ℤ². -/
+/-- Lyndon's axioms, using doubled Gromov products to avoid a divisible hull (§9.1). -/
 structure LyndonLength (G : Type*) [Group G] (Λ : Type*) [AddCommGroup Λ] [LinearOrder Λ]
     [IsOrderedAddMonoid Λ] where
   /-- The length. -/
@@ -1250,258 +266,124 @@ def IsFree (L : LyndonLength G Λ) : Prop :=
   (∀ g f : G, ∃ c : Λ, 2 • c = L.l g + L.l f - L.l (g⁻¹ * f)) ∧
     ∀ g : G, g ≠ 1 → L.l g < L.l (g ^ 2)
 
-/-- Regular length functions: (L6). -/
-def IsRegular (L : LyndonLength G Λ) : Prop :=
-  ∀ g f : G, ∃ u g₁ f₁ : G, g = u * g₁ ∧ f = u * f₁ ∧ L.l g = L.l u + L.l g₁ ∧
-    L.l f = L.l u + L.l f₁ ∧ 2 • L.l u = L.l g + L.l f - L.l (g⁻¹ * f)
-
 end LyndonLength
-
-/-- The word length of a free group is a free regular Lyndon length function
-(§9.1; `LyndonLength.freeGroup_norm`). -/
-theorem exists_lyndonLength_norm (α : Type*) [DecidableEq α] :
-    ∃ L : LyndonLength (FreeGroup α) ℤ, (∀ g, L.l g = (FreeGroup.norm g : ℤ)) ∧
-      L.IsFree ∧ L.IsRegular := by
-  sorry
 
 /-- Finitely generated fully residually free groups have free `ℤⁿ`-valued length functions for
 the lexicographic order (§9.5). -/
-theorem exists_free_lyndonLength (G : Type) [Group G] [Group.FG G]
+theorem exists_free_lyndonLength (G : Type*) [Group G] [Group.FG G]
     (hG : IsFullyResiduallyFree G) :
     ∃ (n : ℕ) (L : LyndonLength G (Lex (Fin n → ℤ))), L.IsFree := by
   sorry
 
-end layer9
-
-/-! ## Layer 10: JSJ structure and finite solution diagrams
-
-The JSJ and finite-diagram carriers are specified in README.md. Completeness retains all
-solution branches; `LimitGroup.MRDiagram.IsComponentNormalized` additionally requires the
-distinct component closures at the root. The identity-plus-constant branch cover is complete
-and fails that additional predicate (§10.6).
--/
-
-/-- A finite closed irreducible cover determines components by inclusion-maximal members
-(§10.8), independently of redundant branches in the full pointwise solution cover. -/
-theorem component_iff_maximal_cover {Z : Type*} [TopologicalSpace Z]
-    {ι : Type*} [Finite ι] (C : ι → Set Z) (Y : Set Z)
-    (hclosed : ∀ i, IsClosed (C i)) (hirr : ∀ i, IsIrreducible (C i))
-    (hcover : Y = ⋃ i, C i) (D : Set Z) :
-    Maximal (fun E : Set Z => IsClosed E ∧ IsIrreducible E ∧ E ⊆ Y) D ↔
-      ∃ i, D = C i ∧ ∀ j, C i ⊆ C j → C j ⊆ C i := by
+/-- Every descending chain of limit-group quotients of a fixed finitely generated group
+stabilizes (§10.7). -/
+theorem limitGroup_quotient_chain_stabilizes {G : Type*} [Group G] [Group.FG G]
+    (N : ℕ → Subgroup G) (hN : ∀ i, (N i).Normal)
+    (hchain : Monotone N) (hfree : ∀ i, @IsFullyResiduallyFree (G ⧸ N i)
+      (@QuotientGroup.Quotient.group G _ (N i) (hN i))) :
+    ∃ i, ∀ j, i ≤ j → N j = N i := by
   sorry
 
-/-! ## Layer 11: regular implicit-function theorems over free groups -/
+/-- The source convention for commutators (§6.5). -/
+def comm {G : Type*} [Group G] (x y : G) : G := x⁻¹ * y⁻¹ * x * y
 
-section layer11
+/-- The variables of an orientable or nonorientable standard equation (§6.5). -/
+abbrev QuadraticVars (orientable : Bool) (n m : ℕ) :=
+  (Fin n × Fin (if orientable then 2 else 1)) ⊕ Fin m
 
-variable {G : Type*} [Group G]
+/-- Commutator or square atoms, followed by conjugated coefficients (§6.5).
+Commutators follow the convention `x⁻¹ y⁻¹ x y`. -/
+def quadraticAtoms {G : Type*} [Group G] :
+    (o : Bool) → (n m : ℕ) → (Fin m → G) → List (GX G (QuadraticVars o n m))
+  | true, n, m, c =>
+      ((List.finRange n).map fun i =>
+        let x : GX G (QuadraticVars true n m) := Monoid.Coprod.inr (FreeGroup.of (Sum.inl (i, 0)))
+        let y : GX G (QuadraticVars true n m) := Monoid.Coprod.inr (FreeGroup.of (Sum.inl (i, 1)))
+        comm x y) ++
+      ((List.finRange m).map fun j =>
+        let z : GX G (QuadraticVars true n m) := Monoid.Coprod.inr (FreeGroup.of (Sum.inr j))
+        z⁻¹ * Monoid.Coprod.inl (c j) * z)
+  | false, n, m, c =>
+      ((List.finRange n).map fun i =>
+        (Monoid.Coprod.inr (FreeGroup.of (Sum.inl (i, 0))) : GX G (QuadraticVars false n m)) ^ 2) ++
+      ((List.finRange m).map fun j =>
+        let z : GX G (QuadraticVars false n m) := Monoid.Coprod.inr (FreeGroup.of (Sum.inr j))
+        z⁻¹ * Monoid.Coprod.inl (c j) * z)
 
-/-- Compatibility of `T(X, Y) = 1` with `S(X) = 1` over `G` (§11.1). -/
-def IsCompatible {X Y : Type*} (S : Set (GX G X)) (T : Set (GX G (X ⊕ Y))) : Prop :=
-  ∀ v ∈ algSet (MonoidHom.id G) S, ∃ w : Y → G,
-    ∀ t ∈ T, evalAt (MonoidHom.id G) (Sum.elim v w) t = 1
+/-- The four standard quadratic shapes, with their nonidentity coefficient conditions (§6.5).
+A closed shape has no conjugated coefficients and has constant `1`. -/
+structure StandardQuadratic (G : Type*) [Group G] where
+  orientable : Bool
+  genus : ℕ
+  conjugates : ℕ
+  coeff : Fin conjugates → G
+  constant : G
+  hasConstant : Bool
+  positive_rank : 0 < genus + conjugates
+  square_genus : orientable = false → 0 < genus
+  coeff_ne : ∀ j, coeff j ≠ 1
+  constant_ne : hasConstant = true → constant ≠ 1
+  closed_shape : hasConstant = false → conjugates = 0 ∧ constant = 1
 
-/-- `T` admits an `S`-lift: it has a solution in the coordinate group `G_{R(S)}` with `X`
-interpreted as the generic point (§11.1). -/
-def HasLift {X Y : Type*} (S : Set (GX G X)) (T : Set (GX G (X ⊕ Y))) : Prop :=
-  ∃ w : Y → CoordGroup (MonoidHom.id G) S,
-    ∀ t ∈ T, evalAt ((QuotientGroup.mk' _).comp Monoid.Coprod.inl)
-      (Sum.elim (fun x => QuotientGroup.mk' _ (Monoid.Coprod.inr (FreeGroup.of x))) w) t = 1
+/-- The standard left-hand side in the native free coefficient group (§6.5). -/
+def StandardQuadratic.toWord {G : Type*} [Group G] (S : StandardQuadratic G) :
+    GX G (QuadraticVars S.orientable S.genus S.conjugates) :=
+  (quadraticAtoms S.orientable S.genus S.conjugates S.coeff).prod *
+    Monoid.Coprod.inl S.constant
 
-/-- A complete lift includes an ordinary lift and a lift of every compatible single-inequation
-extension (§11.1), even when the latter condition has no instances. -/
-def HasCompleteLift {X Y : Type*} (S : Set (GX G X))
-    (T : Set (GX G (X ⊕ Y))) : Prop :=
+/-- Regularity in the equivalent form of §6.7, including the closed genus-two exception.
+Noncommutative solutions are tested on consecutive atom values. -/
+def StandardQuadratic.IsRegular {G : Type*} [Group G] (S : StandardQuadratic G) : Prop :=
+  (∃ v, evalAt (MonoidHom.id G) v S.toWord = 1) ∧
+    ((4 ≤ S.genus * (if S.orientable then 2 else 1) + S.conjugates +
+        (if S.hasConstant then 1 else 0) ∧
+      ∃ v, evalAt (MonoidHom.id G) v S.toWord = 1 ∧
+        ∃ p ∈ (quadraticAtoms S.orientable S.genus S.conjugates S.coeff).zip
+            (quadraticAtoms S.orientable S.genus S.conjugates S.coeff).tail,
+          ¬ Commute (evalAt (MonoidHom.id G) v p.1) (evalAt (MonoidHom.id G) v p.2)) ∨
+    (S.orientable = true ∧ S.genus = 1 ∧ S.conjugates = 0 ∧ S.hasConstant = true) ∨
+    (S.orientable = true ∧ S.genus = 2 ∧ S.hasConstant = false))
+
+/-- Regular quadratic radicals equal the defining normal closures (§6.8). -/
+theorem radical_regular_quadratic {G : Type*} [Group G]
+    (hG : IsFullyResiduallyFree G) (hnonabelian : ∃ a b : G, ¬ Commute a b)
+    (S : StandardQuadratic G) (hS : S.IsRegular) :
+    radical (MonoidHom.id G) {S.toWord} = Subgroup.normalClosure {S.toWord} := by
+  sorry
+
+/-- Compatibility means solvability above every point of the base system (§11.1). -/
+def IsCompatible {G X Y : Type*} [Group G]
+    (S : Set (GX G X)) (T : Set (GX G (X ⊕ Y))) : Prop :=
+  ∀ x ∈ algSet (MonoidHom.id G) S,
+    ∃ y : Y → G, Sum.elim x y ∈ algSet (MonoidHom.id G) T
+
+/-- A formal solution in the radical coordinate group (§11.1). -/
+def HasLift {G X Y : Type*} [Group G]
+    (S : Set (GX G X)) (T : Set (GX G (X ⊕ Y))) : Prop :=
+  let μ := QuotientGroup.mk' (radical (MonoidHom.id G) S)
+  ∃ y : Y → CoordGroup (MonoidHom.id G) S,
+    Sum.elim (fun x => μ (Monoid.Coprod.inr (FreeGroup.of x))) y ∈
+      algSet (μ.comp Monoid.Coprod.inl) T
+
+/-- An ordinary lift and, separately for each compatible inequation, an inequation lift (§11.1). -/
+def HasCompleteLift {G X Y : Type*} [Group G]
+    (S : Set (GX G X)) (T : Set (GX G (X ⊕ Y))) : Prop :=
   HasLift S T ∧ ∀ W : GX G (X ⊕ Y),
-    (∀ v ∈ algSet (MonoidHom.id G) S, ∃ w : Y → G,
-      (∀ t ∈ T, evalAt (MonoidHom.id G) (Sum.elim v w) t = 1) ∧
-        evalAt (MonoidHom.id G) (Sum.elim v w) W ≠ 1) →
-    ∃ w : Y → CoordGroup (MonoidHom.id G) S,
-      let v := Sum.elim
-        (fun x => QuotientGroup.mk' _ (Monoid.Coprod.inr (FreeGroup.of x))) w
-      (∀ t ∈ T, evalAt ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) v t = 1) ∧
-        evalAt ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) v W ≠ 1
+    (∀ x ∈ algSet (MonoidHom.id G) S, ∃ y : Y → G,
+      Sum.elim x y ∈ algSet (MonoidHom.id G) T ∧
+        evalAt (MonoidHom.id G) (Sum.elim x y) W ≠ 1) →
+    let μ := QuotientGroup.mk' (radical (MonoidHom.id G) S)
+    ∃ y : Y → CoordGroup (MonoidHom.id G) S,
+      let v := Sum.elim (fun x => μ (Monoid.Coprod.inr (FreeGroup.of x))) y
+      v ∈ algSet (μ.comp Monoid.Coprod.inl) T ∧
+        evalAt (μ.comp Monoid.Coprod.inl) v W ≠ 1
 
-/-- A generic family consists of `S`-solutions and turns solvability of every single equation
-on the family into a complete lift (§11.1). Auxiliary tuples are finite. -/
-def IsGenericFamily {X : Type*} (S : Set (GX G X)) (Θ : Set (X → G)) : Prop :=
-  Θ ⊆ algSet (MonoidHom.id G) S ∧
-    ∀ (n : ℕ) (t : GX G (X ⊕ Fin n)),
-      (∀ v ∈ Θ, ∃ w : Fin n → G,
-        evalAt (MonoidHom.id G) (Sum.elim v w) t = 1) → HasCompleteLift S {t}
-
-/-- The regular one-commutator equation `[x,y]=[a,b]` over the fixed coefficient group
-`F(a,b)` (§11.4). -/
-def oneCommutatorEquation : GX (FreeGroup (Fin 2)) (Fin 2) :=
-  comm (Monoid.Coprod.inr (FreeGroup.of 0)) (Monoid.Coprod.inr (FreeGroup.of 1)) *
-    Monoid.Coprod.inl (comm (FreeGroup.of 0) (FreeGroup.of 1))⁻¹
-
-/-- The seven pairs of words for six left-multiplication moves with pattern `y,x,y,y,x,y`,
-starting at the coefficient pair `(a,b)` (§11.4). -/
-def boundedTwistStages {H : Type*} [Group H] (a b : H) (t : Fin 6 → H) :
-    Fin 7 → H × H :=
-  let b₁ := t 0 * b
-  let a₂ := t 1 * a
-  let b₃ := t 2 * b₁
-  let b₄ := t 3 * b₃
-  let a₅ := t 4 * a₂
-  let b₆ := t 5 * b₄
-  ![(a,b), (a,b₁), (a₂,b₁), (a₂,b₃), (a₂,b₄), (a₅,b₄), (a₅,b₆)]
-
-/-- Six centralizing constraints and the final-pair equations for the bounded-twist
-counterexample (§11.4). Intermediate pairs are word abbreviations. -/
-def boundedTwistSystem : Set (GX (FreeGroup (Fin 2)) (Fin 2 ⊕ Fin 6)) :=
-  let a := Monoid.Coprod.inl (FreeGroup.of (0 : Fin 2))
-  let b := Monoid.Coprod.inl (FreeGroup.of (1 : Fin 2))
-  let t : Fin 6 → GX (FreeGroup (Fin 2)) (Fin 2 ⊕ Fin 6) :=
-    fun i => Monoid.Coprod.inr (FreeGroup.of (Sum.inr i))
-  let r := boundedTwistStages a b t
-  {comm (t 0) (r 0).1, comm (t 1) (r 1).2,
-    comm (t 2) (r 2).1, comm (t 3) (r 3).1,
-    comm (t 4) (r 4).2, comm (t 5) (r 5).1,
-    Monoid.Coprod.inr (FreeGroup.of (Sum.inl 0)) * (r 6).1⁻¹,
-    Monoid.Coprod.inr (FreeGroup.of (Sum.inl 1)) * (r 6).2⁻¹}
-
-/-- Every six-exponent twist tuple yields a solution of the regular equation and witnesses
-for the bounded-twist system (§11.4). Indices `1,4` are the two moves changing `x`. -/
-theorem boundedTwist_family_solvable (p : Fin 6 → ℕ) :
-    ∃ t : Fin 6 → FreeGroup (Fin 2),
-      let r := boundedTwistStages (FreeGroup.of 0) (FreeGroup.of 1) t
-      (∀ i : Fin 6, t i =
-        (if i = 1 ∨ i = 4 then (r i.castSucc).2 else (r i.castSucc).1) ^ p i) ∧
-      let v : Fin 2 → FreeGroup (Fin 2) := ![(r 6).1, (r 6).2]
-      v ∈ algSet (MonoidHom.id _) {oneCommutatorEquation} ∧
-        ∀ w ∈ boundedTwistSystem, evalAt (MonoidHom.id _) (Sum.elim v t) w = 1 := by
+/-- Complete implicit function theorem for regular standard quadratic equations (§11.5).
+The coefficient free group may have arbitrary rank. -/
+theorem implicit_function_regular_quadratic {A Y : Type*} [Nontrivial A] [Finite Y]
+    (S : StandardQuadratic (FreeGroup A)) (hS : S.IsRegular)
+    (T : GX (FreeGroup A) (QuadraticVars S.orientable S.genus S.conjugates ⊕ Y))
+    (hT : IsCompatible {S.toWord} {T}) : HasCompleteLift {S.toWord} {T} := by
   sorry
-
-/-- The bounded-twist system has no lift at the generic pair of the regular one-commutator
-coordinate group, despite solvability on the whole six-move discriminating family (§11.4). -/
-theorem boundedTwist_no_lift :
-    ¬ HasLift {oneCommutatorEquation} boundedTwistSystem := by
-  sorry
-
-/-- The genus-two surface equation `[x₁, y₁][x₂, y₂] = 1` over `F(a, b)`, a regular standard
-quadratic equation. -/
-def genusTwoEquation : GX (FreeGroup (Fin 2)) (Fin 4) :=
-  Monoid.Coprod.inr (comm (FreeGroup.of (0 : Fin 4)) (FreeGroup.of 1) *
-    comm (FreeGroup.of (2 : Fin 4)) (FreeGroup.of 3))
-
-/-- The implicit function theorem for regular quadratic equations (§11.5), in the instance of the
-genus-two equation: every compatible equation lifts to the generic point, using the
-test-equation-dependent cut reconstruction and the coefficient-enlargement bridge of §11.4c. -/
-theorem hasLift_genusTwo {Y : Type*} [Finite Y]
-    (T : Set (GX (FreeGroup (Fin 2)) (Fin 4 ⊕ Y))) (hfinite : T.Finite)
-    (hT : IsCompatible {genusTwoEquation} T) : HasLift {genusTwoEquation} T := by
-  sorry
-
-end layer11
-
-/-! ## Boundary examples on the existing carriers -/
-
-section checks
-
-example : IsProperPower (1 : FreeGroup (Fin 2)) := by
-  exact ⟨1, 2, by decide, by simp⟩
-
-/-- Trivial coefficients give a domain whose empty closed set is not algebraic (§5.6),
-so closure cannot always be recovered from the vanishing ideal. -/
-theorem trivial_coefficients_closure_boundary :
-    IsGDomain Unit (MonoidHom.id Unit) ∧
-      (∀ S : Set (GX Unit Unit), algSet (MonoidHom.id Unit) S = Set.univ) ∧
-      @closure _ (zariski (MonoidHom.id Unit)) (∅ : Set (Unit → Unit)) = ∅ ∧
-      algSet (MonoidHom.id Unit)
-        (idealOf (MonoidHom.id Unit) (∅ : Set (Unit → Unit)) : Set (GX Unit Unit)) = Set.univ ∧
-      @closure _ (zariski (MonoidHom.id Unit)) (∅ : Set (Unit → Unit)) ≠
-        algSet (MonoidHom.id Unit)
-          (idealOf (MonoidHom.id Unit) (∅ : Set (Unit → Unit)) : Set (GX Unit Unit)) := by sorry
-
-/-- Extending only the proper-power subgroup makes the stable letter commute with `a²`
-but not `a`, violating CSA (§8.5); full-centralizer extensions avoid this boundary. -/
-theorem centralizerExt_proper_power :
-    let a : FreeGroup (Fin 2) := FreeGroup.of 0
-    let A := Subgroup.zpowers (a ^ 2)
-    let K := HNNExtension (FreeGroup (Fin 2)) A A (MulEquiv.refl A)
-    Commute (HNNExtension.of (a ^ 2) : K) HNNExtension.t ∧
-      ¬ Commute (HNNExtension.of a : K) HNNExtension.t ∧ ¬ IsCSA K := by sorry
-
-/-- The conjugacy radical over the fixed coefficient group `G` uses its entire coefficient
-centralizer (§6.8); coefficients remain fixed under every evaluation. -/
-theorem radical_conjugacy_eq {G : Type} [Group G] (hG : IsFullyResiduallyFree G)
-    (hNA : ∃ a b : G, ¬ Commute a b) (c d b : G) (hc : c ≠ 1) (hd : d ≠ 1)
-    (hb : d⁻¹ = b⁻¹ * c * b) :
-    let z : GX G Unit := Monoid.Coprod.inr (FreeGroup.of ())
-    radical (MonoidHom.id G) {z⁻¹ * Monoid.Coprod.inl c * z * Monoid.Coprod.inl d} =
-      Subgroup.normalClosure {w | ∃ h : G, h ∈ Subgroup.centralizer {c} ∧
-        w = comm (z * Monoid.Coprod.inl b⁻¹) (Monoid.Coprod.inl h)} := by sorry
-
-/-- The square disjunction on commuting pairs has witnesses at every free-group point
-but none at the generic point (§11.1), separating compatibility from lifting. -/
-theorem compatible_no_lift :
-    let F := FreeGroup (Fin 2)
-    let x : GX F Bool := Monoid.Coprod.inr (FreeGroup.of false)
-    let y : GX F Bool := Monoid.Coprod.inr (FreeGroup.of true)
-    let S : Set (GX F Bool) := {comm x y}
-    (∀ v ∈ algSet (MonoidHom.id F) S, ∃ z : F,
-      v false = z ^ 2 ∨ v true = z ^ 2 ∨ v false * v true = z ^ 2) ∧
-    ¬ (∃ z : CoordGroup (MonoidHom.id F) S,
-      QuotientGroup.mk' _ x = z ^ 2 ∨ QuotientGroup.mk' _ y = z ^ 2 ∨
-        QuotientGroup.mk' _ (x * y) = z ^ 2) := by sorry
-
-end checks
-
-/-
-Further README targets: `GGroup` and `GHom` with injective coefficient embeddings; the
-Stallings folds, cores, `basisWords` and the Stallings
-correspondence; `Term.ofWord`; `GraphOfGroups`, its paths,
-fundamental groups, Bass–Serre trees, `GTree`, the structure theorem,
-induced splittings, Kurosh's theorem and Dehn twists of amalgams; surface QH vertices with
-trivial fiber; `SurfaceModel.boundary` as the
-boundary Serre graph, and `SurfaceModel.Move` as the local polygonal subdivision relation;
-`SurfaceModel.TwoSidedCurve`, `SurfaceModel.EssentialCurve` and `SurfaceModel.ProperArc`,
-with local `SurfaceModel.cutAlong` and `SurfaceModel.cutAlongArc` returning finite nonempty
-families of connected polygonal pieces (§6.0d). Their contracts include simultaneous disjoint
-families, subdivision compatibility, paired cut sides, marked boundary transport and face-group
-regluing; essential curves in negative Euler characteristic give monomorphic cyclic edge maps.
-`GraphOfGroups.minimalSubtreeAt` is the hull of the base-vertex orbit (§4.10): for a finite
-generating set S it is U·({x₀} ∪ ⋃ s∈S, [x₀,sx₀]); the trivial subgroup with S empty gives
-one vertex and no edges. `SurfaceGroup.modelEquiv` with peripheral comparison; generalised
-equations, finite cancellation families, elementary transformation relations with separate
-presentation-group kernel reconstruction and full radical transport, parameter solution trees, cut equations and Makanin's
-finiteness theorem; recursive truth sets for the existential, universal and positive fragments; quadratic and strictly quadratic words, standard quadratic forms, atoms, degeneracy,
-general position, `kappa` and quadratic regularity.
-`GroupAlgGeom.Quadratic.Standard` has positive square genus in its non-orientable
-type-(3) and type-(4) constructors. A coefficient-conjugacy form with zero squares uses
-orientable type (2), the surface S⁺(0,m+1), and the conjugacy-only orientable `basicSeq`
-of length m−1 when regular; the mixed one-square or two-square forms require positive square genus.
-In particular the README's
-`GroupAlgGeom.Quadratic.IsRegular.of_genus` concerns consistent orientable equations of
-positive genus other than [x,y]=1; `MarkedGroup` and its compactness;
-`NTQ.System` and its raw nondegeneracy; `LimitGroup.NTQ.Tower`, its iterated fixed-coefficient
-radical carriers, `LimitGroup.NTQ.levelGroup`, inclusions and retractions, and regularity;
-`LimitGroup.NTQ.finite_centralizer_data` in finite ICE stages and their subgroups;
-`LimitGroup.NTQ.finite_tower_cover`, with sound word maps and a pointwise complete finite
-cover retaining coefficient-degeneration branches; only the saturated tower presentation,
-or a regular raw system, is identified with the tower's global radical coordinate group;
-`LimitGroup.centralizerExt_root_reduction`; infinite words, `F^{ℤ[t]}` as
-`LimitGroup.lyndonCompletion` with its ICE comparison, and
-graphs labelled by infinite words; Λ-metric spaces, Λ-trees and free actions on them; JSJ trees and their existence, finite marked Grushko and JSJ graphs, Makanin–Razborov
-factorization diagrams and finite component systems, equations over limit groups; `basicSeq` and its powers; the implicit function theorem for regular NTQ
-systems, using §11.6's composed F-valued tower families and compatible residual systems,
-with block depth and cancellation data chosen after the test equation and inequation,
-and nonvanishing retained for complete lifts rather than an implicit function theorem over
-arbitrary lower coordinate groups.
-
-The Serre/underlying-graph comparison includes `SerreGraph.toGraph`, `SerreGraph.ofGraph`
-and `SerreGraph.reachable_toGraph`, using GraphConnectivityAndFlows Target 1.1's `Graph.Walk`, native reachability,
-`Graph.Connected` and `Graph.IsConnectedComponentOf`. The comparison
-`SerreGraph.connected_toGraph` states Γ.toGraph.Connected ↔ Nonempty V ∧ Γ.Preconnected,
-equivalently Γ.toGraph.Connected ↔ Γ.Connected; empty graphs are preconnected but not connected.
-The local graph presentations retain
-opposite loop generators and compatibility with finite subgraph inclusions; the Bass–Serre
-quotient is the base component.
-`GraphOfGroups.dehnTwistAmalgam_eq_refl_iff` is the central-in-the-right-factor identity
-criterion, alongside the HNN criterion above.
--/
 
 end TauCetiRoadmap.FreeGroupsAndLimitGroups
