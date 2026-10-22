@@ -10,7 +10,7 @@ The potentially Barsotti–Tate endpoint has the explicit restriction
 
 This restriction is needed by the finite-image argument specified in Layer CL.9. It holds automatically at `p=3` and `p=5`, the primes used by the elliptic-curve applications. The statement here makes no assertion about the unrestricted cubic-tetrahedral case.
 
-Suggested home: `TauCeti/NumberTheory/Automorphy/CrystallineCM/`. The companion [Suggested.lean](Suggested.lean) records representative definitions and milestone signatures over the available library carriers. This document states every target, including the arithmetic constructions and their required supplier interfaces.
+Suggested home: `TauCeti/NumberTheory/Automorphy/CrystallineCM/`. The companion [Suggested.lean](Suggested.lean) states the finite-image reducibility theorem of §9.2 using Mathlib's matrix projective quotient and invariant lines. The crystalline local–global and automorphy lifting endpoints need arithmetic cohomology, automorphic representations and p-adic Hodge-theoretic objects absent from the pinned libraries; their targets and supplier interfaces are specified here.
 
 ## Scope and ownership
 
@@ -102,7 +102,7 @@ These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
 These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
-**AutomorphicGaloisRepresentationsPartII:AG2.4** (used in CL.7) supplies HLTT existence for unpolarized regular algebraic cuspidal `GL_n` over CM and totally real fields. For the unitary representation in CL.4, use **AG2.2** `DiscreteAssembly` and **AG2.3**, “Arbitrary regular conjugate-self-dual existence”, on every cuspidal constituent of the discrete transfer. CL.4.4a constructs `CrystallineCM.unitary_characteristic_zero_comparison`, including the algebraic twists, full rank and labelled weights. Its local identification uses ACC+ Theorem 2.3.3(2) under the hypothesis that the rational prime `p` splits in an imaginary quadratic subfield of `F`; splitting only in `F/F⁺` does not replace this hypothesis. The transfer can have several discrete constituents.
+**AutomorphicGaloisRepresentationsPartII:AG2.4** (used in CL.7) supplies HLTT existence for unpolarized regular algebraic cuspidal `GL_n` over CM and totally real fields. For the unitary representation in CL.4, use **AG2.2** `DiscreteAssembly` and **AG2.3**, “Arbitrary regular conjugate-self-dual existence”, on every cuspidal constituent of the discrete transfer. CL.4.4a constructs the characteristic-zero unitary comparison, including the algebraic twists, full rank and labelled weights. Its local identification uses ACC+ Theorem 2.3.3(2) under the hypothesis that the rational prime `p` splits in an imaginary quadratic subfield of `F`; splitting only in `F/F⁺` does not replace this hypothesis. The transfer can have several discrete constituents.
 
 These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
@@ -216,7 +216,7 @@ This interface is used in the qualified form of CN, Lemma 5.6.5, pp.85–86; the
 
 ## How to read the build
 
-Layer `k` has the stage identifier CL.k. The sequence follows the mathematics, with independent inputs named at their point of use. The short declaration names below are inside the namespace `TauCetiRoadmap.CrystallineLocalGlobalCompatibilityCM`. The companion file retains the `CrystallineCM` subnamespace for those names.
+Layer `k` has the stage identifier CL.k. The sequence follows the mathematics, with independent inputs named at their point of use. `Suggested.lean` declares `projectiveMatrixImage`, `determinantKernelHasLine` and `CrystallineCM.determinant_kernel_reducible_except_tetrahedral` inside `TauCetiRoadmap.CrystallineLocalGlobalCompatibilityCM`, with the `CrystallineCM` subnamespace. The arithmetic targets below are specified by their mathematical statements and section numbers.
 
 | Layer | Construction and output |
 |---|---|
@@ -253,7 +253,7 @@ Fix the lower-right `GL_n` Levi of split `U(n,n)`, descending dual Weyl weights 
 
 Use Mathlib's `finAddFlip` on `Fin (n + n)` for the Siegel block-exchange element `w₀^P`. Its block formula and involution are supplied by `finAddFlip_apply_mk_left`, `finAddFlip_apply_mk_right` and the symmetry of this block-exchange equivalence (see Exact supplier contracts).
 
-Prove `CrystallineCM.WeylElements_levi_conjugation`: over any commutative ring, conjugation by this permutation matrix sends `diag(A,D)` to `diag(D,A)`, without transpose or inversion. In the split unitary Weyl group it is `w₀^G w₀^{G̃}`, the longest relative representative in `^PW^P`.
+Prove that, over any commutative ring, conjugation by this permutation matrix sends `diag(A,D)` to `diag(D,A)`, without transpose or inversion. In the split unitary Weyl group it is `w₀^G w₀^{G̃}`, the longest relative representative in `^PW^P`.
 
 **Checks.**
 
@@ -267,7 +267,7 @@ Prove `CrystallineCM.WeylElements_levi_conjugation`: over any commutative ring, 
 
 ### 0.2 Surjectivity of evaluation at the identity
 
-Prove `CrystallineCM.coefficient_evaluation_surjective`. Let `P_{n,n} ⊂ GL_{2n}` be the block upper-triangular parabolic with Levi `GL_n × GL_n`, so that `V_{λ̃_τ}` is the evaluation of `(Ind_{P_{n,n}}^{GL_{2n}} V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}})_{/O}`. The natural `P_{n,n}(O)-equivariant` morphism `V_{λ̃_τ} → V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}}` given by evaluation of functions at the identity is surjective.
+Let `P_{n,n} ⊂ GL_{2n}` be the block upper-triangular parabolic with Levi `GL_n × GL_n`, so that `V_{λ̃_τ}` is the evaluation of `(Ind_{P_{n,n}}^{GL_{2n}} V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}})_{/O}`. The natural `P_{n,n}(O)-equivariant` morphism `V_{λ̃_τ} → V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}}` given by evaluation of functions at the identity is surjective.
 
 (CN, Lemma 2.1.12, pp.17–18.)
 
@@ -275,19 +275,19 @@ Prove `CrystallineCM.coefficient_evaluation_surjective`. Let `P_{n,n} ⊂ GL_{2n
 
 ### 0.3 Parahoric levels `P_{v̄}(b,c)`, `Q_{v̄}`, the operators `Ũ` and the monoids `Δ̃`
 
-Define `CrystallineCM.ParahoricPVBC`. For `c≥b≥0, c≥1`, under `ι_ṽ` define `P_{v̄}(b,c)⊂GL_{2n}(O_{F_ṽ})` by `C≡0` mod `ϖ_ṽ^c` in `g=(A B;C D), A≡D≡1_n` mod `ϖ_ṽ^b`. `P_{v̄}(0,1)` is the Siegel parahoric. For `Q⊂P` standard, `𝒬` is the inverse image of `Q(k_ṽ)` under reduction; its Levi intersection is `K_Q`. These are integral compact-open subgroups, with `b=0` imposing no diagonal congruence.
+For `c≥b≥0, c≥1`, under `ι_ṽ` define `P_{v̄}(b,c)⊂GL_{2n}(O_{F_ṽ})` by `C≡0` mod `ϖ_ṽ^c` in `g=(A B;C D), A≡D≡1_n` mod `ϖ_ṽ^b`. `P_{v̄}(0,1)` is the Siegel parahoric. For `Q⊂P` standard, `𝒬` is the inverse image of `Q(k_ṽ)` under reduction; its Levi intersection is `K_Q`. These are integral compact-open subgroups, with `b=0` imposing no diagonal congruence.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.ParahoricPVBC_mem_iff`: `g=(A` B;C `D`) belongs iff `C` is divisible by `ϖ_v^c` and A−1,D−1 by `ϖ_v^b`.
-- `CrystallineCM.ParahoricPVBC_antitone_depth`: For `b′≥b,c′≥c` satisfying validity, `P(b′,c′)⊂P(b,c)`.
-- `CrystallineCM.ParahoricPVBC_levi_quotient`: The block-diagonal reduction gives `P(0,c)/P(b,c)≅GL_n(O_v/ϖ_v^b)×GL_n(O_v/ϖ_v^b)`, for `c≥b`.
+- `g=(A` B;C `D`) belongs iff `C` is divisible by `ϖ_v^c` and A−1,D−1 by `ϖ_v^b`.
+- For `b′≥b,c′≥c` satisfying validity, `P(b′,c′)⊂P(b,c)`.
+- The block-diagonal reduction gives `P(0,c)/P(b,c)≅GL_n(O_v/ϖ_v^b)×GL_n(O_v/ϖ_v^b)`, for `c≥b`.
 
 **Checks.**
 
-- `CrystallineCM.ParahoricPVBC_test_b_zero`: P(0,1) allows arbitrary invertible diagonal blocks and arbitrary upper-right integral block.
-- `CrystallineCM.ParahoricPVBC_test_n_one`: For `n=1,b=c=1, (1` 1;0 `1`) belongs while (`1` 0;1 `1`) does not.
-- `CrystallineCM.ParahoricPVBC_test_diagonal_not_unipotent`: For residue field `F₃, diag(2,1)` belongs to P(0,1) but not P(1,1).
+- P(0,1) allows arbitrary invertible diagonal blocks and arbitrary upper-right integral block.
+- For `n=1,b=c=1, (1` 1;0 `1`) belongs while (`1` 0;1 `1`) does not.
+- For residue field `F₃, diag(2,1)` belongs to P(0,1) but not P(1,1).
 
 (CN, §2.1.13, p.19.)
 
@@ -295,7 +295,7 @@ The required interface is:
 
 ### 0.4 The eigenvalue of U_v on localized cohomology
 
-Prove `CrystallineCM.residual_central_hecke_eigenvalue`. Let `m ⊂ T^T(K,λ)` be as in CN, Theorem 2.1.20 with `k =` k(m), and `v` a p-adic place of `F`. Then the Hecke operator `U_v` has a unique eigenvalue on `H^*(X_K, V_λ/ϖ)_m`, equal to `ε̄_p^{n(n−1)/2}(Art_{F_v}(ϖ_v))` · det `ρ̄_m(Art_{F_v}(ϖ_v))`.
+Let `m ⊂ T^T(K,λ)` be as in CN, Theorem 2.1.20 with `k =` k(m), and `v` a p-adic place of `F`. Then the Hecke operator `U_v` has a unique eigenvalue on `H^*(X_K, V_λ/ϖ)_m`, equal to `ε̄_p^{n(n−1)/2}(Art_{F_v}(ϖ_v))` · det `ρ̄_m(Art_{F_v}(ϖ_v))`.
 
 (CN, Lemma 2.1.21, pp.22–23.)
 
@@ -303,19 +303,19 @@ Prove `CrystallineCM.residual_central_hecke_eigenvalue`. Let `m ⊂ T^T(K,λ)` b
 
 ### 0.5 Positive central cocharacters
 
-Define `CrystallineCM.PositiveCentralCocharacters`. For `Q` with consecutive block sizes `n₁,…,n_t` refining (n,n), `X_Q` consists of central cocharacters constant on each block with integer exponents `a₁≥⋯≥a_t`. Evaluation at `ϖ` gives `diag(ϖ^{a₁}1_{n₁},…,ϖ^{a_t}1_{n_t})`; partial cocharacters have `a₁=⋯=a_k=1` and the rest `0`. Central overall shifts are allowed, including negative shifts.
+For `Q` with consecutive block sizes `n₁,…,n_t` refining (n,n), `X_Q` consists of central cocharacters constant on each block with integer exponents `a₁≥⋯≥a_t`. Evaluation at `ϖ` gives `diag(ϖ^{a₁}1_{n₁},…,ϖ^{a_t}1_{n_t})`; partial cocharacters have `a₁=⋯=a_k=1` and the rest `0`. Central overall shifts are allowed, including negative shifts.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.PositiveCentralCocharacters_mem_iff`: A block-central tuple belongs to `X_Q` iff `a₁≥⋯≥a_t`.
-- `CrystallineCM.PositiveCentralCocharacters_add`: `X_Q` is closed under addition, and evaluation sends addition to multiplication of diagonal matrices.
-- `CrystallineCM.PositiveCentralCocharacters_partial`: The k-th tuple (1,…,1,0,…,0) belongs; `k=t` is the invertible scalar tuple.
+- A block-central tuple belongs to `X_Q` iff `a₁≥⋯≥a_t`.
+- `X_Q` is closed under addition, and evaluation sends addition to multiplication of diagonal matrices.
+- The k-th tuple (1,…,1,0,…,0) belongs; `k=t` is the invertible scalar tuple.
 
 **Checks.**
 
-- `CrystallineCM.PositiveCentralCocharacters_test_two_blocks`: For (n,n), exponent tuples (1,0) and (−1,−2) are positive; (0,1) is not.
-- `CrystallineCM.PositiveCentralCocharacters_test_central_scalar`: For any allowed `Q⊂P,` a scalar tuple (a,…,a), including a<0, belongs to `X_Q`; this does not require the out-of-scope `Q=GL_{2n}`.
-- `CrystallineCM.PositiveCentralCocharacters_test_root_pairing`: For the block boundary simple root `a_k−a_{k+1}` is the pairing, so the cone agrees with the reductive-group dominant cone.
+- For (n,n), exponent tuples (1,0) and (−1,−2) are positive; (0,1) is not.
+- For any allowed `Q⊂P,` a scalar tuple (a,…,a), including a<0, belongs to `X_Q`; this does not require the out-of-scope `Q=GL_{2n}`.
+- For the block boundary simple root `a_k−a_{k+1}` is the pairing, so the cone agrees with the reductive-group dominant cone.
 
 (CN, §2.1.13, p.19.)
 
@@ -323,7 +323,7 @@ The required interface is:
 
 ### 0.6 Positive parahoric monoid
 
-Define `CrystallineCM.PositiveParahoricMonoid`. `Δ̃^Q=⋃_{ν∈X_Q}𝒬ν(ϖ)𝒬⊂G̃(L); Δ^{Q,+}=Δ̃^Q∩G(L)`, and `Δ^Q` is obtained by adjoining the inverse of `ũ_n` to `Δ^{Q,+}`. The semidirect submonoid acting through `P` is `Δ^{Q,+}⋉U₀`. `Δ^Q` inverts `ũ_n`, not every positive partial block cocharacter.
+`Δ̃^Q=⋃_{ν∈X_Q}𝒬ν(ϖ)𝒬⊂G̃(L); Δ^{Q,+}=Δ̃^Q∩G(L)`, and `Δ^Q` is obtained by adjoining the inverse of `ũ_n` to `Δ^{Q,+}`. The semidirect submonoid acting through `P` is `Δ^{Q,+}⋉U₀`. `Δ^Q` inverts `ũ_n`, not every positive partial block cocharacter.
 
 In the split local matrix model, take a discrete valuation ring `O_v`, its fraction
 field `L` and an irreducible local uniformizer `π`. Let `I` index the matrix rows and
@@ -350,17 +350,17 @@ embedding, its central Siegel element and the contracting action on `U₀`. The
 DVR matrix formula alone does not assert compactness, openness or smoothness;
 those use the topology of the local field and the corresponding supplier APIs.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.PositiveParahoricMonoid_double_coset`: Each `g∈𝒬ν(ϖ)𝒬` with `ν∈X_Q` maps to `Δ̃^Q`.
-- `CrystallineCM.PositiveParahoricMonoid_levi_intersection`: Its intersection with the embedded G(L) is exactly `Δ^{Q,+}`, with the same multiplication.
-- `CrystallineCM.PositiveParahoricMonoid_localization`: A `Δ^{Q,+}-action` with `ũ_n` invertible extends uniquely to `Δ^Q`.
+- Each `g∈𝒬ν(ϖ)𝒬` with `ν∈X_Q` maps to `Δ̃^Q`.
+- Its intersection with the embedded G(L) is exactly `Δ^{Q,+}`, with the same multiplication.
+- A `Δ^{Q,+}-action` with `ũ_n` invertible extends uniquely to `Δ^Q`.
 
 **Checks.**
 
-- `CrystallineCM.PositiveParahoricMonoid_test_identity`: The zero cocharacter gives all of `𝒬`, including the identity.
-- `CrystallineCM.PositiveParahoricMonoid_test_negative_central`: `ϖ^{-1}1_{2n}` belongs because its block-exponent differences are zero.
-- `CrystallineCM.PositiveParahoricMonoid_test_partial_inverse`: For two blocks `diag(1_n,ϖ1_n)` is not positive although it is invertible in `G̃(L)`; positivity is not the whole group.
+- The zero cocharacter gives all of `𝒬`, including the identity.
+- `ϖ^{-1}1_{2n}` belongs because its block-exponent differences are zero.
+- For two blocks `diag(1_n,ϖ1_n)` is not positive although it is invertible in `G̃(L)`; positivity is not the whole group.
 
 (CN, §2.1.13, pp.19–20.)
 
@@ -368,7 +368,7 @@ The required interface is:
 
 ### 0.7 Positivity, monoid property and Hecke algebra isomorphism for Δ̃^Q
 
-Prove `CrystallineCM.positive_parahoric_hecke_iso`. `(1)` For `ν ∈ X_{Q_{v̄}}, ν(ϖ_{v̄})` is `𝒬_{v̄}-positive: ν(ϖ)(N_Q ∩ 𝒬)ν(ϖ)^{−1} ⊂ N_Q ∩ 𝒬` and `ν(ϖ)^{−1}(N̄_Q ∩ 𝒬)ν(ϖ) ⊂ N̄_Q ∩ 𝒬`. `(2) Δ̃^{Q}_{v̄}` is a monoid. `(3) [(M_Q ∩ 𝒬)ν(ϖ)(M_Q ∩ 𝒬)] ↦ [𝒬 ν(ϖ) 𝒬]` is a ring isomorphism `H(M_Q ∩ Δ̃^Q, M_Q ∩ 𝒬) ≅ H(Δ̃^Q, 𝒬)`, factoring through an isomorphism to `H(Δ^{Q,+}, G(F⁺_{v̄}) ∩ 𝒬)`; in particular `H(Δ̃^Q, 𝒬)` is commutative.
+`(1)` For `ν ∈ X_{Q_{v̄}}, ν(ϖ_{v̄})` is `𝒬_{v̄}-positive: ν(ϖ)(N_Q ∩ 𝒬)ν(ϖ)^{−1} ⊂ N_Q ∩ 𝒬` and `ν(ϖ)^{−1}(N̄_Q ∩ 𝒬)ν(ϖ) ⊂ N̄_Q ∩ 𝒬`. `(2) Δ̃^{Q}_{v̄}` is a monoid. `(3) [(M_Q ∩ 𝒬)ν(ϖ)(M_Q ∩ 𝒬)] ↦ [𝒬 ν(ϖ) 𝒬]` is a ring isomorphism `H(M_Q ∩ Δ̃^Q, M_Q ∩ 𝒬) ≅ H(Δ̃^Q, 𝒬)`, factoring through an isomorphism to `H(Δ^{Q,+}, G(F⁺_{v̄}) ∩ 𝒬)`; in particular `H(Δ̃^Q, 𝒬)` is commutative.
 
 (CN, Lemma 2.1.15, p.20; Remark 2.1.16.)
 
@@ -376,24 +376,24 @@ Prove `CrystallineCM.positive_parahoric_hecke_iso`. `(1)` For `ν ∈ X_{Q_{v̄}
 
 ### 0.8 Lowest-weight scaling character
 
-Define `CrystallineCM.LowestWeightScalingCharacter`. For the dual Weyl weight `λ̃` and `Q`, define `α̃_λ̃:Δ̃^Q→E×`, trivial on `𝒬`, by `α̃_λ̃(ν(ϖ))=∏_τ τ(ϖ)^{⟨ν,w₀^{G̃}λ̃_τ⟩}`. Separately define `α_λ:Δ^Q→E×`, trivial on `K_Q`, by `α_λ(ν(ϖ))=∏_τ τ(ϖ)^{⟨ν,w₀^Gλ̃_τ⟩}`, with `ν` in the actual lower-right/conjugate-dual Levi embedding and `w₀^G` reversing each n-block. Extend the latter to inverse powers of `ũ_n`. The two longest Weyl elements differ; equality of `α̃` restricted to the Levi and `α_λ` is not asserted.
+For the dual Weyl weight `λ̃` and `Q`, define `α̃_λ̃:Δ̃^Q→E×`, trivial on `𝒬`, by `α̃_λ̃(ν(ϖ))=∏_τ τ(ϖ)^{⟨ν,w₀^{G̃}λ̃_τ⟩}`. Separately define `α_λ:Δ^Q→E×`, trivial on `K_Q`, by `α_λ(ν(ϖ))=∏_τ τ(ϖ)^{⟨ν,w₀^Gλ̃_τ⟩}`, with `ν` in the actual lower-right/conjugate-dual Levi embedding and `w₀^G` reversing each n-block. Extend the latter to inverse powers of `ũ_n`. The two longest Weyl elements differ; equality of `α̃` restricted to the Levi and `α_λ` is not asserted.
 
 The algebraic construction takes a monoid `D,` a field `E,` a finite set of embeddings, units `π_τ=τ(ϖ)`, integer weight rows `λ_τ` and a central-exponent homomorphism `e:D→(ℤ^r,+)`. For a Weyl permutation `w`, its value at `g` is the product of `π_τ` raised to `Σ_i e(g)_i λ_{τ,w⁻¹(i)}`. Integer exponents include negative central cocharacters. Additivity of `e` gives a monoid character with values in E×. In the split unitary case `r=2n` and `w` reverses all coordinates; in the Levi case `w` reverses the two n-blocks separately. For the latter permutation, compose the full reversal with the Siegel block exchange. The arithmetic monoids supply their own exponent maps and compact submonoids on which `e` vanishes; identifying these maps from the parahoric double cosets and the conjugate-dual Levi embedding is required before applying the construction to either arithmetic character.
 
 For adjoining `ũ_n⁻¹`, take a monoid `H` generated by the image of `D` and the inverse of the selected unit representing `ũ_n`. An exponent map on `H` extending `e` constructs the extended character; generation makes it unique, and its value on this inverse is `α_λ(ũ_n)⁻¹`. This does not require every positive partial-block cocharacter to become invertible. The inverse-rescaling convention then uses `α_λ(g)⁻¹ρ(g)`. The scalar character alone does not identify a coefficient lattice or prove lattice stability: those statements use the integral dual-Weyl evaluation and splitting. In particular, PotentialAutomorphyInfrastructure §3.5’s ACC lowest-weight character, whose uniformizer value is normalized to `1` and whose compact-unit value records the weight, has a different normalization and cannot substitute for this compact-trivial rescaling character.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.LowestWeightScalingCharacter_compact`: `α̃(q)=1` for `q∈𝒬`.
-- `CrystallineCM.LowestWeightScalingCharacter_cocharacter`: `α̃(ν(ϖ))=∏_τ τ(ϖ)^{⟨ν,w₀λ̃_τ⟩}`.
-- `CrystallineCM.LowestWeightScalingCharacter_mul`: Each of `α̃` and `α_λ` is multiplicative on its own monoid; the Levi character extends uniquely when `ũ_n` is inverted. Their relation in coefficient comparison uses the explicit `w₀^P` block exchange, rather than equality by restriction.
+- `α̃(q)=1` for `q∈𝒬`.
+- `α̃(ν(ϖ))=∏_τ τ(ϖ)^{⟨ν,w₀λ̃_τ⟩}`.
+- Each of `α̃` and `α_λ` is multiplicative on its own monoid; the Levi character extends uniquely when `ũ_n` is inverted. Their relation in coefficient comparison uses the explicit `w₀^P` block exchange, rather than equality by restriction.
 
 **Checks.**
 
-- `CrystallineCM.LowestWeightScalingCharacter_test_zero_weight`: For `λ̃=0, α̃` is the trivial character.
-- `CrystallineCM.LowestWeightScalingCharacter_test_rank_one`: For `GL₂, λ̃=(a,b)` and `ν=(1,0), α̃(ν(ϖ))=ϖ^b` at the identity embedding.
-- `CrystallineCM.LowestWeightScalingCharacter_test_compact_value`: A compact parahoric element has `α̃=1`, agreeing with the original integral lattice action.
-- `CrystallineCM.LowestWeightScalingCharacter_test_distinct_weyl`: For `n=2, λ̃=(1,1,0,0)` and `ν=(1,1,0,0), α̃(ν(ϖ))=1` while `α_λ(ν(ϖ))=ϖ²` at one embedding. Equality by restriction would fail this allowed Siegel example.
+- For `λ̃=0, α̃` is the trivial character.
+- For `GL₂, λ̃=(a,b)` and `ν=(1,0), α̃(ν(ϖ))=ϖ^b` at the identity embedding.
+- A compact parahoric element has `α̃=1`, agreeing with the original integral lattice action.
+- For `n=2, λ̃=(1,1,0,0)` and `ν=(1,1,0,0), α̃(ν(ϖ))=1` while `α_λ(ν(ϖ))=ϖ²` at one embedding. Equality by restriction would fail this allowed Siegel example.
 
 (CN, §2.1.13, p.20 (unitary character); CN, §2.1.13, p.21 (Levi character).)
 
@@ -401,19 +401,19 @@ The required interface is:
 
 ### 0.9 Rescaled actions of the monoids on coefficient lattices
 
-Define `CrystallineCM.RescaledActions`. For an E-linear representation `ρ` of `Δ̃^Q` and its lowest-weight scaling character `α̃`, define `ρ^{scaled}(g)=α̃(g)^{-1}ρ(g)`. The lattice and integral coefficient sheaf use its restriction provided Lemma 2.1.17 holds. The Levi action similarly uses `α_λ^{-1}`; rescaled `ũ_n` acts as identity on `V_λ`. Multiplying by `α` rather than its inverse gives the wrong integral action.
+For an E-linear representation `ρ` of `Δ̃^Q` and its lowest-weight scaling character `α̃`, define `ρ^{scaled}(g)=α̃(g)^{-1}ρ(g)`. The lattice and integral coefficient sheaf use its restriction provided Lemma 2.1.17 holds. The Levi action similarly uses `α_λ^{-1}`; rescaled `ũ_n` acts as identity on `V_λ`. Multiplying by `α` rather than its inverse gives the wrong integral action.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.RescaledActions_apply`: `ρ_scaled(g)x=α(g)^{-1}ρ(g)x`.
-- `CrystallineCM.RescaledActions_one_mul`: `ρ_scaled` is a monoid representation: its identity is identity and products act by composed operators.
-- `CrystallineCM.RescaledActions_intertwiner`: An E-linear `ρ-intertwiner` for the same character `α` remains an intertwiner after rescaling.
+- `ρ_scaled(g)x=α(g)^{-1}ρ(g)x`.
+- `ρ_scaled` is a monoid representation: its identity is identity and products act by composed operators.
+- An E-linear `ρ-intertwiner` for the same character `α` remains an intertwiner after rescaling.
 
 **Checks.**
 
-- `CrystallineCM.RescaledActions_test_trivial_character`: If `α=1`, rescaling returns the original representation.
-- `CrystallineCM.RescaledActions_test_scalar`: On any vector with `ρ(g)x=α(g)x`, the rescaled operator fixes `x`. On a one-dimensional Q-vector space with `ρ(g)=2` and `α(g)=2`, it is identity.
-- `CrystallineCM.RescaledActions_test_inverse_required`: In that scalar example multiplying by `α` gives `4`, which fails the normalization.
+- If `α=1`, rescaling returns the original representation.
+- On any vector with `ρ(g)x=α(g)x`, the rescaled operator fixes `x`. On a one-dimensional Q-vector space with `ρ(g)=2` and `α(g)=2`, it is identity.
+- In that scalar example multiplying by `α` gives `4`, which fails the normalization.
 
 (CN, Lemma 2.1.17, p.20; Levi action, p.21.)
 
@@ -421,7 +421,7 @@ The required interface is:
 
 ### 0.10 Stability of the lattice under the rescaled monoid action
 
-Prove `CrystallineCM.rescaled_lattice_stable`. For `v̄ ∈ S̄` and `τ ∈ Hom(F⁺_{v̄},E)`, the lattice `V_{λ̃_τ}` is stable under the rescaled action (2.1.7) of `O[Δ̃^{Q}_{v̄}]`.
+For `v̄ ∈ S̄` and `τ ∈ Hom(F⁺_{v̄},E)`, the lattice `V_{λ̃_τ}` is stable under the rescaled action (2.1.7) of `O[Δ̃^{Q}_{v̄}]`.
 
 (CN, Lemma 2.1.17, p.20.)
 
@@ -429,7 +429,7 @@ Prove `CrystallineCM.rescaled_lattice_stable`. For `v̄ ∈ S̄` and `τ ∈ Hom
 
 ### Examples
 
-At `n=2` the permutation sends (0,1,2,3) to (2,3,0,1). For two Levi blocks, (−1,−2) is positive while (0,1) is not. On `GL₂` at weight (a,b), the cocharacter `diag(π,1)` has lowest-weight scalar `π^b`. Thus raw scalar action `π` and scalar character `π` give rescaled action `1`. The single-embedding formula is `lowestWeightScalar`; its full unitary reversal is distinct from reversal within each Levi block.
+At `n=2` the permutation sends (0,1,2,3) to (2,3,0,1). For two Levi blocks, (−1,−2) is positive while (0,1) is not. On `GL₂` at weight (a,b), the cocharacter `diag(π,1)` has lowest-weight scalar `π^b`. Thus raw scalar action `π` and scalar character `π` give rescaled action `1`. The full unitary reversal in the single-embedding formula is distinct from reversal within each Levi block.
 
 ### Dependencies
 
@@ -441,19 +441,19 @@ Construct P-ordinary finite-level cohomology using imported ordinary projectors.
 
 ### 1.1 P-ordinary part of finite-level cohomology
 
-Define `CrystallineCM.POrdinaryFiniteLevel`. Fix `S̄ ⊂ S̄_p` and good `K̃` with fixed tame level and `K̃_{v̄} = P_{v̄}(b,c) (c ≥ b ≥ 0, c ≥ 1)` for `v̄ ∈ S̄`, written `K̃(b,c), P_{S̄}(b,c) := ∏_{v̄∈S̄} P_{v̄}(b,c)`. The P-ordinary part `RΓ(X̃_{K̃(b,c)}, V_λ̃)^{ord}` is the maximal direct summand of `RΓ(X̃_{K̃(b,c)}, V_λ̃)` on which all `Ũ_{ṽ,n} (v̄ ∈ S̄)` act invertibly; it is an object of `D⁺(P_{S̄}(0,c)/P_{S̄}(b,c), O)` with an action of `T̃^T ⊗ (⊗_{v̄∈S̄} H(Δ̃_{v̄}, K̃_{v̄})[Ũ^{−1}_{ṽ,n}])`; likewise for `∂X̃_{K̃(b,c)}`.
+Fix `S̄ ⊂ S̄_p` and good `K̃` with fixed tame level and `K̃_{v̄} = P_{v̄}(b,c) (c ≥ b ≥ 0, c ≥ 1)` for `v̄ ∈ S̄`, written `K̃(b,c), P_{S̄}(b,c) := ∏_{v̄∈S̄} P_{v̄}(b,c)`. The P-ordinary part `RΓ(X̃_{K̃(b,c)}, V_λ̃)^{ord}` is the maximal direct summand of `RΓ(X̃_{K̃(b,c)}, V_λ̃)` on which all `Ũ_{ṽ,n} (v̄ ∈ S̄)` act invertibly; it is an object of `D⁺(P_{S̄}(0,c)/P_{S̄}(b,c), O)` with an action of `T̃^T ⊗ (⊗_{v̄∈S̄} H(Δ̃_{v̄}, K̃_{v̄})[Ũ^{−1}_{ṽ,n}])`; likewise for `∂X̃_{K̃(b,c)}`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.POrdinaryFiniteLevel_idempotent`: The finite or adic ordinary projector on the arithmetic complex is idempotent and commutes with the tame Hecke and quotient-group actions.
-- `CrystallineCM.POrdinaryFiniteLevel_cohomology`: Its cohomology is the maximal summand of `H^q` on which every chosen `Ũ_n` acts bijectively.
-- `CrystallineCM.POrdinaryFiniteLevel_pullback`: Level pullback maps commuting with `Ũ_n` restrict to the ordinary summands; its inclusion is a natural split map.
+- The finite or adic ordinary projector on the arithmetic complex is idempotent and commutes with the tame Hecke and quotient-group actions.
+- Its cohomology is the maximal summand of `H^q` on which every chosen `Ũ_n` acts bijectively.
+- Level pullback maps commuting with `Ũ_n` restrict to the ordinary summands; its inclusion is a natural split map.
 
 **Checks.**
 
-- `CrystallineCM.POrdinaryFiniteLevel_test_unit`: For `U=id` the whole arithmetic coefficient complex is ordinary.
-- `CrystallineCM.POrdinaryFiniteLevel_test_zero`: For `U=0` the ordinary summand is zero.
-- `CrystallineCM.POrdinaryFiniteLevel_test_mixed`: For `T=diag(1,0)` on `F₃²` in degree zero, `T²=T`; for every `m≥1`, `range(T^m)=F₃×0` and `ker(T^m)=0×F₃`. The ordinary part is the first coordinate, in agreement with Mathlib Fitting range/ker and §1.3's localization comparison.
+- For `U=id` the whole arithmetic coefficient complex is ordinary.
+- For `U=0` the ordinary summand is zero.
+- For `T=diag(1,0)` on `F₃²` in degree zero, `T²=T`; for every `m≥1`, `range(T^m)=F₃×0` and `ker(T^m)=0×F₃`. The ordinary part is the first coordinate, in agreement with Mathlib Fitting range/ker and §1.3's localization comparison.
 
 (CN, §2.2.1, pp.25–26.)
 
@@ -461,27 +461,27 @@ The required interface is:
 
 ### 1.2 Unipotent transfer action
 
-Define `CrystallineCM.UnipotentTransferAction`. For contracting `g∈Δ⁺` and `π` smooth on `Δ⁺⋉U₀`, act on `Γ(U₀,π)` by `T_g(v)=Σ_{n∈U₀/gU₀g^{-1}}ngv`. This is independent of coset representatives, is integral without averaging denominators, and is multiplicative in `g`. Derive the same action on `RΓ(U₀,π)`.
+For contracting `g∈Δ⁺` and `π` smooth on `Δ⁺⋉U₀`, act on `Γ(U₀,π)` by `T_g(v)=Σ_{n∈U₀/gU₀g^{-1}}ngv`. This is independent of coset representatives, is integral without averaging denominators, and is multiplicative in `g`. Derive the same action on `RΓ(U₀,π)`.
 
 At degree zero the formula needs a group `U`, its coefficient representation `ρ,` a contraction `c:U→U` with finite-index image, and an R-linear raw operator A satisfying `Aρ(u)=ρ(c(u))A`. The arithmetic dictionary is `c(u)=gug⁻¹` and `A(v)=gv`. For `v∈V^U`, the vector Av is fixed by c(U), so each term `ρ(r)Av` depends only on the left coset `r` c(U). Summing over these cosets gives an R-linear endomorphism of Mathlib's `Representation.invariants`. This formulation permits A to be noninvertible and works integrally without a choice of averaging denominators.
 
 For injective contractions c,d, representatives for U/c(U) and U/d(U) combine as a·c(b), giving representatives for U/cd(U). If A and `B` satisfy the two intertwining equations, this identifies `T_c(A)T_d(B)` with `T_cd(AB)`; the identity contraction with raw identity operator gives the identity transfer. Surjectivity of `c` makes the quotient a singleton and gives `T_c(A)v=Av`. At `U=(Z_p,+), c(z)=pz`, the quotient is the residue field `Z`/pZ; on trivial `F_p` coefficients with `A=id`, all `p` summands are equal, so the resulting operator is zero and differs from the raw identity.
 
-The supplementary compatibility `CrystallineCM.UnipotentTransferAction_intertwiner` fixes the coefficient maps in this formula. Let `ρ` and `σ` be R-linear representations of the same group `U, c:U→U` a homomorphism with finite-index image, and A and `B` raw operators satisfying `Aρ(u)=ρ(c(u))A` and `Bσ(u)=σ(c(u))B`. If `F:ρ→σ` is a Mathlib intertwining map and `FA=BF`, its restriction `F^U` to the invariant submodules satisfies `F^U T_c(A)=T_c(B)F^U`. Push `F` through the finite sum and use its two intertwining identities term by term. This consequence of CN equation (2.2.1), p.26, controls coefficient and level maps when their raw actions are supplied; it asserts no derived comparison. The raw-operator hypothesis matters even for `U=1`: with `V=W=Q, F=id, A=2·id` and `B=3·id, F` is U-equivariant but the two transfers differ.
+The supplementary compatibility with coefficient intertwiners fixes the coefficient maps in this formula. Let `ρ` and `σ` be R-linear representations of the same group `U, c:U→U` a homomorphism with finite-index image, and A and `B` raw operators satisfying `Aρ(u)=ρ(c(u))A` and `Bσ(u)=σ(c(u))B`. If `F:ρ→σ` is a Mathlib intertwining map and `FA=BF`, its restriction `F^U` to the invariant submodules satisfies `F^U T_c(A)=T_c(B)F^U`. Push `F` through the finite sum and use its two intertwining identities term by term. This consequence of CN equation (2.2.1), p.26, controls coefficient and level maps when their raw actions are supplied; it asserts no derived comparison. The raw-operator hypothesis matters even for `U=1`: with `V=W=Q, F=id, A=2·id` and `B=3·id, F` is U-equivariant but the two transfers differ.
 
 The smooth positive-monoid action uses the actual contracting elements and their open finite-index images. The general integral trace is supplied by `TauCeti.DiscreteCoind.traceLinear`, with its arbitrary-transversal identity `TauCeti.DiscreteCoind.trace_eq_sum_transversal`; its finite sum applied to the constant c(U)-invariant vector Av gives the displayed degree-zero formula. These declarations belong to `TauCeti.RepresentationTheory.Homological.ContCohomology.Coinduced.Discrete`. **ProfiniteCohomology, Layer 10** supplies continuous restriction, conjugation and all-degree corestriction. The construction here composes those maps with the raw contracting action, retaining the compact-unipotent acyclicity and smoothness statements needed for the derived invariants functor. The algebraic degree-zero formula supplies its normalization check.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.UnipotentTransferAction_independent`: Replacing any representative `n` by an element of its same left coset does not change `T_g` on `U₀-invariants`.
-- `CrystallineCM.UnipotentTransferAction_mul`: `T_{gh}=T_g∘T_h` and `T_1=id`.
-- `CrystallineCM.UnipotentTransferAction_compact`: When `g` normalizes `U₀, T_g` is the usual g-action because the quotient has one element.
+- Replacing any representative `n` by an element of its same left coset does not change `T_g` on `U₀-invariants`.
+- `T_{gh}=T_g∘T_h` and `T_1=id`.
+- When `g` normalizes `U₀, T_g` is the usual g-action because the quotient has one element.
 
 **Checks.**
 
-- `CrystallineCM.UnipotentTransferAction_test_trivial_u`: For `U₀=1` the transfer action is the original g-action.
-- `CrystallineCM.UnipotentTransferAction_test_index_p`: For `U₀=Z_p,g` contracting by `p` and trivial `F_p` coefficients, `T_g=p·id=0`.
-- `CrystallineCM.UnipotentTransferAction_test_not_raw`: In this index-p example raw `g=id` would incorrectly make it ordinary.
+- For `U₀=1` the transfer action is the original g-action.
+- For `U₀=Z_p,g` contracting by `p` and trivial `F_p` coefficients, `T_g=p·id=0`.
+- In this index-p example raw `g=id` would incorrectly make it ordinary.
 
 (CN, §2.2.2, equation (2.2.1), p.26.)
 
@@ -489,23 +489,23 @@ The required interface is:
 
 ### 1.3 Ordinary monoid localization
 
-Define `CrystallineCM.OrdinaryMonoidLocalization`. For smooth `Δ⁺-modules` over `R_m`, ord is the filtered colimit under products of the commuting central operators `ũ_n`, regarded as a smooth `Δ-module`. It is exact and preserves the injectives needed to derive compact invariants. Do not replace it by a finite-projector formula for arbitrary smooth infinite modules.
+For smooth `Δ⁺-modules` over `R_m`, ord is the filtered colimit under products of the commuting central operators `ũ_n`, regarded as a smooth `Δ-module`. It is exact and preserves the injectives needed to derive compact invariants. Do not replace it by a finite-projector formula for arbitrary smooth infinite modules.
 
 For the underlying module at a single operator `T`, reuse **SmoothRepresentationsOfLocalGroups:SR.6.5**, [Stable module operators](../SmoothRepresentationsOfLocalGroups/README.md#sr65-stable-module-operators). Its `StableOperator.localization` is Mathlib's `Module.DirectLimit` of the system with transition maps `T^{j−i}`, and `StableOperator.localizationMap` is the structure map from index zero. `StableOperator.invertiblePart` identifies this colimit with `range(T^c)` for some `c≥1` when `T` is stable. The identity, nilpotent and mixed-operator comparisons are supplied there by `localization_identity`, `localization_nilpotent` and `localization_mixed`. These prerequisites concern underlying modules and have no smoothness or group-action hypotheses.
 
 The specialization here must equip those colimits with the actual `Δ-action` extending the supplied `Δ⁺-action`, retain smoothness, and compare successive localizations for the commuting `ũ_n`. Its unit and universal property are morphisms of these representations. The derived comparison additionally uses exactness and preservation of the relevant injectives in the smooth categories. A linear equivalence of underlying modules alone supplies none of those action or injectivity assertions. The localization tests below retain their representation actions when applying the underlying module comparisons.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.OrdinaryMonoidLocalization_unit`: Every smooth `π` maps naturally to ord `π` by the filtered-colimit structure map.
-- `CrystallineCM.OrdinaryMonoidLocalization_universal`: Maps from `π` into a `Δ-module` extend uniquely through ord `π`.
-- `CrystallineCM.OrdinaryMonoidLocalization_cohomology`: Exact localization satisfies `H^j(ord C)=ord H^j(C)`, with the same operator action.
+- Every smooth `π` maps naturally to ord `π` by the filtered-colimit structure map.
+- Maps from `π` into a `Δ-module` extend uniquely through ord `π`.
+- Exact localization satisfies `H^j(ord C)=ord H^j(C)`, with the same operator action.
 
 **Checks.**
 
-- `CrystallineCM.OrdinaryMonoidLocalization_test_id`: Localization under `U=id` is `π` itself.
-- `CrystallineCM.OrdinaryMonoidLocalization_test_nilpotent`: If `U^r=0`, ord `π=0` even when `π` is infinite-dimensional.
-- `CrystallineCM.OrdinaryMonoidLocalization_test_finite`: On a finite module it agrees with the imported finite ordinary projector. For `T=diag(1,0)` on `F₃²`, the positive-power ranges and kernels are `F₃×0` and `0×F₃` as in §1.1; localization retains the first coordinate and kills the second.
+- Localization under `U=id` is `π` itself.
+- If `U^r=0`, ord `π=0` even when `π` is infinite-dimensional.
+- On a finite module it agrees with the imported finite ordinary projector. For `T=diag(1,0)` on `F₃²`, the positive-power ranges and kernels are `F₃×0` and `0×F₃` as in §1.1; localization retains the first coordinate and kills the second.
 
 (CN, §2.2.2, p.26.)
 
@@ -513,20 +513,20 @@ The required interface is:
 
 ### 1.4 Functors of P-ordinary parts of smooth representations
 
-Define `CrystallineCM.POrdinaryFunctors`. For `π∈D⁺_sm(Δ̃^Q_{S̄},R_m)` with `R_m=O/ϖ^m`, restrict to `Δ̃^Q_{S̄,P}=Δ^{Q,+}_{S̄}⋉U₀_{S̄}`, take `RΓ(U₀_{S̄},π)` with its `Δ^{Q,+}_{S̄}` transfer action, and apply ord, inverting only the commuting `ũ_n` operators, to obtain `POrd(π)∈D⁺_sm(Δ^Q_{S̄},R_m)`. Products over selected places give this local functor. For `π` in degree zero, `H⁰(POrd π)=ord Γ(U₀_{S̄},π)`.
+For `π∈D⁺_sm(Δ̃^Q_{S̄},R_m)` with `R_m=O/ϖ^m`, restrict to `Δ̃^Q_{S̄,P}=Δ^{Q,+}_{S̄}⋉U₀_{S̄}`, take `RΓ(U₀_{S̄},π)` with its `Δ^{Q,+}_{S̄}` transfer action, and apply ord, inverting only the commuting `ũ_n` operators, to obtain `POrd(π)∈D⁺_sm(Δ^Q_{S̄},R_m)`. Products over selected places give this local functor. For `π` in degree zero, `H⁰(POrd π)=ord Γ(U₀_{S̄},π)`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.POrdinaryFunctors_degree_zero`: `H⁰(POrd π)=ord Γ(U₀,π)` for `π` in degree zero.
-- `CrystallineCM.POrdinaryFunctors_derived_action`: Each contracting element acts by derived restriction/finite-index transfer, not by its raw representation action.
-- `CrystallineCM.POrdinaryFunctors_comparison`: For `U₀` trivial, POrd `π` is ordinary monoid localization of `π`, with no cohomological shift.
+- `H⁰(POrd π)=ord Γ(U₀,π)` for `π` in degree zero.
+- Each contracting element acts by derived restriction/finite-index transfer, not by its raw representation action.
+- For `U₀` trivial, POrd `π` is ordinary monoid localization of `π`, with no cohomological shift.
 
 **Checks.**
 
-- `CrystallineCM.POrdinaryFunctors_test_trivial_u`: If `U₀=1` it equals the ordinary localization with no shift.
-- `CrystallineCM.POrdinaryFunctors_test_nilpotent`: If a power of transfer annihilates every `H^j(U₀,π)`, then POrd `π=0`. Nilpotence on `H⁰` alone does not suffice.
-- `CrystallineCM.POrdinaryFunctors_test_derived_transfer`: For `U₀=Z_p`, trivial `π=F_p`, contraction `z↦pz` and raw operator identity, transfer is zero on `H⁰` and identity on `H¹`. Thus `H⁰(POrd π)=0` and `H¹(POrd π)=F_p`, as in §3.8.
-- `CrystallineCM.POrdinaryFunctors_test_degree_zero`: For `π` in degree zero `H⁰` is ord `Γ(U₀,π)`, while positive cohomology is retained when ordinary transfer permits it.
+- If `U₀=1` it equals the ordinary localization with no shift.
+- If a power of transfer annihilates every `H^j(U₀,π)`, then POrd `π=0`. Nilpotence on `H⁰` alone does not suffice.
+- For `U₀=Z_p`, trivial `π=F_p`, contraction `z↦pz` and raw operator identity, transfer is zero on `H⁰` and identity on `H¹`. Thus `H⁰(POrd π)=0` and `H¹(POrd π)=F_p`, as in §3.8.
+- For `π` in degree zero `H⁰` is ord `Γ(U₀,π)`, while positive cohomology is retained when ordinary transfer permits it.
 
 (CN, Definition 2.2.3, pp.26–27.)
 
@@ -534,7 +534,7 @@ The required interface is:
 
 ### 1.5 Ordinary parts commute with K(b)-invariants
 
-Prove `CrystallineCM.ordinary_commutes_compact_invariants`. There is a natural isomorphism `ord_b` ∘ `Γ(K_{S̄}(b),−) ≅ Γ(K_{S̄}(b),−)` ∘ ord of functors `Mod_sm(Δ⁺_{S̄}, O/ϖ^m) → Mod(Δ_{S̄}/K_{S̄}(b), O/ϖ^m)`, extending to derived functors `ord_b` ∘ `RΓ(K_{S̄}(b),−) ≅ RΓ(K_{S̄}(b),−)` ∘ ord.
+There is a natural isomorphism `ord_b` ∘ `Γ(K_{S̄}(b),−) ≅ Γ(K_{S̄}(b),−)` ∘ ord of functors `Mod_sm(Δ⁺_{S̄}, O/ϖ^m) → Mod(Δ_{S̄}/K_{S̄}(b), O/ϖ^m)`, extending to derived functors `ord_b` ∘ `RΓ(K_{S̄}(b),−) ≅ RΓ(K_{S̄}(b),−)` ∘ ord.
 
 (CN, Lemma 2.2.4, p.27.)
 
@@ -542,7 +542,7 @@ Prove `CrystallineCM.ordinary_commutes_compact_invariants`. There is a natural i
 
 ### 1.6 P-ordinary invariants at level P(b,c)
 
-Prove `CrystallineCM.ordinary_parahoric_invariants`. For all `c ≥ b ≥ 0` with `c ≥ 1` there is a natural isomorphism `ord_b` ∘ `Γ(U⁰_{S̄}` ⋊ `K_{S̄}(b)`, −) `≅ ord_b` ∘ `Γ(P_{S̄}(b,c)`, −) of functors `Mod_sm(Δ̃_{S̄}, O/ϖ^m) → Mod(Δ_{S̄}/K_{S̄}(b), O/ϖ^m)`.
+For all `c ≥ b ≥ 0` with `c ≥ 1` there is a natural isomorphism `ord_b` ∘ `Γ(U⁰_{S̄}` ⋊ `K_{S̄}(b)`, −) `≅ ord_b` ∘ `Γ(P_{S̄}(b,c)`, −) of functors `Mod_sm(Δ̃_{S̄}, O/ϖ^m) → Mod(Δ_{S̄}/K_{S̄}(b), O/ϖ^m)`.
 
 (CN, Lemma 2.2.5, p.27.)
 
@@ -550,19 +550,19 @@ Prove `CrystallineCM.ordinary_parahoric_invariants`. For all `c ≥ b ≥ 0` wit
 
 ### 1.7 P-ordinary completed cohomology
 
-Define `CrystallineCM.POrdinaryCompleted`. `π(K̃^{S̄}, λ̃, m) := RΓ(K̃^{S̄}, RΓ(𝔛̄_{G̃}, V_λ̃/ϖ^m)) ∈ D⁺_sm(Δ̃_{S̄}, O/ϖ^m)` with `T̃^T-action` (using CN, Lemma 2.1.8), satisfying `RΓ(P_{S̄}(b,c), π(K̃^{S̄},λ̃,m)) ≅ RΓ(X̃_{K̃(b,c)}, V_λ̃/ϖ^m); π^{ord}(K̃^{S̄},λ̃,m) ∈ D⁺_sm(Δ_{S̄}, O/ϖ^m)` is its P-ordinary part (Definition 2.2.3), and `π^{ord}_∂` the boundary analogue.
+`π(K̃^{S̄}, λ̃, m) := RΓ(K̃^{S̄}, RΓ(𝔛̄_{G̃}, V_λ̃/ϖ^m)) ∈ D⁺_sm(Δ̃_{S̄}, O/ϖ^m)` with `T̃^T-action` (using CN, Lemma 2.1.8), satisfying `RΓ(P_{S̄}(b,c), π(K̃^{S̄},λ̃,m)) ≅ RΓ(X̃_{K̃(b,c)}, V_λ̃/ϖ^m); π^{ord}(K̃^{S̄},λ̃,m) ∈ D⁺_sm(Δ_{S̄}, O/ϖ^m)` is its P-ordinary part (Definition 2.2.3), and `π^{ord}_∂` the boundary analogue.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.POrdinaryCompleted_sections`: The underlying completed object is `RΓ(K̃^{S̄},RΓ(𝔛̄_{G̃},V/ϖ^m))`; its POrd is the object defined by the local functor.
-- `CrystallineCM.POrdinaryCompleted_tame`: Tame Hecke correspondences act and commute with the local ordinary operators.
-- `CrystallineCM.POrdinaryCompleted_boundary`: Restriction to boundary intertwines the two completed POrd objects and the finite-level recovery maps.
+- The underlying completed object is `RΓ(K̃^{S̄},RΓ(𝔛̄_{G̃},V/ϖ^m))`; its POrd is the object defined by the local functor.
+- Tame Hecke correspondences act and commute with the local ordinary operators.
+- Restriction to boundary intertwines the two completed POrd objects and the finite-level recovery maps.
 
 **Checks.**
 
-- `CrystallineCM.POrdinaryCompleted_test_empty_places`: With `S̄=∅` no ordinary operators are imposed and the object is the completed tame-level coefficient complex.
-- `CrystallineCM.POrdinaryCompleted_test_level_recovery`: For `b=0,c=1`, compact Levi invariants recover Siegel-parahoric ordinary finite-level cohomology.
-- `CrystallineCM.POrdinaryCompleted_test_boundary`: Boundary restriction commutes with the same level-recovery square, rather than defining completed boundary cohomology as a quotient of interior cohomology.
+- With `S̄=∅` no ordinary operators are imposed and the object is the completed tame-level coefficient complex.
+- For `b=0,c=1`, compact Levi invariants recover Siegel-parahoric ordinary finite-level cohomology.
+- Boundary restriction commutes with the same level-recovery square, rather than defining completed boundary cohomology as a quotient of interior cohomology.
 
 (CN, §2.2.7, p.28.)
 
@@ -570,19 +570,19 @@ The required interface is:
 
 ### 1.8 P-ordinary parts at parahoric level Q
 
-Define `CrystallineCM.ParahoricVariant`. For standard `Q_{v̄}⊂P_{v̄}`, with `𝒬_{v̄}` its integral parahoric and `K_{v̄}=𝒬_{v̄}∩G(F⁺_{v̄})`, define the parahoric P-ordinary invariant functor `π↦RΓ(K_{S̄},ord RΓ(U₀_{S̄},π))`. It takes values in `D⁺(K_{S̄}[ũ_n^{±1}]/K_{S̄},O/ϖ^m)` with `H(Δ^{Q_{S̄}},K_{S̄})` action. Here ord inverts `ũ_n` alone; it does not invert every Q-partial Hecke operator.
+For standard `Q_{v̄}⊂P_{v̄}`, with `𝒬_{v̄}` its integral parahoric and `K_{v̄}=𝒬_{v̄}∩G(F⁺_{v̄})`, define the parahoric P-ordinary invariant functor `π↦RΓ(K_{S̄},ord RΓ(U₀_{S̄},π))`. It takes values in `D⁺(K_{S̄}[ũ_n^{±1}]/K_{S̄},O/ϖ^m)` with `H(Δ^{Q_{S̄}},K_{S̄})` action. Here ord inverts `ũ_n` alone; it does not invert every Q-partial Hecke operator.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.ParahoricVariant_invariants`: Its value is `RΓ(K_Q,ord RΓ(U₀,π))`, with ord inverting `ũ_n` alone.
-- `CrystallineCM.ParahoricVariant_hecke`: `[K_QνK_Q]` acts through finite correspondences even when `K_Q` is not normal in the monoid.
-- `CrystallineCM.ParahoricVariant_siegel`: For `Q=P` this specializes to the Siegel P-ordinary invariant functor and Lemma 2.2.6 level comparison.
+- Its value is `RΓ(K_Q,ord RΓ(U₀,π))`, with ord inverting `ũ_n` alone.
+- `[K_QνK_Q]` acts through finite correspondences even when `K_Q` is not normal in the monoid.
+- For `Q=P` this specializes to the Siegel P-ordinary invariant functor and Lemma 2.2.6 level comparison.
 
 **Checks.**
 
-- `CrystallineCM.ParahoricVariant_test_siegel`: For `Q=P` the value agrees with Siegel P-ordinary invariants.
-- `CrystallineCM.ParahoricVariant_test_finite_level`: At `Q=P,b=0,c=1` its completed-tower value identifies with Siegel-parahoric finite-level ordinary cohomology by Proposition 2.2.8.
-- `CrystallineCM.ParahoricVariant_test_not_full_qord`: In the partition (1,1,1,1), inverting `Ũ²` alone does not imply `Ũ¹` and `Ũ³` have unit eigenvalues.
+- For `Q=P` the value agrees with Siegel P-ordinary invariants.
+- At `Q=P,b=0,c=1` its completed-tower value identifies with Siegel-parahoric finite-level ordinary cohomology by Proposition 2.2.8.
+- In the partition (1,1,1,1), inverting `Ũ²` alone does not imply `Ũ¹` and `Ũ³` have unit eigenvalues.
 
 (CN, §2.2.11, p.29.)
 
@@ -590,7 +590,7 @@ The required interface is:
 
 ### 1.9 Derived comparison of P-ordinary parts at finite level
 
-Prove `CrystallineCM.derived_ordinary_level_comparison`. For `π ∈ D⁺_sm(Δ̃_{S̄}, O/ϖ^m)` and `c ≥ b ≥ 0, c ≥ 1`, there is a natural isomorphism `RΓ(K_{S̄}(b)`, ord `RΓ(U⁰_{S̄}, π)) ≅ ord_b RΓ(P_{S̄}(b,c), π`) in `D⁺(Δ_{S̄}/K_{S̄}(b), O/ϖ^m)`.
+For `π ∈ D⁺_sm(Δ̃_{S̄}, O/ϖ^m)` and `c ≥ b ≥ 0, c ≥ 1`, there is a natural isomorphism `RΓ(K_{S̄}(b)`, ord `RΓ(U⁰_{S̄}, π)) ≅ ord_b RΓ(P_{S̄}(b,c), π`) in `D⁺(Δ_{S̄}/K_{S̄}(b), O/ϖ^m)`.
 
 (CN, Lemma 2.2.6, p.28.)
 
@@ -598,7 +598,7 @@ Prove `CrystallineCM.derived_ordinary_level_comparison`. For `π ∈ D⁺_sm(Δ�
 
 ### 1.10 Finite-level P-ordinary cohomology from completed cohomology
 
-Prove `CrystallineCM.completed_ordinary_finite_level`. For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1`, there is a natural `T̃^T-equivariant` isomorphism `RΓ(K_{S̄}(b), π^{ord}(K̃^{S̄},λ̃,m)) ≅ RΓ(X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}` in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`.
+For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1`, there is a natural `T̃^T-equivariant` isomorphism `RΓ(K_{S̄}(b), π^{ord}(K̃^{S̄},λ̃,m)) ≅ RΓ(X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}` in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`.
 
 (CN, Proposition 2.2.8, p.28.)
 
@@ -606,7 +606,7 @@ Prove `CrystallineCM.completed_ordinary_finite_level`. For `m ≥ 1` and `c ≥ 
 
 ### 1.11 Boundary version of the P-ordinary comparison
 
-Prove `CrystallineCM.completed_boundary_ordinary_finite_level`. For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1, RΓ(K_{S̄}(b), π^{ord}_∂(K̃^{S̄},λ̃,m)) ≅ RΓ(∂X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}, T̃^T-equivariantly`, in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`.
+For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1, RΓ(K_{S̄}(b), π^{ord}_∂(K̃^{S̄},λ̃,m)) ≅ RΓ(∂X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}, T̃^T-equivariantly`, in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`.
 
 (CN, Proposition 2.2.10, p.29.)
 
@@ -614,7 +614,7 @@ Prove `CrystallineCM.completed_boundary_ordinary_finite_level`. For `m ≥ 1` an
 
 ### 1.12 P-ordinary parts at parahoric level with their Hecke actions
 
-Prove `CrystallineCM.ordinary_parahoric_hecke_comparison`. For `π ∈ D⁺_sm(Δ̃^{Q_S̄}_{S̄}, O/ϖ^m)` there is a natural isomorphism `RΓ(K_{S̄}`, ord `RΓ(U⁰_{S̄}, π)) ≅ ord₀ RΓ(𝒬_{S̄}, π`) in `D⁺_sm(K_{S̄}[ũ^{±1}_{ṽ,n}]/K_{S̄}, O/ϖ^m)`, under which `[K_{v̄} ν(ϖ_{v̄}) K_{v̄}] ∈ H(Δ^{Q_S̄}_{S̄}, K_{S̄})` matches `[𝒬_{v̄} ν(ϖ_{v̄}) 𝒬_{v̄}]`.
+For `π ∈ D⁺_sm(Δ̃^{Q_S̄}_{S̄}, O/ϖ^m)` there is a natural isomorphism `RΓ(K_{S̄}`, ord `RΓ(U⁰_{S̄}, π)) ≅ ord₀ RΓ(𝒬_{S̄}, π`) in `D⁺_sm(K_{S̄}[ũ^{±1}_{ṽ,n}]/K_{S̄}, O/ϖ^m)`, under which `[K_{v̄} ν(ϖ_{v̄}) K_{v̄}] ∈ H(Δ^{Q_S̄}_{S̄}, K_{S̄})` matches `[𝒬_{v̄} ν(ϖ_{v̄}) 𝒬_{v̄}]`.
 
 (CN, Lemma 2.2.12, pp.29–30.)
 
@@ -622,7 +622,7 @@ Prove `CrystallineCM.ordinary_parahoric_hecke_comparison`. For `π ∈ D⁺_sm(�
 
 ### 1.13 Independence of level for P-ordinary cohomology
 
-Prove `CrystallineCM.ordinary_independence_level`. For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1`, the natural `T̃^T-equivariant` morphism `RΓ(X̃_{K̃(b,max{1,b})}, V_λ̃/ϖ^m)^{ord} → RΓ(X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}` is an isomorphism in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`; the same holds for the Borel–Serre boundary.
+For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1`, the natural `T̃^T-equivariant` morphism `RΓ(X̃_{K̃(b,max{1,b})}, V_λ̃/ϖ^m)^{ord} → RΓ(X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}` is an isomorphism in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`; the same holds for the Borel–Serre boundary.
 
 (CN, Corollary 2.2.9, p.28.)
 
@@ -642,7 +642,7 @@ Identify the `GL_n` coefficient tensor through the conjugate-dual Levi embedding
 
 ### 2.1 The Levi coefficient module as a tensor product over the two places
 
-Prove `CrystallineCM.levi_coefficient_tensor`. Under the identification of `K_{S̄}` with the block-diagonal Levi of `∏_{v̄∈S̄} P_{n,n}(O_{F_ṽ})` (via `(A_ṽ, A_{ṽc}) ↦ diag((Ψ_n ᵗA^{−1}_{ṽc} Ψ_n)^c, A_ṽ)), V_{λ_S̄} ≅ ⊗_{v̄∈S̄} ⊗_{τ∈Hom(F⁺_{v̄},E),O} V_{−w_{0,n}λ_{τ̃c}} ⊗ V_{λ_τ̃}`, with both factors acted on through `τ̃`.
+Under the identification of `K_{S̄}` with the block-diagonal Levi of `∏_{v̄∈S̄} P_{n,n}(O_{F_ṽ})` (via `(A_ṽ, A_{ṽc}) ↦ diag((Ψ_n ᵗA^{−1}_{ṽc} Ψ_n)^c, A_ṽ)), V_{λ_S̄} ≅ ⊗_{v̄∈S̄} ⊗_{τ∈Hom(F⁺_{v̄},E),O} V_{−w_{0,n}λ_{τ̃c}} ⊗ V_{λ_τ̃}`, with both factors acted on through `τ̃`.
 
 (CN, Lemma 2.2.14, p.30.)
 
@@ -650,7 +650,7 @@ Prove `CrystallineCM.levi_coefficient_tensor`. Under the identification of `K_{S
 
 ### 2.2 The kernel of evaluation is killed by ũ^m
 
-Prove `CrystallineCM.evaluation_kernel_nilpotent`. Let `τ ∈ Hom(F⁺_{v̄},E)` and `K_{λ̃_τ} := ker(V_{λ̃_τ} → V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}})` be the kernel of evaluation at the identity. For every `m ≥ 1, (ũ_{ṽ,n})^m (K_{λ̃_τ}/ϖ^m) = 0` (for the rescaled action).
+Let `τ ∈ Hom(F⁺_{v̄},E)` and `K_{λ̃_τ} := ker(V_{λ̃_τ} → V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}})` be the kernel of evaluation at the identity. For every `m ≥ 1, (ũ_{ṽ,n})^m (K_{λ̃_τ}/ϖ^m) = 0` (for the rescaled action).
 
 (CN, Lemma 2.2.16, pp.31–32.)
 
@@ -658,7 +658,7 @@ Prove `CrystallineCM.evaluation_kernel_nilpotent`. Let `τ ∈ Hom(F⁺_{v̄},E)
 
 ### 2.3 Independence of weight for P-ordinary completed cohomology
 
-Prove `CrystallineCM.ordinary_independence_weight`. Given dominant `λ̃` for `G̃` and `S̄ ⊆ S̄_p`, let `λ̃^{S̄}` be `λ̃` with `λ̃_τ` replaced by `0` for `τ` inducing places of `S̄`, and identify `λ̃` with `λ` via (2.1.4). For every `m ≥ 1` there is a natural `T̃^T-equivariant` isomorphism `π^{ord}(K̃^{S̄}, λ̃, m) ≅ π^{ord}(K̃^{S̄}, λ̃^{S̄}, m) ⊗ V_{w₀^P λ_S̄}/ϖ^m` in `D⁺_sm(Δ^{Q_S̄}_{S̄}, O/ϖ^m)`.
+Given dominant `λ̃` for `G̃` and `S̄ ⊆ S̄_p`, let `λ̃^{S̄}` be `λ̃` with `λ̃_τ` replaced by `0` for `τ` inducing places of `S̄`, and identify `λ̃` with `λ` via (2.1.4). For every `m ≥ 1` there is a natural `T̃^T-equivariant` isomorphism `π^{ord}(K̃^{S̄}, λ̃, m) ≅ π^{ord}(K̃^{S̄}, λ̃^{S̄}, m) ⊗ V_{w₀^P λ_S̄}/ϖ^m` in `D⁺_sm(Δ^{Q_S̄}_{S̄}, O/ϖ^m)`.
 
 (CN, Proposition 2.2.15, p.31.)
 
@@ -666,7 +666,7 @@ Prove `CrystallineCM.ordinary_independence_weight`. Given dominant `λ̃` for `G
 
 ### 2.4 Independence of weight for boundary P-ordinary completed cohomology
 
-Prove `CrystallineCM.boundary_ordinary_independence_weight`. With `λ̃^{S̄}` as in Independence of weight for P-ordinary completed cohomology (CL.2), `π^{ord}_∂(K̃^{S̄}, λ̃, m) ≅ π^{ord}_∂(K̃^{S̄}, λ̃^{S̄}, m) ⊗ V_{w₀^Pλ_S̄}/ϖ^m, T̃^T-equivariantly` in `D⁺_sm(Δ^{Q_S̄}_{S̄}, O/ϖ^m)`.
+With `λ̃^{S̄}` as in Independence of weight for P-ordinary completed cohomology (CL.2), `π^{ord}_∂(K̃^{S̄}, λ̃, m) ≅ π^{ord}_∂(K̃^{S̄}, λ̃^{S̄}, m) ⊗ V_{w₀^Pλ_S̄}/ϖ^m, T̃^T-equivariantly` in `D⁺_sm(Δ^{Q_S̄}_{S̄}, O/ϖ^m)`.
 
 (CN, Proposition 2.2.17, p.32.)
 
@@ -674,19 +674,19 @@ Prove `CrystallineCM.boundary_ordinary_independence_weight`. With `λ̃^{S̄}` a
 
 ### 2.5 P-ordinary parts for dual coefficients
 
-Define `CrystallineCM.DualPOrdinary`. For `v̄ ∈ S̄, ord^∨` and `ord^∨₀` are defined using the Hecke action of `ũ^{−1}_{ṽ,n}` on invariants under `Ū¹_{v̄}` (the block strictly lower triangular part of the parahoric `P_{v̄}`) and `𝒬_{v̄}`, for representations of the inverse monoid `(Δ̃^{Q}_{v̄})^{−1} = ⊔_ν 𝒬 ν(ϖ)^{−1} 𝒬`; an independence-of-weight statement for dual coefficients follows the proof of Independence of weight for P-ordinary completed cohomology (CL.2) using `0 → V^∨_{w₀^Pλ_S̄} → V^∨_{λ̃_S̄} → K^∨_{λ̃_S̄} → 0` and topological nilpotence of `ũ^{−1}_{ṽ,n}` on `K^∨`.
+For `v̄ ∈ S̄, ord^∨` and `ord^∨₀` are defined using the Hecke action of `ũ^{−1}_{ṽ,n}` on invariants under `Ū¹_{v̄}` (the block strictly lower triangular part of the parahoric `P_{v̄}`) and `𝒬_{v̄}`, for representations of the inverse monoid `(Δ̃^{Q}_{v̄})^{−1} = ⊔_ν 𝒬 ν(ϖ)^{−1} 𝒬`; an independence-of-weight statement for dual coefficients follows the proof of Independence of weight for P-ordinary completed cohomology (CL.2) using `0 → V^∨_{w₀^Pλ_S̄} → V^∨_{λ̃_S̄} → K^∨_{λ̃_S̄} → 0` and topological nilpotence of `ũ^{−1}_{ṽ,n}` on `K^∨`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.DualPOrdinary_inverse_operator`: The ordinary transition operator is the double coset `ũ_n^{-1}` acting on lower-congruence Ū¹-invariants.
-- `CrystallineCM.DualPOrdinary_conjugation`: Conjugation by `ũ_n^{-1}w₀^P` identifies the lower and upper invariants, retaining inverse monoids.
-- `CrystallineCM.DualPOrdinary_dual_pairing`: The finite-level coefficient evaluation pairing intertwines [KgK] with `[Kg^{-1}K]`.
+- The ordinary transition operator is the double coset `ũ_n^{-1}` acting on lower-congruence Ū¹-invariants.
+- Conjugation by `ũ_n^{-1}w₀^P` identifies the lower and upper invariants, retaining inverse monoids.
+- The finite-level coefficient evaluation pairing intertwines [KgK] with `[Kg^{-1}K]`.
 
 **Checks.**
 
-- `CrystallineCM.DualPOrdinary_test_trivial_weight`: At zero weight the inverse-monoid construction still uses Ū¹ and `ũ_n^{-1}`; it does not change to the upper ordinary functor automatically.
-- `CrystallineCM.DualPOrdinary_test_lower_congruence`: At `n=1`, Ū¹ consists of (`1` 0;c `1`) with `c` divisible by the local uniformizer.
-- `CrystallineCM.DualPOrdinary_test_adjoints`: For an invertible double coset the dual pairing sends its adjoint to `g^{-1}`, as in the ALS Hecke-adjoint declaration.
+- At zero weight the inverse-monoid construction still uses Ū¹ and `ũ_n^{-1}`; it does not change to the upper ordinary functor automatically.
+- At `n=1`, Ū¹ consists of (`1` 0;c `1`) with `c` divisible by the local uniformizer.
+- For an invertible double coset the dual pairing sends its adjoint to `g^{-1}`, as in the ALS Hecke-adjoint declaration.
 
 (CN, §2.2.18, pp.32–33.)
 
@@ -694,7 +694,7 @@ The required interface is:
 
 ### 2.6 Dual P-ordinary parts at parahoric level
 
-Prove `CrystallineCM.dual_ordinary_parahoric_comparison`. For `π ∈ D⁺_sm((Δ̃^{Q}_{v̄})^{−1}, O/ϖ^m)` there is a natural isomorphism `RΓ(K_{v̄}, ord^∨ RΓ(Ū¹_{v̄}, π)) ≅ ord^∨₀ RΓ(𝒬_{v̄}, π)` in `D⁺_sm(K_{v̄}[ũ^{±1}_{ṽ,n}]/K_{v̄}, O/ϖ^m)`, matching `[K ν(ϖ)^{−1} K]` with `[𝒬 ν(ϖ)^{−1} 𝒬]`.
+For `π ∈ D⁺_sm((Δ̃^{Q}_{v̄})^{−1}, O/ϖ^m)` there is a natural isomorphism `RΓ(K_{v̄}, ord^∨ RΓ(Ū¹_{v̄}, π)) ≅ ord^∨₀ RΓ(𝒬_{v̄}, π)` in `D⁺_sm(K_{v̄}[ũ^{±1}_{ṽ,n}]/K_{v̄}, O/ϖ^m)`, matching `[K ν(ϖ)^{−1} K]` with `[𝒬 ν(ϖ)^{−1} 𝒬]`.
 
 (CN, Lemma 2.2.19, p.32.)
 
@@ -714,7 +714,7 @@ Compare algebraic relative Bruhat closure with the local p-adic topology. Constr
 
 ### 3.1 Parabolic Bruhat decomposition and closure relations
 
-Prove `CrystallineCM.relative_bruhat_local_closure`. Let `L` be a p-adic field and `G/O_L` split connected reductive with split maximal torus `T ⊂ B ⊂ P = M` ⋉ `U; W^P ⊂ W` the minimal length representatives of `W_P∖W` and `^PW^P := W^P ∩ (W^P)^{−1}`. Then G(L) `= ⊔_{w∈^PW^P}` P(L)wP(L); the closure of P(L)wP(L) (p-adic topology) is `⊔_{w′≤w}` P(L)w′P(L) for the Bruhat order; and `P(L)ΩP(L)` is open for every upper subset `Ω ⊂ ^PW^P`.
+Let `L` be a p-adic field and `G/O_L` split connected reductive with split maximal torus `T ⊂ B ⊂ P = M` ⋉ `U; W^P ⊂ W` the minimal length representatives of `W_P∖W` and `^PW^P := W^P ∩ (W^P)^{−1}`. Then G(L) `= ⊔_{w∈^PW^P}` P(L)wP(L); the closure of P(L)wP(L) (p-adic topology) is `⊔_{w′≤w}` P(L)w′P(L) for the Bruhat order; and `P(L)ΩP(L)` is open for every upper subset `Ω ⊂ ^PW^P`.
 
 (CN, §2.3.1, Lemma 2.3.2, p.33.)
 
@@ -722,22 +722,22 @@ Prove `CrystallineCM.relative_bruhat_local_closure`. Let `L` be a p-adic field a
 
 ### 3.2 The modulus-type character χ of M(L)
 
-Define `CrystallineCM.ChiCharacter`. `χ` : M(L) `→ O^×` is `χ(m) = Nm_{L/Q_p} det_L(Ad(m)|_{Lie U(L)})^{−1} / |Nm_{L/Q_p} det_L(Ad(m)|_{Lie U(L)})|_p`.
+`χ` : M(L) `→ O^×` is `χ(m) = Nm_{L/Q_p} det_L(Ad(m)|_{Lie U(L)})^{−1} / |Nm_{L/Q_p} det_L(Ad(m)|_{Lie U(L)})|_p`.
 
 Write `δ(m)=Nm_{L/Q_p}det_L(Ad(m)|_{Lie U(L)})` and `v_p` for the integer valuation on a nonzero p-adic number. The formula is equivalently `χ(m)=δ(m)^{-1}p^{v_p(δ(m))}`, where the rational value of the absolute value is embedded into `Q_p` before division. This gives a unit of `Z_p` and then a unit of `O` through the coefficient map. Reuse Mathlib's `PadicInt.mkUnits` to package the valuation-zero value. If `δ(m)` is already a p-adic unit, the formula gives precisely its inverse. The norm-determinant character and its interpretation on top continuous cohomology are supplied by the specified Lie-action and orientation interfaces. Normalizing an arbitrary supplied character does not establish that interpretation.
 
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.ChiCharacter_mul`: `χ(mm′)=χ(m)χ(m′)` and `χ(1)=1`.
-- `CrystallineCM.ChiCharacter_unit_value`: The normalization has p-adic valuation zero and therefore lies in `Z_p×⊂O×`.
-- `CrystallineCM.ChiCharacter_orientation`: Its restriction to compact Levi is the inverse determinant on top continuous unipotent cohomology; on the torus it agrees with the appropriate PotentialAutomorphyInfrastructure §3.31 orientation character.
+- `χ(mm′)=χ(m)χ(m′)` and `χ(1)=1`.
+- The normalization has p-adic valuation zero and therefore lies in `Z_p×⊂O×`.
+- Its restriction to compact Levi is the inverse determinant on top continuous unipotent cohomology; on the torus it agrees with the appropriate PotentialAutomorphyInfrastructure §3.31 orientation character.
 
 **Checks.**
 
-- `CrystallineCM.ChiCharacter_test_identity`: `χ(1)=1`.
-- `CrystallineCM.ChiCharacter_test_rank_one_unit`: For `GL₂` over `L=Q_p` and `m=diag(a,d)` with `a/d∈Z_p×`, `χ(m)=d/a`. At `p=5`, `L=Q₅` and `m=diag(2,1)`, its residue is `2⁻¹=3` in `F₅`, whereas the direct adjoint character has residue `2`. For `[L:Q_p]=d_L` and `a/d∈Z_p×`, the norm instead gives `χ(m)=(d/a)^{d_L}`. Over the unramified quadratic extension of `Q₅`, `diag(2,1)` therefore has residue `(2²)⁻¹=4≠3`.
-- `CrystallineCM.ChiCharacter_test_uniformizer`: For `L=Q_p` and `m=diag(p,1), χ(m)=1` because the determinant inverse and absolute-value denominator cancel.
+- `χ(1)=1`.
+- For `GL₂` over `L=Q_p` and `m=diag(a,d)` with `a/d∈Z_p×`, `χ(m)=d/a`. At `p=5`, `L=Q₅` and `m=diag(2,1)`, its residue is `2⁻¹=3` in `F₅`, whereas the direct adjoint character has residue `2`. For `[L:Q_p]=d_L` and `a/d∈Z_p×`, the norm instead gives `χ(m)=(d/a)^{d_L}`. Over the unramified quadratic extension of `Q₅`, `diag(2,1)` therefore has residue `(2²)⁻¹=4≠3`.
+- For `L=Q_p` and `m=diag(p,1), χ(m)=1` because the determinant inverse and absolute-value denominator cancel.
 
 (CN, §2.3.1, p.37.)
 
@@ -745,7 +745,7 @@ The required interface is:
 
 ### 3.3 Cohomology of an induced space is the parabolic induction
 
-Prove `CrystallineCM.induced_space_cohomology`. For `G` split reductive over `O_L, K = G(O_L), K_P = K ∩` P(L), and `X` a compact Hausdorff space with a continuous P(L)-action on which `K_P` acts freely: `X ×^P G` (the quotient of `X ×` G(L) by (x,g)·p `=` (xp, `p^{−1}g`)) is K-equivariantly homeomorphic to `X ×^{K_P} K`, and there is a natural isomorphism `RΓ(X ×^P G, O/ϖ^m) ≅ Ind^{G(L)}_{P(L)} RΓ(X, O/ϖ^m)` in `D⁺_sm(G(L), O/ϖ^m)`.
+For `G` split reductive over `O_L, K = G(O_L), K_P = K ∩` P(L), and `X` a compact Hausdorff space with a continuous P(L)-action on which `K_P` acts freely: `X ×^P G` (the quotient of `X ×` G(L) by (x,g)·p `=` (xp, `p^{−1}g`)) is K-equivariantly homeomorphic to `X ×^{K_P} K`, and there is a natural isomorphism `RΓ(X ×^P G, O/ϖ^m) ≅ Ind^{G(L)}_{P(L)} RΓ(X, O/ϖ^m)` in `D⁺_sm(G(L), O/ϖ^m)`.
 
 (CN, §2.3.13, Lemma 2.3.14, pp.39–40.)
 
@@ -753,7 +753,7 @@ Prove `CrystallineCM.induced_space_cohomology`. For `G` split reductive over `O_
 
 ### 3.4 Splitting of the U₀-cohomology complex at deep level
 
-Prove `CrystallineCM.deep_unipotent_cohomology_split`. For the Siegel parabolic of split `GL_{2n}/O_L` (so `U₀≅O_L^{n²}` is abelian), let `K = M(O_L)` with congruence subgroups `K_m = {k ≡ 1` mod `ϖ^m_L}`, acting on `U₀` by conjugation. For every `m ≥ 1` there is `M =` M(m) `≥ m` such that `RΓ(U₀, O/ϖ^m) ≅ ⊕_{i=0}^{rk_{Z_p}U₀} H^i(U₀, O/ϖ^m)[−i]` in `D⁺_sm(K_M, O/ϖ^m)`; each `H^i(U₀, O/ϖ^m)` is non-zero, with trivial `K_M-action`. Cohomology is `Hom_cts(∧^i_{Z_p}U₀,O/ϖ^m)`, not `∧^i U₀`. No condition `p>n²` is imposed. The source argument is not exported to arbitrary nonabelian unipotent radicals.
+For the Siegel parabolic of split `GL_{2n}/O_L` (so `U₀≅O_L^{n²}` is abelian), let `K = M(O_L)` with congruence subgroups `K_m = {k ≡ 1` mod `ϖ^m_L}`, acting on `U₀` by conjugation. For every `m ≥ 1` there is `M =` M(m) `≥ m` such that `RΓ(U₀, O/ϖ^m) ≅ ⊕_{i=0}^{rk_{Z_p}U₀} H^i(U₀, O/ϖ^m)[−i]` in `D⁺_sm(K_M, O/ϖ^m)`; each `H^i(U₀, O/ϖ^m)` is non-zero, with trivial `K_M-action`. Cohomology is `Hom_cts(∧^i_{Z_p}U₀,O/ϖ^m)`, not `∧^i U₀`. No condition `p>n²` is imposed. The source argument is not exported to arbitrary nonabelian unipotent radicals.
 
 (CN, §2.3.16, pp.41–42 (Lemma 2.3.17 on p.42).)
 
@@ -761,25 +761,25 @@ Prove `CrystallineCM.deep_unipotent_cohomology_split`. For the Siegel parabolic 
 
 ### 3.5 Subquotients modulo p-powers (Artin–Rees)
 
-Prove `CrystallineCM.subquotient_mod_p_pow`. Let `N` be a finitely generated `Z_p-module` and `M` a subquotient of `N`. For every `m ≥ 1` there is `m′ ≥ m` such that `M/p^mM` is a subquotient of `N/p^{m′}N`.
+Let `N` be a finitely generated `Z_p-module` and `M` a subquotient of `N`. For every `m ≥ 1` there is `m′ ≥ m` such that `M/p^mM` is a subquotient of `N/p^{m′}N`.
 
 Additional hypotheses and conventions: Here finite `Z_p-module` means finitely generated; choose a submodule `N′ ⊆ N` and a surjective `Z_p-linear` map `f : N′ → M`. This is a quotient of modules, with its chosen maps retained.
 
-**Canonical comparison and coefficient depth.** Put `J=(p) ⊆ Z_p`, write `q_X,e : X → X/J^eX` for the quotient map, and let `T_e` be the image of `N′ → N/J^eN`. Choose `m′ ≥ m` and a surjection `g : T_m′ → M/J^mM` satisfying `g` ∘ (`q_N,m′` ∘ inclusion, with codomain restricted to its image) `= q_M,m` ∘ `f`. Thus the witness is the actual image of the chosen submodule, with the natural square; it is not an unrelated submodule that happens to have an isomorphic quotient. Mathlib's `LinearMap.range`, `rangeRestrict` and `Submodule.mkQ` give the image and its natural map; `adicSubmoduleImage` and `adicSubmoduleImageMap` denote these specializations.
+**Canonical comparison and coefficient depth.** Put `J=(p) ⊆ Z_p`, write `q_X,e : X → X/J^eX` for the quotient map, and let `T_e` be the image of `N′ → N/J^eN`. Choose `m′ ≥ m` and a surjection `g : T_m′ → M/J^mM` satisfying `g` ∘ (`q_N,m′` ∘ inclusion, with codomain restricted to its image) `= q_M,m` ∘ `f`. Thus the witness is the actual image of the chosen submodule, with the natural square; it is not an unrelated submodule that happens to have an isomorphic quotient. Mathlib's `LinearMap.range`, `rangeRestrict` and `Submodule.mkQ` give the image and its natural map. Use these native maps for the two specializations.
 
 ### 3.6 Supplementary comparison API
 
-Prove `CrystallineCM.subquotient_mod_p_pow_uniform`. There is a shift `k₀` depending only on `N′ ⊆ N` such that, for every quotient `f` and every `m ≥ 1`, this same natural surjection exists at `m′=m+k₀`. The choice of `k₀` precedes `f` and `m`. Use Artin–Rees to ensure `N′ ∩ J^(m+k₀)N ⊆ J^mN′`, then descend `q_M,m` ∘ `f` through `T_(m+k₀)`. Its surjectivity follows from those of `f` and `q_M,m`. This is a specialization of the existing generic Artin–Rees supplier, not another plan for that theorem.
+There is a shift `k₀` depending only on `N′ ⊆ N` such that, for every quotient `f` and every `m ≥ 1`, this same natural surjection exists at `m′=m+k₀`. The choice of `k₀` precedes `f` and `m`. Use Artin–Rees to ensure `N′ ∩ J^(m+k₀)N ⊆ J^mN′`, then descend `q_M,m` ∘ `f` through `T_(m+k₀)`. Its surjectivity follows from those of `f` and `q_M,m`. This is a specialization of the existing generic Artin–Rees supplier, not another plan for that theorem.
 
 The square determines `g` uniquely because `N′ → T_m′` is surjective. Consequently it preserves any supplied endomorphism actions that preserve `N′` and commute with `f` and the quotient maps. This is the map data needed when applying the subquotient lemma to Hecke modules in the proof of CN Proposition 4.2.6, especially p.64. Neither the scalar-linear signature nor its naturality constructs the arithmetic Hecke actions; those remain prerequisites of CL.6.
 
-The signatures `CrystallineCM.subquotient_mod_p_pow_unique` and `CrystallineCM.subquotient_mod_p_pow_equivariant` make these two requirements explicit. At a fixed ambient depth `e`, any two maps `T_e → M/J^mM` satisfying the square coincide. For equivariance, supply representations of the same monoid `H` on `N′`, `T_e` and `M/J^mM`, require the map `N′ → T_e` and `q_M,m` ∘ `f` to intertwine their actions, and prove `g` ∘ `ρ_T(h) = ρ_M/J^mM(h)` ∘ `g` for every `h ∈ H`. Precompose both sides with the surjection `N′ → T_e` and use the two intertwining identities and the comparison square. This applies to the multiplicative monoid of an acting Hecke algebra, retaining its chosen action on each module. The uniqueness and equivariance statements need neither finite generation, surjectivity of `f`, nor positive `e` or `m`: those assumptions enter the existence and coefficient-depth control above. They do require the actual image `T_e` and the commuting square.
+Require uniqueness and equivariance of this natural comparison. At a fixed ambient depth `e`, any two maps `T_e → M/J^mM` satisfying the square coincide. For equivariance, supply representations of the same monoid `H` on `N′`, `T_e` and `M/J^mM`, require the map `N′ → T_e` and `q_M,m` ∘ `f` to intertwine their actions, and prove `g` ∘ `ρ_T(h) = ρ_M/J^mM(h)` ∘ `g` for every `h ∈ H`. Precompose both sides with the surjection `N′ → T_e` and use the two intertwining identities and the comparison square. This applies to the multiplicative monoid of an acting Hecke algebra, retaining its chosen action on each module. The uniqueness and equivariance statements need neither finite generation, surjectivity of `f`, nor positive `e` or `m`: those assumptions enter the existence and coefficient-depth control above. They do require the actual image `T_e` and the commuting square.
 
 **Checks.** The following examples exercise the natural comparison square:
 
 - **Whole ambient submodule:** If `N′=N` and `f` is surjective, the natural comparison works with `m′=m`, without finite-generation or positive-depth assumptions. This detects an unnecessary depth increase in this special case.
-- **Depth one fails for a proper submodule** (`CrystallineCM.subquotient_mod_p_pow_test_depth_one`): Take `N=Z_p, N′=pZ_p, M=N′` and `f=id`, with `m=1`. The image `T_1` in `Z_p/pZ_p` is zero, while `N′`/pN′ is nonzero. No map from `T_1` can satisfy the required square. An abstract subquotient statement alone would miss this failure, since `N′`/pN′ is abstractly isomorphic to `Z_p/pZ_p`.
-- **Depth two repairs that example** (`CrystallineCM.subquotient_mod_p_pow_test_depth_two`): With the same `N`, `N′` and `f`, the natural image `T_2=pZ_p/p²Z_p` maps bijectively to `N′`/pN′, and the square commutes. This distinguishes the ambient adic filtration from the intrinsic one on `N′`.
+- **Depth one fails for a proper submodule**: Take `N=Z_p, N′=pZ_p, M=N′` and `f=id`, with `m=1`. The image `T_1` in `Z_p/pZ_p` is zero, while `N′`/pN′ is nonzero. No map from `T_1` can satisfy the required square. An abstract subquotient statement alone would miss this failure, since `N′`/pN′ is abstractly isomorphic to `Z_p/pZ_p`.
+- **Depth two repairs that example**: With the same `N`, `N′` and `f`, the natural image `T_2=pZ_p/p²Z_p` maps bijectively to `N′`/pN′, and the square commutes. This distinguishes the ambient adic filtration from the intrinsic one on `N′`.
 
 (CN, Lemma 2.3.18 and its proof, p.43; consumer Proposition 4.2.6 and proof, pp.63–65. The three examples are authored tests, not examples attributed to CN.)
 
@@ -787,19 +787,19 @@ The signatures `CrystallineCM.subquotient_mod_p_pow_unique` and `CrystallineCM.s
 
 ### 3.7 The Bruhat filtration functors on parabolic induction
 
-Define `CrystallineCM.InductionFiltrationFunctors`. For a smooth P(L)-module `π`, define `I_{≥i}(π)` as locally constant functions on `G_{≥i}=⋃_{ℓ(w)≥i}P(L)wP(L)`, compactly supported modulo P(L), satisfying `f(pg)=pf(g)`, with right P(L)-translation. This is unnormalized induction on the open Bruhat union. `I_{≥0}` is `Res_P Ind_P^{G̃}`. The individual stratum and open-cell functors are separate declarations.
+For a smooth P(L)-module `π`, define `I_{≥i}(π)` as locally constant functions on `G_{≥i}=⋃_{ℓ(w)≥i}P(L)wP(L)`, compactly supported modulo P(L), satisfying `f(pg)=pf(g)`, with right P(L)-translation. This is unnormalized induction on the open Bruhat union. `I_{≥0}` is `Res_P Ind_P^{G̃}`. The individual stratum and open-cell functors are separate declarations.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.InductionFiltrationFunctors_zero`: `I_{≥0}(π)=Res_P Ind_P^{G̃}(π)` in unnormalized conventions.
-- `CrystallineCM.InductionFiltrationFunctors_inclusion`: Extension by zero gives `I_{≥i+1}(π)→I_{≥i}(π)`.
-- `CrystallineCM.InductionFiltrationFunctors_restriction`: Restriction to length-i strata gives `I_{≥i}(π)→⊕_{ℓ(w)=i}I_w(π)`.
+- `I_{≥0}(π)=Res_P Ind_P^{G̃}(π)` in unnormalized conventions.
+- Extension by zero gives `I_{≥i+1}(π)→I_{≥i}(π)`.
+- Restriction to length-i strata gives `I_{≥i}(π)→⊕_{ℓ(w)=i}I_w(π)`.
 
 **Checks.**
 
-- `CrystallineCM.InductionFiltrationFunctors_test_zero_index`: `I_{≥0}` equals unnormalized parabolic induction restricted to `P`.
-- `CrystallineCM.InductionFiltrationFunctors_test_above_length`: If `i` exceeds the maximum relative Bruhat length, `I_{≥i}=0`.
-- `CrystallineCM.InductionFiltrationFunctors_test_rank_one`: For `GL₂` with Borel `P` the two Bruhat cells give a nonempty open-cell stage and an identity-cell quotient; reversing `≥` to `≤` would reverse these.
+- `I_{≥0}` equals unnormalized parabolic induction restricted to `P`.
+- If `i` exceeds the maximum relative Bruhat length, `I_{≥i}=0`.
+- For `GL₂` with Borel `P` the two Bruhat cells give a nonempty open-cell stage and an identity-cell quotient; reversing `≥` to `≤` would reverse these.
 
 (CN, §2.3.1, p.34.)
 
@@ -807,7 +807,7 @@ The required interface is:
 
 ### 3.8 P-ordinary part of an inflation from the Levi
 
-Prove `CrystallineCM.ordinary_inflation_orientation_shift`. In the abelian Siegel `GL_{2n}` setting, for `π ∈ D⁺_sm(M(L), O/ϖ^m)` there is a natural isomorphism ord `RΓ(U₀, Inf^{M(L)⁺⋉U₀}_{M(L)⁺} π) ≅ O/ϖ^m(χ) ⊗ π[−rk_{Z_p}U₀]` in `D⁺_sm(M(L)⁺, O/ϖ^m)`. Corollary 2.3.10: for `π ∈ D⁺_sm(M(L), O/ϖ^m)`, ord `RΓ(U₀, I_id(Inf^{P(L)}_{M(L)} π)) ≅ O/ϖ^m(χ) ⊗ π[−rk_{Z_p}U₀]` in `D⁺_sm(M(L)⁺, O/ϖ^m)`, where `I_id` is the identity Bruhat stratum and `I°_id` its restriction to M(L)⁺ ⋉ `U₀` (Remark 2.3.9).
+In the abelian Siegel `GL_{2n}` setting, for `π ∈ D⁺_sm(M(L), O/ϖ^m)` there is a natural isomorphism ord `RΓ(U₀, Inf^{M(L)⁺⋉U₀}_{M(L)⁺} π) ≅ O/ϖ^m(χ) ⊗ π[−rk_{Z_p}U₀]` in `D⁺_sm(M(L)⁺, O/ϖ^m)`. Corollary 2.3.10: for `π ∈ D⁺_sm(M(L), O/ϖ^m)`, ord `RΓ(U₀, I_id(Inf^{P(L)}_{M(L)} π)) ≅ O/ϖ^m(χ) ⊗ π[−rk_{Z_p}U₀]` in `D⁺_sm(M(L)⁺, O/ϖ^m)`, where `I_id` is the identity Bruhat stratum and `I°_id` its restriction to M(L)⁺ ⋉ `U₀` (Remark 2.3.9).
 
 (CN, Lemma 2.3.8, pp.37–38; Remark 2.3.9 and Corollary 2.3.10, p.38.)
 
@@ -815,7 +815,7 @@ Prove `CrystallineCM.ordinary_inflation_orientation_shift`. In the abelian Siege
 
 ### 3.9 Clopen approximations of the Bruhat filtration
 
-Prove `CrystallineCM.bruhat_clopen_approximation`. For each `i ≥ 0` there are decompositions `G_{≥i} = U^m₁` ⊔ `U^m₂` into open and closed subsets, indexed by `m ≥ 1`, left P(L)-invariant and right `P(O_L)-invariant`, with `G_{≥i+1} = ∪_{m≥1} U^m₁`.
+For each `i ≥ 0` there are decompositions `G_{≥i} = U^m₁` ⊔ `U^m₂` into open and closed subsets, indexed by `m ≥ 1`, left P(L)-invariant and right `P(O_L)-invariant`, with `G_{≥i+1} = ∪_{m≥1} U^m₁`.
 
 (CN, Lemma 2.3.5, pp.35–36.)
 
@@ -823,19 +823,19 @@ Prove `CrystallineCM.bruhat_clopen_approximation`. For each `i ≥ 0` there are 
 
 ### 3.10 Bruhat stratum induction
 
-Define `CrystallineCM.BruhatStratumInduction`. For `w∈^PW^P, I_w(π)` consists of locally constant functions `f:P(L)wP(L)→π` compactly supported modulo left P(L), with `f(pg)=pf(g)`; right P(L) acts by translation. It is one summand of the length-`ℓ`(w) quotient `I_{≥ℓ(w)}/I_{≥ℓ(w)+1}`, whose full quotient is the sum over all strata of that length; it retains the local topology.
+For `w∈^PW^P, I_w(π)` consists of locally constant functions `f:P(L)wP(L)→π` compactly supported modulo left P(L), with `f(pg)=pf(g)`; right P(L) acts by translation. It is one summand of the length-`ℓ`(w) quotient `I_{≥ℓ(w)}/I_{≥ℓ(w)+1}`, whose full quotient is the sum over all strata of that length; it retains the local topology.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.BruhatStratumInduction_equivariance`: Each `f` satisfies `f(pg)=pf(g)` on its stratum.
-- `CrystallineCM.BruhatStratumInduction_translation`: Right translation gives the P(L)-action and is compatible with compact-mod-P support.
-- `CrystallineCM.BruhatStratumInduction_restriction`: The length-i quotient of `I_{≥i}` restricts to the direct sum of the `I_w` with `ℓ(w)=i`.
+- Each `f` satisfies `f(pg)=pf(g)` on its stratum.
+- Right translation gives the P(L)-action and is compatible with compact-mod-P support.
+- The length-i quotient of `I_{≥i}` restricts to the direct sum of the `I_w` with `ℓ(w)=i`.
 
 **Checks.**
 
-- `CrystallineCM.BruhatStratumInduction_test_identity`: For `w=1` the stratum is P(L), and equivariant functions are determined by their value at `1`.
-- `CrystallineCM.BruhatStratumInduction_test_empty_support`: Empty support gives zero. For `GL₂(Q_p)`, Borel `P` and a nonzero trivial coefficient module `R_m`, identify the left-P quotient of the longest stratum with `Q_p`. The characteristic function of `Z_p` belongs to `I_w(R_m)`, whereas the constant function `1` on `Q_p` is excluded because its support is noncompact. These two functions distinguish compact-mod-P support from unrestricted locally constant functions.
-- `CrystallineCM.BruhatStratumInduction_test_unnormalized`: For a nontrivial modulus, inserting `δ_P^{1/2}` into `f(pg)=pf(g)` changes the object and fails the integral coefficient definition.
+- For `w=1` the stratum is P(L), and equivariant functions are determined by their value at `1`.
+- Empty support gives zero. For `GL₂(Q_p)`, Borel `P` and a nonzero trivial coefficient module `R_m`, identify the left-P quotient of the longest stratum with `Q_p`. The characteristic function of `Z_p` belongs to `I_w(R_m)`, whereas the constant function `1` on `Q_p` is excluded because its support is noncompact. These two functions distinguish compact-mod-P support from unrestricted locally constant functions.
+- For a nontrivial modulus, inserting `δ_P^{1/2}` into `f(pg)=pf(g)` changes the object and fails the integral coefficient definition.
 
 (CN, §2.3.1, p.34.)
 
@@ -843,19 +843,19 @@ The required interface is:
 
 ### 3.11 Bruhat open-cell induction
 
-Define `CrystallineCM.BruhatOpenCellInduction`. `I°_w(π)` is the submodule of `I_w(π)` with support in `S°_w=P(L)wM(L)U₀`. It has the right-translation action of `M(L)⁺⋉U₀` and extends by zero to `I_w`. For `w=w₀^P` its derived `U₀-invariants` evaluate to `π^{w₀^P}`.
+`I°_w(π)` is the submodule of `I_w(π)` with support in `S°_w=P(L)wM(L)U₀`. It has the right-translation action of `M(L)⁺⋉U₀` and extends by zero to `I_w`. For `w=w₀^P` its derived `U₀-invariants` evaluate to `π^{w₀^P}`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.BruhatOpenCellInduction_extend_zero`: Extension by zero gives an injective `M⁺⋉U₀-equivariant` map `I°_w→I_w`.
-- `CrystallineCM.BruhatOpenCellInduction_support`: An `I_w` function lies in `I°_w` exactly when its support is contained in `S°_w`.
-- `CrystallineCM.BruhatOpenCellInduction_evaluate`: At `w₀^P`, evaluation on `U₀-invariants` gives the coefficient module with the `w₀^P-conjugated` Levi action.
+- Extension by zero gives an injective `M⁺⋉U₀-equivariant` map `I°_w→I_w`.
+- An `I_w` function lies in `I°_w` exactly when its support is contained in `S°_w`.
+- At `w₀^P`, evaluation on `U₀-invariants` gives the coefficient module with the `w₀^P-conjugated` Levi action.
 
 **Checks.**
 
-- `CrystallineCM.BruhatOpenCellInduction_test_identity`: `S°_1=P(L)`, so `I°_1=I_1`.
-- `CrystallineCM.BruhatOpenCellInduction_test_w0_eval`: At `w₀^P` the evaluated Levi action is conjugated by block exchange, rather than the original action.
-- `CrystallineCM.BruhatOpenCellInduction_test_nonopen_support`: For nonzero trivial coefficients on the longest cell, a nonzero locally constant function with compact support in a compact-open neighborhood in left P(L)-quotient of `S_w` outside left P(L)-quotient of `S°_w` is not in `I°_w`. Single-point support is not assumed to be locally constant.
+- `S°_1=P(L)`, so `I°_1=I_1`.
+- At `w₀^P` the evaluated Levi action is conjugated by block exchange, rather than the original action.
+- For nonzero trivial coefficients on the longest cell, a nonzero locally constant function with compact support in a compact-open neighborhood in left P(L)-quotient of `S_w` outside left P(L)-quotient of `S°_w` is not in `I°_w`. Single-point support is not assumed to be locally constant.
 
 (CN, §2.3.1, p.34; Lemma 2.3.6, pp.36–37.)
 
@@ -863,7 +863,7 @@ The required interface is:
 
 ### 3.12 Exactness of the Bruhat filtration of parabolic induction
 
-Prove `CrystallineCM.bruhat_filtration_exact`. `(1) I_{≥0} = Res^{G(L)}_{P(L)}` ∘ `Ind^{G(L)}_{P(L)}`. `(2)` Each of `I_{≥i}, I_w, I°_w` is exact. `(3)` For `i ≥ 0` and `π ∈ Mod_sm(P(L), O/ϖ^m)` there is a functorial exact sequence `0 → I_{≥i+1}(π) → I_{≥i}(π) → ⊕_{ℓ(w)=i} I_w(π) → 0`, giving distinguished triangles (2.3.1) in `D⁺_sm(P(L), O/ϖ^m)`.
+`(1) I_{≥0} = Res^{G(L)}_{P(L)}` ∘ `Ind^{G(L)}_{P(L)}`. `(2)` Each of `I_{≥i}, I_w, I°_w` is exact. `(3)` For `i ≥ 0` and `π ∈ Mod_sm(P(L), O/ϖ^m)` there is a functorial exact sequence `0 → I_{≥i+1}(π) → I_{≥i}(π) → ⊕_{ℓ(w)=i} I_w(π) → 0`, giving distinguished triangles (2.3.1) in `D⁺_sm(P(L), O/ϖ^m)`.
 
 (CN, Proposition 2.3.3, p.34.)
 
@@ -871,7 +871,7 @@ Prove `CrystallineCM.bruhat_filtration_exact`. `(1) I_{≥0} = Res^{G(L)}_{P(L)}
 
 ### 3.13 The open cell computes the P-ordinary part of the top Bruhat stratum
 
-Prove `CrystallineCM.ordinary_open_cell_comparison`. For `G = GL_{2n}/L, P` the standard parabolic with Levi `GL_n × GL_n, ũ_L = diag(ϖ_L,…,ϖ_L,1,…,1)` and `w₀^P` the longest element of `^PW^P: (1) I°_{w₀^P}` takes injectives to `Γ(U₀,−)-acyclics; (2)` for `π ∈ D⁺_sm(P(L), O/ϖ^m)` there is a natural isomorphism ord `RΓ(U₀, I°_{w₀^P}(π)) ≅` ord `RΓ(U₀, I_{w₀^P}(π))`, ord inverting `ũ_L`.
+For `G = GL_{2n}/L, P` the standard parabolic with Levi `GL_n × GL_n, ũ_L = diag(ϖ_L,…,ϖ_L,1,…,1)` and `w₀^P` the longest element of `^PW^P: (1) I°_{w₀^P}` takes injectives to `Γ(U₀,−)-acyclics; (2)` for `π ∈ D⁺_sm(P(L), O/ϖ^m)` there is a natural isomorphism ord `RΓ(U₀, I°_{w₀^P}(π)) ≅` ord `RΓ(U₀, I_{w₀^P}(π))`, ord inverting `ũ_L`.
 
 (CN, Lemma 2.3.6, pp.36–37.)
 
@@ -879,7 +879,7 @@ Prove `CrystallineCM.ordinary_open_cell_comparison`. For `G = GL_{2n}/L, P` the 
 
 ### 3.14 The Bruhat filtration stays exact after taking K ⋉ U₀-cohomology
 
-Prove `CrystallineCM.bruhat_cohomology_exact`. Let `π ∈ D⁺_sm(P(L), O/ϖ^m)` and `V` a finite free `O/ϖ^m-module` with a smooth representation of an open submonoid `Δ⁺ ⊂` M(L) containing an open subgroup `K ⊂ M(O_L)`. For `i ≥ 0` and `j ∈ Z`, `0 → R^jΓ(K` ⋉ `U₀, V ⊗ I_{≥i+1}(π)) → R^jΓ(K` ⋉ `U₀, V ⊗ I_{≥i}(π)) → ⊕_{ℓ(w)=i} R^jΓ(K` ⋉ `U₀, V ⊗ I_w(π)) → 0` is an exact sequence of `H(Δ⁺`, K)-modules.
+Let `π ∈ D⁺_sm(P(L), O/ϖ^m)` and `V` a finite free `O/ϖ^m-module` with a smooth representation of an open submonoid `Δ⁺ ⊂` M(L) containing an open subgroup `K ⊂ M(O_L)`. For `i ≥ 0` and `j ∈ Z`, `0 → R^jΓ(K` ⋉ `U₀, V ⊗ I_{≥i+1}(π)) → R^jΓ(K` ⋉ `U₀, V ⊗ I_{≥i}(π)) → ⊕_{ℓ(w)=i} R^jΓ(K` ⋉ `U₀, V ⊗ I_w(π)) → 0` is an exact sequence of `H(Δ⁺`, K)-modules.
 
 (CN, Proposition 2.3.4, pp.34–35.)
 
@@ -887,7 +887,7 @@ Prove `CrystallineCM.bruhat_cohomology_exact`. Let `π ∈ D⁺_sm(P(L), O/ϖ^m)
 
 ### 3.15 The open-cell summand is the w₀^P-twist
 
-Prove `CrystallineCM.open_cell_evaluation_twist`. For `π ∈ D⁺_sm(P(L), O/ϖ^m)` there is a natural isomorphism `RΓ(U₀, I°_{w₀^P}(π)) ≅ π^{w₀^P}` in `D⁺_sm(M(L)⁺, O/ϖ^m)`, where `m ∈` M(L)⁺ acts on `π^{w₀^P}` through `w₀^P m (w₀^P)^{−1}`.
+For `π ∈ D⁺_sm(P(L), O/ϖ^m)` there is a natural isomorphism `RΓ(U₀, I°_{w₀^P}(π)) ≅ π^{w₀^P}` in `D⁺_sm(M(L)⁺, O/ϖ^m)`, where `m ∈` M(L)⁺ acts on `π^{w₀^P}` through `w₀^P m (w₀^P)^{−1}`.
 
 (CN, Lemma 2.3.7, p.37.)
 
@@ -895,7 +895,7 @@ Prove `CrystallineCM.open_cell_evaluation_twist`. For `π ∈ D⁺_sm(P(L), O/ϖ
 
 ### 3.16 P-ordinary cohomology of a parabolic induction
 
-Prove `CrystallineCM.ordinary_induction_subquotients`. For `v̄ ∈ S̄` and `Q_{v̄} ⊂ P_{v̄}` with `K_{v̄} = 𝒬_{v̄} ∩ G(F⁺_{v̄})`: let `π ∈ D⁺_sm(G(F⁺_{v̄}), O/ϖ^m)` and `V` a finite free `O/ϖ^m-module` with a smooth `Δ^{Q,+}_{v̄}-action, ũ_{ṽ,n}` acting trivially, inflated to `Δ̃^{Q}_{v̄,P} = Δ^{Q,+}_{v̄}` ⋉ `U⁰_{v̄}`. Then `ord₀ R^jΓ(K_{v̄}` ⋉ `U⁰_{v̄}, Ind^{G̃(F⁺_{v̄})}_{P(F⁺_{v̄})} π ⊗ V`) has `R^jΓ(K_{v̄}, π^{w₀^P} ⊗ V)` and `R^{j−rk_{Z_p}U⁰_{v̄}}Γ(K_{v̄}, π ⊗ O/ϖ^m(χ) ⊗ V)` as `H(Δ^{Q}_{v̄}, K_{v̄})-module` subquotients.
+For `v̄ ∈ S̄` and `Q_{v̄} ⊂ P_{v̄}` with `K_{v̄} = 𝒬_{v̄} ∩ G(F⁺_{v̄})`: let `π ∈ D⁺_sm(G(F⁺_{v̄}), O/ϖ^m)` and `V` a finite free `O/ϖ^m-module` with a smooth `Δ^{Q,+}_{v̄}-action, ũ_{ṽ,n}` acting trivially, inflated to `Δ̃^{Q}_{v̄,P} = Δ^{Q,+}_{v̄}` ⋉ `U⁰_{v̄}`. Then `ord₀ R^jΓ(K_{v̄}` ⋉ `U⁰_{v̄}, Ind^{G̃(F⁺_{v̄})}_{P(F⁺_{v̄})} π ⊗ V`) has `R^jΓ(K_{v̄}, π^{w₀^P} ⊗ V)` and `R^{j−rk_{Z_p}U⁰_{v̄}}Γ(K_{v̄}, π ⊗ O/ϖ^m(χ) ⊗ V)` as `H(Δ^{Q}_{v̄}, K_{v̄})-module` subquotients.
 
 (CN, Proposition 2.3.11, p.38.)
 
@@ -903,7 +903,7 @@ Prove `CrystallineCM.ordinary_induction_subquotients`. For `v̄ ∈ S̄` and `Q_
 
 ### 3.17 Dual version: ordinary part for the opposite parabolic
 
-Prove `CrystallineCM.dual_ordinary_induction_subquotient`. For `π ∈ D⁺_sm(G(F⁺_{v̄}), O/ϖ^m)` and `V` finite free with a smooth `(Δ^{Q,+}_{v̄})^{−1}-action, ũ^{−1}_{ṽ,n}` trivial, inflated to (`Δ̃^{Q}_{v̄,P})^{−1}: ord^∨₀ R^jΓ(K_{v̄}` ⋉ `Ū¹_{v̄}, Ind^{G̃}_{P} π ⊗ V`) has `R^jΓ(K_{v̄}, π ⊗ V)` as an `H((Δ^{Q}_{v̄})^{−1}, K_{v̄})-module` subquotient.
+For `π ∈ D⁺_sm(G(F⁺_{v̄}), O/ϖ^m)` and `V` finite free with a smooth `(Δ^{Q,+}_{v̄})^{−1}-action, ũ^{−1}_{ṽ,n}` trivial, inflated to (`Δ̃^{Q}_{v̄,P})^{−1}: ord^∨₀ R^jΓ(K_{v̄}` ⋉ `Ū¹_{v̄}, Ind^{G̃}_{P} π ⊗ V`) has `R^jΓ(K_{v̄}, π ⊗ V)` as an `H((Δ^{Q}_{v̄})^{−1}, K_{v̄})-module` subquotient.
 
 (CN, Corollary 2.3.12, p.39.)
 
@@ -923,19 +923,19 @@ Define rescaled partial Q-Hecke operators for partitions refining (n,n), their p
 
 ### 4.1 Q-ordinary Hecke operators Ũ^k_v
 
-Define `CrystallineCM.QOrdinaryHecke`. For a standard parabolic `Q_{v̄} ⊂ P_{F⁺_{v̄}}` corresponding under `ι_v` to `P_{n₁,…,n_t} ⊂ GL_{2n} (a` partition of `2n` refining (n,n)), `ν_k ∈ X_{Q_{v̄}}` with `ν_k(ϖ) = ι_v^{−1} diag(ϖ_v,…,ϖ_v,1,…,1) (n₁+…+n_k` entries `ϖ_v`) and `Ũ^k_v := [𝒬 ν_k(ϖ) 𝒬]`, so `H(Δ̃^{Q}_{v̄}, 𝒬_{v̄}) ≅ Z[Ũ¹_v,…,Ũ^{t−1}_v, (Ũ^t_v)^{±1}]`. For dominant `λ̃` and a smooth `Q̄_p-representation σ` of `G̃(F⁺_{v̄})`, the `λ̃-rescaled` action on `σ^{𝒬}` multiplies `[𝒬 g 𝒬]` by `α̃^{Q}(g)^{−1}`.
+For a standard parabolic `Q_{v̄} ⊂ P_{F⁺_{v̄}}` corresponding under `ι_v` to `P_{n₁,…,n_t} ⊂ GL_{2n} (a` partition of `2n` refining (n,n)), `ν_k ∈ X_{Q_{v̄}}` with `ν_k(ϖ) = ι_v^{−1} diag(ϖ_v,…,ϖ_v,1,…,1) (n₁+…+n_k` entries `ϖ_v`) and `Ũ^k_v := [𝒬 ν_k(ϖ) 𝒬]`, so `H(Δ̃^{Q}_{v̄}, 𝒬_{v̄}) ≅ Z[Ũ¹_v,…,Ũ^{t−1}_v, (Ũ^t_v)^{±1}]`. For dominant `λ̃` and a smooth `Q̄_p-representation σ` of `G̃(F⁺_{v̄})`, the `λ̃-rescaled` action on `σ^{𝒬}` multiplies `[𝒬 g 𝒬]` by `α̃^{Q}(g)^{−1}`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.QOrdinaryHecke_partial_operator`: For `1≤k≤t, Ũ^k` is the double coset of the first `n₁+⋯+n_k` diagonal uniformizers.
-- `CrystallineCM.QOrdinaryHecke_polynomial_algebra`: The local Hecke algebra is `Z[Ũ¹,…,Ũ^{t−1},(Ũ^t)^{±1}]`, with no inverses of the first t−1 generators before localization.
-- `CrystallineCM.QOrdinaryHecke_rescale`: On weight `λ̃` coefficients `[𝒬g𝒬]` is scaled by `α̃(g)^{-1}`, as in the integral action.
+- For `1≤k≤t, Ũ^k` is the double coset of the first `n₁+⋯+n_k` diagonal uniformizers.
+- The local Hecke algebra is `Z[Ũ¹,…,Ũ^{t−1},(Ũ^t)^{±1}]`, with no inverses of the first t−1 generators before localization.
+- On weight `λ̃` coefficients `[𝒬g𝒬]` is scaled by `α̃(g)^{-1}`, as in the integral action.
 
 **Checks.**
 
-- `CrystallineCM.QOrdinaryHecke_test_siegel`: For partition (n,n), `Ũ¹=Ũ_n` and `Ũ²=Ũ_{2n}`.
-- `CrystallineCM.QOrdinaryHecke_test_borel`: For partition (1,…,1), the generators match all standard Borel partial diagonal Hecke operators.
-- `CrystallineCM.QOrdinaryHecke_test_central_inverse_only`: The unlocalized polynomial algebra contains `(Ũ^t)^{-1}` but not `(Ũ¹)^{-1}`; making every generator invertible changes it.
+- For partition (n,n), `Ũ¹=Ũ_n` and `Ũ²=Ũ_{2n}`.
+- For partition (1,…,1), the generators match all standard Borel partial diagonal Hecke operators.
+- The unlocalized polynomial algebra contains `(Ũ^t)^{-1}` but not `(Ũ¹)^{-1}`; making every generator invertible changes it.
 
 (CN, §3.1, p.43.)
 
@@ -943,7 +943,7 @@ The required interface is:
 
 ### 4.2 Newton above Hodge for semistable representations, and its equality case
 
-Prove `CrystallineCM.newton_hodge_equality_subrepresentation`. Let `r : G_{F_v} → GL_m(Q̄_p)` be semistable, `v₁ ≤ … ≤ v_m` the valuations of the eigenvalues of geometric Frobenius on WD(r), and `h_{τ,1}` < … < `h_{τ,m}` the `τ-Hodge–Tate` weights. Then `Σ_{i≤j} v_i ≥ (1/e_v) Σ_{i≤j} Σ_τ h_{τ,i}` for `0 ≤ j ≤ m (e_v` the ramification degree of `F_v/Q_p`). If `Σ_{i≤j} v_{σ(i)} = (1/e_v) Σ_{i≤j} Σ_τ h_{τ,i}` for some `1 ≤ j ≤ m − 1` and a permutation `σ ∈ S_m`, then `r ≅ (r₁` ∗; `0 r₂`) with `r₁` of dimension `j, τ-Hodge–Tate` weights `h_{τ,1}` < … < `h_{τ,j}`, Frobenius slopes `v₁ ≤ … ≤ v_j`, and `v_j < v_{j+1}`.
+Let `r : G_{F_v} → GL_m(Q̄_p)` be semistable, `v₁ ≤ … ≤ v_m` the valuations of the eigenvalues of geometric Frobenius on WD(r), and `h_{τ,1}` < … < `h_{τ,m}` the `τ-Hodge–Tate` weights. Then `Σ_{i≤j} v_i ≥ (1/e_v) Σ_{i≤j} Σ_τ h_{τ,i}` for `0 ≤ j ≤ m (e_v` the ramification degree of `F_v/Q_p`). If `Σ_{i≤j} v_{σ(i)} = (1/e_v) Σ_{i≤j} Σ_τ h_{τ,i}` for some `1 ≤ j ≤ m − 1` and a permutation `σ ∈ S_m`, then `r ≅ (r₁` ∗; `0 r₂`) with `r₁` of dimension `j, τ-Hodge–Tate` weights `h_{τ,1}` < … < `h_{τ,j}`, Frobenius slopes `v₁ ≤ … ≤ v_j`, and `v_j < v_{j+1}`.
 
 (CN, Lemma 3.1.3, pp.44–45.)
 
@@ -953,19 +953,19 @@ Prove `CrystallineCM.newton_hodge_equality_subrepresentation`. Let `r : G_{F_v} 
 
 For commuting operators on a finite-dimensional p-adic E-vector space, decompose into simultaneous generalized eigenspaces after finite splitting-field extension and descend the sum of the pieces where every rescaled eigenvalue has valuation zero. Prove independence of the splitting field, functoriality and equality with the largest stable subspace whose operator eigenvalues are all units. Fitting over an Artinian and Noetherian module detects nonzero eigenvalues, not valuation-zero eigenvalues over `E`.
 
-Define `CrystallineCM.QOrdinaryLocalSubspace`. For an admissible characteristic-zero parahoric invariant space with the `λ̃-rescaled` commuting `Ũ^k` operators, the Q-ordinary subspace is the simultaneous sum of generalized eigenspaces for which every `Ũ^k-eigenvalue` has p-adic valuation zero, after finite coefficient extension. This includes the central invertible `Ũ^t` operator; P-ordinary only inverts `Ũ_n`.
+For an admissible characteristic-zero parahoric invariant space with the `λ̃-rescaled` commuting `Ũ^k` operators, the Q-ordinary subspace is the simultaneous sum of generalized eigenspaces for which every `Ũ^k-eigenvalue` has p-adic valuation zero, after finite coefficient extension. This includes the central invertible `Ũ^t` operator; P-ordinary only inverts `Ũ_n`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.QOrdinaryLocalSubspace_unit_eigenspaces`: A simultaneous generalized eigenvector lies in the subspace iff all rescaled eigenvalues have valuation zero.
-- `CrystallineCM.QOrdinaryLocalSubspace_scalar_extension`: Formation commutes with finite coefficient extension preserving the p-adic valuation.
-- `CrystallineCM.QOrdinaryLocalSubspace_p_comparison`: QOrd is contained in POrd at the same invariant space, and equality is not imposed in a refined partition.
+- A simultaneous generalized eigenvector lies in the subspace iff all rescaled eigenvalues have valuation zero.
+- Formation commutes with finite coefficient extension preserving the p-adic valuation.
+- QOrd is contained in POrd at the same invariant space, and equality is not imposed in a refined partition.
 
 **Checks.**
 
-- `CrystallineCM.QOrdinaryLocalSubspace_test_all_units`: For commuting diagonal scalar operators with all eigenvalues `1`, the whole invariant space is QOrd.
-- `CrystallineCM.QOrdinaryLocalSubspace_test_nonunit`: For two scalar operators `1` and `p` on an E-line, POrd for the first is nonzero but QOrd is zero.
-- `CrystallineCM.QOrdinaryLocalSubspace_test_zero_space`: For zero parahoric invariants the QOrd subspace is zero.
+- For commuting diagonal scalar operators with all eigenvalues `1`, the whole invariant space is QOrd.
+- For two scalar operators `1` and `p` on an E-line, POrd for the first is nonzero but QOrd is zero.
+- For zero parahoric invariants the QOrd subspace is zero.
 
 (CN, §3.1, after Definition 3.1.1, p.43.)
 
@@ -973,19 +973,19 @@ The required interface is:
 
 ### 4.4 `ι`-`Q_{v̄}`-ordinary cuspidal representations
 
-Define `CrystallineCM.IotaQOrdinary`. A cuspidal automorphic representation `π` of `G̃(𝔸_{F⁺})` is `ι-Q_{v̄}-ordinary` of weight `λ̃ (λ̃ ∈ (Z^{2n}₊)^{Hom(F⁺,Q̄_p)}` dominant, `ι : Q̄_p ≅ C`) if `π` is `ιV^∨_λ̃-cohomological` and the `λ̃-rescaled` operators `{Ũ^k_v : 1 ≤ k ≤ t}` have a simultaneous eigenvector with p-adic unit eigenvalues in `ι^{−1}π^{𝒬}`; the `Q_{v̄}-ordinary` subspace of `ι^{−1}π^{𝒬_{v̄}}_{v̄}` is the largest `H(Δ̃^Q, 𝒬)-submodule` on which the rescaled `Ũ^k_v` have only unit eigenvalues.
+A cuspidal automorphic representation `π` of `G̃(𝔸_{F⁺})` is `ι-Q_{v̄}-ordinary` of weight `λ̃ (λ̃ ∈ (Z^{2n}₊)^{Hom(F⁺,Q̄_p)}` dominant, `ι : Q̄_p ≅ C`) if `π` is `ιV^∨_λ̃-cohomological` and the `λ̃-rescaled` operators `{Ũ^k_v : 1 ≤ k ≤ t}` have a simultaneous eigenvector with p-adic unit eigenvalues in `ι^{−1}π^{𝒬}`; the `Q_{v̄}-ordinary` subspace of `ι^{−1}π^{𝒬_{v̄}}_{v̄}` is the largest `H(Δ̃^Q, 𝒬)-submodule` on which the rescaled `Ũ^k_v` have only unit eigenvalues.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.IotaQOrdinary_witness`: Q-ordinarity holds iff `π` is the specified cohomological representation and its parahoric invariants contain a nonzero vector with simultaneous unit rescaled eigenvalues.
-- `CrystallineCM.IotaQOrdinary_isomorphism`: An isomorphism of cuspidal automorphic representations preserving the local component and weight preserves Q-ordinarity.
-- `CrystallineCM.IotaQOrdinary_p_specialization`: For `Q=P` the condition uses the Siegel `Ũ_n` and central `Ũ_{2n}` operators; for `Q=B` it uses all Borel partial products.
+- Q-ordinarity holds iff `π` is the specified cohomological representation and its parahoric invariants contain a nonzero vector with simultaneous unit rescaled eigenvalues.
+- An isomorphism of cuspidal automorphic representations preserving the local component and weight preserves Q-ordinarity.
+- For `Q=P` the condition uses the Siegel `Ũ_n` and central `Ũ_{2n}` operators; for `Q=B` it uses all Borel partial products.
 
 **Checks.**
 
-- `CrystallineCM.IotaQOrdinary_test_no_fixed_vectors`: A local component with `π^{𝒬}=0` cannot be Q-ordinary regardless of its Galois slopes.
-- `CrystallineCM.IotaQOrdinary_test_wrong_weight`: A unit eigenvector alone does not make `π` Q-ordinary of a weight for which it is not `V^∨-cohomological`.
-- `CrystallineCM.IotaQOrdinary_test_refinement`: At `Q=B` all partial-product unit conditions are imposed, recovering the parent’s Borel definition after the stated normalization.
+- A local component with `π^{𝒬}=0` cannot be Q-ordinary regardless of its Galois slopes.
+- A unit eigenvector alone does not make `π` Q-ordinary of a weight for which it is not `V^∨-cohomological`.
+- At `Q=B` all partial-product unit conditions are imposed, recovering the parent’s Borel definition after the stated normalization.
 
 (CN, Definition 3.1.1, p.43.)
 
@@ -993,7 +993,7 @@ The required interface is:
 
 ### 4.4a Characteristic-zero unitary transfer and Galois comparison
 
-Prove `CrystallineCM.unitary_characteristic_zero_comparison`. Let `F` contain a fixed imaginary quadratic subfield `F₀` in which the rational prime `p` splits, and let `π` be a cuspidal representation of the quasi-split `U(n,n)(𝔸_{F⁺})` cohomological for the dominant coefficient weight `λ̃`. Construct the full discrete transfer of ACC+ Theorem 2.3.3, with its cohomological infinitesimal character and local identification with `π_{v̄}` at every `v̄|p`. This identification uses rational splitting in `F₀`. The transfer is a finite isobaric sum of discrete GL representations, each written as its cuspidal constituent with all the shifted copies specified by the residual classification.
+Let `F` contain a fixed imaginary quadratic subfield `F₀` in which the rational prime `p` splits, and let `π` be a cuspidal representation of the quasi-split `U(n,n)(𝔸_{F⁺})` cohomological for the dominant coefficient weight `λ̃`. Construct the full discrete transfer of ACC+ Theorem 2.3.3, with its cohomological infinitesimal character and local identification with `π_{v̄}` at every `v̄|p`. This identification uses rational splitting in `F₀`. The transfer is a finite isobaric sum of discrete GL representations, each written as its cuspidal constituent with all the shifted copies specified by the residual classification.
 
 Use AG2.2 `DiscreteAssembly`: write `2n=Σ_i a_i b_i`, with conjugate-self-dual cuspidal `Π̃_i` of rank `a_i`, and attach `r_i` to the cohomological twist `Π_i=Π̃_i|det|^{(a_i+b_i−1)/2}` using AG2.3. Form `r_ι(π)=⊕_i⊕_{j=0}^{b_i−1} r_i⊗ε_p^{−n−j}`, in the supplier's normalization. Prove continuity, rank `2n`, the good-place unitary Hecke polynomial and independence up to isomorphism of the attached constituent representatives. Its labelled Hodge multiset is `{λ̃_{τ,i}+2n−i:1≤i≤2n}`, with `HT(ε_p⁻¹)=+1` as here.
 
@@ -1011,7 +1011,7 @@ Apply AG2.6's de Rham and semisimplified coefficient-prime comparison to each cu
 
 ### 4.5 Galois representations of Q-ordinary automorphic representations
 
-Prove `CrystallineCM.q_ordinary_crystalline_blocks`. Assume the rational prime `p` splits in an imaginary quadratic subfield `F₀⊂F`. Let `π` be cuspidal on `G̃(𝔸_{F⁺}), ι : Q̄_p ≅ C, v̄` a p-adic place of `F⁺` with `π ι-Q_{v̄}-ordinary` of weight `λ̃`, and use the representation `r_ι(π)` of §4.4a. Then: `(1) r_ι(π)|_{G_{F_v}}` is conjugate to a block upper-triangular representation with diagonal blocks `r_j(π) : G_{F_v} → GL_{n_j}(Q̄_p) (j =` 1,…,t), each crystalline (3.1.1); `(2)` the `Q_{v̄}-ordinary` subspace of `ι^{−1}π^{𝒬}_{v̄}` is one-dimensional; `(3)` the `τ-Hodge–Tate` weights of the `r_j(π)` are obtained by decomposing `λ̃_{τ,2n} < λ̃_{τ,2n−1} + 1` < … < `λ̃_{τ,1} + 2n − 1` according to `(n₁,…,n_t); (4) ∏_{j=1}^k det r_j(π)(Art_{F_v}(u)) = ∏_{i=1}^{n₁+…+n_k} ∏_{τ:F_v↪Q̄_p} τ(u)^{−λ̃_{τ,2n−i+1}−i+1}` for `u ∈ O^×_{F_v}`, and `∏_{j=1}^k det r_j(π)(Art_{F_v}(ϖ_v))` equals `ε_p^{Σ_{i=1}^{n₁+…+n_k}(1−i)}(Art_{F_v}(ϖ_v))` times the eigenvalue of `Ũ^k_v` on the `Q_{v̄}-ordinary` subspace.
+Assume the rational prime `p` splits in an imaginary quadratic subfield `F₀⊂F`. Let `π` be cuspidal on `G̃(𝔸_{F⁺}), ι : Q̄_p ≅ C, v̄` a p-adic place of `F⁺` with `π ι-Q_{v̄}-ordinary` of weight `λ̃`, and use the representation `r_ι(π)` of §4.4a. Then: `(1) r_ι(π)|_{G_{F_v}}` is conjugate to a block upper-triangular representation with diagonal blocks `r_j(π) : G_{F_v} → GL_{n_j}(Q̄_p) (j =` 1,…,t), each crystalline (3.1.1); `(2)` the `Q_{v̄}-ordinary` subspace of `ι^{−1}π^{𝒬}_{v̄}` is one-dimensional; `(3)` the `τ-Hodge–Tate` weights of the `r_j(π)` are obtained by decomposing `λ̃_{τ,2n} < λ̃_{τ,2n−1} + 1` < … < `λ̃_{τ,1} + 2n − 1` according to `(n₁,…,n_t); (4) ∏_{j=1}^k det r_j(π)(Art_{F_v}(u)) = ∏_{i=1}^{n₁+…+n_k} ∏_{τ:F_v↪Q̄_p} τ(u)^{−λ̃_{τ,2n−i+1}−i+1}` for `u ∈ O^×_{F_v}`, and `∏_{j=1}^k det r_j(π)(Art_{F_v}(ϖ_v))` equals `ε_p^{Σ_{i=1}^{n₁+…+n_k}(1−i)}(Art_{F_v}(ϖ_v))` times the eigenvalue of `Ũ^k_v` on the `Q_{v̄}-ordinary` subspace.
 
 (CN, Theorem 3.1.2, pp.43–44.)
 
@@ -1031,19 +1031,19 @@ Construct the equivariant unipotent coefficient object `V_U=RΓ(U₀,V/ϖ^m)` an
 
 ### 5.1 The coefficient object V_U(λ̃_S̄, m) on the Levi locally symmetric spaces
 
-Define `CrystallineCM.BoundaryCoefficientObject`. For `S̄⊆S̄_p`, dominant `λ̃, R_m=O/ϖ^m`, put `V_{λ̃_S̄}=⊗_{v̄∈S̄,τ}V_{λ̃_τ}`. `V_U(λ̃_S̄,m)` is the equivariant locally constant derived coefficient object on the `GL_n` adelic tower corresponding to `RΓ(U₀_{S̄},V_{λ̃_S̄}/ϖ^m)`, descended to good `X_K` through the genuine Levi conjugation action. Its cohomology sheaves vanish outside [0,r], `r=n²Σ_{v̄∈S̄}[F⁺_{v̄}:Q_p]`. If `λ̃_S̄=0`, every degree 0,…,r is nonzero and `H^j=Hom_cts(∧^j_{Z_p}U₀_{S̄},R_m)`. Define `V_U(λ̃_S̄)=holim_m V_U(λ̃_S̄,m)`. The exact nonzero range is required for zero selected weights; the general-weight assertion here is the cohomological-dimension bound.
+For `S̄⊆S̄_p`, dominant `λ̃, R_m=O/ϖ^m`, put `V_{λ̃_S̄}=⊗_{v̄∈S̄,τ}V_{λ̃_τ}`. `V_U(λ̃_S̄,m)` is the equivariant locally constant derived coefficient object on the `GL_n` adelic tower corresponding to `RΓ(U₀_{S̄},V_{λ̃_S̄}/ϖ^m)`, descended to good `X_K` through the genuine Levi conjugation action. Its cohomology sheaves vanish outside [0,r], `r=n²Σ_{v̄∈S̄}[F⁺_{v̄}:Q_p]`. If `λ̃_S̄=0`, every degree 0,…,r is nonzero and `H^j=Hom_cts(∧^j_{Z_p}U₀_{S̄},R_m)`. Define `V_U(λ̃_S̄)=holim_m V_U(λ̃_S̄,m)`. The exact nonzero range is required for zero selected weights; the general-weight assertion here is the cohomological-dimension bound.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.BoundaryCoefficientObject_fiber`: Its local derived coefficient fiber is `RΓ(U₀,V_{λ̃_S̄}/ϖ^m)`, with the genuine Levi conjugation action.
-- `CrystallineCM.BoundaryCoefficientObject_descent`: Restriction to a good arithmetic level is compatible with the equivariant locally constant coefficient descent.
-- `CrystallineCM.BoundaryCoefficientObject_amplitude`: Its cohomology sheaves vanish outside `[0,n²Σ_{v̄∈S̄}[F⁺_{v̄}:Q_p]]`; exact nonvanishing across this range is asserted here only for zero `λ̃` on `S̄`.
+- Its local derived coefficient fiber is `RΓ(U₀,V_{λ̃_S̄}/ϖ^m)`, with the genuine Levi conjugation action.
+- Restriction to a good arithmetic level is compatible with the equivariant locally constant coefficient descent.
+- Its cohomology sheaves vanish outside `[0,n²Σ_{v̄∈S̄}[F⁺_{v̄}:Q_p]]`; exact nonvanishing across this range is asserted here only for zero `λ̃` on `S̄`.
 
 **Checks.**
 
-- `CrystallineCM.BoundaryCoefficientObject_test_empty_places`: For `S̄=∅, V_U` is the original coefficient in degree zero with no unipotent shift.
-- `CrystallineCM.BoundaryCoefficientObject_test_zero_weight_rank_one`: For `n=1,L=Q_p` and zero selected weights, with the nonzero trivial coefficient line `R_m, H⁰` and H¹ are `R_m`, all other groups vanish; the Levi action on H¹ is the inverse adjoint character. A zero coefficient module would instead have zero cohomology in every degree.
-- `CrystallineCM.BoundaryCoefficientObject_test_exterior_dual`: For zero selected weights and trivial coefficient line `R_m`, the fibers agree with PotentialAutomorphyInfrastructure §0.12 as continuous Hom of exterior powers, not the exterior power of `U₀` itself.
+- For `S̄=∅, V_U` is the original coefficient in degree zero with no unipotent shift.
+- For `n=1,L=Q_p` and zero selected weights, with the nonzero trivial coefficient line `R_m, H⁰` and H¹ are `R_m`, all other groups vanish; the Levi action on H¹ is the inverse adjoint character. A zero coefficient module would instead have zero cohomology in every degree.
+- For zero selected weights and trivial coefficient line `R_m`, the fibers agree with PotentialAutomorphyInfrastructure §0.12 as continuous Hom of exterior powers, not the exterior power of `U₀` itself.
 
 (CN, §4.1.1, p.53.)
 
@@ -1051,7 +1051,7 @@ The required interface is:
 
 ### 5.2 The Siegel boundary stratum and localization
 
-Prove `CrystallineCM.localized_siegel_stratum`. `(1)` There is a `G̃(𝔸_{F⁺,f})-equivariant` closed immersion `(𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}) ↪ ∂𝔛_{G̃}` whose complement is a disjoint union of locally closed `(𝔛_Q × G̃(𝔸_{F⁺,f}))/Q(𝔸_{F⁺,f})` for standard parabolics `Q` ⊄ `P`. `(2)` Under the assumptions of A direct summand of completed boundary cohomology (CL.5), pullback gives a `T̃^T-equivariant` isomorphism `RΓ(K̃^{S̄₂}, RΓ(∂𝔛_{G̃}, V_λ̃/ϖ^m))_{m̃} ≅ RΓ(K̃^{S̄₂}, RΓ((𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}), V_λ̃/ϖ^m))_{m̃}`.
+`(1)` There is a `G̃(𝔸_{F⁺,f})-equivariant` closed immersion `(𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}) ↪ ∂𝔛_{G̃}` whose complement is a disjoint union of locally closed `(𝔛_Q × G̃(𝔸_{F⁺,f}))/Q(𝔸_{F⁺,f})` for standard parabolics `Q` ⊄ `P`. `(2)` Under the assumptions of A direct summand of completed boundary cohomology (CL.5), pullback gives a `T̃^T-equivariant` isomorphism `RΓ(K̃^{S̄₂}, RΓ(∂𝔛_{G̃}, V_λ̃/ϖ^m))_{m̃} ≅ RΓ(K̃^{S̄₂}, RΓ((𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}), V_λ̃/ϖ^m))_{m̃}`.
 
 (CN, Proposition 4.1.4, pp.54–55.)
 
@@ -1059,7 +1059,7 @@ Prove `CrystallineCM.localized_siegel_stratum`. `(1)` There is a `G̃(𝔸_{F⁺
 
 ### 5.3 Completed cohomology of the Siegel parabolic is inflated from the Levi
 
-Prove `CrystallineCM.parabolic_cohomology_inflation`. Pullback along `𝔛_P ↠ 𝔛_G` gives a natural isomorphism `Inf^{P(𝔸_{F⁺,f})}_{G(𝔸_{F⁺,f})} RΓ(𝔛_G, O/ϖ^m) ≅ RΓ(𝔛_P, O/ϖ^m)` in `D⁺_sm(P(𝔸_{F⁺,f}), O/ϖ^m)`.
+Pullback along `𝔛_P ↠ 𝔛_G` gives a natural isomorphism `Inf^{P(𝔸_{F⁺,f})}_{G(𝔸_{F⁺,f})} RΓ(𝔛_G, O/ϖ^m) ≅ RΓ(𝔛_P, O/ϖ^m)` in `D⁺_sm(P(𝔸_{F⁺,f}), O/ϖ^m)`.
 
 (CN, Lemma 4.1.6, pp.55–56.)
 
@@ -1067,7 +1067,7 @@ Prove `CrystallineCM.parabolic_cohomology_inflation`. Pullback along `𝔛_P ↠
 
 ### 5.4 The Siegel stratum as an induction at S̄₁
 
-Prove `CrystallineCM.siegel_stratum_induction`. With `λ̃` as in A direct summand of completed boundary cohomology (CL.5), `RΓ((𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}), V_λ̃/ϖ^m) ≅ Ind^{G̃^{S̄₁}×G̃⁰_{S̄₁}}_{P^{S̄₁}×P⁰_{S̄₁}} RΓ(𝔛_P, V_λ̃/ϖ^m)` in `D⁺_sm(G̃^{S̄₁} × G̃⁰_{S̄₁}, O/ϖ^m)`, where `G̃^{S̄₁}` is the adelic group away from `S̄₁` and `G̃⁰_{S̄₁} = ∏_{v̄∈S̄₁} G̃(O_{F⁺_{v̄}})`.
+With `λ̃` as in A direct summand of completed boundary cohomology (CL.5), `RΓ((𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}), V_λ̃/ϖ^m) ≅ Ind^{G̃^{S̄₁}×G̃⁰_{S̄₁}}_{P^{S̄₁}×P⁰_{S̄₁}} RΓ(𝔛_P, V_λ̃/ϖ^m)` in `D⁺_sm(G̃^{S̄₁} × G̃⁰_{S̄₁}, O/ϖ^m)`, where `G̃^{S̄₁}` is the adelic group away from `S̄₁` and `G̃⁰_{S̄₁} = ∏_{v̄∈S̄₁} G̃(O_{F⁺_{v̄}})`.
 
 (CN, Lemma 4.1.5, p.55.)
 
@@ -1075,7 +1075,7 @@ Prove `CrystallineCM.siegel_stratum_induction`. With `λ̃` as in A direct summa
 
 ### 5.5 Inflation comparison with the U-cohomology coefficient object
 
-Prove `CrystallineCM.unipotent_coefficient_inflation`. With notation as in the proof of A direct summand of completed boundary cohomology (CL.5), `Inf^{P^{T∖S̄₂}}_{G^{T∖S̄₂}} RΓ(K_{T∖S̄₂}, RΓ(𝔛_G, V_U(λ̃_{S̄₁}, m))) ≅ RΓ(K_{P,T∖S̄₂}, RΓ(𝔛_P, V_λ̃/ϖ^m))` in `D⁺_sm(P^{T∖S̄₂}, O/ϖ^m)`.
+With notation as in the proof of A direct summand of completed boundary cohomology (CL.5), `Inf^{P^{T∖S̄₂}}_{G^{T∖S̄₂}} RΓ(K_{T∖S̄₂}, RΓ(𝔛_G, V_U(λ̃_{S̄₁}, m))) ≅ RΓ(K_{P,T∖S̄₂}, RΓ(𝔛_P, V_λ̃/ϖ^m))` in `D⁺_sm(P^{T∖S̄₂}, O/ϖ^m)`.
 
 (CN, Lemma 4.1.7, p.56.)
 
@@ -1083,7 +1083,7 @@ Prove `CrystallineCM.unipotent_coefficient_inflation`. With notation as in the p
 
 ### 5.6 Completed P-cohomology through the Levi
 
-Prove `CrystallineCM.completed_parabolic_levi_comparison`. `RΓ(K^{S̄₂}_P, RΓ(𝔛_P, V_λ̃/ϖ^m)) ≅ r^*_G` ∘ `Inf^{P_{S̄₂}}_{G_{S̄₂}} RΓ(K^{S̄₂}, RΓ(𝔛_G, V_U(λ̃_{S̄₁}, m))), T^T_P-equivariantly` in `D⁺_sm(P_{S̄₂}, O/ϖ^m)`.
+`RΓ(K^{S̄₂}_P, RΓ(𝔛_P, V_λ̃/ϖ^m)) ≅ r^*_G` ∘ `Inf^{P_{S̄₂}}_{G_{S̄₂}} RΓ(K^{S̄₂}, RΓ(𝔛_G, V_U(λ̃_{S̄₁}, m))), T^T_P-equivariantly` in `D⁺_sm(P_{S̄₂}, O/ϖ^m)`.
 
 (CN, Proposition 4.1.8, pp.56–57.)
 
@@ -1091,7 +1091,7 @@ Prove `CrystallineCM.completed_parabolic_levi_comparison`. `RΓ(K^{S̄₂}_P, R�
 
 ### 5.7 A direct summand of completed boundary cohomology
 
-Prove `CrystallineCM.completed_siegel_boundary_summand`. Let `K̃ ⊂ G̃(𝔸_{F⁺,f})` be good, decomposed with respect to `P`, with `K̃_{U,v̄} = U⁰_{v̄}` for `v̄ ∈ S̄_p; m ⊂ T^T` non-Eisenstein and `m̃ := 𝒮^*(m)`. For a partition `S̄_p = S̄₁` ⊔ `S̄₂` and dominant `λ̃` with `λ̃_{v̄} = 0` for `v̄ ∈ S̄₂: 𝒮^*` ∘ `Ind^{G̃_{S̄₂}}_{P_{S̄₂}} RΓ(K^{S̄₂}, RΓ(𝔛_G, V_U(λ̃_{S̄₁}, m)))_m` is a `T̃^T-equivariant` direct summand of `RΓ(K̃^{S̄₂}, RΓ(∂𝔛_{G̃}, V_λ̃/ϖ^m))_{m̃}` in `D⁺_sm(G̃_{S̄₂}, O/ϖ^m)`.
+Let `K̃ ⊂ G̃(𝔸_{F⁺,f})` be good, decomposed with respect to `P`, with `K̃_{U,v̄} = U⁰_{v̄}` for `v̄ ∈ S̄_p; m ⊂ T^T` non-Eisenstein and `m̃ := 𝒮^*(m)`. For a partition `S̄_p = S̄₁` ⊔ `S̄₂` and dominant `λ̃` with `λ̃_{v̄} = 0` for `v̄ ∈ S̄₂: 𝒮^*` ∘ `Ind^{G̃_{S̄₂}}_{P_{S̄₂}} RΓ(K^{S̄₂}, RΓ(𝔛_G, V_U(λ̃_{S̄₁}, m)))_m` is a `T̃^T-equivariant` direct summand of `RΓ(K̃^{S̄₂}, RΓ(∂𝔛_{G̃}, V_λ̃/ϖ^m))_{m̃}` in `D⁺_sm(G̃_{S̄₂}, O/ϖ^m)`.
 
 (CN, §4.1.2, Theorem 4.1.3, p.54.)
 
@@ -1099,7 +1099,7 @@ Prove `CrystallineCM.completed_siegel_boundary_summand`. Let `K̃ ⊂ G̃(𝔸_{
 
 ### 5.8 Levi cohomology with U-coefficients is a summand of completed boundary cohomology
 
-Prove `CrystallineCM.integral_levi_boundary_retract`. Let `K̃` be good, decomposed with respect to `P, K̃_{U,v̄} = U⁰_{v̄}` for `v̄ ∈ S̄_p; m ⊂ T^T` non-Eisenstein, `m̃ = 𝒮^*(m); S̄_p = S̄₁` ⊔ `S̄₂` ⊔ `S̄₃; λ̃, λ` dominant with `λ̃_τ = (−λ_{τ̃c}, λ_τ̃)` for `τ` inducing `v̄ ∈ S̄₁` and `λ̃_τ = 0` for `v̄ ∈ S̄₂` ⊔ `S̄₃`. Then `𝒮^*` ∘ `Ind^{G̃_{S̄₃}}_{P_{S̄₃}} RΓ(K^{S̄₃}, RΓ(𝔛_G, V_{λ_{S̄₁}}/ϖ^m ⊗ V_U(λ̃_{S̄₂}, m)))_m` is a `T̃^T-equivariant` direct summand of `RΓ(K̃^{S̄₃}, RΓ(∂𝔛_{G̃}, V_λ̃/ϖ^m))_{m̃}` in `D⁺_sm(G̃_{S̄₃}, O/ϖ^m)`.
+Let `K̃` be good, decomposed with respect to `P, K̃_{U,v̄} = U⁰_{v̄}` for `v̄ ∈ S̄_p; m ⊂ T^T` non-Eisenstein, `m̃ = 𝒮^*(m); S̄_p = S̄₁` ⊔ `S̄₂` ⊔ `S̄₃; λ̃, λ` dominant with `λ̃_τ = (−λ_{τ̃c}, λ_τ̃)` for `τ` inducing `v̄ ∈ S̄₁` and `λ̃_τ = 0` for `v̄ ∈ S̄₂` ⊔ `S̄₃`. Then `𝒮^*` ∘ `Ind^{G̃_{S̄₃}}_{P_{S̄₃}} RΓ(K^{S̄₃}, RΓ(𝔛_G, V_{λ_{S̄₁}}/ϖ^m ⊗ V_U(λ̃_{S̄₂}, m)))_m` is a `T̃^T-equivariant` direct summand of `RΓ(K̃^{S̄₃}, RΓ(∂𝔛_{G̃}, V_λ̃/ϖ^m))_{m̃}` in `D⁺_sm(G̃_{S̄₃}, O/ϖ^m)`.
 
 (CN, Corollary 4.1.9, p.57.)
 
@@ -1119,19 +1119,19 @@ Construct ordinary twisted/dual Satake diagrams and the integral, torsion and un
 
 ### 6.1 Q-ordinary Hecke algebras, the twisted Satake map and duality involutions
 
-Define `CrystallineCM.OrdHeckeAlgebras42`. `T^{Q_S̄,S̄-ord} := T^T ⊗ (⊗_{v̄∈S̄} H(Δ^{Q_{v̄}}_{v̄}, K_{v̄})), T^{Q_S̄,S̄-ord}_{w₀^P} := T^T ⊗ (⊗ H((Δ^{Q}_{v̄})^{w₀^P}, K^{w₀^P}_{v̄}))` and `T̃^{Q_S̄,S̄-ord} := T̃^T ⊗ (⊗ H(Δ̃^{Q}_{v̄}, 𝒬_{v̄})[Ũ^{−1}_{ṽ,n}]); 𝒮^{w₀^P} : T̃^{Q_S̄,S̄-ord} → T^{Q_S̄,S̄-ord}_{w₀^P}, [𝒬 ν(ϖ) 𝒬] ↦ [K^{w₀^P} ν(ϖ)^{w₀^P} K^{w₀^P}]`, sending `Ũ_{ṽ,n} ↦ U_ṽ` and `Ũ_{ṽ,2n} ↦ U_ṽ U^{−1}_{ṽc}`; the duality involutions `ι[KgK] = [Kg^{−1}K], ι̃[K̃gK̃] = [K̃g^{−1}K̃]` [ACC+18, §2.2.19] with twisted algebras `T^{…,ι}_{w₀^P}, T̃^{…,ι̃}`, the untwisted `T^{Q_S̄,S̄-ord,ι}` and `𝒮^ι : [𝒬 ν(ϖ)^{−1} 𝒬] ↦ [K ν(ϖ)^{−1} K]`.
+`T^{Q_S̄,S̄-ord} := T^T ⊗ (⊗_{v̄∈S̄} H(Δ^{Q_{v̄}}_{v̄}, K_{v̄})), T^{Q_S̄,S̄-ord}_{w₀^P} := T^T ⊗ (⊗ H((Δ^{Q}_{v̄})^{w₀^P}, K^{w₀^P}_{v̄}))` and `T̃^{Q_S̄,S̄-ord} := T̃^T ⊗ (⊗ H(Δ̃^{Q}_{v̄}, 𝒬_{v̄})[Ũ^{−1}_{ṽ,n}]); 𝒮^{w₀^P} : T̃^{Q_S̄,S̄-ord} → T^{Q_S̄,S̄-ord}_{w₀^P}, [𝒬 ν(ϖ) 𝒬] ↦ [K^{w₀^P} ν(ϖ)^{w₀^P} K^{w₀^P}]`, sending `Ũ_{ṽ,n} ↦ U_ṽ` and `Ũ_{ṽ,2n} ↦ U_ṽ U^{−1}_{ṽc}`; the duality involutions `ι[KgK] = [Kg^{−1}K], ι̃[K̃gK̃] = [K̃g^{−1}K̃]` [ACC+18, §2.2.19] with twisted algebras `T^{…,ι}_{w₀^P}, T̃^{…,ι̃}`, the untwisted `T^{Q_S̄,S̄-ord,ι}` and `𝒮^ι : [𝒬 ν(ϖ)^{−1} 𝒬] ↦ [K ν(ϖ)^{−1} K]`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.OrdHeckeAlgebras42_local_factor`: The untwisted `GL_n` factor is `H(Δ^Q,K_Q)`; the unitary factor localizes `H(Δ̃^Q,𝒬)` only at `Ũ_n`.
-- `CrystallineCM.OrdHeckeAlgebras42_twisted_satake`: `S^{w₀^P}` sends `Ũ_n` to `U_ṽ` and `Ũ_{2n}` to `U_ṽ U_{ṽc}^{−1}`.
-- `CrystallineCM.OrdHeckeAlgebras42_dual_satake`: `S^ι` sends inverse local cosets to inverse Levi cosets, with no additional `w₀^P-conjugation` in its untwisted target.
+- The untwisted `GL_n` factor is `H(Δ^Q,K_Q)`; the unitary factor localizes `H(Δ̃^Q,𝒬)` only at `Ũ_n`.
+- `S^{w₀^P}` sends `Ũ_n` to `U_ṽ` and `Ũ_{2n}` to `U_ṽ U_{ṽc}^{−1}`.
+- `S^ι` sends inverse local cosets to inverse Levi cosets, with no additional `w₀^P-conjugation` in its untwisted target.
 
 **Checks.**
 
-- `CrystallineCM.OrdHeckeAlgebras42_test_empty`: At `S̄=∅` they reduce to the tame Hecke algebras and the untwisted Siegel Satake map.
-- `CrystallineCM.OrdHeckeAlgebras42_test_central_ratio`: `Ũ_{2n}` maps to `U_ṽ/U_{ṽc}`; replacing division by multiplication fails the determinant dictionary.
-- `CrystallineCM.OrdHeckeAlgebras42_test_dual_inverse`: `S^ι(Ũ_n^{-1})` is the inverse appropriate Levi coset; its action agrees with the ALS adjoint involution.
+- At `S̄=∅` they reduce to the tame Hecke algebras and the untwisted Siegel Satake map.
+- `Ũ_{2n}` maps to `U_ṽ/U_{ṽc}`; replacing division by multiplication fails the determinant dictionary.
+- `S^ι(Ũ_n^{-1})` is the inverse appropriate Levi coset; its action agrees with the ALS adjoint involution.
 
 (CN, §4.2.1, p.58.)
 
@@ -1139,7 +1139,7 @@ The required interface is:
 
 ### 6.2 The dual Levi coefficient module is a summand of the dual U-cohomology
 
-Prove `CrystallineCM.dual_levi_coefficient_summand`. Let `S̄ ⊂ S̄_p` and `λ̃, λ` dominant with `λ̃_τ = (λ_τ̃, −w_{0,n}λ_{τ̃c})` for `τ` inducing `v̄ ∈ S̄` (the `w₀^P-conjugate` of the standard identification). Then for every `m ≥ 1, RΓ(U⁰_{S̄}, V^∨_{λ̃_S̄}/ϖ^m)` has `V^∨_{λ_S̄}/ϖ^m` as a `K_{S̄}-equivariant` direct summand.
+Let `S̄ ⊂ S̄_p` and `λ̃, λ` dominant with `λ̃_τ = (λ_τ̃, −w_{0,n}λ_{τ̃c})` for `τ` inducing `v̄ ∈ S̄` (the `w₀^P-conjugate` of the standard identification). Then for every `m ≥ 1, RΓ(U⁰_{S̄}, V^∨_{λ̃_S̄}/ϖ^m)` has `V^∨_{λ_S̄}/ϖ^m` as a `K_{S̄}-equivariant` direct summand.
 
 (CN, Lemma 4.2.3, p.60.)
 
@@ -1147,7 +1147,7 @@ Prove `CrystallineCM.dual_levi_coefficient_summand`. Let `S̄ ⊂ S̄_p` and `λ
 
 ### 6.3 Numerical degree bound
 
-Prove `CrystallineCM.degree_shift_bound`. If `S̄ ⊂ S̄_p` satisfies `Σ_{v̄∉S̄}[F⁺_{v̄} : Q_p] ≥ ½[F⁺ : Q]` and `q ∈ [⌊d/2⌋, d − 1] (d = n²[F⁺ : Q]`), then `d − q ≤ Σ_{v̄∉S̄} n²[F⁺_{v̄} : Q_p]`.
+If `S̄ ⊂ S̄_p` satisfies `Σ_{v̄∉S̄}[F⁺_{v̄} : Q_p] ≥ ½[F⁺ : Q]` and `q ∈ [⌊d/2⌋, d − 1] (d = n²[F⁺ : Q]`), then `d − q ≤ Σ_{v̄∉S̄} n²[F⁺_{v̄} : Q_p]`.
 
 (CN, Lemma 4.2.5, p.62.)
 
@@ -1155,7 +1155,7 @@ Prove `CrystallineCM.degree_shift_bound`. If `S̄ ⊂ S̄_p` satisfies `Σ_{v̄�
 
 ### 6.4 Deep Levi congruence level
 
-Define `CrystallineCM.DeepLeviLevel`. For `e≥1` and `S̄⊂S̄_p, K(e,S̄)_v=K_v∩ker(GL_n(O_{F_v})→GL_n(O_{F_v}/ϖ_v^e))` for `v` above `S̄`, and `K_v` elsewhere. The same depth is imposed at both conjugate places. `K(e′,S̄)⊂K(e,S̄)` for `e′≥e`.
+For `e≥1` and `S̄⊂S̄_p, K(e,S̄)_v=K_v∩ker(GL_n(O_{F_v})→GL_n(O_{F_v}/ϖ_v^e))` for `v` above `S̄`, and `K_v` elsewhere. The same depth is imposed at both conjugate places. `K(e′,S̄)⊂K(e,S̄)` for `e′≥e`.
 
 The subgroup construction only needs the given level `K` and its integral component
 homomorphisms `K→GL_n(O_{F_v})`. These homomorphisms are defined on `K`: an arbitrary
@@ -1174,17 +1174,17 @@ Cancellation would otherwise put `1` in the ideal generated by `π`. This gives 
 specific ramified instance of the normalization test without changing the local
 integer ring or replacing `π` by the coefficient uniformizer.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.DeepLeviLevel_mem`: `g∈K(e,S̄)` iff `g∈K` and every selected p-component is identity modulo its local `ϖ_v^e`.
-- `CrystallineCM.DeepLeviLevel_antitone`: `e′≥e` implies `K(e′,S̄)⊂K(e,S̄)`.
-- `CrystallineCM.DeepLeviLevel_empty`: `K(e,∅)=K`.
+- `g∈K(e,S̄)` iff `g∈K` and every selected p-component is identity modulo its local `ϖ_v^e`.
+- `e′≥e` implies `K(e′,S̄)⊂K(e,S̄)`.
+- `K(e,∅)=K`.
 
 **Checks.**
 
-- `CrystallineCM.DeepLeviLevel_test_empty`: `S̄=∅` leaves `K` unchanged.
-- `CrystallineCM.DeepLeviLevel_test_scalar`: For `GL₁` over `Z_p` with `K=Z_p×, K(e,{v̄})=1+p^e Z_p` at each conjugate place.
-- `CrystallineCM.DeepLeviLevel_test_local_uniformizer`: At ramified `F_v/Q_p`, congruence modulo `ϖ_v^e` differs from congruence modulo `p^e`; the local uniformizer is required.
+- `S̄=∅` leaves `K` unchanged.
+- For `GL₁` over `Z_p` with `K=Z_p×, K(e,{v̄})=1+p^e Z_p` at each conjugate place.
+- At ramified `F_v/Q_p`, congruence modulo `ϖ_v^e` differs from congruence modulo `p^e`; the local uniformizer is required.
 
 (CN, §4.2.1, p.61.)
 
@@ -1192,7 +1192,7 @@ The required interface is:
 
 ### 6.5 Deep unitary congruence level
 
-Define `CrystallineCM.DeepUnitaryLevel`. `K̃(e,S̄)_{v̄}=K̃_{v̄}∩P_{v̄}(e,e)` for `v̄∈S̄` and `K̃_{v̄}` elsewhere; equivalently the reduction modulo `ϖ_ṽ^e` is block unipotent (`1_n` *;0 `1_n`), so `U₀` remains present. This is deeper than diagonal-level control while retaining the unipotent fiber.
+`K̃(e,S̄)_{v̄}=K̃_{v̄}∩P_{v̄}(e,e)` for `v̄∈S̄` and `K̃_{v̄}` elsewhere; equivalently the reduction modulo `ϖ_ṽ^e` is block unipotent (`1_n` *;0 `1_n`), so `U₀` remains present. This is deeper than diagonal-level control while retaining the unipotent fiber.
 
 Use the split-place integral component maps on `K̃` to pull back the CL.0 subgroup
 P(e,e), intersect inside `K̃`, and include the resulting subgroup in the ambient
@@ -1205,17 +1205,17 @@ upper-right entry `1` lies in this subgroup even when reduction is exact, while
 principal congruence would exclude it. Over `F₃` at depth one with zero reduction
 ideal, this distinction is already visible.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.DeepUnitaryLevel_mem`: A selected component lies in `K̃(e,S̄)` iff it lies in the original `K̃` and its diagonal blocks reduce to identity and its lower-left block to zero modulo `ϖ_ṽ^e`.
-- `CrystallineCM.DeepUnitaryLevel_unipotent`: `U(O_{F⁺_{v̄}})⊂K̃(e,S̄)` whenever it was contained in `K̃`.
-- `CrystallineCM.DeepUnitaryLevel_empty`: `K̃(e,∅)=K̃`.
+- A selected component lies in `K̃(e,S̄)` iff it lies in the original `K̃` and its diagonal blocks reduce to identity and its lower-left block to zero modulo `ϖ_ṽ^e`.
+- `U(O_{F⁺_{v̄}})⊂K̃(e,S̄)` whenever it was contained in `K̃`.
+- `K̃(e,∅)=K̃`.
 
 **Checks.**
 
-- `CrystallineCM.DeepUnitaryLevel_test_empty`: `S̄=∅` leaves `K̃` unchanged.
-- `CrystallineCM.DeepUnitaryLevel_test_upper_unipotent`: For `n=1, (1` 1;0 `1`) belongs at every depth when in `K̃`.
-- `CrystallineCM.DeepUnitaryLevel_test_not_principal`: The same upper-unipotent matrix need not be identity modulo `ϖ^e`, so replacing this level by a principal congruence subgroup destroys `U₀`.
+- `S̄=∅` leaves `K̃` unchanged.
+- For `n=1, (1` 1;0 `1`) belongs at every depth when in `K̃`.
+- The same upper-unipotent matrix need not be identity modulo `ϖ^e`, so replacing this level by a principal congruence subgroup destroys `U₀`.
 
 (CN, §4.2.1, p.61.)
 
@@ -1223,7 +1223,7 @@ The required interface is:
 
 ### 6.6 Degree shifting to middle-degree P-ordinary cohomology of G̃
 
-Prove `CrystallineCM.middle_degree_hecke_comparison`. Let `K̃` be good, decomposed with respect to `P, K̃_{U,v̄} = U⁰_{v̄}` for `v̄ ∈ S̄_p; m ⊂ T^T` non-Eisenstein, `m̃ = 𝒮^*(m)` with `ρ̄_{m̃}` decomposed generic; `S̄_p = S̄₁` ⊔ `S̄₂` ⊔ `S̄₃` with standard parabolics `Q_{v̄} ⊂ P_{v̄}` for `v̄ ∈ S̄₃; λ̃, λ` dominant with `(1) λ̃_τ = (−w_{0,n}λ_{τ̃c}, λ_τ̃)` for `τ` inducing `v̄ ∈ S̄₁, (2) λ̃_τ = 0` for `v̄ ∈ S̄₂, (3) K̃_{v̄} = 𝒬_{v̄}` and `λ̃_τ = (−w_{0,n}λ_{τ̃c}, λ_τ̃)` for `v̄ ∈ S̄₃`. Then `𝒮^{w₀^P}` descends to a homomorphism `T̃^{Q_{S̄₃},S̄₃-ord}(H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}) → T^{Q_{S̄₃},S̄₃-ord}_{w₀^P}(H^d(X_{K^{S̄₃}K^{w₀^P}_{S̄₃}}, V_{λ_{S̄₁}} ⊗ V_U(λ̃_{S̄₂}) ⊗ V_{λ_{S̄₃}})_m) (H^d` degree-d hypercohomology), and `T̃^{…}(H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}) ↪ T̃^{…}(H^d(X̃_{K̃}, V_λ̃[1/p])^{ord}_{m̃})`.
+Let `K̃` be good, decomposed with respect to `P, K̃_{U,v̄} = U⁰_{v̄}` for `v̄ ∈ S̄_p; m ⊂ T^T` non-Eisenstein, `m̃ = 𝒮^*(m)` with `ρ̄_{m̃}` decomposed generic; `S̄_p = S̄₁` ⊔ `S̄₂` ⊔ `S̄₃` with standard parabolics `Q_{v̄} ⊂ P_{v̄}` for `v̄ ∈ S̄₃; λ̃, λ` dominant with `(1) λ̃_τ = (−w_{0,n}λ_{τ̃c}, λ_τ̃)` for `τ` inducing `v̄ ∈ S̄₁, (2) λ̃_τ = 0` for `v̄ ∈ S̄₂, (3) K̃_{v̄} = 𝒬_{v̄}` and `λ̃_τ = (−w_{0,n}λ_{τ̃c}, λ_τ̃)` for `v̄ ∈ S̄₃`. Then `𝒮^{w₀^P}` descends to a homomorphism `T̃^{Q_{S̄₃},S̄₃-ord}(H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}) → T^{Q_{S̄₃},S̄₃-ord}_{w₀^P}(H^d(X_{K^{S̄₃}K^{w₀^P}_{S̄₃}}, V_{λ_{S̄₁}} ⊗ V_U(λ̃_{S̄₂}) ⊗ V_{λ_{S̄₃}})_m) (H^d` degree-d hypercohomology), and `T̃^{…}(H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}) ↪ T̃^{…}(H^d(X̃_{K̃}, V_λ̃[1/p])^{ord}_{m̃})`.
 
 (CN, Proposition 4.2.2, pp.58–60.)
 
@@ -1231,22 +1231,22 @@ Prove `CrystallineCM.middle_degree_hecke_comparison`. Let `K̃` be good, decompo
 
 ### 6.7 Hecke images A(K,λ,q), A(K,λ,q,m), Ã(K̃,λ̃,S̄) and deep levels
 
-Define `CrystallineCM.HeckeImagesA`. `A(K,λ,q)=T^{Q^{w₀^P},S̄-ord}_{w₀^P}(H^q(X_K,V_λ)_m)`, the image subalgebra of the displayed actual cohomological Hecke action. All source notations `m, Q` and the chosen ordinary localization are fixed; it is not the whole abstract Hecke algebra.
+`A(K,λ,q)=T^{Q^{w₀^P},S̄-ord}_{w₀^P}(H^q(X_K,V_λ)_m)`, the image subalgebra of the displayed actual cohomological Hecke action. All source notations `m, Q` and the chosen ordinary localization are fixed; it is not the whole abstract Hecke algebra.
 
 For the actual action `a:H→End_O(M)`, the defining image has a surjective map `H→im(a)` and an injective tautological map `im(a)→End_O(M)`. A homomorphism `f:H→B` factors uniquely through im(a) exactly when `a(h)=0` implies `f(h)=0` for every `h∈H`. Extending scalars sends a(h) to `1⊗a(h)` on `E⊗_O M`; reuse `Module.End.baseChangeHom` for this algebra map. The induced map between the two images is injective when the canonical map `M→E⊗_O M` is injective. The application must identify rational cohomology with this scalar extension and supply the stated middle-degree injection. No such injectivity follows from the definition of an image algebra alone.
 
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.HeckeImagesA_mem`: An endomorphism belongs to `A(K,λ,q)` iff it is the action of some element of the specified abstract ordinary Hecke algebra.
-- `CrystallineCM.HeckeImagesA_factor`: A map out of the abstract algebra factors through A iff it kills the annihilator of the displayed localized cohomology.
-- `CrystallineCM.HeckeImagesA_integral_to_rational`: The map to its rational cohomology image is induced by tensoring the actual coefficient complex; injectivity requires the specified middle-degree input and is not unconditional for `GL_n`.
+- An endomorphism belongs to `A(K,λ,q)` iff it is the action of some element of the specified abstract ordinary Hecke algebra.
+- A map out of the abstract algebra factors through A iff it kills the annihilator of the displayed localized cohomology.
+- The map to its rational cohomology image is induced by tensoring the actual coefficient complex; injectivity requires the specified middle-degree input and is not unconditional for `GL_n`.
 
 **Checks.**
 
-- `CrystallineCM.HeckeImagesA_test_zero_cohomology`: For `H^q_m=0,` A is the zero endomorphism algebra; it is not the nonzero abstract Hecke algebra.
-- `CrystallineCM.HeckeImagesA_test_scalar_image`: If a polynomial Hecke algebra acts by evaluating `T` at `a∈O` on an O-line, its image is `O` and kernel is (T−a).
-- `CrystallineCM.HeckeImagesA_test_range`: For `H=F₃[T]` acting on `F₃²` by `T=diag(0,1)`, polynomial evaluation at this projection has image `A≅F₃×F₃` and kernel `(T(T−1))`. Thus a nonzero Hecke image need not be a scalar field.
+- For `H^q_m=0,` A is the zero endomorphism algebra; it is not the nonzero abstract Hecke algebra.
+- If a polynomial Hecke algebra acts by evaluating `T` at `a∈O` on an O-line, its image is `O` and kernel is (T−a).
+- For `H=F₃[T]` acting on `F₃²` by `T=diag(0,1)`, polynomial evaluation at this projection has image `A≅F₃×F₃` and kernel `(T(T−1))`. Thus a nonzero Hecke image need not be a scalar field.
 
 (CN, §4.2.1, p.61.)
 
@@ -1254,7 +1254,7 @@ The required interface is:
 
 ### 6.8 Degree shifting with dual coefficients
 
-Prove `CrystallineCM.dual_middle_degree_hecke_comparison`. Assumptions as in Degree shifting to middle-degree P-ordinary cohomology of `G̃` (CL.6) except: `ρ̄_{𝒮^*(m^∨)}` decomposed generic, and `λ̃_τ = (λ_τ̃, −w_{0,n}λ_{τ̃c})` for `τ` inducing places of `S̄₁` and `S̄₃ (λ̃_τ = 0` on `S̄₂, K̃_{v̄} = 𝒬_{v̄}` on `S̄₃`). Then `𝒮^ι` descends to `T̃^{Q_{S̄₃},S̄₃-ord,ι̃}(H^d(X̃_{K̃}, V^∨_λ̃)^{ord∨}_{𝒮^*(m^∨)}) → T^{Q_{S̄₃},S̄₃-ord,ι}(H^d(X_K, V^∨_{λ_{S̄₁}} ⊗ V_U(λ̃_{S̄₂}) ⊗ V^∨_{λ_{S̄₃}})_{m^∨}); T̃^{…}(H^d(X̃,V^∨)^{ord∨}) ↪ T̃^{…}(H^d(X̃,V^∨[1/p])^{ord∨})`, and by Poincaré duality the rational unitary algebra on the right of this injection is isomorphic to `T̃^{Q_{S̄₃},S̄₃-ord}(H^d(X̃_{K̃}, V_λ̃[1/p])^{ord}_{ι̃^*𝒮^*(m^∨)})`. Here `ρ̄_{ι̃^*𝒮^*(m^∨)} = ρ̄_m(−n) ⊕ ρ̄_m^{∨,c}(1−n)`.
+Assumptions as in Degree shifting to middle-degree P-ordinary cohomology of `G̃` (CL.6) except: `ρ̄_{𝒮^*(m^∨)}` decomposed generic, and `λ̃_τ = (λ_τ̃, −w_{0,n}λ_{τ̃c})` for `τ` inducing places of `S̄₁` and `S̄₃ (λ̃_τ = 0` on `S̄₂, K̃_{v̄} = 𝒬_{v̄}` on `S̄₃`). Then `𝒮^ι` descends to `T̃^{Q_{S̄₃},S̄₃-ord,ι̃}(H^d(X̃_{K̃}, V^∨_λ̃)^{ord∨}_{𝒮^*(m^∨)}) → T^{Q_{S̄₃},S̄₃-ord,ι}(H^d(X_K, V^∨_{λ_{S̄₁}} ⊗ V_U(λ̃_{S̄₂}) ⊗ V^∨_{λ_{S̄₃}})_{m^∨}); T̃^{…}(H^d(X̃,V^∨)^{ord∨}) ↪ T̃^{…}(H^d(X̃,V^∨[1/p])^{ord∨})`, and by Poincaré duality the rational unitary algebra on the right of this injection is isomorphic to `T̃^{Q_{S̄₃},S̄₃-ord}(H^d(X̃_{K̃}, V_λ̃[1/p])^{ord}_{ι̃^*𝒮^*(m^∨)})`. Here `ρ̄_{ι̃^*𝒮^*(m^∨)} = ρ̄_m(−n) ⊕ ρ̄_m^{∨,c}(1−n)`.
 
 (CN, Proposition 4.2.4, p.61.)
 
@@ -1262,24 +1262,24 @@ Prove `CrystallineCM.dual_middle_degree_hecke_comparison`. Assumptions as in Deg
 
 ### 6.9 Dual Hecke images A^∨ and Ã^∨
 
-Define `CrystallineCM.HeckeImagesDual`. For `S̄_p = S̄₁ ∪ S̄₂ ∪ S̄₃: A^∨(K,λ,q) := T^{Q_{S̄₃},S̄₃-ord,ι}(H^q(X_K, V^∨_λ)_{m^∨}), A^∨(K,λ,q,m)` the same with `V^∨_λ/ϖ^m, Ã^∨(K̃,λ̃,S̄₃) := T̃^{Q_{S̄₃},S̄₃-ord,ι̃}(H^d(X̃_{K̃}, V^∨_λ̃)^{ord∨}_{𝒮^*m^∨})`.
+For `S̄_p = S̄₁ ∪ S̄₂ ∪ S̄₃: A^∨(K,λ,q) := T^{Q_{S̄₃},S̄₃-ord,ι}(H^q(X_K, V^∨_λ)_{m^∨}), A^∨(K,λ,q,m)` the same with `V^∨_λ/ϖ^m, Ã^∨(K̃,λ̃,S̄₃) := T̃^{Q_{S̄₃},S̄₃-ord,ι̃}(H^d(X̃_{K̃}, V^∨_λ̃)^{ord∨}_{𝒮^*m^∨})`.
 
 Construct each image from its actual dual-coefficient cohomology module and action, retaining the coefficient ring and localization. Coefficient duality takes place before cohomology. Over `O`, the module `H^q(V^∨)` cannot in general be replaced by `Hom_O(H^q(V),O)`; duality can change the degree, supports and torsion terms. For example, `Hom_ℤ(ℤ/3,ℤ)=0` although `ℤ/3` is nonzero. The source's rational middle-degree Poincaré comparison supplies the particular perfect pairing used to compare the two image algebras.
 
 The algebraic descent of adjointness is explicit. Let a commutative R-algebra `H` act on `M` and `N` by a and `b`, let `ι` be an involutive R-algebra automorphism of `H`, and let `N≃Hom_R(M,R)` be a perfect pairing that separates points of `M`. If `⟨a(h)x,y⟩=⟨x,b(ι(h))y⟩`, then `a(h)=0` exactly when `b(ι(h))=0`. This gives an isomorphism `im(a)≃im(b)` carrying a(h) to `b(ι(h))`. Apply it to the arithmetic pairing with its specified degree and support comparison; do not assert an integral pairing merely from the existence of a rational one. Mathlib's `Representation.dual` supplies the coefficient formula `ρ^∨(g)φ=φ∘ρ(g⁻¹)`, and `Module.Dual.eval` supplies the comparison with the double dual without an unconditional reflexivity assertion.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.HeckeImagesDual_coefficient`: `A^∨` uses the inverse-coset action on `H^q(X_K,V_λ^∨)_{m^∨}`, with the integral and `mod-ϖ^m` variants distinguished.
-- `CrystallineCM.HeckeImagesDual_adjoint`: Poincaré pairing identifies dual Hecke operators with the involution `g↦g^{-1}`.
-- `CrystallineCM.HeckeImagesDual_unitary`: `Ã^∨` is the image on unitary middle-degree dual POrd, localized at `S^*(m^∨)`.
+- `A^∨` uses the inverse-coset action on `H^q(X_K,V_λ^∨)_{m^∨}`, with the integral and `mod-ϖ^m` variants distinguished.
+- Poincaré pairing identifies dual Hecke operators with the involution `g↦g^{-1}`.
+- `Ã^∨` is the image on unitary middle-degree dual POrd, localized at `S^*(m^∨)`.
 
 **Checks.**
 
-- `CrystallineCM.HeckeImagesDual_test_zero_cohomology`: All dual Hecke images vanish on the zero module.
-- `CrystallineCM.HeckeImagesDual_test_scalar_inverse`: For a single invertible group element acting by a on a coefficient line, the contragredient element acts by `a⁻¹`. General double cosets retain restriction/corestriction multiplicities; inverse-coset eigenvalues need not be reciprocals.
-- `CrystallineCM.HeckeImagesDual_test_double_coset_degree`: On the trivial Q₅-line for `GL₂(Q₃)` with `K=GL₂(Z₃)`, both `[K diag(3,1) K]` and its inverse act by `4`, since both indices are `3+1`. These are units but `4≠4⁻¹`.
-- `CrystallineCM.HeckeImagesDual_test_involution`: Applying the coefficient dual and Hecke inversion twice recovers the original action and maximal ideal.
+- All dual Hecke images vanish on the zero module.
+- For a single invertible group element acting by a on a coefficient line, the contragredient element acts by `a⁻¹`. General double cosets retain restriction/corestriction multiplicities; inverse-coset eigenvalues need not be reciprocals.
+- On the trivial Q₅-line for `GL₂(Q₃)` with `K=GL₂(Z₃)`, both `[K diag(3,1) K]` and its inverse act by `4`, since both indices are `3+1`. These are units but `4≠4⁻¹`.
+- Applying the coefficient dual and Hecke inversion twice recovers the original action and maximal ideal.
 
 (CN, §4.2.1, p.65.)
 
@@ -1287,19 +1287,19 @@ The required interface is:
 
 ### 6.10 Torsion Hecke image
 
-Define `CrystallineCM.TorsionHeckeImage`. `A(K,λ,q,m)=image` of `T^{Q^{w₀^P},S̄-ord}_{w₀^P}` in `End_O(H^q(X_K,V_λ/ϖ^m)_m)`. Integral and torsion Hecke operators agree on the image of integral cohomology in torsion cohomology. A map `A(K,λ,q)/ϖ^m→A(K,λ,q,m)` requires an additional annihilator containment; neither that map nor equality is automatic.
+`A(K,λ,q,m)=image` of `T^{Q^{w₀^P},S̄-ord}_{w₀^P}` in `End_O(H^q(X_K,V_λ/ϖ^m)_m)`. Integral and torsion Hecke operators agree on the image of integral cohomology in torsion cohomology. A map `A(K,λ,q)/ϖ^m→A(K,λ,q,m)` requires an additional annihilator containment; neither that map nor equality is automatic.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.TorsionHeckeImage_mem`: `b` belongs iff `b` is the specified ordinary Hecke action on `H^q(X_K,V_λ/ϖ^m)_m`.
-- `CrystallineCM.TorsionHeckeImage_faithful`: Its tautological action on this module is injective as a map of algebras.
-- `CrystallineCM.TorsionHeckeImage_image_reduction`: An integral Hecke operator and its induced torsion operator agree on the image of `H^q(V_λ)→H^q(V_λ/ϖ^m)`.
+- `b` belongs iff `b` is the specified ordinary Hecke action on `H^q(X_K,V_λ/ϖ^m)_m`.
+- Its tautological action on this module is injective as a map of algebras.
+- An integral Hecke operator and its induced torsion operator agree on the image of `H^q(V_λ)→H^q(V_λ/ϖ^m)`.
 
 **Checks.**
 
-- `CrystallineCM.TorsionHeckeImage_test_zero`: Zero torsion cohomology gives the zero image algebra.
-- `CrystallineCM.TorsionHeckeImage_test_scalar_mod`: For a scalar O-action on `R_m`, its torsion image is `R_m`.
-- `CrystallineCM.TorsionHeckeImage_test_new_torsion`: Torsion `H^{q+1}(V)` may contribute to `H^q(V/ϖ^m)`; the definition cannot identify the latter image with `A(K,λ,q)/ϖ^m` without extra hypotheses.
+- Zero torsion cohomology gives the zero image algebra.
+- For a scalar O-action on `R_m`, its torsion image is `R_m`.
+- Torsion `H^{q+1}(V)` may contribute to `H^q(V/ϖ^m)`; the definition cannot identify the latter image with `A(K,λ,q)/ϖ^m` without extra hypotheses.
 
 A concrete instance is the two-term complex `O --ϖ--> O` in degrees zero and one for a nonzero uniformizer in a DVR. Its integral `H⁰` is zero and its H¹ is `O/ϖ`. After derived reduction modulo `ϖ` the differential is zero, so `H⁰` becomes `O/ϖ`. Thus its scalar Hecke image in degree zero changes from zero to `O/ϖ`. There can be no unital map from that zero integral image to the nonzero torsion image. Equivariance of the coefficient map still compares operators on the image of integral `H⁰`, which is zero here; it does not identify the whole torsion cohomology with a reduction of integral `H⁰`. Specializing to `O=ℤ₃` and `ϖ=3`, `PadicInt.toZMod` is the residue homomorphism. The degree-zero kernels and their scalar endomorphism images give a subsingleton integral image and a nontrivial residue image, so every unital `ℤ₃-algebra` map from the former to the latter is excluded. This tests the image-algebra obstruction as well as the change in cohomology.
 
@@ -1310,23 +1310,23 @@ A concrete instance is the two-term complex `O --ϖ--> O` in degrees zero and on
 
 ### 6.11 Unitary middle-degree Hecke image
 
-Define `CrystallineCM.UnitaryMiddleHeckeImage`. `Ã(K̃,λ̃,S̄)=image` of `T̃^{Q^{w₀^P},S̄-ord}` in `End_O(H^d(X̃_{K̃},V_λ̃)^{P-ord}_{m̃})`. Under the generic middle-degree injection this is a finite torsion-free O-algebra inside its rational image. Q-unit eigensystems are selected by the maximal ideal, not by redefining POrd.
+`Ã(K̃,λ̃,S̄)=image` of `T̃^{Q^{w₀^P},S̄-ord}` in `End_O(H^d(X̃_{K̃},V_λ̃)^{P-ord}_{m̃})`. Under the generic middle-degree injection this is a finite torsion-free O-algebra inside its rational image. Q-unit eigensystems are selected by the maximal ideal, not by redefining POrd.
 
 Use the actual middle-degree action `a:H→End_O(M)` and its image, as for A. Tensoring `M` with `E` gives the image homomorphism into the rational action. Its injectivity follows from the supplied middle-degree injection `M→E⊗_O M`; it is not a property of every integral Hecke image. In particular, if `r∈O` has nonzero image in `E` and `r` annihilates an image endomorphism, that endomorphism is zero. Finiteness comes from the arithmetic middle-degree module, separately from this range argument.
 
 Evaluate a character `χ` on the image of every rescaled partial block operator through `H→im(a)→E`. Equal Siegel values alone do not determine this character: in the faithful regular action of `ℚ×ℚ` on itself, the two projection characters both send (1,1) to `1` but send (1,2) to `1` and `2`. All those displayed eigenvalues are units. The cuspidal realization of the character uses the CTG and all-partial-unit hypotheses of Proposition 4.2.11, p.67, as specified in CL.7.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.UnitaryMiddleHeckeImage_mem`: `b∈Ã` iff it is an ordinary abstract Hecke action on the indicated integral unitary `H^d`.
-- `CrystallineCM.UnitaryMiddleHeckeImage_rational_injective`: Under the decomposed-generic middle-degree injection, the natural map `Ã→Ã[1/p]` is injective.
-- `CrystallineCM.UnitaryMiddleHeckeImage_character`: A characteristic-zero algebra character is evaluated on all rescaled partial operators, not only `Ũ_n`.
+- `b∈Ã` iff it is an ordinary abstract Hecke action on the indicated integral unitary `H^d`.
+- Under the decomposed-generic middle-degree injection, the natural map `Ã→Ã[1/p]` is injective.
+- A characteristic-zero algebra character is evaluated on all rescaled partial operators, not only `Ũ_n`.
 
 **Checks.**
 
-- `CrystallineCM.UnitaryMiddleHeckeImage_test_zero`: Vanishing ordinary `H^d` gives the zero image.
-- `CrystallineCM.UnitaryMiddleHeckeImage_test_torsion_free`: Under ambient genericity, a nonzero `ϖ-torsion` Hecke endomorphism is impossible because its action embeds in rational `H^d`.
-- `CrystallineCM.UnitaryMiddleHeckeImage_test_characters`: Its characteristic-zero characters match the cuspidal Q-ordinary eigensystems in Proposition 4.2.11 when CTG and all-unit hypotheses hold.
+- Vanishing ordinary `H^d` gives the zero image.
+- Under ambient genericity, a nonzero `ϖ-torsion` Hecke endomorphism is impossible because its action embeds in rational `H^d`.
+- Its characteristic-zero characters match the cuspidal Q-ordinary eigensystems in Proposition 4.2.11 when CTG and all-unit hypotheses hold.
 
 (CN, §4.2.1, p.61.)
 
@@ -1334,7 +1334,7 @@ The required interface is:
 
 ### 6.12 Degree shifting for torsion coefficients at deep auxiliary level
 
-Prove `CrystallineCM.torsion_degree_shifting`. Let `v̄ ≠ v̄′ ∈ S̄_p, S̄₁ = {v̄′}, S̄₃ = {v̄}, S̄₂` the rest; `λ ∈ (Zⁿ₊)^{Hom(F,E)}, m ≥ 1, K̃` good. Assume `(1) Σ_{v̄″≠v̄,v̄′}[F⁺_{v̄″} : Q_p] ≥ ½[F⁺ : Q]; (2)` for each p-adic `v̄″ ≠ v̄` (including `v̄′), U(O_{F⁺_{v̄″}}) ⊂ K̃_{v̄″} = K̃(m, S̄₁ ∪ S̄₂)_{v̄″}`, and `K̃_{v̄} = 𝒬^{w₀^P}_{v̄}` for the standard parabolic with Levi `Q^{w₀^P}_{v̄} ∩ G(F⁺_{v̄}); (3) −λ_{τc,1} − λ_{τ,1} ≥ 0` for `τ` inducing `v̄` or `v̄′; (4) m ⊂ T` non-Eisenstein with `ρ̄_{m̃}` decomposed generic. Put `λ̃_τ = 0` for `τ` not inducing `v̄, v̄′` and `λ̃_τ = (−λ_{τ̃c}, λ_τ̃)` otherwise, and `K = (K̃^{v̄} ∩ G(𝔸^{v̄}_{F⁺,f}))` · `(𝒬_{v̄} ∩ G(F⁺_{v̄}))`. For `q ∈ [⌊d/2⌋, d − 1]` there are `m′ ≥ m` (allowed to depend on the input) and `N ≥ 1` depending only on `n` and `[F⁺ : Q]`, an ideal `J ⊂ A(K,λ,q,m)` with `J^N = 0` and a commutative square `T̃^{Q^{w₀^P}_{v̄},{v̄}-ord} → Ã(K̃(m′, S̄₂), λ̃, v̄)` over `𝒮^{w₀^P} : T̃^{…} → T^{…}_{w₀^P} → A(K,λ,q,m)/J`.
+Let `v̄ ≠ v̄′ ∈ S̄_p, S̄₁ = {v̄′}, S̄₃ = {v̄}, S̄₂` the rest; `λ ∈ (Zⁿ₊)^{Hom(F,E)}, m ≥ 1, K̃` good. Assume `(1) Σ_{v̄″≠v̄,v̄′}[F⁺_{v̄″} : Q_p] ≥ ½[F⁺ : Q]; (2)` for each p-adic `v̄″ ≠ v̄` (including `v̄′), U(O_{F⁺_{v̄″}}) ⊂ K̃_{v̄″} = K̃(m, S̄₁ ∪ S̄₂)_{v̄″}`, and `K̃_{v̄} = 𝒬^{w₀^P}_{v̄}` for the standard parabolic with Levi `Q^{w₀^P}_{v̄} ∩ G(F⁺_{v̄}); (3) −λ_{τc,1} − λ_{τ,1} ≥ 0` for `τ` inducing `v̄` or `v̄′; (4) m ⊂ T` non-Eisenstein with `ρ̄_{m̃}` decomposed generic. Put `λ̃_τ = 0` for `τ` not inducing `v̄, v̄′` and `λ̃_τ = (−λ_{τ̃c}, λ_τ̃)` otherwise, and `K = (K̃^{v̄} ∩ G(𝔸^{v̄}_{F⁺,f}))` · `(𝒬_{v̄} ∩ G(F⁺_{v̄}))`. For `q ∈ [⌊d/2⌋, d − 1]` there are `m′ ≥ m` (allowed to depend on the input) and `N ≥ 1` depending only on `n` and `[F⁺ : Q]`, an ideal `J ⊂ A(K,λ,q,m)` with `J^N = 0` and a commutative square `T̃^{Q^{w₀^P}_{v̄},{v̄}-ord} → Ã(K̃(m′, S̄₂), λ̃, v̄)` over `𝒮^{w₀^P} : T̃^{…} → T^{…}_{w₀^P} → A(K,λ,q,m)/J`.
 
 (CN, Proposition 4.2.6, pp.62–65.)
 
@@ -1342,7 +1342,7 @@ Prove `CrystallineCM.torsion_degree_shifting`. Let `v̄ ≠ v̄′ ∈ S̄_p, S�
 
 ### 6.13 Dual degree shifting for torsion coefficients
 
-Prove `CrystallineCM.dual_torsion_degree_shifting`. As Degree shifting for torsion coefficients at deep auxiliary level (CL.6) with: `K̃_{v̄} = 𝒬_{v̄}` for the standard parabolic `Q_{v̄} ⊂ P_{F⁺_{v̄}}`; condition `(3)` replaced by `λ_{τc,n} + λ_{τ,n} ≥ 0` for `τ` inducing `v̄` or `v̄′; ρ̄_{𝒮^*(m^∨)}` decomposed generic; `λ̃_τ = (λ_τ̃, −λ_{τ̃c})` for `τ` inducing `v̄, v̄′; K = K̃ ∩ G(𝔸_{F⁺,f})`. Then for `q ∈ [⌊d/2⌋, d − 1]` there are `m′ ≥ m, N` (depending only on `n`, `[F⁺ : Q]`), `J ⊂ A^∨(K,λ,q,m)` with `J^N = 0` and a commutative square `T̃^{Q_{v̄},{v̄}-ord,ι̃} → Ã^∨(K̃(m′,S̄₂), λ̃, v̄)` over `𝒮^ι : T̃ → T^{Q_{v̄},{v̄}-ord,ι} → A^∨(K,λ,q,m)/J`.
+As Degree shifting for torsion coefficients at deep auxiliary level (CL.6) with: `K̃_{v̄} = 𝒬_{v̄}` for the standard parabolic `Q_{v̄} ⊂ P_{F⁺_{v̄}}`; condition `(3)` replaced by `λ_{τc,n} + λ_{τ,n} ≥ 0` for `τ` inducing `v̄` or `v̄′; ρ̄_{𝒮^*(m^∨)}` decomposed generic; `λ̃_τ = (λ_τ̃, −λ_{τ̃c})` for `τ` inducing `v̄, v̄′; K = K̃ ∩ G(𝔸_{F⁺,f})`. Then for `q ∈ [⌊d/2⌋, d − 1]` there are `m′ ≥ m, N` (depending only on `n`, `[F⁺ : Q]`), `J ⊂ A^∨(K,λ,q,m)` with `J^N = 0` and a commutative square `T̃^{Q_{v̄},{v̄}-ord,ι̃} → Ã^∨(K̃(m′,S̄₂), λ̃, v̄)` over `𝒮^ι : T̃ → T^{Q_{v̄},{v̄}-ord,ι} → A^∨(K,λ,q,m)/J`.
 
 (CN, Proposition 4.2.8, pp.65–66.)
 
@@ -1362,7 +1362,7 @@ For all-unit Q-localized non-Eisenstein torsion Hecke systems, produce local fin
 
 ### 7.1 Residual determinants of the blocks of a Q-ordinary Galois representation
 
-Prove `CrystallineCM.residual_block_determinants`. Assume `p` splits in an imaginary quadratic subfield of `F`, as in §4.4a–§4.5. Let `v̄` be p-adic, `m ⊂ T^{Q^{w₀^P}_{v̄},v̄-ord}_{w₀^P}` non-Eisenstein in the support of some `H^*(X_K, V_λ), m̃ := (𝒮^{w₀^P})^*(m), v | v̄` with `Ũ^k_v ∉ m̃ (1 ≤ k ≤ t)`. Let `π` be cuspidal on `G̃(𝔸_{F⁺}), ι-Q^{w₀^P}_{v̄}-ordinary` of weight `λ̃`, whose Hecke eigenvalues on `(ι^{−1}π^∞)^{K̃, Q^{w₀^P}-ord}` come from `f : T̃^{Q^{w₀^P}_{v̄}-ord}_{m̃} → Q̄_p`; with `r_ι(π)|_{G_{F_ṽ}} ≅ (R₁(π)` ∗; `0 R₂(π)`) the two rank-n Siegel blocks grouping respectively the first and second size-n segments of the refined flag in §4.5 (whose individual rank-`n_j` blocks remain `r_j`) and `R̄_i(π)` the semisimplified reductions: det `R̄₁(π)(Art_{F_v}(ϖ_v)) = det ρ̄_m(Art_{F_v}(ϖ_v))` and det `R̄₂(π)(Art_{F_v}(ϖ_v)) = det(ρ̄_m^{∨,c}(1−2n))(Art_{F_v}(ϖ_v))`.
+Assume `p` splits in an imaginary quadratic subfield of `F`, as in §4.4a–§4.5. Let `v̄` be p-adic, `m ⊂ T^{Q^{w₀^P}_{v̄},v̄-ord}_{w₀^P}` non-Eisenstein in the support of some `H^*(X_K, V_λ), m̃ := (𝒮^{w₀^P})^*(m), v | v̄` with `Ũ^k_v ∉ m̃ (1 ≤ k ≤ t)`. Let `π` be cuspidal on `G̃(𝔸_{F⁺}), ι-Q^{w₀^P}_{v̄}-ordinary` of weight `λ̃`, whose Hecke eigenvalues on `(ι^{−1}π^∞)^{K̃, Q^{w₀^P}-ord}` come from `f : T̃^{Q^{w₀^P}_{v̄}-ord}_{m̃} → Q̄_p`; with `r_ι(π)|_{G_{F_ṽ}} ≅ (R₁(π)` ∗; `0 R₂(π)`) the two rank-n Siegel blocks grouping respectively the first and second size-n segments of the refined flag in §4.5 (whose individual rank-`n_j` blocks remain `r_j`) and `R̄_i(π)` the semisimplified reductions: det `R̄₁(π)(Art_{F_v}(ϖ_v)) = det ρ̄_m(Art_{F_v}(ϖ_v))` and det `R̄₂(π)(Art_{F_v}(ϖ_v)) = det(ρ̄_m^{∨,c}(1−2n))(Art_{F_v}(ϖ_v))`.
 
 **Checks.**
 
@@ -1376,7 +1376,7 @@ Prove `CrystallineCM.residual_block_determinants`. Assume `p` splits in an imagi
 
 ### 7.2 Semisimplicity and automorphy of Q-ordinary middle-degree cohomology
 
-Prove `CrystallineCM.q_ordinary_automorphic_characters`. Assume `p` splits in an imaginary quadratic subfield of `F`, as in §4.5. Let `m ⊂ T^T` be non-Eisenstein, `v̄ ∈ S̄_p, Q_{v̄} ⊂ P_{v̄}, m̃` a maximal ideal of `T̃^{Q_{v̄},{v̄}-ord}` extending `𝒮^*(m), K̃` good with `m̃` in the support of `H^*(X̃_{K̃}, V_λ̃)^{ord}` for a CTG weight `λ̃`, and `Ũ^k_v ∉ m̃` for `1 ≤ k ≤ t; d = n²[F⁺ : Q]`. Then `H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}[1/p]` is a semisimple `T̃^{Q_{v̄},{v̄}-ord}[1/p]-module`, and for every `f : T̃^{Q_{v̄},{v̄}-ord}(H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}) → Q̄_p` and `ι` there is a cuspidal `π` of `G̃(𝔸_{F⁺}), ι-Q_{v̄}-ordinary` of weight `λ̃`, whose eigenvalues on `(ι^{−1}π^∞)^{K̃,Q_{v̄}-ord}` give `f`.
+Assume `p` splits in an imaginary quadratic subfield of `F`, as in §4.5. Let `m ⊂ T^T` be non-Eisenstein, `v̄ ∈ S̄_p, Q_{v̄} ⊂ P_{v̄}, m̃` a maximal ideal of `T̃^{Q_{v̄},{v̄}-ord}` extending `𝒮^*(m), K̃` good with `m̃` in the support of `H^*(X̃_{K̃}, V_λ̃)^{ord}` for a CTG weight `λ̃`, and `Ũ^k_v ∉ m̃` for `1 ≤ k ≤ t; d = n²[F⁺ : Q]`. Then `H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}[1/p]` is a semisimple `T̃^{Q_{v̄},{v̄}-ord}[1/p]-module`, and for every `f : T̃^{Q_{v̄},{v̄}-ord}(H^d(X̃_{K̃}, V_λ̃)^{ord}_{m̃}) → Q̄_p` and `ι` there is a cuspidal `π` of `G̃(𝔸_{F⁺}), ι-Q_{v̄}-ordinary` of weight `λ̃`, whose eigenvalues on `(ι^{−1}π^∞)^{K̃,Q_{v̄}-ord}` give `f`.
 
 (CN, Proposition 4.2.11, p.67.)
 
@@ -1384,7 +1384,7 @@ Prove `CrystallineCM.q_ordinary_automorphic_characters`. Assume `p` splits in an
 
 ### 7.3 A twisting character separating local constituents
 
-Prove `CrystallineCM.local_constituent_separating_twist`. Here `R₁,R₂` denote the two rank-n Siegel blocks of §7.1 in each generic factor. In the proof of Torsion local–global compatibility at a Q-ordinary place (CL.7), possibly after enlarging `O`, there is a continuous character `ψ̄ : G_F → k^×`, unramified at `S_p` and with `ρ̄_{m̃(ψ)}` decomposed generic, such that `(1)` the irreducible constituents of `ρ̄_{m(ψ)}|_{G_{F_ṽ}}` are disjoint from those of `ρ̄^{∨,c}_{m(ψ)}(1−2n)|_{G_{F_ṽ}}; (2)` for every factor `i` of `Ã(ψ)[1/p] = ∏_{i=1}^{r} E` (p.69; this `r` is not the `r` of `n = n₁ + ⋯ + n_r`) the irreducible constituents of `R̄^i_{1,ψ}` coincide with those of `ρ̄_{m(ψ)}|_{G_{F_ṽ}}`.
+Here `R₁,R₂` denote the two rank-n Siegel blocks of §7.1 in each generic factor. In the proof of Torsion local–global compatibility at a Q-ordinary place (CL.7), possibly after enlarging `O`, there is a continuous character `ψ̄ : G_F → k^×`, unramified at `S_p` and with `ρ̄_{m̃(ψ)}` decomposed generic, such that `(1)` the irreducible constituents of `ρ̄_{m(ψ)}|_{G_{F_ṽ}}` are disjoint from those of `ρ̄^{∨,c}_{m(ψ)}(1−2n)|_{G_{F_ṽ}}; (2)` for every factor `i` of `Ã(ψ)[1/p] = ∏_{i=1}^{r} E` (p.69; this `r` is not the `r` of `n = n₁ + ⋯ + n_r`) the irreducible constituents of `R̄^i_{1,ψ}` coincide with those of `ρ̄_{m(ψ)}|_{G_{F_ṽ}}`.
 
 Extend the finite local prescriptions into prime-to-p roots of unity, using divisibility as in **PotentialModularityAndCompatibleSystems, §2.15**, `cht_character_extension`. The extension has finite image but may have larger order. Impose triviality at the generic split prime to preserve genericity.
 
@@ -1400,7 +1400,7 @@ Extend the finite local prescriptions into prime-to-p roots of unity, using divi
 
 ### 7.4 Torsion local–global compatibility at a Q-ordinary place
 
-Prove `CrystallineCM.torsion_local_crystalline_block_lift`. Assume `p` splits in an imaginary quadratic subfield of `F; K ⊂ GL_n(𝔸_{F,f})` good; `v̄ ≠ v̄′ ∈ S̄_p; λ` dominant for `G; m ≥ 1; Q_{v̄} ⊂ P_{v̄}` standard with `K_{v̄} = 𝒬_{v̄} ∩ G(F⁺_{v̄})`, identified via `ι_ṽ` with the block parabolic of a partition `(n₁,…,n_t)` of `2n` with `n = n₁ + … + n_r; m ⊂ T^{Q_{v̄},{v̄}-ord}` maximal in the support of `H^*(X_K, V_λ/ϖ^m)`. Assume `(1) Σ_{v̄″≠v̄,v̄′}[F⁺_{v̄″} : Q_p] ≥ ½[F⁺ : Q]; (2) m` non-Eisenstein with `ρ̄_m` decomposed generic; `(3)` the condition on `T` of CN, Theorem 2.1.20; `(4) [K_{v̄} ν(ϖ) K_{v̄}] ∉ m` for all `ν ∈ X_{Q_{v̄}}`. Then for each `q ∈ [0, d − 1]` there are `N` depending only on `n` and `[F⁺ : Q]`, `J ⊂ T^{Q_{v̄},{v̄}-ord}(H^q(X_K, V_λ/ϖ^m)_m)` with `J^N = 0`, and `ρ_m : G_{F,T} → GL_n(T^{…}(H^q(X_K, V_λ/ϖ^m)_m)/J)` such that: `(1)` char `ρ_m(Frob_v) = P_v(X)` for `v ∉ T; (2)` for `v | v̄, ρ_m|_{G_{F_v}}` lifts to `ρ̃_v : G_{F_v} → GL_n(Ã)` for a finite flat local O-algebra `Ã` with `f : Ã → T^{…}/J; (3) ρ̃_v[1/p]` is semistable with labelled Hodge–Tate weights (`λ_{τ,n}` < … < `λ_{τ,1} + n − 1); (4) ρ̃_ṽ[1/p] ≅` upper triangular with diagonal blocks `ρ̃_{ṽ,r+1},…,ρ̃_{ṽ,t}` and `ρ̃_{ṽc}[1/p] ≅` upper triangular with diagonal blocks `ρ̃_{ṽc,r},…,ρ̃_{ṽc,1}`, each `ρ̃_{v,j} : G_{F_v} → GL_{n_j}(Ã[1/p])` crystalline with labelled Hodge–Tate weights increasing from top left to bottom right; `(5)` for `j =` r+1,…,t, det `ρ̃_{ṽ,j}` is `Ã`-valued with image `ψ_j` under `f`, where `∏_{j=r+1}^k ψ_j(Art(u)) = ∏_{i=1}^{n_{r+1}+…+n_k} ∏_τ τ(u)^{−λ_{τ,n−i+1}−i+1}` for `u ∈ O^×_{F_ṽ}` and `∏_{j=r+1}^k ψ_j(Art(ϖ_ṽ)) = ε_p^{Σ_i(1−i)}(Art(ϖ_ṽ)) Ũ^{k−r}_v`. The ordered Hodge–Tate list is `h_{τ,i}=λ_{τ,n−i+1}+i−1` for `1≤i≤n`. The local finite-flat algebra and lift may depend on `v, q` and `m`; the nilpotence exponent does not. No globally automorphic lift of the torsion representation is claimed.
+Assume `p` splits in an imaginary quadratic subfield of `F; K ⊂ GL_n(𝔸_{F,f})` good; `v̄ ≠ v̄′ ∈ S̄_p; λ` dominant for `G; m ≥ 1; Q_{v̄} ⊂ P_{v̄}` standard with `K_{v̄} = 𝒬_{v̄} ∩ G(F⁺_{v̄})`, identified via `ι_ṽ` with the block parabolic of a partition `(n₁,…,n_t)` of `2n` with `n = n₁ + … + n_r; m ⊂ T^{Q_{v̄},{v̄}-ord}` maximal in the support of `H^*(X_K, V_λ/ϖ^m)`. Assume `(1) Σ_{v̄″≠v̄,v̄′}[F⁺_{v̄″} : Q_p] ≥ ½[F⁺ : Q]; (2) m` non-Eisenstein with `ρ̄_m` decomposed generic; `(3)` the condition on `T` of CN, Theorem 2.1.20; `(4) [K_{v̄} ν(ϖ) K_{v̄}] ∉ m` for all `ν ∈ X_{Q_{v̄}}`. Then for each `q ∈ [0, d − 1]` there are `N` depending only on `n` and `[F⁺ : Q]`, `J ⊂ T^{Q_{v̄},{v̄}-ord}(H^q(X_K, V_λ/ϖ^m)_m)` with `J^N = 0`, and `ρ_m : G_{F,T} → GL_n(T^{…}(H^q(X_K, V_λ/ϖ^m)_m)/J)` such that: `(1)` char `ρ_m(Frob_v) = P_v(X)` for `v ∉ T; (2)` for `v | v̄, ρ_m|_{G_{F_v}}` lifts to `ρ̃_v : G_{F_v} → GL_n(Ã)` for a finite flat local O-algebra `Ã` with `f : Ã → T^{…}/J; (3) ρ̃_v[1/p]` is semistable with labelled Hodge–Tate weights (`λ_{τ,n}` < … < `λ_{τ,1} + n − 1); (4) ρ̃_ṽ[1/p] ≅` upper triangular with diagonal blocks `ρ̃_{ṽ,r+1},…,ρ̃_{ṽ,t}` and `ρ̃_{ṽc}[1/p] ≅` upper triangular with diagonal blocks `ρ̃_{ṽc,r},…,ρ̃_{ṽc,1}`, each `ρ̃_{v,j} : G_{F_v} → GL_{n_j}(Ã[1/p])` crystalline with labelled Hodge–Tate weights increasing from top left to bottom right; `(5)` for `j =` r+1,…,t, det `ρ̃_{ṽ,j}` is `Ã`-valued with image `ψ_j` under `f`, where `∏_{j=r+1}^k ψ_j(Art(u)) = ∏_{i=1}^{n_{r+1}+…+n_k} ∏_τ τ(u)^{−λ_{τ,n−i+1}−i+1}` for `u ∈ O^×_{F_ṽ}` and `∏_{j=r+1}^k ψ_j(Art(ϖ_ṽ)) = ε_p^{Σ_i(1−i)}(Art(ϖ_ṽ)) Ũ^{k−r}_v`. The ordered Hodge–Tate list is `h_{τ,i}=λ_{τ,n−i+1}+i−1` for `1≤i≤n`. The local finite-flat algebra and lift may depend on `v, q` and `m`; the nilpotence exponent does not. No globally automorphic lift of the torsion representation is claimed.
 
 (CN, Proposition 4.2.13, pp.67–71.)
 
@@ -1408,7 +1408,7 @@ Prove `CrystallineCM.torsion_local_crystalline_block_lift`. Assume `p` splits in
 
 ### 7.5 Local–global compatibility at p via deformation rings
 
-Prove `CrystallineCM.integral_local_global_deformation_factorization`. Let `F` be an imaginary CM field containing an imaginary quadratic field, `p` a prime split in an imaginary quadratic subfield of `F, T ⊇ S_p` finite with `T = T^c` and the condition of CN, Theorem 2.1.20; `K ⊂ GL_n(𝔸_{F,f})` good with `K_v = GL_n(O_{F_v})` for `v ∉ T; v̄ ≠ v̄′ ∈ S̄_p; λ` dominant for `G; Q_{v̄} ⊂ P_{v̄}` in one of the cases (cr-ord) `ι_ṽ(Q_{v̄})` the parabolic of the partition (n,1,…,1) of `2n`; (ord) `ι_ṽ(Q_{v̄}) = B_{2n}`; (cr) `Q_{v̄} = P_{v̄}; K_{v̄} = 𝒬_{v̄} ∩ G(F⁺_{v̄}); m ⊂ T^{Q_{v̄},{v̄}-ord}` maximal in the support of `H^*(X_K, V_λ)`. Assume `(1) Σ_{v̄″≠v̄,v̄′}[F⁺_{v̄″} : Q_p] ≥ ½[F⁺ : Q]; (2) m` non-Eisenstein with `ρ̄_m` decomposed generic; `(3) [K_{v̄} ν(ϖ) K_{v̄}] ∉ m` for `ν ∈ X_{Q_{v̄}}`. Then there are `N ≥ 1` depending only on `n` and `[F⁺ : Q]`, `J ⊂ T^{Q_{v̄},{v̄}-ord}(RΓ(X_K, V_λ)_m)` with `J^N = 0` and `ρ_m : G_{F,T} → GL_n(T^{…}(RΓ(X_K, V_λ)_m)/J)`, unramified with char `ρ_m(Frob_v) = P_v(X)` for `v ∉ T`, such that the induced `t_{ρ_m} : R^□_{ρ̄_m} → T^{…}/J` satisfies: (cr-ord) its restriction to `R^□_{ρ̄_m|G_{F_ṽ}}` factors through `R^{△,λ_ṽ}` and to `R^□_{ρ̄_m|G_{F_{ṽc}}}` through `R^{cris,λ_{ṽc}}`; (ord) for `v | v̄` it factors through `R^{△,λ_v}`; (cr) for `v | v̄` it factors through `R^{cris,λ_v}`.
+Let `F` be an imaginary CM field containing an imaginary quadratic field, `p` a prime split in an imaginary quadratic subfield of `F, T ⊇ S_p` finite with `T = T^c` and the condition of CN, Theorem 2.1.20; `K ⊂ GL_n(𝔸_{F,f})` good with `K_v = GL_n(O_{F_v})` for `v ∉ T; v̄ ≠ v̄′ ∈ S̄_p; λ` dominant for `G; Q_{v̄} ⊂ P_{v̄}` in one of the cases (cr-ord) `ι_ṽ(Q_{v̄})` the parabolic of the partition (n,1,…,1) of `2n`; (ord) `ι_ṽ(Q_{v̄}) = B_{2n}`; (cr) `Q_{v̄} = P_{v̄}; K_{v̄} = 𝒬_{v̄} ∩ G(F⁺_{v̄}); m ⊂ T^{Q_{v̄},{v̄}-ord}` maximal in the support of `H^*(X_K, V_λ)`. Assume `(1) Σ_{v̄″≠v̄,v̄′}[F⁺_{v̄″} : Q_p] ≥ ½[F⁺ : Q]; (2) m` non-Eisenstein with `ρ̄_m` decomposed generic; `(3) [K_{v̄} ν(ϖ) K_{v̄}] ∉ m` for `ν ∈ X_{Q_{v̄}}`. Then there are `N ≥ 1` depending only on `n` and `[F⁺ : Q]`, `J ⊂ T^{Q_{v̄},{v̄}-ord}(RΓ(X_K, V_λ)_m)` with `J^N = 0` and `ρ_m : G_{F,T} → GL_n(T^{…}(RΓ(X_K, V_λ)_m)/J)`, unramified with char `ρ_m(Frob_v) = P_v(X)` for `v ∉ T`, such that the induced `t_{ρ_m} : R^□_{ρ̄_m} → T^{…}/J` satisfies: (cr-ord) its restriction to `R^□_{ρ̄_m|G_{F_ṽ}}` factors through `R^{△,λ_ṽ}` and to `R^□_{ρ̄_m|G_{F_{ṽc}}}` through `R^{cris,λ_{ṽc}}`; (ord) for `v | v̄` it factors through `R^{△,λ_v}`; (cr) for `v | v̄` it factors through `R^{cris,λ_v}`.
 
 (CN, Theorem 4.2.15, pp.71–72.)
 
@@ -1416,7 +1416,7 @@ Prove `CrystallineCM.integral_local_global_deformation_factorization`. Let `F` b
 
 ### 7.6 Fixed-determinant refinement
 
-Prove `CrystallineCM.fixed_determinant_factorization`. In the setting of Local–global compatibility at `p` via deformation rings (CL.7), assume `p` ∤ `n` and `f : T^{Q_{v̄},{v̄}-ord}(RΓ(X_K, V_λ)_m)/J →` A with `det(f_*(ρ_m)) = ψ` for a character `ψ : G_{F,T} → O^×` crystalline at all places of `S_p` with `τ-labelled` Hodge–Tate weights `Σ_{i=1}^n λ_{τ,i} + (n − i)`. Then for `v | v̄` the induced map `R^{△,λ_v}_{ρ̄_m|G_{F_v}} →` A or `R^{cris,λ_v}_{ρ̄_m|G_{F_v}} →` A factors through the corresponding fixed-determinant `ψ` lifting ring.
+In the setting of Local–global compatibility at `p` via deformation rings (CL.7), assume `p` ∤ `n` and `f : T^{Q_{v̄},{v̄}-ord}(RΓ(X_K, V_λ)_m)/J →` A with `det(f_*(ρ_m)) = ψ` for a character `ψ : G_{F,T} → O^×` crystalline at all places of `S_p` with `τ-labelled` Hodge–Tate weights `Σ_{i=1}^n λ_{τ,i} + (n − i)`. Then for `v | v̄` the induced map `R^{△,λ_v}_{ρ̄_m|G_{F_v}} →` A or `R^{cris,λ_v}_{ρ̄_m|G_{F_v}} →` A factors through the corresponding fixed-determinant `ψ` lifting ring.
 
 (CN, Corollary 4.2.16, p.72.)
 
@@ -1426,7 +1426,7 @@ Prove `CrystallineCM.fixed_determinant_factorization`. In the setting of Local�
 
 For CM `F`, reuse **AutomorphicGaloisRepresentationsPartII:AG2.6**, `allCMCrystallineIwahoriAdmissibility`, and `allCMCoefficientPrimeComparison` for the labelled weights. For every regular algebraic cuspidal `π`, spherical `π_v` implies crystallinity at `v|p`, without residual irreducibility or decomposed genericity.
 
-Prove `CrystallineCM.unramified_automorphic_crystallinity` for the remaining totally real specialization. Let `F` be totally real, `n≥2`, `p` any prime, `π` regular algebraic cuspidal on `GL_n(𝔸_F)` of weight `λ`, `v|p` spherical, and `ι:Q̄_p≅C`. Let `r_ι(π)` be its attached representation. If its semisimplified residual reduction is irreducible and decomposed generic, then `r_ι(π)|G_{F_v}` is crystalline with labelled weights `h_{τ,i}=λ_{ιτ,n−i+1}+i−1`, `1≤i≤n`. Set `F⁺=F`. Pass to a cyclic CM extension preserving residual irreducibility and cuspidality and split completely at `v`, compare the attached representations, then apply the CM export at the unchanged completion. Enlarge the finite coefficient field to contain the embeddings.
+Prove the remaining totally real specialization. Let `F` be totally real, `n≥2`, `p` any prime, `π` regular algebraic cuspidal on `GL_n(𝔸_F)` of weight `λ`, `v|p` spherical, and `ι:Q̄_p≅C`. Let `r_ι(π)` be its attached representation. If its semisimplified residual reduction is irreducible and decomposed generic, then `r_ι(π)|G_{F_v}` is crystalline with labelled weights `h_{τ,i}=λ_{ιτ,n−i+1}+i−1`, `1≤i≤n`. Set `F⁺=F`. Pass to a cyclic CM extension preserving residual irreducibility and cuspidality and split completely at `v`, compare the attached representations, then apply the CM export at the unchanged completion. Enlarge the finite coefficient field to contain the embeddings.
 
 **Checks.**
 
@@ -1452,19 +1452,19 @@ Package common-residual perfect complexes, finite derived Hecke images modulo ni
 
 ### 8.1 Cohomology of PGL₂ locally symmetric spaces at non-neat level
 
-Define `CrystallineCM.Pgl2Cohomology`. For `F` imaginary CM, `G = PGL_{2,F}, K = ∏K_v ⊂ PGL₂(Ô_F)` (not necessarily neat), `S ⊇ S_p` with `K_v = PGL₂(O_{F_v})` for `v ∉ S, R = O` or `O/ϖ^m` and `V` an `R[K_S]-module` finite free over `R` with `V/ϖ^r` smooth: C•(K,V) `:= holim_r RΓ(K, RΓ(𝔛_G, V/ϖ^r)) ∈ D⁺`(R) and C•(K/`K′`,V) `∈ D⁺`(R[K/`K′`]) for open normal `K′` with `K′^S = K^S`, with `H(G^S,K^S)-actions (T_{v,i}` images of `GL₂` operators, `T_{v,2} = 1, P_v(X)); RΓ(K/K′`, C•(K/`K′`,V)) `=` C•(K,V); cohomology finitely generated, Hecke algebras `T^S_G(C•(K/K′,V))` O-finite, localizations cut out by idempotents `e_m`.
+For `F` imaginary CM, `G = PGL_{2,F}, K = ∏K_v ⊂ PGL₂(Ô_F)` (not necessarily neat), `S ⊇ S_p` with `K_v = PGL₂(O_{F_v})` for `v ∉ S, R = O` or `O/ϖ^m` and `V` an `R[K_S]-module` finite free over `R` with `V/ϖ^r` smooth: C•(K,V) `:= holim_r RΓ(K, RΓ(𝔛_G, V/ϖ^r)) ∈ D⁺`(R) and C•(K/`K′`,V) `∈ D⁺`(R[K/`K′`]) for open normal `K′` with `K′^S = K^S`, with `H(G^S,K^S)-actions (T_{v,i}` images of `GL₂` operators, `T_{v,2} = 1, P_v(X)); RΓ(K/K′`, C•(K/`K′`,V)) `=` C•(K,V); cohomology finitely generated, Hecke algebras `T^S_G(C•(K/K′,V))` O-finite, localizations cut out by idempotents `e_m`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.Pgl2Cohomology_quotient_descent`: For `K′`⊴K with unchanged tame level, `RΓ(K/K′,C•(K/K′,V))≅C•(K,V)`.
-- `CrystallineCM.Pgl2Cohomology_coefficient`: Finite-free coefficient maps induce morphisms compatible with derived reduction and the Hecke action.
-- `CrystallineCM.Pgl2Cohomology_central_operator`: `T_{v,2}=1` and `P_v(X)=X²−T_{v,1}X+q_v` on this `PGL₂` complex.
+- For `K′`⊴K with unchanged tame level, `RΓ(K/K′,C•(K/K′,V))≅C•(K,V)`.
+- Finite-free coefficient maps induce morphisms compatible with derived reduction and the Hecke action.
+- `T_{v,2}=1` and `P_v(X)=X²−T_{v,1}X+q_v` on this `PGL₂` complex.
 
 **Checks.**
 
-- `CrystallineCM.Pgl2Cohomology_test_trivial_quotient`: When `K′=K`, the equivariant complex reduces to the ordinary non-neat coefficient complex.
-- `CrystallineCM.Pgl2Cohomology_test_central_scalar`: The scalar `GL₂` double coset maps to identity in `PGL₂`, giving `T_{v,2}=1`.
-- `CrystallineCM.Pgl2Cohomology_test_nonneat`: A finite p-stabilizer can have unbounded mod-p group cohomology before localization; the definition cannot declare the non-neat complex perfect unconditionally.
+- When `K′=K`, the equivariant complex reduces to the ordinary non-neat coefficient complex.
+- The scalar `GL₂` double coset maps to identity in `PGL₂`, giving `T_{v,2}=1`.
+- A finite p-stabilizer can have unbounded mod-p group cohomology before localization; the definition cannot declare the non-neat complex perfect unconditionally.
 
 (CN, §5.5, pp.79–80.)
 
@@ -1472,19 +1472,19 @@ The required interface is:
 
 ### 8.2 Two-system patching data
 
-Define `CrystallineCM.TwoSystemPatchingData`. Let `S∞=O[[X₁,…,X_r]]` with augmentation `a∞=(X₁,…,X_r), C∞` and `C′∞` perfect `S∞-complexes`, and fix an isomorphism `C∞⊗ᴸS∞/ϖ≅C′∞⊗ᴸS∞/ϖ`. Let `T∞⊂End_D(S∞)(C∞)` and `T′∞⊂End_D(S∞)(C′∞)` be finite `S∞-algebras` whose images coincide in the endomorphism algebra of that residual complex. Let `R∞,R′∞` be complete Noetherian local `S∞-algebras` surjecting onto `T∞/I∞,T′∞/I′∞` for nilpotent ideals, and identify `R∞/ϖ≅R′∞/ϖ` compatibly with `S∞` and the actions on the common residual cohomology modulo `Ī∞+Ī′∞`. Choose `q₀∈Z,l₀≥0`. Assume dim `R∞=dim R′∞=dim S∞−l₀, dim(R∞/ϖ)=dim(R′∞/ϖ)=dim S∞−l₀−1`; both R-spectra are equidimensional with characteristic-zero generic points; each special generic point has a unique generic generalization in each R-spectrum. The augmentation fiber `C∞⊗ᴸS∞/a∞` has nonzero rational cohomology concentrated in `[q₀,q₀+l₀]`. Fix a characteristic-zero prime `x` of `T∞/a∞T∞`. Support is defined through the finite Hecke action modulo nilpotents; no honest `R∞-module` chain model is postulated.
+Let `S∞=O[[X₁,…,X_r]]` with augmentation `a∞=(X₁,…,X_r), C∞` and `C′∞` perfect `S∞-complexes`, and fix an isomorphism `C∞⊗ᴸS∞/ϖ≅C′∞⊗ᴸS∞/ϖ`. Let `T∞⊂End_D(S∞)(C∞)` and `T′∞⊂End_D(S∞)(C′∞)` be finite `S∞-algebras` whose images coincide in the endomorphism algebra of that residual complex. Let `R∞,R′∞` be complete Noetherian local `S∞-algebras` surjecting onto `T∞/I∞,T′∞/I′∞` for nilpotent ideals, and identify `R∞/ϖ≅R′∞/ϖ` compatibly with `S∞` and the actions on the common residual cohomology modulo `Ī∞+Ī′∞`. Choose `q₀∈Z,l₀≥0`. Assume dim `R∞=dim R′∞=dim S∞−l₀, dim(R∞/ϖ)=dim(R′∞/ϖ)=dim S∞−l₀−1`; both R-spectra are equidimensional with characteristic-zero generic points; each special generic point has a unique generic generalization in each R-spectrum. The augmentation fiber `C∞⊗ᴸS∞/a∞` has nonzero rational cohomology concentrated in `[q₀,q₀+l₀]`. Fix a characteristic-zero prime `x` of `T∞/a∞T∞`. Support is defined through the finite Hecke action modulo nilpotents; no honest `R∞-module` chain model is postulated.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.TwoSystemPatchingData_residual_identification`: The chosen isomorphism of residual perfect complexes identifies the two finite derived Hecke images and the cohomology actions modulo `Ī∞+Ī′∞`.
-- `CrystallineCM.TwoSystemPatchingData_support`: Support over `R∞` is the closed subset induced from the finite `T∞` action modulo nilpotents, independent of the chosen nilpotent exponent.
-- `CrystallineCM.TwoSystemPatchingData_specialization_relation`: A pair of components `C,C_a` is related when chosen special generic points have the same unique generic generalization in Spec `R′∞` under the fixed residual ring isomorphism.
+- The chosen isomorphism of residual perfect complexes identifies the two finite derived Hecke images and the cohomology actions modulo `Ī∞+Ī′∞`.
+- Support over `R∞` is the closed subset induced from the finite `T∞` action modulo nilpotents, independent of the chosen nilpotent exponent.
+- A pair of components `C,C_a` is related when chosen special generic points have the same unique generic generalization in Spec `R′∞` under the fixed residual ring isomorphism.
 
 **Checks.**
 
-- `CrystallineCM.TwoSystemPatchingData_test_same_system`: If both systems and residual identifications coincide, the relation pairs a component with itself and propagation preserves its existing support.
-- `CrystallineCM.TwoSystemPatchingData_test_crossing_reject`: For `R=O[[x,y]]/(xy−ϖ²)`, the special generic points are `(ϖ,x)` and `(ϖ,y)`, while `(ϖ,x,y)` is a closed intersection point. The latter cannot be used as a special generic point in the specialization relation, even though it lies on both special components.
-- `CrystallineCM.TwoSystemPatchingData_test_nilpotents`: Replacing an action by a larger nilpotent quotient does not change its closed support, matching the IHG ghost/maximal-ideal interface.
+- If both systems and residual identifications coincide, the relation pairs a component with itself and propagation preserves its existing support.
+- For `R=O[[x,y]]/(xy−ϖ²)`, the special generic points are `(ϖ,x)` and `(ϖ,y)`, while `(ϖ,x,y)` is a closed intersection point. The latter cannot be used as a special generic point in the specialization relation, even though it lies on both special components.
+- Replacing an action by a larger nilpotent quotient does not change its closed support, matching the IHG ghost/maximal-ideal interface.
 
 (CN, §5.4, Assumption 5.4.1, pp.77–78.)
 
@@ -1492,7 +1492,7 @@ The required interface is:
 
 ### 8.3 Automorphic components propagate through the special fibre
 
-Prove `CrystallineCM.two_system_automorphic_component_propagation`. Under Assumption 5.4.1, with `Supp_{R_∞}(H^*(C_∞)) =` Spec `T_∞: (1)` there is an irreducible component `C_a ⊂` Spec `R_∞` containing the automorphic point `x` with `C_a ⊂` Spec `T_∞; (2)` if `C_a ⊂` Spec `T_∞` is an irreducible component of Spec `R_∞` which contains `x` and `C ⊂` Spec `R_∞` is an irreducible component such that `C ∩ Spec(R_∞/ϖ)` and `C_a ∩ Spec(R_∞/ϖ)` contain generic points `x_C, x_a` generalizing to the same generic point `x′` of Spec `R′_∞`, then `C ⊂` Spec `T_∞`.
+Under Assumption 5.4.1, with `Supp_{R_∞}(H^*(C_∞)) =` Spec `T_∞: (1)` there is an irreducible component `C_a ⊂` Spec `R_∞` containing the automorphic point `x` with `C_a ⊂` Spec `T_∞; (2)` if `C_a ⊂` Spec `T_∞` is an irreducible component of Spec `R_∞` which contains `x` and `C ⊂` Spec `R_∞` is an irreducible component such that `C ∩ Spec(R_∞/ϖ)` and `C_a ∩ Spec(R_∞/ϖ)` contain generic points `x_C, x_a` generalizing to the same generic point `x′` of Spec `R′_∞`, then `C ⊂` Spec `T_∞`.
 
 Prove this using DP §§9.2, 9.4–9.5: local concentration and nonzero Euler length at the automorphic point, specialization to `x_a`, transport through the common auxiliary component `x′`, and return through `x_C`. The auxiliary ring may have several components; the two specified special-fibre points must lie under the same one. This pairwise relation replaces DP §9.6's global uniqueness hypothesis.
 
@@ -1508,7 +1508,7 @@ Prove this using DP §§9.2, 9.4–9.5: local concentration and nonzero Euler le
 
 ### 8.4 Comparison with the Allen–Khare–Thorne complexes
 
-Prove `CrystallineCM.pgl2_akt_complex_comparison`. There are natural Hecke-equivariant quasi-isomorphisms A(K/`K′`, `V) ≅` C•(K/`K′`, `V`), where A(K/`K′`, `V`) are the complexes of [AKT23, §5.1] built from singular chains of `𝔛̄^{dis}_G`.
+There are natural Hecke-equivariant quasi-isomorphisms A(K/`K′`, `V) ≅` C•(K/`K′`, `V`), where A(K/`K′`, `V`) are the complexes of [AKT23, §5.1] built from singular chains of `𝔛̄^{dis}_G`.
 
 (CN, Lemma 5.5.1, p.80.)
 
@@ -1516,7 +1516,7 @@ Prove `CrystallineCM.pgl2_akt_complex_comparison`. There are natural Hecke-equiv
 
 ### 8.5 Support of patched cohomology at points of automorphic components
 
-Prove `CrystallineCM.augmented_automorphic_support`. Let `C` be an irreducible component of Spec `R_∞` satisfying the hypothesis of Automorphic components propagate through the special fibre (CL.8)(2) for some automorphic `C_a, x ∈ C` and y its contraction to `S_∞`. Then the support of `H^*(C_∞ ⊗^L S_∞/y)_y` over Spec `R_∞` contains `x`; if y is one-dimensional of characteristic `0, x` lies in the support of `H^*(C_∞ ⊗^L S_∞/y)[1/p]`.
+Let `C` be an irreducible component of Spec `R_∞` satisfying the hypothesis of Automorphic components propagate through the special fibre (CL.8)(2) for some automorphic `C_a, x ∈ C` and y its contraction to `S_∞`. Then the support of `H^*(C_∞ ⊗^L S_∞/y)_y` over Spec `R_∞` contains `x`; if y is one-dimensional of characteristic `0, x` lies in the support of `H^*(C_∞ ⊗^L S_∞/y)[1/p]`.
 
 (CN, Corollary 5.4.3, p.79.)
 
@@ -1524,7 +1524,7 @@ Prove `CrystallineCM.augmented_automorphic_support`. Let `C` be an irreducible c
 
 ### 8.6 Galois representations for PGL₂ over CM fields
 
-Prove `CrystallineCM.pgl2_hecke_galois_representation`. Suppose `p` is odd, `S = S^c, F` contains an imaginary quadratic field and every finite `v ∉ S` of residue characteristic `l` has: `S` contains no l-adic place and `l` unramified in `F`, or `l` splits in an imaginary quadratic subfield of `F`. Set `T=T^S_G(C•(K/K′,V))`. For every maximal ideal `𝔪⊂T` there is a continuous semisimple `ρ̄_𝔪 : G_{F,S} → GL₂(T/𝔪)` with `det(X − ρ̄_𝔪(Frob_v)) = P_v(X)` mod `𝔪` for `v ∉ S`.
+Suppose `p` is odd, `S = S^c, F` contains an imaginary quadratic field and every finite `v ∉ S` of residue characteristic `l` has: `S` contains no l-adic place and `l` unramified in `F`, or `l` splits in an imaginary quadratic subfield of `F`. Set `T=T^S_G(C•(K/K′,V))`. For every maximal ideal `𝔪⊂T` there is a continuous semisimple `ρ̄_𝔪 : G_{F,S} → GL₂(T/𝔪)` with `det(X − ρ̄_𝔪(Frob_v)) = P_v(X)` mod `𝔪` for `v ∉ S`.
 
 If `ρ̄_𝔪` is absolutely irreducible, set `T_𝔪=e_𝔪T=T^S_G(C•(K/K′,V)_𝔪)`, the complete local O-algebra cut out by §8.1's idempotent. There are `N≥1` depending only on `[F : Q]`, an ideal `J⊂T_𝔪` with `J^N=0` and a continuous lift `ρ_𝔪 : G_{F,S} → GL₂(T_𝔪/J)` of `ρ̄_𝔪`. For every `v ∉ S`, `det(X − ρ_𝔪(Frob_v))` is the image of the full polynomial `P_v(X)=X²−T_{v,1}X+q_v` under `T→T_𝔪→T_𝔪/J`; in particular `det ρ_𝔪=ε_p⁻¹` with values in `(T_𝔪/J)×`.
 
@@ -1540,7 +1540,7 @@ If `ρ̄_𝔪` is absolutely irreducible, set `T_𝔪=e_𝔪T=T^S_G(C•(K/K′,
 
 ### 8.7 Vanishing above the real dimension and perfectness
 
-Prove `CrystallineCM.nonneat_localized_perfectness`. Let `m ⊂ T^S_G(C•(K,V))` be maximal with residue field `k`; take `R=O` or `O/ϖ^a` with `a≥1`, `V` finite free over R, and assume `V ⊗_R k ≅ k` with trivial `K_S-action, p` odd with `ρ̄_m` absolutely irreducible, and `ζ_p ∈ F`. Then `H^i(C•(K,V))_m = 0` for `i > dim_R X_G`; in particular `C•(K,V)_m` is a perfect complex of R-modules.
+Let `m ⊂ T^S_G(C•(K,V))` be maximal with residue field `k`; take `R=O` or `O/ϖ^a` with `a≥1`, `V` finite free over R, and assume `V ⊗_R k ≅ k` with trivial `K_S-action, p` odd with `ρ̄_m` absolutely irreducible, and `ζ_p ∈ F`. Then `H^i(C•(K,V))_m = 0` for `i > dim_R X_G`; in particular `C•(K,V)_m` is a perfect complex of R-modules.
 
 Prove the AKT Theorem 5.11/Proposition 5.18 argument: control elementary abelian p-stabilizers and their centralizers, then use an auxiliary ray-class-split Hecke operator whose eigenvalue contradicts an irreducible residual trace to kill cohomology above the real dimension. Apply the minimal-complex criterion of AKT Lemma 3.2 to finite cohomology with bounded derived residue reduction; bounded cohomology alone over `O/ϖ^m` is insufficient. ALS §§6.1–6.3 supply descent and lowest-degree control only.
 
@@ -1568,19 +1568,19 @@ State the fifteen prepared CM lifting hypotheses, define fixed-determinant `χ-t
 
 ### 9.1 The data and hypotheses (1)–(15) of the special case of Theorem 5.2
 
-Define `CrystallineCM.Setup56`. Data: `F` imaginary CM, `p` odd, `ι : Q̄_p ≅ C; S ⊇ S_p` finite; `R ⊂ S` prime to `p` and `S_p = S^cr_p` ⊔ `S^st_p; π` cuspidal on `PGL₂(𝔸_F)`, regular algebraic of weight `0`. Hypotheses: `(5)` every prime below `S` or ramified in `F` splits in an imaginary quadratic subfield of `F` (so `S` is split over `F⁺` and F/`F⁺` unramified); `(6)` for `v ∈ S_p` there is a p-adic `v′ ≠ v̄` of `F⁺` with `Σ_{v″≠v̄,v′}[F⁺_{v″} : Q_p] > ½[F⁺ : Q]`, and the residue field of `v̄` is bigger than `F_p; (7) π_v` unramified for `v ∉ R ∪ S^st_p; (8) π^{Iw_v}_v ≠ 0` for `v ∈ R ∪ S^st_p; (9)` for `v ∈ S^st_p, π` is `ι-ordinary` of weight `0` at `v` and `r_ι(π)|_{G_{F_v}}` is non-crystalline ordinary; `(10) ζ_p ∈ F` if `S = S_p ∪ R; (11)` otherwise `S − (S_p ∪ R)` contains two places of distinct residue characteristics; `(12) v ∉ R^c` and `H²(F_v, ad⁰r̄) = 0` for `v ∈ S − (R ∪ S_p); (13) r̄_{π,ι}` decomposed generic with `r̄|_{G_{F(ζ_p)}}` irreducible; `(14) r̄_{π,ι}|_{G_{F_v}}` trivial for `v ∈ S_p ∪ R; (15)` if `p=5` and the projective image of `r̄_{π,ι}(G_{F(ζ₅)})` is conjugate to `PSL₂(F₅)`, the extension of `F` cut out by the projective image of `r̄_{π,ι}` does not contain `ζ₅`.
+Data: `F` imaginary CM, `p` odd, `ι : Q̄_p ≅ C; S ⊇ S_p` finite; `R ⊂ S` prime to `p` and `S_p = S^cr_p` ⊔ `S^st_p; π` cuspidal on `PGL₂(𝔸_F)`, regular algebraic of weight `0`. Hypotheses: `(5)` every prime below `S` or ramified in `F` splits in an imaginary quadratic subfield of `F` (so `S` is split over `F⁺` and F/`F⁺` unramified); `(6)` for `v ∈ S_p` there is a p-adic `v′ ≠ v̄` of `F⁺` with `Σ_{v″≠v̄,v′}[F⁺_{v″} : Q_p] > ½[F⁺ : Q]`, and the residue field of `v̄` is bigger than `F_p; (7) π_v` unramified for `v ∉ R ∪ S^st_p; (8) π^{Iw_v}_v ≠ 0` for `v ∈ R ∪ S^st_p; (9)` for `v ∈ S^st_p, π` is `ι-ordinary` of weight `0` at `v` and `r_ι(π)|_{G_{F_v}}` is non-crystalline ordinary; `(10) ζ_p ∈ F` if `S = S_p ∪ R; (11)` otherwise `S − (S_p ∪ R)` contains two places of distinct residue characteristics; `(12) v ∉ R^c` and `H²(F_v, ad⁰r̄) = 0` for `v ∈ S − (R ∪ S_p); (13) r̄_{π,ι}` decomposed generic with `r̄|_{G_{F(ζ_p)}}` irreducible; `(14) r̄_{π,ι}|_{G_{F_v}}` trivial for `v ∈ S_p ∪ R; (15)` if `p=5` and the projective image of `r̄_{π,ι}(G_{F(ζ₅)})` is conjugate to `PSL₂(F₅)`, the extension of `F` cut out by the projective image of `r̄_{π,ι}` does not contain `ζ₅`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.Setup56_local_branch`: The data remembers the partition `S_p^{cr} ⊔ S_p^{st}`. PreparedPGL2Level chooses the unitary split-place orientation and its corresponding parabolics.
-- `CrystallineCM.Setup56_auxiliary`: It remembers either `ζ_p∈F` with `S=S_p∪R`, or two auxiliary places of distinct residue characteristics satisfying `H²(ad⁰r̄)=0`.
-- `CrystallineCM.Setup56_residual`: The residual representation is decomposed generic, irreducible on `G_{F(ζ_p)}`, locally trivial at `S_p∪R`, with the exact `p=5` exceptional-field condition.
+- The data remembers the partition `S_p^{cr} ⊔ S_p^{st}`. The construction of §9.4 chooses the unitary split-place orientation and its corresponding parabolics.
+- It remembers either `ζ_p∈F` with `S=S_p∪R`, or two auxiliary places of distinct residue characteristics satisfying `H²(ad⁰r̄)=0`.
+- The residual representation is decomposed generic, irreducible on `G_{F(ζ_p)}`, locally trivial at `S_p∪R`, with the exact `p=5` exceptional-field condition.
 
 **Checks.**
 
-- `CrystallineCM.Setup56_test_weak_degree`: A complementary degree sum equal to half violates the strict `>½` condition in this prepared setup, although it suffices for Theorem 4.2.15.
-- `CrystallineCM.Setup56_test_two_auxiliary`: Two auxiliary places of the same residue characteristic violate condition `(11)`.
-- `CrystallineCM.Setup56_test_small_residue`: A p-place with residue field `F_p` violates condition `(6)`, even if the residual representation there is trivial.
+- A complementary degree sum equal to half violates the strict `>½` condition in this prepared setup, although it suffices for Theorem 4.2.15.
+- Two auxiliary places of the same residue characteristic violate condition `(11)`.
+- A p-place with residue field `F_p` violates condition `(6)`, even if the residual representation there is trivial.
 
 (CN, §5.6, pp.81–82.)
 
@@ -1592,13 +1592,13 @@ Prove `CrystallineCM.determinant_kernel_reducible_except_tetrahedral`. Let `G` b
 
 Reducibility here means that the determinant kernel fixes a one-dimensional subspace of the two-dimensional vector space over the algebraically closed coefficient field. Use Mathlib's `Matrix.ProjGenLinGroup.mk` to map the ambient `GL₂` to `PGL₂` and take the range of its composite with `ρ`, denoted `projectiveMatrixImage`. The kernel is the scalar subgroup of the ambient `GL₂`, as expressed by `Matrix.GeneralLinearGroup.center_eq_range_scalar`. The predicate `determinantKernelHasLine` asks for an invariant submodule of dimension one on the determinant kernel. Conjugation on the ambient `GL₂` gives an equivalent description of the projective image. Quotienting by the centre of `ρ(G)` would instead remove every element of an abelian image, including nonscalar projective elements, and would change the criterion. In the exceptional branch, the determinant image has order three, the projective image is `A₄`, the determinant kernel has projective image `(Z/2)²`, and it fixes no line. The non-exceptional branch supplies a fixed line without assuming that `ρ` itself is irreducible.
 
-The two light specializations also apply to a general group and field: `projectiveMatrixImage` is the range of the composite with the ambient projective quotient, and `determinantKernelHasLine` requires a rank-one invariant submodule. Their API consists of `projectiveMatrixImage_mem_iff` (membership has a preimage under `ρ`), `projectiveMatrixImage_scalar_kernel` (an element maps to identity precisely when its matrix is scalar), `projectiveMatrixImage_restrict_le` (restriction has image contained in the full projective image), `determinantKernelHasLine_fixed_line` (equivalence with a nonzero vector whose span is preserved by every determinant-one element), `determinantKernelHasLine_of_invariant_line` (a line invariant under the whole group is sufficient), and `determinantKernelHasLine_conjugate` (change of basis transports the line).
+The two definitions in `Suggested.lean` also apply to a general group and field: `projectiveMatrixImage` is the range of the composite with the ambient projective quotient, and `determinantKernelHasLine` requires a rank-one invariant submodule. Develop membership through preimages under `ρ`, the scalar-kernel characterization and containment of projective images under restriction. Relate the line predicate to a nonzero vector whose span is preserved by every determinant-one element, prove that a line invariant under the whole group suffices, and transport the line under change of basis.
 
-**Checks.** These authored controls distinguish the projective quotient and the line predicate:
+**Checks.** These examples distinguish the projective quotient and the line predicate:
 
 - For the trivial representation on a two-dimensional space, the projective image has one element and the determinant kernel preserves a coordinate line. The zero submodule is insufficient because its dimension is zero.
 - For the inclusion of the cyclic diagonal subgroup generated by `diag(2,1)` over `Q`, the projective image is nontrivial, and a coordinate line is invariant. Quotienting by the subgroup's own centre would incorrectly give a trivial projective image.
-- `CrystallineCM.quaternion_no_common_eigenline`: For the characteristic-seven quaternion matrices `i` and `j` displayed in the references, `i²=j²=−1` and `ij=−ji`. They have no common eigenline even after extending to an algebraic closure: two putative eigenvalues would be nonzero, while anticommutation would force their product to be its own negative. The determinant-kernel line predicate fails, and the projective quaternion image is Klein four.
+- For the characteristic-seven quaternion matrices `i` and `j` displayed in the references, `i²=j²=−1` and `ij=−ji`. They have no common eigenline even after extending to an algebraic closure: two putative eigenvalues would be nonzero, while anticommutation would force their product to be its own negative. The determinant-kernel line predicate fails, and the projective quaternion image is Klein four.
 
 (CN, Lemma 5.6.5, pp.85–86.)
 
@@ -1606,13 +1606,13 @@ The two light specializations also apply to a general group and field: `projecti
 
 ### 9.3 Taylor–Wiles data for GL₂ over CM fields without enormous image (Allen–Khare–Thorne)
 
-Prove `CrystallineCM.small_image_taylor_wiles_prime_selection`. Fix an imaginary quadratic subfield `F₀⊂F` of the imaginary CM field `F`, and write `F=F⁺F₀`. Let `p` be odd, and `ρ̄ : G_F → GL₂(k)` continuous with `ρ̄|_{G_{F(ζ_p)}}` absolutely irreducible and, if `p = 5` and the projective image of `ρ̄(G_{F(ζ₅)})` is `PSL₂(F₅)`, the field cut out by the projective image of `ρ̄` not containing `ζ₅`. Then for every `N ≥ 1` there is a Taylor–Wiles datum `(Q_N, (α_v)_{v∈Q_N})` of level `N` (Definition 5.3.5) of size `q` independent of `N`, killing the relevant dual Selmer group ([AKT23, Prop. A.6]), used with [ACC+18, §6.4] as in the proof of [AKT23, Thm. A.7]. Fix `T=S`, choose `q≥dim_k H¹_{S⊥,S}(ad⁰ρ̄(1))` with `g=q−3[F⁺:Q]−1+|S|≥0`; then there is a surjection `A_S^S[[X₁,…,X_g]]→R_{S_{Q_N}}^S`, and the places can have degree one over `Q` with underlying rational primes split in the chosen imaginary quadratic subfield. The local deformation datum is that of AKT Appendix A.2. The standing local deformation datum is AKT A.2: determinant lifting `detρ̄`, specified local deformation quotients `R_v` over `Λ_v, Λ=completed` tensor of `Λ_v`, nonempty `S⊇S_p`, and the finite coefficient field large enough for all residual eigenvalues. Degree-one places have underlying rational primes split in the quadratic field `F₀`, after excluding its ramified primes.
+Fix an imaginary quadratic subfield `F₀⊂F` of the imaginary CM field `F`, and write `F=F⁺F₀`. Let `p` be odd, and `ρ̄ : G_F → GL₂(k)` continuous with `ρ̄|_{G_{F(ζ_p)}}` absolutely irreducible and, if `p = 5` and the projective image of `ρ̄(G_{F(ζ₅)})` is `PSL₂(F₅)`, the field cut out by the projective image of `ρ̄` not containing `ζ₅`. Then for every `N ≥ 1` there is a Taylor–Wiles datum `(Q_N, (α_v)_{v∈Q_N})` of level `N` (Definition 5.3.5) of size `q` independent of `N`, killing the relevant dual Selmer group ([AKT23, Prop. A.6]), used with [ACC+18, §6.4] as in the proof of [AKT23, Thm. A.7]. Fix `T=S`, choose `q≥dim_k H¹_{S⊥,S}(ad⁰ρ̄(1))` with `g=q−3[F⁺:Q]−1+|S|≥0`; then there is a surjection `A_S^S[[X₁,…,X_g]]→R_{S_{Q_N}}^S`, and the places can have degree one over `Q` with underlying rational primes split in the chosen imaginary quadratic subfield. The local deformation datum is that of AKT Appendix A.2. The standing local deformation datum is AKT A.2: determinant lifting `detρ̄`, specified local deformation quotients `R_v` over `Λ_v, Λ=completed` tensor of `Λ_v`, nonempty `S⊇S_p`, and the finite coefficient field large enough for all residual eigenvalues. Degree-one places have underlying rational primes split in the quadratic field `F₀`, after excluding its ramified primes.
 
 Construct the following inputs in this section:
 
-- `CrystallineCM.small_image_dual_selmer_detection`: Under the residual and local-datum hypotheses above, for every `N≥1` and cocycle κ representing a nonzero dual-Selmer class, find `σ∈G_{F(ζ_{p^N})}` with distinct residual eigenvalues and `κ(σ)∉(σ−1)ad⁰ρ̄(1)`. Also construct a nonempty admissible distinct-eigenvalue class for padding when the dual Selmer group is zero. These are the detection and padding inputs in AKT Lemma A.5, pp.86–87.
-- `CrystallineCM.small_image_taylor_wiles_prime_selection`: Apply conditional Chebotarev selection of GlobalGaloisDeformations §5.6 using that detection, producing exactly q degree-one primes away from the fixed bad set, of level N, whose underlying rational primes split in the fixed imaginary quadratic field `F₀`. This is AKT Proposition A.6, p.87.
-- `CrystallineCM.cm_taylor_wiles_relative_presentation`: For `T=S`, compute the relative tangent dimension using GlobalGaloisDeformations §§3.6–3.7 and dual-Selmer vanishing. Each complex place contributes three, each selected prime contributes one, and `H⁰(F,ad⁰ρ̄(1))=0`. Obtain the displayed surjection with `g=q−3[F⁺:Q]−1+|S|`, as in AKT Propositions A.4 and A.6, pp.86–87.
+- Under the residual and local-datum hypotheses above, for every `N≥1` and cocycle κ representing a nonzero dual-Selmer class, find `σ∈G_{F(ζ_{p^N})}` with distinct residual eigenvalues and `κ(σ)∉(σ−1)ad⁰ρ̄(1)`. Also construct a nonempty admissible distinct-eigenvalue class for padding when the dual Selmer group is zero. These are the detection and padding inputs in AKT Lemma A.5, pp.86–87.
+- Apply conditional Chebotarev selection of GlobalGaloisDeformations §5.6 using that detection, producing exactly q degree-one primes away from the fixed bad set, of level N, whose underlying rational primes split in the fixed imaginary quadratic field `F₀`. This is AKT Proposition A.6, p.87.
+- For `T=S`, compute the relative tangent dimension using GlobalGaloisDeformations §§3.6–3.7 and dual-Selmer vanishing. Each complex place contributes three, each selected prime contributes one, and `H⁰(F,ad⁰ρ̄(1))=0`. Obtain the displayed surjection with `g=q−3[F⁺:Q]−1+|S|`, as in AKT Propositions A.4 and A.6, pp.86–87.
 
 **Checks.**
 
@@ -1628,25 +1628,25 @@ Construct the following inputs in this section:
 
 ### 9.4 Prepared PGL₂ level and unitary parabolic branches
 
-Define `CrystallineCM.PreparedPGL2Level`. Under Setup56, define `K=∏_v K_v⊂PGL₂(Ô_F): K_v=PGL₂(O_{F_v})` for `v∉S` or `v∈S_p^{cr}, K_v=Iw_v` for `v∈R∪S_p^{st}`, and `K_v=Iw_{v,1}`, the pro-v Iwahori, for `v∈S−(S_p∪R)`. In the auxiliary-place case `K` is neat; otherwise `ζ_p∈F` and localized perfectness uses Proposition 5.5.3. Put `T=S∪S^c`. For every `v̄|p` choose `ṽ|v̄` in `S_p^{st}` whenever that set meets `{ṽ,ṽ^c}`. The unitary parabolic `Q_{v̄}` has partition (2,1,1) if ṽ is st and `ṽ^c` is cr, (1,1,1,1) if both are st, and (2,2) if both are cr. Choose the maximal ideal `𝔪` of the corresponding Q-ordinary derived Hecke algebra from `π; U_v∉𝔪` for `v∈S_p^{st}`. Enlarge `E` so `k=k(𝔪)` contains every eigenvalue of the residual representation. The selected characteristic-zero representation has dimension two.
+Under Setup56, define `K=∏_v K_v⊂PGL₂(Ô_F): K_v=PGL₂(O_{F_v})` for `v∉S` or `v∈S_p^{cr}, K_v=Iw_v` for `v∈R∪S_p^{st}`, and `K_v=Iw_{v,1}`, the pro-v Iwahori, for `v∈S−(S_p∪R)`. In the auxiliary-place case `K` is neat; otherwise `ζ_p∈F` and localized perfectness uses Proposition 5.5.3. Put `T=S∪S^c`. For every `v̄|p` choose `ṽ|v̄` in `S_p^{st}` whenever that set meets `{ṽ,ṽ^c}`. The unitary parabolic `Q_{v̄}` has partition (2,1,1) if ṽ is st and `ṽ^c` is cr, (1,1,1,1) if both are st, and (2,2) if both are cr. Choose the maximal ideal `𝔪` of the corresponding Q-ordinary derived Hecke algebra from `π; U_v∉𝔪` for `v∈S_p^{st}`. Enlarge `E` so `k=k(𝔪)` contains every eigenvalue of the residual representation. The selected characteristic-zero representation has dimension two.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.PreparedPGL2Level_level_components`: Membership is componentwise membership in the specified maximal, Iwahori or pro-v Iwahori subgroup; the auxiliary level is preserved.
-- `CrystallineCM.PreparedPGL2Level_unitary_partitions`: The chosen lift ṽ and the cr/st flags determine exactly the displayed three partitions; a lone st branch is placed second in the split Levi dictionary.
-- `CrystallineCM.PreparedPGL2Level_residual_hecke_ideal`: The `π` eigencharacter selects `𝔪; U_v` is a unit after localization at every st place, and `k` contains the residual eigenvalues.
-- `CrystallineCM.PreparedPGL2Level_localized_perfectness`: The localized coefficient complex is perfect at this `K`, using neatness in the auxiliary case and Proposition 5.5.3 with `ζ_p∈F` otherwise.
+- Membership is componentwise membership in the specified maximal, Iwahori or pro-v Iwahori subgroup; the auxiliary level is preserved.
+- The chosen lift ṽ and the cr/st flags determine exactly the displayed three partitions; a lone st branch is placed second in the split Levi dictionary.
+- The `π` eigencharacter selects `𝔪; U_v` is a unit after localization at every st place, and `k` contains the residual eigenvalues.
+- The localized coefficient complex is perfect at this `K`, using neatness in the auxiliary case and Proposition 5.5.3 with `ζ_p∈F` otherwise.
 
 **Checks.**
 
-- `CrystallineCM.PreparedPGL2Level_test_auxiliary_level`: At `v∈S−(S_p∪R)`, the selected level is pro-v Iwahori; replacing it by maximal compact loses the specified neatness construction.
-- `CrystallineCM.PreparedPGL2Level_test_mixed_orientation`: With exactly one st place over `v̄`, choose it as ṽ; the partition is (2,1,1), with the ordinary branch in the lower-right block.
-- `CrystallineCM.PreparedPGL2Level_test_three_branches`: Both st gives the Borel (1,1,1,1); both cr gives Siegel (2,2); exactly one st gives (2,1,1).
-- `CrystallineCM.PreparedPGL2Level_test_non_neat`: For `S=S_p∪R` there is no auxiliary neatness argument. The `ζ_p∈F` hypothesis and localized perfectness input are required.
+- At `v∈S−(S_p∪R)`, the selected level is pro-v Iwahori; replacing it by maximal compact loses the specified neatness construction.
+- With exactly one st place over `v̄`, choose it as ṽ; the partition is (2,1,1), with the ordinary branch in the lower-right block.
+- Both st gives the Borel (1,1,1,1); both cr gives Siegel (2,2); exactly one st gives (2,1,1).
+- For `S=S_p∪R` there is no auxiliary neatness argument. The `ζ_p∈F` hypothesis and localized perfectness input are required.
 
 The local-level formula takes the integral groups `PGL₂(O_{F_v})` and their Iwahori and pro-v Iwahori subgroups as inputs. Its product is a subgroup of `∏_v PGL₂(O_{F_v})`, the compact integral part of the adelic group. Membership is checked componentwise. A component outside `S`, or in `S_p^{cr}`, is the entire integral group; otherwise a component in `R` or `S_p^{st}` is Iwahori, and the remaining component is pro-v Iwahori. Keeping a proper pro-v Iwahori at an auxiliary place is essential to the specified level. This component calculation does not supply the neatness theorem or localized perfectness.
 
-For the unitary choice, put `st=1` when `ṽ∈S_p^{st}` and `stᶜ=1` when `ṽᶜ∈S_p^{st}`. The orientation policy is `stᶜ≤st`. Thus the admissible flags are (0,0), (1,0) and (1,1), giving respectively (2,2), (2,1,1) and (1,1,1,1). Every partition has total rank four and refines the two size-two Siegel blocks. In the mixed case the first block stays size two and the second becomes (1,1). The flags (0,1) violate the choice policy; switching the chosen place is required before using the mixed formula. The formula `preparedUnitaryPartition` records these rank-four partitions. The subgroup, residual Hecke and derived-cohomology constructions retain the full requirements above.
+For the unitary choice, put `st=1` when `ṽ∈S_p^{st}` and `stᶜ=1` when `ṽᶜ∈S_p^{st}`. The orientation policy is `stᶜ≤st`. Thus the admissible flags are (0,0), (1,0) and (1,1), giving respectively (2,2), (2,1,1) and (1,1,1,1). Every partition has total rank four and refines the two size-two Siegel blocks. In the mixed case the first block stays size two and the second becomes (1,1). The flags (0,1) violate the choice policy; switching the chosen place is required before using the mixed formula. These rank-four partitions are determined by the two flags. The subgroup, residual Hecke and derived-cohomology constructions retain the full requirements above.
 
 (CN, Proof of Proposition 5.6.1, pp.82–83; CN, Unitary parabolic cases and residual Hecke ideal, p.83.)
 
@@ -1654,19 +1654,19 @@ For the unitary choice, put `st=1` when `ṽ∈S_p^{st}` and `stᶜ=1` when `ṽ
 
 ### 9.5 The global deformation problem 𝒮_χ and its coefficient line
 
-Define `CrystallineCM.DeformationProblemsSChi`. For `χ = ∏_{v∈R} χ_v`, with `χ_v:k_v×→O×` trivial mod `ϖ` and inflated to `O^×_{F_v}: 𝒮_χ = (ρ̄, ε^{−1}_p, S, {R^{ε^{−1},BT}_v}_{v∈S^cr_p} ∪ {R^△_v}_{v∈S^st_p} ∪ {R^{ε^{−1},χ_v}_v}_{v∈R} ∪ {R^{ε^{−1}}_v}_{v∈S−(S_p∪R)})`, with the `O[K_S]-module O(χ^{−1})` via `Iw_v → O^×, (a b; c d) ↦ χ_v(a/d)`. The coefficient `O(χ^{-1})` uses `χ_v(a/d)^{-1}` at Iwahori `v∈R`, trivial outside `R`; each `χ_v` factors through the residue field `k_v×` and is trivial modulo `ϖ`; a/d is reduced to `k_v×`.
+For `χ = ∏_{v∈R} χ_v`, with `χ_v:k_v×→O×` trivial mod `ϖ` and inflated to `O^×_{F_v}: 𝒮_χ = (ρ̄, ε^{−1}_p, S, {R^{ε^{−1},BT}_v}_{v∈S^cr_p} ∪ {R^△_v}_{v∈S^st_p} ∪ {R^{ε^{−1},χ_v}_v}_{v∈R} ∪ {R^{ε^{−1}}_v}_{v∈S−(S_p∪R)})`, with the `O[K_S]-module O(χ^{−1})` via `Iw_v → O^×, (a b; c d) ↦ χ_v(a/d)`. The coefficient `O(χ^{-1})` uses `χ_v(a/d)^{-1}` at Iwahori `v∈R`, trivial outside `R`; each `χ_v` factors through the residue field `k_v×` and is trivial modulo `ϖ`; a/d is reduced to `k_v×`.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.DeformationProblemsSChi_p_local`: The p-place ring is fixed-determinant BT for `S_p^{cr}` and semistable-ordinary for `S_p^{st}`.
-- `CrystallineCM.DeformationProblemsSChi_tame_local`: At `v∈R` choose the fixed-determinant `χ_v` local type; at the auxiliary smooth places choose the unrestricted fixed-determinant ring.
-- `CrystallineCM.DeformationProblemsSChi_residual_character`: Since each `χ_v≡1 modϖ`, the `χ` and trivial-character coefficient modules and residual local problems coincide modulo `ϖ`.
+- The p-place ring is fixed-determinant BT for `S_p^{cr}` and semistable-ordinary for `S_p^{st}`.
+- At `v∈R` choose the fixed-determinant `χ_v` local type; at the auxiliary smooth places choose the unrestricted fixed-determinant ring.
+- Since each `χ_v≡1 modϖ`, the `χ` and trivial-character coefficient modules and residual local problems coincide modulo `ϖ`.
 
 **Checks.**
 
-- `CrystallineCM.DeformationProblemsSChi_test_chi_one`: For `χ_v=1` at every `v∈R`, the coefficient line is the trivial O-module with its trivial Iwahori character.
-- `CrystallineCM.DeformationProblemsSChi_test_chi_inverse`: If `χ_v(a/d)=u`, then `O(χ^{-1})` acts by `u^{-1}`, not `u`.
-- `CrystallineCM.DeformationProblemsSChi_test_mod_p`: For `χ_v≡1 modϖ, O(χ^{-1})/ϖ` is the trivial coefficient line, giving the common residual patching complex.
+- For `χ_v=1` at every `v∈R`, the coefficient line is the trivial O-module with its trivial Iwahori character.
+- If `χ_v(a/d)=u`, then `O(χ^{-1})` acts by `u^{-1}`, not `u`.
+- For `χ_v≡1 modϖ, O(χ^{-1})/ϖ` is the trivial coefficient line, giving the common residual patching complex.
 
 (CN, §5.6, pp.83–84.)
 
@@ -1674,7 +1674,7 @@ The required interface is:
 
 ### 9.6 Patching complexes of homology
 
-Prove `CrystallineCM.taylor_wiles_perfect_dual_augmentation`. `C_{χ,Q} := RHom_{O[Δ_Q]}(C•(K₀(Q)/K₁(Q), O(χ^{−1}))_{n_Q}, O[Δ_Q])` is a perfect complex of `O[Δ_Q]-modules` with a canonical isomorphism `C_{χ,Q} ⊗^L_{O[Δ_Q]} O ≅ C_χ := RHom_O(C•(K, O(χ^{−1}))_m, O)` in D(O).
+`C_{χ,Q} := RHom_{O[Δ_Q]}(C•(K₀(Q)/K₁(Q), O(χ^{−1}))_{n_Q}, O[Δ_Q])` is a perfect complex of `O[Δ_Q]-modules` with a canonical isomorphism `C_{χ,Q} ⊗^L_{O[Δ_Q]} O ≅ C_χ := RHom_O(C•(K, O(χ^{−1}))_m, O)` in D(O).
 
 Under §9.4's level hypotheses and §9.8's distinct-eigenvalue datum, construct the residual-matching localization at the abelian p-cover. In the non-neat branch retain `p` odd, `ζ_p∈F` and absolutely irreducible residual representation, with coefficient line trivial modulo `ϖ`. Prove the perfect group-ring homology model by the second part of AKT Theorem 5.11 and its minimal-complex argument, then dualize over `O[Δ_Q]` and apply derived augmentation. ALS finite-cover descent identifies the augmented complex but does not provide non-neat group-ring perfectness.
 
@@ -1690,7 +1690,7 @@ Under §9.4's level hypotheses and §9.8's distinct-eigenvalue datum, construct 
 
 ### 9.7 Hecke-valued Galois representations satisfy the deformation problem 𝒮_χ
 
-Prove `CrystallineCM.deformation_to_hecke_surjection`. There are `N` depending only on `[F : Q]`, `J ⊂ T^{S,Q_{S̄_p},S̄_p-ord}_G(C•(K, O(χ^{−1}))_m)` with `J^N = 0` and a continuous surjection `f_{𝒮_χ} : R_{𝒮_χ} → T^{S,Q_{S̄_p},S̄_p-ord}_G(C•(K, O(χ^{−1}))_m)/J` with `char(f_{𝒮_χ}` ∘ `ρ^{univ}_{𝒮_χ}(Frob_v)`) the image of `P_v(X)` for `v ∉ S`.
+There are `N` depending only on `[F : Q]`, `J ⊂ T^{S,Q_{S̄_p},S̄_p-ord}_G(C•(K, O(χ^{−1}))_m)` with `J^N = 0` and a continuous surjection `f_{𝒮_χ} : R_{𝒮_χ} → T^{S,Q_{S̄_p},S̄_p-ord}_G(C•(K, O(χ^{−1}))_m)/J` with `char(f_{𝒮_χ}` ∘ `ρ^{univ}_{𝒮_χ}(Frob_v)`) the image of `P_v(X)` for `v ∉ S`.
 
 (CN, Proposition 5.6.2, pp.83–84.)
 
@@ -1698,19 +1698,19 @@ Prove `CrystallineCM.deformation_to_hecke_surjection`. There are `N` depending o
 
 ### 9.8 Taylor–Wiles deformation problem
 
-Define `CrystallineCM.TaylorWilesDeformationProblem`. `S_{χ,Q}` is the fixed-determinant problem obtained from `S_χ` by adjoining the Taylor–Wiles places `Q` and the unrestricted fixed-determinant local rings `R_v^ψ`, with `ψ=ε_p^{-1}`. Fix the ordered distinct residual Frobenius eigenvalues. The corresponding universal unframed global deformation ring `R_{S_{χ,Q}}` (framing at `T` gives the separate ring `R^T_{S_{χ,Q}}`) has the `O[Δ_Q]-structure` from inertia on the selected lifted eigenline, `Δ_Q=∏_{v∈Q}k_v×(p)`. This follows the unrestricted-ring definition in CN Definition 5.3.5; the selected eigenline specifies the diamond action, rather than replacing the local problem by the unramified quotient.
+`S_{χ,Q}` is the fixed-determinant problem obtained from `S_χ` by adjoining the Taylor–Wiles places `Q` and the unrestricted fixed-determinant local rings `R_v^ψ`, with `ψ=ε_p^{-1}`. Fix the ordered distinct residual Frobenius eigenvalues. The corresponding universal unframed global deformation ring `R_{S_{χ,Q}}` (framing at `T` gives the separate ring `R^T_{S_{χ,Q}}`) has the `O[Δ_Q]-structure` from inertia on the selected lifted eigenline, `Δ_Q=∏_{v∈Q}k_v×(p)`. This follows the unrestricted-ring definition in CN Definition 5.3.5; the selected eigenline specifies the diamond action, rather than replacing the local problem by the unramified quotient.
 
-The required interface is:
+The construction must satisfy:
 
-- `CrystallineCM.TaylorWilesDeformationProblem_forget`: Away from `Q` the local conditions agree with `S_χ`. Killing the `Δ_Q` augmentation ideal enforces unramifiedness at `Q` and gives a quotient `R_{S_{χ,Q}}→R_{S_χ}`; allowing Q-ramification does not define an unrestricted forgetting map of deformation functors.
-- `CrystallineCM.TaylorWilesDeformationProblem_diamond`: The `O[Δ_Q]-action` is the universal inertia character on the selected residual Frobenius eigenline.
-- `CrystallineCM.TaylorWilesDeformationProblem_augmentation`: Augmenting `Δ_Q` kills that inertia character and recovers the unramified chosen-eigenline quotient.
+- Away from `Q` the local conditions agree with `S_χ`. Killing the `Δ_Q` augmentation ideal enforces unramifiedness at `Q` and gives a quotient `R_{S_{χ,Q}}→R_{S_χ}`; allowing Q-ramification does not define an unrestricted forgetting map of deformation functors.
+- The `O[Δ_Q]-action` is the universal inertia character on the selected residual Frobenius eigenline.
+- Augmenting `Δ_Q` kills that inertia character and recovers the unramified chosen-eigenline quotient.
 
 **Checks.**
 
-- `CrystallineCM.TaylorWilesDeformationProblem_test_empty_q`: For `Q=∅, Δ_Q=1` and the problem reduces to `S_χ`.
-- `CrystallineCM.TaylorWilesDeformationProblem_test_two_eigenvalues`: Equal residual Frobenius eigenvalues do not give the chosen-eigenline Taylor–Wiles datum.
-- `CrystallineCM.TaylorWilesDeformationProblem_test_augmentation`: After `Δ_Q-augmentation` the selected inertia character is trivial, matching the finite-cover augmentation in Lemma 5.6.4.
+- For `Q=∅, Δ_Q=1` and the problem reduces to `S_χ`.
+- Equal residual Frobenius eigenvalues do not give the chosen-eigenline Taylor–Wiles datum.
+- After `Δ_Q-augmentation` the selected inertia character is trivial, matching the finite-cover augmentation in Lemma 5.6.4.
 
 (CN, §5.6, p.84.)
 
@@ -1718,7 +1718,7 @@ The required interface is:
 
 ### 9.9 The same at Taylor–Wiles level
 
-Prove `CrystallineCM.taylor_wiles_deformation_to_hecke_surjection`. There are `N` depending only on `[F : Q]`, `J ⊂ T_{χ,Q}` with `J^N = 0` and a continuous surjective `O[Δ_Q]-algebra` homomorphism `f_{𝒮_{χ,Q}} : R_{𝒮_{χ,Q}} → T_{χ,Q}/J` with char(f ∘ `ρ^{univ}(Frob_v)) = P_v(X`) for `v ∉ S ∪ Q`, where `T_{χ,Q}` is the image of `T^{S∪Q,…}_G ⊗ O[Δ_Q]` in `End_{D(O[Δ_Q])}(C•(K₀(Q)/K₁(Q), O(χ^{−1}))_{n_Q})`.
+There are `N` depending only on `[F : Q]`, `J ⊂ T_{χ,Q}` with `J^N = 0` and a continuous surjective `O[Δ_Q]-algebra` homomorphism `f_{𝒮_{χ,Q}} : R_{𝒮_{χ,Q}} → T_{χ,Q}/J` with char(f ∘ `ρ^{univ}(Frob_v)) = P_v(X`) for `v ∉ S ∪ Q`, where `T_{χ,Q}` is the image of `T^{S∪Q,…}_G ⊗ O[Δ_Q]` in `End_{D(O[Δ_Q])}(C•(K₀(Q)/K₁(Q), O(χ^{−1}))_{n_Q})`.
 
 (CN, Proposition 5.6.3, p.84.)
 
@@ -1726,7 +1726,7 @@ Prove `CrystallineCM.taylor_wiles_deformation_to_hecke_surjection`. There are `N
 
 ### 9.10 Automorphy lifting in the special case
 
-Prove `CrystallineCM.pgl2_weight_zero_rational_comparison`. Let F be CM, `D=[F⁺:Q]`, K a factorizable PGL₂ level hyperspecial outside S, and `𝔪` a Galois-type non-Eisenstein ideal with absolutely irreducible residual representation. For trivial algebraic coefficients, localized rational cohomology vanishes outside `[D,2D]`; if one degree in this interval is nonzero then all are. Every characteristic-zero Hecke character is realized by a cuspidal weight-zero regular algebraic PGL₂ representation with K-fixed vectors. Prove the central-character descent and archimedean calculation from ALS.5b's automorphic comparison and §8.1's equivariant level model, giving `q₀=l₀=D`. This rational comparison is an input to patching, not a consequence of the lifting conclusion.
+Let F be CM, `D=[F⁺:Q]`, K a factorizable PGL₂ level hyperspecial outside S, and `𝔪` a Galois-type non-Eisenstein ideal with absolutely irreducible residual representation. For trivial algebraic coefficients, localized rational cohomology vanishes outside `[D,2D]`; if one degree in this interval is nonzero then all are. Every characteristic-zero Hecke character is realized by a cuspidal weight-zero regular algebraic PGL₂ representation with K-fixed vectors. Prove the central-character descent and archimedean calculation from ALS.5b's automorphic comparison and §8.1's equivariant level model, giving `q₀=l₀=D`. This rational comparison is an input to patching, not a consequence of the lifting conclusion.
 
 **Checks.**
 
@@ -1738,15 +1738,15 @@ Prove `CrystallineCM.pgl2_weight_zero_rational_comparison`. Let F be CM, `D=[F�
 
 *Needs:* §8.1; §8.4; **ArithmeticLocallySymmetricSpaces:ALS.5b** (automorphic and cuspidal comparison).
 
-Prove `CrystallineCM.prepared_barsotti_tate_lifting`. With the data and hypotheses (1)–(15), let `ρ : G_F → GL₂(Q̄_p)` be continuous with `(1) ρ̄ ≅ r̄_{π,ι}` and det `ρ = ε^{−1}_p; (2) ρ|_{G_{F_v}}` Barsotti–Tate for `v ∈ S^cr_p; (3) r_ι(π)|_{G_{F_v}}` ordinary iff `ρ|_{G_{F_v}}` ordinary, for `v ∈ S^cr_p; (4) ρ|_{G_{F_v}}` a non-crystalline extension of `ε^{−1}_p` by the trivial character for `v ∈ S^st_p; (5) ρ` unramified at `v ∉ S; (6) ρ|_{G_{F_v}}` unipotently ramified for `v ∈ R`. Then `ρ ≅ r_ι(Π)` for a cuspidal `Π` of `PGL₂(𝔸_F)` of weight `0`.
+With the data and hypotheses (1)–(15), let `ρ : G_F → GL₂(Q̄_p)` be continuous with `(1) ρ̄ ≅ r̄_{π,ι}` and det `ρ = ε^{−1}_p; (2) ρ|_{G_{F_v}}` Barsotti–Tate for `v ∈ S^cr_p; (3) r_ι(π)|_{G_{F_v}}` ordinary iff `ρ|_{G_{F_v}}` ordinary, for `v ∈ S^cr_p; (4) ρ|_{G_{F_v}}` a non-crystalline extension of `ε^{−1}_p` by the trivial character for `v ∈ S^st_p; (5) ρ` unramified at `v ∉ S; (6) ρ|_{G_{F_v}}` unipotently ramified for `v ∈ R`. Then `ρ ≅ r_ι(Π)` for a cuspidal `Π` of `PGL₂(𝔸_F)` of weight `0`.
 
 (CN, Proposition 5.6.1, p.82.)
 
-*Needs:* §9.1; §9.7; §9.9; §9.6; §9.3; §8.3; §8.5; **LocalGaloisDeformationRings, §§4.14–4.15** (bt ring unique generalisation); **LocalGaloisDeformationRings, §6.6** (snowden ordinary ring trivial residual); `CrystallineCM.pgl2_weight_zero_rational_comparison`; **DeformationAndDerivedPatchingAlgebra, §§8.1–8.5**; §9.4.
+*Needs:* §9.1; §9.7; §9.9; §9.6; §9.3; §8.3; §8.5; **LocalGaloisDeformationRings, §§4.14–4.15** (bt ring unique generalisation); **LocalGaloisDeformationRings, §6.6** (snowden ordinary ring trivial residual); §9.10 (weight-zero rational comparison); **DeformationAndDerivedPatchingAlgebra, §§8.1–8.5**; §9.4.
 
 ### 9.11 Reduction of Theorem 5.2 to Proposition 5.6.1 by solvable base change
 
-Prove `CrystallineCM.solvable_preparation_and_descent_qualified`. Under the hypotheses of the qualified potentially Barsotti–Tate lifting theorem in CL.9, including `d_cyc≠3` or projective image not `A₄`, Theorem 5.2 follows from Automorphy lifting in the special case (CL.9): choose a finite set `V` of auxiliary places as in the proof of [AKT23, Thm. A.14]; a solvable Galois CM extension `F₀/F` in which `V` splits, `π_{F₀}` has Iwahori-fixed vectors everywhere, bad places become unipotent with `q_w ≡ 1` mod `p` and trivial `ρ̄`, every p-adic place of `F₀⁺` splits with residue field bigger than `F_p` and the degree condition holds, potentially crystalline places become crystalline with `π` unramified (and `r_ι(π)` crystalline by the CM spherical export `allCMCrystallineIwahoriAdmissibility` recalled in §7.7, ordinary iff `ρ` is), and non-potentially-crystalline places become non-crystalline extensions of `ε^{−1}_p` by `1;` a further composite `F₁` with three imaginary quadratic fields; if `ζ_p ∉ F`, two auxiliary degree-one places `v₀, v₀′` from A reducibility criterion for mod-p representations (variant of DDT 4.11) (CL.9) and Chebotarev; then solvable descent [ACC+18, Prop. 6.5.13]. Choose the preparation linearly disjoint from the full residual-plus-cyclotomic field, so both the projective image and `d_cyc` are preserved and the corrected finite-image criterion applies.
+Under the hypotheses of the qualified potentially Barsotti–Tate lifting theorem in CL.9, including `d_cyc≠3` or projective image not `A₄`, Theorem 5.2 follows from Automorphy lifting in the special case (CL.9): choose a finite set `V` of auxiliary places as in the proof of [AKT23, Thm. A.14]; a solvable Galois CM extension `F₀/F` in which `V` splits, `π_{F₀}` has Iwahori-fixed vectors everywhere, bad places become unipotent with `q_w ≡ 1` mod `p` and trivial `ρ̄`, every p-adic place of `F₀⁺` splits with residue field bigger than `F_p` and the degree condition holds, potentially crystalline places become crystalline with `π` unramified (and `r_ι(π)` crystalline by the CM spherical export `allCMCrystallineIwahoriAdmissibility` recalled in §7.7, ordinary iff `ρ` is), and non-potentially-crystalline places become non-crystalline extensions of `ε^{−1}_p` by `1;` a further composite `F₁` with three imaginary quadratic fields; if `ζ_p ∉ F`, two auxiliary degree-one places `v₀, v₀′` from A reducibility criterion for mod-p representations (variant of DDT 4.11) (CL.9) and Chebotarev; then solvable descent [ACC+18, Prop. 6.5.13]. Choose the preparation linearly disjoint from the full residual-plus-cyclotomic field, so both the projective image and `d_cyc` are preserved and the corrected finite-image criterion applies.
 
 (CN, End of the proof of Theorem 5.2, pp.85–87.)
 
@@ -1754,7 +1754,7 @@ Prove `CrystallineCM.solvable_preparation_and_descent_qualified`. Under the hypo
 
 ### 9.12 Potentially Barsotti–Tate automorphy lifting over imaginary CM fields
 
-Prove `CrystallineCM.potentially_barsotti_tate_lifting_qualified`. Let `F` be an imaginary CM field, `p` an odd prime and `ρ : G_F → GL₂(Q̄_p)` continuous with: `(1) ρ` unramified almost everywhere and det `ρ = ε_p^{−1}; (2)` for each `v | p, ρ|_{G_{F_v}}` potentially semistable with all labelled Hodge–Tate weights (0,1); `(3) ρ̄` decomposed generic and `ρ̄|_{G_{F(ζ_p)}}` irreducible; `(4)` if `p = 5` and the projective image of `ρ̄(G_{F(ζ₅)})` is conjugate to `PSL₂(F₅)`, the extension of `F` cut out by the projective image of `ρ̄` does not contain `ζ₅; (5)` there are a cuspidal `π` of `PGL₂(𝔸_F)` and `ι : Q̄_p ≅ C` with `(a) π` regular algebraic of weight `0, (b)` for `v | p` with `ρ|_{G_{F_v}}` potentially crystalline: `r_ι(π)|_{G_{F_v}}` is potentially ordinary of weight `0` ([Ger19, §5.2]) iff `ρ|_{G_{F_v}}` is, and `rec_{F_v}(π_v)` has monodromy `0, (c)` for `v | p` with `ρ|_{G_{F_v}}` not potentially crystalline: `π` is `ι-ordinary` of weight `0` at `v` and `r_ι(π)|_{G_{F_v}}` is not potentially crystalline, `(d) ρ̄ ≅ r̄_ι(π)`. Assume in addition `d_cyc=[F(ζ_p):F]≠3` or the projective image of `ρ̄(G_F)` is not `A₄`. Then `ρ` is automorphic: `ρ ≅ r_ι(Π)` for a cuspidal `Π` of `PGL₂(𝔸_F)`, regular algebraic of weight `0`.
+Let `F` be an imaginary CM field, `p` an odd prime and `ρ : G_F → GL₂(Q̄_p)` continuous with: `(1) ρ` unramified almost everywhere and det `ρ = ε_p^{−1}; (2)` for each `v | p, ρ|_{G_{F_v}}` potentially semistable with all labelled Hodge–Tate weights (0,1); `(3) ρ̄` decomposed generic and `ρ̄|_{G_{F(ζ_p)}}` irreducible; `(4)` if `p = 5` and the projective image of `ρ̄(G_{F(ζ₅)})` is conjugate to `PSL₂(F₅)`, the extension of `F` cut out by the projective image of `ρ̄` does not contain `ζ₅; (5)` there are a cuspidal `π` of `PGL₂(𝔸_F)` and `ι : Q̄_p ≅ C` with `(a) π` regular algebraic of weight `0, (b)` for `v | p` with `ρ|_{G_{F_v}}` potentially crystalline: `r_ι(π)|_{G_{F_v}}` is potentially ordinary of weight `0` ([Ger19, §5.2]) iff `ρ|_{G_{F_v}}` is, and `rec_{F_v}(π_v)` has monodromy `0, (c)` for `v | p` with `ρ|_{G_{F_v}}` not potentially crystalline: `π` is `ι-ordinary` of weight `0` at `v` and `r_ι(π)|_{G_{F_v}}` is not potentially crystalline, `(d) ρ̄ ≅ r̄_ι(π)`. Assume in addition `d_cyc=[F(ζ_p):F]≠3` or the projective image of `ρ̄(G_F)` is not `A₄`. Then `ρ` is automorphic: `ρ ≅ r_ι(Π)` for a cuspidal `Π` of `PGL₂(𝔸_F)`, regular algebraic of weight `0`.
 
 (CN, §5.1, Theorem 5.2, pp.73–74.)
 
