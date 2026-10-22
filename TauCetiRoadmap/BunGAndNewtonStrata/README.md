@@ -89,7 +89,7 @@ Tau Ceti also supplies `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf` in `Ta
 
 Layer 0 uses the tensor–torsor dictionary and the representative groupoid supplied by RelativeFarguesFontaine §7.0 and VStackSheavesAndLisseCategories §VS4.0, and adds rational filtered theory and pure inner twisting. Layer 1 develops arithmetic classification, `J_b`, decency and acceptable, ordinary and torus-special classes using the supplied invariant maps and order. Layer 2 uses the supplied bundle stack and geometric classification to prove uniformization, Newton topology and descent for isocrystal families. Layer 3 records the supplied HN, automorphism and flag-stratum APIs, develops filtered relative group schemes and computes stratum dimensions and connected components. Layer 4 records the supplied filtered charts and identifies their images with Newton-order down-sets.
 
-Each target states its hypotheses, its proof route with sources, the API a reusable formalization needs, and its Checks. `Suggested.lean` gives the targets whose carriers exist in Mathlib and Tau Ceti at the pins: twisted conjugacy classes and stabilizers, finite Frobenius norms, the rank-one Witt classification, numerical `GL_n` slope data, rational weights of the slope protorus and the integral descent of the Kottwitz invariant. The geometric targets are specified here.
+Each target states its hypotheses, its proof route with sources, the API a reusable formalization needs, and its Checks. The API names below specify the library to be built. `Suggested.lean` contains no theorem statements: the headline results need arithmetic Newton and Kottwitz maps, relative filtered fibre functors, the relative curve with its bundle categories, or v-stack and Banach–Colmez carriers absent from the pinned libraries. Its module docstring identifies these missing objects by layer. The Witt rank-one classification is supplied by Mathlib and appears here as a Check.
 
 ## Layer 0: `G`-bundles, `G`-isocrystals and the set B(G)
 
@@ -250,7 +250,6 @@ The API:
 - `SigmaClass.representativeAut`: The category-theoretic automorphism group of representative `b` identifies multiplicatively with its sigma-stabilizer. Mathlib’s `Aut` multiplication reverses categorical composition, matching the usual stabilizer multiplication.
 - `SigmaClass.gmEquiv`: The Laurent-polynomial Hopf points equivalence identifies the split `G_m` sigma quotient with the quotient on `L×`, for any `E`-algebra automorphism of `L`.
 - `SigmaClass.wittGmSlopeEquiv`: For a prime `p` and an algebraically closed field `k` of characteristic `p`, the `σ`-classes of units of FractionRing(WittVector `p k`), with Witt Frobenius, are in bijection with `ℤ`. This is the `p`-typical case of the general rank-one classification.
-- `WittRankOne.one_ne_uniformizer` and `WittRankOne.uniformizer_ne_inv`: For prime `p` and algebraically closed `k` of characteristic `p`, the Witt-unit `σ`-classes of `1` and `p` differ, as do those of `p` and `p⁻¹`.
 - `SigmaClass.wittGmSlopeEquiv_uniformizer`: In that Witt specialization, the class of `p^m` maps to `m`, for every integer `m`; the normalized valuation is Frobenius-invariant.
 - `RepresentativeTensor.representativeFunctor`: Send each twisted-conjugacy representative `b` to its whole Frobenius tensor family and every conjugator `g` to its Tannakian tensor action.
 - `RepresentativeTensor.reconstructionFunctor`: Reconstruct both the coefficient point and the actual conjugator of each Frobenius-compatible tensor arrow. Identity and composition agree with the representative groupoid.
@@ -345,7 +344,7 @@ Source: [FS](#ref-fs), Example IV.1.9(iv), Remark IV.1.10, p. 110, and proof of 
 ### Examples
 
 - For `G = GL_n`, `G`-bundles are rank-n vector bundles, `G`-isocrystals are n-dimensional isocrystals, and `B(GL_n)` is the set of Newton polygons of height `n`.
-- For `G = G_m` and `E = ℚ_p, B(G_m) = ℤ` through the valuation, and the class of `p^m` is `m` (`WittRankOne.classification` in `Suggested.lean`).
+- For `G = G_m` and `E = ℚ_p, B(G_m) = ℤ` through the valuation, and the class of `p^m` is `m`.
 
 ### Dependencies
 
@@ -1623,16 +1622,14 @@ Prove `GIsocrystalFamily.newtonClosed`: for each `b∈B(G)`, the substack where 
 
 *Remark.* Over perfect normal charts the stratum is trivialized profinite étale locally; over a general perfect base only v-locally. A rank-two slope-zero shear with off-diagonal coefficient `π^{−N}` needs a lattice denominator `c ≥ N`, so the Newton polygon alone does not bound the effective lattice; and an ambient linear lift of a tensor-line embedding need not preserve the tensors (for the norm-one torus, the map `(x₀, x₁) ↦ (2x₀, x₁ − x₀/2)` is invertible but is not of the form `(t x₀, t⁻¹ x₁)`).
 
-The algebraic control `FamilyDescentControls.shear_violates_bound` is stated for a
-commutative ring `R`, a field `K` with an `R`-algebra structure, a field automorphism `σ`
-and `a, scale∈K` such that `scale·a` is outside the image of `R`. There is no
-`R`-submodule `M⊂K²` containing `(0,1)`, stable under
-`(x₀,x₁)↦(σ(x₀)+aσ(x₁),σ(x₁))`, with `scale·x₀` in the image of `R` for every `x∈M`.
-The image of `(0,1)` already violates that condition.
-`FamilyDescentControls.ambient_lift_not_tensor_lift` states over `ℚ` that the
-invertible shear `(x₀,x₁)↦(2x₀,x₁−x₀/2)` sends `(1,1)` to `(2,1/2)` and differs from
-every diagonal action `(t x₀,t⁻¹ x₁), t∈ℚˣ`. These are the denominator and
-tensor-preservation controls for the family theorem.
+For a commutative ring `R`, a field `K` with an `R`-algebra structure, a field
+automorphism `σ` and `a, scale∈K` such that `scale·a` is outside the image of `R`,
+there is no `R`-submodule `M⊂K²` containing `(0,1)`, stable under
+`(x₀,x₁)↦(σ(x₀)+aσ(x₁),σ(x₁))`, with `scale·x₀` in the image of `R` for every
+`x∈M`: the image of `(0,1)` violates that bound. Over `ℚ`, the invertible shear
+`(x₀,x₁)↦(2x₀,x₁−x₀/2)` sends `(1,1)` to `(2,1/2)` and differs from every
+diagonal action `(t x₀,t⁻¹ x₁)` for `t∈ℚˣ`. These tests distinguish the lattice
+denominator and tensor-preservation requirements of the family theorem.
 
 **Checks.**
 
@@ -2316,16 +2313,16 @@ Layers 0–3; VectorBundlesAndIsocrystals VB3–VB4; VStackSheavesAndLisseCatego
 
 ## Worked examples
 
-These examples fix the conventions of the statements in `Suggested.lean`.
+These examples fix the conventions of the roadmap.
 
 - *Twisted conjugacy.* For a group automorphism `σ`, `sigmaSetoid` records the existence of a twisted conjugator and `SigmaClass` is the quotient set; it forgets stabilizers. `SigmaCentralizer.points` keeps them as a subgroup: for `b = 1` it is the `σ`-fixed subgroup, and if moreover `σ = id` it is the whole group. Under `b ↦ g b σ(g)⁻¹` the stabilizer is transported by `h ↦ g h g⁻¹`.
 - *Finite norms.* `N₀(b) = 1, N₁(b) = b` and `N₂(b) = b σ(b)`. The conjugation formula for `N_r` ends with `σ^r(g)⁻¹`, so a decency equation needs `r > 0`; in rank one, `b = π` gives `N_r(b) = π^r`, not `π^{r+1}`. `decencyEquation` records only the positive-period equation.
-- *Rank one over the Witt vectors.* Over the fraction field of the Witt vectors of an algebraically closed field of characteristic `p`, `WittRankOne.classification` sends the class of `p^m` to `m`; it separates `1` from `p` and `p` from `p⁻¹`.
-- *Numerical `GL_n` data.* `GLnSlopeData` requires decreasing rational slopes, an integral total `κ` and denominator divisibility of each slope multiplicity. Dominance fixes `κ` and compares initial partial sums; basic means constant slope; acceptability is dominance by the chosen bound and ordinarity attains it. The empty tuple has `κ = 0` and is basic and ordinary; `GLnSlopeData.rank_one_half_impossible` states that no rank-one datum has slope `1/2`: its sole slope has integral total and denominator dividing its multiplicity `1`.
+- *Rank one over the Witt vectors.* Over the fraction field of the Witt vectors of an algebraically closed field of characteristic `p`, valuation sends the class of `p^m` to `m`; it separates `1` from `p` and `p` from `p⁻¹`.
+- *Numerical `GL_n` data.* `GLnSlopeData` requires decreasing rational slopes, an integral total `κ` and denominator divisibility of each slope multiplicity. Dominance fixes `κ` and compares initial partial sums; basic means constant slope; acceptability is dominance by the chosen bound and ordinarity attains it. The empty tuple has `κ = 0` and is basic and ordinary; no rank-one datum has slope `1/2`: its sole slope has integral total and denominator dividing its multiplicity `1`.
 - *The slope protorus.* The coordinate Hopf algebra of `D` is `E[ℚ]`; the character of slope `q` sends the monomial of `n ∈ ℤ` to that of `nq`. At `q = 1/2` the generator indexed by `2` goes to the one indexed by `1`, and at `q = 0` everything goes to the unit; the half character differs from every integral one. A finite representation has finitely many weights and hence a common denominator.
-- *Integral descent of `κ`.* For `KottwitzDescent.Data`, an equivariant homomorphism composed with integral cyclic coinvariants descends uniquely to `σ`-classes; for an abelian group, twisted conjugacy is exactly the quotient by the range of `τ − id`. `ComponentCoset` is the solution set of `τx − x = d`: it is a translate of the fixed subgroup when nonempty. For `τ = id` and `d = 0` it is all of `ℤ`; for `τ = −id` and `d = 2` it is `{−1}`, and for `d = 1` it is empty. `ComponentCoset.sign_zero_ne_one` states that the sign-action coinvariants keep the nonzero class of `1`; `ComponentCoset.sign_two_eq_zero` states that they kill `2`. These are consequences of the integral quotient comparison `ComponentCoset.sign_coinvariants` with `ℤ/2`, with no rationalization.
+- *Integral descent of `κ`.* For `KottwitzDescent.Data`, an equivariant homomorphism composed with integral cyclic coinvariants descends uniquely to `σ`-classes; for an abelian group, twisted conjugacy is exactly the quotient by the range of `τ − id`. `ComponentCoset` is the solution set of `τx − x = d`: it is a translate of the fixed subgroup when nonempty. For `τ = id` and `d = 0` it is all of `ℤ`; for `τ = −id` and `d = 2` it is `{−1}`, and for `d = 1` it is empty. The sign-action coinvariants keep the nonzero class of `1` and kill `2`: their integral quotient is `ℤ/2`, with no rationalization.
 
-### Numerical slopes and their API
+### Numerical slopes
 
 Define `GLnSlopeData n` to record a function `Fin n → ℚ`,
 antitone in the standard order, an integer `κ` equal to its sum, and the condition
@@ -2339,11 +2336,10 @@ includes the projections `slopes`, `descending`, `kottwitz`, `total_eq` and
 - The slopes `(1/2, 1/2)` with `κ=1` satisfy all fields; a single slope `1/2`
   fails the multiplicity and integral-total conditions.
 - The integral-total tuple `(1/3, 1/3, 1/3)` is allowed, with total `κ=1`
-  and denominator `3` dividing multiplicity `3` (`GLnSlopeData.third_exists`); `(2/3, 1/3)` has
-  integral total `1` but fails denominator divisibility, as stated by
-  `GLnSlopeData.two_thirds_one_third_impossible`; integral total alone is insufficient.
+  and denominator `3` dividing multiplicity `3`; `(2/3, 1/3)` has
+  integral total `1` but fails denominator divisibility; integral total alone is insufficient.
 - The decreasing-order condition rejects `(0, 1)`, although its total and
-  denominator conditions hold (`GLnSlopeData.ascending_pair_impossible`); rank zero has the empty tuple and forces `κ=0`.
+  denominator conditions hold; rank zero has the empty tuple and forces `κ=0`.
 
 Define `GLnSlopeData.dominance x y` by equal integral `κ` and the inequalities
 between initial sums of lengths `0≤k≤n`. Prove `dominance_antisymm` for every
@@ -2353,8 +2349,7 @@ reflexivity, transitivity and the partial-sum criterion, with no rank restrictio
 **Checks.**
 
 - `(1/2, 1/2)` is below `(1, 0)`, and the reverse inequality fails at `k=1`.
-- Slopes `(0)` and `(1)` are incomparable because their integral `κ` values are `0` and `1`
-  (`GLnSlopeData.rank_one_zero_one_incomparable`).
+- Slopes `(0)` and `(1)` are incomparable because their integral `κ` values are `0` and `1`.
 - At rank zero dominance holds for the unique empty datum; at `k=n` its
   inequality is equality because the integral totals agree.
 
@@ -2377,8 +2372,7 @@ inequalities; `Acceptable` in §1.23 retains the full reductive invariant theory
 **Checks.**
 
 - Both `(1/2, 1/2)` and `(1, 0)` are acceptable for the bound `(1, 0)`.
-- `(2, −1)` fails that bound at its first partial sum despite having `κ=1`
-  (`GLnSlopeData.two_neg_one_not_acceptable`).
+- `(2, −1)` fails that bound at its first partial sum despite having `κ=1`.
 - The zero datum is acceptable for the zero bound in every rank, including zero;
   changing the total `κ` makes acceptability fail.
 
@@ -2390,10 +2384,9 @@ insufficient.
 **Checks.**
 
 - `(1, 0)` is ordinary for itself, and `(1/2, 1/2)` is acceptable but not ordinary
-  for that bound (`GLnSlopeData.ordinary_split_and_not_half`).
+  for that bound.
 - The basic datum `(1/2, 1/2)` is ordinary for its own bound: numerical
-  ordinarity does not itself impose integral Hodge slopes
-  (`GLnSlopeData.half_ordinary_self`).
+  ordinarity does not itself impose integral Hodge slopes.
 - The empty datum is ordinary for the empty bound, with `κ=0`.
 
 The explicit data `GLnSlopeData.half`, `GLnSlopeData.split` and
@@ -2404,7 +2397,7 @@ values and `κ` values and the comparison and basicness tests above.
 
 - Both slopes are `1/2` and their sum is `1`, giving `κ=1`.
 - Its denominator `2` divides multiplicity `2`; deleting one slope makes the datum
-  invalid, as stated by `GLnSlopeData.rank_one_half_impossible`.
+  invalid.
 - It is basic and lies strictly below `split`.
 
 **Checks for `split`.**
@@ -2420,7 +2413,7 @@ values and `κ` values and the comparison and basicness tests above.
 - At rank zero it has no slope entries and its basicness and ordinarity still
   hold; no expression `κ/n` is used at this boundary.
 - At positive rank the slope at index `0` distinguishes it from every nonzero constant
-  basic datum (`GLnSlopeData.zero_ne_nonzero_constant`), so basicness alone
+  basic datum, so basicness alone
   does not identify it with such a datum.
 
 These are numerical consequences of Dieudonné–Manin and the order conventions
@@ -2428,7 +2421,7 @@ of [KMPS](#ref-kmps), §§1.1.1–1.1.5, pp.5–8, and [FS](#ref-fs), §III.2.2,
 pp.90–91; VectorBundlesAndIsocrystals VB0 supplies the linear classification.
 They accompany the general reductive targets of Layer 1.
 
-### Algebraic signature checks
+### Algebraic conventions
 
 `twistedConjugate σ g b` is `g b σ(g)⁻¹`. Its API consists of the unit action,
 the composition law `twistedConjugate_comp` with later conjugator on the left,
@@ -2439,9 +2432,9 @@ the quotient API of §0.6.
 **Checks.**
 
 - Acting by `1` fixes every `b`; for identity `σ` the action is ordinary conjugation.
-- Acting first by `g` and then by `h` agrees with acting by `h g`
-  (`twistedConjugate_comp`); the inverse action uses `g⁻¹`. In `Equiv.Perm (Fin 3)`
-  reversing that product fails (`twistedConjugate_reverse_order_fails`).
+- Acting first by `g` and then by `h` agrees with acting by `h g`;
+  the inverse action uses `g⁻¹`. In the permutation group on three points,
+  reversing that product fails.
 - With identity `σ` in an abelian group, the setoid relates `b` and `c` exactly when
   `b=c`. Its quotient therefore retains every group element; with `b=1` its
   representative stabilizer is still the entire group.
@@ -2454,8 +2447,8 @@ with equality of that norm to the prescribed element, as in §1.9.
 
 - The empty norm is `1`, the one-factor norm is `b`, and the two-factor norm is
   `bσ(b)`; replacing the last by `b²` fails for nonfixed `b`.
-- For fixed `b=π` each Frobenius iterate is `π`, so the `r`-factor norm is `π^r`
-  (`WittRankOne.norm_uniformizer` in the Witt specialization, including `r=0`).
+- For fixed `b=π` each Frobenius iterate is `π`, so the `r`-factor norm is `π^r`,
+  including `r=0`.
 - The decency predicate is false at period zero, is `b=a` at period one, and at
   period two is `bσ(b)=a`; it asserts no Newton integrality.
 
@@ -2471,27 +2464,25 @@ classification assumption.
 - The identity homomorphism on `Multiplicative A` with Frobenius `τ` supplies
   `Data`; a homomorphism that fails Frobenius equivariance cannot supply it.
 - The target for identity `τ` is `A`. For sign `τ` on `ℤ` it is `ℤ/2`, so `1` survives
-  while `2` vanishes; rational coinvariants would fail this test. The actual quotient
-  `SigmaClass` retains this distinction: `KottwitzDescent.sign_class_zero_ne_one`
-  separates `0` and `1`, while `KottwitzDescent.sign_class_two_eq_zero` identifies `2`
-  and `0`.
+  while `2` vanishes; rational coinvariants would fail this test. The actual twisted-conjugacy quotient
+  retains this distinction: `0` and `1` have different classes, while `2` and `0`
+  have the same class.
 
-For the Witt specialization `WittRankOne.Coefficients` is exactly
-`FractionRing (WittVector p k)`, `WittRankOne.sigma` uses `Units.mapEquiv` on
-Witt Frobenius and `WittRankOne.uniformizer` is the nonzero field element `p` as
-a unit. Their API is the coefficient coercion, Frobenius action and powers of
-that unit, together with `WittRankOne.classification`.
+For the Witt specialization the coefficient field is exactly
+`FractionRing (WittVector p k)`, Frobenius on its units is induced by
+`Units.mapEquiv` from Witt Frobenius, and the uniformizer is the nonzero field
+element `p` as a unit. The normalized valuation identifies its twisted-conjugacy
+classes with `ℤ`.
 
 **Checks.**
 
 - The uniformizer is fixed by arithmetic Frobenius, so its integer powers define
-  the normalized representatives in `WittRankOne.classification`.
+  the normalized representatives of the rank-one classification.
 - On coefficients the Frobenius action agrees with the `p`-power action on the
   residue field, while fixing `p`; it is not the field map `x↦x^p` in characteristic
   zero.
-- The quotient classes of `1, p` and `p⁻¹` have slopes `0, 1` and `−1` respectively
-  (`WittRankOne.classification`); `WittRankOne.one_ne_uniformizer` and
-  `WittRankOne.uniformizer_ne_inv` distinguish them, including when `p=2`.
+- The quotient classes of `1, p` and `p⁻¹` have slopes `0, 1` and `−1` respectively;
+  these classes are distinct, including when `p=2`.
 
 These checks specialize the twisted-conjugacy convention of [FS](#ref-fs),
 §III.2.2, pp.90–91; the Witt rank-one normal form uses Mathlib's
