@@ -120,6 +120,13 @@ theorem exists_holomorphic_prescribed_isolated_singularities
 noncomputable def elementaryFactor (p : ℕ) (w : ℂ) : ℂ :=
   (1 - w) * Complex.exp (∑ k ∈ Finset.range p, w ^ (k + 1) / (k + 1))
 
+@[simp] theorem elementaryFactor_order_zero (w : ℂ) : elementaryFactor 0 w = 1 - w := by
+  simp [elementaryFactor]
+
+@[simp] theorem elementaryFactor_one (w : ℂ) :
+    elementaryFactor 1 w = (1 - w) * Complex.exp w := by
+  simp [elementaryFactor]
+
 /-- Preparatory primary-product realization. Its zero-set statement records support only; the
 exact-order companion below records multiplicity. -/
 theorem exists_entire_primary_product (a : ℕ → ℂ) (p : ℕ → ℕ)
@@ -159,6 +166,39 @@ theorem exists_entire_primary_product_exact (ι : Type*) [Countable ι]
       ∀ z, analyticOrderAt F z = (Nat.card {i // a i = z} : ℕ∞) := by
   sorry
 
+open scoped Classical in
+/-- Weighted genus-one specialization. Compact finiteness supplies cofinite escape on the
+repeated index; inverse-square summability supplies the compact majorants. Both products
+converge to the same normalized entire function, even at zeros. -/
+theorem exists_entire_genusOne_product (S : Set ℂ) [Countable S] (m : S → ℕ)
+    (hzero : (0 : ℂ) ∉ S)
+    (hfinite : ∀ K : Set ℂ, IsCompact K → (S ∩ K).Finite)
+    (hsum : Summable (fun ρ : S => (m ρ : ℝ) / ‖(ρ : ℂ)‖ ^ 2)) :
+    ∃ F : ℂ → ℂ,
+      HasProdLocallyUniformlyOn
+        (fun (ρ : S) z => elementaryFactor 1 (z / (ρ : ℂ)) ^ m ρ) F Set.univ ∧
+      HasProdLocallyUniformlyOn
+        (fun (i : Σ ρ : S, Fin (m ρ)) z => elementaryFactor 1 (z / (i.1 : ℂ)))
+        F Set.univ ∧
+      Differentiable ℂ F ∧ F 0 = 1 ∧
+      ∀ z, analyticOrderAt F z = (if hz : z ∈ S then (m ⟨z, hz⟩ : ℕ∞) else 0) ∧
+        MeromorphicOn.divisor F Set.univ z =
+          (if hz : z ∈ S then (m ⟨z, hz⟩ : ℤ) else 0) := by
+  sorry
+
+/-- Native-divisor input form of the genus-one product. Its locally finite support supplies
+the countability and compact-finiteness hypotheses of the support-indexed target. -/
+theorem exists_entire_genusOne_product_of_divisor
+    (D : Function.locallyFinsuppWithin (Set.univ : Set ℂ) ℤ)
+    (hD : ∀ z, 0 ≤ D z) (hDzero : D 0 = 0)
+    (hsum : Summable (fun ρ : Function.support D => (D (ρ : ℂ) : ℝ) / ‖(ρ : ℂ)‖ ^ 2)) :
+    ∃ F : ℂ → ℂ,
+      HasProdLocallyUniformlyOn
+        (fun (ρ : Function.support D) z =>
+          elementaryFactor 1 (z / (ρ : ℂ)) ^ (D (ρ : ℂ)).toNat) F Set.univ ∧
+      Differentiable ℂ F ∧ F 0 = 1 ∧ MeromorphicOn.divisor F Set.univ = D := by
+  sorry
+
 /-- Consume the native period-to-primitive result for the contour provider's closed paths. -/
 theorem primitive_of_vanishing_closed_integrals {U : Set ℂ} {f : ℂ → ℂ}
     (hU : IsOpen U) (hf : ContinuousOn f U)
@@ -195,6 +235,16 @@ theorem exists_entire_log (f : ℂ → ℂ) (hf : Differentiable ℂ f) (hne : �
   · exact (differentiableOn_univ.mp hg)
   · intro z
     exact (hEq (Set.mem_univ z)).symm
+
+/-- **GH3, reusable equal-divisor factorization.** Both functions must be nontrivial:
+the native divisor of the identically zero function is also zero. The quotient is extended
+through common zeros before its entire logarithm is taken. -/
+theorem exists_entire_exp_mul_of_divisor_eq (f F : ℂ → ℂ)
+    (hf : Differentiable ℂ f) (hF : Differentiable ℂ F)
+    (hf_ne : ∃ z, f z ≠ 0) (hF_ne : ∃ z, F z ≠ 0)
+    (hdiv : MeromorphicOn.divisor f Set.univ = MeromorphicOn.divisor F Set.univ) :
+    ∃ g : ℂ → ℂ, Differentiable ℂ g ∧ ∀ z, f z = Complex.exp (g z) * F z := by
+  sorry
 
 /-- **GH1, GH2 corollary.** Every meromorphic function on an open plane set is a quotient
 of two holomorphic functions, interpreted on the codiscrete set where the denominator is

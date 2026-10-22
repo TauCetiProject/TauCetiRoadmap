@@ -246,6 +246,61 @@ compact-dependent adapter. For the additional germ-order and unit-tail conclusio
 discard finitely many terms so `|u_j|≤1/2`, sum the logarithmic series, and treat the finite
 factors separately. The weaker uniform-absolute-tail criterion below remains a separate target.
 
+#### Genus-one products over weighted zero support
+
+This roadmap owns the general primary factors and their basic API, including
+`E_p(0)=1`, `E_p(w)=0 ↔ w=1`, and the specialization `E₁(w)=(1-w) exp(w)`.
+Writing `Q_p(w)=Σ_(k=1)^p w^k/k`, prove `E_p'(w)=−w^p exp(Q_p(w))` everywhere
+and `logDeriv E_p(w)=−w^p/(1-w)` away from `w=1`, including `p=0`. In particular, prove
+`E₁'(w)=−w exp(w)`, `E₁'/E₁=−w/(1-w)` off `1`, and
+`log ‖E₁(w)‖ ≤ 2‖w‖` everywhere, with Lean's convention `Real.log 0=0` at `w=1`.
+The sharp deviation estimate above gives `‖E₁(w)−1‖≤‖w‖²` on the unit disk;
+also supply `log ‖E₁(w)‖≤‖w‖²` there, using
+`‖E₁(w)‖≤1+‖E₁(w)−1‖` and `log(1+t)≤t`, treating a zero factor separately.
+
+Supply the following weighted-support specialization without choosing an enumeration.
+Let `S⊂ℂ\{0}` be countable, meet each compact set in finitely many points, and carry
+finite multiplicities `m:S→ℕ`. Zero multiplicities are allowed; for actual zero support
+they are positive. If `Σ_(ρ:S) m(ρ)/‖ρ‖²<∞`, then
+
+`P(z)=∏' (ρ:S), E₁(z/ρ)^(m(ρ))`
+
+converges locally uniformly on ℂ, is entire, satisfies `P(0)=1`, and has analytic order
+`m(ρ)` at each `ρ∈S` and zero order elsewhere. Its native meromorphic divisor has these
+same values, cast to ℤ. Include empty and finite support.
+
+Apply the countable-index primary-product theorem to `ι=Σ (ρ:S), Fin (m ρ)`,
+`a(ρ,j)=ρ`, and constant `p=1`. Compact finiteness of S and finiteness of every `Fin (m ρ)`
+give cofinite escape for a. For each `R>0`, summing over the finite fibers gives exactly
+`Σ_(i:ι) (R/‖a i‖)² = R² Σ_(ρ:S) m(ρ)/‖ρ‖²`.
+Prove the local-uniform product grouping identity between this repeated-index product
+and the product of powers over S, including convergence at zeros; do not justify the
+identity merely by manipulating totalized `tprod` values. Identify the zero fiber at ρ
+with `Fin (m ρ)` and translate `analyticOrderAt` through the native
+`AnalyticOnNhd.divisor_apply` formula. Thus equal multiplicities give equality of native
+divisors, without a private zero-divisor carrier.
+
+Expose a native-divisor form: for `D : Function.locallyFinsuppWithin Set.univ ℤ`
+on ℂ, with `∀ z, 0≤D z`, `D 0=0`, and
+`Σ_(ρ:D.support) (D ρ)/‖ρ‖²<∞` (real casts), construct the normalized entire product
+with factors `E₁(z/ρ)^((D ρ).toNat)` and native divisor exactly D. Derive countability
+and compact finiteness from D rather than asking the consumer to supply them.
+The real cast agrees with the natural multiplicity because D is nonnegative.
+
+[ZerosOfLFunctions, Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/253)
+consumes this genus-one specialization and the entire-logarithm theorem in GH3. Its
+`E₁` is this roadmap's `E_p` at `p=1`. The L-function roadmap owns `OrderLE`, the
+growth/counting and partial-summation argument giving weighted inverse-square
+summability, the degree bound on the exponential factor in order-one Hadamard
+factorization, and the L-function applications. For an entire f with `f(0)≠0`, take S to
+be the support of `MeromorphicOn.divisor f Set.univ` and m its nonnegative values converted
+to ℕ; the nonzero basepoint excludes 0 from S. This roadmap supplies the countable,
+compact-finite support adapters from the native locally finite divisor and the resulting
+product with exactly that divisor. No finite-order growth hypothesis is needed here,
+and no dependency from this roadmap to ZerosOfLFunctions is introduced.
+
+#### Variable exponents, genus, and logarithmic derivatives
+
 For any escaping sequence, the universal choice `p_n=n−1`, indexed by n≥1, is admissible:
 on each disk of radius R the tail has `R/|a_n|≤1/2`, hence its majorant is at most `2^(−n)`.
 For constant p, define the genus of the repeated nonzero zero list to be the least p∈ℕ with
@@ -708,6 +763,14 @@ finite-principal-part specialization.
 
 Consume the preparatory primary-product existence and exact-order theorem under its stated
 convergence hypotheses.
+
+Supply the reusable equal-divisor quotient theorem: if f and F are entire, neither is
+identically zero, and their native divisors on ℂ agree, then `f=exp(g) F` for some entire g.
+Construct the removable extension q of f/F, prove `f=qF` everywhere and that q never
+vanishes, then apply the entire-logarithm theorem. Nontriviality of both functions is
+essential: the native divisor of the identically zero function is zero and cannot
+distinguish it from a nonvanishing entire function. This theorem applies in particular
+to the genus-one product and the original function with the same divisor.
 
 For every nonzero entire f with zero order m at 0 and nonzero zeros listed with multiplicity,
 prove `f(z)=z^m exp(g(z)) ∏ E_{p_n}(z/a_n)` for an admissible sequence p_n and entire g. Prove
