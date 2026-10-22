@@ -521,7 +521,7 @@ computations of AI.3.
 
 **Cyclotomic period elements** (`AInf.cyclotomic`). For `C` complete algebraically closed over `ℚ_p` and `ε=(1,ζ_p,ζ_{p²},...)` in `O_C^♭`, define `μ=[ε]-1`, `ξ=Σ_{j=0}^{p-1}[ε^(1/p)]^j`, and `ξ̃=φ(ξ)`. Thus `μ=ξ*φ^(-1)(μ)`; division is the proven factorization in `A_inf`, never division in a fraction field.
 
-`Suggested.lean` declares `mu`, `xi`, `tildeXi`, `mu_factorization`, `frobenius_mu`, `ker_fontaineTheta_eq_span_xi`, `cyclotomic_period_evaluations`.
+`Suggested.lean` states the cyclotomic kernel theorem as `ker_fontaineTheta_eq_span_xi`, with the polynomial generator `xi` on Witt vectors and `integers` the valuation subring of `C`.
 
 `C` is a complete algebraically closed nonarchimedean extension of `ℚ_p`. `p` is prime. roots are compatible and primitive.
 
@@ -537,12 +537,10 @@ Use the geometric sum identity in Witt vectors. Evaluate `θ(ξ)` using the prim
 **Checks.**
 
 - `AInf.cyclotomic_test_unit`: `ε=1` makes `μ=0` and does not give an admissible primitive root system.
-- `AInf.cyclotomic_test_theta`: `θ(μ)=0` and `θ(ξ̃)=p`; the named target `cyclotomic_period_evaluations` states these evaluations and `θ̃(ξ̃)=0` under the primitive-root hypotheses.
+- `AInf.cyclotomic_test_theta`: `θ(μ)=0` and `θ(ξ̃)=p`.
 - `AInf.cyclotomic_test_tildeTheta`: `θ̃(μ)=ζ_p-1`; `θ̃(ξ̃)=0`.
 
 **Frobenius-shifted Fontaine map** (`AInf.tildeTheta`). Define `θ̃=θ∘φ^(-1)`: `A_inf(S)→S` on a perfectoid ring. Its kernel is `φ(ker θ)`; for the cyclotomic `O_C` normalization it is `(ξ̃)`.
-
-`Suggested.lean` declares `shiftedTheta`, `shiftedTheta_surjective`, `shiftedTheta_ker`, `thetaTilde`, `thetaTilde_teichmuller`, `thetaTilde_teichmuller_pow`.
 
 `S` is integral perfectoid with p-adic topology and surjective Frobenius mod p.
 
@@ -589,8 +587,6 @@ normalization set `ξ_r=product_{i=0}^{r-1}φ^(-i)(ξ)`, and `ξ̃_r=φ^r(ξ_r)=
 kernel theorem, transported along `θ̃_r=θ_r∘φ^(−r)`; only their explicit cyclotomic formulas
 and recursions are additional targets here.
 
-`Suggested.lean` declares `xiLevel`, `tildeXiLevel`, `xiLevel_succ`, `tildeXiLevel_succ`.
-
 `S` and `r` as in *Finite Witt coefficient maps* (§AI.0.2); `ξ` generates `ker(θ)`.
 
 The API:
@@ -611,13 +607,13 @@ Use the supplied kernel generators and their regularity, with the local kernel a
 
 **Infinite Witt specialization kernel** (`AInf.witt_limit_and_mu_kernel`). For `O_C`, `θ_infinity:A_inf→lim_R W_r(O_C)=W(O_C)` has kernel `(μ)`, equivalently the intersection over `r≥1` of `(ξ_r)=(μ/φ^(-r)(μ))` is `(μ)`. Its cokernel is killed by `W(m_C^♭)`; if `C` is spherically complete, it induces `A_inf/(μ)≅W(O_C)`. The ideal `(μ)` is independent of the compatible primitive roots. Ordinary completeness alone does not imply surjectivity.
 
+`Suggested.lean` states the kernel intersection as `iInf_span_xiLevel_eq_span_mu`, using `mu` for the cyclotomic period and `xiLevel` for the finite Frobenius products.
+
 Cyclotomic coefficients; p-adic and weak topologies as in §3.
 
 Compute `ξ_r=μ/φ^(-r)(μ)`, and reduce the intersection modulo `p` using regularity of `(p,ξ_r)`. Identify the intersection of the resulting valuation ideals in `O_C^♭`. Pass the finite-level short exact sequences to the R-inverse limit, identifying the cokernel with `lim^1_r ξ_r A_inf`. Reduce modulo `p^s` and use factorization of multiplication by any `m∈m_C^♭` through the constant `μ` system to kill `lim^1`; spherical completeness makes this `lim^1` vanish. (BMS1 (arXiv v3), Lemma 3.23; printed p.27). *Needs:* *Finite Witt kernel generators* (§AI.0.2); *Cyclotomic period elements* (§AI.0.1).
 
 **Regularity of integral periods** (`AInf.period_regularity`). The elements `p,μ,ξ,ξ̃` and their finite Frobenius products are nonzerodivisors in `A_inf(O_C)`. `A_inf/(ξ)=O_C` is p-torsion-free. Prove the regular pairs `(p,μ)`, `(p,ξ)` and `(p,ξ̃)` needed for finite derived reductions.
-
-`Suggested.lean` declares `integers`, `isRegular_p_mu`.
 
 `C` as above; do not assert `O_C` is noetherian.
 
@@ -753,8 +749,6 @@ and its specialization `O_C{1}`, Fontaine's `dlog`, the cotangent description of
 
 **Witt residue specialization** (`AInf.residue`). Specialize Mathlib’s Witt functor to `O_C^♭→k` and calculate its cyclotomic periods: `μ` maps to 0 and `ξ,ξ̃` to p. This is the coefficient map for the crystalline special fiber.
 
-`Suggested.lean` declares `map_mu_xi_of_eq_one`.
-
 `k` is the perfect residue field of `O_C`; `C` as above.
 
 The API:
@@ -835,8 +829,8 @@ Use torsion-freeness of `S^♭` over the valuation ring `O_C^♭`, the Witt redu
 
 ### Examples
 
-The residue map `A_inf → W(k)` sends `μ` to `0` and `ξ`, `ξ̃` to `p` (`map_mu_xi_of_eq_one` in
-`Suggested.lean`), so `μ` cannot be inverted after crystalline specialization. The element
+The residue map `A_inf → W(k)` sends `μ` to `0` and `ξ`, `ξ̃` to `p`, so `μ` cannot be inverted
+after crystalline specialization. The element
 `dlog(ε)` generates `ℤ_p(1)`, and its image in `O_C{1}` is `(ζ_p − 1)` times a generator.
 
 ### Dependencies
@@ -859,6 +853,8 @@ Starting with the primitive nonzerodivisor `ξ` and `A_inf/ξ=O_C`, localize at 
 Compare Mathlib's completion and localization carriers with the universal properties of the rational period rings of PadicPeriodRings, §§1.5, 4.1. Extend maps only after their continuity and denominator conditions are checked. Transport `ξ` and `ξ̃` along `φ` when changing scalar maps. (BMS1 (arXiv v3), Definition 3.22(ii–iii), printed p.27; §4.3, printed pp.41–43; PadicPeriodRings §§1.5, 4.1 supply the arithmetic case and the preceding argument supplies general `C`; SW20, Definition 12.4.3 and Remark 12.4.4, printed pp.105–106 (PDF pp.115–116)). *Needs:* *Integral crystalline coefficient interface* (§AI.0:integral.2); Mathlib `BDeRhamPlus`; Mathlib `BDeRham`; PadicPeriodRings, §§1.5, 4.1 (*generalBasePeriodRings*: period topologies and continuous actions); PadicPeriodRings, §§1.5, 4.1 (primitive-kernel completion and separatedness); PadicPeriodRings, §§1.5, 4.1 (*generalBasePeriodRings*: de Rham DVR and residue); PadicPeriodRings, §§1.5, 4.1 (identification of the Mathlib completion carriers).
 
 **Finite de Rham coefficient quotients and flatness**. The common map `A_inf→B_dR⁺` is flat. For `n≥1`, `B_dR⁺/ξ^n` identifies with `(A_inf/ξ^n)[1/p]`, as a complete Tate `ℚ_p`-algebra, with `A_inf/ξ^n` an open p-adic ring of definition. A finite extension of W(k)[1/p] embedded in `C` has its unique continuous lift into `B_dR⁺`. The same quotient topology is used in all infinitesimal-envelope completions. These are properties of the existing BDeRhamPlus carrier, not a new period ring.
+
+`Suggested.lean` states the flatness theorem as `ainf_deRhamPlus_flat` for the canonical localization/completion homomorphism `deRhamMap` into Mathlib's `BDeRhamPlus`.
 
 Standing hypotheses (C); `n>0`. The complete-DVR assertion is the preceding target, on all of (C); the algebraic constants lift by the finite étale/Henselian argument below. For `C=K̄^∧` these are the supplied PadicPeriodRings §§1.5, 4.1, 4.3 maps.
 
@@ -907,7 +903,7 @@ ambient module algebra and completion, rather than a second principal-`p` functo
 
 **Divisibility submodule** (`Decalage.etaTerm`). `E_f(C)^i` is the R-submodule of `C^i` consisting of `x` for which there exists `y` in `C^(i+1)` with `f y=d x`. No torsion-freeness is needed to define this submodule.
 
-`Suggested.lean` declares `etaTerm`, `mem_etaTerm` and the test complex `integerTwoTerm`. The Check on degree-zero exclusion for `[ℤ --1→ℤ]` at `f=2` distinguishes divisibility from mere membership in the ambient module.
+The Check on degree-zero exclusion for `[ℤ --1→ℤ]` at `f=2` distinguishes divisibility from mere membership in the ambient module.
 
 Standing hypotheses (Cx).
 
@@ -1192,7 +1188,7 @@ Choose strongly K-flat models C,D. Locally send `x` tensor `y` in normalized deg
 
 `V` a valuation ring (no rank or noetherian hypothesis).
 
-Use Mathlib’s valuation-ring instances for `IsBezout` and `IsLocalRing`. By `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`, torsion-freeness gives flatness; `Module.free_of_flat_of_isLocalRing` then makes the finitely generated module free. A submodule of a free module is torsion-free, so the same argument applies to a finitely generated submodule. `Suggested.lean` records this corollary as `valuation_finite_torsionFree_free`. (Stacks, Tags 0539 (torsion-free modules over a valuation ring are flat), 00NZ (finite flat modules over a local ring are free) and 0ASU (finite submodules of free modules over a Bézout domain)). *Needs:* Mathlib `ValuationRing`, `Submodule.isTorsionFree_iff_torsion_eq_bot`, `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`, `Module.free_of_flat_of_isLocalRing`; PerfectoidSpaces, P0 (*The basic setup (K°, K°°) of a valuation ring with non-principal maximal ideal*).
+Use Mathlib’s valuation-ring instances for `IsBezout` and `IsLocalRing`. By `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`, torsion-freeness gives flatness; `Module.free_of_flat_of_isLocalRing` then makes the finitely generated module free. A submodule of a free module is torsion-free, so the same argument applies to a finitely generated submodule. (Stacks, Tags 0539 (torsion-free modules over a valuation ring are flat), 00NZ (finite flat modules over a local ring are free) and 0ASU (finite submodules of free modules over a Bézout domain)). *Needs:* Mathlib `ValuationRing`, `Submodule.isTorsionFree_iff_torsion_eq_bot`, `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`, `Module.free_of_flat_of_isLocalRing`; PerfectoidSpaces, P0 (*The basic setup (K°, K°°) of a valuation ring with non-principal maximal ideal*).
 
 **Checks.**
 
@@ -1541,8 +1537,8 @@ The formulas `E_p(C)^n={x:dx∈pC^(n+1)}` and `δ(x)=dx/p` are the CR.4 definiti
 
 For `R = ℤ` and `f = p`: `Lη_p(ℤ/p) = 0` while `Lη_p(ℤ/p²) = ℤ/p`, so `Lη_p` is not exact. For
 the two-term complex `[R --f²--> R]` in degrees `0, 1` with `f` regular, `η_f` gives
-`[R --f--> R]`, also when the two degrees are negative. `Suggested.lean` checks that the
-divisibility submodule is everything for `f = 1` and the cocycles for `f = 0`.
+`[R --f--> R]`, also when the two degrees are negative. The divisibility submodule is everything
+for `f = 1` and the cocycles for `f = 0`.
 
 ### Dependencies
 
@@ -2189,7 +2185,7 @@ Use Faltings/Scholze almost purity to identify the almost cone. Verify each inde
 
 **Framed q-de Rham model** (`AOmega.qModel`). For a framed torus algebra over `A_inf`, `q=[ε]`, the normalized complex is `η_(q−1)K(A_inf<T_i±1>;γ_i−1)`, where `γ_i(T_i)=qT_i`. In one variable `d(T^n)=[n]_q T^n dlog_q T` and `dlog_q T*f(T)=f(qT)*dlog_q T`. The model depends on the framing; it is not a commutative dga.
 
-`Suggested.lean` declares `qInteger`, `qInteger_mul_sub_one` and `laurentQInteger`; for a unit `q` the latter uses `[n]_q=−q^n[−n]_q` at negative exponents. Its proved specialization tests give `[n]_1=n` for natural and integer exponents.
+For a unit `q`, use `[n]_q=−q^n[−n]_q` at negative exponents. The classical specialization gives `[n]_1=n` for every integer `n`.
 
 Chosen framing and compatible roots; the smooth lift and completion are the source ones.
 
@@ -3771,8 +3767,6 @@ theorem of the layer.
 
 **Cohomological Breuil–Kisin coefficient maps** (`CohomologicalBK.coefficientNormalization`). On the R07.4 coefficient ring `𝔖=W(k₀)[[u]]`, use transported aliases of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4.16's `kisinPeriodScalarMaps`: `g=ι₀`, `f=ι₁=φ_A∘g=g∘φ_𝔖`, `constantCoeff=ε₀` and `c=ε₁=φ_W∘constantCoeff`. Here `𝔖^(−1)` is the copy of `𝔖` regarded as an `𝔖`-algebra through `φ_𝔖`, and `g:𝔖^(−1)→A_inf` is `ι₀` transported to that source copy. Thus `g` is W(k₀)-linear with `u↦[π^♭]`, while `f:𝔖→A_inf` uses `φ_W` on coefficients and sends `u↦[π^♭]^p`. The kernel assertions `g(E)A_inf=(ξ)` and `f(E)A_inf=(ξ̃)` are imported from the same interface. Fix the local names `θ̃_𝔖:𝔖→O_K` for the W(k₀)-linear evaluation `u↦π` and `θ_𝔖=θ̃_𝔖∘φ_𝔖`, with `u↦π^p`. Then `θ̃_A∘f=θ̃_𝔖`, `θ_A∘f=θ_𝔖`, `θ_A∘g=θ̃_𝔖` and `c∘φ_𝔖=φ_W∘c`. R07.4.1 calls the evaluation `u↦π` its `θ_𝔖`; this is the present `θ̃_𝔖`. This target fixes the cohomological naming and specialization compatibilities of the supplied maps. The variable `u` is `T` in BMS1 and `z` in BMS2; BMS2 writes `θ^(−1)` for the evaluation on `𝔖^(−1)`.
 
-`Suggested.lean` declares the generic power-series models `coefficientFrobenius`, `crystallineCoefficient`, `coefficientFrobenius_formula`, `crystallineCoefficient_comp`; their arithmetic specializations use the supplied `φ_𝔖` and `ε₁`.
-
 Standing hypotheses (BK).
 
 The API:
@@ -3810,7 +3804,7 @@ Flatness is BMS1 Lemma 4.30: by approximation one may take `M` finitely generate
 
 Every power series is uniquely `Σ_{j<p} u^j φ_𝔖(f_j)`, grouping exponents by residue modulo `p` and using that `F` is bijective on coefficients. (BMS1 (arXiv v3), Definition 4.1 and Proposition 4.3, printed pp.31–32). *Needs:* *Cohomological Breuil–Kisin coefficient maps* (§AI.7.1); Mathlib `PowerSeries`.
 
-`Suggested.lean` states `coefficientFrobenius_basis`: every series has a unique expansion `Σ_{j<p} u^j φ_𝔖(f_j)`, for an arbitrary coefficient automorphism.
+Equivalently, every series has a unique expansion `Σ_{j<p} u^j φ_𝔖(f_j)`, for an arbitrary coefficient automorphism.
 
 **Checks.**
 
@@ -4262,7 +4256,7 @@ that `d(T^n) = [n]_q T^n dlog_q T`; at `q = 1` it becomes `n` and recovers `d(T^
 For `n < 0`, use the Laurent expression `[n]_q = −q^n[−n]_q`, so at `n = −1` the coefficient is `−q^(−1)` and specializes to `−1`.
 The `q`-model is not a commutative differential graded algebra: in characteristic two the
 operation `Sq^0` detects it (BMS1, Remark 7.8 and Lemma 7.9, printed pp.58–59; Theorem 9.4,
-pp.70–75). `Suggested.lean` records `qInteger` and `laurentQInteger`, with proved classical specializations for all integer weights.
+pp.70–75).
 
 ### A redundant infinitesimal coordinate
 
@@ -4289,7 +4283,7 @@ p.70, and Theorem 8.7, p.74, with the root towers of ČK, §3.2, pp.10–11.
 At the coefficient point the twisted relative trace object is `𝔖^{(−1)}`. Its de Rham map has
 identity Witt coefficients and `u ↦ π`; after Frobenius descent the map is `θ_𝔖`, with Witt
 Frobenius and `u ↦ π^p`. The crystalline map changes in the same way from `constantCoeff` to
-`φ_W ∘ constantCoeff`; `Suggested.lean` checks this with `crystallineCoefficient_comp`. For
+`φ_W ∘ constantCoeff`. For
 `K = ℚ_p(p^{1/p})` and `π = p^{1/p}`, the descended de Rham map factors through `ℤ_p`, so
 for a proper smooth formal scheme each torsion summand `ℤ_p/p^a` of `H^i(RΓ_𝔖(𝔛)⊗^L_{𝔖,u↦p}ℤ_p)` gives
 `O_K/π^{pa}` in de Rham cohomology, and the `O_K`-length of the de Rham torsion is divisible by
@@ -4314,7 +4308,7 @@ for a proper smooth formal scheme each torsion summand `ℤ_p/p^a` of `H^i(RΓ_�
 - **BMS2**: Bhargav Bhatt, Matthew Morrow and Peter Scholze, *Topological Hochschild homology and integral p-adic Hodge theory*, Publ. Math. IHÉS 129 (2019), 199–310. Cited by the page numbers of [arXiv:1802.03261v2](https://arxiv.org/abs/1802.03261v2) ("arXiv") or of the [published version](https://www.numdam.org/item/10.1007/s10240-019-00106-9.pdf) ("Publ. IHÉS").
 - **ČK**: Kęstutis Česnavičius and Teruhisa Koshikawa, *The A_inf-cohomology in the semistable case*, Compos. Math. 155 (2019); cited from [arXiv:1710.06145v3](https://arxiv.org/abs/1710.06145v3), whose pagination 1–78 is used.
 - **BS22**: Bhargav Bhatt and Peter Scholze, *Prisms and prismatic cohomology*, Ann. of Math. 196 (2022); cited from [arXiv:1905.08229v4](https://arxiv.org/abs/1905.08229v4).
-- **SW20**: Peter Scholze and Jared Weinstein, *Berkeley lectures on p-adic geometry*, Ann. of Math. Stud. 207 (2020); [author copy](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf), printed page `=` PDF page − 10.
+- **SW20**: Peter Scholze and Jared Weinstein, *Berkeley lectures on p-adic geometry*, Ann. of Math. Stud. 207 (2020); printed page `=` PDF page − 10.
 - **Sch13**: Peter Scholze, *p-adic Hodge theory for rigid-analytic varieties*, Forum Math. Pi 1 (2013), e1; [author copy](https://www.math.uni-bonn.de/people/scholze/pAdicHodgeTheory.pdf), and the [corrigendum](https://www.math.uni-bonn.de/people/scholze/pAdicHodgeErratum.pdf) (Sch13-corr), whose corrected pro-étale covering definition (item (1), p.1) and structural de Rham period sheaf, with its integral p-adic tensor completion and strengthened toric computation (item (3), pp.1–2), are used throughout.
 - **Zav**: Bogdan Zavyalov, *Mod-p Poincaré duality in p-adic analytic geometry*, [arXiv:2111.01830v3](https://arxiv.org/abs/2111.01830v3).
 - **ALB**: Johannes Anschütz and Arthur-César Le Bras, *Prismatic Dieudonné theory*, Forum Math. Pi (2023); [arXiv:1907.10525v4](https://arxiv.org/abs/1907.10525v4), with the [erratum](https://lebras.perso.math.cnrs.fr/Erratum_PDT.pdf) (ALB-err).
@@ -4322,7 +4316,7 @@ for a proper smooth formal scheme each torsion summand `ℤ_p/p^a` of `H^i(RΓ_�
 - **KN22**: Achim Krause and Thomas Nikolaus, *Bökstedt periodicity and quotients of DVRs*, Compos. Math. 158 (2022), 1683–1712; [published version](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/34286689D8EC1F3D33AFDEDEC3FAD554/S0010437X22007655a.pdf/bokstedt_periodicity_and_quotients_of_dvrs.pdf).
 - **NS**: Thomas Nikolaus and Peter Scholze, *On topological cyclic homology*, [author copy](https://people.mpim-bonn.mpg.de/scholze/CyclotomicSpectra.pdf).
 - **AR05**: Vigleik Angeltveit and John Rognes, *Hopf algebra structure on topological Hochschild homology*, Algebraic & Geometric Topology 5 (2005), 1223–1290, [paper](https://msp.org/agt/2005/5-3/agt-v5-n3-p14-s.pdf).
-- **BMMS**: Robert Bruner, J. Peter May, James McClure and Mark Steinberger, *H∞ ring spectra and their applications*, LNM 1176 (1986), [author copy](https://www.math.uchicago.edu/~may/BOOKS/h_infty.pdf).
+- **BMMS**: Robert Bruner, J. Peter May, James McClure and Mark Steinberger, *H∞ ring spectra and their applications*, LNM 1176 (1986).
 - **Stacks**: The Stacks Project Authors, [*The Stacks Project*](https://stacks.math.columbia.edu), cited by tag.
 
 Further works are cited at individual targets through the sources above: A. Beilinson, *On the crystalline period map* (arXiv:1111.3316v4); `K`. Kato, *Logarithmic structures of Fontaine–Illusie* and *Toric singularities*; `O`. Gabber and `L`. Ramero, *Almost ring theory* (LNM 1800); `K`. Fujiwara and `F`. Kato, *Foundations of rigid geometry I*; `R`. Huber, *Étale cohomology of rigid analytic varieties and adic spaces*; `P`. Ullrich, *The direct image theorem in formal and rigid geometry*; `M`. Raynaud and `L`. Gruson, *Critères de platitude et de projectivité*; `T`. Tsuji, *p-adic étale cohomology and crystalline cohomology in the semi-stable reduction case*; A. Grothendieck, *EGA* III and IV; `T`. Nikolaus and `P`. Scholze, *On topological cyclic homology*; `M`. Bökstedt's computation of `THH(𝔽_p)`.
