@@ -1,402 +1,49 @@
 import Mathlib
 
 /-!
-# Parameter stacks, invariant theory and spectral coefficients: representative target signatures
+# Parameter stacks, invariant theory and spectral coefficients: headline targets
 
-The mathematical roadmap is `README.md`. These are suggested forms: the light definitions and theorem
-signatures that can be stated against the pinned Mathlib and Tau Ceti APIs. They are not an
-exhaustive list of the targets of any layer: the parameter stacks, their perfect complexes, the
-excursion algebra, the good-filtration t-structure and the gerbe comparisons are README targets,
-because their carriers do not exist at the pins.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. Suggested signatures express particular milestones; discharging them finishes
+neither a layer nor the roadmap.
 
-Design choices.
-* A parameter with prescribed finite projection `η : Γ →* Q` is a homomorphism into Mathlib's
-  `SemidirectProduct` `H ⋊[β] Q` lifting `η` (`ParameterLift`). Its first coordinate is the crossed
-  cocycle for the action `β ∘ η`; gauge by `h` is conjugation by `SemidirectProduct.inl h`. This is
-  the section-form adapter to the crossed cocycles supplied by
-  SmoothRepresentationsOfLocalGroups SR.6.1, extended in LP0.1.
-* SmoothRepresentationsOfLocalGroups SR.6.1 and SR.6.3 supply the finite-wild scheme,
-  discretization, continuous extension, excursion algebra and scalar comparisons. LP0.4 and
-  LP1.1 identify their condensed refinements; LP2i.1 gives the enhanced comparison and its
-  agreement with the supplied scalar map.
-* IntegralHeckeAndGaloisDeterminants supplies determinant laws, connected pseudocharacters,
-  their free-word index and universal rings, and GL reconstruction. LP2c extends these to
-  prescribed finite projections and Weil continuity, with the group-algebra trace adapter.
-* Degrees are homomorphisms to `Multiplicative ℤ`. The arithmetic degree of `ClassFieldTheory`
-  sends arithmetic Frobenius to `1`; the geometric degree used here is its inverse.
-* Weil–Deligne parameters are prototyped for `GL_n`, with the scaling `r(w) N r(w)⁻¹ = q^{-deg w} N`
-  for the geometric degree, so that geometric Frobenius scales `N` by `q⁻¹`.
-* Coaction invariants are Mathlib's `AlgHom.equalizer` of the coaction and `a ↦ 1 ⊗ a`; no second
-  equalizer is introduced.
-* Excursion coefficient functions are supplied by SR.6.3. The categorical operators and
-  coefficient-function comparison of LP2e.13–LP2e.15 are README targets.
+No headline theorem can be stated against the pinned Mathlib and Tau Ceti APIs. The missing
+objects for the headline results are:
+
+* LP0: finite wild ramification of every condensed L-parameter (LP0.3), the condensed extension
+  comparison (LP0.4), and restriction of enhanced wild parameters (LP0.8) need the local Weil
+  group with wild inertia, the relatively discrete coefficient functor, and classical admissible
+  parameters with their enhancement groups. The Weil-group centre theorem (LP0.6a) also needs
+  the local Weil group.
+* LP1: complete-intersection representability (LP1.5), derived classicality (LP1.8), cotangent
+  duality (LP1.9–LP1.10), the Weil–Deligne comparison (LP1.12), and singular-support theorems
+  (LP1.13–LP1.15) need finite-wild cocycle schemes, condensed Weil cochains, animated parameter
+  stacks and their full cotangent complexes and coherent-complex support theory.
+* LP2e: classification of coarse geometric points by semisimple parameters (LP2e.6,
+  Fargues–Scholze, Proposition VIII.3.2) needs cocycle schemes and algebraic complete reducibility
+  for the L-group. The derived free-cocycle presentation (LP2e.8) needs animated cocycle algebras.
+  The abstract excursion centre map (LP2e.15, Theorem VIII.4.1) needs the excursion algebra and
+  coherent categorical Hecke data.
+* LP2c: generalized reductive reconstruction (LP2c.2), the continuous semisimple character
+  bijections (LP2c.5, Proposition VIII.3.8), and parameters of Schur objects (LP2c.8) need
+  invariant-family pseudocharacters, semisimple parameter moduli and the categorical excursion
+  action, together with the relatively discrete Weil-continuity convention.
+* LP3: the good-filtration theorems (LP3.0), solvable fixed-group theorems (LP3.13–LP3.17),
+  wild gerbe elimination (LP3.20) and tame reduction (LP3.21) need highest-weight modules and
+  rational algebraic-group cohomology, as well as enhanced perfect categories of classifying
+  and mapping stacks.
+* LP2i: the integral equivariant excursion comparison and invariant base change (LP2i.1–LP2i.2)
+  need the cocycle algebra as an object of the stable infinity-category `Ind Perf(BĤ)` and its
+  derived rational invariants.
+* LP4: perfect generation (LP4.2) and the module comparison (LP4.3), Fargues–Scholze,
+  Theorem VIII.5.1, need perfect complexes on parameter quotient stacks, their Ind-completions
+  and module objects in `Ind Perf(BĤ)`.
+
+Mathlib's semidirect products, matrix representations, coaction equalizers and category centres,
+and Tau Ceti's reductive groups over fields and ordinary continuous cohomology, do not supply
+these missing objects. None of these gaps is a definition of a few lines on the existing carriers.
 -/
 
 namespace TauCetiRoadmap.LanglandsParameterStacks
-
-noncomputable section
-
-open scoped TensorProduct
-
-/-! ## Layer LP0: cocycles, coefficients and wild enhancements -/
-
-section ParameterLifts
-
-variable {Γ H Q : Type*} [Group Γ] [Group H] [Group Q]
-
-/-- Parameters of `Γ` with values in `H ⋊[β] Q` and prescribed projection `η` (LP0.1): homomorphisms
-lifting `η`. This Mathlib subtype is the section-form adapter to SR.6.1's supplied crossed
-cocycles for `β ∘ η`, with the equivalence specified in LP0.1
-(Fargues–Scholze, Definition VIII.1.1, p.278). -/
-def ParameterLift (β : Q →* MulAut H) (η : Γ →* Q) : Type _ :=
-  {φ : Γ →* H ⋊[β] Q // SemidirectProduct.rightHom.comp φ = η}
-
-namespace ParameterLift
-
-variable {β : Q →* MulAut H} {η : Γ →* Q}
-
-/-- The first coordinate of the section-form adapter to the supplied crossed cocycle. -/
-def cocycleValue (φ : ParameterLift β η) (γ : Γ) : H := (φ.1 γ).left
-
-/-- The section-form adapter uniquely recovers the lift from a supplied crossed cocycle
-for `β ∘ η` (LP0.1, section equivalence; Fargues–Scholze, Definition VIII.1.1 and Remark VIII.1.2). -/
-theorem existsUnique_of_cocycle (c : Γ → H)
-    (hc : ∀ γ δ, c (γ * δ) = c γ * β (η γ) (c δ)) :
-    ∃! φ : ParameterLift β η, ∀ γ, φ.cocycleValue γ = c γ := sorry
-
-/-- The first coordinate satisfies the crossed cocycle law for the action `β ∘ η` (LP0.1). -/
-theorem cocycleValue_mul (φ : ParameterLift β η) (γ δ : Γ) :
-    φ.cocycleValue (γ * δ) = φ.cocycleValue γ * β (η γ) (φ.cocycleValue δ) := sorry
-
-/-- The second coordinate of a parameter is the prescribed projection. -/
-theorem right_apply (φ : ParameterLift β η) (γ : Γ) : (φ.1 γ).right = η γ := by
-  have h := DFunLike.congr_fun φ.2 γ
-  simpa [SemidirectProduct.rightHom] using h
-
-/-- The supplied gauge action in section form: conjugation by `inl h` (LP0.1). -/
-def gauge (h : H) (φ : ParameterLift β η) : ParameterLift β η :=
-  ⟨(MulAut.conj (SemidirectProduct.inl h : H ⋊[β] Q)).toMonoidHom.comp φ.1, by
-    ext γ
-    simpa using DFunLike.congr_fun φ.2 γ⟩
-
-/-- Gauge acts on the cocycle by `c(γ) ↦ h c(γ) β(η γ)(h)⁻¹` (LP0.1). -/
-theorem gauge_cocycleValue (h : H) (φ : ParameterLift β η) (γ : Γ) :
-    (φ.gauge h).cocycleValue γ = h * φ.cocycleValue γ * (β (η γ) h)⁻¹ := sorry
-
-/-- Gauge is an action of `H`. -/
-theorem gauge_one (φ : ParameterLift β η) : φ.gauge 1 = φ := sorry
-
-/-- Gauge is an action of `H`. -/
-theorem gauge_mul (h k : H) (φ : ParameterLift β η) :
-    φ.gauge (h * k) = (φ.gauge k).gauge h := sorry
-
-/-- The unit parameter `inr ∘ η`, whose cocycle is identically `1`. -/
-def unit (β : Q →* MulAut H) (η : Γ →* Q) : ParameterLift β η :=
-  ⟨SemidirectProduct.inr.comp η, by ext γ; simp⟩
-
-/-- For trivial action, lifts of `ℤ` realise every element of `H`, and gauge classes are
-conjugacy classes, by evaluation at the generator (LP0.1). -/
-theorem int_trivialAction_classification :
-    (∀ h : H, ∃ φ : ParameterLift (1 : Unit →* MulAut H)
-      (1 : Multiplicative ℤ →* Unit), φ.cocycleValue (Multiplicative.ofAdd 1) = h) ∧
-    ∀ φ ψ : ParameterLift (1 : Unit →* MulAut H) (1 : Multiplicative ℤ →* Unit),
-      (∃ h : H, φ.gauge h = ψ) ↔
-        ∃ h : H, h * φ.cocycleValue (Multiplicative.ofAdd 1) * h⁻¹ =
-          ψ.cocycleValue (Multiplicative.ofAdd 1) := sorry
-
-end ParameterLift
-
-end ParameterLifts
-
-section Degree
-
-variable {W : Type*} [Group W]
-
-/-- The geometric degree attached to an arithmetic degree (LP0.4): its pointwise inverse, so that
-geometric Frobenius `σ = Fr⁻¹` has degree `1`. -/
-def geometricDegree (d : W →* Multiplicative ℤ) : W →* Multiplicative ℤ := d⁻¹
-
-theorem geometricDegree_apply (d : W →* Multiplicative ℤ) (w : W) :
-    geometricDegree d w = (d w)⁻¹ := rfl
-
-/-- Converting twice returns the arithmetic degree. -/
-theorem geometricDegree_geometricDegree (d : W →* Multiplicative ℤ) :
-    geometricDegree (geometricDegree d) = d := by
-  simp [geometricDegree]
-
-/-- The arithmetic and geometric degrees have the same kernel (inertia). -/
-theorem geometricDegree_ker (d : W →* Multiplicative ℤ) :
-    (geometricDegree d).ker = d.ker := sorry
-
-/-- The Tate character `w ↦ q^{-d(w)}` for a geometric degree map (LP0.4). It takes
-arithmetic Frobenius to `q` and geometric Frobenius to `q⁻¹`. -/
-def tateCharacter {Λ : Type*} [Monoid Λ] (q : Λˣ) (d : W →* Multiplicative ℤ) : W →* Λˣ :=
-  (zpowersHom Λˣ q⁻¹).comp d
-
-/-- The Tate character of the geometric degree is the inverse of that of the arithmetic one. -/
-theorem tateCharacter_geometricDegree {Λ : Type*} [Monoid Λ] (q : Λˣ)
-    (d : W →* Multiplicative ℤ) (w : W) :
-    tateCharacter q (geometricDegree d) w = (tateCharacter q d w)⁻¹ := sorry
-
-end Degree
-
-section FiniteWild
-
-variable {Γ G : Type*} [Group Γ] [Group G] [TopologicalSpace Γ]
-
-/-- Finite wild ramification of a homomorphism with respect to a wild subgroup `P` (LP0.3): it is
-trivial on a relatively open subgroup of `P` (Fargues–Scholze, §VIII.1.1, p.278). -/
-def HasFiniteWildRamification (P : Subgroup Γ) (φ : Γ →* G) : Prop :=
-  ∃ U : Subgroup P, IsOpen (U : Set P) ∧ ∀ u ∈ U, φ (u : Γ) = 1
-
-/-- A homomorphism that is trivial on `P` has finite wild ramification. -/
-theorem HasFiniteWildRamification.of_le_ker (P : Subgroup Γ) (φ : Γ →* G) (h : P ≤ φ.ker) :
-    HasFiniteWildRamification P φ :=
-  ⟨⊤, isOpen_univ, fun u _ => h u.2⟩
-
-/-- Every L-parameter has finite wild ramification when `P` is compact and `φ` is continuous with
-finite image on `P` into a `T₁` target (the topological half of LP0.3). -/
-theorem HasFiniteWildRamification.of_finite_image [TopologicalSpace G] [T1Space G]
-    (P : Subgroup Γ) [CompactSpace P] (φ : Γ →* G) (hφ : Continuous φ)
-    (hfin : (φ '' (P : Set Γ)).Finite) :
-    HasFiniteWildRamification P φ := sorry
-
-/-- For a compact wild subgroup, an open wild kernel is equivalent to finite image for
-continuous homomorphisms to a T₁ group (LP0.3, `finiteWild_iff_finite_range`). -/
-theorem HasFiniteWildRamification.iff_finite_image [IsTopologicalGroup Γ]
-    [TopologicalSpace G] [T1Space G] (P : Subgroup Γ) [CompactSpace P]
-    (φ : Γ →* G) (hφ : Continuous φ) :
-    HasFiniteWildRamification P φ ↔ (φ '' (P : Set Γ)).Finite := sorry
-
-/-- An open wild kernel can have infinite image without compactness (LP0.3). -/
-theorem finiteWild_discrete_infinite_image :
-    letI : TopologicalSpace (Multiplicative ℤ) := ⊥
-    HasFiniteWildRamification (⊤ : Subgroup (Multiplicative ℤ)) (MonoidHom.id _) ∧
-      (Set.range (MonoidHom.id (Multiplicative ℤ))).Infinite := by
-  sorry
-
-/-- A continuous finite-image map can fail finite wild ramification without a T₁ target
-(LP0.3). Both source and target have the indiscrete topology. -/
-theorem finiteWild_indiscrete_not :
-    let C := Equiv.Perm (Fin 2)
-    letI : TopologicalSpace C := ⊤
-    Continuous (MonoidHom.id C) ∧ (Set.range (MonoidHom.id C)).Finite ∧
-      ¬ HasFiniteWildRamification (⊤ : Subgroup C) (MonoidHom.id C) := by
-  sorry
-
-end FiniteWild
-
-section WildInertial
-
-variable {L W P : Type*} [Group L] [Group W] [Group P]
-
-/-- The abstract extension predicate underlying a wild inertial parameter (LP0.5): a homomorphism `ρ : P →* L` that extends to a section `φ` of
-`π : L →* W` along `i : P →* W`. The extension is a condition, not data (Kurinczuk–Skodlerack–Stevens,
-§1.20–1.21, pp.8–9). The classical subtype `ClassicalAdmissibleParameter` of LP0.5 additionally imposes finite inertia,
-Frobenius semisimplicity, continuity and an algebraic `SL₂` factor; this predicate asserts only
-section extension. -/
-def IsWildInertialParameter (π : L →* W) (i : P →* W) (ρ : P →* L) : Prop :=
-  ∃ φ : W →* L, π.comp φ = MonoidHom.id W ∧ φ.comp i = ρ
-
-/-- A wild inertial parameter has the prescribed projection `π ∘ ρ = i`. -/
-theorem IsWildInertialParameter.projection {π : L →* W} {i : P →* W} {ρ : P →* L}
-    (h : IsWildInertialParameter π i ρ) : π.comp ρ = i := by
-  obtain ⟨φ, hπ, hρ⟩ := h
-  rw [← hρ, ← MonoidHom.comp_assoc, hπ, MonoidHom.id_comp]
-
-/-- Conjugation by an element of `ker π` preserves wild inertial parameters. -/
-theorem IsWildInertialParameter.conj {π : L →* W} {i : P →* W} {ρ : P →* L}
-    (h : IsWildInertialParameter π i ρ) (g : L) (hg : π g = 1) :
-    IsWildInertialParameter π i ((MulAut.conj g).toMonoidHom.comp ρ) := sorry
-
--- The identity section extends its restriction.
-example (i : P →* W) : IsWildInertialParameter (MonoidHom.id W) i i :=
-  ⟨MonoidHom.id W, rfl, rfl⟩
-
--- Losing the prescribed projection admits a false wild parameter.
-example [Nontrivial W] :
-    ¬ IsWildInertialParameter (MonoidHom.id W) (MonoidHom.id W) (1 : W →* W) := by
-  intro h
-  obtain ⟨w, hw⟩ := exists_ne (1 : W)
-  have hp := DFunLike.congr_fun h.projection w
-  simp at hp
-  exact hw hp.symm
-
-end WildInertial
-
-section TwistedCentralizer
-
-variable {H W : Type*} [Group H] [Group W] {α : W →* MulAut H}
-
-/-- The twisted wild centralizer (LP0.6): elements `x = (g, w)` of the L-group with
-`x ρ(w⁻¹ p w) x⁻¹ = ρ(p)` for all `p ∈ P` (Kurinczuk–Skodlerack–Stevens, §1.21, p.8). -/
-def twistedWildCentralizer (P : Subgroup W) [P.Normal] (ρ : P →* H ⋊[α] W) :
-    Set (H ⋊[α] W) :=
-  {x | ∀ p : P, x * ρ ⟨x.right⁻¹ * (p : W) * x.right⁻¹⁻¹,
-      Subgroup.Normal.conj_mem inferInstance (p : W) p.2 x.right⁻¹⟩ * x⁻¹ = ρ p}
-
-theorem one_mem_twistedWildCentralizer (P : Subgroup W) [P.Normal] (ρ : P →* H ⋊[α] W) :
-    (1 : H ⋊[α] W) ∈ twistedWildCentralizer P ρ := sorry
-
-theorem mul_mem_twistedWildCentralizer (P : Subgroup W) [P.Normal] (ρ : P →* H ⋊[α] W)
-    {x y : H ⋊[α] W} (hx : x ∈ twistedWildCentralizer P ρ) (hy : y ∈ twistedWildCentralizer P ρ) :
-    x * y ∈ twistedWildCentralizer P ρ := sorry
-
-theorem inv_mem_twistedWildCentralizer (P : Subgroup W) [P.Normal] (ρ : P →* H ⋊[α] W)
-    {x : H ⋊[α] W} (hx : x ∈ twistedWildCentralizer P ρ) :
-    x⁻¹ ∈ twistedWildCentralizer P ρ := sorry
-
-/-- Above `w = 1` the twisted centralizer is the ordinary centralizer of the image of `ρ`. -/
-theorem inl_mem_twistedWildCentralizer_iff (P : Subgroup W) [P.Normal] (ρ : P →* H ⋊[α] W)
-    (h : H) :
-    SemidirectProduct.inl h ∈ twistedWildCentralizer P ρ ↔
-      ∀ p : P, SemidirectProduct.inl h * ρ p = ρ p * SemidirectProduct.inl h := sorry
-
-/-- The values of an extending section lie in the twisted centralizer of its restriction. -/
-theorem section_mem_twistedWildCentralizer (P : Subgroup W) [P.Normal] (φ : W →* H ⋊[α] W)
-    (hφ : SemidirectProduct.rightHom.comp φ = MonoidHom.id W) (w : W) :
-    φ w ∈ twistedWildCentralizer P (φ.comp P.subtype) := sorry
-
-end TwistedCentralizer
-
-/-! ## Layer LP1: integral parameter spaces and deformation theory -/
-
-section WeilDeligne
-
-variable {W Λ : Type*} [Group W] [CommRing Λ] {n : Type*} [Fintype n] [DecidableEq n]
-
-/-- The `GL_n` prototype of a Weil–Deligne parameter (LP1.11): `N` is nilpotent and
-`r(w) N r(w)⁻¹ = q^{-deg w} N` for the geometric degree `d` (Fargues–Scholze, Definition VIII.2.4,
-p.282). Discrete inertia and the actual local Weil degree are README hypotheses.
-Over a nonreduced ring, matrix nilpotence is weaker than the scheme-theoretic nilpotent-cone
-condition imposed by `WeilDeligneParameter`. -/
-def IsWeilDelignePair (q : Λˣ) (d : W →* Multiplicative ℤ) (r : W →* GL n Λ)
-    (N : Matrix n n Λ) : Prop :=
-  IsNilpotent N ∧ ∀ w, (r w : Matrix n n Λ) * N * ((r w)⁻¹ : GL n Λ) =
-    ((q ^ (-(Multiplicative.toAdd (d w))) : Λˣ) : Λ) • N
-
-/-- Zero monodromy satisfies algebraic matrix nilpotence and the scaling identity (LP1.11). -/
-theorem IsWeilDelignePair.zero (q : Λˣ) (d : W →* Multiplicative ℤ) (r : W →* GL n Λ) :
-    IsWeilDelignePair q d r 0 := by
-  refine ⟨IsNilpotent.zero, fun w => ?_⟩
-  simp
-
-/-- Gauge by `g` conjugates both `r` and `N` and preserves the conditions. -/
-theorem IsWeilDelignePair.conj {q : Λˣ} {d : W →* Multiplicative ℤ} {r : W →* GL n Λ}
-    {N : Matrix n n Λ} (h : IsWeilDelignePair q d r N) (g : GL n Λ) :
-    IsWeilDelignePair q d ((MulAut.conj g).toMonoidHom.comp r)
-      ((g : Matrix n n Λ) * N * ((g⁻¹ : GL n Λ) : Matrix n n Λ)) := sorry
-
-/-- Algebraically nilpotent rank-one matrix monodromy vanishes over a reduced ring
-(LP1.11). -/
-theorem IsWeilDelignePair.eq_zero_of_isReduced [IsReduced Λ] {q : Λˣ}
-    {d : W →* Multiplicative ℤ} {r : W →* GL (Fin 1) Λ} {N : Matrix (Fin 1) (Fin 1) Λ}
-    (h : IsWeilDelignePair q d r N) : N = 0 := sorry
-
-end WeilDeligne
-
-/-- Algebraic matrix nilpotence allows nonzero rank-one monodromy over dual numbers
-(LP1.11); it does not impose the torus nilpotent-cone condition. -/
-theorem weilDelignePair_dualNumber_nonzero :
-    let N : Matrix (Fin 1) (Fin 1) (DualNumber ℚ) := fun _ _ => DualNumber.eps
-    IsWeilDelignePair (1 : (DualNumber ℚ)ˣ) (1 : Unit →* Multiplicative ℤ)
-      (1 : Unit →* GL (Fin 1) (DualNumber ℚ)) N ∧ N ≠ 0 := by
-  sorry
-
-/-! ## Layer LP2e: coarse quotients, the excursion presentation and excursion operators -/
-
-section Coaction
-
-variable {R A C : Type*} [CommRing R] [CommRing A] [Algebra R A] [CommRing C] [Algebra R C]
-
--- Zariski's main theorem used in the quotient-slice argument.
-#check AlgebraicGeometry.Scheme.Hom.exists_isIso_morphismRestrict_toNormalization
-
--- Pin the existing equalizer and its membership and trivial-coaction API.
-#check AlgHom.equalizer
-#check AlgHom.mem_equalizer
-#check AlgHom.equalizer_same
-
-/-- The coarse quotient `Spec Aᴴ` of an affine scheme with a coaction (LP2e.1). -/
-def coarseQuotient (δ : A →ₐ[R] C ⊗[R] A) : AlgebraicGeometry.Scheme :=
-  AlgebraicGeometry.Spec (CommRingCat.of (AlgHom.equalizer δ Algebra.TensorProduct.includeRight))
-
-end Coaction
-
-/-! ## Layer LP2c: pseudocharacters with prescribed projection and local continuity -/
-
-section TraceAdapter
-
-variable {Γ A : Type*} [Group Γ] [CommRing A]
-
-/-- The group-algebra adapter for the supplied trace pseudocharacters (LP2c.6):
-the `A`-linear extension of a function on `Γ`,
-`∑ a_γ [γ] ↦ ∑ a_γ τ(γ)` (Lafforgue, Remark 11.8, pp.143–144). -/
-def traceExtension (τ : Γ → A) : MonoidAlgebra A Γ →ₗ[A] A :=
-  (Finsupp.linearCombination A τ).comp (MonoidAlgebra.coeffLinearEquiv A).toLinearMap
-
-theorem traceExtension_of (τ : Γ → A) (γ : Γ) :
-    traceExtension τ (MonoidAlgebra.of A Γ γ) = τ γ := by
-  simp [traceExtension, MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single]
-
-/-- Values on group elements determine the linear trace extension uniquely (LP2c.6). -/
-theorem traceExtension_unique (τ : Γ → A) (T : MonoidAlgebra A Γ →ₗ[A] A)
-    (hT : ∀ γ, T (MonoidAlgebra.of A Γ γ) = τ γ) : T = traceExtension τ := sorry
-
-/-- Cyclic symmetry on group elements is equivalent to cyclic symmetry on the group algebra
-for the linear trace extension (LP2c.6). -/
-theorem traceExtension_mul_comm_iff (τ : Γ → A) :
-    (∀ x y : MonoidAlgebra A Γ, traceExtension τ (x * y) = traceExtension τ (y * x)) ↔
-      ∀ γ δ, τ (γ * δ) = τ (δ * γ) := sorry
-
--- Pin the supplied character, its value at the identity, and the trace over general rings.
-#check Representation.character
-#check Representation.char_one
-#check LinearMap.trace_one
-
-end TraceAdapter
-
-/-! ## Layer LP3: good filtrations, fixed groups and wild reduction
-
-The objects of this layer (the induced modules `∇_λ`, good filtrations, the good-filtration
-t-structure on `Ind Perf(BG)`, induced perfect complexes, fixed groups of finite automorphism groups
-and the mapping approximations) need reductive group schemes over a field with their highest-weight
-theory and stable ∞-categories of perfect complexes on quotient stacks. They are README targets. -/
-
-/-! ## Layers LP2i and LP4: the integral comparison and representation bundles
-
-The enhanced comparison in `Ind Perf(BĤ)` and its agreement with SR.6.3's scalar comparison,
-the universal representation bundles on
-`[Z¹(W, Ĥ)/Ĥ]`, perfect generation and the module comparison are README targets: their carriers are
-stacks and stable categories that do not exist at the pins. -/
-
-/-! The remaining named definitions and adapters in the roadmap are README targets.
-The crossed cocycles and finite-wild schemes extend the supplied SR.6.1 carriers; the
-finite-wild excursion algebra and scalar comparison are supplied by SR.6.3. The free-word
-index, untwisted colimit and connected pseudocharacters are supplied by
-IntegralHeckeAndGaloisDeterminants; their prescribed-projection extensions are LP2e/LP2c targets.
-`CrossedCocycle.restrict`, `CrossedCocycle.sectionEquiv`, `CrossedCocycle.descend`,
-`CrossedCocycle.quotientEquiv`, `H¹(Γ, H)`, continuous crossed cocycles,
-`condensedCoefficients`, `LParameter`, `FiniteWildPiece`, `NormalWildCutoff`,
-`ClassicalAdmissibleParameter`, `WeilGroup.center_eq_bot`,
-`WildInertialParameter`, `wildEnhancementGroup`, `ExtendedWildParameter`, `WildParameterClasses`,
-`IntegralCocycleScheme`, `DerivedParameterStack`, `WeilDeligneParameter`, `ParameterSingularities`,
-`QCoh` and `Perf` of animated quotient stacks, `cotangentToHochschild`,
-`hochschildSelfExtAction`, `dualNilpotentCone`, `NilpotentSingularSupport`, `ParameterCoarseQuotient`,
-`IsGIrreducible`, `IsStronglyReductive`, `IsStronglyGIrreducible`, `IsSemisimpleParameter`,
-`coordinateDiagram`, `ExcursionAlgebra`, `CategoricalHeckeDatum`, `ExcursionDatum`,
-`excursionMatrixCoefficient`, `ProjectedPseudocharacter`, `GroupTraceAdapter`,
-the induced modules `∇_λ` and Weyl modules `Δ_λ`, `HasGoodFiltration`, good filtration dimension, `goodFiltrationTStructure`, `InducedPerfectComplexes`,
-`IndProPerf`, equivariant ideal-adic completion, `IndCoh` of the derived unit self-intersection,
-`ParameterMappingApproximation`, `restrictEnhancedParameter`, and `UniversalRepresentationBundle`.
-Their enhanced, topological or algebraic-group carriers and constructions remain in the README.
-The connected predicates `IsGCompletelyReducible` and `IsAbsolutelyGCompletelyReducible`, their
-conjugacy invariance and `GL(V)` comparison, connected closed tuples and Levi semisimplification
-are supplied by ArithmeticGaloisRepresentations §1.11, `Complete reducibility and closed tuples`.
-Its `Reductive quotients over fields and DVRs` target supplies the connected integral quotient
-package. LP2e.2–LP2e.4 supply the additional quotient, strong-reductivity, irreducibility and
-nonconnected results. -/
-
-end
 
 end TauCetiRoadmap.LanglandsParameterStacks
