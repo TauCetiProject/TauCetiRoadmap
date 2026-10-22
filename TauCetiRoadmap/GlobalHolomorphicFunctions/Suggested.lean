@@ -329,6 +329,14 @@ theorem exists_smooth_barDerivative_eq {Ω : Set ℂ} (hΩ : IsOpen Ω)
       ∀ z ∈ Ω, barDerivative u z = f z := by
   sorry
 
+/-- **GH5, closed completion.** This coefficient equation is equivalent to closedness of
+`g dz + f dbarz` on GH5's differential-form carrier. -/
+theorem exists_smooth_closed_completion {Ω : Set ℂ} (hΩ : IsOpen Ω)
+    (f : ℂ → ℂ) (hf : ContDiffOn ℝ ∞ f Ω) :
+    ∃ g : ℂ → ℂ, ContDiffOn ℝ ∞ g Ω ∧
+      ∀ z ∈ Ω, barDerivative g z = zDerivative f z := by
+  sorry
+
 
 /-- Holomorphic functions on an open complex subtype, using Mathlib's analytic map bundle. -/
 abbrev HolomorphicMapSpace (U : TopologicalSpace.Opens ℂ) :=

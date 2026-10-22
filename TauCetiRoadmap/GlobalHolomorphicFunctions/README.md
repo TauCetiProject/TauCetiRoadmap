@@ -1164,6 +1164,13 @@ For `f(z)=z`, the particular solution `u₀(z)=|z|²`; all solutions are
 `|z|²+h(z)` for h entire. For the related exactness exercise, `dg=f dz` with smooth g forces
 `∂̄g=0`, hence g is holomorphic. Merely `∂_z g=f` does not: `f=0`, `g(z)=\bar z` is a counterexample.
 
+For every smooth `f` on an arbitrary open Ω, construct a smooth `g` such that
+`ω=g dz+f d\bar z` is closed. Apply global solvability to the smooth datum `∂_z f`,
+obtaining `∂̄g=∂_z f`, and prove
+`dω=(∂_z f−∂̄g) dz∧d\bar z=0` on the differential-form carrier below.
+For a fixed f, all such coefficients are `g=g₀+h`, with h holomorphic on Ω.
+The conclusion is closedness; a global primitive additionally requires vanishing periods.
+
 For differential-form exactness, take `U : TopologicalSpace.Opens ℂ`, the open subtype
 `M := ↥U` and model `I := 𝓘(ℝ, ℂ)`. The inclusion `ι : M → ℂ` induces a smooth
 identification of the tangent bundle with the trivial bundle of fibre ℂ: at `z : M`,
@@ -1201,6 +1208,8 @@ complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
 
 **GH5 coordinate worked examples.** Keep these scalar computations in GH5; the disk moment is
 proved by polar area integration and has no DG or CKG dependency. On all of `ℂ`, prove
+`d(i z²)=2iz dz` and `d(i|z|²)=i(\bar z dz+z d\bar z)`, as identities of
+complex-valued real one-forms with the coefficient pairing specified above. Also prove
 `d(|z|²)=2(x dx+y dy)` and `d(|z|⁴)=4(x²+y²)(x dx+y dy)`. On `ℂ\{0}`, prove
 `d((log|z|)²)=log(x²+y²)(x dx+y dy)/(x²+y²)`, using
 `log|z|=½ log(x²+y²)`; keep the expression `(log|z|)²` distinct from `log(|z|²)`.
