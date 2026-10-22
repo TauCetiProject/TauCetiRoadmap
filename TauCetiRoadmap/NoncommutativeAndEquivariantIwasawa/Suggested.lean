@@ -242,7 +242,11 @@ remain README targets. No substitute carrier is introduced for them here.
 
 Section F.5 owns the shared Hilbert coefficient-family, ordinary-projector, moment-map,
 control and Hecke-duality core, including finite freeness. Its geometric presentation is
-transported through the componentwise integral expansion comparison. Section F.6 owns the
+transported through the standard-component integral coefficient comparison: the family
+coordinates are normalized ideal coefficients and the standard constant on every narrow-class
+component. Other cusp expansions agree at classical specializations with their level and
+differential normalizations; cuspidality requires vanishing at every classical cusp.
+Section F.6 owns the
 generic D_pst and PadicWeilDeligneRealization core on actual semistable period invariants,
 with period monodromy N_p, for potentially semistable representations over every finite K/ℚ_p
 and every prime. This prefix uses the period-ring and raw-parameter suppliers independently of
