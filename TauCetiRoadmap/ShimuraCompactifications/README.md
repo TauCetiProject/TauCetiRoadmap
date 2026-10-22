@@ -37,9 +37,12 @@ degenerations and the minimal compactification, Dimitrov and Dimitrov–Tilouine
 varieties, and the papers of Pilloni, Boxer–Pilloni, Bijakowski–Pilloni–Stroh, Calegari–Geraghty,
 Boxer–Calegari–Gee–Pilloni and Birkbeck–Heuer–Williams for the inputs of their applications. Source
 labels refer to the editions listed in the references, and page numbers follow those editions.
-`Suggested.lean` gives, against the pinned Mathlib and Tau Ceti, the signatures of the targets that can
-already be stated there (the face projection of monoid algebras and the arithmetic of Hilbert cusps);
-this README is the specification.
+`Suggested.lean` states two headline theorems against the pinned Mathlib and Tau Ceti:
+`HilbertCusp.bounded_cusp_support_is_positive` (C6.5) and
+`proper_flat_globalFunctions_baseChange` (the general scheme theorem of C6.53).
+The compactification and degeneration theorems need the geometric objects specified in the layers
+below; their missing carriers are identified in the Lean module docstring. This README is the
+specification.
 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
@@ -357,8 +360,8 @@ C1 and the abelian-scheme suppliers, and can proceed in parallel with C2–C3 (i
 correspondence, uses C3). C5 assembles C0–C4 into integral PEL compactifications. C6 uses C0, C1, C3,
 C4 and the generic results C5.32–C5.33, but not the good-prime models of C5: its Hilbert models at
 primes dividing the discriminant are built directly, by C0 charts, C4 families and the gluing theorem
-C6.55. The elementary arithmetic of C6.1–C6.8 and C6.15–C6.19 is independent of everything else and is
-stated in `Suggested.lean`.
+C6.55. The elementary arithmetic of C6.1–C6.8 and C6.15–C6.19 is independent of everything else.
+Its Koecher support theorem C6.5 is stated in `Suggested.lean`.
 
 Numerical labels are reference labels. Build C0.21 before C0.8; C2.8 before C2.5 and C2.10 before
 C2.9; C4.8 before C4.6; C5.32–C5.33 before C5.13–C5.16, and C5.31 before C5.20–C5.22. In C6,
@@ -474,7 +477,7 @@ of degree outside `F`, each a multiple of a generator ([Lan], 6.1.2.6, pp. 443�
 ### C0.5 The integral stratum quotient algebra
 
 Construct `FaceProjection.faceQuotientEquiv : R[P] ⧸ J_F ≃ₐ[R] R[F]`, sending the class of `f` to
-`π_{R,F}(f)` (the Lean file states its existence as the milestone `FaceProjection.faceQuotient_equiv`). Assume (C0-a), (C0-b). Apply Mathlib's `Ideal.quotientKerAlgEquivOfRightInverse` with
+`π_{R,F}(f)`. Assume (C0-a), (C0-b). Apply Mathlib's `Ideal.quotientKerAlgEquivOfRightInverse` with
 the section of C0.3 and rewrite the kernel by C0.4; the equivalence is the one with this formula,
 not an unspecified ring isomorphism ([Lan], 6.1.2.6, the quotient defining a closed stratum,
 pp. 443–445). The API: `faceQuotientEquiv_mk` (the class of `f` goes to `π(f)`);
@@ -795,10 +798,7 @@ Layer 1.
 ### C0.18 The integral toric boundary
 
 Prove `TauCeti.Toric.boundaryUnion_ideal` (suggested home
-`TauCeti/Geometry/Toric/Algebraic/Boundary`; the Lean signatures are
-`ToricBoundary.boundaryUnion_ideal`, `ToricBoundary.boundaryUnion_basis`,
-`ToricBoundary.boundaryProduct_mul_injective` and `ToricBoundary.boundaryUnion_flat`,
-with `ToricBoundary.RegularChart` and `ToricBoundary.boundaryProduct`): in a regular chart
+`TauCeti/Geometry/Toric/Algebraic/Boundary`): in a regular chart
 `A_R = R[x_1, …, x_r, y_1^{±1}, …, y_s^{±1}]` the scheme-theoretic union of the `r` boundary divisors
 has ideal `(t)`, `t = x_1⋯x_r`; the quotient has `R`-basis the monomials `x^a y^b` with some
 `a_i = 0`. Hence the boundary is flat over `R`, its geometric fibres are reduced, and its formation
@@ -844,8 +844,7 @@ commute with completion. The quotient `A_R/(t^h)` has the monomial basis with so
 
 ### C0.20 Finite toric maps for a change of lattice
 
-Prove `TauCeti.Toric.changeLattice_finite` (rank one in the Lean file:
-`ToricBoundary.changeLattice_finite_rankOne`): for an injective finite-index lattice map `i : N′ → N`
+Prove `TauCeti.Toric.changeLattice_finite`: for an injective finite-index lattice map `i : N′ → N`
 and a finite fan `Σ` in `N_ℝ`, the pullback fan in `N′_ℝ` gives a finite toric morphism
 `X(i^*Σ)_R → X(Σ)_R` over every `R`, given on charts by `R[σ^∨ ∩ M] → R[σ^∨ ∩ M′]`. Over a normal
 domain `R` the source is the normalization of the target in the function field of the source torus,
@@ -3138,7 +3137,8 @@ unit-covariant as in C6.4, and `y` with all `y_w > 0` and `B` such that `B ≤ �
 `a(ξ) ≠ 0`, every `ξ` with `a(ξ) ≠ 0` is `0` or totally positive. A nonzero coefficient at a nonzero,
 not totally positive `ξ` would propagate along the unit orbit (C6.4) to pairings below `B` (C6.3)
 ([Dimitrov], proof of Théorème 8.3, p. 547). This is a statement about coefficient families; the
-geometric bound comes from C6.9. *Needs:* C6.3, C6.4.
+geometric bound comes from C6.9. This arithmetic theorem is stated in `Suggested.lean`.
+*Needs:* C6.3, C6.4.
 
 **Checks.**
 
@@ -3387,10 +3387,7 @@ a homomorphism (C6.18) and depends only on `x` modulo `traceDual(B)` (C6.17); no
 chosen. In the geometric case `A = ab`, `B = ab′` and `n` is the exponent of `b′/b` ([Dimitrov],
 Proposition 4.1(ii) and equation (5), pp. 537 and 546). The API: `tracePhase_apply`, `tracePhase_zero`,
 `tracePhase_add`, `tracePhase_lift`, `tracePhase_trivial_root` (`ζ = 1` gives the trivial character),
-`tracePhase_map` (transport along `R → R′`). The Lean file has the underlying function
-`CyclotomicPhase.tracePhaseFun`, with real body `ξ ↦ ζ^{num(n·Tr(ξx))}`, and its additivity
-`CyclotomicPhase.tracePhaseFun_add` and lift independence
-`CyclotomicPhase.tracePhaseFun_lift`. *Needs:* C6.15, C6.17, C6.18.
+`tracePhase_map` (transport along `R → R′`). *Needs:* C6.15, C6.17, C6.18.
 
 **Checks.**
 
@@ -4036,7 +4033,12 @@ coefficients. Flatness and geometric reducedness come from the monomial basis of
 the conclusion is the universal statement for proper flat morphisms of finite presentation with
 geometrically reduced and connected fibres (Stacks, Lemma 36.32.6, Tag 0E0L), proved here as part of the
 target from cohomology and base change ([Dimitrov], Corollaire 7.4, p. 544, and Théorème 8.6(iv)–(v),
-pp. 548–549). *Needs:* C0.18, C6.24, C6.34, C6.35; SchemeAndStackFoundations Layer 0, Layer 2;
+pp. 548–549).
+
+The general scheme theorem is stated in `Suggested.lean` as
+`proper_flat_globalFunctions_baseChange`: the canonical map on functions is bijective on every
+open after every base change, with no reducedness hypothesis on the base.
+*Needs:* C0.18, C6.24, C6.34, C6.35; SchemeAndStackFoundations Layer 0, Layer 2;
 AdicSpacesPartIII F0.
 
 **Checks.**
@@ -4079,9 +4081,8 @@ levels retain residual inertia on the compactified stack, including the irregula
 of C6.26 ([Dimitrov], Proposition
 3.3(iv)–(v), pp. 533–534, Proposition 4.1(ii)–(iii), p. 537, and the coefficient relation
 following equation (5), p. 546). The API includes the lift's translation class, its cocycle,
-lift-independent full pullback, and coefficient covariance. The native phase identity
-`CyclotomicPhase.tracePhaseFun_affine_cocycle` states
-`φ_{x+ay}(ξ) = φ_x(ξ)φ_y(aξ)` when `nB ⊆ A`, `x,y ∈ traceDual(A)` and `aB ⊆ B`.
+lift-independent full pullback, and coefficient covariance. In particular, the phase characters
+satisfy `φ_{x+ay}(ξ) = φ_x(ξ)φ_y(aξ)` when `nB ⊆ A`, `x,y ∈ traceDual(A)` and `aB ⊆ B`.
 *Needs:* C6.12a, C6.13, C6.19;
 HilbertModularVarietiesAndShimuraCurves H1.9 (scalar-level laws), H3 (the group `Δ(N)`); Mathlib
 `NumberField.Units.dirichletUnitTheorem.exists_unit`.
