@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.Psi
 
 /-!
 # ClassicalArithmeticCompletion: representative target signatures
@@ -575,6 +576,151 @@ theorem relations_units_complete_of_intervals {K : Type*} [Field K] [NumberField
       NumberField.Units.regOfFamily u = NumberField.Units.regulator K := by
   sorry
 
+
+section FactorBases
+
+open NumberField
+open scoped nonZeroDivisors
+
+/-- The classes of the nonzero prime ideals of absolute norm at most `T` generate the class group
+(README §5.1a).
+
+The full README API includes `IsFactorBaseBound.mono`, `isFactorBaseBound_minkowski`,
+`isFactorBaseBound_iff_classNumber_eq_one`, `IsFactorBaseBound.of_mem_closure`.
+-/
+def IsFactorBaseBound (K : Type*) [Field K] [NumberField K] (T : ℝ) : Prop :=
+  Subgroup.closure (ClassGroup.mk0 '' {I : (Ideal (𝓞 K))⁰ |
+    (I : Ideal (𝓞 K)).IsPrime ∧ (Ideal.absNorm (I : Ideal (𝓞 K)) : ℝ) ≤ T}) = ⊤
+
+/-- Class number one: every real number, even one below the least prime norm, is a bound. -/
+example (T : ℝ) : IsFactorBaseBound ℚ T :=
+  haveI := (Fintype.card_le_one_iff_subsingleton (α := ClassGroup (𝓞 ℚ))).mp Rat.classNumber_eq.le
+  Subsingleton.elim _ _
+
+/-- A larger bound keeps every generator. -/
+theorem IsFactorBaseBound.mono {K : Type*} [Field K] [NumberField K] {T T' : ℝ}
+    (h : IsFactorBaseBound K T) (hT : T ≤ T') : IsFactorBaseBound K T' :=
+  eq_top_iff.mpr <| (eq_top_iff.mp h).trans <|
+    Subgroup.closure_mono <| Set.image_mono fun _ hI => ⟨hI.1, hI.2.trans hT⟩
+
+/-- Minkowski's bound, in the form of README §5.1, is a factor-base bound. -/
+theorem isFactorBaseBound_minkowski (K : Type*) [Field K] [NumberField K] :
+    IsFactorBaseBound K ((4 / Real.pi) ^ InfinitePlace.nrComplexPlaces K *
+      ((Module.finrank ℚ K).factorial / (Module.finrank ℚ K : ℝ) ^ Module.finrank ℚ K *
+        Real.sqrt |(discr K : ℝ)|)) := by
+  sorry
+
+/-- Below the least prime norm 2 the generating set is empty. -/
+theorem isFactorBaseBound_iff_classNumber_eq_one {K : Type*} [Field K] [NumberField K] {T : ℝ}
+    (hT : T < 2) : IsFactorBaseBound K T ↔ classNumber K = 1 := by
+  sorry
+
+/-- A bound may be lowered once the primes up to the old bound lie in the smaller subgroup. -/
+theorem IsFactorBaseBound.of_mem_closure {K : Type*} [Field K] [NumberField K] {T₀ T : ℝ}
+    (h : IsFactorBaseBound K T)
+    (hmem : ∀ I : (Ideal (𝓞 K))⁰, (I : Ideal (𝓞 K)).IsPrime →
+      (Ideal.absNorm (I : Ideal (𝓞 K)) : ℝ) ≤ T →
+      ClassGroup.mk0 I ∈ Subgroup.closure (ClassGroup.mk0 '' {J : (Ideal (𝓞 K))⁰ |
+        (J : Ideal (𝓞 K)).IsPrime ∧ (Ideal.absNorm (J : Ideal (𝓞 K)) : ℝ) ≤ T₀})) :
+    IsFactorBaseBound K T₀ := by
+  sorry
+
+/-- The discrete-logarithm matrix modulo `p` of `v` at the primes `P i` has full column rank,
+stated without choosing generators: exponents killing every `p`-th power residue character are
+divisible by `p` (README §5.3a).
+
+The full README API includes `isMaxRank_and_not_dvd_index_of_powerResidueIndependent`,
+`isMaxRank_and_not_dvd_index_of_powerResidueIndependent_torsion`,
+`dvd_of_isPrincipal_prod_pow_of_powerResidueIndependent`.
+-/
+def PowerResidueIndependent {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι]
+    {m : ℕ} (p : ℕ) (P : Fin m → Ideal (𝓞 K)) (v : ι → 𝓞 K) : Prop :=
+  ∀ e : ι → ℕ, (∀ i, ∏ j, Ideal.Quotient.mk (P i) (v j) ^
+      (e j * ((Ideal.absNorm (P i) - 1) / p)) = 1) → ∀ j, p ∣ e j
+
+/-- The empty family is independent, as for unit rank zero. -/
+example {K : Type*} [Field K] [NumberField K] {m : ℕ} (p : ℕ) (P : Fin m → Ideal (𝓞 K)) :
+    PowerResidueIndependent p P (Fin.elim0 : Fin 0 → 𝓞 K) :=
+  fun _ _ j => j.elim0
+
+/-- A family containing `1`, a `p`-th power, is never independent. -/
+example {K : Type*} [Field K] [NumberField K] {m : ℕ} (P : Fin m → Ideal (𝓞 K)) :
+    ¬ PowerResidueIndependent 2 P (fun _ : Fin 1 => (1 : 𝓞 K)) := fun h => by
+  simpa using h (fun _ => 1) (by simp) 0
+
+/-- Residue-character certificate for units when `p` does not divide the torsion order. -/
+theorem isMaxRank_and_not_dvd_index_of_powerResidueIndependent {K : Type*} [Field K]
+    [NumberField K] {p m : ℕ} (hp : p.Prime) (hpw : ¬ p ∣ Units.torsionOrder K)
+    (P : Fin m → Ideal (𝓞 K)) (hP : ∀ i, (P i).IsMaximal)
+    (hpP : ∀ i, p ∣ Ideal.absNorm (P i) - 1) (u : Fin (Units.rank K) → (𝓞 K)ˣ)
+    (hu : PowerResidueIndependent p P fun j => (u j : 𝓞 K)) :
+    Units.IsMaxRank u ∧ ¬ p ∣ (Subgroup.closure (Set.range u) ⊔ Units.torsion K).index := by
+  sorry
+
+/-- A generator of the roots of unity joins the test; independence then forces `p` to divide the
+torsion order. -/
+theorem isMaxRank_and_not_dvd_index_of_powerResidueIndependent_torsion {K : Type*} [Field K]
+    [NumberField K] {p m : ℕ} (hp : p.Prime) (P : Fin m → Ideal (𝓞 K)) (hP : ∀ i, (P i).IsMaximal)
+    (hpP : ∀ i, p ∣ Ideal.absNorm (P i) - 1) (u : Fin (Units.rank K) → (𝓞 K)ˣ) (ζ : (𝓞 K)ˣ)
+    (hζ : Subgroup.zpowers ζ = Units.torsion K)
+    (hu : PowerResidueIndependent p P
+      (Sum.elim (fun j => (u j : 𝓞 K)) fun _ : Unit => (ζ : 𝓞 K))) :
+    Units.IsMaxRank u ∧ ¬ p ∣ (Subgroup.closure (Set.range u) ⊔ Units.torsion K).index := by
+  sorry
+
+/-- Residue-character certificate for `p`-saturation of `J i ^ n i = (a i)` (README §5.11a). -/
+theorem dvd_of_isPrincipal_prod_pow_of_powerResidueIndependent {K : Type*} [Field K]
+    [NumberField K] {N s m p : ℕ} (hp : p.Prime) (J : Fin N → Ideal (𝓞 K)) (n : Fin N → ℕ)
+    (a : Fin N → 𝓞 K) (ha0 : ∀ i, a i ≠ 0) (hJ : ∀ i, J i ^ n i = Ideal.span {a i})
+    (w : Fin s → (𝓞 K)ˣ)
+    (hw : ∀ x : (𝓞 K)ˣ, ∃ c : Fin s → ℤ, ∃ t : (𝓞 K)ˣ, x = (∏ j, w j ^ c j) * t ^ p)
+    (P : Fin m → Ideal (𝓞 K)) (hP : ∀ k, (P k).IsMaximal)
+    (hpP : ∀ k, p ∣ Ideal.absNorm (P k) - 1) (haP : ∀ k i, p ∣ n i → a i ∉ P k)
+    (hind : PowerResidueIndependent p P
+      (Sum.elim (fun j => (w j : 𝓞 K)) fun i : {i : Fin N // p ∣ n i} => a i))
+    (e : Fin N → ℕ) (he : (∏ i, J i ^ e i).IsPrincipal) (hpe : ∀ i, n i ∣ p * e i) :
+    ∀ i, n i ∣ e i := by
+  sorry
+
+/-- Generation and `p`-saturation at every prime dividing `∏ n i` determine the class number. -/
+theorem classNumber_eq_prod_of_saturated {K : Type*} [Field K] [NumberField K] {N : ℕ}
+    (J : Fin N → (Ideal (𝓞 K))⁰) (n : Fin N → ℕ) (hn : ∀ i, n i ≠ 0)
+    (hord : ∀ i, ClassGroup.mk0 (J i) ^ n i = 1)
+    (hgen : Subgroup.closure (Set.range fun i => ClassGroup.mk0 (J i)) = ⊤)
+    (hsat : ∀ p, p.Prime → p ∣ ∏ i, n i → ∀ e : Fin N → ℕ,
+      ∏ i, ClassGroup.mk0 (J i) ^ e i = 1 → (∀ i, n i ∣ p * e i) → ∀ i, n i ∣ e i) :
+    classNumber K = ∏ i, n i := by
+  sorry
+
+/-- A bound `E` on `ψ_K - ψ` bounds the error of the truncated Euler sum for the residue
+(README §5.16a (i)). -/
+theorem abs_log_dedekindZeta_residue_sub_le {K : Type*} [Field K] [NumberField K]
+    (E : ℝ → ℝ) {x₀ T : ℝ} (hx₀ : 2 ≤ x₀) (hT : x₀ ≤ T)
+    (hE : ∀ x, x₀ ≤ x → |TauCeti.primePsi K Set.univ x - Chebyshev.psi x| ≤ E x)
+    (hint : MeasureTheory.IntegrableOn
+      (fun x => E x * (1 + Real.log x) / (x * Real.log x) ^ 2) (Set.Ioi x₀))
+    (hlim : Tendsto (fun x => E x / (x * Real.log x)) atTop (𝓝 0)) :
+    |Real.log (dedekindZeta_residue K) - ∑ n ∈ Finset.Icc 2 ⌊T⌋₊,
+        (TauCeti.primeVonMangoldtCoeff K Set.univ n - ArithmeticFunction.vonMangoldt n) /
+          (n * Real.log n)| ≤
+      E T / (T * Real.log T) +
+        ∫ x in Set.Ioi T, E x * (1 + Real.log x) / (x * Real.log x) ^ 2 := by
+  sorry
+
+/-- An interval for the logarithm of the residue is an interval for `h_K R_K`
+(README §5.16a (ii)). -/
+theorem classNumber_mul_regulator_bounds_of_abs_log_residue_sub_le {K : Type*} [Field K]
+    [NumberField K] {S ε : ℝ} (h : |Real.log (dedekindZeta_residue K) - S| ≤ ε) :
+    Units.torsionOrder K * Real.sqrt |(discr K : ℝ)| /
+          (2 ^ InfinitePlace.nrRealPlaces K * (2 * Real.pi) ^ InfinitePlace.nrComplexPlaces K) *
+          Real.exp (S - ε) ≤ classNumber K * Units.regulator K ∧
+      classNumber K * Units.regulator K ≤ Units.torsionOrder K * Real.sqrt |(discr K : ℝ)| /
+          (2 ^ InfinitePlace.nrRealPlaces K * (2 * Real.pi) ^ InfinitePlace.nrComplexPlaces K) *
+          Real.exp (S + ε) := by
+  sorry
+
+end FactorBases
+
 end NumberFieldCertificates
 
 /-! ## Layer 6: special algebraic numbers and Mahler measure -/
@@ -1136,6 +1282,9 @@ in README §2.21 on its explicitly constructed Weierstrass curve.
 The README also states the interfaces for higher residue symbols, Cartier operators,
 matrix normal forms, integer-valued polynomial ideals, numerical semigroups,
 number-field presentations, capacity and conformal radius, and integral Galois modules.
+Bach's bound, the Belabas–Diaz y Diaz–Friedman criterion and the explicit prime ideal
+theorem of §§5.1b, 5.1c and 5.16a (iii) assume Riemann hypotheses for continued Dedekind and
+class-group L-functions, which have no carrier at the pins; they are README targets.
 Their constructions require carriers or comparison theory beyond the light definitions
 in this file. In particular, balanced scalar change, the character-idele quotient,
 root-number classes and the integral group logarithm remain README targets. The Gauss/root

@@ -20,6 +20,8 @@ HeightsAndUnits §1.3 owns scalar Kronecker and the absolute scalar power laws o
 
 Four further lower-tier roadmaps supply inputs. TauCetiRoadmap.AdelicAlgebraicGroups supplies the group SL₁(D) (§3.4) and strong approximation (§4.2); TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants supplies the Azumaya reduced-norm determinant and its characteristic polynomial (§§0.5–0.6); TauCetiRoadmap.DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8); and GeometryOfNumbersAndQuadraticArithmetic supplies the analytic Jacobi triple product (§4.3). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets here ([Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0)). IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; [Proper automorphs of indefinite binary forms and the Pell equation](#layer-4-topic-0) supplies its Pell-coordinate comparison.
 
+TauCetiRoadmap.AnalyticNumberTheoryPartI supplies the continued Dedekind zeta function and the L-functions of class-group characters (§§2.5, 2.12), the hypotheses DedekindERH and HeckeGRH (§2.42), Weil's explicit formula (§1.8) and the analytic inputs of its conditional effective Chebotarev theorem (§2.49). Layer 5 owns the factor-base, saturation and residue statements built on them; §§5.1b, 5.1c and clause (iii) of §5.16a carry those hypotheses explicitly, and every other Layer 5 target is unconditional. The Lean project LeanBridge (CBirkbeck/LeanBridge, module tree `LeanBridge/IdealArithmetic/`) formalises factor-base bounds and discrete-logarithm saturation certificates; §§5.1a, 5.3a and 5.11a state that mathematics intrinsically, and its code is not prescriptive.
+
 General Catalan–Mihăilescu is outside the elementary exponential-equation scope: the cyclotomic-unit, Stickelberger-ideal and Thaine arguments need a cyclotomic arithmetic development. The powers-of-two/three result here is an elementary special case. Markoff orbit growth and strong-approximation theorems belong to ArithmeticDynamics; this roadmap supplies their carriers, moves, reductions and the surjectivity predicate. ArithmeticStatistics consumes the negative-Pell families; ComputationalNumberTheory consumes the intrinsic arithmetic comparisons; K2SymbolsBrauer and HigherLocalFields consume the degree-n norm-residue symbol; QSeriesPartitionsAndMockModularForms consumes the formal triple product; KTheoryLowDegrees consumes stable equality and scalar-change comparisons; LogarithmicPotentialTheoryAndAlgebraicIntegers consumes the capacity and rationality interfaces. None of these consumers supplies a prerequisite back to this roadmap.
 
 The prime-factorisation equivalence and its residue and ramification formulas are supplied by Mathlib's Dedekind–Kummer API. The characteristic polynomial of an Azumaya reduced-norm law is supplied by TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants §0.5 (the characteristic polynomial law of a determinant) and §0.6 (the Azumaya reduced-norm determinant). Their exact specialisations and checks are recorded here as input contracts. TauCetiRoadmap.AdelicAlgebraicGroups §3.4 already constructs the group SL₁(D) for a central division algebra D over a number field; Layer 7 extends that carrier to matrix components and products and supplies its arithmetic-idele comparison. TauCetiRoadmap.AdelicAlgebraicGroups §4.6 already supplies quaternion norm images over ℚ; the arithmetic norm-image target here has arbitrary central-simple number-field components.
@@ -271,6 +273,10 @@ The convergence-factors target supplies arithmetic-Frobenius local determinants 
 ### From [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#standard-additive-character)
 
 `AL0.StandardAdditiveCharacter.conductor`, `.diagonal` and `.nontrivial` fix the trace character with positive infinity component and negative finite component. `TateZeta.epsilonFactor`, `TateZeta.epsilonFactor_smul_char`, `TateZeta.epsilonFactor_mul_inv`, `TateZeta.epsilonFactor_unramified_zero` and `TateZeta.epsilonFactor_real_sign` supply the analytic one-dimensional factors and their character-change laws. AL.0 supplies self-dual Haar measure. Kudla (2004), §3, Propositions3.5–3.8, pp.120–124, and §4, pp.127–129, fixes these normalizations; §7.30 transports them to the finite additive character of §7.13 and the infinite factor of Fröhlich (1976), (2.3), p.390.
+
+### From [TauCetiRoadmap.AnalyticNumberTheoryPartI, §§1.8, 2.5, 2.12, 2.42 and 2.49](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-42)
+
+§2.5 identifies the continued Dedekind zeta function with `NumberField.dedekindZeta K` on Re s > 1 and its residue at 1 with `NumberField.dedekindZeta_residue K`; §2.12 supplies L(s, χ) for a finite class character χ, with Euler factors `(1 − χ(P) N(P)^(−s))^(−1)`. A character of Cl(K) is used through the narrow class group and is primitive of trivial modulus. §2.42's DedekindERH K and HeckeGRH χ say that the continued functions have no zero with 0 < Re s < 1 off the line Re s = 1/2; §§5.1b, 5.1c and 5.16a carry them as explicit premises. §1.8 is Weil's explicit formula for a pair of completed functions with Gamma factors and Euler products over the rational primes, applied here to the completed L-functions of class-group characters. §2.49 supplies, on its conditional route, the truncated explicit formula for ψ_K and the zero count of `ζ_K`.
 
 ### Layers 6–7 ownership index
 
@@ -11123,7 +11129,7 @@ Earlier internal inputs are Layer 3. The declarations and supplier layers used b
 
 ## Layer 5: number-field presentations and comparisons
 
-Turn ideal bases, relation matrices and regulator bounds into intrinsic arithmetic comparisons. Compare quadratic Pell equations with units, narrow classes and the Galois action on the full unit group.
+Turn ideal bases, relation matrices and regulator bounds into intrinsic arithmetic comparisons. Certify generation of the class group by small primes, unconditionally or under the generalized Riemann hypothesis, and certify p-saturation of unit groups and relation lattices by residue characters. Compare quadratic Pell equations with units, narrow classes and the Galois action on the full unit group.
 
 <a id="layer-5-topic-1"></a>
 
@@ -11150,6 +11156,100 @@ So the multiplicities of I vanish at every prime outside `T = {P : N(P) ≤ M_K}
 - Compatibility: Mathlib `RingOfIntegers.isPrincipalIdealRing_of_isPrincipal_of_norm_le_of_isPrime` (all primes of norm `≤ M_K` principal ⇒ PID) is the case in which every generator is trivial.
 
 *Needs:* Mathlib `NumberField.exists_ideal_in_class_of_norm_le`; Mathlib `Ideal.absNorm_dvd_absNorm_of_le`; Mathlib `Ideal.absNorm`; Mathlib `ClassGroup.mk0`; Tau Ceti `ClassGroup.mk0_mem_closure_of_count_eq`; Tau Ceti `IsDedekindDomain.HeightOneSpectrum.classGroupMk`; Mathlib `RingOfIntegers.isPrincipalIdealRing_of_isPrincipal_of_norm_le_of_isPrime`.
+
+<a id="layer-5-topic-1a"></a>
+
+### 5.1a Factor-base bounds for the class group
+
+For a number field K and a real number T, IsFactorBaseBound K T states that the classes `ClassGroup.mk0 P` of the nonzero prime ideals P of `𝓞_K` with `N(P) ≤ T` generate Cl(K) (Mathlib `Subgroup.closure`). The predicate is monotone in T; [The class group is generated by the primes of norm at most the Minkowski bound](#layer-5-topic-1) is the instance IsFactorBaseBound K `M_K`; for T < 2 it holds exactly when `h_K = 1`; and a bound T may be lowered to `T_0` once the class of every prime of norm at most T lies in the subgroup generated by the primes of norm at most `T_0` (only the primes of norm in `(T_0, T]` need checking).
+
+T is real and `N(P) = Ideal.absNorm P` is compared in ℝ; the primes range over the members of `(Ideal 𝓞_K)⁰`, so the zero ideal is excluded. The primes of norm at most T form a finite family (Mathlib `Ideal.finite_setOfPred_absNorm_le`), and IsFactorBaseBound K T says that the presentation map of [The class-group presentation by a family of ideals and its relation lattice](#layer-5-topic-2) for that family is surjective.
+
+The supporting API comprises:
+
+- `IsFactorBaseBound`: the predicate above.
+- `IsFactorBaseBound.mono`: IsFactorBaseBound K T and T ≤ T′ give IsFactorBaseBound K T′.
+- `isFactorBaseBound_minkowski`: IsFactorBaseBound K `M_K`, with `M_K` written out as in §5.1.
+- `isFactorBaseBound_iff_classNumber_eq_one`: for T < 2, IsFactorBaseBound K T holds if and only if `h_K = 1`.
+- `IsFactorBaseBound.of_mem_closure`: if IsFactorBaseBound K T and the class of every prime of norm at most T lies in the subgroup generated by the primes of norm at most `T_0`, then IsFactorBaseBound K `T_0`.
+
+(Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, [Small generators of the ideal class group](#reference-belabas-diazydiaz-friedman-2008), Section 1, printed pp. 1185–1186.) The source's factor base B(T) consists of the primes of norm below T, `T_min(K)` is the least T for which B(T) generates the class group, and its last step proves that the primes of B(T) outside `B(T_0)` lie in the subgroup generated by `B(T_0)`; the predicate uses the non-strict bound of §5.1.
+
+To prove this, monotonicity is Mathlib `Subgroup.closure_mono` applied to the inclusion of generating sets. The Minkowski instance is §5.1 read through the definition.
+
+Every nonzero prime has `N(P) ≥ 2`, since `𝓞_K/P` is a field. For T < 2 the generating set is therefore empty and the subgroup is ⊥, which is ⊤ exactly when Cl(K) is trivial, that is `h_K = 1` (Mathlib `NumberField.classNumber`).
+
+For the reduction, the hypothesis places every generator for T in the subgroup for `T_0` (Mathlib `Subgroup.closure_le`), so that subgroup is the whole group.
+
+**Checks.**
+
+- IsFactorBaseBound ℚ T holds for every real T, including T < 2, because `h_ℚ = 1`.
+- K = ℚ(√−14): IsFactorBaseBound K 3 holds, since the class of `p_3` has order `4 = h_K` (§5.18). IsFactorBaseBound K 2 fails: the only prime of norm at most 2 is `p_2`, with `p_2² = (2)`, and its class generates a subgroup of order 2.
+- For the same field and T = 3/2 the generating set is empty, and IsFactorBaseBound K (3/2) fails because `h_K = 4 ≠ 1`.
+
+*Needs:* [The class group is generated by the primes of norm at most the Minkowski bound](#layer-5-topic-1); [The class-group presentation by a family of ideals and its relation lattice](#layer-5-topic-2); Mathlib `Subgroup.closure`; Mathlib `Subgroup.closure_mono`; Mathlib `Subgroup.closure_le`; Mathlib `ClassGroup.mk0`; Mathlib `Ideal.absNorm`; Mathlib `Ideal.finite_setOfPred_absNorm_le`; Mathlib `NumberField.classNumber`.
+
+<a id="layer-5-topic-1b"></a>
+
+### 5.1b Bach's factor-base bound under the generalized Riemann hypothesis
+
+Let K be a number field with `Δ_K = |d_K|`, and assume GRH(K): the continued Dedekind zeta function `ζ_K` and the continued L-function L(s, χ) of every nontrivial character χ of Cl(K) have no zero with Re s > 1/2. Then every nontrivial character χ of Cl(K) satisfies χ([P]) ≠ 1 for some nonzero prime P with `N(P) ≤ 12 (log Δ_K)²`, and consequently IsFactorBaseBound K `12 (log Δ_K)²`.
+
+GRH(K) is a stated premise: DedekindERH K together with HeckeGRH χ for every nontrivial character χ of Cl(K), in the terms of AnalyticNumberTheoryPartI §2.42. It has no Lean carrier at the pins. Mathlib `NumberField.dedekindZeta` is the Dirichlet series, meaningful only for Re s > 1; Tau Ceti `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub` continues `ζ_K` only to `Re s > 1 − 1/[K:ℚ]`; and the L-functions of class-group characters have no carrier. This is therefore a README target without a Lean signature. For K = ℚ the bound is 0 and IsFactorBaseBound ℚ 0 holds without the premise (§5.1a).
+
+The supporting API comprises:
+
+- `exists_prime_apply_ne_one_of_grh`: under GRH(K), each nontrivial character χ : Cl(K) → ℂ× has χ([P]) ≠ 1 for some nonzero prime P with `N(P) ≤ 12 (log Δ_K)²`.
+- `isFactorBaseBound_of_grh`: under GRH(K), IsFactorBaseBound K `12 (log Δ_K)²`.
+
+(Eric Bach, [Explicit bounds for primality testing and related problems](#reference-bach-explicit-bounds-1990), Section 7, Theorem 4, printed p. 375, and the class-group consequence after its proof, printed p. 376; the Extended Riemann Hypothesis is stated in Section 3, printed p. 360.) The first clause of Theorem 4 bounds the least prime P with χ(P) ≠ 1 by `N(P) ≤ 3 (log(Δ_K² N𝔣))²` for a nonprincipal character of conductor 𝔣; a class-group character has 𝔣 = 1, which gives `12 (log Δ_K)²`. The source assumes the hypothesis for all Hecke L-functions; the argument uses it for `ζ_K` and L(s, χ) only.
+
+(Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, [Small generators of the ideal class group](#reference-belabas-diazydiaz-friedman-2008), Section 1, printed p. 1186.) The source names the two zero sums of Bach's argument, over the zeros of L(s, χ) and over those of `ζ_K`; these are the two parts of GRH(K).
+
+To prove this, the character form implies generation. If the subgroup H generated by the primes of norm at most `12 (log Δ_K)²` were proper, Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff` would give a character of the finite group Cl(K) that is trivial on H and nontrivial.
+
+For the character form, suppose χ ≠ 1 and χ([P]) = 1 whenever `N(P) ≤ T`. Apply Weil's explicit formula (AnalyticNumberTheoryPartI §1.8) to the completed L-functions of χ and of the trivial character, with Bach's weight supported in [0, log T]. The prime sides of the two formulas agree, so their difference equates the pole term of `ζ_K` at 1, which grows like √T, with the two zero sums.
+
+Under GRH(K) every zero in the strip has real part 1/2, and Stark's formula bounds the zero sums by multiples of `log Δ_K`. Bach's constants (his Lemmas 7.1 and 7.2 with a = 1) give a contradiction for `T = 12 (log Δ_K)²`. The completed functions and their functional equations are those of AnalyticNumberTheoryPartI §2.12 for χ and §2.5 for `ζ_K`.
+
+**Checks.**
+
+- K = ℚ(√−14): `12 (log 56)² ≈ 194.4`, far above `M_K ≈ 4.76`; both are factor-base bounds, and by monotonicity only the smaller is used.
+- For imaginary quadratic fields, `12 (log Δ)²` is below `M_K = (2/π)√Δ` exactly when Δ exceeds about `3.16 · 10⁷`; at `Δ = 10⁸` the two bounds are about 4072 and 6366.
+- GRH(K) does not reduce to DedekindERH K: the argument controls the zeros of L(s, χ) with χ ≠ 1, which are zeros of the Dedekind zeta function of the Hilbert class field and need not be zeros of `ζ_K`.
+
+*Needs:* [Factor-base bounds for the class group](#layer-5-topic-1a); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s1-8); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.5 Dedekind continuation](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-5); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-12); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-42); Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`; Mathlib `NumberField.discr`.
+
+<a id="layer-5-topic-1c"></a>
+
+### 5.1c The Belabas–Diaz y Diaz–Friedman factor-base criterion
+
+Let K have degree n, `r_1` real places and `Δ_K = |d_K|`, and assume that L(s, χ) has no zero with Re s > 1/2 for every nontrivial character χ of Cl(K). If T > 1 satisfies
+
+`Σ log N(P) · N(P)^(−m/2) · (1 − log N(P)^m / log T) > (1/2) log Δ_K − 1.9 n − 0.785 r_1 + (2.468 n + 1.832 r_1) / log T`,
+
+the sum running over the nonzero primes P and integers m ≥ 1 with `N(P)^m < T`, then the classes of the primes of norm less than T generate Cl(K); in particular IsFactorBaseBound K T.
+
+The premise is HeckeGRH χ (AnalyticNumberTheoryPartI §2.42) for the nontrivial class-group characters only. DedekindERH K is not assumed: the criterion uses the zero sum of `ζ_K` through its exact value in the explicit formula instead of bounding it. As in §5.1b the premise has no carrier at the pins, so this is a README target. The left side tends to +∞ with T, so for every K some T satisfies the inequality.
+
+The supporting API comprises:
+
+- `isFactorBaseBound_of_weil_inequality`: for a continuous weight F ≥ 0 supported in [0, log T] with F(0) = 1 and nonnegative cosine transform, Weil's inequality for the trivial character implies generation by the primes of norm less than T.
+- `isFactorBaseBound_of_sum_gt`: the displayed criterion, the case F(x) = 1 − x/log T.
+
+(Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, [Small generators of the ideal class group](#reference-belabas-diazydiaz-friedman-2008), Theorem 1.1 with inequality (2), printed pp. 1186–1187, Theorem 2.1, printed pp. 1188–1189, and Corollary 2.2, printed p. 1190.) Theorem 2.1 is the weighted form, Corollary 2.2 its specialisation to F(x) = 1 − x/log T, and Theorem 1.1 the numerical form of the archimedean terms.
+
+To prove this, suppose the primes of norm less than T generate a proper subgroup; as in §5.1b some nontrivial character κ of Cl(K) is trivial on all of them. Subtract Weil's explicit formula (AnalyticNumberTheoryPartI §1.8) for L(s, κ) from the one for `ζ_K`, with the weight F. The prime sums cancel, since κ(P) = 1 for N(P) < T and F vanishes beyond log T, and the archimedean terms cancel because κ is unramified.
+
+What remains equates the zero sum of `ζ_K` minus that of L(s, κ) with the pole term of `ζ_K`. Under the premise each zero of L(s, κ) contributes a value of the cosine transform of F, which is nonnegative, so that sum can be dropped. Substituting the zero sum of `ζ_K` from its own explicit formula gives the negation of Weil's inequality. For F(x) = 1 − x/log T, bounding the archimedean integrals numerically turns that inequality into the displayed one.
+
+**Checks.**
+
+- K = ℚ(ζ_11) (n = 10, `r_1 = 0`, `Δ_K = 11⁹`): the inequality first holds at T ≈ 19.25, so the source's T(K) is 19, against Bach's `12 (9 log 11)² ≈ 5589` and Minkowski's `M_K ≈ 59.0`.
+- K = ℚ(√−14) (n = 2, `r_1 = 0`, `Δ_K = 56`): the inequality first holds at T ≈ 5.903, so under the premise the primes of norm at most 5 generate Cl(K); Bach's bound is about 194.4.
+- The criterion is sufficient, not necessary: for ℚ(√−14) and T = 3 the left side is about 0.18 and the right side about 2.71, although IsFactorBaseBound K 3 holds (§5.1a); for a field with `h_K = 1` the premise is empty and the conclusion holds for every T, yet ℚ(ζ_11), of class number one, needs T > 19.25 to pass.
+
+*Needs:* [Factor-base bounds for the class group](#layer-5-topic-1a); [Bach's factor-base bound under the generalized Riemann hypothesis](#layer-5-topic-1b); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s1-8); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-12); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-42); Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`.
 
 <a id="layer-5-topic-2"></a>
 
@@ -11215,6 +11315,37 @@ Write `R(u)=j R_K` with j a positive integer. From `L≤R_K` and R(u)<2L obtain 
 - Rank 0 (imaginary quadratic): the empty family has `R = 1 = R_K`, and any L ∈ (1/2, 1] establishes that `μ_K` is the whole unit group.
 
 *Needs:* Mathlib `NumberField.Units.regOfFamily_div_regulator`; Mathlib `NumberField.Units.IsMaxRank`; Mathlib `NumberField.Units.regOfFamily`; Mathlib `NumberField.Units.regulator`; Mathlib `NumberField.Units.regulator_pos`; Mathlib `NumberField.Units.torsion`; Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`.
+
+<a id="layer-5-topic-3a"></a>
+
+### 5.3a Discrete-logarithm certificates for p-saturated units
+
+Let K have unit rank r and torsion order `w_K = |μ_K|`, let ζ generate `μ_K`, let p be a prime, and let `P_1, …, P_m` be maximal ideals of `𝓞_K` with `p | N(P_i) − 1`. A finite family `v_1, …, v_s` in `𝓞_K` is p-power-residue independent at the `P_i` if every e ∈ ℕ^s with `∏_j v_j^(e_j (N(P_i) − 1)/p) ≡ 1 (mod P_i)` for all i has `p | e_j` for all j. For units `u_1, …, u_r`: (a) if `p ∤ w_K` and u is p-power-residue independent, then u has maximal rank and `p ∤ [𝓞_K^× : ⟨u⟩·μ_K]`; (b) if `(u_1, …, u_r, ζ)` is p-power-residue independent, which can happen only when `p | w_K`, the same conclusion holds. In both cases u and ζ generate `𝓞_K^×` modulo p-th powers.
+
+Fixing a generator `g_i` of the cyclic group `(𝓞_K/P_i)^×`, independence says exactly that the m × s matrix of discrete logarithms `log_(g_i)(v_j mod P_i)`, reduced modulo p, has rank s over `𝔽_p`; the definition uses the p-th power residue characters `x ↦ x^((N(P_i) − 1)/p)` and needs no choice of generators. The residue characteristic of each `P_i` differs from p, and units stay units modulo `P_i`. When `p ∤ w_K` the root of unity ζ is a p-th power and carries no information; when `p | w_K` its column is needed (third check below).
+
+The supporting API comprises:
+
+- `PowerResidueIndependent`: the predicate above, for a finite family in `𝓞_K` and exponents in ℕ.
+- `isMaxRank_and_not_dvd_index_of_powerResidueIndependent`: case (a).
+- `isMaxRank_and_not_dvd_index_of_powerResidueIndependent_torsion`: case (b).
+
+(Jean-François Biasse and Claus Fieker, [New techniques for computing the ideal class group and a system of fundamental units in number fields](#reference-biasse-fieker-new-techniques-2012), Section 5.3, p. 14.) For primes Q with `p | N(Q) − 1` the source maps a group of S-units to the residue field modulo p-th powers and enlarges the group until the joint kernel of these maps is its subgroup of p-th powers; for S = ∅ this is the test above, with the torsion treated as in (a) and (b). The later paper [Subexponential class group and unit group computation in large degree number fields](#reference-biasse-fieker-classgroup-2014), Section 6, printed p. 402, refers to this saturation method.
+
+To prove this, write G = `𝓞_K^×`. Each residue character factors through `G/G^p`, and an integer exponent vector reduces modulo p to one in ℕ; so independence makes the images of the family linearly independent in the `𝔽_p`-vector space `G/G^p`.
+
+By Dirichlet's unit theorem (Mathlib `NumberField.Units.rank`, with `NumberField.Units.torsion` cyclic of order `w_K`), `G/G^p` has dimension r when `p ∤ w_K` and r + 1 when `p | w_K`. The family is therefore a basis, and G = ⟨u, ζ⟩·`G^p`.
+
+If u were dependent modulo torsion, dividing a relation by its p-content (G/μ_K is torsion-free) would give one with some exponent prime to p. It puts a product of the `u_j` times a power of ζ in `G^p`, and when `p ∤ w_K` that power of ζ is itself a p-th power; this contradicts independence. Hence u has maximal rank (Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`). Finally `G/⟨u⟩μ_K` is finite and equals its subgroup of p-th powers, so its order is prime to p.
+
+**Checks.**
+
+- K = ℚ(√2), ε = 1 + √2 (r = 1, `w_K = 2`), p = 3 and P = (7, √2 − 3): ε ≡ 4 and `4² = 16 ≡ 2 ≢ 1 (mod 7)`, so (ε) is 3-power-residue independent and `3 ∤ [𝓞_K^× : ⟨ε⟩·{±1}]`, which is 1.
+- Same field, p = 2, P = (7, √2 − 3) and P′ = (7, √2 − 4): the quadratic characters of (ε, −1) are (0, 1) at P (ε ≡ 4 is a square, −1 ≡ 6 is not) and (1, 1) at P′ (ε ≡ 5 is not a square), an invertible matrix over `𝔽_2`; ε and −1 generate the units modulo squares.
+- The column of ζ is needed when `p | w_K`: u = −ε² has nonsquare residues 5 at P and 3 at P′, so its column alone has rank 1 = r, yet `[𝓞_K^× : ⟨−ε²⟩·{±1}] = 2`. With the column of −1 the two columns coincide, the rank is 1 < 2, and (b) refuses.
+- Rank zero: for K = ℚ(i) and p = 3 the empty family passes and `[𝓞_K^× : μ_K] = 1`.
+
+*Needs:* [A regulator lower bound establishes a fundamental system of units](#layer-5-topic-3); Mathlib `NumberField.Units.IsMaxRank`; Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`; Mathlib `NumberField.Units.rank`; Mathlib `NumberField.Units.torsion`; Mathlib `NumberField.Units.torsionOrder`; Mathlib `Ideal.Quotient.mk`; Mathlib `Ideal.absNorm`; Mathlib `Subgroup.index`.
 
 <a id="layer-5-topic-4"></a>
 
@@ -11472,6 +11603,36 @@ Multiplicativity of the index along `Aℤ^N ⊆ Λ_I ⊆ ℤ^N` (Mathlib `Subgro
 
 *Needs:* [The class-group presentation by a family of ideals and its relation lattice](#layer-5-topic-2); Mathlib `AddSubgroup.index_eq_natAbs_det`; Mathlib `Subgroup.relIndex_mul_index`; Mathlib `NumberField.classNumber`.
 
+<a id="layer-5-topic-11a"></a>
+
+### 5.11a p-saturation certificates for class-group presentations
+
+Let `J_1, …, J_N` be nonzero ideals of `𝓞_K`, `n_i ≥ 1` and `a_i ∈ 𝓞_K` with `J_i^(n_i) = (a_i)`, and let p be a prime. The family J is p-saturated if, whenever `∏ J_i^(e_i)` is principal and `n_i | p e_i` for all i, also `n_i | e_i` for all i. Let `w_1, …, w_s` be units generating `𝓞_K^×` modulo p-th powers, and `P_1, …, P_m` maximal ideals with `p | N(P_k) − 1` and `a_i ∉ P_k` whenever `p | n_i`. If the family of the `w_j` and of the `a_i` with `p | n_i` is p-power-residue independent at the `P_k` ([Discrete-logarithm certificates for p-saturated units](#layer-5-topic-3a)), then J is p-saturated. If the classes `[J_i]` generate Cl(K) and J is p-saturated for every prime p dividing `∏ n_i`, then `⊕ ℤ/n_i ℤ → Cl(K)`, `e ↦ ∏ [J_i]^(e_i)`, is an isomorphism and `h_K = ∏ n_i`.
+
+The `n_i` satisfy `[J_i]^(n_i) = 1` but need not be the orders. A square relation matrix of nonzero determinant reduces to this shape: the Smith normal form of [The class group from a complete relation matrix](#layer-5-topic-10) changes the generators to a family with diagonal relation matrix diag(`n_i`). Units generating modulo p-th powers are certified by §5.3a; the test needs no lower bound for `h_K R_K`, in contrast with §5.16.
+
+The supporting API comprises:
+
+- `dvd_of_isPrincipal_prod_pow_of_powerResidueIndependent`: the residue-character certificate implies p-saturation.
+- `classNumber_eq_prod_of_saturated`: generation, `[J_i]^(n_i) = 1` with `n_i ≥ 1`, and p-saturation for every prime `p | ∏ n_i` give `h_K = ∏ n_i`.
+- `classGroupEquivOfSaturated`: under the same hypotheses, the additive isomorphism `(Π i, ZMod n_i) ≃+ Additive Cl(K)` sending the i-th basis vector to `[J_i]`.
+
+(Jean-François Biasse and Claus Fieker, [New techniques for computing the ideal class group and a system of fundamental units in number fields](#reference-biasse-fieker-new-techniques-2012), Section 5.3, p. 14.) The source runs the residue-character test on the group of S-units defined by the relations; the units and the generators `a_i` used here are elements of that group, and a p-th root in it of a product of them is the missing relation that p-saturation excludes.
+
+To prove this, let `∏ J_i^(e_i) = (b)` with `n_i | p e_i`, and write `p e_i = n_i q_i`. Then `(b^p) = ∏ (a_i)^(q_i)`, so `b^p = v ∏ a_i^(q_i)` for a unit v, and `v = ∏ w_j^(c_j) t^p` with `c_j` reduced to [0, p). When `p ∤ n_i`, p divides `q_i`.
+
+Hence `y = ∏_(p | n_i) a_i^(q_i) · ∏ w_j^(c_j)` is the p-th power of an element z of K, and z lies in `𝓞_K` because `𝓞_K` is integrally closed (Mathlib `IsIntegrallyClosed.pow_dvd_pow_iff`). Modulo each `P_k`, y and so z are units, so `y^((N(P_k) − 1)/p) = z^(N(P_k) − 1) ≡ 1`. Independence gives `p | q_i` for every i, so `e_i = n_i (q_i/p)`.
+
+For the isomorphism, the map from `⊕ ℤ/n_i ℤ` is well defined and surjective. A nontrivial kernel would contain an element of some prime order p dividing `∏ n_i`; its representative e with `0 ≤ e_i < n_i` satisfies `n_i | p e_i` and `∏ [J_i]^(e_i) = 1` (Mathlib `ClassGroup.mk0_eq_one_iff`), and p-saturation forces e = 0. The class number is then the order `∏ n_i`, as in §5.10.
+
+**Checks.**
+
+- K = ℚ(√−14), J = `p_3` = (3, √−14 − 1), n = 4, a = 5 − 2√−14 (norm 81, in `p_3` and not in `p_3′` = (3, √−14 + 1)), w = (−1) and p = 2. At `p_3′` (norm 3) the quadratic characters of (−1, a) are (1, 0), since −1 ≡ 2 is a nonsquare and a ≡ 1; at (5, √−14 − 1) they are (0, 1), since −1 ≡ 4 is a square and a ≡ 3 is not. The matrix is the identity, so J is 2-saturated; as `[p_3]` generates (§5.1a), Cl(K) ≅ ℤ/4 and `h_K = 4`, as in §5.18.
+- A false presentation is refused: claiming n = 8 with `p_3^8 = (a²)` replaces a by the square a², whose column vanishes modulo squares, so the test never certifies ℤ/8.
+- N = 0: the empty family generates exactly when `h_K = 1`, no prime divides the empty product, and `h_K = 1` is the empty product; for example K = ℚ(i).
+
+*Needs:* [The class-group presentation by a family of ideals and its relation lattice](#layer-5-topic-2); [Discrete-logarithm certificates for p-saturated units](#layer-5-topic-3a); [The class group from a complete relation matrix](#layer-5-topic-10); Mathlib `ClassGroup.mk0_eq_one_iff`; Mathlib `IsIntegrallyClosed.pow_dvd_pow_iff`; Mathlib `Ideal.span_singleton_pow`; Mathlib `Ideal.Quotient.mk`; Mathlib `NumberField.classNumber`.
+
 <a id="layer-5-topic-12"></a>
 
 ### 5.12 The norm of an ideal is the product of its Hermite pivots
@@ -11615,6 +11776,42 @@ Then `Cl(K) ≅ ℤ^N/Aℤ^N` by [The class group from a complete relation matri
 - The comparison checks the class group and the units together; neither index is specified from found relations or found units alone.
 
 *Needs:* [Found relations bound the class number from above](#layer-5-topic-11); [A regulator lower bound establishes a fundamental system of units](#layer-5-topic-3); [The class group from a complete relation matrix](#layer-5-topic-10); Mathlib `NumberField.Units.regOfFamily_div_regulator`; Mathlib `NumberField.classNumber`.
+
+<a id="layer-5-topic-16a"></a>
+
+### 5.16a A lower bound for the class number times the regulator from a truncated Euler product
+
+Let `κ_K = NumberField.dedekindZeta_residue K = 2^(r_1) (2π)^(r_2) h_K R_K / (w_K √Δ_K)` be the residue of `ζ_K` at 1, and for T ≥ 2 let `S_K(T) = Σ_(2 ≤ n ≤ T) (Λ_K(n) − Λ(n)) / (n log n)`, where `Λ_K(n)` is the sum of log N(P) over the prime powers `P^k` of norm n (Tau Ceti `TauCeti.primeVonMangoldtCoeff K Set.univ`) and Λ is Mathlib's `ArithmeticFunction.vonMangoldt`. (i) Let `x_0 ≥ 2` and E be a function with `|ψ_K(x) − ψ(x)| ≤ E(x)` for `x ≥ x_0`, where `ψ_K = TauCeti.primePsi K Set.univ` and `ψ = Chebyshev.psi`, such that `E(x)(1 + log x)/(x log x)²` is integrable on `(x_0, ∞)` and `E(x)/(x log x) → 0`. Then for every `T ≥ x_0`, `|log κ_K − S_K(T)| ≤ ε_K(T)`, with `ε_K(T) = E(T)/(T log T) + ∫_T^∞ E(x)(1 + log x)/(x log x)² dx`. (ii) Consequently `h* = w_K √Δ_K / (2^(r_1) (2π)^(r_2)) · exp(S_K(T) − ε_K(T))` satisfies `h* ≤ h_K R_K ≤ h* · exp(2 ε_K(T))`. (iii) Under DedekindERH K and RiemannHypothesis, (i) holds with `x_0 = 100` and `E(x) = √x ((log x/(2π) + 2) log Δ_K + (log² x/(8π) + 2) n + log² x/(8π) + 2)`, n = [K:ℚ].
+
+Clauses (i) and (ii) are unconditional implications from an explicit bound for `ψ_K − ψ`, and they have Lean signatures. The lower bound of (ii) is the specified `h*` of [The class-number–regulator completeness criterion](#layer-5-topic-16), and the interval of (ii) gives the a and η of §5.22. Equivalently `S_K(T) = Σ 1/(k N(P)^k) − Σ 1/(k p^k)`, the first sum over the prime powers `P^k` of norm at most T and the second over the rational prime powers `p^k ≤ T`: a truncation of the logarithm of the Euler product of `ζ_K/ζ`. In (iii), RiemannHypothesis is Mathlib's, while DedekindERH K (AnalyticNumberTheoryPartI §2.42) has no carrier at the pins; (iii) is a README target.
+
+The supporting API comprises:
+
+- `abs_log_dedekindZeta_residue_sub_le`: clause (i).
+- `classNumber_mul_regulator_bounds_of_abs_log_residue_sub_le`: clause (ii), from any S and ε with `|log κ_K − S| ≤ ε`.
+- `abs_primePsi_sub_le_of_dedekindERH`: under DedekindERH K, `|ψ_K(x) − x| ≤ √x ((log x/(2π) + 2) log Δ_K + (log² x/(8π) + 2) n)` for x ≥ 100; with K = ℚ and RiemannHypothesis this bounds `|ψ(x) − x|`, and the two bounds give clause (iii).
+
+(Loïc Grenié and Giuseppe Molteni, [Explicit versions of the prime ideal theorem for Dedekind zeta functions under GRH](#reference-grenie-molteni-2016), Corollary 1.2 and inequality (1.5), p. 3, with the hypothesis stated in Section 1, p. 2; the case K = ℚ is covered in the proof of Corollary 1.2, p. 13.) The target `abs_primePsi_sub_le_of_dedekindERH` is Corollary 1.2.
+
+(Eric Bach, [Improved approximations for Euler products](#reference-bach-euler-products-1995), cited by title; no section or page is verified.) As Biasse–Fieker (Section 4.3, printed p. 399) and Belabas–Diaz y Diaz–Friedman (Section 1, printed p. 1186) report, the source approximates `κ_K` under the extended Riemann hypothesis from the primes of norm `O((log Δ_K)²)` with explicit error; clause (i) is an unweighted partial-summation form of such an estimate.
+
+(Jean-François Biasse and Claus Fieker, [Subexponential class group and unit group computation in large degree number fields](#reference-biasse-fieker-classgroup-2014), Section 4.3, printed p. 398.) The source obtains a bound `h*` with `h* ≤ hR < 2h*` from the Euler product under GRH, citing Bach; clause (ii) supplies it with an explicit error.
+
+To prove this, for real σ > 1 the Euler products of `ζ_K` (Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`) and of ζ give `log ζ_K(σ) − log ζ(σ) = Σ_n (Λ_K(n) − Λ(n)) n^(−σ)/log n`.
+
+Abel summation (Mathlib `sum_mul_eq_sub_integral_mul`) with `A(x) = ψ_K(x) − ψ(x)` and f(x) = 1/(x log x) shows that `Σ_n (Λ_K(n) − Λ(n))/(n log n)` converges, with tail beyond T equal to `−A(T)/(T log T) + ∫_T^∞ A(x)(1 + log x)/(x log x)² dx`, of absolute value at most `ε_K(T)`.
+
+By Abel's theorem for Dirichlet series the series at σ tends to its value at 1 as σ → 1⁺. Meanwhile `log((σ − 1)ζ_K(σ)) − log((σ − 1)ζ(σ)) → log κ_K` (Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` and `riemannZeta_residue_one`), which proves (i). Clause (ii) is (i) with Mathlib `NumberField.dedekindZeta_residue_def`.
+
+For (iii), Grenié and Molteni insert Re ρ = 1/2 into the truncated explicit formula for `ψ_K`, bound the sums over zeros with an explicit zero count for `ζ_K`, and optimise the truncation height; these analytic inputs are those of the conditional route of AnalyticNumberTheoryPartI §2.49, made explicit.
+
+**Checks.**
+
+- K = ℚ(i), T = 10⁴: `S_K(T) ≈ −0.24117`, `log κ_K = log(π/4) ≈ −0.24156` and `ε_K(T) ≈ 0.0742` with the E of (iii), so `h* = (4/π) exp(S_K(T) − ε_K(T)) ≈ 0.929 ≤ h_K R_K = 1 < 2h*`, and §5.16 applies with |det A| = 1 and the empty unit family.
+- K = ℚ: `Λ_K = Λ`, so `S_K(T) = 0` for every T, and `κ_ℚ = 1`; (i) reads 0 ≤ ε, and `h* = exp(−ε) ≤ 1`.
+- The truncated product alone is not a lower bound: for ℚ(i), `(4/π) exp(S_K(10⁴)) ≈ 1.0004 > h_K R_K = 1`. The error term `ε_K(T)` makes `h*` a lower bound.
+
+*Needs:* [The class-number–regulator completeness criterion](#layer-5-topic-16); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-42); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.49 effective Chebotarev density theorem](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-49); Mathlib `NumberField.dedekindZeta_residue`; Mathlib `NumberField.dedekindZeta_residue_def`; Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`; Mathlib `riemannZeta_residue_one`; Mathlib `RiemannHypothesis`; Mathlib `Chebyshev.psi`; Mathlib `ArithmeticFunction.vonMangoldt`; Mathlib `sum_mul_eq_sub_integral_mul`; Tau Ceti `TauCeti.primePsi`; Tau Ceti `TauCeti.primeVonMangoldtCoeff`; Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`.
 
 <a id="layer-5-topic-17"></a>
 
@@ -11862,19 +12059,32 @@ Quadratic examples distinguish ℤ[√d] from the full integer ring when d≡1 m
 
 Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier layers used by this layer are:
 
+- [TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s1-8).
+- [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.5 Dedekind continuation](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-5).
+- [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-12).
+- [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-42).
+- [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.49 effective Chebotarev density theorem](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-49).
 - Mathlib `AddSubgroup.index_eq_natAbs_det`.
 - Mathlib `Algebra.discr`.
 - Mathlib `Algebra.discr_of_matrix_vecMul`.
+- Mathlib `ArithmeticFunction.vonMangoldt`.
+- Mathlib `Chebyshev.psi`.
 - Mathlib `ClassGroup`.
 - Mathlib `ClassGroup.mk0`.
+- Mathlib `ClassGroup.mk0_eq_one_iff`.
+- Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`.
 - Mathlib `CommGroup.mem_primaryComponent`.
 - Mathlib `CommGroup.primaryComponent`.
 - Mathlib `Ideal`.
+- Mathlib `Ideal.Quotient.mk`.
 - Mathlib `Ideal.absNorm`.
 - Mathlib `Ideal.absNorm_dvd_absNorm_of_le`.
 - Mathlib `Ideal.absNorm_span_singleton`.
+- Mathlib `Ideal.finite_setOfPred_absNorm_le`.
 - Mathlib `Ideal.natAbs_det_basis_change`.
+- Mathlib `Ideal.span_singleton_pow`.
 - Mathlib `IsCyclotomicExtension.Rat.discr`.
+- Mathlib `IsIntegrallyClosed.pow_dvd_pow_iff`.
 - Mathlib `Matrix.det_apply`.
 - Mathlib `Matrix.det_isEmpty`.
 - Mathlib `Module.Basis`.
@@ -11886,6 +12096,7 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 - Mathlib `NumberField.RingOfIntegers.basis`.
 - Mathlib `NumberField.Units.IsMaxRank`.
 - Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`.
+- Mathlib `NumberField.Units.rank`.
 - Mathlib `NumberField.Units.regOfFamily`.
 - Mathlib `NumberField.Units.regOfFamily_div_regulator`.
 - Mathlib `NumberField.Units.regOfFamily_eq_det`.
@@ -11893,19 +12104,28 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 - Mathlib `NumberField.Units.regulator`.
 - Mathlib `NumberField.Units.regulator_pos`.
 - Mathlib `NumberField.Units.torsion`.
+- Mathlib `NumberField.Units.torsionOrder`.
 - Mathlib `NumberField.classNumber`.
 - Mathlib `NumberField.classNumber_pos`.
+- Mathlib `NumberField.dedekindZeta_residue`.
+- Mathlib `NumberField.dedekindZeta_residue_def`.
 - Mathlib `NumberField.discr`.
 - Mathlib `NumberField.discr_eq_discr`.
 - Mathlib `NumberField.exists_ideal_in_class_of_norm_le`.
+- Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`.
 - Mathlib `Pell.IsFundamental.eq_zpow_or_neg_zpow`.
 - Mathlib `Pell.IsFundamental.exists_of_not_isSquare`.
 - Mathlib `Pell.Solution₁`.
 - Mathlib `Pell.is_pell_solution_iff_mem_unitary`.
 - Mathlib `QuotientGroup.quotientKerEquivOfSurjective`.
+- Mathlib `RiemannHypothesis`.
 - Mathlib `RingOfIntegers.exponent_eq_one_iff`.
 - Mathlib `RingOfIntegers.isPrincipalIdealRing_of_isPrincipal_of_norm_le_of_isPrime`.
 - Mathlib `RingOfIntegers.monicFactorsMod`.
+- Mathlib `Subgroup.closure`.
+- Mathlib `Subgroup.closure_le`.
+- Mathlib `Subgroup.closure_mono`.
+- Mathlib `Subgroup.index`.
 - Mathlib `Subgroup.index_eq_one`.
 - Mathlib `Subgroup.relIndex_eq_one`.
 - Mathlib `Subgroup.relIndex_mul_index`.
@@ -11916,6 +12136,8 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 - Mathlib `Zsqrtd.lift`.
 - Mathlib `Zsqrtd.norm`.
 - Mathlib `Zsqrtd.norm_eq_one_iff`.
+- Mathlib `riemannZeta_residue_one`.
+- Mathlib `sum_mul_eq_sub_integral_mul`.
 - Tau Ceti `ClassGroup.mk0_mem_closure_of_count_eq`.
 - Tau Ceti `IsDedekindDomain.HeightOneSpectrum.classGroupMk`.
 - Tau Ceti `NumberField.NarrowClassGroup.mkPrincipal_eq_one_iff`.
@@ -11932,6 +12154,9 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 - Tau Ceti `NumberField.norm_eq_neg_one_of_isTotallyPositive_smul_gen`.
 - Tau Ceti `NumberField.ringOfIntegersQuadraticConj`.
 - Tau Ceti `NumberField.unitsMulEquivTorsionProdMultiplicative`.
+- Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`.
+- Tau Ceti `TauCeti.primePsi`.
+- Tau Ceti `TauCeti.primeVonMangoldtCoeff`.
 
 ## Layer 6: special algebraic numbers and Mahler measure
 
@@ -17615,6 +17840,14 @@ Page numbers in the layers refer to the edition or preprint version named below;
 
 - **Abdallah Assi and Pedro A. García-Sánchez**. [Numerical semigroups and applications](https://arxiv.org/pdf/1411.6093v1). arXiv:1411.6093v1 (22 November 2014).
 
+<a id="reference-bach-explicit-bounds-1990"></a>
+
+- **Eric Bach**. [Explicit bounds for primality testing and related problems](https://www.ams.org/journals/mcom/1990-55-191/S0025-5718-1990-1023756-8/S0025-5718-1990-1023756-8.pdf). Mathematics of Computation 55 (1990), no. 191, 355–380, doi:10.1090/S0025-5718-1990-1023756-8, publisher PDF (freely served).
+
+<a id="reference-bach-euler-products-1995"></a>
+
+- **Eric Bach**. Improved approximations for Euler products. In Number Theory (Halifax, NS, 1994), CMS Conference Proceedings 15, American Mathematical Society (1995), 13–28; no freely available copy, cited by title.
+
 <a id="reference-bala-strongdivisibility-2014"></a>
 
 - **Peter Bala**. [Divisibility sequences from strong divisibility sequences](https://oeis.org/A238600/a238600.pdf). Note of March 2014 attached to OEIS A238600 (10 pages).
@@ -17630,6 +17863,10 @@ Page numbers in the layers refer to the edition or preprint version named below;
 <a id="reference-belabas-computational-2004"></a>
 
 - **Karim Belabas**. [Topics in computational algebraic number theory](https://www.numdam.org/item/JTNB_2004__16_1_19_0.pdf). Journal de Théorie des Nombres de Bordeaux 16 (2004), 19–63; Numdam scan.
+
+<a id="reference-belabas-diazydiaz-friedman-2008"></a>
+
+- **Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman**. [Small generators of the ideal class group](https://www.ams.org/journals/mcom/2008-77-262/S0025-5718-07-02003-0/S0025-5718-07-02003-0.pdf). Mathematics of Computation 77 (2008), no. 262, 1185–1197, doi:10.1090/S0025-5718-07-02003-0, publisher PDF (freely served).
 
 <a id="reference-bennett-siksek-erdos-2020"></a>
 
@@ -17654,6 +17891,10 @@ Page numbers in the layers refer to the edition or preprint version named below;
 <a id="reference-biasse-fieker-classgroup-2014"></a>
 
 - **Jean-François Biasse and Claus Fieker**. [Subexponential class group and unit group computation in large degree number fields](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/4387ACB036E3358143A563F196E386CB/S1461157014000345a.pdf/div-class-title-subexponential-class-group-and-unit-group-computation-in-large-degree-number-fields-div.pdf). LMS Journal of Computation and Mathematics 17 (Special issue A) (2014), 385–403, doi:10.1112/S1461157014000345.
+
+<a id="reference-biasse-fieker-new-techniques-2012"></a>
+
+- **Jean-François Biasse and Claus Fieker**. [New techniques for computing the ideal class group and a system of fundamental units in number fields](https://arxiv.org/pdf/1204.1294v1). arXiv:1204.1294v1 (2012), author preprint; printed PDF pages.
 
 <a id="reference-bloom-unit-fractions-2023"></a>
 
@@ -17810,6 +18051,10 @@ Page numbers in the layers refer to the edition or preprint version named below;
 <a id="reference-ghosh-sarnak-2022-v3"></a>
 
 - **Amit Ghosh and Peter Sarnak**. [Integral points on Markoff type cubic surfaces](https://arxiv.org/pdf/1706.06712v3). arXiv:1706.06712v3 (30 May 2022), the final arXiv version of Invent. Math. 229 (2022), 689–749; findings scoped to this preprint.
+
+<a id="reference-grenie-molteni-2016"></a>
+
+- **Loïc Grenié and Giuseppe Molteni**. [Explicit versions of the prime ideal theorem for Dedekind zeta functions under GRH](https://arxiv.org/pdf/1312.4463v4). arXiv:1312.4463v4 (2015), author version of Mathematics of Computation 85 (2016), 889–906, doi:10.1090/mcom3031; page numbers of the arXiv version.
 
 <a id="reference-hatcher-topologyofnumbers-2024"></a>
 
