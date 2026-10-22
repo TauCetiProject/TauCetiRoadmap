@@ -4,7 +4,7 @@
 
 The geometric part extends the properness theory of `DiamondsAndVStacks` §D4.11 with partially proper morphisms, canonical compactifications and étale extension by zero. The finiteness part supplies constructible sheaves, perfect-constructible complexes, geometric transcendence dimension and cohomological bounds. These culminate in compact generation and the identification of compact objects with perfect-constructible complexes under one uniform cohomological bound. This is the input to exceptional operations, duality and diamond-valued arithmetic geometry.
 
-The main source is Scholze's *Étale cohomology of diamonds*, abbreviated ECD below. The layers organize reusable mathematical interfaces; the source locators identify statements and proof ingredients, not a prescribed order of formalization. [Suggested.lean](Suggested.lean) suggests names and signatures. This README specifies the mathematics, including the enhanced statements and hypotheses that a homotopy-category signature alone cannot express.
+The main source is Scholze's *Étale cohomology of diamonds*, abbreviated ECD below. The layers organize reusable mathematical interfaces; the source locators identify statements and proof ingredients, not a prescribed order of formalization. [Suggested.lean](Suggested.lean) states selected headline theorems on the pinned library carriers: C5.7, C7.5, the finite-degree comparison in C8.5, C8.34, C8.44 and the spectral-space compact-generation theorem in C9.8. This README specifies the mathematics, including the enhanced statements and hypotheses that a homotopy-category signature alone cannot express. The API names below specify interfaces required from the completed library.
 
 ## Scope and ownership
 
@@ -158,12 +158,12 @@ already gives sheaf exactness for `AddCommGrpCat`. This roadmap supplies the
 `ModuleCat Λ` comparison and exactness, using the same presheaf functor with module
 values, and the following topological adapter API before the reductions in C0–C1:
 
-- `extendByZeroAdjunction`: The adapter is left adjoint to restriction to `U`, by composing
+- The adapter is left adjoint to restriction to `U`, by composing
   Mathlib's `sheafAdjunctionContinuous` with the slice equivalence and transporting along
   `overPullbackSheafEquivOver`.
-- `extendByZero_exact`: It preserves finite limits and finite colimits for every ring `Λ`.
-- `extendByZero_stalk_mem`: At `x∈U` its stalk is naturally the input stalk at `x`.
-- `extendByZero_stalk_not_mem`: At `x∉U` its stalk is zero.
+- It preserves finite limits and finite colimits for every ring `Λ`.
+- At `x∈U` its stalk is naturally the input stalk at `x`.
+- At `x∉U` its stalk is zero.
 
 These statements use no spectrality or noetherianity. C7.1 owns preservation of
 constructibility for quasicompact opens in spectral spaces over noetherian rings.
@@ -177,7 +177,7 @@ sheaf finite-limit instance; Mathlib `Topology/Sheaves/Over.lean`, `sheafEquivOv
 
 - For `U=∅` the adapter is the zero functor, with zero stalks everywhere.
 - For `U=X` it is naturally the identity, with the identity adjunction and stalk comparisons.
-- `extendByZero_sierpinski`: On Mathlib’s Sierpiński space `Prop` with open generic point `True` and closed point `False`,
+- On Mathlib’s Sierpiński space `Prop` with open generic point `True` and closed point `False`,
   extension of `M` from `{True}` has stalk `M` at `True`, zero at `False`, and zero global sections.
   For `M≠0` this differs from direct image, whose stalk at `False` is `M`.
 
@@ -1036,7 +1036,7 @@ Require the following API.
 
 For any map of small `v`-stacks `f:Y′→Y`, every common adequate `κ` and `A∈𝒟_ét(Y′,Λ)`, prove `Rf_* A ≃ R_{Y,ét,κ}(Rf_{v,κ*}(i_{Y′,κ} A))`. Both sides represent `B↦Map(f^∗B,A)` on the fixed category `𝒟_ét(Y,Λ)`, using the adjunctions of C3.1 and C2.13 and full faithfulness of `i_{Y′,κ}`. The equivalence is natural in `A` and `f`. After target coreflection, the ambient cutoff mate of C2.9 induces the equivalence of these representatives at `κ` and `κ′`; require the identity, composition and three-cutoff coherences. No ambient essential-image assertion is needed for this coreflected comparison.
 
-The representative ordinary categorical signature `push_coreflectionIso` expresses this argument: if `L⊣R, i⊣S, P⊣Q, j` is fully faithful and `i⋙L≃P⋙j`, then `Q≃j⋙R⋙S`. Here `i,j` are the étale inclusions, `P=f^∗` and `Q=Rf∗`.
+The ordinary categorical adjunction argument is: if `L⊣R, i⊣S, P⊣Q, j` is fully faithful and `i⋙L≃P⋙j`, then `Q≃j⋙R⋙S`. Here `i,j` are the étale inclusions, `P=f^∗` and `Q=Rf∗`.
 
 **Checks.**
 
@@ -1534,7 +1534,7 @@ Let `X = Spa(C, C⁺)` and `X′ = Spa(C′, C′⁺)` be connected strictly tot
 
 #### C5.7 Acyclicity of relative Zariski–Riemann spaces away from the special fibre
 
-Prove `zariskiRiemannAcyclicity`. Let `K ⊂ K′` be algebraically closed fields and `V ⊂ K` a valuation ring. Let `T′ = Spa(K′, V)` be the spectral space of valuation rings `V′ ⊂ K′` containing `V, T = Spa(K, V), f : T′ → T, V′ ↦ V′ ∩ K`, and `s ∈ T` the closed point. If `F` is a sheaf of torsion abelian groups on `T′` with `F_{x′} = 0` for all `x′ ∈ f^{−1}(s)`, then `RΓ(T′, F) = 0`.
+Prove `zariskiRiemannAcyclicity`, stated in `Suggested.lean`. Let `K ⊂ K′` be algebraically closed fields and `V ⊂ K` a valuation ring. Let `T′ = Spa(K′, V)` be the spectral space of valuation rings `V′ ⊂ K′` containing `V, T = Spa(K, V), f : T′ → T, V′ ↦ V′ ∩ K`, and `s ∈ T` the closed point. If `F` is a sheaf of torsion abelian groups on `T′` with `F_{x′} = 0` for all `x′ ∈ f^{−1}(s)`, then `RΓ(T′, F) = 0`.
 
 Use the supplied spectrum `TauCeti.ValuationSpectrum.spa` of the discrete field `K′` with
 plus subring `V.toSubring.map(ι)`. Prove `valuationSpace.valuationSubringEquiv`: its points
@@ -1700,12 +1700,12 @@ generic extension functor is introduced. (ECD Lemma 20.4, pp. 113–114.)
 Require the following API.
 
 - `IsConstructibleSheaf`: The predicate on sheaves of `Λ`-modules on a spectral space `X`: a finite stratification by constructible locally closed subsets on which `F` is constant with finitely generated value.
-- `IsConstructibleSheaf.constant`: The constant sheaf of a finitely generated `Λ`-module is constructible.
-- `IsConstructibleSheaf.extendByZero_open`: For a quasicompact open `j : U ⊂ X, j_!` preserves constructibility; for a constructible closed `i : Z ⊂ X, i_∗` preserves it. In the open signature, `hU : IsCompact (U : Set X)` supplies compactness; the spectral structure on `U` follows from its open embedding into spectral `X`.
-- `IsConstructibleSheaf.pullback`: Pullback along a spectral map of spectral spaces preserves constructibility.
-- `IsConstructibleSheaf.kernel_cokernel_extension`: Constructible sheaves on a spectral space are closed under kernels, cokernels, images, direct summands and extensions (target C7.5).
-- `IsConstructibleSheaf.iff_compact`: `F` is constructible iff `Hom(F, −)` commutes with filtered colimits (target C7.5).
-- `IsConstructibleSheaf.stalk_fg`: Every stalk of a constructible sheaf is a finitely generated `Λ`-module.
+- The constant sheaf of a finitely generated `Λ`-module is constructible.
+- For a quasicompact open `j : U ⊂ X, j_!` preserves constructibility; for a constructible closed `i : Z ⊂ X, i_∗` preserves it. Compactness of `U` and its open embedding into spectral `X` give the spectral structure on `U`.
+- Pullback along a spectral map of spectral spaces preserves constructibility.
+- Constructible sheaves on a spectral space are closed under kernels, cokernels, images, direct summands and extensions (target C7.5).
+- `F` is constructible iff `Hom(F, −)` commutes with filtered colimits (target C7.5).
+- Every stalk of a constructible sheaf is a finitely generated `Λ`-module.
 
 **Checks.**
 
@@ -1713,7 +1713,7 @@ Require the following API.
 - The constant sheaf `Λ^n` on a spectral space is constructible.
 - On a finite `T₀` space (spectral, all subsets constructible) a sheaf is constructible iff all its stalks are finitely generated.
 - On a nonempty spectral space, the constant sheaf with value `⊕_{n∈N} Λ (Λ ≠ 0)` is not constructible.
-- `isConstructibleSheaf_not_qc_open`: On the Cantor set `X`, a point `x` and `U = X ∖ {x}`, the sheaf `j_!Λ_U (Λ ≠ 0)` is not constructible: `U` is open but not quasicompact, hence not constructible.
+- On the Cantor set `X`, a point `x` and `U = X ∖ {x}`, the sheaf `j_!Λ_U (Λ ≠ 0)` is not constructible: `U` is open but not quasicompact, hence not constructible.
 
 *Needs:* `Topology.IsConstructible`; `SpectralSpace`; `TopCat.Sheaf`; `Module.Finite`; `IsNoetherianRing`.
 
@@ -1776,7 +1776,7 @@ For noetherian `Λ` and a small `v`-stack `Y`, the class of constructible sheave
 
 #### C7.5 Constructible equals compact on a spectral space
 
-Prove `constructibleCompactSpectral`. For a noetherian coefficient ring `Λ` on a spectral space `X`, identify the constructible module sheaves with the finitely presentable objects of the module-sheaf category: `Hom(F, −)` preserves filtered colimits precisely for those `F` admitting the finite stratification in C7.1. Prove in addition that every module sheaf is a filtered colimit of such sheaves.
+Prove `constructibleCompactSpectral`, stated in `Suggested.lean`. For a noetherian coefficient ring `Λ` on a spectral space `X`, identify the constructible module sheaves with the finitely presentable objects of the module-sheaf category: `Hom(F, −)` preserves filtered colimits precisely for those `F` admitting the finite stratification in C7.1. Prove in addition that every module sheaf is a filtered colimit of such sheaves.
 
 *Needs:* `C7.1`; `CategoryTheory.IsFinitelyPresentable`; `TopCat.Sheaf`; `DiamondsAndVStacks`, Layer D0.
 
@@ -1866,8 +1866,8 @@ there are `n`, objects `G₀,…,Gₙ` and monomorphisms `Gᵢ→Gᵢ₊₁`, wi
 and `P` holding on every cokernel. When `P` is invariant under isomorphism, require the API
 `HasFiltrationBy.zero`, `HasFiltrationBy.of_mem`, `HasFiltrationBy.iso` and concatenation
 of finite filtrations across a short exact sequence. The intended signature is a predicate
-on an object and an isomorphism-invariant object property; the displayed Lean body also
-allows an arbitrary predicate when no invariance theorem is invoked.
+on an object and an isomorphism-invariant object property. The finite-filtration condition
+also makes sense for an arbitrary predicate when no invariance theorem is invoked.
 (ECD Proposition 20.8, pp. 115–116.)
 
 **Checks.**
@@ -2115,7 +2115,7 @@ Use `AdicEtaleGeometry`, A2.6, `AdicSpace.relDim`, for topological fibre dimensi
 - `relDim_homeomorph`: A commuting square with homeomorphisms on source and target preserves `AdicSpace.relDim`.
 - `relDim_id`: For nonempty `X` the identity has `AdicSpace.relDim` zero.
 
-The subtype {`x′` | `f(x′)=x`} and the preimage subspace `f⁻¹({x})` are canonically homeomorphic, including empty fibres. The suggested signatures use the supplier's defining supremum directly.
+The subtype {`x′` | `f(x′)=x`} and the preimage subspace `f⁻¹({x})` are canonically homeomorphic, including empty fibres.
 
 **Checks.**
 
@@ -2134,11 +2134,11 @@ For an extension `K→L` of fields with a topology on `L, topologicalTrdeg(K,L)�
 
 Require the following API.
 
-- `topologicalTrdeg_le_iff`: For `n` natural, `topologicalTrdeg(K,L)≤n` iff some dense intermediate field has `Algebra.trdeg≤n`.
-- `topologicalTrdeg_le_of_dense`: A dense intermediate field of algebraic transcendence degree `≤n` gives the corresponding upper bound.
-- `topologicalTrdeg_eq_top_iff`: The value is infinity iff no dense intermediate field has finite algebraic transcendence degree.
-- `topologicalTrdeg_self`: `topologicalTrdeg(K,K)=0`.
-- `topologicalTrdeg_equiv`: `A K`-algebra equivalence that is a homeomorphism preserves the invariant.
+- For `n` natural, `topologicalTrdeg(K,L)≤n` iff some dense intermediate field has `Algebra.trdeg≤n`.
+- A dense intermediate field of algebraic transcendence degree `≤n` gives the corresponding upper bound.
+- The value is infinity iff no dense intermediate field has finite algebraic transcendence degree.
+- `topologicalTrdeg(K,K)=0`.
+- A `K`-algebra equivalence that is a homeomorphism preserves the invariant.
 
 **Checks.**
 
@@ -2146,8 +2146,8 @@ Require the following API.
 - If the image of an algebraic intermediate extension `A/K` is dense in `L`, the value is zero, even when `L/K` is not algebraic.
 - If `L` has the discrete topology and Algebra.trdeg `K L=1`, then `topologicalTrdeg(K,L)=1`.
 - For discrete `L` with infinite algebraic transcendence degree, the value is infinity, not zero.
-- `topologicalTrdeg_padicComplex`: `topologicalTrdeg(ℚ_p, ℂ_p) = 0`: the image of the algebraic `closure PadicAlgCl p` is a dense intermediate field algebraic over `ℚ_p`, although Algebra.trdeg `ℚ_p ℂ_p` is infinite. A definition using the algebraic transcendence degree of the ambient field fails this test.
-- `topologicalTrdeg_eq_zero_iff_surjective`: For complete algebraically closed nonarchimedean `K` with an isometric embedding into any normed field `L`, `topologicalTrdeg(K,L)=0` iff the embedding is surjective: a dense intermediate field algebraic over the algebraically closed `K` is `K`, whose image is closed. No completeness or algebraic closedness of `L` is required.
+- `topologicalTrdeg(ℚ_p, ℂ_p) = 0`: the image of the algebraic `closure PadicAlgCl p` is a dense intermediate field algebraic over `ℚ_p`, although Algebra.trdeg `ℚ_p ℂ_p` is infinite. A definition using the algebraic transcendence degree of the ambient field fails this test.
+- For complete algebraically closed nonarchimedean `K` with an isometric embedding into any normed field `L`, `topologicalTrdeg(K,L)=0` iff the embedding is surjective: a dense intermediate field algebraic over the algebraically closed `K` is `K`, whose image is closed. No completeness or algebraic closedness of `L` is required.
 - For such `K`, the rational function field `K(T)` with its Gauss norm has generating degree one: the whole field gives the upper bound, and the closed proper image of `K` rules out degree zero. The target of the embedding is neither complete nor algebraically closed.
 
 *Needs:* `Algebra.trdeg`; `IntermediateField`; `Dense`.
@@ -2160,14 +2160,14 @@ For a field extension `K→L` with a topology on `L`, a set `S⊆L` is topologic
 
 Require the following API.
 
-- `topologicalIndependenceDegree_le_iff`: For `n` natural, `topologicalIndependenceDegree(K,L)≤n` iff every finite topologically algebraically independent set has at most `n` elements.
-- `IsTopAlgIndependent.algebraicIndependent`: `A` topologically algebraically independent set is algebraically independent over `K`, since an element algebraic over `K(S∖{x})` lies in the closure of the algebraic elements.
-- `IsTopAlgIndependent.mono`: `A` subset of a topologically algebraically independent set is topologically algebraically independent.
-- `topologicalIndependenceDegree_self`: `topologicalIndependenceDegree(K,K)=0`: every element of `K` is algebraic over `K`.
+- For `n` natural, `topologicalIndependenceDegree(K,L)≤n` iff every finite topologically algebraically independent set has at most `n` elements.
+- A topologically algebraically independent set is algebraically independent over `K`, since an element algebraic over `K(S∖{x})` lies in the closure of the algebraic elements.
+- A subset of a topologically algebraically independent set is topologically algebraically independent.
+- `topologicalIndependenceDegree(K,K)=0`: every element of `K` is algebraic over `K`.
 
 **Checks.**
 
-- `topologicalIndependenceDegree_padicComplex`: `topologicalIndependenceDegree(ℚ_p, ℂ_p)=0` because the algebraic closure of `ℚ_p` is dense in `ℂ_p`, although `ℂ_p` has infinite algebraic transcendence degree over `ℚ_p`.
+- `topologicalIndependenceDegree(ℚ_p, ℂ_p)=0` because the algebraic closure of `ℚ_p` is dense in `ℂ_p`, although `ℂ_p` has infinite algebraic transcendence degree over `ℚ_p`.
 - If `L` has the discrete topology, a set is topologically algebraically independent over `K` iff it is algebraically independent over `K`.
 - `{x}` is topologically algebraically independent over `K` iff `x` is not in the closure of the elements of `L` algebraic over `K`.
 - For `K=L`, the independent degree is zero because every element is algebraic over `K`.
@@ -2234,7 +2234,7 @@ so `φ(S)` is topologically algebraically independent and has the same cardinali
 
 #### C8.5 Temkin's comparison of independent and generating degrees
 
-Prove `topologicalIndependenceDegree_le_topologicalTrdeg`, `topologicalIndependenceDegree_eq_of_lt_top`, `topologicalIndependenceDegree_mono`. Let `K⊆L⊆M` be complete algebraically closed nonarchimedean fields with isometric embeddings. `(a) topologicalIndependenceDegree(K,M)≤topologicalTrdeg(K,M)`. `(b)` If `topologicalTrdeg(K,M)` is finite, the two are equal. `(c) topologicalIndependenceDegree(K,L)≤topologicalIndependenceDegree(K,M)`.
+Prove the following comparisons. The finite-degree equality is stated as `topologicalIndependenceDegree_eq_of_lt_top` in `Suggested.lean`. Let `K⊆L⊆M` be complete algebraically closed nonarchimedean fields with isometric embeddings. `(a) topologicalIndependenceDegree(K,M)≤topologicalTrdeg(K,M)`. `(b)` If `topologicalTrdeg(K,M)` is finite, the two are equal. `(c) topologicalIndependenceDegree(K,L)≤topologicalIndependenceDegree(K,M)`.
 
 In this statement, All field inclusions preserve the given nonarchimedean absolute values.
 
@@ -2268,7 +2268,7 @@ Prove `topological_trdeg_base_change`. For a commutative square of continuous em
 
 #### C8.9 Finite topological transcendence degree is monotone
 
-Prove `topologicalTrdeg_mono_of_lt_top`. For complete algebraically closed nonarchimedean fields `K⊆L⊆M`, if `topologicalTrdeg(K,L)` is finite then `topologicalTrdeg(K,L)≤topologicalTrdeg(K,M)`.
+For complete algebraically closed nonarchimedean fields `K⊆L⊆M`, if `topologicalTrdeg(K,L)` is finite then `topologicalTrdeg(K,L)≤topologicalTrdeg(K,M)`.
 
 In this statement, All field inclusions preserve the given nonarchimedean valuations.
 
@@ -2610,7 +2610,7 @@ leading-term condition. (ECD Lemma 21.17, p. 127.)
 
 #### C8.34 The wild kernel is pro-`p`
 
-Prove `wild_kernel_pro_p`. For a continuous faithful action of a profinite group `G` on an algebraically closed complete nonarchimedean field `C′` of characteristic `p`, the closed normal kernel `P` of its action on `C′×/(1+C′°°)` is pro-`p`.
+Prove `wild_kernel_pro_p`, stated in `Suggested.lean`. For a continuous faithful action of a profinite group `G` on an algebraically closed complete nonarchimedean field `C′` of characteristic `p`, the closed normal kernel `P` of its action on `C′×/(1+C′°°)` is pro-`p`.
 
 *Needs:* `C8.33`; Tau Ceti `ProfiniteProPGroups`, Layer 3; `TauCeti.IsProP`.
 
@@ -2723,7 +2723,7 @@ For spectral `X` and abelian sheaf `F` on `X, H*(X,F)` is computed by the cosimp
 
 #### C8.44 Spectral-space cohomological dimension
 
-Prove `spectralCohomologicalBound`. For spectral `X` with `topologicalKrullDim X≤d, d` natural, and any abelian sheaf `F` on `X, Hⁱ(X,F)=0` for `i>d`.
+Prove `spectralCohomologicalBound`, stated in `Suggested.lean`. For spectral `X` with `topologicalKrullDim X≤d, d` natural, and any abelian sheaf `F` on `X, Hⁱ(X,F)=0` for `i>d`.
 
 *Needs:* `C8.1`; `C8.43`.
 
@@ -2973,7 +2973,7 @@ For spatial `Y` of bounded `Λ`-cohomological dimension, `Λ` commutative, `D_et
 
 *Needs:* `C9.6`; `C9.7`; `C0.16`; `EnhancedDerivedSheaves`, Layer E3.
 
-The topological coefficient form `compactGeneration_spectral` holds for every spectral
+The topological coefficient form `compactGeneration_spectral` in `Suggested.lean` holds for every spectral
 space `X` and commutative `Λ` with one natural bound `N` on `Hⁱ(U,F)` for all
 quasicompact opens `U` and all module sheaves `F` on `X`. In the unbounded derived
 category of module sheaves on `X`, the degree-zero sheaves `j_!Λ_U` are compact
@@ -2982,8 +2982,8 @@ The signature expresses the bound as vanishing of maps `j_!Λ_U→F[0][i]` for `
 If `topologicalKrullDim X≤d` for some natural `d`, C8.44 gives such a common bound;
 the generator and thick-closure arguments are those of C9.6–C9.12.
 
-At a geometric point `Y=Spa(C,O_C)`, `compactGeneration_point` states the coefficient
-specialization on `DerivedCategory (ModuleCat Λ)`: arbitrary small coproducts exist,
+At a geometric point `Y=Spa(C,O_C)`, the coefficient specialization on
+`DerivedCategory (ModuleCat Λ)` says that arbitrary small coproducts exist,
 `Hom(Λ[0],−)` with values in abelian groups preserves them, and the shifts of `Λ[0]`
 detect zero. This is the `N=0` case, for every commutative `Λ`.
 
@@ -3031,7 +3031,7 @@ For a commutative `Λ` and a spatial diamond `Y` with one finite bound on `Hⁱ(
 
 *Needs:* `C9.9`; `C9.11`.
 
-At a geometric point, `compact_iff_perfect_point` states this characterization on
+At a geometric point, this characterization specializes to
 `DerivedCategory (ModuleCat Λ)`. Compactness is preservation of small coproducts by
 abelian-group-valued `Hom(A,−)`. Perfectness is membership in
 `CategoryTheory.ObjectProperty.triangEnvelope` of `Λ[0]`, including retracts,
