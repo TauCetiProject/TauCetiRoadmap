@@ -62,6 +62,7 @@ body:
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
+        - GeometricCurrents
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
@@ -112,6 +113,7 @@ body:
         - QuantumGroups
         - Rank24LatticeConstructions
         - RealAlgebraicGeometry
+        - RealAnalyticGeometry
         - ReductiveGroups
         - ReflectionInvariantTheory
         - Regularity
