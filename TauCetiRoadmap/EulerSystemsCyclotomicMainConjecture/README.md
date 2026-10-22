@@ -49,7 +49,7 @@ The existing Tau Ceti **ClassFieldTheory** roadmap supplies local and global
 reciprocity and ray class fields (the idelic sequences used here are derived
 from them in §0.30);
 **ProfiniteCohomology** supplies continuous cohomology and its local Kummer
-comparison. The current Tau Ceti completed-group-algebra library is used
+comparison. The Tau Ceti completed-group-algebra library is used
 directly. **LocalGaloisGroups** owns the completed multiplicative module
 of a local field, its integral module structure, Galois action and
 reciprocity identification (Layer 7, Step 1, `padicCompletionUnits`);
@@ -184,13 +184,13 @@ continuous `H¹` and requires `IsUnit (n : K)`. The finite norm, restriction and
 directly; SelmerIwasawaCohomology §§0.6–0.8 supplies their inverse-limit
 comparison through §F.1, and §0.25 proves their character comparison.
 
-For the current completed-group-algebra interface, use
+For the completed-group-algebra interface, use
 `TauCeti.completedGroupAlgebra`, its finite projections `proj`, group map
 `of`, compatible-family constructor `mk`, and extensionality `ext`, in
 `TauCeti/Topology/Algebra/Group/Profinite/CompletedGroupAlgebra/Basic.lean`.
 The associated module, product and power-series interfaces in that
 completed-group-algebra directory fix the carriers for the supplier Iwasawa theory; arithmetic statements below add no competing
-completed group ring. This current interface is an ownership boundary;
+completed group ring. This interface is an ownership boundary;
 the representative Lean signatures use the pinned declarations above.
 
 ### From the arithmetic roadmaps
@@ -266,6 +266,10 @@ trivial-zero calculations. Layer 5 collects the finite equality and the
 odd-character and Tate-twisted consequences. The README is the specification;
 `Suggested.lean` records only representative signatures over the available
 library carriers.
+
+Its headline statements use native unit and class-group tensors and the actual
+relative-norm circular generator. Other Lean names in the layer descriptions
+specify the intended interfaces and basic theory.
 
 ## Foundation F: cohomology, descent and value comparisons
 
@@ -710,8 +714,8 @@ and the inverse residue character compatible with `𝔩` and `ζ_m`.
 Simultaneous root/character/prime transport and multiplication in `x`
 use the supplied API. The adapter `stickelbergerIdeal_annihilates`
 is its §2.4 full-class-group theorem `I_m·Cl(ℚ(μ_m))=0`.
-In `Suggested.lean`, `stickelberger_smoothing_annihilates` is the
-same supplier's named theorem in this namespace: its product at `x` is
+The same supplier's named theorem `stickelberger_smoothing_annihilates`
+has product at `x` given by
 `∏_a σ_(a⁻¹)(x)^floor(b a₀/m)=1`, with the native covariant
 `ClassGroup.mulEquivHom` action. Transport to a cyclotomic field model
 sends `ζ_m↦ζ_m`, hence `[a⁻¹]↦σ_(a⁻¹)`; no inverse class-group action
@@ -1290,9 +1294,9 @@ Prove this as follows.
 
 **Checks.**
 
-- At `m=5`, `a=2`, `c₅(2)=1+ζ₅` has rational norm 1 and infinite multiplicative order (`smoothedUnit_five_two`). For `ζ₅=exp(2πi/5)`, its absolute value is `(1+√5)/2>1`; the other primitive roots give that value or its reciprocal.
-- At `m=5`, `a=4`, `c₅(4)=−ζ₅⁻¹` (`smoothedUnit_five_four`), a torsion value despite `a>1`.
-- At `m=5`, `a=6`, `c₅(6)=1` (`smoothedUnit_five_six`); the unreduced integer `a` does not detect nontorsion.
+- At `m=5`, `a=2`, `c₅(2)=1+ζ₅` has rational norm 1 and infinite multiplicative order. For `ζ₅=exp(2πi/5)`, its absolute value is `(1+√5)/2>1`; the other primitive roots give that value or its reciprocal.
+- At `m=5`, `a=4`, `c₅(4)=−ζ₅⁻¹`, a torsion value despite `a>1`.
+- At `m=5`, `a=6`, `c₅(6)=1`; the unreduced integer `a` does not detect nontorsion.
 - The signs of the `ζ − 1` and `1 − ζ` conventions cancel in the quotient.
 
 See **RJW-PADIC-L**, §10.2, definition of `c_n(a)` and Lemma 10.3, printed p. 48 (arXiv v2). The smoothed units compared here.
@@ -1421,12 +1425,12 @@ These interfaces are used in Rubin, Chapter III (3): `H¹(ℚ_n, T^*) ≅ ((L_n^
 
 **Checks.**
 
-- `chiComponent_eq_iInf_ker` (carrier comparison): The equality with `characterEigenspace ρ χ 1` holds for an arbitrary group and a commutative coefficient ring, including the torsion-module case below. Its kernel-intersection form is proved in `Suggested.lean`.
-- `chiComponent_eq_projector_range` (projector comparison): For finite `Δ` with invertible order, the equality is with the supplied `isotypicComponent` range. Without invertibility the normalized sum is undefined; the regular `𝔽_p[C_p]` boundary below still has its eigensubmodule. Its signature is in `Suggested.lean`.
+- `chiComponent_eq_iInf_ker` (carrier comparison): The equality with `characterEigenspace ρ χ 1` holds for an arbitrary group and a commutative coefficient ring, including the torsion-module case below.
+- `chiComponent_eq_projector_range` (projector comparison): For finite `Δ` with invertible order, the equality is with the supplied `isotypicComponent` range. Without invertibility the normalized sum is undefined; the regular `𝔽_p[C_p]` boundary below still has its eigensubmodule.
 - `chiComponent_one` (compatibility): For `χ = 1`, `M^χ` is Mathlib's `ρ.invariants`.
 - `chiComponent_trivial_rep` (degenerate): For the trivial action, if multiplication by `χ(δ)−1` is injective on `M` for some `δ`, then `M^χ=0`. In particular this holds for `M=O`, `O` a domain, and `χ(δ)≠1`.
-- `chiComponent_regular` (named theorem target): For `|Δ| ∈ O^×`, a vector belongs to `O[Δ]^χ` exactly when it has a unique scalar expression on `∑_δ χ(δ)^{−1}[δ]`; this gives its free rank-one generator. Its signature is in `Suggested.lean`.
-- `chiComponent_not_split` (named boundary theorem target): For a group `Δ` of prime order `p` acting regularly on `M=𝔽_p[Δ]`, `M^1` is the one-dimensional span of the norm element. The augmentation `M→𝔽_p` is surjective, restricts to zero on invariants and is not surjective there; invariants are not exact. Its signature is in `Suggested.lean`.
+- `chiComponent_regular` (named theorem target): For `|Δ| ∈ O^×`, a vector belongs to `O[Δ]^χ` exactly when it has a unique scalar expression on `∑_δ χ(δ)^{−1}[δ]`; this gives its free rank-one generator.
+- `chiComponent_not_split` (named boundary theorem target): For a group `Δ` of prime order `p` acting regularly on `M=𝔽_p[Δ]`, `M^1` is the one-dimensional span of the norm element. The augmentation `M→𝔽_p` is surjective, restricts to zero on invariants and is not surjective there; invariants are not exact.
 - `chiComponent_torsion_counterexample` (non-example): For `O=ℤ`, `M=ℤ/2`, `Δ=C₂` acting trivially and `χ(s)=−1`, `M^χ=M≠0` although `χ(s)−1=−2` is a nonzerodivisor in `O`. Scalar regularity in `O` alone is insufficient.
 - The trivial character gives the invariants.
 
@@ -1460,7 +1464,7 @@ These interfaces are used in §0.22: `ξ_{L,χ} = chiSum(1 ⊗ u)`. Rubin, Chapt
 **Checks.**
 
 - `chiSum_trivial` (degenerate): Trivial character on a trivial module: `chiSum_1(x) = |Δ|·x`.
-- `chiSum_trivial_group` (named theorem target): For a group with one element, `chiSum` is the identity on every representation. Its signature is in `Suggested.lean`.
+- `chiSum_trivial_group` (named theorem target): For a group with one element, `chiSum` is the identity on every representation.
 - `chiSum_sign_regular` (value): For `Δ=C₂={1,s}`, `O=ℤ`, `χ(s)=−1` and the regular module, `chiSumχ([1])=[1]−[s]`. The ordinary trace `[1]+[s]` is a wrong answer.
 - On `M^χ`, `chiSum` is multiplication by `|Δ|`.
 
@@ -1916,24 +1920,18 @@ For the sign character of a two-element group in its regular module,
 the character sum of `[1]` is `[1]−[s]`, fixing the inverse-character
 convention without dividing by the group order.
 
-The following boundary targets are named theorems in `Suggested.lean`, and
-each is proved there from the pinned libraries and the two kept
-definitions: the cyclotomic norm and degree lemmas for the root
-statements, and finite sums over the group for the character sums. The
-seventh-root inequality uses the degree 6 of the minimal polynomial. The
-proved examples there also test the two kept definitions directly:
-trivial-character invariants and the torsion `ℤ/2` case for `chiComponent`,
-and the cardinality factor for `chiSum`. None of these
-proofs uses an admitted API theorem.
+The following Checks distinguish the norm signs, inverse-character sums
+and scalar-injectivity hypotheses. The seventh-root inequality uses the
+degree 6 of the minimal polynomial.
 
-| Named target | Exact boundary statement and location |
+| Check | Statement and location |
 |---|---|
-| `quartic_norm_sign_test` | For a primitive fourth root `ι` in a characteristic-zero fourth cyclotomic field, both `ℚ`-norms `N(1−ι)` and `N(ι−1)` are 2 (§0.6). |
-| `sixthRoot_sub_one_test` | A primitive sixth root in a characteristic-zero field satisfies `ζ−1=ζ²` (§0.6). |
-| `chiSum_regular_sign_test` | For a group of order 2 and its nontrivial integral sign character, the sum of the basis vector `[1]` is `[1]−[s]` (§0.19). |
-| `chiSum_orderFour_frobenius_test` | If `χ(s)=i` over `ℂ`, the sum of `[1]−[s⁻¹]` is `(1+i)` times the sum of `[1]`, in the left regular representation (§0.20). |
-| `seventhRoot_inverse_frobenius_test` | For a primitive seventh root `η` in characteristic zero, `(1+η⁴)(1−η⁴)=1−η`, while replacing the second exponent by 2 fails (§0.5). |
-| `chiComponent_domain_test` | For a commutative domain `O` as its own module and `χ(δ)≠1`, the `χ`-eigensubmodule of the trivial representation is zero (§0.18); the `ℤ/2` example rejects extension to arbitrary torsion modules. |
+| Fourth roots | For a primitive fourth root `ι` in a characteristic-zero fourth cyclotomic field, both `ℚ`-norms `N(1−ι)` and `N(ι−1)` are 2 (§0.6). |
+| Sixth roots | A primitive sixth root in a characteristic-zero field satisfies `ζ−1=ζ²` (§0.6). |
+| Sign character | For a group of order 2 and its nontrivial integral sign character, the sum of the basis vector `[1]` is `[1]−[s]` (§0.19). |
+| Order-four character | If `χ(s)=i` over `ℂ`, the sum of `[1]−[s⁻¹]` is `(1+i)` times the sum of `[1]`, in the left regular representation (§0.20). |
+| Inverse Frobenius | For a primitive seventh root `η` in characteristic zero, `(1+η⁴)(1−η⁴)=1−η`, while replacing the second exponent by 2 fails (§0.5). |
+| Scalar injectivity | For a commutative domain `O` as its own module and `χ(δ)≠1`, the `χ`-eigensubmodule of the trivial representation is zero (§0.18); the `ℤ/2` Check rejects extension to arbitrary torsion modules. |
 
 ### Dependencies
 
@@ -2094,6 +2092,9 @@ See **RUBIN-ES**, Chapter IV Theorems 5.1 and 5.4, Corollary 5.5, printed pp. 67
 <a id="kolyvagin-class-group-divisibility"></a>
 ### 1.6 Kolyvagin's bound: `|A_L^χ|` divides `[E_L^χ : C_{L,χ}]` (Rubin, Theorem III.2.3)
 Let `p > 2` and `χ` : `G_ℚ → O^×` even, nontrivial, of finite order prime to `p`, with conductor `f` and field `L`; `T = O_χ`, `W = D_χ`, `T* = O_{χ^{−1}}(1)`, `W* = T* ⊗ ℚ_p/ℤ_p`, with `χ(p) ≠ 1`. Then `|A_L^χ|` divides `[E_L^χ : C_{L,χ}]`.
+
+The statement `kolyvagin_classGroup_dvd` in `Suggested.lean` expresses this
+bound on the character eigensubmodules, including finiteness of the unit quotient.
 
 Theorem II.2.2 (the error-tolerant Euler-system bound, `p > 2`) is
 supplied by EulerSystemsAndKolyvaginSystems §4.17 through §F.7. Its
@@ -2521,9 +2522,9 @@ Prove this as follows.
 
 **Checks.**
 
-- At `p=2`, `F=ℚ(ζ₃)`, the initial value is `η₀=1−ζ₃i`. Its norm to `ℚ` from `ℚ(ζ₁₂)` is 1 (`eta_three_dyadic_initial_norm`), so the initial generator is a unit.
-- In the same tower, `η₁=1−ζ₃²ζ₈` and `N_{ℚ(ζ₂₄)/ℚ(ζ₁₂)}(η₁)=1−ζ₃i` (`eta_three_dyadic_step`). The product of the two conjugates is `1−ζ₃⁴i`; omitting the inverse coefficient Frobenius would give `1−ζ₃²i` instead.
-- Every `η_ν=1−ζ₃^{2^ν}ζ_{2^{ν+2}}` in this tower is a global unit (`eta_three_dyadic_unit`): the root has order `3·2^{ν+2}`, whose cyclotomic polynomial has value 1 at 1. The exponent `2^ν` represents `2^{−ν}` modulo 3.
+- At `p=2`, `F=ℚ(ζ₃)`, the initial value is `η₀=1−ζ₃i`. Its norm to `ℚ` from `ℚ(ζ₁₂)` is 1, so the initial generator is a unit.
+- In the same tower, `η₁=1−ζ₃²ζ₈` and `N_{ℚ(ζ₂₄)/ℚ(ζ₁₂)}(η₁)=1−ζ₃i`. The product of the two conjugates is `1−ζ₃⁴i`; omitting the inverse coefficient Frobenius would give `1−ζ₃²i` instead.
+- Every `η_ν=1−ζ₃^{2^ν}ζ_{2^{ν+2}}` in this tower is a global unit: the root has order `3·2^{ν+2}`, whose cyclotomic polynomial has value 1 at 1. The exponent `2^ν` represents `2^{−ν}` modulo 3.
 - `F = ℚ`: `m = 1`, so there are no `η`'s, and `𝒞_∞ = 𝒞_∞(ℚ(ζ_{p^∞}))`, the cyclotomic units of `ℚ(μ_{p^∞})`.
 - Roots of unity of order prime to `p` disappear on pro-`p` parts. At `p=2` this does not apply to `−1`; its finite-level class survives until rationalization. Norm coherence must be checked separately.
 
@@ -3085,6 +3086,9 @@ See **GREITHER-1992**, §4, reduction to Theorem 4.6, p. 488. Theorem 4.6 suffic
 ### 4.20 The 2-adic relative class-group lower bound (Greither, Theorem 4.1)
 Let `p=2` and `F/ℚ` be imaginary abelian and unramified at 2, with `Δ=Δ₂×Δ₀`, `Δ₂` cyclic and `|Δ₀|` odd. For every odd character `χ`, `|A₂(F)_χ|≥Nχ(½B_{1,χ⁻¹})`, where `Nχ(a)=2^{[ℚ₂(χ):ℚ₂]v₂(a)}`. The bound is an inequality between positive rational powers of 2; its right side can be fractional for a character of 2-power order. One has `A₂(F)_χ≃(A₂(F)/im A₂(F⁺))_χ`. Identification with the `χ`-part of the minus subgroup is used only when `χ₀=χ|Δ₀≠1`, as in the Iwasawa–Leopoldt target.
 
+The statement `relativeClassGroup_lowerBound` in `Suggested.lean` includes
+this dyadic bound, retaining the factor one half and allowing a fractional bound.
+
 The all-prime statement of Greither Theorem 4.1 requires `χ` faithful on `Δ_p`. This subsection gives its `p=2` proof, where oddness implies faithfulness on cyclic `Δ₂`. The odd-prime statement and its separate split-lattice comparison are in §4.21.
 
 In these finite-index formulas Greither’s notation `|a|_p` means `p^{v_p(a)}`, the reciprocal of the usual `p`-adic absolute value; `d(χ)=[ℚ_p(χ):ℚ_p]`. Thus `|a|_p^{d(χ)}=Nχ(a)`.
@@ -3112,6 +3116,10 @@ See **GREITHER-1992**, §4, before the proof of Theorem 4.1, p. 482. The proof i
 <a id="relative-class-group-bound-odd"></a>
 ### 4.21 The relative class-group bound for odd primes
 Let `p` be odd and `F/ℚ` imaginary abelian, unramified at `p`, with cyclic `p`-Sylow subgroup `Δ_p` of `Δ=Gal(F/ℚ)`, and write `Δ=Δ_p×Δ_0` with `|Δ_0|` prime to `p`. For every odd `p`-adic character `χ` of `Δ` that is faithful on `Δ_p`, the finite `χ`-part of the `p`-class group satisfies `|A_p(F)_χ| ≥ Nχ(B_{1,χ⁻¹}) = Nχ((1/2)B_{1,χ⁻¹})`, where `Nχ(a)=p^{[ℚ_p(χ):ℚ_p]v_p(a)}` and `½` is a unit. The Bernoulli number is evaluated for the primitive Dirichlet character attached to `χ`. This is Greither Theorem 4.1 at odd `p`, complementing the separate `p=2` target. Solomon proves the corresponding equality for the field cut out by `χ` (Solomon, Theorem II.1), and steps 1 and 8 below obtain it as well.
+
+The statement `relativeClassGroup_lowerBound` in `Suggested.lean` also
+covers every odd prime with the faithful cyclic Sylow hypothesis. It uses the
+integral character quotient and the Bernoulli number of the primitive character.
 
 Faithfulness on the cyclic `p`-Sylow subgroup is an explicit hypothesis of Greither Theorem 4.1. No assertion for nonfaithful `p`-Sylow characters is made by this target.
 
@@ -3402,6 +3410,11 @@ used in step 10.
 ### 4.22 The Iwasawa–Leopoldt conjecture at `p = 2` (Greither, Theorem `A`)
 Let `F/ℚ` be an imaginary abelian field unramified at 2 with Galois group `Δ = Δ_2 × Δ_0`, `Δ_2` cyclic and `|Δ_0|` odd. For every odd 2-adic character `χ` of `Δ` that is not of 2-power order (that is, `χ|Δ_0 ≠ ε`), `|A_2(F)^−_χ| = |½B_{1,χ^{−1}}|_2^{d(χ)}`, where `A_2(F)^− = {x ∈ A_2(F): x^j = −x}`, `d(χ)=[ℚ₂(χ):ℚ₂]` and `|a|₂=2^{v₂(a)}`, with `v₂(2)=1`. This valuation can be fractional when `ℤ₂(χ)` is ramified. For the single odd character `χ_2` of 2-power order (up to `ℚ_2`-conjugacy), with `L` the fixed field of `Δ_0`, `|A_2(F)_{χ_2}| = |A_2(L)^−| = 2·|½B_{1,χ_2^{−1}}|_2^{d(χ_2)}·k_L`, where `k_L = |ker(A_2(L^+) → A_2(L))| = 1`. Consequently `(1 − e_ε)A_2(F)^−` is annihilated by `½` times the images in `(1 − e_ε)ℤ_2[Δ]/(1 + j)` of the Stickelberger elements of `F`, which sharpens Stickelberger's theorem at 2.
 
+The statement `iwasawaLeopoldt_two` in `Suggested.lean` gives the equality
+for characters whose order is not a power of two. It expresses the order through
+the integral character quotient, which has the same order as the indicated minus
+component in this case.
+
 The characters `χ` are taken up to `ℚ_2`-conjugacy, and each class contributes one factor with exponent `d(χ)`.
 
 In these finite-index formulas Greither’s notation `|a|_p` means `p^{v_p(a)}`, the reciprocal of the usual `p`-adic absolute value; `d(χ)=[ℚ_p(χ):ℚ_p]`. Thus `|a|_p^{d(χ)}=Nχ(a)`.
@@ -3611,6 +3624,11 @@ Tate-twist dictionary and retains the ideal cancelling the analytic pole.
 <a id="mazur-wiles-chi-equality"></a>
 ### 5.1 The equality `|A_L^χ| = [E_L^χ : C_{L,χ}]` (Rubin, Corollary III.2.4)
 Let `p > 2` and `χ` : `G_ℚ → O^×` even, nontrivial, of finite order prime to `p`, with conductor `f` and field `L`; `T = O_χ`, `W = D_χ`, `T* = O_{χ^{−1}}(1)`, `W* = T* ⊗ ℚ_p/ℤ_p`, with `χ(p) ≠ 1`. Then `|A_L^χ| = [E_L^χ : C_{L,χ}]` (Mazur–Wiles).
+
+The statement `mazurWiles_classGroup_eq_unitIndex` in `Suggested.lean`
+gives this equality and finiteness of the unit quotient. Its circular line is
+formed from the relative norm and the unnormalised character sum, and its
+hypotheses allow conductors divisible by the prime.
 
 `p>2`, `χ` even nontrivial of order prime to `p`, `L` its fixed field and `χ(p)≠1`, as in Rubin III Corollary 2.4. A common finite unramified coefficient extension `O′` contains all characters `ψ` of `Δ=Gal(L/ℚ)`.
 
