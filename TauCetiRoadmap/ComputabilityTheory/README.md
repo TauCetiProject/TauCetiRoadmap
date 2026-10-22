@@ -684,9 +684,9 @@ empty/no-convergence behavior explicitly. Prove computability uniformly from the
 enumerations and program index.
 
 Prove the one-step preservation theorem: if $x\le\ell(e,s)$,
-$\Phi^{A_s}_{e,s}(x)\downarrow$ with output $y$ and use $u$, and no element
+$\Phi_{e,s}^{A_s}(x)\downarrow$ with output $y$ and use $u$, and no element
 enters at $s+1$ below or at the restraint $r(e,s)$ calculated at stage $s$, then
-$\Phi^{A_{s+1}}_{e,s+1}(x)\downarrow$ with the same output and use. This needs
+$\Phi_{e,s+1}^{A_{s+1}}(x)\downarrow$ with the same output and use. This needs
 no hypothesis on $C$. Agreement at $x$ is preserved as well when, in addition,
 $C_{s+1}(x)=C_s(x)$. Keep the two hypotheses separate in the interval versions:
 preserving a computation needs only the absence of injury, while preserving its
