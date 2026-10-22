@@ -9335,14 +9335,14 @@ The API includes the following named statements.
 
 - `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_field`: Its field value is globalLocalEmbedding_n of the underlying global unit.
 - `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_injective`: The local unit map is injective.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_cUnit`: The image of the imported `c_n(a)` is `evaluation_n(q_a)`.
+- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_cUnit`: The image of the imported `c_n(a)` is `evaluation_n(cyclotomicSeriesUnit(a))`, whose underlying series is the unadjusted denominator `f_a`.
 - `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_real`: An element of `D_n⁺` maps to a conjugation-fixed local unit.
 
 **Checks.**
 
 - `GlobalLocalUnitTests.one`: The image of the identity unit is 1.
 - `GlobalLocalUnitTests.minus_one`: The image of the global unit `−1` is `−1`.
-- `GlobalLocalUnitTests.ternary_two`: At `p=3,n=0` the image of `c_1(2)` is `1+ζ_0`.
+- `GlobalLocalUnitTests.ternary_two`: At `p=3,n=0` the image of `c_1(2)` is `1+ζ_0≠1`, whereas the adjusted principal real generator has `q(2)_0=1`.
 
 For the proof, a global integral unit and its inverse are integral over `ℤ`. Transport their monic integral equations through the embedding and the scalar map `ℤ→ℤ_p`, giving elements of `O_n` whose product is one. The global/local conjugation square proves the real assertion. Norm compatibility is proved separately, not inferred from the word cyclotomic.
 
@@ -9350,7 +9350,7 @@ Is the exact map whose topological image closure defines local cyclotomic units.
 
 Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189: Is the exact map whose topological image closure defines local cyclotomic units.
 
-*Needs:* [The root-compatible local embedding](#colemanpowerseries-l4-global-to-local-cyclotomic-embedding); [IntegralIwasawaTheory §1.2: cyclotomic unit group](../IntegralIwasawaTheory/README.md#12-circular-numbers-before-intersection-with-units); [IntegralIwasawaTheory §1.3: smoothed cyclotomic unit](../IntegralIwasawaTheory/README.md#13-real-generators-and-the-valuation-relation); [The cyclotomic integral closure](#colemanpowerseries-l0-cyclotomic-integral-closure).
+*Needs:* [The root-compatible local embedding](#colemanpowerseries-l4-global-to-local-cyclotomic-embedding); [IntegralIwasawaTheory §1.2: cyclotomic unit group](../IntegralIwasawaTheory/README.md#12-circular-numbers-before-intersection-with-units); [IntegralIwasawaTheory §1.3: smoothed cyclotomic unit](../IntegralIwasawaTheory/README.md#13-real-generators-and-the-valuation-relation); [The cyclotomic integral closure](#colemanpowerseries-l0-cyclotomic-integral-closure); [Cyclotomic unit series](#colemanpowerseries-l2-cyclotomic-series-unit).
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
 
@@ -10174,6 +10174,7 @@ A residue coefficient `c` outside `𝔽_p` satisfies `c^p≠c`. Testing a Teichm
 
 ## References
 
+- [CBirkbeck/padic-L-functions](https://github.com/CBirkbeck/padic-L-functions), revision `45307015169791f1316f23a459c8e92ed5961c54`, is a Lean proof source. Its `Coleman/NormOperator.lean` develops the digit basis, determinant norm, trace coordinates and iterate congruences; `Coleman/Theorem.lean` develops evaluation, separation, norm specialization and interpolation; `IwasawaProof/LogDerivative.lean` develops determinant differentiation and the logarithmic-derivative image. These proof routes inform the coordinate, precision and logarithmic refinements here. Their use requires transport to the native intermediate fields, integer rings and unit norm limits, identification with the supplied bounded-measure operators, the level shift to roots of order `p^(n+1)`, and extension to the stated coefficient generality, including coefficient Frobenius in unramified interpolation.
 - Robert F. Coleman, *Division Values in Local Fields*, Inventiones Mathematicae 53 (1979), 91–116, [DOI 10.1007/BF01390028](https://doi.org/10.1007/BF01390028); [original journal scan](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289). Integral multiplicative specialization: Theorem A pp.91–92; additive trace Theorem 4 and Corollary 5(i) p.98, Lemma 6 p.99; norm and evaluation Theorem 11 and Corollary 12(ii) p.102; digit gain and coefficient Frobenius Lemma 13 and equation (2) p.103; projector Proposition 14 p.104; interpolation Theorems 15–16 and Corollary 17 pp.104–106. Laurent-series and general Lubin–Tate conclusions are not asserted here.
 - Joaquín Rodrigues Jacinto and Chris Williams, *An introduction to p-adic L-functions*, Essential Number Theory 4 (2025), 101–216, [published version](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), [arXiv:2309.15692v2](https://arxiv.org/abs/2309.15692v2). The published printed pagination is used: operators §§3.5 and 4.1–4.3 pp.126–139; local units and interpolation §§9–10 pp.161–170; global/local cyclotomic units §11 pp.174–177; actions, exact sequences and the terminal quotient §12 pp.177–189. The source treats odd-prime arithmetic; all-prime determinant and signed Tate statements have their separate algebraic proof routes above.
 - Romyar Sharifi, *[Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf)*, §5.4, Notation 5.4.1 through Corollary 5.4.13, printed pp.143–147; semilocal coefficients §6.1, printed pp.157–158. The cited author PDF uses this numbering; its coefficient-action and indexing conventions are corrected as specified above.
@@ -10184,3 +10185,5 @@ A residue coefficient `c` outside `𝔽_p` satisfies `c^p≠c`. Testing a Teichm
 ## Downstream consumers
 
 Arithmetic Iwasawa applications use the actual principal sequence, cyclotomic closures and local quotient. Arithmetic applications with finite unramified local coefficients consume the Frobenius-twisted interpolation equivalence and finite semilocal comparisons. Coefficient-change users must distinguish these arithmetic towers from tensor extensions of the `ℤ_p` sequence.
+
+[PhiGammaModulesAndIwasawaCohomology](../PhiGammaModulesAndIwasawaCohomology/README.md#from-analytic-roadmaps) consumes §§1.45–1.49 for the integral zeroth Frobenius coordinate, trace divisibility and the comparison `τ=pψ` with the supplied bounded-measure operator.

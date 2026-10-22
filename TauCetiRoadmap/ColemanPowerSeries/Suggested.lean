@@ -353,7 +353,8 @@ Arithmetic:
   cyclotomicTower_one (§2.36); exists_normFixed_approximation (§1.76); finiteAction_continuous (§0.77);
   finiteAction_reduction (§0.77); finiteAction_scalar (§0.77); finiteAction_zeta (§0.77);
   globalLocalEmbedding_conjugation (§4.1); globalLocalEmbedding_injective
-  (§4.1); globalLocalEmbedding_tower (§4.1); globalLocalEmbedding_zeta (§4.1); globalLocalUnits_cUnit (§4.2);
+  (§4.1); globalLocalEmbedding_tower (§4.1); globalLocalEmbedding_zeta (§4.1);
+  globalLocalUnits_cUnit (§4.2: unit evaluation of the unadjusted cyclotomic denominator);
   globalLocalUnits_field (§4.2); globalLocalUnits_injective (§4.2); globalLocalUnits_real (§4.2);
   interpolation_fibers (§1.99); iterate_norm_evaluation (§1.75); localCyclotomicUnits_closed (§4.4);
   localCyclotomicUnits_global (§4.4); localCyclotomicUnits_minimal (§4.4); localCyclotomicUnits_tate_real
