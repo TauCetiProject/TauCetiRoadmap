@@ -323,13 +323,13 @@ Chern cocycle `dlog(X_j/X_i)` on `U_i∩U_j`. Thus
 on `U₀∩U₁∩U₂`, the product is
 `−dlog t₁∧dlog(t₂/t₁)=−dlog t₁∧dlog t₂`.
 In particular the sign remains part of the integral convention at `p=2`.
-`Suggested.lean` declares `Crystalline.cechTraceSign`.
 
-**Names.** Lean names in this README are relative to the namespace
-`TauCetiRoadmap.CrystallineCohomology`
-of `Suggested.lean` and are suggestions; `Crystalline.*` holds the crystalline and de Rham–Witt
-material, `LogCrystalline.*` the logarithmic material, and `DerivedDeRham.*` the CR.DDR targets
-owned here, retaining the namespace of the DerivedDeRhamCohomology constructors they extend.
+**Names.** Lean names in this README are suggested names for the mathematical targets to build,
+relative to `TauCetiRoadmap.CrystallineCohomology`; they do not assert declarations in
+`Suggested.lean`. That file states selected headline theorems on the pinned library's carriers.
+`Crystalline.*` holds the crystalline and de Rham–Witt material, `LogCrystalline.*` the logarithmic
+material, and `DerivedDeRham.*` the CR.DDR targets owned here, retaining the namespace of the
+DerivedDeRhamCohomology constructors they extend.
 
 ## Exact supplier contracts
 
@@ -1245,7 +1245,7 @@ sections over an affine open W⊂T mapping into an affine open V⊂S are Ω¹_PD
 `∇:F→F⊗_{O_crys}Ω_{X/S}` with ∇(fs)=f∇(s)+s⊗df; it is integrable if ∇∘∇=0, and then `F⊗Ω^•_{X/S}` is its
 de Rham complex on Cris(X/S) (Stacks §§60.14–60.15).
 
-`Suggested.lean` declares `Crystalline.Connection` for the ordinary Kähler-differential case.
+`Crystalline.Connection` is the target carrier for the ordinary Kähler-differential case.
 This is the shared algebraic carrier over arbitrary commutative base rings; no characteristic,
 integrability or quasi-nilpotence restriction enters its definition. Additivity and the Leibniz
 rule give `∇(am)=a∇(m)` for a∈A, since d kills base scalars. In characteristic zero this is the
@@ -1672,7 +1672,7 @@ EnhancedDerivedSheaves E2:towers.1 (`derivedTowerLimit`) and §E2.2
 - `test_RΓcrys_empty`: The empty scheme has zero crystalline cohomology.
 - `test_RΓcrys_point`: For k a perfect field of characteristic p, X=Spec k and S=Spec W_e(k) with
   the canonical PD structure on (p): RΓ_crys(X/S,O_crys)=W_e(k) in degree 0.
-- `Crystalline.pdPoint_pullback_p_boundary`: For `X = Spec 𝔽_p`, `S = Spec ℤ_p` and `I = (p)`
+- For `X = Spec 𝔽_p`, `S = Spec ℤ_p` and `I = (p)`
   with its canonical divided powers, multiplication by `p` is injective on `f⁻¹O_S = ℤ_p`.
   Module pullback takes it to multiplication by `p` on `O_crys`, whose section `1` on the identity
   thickening `(X,X)` is nonzero and killed by `p`. Thus module pullback is not exact and module
@@ -3602,8 +3602,6 @@ nonnegative degrees η_pM⊆M, footnote 1). For termwise p-torsion-free M, a Die
 equivalent to a map of cochain complexes α_F:M*→(η_pM)*, α_F(x)=p^nF(x) for x∈M^n, with inverse
 `F(x)=p^{-n}α(x)`.
 
-`Suggested.lean` declares `Crystalline.DieudonneComplex`.
-
 *Hypotheses.* p is a prime. M is a cochain complex of abelian groups, graded by all integers.
 Termwise p-torsion-freeness of M is assumed for η_pM and for the equivalence between F and α_F; it
 is not assumed in the definition of a Dieudonné complex.
@@ -3656,8 +3654,6 @@ with footnote 1, Remark 2.1.4; pp.13–14 in arXiv v3 and in the published versi
 **Saturated Frobenius.** A Dieudonné complex M is saturated when it is termwise p-torsion-free and
 `F:M^n→{x∈M^n:dx∈pM^{n+1}}` is bijective in every degree. For a termwise p-torsion-free Dieudonné
 complex M, this holds iff α_F:M→η_pM is an isomorphism of cochain complexes.
-
-`Suggested.lean` declares `Crystalline.DieudonneComplex.IsSaturated`.
 
 *Hypotheses.* p is a prime; M is a Dieudonné complex. The equivalence with α_F being an isomorphism
 is stated for termwise p-torsion-free M, where α_F and η_pM are defined.
@@ -3749,8 +3745,6 @@ the published version.) *Needs:* *Verschiebung and the differential*.
 **Iterated Frobenius divisibility.** For a saturated Dieudonné complex and every r≥0, F^r identifies
 M^n with `{x∈M^n:dx∈p^rM^{n+1}}`. Consequently every cocycle belongs to the image of every iterate
 F^r.
-
-`Suggested.lean` declares `Crystalline.DieudonneComplex.range_F_iterate`.
 
 *Hypotheses.* p is a prime; M is a saturated Dieudonné complex; r≥0 and n are integers.
 
@@ -5095,7 +5089,7 @@ The API comprises `Crystalline.truncatedFrobenius_truncate` and
 `Crystalline.truncatedVerschiebung_projection`, `Crystalline.truncatedRestriction_kernel`,
 `Crystalline.truncatedVerschiebung_F_charP`, `Crystalline.wittFrobenius_injective_of_reduced`
 and `Crystalline.witt_p_torsionFree_of_reduced`.
-`Crystalline.truncatedGhost_injective` states injectivity of
+The ghost-injectivity target is injectivity of
 x↦(WittVector.ghostComponent i x.out)_(i<r) under the p-torsion-free hypothesis.
 
 *Proof sketch.* Descend the infinite operators along truncation using their coordinate dependence.
@@ -5794,8 +5788,8 @@ times the p-basic element of Ω^*_(S/A) of weight p^m·k and partition P; the p-
 integral weights and partitions form an A-basis of Ω^*_(S/A) for every Z_(p)-algebra A (Proposition
 2.1). So a vanishing finite sum Σe(ξ_(k,P),k,P) in W_rΩ^q_(S/A) has w_m(ξ_(k,P))=0 for all m<r
 (respectively, all ghost components of η∈W_(r−u)(A) vanish), and the ghost map W_r(A)→A^r is
-injective because A, a p-torsion-free Z_(p)-algebra, is torsion-free (*Finite-length Witt operators and their identities*,
-Crystalline.truncatedGhost_injective). Hence all ξ_(k,P)=0, and (ω_0,…,ω_(r−1)) is
+injective because A, a p-torsion-free Z_(p)-algebra, is torsion-free (*Finite-length Witt operators
+and their identities*). Hence all ξ_(k,P)=0, and (ω_0,…,ω_(r−1)) is
 injective on W_rΩ^*_(S/A). General A (Langer–Zink Proposition 2.17, second half of the proof): write
 A=Ã/𝔞 with Ã a p-torsion-free Z_(p)-algebra, for instance a polynomial ring over Z_(p), and put
 S̃=Ã[T₁,…,T_d]. The convergent sums of basic forms with coefficients in W(𝔞)=ker(W(Ã)→W(A)) form an
@@ -6541,6 +6535,11 @@ isoclinic of slope λ if its scalar extension is a sum of these blocks. There is
 direct-sum decomposition V=⊕_λ V_λ into isoclinic subisocrystals. Hom(V_λ,V_μ)=0 for λ≠μ. Over
 algebraically closed k the standard blocks are exactly the simple objects. Over a finite field
 F_(p^r), the slopes are v_p of eigenvalues of the K-linear F^r divided by r, with multiplicities.
+
+`Suggested.lean` states `Crystalline.exists_frobenius_block_basis`, the standard-block
+decomposition over algebraically closed k in every finite dimension. Its basis indices are the
+blocks and their cyclic positions; each rational slope supplies its reduced numerator and positive
+denominator. Repeated slopes give the multiplicities.
 
 *Hypotheses.* p prime; k perfect; V finite-dimensional. Semisimplicity and classification by simple
 standard blocks are asserted only over algebraically closed k.
@@ -7533,8 +7532,6 @@ on P and α; the displayed morphism laws are transported through that identifica
 Resolutions and derived functors are formed in the supplied category. Additive notation for
 charts corresponds to multiplication in A.
 
-`Suggested.lean` declares `LogCrystalline.PrelogRing`.
-
 The API:
 
 - `LogCrystalline.PrelogRing.alpha`: The structure homomorphism P→(A,×).
@@ -7557,8 +7554,6 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 **Étale log structures.** On the pinned small étale site X_et, a log structure is a sheaf M of
 commutative monoids and α:M→O_X under multiplication such that α⁻¹(O_X×)→O_X× is an isomorphism of
 sheaves. A log scheme is the pair (X,M); no finite-generation assumption is implicit.
-
-`Suggested.lean` declares `LogCrystalline.PrelogRing.IsLog`.
 
 The API:
 
@@ -7682,8 +7677,6 @@ and §2.4(2)–(3), p.197.) *Needs:* *Characteristic monoids*; Mathlib
 structure is coherent if it étale locally admits a finitely generated chart, and fine if
 additionally integral. Fine does not mean saturated.
 
-`Suggested.lean` declares `LogCrystalline.IsFineMonoid`.
-
 The API:
 
 - `LogCrystalline.IsFineMonoid.integral`: Fine implies integral.
@@ -7698,18 +7691,14 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 
 **Checks.**
 
-- `nat`: ℕ is fine and saturated (`LogCrystalline.nat_fine_saturated`).
-- `cusp`: ⟨2,3⟩ is fine and 1 is missing although 2·1 lies in the monoid
-  (`LogCrystalline.cusp_fine_not_saturated`).
-- `rational_not_fine`: ℚ≥0 is saturated but not finitely generated and hence not fine
-  (`LogCrystalline.rational_saturated_not_fine`).
+- `nat`: ℕ is fine and saturated.
+- `cusp`: ⟨2,3⟩ is fine and 1 is missing although 2·1 lies in the monoid.
+- `rational_not_fine`: ℚ≥0 is saturated but not finitely generated and hence not fine.
 - The cusp monoid ⟨2,3⟩⊂ℕ is fine but not saturated.
 
 **Saturated monoids.** An integral monoid P is saturated when for every g∈P^gp and integer n>0, gⁿ∈P
 implies g∈P. In additive charts replace gⁿ by ng. An fs log structure is fine and saturated at
 geometric stalks; saturation is stronger than integrality.
-
-`Suggested.lean` declares `LogCrystalline.IsSaturatedMonoid`.
 
 The API:
 
@@ -7834,8 +7823,6 @@ Proposition 4.1; Definition 4.3; Corollaries 4.4–4.5, pp.206–209.) *Needs:* 
 p∈P has a positive power in the image of Q. A morphism of fs log schemes is Kummer when all
 characteristic stalk maps are Kummer. Every positive-power map ℕ→ℕ is Kummer.
 
-`Suggested.lean` declares `LogCrystalline.IsKummerHom`.
-
 The API:
 
 - `LogCrystalline.IsKummer.injective`: A Kummer characteristic map is injective.
@@ -7856,7 +7843,6 @@ p-alterations*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186
 - `identity`: The identity is Kummer.
 - `p_power`: The p-power chart is Kummer in characteristic p as well.
 - `zero_power`: The map ℕ→ℕ, 1↦0 sends 0 and 1 to the same element, so it is not Kummer.
-  `Suggested.lean` proves this failure of injectivity.
 
 **Log fiber products.** An ordinary log fiber product uses the underlying scheme fiber product with
 the associated log structure of the pushout of the two pulled-back log sheaves. The integral log
@@ -9663,7 +9649,7 @@ Prove the following named laws, all for `n ≥ 1` and integral source and target
   nilpotent-p flat range agrees with the PD comparison of §CR.DDR.4.3.
 - `test_log_crys_noncartier`: [Bhatt12] Example 7.23 has integral chart monoids and a comparison
   map, but its relative Frobenius-twisted source and ordinary crystalline target differ.
-- `LogCrystalline.idempotentChart_boundary`: let `E = {1, e}` with `e² = e ≠ 1` and map it
+- Let `E = {1, e}` with `e² = e ≠ 1` and map it
   to `F₂` by `e ↦ 0`. This is already a log ring, since only `1` maps to a unit, but
   `e·e = e·1` violates cancellation; its associated log scheme is outside this comparison's
   domain, including for the identity map. In `E^gp` one has `e = 1`, so integralization
@@ -10291,10 +10277,10 @@ descent* (Layer CR.4); Mathlib `TruncatedWittVector`.
 - The nodal chart: for Y=Spec k[x,y]/(xy), the special fibre of Spec O_K[x,y]/(xy−π), with chart
   ℕ²→O_Y, e₁↦x, e₂↦y, over 1↦e₁+e₂: dlog x+dlog y=0 in W_nω¹_Y and W_1ω¹_Y=ω¹_(Y/k^log) is free of
   rank one on dlog x, whereas in W_nω̃¹_Y, dlog x+dlog y=θ=ι_θ^1(1) and φ(θ)=pθ.
-- `LogCrystalline.logWitt_polynomial_R_F`: For the strict smooth chart A=F_p[t],
+- For the strict smooth chart A=F_p[t],
   R([t])=t at lengths 2→1, whereas F([t])=t^p. On the chart with a multiplicative log
   generator t, R(dlog t)=dlog t.
-- `LogCrystalline.logWitt_smooth_chart_differential`: On the strict smooth chart A=F_p[t],
+- On the strict smooth chart A=F_p[t],
   W_1ω^• is the ordinary de Rham complex with d(t)=dt≠0; inverse Cartier represents dt
   by the cohomology class of t^(p−1)dt on the relative Frobenius twist.
 
@@ -10319,7 +10305,7 @@ Corollary 4.5(1), pp.248–249.) *Needs:* *Logarithmic de Rham–Witt complexes*
 
 - For the relative log point, μ_(m,n) is p^n:W_(m−n)(k)→W_m(k), and Q_(m,n)=W_n(k)
   concentrated in degree zero.
-- `LogCrystalline.logWitt_polynomial_V_not_p`: For A=F_p[t] at m=2, n=1,
+- For A=F_p[t] at m=2, n=1,
   ker(R:W_2(A)→A)=V(A), but im μ_(2,1)=V(A^p). Hence V(t) lies in ker R and outside that
   image. The quotient map Q_(2,1)→W_1ω^• is a quasi-isomorphism and is not an isomorphism
   in degree zero; the positive-degree terms are essential.
