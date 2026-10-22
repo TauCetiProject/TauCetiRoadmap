@@ -320,7 +320,8 @@ and good weights; typed finite-level modules; arithmetic Hecke and deformation a
 Langlands families, their integral smooth-dual comparison and multiplicity modules; canonical
 and θ-family compatibility, its mod-p and homology forms, Pan's block compatibility and Scholze's
 comparison on the all-p-level Shimura tower with admissible torsion coefficients; the full
-Lubin–Tate period torsor; patched Jacquet and trianguline geometry, one-place partial type and
+Lubin–Tate period torsor; patched Jacquet and trianguline geometry on the relative Robba and
+triangulation carriers of PhiGammaModulesAndIwasawaCohomology, one-place partial type and
 component specialisation, typed supports and ordinary and non-ordinary component coverage;
 promodularity, Böckle's R = T, the normalised global locally algebraic formula, quaternionic
 globalisation and the dependency statements for the lifting theorems.
