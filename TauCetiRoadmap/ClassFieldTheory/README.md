@@ -115,9 +115,7 @@ This roadmap owns the following constructions and theorems.
    `cd_ℓ G_K = scd_ℓ G_K = 2` for `K/ℚ_p` finite; the absolute local Artin map into the
    topological abelianization of `G_K`, pinned by restriction, its unramified coordinate and norm
    functoriality, and its cyclotomic-character normalization, proved by comparison with the
-   explicit local symbols of the cyclotomic fields over `ℚ`; unit-filtration reciprocity, which
-   carries `U_K^(n)` onto the upper ramification group `G^n` at every depth `n ≥ 0`, in both
-   characteristics; local conductors.
+   explicit local symbols of the cyclotomic fields over `ℚ`; local conductors.
 7. The norm limitation theorem: a layer and its maximal abelian sublayer have the same norm
    subgroup. The abelian-layer condition and the canonical maximal abelian sublayer it is stated
    on are Tau Ceti's.
@@ -590,7 +588,6 @@ names may change during implementation, but the mathematical direction of each m
 | local duality and Euler characteristic, for finite smooth discrete modules | `tateDualityPairing`, `tateDualityPairing_tateDualMap`, `tateDualityPairing_muNRepToTateDual`, `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_mixed`, `eulerCharacteristic_finrank_fp`, `instFactIsSmoothDiscreteTrivialFp` |
 | cohomological dimension of `G_K` | `subsingleton_h3_unitsRep`, `cd_p_absoluteGaloisGroup_eq_two`, `scd_p_absoluteGaloisGroup_eq_two` |
 | local conductors | `conductorExponent`, `conductorIdeal`, `characterConductorExp` |
-| unit-filtration reciprocity | `map_unitFiltration_normResidue`, `conductorExponent_eq_sInf_upperRamificationGroup` |
 | global norm and Hilbert reciprocity | `cyclicHasseNorm`, `hilbertProductFormula` |
 | class fields, all applications of `globalClassField` | `rayNormSubgroup`, `rayClassField`, `hilbertClassField`, `narrowHilbertClassField`, `gal_rayClassField_equiv_rayClassGroup`, `kroneckerWeber` |
 | admissible moduli and ray-class reciprocity | `IsAdmissibleModulus`, `IsAdmissibleModulus.mem_support_of_ramified`, `abelianConductor`, `isAdmissibleModulus_iff_abelianConductor_dvd`, `isAdmissibleModulus_iff_le_rayClassField`, `not_isAdmissibleModulus_one_Qi`, `rayClassArtinMap`, `rayClassArtinMap_idealClass`, `rayClassArtinMap_surjective` |
@@ -1315,9 +1312,7 @@ arithmetic Frobenius, and the kernel is the norm group.
 ### Layer 7: the absolute local Artin map, its normalizations, and conductors
 
 *Prerequisites:* Layers 5, 6; `LocalFieldsRamification` (with Tau Ceti's maximal unramified
-extension, inertia, arithmetic Frobenius lifts and `Gal(K^ur/K) ≅ Ẑ`; for unit-filtration
-reciprocity, the unit filtration, norms, upper numbering and Hasse–Arf of its Layer 3 and the
-absolute upper filtration of its Layer 4a); Tau Ceti's
+extension, inertia, arithmetic Frobenius lifts and `Gal(K^ur/K) ≅ Ẑ`); Tau Ceti's
 `galoisSubgroup`, `galoisSubgroupEquiv` and `zHat`; for the cyclotomic normalization, Mathlib's
 cyclotomic fields and the splitting of primes in them
 (`Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.lean`), Tau Ceti's
@@ -1432,70 +1427,11 @@ The conductor targets are the attained minima `conductorExponent`, `conductorIde
 attainment uses that `ℂˣ` has no small subgroups; continuity plus a neighbourhood basis alone is
 insufficient, as the identity `Kˣ → Kˣ` is trivial on no unit-filtration subgroup.
 
-**Unit-filtration reciprocity** (`map_unitFiltration_normResidue`). Let `L/K` be a finite abelian
-extension of nonarchimedean local fields, in equal or mixed characteristic, with group `G`, and let
-`G^v` be its upper ramification groups, `LocalFieldsRamification.upperRamificationGroup`. Write
-`U_K^(0) = 𝒪[K]ˣ` and `U_K^(n) = 1 + 𝔪_K^n` for `n ≥ 1`, the groups
-`LocalFieldsRamification.unitFiltration K n`. For every integer `n ≥ 0`, `normResidue` carries the
-image of `U_K^(n)` in `Kˣ/N_(L/K)(Lˣ)` onto the image of `G^n` in `Gal(L/K)^ab = Gal(L/K)`:
-`U_K^(n) ↔ G^n`. At `n = 0` this says that the units map onto the inertia group `G_0`; the map is
-the arithmetic normalization of Layer 6, under which a uniformizer maps to an arithmetic Frobenius
-on the maximal unramified subextension. The absolute form follows: for every `n ≥ 0`, the closure
-of `artinMap(U_K^(n))` in `G_K^ab` is the image of the absolute upper group `G_K^n` of
-`LocalFieldsRamification` Layer 4a. The conductor consequence is
-`conductorExponent_eq_sInf_upperRamificationGroup`: `conductorExponent K L` is the least `n ≥ 0`
-with `G^n = 1`, so it is `0` exactly for unramified `L/K` and otherwise `1 + u` for the largest
-upper jump `u`, an integer by Hasse–Arf. For a character `χ` of `Gal(L/K)`, the least `n` with
-`χ ∘ normResidue` trivial on `U_K^(n)` is the least `n` with `χ(G^n) = 1`.
-
-(Jean-Pierre Serre, [Local Fields](#reference-serre-local-fields), XV §2, Theorem 2 and Corollary 3
-to Theorem 1.)
-
-*Proof.* The route is Serre's (Local Fields, XV §2). Functoriality of the reciprocity map in finite
-quotients and in norms (`artinMap_quotient`, `artinMap_groundNorm`) reduces the theorem to `L/K`
-totally ramified and abelian: for `n ≥ 0`, `G^n` lies in the inertia group `G_0 = Gal(L/L_0)`, `L_0`
-the maximal unramified subextension, and is its upper group at `n`, while the norm from `L_0` maps
-each `U_(L_0)^(n)` onto `U_K^(n)` (`LocalFieldsRamification` Layer 3, the norm on the unit
-filtration, item 3). The case `n = 0`, that the units map onto the inertia group, comes from the
-unramified normalization (`normResidue_uniformizer`, `localArtinMap_unit_of_unramified`). For `L/K`
-totally ramified, the norm is read on the unit filtration through the Herbrand function: it maps
-`U_L^(ψ(n))` into `U_K^(n)` and `U_L^(ψ(n)+1)` into `U_K^(n+1)`
-(`map_norm_unitFiltration_psiNat_le`), and on the graded quotients its kernel is the image of
-`G_(ψ(n))/G_(ψ(n)+1)` under `σ ↦ σ(π_L)/π_L` (Local Fields, V §6). Over an algebraically closed
-residue field the same exact sequences hold with a surjective norm ([Serre
-1961](#reference-serre-1961), n° 3.4, Proposition 6, printed p. 132). Over a finite residue field
-the graded quotients of `U_L` and `U_K` at these depths have the same order, so the cokernels of the
-graded norms measure the jumps of the upper filtration, and multiplying along the filtration
-compares the index of `N_(L/K)(U_L^(ψ(n)))` in `U_K^(n)` with `#G^n`. The theorem then follows from
-the compatibility of the reciprocity map with norms: for an intermediate field `M`, the reciprocity
-map of `L/M` is that of `L/K` composed with `N_(M/K)`, applied with the Herbrand shift `ψ_(M/K)` to
-the fixed field of `G^n`. The absolute form follows by restriction to the finite abelian quotients
-(`artinMap_restrict`), on which the images of `G_K^n` are the `G^n` (`LocalFieldsRamification` Layer
-4a), and the conductor statements follow from the definition of `conductorExponent` as a least
-depth.
-
-*Needs:* Layer 4 (`artinMap_quotient`, `artinMap_groundNorm`); Layer 6 (`normResidue`,
-`normResidue_uniformizer`, `localArtinMap_unit_of_unramified`); `artinMap_restrict` above;
-`LocalFieldsRamification` Layer 3 (`unitFiltration`, `normGroup`, the upper numbering with
-Herbrand's quotient theorem and tower transitivity, `psiNat`, `map_norm_unitFiltration_psiNat_le`,
-the graded norm maps of prime degree, and `hasseArf`) and Layer 4a (the absolute upper filtration
-and its finite-level surjections).
-
-**Checks.**
-
-- For an unramified `L/K`, `G^0 = G_0 = 1`, so `normResidue` kills `U_K^(0)`, the conductor
-  exponent is `0`, and a uniformizer maps to the arithmetic Frobenius.
-- For odd `p`, `K = ℚ_p` and `L = ℚ_p(ζ_p)`, `G^0 = G` and `G^v = 1` for `v > 0`, so
-  `normResidue(U_K^(0)) = Gal(L/K)`, `normResidue(U_K^(1)) = 1` and the conductor exponent is `1`:
-  units of positive depth do not reach tame inertia.
-- For `K = ℚ_2` and `L = ℚ_2(√2)`, the break is `2` in both numberings, so
-  `normResidue(U_K^(2)) = Gal(L/K)` and `normResidue(U_K^(3)) = 1`: `5 ∈ U_K^(2)` is not a norm,
-  `1 + 8ℤ_2` consists of norms, and the conductor exponent is `3`.
-- For `K = F_p((t))` and `y^p − y = t⁻¹`, the break is `1`, so `normResidue(U_K^(1)) = Gal(L/K)`,
-  `normResidue(U_K^(2)) = 1` and the conductor exponent is `2`, in equal characteristic.
-- The lower numbering cannot replace the upper one: for `ℚ_2(ζ_8)/ℚ_2`, `G_3 = ⟨σ_5⟩` while
-  `G^3 = 1`, and indeed `U_(ℚ_2)^(3) = 1 + 8ℤ_2` consists of norms from `ℚ_2(ζ_8)`, whose conductor
-  exponent is `3`.
+ArithmeticGaloisRepresentations §3.2 owns finite and absolute unit-filtration reciprocity in both
+characteristics and the upper-numbering character-conductor comparison (Serre, *Local Fields*,
+XV §2, Theorem 2 and Corollary 3 to Theorem 1). It uses the finite and absolute reciprocity maps,
+their arithmetic-Frobenius normalization and finite-quotient compatibility supplied by Layers 6–7
+here, together with `characterConductorExp` and its attained minimum.
 
 **Exit criterion.** `LocalGaloisGroups` can consume the local-cohomological row of §3 by name,
 the cyclotomic normalization included.
@@ -2161,9 +2097,9 @@ It contains:
   transported by `absoluteGaloisGroupComparison`; the evaluation pairing, which is Tau Ceti's
   `InternalHom.evalPairing`; and the Kummer class, which is Tau Ceti's `kummerMap` transported
   along the comparison and the degree-one comparison over `ZMod n`;
-- the local-invariant, local-unit, duality, Euler-characteristic, unit-filtration-reciprocity and
-  conductor contracts of Layers 5 and 7, with the smoothness instances the duality contracts are
-  applied through, and the cohomological dimension of `G_K` at the end of Layer 6;
+- the local-invariant, local-unit, duality, Euler-characteristic and conductor contracts of
+  Layers 5 and 7, with the smoothness instances the duality contracts are applied through, and the
+  cohomological dimension of `G_K` at the end of Layer 6;
 - the Weil-group carrier, topology, functoriality, inertia sequence and reciprocity isomorphism of
   Layer 9;
 - the Brauer sequence and sum-of-local-invariants contracts of Layer 10, stated before
@@ -2299,10 +2235,8 @@ existence and the `GlobalNumberFields` order/`Pic` API.
   groups.
 - J. Tate, *Global class field theory*, in Cassels–Fröhlich, *Algebraic Number Theory*: global
   class formations and cohomological class field theory.
-- <a id="reference-serre-local-fields"></a>J.-P. Serre, *Local Fields*, Graduate Texts in
-  Mathematics 67, Springer, 1979, Chapters XI–XV: local class formations, the character formula
-  for the reciprocity map, the local invariant, normalization conventions, and (XV §2)
-  unit-filtration reciprocity, located by chapter, section and statement number; *Galois
+- J.-P. Serre, *Local Fields*, Chapters XI–XIV: local class formations, the character formula
+  for the reciprocity map, the local invariant, and normalization conventions; *Galois
   Cohomology* for local duality and Euler characteristics.
 - J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of Number Fields*, 2nd ed.: finite and
   profinite cohomology, local duality, and global formations; (3.3.4) and (3.3.6) for strict and
@@ -2340,12 +2274,3 @@ existence and the `GlobalNumberFields` order/`Pic` API.
 Implementation should cite exact theorem numbers and exact source commits in file docstrings as
 the supplier audit is completed. The README records the mathematical contract; a private
 provenance ledger is not a substitute for public, checkable source references.
-
-<a id="reference-serre-1961"></a>
-
-### Source: Serre, *Sur les corps locaux à corps résiduel algébriquement clos*
-
-Jean-Pierre Serre, [Sur les corps locaux à corps résiduel algébriquement
-clos](http://www.numdam.org/item?id=BSMF_1961__89__105_0), Bulletin de la Société Mathématique de
-France 89 (1961), 105–154. Located by numbered paragraph and printed page; from n° 3.2 on it
-assumes an algebraically closed residue field.
