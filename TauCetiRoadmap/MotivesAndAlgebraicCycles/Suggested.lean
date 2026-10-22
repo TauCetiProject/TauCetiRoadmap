@@ -243,7 +243,10 @@ in README:
 Layer 0: graded correspondences, adequate equivalences, numerical cycles,
 diagonal decompositions, characteristic-power alterations of supports,
 intermediate indices, universal CH₀ support and
-the geometric cohomology-with-supports/Gersten adapters.
+the geometric cohomology-with-supports/Gersten adapters. The complex Betti
+correspondence action descends through algebraic equivalence; the integral real
+equivariant action uses rational equivalence. Real support vanishing uses the
+rational regular-module splitting specified in README §0.6.
 Layer 1: pure motives with twists, tensor, duality and adequacy quotients.
 Layer 2: Weil cohomology and its geometric Betti, de Rham and étale realizations.
 Layer 3: numerical motives, their radical criterion and signed symmetry.
