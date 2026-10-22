@@ -549,6 +549,28 @@ the reflection mapping-torus/Klein-bottle example with its nontrivial
 negative orientation line and integral homology; and the surgery-sphere
 component differential.
 
+For the four-component sphere use the unit round S² in ℝ³, height z, and
+`f(z)=5z/4−z³`. Put a=√(5/12). Prove that its critical components in
+increasing value order are the circle C₀ at z=−a, the south pole S,
+the north pole N, and the circle C₃ at z=a. Their negative-normal ranks
+are0,2,0,1 and values are `−5a/6,−1/4,1/4,5a/6`.
+Use a metric invariant under rotations and meridian reflection, standard
+near these components, and compare its meridian flow with the round flow.
+Orient both circles by increasing longitude θ and orient ν⁻_(C₃) by +∂_z.
+Orient ν⁻_S by dx∧dy in the south-pole chart given by the first two ambient
+coordinates. Identify φ:C₃→C₀ by longitude, so φ_*[C₃]=[C₀].
+Derive from M.6/M.7 the signed correspondences −φ_* from C₃ to C₀,
+augmentation from C₃ to N, and `1↦[C₀]` from S to C₀; the two ends of
+the rank-one unstable fiber have forced opposite signs. Construct the
+reduction of the full geometric complex to the finite model with ordered
+bases `(H₁(C₃),S)`, `(H₀(C₃),H₁(C₀))`, `(H₀(C₀),N)` in degrees2,1,0:
+`D₂(a,b)=(0,−a+b)`, `D₁(c,d)=(−c,c)`.
+Prove its homology is ℤ in degrees0,2 and zero otherwise, and compare
+`(1,1)` with the negative of the outward-oriented sphere fundamental class.
+There is no trajectory component that both receives and emits trajectories;
+prove that the reduction introduces no higher transfer corrections. This is a different
+function from the preceding two-cap example.
+
 **Invariant regular-current specialization.** For a closed smooth symplectic
 manifold (M,ω), a smooth circle action preserving ω, its fundamental field X
 for the parameter t∈ℝ/(2πℤ), and a smooth real f with df=ι_Xω, assume f is
@@ -667,6 +689,20 @@ the same map is `d₁:E¹_(1,1)→E¹_(0,1)` and E₂=E∞. Recover M.7's H₂,H
 in both cases. For the torus `S¹×S¹` with `f(θ,φ)=cos θ`, compare M.7's
 symmetric and nonsymmetric regular metrics: d₁ vanishes on component
 homology, E₂=E∞, and the abutment has H₀=ℤ, H₁=ℤ², H₂=ℤ.
+
+For M.7's four-component sphere, compute the critical-value E¹ grid:
+ℤ at `(0,0),(0,1),(1,1),(2,−2),(3,−2),(3,−1)` and zero elsewhere.
+The d₁ maps `(1,1)→(0,1)` and `(3,−2)→(2,−2)` are +1 in its chosen bases.
+Prove E₂=E∞, with survivors at `(0,0),(3,−1)`.
+The top-circle fundamental cycle alone has boundary −[C₀]; construct its
+south-pole correction to obtain the actual degree2 cycle of M.7's finite
+model. For the index filtration, E¹ has ℤ² at `(0,0)` and ℤ at
+`(0,1),(1,0),(1,1),(2,0)`. Its d₁ maps are `c↦(−c,c)` from `(1,0)`
+and −1 from `(1,1)` to `(0,1)`. Prove E₂=E∞ with survivors `(0,0),(2,0)`;
+the degree2 leading term is now S, corrected by +[C₃]. In the value
+filtration the drop-three correspondences induce no surviving d₃: the
+zero-chain source and the one-chain target were already killed by d₁.
+Compare the two induced filtrations on ordinary homology.
 
 For a smooth bundle π:Z→B with closed fiber over a closed Morse base,
 construct the pullback Bott function and its pulled-back base negative
@@ -1627,6 +1663,24 @@ with boundary versions from Oh and Floer–Hofer–Salamon:
    finite-Ck estimates and C-infinity continuity on compact sources. Retain
    tameness/compatibility as the corresponding distinct hypotheses. These
    constructions precede closed-sphere transversality and group applications.
+
+   On a smooth symplectic four-manifold, give ω its symplectic orientation.
+   For a smooth Riemannian metric g, prove that there exists a smooth
+   ω-compatible J with `g(u,v)=ω(u,Jv)` if and only if `*_g ω=ω` and
+   `|ω|_g=√2` pointwise; such J is unique. This is an almost
+   complex statement, without an integrability hypothesis. Use the exterior
+   two-form norm fixed by `ω∧*_gω=|ω|²_g vol_g`, with the wedge basis
+   eⁱ∧eʲ, i<j, orthonormal. For self-dual ω the norm condition is equivalent
+   to `vol_g=ω∧ω/2`. Define A by
+   `g(Au,v)=ω(u,v)`; in an oriented g-orthonormal coframe expand a self-dual
+   form as `a(e¹²+e³⁴)+b(e¹³−e²⁴)+c(e¹⁴+e²³)`.
+   Prove `|ω|²=2(a²+b²+c²)` and `A²=−(a²+b²+c²)Id`, hence J=A under the
+   norm condition, and establish frame independence and smooth assembly.
+   Conversely derive the star and norm identities from a compatible
+   orthonormal frame. Consume CKG's real Hodge star on DG's generic forms;
+   [FourDimensionalCompatibility.lean](FourDimensionalCompatibility.lean)
+   pins the two-form Gram matrix, its transpose relation to A, the metric
+   compatibility identity and the exterior-norm normalization on native matrices.
    CotangentLagrangian C4 owns only submanifold-relative primitive selection
    and its neighbourhood refinements, consuming the domain-local lemma here.
    Cite the Darboux-by-Moser development in `t4v1/damian_formalizare`,
