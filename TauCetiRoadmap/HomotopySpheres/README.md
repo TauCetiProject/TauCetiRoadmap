@@ -52,9 +52,13 @@ The roadmap is complete when Tau Ceti proves the following connected development
 9. A compact Hausdorff second-countable smooth six-manifold homotopy equivalent to the standard
    sphere has an orientation-preserving diffeomorphism to it after matching orientations, with
    the manifold orientations and derivative-preservation equation visible in the theorem.
+10. The standard positive-dimensional sphere S^n admits a smooth tangent framing exactly
+    when n∈{1,3,7}, with explicit frames and a complete Hopf-invariant exclusion; S⁰ has its
+    trivial rank-zero tangent bundle.
 
 This roadmap concerns smooth manifolds of dimension at least five and the stable topology used
-to classify their homotopy spheres.  Low-dimensional Poincare theorems, general non-simply-
+to classify their homotopy spheres. Section 3C also determines which standard
+spheres admit a smooth tangent framing in every positive dimension.  Low-dimensional Poincare theorems, general non-simply-
 connected surgery, pseudo-isotopy, and a calculation of every `Theta_n` are outside its stated
 endpoint.
 
@@ -461,7 +465,7 @@ CW-type comparison for the loop-suspension model before using Whitehead upstairs
    subwords.  Identify its adjoint on spheres and prove the fibre/connectivity statement needed
    for the EHP range.
 
-### 3C. EHP and secondary composition
+### 3C. EHP, Hopf invariants and secondary composition
 
 1. For spheres, define `E` as suspension, `H` from the James--Hopf map, and `P` from the relevant
    Whitehead product.  Prove the fibre sequence in its valid range and derive the natural long
@@ -474,11 +478,86 @@ CW-type comparison for the loop-suspension model before using Whitehead upstairs
 4. Prove the Barratt--Toda formula relating Whitehead products to `P`, `E`, and `H`.  This makes
    each low-stem EHP differential a theorem rather than a lookup.
 
+5. **Hopf invariant one and parallelizable standard spheres.** For d≥2 and
+   a based continuous f:S^(2d−1)→S^d define the integral Hopf invariant by
+   `u cup u=H(f)v` in its actual two-cell mapping cone C_f, with integral
+   cell generators u in degree d and v in degree 2d. Pin their signs to the
+   sphere orientations. The EHP comparison follows item 2 and this definition;
+   the exclusion and sphere theorem use the cone and cup product directly.
+   Prove H(f) odd implies d∈{2,4,8}. Construct H=1 representatives
+   in those dimensions by applying this item's Hopf construction to its
+   Clifford tangent frames and correcting the source orientation if needed.
+
+   Supply the full Adams–Atiyah exclusion using TopologicalKTheory
+   T2.5's positive Adams operations, T3–T4's compact-pair exactness and
+   complex Bott generators, and CharacteristicClasses C6.2–3's absolute
+   multiplicative Chern character and sphere normalization. Prove
+   `ch(β_l)=(-1)^l U_(2l)` for ordered Bott products from β=O(−1)−1,
+   using its rank-one normalization and external multiplicativity. If d is odd, graded
+   commutativity and torsion-freeness give H(f)=0. For d=2r, r≥1, use
+   3A.2 cone quotient C_f/S^(2r)≅S^(4r), with its top orientation v,
+   and T4.8's vanishing odd K-groups of even spheres to prove
+   `0→Kred(S^(4r))→Kred(C_f)→Kred(S^(2r))→0` exact.
+   Construct an integral basis x,y: y is the image of β_(2r), and x lifts
+   `(-1)^r β_r`. Thus ch(x)=u+c v for a rational c and ch(y)=v;
+   their independent leading terms prove injectivity on this free group.
+   Prove `x²=H(f)y`, `xy=y²=0`, and
+   `ψ^s(x)=s^r x+b_s y`, `ψ^s(y)=s^(2r)y` for integers s≥1.
+   These are identities in the integral K-group, using its freeness to
+   descend the rational character calculation. The congruence
+   `ψ²(x)≡x² mod2` makes b₂ odd when H(f) is odd. Commuting ψ² and ψ³ gives
+   `3^r(3^r−1)b₂=2^r(2^r−1)b₃`, hence `2^r` divides `3^r−1`.
+   Prove ν₂(3^r−1)=1 for odd r and =2+ν₂(r) for even r;
+   the resulting inequality forces r∈{1,2,4}. This supplies the exclusion
+   in every dimension, rather than extrapolating from a finite stem table.
+
+   For each n≥1 prove the smooth tangent bundle of the standard S^n is
+   trivial exactly when n∈{1,3,7}. Consume CharacteristicClasses C7.3's
+   actual smooth isomorphism between the native sphere tangent bundle and
+   the bundle with fibre x^⊥, including its inverse and radial-normal
+   extension. From an arbitrary smooth tangent frame, use smooth
+   Gram–Schmidt and a fixed change of basis at e₀ to obtain
+   orthogonal matrices A_x with first column x and A_(e₀)=I. Construct
+   the continuous multiplication μ(x,y)=A_x y with both strict units e₀.
+   Construct the join quotient and its sphere homeomorphism by
+   `[x,y,t]↦(sqrt(1−t)x,sqrt(t)y)`. Construct the unreduced suspension
+   sphere homeomorphism and its based degree-one comparison with the
+   chosen reduced suspension model. Descend μ to its Hopf map
+   `S^n*S^n≅S^(2n+1)→ΣS^n≅S^(n+1)`. Using AlgebraicTopology's
+   integral cup/cross/relative products on the oriented product of disks
+   and 3A.2's cone comparison, prove H=±1 from the two unit restrictions.
+   Apply the exclusion. Export n=2^j−1, j≥1, as a
+   weaker necessary condition. Treat S⁰ separately: its rank-zero tangent
+   bundle is trivial.
+
+   Construct the three positive examples using SpinRepresentations L7's
+   full real Clifford classification table on native TauCeti.realCliffordForm,
+   with Cliff(p,q)=CliffordAlgebra (TauCeti.realCliffordForm p q).
+   Use Cliff(0,1)≅ℂ, Cliff(0,3)≅ℍ×ℍ and
+   Cliff(0,7)≅M₈(ℝ)×M₈(ℝ) to construct real modules of dimensions 2,4,8.
+   For their generator actions A_i prove
+   squares −I and anticommutation. Average a positive inner product over
+   the finite signed monomial group generated by the A_i, proving its
+   finiteness and the invariance of this metric; then A_i is skew-adjoint.
+   Choose an orthonormal basis to transport to the standard Euclidean model.
+   On its unit sphere prove the vectors A_i x are a smooth orthonormal
+   basis of x^⊥ and construct the resulting actual tangent trivialization
+   and inverse by inner-product coordinates. The finite-module metric
+   adapter is part of this target; the abstract algebra table alone does
+   not supply it. Algebraic Clifford classification retains its L7 owner.
+
 James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), Sections 1--6, supplies the
 filtered reduced product and equivalence with `Omega Sigma X`.  Whitehead, *Elements of Homotopy
 Theory*, Chapters VII--XI, supplies Freudenthal, Whitehead products, and EHP.  Toda,
 *Composition Methods in Homotopy Groups of Spheres*, Chapters I--V, fixes compositions,
 secondary operations, suspension sequences, and the low-stem calculation.
+
+Adams and Atiyah, [*K-theory and the Hopf invariant*](https://doi.org/10.1093/qmath/17.1.31),
+Quarterly Journal of Mathematics 17 (1966), 31–38, supplies the integral Adams-operation
+exclusion. Hatcher, [*Vector Bundles and K-Theory*, §2.3](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
+gives the sphere-framing/H-space and K-theory route. The positive Adams-operation
+and complex Bott constructions precede this application; they use neither its
+Hopf exclusion nor its tangent classification.
 
 ## Stage 4: stable `SO`, `BSO`, vector bundles, Bott periodicity, and `J`
 
@@ -1289,6 +1368,7 @@ models; none may be stored as an assumed field of a group/classification record.
 | 1 h-cobordism | geometric topology, DifferentialGeometry orientations/Sard, HF Morse data, algebraic topology | 2, 10 |
 | 2 small skeleton and `Theta_n` | 1, triangulation, geometric connected sum | 6, 9--10 |
 | 3 James/EHP/stable stems | algebraic topology, compactly generated substrate | 5, 8--9 |
+| 3C.5 Hopf exclusion and sphere frames | 3A.2, AlgebraicTopology cup/cross/relative products, TopologicalKTheory T2.5/T3–T4, CharacteristicClasses C6.2–3/C7.3, SpinRepresentations L7 | standard-sphere parallelizability |
 | 4 `SO`/`BSO`/Bott/`J` | 3A convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T7 |
 | 5 Pontryagin--Thom | 3--4, tubular neighbourhoods, transversality | 6, 8--9 |
 | 6 `A_n`, `P_n`, exactness | 1--2, 4--5 | 7--9 |
