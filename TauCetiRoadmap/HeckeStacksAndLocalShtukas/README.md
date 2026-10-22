@@ -44,9 +44,11 @@ kernels, levels, coefficients and continuous actions. The general-local-field
 and arbitrary-source constructions here retain their full scope. The independent
 IG.0.27 deformation input to HS3.9 is separate from this comparison.
 
-[Suggested.lean](Suggested.lean) records representative statements on the pinned
-Mathlib carriers, including the topological component results of HS2.16 and the
-monoidal pairing identities of HS4.2. This README is the definitive specification;
+[Suggested.lean](Suggested.lean) explains why the headline theorems require
+objects absent from the Mathlib and Tau Ceti pins: bounded Hecke correspondences,
+local shtuka towers, relative perfect representation categories and the enhanced
+solid/lisse Hecke action. It contains no theorem statements. The API names below
+specify intended library declarations. This README is the definitive specification;
 the suggested forms are not an exhaustive checklist.
 
 ## Conventions
@@ -1381,7 +1383,7 @@ Provide the following API.
 **Checks.**
 
 - `admissiblePeriodTorsor.trivial_datum_test`: For `μ = 0: Gr_{≤0} = Spd Q̆_p`; for `b = 1`, `𝕃_1 = G(Q_p) × Spd Q̆_p` with `G(Q_p)` acting by right translation and `J_1(Q_p) = G(Q_p)` by left translation; for `[b] ≠ 1` the admissible locus and `𝕃_b` are empty.
-- `admissiblePeriodTorsor.cyclotomic_test`: For `G = G_m`, `μ = id` and `b = p⁻¹: Gr^a_{≤μ} = Spd Q̆_p`, `𝕃_b ×^{Q_p^×} Q_p ≅ Q_p(1)`, the character of `Gal(\overline{\breve{\mathbb Q}_p}/\breve{\mathbb Q}_p)` defined by `𝕃_b` is the cyclotomic character (take the algebraic closure of `Q̆_p` inside the chosen completed algebraically closed field `C`), `D_cris(Q_p(1)) = (Q̆_p, p⁻¹σ)`, and `𝕃_b/(1 + p^mZ_p) ≅ Z × Spd Q̆_p(ζ_{p^m})` for `m ≥ 1`.
+- `admissiblePeriodTorsor.cyclotomic_test`: For `G = G_m`, `μ = id` and `b = p⁻¹: Gr^a_{≤μ} = Spd Q̆_p`, `𝕃_b ×^{Q_p^×} Q_p ≅ Q_p(1)`, the character of `Gal(ℚ̆_p̄/ℚ̆_p)` defined by `𝕃_b` is the cyclotomic character (take the algebraic closure of `Q̆_p` inside the chosen completed algebraically closed field `C`), `D_cris(Q_p(1)) = (Q̆_p, p⁻¹σ)`, and `𝕃_b/(1 + p^mZ_p) ≅ Z × Spd Q̆_p(ζ_{p^m})` for `m ≥ 1`.
 - `admissiblePeriodTorsor.tate_module_test`: For `G = GL_n`, `μ = (1^d,0^{n−d})` and `b` the Frobenius of the covariant Dieudonné module of a `p`-divisible group `X` of dimension `d` and height `n`, in the normalisation of Scholze–Weinstein in which `μ_{p^∞}` has Frobenius `p⁻¹σ`: the pullback of `𝕃_b ×^{GL_n(Q_p)} Q_p^n` to the generic fibre of the Rapoport–Zink space of `X` is the rational Tate module of the universal `p`-divisible group, and the lattice defining the map to `Sht_{GL_n,b,μ,GL_n(Z_p)}` is its Tate module.
 - `admissiblePeriodTorsor.level_test`: For `K ⊂ G(Q_p)` compact open the fibre of `𝕃_b/K = Sht_{G,b,μ,K}` over a geometric point of `Gr^a_{≤μ}` is `G(Q_p)/K`, and pro-étale locally on `S → Gr^a_{≤μ}` the pullback of `𝕃_b/K` is `S × G(Q_p)/K`.
 - `admissiblePeriodTorsor.boundary_test`: For `G = GL_2`, `μ = (2,0)` and `b = p⁻¹·1`: the closed stratum `Gr_{(1,1)} = Spd Q̆_p` lies in `Gr^a_{≤μ}`, and `𝕃_b` restricts to it as the torsor of bases of `Q_p(1)²`, of type `μ′ = (1,1)` in the sense of `(4)` and not of type `μ = (2,0)`.
@@ -1541,11 +1543,11 @@ this target uses its reductive case only.
 
 ### HS2.16 — Connected components and transitivity
 
-Prove `componentTransitivity_profinite`, the topological lemma that a profinite group acting continuously
+Prove the topological lemma that a profinite group acting continuously
 on a space with connected quotient acts transitively on its connected
-components. Consequently `componentTransitivity_quotient` says that `π_0(A)/K→π_0(A/K)` is bijective
+components. Consequently `π_0(A)/K→π_0(A/K)` is bijective
 for continuous profinite actions. For a locally profinite `H`,
-prove `componentTransitivity_locallyProfinite`, the transitivity conclusion when `A/H` is connected and,
+prove the transitivity conclusion when `A/H` is connected and,
 for some compact open `K⊂ H`, all components of `A/K`
 are open.
 
@@ -1566,7 +1568,7 @@ criterion assumes that component comparison and does not infer it merely from
 a map of underlying spaces. ([GLX], Theorems 3.9 and 3.11, pp. 826,828;
 [SW], §24.1, p. 225.)
 
-The negative-control target `componentTransitivity_counterexample` concerns the continuous translation action of `ℤ` on
+Prove also that the continuous translation action of `ℤ` on
 `ℤ_p×Spa C` has connected quotient and is
 not transitive on its components, so connectedness of the quotient
 alone does not suffice for a locally profinite group.
@@ -2276,25 +2278,21 @@ Use pinned Tau Ceti's `CategoryTheory.Functor.mapExactPairing` from
 `TauCeti.CategoryTheory.Monoidal.Rigid.Functor`, together with
 `CategoryTheory.Functor.mapExactPairing_coevaluation` and
 `CategoryTheory.Functor.mapExactPairing_evaluation`, to transport an exact
-pairing along the monoidal Hecke action. The notation `monoidalCoev` and
-`monoidalEval` in Suggested.lean projects that supplied pairing;
-`monoidalCoev_eq` and `monoidalEval_eq` give its formulas using the
-supplied projection theorems.
-`monoidalCoev_eval_left` and `monoidalCoev_eval_right` are proved
-corollaries of its triangle fields. `monoidalCoev_unit` and
-`monoidalEval_unit` express its unit-pairing formulas.
+pairing along the monoidal Hecke action. Its coevaluation and evaluation
+formulas use the monoidal unit and tensor comparisons, and its triangle
+fields give the two dual-pair identities. Include the unit-pairing formulas.
 
 **Checks.**
 
-- For the identity functor, `monoidalCoev` equals the original coevaluation
-  and `monoidalEval` equals the original evaluation, with no exchange of `V,W`.
+- For the identity functor, the transported coevaluation equals the original
+  coevaluation and the transported evaluation equals the original evaluation,
+  with no exchange of `V,W`.
 - For the unit pairing, creation is the inverse right unitor followed by
   the tensor square of the monoidal unit map; annihilation is the tensor
   square of the counit followed by the right unitor.
 - For the identity functor on `FGModuleCat ℚ` and `V=ℚ²`, `W=V*`,
-  the composite `monoidalCoev ≫ (β_ V W).hom ≫ monoidalEval` is
-  multiplication by `2` on the unit. The pairing is `FGModuleCat.exactPairing`;
-  Suggested.lean proves this trace calculation as well as the two identity tests.
+  the composite of coevaluation, symmetry and evaluation is multiplication
+  by `2` on the unit. The pairing is `FGModuleCat.exactPairing`.
 
 (Source: [FS], proof of Theorem IX.2.2, p. 323; pinned Tau Ceti,
 `CategoryTheory.Functor.mapExactPairing` and its projection theorems;
@@ -2589,7 +2587,7 @@ from these Hecke and shtuka targets.
 
 ## References
 
-All sources below are freely readable. Page numbers refer to these versions;
+Page numbers refer to the versions below;
 the target citations distinguish a source statement from a consequence to
 prove from the imported interfaces.
 
@@ -2598,7 +2596,7 @@ prove from the imported interfaces.
   author-hosted 356-page text of arXiv:2102.13459v4, 27 November 2024.
   Printed and PDF page numbers coincide.
 - **[SW]** Peter Scholze and Jared Weinstein,
-  [*Berkeley Lectures on p-adic Geometry*](https://people.mpim-bonn.mpg.de/scholze/Berkeley.pdf),
+  *Berkeley Lectures on p-adic Geometry*,
   print-ready version, 27 March 2020. Printed page equals PDF page minus 10.
 - **[HK]** Sean Howe and Christian Klevdal,
   [*Admissible pairs and p-adic Hodge structures II: The bi-analytic Ax-Lindemann theorem*](https://arxiv.org/pdf/2308.11064v2),
