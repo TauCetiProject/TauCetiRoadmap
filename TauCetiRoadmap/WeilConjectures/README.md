@@ -156,7 +156,9 @@ to curve RH. WC.6 applies the arithmetic to smooth proper schemes and mixed
 coefficients; WC.7 identifies the factors in actual geometry and assembles the
 endpoint.
 
-`Suggested.lean` states absolute convergence of the arithmetic Euler product,
+`Suggested.lean` states the Weil conjectures through the point-count zeta series
+of a smooth proper geometrically integral scheme over a finite field,
+absolute convergence of the arithmetic Euler product,
 integral rationality of the actual point-count series,
 the smooth proper signed functional equation, rational-series descent, local
 Fatou normalization, pure factor extraction and the two principal numerical
@@ -1570,6 +1572,15 @@ For an actual smooth proper geometrically connected `X/k` of pure dimension `d`,
 * Every reciprocal root `α` of `Π_i` is algebraic integral, and every complex embedding satisfies `|σ(α)| = q^{i/2}`.
 * `Z_X = ∏_i Π_i^{(−1)^{i+1}}` and, for every `r ≥ 1`, `N_r = Σ_i(−1)^i Tr(F^r | H^i)`.
 * With integer `χ = Σ_i(−1)^i deg Π_i` and the actual rational nonzero determinant multiplier `Δ`, `Δ² = q^{dχ}` and `Z_X(1/(q^dT)) = (−1)^χ ΔT^χ Z_X(T)`.
+
+`weilConjectures_smooth_proper` in `Suggested.lean` states the point-count
+formulation for a smooth proper geometrically integral scheme of dimension `d`.
+It gives integer polynomials `P₀,…,P₂d`, each with constant coefficient one,
+with `P₀=1−T` and `P₂d=1−q^d T`. The zeta series is the product of the
+odd-degree factors times the power-series inverse of the product of the
+even-degree factors. Every complex zero of `P_i` has modulus `q^(−i/2)`, and
+`deg P_i = deg P_(2d−i)`. This formulation uses the actual extension-point counts;
+the cohomological comparisons identify these factors with the determinants above.
 
 The endpoint assembles the individual comparisons rather than using any one conclusion as a field of an input structure. It makes no semisimplicity assumption. Betti numbers of a complex fibre are additionally compared only when the actual smooth proper family and path of WC.4 are supplied. An arbitrary finite-field scheme is not asserted to lift to characteristic zero. For mixed sheaves the separate reciprocal-divisor upper-weight theorem remains the available export; individual integral pure-degree factors are not inferred from it.
 

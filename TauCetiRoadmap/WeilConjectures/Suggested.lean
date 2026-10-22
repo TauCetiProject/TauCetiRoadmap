@@ -6,6 +6,12 @@ import Mathlib
 This file is not the roadmap and is not exhaustive. `README.md` is definitive.
 The admitted theorems are acceptance statements for the indicated milestones.
 
+WC.7's Weil conjectures are stated directly for actual smooth proper geometrically
+integral schemes over a finite field: normalized integral factors, the endpoint
+factors, their alternating product, every complex zero's modulus and equality of
+complementary degrees. This formulation uses the point-count zeta series without
+a cohomology carrier.
+
 WC.1's arithmetic Euler product converges absolutely on a right half-plane
 for actual finite-type schemes over `Spec ℤ`. Its normalized integral rational
 presentation is stated for actual separated finite-type schemes over any finite field. Two definitions give the cardinality
@@ -21,10 +27,11 @@ Fatou theorem, WC.3's integral factor extraction in any characteristic-zero
 realization field, and WC.5's weighted moment bound and graded polynomial
 approximation theorem. They use native power series, polynomials and normed fields.
 
-The cohomological degree factors, purity, all-power trace formula and assembled
-WC.7 Weil theorem are deferred: the pins provide integral pro-étale cohomology
-as additive groups, but not the finite-dimensional rational realization with
-compact supports and geometric Frobenius. WC.4 also needs rational fibre transport
+The identification of the integral factors with cohomological determinants,
+coefficient-prime comparisons and the all-power cohomological trace formula are
+deferred: the pins provide integral pro-étale cohomology as additive groups, but
+not the finite-dimensional rational realization with compact supports and
+geometric Frobenius. WC.4 also needs rational fibre transport
 and Artin comparison. The stack and Tate-representation applications need the
 rational stack coefficient and arithmetic comparison constructions. The cycle
 and surface applications need rational cycle maps, the numerical Picard local
@@ -51,6 +58,27 @@ def zetaSeries {k : Type} [Field k] [Finite k] (p : ℕ)
   PowerSeries.subst (PowerSeries.mk (fun n => match n with
     | 0 => 0
     | r + 1 => (extensionPointCount p X (r + 1) : ℚ) / (r + 1))) (PowerSeries.exp ℚ)
+
+/-- WC.7: the Weil conjectures in terms of the point-count zeta series, including
+the endpoint factors, root moduli and equality of complementary degrees. -/
+theorem weilConjectures_smooth_proper
+    {k : Type} [Field k] [Finite k] (p : ℕ) [Fact p.Prime] [CharP k p]
+    (X : Over (Spec (.of k))) (d : ℕ)
+    [SmoothOfRelativeDimension d X.hom] [IsProper X.hom]
+    [GeometricallyIntegral X.hom] :
+    ∃ P : Fin (2 * d + 1) → Polynomial ℤ,
+      (∀ i, (P i).coeff 0 = 1) ∧
+      P 0 = 1 - Polynomial.X ∧
+      P (Fin.last (2 * d)) = 1 - C ((Nat.card k : ℤ) ^ d) * Polynomial.X ∧
+      zetaSeries p X =
+        (∏ i ∈ Finset.univ.filter (fun i : Fin (2 * d + 1) => Odd i.val),
+          ((P i).map (Int.castRingHom ℚ) : PowerSeries ℚ)) *
+        (∏ i ∈ Finset.univ.filter (fun i : Fin (2 * d + 1) => Even i.val),
+          ((P i).map (Int.castRingHom ℚ) : PowerSeries ℚ))⁻¹ ∧
+      (∀ i (α : ℂ), (P i).eval₂ (Int.castRingHom ℂ) α = 0 →
+        ‖α‖ = (Nat.card k : ℝ) ^ (-(i.val : ℝ) / 2)) ∧
+      (∀ i, (P i).natDegree = (P i.rev).natDegree) := by
+  sorry
 
 /-- WC.1: the arithmetic Euler product of a finite-type scheme over `Spec ℤ`
 converges absolutely on a right half-plane. -/
