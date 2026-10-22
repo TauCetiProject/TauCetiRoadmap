@@ -183,7 +183,7 @@ From ArithmeticStatisticsPartVII require [ArithmeticStatisticsPartVII: zero coke
 
 ## How to read the build
 
-The groups are read in order. §5.12 is self-contained apart from the Part I density carriers and item GN-a. §§5.13–5.14 rest on the Lipnowski–Tsimerman hypotheses and items GN-b to GN-d. §§5.15–5.19 form one chain: the class-group dictionary (§5.15), the trace estimate (§5.16), monodromy (§5.17), the orbit count (§5.18) and the large-`q` theorem (§5.19). §§5.20–5.21 apply the Wood normalizations of Part I to the components of item IG-b. §5.22 uses only group theory and the Hurwitz counts of IG Layer IG.5. Each target states its hypotheses, source locator and Checks. Definitions also carry an API list; their heavier carriers (Hurwitz schemes and monodromy representations) are README targets, while the representative light definitions are in `Suggested.lean`.
+The groups are read in order. §5.12 is self-contained apart from the Part I density carriers and item GN-a. §§5.13–5.14 rest on the Lipnowski–Tsimerman hypotheses and items GN-b to GN-d. §§5.15–5.19 form one chain: the class-group dictionary (§5.15), the trace estimate (§5.16), monodromy (§5.17), the orbit count (§5.18) and the large-`q` theorem (§5.19). §§5.20–5.21 apply the Wood normalizations of Part I to the components of item IG-b. §5.22 uses only group theory and the Hurwitz counts of IG Layer IG.5. Each target states its hypotheses, source locator and Checks. `Suggested.lean` states the local-density moment bounds, the integral symplectic lifting criterion and the unique similitude-stable orbit theorem. Its module docstring identifies the objects needed to state the other arithmetic headlines; the definitions and basic theory specified below are part of the roadmap.
 
 ## Layer 5: Function-field distributions and geometric statistics
 
@@ -226,6 +226,8 @@ The finite and locally compact random-intersection models supply exact probabili
 <a id="local-density-first-moment"></a>
 
 **Local density first moment.** Let `d ≥ 1, n ≥ 0, p` prime, `r ≥ 1` and `N = N_{d,n}`. Then `(1/#R_N(p^r)) Σ_{a ∈ R_N(p^r)} σ(a; p^r) = (1 − p^{−(n+1)})(1 − p^{−(N−1)})/(1 − p^{−N})`. In particular, for `d ≥ 2` and `n ≥ 1` (so `N ≥ n + 2`) the average lies in `[1 − 2p^{−(n+1)}, 1]`, which is the source's `1 + O(p^{−n−1})` (stated there for `d ≥ 2, n ≥ 3`).
+
+`Suggested.lean` states this as `HypersurfaceDensity.local_density_first_moment`. The definitions `HypersurfaceDensity.primitiveVectors`, `HypersurfaceDensity.coefficientForm` and `HypersurfaceDensity.localDensity` use vectors over `ZMod`, the degree-`d` monomials from `Finset.Nat.antidiagonalTuple` and their actual homogeneous `MvPolynomial`. The monomial-set cardinality is `N_{d,n}`; primitivity means that the coordinate ideal is the unit ideal.
 
 *Proof.* Swap the sums: `Σ_a σ(a; p^r) = p^{−rn} Σ_{b ∈ R_{n+1}(p^r)} #{a ∈ R_N(p^r) : ⟨a, ν_{d,n}(b)⟩ ≡ 0 mod p^r}` (coefficient-vector-form, `eval_form`). For primitive `b, ν_{d,n}(b)` is primitive (it contains `b_i^d` for a unit `b_i`), so `a ↦ ⟨a, ν(b)⟩` maps `(ℤ/p^r)^N` onto `ℤ/p^r` with kernel of size `p^{r(N−1)}`; the kernel elements with `a ≡ 0 mod p` are `p·a′` with `⟨a′, ν(b)⟩ ≡ 0 mod p^{r−1}, p^{(r−1)(N−1)}` of them. So the inner count is `p^{r(N−1)}(1 − p^{−(N−1)})`, independent of `b`. Insert `#R_m(p^r) = p^{rm}(1 − p^{−m})` (BLS (5.10), from the [ArithmeticStatisticsPartI §0.13][part-4] carriers of Part I) for `m = n + 1` and `m = N` and simplify. For the range: `(1 − p^{−(N−1)})/(1 − p^{−N}) ≤ 1` and `(1 − x)(1 − y) ≥ 1 − x − y` with `y = p^{−(N−1)} ≤ p^{−(n+1)}`.
 
@@ -297,6 +299,8 @@ The finite and locally compact random-intersection models supply exact probabili
 
 **Local density second moment.** For `d ≥ 1, n ≥ 2, p` prime, `r ≥ 1` and `N = N_{d,n}: Σ_{a ∈ R_N(p^r)} σ(a; p^r)² ≤ p^{rN}((1 − p^{−(n+1)})² + 2p^{1−n})`. Dividing by `#R_N(p^r) = p^{rN}(1 − p^{−N})` gives the upper half of (5.15): the mean of `σ²` is at most `1 + O(p^{1−n})`.
 
+`Suggested.lean` states this as `HypersurfaceDensity.local_density_second_moment`.
+
 *Proof.* Expand `(5.12): Σ_a σ(a; p^r)² = p^{−2rn} Σ_{b₁, b₂ ∈ R_{n+1}(p^r)} #L(b₁, b₂; p^r)`. By two-point-incidence-count, `#L(b₁, b₂; p^r) ≤ p^{r(N−2)} gcd(G(ν(b₁), ν(b₂)), p^r)`. By veronese-minor-valuation, `gcd(G(ν(b₁), ν(b₂)), p^r) = gcd(G(b₁, b₂), p^r)`. Apply primitive-pair-minor-gcd-sum; the exponent is `−2rn + r(N−2) + 2r(n+1) = rN`.
 
 *Needs:* [ArithmeticStatisticsPartI §0.10][part-1], [two point incidence count](#two-point-incidence-count), [veronese minor valuation](#veronese-minor-valuation), [primitive pair minor gcd sum](#primitive-pair-minor-gcd-sum).
@@ -312,6 +316,8 @@ The finite and locally compact random-intersection models supply exact probabili
 <a id="local-density-variance"></a>
 
 **Local density variance.** For `d ≥ 1, n ≥ 2, p` prime and `r ≥ 1: (1/#R_N(p^r)) Σ_{a ∈ R_N(p^r)} (σ(a; p^r) − 1)² ≤ 4p^{1−n}`, where `N = N_{d,n}`. This is the source's bound `≪ p^{−(n−1)}` (stated for `d ≥ 2, n ≥ 3`) with an explicit constant, uniform in `r`.
+
+`Suggested.lean` states this as `HypersurfaceDensity.local_density_variance`.
 
 *Proof.* Expand: mean`((σ − 1)²) =` mean`(σ²) − 2` mean`(σ) + 1`. Insert mean`(σ) = (1 − x)(1 − y)/(1 − z)` (local-density-first-moment) and mean`(σ²) ≤ ((1 − x)² + 2w)/(1 − z)` (local-density-second-moment), where `x = p^{−(n+1)}, y = p^{−(N−1)}, z = p^{−N}, w = p^{1−n}`. The numerator is `x² + 2w + 2y − 2xy − z ≤ 2w + 2p^{−n} + p^{−2n−2} ≤ 3.1·w`, using `N ≥ n + 1`; the denominator `1 − z ≥ 7/8` since `N ≥ 3`. Hence the mean is at most `(3.1·8/7) w < 4w`.
 
@@ -419,8 +425,6 @@ The required API is:
 
 **Convex concentration inequality.** Let `g ∈ ℝ, 1/2 < ε < 1` and `x₁, …, x_k ∈ ℝ` with `0 ≤ x_i ≤ εg` and `Σ_i x_i = g`. Then `Σ_i x_i² ≤ (ε² + (1 − ε)²)g² = (1 − 2ε(1 − ε))g²`.
 
-The representative Lean namespace `Concentration` pins this target as `sum_sq_le_of_le_mul`.
-
 *Proof.* If `g ≤ 0` the hypotheses force every `x_i = 0` and `g = 0`. Let `g > 0` and let `x₁` be a largest coordinate. If `x₁ < g/2: Σ x_i² ≤ x₁ Σ x_i < g²/2 ≤ (ε² + (1 − ε)²)g²`, since `ε² + (1 − ε)² ≥ 1/2`. If `x₁ ≥ g/2: Σ_{i≥2} x_i² ≤ (Σ_{i≥2} x_i)² = (g − x₁)²`, so `Σ x_i² ≤ x_1² + (g − x₁)²`, which is increasing in `x₁` on `[g/2, εg]` and equals `(ε² + (1 − ε)²)g²` at `x₁ = εg`. (The source argues by convexity: the maximum over the polytope `{x ∈ [0, εg]^k : Σx = g}` is at a vertex, and the vertices are the `k(k − 1)` permutations of `(εg, (1 − ε)g, 0, …, 0)`.)
 
 *Needs:* `Real.rpow` (Mathlib), `Finset.sum` (Mathlib).
@@ -438,8 +442,6 @@ The representative Lean namespace `Concentration` pins this target as `sum_sq_le
 <a id="weighted-square-concentration"></a>
 
 **Weighted square concentration.** For every `C ≥ 0` there is `g₀` such that for all `g ≥ g₀` and every finite family of pairs of positive integers `(k_j, n_j)` with `Σ_j k_j n_j = g` in which no `j` has both `k_j = 1` and `n_j ≥ 0.99g: (1/2)Σ_j k_j n_j² log n_j + Cg² < 0.495 g² log g`.
-
-The signature `Concentration.weighted_square_concentration` uses positive natural block sizes and multiplicities, with `g` their total dimension.
 
 *Proof.* Put `x_j = k_j n_j`. Case A, every `x_j < 0.99g`: since `k_j ≥ 1` and `n_j ≤ g, k_j n_j² log n_j ≤ x_j² log g`, and convex-concentration-inequality with `ε = 0.99` gives `Σ_j x_j² ≤ 0.9802g²`; so the left side is at most `0.4901 g² log g + Cg²`. Case B, some `x_{j0} ≥ 0.99g`: then `k_{j0} ≥ 2` (a block with `k = 1` has `x = n < 0.99g`), so `n_{j0} ≤ g/2` and `k_{j0}n_{j0}² log n_{j0} = x_{j0}n_{j0} log n_{j0} ≤ (g²/2) log g`; the other blocks have `Σ_{j≠j0} x_j ≤ 0.01g` and `n_j ≤ 0.01g`, so `Σ_{j≠j0} k_j n_j² log n_j ≤ Σ_{j≠j0} x_j n_j log g ≤ 10^{−4} g² log g`. The left side is at most `0.25005 g² log g + Cg²`. In both cases the left side is below `0.495 g² log g` once `0.0049 log g > C`, i.e. for `g ≥ g₀ = ⌈exp(C/0.0049)⌉ + 1` (`log n_j ≥ 0` by Mathlib `Real.log_nonneg`).
 
@@ -515,23 +517,7 @@ The signature `Concentration.weighted_square_concentration` uses positive natura
 
 **Kolmogorov distance.** For Borel probability measures `μ, ν` on `ℝ` with distribution functions `F_μ(x) = μ((−∞, x])` and `F_ν`, the Kolmogorov distance is `d_K(μ, ν) = sup_{x ∈ ℝ} |F_μ(x) − F_ν(x)|`. It takes values in `[0, 1]`, is symmetric, satisfies the triangle inequality, vanishes exactly when `μ = ν`, and dominates `|μ((−∞, x]) − ν((−∞, x])|` for every `x`.
 
-The representative Lean namespace `GeometricStatistics` pins this target as `kolmogorovDist` and `kolmogorovDist_eq_zero_iff`; `atom_zero_le_kolmogorovDist` pins its supported-at-zero comparison below.
-
-The required API is:
-
-- `GeometricStatistics.kolmogorovDist`: `d_K(μ, ν) = sup_x |F_μ(x) − F_ν(x)|`.
-
-- `GeometricStatistics.kolmogorovDist_nonneg`: `d_K ≥ 0`.
-
-- `GeometricStatistics.kolmogorovDist_comm`: `d_K(μ, ν) = d_K(ν, μ)`.
-
-- `GeometricStatistics.kolmogorovDist_le_one`: `d_K ≤ 1`.
-
-- `GeometricStatistics.abs_cdf_sub_le_kolmogorovDist`: `|F_μ(x) − F_ν(x)| ≤ d_K(μ, ν)` for every `x`.
-
-- `GeometricStatistics.kolmogorovDist_triangle`: `d_K(μ, ρ) ≤ d_K(μ, ν) + d_K(ν, ρ)`.
-
-- `GeometricStatistics.kolmogorovDist_eq_zero_iff`: For probability measures, `d_K(μ, ν) = 0` iff `μ = ν`.
+Construct this distance on Mathlib's probability measures on `ℝ` using their CDFs. Prove nonnegativity, symmetry, the bound by one, the pointwise CDF-discrepancy bound, the triangle inequality and the equality criterion above.
 
 *Proof.* Define `d_K` as the supremum over `x` of `|cdf μ x − cdf ν x|` (Mathlib ProbabilityTheory.cdf); the family is bounded by 1 (Mathlib `ProbabilityTheory.cdf_le_one`), so the supremum is a real number and dominates each term (Mathlib `le_ciSup`). For probability measures `cdf μ x = μ((−∞, x])` (Mathlib `ProbabilityTheory.cdf_eq_real`); equal distribution functions give equal measures (Mathlib `MeasureTheory.Measure.eq_of_cdf`).
 
@@ -551,23 +537,7 @@ The required API is:
 
 **Normalized eigenangle spacing measure.** Let `θ : Multiset ℝ` have cardinality `N ≥ 1`, with every entry in `[0,2π)`. Sort it as `θ₁ ≤ ⋯ ≤ θ_N`. Define the cyclic gaps `Δ_i = θ_{i+1}−θ_i` for `i<N` and `Δ_N = θ₁+2π−θ_N`, retaining zero gaps and the wrap-around gap. Set `spacingMeasure θ = (1/N)Σ_i δ_{NΔ_i/(2π)}`, a Borel probability measure on `ℝ` supported on `[0,∞)`. For a positive-dimensional abelian variety (`g ≥ 1`) take the multiset of arguments in `[0,2π)` of all `2g` complex Frobenius roots, counted with multiplicity. The abelian-variety carrier is [ArithmeticStatisticsPartI §0.16][part-6]; the Frobenius polynomials are supplied by DeligneWeightsAndPurity §1.4.
 
-The representative namespace `GeometricStatistics` uses `cyclicGaps θ : List ℝ` (empty for the empty multiset), `spacingMeasure θ hN : ProbabilityMeasure ℝ` for `hN : 0 < θ.card`, and `eigenangles P : Multiset ℝ` for a complex polynomial `P`, mapping its roots by `z ↦ toIcoMod (2π>0) 0 (Complex.arg z)`. Require the following API. The multiplicity Check is the named target `GeometricStatistics.repeated_antipodal_spacing_zero_mass` in Suggested.lean:
-
-- `GeometricStatistics.length_cyclicGaps`: `(cyclicGaps θ).length = θ.card`.
-
-- `GeometricStatistics.cyclicGaps_nonneg`: if `∀ t ∈ θ, 0 ≤ t ∧ t < 2π`, then `∀ Δ ∈ cyclicGaps θ, 0 ≤ Δ`.
-
-- `GeometricStatistics.sum_cyclicGaps`: if `0 < θ.card`, then `(cyclicGaps θ).sum = 2π`.
-
-- `GeometricStatistics.spacingMeasure_univ`: for `hN : 0 < θ.card`, `(spacingMeasure θ hN : Measure ℝ) univ = 1`.
-
-- `GeometricStatistics.spacingMeasure_Iio_zero`: under the angle-range hypothesis, `(spacingMeasure θ hN : Measure ℝ) (Iio 0) = 0`.
-
-- `GeometricStatistics.card_eigenangles`: if `P.natDegree = 2g`, then `(eigenangles P).card = 2g`.
-
-- `GeometricStatistics.eigenangles_mem_Ico`: every angle of `eigenangles P` lies in `[0,2π)`.
-
-- `GeometricStatistics.sub_one_div_le_spacingMeasure_zero`: for `hN : 0 < θ.card`, the angle-range hypothesis, `s ≠ t` and `h ≤ θ.count s, h ≤ θ.count t`, `2((h:ℝ)−1)/(θ.card:ℝ) ≤ (spacingMeasure θ hN : Measure ℝ).real {0}`. Counts remain multiplicities; this is the repeated-angle inequality below.
+Construct the sorted cyclic-gap list, the empirical spacing probability measure and the eigenangle multiset of a complex polynomial, mapping each root by `z ↦ toIcoMod (2π>0) 0 (Complex.arg z)`. Prove that the gap list has length `θ.card`, that angles in one half-open period give nonnegative gaps, and that a nonempty list has total gap `2π`. Prove total probability mass one and support in `[0,∞)`. A complex polynomial of degree `2g` has `2g` eigenangles, all in `[0,2π)`, with multiplicities retained. Prove the repeated-angle zero-mass inequality stated below.
 
 *Needs:* `Multiset.sort` (Mathlib), `MeasureTheory.Measure.dirac` (Mathlib), `Polynomial.roots` (Mathlib), `Complex.arg` (Mathlib), `toIcoMod` (Mathlib).
 
@@ -827,23 +797,7 @@ The required API is:
 
 **Lower and upper degree densities.** For a real sequence `u : ℕ → ℝ`, its upper (lower) odd-degree density is `limsup (liminf)` of `u(n)` as `n → ∞` through odd `n`. For `q` odd, `ℓ` prime and `A` a finite abelian `ℓ`-group, `δ^+(q, A)` and `δ^−(q, A)` are the upper and lower odd-degree densities of `n ↦ ν_{q,ℓ,n}(A)`. For fixed `q` they need not coincide; the degree limit `n → ∞` is taken before `q → ∞`.
 
-The representative Lean namespace `DegreeDensities` pins `upperOddDensity`, `lowerOddDensity`, `lowerOddDensity_le_upperOddDensity` and `oddDensities_eq_of_tendsto`, with a proved test that even-degree values are irrelevant.
-
-Liminf and `limsup` are compared only for bounded `u`; for `u = ν_{q,ℓ,n}(A)` this holds because `0 ≤ ν_n(A) ≤ 1`.
-
-The required API is:
-
-- `upperOddDensity`: `limsup_{m→∞} u(2m + 1)`.
-
-- `lowerOddDensity`: `liminf_{m→∞} u(2m + 1)`.
-
-- `lowerOddDensity_le_upperOddDensity`: For bounded `u`, lower ≤ upper.
-
-- `oddDensities_eq_of_tendsto`: If `u(2m + 1) → c` then both densities equal `c`.
-
-- `upperClassGroupDensity`: `δ^+(q, A)` := upper odd density of `n ↦ ν_{q,ℓ,n}(A)`.
-
-- `lowerClassGroupDensity`: `δ^−(q, A)` := lower odd density of `n ↦ ν_{q,ℓ,n}(A)`.
+Construct the upper and lower odd-degree densities and their class-group specializations `δ^±(q,A)`. Compare lower and upper densities for bounded sequences, and prove that convergence along odd degrees makes both equal to the limit. The class-group proportions are bounded because `0 ≤ ν_n(A) ≤ 1`.
 
 *Proof.* Define `δ^±` via Mathlib Filter.limsup (and its order dual `liminf`) of `u(2m + 1)` along `m → ∞`. For bounded `u, δ^− ≤ δ^+`, with equality iff `u` converges along odd `n`, in which case both equal the limit.
 
@@ -881,7 +835,7 @@ The required API is:
 
 **Uniform trace error estimate.** Let `X` be a smooth separated finite-type `𝔽_q`-scheme of pure dimension `n, λ ∤ q` a prime, and `C ≥ 1` a real number with `dim H^i(X_{𝔽̄_q}, ℚ_λ) ≤ C^{i+1}` for all `i ≥ 1`. If exactly one geometric connected component of `X` is fixed by Frobenius and `√q > C`, then `|q^{−n}|X(𝔽_q)| − 1| ≤ Σ_{i ≥ 1} C^{i+1} q^{−i/2} = C²/(√q − C)`. The numerical core: for reals `t_j (0 ≤ j < 2n)` with `|t_j| ≤ q^{j/2} C^{2n−j+1}, |q^{−n} Σ_{j<2n} (−1)^j t_j| ≤ C²/(√q − C)`.
 
-The light signature `GeometricStatistics.trace_error_bound` states the numerical core for every real `q>1`; the geometric application specializes `q` to a prime power.
+The numerical inequality holds for every real `q > 1`; the geometric application specializes `q` to a prime power.
 
 *Proof.* Grothendieck–Lefschetz: `|X(𝔽_q)| = Σ_j (−1)^j Tr(Frob | H^j_c(X_{𝔽̄_q}, ℚ_λ))` (InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4). The `j = 2n` term is `q^n` ([top cohomology counts rational components](#top-cohomology-counts-rational-components)). Deligne's weight bound (DeligneWeightsAndPurity, item 7.12): every Frobenius eigenvalue on `H^j_c` has absolute value `≤ q^{j/2}`; with Poincaré duality `dim H^j_c = dim H^{2n−j}` (EtaleDualityAndPerverseSheaves §0.6)`, |Tr(Frob | H^j_c)| ≤ q^{j/2} C^{2n−j+1}`. Sum the finite range `j < 2n` first, then bound by the geometric series `Σ_{i≥1} (C/√q)^i · C = C²/(√q − C)` (put `i = 2n − j`).
 
@@ -1081,23 +1035,7 @@ The signature `Similitude.integral_lift` uses Mathlib’s symplectic matrix grou
 
 **Symplectic similitude matrix subsets.** ArithmeticGaloisRepresentations §7.3 supplies `SimilitudeGroup.groupScheme`, `SimilitudeGroup.multiplier`, `SimilitudeGroup.GSp` and `SimilitudeGroup.mem_iff`, including both transpose conventions over commutative rings. For the standard symplectic module `R^{2g}`, build the matrix subsets `{h | h J hᵀ = m J}` for every scalar `m`, including nonunits, and their union over unit multipliers. For `g ≥ 1` identify this union with the matrix projection of the supplied `GSp`; a unit-multiplier subset is the matrix image of a multiplier fibre, hence a coset of `Sp`. Use the supplied membership criterion to reconcile its matrix `−Matrix.J` with `Matrix.J`. At `g = 0` retain the matrix subsets and their union: every multiplier gives the same singleton subset, so there is no unique matrix multiplier.
 
-The representative Lean namespace `Similitude` pins `similitudeCoset`, `similitudeSet`, `mem_similitudeCoset_iff`, `similitudeCoset_one`, `similitudeCoset_mul_mem`, `similitudeCoset_map` and `multiplier_unique`. The nonunit Check `diag(1, 3)` over `ℤ` is the named target `Similitude.nonunit_diagonal_not_mem_similitudeSet`; a proved example records the rank-zero failure of multiplier uniqueness.
-
-The required API is:
-
-- `similitudeCoset`: `GSp_m = {h : h J hᵀ = m J}`; defined for every `m ∈ R`, with `GSp` using only unit `m` and non-unit cosets serving as controls.
-
-- `similitudeSet`: `⋃_m GSp_m` over unit multipliers `m`, as a set of matrices. For `g ≥ 1` it is the matrix projection of ArithmeticGaloisRepresentations' supplied `GSp`. Every matrix in this union is invertible.
-
-- `multiplier_unique`: for `g ≥ 1` a matrix lies in at most one coset `GSp_m`.
-
-- `mem_similitudeCoset_iff`: `h ∈ GSp_m ⇔ h J hᵀ = m J`.
-
-- `similitudeCoset_one`: `GSp₁` is the carrier of Mathlib's symplecticGroup.
-
-- `similitudeCoset_mul_mem`: `GSp_m · GSp_{m'} ⊆ GSp_{m m'}`.
-
-- `similitudeCoset_map`: A ring homomorphism `R → R'` maps `GSp_m(R)` into `GSp_{φ(m)}(R')`.
+Construct each scalar-multiplier matrix subset and the union over unit multipliers. Prove uniqueness of the multiplier in positive rank, the defining membership criterion, equality of the multiplier-one subset with Mathlib's symplectic group, multiplication of multipliers and preservation under every ring homomorphism `R → R′`.
 
 *Proof.* Matrix multiplication proves the scalar product law, including for nonunits. For `g≥1` a standard entry of `J` is 1, so `mJ=m′J` implies `m=m′`; invertibility of an empty matrix alone would not prove uniqueness. For a unit multiplier, taking determinants shows `h` is invertible. Apply the supplied `SimilitudeGroup.mem_iff`: replacing `J` by `−J` leaves the equation unchanged, and `J⁻¹=−J` gives the equivalent transpose convention. This identifies the union with the supplied group's matrix projection. The multiplier-one subset recovers Mathlib symplecticGroup.
 
@@ -1183,7 +1121,7 @@ The required API is:
 
 **Linear group transitive on lattice surjections.** Let `A` be a finite abelian `ℓ`-group generated by at most `g` elements. Then `GL_g(ℤ_ℓ)` acts transitively (by precomposition) on the set of surjective homomorphisms `ℤ_ℓ^g → A`.
 
-The signature `Similitude.lattice_surjections_transitive` uses linear maps to a finite `ℤ_ℓ`-module and linear automorphisms of the source. Every finite abelian `ℓ`-group has this canonical module structure.
+Express the action using linear maps to the canonical finite `ℤ_ℓ`-module of the finite abelian `ℓ`-group and linear automorphisms of the source.
 
 *Proof.* Fix `x₁, …, x_k ∈ A` whose classes form a basis of `A/ℓA`; by Nakayama they generate `A`. Let `f : ℤ_ℓ^g → A` be surjective and choose `y₁, …, y_k` with `f(y_i) = x_i`. Their classes in `𝔽_ℓ^g` map to a basis of `A/ℓA`, so they are independent; extend them to a basis of `𝔽_ℓ^g` and lift it to a basis `y₁, …, y_g` of `ℤ_ℓ^g` (Nakayama). For `j > k` write `f(y_j) = Σ_i c_{ji} x_i` and replace `y_j` by `y_j − Σ_i c_{ji} y_i`. The result is still a basis, with `f(y_i) = x_i` for `i ≤ k` and `f(y_j) = 0` for `j > k`. A second surjection `f′` gives a basis `y′` of the same shape, and the automorphism `φ` with `φ(y′_i) = y_i` satisfies `f ∘ φ = f′`.
 
@@ -1203,7 +1141,7 @@ The signature `Similitude.lattice_surjections_transitive` uses linear maps to a 
 
 **Unique similitude stable symplectic orbit.** Let `ℓ` be odd, `V` a free `ℤ_ℓ`-module of rank `2g` with a perfect alternating pairing, `A` a finite abelian `ℓ`-group and `q ∈ ℤ_ℓ^×` with `q − 1 ∈ ℤ_ℓ^×`. Let `O` be the set of surjections `f : V → A` such that `f ∘ h = f` for some `h ∈ GSp_q(V)`. If `g ≥ dim_{𝔽_ℓ}(A/ℓA)`, then `O` is nonempty and `Sp(V)` acts transitively on `O`.
 
-The representative set `Similitude.similitudeFixedSurjections` is `O` on the standard symplectic module. The targets `Similitude.similitudeFixedSurjections_nonempty` and `Similitude.similitudeFixedSurjections_transitive` give its nonemptiness and transitivity. Their generator hypothesis is a surjection `ℤ_ℓ^g → A`, equivalent to the displayed bound by Nakayama; all finite abelian `ℓ`-groups occur as finite `ℤ_ℓ`-modules.
+`Suggested.lean` states `Similitude.unique_similitude_stable_orbit` for an arbitrary finite free `ℤ_ℓ`-module `V` of rank `2g`, with a bilinear form that is alternating and perfect in Mathlib’s sense. The set `Similitude.similitudeFixedSurjections` is `O`; the conclusion gives its nonemptiness and transitivity under the form’s linear isometries. The generator hypothesis is a surjection `ℤ_ℓ^g → A`, equivalent to the displayed bound by Nakayama; all finite abelian `ℓ`-groups occur as finite `ℤ_ℓ`-modules.
 
 *Proof.* Nonempty: write `V = V_+ ⊕ V_−` with Lagrangians ([symplectic normal forms over z l](#symplectic-normal-forms-over-z-l) (iii))`; h := q` on `V_+` and 1 on `V_−` lies in `GSp_q`; any surjection factoring through the projection to `V_−` (exists as rank `V_− = g ≥ dim A/ℓA`) is fixed by `h`. Given `f ∈ O` with `h, ker f` contains a Lagrangian direct summand ([orthogonality and a killed lagrangian](#orthogonality-and-a-killed-lagrangian)). By transitivity on Lagrangians (normal forms (i)) move it to `V_+`, so `f` factors through `V → V_−`. Automorphisms of `V_−` extend to `Sp(V)` (normal forms (v)), reducing to `GL_g(ℤ_ℓ)`-transitivity on surjections `ℤ_ℓ^g → A` ([linear group transitive on lattice surjections](#linear-group-transitive-on-lattice-surjections)).
 
@@ -1293,19 +1231,7 @@ The representative set `Similitude.similitudeFixedSurjections` is `O` on the sta
 
 **Eventual degree large q limit.** For `m ≥ 1` let `A_m` be the filter on `N` of prime powers `q` coprime to `m`, tending to infinity. For a function `E(q, n)` of a prime power `q` and a degree `n`, and a target `c(n)`, say `E` has eventual-degree large-`q` limit `c` if there is `n₀` such that for every fixed `n ≥ n₀, E(q, n) → c(n)` as `q → ∞` along `A_m`. Wood (2019) uses this mode. EVW’s final distribution theorem instead takes upper/lower degree densities first and then `q→∞`; these are distinct convergence modes; it is not the fixed-`q`, large-degree limit of the direct function-field analogue of the number-field conjectures, and the two limits may not be interchanged without a new uniform estimate.
 
-The representative Lean namespace `LargeQ` pins `allowedPrimePowers`, `EventualDegreeLargeQLimit`, `allowedPrimePowers_neBot`, `allowedPrimePowers_zero`, `EventualDegreeLargeQLimit.unique` and `EventualDegreeLargeQLimit.mono`. The order-of-limits Check `n/(n + q)` is the named target `LargeQ.iterated_limits_differ`.
-
-The required API is:
-
-- `allowedPrimePowers`: The filter `A_m` of prime powers coprime to `m` tending to infinity.
-
-- `allowedPrimePowers_neBot`: `A_m` is a proper filter when `m≠0`; the Lean theorem takes the hypothesis `m ≠ 0`. At `m=0` it is bottom.
-
-- `EventualDegreeLargeQLimit`: The predicate `∃ n₀, ∀ n ≥ n₀, E(·, n) → c(n)` along `A_m`.
-
-- `EventualDegreeLargeQLimit.unique`: For `m≠0`, two targets of the same `E` agree for all sufficiently large `n`.
-
-- `EventualDegreeLargeQLimit.mono`: If `m` divides `m′`, the allowed filter for `m′` refines that for `m`, preserving the limit. Numerical `m≤m′` alone is insufficient.
+Construct the allowed-prime-power filter and the eventual-degree limit predicate. Prove that the filter is proper for `m ≠ 0` and bottom for `m = 0`, that two limiting targets agree in all sufficiently large degrees when `m ≠ 0`, and that divisibility `m ∣ m′` refines the allowed filter and preserves the limit. Numerical `m ≤ m′` alone is insufficient.
 
 *Proof.* Define `A_m := atTop ⊓ principal{q : q a prime power, gcd(q, m) = 1}`; it is a proper filter (infinitely many primes are coprime to `m`). Define the predicate `∃ n₀, ∀ n ≥ n₀`, Tendsto `(q ↦ E(q, n)) A_m` (nhds `c(n)`). Limits are unique along the proper filter `A_m`, so `c(n)` is determined for `n ≥ n₀`.
 
@@ -1403,7 +1329,7 @@ Here `G′` is good when `c` is a single `G′`-conjugacy class, and `q` is odd 
 
 Define `leastWithParity N₀ e : ℕ` as `N₀` when `N₀ mod 2 = e mod 2` and `N₀ + 1` otherwise; prove its lower bound, parity and minimality, and invariance under replacing `e` by `e mod 2`. Its Checks are `leastWithParity 2 0 = 2`, `leastWithParity 2 1 = 3` and `leastWithParity 0 3 = 1`.
 
-The representative Lean namespace `ComponentProfiles` pins `parityMultidegreeCount` and the stars-and-bars formula `parityMultidegreeCount_eq` on `Finset.Nat.antidiagonalTuple`.
+Construct the finite set of parity-constrained multidegrees using `Finset.Nat.antidiagonalTuple` and prove the displayed stars-and-bars formula.
 
 *Proof.* The map `m_i = a_i + 2z_i` is a bijection between such `m` and `z ∈ ℤ_{≥0}^N` with `Σ z_i = L`. Weak compositions of `L` into `N` parts number `C(L + N − 1, N − 1)` (Mathlib Nat.choose and the stars-and-bars count); when `d − Σ a_i` is odd or negative the set is empty.
 
@@ -1423,7 +1349,7 @@ The representative Lean namespace `ComponentProfiles` pins `parityMultidegreeCou
 
 **Many large parity vectors.** For `N ≥ 2, N₀ ≥ 0` and `ε ∈ {0,1}^N` there is `v > 0` (depending only on `N, N₀`) such that for all sufficiently large `d` with `d ≡ Σ ε_i (mod 2)`, the number of `m ∈ ℤ^N` with `m_i ≥ N₀, m_i ≡ ε_i (mod 2)` and `Σ m_i = d` is at least `v·d^{N−1}`.
 
-The signature `ComponentProfiles.many_large_parity_vectors` gives a positive real lower-bound constant and a degree threshold uniform over all parity vectors.
+The positive real lower-bound constant and degree threshold must be uniform over all parity vectors.
 
 *Proof.* By [stable parity multidegree count](#stable-parity-multidegree-count) the number is `C(L + N − 1, N − 1)` with `L = (d − Σ a_i)/2 ≥ d/2 − N(N₀ + 1)`. `C(L + N − 1, N − 1) ≥ L^{N−1}/(N − 1)!`, which is `≥ v d^{N−1}` for `d` large.
 
@@ -1647,7 +1573,7 @@ The required API is:
 
 **Ordinary limit iff eventual profile constancy.** Under [moment minus component profile vanishes](#moment-minus-component-profile-vanishes) (with `M(q) ≤ K` uniformly, as `M(q)` divides `|H₂(F, c)|`), the limit of `Ẽ_n^±(q)/M(q)` as `q → ∞` along allowed prime powers exists iff `P_n^±(q)` is eventually equal to a single rational value, and then that value is the limit. This is a criterion, not a proof that every bad type satisfies it.
 
-The signature `ComponentProfiles.ordinary_limit_iff_eventual_profile_constancy` uses a finite-range rational profile and an error tending to zero on `LargeQ.allowedPrimePowers m`, with `m ≠ 0`; it identifies each possible real limit with its eventual rational profile value.
+Formulate the criterion for a finite-range rational profile and an error tending to zero along the allowed-prime-power filter, with nonzero modulus. Identify each possible real limit with its eventual rational profile value.
 
 *Proof.* The profile takes values in the finite set `{a/b : 0 ≤ a ≤ B_n, 1 ≤ b ≤ K}` (API `profile_mem_finite`). By [moment minus component profile vanishes](#moment-minus-component-profile-vanishes) the moment converges iff the profile converges, to the same limit. A convergent function with values in a finite subset of `R` is eventually constant: a finite subset of a `T1` space is discrete (Mathlib Finite.instDiscreteTopology) and convergence to a point of a discrete subtype is eventual equality (Mathlib `Filter.tendsto_pure`).
 
@@ -1667,7 +1593,7 @@ The signature `ComponentProfiles.ordinary_limit_iff_eventual_profile_constancy` 
 
 **Liminf limsup from recurrent profile values.** Under [moment minus component profile vanishes](#moment-minus-component-profile-vanishes), let `R_n^±` be the set of profile values attained for arbitrarily large allowed `q`. It is a nonempty finite set, and `liminf_q Ẽ_n^±(q)/M(q) = min R_n^±, limsup_q Ẽ_n^±(q)/M(q) = max R_n^±`. In particular the bad-type bound of [bad type lower bound](#bad-type-lower-bound) bounds every recurrent value from below.
 
-The signature `ComponentProfiles.recurrent_profile_extrema` characterizes recurrence by frequent equality along the proper allowed-prime-power filter and gives the minimum and maximum of the nonempty finite recurrent set.
+Characterize recurrence by frequent equality along the proper allowed-prime-power filter and prove the minimum and maximum formulas for the nonempty finite recurrent set.
 
 *Proof.* Finitely many profile values occur (API `profile_mem_finite`); discard those taken only for boundedly many `q`; the remaining set is nonempty. Along an unbounded sequence of `q` with profile value `r`, the moment tends to `r` (error `O(q^{−1/2})`); conversely every limit point of the moment is a limit point of the profile, hence in `R_n^±`.
 
@@ -1687,7 +1613,7 @@ The finite-profile assertion follows from the elementary argument above. The ari
 
 **Weight polynomial formula for the stable orthant.** In [complete stable range component sum](#complete-stable-range-component-sum), let `δ ≡ N₀ (mod 2), 1 = (1, …, 1)`, and `W(X) := Σ_{ε ∈ S} X^{wt(ε + δ·1)}` (the weight enumerator of the surviving parities shifted by `N₀`). Then, as formal power series, `Σ_{d ≥ 0} Σ_stable(d) X^d = X^{N·N₀} W(X)/(1 − X²)^N`, equivalently `(1 − X²)^N · Σ_d Σ_stable(d) X^d = X^{N N₀} W(X)`.
 
-The signature `ComponentProfiles.stableRangeComponentSum_powerSeries` uses `stableRangeComponentSum` for a finite set of parity vectors and states the equivalent product identity in `PowerSeries ℤ`. The shifted weight counts the coordinates whose parity differs from `N₀ mod 2`.
+State the equivalent product identity in `PowerSeries ℤ` for a finite set of surviving parity vectors. The shifted weight counts the coordinates whose parity differs from `N₀ mod 2`.
 
 *Proof.* For a fixed `ε` the least allowed coordinate is `N₀ + ((ε_i − N₀) mod 2)`, and the other allowed values add `2z_i, z_i ≥ 0`: the generating series of the parity class is `X^{N N₀ + wt(ε + δ·1)}/(1 − X²)^N`. Sum over `ε ∈ S`; the coefficient identity is [stable parity multidegree count](#stable-parity-multidegree-count) (stars and bars). No analytic convergence is used.
 
@@ -1729,7 +1655,7 @@ The signature `ComponentProfiles.stableRangeComponentSum_powerSeries` uses `stab
 
 **Sections of a coprime abelian semidirect product.** Let `Γ` be a finite group and `H` a finite abelian `Γ`-group with `gcd(|H|, |Γ|) = 1`. Using the supplied `H`-conjugacy of complements, prove that `H ⋊ Γ → Γ` has exactly `[H : H^Γ]` sections. Existence and `H`-conjugacy of complements of a coprime normal subgroup are InverseGaloisAndArithmeticFundamentalGroups §IG.4.5, *Coprime profinite complements*; the count is what is added here.
 
-The signature `coprime_semidirect_section_count` counts homomorphisms `s : Γ → H ⋊ Γ` whose composite with `SemidirectProduct.rightHom` is the identity. It expresses `[H : H^Γ]` as `|H|/|H^Γ|`, using the fixed-point subtype and natural finite cardinalities.
+Count homomorphisms `s : Γ → H ⋊ Γ` whose composite with `SemidirectProduct.rightHom` is the identity, expressing `[H : H^Γ]` as `|H|/|H^Γ|` using natural finite cardinalities.
 
 *Proof.* A section `s` corresponds to the complement `s(Γ)`, and a complement `K` to the section `(π|_K)⁻¹`, so sections and complements of `H` correspond bijectively. `H` acts transitively on complements by conjugation (§IG.4.5; for abelian `H` this is the vanishing of `H¹(Γ, H)`, which is killed by both `|Γ|` and `|H|`). For `h ∈ H` and `γ ∈ Γ, hγh⁻¹ = (h·γ(h)⁻¹)γ` lies in the standard complement `Γ` iff `γ(h) = h`. So the stabiliser of `Γ` is `H^Γ`, and the orbit has `[H : H^Γ]` elements.
 
@@ -1807,7 +1733,7 @@ The joint enhanced Cohen–Lenstra model is conditional on existence of the fini
 
 For the Wood profile, if recurring allowed `q` produce two distinct rational component ratios, the `O_n(q^-1/2)` error tends to zero while the ratios remain separated. Thus the arithmetic normalized moments have different `liminf` and `limsup`. Stable-range stars-and-bars counting cannot erase that boundary dependence.
 
-The suggested Lean forms state the weighted concentration inequality, the numerical trace bound, the integral symplectic lifting criterion, the unique similitude-stable orbit, the parity growth and weight-series identities, the finite-profile limit criteria and the coprime section count on pinned carriers. The spacing-multiplicity, nonunit-multiplier and order-of-limits Checks appear as named theorem targets. Proved examples test the empty cyclic-gap list, the independence of odd-degree densities from even degrees and the failure of multiplier uniqueness in rank zero. The numerical Checks beside the targets retain the concrete boundary values. Hurwitz counts, Jacobian monodromy and arithmetic distribution theorems use the geometric carriers specified in the README.
+`Suggested.lean` states the three local-density moment estimates, the integral symplectic lifting criterion and the unique similitude-stable orbit theorem. The numerical Checks beside the targets give concrete values and limiting distinctions. Hurwitz counts, Jacobian monodromy and arithmetic distribution theorems use the geometric carriers specified above.
 
 ### Dependencies
 
