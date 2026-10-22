@@ -154,7 +154,9 @@ A supplier row specifies the interface used, under the hypotheses shown. Its the
 
 ## How to read the build
 
-Layer 8 is built in seven stages. §§8.0–8.0d set up the formal logarithmic geometry and the characteristic-p Riemann–Hilbert input. §§8.1–8.17 develop `δ_log`-rings, prelog and log prisms, their envelopes and perfect log prisms. §§8.18–8.29 build the relative log prismatic site and prove the log Hodge–Tate comparison and base change. §§8.30–8.42 give the `δ_log`-crystalline and log q-crystalline theories, the log crystalline comparison, the log q-de Rham complexes and the comparison with semistable `AΩ`. Using the supplied log quasisyntomic interfaces of §§8.43–8.45, §§8.46–8.58 pass to animated inputs, the log Nygaard filtration with its de Rham comparison and Frobenius isogeny, and Breuil–Kisin log cohomology. §§8.59–8.75 construct Kummer-étale sites on log schemes, log adic spaces and log diamonds, prove the Kummer-étale comparison, and identify Laurent F-crystals with p-Kummer local systems. §§8.76–8.79 apply the theory over `A_inf`: the étale comparison, log PD rigidity, the Hyodo–Kato isomorphism over `A_crys`, Breuil–Kisin–Fargues modules and the standard semistable chart. Within a stage the *Needs* lines fix the construction order; earlier parts are cited by roadmap name and section. Suggested.lean states the light definitions over carriers present at the pins (`δ_log`-structures, the perfectoid monoid predicate), representative theorems about them, and the discriminating examples.
+Layer 8 is built in seven stages. §§8.0–8.0d set up the formal logarithmic geometry and the characteristic-p Riemann–Hilbert input. §§8.1–8.17 develop `δ_log`-rings, prelog and log prisms, their envelopes and perfect log prisms. §§8.18–8.29 build the relative log prismatic site and prove the log Hodge–Tate comparison and base change. §§8.30–8.42 give the `δ_log`-crystalline and log q-crystalline theories, the log crystalline comparison, the log q-de Rham complexes and the comparison with semistable `AΩ`. Using the supplied log quasisyntomic interfaces of §§8.43–8.45, §§8.46–8.58 pass to animated inputs, the log Nygaard filtration with its de Rham comparison and Frobenius isogeny, and Breuil–Kisin log cohomology. §§8.59–8.75 construct Kummer-étale sites on log schemes, log adic spaces and log diamonds, prove the Kummer-étale comparison, and identify Laurent F-crystals with p-Kummer local systems. §§8.76–8.79 apply the theory over `A_inf`: the étale comparison, log PD rigidity, the Hyodo–Kato isomorphism over `A_crys`, Breuil–Kisin–Fargues modules and the standard semistable chart. Within a stage the *Needs* lines fix the construction order; earlier parts are cited by roadmap name and section.
+
+`Suggested.lean` contains no theorem declarations: the pinned Mathlib and Tau Ceti do not provide the log formal schemes, log prisms, log cohomology complexes, log diamonds or Laurent F-crystals needed to state the headline comparisons and realization theorems. Its module docstring identifies the missing objects for each group of headline results. The backticked names in the target lists specify interfaces to construct in Tau Ceti. They are not declarations of `Suggested.lean`.
 
 ## Layer 8: Logarithmic prismatic cohomology
 
@@ -2184,7 +2186,7 @@ CohomologyComparisons §4.6 consumes §§8.1–8.29, 8.35, 8.41–8.42, 8.56 and
 
 <a id="ref-ogusdraft"></a>
 
-- **OgusDraft**: Arthur Ogus. [Lectures on logarithmic algebraic geometry (public draft)](https://math.colorado.edu/~casa/seminars/reading/logG/papers/oguslogbook.pdf). 2006 draft; numbering differs from the 2018 book.
+- **OgusDraft**: Arthur Ogus. *Lectures on logarithmic algebraic geometry* (2006 draft), I, Proposition 4.3.17(1), pp. 92–93; numbering differs from the 2018 book.
 
 <a id="ref-ck"></a>
 
