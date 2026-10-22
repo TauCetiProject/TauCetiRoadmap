@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap builds Selmer groups and Selmer complexes for compact, rational and discrete p-adic Galois coefficients, compares their local conditions under Tate duality, and carries them up cyclotomic and `ℤ_p^d` towers as Iwasawa cohomology with its descent, control, duality and determinant formulas. It starts from the p-adic completion of multiplicative groups and the p-adic Kummer identification, and it ends with the cyclotomic unit–class-group dictionary, the finite (Bloch–Kato) and ordinary (Greenberg) local conditions with their explicit comparison, Greenberg's structure theorems for ordinary Selmer groups (surjective localisation, no pseudo-null submodules, Fitting equals characteristic ideal), the Iwasawa–Greenberg main conjecture as a precisely normalised proposition, and two parity theorems: constancy of Selmer-rank parity in self-dual ordinary families, and the `2`-primary Selmer parity of the congruent-number curves. It also supplies the arithmetic Selmer and deformation comparisons, including the `H⁰` and determinant boundaries and derived coefficient change (§§2A.1–2A.5). Along the way it supplies the étale description of restricted-ramification Galois cohomology used in Kato's `j_*` convention, and applies the supplied p-adic period theory to the finite local conditions. We want it because Euler-system, main-conjecture and Bloch–Kato arguments all consume exactly these objects with exactly these error terms.
 
-`README.md` is normative. [`Suggested.lean`](Suggested.lean) records the light definitions, end theorems and layer milestones that can be stated against the pinned Mathlib and Tau Ceti, with checks that fix the conventions; it is not exhaustive. Every target below states its hypotheses and source. The names written inside a target are the proposed names for the library; new declarations live in the namespace `TauCetiRoadmap.SelmerIwasawaCohomology` of `Suggested.lean` while they are prototypes and under `TauCeti.` in the library. Every definition comes with the API it needs and with checks that a plausible wrong definition fails. Nothing here is optional.
+`README.md` is normative. [`Suggested.lean`](Suggested.lean) states the headline results that can be expressed against the pinned Mathlib and Tau Ceti: p-adic Kummer theory (§0.8), integral weak-semisimplicity lifting (§0.13), finite-cotype primary decomposition (§2.12a), the Hodge Gamma order formulas (§4.14), and the local Kummer image calculation for congruent-number curves (§4.29). It is not exhaustive. Every target below states its hypotheses and source. The Lean names in the targets specify the intended library API under `TauCeti.`; the statements and supporting definitions in `Suggested.lean` use the namespace `TauCetiRoadmap.SelmerIwasawaCohomology`. Every library definition comes with the API it needs and with checks that a plausible wrong definition fails. Nothing here is optional.
 
 ## Scope and ownership
 
@@ -135,7 +135,7 @@ owns `AnalyticLFunctionData.gammaFactor` on the record's real and complex shift 
 [ZerosOfLFunctions Layer 1, items 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/cce2e04188a559be9a16037d0d65e00a815fcecc/TauCetiRoadmap/ZerosOfLFunctions/README.md#layer-1-gamma-factor-asymptotics-and-the-continued-l-function)
 owns its arbitrary-complex-shift divisor and analytic reciprocal. Section 4.14 owns the
 Hodge/sign recipe, its integral pole count, Tate-dual transformation and the comparison
-`hodgeGammaFactor_eq_gammaFactor` with that record's factor. Its Hodge order formulas use
+of the Hodge product with that record's factor. Its Hodge order formulas use
 Mathlib's scalar Gamma results directly; they require only a Hodge realization. The record
 comparison consumes LFunctions Layer 0, independently of its arithmetic L-function constructions.
 
@@ -189,7 +189,7 @@ The construction proceeds as follows. Levelwise injectivity `(TauCeti.kummerClas
 
 (Rodrigues Jacinto–Williams (arXiv v2), §10.5, display (10.7), printed p. 52 (arXiv v2).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `kummerLimit_injective` — `κ_∞` is injective.
 - `kummerLimit_bijective` — `κ_∞` is bijective given Hilbert 90 at every level.
@@ -224,7 +224,7 @@ This is the finiteness hypothesis of Rubin's Proposition B.2.3 for `i = 1`.
 
 ### 0.8 The p-adic Kummer identification
 
-For a field `K` with `p` invertible, `H¹(G_K, ℤ_p(1)) ≅ lim_m K^×/(K^×)^{p^m} = (K^×)^,` where `ℤ_p(1) = lim μ_{p^m}` is a compact coefficient module and `H¹` is continuous-cochain cohomology (ArithmeticGaloisDuality Layer R02.1). The map is `H¹(G_K, ℤ_p(1)) → lim_m H¹(G_K, μ_{p^m})`, an isomorphism because the Milnor term `lim^1 H⁰(G_K, μ_{p^m})` vanishes, followed by `κ_∞^{−1}`. It is an algebraic isomorphism for every `K`; when every `K^×/(K^×)^{p^m}` is finite (local fields) both sides are profinite and it is a homeomorphism. It is compatible with restriction and with corestriction versus the norm for finite separable extensions.
+`Suggested.lean` states the algebraic isomorphism as `padicKummer_equiv`, using `compactTateCoefficients`, the topological representation on Tau Ceti's `PadicTateTwist` with its cyclotomic action, and `TauCeti.padicCompletionUnits` for the multiplicative completion. For a field `K` with `p` invertible, `H¹(G_K, ℤ_p(1)) ≅ lim_m K^×/(K^×)^{p^m} = (K^×)^,` where `ℤ_p(1) = lim μ_{p^m}` is a compact coefficient module and `H¹` is continuous-cochain cohomology (ArithmeticGaloisDuality Layer R02.1). The map is `H¹(G_K, ℤ_p(1)) → lim_m H¹(G_K, μ_{p^m})`, an isomorphism because the Milnor term `lim^1 H⁰(G_K, μ_{p^m})` vanishes, followed by `κ_∞^{−1}`. It is an algebraic isomorphism for every `K`; when every `K^×/(K^×)^{p^m}` is finite (local fields) both sides are profinite and it is a homeomorphism. It is compatible with restriction and with corestriction versus the norm for finite separable extensions.
 
 `p` invertible in `K`. No finite generation of `K^×` is assumed; the target is the completion, not `K^× ⊗ ℤ_p`.
 
@@ -292,7 +292,7 @@ The construction proceeds as follows. For a topological generator `σ`, continui
 
 (Liu–Tian–Xiao–Zhang–Zhu, Definition 2.1.2, p. 121.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `invariantCoinvariantMap` — the map `can : ker(σ − 1) → coker(σ − 1)` for a chosen generator `σ`.
 - `IsWeaklySemisimple` — `can:M^Γ→M_Γ` is bijective.
@@ -303,7 +303,7 @@ The named operations and identities are:
 **Checks.**
 
 - The trivial action is weakly semisimple, with `can=id`.
-- The linear invariants-to-coinvariants criterion fails for `σ=[[1,1],[0,1]]` on `ℚ²` (`Tests.jordan 1`); its invariant line maps to zero (`Tests.not_weaklySemisimple_jordan_one`). The same computation holds over `ℚ_p²` with the continuous procyclic unipotent action.
+- The linear invariants-to-coinvariants criterion fails for `σ=[[1,1],[0,1]]` on `ℚ²`; its invariant line maps to zero. The same computation holds over `ℚ_p²` with the continuous procyclic unipotent action.
 - The linear criterion holds for `σ=[[2,1],[0,2]]` on `ℚ²` because `σ−1` is invertible, although `σ` is not semisimple. The same computation applies over `ℚ_p` for `p` odd.
 
 *Needs:* ArithmeticGaloisDuality §R02.3.0a (Comparison of the multiplicative completion with Mathlib adic completion).
@@ -314,8 +314,8 @@ For finite-type integral `M` with procyclic `Γ: M_Γ=0` implies `M^Γ=0`; surje
 
 `O` the integers of `E/ℚ_p`; `λ` a uniformizer; `M` free for the last assertion.
 
-The endomorphism form `weaklySemisimple_of_surjective` holds on any Noetherian module
-over a commutative ring. The integral lifting statement `weaklySemisimple_integral_lift`
+The endomorphism form of the surjectivity criterion holds on any Noetherian module
+over a commutative ring. The integral lifting statement `weaklySemisimple_integral_lift` in `Suggested.lean`
 holds for a finite free module over any DVR `O`, with fraction field `K` and residue field
 `k`: for an endomorphism `σ`, assume that its scalar extension to `k` is weakly semisimple
 and that `dim_k ker(σ_k−1) ≤ dim_K ker(σ_K−1)`. Then `σ` is weakly semisimple over `O`
@@ -353,7 +353,7 @@ The construction proceeds as follows. Use the supplier’s discrete datum withou
 
 (Mazur–Rubin (arXiv v1), §1, Definition 1.1, p. 4 (arXiv v1); Mazur–Rubin (arXiv v1), §2, Definition 2.1, p. 6 (arXiv v1).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `SelmerData` — the datum (global module, local modules, localisation maps, local conditions).
 - `SelmerData.withCond` — Replace the local conditions.
@@ -388,7 +388,7 @@ The construction proceeds as follows. Intersection of the preimages of the `L_v`
 
 (Mazur–Rubin (arXiv v1), §2, Definition 2.1, p. 6 (arXiv v1); Rubin (1999 draft), Chapter I, §5, Definition 5.1, printed pp. 11–12 (PDF pp. 21–22).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `SelmerData.selmer` — The intersection of local-condition preimages on the supplied compact/rational diagram.
 - `SelmerData.mem_selmer` — `c ∈ Sel` iff `res_v c ∈ L_v` for all `v`.
@@ -451,7 +451,7 @@ The construction proceeds as follows. Image and preimage of submodules; Galois c
 
 (Mazur–Rubin (arXiv v1), §1, Definition 1.1, p. 4 (arXiv v1).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `propagateImage` — Forward propagation `g(L)`.
 - `propagatePreimage` — Backward propagation `g^{−1}(L')`.
@@ -499,7 +499,7 @@ The construction proceeds as follows. Kernel of restriction to inertia. Inflatio
 
 (Rubin (1999 draft), Chapter I, §3.1, Definition 3.1, printed p. 4 (PDF p. 14); Rubin (1999 draft), Chapter I, §3.1, Lemma 3.2(i), printed p. 4 (PDF p. 14).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `unramified` — `ker`(`res` to inertia).
 - Inflation–restriction — The discrete case is the pinned `TauCeti.ContCohomology.explicitInfRes_exact`: the range of `explicitInfl1` equals the kernel of `explicitRes1`, for every topological group and normal subgroup with the continuous module actions in its signature. For a profinite decomposition group `G_v` and closed normal inertia `I_v`, identify the compact finite-type and rational unramified conditions with the range of inflation from `H¹(G_v/I_v,B^{I_v})` through ArithmeticGaloisDuality §R02.2.3. Mathlib `LinearMap.exact_iff` supplies the algebraic range/kernel conversion.
@@ -526,7 +526,7 @@ The construction proceeds as follows. Kernel of the composite of restriction to 
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.5.1, Definition 13.19(1), p. 70 (arXiv v2).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `greenberg` — `ker(H¹(G_v, M) → H¹(I_v, M/F^+M))`.
 - `greenberg_zero` — For `F^+ = 0`, the isomorphism `e : H¹(I_v,M) ≃ H¹(I_v,M/0)` induced by the coefficient quotient gives `ker(e ∘ res_I) = ker res_I`, identifying the Greenberg and unramified conditions.
@@ -547,14 +547,14 @@ For `M = W_n = (ℚ_p/ℤ_p)(n)` over `ℚ(μ_{p^∞})^+` with `Fil^1 = W_n (n �
 
 **Ordinary filtrations.** For a finite-dimensional continuous E-representation `V` of `G_K, K/ℚ_p` finite, define `OrdinaryFiltration` to be an exhaustive separated decreasing filtration `Fil^iV` by `G_K`-stable E-subspaces, with finitely many jumps and inertia acting on gr`^iV` through `χ_cyc^i`. Define `IsOrdinary` as existence of this datum and `OrdinaryFiltration.plus` as `Fil¹V`. The general stable-subspace condition in §2.8 also applies when no ordinary filtration exists. For a stable O-lattice `T`, use the saturated intersections `T∩Fil^iV` and their images on `V/T`.
 
-Give Tate-twist, direct-sum and dual-filtration operations. On `V(n)` put `Fil^i=Fil^{i−n}V`; on `V^*` put `Fil^i=ann(Fil^{1−i}V)`, and then twist by one for the Tate dual. Prove stability, inertia character, finiteness of jumps and compatibility of saturated lattice intersections with these operations. The Lean prototype takes an actual representation, inertia subgroup and cyclotomic character; the arithmetic interface carries their continuity and local-field hypotheses.
+Give Tate-twist, direct-sum and dual-filtration operations. On `V(n)` put `Fil^i=Fil^{i−n}V`; on `V^*` put `Fil^i=ann(Fil^{1−i}V)`, and then twist by one for the Tate dual. Prove stability, inertia character, finiteness of jumps and compatibility of saturated lattice intersections with these operations. The filtration datum takes an actual representation, inertia subgroup and cyclotomic character; the arithmetic interface carries their continuity and local-field hypotheses.
 
 (Rodrigues Jacinto–Williams, Definition 13.19(1), arXiv v2 p. 70; Greenberg, *Iwasawa theory for p-adic representations*, §1. For the supersingular boundary, Fontaine–Laffaille Theorem 5.3 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.9.)
 
 **Checks.**
 
 - The zero representation has the zero filtration and is ordinary.
-- For `ℚ_p(n), Fil^i=V` for `i≤n` and zero for `i>n`; its only graded piece has inertia `χ_cyc^n`. The algebraic character-line statement is `ordinaryFiltration_character`, for a line acted on by the n-th power of the supplied character. In particular `Fil¹` is `V` for `n≥1` and zero for `n≤0`.
+- For `ℚ_p(n), Fil^i=V` for `i≤n` and zero for `i>n`; its only graded piece has inertia `χ_cyc^n`. The character-line statement applies to a line acted on by the n-th power of the supplied character. In particular `Fil¹` is `V` for `n≥1` and zero for `n≤0`.
 - The good supersingular curve `y²=x³−x` over `ℚ₃` has no ordinary filtration on `V₃E`: its residual inertia characters have niveau two, rather than integral cyclotomic powers. Good reduction alone does not imply ordinarity.
 
 *Needs:* §2.1 (Compact and rational Selmer data); TauCetiRoadmap.LocalGaloisGroups Layer 5 (cyclotomic character); Mathlib `Representation`, `Submodule`.
@@ -569,7 +569,7 @@ The construction proceeds as follows. `G_{K,Σ}`, decomposition groups and local
 
 (Mazur–Rubin (arXiv v1), §2, Definition 2.1, p. 6 (arXiv v1); Rubin (1999 draft), Chapter I, §5, Lemma 5.3, printed p. 12 (PDF p. 22).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `galoisSelmer_eq_rubin` — `Sel_L(K, M) =` {`c ∈ H¹(K, M) : c_v ∈ L_v (v ∈ Σ), c_v` unramified `(v ∉ Σ)`}.
 - `galoisSelmer_enlarge` — Enlarging `Σ` with unramified conditions leaves `Sel` unchanged.
@@ -596,7 +596,7 @@ The construction proceeds as follows. ContinuousMonoidHom.comp with the action o
 
 (Burungale–Tian (arXiv v2), §1.0.1 and §3.1, pp. 1 and 6 (arXiv v2).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `contragredient` — `(g·f)(x) = f(g^{−1}x)`.
 - `contragredient_mul` — The contragredient action is a left action.
@@ -624,7 +624,7 @@ The construction proceeds as follows. Module.finrank over `ℚ_p` of the rationa
 
 (Burungale–Tian (arXiv v2), §1.0.1, the exact sequence and (1.1), p. 1 (arXiv v2).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `corank` — For discrete cofinitely generated `M, dim_ℚp(ℚ_p⊗_ℤp M^∨)`.
 - `corankFromDual` — On a given compact dual `N=M^∨`, compute `dim_ℚp(ℚ_p⊗_ℤp N)`; `corank` is `corankFromDual` of the Pontryagin dual.
@@ -652,7 +652,7 @@ Prove this as follows. Instantiate §2.9; identify the local conditions with the
 
 (Burungale–Tian (arXiv v2), §1.0.1, the exact sequence and (1.1), p. 1 (arXiv v2).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `ellipticSelmerInfinity` — The direct-limit Selmer carrier with its canonical Galois-kernel comparison.
 - `ellipticSelmerInfinity_kummer` — The exact sequence with Mordell–Weil tensor and `Ш[p^∞]`.
@@ -685,7 +685,7 @@ Supply `abelian_localH1_comparison`: restriction of `A(Kˢ)` to each local absol
 
 **Finite Selmer and reduced primary groups.** Prove `abelianSelmerGroup_finite` for every number-field isogeny `φ`. For finite `S` containing the infinite places, the bad places of `A, B` and all primes dividing `deg φ`, good-reduction integral Kummer theory identifies the local image outside `S` with unramified `H¹(K_v,A[φ])`. Thus the Selmer group embeds into the finite group `H¹(G_{K,S},A[φ])` of ArithmeticGaloisDuality §R02.3.1. Descent makes `Ш(A/K)[n]` finite for every `n ≥ 1`.
 
-Supply `finiteCotype_primaryDecomposition`: a p-primary torsion abelian group `G` with finite `G[p]` is noncanonically `(ℚ_p/ℤ_p)^r ⊕ F`, with `r` finite and `F` a finite p-group; its maximal divisible subgroup is the first summand and the quotient is finite. Finite branching of division trees gives compatible infinite division chains; split their Prüfer subgroups by injectivity of divisible abelian groups. Finite `G[p]` bounds their number. An unbounded-exponent remainder would give another infinite chain, whereas a bounded-exponent remainder is finite by induction. Apply this to `Ш(A/K)[p^∞]`; no finiteness of the full Sha group is assumed.
+The statement `finiteCotype_primaryDecomposition` in `Suggested.lean` gives the group decomposition: a p-primary torsion abelian group `G` with finite `G[p]` is noncanonically `(ℚ_p/ℤ_p)^r ⊕ F`, with `r` finite and `F` a finite p-group; its maximal divisible subgroup is the first summand and the quotient is finite. Finite branching of division trees gives compatible infinite division chains; split their Prüfer subgroups by injectivity of divisible abelian groups. Finite `G[p]` bounds their number. An unbounded-exponent remainder would give another infinite chain, whereas a bounded-exponent remainder is finite by induction. Apply this to `Ш(A/K)[p^∞]`; no finiteness of the full Sha group is assumed.
 
 (Milne, I, §6, Lemma 6.1, pp. 73–74, Proposition 6.4 and Corollary 6.6, pp. 75–77, and Remark 6.7, p. 77.)
 
@@ -720,7 +720,7 @@ The construction proceeds as follows. Take the discrete Selmer structure of TauC
 
 (Mazur–Rubin (arXiv v1), §2, Definition 2.1, p. 6 (arXiv v1); Mazur–Rubin (arXiv v1), §2, Definition 2.5, p. 7 (arXiv v1).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `SelmerStructure` — `Σ(F)` with local conditions at each `q ∈ Σ(F)`.
 - `SelmerStructure.selmerModule` — `H¹_F(K, T)` as §2.9 for these data.
@@ -867,7 +867,7 @@ In the supplied lattice setting transport the fibre triangles, functoriality, co
 
 (Nekovář, Definitions 6.1.1–6.1.2 and triangles 6.1.3, pp. 135–136; §5.7.2, pp. 131–132, for modified localization.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `selmerComplex` — The adapter `Cone(loc−i)[−1]`, equal to the supplied `arithmeticSelmerComplex` and, on the common domain, `arithmeticLocalMappingFiber`, with the specified diagram.
 - `selmerComplexOrd` — The instance using ordinary cochains at every place.
@@ -1070,8 +1070,8 @@ Nekovář's sequence (6.1.3). Projection to `H¹(G_S, T)` maps the kernel of the
 correction for the chosen diagram supplied by §2.22. Use §2.21's arithmetic cohomology
 calculation of `Q_∞`, comparison exact sequence and concentration under `(P)`, with the
 local maps of ArithmeticGaloisDuality §R02.3.1. The strict modified fibre identification is compatible with both
-supplied fibre triangles. ([Nekovář, *Selmer
-complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §6.1, Definition 6.1.2 and exact
+supplied fibre triangles. (Nekovář, *Selmer
+complexes*, §6.1, Definition 6.1.2 and exact
 sequence 6.1.3, §6.1.4, pp. 135–137; §5.7.2, pp. 131–132, for the ordinary-to-Tate map.)
 *Needs:* ArithmeticGaloisDuality §R02.3.1 (*Localisation maps and the modified local groups*), §D7.1 (*Derived tensor, perfect amplitude and `Tor`*), §D7.5 (*Continuous cochains with compact support*; *Duality when `p = 2` and `K` has real places*); §2.2 (Compact and rational Selmer kernel); §2.21 (Selmer complex as a mapping fibre); §2.22 (The `H⁰` correction before the classical Selmer kernel).
 
@@ -1118,8 +1118,8 @@ which has no archimedean factor, give the cardinality formula; take logarithms t
 Almost every local term vanishes, because `dim H¹_un(F_v, M) = h⁰(F_v, M)` wherever `M` is
 unramified. ([Fakhruddin–Khare–Patrikis, *Lifting and automorphy of reducible mod `p` Galois
 representations over global fields*](https://arxiv.org/pdf/2008.12593), §2, p. 10;
-[Neukirch–Schmidt–Wingberg, *Cohomology of Number
-Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), §8.7, Definition 8.7.8 and
+Neukirch–Schmidt–Wingberg, *Cohomology of Number
+Fields*, §8.7, Definition 8.7.8 and
 Theorem 8.7.9, pp. 511–513.) *Needs:* ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*), §R02.4.5 (*Function-field arithmetic finiteness and Euler characteristic*; *Prime-to-characteristic function-field Poitou–Tate duality*), §D7.7.1 (*Perfect pairings and dual local conditions*); §2.2 (Compact and rational Selmer kernel); §2.21 (Selmer complex as a mapping fibre).
 
 **Checks.**
@@ -1187,7 +1187,7 @@ corrections. Compare the ordinary and modified fibres by §2A.1. For `H²`, appl
 ArithmeticGaloisDuality §D7.7.4's modified fibre duality with the given dual local
 conditions and nullhomotopies, using ArithmeticGaloisDuality §D7.5's arithmetic local and global duality. Take cohomology
 of its error triangle.
-([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §6.1, pp.
+(Nekovář, *Selmer complexes*, §6.1, pp.
 135–137; [Khare–Wintenberger, *Serre's modularity conjecture
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1–4.2, pp. 39–45.) *Needs:* ArithmeticGaloisDuality §D8.1 (*First-order Galois cocycle comparison*), §D7.5 (*Duality when `p = 2` and `K` has real places*), §D7.7.3 (*Local conditions and derived orthogonal complements*), §D7.7.4 (*Duality for a global mapping fibre with local conditions*); §2A.1 (Selmer complex `H¹` with its `H⁰` correction); §2.2 (Compact and rational Selmer kernel); §2.21 (Selmer complex as a mapping fibre).
 
@@ -1213,7 +1213,7 @@ of its error triangle.
 
 **Determinant tangent fibres.** Let `ρ : G_{F,S} → GL_n(k)` be as above with `n ≥ 1`, `p = char k`, and
 `k[ε] = k[ε]/(ε²)`. On first-order matrices `det(1 + εX) = 1 + ε tr X`, so the differential of the
-determinant is the trace (`Adjoint.det_one_add_eps`), an identity valid also at rank zero. For
+determinant is the trace, an identity valid also at rank zero. For
 positive rank, `tr(E₁₁) = 1` makes `0 → ad⁰ ρ → ad ρ → k → 0` exact, including when `p | n`
 (Mathlib `Matrix.trace_surjective` uses a nonempty matrix index type). The trace induces maps of the global and local continuous
 cochain complexes `C(G_{F,S}, −)` and `C_v^ord(−)` that commute with restriction. Their mapping
@@ -1245,7 +1245,7 @@ resolution at real places in the modified diagram. Compare with the
 fixed-determinant first-order lift problem of ArithmeticGaloisDuality §D8.1 *First-order Galois cocycle comparison*, keeping the
 `H⁰` boundary. ([Khare–Wintenberger, *Serre's modularity conjecture
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1.4–4.2, pp. 41–43;
-[Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.7.2,
+Nekovář, *Selmer complexes*, §5.7.2,
 pp. 131–132.) *Needs:* ArithmeticGaloisDuality §D8.1 (*Trace-zero adjoint duality without division by `n`*; *First-order Galois cocycle comparison*); §2A.3 (Selmer and deformation tangent comparison); ArithmeticGaloisDuality §D7.1 (*Derived tensor, perfect amplitude and `Tor`*).
 
 **Checks.**
@@ -1296,8 +1296,8 @@ global cochains with the local conditions, and the local cochains. The given glo
 local-condition quasi-isomorphisms compare its three vertices, so the triangulated comparison
 theorem gives a quasi-isomorphism of fibres. The `Tor` spectral sequence is the general one for a
 bounded complex (ArithmeticGaloisDuality §D7.1 *Derived tensor, perfect amplitude and `Tor`*); identify its differentials and the
-terms of low total degree. ([Nekovář, *Selmer
-complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §4.2, pp. 97–100; §6.1, pp.
+terms of low total degree. (Nekovář, *Selmer
+complexes*, §4.2, pp. 97–100; §6.1, pp.
 135–137; [Nakamura, *Zeta morphisms for rank two universal
 deformations*](https://arxiv.org/pdf/2006.13647), Appendix B, Lemmas B.29–B.31, author pp. 104–106;
 [Pottharst, *Analytic families of finite-slope Selmer
@@ -1365,7 +1365,7 @@ The general extension is identified with the supplied arithmetic derived limit b
 
 (Nekovář, Chapter 8, 8.3.4–8.3.5, p. 203 (Numdam PDF p. 212); Rubin (1999 draft), Appendix B, §3, Lemmas 3.1–3.2, printed pp. 153–154 (PDF pp. 163–164).)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `iwasawaComplex` — `RΓ_Iw(G, H; M) = lim_U C^•_cont(G, M_U)`; for `G=G_(F,S), H=G_(F∞,S)` and a supplied lattice T, the comparison is `iwasawaComplex ≃ Rlim_{n,cor} C(G_(F_n,S),T) ≃ arithmeticIwasawaCochains(F∞/F,T)`. For the abelian `ℤ_p`-lattice instance it also equals `derivedArithmeticTower ≃ arithmeticIwasawaComplex`. All comparisons use the same finite-level projections.
 - `iwasawaCohomology` — `H^i_Iw(G, H; M)`, an `R⟦Γ⟧`-module.
@@ -1503,7 +1503,7 @@ Transport the global and semilocal vertices, completed action, fibre maps and co
 
 (Nekovář, §8.5.6, p. 220; §§8.6 and 8.8, pp. 221–237.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `iwasawaSelmerComplex` — The adapter to the supplied corestriction derived inverse limit of the finite-level fibres, extended to the stated coefficient diagrams.
 - `discreteInfiniteSelmerComplex` — The restriction colimit of the discrete finite-level fibres.
@@ -1529,7 +1529,7 @@ In the number-field lattice domain this is the local comparison cone in Noncommu
 
 (Nekovář, §6.1, pp. 135–137; §8.10, pp. 249–251.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `localSpecializationError` — `Cone` of the local-condition specialization map.
 - `localSpecializationError_acyclic_iff` — Acyclic iff the specified local comparison is a quasi-isomorphism.
@@ -1623,7 +1623,7 @@ The construction proceeds as follows. Import the determinant functor, exact-tria
 
 (Nekovář, §8.9, pp. 238–244; §8.10, pp. 249–251; Kato, §12.2, pp. 220–221.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `selmerDeterminant` — The arithmetic line `(det_Λ C)⁻¹` of a perfect Selmer complex, with the stated cohomological sign.
 - `selmerDeterminant_triangle` — Exact triangles give multiplicative line equivalences.
@@ -1780,7 +1780,7 @@ The construction proceeds as follows. Define every hypothesis using the actual l
 
 (Greenberg (author preprint), §2, pp. 5–11; §4.1, pp. 19–20.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `GreenbergStructureHypotheses` — The listed module and localization predicates, with the chosen alternative.
 - `almostDivisible_dual` — Equivalent to the compact dual having no nonzero pseudo-null submodule.
@@ -1890,7 +1890,7 @@ The construction proceeds as follows. Use the reindexed predicates of FiniteFlat
 
 (Liu–Tian–Xiao–Zhang–Zhu, Definitions 2.2.4–2.2.5, pp. 124–125.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `crystallineNonsingular` — Submodule of cohomology represented by crystalline extensions.
 - `crystallineNonsingular_map` — Compatible coefficient maps induce the extension-class map.
@@ -1914,7 +1914,7 @@ The construction proceeds as follows. Use FiniteFlatGroupsAndIntegralPadicHodgeT
 
 (Bloch–Kato, §3.7, Proposition 3.8, Corollary 3.8.4 and Example 3.9, pp. 352–359; Rodrigues Jacinto–Williams (arXiv v2), Definition 13.19(2), preprint p. 70.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `blochKatoCondition` — `L^BK_v` on `W` as the image of `H¹_f(F_v, V)`.
 - `blochKatoCondition_T` — The preimage on `T`.
@@ -2003,7 +2003,7 @@ The construction proceeds as follows. Import Tau Ceti's `TauCeti.Hodge.HodgeStru
 
 (Deligne, §5.2–5.3 and Table 5.3, pp. 328–329; Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, preprint pp. 71–72.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `ArchimedeanRealization` — Existing HodgeStructureOn plus the real involution and its compatibility.
 - `archRealization_diagonalMultiplicity` — The `(-1)^(a+ε)` eigenspace dimension on `H^(a,a)`.
@@ -2029,13 +2029,12 @@ The named operations and identities are:
 Define `hodgeGammaFactor` as the weighted product of Mathlib's real and complex Gamma
 functions on these integral lists, and `hodgeGammaShifts` by repeating their multiplicities
 in two complex-shift multisets. For such a list `f` and a supplied LFunctions
-`AnalyticLFunctionData d` with `(d.gammaR, d.gammaC) = hodgeGammaShifts f`, prove
-`hodgeGammaFactor_eq_gammaFactor`:
+`AnalyticLFunctionData d` with `(d.gammaR, d.gammaC) = hodgeGammaShifts f`, prove the equality
 `hodgeGammaFactor f s = d.gammaFactor s`, including totalized values. This is a comparison
 with the existing record's product and needs no analytic or arithmetic predicates on `d`.
 The Hodge product and its order formulas themselves take only the realization data.
 
-Prove `gammaPoleOrder_hodge_analytic` for a real-place realization and
+`Suggested.lean` states `gammaPoleOrder_hodge_analytic` for a real-place realization and
 `gammaPoleOrder_complexHodge_analytic` for a complex-place Hodge structure: at each integer
 `m`, the meromorphic order of its product is the negative of `gammaPoleOrder` on its factor
 list, in `WithTop ℤ`. Use §4.13's actual opposed-filtration carrier and eigenspaces. Mathlib
@@ -2051,7 +2050,7 @@ Mathlib `Analysis/SpecialFunctions/Gamma/Deligne.lean`, Gamma recurrence, scalar
 analyticity and residue at zero, and `Analysis/Meromorphic/Order.lean`;
 LFunctions Layer 0, definition of `AnalyticLFunctionData.gammaFactor`.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `ShiftedGamma` — Real or complex native Gamma function with its integral shift.
 - `complexHodgeGammaFactors` — One complex-place factor per Hodge type, with shift `−`min`(a,b)`.
@@ -2059,9 +2058,9 @@ The named operations and identities are:
 - `tateDualHodgeGammaFactors` — For `a<b=w−a`, the dual complex shift is `b−1`; diagonal real shifts are `a−1` and a with the original `ε=0` and `ε=1` multiplicities.
 - `tateDualHodgeGammaFactors_eq` — Agreement up to permutation with the native Tate-dual realization and its negative transpose Betti involution.
 - `hodgeGammaShifts` — Expansion into real and complex shift multisets.
-- `hodgeGammaFactor_eq_gammaFactor` — Equality with `AnalyticLFunctionData.gammaFactor` when the record has the expanded Hodge shifts, including totalized values.
+- The record comparison gives equality with `AnalyticLFunctionData.gammaFactor` when the record has the expanded Hodge shifts, including totalized values.
 - `gammaPoleOrder` — Weighted integer pole count.
-- `gammaFactor_sum`, `gammaPoleOrder_sum` — Concatenation multiplies products and adds counts.
+- Concatenation multiplies Gamma products and adds integer pole counts.
 - `gamma_tate_factor` — The real Tate line `ℚ_p(n)` gives `Γ_ℝ(s−n)`.
 - `gammaPoleOrder_hodge_analytic`, `gammaPoleOrder_complexHodge_analytic` — Real- and complex-place Hodge products have analytic order equal to the negative integer count.
 
@@ -2092,7 +2091,7 @@ The construction proceeds as follows. Apply §4.14’s Hodge/sign recipe and its
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, pp. 71–72 (arXiv v2), with Remark 13.23; published pp. 197–198.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `gammaFactor` — `L_∞(V,s)` computed from the explicit Hodge/sign realization by §4.14, in the chosen L-function convention.
 - `poleOrderAtOne` — `r_V`, the order of the pole of `L_∞(V, s)` at `s = 1`.
@@ -2123,7 +2122,7 @@ The construction proceeds as follows. Import reciprocity and norm/transfer compa
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.2 and Definition 13.12, preprint pp. 65–67; Proposition 13.13 and Corollary 13.14, pp. 67–68.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `pRamifiedModule` — The maximal abelian pro-p group unramified outside `p` with its continuous tower action.
 - `unramifiedModule` — The class-group norm limit and its unramified Galois comparison.
@@ -2205,7 +2204,7 @@ RJW write `H¹_{L^Gr}(F_∞, W_n)` for the group over `F = F_∞^+` in steps (3)
 
 ### 4.21 The Iwasawa–Greenberg main conjecture (as a proposition)
 
-**Iwasawa corank from the compact dual.** Let `p` be odd, `O` the ring of integers of a finite extension of `ℚ_p, Γ^+ = Γ₀ × Δ^+` with `Γ₀ ≅ ℤ_p` and `Δ^+` finite abelian of order prime to `p`, and `Λ = O⟦Γ^+⟧`. For a discrete p-primary module `M` with compatible continuous `Λ`-action, assume its compact contragredient dual `X = M^∨` is finitely generated over `Λ`. Use PadicMeasuresIwasawaAlgebras §4.6 to write `Λ = ∏_ω Λ_ω`, with `Λ_ω = O_ω[[T]]` indexed by Galois orbits of `Δ^+`-characters. Define `iwasawaCorank` as the tuple `(rank_{Λ_ω} X_ω)_ω`, where `iwasawaCorankFromComponentDual` is `dim_{Q_ω}(Q_ω ⊗_{Λ_ω} X_ω)` for `Q_ω = Frac Λ_ω`. Its API includes invariance under compact-dual equivalences, additivity in exact sequences of finite compact duals, `iwasawaCorankFromComponentDual_self` and `iwasawaCorankFromComponentDual_torsion`. The latter uses `Λ_ω`-torsion, not finite cardinality. Saying `corank_Λ M = r` means every component has `rank r`; torsion means all components have rank zero. The finiteness input for the arithmetic group is §3.13 with its finite-generation and local-condition hypotheses (or a specified finite compact dual as datum); §2.11's `ℤ_p`-corank does not apply to an arbitrary `Λ`-cofinite module.
+**Iwasawa corank from the compact dual.** Let `p` be odd, `O` the ring of integers of a finite extension of `ℚ_p, Γ^+ = Γ₀ × Δ^+` with `Γ₀ ≅ ℤ_p` and `Δ^+` finite abelian of order prime to `p`, and `Λ = O⟦Γ^+⟧`. For a discrete p-primary module `M` with compatible continuous `Λ`-action, assume its compact contragredient dual `X = M^∨` is finitely generated over `Λ`. Use PadicMeasuresIwasawaAlgebras §4.6 to write `Λ = ∏_ω Λ_ω`, with `Λ_ω = O_ω[[T]]` indexed by Galois orbits of `Δ^+`-characters. Define `iwasawaCorank` as the tuple `(rank_{Λ_ω} X_ω)_ω`, where `iwasawaCorankFromComponentDual` is `dim_{Q_ω}(Q_ω ⊗_{Λ_ω} X_ω)` for `Q_ω = Frac Λ_ω`. Its library API includes invariance under compact-dual equivalences, additivity in exact sequences of finite compact duals, rank one for the component ring itself, and rank zero for torsion modules. The rank-zero assertion uses `Λ_ω`-torsion, not finite cardinality. Saying `corank_Λ M = r` means every component has `rank r`; torsion means all components have rank zero. The finiteness input for the arithmetic group is §3.13 with its finite-generation and local-condition hypotheses (or a specified finite compact dual as datum); §2.11's `ℤ_p`-corank does not apply to an arbitrary `Λ`-cofinite module.
 
 Here `Frac Λ` is the total quotient ring, localization at the non-zero-divisors (`FractionRing`, `IsFractionRing`); it is `∏_ω Q_ω` and is not required to be a field. Individual character ranks after a splitting coefficient extension agree with these orbit-component ranks. Prove the API by flat localization on each component and exact Pontryagin duality.
 
@@ -2225,7 +2224,7 @@ The construction proceeds as follows. Definitions only: (i) uses the componentwi
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, Conjecture 13.21, p. 71 (arXiv v2); published p. 197.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `PadicLFunctionDatum` — An element `L_p(V)` of `Frac Λ(Γ^+)`, recorded as data with its conjectural interpolation.
 - `GreenbergCorankConjecture` — Proposition (i): every component of `iwasawaCorank` of `H¹_{L^Gr}(F, W)` is `r_V`; finite generation of its compact dual is a hypothesis of the interface.
@@ -2275,7 +2274,7 @@ The construction proceeds as follows. Use the determinant line of §3.14, which 
 
 (Rodrigues Jacinto–Williams (arXiv v2), Conjecture 13.21(ii) and Remark 13.24, preprint pp. 71–72; Nekovář, §§8.9–8.10, pp. 238–251.)
 
-The named operations and identities are:
+The library targets include the following operations and identities:
 
 - `LeadingTermData` — Actual perfect complex, parameterized analytic series, specialized rank and regulator line equivalences.
 - `LeadingTermStatement` — Coefficients below `r` vanish, coefficient `r` is nonzero and its principal fractional lattice equals the defined determinant product.
@@ -2562,7 +2561,7 @@ The exact sequences relating `Sel_φ, Sel_φ̂` and `Sel₂` (the Kummer sequenc
 - At a complex place `E′(ℂ)` is divisible, `coker φ_v = 0` and `σ_φ = −1`; the archimedean places contribute signs.
 - The formula computes the corank of `Sel_{2^∞}`, not `dim_{𝔽₂} Sel₂`: for `E₁ : y² = x³ − x, Sel₂(E₁/ℚ) ≅ E₁(ℚ)[2] = (ℤ/2)²` while the corank is `0`.
 
-**Local Kummer images for the congruent-number curves.** For a place `v` of `ℚ`, let `I_v(n) ⊆ ℚ_v^×/ℚ_v^{×2}` be the image of `E′_n(ℚ_v)` under `X ↦ X` for `X ≠ 0, O ↦ 1` and `(0, 0) ↦ 4n² ≡ 1`, which is the coboundary of `φ`, so #`I_v(n) =` #`coker φ_v` and #`ker φ_v = 2`. Prove `congruentLocalKummerImage_ncard_of_not_dvd`, `congruentLocalKummerImage_ncard_of_dvd` and `congruentLocalKummerImage_two_ncard` (the image is `congruentLocalKummerImage`):
+**Local Kummer images for the congruent-number curves.** For a place `v` of `ℚ`, let `I_v(n) ⊆ ℚ_v^×/ℚ_v^{×2}` be the image of `E′_n(ℚ_v)` under `X ↦ X` for `X ≠ 0, O ↦ 1` and `(0, 0) ↦ 4n² ≡ 1`, which is the coboundary of `φ`, so #`I_v(n) =` #`coker φ_v` and #`ker φ_v = 2`. The statement `congruentLocalKummerImage_ncard` in `Suggested.lean` gives the finite-place rows of the following table for `congruentLocalKummerImage`; also prove the real-place row:
 
 ```text
 v = ∞:             #I_v(n) = 1
@@ -2617,19 +2616,19 @@ Euler-system arguments for the cyclotomic main conjecture use the completed unit
 
 Locators use the editions below. For Rubin's draft, PDF page is printed page plus ten; for Nekovář, plus nine; for Milne's *Arithmetic Duality Theorems*, plus eight. ArXiv and author-preprint pagination is stated explicitly, and differs from journal pagination.
 
-- Karl Rubin, [Euler systems](https://swc-math.github.io/notes/files/99RubinES.pdf). Author draft of Annals of Mathematics Studies 147 (2000), 1999 Arizona Winter School; printed page = PDF page − 10.
+- Karl Rubin, Euler systems. Author draft of Annals of Mathematics Studies 147 (2000), 1999 Arizona Winter School; printed page = PDF page − 10.
 - Barry Mazur; Karl Rubin, [Controlling Selmer groups in the higher core rank case](https://arxiv.org/abs/1312.4052v1). arXiv:1312.4052v1 (14 December 2013); published in J. Théor. Nombres Bordeaux 28 (2016).
 - Joaquín Rodrigues Jacinto; Chris Williams, [An introduction to p-adic L-functions](https://arxiv.org/abs/2309.15692v2). arXiv:2309.15692v2 (19 December 2024); published in Essential Number Theory 4 (2025), 101–216. Locators use the arXiv v2 pagination unless expressly marked as published.
 - Ashay A. Burungale; Ye Tian, [A rank zero p-converse to a theorem of Gross–Zagier, Kolyvagin and Rubin](https://arxiv.org/abs/2506.03465v2). arXiv:2506.03465v2 (11 October 2025); Annals of Mathematics 203 (2026).
 - David Burns; Matthias Flach, [Motivic L-functions and Galois module structures](https://gdz.sub.uni-goettingen.de/id/PPN235181684_0305). Mathematische Annalen 305 (1996), 65–102; equation (1.9), p. 73, Proposition 1.20 and the ordinary/Tate comparison, pp. 78–80.
-- Jan Nekovář, [Selmer complexes](https://www.numdam.org/item/AST_2006__310__R1_0.pdf). Astérisque 310 (2006), Numdam open-access PDF (568 PDF pages; printed page = PDF page − 9).
+- Jan Nekovář, Selmer complexes. Astérisque 310 (2006), Numdam open-access PDF (568 PDF pages; printed page = PDF page − 9).
 - Y. Liu; Y. Tian; L. Xiao; W. Zhang; X. Zhu, [On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives](https://doi.org/10.1007/s00222-021-01088-4). Inventiones Mathematicae 228 (2022), 107–375; version of record.
 - Ralph Greenberg, [On the structure of Selmer groups](https://warwick.ac.uk/fac/sci/maths/people/staff/david_loeffler/jhc70/greenberg.pdf). Author preprint, 29 pages; use PDF pagination.
 - F. Castella; G. Grossi; J. Lee; C. Skinner, [On the anticyclotomic Iwasawa theory of rational elliptic curves at Eisenstein primes](https://web.math.ucsb.edu/~castella/Eisenstein.pdf). Author preprint dated 10 August 2021, 34 pages; published Inventiones Mathematicae 227 (2022).
 - F. Calegari; D. Geraghty; M. Harris, [Bloch–Kato conjectures for automorphic motives](https://arxiv.org/pdf/1907.08694v1). Companion appendix preprint, 10 pages, to Modularity lifting for non-regular symplectic representations, Duke Mathematical Journal 169 (2020), Appendix A.
 - Christopher Skinner, [A converse to a theorem of Gross, Zagier, and Kolyvagin](https://arxiv.org/pdf/1405.7294). Author preprint; published Annals of Mathematics 191 (2020), 329–354.
 - Kazuya Kato, [p-adic Hodge theory and values of zeta functions of modular forms](https://www.numdam.org/item/AST_2004__295__117_0.pdf). Astérisque 295 (2004), 117–290.
-- Spencer Bloch; Kazuya Kato, [L-functions and Tamagawa numbers of motives](https://virtualmath1.stanford.edu/~conrad/BSDseminar/refs/BKTamagawa.pdf). The Grothendieck Festschrift I (1990), 333–400; freely available university seminar copy.
+- Spencer Bloch; Kazuya Kato, L-functions and Tamagawa numbers of motives. The Grothendieck Festschrift I (1990), 333–400.
 - Pierre Deligne, [Valeurs de fonctions L et périodes d’intégrales](https://publications.ias.edu/sites/default/files/33_Valeursde.pdf). Proc. Sympos. Pure Math. 33, Part 2 (1979), 313–346; author-hosted scan.
 - Lilybelle Cowland Kellock; Vladimir Dokchitser, [Root numbers and parity phenomena](https://arxiv.org/abs/2303.07883v1). arXiv:2303.07883v1 (14 March 2023); locators use its 29-page preprint.
 - Tim Dokchitser; Vladimir Dokchitser, [On the Birch–Swinnerton-Dyer quotients modulo squares](https://annals.math.princeton.edu/wp-content/uploads/annals-v172-n1-p11-p.pdf). Annals of Mathematics 172 (2010), 567–596.
@@ -2638,11 +2637,11 @@ Locators use the editions below. For Rubin's draft, PDF page is printed page plu
 - Jean-Marc Fontaine, [Le corps des périodes p-adiques](https://www.numdam.org/item/AST_1994__223__59_0.pdf). Astérisque 223 (1994), 59–111.
 - Jean-Marc Fontaine; Guy Laffaille, [Construction de représentations p-adiques](https://www.numdam.org/item/ASENS_1982_4_15_4_547_0.pdf). Annales scientifiques de l’École normale supérieure 15 (1982), 547–608.
 - Jean-Marc Fontaine, [Représentations p-adiques semi-stables](https://www.numdam.org/item/AST_1994__223__113_0.pdf). Astérisque 223 (1994), 113–184.
-- J. S. Milne, [Arithmetic Duality Theorems](https://www.jmilne.org/math/Books/ADTnot.pdf). Second edition, BookSurge (2006), author-hosted electronic version; printed page = PDF page − 8.
-- J. S. Milne, [Algebraic Number Theory](https://www.jmilne.org/math/CourseNotes/ANT.pdf). Course notes, version 3.08 (2020).
+- J. S. Milne, Arithmetic Duality Theorems. Second edition, BookSurge (2006), author-hosted electronic version; printed page = PDF page − 8.
+- J. S. Milne, Algebraic Number Theory. Course notes, version 3.08 (2020).
 - Uwe Jannsen, [Continuous étale cohomology](https://epub.uni-regensburg.de/26684/1/jannsen12.pdf). Mathematische Annalen 280 (1988), 207–245.
-- Jean-Marc Fontaine; Yi Ouyang, [Theory of p-adic Galois representations](http://staff.ustc.edu.cn/~yiouyang/galoisrep.pdf). Book manuscript, author-hosted; locators use its printed pagination.
-- Olivier Brinon; Brian Conrad, [CMI summer school notes on p-adic Hodge theory](https://math.stanford.edu/~conrad/papers/notes.pdf). Preliminary version, author-hosted; locators use its printed pagination.
+- Jean-Marc Fontaine; Yi Ouyang, Theory of p-adic Galois representations. Book manuscript, author-hosted; locators use its printed pagination.
+- Olivier Brinon; Brian Conrad, CMI summer school notes on p-adic Hodge theory. Preliminary version, author-hosted; locators use its printed pagination.
 - James Ax, Zeros of polynomials over local fields — the Galois action. Journal of Algebra 15 (1970), 417–428.
 - John Tate, p-divisible groups. Proceedings of a Conference on Local Fields (Driebergen, 1966), Springer (1967), 158–183.
 - J. W. S. Cassels, Arithmetic on curves of genus 1. IV. Proof of the Hauptvermutung. Journal für die reine und angewandte Mathematik 211 (1962), 95–112.
