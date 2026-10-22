@@ -760,13 +760,31 @@ settled below $r$, no such element enters. Nonreduction and convergence of
 $r^i(e,s)$ then follow from L9.1. There is in general no computable bound on
 $|I^i_e|$ [S, p.126], and none is assumed.
 
-Prove lowness of both halves by the agreement-length test in [S, pp.125–126]:
-compile a program which, at input zero, returns the fixed bit $C(0)$ exactly when
-$\Phi_e^X(e)$ converges and diverges at every positive input. Stabilization of the
-corresponding agreement length yields a computable convergent approximation to
-the jump of each half; apply L4. The compiler with the bit as explicit finite
-input is computable. The existence proof may specialize it to $C(0)$; it must
-not claim to compute that bit uniformly from an arbitrary c.e. index for $C$.
+Prove lowness of both halves by the agreement-length test in [S, pp.125–126].
+Supply the probe compiler as a reusable index construction, uniform in a bit
+given as data: a computable $g:\lbrace 0,1\rbrace\times\mathbb N\to\mathbb N$
+such that for every oracle $X$ and all $b,e,x,y$,
+
+$$
+y\in\Phi^X_{g(b,e)}(x)\iff x=0\ \land\ \Phi_e^X(e)\downarrow\ \land\ y=b.
+$$
+
+The program waits for the diagonal computation, returns $b$ at input zero, and
+diverges at every positive input. For a fixed target $C$ take $b=C(0)$. The
+probe's agreement length on $A_i$ then settles at exactly $1$ when
+$\Phi_e^{A_i}(e)$ converges, since the output at zero agrees and the probe
+diverges at one, and at $0$ when it diverges, by the divergent first-disagreement
+argument of L9.1. So $h_i(e,s)=\mathbf 1[\ell^i(g(b,e),s)>0]$ is computable,
+using computability of the agreement length, and $\lim_s h_i(e,s)=A_i'(e)$;
+apply L4.
+
+The existence proof specializes the compiler to $C(0)$; it must not claim to
+compute that bit uniformly from an arbitrary c.e. index for $C$. No computable
+operation extracts $C(0)$ from a c.e. index even under the promise that $C$ is
+noncomputable: the uniformly c.e. sets
+$C_e=\lbrace 2n+1:n\in K\rbrace\cup(\lbrace 0\rbrace\text{ if }e\in K)$ are all
+noncomputable, and $0\in C_e$ iff $e\in K$. This rules out only that particular
+operation, not every uniform form of the lowness reductions.
 
 Provide total computable output-index transformations on input enumeration
 indices for $B,C$, with the negative and lowness conclusions under the stated

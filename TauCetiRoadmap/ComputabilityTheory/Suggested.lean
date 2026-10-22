@@ -1162,6 +1162,57 @@ theorem sacksSplit_requirement (B C : CEApproximation)
           sacksRestraint A C.stage e s = some b := by
   sorry
 
+/-- The lowness probe compiler [S, pp.125–126], uniform in a supplied bit. The program `g b e`
+waits for `Φ^X_e(e)`, returns `b` at input zero, and diverges at every positive input. -/
+theorem lowness_probe_compiler :
+    ∃ g : Bool → ℕ → ℕ, Computable (fun p : Bool × ℕ => g p.1 p.2) ∧
+      ∀ (b : Bool) (X : Set ℕ) (e x y : ℕ),
+        y ∈ Phi X (g b e) x ↔ x = 0 ∧ (Phi X e e).Dom ∧ y = b.toNat := by
+  sorry
+
+/-- With the bit `b = C(0)`, the probe's agreement length on each half settles at `1` when
+`Φ^{A_i}_e(e)` converges and at `0` when it diverges. The bit is a fixed parameter, not computed
+from an index for `C`. -/
+theorem sacksSplit_probe_length (B C : CEApproximation)
+    (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage)) (g : Bool → ℕ → ℕ)
+    (hg : ∀ (b : Bool) (X : Set ℕ) (e x y : ℕ),
+      y ∈ Phi X (g b e) x ↔ x = 0 ∧ (Phi X e e).Dom ∧ y = b.toNat)
+    (b : Bool) (hb : b = true ↔ 0 ∈ stageLimit C.stage) (i : Bool) (e : ℕ) :
+    let A := fun s => sacksSplit B.stage C.stage s i
+    ∃ s₀, ∀ s, s₀ ≤ s →
+      (e ∈ jump (stageLimit A) →
+          agreementLength s (A s : Set ℕ) (C.stage s : Set ℕ) (g b e) = 1) ∧
+        (e ∉ jump (stageLimit A) →
+          agreementLength s (A s : Set ℕ) (C.stage s : Set ℕ) (g b e) = 0) := by
+  sorry
+
+/-- The computable approximation to the jump of each half that the lowness proof passes to the
+limit lemma. -/
+theorem sacksSplit_jump_approximation (B C : CEApproximation)
+    (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage)) (g : Bool → ℕ → ℕ)
+    (hgc : Computable (fun p : Bool × ℕ => g p.1 p.2))
+    (hg : ∀ (b : Bool) (X : Set ℕ) (e x y : ℕ),
+      y ∈ Phi X (g b e) x ↔ x = 0 ∧ (Phi X e e).Dom ∧ y = b.toNat)
+    (b : Bool) (hb : b = true ↔ 0 ∈ stageLimit C.stage) (i : Bool) :
+    let A := fun s => sacksSplit B.stage C.stage s i
+    let h := fun e s => decide (0 < agreementLength s (A s : Set ℕ) (C.stage s : Set ℕ) (g b e))
+    Computable (fun p : ℕ × ℕ => h p.1 p.2) ∧
+      ∀ e, ∃ s₀, ∀ s, s₀ ≤ s → (h e s = true ↔ e ∈ jump (stageLimit A)) := by
+  intro A h
+  refine ⟨?_, fun e => ?_⟩
+  · have hlen := agreementLength_computable A C.stage (sacksSplit_computable B C i) C.computable
+    have harg : Computable fun p : ℕ × ℕ => (g b p.1, p.2) :=
+      (hgc.comp ((Computable.const b).pair Computable.fst)).pair Computable.snd
+    have hpos : Computable fun n : ℕ => decide (0 < n) :=
+      (Primrec.nat_lt.comp (Primrec.const 0) Primrec.id).decide.to_comp
+    exact (hpos.comp (hlen.comp harg)).of_eq fun _ => rfl
+  · obtain ⟨s₀, hs₀⟩ := sacksSplit_probe_length B C hNC g hg b hb i e
+    refine ⟨s₀, fun s hs => ?_⟩
+    simp only [h, A] at hs₀ ⊢
+    by_cases he : e ∈ jump (stageLimit fun s => sacksSplit B.stage C.stage s i)
+    · simp [(hs₀ s hs).1 he, he]
+    · simp [(hs₀ s hs).2 he, he]
+
 /-- The constructed halves satisfy the full statement of [S, VII.3.2]. -/
 theorem sacksSplit_spec (B C : CEApproximation)
     (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage)) :
