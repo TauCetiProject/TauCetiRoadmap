@@ -34,6 +34,10 @@ Design choices.
   topology. The complete locally convex extensions and Fréchet Dixmier–Malliavin are README targets.
 * Cuspidality is the kernel condition for a family of linear constant-term maps; the arithmetic
   specialization indexes it by all proper rational parabolics.
+* README §2.2 constructs its reductive Harish-Chandra equivalence as an independent
+  algebraic prefix from LieHighestWeight's semisimple map and centre/derived splitting,
+  before the real-group interpretation. The Weyl group fixes the centre and `ρ` vanishes
+  there, so the shift preserves the central functional.
 * Infinitesimal characters of `GLₙ(ℝ)` are `n`-tuples of complex numbers: L-algebraic means
   integral entries, C-algebraic means entries in `(n - 1)/2 + ℤ`.
   Cohomological weight zero means the Weyl orbit of the trivial parameter `ρ`, rather than
@@ -525,7 +529,9 @@ README definitions requiring additional carriers include `AdelicSmoothFunction`,
 `AdelicTestFunction`, `AdelicSchwartzFunction`, `T_sm` and `SmoothAutomorphicForm`;
 `relativeKoszulResolution`, `smoothGroupCochains` and `homogeneousPoincareResolution`;
 `IsAdmissible`, `IsHarishChandraModule`, `HasInfinitesimalCharacter`, generalized central
-characters, normalized induction with its smooth Fréchet and compact-finite carriers,
+characters, the algebraic prefix's `reductiveHarishChandra`, `centralCharacter_eq_iff` and
+`restrict_derived` with their Cartan and Weyl-invariant carriers, normalized induction
+with its smooth Fréchet and compact-finite carriers,
 the SL₂ discrete/limit endpoint sequences and the inversion, circle and Casimir
 comparison used by NoncompactQuantumSymmetry M4; `IsTempered`, `IsSquareIntegrable`, their essential
 variants, `IrrAdmissible`, `WeilGroupComplex`, `WeilGroupReal`, `IsBoundedParameter`,
