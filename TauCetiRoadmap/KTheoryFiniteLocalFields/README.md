@@ -269,7 +269,7 @@ For i ≥ 1 restriction on K₂ᵢ₋₁ is injective onto Galois invariants and
 
 ### 1.6 Coefficients, algebraic closure and derived completion
 
-For m ≥ 1 and i ≥ 1 deduce K₂ᵢ₋₁(𝔽q; ℤ/m) ≃ K₂ᵢ₋₁(𝔽q)/m ≃ ℤ/gcd(m,q^i−1) and, through the Bockstein, K₂ᵢ(𝔽q; ℤ/m) ≃ ₘK₂ᵢ₋₁(𝔽q) ≃ ℤ/gcd(m,q^i−1); K₀(𝔽q;ℤ/m) = ℤ/m. In particular Kₙ(𝔽q;ℤ/p^ν) = 0 for n ≥ 1, and Kₙ(𝔽q;ℤ/m) ≃ ℤ/m for every n ≥ 0 when m | q−1. For a prime power ℓ^ν dividing q−1 choose a generator ζ of 𝔽q× and a primitive ℓ^ν-th root of unity ω; let ζ also denote the reduction of [ζ] in K₁(𝔽q;ℤ/ℓ^ν) = 𝔽q×/ℓ^ν and put β = β_ω. The finite-field product structure, with Browder's refinement where small Moore moduli require it, gives the graded ring (ℤ/ℓ^ν)[β,ζ]/(ζ²), and the Brauer map ρ: BGL(𝔽q)⁺ → BU carries its even part (ℤ/ℓ^ν)[β] isomorphically, as a ring, onto ⊕ₙ π₂ₙ(BU;ℤ/ℓ^ν). The presentation depends on ζ and ω; the ring does not. For composite m | q−1 the coprime decomposition of §1.1, with Browder's products on each factor, gives the ring (ℤ/m)[β,ζ]/(ζ²) (K-book IV.1.13.1 p.269, IV.2.8 p.282). Do not infer a canonical product from the additive Bockstein sequence alone.
+For m ≥ 1 and i ≥ 1 deduce K₂ᵢ₋₁(𝔽q; ℤ/m) ≃ K₂ᵢ₋₁(𝔽q)/m ≃ ℤ/gcd(m,q^i−1) and, through the Bockstein, K₂ᵢ(𝔽q; ℤ/m) ≃ ₘK₂ᵢ₋₁(𝔽q) ≃ ℤ/gcd(m,q^i−1); K₀(𝔽q;ℤ/m) = ℤ/m. In particular Kₙ(𝔽q;ℤ/p^ν) = 0 for n ≥ 1, and Kₙ(𝔽q;ℤ/m) ≃ ℤ/m for every n ≥ 0 when m | q−1. For a prime power ℓ^ν dividing q−1 choose a generator ζ of 𝔽q× and a primitive ℓ^ν-th root of unity ω; let ζ also denote the reduction of [ζ] in K₁(𝔽q;ℤ/ℓ^ν) = 𝔽q×/ℓ^ν and put β = β_ω. The finite-field product structure, with Browder's refinement where small Moore moduli require it, gives the graded ring (ℤ/ℓ^ν)[β,ζ]/(ζ²). The Brauer map ρ: BGL(𝔽q)⁺ → BU carries its positive-even part β(ℤ/ℓ^ν)[β] isomorphically, as a nonunital graded ring, onto ⊕_(n≥1) π₂ₙ(BU;ℤ/ℓ^ν). Here BU is connected and rank-zero; the degree-zero unit is handled separately by the rank identification K₀(𝔽q;ℤ/ℓ^ν) ≃ ℤ/ℓ^ν. The presentation depends on ζ and ω; the ring does not. For composite m | q−1 the coprime decomposition of §1.1, with Browder's products on each factor, gives the ring (ℤ/m)[β,ζ]/(ζ²) (K-book IV.1.13.1 p.269, IV.2.8 p.282). Do not infer a canonical product from the additive Bockstein sequence alone.
 
 Take filtered colimits to obtain, for i ≥ 1, K₂ᵢ(𝔽̄p) = 0 and K₂ᵢ₋₁(𝔽̄p) = colim_ν K₂ᵢ₋₁(𝔽_(p^ν)), a divisible torsion group isomorphic to ⊕_(ℓ≠p)ℚℓ/ℤℓ ≅ 𝔽̄p×. Absolute Frobenius acts on it by p^i, and there is a Γ-equivariant isomorphism with the Tate twist ⊕_(ℓ≠p)ℚℓ/ℤℓ(i), Γ = Gal(𝔽̄p/𝔽p); every abelian-group isomorphism between these two groups is Γ-equivariant, because the automorphisms of ⊕_(ℓ≠p)ℚℓ/ℤℓ form the commutative group ∏_(ℓ≠p)ℤℓ×, which contains the Frobenius scalar p^i. For every 𝔽q ⊂ 𝔽̄p the map Kₙ(𝔽q) → Kₙ(𝔽̄p)^(Gal(𝔽̄p/𝔽q)) is an isomorphism for n ≥ 1. For m ≥ 2 with p ∤ m, Kₙ(𝔽̄p;ℤ/m) is ℤ/m for even n ≥ 0 and zero for odd n; a primitive m-th root of unity ω determines a graded ring isomorphism (ℤ/m)[β] ≃ K_*(𝔽̄p;ℤ/m), β ↦ β_ω, using the prime-power products and their Chinese-remainder product, and g ∈ Γ with g(ω) = ω^a acts on K₂ᵢ(𝔽̄p;ℤ/m) ≃ ₘK₂ᵢ₋₁(𝔽̄p) ≃ μ_m^⊗i by a^i. For p-power coefficients all positive groups vanish (K-book VI.1, finite-characteristic calculation and Corollary VI.1.3.1, p.465; proof of Proposition VI.1.7.1, p.468; Haine Corollary 3.1.1, p.5).
 
@@ -281,6 +281,7 @@ Define `completed R ℓ` as the homotopy limit of coefficient spectra, `toComple
 - The zero ring has zero completed spectrum. A field has completed K₀ = ℤₗ; surjectivity of its K₁ coefficient transition maps kills the possible degree-zero lim¹.
 - K₂(ℂ; ℤₗ) = ℤₗ although integral K₂(ℂ) is uniquely divisible and limν K₂(ℂ)/ℓ^ν = 0. The missing term is the Tate module of K₁(ℂ), not an error in the integral group (K-book VI.1.1,1.3 pp.463–465).
 - K₂(𝔽₃; ℤ/2) survives although integral positive even groups vanish, while K₂(𝔽̄₃; ℤ/3) is zero.
+- For q = 3 and modulus 2, the rank unit in K₀(𝔽₃;ℤ/2) = ℤ/2 has no degree-zero counterpart in connected BU; β generates π₂(BU;ℤ/2), and the positive-even comparison retains every β-power of positive degree.
 
 ### 1.7 Perfect characteristic-two comparisons
 
@@ -495,7 +496,7 @@ For smooth finite-dimensional schemes establish Nisnevich excision and descent a
 - Over 𝔽₂, moving over a single even-degree extension does not eliminate possible two-torsion in the cone; two coprime degrees do, with integral coefficients.
 - Finite-extension pullback followed by pushforward on CH^0 is multiplication by the extension degree, including for a purely inseparable extension. Coefficient homology retains its torsion connecting term.
 
-*Needs:* SchemeAndStackFoundations' cycle, intersection, blow-up, flattening and Nisnevich-site foundations; supplied chain complexes, derived tensor products and sheaf cohomology. The shared cycle and moving package is constructed here before its K-theoretic comparisons.
+*Needs:* SchemeAndStackFoundations' cycle, intersection, blow-up, flattening and Nisnevich-site foundations; supplied chain complexes, derived tensor products and sheaf cohomology. The export `motivicCycles` consists of these integral `BlochCycle` and `HigherChow` carriers with their dimension/weight conversion, face signs, arbitrary derived coefficients and all the moving, localization, homotopy, product and transfer maps above. Its construction precedes both the K-theoretic comparisons here and its motive-category applications.
 
 **Motivic comparison foundations** (`motivicToK`). On `motivicCycles`' shared complexes identify Hⁿ(F,ℤ(n)) with Kₙᴹ(F) for every field F and n≥0. Identify field restriction and every finite-extension pushforward with §3.0's supplied restriction and Kato norm, including inseparable extensions. For codimension-one localization in smooth schemes, specify the purity and degreewise boundary signs so that the diagonal residue is the same last-slot Milnor residue as in §3.0. Construct the symbol map by products of K₁ classes; the diagonal edge of the K-theory tower must equal this map on the common Milnor carrier (MVW Theorem 5.1 and proof pp.29–34, Theorem 19.1 p.159; K-book VI.4.1–4.3 pp.479–481).
 
@@ -1076,7 +1077,15 @@ For μ_p ⊂ K, compute Bott multiplication on the final-page basis. If r+e/(p�
 τ^(a+a′) π^r′ α^(d+a′+1) (dlog π)^δ.
 ```
 
-Check χ is preserved. If q = q₁(p−1)+q₀, 0 ≤ q₀ < p−1, the representative of b^q has, up to its specified unit, exponents τ^q₁ π^(q₀e/(p−1)) α^(q₁+q). Prove that the image of the logarithmic Witt complex is exactly the portion with χ ≥ 0 (HM03 Lemmas 6.1.2–6.1.3 pp.97–99).
+Check χ is preserved. If q = q₁(p−1)+q₀, 0 ≤ q₀ < p−1, the representative of b^q has, up to its specified unit, exponents τ^q₁ π^(q₀e/(p−1)) α^(q₁+q). For n ≥ 1 form the full Witt–Bott composite
+
+```text
+Wₙω*_(A,M) ⊗_ℤ S_(ℤ/p)(μ_p)
+    → TRⁿ_*(A|K;p,ℤ/p)
+    → π_*(T(A|K)^(tC_(p^n));ℤ/p),
+```
+
+where the first map multiplies the Witt-form map by the Bott classes of the degree-two root factor, and the second is Γ̂ of §5.12. Give its image the induced Tate filtration. Prove that the associated graded image is the k-span of the surviving standard-basis elements of §5.13 with χ ≥ 0: a surviving basis element represents a class in this composite's image exactly when χ ≥ 0 (HM03 Lemmas 6.1.2–6.1.3 pp.97–99).
 
 Construct the natural pro-isomorphism
 
@@ -1090,6 +1099,7 @@ when μ_(p^ν) ⊂ K. Equivalently, first reduce W•ω* modulo p^ν and then te
 **Checks.**
 
 - For e = p−1 the Bott carry occurs already at r = e−1 and adds one to the α exponent beyond its degree contribution.
+- For p = 5, K = ℚ₅(ζ₅), A = ℤ₅[ζ₅], π = ζ₅−1 and n = 1, b₁ = −πα ≠ 0 in TR¹₂(A|K;5,ℤ/5). Its Tate representative is a nonzero unit multiple of πα, with (a,r,d) = (0,1,1), χ = 0 and d = 1 < B₁ = 5. But W₁ω²_(A,M)/5 = 0 by unique divisibility, so the degree-two root factor is essential (HM03 (5.2.4) p.77 and Corollary 3.2.7 p.50).
 - At n = 1,q = 0 the dimension is e; at n = 2 it is 2e.
 - In total degree zero the source at level n is Wₙ(A)/p^νWₙ(A). At n = 1 this is A/p^ν, whereas W₁(A) = A has characteristic zero and cannot itself be a module over ℤ/p^ν.
 - Equality of these dimensions does not imply a levelwise Witt–Bott isomorphism.
@@ -1597,13 +1607,22 @@ Put w_v = #μ(F_v) and h_v = h_(F_v)c_v:K₂(F)→μ(F_v). Prove h_v{a,b} = (a,b
 
 ### 7.4 Étale operations and unramified classes
 
-Prove naturality under completion for the early edge of §6.6 and for the ordinary finite-coefficient étale Chern operations, keeping their factorial relation. On cohomology the map is pullback along Spec F_v→Spec F, equivalently restriction to a decomposition group after choosing a place above v; conjugation makes the resulting cohomology map independent of that choice. At degree one this is Kummer naturality. Pass to continuous coefficients only with the limit comparison already established (K-book Definition V.11.5 p.454 and Example V.11.10 p.456; Handbook §5.4 p.153).
+For every number field F and finite place v, prove completion naturality of the ordinary finite-coefficient étale Chern operations. For a prime ℓ, ν ≥ 1 and i ≥ 1, require cd_ℓ(F) ≤ 2 for the edge `etaleEdgeOne i ν` of §6.6: for number fields this holds when ℓ is odd, or when ℓ = 2 and F is totally imaginary. Since cd_ℓ(F_v) = 2, prove under this global hypothesis
+
+```text
+etaleEdgeOne_(F_v) ∘ completionMap v
+    = res_v ∘ etaleEdgeOne_F
+    : K_(2i−1)(F;ℤ/ℓ^ν) → H¹(F_v,ℤ/ℓ^ν(i)).
+```
+
+Keep the factorial relation with the ordinary Chern operation wherever this edge is defined. On cohomology res_v is pullback along Spec F_v→Spec F, equivalently restriction to a decomposition group after choosing a place above v; conjugation makes the resulting cohomology map independent of that choice. Degree-one Kummer naturality holds for every number field, including real fields with ℓ = 2. Pass to continuous coefficients only with the limit comparison already established (K-book Definition V.11.5 p.454, Example V.11.10 p.456 and VI.8–VI.9 pp.513,517; Handbook §5.4 p.153).
 
 For m invertible at v and x in the image of K_n(O_F[1/m];ℤ/m), show its local Chern class is unramified and equals the inflation of the finite-field Chern class of its reduction. Use henselian rigidity both for K-theory and for étale cohomology, and specify j = 2i−n ≥ 0; for negative j the target is zero. At n = 3,i = 2 this gives the weight-two local class used in the Bloch-unit application, without assuming the analogous statement at v | m (CGZ §4.1, Lemma 4.1 p.21 and proof pp.21–22). *Needs:* §§1.5,1.8,2.1,6.6,7.1–7.2, henselian étale rigidity and the supplied Chern naturality theorem.
 
 **Checks.**
 
 - Kummer sends a global unit a to the class of its actual local image.
+- For F = ℚ, ℓ = 2 and v the dyadic place, cd₂(ℚ) = ∞ while cd₂(ℚ₂) = 2. The ordinary Chern and Kummer squares still apply; the global `etaleEdgeOne` square above requires the finite-cd hypothesis. For F = ℚ(i) that hypothesis holds also at ℓ = 2.
 - At v ∤ m, an integral class reduces through K_n(k(v);ℤ/m); at v | m the same argument is unavailable.
 - The weight-two operation has factorial 1, whereas weight three at m = 2 need not be an isomorphism.
 - Unramifiedness concerns the local cohomology class, not the assertion that every class of K_n(F_v;ℤ/m) comes from O_v.
@@ -1648,7 +1667,7 @@ Layers 1–6, number-field completion and semilocal tensor decomposition, flat K
 
 ## Downstream consumers
 
-Section 3.0a supplies the shared `BlochCycle` and `HigherChow` carriers: dimension grading over arbitrary fields, ordered face signs, arbitrary derived coefficients, arbitrary separated finite-type localization and homotopy invariance, smooth-target incidence moving with affine-to-global descent, and the actual proper, flat, product and correspondence maps. These constructions precede the motive-category comparisons in MotivesAndAlgebraicCycles §§4.7–4.8, which use the same carriers and maps. Suslin/Tate transfer complexes, relative-cycle specialization over general bases, cancellation and motive-category comparisons belong to that consumer; `motivicToK` owns the additional diagonal, norm-residue and K-theory layer comparisons here.
+Section 3.0a supplies the shared `BlochCycle` and `HigherChow` carriers through `motivicCycles`: dimension grading over arbitrary fields, ordered face signs, arbitrary derived coefficients, arbitrary separated finite-type localization and homotopy invariance, smooth-target incidence moving with affine-to-global descent, finite-field coprime-degree descent, and the actual proper, flat, product and correspondence maps. MotivesAndAlgebraicCycles §§4.7–4.8 consumes this package with these exact carriers, coefficients and maps for its motive-category comparisons. Suslin/Tate transfer complexes, relative-cycle specialization over general bases, cancellation and motive-category comparisons belong to that consumer; `motivicToK` owns the additional diagonal, norm-residue and K-theory layer comparisons here.
 
 Global arithmetic applications use the finite residue groups, transfer normalization, integral local torsion/divisibility and completion maps supplied here. Global number-field w-invariants are outside this roadmap. K3BlochGroups uses the finite-field K₃ group and its compatible local weight-two edge, while HabiroNumberFields uses the prime-to-residue-characteristic reduction square. HabiroRings uses the relative truncated-polynomial calculations of §5.17.
 

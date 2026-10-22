@@ -273,7 +273,8 @@ the adapted boundary identity `localizationBockstein` and its order-three theore
 `localizationBockstein_orderThree`, the shared `motivicCycles` package on separated finite-type
 schemes over arbitrary fields, its localization and homotopy invariance on singular schemes,
 its incidence moving and correspondence actions on smooth targets with affine-to-global descent,
-its derived coefficients and actual proper/flat/product/transfer maps, and its additional
+its derived coefficients, finite-field coprime-degree descent and actual proper/flat/product/transfer
+maps exported to motive-category applications, and its additional
 `motivicToK` comparisons, the linear Waldhausen THH model, classical TR and TC,
 `genuineModernCyclotomicComparison` with its integral arithmetic pullback and separate
 p-completed comparison, the Connes operator, the HM Tate-cochain comparison and Tate
@@ -283,6 +284,11 @@ maps, the normalized log-THH class κ, the Lubin–Tate unit and α coordinates,
 the Geisser–Levine comparisons, the Dwyer–Friedlander comparison, the étale edge and Chern
 maps, the weightwise twisted-TR inverse limits, the local Iwasawa module and the height-one
 splitting, the dyadic hermitian comparison, and the arithmetic and semilocal completion maps.
+The coefficient Brauer comparison into connected rank-zero BU uses positive even degrees,
+with the degree-zero rank unit handled separately. The finite-level Witt–Bott image uses the
+full degree-two root factor and the induced Tate filtration. Global completion naturality
+for the étale edge requires `cd_ℓ(F) ≤ 2`; ordinary Chern and Kummer naturality applies to
+every number field.
 -/
 
 end TauCetiRoadmap.KTheoryFiniteLocalFields
