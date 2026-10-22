@@ -143,6 +143,8 @@ The inverse-character statements in §§8.1–8.2, `inverseCharacterClassGroup` 
 
 Layer 0 fixes integral normalization and the exact congruence index. Layer 1 turns cusp divisors and the regular bad fibre into integral subgroup schemes. Layer 2 constructs ideal torsion, completed factors and actual quotients. Layers 3–4 establish odd and dyadic multiplicity one and winding principality. Layer 5 determines rational torsion before Layer 6 proves rank zero of the Eisenstein quotient. Layer 7 uses both the moduli boundary and good-reduction torsion specialization in the elliptic descent, and also supplies the formal-immersion route. Layer 8 proves the separate order-13 exclusion under the explicit data of §§8.1 and 8.5, and joins it to the four occurring prime orders. Every later assertion using the level-13 descent retains those same hypotheses. The worked examples are part of the build and distinguish integral models or local branches that have the same generic appearance.
 
+`Suggested.lean` states `isogeny_iteration` (§7.8) and `occurring_small_primes` (§8.7) on Mathlib's nonsingular Weierstrass point groups. The modular-curve and modular-Jacobian results require their geometric constructions; the conditional level-13 consequences also require the model, moduli-map and cusp data of §8.1.
+
 ## Layer 0: Integral Eisenstein arithmetic
 
 Fix `n`, the full integral Eisenstein eigensystem and its kernel, distinguish its image `I` in the cuspidal Hecke ring `T`, prove the weight-two integral congruence criterion and `T/I ≅ ℤ/n`. These statements include the zero Jacobian cases.
@@ -153,20 +155,15 @@ Define `cuspidalIndex`. For prime `P` define `cuspidalIndex(P)=n=(P−1)/gcd(P�
 
 Reduce the rational fraction using the integer gcd. Use `P≥2` to prove positivity and the numerator comparison.
 
-The API exposes the following operations and relations.
-
-- `cuspidalIndex_pos`: `n>0` for every prime `P`.
-- `cuspidalIndex_num`: `n` equals the natural numerator of the reduced rational `(P−1)/12`.
-- `cuspidalIndex_dvd`: `n` divides `P−1` and `P−1=n·gcd(P−1,12)`.
-- `cuspidalIndex_eq_one`: For prime `P`, `n=1` iff `P∈{2,3,5,7,13}`.
+Prove that `n>0` for every prime `P`, that it equals the natural numerator of the reduced rational `(P−1)/12`, and that `n` divides `P−1` with `P−1=n·gcd(P−1,12)`. For prime `P`, prove `n=1` iff `P∈{2,3,5,7,13}`.
 
 In II 9.7 and 11.1, normalizes both `T/I` and the exact order of `c`. In III §5, detects the positive-genus contradiction `n>1`.
 
 **Checks.**
 
-- `index_eleven`: `n(11)=5`, not 10.
-- `index_seventeen`: `n(17)=4`; its dyadic part is not discarded.
-- `index_thirteen`: `n(13)=1`, although `P>7`.
+- At `P=11`, `n=5`, not 10.
+- At `P=17`, `n=4`; its dyadic part is not discarded.
+- At `P=13`, `n=1`, although `P>7`.
 
 The denominator is gcd-reduced, with no rounding or factor-of-two ambiguity.
 

@@ -1,54 +1,30 @@
 import Mathlib
 
 /-!
-# EisensteinIdealAndRationalTorsion: representative target signatures
+# Eisenstein ideal and rational torsion: headline theorem signatures
 
-The roadmap is the accompanying README. This file records definitions and theorem signatures
-statable against the pinned APIs and is not exhaustive. It fixes the positive cuspidal index,
-uses nonsingular points on elliptic Weierstrass curves for rational torsion, and uses the native
-additive order, whose value zero means infinite order. The integral modular and Néron objects
-and their comparisons are targets of the README. Integral cusp-based maps have the relative
-smooth locus as domain; squarefree cusp-difference torsion supplies their torsion translations.
-The order-thirteen and all-prime conclusions retain explicit modular-curve and class-number
-hypotheses there.
+**This file is not the roadmap and is not exhaustive.** The definitive specification is
+`README.md`.
+
+The statements below express the positive-genus prime-torsion exclusion (§7.8) and the
+occurrence of the four permitted prime orders (§8.7). They use Mathlib's nonsingular
+Weierstrass point group, its ellipticity hypothesis and its native additive order.
+
+The pinned libraries have no algebraic modular curves or modular Jacobians with their
+cusps and Hecke actions. Thus the integral Eisenstein index, cuspidal and Shimura subgroup
+theorems, odd and dyadic multiplicity one, winding principality, Ogg's rational torsion
+theorem, and the Eisenstein quotient's rational points and Tate–Shafarevich consequences
+have no signatures here. The formal-immersion and squarefree cusp theorems of §7.9 also
+need the integral modular curves, their relative smooth loci and Néron models.
+
+The level-thirteen descent (§§8.2–8.6), all-prime classification (§8.8), and elliptic
+invariant-vector consequence (§8.9) retain §8.1's explicit modular-curve, moduli-map and
+cusp data and §8.5's cyclotomic class-number hypothesis. Although the class number is
+statable in Mathlib, the geometric data require the missing `X₁(13)` and `J₁(13)`
+constructions. These conditional results therefore have no signatures here either.
 -/
 
 namespace TauCetiRoadmap.EisensteinIdealAndRationalTorsion
-
-/-! ## Layer 0: Integral Eisenstein arithmetic -/
-
-/-- At prime level `P`, the numerator of `(P - 1) / 12` in lowest terms. -/
-def cuspidalIndex (P : ℕ) : ℕ :=
-  (P - 1) / Nat.gcd (P - 1) 12
-
-/-- The cuspidal index is positive at every prime level, including the genus-zero levels. -/
-theorem cuspidalIndex_pos (P : ℕ) (hP : P.Prime) : 0 < cuspidalIndex P := by
-  sorry
-
-/-- The integer formula agrees with the positive numerator of the rational fraction. -/
-theorem cuspidalIndex_num (P : ℕ) (hP : P.Prime) :
-    cuspidalIndex P = (((P : ℚ) - 1) / 12).num.natAbs := by
-  sorry
-
-/-- Gcd reduction gives the exact factorization, without discarding the dyadic part. -/
-theorem cuspidalIndex_dvd (P : ℕ) (hP : P.Prime) :
-    cuspidalIndex P ∣ P - 1 ∧ P - 1 = cuspidalIndex P * Nat.gcd (P - 1) 12 := by
-  sorry
-
-/-- Exactly the five genus-zero prime levels have index one. -/
-theorem cuspidalIndex_eq_one (P : ℕ) (hP : P.Prime) :
-    cuspidalIndex P = 1 ↔ P = 2 ∨ P = 3 ∨ P = 5 ∨ P = 7 ∨ P = 13 := by
-  sorry
-
-example : cuspidalIndex 11 = 5 := by
-  norm_num [cuspidalIndex, Nat.gcd]
-
-example : cuspidalIndex 17 = 4 := by
-  norm_num [cuspidalIndex, Nat.gcd]
-
-/-- The genus-zero level thirteen has cuspidal index one despite being above seven. -/
-theorem index_thirteen : cuspidalIndex 13 = 1 := by
-  sorry
 
 /-! ## Layer 7: Cusp moduli and prime-torsion descent -/
 
@@ -66,17 +42,5 @@ theorem isogeny_iteration (P : ℕ) (hP : P.Prime)
 theorem occurring_small_primes (P : ℕ) (hP : P = 2 ∨ P = 3 ∨ P = 5 ∨ P = 7) :
     ∃ W : WeierstrassCurve ℚ, W.IsElliptic ∧ ∃ Q : W.toAffine.Point, addOrderOf Q = P := by
   sorry
-
-/- The README specifies the full order H_P and ideals I_full/I; cuspidal and Shimura
-subgroups C/Σ and their component retraction; ideal kernels, local Hecke completions and
-ideal-supported abelian quotients; good auxiliary primes and η_l; winding element and maps,
-quadratic modular unit, exceptional dyadic D and its embeddings; admissible integral kernels,
-Néron cohomology and Sha comparisons; boundary level structures, formal immersion on the
-relative smooth locus, squarefree_cusp_difference_torsion and squarefree_atkinLehner_cusp_transport;
-and the level-thirteen model and cusp hypotheses (§8.1), diamond-integer action, finite-flat π-kernel,
-class-number hypothesis (§8.5), and conditional isogeny descent. The conditional theorems
-order_thirteen_exclusion (§8.6), all_prime_torsion (§8.8), and the elliptic part of
-residual_consumer_interface (§8.9) require those modular-curve carriers.
-Their geometric carriers and comparisons are supplied by the README's named roadmap targets. -/
 
 end TauCetiRoadmap.EisensteinIdealAndRationalTorsion
