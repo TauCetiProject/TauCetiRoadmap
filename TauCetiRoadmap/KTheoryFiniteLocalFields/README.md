@@ -682,14 +682,14 @@ For a bounded-below cyclotomic spectrum T with its circle action, prove the arit
 TC(T) ≃ T^{h𝕋} ×_{∏_p (T_p^∧)^{h𝕋}} ∏_p TC(T;p)_p^∧.
 ```
 
-The products range over all primes and every completion is derived. The map from T^{h𝕋} is induced by T→T_p^∧. For each p, the other map is the p-completion of TC(T;p)→T^{hC_{p∞}}, followed by the equivalences (T^{hC_{p∞}})_p^∧≃(T_p^∧)^{hC_{p∞}}≃(T_p^∧)^{h𝕋}. The p-typical map comes from the fibre of φ_p−can:T^{hC_{p∞}}→(T^{tC_p})^{hC_{p∞}}. Construct the natural restriction TC(T)→TC(T;p) using C_{p∞}⊂𝕋 before completing. Deduce separately TC(T)^∧_p≃TC(T;p)^∧_p; all p-adic and mod-p^ν statements about TC(C;p) are thus statements about the integral TC(T(C)) after p-completion (NS arXiv v2 Theorem II.4.10 p.52, square (1) and Theorem II.4.11 p.53). Bounded below is an actual input, not an automatic property of every genuine cyclotomic spectrum. *Needs:* §§4.0–4.3, the supplied modern circle/Tate constructions and coherent spectral limits.
+The products range over all primes and every completion is derived. The map from T^(h𝕋) is induced by T→T_p^∧. For each p, the other map is the p-completion of TC(T;p)→T^(hC_(p∞)), followed by the equivalences (T^(hC_(p∞)))_p^∧≃(T_p^∧)^(hC_(p∞))≃(T_p^∧)^(h𝕋). The p-typical map comes from the fibre of φ_p−can:T^(hC_(p∞))→(T^(tC_p))^(hC_(p∞)). Construct the natural restriction TC(T)→TC(T;p) using C_(p∞)⊂𝕋 before completing. Deduce separately TC(T)^∧_p≃TC(T;p)^∧_p; all p-adic and mod-p^ν statements about TC(C;p) are thus statements about the integral TC(T(C)) after p-completion (NS arXiv v2 Theorem II.4.10 p.52, square (1) and Theorem II.4.11 p.53). Bounded below is an actual input, not an automatic property of every genuine cyclotomic spectrum. *Needs:* §§4.0–4.3, the supplied modern circle/Tate constructions and coherent spectral limits.
 
 **Checks.**
 
 - At TR¹ the genuine construction recovers T; the next fixed-point level corresponds to C_p, not C_(p²).
 - For 𝔽ₚ the comparison retains π₋₁TC=ℤₚ, so it cannot include an implicit connective truncation.
 - The comparison requires bounded-below underlying spectra; the construction of a genuine cyclotomic spectrum alone supplies no such bound.
-- For T=Hℚ with trivial circle action, every finite-group Tate term and every T_p^∧ vanish. The integral pullback gives TC(T)≃(Hℚ)^{h𝕋}, with π_(−2j)=ℚ for all j≥0 and zero odd homotopy. Meanwhile TC(T;p)≃(Hℚ)^{hC_{p∞}}≃Hℚ, whose map to T is an equivalence. This detects the circle classes lost by gluing only over T, and all p-completions of TC(T) vanish.
+- For T=Hℚ with trivial circle action, every finite-group Tate term and every T_p^∧ vanish. The integral pullback gives TC(T)≃(Hℚ)^(h𝕋), with π_(−2j)=ℚ for all j≥0 and zero odd homotopy. Meanwhile TC(T;p)≃(Hℚ)^(hC_(p∞))≃Hℚ, whose map to T is an equivalence. This detects the circle classes lost by gluing only over T, and all p-completions of TC(T) vanish.
 
 ### 4.4a Nilpotent relative trace comparisons
 
