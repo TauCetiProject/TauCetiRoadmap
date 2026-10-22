@@ -1,10 +1,10 @@
 # Roadmap: arithmetic statistics, Part I: families, heights and local specifications
 
-**Summary.** Define the counting carriers, height cutoffs, local specifications, binary-form conventions and exact function-field slices used throughout arithmetic statistics. Prove finite-sublevel and local-density identities before introducing any limiting arithmetic average.
+**Summary.** Define the counting carriers, heights with `Northcott` finiteness, local specifications, binary-form conventions and exact function-field slices used throughout arithmetic statistics. Prove finite-sublevel and local-density identities before introducing any limiting arithmetic average.
 
 ## Scope and ownership
 
-This part owns families, heights and local specifications. Layer 0 constructs the family interface, local coefficient statistics, finite bundle laws and exact function-field slices. Orbit dictionaries, global counts, Selmer means and limiting laws consume these objects. API names refer to this part’s namespaces; the coefficient formulas in `Suggested.lean` lie in `TauCetiRoadmap.ArithmeticStatisticsPartI.Coefficients`.
+This part owns families, heights and local specifications. Layer 0 constructs the family interface, local coefficient statistics, finite bundle laws and exact function-field slices. Orbit dictionaries, global counts, Selmer means and limiting laws consume these objects. The API names below specify the library interfaces to build. `Suggested.lean` states headline results on the pinned carriers, with coefficient polynomials in `TauCetiRoadmap.ArithmeticStatisticsPartI.Coefficients`.
 
 The following boundaries fix the carriers and prevent parallel versions of existing mathematics.
 
@@ -173,7 +173,7 @@ In the supplied algebra, traces in the basis `<1, ω, θ>`: `Tr(1) = 3`, `Tr(ω)
 
 ## How to read the build
 
-The mathematical specification is this README; `Suggested.lean` gives representative light definitions and signatures on the pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers, with the definitions needed to express them. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
 ## Layer 0: Families, heights and local specifications
 
@@ -255,7 +255,7 @@ For the proof, heightLE X is the toFinset of the finite set `{i : H(i) ≤ X}` g
 
 <a id="relative-density"></a>
 
-**Relative density.** Let `(ι, H)` be an arithmetic family and S, `T ⊆ ι`. The proportion of T lying in S at cutoff X is `r_X(S | T) := N_H(S ∩ T; X)/N_H(T; X)`, read as 0 when `N_H(T; X) = 0`. The upper relative density is `d̄(S | T) := limsup_{X→∞} r_X(S | T)`, the lower relative density (the lower limiting proportion) is `d̲(S | T) := liminf_{X→∞} r_X(S | T)`, and S has relative density d in T, HasDensity S T d, when `r_X(S | T) → d` as the real cutoff `X → ∞`. The strict-cutoff proportion `r^<_X(S | T)` uses `N_H^<`. Properties: `0 ≤ r_X ≤ 1`; HasDensity S T d if and only if `d̲(S | T) = d̄(S | T) = d`; if T is infinite then T has density 1 in itself; `∅` has density 0; for infinite T, the complement `T ∖ S` has density `1 − d` and disjoint S, `S′` have density `d + d′`; a finite set has density 0 in an infinite T, and changing S by a finite set does not change its density (the difference of the two counts is eventually constant, Tau Ceti's `eventually_summatory_indicator_sub_eq`); the inclusive and the strict cutoffs give the same density; H and cH `(c > 0)` give the same densities. Proposed declarations: `ArithmeticFamily.ratio`, `upperDensity`, `lowerDensity`, `HasDensity`, `ratioLT`. `Suggested.lean` names the density predicate `ArithmeticFamily.HasRelativeDensity`.
+**Relative density.** Let `(ι, H)` be an arithmetic family and S, `T ⊆ ι`. The proportion of T lying in S at cutoff X is `r_X(S | T) := N_H(S ∩ T; X)/N_H(T; X)`, read as 0 when `N_H(T; X) = 0`. The upper relative density is `d̄(S | T) := limsup_{X→∞} r_X(S | T)`, the lower relative density (the lower limiting proportion) is `d̲(S | T) := liminf_{X→∞} r_X(S | T)`, and S has relative density d in T, HasDensity S T d, when `r_X(S | T) → d` as the real cutoff `X → ∞`. The strict-cutoff proportion `r^<_X(S | T)` uses `N_H^<`. Properties: `0 ≤ r_X ≤ 1`; HasDensity S T d if and only if `d̲(S | T) = d̄(S | T) = d`; if T is infinite then T has density 1 in itself; `∅` has density 0; for infinite T, the complement `T ∖ S` has density `1 − d` and disjoint S, `S′` have density `d + d′`; a finite set has density 0 in an infinite T, and changing S by a finite set does not change its density (the difference of the two counts is eventually constant, Tau Ceti's `eventually_summatory_indicator_sub_eq`); the inclusive and the strict cutoffs give the same density; H and cH `(c > 0)` give the same densities. Proposed declarations: `ArithmeticFamily.ratio`, `upperDensity`, `lowerDensity`, `HasDensity`, `ratioLT`.
 
 The reference family T is always named: 'density one' is relative to a stated T. Burungale–Tian's 'density one subset of the positive square-free integers `n ≡ 1`, 2, 3 mod 8' is HasDensity A S 1 with S that family, not density one among all integers. A lower bound for the lower density (Burungale–Tian's 'at least 50%' in Proposition 1.3) is not the existence of a limit. The density depends on the height. For the same S and T, two heights give the same densities only when a comparison lemma applies ([constant rescaling of a height](#constant-rescaling-of-a-height), [piecewise rescaling of a height](#piecewise-rescaling-of-a-height)).
 
@@ -311,11 +311,11 @@ For the proof, Nonnegativity and `ratio_le_one`: `N_H(S ∩ T; X) ≤ N_H(T; X)`
 
 - Strict and inclusive cutoffs give the same limit, as the sources' `Σ(X) = {H < X}` and Burungale–Tian's `S(X) = {n ≤ X}` require.
 
-- The empty ambient family has density 0 in itself under the `0/0` convention and cannot have density 1 (`ArithmeticFamily.empty_ambient_density`), whereas a singleton has density 1 in itself. Infinitude is sufficient but not necessary for self-density 1.
+- The empty ambient family has density 0 in itself under the `0/0` convention and cannot have density 1, whereas a singleton has density 1 in itself. Infinitude is sufficient but not necessary for self-density 1.
 
 <a id="relative-density-is-multiplicative-in-towers"></a>
 
-**Relative density is multiplicative in towers.** Let `S ⊆ T ⊆ U` be subfamilies of an arithmetic family. If S has relative density `α` in T and T has relative density `β` in U, then S has relative density `αβ` in U. Proposed declarations: `ArithmeticFamily.HasDensity.trans`, represented by `ArithmeticFamily.relativeDensity_mul` in `Suggested.lean`.
+**Relative density is multiplicative in towers.** Let `S ⊆ T ⊆ U` be subfamilies of an arithmetic family. If S has relative density `α` in T and T has relative density `β` in U, then S has relative density `αβ` in U. Proposed declarations: `ArithmeticFamily.HasDensity.trans`.
 
 No infinitude hypothesis is needed: the proportions are read with `0/0 = 0`.
 
@@ -335,7 +335,7 @@ For the proof, For `S ⊆ T ⊆ U` and every X: if `N(T; X) > 0` then `N(S; X)/N
 
 <a id="density-one-restricts-to-subfamilies-of-positive-lower-density"></a>
 
-**Density one restricts to subfamilies of positive lower density.** Let `A ⊆ ι` and `U ⊆ T` be subfamilies of an arithmetic family. If A has relative density 1 in T and U has positive lower relative density in T, then `A ∩ U` has relative density 1 in U. Proposed declaration: `ArithmeticFamily.HasDensity.inter_of_lowerDensity_pos`, represented by `ArithmeticFamily.inter_of_lowerDensity_pos` in `Suggested.lean`.
+**Density one restricts to subfamilies of positive lower density.** Let `A ⊆ ι` and `U ⊆ T` be subfamilies of an arithmetic family. If A has relative density 1 in T and U has positive lower relative density in T, then `A ∩ U` has relative density 1 in U. Proposed declaration: `ArithmeticFamily.HasDensity.inter_of_lowerDensity_pos`.
 
 Positivity of the lower density of U in T is necessary: a density-one set may miss a density-zero subfamily entirely.
 
@@ -575,13 +575,13 @@ For the proof, For every v, the net of finite products of factors in `[0,1]` dec
 
 <a id="binary-quartic-form"></a>
 
-**Binary quartic form.** For a commutative ring R, a binary quartic form over R is `f(x, y) = a x⁴ + b x³y + c x²y² + d xy³ + e y⁴`, recorded by its coefficients `(a, b, c, d, e) ∈ R⁵` (the structure BinaryQuartic R, in the style of Mathlib's WeierstrassCurve), with evaluation `f(x, y)`, dehomogenisation `f(X, 1) ∈ R[X]` and the associated homogeneous polynomial of degree 4 in two variables. `GL₂(R)` acts on the left by linear substitution, `γ·f(x, y) := f((x, y)·γ)` with `(x, y)·γ = (γ₀₀x + γ₁₀y, γ₀₁x + γ₁₁y)` (Bhargava–Shankar (3)); for `γ` with rows `(p, q)` and `(r, s)` the new coefficients are `a′ = f(p, q)`, `e′ = f(r, s)`, `b′ = 4a p³r + b p³s + 3b p²`qr `+ 2c p²`qs `+ 2c` pq²r `+ 3d` pq²s `+ d q³r + 4e q³s`, `c′ = 6a p²r² + 3b p²`rs `+ 3b` pqr² `+ c p²s² + 4c` pqrs `+ c q²r² + 3d` pqs² `+ 3d q²`rs `+ 6e q²s²`, `d′ = 4a` pr³ `+ 3b` pr²s `+ b` qr³ `+ 2c` prs² `+ 2c` qr²s `+ d` ps³ `+ 3d` qrs² `+ 4e` qs³. The twisted action is `γ`⋆`f := (det γ)⁻²·f((x, y)·γ)` (Bhargava–Shankar (21), (32)): scalars act trivially, so it descends to the projective matrix quotient `GL₂(R)/Rˣ`, denoted `PGL₂(R)` in this subsection; for `det γ = ±1` the two actions agree, so on `V_ℤ` the `PGL₂(ℤ)`-orbits are the `GL₂(ℤ)`-orbits; `−1` acts trivially under both. Base change along ring homomorphisms is equivariant. `V_ℤ ⊂ V_ℝ` is the lattice of integral forms. Proposed declarations: `BinaryQuartic` R, `subst`, the `MulAction` instance, `twistedSMul`.
+**Binary quartic form.** For a commutative ring R, a binary quartic form over R is `f(x, y) = a x⁴ + b x³y + c x²y² + d xy³ + e y⁴`, recorded by its coefficients `(a, b, c, d, e) ∈ R⁵` (the coefficient carrier `BinaryQuartic R = Fin 5 → R`), with evaluation `f(x, y)`, dehomogenisation `f(X, 1) ∈ R[X]` and the associated homogeneous polynomial of degree 4 in two variables. `GL₂(R)` acts on the left by linear substitution, `γ·f(x, y) := f((x, y)·γ)` with `(x, y)·γ = (γ₀₀x + γ₁₀y, γ₀₁x + γ₁₁y)` (Bhargava–Shankar (3)); for `γ` with rows `(p, q)` and `(r, s)` the new coefficients are `a′ = f(p, q)`, `e′ = f(r, s)`, `b′ = 4a p³r + b p³s + 3b p²`qr `+ 2c p²`qs `+ 2c` pq²r `+ 3d` pq²s `+ d q³r + 4e q³s`, `c′ = 6a p²r² + 3b p²`rs `+ 3b` pqr² `+ c p²s² + 4c` pqrs `+ c q²r² + 3d` pqs² `+ 3d q²`rs `+ 6e q²s²`, `d′ = 4a` pr³ `+ 3b` pr²s `+ b` qr³ `+ 2c` prs² `+ 2c` qr²s `+ d` ps³ `+ 3d` qrs² `+ 4e` qs³. The twisted action is `γ`⋆`f := (det γ)⁻²·f((x, y)·γ)` (Bhargava–Shankar (21), (32)): scalars act trivially, so it descends to the projective matrix quotient `GL₂(R)/Rˣ`, denoted `PGL₂(R)` in this subsection; for `det γ = ±1` the two actions agree, so on `V_ℤ` the `PGL₂(ℤ)`-orbits are the `GL₂(ℤ)`-orbits; `−1` acts trivially under both. Base change along ring homomorphisms is equivariant. `V_ℤ ⊂ V_ℝ` is the lattice of integral forms. Proposed declarations: `BinaryQuartic` R, `subst`, the `MulAction` instance, `twistedSMul`.
 
 The action is by the row vector `(x, y)·γ`, a left action: `(γ₁γ₂)·f = γ₁·(γ₂·f)`. Using `γ·(x, y)ᵀ` instead gives a right action and different orbits formulas; the unit tests separate the two. Coefficients are arbitrary (Bhargava–Shankar allow all integer coefficients, not the even middle coefficients of classical conventions). The twisted action needs `det γ` invertible, which holds for every `γ ∈ GL₂(R)`. Over a general ring, the projective matrix quotient is the group used here; it is not identified with every R-point of the quotient group scheme. The two notions agree over fields and over Z, where the scalar-torsor obstruction vanishes.
 
 - `BinaryQuartic`: Coefficients a, b, c, d, `e ∈ R`.
 
-- `BinaryQuartic.eq_iff_coeff`: Two forms are equal iff their five coefficients are.
+- Two forms are equal iff their five coefficients are.
 
 - `BinaryQuartic.eval`: `f(x, y) = a x⁴ + b x³y + c x²y² + d xy³ + e y⁴`.
 
@@ -591,29 +591,29 @@ The action is by the row vector `(x, y)·γ`, a left action: `(γ₁γ₂)·f = 
 
 - `BinaryQuartic.instMulAction`: The left action of `GL₂(R)` by `γ·f =` subst `γ f`.
 
-- `BinaryQuartic.eval_smul`: `(γ·f)(x, y) = f(γ₀₀x + γ₁₀y, γ₀₁x + γ₁₁y)`.
+- `(γ·f)(x, y) = f(γ₀₀x + γ₁₀y, γ₀₁x + γ₁₁y)`.
 
 - `BinaryQuartic.scalarGL`: The scalar matrix `u·1 ∈ GL₂(R)` for `u ∈ Rˣ`.
 
 - `BinaryQuartic.twistedSMul`: `γ`⋆`f = (det γ)⁻²·(γ·f)`.
 
-- `BinaryQuartic.twistedSMul_mul`: `(γδ)`⋆`f = γ`⋆(`δ`⋆f).
+- `(γδ)`⋆`f = γ`⋆(`δ`⋆f).
 
-- `BinaryQuartic.twistedSMul_scalar`: Scalars act trivially under the twisted action.
+- Scalars act trivially under the twisted action.
 
-- `BinaryQuartic.twistedSMul_eq_smul_of_det_sq`: If `(det γ)² = 1` the twisted and untwisted actions agree (so `PGL₂(ℤ)`- and `GL₂(ℤ)`-orbits coincide).
+- If `(det γ)² = 1` the twisted and untwisted actions agree (so `PGL₂(ℤ)`- and `GL₂(ℤ)`-orbits coincide).
 
-- `BinaryQuartic.neg_one_smul`: `(−1)·f = f`.
+- `(−1)·f = f`.
 
 - `BinaryQuartic.map`: Base change of coefficients along a ring homomorphism.
 
-- `BinaryQuartic.map_smul`: Base change is equivariant: `(γ·f)^φ = φ(γ)·f^φ`.
+- Base change is equivariant: `(γ·f)^φ = φ(γ)·f^φ`.
 
 - `BinaryQuartic.toMvPolynomial`: The form as an element of MvPolynomial (Fin 2) R.
 
-- `BinaryQuartic.isHomogeneous_toMvPolynomial`: It is homogeneous of degree 4 (Mathlib's IsHomogeneous).
+- It is homogeneous of degree 4 (Mathlib's IsHomogeneous).
 
-For the proof, subst is the explicit polynomial map above; `one_smul` and `mul_smul` are polynomial identities in the coefficients (ring normalisation). twistedSMul multiplies the substituted coefficients by the unit `(det γ)⁻²`; `twistedSMul_scalar`: for `γ = u·1`, `f((x, y)·u) = u⁴f` and `det = u²`. `neg_one_smul`: `f(−x, −y) = f(x, y)` since f is homogeneous of even degree. `map_smul`: ring homomorphisms commute with the polynomial formulas; `eval_smul`: substitute and expand.
+For the proof, subst is the explicit polynomial map above; `one_smul` and `mul_smul` are polynomial identities in the coefficients (ring normalisation). twistedSMul multiplies the substituted coefficients by the unit `(det γ)⁻²`; `twistedSMul_scalar`: for `γ = u·1`, `f((x, y)·u) = u⁴f` and `det = u²`. Triviality of the minus-identity action follows from `f(−x, −y) = f(x, y)` since f is homogeneous of even degree. For equivariance of base change, ring homomorphisms commute with the polynomial formulas; evaluation after substitution follows by expansion.
 
 *Needs:* `Matrix.GeneralLinearGroup` (Mathlib), `Matrix.GeneralLinearGroup.det` (Mathlib), `MvPolynomial.IsHomogeneous` (Mathlib).
 
@@ -641,17 +641,17 @@ For the proof, subst is the explicit polynomial map above; `one_smul` and `mul_s
 
 - `BinaryQuartic.disc`: The integral discriminant polynomial `Δ(f)`.
 
-- `BinaryQuartic.twentySeven_mul_disc`: `27Δ(f) = 4I(f)³ − J(f)²`.
+- `27Δ(f) = 4I(f)³ − J(f)²`.
 
 - `BinaryQuartic.scale`: The coefficientwise scaling rf.
 
-- `BinaryQuartic.invI_scale`: `I(rf) = r²I(f)`.
+- `I(rf) = r²I(f)`.
 
-- `BinaryQuartic.invJ_scale`: `J(rf) = r³J(f)`.
+- `J(rf) = r³J(f)`.
 
-- `BinaryQuartic.map_invI`: I commutes with base change.
+- I commutes with base change.
 
-- `BinaryQuartic.map_invJ`: J commutes with base change.
+- J commutes with base change.
 
 For the proof, Expand the coefficient polynomials over the integers to prove `27Δ=4I³−J²`; homogeneity follows from their degrees. Specialize these polynomial identities to every commutative ring.
 
@@ -681,17 +681,17 @@ For the proof, Expand the coefficient polynomials over the integers to prove `27
 
 <a id="relative-invariance-of-i-and-j"></a>
 
-**Relative invariance of i and j.** For every commutative ring R, `γ ∈ GL₂(R)` and `f ∈ V_R`: `I(γ·f) = (det γ)⁴·I(f)` and `J(γ·f) = (det γ)⁶·J(f)` (Bhargava–Shankar (5)). Proposed declaration: `BinaryQuartic.invariants_smul`.
+**Relative invariance of i and j.** For every commutative ring R, `γ ∈ GL₂(R)` and `f ∈ V_R`: `I(γ·f) = (det γ)⁴·I(f)` and `J(γ·f) = (det γ)⁶·J(f)` (Bhargava–Shankar (5)).
 
-Use the untwisted action of [binary quartic form](#binary-quartic-form). After proving `invariants_smul`, deduce invariance of I, J and Δ under the determinant-to-the-minus-two action and the determinant weight 12 of Δ under the untwisted action.
+Use the untwisted action of [binary quartic form](#binary-quartic-form). After proving relative invariance of I and J, deduce invariance of I, J and Δ under the determinant-to-the-minus-two action and the determinant weight 12 of Δ under the untwisted action.
 
-- `BinaryQuartic.invI_twistedSMul`: `I(γ⋆f) = I(f)`.
+- `I(γ⋆f) = I(f)`.
 
-- `BinaryQuartic.invJ_twistedSMul`: `J(γ⋆f) = J(f)`.
+- `J(γ⋆f) = J(f)`.
 
-- `BinaryQuartic.disc_smul`: `Δ(γ·f) = (det γ)¹²Δ(f)`.
+- `Δ(γ·f) = (det γ)¹²Δ(f)`.
 
-For the proof, Both identities are polynomial identities with integer coefficients in a, `…`, e and the entries p, q, r, s of `γ`: substitute the coefficient formulas of [binary quartic form](#binary-quartic-form) and compare (ring normalisation over `ℤ[a, …, e, p, q, r, s]`, then specialise). No invertibility of 2 or 3 is used. Next, homogeneity cancels the determinant factors for `invI_twistedSMul` and `invJ_twistedSMul`. Prove `disc_smul` from `27Δ=4I³−J²` over the universal integer polynomial ring, where 27 is a nonzerodivisor, and then specialize to R.
+For the proof, Both identities are polynomial identities with integer coefficients in a, `…`, e and the entries p, q, r, s of `γ`: substitute the coefficient formulas of [binary quartic form](#binary-quartic-form) and compare (ring normalisation over `ℤ[a, …, e, p, q, r, s]`, then specialise). No invertibility of 2 or 3 is used. Next, homogeneity cancels the determinant factors for twisted invariance of I and J. Prove the determinant-weight formula for the discriminant from `27Δ=4I³−J²` over the universal integer polynomial ring, where 27 is a nonzerodivisor, and then specialize to R.
 
 *Needs:* [binary quartic form](#binary-quartic-form), [binary quartic invariants](#binary-quartic-invariants).
 
@@ -707,7 +707,7 @@ For the proof, Both identities are polynomial identities with integer coefficien
 
 <a id="quartic-discriminant-is-the-polynomial-discriminant"></a>
 
-**Quartic discriminant is the polynomial discriminant.** Let `f = (a, b, c, d, e) ∈ V_R` with `f(X, 1) = aX⁴` + bX³ + cX² + dX `+ e` of degree 4. Then `Δ(f) =` discr(`f(X, 1)`), Mathlib's Polynomial.discr (the signed Sylvester resultant with the leading-coefficient factor removed integrally, implemented by the modified matrix sylvesterDeriv; the sign makes polynomials over `ℝ` with all roots real have nonnegative discriminant). Over a field containing the roots `α₁`, `…`, `α₄` of `f(X, 1)`, `Δ(f) = a⁶∏_{i<j}(α_i − α_j)²`. Proposed declaration: `BinaryQuartic.disc_eq_discr`.
+**Quartic discriminant is the polynomial discriminant.** Let `f = (a, b, c, d, e) ∈ V_R` with `f(X, 1) = aX⁴` + bX³ + cX² + dX `+ e` of degree 4. Then `Δ(f) =` discr(`f(X, 1)`), Mathlib's Polynomial.discr (the signed Sylvester resultant with the leading-coefficient factor removed integrally, implemented by the modified matrix sylvesterDeriv; the sign makes polynomials over `ℝ` with all roots real have nonnegative discriminant). Over a field containing the roots `α₁`, `…`, `α₄` of `f(X, 1)`, `Δ(f) = a⁶∏_{i<j}(α_i − α_j)²`.
 
 Degree exactly 4 (a is not a zero divisor suffices); for `a = 0` the form has the root [1 : 0] and `f(X, 1)` has lower degree.
 
@@ -737,23 +737,23 @@ The factor `1/4` on `J²` is a normalisation; the constants `4/135`, `32/135`, `
 
 - `BinaryQuartic.height`: `H(f) = H(I(f), J(f)) for f ∈ V_ℤ`.
 
-- `BinaryQuartic.pairHeight_nonneg`: `0 ≤ H(I, J)`.
+- `0 ≤ H(I, J)`.
 
-- `BinaryQuartic.pairHeight_scale`: `H(t²I, t³J) = t⁶H(I, J)`.
+- `H(t²I, t³J) = t⁶H(I, J)`.
 
-- `BinaryQuartic.pairHeight_eq_zero_iff`: `H(I, J) = 0 ↔ I = J = 0`.
+- `H(I, J) = 0 ↔ I = J = 0`.
 
-- `BinaryQuartic.abs_le_of_pairHeight_le`: `H(I, J) ≤ X ⇒ |I| ≤ X^(1/3) ∧ |J| ≤ 2X^(1/2)`.
+- `H(I, J) ≤ X ⇒ |I| ≤ X^(1/3) ∧ |J| ≤ 2X^(1/2)`.
 
-- `BinaryQuartic.four_mul_pairHeight_intCast`: For integers, `4H(I, J) = max{4|I|³, J²}` as a natural number.
+- For integers, `4H(I, J) = max{4|I|³, J²}` as a natural number.
 
-- `BinaryQuartic.northcott_pairHeight`: H is Northcott on `ℤ²`.
+- H is Northcott on `ℤ²`.
 
-- `BinaryQuartic.height_smul`: `H(γ·f) = H(f) for γ ∈ GL₂(ℤ)`.
+- `H(γ·f) = H(f) for γ ∈ GL₂(ℤ)`.
 
-- `BinaryQuartic.height_scale`: `H(rf) = r⁶H(f)`.
+- `H(rf) = r⁶H(f)`.
 
-For the proof, `pairHeight_scale`: `|t²I|³ = t⁶|I|³` and `(t³J)²/4 = t⁶J²/4`. `abs_le_of_pairHeight_le`: `|I|³ ≤ X` and `J²/4 ≤ X`. `northcott_pairHeight`: `{(I, J) ∈ ℤ² : H ≤ X}` lies in the box `|I| ≤ X^(1/3)`, `|J| ≤ 2X^(1/2)`. `height_smul`: `det γ = ±1` for `γ ∈ GL₂(ℤ)`, so I and J are unchanged ([relative invariance of i and j](#relative-invariance-of-i-and-j)).
+For the proof, weighted homogeneity follows from `|t²I|³ = t⁶|I|³` and `(t³J)²/4 = t⁶J²/4`. The coordinate bounds follow from `|I|³ ≤ X` and `J²/4 ≤ X`. For Northcott finiteness, `{(I, J) ∈ ℤ² : H ≤ X}` lies in the box `|I| ≤ X^(1/3)`, `|J| ≤ 2X^(1/2)`. For height invariance, `det γ = ±1` for `γ ∈ GL₂(ℤ)`, so I and J are unchanged ([relative invariance of i and j](#relative-invariance-of-i-and-j)).
 
 *Needs:* [binary quartic invariants](#binary-quartic-invariants), [relative invariance of i and j](#relative-invariance-of-i-and-j), `Northcott` (Mathlib).
 
@@ -779,11 +779,11 @@ Eligibility is a property of integer pairs; the equivalence with the congruences
 
 - `BinaryQuartic.EligibilityCongruence`: The disjunction of the congruences (a)–(d).
 
-- `BinaryQuartic.invariants_isEligible`: `(I(f), J(f))` is eligible for every integral f.
+- `(I(f), J(f))` is eligible for every integral f.
 
-- `BinaryQuartic.isEligible_selmer_scaling`: `(I, J)` eligible `⇒ (2⁴I, 2⁶J)` eligible.
+- `(I, J)` eligible `⇒ (2⁴I, 2⁶J)` eligible.
 
-For the proof, IsEligible and EligibilityCongruence are direct definitions; `invariants_isEligible` is the witness f itself; `isEligible_selmer_scaling` uses `invI_scale` and `invJ_scale` of [binary quartic invariants](#binary-quartic-invariants) with `r = 4`.
+For the proof, IsEligible and EligibilityCongruence are direct definitions; eligibility of form invariants is the witness f itself; preservation of eligibility under Selmer scaling uses homogeneity of I and J from [binary quartic invariants](#binary-quartic-invariants) with `r = 4`.
 
 *Needs:* [binary quartic invariants](#binary-quartic-invariants).
 
@@ -803,7 +803,7 @@ For the proof, IsEligible and EligibilityCongruence are direct definitions; `inv
 
 <a id="eligible-invariant-pairs-satisfy-the-congruences"></a>
 
-**Eligible invariant pairs satisfy the congruences.** For every integral binary quartic form f, the pair `(I(f), J(f))` satisfies one of the eligibility congruences (a)–(d). Proposed declaration: `BinaryQuartic.eligibilityCongruence_invariants`.
+**Eligible invariant pairs satisfy the congruences.** For every integral binary quartic form f, the pair `(I(f), J(f))` satisfies one of the eligibility congruences (a)–(d).
 
 Only the coefficient formulas for I and J are used; no resolvent.
 
@@ -823,7 +823,7 @@ For the proof, Modulo 3, `I ≡ c²`. If 3 | c, write `c = 3c′`. Then `72ace =
 
 <a id="congruence-pairs-are-eligible"></a>
 
-**Congruence pairs are eligible.** If `(I, J) ∈ ℤ²` satisfies one of (a)–(d), then there are integers r, s, t with `I(f) = I` and `J(f) = J` for `f = x³y + r x²y² + s xy³ + t y⁴ (a = 0, b = 1, c = r, d = s, e = t)`, for which `I(f) = r² − 3s` and `J(f) = −2r³ + 9`rs `− 27t`. Take `r = 0` in case (a); in cases (b)–(d) take `r = 1` when `J ≡ −2`, 16 or 7 (mod 27) and `r = −1` when `J ≡ 2`, `−16` or `−7 (mod 27)`; then `s = (r² − I)/3` and `t =` (`−2r³ + 9`rs `− J`)`/27` are integers. Proposed declaration: `BinaryQuartic.isEligible_of_eligibilityCongruence`.
+**Congruence pairs are eligible.** If `(I, J) ∈ ℤ²` satisfies one of (a)–(d), then there are integers r, s, t with `I(f) = I` and `J(f) = J` for `f = x³y + r x²y² + s xy³ + t y⁴ (a = 0, b = 1, c = r, d = s, e = t)`, for which `I(f) = r² − 3s` and `J(f) = −2r³ + 9`rs `− 27t`. Take `r = 0` in case (a); in cases (b)–(d) take `r = 1` when `J ≡ −2`, 16 or 7 (mod 27) and `r = −1` when `J ≡ 2`, `−16` or `−7 (mod 27)`; then `s = (r² − I)/3` and `t =` (`−2r³ + 9`rs `− J`)`/27` are integers.
 
 The witness has `a = 0` (a rational root at [1 : 0]); eligibility says nothing about irreducibility.
 
@@ -845,7 +845,7 @@ For the proof, With `a = 0`, `b = 1`: `I = −3s + r²` and `J = 9`rs `− 27t �
 
 **Eligibility criterion modulo 27.** A pair `(I, J) ∈ ℤ²` occurs as the invariants of an integral binary quartic form if and only if one of the following holds: `(a) I ≡ 0 (mod 3)` and `J ≡ 0 (mod 27)`; `(b) I ≡ 1 (mod 9)` and `J ≡ ±2 (mod 27)`; `(c) I ≡ 4 (mod 9)` and `J ≡ ±16 (mod 27)`; `(d) I ≡ 7 (mod 9)` and `J ≡ ±7 (mod 27)`. Proposed declaration: `BinaryQuartic.isEligible_iff`.
 
-No other congruence condition and no condition at primes other than 3 is needed.
+No other congruence condition and no condition at primes other than 3 is needed. `BinaryQuartic.isEligible_iff` in `Suggested.lean` states this realizability classification.
 
 For the proof, `⇒`: [eligible invariant pairs satisfy the congruences](#eligible-invariant-pairs-satisfy-the-congruences). ⇐: [congruence pairs are eligible](#congruence-pairs-are-eligible).
 
@@ -863,7 +863,7 @@ For the proof, `⇒`: [eligible invariant pairs satisfy the congruences](#eligib
 
 <a id="eligible-pairs-are-nine-lattice-translates"></a>
 
-**Eligible pairs are nine lattice translates.** There is a set `R ⊂ ℤ/9 × ℤ/27` of exactly nine residue pairs, `R = {(0, 0), (3, 0), (6, 0), (1, 2), (1, −2), (4, 16), (4, −16), (7, 7), (7, −7)}`, such that `(I, J) ∈ ℤ²` is eligible `iff (I mod 9, J mod 27) ∈ R`. So the eligible pairs are a union of 9 distinct translates of `9ℤ × 27ℤ` and have density `9/243 = 1/27` in `ℤ²`. Proposed declaration: `BinaryQuartic.exists_eligible_residues`.
+**Eligible pairs are nine lattice translates.** There is a set `R ⊂ ℤ/9 × ℤ/27` of exactly nine residue pairs, `R = {(0, 0), (3, 0), (6, 0), (1, 2), (1, −2), (4, 16), (4, −16), (7, 7), (7, −7)}`, such that `(I, J) ∈ ℤ²` is eligible `iff (I mod 9, J mod 27) ∈ R`. So the eligible pairs are a union of 9 distinct translates of `9ℤ × 27ℤ` and have density `9/243 = 1/27` in `ℤ²`.
 
 Case (a) is a condition on I modulo 3, i.e. three residues modulo 9.
 
@@ -929,7 +929,7 @@ For the proof, family: height `=` Layer 8's shortEquationHeight; northcott from 
 
 **Quartic to curve height normalisation.** For every `E = E_{A,B}` in the family of elliptic curves over `ℚ`: `27·H(E) = 4·H′(E)`, where `H(E) = max{4|A|³, 27B²}` and `H′(E) = max{|I(E)|³, J(E)²/4}`. Hence `H′ = (27/4)·H` is a constant rescaling ([constant rescaling of a height](#constant-rescaling-of-a-height)): the two heights order every set of curves identically, the count of curves with `H′(E) ≤ X` is the count with `H(E) ≤ 4X/27`, averages agree, and `N_H(F; X) ~ C·X^(5/6)` gives `N_{H′}(F; X) ~ (4/27)^(5/6)·C·X^(5/6)`. Proposed declaration: `EllipticFamily.twentySeven_mul_height`.
 
-The absolute value on `I(E)³` matters. `BinaryQuartic.height_ofCurve` states the coefficient identity `27 max(4|A|³,27B²)=4H(−3A,−27B)` for real A,B; specializing to the minimal integral pair gives the curve-family identity.
+The absolute value on `I(E)³` matters. The coefficient identity is `27 max(4|A|³,27B²)=4H(−3A,−27B)` for real A,B; specializing to the minimal integral pair gives the curve-family identity.
 
 For the proof, `|I(E)|³ = 27|A|³ = (27/4)·4|A|³` and `J(E)²/4 = 729B²/4 = (27/4)·27B²`; take the maximum. The consequences are [constant rescaling of a height](#constant-rescaling-of-a-height) with `c = 27/4`.
 
@@ -1007,13 +1007,13 @@ Eligible pairs include degenerate ones with `4I³ = J²`: `(0, 0)` (the zero for
 
 - `BinaryQuartic.eligibleFamily`: The eligible pairs as an arithmetic family ordered by `H(I, J)`.
 
-- `BinaryQuartic.eligibleFamily_height`: Its height is `H(I, J)`.
+- Its height is `H(I, J)`.
 
 - `BinaryQuartic.ofCurve`: `E_{A,B} ↦ (−3A, −27B)` as an eligible pair.
 
-- `BinaryQuartic.height_ofCurve`: The real coefficient identity `27 max(4|A|³,27B²)=4H(−3A,−27B)`, giving `27·H(E) = 4·H(ofCurve E)` on the curve family.
+- The real coefficient identity `27 max(4|A|³,27B²)=4H(−3A,−27B)`, giving `27·H(E) = 4·H(ofCurve E)` on the curve family.
 
-For the proof, eligibleFamily: the subtype of `ℤ²` cut out by IsEligible with the height of [binary quartic height](#binary-quartic-height); `northcott_pairHeight` restricts to the subtype. ofCurve: [elliptic curves over q ordered by height](#elliptic-curves-over-q-ordered-by-height) `(invariants_eligible)`; `height_ofCurve` is [quartic to curve height normalisation](#quartic-to-curve-height-normalisation).
+For the proof, eligibleFamily: the subtype of `ℤ²` cut out by IsEligible with the height of [binary quartic height](#binary-quartic-height); Northcott finiteness for invariant pairs restricts to the subtype. ofCurve: [elliptic curves over q ordered by height](#elliptic-curves-over-q-ordered-by-height) `(invariants_eligible)`; the quartic-to-curve height identity is [quartic to curve height normalisation](#quartic-to-curve-height-normalisation).
 
 *Needs:* [arithmetic family](#arithmetic-family), [binary quartic invariants](#binary-quartic-invariants), [relative invariance of i and j](#relative-invariance-of-i-and-j), [quartic discriminant is the polynomial discriminant](#quartic-discriminant-is-the-polynomial-discriminant), [binary quartic height](#binary-quartic-height), [eligible invariant pairs](#eligible-invariant-pairs), [eligibility criterion modulo 27](#eligibility-criterion-modulo-27), [eligible pairs are nine lattice translates](#eligible-pairs-are-nine-lattice-translates), [elliptic curves over q ordered by height](#elliptic-curves-over-q-ordered-by-height), [quartic to curve height normalisation](#quartic-to-curve-height-normalisation).
 
@@ -1191,15 +1191,15 @@ Positive n only: the class `[−n]` gives the same curve ([isomorphism multiplic
 
 - `SquarefreeFamily.evenParityClasses`: `S = {n ∈ P : n ≡ 1, 2, 3 (mod 8)}`.
 
-- `SquarefreeFamily.evenParityClasses_subset`: `S ⊆ P`.
+- `S ⊆ P`.
 
-- `SquarefreeFamily.posSquarefree_mod_eight`: `n ∈ P ⇒ n` ≢ 0, 4 (mod 8).
+- `n ∈ P ⇒ n` ≢ 0, 4 (mod 8).
 
-- `SquarefreeFamily.posSquarefree_infinite`: P is infinite.
+- P is infinite.
 
-- `SquarefreeFamily.unitHeight_posSquarefree`: For `n ∈ P` the squareclass height of [n] is n.
+- For `n ∈ P` the squareclass height of [n] is n.
 
-For the proof, natFamily is ofNat id; posSquarefree and evenParityClasses are subsets of `ℕ`; `evenParityClasses_subset` and `posSquarefree_mod_eight` (4 | n contradicts squarefreeness) are immediate. `posSquarefree_infinite`: the primes are squarefree. `unitHeight_posSquarefree`: [squareclass height](#squareclass-height) `(squareclassHeight_rat)`. The local description at 2: `ℚ₂×/ℚ₂×²` is represented by `±1`, `±3`, `±2`, `±6` (unit classes mod 8 times {1, 2}); for n odd, `[n] = [n mod 8]`; for `n = 2m`, `[n] = [2]·[m mod 8]`.
+For the proof, natFamily is ofNat id; posSquarefree and evenParityClasses are subsets of `ℕ`. The subset inclusion is immediate, and 4 | n contradicts squarefreeness. Infinitude follows because primes are squarefree. The positive squarefree height comparison follows from [squareclass height](#squareclass-height) `(squareclassHeight_rat)`. The local description at 2: `ℚ₂×/ℚ₂×²` is represented by `±1`, `±3`, `±2`, `±6` (unit classes mod 8 times {1, 2}); for n odd, `[n] = [n mod 8]`; for `n = 2m`, `[n] = [2]·[m mod 8]`.
 
 *Needs:* [arithmetic family](#arithmetic-family), [family defined by local conditions](#family-defined-by-local-conditions), [squareclass height](#squareclass-height), `Squarefree` (Mathlib).
 
@@ -1217,7 +1217,7 @@ For the proof, natFamily is ofNat id; posSquarefree and evenParityClasses are su
 
 <a id="squarefree-indicator-as-a-moebius-sum"></a>
 
-**Squarefree indicator as a moebius sum.** For every integer `n ≥ 1`, `Σ_{d ≥ 1, d² | n} μ(d) = 1` if n is squarefree and 0 otherwise. Proposed declaration: `SquarefreeFamily.sum_moebius_sq_dvd`.
+**Squarefree indicator as a moebius sum.** For every integer `n ≥ 1`, `Σ_{d ≥ 1, d² | n} μ(d) = 1` if n is squarefree and 0 otherwise.
 
 `n ≥ 1`.
 
@@ -1239,7 +1239,7 @@ For the proof, Write `n = b²m` with m squarefree (mathlib:`exists_sq_mul_square
 
 **Squarefree integers in residue classes.** For integers `q ≥ 1` and a with `gcd(a, q) = 1` there is `C_q` such that for all `X ≥ 1`: `|#{1 ≤ n ≤ X : n squarefree, n ≡ a (mod q)} − (6/π²)·q⁻¹·∏_{p | q}(1 − p⁻²)⁻¹·X| ≤ C_q·√X`. Proposed declaration: `SquarefreeFamily.squarefree_residue_count`.
 
-q is fixed (the constant depends on q; Hooley's bound `O((X/q)^(1/2) + q^(1/2+ε))` is uniform but not needed here). `gcd(a, q) = 1`; non-coprime classes reduce to coprime ones by factoring out the common part (for `q = 8`, `a = 2`: `n = 2m` with `m ≡ 1 (mod 4)`).
+`SquarefreeFamily.squarefree_residue_count` in `Suggested.lean` states the error bound directly as a count of natural numbers. The modulus q is fixed (the constant depends on q; Hooley's bound `O((X/q)^(1/2) + q^(1/2+ε))` is uniform but not needed here). `gcd(a, q) = 1`; non-coprime classes reduce to coprime ones by factoring out the common part (for `q = 8`, `a = 2`: `n = 2m` with `m ≡ 1 (mod 4)`).
 
 For the proof, By [squarefree indicator as a moebius sum](#squarefree-indicator-as-a-moebius-sum) the count is `Σ_{d ≤ √X} μ(d)·#{n ≤ X : d² | n, n ≡ a (mod q)}`. If `gcd(d, q) > 1` the inner set is empty (`d² | n` and `gcd(n, q) = 1` force `gcd(d, q) = 1`); otherwise it is one residue class modulo qd² and has `X/(qd²) + θ` elements with `|θ| ≤ 1`. Hence the count is `(X/q)·Σ_{d ≤ √X, (d,q)=1} μ(d)d⁻² + O(√X)`, and the tail `Σ_{d > √X} d⁻² ≤ 2/√X` costs another `O(√X)`. `Σ_{d ≥ 1, (d,q)=1} μ(d)d⁻² = L(χ₀μ, 2) = 1/L(χ₀, 2)` for the trivial Dirichlet character `χ₀ mod q` (mathlib:`DirichletCharacter.LSeries.mul_mu_eq_one` and mathlib:`DirichletCharacter.LFunction_eq_LSeries` at `s = 2`), and `L(χ₀, 2) = ∏_{p|q}(1 − p⁻²)·ζ(2)` (mathlib:`DirichletCharacter.LFunctionTrivChar_eq_mul_riemannZeta`) with `ζ(2) = π²/6` (mathlib:`riemannZeta_two`).
 
@@ -1257,7 +1257,7 @@ For the proof, By [squarefree indicator as a moebius sum](#squarefree-indicator-
 
 <a id="even-parity-classes-have-half-density"></a>
 
-**Even parity classes have half density.** Among the positive squarefree integers ordered by n, Burungale–Tian's family S of `n ≡ 1`, 2, 3 (mod 8) has relative density `1/2`: `#{n ≤ X : n ∈ S}/#{n ≤ X : n ∈ P} → 1/2`. Proposed declaration: `SquarefreeFamily.hasDensity_evenParityClasses`.
+**Even parity classes have half density.** Among the positive squarefree integers ordered by n, Burungale–Tian's family S of `n ≡ 1`, 2, 3 (mod 8) has relative density `1/2`: `#{n ≤ X : n ∈ S}/#{n ≤ X : n ∈ P} → 1/2`.
 
 The six squarefree classes modulo 8 (1, 2, 3, 5, 6, 7) have equal density `1/6`; the eight residue classes do not (0 and 4 contain no squarefree integer).
 
@@ -1277,7 +1277,7 @@ For the proof, Classes 1 and 3 (mod 8): [squarefree integers in residue classes]
 
 <a id="density-one-in-the-even-parity-classes-is-half-of-all-squarefree"></a>
 
-**Density one in the even parity classes is half of all squarefree.** If `A ⊆ S` has relative density one in S (positive squarefree `n ≡ 1`, 2, 3 (mod 8), ordered by n), then A has relative density `1/2` in the positive squarefree integers P. Proposed declaration: `SquarefreeFamily.hasDensity_half_of_hasDensity_one`.
+**Density one in the even parity classes is half of all squarefree.** If `A ⊆ S` has relative density one in S (positive squarefree `n ≡ 1`, 2, 3 (mod 8), ordered by n), then A has relative density `1/2` in the positive squarefree integers P.
 
 `A ⊆ S`; the conclusion is an exact limit `1/2`, not a lower bound.
 
@@ -1371,7 +1371,7 @@ Use the [cubic supplier conventions](#cubic-supplier-conventions) and AnalyticNu
 
 **Count of squarefree monic polynomials over a finite field.** For a finite field `𝔽_q` the number `s_n` of squarefree monic polynomials of degree n over `𝔽_q` is `s₀ = 1`, `s₁ = q` and `s_n = q^n − q^{n−1}` for `n ≥ 2`.
 
-Squarefree in the sense of Mathlib's Squarefree in the monoid `𝔽_q[X]` (no square of a nonunit divides it). `monicSquarefreePolysOfDegree` is the monic squarefree degree-n slice; `card_monicSquarefreePolysOfDegree` states its finiteness and all three cardinality cases.
+Squarefree means Mathlib's Squarefree in the monoid `𝔽_q[X]` (no square of a nonunit divides it). `monicSquarefreePolysOfDegree` is the monic squarefree degree-n slice; `card_monicSquarefreePolysOfDegree` in `Suggested.lean` states its finiteness and the formula for `n≥2`. The degree-zero and degree-one counts are 1 and q.
 
 For the proof, Every monic g has a unique factorisation `g = e²·d` with e monic and d monic squarefree (existence: mathlib:`exists_sq_mul_squarefree`, normalised to monic factors; uniqueness from unique factorisation). Counting monic polynomials of degree n by the degree k of e gives `q^n = Σ_{0 ≤ k ≤ n/2} q^k s_{n−2k}`. The generating functions satisfy `(1 − qt)⁻¹ = (1 − qt²)⁻¹ S(t)`, so `S(t) = (1 − qt²)/(1 − qt)`, whose coefficients are 1, q, `q^n − q^{n−1}`.
 
@@ -1561,13 +1561,13 @@ For the proof, Each class of `S_n` has exactly `(q − 1)/2` representatives in 
 
 **Coefficient box.** For `n≥0` use integral vectors `a∈Z^(n+1)`, representing `Σ a_i x^(n−i)y^i`. `H_box(a)=max_i |a_i|` is natural valued and Northcott. The inclusive box has `(2B+1)^(n+1)` elements at natural cutoff B; it counts vectors, without quotienting by a change-of-variables group.
 
-- `Coefficients.boxHeight_le`: `H_box(a)≤B iff` every coordinate has absolute value at most B.
+- `H_box(a)≤B iff` every coordinate has absolute value at most B.
 
-- `Coefficients.boxHeight_northcott`: The maximum height on a fixed finite coefficient vector is Northcott.
+- The maximum height on a fixed finite coefficient vector is Northcott.
 
-- `Coefficients.boxHeight_count`: The inclusive box has `(2B+1)^m` vectors.
+- The inclusive box has `(2B+1)^m` vectors.
 
-- `Coefficients.boxHeight_neg`: Changing all signs preserves height.
+- Changing all signs preserves height.
 
 For the proof, Bound each coordinate in the finite integer interval `[−B,B]`. The box is their Cartesian product. Apply the ofNat adapter; do not reuse weighted monic height.
 
@@ -1591,17 +1591,17 @@ Nonnegative X in the coordinate and floor formulas; `n≥1` in the stated asympt
 
 - `Coefficients.weightedHeight`: The maximum of `|a_i|^(1/(i+1))`; empty maximum 0.
 
-- `Coefficients.weightedHeight_le`: At `X≥0`, the height bound is equivalent to all weighted coefficient bounds.
+- At `X≥0`, the height bound is equivalent to all weighted coefficient bounds.
 
-- `Coefficients.weightedHeight_northcott`: The weighted height is Northcott.
+- The weighted height is Northcott.
 
 - `Coefficients.monicPolynomial`: The polynomial with descending monic coefficients.
 
-- `Coefficients.monicPolynomial_monic`: Over a nontrivial commutative ring, the constructed polynomial is monic of degree n.
+- Over a nontrivial commutative ring, the constructed polynomial is monic of degree n.
 
 - `Coefficients.weightedBox`: The strict coefficient region `|a_i|<X^(i+1)`.
 
-- `Coefficients.weightedBox_count`: For `X>0` this region is finite with cardinality `∏_{i=1}^n(2⌈X^i⌉−1)`, including the empty product at n=0.
+- For `X>0` this region is finite with cardinality `∏_{i=1}^n(2⌈X^i⌉−1)`, including the empty product at n=0.
 
 For the proof, Construct `f_a` from the finite coefficient tuple. Real roots of the nonnegative absolute values give the height. Monotonicity of powers converts sublevel sets to anisotropic integer boxes; multiply interval counts. The strict-cutoff asymptotic follows by expanding the product.
 
@@ -1738,6 +1738,8 @@ For the proof, Express all same-residue vectors as a+pb. Strong is residue-class
 - `ArithmeticStatisticsPartI.pMaximal_unit_disc`: A discriminant not divisible by p forces local maximality.
 
 - `ArithmeticStatisticsPartI.pMaximal_proportion`: The exact degree-n local proportion is `1−1/p²` for `n≥2`.
+
+`pMaximal_proportion` in `Suggested.lean` states this exact local mass for every prime and `n≥2`, using the polynomial ideal obstruction.
 
 For the proof, Define the explicit polynomial ideal obstruction. Count intersections indexed by distinct irreducible factors of total degree d: zero if `2d>n`, otherwise `p⁻³d` (Proposition 3.4). Inclusion–exclusion and the polynomial `zeta` Euler product give `(1−t²/p²)/(1−t)`. For irreducible f, the order interpretation is `TauCeti.NumberField.IntegralPrimitiveElement.not_dvd_index_iff` in `TauCeti.NumberTheory.NumberField.Index.DedekindCriterion`. For separable reducible f, prove the criterion for its order in the finite étale Q-algebra using integral closure componentwise.
 
@@ -1979,6 +1981,8 @@ For the proof, Expand squarefree ideals in each ray class and use finite-order H
 
 - `ArithmeticStatisticsPartI.unpolarizedCountOn_univ`: Counting the full class subfamily recovers unpolarizedCount.
 
+`unpolarizedClasses_finite` in `Suggested.lean` states finiteness on the native abelian-variety category modulo k-isomorphism, in every dimension.
+
 For the proof, Restrict the native category by dimension and quotient by categorical isomorphism. Import finite-field classification to obtain finiteness before interpreting Nat.card as a counting function. The dimension-zero variety is the identity object.
 
 *Needs:* `TauCeti.AlgebraicGeometry.AbelianVariety` (Tau Ceti), [finite-field abelian counting inputs](#support-abelian-counts).
@@ -2091,7 +2095,7 @@ For the proof, Use the rank-two splitting target in [the bundle geometry contrac
 
 **Bundle parity tails.** For `d≥1`, `μ_q({d,d+2,d+4,…})=1/(2q^(d−1))`; the even tail starting at `d=0` has mass `1/2`. Consequently `μ_q({a+1,a+3,…})=1/(2q^a)` for `a≥0`. The `d=0` exception is required by the balanced-bundle weight.
 
-`q>1`, as in the natural-bundle-law prerequisite; q is a prime power in the finite-field specialization. `bundleMass_tail` states both the positive-start formula and the d=0 exception.
+`q>1`, as in the natural-bundle-law prerequisite; q is a prime power in the finite-field specialization. The target includes both the positive-start formula and the d=0 exception.
 
 For the proof, Sum the unbalanced geometric series with common ratio `q⁻²`. At `d=0` add the exceptional `n=0` term to the positive even tail.
 
@@ -2530,13 +2534,13 @@ For the proof, Reuse the reduced multiplier and its torsion subgroup. Check root
 
 **Symmetric pencil.** Let `Wₙ(R)` be pairs `(A,B)` of symmetric `n×n` matrices over a commutative ring. Define `f_A`,`B(x,y)=(−1)^{n(n−1)/2}det(xA−yB)`, represented by coefficients `f_i` of `x^{n−i}y^i`. `SLₙ` acts by simultaneous congruence. For even `n≥2` the scalar `μ₂` acts trivially, giving a group-scheme action of `SLₙ/μ₂`. Its R-points generally exceed `SLₙ(R)/μ₂(R)`. For `n≥1`, over C the invariant ring of `SLₙ` is the polynomial ring in the `n+1` determinant coefficients.
 
-The geometric actions and invariant-ring theorem require `n≥1`; the coefficient constructor and its determinant identities allow `n=0`, when the sole coefficient is 1 and the invariant ring over C is C. No halving of off-diagonal entries: these are bilinear Gram matrices. Arithmetic solubility later requires a field of characteristic not2 and nonzero discriminant.
+`ArithmeticOrbitRefinement.symmetricPencil_invariants` in `Suggested.lean` states generation and algebraic independence over C by unique polynomial expressions in the determinant coefficients. The geometric actions and invariant-ring theorem require `n≥1`; the coefficient constructor and its determinant identities allow `n=0`, when the sole coefficient is 1 and the invariant ring over C is C. No halving of off-diagonal entries: these are bilinear Gram matrices. Arithmetic solubility later requires a field of characteristic not2 and nonzero discriminant.
 
 - `ArithmeticOrbitRefinement.pencilInvariant`: For any two `n×n` matrices, return the `n+1` coefficients of the signed determinant; restrict to symmetric matrices for `Wₙ`.
 
-- `ArithmeticOrbitRefinement.pencilInvariant_congr`: Replacing A,B by `gAgᵀ`,`gBgᵀ` multiplies every coefficient by `det(g)²`.
+- Replacing A,B by `gAgᵀ`,`gBgᵀ` multiplies every coefficient by `det(g)²`.
 
-- `ArithmeticOrbitRefinement.pencilInvariant_scalar`: For `A=aIₙ` and `B=bIₙ` the invariant is `(−1)^{n(n−1)/2}(ax−by)ⁿ`.
+- For `A=aIₙ` and `B=bIₙ` the invariant is `(−1)^{n(n−1)/2}(ax−by)ⁿ`.
 
 For the proof, Expand the determinant universally, checking homogeneity. Congruence multiplies the invariant by `det(g)²`. The two scalar factors cancel for the `μ₂` action. The invariant-ring theorem is used over C as in the source; an integral invariant-ring theorem is not inferred from it.
 
@@ -2562,9 +2566,9 @@ The homogeneous degree n is fixed even when the dehomogenized polynomial drops d
 
 - `ArithmeticOrbitRefinement.binaryDiscriminant`: Evaluate the universal discriminant supplied by Layer 0 in the symmetric-pencil coefficient convention.
 
-- `ArithmeticOrbitRefinement.binaryDiscriminant_map`: Coefficient ring maps commute with `Δₙ`.
+- Coefficient ring maps commute with `Δₙ`.
 
-- `ArithmeticOrbitRefinement.binaryDiscriminant_scale`: For `n≥2`, `Δₙ(tf)=t^{2n−2}Δₙ(f)`.
+- For `n≥2`, `Δₙ(tf)=t^{2n−2}Δₙ(f)`.
 
 For the proof, Compare the Layer 0 discriminant polynomial with the signed universal resultant quotient over Z, establishing divisibility before evaluating the leading coefficient. Compare on a splitting algebra with `f₀^{2n−2}` times the squared product of root differences, then specialize the polynomial identity. The associated-order comparison is proved in refinement-binary-form-order after that order is constructed.
 
@@ -2584,7 +2588,7 @@ For the proof, Compare the Layer 0 discriminant polynomial with the signed unive
 
 **Binary form order.** Let D be a Dedekind domain with fraction field K, `n≥3`, and f a binary n-ic form with `f₀≠0` and `Δ≠0`. In `L=K[t]/(f(t,1))`, with `θ` the image of t, set `ζ_i=Σ_{j=0}^{i−1}f_j θ^{i−j}`. The D-lattice `R_f=⟨1,ζ₁,…,ζ_{n−1}⟩` is a ring. For `0≤k≤n−1`, `I_f(k)=⟨1,θ,…,θᵏ,ζ_{k+1},…,ζ_{n−1}⟩` is an `R_f`-stable full lattice. `Disc R_f=Δ(f)`, and `f′(θ)⁻¹I_f(n−2)` is its trace dual. L can be a product of fields; it is not assumed a domain.
 
-D is a Dedekind domain; `char K≠2` for the consuming pencil theorem. The quotient has degree n and is separable.
+D is a Dedekind domain; `char K≠2` for the consuming pencil theorem. The quotient has degree n and is separable. `ArithmeticOrbitRefinement.formIdeal_traceDual` in `Suggested.lean` states the trace-dual formula on a finite-dimensional commutative K-algebra generated by a root of f; it allows products of fields.
 
 - `ArithmeticOrbitRefinement.formOrder`: The D-subalgebra generated by 1 and `ζ_i`; its underlying module equals their D-span under the hypotheses.
 
@@ -2592,9 +2596,9 @@ D is a Dedekind domain; `char K≠2` for the consuming pencil theorem. The quoti
 
 - `ArithmeticOrbitRefinement.formIdeal_traceDual`: Under the trace pairing, the dual order is `f′(θ)⁻¹I_f(n−2)`.
 
-- `ArithmeticOrbitRefinement.formOrder_span`: If `θ` satisfies `f(θ,1)=0` and `n≥3`, the underlying D-module of formOrder is the D-span of 1,`ζ₁`,`…`,`ζ_{n−1}`. This identifies the subalgebra constructor with the displayed order lattice.
+- If `θ` satisfies `f(θ,1)=0` and `n≥3`, the underlying D-module of formOrder is the D-span of 1,`ζ₁`,`…`,`ζ_{n−1}`. This identifies the subalgebra constructor with the displayed order lattice.
 
-- `ArithmeticOrbitRefinement.formIdeal_stable`: For `0≤k≤n−1` and `f(θ,1)=0`, multiplication by each element of formOrder preserves `formIdeal f θ k`.
+- For `0≤k≤n−1` and `f(θ,1)=0`, multiplication by each element of formOrder preserves `formIdeal f θ k`.
 
 For the proof, Construct the lattices as native D-submodules of the quotient algebra. Check their multiplication on the displayed generators. The triangular change from power coordinates establishes full rank, the discriminant equality and the trace-dual formula. Treat general ideals as lattices in a finite étale algebra, not FractionalIdeal D L with an invalid field assumption.
 
@@ -2614,7 +2618,7 @@ For the proof, Construct the lattices as native D-submodules of the quotient alg
 
 <a id="stickelberger-binary"></a>
 
-**Stickelberger binary.** For every integral binary n-ic form with `n≥2`, `Δ_n` is congruent to 0 or 1 modulo 4. In particular `2|Δ_n` implies `4|Δ_n`, so weak square divisibility at 2 is empty. The theorem includes leading-zero forms.
+**Stickelberger binary.** For every integral binary n-ic form with `n≥2`, `Δ_n` is congruent to 0 or 1 modulo 4. `binaryDisc_mod_four` in `Suggested.lean` states the universal congruence. In particular `2|Δ_n` implies `4|Δ_n`, so weak square divisibility at 2 is empty. The theorem includes leading-zero forms.
 
 - `ArithmeticStatisticsPartI.binary_no_weak_two`: The binary weak `2²`-locus is empty.
 
@@ -2636,11 +2640,11 @@ For the proof, establish the universal binary polynomial congruence before speci
 
 **Monic density formulas.** For prime p, `ν₀(0,p)=ν₀(1,p)=1` and `ν₀(n,p)=1−1/p` for `n≥2`. At `p=2`, `ν₁(n,2)=0`. For odd p, `ν₁(0,p)=ν₁(1,p)=0`, `ν₁(2,p)=p⁻¹(1−p⁻¹)`, and for `n≥3`, `ν₁(n,p)=(1−p⁻¹)²(1−(−p)^(2−n))/(p+1)`. Thus `λ_n(p)=ν₀+ν₁` equals 1 for `n≤1`, `1/2` at `p=2`,`n≥2`, `1−1/p²` for `n=2`, odd p, and `1−[3p^(n−1)−p^(n−2)+(−1)^n(p−1)²]/[p^n(p+1)]` for `n≥3`, odd p. The exponent `2−n` is essential.
 
-- `ArithmeticStatisticsPartI.monic_nu_zero`: The unit-discriminant formula, including degrees zero and one.
+- `monic_nu_zero` in `Suggested.lean`: the unit-discriminant formula for `n≥2`. Degrees zero and one have unit-discriminant mass one.
 
-- `ArithmeticStatisticsPartI.nuOneFormula`: The valuation-one formula with exponent `2−n`, with p=2 and degrees at most one assigned zero.
+- The valuation-one formula has exponent `2−n`, with p=2 and degrees at most one assigned zero.
 
-- `ArithmeticStatisticsPartI.monic_nu_one`: The finite count equals the displayed formula.
+- `monic_nu_one` in `Suggested.lean`: for `n≥2` the finite count equals the displayed valuation-one formula, including the prime-two and quadratic cases.
 
 For the proof, Squarefree residue polynomials give generating series `(1−t²/p)/(1−t)`. A single repeated linear factor, a squarefree complementary factor avoiding it, and a nonvanishing first-order lift give `H(t)=(p−1)t²/p² · (1−t²/p)/((1−t)(1+t/p))`. Extract coefficients; this yields exponent `2−n`, also at `n=3`. Combine the two strata algebraically.
 
@@ -2662,15 +2666,13 @@ For the proof, Squarefree residue polynomials give generating series `(1−t²/p
 
 <a id="monic-euler-products"></a>
 
-**Monic euler products.** For `n≥2` set `λ_n=`product over all primes of `λ_n(p)`, with `λ_n(p)=ν₀(n,p)+ν₁(n,p)`. The product converges to a strictly positive real number because its factors are positive and `1−λ_n(p)=O_n(p⁻²)`. As `n→∞` it tends to `(1/2)` times the product over odd primes of `[1−(3p−1)/(p²(p+1))]`. For degree two `λ₂=4/π²` (`monicEulerProduct_two`). Identifying these local Euler constants with global family densities requires an infinite-prime tail estimate as a hypothesis.
+**Monic euler products.** For `n≥2` set `λ_n=`product over all primes of `λ_n(p)`, with `λ_n(p)=ν₀(n,p)+ν₁(n,p)`. The product converges to a strictly positive real number because its factors are positive and `1−λ_n(p)=O_n(p⁻²)`. As `n→∞` it tends to `(1/2)` times the product over odd primes of `[1−(3p−1)/(p²(p+1))]`. For degree two `λ₂=4/π²`. Identifying these local Euler constants with global family densities requires an infinite-prime tail estimate as a hypothesis.
 
 - `ArithmeticStatisticsPartI.monicEulerProduct`: The product over prime local factors.
 
-- `ArithmeticStatisticsPartI.monicEulerProduct_converges`: For `n≥2` the prime factors form a convergent product.
+- `monicEulerProduct_converges_pos` in `Suggested.lean`: for `n≥2` the prime factors form a convergent product with strictly positive value.
 
-- `ArithmeticStatisticsPartI.monicEulerProduct_pos`: The degree-n product is strictly positive.
-
-- `ArithmeticStatisticsPartI.monicEulerProduct_limit`: The products tend to the limiting odd-prime product.
+- `monicEulerProduct_limit` in `Suggested.lean`: the products tend to the limiting odd-prime product.
 
 For the proof, Separate the factor at 2. Bound the defect at odd p by a summable constant times `p⁻²` uniformly for `n≥2`. Establish nonzero convergence from positivity and the defect bound. Pointwise convergence plus the uniform product tail permits exchanging the degree limit and the product.
 
@@ -2740,7 +2742,7 @@ The coefficient reversal sends `x⁴-y⁴` to `y⁴-x⁴`, preserves I, J and `�
 
 At degree zero the monic polynomial is one, with discriminant one; a strict weighted box at a positive bound has one empty vector. Over `𝔽_q` the squarefree monic counts begin `1,q,q²-q`, so the formula `q^n-q^(n-1)` is restricted to `n≥2`. The odd quadratic exact slice at its smallest degree has q monic polynomials, not `q-1`.
 
-The characteristic-three Lean example compares `x³y−xy³` with the zero form: they have equal I and J but distinct discriminants. Thus the integral identity `27Δ=4I³−J²` cannot recover Δ by division in characteristic three. The finite-field squarefree-count theorem includes the degree-zero and degree-one boundaries; the strict weighted-box count retains its ceiling cutoff.
+In characteristic three, comparing `x³y−xy³` with the zero form gives equal I and J but distinct discriminants. Thus the integral identity `27Δ=4I³−J²` cannot recover Δ by division in characteristic three. The finite-field squarefree count has separate degree-zero and degree-one formulas; the strict weighted-box count retains its ceiling cutoff.
 
 <a id="pointless-curve-regression"></a>
 
