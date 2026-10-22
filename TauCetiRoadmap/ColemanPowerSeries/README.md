@@ -59,7 +59,7 @@ Tau Ceti supplies arbitrary-product/subgroup pro-p closure and `TauCeti.IsProP.m
 
 The native norm-on-units carrier is `TauCeti.Algebra.normUnits` with `TauCeti.Algebra.coe_normUnits` in `TauCeti/RingTheory/Norm/Units.lean`. Its input is the chosen commutative algebra; finite freeness is proved before interpreting its norm as the arithmetic determinant. No independent units-norm construction is requested. The local-field comparison modules are `TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField` and `.Basic`; `TauCeti.NumberTheory.LocalField.Norm.Basic` supplies the integral norm, trace and their continuity. The selected-root and selected-basis comparisons below are additional assertions on these carriers.
 
-IntegralIwasawaTheory §§1.1–1.4 supply `compatibleCyclotomicTower`, `cyclotomicEmbedding`, `cyclotomicUnits`, `realCyclotomicUnits`, `smoothedCyclotomicUnit`, their Galois/norm compatibility and `realCyclotomicUnits_cyclic`. At our level `n` their conductor is `p^(n+1)`; the cyclic theorem assumes an odd prime and a generator of `(ℤ/p^(n+1)ℤ)ˣ` and retains sign torsion. Its §5.0 supplies `kubotaLeopoldtPseudomeasure`, the integral Bernoulli smoothing `μ_a` for natural a prime to `p`, and the exact multiplier identifying its intrinsic inverse-weighted restriction `λ_a` with `([a]−1)ζ_p`. Section 2.10a here proves the Amice comparison with the explicit smoothing series. Sections 7.1–7.3 supply the Coleman constructions and their real principal quotient. Their conductor exponent `a` is `n+1` here. The native scalar algebra and equalizer definitions in Suggested.lean only expose the carriers used by the refinements; norm and trace there are native `Algebra.norm` and `Algebra.trace`, without additional roadmap definitions.
+IntegralIwasawaTheory §§1.1–1.4 supply `compatibleCyclotomicTower`, `cyclotomicEmbedding`, `cyclotomicUnits`, `realCyclotomicUnits`, `smoothedCyclotomicUnit`, their Galois/norm compatibility and `realCyclotomicUnits_cyclic`. At our level `n` their conductor is `p^(n+1)`; the cyclic theorem assumes an odd prime and a generator of `(ℤ/p^(n+1)ℤ)ˣ` and retains sign torsion. Its §5.0 supplies `kubotaLeopoldtPseudomeasure`, the integral Bernoulli smoothing `μ_a` for natural a prime to `p`, and the exact multiplier identifying its intrinsic inverse-weighted restriction `λ_a` with `([a]−1)ζ_p`. Section 2.10a here proves the Amice comparison with the explicit smoothing series. Sections 7.1–7.3 supply the Coleman constructions and their real principal quotient. Their conductor exponent `a` is `n+1` here. The scalar algebra in Suggested.lean fixes the native `Algebra.norm` and `Algebra.trace` used by its headline statements; the corrected norm and weighted logarithmic derivative are its other definitions.
 
 The multiplicative Teichmüller section is `TauCeti.teichmuller`; its power compatibility is the ordinary `map_pow` law for that homomorphism, and uniqueness is `TauCeti.eq_teichmuller`. These declarations are in `TauCeti/RingTheory/Henselian/Teichmuller.lean`. The local-field realization is `TauCeti.teichmullerLift` in `TauCeti/NumberTheory/LocalField/Teichmuller.lean`. The cyclotomic comparisons identify these supplied sections with the roots chosen here.
 
@@ -87,7 +87,7 @@ Layer 0 identifies the supplied base and unramified towers on the chosen native 
 | 3 | Full kernel `μ_(p−1)×ℤ_p(1)`, principal exact sequence and finite-flat comparison | Odd `p` for the principal arithmetic sequence |
 | 4 | Real principal cyclotomic-unit quotient and its Iwasawa ideal quotient | Odd `p`, with actual global/local and plus interfaces |
 
-The companion [Suggested.lean](Suggested.lean) records the light definitions and representative milestones expressible on the pinned native carriers. The complete mathematical statements, hypotheses, APIs and checks are given below.
+The companion [Suggested.lean](Suggested.lean) states corrected-norm convergence with uniform precision (§1.116), logarithmic-derivative surjectivity (§3.35), and the Frobenius boundary range (§3.12), with the three definitions these statements need. Its module docstring identifies the arithmetic constructions needed to state interpolation, reciprocity, the principal exact sequence and the real unit quotient against the pins. The API names below specify the library targets; the companion file contains only these headline statements and their definitions.
 
 ## Layer 0: Towers and genuine modules
 
@@ -121,7 +121,7 @@ Define `roots` by the following specification.
 
 Choose `ρ_0` primitive of order `p` in `Ω`. Recursively choose `ρ_(n+1)` as a pth root of `ρ_n` using native algebraic closedness. This defines a single sequence `ρ:ℕ→Ω`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `roots_def`: `ρ_n` is the nth iterate of the native pth-root choice function on the chosen primitive pth root.
 - `roots_primitive`: `ρ_n` is primitive of exact order `p^(n+1)`; stated below.
@@ -189,7 +189,7 @@ Define `level` by the following specification.
 
 Define `K_n` as native `IntermediateField.adjoin ℚ_p {ρ_n}` inside `Ω`. Give it the inherited field and `ℚ_p`-algebra structures, the native IsCyclotomicExtension `{p^(n+1)}` instance and finite dimensionality. Let `ζ_n` be its distinguished generator.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `level_def`: `K_n` is the native intermediate field generated by `ρ_n`.
 - `root_mem`: `ρ_n` belongs to `K_n`.
@@ -227,7 +227,7 @@ Prove `level_mono` in the following form.
 
 For every `n≥0`, `K_n≤K_(n+1)`. Use native inclusion for the consecutive algebra; it makes a scalar tower over `ℚ_p` and carries `ζ_n` to `ζ_(n+1)^p`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `level_step_algebra`: Consecutive levels carry the algebra induced by native inclusion.
 - `level_step_tower`: `ℚ_p→K_n→K_(n+1)` is a native scalar tower.
@@ -270,7 +270,7 @@ Define `relativeBasis` by the following specification.
 
 Construct a native PowerBasis of `K_(n+1)` over `K_n` with generator `ζ_(n+1)` and dimension `p`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `relativeBasis_gen`: The relative power-basis generator is `ζ_(n+1)`.
 - `relativeBasis_dim`: The dimension of the relative power basis is `p`.
@@ -397,7 +397,7 @@ Prove `zeta_integral` in the following form.
 
 The chosen root `ζ_n` is integral over `ℤ_p`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `level_integer_algebra`: Use the composite scalar map `ℤ_p→ℚ_p→K_n`.
 - `level_integer_tower`: These scalar maps form a native scalar tower. No independent `ℤ_p`-algebra structure is chosen.
@@ -474,7 +474,7 @@ Define `integralZeta` by the following specification.
 
 Let `integralZeta(n)` be `ζ_n` viewed in the native `O_n`; write `ϖ_n=integralZeta(n)−1` in `O_n`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `integralZeta_val`: The inclusion of `integralZeta(n)` into `K_n` is `ζ_n`.
 - `integralZeta_primitive`: `integralZeta(n)` is primitive of order `p^(n+1)`.
@@ -506,7 +506,7 @@ Define `integralBasis` by the following specification.
 
 Construct `integralBasis(n)`: a native PowerBasis of `O_n` over `ℤ_p` with generator `ϖ_n`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `integralBasis_gen`: The basis generator is `ϖ_n`.
 - `integralBasis_dim`: The basis dimension is `d_n`.
@@ -614,7 +614,7 @@ Define `reduction` by the following specification.
 
 Define `red_n:O_n→𝔽_p` as the unique ring homomorphism extending the native `ℤ_p→ZMod p` map and sending `integralZeta(n)` to one.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `reduction_scalar`: `red_n(a)=toZMod(a)` for `a∈ℤ_p`, included into `O_n`; stated below.
 - `reduction_zeta`: `red_n(integralZeta(n))=1`; stated below.
@@ -701,7 +701,7 @@ Define `differenceQuotientEquiv` by the following specification.
 
 Construct the native ring equivalence `O_n/(ϖ_n)≃ZMod p` induced by red_n.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `differenceQuotientEquiv_mk`: The equivalence sends the class of `x∈O_n` to `red_n(x)`.
 - `differenceQuotientEquiv_scalar`: The class of the included `a∈ℤ_p` maps to `toZMod(a)`.
@@ -823,7 +823,7 @@ Prove `integers_noetherian` in the following form.
 
 The ring `O_n` is Noetherian, with its finite `ℤ_p`-module structure supplied by the existing integral power basis.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `integers_finite`: Install the native finite `ℤ_p`-module instance from `integralBasis(n)`.
 
@@ -886,7 +886,7 @@ Define `residueFieldEquiv` by the following specification.
 
 Construct a ring equivalence from native `IsLocalRing.ResidueField(O_n)` to `ZMod p` that sends the canonical residue class of `x` to `red_n(x)`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `residueFieldEquiv_residue`: The equivalence sends the canonical residue of `x` to `red_n(x)`.
 - `residueFieldEquiv_scalar`: On an included `a∈ℤ_p` the result is `PadicInt.toZMod(a)`.
@@ -1173,7 +1173,7 @@ Define `seriesEvaluation` by the following specification.
 
 Construct `seriesEvaluation(n)`: `ℤ_p⟦T⟧→O_n` as a ring homomorphism, using native `PowerSeries.eval₂Hom` at `ϖ_n` with the specified scalar map and inherited norm topology.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `seriesEvaluation_eq_eval₂`: The underlying function is native `eval₂` for `ℤ_p→O_n` at `ϖ_n`.
 - `seriesEvaluation_C`: A constant series a evaluates to the specified scalar image of a.
@@ -1511,7 +1511,7 @@ Keep the hypotheses of the preceding target.
 
 Use the supplied native `Algebra.norm O_n`, transported through the supplied integer-ring/integral-closure equivalences for the chosen fields, and denote it integralNorm_n. Prove `integralNorm_chosenRootComparison`: those equivalences carry the native integral norm to the corestriction of the norm for the specified field inclusion `K_n → K_(n+1)`. The scalar inclusion and selected roots are part of the square. The target adds this chosen-carrier comparison to `TauCeti.coe_norm_integerRing`; it does not request another integral norm.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - Use native `map_zero` and `Algebra.norm_algebraMap_of_basis` for zero and scalar values; the relative basis has rank `p`, so a scalar `a∈ℤ_p` maps to `a^p`.
 - The chosen-root comparison carries the established signed difference norm to the integral carrier: the norm of `ϖ_(n+1)` is `(−1)^(p+1)ϖ_n`.
@@ -1556,7 +1556,7 @@ Keep the hypotheses of the preceding target.
 
 Use `TauCeti.Algebra.normUnits O_n` on the supplied integral norm algebra, with those supplied integer-ring/integral-closure identifications; write unitsNorm_n for this map. Prove `unitsNorm_chosenRootComparison`: the induced units equivalences intertwine this native map with the selected relative field norm, on both unit values and inverses. Its continuity uses the specified inherited norm topologies and the integral comparison of §0.68. The comparison supplies the transition in the arithmetic equalizer; it requests no new unit-norm carrier or homomorphism.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `TauCeti.Algebra.coe_normUnits` supplies the value in the integral ring, and `map_inv` supplies the inverse value.
 - Identify the scalar-unit image with its pth power using the chosen relative integral basis, and identify the selected root image with the signed root at the lower level.
@@ -1702,15 +1702,15 @@ The statement fixes the integral root used in subsequent comparisons.
 
 `p` is prime, including `p=2`, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues. All topologies are the native norm/product/subtype topologies.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower` by the following specification.
+Define `teichTower` by the following specification.
 
 Define `teichTower:(𝔽_p)ˣ→U∞` by the stationary tower of the unique `c∈ℤ_pˣ` with `c^(p−1)=1` and `toZMod(c)=r`. At level `n` it is the scalar image of `c` in `O_nˣ`. This is an arithmetic adapter of the supplied Teichmüller section, not a new general Teichmüller construction.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_apply`: The nth coordinate is the scalar image of the unique lift `c` of `r` in `O_nˣ`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_pow`: `teichTower(r)^(p−1)=1`; together with its residue this characterizes the lift.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_continuous`: teichTower is continuous from the finite discrete residue-unit group.
+- The nth coordinate is the scalar image of the unique lift `c` of `r` in `O_nˣ`.
+- `teichTower(r)^(p−1)=1`; together with its residue this characterizes the lift.
+- teichTower is continuous from the finite discrete residue-unit group.
 
 **Checks.**
 
@@ -1735,16 +1735,16 @@ Provides the section used to split full units and to adjust the local real cyclo
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.finiteAction` by the following specification.
+Define `finiteAction` by the following specification.
 
 Construct `finiteAction_n:G→Aut_(ℤ_p)(O_n)` by restricting the native `ℚ_p`-automorphism of `K_n` with `ζ_n↦ζ_n^(a mod p^(n+1))`. It is a group homomorphism and depends only on the indicated finite power residue.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.finiteAction_zeta`: `finiteAction_n(a)(ζ_n)=ζ_n^(toZModPow(n+1)(a))`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.finiteAction_scalar`: `finiteAction_n(a)` fixes every scalar from `ℤ_p`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.finiteAction_reduction`: Reduction to `𝔽_p` is unchanged by `finiteAction_n(a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.finiteAction_continuous`: Each `finiteAction_n(a)` and its inverse are continuous in the native topology.
+- `finiteAction_n(a)(ζ_n)=ζ_n^(toZModPow(n+1)(a))`.
+- `finiteAction_n(a)` fixes every scalar from `ℤ_p`.
+- Reduction to `𝔽_p` is unchanged by `finiteAction_n(a)`.
+- Each `finiteAction_n(a)` and its inverse are continuous in the native topology.
 
 **Checks.**
 
@@ -1768,7 +1768,7 @@ Makes the Galois action act on the native finite unit groups used by the norm to
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitsNorm_finiteAction` in the following form.
+Prove the following statement.
 
 `N_n(finiteAction_(n+1)(a)(u))=finiteAction_n(a)(N_n(u))` for every `u∈O_(n+1)ˣ` and `a∈G`.
 
@@ -1786,21 +1786,21 @@ Shows that the coordinate action preserves the defining equations of `U∞`.
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseIntegerEquiv` by the following specification.
+Define `baseIntegerEquiv` by the following specification.
 
 For `E=ℚ_p`, identify the base tower’s integralClosure `ℤ_p K_n` with `𝒪[K_n]` by the unique `ℤ_p`-algebra equivalence whose field-valued map is the identity. It is a homeomorphism for the inherited spectral-norm and canonical valuative topologies.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseIntegerEquiv_coe`: Including `baseIntegerEquiv(x)` into `K_n` gives `x`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseIntegerEquiv_maximalIdeal`: The equivalence maps the base tower ideal `(π_n)` onto `𝓂[K_n]`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseIntegerEquiv_residue`: The induced residue equivalence sends the canonical residue of `baseIntegerEquiv(x)` to the base tower reduction `red_n(x)`.
+- Including `baseIntegerEquiv(x)` into `K_n` gives `x`.
+- The equivalence maps the base tower ideal `(π_n)` onto `𝓂[K_n]`.
+- The induced residue equivalence sends the canonical residue of `baseIntegerEquiv(x)` to the base tower reduction `red_n(x)`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.baseInteger_scalar`: For `a∈ℤ_p`, the equivalence sends its scalar image to its scalar image.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.baseInteger_uniformizer`: The integral element `ρ_n−1` maps to the same uniformizer in `𝒪[K_n]`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.baseInteger_nonunit`: The element `p` maps into the canonical maximal ideal and is not sent to a unit.
+- For `a∈ℤ_p`, the equivalence sends its scalar image to its scalar image.
+- The integral element `ρ_n−1` maps to the same uniformizer in `𝒪[K_n]`.
+- The element `p` maps into the canonical maximal ideal and is not sent to a unit.
 
 For the proof, consume the canonical finite-intermediate-field structures and integerRing_eq_integralClosure from LocalFieldsRamification Layer 0. Both carriers are the same integral elements in `K_n`. Corestrict the identity and its inverse; use the owner’s topology uniqueness, or the base tower’s maximal-ideal neighbourhood basis, to prove continuity.
 
@@ -1818,7 +1818,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseValuation_pi` in the following form.
+Prove the following statement.
 
 For `E=ℚ_p`, `v_n(π_n)=1` in the canonical `TauCeti.normalizedValuation` normalization.
 
@@ -1836,7 +1836,7 @@ For `p=2` and `n=0`, `π_0=−2` and its valuation is 1.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseValuation_p` in the following form.
+Prove the following statement.
 
 For `E=ℚ_p`, `v_n(p)=d_n`; in particular this is not the extension-normalized p-adic valuation 1.
 
@@ -1854,7 +1854,7 @@ For `p=3` and `n=1`, `v_1(3)=6`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseAbsoluteValue` in the following form.
+Prove the following statement.
 
 For `E=ℚ_p` and `x∈K_n`, the canonical normalized absolute value equals `‖x‖^d_n`. The identity map identifies their topologies and their integer subrings.
 
@@ -1872,21 +1872,21 @@ At `p=3,n=0` the canonical absolute value of `p` is 1/9, while `‖p‖=1/3`.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.basePrincipalEquiv` by the following specification.
+Define `basePrincipalEquiv` by the following specification.
 
 For `E=ℚ_p`, the base tower’s residue-one subgroup of integralClosure `ℤ_p K_n` units is continuously multiplicatively equivalent to `TauCeti.unitFiltration K_n` 1 in `K_nˣ`, via the field inclusion.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.basePrincipalEquiv_coe`: The field value of the equivalence is the field value of the given unit.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.basePrincipalEquiv_residue`: Membership is `red_n(u)=1` exactly when `u−1` belongs to `𝓂[K_n]`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.basePrincipalEquiv_norm`: The actual consecutive norm maps commute with this equivalence, using `Algebra.norm` on the field. No equality of higher filtration depths is asserted.
+- The field value of the equivalence is the field value of the given unit.
+- Membership is `red_n(u)=1` exactly when `u−1` belongs to `𝓂[K_n]`.
+- The actual consecutive norm maps commute with this equivalence, using `Algebra.norm` on the field. No equality of higher filtration depths is asserted.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.basePrincipal_root`: The root `ρ_n` is principal, and its image under the comparison has the same actual field value `ρ_n`; inversion would fail this test at a root of order greater than two.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.basePrincipal_odd_minus_one`: For odd `p`, `−1` is not principal.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.basePrincipal_dyadic_minus_one`: For `p=2`, `−1` is principal.
+- The root `ρ_n` is principal, and its image under the comparison has the same actual field value `ρ_n`; inversion would fail this test at a root of order greater than two.
+- For odd `p`, `−1` is not principal.
+- For `p=2`, `−1` is principal.
 
 For the proof, map a residue-one unit through the integer-ring equivalence and the unit inclusion into `K_n`. Use the canonical description of `U(K_n,1)` as integer units whose difference from 1 belongs to `𝓂[K_n]`. The inverse is the integer-ring corestriction. Both topologies are induced from `K_n`.
 
@@ -1904,7 +1904,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseTeichmuller_eq` in the following form.
+Prove the following statement.
 
 For `E=ℚ_p`, the base tower’s stationary section at each level, transported through baseIntegerEquiv and the base tower residue equivalence, is `TauCeti.teichmuller 𝒪[K_n]`. On residue units its underlying integer-ring values equal `TauCeti.teichmullerLift K_n` on the corresponding nonzero residues; their inclusions into `K_n` therefore agree as well.
 
@@ -1922,21 +1922,21 @@ No second finite-level Teichmüller construction is introduced.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLevel` by the following specification.
+Define `coefficientLevel` by the following specification.
 
 Define `E_n=IntermediateField.adjoin E {ρ_n}` inside `Ω`, with the native intermediate-field carrier, `E`-algebra and distinguished root. It is the compositum `E·K_n` in `Ω`, with consecutive inclusions induced by `ρ_(n+1)^p=ρ_n`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLevel_eq_adjoin`: `E_n` is `E(ρ_n)` as an intermediate field of `Ω`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLevel_le_succ`: `E_n≤E_(n+1)`, and inclusion sends `ρ_n` to `ρ_(n+1)^p`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLevel_base`: At `E=ℚ_p` these are precisely the base tower’s `K_n`, with the same chosen roots.
+- `E_n` is `E(ρ_n)` as an intermediate field of `Ω`.
+- `E_n≤E_(n+1)`, and inclusion sends `ρ_n` to `ρ_(n+1)^p`.
+- At `E=ℚ_p` these are precisely the base tower’s `K_n`, with the same chosen roots.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientLevel_base`: Specializing `E=ℚ_p` reproduces `K_n` as a subfield of `Ω`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientLevel_dyadic_zero`: For `p=2,n=0`, `E_0=E` because `ρ_0=−1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientLevel_first_odd`: For `p=3,n=0` the field is `E(ρ_0)`, and its degree over unramified `E` is 2.
+- Specializing `E=ℚ_p` reproduces `K_n` as a subfield of `Ω`.
+- For `p=2,n=0`, `E_0=E` because `ρ_0=−1`.
+- For `p=3,n=0` the field is `E(ρ_0)`, and its degree over unramified `E` is 2.
 
 For the proof, use the existing intermediate-field adjoin, not a new field carrier. The root-power identity gives `E_n≤E_(n+1)`. The universal property of adjoining one element identifies the field with the compositum.
 
@@ -1956,7 +1956,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.shiftedCyclotomic_eisenstein` in the following form.
+Prove the following statement.
 
 The base tower shifted polynomial `Φ_(p^(n+1))(X+1)`, mapped from `ℤ_p` to `O`, is Eisenstein at `𝓂[E]=(p)`.
 
@@ -1974,7 +1974,7 @@ This fails for a ramified coefficient field where `p` has valuation greater than
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientDegree` in the following form.
+Prove the following statement.
 
 `[E_n:E]=d_n` for every `n≥0`.
 
@@ -1992,7 +1992,7 @@ At `p=2,n=0` the degree is 1.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUniformizer` in the following form.
+Prove the following statement.
 
 `π_n=ρ_n−1` is a uniformizer of the canonical `O_n`.
 
@@ -2010,21 +2010,21 @@ The normalization `v_n(π_n)=1` uses the canonical local-field valuation.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegralBasis` by the following specification.
+Define `coefficientIntegralBasis` by the following specification.
 
 Construct the `O`-power basis of `O_n` with generator `π_n` and dimension `d_n`. In particular `O_n=O[π_n]` inside `E_n` and is finite free over `O`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegralBasis_gen`: The power-basis generator is `π_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegralBasis_dim`: Its dimension is `d_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegralBasis_repr`: Every integer has unique `O`-coefficients in the indicated power basis.
+- The power-basis generator is `π_n`.
+- Its dimension is `d_n`.
+- Every integer has unique `O`-coefficients in the indicated power basis.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientIntegralBasis_one`: The coefficient vector of 1 is (1,0,…,0).
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientIntegralBasis_dyadic_zero`: At `p=2,n=0` the basis consists only of 1, since `π_0=−2` is in `O`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientIntegralBasis_relation`: The vector for `π_n^d_n` is reduced by the mapped shifted cyclotomic polynomial; it is not an extra independent coordinate.
+- The coefficient vector of 1 is (1,0,…,0).
+- At `p=2,n=0` the basis consists only of 1, since `π_0=−2` is in `O`.
+- The vector for `π_n^d_n` is reduced by the mapped shifted cyclotomic polynomial; it is not an extra independent coordinate.
 
 For the proof, apply the generic integer-ring/integral-closure comparison from the supplier to `O⊂E_n`. The shifted prime-power cyclotomic polynomial over `O` is Eisenstein at `(p)`, because `E` is unramified and `p` remains a uniformizer. The known degree `d_n` identifies it with the integral minimal polynomial of `π_n`. For `x` integral over `O`, write `x` in the `E`-power basis of `π_n` and clear a common denominator: since `O` is a DVR with uniformizer `p`, some `p^r x` lies in `O[π_n]`. Mathlib’s `mem_adjoin_of_smul_prime_pow_smul_of_minpoly_isEisensteinAt` cancels that power for integral `x`. This proves `O_n=O[π_n]` for the chosen `π_n`, rather than merely existence of some monogenic generator. The monic minimal polynomial of degree `d_n` gives the basis `1,π_n,…,π_n^(d_n−1)`.
 
@@ -2042,7 +2042,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientRelativeDegree` in the following form.
+Prove the following statement.
 
 `[E_(n+1):E_n]=p`.
 
@@ -2060,21 +2060,21 @@ At `p=2,n=0`, `E(i)/E` has degree 2.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitNorm` by the following specification.
+Define `coefficientUnitNorm` by the following specification.
 
 Define `N_n:O_(n+1)ˣ→ₜ*O_nˣ` by corestricting `Units.map (Algebra.norm E_n)` on `E_(n+1)ˣ` through the canonical integer-unit inclusions. These are actual field norms, with the inherited topologies.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitNorm_coe`: The field value of `N_n(u)` equals `Algebra.norm E_n` of the field value of `u`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitNorm_scalar`: For `c∈O_nˣ`, `N_n` of its image in `O_(n+1)` is `c^p`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitNorm_trans`: Composites of consecutive `N_n` equal the field norm between the indicated levels.
+- The field value of `N_n(u)` equals `Algebra.norm E_n` of the field value of `u`.
+- For `c∈O_nˣ`, `N_n` of its image in `O_(n+1)` is `c^p`.
+- Composites of consecutive `N_n` equal the field norm between the indicated levels.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientUnitNorm_one`: `N_n(1)=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientUnitNorm_root`: `N_n(ρ_(n+1))=(−1)^(p+1)ρ_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientUnitNorm_coefficient`: For a coefficient Teichmüller unit `c` with `c^p≠c`, `N_n(c)=c^p≠c`; the norm is not coefficientwise identity.
+- `N_n(1)=1`.
+- `N_n(ρ_(n+1))=(−1)^(p+1)ρ_n`.
+- For a coefficient Teichmüller unit `c` with `c^p≠c`, `N_n(c)=c^p≠c`; the norm is not coefficientwise identity.
 
 For the proof, consume preservation of integer units and norm continuity from LocalFieldsRamification. Corestrict to `O_nˣ`, rather than using a formal transition map. Norm transitivity gives all longer transitions and identifies the determinant norm of the integral algebra with the field norm.
 
@@ -2092,7 +2092,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientDisjoint` in the following form.
+Prove the following statement.
 
 `E` and `K_n` are linearly disjoint over `ℚ_p` inside `Ω`.
 
@@ -2110,20 +2110,20 @@ The coefficient Frobenius can be extended while fixing every cyclotomic root.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius` by the following specification.
+Define `coefficientFrobenius` by the following specification.
 
 Let `φ_E∈Gal(E/ℚ_p)` be the arithmetic Frobenius, whose residue action is `r↦r^p`. Construct its unique extension `φ_n∈Gal(E_n/ℚ_p)` that fixes `ρ_n`. It preserves `O_n` and is continuous. It is not defined by an unqualified Frobenius element of the ramified extension.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_scalar`: `φ_n(algebraMap E E_n a)=algebraMap E E_n(φ_E a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_root`: `φ_n(ρ_n)=ρ_n`.
+- `φ_n(algebraMap E E_n a)=algebraMap E E_n(φ_E a)`.
+- `φ_n(ρ_n)=ρ_n`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientFrobenius_base`: When `E=ℚ_p`, `φ_n` is the identity.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientFrobenius_residue`: For `p=2,f=3`, the native residue action of `φ_E` on `𝓀[E]=𝔽_8` sends an element `r` of order 7 to `r²`, which differs from the inverse-Frobenius value `r⁴`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientFrobenius_root`: For every `n`, `φ_n` fixes `ρ_n`, including `ρ_1=i` at `p=2`.
+- When `E=ℚ_p`, `φ_n` is the identity.
+- For `p=2,f=3`, the native residue action of `φ_E` on `𝓀[E]=𝔽_8` sends an element `r` of order 7 to `r²`, which differs from the inverse-Frobenius value `r⁴`.
+- For every `n`, `φ_n` fixes `ρ_n`, including `ρ_1=i` at `p=2`.
 
 For the proof, consume arithmetic Frobenius on the finite unramified field from LocalFieldsRamification Layer 2. By linear disjointness extend `φ_E` and the identity on `K_n` to the compositum. Alternatively act on the `O`-coefficients of the integral power basis; its defining polynomial has `ℤ_p` coefficients. Uniqueness follows because `E` and `ρ_n` generate `E_n`. Continuity and preservation of integers follow from the canonical local-field structures.
 
@@ -2156,9 +2156,9 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientUnitLimit_one`: The tuple of units 1 belongs to `U∞(E)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientUnitLimit_teich_failure`: For `k=𝔽_9` and `r` of order 8, the stationary tuple `ω_n(r)` does not belong to `U∞(E)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientUnitLimit_actual_norms`: A tuple of native integer units belongs exactly when every native field norm of its next coordinate equals its current field-valued coordinate.
+- The tuple of units 1 belongs to `U∞(E)`.
+- For `k=𝔽_9` and `r` of order 8, the stationary tuple `ω_n(r)` does not belong to `U∞(E)`.
+- A tuple of native integer units belongs exactly when every native field norm of its next coordinate equals its field-valued coordinate at that level.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
@@ -2170,7 +2170,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit_compact` in the following form.
+Prove the following statement.
 
 `U∞(E)` is a compact Hausdorff totally disconnected topological group, as a closed subgroup of `∏ O_nˣ`.
 
@@ -2188,21 +2188,21 @@ No surjectivity of coordinate norm maps is needed or asserted.
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel` by the following specification.
+Define `semilocalLevel` by the following specification.
 
 Define `A_n=∏_(i∈I)𝒪[E_i(ρ_n)]` with its native function-ring operations and finite product topology.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel_projection`: Projection at `i` is the canonical integer ring `O_(i,n)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel_idempotent`: The standard idempotent `e_i` is 1 in factor `i` and 0 in every other factor.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel_units`: The native `MulEquiv.piUnits` identifies `A_nˣ` with `∏_i O_(i,n)ˣ`, by evaluating each unit component.
+- Projection at `i` is the canonical integer ring `O_(i,n)`.
+- The standard idempotent `e_i` is 1 in factor `i` and 0 in every other factor.
+- The native `MulEquiv.piUnits` identifies `A_nˣ` with `∏_i O_(i,n)ˣ`, by evaluating each unit component.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalLevel_singleton`: A singleton I recovers the one-field coefficient tower.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalLevel_two`: For two factors, `e_1e_2=0` and `e_1+e_2=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalLevel_nonfield`: With two nonzero factors, `A_n` is not a field: `e_1` is a nonzero nonunit idempotent.
+- A singleton I recovers the one-field coefficient tower.
+- For two factors, `e_1e_2=0` and `e_1+e_2=1`.
+- With two nonzero factors, `A_n` is not a field: `e_1` is a nonzero nonunit idempotent.
 
 For the proof, use the native finite product ring and its canonical units-product equivalence. Each component transition is the actual field norm. When A comes from a number-field completion tensor, import NumberFieldArithmetic L5’s semilocal and integral semilocal equivalences to identify this product model; do not re-plan those generic equivalences.
 
@@ -2220,7 +2220,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientRelativeMinpoly` in the following form.
+Prove the following statement.
 
 `minpoly_(E_n)(ρ_(n+1))=X^p−ρ_n`.
 
@@ -2238,7 +2238,7 @@ This is the actual field minimal polynomial, including `p=2,n=0`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientRootNorm` in the following form.
+Prove the following statement.
 
 `N_(E_(n+1)/E_n)(ρ_(n+1))=(−1)^(p+1)ρ_n`.
 
@@ -2256,21 +2256,21 @@ At `p=2` the root norm is `−ρ_n`, while the norm of `1−ρ_(n+1)` has no min
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used. `H` is finite and acts on I; `β_(h,i)` are genuine `ℚ_p`-algebra isomorphisms.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalCoefficientTransport` by the following specification.
+Define `semilocalCoefficientTransport` by the following specification.
 
 For the coherent actual `ℚ_p`-algebra isomorphism `β_(h,i):E_i≃ₐE_(h·i)`, construct its unique extension `β_(h,i,n):E_i(ρ_n)≃ₐ[ℚ_p]E_(h·i)(ρ_n)` fixing `ρ_n`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalCoefficientTransport_scalar`: It sends the image of `a∈E_i` to the image of `β_(h,i)(a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalCoefficientTransport_root`: It sends the chosen `ρ_n` to the same chosen `ρ_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalCoefficientTransport_unique`: An actual `ℚ_p`-algebra isomorphism with those two restrictions equals `β_(h,i,n)`.
+- It sends the image of `a∈E_i` to the image of `β_(h,i)(a)`.
+- It sends the chosen `ρ_n` to the same chosen `ρ_n`.
+- An actual `ℚ_p`-algebra isomorphism with those two restrictions equals `β_(h,i,n)`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalCoefficientTransport_identity`: Identity coefficient transport has identity extension.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalCoefficientTransport_root`: Even a nonidentity coefficient transport fixes the common cyclotomic root.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalCoefficientTransport_coefficients`: A coefficient transport that changes a residue must change the corresponding scalar element at every level; it is not the coefficient-fixing cyclotomic action.
+- Identity coefficient transport has identity extension.
+- Even a nonidentity coefficient transport fixes the common cyclotomic root.
+- A coefficient transport that changes a residue must change the corresponding scalar element at every level; it is not the coefficient-fixing cyclotomic action.
 
 For the proof, use the unramified/totally-ramified linear disjointness to extend `β` by the identity on `K_n`. The compositum universal property supplies the isomorphism and its inverse. Uniqueness follows since the source is generated by `E_i` and `ρ_n`. Restriction of this finite local-field isomorphism preserves the canonical integer rings and topologies.
 
@@ -2288,21 +2288,21 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalNorm` by the following specification.
+Define `semilocalNorm` by the following specification.
 
 Construct `N_(A,n):A_(n+1)ˣ→ₜ*A_nˣ` by transferring the product of the actual coefficientUnitNorm maps through `MulEquiv.piUnits`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel_norm`: The ith projection of `N_(A,n)(u)` is the actual `N_(i,n)(u_i)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalNorm_scalar`: On a scalar unit from `A_n`, embedded componentwise at level `n+1`, the norm is its pth power.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalNorm_trans`: Consecutive componentwise norms compose to the actual longer field norm in each component.
+- The ith projection of `N_(A,n)(u)` is the actual `N_(i,n)(u_i)`.
+- On a scalar unit from `A_n`, embedded componentwise at level `n+1`, the norm is its pth power.
+- Consecutive componentwise norms compose to the actual longer field norm in each component.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalNorm_one`: The norm of the identity unit is the identity.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalNorm_independence`: A unit that is identity outside one factor has norm identity outside that factor.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalNorm_dyadic`: For `p=2` the common cyclotomic root in each next-level factor has field norm `−ρ_n` in that factor, and the signed root has norm `τ_n`.
+- The norm of the identity unit is the identity.
+- A unit that is identity outside one factor has norm identity outside that factor.
+- For `p=2` the common cyclotomic root in each next-level factor has field norm `−ρ_n` in that factor, and the signed root has norm `τ_n`.
 
 For the proof, apply the native units-product equivalence at both levels and put the actual continuous field-unit norm in every coordinate. Finite products are continuous.
 
@@ -2320,7 +2320,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientTotallyRamified` in the following form.
+Prove the following statement.
 
 `E_n/E` is totally ramified in the canonical native local-field structures.
 
@@ -2338,21 +2338,21 @@ The residue field remains `k` even when `f>1`.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueEquiv` by the following specification.
+Define `coefficientResidueEquiv` by the following specification.
 
 The scalar-induced residue map `k→𝓀[E_n]` is an isomorphism. Define `coefficientResidueEquiv(n):𝓀[E_n]≃+*k` as its inverse; let `r_n:O_n→+*k` be its composite with canonical residue.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueEquiv_scalar`: `r_n(algebraMap O O_n a)=residue_O(a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueEquiv_root`: `r_n(ρ_n)=1` and `r_n(π_n)=0`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueEquiv_inclusion`: Consecutive integer inclusions commute with `r_n`.
+- `r_n(algebraMap O O_n a)=residue_O(a)`.
+- `r_n(ρ_n)=1` and `r_n(π_n)=0`.
+- Consecutive integer inclusions commute with `r_n`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientResidue_scalar`: A coefficient residue `a∈k` is unchanged by embedding into `E_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientResidue_dyadic_zero`: At `p=2,n=0` this is the canonical residue map of `E`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientResidue_extension`: For `f=2` the residue cardinality is `p²`, so the target is not `ℤ/pℤ`.
+- A coefficient residue `a∈k` is unchanged by embedding into `E_n`.
+- At `p=2,n=0` this is the canonical residue map of `E`.
+- For `f=2` the residue cardinality is `p²`, so the target is not `ℤ/pℤ`.
 
 For the proof, total ramification makes the residue degree one. Alternatively reduce the integral basis modulo `π_n`: only its constant term survives and `O/(p)=k`. Use the inverse of the canonical scalar residue map; this pins the identification without choosing a finite-field isomorphism.
 
@@ -2370,7 +2370,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientRamification` in the following form.
+Prove the following statement.
 
 `e(E_n/E)=d_n`.
 
@@ -2388,21 +2388,21 @@ For an unramified quadratic `E/ℚ_3`, `E_1` has `e=6` and residue cardinality 9
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateRoot` by the following specification.
+Define `signedTateRoot` by the following specification.
 
 Define `τ_n=ρ_n` if `p` is odd and `τ_n=−ρ_n` if `p=2`, as a principal integer unit of `E_n`. At `p=2`, `τ_0=1` and `τ_n` has order `2^(n+1)` for `n≥1`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateRoot_odd`: For odd `p`, `τ_n=ρ_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateRoot_two`: For `p=2`, `τ_n=−ρ_n` and `τ_0=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateRoot_order`: For odd `p`, `order(τ_n)=p^(n+1)`; for `p=2,n≥1`, `order(τ_n)=2^(n+1)`.
+- For odd `p`, `τ_n=ρ_n`.
+- For `p=2`, `τ_n=−ρ_n` and `τ_0=1`.
+- For odd `p`, `order(τ_n)=p^(n+1)`; for `p=2,n≥1`, `order(τ_n)=2^(n+1)`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.signedTateRoot_zero`: At `p=2,n=0` the signed root is 1, not `−1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.signedTateRoot_one`: At `p=2,n=1` and `ρ_1=i`, the signed root is `−i` and has order 4.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.signedTateRoot_power_failure`: At `p=2`, `τ_(n+1)^2=−τ_n`; the signed system is not compatible under squaring.
+- At `p=2,n=0` the signed root is 1, not `−1`.
+- At `p=2,n=1` and `ρ_1=i`, the signed root is `−i` and has order 4.
+- At `p=2`, `τ_(n+1)^2=−τ_n`; the signed system is not compatible under squaring.
 
 For the proof, roots have residue 1, and `−1` has residue 1 at `p=2`. For `n≥1` in the dyadic case, `−ρ_n=ρ_n^(1+2^n)`, whose exponent is odd and therefore prime to `2^(n+1)`. At `n=0` the root is `−1` and the signed root is 1.
 
@@ -2420,7 +2420,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateRoot_norm` in the following form.
+Prove the following statement.
 
 For every prime `p` and `n≥0`, `N_n(τ_(n+1))=τ_n`.
 
@@ -2438,7 +2438,7 @@ At `p=2,n=0` the norm of `−i` is 1.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientAbsoluteRamification` in the following form.
+Prove the following statement.
 
 `e(E_n/ℚ_p)=d_n`.
 
@@ -2456,7 +2456,7 @@ The coefficient degree `f` does not multiply the ramification index.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueDegree` in the following form.
+Prove the following statement.
 
 `f(E_n/ℚ_p)=f`.
 
@@ -2474,7 +2474,7 @@ The residue degree is the unramified coefficient degree.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueCard` in the following form.
+Prove the following statement.
 
 `|𝓀[E_n]|=p^f`.
 
@@ -2492,7 +2492,7 @@ For `f=2,p=3` the residue field has nine elements.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientAbsoluteValue` in the following form.
+Prove the following statement.
 
 For `x∈E_n`, the canonical normalized absolute value is `‖x‖^(f d_n)`, where ‖·‖ is the unique extension of the `ℚ_p` absolute value with `‖p‖=p⁻¹`.
 
@@ -2510,7 +2510,7 @@ The exponent `f d_n`, rather than `d_n`, is necessary when `f>1`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientValuation_p` in the following form.
+Prove the following statement.
 
 `v_n(p)=d_n` in `TauCeti.normalizedValuation`.
 
@@ -2528,7 +2528,7 @@ At `p=3,n=1` and `f=2` the value is 6, not 12.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientAbsoluteValue_scalar` in the following form.
+Prove the following statement.
 
 For `a∈E`, `|algebraMap E E_n a|_(E_n)=|a|_E^d_n`, using the canonical residue-cardinality normalization in both fields.
 
@@ -2546,7 +2546,7 @@ The comparison has exponent `d_n`, whereas comparison to the `ℚ_p` absolute va
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseIntegerEquiv_coe` in the following form.
+Prove the following statement.
 
 Including `baseIntegerEquiv(x)` into `K_n` gives `x`.
 
@@ -2562,7 +2562,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseIntegerEquiv_maximalIdeal` in the following form.
+Prove the following statement.
 
 The equivalence maps the base tower ideal `(π_n)` onto `𝓂[K_n]`.
 
@@ -2578,7 +2578,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseIntegerEquiv_residue` in the following form.
+Prove the following statement.
 
 The induced residue equivalence sends the canonical residue of `baseIntegerEquiv(x)` to the base tower reduction `red_n(x)`.
 
@@ -2594,7 +2594,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.basePrincipalEquiv_coe` in the following form.
+Prove the following statement.
 
 The field value of the equivalence is the field value of the given unit.
 
@@ -2610,7 +2610,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.basePrincipalEquiv_residue` in the following form.
+Prove the following statement.
 
 Membership is `red_n(u)=1` exactly when `u−1` belongs to `𝓂[K_n]`.
 
@@ -2626,7 +2626,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.basePrincipalEquiv_norm` in the following form.
+Prove the following statement.
 
 The actual consecutive norm maps commute with this equivalence, using `Algebra.norm` on the field. No equality of higher filtration depths is asserted.
 
@@ -2642,7 +2642,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLevel_eq_adjoin` in the following form.
+Prove the following statement.
 
 `E_n` is `E(ρ_n)` as an intermediate field of `Ω`.
 
@@ -2658,7 +2658,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLevel_le_succ` in the following form.
+Prove the following statement.
 
 `E_n≤E_(n+1)`, and inclusion sends `ρ_n` to `ρ_(n+1)^p`.
 
@@ -2674,7 +2674,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLevel_base` in the following form.
+Prove the following statement.
 
 At `E=ℚ_p` these are precisely the base tower’s `K_n`, with the same chosen roots.
 
@@ -2690,7 +2690,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegralBasis_gen` in the following form.
+Prove the following statement.
 
 The power-basis generator is `π_n`.
 
@@ -2706,7 +2706,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegralBasis_dim` in the following form.
+Prove the following statement.
 
 Its dimension is `d_n`.
 
@@ -2722,7 +2722,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegralBasis_repr` in the following form.
+Prove the following statement.
 
 Every integer has unique `O`-coefficients in the indicated power basis.
 
@@ -2738,7 +2738,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueEquiv_scalar` in the following form.
+Prove the following statement.
 
 `r_n(algebraMap O O_n a)=residue_O(a)`.
 
@@ -2754,7 +2754,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueEquiv_root` in the following form.
+Prove the following statement.
 
 `r_n(ρ_n)=1` and `r_n(π_n)=0`.
 
@@ -2770,7 +2770,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientResidueEquiv_inclusion` in the following form.
+Prove the following statement.
 
 Consecutive integer inclusions commute with `r_n`.
 
@@ -2786,7 +2786,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitNorm_coe` in the following form.
+Prove the following statement.
 
 The field value of `N_n(u)` equals `Algebra.norm E_n` of the field value of `u`.
 
@@ -2802,7 +2802,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitNorm_scalar` in the following form.
+Prove the following statement.
 
 For `c∈O_nˣ`, `N_n` of its image in `O_(n+1)` is `c^p`.
 
@@ -2818,7 +2818,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitNorm_trans` in the following form.
+Prove the following statement.
 
 Composites of consecutive `N_n` equal the field norm between the indicated levels.
 
@@ -2834,7 +2834,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_scalar` in the following form.
+Prove the following statement.
 
 `φ_n(algebraMap E E_n a)=algebraMap E E_n(φ_E a)`.
 
@@ -2852,7 +2852,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_root` in the following form.
+Prove the following statement.
 
 `φ_n(ρ_n)=ρ_n`.
 
@@ -2870,7 +2870,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_inclusion` in the following form.
+Prove the following statement.
 
 The consecutive inclusion `E_n→E_(n+1)` commutes with `φ_n` and `φ_(n+1)`.
 
@@ -2888,7 +2888,7 @@ All finite-level Frobenius actions induce one action on the arithmetic limit.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_order` in the following form.
+Prove the following statement.
 
 `φ_n^f=1`, and `φ_n` has order `f`; on the common residue field its action is the native frobeniusEquiv `k p`.
 
@@ -2908,7 +2908,7 @@ For `f=2`, `φ_n²=1` without forcing `φ_n=1`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_residue` in the following form.
+Prove the following statement.
 
 `r_n(φ_n a)=r_n(a)^p` for `a∈O_n`.
 
@@ -2956,7 +2956,7 @@ Two elements are equal if all coordinates agree.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit_base` in the following form.
+Prove the following statement.
 
 At `E=ℚ_p`, identify `U∞(E)` with the base tower’s actual unit inverse limit via baseIntegerEquiv.
 
@@ -2972,7 +2972,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateRoot_odd` in the following form.
+Prove the following statement.
 
 For odd `p`, `τ_n=ρ_n`.
 
@@ -2988,7 +2988,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateRoot_two` in the following form.
+Prove the following statement.
 
 For `p=2`, `τ_n=−ρ_n` and `τ_0=1`.
 
@@ -3004,7 +3004,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateRoot_order` in the following form.
+Prove the following statement.
 
 For odd `p`, `order(τ_n)=p^(n+1)`; for `p=2,n≥1`, `order(τ_n)=2^(n+1)`.
 
@@ -3020,7 +3020,7 @@ For the proof, use the specified construction or its characterization from the b
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel_projection` in the following form.
+Prove the following statement.
 
 Projection at `i` is the canonical integer ring `O_(i,n)`.
 
@@ -3036,7 +3036,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel_idempotent` in the following form.
+Prove the following statement.
 
 The standard idempotent `e_i` is 1 in factor `i` and 0 in every other factor.
 
@@ -3052,7 +3052,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel_units` in the following form.
+Prove the following statement.
 
 The native `MulEquiv.piUnits` identifies `A_nˣ` with `∏_i O_(i,n)ˣ`, by evaluating each unit component.
 
@@ -3068,7 +3068,7 @@ For the proof, use the specified construction or its characterization from the b
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used. `H` is finite and acts on I; `β_(h,i)` are genuine `ℚ_p`-algebra isomorphisms.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalCoefficientTransport_scalar` in the following form.
+Prove the following statement.
 
 It sends the image of `a∈E_i` to the image of `β_(h,i)(a)`.
 
@@ -3084,7 +3084,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalCoefficientTransport_root` in the following form.
+Prove the following statement.
 
 It sends the chosen `ρ_n` to the same chosen `ρ_n`.
 
@@ -3100,7 +3100,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalCoefficientTransport_unique` in the following form.
+Prove the following statement.
 
 An actual `ℚ_p`-algebra isomorphism with those two restrictions equals `β_(h,i,n)`.
 
@@ -3116,7 +3116,7 @@ For the proof, use the specified construction or its characterization from the b
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalLevel_norm` in the following form.
+Prove the following statement.
 
 The ith projection of `N_(A,n)(u)` is the actual `N_(i,n)(u_i)`.
 
@@ -3132,7 +3132,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalNorm_scalar` in the following form.
+Prove the following statement.
 
 On a scalar unit from `A_n`, embedded componentwise at level `n+1`, the norm is its pth power.
 
@@ -3148,7 +3148,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalNorm_trans` in the following form.
+Prove the following statement.
 
 Consecutive componentwise norms compose to the actual longer field norm in each component.
 
@@ -3164,7 +3164,7 @@ For the proof, use the specified construction or its characterization from the b
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPi_hasEval` in the following form.
+Prove the following statement.
 
 The canonical integer `π_n=ρ_n−1` satisfies `PowerSeries.HasEval`: it is topologically nilpotent in `O_n`.
 
@@ -3182,7 +3182,7 @@ The unramified Layer 1 evaluation point is `ρ_n−1`; the dyadic zeroth point i
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientRelative_isGalois` in the following form.
+Prove the following statement.
 
 IsGalois `E_n E_(n+1)` holds for the canonical consecutive field inclusion.
 
@@ -3200,7 +3200,7 @@ Justifies use of the native conjugate-product norm formula on the actual fields.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientNorm_residue` in the following form.
+Prove the following statement.
 
 For every `u∈O_(n+1)ˣ`, `r_n(N_n u)=r_(n+1)(u)^p`. In particular `N_n` preserves principal units.
 
@@ -3262,7 +3262,7 @@ Define `normLimitResidue` by the following specification.
 
 Define `normLimitResidue(p):localUnitNormLimit(p)→(ZMod p)ˣ` as a native continuous monoid homomorphism, by reduction of coordinate0.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `normLimitResidue_eq`: For every `n` the map equals `Units.map(red_n)(u_n)`.
 - `normLimitResidue_coe`: After coercion to `ZMod p` its value is `red_0(u_0)`.
@@ -3277,7 +3277,7 @@ The API includes the following named statements.
 
 For the proof, compose coordinate0 with native `Units.map` of `red_0`. Continuity follows from continuous_reduction, native Continuous.units_map and continuity of the product-subtype coordinate. The residue-constant lemma identifies the same map with unit reduction of every coordinate `n`; units extensionality passes from equality in `ZMod p` to equality of residue units. Native homomorphism laws give multiplicativity and inversion.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_residue`: `normLimitResidue(teichTower(r))=r`, using reduction of its scalar coordinate at level zero. At `p=2` both residue units and the section image are trivial.
+Prove `teichTower_residue`: `normLimitResidue(teichTower(r))=r`, using reduction of its scalar coordinate at level zero. At `p=2` both residue units and the section image are trivial.
 
 The target is the fixed native residue-unit group. The Teichmüller tower section of §0.76 and full/principal splitting give its continuous section and surjectivity; these do not follow from the residue-map construction alone.
 
@@ -3297,7 +3297,7 @@ Define `principalNormCompatibleUnits` by the following specification.
 
 Define `principalNormCompatibleUnits(p)` as the native kernel subgroup of `normLimitResidue(p)`, inside `localUnitNormLimit(p)`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `mem_principalNormCompatibleUnits`: Membership is equivalent to residue1 at every coordinate.
 - `principalNormCompatibleUnits_ext`: Two principal compatible units are equal if every actual unit coordinate agrees.
@@ -3362,16 +3362,16 @@ Compactness alone does not supply pro-p or `ℤ_p-scalar` structure; those hypot
 
 `p` is an odd prime. `B=ℤ_p[[T]]`, `Y=1+T`, `U∞` is the actual norm-compatible unit group, and `U∞,1` its native principal residue kernel. `M=D(ℤ_pˣ,ℤ_p)` denotes the actual intrinsic unit measures with the imported weak topology.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.tateTower` by the following specification.
+Define `tateTower` by the following specification.
 
 For odd `p` define tateTower:Multiplicative `ℤ_p→*U∞` directly by the nth coordinate `ζ_n` raised to the residue of a modulo `p^(n+1)`. It is injective, continuous and principal. It identifies the source’s `ℤ_p(1)` once the cyclotomic `G`-action is installed.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.tateTower_apply`: The nth coordinate is `ζ_n^((toZModPow(n+1)(a)).val)` in `K_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.tateTower_injective`: `tateTower(a)=tateTower(b)` iff `a=b`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.tateTower_principal`: Every `tateTower(a)` belongs to the principal norm-compatible subgroup.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.tateTower_continuous`: The map from the native p-adic additive group, tagged multiplicatively, is continuous.
+- The nth coordinate is `ζ_n^((toZModPow(n+1)(a)).val)` in `K_n`.
+- `tateTower(a)=tateTower(b)` iff `a=b`.
+- Every `tateTower(a)` belongs to the principal norm-compatible subgroup.
+- The map from the native p-adic additive group, tagged multiplicatively, is continuous.
 
 **Checks.**
 
@@ -3395,7 +3395,7 @@ Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2
 
 `p` is an odd prime, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues, and `U∞,1` is the existing residue kernel. All topologies are the native norm/product/subtype topologies.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitsNorm_teich` in the following form.
+Prove the following statement.
 
 For `r∈𝔽_pˣ`, `N_n(ω_(n+1)(r))=ω_n(r)`, where `ω_n` is the native finite-level section transported through the canonical `O_n/residue` comparison.
 
@@ -3413,16 +3413,16 @@ The inverse-limit split must use compatible sections, rather than just a family 
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitSplit` by the following specification.
+Define `unitSplit` by the following specification.
 
 Construct a continuous multiplicative equivalence `U∞≃𝔽_pˣ×U∞,1`. It sends `u` to `(red(u),u/teichTower(red(u)))`; its inverse sends `(r,v)` to `teichTower(r)v`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitSplit_fst`: The first coordinate is `normLimitResidue(u)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitSplit_snd`: The second coordinate, as a full tower, is u/teichTower(red(u)).
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitSplit_symm`: The inverse at `(r,v)` is `teichTower(r)v`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitSplit_homeomorph`: Both directions are continuous.
+- The first coordinate is `normLimitResidue(u)`.
+- The second coordinate, as a full tower, is u/teichTower(red(u)).
+- The inverse at `(r,v)` is `teichTower(r)v`.
+- Both directions are continuous.
 
 **Checks.**
 
@@ -3446,16 +3446,16 @@ Retains the prime-to-p torsion on full units and identifies exactly the principa
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.towerAction` by the following specification.
+Define `towerAction` by the following specification.
 
 Define `towerAction:G→Aut(U∞)` coordinatewise by finiteAction_n. It preserves `U∞,1` and acts trivially on the Teichmüller tower. No `ℤ_p`-module structure is assigned to the full unit group.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.towerAction_apply`: The nth coordinate of `towerAction(a)(u)` is the unit map of `finiteAction_n(a)` applied to `u_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.towerAction_principal`: `towerAction(a)(u)` is principal iff `u` is principal.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.towerAction_teich`: `towerAction(a)(teichTower(r))=teichTower(r)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.towerAction_tate`: `towerAction(a)(tateTower(b))=tateTower(a b)` for all `b∈ℤ_p`.
+- The nth coordinate of `towerAction(a)(u)` is the unit map of `finiteAction_n(a)` applied to `u_n`.
+- `towerAction(a)(u)` is principal iff `u` is principal.
+- `towerAction(a)(teichTower(r))=teichTower(r)`.
+- `towerAction(a)(tateTower(b))=tateTower(a b)` for all `b∈ℤ_p`.
 
 **Checks.**
 
@@ -3479,7 +3479,7 @@ Supplies the actual arithmetic action used in interpolation equivariance and loc
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.continuous_towerAction` in the following form.
+Prove the following statement.
 
 The map `G×U∞→U∞`, `(a,u)↦towerAction(a)(u)`, is jointly continuous, and likewise on the principal subgroup.
 
@@ -3497,7 +3497,7 @@ Joint continuity, not merely continuity at each fixed group element, is needed t
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalTower_isProP` in the following form.
+Prove the following statement.
 
 `U∞,1` is an abelian pro-p group, and its coordinate maps to the finite-level principal unit groups are continuous. Surjectivity of those coordinate maps is not assumed.
 
@@ -3515,16 +3515,16 @@ Verifies the hypothesis for the upstream continuous `ℤ_p` exponentiation const
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalModule` by the following specification.
+Define `principalModule` by the following specification.
 
 Install the supplied topological `ℤ_p`-module on `Additive(U∞,1)`, using principalTower_isProP. Its scalar action is the continuous extension of integer exponentiation, and is coordinatewise the upstream finite-level action.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalModule_nat`: For `k∈ℕ` the underlying tower of k•u is `u^k`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalModule_coordinate`: The nth coordinate of a•u is the scalar power `u_n^a` in the finite principal group.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalModule_continuous`: The scalar action `ℤ_p×U∞,1→U∞,1` is jointly continuous.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalModule_action_commutes`: `towerAction(g)(a•u)=a•towerAction(g)(u)`.
+- For `k∈ℕ` the underlying tower of k•u is `u^k`.
+- The nth coordinate of a•u is the scalar power `u_n^a` in the finite principal group.
+- The scalar action `ℤ_p×U∞,1→U∞,1` is jointly continuous.
+- `towerAction(g)(a•u)=a•towerAction(g)(u)`.
 
 **Checks.**
 
@@ -3548,16 +3548,16 @@ Supports finite local closure/span calculations, Coleman `ℤ_p`-linearity and t
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCompletedModule` by the following specification.
+Define `principalCompletedModule` by the following specification.
 
 Install the supplied continuous `Λ(G)`-module structure on `Additive(U∞,1)` extending principalModule and towerAction. The algebra carrier is the supplied convolution ring of integral unit measures with weak topology.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCompletedModule_dirac`: `δ_g•u=towerAction(g)(u)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCompletedModule_scalar`: The restriction along `ℤ_p→Λ(G)` is principalModule.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCompletedModule_continuous`: The action `Λ(G)×U∞,1→U∞,1` is jointly continuous for weak `Λ` topology.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCompletedModule_unique`: Any continuous `Λ(G)`-action with these scalar and Dirac formulas is this action.
+- `δ_g•u=towerAction(g)(u)`.
+- The restriction along `ℤ_p→Λ(G)` is principalModule.
+- The action `Λ(G)×U∞,1→U∞,1` is jointly continuous for weak `Λ` topology.
+- Any continuous `Λ(G)`-action with these scalar and Dirac formulas is this action.
 
 **Checks.**
 
@@ -3581,7 +3581,7 @@ Supplies the receiving module for the principal Coleman map and the cyclotomic i
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientNorm_teichmuller` in the following form.
+Prove the following statement.
 
 Transport native Teichmüller sections to `k`. Then `N_n(ω_(n+1)(r))=ω_n(r^p)` for `r∈kˣ`.
 
@@ -3599,22 +3599,22 @@ The identity `N_nω(r)=ω(r)` holds for `r∈𝔽_pˣ`, but fails for a general 
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction` by the following specification.
+Define `coefficientCyclotomicAction` by the following specification.
 
 For `a∈ℤ_pˣ`, let `σ_(a,n)∈Gal(E_n/E)` fix `E` and send `ρ_n` to `ρ_n` raised to the unit residue of a modulo `p^(n+1)`. These continuous finite-level actions form a jointly continuous action of `G=ℤ_pˣ` on the coefficient tower.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction_scalar`: `σ_(a,n)` fixes every scalar from `E`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction_root`: `σ_(a,n)(ρ_n)=ρ_n^(a mod p^(n+1))`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction_mul`: `σ_(ab,n)=σ_(a,n)∘σ_(b,n)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction_continuous`: The cyclotomic action `G×E_n→E_n` is jointly continuous for the p-adic topology on `G` and the canonical local-field topology.
+- `σ_(a,n)` fixes every scalar from `E`.
+- `σ_(a,n)(ρ_n)=ρ_n^(a mod p^(n+1))`.
+- `σ_(ab,n)=σ_(a,n)∘σ_(b,n)`.
+- The cyclotomic action `G×E_n→E_n` is jointly continuous for the p-adic topology on `G` and the canonical local-field topology.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientAction_one`: The unit 1 acts as the identity.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientAction_square`: At `p=5,n=0`, a p-adic unit with residue 2 sends `ρ_0` to `ρ_0²`; it does not use the inverse exponent 3.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientAction_kernel`: If `a≡1` modulo `p^(n+1)`, it acts trivially at level `n` even when `a≠1` in `ℤ_pˣ`.
+- The unit 1 acts as the identity.
+- At `p=5,n=0`, a p-adic unit with residue 2 sends `ρ_0` to `ρ_0²`; it does not use the inverse exponent 3.
+- If `a≡1` modulo `p^(n+1)`, it acts trivially at level `n` even when `a≠1` in `ℤ_pˣ`.
 
 For the proof, extend the base tower cyclotomic automorphism by the identity on `E`, using linear disjointness. Each finite-level action factors through `(ℤ/p^(n+1)ℤ)ˣ`, hence continuity at a coordinate is supplied by the finite quotient. Tower compatibility follows on the chosen generators.
 
@@ -3632,7 +3632,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientNorm_equivariant` in the following form.
+Prove the following statement.
 
 `N_n∘φ_(n+1)=φ_n∘N_n` on the actual integer units.
 
@@ -3650,7 +3650,7 @@ Frobenius and cyclotomic actions preserve norm-compatible tuples.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit_residue` in the following form.
+Prove the following statement.
 
 For `u∈U∞(E)`, `r_n(u_n)=Frob_k^(−n)(r_0(u_0))`, where `Frob_k=frobeniusEquiv k p`.
 
@@ -3668,21 +3668,21 @@ Residues are stationary precisely when the initial residue is in `𝔽_pˣ`.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalLimit` by the following specification.
+Define `coefficientPrincipalLimit` by the following specification.
 
 Define `U∞¹(E)` as `ker(r_0:U∞(E)→kˣ)`, with the subspace topology. Equivalently every coordinate has residue 1. This is the actual principal-unit subgroup, on which the `ℤ_p` module structure lives.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalLimit_iff`: `u` belongs exactly when every `r_n(u_n)=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalLimit_ext`: Equality is determined by all integer-unit coordinates.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalLimit_closed`: Its image in `U∞(E)` is closed and its inclusion is a continuous injective homomorphism.
+- `u` belongs exactly when every `r_n(u_n)=1`.
+- Equality is determined by all integer-unit coordinates.
+- Its image in `U∞(E)` is closed and its inclusion is a continuous injective homomorphism.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientPrincipal_native`: A norm-compatible tuple belongs exactly when its nth integer unit minus 1 lies in the actual maximal ideal for every `n`; this agrees with the native finite-level principal condition.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientPrincipal_teich`: A split Teichmüller tower is principal exactly when its initial residue is 1.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientPrincipal_dyadic`: At `p=2` the signed root tuple `(−ρ_n)` is principal and has zeroth coordinate 1.
+- A norm-compatible tuple belongs exactly when its nth integer unit minus 1 lies in the actual maximal ideal for every `n`; this agrees with the native finite-level principal condition.
+- A split Teichmüller tower is principal exactly when its initial residue is 1.
+- At `p=2` the signed root tuple `(−ρ_n)` is principal and has zeroth coordinate 1.
 
 For the proof, take the kernel of the continuous level-zero residue homomorphism. The residue formula gives the all-coordinates characterization and closedness.
 
@@ -3700,21 +3700,21 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientTeichSection` by the following specification.
+Define `coefficientTeichSection` by the following specification.
 
 Construct `t:kˣ→ₜ*U∞(E)` by `t(r)_n=ω_n(Frob_k^(−n)(r))`, using the native finite-level Teichmüller sections. The composite `r_0∘t` is the identity.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientTeichSection_apply`: The nth coordinate is exactly `ω_n(Frob_k^(−n)r)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientTeichSection_residue`: Its level-zero residue is `r`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientTeichSection_base`: At `f=1` this is the base tower stationary Teichmüller tower transported through the canonical integer-ring equivalence.
+- The nth coordinate is exactly `ω_n(Frob_k^(−n)r)`.
+- Its level-zero residue is `r`.
+- At `f=1` this is the base tower stationary Teichmüller tower transported through the canonical integer-ring equivalence.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientTeich_one`: `t(1)=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientTeich_quadratic`: For `k=𝔽_9`, a residue `r` of order 8 gives residues `r,r³,r,r³,…`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientTeich_stationary_failure`: For that `r`, `t(r)_1≠ω_1(r)`, so an untwisted section fails.
+- `t(1)=1`.
+- For `k=𝔽_9`, a residue `r` of order 8 gives residues `r,r³,r,r³,…`.
+- For that `r`, `t(r)_1≠ω_1(r)`, so an untwisted section fails.
 
 For the proof, the norm formula gives `N_nω_(n+1)(Frob^(−n−1)r)=ω_n(Frob^(−n)r)`. Finite-level Teichmüller lifts are multiplicative, and finite discrete `kˣ` makes the resulting map continuous. The residue at level zero is `r`.
 
@@ -3732,21 +3732,21 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitSplit` by the following specification.
+Define `coefficientUnitSplit` by the following specification.
 
 Construct `U∞(E)≃ₜ*kˣ×U∞¹(E)`, mapping `u` to `(r_0(u_0),t(r_0(u_0))⁻¹u)`. Its inverse is `(r,v)↦t(r)v`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitSplit_fst`: The first projection is level-zero residue.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitSplit_snd`: The second projection has nth coordinate `ω_n(Frob^(−n)r)⁻¹u_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitSplit_symm`: The inverse multiplies the twisted section by the principal tuple.
+- The first projection is level-zero residue.
+- The second projection has nth coordinate `ω_n(Frob^(−n)r)⁻¹u_n`.
+- The inverse multiplies the twisted section by the principal tuple.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientSplit_teich`: A Teichmüller tower `t(r)` maps to (r,1).
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientSplit_principal`: A principal tuple `v` maps to (1,v).
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientSplit_nontrivial`: For `r≠1`, `t(r)` does not map into the principal factor alone.
+- A Teichmüller tower `t(r)` maps to (r,1).
+- A principal tuple `v` maps to (1,v).
+- For `r≠1`, `t(r)` does not map into the principal factor alone.
 
 For the proof, the second component has residue one, and the two displayed maps are inverse multiplicative continuous maps.
 
@@ -3764,7 +3764,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipal_isProP` in the following form.
+Prove the following statement.
 
 `TauCeti.IsProP p U∞¹(E)` holds for the subgroup topology just specified.
 
@@ -3782,7 +3782,7 @@ The theorem concerns the arithmetic principal carrier, including `p=2`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalScalar_eq` in the following form.
+Prove the following statement.
 
 Install the existing `TauCeti.IsProP.module` on Additive `U∞¹(E)`. For `a∈ℤ_p` and `v∈U∞¹(E)`, its nth multiplicative coordinate is the native continuous `ℤ_p` power of `v_n` in the finite-level principal group. In particular m•v corresponds to `v^m` for every `m∈ℕ`.
 
@@ -3800,21 +3800,21 @@ No `O`-module structure and no scalar structure on `kˣ×U∞¹(E)` is asserted.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateTower` by the following specification.
+Define `signedTateTower` by the following specification.
 
 Construct a continuous injective `ℤ_p`-linear map `ι:ℤ_p→Additive U∞¹(E)`, whose nth multiplicative coordinate is `τ_n^(a mod p^(n+1))`. Here `ℤ_p(1)` denotes this rank-one `ℤ_p` module with `G` action through the cyclotomic character and trivial `C_f` action.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateTower_coordinate`: The nth coordinate is `τ_n` raised to the p-adic residue exponent.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateTower_injective`: The map is injective for every prime `p`, including 2.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateTower_scalar`: `ι(ab)=a•ι(b)` in Additive `U∞¹(E)`.
+- The nth coordinate is `τ_n` raised to the p-adic residue exponent.
+- The map is injective for every prime `p`, including 2.
+- `ι(ab)=a•ι(b)` in Additive `U∞¹(E)`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.signedTateTower_zero`: `ι(0)` is the identity tuple.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.signedTateTower_two`: For every prime, the nth coordinate of `ι(1)` is the chosen signed root `τ_n`. At `p=2` its zeroth coordinate is 1 and its first is `−i` when `ρ_1=i`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.signedTateTower_detection`: At `p=2` the zeroth coordinate alone cannot detect a; `ι(1)≠ι(0)` is detected at level 1.
+- `ι(0)` is the identity tuple.
+- For every prime, the nth coordinate of `ι(1)` is the chosen signed root `τ_n`. At `p=2` its zeroth coordinate is 1 and its first is `−i` when `ρ_1=i`.
+- At `p=2` the zeroth coordinate alone cannot detect a; `ι(1)≠ι(0)` is detected at level 1.
 
 For the proof, finite residue exponents are well defined because `τ_n^(p^(n+1))=1`. The signed norm identity proves compatibility. Each coordinate factors through a finite residue quotient, proving continuity. For odd `p`, primitivity detects all congruences; for `p=2`, use every `n≥1`. Vanishing at those coordinates forces a to be divisible by arbitrarily large powers of `p`, hence `a=0`. The multiplicative homomorphism preserves natural powers; scalar linearity follows from the imported continuous scalar action and density.
 
@@ -3832,21 +3832,21 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit` by the following specification.
+Define `semilocalUnitLimit` by the following specification.
 
 Define `S∞(A)` as the subgroup of `∏_n A_nˣ` cut out by the actual componentwise norm equations, with the induced product topology.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit_transition`: Every tuple satisfies the actual componentwise consecutive norm equation.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit_ext`: Equality is determined by all `(i,n)` field-valued coordinates.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit_closed`: The actual norm equalizer subgroup is closed in `∏_n A_nˣ`.
+- Every tuple satisfies the actual componentwise consecutive norm equation.
+- Equality is determined by all `(i,n)` field-valued coordinates.
+- The actual norm equalizer subgroup is closed in `∏_n A_nˣ`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalUnitLimit_one`: The all-identity tuple lies in `S∞(A)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalUnitLimit_singleton`: For singleton I this is the actual local unit norm limit, through the canonical product-units equivalence.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalUnitLimit_failed_norm`: A tuple with a failed actual norm equation in one component is excluded, even when all coordinates are units.
+- The all-identity tuple lies in `S∞(A)`.
+- For singleton I this is the actual local unit norm limit, through the canonical product-units equivalence.
+- A tuple with a failed actual norm equation in one component is excluded, even when all coordinates are units.
 
 For the proof, take the equalizers of the actual componentwise norm maps and coordinate projections. Products, inversion and the identity preserve the equations.
 
@@ -3864,7 +3864,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientDifferenceNorm` in the following form.
+Prove the following statement.
 
 `N_(E_(n+1)/E_n)(1−ρ_(n+1))=1−ρ_n`.
 
@@ -3882,7 +3882,7 @@ The sign is positive for every prime. These elements are not units of `O_n`, so 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientNorm_cyclotomic_equivariant` in the following form.
+Prove the following statement.
 
 `N_n∘σ_(a,n+1)=σ_(a,n)∘N_n` for every `a∈ℤ_pˣ`.
 
@@ -3900,21 +3900,21 @@ The norm equalizers are stable under the genuine cyclotomic action.
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPrincipalLimit` by the following specification.
+Define `semilocalPrincipalLimit` by the following specification.
 
 Define `S∞¹(A)` as the kernel of the level-zero product residue map `S∞(A)→∏_i k_iˣ`, with its subgroup topology.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit_principal`: A tuple is principal exactly when every `(i,n)` residue is 1.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPrincipalLimit_ext`: Two principal tuples with all the same actual unit coordinates agree.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPrincipalLimit_closed`: The principal kernel is closed in `S∞(A)`.
+- A tuple is principal exactly when every `(i,n)` residue is 1.
+- Two principal tuples with all the same actual unit coordinates agree.
+- The principal kernel is closed in `S∞(A)`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalPrincipalLimit_one`: The identity is principal.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalPrincipalLimit_product`: Under the shuffle it is exactly the product of the individual native principal unit limits.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalPrincipalLimit_bad_residue`: A tuple with nonidentity residue at level zero in one factor is excluded.
+- The identity is principal.
+- Under the shuffle it is exactly the product of the individual native principal unit limits.
+- A tuple with nonidentity residue at level zero in one factor is excluded.
 
 For the proof, the componentwise residue maps give a homomorphism at level zero. Take its actual kernel. Since Frobenius on each finite `k_i` is bijective, principal residue at level zero forces principal residue at every level.
 
@@ -3932,21 +3932,21 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalShuffle` by the following specification.
+Define `semilocalShuffle` by the following specification.
 
 Construct the continuous multiplicative equivalence `S∞(A)≃ₜ*∏_i U∞(E_i)` by rearranging `(n,i)` coordinates.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalShuffle_apply`: The ith tower has nth coordinate equal to the `(n,i)` coordinate of the original unit.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalShuffle_norm`: Each component has the original actual field norm transition.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalShuffle_principal`: Membership in `S∞¹(A)` is equivalent to principality of every shuffled component; this determines the restriction to the principal subgroups.
+- The ith tower has nth coordinate equal to the `(n,i)` coordinate of the original unit.
+- Each component has the original actual field norm transition.
+- Membership in `S∞¹(A)` is equivalent to principality of every shuffled component; this determines the restriction to the principal subgroups.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalShuffle_singleton`: The singleton shuffle is the one-field identity through its canonical units equivalence.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalShuffle_two`: For two factors the inverse sends towers `u,v` to the tuple with nth coordinate `(u_n,v_n)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalShuffle_not_diagonal`: It permits independent towers in different factors; no diagonal equality is imposed.
+- The singleton shuffle is the one-field identity through its canonical units equivalence.
+- For two factors the inverse sends towers `u,v` to the tuple with nth coordinate `(u_n,v_n)`.
+- It permits independent towers in different factors; no diagonal equality is imposed.
 
 For the proof, use the canonical product-units equivalence and the product-coordinate shuffle. The norm equations are precisely the individual field equations, and the residue kernel is the product of the individual residue kernels. Both maps are continuous coordinate permutations for product and induced topologies; they are mutual inverses.
 
@@ -3964,22 +3964,22 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius` by the following specification.
+Define `semilocalFrobenius` by the following specification.
 
 Give `A_n` and `S∞(A)` componentwise arithmetic coefficient Frobenius. It fixes each standard idempotent `e_i`, acts by `p`-power on `k_i`, and has order `lcm_(i∈I)f_i`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius_component`: Its ith component is `φ_(i,n)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius_idempotent`: Every `e_i` is fixed.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius_norm`: It commutes with every actual semilocal norm transition.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius_limit`: There exists a continuous multiplicative automorphism `F` of `S∞(A)` whose nth coordinate is the unit map of the finite-level semilocal Frobenius; `F` preserves the principal kernel in both directions.
+- Its ith component is `φ_(i,n)`.
+- Every `e_i` is fixed.
+- It commutes with every actual semilocal norm transition.
+- There exists a continuous multiplicative automorphism `F` of `S∞(A)` whose nth coordinate is the unit map of the finite-level semilocal Frobenius; `F` preserves the principal kernel in both directions.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalFrobenius_trivial`: If every `E_i=ℚ_p`, coefficient Frobenius is the identity.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalFrobenius_residue`: At `p=2`, in a degree-3 coefficient factor with residue `r` of order 7 in `𝔽_8`, the image residue is `r²`, not the inverse-Frobenius residue `r⁴`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalFrobenius_no_permutation`: Even with two isomorphic factors it fixes `e_1` and `e_2` separately.
+- If every `E_i=ℚ_p`, coefficient Frobenius is the identity.
+- At `p=2`, in a degree-3 coefficient factor with residue `r` of order 7 in `𝔽_8`, the image residue is `r²`, not the inverse-Frobenius residue `r⁴`.
+- Even with two isomorphic factors it fixes `e_1` and `e_2` separately.
 
 For the proof, take the product of the pinned coefficient Frobenius automorphisms. Its order is the least common multiple of their orders. Norm compatibility follows componentwise.
 
@@ -3997,21 +3997,21 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitSplit` by the following specification.
+Define `semilocalUnitSplit` by the following specification.
 
 Construct `S∞(A)≃ₜ*(∏_i k_iˣ)×S∞¹(A)` by taking the product of the one-field twisted coefficientUnitSplit equivalences and transferring it through semilocalShuffle.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitSplit_residue`: The ith residue component is `r_(i,0)(u_(i,0))`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitSplit_symm`: After shuffling, the inverse at `(r,v)` has ith tower `t_i(r_i)` times the ith tower of `v`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitSplit_principal`: A principal tuple `v` maps to (1,v).
+- The ith residue component is `r_(i,0)(u_(i,0))`.
+- After shuffling, the inverse at `(r,v)` has ith tower `t_i(r_i)` times the ith tower of `v`.
+- A principal tuple `v` maps to (1,v).
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalUnitSplit_section`: A product of the twisted Teichmüller towers has trivial principal component.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalUnitSplit_principal`: A principal tuple has all residue components equal to 1.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalUnitSplit_nonprincipal`: A product section with one nonidentity residue is excluded from `S∞¹(A)`.
+- A product of the twisted Teichmüller towers has trivial principal component.
+- A principal tuple has all residue components equal to 1.
+- A product section with one nonidentity residue is excluded from `S∞¹(A)`.
 
 For the proof, use the coordinate shuffle to obtain each local initial residue. Form the corresponding product of twisted Teichmüller towers; multiplying its inverse against the original tuple lies in the principal kernel. The inverse multiplies that product section by the principal tuple. Both maps and inverse are continuous and multiplicative.
 
@@ -4029,7 +4029,7 @@ Layer 1, semilocal interpolation: Separates the finite coefficient residue facto
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction_scalar` in the following form.
+Prove the following statement.
 
 `σ_(a,n)` fixes every scalar from `E`.
 
@@ -4045,7 +4045,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction_root` in the following form.
+Prove the following statement.
 
 `σ_(a,n)(ρ_n)=ρ_n^(a mod p^(n+1))`.
 
@@ -4061,7 +4061,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientActions_commute` in the following form.
+Prove the following statement.
 
 `φ_n∘σ_(a,n)=σ_(a,n)∘φ_n` for every `a∈ℤ_pˣ` and `n≥0`.
 
@@ -4079,24 +4079,24 @@ A product action of `Gal(E/ℚ_p)×ℤ_pˣ` is well defined.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions` by the following specification.
+Define `coefficientLimitActions` by the following specification.
 
 Construct the pair consisting of the monoid homomorphism `G→MulAut U∞(E)` and the automorphism of `U∞(E)` given by coefficient Frobenius, by applying the native finite-field automorphisms to each coordinate. The Frobenius component has order `f` and hence supplies the `C_f` action. Both preserve `U∞¹(E)`, are jointly continuous, and commute.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_coordinate`: The nth coordinate of each action is its native finite-field automorphism applied to `u_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_teich`: Cyclotomic `G` fixes `t(r)`; coefficient Frobenius sends `t(r)` to `t(r^p)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_commute`: The `C_f` and `G` actions commute on both unit limits.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_continuous`: The induced map `G×U∞→U∞` is jointly continuous and coefficient Frobenius on `U∞` is continuous.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_order`: If the coefficient Frobenius has positive order `f`, its induced automorphism on `U∞` has fth power equal to the identity, hence factors through `C_f`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_principal`: Each cyclotomic action and coefficient Frobenius preserve the principal norm limit, in both directions.
+- The nth coordinate of each action is its native finite-field automorphism applied to `u_n`.
+- Cyclotomic `G` fixes `t(r)`; coefficient Frobenius sends `t(r)` to `t(r^p)`.
+- The `C_f` and `G` actions commute on both unit limits.
+- The induced map `G×U∞→U∞` is jointly continuous and coefficient Frobenius on `U∞` is continuous.
+- If the coefficient Frobenius has positive order `f`, its induced automorphism on `U∞` has fth power equal to the identity, hence factors through `C_f`.
+- Each cyclotomic action and coefficient Frobenius preserve the principal norm limit, in both directions.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientLimitAction_square`: At `p=5`, a cyclotomic unit with residue 2 sends the level-zero coordinate of `ι(1)` to `ρ_0²`, excluding the trivial action and the inverse exponent.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientLimitAction_teich`: For `k=𝔽_9` and `r` of order 8, coefficient Frobenius moves `t(r)`, although `G` fixes it.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientLimitAction_principal`: Each action preserves residue-one tuples.
+- At `p=5`, a cyclotomic unit with residue 2 sends the level-zero coordinate of `ι(1)` to `ρ_0²`, excluding the trivial action and the inverse exponent.
+- For `k=𝔽_9` and `r` of order 8, coefficient Frobenius moves `t(r)`, although `G` fixes it.
+- Each action preserves residue-one tuples.
 
 For the proof, norm equivariance restricts the coordinate actions to the limit. Principal units are stable because cyclotomic automorphisms have trivial residue action and coefficient Frobenius sends 1 to 1. Continuity is tested at each coordinate in the product topology; `G` acts through a finite quotient at each level and `C_f` is finite discrete.
 
@@ -4114,7 +4114,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCompletedAction_eq` in the following form.
+Prove the following statement.
 
 For `Γ=G` or `C_f×G`, install `TauCeti.IsProP.completedGroupAlgebraModule` on Additive `U∞¹(E)`, over the existing completedGroupAlgebra `ℤ_p Γ`. Its Dirac element at `γ` acts as the arithmetic `γ` action; its `ℤ_p` scalar restriction is coefficientPrincipalScalar_eq, and the action is jointly continuous.
 
@@ -4132,7 +4132,7 @@ The generator `γ`, scalar 2 and identity all act correctly. The weak-measure co
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateTower_equivariant` in the following form.
+Prove the following statement.
 
 For `g∈G` with `χ(g)=g∈ℤ_pˣ`, `g•ι(a)=ι(χ(g)a)`; coefficient Frobenius fixes `ι(a)`.
 
@@ -4150,22 +4150,22 @@ Dyadic sign is retained in the equivariance proof, including level zero.
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used. `H` is finite, with the stated action and coherent actual field isomorphisms.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction` by the following specification.
+Define `semilocalPermutationAction` by the following specification.
 
 For a finite group `H` acting on I, suppose given `ℚ_p`-algebra isomorphisms `β_(h,i):E_i≃ₐ[ℚ_p]E_(h·i)` with `β_(1,i)=1` and `β_(gh,i)=β_(g,h·i)∘β_(h,i)`. Extend them uniquely to `E_i(ρ_n)→E_(h·i)(ρ_n)` fixing `ρ_n`. They give a continuous `H` action on `A_n`, `S∞(A)` and `S∞¹(A)`, permuting idempotents and commuting with coefficient Frobenius and the cyclotomic `G` action.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction_coordinate`: The coordinate at h·i is `β_(h,i)(u_i)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction_idempotent`: `h(e_i)=e_(h·i)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction_norm`: The actual componentwise norm maps are `H`-equivariant.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction_limit`: For the supplied coherent coefficient transports and finite discrete `H`, there exists `α:H→MulAut(S∞(A))` with continuous `α(h)`, the stated finite-level coordinate maps, and preservation of the principal kernel in both directions.
+- The coordinate at h·i is `β_(h,i)(u_i)`.
+- `h(e_i)=e_(h·i)`.
+- The actual componentwise norm maps are `H`-equivariant.
+- For the supplied coherent coefficient transports and finite discrete `H`, there exists `α:H→MulAut(S∞(A))` with continuous `α(h)`, the stated finite-level coordinate maps, and preservation of the principal kernel in both directions.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalPermutationAction_one`: The identity `h` fixes all coordinates.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalPermutationAction_swap`: If `h` exchanges two coefficient factors `i` and `j`, its action sends the standard idempotent `e_i` to `e_j`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.semilocalPermutationAction_not_frobenius`: That swap moves `e_1`, whereas semilocal coefficient Frobenius fixes it.
+- The identity `h` fixes all coordinates.
+- If `h` exchanges two coefficient factors `i` and `j`, its action sends the standard idempotent `e_i` to `e_j`.
+- That swap moves `e_1`, whereas semilocal coefficient Frobenius fixes it.
 
 For the proof, extend `β` by the identity on `K_n` using the unramified/totally-ramified compositum. The cocycle follows by uniqueness on generators. An `ℚ_p` isomorphism of unramified fields commutes with arithmetic Frobenius since both residue actions are canonical. Norm naturality gives the actual inverse-limit action. Use the finite discrete topology on `H` and coordinatewise continuity. Standard idempotents are sent to `e_(h·i)`.
 
@@ -4183,7 +4183,7 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used. `H` and `β` are as in semilocalPermutationAction.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPrincipalScalar_eq` in the following form.
+Prove the following statement.
 
 Import the native `ℤ_p` module on Additive `S∞¹(A)`, and for `Γ=H×G` the existing completedGroupAlgebra `ℤ_p Γ` module. The principal restriction of the actual shuffle is `ℤ_p`-linear and `Γ`-equivariant.
 
@@ -4201,7 +4201,7 @@ No module structure is claimed on full semilocal units, and no algebra isomorphi
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalTate_eq` in the following form.
+Prove the following statement.
 
 The product of signedTateTower maps, transported through semilocalShuffle, embeds `∏_iℤ_p(1)` continuously and `ℤ_p`-linearly into Additive `S∞¹(A)`. `H` permutes its coordinates according to its action on I, `G` acts by `χ` on every coordinate, and coefficient Frobenius fixes the image.
 
@@ -4219,7 +4219,7 @@ For `p=2`, every factor retains the signed root normalization and the trivial ze
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction_mul` in the following form.
+Prove the following statement.
 
 `σ_(ab,n)=σ_(a,n)∘σ_(b,n)`.
 
@@ -4235,7 +4235,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalLimit_iff` in the following form.
+Prove the following statement.
 
 `u` belongs exactly when every `r_n(u_n)=1`.
 
@@ -4251,7 +4251,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalLimit_ext` in the following form.
+Prove the following statement.
 
 Equality is determined by all integer-unit coordinates.
 
@@ -4267,7 +4267,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalLimit_closed` in the following form.
+Prove the following statement.
 
 Its image in `U∞(E)` is closed and its inclusion is a continuous injective homomorphism.
 
@@ -4283,7 +4283,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientTeichSection_apply` in the following form.
+Prove the following statement.
 
 The nth coordinate is exactly `ω_n(Frob_k^(−n)r)`.
 
@@ -4299,7 +4299,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientTeichSection_residue` in the following form.
+Prove the following statement.
 
 Its level-zero residue is `r`.
 
@@ -4315,7 +4315,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientTeichSection_base` in the following form.
+Prove the following statement.
 
 At `f=1` this is the base tower stationary Teichmüller tower transported through the canonical integer-ring equivalence.
 
@@ -4331,7 +4331,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitSplit_fst` in the following form.
+Prove the following statement.
 
 The first projection is level-zero residue.
 
@@ -4347,7 +4347,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitSplit_snd` in the following form.
+Prove the following statement.
 
 The second projection has nth coordinate `ω_n(Frob^(−n)r)⁻¹u_n`.
 
@@ -4363,7 +4363,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitSplit_symm` in the following form.
+Prove the following statement.
 
 The inverse multiplies the twisted section by the principal tuple.
 
@@ -4379,7 +4379,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_coordinate` in the following form.
+Prove the following statement.
 
 The nth coordinate of each action is its native finite-field automorphism applied to `u_n`.
 
@@ -4395,7 +4395,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_teich` in the following form.
+Prove the following statement.
 
 Cyclotomic `G` fixes `t(r)`; coefficient Frobenius sends `t(r)` to `t(r^p)`.
 
@@ -4411,7 +4411,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_commute` in the following form.
+Prove the following statement.
 
 The `C_f` and `G` actions commute on both unit limits.
 
@@ -4427,7 +4427,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateTower_coordinate` in the following form.
+Prove the following statement.
 
 The nth coordinate is `τ_n` raised to the p-adic residue exponent.
 
@@ -4443,7 +4443,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateTower_injective` in the following form.
+Prove the following statement.
 
 The map is injective for every prime `p`, including 2.
 
@@ -4459,7 +4459,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.signedTateTower_scalar` in the following form.
+Prove the following statement.
 
 `ι(ab)=a•ι(b)` in Additive `U∞¹(E)`.
 
@@ -4475,7 +4475,7 @@ For the proof, use the specified construction or its characterization from the b
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit_transition` in the following form.
+Prove the following statement.
 
 Every tuple satisfies the actual componentwise consecutive norm equation.
 
@@ -4491,7 +4491,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit_ext` in the following form.
+Prove the following statement.
 
 Equality is determined by all `(i,n)` field-valued coordinates.
 
@@ -4507,7 +4507,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit_closed` in the following form.
+Prove the following statement.
 
 The actual norm equalizer subgroup is closed in `∏_n A_nˣ`.
 
@@ -4523,7 +4523,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalShuffle_apply` in the following form.
+Prove the following statement.
 
 The ith tower has nth coordinate equal to the `(n,i)` coordinate of the original unit.
 
@@ -4539,7 +4539,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalShuffle_norm` in the following form.
+Prove the following statement.
 
 Each component has the original actual field norm transition.
 
@@ -4555,7 +4555,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalShuffle_principal` in the following form.
+Prove the following statement.
 
 Membership in `S∞¹(A)` is equivalent to principality of every shuffled component; this determines the restriction to the principal subgroups.
 
@@ -4571,7 +4571,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius_component` in the following form.
+Prove the following statement.
 
 Its ith component is `φ_(i,n)`.
 
@@ -4587,7 +4587,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius_idempotent` in the following form.
+Prove the following statement.
 
 Every `e_i` is fixed.
 
@@ -4603,7 +4603,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius_norm` in the following form.
+Prove the following statement.
 
 It commutes with every actual semilocal norm transition.
 
@@ -4619,7 +4619,7 @@ For the proof, use the specified construction or its characterization from the b
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used. `H` is finite, with the stated action and coherent actual field isomorphisms.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction_coordinate` in the following form.
+Prove the following statement.
 
 The coordinate at h·i is `β_(h,i)(u_i)`.
 
@@ -4635,7 +4635,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction_idempotent` in the following form.
+Prove the following statement.
 
 `h(e_i)=e_(h·i)`.
 
@@ -4651,7 +4651,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction_norm` in the following form.
+Prove the following statement.
 
 The actual componentwise norm maps are `H`-equivariant.
 
@@ -4667,7 +4667,7 @@ For the proof, use the specified construction or its characterization from the b
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitSplit_residue` in the following form.
+Prove the following statement.
 
 The ith residue component is `r_(i,0)(u_(i,0))`.
 
@@ -4683,7 +4683,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitSplit_symm` in the following form.
+Prove the following statement.
 
 After shuffling, the inverse at `(r,v)` has ith tower `t_i(r_i)` times the ith tower of `v`.
 
@@ -4699,7 +4699,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitSplit_principal` in the following form.
+Prove the following statement.
 
 A principal tuple `v` maps to (1,v).
 
@@ -4715,7 +4715,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalUnitLimit_principal` in the following form.
+Prove the following statement.
 
 A tuple is principal exactly when every `(i,n)` residue is 1.
 
@@ -4731,7 +4731,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPrincipalLimit_ext` in the following form.
+Prove the following statement.
 
 Two principal tuples with all the same actual unit coordinates agree.
 
@@ -4747,7 +4747,7 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPrincipalLimit_closed` in the following form.
+Prove the following statement.
 
 The principal kernel is closed in `S∞(A)`.
 
@@ -4763,7 +4763,7 @@ For the proof, use the specified construction or its characterization from the b
 
 `p` is prime; `E/ℚ_p` is finite unramified of degree `f≥1`, with residue field `k` of cardinality `q=p^f`. Fix `E` inside an algebraic closure `Ω` of `ℚ_p` and the base tower’s compatible primitive roots `ρ_n` of order `p^(n+1)`, `n≥0`. Put `d_n=p^n(p−1)`, `E_n=E(ρ_n)`, `O=𝒪[E]`, `O_n=𝒪[E_n]`, `π_n=ρ_n−1`. Use the canonical LocalFieldsRamification structures, integer rings and induced topology; the absolute value ‖·‖ extends `|p|=p⁻¹`, whereas `v_n` is the additive valuation with `v_n(π_n)=1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCyclotomicAction_continuous` in the following form.
+Prove the following statement.
 
 The cyclotomic action `G×E_n→E_n` is jointly continuous for the p-adic topology on `G` and the canonical local-field topology.
 
@@ -4779,7 +4779,7 @@ For the proof, the field action depends only on the exponent modulo `p^(n+1)`, a
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_continuous` in the following form.
+Prove the following statement.
 
 The induced map `G×U∞→U∞` is jointly continuous and coefficient Frobenius on `U∞` is continuous.
 
@@ -4795,7 +4795,7 @@ For the proof, apply the coordinate API and finite-level joint continuity. Conti
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_order` in the following form.
+Prove the following statement.
 
 If the coefficient Frobenius has positive order `f`, its induced automorphism on `U∞` has fth power equal to the identity, hence factors through `C_f`.
 
@@ -4811,7 +4811,7 @@ For the proof, iterate the coordinate formula `f` times. Each field automorphism
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientLimitActions_principal` in the following form.
+Prove the following statement.
 
 Each cyclotomic action and coefficient Frobenius preserve the principal norm limit, in both directions.
 
@@ -4827,7 +4827,7 @@ For the proof, cyclotomic automorphisms act trivially on the coefficient residue
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalFrobenius_limit` in the following form.
+Prove the following statement.
 
 There exists a continuous multiplicative automorphism `F` of `S∞(A)` whose nth coordinate is the unit map of the finite-level semilocal Frobenius; `F` preserves the principal kernel in both directions.
 
@@ -4843,7 +4843,7 @@ For the proof, apply finite-level Frobenius to each unit coordinate. Norm equiva
 
 For this declaration replace `E` by a finite nonempty family `(E_i/ℚ_p)_(i∈I)` of finite unramified fields, degrees `f_i`, in one algebraic closure `Ω` with the same compatible `ρ_n`. Let `O_(i,n)=𝒪[E_i(ρ_n)]`, `k_i=𝓀[E_i]`. The coefficient and level rings are `A=∏_i𝒪[E_i]` and `A_n=∏_iO_(i,n)`, with product topologies; norms and residues are the actual componentwise maps. `p` is prime; canonical local-field valuations, integer rings, inclusions and product topologies are used. `H` is finite, with the stated action and coherent actual field isomorphisms.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.semilocalPermutationAction_limit` in the following form.
+Prove the following statement.
 
 For the supplied coherent coefficient transports and finite discrete `H`, there exists `α:H→MulAut(S∞(A))` with continuous `α(h)`, the stated finite-level coordinate maps, and preservation of the principal kernel in both directions.
 
@@ -4857,7 +4857,7 @@ For the proof, use coordinatewise finite-level unit maps; norm equivariance pres
 
 ### 0.233 Coherent integer rings for the chosen roots
 
-Keep `p` prime, `E/ℚ_p` finite unramified, `O=𝒪[E]`, `E_n=E(ρ_n)`, and the compatible roots of order `p^(n+1)`. Apply the canonical finite-intermediate-field structures to these `E_n` and the inclusions `E_n→E_(n+1)`. Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegerComparison_compatible`: the canonical `O`-algebra equivalence between integralClosure `O E_n` and `𝒪[E_n]` is the identity on field values, carries `ρ_n−1` to `π_n`, and commutes with the consecutive inclusions and coefficient embeddings. Its source topology is the topology induced from `E_n`, identified with the ideal topology using the cyclotomic uniformizer; it is a homeomorphism. Transport of the residue map agrees with coefficientResidueEquiv. At `E=ℚ_p` it agrees with baseIntegerEquiv, including the maximal ideal `(π_n)` and the specified spectral-norm topology. This adds chosen-root, residue and tower coherence to the supplied generic integer-ring equivalence.
+Keep `p` prime, `E/ℚ_p` finite unramified, `O=𝒪[E]`, `E_n=E(ρ_n)`, and the compatible roots of order `p^(n+1)`. Apply the canonical finite-intermediate-field structures to these `E_n` and the inclusions `E_n→E_(n+1)`. Prove `coefficientIntegerComparison_compatible`: the canonical `O`-algebra equivalence between integralClosure `O E_n` and `𝒪[E_n]` is the identity on field values, carries `ρ_n−1` to `π_n`, and commutes with the consecutive inclusions and coefficient embeddings. Its source topology is the topology induced from `E_n`, identified with the ideal topology using the cyclotomic uniformizer; it is a homeomorphism. Transport of the residue map agrees with coefficientResidueEquiv. At `E=ℚ_p` it agrees with baseIntegerEquiv, including the maximal ideal `(π_n)` and the specified spectral-norm topology. This adds chosen-root, residue and tower coherence to the supplied generic integer-ring equivalence.
 
 Use identity of field values and injectivity to prove every algebra and inclusion square. Compare the two field topologies by the positive-power relation between the extended norm and the residue-normalized absolute value. Their integer-ring subspace topologies are therefore equal. The maximal ideal is exactly the positive-valuation elements, so its image is `(π_n)`. Quotienting this same equality gives the stated residue comparison. Do not install two incompatible valuation or algebra instances and rely on type-class search to identify them.
 
@@ -4876,11 +4876,11 @@ The API includes `coefficientIntegerComparison_coe`, `coefficientIntegerComparis
 
 ### 0.234 The relative integral basis on the arithmetic receiver
 
-Construct `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientRelativeIntegralBasis n : Basis (Fin p) O_n O_(n+1)` with ith vector `ρ_(n+1)^i`, using the preceding coherent inclusions. The relative field minimal polynomial is `X^p−ρ_n`. Thus `O_(n+1)` is finite free of rank `p` over `O_n`, and this integral basis becomes the specified relative field power basis after extending scalars to `E_n`. The coordinate equivalence `O_(n+1)≃ₗ[O_n](Fin p→O_n)` is a homeomorphism for the actual finite-level topologies. This is the relative basis of the selected generator, rather than the absolute `O`-basis of length `d_(n+1)`.
+Construct `coefficientRelativeIntegralBasis n : Basis (Fin p) O_n O_(n+1)` with ith vector `ρ_(n+1)^i`, using the preceding coherent inclusions. The relative field minimal polynomial is `X^p−ρ_n`. Thus `O_(n+1)` is finite free of rank `p` over `O_n`, and this integral basis becomes the specified relative field power basis after extending scalars to `E_n`. The coordinate equivalence `O_(n+1)≃ₗ[O_n](Fin p→O_n)` is a homeomorphism for the actual finite-level topologies. This is the relative basis of the selected generator, rather than the absolute `O`-basis of length `d_(n+1)`.
 
 For spanning, the absolute integral basis gives `O_(n+1)=O[π_(n+1)]=O[ρ_(n+1)]`. Every element is therefore a polynomial in `ρ_(n+1)` with coefficients already in `O_n`. Divide that polynomial by the monic `X^p−ρ_n` in `O_n[X]`. The remainder has degree less than `p` and evaluates to the same element. For independence, root compatibility gives the displayed annihilating polynomial; the relative degree `p` and generation by `ρ_(n+1)` make it the field minimal polynomial. Linear independence over `E_n` restricts along `O_n→E_n`. The inverse coordinate map is continuous because the forward finite-sum map is a continuous bijection from compact `O_n^p` to Hausdorff `O_(n+1)`. These arguments also give the localization comparison of the bases.
 
-The API includes the following named statements.
+The API includes the following statements.
 
 - `coefficientRelativeIntegralBasis_apply`: the ith vector is `ρ_(n+1)^i`.
 - `coefficientRelativeIntegralBasis_repr`: `x=Σ_(i<p) a_iρ_(n+1)^i` with unique `a_i∈O_n`.
@@ -4901,11 +4901,11 @@ The API includes the following named statements.
 
 ### 0.235 Integral specialization, Frobenius and polynomial unit lifts
 
-On the rings and basis just constructed, prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientIntegralSpecialization`: multiplication matrices over `O_n` map entrywise to the multiplication matrices over `E_n` in the corresponding field basis. Their determinants and traces therefore map to the relative field norm and trace. The norm on `O_(n+1)ˣ` is the existing corestriction coefficientUnitNorm. For the fixed-root coefficient Frobenius `σ_n`, prove `N_n(σ_(n+1)x)=σ_n(N_n x)` and the corresponding trace identity; the inclusions commute with `σ_n`. These are assertions on the specified arithmetic receiver and selected bases, refining the supplied general integral/field comparison.
+On the rings and basis just constructed, prove `coefficientIntegralSpecialization`: multiplication matrices over `O_n` map entrywise to the multiplication matrices over `E_n` in the corresponding field basis. Their determinants and traces therefore map to the relative field norm and trace. The norm on `O_(n+1)ˣ` is the existing corestriction coefficientUnitNorm. For the fixed-root coefficient Frobenius `σ_n`, prove `N_n(σ_(n+1)x)=σ_n(N_n x)` and the corresponding trace identity; the inclusions commute with `σ_n`. These are assertions on the specified arithmetic receiver and selected bases, refining the supplied general integral/field comparison.
 
 The entries are characterized by the unique expansion of `xρ_(n+1)^j`. Extending scalars preserves that expansion. Applying `σ_(n+1)` fixes every basis vector and applies `σ_n` to each entry, so determinant and trace naturality prove both Frobenius squares. The field-value identity and injectivity identify this integral norm with the existing corestricted field norm and its unit map. This proof does not use interpolation or an evaluation-norm hypothesis.
 
-Also prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPolynomialUnitLift`: for every `u∈O_nˣ` there is `g∈O[T]` of degree less than `d_n`, written in the `π_n` power basis, with `g(π_n)=u` and `g(0)∈Oˣ`. Its image in `O[[T]]` is a unit, and native convergent evaluation at `π_n` equals the same `u`. Reduce the unique absolute-basis expansion modulo `π_n`. Every positive-degree term disappears, and `O/(p)→O_n/(π_n)` is an isomorphism, so the nonzero residue of `u` is the residue of `g(0)`. The local-ring unit criterion proves `g(0)` is a unit. Native evaluation on polynomial series identifies polynomial and convergent evaluation. The continuity and HasEval hypotheses come from the chosen-root comparison and coefficientPi_hasEval.
+Also prove `coefficientPolynomialUnitLift`: for every `u∈O_nˣ` there is `g∈O[T]` of degree less than `d_n`, written in the `π_n` power basis, with `g(π_n)=u` and `g(0)∈Oˣ`. Its image in `O[[T]]` is a unit, and native convergent evaluation at `π_n` equals the same `u`. Reduce the unique absolute-basis expansion modulo `π_n`. Every positive-degree term disappears, and `O/(p)→O_n/(π_n)` is an isomorphism, so the nonzero residue of `u` is the residue of `g(0)`. The local-ring unit criterion proves `g(0)` is a unit. Native evaluation on polynomial series identifies polynomial and convergent evaluation. The continuity and HasEval hypotheses come from the chosen-root comparison and coefficientPi_hasEval.
 
 The API includes `coefficientIntegralNorm_field`, `coefficientIntegralTrace_field`, `coefficientIntegralNorm_frobenius`, `coefficientIntegralTrace_frobenius`, `coefficientPolynomialUnitLift_degree`, `coefficientPolynomialUnitLift_constant` and `coefficientPolynomialUnitLift_evaluation` with these exact formulas. After constructing coefficientFrobenius, its inclusion and norm/trace compatibilities follow before any Layer 1 interpolation result.
 
@@ -4937,15 +4937,15 @@ Use IntegralIwasawaTheory §7.1’s finite-free algebra and interpolation. The r
 
 `p` is a prime, including `p=2` for this algebraic part. `B=ℤ_p[[T]]`, `Y=1+T`, and `φ(f)=f(Y^p−1)`, using the existing formal substitution homomorphism. The coefficientwise topology uses the usual p-adic topology on `ℤ_p`. No coefficient Frobenius is applied.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.phiScalarAlgebra` by the following specification.
+Define `phiScalarAlgebra` by the following specification.
 
 Equip the existing ring `B` with its `B`-algebra structure through `φ`. Explicitly `a·x=φ(a)x` and the structural ring map is `φ`. The source copy of `B` is the coefficient ring for this algebra; its ordinary self-module structure is a different structure.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiScalarAlgebra_map`: The structural map sends `f` to `f(Y^p−1)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiScalarAlgebra_smul`: The induced scalar action is `a·x=φ(a)x`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiScalarAlgebra_constant`: A scalar constant `C(c)` acts by ordinary multiplication by `C(c)`.
+- The structural map sends `f` to `f(Y^p−1)`.
+- The induced scalar action is `a·x=φ(a)x`.
+- A scalar constant `C(c)` acts by ordinary multiplication by `C(c)`.
 
 **Checks.**
 
@@ -4969,7 +4969,7 @@ Layer 1, RJW Lemma 10.8 and Coates–Sujatha Proposition 2.2.3: Supply the actua
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.residueCoordinates_unique` in the following form.
+Prove the following statement.
 
 For every `h∈𝔽_p[[T]]`, there is a unique tuple `(g_i)_(0≤i<p)` of `𝔽_p[[T]]` such that `h=Σ_(i<p)(1+T)^i g_i(T^p)`.
 
@@ -4987,16 +4987,16 @@ At `p=2`, `T=(1+T)−1` gives coordinates `(−1,1)`; replacing `Y^i` by `T^i` w
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble` by the following specification.
+Define `phiAssemble` by the following specification.
 
 Define the `ℤ_p`-linear map `Ξ:B^p→B` by `Ξ(a)=Σ_(i<p)Y^i φ(a_i)`. This is a map between existing finite product modules; linearity here is over `ℤ_p`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_apply`: `Ξ(a)=Σ_i Y^i φ(a_i)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_single`: For `i<p`, `Ξ` of the tuple with a in coordinate `i` and zero elsewhere is `Y^i φ(a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_phi_mul`: `Ξ((a·v_i)_i)=φ(a)Ξ(v)`, where the input products are ordinary products in `B`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_continuous`: `Ξ` is continuous for the coefficientwise p-adic topologies.
+- `Ξ(a)=Σ_i Y^i φ(a_i)`.
+- For `i<p`, `Ξ` of the tuple with a in coordinate `i` and zero elsewhere is `Y^i φ(a)`.
+- `Ξ((a·v_i)_i)=φ(a)Ξ(v)`, where the input products are ordinary products in `B`.
+- `Ξ` is continuous for the coefficientwise p-adic topologies.
 
 **Checks.**
 
@@ -5020,7 +5020,7 @@ Layer 1, RJW Lemma 10.8 and Coates–Sujatha Proposition 2.2.3: Supply the actua
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_apply` in the following form.
+Prove the following statement.
 
 For `a∈B^p`, `Ξ(a)=Σ_(i<p)Y^i φ(a_i)`.
 
@@ -5038,7 +5038,7 @@ The coordinate zero contributes `φ(a_0)`, not `a_0`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_continuous` in the following form.
+Prove the following statement.
 
 The map `Ξ:B^p→B` is continuous for the coefficientwise p-adic topology.
 
@@ -5056,7 +5056,7 @@ Continuity uses the p-adic coefficient topology; no discrete coefficient topolog
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_lift_mod` in the following form.
+Prove the following statement.
 
 For every `r≥0` and `f∈B`, there are `a∈B^p` and `h∈B` with `f=Ξ(a)+p^r h`.
 
@@ -5074,7 +5074,7 @@ The `r=0` case is included; no p-adic limit is used for finite-level solvability
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_dvd_iff` in the following form.
+Prove the following statement.
 
 For `a∈B^p` and `r≥0`, `p^r` divides `Ξ(a)` in `B` if and only if `p^r` divides every `a_i` in `B`.
 
@@ -5092,7 +5092,7 @@ A nonzero residue in any one component cannot disappear by cancellation among th
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_injective` in the following form.
+Prove the following statement.
 
 The map `Ξ` is injective.
 
@@ -5110,7 +5110,7 @@ This is uniqueness of all `p` components, stronger than injectivity of `φ` alon
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiAssemble_surjective` in the following form.
+Prove the following statement.
 
 The map `Ξ` is surjective.
 
@@ -5190,7 +5190,7 @@ Coordinates are series in the base variable; coefficients pass through `φ` befo
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_leftMulMatrix` in the following form.
+Prove the following statement.
 
 Write `c_k=(colemanSeriesBasis.repr f)_k`. In the Frobenius basis, the `(i,j)` entry of multiplication by `f` is `Σ_(k<p, i≡k+j mod p) c_k Y^⌊(k+j)/p⌋`, where the `Y` on the right is in the base ring. Since `0≤k,j<p`, the exponent is zero or one.
 
@@ -5216,12 +5216,12 @@ The supplied object is `N:B→*B` to be the existing `Algebra.norm` for `B` with
 The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
 
 - `N` is `Algebra.norm` with the explicit Frobenius algebra structure.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_matrix`: `N(f)=det(leftMulMatrix(colemanSeriesBasis,f))`.
+- `N(f)=det(leftMulMatrix(colemanSeriesBasis,f))`.
 - `N(1)=1`.
 - `N(fg)=N(f)N(g)`.
 - `N(φ(a))=a^p`.
 - `N(C(c))=C(c^p)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_Y`: `N(Y)=(−1)^(p−1)Y`.
+- `N(Y)=(−1)^(p−1)Y`.
 
 **Checks.**
 
@@ -5279,9 +5279,9 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 - `τ` is `Algebra.trace` with the explicit Frobenius scalar algebra, viewed additively.
 - `τ(f+g)=τ(f)+τ(g)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_phi_mul`: `τ(φ(a)f)=aτ(f)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_coordinates`: `τ(f)=p` times the zeroth Frobenius-basis coordinate of `f`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_divisible`: For every `f`, there is a unique `g∈B` with `τ(f)=pg`. The preceding coordinate formula identifies `g` without constructing another bounded `ψ`.
+- `τ(φ(a)f)=aτ(f)`.
+- `τ(f)=p` times the zeroth Frobenius-basis coordinate of `f`.
+- For every `f`, there is a unique `g∈B` with `τ(f)=pg`. The preceding coordinate formula identifies `g` without constructing another bounded `ψ`.
 
 **Checks.**
 
@@ -5300,7 +5300,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_coordinates` in the following form.
+Prove the following statement.
 
 For `f∈B`, `τ(f)=p·(colemanSeriesBasis.repr f)_0`.
 
@@ -5318,7 +5318,7 @@ If `f=Y^i` with `0<i<p`, the trace is zero; `f=1` gives `p`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_divisible` in the following form.
+Prove the following statement.
 
 For every `f∈B` there is a unique `g∈B` with `τ(f)=pg`. It equals the zeroth Frobenius coordinate by the preceding coordinate formula; in particular `p` divides `τ(f)`.
 
@@ -5336,16 +5336,16 @@ The proof works integrally; `p` is not inverted in `B`.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedUnits` by the following specification.
+Define `normFixedUnits` by the following specification.
 
 Define the subgroup `B_Nˣ={u∈Bˣ : N(u)=u}`, using the existing Units carrier and the norm-induced unit homomorphism. Membership is equality of the underlying series.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.mem_normFixedUnits`: `u∈B_Nˣ` iff `N(u)=u` as underlying series.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedUnits_mk`: A unit `u` with `N(u)=u` gives an element of the subgroup.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedUnits_ext`: Two subgroup elements are equal iff their underlying power series are equal.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedUnits_constant`: A constant unit `c` is norm-fixed iff `c^(p−1)=1`.
+- `u∈B_Nˣ` iff `N(u)=u` as underlying series.
+- A unit `u` with `N(u)=u` gives an element of the subgroup.
+- Two subgroup elements are equal iff their underlying power series are equal.
+- A constant unit `c` is norm-fixed iff `c^(p−1)=1`.
 
 **Checks.**
 
@@ -5370,7 +5370,7 @@ RJW Proposition 10.10 and Theorem 10.13; Layer 3: The interpolation map has this
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_matrix` in the following form.
+Prove the following statement.
 
 For every `f∈B`, `N(f)` is the determinant of the multiplication-by-f matrix in the Frobenius basis.
 
@@ -5388,7 +5388,7 @@ This formula uses the rank-p Frobenius module.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_Y` in the following form.
+Prove the following statement.
 
 `N(Y)=(−1)^(p−1)Y`.
 
@@ -5406,7 +5406,7 @@ At `p=2` the sign is negative; `p` odd makes it positive.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_X` in the following form.
+Prove the following statement.
 
 `N(T)=(−1)^(p−1)T`.
 
@@ -5416,7 +5416,7 @@ The source’s `N(T)=T` is recovered for odd `p`; at `p=2` it is `−T`.
 
 *Needs:* [Coleman determinant norm](#colemanpowerseries-l1-coleman-determinant-norm); [Multiplication matrix in Frobenius coordinates](#colemanpowerseries-l1-frobenius-multiplication-matrix); `Matrix.det_apply`; [Matrix formula for the Coleman norm](#colemanpowerseries-l1-coleman-norm-matrix).
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Lemma 2.2.5, printed p.17 / PDF27; odd-prime assumption at §1.1, p.1. The dyadic correction here is the direct determinant computation) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Lemma 2.2.5, printed p.17 / PDF27; odd-prime assumption at §1.1, p.1. The dyadic correction here is the direct determinant computation) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
 
 <a id="colemanpowerseries-l1-coleman-norm-fixed-membership"></a>
 
@@ -5424,7 +5424,7 @@ The source’s `N(T)=T` is recovered for odd `p`; at `p=2` it is `−T`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.mem_normFixedUnits` in the following form.
+Prove the following statement.
 
 For a power-series unit `u`, `u∈B_Nˣ` if and only if `N(u)=u` as underlying series.
 
@@ -5442,7 +5442,7 @@ The norm is evaluated on the underlying series, with no implicit arithmetic inte
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedUnits_constant` in the following form.
+Prove the following statement.
 
 For `c∈ℤ_pˣ`, the constant unit `C(c)` is norm-fixed iff `c^(p−1)=1`.
 
@@ -5460,7 +5460,7 @@ At `p=2` only the constant 1 is fixed; at odd `p`, `−1` is fixed. This lemma c
 
 `p` is any prime, including 2; `B=ℤ_p[[T]]`, `Y=1+T`, and `φ(f)=f(Y^p−1)`. `N` is the inherited determinant norm for the explicit `φ-scalar` algebra, with basis `Y^i` for `0≤i<p`. Divisibility and congruences are in `B`. The notation `N^[r]` means r-fold composition, with `N^[0]=id`; it never means the `r`-th power of `N(f)`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.map_toZMod_eq_iff` in the following form.
+Prove the following statement.
 
 For `f,g∈B`, their images under the existing coefficient map `ρ=PowerSeries.map(PadicInt.toZMod)` are equal if and only if `p` divides `f−g` in `B`.
 
@@ -5482,7 +5482,7 @@ The condition controls all coefficients, not just the constant coefficient.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phi_sub_one_dvd_iff` in the following form.
+Prove the following statement.
 
 For every `f∈B` and `k≥0`, `p^k` divides `φ(f)−1` if and only if `p^k` divides `f−1`.
 
@@ -5504,7 +5504,7 @@ At `k=0` both sides are automatic. At `p=3`, `f=1+T` satisfies neither side for 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_sub_dvd` in the following form.
+Prove the following statement.
 
 For `f,g∈B` and `k≥0`, if `p^k` divides `f−g` then `p^k` divides `N(f)−N(g)`. No unit hypothesis is imposed.
 
@@ -5567,7 +5567,7 @@ For `f∈B` and `k≥1`, if `p^k` divides `f−1` then `p^(k+1)` divides `N(f)�
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_iterate_sub_one_dvd` in the following form.
+Prove the following statement.
 
 For `f∈B`, `k≥1` and `r≥0`, if `p^k` divides `f−1` then `p^(k+r)` divides `N^[r](f)−1`.
 
@@ -5589,7 +5589,7 @@ For `p=3`, `f=4`, `k=1` and `r=2`, `N^[2](4)=4⁹=262144`, and 27 divides 262143
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_iterate_sub_dvd` in the following form.
+Prove the following statement.
 
 For an actual unit `u∈Bˣ` and integers `k₂≥k₁≥0`, `p^(k₁+1)` divides `N^[k₂](u)−N^[k₁](u)`, viewing `u` in `B`.
 
@@ -5614,7 +5614,7 @@ At `p=2`, `N(Y)=−Y` and `N²(Y)=−Y`. The estimate holds despite `Y` itself n
 
 `p` is any prime, including 2; `B=ℤ_p[[T]]`, `Y=1+T`, and `φ(f)=f(Y^p−1)`. The existing basis and scalar module use the Frobenius algebra explicitly. `N` is the actual determinant norm and `τ` the actual integral trace from the preceding results. `B` and finite tuples of `B` have the coefficientwise p-adic product topology. `N^[k]` is k-fold function iteration, with `N^[0]=id`. Every input `u` of the norm-limit construction is an actual element of the existing `Bˣ`. No arithmetic tower or interpolation map is assumed.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_coordinates_continuous` in the following form.
+Prove the following statement.
 
 The map sending `f∈B` to its tuple of Frobenius-basis coordinates `((colemanSeriesBasis.repr f)_i)_(i<p)` is continuous for the coefficientwise p-adic topologies.
 
@@ -5662,7 +5662,7 @@ The existing integral trace `τ:B→B` is continuous for the coefficientwise p-a
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_iterate_coeff_cauchy` in the following form.
+Prove the following statement.
 
 For an actual unit `u∈Bˣ` and every coefficient index `n`, the sequence coeff_n(`N^[k](u)`) is Cauchy in `ℤ_p` as `k` tends to infinity.
 
@@ -5672,7 +5672,7 @@ The exact Frobenius scalar structure and coefficientwise topology are retained; 
 
 *Needs:* [Coleman norm iteration congruence](#colemanpowerseries-l1-coleman-norm-iterate-congruence); `PadicInt.norm_p_pow`; `PadicInt.norm_le_one`; `PowerSeries.coeff_C_mul`.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
 
 <a id="colemanpowerseries-l1-coleman-norm-limit"></a>
 
@@ -5688,7 +5688,7 @@ For `u∈Bˣ`, define `L(u)∈B` to be the series whose nth coefficient is the u
 The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
 
 - For each `u∈Bˣ`, `N^[k](u)` tends to `L(u)` in the coefficientwise p-adic topology.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_sub_iterate_dvd`: For every `u∈Bˣ` and `k≥0`, `p^(k+1)` divides `L(u)−N^[k](u)` in `B`.
+- For every `u∈Bˣ` and `k≥0`, `p^(k+1)` divides `L(u)−N^[k](u)` in `B`.
 - For every `u∈Bˣ`, `N(L(u))=L(u)`.
 - For `u,v∈Bˣ`, `L(uv)=L(u)L(v)`.
 - If `u∈Bˣ` satisfies `N(u)=u`, then `L(u)=u` as series.
@@ -5704,7 +5704,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-convergence"></a>
 
@@ -5719,7 +5719,7 @@ For each `u∈Bˣ`, `N^[k](u)` tends to `L(u)` in the coefficientwise p-adic top
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-precision"></a>
 
@@ -5727,7 +5727,7 @@ For each `u∈Bˣ`, `N^[k](u)` tends to `L(u)` in the coefficientwise p-adic top
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_sub_iterate_dvd` in the following form.
+Prove the following statement.
 
 For every `u∈Bˣ` and `k≥0`, `p^(k+1)` divides `L(u)−N^[k](u)` in `B`.
 
@@ -5737,7 +5737,7 @@ At iteration zero, `L(u)≡u` mod `p`. At iteration `k` the exponent is `k+1`, u
 
 *Needs:* [Convergence to the norm limit](#colemanpowerseries-l1-coleman-norm-limit-convergence); [Coleman norm iteration congruence](#colemanpowerseries-l1-coleman-norm-iterate-congruence); `PadicInt.compactSpace`; `Pi.compactSpace`; `isCompact_range`; `IsCompact.isClosed`; `IsClosed.mem_of_tendsto`.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-fixed"></a>
 
@@ -5752,7 +5752,7 @@ For every `u∈Bˣ`, `N(L(u))=L(u)`.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-multiplication"></a>
 
@@ -5767,7 +5767,7 @@ For `u,v∈Bˣ`, `L(uv)=L(u)L(v)`.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-fixed-input"></a>
 
@@ -5782,7 +5782,7 @@ If `u∈Bˣ` satisfies `N(u)=u`, then `L(u)=u` as series.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-unit"></a>
 
@@ -5797,7 +5797,7 @@ For every `u∈Bˣ`, `L(u)` is a unit of `B`; an explicit inverse is `L(u⁻¹)`
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-continuity"></a>
 
@@ -5812,7 +5812,7 @@ The map `L:Bˣ→B` is continuous, with the existing unit topology on the source
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-trace-frobenius-scalars"></a>
 
@@ -5820,7 +5820,7 @@ The map `L:Bˣ→B` is continuous, with the existing unit topology on the source
 
 `p` is any prime, including 2. `Z=ℤ_p`, `B=Z[[T]]`, `Y=1+T` and `φ(F)=F(Y^p−1)`. `B` carries the coefficientwise p-adic topology. The existing phiScalarAlgebra uses `φ` for its scalar map; `τ=colemanTrace` is its `Algebra.trace` with values in the base `B`, and `c_i(F)` are the existing colemanSeriesBasis coordinates. `ψ` is the actual PMIA `AbstractMeasure.psiSeries`, transported from the bounded integral measure operator by the pinned Amice equivalence. Its continuity and left-inverse formula are imported from PMIA. No normalized-trace definition of `ψ`, division by `p` inside `B`, or additional coefficient Frobenius is assumed.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_phi_mul` in the following form.
+Prove the following statement.
 
 For every `a,F∈B`, `τ(φ(a)F)=aτ(F)`.
 
@@ -5838,7 +5838,7 @@ With `a=Y` and `F=1`, the identity gives `τ(Y^p)=pY`. Constants `a=C(z)` give t
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_one_add_X_pow` in the following form.
+Prove the following statement.
 
 For every `n∈ℕ`, `τ(Y^n)=p·Y^(n/p)` if `p` divides `n`, and `τ(Y^n)=0` otherwise; n/p is natural quotient.
 
@@ -5861,7 +5861,7 @@ The `n=0` value is `p`. For `p=2`, `τ(Y²)=2Y`; for `p=3`, `τ(Y³)=3Y`. The ou
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_eq_mul_psi_polynomial` in the following form.
+Prove the following statement.
 
 For every polynomial `P∈Z[T]`, `τ(P)=p·ψ(P)`, where both occurrences of `P` use the existing polynomial-to-power-series map.
 
@@ -5902,7 +5902,7 @@ For every `F∈B`, `colemanTrace(F)=p·AbstractMeasure.psiSeries(F)` in the base
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_repr_zero_eq_psi` in the following form.
+Prove the following statement.
 
 For every `F∈B`, the zeroth coordinate in the actual Frobenius basis equals the bounded operator: `c₀(F)=AbstractMeasure.psiSeries(F)`.
 
@@ -5924,7 +5924,7 @@ For `p=3`, `c₀(Y³)=Y`, while for `0<i<p` the zeroth coordinate of `Y^i` is ze
 
 `p` is any prime, including 2. `Z=ℤ_p`, `B=Z[[T]]`, `Y=1+T` and `φ(F)=F(Y^p−1)`. `B` carries the coefficientwise p-adic topology. The existing phiScalarAlgebra uses `φ` for its scalar map; `τ=colemanTrace` is its `Algebra.trace` with values in the base `B`, and `c_i(F)` are the existing colemanSeriesBasis coordinates. `ψ` is the actual PMIA `AbstractMeasure.psiSeries`, transported from the bounded integral measure operator by the pinned Amice equivalence. Its continuity and left-inverse formula are imported from PMIA. No normalized-trace definition of `ψ`, division by `p` inside `B`, or additional coefficient Frobenius is assumed. `O` carries its inherited p-adic topology. Root translations are the existing topological integral-series evaluations from PMIA; roots need not lie in `ℤ_p`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_root_sum` in the following form.
+Prove the following statement.
 
 Let `O` be the existing valuation integer ring of `ℂ_p`, `j:Z→O` the existing PMIA integralCoefficientMap, and `ζ∈O` primitive of order `p`. For every `F∈B`, `map(j,φ(colemanTrace(F)))=Σ_{i<p}rootTranslation(ζ,i,F)` in `O[[T]]`, using the actual PMIA integral root translations.
 
@@ -5947,7 +5947,7 @@ At `F=1` the root sum is `p`. At `F=Y^p` it is `pY^p`; this is the embedded trac
 
 `R` and A are commutative rings, A is an `R`-algebra, `d` is a native derivation into A, and `n` is a finite index type with decidable equality. `M` is a native matrix unit.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.derivation_det_unit` in the following form.
+Prove the following statement.
 
 Let `R` and A be commutative rings, A an `R`-algebra, `d` an R-derivation of A into itself, and `M` a unit in the ring of n-by-n matrices over A for a finite index type `n`. Then `d(det M)=det M` times `trace(M inverse times the matrix obtained by applying d entrywise)`.
 
@@ -5963,7 +5963,7 @@ No field, characteristic-zero, analytic derivative, factorial denominator or non
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l1-frobenius-coordinate-mahler-derivation"></a>
 
@@ -5971,7 +5971,7 @@ No field, characteristic-zero, analytic derivative, factorial denominator or non
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The explicit Frobenius scalar algebra and its basis `Y^i`, `0<=i<p`, are the existing Coleman constructions. partial is the existing PMIA Mahler derivation `Y D`, `psi` is the independently constructed PMIA bounded integral operator, and `Delta` is the existing Coleman weighted logarithmic derivative on actual units. `N` and `tau` are base-valued determinant norm and trace. No coefficient Frobenius or division by `p` in `B` is introduced.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_repr_mahlerDerivation` in the following form.
+Prove the following statement.
 
 If `c_i(F)` is the `i`-th coordinate of `F` in the existing Frobenius basis, then `c_i(partial F)=p partial(c_i(F))+i c_i(F)`, for every `i` with `0<=i<p`.
 
@@ -5983,7 +5983,7 @@ The `p` factor multiplies the derivative of the base coordinate; the basis index
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l1-frobenius-matrix-mahler-derivation"></a>
 
@@ -5991,7 +5991,7 @@ The `p` factor multiplies the derivative of the base coordinate; the basis index
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_mulMatrix_mahlerDerivation` in the following form.
+Prove the following statement.
 
 Let `M_F` be the multiplication-by-F matrix in the Frobenius basis and `H=diag(0,1,...,p-1)`. Then `M_(partial F)=p partial(M_F)+H M_F-M_F H`, where partial on a matrix means entrywise differentiation in the ordinary base ring.
 
@@ -6007,7 +6007,7 @@ Rows are output coordinates and columns are input basis vectors. Reversing the c
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l1-frobenius-scalar-map"></a>
 
@@ -6015,7 +6015,7 @@ Rows are output coordinates and columns are input basis vectors. Reversing the c
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and colemanSeriesBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiScalarAlgebra_map` in the following form.
+Prove the following statement.
 
 For every a in `B`, the structural algebra map of phiScalarAlgebra sends a to `phi(a)`.
 
@@ -6033,7 +6033,7 @@ Retain the explicitly selected Frobenius algebra; the ordinary identity self-alg
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and colemanSeriesBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta` is an element of `O` satisfying `zeta^p=1`; `i` is any natural number.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.rootTranslation_phiScalar` in the following form.
+Prove the following statement.
 
 If `zeta^p=1` in `O`, then for every natural `i` and a in `B`, `tau_i(algebraMap_phi(a))=iota(phi(a))`.
 
@@ -6051,7 +6051,7 @@ The conclusion holds for any pth root, before primitivity is needed. It concerns
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and colemanSeriesBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta^p=1`; `i` is any natural number.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.rootTranslation_phiBasis_repr` in the following form.
+Prove the following statement.
 
 For `zeta^p=1` and `F` in `B`, `tau_i(F)=sum_(k in Fin p) iota(phi((colemanSeriesBasis.repr F)_k)) (C(zeta^i)Y_O)^k`.
 
@@ -6069,7 +6069,7 @@ Use the actual colemanSeriesBasis coordinates, not coefficients of `F` in the or
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and colemanSeriesBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta` is primitive of order `p`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_root_vandermonde_det_ne_zero` in the following form.
+Prove the following statement.
 
 For a primitive pth root `zeta` in `O`, the native Vandermonde matrix `E` with `E_(i,k)=(C(zeta^i)Y_O)^k`, `i,k` in `Fin p`, has nonzero determinant.
 
@@ -6087,7 +6087,7 @@ The determinant is only asserted nonzero. Differences of `p`-power roots are gen
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_root_matrix_intertwines` in the following form.
+Prove the following statement.
 
 Let `M_F` be the existing left-multiplication matrix in colemanSeriesBasis and `alpha=iota` composed with `phi`. For primitive `zeta`, `E` times `map(alpha,M_F)=diag(tau_i(F))` times `E` in matrices over `O[[T]]`.
 
@@ -6310,7 +6310,7 @@ The criterion characterizes which supplied evaluations are principal; it does no
 
 `p` is prime; `n≥0` denotes the source level `n+1`. `K_n` and `O_n` are the existing actual local cyclotomic fields and integral closures. `B=ℤ_p[[T]]`, with its coefficientwise topology; `U∞` is the native norm-compatible unit subgroup, with product/subtype topology.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.polynomial_evaluation_ne_zero` in the following form.
+Prove the following statement.
 
 For every nonzero `P∈ℤ_p[T]` with deg `P<d_n=p^n(p−1)`, `P(ϖ_n)≠0` in `O_n`.
 
@@ -6328,7 +6328,7 @@ For `p=3,n=0` the polynomial `T²+3T+3` vanishes at `ϖ_0`; the strict degree in
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.seriesEvaluation_eventually_ne_zero` in the following form.
+Prove the following statement.
 
 For each nonzero `F∈B` there is `N` such that `seriesEvaluation(n)(F)≠0` for all `n≥N`.
 
@@ -6346,7 +6346,7 @@ For the proof, import the exact nonzero factorization `F=p^μ P w` from PMIA Lay
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.seriesEvaluation_ext` in the following form.
+Prove the following statement.
 
 If `F,G∈B` have `seriesEvaluation(n)(F)=seriesEvaluation(n)(G)` for every `n`, then `F=G`.
 
@@ -6379,7 +6379,7 @@ Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIw
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.seriesEvaluation_norm_sub_le` in the following form.
+Prove the following statement.
 
 If `p^r` divides `F−G` in `B`, then `‖seriesEvaluation(n)(F)−seriesEvaluation(n)(G)‖≤p^(−r)` for every `n`.
 
@@ -6397,7 +6397,7 @@ For constant `F=p^r,G=0` the inequality is equality.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.iterate_norm_evaluation` in the following form.
+Prove the following statement.
 
 Let `u∈U∞`, `m≥n`, and `f∈Bˣ` satisfy evaluation at level `m` equal to `u_m`. Then evaluation at `n` of `N^[m−n](f)` equals `u_n`.
 
@@ -6415,7 +6415,7 @@ At `m=n` the exponent is zero and the conclusion is the original interpolation e
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.exists_normFixed_approximation` in the following form.
+Prove the following statement.
 
 For each `u∈U∞` and `k≥0` there is `F∈Bˣ,N=id` with `‖evaluation_n(F)−u_n‖≤p^(−(k+1))` for every `n≤k`.
 
@@ -6437,17 +6437,17 @@ Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.scalarAlgebra` by the
 
 Give the second `B` its `B`-algebra structure with `algebraMap=Φ`. Thus `a•f=Φ(a)f`. Coefficients are unchanged by `Φ`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.scalarAlgebra_map`: The structural map is `Φ`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.scalarAlgebra_smul`: Scalar multiplication is `Φ(a)f`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.scalarAlgebra_coefficientMap`: The coefficient map `ℤ_p[[T]]→B` commutes with the two structural maps.
+- The structural map is `Φ`.
+- Scalar multiplication is `Φ(a)f`.
+- The coefficient map `ℤ_p[[T]]→B` commutes with the two structural maps.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.scalar_X`: The structural image of `T` is `Y^p−1`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.scalar_constant`: The structural image of `C(c)` is `C(c)`, even if `σ(c)≠c`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.scalar_identity`: The structural image of `T` differs from `T` when `p=3`; `UnramifiedSeries.scalarAlgebra_three_ne_id` states this boundary over `ℤ₃`.
+- The structural image of `T` is `Y^p−1`.
+- The structural image of `C(c)` is `C(c)`, even if `σ(c)≠c`.
+- The structural image of `T` differs from `T` when `p=3` over `ℤ₃`.
 
 For the proof, use native formal substitution at `Y^p−1`, whose constant coefficient is zero. Convert that ring homomorphism to its induced scalar algebra. This extends the base `ℤ_p` scalar algebra along the coefficient map.
 
@@ -6455,9 +6455,9 @@ Layer 1 determinant norm and trace: Fixes the actual rank-p scalar action and ex
 
 *Needs:* `PowerSeries.substAlgHom`; [Frobenius scalar algebra](#colemanpowerseries-l1-frobenius-scalar-algebra).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103) The product identity uses the multiplication-by-p substitution; the scalar-algebra presentation extends the base tower determinant construction.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 11, pp.102–103) The product identity uses the multiplication-by-p substitution; the scalar-algebra presentation extends the base tower determinant construction.
 
-The native-carrier boundary theorems `UnramifiedSeries.norm_Y_three`, `UnramifiedSeries.norm_Y_two`, `UnramifiedSeries.trace_one_three` and `UnramifiedSeries.trace_Y_three` specialize the determinant formulas of §§1.82–1.84 to `O=ℤ₃` or `ℤ₂`. Their respective values are `Y`, `−Y`, `3` and `0`. These are statements about the scalar algebra above, including the nonidentity structural map, with the standard p-adic integer rings. (Coleman, Theorem 4 and Corollary 5(i), p.98, and Theorem 11, p.102; the dyadic value follows from the determinant sign.)
+The determinant formulas of §§1.82–1.84 give `N(Y)=Y` over `ℤ₃`, `N(Y)=−Y` over `ℤ₂`, and `τ(1)=3`, `τ(Y)=0` over `ℤ₃`. These are statements about the scalar algebra above, including the nonidentity structural map, with the standard p-adic integer rings. (Coleman, Theorem 4 and Corollary 5(i), p.98, and Theorem 11, p.102; the dyadic value follows from the determinant sign.)
 
 <a id="colemanpowerseries-l1-unramified-coordinates-injective"></a>
 
@@ -6472,7 +6472,7 @@ The assembly map `(a_i)↦∑_(i<p)Y^iΦ(a_i)` from `B^p` to `B` is injective.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 11, pp.102–103)
 
 <a id="colemanpowerseries-l1-unramified-coordinates-surjective"></a>
 
@@ -6487,7 +6487,7 @@ Every `f∈B` has an expansion `f=∑_(i<p)Y^iΦ(a_i)`.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 11, pp.102–103)
 
 <a id="colemanpowerseries-l1-unramified-basis"></a>
 
@@ -6509,13 +6509,13 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.basis_zero`: `b_0=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.basis_one_three`: For `p=3`, `b_1=Y`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.basis_carry`: The coordinates of `Y^p` are `Y` in position 0 and zero in all other positions.
+- `b_0=1`.
+- For `p=3`, `b_1=Y`.
+- The coordinates of `Y^p` are `Y` in position 0 and zero in all other positions.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 11, pp.102–103)
 
 <a id="colemanpowerseries-l1-unramified-coordinates-homeomorphism"></a>
 
@@ -6523,7 +6523,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.coordinates_homeomorphism` in the following form.
+Prove the following statement.
 
 Assembly `B^p→B` and the coordinate inverse `f↦(c_i(f))` are continuous for coefficientwise p-adic topologies.
 
@@ -6531,7 +6531,7 @@ For the proof, assembly is continuous coefficientwise: substitution at a zero-co
 
 *Needs:* [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); `Continuous.homeoOfEquivCompactToT2`.
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Proposition 14 and Corollary 17, pp.104–106) The source uses the coefficient topology for norm projection and interpolation. This finite-basis topological lemma supplies that continuity without a coefficient supremum norm.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Proposition 14 and Corollary 17, pp.104–106) The source uses the coefficient topology for norm projection and interpolation. This finite-basis topological lemma supplies that continuity without a coefficient supremum norm.
 
 <a id="colemanpowerseries-l1-unramified-norm"></a>
 
@@ -6547,20 +6547,20 @@ The supplied object is `N:B→*B` as native `Algebra.norm` for the `Φ` scalar a
 The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
 
 - `N` is native `Algebra.norm` for the `Φ` algebra.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_matrix`: `N(f)=det(left-multiplication matrix of f in b)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_constants`: `N(C(c))=C(c^p)`.
+- `N(f)=det(left-multiplication matrix of f in b)`.
+- `N(C(c))=C(c^p)`.
 - `N(Φ(f))=f^p`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_Y`: For `s=(−1)^(p−1)`, `N(Y)=sY` and `N(T)=sT`. In particular these are `Y` and `T` for odd `p`, and their negatives for `p=2`.
+- For `s=(−1)^(p−1)`, `N(Y)=sY` and `N(T)=sT`. In particular these are `Y` and `T` for odd `p`, and their negatives for `p=2`.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.norm_zero`: `N(0)=0`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.norm_constant`: `N(C(1+p))=C((1+p)^p)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.norm_native`: The returned map equals native `Algebra.norm` under `Φ`, not under the ordinary self-algebra.
+- `N(0)=0`.
+- `N(C(1+p))=C((1+p)^p)`.
+- The returned map equals native `Algebra.norm` under `Φ`, not under the ordinary self-algebra.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 11, pp.102–103)
 
 <a id="colemanpowerseries-l1-unramified-trace"></a>
 
@@ -6576,19 +6576,19 @@ The supplied object is `τ:B→ₗ[B]B` as native `Algebra.trace` for the `Φ` s
 The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
 
 - `τ` equals native `Algebra.trace` under `Φ`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_coordinates`: `τ(f)=p c_0(f)`.
+- `τ(f)=p c_0(f)`.
 - `τ(Φ(a)f)=aτ(f)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_powers`: `τ(Y^m)=pY^(m/p)` if `p` divides `m`, and zero otherwise.
+- `τ(Y^m)=pY^(m/p)` if `p` divides `m`, and zero otherwise.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.trace_zero`: `τ(0)=0`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.trace_one`: `τ(1)=p`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.trace_Yp`: `τ(Y^p)=pY`, which differs from `pY^p`.
+- `τ(0)=0`.
+- `τ(1)=p`.
+- `τ(Y^p)=pY`, which differs from `pY^p`.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Theorem 4 and Corollary 5(i), p.98; Lemma 6, p.99)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §II, Theorem 4 and Corollary 5(i), p.98; Lemma 6, p.99)
 
 <a id="colemanpowerseries-l1-unramified-trace-coordinates"></a>
 
@@ -6596,7 +6596,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_coordinates` in the following form.
+Prove the following statement.
 
 For every `f∈B`, `τ(f)=p c_0(f)`. In particular `τ(B)⊆pB`.
 
@@ -6604,7 +6604,7 @@ For the proof, expand `f` in the power basis. Multiplication by `Y^i` has zero d
 
 *Needs:* [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); [Unramified integral Coleman trace](#colemanpowerseries-l1-unramified-trace).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Theorem 4, p.98, and Lemma 6, p.99) The additive division-point sum becomes `p` times the zeroth cyclotomic coordinate. The displayed finite-basis calculation establishes the specialized formula and the divisibility in Lemma 6.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §II, Theorem 4, p.98, and Lemma 6, p.99) The additive division-point sum becomes `p` times the zeroth cyclotomic coordinate. The displayed finite-basis calculation establishes the specialized formula and the divisibility in Lemma 6.
 
 <a id="colemanpowerseries-l1-unramified-norm-frobenius"></a>
 
@@ -6612,7 +6612,7 @@ For the proof, expand `f` in the power basis. Multiplication by `Y^i` has zero d
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_frobenius` in the following form.
+Prove the following statement.
 
 For all `f∈B`, `N(Σf)=ΣN(f)`. The same statement holds for any continuous `ℤ_p`-algebra coefficient automorphism of `O`.
 
@@ -6620,7 +6620,7 @@ For the proof, `Σ` commutes with `Φ` and fixes each basis vector. The left-mul
 
 *Needs:* [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); `RingHom.map_det`.
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (2)–(4), p.103) Coleman forms Frobenius-corrected norm iterates. The cyclotomic matrix calculation proves the required commutation explicitly.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, equations (2)–(4), p.103) Coleman forms Frobenius-corrected norm iterates. The cyclotomic matrix calculation proves the required commutation explicitly.
 
 <a id="colemanpowerseries-l1-unramified-norm-root-product"></a>
 
@@ -6635,7 +6635,7 @@ For a complete ramified integral receiving ring `S` containing `O` and a primiti
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, p.102)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 11, p.102)
 
 <a id="colemanpowerseries-l1-unramified-phi-reflection"></a>
 
@@ -6643,7 +6643,7 @@ For a complete ramified integral receiving ring `S` containing `O` and a primiti
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.phi_reflection` in the following form.
+Prove the following statement.
 
 For `r≥0` and `f∈B`, `Φ(f)∈p^rB` if and only if `f∈p^rB`.
 
@@ -6651,7 +6651,7 @@ For the proof, modulo `p`, `Φ` becomes expansion `T↦T^p`, which is injective 
 
 *Needs:* [Coefficient-fixed cyclotomic scalar algebra](#colemanpowerseries-l1-unramified-scalar-algebra); `PowerSeries.coeff_map`.
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Lemma 13(i), p.103) The residue substitution is injective; this is the integral descent step in the norm congruence argument. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Frobenius congruence reflection. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Lemma 13(i), p.103) The residue substitution is injective; this is the integral descent step in the norm congruence argument. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Frobenius congruence reflection. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
 
 <a id="colemanpowerseries-l1-unramified-norm-residue-frobenius"></a>
 
@@ -6666,7 +6666,7 @@ For every `f∈B`, `N(f)−Σf∈pB`. For nontrivial unramified coefficients thi
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equation (2) in the proof of Lemma 13(ii), p.103; Sharifi §5.4, proof of Proposition 5.4.6, p.145)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, equation (2) in the proof of Lemma 13(ii), p.103; Sharifi §5.4, proof of Proposition 5.4.6, p.145)
 
 <a id="colemanpowerseries-l1-unramified-norm-near-one-gain"></a>
 
@@ -6681,7 +6681,7 @@ For `r≥1` and `h∈B`, `N(1+p^r h)−1∈p^(r+1)B`.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Lemma 13(i), p.103)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Lemma 13(i), p.103)
 
 <a id="colemanpowerseries-l1-unramified-norm-congruence-gain"></a>
 
@@ -6689,7 +6689,7 @@ For `r≥1` and `h∈B`, `N(1+p^r h)−1∈p^(r+1)B`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_congruence_gain` in the following form.
+Prove the following statement.
 
 For `f,g∈Bˣ` and `r≥1`, `f−g∈p^rB` implies `N(f)−N(g)∈p^(r+1)B`.
 
@@ -6697,7 +6697,7 @@ For the proof, write `fg⁻¹=1+p^r h` in `B`. Apply near-one gain. Multiply by 
 
 *Needs:* [One extra digit from the norm near one](#colemanpowerseries-l1-unramified-norm-near-one-gain); [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Lemma 13(i), p.103; application to a unit ratio) The near-one congruence becomes a contracting congruence on unit ratios.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Lemma 13(i), p.103; application to a unit ratio) The near-one congruence becomes a contracting congruence on unit ratios.
 
 <a id="colemanpowerseries-l1-unramified-norm-continuous"></a>
 
@@ -6712,13 +6712,13 @@ Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/RE
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, p.102; §II, Theorem 4, p.98)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 11, p.102; §II, Theorem 4, p.98)
 
 <a id="finite-free-coefficient-averaging"></a>
 
 ### 1.92 Receiving bounded averaging on O[[T]]
 
-For the fixed finite unramified `O/ℤ_p`, construct `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.coefficientPsi` as the continuous `O`-linear extension of PMIA’s independent integral `ψ` on `ℤ_p[[T]]`. For a `ℤ_p`-basis `(e_j)` of `O`, the coefficientwise map `O[[T]]≃(ℤ_p[[T]])^f` is a homeomorphism. Apply `ψ` in each coordinate and assemble. Equivalently, use the finite-free identification `O⊗_(ℤ_p)ℤ_p[[T]]≃O[[T]]` and `id_O⊗ψ`. The operator is independent of the basis and satisfies `ψ_O(Y^m)=Y^(m/p)` when `p∣m` and zero otherwise. It commutes with coefficient Frobenius and with coefficient reduction. Its scalar extension agrees with the bounded Amice operator over `E` through PMIA’s coefficient-extension/Amice comparison. No determinant trace is used to define `ψ_O`.
+For the fixed finite unramified `O/ℤ_p`, construct `coefficientPsi` as the continuous `O`-linear extension of PMIA’s independent integral `ψ` on `ℤ_p[[T]]`. For a `ℤ_p`-basis `(e_j)` of `O`, the coefficientwise map `O[[T]]≃(ℤ_p[[T]])^f` is a homeomorphism. Apply `ψ` in each coordinate and assemble. Equivalently, use the finite-free identification `O⊗_(ℤ_p)ℤ_p[[T]]≃O[[T]]` and `id_O⊗ψ`. The operator is independent of the basis and satisfies `ψ_O(Y^m)=Y^(m/p)` when `p∣m` and zero otherwise. It commutes with coefficient Frobenius and with coefficient reduction. Its scalar extension agrees with the bounded Amice operator over `E` through PMIA’s coefficient-extension/Amice comparison. No determinant trace is used to define `ψ_O`.
 
 The coefficientwise finite-free comparison is a homeomorphism: every individual coefficient is related by the continuous finite-module coordinate maps, in both directions. The coordinate `ψ` is continuous by PMIA Layer 2. On `O[T]`, the polynomial characterization gives the displayed values; since `X=Y−1`, these values determine the operator on polynomials. Polynomial truncations are dense in `O[[T]]`, so equality on this subspace proves basis-independence, `O`-linearity, compatibility with `σ` and the Amice comparison. The same integral coefficient formulas commute with reduction, proving compatibility with residue averaging. The determinant trace comparison is then `τ=pψ_O` by the separate trace calculation below.
 
@@ -6746,7 +6746,7 @@ Let `ψ_O` be the independently supplied continuous coefficient-extended bounded
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Theorem 4, p.98; comparison with the independently supplied PMIA operator)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §II, Theorem 4, p.98; comparison with the independently supplied PMIA operator)
 
 <a id="colemanpowerseries-l1-unramified-corrected-norm"></a>
 
@@ -6758,18 +6758,18 @@ Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.correctedNorm` by the
 
 Define `M:Bˣ→*Bˣ` by `M(f)=Σ⁻¹(N(f))`. This is the corrected one-step norm on series units.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.correctedNorm_val`: `M(f)=Σ⁻¹N(f)` on underlying series.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.correctedNorm_iterate`: `M^r(f)=Σ^(−r)N^r(f)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.correctedNorm_fixed`: `M(f)=f` if and only if `N(f)=Σf`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.correctedNorm_continuous`: `M` is continuous; supplied by unramified-corrected-norm-continuous.
+- `M(f)=Σ⁻¹N(f)` on underlying series.
+- `M^r(f)=Σ^(−r)N^r(f)`.
+- `M(f)=f` if and only if `N(f)=Σf`.
+- `M` is continuous; supplied by unramified-corrected-norm-continuous.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.corrected_one`: `M(1)=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.corrected_teichmuller`: If `σ(c)=c^p` for `c∈Oˣ`, `M(C(c))=C(c)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.corrected_native`: `M` is inverse coefficient Frobenius composed with the native unit norm for `Φ`.
+- `M(1)=1`.
+- If `σ(c)=c^p` for `c∈Oˣ`, `M(C(c))=C(c)`.
+- `M` is inverse coefficient Frobenius composed with the native unit norm for `Φ`.
 
 For the proof, restrict the native norm homomorphism to units by native `Units.map`. Postcompose with coefficientwise `σ⁻¹`. Both maps preserve units and multiplication.
 
@@ -6777,7 +6777,7 @@ Coleman Lemma 13 and Proposition 14: Produces convergent iterates although raw n
 
 *Needs:* [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); [Commutation of norm with coefficient Frobenius](#colemanpowerseries-l1-unramified-norm-frobenius); `TauCeti.Algebra.normUnits`; `Units.map`.
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (2)–(4), p.103) Coleman iterates the norm with inverse coefficient Frobenius; this is his corrected iteration specialized to integral unit series.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, equations (2)–(4), p.103) Coleman iterates the norm with inverse coefficient Frobenius; this is his corrected iteration specialized to integral unit series.
 
 <a id="colemanpowerseries-l1-unramified-iteration-precision"></a>
 
@@ -6785,7 +6785,7 @@ Coleman Lemma 13 and Proposition 14: Produces convergent iterates although raw n
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.iteration_precision` in the following form.
+Prove the following statement.
 
 For `f∈Bˣ` and `a≥b≥0`, `M^a(f)−M^b(f)∈p^(b+1)B`.
 
@@ -6793,7 +6793,7 @@ For the proof, the residue-Frobenius norm congruence gives `M(f)≡f` modulo `p`
 
 *Needs:* [Frobenius-corrected Coleman norm](#colemanpowerseries-l1-unramified-corrected-norm); [Coleman norm modulo the coefficient prime](#colemanpowerseries-l1-unramified-norm-residue-frobenius); [Improved congruence for unit norms](#colemanpowerseries-l1-unramified-norm-congruence-gain); [LocalFieldsRamification layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equation (2) and Lemma 13, p.103) The uniform precision estimate is the cyclotomic version of Coleman’s corrected-iterate estimate.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, equation (2) and Lemma 13, p.103) The uniform precision estimate is the cyclotomic version of Coleman’s corrected-iterate estimate.
 
 <a id="colemanpowerseries-l1-unramified-fixed-units"></a>
 
@@ -6801,27 +6801,27 @@ For the proof, the residue-Frobenius norm congruence gives `M(f)≡f` modulo `p`
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.fixedUnits` by the following specification.
+Define `fixedUnits` by the following specification.
 
-Define `B^(N=Σ)={f∈Bˣ:N(f)=Σf}`, the equalizer subgroup of the unit norm and coefficient Frobenius. Its topology is the inherited unit/subtype topology. `UnramifiedSeries.mem_fixedUnits_iff` states the equivalent corrected fixed-point condition on the native units carrier.
+Define `B^(N=Σ)={f∈Bˣ:N(f)=Σf}`, the equalizer subgroup of the unit norm and coefficient Frobenius. Its topology is the inherited unit/subtype topology. Equivalently, its units are the fixed points of the corrected norm.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.mem_fixedUnits`: `f` belongs exactly when `N(f)=Σf`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.fixedUnits_corrected`: Membership is equivalent to `M(f)=f`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.fixedUnits_ext`: Members are equal when their underlying power series agree.
+- `f` belongs exactly when `N(f)=Σf`.
+- Membership is equivalent to `M(f)=f`.
+- Members are equal when their underlying power series agree.
 
 **Checks.**
 
-- `UnramifiedSeries.Y_mem_fixedUnits_three`: With identity coefficient automorphism over `ℤ₃`, every unit with value `Y` belongs to `fixedUnits 3 ℤ₃ id`.
-- `UnramifiedSeries.Y_not_mem_fixedUnits_two`: With identity coefficient automorphism over `ℤ₂`, every unit with value `Y` is excluded from `fixedUnits 2 ℤ₂ id`, since `N(Y)=−Y≠Y`.
-- `UnramifiedSeries.negative_Y_mem_fixedUnits_two`: With identity coefficient automorphism over `ℤ₂`, every unit with value `−Y` belongs to `fixedUnits 2 ℤ₂ id`, since `N(−Y)=N(−1)N(Y)=−Y`.
-- `UnramifiedSeries.four_not_mem_fixedUnits_three`: With identity coefficient automorphism over `ℤ₃`, every unit with value `C(4)` is excluded from `fixedUnits 3 ℤ₃ id`, since `N(C(4))=C(64)≠C(4)`.
+- With identity coefficient automorphism over `ℤ₃`, every unit with value `Y` belongs to `fixedUnits 3 ℤ₃ id`.
+- With identity coefficient automorphism over `ℤ₂`, every unit with value `Y` is excluded from `fixedUnits 2 ℤ₂ id`, since `N(Y)=−Y≠Y`.
+- With identity coefficient automorphism over `ℤ₂`, every unit with value `−Y` belongs to `fixedUnits 2 ℤ₂ id`, since `N(−Y)=N(−1)N(Y)=−Y`.
+- With identity coefficient automorphism over `ℤ₃`, every unit with value `C(4)` is excluded from `fixedUnits 3 ℤ₃ id`, since `N(C(4))=C(64)≠C(4)`.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_one`: 1 belongs.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_Y`: For `s=(−1)^(p−1)`, the unit series `sY` belongs: `Y` for odd `p` and `−Y` for `p=2`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_teichmuller`: `C(c)` belongs when `σ(c)=c^p`, even if `N(C(c))≠C(c)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_nonexample`: `C(1+p)` is excluded: `σ` fixes `1+p`, whereas its norm is `(1+p)^p≠1+p` in the characteristic-zero coefficient ring.
+- 1 belongs.
+- For `s=(−1)^(p−1)`, the unit series `sY` belongs: `Y` for odd `p` and `−Y` for `p=2`.
+- `C(c)` belongs when `σ(c)=c^p`, even if `N(C(c))≠C(c)`.
+- `C(1+p)` is excluded: `σ` fixes `1+p`, whereas its norm is `(1+p)^p≠1+p` in the characteristic-zero coefficient ring.
 
 For the proof, use the native equalizer subgroup of the two group homomorphisms. The defining equation is equivalent to `M(f)=f`. No abstract fixed predicate replaces the native subgroup.
 
@@ -6829,7 +6829,7 @@ Coleman Theorem A: This is the integral series group corresponding to actual uni
 
 *Needs:* [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); [Frobenius-corrected Coleman norm](#colemanpowerseries-l1-unramified-corrected-norm); `MonoidHom.eqLocus`.
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Proposition 14 and Corollary 17, pp.104–106) Coleman’s limiting group is cut out by norm equals coefficient Frobenius, rather than raw norm equals identity.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Proposition 14 and Corollary 17, pp.104–106) Coleman’s limiting group is cut out by norm equals coefficient Frobenius, rather than raw norm equals identity.
 
 <a id="colemanpowerseries-l1-unramified-unit-space-compact"></a>
 
@@ -6837,7 +6837,7 @@ Coleman Theorem A: This is the integral series group corresponding to actual uni
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.unit_space_compact` in the following form.
+Prove the following statement.
 
 The native unit space `Bˣ` and its closed subgroup `B^(N=Σ)` are compact Hausdorff for the coefficient/unit topology.
 
@@ -6845,7 +6845,7 @@ For the proof, a series is a unit exactly when its constant coefficient is a uni
 
 *Needs:* [Frobenius norm-fixed unit subgroup](#colemanpowerseries-l1-unramified-fixed-units); [Coefficientwise continuity of the unramified norm](#colemanpowerseries-l1-unramified-norm-continuous); [LocalFieldsRamification layer 0 local fields and their finite extensions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions); `PowerSeries.isUnit_iff_constantCoeff`.
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Lemma 2a, pp.95–96; §IV, Proposition 14, p.104) The source uses bounded-series convergence and the norm-fixed subgroup. For finite unramified coefficients the displayed compact-product and closed-unit argument supplies compactness; Lemma 2a itself is a convergence criterion, not a compactness theorem.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §II, Lemma 2a, pp.95–96; §IV, Proposition 14, p.104) The source uses bounded-series convergence and the norm-fixed subgroup. For finite unramified coefficients the displayed compact-product and closed-unit argument supplies compactness; Lemma 2a itself is a convergence criterion, not a compactness theorem.
 
 <a id="colemanpowerseries-l1-norm-fixed-evaluation-closed-image"></a>
 
@@ -6868,7 +6868,7 @@ The image of `colemanInterpolation.symm(p)` is closed in `localUnitNormLimit(p)`
 
 `p` is prime; `n≥0` denotes the source level `n+1`. `K_n` and `O_n` are the existing actual local cyclotomic fields and integral closures. `B=ℤ_p[[T]]`, with its coefficientwise topology; `U∞` is the native norm-compatible unit subgroup, with product/subtype topology.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.interpolation_fibers` in the following form.
+Prove the following statement.
 
 For fixed `u∈U∞` define `S_k={F∈Bˣ,N=id | ∀n≤k, ‖evaluation_n(F)−u_n‖≤p^(−(k+1))}`. Each `S_k` is nonempty, closed and compact; `S_(k+1)⊆S_k`.
 
@@ -6944,7 +6944,7 @@ colemanInterpolation and its inverse colemanInterpolation.symm are continuous fo
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`. Choose `ζ_n` of exact order `p^(n+1)` in an algebraic closure of `E`, with `ζ_(n+1)^p=ζ_n`. `E_n=E(ζ_n)`, `O_n=integralClosure O E_n`, `π_n=ζ_n−1`. Use the Layer 0 native integral closure, inherited valuation topology, and inclusion-induced algebras. `d_n=[E_n:E]=p^n(p−1)`. `ε_n` is native convergent series evaluation `O[[T]]→O_n` at `π_n`. `σ_n` extends `σ` and fixes `ζ_n`. `ν_n` is the native unit norm `O_(n+1)ˣ→O_nˣ`. `U∞` is the subgroup of the product of these actual unit groups cut out by `ν_n(u_(n+1))=u_n`, with product/subtype topology.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.evaluation_frobenius` in the following form.
+Prove the following statement.
 
 For every `f∈B` and `n≥0`, `ε_n(Σf)=σ_n(ε_n(f))`. Also `ε_(n+1)(Φf)=inclusion(ε_n(f))`.
 
@@ -6952,7 +6952,7 @@ For the proof, for coefficients and `T`, these equations are the coefficient-ext
 
 *Needs:* [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); [Coefficient-fixed cyclotomic scalar algebra](#colemanpowerseries-l1-unramified-scalar-algebra); `PowerSeries.eval₂Hom`; `PowerSeries.WithPiTopology.denseRange_toPowerSeries`; `DenseRange.equalizer`; [Cyclotomic levels over unramified coefficients](#colemanpowerseries-l0-unramified-coefficient-level); [The pinned coefficient Frobenius](#colemanpowerseries-l0-unramified-coefficient-frobenius); [Frobenius respects the tower](#colemanpowerseries-l0-unramified-coefficient-frobenius-inclusion); [The actual point for integral series evaluation](#colemanpowerseries-l0-unramified-coefficient-series-point).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 12, p.102, Theorem 16, pp.105–106) The source’s evaluation and coefficient-Frobenius squares use a lift fixing division points. These are the two native specialization identities.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Corollary 12, p.102, Theorem 16, pp.105–106) The source’s evaluation and coefficient-Frobenius squares use a lift fixing division points. These are the two native specialization identities.
 
 <a id="colemanpowerseries-l1-unramified-evaluation-matrix"></a>
 
@@ -6960,7 +6960,7 @@ For the proof, for coefficients and `T`, these equations are the coefficient-ext
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.evaluation_matrix` in the following form.
+Prove the following statement.
 
 The `b_i` multiplication matrix of `f`, evaluated entrywise by `ε_n`, equals the multiplication matrix of `ε_(n+1)(f)` in the relative `O_n`-basis `ζ_(n+1)^i`, `i<p`.
 
@@ -6968,7 +6968,7 @@ For the proof, specialize the basis expansion for `fY^j` at `π_(n+1)`. Evaluati
 
 *Needs:* [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); [Coefficient Frobenius and native cyclotomic evaluation](#colemanpowerseries-l1-unramified-evaluation-frobenius); [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); [Consecutive degree over E](#colemanpowerseries-l0-unramified-coefficient-relative-degree); [Minimal polynomial between consecutive coefficient levels](#colemanpowerseries-l0-unramified-coefficient-relative-minpoly); [The integral cyclotomic power basis over O](#colemanpowerseries-l0-unramified-coefficient-integral-basis).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 12(ii), p.102; §II, Corollary 5(i), p.98) These are the norm and trace evaluation identities. The displayed entrywise basis calculation proves their common integral matrix specialization; the source does not state this matrix lemma separately.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Corollary 12(ii), p.102; §II, Corollary 5(i), p.98) These are the norm and trace evaluation identities. The displayed entrywise basis calculation proves their common integral matrix specialization; the source does not state this matrix lemma separately.
 
 <a id="colemanpowerseries-l1-unramified-norm-evaluation"></a>
 
@@ -6983,7 +6983,7 @@ For `n≥0` and `f∈B`, `ε_n(Nf)=Algebra.norm_(O_n)(ε_(n+1)(f))`; on units th
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 12(ii), p.102)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Corollary 12(ii), p.102)
 
 <a id="colemanpowerseries-l1-unramified-trace-evaluation"></a>
 
@@ -6991,7 +6991,7 @@ For `n≥0` and `f∈B`, `ε_n(Nf)=Algebra.norm_(O_n)(ε_(n+1)(f))`; on units th
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_evaluation` in the following form.
+Prove the following statement.
 
 For `n≥0` and `f∈B`, `ε_n(τf)=Algebra.trace_(O_n)(ε_(n+1)f)`.
 
@@ -6999,7 +6999,7 @@ For the proof, take traces of the specialized matrices. The Layer 0 integral-to-
 
 *Needs:* [Specialization to the unramified relative multiplication matrix](#colemanpowerseries-l1-unramified-evaluation-matrix); [Unramified integral Coleman trace](#colemanpowerseries-l1-unramified-trace); [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); [The integral cyclotomic power basis over O](#colemanpowerseries-l0-unramified-coefficient-integral-basis).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Corollary 5(i), p.98) The division-point sum is the finite-level trace. It is integral before any normalized `ψ` comparison.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §II, Corollary 5(i), p.98) The division-point sum is the finite-level trace. It is integral before any normalized `ψ` comparison.
 
 <a id="colemanpowerseries-l1-unramified-twisted-evaluation"></a>
 
@@ -7020,13 +7020,13 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.evaluation_one`: `evσ(1)` is the unit tower of ones.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.evaluation_Y`: For `s=(−1)^(p−1)`, `evσ(sY)` has coordinate `sζ_n`. This is the root tower `ζ_n` for odd `p` and the signed root tower `−ζ_n` for `p=2`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.evaluation_teichmuller`: For a Teichmüller `c` with `σ(c)=c^p≠c`, `C(c)` has tower `σ_n^(−n)c`. The repeated constant `c` violates the actual relative norm equation already at levels `1→0`.
+- `evσ(1)` is the unit tower of ones.
+- For `s=(−1)^(p−1)`, `evσ(sY)` has coordinate `sζ_n`. This is the root tower `ζ_n` for odd `p` and the signed root tower `−ζ_n` for `p=2`.
+- For a Teichmüller `c` with `σ(c)=c^p≠c`, `C(c)` has tower `σ_n^(−n)c`. The repeated constant `c` violates the actual relative norm equation already at levels `1→0`.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Corollary 17, pp.105–106)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), Introduction, Theorem A, p.92; §IV, Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-iterated-lift-evaluation"></a>
 
@@ -7034,7 +7034,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.iterated_lift_evaluation` in the following form.
+Prove the following statement.
 
 Let `u∈U∞` and let `g∈Bˣ` have `ε_m(g)=σ_m^m(u_m)`. For `0≤n≤m`, `ε_n(M^(m−n)g)=σ_n^n(u_n)`.
 
@@ -7042,7 +7042,7 @@ For the proof, iterate the norm evaluation square from level `m` to `n`. The tow
 
 *Needs:* [Unramified arithmetic norm square](#colemanpowerseries-l1-unramified-norm-evaluation); [Coefficient Frobenius and native cyclotomic evaluation](#colemanpowerseries-l1-unramified-evaluation-frobenius); [Frobenius-corrected Coleman norm](#colemanpowerseries-l1-unramified-corrected-norm); [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); [Norm-compatible coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-limit); [Frobenius respects the tower](#colemanpowerseries-l0-unramified-coefficient-frobenius-inclusion).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 15, pp.104–105, and Theorem 16, p.105) The finite interpolation theorem transports division-point values through corrected norms. This lemma is the native cyclotomic transport identity used in the compactness proof.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 15, pp.104–105, and Theorem 16, p.105) The finite interpolation theorem transports division-point values through corrected norms. This lemma is the native cyclotomic transport identity used in the compactness proof.
 
 <a id="colemanpowerseries-l1-unramified-finite-precision-interpolation"></a>
 
@@ -7050,7 +7050,7 @@ For the proof, iterate the norm evaluation square from level `m` to `n`. The tow
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.finite_precision_interpolation` in the following form.
+Prove the following statement.
 
 For `u∈U∞` and `r≥0`, choose a polynomial unit lift `g_r` with `ε_(2r)(g_r)=σ_(2r)^(2r)(u_(2r))`. Put `v_r=M^r(g_r)`. For every `n≤r`, `ε_n(v_r)−σ_n^n(u_n)∈p^(r+1)O_n`, and `M(v_r)−v_r∈p^(r+1)B`.
 
@@ -7060,7 +7060,7 @@ Level zero uses `ζ_0` of order `p`, not the identity root. The approximation ex
 
 *Needs:* [Corrected norms of native finite-level lifts](#colemanpowerseries-l1-unramified-iterated-lift-evaluation); [Uniform precision of corrected norm iterates](#colemanpowerseries-l1-unramified-iteration-precision); [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); [The integral cyclotomic power basis over O](#colemanpowerseries-l0-unramified-coefficient-integral-basis); [The residue field of a coefficient level](#colemanpowerseries-l0-unramified-coefficient-residue).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 15, pp.104–105, and Theorem 16, p.105) This is a compactness route to the finite-unramified unit specialization of Coleman’s interpolation theorem. The doubled-level indexing avoids requiring a lift already satisfying the target fixed equation. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Evaluation preserves integral precision. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 15, pp.104–105, and Theorem 16, p.105) This is a compactness route to the finite-unramified unit specialization of Coleman’s interpolation theorem. The doubled-level indexing avoids requiring a lift already satisfying the target fixed equation. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Evaluation preserves integral precision. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
 
 <a id="colemanpowerseries-l1-unramified-norm-preserves-precision"></a>
 
@@ -7068,7 +7068,7 @@ Level zero uses `ζ_0` of order `p`, not the identity root. The approximation ex
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_preserves_precision` in the following form.
+Prove the following statement.
 
 For `f,g∈B` and `r≥0`, `f−g∈p^rB` implies `N(f)−N(g)∈p^rB`; units are not required.
 
@@ -7076,7 +7076,7 @@ For the proof, the basis coordinate map preserves `p^rB`, because `Φ` fixes the
 
 *Needs:* [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Lemma 13 and equations (2)–(3), p.103) Determinant consequence supplying the unchanged-precision congruence over finite unramified coefficients. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Norm preservation of congruences. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Lemma 13 and equations (2)–(3), p.103) Determinant consequence supplying the unchanged-precision congruence over finite unramified coefficients. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Norm preservation of congruences. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
 
 <a id="colemanpowerseries-l1-unramified-iterated-near-one-gain"></a>
 
@@ -7084,7 +7084,7 @@ For the proof, the basis coordinate map preserves `p^rB`, because `Φ` fixes the
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.iterated_near_one_gain` in the following form.
+Prove the following statement.
 
 If `f∈Bˣ`, `r≥1` and `f−1∈p^rB`, then `N^m(f)−1∈p^(r+m)B` for every `m≥0`. The same assertion holds for corrected iterates `M^m(f)`.
 
@@ -7092,7 +7092,7 @@ For the proof, induct on `m` using the one-step near-one gain. Native unit norms
 
 *Needs:* [One extra digit from the norm near one](#colemanpowerseries-l1-unramified-norm-near-one-gain); [Frobenius-corrected Coleman norm](#colemanpowerseries-l1-unramified-corrected-norm); [LocalFieldsRamification layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Lemma 13(i) and equation (2), p.103; induction) This states the iterated near-one estimate explicitly, completing the unramified variants of the base tower congruence package. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Iterated norm improvement at one. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Lemma 13(i) and equation (2), p.103; induction) This states the iterated near-one estimate explicitly, completing the unramified variants of the base tower congruence package. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Iterated norm improvement at one. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
 
 <a id="colemanpowerseries-l1-unramified-evaluation-eventually-nonzero"></a>
 
@@ -7100,7 +7100,7 @@ For the proof, induct on `m` using the one-step near-one gain. Native unit norms
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`. Choose `ζ_n` of exact order `p^(n+1)` in an algebraic closure of `E`, with `ζ_(n+1)^p=ζ_n`. `E_n=E(ζ_n)`, `O_n=integralClosure O E_n`, `π_n=ζ_n−1`. Use the Layer 0 native integral closure, inherited valuation topology, and inclusion-induced algebras. `d_n=[E_n:E]=p^n(p−1)`. `ε_n` is native convergent series evaluation `O[[T]]→O_n` at `π_n`. `σ_n` extends `σ` and fixes `ζ_n`. `ν_n` is the native unit norm `O_(n+1)ˣ→O_nˣ`. `U∞` is the subgroup of the product of these actual unit groups cut out by `ν_n(u_(n+1))=u_n`, with product/subtype topology.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.evaluation_eventually_nonzero` in the following form.
+Prove the following statement.
 
 For every nonzero `f∈B`, `ε_n(f)` is nonzero for all sufficiently large `n`.
 
@@ -7108,7 +7108,7 @@ For the proof, apply the independently supplied complete-DVR Weierstrass factori
 
 *Needs:* [PadicMeasuresIwasawaAlgebras §4.3: nonzero power series factorization](../PadicMeasuresIwasawaAlgebras/README.md#43-weierstrass-theory-of-ot); [Degree of each coefficient level](#colemanpowerseries-l0-unramified-coefficient-degree); [The integral cyclotomic power basis over O](#colemanpowerseries-l0-unramified-coefficient-integral-basis); [The actual point for integral series evaluation](#colemanpowerseries-l0-unramified-coefficient-series-point).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Theorem 16, pp.105–106) Coleman identifies uniqueness with Weierstrass preparation. This specializes that argument to the actual finite unramified cyclotomic fields and increasing degrees. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Cyclotomic polynomial degree obstruction. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), Introduction, Theorem A, p.92; §IV, Theorem 16, pp.105–106) Coleman identifies uniqueness with Weierstrass preparation. This specializes that argument to the actual finite unramified cyclotomic fields and increasing degrees. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Cyclotomic polynomial degree obstruction. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
 
 <a id="colemanpowerseries-l1-unramified-evaluation-separation"></a>
 
@@ -7116,7 +7116,7 @@ For the proof, apply the independently supplied complete-DVR Weierstrass factori
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.evaluation_separation` in the following form.
+Prove the following statement.
 
 If `f,g∈B` have `ε_n(f)=ε_n(g)` for every `n≥0`, then `f=g`.
 
@@ -7126,7 +7126,7 @@ A single level does not determine a series: the minimal polynomial of `π_n` eva
 
 *Needs:* [Eventual nonvanishing at cyclotomic levels](#colemanpowerseries-l1-unramified-evaluation-eventually-nonzero).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Theorem 16, pp.105–106) Coleman identifies uniqueness with Weierstrass preparation. This specializes that argument to the actual finite unramified cyclotomic fields and increasing degrees.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), Introduction, Theorem A, p.92; §IV, Theorem 16, pp.105–106) Coleman identifies uniqueness with Weierstrass preparation. This specializes that argument to the actual finite unramified cyclotomic fields and increasing degrees.
 
 <a id="colemanpowerseries-l1-unramified-twisted-evaluation-injective"></a>
 
@@ -7141,7 +7141,7 @@ Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIw
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Corollary 17, pp.105–106)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), Introduction, Theorem A, p.92; §IV, Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-corrected-norm-continuous"></a>
 
@@ -7149,7 +7149,7 @@ Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIw
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.correctedNorm_continuous` in the following form.
+Prove the following statement.
 
 `M=Σ⁻¹N:Bˣ→Bˣ` is continuous for the coefficientwise p-adic topology.
 
@@ -7157,7 +7157,7 @@ For the proof, the norm and coefficientwise `σ⁻¹` are continuous on native s
 
 *Needs:* [Frobenius-corrected Coleman norm](#colemanpowerseries-l1-unramified-corrected-norm); [Coefficientwise continuity of the unramified norm](#colemanpowerseries-l1-unramified-norm-continuous); [LocalFieldsRamification layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, p.102, equations (2)–(4), p.103) Proof of this property of the Frobenius-corrected integral norm, using the specified native maps and precision estimates.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 11, p.102, equations (2)–(4), p.103) Proof of this property of the Frobenius-corrected integral norm, using the specified native maps and precision estimates.
 
 <a id="colemanpowerseries-l1-unramified-norm-limit"></a>
 
@@ -7168,25 +7168,25 @@ Keep the hypotheses of the preceding target.
 Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
 
 
-The supplied object is `Lσ:Bˣ→*B^(N=Σ)` by the coefficientwise limit of `M^r(f)`. This is a multiplicative retraction onto the Frobenius norm-fixed subgroup.
+The supplied object is `Lσ:Bˣ→*B^(N=Σ)` by the coefficientwise limit of `M^r(f)`. This is a multiplicative retraction onto the Frobenius norm-fixed subgroup. The headline statement `UnramifiedSeries.correctedNorm_limit` in Suggested.lean states its existence on native units, continuity, fixed image, retraction property, convergence of all corrected iterates and the uniform `p^(r+1)` precision estimate of §§1.95 and 1.123.
 
 The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
 
 - `M^r(f)` tends to the underlying unit of `Lσf`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit_precision`: `Lσf−M^r(f)∈p^(r+1)B`.
+- `Lσf−M^r(f)∈p^(r+1)B`.
 - `Lσ(f)=f` for `f` in `B^(N=Σ)`.
 - `Lσ` is continuous in coefficientwise topology.
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.limit_one`: `Lσ(1)=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.limit_teichmuller`: `Lσ(C(c))=C(c)` for a Teichmüller unit.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.limit_near_one`: `Lσ(C(1+p))=1`, so this projector is not the identity on `Bˣ`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.limit_signed_root`: `Lσ(sY)=sY` for `s=(−1)^(p−1)`. This is a nonconstant fixed unit, excluding a projector that keeps only the Teichmüller constant term.
+- `Lσ(1)=1`.
+- `Lσ(C(c))=C(c)` for a Teichmüller unit.
+- `Lσ(C(1+p))=1`, so this projector is not the identity on `Bˣ`.
+- `Lσ(sY)=sY` for `s=(−1)^(p−1)`. This is a nonconstant fixed unit, excluding a projector that keeps only the Teichmüller constant term.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
 
 <a id="colemanpowerseries-l1-unramified-interpolation-existence"></a>
 
@@ -7201,7 +7201,7 @@ For every `u∈U∞` there exists a unique `f∈Bˣ` with `ε_n(f)=σ_n^n(u_n)` 
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Theorem 16 and Corollary 17, pp.105–106)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), Introduction, Theorem A, p.92; §IV, Theorem 16 and Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-interpolation-equivalence"></a>
 
@@ -7224,13 +7224,13 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 **Checks.**
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.coleman_one`: The tower of ones maps to 1.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.coleman_root_tower`: The compatible tower `sζ_n`, `s=(−1)^(p−1)`, maps to `sY`. At `p=2` the compatible signed root tower maps to `−Y`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.coleman_teichmuller`: The tower `σ_n^(−n)c` for a Teichmüller `c` maps to `C(c)`, rejecting the opposite twist.
+- The tower of ones maps to 1.
+- The compatible tower `sζ_n`, `s=(−1)^(p−1)`, maps to `sY`. At `p=2` the compatible signed root tower maps to `−Y`.
+- The tower `σ_n^(−n)c` for a Teichmüller `c` maps to `C(c)`, rejecting the opposite twist.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 16 and Corollary 17, pp.105–106)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Theorem 16 and Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-interpolation-homeomorphism"></a>
 
@@ -7245,7 +7245,7 @@ Use `colemanInterpolation` from [IntegralIwasawaTheory §7.1](../IntegralIwasawa
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 17, pp.105–106)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-interpolation-frobenius-equivariant"></a>
 
@@ -7253,7 +7253,7 @@ Use `colemanInterpolation` from [IntegralIwasawaTheory §7.1](../IntegralIwasawa
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.interpolation_frobenius_equivariant` in the following form.
+Prove the following statement.
 
 For `u∈U∞` let `(σu)_n=σ_n(u_n)`. Then `Colσ(σu)=Σ(Colσ(u))`.
 
@@ -7261,7 +7261,7 @@ For the proof, the norm/Frobenius square shows `σu` is still in `U∞`. Evaluat
 
 *Needs:* [Unramified Coleman power-series equivalence](#colemanpowerseries-l1-unramified-interpolation-equivalence); [Commutation of norm with coefficient Frobenius](#colemanpowerseries-l1-unramified-norm-frobenius); [Coefficient Frobenius and native cyclotomic evaluation](#colemanpowerseries-l1-unramified-evaluation-frobenius); [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); [The pinned coefficient Frobenius](#colemanpowerseries-l0-unramified-coefficient-frobenius); [Frobenius respects the tower](#colemanpowerseries-l0-unramified-coefficient-frobenius-inclusion).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 17, pp.105–106) The source’s topological Galois-equivariance includes the coefficient automorphism action. This isolates that component in the finite unramified specialization.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, Corollary 17, pp.105–106) The source’s topological Galois-equivariance includes the coefficient automorphism action. This isolates that component in the finite unramified specialization.
 
 <a id="colemanpowerseries-l1-unramified-base-coefficient-comparison"></a>
 
@@ -7269,7 +7269,7 @@ For the proof, the norm/Frobenius square shows `σu` is still in `U∞`. Evaluat
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.base_coefficient_comparison` in the following form.
+Prove the following statement.
 
 When `E=ℚ_p`, `O=ℤ_p` and `σ=id`, `N`, `τ`, `M`, `B^(N=Σ)`, `Lσ` and `Colσ` identify with their base `ℤ_p` versions, under the canonical native scalar-algebra and cyclotomic-tower identifications.
 
@@ -7277,7 +7277,7 @@ For the proof, the two structural maps and basis vectors agree, so the native no
 
 *Needs:* [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); [Unramified integral Coleman trace](#colemanpowerseries-l1-unramified-trace); [Frobenius-corrected Coleman norm](#colemanpowerseries-l1-unramified-corrected-norm); [Corrected norm projector](#colemanpowerseries-l1-unramified-norm-limit); [Unramified Coleman power-series equivalence](#colemanpowerseries-l1-unramified-interpolation-equivalence); [Coleman determinant norm](#colemanpowerseries-l1-coleman-determinant-norm); [Integral Coleman trace](#colemanpowerseries-l1-coleman-integral-trace); [Norm-fixed limit](#colemanpowerseries-l1-coleman-norm-limit); [The Coleman power-series equivalence](#colemanpowerseries-l1-coleman-equivalence).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, discussion after Theorem A, p.92; §IV, Corollary 17, pp.105–106) Coleman states the `ℚ_p` specialization; this comparison prevents the coefficient variant from introducing a second incompatible norm or interpolation convention.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), Introduction, discussion after Theorem A, p.92; §IV, Corollary 17, pp.105–106) Coleman states the `ℚ_p` specialization; this comparison prevents the coefficient variant from introducing a second incompatible norm or interpolation convention.
 
 <a id="colemanpowerseries-l1-unramified-norm-limit-convergence"></a>
 
@@ -7292,7 +7292,7 @@ For every `f∈Bˣ`, `M^r(f)` tends to the underlying unit of `Lσ(f)` as `r` te
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
 
 <a id="colemanpowerseries-l1-unramified-norm-limit-precision"></a>
 
@@ -7300,7 +7300,7 @@ For every `f∈Bˣ`, `M^r(f)` tends to the underlying unit of `Lσ(f)` as `r` te
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit_precision` in the following form.
+Prove the following statement.
 
 For `f∈Bˣ` and `r≥0`, `Lσf−M^r(f)∈p^(r+1)B`.
 
@@ -7308,7 +7308,7 @@ For the proof, pass the iteration precision estimate to the limit, using closed 
 
 *Needs:* [Uniform precision of corrected norm iterates](#colemanpowerseries-l1-unramified-iteration-precision); [Corrected norm projector](#colemanpowerseries-l1-unramified-norm-limit); [Coefficientwise continuity of the unramified norm](#colemanpowerseries-l1-unramified-norm-continuous); [LocalFieldsRamification layer 0 local fields and their finite extensions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions); [Convergence to the corrected projector](#colemanpowerseries-l1-unramified-norm-limit-convergence).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104) The uniform coefficient precision turns the corrected limit into a continuous projection; no continuity in a supremum norm is assumed.
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, equations (3)–(4), p.103, Proposition 14, p.104) The uniform coefficient precision turns the corrected limit into a continuous projection; no continuity in a supremum norm is assumed.
 
 <a id="colemanpowerseries-l1-unramified-norm-limit-continuous"></a>
 
@@ -7323,7 +7323,7 @@ Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
+(Coleman: [Division Values in Local Fields](https://doi.org/10.1007/BF01390028), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
 
 ### Examples
 
@@ -7347,25 +7347,25 @@ Define `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv` by the following spec
 
 For `f∈Bˣ` define `Δ_R(f)=Y·D(f)·f⁻¹` in `B`. This is the weighted formal logarithmic derivative, not an analytic logarithm.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_def`: `Δ(f)=Y D(f) f⁻¹`, with the existing formal derivative and the unit's inverse.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_one`: `Δ(1)=0`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_mul`: `Δ(fg)=Δ(f)+Δ(g)`; stated in the product formula.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_inv`: `Δ(f⁻¹)=−Δ(f)`; stated in the inverse formula.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_zpow`: `Δ(fⁿ)=nΔ(f)` for `n∈ℤ`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_const`: `Δ(C(c))=0` for `c∈Rˣ`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_eq_zero_iff`: With IsAddTorsionFree `R`, `Δ(f)=0` precisely for constant `f`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_map`: Coefficient change commutes with `Δ`; identity and composition follow from the existing `PowerSeries.map` laws.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_subst`: `(1+g)Δ(f[g])=Y` Dg `(Δf)[g]` whenever HasSubst `g`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_power_subst`: For natural `m`, `Δ(f[Yᵐ−1])=m(Δf)[Yᵐ−1]`; not full p-adic equivariance.
+- `Δ(f)=Y D(f) f⁻¹`, with the existing formal derivative and the unit's inverse.
+- `Δ(1)=0`.
+- `Δ(fg)=Δ(f)+Δ(g)`; stated in the product formula.
+- `Δ(f⁻¹)=−Δ(f)`; stated in the inverse formula.
+- `Δ(fⁿ)=nΔ(f)` for `n∈ℤ`.
+- `Δ(C(c))=0` for `c∈Rˣ`.
+- With IsAddTorsionFree `R`, `Δ(f)=0` precisely for constant `f`.
+- Coefficient change commutes with `Δ`; identity and composition follow from the existing `PowerSeries.map` laws.
+- `(1+g)Δ(f[g])=Y` Dg `(Δf)[g]` whenever HasSubst `g`.
+- For natural `m`, `Δ(f[Yᵐ−1])=m(Δf)[Yᵐ−1]`; not full p-adic equivariance.
 
 **Checks.**
 
-- `logDeriv_identity`: Over `ℚ`, `Δ(1)=0`.
-- `logDeriv_one_add_X`: Over `ℚ`, a unit with value `1+T` has `Δ=1`; detects omission of the weight.
-- `logDeriv_inverse_one_add_X`: Over `ℚ`, the inverse of that unit has `Δ=−1`; detects the inverse sign.
-- `logDeriv_characteristic_three`: Over `ℤ/3ℤ`, the unit `1+T³` has `Δ=0` but is not constant; forbids dropping the additive-torsion-free kernel hypothesis.
+- Over `ℚ`, `Δ(1)=0`.
+- Over `ℚ`, a unit with value `1+T` has `Δ=1`; detects omission of the weight.
+- Over `ℚ`, the inverse of that unit has `Δ=−1`; detects the inverse sign.
+- Over `ℤ/3ℤ`, the unit `1+T³` has `Δ=0` but is not constant; forbids dropping the additive-torsion-free kernel hypothesis.
 
 For the proof, use the existing `PowerSeries.derivative` and the inverse already carried by the unit `f`. Multiply in `B`; no convergence or rational coefficients are required.
 
@@ -7377,7 +7377,7 @@ RJW §12.2.1, Theorem 12.9 and Lemma 12.10: Product, integer powers and chain ru
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8, printed p.180 / PDF 81; Proposition 12.1, pp.177–178, and Remark 12.4, p.179) The source gives the `ℤ_p` formula or argument; the stated arbitrary-commutative-ring algebraic form and the explicit splitting are derived here. No claim that the source states this generality.
 
-The coefficient form of the nonzero sign check is `Series.logDeriv_boundary_three`: if `f` is a power-series unit over `ℤ₃` with value `2 + T`, then `2 coeff_1(Δ(f) − Φ(Δ(f))) = −1`. Here `Φ` fixes coefficients and substitutes `(1+T)^3−1`. Since `Δ(f)` has coefficients `1/2` and `1/4` in degrees zero and one, its `Φ-image` has linear coefficient `3/4`; their difference is `−1/2`. This is the series calculation used by the `p=3,a=2` arithmetic sign comparison. (RJW, Lemma 10.5, p.165, and Definition 12.8, p.180.)
+The coefficient form of the nonzero sign check is as follows: if `f` is a power-series unit over `ℤ₃` with value `2 + T`, then `2 coeff_1(Δ(f) − Φ(Δ(f))) = −1`. Here `Φ` fixes coefficients and substitutes `(1+T)^3−1`. Since `Δ(f)` has coefficients `1/2` and `1/4` in degrees zero and one, its `Φ-image` has linear coefficient `3/4`; their difference is `−1/2`. This is the series calculation used by the `p=3,a=2` arithmetic sign comparison. (RJW, Lemma 10.5, p.165, and Definition 12.8, p.180.)
 
 <a id="colemanpowerseries-l2-logarithmic-derivative-product"></a>
 
@@ -7385,7 +7385,7 @@ The coefficient form of the nonzero sign check is `Series.logDeriv_boundary_thre
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_mul` in the following form.
+Prove the following statement.
 
 For `f,g∈Bˣ`, `Δ(fg)=Δ(f)+Δ(g)`.
 
@@ -7403,7 +7403,7 @@ The target group is additive: the output is a sum, not a product.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_inv` in the following form.
+Prove the following statement.
 
 For `f∈Bˣ`, `Δ(f⁻¹)=−Δ(f)`.
 
@@ -7421,7 +7421,7 @@ For `f=Y`, the answer is `−1`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_zpow` in the following form.
+Prove the following statement.
 
 For `f∈Bˣ` and `n∈ℤ`, `Δ(fⁿ)=n·Δ(f)`, where the right side is integer scalar multiplication on the additive group `B`.
 
@@ -7439,7 +7439,7 @@ For the proof, induct on nonnegative `n` with the product lemma. For negative `n
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_const` in the following form.
+Prove the following statement.
 
 For `c∈Rˣ`, `Δ(C(c))=0`, where the constant unit is `Units.map` of `PowerSeries.C`.
 
@@ -7457,7 +7457,7 @@ All constant units, including `−1`, are killed; this does not assert they are 
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`. IsAddTorsionFree `R`; mere characteristic zero is not substituted for this hypothesis in a ring with additive torsion.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_eq_zero_iff` in the following form.
+Prove the following statement.
 
 If the additive group of `R` is torsion-free, then `Δ(f)=0` iff `f=C(constantCoeff f)`, for every `f∈Bˣ`.
 
@@ -7475,7 +7475,7 @@ In characteristic 3, `f=1+T³` is a nonconstant unit with `Δ(f)=0`; the omitted
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`. `S` is a commutative ring and `ρ` is a unital ring homomorphism; no injectivity or flatness is required.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_map` in the following form.
+Prove the following statement.
 
 For a commutative-ring homomorphism `ρ:R→S`, mapping the coefficients of `Δ_R(f)` gives `Δ_S` of the mapped unit.
 
@@ -7493,7 +7493,7 @@ Reduction mod 3 commutes with `Δ`, but the torsion-free kernel theorem need not
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`. `PowerSeries.HasSubst g`: the constant coefficient of `g` is nilpotent. This formal substitution condition does not cover `ζ(1+T)−1` over `ℤ_p[ζ]`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_subst` in the following form.
+Prove the following statement.
 
 For `g∈B` with nilpotent constant coefficient and `f∈Bˣ`, let `f[g]` be the unit mapped by the existing substitution homomorphism. Then `(1+g)Δ(f[g])=Y·D(g)·(Δ(f))[g]`.
 
@@ -7511,7 +7511,7 @@ For the proof, use `PowerSeries.derivative_subst` and the substitution homomorph
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_power_subst` in the following form.
+Prove the following statement.
 
 For `m∈ℕ` and `g_m=Yᵐ−1`, `Δ(f[g_m])=m·(Δ(f))[g_m]`. This is a natural-power identity, not a theorem about the full `ℤ_pˣ`-action.
 
@@ -7529,14 +7529,14 @@ For the proof, `constantCoeff(g_m)=0`, so `HasSubst.of_constantCoeff_zero'` supp
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`. Throughout, `f_a` is the finite-sum cyclotomic denominator of §2.10.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeries` by `f_a(T) = ∑_(0≤i<a) (1+T)^i` for every natural a and every commutative ring `R`. Its signature is `{R : Type} → [CommRing R] → ℕ → PowerSeries R`. Prove `cyclotomicSeries_def`, the denominator factorization `T f_a = (1+T)^a − 1`, the constant coefficient formula `constantCoeff f_a = a`, the unit criterion `IsUnit f_a ↔ IsUnit (a : R)`, and compatibility with every commutative-ring coefficient homomorphism. These facts use the native power-series unit criterion and do not assume that `R` is a domain.
+Define `cyclotomicSeries` by `f_a(T) = ∑_(0≤i<a) (1+T)^i` for every natural a and every commutative ring `R`. Its signature is `{R : Type} → [CommRing R] → ℕ → PowerSeries R`. Prove `cyclotomicSeries_def`, the denominator factorization `T f_a = (1+T)^a − 1`, the constant coefficient formula `constantCoeff f_a = a`, the unit criterion `IsUnit f_a ↔ IsUnit (a : R)`, and compatibility with every commutative-ring coefficient homomorphism. These facts use the native power-series unit criterion and do not assume that `R` is a domain.
 
 **Checks.**
 
-- `cyclotomicSeries_empty`: Over every commutative ring `R`, `f_0=0`.
-- `cyclotomicSeries_three`: Over `ℤ`, `f_3=3+3T+T²`.
-- `cyclotomicSeries_nonunit_at_three`: Over `ℤ/3ℤ`, `f_3` is not a unit.
-- `cyclotomicSeries_coefficient_reduction`: The existing coefficient map `ℤ→ℤ/3ℤ` sends `f_3` to `T²`.
+- Over every commutative ring `R`, `f_0=0`.
+- Over `ℤ`, `f_3=3+3T+T²`.
+- Over `ℤ/3ℤ`, `f_3` is not a unit.
+- The existing coefficient map `ℤ→ℤ/3ℤ` sends `f_3` to `T²`.
 
 For the proof, multiply the proposed equality by `T`. The finite geometric-sum identity identifies the left side with `(1+T)^a−1`. For the right side, induct on the finite sum (or telescope using `T=(1+T)−1`) to get the same polynomial. The base `a=0` gives zero; the successor step adds `T(1+T)^a`. Cancel `T` with the baseline `PowerSeries.X_mul_injective`, valid even with zero divisors. The identification includes `f_0=0` and `f_1=1`, and introduces no new carrier or inverse of `T`.
 
@@ -7571,7 +7571,7 @@ For `R` = `ℤ_p` with `p` prime and `p∤a`, prove `smoothingSeries_bernoulli_c
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeries_mul` in the following form.
+Prove the following statement.
 
 For `a,b∈ℕ`, `f_(ab)(T)=f_a(T)·f_b(Yᵃ−1)`.
 
@@ -7589,16 +7589,16 @@ Either `a=0` or `b=0` gives zero; `a=1` or `b=1` gives `f` of the other paramete
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`. ha: `IsUnit(a in R)`. Throughout, `f_a` is the finite-sum cyclotomic denominator of §2.10.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeriesUnit` by the following specification.
+Define `cyclotomicSeriesUnit` by the following specification.
 
 For `a∈ℕ` whose image in `R` is a unit, construct the unique element `u_a∈Bˣ` with value `f_a`. Its inverse is the formal inverse of `f_a`, never 1/T.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeriesUnit_val`: The unit has underlying series `f_a`; stated in the value formula.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeriesUnit_ext`: Every unit with value `f_a` equals `u_a`, independently of its proof of invertibility.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeriesUnit_map`: A coefficient homomorphism takes `u_a` to `u_a` over the target, with any proof that a is a unit there.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeriesUnit_inv`: `f_a` times the value of `u_a⁻¹` is 1, using the existing Units inverse.
+- The unit has underlying series `f_a`; stated in the value formula.
+- Every unit with value `f_a` equals `u_a`, independently of its proof of invertibility.
+- A coefficient homomorphism takes `u_a` to `u_a` over the target, with any proof that a is a unit there.
+- `f_a` times the value of `u_a⁻¹` is 1, using the existing Units inverse.
 
 **Checks.**
 
@@ -7623,7 +7623,7 @@ RJW Proposition 10.4 and Definition 12.8: `Δ` is defined on actual units, so th
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeriesUnit_val` in the following form.
+Prove the following statement.
 
 For ha: `IsUnit(a in R)`, the underlying series of `u_a` is `f_a`.
 
@@ -7641,7 +7641,7 @@ Changing the proof ha does not change the unit.
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`. `a∈ℕ` and its image in `R` is a unit. Throughout, `f_a` is the finite-sum cyclotomic denominator of §2.10.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeries_logDeriv_cleared` in the following form.
+Prove the following statement.
 
 For ha: `IsUnit(a in R)`, `T f_a Δ(u_a)=aYᵃ−Y f_a`.
 
@@ -7659,7 +7659,7 @@ No illegal division by the nonunit `T` occurs.
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`. `a∈ℕ` and ha: `IsUnit(a in R)`. `F` is an actual power series satisfying `T f_a F=f_a−C(a)`. This result is conditional algebra; §2.10a constructs `F` and identifies its measure interpretation. Throughout, `f_a` is the finite-sum cyclotomic denominator of §2.10.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeries_logDeriv_smoothed` in the following form.
+Prove the following statement.
 
 Let `a∈ℕ` be a unit in `R`. If `F∈B` satisfies `T f_a F=f_a−C(a)`, then `Δ(u_a)=C(a−1)−F`. The equation for `F` is a denominator-cleared characterization of the independent smoothed series, not an assumption of the conclusion.
 
@@ -7681,7 +7681,7 @@ For `a=3` over `ℚ`, `F=1−(2/3)T+…` and `Δ(u_3)=1+(2/3)T+…`; reversing t
 
 `R` is a commutative ring. Put `Y=1+T` in `R[[T]]`, `B_n=PowerSeries.binomialSeries R n` for integer `n`, and `Δ=the` weighted logarithmic derivative. The exponent ring of the binomial series is `ℤ`, so no BinomialRing assumption on `R` is needed. For natural a, `q_a` is the cyclotomic denominator of §2.10, not a newly defined Coleman denominator.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.integerBinomial_weighted_derivative` in the following form.
+Prove the following statement.
 
 For every integer `n`, `Y·D(B_n)=n·B_n`, where `D` is the pinned formal derivative and the right side is multiplication by the image of `n` in `R`.
 
@@ -7699,7 +7699,7 @@ At `n=−1` the derivative has the negative sign; at `n=0` both sides vanish. Th
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_integer_subst` in the following form.
+Prove the following statement.
 
 For an integer `n` and `f∈R[[T]]ˣ`, put `g_n=B_n−1`. Its constant coefficient is zero, so formal substitution is defined. Then `Δ(f[g_n])=n·(Δf)[g_n]`, where `f[g_n]` is the actual unit obtained through the pinned substitution homomorphism.
 
@@ -7721,7 +7721,7 @@ This is the signed-integer algebraic identity. It does not construct the full p-
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.negativeCyclotomicSeries_factorization` in the following form.
+Prove the following statement.
 
 For a natural a, the existing expression `f_(−a)=−B_(−a)q_a` satisfies `T f_(−a)=B_(−a)−1`. Consequently it is the unique formal series whose product with `T` is `Y^(−a)−1`, with `Y^(−a)` interpreted by the pinned binomial series. This is an identity on existing series, not a new denominator definition.
 
@@ -7744,7 +7744,7 @@ The `a=0` expression is zero. At `a=1`, the infinitely many nonzero coefficients
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.negativeCyclotomicSeries_constant` in the following form.
+Prove the following statement.
 
 For every natural a, the constant coefficient of `−B_(−a)q_a` is `−a` in `R`.
 
@@ -7762,7 +7762,7 @@ At `a=0` this gives zero; at `a=3` over `ℤ` it gives `−3`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.negativeCyclotomicSeries_isUnit` in the following form.
+Prove the following statement.
 
 For every natural a, the series `−B_(−a)q_a` is a unit of `R[[T]]` if and only if the image of a is a unit of `R`.
 
@@ -7780,7 +7780,7 @@ Over `ℤ/3ℤ` the `a=3` expression is not a unit. No field or characteristic-z
 
 `R` is a commutative ring. Put `Y=1+T` in `R[[T]]`, `B_n=PowerSeries.binomialSeries R n` for integer `n`, and `Δ=the` weighted logarithmic derivative. The exponent ring of the binomial series is `ℤ`, so no BinomialRing assumption on `R` is needed. For natural a, `q_a` is the cyclotomic denominator of §2.10, not a newly defined Coleman denominator. a is natural and its image in `R` is a unit; `v` is an actual unit with the stated underlying series.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.negativeCyclotomicSeries_logDeriv` in the following form.
+Prove the following statement.
 
 Let a be natural with unit image in `R`, let `u_a` be the preceding natural cyclotomic unit, and let `v` be any unit whose value is `−B_(−a)q_a`. Then `Δ(v)=−C(a)+Δ(u_a)`. The preceding unit criterion guarantees that such a `v` exists, and the formula is independent of the unit witness.
 
@@ -7802,7 +7802,7 @@ For `a=1` the natural unit is 1 and the negative unit has `Δ=−1`. The source�
 
 `R` is a commutative ring. Put `Y=1+T` in `R[[T]]`, `B_n=PowerSeries.binomialSeries R n` for integer `n`, and `Δ=the` weighted logarithmic derivative. The exponent ring of the binomial series is `ℤ`, so no BinomialRing assumption on `R` is needed. For natural a, `q_a` is the cyclotomic denominator of §2.10, not a newly defined Coleman denominator. a is natural and `F` is an actual series satisfying the displayed positive-parameter cleared equation.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.negativeCyclotomicSeries_smoothed_equation` in the following form.
+Prove the following statement.
 
 Let a be natural and let `F∈R[[T]]` satisfy `Tq_aF=q_a−C(a)`. Then `T(−B_(−a)q_a)(F−C(a))=−B_(−a)q_a+C(a)`. Thus the expression `F−C(a)` satisfies the correct cleared equation for parameter `−a`. This algebraic identity does not require a to be a unit.
 
@@ -7820,7 +7820,7 @@ For `a=3` over `ℚ`, `F=1−(2/3)T+⋯` becomes `F−3=−2−(2/3)T+⋯`. The 
 
 `R` is a commutative ring. Put `Y=1+T` in `R[[T]]`, `B_n=PowerSeries.binomialSeries R n` for integer `n`, and `Δ=the` weighted logarithmic derivative. The exponent ring of the binomial series is `ℤ`, so no BinomialRing assumption on `R` is needed. For natural a, `q_a` is the cyclotomic denominator of §2.10, not a newly defined Coleman denominator. a is natural with unit image; `v` is an actual unit with the specified value; `F` satisfies the positive-parameter cleared equation.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.negativeCyclotomicSeries_logDeriv_smoothed` in the following form.
+Prove the following statement.
 
 Let a be natural with unit image in `R`, let `v` have value `−B_(−a)q_a`, and let `F` satisfy `Tq_aF=q_a−C(a)`. Then `Δ(v)=−1−F`. Equivalently, writing `F_(−a)=F−C(a)`, the same parameter formula is `Δ(v)=C(−a−1)−F_(−a)`.
 
@@ -7838,7 +7838,7 @@ At `a=3` the formula gives `Δ(v)=−2+(2/3)T+⋯`. It preserves the raw `Col₀
 
 `p` is a prime. The coefficient ring is the actual p-adic integer ring `ℤ_p` with its pinned BinomialRing instance. Write `B_a=PowerSeries.binomialSeries ℤ_p` a, with exponent `a∈ℤ_p`, and `Y=1+T`. Formal substitution uses the existing HasSubst predicate and substitution algebra homomorphism.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.padicBinomial_weighted_derivative` in the following form.
+Prove the following statement.
 
 For every `a∈ℤ_p`, `Y·D(B_a)=a·B_a`, where `D` is the pinned formal derivative. This includes `a=0` and nonunit exponents; it is an equality of integral formal series.
 
@@ -7860,7 +7860,7 @@ The scalar factor is a, not `a⁻¹`. No continuity of unit inversion or constru
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_padic_subst` in the following form.
+Prove the following statement.
 
 For every `a∈ℤ_p` and `f∈ℤ_p[[T]]ˣ`, put `g_a=B_a−1`. Its constant coefficient is zero. Then `Δ(f[g_a])=a·(Δf)[g_a]`, where `Δ` is the existing weighted logarithmic derivative and `f[g_a]` is the actual unit transported through the substitution algebra homomorphism. In particular the identity holds for p-adic unit exponents, with the twist a of equation (12-2).
 
@@ -7883,7 +7883,7 @@ The scalar factor is a, not `a⁻¹`. No continuity of unit inversion or constru
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The explicit Frobenius scalar algebra and its basis `Y^i`, `0<=i<p`, are the existing Coleman constructions. partial is the existing PMIA Mahler derivation `Y D`, `psi` is the independently constructed PMIA bounded integral operator, and `Delta` is the existing Coleman weighted logarithmic derivative on actual units. `N` and `tau` are base-valued determinant norm and trace. No coefficient Frobenius or division by `p` in `B` is introduced.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_logDeriv` in the following form.
+Prove the following statement.
 
 For every actual unit `u` of `B`, `tau(Delta u)=p Delta(N_units u)`, where `N_units` is the native unit map induced by the existing Coleman norm.
 
@@ -7899,7 +7899,7 @@ Keep `tau` base-valued. An extra `phi` on the right would change the identity. T
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l2-logarithmic-derivative-norm-psi"></a>
 
@@ -7907,7 +7907,7 @@ Keep `tau` base-valued. An extra `phi` on the right would change the identity. T
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_colemanNorm` in the following form.
+Prove the following statement.
 
 For every unit `u` of `B`, `Delta(N_units u)=psi(Delta u)`, with `psi` the actual PMIA bounded integral operator.
 
@@ -7919,7 +7919,7 @@ This algebraic result includes `p=2`. It establishes no arithmetic interpolation
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l2-norm-fixed-logarithmic-derivative-psi-fixed"></a>
 
@@ -7927,7 +7927,7 @@ This algebraic result includes `p=2`. It establishes no arithmetic interpolation
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.psi_logDeriv_normFixed` in the following form.
+Prove the following statement.
 
 For every element `u` of the existing normFixedUnits subgroup, `psi(Delta u)=Delta u`.
 
@@ -7939,7 +7939,7 @@ At `p=2` the unit -Y is norm-fixed and maps to the series one. The source theore
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l2-norm-fixed-logarithmic-derivative-map"></a>
 
@@ -7947,15 +7947,15 @@ At `p=2` the unit -Y is norm-fixed and maps to the series one. The source theore
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv` by the following specification.
+Define `normFixedLogDeriv` by the following specification.
 
 Construct the group homomorphism from the existing normFixedUnits subgroup to the additive `psi`-fixed submodule `ker(psi-id)`, sending `u` to `Delta u`. Use the native Multiplicative type tag on that additive submodule to express the group homomorphism.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_val`: The underlying series of the output is the existing `Delta u`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_one`: The unit identity maps to the additive zero, represented by one after the Multiplicative type tag.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_mul`: The map sends multiplication to the tagged addition in the fixed submodule.
+- The underlying series of the output is the existing `Delta u`.
+- The unit identity maps to the additive zero, represented by one after the Multiplicative type tag.
+- The map sends multiplication to the tagged addition in the fixed submodule.
 
 **Checks.**
 
@@ -7973,7 +7973,7 @@ Kernel on norm-fixed units: The actual map whose kernel is computed. RJW Theorem
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l2-norm-fixed-logarithmic-derivative-continuous"></a>
 
@@ -7981,7 +7981,7 @@ Kernel on norm-fixed units: The actual map whose kernel is computed. RJW Theorem
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.continuous_normFixedLogDeriv` in the following form.
+Prove the following statement.
 
 The homomorphism normFixedLogDeriv is continuous for the native subgroup-of-units topology and the coefficientwise topology on `ker(psi-id)`.
 
@@ -7993,7 +7993,7 @@ No continuity of ring inversion on all of `B` is asserted, and no coefficient su
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l3-psi-fixed-boundary"></a>
 
@@ -8001,16 +8001,16 @@ No continuity of ring inversion on all of `B` is asserted, and no coefficient su
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p−1)`, implemented by the native substitution algebra homomorphism. `B` carries the coefficientwise p-adic topology. `psi` is the actual PMIA bounded integral linear operator. `W=ker(psi−id)` and `U=ker(psi)` are native Z-submodules of `B` with their induced topologies. There is no new measure, power-series carrier or Frobenius operator.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary` by the following specification.
+Define `psiFixedBoundary` by the following specification.
 
 Define `psiFixedBoundary:W→U` to be the native `Z`-linear map `F↦F−phi(F)`, with its codomain restricted to `U`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary_val`: The underlying series of `psiFixedBoundary(F)` is `F−phi(F)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary_add`: `psiFixedBoundary(F+G)=psiFixedBoundary(F)+psiFixedBoundary(G)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary_smul`: `psiFixedBoundary(cF)=c psiFixedBoundary(F)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary_unitRestriction`: For `F` in `W`, the underlying output is `F−phi(psi(F))`, the imported unit-restriction projector.
+- The underlying series of `psiFixedBoundary(F)` is `F−phi(F)`.
+- `psiFixedBoundary(F+G)=psiFixedBoundary(F)+psiFixedBoundary(G)`.
+- `psiFixedBoundary(cF)=c psiFixedBoundary(F)`.
+- For `F` in `W`, the underlying output is `F−phi(psi(F))`, the imported unit-restriction projector.
 
 **Checks.**
 
@@ -8035,7 +8035,7 @@ RJW Lemma12.15: This is the middle map of the five-term fixed-space sequence. RJ
 
 `p` is prime; `n≥0` denotes the source level `n+1`. `K_n` and `O_n` are the existing actual local cyclotomic fields and integral closures. `B=ℤ_p[[T]]`, with its coefficientwise topology; `U∞` is the native norm-compatible unit subgroup, with product/subtype topology.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.relative_power_minpoly` in the following form.
+Prove the following statement.
 
 For `p∤a`, `a∈ℕ`, the minimal polynomial of `ζ_(n+1)^a` over `K_n` is `X^p−ζ_n^a`.
 
@@ -8053,7 +8053,7 @@ The prime-to-p hypothesis is necessary: `a=p` makes `ζ_(n+1)^a` already lie in 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.norm_power_difference` in the following form.
+Prove the following statement.
 
 For `p∤a`, `N_(K_(n+1)/K_n)(ζ_(n+1)^a−1)=(−1)^(p+1)(ζ_n^a−1)`.
 
@@ -8071,7 +8071,7 @@ At `p=2,a=1,n=0` the norm of `ζ_1−1` equals `2=−(ζ_0−1)`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitsNorm_cyclotomicSeriesUnit` in the following form.
+Prove the following statement.
 
 For `a∈ℕ` with `IsUnit(a in ℤ_p)`, unit-series evaluation of `f_a` at level `n+1` has relative unit norm equal to its evaluation at level `n`.
 
@@ -8089,13 +8089,13 @@ Both odd and dyadic ratio towers are norm-compatible; this does not make the dya
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicSeriesUnit_normFixed` in the following form.
+Prove the following statement.
 
 For `a∈ℕ` with `IsUnit(a in ℤ_p)`, `cyclotomicSeriesUnit(a)` belongs to normFixedUnits.
 
 For the proof, the norm/evaluation square and the preceding ratio norm calculation give equal evaluation values for `N(f_a)` and `f_a` at every level. Apply interpolation separation, then norm-fixed membership.
 
-This proves membership from arithmetic norms; it is not assumed as input to the interpolation theorem. The carrier-level signature in `Suggested.lean` is `Series.cyclotomicSeries_fixed`: for every prime `p`, natural a with `Nat.Coprime a p`, the base-valued norm of `cyclotomicSeries a` over `ℤ_p` equals that same series. This includes `p=2` and agrees with the unit-subgroup statement after the unit criterion of §2.10.
+This proves membership from arithmetic norms; it is not assumed as input to the interpolation theorem. For every prime `p` and natural a with `Nat.Coprime a p`, the base-valued norm of `cyclotomicSeries a` over `ℤ_p` equals that same series. This includes `p=2` and agrees with the unit-subgroup statement after the unit criterion of §2.10.
 
 *Needs:* [Norm compatibility of evaluated cyclotomic units](#colemanpowerseries-l2-cyclotomic-series-evaluation-norm); [The norm square in actual unit groups](#colemanpowerseries-l1-arithmetic-unit-norm-evaluation); [Separation by cyclotomic evaluations](#colemanpowerseries-l1-series-interpolation-separation).
 
@@ -8107,15 +8107,15 @@ This proves membership from arithmetic norms; it is not assumed as input to the 
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicTower` by the following specification.
+Define `cyclotomicTower` by the following specification.
 
 For `a∈ℕ` with `IsUnit(a in ℤ_p)`, construct `c(a)∈U∞` by evaluating the now-proven norm-fixed cyclotomic unit series `f_a`. Its nth coordinate is `(ζ_n^a−1)/(ζ_n−1)`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicTower_apply`: The underlying coordinate in `K_n` is `(ζ_n^a−1)/(ζ_n−1)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanEquiv_cyclotomicTower`: The Coleman series of `c(a)` has underlying unit `f_a`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicTower_one`: `c(1)=1`.
+- The underlying coordinate in `K_n` is `(ζ_n^a−1)/(ζ_n−1)`.
+- The Coleman series of `c(a)` has underlying unit `f_a`.
+- `c(1)=1`.
 
 **Checks.**
 
@@ -8139,16 +8139,16 @@ Lemma 10.3 and Proposition 10.4, printed p.165; Definition 10.14 and Theorem 10.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman` by the following specification.
+Define `rawColeman` by the following specification.
 
 Define `Col₀:U∞→Multiplicative D(ℤ_pˣ,ℤ_p)` as the actual group homomorphism obtained by Coleman interpolation, `Δ`, the fixed-space boundary `1−φ`, inverseMahler `H`, and inverse intrinsic unit Amice equivalence. Equivalently `A_U(Col₀(u))=H(Δ(f_u)−φΔ(f_u))`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman_amice`: Its intrinsic unit Amice series is `H(Δ(f_u)−φΔ(f_u))`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman_mul`: `Col₀(uv)=Col₀(u)+Col₀(v)` in the underlying additive measure group.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman_inv`: `Col₀(u⁻¹)=−Col₀(u)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman_ext`: Equality of its intrinsic Amice series determines its actual output measure.
+- Its intrinsic unit Amice series is `H(Δ(f_u)−φΔ(f_u))`.
+- `Col₀(uv)=Col₀(u)+Col₀(v)` in the underlying additive measure group.
+- `Col₀(u⁻¹)=−Col₀(u)`.
+- Equality of its intrinsic Amice series determines its actual output measure.
 
 **Checks.**
 
@@ -8173,7 +8173,7 @@ Lemma 10.3 and Proposition 10.4, printed p.165; Definition 10.14 and Theorem 10.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.continuous_rawColeman` in the following form.
+Prove the following statement.
 
 `Col₀` is continuous from `U∞` with its product/subtype topology to intrinsic unit measures with the imported weak topology.
 
@@ -8219,7 +8219,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman_cyclotomicTower` in the following form.
+Prove the following statement.
 
 For natural a prime to `p`, `Col₀(c(a))=−λ_a` as actual intrinsic measures, where `λ_a` is the intrinsic inverse-weighted numerator of the independent Bernoulli smoothing in IntegralIwasawaTheory §5.0. Hence `Col(c(a))=λ_a=([a]−1)ζ_p`.
 
@@ -8237,7 +8237,7 @@ For `p=3,a=2`, twice the second moment of the raw output is `−1`, whereas twic
 
 `p` is an odd prime, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues, and `U∞,1` is the existing residue kernel. All topologies are the native norm/product/subtype topologies.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.seriesEvaluation_finiteAction` in the following form.
+Prove the following statement.
 
 For every `a∈G`, `F∈ℤ_p[[T]]` and level `n`, `evaluation_n(F(Y^a−1))=finiteAction_n(a)(evaluation_n(F))`. Here `Y^a` is the native binomial series, not an integer-power notation for an arbitrary exponent.
 
@@ -8285,7 +8285,7 @@ For `a∈ℤ_p` and `u∈U∞,1`, `Col₀(a•u)=a Col₀(u)` and `Col(a•u)=a 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman_towerAction` in the following form.
+Prove the following statement.
 
 For `a∈G` and `u∈U∞`, `Col₀(towerAction(a)(u))=a_*Col₀(u)`, where `a_*` is pushforward under `x↦a x` on unit measures. The same formula holds for `Col=−Col₀`.
 
@@ -8346,7 +8346,7 @@ Prove the formal image theorem for the norm-fixed logarithmic derivative using i
 
 For odd `p`, IntegralIwasawaTheory §7.2 supplies this result for its measure operators. The refinement here includes `p=2` and uses the independent integral arguments below.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_eq_one_iff` in the following form.
+Prove the following statement.
 
 For `u` in normFixedUnits, its image under normFixedLogDeriv is zero if and only if `u` is the constant unit associated with a `c` in `Z_p` units satisfying `c^(p-1)=1`.
 
@@ -8364,7 +8364,7 @@ At `p=2`, the kernel constant is only one; -1 has zero logarithmic derivative on
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.8 and Lemma 12.10, printed pp.180-181 / PDF81-82; finite-free norm in Lemma10.8, printed p.167 / PDF68) The source proves the norm-fixed image assertion using root products. The proof route gives an independent integral matrix derivation from the already constructed Frobenius algebra, exposing the prime factor and basis commutator. The source does not state these matrix helpers separately.
 
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
+(Coates–Sujatha: *Cyclotomic Fields and Zeta Values*, Section 2.4, Definition 2.4.4 and Lemma 2.4.5, printed p.22 / PDF32) The image and constant-root kernel targets; the source fixes odd `p`. The all-prime algebraic statements here are independently derived and do not extend the arithmetic tower theorem.
 
 <a id="colemanpowerseries-l3-frobenius-iterate-substitution"></a>
 
@@ -8372,7 +8372,7 @@ At `p=2`, the kernel constant is only one; -1 has zero logarithmic derivative on
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p−1)`, implemented by the native substitution algebra homomorphism. `B` carries the coefficientwise p-adic topology. `psi` is the actual PMIA bounded integral linear operator. `W=ker(psi−id)` and `U=ker(psi)` are native Z-submodules of `B` with their induced topologies. There is no new measure, power-series carrier or Frobenius operator.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobenius_iterate_substitution` in the following form.
+Prove the following statement.
 
 For `F` in `B` and `n≥0`, `phi` iterated `n` times at `F` is `F(Y^(p^n)−1)`.
 
@@ -8390,7 +8390,7 @@ The zeroth iterate is `F`; the first parameter is `Y^p−1`. The exponent is `p^
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobenius_iterate_tendsto_zero` in the following form.
+Prove the following statement.
 
 For `F` in `B` with `F(0)=0`, the sequence `phi^n(F)` tends to zero in the coefficientwise p-adic topology.
 
@@ -8412,7 +8412,7 @@ The assumption `F(0)=0` is essential: `phi` fixes every constant. This is not `T
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobenius_iterate_summable` in the following form.
+Prove the following statement.
 
 For `F` in `B` with `F(0)=0`, the family `(phi^n(F))` indexed by natural numbers is summable in `B`.
 
@@ -8430,17 +8430,17 @@ No norm on all coefficient sequences, division by `p` or analytic radius is assu
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.frobeniusSum` by the following specification.
+Define `frobeniusSum` by the following specification.
 
 For `F` in `B` together with `F(0)=0`, define `frobeniusSum(F)` to be the native topological sum of `phi^n(F)` over `n≥0`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.frobeniusSum_hasSum`: The iterate family has sum `frobeniusSum(F)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.frobeniusSum_eq_tsum`: `frobeniusSum(F)` is the existing topological sum of the actual Frobenius iterates.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.frobeniusSum_constantCoeff`: The constant coefficient of `frobeniusSum(F)` is zero.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.frobeniusSum_add`: For `F(0)=G(0)=0`, `frobeniusSum(F+G)=frobeniusSum(F)+frobeniusSum(G)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.frobeniusSum_smul`: For `c` in `Z` and `F(0)=0`, `frobeniusSum(cF)=c frobeniusSum(F)`.
+- The iterate family has sum `frobeniusSum(F)`.
+- `frobeniusSum(F)` is the existing topological sum of the actual Frobenius iterates.
+- The constant coefficient of `frobeniusSum(F)` is zero.
+- For `F(0)=G(0)=0`, `frobeniusSum(F+G)=frobeniusSum(F)+frobeniusSum(G)`.
+- For `c` in `Z` and `F(0)=0`, `frobeniusSum(cF)=c frobeniusSum(F)`.
 
 **Checks.**
 
@@ -8464,7 +8464,7 @@ RJW Lemma12.15; The evaluation obstruction to the Frobenius boundary: Produces a
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobeniusSum_hasSum` in the following form.
+Prove the following statement.
 
 For `F` in `B` with `F(0)=0`, the iterate family has sum `frobeniusSum(F)`.
 
@@ -8482,7 +8482,7 @@ The target is the actual sum in `B`, with its existing Hausdorff coefficientwise
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobeniusSum_sub_phi` in the following form.
+Prove the following statement.
 
 For `F` in `B` with `F(0)=0`, `frobeniusSum(F)−phi(frobeniusSum(F))=F`.
 
@@ -8500,7 +8500,7 @@ The boundary is `1−phi`; reversing its sign changes the result to `−F`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.psi_frobeniusSum` in the following form.
+Prove the following statement.
 
 If `F(0)=0` and `psi(F)=0`, then `psi(frobeniusSum(F))=frobeniusSum(F)`.
 
@@ -8518,7 +8518,7 @@ The psi-zero hypothesis is independent of the constant-term hypothesis; both are
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobenius_leading_coefficient` in the following form.
+Prove the following statement.
 
 Let `r>0` and suppose `coeff_k(F)=0` for `0<k<r`. Then `coeff_r(phi(F))=p^r coeff_r(F)`. The constant coefficient of `F` is unrestricted.
 
@@ -8540,7 +8540,7 @@ The coefficient is `p^r` rather than `p`. The conclusion does not assume the coe
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobenius_fixed_iff_constant` in the following form.
+Prove the following statement.
 
 For `F` in `B`, `phi(F)=F` if and only if `F` is the native constant series `C(F(0))`.
 
@@ -8558,7 +8558,7 @@ The argument includes `p=2`. No division by `r` or by `p` is used.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary_eq_zero_iff` in the following form.
+Prove the following statement.
 
 For `F` in `W`, `psiFixedBoundary(F)=0` if and only if there exists `c` in `Z` with underlying series `F=C(c)`.
 
@@ -8580,7 +8580,7 @@ For odd `p`, IntegralIwasawaTheory §7.2 supplies this result for its measure op
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary_range` in the following form.
 
-The range of psiFixedBoundary equals the kernel of the native coefficient-zero linear map restricted to `U`.
+The range of psiFixedBoundary equals the kernel of the native coefficient-zero linear map restricted to `U`. In Suggested.lean, `Series.psiFixedBoundary_range` uses the equivalent native-trace conditions `τ(g)=0` and `τ(f)=p f`, by §§1.45–1.49 and injectivity of multiplication by `p`.
 
 **Checks.**
 
@@ -8600,7 +8600,7 @@ The target is the zero-evaluation submodule of `U`; psiFixedBoundary is not surj
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.psiKernel_eval_surjective` in the following form.
+Prove the following statement.
 
 The native coefficient-zero map `U→Z` is surjective; a section on values is `c↦cY`.
 
@@ -8618,7 +8618,7 @@ Evaluation on `U` is nonzero, so the final `Z` in the five-term sequence cannot 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary_topology` in the following form.
+Prove the following statement.
 
 The native constant inclusion `Z→B` is a closed embedding. The boundary `W→U` is continuous with closed image and its map onto that image is a quotient map. The native evaluation `U→Z` is continuous and a quotient map. Together with the preceding algebraic kernel, range and surjectivity statements, this gives the five-term topological exact sequence `0→Z→W→U→Z→0`.
 
@@ -8636,7 +8636,7 @@ This result asserts the fixed-series topological sequence. Separate results now 
 
 `p` is any prime, including 2. Put `Z=Z_p`, `B=Z[[T]]`, `B_0=F_p[[T]]` and `Y=1+T`. The topology on `B` is coefficientwise p-adic convergence; `B` units and all subgroups have their native induced topologies. `N` is the existing determinant Coleman norm, `S` is its existing norm-fixed subgroup of `B` units, `Delta(u)=Y D(u) u^(-1)` is the existing logarithmic derivative, and `psi` is the actual PMIA `Z`-linear bounded integral operator. `W=ker(psi-id)`. Reduction `rho:B→B_0` is the native coefficient map induced by `PadicInt.toZMod`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.compactSpace_normFixedUnits` in the following form.
+Prove the following statement.
 
 The existing normFixedUnits subgroup `S` is a compact space.
 
@@ -8654,7 +8654,7 @@ Compactness uses both coefficientwise topology and the proven continuity of the 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.isClosed_range_normFixedLogDeriv` in the following form.
+Prove the following statement.
 
 The set `{Delta(u) : u∈S}` is closed in the coefficientwise topology of `B`.
 
@@ -8672,7 +8672,7 @@ The ambient closed image is precisely the image of the actual `Delta` map on `S`
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.psi_p_pow_fixed_iff` in the following form.
+Prove the following statement.
 
 For every `n≥0` and `F∈B`, `psi(p^n F)=p^n F` if and only if `psi(F)=F`.
 
@@ -8694,7 +8694,7 @@ At `n=0` this is the original fixed condition. Cancellation is integral and does
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.tendsto_of_p_pow_dvd_sub` in the following form.
+Prove the following statement.
 
 For any sequence `f:N→B` and target `F∈B`, if `p^n` divides `f(n)−F` for every `n≥0`, then `f(n)` tends coefficientwise to `F`.
 
@@ -8716,7 +8716,7 @@ Even an arbitrary varying integral quotient `q_n` satisfies `p^n q_n→0` coeffi
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_precision_step` in the following form.
+Prove the following statement.
 
 Let `u,v∈S`, `F,H∈B` and `n≥0`. If `Delta(u)−F=p^n H` and `p` divides `Delta(v)−H`, then `p^(n+1)` divides `Delta(u v^(−p^n))−F`.
 
@@ -8734,7 +8734,7 @@ The error convention is `Delta(u)−F`. With that convention the exponent must b
 
 `p` is any prime, including 2. Put `Z=Z_p`, `B=Z[[T]]`, `B_0=F_p[[T]]` and `Y=1+T`. The topology on `B` is coefficientwise p-adic convergence; `B` units and all subgroups have their native induced topologies. `N` is the existing determinant Coleman norm, `S` is its existing norm-fixed subgroup of `B` units, `Delta(u)=Y D(u) u^(-1)` is the existing logarithmic derivative, and `psi` is the actual PMIA `Z`-linear bounded integral operator. `W=ker(psi-id)`. Reduction `rho:B→B_0` is the native coefficient map induced by `PadicInt.toZMod`. Residual image hypothesis: for every `F∈B` with `psi(F)=F`, some `u∈S` satisfies `rho(Delta(u))=rho(F)`. This is a hypothesis, not a supplied image theorem.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.logDeriv_approximate_mod_p_pow` in the following form.
+Prove the following statement.
 
 Under the residual image hypothesis, for every `F∈W` and `n≥0` there exists `u∈S` with `p^n` dividing `Delta(u)−F`.
 
@@ -8756,7 +8756,7 @@ All `n≥0` are included. The hypothesis quantifies over every fixed residual ta
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_surjective_of_mod_p` in the following form.
+Prove the following statement.
 
 Under the residual image hypothesis, the existing group homomorphism `normFixedLogDeriv:S→Multiplicative(W)` is surjective.
 
@@ -8774,7 +8774,7 @@ This reusable lifting theorem keeps its residue-image hypothesis explicit. Logar
 
 `p` is any prime, including 2. Put `Z=Z_p`, `B=Z[[T]]`, `B_0=F_p[[T]]` and `Y=1+T`. The topology on `B` is coefficientwise p-adic convergence; `B` units and all subgroups have their native induced topologies. `N` is the existing determinant Coleman norm, `S` is its existing norm-fixed subgroup of `B` units, `Delta(u)=Y D(u) u^(-1)` is the existing logarithmic derivative, and `psi` is the actual PMIA `Z`-linear bounded integral operator. `W=ker(psi-id)`. Reduction `rho:B→B_0` is the native coefficient map induced by `PadicInt.toZMod`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.residue_normFixedUnits_surjective` in the following form.
+Prove the following statement.
 
 Every `v∈B_0` units is the reduction of some `u∈S`. Equivalently, the native units map induced by rho, restricted to `S`, is surjective.
 
@@ -8796,7 +8796,7 @@ This is surjectivity onto all residue-series units, not just those with constant
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_surjective_iff_residue_logDeriv` in the following form.
+Prove the following statement.
 
 The actual map normFixedLogDeriv is surjective if and only if, for every `F∈B` with `psi(F)=F`, there exists `v∈B_0` units such that `Delta(v)=rho(F)`, where the right-hand `Delta` is the existing logarithmic derivative over `F_p`.
 
@@ -8820,7 +8820,7 @@ The remaining characteristic-p proof must use a well-defined integral polynomial
 
 `p` is prime, including `p=2`; `k=F_p` and `B_0=k[[T]]` are the native `ZMod` and `PowerSeries` carriers. Put `Y=1+T`. Write `η(u)=T D(u) u⁻¹` only as notation; `Δ(u)=Y D(u) u⁻¹` is the existing logarithmic derivative.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.residuePsi_logDeriv` in the following form.
+Prove the following statement.
 
 For every `u∈B_0` units, the actual PMIA residue operator satisfies `ψ_0(Δ(u))=Δ(u)`.
 
@@ -8838,7 +8838,7 @@ This is fixedness of `Δ` for every residue unit, obtained using the already pro
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobenius_coefficient_completion` in the following form.
+Prove the following statement.
 
 For `a∈B_0` with constant coefficient zero, there exist `h,H∈B_0` such that `h_0=0`, `h_(pn)=h_n` for all `n`, `h_n=a_n` when `p` does not divide `n`, and `a−h=T^p H(T^p)`.
 
@@ -8856,7 +8856,7 @@ The zero coefficient is fixed to zero separately. The error is divisible by `T^p
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.euler_factor_logarithmic_coeff` in the following form.
+Prove the following statement.
 
 For `m≥1`, `a∈k` and an actual unit `u` with value `1−aT^m`, the coefficient of `η(u)` at `n` is `−m a^(n/m)` when `n>0` and `m` divides `n`, and zero otherwise.
 
@@ -8879,7 +8879,7 @@ For `m=1,a=2` in `F_3`, the coefficient at degree one is 1. If `p` divides `m`, 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.euler_factor_frobenius_coeff` in the following form.
+Prove the following statement.
 
 For `m≥1`, `a∈k` and `u` with value `1−aT^m`, coefficient pn of `η(u)` equals coefficient `n` for every `n≥0`.
 
@@ -8897,7 +8897,7 @@ The equality uses `F_p` coefficients; the same unmodified equality is not assert
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.euler_correction_step` in the following form.
+Prove the following statement.
 
 Let `m≥1` and `h∈B_0` have `h_(pn)=h_n` and `h_n=0` for `n<m`. There are `a∈k` and an actual unit `u` with value `1−aT^m` such that `h−η(u)` vanishes through degree `m` and still has `p`-invariant coefficients. If `p` divides `m`, choose `a=0`.
 
@@ -8915,7 +8915,7 @@ Never divide by `m` when `p` divides it. At the initial step `m=1` the input has
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.euler_correction_sequence` in the following form.
+Prove the following statement.
 
 For `h∈B_0` with `h_0=0` and `h_(pn)=h_n`, there exist coefficients `a_m` and actual units `u_N` such that `a_0=0`, `a_m=0` when `p` divides `m`, `u_N` has value `product_(1≤m≤N)(1−a_mT^m)`, and coefficients of `η(u_N)` agree with `h` through degree `N`.
 
@@ -8933,7 +8933,7 @@ The Nth product uses precisely factors of degrees 1 through `N`. Later choices d
 
 `p` is prime, including `p=2`; `k=F_p` and `B_0=k[[T]]` are the native `ZMod` and `PowerSeries` carriers. Put `Y=1+T`. Write `η(u)=T D(u) u⁻¹` only as notation; `Δ(u)=Y D(u) u⁻¹` is the existing logarithmic derivative. Give `k` its discrete topology and `B_0` the native coefficientwise topology.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.euler_product_unit_limit` in the following form.
+Prove the following statement.
 
 For any coefficients `a_m∈k`, the native product `product_(m≥1)(1−a_mT^m)` is the value of an actual unit `u` with constant coefficient one. For every `N` and `n≤N`, its nth coefficient equals that of the finite product through `m=N`.
 
@@ -8955,7 +8955,7 @@ The constant coefficient is one, so the limiting series is a unit rather than me
 
 `p` is prime, including `p=2`; `k=F_p` and `B_0=k[[T]]` are the native `ZMod` and `PowerSeries` carriers. Put `Y=1+T`. Write `η(u)=T D(u) u⁻¹` only as notation; `Δ(u)=Y D(u) u⁻¹` is the existing logarithmic derivative.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.radial_logarithmic_coeff_congr` in the following form.
+Prove the following statement.
 
 If actual units `u,v` of `B_0` have equal coefficients through degree `N`, then `η(u)` and `η(v)` have equal coefficients through degree `N`.
 
@@ -8973,7 +8973,7 @@ The factor `T` is necessary for a precision statement with no lost degree. For t
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.frobenius_fixed_logarithmic_primitive` in the following form.
+Prove the following statement.
 
 If `h∈B_0` has `h_0=0` and `h_(pn)=h_n` for all `n`, there exists an actual unit `u` with constant coefficient one and `η(u)=h`.
 
@@ -8995,7 +8995,7 @@ For `h=0` the unit one is a valid normalized primitive. Do not impose a torsion-
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.residue_logarithmic_decomposition` in the following form.
+Prove the following statement.
 
 For every `g∈B_0` there are an actual unit `u` and `H∈B_0` with `g=Δ(u)+Y T^(p−1)H(T^p)`.
 
@@ -9013,7 +9013,7 @@ This is Lemma12.14 with the source remainder rewritten as `Y T^(p−1)H(T^p)`; i
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.residuePsi_fixed_logarithmic_image` in the following form.
+Prove the following statement.
 
 Every `g∈B_0` satisfying `ψ_0(g)=g` equals `Δ(u)` for some actual unit `u∈B_0` units.
 
@@ -9039,7 +9039,7 @@ For odd `p`, IntegralIwasawaTheory §7.2 supplies this result for its measure op
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_surjective` in the following form.
 
-The actual existing group homomorphism normFixedLogDeriv from norm-fixed units in `Z_p[[T]]` to the additive `ψ`-fixed integral series, with the native Multiplicative tag, is surjective.
+The actual existing group homomorphism normFixedLogDeriv from norm-fixed units in `Z_p[[T]]` to the additive `ψ`-fixed integral series, with the native Multiplicative tag, is surjective. In Suggested.lean, `Series.normFixedLogDeriv_surjective` states this as existence of a norm-fixed unit for every `g` with `τ(g)=p g`. The trace comparison of §§1.45–1.49 and injectivity of multiplication by `p` identify this condition with `ψ(g)=g`.
 
 For the proof, for an integral `ψ`-fixed `F`, use the actual PMIA coefficient-reduction comparison to prove that its reduction is `ψ_0`-fixed. Apply residue-psi-fixed-logarithmic-image to obtain a residue unit with logarithmic derivative equal to that reduction. Apply the existing logarithmic-derivative-residue-image-equivalence, which already contains the norm-fixed lift, p-adic precision corrections and compact-image argument. No residual image hypothesis remains. Together with the existing norm-fixed-logarithmic-derivative-kernel theorem, this supplies the kernel and surjectivity assertions of Theorem12.9; its kernel is `μ_(p−1)`, the constant norm-fixed units, rather than `μ_p`.
 
@@ -9055,15 +9055,15 @@ The conclusion concerns the actual previously constructed norm and logarithmic d
 
 `p` is an odd prime. `B=ℤ_p[[T]]`, `Y=1+T`, `U∞` is the actual norm-compatible unit group, and `U∞,1` its native principal residue kernel. `M=D(ℤ_pˣ,ℤ_p)` denotes the actual intrinsic unit measures with the imported weak topology.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.binomialNormFixed` by the following specification.
+Define `binomialNormFixed` by the following specification.
 
 For odd `p` construct binomialNormFixed:Multiplicative `ℤ_p→*normFixedUnits`, `a↦Y^a`, using the native binomial power series. The unit has constant coefficient 1.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.binomialNormFixed_val`: Its underlying power series is the native binomialSeries `ℤ_p` a.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.binomialNormFixed_add`: `Y^(a+b)=Y^aY^b` as actual norm-fixed units.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.binomialNormFixed_continuous`: The map is continuous for the native p-adic/coefficientwise topologies.
+- Its underlying power series is the native binomialSeries `ℤ_p` a.
+- `Y^(a+b)=Y^aY^b` as actual norm-fixed units.
+- The map is continuous for the native p-adic/coefficientwise topologies.
 
 **Checks.**
 
@@ -9087,7 +9087,7 @@ Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.logDeriv_binomialNormFixed` in the following form.
+Prove the following statement.
 
 For odd `p` and `a∈ℤ_p`, `Δ(Y^a)=C(a)`.
 
@@ -9105,16 +9105,16 @@ The exponent a can be nonintegral in `ℤ_p`. It is not restricted to natural in
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicMoment` by the following specification.
+Define `cyclotomicMoment` by the following specification.
 
 Define `cyclotomicMoment:M→ₗ[ℤ_p]ℤ_p` by `μ↦μ(x↦x)`, where `x` denotes the value of a unit in `ℤ_p`. This is the endpoint identified with `ℤ_p(1)` under dilation; it is not total mass.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicMoment_apply`: `cyclotomicMoment(μ)=μ(x↦x)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicMoment_amice`: It equals `coeff₁` of the intrinsic unit Amice series.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicMoment_dirac`: `cyclotomicMoment(δ_a)=a` for `a∈ℤ_pˣ`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicMoment_continuous`: The endpoint is continuous in the imported weak topology.
+- `cyclotomicMoment(μ)=μ(x↦x)`.
+- It equals `coeff₁` of the intrinsic unit Amice series.
+- `cyclotomicMoment(δ_a)=a` for `a∈ℤ_pˣ`.
+- The endpoint is continuous in the imported weak topology.
 
 **Checks.**
 
@@ -9138,7 +9138,7 @@ Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicMoment_surjective` in the following form.
+Prove the following statement.
 
 cyclotomicMoment is surjective; its continuous `ℤ_p`-linear section sends `z` to `zδ_1`.
 
@@ -9156,7 +9156,7 @@ Unlike this endpoint, the mass map does not give the required exact sequence.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.normFixedEvaluation_binomialNormFixed` in the following form.
+Prove the following statement.
 
 For odd `p` and `a∈ℤ_p`, `colemanInterpolation.symm(Y^a)=tateTower(a)` in the actual compatible unit subgroup.
 
@@ -9189,7 +9189,7 @@ For odd `p`, `Col₀(u)=0` iff there exist unique `c∈ℤ_pˣ` with `c^(p−1)=
 
 `p` is an odd prime, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues, and `U∞,1` is the existing residue kernel. All topologies are the native norm/product/subtype topologies.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitAmice_weighting` in the following form.
+Prove the following statement.
 
 For each actual intrinsic unit measure `μ`, `ψ(∂A_Uμ)=0` and `constantCoeff(∂A_Uμ)=cyclotomicMoment(μ)`. These are arithmetic restrictions of the supplied weight/Amice and first-moment identities, not new measure operators.
 
@@ -9294,16 +9294,16 @@ Embed the supplier's actual global cyclotomic units in the chosen local fields a
 
 `p` is an odd prime, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues, and `U∞,1` is the existing residue kernel. All topologies are the native norm/product/subtype topologies. `F_n=F(p^(n+1))` from IntegralIwasawaTheory §1.1’s `compatibleCyclotomicTower`, with its distinguished root and inclusions; `D_n` and `D_n⁺` are the imported actual global cyclotomic subgroups. Their local images are formed using the fixed root-compatible embedding, not by identifying complex and p-adic elements. Write `c=σ_(-1)`, `G_n=(ℤ/p^(n+1)ℤ)ˣ`, `G_n⁺=G_n/⟨−1⟩` and `G⁺=G/⟨−1⟩`. Real means fixed by `c`. When a generator is used, `a>1` is a fixed natural integer prime to `p` whose image `â` in `G` topologically generates `G`: its integral powers are dense in `G`. Put `b=(1−a)/2` in `ℤ_p` and `w=ω(a mod p)⁻¹`. `Λ(G)` is the supplied integral unit-measure convolution ring `M=D(G,ℤ_p)` with weak topology; `Λ(G⁺)` is its supplied quotient-group counterpart.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalEmbedding` by the following specification.
+Define `globalLocalEmbedding` by the following specification.
 
 Construct the unique `ℚ`-algebra embedding `F_n→K_n` sending the supplied global `ζ_(p^(n+1))` to the chosen local `ζ_n`. It commutes with consecutive field inclusions and intertwines global complex conjugation with `finiteAction_n(−1)`.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalEmbedding_zeta`: The global primitive root maps to `ζ_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalEmbedding_injective`: globalLocalEmbedding_n is injective.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalEmbedding_tower`: The embedding commutes with the actual consecutive global/local inclusions.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalEmbedding_conjugation`: It intertwines global complex conjugation and `finiteAction_n(−1)`.
+- The global primitive root maps to `ζ_n`.
+- globalLocalEmbedding_n is injective.
+- The embedding commutes with the actual consecutive global/local inclusions.
+- It intertwines global complex conjugation and `finiteAction_n(−1)`.
 
 **Checks.**
 
@@ -9327,16 +9327,16 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits` by the following specification.
+Define `globalLocalUnits` by the following specification.
 
 Construct a monoid homomorphism from the supplied subgroup `D_n⊂F_nˣ` to `O_nˣ` by globalLocalEmbedding_n. The element and its inverse land in the actual integral closure, so this is a unit map. Real elements map to `finiteAction_n(−1)`-fixed units.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_field`: Its field value is globalLocalEmbedding_n of the underlying global unit.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_injective`: The local unit map is injective.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_cUnit`: The image of the imported `c_n(a)` is `evaluation_n(cyclotomicSeriesUnit(a))`, whose underlying series is the unadjusted denominator `f_a`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalUnits_real`: An element of `D_n⁺` maps to a conjugation-fixed local unit.
+- Its field value is globalLocalEmbedding_n of the underlying global unit.
+- The local unit map is injective.
+- The image of the imported `c_n(a)` is `evaluation_n(cyclotomicSeriesUnit(a))`, whose underlying series is the unadjusted denominator `f_a`.
+- An element of `D_n⁺` maps to a conjugation-fixed local unit.
 
 **Checks.**
 
@@ -9360,16 +9360,16 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realLocalUnits` by the following specification.
+Define `realLocalUnits` by the following specification.
 
 Define `realLocalUnits_n⊂O_nˣ` as the equalizer of the unit automorphism `finiteAction_n(−1)` and the identity. Its principal part is its intersection with the actual residue-one subgroup.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.mem_realLocalUnits`: `u∈realLocalUnits_n` iff `finiteAction_n(−1)(u)=u`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realLocalUnits_closed`: The subgroup is closed and compact.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realLocalUnits_scalar`: Every scalar unit from `ℤ_p` is real.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realLocalUnits_root`: A `p`-power root of unity in realLocalUnits_n is 1, since `p` is odd.
+- `u∈realLocalUnits_n` iff `finiteAction_n(−1)(u)=u`.
+- The subgroup is closed and compact.
+- Every scalar unit from `ℤ_p` is real.
+- A `p`-power root of unity in realLocalUnits_n is 1, since `p` is odd.
 
 **Checks.**
 
@@ -9393,16 +9393,16 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.localCyclotomicUnits` by the following specification.
+Define `localCyclotomicUnits` by the following specification.
 
 Define `C_n=(range(globalLocalUnits_n)).topologicalClosure` inside the native `O_nˣ`. This is topological closure of the imported integral global subgroup, not the algebraic subgroup generated by local cyclotomic differences.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.mem_localCyclotomicUnits`: `u∈C_n` iff `u` is in the closure of the image of `D_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.localCyclotomicUnits_global`: Every `globalLocalUnits_n(d)` lies in `C_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.localCyclotomicUnits_closed`: `C_n` is closed and compact.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.localCyclotomicUnits_minimal`: It is contained in every closed local subgroup containing the image of `D_n`.
+- `u∈C_n` iff `u` is in the closure of the image of `D_n`.
+- Every `globalLocalUnits_n(d)` lies in `C_n`.
+- `C_n` is closed and compact.
+- It is contained in every closed local subgroup containing the image of `D_n`.
 
 **Checks.**
 
@@ -9427,16 +9427,16 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realLocalCyclotomicUnits` by the following specification.
+Define `realLocalCyclotomicUnits` by the following specification.
 
 Define `C_n⁺` as the topological closure inside `O_nˣ` of the image of the supplied `D_n⁺`. It lies in realLocalUnits_n. The equality `C_n⁺=C_n∩realLocalUnits_n` is a conclusion of the finite Tate/real splitting below, not an assumed commutation of closure and intersection.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.mem_realLocalCyclotomicUnits`: Membership is closure of the local image of `D_n⁺`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realLocalCyclotomicUnits_le`: `C_n⁺≤realLocalUnits_n` and `C_n⁺≤C_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realLocalCyclotomicUnits_closed`: `C_n⁺` is closed and compact.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realLocalCyclotomicUnits_global`: Every local image of a global real cyclotomic unit lies in `C_n⁺`.
+- Membership is closure of the local image of `D_n⁺`.
+- `C_n⁺≤realLocalUnits_n` and `C_n⁺≤C_n`.
+- `C_n⁺` is closed and compact.
+- Every local image of a global real cyclotomic unit lies in `C_n⁺`.
 
 **Checks.**
 
@@ -9460,15 +9460,15 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalLocalCyclotomicUnits` by the following specification.
+Define `principalLocalCyclotomicUnits` by the following specification.
 
 Define `C_(n,1)` as `C_n` intersected with the residue-one local subgroup `P_n=ker(Units.map(red_n))`. Regard it as a closed submodule of `Additive(P_n)` using the supplied finite principal-unit `ℤ_p`-action.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.mem_principalLocalCyclotomicUnits`: `u∈C_(n,1)` iff `u∈C_n` and `red_n(u)=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalLocalCyclotomicUnits_closed`: `C_(n,1)` is closed and compact.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalLocalCyclotomicUnits_smul`: It is stable under all finite-level `ℤ_p` scalar powers.
+- `u∈C_(n,1)` iff `u∈C_n` and `red_n(u)=1`.
+- `C_(n,1)` is closed and compact.
+- It is stable under all finite-level `ℤ_p` scalar powers.
 
 **Checks.**
 
@@ -9520,7 +9520,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principal_closure_eq_span` in the following form. The named boundary targets `Arithmetic.principal_closure_zero` and `Arithmetic.principal_closure_one` specialize this assertion to zero generators and to the additive generator 1 of `ℤ_p`, respectively: their closed spans are `{0}` and `Set.univ`.
+Prove the following statement. For zero generators the closed span is `{0}`; the additive generator 1 of `ℤ_p` has closed span `Set.univ`.
 
 For `g_1,…,g_r∈P_n`, closure of their integer-power subgroup in `P_n` is exactly `{∏_i g_i^(a_i):a_i∈ℤ_p}`, the finite `ℤ_p`-span in `Additive(P_n)`.
 
@@ -9538,15 +9538,15 @@ Supplies Lemma12.20 on the actual local principal module, with a finite compactn
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realCyclotomicTower` by the following specification.
+Define `realCyclotomicTower` by the following specification.
 
 For `a>1` prime to `p` define `γ(a)=tateTower((1−a)/2)·cyclotomicTower(a)` in `U∞`. Its nth coordinate is the local image of the supplied real `γ_(n+1,a)`. It is fixed by `towerAction(−1)`, but need not be principal.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realCyclotomicTower_apply`: The coordinate equals `ζ_n^((1−a)/2 mod p^(n+1))` times `c_n(a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realCyclotomicTower_global`: It is the local image of the imported global `γ_(n+1,a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realCyclotomicTower_fixed`: `towerAction(−1)(γ(a))=γ(a)`.
+- The coordinate equals `ζ_n^((1−a)/2 mod p^(n+1))` times `c_n(a)`.
+- It is the local image of the imported global `γ_(n+1,a)`.
+- `towerAction(−1)(γ(a))=γ(a)`.
 
 **Checks.**
 
@@ -9570,7 +9570,7 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitsNorm_localCyclotomicUnits` in the following form.
+Prove the following statement.
 
 `N_n` maps each of `C_(n+1)`, `C_(n+1)⁺`, `C_(n+1,1)`, `C_(n+1,1)⁺` into its corresponding nth-level group.
 
@@ -9588,7 +9588,7 @@ Makes the local finite systems actual norm diagrams.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realCyclotomicTower_residue` in the following form.
+Prove the following statement.
 
 The residue of `γ(a)` at every level is a mod `p`; its root-of-unity factor has residue one.
 
@@ -9680,16 +9680,16 @@ If `â` topologically generates `G`, then `C_(n,1)⁺` is the `ℤ_p[G_n⁺]`-s
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCyclotomicLimit` by the following specification.
+Define `principalCyclotomicLimit` by the following specification.
 
 Define `C∞,1` as the closed subgroup of `U∞,1` whose nth coordinate lies in `C_(n,1)` for every `n`. Use the restricted native norm diagram, and the principalCompletedModule for its stable submodule structure.
 
-The API includes the following named statements.
+The API includes the following statements.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.mem_principalCyclotomicLimit`: `u∈C∞,1` iff every coordinate `u_n∈C_(n,1)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCyclotomicLimit_closed`: `C∞,1` is closed and compact.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCyclotomicLimit_action`: It is stable under the actual `Λ(G)`-action.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCyclotomicLimit_tate`: All `tateTower(b)`, `b∈ℤ_p`, belong to `C∞,1`.
+- `u∈C∞,1` iff every coordinate `u_n∈C_(n,1)`.
+- `C∞,1` is closed and compact.
+- It is stable under the actual `Λ(G)`-action.
+- All `tateTower(b)`, `b∈ℤ_p`, belong to `C∞,1`.
 
 **Checks.**
 
@@ -9711,7 +9711,7 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 ### 4.17 The actual real quotient of the Coleman algebra
 
-Let `p` be odd, `G=ℤ_pˣ`, `c=−1`, `G⁺=G/⟨c⟩` and `Λ=Λ_(ℤ_p)(G)`, using PMIA’s weak measure algebra identified with the native completed group algebra. Set `e⁺=(1+[c])/2` and `e⁻=(1−[c])/2`. Construct `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.plusColemanAlgebraEquiv` from the ring `e⁺Λ`, with identity `e⁺`, to `Λ(G⁺)`. It is the restriction of the map induced by the actual quotient `G→G⁺`. It is a continuous `ℤ_p`-algebra equivalence, sends `e⁺[g]` to `[ḡ]`, and identifies the finite projections at `G_n⁺` with the ordinary finite group-algebra projections. In particular these projections are surjective. This target identifies the specific arithmetic plus algebra and its finite projections; the general completed-group-algebra functor remains the supplier.
+Let `p` be odd, `G=ℤ_pˣ`, `c=−1`, `G⁺=G/⟨c⟩` and `Λ=Λ_(ℤ_p)(G)`, using PMIA’s weak measure algebra identified with the native completed group algebra. Set `e⁺=(1+[c])/2` and `e⁻=(1−[c])/2`. Construct `plusColemanAlgebraEquiv` from the ring `e⁺Λ`, with identity `e⁺`, to `Λ(G⁺)`. It is the restriction of the map induced by the actual quotient `G→G⁺`. It is a continuous `ℤ_p`-algebra equivalence, sends `e⁺[g]` to `[ḡ]`, and identifies the finite projections at `G_n⁺` with the ordinary finite group-algebra projections. In particular these projections are surjective. This target identifies the specific arithmetic plus algebra and its finite projections; the general completed-group-algebra functor remains the supplier.
 
 The native quotient map on completed algebras is continuous and surjective. At a finite quotient, its kernel is the anti-invariant part: averaging a pair {g,cg} identifies invariant coefficients with coefficients on the quotient, since 2 is a unit. These identities commute with transitions and show that the completed kernel is `e⁻Λ`. A lift of a quotient element therefore has a unique `e⁺` projection independent of its lift. This is the inverse of the displayed map. Continuity also follows from compactness of the source and Hausdorffness of the target. The same finite-coordinate argument identifies the finite projections; their surjectivity is the native completed-algebra projection theorem.
 
@@ -9763,7 +9763,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicCoefficient_fibers` in the following form.
+Prove the following statement.
 
 For `u∈C∞,1⁺` let `S_n={λ∈Λ(G⁺): the nth coordinate of λ•q(a) equals u_n}`. These sets are nonempty, closed subsets of compact `Λ(G⁺)`, and `S_(n+1)⊆S_n`.
 
@@ -9796,7 +9796,7 @@ Use `realPrincipalCircularClosure` from [IntegralIwasawaTheory §7.3](../Integra
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.localCyclotomicUnits_tate_real` in the following form.
+Prove the following statement.
 
 At each level `C_n=μ_(p^(n+1))×C_n⁺` via multiplication, and `C_(n,1)=μ_(p^(n+1))×C_(n,1)⁺`. Consequently `C_n⁺=C_n∩realLocalUnits_n`.
 
@@ -9814,7 +9814,7 @@ Retains `−1` inside `C_n⁺` and distinguishes it from the odd `p`-power root 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalCyclotomicLimit_tate_real` in the following form.
+Prove the following statement.
 
 Multiplication gives a topological `Λ(G)`-module isomorphism `ℤ_p(1)×C∞,1⁺≃C∞,1`. The Tate coordinate ranges over all `ℤ_p`, not just its units.
 
@@ -9862,7 +9862,7 @@ Use `realCircularClosure_colemanImage` from [IntegralIwasawaTheory §7.3](../Int
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.augmentation_generator_comparison` in the following form.
+Prove the following statement.
 
 For an integer a whose image `â` has dense integer powers in `G` and its image ā in `G⁺`, prove `I(G)=([â]−1)Λ(G)` and `I(G⁺)=([ā]−1)Λ(G⁺)`. Hence `I(G)ζ_p=Λ(G)λ_a` and `I(G⁺)ζ_p⁺=Λ(G⁺)λ_a⁺` inside the integral algebras; these ideals are closed.
 
@@ -9880,7 +9880,7 @@ Compactness makes the principal image closed, so the fixed generator gives the e
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_cyclotomic_image` in the following form.
+Prove the following statement.
 
 `arithmeticColeman(C∞,1)=I(G)ζ_p` as an actual closed `Λ(G)`-submodule of `Λ(G)`.
 
@@ -9913,7 +9913,7 @@ Under the supplied identification of the plus algebra with `Λ(G⁺)`, `arithmet
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicQuotient_exact` in the following form.
+Prove the following statement.
 
 For odd `p`, the actual Coleman map induces the topologically exact sequence `0→Additive(U∞,1)/C∞,1→Λ(G)/(I(G)ζ_p)→ℤ_p(1)→0` of `Λ(G)`-modules. The quotient maps are the actual closed-submodule quotients.
 
@@ -10175,11 +10175,11 @@ A residue coefficient `c` outside `𝔽_p` satisfies `c^p≠c`. Testing a Teichm
 ## References
 
 - [CBirkbeck/padic-L-functions](https://github.com/CBirkbeck/padic-L-functions), revision `45307015169791f1316f23a459c8e92ed5961c54`, is a Lean proof source. Its `Coleman/NormOperator.lean` develops the digit basis, determinant norm, trace coordinates and iterate congruences; `Coleman/Theorem.lean` develops evaluation, separation, norm specialization and interpolation; `IwasawaProof/LogDerivative.lean` develops determinant differentiation and the logarithmic-derivative image. These proof routes inform the coordinate, precision and logarithmic refinements here. Their use requires transport to the native intermediate fields, integer rings and unit norm limits, identification with the supplied bounded-measure operators, the level shift to roots of order `p^(n+1)`, and extension to the stated coefficient generality, including coefficient Frobenius in unramified interpolation.
-- Robert F. Coleman, *Division Values in Local Fields*, Inventiones Mathematicae 53 (1979), 91–116, [DOI 10.1007/BF01390028](https://doi.org/10.1007/BF01390028); [original journal scan](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289). Integral multiplicative specialization: Theorem A pp.91–92; additive trace Theorem 4 and Corollary 5(i) p.98, Lemma 6 p.99; norm and evaluation Theorem 11 and Corollary 12(ii) p.102; digit gain and coefficient Frobenius Lemma 13 and equation (2) p.103; projector Proposition 14 p.104; interpolation Theorems 15–16 and Corollary 17 pp.104–106. Laurent-series and general Lubin–Tate conclusions are not asserted here.
+- Robert F. Coleman, *Division Values in Local Fields*, Inventiones Mathematicae 53 (1979), 91–116, [DOI 10.1007/BF01390028](https://doi.org/10.1007/BF01390028). Integral multiplicative specialization: Theorem A pp.91–92; additive trace Theorem 4 and Corollary 5(i) p.98, Lemma 6 p.99; norm and evaluation Theorem 11 and Corollary 12(ii) p.102; digit gain and coefficient Frobenius Lemma 13 and equation (2) p.103; projector Proposition 14 p.104; interpolation Theorems 15–16 and Corollary 17 pp.104–106. Laurent-series and general Lubin–Tate conclusions are not asserted here.
 - Joaquín Rodrigues Jacinto and Chris Williams, *An introduction to p-adic L-functions*, Essential Number Theory 4 (2025), 101–216, [published version](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), [arXiv:2309.15692v2](https://arxiv.org/abs/2309.15692v2). The published printed pagination is used: operators §§3.5 and 4.1–4.3 pp.126–139; local units and interpolation §§9–10 pp.161–170; global/local cyclotomic units §11 pp.174–177; actions, exact sequences and the terminal quotient §12 pp.177–189. The source treats odd-prime arithmetic; all-prime determinant and signed Tate statements have their separate algebraic proof routes above.
 - Romyar Sharifi, *[Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf)*, §5.4, Notation 5.4.1 through Corollary 5.4.13, printed pp.143–147; semilocal coefficients §6.1, printed pp.157–158. The cited author PDF uses this numbering; its coefficient-action and indexing conventions are corrected as specified above.
 - Romyar Sharifi, *[Algebraic Number Theory](https://www.math.ucla.edu/~sharifi/algnum.pdf)*, §§5.4 and 6.1–6.3, at the numbered local-field and Eisenstein locators above. These supply underlying facts for the explicit cyclotomic arithmetic specializations.
-- John Coates and R. Sujatha, *Cyclotomic Fields and Zeta Values*, Springer (2006), [DOI 10.1007/978-3-540-33069-1](https://doi.org/10.1007/978-3-540-33069-1), [academic-hosted copy](https://www.math.mcgill.ca/darmon/courses/16-17/gs/Coates-Sujatha.pdf), Theorems 2.1.2–2.1.3 pp.13–15, §2.2 and Lemmas 2.3.1–2.3.5 pp.16–20, Definition 2.4.4 and Lemma 2.4.5 p.22, and Theorem 2.4.6 with Lemmas 2.4.7–2.4.10 pp.22–26. Its odd-prime convention is retained where the arithmetic statement needs it.
+- John Coates and R. Sujatha, *Cyclotomic Fields and Zeta Values*, Springer (2006), Theorems 2.1.2–2.1.3 pp.13–15, §2.2 and Lemmas 2.3.1–2.3.5 pp.16–20, Definition 2.4.4 and Lemma 2.4.5 p.22, and Theorem 2.4.6 with Lemmas 2.4.7–2.4.10 pp.22–26. Its odd-prime convention is retained where the arithmetic statement needs it.
 - [TauCetiRoadmap](https://github.com/TauCetiProject/TauCetiRoadmap): LocalFieldsRamification, ProfiniteProPGroups, ProfiniteArithmetic and NumberFieldArithmetic, at the layers and declarations in the supplier contracts. Existing native declarations remain with their owners.
 
 ## Downstream consumers
