@@ -20,9 +20,10 @@ they distinguish an actual completion from an incorrectly chosen power-series
 ring, tensor product, or localization.
 
 `README.md` specifies the mathematics. [Suggested.lean](Suggested.lean) records
-representative theorem signatures on existing library carriers, light
-definitions with real bodies, and proved checks; it is not exhaustive and
-does not assert that the targets have been implemented. The main namespace is
+headline theorem signatures on existing library carriers, with supporting
+definitions that have real bodies. It is not exhaustive and does not assert
+that the targets have been implemented. Other Lean names below specify the
+desired library interfaces. The main namespace is
 `TauCetiRoadmap.HabiroCyclotomicCompletions`.
 Naming can follow the surrounding library, while the hypotheses, coordinate
 conventions, and compatibility requirements below determine the interface.
@@ -207,8 +208,8 @@ is introduced. Put
 `[n]_q=∑_{i=0}^{n-1}q^i, [n]_q!=∏_{i=1}^n[i]_q, (x;q)_n=∏_{i=0}^{n-1}(1-xq^i)`.
 
 Use the supplied q-integer and its finite-sum formula from AInfCohomology
-§AI.3.3. The `QToolkit.qInteger` prototype abbreviation is exactly that
-formula at coefficient ring `R[q]` and parameter `q`.
+§AI.3.3, at coefficient ring `R[q]` and parameter `q`, in the
+`QToolkit` namespace.
 Use `qFactorial` and `pochhammer` for the two product extensions.
 Their API includes `qFactorial_at_one`, `qFactorial_pochhammer`,
 `pochhammer_append` and `pochhammer_inverse_parameter`, with coefficient
@@ -310,8 +311,7 @@ calculation, pp. 26–27). *Needs:* Mathlib Hahn/Laurent series,
 `PowerSeries.expand`, `PowerSeries.exp` and substitution; the positive
 Adams coefficient rule and the integral product argument just given.
 
-The following are checks of these definitions; the suggested file
-uses `QToolkit` for their shared namespace.
+The following are checks of the toolkit definitions.
 
 **Checks.**
 
@@ -480,6 +480,9 @@ uniqueness uses the latter. (Source: H, §3.1, inverse limit (3.1),
 p. 1130, with the standard completion universal property).
 *Needs:* the topology just constructed and the existing completion
 and complete separated ring interfaces.
+
+The statement `completion_universal_property` in
+[Suggested.lean](Suggested.lean) gives this existence and uniqueness theorem.
 
 For two directed polynomial-ideal families which are mutually cofinal,
 construct the canonical isomorphism of complete topological rings induced
@@ -747,7 +750,7 @@ true.
 
 ### Examples
 
-The characteristic-two index equality, empty completion and mutually cofinal presentation checks specify the completed constructions. The light factorial definition has proved Lean sign and precision checks. In the factorial divisibility target require `m>0`: `m=0,k=1` would give `0∣1` over `ℤ`, while `k=0` remains valid for every positive `m`.
+The characteristic-two index equality, empty completion and mutually cofinal presentation checks specify the completed constructions. The factorial sign and precision checks fix normalization. In the factorial divisibility target require `m>0`: `m=0,k=1` would give `0∣1` over `ℤ`, while `k=0` remains valid for every positive `m`.
 
 ### Dependencies
 
@@ -791,6 +794,10 @@ quotient. Then
 At finite precision, the first `N` digits depend only on the class of
 `g` modulo `P_N`. This representative-independence theorem is needed
 before passing to completed elements.
+
+The statement `factorial_expansion` in
+[Suggested.lean](Suggested.lean) combines existence, uniqueness and convergence
+of normalized factorial digits in all finite quotients.
 
 Provide reconstruction from a bounded-degree digit family; digit extraction
 after reconstruction; reconstruction after extraction; the degree bound;
@@ -1118,6 +1125,10 @@ root rings are never equated without transport. (Source: G, §1.3,
 p. 5; H, §1, p. 1129). *Needs:* all preceding re-expansion and
 naturality interfaces.
 
+The statement `close_root_taylor_reexpansion` in
+[Suggested.lean](Suggested.lean) expresses the close-root identities
+coefficientwise as convergent p-adic sums.
+
 **Checks.**
 
 - Root closeness: an equal root has zero translation.
@@ -1270,6 +1281,9 @@ restriction from the divisors of `n` to those of `m` is injective, and
 the full integral ring is the intersection of these divisor completions
 inside `ℤ[[q-1]]`.
 
+The statement `restrict_injective_of_chain` in
+[Suggested.lean](Suggested.lean) retains the inside-set chain condition.
+
 Test `Φ_2⇒_ℤΦ_1` with witnessing ideal `(2)`,
 and its failure over `ℚ`. Over `ℤ` the
 `(q^2-1)`-adic completion embeds in `ℤ[[q-1]]`; over
@@ -1339,6 +1353,9 @@ prove
 
 `σ_ζ:R[q]^S→ R[ζ][[q-ζ]] is injective`.
 
+The statement `taylorAt_injective` in [Suggested.lean](Suggested.lean) uses the
+embedded root algebra and retains these separation hypotheses.
+
 First use injective coefficient change into `R[ζ]`, carrying the
 separation hypotheses by the preceding transfer; then restrict to order
 `n` and finally to one linear root factor. Primitive-root connectedness
@@ -1386,6 +1403,9 @@ that product modulo `Φ_n` forces its lowest coefficient to be
 divisible by arbitrarily long products of the associated primes. Algebraicity
 and separation force that coefficient to be zero. Use universal residue
 algebras, or all roots of each order, in the division argument.
+
+The universal-residue statement is `universalValues_injective` in
+[Suggested.lean](Suggested.lean).
 
 If `R` is contained in the algebraic integers, the full order set is
 connected and any `T` containing infinitely many prime powers suffices.
@@ -1451,6 +1471,9 @@ claim; the unit-evaluation argument supplies all orders beyond the
 restriction cases of Proposition 7.4. *Needs:* Taylor injectivity,
 Layer 3 evaluation, and cyclotomic values at one and discriminants. The
 rational contrast is proved in Layer 5.
+
+The statement `integral_taylor_not_surjective` in
+[Suggested.lean](Suggested.lean) expresses the proper-image theorem at every order.
 
 **Checks.**
 
@@ -1699,6 +1722,11 @@ p. 61). *Needs:* finite Taylor transitions, graded leading
 coefficients, simultaneous remainders, and both finite reconstruction
 theorems. A joint injection need not make any one component injective;
 `H_ℚ` is the main counterexample.
+
+The statements `iota_injective` and `rational_taylor_isomorphism` in
+[Suggested.lean](Suggested.lean) use the universal root algebras. The rational
+isomorphism is continuous in both directions for the inverse-limit and
+coefficient product topologies.
 
 **Checks.**
 
@@ -2067,6 +2095,10 @@ class `{0}` gives the zero ring because `Φ₀=1`. At least two classes containi
 positive orders therefore produce
 nontrivial idempotents and zero divisors.
 
+The statement `comaximal_decomposition` in [Suggested.lean](Suggested.lean)
+applies to arbitrary disjoint order parts with pairwise comaximal cyclotomic
+polynomials and identifies the product coordinates with restrictions.
+
 Comaximality is a stronger condition than failure of adjacency for a
 general ring. For `R=ℤ×ℚ`, orders one and two are
 not adjacent because `R` is not 2-adically separated, yet two is not a
@@ -2213,6 +2245,11 @@ element implies zero in every coordinate. This proves
 `singleton_zero_of_one_taylor`, then `componentTaylor_injective` and
 `component_isDomain` by connected restriction. None of these statements
 requires p-adic separation at an inverted prime.
+
+The statements `component_decomposition`, `component_isDomain`,
+`componentTaylor_injective` and `allValues_injective` in
+[Suggested.lean](Suggested.lean) express the decomposition and these rigidity
+results.
 
 Tests of the coefficient ring, tuples and classes are: `Δ=1` has one tuple and
 its class is all positive orders; `Δ=6` imposes both valuations and `Δ=12` has
