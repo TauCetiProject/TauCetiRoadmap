@@ -53,6 +53,9 @@ comparisons use algebraic coefficient representations.
 | ALS.5b | Characteristic-zero and automorphic comparisons | `deRhamIso`, `moderateGrowthIso`, `automorphicComparison`, `cuspidalCohomology`, `GaloisInput`, `nonEisenstein_cuspidal_range`, `unitary_middleDegree_cuspidal` |
 | ALS.6 | Finite covers and descent | `RΓrel.descent`, `hochschildSerre`, `lowestDegree_descent`, `towerChecks` |
 
+`Suggested.lean` states Cartan-involution existence and conjugacy from ALS.0.1. The other names
+below specify mathematical targets and prose Checks; they do not assert declarations in that file.
+
 ## Scope and ownership
 
 **Owned here.** The foundations of Layer ALS.F: the real points of a linear algebraic group as a
@@ -675,7 +678,6 @@ rings ALS.F.2 supplies extension in the order `B ⊗^L_A K`. The additional API 
 `PerfectComplex.IsPerfect.dual`, with the ring and handedness conventions above, together with
 `PerfectComplex.IsPerfect.restrictScalars` under the perfectness hypothesis on `B`,
 and `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-module Tor tests.
-`Suggested.lean` states `groupRing_S3_noncomm` as the noncommutative coefficient-ring check.
 
 *Needs:* DerivedModuleAlgebra §1.E.0 / `DerivedDeRham.IsPerfect`, its alias
 `PerfectComplex.IsPerfect`, `isPerfect_shift`, `isPerfect_triangle`, `isPerfect_retract` and
@@ -1095,8 +1097,11 @@ involution is Cartan iff `(X, Y) ↦ −B(X, dθ(Y))` is positive definite. For 
 criterion tests only the derived subgroup; compactness of the twisted central torus is a separate
 condition.
 
-`Suggested.lean` states the `GL_n` case of the fixed-point computation as
-`transposeInverse_fixed_iff_orthogonal`.
+`Suggested.lean` defines `IsCartanInvolution` on Tau Ceti's coordinate Hopf algebras by
+compactness of the twisted complex points in the evaluation topology. Its
+`IsCartanInvolution.exists` states existence for every connected reductive real algebraic group,
+and `IsCartanInvolution.conj` states conjugacy by a real point. The latter uses Tau Ceti's
+`TauCeti.CommHopfAlgCat.innerConjugationIso`, retaining the contravariance of coordinate pullback.
 
 *Needs:* Mathlib `Matrix.GeneralLinearGroup`; RepresentationTheory/LieGroups, Layer 9;
 AdelicAlgebraicGroups AA.3.7 (rational inverse-adjoint data and existence).
@@ -1236,10 +1241,9 @@ quadratic field, `n(n+1)/2 − 1` for `GL_n/ℚ` with
 covering `X̃^G → X^G` whose deck group is `π_0(K_∞) = π_0(G(F_∞))`; for `GL_{2,ℚ}, X̃ = ℍ^±` (Scholze's
 `X̃_K` uses this variant).
 
-`Suggested.lean` records `K_∞A_∞ = ℝ_{>0}·O(2)` for `GL_{2,ℚ}` as `orthogonalTimesScalars` and
-states `stabilizer_I_eq_orthogonalTimesScalars` for Mathlib's action of `GL(2, ℝ)` on `ℍ`; it follows
-from Mathlib's fixed-point criteria `UpperHalfPlane.gl_smul_I_eq_I_iff_of_pos` and
-`UpperHalfPlane.gl_smul_I_eq_I_iff_of_neg`.
+For `GL_{2,ℚ}`, the stabilizer identity `K_∞A_∞ = ℝ_{>0}·O(2)` for Mathlib's action of
+`GL(2, ℝ)` on `ℍ` follows from its fixed-point criteria
+`UpperHalfPlane.gl_smul_I_eq_I_iff_of_pos` and `UpperHalfPlane.gl_smul_I_eq_I_iff_of_neg`.
 
 *Needs:* ALS.0.1; ALS.0.3; AdelicAlgebraicGroups
 §2.1 (the split component `A_G`); Mathlib `UpperHalfPlane.glAction`,
@@ -1249,9 +1253,8 @@ from Mathlib's fixed-point criteria `UpperHalfPlane.gl_smul_I_eq_I_iff_of_pos` a
 
 - `symmetricSpace_GL2_Q`: For `G = GL_{2,ℚ}, X^G ≅ ℍ` (upper half-plane) `G(ℝ)`-equivariantly, with `g`
   acting by `z ↦ (az+b)/(cz+d)` if `det g > 0` and `z ↦ (az̄+b)/(cz̄+d)` if `det g < 0; dim X = 2`.
-  The named targets `orthogonalTimesScalars_reflection`, `orthogonalTimesScalars_scalar` and
-  `orthogonalTimesScalars_not_diagonal` place `diag(−1,1)` and `2I` in the stabilizer and exclude
-  `diag(2,1)`, distinguishing both determinant signs and the split-centre factor.
+  The matrices `diag(−1,1)` and `2I` lie in the stabilizer, whereas `diag(2,1)` does not,
+  distinguishing both determinant signs and the split-centre factor.
 - `symmetricSpace_GL1`: For `G = GL_{1,F}, X^G = (F⊗ℝ)^×/(K_∞ℝ_{>0}) ≅ ℝ^{r₁+r₂−1}`; it is a point
   exactly when `F` is `ℚ` or imaginary quadratic.
 - `symmetricSpace_SL2_compat`: For `G = SL_{2,ℚ}, X^G = SL_2(ℝ)/SO(2)` is identified with Mathlib's
@@ -1486,16 +1489,13 @@ The Iwahori and pro-`v` Iwahori subgroups are ReductiveGroupsPartII's `LevelSubg
 `LevelSubgroups.proPIwahori`, stated there inside `GL_n(F_v)` (the examples of Layer RG2.3,
 `classical-level-subgroups`) with the index check `iwahori_relIndex_two`. Here they are the same
 groups inside `GL_n(O_v)`, as the cases `I = 𝔪_v` of the congruence subgroups modulo an arbitrary
-ideal `I` that the `Γ_0(v^c)`, `Γ_1(v^c)` and `Γ_p(v^c)` levels need. `Suggested.lean` states these
-over any commutative ring, the first two as the preimages under reduction modulo `I` of Tau Ceti's
-`TauCeti.upperTriangularGroup` and `TauCeti.upperUnitriangularGroup`, as `upperTriangularMod`,
-`unipotentMod`, `iwahori`, `iwahoriOne`, `gamma1Mod` and `gammaPMod` (for a prime `p`), with
-`iwahori_index_GL2` (the `ℤ_p` case of ReductiveGroupsPartII's check) and `iwahoriOne_relIndex`;
-over an arbitrary local ring `iwahori` and `iwahoriOne` are only the preimages of the upper
-triangular and upper unitriangular groups, and they are the Iwahori and pro-`p` Iwahori subgroups
-when the ring is the valuation ring of a nonarchimedean local field.
-The theorem `gamma0_eq_congruenceSubgroup` identifies the pullback to `SL_2(ℤ)` with Mathlib's
-classical `Γ₀(N)` for every natural number `N`.
+ideal `I` that the `Γ_0(v^c)`, `Γ_1(v^c)` and `Γ_p(v^c)` levels need. Over any commutative ring,
+the upper triangular and upper unitriangular congruence subgroups are preimages under reduction
+modulo `I` of Tau Ceti's `TauCeti.upperTriangularGroup` and `TauCeti.upperUnitriangularGroup`.
+Over an arbitrary local ring these preimages modulo the maximal ideal are the groups denoted
+`iwahori` and `iwahoriOne`; they are the Iwahori and pro-`p` Iwahori subgroups when the ring is
+the valuation ring of a nonarchimedean local field. The pullback of the upper triangular
+congruence subgroup to `SL_2(ℤ)` agrees with Mathlib's classical `Γ₀(N)` for every natural number `N`.
 
 *Needs:* ALS.0.6; ReductiveGroupsPartII RG2.3.3 (parahoric and Iwahori
 subgroups), RG2.3.5 (lattice-chain stabilizers) and the examples of Layer RG2.3
@@ -1510,20 +1510,19 @@ Tau Ceti `TauCeti.upperTriangularGroup`, `TauCeti.upperUnitriangularGroup`.
   the diagonal entries are a common unit a with `a² ≡ 1` mod `p^c`. For odd `p` this gives ±Gamma1;
   for `p = 2` and `c ≥ 3` extra solutions occur (`e`.`g`. a `= 3` mod 8, realized by
   `(3, 1; 8, 3) ∈ SL_2(ℤ)`), so
-  the unqualified ±Gamma1 assertion fails. The named target `gamma1Mod_two_adic_witness`
-  records determinant 1, membership, and both failures of the diagonal congruences `a ≡ ±1`.
+  the unqualified ±Gamma1 assertion fails: this determinant-one matrix belongs to the projective
+  preimage and satisfies neither diagonal congruence `a ≡ ±1`.
 - `taylorWiles_quotient_trivial_n1`: For `Q = ∅, Δ_Q` is trivial and `K_0(Q) = K_1(Q) = K`. For `PGL_1`
   the ambient group is trivial and so is its level quotient; the formula `Δ_Q = ∏ k_v^×` applies only
   to `n ≥ 2`.
 - `gammaP_ne_gamma1`: For `c = 1, [Γ_p(v) : Γ_1(v)]` is the `p`-primary part of `q_v − 1`; the inclusion
   is strict iff `p` divides `q_v − 1`. For example `p = 3, q_v = 7` gives index `3; p = 3, q_v = 5` gives
-  equality. It is not the prime-to-`p` part. The named targets
-  `gammaPMod_three_seven_witness` and `gammaPMod_two_seven_witness` use `diag(1,2)` and
-  `diag(1,−1)` over `ZMod 7`; `gammaPMod_eq_gamma1Mod_five` gives equality over `ZMod 5`.
-- `upperTriangularMod_mem_iff` and `unipotentMod_mem_iff` express membership through entries
-  below the diagonal and diagonal congruences. The named targets `levels_upper_unipotent_five`
-  and `levels_diagonal_lower_five` include `(1,1;0,1)`, distinguish `diag(2,1)` from a unipotent
-  matrix, and exclude `(1,0;1,1)` from the upper triangular group over `ZMod 5` at `I = ⊥`.
+  equality. It is not the prime-to-`p` part. Over `ZMod 7`, the matrices `diag(1,2)` and
+  `diag(1,−1)` witness strictness for `p = 3` and `p = 2`, respectively; for `p = 3` over
+  `ZMod 5` the two subgroups agree.
+- Membership is expressed through entries below the diagonal and diagonal congruences.
+  Over `ZMod 5` at `I = ⊥`, `(1,1;0,1)` belongs to both groups, `diag(2,1)` is upper triangular
+  but not unipotent, and `(1,0;1,1)` is not upper triangular.
 - `levels_top`: modulo `I = ⊤`, the upper triangular, upper unipotent and projective Γ₁
   preimages are the entire general linear group.
 - `iwahoriOne_two_eq_three_lt`: `Iw₁ = Iw` over `ℤ_2`, while `Iw₁ < Iw` over `ℤ_3`, testing
@@ -1554,7 +1553,7 @@ AdelicAlgebraicGroups §4.3 (`Neat.IsNeatAut`).
 - `K` with `K_2 = Iw_{2,1}, K_3 = Iw_{3,1}` and `K_v = GL_n(O_v)` elsewhere is neat.
 - One pro-`v` factor does not suffice: for `F = ℚ, n = 2` and `K = Iw_{3,1}·∏_{p≠3}GL_2(Z_p), K ∩ GL_2(ℚ)`
   contains elements of order 3 such as (1, 1; −3, −2) (trace `−1`, determinant `1, ≡` unipotent upper
-  triangular mod 3), so `K` is not neat. The named target `iwahoriOne_order_three` records this matrix and its order.
+  triangular mod 3), so `K` is not neat.
 - `PGL_2` over `ℚ` with `K = K(5)K(13)∏_{p≠5,13}PGL_2(Z_p)`: the adjoint images of `K(5)` and `K(13)` lie in
   the principal congruence subgroups of `GL_3(Z_5)` and `GL_3(Z_13)`, which are pro-5 and pro-13, so `K`
   is neat; this is the neatness used in ALS.0.13.
@@ -1582,8 +1581,6 @@ and its Tau Ceti monodromy is `ε(δ(ℓ)⁻¹)=ε(δ(ℓ))`; `LocallySymmetric.
 AlgebraicTopology, Stage 6; `LocallySymmetric.orientationCharacter_GL` — For
 `G = Res_{F/ℚ}GL_m, ε(γ) = sign(N_{F/ℚ}(det γ))^{m−1}`.
 
-`Suggested.lean` defines the character on rational points as `glOrientationSign`.
-
 *Needs:* ALS.0.9; ALS.0.5;
 AlgebraicTopology, Stage 6; Tau Ceti `TauCeti.LocalCoefficientSystem`; Tau Ceti
 `TauCeti.LocalCoefficientSystem.monodromyRepresentation`.
@@ -1591,11 +1588,11 @@ AlgebraicTopology, Stage 6; Tau Ceti `TauCeti.LocalCoefficientSystem`; Tau Ceti
 **Checks.**
 
 - `orientationCharacter_GL2_Q`: For `G = GL_{2,ℚ}, ε(g) = sign det g: diag(−1, 1)` acts on `ℍ` by
-  `z ↦ −z̄`, reversing orientation (`glOrientationSign_neg_det`).
+  `z ↦ −z̄`, reversing orientation.
 - `orientationCharacter_connected`: If `G(F_∞)` is connected (`e`.`g`. `GL_n` or `PGL_n` over an imaginary CM
   field), `ε` is trivial and `o_K ≅ ℤ` for every `K`.
 - `orientationSystem_GL_formula`: For `γ ∈ GL_m(O_F), ε(γ) = sign(N_{F/ℚ} det γ)^{m−1}`; for `m` odd `ε`
-  is trivial (`glOrientationSign_odd`, for every number field and every odd rank). Distinguish neatness over `F` from neatness of the restriction of scalars over `ℚ`: take
+  is trivial for every number field and every odd rank. Distinguish neatness over `F` from neatness of the restriction of scalars over `ℚ`: take
   `F=ℚ(√5), u=682+305`√5 with `N(u)=−1`, and `γ=diag(u,1)`. At `v=(11,√5−7)` and `w=(31,√5−6), u` reduces to
   1. Principal congruence at `v` and `w`, maximal integral level elsewhere, is `F`-neat by the
   two-distinct-residue-characteristics criterion, contains `γ`, and has `ε(γ)=−1`. The same `γ` is not
@@ -1718,9 +1715,6 @@ level;
 `LocallySymmetric.localSystem.constant` — For `V = R` with trivial actions, `V_K` is the constant sheaf
 `R` (Tau Ceti's `constantFunctor` on each component).
 
-`Suggested.lean` defines the slice action as `sliceRepresentation` and the convention as
-`endpointMonodromy`, inverting through Mathlib's `MulEquiv.inv'`.
-
 *Needs:* ALS.0.9; ALS.0.6;
 ALS.F.4 (discrete equivariant sheaf cohomology `H^n(X,Γ;F)`); Tau Ceti
 `TauCeti.LocalCoefficientSystem`; Tau Ceti `TauCeti.LocalCoefficientSystem.monodromyRepresentation`;
@@ -1730,13 +1724,11 @@ Tau Ceti `TauCeti.CoveringSpace.monodromyEquivalence`; AlgebraicTopology, Stage 
 **Checks.**
 
 - `localSystem_trivial`: For `V = R` with trivial `G(F)`- and `K_S`-actions, `V_K ≅` the constant sheaf
-  `R_{X_K}`. `sliceRepresentation` is trivial when both actions are trivial, and equals `ρ_G`
-  when only the `K_S`-action is trivial (`sliceRepresentation_trivial_right`).
-  `endpointMonodromy_one` gives trivial monodromy for `δ = 1` and every `ρ_Γ`.
+  `R_{X_K}`. The slice representation is trivial when both actions are trivial, and equals
+  `ρ_G` when only the `K_S`-action is trivial. The monodromy is trivial for `δ = 1` and every `ρ_Γ`.
 - On the coefficient line `ℚ`, take trivial rational action, `Γ = K_S = ℤ, φ = id` and
-  `χ(n) = 2^n`. `sliceRepresentation` sends the generator to multiplication by 2;
-  `endpointMonodromy`, with `δ` the identity of `Γᵐᵒᵖ`, sends its opposite to multiplication by `1/2`.
-  The named targets are `sliceRepresentation_two` and `endpointMonodromy_half`.
+  `χ(n) = 2^n`. The slice representation sends the generator to multiplication by 2;
+  endpoint monodromy, with `δ` the identity of `Γᵐᵒᵖ`, sends its opposite to multiplication by `1/2`.
 - `localSystem_monodromy_GL1`: For `G = GL_{1,F}` with `F` real quadratic, `K` neat (so that
   `−1 ∉ O_F^× ∩ K`) and `V = R(χ), χ` the sign of the first real embedding on `F^×`, the monodromy
   on the circle
@@ -1746,12 +1738,10 @@ Tau Ceti `TauCeti.CoveringSpace.monodromyEquivalence`; AlgebraicTopology, Stage 
 - `localSystem_eq_LocalCoefficientSystem`: At neat level the construction gives
   TauCeti.LocalCoefficientSystem via the above whole-inverse endpoint convention. For `K`-factor
   matrices `A=(1,1;0,1), B=(1,0;1,1)` in the natural `GL₂(ℚ)` representation and trivial rational
-  action, `sliceRepresentation` sends `AB` and `BA` on `(1,0)` to `(2,1)` and `(1,1)`.
-  With `δ = id` on `Γᵐᵒᵖ`, `endpointMonodromy` sends `op(A)op(B)` and `op(B)op(A)` on `(1,0)` to
+  action, the slice representation sends `AB` and `BA` on `(1,0)` to `(2,1)` and `(1,1)`.
+  With `δ = id` on `Γᵐᵒᵖ`, endpoint monodromy sends `op(A)op(B)` and `op(B)op(A)` on `(1,0)` to
   `(2,−1)` and `(1,−1)`, and its first value equals the product of the two inverse actions.
   Thus the endpoint convention remains a homomorphism with noncommuting `K_S` values.
-  The named targets `sliceRepresentation_noncomm` and `endpointMonodromy_noncomm` state these
-  two product-order tests on the natural coefficient module.
 - `localSystem_not_constant_of_trivial_stalk`: A rank-one system may have trivial stalks and
   nontrivial monodromy. At non-neat `GL_2(Ẑ), R(sign det)` is an orbifold coefficient system; it is
   not asserted to descend to a local system on the coarse quotient. A manifold example is the
@@ -1941,9 +1931,6 @@ chain-level comparison to `D(R)`, retaining naturality, the finite component sum
 descent at non-neat level with the stabilizer
 corrections above.
 
-`Suggested.lean` states the level-one computations `groupCohomology_SL2Z_one` and
-`groupCohomology_SL2Z_two`.
-
 *Needs:* ALS.1.2; ALS.0.7;
 ALS.0.5; ALS.0.9;
 ALS.1.4; ClassifyingSpaces §Stage 4, items 16–18
@@ -2000,7 +1987,7 @@ ALS.F.2; Mathlib `Module.Projective`.
 - For `K′ = K` neat, `RΓ(X_K, V)` is a perfect complex of `R`-modules with amplitude `[0, d_G]`.
 - For `R = ℤ` and `V = ℤ, H^*(X_K, ℤ)` is finitely generated in each degree.
 - A full-level free model with quotient `Q = S₃` gives finite projective left `R[S₃]` terms;
-  ALS.F.2 applies despite the two unequal products in `groupRing_S3_noncomm`.
+  ALS.F.2 applies despite the two unequal products of transpositions in the group ring.
 - Non-example: for `SL_{2,ℚ}, K = SL_2(Ẑ)` and `K′ = K(3), RΓ_{K/K′}(X_{K′}, F_2)` is perfect over `F_2`
   but not over `F_2[K/K′]`: derived `K/K′`-invariants of a perfect `F_2[K/K′]`-complex are bounded, while
   they give `H^*(SL_2(ℤ), F_2)`, which is nonzero in every degree.
@@ -2070,9 +2057,6 @@ retaining transported coefficients;
 `LocallySymmetric.RΓ.pullback_eq_sheafPullback` — at neat level these geometric maps are sheaf
 pullbacks; a composite with `A_g` retains its coefficient morphism;
 `LocallySymmetric.RΓc.pullback` — the same maps on `RΓ_c`, commuting with forget-supports.
-`Suggested.lean` gives the group-action coefficient isomorphism as `translationCoefficientEquiv`
-and its conjugation identity as `translationCoefficientEquiv_intertwines`. The rational action
-must commute with that group action in the arithmetic application.
 
 *Needs:* ALS.1.1; ALS.1.2;
 ALS.0.6; AlgebraicTopology, Stage 2;
@@ -2083,18 +2067,18 @@ Tau Ceti `TauCeti.LocalCoefficientSystem.pullback`.
 - `pullback_H0`: In degree `0, π^*_{K′,K} : R^{π_0(X_K)} → R^{π_0(X_{K′})}` is the map induced by
   `π_0(π_{K′,K})` (each component pulled back to the union of the components over it).
 - `translate_of_mem`: For `k ∈ K`, geometric pullback followed by `ρ(k_S)` is id on `RΓ(X_K,V)`.
-  For a group coefficient action, `translationCoefficientEquiv` at `g⁻¹` is the inverse of that
-  at `g` (`translationCoefficientEquiv_inv`); the inverse identities also hold for compact
+  For a group coefficient action, the coefficient isomorphism at `g⁻¹` is the inverse of that
+  at `g`; the inverse identities also hold for compact
   support and transported deck actions.
 - For `G = G_m` over `ℚ, p ∈ S, K_p = ℤ_p^×` and
   `Δ_p = {p^n u : n ≥ 0, u ∈ ℤ_p^×}`, let `Δ_p` act by multiplication on `V = R = ℤ_p` and let
   `G(ℚ)` act trivially. Translation by `g_p = p` fixes the level and pure geometric coefficient
   transport is the identity, but its specified monoid coefficient map is multiplication by `p`.
-  It is not surjective on a stalk, hence cannot supply a coefficient-sheaf isomorphism;
-  `translation_monoid_p_not_surjective` states this obstruction. Tame level may be chosen neat.
+  It is not surjective on a stalk, hence cannot supply a coefficient-sheaf isomorphism.
+  Tame level may be chosen neat.
 - Reduction of that example to `R = V = 𝔽_p` gives the zero `p`-operator on a nonzero stalk, while
-  `K_p` acts smoothly through `𝔽_p^×`. `translation_monoid_p_mod_p_zero` records that linear map and
-  its failure to be bijective. The geometric translation remains an isomorphism.
+  `K_p` acts smoothly through `𝔽_p^×`. This linear map fails to be bijective.
+  The geometric translation remains an isomorphism.
 - `pullback_injective_rational`: If `K` is neat and `[K : K′]` is invertible in `R` then `π^*` is split
   injective on `H^*`, with left inverse `[K : K′]⁻¹·`(trace) (see ALS.3.6).
 - `pullback_not_iso`: `π^*` is not an isomorphism in general: for
@@ -2159,9 +2143,8 @@ including the Levi conjugation action on `N_P`; `LocallySymmetric.BorelSerre.fac
 `γ ∈ 𝐆(ℚ)=G(F), x ↦ γx` induces `e(P) ≅ e(γPγ⁻¹)` compatibly with the geodesic actions;
 `LocallySymmetric.BorelSerre.face_dim` — `dim e(P) = d_G − dim A_P`.
 
-`Suggested.lean` defines the geodesic action of the diagonal torus of `SL_2` on `ℍ` as
-`geodesicActionSL2`, with `geodesicActionSL2_add`, `geodesicActionSL2_vadd` (it commutes with
-`N_B(ℝ)`), `geodesicActionSL2_re` and the freeness statement `geodesicActionSL2_free`.
+For the diagonal torus of `SL_2`, the geodesic action on `ℍ` is
+`t • (x + iy) = x + i e^{2t}y`. It is free, fixes real parts and commutes with `N_B(ℝ)`.
 
 *Needs:* ALS.0.4; ALS.0.1; AdelicAlgebraicGroups §3.2
 (horospherical decomposition for a fixed maximal compact, stated there for semisimple groups; its
@@ -2610,10 +2593,8 @@ Tau Ceti has the coinvariant form of the same sum, `HeckeCoset.heckeSum` with
 §3.4): for a right-coset decomposition `Γ₁δΓ₂ = ⊔ Γ₁a_v` and a `Γ₁`-invariant map, `Σ_v q ∘ ρ(a_v)`
 is independent of the representatives and `Γ₂`-invariant. The invariant operator here is its
 transpose under `(V^∨)^U = (V_U)^∨` for finite free `V`, with `g` replaced by `g⁻¹`; an
-implementation reuses it. `Suggested.lean` records the basis elements as `heckeBasis` and the action
-of one double coset as `doubleCosetOperator`, with `IsDoubleCosetReps`,
-`doubleCosetOperator_mem_invariants` and `doubleCosetOperator_indep`, and states the degree
-formula on the trivial module as `hecke_degree_eq_index`.
+implementation reuses it. The invariant operator preserves `U`-invariants and is independent
+of the representatives, with the degree formula on the trivial module given below.
 
 *Needs:* Mathlib `IsHeckeTriple`; Mathlib `HeckeCoset`; Mathlib `HeckeRing`; Tau Ceti
 `HeckeCosetModule.instRingHeckeRing`; Tau Ceti `HeckeCoset.degree_eq_relIndex`; Tau Ceti
@@ -2626,7 +2607,7 @@ SmoothRepresentationsOfLocalGroups SR.1.1 (Haar measures and convolution Hecke a
 
 - `hecke_one_smul`: `[U1U]` acts as the identity on `M^U`: any representative set of `U1U/U` is a
   single element of `U`, which fixes `M^U`; and for `Δ = U` the functor `Γ_U` is ordinary invariants.
-  The named target `isDoubleCosetReps_one` states that `{1}` represents `U1U/U`.
+  The singleton `{1}` represents `U1U/U`.
 - `hecke_Tp_permutation`: For `Δ = GL_2(ℚ_p), U = GL_2(Z_p)` and `M = ℤ[Δ/U]` (formal sums of lattices
   in `ℚ_p²`), `T_p = [U diag(p, 1) U]` sends the `U`-fixed element `[Z_p²]` to `Σ [L′]` over the `p + 1`
   lattices `L′ ⊂ Z_p²` with `Z_p²/L′ ≅ F_p` (the cosets `α_iU` of `U diag(p,1) U`).
@@ -2652,10 +2633,6 @@ which the relative complexes of ALS.1.2 carry Hecke operators and the residual
 finite-group action at once; for `K′_S = K_S` this is the identification
 `H(G^S × K_S, K) ≅ H(G^S, K^S)` used by Newton–Thorne. ([NT16, §2.2.1, Lemma 2.3 and (2.5), pp.
 12–13]; [NT16, §3.1, p. 43])
-
-`Suggested.lean` states (i) as `heckeRing_normal` and (ii), including its value on pure basis
-tensors, as `heckeRing_prod`. The theorem `isHeckeTriple_prod` supplies the Hecke-pair property
-of the product from that of its two factors.
 
 *Needs:* ALS.3.1; Mathlib `IsHeckeTriple`, `HeckeCoset`, `HeckeRing`;
 Tau Ceti `HeckeCosetModule.instRingHeckeRing` and
@@ -2818,7 +2795,7 @@ equivariant category.
   double coset. The regular `k[Δ]`-module is injective, by its finite-group Frobenius
   pairing. On its three-dimensional `U`-invariants, `ε` is the all-ones matrix: its image
   is the constant line and its kernel is the plane of coordinate sum zero. The vector
-  `(1,2,0)` is in the kernel outside the image, as stated in `Suggested.lean`. The
+  `(1,2,0)` is in the kernel outside the image. The
   `H`-linear map `(ε) → (k[Δ])^U` sending `ε` to this vector cannot extend to `H`, since
   an extension would send it to `ε` times the image of `1`. These invariants are therefore
   not injective over `H`, although restriction to the coefficient field is injective.
@@ -3196,12 +3173,6 @@ and on coefficients `V ↦ V(ψ^{−1,S})`, the module with `G^S` acting additio
 is Tau Ceti's `Representation.charTwist` at the character `g ↦ ψ(det g)⁻¹` and is not redefined
 here.
 
-`Suggested.lean` defines the twist of a Hecke ring by a character `χ` trivial on `U` as
-`twistHecke`,
-through the value `heckeCosetCharacter` of `χ` on a double coset, with its basis formula
-`twistHecke_single`, its identity law `twistHecke_trivial`, and its general composition law
-`twistHecke_mul` for any two characters trivial on `U`.
-
 *Needs:* ALS.3.3; ALS.3.11; ClassFieldTheory,
 Layers 7, 10 and 11 (`artinMap`, `geometricArtinMap`, `globalArtinMap`, `globalArtinMap_local`,
 `globalArtinMap_principal`, `globalArtinMap_isArithFrobAt`); Tau Ceti
@@ -3209,13 +3180,11 @@ Layers 7, 10 and 11 (`artinMap`, `geometricArtinMap`, `globalArtinMap`, `globalA
 
 **Checks.**
 
-- `heckeCosetCharacter` takes value 1 on the identity double coset for every character trivial
-  on `U`, including `U = G` (`heckeCosetCharacter_one`).
+- A character trivial on `U` takes value 1 on the identity double coset, including when `U = G`.
 - For `Γ = ℤ, U = 2ℤ` and `χ(n) = (−1)^n` valued in `ℚ^×`, the distinct representatives 1 and 3
-  differ by a `U`-translate and `heckeCosetCharacter` gives the same value on their double coset
-  (`heckeCosetCharacter_parity`).
+  differ by a `U`-translate, so the character has the same value on their double coset.
 - For `Γ = S₃, U = A₃` and the sign character valued in `ℤ^×`, the normal quotient has order 2 and
-  `heckeCosetCharacter` takes value `−1` on the transposition coset (`heckeCosetCharacter_sign`).
+  the character takes value `−1` on the transposition coset.
 - `twistHecke_trivial`: `f_1 = id`.
 - `twistHecke_T_GL1`: For `n = 1, T_{v,1} = [ϖ_v K_v]` and `f_ψ(T_{v,1}) = ψ(Frob_v)⁻¹ T_{v,1}`.
 - `twistHecke_mul`: `f_ψ` is an `O`-algebra automorphism with `f_ψ ∘ f_{ψ⁻¹} = id`.
