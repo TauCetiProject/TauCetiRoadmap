@@ -3,14 +3,14 @@ import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCeti.Algebra.Quaternion.BrauerClass
-import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse.Basic
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Clifford
 import TauCeti.Algebra.CrossedProduct.CentralSimple
 import TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Defect
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Bimultiplicativity
 import TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic
-import TauCeti.LinearAlgebra.Matrix.PinPlusPlane
+import TauCeti.LinearAlgebra.Matrix.PinPlusPlane.Basic
 import TauCeti.Algebra.Quaternion.Binary
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.Algebra.Quaternion.SplittingCriterion

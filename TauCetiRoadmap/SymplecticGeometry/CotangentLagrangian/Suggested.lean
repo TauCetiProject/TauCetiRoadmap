@@ -2,7 +2,7 @@ import Mathlib.Geometry.Manifold.VectorBundle.Hom
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.Lagrangian.Basic
 import TauCeti.Geometry.Symplectic.Cotangent.Liouville
-import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
+import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 /-!
 These suggested forms are aids, not the specification. The README is definitive;

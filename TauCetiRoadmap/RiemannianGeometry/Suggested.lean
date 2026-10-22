@@ -3,7 +3,7 @@ import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Reg
 import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Sectional
 import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Ricci
 import TauCeti.Geometry.Manifold.Riemannian.Geodesic.HopfRinow
-import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
+import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 import TauCeti.Geometry.Manifold.TubularNeighborhood.Euclidean
 
 /-!

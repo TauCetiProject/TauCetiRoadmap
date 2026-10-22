@@ -7,7 +7,7 @@ import TauCeti.RingTheory.Huber.Uniform
 import TauCeti.RingTheory.Huber.StableUniform
 import TauCeti.RingTheory.Huber.Padic.Field
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Adic
-import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid
+import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafyRing
 import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
