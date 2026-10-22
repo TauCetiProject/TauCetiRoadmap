@@ -146,7 +146,7 @@ The level-one principal Siegel compactifications are constructed in §5.0 over a
 
 ## How to read the build
 
-Layer 1 gives the arithmetic degree and point-height interface, with the projective calculation of §1.14 used in the height-class theorem of §1.13; Layer 2 supplies the semi-abelian family extension theorem and equips the supplied Hodge lines with metrics and proves semistable duality. Layer 3 defines relative and stable heights and their base-change correction. Layer 4 proves isogeny identities, including the squared dual-line comparison for arbitrary reduction, and then component heights. Layer 5 constructs the integral principal Siegel compactifications and compares stable height with an ample moduli height and with theta and `j`-heights. Layer 6 applies Zarhin’s trick and the field-degree bounds to finiteness and uniform lower bounds. Each numbered topic states its hypotheses, the required interface, proof route, sources and discriminating checks. `Suggested.lean` contains representative signatures over carriers available in the libraries; this README is the full specification.
+Layer 1 gives the arithmetic degree and point-height interface, with the projective calculation of §1.14 used in the height-class theorem of §1.13; Layer 2 supplies the semi-abelian family extension theorem and equips the supplied Hodge lines with metrics and proves semistable duality. Layer 3 defines relative and stable heights and their base-change correction. Layer 4 proves isogeny identities, including the squared dual-line comparison for arbitrary reduction, and then component heights. Layer 5 constructs the integral principal Siegel compactifications and compares stable height with an ample moduli height and with theta and `j`-heights. Layer 6 applies Zarhin’s trick and the field-degree bounds to finiteness and uniform lower bounds. Each numbered topic states its hypotheses, the required interface, proof route, sources and discriminating checks. This README is the full specification. Lean names in the numbered sections specify the intended library interface, and Checks specify mathematical tests. `Suggested.lean` records headline theorems expressible against the pinned Mathlib and Tau Ceti interfaces. It contains no theorem statements: arithmetic hermitian bundles, metrized Néron Hodge lines, Faltings heights, integral Siegel compactifications and theta-height constructions are needed to express the headline results.
 
 ## Layer 1: Hermitian bundles, arithmetic divisors and heights
 
@@ -368,8 +368,8 @@ The source identifications are [Szpiro](https://www.numdam.org/item/AST_1985__12
 **Checks.**
 
 - `ArakelovDivisor.degree_principal_two`: For `K = ℚ` and `f = 2: (2) = [2] − log 2·[∞]` has degree `log 2 − log 2 = 0`.
-- `ArakelovDivisor.degree_zero`: The zero divisor `(O_K, 0)` has degree 0.
-- `ArakelovDivisor.mult_nonexample`: For `K = ℚ(i)` and `f = 2`, the divisor with archimedean coefficient `−log|2|` (multiplicity forgotten) has degree `log 4 − log 2 ≠ 0`, so it is not principal-compatible.
+- The zero divisor `(O_K, 0)` has degree 0.
+- For `K = ℚ(i)` and `f = 2`, the divisor with archimedean coefficient `−log|2|` (multiplicity forgotten) has degree `log 4 − log 2 ≠ 0`, so it is not principal-compatible.
 - `ArakelovDivisor.picHat_rat`: For `K = ℚ, deg^ : Div^(ℤ)/principal → ℝ` is a bijection, matching Gillet–Soulé's `deg : ĈH¹(Spec ℤ) ≅ ℝ`.
 - `ArakelovDivisor.principal_trivialization`: For `f=2` over `ℚ, O((2))` is `½ℤ` with norm `2|·|`. Its unit-norm generator is `½`; the section 2 has norm 4. This detects the sign of the trivializing section.
 - `deg^((f)) = 0` for every `f ∈ K^×`; for `K = ℚ, Pic^(ℤ) ≅ ℝ` through `deg^`.
@@ -608,7 +608,7 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 **Checks.**
 
 - `ArakelovDivisor.ofTuple_zero_nonexample`: The zero tuple does not define a projective point or an invertible coordinate ideal, even though Mathlib assigns its tuple height a junk value.
-- `ArakelovDivisor.ofTuple_coprime`: For nonzero coprime integers `a,b` over `ℚ`, the degree of `ofTuple(a,b)` is `log max(|a|,|b|)`, agreeing with `NumberField.mulHeight_eq_max_abs_of_gcd_eq_one`.
+- For nonzero coprime integers `a,b` over `ℚ`, the degree of `ofTuple(a,b)` is `log max(|a|,|b|)`, agreeing with `NumberField.mulHeight_eq_max_abs_of_gcd_eq_one`.
 - `ArakelovDivisor.ofTuple_FS`: At `[1:1]` over `ℚ`, the sup degree is 0 and the Fubini–Study degree is `½ log 2`; at `[1:0]` both are 0.
 - `ArakelovDivisor.ofTuple_scaling`: Scaling by `c ≠ 0` subtracts the principal divisor `(c)`; for `(2,2)` and `(1,1)` the degree stays 0.
 - For `K = ℚ` and `x = (a, b)` coprime, `deg^ = log max(|a|, |b|)`, Mathlib's `mulHeight_eq_max_abs_of_gcd_eq_one`; for `x = (1, 1)` the Fubini–Study degree is `½ log 2`.
@@ -914,7 +914,7 @@ The source identifications are [Gaudron–Rémond, Périodes](https://arxiv.org/
 **Checks.**
 
 - `EllipticCurve.faltingsHeight_11a2`: For `11.a2` over `ℚ` the formula evaluates to `−0.3080098`… (agreeing with LMFDB to 10 digits). The reference values `Δ_min=−11⁵, j=−122023936/161051` and `h_Fal=−0.308009841118403`… are recorded on [LMFDB 11.a2](https://www.lmfdb.org/EllipticCurve/Q/11/a/2). A period ratio `τ≈½+1.1493901061232523i` reproduces that height.
-- `EllipticCurve.faltingsArchimedeanTerm_S`: `faltingsArchimedeanTerm(−1/τ) = faltingsArchimedeanTerm(τ)`.
+- `faltingsArchimedeanTerm(−1/τ) = faltingsArchimedeanTerm(τ)`.
 - `EllipticCurve.faltingsHeight_lattice_disc_nonexample`: Using the lattice discriminant `(2π)^{12}Δ(τ)` together with the `−12 log 2π` term double-counts `2π`: the two normalisations differ by exactly `12 log 2π`.
 - `EllipticCurve.faltingsHeight_basechange`: For `E` with semistable reduction over `K` and `L/K` finite, both sides scale by `[L:K]`.
 - For `E = 11.a2` over `ℚ (Δ_min = −11⁵, τ ≈ ½ + 1.14939i)` the formula gives `h_Fal(E) = deg^/1 ≈ −0.3080098`, LMFDB's value of the Faltings height; in Deligne's normalisation add `½ log π`.
@@ -1407,15 +1407,15 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 
 **Checks.**
 
-- `HermitianMetric.logSing_cusp`: On the disc with coordinate `q` and the fixed trivial extension, the cusp Hodge squared norm `f(q) = −(1/(2π))log|q|` satisfies the local logarithmic condition. Multiplication by `2π` gives the frame norm `−log|q|` with the same property.
-- `HermitianMetric.logSing_polynomial_nonexample`: `‖1‖ = |q|^{−1/2}` does not have logarithmic singularities along `q = 0` (it grows faster than any power of `log`).
+- On the disc with coordinate `q` and the fixed trivial extension, the cusp Hodge squared norm `f(q) = −(1/(2π))log|q|` satisfies the local logarithmic condition. Multiplication by `2π` gives the frame norm `−log|q|` with the same property.
+- `‖1‖ = |q|^{−1/2}` does not have logarithmic singularities along `q = 0` (it grows faster than any power of `log`).
 - `HermitianMetric.logSing_empty_boundary`: With `Z = ∅` every continuous metric qualifies.
 - On `X̄ = 𝔸¹_ℂ` with `Z = {0}`, the constant unit metric on `O` has logarithmic singularities. This noncompact example and the disc examples use the local predicate.
-- `HermitianMetric.logSing_power`: If `‖·‖` has logarithmic singularities so does `‖·‖^k` on `L^{⊗k}` for `k ∈ ℤ`. In particular, the reciprocal of `−(1/(2π))log|q|` has logarithmic growth on the fixed dual extension `(k = −1)`.
-- `HermitianMetric.logSing_zero_nonexample`: The zero function is not a frame norm. Eventual strict positivity is part of LogSingularAtZero; `max(0,0⁻¹)=0` in Lean must not let the zero function pass.
+- If `‖·‖` has logarithmic singularities so does `‖·‖^k` on `L^{⊗k}` for `k ∈ ℤ`. In particular, the reciprocal of `−(1/(2π))log|q|` has logarithmic growth on the fixed dual extension `(k = −1)`.
+- The zero function is not a frame norm. Eventual strict positivity is part of LogSingularAtZero; `max(0,0⁻¹)=0` in Lean must not let the zero function pass.
 - `HermitianMetric.logSing_negative_nonexample`: A negative constant is not a metric, even if its maximum with its reciprocal satisfies a formal upper bound. Require `C > 0` and a positive frame norm.
 - `HermitianMetric.logSing_extension_nonexample`: Replacing a boundary extension by `O(−[0])` multiplies its generator norm by `|q|`. Its inverse has polynomial growth, so logarithmic singularity is not invariant under arbitrary boundary twists.
-- For the finite ramified disc map `q = u^e, e ≥ 1`, and the trivial extension, a norm `−log|q|` pulls back to `−e log|u|` near zero. Both have logarithmic growth; `HermitianMetric.LogSingularAtZero.comp_pow_iff` includes `e = 2`, where the map has degree two and is not a modification.
+- For the finite ramified disc map `q = u^e, e ≥ 1`, and the trivial extension, a norm `−log|q|` pulls back to `−e log|u|` near zero. Both have logarithmic growth; the local equivalence includes `e = 2`, where the map has degree two and is not a modification.
 - Under the same map, `|q|^(−1/2)` pulls back to `|u|^(−e/2)`; neither norm has logarithmic growth. The constant map `e = 0` would instead give the unit norm upstairs, so the positive-exponent hypothesis is necessary.
 - For the unit norm on `O` over the punctured disc, changing the extension to `O(−[0])` gives frame norm `|q|`. Its pullback frame has norm `|u|^e` on `q^*O(−[0]) = O(−e[0])`, and both fail the logarithmic condition. Replacing this extension by `O` upstairs would change the answer and is excluded.
 - The metric `‖dz‖² = Im τ` on the Hodge line over the `j`-line near the cusp `q = 0: Im τ = −(1/2π) log|q|`, so it has logarithmic singularities along `q = 0`.
