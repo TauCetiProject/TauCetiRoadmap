@@ -6,7 +6,7 @@ This roadmap builds the arithmetic comparisons that let torsion cohomology produ
 
 The constructions retain coefficient rings, levels, twists, labelled weights and degree shifts. Each patching application exhibits its algebraic data. Support describes primes at which a module is nonzero; it does not identify integral deformation and Hecke rings. Rank-one characters and the stated higher-rank `p`-bounds remain distinct branches.
 
-The suggested file states the light definitions that the pinned libraries can already carry — equivariant retracts, the unitary weight dictionary, Siegel Kostant shuffles, the CTG predicate, the weight-zero and oddness conditions, the positive torus monoid, the lowest-weight and ordinary characters in unit/valuation coordinates, the Iwahori and Taylor–Wiles congruence levels, relative Bruhat cells and the orientation character — with discriminating examples, and the milestones whose carriers exist there: `shifted_partition_recovery`, `simple_galois_composita`, the minimal-representative property of Kostant shuffles, the two diamond quotients, the Taylor–Wiles index, the character prescriptions and their coordinate change, and the longest-cell lengths. Every arithmetic definition and theorem is stated in this document only, because its carriers (arithmetic cohomology, Hecke algebras, Galois representations of number fields, automorphic representations, deformation rings, patched complexes, integral dual Weyl modules) require the arithmetic APIs specified below.
+`Suggested.lean` contains no headline theorem signatures at the library pins. The Siegel boundary and Satake comparisons need arithmetic coefficient cohomology and Hecke actions; Fontaine–Laffaille and ordinary local–global compatibility need their coefficient realizations and ordinary towers; soluble automorphic transport and the rank-two results need automorphic representations and compatible systems; Hida weight independence, deformation–Hecke actions, support and both automorphy lifting theorems need the arithmetic Hida, deformation and patched-complex objects. These objects are specified in the layers and supplier contracts below. The module docstring records the missing objects for each layer. Lean names in the layer targets specify the intended Tau Ceti library interfaces.
 
 ## Scope and ownership
 
@@ -152,7 +152,7 @@ The main-roadmap short names expand as follows:
 - Tau Ceti ClassFieldTheory L5: `ClassFieldTheory`, Layer 5.
 - Tau Ceti ClassFieldTheory L11 and L12: the global reciprocity map and the global existence theorem of `TauCetiRoadmap/ClassFieldTheory`.
 
-Suggested theorem names without a namespace prefix lie in `TauCetiRoadmap.PotentialAutomorphyInfrastructure`; the definition and API namespaces are printed explicitly. Internal prerequisites refer to the stated layer and its construction route. Within each thematic subsection the statements specify the particular levels, coefficients, functors or previous theorem being used.
+Target theorem names without a namespace prefix lie in `TauCetiRoadmap.PotentialAutomorphyInfrastructure`; the definition and API namespaces are printed explicitly. Internal prerequisites refer to the stated layer and its construction route. Within each thematic subsection the statements specify the particular levels, coefficients, functors or previous theorem being used.
 
 ## Exact supplier contracts
 
@@ -242,7 +242,7 @@ The two extremely weak comparison targets in §§2.8 and 2.12 retain their weake
 
 The ordinary determinant transfer has an additional local proof requirement. ACC Theorem 5.4.3 provides a map onto the Satake image. To obtain Proposition 5.4.18 over the larger `GLₙ` Hecke algebra, prove a polynomial-law/kernel argument over the O-flat unitary algebra and carry the identities through base change to every relevant group-algebra element. A map onto the image alone does not supply that argument. Layer 3's all-degree characteristic data and local–global theorem depend on this completion.
 
-Uniform free diamond-cell models, common bounds on minimal ranks and compatible derived reconstruction are required before the perfect arithmetic towers can be used in Layer 5. Their existence is not inferred for arbitrary non-neat compact open quotients. The suggested file types local cores; this README states the arithmetic definitions, APIs, checks and theorem contracts.
+Uniform free diamond-cell models, common bounds on minimal ranks and compatible derived reconstruction are required before the perfect arithmetic towers can be used in Layer 5. Their existence is not inferred for arbitrary non-neat compact open quotients. This README specifies the arithmetic definitions, APIs, checks and theorem contracts.
 
 ## How to read the build
 
@@ -301,9 +301,9 @@ Its interface includes:
 
 **Checks.**
 
-- `EquivariantRetract.identity` (degenerate): Identity maps on A give an equivariant retract of A into itself.
+- Identity maps on A give an equivariant retract of A into itself.
 - The forgotten retract of the identity construction is Mathlib Retract.refl.
-- `EquivariantRetract.incompatible_actions` (non-example): Identity inclusion/retraction cannot form an equivariant retract between `Z` with multiplication-by-1 and multiplication-by-2 as the same indexed operator.
+- Identity inclusion/retraction cannot form an equivariant retract between `Z` with multiplication-by-1 and multiplication-by-2 as the same indexed operator.
 
 <a id="unitary-levi-weight-dictionary"></a>
 
@@ -325,7 +325,7 @@ Its interface includes:
 - For `λ_τ=(2), λ_{τc}=(−3)`, the unitary row is (3,2).
 - Zero Levi rows give the zero unitary row.
 - For `λ_τ=(2,1), λ_{τc}=(−3,−4)`, the unitary row is (4,3,2,1).
-- `UnitaryLeviWeight.non_dominant`: For `n=1` and both Levi rows `(1)`, the unitary row is `(−1,1)` and is not dominant. Its induced `GL₂` module is zero, whereas the Levi module has rank one, so no coefficient embedding exists.
+- For `n=1` and both Levi rows `(1)`, the unitary row is `(−1,1)` and is not dominant. Its induced `GL₂` module is zero, whereas the Levi module has rank one, so no coefficient embedding exists.
 
 **Integral dual Weyl modules and Hecke algebras of positive monoids**
 
@@ -437,7 +437,7 @@ For finite smooth `B`, use IG.6.6a's `coefficientCover` support argument and IG.
 - A nontrivial finite `B` is trivial only after a level refinement. If all localized upstairs trivial-coefficient cohomology groups vanish, Hochschild–Serre forces downstairs cohomology with `B` to vanish as well.
 - The Levi `GL₁×U(1,1)` in `U(2,2)` contributes ranks `1+2+1`. Its middle factor requires the residual-unitary attachment even when every general linear factor already has Galois type.
 
-- At half-rank `a=2`, the coefficient exponent is `j(1−4+j)/2+j = j(j−1)/2`; `unitary_ambient_twist_exponent` records this identity for arbitrary rank and index. A second `ε⁻¹` twist would change every positive-index coefficient again.
+- At half-rank `a=2`, the coefficient exponent is `j(1−4+j)/2+j = j(j−1)/2`; for arbitrary rank and index it is `j(1−2a+j)/2+j(a−1) = j(j−1)/2`. A second `ε⁻¹` twist would change every positive-index coefficient again.
 - At an inert place of residue degree two above cardinality `3`, use `q_v=9`. Already the rank-two constant coefficient is `9T̃_{v,2}`, not `3T̃_{v,2}`.
 - The supplied theorem at a larger rationally saturated bad set gives no unramifiedness or polynomial at a removed place. The admissible-set comparison must include that place in its classical action before descent.
 
@@ -457,7 +457,7 @@ Precisely, if the supplied determinant representation `σ` has `det(1−Xσ(Frob
 - At `m=2` the constant Eisenstein eigensystem has polynomial `(X−q_v)(X−1)`; Galois type alone does not imply residual irreducibility.
 - Nontrivial finite coefficients and `B^∨⊗o_L` require the refined-level argument; a characteristic-zero attachment for algebraic cuspidal coefficients does not give these instances.
 
-- For `m=1, q_v=3, T_{v,1}=2`, the supplied polynomial is `1−6X`; twisting by `ε` gives the monic `Y−2`, not `Y−6`. This is `gln_torsion_polynomial_rank_one` in the suggested file.
+- For `m=1, q_v=3, T_{v,1}=2`, the supplied polynomial is `1−6X`; twisting by `ε` gives the monic `Y−2`, not `Y−6`.
 - For `m=2, q_v=2, T_{v,1}=3, T_{v,2}=5`, substitution `X↦X/2` changes `1−6X+40X²` to `1−3X+10X²`; it retains the standard constant coefficient `q_vT_{v,2}=10`.
 
 <a id="boundary-level-coefficient-comparison"></a>
@@ -653,9 +653,9 @@ Its interface includes:
 
 **Checks.**
 
-- `CTGWeight.zero` (non-example): For nonempty `W` and `n>0` the zero table is not CTG.
+- For nonempty `W` and `n>0` the zero table is not CTG.
 - With `W` empty the predicate is true.
-- `CTGWeight.rank_one_pair` (computation): For `n=1`, one `w` and embeddings `a,aᶜ,b,bᶜ`, with `μ(a)=0, μ(aᶜ)=0, μ(b)=1, μ(bᶜ)=0`, the table is CTG: the conjugate sums are 0 and 1.
+- For `n=1`, one `w` and embeddings `a,aᶜ,b,bᶜ`, with `μ(a)=0, μ(aᶜ)=0, μ(b)=1, μ(bᶜ)=0`, the table is CTG: the conjugate sums are 0 and 1.
 
 <a id="ctg-one-embedding-perturbation"></a>
 
@@ -733,7 +733,7 @@ For `a=(aτ)`, let `ψ_a∘Art_K(u)=∏τ τ(u)^{−aτ}` on units and `ψ_a∘A
 
 - A jump-one line realizes `ε⁻¹`, with our Hodge label `1`. Negating a supplier's numerical label leaves this character intact; taking its actual dual would give `ε`.
 - The linear dual into `ℤₚ` of a finite nonzero torsion realization is zero. Its Pontryagin dual is nonzero and commutes with lattice reduction, as required by the coefficient functor.
-- `UnitaryLeviWeight.fontaine_laffaille_endpoint`: for `n=2`, `p=7`, `λτ=(0,0)` and `λτc=(0,−2)`, the unitary row is `(2,0,0,0)` and its shifted multiset is `{5,2,1,0}`. Both §1.11 inequalities hold. This lies in `[0,5]` and fails `[0,4]`; the allowed interval has no rank correction.
+- For `n=2`, `p=7`, `λτ=(0,0)` and `λτc=(0,−2)`, the unitary row is `(2,0,0,0)` and its shifted multiset is `{5,2,1,0}`. Both §1.11 inequalities hold. This lies in `[0,5]` and fails `[0,4]`; the allowed interval has no rank correction.
 - A jump `aτ+p−1` fails `Fil^{aτ+p−1}=0`; endpoint inclusion stops at `aτ+p−2`.
 
 <a id="nilpotent-fontaine-laffaille-transfer"></a>
@@ -1388,14 +1388,14 @@ Its interface includes:
 **Checks.**
 
 - For `n=1, χ₁(Art(varpi_v))=U_{v,1}`.
-- `OrdinaryGaloisCharacters.determinant` (characterisation): The product of the `n` uniformizer values is `ε^{n(1−n)/2}U_{v,n}`.
+- The product of the `n` uniformizer values is `ε^{n(1−n)/2}U_{v,n}`.
 - For rank 2 with `λ=(2,0)`, the algebraic unit factors are 1 for `χ₁` and `u^{-2}` for `χ₂` before `ε` and diamonds; using `λ_i` instead of `λ_{n−i+1}` reverses them.
 
 **Local ordinary functors and derived invariants**
 
 The coefficient characteristic is `p`. Build ordinary parts in smooth positive-monoid categories with enough injectives, then derive the functors. The comparisons depend on unipotent acyclicity and injective preservation, with the indicated boundedness conditions.
 
-The coordinate API also gives `OrdinaryGaloisCharacters.unique_from_units_and_uniformizer` and `OrdinaryGaloisCharacters.coordinate_uniformizer_change`. If `ϖ′=u₀ϖ`, its new coordinates `(u,k)` represent old coordinates `(u u₀^k,k)`, so `χ(u u₀^k,k)=χ(u,0)(χ(u₀,0)χ(1,1))^k`. This proves the algebraic coordinate change; local reciprocity supplies the arithmetic character. Every quotient `U_i/U_{i−1}` uses units of the ordinary Hecke algebra, and the integer powers therefore include negative `k`. (The unit/uniformizer prescription in ACC §5.1, p. 990.)
+A character in unit/valuation coordinates is determined by its values on units and on the chosen uniformizer. If `ϖ′=u₀ϖ`, its new coordinates `(u,k)` represent old coordinates `(u u₀^k,k)`, so `χ(u u₀^k,k)=χ(u,0)(χ(u₀,0)χ(1,1))^k`. This proves the algebraic coordinate change; local reciprocity supplies the arithmetic character. Every quotient `U_i/U_{i−1}` uses units of the ordinary Hecke algebra, and the integer powers therefore include negative `k`. (The unit/uniformizer prescription in ACC §5.1, p. 990.)
 
 **Checks.**
 
@@ -2178,7 +2178,7 @@ Its interface includes:
 - For `n=1, μ=0, ν=0` so the twist is trivial.
 - For `n=2, μ=0, ν=(0,1)` and the twist is `O(0,1)^{-1}`, not the trivial character.
 - For `μ=(2,0), ν+w₀μ=(0,3)`, fixing both the reversal and `ν` shift.
-- `WeightIndependentHidaTwist.torsion_component`: take `Λ₁=O[C_p]`, generator `t`, a primitive `ζ_p∈O`, `κ(t)=ζ_p`, `Λ=Λ₁/(t−ζ_p)` and `A₁=Λ₁`. In `B=(A₁⊗O(κ))⊗^L_{Λ₁}Λ`, `t` acts by `ζ_p`. In `(A₁⊗^L_{Λ₁}Λ)⊗O(κ)` with diagonal action it acts by `ζ_p²≠ζ_p`, so that action does not factor through the same quotient. Power-series variables do not change the test.
+- Take `Λ₁=O[C_p]`, generator `t`, a primitive `ζ_p∈O`, `κ(t)=ζ_p`, `Λ=Λ₁/(t−ζ_p)` and `A₁=Λ₁`. In `B=(A₁⊗O(κ))⊗^L_{Λ₁}Λ`, `t` acts by `ζ_p`. In `(A₁⊗^L_{Λ₁}Λ)⊗O(κ)` with diagonal action it acts by `ζ_p²≠ζ_p`, so that action does not factor through the same quotient. Power-series variables do not change the test.
 - For `κ=1` the automorphism is the identity, and the two orders of specialization coincide.
 
 <a id="hida-weight-independence"></a>
