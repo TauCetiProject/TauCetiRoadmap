@@ -128,7 +128,7 @@ theorem charError_close_to_one (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) (u : ℤ_
     charError p u = m := by
   sorry
 
-/-- For `p` odd and `u ≡ 1 (mod p)`, the values of continuous characters of `Γ ≅ ℤ_p`, the
+/-- For `ℤ_p`-valued characters, `p` odd and `u ≡ 1 (mod p)`, the
 error constant vanishes only for the trivial character: there is no nontrivial quadratic
 `Γ`-character (`charError_no_quadratic_twist`, README §1.14). -/
 theorem charError_no_quadratic_twist (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) (u : ℤ_[p]ˣ)
@@ -460,8 +460,8 @@ namespace KolyvaginSystems
 /-! ## Layer 4: sheaves on graphs, surjective paths and hubs
 
 Mazur–Rubin's sheaves on a graph (Definition 3.1.1) and their hub criterion (Proposition 3.4.4):
-a global section is determined by its value at a hub, and every value there extends exactly when
-the monodromy is trivial. -/
+a global section is determined by its value at a hub. For a locally cyclic sheaf, every value
+there extends exactly when the monodromy is trivial. -/
 
 universe u v w
 
@@ -534,11 +534,20 @@ theorem eval_injective_of_isHub (S : GraphSheaf.{u, v, w} R G) {x : V} (hx : S.I
     Function.Injective fun κ : S.sections => (κ : ∀ y, S.stalk y) x := by
   sorry
 
-/-- Evaluation at a hub is surjective exactly when the monodromy is trivial (Mazur–Rubin,
-Proposition 3.4.4(i)). -/
-theorem eval_surjective_iff (S : GraphSheaf.{u, v, w} R G) {x : V} (hx : S.IsHub x) :
+/-- For a locally cyclic sheaf, evaluation at a hub is surjective exactly when the monodromy
+is trivial (Mazur–Rubin, Proposition 3.4.4(i)). -/
+theorem eval_surjective_iff (S : GraphSheaf.{u, v, w} R G) (hS : S.IsLocallyCyclic)
+    {x : V} (hx : S.IsHub x) :
     Function.Surjective (fun κ : S.sections => (κ : ∀ y, S.stalk y) x) ↔
       S.HasTrivialMonodromy := by
+  sorry
+
+/-- On a triangle over `𝔽₂`, a zero hub can have surjective evaluation while transport around
+the nonzero stalk has nontrivial monodromy (README §4.11). -/
+theorem hub_surjective_not_trivialMonodromy :
+    ∃ S : GraphSheaf (ZMod 2) (⊤ : SimpleGraph (Fin 3)), S.IsHub 0 ∧
+      Function.Surjective (fun κ : S.sections => (κ : ∀ y, S.stalk y) 0) ∧
+      ¬ S.HasTrivialMonodromy := by
   sorry
 
 end GraphSheaf
@@ -547,18 +556,19 @@ end KolyvaginSystems
 
 namespace StarkSystems
 
-/-! ## Layer 6: exterior biduals
+/-! ## Layer 6: the shared exterior bidual and its finite-projective comparison
 
-`⋂^r_R X = Hom_R(⋀^r Hom_R(X, R), R)` with determinant evaluation from `⋀^r_R X`, built from
-Mathlib's `exteriorPower.pairingDual`. -/
+IntegralIwasawaTheory §12.6 owns `⋂^r_R X = Hom_R(⋀^r Hom_R(X, R), R)` and determinant
+evaluation. The transparent aliases below record that common carrier on Mathlib's dual and
+exterior power; the finite-projective comparison belongs to this roadmap. -/
 
-/-- The exterior bidual `⋂^r_R X`. -/
+/-- The shared exterior bidual `⋂^r_R X` of IntegralIwasawaTheory §12.6. -/
 abbrev exteriorBidual (R : Type*) [CommRing R] (r : ℕ) (X : Type*) [AddCommGroup X]
     [Module R X] : Type _ :=
   Module.Dual R (⋀[R]^r (Module.Dual R X))
 
-/-- Determinant evaluation `⋀^r_R X → ⋂^r_R X`, `x ↦ (φ ↦ ⟨φ, x⟩)`. -/
-noncomputable def toExteriorBidual (R : Type*) [CommRing R] (r : ℕ) (X : Type*)
+/-- The shared determinant evaluation `⋀^r_R X → ⋂^r_R X`, `x ↦ (φ ↦ ⟨φ, x⟩)`. -/
+noncomputable abbrev toExteriorBidual (R : Type*) [CommRing R] (r : ℕ) (X : Type*)
     [AddCommGroup X] [Module R X] : ⋀[R]^r X →ₗ[R] exteriorBidual R r X :=
   (exteriorPower.pairingDual R X r).flip
 
