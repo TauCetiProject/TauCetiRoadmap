@@ -2,7 +2,7 @@ import Mathlib.Geometry.Manifold.VectorBundle.Hom
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.Lagrangian.Basic
 import TauCeti.Geometry.Symplectic.Cotangent.Liouville
-import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
+import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 /-!
 These suggested forms are aids, not the specification. The README is definitive;
@@ -38,7 +38,7 @@ theorem canonicalForm_inChart [FiniteDimensional ℝ E]
     (z₀ : Cotangent I M) (w : E × (E →L[ℝ] ℝ))
     (hw : w ∈ (extChartAt (cotangentModel I) z₀).target)
     (v : Fin 2 → (E × (E →L[ℝ] ℝ))) :
-    (canonicalForm (M := M) I).inChartAt z₀ w v =
+    (canonicalForm (M := M) I).1.inChartAt z₀ w v =
       TauCeti.strongDualCotangentSymplecticForm (v 0) (v 1) := by
   sorry
 

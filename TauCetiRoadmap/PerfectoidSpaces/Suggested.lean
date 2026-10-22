@@ -6,8 +6,9 @@ import TauCeti.RingTheory.Huber.Pair
 import TauCeti.RingTheory.Huber.Uniform
 import TauCeti.RingTheory.Huber.StableUniform
 import TauCeti.RingTheory.Huber.Padic.Field
+import TauCeti.RingTheory.Huber.Normed
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Adic
-import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid
+import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafyRing
 import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
@@ -424,13 +425,6 @@ pseudouniformiser `(ϖ_A, ϖ_B)`. -/
 instance IsTateRing.instProd {A B : Type*} [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [IsTateRing A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsTateRing B] : IsTateRing (A × B) := sorry
-
--- Compatibility signature for Tau Ceti's Huber/Normed supplier at dependency pin a91d3aaf.
--- This declaration has the supplier's exact name; versions containing it use the import.
-/-- A nontrivially normed ultrametric field is a Tate ring, with ring of definition the closed
-unit ball and pseudouniformiser any `0 < ‖ϖ‖ < 1`, without a completeness hypothesis. -/
-instance _root_.TauCeti.Huber.IsTateRing.of_nontriviallyNormedField (K : Type*)
-    [NontriviallyNormedField K] [IsUltrametricDist K] : IsTateRing K := sorry
 
 /-- A product of perfectoid Tate rings is perfectoid (ECD Example 3.4). -/
 instance IsPerfectoidTateRing.prod (p : ℕ) [Fact p.Prime] {R S : Type*} [CommRing R]

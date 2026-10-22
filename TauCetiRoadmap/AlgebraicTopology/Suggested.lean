@@ -1187,14 +1187,14 @@ example (k : Type u) [Field k] {M : Type u} [TopologicalSpace M]
   let := m.cw
   let := m.finite
   simpa [FiniteCWTypeModel.eulerCharacteristic, cellularChainComplex,
-    finiteCWEulerCharacteristic] using
+    finiteCWEulerCharacteristic, TauCeti.cwEulerChar_def] using
     (TauCeti.eulerChar_cellularChainComplex (Set.univ : Set m.X) (ModuleCat.of k k))
 
 /-- The space-level cell count is the native cellular-complex Euler characteristic. -/
 example (k : Type u) [Field k] (X : Type u) [TopologicalSpace X] [T2Space X]
     [CWComplex (Set.univ : Set X)] [CWComplex.Finite (Set.univ : Set X)] :
     (cellularChainComplex k X).eulerChar = finiteCWEulerCharacteristic X := by
-  simpa [cellularChainComplex, finiteCWEulerCharacteristic] using
+  simpa [cellularChainComplex, finiteCWEulerCharacteristic, TauCeti.cwEulerChar_def] using
     (TauCeti.eulerChar_cellularChainComplex (Set.univ : Set X) (ModuleCat.of k k))
 
 theorem finiteCWEulerCharacteristic_eq_of_homotopyEquiv
@@ -1310,7 +1310,8 @@ noncomputable def groupClassifyingSpaceFundamentalGroup (G : Type u) [Group G] :
   sorry
 
 theorem groupClassifyingSpaceFundamentalGroup_edge (G : Type u) [Group G] (g : G) :
-    groupClassifyingSpaceFundamentalGroup G ⟦groupClassifyingSpaceEdge G g⟧ = g := by
+    groupClassifyingSpaceFundamentalGroup G
+      (FundamentalGroup.fromPath ⟦groupClassifyingSpaceEdge G g⟧) = g := by
   sorry
 
 /-- Input supplied by the shared abelian constructors, with a chosen normalized identification.
@@ -2508,7 +2509,7 @@ theorem brouwerFixedPoint_unitClosedBall_continuous
 /-- Radial transport takes place in the affine direction, including lower-dimensional C. -/
 noncomputable def compactConvexRadialReach (C : Set E) (c : E)
     (u : (affineSpan ℝ C).direction) : ℝ :=
-  sSup (fun t : ℝ => 0 ≤ t ∧ c + t • (u : E) ∈ C)
+  sSup (setOf fun t : ℝ => 0 ≤ t ∧ c + t • (u : E) ∈ C)
 
 theorem compactConvexRadialReach_pos (C : Set E)
     (hcompact : IsCompact C) (hconvex : Convex ℝ C)

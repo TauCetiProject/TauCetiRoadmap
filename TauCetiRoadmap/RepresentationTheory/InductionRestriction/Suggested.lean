@@ -349,7 +349,7 @@ variable {k : Type u} [Field k] {G : Type u} [Group G]
 /-- **The induced class function** `Ind_H^G f : G → k` of `f : H → k`, the linearization of the
 induced-character formula (`character_ind` computes it on genuine characters); the map turning `R(H) → R(G)`
 into a module homomorphism over `R(G)` by the projection formula (Layer 0). -/
-noncomputable def indClassFun {H : Subgroup G} [Fintype G] (f : H → k) : G → k := TauCeti.indClassFun H f
+noncomputable def indClassFun {H : Subgroup G} [Fintype G] (f : H → k) : G → k := Subgroup.indClassFun H f
 
 /-- **The virtual-character lattice** in the class functions: the additive subgroup of `G → k` spanned by
 the characters of `FDRep k G` (closed under the tensor-product product `char_tensor`). The primary object
@@ -357,7 +357,7 @@ is the Grothendieck ring `R(G)` of `FDRep k G` under direct sum and tensor produ
 characteristic-`0` splitting field the character map embeds `R(G)` into `G → k` with this lattice as image.
 An `AddSubgroup` (not a raw `Subring (G → k)`), which over positive characteristic would not record the
 lattice structure. -/
-def virtualCharacters : AddSubgroup (G → k) := TauCeti.virtualCharacters k G
+noncomputable def virtualCharacters : AddSubgroup (G → k) := TauCeti.virtualCharacters k G
 
 /-- **Elementary subgroups.** `IsElementary H` holds when `H` is `p`-elementary for some prime `p`, i.e. a
 direct product `C × P` of a cyclic group of order prime to `p` and a `p`-group. Use the native underlying-group `TauCeti.IsElementary` predicate; the local call shape takes a subgroup. -/
