@@ -133,12 +133,18 @@ GT.1 develops the endomorphism structure, GT.2 its compatible Tate components, a
 proves modularity using only good-prime comparisons. GT.4 identifies the conductor,
 least level and all-place local factors. GT.5 constructs the GL₂-type factor of a
 non-CM ℚ-curve; GT.6 descends the Galois comparison by a finite character and applies
-solvable base change. [`Suggested.lean`](Suggested.lean) records suggested forms over
-the pinned carriers and is not an exhaustive checklist. Its opening theorems state
-modularity through actual Tate characteristic polynomials and the geometric ℚ-curve
-factor theorem on native abelian varieties. The modular Jacobian, conductor, local
-Weil–Deligne and automorphic carriers are supplied by the owning roadmaps; their
-precise quotient, exact-level and all-place conclusions are the targets below.
+solvable base change. [`Suggested.lean`](Suggested.lean) states the centralizer and
+simple-power decomposition theorem, the totally-real-or-CM alternative, Tate's
+trivial-action vanishing theorem and Ribet's geometric ℚ-curve factor theorem.
+Its notation is
+`GL2Type.Qbar`, `GL2Type.GQ`, `GL2Type.AVQ`, `GL2Type.End0`,
+`GL2Type.IsSimpleOverQ`, `GL2Type.IsGeometricQCurve`,
+`QCurve.trivialUnitsCoefficients` and `QCurve.unitCohomology2`.
+The file is not an exhaustive checklist. The modular Jacobians, abelian λ-adic
+components, conductors, Weil–Deligne parameters and automorphic representations
+needed to state the other headline conclusions do not exist at the pins; their
+constructions and the resulting theorems are specified by the targets and supplier
+contracts below.
 
 The small modular-curve data in the Checks are explicit hypotheses of those worked
 specializations: the indicated genera, Hecke polynomials, coefficient fields, models,
@@ -152,8 +158,8 @@ The GL₂-type bundle is imported from SmallRamificationAndAbelianVarietyBaseCas
 ### Native rational-action notation
 
 For a native abelian variety `A/K`, `GL2Type.End0 A` is exactly
-`ℚ ⊗[ℤ] AbelianVariety.End A`. The map `GL2Type.integralEnd A` sends `a` to
-`1 ⊗ a`; it preserves zero, one, addition and multiplication. The aliases
+`ℚ ⊗[ℤ] AbelianVariety.End A`. The canonical map from integral endomorphisms
+sends `a` to `1 ⊗ a`; it preserves zero, one, addition and multiplication. The aliases
 `GL2Type.Qbar`, `GL2Type.GQ` and `GL2Type.AVQ` denote `AlgebraicClosure ℚ`,
 `Field.absoluteGaloisGroup ℚ` and the native abelian varieties over `ℚ`.
 Finite dimension is `Module.finrank ℚ A.TangentSpace`;
@@ -176,7 +182,7 @@ and for every closed-immersion homomorphism `B → A`, either `B.dim = 0` or its
 scheme map is surjective. A surjective closed immersion here is an isomorphism.
 Use the supplier's isogeny invariance, zero exclusion and division-algebra theorem.
 For field actions `ιA : E →ₐ[ℚ] End0 A`, `ιB : E →ₐ[ℚ] End0 B`,
-`GL2Type.EEquivariant ιA ιB f` means that for every `x : E` some common nonzero
+equivariance of f means that for every `x : E` some common nonzero
 integer `n` clears its two denominators, giving integral endomorphisms `a, b`
 with `a = n·ιA(x)`, `b = n·ιB(x)` in the rational rings and `f ∘ a = b ∘ f`.
 The API must identify this with intertwining on rational Hom, prove independence
@@ -188,7 +194,7 @@ AbelianSchemesAndArithmeticModuli §§A6.4, A6.22 and A6.26.)
 
 - A dimension-one variety is simple; `B × B` for positive-dimensional `B` is not,
   since the first factor is a proper positive-dimensional closed subgroup.
-- `GL2Type.not_isSimpleOverQ_of_dim_zero`: the zero variety is not simple; the
+- The zero variety is not simple; the
   positive-dimension clause is essential.
 - Identity and integer-scalar isogenies are equivariant for the same action.
   For the two conjugate embeddings of a quadratic field into `M₂(ℚ)`, the
@@ -201,14 +207,14 @@ AbelianSchemesAndArithmeticModuli §§A6.4, A6.22 and A6.26.)
 Prove that if a finite-dimensional division ℚ-algebra D acts unitally on `End⁰_ℚ(A)`, then `dim_ℚ D` divides dim A. Consequently an E-stable, nonzero abelian subvariety B of a `GL₂(E)`-type A equals A. Stability here is up to isogeny: nonzero integer multiples of every element of E act on B.
 
 the map `D → End⁰_ℚ(A)` sends 1 to the identity; B is stable under E up to isogeny: every `e ∈ E` has a nonzero integer multiple `n·e ∈ End_ℚ(A)` mapping B into B.
-For a closed-immersion homomorphism `f : B → A`, `GL2Type.IsStable ι f`
+For a closed-immersion homomorphism `f : B → A`, stability under ι
 requires, for each `e`, integral endomorphisms `a` of A and `b` of B and
 `n ∈ ℤ`, `n ≠ 0`, with `a = n·ι(e)` in `End0 A` and `a ∘ f = f ∘ b`.
-The conclusion `GL2Type.stable_subvariety_surjective` says that f is surjective
+Prove that f is surjective
 when B has positive dimension and `[E:ℚ] = dim A`.
 
-The suggested theorem `GL2Type.lieAlgebraDivisibility` states divisibility of
-`Module.finrank ℚ A.TangentSpace` by `Module.finrank ℚ D` for every acting
+The divisibility theorem says that
+`Module.finrank ℚ A.TangentSpace` is divisible by `Module.finrank ℚ D` for every acting
 finite-dimensional division ℚ-algebra D, including noncommutative ones.
 
 The proof uses the following steps.
@@ -238,38 +244,36 @@ Define the following notions. Given a `GL₂(F)`-type B over ℚ and a finite ex
 
 the isogeny class of `E ⊗_F B` with its E-action does not depend on the chosen F-basis of E.
 
-The native carrier `GL2Type.power B F E` in the suggested forms is
-`piObj (fun _ : Fin [E:F] => B)`. The existence theorem
-`GL2Type.powerAction` supplies an action `ιE : E →ₐ[ℚ] End0 (power B F E)`,
-for a number-field tower `ℚ ⊆ F ⊆ E`, a basis `b` of `E/F`, and the given
-rational `F`-action `ι`. Here `b : Module.Basis (Fin [E:F]) F E`.
-For every `x : E`, a common nonzero integer `n` makes `n·ιE(x)` an integral
+The underlying native power is `piObj (fun _ : Fin [E:F] => B)`.
+Construct its rational E-action for a number-field tower `ℚ ⊆ F ⊆ E`, a basis
+`b : Module.Basis (Fin [E:F]) F E` and the given rational F-action ι.
+For every `x : E`, a common nonzero integer n makes `n·ιE(x)` an integral
 endomorphism whose `(i,j)` entry, in `End0 B`, is `n·ι((b.repr (x·b j)) i)`.
 Entries use the actual coordinate inclusions and projections of the native product.
 This characterizes the regular multiplication action.
 For `F = ℚ`, `[E:ℚ] = 2` and basis `(1, √2)`, the native inclusion into
-the first coordinate of `power B ℚ E` is not `IsStable` when `dim B = 1`.
+the first coordinate is not stable when `dim B = 1`.
 
-`GL2Type.IsPrimitive A ι` quantifies over intermediate fields `F`,
-`GL₂(F)`-type varieties `B`, such bases and E-equivariant isogenies to these powers,
-excluding all with `[E:F] > 1`. Its full meaning includes the action, not just the
-underlying power variety.
+Primitivity quantifies over intermediate fields F, `GL₂(F)`-type varieties B,
+such bases and E-equivariant isogenies to these powers, excluding all with
+`[E:F] > 1`. Its full meaning includes the action, not just the underlying power
+variety.
 
-The API consists of the following maps and laws.
+Require the following constructions and laws.
 
-- `GL2Type.power`: `E ⊗_F B` for B of `GL₂(F)`-type over ℚ and a finite extension E/F with a chosen F-basis.
-- `GL2Type.power_dim`: `dim (E ⊗_F B) = [E : F] · dim B`.
-- `GL2Type.power_basis_indep`: The power constructions for two F-bases of E are E-equivariantly ℚ-isogenous (the change of basis has entries in F, acting through `End⁰`).
-- `GL2Type.IsPrimitive`: The predicate on (A, E): not E-equivariantly ℚ-isogenous to a power construction with `[E : F] > 1`.
-- `GL2Type.IsPrimitive.of_isogeny`: Primitivity is invariant under E-equivariant ℚ-isogeny.
-- `GL2Type.isPrimitive_iff_isSimple`: A is primitive if and only if A is ℚ-simple (GT.1/ribet-theorem-2-1).
+- `E ⊗_F B` for B of `GL₂(F)`-type over ℚ and a finite extension E/F with a chosen F-basis.
+- `dim (E ⊗_F B) = [E : F] · dim B`.
+- The power constructions for two F-bases of E are E-equivariantly ℚ-isogenous (the change of basis has entries in F, acting through `End⁰`).
+- The predicate on (A, E): not E-equivariantly ℚ-isogenous to a power construction with `[E : F] > 1`.
+- Primitivity is invariant under E-equivariant ℚ-isogeny.
+- A is primitive if and only if A is ℚ-simple (GT.1/ribet-theorem-2-1).
 
 **Checks.**
 
-- `GL2Type.power_degree_one` (degenerate): For `E = F` the power construction is B itself with its structure, and B is primitive exactly when it is ℚ-simple.
-- `GL2Type.power_not_primitive` (non-example): For an elliptic curve B over ℚ and `E = ℚ(√2)`, `E ⊗_ℚ B = B × B` is of `GL₂(E)`-type but not primitive.
-- `GL2Type.J0_23_primitive` (computation): `J₀(23)`, of dimension two with `E = ℚ(√5)` acting through the Hecke algebra, is primitive.
-- `GL2Type.power_compat_degree_equation`: The power construction satisfies the definition of SmallRamificationAndAbelianVarietyBaseCases §5.1: `[E : ℚ] = dim (E ⊗_F B)`.
+- For `E = F` the power construction is B itself with its structure, and B is primitive exactly when it is ℚ-simple.
+- For an elliptic curve B over ℚ and `E = ℚ(√2)`, `E ⊗_ℚ B = B × B` is of `GL₂(E)`-type but not primitive.
+- `J₀(23)`, of dimension two with `E = ℚ(√5)` acting through the Hecke algebra, is primitive.
+- The power construction satisfies the definition of SmallRamificationAndAbelianVarietyBaseCases §5.1: `[E : ℚ] = dim (E ⊗_F B)`.
 
 The proof uses the following steps.
 
@@ -288,6 +292,12 @@ Sources: [Ribet92](#references), §2, p. 3.
 ### GT.1/ribet-theorem-2-1 — Ribet's Theorem 2.1: primitive, simple and maximal endomorphism field
 
 Prove the following. For `GL₂(E)`-type A, put `X = End⁰_ℚ(A)`. The centralizer of E in X is E. Its centre F lies in E; with `n = [E : F]`, one has `X ≃ M_n(F)` and an E-equivariant ℚ-isogeny `A ∼ E ⊗_F B`, where B is ℚ-simple, `End⁰_ℚ(B) = F` and B has `GL₂(F)`-type. Thus primitivity, ℚ-simplicity, and the assertion that X is a number field of degree dim A are equivalent. Under these equivalent conditions the given copy of E is all of X.
+
+`GL2Type.ribetTheorem21` in `Suggested.lean` states the centralizer assertion,
+equivalence of simplicity with surjectivity of the given E-action, the matrix
+algebra with its regular E-action, and the underlying simple-power isogeny
+decomposition. The action is arbitrary subject to `[E:ℚ] = dim A`; the statement
+includes nonsimple varieties.
 
 The proof uses the following steps.
 
@@ -311,22 +321,22 @@ Construct the following data. For a ℚ-simple GL₂-type A define `E_A` to be i
 
 A is ℚ-simple and of `GL₂(E)`-type for some E (SmallRamificationAndAbelianVarietyBaseCases §5.1).
 
-The API consists of the following maps and laws.
+Require the following constructions and laws.
 
-- `GL2Type.endField`: `E_A = End⁰_ℚ(A)` as a field, for ℚ-simple A of GL₂-type.
-- `GL2Type.endField_numberField`: `E_A` is a number field.
-- `GL2Type.endField_finrank`: `[E_A : ℚ] = dim A`.
-- `GL2Type.endField_isGL2Type`: The tautological `GL₂(E_A)`-type structure in the sense of SmallRamificationAndAbelianVarietyBaseCases §5.1.
-- `GL2Type.endField_equiv`: Every `GL₂(E)`-type structure ι on A is a field isomorphism `E ≃ E_A`.
-- `GL2Type.endField_isogeny`: A ℚ-isogeny `φ : A → A′` induces `E_A ≃ E_{A′}`, `α ↦ φ ∘ α ∘ φ⁻¹`, compatibly with the λ-adic representations.
-- `GL2Type.endField_involution`: The canonical involution of `E_A` (GT.1/totally-real-or-cm) is the Rosati involution of every ℚ-polarization.
+- `E_A = End⁰_ℚ(A)` as a field, for ℚ-simple A of GL₂-type.
+- `E_A` is a number field.
+- `[E_A : ℚ] = dim A`.
+- The tautological `GL₂(E_A)`-type structure in the sense of SmallRamificationAndAbelianVarietyBaseCases §5.1.
+- Every `GL₂(E)`-type structure ι on A is a field isomorphism `E ≃ E_A`.
+- A ℚ-isogeny `φ : A → A′` induces `E_A ≃ E_{A′}`, `α ↦ φ ∘ α ∘ φ⁻¹`, compatibly with the λ-adic representations.
+- The canonical involution of `E_A` (GT.1/totally-real-or-cm) is the Rosati involution of every ℚ-polarization.
 
 **Checks.**
 
-- `GL2Type.endField_elliptic` (degenerate): For an elliptic curve E₀ over ℚ, `E_{E₀} = ℚ` (`End_ℚ(E₀) = ℤ`, EllipticCurveModularity R29.1).
-- `GL2Type.endField_J0_23` (computation): `E_{J₀(23)} = ℚ(√5)`, generated by the Hecke operator T₂ with `T₂² + T₂ − 1 = 0`.
-- `GL2Type.endField_J1_13` (computation): `E_{J₁(13)} = ℚ(√−3)`, a CM field, matching the order-6 character of the newform of level 13.
-- `GL2Type.endField_not_simple` (non-example): For `B × B` with B an elliptic curve over ℚ, `End⁰_ℚ = M₂(ℚ)` is not a field: simplicity is needed.
+- For an elliptic curve E₀ over ℚ, `E_{E₀} = ℚ` (`End_ℚ(E₀) = ℤ`, EllipticCurveModularity R29.1).
+- `E_{J₀(23)} = ℚ(√5)`, generated by the Hecke operator T₂ with `T₂² + T₂ − 1 = 0`.
+- `E_{J₁(13)} = ℚ(√−3)`, a CM field, matching the order-6 character of the newform of level 13.
+- For `B × B` with B an elliptic curve over ℚ, `End⁰_ℚ = M₂(ℚ)` is not a field: simplicity is needed.
 
 The proof uses the following steps.
 
@@ -345,6 +355,10 @@ Sources: [Ribet92](#references), §3, p. 4.
 ### GT.1/totally-real-or-cm — The endomorphism field is totally real or CM, with the Rosati involution as canonical involution
 
 Prove the following. The endomorphism field of a ℚ-simple GL₂-type A is totally real or CM. Every polarization defined over ℚ induces the same restriction of Rosati to that field: the identity in the totally real case and the canonical complex conjugation in the CM case. In particular this field involution is independent of the polarization.
+
+`GL2Type.totallyRealOrCm` in `Suggested.lean` states the field alternative on the
+given coefficient field E. The Rosati conclusion uses the polarizations and
+positive involutions specified by the supplier contracts.
 
 The proof uses the following steps.
 
@@ -378,7 +392,8 @@ The proof uses the following steps.
 - `N = 11`: `A_f = J₁(11)` is ℚ-isogenous to `J₀(11) ≃ X₀(11)`, and
   `K_f = ℚ`, through ModularCurvesPartII §16.6. These curves are not isomorphic:
   the model `y² + y = x³ − x²` of `X₁(11)` has `j = −4096/11`, whereas
-  `X0_11_model` has `j = −122023936/161051`.
+  the model `y² + y = x³ − x² − 10x − 20` of `X₀(11)` has
+  `j = −122023936/161051`.
 - `N = 23`: `A_f` is ℚ-isogenous to `J₀(23)` by ModularCurvesPartII §16.6,
   and `K_f = ℚ(√5)`.
 - `N = 13` on Γ₁: `J₁(13)` is `A_f` for the newform with character of order 6; `K_f = ℚ(√−3)` is CM.
@@ -410,39 +425,37 @@ the integral model, independently of the determinant character.
 
 Construct the following data. Choose an E-equivariant ℚ-isogeny `A → A′` such that `End_ℚ(A′)` identifies with `𝒪_E`. Such an A′ exists. For every maximal ideal λ of `𝒪_E` the actual group `A′[λ]` is a two-dimensional vector space over `𝔽_λ` with continuous `G_ℚ`-action. Its semisimplification is the semisimplified reduction of `ρ_λ` and is independent of the integral model.
 
-The residual representation of ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients, requires `𝒪_E ⊆ End_ℚ(A′)`; this node supplies such an A′. The `GL2Type.residualRep` notation below specializes that supplied action to this model. For an elliptic curve it is compared with `TateModule.residualRep` of ArithmeticGaloisRepresentations §6.1, rather than constructing another elliptic torsion action.
+The residual representation of ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients, requires `𝒪_E ⊆ End_ℚ(A′)`; this node supplies such an A′. Specialize that supplied residual action to this model. For an elliptic curve it is compared with `TateModule.residualRep` of ArithmeticGaloisRepresentations §6.1, rather than constructing another elliptic torsion action.
 
-The light bundle `GL2Type.IntegralModel A ι` records the native `variety = A′`,
-a native isogeny `A → A′`, its isogeny proof, an intertwining rational `E`-action,
-and a ring equivalence `𝓞 E ≃+* End A′` whose image under `integralEnd` agrees
-with that rational action on each algebraic integer. The milestone
-`GL2Type.integralModel` asserts `Nonempty (IntegralModel A ι)` for simple `A`
-and `[E:ℚ] = dim A`; constructing the model and its compatibility with the supplied
-residual representations are the mathematical targets here. An arbitrary isogenous variety without the
+An integral model records the native variety A′, a native isogeny `A → A′`,
+an intertwining rational E-action and a ring equivalence `𝓞 E ≃+* End A′`
+whose image in `End0 A′` agrees with that rational action on each algebraic
+integer. Prove existence for simple A and `[E:ℚ] = dim A`, compatibly with the
+supplied residual representations. An arbitrary isogenous variety without the
 integral-action compatibility is not an integral model in this sense.
 
-The API consists of the following maps and laws.
+Require the following constructions and laws.
 
-- `GL2Type.integralModel`: An E-equivariantly isogenous A′ with `End_ℚ(A′) = 𝒪_E`.
-- `GL2Type.integralModel_end`: `End_ℚ(integralModel A) = 𝒪_E` as subrings of E.
-- `GL2Type.residualRep`: `ρ̄_λ : G_ℚ → GL(A′[λ]) ≅ GL₂(𝔽_λ)`, from the `A′[λ] = {x ∈ A′[ℓ] : λx = 0}` interface of ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients.
-- `GL2Type.residualRep_finrank`: `dim_{𝔽_λ} A′[λ] = 2`.
-- `GL2Type.residualRep_charpoly`: For `p ∉ S`, `p ∉ λ`: the characteristic polynomial of `ρ̄_λ(Frob_p)` is `X² − ā_p X + ε̄(p)p`, the reduction of GT.2/frobenius-polynomial.
-- `GL2Type.residualRep_ss_indep`: `ρ̄_λ^{ss}` is independent of the integral model and of the lattice.
+- An E-equivariantly isogenous A′ with `End_ℚ(A′) = 𝒪_E`.
+- `End_ℚ(A′) = 𝒪_E` as subrings of E.
+- `ρ̄_λ : G_ℚ → GL(A′[λ]) ≅ GL₂(𝔽_λ)`, from the `A′[λ] = {x ∈ A′[ℓ] : λx = 0}` interface of ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients.
+- `dim_{𝔽_λ} A′[λ] = 2`.
+- For `p ∉ S`, `p ∉ λ`: the characteristic polynomial of `ρ̄_λ(Frob_p)` is `X² − ā_p X + ε̄(p)p`, the reduction of GT.2/frobenius-polynomial.
+- `ρ̄_λ^{ss}` is independent of the integral model and of the lattice.
 
 **Checks.**
 
-- `GL2Type.residualRep_elliptic`: For an elliptic curve E₀ over ℚ, choose the integral model to be E₀ itself. The geometric-point comparison of ArithmeticGaloisRepresentations §6.1 then identifies `ρ̄_ℓ` with its `TateModule.residualRep E₀ ℓ`, equivariantly and compatibly with trace and determinant, before any choice of basis. An arbitrary isogenous integral model gives the same semisimplification.
-- `GL2Type.residualRep_det` (computation): `det ρ̄_λ = ε̄ · χ̄_ℓ`, the reduction of GT.2/determinant-character.
+- For an elliptic curve E₀ over ℚ, choose the integral model to be E₀ itself. The geometric-point comparison of ArithmeticGaloisRepresentations §6.1 then identifies `ρ̄_ℓ` with its `TateModule.residualRep E₀ ℓ`, equivariantly and compatibly with trace and determinant, before any choice of basis. An arbitrary isogenous integral model gives the same semisimplification.
+- `det ρ̄_λ = ε̄ · χ̄_ℓ`, the reduction of GT.2/determinant-character.
 - Let `B = X₀(11)`, `A = B × B`, and let `E = ℚ(√2)` act by regular matrices.
   Although `𝒪_E = ℤ[√2]` acts integrally, `End_ℚ(A) = M₂(ℤ)` is noncommutative,
   so the identity model cannot have `𝒪_E ≃ End_ℚ(A)`. Every isogenous model
-  still has noncommutative rational endomorphisms; `IntegralModel A ι` is empty.
-  `GL2Type.integralModel_square_isEmpty` states this obstruction for every
-  dimension-one B over ℚ, every coefficient field and every given action. This
+  still has noncommutative rational endomorphisms, so no such integral model exists.
+  This obstruction holds for every dimension-one B over ℚ, every coefficient
+  field and every given action. This
   tests both the full-endomorphism equivalence and the simplicity hypothesis.
-- `GL2Type.integralModel_trivial` (degenerate): If `End_ℚ(A) = 𝒪_E` already (for example `A_f` with `𝒪_{K_f}` acting), `A′ = A` is an integral model.
-- `GL2Type.residualRep_not_A_l` (non-example): `A′[ℓ]` is not `A′[λ]` unless `λ = ℓ𝒪_E`: `A′[ℓ] = ⊕_{λ|ℓ} A′[λ^{e_λ}]` has `𝔽_ℓ`-dimension `2[E : ℚ]`.
+- If `End_ℚ(A) = 𝒪_E` already (for example `A_f` with `𝒪_{K_f}` acting), `A′ = A` is an integral model.
+- `A′[ℓ]` is not `A′[λ]` unless `λ = ℓ𝒪_E`: `A′[ℓ] = ⊕_{λ|ℓ} A′[λ^{e_λ}]` has `𝔽_ℓ`-dimension `2[E : ℚ]`.
 
 The proof uses the following steps.
 
@@ -683,23 +696,23 @@ Define the following notions. For positive N, define modularity of A at level N 
 
 homomorphisms of abelian varieties over ℚ in the sense of Tau Ceti JacobianChallenge layer E; surjective means faithfully flat (equivalently the image is all of A); `X₁(N)` has genus 0 exactly for `N ≤ 10` and `N = 12`, so `J₁(N) = 0` and only `A = 0` is modular of such a level.
 
-The API consists of the following maps and laws.
+Require the following constructions and laws.
 
-- `AbelianVariety.IsModularOfLevel`: A is modular of level N: ∃ surjective `J₁(N) → A` over ℚ.
-- `AbelianVariety.IsModular`: ∃ `N ≥ 1` with `IsModularOfLevel A N`.
-- `AbelianVariety.IsModularOfLevel.mono`: `IsModularOfLevel A N → N ∣ M → 0 < M → IsModularOfLevel A M` (levels are positive).
-- `AbelianVariety.IsModular.of_isogeny`: A ℚ-isogeny `A → A′` (or any surjection) transports modularity of A to A′.
-- `AbelianVariety.IsModular.quotient`: A quotient of a modular abelian variety is modular.
-- `AbelianVariety.isModular_iff`: For ℚ-simple A of GL₂-type: modular ⇔ isogenous to some `A_f` ⇔ some `V_λ(A) ≅ ρ_{f,λ′}` (GT.3/modularity-equivalences).
-- `AbelianVariety.IsModularOfLevel.gamma0`: Modular of level N for Γ₀ implies modular of level N: pushforward along the finite surjection `X₁(N) → X₀(N)` gives a surjection `J₁(N) → J₀(N)` (ModularCurvesPartII §13.1).
-- `AbelianVariety.IsModular.elliptic`: For an elliptic curve over ℚ, being modular for Γ₀ at level N is the formulation (ii) of EllipticCurveModularity R29.6.
+- A is modular of level N: ∃ surjective `J₁(N) → A` over ℚ.
+- A is modular when such a positive level exists.
+- Modularity at N implies modularity at every positive multiple M of N.
+- A ℚ-isogeny `A → A′` (or any surjection) transports modularity of A to A′.
+- A quotient of a modular abelian variety is modular.
+- For ℚ-simple A of GL₂-type: modular ⇔ isogenous to some `A_f` ⇔ some `V_λ(A) ≅ ρ_{f,λ′}` (GT.3/modularity-equivalences).
+- Modular of level N for Γ₀ implies modular of level N: pushforward along the finite surjection `X₁(N) → X₀(N)` gives a surjection `J₁(N) → J₀(N)` (ModularCurvesPartII §13.1).
+- For an elliptic curve over ℚ, being modular for Γ₀ at level N is the formulation (ii) of EllipticCurveModularity R29.6.
 
 **Checks.**
 
-- `IsModular.X0_11` (computation): `X₀(11)` is modular of level 11 for Γ₀.
-- `IsModular.zero` (degenerate): The zero abelian variety is modular of every positive level; `J₁(N) = 0` for `1 ≤ N ≤ 10` and `N = 12`.
-- `IsModular.J1_13_not_gamma0` (non-example): `J₁(13)` is modular of level 13 but not modular of level 13 for Γ₀, since `J₀(13) = 0`.
-- `IsModular.level_not_minimal` (non-example): `X₀(11)` is modular of level 22 as well as 11: the level in the definition is not the conductor.
+- `X₀(11)` is modular of level 11 for Γ₀.
+- The zero abelian variety is modular of every positive level; `J₁(N) = 0` for `1 ≤ N ≤ 10` and `N = 12`.
+- `J₁(13)` is modular of level 13 but not modular of level 13 for Γ₀, since `J₀(13) = 0`.
+- `X₀(11)` is modular of level 22 as well as 11: the level in the definition is not the conductor.
 
 The defining property has the following consequences.
 
@@ -761,11 +774,11 @@ Sources: [Ribet92](#references), proof of Theorem 4.4, pp. 8–9.
 
 Prove the following. The infinitely many reductions determine a field isomorphism `j : K_f ≃ E`. For every p outside S with `p ∤ N_f`, it satisfies `j(a_p(f)) = a_p(A)` and `j(ε_f(p)) = ε(p)`.
 
-`GL2Type.coefficientIdentification` states the final field comparison on the native
-`TauCeti.CoefficientField f`: given embeddings into a common field, exact good
-coefficient equality and generation of E by the supplied good traces, it produces
-the isomorphism intertwining those embeddings and traces. The preceding steps
-supply its exact-equality and generation hypotheses.
+The final field comparison uses the native `TauCeti.CoefficientField f`.
+Once exact good coefficient equality holds in a common field and those good
+traces generate E, identify the two coefficient fields by an isomorphism
+intertwining the embeddings and traces. The preceding steps supply this exact
+equality and generation.
 
 The proof uses the following steps.
 
@@ -796,11 +809,10 @@ Sources: [Ribet92](#references), proof of Theorem 4.4, p. 8.
 
 Prove the following. For every prime λ of E, the coefficient identification j gives an isomorphism of `E_λ[G_ℚ]`-modules `ρ_λ ≃ ρ_{f,j⁻¹(λ)} ⊗_{K_{f,j⁻¹(λ)}} E_λ`. Taking all components over ℓ yields `V_ℓ(A) ≃ V_ℓ(A_f)` over `ℚ_ℓ`, with the field actions intertwined by j.
 
-The native signature `GL2Type.tateModuleComparison` compares any two abelian
-varieties realized by the same newform in `GL2Type.HasNewformRealization`. It gives
-an equivariant linear equivalence of their actual rational Tate modules for every
-ℓ. Applying this to A and the supplier's `A_f` gives the full rational comparison;
-the component comparison additionally retains the coefficient identification j.
+Two abelian varieties realized by the same newform have equivariantly isomorphic
+rational Tate modules at every ℓ. Applying this to A and the supplier's `A_f`
+gives the full rational comparison; the component comparison additionally retains
+the coefficient identification j.
 
 The proof uses the following steps.
 
@@ -822,30 +834,15 @@ Sources: [Ribet92](#references), proof of Theorem 4.4, p. 8.
 
 Prove the following. If A is ℚ-simple of GL₂-type, there is a normalized weight-two newform f on `Γ₁(N_f)` and a ℚ-isogeny `A_f → A`. The isomorphism `K_f ≃ End⁰_ℚ(A)` identifies the Hecke action with the endomorphism action. Composing with `J₁(N_f) → A_f` makes A modular at `N_f`. Every GL₂-type variety over ℚ is modular, including the powers described in GT.1; the latter conclusion uses enough oldform copies at a suitable larger level.
 
-The native headline `GL2Type.modularityTheorem` supplies a positive N, a
-`HeckeRing.GL2.Newform N 2`, an algebra equivalence
-`TauCeti.CoefficientField f ≃ₐ[ℚ] End0 A` and
-`GL2Type.HasNewformRealization A f`. The signature
-`GL2Type.modularityTheorem_general` treats every GL₂-type A: it gives a simple B
-realized by such an f, a positive n and a ℚ-isogeny `Bⁿ → A`.
-
-Here `GL2Type.geometricPoints A` is the additive presentation of
-`Hom_ℚ(Spec ℚ̄, A)` with the native group-scheme law. `GL2Type.pointGalois A σ`
-is precomposition by `Spec σ`. `GL2Type.rationalTateModule A ℓ` is
-`ℚ_ℓ ⊗_{ℤ_ℓ} TauCeti.TateModule ℓ (geometricPoints A)`, and
-`GL2Type.rationalTateAction A ℓ σ` is the scalar extension of the induced action
-on compatible torsion families. Its identity, composition and torsion-projection
-laws agree with those of the native point action. `GL2Type.IsArithmeticFrobenius p σ`
-requires a maximal ideal P of the integral closure of ℤ in ℚ̄ containing p such
-that `σ(x) − xᵖ ∈ P` for every algebraic integer x. It is used only for prime p.
-
-`HasNewformRealization` requires a finite exceptional set S and, for every ℓ, a
-basis of the actual rational Tate module of size `2 dim A`. For every prime
-`p ∉ S`, `p ∤ Nℓ`, and every such Frobenius lift, its characteristic polynomial,
-after extension to `ℚ̄_ℓ`, is
-`∏_τ (X² − τ(a_p(f))X + τ(ε_f(p))p)`, with τ running over the embeddings of the
-native coefficient field into `ℚ̄_ℓ`. Both traces and determinants are retained.
-The good-prime statement is independent of the Frobenius lift and chosen basis.
+The rational Tate module is `ℚ_ℓ ⊗_{ℤ_ℓ} T_ℓ(A)`, with its native action
+induced by precomposition on `Hom_ℚ(Spec ℚ̄, A)` and passage to compatible
+torsion families. An arithmetic Frobenius lift at a prime p fixes a maximal
+ideal P of the integral closure of ℤ in ℚ̄ above p and acts as `x ↦ xᵖ`
+modulo P. Outside one finite exceptional set, the characteristic polynomial on
+the full rational Tate module, after extension to `ℚ̄_ℓ`, is
+`∏_τ (X² − τ(a_p(f))X + τ(ε_f(p))p)` for `p ∤ N_fℓ`, with τ running over
+the embeddings of the native coefficient field into `ℚ̄_ℓ`. Both traces and
+determinants are retained, independently of the Frobenius lift and chosen basis.
 These conventions use the supplied Tate and coefficient-field theory
 (ArithmeticGaloisRepresentations §§6.1–6.4; AutomorphicGaloisRepresentations
 §§6.1–6.4; Ribet92, §3, pp. 4–5 and proof of Theorem 4.4, p. 8).
@@ -916,9 +913,9 @@ Sources: [KW-I](#references), §10.2, p. 21; [Ribet92](#references), §1, p. 2.
 
 Prove the following. For ℚ-simple GL₂-type A, total reality of E, triviality of ε, and Γ₀ modularity are equivalent. When they hold, A is a quotient of `J₀(N_f)`. Applying the conductor theorem in GT.4 identifies this level as `cond(A)^{1/dim A}`. This gives the higher-dimensional content of Serre’s Théorème 5 and specializes to the parent’s quotient at the elliptic conductor.
 
-`GL2Type.trivialCharacter` states the nebentypus conclusion on the native newform
-carrier: it retains the simple GL₂-type action and dimension hypotheses, total
-reality of E, the newform realization, and its full endomorphism-field equivalence.
+The nebentypus conclusion uses the native newform carrier, the simple
+GL₂-type action and dimension hypotheses, total reality of E, the newform
+realization and its full endomorphism-field equivalence.
 
 The proof uses the following steps.
 
@@ -1077,7 +1074,7 @@ The proof uses the following steps.
 
 - `X₀(11)`: the Part II statements return `J₀(11) → X₀(11)`, the identity.
 - The Part II route uses the strong Serre theorem with nontrivial characters only when E is CM, never in dimension one.
-- The minimal model `X0_11_model` has `Δ = −11⁵`, good reduction at 2 and five projective points over `𝔽₂`, giving `a₂ = −2`. Its semistable conductor is 11, not `|Δ|`.
+- The minimal model `y² + y = x³ − x² − 10x − 20` has `Δ = −11⁵`, good reduction at 2 and five projective points over `𝔽₂`, giving `a₂ = −2`. Its semistable conductor is 11, not `|Δ|`.
 - An integral rescaling of this model with coefficients multiplied by `2ⁱ` in degree i has discriminant `2¹²(−11⁵)` and defines the same rational curve. Divisibility of that discriminant by 2 does not detect bad reduction: the equation is not minimal at 2.
 
 *Needs:* `GT.3/modularity-theorem`; `GT.3/trivial-character`; `GT.3/modular-parametrisation`; `GT.4/exact-level`; EllipticCurves Layers 3–4 and 4.5a; EllipticCurveModularity R29.3–R29.6.
@@ -1103,25 +1100,25 @@ Define the following notions. An elliptic curve C/ℚ̄ is a ℚ-curve when each
 
 elliptic curves are those of Mathlib (WeierstrassCurve with IsElliptic) or, equivalently, one-dimensional abelian varieties (AbelianSchemesAndArithmeticModuli A1); isogenies over ℚ̄ are nonzero homomorphisms; ᵍC is the base change of C along `g : ℚ̄ → ℚ̄`.
 
-The API consists of the following maps and laws.
+Require the following constructions and laws.
 
-- `EllipticCurve.IsQCurve`: C over ℚ̄ (or over `K ⊆ ℚ̄`) with `ᵍC ~ C` over ℚ̄ for all `g ∈ G_ℚ`.
-- `EllipticCurve.IsQCurve.of_isogeny`: If `C ~ C′` over ℚ̄ and C is a ℚ-curve then so is C′.
-- `EllipticCurve.IsQCurve.conj`: ᵍC is a ℚ-curve whenever C is.
-- `EllipticCurve.IsQCurve.of_rat`: A curve with a model over ℚ (more generally with `j(C) ∈ ℚ`) is a ℚ-curve.
-- `EllipticCurve.IsQCurve.of_cm`: Every CM elliptic curve over ℚ̄ is a ℚ-curve.
-- `EllipticCurve.IsQCurve.isogenies_over_galois`: For a ℚ-curve with a model over K there are a finite Galois `K′ ⊇ K` over ℚ and K′-isogenies `μ_g : ᵍC₀ → C₀` for all `g ∈ Gal(K′/ℚ)`.
+- Define the ℚ-curve condition for C over ℚ̄ (or over `K ⊆ ℚ̄`) by `ᵍC ~ C` over ℚ̄ for all `g ∈ G_ℚ`.
+- If `C ~ C′` over ℚ̄ and C is a ℚ-curve then so is C′.
+- ᵍC is a ℚ-curve whenever C is.
+- A curve with a model over ℚ (more generally with `j(C) ∈ ℚ`) is a ℚ-curve.
+- Every CM elliptic curve over ℚ̄ is a ℚ-curve.
+- For a ℚ-curve with a model over K there are a finite Galois `K′ ⊇ K` over ℚ and K′-isogenies `μ_g : ᵍC₀ → C₀` for all `g ∈ Gal(K′/ℚ)`.
 
 **Checks.**
 
-- `IsQCurve.rational` (degenerate): The base change to ℚ̄ of `X₀(11)` is a ℚ-curve, with `μ_g` the identity.
-- `IsQCurve.cm` (computation): The curve `y² = x³ − x` with CM by `ℤ[i]` is a ℚ-curve; so are all curves with CM by an order of `ℚ(i)`.
-- `IsQCurve.twist`: A quadratic twist over K of a curve defined over ℚ is a ℚ-curve with `μ_g` isomorphisms over ℚ̄. In particular, over `K = ℚ(√2)`, the twist of `y² = x³ − x + 1` by `d = √2` has traces 4 and `−4` at the two primes above 7 (d reduces to 3 and 4), and is still a non-CM ℚ-curve: its j-invariant is `−6912/23`, which is not an algebraic integer.
-- `IsQCurve.not_of_squared_traces` (non-example): Let C₀ be non-CM over a quadratic field K and let `p = 𝔭·σ𝔭` split, with good reduction at both primes. If `a_𝔭(C₀)² ≠ a_{σ𝔭}(C₀)²` then C₀ is not a ℚ-curve. For a geometric isogeny to σC₀, the one-dimensional space `Hom⁰_ℚ̄(σC₀,C₀)` is a `G_K`-line with finite action in `ℚ^×`, hence action by `{±1}`; the two Tate representations differ by this quadratic character, so their good traces agree up to sign. Unequal unsquared traces are not an obstruction to a geometric isogeny.
+- The base change to ℚ̄ of `X₀(11)` is a ℚ-curve, with `μ_g` the identity.
+- The curve `y² = x³ − x` with CM by `ℤ[i]` is a ℚ-curve; so are all curves with CM by an order of `ℚ(i)`.
+- A quadratic twist over K of a curve defined over ℚ is a ℚ-curve with `μ_g` isomorphisms over ℚ̄. In particular, over `K = ℚ(√2)`, the twist of `y² = x³ − x + 1` by `d = √2` has traces 4 and `−4` at the two primes above 7 (d reduces to 3 and 4), and is still a non-CM ℚ-curve: its j-invariant is `−6912/23`, which is not an algebraic integer.
+- Let C₀ be non-CM over a quadratic field K and let `p = 𝔭·σ𝔭` split, with good reduction at both primes. If `a_𝔭(C₀)² ≠ a_{σ𝔭}(C₀)²` then C₀ is not a ℚ-curve. For a geometric isogeny to σC₀, the one-dimensional space `Hom⁰_ℚ̄(σC₀,C₀)` is a `G_K`-line with finite action in `ℚ^×`, hence action by `{±1}`; the two Tate representations differ by this quadratic character, so their good traces agree up to sign. Unequal unsquared traces are not an obstruction to a geometric isogeny.
 
 The defining property has the following consequences.
 
-1. it depends only on the ℚ̄-isogeny class of C; conjugates of a ℚ-curve are ℚ-curves; a curve with a model over ℚ is a ℚ-curve; every CM curve is a ℚ-curve, because ᵍC has CM by an order in the same imaginary quadratic field and all such curves are isogenous. For the CM assertion, prove here that lattices with an action of orders in the same imaginary quadratic field are commensurable after a complex homothety, adjusting the embedded CM type by conjugation before forgetting the action. Their common finite-index sublattice gives analytic isogenies; AbelianSchemesAndArithmeticModuli §§A5.1–A5.3 algebraizes these maps. Conjugation preserves the abstract imaginary quadratic endomorphism field, so this proves `EllipticCurve.IsQCurve.of_cm` without a CM reciprocity theorem. For rational j, each conjugate has the same j-invariant; use the library `WeierstrassCurve.exists_variableChange_of_j_eq`, then the induced pointed coordinate pullback to obtain an actual isogeny.
+1. it depends only on the ℚ̄-isogeny class of C; conjugates of a ℚ-curve are ℚ-curves; a curve with a model over ℚ is a ℚ-curve; every CM curve is a ℚ-curve, because ᵍC has CM by an order in the same imaginary quadratic field and all such curves are isogenous. For the CM assertion, prove here that lattices with an action of orders in the same imaginary quadratic field are commensurable after a complex homothety, adjusting the embedded CM type by conjugation before forgetting the action. Their common finite-index sublattice gives analytic isogenies; AbelianSchemesAndArithmeticModuli §§A5.1–A5.3 algebraizes these maps. Conjugation preserves the abstract imaginary quadratic endomorphism field, so this proves the CM ℚ-curve assertion without a CM reciprocity theorem. For rational j, each conjugate has the same j-invariant; use the library `WeierstrassCurve.exists_variableChange_of_j_eq`, then the induced pointed coordinate pullback to obtain an actual isogeny.
 2. Because ℚ̄-isogenies are defined over a finite extension, a ℚ-curve with a model over K has, after enlarging K to a finite Galois extension of ℚ, isogenies `μ_g : ᵍC₀ → C₀` defined over K for all `g ∈ Gal(K/ℚ)` (Ribet §6).
 
 **Checks.**
@@ -1135,9 +1132,9 @@ Sources: [Ribet92](#references), §1, p. 2; [FLHS15](#references), §12, p. 18; 
 
 ### Two native curve models
 
-The suggested `EllipticCurve.X0_11_model` is the rational equation
-`y² + y = x³ − x² − 10x − 20`; `EllipticCurve.Gaussian_model` is
-`y² = x³ − x`. Their coefficients specify native `WeierstrassCurve ℚ` values.
+Use the rational equations `y² + y = x³ − x² − 10x − 20` for `X₀(11)`
+and `y² = x³ − x` for the Gaussian CM curve. Their coefficients specify native
+`WeierstrassCurve ℚ` values.
 Use the native discriminant, j-invariant, base-change and isogeny APIs. Their
 identifications with modular or CM data are the explicit hypotheses of the worked
 specializations above, while nonsingularity follows directly from the discriminant
@@ -1146,12 +1143,12 @@ formula. (Ribet92, §§1 and 7, pp. 1–2 and 15–16; Mathlib
 
 **Checks.**
 
-- `X0_11_model` has `a₁ = 0`, `a₂ = −1`, `a₃ = 1`, `a₄ = −10`, `a₆ = −20`.
+- The `X₀(11)` model has `a₁ = 0`, `a₂ = −1`, `a₃ = 1`, `a₄ = −10`, `a₆ = −20`.
   Dropping the `y` term changes the curve.
 - Its discriminant is `−11⁵ = −161051`, so it is nonsingular over `ℚ`.
 - Its `c₄ = 496` gives `j = −122023936/161051`; replacing it by the Gaussian
   model would give `1728`.
-- `Gaussian_model` has `a₁ = a₂ = a₃ = a₆ = 0`, `a₄ = −1`; replacing `−1` by
+- The Gaussian model has `a₁ = a₂ = a₃ = a₆ = 0`, `a₄ = −1`; replacing `−1` by
   zero gives a singular curve.
 - Its discriminant is `64`, whereas that singular model has discriminant `0`.
 - Its `j = 1728`; after base change to `ℚ̄` its rational model proves the ℚ-curve
@@ -1160,9 +1157,10 @@ formula. (Ribet92, §§1 and 7, pp. 1–2 and 15–16; Mathlib
 ### Native scalar and coefficient notation
 
 With a chosen non-CM identification `e : ℚ ≃ₐ[ℚ] End0 A` for a native variety
-over `ℚ̄`, `QCurve.rationalScalar e : (End0 A)ˣ → ℚˣ` is `Units.map e.symm`.
-Its API is the inverse-unit-map identity, preservation of multiplication and inverse,
-and `e (rationalScalar e u) = u` on underlying elements. It is used only after
+over `ℚ̄`, extract rational scalars by the unit map
+`Units.map e.symm : (End0 A)ˣ → ℚˣ`. Require the inverse-unit-map identity,
+preservation of multiplication and inverse, and recovery of u under e on underlying
+elements. It is used only after
 proving that the geometric endomorphisms are rational scalars; it does not extract
 rational coefficients from a CM endomorphism algebra. (Ribet92, §6, p. 13.)
 
@@ -1197,24 +1195,24 @@ Construct the following data. For non-CM C₀/K, choose K-isogenies `μ_g : ᵍC
 
 C₀ non-CM, so `End⁰_K(C₀) = ℚ` and every element of `Hom⁰_K(ᵍC₀, C₀)` is a rational multiple of `μ_g`; `μ_{gh}⁻¹` is the inverse in `Hom⁰` (isogenies are invertible up to isogeny).
 
-The API consists of the following maps and laws.
+Require the following constructions and laws.
 
-- `QCurve.cocycle`: `c : Gal(K/ℚ) × Gal(K/ℚ) → ℚ^×` from the chosen `μ_g`.
-- `QCurve.cocycle_isCocycle`: c is a 2-cocycle for the trivial action.
-- `QCurve.cocycleClass`: `[c_C] ∈ H²(G_ℚ, ℚ^×)`, by inflation.
-- `QCurve.cocycleClass_indep`: `[c_C]` depends only on the ℚ̄-isogeny class of the non-CM elliptic curve; it is independent of K, the model C₀ and the `μ_g` after inflation.
-- `QCurve.cocycle_sq`: `c(g, h)² = deg μ_g · deg μ_h / deg μ_{gh}`.
-- `QCurve.cocycleClass_of_rat`: If C has a model over ℚ, `[c_C] = 0`.
+- `c : Gal(K/ℚ) × Gal(K/ℚ) → ℚ^×` from the chosen `μ_g`.
+- c is a 2-cocycle for the trivial action.
+- `[c_C] ∈ H²(G_ℚ, ℚ^×)`, by inflation.
+- `[c_C]` depends only on the ℚ̄-isogeny class of the non-CM elliptic curve; it is independent of K, the model C₀ and the `μ_g` after inflation.
+- `c(g, h)² = deg μ_g · deg μ_h / deg μ_{gh}`.
+- If C has a model over ℚ, `[c_C] = 0`.
 
 **Checks.**
 
-- `QCurve.cocycle_rational` (degenerate): For a curve over ℚ with `μ_g = id`, `c ≡ 1`.
-- `QCurve.cocycle_quadratic` (computation): For K quadratic, with `μ₁ = id`, `μ_σ = μ` and `μ ∘ σμ = [m]`: `c(σ, σ) = m`, `c(1, ·) = c(·, 1) = 1`.
-- `QCurve.cocycle_twist_after_extension`: For a non-CM quadratic twist C₀/K of an elliptic curve E₀/ℚ, enlarge K to a finite Galois L/ℚ where a twisting isomorphism `φ : C₀,L ≅ E₀,L` is defined. Taking `μ_g = φ⁻¹ ∘ ᵍφ` gives an L-defined family of isomorphisms with `c ≡ 1` and `[c_C] = 0`. The geometric twist hypothesis does not supply K-defined conjugate isogenies.
+- For a curve over ℚ with `μ_g = id`, `c ≡ 1`.
+- For K quadratic, with `μ₁ = id`, `μ_σ = μ` and `μ ∘ σμ = [m]`: `c(σ, σ) = m`, `c(1, ·) = c(·, 1) = 1`.
+- For a non-CM quadratic twist C₀/K of an elliptic curve E₀/ℚ, enlarge K to a finite Galois L/ℚ where a twisting isomorphism `φ : C₀,L ≅ E₀,L` is defined. Taking `μ_g = φ⁻¹ ∘ ᵍφ` gives an L-defined family of isomorphisms with `c ≡ 1` and `[c_C] = 0`. The geometric twist hypothesis does not supply K-defined conjugate isogenies.
 - On a rational non-CM curve over quadratic K, the unnormalized choices
   `μ₁ = [2]`, `μ_σ = id` give `c(σ,σ) = 1/2` and `c(1,σ) = 2`; these
   choices are excluded by `μ₁ = id`.
-- `QCurve.cocycle_cm_excluded` (non-example): For a CM curve, `End⁰` is an imaginary quadratic field, the values `μ_g ∘ ᵍμ_h ∘ μ_{gh}⁻¹` need not be rational, and the construction does not apply.
+- For a CM curve, `End⁰` is an imaginary quadratic field, the values `μ_g ∘ ᵍμ_h ∘ μ_{gh}⁻¹` need not be rational, and the construction does not apply.
 
 The proof uses the following steps.
 
@@ -1233,6 +1231,9 @@ Sources: [Ribet92](#references), proof of Theorem 6.1, p. 13.
 ### GT.5/tate-vanishing-qbar — Tate's theorem: `H²(G_ℚ, ℚ̄^×) = 0` for the trivial action, and the splitting map α
 
 Prove that continuous `H²(G_ℚ,ℚ̄ˣ)` vanishes when ℚ̄ˣ is discrete with trivial action. Therefore the geometric cocycle has a locally constant splitting α with `c(g,h) = α(g)α(h)/α(gh)`. Enlarge K to a finite Galois field K′ through which α factors. Then `ε_C(g) = α(g)²/deg μ_g` is a finite-order Dirichlet character, and the field `E_α = ℚ(α(g) : g ∈ G_ℚ)` is an abelian extension of ℚ.
+
+`GL2Type.tateVanishingQbar` in `Suggested.lean` states the vanishing on the
+canonical continuous cohomology of the discrete trivial unit representation.
 
 The proof uses the following steps.
 
@@ -1294,9 +1295,9 @@ Sources: [Ribet92](#references), Proposition 6.5, p. 15; [Ribet92](#references),
 
 Prove the following. For a non-CM ℚ-curve, let π be the central projector of R onto the `E_α` factor. Take the image A of a positive integer multiple of π acting on B. It is a ℚ-simple, primitive `GL₂(E_α)`-type variety with `End⁰_ℚ(A) = E_α` and `dim A = [E_α:ℚ]`. Over K it is isogenous to `C₀^{dim A}`; thus C is a geometric simple factor of A.
 
-The native headline `GL2Type.ribetTheorem61` uses a one-dimensional abelian variety
+`GL2Type.ribetTheorem61` in `Suggested.lean` uses a one-dimensional abelian variety
 C over ℚ̄. `GL2Type.IsGeometricQCurve C` requires actual isogenies from every base
-change along `σ : G_ℚ` to C. This agrees with `EllipticCurve.IsQCurve` under
+change along `σ : G_ℚ` to C. This agrees with the Weierstrass ℚ-curve condition under
 AbelianSchemesAndArithmeticModuli §A1.6's elliptic comparison. Non-CM is expressed
 by `Nonempty (ℚ ≃ₐ[ℚ] End0 C)`. The theorem supplies a simple A over ℚ, its
 full endomorphism number field of degree dim A, and an actual ℚ̄-isogeny
@@ -1331,12 +1332,9 @@ Sources: [Ribet92](#references), Theorem 6.1, p. 12; [Ribet92](#references), pro
 
 Prove the following. Every non-CM ℚ-curve is a geometric quotient of some positive-level `J₁(N)`. More precisely choose a weight-two newform f at level N and a finite Galois K′/ℚ with a model C₀ of C such that `(A_f)_{K′}` is K′-isogenous to `C₀^{[K_f:ℚ]}`. The forward assertion follows by applying GT.3 to the projector variety. Ribet’s converse from geometric factors to ℚ-curves belongs to the broader building-block theory.
 
-`GL2Type.qCurvesGeometricallyModular` states the native conclusion as a simple
-A over ℚ, a weight-two newform realizing A with its full endomorphism field,
-and a ℚ̄-isogeny `A_ℚ̄ → C^{dim A}`. Its hypotheses are
-`GL2Type.IsGeometricQCurve C` and the non-CM rational-endomorphism equivalence.
-Composing the supplier's Jacobian quotient with the geometric isogeny and a
-coordinate projection gives the stated quotient of C.
+Apply the modularity theorem to the simple rational variety from
+`GL2Type.ribetTheorem61`. Composing its Jacobian quotient with the geometric
+isogeny and a coordinate projection gives the quotient of C.
 
 The proof uses the following steps.
 
@@ -1394,7 +1392,7 @@ The geometric factor from GT.5 identifies Tate representations on a sufficiently
 
 Let G be profinite and H an open normal subgroup. Over an algebraically closed characteristic-zero field L with its ℓ-adic or discrete topology, take continuous representations `ρ₁, ρ₂ : G → GL_n(L)` of any positive finite dimension `n`. Prove that if their restrictions to H are isomorphic and absolutely irreducible, there is a character `ψ : G/H → Lˣ` with `ρ₂ ≃ ρ₁ ⊗ ψ`. In particular the inflated character has finite order.
 
-GT.6 owns `GL2Type.twistingLemma` in arbitrary positive finite rank.
+This target owns the extension to arbitrary positive finite rank.
 Its rank-two specialization is the finite-character export
 `GL2Transfer.compatible_descent_twist` of GL2AutomorphicRepresentationsAndTransfer
 R17.6.18: set `r = ρ₂`, `s = ρ₁`, and use the same H-intertwiner P. Its character
