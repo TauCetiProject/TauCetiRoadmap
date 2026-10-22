@@ -1,236 +1,191 @@
 import Mathlib
+import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup
 
 /-!
-# Arithmetic statistics, Part II: representative target signatures
+# Arithmetic statistics, Part II: headline target statements
 
-The accompanying README is the full specification, with source locators and exact
-supplier contracts. This file gives suggested forms, not an exhaustive checklist:
-light coordinate definitions and milestones on the pinned carriers. Ring-resolvent,
-moduli, covering and Selmer orbit constructions are specified in the README.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. These statements are acceptance targets; proving them does not finish
+all the definitions, basic theory and comparisons specified there.
+
+The quartic headlines can be stated on coefficient vectors, Mathlib multivariate
+polynomials, and the native elliptic-point and unit-squareclass Selmer carriers:
+proper-orbit classification by the cubic invariant (§1.5), soluble orbits as
+E(K)/2E(K), compatibility with native two-descent, two-torsion stabilizers and the
+number-field two-Selmer dictionary (§1.6), and local and global integral
+representatives (§1.7). Proper equivalence is expressed by a GL₂ representative
+of a PGL₂ class, with the determinant-square twist and row-variable convention.
+All fields of characteristic different from two and three, including F₅, occur
+in the point-orbit and stabilizer statements. Only the admissible-evaluation
+construction of the cubic invariant excludes F₅.
+
+The other headline signatures require objects absent from the pinned libraries.
+The cubic, quartic and quintic ring dictionaries (§§1.1–1.4, 1.10–1.11, 1.15)
+need based index forms, integral multiplication tables, and oriented quadratic
+or sextic resolvent data; the polynomial Galois resolvents do not supply them.
+The ternary-pair orbit and fibre theorems (§1.8) need the integer-valued
+quadratic-pair action and its resolvent construction.
+The local-density and weak-lift results (§§1.9, 1.13) need fixed-degree binary
+form orders and discriminants and the marked hyperdeterminant constructions.
+The pencil orbit, Fano, Selmer and integral comparisons (§§1.12, 1.16) need the
+BGW hyperelliptic models, smooth and generalized Jacobians, Picard degree
+torsors, Fano schemes, and the group-scheme central quotients. The higher-degree
+genus-one dictionaries need covering models and their effective group-scheme
+actions. The three-isogeny dictionary needs the Kummer and mirror-kernel
+comparisons for general abelian isogenies. These objects require the constructions specified in
+the README; their missing signatures are omitted here.
 -/
 
 noncomputable section
-open scoped BigOperators Topology
-open Polynomial Filter
+open scoped BigOperators Classical NumberField
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartII
 
-/-! ## Coordinate conventions -/
-
-namespace BinaryQuartic
-/-- Monicization in the five descending ordinary coefficients of a binary quartic. -/
-def monicize {R : Type*} [CommRing R] (f : Fin 5 → R) : Fin 5 → R :=
-  ![1, f 1, f 0 * f 2, f 0 ^ 2 * f 3, f 0 ^ 3 * f 4]
-
-end BinaryQuartic
-
-namespace ArithmeticOrbitRefinement
-/-- Plücker coordinates of the two rows in the quartic coefficient convention. -/
-def quarticMinors (M : Matrix (Fin 2) (Fin 6) ℤ) : Matrix (Fin 6) (Fin 6) ℤ :=
-  fun i j => M 0 i * M 1 j - M 0 j * M 1 i
-
-
-section Isotropic
-variable {K : Type*} [Field K]
-/-- Coordinate bilinear pairing; in characteristic two this is not a quadratic refinement. -/
-private def pairing {n : ℕ} (A : Matrix (Fin n) (Fin n) K) (u v : Fin n → K) : K :=
-  ∑ i, ∑ j, u i * A i j * v j
-/-- BGW §4, p.12: rank r is vector dimension, not projective dimension. -/
-def commonIsotropic {n : ℕ} (r : ℕ) (A B : Matrix (Fin n) (Fin n) K) :
-    Set (Submodule K (Fin n → K)) :=
-  {U | Module.finrank K U = r ∧
-    ∀ u ∈ U, ∀ v ∈ U, pairing A u v = 0 ∧ pairing B u v = 0}
-
-end Isotropic
-end ArithmeticOrbitRefinement
-
-namespace Cubic
-/-- Integral symmetric-trilinear substitution, with row-vector changes of variables. -/
-def dividedSubst {R : Type*} [CommRing R]
-    (g : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) : Fin 4 → R :=
-  let r := g 0 0; let s := g 0 1; let t := g 1 0; let u := g 1 1
-  let a := v 0; let b := v 1; let c := v 2; let d := v 3
-  ![a*r^3 + 3*b*r^2*s + 3*c*r*s^2 + d*s^3,
-    a*r^2*t + b*(r^2*u + 2*r*t*s) + c*(2*r*s*u + t*s^2) + d*s^2*u,
-    a*r*t^2 + b*(2*r*t*u + t^2*s) + c*(r*u^2 + 2*t*s*u) + d*s*u^2,
-    a*t^3 + 3*b*t^2*u + 3*c*t*u^2 + d*u^3]
-
-
-/-- Divided coefficients represent ax³+3bx²y+3cxy²+dy³; ordinary Δ is −27 times this. -/
-def normalizedDisc {R : Type*} [CommRing R] (v : Fin 4 → R) : R :=
-  v 0 ^ 2 * v 3 ^ 2 - 6 * v 0 * v 1 * v 2 * v 3 - 3 * v 1 ^ 2 * v 2 ^ 2 +
-    4 * v 0 * v 2 ^ 3 + 4 * v 1 ^ 3 * v 3
-
-end Cubic
-
-/-! ## Milestones on existing carriers -/
-
-namespace ArithmeticOrbitRefinement
-
-/-- Integral minor fibres: nonzero integral Plücker data have an integral two-row realization. -/
-theorem quarticMinors_exists (L : Matrix (Fin 6) (Fin 6) ℤ)
-    (hne : L ≠ 0) (hskew : ∀ i j, L j i = -L i j)
-    (hplucker : ∀ i j k l, L i k * L j l = L i j * L k l + L i l * L j k) :
-    ∃ M : Matrix (Fin 2) (Fin 6) ℤ, quarticMinors M = L := by sorry
-
-end ArithmeticOrbitRefinement
-
-/-- Quotient by scalars is free: a positive-rank free algebra over a PID or local ring
-has a scalar-first basis and a free quotient of rank one less. -/
-theorem quotientByScalars_free {R A : Type*} [CommRing R] [Nontrivial R]
-    [Ring A] [Algebra R A] [Module.Free R A] [Module.Finite R A]
-    (hR : (IsDomain R ∧ IsPrincipalIdealRing R) ∨ IsLocalRing R)
-    (n : ℕ) (hrank : Module.finrank R A = n + 1) :
-    Function.Injective (algebraMap R A) ∧
-    Module.Free R (A ⧸ Submodule.span R ({1} : Set A)) ∧
-    Module.finrank R (A ⧸ Submodule.span R ({1} : Set A)) = n ∧
-    ∃ b : Module.Basis (Fin (n + 1)) R A, b 0 = 1 := by sorry
-
-/-- Primitive vectors extend to special linear matrices: every primitive vector over a PID
-is any prescribed column of a determinant-one matrix. -/
-theorem primitiveVector_exists_SL3 {O : Type*} [CommRing O] [IsDomain O]
-    [IsPrincipalIdealRing O] (v : Fin 3 → O) (hv : Ideal.span (Set.range v) = ⊤)
-    (j : Fin 3) :
-    ∃ M : Matrix.SpecialLinearGroup (Fin 3) O, ∀ i, M i j = v i := by sorry
-
 namespace BinaryQuartic
 
-/-- Quartic monicization has leading coefficient one over every commutative ring. -/
-theorem monicize_a {R : Type*} [CommRing R] (f : Fin 5 → R) :
-    monicize f 0 = 1 := by sorry
+/-- The fixed-degree binary quartic in descending x-degree. -/
+def form {R : Type*} [CommRing R] (f : Fin 5 → R) : MvPolynomial (Fin 2) R :=
+  ∑ i : Fin 5, MvPolynomial.C (f i) * MvPolynomial.X 0 ^ (4 - i.val) *
+    MvPolynomial.X 1 ^ i.val
 
-/-- Quartic monicization fixes every form whose leading coefficient is one. -/
-theorem monicize_eq_self {R : Type*} [CommRing R] (f : Fin 5 → R) (hf : f 0 = 1) :
-    monicize f = f := by sorry
+/-- Evaluation of the same homogeneous polynomial. -/
+def eval {R : Type*} [CommRing R] (f : Fin 5 → R) (x y : R) : R :=
+  MvPolynomial.eval ![x, y] (form f)
+
+/-- The invariant I in the coefficient normalization of the README. -/
+def invI {R : Type*} [CommRing R] (f : Fin 5 → R) : R :=
+  12 * f 0 * f 4 - 3 * f 1 * f 3 + f 2 ^ 2
+
+/-- The invariant J in the coefficient normalization of the README. -/
+def invJ {R : Type*} [CommRing R] (f : Fin 5 → R) : R :=
+  72 * f 0 * f 2 * f 4 + 9 * f 1 * f 2 * f 3 -
+    27 * f 0 * f 3 ^ 2 - 27 * f 1 ^ 2 * f 4 - 2 * f 2 ^ 3
+
+/-- Row-variable substitution with the determinant-to-the-minus-two twist. -/
+def twistedForm {K : Type*} [Field K]
+    (γ : Matrix.GeneralLinearGroup (Fin 2) K) (f : Fin 5 → K) : MvPolynomial (Fin 2) K :=
+  MvPolynomial.C ((γ.val.det ^ 2)⁻¹) * MvPolynomial.eval₂Hom MvPolynomial.C
+    (fun i => ∑ j : Fin 2, MvPolynomial.C (γ.val j i) * MvPolynomial.X j) (form f)
+
+/-- Proper equivalence, using GL₂ representatives of PGL₂ classes. -/
+def IsProperlyEquivalent {K : Type*} [Field K] (f g : Fin 5 → K) : Prop :=
+  ∃ γ : Matrix.GeneralLinearGroup (Fin 2) K, form g = twistedForm γ f
+
+/-- A point on the quartic double cover, with nonzero projective coordinates. -/
+def IsSoluble {K : Type*} [Field K] (f : Fin 5 → K) : Prop :=
+  ∃ x y z : K, (x ≠ 0 ∨ y ≠ 0) ∧ z ^ 2 = eval f x y
+
+/-- The native Weierstrass curve y² = x³ − 27Ix − 27J. -/
+def curveIJ {K : Type*} [Field K] (I J : K) : WeierstrassCurve.Affine K :=
+  ⟨0, 0, 0, -27 * I, -27 * J⟩
+
+/-- The descent algebra uses the native characteristic-not-two normal form. -/
+instance curveIJ_isCharNeTwoNF {K : Type*} [Field K] (I J : K) :
+    (curveIJ I J).IsCharNeTwoNF := ⟨rfl, rfl⟩
+
+/-- The invariant discriminant hypothesis makes the native curve elliptic. -/
+instance curveIJ_isElliptic {K : Type*} [Field K] [NeZero (2 : K)] [NeZero (3 : K)]
+    (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)] : (curveIJ I J).IsElliptic := by
+  constructor
+  apply isUnit_iff_ne_zero.mpr
+  have hΔ : (curveIJ I J).Δ = (2 : K)^4 * 3^9 * (4 * I^3 - J^2) := by
+    simp only [WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+      WeierstrassCurve.b₆, WeierstrassCurve.b₈, curveIJ]
+    ring
+  rw [hΔ]
+  exact mul_ne_zero (mul_ne_zero (pow_ne_zero _ (NeZero.ne _))
+    (pow_ne_zero _ (NeZero.ne _))) (NeZero.ne _)
+
+/-- Point quartics, including the prescribed linear-factor quartic at infinity. -/
+def quarticOfPoint {K : Type*} [Field K] (I J : K)
+    (P : (curveIJ I J).Point) : Fin 5 → K :=
+  match P with
+  | .zero => ![0, 1, 0, -I / 3, -J / 27]
+  | .some x y _ => ![1, 0, -x / 6, -y / 27, (36 * I - x ^ 2) / 432]
+
+/-- The integral quartic Hessian covariant in Cremona–Fisher normalization. -/
+def hessian {R : Type*} [CommRing R] (f : Fin 5 → R) : Fin 5 → R :=
+  ![3 * f 1 ^ 2 - 8 * f 0 * f 2,
+    4 * (f 1 * f 2 - 6 * f 0 * f 3),
+    2 * (2 * f 2 ^ 2 - 24 * f 0 * f 4 - 3 * f 1 * f 3),
+    4 * (f 2 * f 3 - 6 * f 1 * f 4), 3 * f 3 ^ 2 - 8 * f 2 * f 4]
+
+/-- The covariant (4φf + hessian(f))/3 in the native cubic algebra, with φ = −T/3. -/
+def irrationalCovariant {K : Type*} [Field K] (I J : K) (f : Fin 5 → K)
+    (x y : K) : (curveIJ I J).A :=
+  algebraMap K _ (eval (hessian f) x y / 3) -
+    algebraMap K _ (4 * eval f x y / 9) * AdjoinRoot.root (curveIJ I J).f
+
+/-- The admissible-evaluation cubic invariant in the native unit-squareclass quotient.
+It is the class of a unit value of the irrational covariant, with value one if none exists. -/
+noncomputable def cubicInvariant {K : Type*} [Field K] (I J : K)
+    (f : Fin 5 → K) : (curveIJ I J).M := by
+  classical
+  exact if h : ∃ u : (curveIJ I J).Aˣ, ∃ x y : K,
+      (u : (curveIJ I J).A) = irrationalCovariant I J f x y then
+    QuotientGroup.mk (Classical.choose h) else 1
+
+/-- Solubility at every finite and infinite completion of a number field. -/
+def IsEverywhereLocallySoluble {K : Type*} [Field K] [NumberField K]
+    (f : Fin 5 → K) : Prop :=
+  (∀ v : IsDedekindDomain.HeightOneSpectrum (𝓞 K),
+    IsSoluble (fun i => algebraMap K (v.adicCompletion K) (f i))) ∧
+  ∀ v : NumberField.InfinitePlace K,
+    IsSoluble (fun i => algebraMap K v.Completion (f i))
+
+variable {K : Type*} [Field K] [NeZero (2 : K)] [NeZero (3 : K)]
+
+/-- §1.5: the cubic invariant completely classifies proper orbits at fixed nonsingular invariants. -/
+theorem cubicInvariant_determines_orbit (I J : K) (hK : Nat.card K ≠ 5) (hΔ : 4 * I ^ 3 - J ^ 2 ≠ 0)
+    (f g : Fin 5 → K) (hIf : invI f = I) (hJf : invJ f = J)
+    (hIg : invI g = I) (hJg : invJ g = J) :
+    cubicInvariant I J f = cubicInvariant I J g ↔ IsProperlyEquivalent f g := by sorry
+
+/-- §1.6: point quartics identify soluble proper orbits with E(K)/2E(K), including K = F₅. -/
+theorem solubleOrbit_bijection (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)] :
+    (∀ f : Fin 5 → K, invI f = I → invJ f = J →
+      (IsSoluble f ↔ ∃ P : (curveIJ I J).Point,
+        IsProperlyEquivalent f (quarticOfPoint I J P))) ∧
+    (∀ P Q : (curveIJ I J).Point,
+      IsProperlyEquivalent (quarticOfPoint I J P) (quarticOfPoint I J Q) ↔
+        ∃ R : (curveIJ I J).Point, P - Q = 2 • R) := by sorry
+
+/-- §1.6: the point-quartic dictionary agrees with native two-descent, including rational two-torsion. -/
+theorem cubicInvariant_quarticOfPoint_eq_mu (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)] (hK : Nat.card K ≠ 5)
+    (P : (curveIJ I J).Point) :
+    cubicInvariant I J (quarticOfPoint I J P) =
+      WeierstrassCurve.Affine.μ (W := curveIJ I J) (Multiplicative.ofAdd P) := by sorry
+
+/-- §1.6: rational two-torsion embeds in PGL₂ with image exactly the proper stabilizer. -/
+theorem stabilizer_twoTorsion (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)] (f : Fin 5 → K)
+    (hI : invI f = I) (hJ : invJ f = J) :
+    ∃ ι : Multiplicative ((nsmulAddMonoidHom (α := (curveIJ I J).Point) 2).ker) →*
+        Matrix.ProjGenLinGroup (Fin 2) K,
+      Function.Injective ι ∧ ∀ γ, γ ∈ ι.range ↔
+        ∃ M : Matrix.GeneralLinearGroup (Fin 2) K,
+          Matrix.ProjGenLinGroup.mk M = γ ∧ form f = twistedForm M f := by sorry
+
+/-- §1.6: everywhere locally soluble quartic orbits exhaust the native number-field two-Selmer group. -/
+theorem mem_selmerGroup₂_iff [NumberField K] (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)]
+    (m : (curveIJ I J).M) :
+    m ∈ (curveIJ I J).selmerGroup₂ (𝓞 K)
+      (fun v : NumberField.InfinitePlace K => v.Completion) ↔
+    ∃ f : Fin 5 → K, invI f = I ∧ invJ f = J ∧
+      IsEverywhereLocallySoluble f ∧ cubicInvariant I J f = m := by sorry
+
+/-- §1.7: every soluble local orbit at the scaled integral invariants has an integral representative. -/
+theorem exists_integral_local (p : ℕ) [Fact p.Prime] (A B : ℤ_[p])
+    (hΔ : 4 * A ^ 3 + 27 * B ^ 2 ≠ 0) (f : Fin 5 → ℚ_[p])
+    (hI : invI f = -48 * (A : ℚ_[p])) (hJ : invJ f = -1728 * (B : ℚ_[p]))
+    (hf : IsSoluble f) :
+    ∃ g : Fin 5 → ℤ_[p], IsProperlyEquivalent f (fun i => (g i : ℚ_[p])) := by sorry
+
+/-- §1.7: solubility at every finite prime gives a global integral representative at the scaled invariants. -/
+theorem exists_integral (A B : ℤ) (hΔ : 4 * A ^ 3 + 27 * B ^ 2 ≠ 0)
+    (f : Fin 5 → ℚ) (hI : invI f = -48 * (A : ℚ)) (hJ : invJ f = -1728 * (B : ℚ))
+    (hf : ∀ (p : ℕ) [Fact p.Prime], IsSoluble (fun i => (f i : ℚ_[p]))) :
+    ∃ g : Fin 5 → ℤ, IsProperlyEquivalent f (fun i => (g i : ℚ)) := by sorry
 
 end BinaryQuartic
-
-namespace ArithmeticOrbitRefinement
-
-/-- Quartic minors reverse sign when the two coefficient labels are exchanged. -/
-theorem quarticMinors_swap (M : Matrix (Fin 2) (Fin 6) ℤ) (i j : Fin 6) :
-    quarticMinors M j i = -quarticMinors M i j := by sorry
-
-/-- Quartic minors satisfy the Plücker relations in the fixed coefficient order. -/
-theorem quarticMinors_plucker (M : Matrix (Fin 2) (Fin 6) ℤ) (i j k l : Fin 6) :
-    quarticMinors M i k * quarticMinors M j l =
-      quarticMinors M i j * quarticMinors M k l +
-      quarticMinors M i l * quarticMinors M j k := by sorry
-
-/-- Changing the two row generators scales every minor by the determinant. -/
-theorem quarticMinors_mul (h : Matrix (Fin 2) (Fin 2) ℤ)
-    (M : Matrix (Fin 2) (Fin 6) ℤ) :
-    quarticMinors (h * M) = fun i j => h.det * quarticMinors M i j := by sorry
-
-section Isotropic
-variable {K : Type*} [Field K]
-
-/-- Common isotropic subspaces transport by the inverse transpose under congruence. -/
-theorem commonIsotropic_congr {n : ℕ} (r : ℕ) (A B : Matrix (Fin n) (Fin n) K)
-    (P : Matrix.GeneralLinearGroup (Fin n) K) (U : Submodule K (Fin n → K)) :
-    U.map (Matrix.toLin' (P⁻¹).val.transpose) ∈
-        commonIsotropic r (P.val * A * P.val.transpose) (P.val * B * P.val.transpose) ↔
-      U ∈ commonIsotropic r A B := by sorry
-
-/-- The zero pencil has every subspace of the specified vector dimension as a common isotropic. -/
-theorem commonIsotropic_zero {n : ℕ} (r : ℕ) :
-    commonIsotropic r (0 : Matrix (Fin n) (Fin n) K) 0 =
-      {U : Submodule K (Fin n → K) | Module.finrank K U = r} := by sorry
-
-end Isotropic
-end ArithmeticOrbitRefinement
-
-namespace Cubic
-/-- The identity matrix fixes every divided cubic vector. -/
-theorem dividedSubst_one {R : Type*} [CommRing R] (v : Fin 4 → R) :
-    dividedSubst 1 v = v := by sorry
-
-/-- Matrix multiplication gives left-action composition on divided coefficients. -/
-theorem dividedSubst_mul {R : Type*} [CommRing R]
-    (g h : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) :
-    dividedSubst (g * h) v = dividedSubst g (dividedSubst h v) := by sorry
-
-/-- Base change commutes with divided-coefficient substitution. -/
-theorem dividedSubst_map {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S)
-    (g : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) :
-    (fun i => f (dividedSubst g v i)) =
-      dividedSubst (g.map f) (fun i => f (v i)) := by sorry
-
-/-- Divided substitution has determinant-six discriminant covariance over every ring. -/
-theorem normalizedDisc_dividedSubst {R : Type*} [CommRing R]
-    (g : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) :
-    normalizedDisc (dividedSubst g v) = g.det^6 * normalizedDisc v := by sorry
-
-/-- Coefficient scaling has degree four, in every characteristic. -/
-theorem normalizedDisc_smul {R : Type*} [CommRing R] (u : R) (v : Fin 4 → R) :
-    normalizedDisc (fun i => u * v i) = u ^ 4 * normalizedDisc v := by sorry
-
-/-- The ordinary coefficient convention gives the discriminant of the affine cubic. -/
-theorem ordinaryDisc_eq {K : Type*} [Field K] (v : Fin 4 → K) (ha : v 0 ≠ 0) :
-    (C (v 0) * X ^ 3 + C (3 * v 1) * X ^ 2 + C (3 * v 2) * X + C (v 3)).discr =
-      -27 * normalizedDisc v := by sorry
-
-end Cubic
-
-/-! ## Structural checks -/
-
-namespace ArithmeticOrbitRefinement
-
-/-- Dependent coefficient rows have zero wedge, even when neither row is zero. -/
-example (a : Fin 6 → ℤ) (c : ℤ) :
-    quarticMinors (fun i j => if i = 0 then a j else c * a j) = 0 := by
-  ext i j
-  simp [quarticMinors]
-  ring
-
-/-- In characteristic two, vanishing on the diagonal does not give bilinear isotropy. -/
-example : (⊤ : Submodule (ZMod 2) (Fin 2 → ZMod 2)) ∉
-    commonIsotropic 2 (!![0,1;1,0]) 0 := by
-  intro h
-  have h01 := h.2 (![1,0]) (by trivial) (![0,1]) (by trivial)
-  norm_num [pairing, Fin.sum_univ_two] at h01
-
-end ArithmeticOrbitRefinement
-
-/-!
-The README also specifies the arithmetic and geometric constructions whose
-carriers are not assumed here: based cubic index forms and normal bases;
-Davenport–Heilbronn selectors; integer-valued ternary quadratic forms and their
-pairs; quartic rings and quadratic cubic-resolvent maps; alternating quintuples
-and quadruples, Pfaffian covariants, quintic multiplication and based sextic
-resolvents, quinticComplexRealization and quinticRationalRealization;
-monogenized cubic resolvents; binary-quartic orbit actions, solubility,
-covariants, the cubic invariant, point quartics and projected ternary cubics;
-ternary cubic invariants; Veronese orbit embedding; oriented ideal triples and
-norm pairs; the regular-pencil Fano construction and supplied generalized Picard comparisons;
-weak-discriminant loci, Q and marked Q; genus-one degree-three, four and five
-covering dictionaries; three-isogeny mirror algebras and integral multiplicities.
-Their APIs, hypotheses and Checks remain in the README. The signed polynomial
-pencil invariant and its determinant identities are supplied by Part I §0.22.
-
-README-only API targets, grouped by their mathematical namespace:
-ArithmeticOrbitRefinement:
-  basedSexticResolvent_disc, basedSexticResolvent_self.
-  idealNorm, IsMaximalAtUniformizer, quinticSymmetricClosure, pencilFanoGeometry.
-  markedQ_equivariant, markedQ_independent.
-  monogenizing_adjoin, monogenizing_translate, normPair_sign_iff.
-  orbitTriple_rescale, qHyperdeterminant_scale, qHyperdeterminant_sl2.
-  qHyperdeterminant_transform.
-  quinticCoeff_scale, quinticRing_add, sexticRing_add.
-  sextic_discriminant, weak_strong_exclusive.
-BinaryQuartic:
-  cubicInvariant_eq_mk, cubicInvariant_map, cubicInvariant_quarticOfPoint_eq_mu.
-  disc_embed, embed_injective, embed_smul.
-  exists_sextic_ne_zero, exists_unique_normalized, hessian_eq_neg_third_hessianDet.
-  hessian_twistedSMul, invI_pgl_smul, invI_quarticOfPoint.
-  invJ_pgl_smul, invJ_quarticOfPoint, isLocallySolubleQ_iff.
-  isLocallySoluble_iff, isSoluble_of_eval_eq_zero, isSoluble_of_isSquare_a.
-  isSoluble_pgl_smul, isSoluble_quarticOfPoint, isUnit_irrationalCovariant.
-  mem_range_embed_iff, mem_selmerGroup₂_iff.
-  monicize_invariants, monicize_twist.
-  norm_irrationalCovariant, pgl_orbits_eq_gl_orbits_int, pgl_smul_mk.
-  quarticOfPoint_neg, resolventForm_embed, rho_det.
-  sextic_twistedSMul, veroneseForm_comp_rho.
--/
 
 end TauCetiRoadmap.ArithmeticStatisticsPartII

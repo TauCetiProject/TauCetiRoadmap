@@ -57,7 +57,7 @@ From ArithmeticStatisticsPartI require [binary cubic forms and the twisted actio
 
 ## How to read the build
 
-The mathematical specification is this README; `Suggested.lean` gives representative light definitions and signatures on the pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+The mathematical specification is this README; `Suggested.lean` states headline acceptance theorems on the pinned carriers. Its quartic coordinate definitions use Mathlib multivariate polynomials and the native elliptic-point, cubic-algebra and Selmer carriers. The sections below specify the full library development, including its hypotheses, source locators, basic theory and prose Checks. Arithmetic and geometric constructions whose objects are absent from the pins remain targets of these sections. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
 ## Layer 1: Integral orbit dictionaries
 
@@ -90,7 +90,7 @@ Define `ArithmeticOrbitRefinement.idealNorm` for a D-submodule I of L relative t
 
 **Quotient by scalars is free.** Let R be a principal ideal domain or a local ring and A an R-algebra that is free of rank `n ≥ 1` as an R-module. Then `R → A`, `r ↦ r.1`, is injective, the quotient `A/R.1` is free of rank `n - 1`, and 1 extends to an R-basis `<1, a_2, ..., a_n>` of A. For `n = 3` there is a basis b of A indexed by Fin 3 with `b 0 = 1`.
 
-R is a PID or a local ring (over an arbitrary base the quotient is only projective, and the parametrization must be phrased with rank-2 projective modules; that generality is not used by any consumer and is outside this free-basis specialization). The signature `quotientByScalars_free` states the injection, quotient freeness and rank, and scalar-first basis with total rank written as `n+1`.
+R is a PID or a local ring (over an arbitrary base the quotient is only projective, and the parametrization must be phrased with rank-2 projective modules; that generality is not used by any consumer and is outside this free-basis specialization).
 
 For the proof, Injectivity: if `r.1 = 0` then r annihilates the nonzero free module A, so `r = 0`. Local case: 1 is nonzero modulo mA (else `A = mA` and Nakayama gives `A = 0`); extend its image to a basis of `A/mA` and lift; by Nakayama the lift is a basis. PID case: `A/R.1` is finitely generated and torsion-free (if `r a = s.1` with `r ≠ 0` then a is integral over R and equals `s/r` in A tensor `Frac(R)`; a PID is integrally closed, so `s/r` is in R), hence free by the structure theorem (Mathlib `Module.free_of_finite_type_torsion_free'`); a basis of the quotient lifts, together with 1, to a basis of A.
 
@@ -554,7 +554,7 @@ For the proof, Expand the two-by-two determinants. Row operations of determinant
 
 **Integral minor fibres.** Every nonzero integral alternating `6×6` array satisfying the four-index Plücker equations is the minors array of an integral `2×6` matrix. If `d>0` is the gcd of its entries, its fibre modulo `SL₂(ℤ)`, with the six coefficients fixed, is in bijection with index-d sublattices of the saturated oriented rank-two coefficient lattice, and has `Σ_{a|d}a` elements. The zero array is excluded from this finite-count theorem. This is a based coefficient assertion, not a quotient by quartic-ring automorphisms.
 
-At least one prescribed minor is nonzero. The six coefficient labels remain fixed; only the two rows change basis. The signature `ArithmeticOrbitRefinement.quarticMinors_exists` states the integral realization for an antisymmetric array satisfying the Plücker relations.
+At least one prescribed minor is nonzero. The six coefficient labels remain fixed; only the two rows change basis.
 
 For the proof, Choose a nonzero minor to reconstruct the rational rank-two plane and use the Plücker equations to check its remaining coordinates. Saturate its intersection with `Z⁶`. The primitive minors specify an oriented basis of this lattice; minors scaled by d specify oriented sublattices of index d. Hermite normal forms count them by the divisor sum.
 
@@ -732,17 +732,17 @@ The required API is:
 
 - `BinaryQuartic.instPGLAction`: The `PGL2(R)`-action induced by the twisted action.
 
-- `BinaryQuartic.pgl_smul_mk`: `mk γ . f =` twistedSMul `γ f`.
+- `mk γ . f =` twistedSMul `γ f`.
 
-- `BinaryQuartic.invI_pgl_smul`: I is PGL2-invariant.
+- I is PGL2-invariant.
 
-- `BinaryQuartic.invJ_pgl_smul`: J is PGL2-invariant.
+- J is PGL2-invariant.
 
 - `BinaryQuartic.PGLOrbit`: The orbit space `PGL2(R)\V(R)`.
 
 - `BinaryQuartic.PGLOrbit.invariants`: The invariants `(I, J)` of an orbit.
 
-- `BinaryQuartic.pgl_orbits_eq_gl_orbits_int`: Over `ℤ`, PGL2-orbits are `GL2(ℤ)`-orbits under plain substitution.
+- Over `ℤ`, PGL2-orbits are `GL2(ℤ)`-orbits under plain substitution.
 
 For the proof, Define the action through a set-theoretic section of `GL2(R) → PGL2(R)`; well-definedness is ArithmeticStatisticsPartI Layer 0’s `twistedSMul_scalar` (scalars act trivially); the action axioms follow from `twistedSMul_mul`. Invariance of I and J: the twisted action multiplies I by `(det γ)^4 (det γ)^{-4}` (ArithmeticStatisticsPartI Layer 0 relative invariance). Over `ℤ`: `det γ =` ±1 so the twist is trivial and the orbits agree with those of the plain action.
 
@@ -784,17 +784,17 @@ The required API is:
 
 - `BinaryQuartic.IsIrreducibleOverQ`: An integral form is irreducible over Q (`a ≠ 0` and `f(X,1)` irreducible).
 
-- `BinaryQuartic.isLocallySoluble_iff`: An integral form is locally soluble iff it is `ℝ`-soluble and `ℚ_p`-soluble for every prime p.
+- An integral form is locally soluble iff it is `ℝ`-soluble and `ℚ_p`-soluble for every prime p.
 
-- `BinaryQuartic.isSoluble_pgl_smul`: Solubility is `PGL2(K)`-invariant.
+- Solubility is `PGL2(K)`-invariant.
 
 - `BinaryQuartic.IsSoluble.map`: Solubility is preserved by field homomorphisms.
 
-- `BinaryQuartic.isSoluble_of_eval_eq_zero`: A zero in `P^1(K)` gives solubility.
+- A zero in `P^1(K)` gives solubility.
 
-- `BinaryQuartic.isSoluble_of_isSquare_a`: A square leading coefficient gives solubility.
+- A square leading coefficient gives solubility.
 
-- `BinaryQuartic.isLocallySolubleQ_iff`: Unfolding of local solubility over Q.
+- Unfolding of local solubility over Q.
 
 For the proof, PGL2-invariance: if `f(x,y) = z²`, then its twisted transform has the solution (`(x,y) γ` inverse, `z/(det γ)`). The inverse transformation proves the converse. Base change: a solution over K maps to one over L. Zeros of f give solutions with `z = 0`; `f(1, 0) = a` a square gives (1, 0, sqrt a).
 
@@ -832,11 +832,11 @@ The required API is:
 
 - `BinaryQuartic.sextic`: Evaluation of `g_6`.
 
-- `BinaryQuartic.hessian_twistedSMul`: `g_4` is equivariant for the twisted action.
+- `g_4` is equivariant for the twisted action.
 
-- `BinaryQuartic.sextic_twistedSMul`: `g_6` transforms with the factor `(det γ)^{-3}`.
+- `g_6` transforms with the factor `(det γ)^{-3}`.
 
-- `BinaryQuartic.hessian_eq_neg_third_hessianDet`: `g_4 = -(1/3)(F_xx F_yy - F_xy^2)`.
+- `g_4 = -(1/3)(F_xx F_yy - F_xy^2)`.
 
 For the proof, Define by the explicit coefficients. Equivariance: Cremona-Fisher Lemma 5 (a proper equivalence `(M, λ)` sends `g_4` to `λ^2 g_4^M` and `g_6` to `λ^3 μ^3 g_6^M`); a polynomial identity. The Hessian relation: expand `F_xx F_yy - F_xy^2`.
 
@@ -888,21 +888,21 @@ The required API is:
 
 - `BinaryQuartic.curvePoly`: The cubic `T^3 - 27 I T - 27 J`.
 
-- `BinaryQuartic.restrictSquareClasses`: The native localRes for the Algebra induced by the field map, transported along `curveIJ_map`; no copied descent quotient.
+- `BinaryQuartic.restrictSquareClasses`: The native localRes for the Algebra induced by the field map, transported along the base-change identification of the curve; no copied descent quotient.
 
 - `BinaryQuartic.irrationalCovariant`: `G(x, y) = (4 φ g(x,y) + g_4(x,y))/3` with `φ = -T/3`.
 
 - `BinaryQuartic.cubicInvariant`: `z(g)`, the class of G at an admissible point.
 
-- `BinaryQuartic.cubicInvariant_eq_mk`: `z(g)` is the class of `G(x,y)` for every admissible `(x,y)`.
+- `z(g)` is the class of `G(x,y)` for every admissible `(x,y)`.
 
-- `BinaryQuartic.isUnit_irrationalCovariant`: `G(x,y)` is a unit when `g_6(x,y) ≠ 0`.
+- `G(x,y)` is a unit when `g_6(x,y) ≠ 0`.
 
-- `BinaryQuartic.norm_irrationalCovariant`: `N(G(x,y)) = g_6(x,y)^2`.
+- `N(G(x,y)) = g_6(x,y)^2`.
 
-- `BinaryQuartic.exists_sextic_ne_zero`: An admissible point exists when `#K ≠ 5` and `Δ ≠ 0`.
+- An admissible point exists when `#K ≠ 5` and `Δ ≠ 0`.
 
-- `BinaryQuartic.cubicInvariant_map`: z commutes with restriction along field homomorphisms.
+- The invariant z commutes with restriction along field homomorphisms.
 
 For the proof, `N(G) = g_6^2`: the norm of a linear element `u + v φ` is `u^3 - 3 I u v^2 - J v^3`; substituting and using the syzygy gives `g_6^2` (the polynomial identity `Res(3G, X^3 - 3IX + J) = 27 g_6^2`). Independence: Cremona-Fisher Lemma 1, `G(x_1, y_1) G(x_2, y_2) = F(x_1, y_1, x_2, y_2)^2` with F in `A[x_1, y_1, x_2, y_2]` explicit; hence the classes at two admissible points agree. Existence of an admissible point for `#K ≠ 5`: `g_6` has at most 6 zeros in `P^1(K)` (it is nonzero when the discriminant is nonzero: `Res(g, g_6) = Δ^3` in the ordinary binary-discriminant normalization). Base change: the formula is polynomial in the coefficients.
 
@@ -1000,6 +1000,8 @@ For the proof, Move the zero to `(1, 0)` by a proper change of `g_2`: `p_1 a_2 =
 
 **Cubic invariant determines the orbit.** Let K be a field of characteristic not 2 or 3, `K ≠ F_5`, and `g_1`, `g_2` binary quartics with the same invariants I, J, `4I^3 - J^2 ≠ 0`. Then `z(g_1) = z(g_2)` if and only if `g_1` and `g_2` are `PGL2(K)`-equivalent.
 
+`Suggested.lean` states this classification as `BinaryQuartic.cubicInvariant_determines_orbit`.
+
 Includes the cases `I = 0` or `J = 0`, where equivalence by `GL2 x GL1` with the same invariants need not be proper; the theorem is about `PGL2(K)` (proper) equivalence.
 
 For the proof, `⇐`: cubic-invariant-is-an-orbit-invariant. `⇒`: if `z = 1` both have linear factors (linear-factor-forms). Otherwise neither has a linear factor; after proper changes `r_1`, `r_2 ≠ 0`; auxiliary-quartic-root-from-equal-cubic-invariants gives a zero of `p_1 g_2 - a_1 h_2`, and linear-factor-of-the-comparison-quartic-gives-equivalence concludes.
@@ -1026,13 +1028,13 @@ The required API is:
 
 - `BinaryQuartic.quarticOfPoint`: `P ↦ q(P)`.
 
-- `BinaryQuartic.invI_quarticOfPoint`: `I(q(P)) = I`.
+- `I(q(P)) = I`.
 
-- `BinaryQuartic.invJ_quarticOfPoint`: `J(q(P)) = J`.
+- `J(q(P)) = J`.
 
-- `BinaryQuartic.isSoluble_quarticOfPoint`: `q(P)` is K-soluble.
+- `q(P)` is K-soluble.
 
-- `BinaryQuartic.quarticOfPoint_neg`: `q(-P)` is `PGL2(K)`-equivalent to `q(P)`.
+- `q(-P)` is `PGL2(K)`-equivalent to `q(P)`.
 
 - `BinaryQuartic.linearFactorForm`: The normal form `X^3 Y - (I/3) X Y^3 - (J/27) Y^4 = q(O)`.
 
@@ -1062,7 +1064,7 @@ char K not 2, 3; the identification `φ = -T/3` of the resolvent root. `#K ≠ 5
 
 The required API is:
 
-- `BinaryQuartic.cubicInvariant_quarticOfPoint_eq_mu`: Under `char≠2`,3, `#K≠5` and ellipticity, `z(q(P))` equals native `WeierstrassCurve.Affine.μ` at every point, including ∞ and rational two-torsion.
+- `BinaryQuartic.cubicInvariant_quarticOfPoint_eq_mu` in `Suggested.lean`: Under `char≠2`,3, `#K≠5` and ellipticity, `z(q(P))` equals native `WeierstrassCurve.Affine.μ` at every point, including ∞ and rational two-torsion.
 
 For the proof, For `η ≠ 0`: `G(1, 0) = (4 φ + p)/3` with `p = g_4(1,0) = 3.0 - 8.1`.`(-ξ/6) = 4 ξ/3`, so `G(1,0) = (4/9)(ξ + 3 φ) = (2/3)^2 (ξ - T)` (Cremona-Fisher Theorem `13(1)`; `g_6(1, 0) = 8(-η/27) ≠ 0`). For `η = 0` (so `g_6(1, 0) = 0`) evaluate G at another admissible point; the resulting class agrees with the corrected representative (the conjugate of G at the vanishing coordinate is replaced by the product of the other two, Cremona-Fisher Section 2 remarks), matching Tau Ceti's `μX_of_eval_f_eq_zero`. `μ(O) = 1` and `q(O)` has a linear factor, so `z = 1` (linear-factor-forms).
 
@@ -1083,6 +1085,8 @@ For the proof, For `η ≠ 0`: `G(1, 0) = (4 φ + p)/3` with `p = g_4(1,0) = 3.0
 **Binary quartic parametrization of e mod 2e.** Let K be a field of characteristic not 2 or 3 and I, J in K with `4I^3 - J^2 ≠ 0`. The map `P ↦ PGL2(K) . q(P)` induces a bijection between `E_{I,J}(K)/2E_{I,J}(K)` and the set of `PGL2(K)`-orbits of K-soluble binary quartic forms with invariants I and J; the identity class corresponds to the orbit of forms with a linear factor over K. When `#K ≠ 5`, equivalently, z restricted to soluble orbits is a bijection onto the image of Tau Ceti's `μ`, and `z o q = μ`.
 
 char K not 2, 3; the case `K = F_5` is included in the orbit statement independently of the evaluation construction of z.
+
+`Suggested.lean` states the soluble-orbit bijection and its exact point fibres as `BinaryQuartic.solubleOrbit_bijection`, including the case `K=F₅`.
 
 For the proof, Well-defined and injective: `z(q(P)) = μ(P)` (cubic-invariant-of-the-quartic-of-a-point), z is injective on orbits (cubic-invariant-determines-the-orbit) and `ker μ = 2E(K)` (Tau Ceti `ker_μ_eq`); so `q(P)` ~ `q(Q)` iff `μ(P) = μ(Q)` iff `P - Q` in `2E(K)`. Surjective onto soluble orbits: a soluble g with a zero is in the linear-factor orbit `= q(O)`; otherwise a proper change gives leading coefficient 1 and `b = 0`, and then `(ξ, η) = (-6c, -27d)` lies on `E_{I,J}` and `q(ξ, η) = g` (Cremona-Fisher Theorem `13(2)`, using the formulas for I, J). Identity: `q(O)` is the linear-factor form (linear-factor-forms). For `K = F_5` prove that, in each nonsingular invariant fibre, the point-quartic map has image all soluble orbits and identifies two points exactly when their difference lies in `2E(F_5)`.
 
@@ -1117,6 +1121,8 @@ For the proof, If `g_2 = det(M)^{-2} g_1^M` then `F_{g_1,g_2} = det(M)^{-2} F_{g
 **Stabilizer of a binary quartic is two torsion.** Let K be a field of characteristic not 2 or 3 and f a binary quartic over K with invariants I, J and `4I^3 - J^2 ≠ 0` (not necessarily K-soluble). Then `Stab_{PGL2(K)}(f)` is isomorphic to `E_{I,J}(K)[2]`. It is an elementary abelian 2-group of order `1 + #`{roots of `X^3 - 3IX + J` in K}; over R it has order 4 if `Δ(f) > 0` and 2 if `Δ(f) < 0` (never 1).
 
 char K not 2, 3; the discriminant is nonzero.
+
+`BinaryQuartic.stabilizer_twoTorsion` in `Suggested.lean` states the group isomorphism as an injective homomorphism from native two-torsion into `PGL₂(K)` whose image is exactly the proper stabilizer.
 
 For the proof, Order: stabilizer elements are the proper self-equivalences; by bilinear-factor-criterion-for-proper-equivalence they correspond to the K-rational bilinear factors of `F_{f,f}`: the trivial one and one for each K-rational root of the resolvent. Exponent 2: each nonidentity self-equivalence is represented by `M = (-alpha_2 alpha_1; -alpha_3 alpha_2)` (Cremona–Fisher §5, Remark 1 and the factorization following Theorem 12, pp.9–10). Its trace is 0, so `M^2 = -det(M) I` is scalar. The identity class is handled separately. `E(K)[2]`: its order is `1 + #`{roots of `x^3 - 27Ix - 27J` in K} (Tau Ceti `card_ker_nsmul_two`), and the roots correspond to those of `X^3 - 3IX + J` under `T = -3 φ`. Elementary abelian 2-groups of equal order 1, 2 or 4 are isomorphic. Over R: the resolvent has three real roots iff its discriminant `729 Δ` is positive.
 
@@ -1160,7 +1166,7 @@ K a number field; Tau Ceti's `selmerGroup_2` is defined by the norm condition an
 
 The required API is:
 
-- `BinaryQuartic.mem_selmerGroup₂_iff`: A class m in native W.M lies in `W.selmerGroup₂ (O_K)` (archimedean completions) iff it is the cubic invariant of an everywhere locally soluble quartic with invariants I,J.
+- `BinaryQuartic.mem_selmerGroup₂_iff` in `Suggested.lean`: A class m in native W.M lies in `W.selmerGroup₂ (O_K)` (archimedean completions) iff it is the cubic invariant of an everywhere locally soluble quartic with invariants I,J.
 
 For the proof, Into the Selmer group: for locally soluble g, `z(g)` has square norm, and at each place v, localRes `z(g) = z_v(g)` (cubic-invariant-of-a-binary-quartic, base change) is in `z_v`(soluble orbits) `= range(mu_v)` (binary-quartic-parametrization-of-E-mod-2E over `K_v`, Tau Ceti `localRes_comp_μ`); this is membership in `selmerGroup_2` (Tau Ceti `mem_selmerGroup₂_iff`). Injective: cubic-invariant-determines-the-orbit (K is infinite). Surjective: for m in `selmerGroup_2`, at each place `m_v = mu_v(P_v) = z_v(q(P_v))` is represented by a linear unit, so the conic `Q_m` is isotropic over every `K_v` (image-of-the-cubic-invariant over `K_v`); it is regular, so by Hasse-Minkowski for ternary forms (GlobalQuadraticForms Layer 5) it is isotropic over K; hence `m = z(g)` for some g with invariants I, J (image-of-the-cubic-invariant over K). Then `z_v(g) = m_v = z_v(q(P_v))`, so g is `PGL2(K_v)`-equivalent to the soluble `q(P_v)` (injectivity over `K_v`): g is locally soluble. Identity: linear-factor-forms.
 
@@ -1182,7 +1188,7 @@ For the proof, Into the Selmer group: for locally soluble g, `z(g)` has square n
 
 **Primitive vectors extend to special linear matrices.** Let O be a principal ideal domain and v in `O^3` with coordinates generating the unit ideal (a primitive vector). Then for every j there is M in `SL3(O)` whose j-th column is v; in particular `SL3(O)` acts transitively on `P^2(Frac O)` (on primitive vectors up to units).
 
-O a PID `(ℤ, ℤ_p, ℤ_(p))`. The signature `primitiveVector_exists_SL3` expresses primitivity by `Ideal.span (Set.range v) = ⊤` and keeps the prescribed column.
+O a PID `(ℤ, ℤ_p, ℤ_(p))`. Primitivity means `Ideal.span (Set.range v) = ⊤`; the column j remains prescribed.
 
 For the proof, `O^3/Ov` is finitely generated and torsion-free (v primitive), hence free of rank 2 over the PID (Mathlib `Module.free_of_finite_type_torsion_free'`); so v extends to a basis of `O^3`. First permute the extended basis so that v is its j-th column. Its determinant is a unit u; multiply a different column by `u^{-1}`. This preserves the chosen column and makes the determinant 1, including the sign of the permutation.
 
@@ -1320,6 +1326,8 @@ For the proof, Invariants follow from `det(M)=1`, the ternary-cubic transformati
 
 p arbitrary (including 2 and 3): the factor 4 in `F = f_2^2 + 4 f_1 f_3` is what makes the argument uniform at 2. This is the `n = 2` case of the Cremona-Fisher-Stoll Minimisation Theorem (minimal level 0 for soluble models), in the normalization with invariants `(2^4 I, 2^6 J)`.
 
+`Suggested.lean` states this local existence theorem as `BinaryQuartic.exists_integral_local`, including p=2 and p=3.
+
 For the proof, By binary-quartic-parametrization-of-e-mod-2e over `Q_p` (for `E_{-48A,-1728B}`), f ~ `q(P')` for some `P' = (36 ξ, 216 η)`, `P = (ξ, η)` in `E_{A,B}(Q_p)`, or f has a linear factor `(P = O)`. Write P projectively as a primitive vector `(X_0 : Y_0 : ℤ_0)` in `ℤ_p^3` and choose M in `SL3(ℤ_p)` with row 1 equal to it (primitive-vectors-extend-to-special-linear-matrices, applied to the transpose). The Weierstrass cubic o M is integral with `b = 0`; its projection quartic F is integral with invariants `(-48A, -1728B)` and cubic invariant `μ(P')` (cubic-invariant-of-the-projected-quartic). `z(F) = z(q(P')) = z(f)`, so F ~ f by cubic-invariant-determines-the-orbit (`Q_p` is infinite).
 
 *Needs:* [binary quartic parametrization of e mod 2e](#binary-quartic-parametrization-of-e-mod-2e), [primitive vectors extend to special linear matrices](#primitive-vectors-extend-to-special-linear-matrices), [cubic invariant of the projected quartic](#cubic-invariant-of-the-projected-quartic), [cubic invariant determines the orbit](#cubic-invariant-determines-the-orbit), [soluble binary quartic forms](#soluble-binary-quartic-forms), `PadicInt` (Mathlib).
@@ -1351,6 +1359,8 @@ For the proof, For almost all p, f is already `ℤ_p`-integral (finitely many de
 **Integral representatives of locally soluble quartics.** Let f in `V_Q` be locally soluble with integral invariants I, J such that `2^4 . 3 | I` and `2^6 . 3^3 | J` (equivalently `I = -48A`, `J = -1728B` with A, B in `ℤ`) and `4I^3 - J^2 ≠ 0`. Then f is `PGL2(Q)`-equivalent to an integral binary quartic form.
 
 Only `ℚ_p`-solubility for every p is used (`ℝ`-solubility is not needed for integrality).
+
+`Suggested.lean` states this global existence theorem as `BinaryQuartic.exists_integral`, assuming solubility at every finite prime and writing the integral invariants as `I=−48A`, `J=−1728B`.
 
 For the proof, Put `A = -I/48`, `B = -J/1728` in `ℤ`. For every p, f is `ℚ_p`-soluble, so local-integral-representatives-of-soluble-quartics gives `gamma_p`. integrality-from-local-integrality.
 
@@ -1414,21 +1424,21 @@ The required API is:
 
 - `BinaryQuartic.slice`: `W_{ℤ,1} = {(A, B) : A = A_1}`.
 
-- `BinaryQuartic.embed_injective`: `φ` is injective.
+- `φ` is injective.
 
-- `BinaryQuartic.mem_range_embed_iff`: The image of `φ` is `{(A_1, B) : B_13 = 0}`.
+- The image of `φ` is `{(A_1, B) : B_13 = 0}`.
 
-- `BinaryQuartic.exists_unique_normalized`: Each `F_{ℤ,1}`-class of the slice meets the image of `φ` exactly once.
+- Each `F_{ℤ,1}`-class of the slice meets the image of `φ` exactly once.
 
-- `BinaryQuartic.disc_embed`: `Disc φ(f) = Disc f`.
+- `Disc φ(f) = Disc f`.
 
-- `BinaryQuartic.resolventForm_embed`: `4 Det(A_1 x - B_f y) = x^3 + c x^2 y + (bd - 4ae) x y^2 + (ad^2 + b^2 e - 4ace) y^3`.
+- `4 Det(A_1 x - B_f y) = x^3 + c x^2 y + (bd - 4ae) x y^2 + (ad^2 + b^2 e - 4ace) y^3`.
 
-- `BinaryQuartic.rho_det`: `det ρ(γ) = 1`.
+- `det ρ(γ) = 1`.
 
-- `BinaryQuartic.veroneseForm_comp_rho`: `ρ(γ)` preserves `A_1`.
+- `ρ(γ)` preserves `A_1`.
 
-- `BinaryQuartic.embed_smul`: `φ(γ . f) = ρ(γ) . φ(f)` modulo `F_{ℤ,1}`.
+- `φ(γ . f) = ρ(γ) . φ(f)` modulo `F_{ℤ,1}`.
 
 - `BinaryQuartic.unipotentT`: The element `(1 1; 0 1)` of `GL2(ℤ)`.
 
@@ -2064,10 +2074,10 @@ For the proof, Apply the displayed coefficient condition at `p=2` and the source
 
 The interface exposes:
 
-- `BinaryQuartic.monicize_a`: the leading coefficient is 1.
-- `BinaryQuartic.monicize_eq_self`: a monic quartic is unchanged.
-- `BinaryQuartic.monicize_invariants`: the I, J and discriminant identities hold over every commutative ring, without cancelling 27.
-- `BinaryQuartic.monicize_twist`: for a nonsingular rational quartic with `a≠0`, identify the quadratic twist and its two-torsion, preserving the stated direction of the coordinate change.
+- The leading coefficient is 1.
+- A monic quartic is unchanged.
+- The I, J and discriminant identities hold over every commutative ring, without cancelling 27.
+- For a nonsingular rational quartic with `a≠0`, identify the quadratic twist and its two-torsion, preserving the stated direction of the coordinate change.
 
 *Needs:* [binary quartic invariants](../ArithmeticStatisticsPartI/README.md#binary-quartic-invariants), TauCetiRoadmap.EllipticCurves Layer 5.
 
@@ -2345,7 +2355,7 @@ The required API is `GenusOneModel.solubleOrbitEquiv`, `GenusOneModel.stabilizer
 
 The BSS marked genus-one statistic requires an *even-degree monicization* adapter: from a locally soluble irreducible binary quartic and a two-covering of its Jacobian, construct the associated monic invariant and the integral self-adjoint/symmetric data with their leading-coefficient scaling. Prove injectivity at the required orbit level, describe every integral multiplicity and stabilizer, and identify the increasingly sparse congruence support as the leading coefficient grows. This is BSS, §§3–4 and the monicization steps in §§6–7, pp. 13–47. The odd-degree symmetric-pencil dictionary does not supply this even-degree map. Its local support supplies the downstream sparse quaternary count.
 
-**Divided-coefficient cubic discriminant.** Over any commutative ring R, the coordinate vector `(a,b,c,d)` denotes `ax³+3bx²y+3cxy²+dy³`. Define `Cubic.normalizedDisc` by `D=a²d²−6abcd−3b²c²+4ac³+4b³d`. Its API is `normalizedDisc_smul` (coefficient scaling by u multiplies D by `u⁴`), invariance under `SL₂` and determinant-six covariance under the divided-coefficient substitution `Cubic.dividedSubst`, and `ordinaryDisc_eq`: the fixed-degree ordinary binary discriminant is `−27D`. For the affine Mathlib `Polynomial.discr` comparison in `Suggested.lean`, assume `a≠0`; otherwise degree can fall. These are integral polynomial identities, so require no division by 3, even in small characteristic ([3], §3, pp.5–6). Construct `Cubic.dividedSubst g v` by the integral symmetric-trilinear formulas. For `g=((r,s),(t,u))`, its coordinates are
+**Divided-coefficient cubic discriminant.** Over any commutative ring R, the coordinate vector `(a,b,c,d)` denotes `ax³+3bx²y+3cxy²+dy³`. Define `Cubic.normalizedDisc` by `D=a²d²−6abcd−3b²c²+4ac³+4b³d`. Its API is `normalizedDisc_smul` (coefficient scaling by u multiplies D by `u⁴`), invariance under `SL₂` and determinant-six covariance under the divided-coefficient substitution `Cubic.dividedSubst`, and `ordinaryDisc_eq`: the fixed-degree ordinary binary discriminant is `−27D`. For the affine Mathlib `Polynomial.discr` comparison, assume `a≠0`; otherwise degree can fall. These are integral polynomial identities, so require no division by 3, even in small characteristic ([3], §3, pp.5–6). Construct `Cubic.dividedSubst g v` by the integral symmetric-trilinear formulas. For `g=((r,s),(t,u))`, its coordinates are
 `(ar³+3br²s+3crs²+ds³, ar²t+b(r²u+2rts)+c(2rsu+ts²)+ds²u, art²+b(2rtu+t²s)+c(ru²+2tsu)+dsu², at³+3bt²u+3ctu²+du³)`.
 The API `Cubic.dividedSubst_one`, `Cubic.dividedSubst_mul` and `Cubic.dividedSubst_map` gives the identity, left-action composition and base-change laws. `Cubic.normalizedDisc_dividedSubst` states `D(dividedSubst g v)=det(g)⁶D(v)` for every 2×2 matrix, hence SL₂-invariance. The coefficient map `(a,b,c,d)↦(a,3b,3c,d)` intertwines this substitution with ordinary binary-cubic substitution; undo Part I’s determinant twist before comparing. The coefficient map is not injective in characteristic three. *Needs:* `Fin 4 → R`, Mathlib matrices and `Polynomial.discr`; ArithmeticStatisticsPartI “Binary cubic forms and the twisted action” for the ordinary-coefficient comparison only.
 
@@ -2382,7 +2392,7 @@ For `xy(x-y)` the integral twisted cubic stabilizer has six elements, so the ord
 
 The point-quartic construction sends the point at ∞ to the specified linear-factor orbit. For a finite point the denominators 6, 27 and 432 require the characteristic exclusions in the formula. For pencils, a vector-space isotropic g-plane is a projective `(g-1)`-plane. At `p=2` a polar-isotropic plane need not make the quadratic form vanish. The quotient `(SL_n/μ₂)(Q)` must be evaluated as rational points of a group scheme; it can exceed `SL_n(Q)/{±1}`.
 
-The proved Lean examples show that proportional coefficient rows have zero quartic minors, and that the characteristic-two alternating plane with matrix `[[0,1],[1,0]]` fails the full bilinear common-isotropy condition. The first detects the excluded zero fibre in the finite minor-fibre count; the second detects the mixed values lost by testing only `uᵀAu`.
+Proportional coefficient rows have zero quartic minors, and the characteristic-two alternating plane with matrix `[[0,1],[1,0]]` fails the full bilinear common-isotropy condition. The first explains the excluded zero fibre in the finite minor-fibre count; the second exhibits the mixed values lost by testing only `uᵀAu`.
 
 ### Dependencies
 
