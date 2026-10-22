@@ -80,6 +80,7 @@ body:
         - LocalFieldsRamification
         - LocalGaloisGroups
         - LocalPurity
+        - MarkovChainsAndRenewal
         - MassFormula
         - ModularCurves
         - ModularForms
