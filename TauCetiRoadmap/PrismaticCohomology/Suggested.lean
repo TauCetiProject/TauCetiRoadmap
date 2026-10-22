@@ -1,35 +1,43 @@
 import Mathlib
 
 /-!
-# PrismaticCohomology: representative target signatures
+# Prismatic cohomology: headline target signatures
 
-The roadmap is README.md. These are suggested forms, not an exhaustive checklist.
-This file records light definitions and representative theorem signatures statable against
-the pinned APIs. The correction polynomial
-has integral coefficients before evaluation, Frobenius congruences contain no chosen division,
-and quotient stability retains the specified delta operation. The elementary polynomial
-prefix makes sense over any commutative ring; the prismatic geometric targets
-in the README retain their p-local and completeness hypotheses.
+The roadmap is `README.md`. These are suggested forms, not an exhaustive checklist.
+
+Layer 0's free delta ring with faithfully flat Frobenius (§0.55), cofree Witt delta ring
+(§0.56), Witt reconstruction of perfect p-complete delta rings (§0.65), and general
+orientable prismatic envelopes (§0.93) are stated here. The definitions express the delta
+identities and envelope mapping problem on existing commutative rings. For discrete rings,
+bijectivity of the two telescope operators expresses derived `(p,d)`-completeness.
+
+The smooth Hodge–Tate, crystalline and restricted de Rham comparisons, unrestricted
+bounded-prism base change and proper smooth perfectness (§§1.14–1.23) need relative
+prismatic cohomology and bounded p-adic formal schemes, absent at the pins. The derived
+Hodge–Tate comparison, first conjugate piece and lifting criterion, derived base change,
+Künneth formula and quasiregular initiality (§§2.3–2.13a) additionally need animated
+prismatic algebras, full cotangent complexes and their completed conjugate filtrations.
+The perfect-site comparison, base independence, arc excision, integral perfectoidization
+and arbitrary-ideal almost purity (§§2.22–2.31) need the perfected derived prismatic
+algebra, perfect prismatic and arc sites, and the integral perfectoid and almost-module
+interfaces. These objects are absent at the pins; their statements belong to the README.
+Ordinary derived categories and Witt-vector rings alone do not supply these constructions.
 -/
 
 namespace TauCetiRoadmap.PrismaticCohomology
 
-open scoped BigOperators
+universe u
 
 namespace Delta
 
-variable {R S : Type*} [CommRing R] [CommRing S]
+variable {R S : Type u} [CommRing R] [CommRing S]
 
-/-- The integral addition correction. Division takes place in `ℕ`, before casting to `R`.
-For prime `p`, every coefficient in the indicated range is an exact quotient.
-The symmetry and zero API is `Delta.addCorrection_symm`, `Delta.addCorrection_zero`. -/
+/-- The integral addition correction, with coefficients divided before casting to the ring. -/
 def addCorrection (p : ℕ) (x y : R) : R :=
   -∑ i ∈ Finset.Ico 1 p, ((p.choose i / p : ℕ) : R) * x ^ i * y ^ (p - i)
 
-/-- A delta structure for `p`. The ring carrier and its operations are already fixed.
-The prime assumption is imposed on theorems using this polynomial structure.
-The scalar API includes `Delta.Structure.delta_neg` and `Delta.Structure.delta_two`. -/
-structure Structure (p : ℕ) (R : Type*) [CommRing R] where
+/-- A delta operation with its polynomial identities on an existing commutative ring. -/
+structure Structure (p : ℕ) (R : Type u) [CommRing R] where
   delta : R → R
   delta_zero : delta 0 = 0
   delta_one : delta 1 = 0
@@ -37,293 +45,68 @@ structure Structure (p : ℕ) (R : Type*) [CommRing R] where
   delta_mul : ∀ x y,
     delta (x * y) = x ^ p * delta y + y ^ p * delta x + (p : R) * delta x * delta y
 
-/-- An ordinary Frobenius lift is an endomorphism congruent to the p-th power modulo p.
-It records neither choices of quotients nor a homotopy on a derived reduction.
-Reduction and the witness criterion are `Delta.FrobeniusLift.mod_p` and
-`Delta.FrobeniusLift.congruence_iff`. -/
-structure FrobeniusLift (p : ℕ) (R : Type*) [CommRing R] where
-  hom : R →+* R
-  congruence : ∀ x, ∃ y, hom x = x ^ p + (p : R) * y
-
-/-- The function underlying the associated Frobenius; its ring laws are a target theorem.
-The bundled map has evaluation `Delta.toFrobenius_apply`, rank-one evaluation
-`Delta.toFrobenius_rank_one`, and delta-map naturality `Delta.toFrobenius_map`. -/
+/-- The associated Frobenius function. -/
 def associatedFrobenius {p : ℕ} (d : Structure p R) (x : R) : R :=
   x ^ p + (p : R) * d.delta x
 
-/-- The canonical integer operation uses integer division, not division in the target ring.
-Its bundled structure has `Delta.intDelta_apply`, `Delta.intDelta_frobenius` and
-`Delta.intDelta_prime` as evaluation, Frobenius and scalar-p laws. -/
-def integerDelta (p : ℕ) (a : ℤ) : ℤ := (a - a ^ p) / (p : ℤ)
-
-/-- Delta morphisms are unital ring maps commuting with the specified delta operations. -/
+/-- Ring maps commuting with the specified delta operations. -/
 def IsDeltaMap {p : ℕ} (d : Structure p R) (e : Structure p S) (f : R →+* S) : Prop :=
   ∀ x, f (d.delta x) = e.delta (f x)
 
-/-- Stability of an ordinary ideal under delta; Frobenius stability alone is insufficient. -/
-def IsStable {p : ℕ} (d : Structure p R) (I : Ideal R) : Prop :=
-  ∀ x ∈ I, d.delta x ∈ I
-
-/-- The ideal generated by iterates of delta on elements of `I`, including the zeroth iterate.
-This is an ordinary ideal span; it is not an iteration of Frobenius or of Witt coordinates.
-Its API is `Delta.idealClosure_eq_span`, `Delta.le_idealClosure`,
-`Delta.idealClosure_stable`, `Delta.idealClosure_le` for stable targets,
-`Delta.idealClosure_idem` and `Delta.idealClosure_mono`. -/
-def idealClosure {p : ℕ} (d : Structure p R) (I : Ideal R) : Ideal R :=
-  Ideal.span {y | ∃ n : ℕ, ∃ x ∈ I, y = d.delta^[n] x}
-
-/-- Distinguished means that delta of the element is a unit. -/
-def IsDistinguished {p : ℕ} (d : Structure p R) (x : R) : Prop := IsUnit (d.delta x)
-
-/-- Rank one means delta vanishes; the reverse implication from a Frobenius equality
-requires injectivity of multiplication by p. -/
-def IsRankOne {p : ℕ} (d : Structure p R) (x : R) : Prop := d.delta x = 0
-
-/-! ## Integral delta-algebra milestones -/
-
-/-- The denominator-cleared identity of README §0.2 is valid in rings with p-torsion. -/
-theorem correction_identity (p : ℕ) (hp : p.Prime) (x y : R) :
-    (p : R) * addCorrection p x y = x ^ p + y ^ p - (x + y) ^ p := by
-  sorry
-
-/-- The sign of the correction in the dyadic case. -/
-theorem correction_two (x y : R) : addCorrection 2 x y = -(x * y) := by
-  sorry
-
-/-- Ring maps commute with evaluation of the integral correction polynomial. -/
-theorem addCorrection_map (p : ℕ) (f : R →+* S) (x y : R) :
-    f (addCorrection p x y) = addCorrection p (f x) (f y) := by
-  sorry
-
-/-- The associated function is the underlying map of a Frobenius lift. -/
-theorem associatedFrobenius_isLift (p : ℕ) (hp : p.Prime) (d : Structure p R) :
-    ∃ f : FrobeniusLift p R, ∀ x, f.hom x = associatedFrobenius d x := by
-  sorry
-
-/-- README §0.6 reconstructs a unique delta structure from each ordinary lift without p-torsion.
-`CharZero` alone does not imply the required injectivity.
-The equivalence laws are `Delta.frobeniusEquiv_apply`, `Delta.frobeniusEquiv_symm_spec`
-and `Delta.frobeniusEquiv_symm_toFrobenius`. The README checks
-`reconstruction_integer_value`, `reconstruction_rejects_characteristic_p` and
-`reconstruction_zero_ring` distinguish the integer, torsion and zero-ring cases. -/
-theorem reconstruction (p : ℕ) (hp : p.Prime)
-    (hinj : Function.Injective (fun x : R => (p : R) * x)) (f : FrobeniusLift p R) :
-    ∃! d : Structure p R, ∀ x, associatedFrobenius d x = f.hom x := by
-  sorry
-
-/-- README §0.7 detects delta compatibility by Frobenius compatibility when the target
-has no p-torsion. -/
-theorem isDeltaMap_iff_frobenius (p : ℕ) (hp : p.Prime)
-    (d : Structure p R) (e : Structure p S) (f : R →+* S)
-    (hinj : Function.Injective (fun x : S => (p : S) * x)) :
-    IsDeltaMap d e f ↔ ∀ x, f (associatedFrobenius d x) = associatedFrobenius e (f x) := by
-  sorry
-
-/-- README §0.17 identifies delta structures with first-coordinate sections of length-two
-Witt vectors, including over rings with p-torsion. -/
-theorem wittSection_equivalence (p : ℕ) [Fact p.Prime] :
-    ∃ e : Structure p R ≃
-        {s : R →+* TruncatedWittVector p 2 R // ∀ x, (s x).coeff 0 = x},
-      ∀ d x, ((e d).val x).coeff 1 = d.delta x := by
-  sorry
-
-/-- README §§0.22–0.24 extend delta uniquely to a localization when the images of
-Frobenius-transformed denominators are units. -/
-theorem localization_structure (p : ℕ) (hp : p.Prime) (d : Structure p R)
-    (M : Submonoid R) [Algebra R S] [IsLocalization M S]
-    (hM : ∀ s ∈ M, IsUnit (algebraMap R S (associatedFrobenius d s))) :
-    ∃! e : Structure p S, IsDeltaMap d e (algebraMap R S) := by
-  sorry
-
-/-- README §0.39 extends delta uniquely to the classical completion at a finitely
-generated ideal containing p. -/
-theorem completion_structure (p : ℕ) (hp : p.Prime) (d : Structure p R)
-    (I : Ideal R) (hI : I.FG) (hpI : (p : R) ∈ I) :
-    ∃! e : Structure p (AdicCompletion I R),
-      IsDeltaMap d e (algebraMap R (AdicCompletion I R)) := by
-  sorry
-
-/-- README §0.49 makes the ideal generated by all delta iterates delta-stable. -/
-theorem idealClosure_stable (p : ℕ) (hp : p.Prime) (d : Structure p R) (I : Ideal R) :
-    IsStable d (idealClosure d I) := by
-  sorry
-
-/-- README §0.50 characterizes the delta closure by containment in delta-stable ideals. -/
-theorem idealClosure_le (p : ℕ) (hp : p.Prime) (d : Structure p R)
-    (I J : Ideal R) (hJ : IsStable d J) : idealClosure d I ≤ J ↔ I ≤ J := by
-  sorry
-
-/-- README §§0.52–0.54 give the quotient by the delta closure its delta structure
-and its universal property among delta maps annihilating the original ideal. -/
-theorem quotientByIdealClosure_universal (p : ℕ) (hp : p.Prime)
-    (d : Structure p R) (I : Ideal R) (e : Structure p S) (f : R →+* S)
-    (hf : IsDeltaMap d e f) (hI : I ≤ RingHom.ker f) :
-    ∃ qd : Structure p (R ⧸ idealClosure d I),
-      IsDeltaMap d qd (Ideal.Quotient.mk (idealClosure d I)) ∧
-      ∃! g : (R ⧸ idealClosure d I) →+* S,
-        IsDeltaMap qd e g ∧ g.comp (Ideal.Quotient.mk (idealClosure d I)) = f := by
-  sorry
-
-/-- README §0.55 puts the free delta structure on the integral polynomial ring
-whose variables are the successive delta iterates of its generators. -/
-theorem freeDelta_exists (p : ℕ) (hp : p.Prime) (V : Type*) :
+/-- §0.55: the free integral delta ring on any set, its universal property, and faithful
+flatness of its Frobenius. No finiteness assumption is imposed on the generator set. -/
+theorem freeDelta_universal (p : ℕ) (hp : p.Prime) (V : Type u) :
     ∃ d : Structure p (MvPolynomial (V × ℕ) ℤ),
-      ∀ v n, d.delta (MvPolynomial.X (v, n)) = MvPolynomial.X (v, n + 1) := by
+      (∀ v n, d.delta (MvPolynomial.X (v, n)) = MvPolynomial.X (v, n + 1)) ∧
+      (∃ φ : MvPolynomial (V × ℕ) ℤ →+* MvPolynomial (V × ℕ) ℤ,
+        (∀ x, φ x = associatedFrobenius d x) ∧ φ.FaithfullyFlat) ∧
+      ∀ (R : Type u) [CommRing R] (e : Structure p R) (x : V → R),
+        ∃! f : MvPolynomial (V × ℕ) ℤ →+* R,
+          IsDeltaMap d e f ∧ ∀ v, f (MvPolynomial.X (v, 0)) = x v := by
   sorry
 
-/-- README §0.55 uniquely extends a family of elements to a map from the free delta ring. -/
-theorem freeDelta_lift (p : ℕ) (hp : p.Prime) (V : Type*)
-    (d : Structure p (MvPolynomial (V × ℕ) ℤ))
-    (hd : ∀ v n, d.delta (MvPolynomial.X (v, n)) = MvPolynomial.X (v, n + 1))
-    (e : Structure p R) (x : V → R) :
-    ∃! f : MvPolynomial (V × ℕ) ℤ →+* R,
-      IsDeltaMap d e f ∧ ∀ v, f (MvPolynomial.X (v, 0)) = x v := by
-  sorry
-
-/-- README §0.55 gives faithful flatness of Frobenius on the free integral delta ring. -/
-theorem freeDelta_frobenius_faithfullyFlat (p : ℕ) (hp : p.Prime) (V : Type*)
-    (d : Structure p (MvPolynomial (V × ℕ) ℤ))
-    (hd : ∀ v n, d.delta (MvPolynomial.X (v, n)) = MvPolynomial.X (v, n + 1))
-    (f : MvPolynomial (V × ℕ) ℤ →+* MvPolynomial (V × ℕ) ℤ)
-    (hf : ∀ x, f x = associatedFrobenius d x) : f.FaithfullyFlat := by
-  sorry
-
-/-- README §0.56 realizes the cofree delta-ring property on the existing Witt-vector ring. -/
+/-- §0.56: Witt vectors are the cofree delta ring over every commutative coefficient ring,
+including rings with p-torsion. The same delta structure works for every source ring. -/
 theorem witt_cofree (p : ℕ) [Fact p.Prime] :
     ∃ d : Structure p (WittVector p R),
       (∀ x, associatedFrobenius d x = WittVector.frobenius x) ∧
-      ∀ (e : Structure p S) (f : S →+* R),
+      ∀ (S : Type u) [CommRing S] (e : Structure p S) (f : S →+* R),
         ∃! g : S →+* WittVector p R,
           IsDeltaMap e d g ∧ WittVector.constantCoeff.comp g = f := by
   sorry
 
-/-- README §0.65 gives the unique delta structure on Witt vectors of a perfect
-characteristic-p ring, with its specified Frobenius. -/
-theorem witt_structure_unique (p : ℕ) [Fact p.Prime] [CharP R p] [PerfectRing R p] :
-    ∃ d : Structure p (WittVector p R),
-      (∀ x, associatedFrobenius d x = WittVector.frobenius x) ∧
-      ∀ e : Structure p (WittVector p R), e = d := by
+/-- §0.65: a perfect p-adically complete delta ring is reconstructed from its perfect
+reduction by Witt vectors, compatibly with reduction and Frobenius. -/
+theorem perfect_wittEquiv (p : ℕ) [Fact p.Prime] (d : Structure p R)
+    (hcomplete : IsAdicComplete (Ideal.span {(p : R)}) R)
+    (hperfect : Function.Bijective (associatedFrobenius d)) :
+    PerfectRing (R ⧸ Ideal.span {(p : R)}) p ∧
+      ∃ e : R ≃+* WittVector p (R ⧸ Ideal.span {(p : R)}),
+        (∀ x, WittVector.constantCoeff (e x) = Ideal.Quotient.mk _ x) ∧
+        ∀ x, e (associatedFrobenius d x) = WittVector.frobenius (e x) := by
   sorry
-
-/-- README §0.8 realizes the exact integer formula as a delta structure. -/
-theorem integerDelta_structure (p : ℕ) (hp : p.Prime) :
-    ∃ d : Structure p ℤ, d.delta = integerDelta p := by
-  sorry
-
-/-- The integer scalar p has a forced delta value in every delta ring. -/
-theorem delta_prime (p : ℕ) (hp : p.Prime) (d : Structure p R) :
-    d.delta (p : R) = 1 - (p : R) ^ (p - 1) := by
-  sorry
-
-/-- In characteristic p, the ordinary Frobenius congruence does not supply delta data. -/
-theorem no_delta_structure (p : ℕ) (hp : p.Prime) [CharP R p] [Nontrivial R] :
-    IsEmpty (Structure p R) := by
-  sorry
-
-/-- README §0.9 gives a unique compatible quotient delta structure exactly for stable ideals. -/
-theorem quotient_structure_iff (p : ℕ) (hp : p.Prime) (d : Structure p R) (I : Ideal R) :
-    (∃! e : Structure p (R ⧸ I), IsDeltaMap d e (Ideal.Quotient.mk I)) ↔ IsStable d I := by
-  sorry
-
-/-- The delta closure of the ideal generated by p is the unit ideal. -/
-theorem idealClosure_prime (p : ℕ) (hp : p.Prime) (d : Structure p R) :
-    idealClosure d (Ideal.span {(p : R)}) = ⊤ := by
-  sorry
-
-/-- Distinguished elements provide the prism relation p in the ideal (x, phi(x)).
-This is the integral form of the README's `Prismatic.IsDistinguished.p_mem_span`. -/
-theorem distinguished_prime_mem (p : ℕ) (d : Structure p R) (x : R)
-    (hx : IsDistinguished d x) :
-    (p : R) ∈ Ideal.span {x, associatedFrobenius d x} := by
-  sorry
-
-section SquareZero
-
-local instance squareZeroRightModule : Module ℤᵐᵒᵖ (ZMod 2) :=
-  Module.compHom _ ((RingHom.id ℤ).fromOpposite mul_comm)
-
-local instance squareZeroCentral : IsCentralScalar ℤ (ZMod 2) := ⟨fun _ _ => rfl⟩
-
-local instance squareZeroCommRing : CommRing (TrivSqZeroExt ℤ (ZMod 2)) :=
-  @TrivSqZeroExt.commRing ℤ (ZMod 2) _ _ _ squareZeroRightModule squareZeroCentral
-
-/-- The dyadic square-zero family retains the torsion parameter in its delta operation. -/
-theorem squareZeroFamily_exists :
-    ∃ family : ZMod 2 → Structure 2 (TrivSqZeroExt ℤ (ZMod 2)),
-      ∀ (c : ZMod 2) (x : TrivSqZeroExt ℤ (ZMod 2)), (family c).delta x =
-        (integerDelta 2 x.fst, (c - (x.fst : ZMod 2)) * x.snd) := by
-  sorry
-
-/-- README §0.15 exhibits distinct delta structures with identical Frobenius maps
-on the characteristic-zero ring with square-zero 2-torsion. -/
-theorem squareZero_sameFrobenius : ∃ d e : Structure 2 (TrivSqZeroExt ℤ (ZMod 2)),
-    d.delta (TrivSqZeroExt.inr 1) = 0 ∧
-    e.delta (TrivSqZeroExt.inr 1) = TrivSqZeroExt.inr 1 ∧
-    (∀ x, associatedFrobenius d x = associatedFrobenius e x) ∧
-    ¬ IsDeltaMap d e (RingHom.id _) := by
-  sorry
-
-end SquareZero
 
 end Delta
 
-/-!
-The README also specifies these mathematical interfaces.
-
-The square-zero family (§0.14) has coordinate laws `Delta.squareZeroDelta_fst`,
-`Delta.squareZeroDelta_snd` and `Delta.squareZeroDelta_frobenius`. The Witt-section
-identification (§0.17) has `Delta.wittSectionEquiv_apply`,
-`Delta.wittSectionEquiv_symm_apply` and `Delta.wittSectionEquiv_ghost_one`;
-the coefficient-map API (§0.18) is `Delta.witt2Map_coeff`, `Delta.witt2Map_id`,
-`Delta.witt2Map_comp` and `Delta.witt2Map_truncate`.
-
-Localization (§§0.22–0.28) has `Delta.localize_algebraMap`, `Delta.localize_unique`
-and `Delta.localize_fraction`. Its radical-target specialization (§0.42) has
-`Delta.localizeJacobson_algebraMap`, `Delta.localizeJacobson_unique` and
-`Delta.localizeJacobson_eq_localize`. The p-local integer structure (§0.44) has
-`Delta.intAtPrime_algebraMap`, `Delta.intAtPrime_frobenius`, `Delta.intAtPrime_spec`
-and `Delta.intAtPrime_unique`. Frobenius saturation (§0.57) has
-`Delta.frobeniusSaturation_stable`; radical localization has
-`Delta.localizeRadical_p_mem_jacobson` and `Delta.localizeRadical_unique`.
-
-The shifted quotients (§0.32) have `Delta.shiftedQuotient_mk`,
-`Delta.shiftedQuotient_transition` and `Delta.shiftedQuotient_zero`.
-Completion (§0.35) has `Delta.completion_eval`, `Delta.completion_algebraMap`
-and `Delta.completion_congr`. The universal delta quotient (§0.52) has
-`Delta.quotientByIdealClosure_mk`, `Delta.quotientByIdealClosure_unique` and
-`Delta.quotientByIdealClosure_kills`.
-
-The free delta structure (§0.55) satisfies `Delta.freeDelta_X`.
-The Witt delta structure (§0.56) satisfies `Delta.witt_frobenius`; its unit has
-`Delta.wittUnit_coeff_zero`, `Delta.wittUnit_coeff_one`, `Delta.wittUnit_ghost`,
-`Delta.wittUnit_isDeltaHom` and `Delta.wittUnit_counit`. The Joyal-coordinate API
-(§0.92) is `Delta.joyalDelta_ghost` and `Delta.joyalDelta_free_generators`.
--/
-
-/-! ## General orientable envelopes and relative quotient maps -/
-
 namespace Prism
-
-universe u
 
 variable {p : ℕ} {A B C : Type u} [CommRing A] [CommRing B] [CommRing C]
 
-/-- The telescope difference operator detects derived completeness of a discrete module. -/
+/-- The telescope difference operator for derived completeness of a discrete ring. -/
 def telescope (f : A) (x : ℕ → A) : ℕ → A := fun n => x n - f * x (n + 1)
 
-/-- An oriented prism has a regular generator, derived completeness and the prism relation.
-Bijectivity of both telescope operators expresses derived `(p,d)`-completeness. -/
+/-- The regularity, derived completeness and prism relation for a chosen generator. -/
 def IsOrientedPrism (δA : Delta.Structure p A) (d : A) : Prop :=
   Function.Injective (fun x : A => d * x) ∧
   Function.Bijective (telescope (p : A)) ∧ Function.Bijective (telescope d) ∧
   (p : A) ∈ Ideal.span {d, Delta.associatedFrobenius δA d}
 
-/-- The given ideal becomes divisible by the specified prism generator. -/
+/-- The image of the given ideal is divisible by the prism generator. -/
 def CarriesIdeal (J : Ideal B) (d : C) (f : B →+* C) : Prop :=
   ∀ x ∈ J, f x ∈ Ideal.span {d}
 
-/-- An envelope is a prism under `B`, initial among all prism-valued delta maps dividing `J`.
-Target rings are taken in the fixed universe; no boundedness is imposed. -/
+/-- A prism under `B` initial among delta maps carrying `J` into the extended prism ideal.
+The rings in the mapping property share a universe cutoff; boundedness is not required. -/
 def IsEnvelope (a : A →+* B) (d : A) (J : Ideal B)
     (δB : Delta.Structure p B) (δC : Delta.Structure p C) (ι : B →+* C) : Prop :=
   Delta.IsDeltaMap δB δC ι ∧ IsOrientedPrism δC (ι (a d)) ∧
@@ -333,7 +116,7 @@ def IsEnvelope (a : A →+* B) (d : A) (J : Ideal B)
     CarriesIdeal J (f (a d)) f →
     ∃! g : C →+* T, Delta.IsDeltaMap δC δT g ∧ g.comp ι = f
 
-/-- The carrier, delta operation and universal map of a general orientable envelope. -/
+/-- A commutative ring, delta operation and map satisfying the envelope mapping property. -/
 structure Envelope (a : A →+* B) (d : A) (J : Ideal B) (δB : Delta.Structure p B) where
   Carrier : Type u
   [commRing : CommRing Carrier]
@@ -341,147 +124,14 @@ structure Envelope (a : A →+* B) (d : A) (J : Ideal B) (δB : Delta.Structure 
   fromB : B →+* Carrier
   universal : IsEnvelope a d J δB delta fromB
 
-attribute [instance] Envelope.commRing
-
-/-- General envelopes exist without boundedness, flatness or regularity of the input ideal. -/
+/-- §0.93: general envelopes exist over every orientable prism, including unbounded bases
+and targets, without completeness, flatness or regularity assumptions on the input ideal. -/
 theorem generalEnvelope_exists (hp : p.Prime) (δA : Delta.Structure p A)
     (d : A) (hA : IsOrientedPrism δA d) (δB : Delta.Structure p B)
     (a : A →+* B) (ha : Delta.IsDeltaMap δA δB a)
     (J : Ideal B) (hJ : a d ∈ J) : Nonempty (Envelope a d J δB) := by
   sorry
 
-/-- A choice of the envelope furnished by its existence theorem. -/
-noncomputable def generalEnvelope (hp : p.Prime) (δA : Delta.Structure p A)
-    (d : A) (hA : IsOrientedPrism δA d) (δB : Delta.Structure p B)
-    (a : A →+* B) (ha : Delta.IsDeltaMap δA δB a)
-    (J : Ideal B) (hJ : a d ∈ J) : Envelope a d J δB :=
-  Classical.choice (generalEnvelope_exists hp δA d hA δB a ha J hJ)
-
-/-- Restriction identifies maps from the envelope with admissible maps from its input. -/
-theorem generalEnvelope.liftEquiv (a : A →+* B) (d : A) (J : Ideal B)
-    (δB : Delta.Structure p B) (E : Envelope a d J δB)
-    (δC : Delta.Structure p C) (aC : A →+* C) (hC : IsOrientedPrism δC (aC d)) :
-    ∃ e : {g : E.Carrier →+* C // Delta.IsDeltaMap E.delta δC g ∧
-        (g.comp E.fromB).comp a = aC} ≃
-      {f : B →+* C // Delta.IsDeltaMap δB δC f ∧ f.comp a = aC ∧
-        CarriesIdeal J (aC d) f},
-      ∀ g, (e g).val = g.val.comp E.fromB := by
-  sorry
-
-/-- The zero-parameter telescope is exactly the identity. -/
-theorem generalEnvelope_telescopeZero : telescope (0 : ℤ) = id := by
-  funext x n
-  simp [telescope]
-
-/-- The unit-parameter telescope has two distinct constant sequences in its kernel. -/
-theorem generalEnvelope_telescopeUnit : ¬ Function.Injective (telescope (1 : ℤ)) := by
-  sorry
-
-/-- The subtraction convention sends the constant minus-one sequence to one at parameter two. -/
-theorem generalEnvelope_telescopeSign : telescope (2 : ℤ) (fun _ => -1) = fun _ => 1 := by
-  funext n
-  norm_num [telescope]
-
 end Prism
-
-namespace Prismatic
-
-open CategoryTheory
-open scoped TensorProduct MonoidalCategory
-
-universe u
-
-/-- The split residue Čech factor has a basis of tuples of elements of `G/pG`.
-Its maps add the entries over each fibre of the simplex map, inserting zero for empty fibres. -/
-noncomputable def residueCech (k : Type u) [CommRing k] (p : ℕ) (S : Type u) :
-    CosimplicialObject (ModuleCat.{u} k) where
-  obj n := ModuleCat.of k ((Fin (n.len + 1) → (S →₀ ZMod p)) →₀ k)
-  map f := ModuleCat.ofHom (Finsupp.lmapDomain k k
-    (fun x j => ∑ i, if f.toOrderHom i = j then x i else 0))
-  map_id := by sorry
-  map_comp := by sorry
-
-/-- The pointed augmentation tensored degreewise with arbitrary cosimplicial coefficients. -/
-noncomputable def laurentRelativeFrobeniusMap (k : Type u) [CommRing k]
-    (p : ℕ) (S : Type u) (N : CosimplicialObject (ModuleCat.{u} k)) :
-    N ⟶ N ⊗ residueCech k p S where
-  app n := ModuleCat.ofHom
-    ((TensorProduct.mk k (N.obj n) ((Fin (n.len + 1) → (S →₀ ZMod p)) →₀ k)).flip
-      (Finsupp.single 0 1))
-  naturality := by sorry
-
-/-- The free-factor expression of Laurent relative Frobenius is a quasi-isomorphism.
-No flatness or finite-rank condition is imposed on the coefficients or the variable set. -/
-theorem laurentRelativeFrobenius (k : Type u) [CommRing k]
-    (p : ℕ) (hp : p.Prime) [CharP k p] (S : Type u)
-    (N : CosimplicialObject (ModuleCat.{u} k)) :
-    QuasiIso ((AlgebraicTopology.alternatingCofaceMapComplex (ModuleCat k)).map
-      (laurentRelativeFrobeniusMap k p S N)) := by
-  sorry
-
-/-- Laurent exponents have a unique quotient and finitely supported standard residue. -/
-theorem laurentResidue_unique (p : ℕ) (hp : p.Prime) (S : Type u) (g : S →₀ ℤ) :
-    ∃! ha : (S →₀ ℤ) × (S →₀ ℤ),
-      g = p • ha.1 + ha.2 ∧ ∀ s, 0 ≤ ha.2 s ∧ ha.2 s < (p : ℤ) := by
-  sorry
-
-variable {p : ℕ} {A S T : Type u} [CommRing A] [CommRing S] [CommRing T]
-
-/-- The envelope of a quotient kernel induces its structural map from the quotient ring. -/
-noncomputable def quotientStructureMap (q : A →+* S) (hq : Function.Surjective q)
-    (d : A) (δA : Delta.Structure p A)
-    (E : Prism.Envelope (RingHom.id A) d (RingHom.ker q) δA) :
-    S →+* E.Carrier ⧸ Ideal.span {E.fromB d} :=
-  RingHom.liftOfSurjective q hq
-    ⟨(Ideal.Quotient.mk (Ideal.span {E.fromB d})).comp E.fromB, by
-      intro x hx
-      exact Ideal.Quotient.eq_zero_iff_mem.mpr (E.universal.2.2.1 x hx)⟩
-
-/-- The envelope of a surjective quotient diagram has unique lifts to every target prism.
-This is the algebraic mapping-property part of relative quasiregular initiality;
-comparison with derived prismatic cohomology and boundedness use the cotangent hypotheses. -/
-theorem quasiregularQuotient.initial (q : A →+* S) (hq : Function.Surjective q)
-    (d : A) (δA : Delta.Structure p A) (E : Prism.Envelope (RingHom.id A) d (RingHom.ker q) δA)
-    (δT : Delta.Structure p T) (aT : A →+* T)
-    (haT : Delta.IsDeltaMap δA δT aT) (hT : Prism.IsOrientedPrism δT (aT d))
-    (sT : S →+* T ⧸ Ideal.span {aT d})
-    (hsT : sT.comp q = (Ideal.Quotient.mk (Ideal.span {aT d})).comp aT) :
-    ∃! g : E.Carrier →+* T, Delta.IsDeltaMap E.delta δT g ∧ g.comp E.fromB = aT := by
-  sorry
-
-/-!
-The general-envelope checks are `generalEnvelope_identity`, `generalEnvelope_unitIdeal`,
-`generalEnvelope_regularAgreement`, `generalEnvelope_nonregularInput` and
-`generalEnvelope_unboundedIdentity`. The supplied regular-envelope checks are
-`envelope_trivial`, `envelope_divisible_element`, `envelope_z_unique`, `envelope_delta_z`,
-`envelope_incomplete_polynomial` and `envelope_not_localization`.
-The geometric delta API also includes `Prismatic.isDistinguished_p_int`,
-`Prismatic.qAnalog_one_eq` and `Prismatic.qAnalog_mul_sub_one`.
-The general-envelope API also includes `Prism.generalEnvelope.map`,
-`Prism.generalEnvelope.orientationIndependent` and `Prism.generalEnvelope.regularComparison`.
-The derived comparison targets are `Prismatic.quasiregularQuotient.bounded`,
-`Prismatic.quasiregularQuotient.envelopeEquiv` and `Prismatic.quasiregularQuotient.map`.
-Their cotangent complexes, completed conjugate filtrations and derived prismatic algebras
-are the supplied enhanced constructions specified in the README.
-
-The regular-quotient graded module (§2.13) is `Γ^i_R(J/(J²+I)){−i}`.
-For `r > 0` regular relations it is finite projective of stalk rank `binom(r+i−1,i)`;
-its module interface provides `Module.Finite` and `Module.Projective`. A trivialization
-of the inverse i-th power of the pulled-back conormal line provides a global basis.
-For `r = 0` the rank is one in degree zero and zero otherwise. The affine-line
-degree-one Hodge–Tate module (§2.1) likewise retains its inverse conormal twist.
-
-`Prismatic.completeBaseChange_totalization` (§1.10) provides completed tensor/totalization
-interchange for a finitely generated ideal `J` and a finite J-complete Tor-amplitude
-map `C → C′`. The cosimplicial complexes have one common cohomological lower bound;
-completion on the target uses `JC′`.
-
-The crystalline control example (§2.19) uses the PD algebra `DividedPowerAlgebra A A`,
-where `A = W(k)` and `x` is its degree-one generator. Its two-term complex has
-multiplication by `x − p` in degrees `−1,0` and is derived p-completed.
-The smooth polynomial example instead uses the ordinary completed polynomial algebra.
--/
-
-end Prismatic
 
 end TauCetiRoadmap.PrismaticCohomology
