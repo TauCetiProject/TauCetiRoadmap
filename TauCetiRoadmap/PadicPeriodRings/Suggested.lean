@@ -1,25 +1,50 @@
 import Mathlib
-import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic
+import TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 
 /-!
-# p-adic period rings: suggested Lean forms
+# p-adic period rings: headline theorem signatures
 
-**This file is not the roadmap and it is not exhaustive.** `README.md` is definitive.
-These are suggested forms for real-bodied definitions and theorems statable against the
-pinned Mathlib and Tau Ceti. Theorems with `sorry` are targets, not proved results;
-proving every declaration here does not by itself complete a section.
+**This file is not the roadmap and is not exhaustive.** `README.md` is definitive;
+discharging these statements does not by itself complete a layer or the roadmap.
+Each theorem below is a target with `sorry`.
 
-The completed field is Mathlib's `PadicComplex`; its Galois action is the completion
-map of an algebraic-closure automorphism. No auxiliary period-ring carrier or
-unspecified proposition substitutes for a README target.
+The statements cover procyclic H¹ (§0.1), Ax–Sen–Tate (§1.2), almost trace
+surjectivity (§§1.3, 2), the full Tate–Sen H⁰ and H¹ twist calculation and character criterion (§§1.4, 2),
+the de Rham discrete valuation ring and field (§§1.5, 4.1), and the algebraic and
+completed principal divided-power universal properties (§3).
+
+For general K, use a normed algebraic closure L and Mathlib's `UniformSpace.Completion L`.
+Mathlib's spectral norm supplies such an L. The valuation ring of K is a complete
+mixed-characteristic discrete valuation ring with arbitrary perfect residue field;
+no finite-residue-field assumption is imposed. The logarithm on p-adic units is a
+convergent series after raising to 2(p − 1), including when p = 2. The principal
+envelope is an actual subalgebra of `Localization.Away (p : A)` for a regular pair
+(p, ξ) in a ℤ_p-algebra A; its completion is Mathlib's `AdicCompletion`.
+
+Inertia in the character criterion is the concrete set of algebraic automorphisms
+acting trivially on the residue field. Completed unramified descent of §2 needs
+the completed maximal unramified extension with its residue-Galois action over an
+arbitrary perfect residue field; the supplied local-field interface has finite
+residue field. Sen break-spacing needs the general-base upper ramification tower,
+the proalgebraic unit group and its fundamental group. These objects are absent at
+the pins, so these statements are not included.
+
+The regular-pair statements of §3 do not identify the perfectoid Fontaine kernel
+or construct the crystalline θ map and logarithm. The canonical de Rham topology, Tate period t and
+Galois action on the de Rham rings are absent at the pins. Consequently their
+quotient, graded-piece and topological comparison statements are not stated here.
+The crystalline and semistable carriers with Frobenius, monodromy and Galois actions
+are also absent. Thus §§4.1–4.3's embeddings, invariant functors, N = 0 comparison,
+fixed fields, regularity and fundamental exact sequence cannot yet be stated on
+their intended objects.
 -/
 
 noncomputable section
 
 namespace TauCetiRoadmap.PadicPeriodRings
 
-/-! ## Procyclic cohomology and finite descent -/
+/-! ## Procyclic cohomology -/
 
 open TauCeti.ContCohomology
 
@@ -57,209 +82,206 @@ theorem procyclic_H1_equiv_coinvariants_rational (p : ℕ) [Fact p.Prime]
       ∀ c : Z1 TauCeti.zHat.{0} C,
         e (H1pi TauCeti.zHat.{0} C c) = QuotientAddGroup.mk (c.1 TauCeti.zHat.gen) := sorry
 
-/-- §0.2: averaging makes H¹ vanish for a finite group acting linearly on a module
-over a characteristic-zero field, with continuous cochains. -/
-theorem finite_H1_vanish (F L M : Type*) [Group F] [Fintype F] [TopologicalSpace F]
-    [IsTopologicalGroup F] [Field L] [CharZero L] [AddCommGroup M] [Module L M]
-    [TopologicalSpace M] [IsTopologicalAddGroup M] [DistribMulAction F M]
-    [ContinuousSMul F M] [SMulCommClass F L M] :
-    Subsingleton (H1 F M) := sorry
+/-! ## Ax–Sen–Tate -/
 
-/-! ## The completed field, its Galois action and fixed points -/
+/-- The extension of an algebraic automorphism to the native uniform completion. -/
+def completedGaloisAction {K L : Type*} [Field K] [Field L] [Algebra K L] [UniformSpace L]
+    (σ : L ≃ₐ[K] L) : UniformSpace.Completion L → UniformSpace.Completion L :=
+  UniformSpace.Completion.map σ
 
 section PadicComplex
 
 variable (p : ℕ) [Fact p.Prime]
-
-/-- §1.1: the action of a Galois automorphism on `ℂ_p`, by continuous extension from
-`PadicAlgCl p`. -/
-def padicComplexGaloisAction (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) : ℂ_[p] → ℂ_[p] :=
-  UniformSpace.Completion.map σ
-
-/-- §1.1: the extension is an isometric, hence uniformly continuous, `ℚ_p`-algebra
-automorphism of `ℂ_p` extending `σ`. -/
-theorem padicComplexGaloisAction_spec (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) :
-    ∃ τ : ℂ_[p] ≃ₐ[ℚ_[p]] ℂ_[p], ⇑τ = padicComplexGaloisAction p σ ∧ Isometry τ ∧
-      ∀ x : PadicAlgCl p, τ x = σ x := sorry
-
-/-- §1.1: the completed Galois action respects multiplication of automorphisms. -/
-theorem padicComplexGaloisAction_mul
-    (σ τ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : ℂ_[p]) :
-    padicComplexGaloisAction p (σ * τ) x =
-      padicComplexGaloisAction p σ (padicComplexGaloisAction p τ x) := sorry
-
-/-- §1.1: the Galois action on the completed field is jointly continuous for the
-Krull topology on the Galois group and the norm topology on ℂ_p. -/
-theorem padicComplexGaloisAction_continuous
-    (K : IntermediateField ℚ_[p] (PadicAlgCl p)) [FiniteDimensional ℚ_[p] K] :
-    Continuous (fun z : (PadicAlgCl p ≃ₐ[K] PadicAlgCl p) × ℂ_[p] =>
-      padicComplexGaloisAction p (z.1.restrictScalars ℚ_[p]) z.2) := sorry
-
-/-- §1.1: a continuous extension of an algebraic Galois automorphism to the completed
-field is unique. -/
-theorem padicComplexGaloisAction_unique (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p)
-    (f : ℂ_[p] → ℂ_[p]) (hf : Continuous f)
-    (hext : ∀ x : PadicAlgCl p, f x = σ x) :
-    f = padicComplexGaloisAction p σ := sorry
 
 /-- §1.2, Ax–Sen–Tate: for `K/ℚ_p` finite inside `PadicAlgCl p`, the `G_K`-invariants of `ℂ_p`
 are `K`. -/
 theorem padicComplex_fixed_eq (K : IntermediateField ℚ_[p] (PadicAlgCl p))
     [FiniteDimensional ℚ_[p] K] (x : ℂ_[p]) :
     (∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
-        padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x = x) ↔
+        completedGaloisAction (σ.restrictScalars ℚ_[p]) x = x) ↔
       ∃ k : K, x = ((k : PadicAlgCl p) : ℂ_[p]) := sorry
 
 /-- §1.2, Ax–Sen–Tate: fixed points of a closed subgroup in the completed field
 are the closure of its algebraic fixed field. -/
 theorem padicComplex_fixed_closure_eq
     (H : ClosedSubgroup (PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p)) (x : ℂ_[p]) :
-    (∀ σ : H, padicComplexGaloisAction p σ x = x) ↔
+    (∀ σ : H, completedGaloisAction σ.1 x = x) ↔
       x ∈ closure (Set.range (fun y : IntermediateField.fixedField H.toSubgroup =>
         ((y : PadicAlgCl p) : ℂ_[p]))) := sorry
 
-/-- §1.4, Tate: `H⁰(G_K, ℂ_p(i)) = 0` for `i ≠ 0`: no nonzero `x` satisfies
-`σ(x) = χ(σ)^{-i} x` for every `σ ∈ G_K`. -/
-theorem tate_H0_padicComplex_twist (K : IntermediateField ℚ_[p] (PadicAlgCl p))
-    [FiniteDimensional ℚ_[p] K] (i : ℤ) (hi : i ≠ 0) (x : ℂ_[p])
-    (hx : ∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
-      padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x =
-        (((cyclotomicCharacter (PadicAlgCl p) p σ.toRingEquiv ^ (-i) : ℤ_[p]ˣ) : ℤ_[p]) :
-          ℚ_[p]) • x) :
-    x = 0 := sorry
-
-/-- §1.4: every continuous cocycle with a nonzero Tate twist is a coboundary,
-expressing the nonzero-twist part of Tate's H¹ calculation. -/
-theorem tate_H1_padicComplex_twist (K : IntermediateField ℚ_[p] (PadicAlgCl p))
-    [FiniteDimensional ℚ_[p] K] (i : ℤ) (hi : i ≠ 0)
-    (c : (PadicAlgCl p ≃ₐ[K] PadicAlgCl p) → ℂ_[p]) (hc : Continuous c)
-    (hcocycle : ∀ g h, c (g * h) =
-      (((cyclotomicCharacter (PadicAlgCl p) p g.toRingEquiv ^ i : ℤ_[p]ˣ) : ℤ_[p]) :
-        ℚ_[p]) • padicComplexGaloisAction p (g.restrictScalars ℚ_[p]) (c h) + c g) :
-    ∃ b : ℂ_[p], ∀ g,
-      c g = (((cyclotomicCharacter (PadicAlgCl p) p g.toRingEquiv ^ i : ℤ_[p]ˣ) : ℤ_[p]) :
-        ℚ_[p]) • padicComplexGaloisAction p (g.restrictScalars ℚ_[p]) b - b := sorry
-
-variable [Fact ¬IsUnit (p : PadicComplexInt p)]
-    [IsAdicComplete (Ideal.span {(p : PadicComplexInt p)}) (PadicComplexInt p)]
-
-/-- §1.5: for the p-adically complete valuation ring with p a nonunit, the pinned
-de Rham plus ring is a discrete valuation domain. -/
-theorem bDeRhamPlus_isDiscreteValuationRing :
-    ∃ h : IsDomain (BDeRhamPlus (PadicComplexInt p) p),
-      @IsDiscreteValuationRing (BDeRhamPlus (PadicComplexInt p) p) _ h := sorry
-
-/-- §1.5: for the p-adically complete valuation ring with p a nonunit, the pinned
-de Rham localization is a field. -/
-theorem bDeRham_isField :
-    @IsField (BDeRham (PadicComplexInt p) p) (by unfold BDeRham; infer_instance) := sorry
-
 end PadicComplex
 
-/-! ## Controlled finite trace homotopy -/
+/-! ## Almost trace surjectivity and Tate–Sen cohomology -/
 
-section TraceHomotopy
+/-- The p-adic logarithm of a unit, using an exponent that also works for p = 2. -/
+def padicUnitLog (p : ℕ) [Fact p.Prime] (x : ℤ_[p]ˣ) : ℚ_[p] :=
+  ((2 * (p - 1) : ℕ) : ℚ_[p])⁻¹ * ∑' n : ℕ,
+    (-1 : ℚ_[p]) ^ n * ((x : ℚ_[p]) ^ (2 * (p - 1)) - 1) ^ (n + 1) / (n + 1)
 
-variable {Q L : Type*} [Group Q] [Fintype Q] [Field L] [MulSemiringAction Q L]
+/-- Inertia, viewed as the set of algebraic automorphisms inducing the identity
+on the residue field of the valued algebraic closure. -/
+def residueInertia {K L : Type*} [Field K] [NormedField L] [Algebra K L] :
+    Set (L ≃ₐ[K] L) := {g | ∀ x : L, ‖x‖ ≤ 1 → ‖g x - x‖ < 1}
 
-/-- §1.4: the finite trace average giving a primitive with controlled cocycle defect. -/
-def tate_traceHomotopy (α : L) (a : Q → L) : L :=
-  -∑ τ : Q, (τ • α) * a τ
+/-- The full cyclotomic extension K(μ_{p^∞}) inside the chosen algebraic closure L. -/
+def cyclotomicTower (p : ℕ) (K L : Type*) [Field K] [Field L] [Algebra K L] :
+    IntermediateField K L :=
+  IntermediateField.adjoin K {x : L | ∃ n : ℕ, x ^ (p ^ n) = 1}
 
-/-- §1.4: the coboundary of the trace average differs from the cochain by the
-trace-weighted cocycle defect when the conjugates of `α` sum to one. -/
-theorem tate_traceHomotopy_defect (α : L) (a : Q → L)
-    (htrace : ∑ τ : Q, τ • α = 1) (g : Q) :
-    g • tate_traceHomotopy α a - tate_traceHomotopy α a - a g =
-      -∑ τ : Q, ((g * τ) • α) * (g • a τ - a (g * τ) + a g) := sorry
+section TateSen
 
-/-- The trace average is an exact primitive for a finite-group cocycle. -/
-example (α : L) (a : Q → L) (htrace : ∑ τ : Q, τ • α = 1)
-    (hcocycle : ∀ g h : Q, a (g * h) = g • a h + a g) (g : Q) :
-    g • tate_traceHomotopy α a - tate_traceHomotopy α a = a g := by
-  have hsum (f : Q → L) : (∑ τ : Q, f (g * τ)) = ∑ τ : Q, f τ :=
-    Function.Bijective.sum_comp (Group.mulLeft_bijective g) f
-  have hc (τ : Q) : g • a τ = a (g * τ) - a g := by
-    rw [hcocycle g τ]
-    ring
-  simp only [tate_traceHomotopy, smul_neg, Finset.smul_sum, smul_mul', ← mul_smul]
-  simp_rw [hc, mul_sub]
-  rw [Finset.sum_sub_distrib, ← Finset.sum_mul,
-    hsum (fun τ => τ • α * a τ), hsum (fun τ => τ • α), htrace]
-  ring
+variable (p : ℕ) [Fact p.Prime]
+    (K L : Type*) [NontriviallyNormedField K] [NormedField L]
+    [NormedAlgebra K L] [CompleteSpace K] [IsUltrametricDist K]
+    [IsAlgClosed L] [Algebra.IsAlgebraic K L]
+    [NormedAlgebra ℚ_[p] K] [NormedAlgebra ℚ_[p] L] [IsScalarTower ℚ_[p] K L]
+    [IsDiscreteValuationRing (NormedField.toValued (K := K)).v.valuationSubring]
+    [CharP (IsLocalRing.ResidueField (NormedField.toValued (K := K)).v.valuationSubring) p]
+    [PerfectRing (IsLocalRing.ResidueField (NormedField.toValued (K := K)).v.valuationSubring) p]
 
-end TraceHomotopy
+/-- §§1.3, 2: the uncompleted integral trace image contains the maximal ideal of
+K(μ_{p^∞}), for every finite extension, including non-Galois extensions. -/
+theorem tate_almostEtale (M : IntermediateField (cyclotomicTower p K L) L)
+    [FiniteDimensional (cyclotomicTower p K L) M]
+    (a : cyclotomicTower p K L) (ha : ‖a‖ < 1) :
+    ∃ x : M, ‖x‖ ≤ 1 ∧ Algebra.trace (cyclotomicTower p K L) M x = a := sorry
 
-section TraceHomotopyBounds
+/-- §§1.4, 2: the completed-field invariants are K in twist zero and vanish in
+every nonzero Tate twist. -/
+theorem tateSen_H0 (i : ℤ) (x : UniformSpace.Completion L) :
+    (∀ g : L ≃ₐ[K] L,
+      algebraMap ℚ_[p] (UniformSpace.Completion L)
+          (((cyclotomicCharacter L p g.toRingEquiv ^ i : ℤ_[p]ˣ) : ℤ_[p]) : ℚ_[p]) *
+        completedGaloisAction g x = x) ↔
+      if i = 0 then ∃ k : K, x = algebraMap K (UniformSpace.Completion L) k else x = 0 := sorry
 
-variable {Q L : Type*} [Group Q] [Fintype Q] [NormedField L]
-    [IsUltrametricDist L] [MulSemiringAction Q L]
+/-- §§1.4, 2: continuous H¹ vanishes in every nonzero twist; in twist zero,
+every cocycle has a unique K-multiple of log χ modulo coboundaries. -/
+theorem tateSen_H1 (i : ℤ)
+    (c : (L ≃ₐ[K] L) → UniformSpace.Completion L) (hc : Continuous c)
+    (hcocycle : ∀ g h, c (g * h) =
+      algebraMap ℚ_[p] (UniformSpace.Completion L)
+          (((cyclotomicCharacter L p g.toRingEquiv ^ i : ℤ_[p]ˣ) : ℤ_[p]) : ℚ_[p]) *
+        completedGaloisAction g (c h) + c g) :
+    if i = 0 then
+      ∃! k : K, ∃ b : UniformSpace.Completion L, ∀ g : L ≃ₐ[K] L,
+        c g = algebraMap K (UniformSpace.Completion L) k *
+          algebraMap ℚ_[p] (UniformSpace.Completion L)
+            (padicUnitLog p (cyclotomicCharacter L p g.toRingEquiv)) +
+          completedGaloisAction g b - b
+    else
+      ∃ b : UniformSpace.Completion L, ∀ g : L ≃ₐ[K] L,
+        c g = algebraMap ℚ_[p] (UniformSpace.Completion L)
+            (((cyclotomicCharacter L p g.toRingEquiv ^ i : ℤ_[p]ˣ) : ℤ_[p]) : ℚ_[p]) *
+          completedGaloisAction g b - b := sorry
 
-/-- §1.4: an isometric action bounds the trace average and its coboundary defect
-by the norm of the trace-one element times the respective uniform cochain bounds. -/
-theorem tate_traceHomotopy_bound (hisom : ∀ (g : Q) (x : L), ‖g • x‖ = ‖x‖)
-    (α : L) (a : Q → L) (htrace : ∑ τ : Q, τ • α = 1)
-    (B D : ℝ) (hB : 0 ≤ B) (hD : 0 ≤ D)
-    (ha : ∀ g : Q, ‖a g‖ ≤ B)
-    (hdefect : ∀ g h : Q, ‖g • a h - a (g * h) + a g‖ ≤ D) :
-    ‖tate_traceHomotopy α a‖ ≤ ‖α‖ * B ∧
-      ∀ g : Q, ‖g • tate_traceHomotopy α a - tate_traceHomotopy α a - a g‖ ≤
-        ‖α‖ * D := sorry
+/-- §2: character twists have one-dimensional H⁰ and H¹ exactly when their inertia
+image is finite; both vanish for infinite inertia image. In the finite case the
+H¹ generator is an invariant period times log χ. -/
+theorem tateSen_character
+    (η : (L ≃ₐ[K] L) →* ((NormedField.toValued (K := K)).v.valuationSubring)ˣ)
+    (hη : Continuous η)
+    (himage : (Set.range η).Finite ∨
+      ∃ U : OpenSubgroup η.range, Nonempty (U ≃ₜ* Multiplicative ℤ_[p])) :
+    let ρ : (L ≃ₐ[K] L) → UniformSpace.Completion L → UniformSpace.Completion L :=
+      fun g x => algebraMap K (UniformSpace.Completion L) ((η g).val : K) *
+        completedGaloisAction g x
+    ((η '' residueInertia (K := K) (L := L)).Finite →
+      ∃ a : UniformSpace.Completion L, a ≠ 0 ∧ (∀ g, ρ g a = a) ∧
+        (∀ x, (∀ g, ρ g x = x) ↔ ∃ k : K, x = algebraMap K (UniformSpace.Completion L) k * a) ∧
+        ∀ c : (L ≃ₐ[K] L) → UniformSpace.Completion L, Continuous c →
+          (∀ g h, c (g * h) = ρ g (c h) + c g) →
+          ∃! k : K, ∃ b : UniformSpace.Completion L, ∀ g,
+            c g = algebraMap K (UniformSpace.Completion L) k * a *
+              algebraMap ℚ_[p] (UniformSpace.Completion L)
+                (padicUnitLog p (cyclotomicCharacter L p g.toRingEquiv)) + ρ g b - b) ∧
+    (¬(η '' residueInertia (K := K) (L := L)).Finite →
+      (∀ x, (∀ g, ρ g x = x) → x = 0) ∧
+      ∀ c : (L ≃ₐ[K] L) → UniformSpace.Completion L, Continuous c →
+        (∀ g h, c (g * h) = ρ g (c h) + c g) →
+        ∃ b : UniformSpace.Completion L, ∀ g, c g = ρ g b - b) := sorry
 
-end TraceHomotopyBounds
+end TateSen
 
-/-! ## The neighbourhood obstruction for the canonical de Rham topology -/
+/-! ## The de Rham valuation ring and field -/
 
-/-- §4.1: a Hausdorff field whose zero-neighbourhoods contain entire rows of one
-family, with reciprocal rows converging to zero, cannot have jointly continuous
-multiplication. For the canonical de Rham topology the families are `p⁻ᵐtᴺ` and
-`pᵐt⁻ᴺ`; fixed filtration stages still have jointly continuous multiplication. -/
-theorem deRham_mul_not_continuous_of_reciprocal_rows {B : Type*} [Field B] [TopologicalSpace B] [T2Space B]
-    (a b : ℕ → ℕ → B)
-    (ha : ∀ U ∈ nhds (0 : B), ∃ N, ∀ m, a N m ∈ U)
-    (hb : ∀ N, Filter.Tendsto (b N) Filter.atTop (nhds (0 : B)))
-    (hab : ∀ N m, a N m * b N m = 1) :
-    ¬ Continuous (fun x : B × B => x.1 * x.2) := sorry
+section DeRham
 
-/-
-The remaining targets are specified in the README:
-§0.1 naturality in the coefficients and transport along a procyclic group isomorphism;
-§0.2 continuous inflation–restriction and finite descent, using the supplied explicit H1,
-explicitInfl1 and explicitRes1;
-§1.3 periodTraceIdeal and senTowerEstimates on LocalFieldsRamification Layers 3–4's
-different and ramification package and ClassFieldTheory Layer 7's unit-filtration reciprocity;
-tate_algebraicTraceDescent (finite-stage
-degree and trace compatibility, exact integral preimages and trace-one valuation bounds),
-tate_normalizedTrace and tate_almostEtale;
-§1.4 tate_finiteCochainControl (uniform algebraic cochain approximation with its defect),
-tate_cocycleLimit (convergent primitive sums with uniform valuation loss),
-tate_cyclotomicBanachH1 and the untwisted part of tate_H1_padicComplex_twist
-(the one-dimensional K-space generated by log χ);
-§1.5 the canonical BDeRhamPlus/BDeRham topologies, valuation, action, t and graded pieces,
-with joint multiplication on BDeRhamPlus, separate multiplication on BDeRham and
-joint multiplication on each pair of fixed filtration stages;
-§2 PadicFieldCompletion, the general-base periodTraceIdeal and senTowerEstimates on the same
-supplied different and ramification package; senUpperBreaks using its finite/absolute filtrations,
-Herbrand functions, full Hasse–Arf and completed maximal unramified comparison, with the
-geometric reciprocity map π₁(U_F)→Gal(F^ab/F) and its unit-filtration compatibility constructed here;
-completedUnramifiedDescent for semilinear modules over the supplied completed unramified field;
-tateSen, tateSen_H0, tateSen_H1, tateSen_character,
-normalisedTrace, tateSen_cyclotomic_twist, tateSen_trivial, tateSen_unramified_character
-and tateSen_H1_trivial_ne_zero, with the general-base forms of tate_algebraicTraceDescent,
-tate_finiteCochainControl and tate_cocycleLimit on infinitely ramified splitting towers;
-§3 periodPDEnvelope, its completed envelope, initial property and generator independence;
-§§4.1–4.3 generalBasePeriodRings, their continuous additive ℚ_p-module and Galois-action
-interfaces, joint multiplication on the plus, crystalline and semistable carriers,
-separate multiplication on BDeRham and joint fixed-stage multiplication (no global
-ContinuousMul instance on its canonical topology), their structure maps, invariant functors, predicates,
-the fixed fields (B_dR^+)^{G_K}=B_dR^{G_K}=K and B_cris^{G_K}=B_st^{G_K}=K₀,
-the compatible G_K-fixed embedding K→B_dR^+ with θ restricting to K→C_K,
-regularity for B_cris, B_st and B_dR, and the fundamental exact sequence with continuous
-additive maps and the quotient topology; finite-K continuous sections and boundary maps
-belong to the consumer's additive continuous-cohomology interface.
-Their complete arithmetic/topological signatures need the prerequisite interfaces specified
-in the README. The pinned libraries do not supply the Banach cyclotomic tower API,
-canonical topological period structures, crystalline/semistable rings or their functors.
--/
+variable (p : ℕ) [Fact p.Prime]
+    (C : Type*) [NormedField C] [IsUltrametricDist C] [CompleteSpace C]
+    [IsAlgClosed C] [NormedAlgebra ℚ_[p] C] (R : ValuationSubring C)
+    [Fact ¬IsUnit (p : R)] [IsAdicComplete (Ideal.span {(p : R)}) R]
+
+/-- §§1.5, 4.1: the native de Rham plus ring is a discrete valuation domain over
+any complete algebraically closed p-adic field, with its valuation ring R. -/
+theorem bDeRhamPlus_isDiscreteValuationRing (hR : ∀ x : C, x ∈ R ↔ ‖x‖ ≤ 1) :
+    ∃ h : IsDomain (BDeRhamPlus R p),
+      @IsDiscreteValuationRing (BDeRhamPlus R p) _ h := sorry
+
+/-- §§1.5, 4.1: the native de Rham localization is a field. -/
+theorem bDeRham_isField (hR : ∀ x : C, x ∈ R ↔ ‖x‖ ≤ 1) :
+    @IsField (BDeRham R p) (by unfold BDeRham; infer_instance) := sorry
+
+end DeRham
+
+/-! ## The principal Fontaine envelope -/
+
+section Envelope
+
+variable (p : ℕ) [Fact p.Prime] (A : Type*) [CommRing A] [Algebra ℤ_[p] A]
+
+/-- §3: the A-subalgebra of A[1/p] generated by all positive ξⁿ/n!. -/
+def periodPDEnvelope (ξ : A) : Subalgebra A (Localization.Away (p : A)) :=
+  Algebra.adjoin A (Set.range fun n : ℕ =>
+    Ring.inverse ((n + 1).factorial : Localization.Away (p : A)) *
+      algebraMap A (Localization.Away (p : A)) ξ ^ (n + 1))
+
+/-- The positive divided power of degree n + 1, as an element of the subalgebra. -/
+def periodPDEnvelope_dpow (ξ : A) (n : ℕ) : periodPDEnvelope p A ξ :=
+  ⟨Ring.inverse ((n + 1).factorial : Localization.Away (p : A)) *
+      algebraMap A (Localization.Away (p : A)) ξ ^ (n + 1),
+    Algebra.subset_adjoin ⟨n, rfl⟩⟩
+
+/-- The distinguished ideal J₀, before adjoining p to the divided-power ideal. -/
+def periodPDEnvelope_ideal (ξ : A) : Ideal (periodPDEnvelope p A ξ) :=
+  Ideal.span (Set.range (periodPDEnvelope_dpow p A ξ))
+
+/-- §3: the regular-pair subalgebra carries base-compatible divided powers and
+is initial among divided-power targets receiving ξ in their divided-power ideal. -/
+theorem periodPDEnvelope_universal (ξ : A)
+    (hp : IsSMulRegular A (p : A))
+    (hξ : IsSMulRegular (A ⧸ Ideal.span {(p : A)})
+      (Ideal.Quotient.mk (Ideal.span {(p : A)}) ξ)) :
+    ∃ γ : DividedPowers (periodPDEnvelope_ideal p A ξ ⊔ Ideal.span {(p : periodPDEnvelope p A ξ)}),
+      DividedPowers.IsDPMorphism (PadicInt.dividedPowers p) γ
+        (algebraMap ℤ_[p] (periodPDEnvelope p A ξ)) ∧
+      ∀ (E : Type*) [CommRing E] [Algebra ℤ_[p] E] (I : Ideal E) (δ : DividedPowers I),
+        DividedPowers.IsDPMorphism (PadicInt.dividedPowers p) δ (algebraMap ℤ_[p] E) →
+        ∀ f : A →ₐ[ℤ_[p]] E, f ξ ∈ I →
+          ∃! g : periodPDEnvelope p A ξ →+* E,
+            g.comp (algebraMap A (periodPDEnvelope p A ξ)) = f.toRingHom ∧
+              DividedPowers.IsDPMorphism γ δ g := sorry
+
+/-- §3: the separated p-adic completion of the explicit principal envelope. -/
+abbrev periodPDEnvelopeCompletion (ξ : A) :=
+  AdicCompletion (Ideal.span {(p : periodPDEnvelope p A ξ)}) (periodPDEnvelope p A ξ)
+
+/-- §3: every base-compatible divided-power map has a unique extension to the
+completed envelope when the target is p-adically complete and separated. -/
+theorem periodPDEnvelope_complete_universal (ξ : A)
+    (hp : IsSMulRegular A (p : A))
+    (hξ : IsSMulRegular (A ⧸ Ideal.span {(p : A)})
+      (Ideal.Quotient.mk (Ideal.span {(p : A)}) ξ))
+    (E : Type*) [CommRing E] [Algebra ℤ_[p] E]
+    [IsAdicComplete (Ideal.span {(p : E)}) E]
+    (I : Ideal E) (δ : DividedPowers I)
+    (hbase : DividedPowers.IsDPMorphism (PadicInt.dividedPowers p) δ (algebraMap ℤ_[p] E))
+    (f : A →ₐ[ℤ_[p]] E) (hf : f ξ ∈ I) :
+    ∃! g : periodPDEnvelopeCompletion p A ξ →+* E,
+      (∀ a : A, g (algebraMap A (periodPDEnvelopeCompletion p A ξ) a) = f a) ∧
+      ∀ n : ℕ, g (algebraMap (periodPDEnvelope p A ξ) (periodPDEnvelopeCompletion p A ξ)
+        (periodPDEnvelope_dpow p A ξ n)) = δ.dpow (n + 1) (f ξ) := sorry
+
+end Envelope
 
 end TauCetiRoadmap.PadicPeriodRings
