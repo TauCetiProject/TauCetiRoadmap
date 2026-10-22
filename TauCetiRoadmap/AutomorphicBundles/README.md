@@ -34,9 +34,10 @@ principle, Diamond for ramified Hilbert coefficients and their q-expansions, Sch
 Pilloni–Stroh and Lan for rational towers, Diao–Lan–Liu–Zhu and Lan–Liu–Zhu for
 logarithmic periods and supports, and Faltings–Chai and Boxer–Calegari–Gee–Pilloni
 for the classical Siegel comparisons. Source labels refer to the editions
-in the references; page numbers follow those editions. `Suggested.lean` gives, against the pinned
-Mathlib and Tau Ceti, the signatures of the targets that can already be stated there; this README is
-the specification.
+in the references; page numbers follow those editions. `Suggested.lean` states the finite
+tensor-stabilizer theorem of B1.1 against the pinned Mathlib and Tau Ceti. The geometric headline
+results require the Shimura, boundary and period objects constructed in the layers below; this
+README is the specification.
 
 ## Scope and ownership
 
@@ -193,7 +194,7 @@ Use `H_g = tr_{p₁} ∘ θ_g ∘ p₂^*` and `T_g = ν(g) H_g`, with `ν` a mul
 character of the admissible monoid into `R^×`. Trace means the finite locally free trace, extended
 through the specified toric refinement comparison. For `GL₂` choose `ν(g) = det(g)⁻¹` when comparing
 with the analytic normalization. An unramified modular `ℓ`-correspondence has degree `ℓ + 1`, so
-`T_ℓ(1) = (ℓ + 1)/ℓ` in weight zero. The numerical Lean specialization requires
+`T_ℓ(1) = (ℓ + 1)/ℓ` in weight zero. The numerical specialization requires
 `ℓ` prime; hence `ℓ ≠ 0` in `ℚ`, and it defines no correspondence at `ℓ = 0`. Use the transposed correspondence convention of
 Boxer–Calegari–Gee–Pilloni, compared with the inverse/right-coset Hecke action of Tau Ceti.
 
@@ -375,14 +376,16 @@ independent `qcqsSectionsColimit` (B4.19) and finite locally free trace
 
 ## How to read the build
 
-`README.md` is normative; `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the
-targets whose carriers exist there. Every target ends with a *Lean:* line naming its declarations in
-`Suggested.lean`, or reading *Lean:* none, in which case the target is specified here only and
-building its objects is part of the target. A Check label in backticks names an `example` or
-declaration of `Suggested.lean` when one exists there; otherwise it is the proposed name of the
-test. In *Needs* clauses `B3.2` is a subsection of this roadmap, a name in backticks is a
-declaration. Compactification inputs name the current subsection and declaration of
-ShimuraCompactifications. The layers are built in order: B0 fixes the coefficient group and associated bundles;
+`README.md` is normative; `Suggested.lean` states headline theorems whose objects exist in the
+pinned Mathlib and Tau Ceti or admit short definitions on their native carriers. It contains
+`finiteTensorStabilizer` (B1.1), with `mixedTensorBaseChange` and `mixedTensorAction` to express its
+mixed tensors over coefficient algebras. Its module docstring identifies the missing objects for
+the geometric headline statements. Every target ends with a *Lean:* line naming its declarations
+in that file, or reading *Lean:* none when it is specified here only. API names and Check labels
+specify the intended library and its mathematical tests; they do not require Lean declarations in
+that file. In *Needs* clauses `B3.2` is a subsection of this roadmap and a name in backticks names
+the supplied or proposed declaration. Compactification inputs name the specified subsection and
+declaration of ShimuraCompactifications. The layers are built in order: B0 fixes the coefficient group and associated bundles;
 B1 builds the canonical principal bundle of Hodge and abelian type, B1.general that of general data;
 B2 and B2.general associate vector bundles and realizations to representations; B3 and B3.general
 extend them across the toroidal boundary. B3.Hilbert constructs the ramified cusp coefficients;
@@ -484,8 +487,8 @@ theory are ReductiveGroups Layers 7–8. Construct the additional opposite-coset
 comparison with `P_HT=P(μ_h)` and BCGP's left-coset flag. The comparison includes inversion of
 left/right cosets and the required dual
 coefficient. A sign choice for `μ` alone does not identify the two associated bundles. The
-pointwise Lean specialization uses a commutative Hopf algebra over a commutative ring and evaluates
-on commutative algebras; it asserts inversion and intersection, not representability or a Hodge
+pointwise identities use a commutative Hopf algebra over a commutative ring and evaluate
+on commutative algebras; they assert inversion and intersection, not representability or a Hodge
 structure on an arbitrary Hopf algebra.
 
 *Source:* [CS], §2.3, pp.669–671; [BCGP], §3.2.13–3.2.16, p.44; §4.8 before Remark 4.8.1, p.101;
@@ -497,9 +500,7 @@ structure on an arbitrary Hopf algebra.
 Mathlib `AddMonoidAlgebra.mapDomainBialgHom`; TauCetiRoadmap.ReductiveGroups Layers 7–8;
 TauCetiRoadmap.ReductiveGroupsPartII RG2.0a.3
 (*deligne-torus*).
-*Lean:* `inverseCocharacter`, `inverseCocharacter_inverseCocharacter`, `hodgeParabolic`,
-`hodgeTateParabolic`, `levi_inverseCocharacter`, `hodgeParabolic_inf_hodgeTateParabolic`,
-`hodgeParabolic_test_gl2`.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -808,7 +809,10 @@ weaker condition and does not provide the tensor-preserving frame torsor used he
 
 *Needs:* Tau Ceti comodule representations (`TauCeti.Algebra.AlgebraicGroup.Representation`) and
 linear reductivity (`TauCeti.Algebra.AlgebraicGroup.LinearlyReductive`).
-*Lean:* none; specified in the README only.
+*Lean:* `finiteTensorStabilizer`, using `mixedTensorBaseChange` and `mixedTensorAction`.
+The mixed tensors are finite sums of tensor words in a vector space and its dual. One finite
+family over the ground field cuts out the represented group over every commutative coefficient
+algebra, including nonreduced algebras; this is scheme-theoretic pointwise tensor stabilization.
 
 **Checks.**
 
@@ -3812,7 +3816,7 @@ The API:
 (`generalCanonicalExtension`); B3.general.3 (`generalBoundaryFunctoriality`); Mathlib
 `AlgebraicGeometry.Scheme.Modules`; Mathlib `AlgebraicGeometry.Scheme.Modules.presheaf`; Mathlib
 `SheafOfModules.sections`.
-*Lean:* none; the geometric carrier is specified in the README only.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -3876,8 +3880,9 @@ complex coefficient V, define a holomorphic linear factor `J:Γ×X→GL_ℂ(V)` 
 and `J(gh,x)=J(g,hx)J(h,x)`. Its sections satisfy `f(gx)=J(g,x)f(x)`. Canonical extension and cusp
 growth are additional conditions in the specified boundary frame: holomorphic extension and
 membership in the reduced boundary ideal, respectively. Frame change u gives
-`J′(g,x)=u(gx)J(g,x)u(x)⁻¹`. The functional Lean form keeps the concrete linear equations and omits
-the unavailable holomorphic carrier. The scalar cocycle printed in [LanIntro], p.49, omits
+`J′(g,x)=u(gx)J(g,x)u(x)⁻¹`. The underlying functional factor retains the concrete linear equations;
+the holomorphic factor additionally requires holomorphy in the base point. The scalar cocycle
+printed in [LanIntro], p.49, omits
 the shift of the base point in its first factor; here the shift follows from applying the section
 transformation law twice, and agrees with Mathlib `UpperHalfPlane.denom_cocycle`. For
 `g = h = ((0,−1),(1,0))` at `z = i`, the correct product is `(−1/z)z = −1`; at `z = 2i` the
@@ -3905,9 +3910,7 @@ The API:
 
 *Needs:* B0.7 (`analyticCoefficient`); B0.8 (`sectionsEquivariant`); B3.2 (`canonicalExtension`);
 B3.4 (`subcanonicalExtension`); Mathlib `LinearEquiv.trans`.
-*Lean:* `AutomorphyFactor`, `AutomorphyFactor.trivial`, `AutomorphyFactor.changeFrame`, `AutomorphyFactor.ext`,
-`AutomorphyFactor.changeFrame_id`, `AutomorphyFactor.changeFrame_comp`; the shears `shearX`,
-`shearY` and the constant factor `constantFactor` are the test data of the Checks.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -3947,9 +3950,7 @@ The API:
 *Needs:* Mathlib `SlashAction`; Mathlib `LinearEquiv.trans`; Mathlib `LinearEquiv.trans_symm`;
 Mathlib `LinearEquiv.symm_apply_eq`; Mathlib `LinearEquiv.automorphismGroup`; Mathlib
 `LinearEquiv.applyDistribMulAction`.
-*Lean:* `slashActionOfAutomorphyFactor`, `slashActionOfAutomorphyFactor_map_smul`,
-`slashActionOfAutomorphyFactor_congr`, `slashActionOfAutomorphyFactor_map_of_trivial`,
-`slashActionOfAutomorphyFactor_sl2` (the scalar `SL₂(ℤ)` comparison, with the factor laws as hypotheses).
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -3981,7 +3982,7 @@ formula, without an additional invertibility or nonzero-section assumption.
 *Source:* [LanIntro], §4.2.7, p.49.
 
 *Needs:* B4.4 (`slashActionOfAutomorphyFactor`).
-*Lean:* `slashActionOfAutomorphyFactor_map_apply`.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -4000,9 +4001,7 @@ equivalence at each point; no cancellation of a selected nonzero section is invo
 *Source:* [LanIntro], §4.2.7, p.49.
 
 *Needs:* B4.5 (`slashActionOfAutomorphyFactor_map_apply`); Mathlib `LinearEquiv.symm_apply_eq`.
-*Lean:* `slashActionOfAutomorphyFactor_invariant_iff`;
-`slashActionOfAutomorphyFactor_sign_invariant_iff` states the sign-stabilizer boundary case
-for any monoid acting on a point and a coefficient field with `2 ≠ 0`.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -4025,7 +4024,7 @@ functions is the separate construction of B4.4.
 *Source:* [LanIntro], §4.2.7, p.49.
 
 *Needs:* B4.3 (`AutomorphyFactor`).
-*Lean:* `inverse_base_action_cocycle`.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -4045,7 +4044,7 @@ zero of f; the identically zero section imposes no cocycle condition.
 *Source:* [LanIntro], §4.2.7, p.49.
 
 *Needs:* Mathlib `MulAction`.
-*Lean:* `cocycle_at_of_automorphy_of_ne_zero`.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -4100,9 +4099,7 @@ Mathlib `ModularForm.slash_action_eq'_iff`; Mathlib `ModularForm.smul_slash`; Ma
 `UpperHalfPlane.denom_ne_zero`; Mathlib `UpperHalfPlane.denom_cocycle`; Mathlib
 `UpperHalfPlane.denom_cocycle'`; TauCetiRoadmap.ModularForms Layer 10C (the automorphy sheaf on
 `X(Γ)`).
-*Lean:* the scalar factor `sl2ScalarFactor` and the theorem
-`slashActionOfAutomorphyFactor_sl2` pin the scalar `SL₂` convention. The determinant-negative
-scalar law is Mathlib `ModularForm.smul_slash`; the geometric comparison is specified in the README only.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -4135,9 +4132,7 @@ The API:
   are equal; parity proofs carry no extra data.
 
 *Needs:* Mathlib `Int.emod_two_eq_zero_or_one`.
-*Lean:* `HilbertArithmeticWeight`, `HilbertArithmeticWeight.detExponent`,
-`HilbertArithmeticWeight.two_mul_detExponent`, `HilbertArithmeticWeight.add`,
-`HilbertArithmeticWeight.ext`.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -4927,8 +4922,7 @@ Mathlib `Algebra.trace_algebraMap_of_basis`; B2.1 (`automorphicVectorBundle`); B
 (`subcanonicalExtension`); B3.6 (`fanIndependentSections`); B3.general.3
 (`generalBoundaryFunctoriality`); B4.1 (`classicalForms`); B4.2 (`cuspForms`); B5.1
 (`finiteLocallyFreeTrace`); B4.15 (`ramifiedHilbertLine`).
-*Lean:* `ClassicalHecke.modularNormalization` (the weight-zero value `(ℓ + 1)/ℓ`); the operator is
-specified in the README only.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -4939,7 +4933,7 @@ specified in the README only.
 - `ClassicalHecke.modularNormalization` (compatibility): Over C, after the imported modular
   comparison and correct coset orientation, GL2 `det⁻¹`-scaled isogeny pull-identify-trace agrees with
   the existing HeckeRing.GL2.heckeRingHomCharSpace action; at an unramified prime its coefficients
-  have the character-weighted `ℓ^(k−1)` term. At weight zero, the Lean Check at `ℓ=2` gives `3/2`.
+  have the character-weighted `ℓ^(k−1)` term. At weight zero, `ℓ=2` gives `3/2`.
 - For `ClassicalHecke.modularNormalization` at `ℓ=3`, the value is `4/3`; the constant `3/2` fails.
 - At `ℓ=5` the same normalization gives `6/5`, retaining the degree `ℓ+1` and its `ℓ⁻¹` factor.
 
@@ -5360,9 +5354,7 @@ p.241 (the classical `p`-adic comparison), and VI §5, Theorem 5.5(i), pp.233–
 *Needs:* B3.log.2–4; B3.BGG.1–3; B2.3, B2.5–B2.6; B3.2, B3.7;
 B4.16; B5.11 (Hecke convolution); SchemeAndStackFoundations Layer 2
 (§§2.6, 2.18).
-*Lean:* `SiegelHT.coherentWeights`, `SiegelHT.twiceTateExponents`,
-`SiegelHT.twiceTateExponents_even` (the weight data of the decomposition); the comparison itself is
-specified in the README only.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
@@ -5401,8 +5393,7 @@ Theorem 6.2(i), p.241, and VI §5, Proposition 5.4(2) and Theorem 5.5(ii), pp.23
 B3.BGG.2–3; B5.21 (the coefficient/weight convention); B5.11;
 B3.2, B3.4, B3.7; B4.16; EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2;
 SchemeAndStackFoundations Layer 2 (§§2.6, 2.18).
-*Lean:* the weight data `SiegelHT.coherentWeights` and `SiegelHT.twiceTateExponents`; the comparison
-itself is specified in the README only.
+*Lean:* none; specified in the README only.
 
 **Checks.**
 
