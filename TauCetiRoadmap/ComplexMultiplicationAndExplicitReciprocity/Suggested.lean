@@ -1,276 +1,119 @@
 import Mathlib
+import TauCeti.Analysis.Complex.ModularForms.LevelOne.JInputs
+import TauCeti.NumberTheory.BinaryQuadraticForm.Reduction
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Ideal
 
 /-!
-# Complex multiplication and explicit reciprocity: representative target signatures
+# Complex multiplication and explicit reciprocity: target signatures
 
-The accompanying README is the definitive roadmap. This file is not exhaustive: it records selected
-definitions, end statements and Checks over existing carriers; proofs marked `sorry` are proposed targets.
-CM-type and reflex-norm interfaces are supplied by ShimuraVarieties §5.1.
-Closure-independence and primitive/double-reflex comparisons for the supplied reflex pair, and
-integral reflex-order comparisons, are specified in the README.
-The finite-product bounds are stated in their
-full algebraic generality, before application to a complete CM class census.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. These statements suggest Lean forms for selected milestones; discharging them
+finishes neither a layer nor the roadmap.
 
-Geometric CM objects are not replaced by arbitrary functions or representations here.
-The proved examples pin the quartic root choices, order membership, polarization sign and
-relation multiplicities used in the README. The Gaussian unit boundary is a named target; geometric
-boundary checks use the README’s supplier interfaces.
+CM.3.1's singular-modulus integrality theorem is stated for every quadratic point of the
+upper half-plane, using Tau Ceti's normalized modular `j`. The analytic class polynomial
+uses the native complete reduced-form census, filtered for primitivity. Its integer
+coefficients, separability and irreducibility over the imaginary quadratic field are stated
+for every negative quadratic order discriminant. CM.5.3's unconditional root and coefficient
+bounds concern that same polynomial. CM.4.3's canonical Gross-character existence criterion
+is stated on the native Hecke-character carrier, with its algebraicity,
+ideal character and least finite conductor. The defining predicate spells out the
+conjugation, principal-sign and ramified-support conditions on those objects.
+
+At the pinned revisions, the CM-type, primitive-core, inverse-coset reflex-pair and
+selected tensor-factor interfaces needed for CM.0's reflex comparisons are absent.
+CM.1's ideal-lattice classification and CM.2's polarized classification and explicit
+reciprocity require CM actions, complex uniformization, relative Serre tensors, polarizations
+and regular Siegel level functions. The field abelian-variety and isogeny carriers alone
+do not supply these comparisons.
+
+The ideal-lattice/CM-point comparison and ring/ray class-field objects needed for CM.3's
+Artin action and exact field generation are absent. For CM.4's attachment,
+Tate-component, all-prime factorization, induction and good-reduction statements, the CM
+realization, Galois-avatar and local Euler-factor comparisons are missing. In particular,
+canonical-character existence here does not state its attachment to a curve over the
+Hilbert class field. CM.5's Deuring classification and lifting, CM Newton slopes,
+isogeny-order graphs, ordinary-conductor criteria and reduction products require the
+ordinary/supersingular endomorphism-order, good-reduction, crystalline CM-component and
+embedded quaternion-order interfaces. The README specifies those headline statements on
+the named supplier interfaces.
 -/
 
-noncomputable section
-
-open scoped BigOperators
-open Polynomial
+open scoped NumberField nonZeroDivisors BigOperators
+open Polynomial TauCeti.BinaryQuadraticForm
+open TauCeti.GlobalNumberFields
 
 namespace TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
 
-/-! ## Layer 0: Integral reflex data and concrete fields -/
-
-/-- Conjugating the finite trace sums conjugates their generated field, for any selection. -/
-theorem embeddingPartitionTrace_conjugate {E : Type*} [CommRing E] [Algebra ℚ E]
-    (Φ : Finset (E →ₐ[ℚ] ℂ)) :
-    IntermediateField.adjoin ℚ (Set.range (fun x : E => ∑ φ ∈ Φ, star (φ x))) =
-      (IntermediateField.adjoin ℚ (Set.range (fun x : E => ∑ φ ∈ Φ, φ x))).map
-        (Complex.conjAe.restrictScalars ℚ).toAlgHom := by sorry
-
-/-- The selected upper-half-plane root in the quartic reflex-field example. -/
-def quarticA : ℂ := Complex.I * (Real.sqrt (3 + Real.sqrt 2) : ℂ)
-
-/-- The second selected embedding value; its sum with `quarticA` generates the reflex field. -/
-def quarticB : ℂ := Complex.I * (Real.sqrt (3 - Real.sqrt 2) : ℂ)
-
-example : quarticA ^ 2 = -3 - (Real.sqrt 2 : ℂ) ∧
-    quarticA ^ 4 + 6 * quarticA ^ 2 + 7 = 0 ∧ 0 < quarticA.im := by
-  have hs : (Real.sqrt 2 : ℂ) ^ 2 = 2 := by
-    exact_mod_cast Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 2)
-  have ha : quarticA ^ 2 = -3 - (Real.sqrt 2 : ℂ) := by
-    rw [quarticA, mul_pow, Complex.I_sq, ← Complex.ofReal_pow,
-      Real.sq_sqrt (by positivity : (0 : ℝ) ≤ 3 + Real.sqrt 2)]
-    push_cast
-    ring
-  refine ⟨ha, ?_, ?_⟩
-  · calc
-      _ = (Real.sqrt 2 : ℂ) ^ 2 - 2 := by
-        rw [show quarticA ^ 4 = (quarticA ^ 2) ^ 2 by ring, ha]
-        ring
-      _ = 0 := by rw [hs]; ring
-  · simpa [quarticA] using
-      (Real.sqrt_pos.2 (show (0 : ℝ) < 3 + Real.sqrt 2 by positivity))
-
-example : quarticB ^ 2 = -3 + (Real.sqrt 2 : ℂ) ∧
-    quarticB ^ 4 + 6 * quarticB ^ 2 + 7 = 0 ∧
-    0 < quarticB.im ∧ (-quarticB).im < 0 ∧
-    quarticA * quarticB = -(Real.sqrt 7 : ℂ) ∧
-    (quarticA + quarticB) ^ 2 = -6 - 2 * (Real.sqrt 7 : ℂ) ∧
-    (quarticA + quarticB) ^ 4 + 12 * (quarticA + quarticB) ^ 2 + 8 = 0 := by
-  have hs : Real.sqrt 2 < 3 := by
-    nlinarith [Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 2), Real.sqrt_nonneg 2]
-  have hs2 : (Real.sqrt 2 : ℂ) ^ 2 = 2 := by
-    exact_mod_cast Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 2)
-  have hb2 : quarticB ^ 2 = -3 + (Real.sqrt 2 : ℂ) := by
-    rw [quarticB, mul_pow, Complex.I_sq, ← Complex.ofReal_pow,
-      Real.sq_sqrt (by linarith : (0 : ℝ) ≤ 3 - Real.sqrt 2)]
-    push_cast
-    ring
-  have hb : 0 < quarticB.im := by
-    simpa [quarticB] using
-      (Real.sqrt_pos.2 (show (0 : ℝ) < 3 - Real.sqrt 2 by linarith))
-  have ha2 : quarticA ^ 2 = -3 - (Real.sqrt 2 : ℂ) := by
-    rw [quarticA, mul_pow, Complex.I_sq, ← Complex.ofReal_pow,
-      Real.sq_sqrt (by positivity : (0 : ℝ) ≤ 3 + Real.sqrt 2)]
-    push_cast
-    ring
-  have hab : quarticA * quarticB = -(Real.sqrt 7 : ℂ) := by
-    have hmul : Real.sqrt (3 + Real.sqrt 2) * Real.sqrt (3 - Real.sqrt 2) =
-        Real.sqrt 7 := by
-      rw [← Real.sqrt_mul (by positivity)]
-      congr 1
-      nlinarith [Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 2)]
-    calc
-      _ = Complex.I ^ 2 *
-          ((Real.sqrt (3 + Real.sqrt 2) * Real.sqrt (3 - Real.sqrt 2) : ℝ) : ℂ) := by
-        simp only [quarticA, quarticB, Complex.ofReal_mul]
-        ring
-      _ = _ := by rw [Complex.I_sq, hmul]; ring
-  have hsum : (quarticA + quarticB) ^ 2 = -6 - 2 * (Real.sqrt 7 : ℂ) := by
-    calc
-      _ = quarticA ^ 2 + 2 * (quarticA * quarticB) + quarticB ^ 2 := by ring
-      _ = _ := by rw [ha2, hb2, hab]; ring
-  refine ⟨hb2, ?_, hb, by simpa using neg_neg_of_pos hb, hab, hsum, ?_⟩
-  · calc
-      _ = (Real.sqrt 2 : ℂ) ^ 2 - 2 := by
-        rw [show quarticB ^ 4 = (quarticB ^ 2) ^ 2 by ring, hb2]
-        ring
-      _ = 0 := by rw [hs2]; ring
-  · have hs7 : (Real.sqrt 7 : ℂ) ^ 2 = 7 := by
-      exact_mod_cast Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 7)
-    calc
-      _ = 4 * (Real.sqrt 7 : ℂ) ^ 2 - 28 := by
-        rw [show (quarticA + quarticB) ^ 4 = ((quarticA + quarticB) ^ 2) ^ 2 by ring,
-          hsum]
-        ring
-      _ = 0 := by rw [hs7]; ring
-
-/-- The two selected embeddings of the non-Galois quartic have a degree-four trace reflex
-field generated by their sum, with a different real quadratic subfield; the original field
-has degree four and is not Galois. -/
-theorem quarticReflexField :
-    let E := IntermediateField.adjoin ℚ ({quarticA} : Set ℂ)
-    let R := IntermediateField.adjoin ℚ ({quarticA + quarticB} : Set ℂ)
-    ∃ φ₁ φ₂ : E →ₐ[ℚ] ℂ,
-      φ₁ ⟨quarticA, IntermediateField.subset_adjoin ℚ _ (Set.mem_singleton _)⟩ = quarticA ∧
-      φ₂ ⟨quarticA, IntermediateField.subset_adjoin ℚ _ (Set.mem_singleton _)⟩ = quarticB ∧
-      IntermediateField.adjoin ℚ (Set.range (fun x : E => φ₁ x + φ₂ x)) = R ∧
-      Module.finrank ℚ R = 4 ∧ Module.finrank ℚ E = 4 ∧ ¬ IsGalois ℚ E ∧
-      (∀ x : ℂ, x ∈ E ∧ star x = x ↔
-        x ∈ IntermediateField.adjoin ℚ ({(Real.sqrt 2 : ℂ)} : Set ℂ)) ∧
-      (∀ x : ℂ, x ∈ R ∧ star x = x ↔
-        x ∈ IntermediateField.adjoin ℚ ({(Real.sqrt 7 : ℂ)} : Set ℂ)) ∧
-      IntermediateField.adjoin ℚ ({(Real.sqrt 2 : ℂ)} : Set ℂ) ≠
-        IntermediateField.adjoin ℚ ({(Real.sqrt 7 : ℂ)} : Set ℂ) := by
+/-- CM.3.1: every singular modulus of the normalized modular invariant is an algebraic integer. -/
+theorem singularModulus_integral (τ : UpperHalfPlane)
+    (hτ : (minpoly ℚ (τ : ℂ)).natDegree = 2) :
+    IsIntegral ℤ (TauCeti.ModularForm.j τ) := by
   sorry
 
-/-- The conductor-three Gaussian order, with its actual subring carrier. -/
-def gaussianOrderThree : Subring ℂ where
-  carrier := {z | ∃ m n : ℤ, z = (m : ℂ) + 3 * (n : ℂ) * Complex.I}
-  zero_mem' := ⟨0, 0, by norm_num⟩
-  one_mem' := ⟨1, 0, by norm_num⟩
-  add_mem' := by
-    rintro x y ⟨m, n, rfl⟩ ⟨r, s, rfl⟩
-    refine ⟨m + r, n + s, ?_⟩
-    push_cast
-    ring
-  neg_mem' := by
-    rintro x ⟨m, n, rfl⟩
-    refine ⟨-m, -n, ?_⟩
-    push_cast
-    ring
-  mul_mem' := by
-    rintro x y ⟨m, n, rfl⟩ ⟨r, s, rfl⟩
-    refine ⟨m * r - 9 * n * s, m * s + n * r, ?_⟩
-    push_cast
-    calc
-      _ = (m : ℂ) * r + 3 * (m * s + n * r) * Complex.I +
-          9 * n * s * Complex.I ^ 2 := by ring
-      _ = _ := by rw [Complex.I_sq]; ring
+/-- The complete reduced primitive census of discriminant `-D`, on native positive forms. -/
+def primitiveReducedForms (D : ℕ) [NeZero D] : Finset (posDef D) :=
+  ((TauCeti.reducedForms D).attach.filter
+    (fun f => f.1.a.natAbs.gcd (f.1.b.natAbs.gcd f.1.c.natAbs) = 1)).map
+    ⟨fun f => ⟨f.1, mem_posDef_of_mem_reducedForms f.2⟩, by
+      intro f g h
+      apply Subtype.ext
+      exact congrArg (fun q : posDef D => q.1) h⟩
 
-example : Complex.I ∉ gaussianOrderThree := by
-  rintro ⟨m, n, h⟩
-  have hi : (1 : ℝ) = 3 * (n : ℝ) := by
-    simpa using congrArg Complex.im h
-  have hz : (1 : ℤ) = 3 * n := by exact_mod_cast hi
-  omega
+/-- The analytic order class polynomial, with each reduced primitive class included once. -/
+noncomputable def classPolynomial (D : ℕ) [NeZero D] : ℂ[X] :=
+  ∏ f ∈ primitiveReducedForms D, (X - C (TauCeti.ModularForm.j (root f)))
 
-example : (3 * Complex.I : ℂ) ∈ gaussianOrderThree ∧
-    (2 + 3 * Complex.I : ℂ) ∈ gaussianOrderThree := by
-  exact ⟨⟨0, 1, by norm_num⟩, ⟨2, 1, by norm_num⟩⟩
-
-/-- Multiplication by the maximal-order unit `i` changes the conductor-three order. -/
-theorem gaussianOrderThree_unit_boundary :
-    Complex.I ∉ gaussianOrderThree ∧
-      (fun x : ℂ => Complex.I * x) '' (gaussianOrderThree : Set ℂ) ≠
-        (gaussianOrderThree : Set ℂ) := by
+/-- CM.3.1: an integral, separable class polynomial of the class-number degree. -/
+theorem classPolynomial.integral (D : ℕ) [NeZero D] (hD : D % 4 = 0 ∨ D % 4 = 3) :
+    ∃ P : ℤ[X], P.Monic ∧ P.map (Int.castRingHom ℂ) = classPolynomial D ∧
+      (classPolynomial D).Separable ∧ P.natDegree = (primitiveReducedForms D).card := by
   sorry
 
-/-! ## Layer 2: Polarized lattices and explicit reciprocity -/
-
-/-- The real scalar extension of the alternating Gaussian trace form with parameter `I / 2`.
-Its positivity is `squareForm x (I * x) > 0`; a Riemann form with positivity `E (J v) v > 0`
-is its negative. -/
-def squareForm (x y : ℂ) : ℝ := (2 * ((Complex.I / 2) * x * star y)).re
-
-example : squareForm 1 Complex.I = 1 ∧ squareForm Complex.I 1 = -1 := by
-  norm_num [squareForm, Complex.ext_iff]
-
-example : squareForm 2 (2 * Complex.I) = 4 ∧ squareForm 1 1 = 0 ∧
-    ∀ x y : ℂ, (2 * ((Complex.I / 8) * (2 * x) * star (2 * y))).re =
-      squareForm x y := by
-  refine ⟨by norm_num [squareForm, Complex.ext_iff],
-    by norm_num [squareForm], ?_⟩
-  intro x y
-  simp [squareForm, Complex.mul_re, Complex.mul_im]
-  ring
-
-/-- The Gaussian trace form has the positive sign `E(x, i x) > 0`. -/
-theorem squareForm_positive (x : ℂ) (hx : x ≠ 0) :
-    0 < squareForm x (Complex.I * x) := by sorry
-
-/-! ## Layer 5: Reduction, endomorphism orders and coefficient comparisons -/
-
-section RootBounds
-
-variable {J : Type*} [Fintype J]
-
-/-- A coefficient bound for any finite complex root product, including the empty product. -/
-theorem rootProduct_coeff_bound (z : J → ℂ) (M : J → ℝ)
-    (hM : ∀ i, 0 ≤ M i) (hz : ∀ i, ‖z i‖ ≤ M i) (k : ℕ) :
-    ‖(∏ i, (X - C (z i))).coeff k‖ ≤ ∏ i, (1 + M i) := by sorry
-
-/-- A telescoping-product bound for perturbation of every coefficient. -/
-theorem rootProduct_coeff_perturbation (z w : J → ℂ) (M δ : ℝ)
-    (hM : 0 ≤ M) (hδ : 0 ≤ δ) (hδ1 : δ ≤ 1)
-    (hz : ∀ i, ‖z i‖ ≤ M) (hw : ∀ i, ‖w i - z i‖ ≤ δ) (k : ℕ) :
-    ‖((∏ i, (X - C (w i))) - ∏ i, (X - C (z i))).coeff k‖ ≤
-      (Fintype.card J : ℝ) * δ * (1 + M + δ) ^ (Fintype.card J - 1) := by sorry
-
-/-- A positive-cardinality precision bound making the perturbation less than a quarter. -/
-theorem rootProduct_precision (h : ℕ) (hh : 0 < h) (M δ : ℝ)
-    (hM : 0 ≤ M) (hδ : 0 ≤ δ)
-    (hsmall : δ < 1 / (4 * (h : ℝ) * (2 + M) ^ (h - 1))) :
-    (h : ℝ) * δ * (1 + M + δ) ^ (h - 1) < 1 / 4 := by sorry
-
-end RootBounds
-
-/-- Count sign vectors satisfying the relation, retaining coincident products and zero exponents. -/
-def signedRelationCount {G : Type*} [CommGroup G] {n : ℕ}
-    (a : Fin n → G) (e : Fin n → ℕ) : ℕ :=
-  Nat.card {ε : Fin n → Bool // ∏ i, a i ^ (if ε i then (e i : ℤ) else -(e i : ℤ)) = 1}
-
-/-- The relation solutions form a subset of all sign vectors. -/
-theorem signedRelationCount.bound {G : Type*} [CommGroup G] {n : ℕ}
-    (a : Fin n → G) (e : Fin n → ℕ) : signedRelationCount a e ≤ 2 ^ n := by sorry
-
-/-- Negating every sign pairs solutions without fixed points when at least one sign exists. -/
-theorem signedRelationCount.even {G : Type*} [CommGroup G] {n : ℕ}
-    (hn : 0 < n) (a : Fin n → G) (e : Fin n → ℕ) :
-    Even (signedRelationCount a e) := by sorry
-
-/-- Inverting one chosen class is a change of its sign coordinate. -/
-theorem signedRelationCount.invert_choice {G : Type*} [CommGroup G] {n : ℕ}
-    (a : Fin n → G) (e : Fin n → ℕ) (i : Fin n) :
-    signedRelationCount (Function.update a i (a i)⁻¹) e = signedRelationCount a e := by
+/-- CM.3.1: the order class polynomial is irreducible over its imaginary quadratic field. -/
+theorem classPolynomial.irreducible (D : ℕ) [NeZero D]
+    (hD : D % 4 = 0 ∨ D % 4 = 3) (P : ℤ[X])
+    (hP : P.map (Int.castRingHom ℂ) = classPolynomial D) :
+    let K := IntermediateField.adjoin ℚ ({Complex.I * (Real.sqrt D : ℂ)} : Set ℂ)
+    Irreducible (P.map (algebraMap ℤ K)) := by
   sorry
 
-example : signedRelationCount (fun _ : Fin 0 => (1 : ℂˣ)) (fun _ => 1) = 1 := by
-  simp [signedRelationCount, Nat.card_eq_fintype_card]
+/-- The canonical Gross conditions on an algebraic Hecke character of an imaginary quadratic
+field, with the chosen complex embedding fixing the positive ideal infinity type.
+The ideal-membership equivalence says that `b` is the conjugate of `a`. In a quadratic
+field, a conductor prime contains the field discriminant exactly when it is ramified. -/
+def IsCanonicalGrossCharacter {K : Type*} [Field K] [NumberField K]
+    [NumberField.IsCMField K] [Algebra.IsQuadraticExtension ℚ K]
+    (φ : K →+* ℂ) (ψ : HeckeCharacter K) : Prop :=
+  let m : Modulus K := ⟨ψ.finiteConductor, ψ.finiteConductor_ne_bot, ∅⟩
+  ψ.IsAlgebraic ∧
+    (∀ a b : idealsPrimeTo m,
+      (∀ x : K, x ∈ (a.1 : FractionalIdeal (𝓞 K)⁰ K) ↔
+        NumberField.IsCMField.complexConj K x ∈ (b.1 : FractionalIdeal (𝓞 K)⁰ K)) →
+      ψ.idealCharacter b = star (ψ.idealCharacter a)) ∧
+    (∀ a : primeToSubgroup m,
+      (ψ.idealCharacter (principalIdealPrimeTo m a) : ℂ) = φ (a.1 : K) ∨
+      (ψ.idealCharacter (principalIdealPrimeTo m a) : ℂ) = -φ (a.1 : K)) ∧
+    (∀ v : IsDedekindDomain.HeightOneSpectrum (𝓞 K),
+      v.asIdeal ∣ ψ.finiteConductor →
+      (NumberField.discr K : 𝓞 K) ∈ v.asIdeal)
 
-example :
-    signedRelationCount (fun _ : Fin 1 => Multiplicative.ofAdd (1 : ZMod 3))
-      (fun _ => 1) = 0 ∧
-    signedRelationCount (fun _ : Fin 2 => Multiplicative.ofAdd (1 : ZMod 3))
-      (fun _ => 1) = 2 ∧
-    signedRelationCount (fun _ : Fin 2 => Multiplicative.ofAdd (1 : ZMod 2))
-      (fun _ => 1) = 4 := by
-  simp only [signedRelationCount, Nat.card_eq_fintype_card, Fintype.card_subtype]
-  decide
+/-- CM.4.3: canonical Gross characters exist exactly for the stated fundamental discriminants.
+Their ideal values lie in `ℂ`, allowing algebraic coefficient extensions of the CM field. -/
+theorem canonicalGrossExistence {K : Type*} [Field K] [NumberField K]
+    [NumberField.IsCMField K] [Algebra.IsQuadraticExtension ℚ K] (φ : K →+* ℂ) :
+    (∃ ψ : HeckeCharacter K, IsCanonicalGrossCharacter φ ψ) ↔
+      NumberField.discr K ≠ -3 ∧
+        (Odd (NumberField.discr K) ∨ (8 : ℤ) ∣ NumberField.discr K) := by
+  sorry
 
-/-- Exact coefficient membership and uniqueness of the integer in each interval determine a polynomial. -/
-theorem coefficient_interval_recovery (P Q : ℤ[X]) (l u : ℕ → ℝ)
-    (hQ : ∀ k ≤ max P.natDegree Q.natDegree, (Q.coeff k : ℝ) ∈ Set.Icc (l k) (u k))
-    (hunique : ∀ k ≤ max P.natDegree Q.natDegree, ∀ z : ℤ,
-      (z : ℝ) ∈ Set.Icc (l k) (u k) ↔ z = P.coeff k) : P = Q := by sorry
-
-/-- Bounded integer coefficients congruent modulo more than twice the bound are equal. -/
-theorem polynomial_bounded_congruence (P Q : ℤ[X]) (B M : ℤ)
-    (hB : 0 ≤ B) (hM : 2 * B < M)
-    (hP : ∀ k, |P.coeff k| ≤ B) (hQ : ∀ k, |Q.coeff k| ≤ B)
-    (hcong : ∀ k, Int.ModEq M (P.coeff k) (Q.coeff k)) : P = Q := by sorry
-
-/-
-The integral reflex order, inverse-coset reflex pair, ideal-lattice curves, CM Serre-tensor
-comparisons, polarized CM classification, reciprocity, class polynomials, Hecke characters
-and Deuring theory are stated in the README using their geometric supplier interfaces.
-The horizontal-path comparison `signedRelationCount.isogeny_comparison` is also a README target.
--/
+/-- CM.5.3: the unconditional CM root bound and its integer coefficient bound. -/
+theorem classPolynomialHeightBound (D : ℕ) [NeZero D] (hD : D % 4 = 0 ∨ D % 4 = 3) :
+    let M : posDef D → ℝ := fun f =>
+      Real.exp (Real.pi * Real.sqrt D / f.1.a) + 2114567 / 1000
+    (∀ f ∈ primitiveReducedForms D, ‖TauCeti.ModularForm.j (root f)‖ ≤ M f) ∧
+      ∀ k : ℕ, ‖(classPolynomial D).coeff k‖ ≤
+        (⌈∏ f ∈ primitiveReducedForms D, (1 + M f)⌉ : ℤ) := by
+  sorry
 
 end TauCetiRoadmap.ComplexMultiplicationAndExplicitReciprocity
