@@ -77,6 +77,8 @@ Use **StablePeriodicCurved** Layer 4, `HasFiniteGlobalDimension`, as the uniform
 
 Layers 0–1 fix coefficient operations and the maps between invariants, culminating in Bott–Genauer and Karoubi periodicity. Layers 2–3 express truncation and connectivity through bounded projective complexes and relative Lagrangians. Layer 4 proves quadratic surgery and the short-complex comparison. Layer 5 extends the surgery argument to connective ring spectra. Layers 6–7 give symmetric surgery, the sharp comparison ranges and field computations. In Layer 7 build §§7.1–7.2, then §7.9 (including the Arf classification), then §§7.3–7.8 and §§7.10–7.11; §7.3 uses `field_l_groups`. Layer 8 combines these with the fundamental square to obtain the classical fibre sequences and comparison of Grothendieck–Witt groups. A *Needs* sentence cites named supplier contracts above or mathematical subsections earlier in this build order. Suggested.lean contains representative signatures only where the pinned libraries already have the carriers; this README is the full specification.
 
+The headline statements in `Suggested.lean` are the Arf basis formula and completeness theorem of §7.9. Its module docstring identifies the missing carriers for the spectrum-level statements. Lean names in the other targets specify the library to be built.
+
 ## Layer 0: coefficient operations and the flavour family
 
 Construct the coefficient operations and opposite-ring transport, and use the genuine family to organize invariants. The Tate-vanishing criterion records when adjacent indices give the same structure; the shifted classical comparison identifies the alternating theory.
@@ -395,13 +397,13 @@ For `X ∈ D^p(R)` and integers `k ≤ l` the following are equivalent: (i) `X` 
 
 (i) `⇒` (ii) is immediate. For (ii) `⇒` (i) take a representing complex `C` of minimal length. If `C_i ≠ 0` with `i < k` minimal then `H_i(C) = 0`, so `C_{i+1} → C_i` is a surjection of projectives, hence split with projective kernel; replacing `C_{i+1}` by the kernel and deleting `C_i` shortens `C`, a contradiction. The termwise dual complex `(DC)_i = D(C_{−i})` represents `DX` and is again of minimal length since `M` is finitely generated projective; the same argument places it in degrees `≥ −l`, so `C` is in degrees `≤ l`. The free and `𝒞`-valued refinements run the same argument, where the kernel of a split surjection between stably-`𝒞` modules is stably in `𝒞`.
 
-This gives `width_criterion`. Its one-sided ordinary-complex milestone is `exists_homotopyEquiv_concentrated_ge`: a bounded finite-projective chain complex with homology zero below `k` has a homotopy-equivalent bounded finite-projective model whose terms vanish below `k`. The signature uses native `ChainComplex`, `HomologicalComplex.homology` and `HomotopyEquiv`.
+This gives `width_criterion`. Its one-sided ordinary-complex assertion says that a bounded finite-projective chain complex with homology zero below `k` has a homotopy-equivalent bounded finite-projective model whose terms vanish below `k`, using native `ChainComplex`, `HomologicalComplex.homology` and `HomotopyEquiv`.
 
 **Checks.**
 
-- `X = ℤ/2[0] ∈ D^p(ℤ)` (resolved by `ℤ →² ℤ` in degrees `[0,1]`) is 0-connective and `Dℤ/2 ≃ ℤ/2[−1]` is `(−1)`-connective, so it is represented in `[0,1]` and not in `[0,0]`. `intTwoTerm_projective_width` states this for Mathlib's two-term complex, with `H₀ = ℤ/2` and no other homology; `zmod_two_not_projectiveDimension_le_zero` excludes a projective model supported in degree zero.
-- `P[0]` for `P` finitely generated projective is 0-connective with 0-connective dual, so it is represented in `[0,0]`. `width_single_projective` gives the finite-projective terms, support and homology of `P[k]` for every integer `k`.
-- The zero complex has a projective representative in every interval `k≤l` (`width_zero_complex`, also for any complex that is a zero object). The condition `k≤l` prevents a nonzero single-degree complex from being assigned an empty support interval.
+- `X = ℤ/2[0] ∈ D^p(ℤ)` (resolved by `ℤ →² ℤ` in degrees `[0,1]`) is 0-connective and `Dℤ/2 ≃ ℤ/2[−1]` is `(−1)`-connective, so it is represented in `[0,1]` and not in `[0,0]`. Mathlib's two-term complex has `H₀ = ℤ/2` and no other homology; nonprojectivity of `ℤ/2` excludes a projective model supported in degree zero.
+- `P[0]` for `P` finitely generated projective is 0-connective with 0-connective dual, so it is represented in `[0,0]`. More generally `P[k]` has finite-projective terms, support `{k}` and homology `P` in degree `k` and zero elsewhere.
+- The zero complex has a projective representative in every interval `k≤l`, also for any complex that is a zero object. The condition `k≤l` prevents a nonzero single-degree complex from being assigned an empty support interval.
 
 *Needs:* GeometryOfNumbersAndQuadraticArithmetic §6.8a; Mathlib Module.Projective; Mathlib ChainComplex; Mathlib HomotopyEquiv; Mathlib HomologicalComplex.homology.
 
@@ -940,17 +942,17 @@ The equivalence of the two coherence conditions is Chase's theorem; finitely pre
 Extend the shared coherence API and add the following bridges to projective dimension. The ideal-finiteness formulation of coherence is `∀ I : Ideal R, I.FG → Module.FinitePresentation R I`.
 
 - `Module.IsCoherent`, `IsCoherentRing`: Extend to associative rings and left modules, retaining the characterization by finite presentation of finitely generated left ideals and the Noetherian bridge.
-- `globalDimension_zero_iff_semisimple`: Global dimension 0 iff IsSemisimpleRing.
-- `dedekind_projectiveDimension_le_one`: Dedekind domains have global dimension `≤ 1`.
-- `finitePresentation_finiteProjectiveResolution`: Over a coherent ring of global dimension `≤ d`, finitely presented modules have length-`≤d` resolutions by finitely generated projectives.
+- Global dimension 0 iff `IsSemisimpleRing`.
+- Dedekind domains have global dimension `≤ 1`.
+- Over a coherent ring of global dimension `≤ d`, finitely presented modules have length-`≤d` resolutions by finitely generated projectives.
 
 **Checks.**
 
 - For a commutative ring, the extended `IsCoherentRing` is the supplier's predicate, and `Module.IsCoherent R N ↔ Module.FinitePresentation R N` over a coherent ring is the supplier's comparison.
-- A field has global dimension 0 and is coherent (`field_projectiveDimension_le_zero`, for every module).
-- `ℤ` has global dimension 1, not 0: `ℤ/2` has projective dimension exactly 1 (`zmod_two_not_projectiveDimension_le_zero`).
-- The non-maximal order `ℤ[√−3] = ℤ[X]/(X²+3)` has Krull dimension 1 but infinite global dimension (`nonmaximalOrder_infinite_globalDimension`). At `(2,X−1)` its cotangent space has dimension 2: on writing `y=X−1`, the relation `y²+2y+4` lies in `(2,y)²`. Its localization is not regular; [Stacks, Tag 00OC](https://stacks.math.columbia.edu/tag/00OC) excludes finite global dimension. Thus Krull dimension cannot supply the bound `≤1`.
-- `k[ε]/(ε²)` is Noetherian (hence coherent) but its residue field `k` has infinite projective dimension (`dualNumbers_residue_infinite_projectiveDimension`). Multiplication by `ε` gives a periodic free resolution; tensoring with `k` makes all differentials zero, so every positive Tor group is `k`. Source: [Stacks, Tag 00OC, Proposition 10.110.5](https://stacks.math.columbia.edu/tag/00OC): this Noetherian local ring has Krull dimension zero and cotangent dimension one, so it is not regular and its residue field has infinite projective dimension.
+- A field has global dimension 0 and is coherent; the dimension bound holds for every module.
+- `ℤ` has global dimension 1, not 0: `ℤ/2` has projective dimension exactly 1.
+- The non-maximal order `ℤ[√−3] = ℤ[X]/(X²+3)` has Krull dimension 1 but infinite global dimension. At `(2,X−1)` its cotangent space has dimension 2: on writing `y=X−1`, the relation `y²+2y+4` lies in `(2,y)²`. Its localization is not regular; [Stacks, Tag 00OC](https://stacks.math.columbia.edu/tag/00OC) excludes finite global dimension. Thus Krull dimension cannot supply the bound `≤1`.
+- `k[ε]/(ε²)` is Noetherian (hence coherent) but its residue field `k` has infinite projective dimension. Multiplication by `ε` gives a periodic free resolution; tensoring with `k` makes all differentials zero, so every positive Tor group is `k`. Source: [Stacks, Tag 00OC, Proposition 10.110.5](https://stacks.math.columbia.edu/tag/00OC): this Noetherian local ring has Krull dimension zero and cotangent dimension one, so it is not regular and its residue field has infinite projective dimension.
 - `ℤ` and every field are coherent of global dimension `≤ 1`, resp. 0.
 
 These conditions let Postnikov truncations preserve perfect complexes (Paper III, §1.3, p. 27) and supply `d` in the surgery and comparison ranges (Corollaries 1.3.3, 1.3.9 and 1.3.10). Dedekind rings give `d≤1` (Corollary 1.3.14, p. 31).
@@ -975,7 +977,7 @@ Expose the restricted t-structure, its heart and both duality bounds.
 
 - For a field `K` the heart is finite-dimensional K-vector spaces `= Proj(K)`.
 - Over `ℤ`, `D(ℤ/n[0]) ≃ ℤ/n[−1]` for `n ≥ 2`, so the bound `−d = −1` is attained. For `n = 1` the module is zero and does not witness sharpness; for `n = 0` it is `ℤ` and its dual is `ℤ[0]`.
-- Over `R = k[x₁,x₂,…]/(x₁x_i : i ≥ 1)` the complex `R →^{x₁} R` is perfect but its `H₁ = Ann(x₁) = (x₁,x₂,…)` is not finitely generated. The linear classes of the variables are independent modulo the square of that ideal, while coherence would make this kernel finite ([Stacks, Tag 05CW](https://stacks.math.columbia.edu/tag/05CW)). `noncoherent_squareZero_polynomial_ring` states the failure of coherence on `MvPolynomial ℕ k`, with `x₁` indexed by 0. Thus `τ_{≥1}` need not preserve perfect complexes and `D^p(R)` does not inherit the t-structure.
+- Over `R = k[x₁,x₂,…]/(x₁x_i : i ≥ 1)` the complex `R →^{x₁} R` is perfect but its `H₁ = Ann(x₁) = (x₁,x₂,…)` is not finitely generated. The linear classes of the variables are independent modulo the square of that ideal, while coherence would make this kernel finite ([Stacks, Tag 05CW](https://stacks.math.columbia.edu/tag/05CW)). In `MvPolynomial ℕ k` the distinguished variable `x₁` is indexed by 0. Thus `τ_{≥1}` need not preserve perfect complexes and `D^p(R)` does not inherit the t-structure.
 - For `R = ℤ (d = 1)`: `D(ℤ/2[0]) = ℤ/2[−1]` lies in `D^p(ℤ)_{≥−1}` and not in `D^p(ℤ)_{≥0}`.
 - For a field `(d = 0)` the duality exchanges the two halves and the heart is `Proj(K)`.
 
@@ -1213,6 +1215,8 @@ This gives `burnside_l_theory`.
 #### Quadratic Witt group over `𝔽₂`
 
 Construct `arfInvariantF2` for nonsingular quadratic forms on finite-dimensional `𝔽₂`-vector spaces. For a symplectic basis `(e_i,f_i)` of the polar form, it is `Σ_i q(e_i)q(f_i) ∈ 𝔽₂`. Prove independence of the symplectic basis, invariance under isometry, orthogonal additivity and vanishing on metabolic forms. Using the quadratic Witt quotient of §3.4, prove `arfInvariantF2_wittEquiv : W^q(𝔽₂) ≃ ℤ/2` as an isomorphism of additive groups. Split into nonsingular planes and reduce to the hyperbolic plane and the Arf-one plane; two Arf-one planes have a Lagrangian. This supplies both completeness of the invariant and the representative of its nonzero class. (Source: Paper III, proof of Corollary 2.3.10, p. 45, for the finite-characteristic-two Witt calculation.)
+
+In `Suggested.lean`, `arfInvariantF2` is defined intrinsically from the cardinalities of the zero and one fibres of a quadratic form. The statement `arfInvariantF2_eq_sum` identifies it with the symplectic-basis formula, and `arfInvariantF2_classifies` states that two nonsingular forms have the same invariant exactly when their orthogonal sum has a half-dimensional subspace on which the quadratic form vanishes. This expresses the complete Witt invariant on Mathlib's `QuadraticForm` and `Submodule` carriers.
 
 **Checks.**
 
