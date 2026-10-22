@@ -43,7 +43,8 @@ locally analytic manifold and distribution theory belongs to LocallyAnalyticDist
 local derived inverse-limit tower and its Shapiro comparison are constructed independently of `ψ` in §5.0.
 SelmerIwasawaCohomology Layer 3 uses this local interface in its global theory. Finite discrete cochains come
 from ProfiniteCohomology; §0.6 extends them to compact coefficients and proves the continuous descent
-statements required here. ArithmeticGaloisDuality D7 can use these local compact-coefficient interfaces.
+statements required here, with canonical comparisons to NoncommutativeAndEquivariantIwasawa §F.3 on
+its finite-`O_E`/E coefficient domain. ArithmeticGaloisDuality D7 consumes that shared arithmetic API.
 Period-ring acyclicity with Banach coefficients is proved in §3.6.
 
 The only Bloch–Kato construction made here is the local exponential and its image `H¹_e` needed for the
@@ -163,7 +164,9 @@ coefficients. Its Layers 6–7 supply the continuous local Artin map and geometr
 and Layer 9 the topological Weil group and reciprocity. LocalFieldsRamification Layer 2 supplies finite
 unramified extensions and their Frobenius maps.
 
-AdicSpaces Layer 6 supplies the underlying adic Fargues–Fontaine curve with coefficient field `ℚ_p`.
+AdicSpaces Layer 6 supplies the underlying adic Fargues–Fontaine curve with coefficient field `ℚ_p`,
+corresponding to `d=1`. Section 1.0c constructs the `φ^d` curves and their d-dependent patching rings for
+all `d>0`, together with the finite étale maps relating different exponents.
 AdicSpacesPartII §§R0.3 and R0.5 supply completed tensor products of Huber pairs and Banach modules with
 their universal properties; its analytic/schematic chart comparisons are used with AlgebraicVectorBundles
 Layers 0–2 for bundles and finite-projective modules. Section 1.0c here constructs the
@@ -172,11 +175,20 @@ hypotheses. CrystallineCohomology §CR.4.7 supplies higher-rank Dieudonné–Man
 perfect-field isocrystals; §1.0b constructs the Robba slope filtration and pure descent, without assuming a
 slope filtration for affinoid families.
 
+On the finite-`O_E`/E domain, NoncommutativeAndEquivariantIwasawa §F.3 supplies
+`arithmeticContinuousCochains`, `arithmeticHochschildSerre` and `arithmeticLocalDuality`, including lattice
+independence, coefficient maps, evaluation cups, restriction/corestriction and the normalized local invariant.
+Section 0.6 constructs its specified derived-limit and bar models and compares them with those objects and
+maps. The period-coefficient acyclicity and Herr comparisons remain the targets of §3.6.
+
 ### From analytic roadmaps
 
 ColemanPowerSeries §§1.45–1.49, “Trace and Frobenius scalars” through “The zeroth Frobenius coordinate is
-psi”, supplies the integral zeroth Frobenius coordinate `ψ` on `ℤ_p[[π]]`, its trace identity `pψ=φ⁻¹Tr` and
-trace divisibility before reduction. PadicMeasuresIwasawaAlgebras §2.2 identifies this `ψ` with the
+psi”, is a direct prerequisite of §2.5. It supplies the integral zeroth Frobenius coordinate `ψ` on
+`ℤ_p[[π]]`, its trace identity `pψ=φ⁻¹Tr` and
+trace divisibility before reduction, including `phiBasis_repr_zero_eq_psi`. Its integral trace comparison
+in §1.48 consumes IntegralIwasawaTheory §7.1: the supplier chain is IntegralIwasawaTheory →
+ColemanPowerSeries → this roadmap. PadicMeasuresIwasawaAlgebras §2.2 identifies this `ψ` with the
 measure operator and `ψ`-zero with support on units. Its §3a.1 supplies the universal character and
 weight-space components for `ℤ_p^×`, including `{±1}×(1+4ℤ₂)`, through PadicFunctionalAnalysis §§5.1–5.3.
 PadicFunctionalAnalysis §§4.3–4.4 and 4.7 supply the one-variable analytic stages, algebraic
@@ -390,9 +402,19 @@ characteristic preserved. The Tate dual of a lattice is the compact/discrete dua
 after rationalization it is `V^∨(1)`. API: finite descent transitivity and transfer,
 `compactLocalTateDuality`, `rationalLocalTateDuality`, normalized cup invariant. Sources: CC-1999 §II; Liu §2
 and Theorem 0.2; KPX Theorem 2.3.11. These are compact/rational extensions of the finite-coefficient supplier,
-not a new finite duality theorem. These are the finite-`O_E`/E specialization exported to
-ArithmeticGaloisDuality D7: reduction and rationalization identify its evaluation cup and invariant
-with this same local pairing; admissible coefficients beyond this specialization retain their own theory.
+not a new finite duality theorem.
+
+Construct `compactGaloisComplex_arithmeticComparison` on the common finite-`O_E`/E domain with
+NoncommutativeAndEquivariantIwasawa §F.3's `arithmeticContinuousCochains`, `arithmeticHochschildSerre` and
+`arithmeticLocalDuality`. Compare the finite-level homogeneous/inhomogeneous cochains, take the same derived
+coefficient limit and rationalization, and identify the bar-totalization roofs. For the comparison `θ_T`,
+require `θ_U ∘ C_here(f) = C_arithmetic(f) ∘ θ_T` for `f:T→U` and
+`θ_(T⊗U)(a∪b)=θ_T(a)∪θ_U(b)`, with derived tensors where required. Restriction and corestriction commute
+with θ, and the duality comparison carries evaluation and the degree-two trace to the same invariant.
+These are equations in the derived category, retaining the coherent quotient actions. ArithmeticGaloisDuality
+D7's finite-`O_E`/E specialization is compared through this arithmetic API. Sources:
+NoncommutativeAndEquivariantIwasawa §F.3; Nekovář, *Selmer complexes*, §§3.7, 4.2.1–4.2.9 and
+§§5.2.2–5.2.7. *Needs:* NoncommutativeAndEquivariantIwasawa §F.3; the finite cochains and limit contracts above.
 
 **Checks.**
 
@@ -412,6 +434,12 @@ with this same local pairing; admissible coefficients beyond this specialization
   compact finite descent is the identity roof.
 - On `ℚ_p`, the ordered pair `χ_ur,κ(p)` has invariant `+1`; exchanging the classes negates it. The same
   normalization is retained under lattice change.
+- For `T=O_E` and `f=ϖ`, both routes around the coefficient square multiply cochains by `ϖ`; the comparison
+  before rationalization retains the reduction triangle.
+- For two degree-one classes, θ preserves their evaluation cup and its sign under interchange; at `ℚ_p`
+  it sends the ordered `χ_ur,κ(p)` invariant to `+1` in the arithmetic model.
+- For an open subgroup, both routes around the corestriction square give the same transfer; for the identity
+  subgroup inclusion the square reduces to θ itself.
 
 ### Examples
 
@@ -541,47 +569,60 @@ global integral lattice; comparison with `isogenyLocalSystem` requires an integr
 
 ### 1.0c Period sheaves, curve charts and B-pairs
 
-For a perfect uniform base and its untilt, construct `periodModuleBundleComparison` from finite-projective
-extended Robba `φ`-modules to bundles on the supplied adic Fargues–Fontaine curve. Glue the annular charts
-along Frobenius, and prove full faithfulness and effectivity by the same restriction and Frobenius-generation
-maps. Compare the adic realization with the schematic curve realization by the chartwise coherent-module
-correspondence. Construct the relative curve by these annular charts for a perfect uniform base, agreeing with
-the supplied field curve on field bases. On Spa `K` define the corresponding period-sheaf objects with their
-Frobenius descent, and their nonequivariant two-piece period objects `(W_e,W_dR^+)`, with finite-projective
-terms and an isomorphism over `B_dR`; over a field, `W_dR^+` is a full lattice.
-Define their chartwise relative version `RelativeBPair`, including morphisms, pullback and the classical
-localization square `RelativeBPair_classical`. The bundle and two-piece objects here carry no Galois
-equivariance. Prove the `φ^d`-module, bundle and two-piece period equivalences, for `d>0`, with their actual
-localization maps, tensor, dual and exactness. On relative charts retain the untilt Cartier divisor,
-completion and punctured completion; the gluing is independent of its local equation.
-For finite `E` include coefficient extension and field restriction/trace. Sources:
-KL-I Theorems 6.3.12, 8.7.7 and 8.9.6, manuscript pp.141–142,178,188. The cyclotomic-equivariant and all-component assertions are added in §1.6,
-not assumed here.
+Fix `d>0`, a perfect uniform adic Banach pair `(R,R⁺)` in characteristic p, and a perfectoid untilt
+`(A,A⁺)` over `ℚ_p` with its identification `(A♭,A♭⁺)=(R,R⁺)`. Using §1.0b's period rings, construct the graded ring
+`P_(R,d)=⊕_(n≥0){x∈R̃_R^+ : φ^d(x)=p^n x}`, the schematic curve `X_(R,d)=Proj(P_(R,d))` and its adic
+realization `FF_(R,d)=U_R/φ^(dℤ)`, where `U_R` is the union of the annular adic charts. Construct
+`periodModuleBundleComparison R d` between finite-projective extended Robba `φ^d`-modules and bundles on
+these curves, with their restriction and Frobenius-gluing maps. Prove exact tensor equivalences,
+including full faithfulness, effectivity and dual compatibility. The adic/schematic comparison is the
+chartwise coherent-module correspondence. At `d=1` and a field base it agrees with the supplied curve.
+For `e>0`, construct the finite étale degree-e map `X_(R,ed)→X_(R,d)` and its adic counterpart, induced by
+quotienting by `φ^d`; pullback corresponds to iterating the module's Frobenius e times. Sources: KL-I
+Definition 6.3.1, Theorems 6.3.12 and 8.7.7, Definition 8.7.11, manuscript pp.138,141–142,178–179.
 
-Construct `frobeniusPeriodSheafRoof` identifying Frobenius cohomology of the period-sheaf realization with its
-native derived sheaf cohomology and the two-piece B-pair complex. Use positive Koszul twists and annular
-acyclicity to compare the same local sections, then formal patching and descent; give the induced maps on `H⁰`
-and `H¹`, with tensor cups, restriction and trace comparisons. Sources: KL-I Theorems 8.7.13 and
-8.9.6, with §9.4 for sheafification; FF §11.5; Liu §2. Its scalar period topology and fundamental identity are those of PadicPeriodRings; this target is the
-additional module/sheaf comparison. API: `periodModuleBundleComparison_localize`,
-`periodModuleBPairComparison`, `frobeniusPeriodSheafRoof_cup`, `frobeniusPeriodSheafRoof_trace`, base change
-and chart restriction. Export this same roof as `relativePeriodDerivedComparison` for the chartwise
-`φ^d`-complex and the difference-map complex of `RelativeBPair`, using pro-étale hypercohomology after
-sheafification. The annular differential lands in the common domain `[s,r/p^d]` for `0<s≤r/p^d`;
-KL-I Proposition 6.3.19 gives the radius quasi-isomorphisms. Positive-twist Koszul resolutions and the
-formal-patching maps of KL-I Proposition 1.3.6 give the augmentations, with projections and cups retained.
-*Needs:* §1.0, §1.0b, native bundles, AdicSpaces Layer 6 and the exact geometric
-contracts above.
+The chosen untilt gives a Cartier divisor `Z_(R,d)` on `X_(R,d)` by its theta section. Construct the
+patching rings `B_(e,R,d)=Γ(X_(R,d)∖Z_(R,d),O)`, `B_(dR,R,d)^+` from the completion along `Z_(R,d)`, and
+`B_(dR,R,d)` from its punctured completion. On a chart with regular divisor equation u, the last ring is
+`B_(dR,R,d)^+[1/u]`; give the localization and completion maps and independence of u. The complement and
+completion are affine as in KL-I Lemma 8.9.3 and Definition 8.9.4, manuscript p.187. Define
+`RelativeBPair R d A` as triples of finite-projective modules over these three rings, with an isomorphism
+between the two scalar extensions to `B_(dR,R,d)`. Include morphisms, pullback and exact tensor and dual
+operations. Prove `periodModuleBPairComparison R d A` is the exact tensor equivalence given by formal
+patching on this same curve. Over a field the completed term is a full lattice. For a perfectoid chart over Spa `K`, sheafify these constructions
+with their Frobenius descent. The objects here carry no Galois equivariance. The adapter
+`RelativeBPair_classical` specializes to `d=1` and the ordinary `(B_e,B_dR^+,B_dR)` square; the equivariant
+assertions are §1.6. For finite `E` include coefficient extension and field restriction/trace. Sources: KL-I
+Theorem 8.9.6 and Definitions 9.3.9, 9.3.11, manuscript pp.188,197.
+
+Construct `frobeniusPeriodSheafRoof R d A` identifying the `φ^d−1` cohomology of the period-module
+realization with its native derived bundle cohomology and the difference-map complex of
+`RelativeBPair R d A`. Use positive Koszul twists and annular acyclicity to compare the same local sections,
+then formal patching and descent; give the induced maps on `H⁰,H¹`, tensor cups, restriction and trace.
+Export this roof as `relativePeriodDerivedComparison R d A` on the same d-dependent objects, using pro-étale
+hypercohomology after sheafification. The annular differential lands in the common domain `[s,r/p^d]` for
+`0<s≤r/p^d`; KL-I Proposition 6.3.19 gives the radius quasi-isomorphisms. Positive-twist Koszul resolutions
+and the patching maps of KL-I Proposition 1.3.6 give the augmentations, retaining projections and cups.
+Sources: KL-I Theorems 8.7.13 and 8.9.6, with §9.4 for sheafification; FF §11.5; Liu §2. Its scalar period
+topology and fundamental identity are those of PadicPeriodRings at `d=1`. API:
+`periodModuleBundleComparison_localize`, `frobeniusPeriodSheafRoof_cup`, `frobeniusPeriodSheafRoof_trace`,
+base change and chart restriction. *Needs:* §1.0, §1.0b, native bundles, AdicSpaces Layer 6 and the exact
+geometric contracts above.
 
 **Checks.**
 
-- The unit module gives the structure line, the unit B-pair and the constant section 1 in `H⁰` under the
-  specified roof.
-- The trivial and Tate cyclotomic lines have the same underlying `φ(e)=e` module. Their Galois
+- The unit `φ^d`-module gives the structure line on `X_(R,d)` and its unit patching triple; the roof sends
+  its fixed section 1 to 1.
+- For `R=ℂ_p^♭` and `d=2`, the tensor-unit endomorphisms and `H⁰(X_(R,2),O)` are both `ℚ_(p²)`. At `d=1`
+  they are `ℚ_p`; an equivalence to that fixed curve at `d=2` would fail this test (KL-I Lemma 4.2.10).
+- The finite étale map `X_(R,2)→X_(R,1)` has degree two; its pullback on unit sections is
+  `ℚ_p→ℚ_(p²)` and its trace is the degree-two field trace.
+- The trivial and Tate cyclotomic lines at `d=1` have the same underlying `φ(e)=e` module. Their Galois
   distinction requires §1.6; nonequivariant equivalence cannot recover a forgotten action.
-- Rank zero gives zero bundles and zero B-pair terms. Direct sums and dual evaluation commute with each
+- Rank zero gives zero bundles and patching terms. Direct sums and dual evaluation commute with each
   localization map.
-- A non-full-rank `B_dR^+` submodule is excluded by the lattice condition, even if its localization exists.
+- A non-full-rank completed submodule over a field is excluded by the lattice condition.
+- Replacing u by a unit multiple leaves the completion/localization square and patching triple unchanged.
 - An annular chart followed by Frobenius restriction gives the same bundle transition as restriction followed
   by Frobenius; unrelated categorical equivalences do not meet this test.
 
@@ -873,7 +914,9 @@ Construct `periodPsi` on `A_K, A_K^†, B_K, R_K` and the relative annuli by the
 finite-free Frobenius expansion. On the positive `ℚ_p` ring it agrees with the supplied Coleman operator. On
 rational rings prove `ψ=p⁻¹φ⁻¹Tr_{R/φ(R)}`; on integral rings first construct the coordinate map, prove
 `Tr=pφψ`, and only then reduce modulo `p^n`. Trace divisibility alone in characteristic `p` does not specify
-`ψ`. Sources: CC-1998 §III.2, pp.16–19; KPX §2.2, pp.16–18; the Coleman contract.
+`ψ`. Sources: CC-1998 §III.2, pp.16–19; KPX §2.2, pp.16–18; ColemanPowerSeries §§1.45–1.49, especially
+`phiBasis_repr_zero_eq_psi`. *Needs:* ColemanPowerSeries §§1.45–1.49, with its integral trace from
+IntegralIwasawaTheory §7.1; §1.1 and §2.2.
 
 Prove continuity in the actual integral weak topology and each admissible annulus topology. In the standard
 basis extract each coordinate as a trace against a dual basis; the annular trace bounds give constants
@@ -1045,27 +1088,109 @@ Definition 2.3.3 and Remark 2.3.4, pp.20–21.
 
 ### 3.4a Field Herr comparison, Euler characteristic and duality
 
-For every finite-dimensional E-representation V of G_K, construct `fieldHerrGaloisComparison V` between
-continuous `RΓ(K,V)` of §0.6 and the arithmetic signed Herr complex of its realization from §1.0. Use the
-norm-field Frobenius exact sequence and the Γ resolution; compare the degree-one cocycle, transfer and tensor
-maps with their supplied continuous counterparts. For every finite-projective field Robba (φ,Γ_K)-module D,
-including non-étale D, prove finite-dimensionality in degrees 0,1,2, vanishing outside those degrees, Euler
-characteristic `−[K:ℚ_p]rank(D)` and perfect Tate duality `H^i(D)×H^(2−i)(D^∨(1))→E`. The cohomological cup is
-the signed tensor cup, with degree-one formula `x₂⊗γ(y₁)−x₁⊗φ(y₂)`. Identify its invariant with the normalized
-Galois invariant on representations and propagate duality to arbitrary D by the field slope filtration of
-§1.0b. Sources: Liu Theorems 0.1–0.2 and §2; KPX Proposition 2.3.7, Definition 2.3.10 and Theorem 2.3.11,
-pp.22–24. API: `fieldHerrGaloisComparison_cup`, `fieldHerrEulerCharacteristic`, `fieldHerrTateDuality`,
-naturality, restriction/trace and coefficient-field extension. Integral/affinoid extensions are §3.6, the
-residue normalization is §3.8, and no relative finiteness theorem is used here.
+Here `E/ℚ_p` and `K/ℚ_p` are finite, and all Robba coefficients are field-valued. The constructions below
+use §1.0b's field slope filtration and localization, without relative finiteness or the later ψ-finiteness
+argument of §4.3.
+
+**Étale field comparison.** For every finite-dimensional continuous E-representation V of G_K, construct
+`fieldHerrGaloisComparison V` between continuous `RΓ(K,V)` of §0.6 and the arithmetic signed Herr complex of
+its realization from §1.0. Use the norm-field Frobenius exact sequence and the Γ resolution; compare the
+cocycle, transfer and tensor maps. Transfer finiteness, the Euler formula and local duality from §0.6 to
+étale modules. The cohomological cup is the signed tensor cup, with degree-one formula
+`x₂⊗γ(y₁)−x₁⊗φ(y₂)`, and its invariant is the normalized Galois invariant. Sources: Liu §2, especially
+Theorem 2.6 and Corollary 2.9; KPX Proposition 2.3.7 and Definition 2.3.10, pp.22–23. API:
+`fieldHerrGaloisComparison_cup`, restriction/trace and coefficient-field extension.
 
 **Checks.**
 
-- The trivial field line has `h⁰=1`, `h²=0` and `h¹=[K:ℚ_p]+1`; the Tate line exchanges h⁰ and h² and has the
-  same Euler characteristic.
-- Rank zero gives zero groups and the zero Euler characteristic. A nonzero-slope rank-one D is included in the
-  duality theorem even when it is not the realization of a representation.
-- With trivial scalar operators, `(1,0)∪(0,1)=−1` and `(0,1)∪(1,0)=1`, pinning the degree-two sign in the
-  field roof.
+- The trivial field line has `h⁰=1`, `h²=0` and `h¹=[K:ℚ_p]+1`.
+- The Tate line has `h⁰=0`, `h²=1` and the same Euler characteristic as the trivial line.
+- With trivial scalar operators, `(1,0)∪(0,1)=−1` and `(0,1)∪(1,0)=1`, fixing the degree-two sign.
+
+**Torsion Herr calculation.** Define generalized field `(φ,Γ_K)`-modules as finitely presented Robba
+modules with commuting continuous actions and invertible Frobenius linearization. For a Robba-torsion object
+S, construct `fieldTorsionHerrCohomology`: `φ−1` is surjective, `H²(S)=0`, and
+`dim_E H⁰(S)=dim_E H¹(S)<∞`, hence `χ(S)=0`. Reduce by Shapiro to `K=ℚ_p`, filter S by pure t-power-torsion
+objects, and use the cyclotomic product localizations modulo `t^k`. Frobenius shifts the product factors;
+the finite-level Γ calculation bounds the invariants and coinvariants. Sources: Liu §3, especially
+Proposition 3.1, Theorem 3.3, Theorem 3.7 and Corollary 3.8, manuscript pp.17–22.
+
+**Checks.**
+
+- For `S=0` all groups vanish and the Euler characteristic is zero.
+- For `K=ℚ_p` and `S=R_E/tR_E`, one has `h⁰=h¹=1` and `h²=0`; zero Euler characteristic does not imply
+  acyclicity.
+- For a t-power-torsion quotient, the φ shift on its cyclotomic product factors is retained; replacing it
+  by the identity loses the surjectivity of `φ−1`.
+
+**t-twist finiteness and Euler invariance.** For a finite-projective field module D and every integer n,
+prove `fieldHerrTTwist`: `H^i(t^nD)` is finite-dimensional if and only if `H^i(D)` is, for each `i=0,1,2`;
+when these groups are finite, `χ(t^nD)=χ(D)`. Use the long exact sequence of `tD→D→D/tD` and the preceding
+torsion calculation, then iterate in both directions. This asserts finiteness and Euler invariance, not
+isomorphisms on individual groups. Source: Liu Lemma 4.1, manuscript p.22.
+
+**Checks.**
+
+- The case `n=0` is the identity comparison.
+- Over `ℚ_p`, `R_E` has a fixed constant whereas `tR_E` has `H⁰=0`; t-twist invariance cannot mean equal
+  cohomology dimensions in each degree.
+- The torsion quotient in `0→tD→D→D/tD→0` contributes Euler characteristic zero even when its `H⁰,H¹`
+  are nonzero, so the Euler equality still holds.
+
+**Auxiliary pure extension.** For every integer `d≥1`, construct `fieldAuxiliaryPureExtension d`, a
+rank-d pure field module of slope `−1/d` in the standing KPX convention, with a filtration whose first
+nonzero term is `tR` and whose remaining successive factors are unit lines. Induct by a nonsplit extension
+of the unit line by the rank-`d−1` object. Its nonzero `H¹` follows solely from the étale unit Euler formula,
+t-twist invariance and extension additivity. A destabilizing subobject would inject into the unit quotient
+and force the extension to split, proving purity. The same construction works over `R_{E,K}` for the
+stated finite E and K. Source: Liu Lemma 4.2, manuscript p.22; his slope `+1/d` has the opposite sign. No general field finiteness theorem or ψ-cokernel theorem is used in this construction.
+
+**Checks.**
+
+- At `d=1` the object is `tR`, of slope `−1`.
+- At `d=2`, the split object `tR⊕R` has two slopes and fails the pure slope `−1/2` conclusion; the extension
+  class must be nonzero.
+- The object has determinant degree `−1` and rank d, so its slope is `−1/d`; dualizing the construction would give
+  the wrong sign for §4.3.
+
+**General field finiteness and Euler characteristic.** For every generalized field module D, prove
+`fieldHerrEulerCharacteristic`: its Herr groups are finite-dimensional, vanish outside degrees 0,1,2,
+and satisfy `χ(D)=−[K:ℚ_p]rank(D)`, where rank ignores the torsion part. Use the torsion calculation,
+Shapiro and the slope filtration. For a pure module, tensor products, duals and t-twists of the auxiliary
+objects give a pure F of opposite slope with a filtration by integer t-twists of unit lines. Then `D⊗F`
+is étale and is filtered by t-twists of D. The independent localization bound on `H⁰` and the long exact
+sequences first give finiteness of `H¹`, then `H²`; t-twist invariance and Euler additivity give
+`χ(D⊗F)=rank(F)χ(D)`. The étale formula therefore gives the general formula. Sources: Liu Theorem 4.3
+and its proof, manuscript pp.22–23; KPX Theorem 2.3.11, p.24.
+
+**Checks.**
+
+- Rank zero gives zero Euler characteristic, including nonzero Robba-torsion objects.
+- For a non-étale pure rank-d object of degree `−1`, the Euler characteristic is still `−d[K:ℚ_p]`;
+  reduction only to pure modules would not establish it.
+- For an extension of two different slopes, the Euler characteristics add with their ranks; no pure-slope
+  hypothesis is imposed on the result.
+
+**General field Tate duality.** For every finite-projective field module D, prove `fieldHerrTateDuality`:
+the normalized signed cup `H^i(D)×H^(2−i)(D^∨(1))→E` is perfect. First prove the two-out-of-three result
+for a short exact sequence from the paired long exact sequences. For `K=ℚ_p`, obtain the seed for `R(|x|)`
+and `tR` from a nonsplit étale extension `0→tR→U→R(|x|)→0`, using the general Euler formula and étale
+duality. For a pure D use the degree `ν(D)=−deg(D)` in Liu's convention; duality permits `ν(D)≥0`.
+At degree zero use étale duality. At positive degree s the Euler formula produces a nonsplit extension
+`0→D→U→R(|x|)→0`. The slope argument gives pure factors of U with nonnegative ν-degree strictly below s,
+whose total ν-degree is `s−1`; induction and the seed give duality for D. Shapiro and extension stability
+then handle arbitrary K and slope filtrations. Sources: Liu Lemmas 4.4–4.5 and Theorem 4.7, manuscript
+pp.24–25; KPX Theorem 2.3.11, p.24. Retain naturality, restriction/trace and coefficient-field extension.
+Integral/affinoid extensions are §3.6 and the residue normalization is §3.8. Section 4.3 uses the already
+constructed `fieldAuxiliaryPureExtension`, rather than supplying an input to this field proof.
+
+**Checks.**
+
+- A nonzero-slope rank-one D is covered even though it need not come from a Galois representation.
+- The degree-zero induction case is precisely the étale theorem; a slope filtration alone leaves the
+  positive ν-degree cases unresolved.
+- The `d=2` auxiliary pure extension has `ν=1`; the lowering extension has total `ν=0` and is étale,
+  whereas the split `tR⊕R` cannot replace that pure auxiliary object.
 
 ### 3.5 Invertibility on ψ-zero and field character calculations
 
@@ -1393,8 +1518,9 @@ specify normalization together; no numerical value of `C_p` is suppressed. API: 
 For a finite extension `E/ℚ_p`, prove `fieldPsiPerfect`: `Cψ(M)` is bounded perfect over `R_E^∞(Γ_K)`, and
 `(φ−1)M^{ψ=1}` is finite free of rank `[K:ℚ_p]rank(M)` on each analytic `Γ` component. Reduce `K` to `ℚ_p` by
 finite induction. The slope filtration and t-quotient resolution reduce this to pure slopes and then, by
-induction on the numerator of the slope, to the étale case. For the induction construct a pure rank-d slope
-`−1/d` module as an extension of `d−1` unit lines by `tR`; tensoring lowers the numerator, and the long exact
+induction on the numerator of the slope, to the étale case. For the induction use §3.4a's
+`fieldAuxiliaryPureExtension d`, with first filtration term `tR` and
+`d−1` unit-line successive factors; tensoring lowers the numerator, and the long exact
 `ψ` sequence after replacing `M` by `t^{−n}M` for sufficiently large `n` gives finite generation and
 coadmissibility. This auxiliary extension is the one constructed in Liu Lemma 4.2, manuscript p.22, using the
 nonzero `H¹` of the preceding extension and excluding a destabilizing subobject by its map to the unit
@@ -1704,17 +1830,21 @@ Here `A=E` is a finite extension of `ℚ_p` and `K=ℚ_p`. Apply the field doubl
 `Γ` scalar extension are retained. The additional target here is a criterion that verifies those hypotheses in
 the nontrianguline case.
 
-For a rank-two `ℚ_p` module whose localization at t has no rank-one subobject, prove both vanishings before
-applying this theorem. Indeed a nonzero finite-dimensional continuous `Γ`-representation `M/(ψ−1)` has, after
+For a finite-projective rank-two `(φ,Γ)`-module M over `R_{E,ℚ_p}`, define
+`geometricallyNontriangulineLocalized M` to mean that
+`(M⊗_E E′)[1/t]` has no rank-one `(φ,Γ)`-subobject for every finite coefficient extension `E′/E`. Under this
+hypothesis prove both ψ-cokernel vanishings before applying the theorem. Indeed a nonzero finite-dimensional
+continuous `Γ`-representation `M/(ψ−1)` has, after
 finite coefficient extension, a character quotient `η`. Extend `η` to `ℚ_p^×` by choosing its unramified value
 equal to one. The top-degree specialization of `Cψ(M)` at `η` gives a nonzero `H²` of the corresponding
 character twist of `M`. Field duality gives a nonzero `H⁰` of its Tate dual. Saturate the resulting rank-one
 submodule over the Robba Bézout ring and apply `qpadicRankOneClassification`; localization gives a forbidden
-rank-one subobject of M*[1/t]. In rank two such a subobject also gives one in M[1/t], by dualizing the
-rank-one quotient. The same argument applies with `M` and M* interchanged. Both vanishings thus follow without
-any family classification or global triangulation theorem. This is
-`nontriangulineLocalized_psiCokernel_vanish`, deduced from §§3.5,4.2,4.5, not an extra hypothesis silently
-inferred from de Rham weights.
+rank-one subobject of `(M*⊗_E E′)[1/t]`. Dualize and undo the Tate twist to obtain a rank-one quotient of
+`(M⊗_E E′)[1/t]`; in rank two its kernel is a forbidden rank-one subobject. The same argument applies with M and M*
+interchanged, and faithful coefficient extension reflects vanishing. This proves
+`nontriangulineLocalized_psiCokernel_vanish`, with the hypothesis over every finite E′, using
+§§3.5,4.2,4.5. Sources: KPX Proposition 6.2.8, pp.58–59, Lemma 4.3.5, p.40, and the character-specialization
+and duality comparisons above. No family triangulation or de Rham weight condition supplies this hypothesis.
 
 **Checks.**
 
@@ -1726,6 +1856,11 @@ inferred from de Rham weights.
   deleted.
 - A rank-two trianguline module can have rank-one localized subobjects; the nontrianguline vanishing criterion
   does not apply to it.
+- For `p=3`, `E=ℚ₃`, `L=ℚ₃(ζ₃)` and an order-three character `η:Γ→μ₃(L)` trivial on the order-two
+  torsion, put `V=Res_(L/E)L(η)` and `M=R_E⊗_E V`, with φ fixing V. Over L its character lines η and η⁻¹
+  are exchanged by `Gal(L/E)` and have nonalgebraic ratio, so no rank-one subobject of `M[1/t]` descends to
+  E. Nevertheless `M^{φ=1}` contains V, and residue adjunction injects it into
+  `Hom_E(M*/(ψ−1),E)`, so that dual cokernel is nonzero. The geometric hypothesis excludes this example.
 
 ### 5.6a De Rham differential-equation realization
 
@@ -1776,8 +1911,10 @@ Now specialize to `K=ℚ_p` and the Dospinescu–Le Bras setting: `π` is a supe
 representation with trivial central character, `Π` is an absolutely irreducible admissible unitary Banach
 completion with smooth part `π`, and `V` is its absolutely irreducible two-dimensional de Rham representation
 with weights (0,1) in their convention, hence `(−1,0)` in the standing Hodge–Tate convention, and determinant
-`χ`. For the generation consequence explicitly assume that `D_rig(V)` is nontrianguline; establishing this
-from a local Langlands correspondence belongs to its owner. Define `allLevelExponentialImage V` as the
+`χ`. For the generation consequence explicitly assume
+`geometricallyNontriangulineLocalized (D_rig(V))`, including every finite coefficient extension; deriving
+this stronger hypothesis from local Langlands data requires a theorem at the correspondence's owner.
+Define `allLevelExponentialImage V` as the
 `ψ`-fixed classes whose integrations at every sufficiently deep cyclotomic level belong to `H¹_e(K_n,V)`.
 Using `N_rig(V)` from §5.6a, with its unfiltered de Rham lattice localization, prove that this condition is
 exactly membership in `(tN_rig(V))^{ψ=1}`. Applying `1−φ` is injective here. Use the containment
@@ -1795,8 +1932,9 @@ condition kills the negative/constant obstruction in the de Rham localization, w
 `tN_rig`.
 
 For the generation consequence of §5.6 with `M=tN_rig(V)`, verify both cokernels by its
-nontrianguline-localized criterion: `M[1/t]=D_rig(V)[1/t]`; a rank-one subobject would saturate to a
-triangulation of `D_rig(V)`, excluded by that explicit nontriangulinity assumption. This supplies the annular
+geometric criterion: for every finite `E′/E`, one has
+`(M⊗_E E′)[1/t]=(D_rig(V)⊗_E E′)[1/t]`, so the same absence of rank-one subobjects applies to M.
+This supplies the annular
 generation statement with its scalar extension. It does not supply a GL₂ involution, its semilinearity or its
 radius estimates. API: `allLevelExp_iff_tNrig`, `allLevelExp_oneSubPhi_injective`,
 `tNrig_psiCokernels_vanish`, and `tNrig_annularGeneration`.
@@ -1912,14 +2050,19 @@ Theorem 3.5 and proof, manuscript pp.10–12. Normalize the constant Frobenius m
 basis through the `ψ`-zero coordinate map, and use the small `Γ` operator estimates to prove generation and
 independence.
 
-For the prescribed rational crystalline-basis version `wachGoodBasis_exists`, assume `V` is positive with
-weights `−s_d≤⋯≤−s_1≤0`. For any E-basis `ν_i` of `D_cris(V)`, choose an `E⊗B^+` basis `n_i` of `N(V)` lifting
+For the prescribed rational crystalline-basis version `wachGoodBasis_exists`, define positivity by
+`Fil⁰D_cris(V)=D_cris(V)`. In the standing convention this means weights `0≤s_1≤⋯≤s_d`; LLZ-2011 §1.3.4
+and §2.1 label these by their negatives, `−s_d≤⋯≤−s_1≤0`. For any E-basis `ν_i` of `D_cris(V)`, choose
+an `E⊗B^+` basis `n_i` of `N(V)` lifting
 it such that `(1+π)φ(n_i)` form a `Λ_E(Γ)`-basis. After scalar extension the same vectors give a
 distribution-algebra basis of `(φ*N_rig(V))^{ψ=0}`. Sources: LLZ-2011 Proposition 2.11, Theorem 2.12 and
 Corollary 2.13, p.1115. Record separately the original twisted formulation in LLZ-2010 Lemma 3.15, manuscript
-pp.12–13: for positive weights `−r_d≤⋯≤−r_1≤0` and `m=Σr_i`, lifts `n_i` can be chosen so that
+pp.12–13: for a positive V with standing weights `0≤r_1≤⋯≤r_d`, source labels
+`−r_d≤⋯≤−r_1≤0` and `m=Σr_i`, lifts `n_i` can be chosen so that
 `(1+π)φ(π^{−m}n_i⊗e_m)` form a basis of `(φ*N(V(m)))^{ψ=0}`. Those vectors belong to the twisted module; they
-are not identified with coordinates for `V`. The global hypothesis `p` odd in both LLZ papers is retained.
+are not identified with coordinates for `V`. The Tate twist has the same meaning in both conventions:
+`V(m)` has standing weights `r_i−m`, while its source labels are `m−r_i`. The global hypothesis `p` odd
+in both LLZ papers is retained.
 
 Define `wachPsiZeroCoordinates` only from a chosen good basis, and prove inverse, coefficient extension,
 analytic extension and the matrix basis-change formula. If `n′=Bn`, the Frobenius vectors change by `φ(B)`, so
@@ -1937,8 +2080,11 @@ good; LLZ-2011 Remark 2.14, p.1116, records that stronger claim as conjectural. 
   matrix.
 - At `p=2` the odd-prime basis proof is not invoked; full `Γ` is not procyclic and its chosen generator
   argument needs a separate theorem.
-- For a positive Tate twist, the source's twist normalization changes the lattice and crystalline basis;
-  treating the same tuple as coordinates without that change fails the reduction comparison.
+- The trivial line has weight zero and `Fil⁰D_cris=D_cris`, so it is positive. The line `ℚ_p(1)` has
+  standing weight `−1` and `Fil⁰D_cris=0`, so it is not positive; `ℚ_p(−1)` has standing weight `+1`,
+  source label `−1`, and is positive.
+- For a positive line of standing weight r, the original twisted formulation has `m=r`, so `V(m)` has
+  weight zero and its Wach basis is `π^(−r)n⊗e_r`; the twist changes the lattice and crystalline basis.
 
 ### 6.3 Wach vectors in integral Iwasawa cohomology
 

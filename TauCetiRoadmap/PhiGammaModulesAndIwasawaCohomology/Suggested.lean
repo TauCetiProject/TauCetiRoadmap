@@ -644,7 +644,10 @@ present at the pins: PhiModule and its skew-ring cohomology; fixed-idempotent de
 ASW basis torsors and descent; small BCH and Greenberg groups; all-component coefficients;
 integral and extended étale modules; relative annuli and RelativePhiGammaModule;
 integral overconvergent lattices; radius models and decompletion; equivariant period-sheaf
-realizations; character-type lines over Q_p and general K; native Herr complexes, maps,
+realizations; RelativeBPair and relativePeriodDerivedComparison with the same positive
+Frobenius exponent d, its graded-ring curve, untilt divisor and patching rings; the
+RelativeBPair_classical specialization at d = 1; character-type lines over Q_p and general K;
+native Herr complexes, maps,
 resolvents, chain sections, homotopies, generator changes, arithmetic Δ models and dyadic
 derived descent; localized Herr complexes and their stable lattices; period ψ and module ψ;
 relative analytic Γ rings and coadmissible modules;
@@ -654,7 +657,9 @@ exponential; the all-level exponential-image condition; unramified Wach base cha
 good bases and their coordinate maps; CharacterWeights and the Sen adapter; rank-one
 support graphs, coefficient line bundles, Triangulation, flattening modifications and
 coherent flags with t-power defects; senModule and senPolynomial for arbitrary affinoid
-relative modules; finiteDiscreteHochschildSerreRoof with its coherent quotient action. Their full API and checks are in README.md.
+relative modules; finiteDiscreteHochschildSerreRoof with its coherent quotient action;
+compactGaloisComplex_arithmeticComparison preserving coefficient maps, evaluation cups,
+transfer and the local invariant. Their full API and checks are in README.md.
 
 Additional README API targets for the light definitions are psiOfLinearization_unique;
 rankOnePsi_apply, rankOnePsi_leftInverse, rankOnePsi_basisChange;
@@ -663,8 +668,16 @@ characterModule and characterModule_mul, characterModule_inv, characterModule_ba
 characterModule_reciprocity, characterModule_cohomology,
 characterModule_deRham_iff_locallyAlgebraic.
 Further milestones: psiCokernel_finite;
-psiFixed_generation and psiFixed_pairingPerfect. Their arithmetic carriers and native
-constructions are specified by the README.
+psiFixed_generation and psiFixed_pairingPerfect. The field bootstrap comprises
+fieldTorsionHerrCohomology, fieldHerrTTwist, fieldAuxiliaryPureExtension,
+fieldHerrEulerCharacteristic and fieldHerrTateDuality, in that order after the etale
+fieldHerrGaloisComparison. The predicate geometricallyNontriangulineLocalized excludes
+rank-one localized subobjects after every finite coefficient extension;
+nontriangulineLocalized_psiCokernel_vanish and the tNrig_psiCokernels_vanish application
+carry this hypothesis. The Wach targets wachGoodBasis_exists and
+wachGoodBasis_integral_exists use the README's weight translation: filtration-defined
+positive representations have nonnegative standing weights, and LLZ's labels have the
+opposite sign. Their arithmetic carriers and native constructions are specified by the README.
 -/
 
 end TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
