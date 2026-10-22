@@ -22,8 +22,6 @@ import TauCeti.Topology.Algebra.Group.Profinite.Presentation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCetiRoadmap.ProfiniteProPGroups.Suggested
 
-set_option autoImplicit false
-
 /-!
 # Local fields and ramification: target signatures
 
@@ -78,6 +76,16 @@ every finite Galois subextension lies in the first lower ramification group of t
 whose local-field structure is built from `K`'s. The maximal tamely ramified extension, the tame
 quotient and the marked Iwasawa presentation are built from wild inertia, so each of them depends
 on the valuation and topology of `K` through its definition.
+
+Layers 3a and 4a of `README.md` extend the ramification package to complete discretely valued
+fields whose residue field need not be finite. Tau Ceti's Herbrand function, its inverse, `psiNat`
+and the upper numbering assume `IsNonarchimedeanLocalField` on both fields, and the pinned
+revisions have neither a Herbrand function on the local-ring filtration
+`TauCeti.IsLocalRing.ramificationGroupReal` nor an absolute upper filtration. The general Herbrand
+functions and upper numbering, the absolute upper filtration, the open-subgroup identity and the
+completed maximal unramified comparison are therefore `README.md` targets, because their carriers
+are missing. Full Hasse–Arf needs none of them in Serre's lower-numbering form, and is stated as
+`hasseArf_dvd_sum_card_ramificationGroup`.
 -/
 
 namespace TauCetiRoadmap.LocalFieldsRamification
@@ -1409,6 +1417,33 @@ theorem tameCharacter_conj_of_smul_eq_pow {G : Type w} [Group G] [MulSemiringAct
   Units.ext <| by rw [tameCharacter_conj hϖ g σ hσ, hg, Units.val_pow_eq_pow_val]
 
 end TameCharacter
+
+/-! ## Layer 3a: Hasse–Arf over a complete discretely valued field
+
+Stated on Mathlib's discrete valuation rings, a finite group acting with invariants
+(`Algebra.IsInvariant`), and Tau Ceti's lower filtration of a group acting on a local ring
+(`TauCeti.IsLocalRing.ramificationGroup`), none of which assumes a finite residue field. -/
+
+/-- **Layer 3a, Hasse–Arf without residue finiteness**, in Serre's lower-numbering form
+(Serre, *Local Fields*, V §7, Theorem 1). `A` is a complete discrete valuation ring and `B` a
+discrete valuation ring on which a finite abelian group `G` acts faithfully by `A`-algebra
+automorphisms with invariants `A`, so that `Frac B / Frac A` is Galois with group `G`, and the
+residue extension is separable. If `G_j ≠ G_(j+1)` for a natural number `j`, then
+`φ(j) = (#G_1 + ⋯ + #G_j) / #G_0` is an integer, that is, every upper jump is integral. The upper
+numbering itself on this carrier is a `README.md` target. -/
+theorem hasseArf_dvd_sum_card_ramificationGroup
+    (A B : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
+    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
+    [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Algebra A B]
+    [IsLocalHom (algebraMap A B)]
+    [Algebra.IsSeparable (IsLocalRing.ResidueField A) (IsLocalRing.ResidueField B)]
+    (G : Type*) [Group G] [Finite G] [MulSemiringAction G B] [SMulCommClass G A B]
+    [Algebra.IsInvariant A B G] [FaithfulSMul G B] [IsMulCommutative G] (j : ℕ)
+    (hj : TauCeti.IsLocalRing.ramificationGroup G B (j : ℤ) ≠
+      TauCeti.IsLocalRing.ramificationGroup G B ((j : ℤ) + 1)) :
+    Nat.card (TauCeti.IsLocalRing.ramificationGroup G B 0) ∣
+      ∑ i ∈ Finset.Icc 1 j, Nat.card (TauCeti.IsLocalRing.ramificationGroup G B (i : ℤ)) :=
+  sorry
 
 /-! ## Layer 4: the absolute Galois group, wild inertia, and the tame quotient
 
