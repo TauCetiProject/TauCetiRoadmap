@@ -42,10 +42,10 @@ theorem (Layer IG.4), and the identification of components of Hurwitz spaces and
 Frobenius-fixed points with lifting invariants (Layer IG.5).
 
 The companion [Suggested.lean](Suggested.lean), in the namespace
-`TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups`, prototypes the light definitions and
-the statements that can be typed against the pinned Mathlib and Tau Ceti. A target that ends with a
-*Lean:* line is carried by the declarations listed there; every other target, and every Check that
-is not an `example` of that file, is specified in this README only.
+`TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups`, states headline results against the
+pinned Mathlib and Tau Ceti, with the simple definitions needed to express them. A target's Lean
+line names its statements in that file; the other targets are specified here. Checks are
+mathematical examples stated in prose.
 
 ## Scope and ownership
 
@@ -428,9 +428,8 @@ quasi-projective characteristic-zero schemes), consumed through AlgebraicModuliF
 Layer IG.0 builds curve and constructible trace formulas and extends the supplied étale fundamental
 group in three directions (Galois algebras, `ℤ_p`-local systems, the pro-étale group).
 Layer IG.1 applies the supplied arithmetic sequence and inertia to tame quotients, Frobenius and specialization. Layer IG.2
-begins with elementary algebra over `K(T)` (the regular subring and polynomial specialization, which
-are light and fully typed in `Suggested.lean`) and ends with Hilbert's irreducibility theorem and its
-refinements. Layer IG.3 is the geometry and combinatorics of branched covers of the line: Riemann
+begins with elementary algebra over `K(T)` (the regular subring and polynomial specialization) and
+ends with Hilbert's irreducibility theorem and its refinements. Layer IG.3 is the geometry and combinatorics of branched covers of the line: Riemann
 existence, braid orbits, rigidity, descent, and the group theory of lifting invariants. Layer IG.4 is
 independent of IG.3 except for the reduced Schur covers it uses for central lifts: it is the
 arithmetic of embedding problems leading to Shafarevich's theorem and to the unramified groups of
@@ -610,9 +609,6 @@ not be fields. *Needs:* Supplied by AdicEtaleGeometry §A4.2 / `Algebra.galoisTe
 SchemeAndStackFoundations Layer 1 (descent).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
-*README-only signatures in Suggested.lean:* `galoisTensorMap`, `IsGaloisAlgebra`,
-`IsGaloisAlgebra.iff_field`, `isGaloisAlgebra_of_isGalois`; these use the shared algebra API
-specified in AdicEtaleGeometry §A4.2.
 
 **Checks.**
 
@@ -1574,7 +1570,6 @@ Hilbert irreducibility). *Needs:* Mathlib `Subring`, `Subring.subtype`, `RatFunc
 `RatFunc.denom_add_dvd`, `RatFunc.denom_mul_dvd`, `RatFunc.denom_dvd`, `RatFunc.num_div_denom`,
 `RatFunc.denom_algebraMap`, `Polynomial.evalRingHom`; Tau Ceti `TauCeti.Place.adicOfIrreducible`,
 `TauCeti.Place.integers`, `TauCeti.Place.valuation_ofIrreducible_le_one_iff`.
-*Lean:* `RationalSpecialization.regularSubring`.
 
 **Checks.**
 
@@ -1595,7 +1590,6 @@ Hilbert irreducibility). *Needs:* Mathlib `Subring`, `Subring.subtype`, `RatFunc
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Rational functions regular at a point*; Tau Ceti
 `TauCeti.Place.valuation_ofIrreducible_le_one_iff`; Mathlib `Polynomial.dvd_iff_isRoot`.
-*Lean:* `RationalSpecialization.mem_regularSubring`.
 
 **Checks.**
 
@@ -1621,7 +1615,6 @@ reduced denominator*; Mathlib `RingHom`, `RatFunc.eval`, `RatFunc.eval_zero`, `R
 `RatFunc.eval_add`, `RatFunc.eval_mul`, `RatFunc.eval_algebraMap`. Equivalently, `eₜ` is the residue
 map of the place at `T − t` followed by `K[T]/(T − t) ≅ K`, through Tau Ceti
 `TauCeti.Place.adicOfIrreducibleResidueFieldEquiv`; proving this agreement is part of the target.
-*Lean:* `RationalSpecialization.evalRegular`.
 
 **Checks.**
 
@@ -1660,7 +1653,9 @@ function stays distinct from the ring map `eₜ` on `Rₜ`. Source: [Mathlib `Ra
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* Mathlib `Polynomial.sum`, `RatFunc.eval`,
 `RatFunc.eval_zero`, `Polynomial.coeff_monomial`, `Polynomial.map`, `Polynomial.evalRingHom`.
-*Lean:* `RationalSpecialization.specialize`, `RationalSpecialization.specialize_not_multiplicative`.
+
+*Lean:* `RationalSpecialization.specialize` supplies coefficientwise evaluation for the Hilbert
+statements.
 
 **Checks.**
 
@@ -1681,7 +1676,6 @@ support only its own term survives, and outside the support the coefficient is z
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Rational-coefficient polynomial specialization*; Mathlib
 `Polynomial.coeff_sum`, `Polynomial.coeff_monomial`, `Polynomial.mem_support_iff`, `RatFunc.eval_zero`.
-*Lean:* `RationalSpecialization.coeff_specialize`.
 
 **Checks.**
 
@@ -1696,7 +1690,7 @@ inclusion. *Proof sketch.* Compare coefficients: *Coefficients after specializat
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Rational functions regular at a point*, *Evaluation on
 the regular subring*, *Coefficients after specialization*; Mathlib `Subring.subtype`, `Polynomial.map`,
-`Polynomial.coeff_map`, `Polynomial.ext`. *Lean:* `RationalSpecialization.specialize_map_regular`.
+`Polynomial.coeff_map`, `Polynomial.ext`.
 
 **Checks.**
 
@@ -1713,7 +1707,7 @@ constructed. Source: Mathlib `Polynomial.toSubring`, `map_toSubring` and `map_ad
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Membership by reduced denominator*, *Compatibility with
 polynomial coefficient maps*; Mathlib `Polynomial.toSubring`, `Polynomial.map_toSubring`,
-`Polynomial.map_add`. *Lean:* `RationalSpecialization.specialize_add`.
+`Polynomial.map_add`.
 
 **Checks.**
 
@@ -1731,7 +1725,7 @@ constructed. Source: Mathlib `Polynomial.toSubring`, `map_toSubring` and `map_mu
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Membership by reduced denominator*, *Compatibility with
 polynomial coefficient maps*; Mathlib `Polynomial.toSubring`, `Polynomial.map_toSubring`,
-`Polynomial.map_mul`. *Lean:* `RationalSpecialization.specialize_mul`.
+`Polynomial.map_mul`.
 
 **Checks.**
 
@@ -1761,7 +1755,6 @@ values. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-commun
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* Mathlib `RatFunc.denom`, `RatFunc.denom_zero`,
 `RatFunc.denom_algebraMap`, `Polynomial.mem_support_iff`.
-*Lean:* `RationalSpecialization.denominatorProduct`.
 
 **Checks.**
 
@@ -1778,7 +1771,7 @@ product of nonzero elements of the domain `K[T]` is nonzero, the empty product b
 `RatFunc.eval`, `eval_add` and `eval_mul`, and the reduced-denominator API;
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Denominator product of a polynomial*; Mathlib
-`RatFunc.denom_ne_zero`. *Lean:* `RationalSpecialization.denominatorProduct_ne_zero`.
+`RatFunc.denom_ne_zero`.
 
 **Checks.**
 
@@ -1794,7 +1787,6 @@ Mathlib `Polynomial.eval_prod` and `mem_support_iff`;
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Denominator product of a polynomial*; Mathlib
 `Polynomial.eval_prod`, `Polynomial.mem_support_iff`, `RatFunc.denom_zero`.
-*Lean:* `RationalSpecialization.denominatorProduct_eval_ne_zero_iff`.
 
 **Checks.**
 
@@ -1814,7 +1806,6 @@ specialization* identifies the coefficient with the assumed nonzero value; apply
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Coefficients after specialization*; Mathlib
 `Polynomial.coeff_eq_zero_of_natDegree_lt`, `Polynomial.natDegree_le_iff_coeff_eq_zero`,
 `Polynomial.natDegree_eq_of_le_of_coeff_ne_zero`, `RatFunc.eval_zero`.
-*Lean:* `RationalSpecialization.natDegree_specialize`.
 
 **Checks.**
 
@@ -1838,7 +1829,6 @@ and *Degree preservation by the leading coefficient* applies. Source: [Mathlib `
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *The exact coefficient-regularity locus*, *Degree
 preservation by the leading coefficient*; Mathlib `RatFunc.eval`, `RatFunc.num`, `Polynomial.evalRingHom`.
-*Lean:* `RationalSpecialization.specialization_guard`.
 
 **Checks.**
 
@@ -1860,7 +1850,6 @@ contrapositive of *A polynomial guard for regular specialization*, every bad par
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Nonvanishing denominator product*, *A polynomial guard for
 regular specialization*; Mathlib `Polynomial.leadingCoeff_ne_zero`, `RatFunc.num_ne_zero`,
 `Polynomial.finite_setOfPred_isRoot`, `Set.Finite.subset`.
-*Lean:* `RationalSpecialization.finite_bad_specializations`.
 
 **Checks.**
 
@@ -1878,7 +1867,6 @@ union by `Set.Finite.exists_notMem`, since `K` is infinite. Source: Mathlib `Set
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Finiteness of bad specialization parameters*; Mathlib
 `Set.Finite.union`, `Set.Finite.exists_notMem`.
-*Lean:* `RationalSpecialization.exists_simultaneous_specialization`.
 
 **Checks.**
 
@@ -1905,8 +1893,8 @@ contains a `k`-rational point; infinitude and finite avoidance are consequences,
 polynomial form over an arbitrary field, with separable polynomials (the separable Hilbert sets of
 the literature, which in characteristic zero give the notion above); a nonzero `g` is encoded by
 adjoining the linear polynomial `Y − 1/g`, whose coefficient is regular exactly where `g` does not
-vanish, and in the same way any finite set of parameters can be excluded, which is
-`IsHilbertian.infinite_good`. Provide `HilbertSubset.mem`: membership is
+vanish, and in the same way any finite set of parameters can be excluded, which yields infinitely
+many admissible parameters. Provide `HilbertSubset.mem`: membership is
 connectedness of every finite étale fibre over the residue field; `HilbertSubset.inter`: a finite
 intersection of Hilbert subsets of `X` is the Hilbert subset of the combined datum, over the
 intersection of the opens; `HilbertSubset.rationalRestriction`: rational membership evaluates the
@@ -1929,7 +1917,8 @@ specialization*; Supplied by EtaleCohomologyFoundations §F.0 /
 SchemeAndStackFoundations Layer 0 (scheme points, residue fields, fibre products).
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
-*Lean:* `IsHilbertian` (the polynomial form on the affine line), `not_isHilbertian_complex`.
+
+*Lean:* `IsHilbertian` expresses the polynomial condition on the affine line.
 
 **Checks.**
 
@@ -1954,10 +1943,10 @@ and a root of the corresponding `f(t,Y)`; the preserved total degree forces `f(t
 its original degree and remain irreducible over that copy of `L`. Exclude the finitely many
 `K`-rational zeros of the guards by adjoining the irreducible tests `Y² − (T − a)`, whose
 specializations at `a` are reducible. Source:
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 §3.2.1, Proposition 3.2.1 and Corollary 3.2.2, printed pp. 21–22.
 *Needs:* *Hilbert subsets and Hilbertian fields*; Mathlib finite extensions, primitive elements
-and simple-extension degree formulas. *Lean:* `IsHilbertian.finite_extension`.
+and simple-extension degree formulas.
 
 **Checks.**
 
@@ -1984,12 +1973,14 @@ and 3.2.4). Iterating outside finite avoidance sets gives infinitude. Sources:
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 Proposition 5.2.5 (several conditions reduced to one), printed p. 137, and §5.2.3, Theorem 5.2.9
 (the Hilbert–Dörge proof for `ℚ`), pp. 140–143;
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 Corollaries 3.2.2 and 3.2.4, printed pp. 22–23, and §3.4, Theorem 3.4.1, pp. 25–30, for Hilbertian
 number fields and the thin-set formulation. *Needs:* *Hilbert subsets and Hilbertian fields*,
 *Simultaneous avoidance for a finite polynomial family*, *Finite-extension permanence of Hilbertianity*;
 GlobalNumberFields Layer 0.
-*Lean:* `isHilbertian_of_numberField`, `IsHilbertian.infinite_good`.
+
+*Lean:* `isHilbertian_of_numberField`, `hilbert_irreducibility` (the several-parameter form with an
+arbitrary nonzero guard).
 
 **Checks.**
 
@@ -2007,6 +1998,7 @@ third edition, Theorem 13.4.2; [Dèbes](https://pro.univ-lille.fr/fileadmin/user
 §9.3, Théorème 9.3.1, printed pp. 246–249 (statement for every constant field, proof for infinite
 constant fields, and the reference to the global-field argument for finite constant fields).
 *Needs:* *Hilbert subsets and Hilbertian fields*; Mathlib `RatFunc`.
+
 *Lean:* `isHilbertian_ratFunc`.
 
 **Checks.**
@@ -2034,7 +2026,7 @@ with non-full specialization lie in a thin set together with the displayed guard
 sketch.* Construct the two kinds of thin data and their finite unions. For the full-group statement
 use the quotient covers by proper subgroups of the generic Galois group: when the specialization at
 `t` is not full, `t` is in the image of the rational points of one of these quotients, each of degree
-`≥ 2`. Source: [Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+`≥ 2`. Source: Serre, *Topics in Galois Theory*,
 §3.1 Definitions 3.1.1/3.1.2 and §3.3, printed pp.19–27, for finite unions of the two types and
 their Hilbert interpretation. *Needs:* *Hilbert subsets and Hilbertian fields*;
 SchemeAndStackFoundations Layer 0.
@@ -2066,8 +2058,8 @@ lower-dimensional base by curves of bounded degree and genus, reducing to curves
 irreducible curve over `𝔽_q`, pass to the smooth proper model of its normalization, apply
 `weil_bound` (`|C(𝔽_q) − q − 1| ≤ 2g√q`), and bound the difference with the original curve by the
 number of singular and boundary points, which is bounded in the family; spread the constants over a
-model of `V` over `O[1/m]`. Source: [Serre, *Topics in Galois
-Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+model of `V` over `O[1/m]`. Source: Serre, *Topics in Galois
+Theory*,
 Theorem 3.6.1, printed p.31, for the statement and the reduction to curves. *Needs:*
 SchemeAndStackFoundations §5.11 (`weil_bound`); AlgebraicCurves Layers 3–5 and Layer 12 (normalization
 and smooth proper models of curves); Supplied by EtaleCohomologyFoundations §F.10.1 /
@@ -2100,7 +2092,7 @@ density at which the reduced cover omits at least a fixed positive proportion of
 Frobenius classes of the primes and point counts of the reduced cover over `𝔽_p` (Serre §3.6). Apply
 the multidimensional large sieve on the box (Serre, Appendix §§10.1–10.4) with sieving primes up to
 `N^(1/2)`, then sum the finitely many contributions and keep track of the constants. Sources:
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 §3.4 Theorem 3.4.4, printed p.27; §3.6 Theorem 3.6.2, pp.32–33; Appendix §§10.1–10.4, pp.103–107,
 for the integral-box bound and the large sieve;
 [Masser–Zannier](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf),
@@ -2135,17 +2127,17 @@ fields*), so the statement holds for number fields. *Proof sketch.* Build the fi
 `G`-torsor over the complement of the branch locus, geometrically connected because `L/K(T)` is
 regular. Choose a primitive element of `L` integral over the regular functions on `U`; its minimal
 polynomial is irreducible and separable over `K(T)`, and at a parameter `t` in its Hilbert set
-(`IsHilbertian.infinite_good`, which also avoids any finite set) its specialization is irreducible of
+(also avoiding any finite set) its specialization is irreducible of
 full degree `|G|`, so the fibre is connected; a connected `G`-torsor over `K` is the spectrum of a
 `G`-Galois field. Pass to polynomial conditions with `RationalSpecialization.specialize`. Source:
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 §3.3 Proposition 3.3.1, printed p.23, for a Hilbertian field; §3.4 Theorem 3.4.1, p.25, for number
 fields. *Needs:* *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number
 fields* (number-field case), *Thin sets for specialization*, Layer IG.0 *Finite Galois algebras and
 torsors*, EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; SchemeAndStackFoundations Layer 0.
-*Lean:* `IsHilbertian.infinite_full_group` is the polynomial form: for a separable polynomial over
-`K(T)`, infinitely many parameters retain regular coefficients, degree, separability and the full
-Galois group. This polynomial assertion also allows a nontrivial constant subextension.
+
+*Lean:* `IsHilbertian.infinite_full_group` states the polynomial form, including coefficient
+regularity, degree and separability; it also allows a constant subextension.
 
 **Checks.**
 
@@ -2169,12 +2161,14 @@ claimed. *Proof sketch.* Base-change the regular torsor along a Galois closure o
 keeps it geometrically connected. Apply the Hilbert condition for the full group after this base
 change and compare the combined arithmetic group. Choose the parameters recursively, putting all
 previous parameters and the compositum of the previous fields into the avoidance data. Source:
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 §3.3 Proposition 3.3.3 and Corollary 3.3.4, printed p.24; §3.4 Theorem 3.4.1, p.25. *Needs:*
 *Full-group specialization of regular covers*, *Hilbert irreducibility over number fields*, Layer
 IG.0 *Finite Galois algebras and torsors*.
-*Lean:* `HasRegularRealization.exists_disjoint_realization` states the existence of a realization
-linearly disjoint from the prescribed finite extension, using that their tensor product is a domain.
+
+*Lean:* `HasRegularRealization.exists_disjoint_realizations` states the field-realization
+consequence: each member of a sequence is linearly disjoint from the prescribed extension and the
+compositum of its predecessors.
 
 **Checks.**
 
@@ -2239,7 +2233,7 @@ the ramified primes are `p`, respectively `2` and `p`. At the real place, `p > 0
 so the real place splits. *Proof sketch.* Compute the square cover and its inertia at `0` and `∞`;
 independence of the square classes follows from the `pᵢ`-adic valuations and gives the compositum
 degrees. Ramification is read from the discriminant of the quadratic field and its places, not from
-an irreducibility certificate. Source: [Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+an irreducibility certificate. Source: Serre, *Topics in Galois Theory*,
 §3.1–3.3, pp.19–27, the square-map example, of which this is an explicit specialization. *Needs:*
 *Full-group specialization of regular covers*, *Infinitely many linearly disjoint full-group fibers*,
 EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; ClassFieldTheory Layer 10, ClassFieldTheory
@@ -2273,7 +2267,7 @@ outside `S ∪ S₀` and a product of open sets at them avoiding this thin set; 
 covers chooses primes splitting completely in the constant field of the Galois closure, and that
 condition is kept. Apply weak approximation on the union of the prescribed and auxiliary places;
 smoothness lets one avoid `X ∖ U` locally, and the resulting point lies in `H` and in every
-prescribed neighbourhood. Sources: [Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+prescribed neighbourhood. Sources: Serre, *Topics in Galois Theory*,
 Theorem 3.5.3 and its proof, Lemma 3.5.5, Theorem 3.5.7; §§3.5–3.6 printed pp.28–33, for the
 auxiliary-place argument and its constant-field splitting condition;
 [Breuil–Conrad–Diamond–Taylor](https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf), Proof
@@ -2310,7 +2304,7 @@ Krasner's lemma (Mathlib `IsKrasner`), and it is a separate geometric step of th
 [Breuil–Conrad–Diamond–Taylor](https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf),
 Theorem 2.2.1 proof, author PDF p.19 / published p.864, citing Ekedahl Theorem 1.3, where local
 Hilbert conditions, not irreducibility alone, are needed;
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 §3.5 Theorems 3.5.3 and 3.5.7, printed pp.28–30, for density in every finite product of local opens.
 *Needs:* *Hilbert irreducibility over number fields*, *Full-group specialization of regular covers*,
 *Hilbert points with weak approximation*; GlobalNumberFields Layers 0 and 1 (places, completions and
@@ -2377,7 +2371,7 @@ Theorem 13.9.1(b); the theorem's algebraic-Galois, proper-finite-separable hypot
 stated in [Jarden, *Almost locally free fields*](https://www.math.tau.ac.il/~jarden/Articles/paper99.pdf),
 Proposition 2.5 and its proof, pp. 7–8. *Needs:* *Hilbert subsets and Hilbertian fields*,
 *Hilbert irreducibility over number fields*, IG.2.4 *Finite-extension permanence of Hilbertianity*;
-Mathlib finite-extension, primitive-element and infinite Galois theory. *Lean:* `isHilbertian_of_proper_finite_extension_of_galois`.
+Mathlib finite-extension, primitive-element and infinite Galois theory.
 
 **Checks.**
 
@@ -2402,7 +2396,6 @@ continuous homomorphisms to `C₂`, since their values on those generators deter
 Sources: Fried–Jarden, *Field Arithmetic*, third edition, Proposition 16.11.6 and Chapter 13;
 Mathlib Kummer and finite Galois theory. *Needs:* *Hilbert subsets and Hilbertian fields*;
 Layer IG.0 *Finite Galois algebras and torsors*; ProfiniteProPGroups Layer 3 (topological generators).
-*Lean:* `IsHilbertian.exists_independent_square_classes`.
 
 **Checks.**
 
@@ -2438,8 +2431,9 @@ Fried–Jarden, Theorem 13.9.1(b). *Needs:* *Rational function fields are Hilber
 *Weissauer's Hilbertian extension theorem*,
 *Independent quadratic characters of Hilbertian fields*; Mathlib infinite Galois correspondence;
 ProfiniteProPGroups Layers 0 and 3, with the pinned open-subgroup theorem above.
-*Lean:* `normal_subgroup_absoluteGaloisGroup_eq_bot`, with `Algebra.EssFiniteType ℚ K`
-expressing finite generation of the field extension.
+
+*Lean:* `normal_subgroup_absoluteGaloisGroup_eq_bot`, with `Algebra.EssFiniteType ℚ K` expressing
+finite generation of the field extension.
 
 **Checks.**
 
@@ -2671,10 +2665,6 @@ automorphism of `P`, hence through `e` to an automorphism of `G`. Sources:
 §§2.1–2.3, pp. 738–741; [Wood, *An algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
 §3, pp. 4–5. *Needs:* *Riemann existence for punctured curves*; Mathlib `Subgroup.closure`,
 `List.prod`, `MulAut.conj`.
-*Lean:* `BranchTuple`, `BranchTuple.product`, `BranchTuple.generated`, `NielsenClass.inner`,
-`NielsenClass.absolute`, with the relations `NielsenClass.innerRelation`,
-`NielsenClass.absoluteRelation` and the invariances `NielsenClass.inner_preserves`,
-`NielsenClass.absolute_preserves`.
 
 **Checks.**
 
@@ -2715,10 +2705,6 @@ the presentation of `B_r`; match the chosen oriented path in configuration space
 Sources: [Wood, *An algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
 §3, pp. 4–5; [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §§2.1–2.2, pp. 738–740. *Needs:* *Branch tuples and Nielsen classes*; Tau Ceti `TauCeti.BraidGroup`.
-*Lean:* `HurwitzMove.apply`, `HurwitzMove.inverse`, `HurwitzMove.inverse_apply`,
-`HurwitzMove.apply_inverse`, `HurwitzMove.equiv`, `HurwitzMove.far_commute`, `HurwitzMove.braid`,
-`HurwitzAction.action`, `HurwitzAction.action_sigma`, `HurwitzAction.product_action`,
-`HurwitzAction.generated_action`, `HurwitzAction.classes_action`.
 
 **Checks.**
 
@@ -2776,9 +2762,6 @@ universal property of `FreeGroup`, characterise surjectivity by the closure of t
 compute precomposition by inner automorphisms. Source: [Chen, *Nonabelian level
 structures*](https://arxiv.org/pdf/2011.12940v2), §1.1, p. 5, and §1.6, p. 12. *Needs:* *Branch
 tuples and Nielsen classes*; Mathlib `FreeGroup`, `FreeGroup.lift`, `MulAut`, `Group.rank`.
-*Lean:* `SurjectiveFreeHom`, `ExteriorEpi.relation`, `ExteriorEpi`,
-`TSystem.relation`, `TSystem`, `TSystem.quotient`, `nonempty_surjectiveFreeHom_iff`,
-`ExteriorEpi.exists_tuple_equiv` (the tuple–surjection equivalence with its generator formula).
 
 **Checks.**
 
@@ -2811,7 +2794,6 @@ structures*](https://arxiv.org/pdf/2011.12940v2), Conjecture 1.1.3 (citing Gario
 p. 5, and Question 1.4.1, p. 11;
 [McCullough–Wanderley](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/12B5FCFADCAFE740B31DEE5BB112DB85/S0017089512000675a.pdf/nielsen_equivalence_of_generating_pairs_of_sl2q.pdf),
 §4, p. 487, and the trace theorem, pp. 481–482. *Needs:* *Exterior epimorphisms and `T`-systems*.
-*Lean:* `NielsenTransitivity`.
 
 **Checks.**
 
@@ -2867,8 +2849,8 @@ points over `P_i`, where `e = ord(g_i)`, hence
 `γ₁ ⋯ γ_r = 1`; `γ_i ↦ g_i` defines a surjection to `G` and hence a connected Galois topological
 cover; apply Riemann existence for punctured curves and compute the local cycle lengths. Sources:
 [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XII, Theorem 5.1, pp. 251–253, and Exposé XIII,
-Corollary 2.12, p. 290; [Serre, *Topics in Galois
-Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Corollary 2.12, p. 290; Serre, *Topics in Galois
+Theory*,
 §8.1, pp. 81–83 (realization and local monodromy). *Needs:* *Branch tuples and Nielsen classes*,
 *Riemann existence for punctured curves*; EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*;
 SchemeAndStackFoundations §3.2 / `scheme_riemann_hurwitz`; BelyiMaps Layers 3 and 5;
@@ -2893,11 +2875,13 @@ rigidity are hypotheses; a nonempty class tuple gives neither. *Proof sketch.* `
 cover with branch tuple in `(C_i)` to one with tuple in `(C_i^{χ(σ)}) = (C_i)` (conjugation on a
 positive inertia generator uses `χ(σ)`; the right action on covers uses `χ(σ)⁻¹`), so rigidity makes
 the class Galois stable; since the centraliser of a generating tuple is `Z(G) = 1`, the cover descends
-to `K`. Source: [Serre, *Topics in Galois
-Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+to `K`. Source: Serre, *Topics in Galois
+Theory*,
 Theorem 8.1.1 and Lemma 8.1.3, pp. 81–83. *Needs:* *Realizing generating sphere tuples*; EtaleCohomologyFoundations §F.0.A2 *The arithmetic fundamental-group sequence*; Layer IG.0 *Finite Galois algebras and torsors*;
 SchemeAndStackFoundations Layer 1; BelyiMaps Layer 11.
-*Lean:* `IsRationalClass`, `IsRigid`, `HasRegularRealization`, `hasRegularRealization_of_rigid`.
+
+*Lean:* `hasRegularRealization_of_rigid` states the regular field-realization consequence using
+`IsRationalClass`, `IsRigid` and `HasRegularRealization`.
 
 **Checks.**
 
@@ -2968,8 +2952,8 @@ regular over `ℚ`; its dessin and the triple agree under the convention transpo
 single passport computation does not show that passports determine Belyi pairs in general. *Proof
 sketch.* Enumerate the six ordered pairs of distinct transpositions and their products; they form
 one orbit. The critical points of `y³ − 3y` are `±1`, with critical values `∓2`, each with one double
-preimage, and `∞` is totally ramified. Source: [Serre, *Topics in Galois
-Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+preimage, and `∞` is totally ramified. Source: Serre, *Topics in Galois
+Theory*,
 §8.1, Theorem 8.1.1, pp. 81–83. *Needs:* *Rational rigidity*; BelyiMaps Layers 3, 5 and 11.
 
 **Checks.**
@@ -3017,7 +3001,6 @@ formula gives zero when `xy = yx`; compute `τ_E` on this cycle from a set-theor
 §2.1, p. 2, and the proof of Theorem 2.5, p. 4 (universal coefficients). *Needs:* Mathlib
 `GroupExtension`, `groupHomology.H2`, `groupHomology.H2π`, `groupHomology.cycles₂`, `Rep.trivial`,
 `groupHomology.map`; RepresentationTheory/InductionRestriction Layer 7.
-*Lean:* `ReducedSchur.exists_commutingCycle`, `ReducedSchur.lift_commutator_independent`.
 
 **Checks.**
 
@@ -3148,9 +3131,6 @@ generate. Sources: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §2, Lemmas 2.1–2.4 and
 Theorem 2.5, pp. 2–4. *Needs:* *Marked central extensions*; Mathlib `PresentedGroup`,
 `PresentedGroup.toGroup`.
-*Lean:* `ReducedSchur.universalRelations`, `ReducedSchur.universalMarked`, `ReducedSchur.universalProjection`,
-`ReducedSchur.universalProjection_surjective`, `ReducedSchur.universalKernel_le_center`,
-`ReducedSchur.universal_marked_property`.
 
 **Checks.**
 
@@ -3175,8 +3155,6 @@ module; each relator has degree zero, so the degree on the free group descends. 
 algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §2,
 Lemmas 2.1–2.4, pp. 2–4. *Needs:* *The universal marked extension*; Mathlib `Finsupp`,
 `Abelianization.of`.
-*Lean:* `ReducedSchur.classSet`, `ReducedSchur.classAbelianization`, `ReducedSchur.classDegree`,
-`ReducedSchur.exists_degree` (existence and uniqueness of the degree homomorphism on generators).
 
 **Checks.**
 
@@ -3237,7 +3215,6 @@ second coordinate in `ker δ`; `ker δ` is a subgroup of a free abelian group of
 free. Source: [Wood, *An algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
 §2, Theorem 2.5, pp. 3–4. *Needs:* *The marked fibre product and the computation of `U(G, c)`*;
 Mathlib `MonoidHom.ker`, `Submodule.basisOfPid`.
-*Lean:* `ReducedSchur.universalKernel`.
 
 **Checks.**
 
@@ -3409,7 +3386,6 @@ transitivity. For the Galois action, centrality gives
 Source: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §4, equation (2), p. 6.
 *Needs:* *The discrete action of units*; Mathlib `MulAction`, `MulActionHom`.
-*Lean:* `ReducedSchur.cyclotomicTwist`, `ReducedSchur.cyclotomicTwist_eval_bijective`.
 
 **Checks.**
 
@@ -3444,8 +3420,6 @@ a Hurwitz move; compute the projections on generators. Source: [Wood, *An algebr
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §3 and Theorem 3.1,
 pp. 4–6. *Needs:* *The braid-orbit monoid*, *The universal marked extension*, *The class degree map*,
 *The kernel of the universal marked extension*.
-*Lean:* `LiftingInvariant.tuple`, `LiftingInvariant.braid`, `LiftingInvariant.projection`,
-`LiftingInvariant.identity_mark_nontrivial`.
 
 **Checks.**
 
@@ -3469,8 +3443,10 @@ order blocks gives the group `U(G, c)`; insert a generating core for surjectivit
 algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
 Theorem 3.1 and its proof, pp. 5–6, and Remark 5.4, pp. 11–12. *Needs:* *The braid lifting
 invariant*, *Extracting an element of a single class*.
-*Lean:* `LiftingInvariant.stable_classification`, with the degree homomorphism and its generator
-formula as explicit inputs.
+
+*Lean:* `LiftingInvariant.stable_classification`, using `HurwitzEquivalent` for the equivalence
+relation generated by the concrete Hurwitz moves, `ReducedSchur.degree` for class degrees and
+`LiftingInvariant.tuple` for lift products.
 
 **Checks.**
 
@@ -3942,7 +3918,7 @@ including when `S = cs(Ω/k) ∪ T` and after passing to `K`.
 
 Sources: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Definition 9 and Lemma 10,
 PDF pp. 10–11, and the mixed row in the proof of Theorem 13, PDF pp. 14–15;
-[Milne, Arithmetic Duality Theorems](https://www.jmilne.org/math/Books/ADTnot.pdf), Chapter I,
+Milne, *Arithmetic Duality Theorems*, Chapter I,
 §4, Theorem 4.10 and its proof, pp. 56–62 (PDF pp. 64–70).
 *Needs:* ArithmeticGaloisDuality §§R02.3.1, R02.4.2–R02.4.3, with precisely the quotient/tower,
 unramified-annihilator, restricted-product and possibly infinite-`S` contracts above;
@@ -4119,8 +4095,9 @@ PDF pp. 20–32 (the complete constructive input for solvable realization).
 *Needs:* *Free operator-group shrinking*, *Induced abelian proper solutions*, *Cyclic ramification
 correction*, *Auxiliary cokernel comparison*, *Restricted-ramification localization adapter*,
 *Finite abelian-kernel obstruction and pullback*, ArithmeticGaloisDuality §R02.4.5a *Finite-coefficient Poitou–Tate input*.
+
 *Lean:* `exists_proper_solution_of_split_nilpotent`, on `TauCeti.FiniteEmbeddingProblem` with a
-splitting section, nilpotent kernel and an explicitly surjective solution.
+splitting section, nilpotent kernel and a surjective solution.
 
 **Checks.**
 
@@ -4167,9 +4144,6 @@ stated without proof and cited from Huppert, *Endliche Gruppen I*, Kap. III, Sat
 Satz 4.2(c); the proof sketch above gives the arguments used here.
 *Needs:* Mathlib `Subgroup`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`,
 `SemidirectProduct`.
-*Lean:* `fittingSubgroup`, `fittingSubgroup.normal`, `fittingSubgroup.isNilpotent`,
-`fittingSubgroup.le_of_normal_of_isNilpotent`, `fittingSubgroup.frattini_lt`,
-`fittingSubgroup.exists_proper_supplement`.
 
 **Checks.**
 
@@ -4199,6 +4173,7 @@ Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), the Theorem 
 Introduction, PDF pp. 1–2, and the concluding proof, p. 32.
 *Needs:* *Fitting supplements for solvable groups*, *Split nilpotent proper embedding theorem*; Mathlib
 `IsGalois.normalAutEquivQuotient`.
+
 *Lean:* `shafarevich`.
 
 **Checks.**
@@ -4301,7 +4276,7 @@ contained in it) and `BrauerManinSet.constantClasses`. *Proof sketch.* Spread `X
 ring of `S`-integers; for `v ∉ S` an integral point evaluates `α` in `Br O_v = 0`. Rational points:
 the evaluation lies in `Br k`, and the reciprocity sequence `0 → Br k → ⊕_v Br k_v → ℚ/ℤ → 0` kills
 the sum. Local constancy is the continuity of evaluation for the analytic topology. Sources:
-[Poonen, *Rational points on varieties*](https://math.mit.edu/~poonen/papers/Qpoints.pdf), §8.2,
+Poonen, *Rational points on varieties*, §8.2,
 Propositions 8.2.1, 8.2.2 and 8.2.9, Definition 8.2.5 and Corollary 8.2.6, printed pp. 229–231;
 [Demarche–Lucchini Arteche–Neftin](https://www.numdam.org/item/10.5802/aif.3104.pdf), §2.5, published
 p. 1017 (the unramified version for weak approximation). *Needs:* SchemeAndStackFoundations Layer 2
@@ -4686,6 +4661,8 @@ Remark 7.11, PDF p. 28, for the moving theorem and ordinary realizations.
 *Needs:* Layer IG.2 *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number
 fields*; Layer IG.0 *Finite Galois algebras and torsors*; ReductiveGroups Layers 0 and 3 (the
 quotient); SchemeAndStackFoundations Layer 3 and §5.1 (divisors, zero-cycles and rational equivalence).
+
+*Lean:* `exists_realizations_coprime_degrees`.
 
 **Checks.**
 
@@ -5265,9 +5242,6 @@ the functor of `R`-points and descended, and the complex comparison is checked a
 ([Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §2.1 and §§7.1, 7.3, 7.5, published pp. 738–739, 765–767). *Needs:*
 SchemeAndStackFoundations Layer 0, SchemeAndStackFoundations Layer 1.
-*Lean:* `OrderedConfiguration`, `UnorderedConfiguration`, `OrderedConfiguration.forget`,
-`OrderedConfiguration.forget_surjective`, `OrderedConfiguration.forget_eq_iff` (configurations of
-a type, without topology, with the quotient fibres characterised by unique relabellings).
 
 **Checks.**
 
@@ -6326,8 +6300,6 @@ of
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §8.8, published pp. 778–779; its description is proved here. *Needs:*
 *Double covers and trace-zero normal forms*; SchemeAndStackFoundations Layer 0.
-*Lean:* `LiftedAffineGroup`, `LiftedAffineGroup.mul`, `LiftedAffineGroup.nonempty_equiv_of_odd`,
-`LiftedAffineGroup.odd_coordinates` (the unique unit with `a = u²` and `d = u^n`).
 
 **Checks.**
 
@@ -6859,6 +6831,10 @@ EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
+*Lean:* `abhyankar_affine_curve` states the equivalent function-field criterion on Tau Ceti places,
+genus and ramification indices, with `pGenerated` the normal subgroup generated by elements of
+prime-power order for the characteristic prime.
+
 **Checks.**
 
 - For an elliptic curve `C` and `D = {O}`, take `G = C_p × C_ℓ²`, `ℓ ≠ p`. The prime-to-`p`
@@ -6984,12 +6960,9 @@ Everything is stated with Mathlib's `Field`, `Algebra`, `FiniteDimensional`, `Is
 and `Polynomial.SplittingField`, and a separable reducible polynomial realization is kept distinct
 from an irreducible primitive presentation: a realization is a Galois extension with its exact
 group, not a polynomial of a given degree
-([Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+(Serre, *Topics in Galois Theory*,
 §1.1, pp. 1–2; §3.3, pp. 23–25). *Needs:* Mathlib `IsGalois`, `Polynomial.SplittingField`,
 `Polynomial.Gal`, `IsGalois.card_aut_eq_finrank`, `IsGalois.of_separable_splitting_field`.
-*Lean:* `FieldRealization`, `PolynomialRealization`, `FieldRealization.degree`,
-`PolynomialRealization.toField`, `FieldRealization.nonempty_transport`,
-`PolynomialRealization.zero_isEmpty`.
 
 **Checks.**
 
@@ -7032,7 +7005,7 @@ local and disjointness witnesses. Sources:
 Proposition 5.2.5, printed p. 137, and §5.2.4, Proposition 5.2.14 and Remark 5.2.15, pp. 143–144
 (the full group through a primitive element, the denominators of its conjugates and the
 discriminant);
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 Propositions 3.3.1 and 3.3.3 and Corollary 3.3.4, pp. 23–24 (connected regular specializations and
 disjointness). *Needs:* *Field and polynomial realizations*,
 Layer IG.2 *Full-group specialization of regular covers*,
@@ -7040,8 +7013,9 @@ Layer IG.2 *Hilbert subsets and Hilbertian fields*,
 Layer IG.2 *A polynomial guard for regular specialization*,
 Layer IG.2 *Infinitely many linearly disjoint full-group fibers*,
 Layer IG.2 *Hilbert specialization with local conditions*.
-*Lean:* `HasRegularRealization.exists_realization` states the existence of a field realization over
-a characteristic-zero Hilbertian field from a regular realization.
+
+*Lean:* `HasRegularRealization.exists_realization` states the existence of a finite Galois
+realization over a characteristic-zero Hilbertian field from a regular realization.
 
 **Checks.**
 
@@ -7065,7 +7039,7 @@ discriminant is a nonzero square, and the transitive subgroup of `S₃` with squ
 `A₃ ≅ C₃` (PolynomialGaloisGroups Layers 2–3). For `Φ₅`, irreducibility of cyclotomic polynomials,
 the basis of powers of a primitive fifth root of unity, and `Gal ≅ (ℤ/5ℤ)^×`, generated by `2`, give
 the cyclic group of order four
-([Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+(Serre, *Topics in Galois Theory*,
 §§1.1–1.2, printed pp. 1–4). The two Galois groups are already computed, by transitive-group label,
 in the Tau Ceti library: `TauCeti.hasGaloisLabel_X_pow_three_sub_three_mul_X_sub_one` (label
 `3T1` for `X³ − 3X − 1`; substituting `Y = −X` turns `Y³ − 3Y + 1` into `−(X³ − 3X − 1)`, so the
@@ -7100,7 +7074,7 @@ polynomial realization for `Y⁴ − 2`). The proof builds `L` as an intermediat
 `ℚ ⊂ ℚ(α) ⊂ L ⊂ ℂ`, extends the root assignments to algebra automorphisms using the basis of degree
 eight, verifies the dihedral relations on `α` and `i`, and shows that the eight normal forms are
 distinct. The example is the dihedral one of
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 §1.2, p. 2. The Galois group of `X⁴ − 2` is already computed in the Tau Ceti library, by
 transitive-group label (`TauCeti.hasGaloisLabel_X_pow_four_sub_two`, label `4T3`) and order
 (`TauCeti.natCard_gal_X_pow_four_sub_two`, order `8`); this target adds the explicit generators `r`
@@ -7109,7 +7083,6 @@ and `s`, the isomorphism with Mathlib's `DihedralGroup 4` and the realization in
 `IntermediateField.adjoin`, `DihedralGroup`; PolynomialGaloisGroups Layer 2,
 PolynomialGaloisGroups Layer 3; Tau Ceti `TauCeti.hasGaloisLabel_X_pow_four_sub_two`,
 `TauCeti.natCard_gal_X_pow_four_sub_two`.
-*Lean:* `dihedralEightField`, `dihedral_realization`, `dihedralEightField_degree`.
 
 **Checks.**
 
@@ -7135,7 +7108,7 @@ transports the isomorphism of `Polynomial.HasFullSymmetricGaloisGroup.nonempty_m
 combines the injectivity of `galActionHom`, Mathlib `Polynomial.Gal.galActionHom_injective`, the
 surjectivity in the predicate and an enumeration `rootSet f ≃ Fin n`) into the realization. The symmetric
 family is that of
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 §4.4, printed pp. 40–42. *Needs:* *Field and polynomial realizations*;
 PolynomialGaloisGroups Layer 9; Mathlib `Polynomial.Gal.galActionHom`; Tau Ceti
 `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv`,
@@ -7170,8 +7143,8 @@ cyclotomic exponent on the Kummer tower `t^{1/m}` and checks it in each action c
 reuses the triple correspondence with the order reversal and the conjugacy transport made explicit.
 Sources: [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XIII Corollary 2.12, p. 290 (tame
 inertia and its relation, with the prime-to-`p` restriction);
-[Serre, *Topics in Galois
-Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois
+Theory*,
 §7.1, pp. 65–66 (rational classes), and §8.1, pp. 81–83 (the branch-cycle argument in the proof
 of Theorem 8.1.1). *Needs:*
 Layer IG.1 *Tame tangential fibres at a boundary point*,
@@ -7213,14 +7186,14 @@ base field that gives nothing over `ℚ`. The index is a list of theorems, not a
 The proof defines the propositions from the realization, adding regularity for `ℚ(T)`; proves the
 implication for a given regular realization by guarded Hilbert specialization; and attaches each
 family to its theorem and base field
-([Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+(Serre, *Topics in Galois Theory*,
 Introduction and §§3.3, 8.1, pp. 1, 23–25, 81–83). *Needs:*
 *Field and polynomial realizations*, *Specialization with its realization data*,
 *Symmetric groups as realizations*, Layer IG.4 *Shafarevich solvable realization*,
 Layer IG.3 *Rational rigidity*,
 Layer IG.5 *Abhyankar affine-curve realization*.
-*Lean:* `InverseGaloisProblem`, `RegularInverseGaloisProblem`, `HasRegularRealization`,
-`realization_of_hasRegularRealization`, `inverseGaloisProblem_of_regular`.
+
+*Lean:* `InverseGaloisProblem`, `RegularInverseGaloisProblem`, `inverseGaloisProblem_of_regular`.
 
 **Checks.**
 
@@ -7251,7 +7224,7 @@ specialization map, and quantifies over actual overfields and actual finite Galo
 their algebra isomorphisms; for `C₂` it uses the normal form of quadratic extensions, the guard
 `T ≠ 0` and the splitting-field isomorphism. The quadratic construction and its distinction from
 ordinary specialization are in
-[Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
+Serre, *Topics in Galois Theory*,
 §§1.1, 3.3, pp. 1–2, 23–25; the general universality predicate is formulated here. *Needs:*
 *Field and polynomial realizations*, *Specialization with its realization data*;
 PolynomialGaloisGroups Layer 2, PolynomialGaloisGroups Layer 3.
@@ -7338,7 +7311,7 @@ IG.3–IG.5 by arithmetic statistics (Cohen–Lenstra and nonabelian Cohen–Len
 
 ## References
 
-Freely available sources, with the versions to which the locators refer.
+Sources and the editions or versions to which the locators refer.
 
 - B. Bhatt and P. Scholze, *The pro-étale topology for schemes*, Astérisque 369 (2015);
   arXiv:1309.1198v2. <https://arxiv.org/pdf/1309.1198v2>
@@ -7404,8 +7377,8 @@ Freely available sources, with the versions to which the locators refer.
   <https://www.cambridge.org/core/services/aop-cambridge-core/content/view/12B5FCFADCAFE740B31DEE5BB112DB85/S0017089512000675a.pdf/nielsen_equivalence_of_generating_pairs_of_sl2q.pdf>
 - A. Merkurjev and F. Scavia, *Galois representations modulo `p` that do not lift modulo `p²`*,
   arXiv:2410.12560v1. <https://arxiv.org/pdf/2410.12560v1>
-- B. Poonen, *Rational points on varieties*, Graduate Studies in Math. 186, Amer. Math. Soc., 2017;
-  author's online version (printed page numbers). <https://math.mit.edu/~poonen/papers/Qpoints.pdf>
+- B. Poonen, *Rational points on varieties*, Graduate Studies in Math. 186, Amer. Math. Soc., 2017.
+  Printed page numbers.
 - M. Raynaud, *Caractéristique d'Euler–Poincaré d'un faisceau et cohomologie des variétés
   abéliennes*, Séminaire Bourbaki, exp. 286 (1965), 129–147.
   <http://www.numdam.org/item/SB_1964-1966__9__129_0/>
@@ -7421,7 +7394,6 @@ Freely available sources, with the versions to which the locators refer.
 - B. Seguin, *Fields of definition of components of Hurwitz spaces*, author's copy.
   <https://beranger-seguin.fr/assets/pdf/articles/fielddef.pdf>
 - J.-P. Serre, *Topics in Galois Theory*, second edition, A K Peters, 2008.
-  <https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf>
 - The Stacks project authors, *The Stacks project*, cited by tag. <https://stacks.math.columbia.edu>
 - S. Wewers, *Field of moduli and field of definition of Galois covers*, arXiv:math/0108003v1.
   <https://arxiv.org/pdf/math/0108003v1>
