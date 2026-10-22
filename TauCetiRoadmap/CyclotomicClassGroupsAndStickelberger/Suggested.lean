@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.AlgebraicGeometry.AbelianVariety.MorphismGroup
 import TauCeti.NumberTheory.ClassGroup.Equiv
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 
@@ -11,9 +12,14 @@ ideal-class action, inverse group-ring basis, and dyadic tower shift are explici
 The circular-unit carriers specialize the shared arithmetic groups of IntegralIwasawaTheory
 Layer 1; class-number growth specializes its Layer 3. The native Vandiver predicate agrees
 with its Layer 7 condition at odd primes and also records the rational dyadic boundary.
+The shared abelian Hom theorem uses the native field-valued abelian-variety carrier.
+The geometric realizations and local comparisons described in the closing inventory
+remain README targets on the shared objects specified there.
 -/
 
 open scoped BigOperators TensorProduct Cyclotomic Matrix
+open scoped TauCeti.AlgebraicGeometry.AbelianVariety.Hom
+open CategoryTheory
 open NumberField
 namespace TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
 
@@ -345,6 +351,15 @@ theorem relativeClassNumber_lt (p : ℕ) [NeZero p] (hp : p.Prime) (hodd : p ≠
       (p : ℝ) ^ (((p : ℝ) - 1) / 4) := by
   sorry
 
+/-- Over any field, abelian-variety homomorphisms form a finite free abelian group,
+with rank at most four times the product of the dimensions (README §4.3). -/
+theorem homFreeFinite (k : Type*) [Field k]
+    (B C : TauCeti.AlgebraicGeometry.AbelianVariety k) :
+    Module.Free ℤ (Additive (B ⟶ C)) ∧
+      Module.Finite ℤ (Additive (B ⟶ C)) ∧
+        (Module.finrank ℤ (Additive (B ⟶ C)) : WithBot ℕ∞) ≤ 4 * B.dim * C.dim := by
+  sorry
+
 
 /-- Bernoulli divisibility detects the covariant component with exponent 1-k. -/
 theorem herbrand_ribet (p : ℕ) [Fact p.Prime] [NeZero p]
@@ -533,16 +548,36 @@ the prime-power cyclotomicClassEigenspace, dyadicNormKernel,
 dyadicAntiInvariants, dyadicMinusQuotient, cyclotomicPrime; relativeUnitSat,
 relativeUnitQuotient, RelativeFundamentalSystem, invariantIdealResidues,
 capitulationKernel, capitulationCocycle, genusClassQuotient; compatibleGaussData;
-unramifiedKummerRadical, relativeClassNumber, abelianCharacter_gauss_product; modularAbelianQuotient,
-numericalIntersection, abelianEndomorphismPolynomial, modularTate_trace_bound, the Rosati involution,
-finite-flat closures and quotients, BarsottiTate and its height, dual, Tate
-module, formal tangent space and dimension, LocallyAlgebraicCharacter,
-HodgeTate; cyclotomicSUnitSubgroup, circularUnits, realCircularUnits,
+unramifiedKummerRadical, relativeClassNumber, abelianCharacter_gauss_product;
+the shared AbelianTate field realization with AbelianTate.modPow, End.charpoly,
+End.trace, charpolyTate, Polarization.rosati and rosatiPositivity,
+with rosati_trace_positive its diagonal specialization; numericalIntersection;
+abelianSubvarietyQuotient, modularQuotientForIdeal and modularQuotient, with
+modularQuotient_map, modularQuotient_kills, modularQuotient_lift,
+modularQuotient_hom_ext, modularQuotient_baseChange and modularQuotient_hecke;
+modularAbelianQuotient as an abbreviation of that quotient,
+modularAbelianQuotient_hecke, modularTate_coefficientComparison and modularTate_trace_bound;
+the shared schematicClosure_flat, prolongation_unique_of_lt, prolongation_unique_boundary
+and genericFibre_map_bijective,
+with finiteFlatModel_hom_extend, finiteFlatModel_unique, genericSubgroupClosure_flat,
+finiteFlatQuotient_genericFiber and connectedEtale_scalar_stable as application comparisons;
+the shared scheme-valued BarsottiTate S p h, with BarsottiTate.truncation,
+BarsottiTate.baseChange, BarsottiTate.dual, BarsottiTate.ofAbelian,
+BarsottiTate.tateModule, BarsottiTate.connectedEtale, BarsottiTate.equivFormalLieGroup,
+BarsottiTate.tangentSpace, BarsottiTate.dim, BarsottiTate.dim_add_dim_cartierDual
+and the covariant BarsottiTate.hodgeTate; pDivisible_hodgeTate is its constant-target dual.
+The pDivisible_height, pDivisible_dual, pDivisible_connectedEtale, pDivisible_formal_equiv,
+pDivisible_tate_free and pDivisible_dual_dimension comparisons use this same carrier.
+LocallyAlgebraicCharacter, HodgeTate and hodgeTate_character_iff_locallyAlgebraic
+specify the local character comparison with HT(χ_p) = 1.
+The README also specifies cyclotomicSUnitSubgroup, circularUnits, realCircularUnits,
 circularRegulator; cyclotomicClassInverseLimit,
 classLimitProjection and inverseCharacterUnramifiedQuotient. The circular-unit,
 regulator, norm-limit, Artin and growth adapters in README Layers 6–7 transport
 IntegralIwasawaTheory's shared arithmetic results. The other constructions and
-comparison APIs are specified in their respective README layers.
+comparison APIs are specified in their respective README layers. The shared
+geometric prefixes of §§4.3–4.4 precede the modular converse; the finite obstruction
+of §§8.1–8.3 uses Layers 0–3 and §1.7 independently of that converse.
 
 README-only API targets include denominatorIdeal_generators,
 stickelbergerIdeal_eq_intersection, stickelbergerIdeal_annihilates,
