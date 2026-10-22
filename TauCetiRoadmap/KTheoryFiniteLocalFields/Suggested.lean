@@ -13,7 +13,8 @@ subgroups, and states the milestones whose carriers already exist: the compact-t
 vanishing, the Cohen/Witt coefficient embedding and Dwork's ghost criterion, the
 characteristic-`p` logarithmic-derivative identity used in the Tate comparison, and the
 elementary Tate-module lemmas on Tau Ceti's `TateModule`. The K-theory, homotopy,
-logarithmic and trace constructions are targets of the README.
+logarithmic and trace constructions, the shared Bloch cycle complexes and their
+motivic-to-K comparisons are targets of the README.
 -/
 
 namespace TauCetiRoadmap.KTheoryFiniteLocalFields
@@ -125,8 +126,9 @@ variable {k : Type*} [CommRing k]
 
 /-- The residue-coordinate expression for the left-linear boundary:
 `∂{π^r u, π^s v} = (-1)^(r*s) * ū^s * v̄^(-r)`.
-This is the coordinate form of the tame symbol; its agreement with the boundary on K₂ is the
-comparison theorem `tameBoundary_symbol` of README §3.2. -/
+The boundary is the degree-two adapter `∂₂ = -B₂` of the raw localization boundary.
+Its agreement with K2SymbolsBrauer's last-slot residue on the common Milnor carrier is
+`tameBoundary_symbol` of README §3.2. -/
 def tameCoordinate (r s : ℤ) (u v : kˣ) : kˣ :=
   (-1 : kˣ) ^ (r * s) * u ^ s * v ^ (-r)
 
@@ -264,7 +266,11 @@ finite-coefficient and completed K-theory, Bott classes, profinite changes of th
 Brauer comparison, normalized relative Chern classes, finite-field restriction and transfer,
 the universal equivariant Chern/slant and Moore–Hurewicz maps, the finite-field edge, the Lang
 torsor and its geometric classifying comparison, henselian rigidity and the prime-to-p
-localization splittings, the full norm-residue map and its kernel, the linear Waldhausen THH
+localization splittings, the supplier adapter `milnorResidueNorm`, the full norm-residue map
+and its kernel,
+the adapted boundary identity `localizationBockstein` and its order-three theorem
+`localizationBockstein_orderThree`, the shared `motivicCycles` cycle/moving package and
+its additional `motivicToK` comparisons, the linear Waldhausen THH
 model, classical TR and TC, the Connes operator, the HM Tate-cochain comparison and Tate
 spectral sequence, the logarithmic DVR THH/TR/TC objects, the absolute logarithmic
 de Rham–Witt complex, the Frobenius-twisted derivation and hW module, logarithmic trace structure
