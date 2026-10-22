@@ -55,7 +55,7 @@ ArithmeticGaloisDuality §§R02.3.0d, R02.4.5a–R02.4.5b and R02.4.6 supply fin
 
 ### From Mathlib
 
-The signatures are expressed against Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Library notions remain native: `Lp`, `HilbertBasis`, `LinearPMap`, `ContinuousLinearMap`, `SchwartzMap`, `TestFunction`, `HomologicalComplex`, `AnalyticOnNhd` and `MeromorphicOn`.
+The statements are expressed against Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The declarations in `Suggested.lean` are `analytic_fredholm`, `Modular.completed_eisenstein_continuation` and `Modular.green_kernel_continuation`, with the definitions `Modular.nonholomorphic_eisenstein`, `SpecialFunctions.legendre_q`, `SpecialFunctions.point_pair_invariant` and `Modular.automorphic_green`. Other target names specify the library to be built. Library notions remain native: `Lp`, `HilbertBasis`, `LinearPMap`, `ContinuousLinearMap`, `SchwartzMap`, `TestFunction`, `HomologicalComplex`, `AnalyticOnNhd` and `MeromorphicOn`.
 
 - `MeasureTheory.L2.inner_def` gives the conjugate-first scalar `L²` pairing. `MeasureTheory.integral_prod` and `MeasureTheory.integral_tsum` supply Fubini and summation under their integrability hypotheses; they do not justify a formally divergent spectral integral.
 - `hasFDerivAt_integral_of_dominated_of_fderiv_le` and `hasDerivAt_integral_of_dominated_loc_of_deriv_le` supply differentiated integrals with local domination. `WithSeminorms.banach_steinhaus` supplies equicontinuity on barrelled spaces, rather than a nuclear LF construction.
@@ -160,7 +160,7 @@ Consume VonNeumannAlgebras V4's measurable essentially bounded operator fields a
 
 ### 0.4 Isometric integration maps
 
-Prove `isometric_integration_map`. Let `D` be a dense linear subspace of a direct integral and `W₀:D→H` a linear map into a complete Hilbert space satisfying `⟪W₀u,W₀v⟫=∫⟪uₓ,vₓ⟫dμ`. Then `W₀` extends uniquely to a linear isometry `W` of the entire direct integral. Its range is closed; `W` is unitary onto `H` exactly when the range of `W₀` is dense. An isometry alone does not prove spectral completeness.
+Prove the isometric integration-map extension theorem. Let `D` be a dense linear subspace of a direct integral and `W₀:D→H` a linear map into a complete Hilbert space satisfying `⟪W₀u,W₀v⟫=∫⟪uₓ,vₓ⟫dμ`. Then `W₀` extends uniquely to a linear isometry `W` of the entire direct integral. Its range is closed; `W` is unitary onto `H` exactly when the range of `W₀` is dense. An isometry alone does not prove spectral completeness.
 
 *Standing hypotheses:* `D` is dense; the stated Gram identity holds for every `u,v∈D`.
 
@@ -171,9 +171,9 @@ Prove `isometric_integration_map`. Let `D` be a dense linear subspace of a direc
 
 ### 0.5 Herglotz representation
 
-Prove `herglotz_representation`: for holomorphic `F` with `Im F≥0` on the upper half-plane, the subtracted-kernel representation `F(z)=a+bz+∫[(t−z)⁻¹−t/(1+t²)]dν` has a unique triple with `a=Re F(i)`, `b≥0`, `ν` positive and `∫(1+t²)⁻¹dν` finite. The new content is the density conversion `dν=(1+t²)dρ` from the supplied finite measure and uniqueness in this convention. For resolvents, identify `b=0` and finite mass by the asymptotic at `i∞`; polarize to reconstruct the spectral measure.
+Prove the Herglotz representation theorem: for holomorphic `F` with `Im F≥0` on the upper half-plane, the subtracted-kernel representation `F(z)=a+bz+∫[(t−z)⁻¹−t/(1+t²)]dν` has a unique triple with `a=Re F(i)`, `b≥0`, `ν` positive and `∫(1+t²)⁻¹dν` finite. The new content is the density conversion `dν=(1+t²)dρ` from the supplied finite measure and uniqueness in this convention. For resolvents, identify `b=0` and finite mass by the asymptotic at `i∞`; polarize to reconstruct the spectral measure.
 
-The API uses `weightedMeasure` for the positive density change, `weighted_mass` for `∫(1+t²)⁻¹dν=ρ(ℝ)`, and `integral_conversion` for equality of the two integrable kernels.
+Prove the positive density change, the weighted-mass identity `∫(1+t²)⁻¹dν=ρ(ℝ)`, and equality of the two integrable kernels.
 
 **Checks.**
 
@@ -373,7 +373,7 @@ Prove the following API statements.
 
 ([BPCZ22], Appendix A.0.3–A.0.4, pp.328–329 supplies weak holomorphy and pointwise Hom topology. The bounded-set operator topology and common-denominator meromorphic extension are additional targets here; [Art05], §7, pp.33–35 supplies their Eisenstein application.)
 
-For a normed complex target use Mathlib's `MeromorphicOn f U`. For a Banach target and open `U⊆ℂ`, prove `meromorphicOn_iff_local_regularization`: this is equivalent to the existence, at every `z∈U`, of `n≥0`, `r>0` and `g` analytic on the ball `B(z,r)⊆U`, with `g(s)=(s−z)^n f(s)` for `s≠z` in that ball. The value assigned to `f(z)` is irrelevant. Use `MeromorphicOn.mono_set` for restriction; prove `meromorphicOn_postcomp` for continuous linear postcomposition between normed targets, without completeness assumptions. Applying native meromorphy to `f:ℂ→(E→L[ℂ]F)` gives a single exponent for the entire bounded operator in operator norm. The locally convex bounded-set topology and several-parameter hyperplane products above retain their stated stronger contracts.
+For a normed complex target use Mathlib's `MeromorphicOn f U`. For a Banach target and open `U⊆ℂ`, prove that native meromorphy is equivalent to the existence, at every `z∈U`, of `n≥0`, `r>0` and `g` analytic on the ball `B(z,r)⊆U`, with `g(s)=(s−z)^n f(s)` for `s≠z` in that ball. The value assigned to `f(z)` is irrelevant. Use `MeromorphicOn.mono_set` for restriction; prove preservation by continuous linear postcomposition between normed targets, without completeness assumptions. Applying native meromorphy to `f:ℂ→(E→L[ℂ]F)` gives a single exponent for the entire bounded operator in operator norm. The locally convex bounded-set topology and several-parameter hyperplane products above retain their stated stronger contracts.
 
 **Checks.**
 
@@ -416,15 +416,15 @@ Prove `vector_phragmen_lindelof`. Let `V` be a Hausdorff quasi-complete complex 
 
 ([BPCZ22], Appendix A.0.8 definition; Lemma A.0.10.1, printed p.332.)
 
-In a normed specialization, `StripOrder(f,d,C)` is the displayed bound for every `d′>d` and every `C<a≤b`. `FiniteStripOrder(f,C)` asserts some positive `d`. Prove `StripOrder.mono_order`, `StripOrder.add` (with order the larger of the two positive orders), and `FiniteStripOrder.postcomp`.
+In a normed specialization, order at most `d` is the displayed bound for every `d′>d` and every `C<a≤b`. Finite strip order asserts some positive `d`. Prove monotonicity in the order, stability under addition with the larger of the two positive orders, and preservation by continuous linear postcomposition.
 
-For scalar functions, consume `BoundedOnStrips` from AutomorphicLFunctionsAndLocalFactors AL.3, [Boundedness on finite vertical strips](../AutomorphicLFunctionsAndLocalFactors/README.md#bounded-on-strips). Its bound implies `FiniteStripOrder(f,C)` for every real `C`: take `d=1` and use `exp(−|s|^d′)≤1`. Finite strip order alone gives no uniform bound on the original function along a strip. The scalar boundedness interface follows the Imperial College London FLT project; the vector-valued growth conditions here retain their separate meaning.
+For scalar functions, consume `BoundedOnStrips` from AutomorphicLFunctionsAndLocalFactors AL.3, [Boundedness on finite vertical strips](../AutomorphicLFunctionsAndLocalFactors/README.md#bounded-on-strips). Its bound implies finite strip order on `Re(s)>C` for every real `C`: take `d=1` and use `exp(−|s|^d′)≤1`. Finite strip order alone gives no uniform bound on the original function along a strip. The scalar boundedness interface follows the Imperial College London FLT project; the vector-valued growth conditions here retain their separate meaning.
 
 **Checks.**
 
 - A constant normed-valued function has strip order one on every right half-plane; the zero function permits the bound `M=0`.
 - The entire scalar family `exp(z²)` satisfies the supplied strip bound, since its modulus is `exp((Re z)²−(Im z)²)`, and hence has finite strip order. It need not have polynomial growth on `ℂ`.
-- On a strip through the imaginary axis, `exp(exp(−iz))` is not of finite strip order (`not_finiteStripOrder_double_exp`): at `z=it` its norm is `exp(exp(t))`, exceeding every bound `exp(|t|^d′)M`.
+- On a strip through the imaginary axis, `exp(exp(−iz))` is not of finite strip order: at `z=it` its norm is `exp(exp(t))`, exceeding every bound `exp(|t|^d′)M`.
 
 *Needs:* §0.12; §0.15; AutomorphicLFunctionsAndLocalFactors AL.3, [Boundedness on finite vertical strips](../AutomorphicLFunctionsAndLocalFactors/README.md#bounded-on-strips), for the scalar boundedness predicate.
 
@@ -517,20 +517,20 @@ Prove `torus_fourier_decay`. On a finite product of Circle and a finite abelian 
 
 ### 0.25 Bessel functions `J_ν` and `I_ν`
 
-For the supplied first-kind function write `J_ν(y)=Complex.besselJ ν y`. Define `bessel_i` for `ν∈ℂ` and real `y` by `I_ν(y)=(y/2)^ν ₀F̃₁(;ν+1;y²/4)`, where `(y/2)^ν` is Mathlib's principal complex power and `₀F̃₁` is Mathlib's entire regularized hypergeometric function `Complex.regularizedHGFun`. Equivalently `J_ν(y)=Σ_{k≥0}(−1)^k(y/2)^{ν+2k}/(k!Γ(ν+k+1))` and `I_ν` drops the sign, with `1/Γ` read as entire, so every order is allowed. At `y=0` Mathlib's `0^0=1` gives `I₀(0)=J₀(0)=1`. For positive `x`, write `rpowC(x,s)=exp(s log x)`; `rpowC.cpow` identifies it with the library's complex power, `rpowC.add` is `x^(s+t)=x^s x^t`, and `rpowC.deriv` differentiates in the order with factor `log x`.
+For the supplied first-kind function write `J_ν(y)=Complex.besselJ ν y`. Define the modified Bessel function for `ν∈ℂ` and real `y` by `I_ν(y)=(y/2)^ν ₀F̃₁(;ν+1;y²/4)`, where `(y/2)^ν` is Mathlib's principal complex power and `₀F̃₁` is Mathlib's entire regularized hypergeometric function `Complex.regularizedHGFun`. Equivalently `J_ν(y)=Σ_{k≥0}(−1)^k(y/2)^{ν+2k}/(k!Γ(ν+k+1))` and `I_ν` drops the sign, with `1/Γ` read as entire, so every order is allowed. At `y=0` Mathlib's `0^0=1` gives `I₀(0)=J₀(0)=1`. For positive `x`, use Mathlib's complex power `x^s=exp(s log x)`. Prove `x^(s+t)=x^s x^t` and differentiation in the order with factor `log x`.
 
 **Checks of the positive-base power.**
 
-- `rpowC(4,1/2)=2`.
-- `rpowC(4,−1)=1/4` and `rpowC(1,s)=1` for every `s`.
+- `4^(1/2)=2`.
+- `4^(−1)=1/4` and `1^s=1` for every `s`.
 - `x=0` is excluded from this analytic interface: a totalized real-log expression there is not the complex-power convention `0^0=1`, `0^1=0`.
 
 
 *Standing hypotheses:* `ν∈ℂ` arbitrary; statements about derivatives are for `y>0`.
 
 Prove the following API statements.
-- `bessel_j_series`, `bessel_i_series`: the displayed power series converge absolutely for every `y`.
-- `bessel_j_ode`, `bessel_i_ode`: for `y>0`, `y²w″+yw′+(y²−ν²)w=0` for `w=J_ν` and `y²w″+yw′−(y²+ν²)w=0` for `w=I_ν`.
+- Series: the displayed power series converge absolutely for every `y`.
+- Differential equations: for `y>0`, `y²w″+yw′+(y²−ν²)w=0` for `w=J_ν` and `y²w″+yw′−(y²+ν²)w=0` for `w=I_ν`.
 - `bessel_j_recurrence`: `J_{ν−1}(y)+J_{ν+1}(y)=(2ν/y)J_ν(y)` for `y>0`.
 - `bessel_i_recurrence`: `I_{ν−1}(y)−I_{ν+1}(y)=(2ν/y)I_ν(y)` for `y>0`.
 - `bessel_i_neg_int`: `I_{−n}(y)=I_n(y)` for integral `n≥0` and `y>0`.
@@ -552,12 +552,12 @@ Prove the following API statements.
 
 ### 0.26 Whittaker `M` and `W` functions
 
-Define `whittaker_m` as follows. For `y>0` put `M_{μ,ν}(y)=Γ(1+2ν)e^(−y/2)y^(ν+1/2)` regularized `₁F₁(ν−μ+1/2;1+2ν;y)`. Initially when `Re(ν±μ+1/2)>0` this equals `y^(ν+1/2)e^(y/2)Γ(1+2ν)/[Γ(ν+μ+1/2)Γ(ν−μ+1/2)] ∫₀¹ t^(ν+μ−1/2)(1−t)^(ν−μ−1/2)e^(−yt)dt`. Define `W` by `y^(ν+1/2)e^(y/2)/Γ(ν−μ+1/2) ∫₁∞t^(ν+μ−1/2)(t−1)^(ν−μ−1/2)e^(−yt)dt` in that region, then continue. The `M` series in the statement is entire in `y` after stripping the `y` power and meromorphic in `ν`; `W` has decaying normalization.
+Define the Whittaker function `M` as follows. For `y>0` put `M_{μ,ν}(y)=Γ(1+2ν)e^(−y/2)y^(ν+1/2)` regularized `₁F₁(ν−μ+1/2;1+2ν;y)`. Initially when `Re(ν±μ+1/2)>0` this equals `y^(ν+1/2)e^(y/2)Γ(1+2ν)/[Γ(ν+μ+1/2)Γ(ν−μ+1/2)] ∫₀¹ t^(ν+μ−1/2)(1−t)^(ν−μ−1/2)e^(−yt)dt`. Define `W` by `y^(ν+1/2)e^(y/2)/Γ(ν−μ+1/2) ∫₁∞t^(ν+μ−1/2)(t−1)^(ν−μ−1/2)e^(−yt)dt` in that region, then continue. The `M` series in the statement is entire in `y` after stripping the `y` power and meromorphic in `ν`; `W` has decaying normalization.
 
 *Standing hypotheses:* `y>0`; initial Euler-integral assumptions `Re(ν±μ+1/2)>0`; continuation excludes uncompensated gamma poles.
 
 Prove the following API statements.
-- `eulerIntegral`: For `y>0` and `Re(ν±μ+1/2)>0`, the series-defined `M` agrees with its displayed Euler integral (`whittaker_m_euler`); the separately continued `whittaker_w` agrees with the convergent tail integral in this region.
+- `eulerIntegral`: For `y>0` and `Re(ν±μ+1/2)>0`, the series-defined `M` agrees with its displayed Euler integral; the separately continued `whittaker_w` agrees with the convergent tail integral in this region.
 - `hypergeometricSeries`: For `Re(s)>0`, `M_{μ,s−1/2}(y)=e^(−y/2)y^s Γ(2s)·regularized ₁F₁(s−μ;2s;y)`, using Mathlib Complex.regularizedHGFun with singleton numerator and denominator multisets.
 - `decayingNormalization`: At positive infinity, `W` has leading term `y^μ exp(−y/2)`, fixing its scale.
 - `whittaker_w_ode`: The continued `W` solves the same differential equation as `M`, with the decaying normalization fixing the solution.
@@ -581,7 +581,7 @@ Prove the following API statements.
 
 ### 0.27 Whittaker–Bessel comparison
 
-Prove `whittaker_bessel_comparison`. For `y>0` and `Re(ν+1/2)>0`, `I_ν(y)=2^(−2ν−1/2)Γ(ν+1)⁻¹y^(−1/2)M_{0,ν}(2y)` and `K_ν(y)=√(π/(2y))W_{0,ν}(2y)`. Beyond this initial integral range, use continued `W` and exceptional-parameter limits; a divergent totalized integral is not `W`. Reconcile every factor `2√y` in weight-zero expansions.
+Prove the Whittaker–Bessel comparison. For `y>0` and `Re(ν+1/2)>0`, `I_ν(y)=2^(−2ν−1/2)Γ(ν+1)⁻¹y^(−1/2)M_{0,ν}(2y)` and `K_ν(y)=√(π/(2y))W_{0,ν}(2y)`. Beyond this initial integral range, use continued `W` and exceptional-parameter limits; a divergent totalized integral is not `W`. Reconcile every factor `2√y` in weight-zero expansions.
 
 ([DIT11], Appendix A, (A.1)–(A.2) and the Bessel comparisons, p.977.)
 
@@ -590,7 +590,7 @@ Prove `whittaker_bessel_comparison`. For `y>0` and `Re(ν+1/2)>0`, `I_ν(y)=2^(�
 
 ### 0.28 Whittaker differential and asymptotic API
 
-Prove `whittaker_asymptotics`. `W` and `M` satisfy `w″+(−1/4+μ/y+(1/4−ν²)/y²)w=0`. For `Re(s)>0`, `M_{μ,s−1/2}(y)=y^s(1+O(y))` near `0`. Away from exceptional parameters its large-y growing term and the decaying `W` asymptotic have the gamma constants in DIT11 (A.4). Uniform derivative bounds are needed before differentiation under integrals. More explicitly, `W_{μ,ν}~y^μe^(−y/2)`, `M_{μ,ν}~Γ(1+2ν)/Γ(ν−μ+1/2)y^(−μ)e^(y/2)` in the initial Euler-integral region, continued only where the growing coefficient is nonzero.
+Prove the Whittaker differential and asymptotic formulas. `W` and `M` satisfy `w″+(−1/4+μ/y+(1/4−ν²)/y²)w=0`. For `Re(s)>0`, `M_{μ,s−1/2}(y)=y^s(1+O(y))` near `0`. Away from exceptional parameters its large-y growing term and the decaying `W` asymptotic have the gamma constants in DIT11 (A.4). Uniform derivative bounds are needed before differentiation under integrals. More explicitly, `W_{μ,ν}~y^μe^(−y/2)`, `M_{μ,ν}~Γ(1+2ν)/Γ(ν−μ+1/2)y^(−μ)e^(y/2)` in the initial Euler-integral region, continued only where the growing coefficient is nonzero.
 
 ([DIT11], Appendix A, (A.3)–(A.5), p.977.)
 
@@ -599,7 +599,7 @@ Prove `whittaker_asymptotics`. `W` and `M` satisfy `w″+(−1/4+μ/y+(1/4−ν�
 
 ### 0.29 Sine-power integral
 
-Prove `sine_power_integral`. For `Re(ν)>0` and complex `β`, `∫_0^π e^{iβθ}sin^(ν−1)θ dθ=πe^{iπβ/2}Γ(ν)/(2^(ν−1)Γ((ν+β+1)/2)Γ((ν−β+1)/2))`, interpreted via reciprocal gamma. The factor `2^(ν−1)` is missing in the displayed source formula on p.984.
+Prove the sine-power integral identity. For `Re(ν)>0` and complex `β`, `∫_0^π e^{iβθ}sin^(ν−1)θ dθ=πe^{iπβ/2}Γ(ν)/(2^(ν−1)Γ((ν+β+1)/2)Γ((ν−β+1)/2))`, interpreted via reciprocal gamma. The factor `2^(ν−1)` is missing in the displayed source formula on p.984.
 
 ([DIT16], Appendix A, p.984; the sine-power identity numbered 3.892(1) in the integral-table reference cited there.)
 
@@ -657,7 +657,7 @@ Define `legendre_q` as follows. For `t>1` and complex `s` with `Re(s)>0`, define
 
 Prove the following API statements.
 - `integral`: Use the positive-base convergent integral for `Re(s)>0`.
-- `hypergeometric`: Compare with the displayed `₂F₁` formula on its open-disc argument (`legendre_q_hypergeometric`).
+- `hypergeometric`: Compare with the displayed `₂F₁` formula on its open-disc argument.
 - `integer_specialization`: The integer `k` case is the same `Q_{k−1}`, with `Q₀,Q₁` as stated.
 
 **Checks.**
@@ -672,7 +672,7 @@ Prove the following API statements.
 
 ### 0.36 Asymptotics of `Q_{s−1}` (2.7), (2.8)
 
-Prove `legendre_q_asymptotics`. `Q_{s−1}(t) = −½ log(t − 1) + O(1)` as `t ↘ 1` (2.7), and `Q_{s−1}(t) = O(t^{−s})` as `t → ∞` (2.8) `(s > 1 fixed)`.
+Prove the Legendre asymptotic formulas. `Q_{s−1}(t) = −½ log(t − 1) + O(1)` as `t ↘ 1` (2.7), and `Q_{s−1}(t) = O(t^{−s})` as `t → ∞` (2.8) `(s > 1 fixed)`.
 
 ([GZ86], Chapter II, §2, (2.7), (2.8), p. 238.)
 
@@ -684,8 +684,8 @@ Prove `legendre_q_asymptotics`. `Q_{s−1}(t) = −½ log(t − 1) + O(1)` as `t
 Define `point_pair_invariant` as follows. `g(z, z′) = log(|z − z′|²/|z̄ − z′|²)` satisfies a′) `g(γz, γz′) = g(z, z′)` for `γ ∈ PSL₂(ℝ)`; b′) continuous and harmonic in each variable on `𝔥 × 𝔥 ∖` diagonal; c′) `g = log|z − z′|² + O(1)` as `z′ → z`; but `Σ_{γ ∈ Γ₀(N)} g(z, γz′)` diverges (barely). For `s > 1`, `g_s(z, z′) = −2Q_{s−1}(1 + |z − z′|²/(2yy′)) (z ≠ z′)` (2.9) satisfies a′), c′) (by (2.7)) and `Δg_s = s(s−1)g_s` in each variable; `g₁ = g`. The positive spectral Laplacian convention of DIT is `−Δ_GZ`, so its eigenvalue here is `s(1−s)`.
 
 Prove the following API statements.
-- `invariant`: Simultaneous `PSL₂(ℝ)` action preserves `g_s` (`point_pair_invariant_invariant` on the `SL₂(ℝ)` cover).
-- `point_pair_invariant_s_one`: At `s=1`, `−2Q₀(cosh dist)=log(|z−z′|²/|z−bar z′|²)` off the diagonal.
+- `invariant`: Simultaneous `PSL₂(ℝ)` action preserves `g_s` on the `SL₂(ℝ)` cover.
+- Order one: At `s=1`, `−2Q₀(cosh dist)=log(|z−z′|²/|z−bar z′|²)` off the diagonal.
 - `laplace`: Off the diagonal, `Δ_GZ g_s=s(s−1)g_s` in either variable.
 
 **Checks.**
@@ -709,11 +709,11 @@ Prove `legendre_q_near_one`. For the Legendre function of the second kind `Q_{s�
 
 ### 0.39 The archimedean integral `V_s(t)`
 
-Define `archimedean_v_integral` as follows. Fix `k ≥ 1`. For `s ∈ ℂ` with `Re(s) > 1−k` and `t ∈ ℝ`: `V_s(t) = ∫_{−∞}^{∞} e^{−2πixt} dx / ((x+i)^{2k−1}(x²+1)^s)`. This is the Fourier transform of `x ↦ (x+i)^{−(2k−1)}(x²+1)^{−s}`, which is absolutely integrable exactly when `Re(s) > 1−k`.
+Define the archimedean integral as follows. Fix `k ≥ 1`. For `s ∈ ℂ` with `Re(s) > 1−k` and `t ∈ ℝ`: `V_s(t) = ∫_{−∞}^{∞} e^{−2πixt} dx / ((x+i)^{2k−1}(x²+1)^s)`. This is the Fourier transform of `x ↦ (x+i)^{−(2k−1)}(x²+1)^{−s}`, which is absolutely integrable exactly when `Re(s) > 1−k`.
 
 Prove the following API statements.
 - `fourier_integral`: `V_s` is the explicit Lebesgue Fourier integral in `Re(s)>1−k`.
-- `integrable_iff`: The seed norm is integrable exactly for `Re(s)>1−k` (`archimedean_v_integrable_iff`).
+- `integrable_iff`: The seed norm is integrable exactly for `Re(s)>1−k`.
 - `parameter_derivative`: Differentiate in a compact sub-half-plane using the logarithmic majorant.
 
 **Checks.**
@@ -728,7 +728,7 @@ Prove the following API statements.
 
 ### 0.40 Proposition (3.3a): the value `V_s(0)`
 
-Prove `archimedean_v_at_zero`. For `k ≥ 1`: `V_s(0) = (−1)^k π i 2^{−2s−2k+3} Γ(2s+2k−2)/(Γ(s)Γ(s+2k−1))`. This holds for `Re(s) > 1−k` and gives the meromorphic continuation of `V_s(0)` in `s`.
+Prove the zero-frequency evaluation. For `k ≥ 1`: `V_s(0) = (−1)^k π i 2^{−2s−2k+3} Γ(2s+2k−2)/(Γ(s)Γ(s+2k−1))`. This holds for `Re(s) > 1−k` and gives the meromorphic continuation of `V_s(0)` in `s`.
 
 ([GZ86], Chapter IV, §3, (3.3) Proposition a), p. 277; proofs pp. 279–280.)
 
@@ -737,7 +737,7 @@ Prove `archimedean_v_at_zero`. For `k ≥ 1`: `V_s(0) = (−1)^k π i 2^{−2s�
 
 ### 0.41 Proposition (3.3b): holomorphy of `V_s(t)` in `s` and exponential decay in `t`
 
-Prove `archimedean_v_holomorphic`. For `t ≠ 0` the function `s ↦ V_s(t)` continues holomorphically to all `s ∈ ℂ` and satisfies, locally uniformly in `s`, `V_s(t) = |t|^{O(1)} e^{−2π|t|}` as `|t| → ∞`.
+Prove entire continuation at nonzero frequency. For `t ≠ 0` the function `s ↦ V_s(t)` continues holomorphically to all `s ∈ ℂ` and satisfies, locally uniformly in `s`, `V_s(t) = |t|^{O(1)} e^{−2π|t|}` as `|t| → ∞`.
 
 ([GZ86], Chapter IV, §3, (3.3) Proposition `b`), p. 277; proof pp. 280–281.)
 
@@ -902,7 +902,7 @@ Prove the following API statements.
 - For `P=G` on `G(𝔸)¹`, `ρ_P=H_P=0` and `I_P` is right translation on the discrete inducing space.
 - The `GL₂` open-cell torus model acts by `r^(s+1/2)f(rx)`, and preserves the `L²` norm for purely imaginary `s`.
 - Dropping the half-modulus in the same dilation model, at `r=4` a nonzero vector has half its original norm.
-- For `SL₂/ℚ` with trivial Borel datum and spherical finite components, let `K_∞=SO(2)`, `a_y = diag(√y, 1/√y)` and `f_s(n a_y k) = y^s`. The compact vector `φ=1` is `K_∞`-fixed. At `s = 2` and `h_t = diag(e^t, e^(−t))`, `t≠0`, its translate on `k_θ` is `F_t(θ) = (e^(2t) sin²θ + e^(−2t) cos²θ)^(−2)`. The theorem `spherical_translate_not_k_finite` gives its real-analyticity and infinite-dimensional rotation-orbit span: in `z=e^(iθ)` its denominator is the square of a Laurent polynomial with nonzero `z²` and `z⁻²` coefficients; only Laurent monomials are invertible Laurent polynomials. Thus `F_t` is not a trigonometric polynomial. The initial identities in §§1.2 and 1.4 do not accept this translated input; the full translation identities use §2.4a.
+- For `SL₂/ℚ` with trivial Borel datum and spherical finite components, let `K_∞=SO(2)`, `a_y = diag(√y, 1/√y)` and `f_s(n a_y k) = y^s`. The compact vector `φ=1` is `K_∞`-fixed. At `s = 2` and `h_t = diag(e^t, e^(−t))`, `t≠0`, its translate on `k_θ` is `F_t(θ) = (e^(2t) sin²θ + e^(−2t) cos²θ)^(−2)`. Prove that it is real-analytic and has infinite-dimensional rotation-orbit span: in `z=e^(iθ)` its denominator is the square of a Laurent polynomial with nonzero `z²` and `z⁻²` coefficients; only Laurent monomials are invertible Laurent polynomials. Thus `F_t` is not a trigonometric polynomial. The initial identities in §§1.2 and 1.4 do not accept this translated input; the full translation identities use §2.4a.
 
 ([Art05], §7 pp.32–34; [BK14], §2.4 (smooth-vector topology), §11 Theorem 11.6 and §12.1 (smooth and Hilbert compact pictures).)
 
@@ -1162,13 +1162,13 @@ Define `nonholomorphic_eisenstein` as follows. For `Re(s)>1`, `E(z,s)=Σ_{Γ∞\
 Prove the following API statements.
 - `cosetSum`: Define `E` by `ΣIm(γz)^s` in `Re(s)>1`.
 - `primitivePairs`: The `coprime(c, d)` expression has factor `1/2` for `±`pairs.
-- `automorphy`: `E(γz, s)=E(z, s)` and `ΔE=s(1−s)E` in the normal-convergence region (`nonholomorphic_eisenstein_automorphy` and `nonholomorphic_eisenstein_eigenfunction`).
-- `nonholomorphic_eisenstein_summable`: The primitive-pair sum is absolutely and locally normally convergent for `Re(s)>1`.
+- `automorphy`: `E(γz, s)=E(z, s)` and `ΔE=s(1−s)E` in the normal-convergence region.
+- Convergence: The primitive-pair sum is absolutely and locally normally convergent for `Re(s)>1`.
 
 **Checks.**
 - Along the imaginary axis `E(iy,2)/y²` tends to one as `y` tends to infinity, testing the Eisenstein leading constant term.
 - Summing primitive pairs without `1/2` doubles `E`.
-- At `s=1` the primitive-pair series diverges (`nonholomorphic_eisenstein_not_summable_at_one`). Critical-line values require continuation as well.
+- At `s=1` the primitive-pair series diverges. Critical-line values require continuation as well.
 
 ([DIT16], §5, (5.2), p.961.)
 
@@ -1182,7 +1182,7 @@ Define `completed_eisenstein` as follows. Let `Λ(s)=π^(−s/2)Γ(s/2)ζ(s)`, a
 Prove the following API statements.
 - `completion`: Multiply `E(z, s)` by `Λ(2 s)` where `Λ` is the completed scalar zeta.
 - `constantTerm`: Its constant Fourier coefficient is `Λ(2 s)y^s+Λ(2−2 s)y^(1−s)`.
-- `continuation`: Define equality with the initial completion on `Re(s)>1` and extend meromorphically (`completed_eisenstein_continuation`). The uncompleted continuation has residue `3/π` at one (`nonholomorphic_eisenstein_continuation`).
+- `continuation`: Define equality with the initial completion on `Re(s)>1` and extend meromorphically (`completed_eisenstein_continuation`). The uncompleted continuation has residue `3/π` at one.
 
 **Checks.**
 - Residues at `0` and `1` are `−1/2` and `+1/2`.
@@ -1285,15 +1285,15 @@ Identify the polar terms of the Eisenstein construction with the supplied polar 
 
 ### 1.16 Kloosterman sums and hyperbolic Laplacians
 
-Define `kloosterman_sum`, `weight_laplacian` as follows. For `m,n∈ℤ` and `c≥1`, `S(m,n;c)=Σ_{d∈(ℤ/cℤ)^×}e((md+nd̄)/c)` with `dd̄≡1 mod c` and `e(x)=exp(2πix)`. For real `k` and a twice real-differentiable `f` on `ℍ`, `z=x+iy`, the weight-k Laplacian is `Δ_k f=−y²(∂ₓ²+∂ᵧ²)f+iky(∂ₓ+i∂ᵧ)f`. Its weight-zero case is the convention-`D` Laplacian `Δ=Δ₀`, and `Δ_GZ=−Δ₀`.
+Define the Kloosterman sum and the weight-k Laplacian as follows. For `m,n∈ℤ` and `c≥1`, `S(m,n;c)=Σ_{d∈(ℤ/cℤ)^×}e((md+nd̄)/c)` with `dd̄≡1 mod c` and `e(x)=exp(2πix)`. For real `k` and a twice real-differentiable `f` on `ℍ`, `z=x+iy`, the weight-k Laplacian is `Δ_k f=−y²(∂ₓ²+∂ᵧ²)f+iky(∂ₓ+i∂ᵧ)f`. Its weight-zero case is the convention-`D` Laplacian `Δ=Δ₀`, and `Δ_GZ=−Δ₀`.
 
 *Standing hypotheses:* `c≥1`; `f` is `C²` on `ℍ`.
 
 Prove the following API statements.
-- `kloosterman_sum_symm`: `S(m,n;c)=S(n,m;c)`, by `d↦d̄`; so the sum does not depend on which variable carries the inverse.
+- Frequency symmetry: `S(m,n;c)=S(n,m;c)`, by `d↦d̄`; so the sum does not depend on which variable carries the inverse.
 - `kloosterman_real`: `S(m,n;c)` is real, by `d↦−d`.
 - `weight_laplacian_slash`: for integral `k`, `Δ_k` commutes with the slash action `f↦(cz+d)^(−k)f(gz)` of `SL₂(ℝ)`.
-- `weight_laplacian_power`: `Δ_k y^s=s(1−k−s)y^s` for every complex `s`, with `y>0`.
+- Powers: `Δ_k y^s=s(1−k−s)y^s` for every complex `s`, with `y>0`.
 
 **Checks of the finite sum.**
 - `S(m,n;1)=1`, including `m=n=0`.
@@ -1419,11 +1419,11 @@ Prove `poincare_fourier_expansion`. Let `m≠0` and `Re(s)>1`. Then `F_m(z,s)=f_
 
 ### 1.23 Weight-0 Eisenstein series `E_N(z, s)` at `∞` (2.14)
 
-Define `level_eisenstein` as follows. For `N≥1` and `Re(s)>1` define the cusp-`∞` Eisenstein series `E_N(z,s)=Σ_{γ∈Γ∞\Γ₀(N)}Im(γz)^s`, equivalently `(1/2)Σ y^s|cz+d|^(−2s)` over coprime `(c,d)` with `N|c`. Prove local normal convergence, `Γ₀(N)`-invariance and that `E_1` is the series of §1.14. Under `Δ_GZ=+y²(∂x²+∂y²)`, `Δ_GZ E_N=s(s−1)E_N`; `−4πE_N` has residue `κ_N=−12/[SL₂(ℤ):Γ₀(N)]` at `s=1`.
+Define the level-N Eisenstein series as follows. For `N≥1` and `Re(s)>1` define the cusp-`∞` Eisenstein series `E_N(z,s)=Σ_{γ∈Γ∞\Γ₀(N)}Im(γz)^s`, equivalently `(1/2)Σ y^s|cz+d|^(−2s)` over coprime `(c,d)` with `N|c`. Prove local normal convergence, `Γ₀(N)`-invariance and that `E_1` is the series of §1.14. Under `Δ_GZ=+y²(∂x²+∂y²)`, `Δ_GZ E_N=s(s−1)E_N`; `−4πE_N` has residue `κ_N=−12/[SL₂(ℤ):Γ₀(N)]` at `s=1`.
 
 Prove the following API statements.
 - `coprime_pairs`: `E_N` is half the sum over coprime `(c,d)` with `N|c` in `Re(s)>1`.
-- `coset_sum`: `E_N` is the coset sum over `Γ∞\Γ₀(N)` in `Re(s)>1`; `level_eisenstein_summable` gives absolute convergence and `level_eisenstein_automorphy` gives `Γ₀(N)`-invariance for `N≥1`.
+- `coset_sum`: `E_N` is the coset sum over `Γ∞\Γ₀(N)` in `Re(s)>1`; prove absolute convergence and `Γ₀(N)`-invariance for `N≥1`.
 - `level_one`: At `N=1` it equals the DIT `E` with the same half for `±`pairs.
 
 **Checks.**
@@ -1505,7 +1505,7 @@ Prove `genus_eisenstein_fourier`. Let `D<0` be an odd fundamental discriminant, 
 
 ### 1.29 Growth of the `SL₂(ℤ)` Eisenstein series: `E(z,s) = y^s + O(y^{1−s})`
 
-Prove `eisenstein_growth`. For real `s > 1` let `E(z,s) = Σ_{γ∈Γ_∞\SL₂(ℤ)} Im(γz)^s = Σ_{(c,d)=1, mod ±} y^s/|cz+d|^{2s}`. Then `E(z,s) = y^s + O(y^{1−s})` as `y → ∞` (uniformly in `x`).
+Prove the Eisenstein growth estimate. For real `s > 1` let `E(z,s) = Σ_{γ∈Γ_∞\SL₂(ℤ)} Im(γz)^s = Σ_{(c,d)=1, mod ±} y^s/|cz+d|^{2s}`. Then `E(z,s) = y^s + O(y^{1−s})` as `y → ∞` (uniformly in `x`).
 
 ([GZ86], Chapter IV §5 proof of (5.1), p.289; estimate follows from Chapter II, (2.17), p.240.)
 
@@ -1825,7 +1825,7 @@ Prove `completed_eisenstein_fourier`. `E*(z,s)=Λ(2s)y^s+Λ(2−2s)y^(1−s)+2�
 
 ### 2.18 Eisenstein continuation and residues
 
-Prove `completed_eisenstein_continuation`. `E*(z,s)` extends meromorphically with only simple poles at `s=0,1`, residues `−1/2,+1/2`, and `E*(z,s)=E*(z,1−s)`. Do not infer this function-valued statement from scalar `ζ` continuation alone.
+The statement `Modular.completed_eisenstein_continuation` in `Suggested.lean` asserts that `E*(z,s)` extends meromorphically with only simple poles at `s=0,1`, residues `−1/2,+1/2`, and `E*(z,s)=E*(z,1−s)`. Do not infer this function-valued statement from scalar `ζ` continuation alone.
 
 ([DIT16], §5, text before (5.4), (5.4) and (5.5), p.962.)
 
@@ -1892,7 +1892,7 @@ Prove `resolvent_kernel_fourier`. Let `Re(s)>1` and let `y′>max_{γ∈Γ}Im(γ
 
 ### 2.24 Meromorphic continuation of `G_{N,s}`; residue `κ_N` (2.13)
 
-Prove `green_kernel_continuation`. `G_{N,s}(z, z′)` extends meromorphically in `s` to a neighbourhood of `s = 1` with a simple pole at `s = 1` of residue `κ_N = −12/[SL₂(ℤ) : Γ₀(N)] = −12 N⁻¹ ∏_{p|N} (1 + 1/p)⁻¹`, independent of `z`, `z′`. Consequently `lim_{s→1}[G_{N,s} − κ_N/(s−1)]` is not harmonic: its Laplacian is `κ_N ≠ 0`. The automorphic kernel is `G_{N,s}(z,z′)=Σ_{γ∈Γ₀(N)/{±I}}−2Q_{s−1}(1+|z−γz′|²/(2y Im(γz′)))`, initially `Re(s)>1` and `z` outside the `Γ`-orbit of `z′`. The comparison `G_{N,s}=−4πR_{N,s}` with the level-`N` resolvent gives residue `−4π/vol(Γ₀(N)/{±I}\ℍ)=κ_N`. Its finite part at `s=1` has `Δ_GZ` equal to `κ_N` and is not harmonic; the cusp-corrected arithmetic Green function is not constructed here.
+The statement `Modular.green_kernel_continuation` in `Suggested.lean` asserts that `G_{N,s}(z, z′)` extends meromorphically in `s` to a neighbourhood of `s = 1` with a simple pole at `s = 1` of residue `κ_N = −12/[SL₂(ℤ) : Γ₀(N)] = −12 N⁻¹ ∏_{p|N} (1 + 1/p)⁻¹`, independent of `z`, `z′`. Consequently `lim_{s→1}[G_{N,s} − κ_N/(s−1)]` is not harmonic: its Laplacian is `κ_N ≠ 0`. The automorphic kernel is `G_{N,s}(z,z′)=Σ_{γ∈Γ₀(N)/{±I}}−2Q_{s−1}(1+|z−γz′|²/(2y Im(γz′)))`, initially `Re(s)>1` and `z` outside the `Γ`-orbit of `z′`. The comparison `G_{N,s}=−4πR_{N,s}` with the level-`N` resolvent gives residue `−4π/vol(Γ₀(N)/{±I}\ℍ)=κ_N`. Its finite part at `s=1` has `Δ_GZ` equal to `κ_N` and is not harmonic; the cusp-corrected arithmetic Green function is not constructed here.
 
 ([GZ86], Chapter II, §2, (2.13), p. 239.)
 
@@ -2569,7 +2569,7 @@ Work under the following hypotheses. `ν₁,ν₂` positive integers; everywhere
 
 **Telescoping the residual normalizing quotient.** If `ν₁≥ν₂`, `L(Π₁×Π₂∨,z)/L(Π₁×Π₂∨,q^(−1)z)=∏_{i=1}^{ν₂}L(π₁×π₂∨,q^((ν₁+ν₂)/2−i)z)/∏_{i=1}^{ν₂}L(π₁×π₂∨,q^(−(ν₁+ν₂)/2+i−1)z)`.
 
-The algebraic prototype is `AL3.ResidualRsTelescoping`.
+Prove the underlying finite-product telescoping identity for nonzero factors.
 
 Work under the following hypotheses. `ν₁≥ν₂≥1`, with the residual representations and unitary normalization of §4.15a. Equality of nonzero rational functions; the two products include their possible cancellations.
 
@@ -2613,14 +2613,14 @@ Work under the following hypotheses. Nonzero rational factors; equality is merom
 
 Require the following API.
 
-- `AL3.RsNormalizingScalar.root`: The single-root scalar is the displayed shifted-`L` quotient.
-- `AL3.RsNormalizingScalar.identity_weyl`: The empty inversion product is1.
-- `AL3.RsNormalizingScalar.weyl_product`: For length-additive Weyl products, inversion factors compose after character substitution.
+- Single-root formula: The single-root scalar is the displayed shifted-`L` quotient.
+- Identity Weyl element: The empty inversion product is1.
+- Weyl composition: For length-additive Weyl products, inversion factors compose after character substitution.
 
 **Checks.**
 
 - At `g=1` the `q` prefactor is `1`.
-- `AL3.RsNormalizingScalar.one_root`: A simple reflection has exactly one root factor.
+- Simple reflection: A simple reflection has exactly one root factor.
 - If the numerator has a pole at `z=1`, compare the scalar as a rational function, retaining its numerator and denominator.
 
 (Source: [Yu22], §5.1.2 (5.1.1)–(5.1.3) pp.29–30.)
@@ -3071,7 +3071,7 @@ Prove the following API statements.
 - `wall`: Adjacent `c_P,c_P′` have identical restrictions to the common wall.
 - `product`: Pointwise multiplication and restriction produce `(G,M)`-families.
 - `regularized_sum`: `c_M` is the unique smooth extension of `Σ_P c_P/θ_P`, evaluated at zero.
-- `gm_family_rank_one_limit`: For complex-differentiable scalar members `c₊,c₋` at zero with `c₊(0)=c₋(0)` and covolume `v>0`, the punctured limit of `c₊(z)/(z/v)+c₋(z)/(−z/v)` is `v·(c₊′(0)−c₋′(0))`.
+- Rank-one limit: For complex-differentiable scalar members `c₊,c₋` at zero with `c₊(0)=c₋(0)` and covolume `v>0`, the punctured limit of `c₊(z)/(z/v)+c₋(z)/(−z/v)` is `v·(c₊′(0)−c₋′(0))`.
 
 **Checks.**
 - For a genuine one-member `gm_family` with no walls, the regularized zero value equals its member at zero.
@@ -3153,7 +3153,7 @@ Prove the following API statements.
 - `trace`: `J_M(π_λ,f)=tr(ℛ_M(π_λ,P)I_P(π_λ,f))`.
 - `full_levi`: For `M=G`, `ℛ_G=1` and `J_G` is the ordinary character.
 - `parabolic_independence`: Conjugating by normalized `R` identifies the definitions for different `P`, so their traces agree.
-- `weighted_character_rank_one_scalar`: For scalar `R` differentiable at `λ` with `R(λ)≠0` and scalar test operator `a`, `lim_(z→0)[1/z+R(λ)⁻¹R(λ+z)/(−z)]a=−R(λ)⁻¹R′(λ)a`, with the punctured limit in the unit-covolume coroot coordinate.
+- Scalar rank-one limit: For scalar `R` differentiable at `λ` with `R(λ)≠0` and scalar test operator `a`, `lim_(z→0)[1/z+R(λ)⁻¹R(λ+z)/(−z)]a=−R(λ)⁻¹R′(λ)a`, with the punctured limit in the unit-covolume coroot coordinate.
 
 **Checks.**
 - `M=G` recovers `tr π(f)`.
@@ -3699,9 +3699,9 @@ The real transform uses smooth LF tests, normalized real induction and infinites
 
 ### 7.0a Cyclic twisted objects and normalized characters
 
-**Cyclic twisted `GLₙ` objects.** For `n≥1` and number fields `E/K` cyclic of prime degree `l`, choose a generator `σ` and set `H=Res_(E/K)GLₙ` and `Hσ=H⋊σ`, the indicated component of `H⋊⟨σ⟩`. Construct twisted conjugacy `δ↦x⁻¹δσ(x)`, the `K`-group `H_(δ,σ)={x:xδ=δσ(x)}`, and the norm-class map: `N_σδ=δσ(δ)⋯σ^(l−1)(δ)`, whose `E`-conjugacy class descends to `GLₙ(K)`. At every place use `E⊗_K K_v`, including its split factors. Prove well-definedness, regularity criteria, centralizer comparison and the local-to-global norm criterion. For a regular norm `γ`, identify `H_(δ,σ)` with the centralizer of `γ` and use the same centralizer Haar in the two quotient integrals. Use probability Haar on hyperspecial compacts at unramified finite places and the compatible product/quotient measures of Layer 6 globally; central quotients retain the norm image of the centre and its finite index. Singular semisimple descent retains the inner-centralizer sign of [AC89, `I`, Lemma 3.6]. The elementary ordered-product interface is `cyclic_twisted_norm`, with `cyclic_twisted_norm_conjugacy`.
+**Cyclic twisted `GLₙ` objects.** For `n≥1` and number fields `E/K` cyclic of prime degree `l`, choose a generator `σ` and set `H=Res_(E/K)GLₙ` and `Hσ=H⋊σ`, the indicated component of `H⋊⟨σ⟩`. Construct twisted conjugacy `δ↦x⁻¹δσ(x)`, the `K`-group `H_(δ,σ)={x:xδ=δσ(x)}`, and the norm-class map: `N_σδ=δσ(δ)⋯σ^(l−1)(δ)`, whose `E`-conjugacy class descends to `GLₙ(K)`. At every place use `E⊗_K K_v`, including its split factors. Prove well-definedness, regularity criteria, centralizer comparison and the local-to-global norm criterion. For a regular norm `γ`, identify `H_(δ,σ)` with the centralizer of `γ` and use the same centralizer Haar in the two quotient integrals. Use probability Haar on hyperspecial compacts at unramified finite places and the compatible product/quotient measures of Layer 6 globally; central quotients retain the norm image of the centre and its finite index. Singular semisimple descent retains the inner-centralizer sign of [AC89, `I`, Lemma 3.6]. For the ordered product, prove that twisted conjugation becomes ordinary conjugation of its norm.
 
-Construct normalized twisted characters of `σ`-stable irreducible admissible local representations `Π`. An implementing operator `A_Π` satisfies `A_ΠΠ(g)=Π(σg)A_Π`. For generic `Π` fix the Whittaker character from `ψ_K∘Tr_(E/K)` and normalize by `Λ∘A_Π=Λ` for a nonzero Whittaker functional `Λ`; prove uniqueness and `A_Π^l=1`. For the nongeneric unitary and residual Speh representations and their common determinant-character twists admitted in §7.0b, define the normalized operator through the multiplicity-one Langlands quotient of an ordered standard module and prove independence of presentation. Descent of this operator is a normalization statement; its Shintani character identity is the separate theorem in §7.0b. The twisted trace is `Θ_(Π,σ)(φ)=tr(Π(φ)A_Π)`, with its admissible finite-level interpretation. Globally use `U_σf(x)=f(σ⁻¹x)`; on a `σ`-stable cuspidal summand prove its factorization into the normalized local operators by the global Whittaker functional. Induced and residual terms carry the compatible induced normalization. The finite-dimensional normalization interface is `whittaker_intertwiner_unique`; it records the scalar-commutant hypothesis explicitly.
+Construct normalized twisted characters of `σ`-stable irreducible admissible local representations `Π`. An implementing operator `A_Π` satisfies `A_ΠΠ(g)=Π(σg)A_Π`. For generic `Π` fix the Whittaker character from `ψ_K∘Tr_(E/K)` and normalize by `Λ∘A_Π=Λ` for a nonzero Whittaker functional `Λ`; prove uniqueness and `A_Π^l=1`. For the nongeneric unitary and residual Speh representations and their common determinant-character twists admitted in §7.0b, define the normalized operator through the multiplicity-one Langlands quotient of an ordered standard module and prove independence of presentation. Descent of this operator is a normalization statement; its Shintani character identity is the separate theorem in §7.0b. The twisted trace is `Θ_(Π,σ)(φ)=tr(Π(φ)A_Π)`, with its admissible finite-level interpretation. Globally use `U_σf(x)=f(σ⁻¹x)`; on a `σ`-stable cuspidal summand prove its factorization into the normalized local operators by the global Whittaker functional. Induced and residual terms carry the compatible induced normalization. In the finite-dimensional normalization argument, retain the scalar-commutant hypothesis explicitly.
 
 **Checks.**
 
@@ -3723,9 +3723,9 @@ where `TO_(δ,σ)(φ)=∫_(H_(δ,σ)(K_v)\H(K_v))φ(x⁻¹δσ(x))dx`. Require `
 
 For `E_v/K_v` unramified, prove matching of spherical units and of `φ` with `b_(E_v/K_v)(φ)`, where `b` is the spherical Hecke homomorphism whose Satake transform substitutes `X_i↦X_i^f`, `f` the residue degree. At a split place transfer an elementary tensor by convolution of its `l` factors. For irreducible tempered `π` of `GLₙ(K_v)` construct its `σ`-stable tempered lift `Π` and prove `Θ_(Π,σ)(φ)=tr π(f)` for matching tests, with the Whittaker-normalized `A_Π`. Extend this identity to essentially tempered representations by a common determinant-character twist, using `χ_E=χ_K∘N`. Normalized induction of matching Levi characters gives an identity for the whole finite-length induced representations, with the induced `σ`-operator. For an identity on irreducible products require both `π₁×⋯×π_r` and `Π₁×⋯×Π_r` to be irreducible and every factor pair to satisfy the Shintani relation; then identify the induced operator with the normalized operator. Duals and common norm twists preserve these identities.
 
-For general irreducible local data define Langlands base change by lifting the essentially tempered inducing data, reordering the exponents and taking the unique irreducible Langlands quotient. At finite places carry SR.3.3's Harish–Chandra tempered-support hypothesis: every irreducible tempered representation is a summand of unitary induction from square-integrable data, unique up to conjugacy. This construction, and its compatibility with duals and norm twists, carries no assertion of a Shintani identity for that quotient. The permitted constituent identities are exactly those for essentially tempered representations, irreducible unitary representations and their common determinant-character twists, together with products satisfying the two irreducibility hypotheses above. The unitary class includes the local residual quotients `u(γ,k)` below. Any subquotient used as an individual Shintani character must belong to these classes; additivity for a whole standard module does not select its quotient's character. The scalar norm-pushforward case of the character identity is Mathlib's `MeasureTheory.integral_map` applied to `Measure.map N μ = ν`, with measurability of `N` and `AEStronglyMeasurable` of `f·χ` as hypotheses. The identity `satake_power_sum` records the unramified power substitution on roots and is the composite of Mathlib's `Matrix.diagonal_pow` and `Matrix.trace_diagonal`.
+For general irreducible local data define Langlands base change by lifting the essentially tempered inducing data, reordering the exponents and taking the unique irreducible Langlands quotient. At finite places carry SR.3.3's Harish–Chandra tempered-support hypothesis: every irreducible tempered representation is a summand of unitary induction from square-integrable data, unique up to conjugacy. This construction, and its compatibility with duals and norm twists, carries no assertion of a Shintani identity for that quotient. The permitted constituent identities are exactly those for essentially tempered representations, irreducible unitary representations and their common determinant-character twists, together with products satisfying the two irreducibility hypotheses above. The unitary class includes the local residual quotients `u(γ,k)` below. Any subquotient used as an individual Shintani character must belong to these classes; additivity for a whole standard module does not select its quotient's character. The scalar norm-pushforward case of the character identity is Mathlib's `MeasureTheory.integral_map` applied to `Measure.map N μ = ν`, with measurability of `N` and `AEStronglyMeasurable` of `f·χ` as hypotheses. The unramified power substitution on roots follows from Mathlib's `Matrix.diagonal_pow` and `Matrix.trace_diagonal`.
 
-The consumer [GL2AutomorphicRepresentationsAndTransfer R17.4.1](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-4-unramified-base-change) uses `satake_power_sum` to compare its trace-and-determinant recurrence with the diagonal complex Satake formula. The identity holds for all `n,f : ℕ`; `f=0` gives the identity matrix and trace `n`, while a residue degree has `f≥1`.
+The consumer [GL2AutomorphicRepresentationsAndTransfer R17.4.1](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-4-unramified-base-change) uses this power-sum identity to compare its trace-and-determinant recurrence with the diagonal complex Satake formula. The identity holds for all `n,f : ℕ`; `f=0` gives the identity matrix and trace `n`, while a residue degree has `f≥1`.
 
 **Checks.**
 
@@ -3794,7 +3794,7 @@ Prove spectral isolation: varying the spherical Hecke tests outside a finite set
 
 **Quantitative low-degree multiplicity one.** For `n≥1`, `m≥1` and a unitary cuspidal `τ` of `GL_m` over a number field and every finite unramified `v`, prove the Luo–Rudnick–Sarnak bound `|α_(i,v)|≤q_v^(1/2−1/(m²+1))`. Apply this to every unitary cuspidal constituent of an isobaric sum of total `rank n`: `m≤n` gives the common exponent `θ_n=1/2−1/(n²+1)`, including repeated constituents. Prove the resulting comparison criterion: for number fields `L/F`, two isobaric sums of unitary cuspidal representations of `GL_n(𝔸_L)` are isomorphic if they agree at almost every place of each relative degree `d≤D_n=⌊(n²+1)/2⌋` over `F`. No normality of `L/F` is needed for this analytic criterion.
 
-Construct the positive Rankin–Selberg quotient from the two self-pairs and the two cross-pairs. Prove that the logarithms contributed by degrees `d>D_n` converge absolutely in a neighbourhood of the real point `s=1`: their root-product bound gives a majorant over primes of `F` with exponent `d(1−2θ_n)=2d/(n²+1)>1`. Include all prime powers and the bounded number of places over each `F`-prime. The supplied pole criterion then identifies and cancels common constituents with their multiplicities. The scalar signatures `lrs_isobaric_root_bound`, `lrs_degree_margin` and `lrs_rankin_selberg_tail` express the constituent bound and this convergence margin.
+Construct the positive Rankin–Selberg quotient from the two self-pairs and the two cross-pairs. Prove that the logarithms contributed by degrees `d>D_n` converge absolutely in a neighbourhood of the real point `s=1`: their root-product bound gives a majorant over primes of `F` with exponent `d(1−2θ_n)=2d/(n²+1)>1`. Include all prime powers and the bounded number of places over each `F`-prime. The supplied pole criterion then identifies and cancels common constituents with their multiplicities. Retain the constituent bound, the strict convergence margin and summability of the full prime-power tail in this comparison.
 
 For general isobaric inputs write each constituent as `τ|det|^t` with `τ` unitary and `t` real. Write `a=−t` for the root-growth exponent and group constituents with maximal `a` on either side. Pair with a unitary cuspidal constituent in this extremal group and compare poles at `s=1+a`, match and cancel the constituents there, and descend through the finite set of exponents. The tail estimate applies after this shift, since every other growth exponent is at most `a`; smaller exponents have no pole at `s=1+a`. This norm-twist argument is part of the target; the degree-one theorem retains arbitrary isobaric inputs.
 
@@ -3816,7 +3816,7 @@ Construct `E` by prescribing sufficiently large unramified cyclic local extensio
 
 For general classes at `p=2`, first construct a totally imaginary quadratic `F₀/F`, linearly disjoint from `K` and split at `T₀`, by prescribing signs at the real places, splitting at `T₀` and an auxiliary Frobenius condition. Apply the preceding construction to `KF₀/F₀` and the restricted classes. The resulting auxiliary extension above `K` is a tower of cyclic extensions; it need not be cyclic over `F`. This preliminary step is necessary: a real obstruction need not vanish on every index-two subfield of `KE`.
 
-Apply this to `β=δχ` for the order-p character cutting out `K/K′`. For `M′` not containing `K` (or `KF₀` after the preliminary reduction), the restricted character still has order `p`; construct its p-th root and the resulting cyclic `p²`-extension. Subfields containing `K` have trivial restricted character and need no such lift. In each constructed root extension, choose the roots trivial at the places over `T₀` by a prime-order character adjustment. Taking their `F`-conjugates and composita then preserves the prescribed splitting. The native field prototype `auxiliary_cyclic_split` states the disjoint cyclic splitting substatement, using `AuxiliaryCyclicSplitData` and `split_at` for unramified residue degree one at every prime above the specified prime. The cohomological vanishing, preliminary imaginary extension and simultaneous character-root conclusions are also targets of this subsection.
+Apply this to `β=δχ` for the order-p character cutting out `K/K′`. For `M′` not containing `K` (or `KF₀` after the preliminary reduction), the restricted character still has order `p`; construct its p-th root and the resulting cyclic `p²`-extension. Subfields containing `K` have trivial restricted character and need no such lift. In each constructed root extension, choose the roots trivial at the places over `T₀` by a prime-order character adjustment. Taking their `F`-conjugates and composita then preserves the prescribed splitting. The disjoint cyclic splitting assertion requires unramified residue degree one at every prime above each specified prime. The cohomological vanishing, preliminary imaginary extension and simultaneous character-root conclusions are also targets of this subsection.
 
 **Checks.**
 
@@ -3831,11 +3831,11 @@ Apply this to `β=δχ` for the order-p character cutting out `K/K′`. For `M�
 
 ### 7.1c Raising residue degrees and obtaining equality upstairs
 
-**Residue-degree raising and iteration.** For finite Galois `K/F`, `2≤j≤D_n`, and any finite set `T` of relative-degree-one `K`-primes away from the conductors of `π,π′`, the absolute discriminant of `K` and the residue characteristics dividing 2[K:F], construct `M/K` as a tower of cyclic prime-degree extensions such that `T` splits completely and every prime of `M` over almost every relative-degree-j `K`-prime has degree greater than `j` over `F`. Enlarge `T` to the full fibres over its underlying split `F`-primes before applying §7.1b. These are the good sets in §§7.1c–7.1d; the excluded set is finite and does not restrict the almost-everywhere hypothesis of §7.2. All auxiliary tower degrees have prime divisors among those of 2[K:F], so the prescribed primes remain eligible through iteration. Other ramified primes are finite exceptions in the residue-degree assertion, never discarded from the prescribed split set. Use the elementary `cyclic-p²` fact: a Frobenius inert in the degree-p intermediate extension has order `p²` upstairs. Its group-theoretic signature is `cyclic_square_order`. Composita over the finitely many cyclic subgroups of `Gal(K/F)` cover every possible unramified decomposition group; retain the finite ramification exclusions.
+**Residue-degree raising and iteration.** For finite Galois `K/F`, `2≤j≤D_n`, and any finite set `T` of relative-degree-one `K`-primes away from the conductors of `π,π′`, the absolute discriminant of `K` and the residue characteristics dividing 2[K:F], construct `M/K` as a tower of cyclic prime-degree extensions such that `T` splits completely and every prime of `M` over almost every relative-degree-j `K`-prime has degree greater than `j` over `F`. Enlarge `T` to the full fibres over its underlying split `F`-primes before applying §7.1b. These are the good sets in §§7.1c–7.1d; the excluded set is finite and does not restrict the almost-everywhere hypothesis of §7.2. All auxiliary tower degrees have prime divisors among those of 2[K:F], so the prescribed primes remain eligible through iteration. Other ramified primes are finite exceptions in the residue-degree assertion, never discarded from the prescribed split set. Use the elementary `cyclic-p²` fact: a Frobenius inert in the degree-p intermediate extension has order `p²` upstairs. Prove this order assertion in the cyclic group of order `p²`. Composita over the finitely many cyclic subgroups of `Gal(K/F)` cover every possible unramified decomposition group; retain the finite ramification exclusions.
 
 For a normal tower `F=K₀⊂⋯⊂K_r=K`, define `h` as the first `d≤D_n` with infinitely many unequal local components, and `h=D_n+1` if there is none; define the width `w=D_n+1−h`. Prove that cyclic base change does not increase width and that, when `w>0`, a finite tower of cyclic extensions lowers it strictly while preserving splitting of a prescribed finite good `T`. Induct on the normal tower, using residue-degree multiplication in composita to handle primes of degree one over `K₁` but higher degree over `F`. Iterate at most `D_n` times to obtain `M/K` with equality at all but finitely many `M`-primes of degree `≤D_n` over `F`, and hence `π_M≅π′_M` by §7.1a. At each stage carry the normal-tower and good-place hypotheses to the new field. Neither `K/F` nor its normal closure is assumed solvable; only the auxiliary towers above `K` are towers of cyclic extensions.
 
-The numerical termination interface is `width_iteration`: widths bounded by `D_n` and strictly decreasing whenever positive reach zero within `D_n` steps. The representation-theoretic conclusion is the split-preserving existence statement of [Ram18, Proposition 1.1], for every finite good `T` contained in the relative-degree-one primes, with the additional finite exclusion of residue characteristics dividing 2[K:F].
+Prove the numerical termination assertion: widths bounded by `D_n` and strictly decreasing whenever positive reach zero within `D_n` steps. The representation-theoretic conclusion is the split-preserving existence statement of [Ram18, Proposition 1.1], for every finite good `T` contained in the relative-degree-one primes, with the additional finite exclusion of residue characteristics dividing 2[K:F].
 
 **Checks.**
 
@@ -3849,7 +3849,7 @@ The numerical termination interface is `width_iteration`: widths bounded by `D_n
 
 ### 7.1d Eliminating the fibre ambiguity
 
-**Split-preserving descent.** Under the normal-tower and degree-one agreement hypotheses of §7.2, deduce `π≅π′` from the split-preserving equality upstairs of §7.1c. Prove that a cuspidal representation of `rank m` has at most `m²` finite-order self-twists, using Rankin–Selberg poles and cyclic base change; `self_twist_card_bound` gives its finite-dimensional irreducible representation analogue. In the prime-degree first step, use §7.1's fibre theorem to match cuspidal constituents up to powers of its norm-trivial character, including multiplicities. If a nontrivial twist persists, choose another finite good set of relative-degree-one primes whose splitting forces a different cyclic extension. Chebotarev supplies such primes even with the relative-degree-one restriction: work with Frobenius elements fixing `K` in a normal closure. Repeating the construction gives more distinct self-twists than the bound permits. Prove the same argument with the finite set of possible constituent matches by pigeonhole, then cancel a common constituent and induct on isobaric length and the auxiliary tower degree. An isobaric fibre need not be a single common twist.
+**Split-preserving descent.** Under the normal-tower and degree-one agreement hypotheses of §7.2, deduce `π≅π′` from the split-preserving equality upstairs of §7.1c. Prove that a cuspidal representation of `rank m` has at most `m²` finite-order self-twists, using Rankin–Selberg poles and cyclic base change; prove also its finite-dimensional irreducible representation analogue. In the prime-degree first step, use §7.1's fibre theorem to match cuspidal constituents up to powers of its norm-trivial character, including multiplicities. If a nontrivial twist persists, choose another finite good set of relative-degree-one primes whose splitting forces a different cyclic extension. Chebotarev supplies such primes even with the relative-degree-one restriction: work with Frobenius elements fixing `K` in a normal closure. Repeating the construction gives more distinct self-twists than the bound permits. Prove the same argument with the finite set of possible constituent matches by pigeonhole, then cancel a common constituent and induct on isobaric length and the auxiliary tower degree. An isobaric fibre need not be a single common twist.
 
 The choice of `T` is essential: one fixed `M` can kill a nontrivial character. The descent theorem quantifies over the controlled extensions for every finite good degree-one `T`. All choices avoid the conductors, absolute discriminant and residue characteristics specified in §7.1c. The argument handles each norm-twist exponent and uses no unitarity assumption on the original `π,π′`.
 
