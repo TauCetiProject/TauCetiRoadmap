@@ -137,7 +137,7 @@ For an affinoid divisor and a geometric point `s`, on pointed affinoid étale ne
 
 ## How to read the build
 
-Layers 0–1 use VB−1’s coefficients and period domains to prove the Dwork, twisted-coordinate, integral-chart and annular-estimate refinements. Layer 2 compares the supplied Frobenius curve with its diamond presentations. Layers 3–4 construct Cartier legs, their symmetric moduli and completions before generic untilt comparisons. Layer 5 fixes the scalar rank-one sign and compares the supplied twists and partial section charts. Layers 6–7 apply linear patching and then the torsor tensor dictionary. The basic algebra in Layer 6 can be developed independently; its later schematic `B`-pair applications use the VB2 global comparison. Within each layer, the named prerequisites specify the order. Definitions with unavailable geometric carriers stay fully specified here; Suggested.lean retains only light algebraic data and statements over available carriers.
+Layers 0–1 use VB−1’s coefficients and period domains to prove the Dwork, twisted-coordinate, integral-chart and annular-estimate refinements. Layer 2 compares the supplied Frobenius curve with its diamond presentations. Layers 3–4 construct Cartier legs, their symmetric moduli and completions before generic untilt comparisons. Layer 5 fixes the scalar rank-one sign and compares the supplied twists and partial section charts. Layers 6–7 apply linear patching and then the torsor tensor dictionary. The basic algebra in Layer 6 can be developed independently; its later schematic `B`-pair applications use the VB2 global comparison. Within each layer, the named prerequisites specify the order. Named interfaces specify library targets. `Suggested.lean` states the ramified Dwork criterion (§0.2), nonperfect Cohen coefficient lifting and comparison (§0.23), and Beauville–Laszlo finite-projective effectivity and detection of flatness and finite projectivity (§6.5). The geometric headlines require the relative ringed period spaces, Cartier divisors, completions and bundle categories specified in the layers below.
 
 ## Layer 0: coefficients and integral period geometry
 
@@ -145,18 +145,18 @@ Layers 0–1 use VB−1’s coefficients and period domains to prove the Dwork, 
 
 ### 0.1 Ramified Witt polynomials
 
-Define `ramifiedWittPolynomials`. For `E` of characteristic zero with residue field `𝔽_q` and uniformizer `π`, set `w_n(X_0,…,X_n)=Σ_{i=0}^n π^i X_i^(q^(n-i))`. For every `O_E`-algebra `A` the ghost map on `A^N` is `w_A(x)=(w_n(x))_n`. `A` is not required perfect, reduced, flat or complete. The light `ramifiedGhost` and `ramifiedWittPolynomials` are the finite sum and its actual multivariable polynomial over any commutative coefficient ring, element `π` and natural `q`; they do not construct a ramified Witt ring. `ramifiedGhost_natural` states compatibility with a coefficient-algebra homomorphism.
+Define `ramifiedWittPolynomials`. For `E` of characteristic zero with residue field `𝔽_q` and uniformizer `π`, set `w_n(X_0,…,X_n)=Σ_{i=0}^n π^i X_i^(q^(n-i))`. For every `O_E`-algebra `A` the ghost map on `A^N` is `w_A(x)=(w_n(x))_n`. `A` is not required perfect, reduced, flat or complete. The finite-sum definition `ramifiedGhost` in `Suggested.lean` is evaluated over any commutative coefficient ring, element `π` and natural `q`; the polynomial target `ramifiedWittPolynomials` is its actual multivariable polynomial. These formulas do not construct a ramified Witt ring. Require compatibility with coefficient-algebra homomorphisms.
 
 `E` is a nonarchimedean local field of characteristic zero; `q=p^f`; `n≥0`. The all-`E` perfect strict lift is a separate construction.
 
 The interface must support the following operations and laws.
 
 - `ramifiedGhost`: `w_n(x)=Σ_{i≤n}π^i x_i^(q^(n-i))`.
-- `ramifiedGhost_zero`: `w_0(x)=x_0`.
-- `ramifiedGhost_one`: `w_1(x)=x_0^q+πx_1`.
-- `ramifiedWittPolynomials_eval`: Evaluation by `MvPolynomial.eval₂` agrees with `ramifiedGhost` on every coefficient algebra.
-- `ramifiedGhost_p_typical`: At `π=p,q=p` over `ℤ`, the ghost of the coefficient sequence of a Mathlib Witt vector is its `ghostComponent`.
-- `ramifiedGhost_natural`: For `f`:`A→B`, `w_B(f(x))=f(w_A(x))`.
+- Zeroth ghost: `w_0(x)=x_0`.
+- First ghost: `w_1(x)=x_0^q+πx_1`.
+- Polynomial evaluation: Evaluation by `MvPolynomial.eval₂` agrees with `ramifiedGhost` on every coefficient algebra.
+- The `p`-typical comparison: At `π=p,q=p` over `ℤ`, the ghost of the coefficient sequence of a Mathlib Witt vector is its `ghostComponent`.
+- Naturality: For `f`:`A→B`, `w_B(f(x))=f(w_A(x))`.
 
 Write the finite polynomials over `O_E`, then evaluate them in any `O_E`-algebra.
 
@@ -345,9 +345,9 @@ The polynomial congruence is coefficientwise: `Q`.`map(O_E→O_E/(π))=X^q`. It 
 
 The interface must support the following operations and laws.
 
-- `WittTwistAdmissible`: The light coefficient predicate states that every coefficient of `Q−X^q` is divisible by `π`. It is stated over any commutative ring; the twisted Witt-ring construction retains the local-field hypotheses above.
+- The coefficientwise congruence means that every coefficient of `Q−X^q` is divisible by `π`. It is meaningful over any commutative ring; the twisted Witt-ring construction retains the local-field hypotheses above.
 - `twistedGhost`: `w_(n,Q)=Σ_(i≤n)π^i Q_(n−i)(x_i)`.
-- `twistedGhost_ordinary`: For `Q=X^q`, iterated evaluation gives `ramifiedGhost` over every commutative coefficient algebra, without torsion or admissibility hypotheses.
+- Ordinary specialization: For `Q=X^q`, iterated evaluation gives `ramifiedGhost` over every commutative coefficient algebra, without torsion or admissibility hypotheses.
 - `twistedWitt`: Polynomial-defined natural `O_E`-algebra on `A^N`.
 - `twistedWittEquiv`: Canonical ghost-preserving algebra isomorphism to ordinary ramified Witt vectors.
 
@@ -690,7 +690,7 @@ Further specializations and compatibility requirements are as follows.
 
 ### 0.23 Nonperfect Cohen coefficient lifts
 
-Prove `cohenCoefficientLifts`. For any field `K/𝔽_q`, construct a flat, separated `π`-adically complete `O_E`-algebra with marked residue `K`. Any two such lifts admit a residue-compatible `O_E`-algebra isomorphism, and `q`-Frobenius admits an `O_E`-linear lift. These choices are not canonical when `K` is imperfect. Use `Algebra.CotangentComplex` and its square-zero algebra/morphism obstruction theory. Prove `L_(K/𝔽_q)≃Ω¹_(K/𝔽_q)[0]` by localization and filtered colimits of smooth finitely generated subextensions of the perfect field `𝔽_q`: `Ext²_K(L,N)` removes algebra-lifting obstructions and `Ext¹_K(L,N)` removes comparison/morphism-lifting obstructions; `Hom_K(Ω¹,N)` controls ambiguity. These higher Ext groups vanish because `Ω¹_(K/𝔽_q)` is a vector space in degree zero. The API includes the marked reduction, flat completeness, existence of comparison isomorphisms and a chosen Frobenius lift, without a uniqueness assertion for these maps.
+Prove `cohenCoefficientLifts`. For any field `K/𝔽_q`, construct a flat, separated `π`-adically complete `O_E`-algebra with marked residue `K`. Any two such lifts admit a residue-compatible `O_E`-algebra isomorphism, and `q`-Frobenius admits an `O_E`-linear lift. These choices are not canonical when `K` is imperfect. Use `Algebra.CotangentComplex` and its square-zero algebra/morphism obstruction theory. Prove `L_(K/𝔽_q)≃Ω¹_(K/𝔽_q)[0]` by localization and filtered colimits of smooth finitely generated subextensions of the perfect field `𝔽_q`: `Ext²_K(L,N)` removes algebra-lifting obstructions and `Ext¹_K(L,N)` removes comparison/morphism-lifting obstructions; `Hom_K(Ω¹,N)` controls ambiguity. These higher Ext groups vanish because `Ω¹_(K/𝔽_q)` is a vector space in degree zero. The API includes the marked reduction, flat completeness, existence of comparison isomorphisms and a chosen Frobenius lift, without a uniqueness assertion for these maps. `Suggested.lean` states `cohenCoefficientLift_exists` for existence with a Frobenius lift and `cohenCoefficientLift_compare` for residue-compatible comparison. The coefficient ring is a complete discrete valuation ring with finite residue field, and the residue extension is an arbitrary field.
 
 **Checks.**
 
@@ -740,7 +740,7 @@ The target is the explicit all-`E` radius dictionary, including the higher-rank/
 
 The interface must support the following operations and laws.
 
-- `periodRadiusValue`: The light scalar core is `log(teichval)/log(πval)`. Its geometric use requires `0<πval<1` and `0<teichval<1`; the denominator is nonzero. `periodRadiusValue_frobenius` holds for every natural `q` and `teichval>0` with `0<πval<1`, including the scalar `q=0` case.
+- The scalar radius expression is `log(teichval)/log(πval)`. Its geometric use requires `0<πval<1` and `0<teichval<1`; the denominator is nonzero. Its power-scaling identity holds for every natural `q` and `teichval>0` with `0<πval<1`, including `q=0`.
 - `periodRadius`: The logarithm ratio at the rank-one generalization.
 - `periodAnnulus`: The completed rational chart for `[a,b]`.
 - `periodRadius_frobenius`: `rad_ϖ(φx)=q rad_ϖ(x)`.
@@ -759,7 +759,7 @@ Compare powers of two pseudouniformizers for cofinality; do not assert their rad
 
 - `radius_scalar_two`: At `πval=1/2` and teichval`=1/4` the value is 2.
 - `radius_scalar_power`: Replacing teichval by `(1/4)³` makes the value 6.
-- `radius_denominator_domain`: `periodRadiusValue 1 t=0` for every real `t` by the totalized scalar division; this input is excluded from the geometric radius. Also teichval`=0` is excluded by `D([ϖ])`.
+- `radius_denominator_domain`: `log(t)/log(1)=0` for every real `t` by the totalized scalar division; this input is excluded from the geometric radius. Also teichval`=0` is excluded by `D([ϖ])`.
 - `radius_scale`: If `|[ϖ]|=|π|^a` at a rank-one point, `rad_ϖ=a`.
 - `annulus_equal_ends`: `[a,a]` gives a boundary annulus and is not discarded as empty.
 - `radius_varpi_power`: Replacing `ϖ` by `ϖ^m` multiplies rad by `m`, while preserving the generic domain.
@@ -2010,7 +2010,7 @@ Layers 0, 2, 3; PerfectoidSpaces, P2; RigidAnalyticGeometry, §2.2 (maximum modu
 
 Consume VectorBundlesAndIsocrystals VB−1, `relative-twists`, for `O_X(n)` with descent multiplier `π^(−n)φ`, its section equation, tensor/dual laws and annular/base compatibility. Use its lines and the VB0 slope convention: multiplier `π^(−n)σ` has slope `−n`, and the line has degree `n`.
 
-The scalar interfaces here are `twistMultiplier`, `IsTwistSection` and `twist_invariance_iff`. Over an arbitrary field `K`, a unit `π∈Kˣ`, an integer `n` and a ring endomorphism `φ`, they identify `π^(−n)φ(x)=x` with `φ(x)=π^n x`. These scalar statements carry no analytic coefficient hypotheses.
+Over an arbitrary field `K`, a unit `π∈Kˣ`, an integer `n` and a ring endomorphism `φ`, the scalar identity identifies `π^(−n)φ(x)=x` with `φ(x)=π^n x`. This sign calculation carries no analytic coefficient hypotheses.
 
 **Checks.**
 
@@ -2155,7 +2155,7 @@ A glueing datum carries no cocycle over `R_1 ⊗_R R_1`: the square replaces fpq
 
 The interface must support the following operations and laws.
 
-- `GlueingDatum.IsSection`: For the given overlap identifications `ψ₁,ψ₂`, the light predicate on `(x₁,x₂)` is `ψ₁(1⊗x₁)=ψ₂(1⊗x₂)`. The structure stores the actual modules and linear equivalences.
+- Section compatibility: for the given overlap identifications `ψ₁,ψ₂`, the condition on `(x₁,x₂)` is `ψ₁(1⊗x₁)=ψ₂(1⊗x₂)`. The structure stores the actual modules and linear equivalences.
 - `ExactSquare`: An exact square: four commutative rings, the four ring maps, commutativity, and exactness of `0 → R → R_1 ⊕ R_2 → R_12 → 0`.
 - `ExactSquare.exact`: An element of `R_1 ⊕ R_2` lies in the image of `R` iff its two images in `R_12` agree, `R → R_1 ⊕ R_2` is injective, and `R_1 ⊕ R_2 → R_12` is surjective.
 - `GlueingDatum`: A glueing datum `(M_1, M_2, M_12, ψ_1, ψ_2)` over an exact square, with morphisms the compatible triples of linear maps.
@@ -2189,7 +2189,7 @@ For flat `N` the sequence `0 → N → N ⊗ R_1 ⊕ N ⊗ R_2 → N ⊗ R_12 �
 
 - `section_identity`: For the identity square and identity transitions the compatible pairs are exactly `(m,m)`.
 - `section_nonexample`: Over `ℤ`, the pair `(1,0)` with identity transitions fails compatibility.
-- `GlueingDatum.unitTransition`: For coefficient algebras `R₁,R₂→R₁₂` and a unit `u∈R₁₂`, use the canonical rank-one first identification and multiplication by `u` in the second. Over the identity square of `ℚ` with `u=3`, `(1,1/3)` is a section and `(1,1)` is not.
+- Rank-one unit transition: For coefficient algebras `R₁,R₂→R₁₂` and a unit `u∈R₁₂`, use the canonical rank-one first identification and multiplication by `u` in the second. Over the identity square of `ℚ` with `u=3`, `(1,1/3)` is a section and `(1,1)` is not.
 - `section_transition_three`: For the `ℤ[1/2],ℤ[1/3]` square with transition 3, the pair `(1,1/3)` is compatible and `(1,1)` is not; the difference is `x₁−3x₂`.
 - `GlueingDatum.sections_zariski_Z`: For `R = Z`, `f = 2`, `g = 3`, the glueing datum (`Z[1/2]`, `Z[1/3]`, `Z[1/6]`, `id`, multiplication by 3) has module of sections {`(k, k/3)` : `k` in `Z`}, free of rank one with generator `(1, 1/3)`.
 - `GlueingDatum.sections_identitySquare`: For the identity square `R = R_1 = R_2 = R_12` and a datum `(M, M, M, id, id)`, the module of sections is the diagonal, isomorphic to `M`.
@@ -2276,15 +2276,15 @@ Glueability is a condition on the module; flat modules are glueable, and a non-g
 The interface must support the following operations and laws.
 
 - `GlueingPair`: A ring map `R → R'` and `f` in `R` with `R/f^n = R'/f^n` for all `n` and the exact sequence `0 → R → R' ⊕ R_f → R'_f → 0`.
-- `GlueingPair.iff_torsion_bijective`: Assuming the ring map induces `R/f^n R = R'/f^n R'` for all positive `n`, `(R → R', f)` is a glueing pair iff `R[f^oo] → R'[f^oo]` is bijective (Stacks 15.92.6).
-- `GlueingPair.of_nonZeroDivisor`: If `f` is a nonzerodivisor of `R` then `(R → R-hat, f)` is a glueing pair (Stacks 15.92.7).
-- `GlueingPair.of_flat`: If `R → R-hat` is flat (for example `R` noetherian) then `(R, f)` is a glueing pair (Stacks 15.92.8).
-- `GlueingPair.toExactSquare`: A glueing pair is an exact square `R → R'`, `R_f → R'_f` ([§6.1](#target-6-1)).
-- `GlueingPair.quotient_equiv`: For a glueing pair `(R → R',f)`, the canonical map `R/f^n R → R'/f^n R'` is an isomorphism for every `n`. In the completion case `R'=R-hat` these quotient isomorphisms hold without assuming the pair condition (Stacks 15.92.1).
-- `GlueingPair.spec_surjective`: `Spec(R') u Spec(R_f) → Spec(R)` is surjective (Stacks 15.92.3), the maximal-ideal condition of the exact-square glueing theorem.
+- Torsion criterion: Assuming the ring map induces `R/f^n R = R'/f^n R'` for all positive `n`, `(R → R', f)` is a glueing pair iff `R[f^oo] → R'[f^oo]` is bijective (Stacks 15.92.6).
+- Regular completion: If `f` is a nonzerodivisor of `R` then `(R → R-hat, f)` is a glueing pair (Stacks 15.92.7).
+- Flat completion: If `R → R-hat` is flat (for example `R` noetherian) then `(R, f)` is a glueing pair (Stacks 15.92.8).
+- Exact square: A glueing pair is an exact square `R → R'`, `R_f → R'_f` ([§6.1](#target-6-1)).
+- Quotient comparison: For a glueing pair `(R → R',f)`, the canonical map `R/f^n R → R'/f^n R'` is an isomorphism for every `n`. In the completion case `R'=R-hat` these quotient isomorphisms hold without assuming the pair condition (Stacks 15.92.1).
+- Spectral surjectivity: `Spec(R') u Spec(R_f) → Spec(R)` is surjective (Stacks 15.92.3), the maximal-ideal condition of the exact-square glueing theorem.
 - `Glueable`: The predicate: `0 → M → (M ⊗ R') ⊕ M_f → M ⊗ R'_f → 0` is exact.
-- `Glueable.iff_torsion`: For a glueing pair, `M` is glueable iff `M[f^oo] → (M ⊗ R')[f^oo]` is injective (Stacks 15.92.10).
-- `Glueable.of_flat`: Flat `R`-modules are glueable (Stacks 15.92.11).
+- Module torsion criterion: For a glueing pair, `M` is glueable iff `M[f^oo] → (M ⊗ R')[f^oo]` is injective (Stacks 15.92.10).
+- Flat modules: Flat `R`-modules are glueable (Stacks 15.92.11).
 
 Lemma 15.92.6: the sequence is always exact on the right; exactness on the left and in the middle are injectivity and surjectivity of `R[f^oo] → R'[f^oo]`.
 
@@ -2297,11 +2297,11 @@ Lemma 15.92.10 and Remark 15.92.11: the same criterion for modules, and flat mod
 - `torsion_zero_element`: `f=0` gives all of `M`, using `n=1`.
 - `torsion_unit_element`: `f=1` gives exactly `{0}`.
 - `torsion_natural_power`: In `ℤ/4ℤ` with `f=2`, every element is killed by `f²`; the class of 1 is not killed by `f⁰` or `f¹`.
-- `GlueingPair.int_p`: For `R = Z` and `f = p`, `R-hat = ℤ_p` and `0 → Z → ℤ_p ⊕ Z[1/p] → ℚ_p → 0` is exact; `(Z, p)` is a glueing pair.
-- `GlueingPair.of_isUnit`: If `f` is a unit then `R-hat = 0`, `R_f = R`, the sequence is `0 → R → R → 0 → 0`, every module is glueable and glueing data are `R`-modules.
-- `GlueingPair.noetherian_compat`: For `R` noetherian, Mathlib's AdicCompletion (Ideal.span `{f}`) `R` is flat over `R`, so `(R, f)` is a glueing pair and every `R`-module is glueable (Stacks 15.92.8, 15.92.11).
-- `GlueingPair.not_stacks_example`: For `R = k[f, T_1, T_2, ...]/(f T_1, f T_2 - T_1, f T_3 - T_2, ...)`, `(R, f)` is not a glueing pair: `T_1` is `f`-power torsion and nonzero in `R` but its image in `R-hat` is `f`-divisible, hence zero (Stacks Example 15.92.9).
-- `Glueable.not_smooth_germs`: For `R` the germs of smooth functions at 0 on the real line and `f = x`, the module `R/φ R` with `φ = exp(−1/x^2)` is not glueable although `f` is a nonzerodivisor (Stacks Example 15.92.12).
+- The integer completion pair: For `R = Z` and `f = p`, `R-hat = ℤ_p` and `0 → Z → ℤ_p ⊕ Z[1/p] → ℚ_p → 0` is exact; `(Z, p)` is a glueing pair.
+- Unit equation: If `f` is a unit then `R-hat = 0`, `R_f = R`, the sequence is `0 → R → R → 0 → 0`, every module is glueable and glueing data are `R`-modules.
+- Noetherian completion: For `R` noetherian, Mathlib's AdicCompletion (Ideal.span `{f}`) `R` is flat over `R`, so `(R, f)` is a glueing pair and every `R`-module is glueable (Stacks 15.92.8, 15.92.11).
+- Failure of the pair condition: For `R = k[f, T_1, T_2, ...]/(f T_1, f T_2 - T_1, f T_3 - T_2, ...)`, `(R, f)` is not a glueing pair: `T_1` is `f`-power torsion and nonzero in `R` but its image in `R-hat` is `f`-divisible, hence zero (Stacks Example 15.92.9).
+- Nonglueable smooth germs: For `R` the germs of smooth functions at 0 on the real line and `f = x`, the module `R/φ R` with `φ = exp(−1/x^2)` is not glueable although `f` is a nonzerodivisor (Stacks Example 15.92.12).
 
 Further specializations and compatibility requirements are as follows.
 
@@ -2337,7 +2337,7 @@ Flatness and finite projectivity descend: Stacks 15.92.18 (Tor computation from 
 
 Alternatively, for `f` a nonzerodivisor and finite projective data, Kedlaya-Liu Remark 2.7.9 verifies the surjectivity hypothesis of [§6.2](#target-6-2) for the square `R → R-hat`, `R[1/t] → R-hat[1/t]` using the `t`-adic density of `R[1/t]` in `R-hat[1/t]`, and concludes from Lemma 1.3.9.
 
-The light milestone `beauvilleLaszlo_flat_iff` states flatness detection for any module over a glueing pair. The milestones `beauvilleLaszlo_finiteProjective_iff` and `beauvilleLaszlo_effective` state finite-projective detection for an arbitrary module and existence of compatible base-change identifications for finite-projective gluing data. The latter has an explicit common localization and compatibility on pure tensors. Neither assumes completion flatness.
+`Suggested.lean` states `beauvilleLaszlo_flat_iff`, flatness detection for any module over a glueing pair, and `beauvilleLaszlo_finiteProjective_iff`, finite-projective detection for an arbitrary module. Its statement `beauvilleLaszlo_effective` gives compatible base-change identifications for finite-projective gluing data, with an explicit common localization and compatibility on pure tensors. These statements apply to general glueing pairs and assume neither noetherianity nor completion flatness.
 
 **Checks.**
 
@@ -2372,7 +2372,7 @@ The definition is local on `S` and on `X-cal`; for `d = 0` (`D` empty) a modific
 
 The interface must support the following operations and laws.
 
-- `localModificationsBoundedBy`: For an actual commutative ring A, element `ξ` and module `M′`, the light predicate on submodules `M⊆A[1/ξ]⊗_A M′` requires finite projectivity, `ξ^kM′⊆M` and `ξ^kM⊆image(M′)`. It records bounds without constructing a geometric bundle.
+- Local pole bounds: for a commutative ring `A`, element `ξ` and module `M′`, the condition on submodules `M⊆A[1/ξ]⊗_A M′` requires finite projectivity, `ξ^kM′⊆M` and `ξ^kM⊆image(M′)`. It records bounds without constructing a geometric bundle.
 - `Modification`: A modification of `E'` at `D`: a vector bundle `E` with an isomorphism `β` : `E|_{X minus D} = E'|_{X minus D}` meromorphic along `D` in both directions.
 - `Modification.extend`: For a bound `k`, the unique morphism `E → E'(kD)` extending `β`, and `E' → E(kD)` extending `β^(−1)`.
 - `Modification.refl`: `(E', id)` is a modification of `E'` at `D` with bound 0.
@@ -2391,7 +2391,7 @@ Because `I_D` is invertible and locally generated by a nonzerodivisor, a morphis
 
 **Checks.**
 
-- `bounded_scalar_ideal` (`localModificationsBoundedBy_regular_nonunit`): For `ξ` regular and nonunit, `ξA` inside `A[1/ξ]` belongs at `k=1` and fails at `k=0`.
+- Scalar ideal bound: For `ξ` regular and nonunit, `ξA` inside `A[1/ξ]` belongs at `k=1` and fails at `k=0`.
 - `bounded_zero_module`: For `M′=0` and any `ξ`, the `k=0` set is the singleton zero submodule.
 - `bounded_unit_equation`: If `ξ` is a unit and `M′` is finite projective, every bound gives the singleton full reference module; there is no nontrivial divisor.
 - `Modification.ideal_inclusion`: For `D` nonempty, the inclusion `I_D = O(−D) → O_X-cal` restricts to an isomorphism off `D` and is a modification of `O` at `D` bounded by 1, not bounded by 0.
@@ -2929,7 +2929,7 @@ Because Q0 is finitely presented, a section over `colim_T A_T` descends to one p
 
 **Checks.**
 
-- `unperfectedDiscCoordinate_no_pthRoot`: For `E=𝔽_q((π))`, `S=Spa(C,C⁺)` with `C` a characteristic-`p` perfectoid field, and the chart `π=ϖT`, the ordinary ring `C⟨T⟩` has no `p`-th root of `T`: a `p`-th power has zero coefficient in degree 1. The `ℤ_p[p^(1/p^∞)]^` extension has this ring as a quotient after killing its coefficient roots of zero. Its Frobenius is therefore not surjective, so that extension is not perfectoid. The Lean target states the no-root assertion for every ultrametric normed field of characteristic `p` on Mathlib's restricted-power-series subring.
+- Unperfected disc coordinate: For `E=𝔽_q((π))`, `S=Spa(C,C⁺)` with `C` a characteristic-`p` perfectoid field, and the chart `π=ϖT`, the ordinary ring `C⟨T⟩` has no `p`-th root of `T`: a `p`-th power has zero coefficient in degree 1. The `ℤ_p[p^(1/p^∞)]^` extension has this ring as a quotient after killing its coefficient roots of zero. Its Frobenius is therefore not surjective, so that extension is not perfectoid. The no-root assertion holds for every ultrametric normed field of characteristic `p` on Mathlib's restricted-power-series subring.
 - With the `π`-root extension on this same chart, `T=s_0` has roots `s_m`, and the continuous `C⟨T⟩`-linear projection `C⟨T^(1/p^∞)⟩→C⟨T⟩` keeps exactly the integral exponents. It sends 1 to 1 and each `T^(1/p^m)` to zero for `m>0`.
 - On the double and triple base-cover overlaps, the coefficient retractions commute with restriction. A trivial rank-`n` bundle with identity descent maps recovers the ordinary module `A^n`, with the same identity cocycle, in both coefficient characteristics.
 - The presentation obtained by trivialising etale-locally is one of etale stacks, not merely `v`-stacks

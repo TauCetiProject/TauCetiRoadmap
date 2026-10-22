@@ -1,36 +1,34 @@
 import Mathlib
 
 /-!
-# RelativeFarguesFontaine: representative target signatures
+# Relative Fargues–Fontaine curves: headline theorem signatures
 
-**This file is not the roadmap and it is not exhaustive.** The definitive specification is
-`README.md`. The declarations below suggest Lean forms for the definitions and statements that
-can be typed against the pinned Mathlib; proving every item here does not by itself
-complete a layer.
+**This file is not the roadmap and is not exhaustive.** The definitive specification is
+`README.md`; discharging these statements does not complete the roadmap.
 
-Design choices made explicit here:
-* the ramified ghost polynomials and their twisted variant are stated over an arbitrary
-  commutative coefficient ring, without constructing a ramified Witt ring;
-* the radius and the rank-one twist are recorded through their scalar cores (`periodRadiusValue`,
-  `twistMultiplier`, `IsTwistSection`), which fix the conventions `rad ∘ φ = q · rad` and
-  `O(n) ↔ π⁻ⁿφ`;
-* the linear patching of Layer 6 is algebraic: exact squares, glueing data, glueing pairs and
-  pole-bounded lattices are stated over actual rings, localizations and tensor products.
+The statements are the ramified Dwork criterion (§0.2), existence and comparison of nonperfect
+Cohen coefficient lifts (§0.23), and Beauville–Laszlo finite-projective effectivity and detection
+of flatness and finite projectivity for general glueing pairs (§6.5). The ghost formula and the
+quotient/torsion definition of a glueing pair use Mathlib's rings, ideals and modules directly.
 
-The relative period spaces, the curve, the divisor moduli, the completed divisor rings and the
-group-valued modifications have no carriers at the pins; they are README targets only and are
-listed in the closing comment.
+The other geometric headlines need carriers absent from the pinned libraries. Layers 0–1 need
+all-coefficient ramified Witt functors, weak period charts and the twelve relative Robba sheaves;
+Layer 2 needs relative ringed period curves and diamonds. Tau Ceti's `spaX` is a topological
+Frobenius quotient, without the curve structure sheaf needed here. Layers 3–4 need relative
+Cartier legs, their symmetric orbit sheaves and ambient formal completions; Mathlib's
+`BDeRhamPlus` alone does not supply those objects or their marked-untilt comparisons. Layer 5
+needs the relative Frobenius bundle and Lubin–Tate period-section constructions. The geometric
+results of Layers 6–7 — modification/lattice and meromorphic complement gluing, relative B-pair
+cohomology and comparison, normalized one-leg shtuka recovery, punctured Witt algebraicity,
+and exact tensor gluing and descent of G-bundles — need these analytic bundle, formal divisor,
+shtuka and torsor categories. Their statements are deferred until those carriers exist.
 -/
-
-noncomputable section
 
 open scoped TensorProduct
 
 universe u v
 
 namespace TauCetiRoadmap.RelativeFarguesFontaine
-
-/-! ## Layer 0: coefficients and integral period geometry -/
 
 section Coefficients
 
@@ -40,10 +38,6 @@ variable {O : Type v} [CommRing O]
 def ramifiedGhost (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
     (n : ℕ) (x : ℕ → A) : A :=
   ∑ i ∈ Finset.range (n + 1), algebraMap O A π ^ i * x i ^ (q ^ (n - i))
-
-/-- The actual finite polynomial, without defining a ramified Witt ring. -/
-def ramifiedWittPolynomials (π : O) (q n : ℕ) : MvPolynomial ℕ O :=
-  ∑ i ∈ Finset.range (n + 1), MvPolynomial.C (π ^ i) * MvPolynomial.X i ^ (q ^ (n - i))
 
 /-- The ramified Dwork criterion of README §0.2 gives injectivity and the exact ghost image
 for a torsion-free algebra with a coefficient-linear Frobenius lift. -/
@@ -59,139 +53,43 @@ theorem ramifiedDworkCriterion [IsDomain O] [CharZero O] [IsDiscreteValuationRin
         ∀ n, algebraMap O A π ^ (n + 1) ∣ y (n + 1) - σ (y n) := by
   sorry
 
-/-- Polynomial evaluation realizes the ramified ghost formula of README §0.1. -/
-theorem ramifiedWittPolynomials_eval (π : O) (q : ℕ) (A : Type u)
-    [CommRing A] [Algebra O A] (n : ℕ) (x : ℕ → A) :
-    MvPolynomial.eval₂ (algebraMap O A) x (ramifiedWittPolynomials π q n) =
-      ramifiedGhost π q A n x := by
-  sorry
-
-/-- At the exact unramified specialization, README §0.1's ghosts are Mathlib's ghosts. -/
-theorem ramifiedGhost_p_typical (p : ℕ) [Fact p.Prime] (A : Type u) [CommRing A]
-    (x : WittVector p A) (n : ℕ) :
-    ramifiedGhost (p : ℤ) p A n x.coeff = WittVector.ghostComponent n x := by
-  sorry
-
-/-- Naturality is the coefficient-evaluation milestone, with no ghost-injectivity assumption. -/
-theorem ramifiedGhost_natural (π : O) (q : ℕ) (A B : Type u)
-    [CommRing A] [Algebra O A] [CommRing B] [Algebra O B]
-    (f : A →ₐ[O] B) (n : ℕ) (x : ℕ → A) :
-    ramifiedGhost π q B n (f ∘ x) = f (ramifiedGhost π q A n x) := by
-  sorry
-
-/-- Coefficientwise congruence modulo π; the ordinary polynomial need not be LT. -/
-def WittTwistAdmissible (π : O) (q : ℕ) (Q : Polynomial O) : Prop :=
-  ∀ n, π ∣ (Q - Polynomial.X ^ q).coeff n
-
-/-- Iterated polynomial evaluation, the ghost formula for the twisted coordinate system. -/
-def twistedGhost (π : O) (_q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
-    (Q : Polynomial O) (n : ℕ) (x : ℕ → A) : A :=
-  ∑ i ∈ Finset.range (n + 1),
-    algebraMap O A π ^ i * (fun a => Q.eval₂ (algebraMap O A) a)^[n - i] (x i)
-
-/-- The ordinary polynomial recovers the untwisted ghost system of README §0.11. -/
-theorem twistedGhost_ordinary (π : O) (q : ℕ) (A : Type u) [CommRing A] [Algebra O A]
-    (x : ℕ → A) (n : ℕ) :
-    twistedGhost π q A (Polynomial.X ^ q) n x = ramifiedGhost π q A n x := by
-  sorry
-
 end Coefficients
 
-/-- The ordinary characteristic-`p` disc coordinate has no `p`-th root, as in README §7.6.
-The unit-radius restricted-series subring is the ring of the unperfected ratio chart. -/
-theorem unperfectedDiscCoordinate_no_pthRoot (p : ℕ) [Fact p.Prime]
-    (C : Type u) [NormedField C] [IsUltrametricDist C] [CharP C p]
-    (f : PowerSeries.IsRestricted.subring (R := C) 1) :
-    (f : PowerSeries C) ^ p ≠ PowerSeries.X := by
+section Cohen
+
+variable (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+  [Finite (IsLocalRing.ResidueField O)] [hcomplete : IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+  (π : O) (hπ : IsLocalRing.maximalIdeal O = Ideal.span {π})
+  (K : Type u) [Field K] [Algebra O K]
+  (hK : RingHom.ker (algebraMap O K) = IsLocalRing.maximalIdeal O)
+
+include hπ hK hcomplete
+
+/-- README §0.23: every residue-field extension, including imperfect ones, has a flat
+complete coefficient lift and a coefficient-linear lift of its residue q-Frobenius. -/
+theorem cohenCoefficientLift_exists :
+    ∃ (A : Type u) (_ : CommRing A) (_ : Algebra O A),
+      Module.Flat O A ∧ IsAdicComplete (Ideal.span {algebraMap O A π}) A ∧
+      ∃ ρ : A →ₐ[O] K, Function.Surjective ρ ∧
+        RingHom.ker ρ.toRingHom = Ideal.span {algebraMap O A π} ∧
+        ∃ σ : A →ₐ[O] A, ∀ x, ρ (σ x) = ρ x ^ Nat.card (IsLocalRing.ResidueField O) := by
   sorry
 
-/-! ## Layer 1: annuli and relative period rings -/
-
-/-- Scalar core of the geometric radius, evaluated at a rank-one valuation.
-The geometric domain ensures both values lie strictly between zero and one. -/
-def periodRadiusValue (πval teichval : ℝ) : ℝ :=
-  Real.log teichval / Real.log πval
-
-/-- The scalar Frobenius scaling law in README §1.2 multiplies the radius by `q`. -/
-theorem periodRadiusValue_frobenius (πval teichval : ℝ) (q : ℕ)
-    (hπ : 0 < πval) (hπ1 : πval < 1) (ht : 0 < teichval) :
-    periodRadiusValue πval (teichval ^ q) = q * periodRadiusValue πval teichval := by
+/-- README §0.23: any two marked flat complete coefficient lifts are isomorphic over O,
+compatibly with the residue maps; no uniqueness of the isomorphism is asserted. -/
+theorem cohenCoefficientLift_compare
+    (A B : Type u) [CommRing A] [Algebra O A] [CommRing B] [Algebra O B]
+    [Module.Flat O A] [Module.Flat O B]
+    [IsAdicComplete (Ideal.span {algebraMap O A π}) A]
+    [IsAdicComplete (Ideal.span {algebraMap O B π}) B]
+    (ρA : A →ₐ[O] K) (ρB : B →ₐ[O] K)
+    (hsA : Function.Surjective ρA) (hsB : Function.Surjective ρB)
+    (hkA : RingHom.ker ρA.toRingHom = Ideal.span {algebraMap O A π})
+    (hkB : RingHom.ker ρB.toRingHom = Ideal.span {algebraMap O B π}) :
+    ∃ e : A ≃ₐ[O] B, ∀ a, ρB (e a) = ρA a := by
   sorry
 
-/-! ## Layer 2: the relative curve and its diamond
-The relative ringed quotient has no carrier at the pins; see README Layer 2. -/
-
-/-! ## Layer 3: effective divisors and ambient completions
-The divisor moduli and completed divisor rings have no carriers at the pins; see README Layer 3. -/
-
-/-! ## Layer 4: marked untilts and local de Rham geometry
-The completion comparisons need the marked geometric carriers of README Layer 4. -/
-
-/-! ## Layer 5: rank-one twists and section charts -/
-
-section Twist
-
-variable {K : Type u} [Field K]
-
-/-- The descent multiplier is `π^(−n)`, not `π^n`. -/
-def twistMultiplier (π : Kˣ) (n : ℤ) : K := (π : K) ^ (-n)
-
-/-- Scalar eigenvector condition for sections of `O(n)`. -/
-def IsTwistSection (φ : K →+* K) (π : Kˣ) (n : ℤ) (x : K) : Prop :=
-  φ x = (π : K) ^ n * x
-
-/-- The scalar section equation agrees with invariance under the descent multiplier. -/
-theorem twist_invariance_iff (φ : K →+* K) (π : Kˣ) (n : ℤ) (x : K) :
-    twistMultiplier π n * φ x = x ↔ IsTwistSection φ π n x := by
-  sorry
-
-end Twist
-
-/-! ## Layer 6: linear patching and modifications -/
-
-section ExactSquare
-
-variable (R R₁ R₂ R₁₂ : Type u) [CommRing R] [CommRing R₁] [CommRing R₂] [CommRing R₁₂]
-  [Algebra R R₁] [Algebra R R₂] [Algebra R R₁₂] [Algebra R₁ R₁₂] [Algebra R₂ R₁₂]
-  [IsScalarTower R R₁ R₁₂] [IsScalarTower R R₂ R₁₂]
-
-/-- All three places of the difference sequence must be exact. -/
-structure ExactSquare : Prop where
-  injective : Function.Injective fun r : R => (algebraMap R R₁ r, algebraMap R R₂ r)
-  exact : ∀ (a : R₁) (b : R₂), algebraMap R₁ R₁₂ a = algebraMap R₂ R₁₂ b →
-    ∃ r : R, algebraMap R R₁ r = a ∧ algebraMap R R₂ r = b
-  surjective : ∀ z : R₁₂, ∃ (a : R₁) (b : R₂), algebraMap R₁ R₁₂ a - algebraMap R₂ R₁₂ b = z
-
-end ExactSquare
-
-section GlueingDatum
-
-variable (R₁ R₂ R₁₂ M₁ M₂ M₁₂ : Type u)
-  [CommRing R₁] [CommRing R₂] [CommRing R₁₂] [Algebra R₁ R₁₂] [Algebra R₂ R₁₂]
-  [AddCommGroup M₁] [Module R₁ M₁] [AddCommGroup M₂] [Module R₂ M₂]
-  [AddCommGroup M₁₂] [Module R₁₂ M₁₂]
-
-/-- Actual modules and actual overlap identifications, without topological data. -/
-structure GlueingDatum where
-  ψ₁ : R₁₂ ⊗[R₁] M₁ ≃ₗ[R₁₂] M₁₂
-  ψ₂ : R₁₂ ⊗[R₂] M₂ ≃ₗ[R₁₂] M₁₂
-
-variable {R₁ R₂ R₁₂ M₁ M₂ M₁₂}
-
-/-- Membership in the module of compatible sections, without constructing that module. -/
-def GlueingDatum.IsSection (D : GlueingDatum R₁ R₂ R₁₂ M₁ M₂ M₁₂) (x : M₁ × M₂) : Prop :=
-  D.ψ₁ (1 ⊗ₜ x.1) = D.ψ₂ (1 ⊗ₜ x.2)
-
-end GlueingDatum
-
-/-- Rank-one overlap datum with the second identification multiplied by a specified unit. -/
-def GlueingDatum.unitTransition (R₁ R₂ R₁₂ : Type u)
-    [CommRing R₁] [CommRing R₂] [CommRing R₁₂]
-    [Algebra R₁ R₁₂] [Algebra R₂ R₁₂] (a : R₁₂ˣ) :
-    GlueingDatum R₁ R₂ R₁₂ R₁ R₂ R₁₂ where
-  ψ₁ := TensorProduct.AlgebraTensorModule.rid R₁ R₁₂ R₁₂
-  ψ₂ := (TensorProduct.AlgebraTensorModule.rid R₂ R₁₂ R₁₂).trans
-    (LinearEquiv.smulOfUnit a)
+end Cohen
 
 section GlueingPair
 
@@ -206,26 +104,6 @@ structure GlueingPair (R' : Type u) [CommRing R'] [Algebra R R'] (f : R) : Prop 
   torsion_bijOn : Set.BijOn (algebraMap R R')
     (Submodule.torsion' R R (Submonoid.powers f))
     (Submodule.torsion' R' R' (Submonoid.powers (algebraMap R R' f)))
-
-/-- The power-torsion form of glueability: bijectivity of `M[f^∞] → (R' ⊗ M)[f^∞]`. It agrees with
-exactness of the glueing sequence whenever `R → R'` induces isomorphisms modulo every `f ^ n`
-(Stacks Lemma 15.92.10); for a glueing pair injectivity already suffices. -/
-def Glueable (R' : Type u) [CommRing R'] [Algebra R R'] (f : R)
-    (M : Type u) [AddCommGroup M] [Module R M] : Prop :=
-  Set.BijOn (fun m : M => (1 : R') ⊗ₜ[R] m)
-    (Submodule.torsion' R M (Submonoid.powers f))
-    (Submodule.torsion' R' (R' ⊗[R] M) (Submonoid.powers (algebraMap R R' f)))
-
-/-- A regular element gives the non-noetherian completion glueing pair of README §6.4. -/
-theorem GlueingPair.of_nonZeroDivisor (f : R) (hf : f ∈ nonZeroDivisors R) :
-    GlueingPair (AdicCompletion (Ideal.span {f}) R) f := by
-  sorry
-
-/-- Flat modules satisfy the glueability criterion of README §6.4. -/
-theorem Glueable.of_flat {R' : Type u} [CommRing R'] [Algebra R R']
-    (f : R) (h : GlueingPair R' f) (M : Type u) [AddCommGroup M] [Module R M]
-    [Module.Flat R M] : Glueable R' f M := by
-  sorry
 
 /-- Flatness is detected by the two scalar extensions in README §6.5's glueing pair. -/
 theorem beauvilleLaszlo_flat_iff {R' : Type u} [CommRing R'] [Algebra R R']
@@ -264,67 +142,5 @@ theorem beauvilleLaszlo_effective {R' : Type u} [CommRing R'] [Algebra R R'] {f 
   sorry
 
 end GlueingPair
-
-section LocalModification
-
-variable {A : Type u} [CommRing A]
-
-/-- Finite projective lattices with a two-sided pole bound, in an actual localization. -/
-def localModificationsBoundedBy (ξ : A) (M' : Type u) [AddCommGroup M'] [Module A M']
-    (k : ℕ) : Set (Submodule A (Localization.Away ξ ⊗[A] M')) :=
-  {M | Module.Finite A M ∧ Module.Projective A M ∧
-    (∀ m : M', ξ ^ k • ((1 : Localization.Away ξ) ⊗ₜ[A] m) ∈ M) ∧
-    ∀ x ∈ M, ∃ m : M', ξ ^ k • x = (1 : Localization.Away ξ) ⊗ₜ[A] m}
-
-/-- The regular nonunit lattice of README §6.6 has bound one and fails bound zero. -/
-theorem localModificationsBoundedBy_regular_nonunit (ξ : A)
-    (hξ : ξ ∈ nonZeroDivisors A) (hnu : ¬ IsUnit ξ) :
-    (Submodule.span A {(algebraMap A (Localization.Away ξ) ξ) ⊗ₜ[A] (1 : A)} ∈
-      localModificationsBoundedBy ξ A 1) ∧
-    Submodule.span A {(algebraMap A (Localization.Away ξ) ξ) ⊗ₜ[A] (1 : A)} ∉
-      localModificationsBoundedBy ξ A 0 := by
-  sorry
-
-end LocalModification
-
-/-! ## Layer 7: group-valued modifications
-These need G-bundles on the relative curve, which have no carrier at the pins; see README Layer 7. -/
-
-/-
-README-only definitions and constructions (with their APIs and Checks there):
-Layer 0: the full ghost API ramifiedGhost_zero, ramifiedGhost_one;
-cohenCoefficientLifts; qTwistedWittFunctor,
-qTeichmullerLift, lubinTateTeichmullerLift, integralRationalChartRings,
-rootExtensionChartModel, wholeAnalyticAinfLocus, wholeAnalyticAinf.
-Layer 1: annularGlobalSectionGeneration; radiusFunctionAndRationalAnnuli,
-wittSeminormLambdaMu; relativeExtendedRobbaRings and relativePeriodPresheaves compare the
-supplied p-typical carriers with the twelve-variant and all-E interfaces;
-intervalAdicPairAndBaseProjection, berkovichPeriodDeformation.
-Layer 2: globalPeriodSheavesAndEtaleFunctoriality and the diamond presentations of the supplied curve.
-Layer 3: divDModuliVSheaf, completedRingsBPlusAndB, additionAndDisjointDivisorLoci,
-completedDivisorGeometricStalk, divisorCompletionFiniteProjectives.
-Layer 4: classicalPointsOfIntegralPeriodDisc, tiltingMapOfPeriodDisc, div1Moduli
-and the marked geometric untilt/de Rham comparisons.
-Layer 5: lubinTateDivisorSection compares the supplied period section with integral charts and completions.
-The geometric twists, section algebra and partial Proj maps are supplier inputs.
-Layer 6: normalizedTailComparison; the geometric no-leg equivalence is supplied;
-ExactSquare.zariski_sections_can, ExactSquare.not_exact_double_localization;
-GlueingDatum.can_sections_adjunction, GlueingDatum.sections_can_of_flat,
-GlueingDatum.baseChange_can, GlueingDatum.sections_ext,
-GlueingDatum.sections_zariski_Z, GlueingDatum.sections_identitySquare;
-GlueingPair.iff_torsion_bijective, GlueingPair.of_flat,
-GlueingPair.quotient_equiv, GlueingPair.spec_surjective, GlueingPair.int_p,
-GlueingPair.of_isUnit, GlueingPair.noetherian_compat, GlueingPair.not_stacks_example;
-Glueable.iff_torsion, Glueable.not_smooth_germs;
-GlueingDatum.sections, GlueingDatum.sectionsCompare, GlueingDatum.can,
-GlueingDatum.Hom, Modification,
-relativeBPairPeriodComparison, relativeBPairModificationCompatibility and meromorphic bundles
-on the complement of a divisor; the unramified relative B-pair rings/equivalence are supplied.
-The flat-quasicoherent comparison B_pair_cohomology uses a principal affine Cartier neighbourhood.
-Layer 7: torsorTensorDictionary; GModification and GBundleModification, with geometric tensor gluing,
-faithful-representation meromorphy and ordinary torsor descent.
-The all-E theorem v_descent_and_local_triviality uses the uniformizer-root extension and its
-continuous module retractions on the base-cover nerve and coefficient overlaps.
--/
 
 end TauCetiRoadmap.RelativeFarguesFontaine
