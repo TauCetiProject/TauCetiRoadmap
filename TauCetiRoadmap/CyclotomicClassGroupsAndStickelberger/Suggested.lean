@@ -2,34 +2,50 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.AbelianVariety.MorphismGroup
 import TauCeti.NumberTheory.ClassGroup.Equiv
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
+import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
-# CyclotomicClassGroupsAndStickelberger: representative target signatures
+# Cyclotomic class groups and Stickelberger theory: headline statements
 
-The roadmap is README.md. This file gives suggested forms of light definitions and theorem
-signatures statable against the pinned APIs; it is not an exhaustive checklist. The covariant
-ideal-class action, inverse group-ring basis, and dyadic tower shift are explicit.
-The circular-unit carriers specialize the shared arithmetic groups of IntegralIwasawaTheory
-Layer 1; class-number growth specializes its Layer 3. The native Vandiver predicate agrees
-with its Layer 7 condition at odd primes and also records the rational dyadic boundary.
-The shared abelian Hom theorem uses the native field-valued abelian-variety carrier.
-The geometric realizations and local comparisons described in the closing inventory
-remain README targets on the shared objects specified there.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. These statements suggest Lean forms for headline results; discharging
+all of them finishes neither a layer nor the roadmap.
+
+The statements cover Hilbert 92 and exact Hilbert 94, full integral Stickelberger
+annihilation, Bernoulli annihilators, signed Gauss sums and abelian
+class-number products, the relative class-number bound, finite freeness of abelian
+Hom groups, the prime-level cuspidal eigenlift, Herbrand–Ribet, Kummer's criterion and unit lemma, regular and dyadic
+prime-power stability, the circular-unit index, Iwasawa class-number growth, and
+inverse-character vanishing at every positive prime-power level. The class action
+is covariant. Tame eigenspaces impose no condition on the wild action. Circular
+units use roots of unity and integral ratios on native integer rings.
+
+The relative-unit residue systems and general reflection inequalities require the
+relative-unit and unramified Kummer-radical modules of Layers 1 and 3. Their
+arithmetic comparison maps and the equivariant Hilbert class field are absent from
+the pins. The modular quotient, abelian Tate realization,
+endomorphism polynomial, numerical intersection and Rosati objects of Layer 4
+are also absent, as are its scheme-valued Barsotti–Tate groups and local
+Hodge–Tate comparison. The native abelian Hom group does exist, so its finite-free
+statement appears here. The norm-limit statements of Layer 7 require the arithmetic
+tower and completed action, although their numerical growth conclusion is
+statable. The unramified-extension and constant étale-cohomology conclusions of
+Layer 8 require the equivariant class-field and number-ring torsor comparisons;
+no replacement predicates or abstract extensions are used here. Vandiver's
+universal assertion remains a conjecture in the README.
 -/
 
-open scoped BigOperators TensorProduct Cyclotomic Matrix
+open scoped BigOperators TensorProduct Cyclotomic Classical
 open scoped TauCeti.AlgebraicGeometry.AbelianVariety.Hom
-open CategoryTheory
-open NumberField
+open CategoryTheory NumberField
+
 namespace TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
 
 local instance (m : ℕ) [NeZero m] :
     IsCyclotomicExtension {m} ℚ (CyclotomicField m ℚ) :=
   CyclotomicField.isCyclotomicExtension m ℚ
 
-/-! ## Layer 0: the covariant class action and tame eigenspaces -/
-
-/-- Scalar extension of the native action σₐ[𝔞] = [σₐ𝔞]. -/
+/-- Scalar extension of the native covariant action on ideal classes. -/
 noncomputable def cyclotomicClassAction (R : Type*) [CommRing R]
     (m : ℕ) [NeZero m] (a : (ZMod m)ˣ) :
     Module.End R (R ⊗[ℤ] Additive (ClassGroup (𝓞 (CyclotomicField m ℚ)))) :=
@@ -38,178 +54,50 @@ noncomputable def cyclotomicClassAction (R : Type*) [CommRing R]
       (RingOfIntegers.mapRingEquiv
         (((IsCyclotomicExtension.Rat.galEquivZMod m (CyclotomicField m ℚ)).symm a).toRingEquiv))).toAdditive.toAddMonoidHom.toIntLinearMap)
 
-/-- The covariant action transports a pure tensor by the same automorphism. -/
-theorem classAction_tensor (R : Type*) [CommRing R] (m : ℕ) [NeZero m] (a : (ZMod m)ˣ)
-    (x : ClassGroup (𝓞 (CyclotomicField m ℚ))) :
-    cyclotomicClassAction R m a (1 ⊗ₜ[ℤ] Additive.ofMul x) =
-      1 ⊗ₜ[ℤ] Additive.ofMul
-        (ClassGroup.mulEquivHom
-          (RingOfIntegers.mapRingEquiv
-            (((IsCyclotomicExtension.Rat.galEquivZMod m (CyclotomicField m ℚ)).symm a).toRingEquiv)) x) := by
-  rfl
-
-/-- The simultaneous character submodule for a family of linear operators. -/
-noncomputable def characterEigenspace {R G M : Type*} [CommRing R]
-    [AddCommGroup M] [Module R M] (ρ : G → Module.End R M)
-    (ω : G → Rˣ) (i : ℤ) : Submodule R M :=
-  ⨅ a : G, LinearMap.ker (ρ a - (((ω a) ^ i : Rˣ) : R) • LinearMap.id)
-
-example :
-    let ω : rootsOfUnity 4 (ZMod 25) →* (ZMod 25)ˣ := (rootsOfUnity 4 (ZMod 25)).subtype
-    let ρ : Representation (ZMod 25) (rootsOfUnity 4 (ZMod 25)) (ZMod 25) :=
-      { toFun := fun a => ((ω a ^ 3 : (ZMod 25)ˣ) : ZMod 25) • LinearMap.id
-        map_one' := by ext; simp
-        map_mul' := by intro a b; ext; simp [mul_pow, mul_comm] }
-    (1 : ZMod 25) ∈ characterEigenspace ρ ω (-1) ∧
-      (1 : ZMod 25) ∉ characterEigenspace ρ ω 1 := by
-  dsimp only
-  constructor
-  · simp only [characterEigenspace, Submodule.mem_iInf, LinearMap.mem_ker,
-      LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, smul_eq_mul,
-      mul_one, sub_eq_zero]
-    intro a
-    have ha : (a.val : (ZMod 25)ˣ) ^ 3 = a.val⁻¹ := by
-      apply (eq_inv_iff_mul_eq_one).mpr
-      simpa only [← pow_succ] using (mem_rootsOfUnity 4 a.val).mp a.property
-    simpa using congrArg Units.val ha
-  · intro h
-    simp only [characterEigenspace, Submodule.mem_iInf] at h
-    have h' := h (⟨⟨7, 18, by decide, by decide⟩, by rw [mem_rootsOfUnity]; decide⟩ : rootsOfUnity 4 (ZMod 25))
-    norm_num [LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply,
-      LinearMap.id_apply, smul_eq_mul] at h'
-    exact (by decide : (336 : ZMod 25) ≠ 0) h'
-
-/-- The ωⁱ submodule at prime conductor; ω is the multiplicative Teichmüller section.
-The section condition is imposed in the theorems, rather than constructing it here. -/
-noncomputable def cyclotomicClassEigenspace (p : ℕ) [Fact p.Prime] [NeZero p]
-    (ω : (ZMod p)ˣ →* ℤ_[p]ˣ) (i : ℤ) :
+/-- The tame ωⁱ submodule at conductor pʳ. Only the (p−1)st roots of unity
+in the residue-unit group act in this condition; the wild action is retained. -/
+noncomputable def cyclotomicClassEigenspace (p r : ℕ) [Fact p.Prime] [NeZero p]
+    (hr : 1 ≤ r) (ω : (ZMod p)ˣ →* ℤ_[p]ˣ) (i : ℤ) :
     Submodule ℤ_[p]
-      (ℤ_[p] ⊗[ℤ] Additive (ClassGroup (𝓞 (CyclotomicField p ℚ)))) :=
-  characterEigenspace (cyclotomicClassAction ℤ_[p] p) ω i
+      (ℤ_[p] ⊗[ℤ] Additive (ClassGroup (𝓞 (CyclotomicField (p ^ r) ℚ)))) :=
+  ⨅ a : rootsOfUnity (p - 1) (ZMod (p ^ r)),
+    LinearMap.ker (cyclotomicClassAction ℤ_[p] (p ^ r) a.val -
+      (((ω (ZMod.unitsMap (dvd_pow_self p (by omega : r ≠ 0)) a.val)) ^ i : ℤ_[p]ˣ) :
+        ℤ_[p]) • LinearMap.id)
 
-/-- Every class has a unique sum of tame character components. -/
-theorem cyclotomicClassEigenspaces (p : ℕ) [Fact p.Prime] [NeZero p]
-    (hodd : p ≠ 2) (ω : (ZMod p)ˣ →* ℤ_[p]ˣ)
-    (hω : ∀ a, PadicInt.toZMod ((ω a : ℤ_[p]ˣ) : ℤ_[p]) = (a : ZMod p))
-    (x : ℤ_[p] ⊗[ℤ] Additive (ClassGroup (𝓞 (CyclotomicField p ℚ)))) :
-    ∃! y : Fin (p - 1) →
-        ℤ_[p] ⊗[ℤ] Additive (ClassGroup (𝓞 (CyclotomicField p ℚ))),
-      (∀ i, y i ∈ cyclotomicClassEigenspace p ω (i.val : ℤ)) ∧ ∑ i, y i = x := by
+/-- Hilbert 92: in a prime-degree cyclic extension unramified at infinity,
+there exists a norm-one integral unit which is not a unit coboundary (README §1.3). -/
+theorem hilbert92 (K L : Type*) [Field K] [NumberField K]
+    [Field L] [NumberField L] [Algebra K L] [IsGalois K L]
+    (hprime : (Module.finrank K L).Prime)
+    (h_infty : ∀ w : InfinitePlace L, w.IsUnramified K)
+    (σ : L ≃ₐ[K] L) (hσ : orderOf σ = Module.finrank K L) :
+    ∃ u : (𝓞 L)ˣ, Units.map (RingOfIntegers.norm K) u = 1 ∧
+      ∀ v : (𝓞 L)ˣ,
+        u ≠ Units.map (RingOfIntegers.mapRingEquiv σ.toRingEquiv).toMonoidHom v / v := by
   sorry
 
-/-! ## Layer 2: light Stickelberger coefficients -/
+/-- Exact Hilbert 94 for any cyclic extension unramified at every place:
+the capitulation kernel has order [L:K] times the unit norm index (README §1.6). -/
+theorem hilbert94_card (K L : Type*) [Field K] [NumberField K]
+    [Field L] [NumberField L] [Algebra K L] [IsGalois K L]
+    [IsCyclic (L ≃ₐ[K] L)] [Algebra.Unramified (𝓞 K) (𝓞 L)]
+    (h_infty : ∀ w : InfinitePlace L, w.IsUnramified K) :
+    Nat.card (ClassGroup.extendedHom (𝓞 K) (𝓞 L)).ker =
+      Module.finrank K L * (Units.map (RingOfIntegers.norm K (L := L))).range.index := by
+  sorry
 
-/-- Rational group-ring convention: the inverse occurs on the basis element. -/
+/-- The rational Stickelberger element, with the inverse on the group-ring basis. -/
 noncomputable def stickelberger (m : ℕ) [NeZero m] : MonoidAlgebra ℚ (ZMod m)ˣ :=
-  ∑ a : (ZMod m)ˣ,
-    MonoidAlgebra.single a⁻¹ ((a.val.val : ℚ) / m)
+  ∑ a : (ZMod m)ˣ, MonoidAlgebra.single a⁻¹ ((a.val.val : ℚ) / m)
 
-/-- Integral coefficients of the positive smoothing (b - σ_b) θ_m. -/
-noncomputable def smoothedStickelberger (m b : ℕ) [NeZero m] : MonoidAlgebra ℤ (ZMod m)ˣ :=
-  ∑ a : (ZMod m)ˣ,
-    MonoidAlgebra.single a⁻¹ (↑(b * a.val.val / m) : ℤ)
-
-example : (stickelberger 5).coeff (show (ZMod 5)ˣ from ⟨3, 2, by decide, by decide⟩) = 2 / 5 := by
-  classical
-  norm_num [stickelberger, smoothedStickelberger, MonoidAlgebra.coeff_single, Finsupp.single_apply, inv_eq_iff_eq_inv]
-  rfl
-
-example : (stickelberger 5).coeff (show (ZMod 5)ˣ from ⟨2, 3, by decide, by decide⟩) = 3 / 5 := by
-  classical
-  norm_num [stickelberger, smoothedStickelberger, MonoidAlgebra.coeff_single, Finsupp.single_apply, inv_eq_iff_eq_inv]
-  rfl
-
-example : (smoothedStickelberger 5 2).coeff (show (ZMod 5)ˣ from ⟨3, 2, by decide, by decide⟩) = 0 := by
-  classical
-  norm_num [stickelberger, smoothedStickelberger, MonoidAlgebra.coeff_single, Finsupp.single_apply, inv_eq_iff_eq_inv]
-  rfl
-
-example : (smoothedStickelberger 5 2).coeff (show (ZMod 5)ˣ from ⟨2, 3, by decide, by decide⟩) = 1 := by
-  classical
-  norm_num [stickelberger, smoothedStickelberger, MonoidAlgebra.coeff_single, Finsupp.single_apply, inv_eq_iff_eq_inv]
-  rfl
-
-/-- Coefficient extension embeds the integral group ring into the rational group ring. -/
+/-- The native coefficient-extension map from the integral to the rational group ring. -/
 noncomputable def integralGroupRingCast (m : ℕ) :
     MonoidAlgebra ℤ (ZMod m)ˣ →+* MonoidAlgebra ℚ (ZMod m)ˣ :=
   MonoidAlgebra.mapRingHom _ (Int.castRingHom ℚ)
 
-/-- Coefficient extension loses no integral group-ring element. -/
-theorem integralGroupRingCast_injective (m : ℕ) :
-    Function.Injective (integralGroupRingCast m) := by
-  intro x y h
-  ext a
-  have hcoeff := congrArg (fun z => z.coeff a) h
-  simpa only [integralGroupRingCast, MonoidAlgebra.coeff_mapRingHom,
-    Int.coe_castRingHom, Int.cast_inj] using hcoeff
-
-example :
-    integralGroupRingCast 5
-        (MonoidAlgebra.single (⟨3, 2, by decide, by decide⟩ : (ZMod 5)ˣ) 1) =
-      MonoidAlgebra.single (⟨3, 2, by decide, by decide⟩ : (ZMod 5)ˣ) 1 ∧
-    integralGroupRingCast 5
-        (MonoidAlgebra.single (⟨3, 2, by decide, by decide⟩ : (ZMod 5)ˣ) 1) ≠
-      MonoidAlgebra.single (⟨2, 3, by decide, by decide⟩ : (ZMod 5)ˣ) 1 := by
-  constructor
-  · simp [integralGroupRingCast]
-  · intro h
-    have hcoeff := congrArg
-      (fun z : MonoidAlgebra ℚ (ZMod 5)ˣ =>
-        z.coeff (⟨3, 2, by decide, by decide⟩ : (ZMod 5)ˣ)) h
-    norm_num [integralGroupRingCast, MonoidAlgebra.coeff_single,
-      Finsupp.single_apply] at hcoeff
-    exact (by decide : (2 : ZMod 5) ≠ 3) hcoeff.1
-
-example :
-    let a : (ZMod 5)ˣ := ⟨3, 2, by decide, by decide⟩
-    let b : (ZMod 5)ˣ := ⟨2, 3, by decide, by decide⟩
-    let x := integralGroupRingCast 5
-      (MonoidAlgebra.single a (-2) + MonoidAlgebra.single b 3)
-    x = MonoidAlgebra.single a (-2) + MonoidAlgebra.single b 3 ∧
-      x.coeff a = -2 ∧ x.coeff b = 3 := by
-  norm_num [integralGroupRingCast, MonoidAlgebra.coeff_single, Finsupp.single_apply]
-  decide
-
-/-- The finite-sum convention at conductor one has zero value. -/
-theorem stickelberger_one : stickelberger 1 = 0 := by
-  classical
-  unfold stickelberger
-  apply Finset.sum_eq_zero
-  intro a _
-  have ha : a.val = 0 := Subsingleton.elim _ _
-  simp [ha]
-
-/-- The sole coefficient at conductor two retains its denominator. -/
-theorem stickelberger_two_coeff :
-    (stickelberger 2).coeff 1 = (1 : ℚ) / 2 := by
-  classical
-  norm_num [stickelberger, MonoidAlgebra.coeff_single, Finsupp.single_apply,
-    inv_eq_iff_eq_inv]
-  rfl
-
-/-- Smoothing by six at conductor five retains the integer representative. -/
-theorem smoothedStickelberger_five_six :
-    integralGroupRingCast 5 (smoothedStickelberger 5 6) = 5 * stickelberger 5 := by
-  sorry
-
-/-- The first nonzero smoothing at conductor two is the integral unit. -/
-theorem smoothedStickelberger_two_three : smoothedStickelberger 2 3 = 1 := by
-  sorry
-
-/-- The integral multipliers whose product with θ has integral coefficients. -/
-noncomputable def denominatorIdeal (m : ℕ) [NeZero m] :
-    Ideal (MonoidAlgebra ℤ (ZMod m)ˣ) where
-  carrier := {x | ∃ y, integralGroupRingCast m y =
-    integralGroupRingCast m x * stickelberger m}
-  zero_mem' := ⟨0, by simp⟩
-  add_mem' := by
-    rintro x y ⟨u, hu⟩ ⟨v, hv⟩
-    exact ⟨u + v, by simp only [map_add, hu, hv, add_mul]⟩
-  smul_mem' := by
-    rintro r x ⟨u, hu⟩
-    exact ⟨r * u, by simp only [smul_eq_mul, map_mul, hu, mul_assoc]⟩
-
-/-- The integral image of multiplication by θ on its denominator ideal. -/
+/-- Integral group-ring multiples of θ whose coefficients are integral.
+The multiplier belongs to ℤ[G], as required by README §2.2. -/
 noncomputable def stickelbergerIdeal (m : ℕ) [NeZero m] :
     Ideal (MonoidAlgebra ℤ (ZMod m)ˣ) where
   carrier := {y | ∃ x, integralGroupRingCast m y =
@@ -222,94 +110,39 @@ noncomputable def stickelbergerIdeal (m : ℕ) [NeZero m] :
     rintro r u ⟨x, hx⟩
     exact ⟨r * x, by simp only [smul_eq_mul, map_mul, hx, mul_assoc]⟩
 
-/-- Multiplication by θ with its integral value and image membership. -/
-noncomputable def integralStickelbergerMap (m : ℕ) [NeZero m]
-    (x : denominatorIdeal m) : stickelbergerIdeal m :=
-  ⟨Classical.choose x.property, ⟨x.val, Classical.choose_spec x.property⟩⟩
-
-/-- The integral value maps to the rational product by θ. -/
-theorem integralStickelbergerMap_cast (m : ℕ) [NeZero m] (x : denominatorIdeal m) :
-    integralGroupRingCast m (integralStickelbergerMap m x).val =
-      integralGroupRingCast m x.val * stickelberger m := by
-  exact Classical.choose_spec x.property
-
-/-- Every integral Stickelberger element is a product by θ from the denominator ideal. -/
-theorem integralStickelbergerMap_surjective (m : ℕ) [NeZero m] :
-    Function.Surjective (integralStickelbergerMap m) := by
-  rintro ⟨y, x, hx⟩
-  refine ⟨⟨x, ⟨y, hx⟩⟩, ?_⟩
-  apply Subtype.ext
-  apply integralGroupRingCast_injective m
-  exact (integralStickelbergerMap_cast m ⟨x, ⟨y, hx⟩⟩).trans hx.symm
-
-/-- The denominator multiplier two at conductor two has integral image one. -/
-theorem integralStickelbergerMap_two :
-    ∃ x : denominatorIdeal 2, x.val = 2 ∧ (integralStickelbergerMap 2 x).val = 1 := by
-  sorry
-
-/-- The conductor-three inverse multiplier has integral image one. -/
-theorem integralStickelbergerMap_three :
-    ∃ x : denominatorIdeal 3,
-      x.val = 2 * MonoidAlgebra.single (-1 : (ZMod 3)ˣ) 1 - 1 ∧
-        (integralStickelbergerMap 3 x).val = 1 := by
-  sorry
-
-/-- Smoothing by two at conductor five gives the two inverse-indexed image terms. -/
-theorem integralStickelbergerMap_five :
-    ∃ x : denominatorIdeal 5,
-      x.val = 2 - MonoidAlgebra.single (⟨2, 3, by decide, by decide⟩ : (ZMod 5)ˣ) 1 ∧
-        (integralStickelbergerMap 5 x).val =
-          MonoidAlgebra.single (⟨2, 3, by decide, by decide⟩ : (ZMod 5)ˣ) 1 +
-            MonoidAlgebra.single (⟨4, 4, by decide, by decide⟩ : (ZMod 5)ˣ) 1 := by
-  sorry
-
-/-- The weighted augmentation modulo the conductor detects integral multiplication by θ. -/
-theorem denominatorIdeal_mem_iff (m : ℕ) [NeZero m] (hm : 2 ≤ m)
-    (x : MonoidAlgebra ℤ (ZMod m)ˣ) :
-    x ∈ denominatorIdeal m ↔
-      (∑ a : (ZMod m)ˣ, x.coeff a * (a.val.val : ℤ)) % (m : ℤ) = 0 := by
-  sorry
-
-/-- At conductor two the denominator ideal is proper and the image ideal is the unit ideal. -/
-theorem stickelbergerIdeals_two :
-    denominatorIdeal 2 = Ideal.span {(2 : MonoidAlgebra ℤ (ZMod 2)ˣ)} ∧
-      stickelbergerIdeal 2 = ⊤ := by
-  sorry
-
-/-- At conductor three the displayed multiplier gives an integral inverse to θ. -/
-theorem stickelbergerIdeals_three :
-    (1 : MonoidAlgebra ℤ (ZMod 3)ˣ) ∉ denominatorIdeal 3 ∧
-      integralGroupRingCast 3
-        (2 * MonoidAlgebra.single (-1 : (ZMod 3)ˣ) 1 - 1) * stickelberger 3 = 1 ∧
-      stickelbergerIdeal 3 = ⊤ := by
-  sorry
-
-/-- Every positive integral smoothing annihilates the full class group, at every conductor.
-The inverse on the automorphism matches the coefficient basis in `stickelberger`. -/
-theorem stickelberger_smoothing_annihilates (m b : ℕ) [NeZero m]
+/-- The integral Stickelberger ideal annihilates the full native class group
+at every conductor, in any cyclotomic number-field model (README §2.5). -/
+theorem stickelbergerIdeal_annihilates (m : ℕ) [NeZero m]
     (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
-    (hm : 2 ≤ m) (hb : b.Coprime m)
-    (x : ClassGroup (𝓞 K)) :
+    (hm : 2 ≤ m) (x : MonoidAlgebra ℤ (ZMod m)ˣ) (hx : x ∈ stickelbergerIdeal m)
+    (c : ClassGroup (𝓞 K)) :
     (∏ a : (ZMod m)ˣ,
       (ClassGroup.mulEquivHom
         (RingOfIntegers.mapRingEquiv
-          (((IsCyclotomicExtension.Rat.galEquivZMod m K).symm a⁻¹).toRingEquiv)) x) ^
-        (b * a.val.val / m)) = 1 := by
+          (((IsCyclotomicExtension.Rat.galEquivZMod m K).symm a).toRingEquiv)) c) ^
+        x.coeff a) = 1 := by
   sorry
 
-/-! ## Layer 3: signed quadratic Gauss sums and the prime-power Hasse unit index -/
+/-- The primitive-conductor Bernoulli scalar is integral and kills the odd
+ωⁱ class component for i ≢ 1 modulo p−1 (README §3.2). -/
+theorem bernoulli_annihilates_component (p : ℕ) [Fact p.Prime] [NeZero p]
+    (hodd : p ≠ 2) (ω : (ZMod p)ˣ →* ℤ_[p]ˣ)
+    (hω : ∀ a, PadicInt.toZMod ((ω a : ℤ_[p]ˣ) : ℤ_[p]) = (a : ZMod p))
+    (i : ℤ) (hi : Odd i) (hne : ¬ (p - 1 : ℤ) ∣ i - 1) :
+    let χ : DirichletCharacter ℚ_[p] p :=
+      MulChar.ofUnitHom ((Units.map (algebraMap ℤ_[p] ℚ_[p]).toMonoidHom).comp (ω ^ (-i)))
+    ∃ b : ℤ_[p], (b : ℚ_[p]) = χ.generalizedBernoulli 1 ∧
+      ∀ x ∈ cyclotomicClassEigenspace p 1 (by omega) ω i, b • x = 0 := by
+  sorry
 
-/-- The standard positive Gauss sum of a primitive quadratic character has the specified phase.
-The conductor-one trivial character is included; the square roots are positive real roots. -/
+/-- The signed Gauss-sum evaluation at every primitive quadratic conductor
+(README §3.4), with the positive exponential and positive real square root. -/
 theorem quadraticCharacter_gaussSum (f : ℕ) [NeZero f]
     (χ : DirichletCharacter ℂ f) (hχ : χ.IsPrimitive) (hquad : χ.IsQuadratic) :
     (χ.Even → gaussSum χ ZMod.stdAddChar = (Real.sqrt (f : ℝ) : ℂ)) ∧
       (χ.Odd → gaussSum χ ZMod.stdAddChar =
         Complex.I * (Real.sqrt (f : ℝ) : ℂ)) := by
   sorry
-
--- The degree-one Bernoulli value is the existing generalized Bernoulli value.
-#check DirichletCharacter.generalizedBernoulli_one_of_ne_one
 
 /-- The Hasse unit index is one at every CM prime-power conductor (README §3.4). -/
 theorem primePower_indexRealUnits_eq_one (p r : ℕ) (hp : p.Prime)
@@ -319,31 +152,48 @@ theorem primePower_indexRealUnits_eq_one (p r : ℕ) (hp : p.Prime)
     NumberField.IsCMField.indexRealUnits K = 1 := by
   sorry
 
-/-! ## Layer 4: the characterwise Herbrand–Ribet theorem -/
-
-/-- The centered odd residue matrix, with rows indexed by a and columns by b. -/
-noncomputable def oddResidueMatrix (p : ℕ) :
-    Matrix (Fin ((p - 1) / 2)) (Fin ((p - 1) / 2)) ℤ :=
-  fun a b => 2 * (((((a.val + 1 : ℕ) : ZMod p) *
-    ((b.val + 1 : ℕ) : ZMod p)⁻¹).val : ℕ) : ℤ) - p
-example : oddResidueMatrix 3 = !![-1] := by
-  ext i j
-  fin_cases i; fin_cases j; decide +kernel
-example : oddResidueMatrix 5 = !![-3, 1; -1, -3] := by
-  ext i j
-  fin_cases i <;> fin_cases j <;> decide +kernel
-
-/-- The odd residue determinant computes the relative class number (README §4.1).
-The quotient uses the full native class numbers and is an equality in ℚ. -/
-theorem oddResidueMatrix_det (p : ℕ) [NeZero p] (hp : p.Prime) (hodd : p ≠ 2) :
-    ((|Matrix.det (oddResidueMatrix p)| : ℤ) : ℚ) =
-      (2 * (p : ℚ)) ^ ((p - 1) / 2 - 1) *
-        ((NumberField.classNumber (CyclotomicField p ℚ) : ℚ) /
-          NumberField.classNumber
-            (NumberField.maximalRealSubfield (CyclotomicField p ℚ))) := by
+/-- The primitive Gauss sums of every abelian subfield have product
+with phase i^(r₂) and magnitude √|D| (README §3.4). -/
+theorem abelianCharacter_gauss_product (m : ℕ) [NeZero m]
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
+    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) :
+    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
+    (∏ χ : DirichletCharacter ℂ m,
+      letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+      if χ ∈ X then gaussSum χ.primitiveCharacter ZMod.stdAddChar else 1) =
+        Complex.I ^ NumberField.InfinitePlace.nrComplexPlaces F *
+          (Real.sqrt |(NumberField.discr F : ℝ)| : ℂ) := by
   sorry
 
-/-- Hadamard's bound for the relative class number at every odd prime (README §4.1). -/
+/-- The relative class number of every abelian CM subfield is the odd-character
+Bernoulli product, evaluated at primitive conductors (README §3.4). -/
+theorem relativeClassNumber_character_product (m : ℕ) [NeZero m]
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
+    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) [IsCMField F] :
+    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
+    (NumberField.classNumber F : ℂ) / NumberField.classNumber (maximalRealSubfield F) =
+      (IsCMField.indexRealUnits F : ℂ) * Units.torsionOrder F *
+        ∏ χ : DirichletCharacter ℂ m,
+          letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+          if χ ∈ X ∧ χ.Odd then -χ.primitiveCharacter.generalizedBernoulli 1 / 2 else 1 := by
+  sorry
+
+/-- The class number times regulator of every totally real abelian subfield
+is the primitive-character logarithmic product (README §3.4). -/
+theorem realClassNumber_log_product (m : ℕ) [NeZero m]
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
+    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) [IsTotallyReal F] :
+    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
+    (NumberField.classNumber F : ℂ) * (Units.regulator F : ℂ) =
+      ∏ χ : DirichletCharacter ℂ m,
+        letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+        if χ ∈ X ∧ χ ≠ 1 then
+          -(1 / 2 : ℂ) * ∑ a : ZMod χ.conductor,
+            χ.primitiveCharacter a * (Real.log ‖1 - (ZMod.stdAddChar a : ℂ)‖ : ℂ)
+        else 1 := by
+  sorry
+
+/-- The relative class-number bound at every odd prime (README §4.1). -/
 theorem relativeClassNumber_lt (p : ℕ) [NeZero p] (hp : p.Prime) (hodd : p ≠ 2) :
     (NumberField.classNumber (CyclotomicField p ℚ) : ℝ) /
         NumberField.classNumber
@@ -351,8 +201,26 @@ theorem relativeClassNumber_lt (p : ℕ) [NeZero p] (hp : p.Prime) (hodd : p ≠
       (p : ℝ) ^ (((p : ℝ) - 1) / 4) := by
   sorry
 
-/-- Over any field, abelian-variety homomorphisms form a finite free abelian group,
-with rank at most four times the product of the dimensions (README §4.3). -/
+/-- An irregular Bernoulli index gives a normalized prime-level weight-two
+newform with the specified character and one common coefficient reduction
+for all prime Hecke congruences (README §4.2). -/
+theorem primeLevel_cuspidal_eigenlift (p : ℕ) [Fact p.Prime] [NeZero p]
+    (hodd : p ≠ 2) (k : ℕ) (hk : 2 ≤ k) (hkp : k ≤ p - 3)
+    (heven : Even k) (hirreg : (p : ℤ) ∣ (bernoulli k).num) :
+    ∃ (f : HeckeRing.GL2.Newform p 2) (E : Subfield ℂ) (hE : NumberField E),
+      letI := hE
+      ∃ (red : 𝓞 E →+* AlgebraicClosure (ZMod p))
+        (ω : (ZMod p)ˣ →* (𝓞 E)ˣ) (c : ℕ → 𝓞 E),
+        (∀ a, red (ω a : 𝓞 E) = algebraMap (ZMod p) (AlgebraicClosure (ZMod p)) a.val) ∧
+        (∀ a, (f.χ a : ℂ) = ((ω a : 𝓞 E) : ℂ) ^ (k - 2)) ∧
+        (∀ n, (c n : ℂ) = (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff n) ∧
+        ∀ ℓ : ℕ, ℓ.Prime → ℓ ≠ p →
+          red (c ℓ) = 1 + (algebraMap (ZMod p) (AlgebraicClosure (ZMod p)) (ℓ : ZMod p)) ^
+            (k - 1) := by
+  sorry
+
+/-- Over any field, abelian Hom groups are finite free over ℤ, with rank at
+most four times the product of the dimensions (README §4.3). -/
 theorem homFreeFinite (k : Type*) [Field k]
     (B C : TauCeti.AlgebraicGeometry.AbelianVariety k) :
     Module.Free ℤ (Additive (B ⟶ C)) ∧
@@ -360,63 +228,28 @@ theorem homFreeFinite (k : Type*) [Field k]
         (Module.finrank ℤ (Additive (B ⟶ C)) : WithBot ℕ∞) ≤ 4 * B.dim * C.dim := by
   sorry
 
-
-/-- Bernoulli divisibility detects the covariant component with exponent 1-k. -/
+/-- Herbrand–Ribet: Bernoulli divisibility detects precisely the nonzero
+covariant character component with exponent 1−k (README §4.5). -/
 theorem herbrand_ribet (p : ℕ) [Fact p.Prime] [NeZero p]
     (hodd : p ≠ 2) (ω : (ZMod p)ˣ →* ℤ_[p]ˣ)
     (hω : ∀ a, PadicInt.toZMod ((ω a : ℤ_[p]ˣ) : ℤ_[p]) = (a : ZMod p))
     (k : ℕ) (hk : 2 ≤ k) (hkp : k ≤ p - 3) (heven : Even k) :
-    cyclotomicClassEigenspace p ω (1 - (k : ℤ)) ≠ ⊥ ↔
+    cyclotomicClassEigenspace p 1 (by omega) ω (1 - (k : ℤ)) ≠ ⊥ ↔
       (p : ℤ) ∣ (bernoulli k).num := by
   sorry
 
-/-! ## Layer 5: class-number regularity -/
-
-/-- Regularity includes the rational conductor-two boundary. -/
+/-- Nondivisibility of the full native class number; primality is a theorem hypothesis. -/
 def IsRegularPrime (p : ℕ) [NeZero p] : Prop :=
   ¬ p ∣ NumberField.classNumber (CyclotomicField p ℚ)
 
-example : IsRegularPrime 2 := by
-  have hpid : IsPrincipalIdealRing (𝓞 (CyclotomicField 2 ℚ)) := by
-    apply RingOfIntegers.isPrincipalIdealRing_of_abs_discr_lt
-    rw [IsCyclotomicExtension.Rat.discr_prime 2 (CyclotomicField 2 ℚ),
-      IsCyclotomicExtension.finrank (n := 2) (CyclotomicField 2 ℚ)
-        (Polynomial.cyclotomic.irreducible_rat (by decide)),
-      IsCyclotomicExtension.Rat.nrComplexPlaces_eq_totient_div_two 2]
-    norm_num
-  have h := (NumberField.classNumber_eq_one_iff
-    (K := CyclotomicField 2 ℚ)).mpr hpid
-  simp [IsRegularPrime, h]
-
-example : IsRegularPrime 3 := by
-  have h : NumberField.classNumber (CyclotomicField 3 ℚ) = 1 :=
-    (NumberField.classNumber_eq_one_iff (K := CyclotomicField 3 ℚ)).mpr
-      (IsCyclotomicExtension.Rat.three_pid (CyclotomicField 3 ℚ))
-  simp [IsRegularPrime, h]
-
-/-- Nondivisibility of the native real class number; at odd primes this is the
-Vandiver condition of IntegralIwasawaTheory §7.4. -/
-def VandiverAt (p : ℕ) [NeZero p] : Prop :=
-  ¬ p ∣ NumberField.classNumber
-    (NumberField.maximalRealSubfield (CyclotomicField p ℚ))
-
-/-- The native rational real field at conductor two satisfies Vandiver's statement. -/
-theorem vandiver_two : VandiverAt 2 := by
-  sorry
-
-/-- The native maximal real subfield at conductor three satisfies Vandiver's statement. -/
-theorem vandiver_three : VandiverAt 3 := by
-  sorry
-
-/-! ## Layer 5: regular-prime milestones -/
-
-/-- Kummer's Bernoulli criterion, with B₁ = -1/2. -/
+/-- Kummer's regular-prime criterion for the full class number (README §5.1). -/
 theorem kummer_criterion (p : ℕ) [NeZero p] (hp : p.Prime) (hodd : p ≠ 2) :
     IsRegularPrime p ↔
       ∀ k : ℕ, 2 ≤ k → k ≤ p - 3 → Even k → ¬ (p : ℤ) ∣ (bernoulli k).num := by
   sorry
 
-/-- Kummer's lemma uses congruence modulo p, rather than modulo 1 - ζ_p. -/
+/-- Kummer's unit lemma, with congruence to a rational integer modulo p
+on the native integral unit group (README §5.3). -/
 theorem kummer_lemma (p : ℕ) [NeZero p] (hp : p.Prime) (hodd : p ≠ 2)
     (hreg : IsRegularPrime p)
     (u : (𝓞 (CyclotomicField p ℚ))ˣ)
@@ -425,95 +258,50 @@ theorem kummer_lemma (p : ℕ) [NeZero p] (hp : p.Prime) (hodd : p ≠ 2)
     ∃ v : (𝓞 (CyclotomicField p ℚ))ˣ, v ^ p = u := by
   sorry
 
-/-- Odd-prime regularity kills the p-primary class group at every level. -/
+/-- Regular odd primes have trivial p-primary class group at every positive
+prime-power level (README §5.4). -/
 theorem regular_prime_power_class_number (p : ℕ) [NeZero p]
     (hp : p.Prime) (hodd : p ≠ 2) (hreg : IsRegularPrime p) (r : ℕ) (hr : 1 ≤ r) :
     ¬ p ∣ NumberField.classNumber (CyclotomicField (p ^ r) ℚ) := by
   sorry
 
-/-- The dyadic tower has odd class number at every level, including Q. -/
+/-- Every positive level of the dyadic cyclotomic tower has odd class number
+(README §5.4). -/
 theorem dyadic_class_number (r : ℕ) (hr : 1 ≤ r) :
     ¬ 2 ∣ NumberField.classNumber (CyclotomicField (2 ^ r) ℚ) := by
   sorry
 
-/-- The real prime-power fields also have trivial p-primary class group at a regular prime.
-The dyadic case uses norm surjectivity, without dividing by two (README §5.4). -/
+/-- The real prime-power class numbers are also prime to a regular p,
+including p=2 (README §5.4). -/
 theorem regular_prime_power_real_class_number (p : ℕ) [NeZero p]
     (hp : p.Prime) (hreg : IsRegularPrime p) (r : ℕ) (hr : 1 ≤ r) :
     ¬ p ∣ NumberField.classNumber
       (NumberField.maximalRealSubfield (CyclotomicField (p ^ r) ℚ)) := by
   sorry
 
-/-- Odd-prime regularity implies the native Vandiver condition, through the shared
-real-class comparison of IntegralIwasawaTheory §7.4. -/
-theorem vandiver_of_regular (p : ℕ) [NeZero p] (hp : p.Prime)
-    (hodd : p ≠ 2) (hreg : IsRegularPrime p) : VandiverAt p := by
-  sorry
-
-/-! ## Layer 6: integral cyclotomic ratios and their real phases -/
-
-/-- The geometric-sum unit representing (1 − ζᵃ)/(1 − ζ). In a prime-power
-cyclotomic integer ring its field value is the ratio of IntegralIwasawaTheory §1.2. -/
+/-- The native integral geometric-sum unit with field value (1−ζᵃ)/(1−ζ). -/
 noncomputable def cyclotomicUnit {A : Type*} [CommRing A] [IsDomain A]
     {m : ℕ} [NeZero m] (ζ : A) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m)
     (a : (ZMod m)ˣ) : Aˣ :=
   (hζ.geom_sum_isUnit hm (ZMod.val_coe_unit_coprime a)).unit
 
-example {A : Type*} [CommRing A] [IsDomain A] {m : ℕ} [NeZero m]
-    (ζ : A) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m) :
-    cyclotomicUnit ζ hζ hm 1 = 1 := by
-  apply Units.ext
-  simp [cyclotomicUnit, ZMod.val_one_eq_one_mod,
-    Nat.mod_eq_of_lt (by omega : 1 < m)]
+/-- The subgroup generated by all roots of unity and the integral ratios.
+At prime-power conductor it is the circular-unit intersection of README §6.1. -/
+noncomputable def circularUnits (K : Type*) [Field K] [NumberField K]
+    {m : ℕ} [NeZero m] (ζ : 𝓞 K) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m) :
+    Subgroup (𝓞 K)ˣ :=
+  Units.torsion K ⊔ Subgroup.closure (Set.range (cyclotomicUnit ζ hζ hm))
 
-example {A : Type*} [CommRing A] [IsDomain A]
-    (ζ : A) (hζ : IsPrimitiveRoot ζ 3) :
-    (cyclotomicUnit ζ hζ (by decide) (-1) : A) = 1 + ζ := by
-  simp [cyclotomicUnit, Finset.sum_range_succ]
-
-/-- The ratio at minus one retains the inverse root and its minus sign. -/
-theorem cyclotomicUnit_neg_one {A : Type*} [CommRing A] [IsDomain A]
-    {m : ℕ} [NeZero m] (ζ : A) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m) :
-    cyclotomicUnit ζ hζ hm (-1) = -(hζ.isUnit (by omega)).unit⁻¹ := by
+/-- The prime-power circular-unit index equals the real class number for
+all primes and all positive levels, including powers of two (README §6.3). -/
+theorem circularUnit_index (p r : ℕ) [NeZero p] (hp : p.Prime) (hr : 1 ≤ r)
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {p ^ r} ℚ K]
+    (ζ : 𝓞 K) (hζ : IsPrimitiveRoot ζ (p ^ r)) (hm : 2 ≤ p ^ r) :
+    (circularUnits K ζ hζ hm).index = NumberField.classNumber (maximalRealSubfield K) := by
   sorry
 
-/-- The phased circular ratio. The condition 2t = 1 − a makes it real and identifies
-its cyclotomic specialization with the generators of IntegralIwasawaTheory §§1.3, 1.6. -/
-noncomputable def realCyclotomicUnit {A : Type*} [CommRing A] [IsDomain A]
-    {m : ℕ} [NeZero m] (ζ : A) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m)
-    (a : (ZMod m)ˣ) (t : ℤ) : Aˣ :=
-  (hζ.isUnit (by omega)).unit ^ t * cyclotomicUnit ζ hζ hm a
-
-/-- Complex conjugation fixes the phased unit under the half-exponent congruence. -/
-theorem realCyclotomicUnit_fixed {A : Type*} [CommRing A] [IsDomain A]
-    {m : ℕ} [NeZero m] (ζ : A) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m)
-    (a : (ZMod m)ˣ) (t : ℤ) (ht : (2 * t : ZMod m) = 1 - a.val)
-    (c : A ≃+* A) (hc : c ζ = ↑(hζ.isUnit (by omega)).unit⁻¹) :
-    Units.map c.toMonoidHom (realCyclotomicUnit ζ hζ hm a t) =
-      realCyclotomicUnit ζ hζ hm a t := by
-  sorry
-
-/-- At conductor eight shifting the odd representative by eight reverses the real ratio's sign. -/
-theorem realCyclotomicUnit_eight_sign {A : Type*} [CommRing A] [IsDomain A]
-    (ζ : A) (hζ : IsPrimitiveRoot ζ 8) :
-    realCyclotomicUnit ζ hζ (by decide) (⟨3, 3, by decide, by decide⟩ : (ZMod 8)ˣ) (-5) =
-      -realCyclotomicUnit ζ hζ (by decide) (⟨3, 3, by decide, by decide⟩ : (ZMod 8)ˣ) (-1) := by
-  sorry
-
-/-- In the standard complex embedding the conductor-five real ratio for a = 2 is negative. -/
-theorem realCyclotomicUnit_five_negative
-    (ζ : 𝓞 (CyclotomicField 5 ℚ)) (hζ : IsPrimitiveRoot ζ 5)
-    (ι : CyclotomicField 5 ℚ →+* ℂ)
-    (hι : ι (ζ : CyclotomicField 5 ℚ) = Complex.exp (2 * Real.pi * Complex.I / 5)) :
-    (ι ((realCyclotomicUnit ζ hζ (by decide)
-      (⟨2, 3, by decide, by decide⟩ : (ZMod 5)ˣ) 2 : 𝓞 (CyclotomicField 5 ℚ)) :
-        CyclotomicField 5 ℚ)).re < 0 := by
-  sorry
-
-/-! ## Layer 7: eventual growth, with the dyadic base at conductor four -/
-
-/-- Prime-power class-number growth from IntegralIwasawaTheory §3.3, with conductor
-parameter one at odd primes and two at p=2. The base is Q(ζ_p), or Q(i) at p=2. -/
+/-- Eventual Iwasawa class-number growth for every prime, with base conductor
+p at odd p and four at p=2 (README §7.3). -/
 theorem cyclotomic_class_number_growth (p : ℕ) [NeZero p] (hp : p.Prime) :
     ∃ mu lam : ℕ, ∃ nu : ℤ, ∃ n₀ : ℕ, ∀ n : ℕ, n₀ ≤ n →
       (padicValNat p (NumberField.classNumber
@@ -521,73 +309,12 @@ theorem cyclotomic_class_number_growth (p : ℕ) [NeZero p] (hp : p.Prime) :
         (mu : ℤ) * (p : ℤ) ^ n + (lam : ℤ) * n + nu := by
   sorry
 
-/-! ## Layer 8: the inverse-character obstruction -/
-
-/-- Character on Hom from a source character to a target character. -/
-def homCharacter {G R : Type*} [Monoid G] [CommGroup R]
-    (source target : G →* R) : G →* R := target * source⁻¹
-example :
-    homCharacter ((MonoidHom.id (ZMod 5)ˣ) ^ 3) 1
-      (show (ZMod 5)ˣ from ⟨2, 3, by decide, by decide⟩) =
-        (show (ZMod 5)ˣ from ⟨2, 3, by decide, by decide⟩) := by decide
-example :
-    homCharacter ((MonoidHom.id (ZMod 5)ˣ) ^ 3) (MonoidHom.id (ZMod 5)ˣ)
-      (show (ZMod 5)ˣ from ⟨2, 3, by decide, by decide⟩) =
-        (show (ZMod 5)ˣ from ⟨4, 4, by decide, by decide⟩) := by decide
-
-/-- The inverse cyclotomic character component vanishes at every odd prime. -/
-theorem inverseCharacterClassGroup (p : ℕ) [Fact p.Prime] [NeZero p]
-    (hodd : p ≠ 2) (ω : (ZMod p)ˣ →* ℤ_[p]ˣ)
+/-- The inverse tame-character component vanishes at every positive
+prime-power level, without regularity or Vandiver (README §8.1). -/
+theorem inverseCharacterClassGroup_all_levels (p : ℕ) [Fact p.Prime] [NeZero p]
+    (hodd : p ≠ 2) (r : ℕ) (hr : 1 ≤ r) (ω : (ZMod p)ˣ →* ℤ_[p]ˣ)
     (hω : ∀ a, PadicInt.toZMod ((ω a : ℤ_[p]ˣ) : ℤ_[p]) = (a : ZMod p)) :
-    cyclotomicClassEigenspace p ω (-1) = ⊥ := by
+    cyclotomicClassEigenspace p r hr ω (-1) = ⊥ := by
   sorry
-
-/-
-The README also specifies cyclotomicClassModule, cyclotomicClassTensorEquiv,
-the prime-power cyclotomicClassEigenspace, dyadicNormKernel,
-dyadicAntiInvariants, dyadicMinusQuotient, cyclotomicPrime; relativeUnitSat,
-relativeUnitQuotient, RelativeFundamentalSystem, invariantIdealResidues,
-capitulationKernel, capitulationCocycle, genusClassQuotient; compatibleGaussData;
-unramifiedKummerRadical, relativeClassNumber, abelianCharacter_gauss_product;
-the shared AbelianTate field realization with AbelianTate.modPow, End.charpoly,
-End.trace, charpolyTate, Polarization.rosati and rosatiPositivity,
-with rosati_trace_positive its diagonal specialization; numericalIntersection;
-abelianSubvarietyQuotient, modularQuotientForIdeal and modularQuotient, with
-modularQuotient_map, modularQuotient_kills, modularQuotient_lift,
-modularQuotient_hom_ext, modularQuotient_baseChange and modularQuotient_hecke;
-modularAbelianQuotient as an abbreviation of that quotient,
-modularAbelianQuotient_hecke, modularTate_coefficientComparison and modularTate_trace_bound;
-the shared schematicClosure_flat, prolongation_unique_of_lt, prolongation_unique_boundary
-and genericFibre_map_bijective,
-with finiteFlatModel_hom_extend, finiteFlatModel_unique, genericSubgroupClosure_flat,
-finiteFlatQuotient_genericFiber and connectedEtale_scalar_stable as application comparisons;
-the shared scheme-valued BarsottiTate S p h, with BarsottiTate.truncation,
-BarsottiTate.baseChange, BarsottiTate.dual, BarsottiTate.ofAbelian,
-BarsottiTate.tateModule, BarsottiTate.connectedEtale, BarsottiTate.equivFormalLieGroup,
-BarsottiTate.tangentSpace, BarsottiTate.dim, BarsottiTate.dim_add_dim_cartierDual
-and the covariant BarsottiTate.hodgeTate; pDivisible_hodgeTate is its constant-target dual.
-The pDivisible_height, pDivisible_dual, pDivisible_connectedEtale, pDivisible_formal_equiv,
-pDivisible_tate_free and pDivisible_dual_dimension comparisons use this same carrier.
-LocallyAlgebraicCharacter, HodgeTate and hodgeTate_character_iff_locallyAlgebraic
-specify the local character comparison with HT(χ_p) = 1.
-The README also specifies cyclotomicSUnitSubgroup, circularUnits, realCircularUnits,
-circularRegulator; cyclotomicClassInverseLimit,
-classLimitProjection and inverseCharacterUnramifiedQuotient. The circular-unit,
-regulator, norm-limit, Artin and growth adapters in README Layers 6–7 transport
-IntegralIwasawaTheory's shared arithmetic results. The other constructions and
-comparison APIs are specified in their respective README layers. The shared
-geometric prefixes of §§4.3–4.4 precede the modular converse; the finite obstruction
-of §§8.1–8.3 uses Layers 0–3 and §1.7 independently of that converse.
-
-README-only API targets include denominatorIdeal_generators,
-stickelbergerIdeal_eq_intersection, stickelbergerIdeal_annihilates,
-cyclotomicUnit_inverse, cyclotomicUnit_galois; stickelberger_coeff, stickelberger_conjugation,
-stickelberger_augmentation, smoothedStickelberger_cast, smoothedStickelberger_mem,
-stickelberger_annihilation_equivariant (§2); cyclotomicClassEigenspace_one_eq_zero
-(§3.2); oddResidueMatrix_entry, oddResidueMatrix_change_representatives,
-oddResidueMatrix_row_norm, oddResidueMatrix_character_eigenvalues (§4.1);
-inverseCharacterClassGroup_all_levels (§8.1); homCharacter_apply,
-homCharacter_constant_target, homCharacter_self, homCharacter_mul_target (§8.3).
--/
 
 end TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
