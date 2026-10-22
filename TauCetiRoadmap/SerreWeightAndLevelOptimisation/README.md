@@ -1,6 +1,6 @@
 # Roadmap: weight and level optimisation of residual modular representations
 
-**Summary.** Starting with an already modular two-dimensional residual Galois representation, build the integral level-changing arguments that put its prime-to-coefficient-prime level at its full Artin conductor and its weight at the extension-sensitive Serre weight. The build includes odd-characteristic companion forms, the weight-one and Jacobian multiplicity inputs needed by nonregular modularity lifting, Buzzard's dyadic arguments with their scalar boundary, and the totally real optimisation theorems used inside Khare–Wintenberger. Its elliptic export distinguishes a weight-two reduced level, represented arithmetically by `reducedLevel`, from a prime-to-coefficient-prime Serre level. Global residual modularity is a hypothesis throughout the general optimisation results.
+**Summary.** Starting with an already modular two-dimensional residual Galois representation, build the integral level-changing arguments that put its prime-to-coefficient-prime level at its full Artin conductor and its weight at the extension-sensitive Serre weight. The build includes odd-characteristic companion forms, the weight-one and Jacobian multiplicity inputs needed by nonregular modularity lifting, Buzzard's dyadic arguments with their scalar boundary, and the totally real optimisation theorems used inside Khare–Wintenberger. Its elliptic export distinguishes the weight-two reduced level of §6.1 from a prime-to-coefficient-prime Serre level. Global residual modularity is a hypothesis throughout the general optimisation results.
 
 ## Scope and ownership
 
@@ -54,9 +54,9 @@ Use `Nat.primeFactors` from `Mathlib/Data/Nat/PrimeFin.lean`. The distinct prime
 
 Use `padicValNat` from `Mathlib/Data/Nat/PadicValNat.lean`. The exponent of the largest dividing p-power for nonzero n and prime p; defaults at zero/base one are excluded by the mathematical input hypotheses.
 
-Suggested.lean states the finite-torsion and lattice-index comparisons in §1.2, the degeneracy matrix factorization in §2.5 and the arithmetic reduced-level comparisons in §6.1.
+`Suggested.lean` states `ribet_level_lowering` (§2.10), `congruent_nebentypus` (§4.1) and `strip_coefficient_prime_powers` (§4.2). Its definitions `UnramifiedAt` and `IsResidualEigenform` express inertia vanishing and arithmetic Frobenius trace/determinant matching on native finite Galois models and full classical eigenforms. The coefficient field is algebraically closed, and a single reduction of complex algebraic integers fixes compatible residue embeddings on finite coefficient fields. The module docstring identifies the objects needed to state the other headline results.
 
-The gluing comparisons use the existing submodule quotient over a commutative ring and module. The DVR torsion theorem has the additional finite-free and rational complement assumptions in Layer 1, expressed using Mathlib's `Submodule.localized` at the nonzero elements. The suggested `reducedLevel` is an arithmetic expression in natural-number prime factors and exponent valuations of `|Δ|`; its elliptic interpretation requires the conductor and minimal-discriminant hypotheses in Layer 6. Natural valuation defaults at zero are not used to model a zero minimal discriminant.
+The gluing comparisons use the existing submodule quotient over a commutative ring and module. The DVR torsion theorem has the additional finite-free and rational complement assumptions in Layer 1, expressed using Mathlib's `Submodule.localized` at the nonzero elements. The reduced elliptic level in §6.1 uses natural-number prime factors and exponent valuations of `|Δ|`; its elliptic interpretation requires the conductor and minimal-discriminant hypotheses in Layer 6. Natural valuation defaults at zero are not used to model a zero minimal discriminant.
 
 For `H ⧸ (P ⊔ Q)`, use `Submodule.Quotient.subsingleton_iff` for the zero criterion, `Submodule.Quotient.mk_eq_zero` for membership, `Submodule.quot_hom_ext` and `Submodule.linearMap_qext` for extensionality, `Submodule.liftQ` with `Submodule.liftQ_mkQ` for descent, and `Submodule.mapQ`, `Submodule.mapQ_id`, `Submodule.mapQ_comp` and `Submodule.Quotient.equiv` for maps and transport. These declarations are in `Mathlib/LinearAlgebra/Quotient/Defs.lean` and `Mathlib/LinearAlgebra/Quotient/Basic.lean`; unique descent follows from the quotient projection's surjectivity `Submodule.mkQ_surjective`. Their ring, module and kernel/image hypotheses are retained. The lattice-specific finite-torsion statement and index-`π` example belong to §1.2.
 
@@ -194,7 +194,7 @@ O a DVR, H finite free, `P_K` and `Q_K` complementary K-subspaces. P and Q are i
 
 Take the existing submodule quotient by `P⊔Q`. After tensoring with K the quotient vanishes, so finite generation gives torsion. The zero criterion is `P+Q=H`; no augmentation is inferred from this lattice data.
 
-The gluing object is the existing quotient `H ⧸ (P ⊔ Q)`, with its existing quotient map and instances. Its generic zero, kernel, extensionality, lift, map and transport APIs are the Mathlib declarations listed in the exact supplier contracts; no parallel quotient API is required. Finite generation is Mathlib’s `Module.Finite.quotient`; the milestone `levelChange_finite_torsion` is the torsion conclusion for O a DVR, H finite free and P,Q with complementary localizations at the nonzero elements. Saturated intersections give the old/new application; the torsion conclusion holds for any submodules with the displayed complementary localizations, because the quotient vanishes after extension to K. The lattice-index comparison `levelChange_index_quotient` identifies `R²/(R(1,0)+R(1,a))` with `R/(a)` over any commutative ring R. A unit a, a uniformiser and `a=0` give respectively zero, a nonzero torsion quotient and a free quotient.
+The gluing object is the existing quotient `H ⧸ (P ⊔ Q)`, with its existing quotient map and instances. Its generic zero, kernel, extensionality, lift, map and transport APIs are the Mathlib declarations listed in the exact supplier contracts; no parallel quotient API is required. Finite generation is Mathlib’s `Module.Finite.quotient`; the finite-torsion milestone is the torsion conclusion for O a DVR, H finite free and P,Q with complementary localizations at the nonzero elements. Saturated intersections give the old/new application; the torsion conclusion holds for any submodules with the displayed complementary localizations, because the quotient vanishes after extension to K. The lattice-index comparison identifies `R²/(R(1,0)+R(1,a))` with `R/(a)` over any commutative ring R. A unit a, a uniformiser and `a=0` give respectively zero, a nonzero torsion quotient and a free quotient.
 
 Its applications are [Residual support and eigenvalue descent](#eigensystem-level-descent): Measure which integral comparison can contribute residual support. [Ribet lowering at an unramified prime](#level-lowering-unramified-prime): Keep integral index data through the dimension contradiction.
 
@@ -435,7 +435,7 @@ Integral maps, Hecke correspondences and duality conventions from ModularCurvesP
 
 Compose the two finite maps with the `U_q` correspondence. Compute the matrix on Picard varieties, then transpose under the character-group functor. Compute σδ from the norm/pullback matrix. Using the component and degeneracy geometry of ModularCurvesPartII §§12.2–12.4, identify the q-new quotient’s reduction at q as toric and that of J0(N) as good. Uniqueness follows because the q-new quotient has no nonzero homomorphism to J0(N)². The same vanishing proves Hecke equivariance. Retain diamond factors for nontrivial coefficients.
 
-Fix the two old-coordinate vectors in the displayed order. The matrix U sends the first to `(T_q,−1)` and the second to (q,0); its characteristic polynomial is `X²−T_q` X+q. Passing to contravariant character groups transposes the off-diagonal entries. This two-vector computation fixes both the sign and the variance. The matrix identity `degeneracy_eta_factorization` holds over any commutative ring; its Jacobian interpretation retains the weight-two and trivial-character hypotheses above. In nontrivial character or higher weight, the central term `q^{k−2}〈q〉` must be restored before taking `η`.
+Fix the two old-coordinate vectors in the displayed order. The matrix U sends the first to `(T_q,−1)` and the second to (q,0); its characteristic polynomial is `X²−T_q` X+q. Passing to contravariant character groups transposes the off-diagonal entries. This two-vector computation fixes both the sign and the variance. The displayed matrix identity holds over any commutative ring; its Jacobian interpretation retains the weight-two and trivial-character hypotheses above. In nontrivial character or higher weight, the central term `q^{k−2}〈q〉` must be restored before taking `η`.
 
 *Needs:* `ModularCurvesPartII:Layers 13–14`, `ModularCurvesPartII:§§12.2–12.4`, [Localised integral degeneracy sequence](#integral-old-new-exact-sequence).
 
@@ -560,7 +560,7 @@ Use the one-place `SemistableTorsionDatum` at q with torsion prime `ℓ≠q`. Ex
 
 For `ℓ≥3`, `q∤Mℓ`, and an irreducible residual representation arising from a weight-two eigenform on `Γ0(Mq)`, if `ρ` is unramified at q then a weight-two eigenform on `Γ0(M)` has the same residual representation at a suitable coefficient prime. M may contain powers of `ℓ`. There is no q≢1 or residual multiplicity-one hypothesis; trivial nebentypus and weight two are essential to this stated branch. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), Theorem 1.5, author p. 3; proof §7, author pp. 22–27. The full weight-two `Γ0` statement and the dimension contradiction that removes multiplicity one.)
 
-`ℓ` odd, `q∤Mℓ`, irreducible residual representation, unramified at q. Weight two, trivial character, actual integral Jacobian modules.
+`ℓ` odd, `q∤Mℓ`, irreducible residual representation, unramified at q. Weight two, trivial character, actual integral Jacobian modules. The statement `ribet_level_lowering` in `Suggested.lean` uses full classical eigenforms, with trivial nebentypus expressing the `Γ0` condition.
 
 Choose the joint complex-conjugation auxiliary prime r and raise there using the weight-two branch of Theorem 5.1; when M contains `ℓ`-power level use the separate weight-two Jacobian level-raising argument invoked in §7, not the tame-level general-weight cohomology statement. Use `TwoPlaceSemistableTorsionDatum` on each Jacobian's same residual Hecke/Galois module at q and r, with the common eigen-ideal and coefficient embedding. The two distinct Jacobians are related by the supplied character-group sequences; no identification of their entire torsion modules is assumed. Localise both bad-fibre sequences at the common residual ideal and assume no descent at q. Compare monodromy/component lengths to obtain `2μ≤λ` and `2λ≤2μ` for positive `λ,μ`; odd-`ℓ` splitting supplies the second inequality. Conclude lower-level support and lift its eigenvalues.
 
@@ -1020,7 +1020,7 @@ Removal of coefficient-prime level preserves the residual representation while c
 
 Let `ℓ≥5`, `2≤k` and f be a normalized cuspidal eigenform of weight k and level `Γ1(N)`, with irreducible residual representation at `λ`. If `ε′` is a characteristic-zero character modulo N congruent to `ε` modulo `λ` (hence `ε′(−1)=(−1)^k`), then a weight-k eigenform of the same level and character `ε′` gives the same residual representation after coefficient extension. In particular one can replace `ℓ-primary` character factors by their canonical prime-to-`ℓ` lift in this range. The fixed-level fixed-character conclusion is not extended to `ℓ=2` or 3, or to weight one. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §1, Theorem 1.3, author pp. 1–3. The fixed weight/level character replacement with `ℓ≥5` and the standing hypothesis `k≥2`.) ([Benedict H. Gross](https://www.math.purdue.edu/~tongliu/seminar/Mlift/Gross.pdf), Proposition 9.3 and following remarks, pp. 478–479. The low-characteristic lifting/character obstruction.)
 
-`ℓ≥5`, `2≤k`, irreducible residual representation, compatible parity and congruent characters. Coefficient fields and `λ` are retained throughout; characters of `ℓ`-power order are not themselves trivial in characteristic zero.
+`ℓ≥5`, `2≤k`, irreducible residual representation, compatible parity and congruent characters. Coefficient fields and `λ` are retained throughout; characters of `ℓ`-power order are not themselves trivial in characteristic zero. The statement `congruent_nebentypus` in `Suggested.lean` retains arbitrary weight at least two and arbitrary congruent characters.
 
 Use integral character eigenspaces and the supplied Hecke-localisation comparison. Compare their residual support using congruence of characters. Lift a common residual eigencharacter in the required characteristic-zero character component.
 
@@ -1042,7 +1042,7 @@ Use integral character eigenspaces and the supplied Hecke-localisation compariso
 
 For `ℓ≥3`, an irreducible residual representation occurring at level `Nℓ^r` with `ℓ∤N` occurs in some weight at level N. The conclusion preserves the residual representation and the prime-to-`ℓ` level, while allowing weight, characteristic-zero nebentypus, coefficient field and coefficient prime to change. Dyadic stripping is supplied by the separate Buzzard weight/level bridge, not by this theorem. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), Theorem 2.1 and proof, author pp. 4–6. Complete odd-characteristic stripping argument.)
 
-`ℓ` odd, N positive prime to `ℓ`, `r≥0`, modular witness and irreducible residual representation. No fixed weight or fixed characteristic-zero character conclusion.
+`ℓ` odd, N positive prime to `ℓ`, `r≥0`, modular witness and irreducible residual representation. No fixed weight or fixed characteristic-zero character conclusion. The statement `strip_coefficient_prime_powers` in `Suggested.lean` supplies a normalized full eigenform at N in some weight at least two.
 
 Normalize the coefficient-prime character by an `ℓ-primary` square-root twist. Remove the Teichmüller part with an Eisenstein multiplier congruent to one. Reduce `ℓ-depth` using `U_ℓ` and inverse coefficient Frobenius. Use the trace construction to descend the final `Γ0(ℓ)` factor and lift the residual eigensystem.
 
@@ -1484,29 +1484,9 @@ For an elliptic curve E/Q with conductor `M>0` and nonzero minimal discriminant 
 
 Define the finite product by filtering M’s distinct prime factors. Its factors each occur exactly once, so the product divides M. Apply the supplied local elliptic conductor comparison only away from `ℓ` and in its valid characteristic range.
 
-For the arithmetic representative signature use the finite set of prime divisors of M, retain those satisfying `v_q(M)=1` and `ℓ∣v_q(|Δ|)`, and divide by their product. `reducedLevel_pos` is the positive-input part of the API; `reducedLevel_prime_removed_iff` and `reducedLevel_retains_higher_exponent` are the corresponding prime tests. Its value at `M=1` is one. These computations only test the arithmetic definition: they do not certify that a chosen discriminant model comes from an elliptic curve or that its torsion representation is irreducible.
+Use the finite set of prime divisors of M, retain those satisfying `v_q(M)=1` and `ℓ∣v_q(|Δ|)`, and divide by their product. For positive M the quotient is positive and divides M. For `q∥M`, the prime q disappears exactly when the discriminant-valuation divisibility test holds, including `q=ℓ`. For `v_q(M)>1`, its exponent is retained. At `M=1` the removed product is empty and `M₀=1`.
 
-The definition has the following named operations and comparisons, under these hypotheses:
-
-- `reducedLevel`: M divided by the product of primes `q∥M` with `ℓ∣v_q(Δ)`.
-
-- `reducedLevel_dvd`: `M₀` divides M. The separate `reducedLevel_pos` gives positivity when `M>0`.
-
-- `reducedLevel_prime_removed_iff`: For `q∥M`, `q∤M₀` exactly when `ℓ∣v_q(Δ)`.
-
-- `reducedLevel_retains_higher_exponent`: For `v_q(M)>1` the exponent of q in `M₀` equals its exponent in M.
-
-- `reducedLevel_away_conductor`: At `ℓ≥5` and irreducible `E[ℓ]`, the prime-to-`ℓ` part of `M₀` is the imported `N(E[ℓ])`.
-
-- `reducedLevel_ext`: Replacing `Δ` by another nonzero integer with identical valuations at primes `q∥M` leaves `M₀` unchanged; in particular changing the sign of `Δ` does not change it.
-
-- `reducedLevel_simp`: For `M=1` the removed product is empty and `M₀=1`. The exponent-divisibility test at `q∥M`, including `q=ℓ`, is `reducedLevel_prime_removed_iff`.
-
-- The arithmetic implementation uses Mathlib `Nat.primeFactors` and `padicValNat` on `Δ.natAbs` at prime q, `M>0` and `Δ≠0`; these are exponent valuations, not the largest prime power.
-
-- `reducedLevel_isomorphic_model`: Transport by an elliptic-curve isomorphism preserves conductor and minimal discriminant valuations, hence `M₀`. Arbitrary nonminimal coordinate changes are excluded; the arithmetic function has no universal-property construction.
-
-- `reducedLevel_coefficient_prime_example`: For `M=33`, `ℓ=3` and `Δ=3⁶·11²`, `M₀=11`, so the coefficient prime itself can disappear.
+The arithmetic expression uses Mathlib's `Nat.primeFactors` and `padicValNat` on `Δ.natAbs`, with `M>0` and `Δ≠0`. Replacing Δ by a nonzero integer with the same valuations at every `q∥M` leaves `M₀` unchanged; this includes changing its sign. An elliptic-curve isomorphism preserves the conductor and minimal discriminant valuations, hence `M₀`; arbitrary nonminimal coordinate changes are excluded. At `ℓ≥5` and irreducible `E[ℓ]`, the prime-to-`ℓ` part of `M₀` is the imported `N(E[ℓ])`. The arithmetic computations alone assert neither that the data come from an elliptic curve nor that its torsion representation is irreducible.
 
 Its applications are [Elliptic residual weight-two newform](#weight-two-newform-at-reduced-level): The optimized weight-two level. [Trace congruences at good and removed primes](#removed-prime-trace-congruence): Select removed multiplicative primes with `q≠ℓ`. EllipticCurveModularity, large-good-prime application: Obtain a bounded list of levels for large good coefficient primes.
 
@@ -1514,7 +1494,7 @@ Its applications are [Elliptic residual weight-two newform](#weight-two-newform-
 
 **Checks.**
 
-- `M=33`, valuations `v_3(Δ)=6` and `v_11(Δ)=2`, `ℓ=3` gives `M₀=11`. `(reducedLevel_coefficient_prime_example.)`
+- `M=33`, valuations `v_3(Δ)=6` and `v_11(Δ)=2`, `ℓ=3` gives `M₀=11`.
 
 - `M=141`, valuations `v_3(Δ)=7` and `v_47(Δ)=1`, `ℓ=3` gives `M₀=141`.
 
