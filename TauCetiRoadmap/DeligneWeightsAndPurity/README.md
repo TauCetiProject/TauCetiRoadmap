@@ -14,8 +14,11 @@ Suggested homes are `TauCeti/LinearAlgebra/Weights/`,
 `TauCeti/AlgebraicGeometry/Weights/` and
 `TauCeti/AlgebraicGeometry/Lefschetz/`. API names are relative to
 `TauCeti.Weights`, except in DWP.9, where they are relative to
-`TauCeti.HardLefschetz`. [Suggested.lean](Suggested.lean) gives representative
-forms; the mathematics in this README is definitive.
+`TauCeti.HardLefschetz`. [Suggested.lean](Suggested.lean) states constant-coefficient
+zeta rationality (§1.10), degree-factor extraction (§4.4), and graded Lefschetz
+decomposition and pairings (§9.7). Its definitions use native scheme, polynomial
+and vector-space carriers. The other interface names below specify mathematical
+library targets; the mathematics in this README is definitive.
 
 ## Scope and ownership
 
@@ -759,19 +762,19 @@ Use `q>1` and integer weights. The comparison with all maps `K→ℂ` assumes `K
 Its API includes:
 - `IsWeilNumber`: Algebraicity over `ℚ` and modulus `q^(n/2)` at every complex root of the minimal polynomial.
 
-- `IsWeilNumber.isAlgebraic`: A Weil `q`-number is algebraic over `ℚ`.
+- A Weil `q`-number is algebraic over `ℚ`.
 
-- `IsWeilNumber.norm_eq`: Every field embedding into `ℂ` sends the Weil number to a number of modulus `q^(n/2)`.
+- Every field embedding into `ℂ` sends the Weil number to a number of modulus `q^(n/2)`.
 
-- `isWeilNumber_iff_forall_embedding`: If the ambient field is algebraic over `ℚ`, purity is equivalent to the common modulus at every complex embedding.
+- If the ambient field is algebraic over `ℚ`, purity is equivalent to the common modulus at every complex embedding.
 
-- `isWeilNumber_map_iff`: Field homomorphisms preserve and reflect the minimal-polynomial purity predicate.
+- Field homomorphisms preserve and reflect the minimal-polynomial purity predicate.
 
-- `IsWeilNumber.of_aeval_eq_zero`: If `P ∈ ℚ[T]` is nonzero, `P(α) = 0` and every complex root of `P` has absolute value `q^{n/2}`, then `α` is a Weil `q`-number of weight `n`.
+- If `P ∈ ℚ[T]` is nonzero, `P(α) = 0` and every complex root of `P` has absolute value `q^{n/2}`, then `α` is a Weil `q`-number of weight `n`.
 
-- `IsWeilNumber.ne_zero`: A Weil `q`-number is nonzero.
+- A Weil `q`-number is nonzero.
 
-- `IsWeilNumber.weight_unique`: For `q>1` a nonzero Weil number has a unique integer weight.
+- For `q>1` a nonzero Weil number has a unique integer weight.
 
 #### Checks
 - The roots of `T² − T + 2` are Weil `2`-numbers of weight `1`: the discriminant is `−7`, so the roots `(1 ± i√7)/2` are complex conjugate with product `2`.
@@ -817,21 +820,21 @@ Require `r≥1`; algebraicity of `α` follows from that of `α^r`. Constant-fiel
 Let `E` be a field, `ι : E → ℂ` a field homomorphism (not assumed continuous; Deligne takes an isomorphism `ι : ℚ̄_ℓ ≅ ℂ`), and `q > 1` real. For `α ∈ E^×`, the `ι`-weight of `α` relative to `q` is `w_{ι,q}(α) = 2 log_q |ι(α)| ∈ ℝ`, so that `|ι(α)| = q^{w/2}`. `α` is `ι`-pure of weight `β ∈ ℝ` if `w_{ι,q}(α) = β`. The `ι`-weight is a group homomorphism `E^× → ℝ: w(αβ) = w(α) + w(β)` and `w(α⁻¹) = −w(α)`. Moreover `w_{ι,q}(q) = 2` when `q ∈ ℚ`, `w_{ι,q^r}(α^r) = w_{ι,q}(α)` for `r ≥ 1`, and `w_{ι∘τ,q}(α) = w_{ι,q}(τ(α))` for a field homomorphism `τ`. A Weil `q`-number of weight `n` is `ι`-pure of weight `n` for every `ι`. An element of integer `ι`-weight need not be algebraic or a Weil `q`-number.
 
 Its API includes:
-- `iotaWeight`: The real number `2 log(|ια|)/log(q)`, with `q>1` and `α≠0`.
+- The real number `2 log(|ια|)/log(q)`, with `q>1` and `α≠0`.
 
-- `IsIotaPure`: Nonvanishing and the specified real `ι`-weight.
+- Nonvanishing and the specified real `ι`-weight.
 
-- `iotaWeight_mul`: The `ι`-weight of a product of nonzero scalars is the sum of their weights.
+- The `ι`-weight of a product of nonzero scalars is the sum of their weights.
 
-- `iotaWeight_inv`: The `ι`-weight of an inverse is the negative of the weight.
+- The `ι`-weight of an inverse is the negative of the weight.
 
-- `iotaWeight_pow_base`: Raising `α` and `q` to the same positive integer power preserves the `ι`-weight.
+- Raising `α` and `q` to the same positive integer power preserves the `ι`-weight.
 
-- `iotaWeight_comp`: Composition of field embeddings transports the `ι`-weight.
+- Composition of field embeddings transports the `ι`-weight.
 
-- `norm_eq_rpow_iotaWeight`: For `q>1` and `α≠0`, the modulus is `q` raised to half the `ι`-weight.
+- For `q>1` and `α≠0`, the modulus is `q` raised to half the `ι`-weight.
 
-- `IsWeilNumber.isIotaPure`: A Weil number is `ι`-pure of its integer weight for every complex embedding.
+- A Weil number is `ι`-pure of its integer weight for every complex embedding.
 
 #### Checks
 - For `q ∈ ℚ` with `q > 1` and every `ι: w_{ι,q}(q) = 2` and `w_{ι,q}(q⁻¹) = −2`. So `ℚ_ℓ(1)`, on which geometric Frobenius acts by `q⁻¹`, has weight `−2`.
@@ -877,21 +880,21 @@ Retain the cardinality bound and quantify over every embedding. One embedding do
 Let `E` be a field of characteristic `0` with algebraic closure `Ē`, `V` a finite-dimensional `E`-vector space and `F` an invertible `E`-linear endomorphism of `V`. The eigenvalues of `F` are the roots of its characteristic polynomial `det(T − F)` in `Ē`, counted with multiplicity. The multiplicity of `α` equals the `Ē`-dimension of the maximal generalized eigenspace of `F ⊗ Ē` at `α`. `(V, F)` is pure of weight `n` relative to `q` if every eigenvalue is a Weil `q`-number of weight `n`. For a field homomorphism `ι : Ē → ℂ`, `(V, F)` is `ι`-pure of weight `β ∈ ℝ` if every eigenvalue has `ι`-weight `β`, and the `ι`-weights of `(V, F)` are the `ι`-weights of its eigenvalues, a finite subset of `ℝ`. The multiset of eigenvalues is stable under `Aut(Ē/E)`, so none of these notions depends on the choice of `Ē` or of a splitting field inside `Ē`. `V = 0` is pure of every weight and has no weights.
 
 Its API includes:
-- `eigenvalues`: The characteristic-root multiset in an algebraic closure, of cardinality `dim V`.
+- The characteristic-root multiset in an algebraic closure, of cardinality `dim V`.
 
 - `IsPure`: Every characteristic root is a Weil number of the specified integer weight.
 
-- `IsIotaPureEnd`: Every characteristic root has the specified real `ι`-weight.
+- Every characteristic root has the specified real `ι`-weight.
 
-- `iotaWeights`: The finite set of real `ι`-weights of characteristic roots.
+- The finite set of real `ι`-weights of characteristic roots.
 
-- `count_eigenvalues`: Root multiplicity is the dimension of its maximal generalized eigenspace after scalar extension.
+- Root multiplicity is the dimension of its maximal generalized eigenspace after scalar extension.
 
-- `eigenvalues_map_aut`: The characteristic-root multiset is invariant under every automorphism of the algebraic closure over the coefficient field.
+- The characteristic-root multiset is invariant under every automorphism of the algebraic closure over the coefficient field.
 
-- `isPure_baseChange_iff`: Purity is preserved and reflected under coefficient field extension; the `ι`-variant uses compatible closure embeddings.
+- Purity is preserved and reflected under coefficient field extension; the `ι`-variant uses compatible closure embeddings.
 
-- `IsPure.isIotaPureEnd`: Integer purity implies real `ι`-purity for every `ι`.
+- Integer purity implies real `ι`-purity for every `ι`.
 
 #### Checks
 - `F = [[q, 1], [0, q]]` on `E²` is pure of weight `2` relative to `q` and is not semisimple: purity does not see Jordan blocks.
@@ -902,7 +905,7 @@ Its API includes:
 
 - On `V = 0`, `F` is pure of every weight and has no weights.
 
-- On a one-dimensional zero endomorphism `F=0`, the total `log`-based numeric `iotaWeights` core yields `{0}`. Multiplication by `b=2` leaves `F=0`, so shifting by `w₂(2)=2` would falsely give `{2}`. All `iotaWeights_twist` assertions therefore require invertible `F`; purity itself rejects the zero eigenvalue.
+- On a one-dimensional zero endomorphism `F=0`, the total `log`-based numeric `iotaWeights` core yields `{0}`. Multiplication by `b=2` leaves `F=0`, so shifting by `w₂(2)=2` would falsely give `{2}`. Every assertion that a scalar twist translates the weight set therefore requires invertible `F`; purity itself rejects the zero eigenvalue.
 
 *Needs:* [0.1](#target-0-1), [0.4](#target-0-4), [LinearMap.charpoly_baseChange](#input-b9), [Module.End.hasEigenvalue_iff_isRoot_charpoly](#input-b10), [LinearMap.finrank_maxGenEigenspace_eq](#input-b11), [Module.End.iSup_maxGenEigenspace_eq_top](#input-b12), [Module.End.independent_maxGenEigenspace](#input-b13).
 
@@ -995,19 +998,19 @@ For `b ∈ E^×` and an `E`-space `V` with invertible `F`, the twist is `V^{(b)}
 An arbitrary scalar gives a Weil line. Étale descent requires the separate unit/continuity criterion; a nonintegral real weight is not an integer Tate twist.
 
 Its API includes:
-- `twist`: Multiply the invertible Frobenius endomorphism by a nonzero scalar `b`.
+- Multiply the invertible Frobenius endomorphism by a nonzero scalar `b`.
 
-- `tateTwist`: The integer twist multiplies geometric Frobenius by `q^(−r)`.
+- The integer twist multiplies geometric Frobenius by `q^(−r)`.
 
-- `eigenvalues_twist`: Multiplication by `b` multiplies every characteristic root by `b`.
+- Multiplication by `b` multiplies every characteristic root by `b`.
 
-- `iotaWeights_twist`: For an invertible endomorphism `F`, a nonzero scalar twist translates the weight set by the scalar’s `ι`-weight. The total numeric logarithm at zero does not satisfy this translation rule.
+- For an invertible endomorphism `F`, a nonzero scalar twist translates the weight set by the scalar’s `ι`-weight. The total numeric logarithm at zero does not satisfy this translation rule.
 
-- `IsPure.tateTwist`: For a positive integral `q`, an integer Tate twist shifts a pure weight `n` to `n−2r`.
+- For a positive integral `q`, an integer Tate twist shifts a pure weight `n` to `n−2r`.
 
-- `twist_tensor`: Scalar twists of tensor factors multiply their scalars.
+- Scalar twists of tensor factors multiply their scalars.
 
-- `twist_twist`: Two successive scalar twists equal the twist by the product.
+- Two successive scalar twists equal the twist by the product.
 
 #### Checks
 - `ℚ_ℓ(1) = E^{(q⁻¹)}` is pure of weight `−2`, and `ℚ_ℓ(r)` of weight `−2r`.
@@ -1074,8 +1077,8 @@ Let `E` be a characteristic-zero field, `V` a finite-dimensional `E`-space,
 `IsWeilNumber (q : ℝ) w α ↔ WeilDeligneRep.IsWeilNumber q w α`
 for `α` in any characteristic-zero coefficient field, including an algebraic
 closure of `E`. The right side has no `q>1` clause; the hypothesis `2≤q` supplies
-that clause on the left. The expanded scalar comparison is
-`isWeilNumber_natCast_iff`.
+that clause on the left. The comparison retains algebraicity and every complex
+conjugate in its scalar condition.
 
 For an invertible `F` on `V`, prove
 `WeilDeligneRep.IsPureEnd q w F 0 ↔ IsPure (q : ℝ) w F`.
@@ -1088,9 +1091,8 @@ geometric lift with the same nilpotence and commutation hypotheses. The case
 `N=0` uses `M_(−1)=0` and `M_0=V`; the other graded pieces vanish. No
 semisimplicity hypothesis is needed in either comparison.
 
-The linear-algebra API provides `isPure_iff_forall_eigenvector`, expressing
-ordinary purity by every nonzero eigenvector over the algebraic closure, and
-`isPure_subquotient_iff`, expressing purity on `W/U` for `F`-stable `U⊆W` by
+Express ordinary purity by every nonzero eigenvector over the algebraic closure,
+and express purity on `W/U` for `F`-stable `U⊆W` by
 representatives `v∈W_Ē` with `v∉U_Ē` and `(F−α)v∈U_Ē`. Apply the latter with
 `W=M_a` and `U=M_(a−1)`. As part of this comparison, identify
 `Ē⊗_E(W/U)` with `W_Ē/U_Ē`, compatibly with the induced `F` action; field
@@ -1108,7 +1110,7 @@ different predicates for general `N`.
   `M_(−2)=0`, `M_(−1)=M_0=Ee₁` and `M_1=V`. The grades `−1` and `1` have ordinary
   weights `−2` and `0`, respectively, so the pair is Weil–Deligne-pure of weight
   `−1`. Its underlying Frobenius module has weights `{0,−2}` and is pure of no
-  weight. The target `spTwo_purity_grades` gives the two induced operators at `q=2`.
+  weight. Check the two induced operators at `q=2`.
 - At `q=1`, `α=1` satisfies the supplier's scalar predicate at every integer
   weight, while `IsWeilNumber 1 w (1 : ℚ)` is false. Thus the scalar
   comparison requires its base-size hypothesis.
@@ -1282,6 +1284,13 @@ coefficients. This argument uses finiteness and trace, without purity. For a
 constructible finite-model coefficient sheaf, the same determinant formula
 provides rationality over its coefficient field; descent to `ℚ` requires its
 Euler-series coefficients to lie in `ℚ`.
+
+Suggested.lean defines `finiteFieldPointCount` using morphisms of schemes over
+the finite ground field and `finiteFieldZeta` by the displayed exponential
+series, with a chosen degree-`n` extension in each positive degree. Its statement
+`finiteFieldZetaRationality` gives normalized rational numerator and denominator
+polynomials for every separated finite-type scheme, without a smoothness or
+properness hypothesis.
 
 *Needs:* §0.10; EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 (coefficient
 Euler product, Frobenius and finiteness); InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4
@@ -1673,7 +1682,11 @@ integrality for arbitrary coefficient realizations.
 Apply this to smooth projective constant coefficients using §§1.10, `4.3`, and
 to smooth proper or rational-homology-manifold constant coefficients using
 §7.15's purity and §7.10's integrality. The abstract extraction theorem
-precedes those applications.
+precedes those applications. The statement `degreeFactorExtraction` in
+Suggested.lean allows any nonempty family of characteristic-zero coefficient
+fields, including these `ℚ_ℓ` realizations. It uses `IsWeilNumber` and `IsPure`
+to retain the algebraicity and all-conjugates conditions on characteristic
+roots, and includes both integrality hypotheses above.
 
 *Needs:* §§0.1, 0.7, 0.10, 0.17 and 1.10; Mathlib polynomial factorization,
 algebraic integrality and Gauss's lemma. The geometric applications also use
@@ -1709,25 +1722,25 @@ Define Weil coefficients and pointwise mixedness before applying them to curve s
 For connected `X₀/𝔽_q` with geometric point `x`, let `W(X₀,x)=π₁(X₀,x)×_{Gal(𝔽̄_q/𝔽_q)}ℤ`, where `1∈ℤ` maps to geometric Frobenius. Its topology makes the geometric kernel open with its profinite topology and the degree quotient discrete. For geometrically connected `X₀` the sequence `1→π₁(X,x)→W(X₀,x)→ℤ→0` is exact. A closed-point geometric Frobenius has degree `+deg(x)`. This degree is the negative of the arithmetic coordinate in Weil I §6.
 
 Its API includes:
-- `WeilGroup`: The topological pullback group with its projection to `π₁` and its geometric-degree homomorphism to `ℤ`.
+- The topological pullback group with its projection to `π₁` and its geometric-degree homomorphism to `ℤ`.
 
-- `WeilGroup.degree`: The integer degree of a Weil element.
+- The integer degree of a Weil element.
 
-- `WeilGroup.geometricKernel`: The degree-zero subgroup is the geometric fundamental group for geometrically connected `X₀`.
+- The degree-zero subgroup is the geometric fundamental group for geometrically connected `X₀`.
 
-- `WeilGroup.frobenius_degree`: The local geometric Frobenius has degree `deg(x)`.
+- The local geometric Frobenius has degree `deg(x)`.
 
-- `WeilGroup.arithmeticCoordinate`: If the geometric and arithmetic constant-field
+- If the geometric and arithmetic constant-field
   maps satisfy `geo(z)=arith(z⁻¹)` and arith is injective, a pullback element `(g,e)`
   with arithmetic coordinate a has geometric degree `e` and `a=−e`. The supporting
   integer inversion identity is Mathlib's `Multiplicative.toAdd_inv`.
 
-- `WeilGroup.baseExtension`: For `a ≥ 1`, over `𝔽_(qᵃ)` the Weil group is the subgroup of degrees divisible by `a`, with the new degree divided by `a`; the signature carries `0 < a`.
+- For `a ≥ 1`, over `𝔽_(qᵃ)` the Weil group is the subgroup of degrees divisible by `a`, with the new degree divided by `a`; the signature carries `0 < a`.
 
 #### Checks
 - For `Spec 𝔽_q`, `W=ℤ` with degree the identity and trivial geometric kernel.
 
-- At `a = 1`, `WeilGroup.baseExtension` is the graph `{(w, deg w)}`, isomorphic to `W(X₀,x)` by its first projection.
+- At `a = 1`, the base-extension subgroup is the graph `{(w, deg w)}`, isomorphic to `W(X₀,x)` by its first projection.
 
 - A pullback element `w=(g,e)`, using the specified geometric/arithmetic quotient maps, has Weil II degree `e` and Weil I arithmetic coordinate `−e`; in particular degree-one geometric Frobenius has coordinates `1` and `−1`.
 
@@ -1774,9 +1787,9 @@ Its API includes:
 Let `ℓ` be prime and `X` be of finite type over `ℤ[1/ℓ]`; use constructible `ℚ̄_ℓ`-sheaves, or Weil sheaves when `X` is over a finite field. Punctual purity of integer weight `n` requires every geometric-Frobenius eigenvalue at each closed point `x` to be a Weil `N(x)`-number of weight `n`. Fixed-`ι` punctual purity of real weight `β` uses `|ια|=N(x)^(β/2)`. Mixedness, respectively `ι`-mixedness, means existence of a finite filtration by subsheaves with pure, respectively `ι`-pure, successive quotients. Actual weights are the weights of nonzero quotients; the zero sheaf has no actual weights. Bounds `≤b` or `≥b` apply to these actual weights. Weight classes modulo `ℤ` are real weights in `ℝ/ℤ`; the canonical decomposition into those classes belongs to DWP.8.
 
 Its API includes:
-- `IsPunctuallyPure`: Integer purity at all closed stalks.
+- Integer purity at all closed stalks.
 
-- `IsPunctuallyIotaPure`: Real purity at all closed stalks for a specified coefficient isomorphism `ι`.
+- Real purity at all closed stalks for a specified coefficient isomorphism `ι`.
 
 - `IsMixed`: Existence of a finite integer-pure subsheaf filtration.
 
@@ -1784,15 +1797,15 @@ Its API includes:
 
 - `punctualWeights`: The finite set of actual weights of nonzero graded pieces.
 
-- `pure_zero`: The zero sheaf is pure of every weight and has empty actual weight set.
+- The zero sheaf is pure of every weight and has empty actual weight set.
 
-- `pure_subquotient`: Subsheaves and quotient sheaves of a pure sheaf are pure of the same weight.
+- Subsheaves and quotient sheaves of a pure sheaf are pure of the same weight.
 
 - `mixed_extension`: An extension of mixed sheaves is mixed; actual weights form the union.
 
-- `pure_tensor`: Tensor products add weights; lisse duals negate them.
+- Tensor products add weights; lisse duals negate them.
 
-- `pure_tateTwist`: Twisting by `r∈ℤ` subtracts `2r`.
+- Twisting by `r∈ℤ` subtracts `2r`.
 
 - `pure_pullback_finitePushforward`: Pullback and finite direct image preserve purity, with residue-degree powers of Frobenius included.
 
@@ -1824,13 +1837,13 @@ Its API includes:
 A lisse sheaf is totally real when every closed-point local characteristic polynomial has algebraic totally real coefficients; it is `ι`-real when those coefficients map into `ℝ` under the fixed `ι`. These are coefficient conditions, not assertions that every eigenvalue is real. A punctually pure lisse sheaf of integer weight `n` is a direct summand of the totally real sheaf `ℱ⊕ℱ∨(−n)`; for real `ι`-weight `β` use a rank-one Weil twist of weight `2β` in place of the integer Tate normalization.
 
 Its API includes:
-- `IsTotallyReal`: All local polynomial coefficients are algebraic and totally real.
+- All local polynomial coefficients are algebraic and totally real.
 
-- `IsIotaReal`: All local polynomial coefficients become real under `ι`.
+- All local polynomial coefficients become real under `ι`.
 
-- `totallyReal_iotaReal`: Total reality implies `ι`-reality for every `ι`.
+- Total reality implies `ι`-reality for every `ι`.
 
-- `pure_real_envelope`: The reciprocal-normalized dual direct sum of a punctually pure lisse sheaf is real and contains the original as a direct summand.
+- The reciprocal-normalized dual direct sum of a punctually pure lisse sheaf is real and contains the original as a direct summand.
 
 #### Checks
 - A point module with polynomial `T²−T+2` is totally real, although its roots are nonreal.
@@ -1991,12 +2004,12 @@ applying `ι` to each local Euler factor of every even tensor power gives a seri
 in `ℝ[[t]]` with constant term `1` and nonnegative coefficients. Indeed the traces
 of all local Frobenius powers are real, their even powers are nonnegative,
 and the formal exponential of the resulting logarithmic series has
-nonnegative real coefficients. The numerical exponential statement is
-`coeff_exp_nonneg` over an ordered field, including `ℚ` and `ℝ`. Use §§2.7–2.8 on
+nonnegative real coefficients. Prove nonnegativity of the formal exponential
+coefficients over an ordered field, including `ℚ` and `ℝ`. Use §§2.7–2.8 on
 these real series; the rational refinement of §2.6 retains §2.9(iii).
 
 *Needs:* §0.10 (traces), §0.13 (tensor spectra), §5.4 (ι-reality),
-the ordered-field exponential statement `coeff_exp_nonneg` specified here;
+the ordered-field exponential nonnegativity statement specified here;
 §§2.7–2.8 (real-series comparison).
 (Source: [WII](#ref-wii), (1.5.2)(a), p. 164.)
 
@@ -2058,7 +2071,7 @@ For an `ι`-mixed local system on a smooth curve, the relative monodromy filtrat
 Fix a rational-valued additive nonarchimedean valuation `v` on the coefficient algebraic closure normalized by `v(p)=1`. For a rank-`r` closed stalk at `x` with geometric Frobenius `eigenvalues α₁`,`…`,`αᵣ`, let `s₁≤…≤sᵣ` be `v(αᵢ)/v(N(x))`, counted with multiplicity. Its Newton polygon has vertices `(k,Σ_{i≤k}sᵢ)`, `k=0`,`…`,`r`, and linear interpolation. Equivalently the kth ordinate is the minimum normalized valuation of products of `k` distinct eigenvalue positions, the spectrum of the kth exterior power. This is the stalk specialization of the general Newton-polygon convention, not a new `p`-adic cohomology theory.
 
 Its API includes:
-- `stalkNewtonPolygon`: The finite vertex presentation normalized by `v(N(x))`.
+- The finite vertex presentation normalized by `v(N(x))`.
 
 - `stalkNewtonPolygon_toPolygon`: Put the sorted normalized slopes into
   NewtonPolygons §0.6's `ConvexPolygon.FiniteSlopeData ℚ`, with start and initial
@@ -2066,18 +2079,18 @@ Its API includes:
   `stalkNewtonPolygon`; it is `∞` for `k>r`. Embed the slope data into `ℝ` and
   use the supplied `toPolygon` as the common public polygon carrier. Prove
   equality of these heights and compatibility with §0.7's polygon order and
-  canonical interpolation. The list in Suggested.lean presents its finite
-  heights; it is not a separate geometric carrier.
+  canonical interpolation. The finite list presents the heights of this common
+  polygon carrier.
 
-- `stalkNewtonPolygon_zero`: The origin is `(0,0)`; rank zero has the single origin.
+- The origin is `(0,0)`; rank zero has the single origin.
 
-- `stalkNewtonPolygon_endpoint`: The endpoint is `(r,v(det F_x)/v(N(x)))`.
+- The endpoint is `(r,v(det F_x)/v(N(x)))`.
 
-- `stalkNewtonPolygon_exterior`: The kth ordinate is the minimum normalized valuation of kth exterior eigenvalues.
+- The kth ordinate is the minimum normalized valuation of kth exterior eigenvalues.
 
-- `stalkNewtonPolygon_baseExtension`: Finite residue-field extension leaves the polygon unchanged.
+- Finite residue-field extension leaves the polygon unchanged.
 
-- `stalkNewtonPolygon_tateTwist`: Twisting by a adds `−a` to every normalized slope.
+- Twisting by a adds `−a` to every normalized slope.
 
 #### Checks
 - The point module `diag(1,q)` has vertices `(0,0)`,`(1,0)`,`(2,1)`.
@@ -2443,17 +2456,17 @@ Let `X` be a scheme of finite type over `ℤ[1/ℓ]`. A sheaf `ℱ` on `X` is in
 Integrality is over `ℤ`. It is stronger than the automatic `ℤ_ℓ`-integrality of an étale stalk eigenvalue.
 
 Its API includes:
-- `IsIntegralEnd`: `IsIntegralEnd (F : V →ₗ[E] V)` : `Prop := ∀ α ∈ eigenvalues F`, `IsIntegral ℤ α`, for `E` any field and `V` finite-dimensional (the sheaf-theoretic use has `E = ℚ̄_ℓ`), with `eigenvalues F` the DWP.0 multiset of roots of the characteristic polynomial in an algebraic closure.
+- `IsIntegralEnd (F : V →ₗ[E] V)` : `Prop := ∀ α ∈ eigenvalues F`, `IsIntegral ℤ α`, for `E` any field and `V` finite-dimensional (the sheaf-theoretic use has `E = ℚ̄_ℓ`), with `eigenvalues F` the DWP.0 multiset of roots of the characteristic polynomial in an algebraic closure.
 
 - `IsIntegralSheaf`: `IsIntegralSheaf ℱ : Prop := ∀ x ∈ |X|`, `IsIntegralEnd` (`F_x` acting on `ℱ_x̄`).
 
-- `isIntegralEnd_iff_charpoly`: `IsIntegralEnd F ↔` every root of `det(T − F)` in an algebraic closure is integral over `ℤ`; when `det(T − F)` has rational coefficients this holds iff it has integer coefficients.
+- `IsIntegralEnd F ↔` every root of `det(T − F)` in an algebraic closure is integral over `ℤ`; when `det(T − F)` has rational coefficients this holds iff it has integer coefficients.
 
-- `IsIntegralEnd.of_extension`: For an `F`-stable subspace `W ⊆ V: IsIntegralEnd F ↔ IsIntegralEnd (F|W) ∧ IsIntegralEnd` (`F` on `V/W`).
+- For an `F`-stable subspace `W ⊆ V: IsIntegralEnd F ↔ IsIntegralEnd (F|W) ∧ IsIntegralEnd` (`F` on `V/W`).
 
-- `IsIntegralEnd.pow`: `IsIntegralEnd F → IsIntegralEnd (F ^ r)` for `r ≥ 1`, and conversely: an algebraic number with an integral power is integral.
+- `IsIntegralEnd F → IsIntegralEnd (F ^ r)` for `r ≥ 1`, and conversely: an algebraic number with an integral power is integral.
 
-- `IsIntegralEnd.tensor`: `IsIntegralEnd F → IsIntegralEnd G → IsIntegralEnd (F ⊗ G)`.
+- `IsIntegralEnd F → IsIntegralEnd G → IsIntegralEnd (F ⊗ G)`.
 
 - `IsIntegralSheaf.comap`: Pullback along any morphism of schemes of finite type over `ℤ[1/ℓ]` preserves integrality.
 
@@ -2617,22 +2630,22 @@ Let `X₀` be a scheme of finite type over `𝔽_q`, `X = X₀ ⊗ 𝔽̄_q`. (i
 Let `q = p^f`, `n ∈ ℤ`, and `α` an algebraic number which is a Weil `q`-number of weight `n` (DWP.0). Let `K` be a number field containing `α` and `v` a valuation of `K` above `p`, normalised by `v(q) = 1`, extended to `v : K → ℚ ∪ {∞}`. The couple of `α` at `v` is `(r, s) = (v(α), v(q^n α⁻¹))`. Here `q^n α⁻¹ ∈ K`, and under every embedding `σ : K → ℂ` it maps to the complex conjugate of `σ(α)` (DWP.0/weil-number-arithmetic (iii)); so `q^n α⁻¹` has the same minimal polynomial over `ℚ` as `α`, `i`.`e`. it is a Galois conjugate of `α`. Always `r + s = n`; if `α` is integral over `ℤ` then `r ≥ 0` and `s ≥ 0`.
 
 Its API includes:
-- `newtonCouple`: `newtonCouple` (`v` : AddValuation `K` (WithTop `ℚ`)) `(q : K) (n : ℤ) (α : K)` : WithTop `ℚ ×` WithTop `ℚ := (v α, v (q ^ n * α⁻¹))`.
+- `newtonCouple` (`v` : AddValuation `K` (WithTop `ℚ`)) `(q : K) (n : ℤ) (α : K)` : WithTop `ℚ ×` WithTop `ℚ := (v α, v (q ^ n * α⁻¹))`.
 
-- `newtonCouple_fst_add_snd`: `v q = 1 → α ≠ 0 → (newtonCouple v q n α)`.`1 + (newtonCouple v q n α)`.`2 = n`.
+- `v q = 1 → α ≠ 0 → (newtonCouple v q n α)`.`1 + (newtonCouple v q n α)`.`2 = n`.
 
-- `newtonCouple_nonneg`: For an integral Weil `q`-number `α` of weight `n` with `q ∈ ℕ`, `q^n α⁻¹` is integral over `ℤ`, since it has the same minimal polynomial as `α`. If `v` is nonnegative on elements integral over `ℤ`, both coordinates are `≥ 0`.
+- For an integral Weil `q`-number `α` of weight `n` with `q ∈ ℕ`, `q^n α⁻¹` is integral over `ℤ`, since it has the same minimal polynomial as `α`. If `v` is nonnegative on elements integral over `ℤ`, both coordinates are `≥ 0`.
 
-- `newtonCouple_swap_conj`: For a Weil `q`-number `α` of weight `n`, the couple of `q^n α⁻¹` is the couple of `α` with its coordinates swapped.
+- For a Weil `q`-number `α` of weight `n`, the couple of `q^n α⁻¹` is the couple of `α` with its coordinates swapped.
 
-- `newtonCouple_galois`: For `τ ∈ Aut(K)` fixing `q`, `newtonCouple (v ∘ τ) q n α = newtonCouple v q n (τ α)`. In the intended number-field application `q` is rational, so it is fixed.
+- For `τ ∈ Aut(K)` fixing `q`, `newtonCouple (v ∘ τ) q n α = newtonCouple v q n (τ α)`. In the intended number-field application `q` is rational, so it is fixed.
 
-- `newtonCouple_mul`: For `q ≠ 0`, `newtonCouple v q (n + m) (αβ) = newtonCouple v q n α + newtonCouple v q m β`. The raw valuation API needs `q ≠ 0` to use integer-power multiplication; it follows from `v(q)=1` in the intended normalisation.
+- For `q ≠ 0`, `newtonCouple v q (n + m) (αβ) = newtonCouple v q n α + newtonCouple v q m β`. The raw valuation API needs `q ≠ 0` to use integer-power multiplication; it follows from `v(q)=1` in the intended normalisation.
 
-- `newtonCouple_div_pow`: The couple of `α/q^m` (weight `n − 2m`) is `(r − m, s − m)`.
+- The couple of `α/q^m` (weight `n − 2m`) is `(r − m, s − m)`.
 
 #### Checks
-- `newtonCouple_fst_add_snd`: `r + s = n` for every valuation `v` with `v(q) = 1` and every nonzero `α`.
+- `r + s = n` for every valuation `v` with `v(q) = 1` and every nonzero `α`.
 
 - `q = p`, `α = √−p` (weight `1`, a root of `T² + p`): at the unique place above `p` of `ℚ(√−p)`, `(r, s) = (1/2, 1/2)`.
 
@@ -2928,9 +2941,9 @@ For `X` of finite type over `ℤ[1/ℓ]` with structure map a : `X → Spec ℤ[
 For a normal connected finite-field scheme, a lisse finite-model Weil sheaf gives a representation `ρ` on its stalk `V`. Define geometric monodromy as the image of the geometric fundamental group and geometric semisimplicity as semisimplicity of the restricted representation, using `Representation.IsSemisimpleRepresentation`. Arithmetic semisimplicity uses the full Weil representation. For schemes not geometrically connected work on each geometric component. Prove base-point conjugacy, dense-open and finite-base-extension invariance, subquotient/dual stability, and the characteristic-zero reductive-closure criterion specified in the API.
 
 Its API includes:
-- `IsGeometricallySemisimple`: For `ρ : Representation E W V` and a subgroup `G ≤ W: IsGeometricallySemisimple ρ G : Prop := Representation.IsSemisimpleRepresentation (ρ.comp G.subtype)`; for a lisse sheaf, `W = W(X₀, x̄)` and `G = π₁(X, x̄)`.
+- For `ρ : Representation E W V` and a subgroup `G ≤ W: IsGeometricallySemisimple ρ G : Prop := Representation.IsSemisimpleRepresentation (ρ.comp G.subtype)`; for a lisse sheaf, `W = W(X₀, x̄)` and `G = π₁(X, x̄)`.
 
-- `IsGeometricallySemisimple.of_isSemisimple`: For a finite-dimensional representation `ρ` over a field and `G` normal in `W: ρ` semisimple `⇒ ρ|G` semisimple, by the pinned Tau Ceti Clifford theorem on each irreducible summand.
+- For a finite-dimensional representation `ρ` over a field and `G` normal in `W: ρ` semisimple `⇒ ρ|G` semisimple, by the pinned Tau Ceti Clifford theorem on each irreducible summand.
 
 - `isGeometricallySemisimple_iff_restrict_open`: For `X₀` normal and `U₀ ⊂ X₀` a dense open: `ℱ₀` is geometrically semisimple iff `ℱ₀|U₀` is (`π₁(U) → π₁(X)` is surjective, `IG`.`0`).
 
@@ -3460,24 +3473,22 @@ Let `K` be a field, `n ∈ ℕ`, `V` a finite-dimensional `K`-vector space which
 
 (Sources: [Lef](#ref-lef), Théorème (1.5) and (1.6), p. 108.)
 
-Define the light graded-space specialization `primitivePiece 𝒱 λ n r` as
-`𝒱(n−r)∩ker(λ^(r+1))`, with `𝒱:ℤ→Submodule K V`. Its API is
-`iSupIndep_lefschetzDecomposition` and `iSupIndep_lefschetzDecomposition_upper`
-(independent spanning images, with exponents `k` and `r+k`),
-`injOn_lefschetzDecomposition` (injectivity on each primitive source),
-`finrank_primitivePiece` (the dimension difference),
-`lefschetzPairing_nondegenerate`, `lefschetzPairing_primitive_orthogonal`, and
-`lefschetzPairing_gradedSymmetry`. All theorem hypotheses are precisely those
-in §9.7 above; symmetry is an additional assumption on `B`.
+The definition `primitivePiece` in Suggested.lean is
+`primitivePiece 𝒱 λ n r = 𝒱(n−r)∩ker(λ^(r+1))`, with
+`𝒱:ℤ→Submodule K V`. The statement `lefschetzDecomposition` gives both
+independent spanning families, the injective primitive-source maps with
+exponents `k` and `r+k`, and the dimension difference in (i)–(ii).
+The statement `lefschetzPairings` gives nondegeneracy, orthogonality and the
+conditional graded symmetry in (iii). Both statements retain all hypotheses
+of §9.7, over an arbitrary field.
 (Source: [Lef](#ref-lef), (1.5)–(1.6), p. 108.)
 
-The natural-grading adapter `intGradingOfNat` extends
-`𝒱_nat:ℕ→Submodule K V` by zero in negative degrees. Prove
-`intGradingOfNat_isInternal` and transport the degree-two operator, finite support,
-hard-Lefschetz bijections and compatible pairings through this extension.
-For `0≤j≤n`, `primitivePiece_intGradingOfNat` identifies
-`𝒱_nat(j)∩ker(λ^(n−j+1))` with
-`primitivePiece (intGradingOfNat 𝒱_nat) λ n (n−j)`.
+Extend a natural grading `𝒱_nat:ℕ→Submodule K V` by zero in negative degrees
+to an integer grading `𝒱`. Prove that this preserves the internal direct sum,
+and transport the degree-two operator, finite support, hard-Lefschetz
+bijections and compatible pairings through the extension.
+For `0≤j≤n`, identify `𝒱_nat(j)∩ker(λ^(n−j+1))` with
+`primitivePiece 𝒱 λ n (n−j)`.
 This is the common-core export to StandardConjectures §§0.1–0.4:
 `P_SC^j = primitivePiece 𝒱 λ n (n−j)`, where `𝒱` is the extended grading.
 Its `LefschetzStructure` packages this decomposition and pairing theory; its
@@ -3758,7 +3769,7 @@ All page numbers in the targets are printed page numbers of the specified editio
 
 <a id="ref-int"></a>
 
-- **[Int]** Nicholas M. Katz; §5 appendix by Pierre Deligne, [SGA 7 II, Exposé XXI: Le niveau de la cohomologie des intersections complètes; §5 Appendix on integrality](https://web.math.princeton.edu/~nmk/old/niveaucoho.pdf). SGA 7 II, Lecture Notes in Mathematics 340 (1973), Exposé XXI, §5, 384–387.
+- **[Int]** Nicholas M. Katz; §5 appendix by Pierre Deligne, SGA 7 II, Exposé XXI: Le niveau de la cohomologie des intersections complètes; §5 Appendix on integrality. SGA 7 II, Lecture Notes in Mathematics 340 (1973), Exposé XXI, §5, 384–387.
 
 <a id="ref-sun"></a>
 
