@@ -1254,16 +1254,23 @@ theorem sacks_splitting (B C : Set ℕ)
       ¬ (C ≤ᵀ A₀) ∧ ¬ (C ≤ᵀ A₁) := by
   sorry
 
-/-- Uniform output enumeration indices. This does not assert uniform lowness-reduction indices. -/
+/-- Uniform output enumeration indices for the displayed stage machine run on the canonical
+approximations of `W_b` and `W_c`, with its stage table computable in `(b, c, s, i)`. The
+identification holds for all inputs. This does not assert uniform lowness-reduction indices. -/
 theorem sacks_splitting_uniform_indices :
-    ∃ f₀ f₁ : ℕ → ℕ → ℕ,
-      Computable (fun p : ℕ × ℕ => f₀ p.1 p.2) ∧
-      Computable (fun p : ℕ × ℕ => f₁ p.1 p.2) ∧
-      ∀ b c, ¬ ComputablePred (fun x => x ∈ W ∅ c) →
-        let A₀ := W ∅ (f₀ b c)
-        let A₁ := W ∅ (f₁ b c)
-        Low A₀ ∧ Low A₁ ∧ Disjoint A₀ A₁ ∧ A₀ ∪ A₁ = W ∅ b ∧
-          ¬ (W ∅ c ≤ᵀ A₀) ∧ ¬ (W ∅ c ≤ᵀ A₁) := by
+    ∃ f : Bool → ℕ → ℕ → ℕ,
+      Computable (fun p : Bool × ℕ × ℕ => f p.1 p.2.1 p.2.2) ∧
+      Computable (fun p : (ℕ × ℕ) × ℕ × Bool =>
+        finiteCode (sacksSplit (WStage ∅ p.1.1) (WStage ∅ p.1.2) p.2.1 p.2.2)) ∧
+      ∀ b c i, W ∅ (f i b c) = stageLimit fun s => sacksSplit (WStage ∅ b) (WStage ∅ c) s i := by
+  sorry
+
+/-- The split of canonical inputs is a disjoint partition of `W_b` for all `b, c`; its halves are
+low and avoid `W_c` when `W_c` is noncomputable. -/
+theorem sacksSplit_W_spec (b c : ℕ) :
+    let A := fun i => stageLimit fun s => sacksSplit (WStage ∅ b) (WStage ∅ c) s i
+    (Disjoint (A false) (A true) ∧ A false ∪ A true = W ∅ b) ∧
+      (¬ ComputablePred (fun x => x ∈ W ∅ c) → ∀ i, Low (A i) ∧ ¬ (W ∅ c ≤ᵀ A i)) := by
   sorry
 
 /-- [S, VII.3.4], with the reductions of each half to `B`. -/

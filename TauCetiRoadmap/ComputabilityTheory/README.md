@@ -786,11 +786,18 @@ $C_e=\lbrace 2n+1:n\in K\rbrace\cup(\lbrace 0\rbrace\text{ if }e\in K)$ are all
 noncomputable, and $0\in C_e$ iff $e\in K$. This rules out only that particular
 operation, not every uniform form of the lowness reductions.
 
-Provide total computable output-index transformations on input enumeration
-indices for $B,C$, with the negative and lowness conclusions under the stated
-noncomputability promise on $C$. Do not additionally promise uniform indices for
-all lowness reductions unless those are independently proved. Empty and finite
-$B$ are handled by the same paused algorithm.
+Provide total computable output-index transformations $f_0,f_1$ on input
+enumeration indices $b,c$, identified with the displayed construction: run on the
+canonical approximations $W_{b,s}$ and $W_{c,s}$, the stage machine's halves
+satisfy $W_{f_i(b,c)}=\bigcup_s A_{i,s}$ for all $b,c$, with no noncomputability
+premise, and the stage table is computable in $(b,c,s,i)$. Computability of the
+stages for each fixed pair of approximations does not by itself give an operator
+on indices. Keep the unconditional facts separate from the promised ones: for all
+$b,c$ the halves are disjoint with union $W_b$; when $W_c$ is noncomputable they
+are low and neither computes $W_c$. Do not additionally promise uniform indices
+for all lowness reductions unless those are independently proved. The canonical
+approximations enumerate in batches, which the per-element routing handles, and
+empty and finite $B$ need no separate case.
 
 ### L9.4. Connective corollaries
 
