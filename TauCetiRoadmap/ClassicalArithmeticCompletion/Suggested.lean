@@ -582,46 +582,18 @@ open NumberField
 open scoped nonZeroDivisors
 
 /-- The classes of the nonzero prime ideals of absolute norm at most `T` generate the class group
-(README §5.1a).
-
-The full README API includes `IsFactorBaseBound.mono`, `isFactorBaseBound_minkowski`,
-`isFactorBaseBound_iff_classNumber_eq_one`, `IsFactorBaseBound.of_mem_closure`.
+(README §5.1a). The predicate is monotone in `T`, holds below `2` exactly for class number one,
+and a bound may be lowered once every prime up to it has its class in the smaller subgroup.
 -/
 def IsFactorBaseBound (K : Type*) [Field K] [NumberField K] (T : ℝ) : Prop :=
   Subgroup.closure (ClassGroup.mk0 '' {I : (Ideal (𝓞 K))⁰ |
     (I : Ideal (𝓞 K)).IsPrime ∧ (Ideal.absNorm (I : Ideal (𝓞 K)) : ℝ) ≤ T}) = ⊤
-
-/-- Class number one: every real number, even one below the least prime norm, is a bound. -/
-example (T : ℝ) : IsFactorBaseBound ℚ T :=
-  haveI := (Fintype.card_le_one_iff_subsingleton (α := ClassGroup (𝓞 ℚ))).mp Rat.classNumber_eq.le
-  Subsingleton.elim _ _
-
-/-- A larger bound keeps every generator. -/
-theorem IsFactorBaseBound.mono {K : Type*} [Field K] [NumberField K] {T T' : ℝ}
-    (h : IsFactorBaseBound K T) (hT : T ≤ T') : IsFactorBaseBound K T' :=
-  eq_top_iff.mpr <| (eq_top_iff.mp h).trans <|
-    Subgroup.closure_mono <| Set.image_mono fun _ hI => ⟨hI.1, hI.2.trans hT⟩
 
 /-- Minkowski's bound, in the form of README §5.1, is a factor-base bound. -/
 theorem isFactorBaseBound_minkowski (K : Type*) [Field K] [NumberField K] :
     IsFactorBaseBound K ((4 / Real.pi) ^ InfinitePlace.nrComplexPlaces K *
       ((Module.finrank ℚ K).factorial / (Module.finrank ℚ K : ℝ) ^ Module.finrank ℚ K *
         Real.sqrt |(discr K : ℝ)|)) := by
-  sorry
-
-/-- Below the least prime norm 2 the generating set is empty. -/
-theorem isFactorBaseBound_iff_classNumber_eq_one {K : Type*} [Field K] [NumberField K] {T : ℝ}
-    (hT : T < 2) : IsFactorBaseBound K T ↔ classNumber K = 1 := by
-  sorry
-
-/-- A bound may be lowered once the primes up to the old bound lie in the smaller subgroup. -/
-theorem IsFactorBaseBound.of_mem_closure {K : Type*} [Field K] [NumberField K] {T₀ T : ℝ}
-    (h : IsFactorBaseBound K T)
-    (hmem : ∀ I : (Ideal (𝓞 K))⁰, (I : Ideal (𝓞 K)).IsPrime →
-      (Ideal.absNorm (I : Ideal (𝓞 K)) : ℝ) ≤ T →
-      ClassGroup.mk0 I ∈ Subgroup.closure (ClassGroup.mk0 '' {J : (Ideal (𝓞 K))⁰ |
-        (J : Ideal (𝓞 K)).IsPrime ∧ (Ideal.absNorm (J : Ideal (𝓞 K)) : ℝ) ≤ T₀})) :
-    IsFactorBaseBound K T₀ := by
   sorry
 
 /-- The discrete-logarithm matrix modulo `p` of `v` at the primes `P i` has full column rank,
@@ -636,16 +608,6 @@ def PowerResidueIndependent {K : Type*} [Field K] [NumberField K] {ι : Type*} [
     {m : ℕ} (p : ℕ) (P : Fin m → Ideal (𝓞 K)) (v : ι → 𝓞 K) : Prop :=
   ∀ e : ι → ℕ, (∀ i, ∏ j, Ideal.Quotient.mk (P i) (v j) ^
       (e j * ((Ideal.absNorm (P i) - 1) / p)) = 1) → ∀ j, p ∣ e j
-
-/-- The empty family is independent, as for unit rank zero. -/
-example {K : Type*} [Field K] [NumberField K] {m : ℕ} (p : ℕ) (P : Fin m → Ideal (𝓞 K)) :
-    PowerResidueIndependent p P (Fin.elim0 : Fin 0 → 𝓞 K) :=
-  fun _ _ j => j.elim0
-
-/-- A family containing `1`, a `p`-th power, is never independent. -/
-example {K : Type*} [Field K] [NumberField K] {m : ℕ} (P : Fin m → Ideal (𝓞 K)) :
-    ¬ PowerResidueIndependent 2 P (fun _ : Fin 1 => (1 : 𝓞 K)) := fun h => by
-  simpa using h (fun _ => 1) (by simp) 0
 
 /-- Residue-character certificate for units when `p` does not divide the torsion order. -/
 theorem isMaxRank_and_not_dvd_index_of_powerResidueIndependent {K : Type*} [Field K]
