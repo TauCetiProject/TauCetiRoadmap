@@ -7,7 +7,11 @@ The roadmap is README.md. This file records light definitions and theorem signat
 against the pinned APIs and is not exhaustive. It fixes inverse translation on functions,
 contragredient weights, kernel containment for pro-modularity, and tensor evaluation using
 Mathlib's intertwining maps. Arithmetic completed towers, local Langlands families and patched
-modules have their definitive specifications in README.md.
+modules have their definitive specifications in README.md. Its local correspondence contracts
+use the shared `GL2Block`, `MontrealFunctor` and `WDTypeRing` carriers; the crystalline completion
+includes the all-prime nonspecial exceptional case. Patched projectivity uses the uniformizer
+algebra `Λ ≅ O[[S]]`, and fixed central characters are specialized over the full central algebra
+`Λ_Z` in the category with compact character `ξ` and smooth-dual character `ξ⁻¹`.
 -/
 
 noncomputable section
