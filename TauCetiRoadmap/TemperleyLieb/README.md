@@ -151,7 +151,28 @@ algebras, and the monoidal/linear/rigid structure of the envelope together with 
 tensor ideals are targets here; the pivotal/spherical/ribbon API **and the finite-semisimple
 category predicate with its decomposition API** belong to the
 [pivotal and spherical categories roadmap](../PivotalSpherical/README.md) and are consumed,
-not rebuilt; braid groups are out of scope (see Non-goals).
+not rebuilt; braid groups come from Tau Ceti (see the next section and Non-goals).
+
+## What Tau Ceti already has (consume)
+
+- **The presented algebra:** `TauCeti.TemperleyLieb R δ n`
+  (`TauCeti/Algebra/TemperleyLieb/Basic.lean`), the free algebra on `Fin (n - 1)` modulo the
+  quadratic, adjacent and distant relations, over any `CommSemiring R`, indexed by the number `n`
+  of strands. It has the generators `e`, the universal property `lift`, `lift_e` and `hom_ext`,
+  the strand inclusion `strandIncl`, and `algEquivOfLeOne` for `n ≤ 1`. Layer 4 uses it as the
+  presented algebra and does not build another.
+- **The spin-model Markov trace:** `TauCeti.TemperleyLieb.spinRep` and
+  `TauCeti.TemperleyLieb.markovTrace` (`TauCeti/Algebra/TemperleyLieb/MarkovTrace.lean`), the
+  unnormalized trace with `tr 1 = δ ^ n`, traciality, compatibility with `strandIncl` and the
+  Markov property, for `δ = -(q + q⁻¹)` with `q` a unit. In this roadmap's convention
+  `δ = q' + q'⁻¹` that is the case `q = -q'`. It does not cover every `δ`, so the diagrammatic
+  trace of Layer 4 is still built here and compared with it.
+- **Braid groups and the Jones representation:** `TauCeti.BraidGroup`
+  (`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean`), and in
+  `TauCeti/KnotTheory/TemperleyLieb.lean` the Jones representation
+  `TauCeti.TemperleyLieb.jones` into the units of `TemperleyLieb R δ n` at
+  `δ = -(a² + a⁻²)` together with the writhe-normalized Markov trace invariant
+  `TauCeti.MarkovEquiv.jonesTrace_eq`.
 
 **Boundary with Schur–Weyl.** The
 [Schur–Weyl roadmap](../RepresentationTheory/SchurWeyl/README.md) builds the Brauer algebra
@@ -167,8 +188,9 @@ Everything above the consume list: planar matchings and their operations; the di
 category with its monoidal, rigid structure and universal property; monoidal presentations
 in general; `TL(R, δ)` with its pivotal, spherical, braided, and ribbon instances (against
 the general API of the
-[pivotal and spherical categories roadmap](../PivotalSpherical/README.md)); the algebras, the
-`e_i` presentation, the Markov trace; cellular algebras in general and the TL cell theory
+[pivotal and spherical categories roadmap](../PivotalSpherical/README.md)); the diagram
+algebras, their comparison with Tau Ceti's presented algebra `TauCeti.TemperleyLieb R δ n`, and
+the diagrammatic Markov trace at every `δ`; cellular algebras in general and the TL cell theory
 with Gram determinants; the semisimplicity and nondegeneracy classifications; Jones–Wenzl
 projections; tensor ideals, negligibles, and Goodman–Wenzl; the monoidal, linear and rigid
 structure of the additive-and-idempotent envelope and quotients by tensor ideals, both in
@@ -227,6 +249,16 @@ previous layers land.
   hence `card = catalan k`, and emptiness for odd `k`. The Dyck encoding doubles as the
   efficient composition algorithm later (a stack machine that also counts the circles it
   closes).
+- **The shared noncrossing-partition carrier:** noncrossing partitions and pair partitions of
+  `Fin k`, their rotation, and their Catalan counts are owned by the
+  [random matrices roadmap's finite combinatorial prerequisite, PR #397](https://github.com/TauCetiProject/TauCetiRoadmap/pull/397),
+  realized as specified in [free probability F2](../FreeProbability/README.md) by
+  `FreeProbability.NoncrossingPartition k`, a subtype of
+  `Finpartition (Finset.univ : Finset (Fin k))`. Prove the equivalence
+  `planarMatchingEquivNoncrossingPairing` of `PlanarMatching k` with its pair-block subfamily,
+  sending `x` to the partition with blocks `{i, x.toPerm i}`, and transport the generic
+  noncrossing, rotation and counting facts along it. The involution and Dyck models, and the
+  diagram algorithms on them, stay here. This needs nothing analytic from either roadmap.
 - **Through-strands and the refined count:** `through D`, the number of strands connecting
   bottom to top; `halfCount n k` (the number of half-diagrams on `n` points with `k`
   defects), with `halfCount n k = C(n, (n−k)/2) − C(n, (n−k)/2 − 1)` for `k < n` **and `n − k`
@@ -405,12 +437,19 @@ previous layers land.
   catch the mistake. Index the generators of `TL_{n+1}` by `Fin n` rather than those of `TL_n`
   by `Fin (n−1)`: truncated subtraction then never appears, and the last generator — the one
   the Markov property and the Wenzl recursion both need — is literally `Fin.last`. Relations:
-  `e_i² = δ·e_i`, `e_i e_{i±1} e_i = e_i`, and distant commutation;
-  the abstract algebra `PresentedTL R δ n` on these generators and relations (via
-  `FreeAlgebra` and `RingQuot`), and the isomorphism `PresentedTL ≃ₐ TLAlg`. The proof
-  forces the **Jones normal form** for reduced words in the `e_i` and the spanning argument,
-  with the Catalan count of Layer 1 pinning the dimension; the inductive
-  add-a-cap/drag-a-corner generation of diagrams is the normal-form half of this theorem.
+  `e_i² = δ·e_i`, `e_i e_{i±1} e_i = e_i`, and distant commutation. The presented algebra is
+  Tau Ceti's `TauCeti.TemperleyLieb R δ n` (see the consume list); do not build a second one.
+  Its generators on `n + 1` strands are indexed by `Fin (n + 1 - 1)`, which reduces to `Fin n`,
+  so the two indexings agree at `n + 1` with no reindexing map. The target is the comparison
+  `presentedTLEquiv : TauCeti.TemperleyLieb R δ n ≃ₐ[R] TLAlg R δ n`, built with
+  `TauCeti.TemperleyLieb.lift` from the diagram relations, together with the generator comparison
+  (`TauCeti.TemperleyLieb.e δ i ↦ e R δ i`) and the tower compatibility (`strandIncl ↦ incl`).
+  Bijectivity forces the **Jones normal form** for reduced words in the `e_i` and the spanning
+  argument, with the Catalan count of Layer 1 and `diagBasis` pinning the dimension; the
+  inductive add-a-cap/drag-a-corner generation of diagrams is the normal-form half of this
+  theorem. This is the canonical comparison between the two algebras: the
+  [Temperley–Lieb operator algebras roadmap, PR #867](https://github.com/TauCetiProject/TauCetiRoadmap/pull/867)
+  should consume it, and its Markov-trace comparison below, rather than construct its own.
 - **The tower:** the inclusions `incl : TLAlg R δ n →ₐ TLAlg R δ (n+1)` (add a through
   strand on the right), injective for every `R` and `δ` (basis-injective, no invertibility
   needed).
@@ -424,6 +463,11 @@ previous layers land.
   `tr̂ ∘ condExp = tr̂`.
 - **Uniqueness of the Markov trace:** any family of linear maps satisfying traciality, the
   compatibility, the Markov property, and `tr 1 = 1` in degree `0` equals `tr̂`.
+- **Comparison with Tau Ceti's trace:** whenever `δ = -(q + q⁻¹)`, `tr̂ ∘ presentedTLEquiv` is
+  `TauCeti.TemperleyLieb.markovTrace q hδ`, by the uniqueness theorem. Tau Ceti supplies
+  traciality, compatibility with `strandIncl` and the Markov property; the cases at zero strands
+  follow from `markovTrace_one`. Mind the sign: in the convention `δ = q' + q'⁻¹` of this
+  roadmap, Tau Ceti's unit is `q = -q'`.
 
 ### Layer 5: cellular algebras, Gram determinants, semisimplicity
 
@@ -552,10 +596,17 @@ previous layers land.
 - **Quotients by tensor ideals, as reusable infrastructure.** Layer 6's `negligibleIdeal` is a
   tensor ideal of `TL(K, δ)`, but the quotient below is taken in `TLKar K δ`, and the passage
   is not automatic. Targets: extension of a tensor ideal of `C` along `Mat_` and `Karoubi`; the
-  additive/`R`-linear quotient of a category by a tensor ideal; descent of the monoidal, rigid,
+  additive/`R`-linear quotient of a category by a tensor ideal; descent of the tensor product
+  for `C` monoidal preadditive, with the quotient functor strong monoidal so that the quotient
+  tensor is the descended one, and `R`-linear for `C` monoidal linear; descent of the rigid,
   pivotal, spherical, braided and ribbon structure to that quotient; and idempotent
   completeness of the result (or its idempotent completion, if the quotient loses it). Mathlib
-  has general categorical quotients but no monoidal quotient, so this is built here.
+  has general categorical quotients but no monoidal quotient, so this is built here. ⚠ The
+  additivity of whiskering is used: descent asks for `W ◁ f - W ◁ g ∈ I` when `f - g ∈ I`, ideal
+  closure only gives `W ◁ (f - g) ∈ I`, and `Suggested.lean` records a monoidal `ℤ`-linear
+  category with non-additive tensor where the tensor does not descend. In Lean
+  `[MonoidalPreadditive C]` must be a binder of the quotient's monoidal instance and of the
+  strong monoidal structure of the quotient functor, not a section variable.
 - **The generic classification:** when `[k] ≠ 0` for all `k ≥ 1`: the images of the
   Jones–Wenzl projections are simple, pairwise non-isomorphic, every simple is one of them,
   and every object is a finite biproduct of them (semisimplicity). ⚠ Mathlib has no
@@ -631,11 +682,13 @@ path to the fusion summit, so starting them early is worth doing.
 Each of these is out of scope for this roadmap, and each would make a good separate one;
 nothing here depends on any of them.
 
-- **Braid groups, the Kauffman bracket, and the Jones polynomial.** Mathlib has no braid
-  groups, and the braiding of Layer 3 makes `σ_i ↦ A·1 + A⁻¹·e_i` a two-line definition
-  once they exist, with the writhe-normalized Markov trace invariant under the Markov
-  moves as the natural algebraic summit; a diagrammatic route to links could reuse the grid
-  diagrams and Cromwell moves of the
+- **Braid groups, the Kauffman bracket, and the Jones polynomial.** Tau Ceti already has the
+  braid groups, the Jones representation `σ_i ↦ a·1 + a⁻¹·e_i` into the units of
+  `TauCeti.TemperleyLieb R δ n`, and the writhe-normalized Markov trace invariant under the
+  Markov moves (see the consume list). Through `presentedTLEquiv` they transport to `TLAlg`,
+  where the Kauffman braiding of Layer 3 is the categorical form of the same assignment; the
+  link-invariant theory itself is not built here. A diagrammatic route to links could reuse the
+  grid diagrams and Cromwell moves of the
   [combinatorial Heegaard Floer roadmap](../CombinatorialHeegaardFloer/README.md).
 - **The modular theory.** Every field-level result here is stated over characteristic zero
   where the characteristic matters (the semisimplicity classification of Layer 5, Goodman–Wenzl

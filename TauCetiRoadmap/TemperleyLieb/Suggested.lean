@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.Algebra.TemperleyLieb.MarkovTrace
+import TauCetiRoadmap.FreeProbability.Suggested
 
 /-!
 # Temperley–Lieb diagrams, categories, and algebras: target signatures
@@ -17,6 +19,13 @@ fusion categories. The general pivotal/spherical/ribbon API is the pivotal and s
 categories roadmap's target (`../PivotalSpherical/README.md`), consumed here; the rest we
 build in `TauCeti/TemperleyLieb/` and the reusable infrastructure homes named in
 `README.md`.
+
+Tau Ceti already has the presented algebra `TauCeti.TemperleyLieb R δ n` on `n` strands, with
+`e`, `lift`, `hom_ext` and `strandIncl`, and its spin-model Markov trace
+`TauCeti.TemperleyLieb.markovTrace` at `δ = -(q + q⁻¹)`. Layer 4 consumes both rather than
+presenting the algebra a second time. Noncrossing pair partitions are
+`FreeProbability.NoncrossingPartition` from the free probability roadmap, and Layer 1 compares
+`PlanarMatching` with its pair-block subfamily.
 
 This file pins the load-bearing **definitions** (`qInt`, `PlanarMatching`, `TLDiagram`, the
 categories `TLDiagCat` and `TLCat R δ`, the algebras `TLAlg R δ n`, cell modules, tensor
@@ -141,6 +150,21 @@ theorem isEmpty_planarMatching_odd (k : ℕ) : IsEmpty (PlanarMatching (2 * k + 
 efficient composition algorithm later (a stack machine that counts the circles it closes). -/
 noncomputable def planarMatchingEquivDyckWord (k : ℕ) :
     PlanarMatching (2 * k) ≃ { p : DyckWord // p.semilength = k } := sorry
+
+/-- The comparison with the shared noncrossing-partition carrier: planar matchings are the
+noncrossing partitions of `Fin k` all of whose blocks have two elements. The carrier,
+`FreeProbability.NoncrossingPartition`, is owned by the free probability roadmap (F2) and the
+random matrices roadmap's finite prerequisite; generic noncrossing, rotation and Catalan facts are
+proved there and transported along this equivalence, while the involution and Dyck models stay
+here for computation. -/
+noncomputable def planarMatchingEquivNoncrossingPairing (k : ℕ) :
+    PlanarMatching k ≃
+      { π : FreeProbability.NoncrossingPartition k // ∀ B ∈ π.1.parts, B.card = 2 } := sorry
+
+/-- The blocks of the image of `x` are the pairs `{i, x.toPerm i}`. -/
+theorem mem_parts_planarMatchingEquivNoncrossingPairing {k : ℕ} (x : PlanarMatching k)
+    (i : Fin k) :
+    {i, x.toPerm i} ∈ (planarMatchingEquivNoncrossingPairing k x).1.1.parts := sorry
 
 /-- Rotation by one click of the cyclic order. -/
 noncomputable def PlanarMatching.rotate (k : ℕ) : Equiv.Perm (PlanarMatching k) := sorry
@@ -542,10 +566,6 @@ composition (`x * y = y ≫ x`, `Mathlib/CategoryTheory/Endomorphism.lean`), so 
 noncomputable abbrev TLAlg (R : Type u) [CommRing R] (δ : R) (n : ℕ) : Type u :=
   End (TLCat.of n : TLCat R δ)
 
-/-- The algebra abstractly presented on generators `E_1, …, E_{n−1}` and the Jones
-relations (via `FreeAlgebra` and `RingQuot`). -/
-noncomputable def PresentedTL (R : Type u) [CommRing R] (δ : R) (n : ℕ) : Type u := sorry
-
 section Algebras
 
 variable (R : Type u) [CommRing R] (δ : R)
@@ -583,21 +603,34 @@ theorem commute_e_of_far {n : ℕ} (i j : Fin n)
     (h : (i : ℕ) + 1 < j ∨ (j : ℕ) + 1 < i) :
     Commute (e R δ i) (e R δ j) := sorry
 
-noncomputable instance {n : ℕ} : Ring (PresentedTL R δ n) := sorry
-noncomputable instance {n : ℕ} : Algebra R (PresentedTL R δ n) := sorry
+/-- **The presentation theorem**: the diagram algebra is Tau Ceti's presented algebra
+`TauCeti.TemperleyLieb R δ n` (the free algebra on `Fin (n - 1)` modulo the Jones relations,
+with universal property `TauCeti.TemperleyLieb.lift`). There is no second presentation here. The
+proof forces the Jones normal form for reduced words and consumes the Catalan count through
+`diagBasis`. -/
+noncomputable def presentedTLEquiv (n : ℕ) :
+    TauCeti.TemperleyLieb R δ n ≃ₐ[R] TLAlg R δ n := sorry
 
-/-- **The presentation theorem**: the diagram algebra is the abstractly presented one. The
-proof forces the Jones normal form for reduced words and consumes the Catalan count. -/
-noncomputable def presentedTLEquiv (n : ℕ) : PresentedTL R δ n ≃ₐ[R] TLAlg R δ n := sorry
+/-- The generator comparison. Tau Ceti indexes the generators of the `(n + 1)`-strand algebra by
+`Fin (n + 1 - 1)`, which is `Fin n` by reduction, so the native `e δ i` and this roadmap's
+`e R δ i` carry the same index. -/
+theorem presentedTLEquiv_e {n : ℕ} (i : Fin n) :
+    presentedTLEquiv R δ (n + 1) (TauCeti.TemperleyLieb.e δ i) = e R δ i := sorry
 
 /-- The presented algebra lives in the universe of `R`, as `TLAlg` does (at `n = 0` it is `R`
 itself). -/
-noncomputable example (R : Type 1) [CommRing R] (δ : R) (n : ℕ) : PresentedTL R δ n ≃ₐ[R] TLAlg R δ n :=
+noncomputable example (R : Type 1) [CommRing R] (δ : R) (n : ℕ) :
+    TauCeti.TemperleyLieb R δ n ≃ₐ[R] TLAlg R δ n :=
   presentedTLEquiv R δ n
 
 /-- The tower inclusion (add a through-strand on the right), injective for every `R` and
 `δ`. -/
 noncomputable def incl {n : ℕ} : TLAlg R δ n →ₐ[R] TLAlg R δ (n + 1) := sorry
+
+/-- **Tower compatibility**: the comparison intertwines Tau Ceti's `strandIncl` with `incl`. -/
+theorem presentedTLEquiv_strandIncl {n : ℕ} (x : TauCeti.TemperleyLieb R δ (n + 1)) :
+    presentedTLEquiv R δ (n + 2) (TauCeti.TemperleyLieb.strandIncl x)
+      = incl R δ (presentedTLEquiv R δ (n + 1) x) := sorry
 
 theorem incl_injective (n : ℕ) :
     Function.Injective (incl R δ (n := n)) := sorry
@@ -641,6 +674,15 @@ theorem markovTrace_unique (tr : ∀ n, TLAlg R δ n →ₗ[R] R)
     (hmarkov : ∀ n (x : TLAlg R δ (n + 1)),
       tr (n + 2) (incl R δ x * e R δ (Fin.last n)) = tr (n + 1) x) :
     ∀ n, tr n = diagTrace R δ n := sorry
+
+/-- **Comparison with Tau Ceti's spin-model trace.** `TauCeti.TemperleyLieb.markovTrace q hδ`
+is defined for `δ = -(q + q⁻¹)`, so in this roadmap's convention `δ = q' + q'⁻¹` it is the case
+`q = -q'`. Along `presentedTLEquiv` it is `diagTrace`; the intended proof is
+`markovTrace_unique`. `diagTrace` itself is defined for every `δ`. -/
+theorem diagTrace_presentedTLEquiv (q : Rˣ) (hδ : δ = -((q : R) + ((q⁻¹ : Rˣ) : R))) (n : ℕ)
+    (x : TauCeti.TemperleyLieb R δ n) :
+    diagTrace R δ n (presentedTLEquiv R δ n x) = TauCeti.TemperleyLieb.markovTrace q hδ x :=
+  sorry
 
 end Algebras
 
@@ -950,10 +992,11 @@ universe v u₁
 variable (S : Type*) [CommRing S]
 variable (C : Type u₁) [Category.{v} C]
 
-/-! The source structures for the two monoidal instances are binders of each declaration, not
-section variables. A definition keeps only the section variables its type or value uses, and a
-`sorry` value uses none, so section-variable hypotheses would silently drop out. The `Karoubi`
-instance would then claim a tensor unit on the envelope of the empty category, which is empty. -/
+/-! The source structures for the monoidal instances, here and on the quotient below, are binders
+of each declaration, not section variables. A definition keeps only the section variables its type
+or value uses, and a `sorry` value uses none, so section-variable hypotheses would silently drop
+out. The `Karoubi` instance would then claim a tensor unit on the envelope of the empty category,
+which is empty, and the quotient's tensor would lose the additivity it needs to descend. -/
 
 /-- **Reusable infrastructure, not `TL`-specific**: the monoidal structure induced on the
 additive envelope, lifting the tensor product of `C` bilinearly to matrices. Nothing in Mathlib
@@ -973,7 +1016,7 @@ noncomputable instance [MonoidalCategory C] : MonoidalCategory (Karoubi C) := so
 lift of those of `C`. -/
 noncomputable instance [MonoidalCategory C] : (toKaroubi C).Monoidal := sorry
 
-variable [Preadditive C] [MonoidalCategory C] [MonoidalPreadditive C]
+variable [Preadditive C] [MonoidalCategory C]
 
 /-- The `S`-linear structures likewise: Layer 7 promises a `K`-linear fusion category, and a
 monoidal instance alone does not give one. -/
@@ -984,19 +1027,22 @@ noncomputable instance [CategoryTheory.Linear S C] :
 
 /-- Rigidity descends too; this is what lets Layer 7 speak of duals and quantum dimensions in
 the envelope at all. -/
-noncomputable instance [RigidCategory C] : RigidCategory (Karoubi (Mat_ C)) := sorry
+noncomputable instance [MonoidalPreadditive C] [RigidCategory C] :
+    RigidCategory (Karoubi (Mat_ C)) := sorry
 
 variable [CategoryTheory.Linear S C]
 
 /-- Extension of an ideal along the additive envelope, and along the idempotent completion.
 Layer 6 builds `negligibleIdeal` inside `TLCat`; the quotient below is taken in
 `Karoubi (Mat_ TLCat)`, and the passage between them is not automatic. -/
-noncomputable def MonoidalIdeal.mat (I : MonoidalIdeal S C) : MonoidalIdeal S (Mat_ C) := sorry
+noncomputable def MonoidalIdeal.mat [MonoidalPreadditive C] (I : MonoidalIdeal S C) :
+    MonoidalIdeal S (Mat_ C) := sorry
 
 noncomputable def MonoidalIdeal.karoubi (I : MonoidalIdeal S C) :
     MonoidalIdeal S (Karoubi C) := sorry
 
-/-- **The quotient.** Mathlib has general categorical quotients but no monoidal quotient. -/
+/-- **The quotient.** Mathlib has general categorical quotients but no monoidal quotient. The
+carrier and its additive and `S`-linear structure need no hypothesis on the tensor. -/
 def MonoidalQuotient (I : MonoidalIdeal S C) : Type u₁ := sorry
 
 noncomputable instance (I : MonoidalIdeal S C) : Category.{v} (MonoidalQuotient S C I) := sorry
@@ -1004,17 +1050,54 @@ noncomputable instance (I : MonoidalIdeal S C) :
     Preadditive (MonoidalQuotient S C I) := sorry
 noncomputable instance (I : MonoidalIdeal S C) :
     CategoryTheory.Linear S (MonoidalQuotient S C I) := sorry
-noncomputable instance (I : MonoidalIdeal S C) :
-    MonoidalCategory (MonoidalQuotient S C I) := sorry
 
-/-- The quotient functor, full and identity-on-objects, killing exactly `I`. -/
+/-- The quotient functor, identity on objects and full, killing exactly `I`. -/
 noncomputable def toMonoidalQuotient (I : MonoidalIdeal S C) :
     C ⥤ MonoidalQuotient S C I := sorry
+
+theorem toMonoidalQuotient_obj_surjective (I : MonoidalIdeal S C) :
+    Function.Surjective (toMonoidalQuotient S C I).obj := sorry
+
+instance (I : MonoidalIdeal S C) : (toMonoidalQuotient S C I).Full := sorry
+
+instance (I : MonoidalIdeal S C) : (toMonoidalQuotient S C I).Additive := sorry
+
+instance (I : MonoidalIdeal S C) : (toMonoidalQuotient S C I).Linear S := sorry
+
+theorem toMonoidalQuotient_map_eq_zero_iff (I : MonoidalIdeal S C) {X Y : C} (f : X ⟶ Y) :
+    (toMonoidalQuotient S C I).map f = 0 ↔ f ∈ I.submod X Y := sorry
+
+/-! The tensor descends only for a monoidal preadditive `C`: ideal closure gives
+`W ◁ (f - g) ∈ I` from `f - g ∈ I`, and descent needs `W ◁ f - W ◁ g ∈ I`, which is the same
+morphism exactly when whiskering is additive. Without it the tensor need not descend. Take the
+`ℤ`-linear category with objects `ℕ`, `End n = ℤ` and no other nonzero morphisms, with tensor
+`n + m` on objects and `f ⊗ g = f ^ (2 ^ m) * g ^ (2 ^ n)` on endomorphisms, and the ideal
+`I (n, n) = 3 ^ (2 ^ n) ℤ`, which satisfies every field of `MonoidalIdeal`. Then `1 = 4` in
+`End 0 / I = ℤ/3`, while whiskering by `1` gives `1 ≠ 16` in `End 1 / I = ℤ/9`.
+
+So `[MonoidalPreadditive C]` is a binder of the tensor and of the strong monoidal structure of
+`toMonoidalQuotient`, which together specify the tensor as the descended one: `toMonoidalQuotient`
+is full and surjective on objects, so its comparison `μ` determines the tensor of the quotient up
+to isomorphism, on objects and on morphisms. `[MonoidalLinear S C]` is a binder where the
+`S`-linear tensor is promised. -/
+
+noncomputable instance [MonoidalPreadditive C] (I : MonoidalIdeal S C) :
+    MonoidalCategory (MonoidalQuotient S C I) := sorry
+
+/-- The quotient functor is strong monoidal, so the tensor above is the one descended from `C`. -/
+noncomputable instance [MonoidalPreadditive C] (I : MonoidalIdeal S C) :
+    (toMonoidalQuotient S C I).Monoidal := sorry
+
+instance [MonoidalPreadditive C] (I : MonoidalIdeal S C) :
+    MonoidalPreadditive (MonoidalQuotient S C I) := sorry
+
+instance [MonoidalPreadditive C] [MonoidalLinear S C] (I : MonoidalIdeal S C) :
+    MonoidalLinear S (MonoidalQuotient S C I) := sorry
 
 /-- Rigidity descends. So do the pivotal, spherical, braided and ribbon structures, against the
 pivotal and spherical categories roadmap's definitions; those are companion targets whose Lean
 form waits on that roadmap, and `README.md` is definitive for them. -/
-noncomputable instance (I : MonoidalIdeal S C) [RigidCategory C] :
+noncomputable instance [MonoidalPreadditive C] (I : MonoidalIdeal S C) [RigidCategory C] :
     RigidCategory (MonoidalQuotient S C I) := sorry
 
 /-! ⚠ There is deliberately **no** instance `IsIdempotentComplete (MonoidalQuotient S C I)` here,
