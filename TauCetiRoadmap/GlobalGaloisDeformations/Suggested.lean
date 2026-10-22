@@ -1,187 +1,84 @@
 import Mathlib
-import TauCeti.RepresentationTheory.CharacterTwist
+import TauCeti.NumberTheory.Chebotarev.FrobeniusPrimeSet
+import TauCeti.NumberTheory.NumberField.FiniteGaloisIntermediateField
 
 /-!
-# GlobalGaloisDeformations: representative target signatures
+# Global Galois deformations: headline target signatures
 
-The roadmap is `README.md`. This file records representative signatures for global twisting
-and scalar frame directions, together with the formal-torus truncation relation, against the
-pinned Mathlib and Tau Ceti, and proved tests of the local definitions; it is not exhaustive. Global deformation types, universal global rings,
-Taylor–Wiles data and the finite-level patching systems use the coefficient categories and
-arithmetic suppliers named in the README. The Hecke–Galois classifying maps and point
-construction of §§6.7–6.8 use those same suppliers and the Hecke eigensystem interface of
-AutomorphicFormsOnReductiveGroups; their targets remain in the README.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones;
+discharging them finishes neither a layer nor the roadmap.
 
-LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11 and F.3.1–F.3.2 supply the generic
-lifts, strict-class functors, representability and local-condition interface. Layer F
-specializes the complete-local coproduct, relative presentation algebra
-and continuous framed matrix ring of DeformationAndDerivedPatchingAlgebra §1.12 and §§2.1–2.7.
-The twisting signatures here take matrix homomorphisms directly; continuity and preservation
-of reduction are explicit hypotheses of their compatibility theorems.
+The dyadic twisting freeness theorem of §4.10 is stated on Mathlib's matrix groups and
+local residue fields. The matrix twist has a real body. The freeness statement is algebraic:
+it applies to all local coefficient rings with finite residue field of characteristic two,
+so in particular to every complete Noetherian coefficient object of the roadmap.
+The shared Chebotarev selection theorem of §5.6 uses native finite Galois subextensions,
+Frobenius prime sets and residue degrees. Its detection and padding hypotheses are explicit;
+Selmer-theoretic applications supply the cohomology spaces and localization maps.
+
+The representability, tangent and obstruction comparisons, presentations and dimension bounds
+(§§3.4, 3.6–3.8, 7.2–7.4, 8.2–8.4), ring-level restriction and twisting (§§4.2–4.4),
+Taylor–Wiles diamond quotients and generator counts (§§5.4–5.5, 5.8, 8.5), odd and dyadic
+finite-level systems (§§6.2–6.4, 6.6), and ACC presentation (§8.7) require the coefficient
+categories, local deformation problems, global deformation rings and framed Selmer complexes
+specified by the README's suppliers. These objects are absent at the pins. The formal quotient
+and determinant torsor (§§4.6–4.7, 4.11) also require formal group actions and torsors on complete
+local affine functors. The dyadic Kummer disjointness and auxiliary-prime theorems (§§5.3,
+5.7, 8.6) require restricted-ramification cohomology, its field-cutting and localization
+maps, and the residual-image interfaces; the polarized branch additionally requires the CHT
+group. The Hecke–Galois comparison and point construction (§§6.7–6.8) require unframed
+representing rings and continuous determinant laws. These headline signatures await those
+objects; Mathlib's ring and matrix carriers alone do not state them.
 -/
 
 namespace TauCetiRoadmap.GlobalGaloisDeformations
 
-open Matrix
+open Matrix IsDedekindDomain
+open NumberField.Chebotarev
+open scoped NumberField
 
-/-! ## Layer R04.3: Global presentations -/
-
-/-- The cokernel of the diagonal scalar map `k → k^m`: the degree-zero frame directions of the
-framed complex in rank one (README 3.6). -/
-abbrev scalarFrameCokernel (k : Type*) [Field k] (m : ℕ) : Type _ :=
-  (Fin m → k) ⧸ LinearMap.range (LinearMap.pi fun _ : Fin m ↦ (LinearMap.id : k →ₗ[k] k))
-
-/-- Nonempty rank-one framing sets leave one fewer scalar frame direction than frames
-(README 3.6, `relTangent_count_rank_one`). The dimension identity is in the integers. -/
-theorem scalarFrameCokernel_finrank (k : Type*) [Field k] (m : ℕ) (hm : 0 < m) :
-    (Module.finrank k (scalarFrameCokernel k m) : ℤ) = (m : ℤ) - 1 := by
-  sorry
-
-/-! ## Layer R04.4: Restriction, twists and changes of problem -/
-
-section Twist
-
-variable {G : Type*} [Group G]
-variable {A : Type*} [CommRing A] (n : ℕ)
-
-/-- The matrix homomorphism of the twist `χ ⊗ ρ` (README 4.4, 4.9).
-The coefficient and residual conditions are recorded in `twist_continuous` and `twist_reduce`. -/
-def twist (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) : G →* GL (Fin n) A :=
+/-- The matrix representation obtained by twisting by a character (§§4.4, 4.10). -/
+def twist {G : Type*} [Group G] {A : Type*} [CommRing A] (n : ℕ)
+    (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) : G →* GL (Fin n) A :=
   ((Matrix.GeneralLinearGroup.scalar (Fin n)).noncommCoprod (MonoidHom.id _)
     fun u M ↦ Matrix.GeneralLinearGroup.scalar_commute u M).comp (χ.prod ρ)
 
-/-- Twisting matrix homomorphisms by a character is bijective, with inverse given by the
-inverse character (README 4.4). -/
-theorem twist_bijective (χ : G →* Aˣ) : Function.Bijective (twist n χ) := by
+/-- Dyadic twisting has trivial stabilizers when the residual rank-two image is nonsolvable
+(§4.10; Khare–Wintenberger, Lemma 5.1, pp. 46–47). A residually trivial character whose twist
+is strictly conjugate to the original representation must be trivial. -/
+theorem character_eq_one_of_dyadic_self_twist
+    {G : Type*} [Group G] {A : Type*} [CommRing A] [IsLocalRing A]
+    [Finite (IsLocalRing.ResidueField A)] [CharP (IsLocalRing.ResidueField A) 2]
+    (ρ : G →* GL (Fin 2) A)
+    (himage : ¬ Group.IsSolvable
+      (((Matrix.GeneralLinearGroup.map (IsLocalRing.residue A)).comp ρ).range))
+    (χ : G →* Aˣ) (hχ : ∀ g, IsLocalRing.residue A (χ g) = 1)
+    (U : GL (Fin 2) A) (hU : Matrix.GeneralLinearGroup.map (IsLocalRing.residue A) U = 1)
+    (hconj : ∀ g, twist 2 χ ρ g = U * ρ g * U⁻¹) :
+    χ = 1 := by
   sorry
 
-/-- Twisting in rank `n` multiplies the determinant by the `n`-th power of the character
-(README 4.4 and 4.9). -/
-theorem det_twist (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) (g : G) :
-    (twist n χ ρ g : Matrix (Fin n) (Fin n) A).det =
-      ((χ g : Aˣ) : A) ^ n * (ρ g : Matrix (Fin n) (Fin n) A).det := by
+/-- Shared Chebotarev selection for Selmer detection (§5.6): detecting Frobenius classes and
+an admissible padding class give exactly `q` admissible primes outside any finite avoidance set,
+all of absolute residue degree one, whose joint localization is injective. -/
+theorem exists_primes_jointly_injective
+    {F : Type*} [Field F] [NumberField F]
+    {k H : Type*} [Field k] [AddCommGroup H] [Module k H] [FiniteDimensional k H]
+    {M : HeightOneSpectrum (𝓞 F) → Type*}
+    [∀ v, AddCommGroup (M v)] [∀ v, Module k (M v)]
+    (loc : ∀ v, H →ₗ[k] M v) (admissible : Set (HeightOneSpectrum (𝓞 F)))
+    (detect : ∀ c : H, c ≠ 0 →
+      ∃ (L : FiniteGaloisIntermediateField F (AlgebraicClosure F))
+        (C : ConjClasses (L ≃ₐ[F] L)) (E : Finset (HeightOneSpectrum (𝓞 F))),
+        ∀ v ∈ frobeniusPrimeSet F L C, v ∉ E → v ∈ admissible ∧ loc v c ≠ 0)
+    (padding : ∃ (L : FiniteGaloisIntermediateField F (AlgebraicClosure F))
+      (C : ConjClasses (L ≃ₐ[F] L)) (E : Finset (HeightOneSpectrum (𝓞 F))),
+      ∀ v ∈ frobeniusPrimeSet F L C, v ∉ E → v ∈ admissible)
+    (B : Finset (HeightOneSpectrum (𝓞 F))) (q : ℕ) (hq : Module.finrank k H ≤ q) :
+    ∃ Q : Finset (HeightOneSpectrum (𝓞 F)), Q.card = q ∧ Disjoint Q B ∧
+      (∀ v ∈ Q, v ∈ admissible ∧ v.asIdeal.inertiaDeg ℤ = 1) ∧
+      Function.Injective (fun c : H ↦ fun v : Q ↦ loc v.1 c) := by
   sorry
-
-/-- The twist has matrices `χ(g) • ρ(g)`. -/
-theorem twist_apply (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) (g : G) :
-    (twist n χ ρ g : Matrix (Fin n) (Fin n) A) =
-      ((χ g : Aˣ) : A) • (ρ g : Matrix (Fin n) (Fin n) A) := by
-  show ((Matrix.GeneralLinearGroup.scalar (Fin n) (χ g) * ρ g : GL (Fin n) A) :
-    Matrix (Fin n) (Fin n) A) = _
-  simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.smul_eq_diagonal_mul]
-
-/-- On the standard module, the matrix twist gives the library character twist (README 4.4). -/
-theorem twist_charTwist (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) :
-    (Units.coeHom (Module.End A (Fin n → A))).comp
-        (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp (twist n χ ρ)) =
-      Representation.charTwist χ
-        ((Units.coeHom (Module.End A (Fin n → A))).comp
-          (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp ρ)) := by
-  apply MonoidHom.ext
-  intro g
-  apply LinearMap.ext
-  intro v
-  change (twist n χ ρ g : Matrix (Fin n) (Fin n) A) *ᵥ v =
-    ((χ g : Aˣ) : A) • ((ρ g : Matrix (Fin n) (Fin n) A) *ᵥ v)
-  rw [twist_apply, Matrix.smul_mulVec]
-
-/-- Continuous characters and representations give a twist with continuous matrix entries. -/
-theorem twist_continuous [TopologicalSpace G] [TopologicalSpace A] [IsTopologicalRing A]
-    (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A)
-    (hc : Continuous fun g ↦ ((χ g : Aˣ) : A))
-    (hρ : Continuous fun g ↦ (ρ g : Matrix (Fin n) (Fin n) A)) :
-    Continuous fun g ↦ (twist n χ ρ g : Matrix (Fin n) (Fin n) A) := by
-  have h : (fun g ↦ (twist n χ ρ g : Matrix (Fin n) (Fin n) A)) = fun g ↦
-      Matrix.diagonal (fun _ ↦ ((χ g : Aˣ) : A)) * (ρ g : Matrix (Fin n) (Fin n) A) := by
-    funext g
-    rw [twist_apply, Matrix.smul_eq_diagonal_mul]
-  rw [h]
-  exact (Continuous.matrix_diagonal (continuous_pi fun _ ↦ hc)).matrix_mul hρ
-
-/-- A residually trivial character preserves the residual representation. -/
-theorem twist_reduce {k : Type*} [Field k] (π : A →+* k) (ρbar : G →* GL (Fin n) k)
-    (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) (hχ : ∀ g, π (χ g) = 1)
-    (hρ : (Matrix.GeneralLinearGroup.map π).comp ρ = ρbar) :
-    (Matrix.GeneralLinearGroup.map π).comp (twist n χ ρ) = ρbar := by
-  refine Eq.trans ?_ hρ
-  ext g : 1
-  show Matrix.GeneralLinearGroup.map π (Matrix.GeneralLinearGroup.scalar (Fin n) (χ g) *
-    ρ g) = Matrix.GeneralLinearGroup.map π (ρ g)
-  have h1 : Units.map (π : A →* k) (χ g) = 1 := Units.ext (by simp [hχ g])
-  rw [map_mul, Matrix.GeneralLinearGroup.map_scalar]
-  simp [h1]
-
-/-- The trace step of the freeness argument: `tr (χ ⊗ ρ)(g) = χ(g) · tr ρ(g)`. -/
-theorem trace_twist (χ : G →* Aˣ) (ρ : G →* GL (Fin n) A) (g : G) :
-    (twist n χ ρ g : Matrix (Fin n) (Fin n) A).trace =
-      ((χ g : Aˣ) : A) * (ρ g : Matrix (Fin n) (Fin n) A).trace := by
-  rw [twist_apply, Matrix.trace_smul, smul_eq_mul]
-
-end Twist
-
-/-! ## Layer R04.4: Formal-torus truncation -/
-
-/-- The `p^m`-torsion equation vanishes to order at least `m + 1` in the special-fibre
-identity ideal, giving the truncation relation of README 4.5. -/
-theorem diagonalizable_truncation_relation (p m : ℕ) (hp : p.Prime) :
-    ((1 + Polynomial.X) ^ (p ^ m) - 1 : Polynomial ℤ) ∈
-      (Ideal.span {(p : Polynomial ℤ), Polynomial.X}) ^ (m + 1) := by
-  sorry
-
-/-! ## Definition tests -/
-
-section Examples
-
-variable {G : Type*} [Group G] {k : Type*} [Field k]
-
-/-- `twist_trivial`: the trivial character fixes each matrix homomorphism (README 4.4). -/
-example (n : ℕ) {A : Type*} [CommRing A] (ρ : G →* GL (Fin n) A) :
-    twist n (1 : G →* Aˣ) ρ = ρ := by
-  ext g : 1
-  show Matrix.GeneralLinearGroup.scalar (Fin n) 1 * ρ g = ρ g
-  simp
-
-/-- Rank-one framed complex: two frames leave one scalar frame direction, `k²/diag(k)`. -/
-example : Module.finrank k (scalarFrameCokernel k 2) = 1 := by
-  unfold scalarFrameCokernel
-  have hi : Function.Injective
-      (LinearMap.pi fun _ : Fin 2 ↦ (LinearMap.id : k →ₗ[k] k)) :=
-    fun _ _ h ↦ congrFun h 0
-  have hr := LinearMap.finrank_range_of_inj hi
-  have hd := (LinearMap.range
-    (LinearMap.pi fun _ : Fin 2 ↦ (LinearMap.id : k →ₗ[k] k))).finrank_quotient_add_finrank
-  simp only [Module.finrank_self] at hr
-  rw [hr, Module.finrank_fin_fun] at hd
-  omega
-
-/-- No frames: no frame directions, while every scalar stays in the kernel of the boundary. -/
-example : Module.finrank k (scalarFrameCokernel k 0) = 0 := by
-  unfold scalarFrameCokernel
-  have hd := (LinearMap.range
-    (LinearMap.pi fun _ : Fin 0 ↦ (LinearMap.id : k →ₗ[k] k))).finrank_quotient_add_finrank
-  rw [Module.finrank_fin_fun] at hd
-  omega
-
-end Examples
-
-/-!
-Definitions specified in the README using the arithmetic and coefficient-category suppliers:
-`DeformationType`, `TFramedDef`, `Rloc`, `locToGlobal`, `resRing`, `DiagGroup`, `RdetOnS`,
-`detMap`, `twistAction`, `TaylorWilesDatum`, `IsCyclotomicAbsIrred`, `HasBigImage`,
-`HasNonsolvableImage`, `KWDeformationData`, `TWSystem`, `DyadicPatchingDatum`,
-`GlobalDeformationProblem`, `PolarizedDeformationProblem`, `HeckeGaloisDatum`.
-The Taylor–Wiles interface has `TaylorWilesDatum.deltaAlgebraMap`,
-`TaylorWilesDatum.ker_eq_augmentation`, `TaylorWilesDatum.generatorCount` and
-`TaylorWilesDatum.exists_extension_split`; `TWSystem` uses this same datum at every level.
-The Hecke–Galois targets are `HeckeGaloisDatum.classifying_surjective`,
-`HeckeGaloisDatum.classifying_unique`, `HeckeGaloisDatum.ofPoints` and
-`HeckeGaloisDatum.mem_of_points`. Their statements use unframed deformation rings,
-compatible residual identifications and the invariant local-condition ideals.
-
-LocalGaloisDeformationRings Layer F supplies `Lift`, `Def`, `ModDef`, `ModDefFramed`, `DetDef`,
-`PseudoDefRing`, `univLift`, `DeformationProblem`, `TFramedLift`, `UnrestrictedTFramedDef`,
-`IsSchur`, `PhiP`, `isSchur_baseChange`, `phiP_iff_fg`, and inertia-rigid deformation rings
-at §§F.1.1–F.1.10, F.2.1–F.2.11, F.3.1–F.3.2 and F.4.12.
--/
 
 end TauCetiRoadmap.GlobalGaloisDeformations

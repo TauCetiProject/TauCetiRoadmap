@@ -384,13 +384,14 @@ exists before its dimension is computed. Targets 6.7–6.8 use the unframed
 representability and local-condition quotients of R04.3 and LocalGaloisDeformationRings Layer F.
 
 `README.md` is normative. `Suggested.lean`, in the namespace
-`TauCetiRoadmap.GlobalGaloisDeformations`, records the light definitions whose carriers exist at the
-pinned Mathlib and Tau Ceti (twisting matrix homomorphisms and the scalar frame cokernel),
-a few theorem signatures statable against them, and discriminating `example`s. A `*Lean:*` line
-identifies the local prototypes or the supplier prototypes named there. Proved examples test
-matrix twisting and the scalar frame cokernel; the other Checks are README specifications. Global types,
-Taylor–Wiles data and the patching systems use the coefficient categories and arithmetic suppliers
-above. Generic lifts, strict conjugation and strict classes, coefficient pushforward, restriction,
+`TauCetiRoadmap.GlobalGaloisDeformations`, states the dyadic twisting freeness theorem
+`character_eq_one_of_dyadic_self_twist` of 4.10, using the matrix representation `twist`,
+and the shared Chebotarev selection theorem `exists_primes_jointly_injective` of 5.6.
+The global presentations and dimension bounds, formal torsors, Selmer-theoretic auxiliary-prime
+applications, finite-level Taylor–Wiles systems and Hecke–Galois comparisons require deformation
+rings, coefficient categories and arithmetic objects absent at the pins; their statements are
+specified below. The API lists name mathematical targets, and the Checks specify their tests.
+Generic lifts, strict conjugation and strict classes, coefficient pushforward, restriction,
 the Schur predicate, `Φ_p`, framed lifts and their unrestricted quotient are supplied by
 LocalGaloisDeformationRings Layer F.
 
@@ -548,10 +549,6 @@ h¹_rel = |T| − 1 − Σ_{v|∞} h⁰(G_v, M₀) + Σ_{v∈S∖T} (dim L_v^χ 
 [tangent spaces](#tangent-spaces); ArithmeticGaloisDuality R02.4, R02.5, R02.6 and D8.1;
 SelmerIwasawaCohomology §2A.3 (*Selmer and deformation tangent comparison*), §2A.4
 (*Determinant tangent fibres*) and Layer 2.
-
-*Lean:* `scalarFrameCokernel` and `scalarFrameCokernel_finrank` give the rank-one scalar
-frame count for every nonempty framing set, with the identity in `ℤ`. Two proved `example`s
-exhibit the surviving direction for two frames and the zero cokernel for no frames.
 
 **Checks.**
 
@@ -798,8 +795,8 @@ GL2ModularityLifting (KW final, Lemma 7.10 and its proof, p. 69; BLGGT, Lemma 1.
 On the standard module `Fin n → A`, transport the matrix homomorphism through
 `Matrix.GeneralLinearGroup.toLin` and the inclusion of linear automorphisms into endomorphisms.
 The representation associated to `twist n μ ρ` equals `Representation.charTwist μ` of the
-representation associated to `ρ` (`twist_charTwist`; Tau Ceti
-`Representation.charTwist_apply`, `TauCeti.RepresentationTheory.CharacterTwist`). Generic module
+representation associated to `ρ` (Tau Ceti `Representation.charTwist_apply`,
+`TauCeti.RepresentationTheory.CharacterTwist`). Generic module
 twisting uses that library API; continuous twists use ArithmeticGaloisRepresentations §1.2.
 The matrix comparison, deformation compatibility, determinant changes and induced maps of
 deformation rings belong here.
@@ -807,11 +804,6 @@ deformation rings belong here.
 *Needs:* [LocalGaloisDeformationRings §F.2.9](../LocalGaloisDeformationRings/README.md#fixed-determinant-rings); [LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors);
 [LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); ArithmeticGaloisDuality R02.6;
 Tau Ceti `TauCeti.RepresentationTheory.CharacterTwist`; ArithmeticGaloisRepresentations §1.2.
-
-*Lean:* `twist`, `twist_bijective` and `det_twist` give the matrix twisting bijection and its
-determinant formula in every rank. `twist_apply`, `twist_charTwist`, `twist_continuous` and
-`twist_reduce` give the matrix, module, continuity and reduction compatibilities; the proved
-trivial-character `example` tests the identity twist.
 
 **Checks.**
 
@@ -854,9 +846,6 @@ for the ordinary character functor before completion at the identity.
   truncation isomorphism.
 - **diagGroup_prime_to_p_trivial.** for `a = ℤ/ℓ` with `ℓ ≠ p`, `Hom(a, 1 + 𝔪_A)` is trivial for Artinian
   `A`, since `1 + 𝔪_A` is a `p`-group; this is why prime-to-`p` torsion is excluded.
-
-*Lean:* `diagonalizable_truncation_relation` states
-`(1 + X)^{pᵐ} − 1 ∈ (p, X)^{m+1}` in `ℤ[X]` for every prime `p` and `m ≥ 0`.
 
 <a id="free-action-quotient"></a>
 
@@ -983,9 +972,6 @@ The API:
 *Needs:* [4.5](#diagonalizable-groups); [4.8](#determinant-fixed-on-S);
 [3.3](#global-deformation-type); [LocalGaloisDeformationRings §F.2.6](../LocalGaloisDeformationRings/README.md#framed-unframed-comparison); `ClassFieldTheory` Layer 12.
 
-*Lean:* `twist`, `twist_apply`, `trace_twist` and `det_twist` give the matrix, trace and
-determinant formulas, with the rank-two determinant change obtained by taking `n = 2`.
-
 **Checks.**
 
 - **twistAction_one.** the trivial character acts as the identity.
@@ -1007,6 +993,11 @@ nonsolvable-image hypothesis cannot be dropped: induced representations have sel
 *Proof sketch.* If `χ ⊗ ρ` is strictly conjugate to `ρ`, comparing traces gives
 `(χ(g) − 1) tr ρ(g) = 0` for all `g`; apply the residual trace argument of KW Lemma 5.1 to every
 nonzero character direction, using the nonsolvability of the residual image.
+
+*Lean:* `character_eq_one_of_dyadic_self_twist` in `Suggested.lean` states triviality of
+these stabilizers using `Matrix.GeneralLinearGroup` and `IsLocalRing.residue`. It applies
+to every local ring with finite residue field of characteristic two; completeness and
+continuity are not needed for this algebraic freeness statement.
 
 *Needs:* [4.9](#twisting-action); [4.6](#free-action-quotient); [LocalGaloisDeformationRings §F.1.3](../LocalGaloisDeformationRings/README.md#strict-deformation-functor);
 ArithmeticGaloisRepresentations Layer 4.
@@ -1347,10 +1338,15 @@ the new dual Selmer group; the ramified primes of auxiliary fields are put in `B
 conclusion is the input of ArithmeticGaloisDuality R02.6, *The conditional dual-Selmer killing
 calculation* (ACC published, Lemma 6.2.32, proof, printed pp. 1045–1046, PDF pp. 149–150).
 
-*Proof sketch.* Induct on the dimension of the current joint kernel: choose a nonzero class in it and a
-prime in its detecting class outside `B` and the primes already chosen (Chebotarev density, `Chebotarev`
+*Proof sketch.* Induct on the dimension of the joint kernel of the selected localizations:
+choose a nonzero class in it and a prime in its detecting class outside `B` and the primes already chosen (Chebotarev density, `Chebotarev`
 Layer 10, with the higher-degree discard of 11.3(2) for residue degree one); the kernel drops. Then
 pad with primes from the padding class.
+
+*Lean:* `exists_primes_jointly_injective` in `Suggested.lean` states this selection theorem
+using finite Galois subextensions and `NumberField.Chebotarev.frobeniusPrimeSet`. The
+localization maps are linear maps of finite-dimensional spaces; each application supplies
+the detecting classes and admissible padding class specified above.
 
 *Needs:* ArithmeticGaloisDuality R02.6; `Chebotarev` Layer 10 and 11.3(2).
 
@@ -1360,7 +1356,7 @@ pad with primes from the padding class.
   without the padding hypothesis it could not.
 - **selection_independent_coordinates.** two coordinate localizations on `(ℤ/3)²` have zero joint kernel.
 - **selection_repeated_fails.** repeating one localization twice cannot kill a two-dimensional `H`; the
-  induction must choose a prime detecting a class in the current kernel.
+  induction must choose a prime detecting a class in the joint kernel.
 
 <a id="odd-taylor-wiles-primes"></a>
 
