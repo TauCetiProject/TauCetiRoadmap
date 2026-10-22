@@ -89,7 +89,7 @@ Tau Ceti also supplies `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf` in `Ta
 
 Layer 0 uses the tensor–torsor dictionary and the representative groupoid supplied by RelativeFarguesFontaine §7.0 and VStackSheavesAndLisseCategories §VS4.0, and adds rational filtered theory and pure inner twisting. Layer 1 develops arithmetic classification, `J_b`, decency and acceptable, ordinary and torus-special classes using the supplied invariant maps and order. Layer 2 uses the supplied bundle stack and geometric classification to prove uniformization, Newton topology and descent for isocrystal families. Layer 3 records the supplied HN, automorphism and flag-stratum APIs, develops filtered relative group schemes and computes stratum dimensions and connected components. Layer 4 records the supplied filtered charts and identifies their images with Newton-order down-sets.
 
-Each target states its hypotheses, its proof route with sources, the API a reusable formalization needs, and its Checks. The API names below specify the library to be built. `Suggested.lean` contains no theorem statements: the headline results need arithmetic Newton and Kottwitz maps, relative filtered fibre functors, the relative curve with its bundle categories, or v-stack and Banach–Colmez carriers absent from the pinned libraries. Its module docstring identifies these missing objects by layer. The Witt rank-one classification is supplied by Mathlib and appears here as a Check.
+Each target states its hypotheses, its proof route with sources, the API a reusable formalization needs, and its Checks. The API names below specify the library to be built. `Suggested.lean` states the matrix/isocrystal correspondence and the arithmetic Newton classification for `GL_n` over the Witt fraction field, using Mathlib’s native matrices and isocrystals. The latter includes the existence of decent representatives. Its module docstring identifies the missing objects for the general reductive and geometric headline results. The Witt rank-one classification is supplied by Mathlib and is a specialization of the general-rank statement.
 
 ## Layer 0: `G`-bundles, `G`-isocrystals and the set B(G)
 
@@ -236,6 +236,8 @@ Use the supplied `SigmaClass`, extending the `p`-adic quotient of PadicHodgeTheo
 *Supplied construction.* Twisted conjugation is a group action, so its orbit relation is an equivalence relation. The change-of-trivialization formula of [§0.5](#g-isocrystals-and-B-of-G) identifies the quotient with isomorphism classes of `G`-isocrystals.
 
 *Remark.* Both `g b σ(g)^−1` and `g^−1 b σ(g)` conventions give the same orbit relation.
+
+For `GL_n` over `K = FractionRing (WittVector p k)`, with `k` any perfect field of characteristic `p`, `wittGL_isocrystal_classes` in `Suggested.lean` states the correspondence on native `Matrix.GeneralLinearGroup` and `WittVector.Isocrystal` carriers. Every n-dimensional isocrystal is isomorphic to `(Kⁿ, bσ)`, and the matrices giving its isomorphism class are exactly the `σ`-conjugates of `b`. The concrete structure `wittGLIsocrystal` composes coefficient Frobenius with the matrix action; `wittGLSigmaSetoid` uses the displayed conjugacy convention.
 
 The API:
 
@@ -651,6 +653,8 @@ The map `(ν,κ):B(G)→N(G)×π_1(G)_Γ` is injective. For basic classes, `κ` 
 
 *Remark.* Quadratic norm-one torus gives equal `ν` and unequal `κ`.
 
+For `GL_n` over the Witt fraction field with algebraically closed `k`, `wittGL_newton_classification` in `Suggested.lean` states a bijection from the actual `σ`-class quotient to `WittGLNewtonPolygon n`: descending rational tuples whose reduced denominators divide their slope multiplicities. The predicate `wittGLHasNewtonSlopes` identifies its value on `b` by a basis and a positive Frobenius power `Φ_b^r(e_i) = p^{a_i} e_i`, with `a_i = rν_i`. Thus every admissible tuple occurs and two matrices have the same tuple exactly when they are `σ`-conjugate. For `GL_n`, `κ` is the integral sum of these slopes; the basic classes are the constant tuples, giving the basic bijection with `ℤ` in positive rank.
+
 Source: [Kot97](#ref-kot97), Section 4.13 pp. 274–275 (injectivity), Section 4.4 pp. 268–269 (basic bijection), and Section 5.1 pp. 278–280; [KMPS](#ref-kmps), 1.1.2.3 pp. 6–7; [He16](#ref-he16), §2.2 p. 22; §2.4, Theorem 2.6 pp. 25–26; [Kot14](#ref-kot14), §13.1–13.3 and Proposition 13.1 pp. 65–66.
 
 *Needs:* [§1.8 Newton and Kottwitz invariants](#newton-and-kottwitz-maps); [§1.10 Straight Weyl comparison with B(G)](#straight-weyl-classification); ReductiveGroups Layer 7 (structure theory).
@@ -664,6 +668,8 @@ Every class of `B(G)` has a decent representative for some sufficiently divisibl
 *Proof outline.* Use HV20, Lemma 5.2, for the general local-field statement. Its proof reduces the class, inside its Newton centralizer, to a basic class and chooses a length-zero lift in the normalizer of the Iwahori subgroup; proving that such a decent length-zero normalizer lift exists after enlarging a positive period (HV20, `p. 906`) is part of this target, using the Iwahori–Weyl group of RG2.4. Use the integral, basic and straight-Weyl comparisons, then enlarge the period to clear the slope denominators and the finite descent period. Decency is not deduced from a bare root datum. In the `p`-adic setting of GLX, enlarge the unramified extension further so that `G` becomes quasi-split and conjugate the Newton map into the chosen dominant chamber.
 
 *Remark.* For a coprime slope `a/h` simple block choose a period divisible by `h`.
+
+The defining positive-period basis in `wittGLHasNewtonSlopes`, whose existence is part of `wittGL_newton_classification`, gives this statement for every rank over the Witt fraction field: changing to that basis makes the r-factor Frobenius norm `diag(p^{a_i})`, with integral Newton multiple `(a_i)`. No integrality of the slopes themselves is imposed.
 
 Source: [GLX](#ref-glx), Paragraph 4 after Definition 2.3 p. 819; [Kot85](#ref-kot85), Section 4.3 pp. 213–214; [HV20](#ref-hv20), §1 pp. 899–900; Lemma 5.2 and proof p. 906 (PDF p. 8).
 
