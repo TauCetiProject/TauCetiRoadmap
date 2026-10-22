@@ -92,7 +92,7 @@ Each is used with its stated hypotheses only. In particular Mathlib has no polyl
 - **RepresentationTheory**, induction and restriction, Layer 6: the ring of virtual characters and Brauer's induction theorem (every character is a `ℤ`-combination of characters induced from one-dimensional characters of elementary subgroups). L3.Fd.2 uses the version that keeps the fixed fields totally real when the kernel field is totally real.
 - **GrothendieckEulerForms**, Layers 0–2: the essentially small exact-category infrastructure and exact Grothendieck group, with universal properties and equivalence invariance. **AlgebraicVectorBundles**, L0A–L0C: finite locally free sheaves and their exact pullback, tensor, symmetric and exterior powers. L3.Fa.1 imports these objects to specialize the exact-category K-groups supplied by GeometryOfNumbersAndQuadraticArithmetic §§6.1.1–6.1.3.
 - **DerivedModuleAlgebra**, §0.K.1: the Koszul complex of a linear functional and its maps; exactness locally for a regular sequence. L3.Fa.1 uses the tautological functional over `Sym(E)`, takes homogeneous components and glues them for a vector bundle `E`.
-- **JacobianChallenge**, Layer `B`: genus, Riemann–Roch and Serre duality for a smooth proper geometrically integral curve over a field with a rational point (the current library has `SchemeWeilDivisor.eulerCharBelow_sheaf_eq_relativeDegree_add_one_sub_genus` and `SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`). L1.9 supplies the additional differential/canonical-sheaf comparison, extends scalars to supply a rational point and uses geometric integrality for the constant field.
+- **JacobianChallenge**, Layer `B`: genus, Riemann–Roch and Serre duality for a smooth proper geometrically integral curve over a field with a rational point (the pinned library has `SchemeWeilDivisor.eulerCharBelow_sheaf_eq_relativeDegree_add_one_sub_genus` and `SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`). L1.9 supplies the additional differential/canonical-sheaf comparison, extends scalars to supply a rational point and uses geometric integrality for the constant field.
 
 ### From other roadmaps
 
@@ -129,8 +129,6 @@ Use Mathlib’s analytic and formal-series carriers. Termwise integration preser
 
 *Construction.* Define `q_k` by its coefficients with `PowerSeries.mk`; the derivative law is a coefficient computation with `PowerSeries.coeff_derivative`, uniqueness follows from coefficient extensionality since multiplication by `n` is injective over `ℚ`, and the two closed forms compare coefficients with the geometric series and the formal logarithm.
 
-*In `Suggested.lean`:* `rationalPolylogSeries`, `X_mul_derivative_rationalPolylogSeries`, `rationalPolylogSeries_unique`, `rationalPolylogSeries_zero_weight`, `rationalPolylogSeries_one_eq_neg_log`.
-
 *Needs:* Mathlib `PowerSeries.mk`, `PowerSeries.coeff_derivative`, `PowerSeries.log`, `PowerSeries.coeff_map`.
 
 **Checks.**
@@ -147,8 +145,6 @@ Use Mathlib’s analytic and formal-series carriers. Termwise integration preser
 Standing hypotheses of this target: `K` is a field with a nontrivial ultrametric norm and `CharZero` `K`. No completeness is needed.
 
 *Proof sketch.* `||n|| ≤ 1` by induction on `n` from `||1|| = 1` and the ultrametric inequality `||a + b|| ≤ max(||a||, ||b||)`. If two distinct primes `q, l` had `||q|| < 1` and `||l|| < 1`, a Bezout relation `a q + b l = 1` with integers `a, b` would give `1 = ||a q + b l|| ≤ max(||q||, ||l||) < 1`, a contradiction; so at most one prime has norm `< 1`. In case (b), for `m` prime to `p` choose integers with `a m + b p = 1`; then `1 ≤ max(||m||, ||p||)` forces `||m|| = 1`. Writing `n = p^(v_p(n)) m` with `p` not dividing `m` and using multiplicativity gives `||n|| = ||p||^(v_p(n))`. The bound: `p^(v_p(n)) ≤ n`, hence `||n||^(-1) = (1/||p||)^(v_p(n)) = p^(s v_p(n)) ≤ n^s`; in case (a) the bound is `1 ≤ n^0`.
-
-*In `Suggested.lean`:* `norm_natCast_inv_le_rpow`.
 
 *Needs:* `IsUltrametricDist`, `padicValNat`, `CharZero`.
 
@@ -169,8 +165,6 @@ Standing hypotheses of this target: `A` is a commutative ring with an algebra st
 
 *Construction.* Define `primitive f :=` `PowerSeries.mk` (fun `n =>` if `n = 0` then 0 else `(n : A)^(-1) * coeff (n-1) f`), the inverse being the image of `1/n` under `algebraMap Q` A. A-linearity follows coefficientwise from the linearity of coeff. The derivative identity and uniqueness are L0.3 and L0.4.
 
-*In `Suggested.lean`:* `PowerSeries.primitive`.
-
 *Needs:* `PowerSeries.derivative`, `PowerSeries.log`.
 
 **Checks.**
@@ -186,8 +180,6 @@ Standing hypotheses of this target: `A` is a commutative ring with an algebra st
 
 *Proof sketch.* Compare coefficients with Mathlib `PowerSeries.coeff_derivative`, `coeff n (d/dX g) = coeff (n+1) g * (n+1)`. For `g = primitive f` this is `(n+1)^(-1) coeff n f * (n+1) = coeff n f`, using that `n+1` is invertible in the `Q`-algebra A. For `primitive (d/dX f)` the coefficient at `n+1` is `(n+1)^(-1) (n+1) coeff (n+1) f = coeff (n+1) f` and the constant coefficient is 0.
 
-*In `Suggested.lean`:* `PowerSeries.derivative_primitive`, `PowerSeries.primitive_derivative`.
-
 *Needs:* L0.2, `PowerSeries.coeff_derivative`, `PowerSeries.derivative_log_mul_one_add_X`.
 
 **Checks.**
@@ -202,8 +194,6 @@ Standing hypotheses of this target: `A` is a commutative ring with an algebra st
 
 *Proof sketch.* The 'if' direction is L0.3 together with `d/dX (C c) = 0`. For 'only if', `g` and `C c + primitive f` have the same derivative and the same constant coefficient, so they are equal by Mathlib `PowerSeries.derivative.ext`.
 
-*In `Suggested.lean`:* `PowerSeries.eq_C_add_primitive_iff`.
-
 *Needs:* L0.3, `PowerSeries.derivative.ext`.
 
 ### L0.5 Radius-loss estimate for termwise integration
@@ -214,8 +204,6 @@ Standing hypotheses of this target: `K` complete, nontrivially normed, ultrametr
 
 *Proof sketch.* By L0.1, `|1/(n+1)| ≤ (n+1)^s` for a fixed `s ≥ 0`. (a) If `|a_n| r^n ≤ C` then `|a_n/(n+1)| r'^(n+1) ≤ C r' (n+1)^s (r'/r)^n` is bounded for `r' < r`, so `R(primitive f) ≥ R(f)`; conversely `|a_n| = |n+1| |a_n/(n+1)| ≤ |a_n/(n+1)|` because `|n+1| ≤ 1`, so a bound for the primitive at `r` gives one for `f` at `r` and `R(f) ≥ R(primitive f)`. Conclude with the characterisation of Mathlib `FormalMultilinearSeries.radius` by bounded sequences. (b) `|a_n/(n+1)| r^(n+1) ≤ r (n+1)^s (r/ρ)^n |a_n| ρ^n`, and `(n+1)^s (r/ρ)^n → 0`, which gives the restrictedness (`PowerSeries.IsRestricted`) and the Gauss-norm bound (`PowerSeries.gaussNorm`). (c) Apply (b) with `ρ` replaced by `ρ' > ρ` and `r :=` any number in `(ρ, ρ')`; for the open-disc case apply (b) for every pair `r < r' < ρ`.
 
-*In `Suggested.lean`:* `radius_ofScalars_primitive`, `isRestricted_primitive_of_lt`.
-
 *Needs:* L0.1, L0.2, `FormalMultilinearSeries.radius`, `FormalMultilinearSeries.ofScalars`, `PowerSeries.IsRestricted`, `PowerSeries.gaussNorm`.
 
 ### L0.6 Termwise integration fails on the closed disc
@@ -225,8 +213,6 @@ Standing hypotheses of this target: `K` complete, nontrivially normed, ultrametr
 Standing hypotheses of this target: `|p| < 1` in `K`.
 
 *Proof sketch.* Restrictedness of `f`: the only nonzero coefficients are `p^k` at `X^(p^k - 1)`, with `|p^k| → 0`. The coefficient of `X^(p^k)` in `primitive f` is `p^k/p^k = 1`, which does not tend to 0; so `primitive f` is not restricted at 1 and its partial sums at `X = 1` are `k + 1`. Any `g` in `K<X>` with `dg = f dX` would equal `C c + primitive f` by L0.4, a contradiction.
-
-*In `Suggested.lean`:* `not_isRestricted_primitive_closedDisc`.
 
 *Needs:* L0.2, L0.4, `PowerSeries.IsRestricted`.
 
@@ -247,8 +233,6 @@ Standing hypotheses of this target: `K` complete, nontrivially normed, ultrametr
 - `discAnalytic.ofIsRestricted`: A power series restricted at some `ρ > r` (in particular an element of a dagger or Tate algebra at radius `> r`) defines an element.
 
 *Construction.* Membership is Mathlib's predicate: exists `P`, `HasFPowerSeriesOnBall` `f P a r` (Mathlib `HasFPowerSeriesOnBall`). Subalgebra: sums and products of series convergent on the ball converge on the ball (Mathlib's `HasFPowerSeriesOnBall.add` and products of analytic functions). Derivative: Mathlib `HasFPowerSeriesOnBall.fderiv` gives the termwise derivative series on the same ball, and Mathlib `FormalMultilinearSeries.radius_le_radius_derivSeries` shows the radius does not shrink. Recentring at `a' = a+d` uses an ultrametric coefficient argument, not the smaller radius furnished by the generic `changeOrigin` theorem. For every `0<ρ<r` choose `τ` with `max(ρ, ||d||)<τ<r`. Put `b_m = sum_(n≥m) c_n choose(n,m) d^(n-m)`. The binomial coefficients have norm at most 1; with `C_n=||c_n|| τ^n` tending to `0, ||b_m|| ρ^m ≤ sup_(n≥m) C_n (ρ/τ)^m`. Thus the recentred coefficients decay on every `ρ<r`. The same bound justifies interchanging the two convergent sums and proves equality on the whole ball; the strong triangle inequality identifies the two balls. The case `r=∞` uses an arbitrary finite `τ`. Coefficients are unique by Mathlib `HasFPowerSeriesAt.eq_formalMultilinearSeries`; vanishing on an open subset forces all coefficients at an interior point to vanish, hence `f = 0` on the whole ball after recentring. At `a = 0, r = 1` the coefficient map identifies the ring with the Amice target `R⁺` of LocallyAnalyticDistributions Layer 1.
-
-*In `Suggested.lean`:* `discAnalytic`, `discAnalytic.restrict`, `discAnalytic.eq_zero_of_eqOn`.
 
 *Needs:* `HasFPowerSeriesOnBall`, `Metric.ball`, `HasFPowerSeriesOnBall.fderiv`, `FormalMultilinearSeries.radius_le_radius_derivSeries`, `HasFPowerSeriesAt.eq_formalMultilinearSeries`, `AnalyticOnNhd`, `PowerSeries.IsRestricted`, LocallyAnalyticDistributions Layer 1, L0.1, `Metric.eball`.
 
@@ -279,8 +263,6 @@ Standing hypotheses of this target: (C1); `b` lies in the open disc `D^-(a, r)`.
 
 *Proof sketch.* (a) Near each point `g` is a power series with zero derivative, hence constant near that point (L0.8 uniqueness part); conversely a locally constant function is analytic at every point with zero series beyond the constant term. (b) Open discs in `ℂ_p` are also closed, so their indicators are locally constant; `U` contains infinitely many disjoint discs. (c) Compare with L0.8; locally analytic primitives on `ℤ_p` modulo locally constant functions are the objects of LocallyAnalyticDistributions Layer 1.
 
-*In `Suggested.lean`:* `exists_locallyConstant_nonconst`.
-
 *Needs:* L0.7, L0.8, `AnalyticOnNhd`, `IsLocallyConstant`, LocallyAnalyticDistributions Layer 1.
 
 ### L0.10 Convergence of the logarithm series on the open unit disc
@@ -290,8 +272,6 @@ Standing hypotheses of this target: (C1); `b` lies in the open disc `D^-(a, r)`.
 Standing hypotheses of this target: `K` complete, nontrivially normed, ultrametric, `CharZero`.
 
 *Proof sketch.* By L0.1, `||(-1)^(n+1)/n|| ≤ n^s`, so `||c_n|| r^n` is bounded for every `r < 1`; hence radius `≥ 1` by the bound criterion for Mathlib `FormalMultilinearSeries.radius`. `HasFPowerSeriesOnBall` on the ball of radius 1 follows from the radius bound as in the proof of Tau Ceti `NormedSpace.hasFPowerSeriesOnBall_logOneAdd`, which uses the radius only. The derivative: the termwise derivative is `sum (-1)^n u^n = 1/(1 + u)`; formally this is Mathlib `PowerSeries.derivative_log_mul_one_add_X`.
-
-*In `Suggested.lean`:* `one_le_radius_logOneAddSeries_of_ultrametric`, `hasFPowerSeriesOnBall_logOneAdd_of_ultrametric`, `hasDerivAt_logOneAdd_of_ultrametric`.
 
 *Needs:* L0.1, `NormedSpace.logOneAdd`, `NormedSpace.logOneAddSeries`, `NormedSpace.hasFPowerSeriesOnBall_logOneAdd`, `FormalMultilinearSeries.radius`, `HasFPowerSeriesOnBall`, `PowerSeries.derivative_log_mul_one_add_X`.
 
@@ -303,7 +283,7 @@ Standing hypotheses of this target: `K` complete, nontrivially normed, ultrametr
 
 ### L0.A1 Laurent carriers of annuli
 
-Import `A_K(I)`, its coefficient/convolution algebra, Gauss norms, completeness and restriction from PadicDifferentialEquationsAndRigidCohomology RD.0.1–RD.0.2, compact preparation, finite Newton breaks and the dominant-term unit criterion from RD.0.18, and its derivation from RD.0.36. The end germ is that supplier’s `RobbaRing`. The notation `O_K(I)` and `LaurentOn K I` denotes this same carrier. The coefficient predicates and operations in `Suggested.lean` are adapters to this supplier, including its convolution and Gauss norms. L0.A1 records adapters to that unit criterion; L0.A2 adds point evaluation and point-count corollaries of compact preparation. Coordinate pullback and logarithmic primitives use the same carriers.
+Import `A_K(I)`, its coefficient/convolution algebra, Gauss norms, completeness and restriction from PadicDifferentialEquationsAndRigidCohomology RD.0.1–RD.0.2, compact preparation, finite Newton breaks and the dominant-term unit criterion from RD.0.18, and its derivation from RD.0.36. The end germ is that supplier’s `RobbaRing`. The notation `O_K(I)` and `LaurentOn K I` denotes this same carrier. The coefficient predicate `IsLaurentOn` expresses convergence on these annuli; convolution and Gauss norms use the supplier’s algebra. L0.A1 records adapters to that unit criterion; L0.A2 adds point evaluation and point-count corollaries of compact preparation. Coordinate pullback and logarithmic primitives use the same carriers.
 
 **Definition.** Let `K` be a complete nontrivially normed ultrametric field and `I ⊆ (0, ∞)` a nonempty interval of radii. `I` may be open, closed, half-open, unbounded above or a single radius, and its endpoints need not lie in `|K^×|`. The Laurent carrier `O_K(I)` consists of the two-sided coefficient families `a` : `ℤ → K`, written `f = Σ_{n∈ℤ} a_n T^n`, with `‖a_n‖ρ^n → 0` as `|n| → ∞` for every `ρ ∈ I` (`IsLaurentOn I a`). For a centre `e ∈ K` and `0 ≤ r < s ≤ ∞`, the ring of the open annulus `A(e; r, s) = {r < |z − e| < s}` is `O_K(A(e; r, s)) := O_K((r, s))`, read in the coordinate `T = z − e`. The centre changes the interpretation, not the coefficient algebra. Around `∞` use the coordinate `1/z`. Addition is coefficientwise. The product is the two-sided Cauchy product `c_n = Σ_{m∈ℤ} a_m b_{n−m}` (`laurentMul`). For fixed `n` and `ρ ∈ I` the terms satisfy `‖a_m b_{n−m}‖ρ^n = (‖a_m‖ρ^m)(‖b_{n−m}‖ρ^{n−m}) → 0` as `|m| → ∞`, so each `c_n` converges in the complete ultrametric field `K`. For `ρ ∈ I` and `f ≠ 0` the `ρ`-Gauss norm `|f|_ρ := sup_n ‖a_n‖ρ^n` (`laurentGaussNorm`) is a maximum. It is attained at a nonempty finite set of indices, with least element `n_ρ(f)` and greatest element `N_ρ(f)`. With these operations `O_K(I)` is a commutative `K`-algebra and an integral domain, and every `|·|_ρ` with `ρ ∈ I` is a multiplicative ultrametric norm on it. `O_K(I)` is complete for the topology of all `|·|_ρ, ρ ∈ I`. The carrier is not a subring of Mathlib's `LaurentSeries K` (`HahnSeries ℤ K`, whose supports are bounded below): when `inf I = 0` a member may have infinitely many negative terms, and a formal Laurent series need converge at no radius. (Lazard 1962, §1, (1.1)–(1.3), p. 48, and (1.7)–(1.9), p. 49; §2, Prop. 1, pp. 50–51, and (2.5)–(2.6), p. 51; Kedlaya pde, Def. 8.1.1, p. 136, Def. 8.2.1, p. 138, Props. 8.2.3 and 8.2.5, pp. 138–139, and §8.4, Defs. 8.4.1–8.4.3, pp. 143–144.)
 
@@ -334,7 +314,7 @@ For units and finite Newton breaks use RD.0.18 on compact subintervals, with its
 
 For the pullback: at each `ρ, |b_n u^n T^n ((1 + h)^n − 1)|_ρ ≤ |b_n|ρ^n |h|_ρ`. So the substituted series converges in every Gauss norm, and the dominance of the leading term preserves each Gauss norm. The inverse substitution comes from the Neumann series of (pullback along `uT`)`^{-1}` ∘ (pullback along `t`) `− 1`, which is strictly contracting for each `|·|_ρ`. The derivation commutes with substitution because both sides are continuous and agree on Laurent polynomials.
 
-*In `Suggested.lean`:* `IsLaurentOn`, `laurentGaussNorm`, `laurentMul`, `IsLaurentOn.mono`, `IsLaurentOn.laurentMul`, `laurentGaussNorm_laurentMul`, `isUnit_laurentOn_iff`, `exists_subinterval_single_dominant`.
+*In `Suggested.lean`:* `IsLaurentOn` is the coefficient convergence condition.
 
 *Needs:* PadicDifferentialEquationsAndRigidCohomology RD.0.1–RD.0.2 (carriers, convolution, Gauss norms, completeness and restriction), RD.0.18 (compact preparation, finite Newton breaks and units), RD.0.36 (derivation); `IsUltrametricDist`, `CompleteSpace`, TauCetiRoadmap RestrictedPowerSeries §§1.1, 3.2, 7.1–7.2, TauCetiRoadmap NewtonPolygons §§0.3 and 0.5, `LaurentSeries` (comparison only), L0.7.
 
@@ -379,7 +359,7 @@ Standing hypotheses of this target: `p` any prime, including 2; coefficients in 
 
 (e) An infinite set of zeros inside a closed sub-annulus contradicts (d) unless `f = 0`. A nonempty open `U ⊆ A_I(ℂ_p)` contains a small disc around some `z₀`. That disc lies in the circle `|z − e| = |z₀ − e|` and is infinite.
 
-*In `Suggested.lean`:* `laurentSeriesEval`, `laurentGaussNorm_eq_max_on_circle`, `finite_zeros_closedSubannulus`, `eq_zero_of_eval_eq_zero_on_open`.
+*In `Suggested.lean`:* `laurentSeriesEval` is point evaluation on coefficient families.
 
 *Needs:* PadicDifferentialEquationsAndRigidCohomology RD.0.18 (compact Laurent preparation and dominant-term inverse criterion), L0.A1, L0.7, `PadicComplex`, `PadicComplex.isNonarchimedean`, TauCetiRoadmap RestrictedPowerSeries §2.4.
 
@@ -443,8 +423,6 @@ Standing hypotheses of this target: (C1).
 
 *Proof sketch.* Fix `v`. On `D^-(0, 1)` the function `G(u) = log((1+u)(1+v)) - log(1+u) - log(1+v)` is analytic (composition of the series with the affine map `u |→ u + v +` uv, which maps the disc into itself). Its derivative is `(1+v)/((1+u)(1+v)) - 1/(1+u) = 0` by L0.10, so `G` is constant by the uniqueness part of L0.8, and `G(0) = 0`. Roots of unity: if `ζ^m = 1` then `m log(ζ) = log(ζ^m) = 0`, so `log(ζ) = 0` in characteristic zero.
 
-*In `Suggested.lean`:* `logOneAdd_add_mul_of_ultrametric`.
-
 *Needs:* L0.10, L0.8.
 
 ### L0.14 Every element of `ℂ_p^×` has a power that is `p^m` times a principal unit
@@ -483,7 +461,7 @@ Standing hypotheses of this target: `p` prime; a in `ℂ_p`. As a Lean function 
 
 *Construction.* Use the supplied `iwasawaLog p` and the rational valuation of L0.14. Additivity of `v_p` and the supplied product law give the homomorphism property on nonzero arguments. On principal units `v_p = 0`, so the series is unchanged; at `p`, its valuation is 1 and the supplied logarithm vanishes. For uniqueness, the imported branch comparison gives `N·ℓ(x) = N·iwasawaLog p x + m·a` for an admissible pair. Division by `N` and `m/N = v_p(x)` identify `ℓ` with the adapter. The value at zero is imposed separately, as `IsLogBranch` constrains only nonzero inputs. Roots of unity have zero valuation and zero supplied logarithm.
 
-*In `Suggested.lean`:* `IsLogBranch`, `existsUnique_logBranch`.
+*In `Suggested.lean`:* `IsLogBranch` records the logarithm laws used by L0.21.
 
 *Needs:* DirichletPadicLFunctions §0.6 (`iwasawaLog`, `existsUnique_isIwasawaLog_padicComplex`, `IsIwasawaLog.natCast_mul_eq_of_map_mul`), L0.14, `NormedSpace.logOneAdd`, `PadicComplex`.
 
@@ -503,8 +481,6 @@ Standing hypotheses of this target: `p` prime; a in `ℂ_p`. As a Lean function 
 
 *Proof sketch.* Subtract the valuation adapters of L0.15: the common supplied `iwasawaLog p x` cancels. For arbitrary functions satisfying `IsLogBranch`, the supplied `IsIwasawaLog.natCast_mul_eq_of_map_mul` identifies each with its adapter on nonzero inputs, so the same formula holds without any assumption at zero.
 
-*In `Suggested.lean`:* `logBranch_sub`.
-
 *Needs:* DirichletPadicLFunctions §0.6 (`IsIwasawaLog.natCast_mul_eq_of_map_mul`), L0.15, L0.14, `Real.logb`.
 
 **Checks.**
@@ -520,8 +496,6 @@ Standing hypotheses of this target: `p` prime; a in `ℂ_p`. As a Lean function 
 Standing hypotheses of this target: a in `ℂ_p`; for (b) and (c), `K` and `L` are finite over `ℚ_p` inside `ℂ_p` and a lies in `K`.
 
 *Proof sketch.* Import `IsIwasawaLog.map_padicComplex_ringEquiv`, `IsIwasawaLog.mem_intermediateField`, `IsIwasawaLog.map_algHom` and finite-extension restriction from DirichletPadicLFunctions §0.6. A continuous field automorphism of `ℂ_p` is isometric: it fixes `ℚ_p`, preserves the algebraic closure with its unique extended norm, and then preserves the norm on its completion by density. Consequently it fixes `v_p(x) ∈ ℚ`. Apply it to `iwasawaLog p x + a·v_p(x)` to get (a). For (b), the supplied logarithm preserves `K`, and `a·v_p(x)` belongs to `K` when `a ∈ K`. The supplied branch comparison gives uniqueness inside `K`. Part (c) follows from restriction of the supplied logarithm and the valuation.
-
-*In `Suggested.lean`:* `IsLogBranch.map_ringEquiv`, `IsLogBranch.mem_intermediateField`, on nonzero inputs.
 
 *Needs:* DirichletPadicLFunctions §0.6 (finite-extension restriction, `IsIwasawaLog.map_algHom`, `IsIwasawaLog.mem_intermediateField`, `IsIwasawaLog.map_padicComplex_ringEquiv`, `IsIwasawaLog.natCast_mul_eq_of_map_mul`), L0.15, L0.14.
 
@@ -564,8 +538,6 @@ Standing hypotheses of this target: `p` prime.
 
 *Proof sketch.* `z = x_0 (1 + (z - x_0)/x_0)` with `||(z - x_0)/x_0|| < 1`; apply the homomorphism property of L0.15 and its agreement with the series on `1 + m`. The composite of the series with the affine map is given by one power series in `z - x_0` on the disc (L0.10), with derivative `(1/x_0)/(1 + (z-x_0)/x_0) = 1/z`.
 
-*In `Suggested.lean`:* `IsLogBranch.hasDerivAt`.
-
 **Checks.**
 
 - At `x = p` every branch has derivative `p⁻¹`, although their values there depend on the parameter.
@@ -592,8 +564,6 @@ Standing hypotheses of this target: `K` complete subfield of `ℂ_p`; `a∈ℂ_p
 - `IsLogLaurentAtInfty`: the same shape on `|z| > 1` in the parameter `z^{-1}`, with coefficients in `O_{ℂ_p}(A(0; 0, 1))` evaluated at `z^{-1}` and `L(z^{-1})` in place of `L(z − c)`.
 
 *Construction.* Define the polynomial ring and extend `d` by the Leibniz rule with `dl = dz/(z - e)`. `ρ_a` is a ring homomorphism by construction; `d ρ_a = ρ_a d` by L0.19. Independence of the parameter: `log_a(t) = log_a(z - e) + log_a(u) + log(1 + h)` by L0.15, and `log(1 + h)` lies in `O(A)` by L0.10.
-
-*In `Suggested.lean`:* `IsLogLaurentNear`, `IsLogLaurentAtInfty`.
 
 *Needs:* L0.11, L0.15, L0.19, L0.10, L0.A1, L0.A2, L0.17.
 
@@ -637,7 +607,7 @@ Standing hypotheses of this target: `K` complete subfield of `ℂ_p`; A an open 
 
 *Proof sketch.* Surjectivity by induction on `k` using L0.12 and integration by parts; the residue of `g l^(k-1) dz/(z - e)` is handled at the previous step. Kernel: if `F = sum_{k≤n} f_k l^k` has `dF = 0` then the `l^n`-coefficient gives `df_n = 0`, so `f_n` is constant; the `l^(n-1)-`coefficient gives `df_(n-1) + n f_n dz/(z - e) = 0`, whose residue `n f_n` must vanish, so `f_n = 0` when `n ≥ 1`; finally `df_0 = 0` gives `f_0` in `K`. The realised formula follows from `ρ_a(l) = log_a(z - e)` and L0.19.
 
-*In `Suggested.lean`:* `exists_logLaurent_primitive`, `logLaurent_derivative_eq_zero_iff`. The signatures use polynomials in the logarithm whose coefficients are Laurent families; differentiation is written coefficientwise.
+*In `Suggested.lean`:* `existsUnique_logLaurent_primitive` states existence and uniqueness after setting the scalar constant coefficient to zero. It uses polynomials in the logarithm with Laurent coefficient families and writes differentiation coefficientwise.
 
 **Checks.**
 
@@ -840,8 +810,6 @@ Standing hypotheses of this target: `(X,D)` good-reduction over `O_K`; `φ K`-li
 
 *Construction.* Record the data and the four hypotheses; no construction is involved. Basis change: replacing `ω` by `P ω` (`P` in `GL_r(K)`) replaces `M` by `P M P^(-1)` and `g` by `P g`; `(H1)` and `(Hw)` are preserved.
 
-*In `Suggested.lean`:* `FrobeniusDatum`, `FrobeniusDatum.H0`, `FrobeniusDatum.H1`, `FrobeniusDatum.Hw`, `FrobeniusDatum.coords_frobenius` (the matrix identity on representatives of de Rham coordinates).
-
 *Needs:* L1.2, L1.5, `Module.End.HasEigenvalue`, Derivation, `Module.Free`.
 
 **Checks.**
@@ -856,8 +824,6 @@ Standing hypotheses of this target: `(X,D)` good-reduction over `O_K`; `φ K`-li
 **Lemma.** Let `q = p^f` with `f ≥ 1`, let `n ≥ 1`, and let `λ_1`, ..., `λ_n` be algebraic numbers with `|λ_i| = q^(w_i/2)` under a complex embedding and `w_i ≥ 1`. Then for every `m ≥ 1, (λ_1 ... λ_n)^m ≠ 1`. Consequently if `M` is a matrix whose eigenvalues are Weil `q`-numbers of weights 1 and 2, then `(M^(tensor n))^m` has no eigenvalue 1 for `n, m≥1, i.e`. hypothesis `(Hw)` of L1.7 holds. (BH §1.3.2, Thm. 1, p. 6; BBK §3.3, Algorithm 11, step 2, p. 8.)
 
 *Proof sketch.* `|(λ_1 ... λ_n)^m| = q^(m (w_1 + ... + w_n)/2) > 1` under any complex embedding. The eigenvalues of `M^(tensor n)` are the products of `n` eigenvalues of `M` (Kronecker product), and those of its `m`-th power are their `m`-th powers; apply the first step.
-
-*In `Suggested.lean`:* `weil_weight_product_ne_one`.
 
 *Needs:* `Module.End.HasEigenvalue`, `LinearMap.charpoly`.
 
@@ -902,9 +868,7 @@ The comparison commutes with finite scalar extension, with restriction and pullb
 
 Standing hypotheses of this target: `F` bijective with finite orbits (for `S = X_k(F_p-bar)` every point is defined over a finite field). No eigenvalue of `T` in an algebraic closure is a root of unity.
 
-*Proof sketch.* Decompose `S` into `F`-orbits (Mathlib `Function.IsPeriodicPt`, Mathlib `Function.minimalPeriod`). On an orbit of length `m`, iterating the equation gives `c(s) = c(F^m s) = T^m c(s) + sum_{j<m} T^(m-1-j) e(F^j s)`; since `1 - T^m` is invertible this determines `c(s)`. Define `c` on the orbit by this formula at one point and propagate by the equation; the value obtained after going round the orbit is consistent by construction. Semilinear form: in `σ(x) =` Mx `+ b`, iteration yields `x =` Px `+ b_r` with `P = σ^(r−1)(M)⋯σ(M)M`. Injectivity follows from invertibility of `I − P`. For surjectivity view `L^n` over the fixed field `L^σ`: Artin's theorem makes `[L : L^σ]` finite (at most `r`), so the injective `L^σ`-linear map `σ − M` is bijective. In Besser's application `L` is a finite unramified extension of `ℚ_p`; the statement is made for the fields named in its hypotheses, not for every `L`.
-
-*In `Suggested.lean`:* `existsUnique_frobenius_orbit_solution`.
+*Proof sketch.* Decompose `S` into `F`-orbits (Mathlib `Function.IsPeriodicPt`, Mathlib `Function.minimalPeriod`). On an orbit of length `m`, iterating the equation gives `c(s) = c(F^m s) = T^m c(s) + sum_{j<m} T^(m-1-j) e(F^j s)`; since `1 - T^m` is invertible this determines `c(s)`. Define `c` on the orbit by this formula at one point and propagate by the equation; the value obtained after traversing the orbit is consistent by construction. Semilinear form: in `σ(x) =` Mx `+ b`, iteration yields `x =` Px `+ b_r` with `P = σ^(r−1)(M)⋯σ(M)M`. Injectivity follows from invertibility of `I − P`. For surjectivity view `L^n` over the fixed field `L^σ`: Artin's theorem makes `[L : L^σ]` finite (at most `r`), so the injective `L^σ`-linear map `σ − M` is bijective. In Besser's application `L` is a finite unramified extension of `ℚ_p`; the statement is made for the fields named in its hypotheses, not for every `L`.
 
 *Needs:* `Function.IsPeriodicPt`, `Function.minimalPeriod`, `Module.End.HasEigenvalue`, PadicDifferentialEquationsAndRigidCohomology RD.0.
 
@@ -974,8 +938,6 @@ Standing hypotheses of this target: A datum over `ℂ_p`; `b∈]x[` in (i), `e�
 - `localExpansion_changeBase`: Chen's formula: for `b'` in `]x[, localExpansion x b' (L w) =` sum over `w = u v` of `localExpansion x b (L u) * (localExpansion x b' (L v))`(b).
 
 *Construction.* (i) Define `λ(L_(e_i w))` as the primitive of `ω_i λ(L_w)` on the disc with value 0 at `b` (L0.8); multiplicativity and uniqueness by induction on length, both sides of the shuffle identity having the same derivative and value 0 at `b`. For an end with `ω_i=(a_i/t+h_i(t))dt, h_i` regular, induction integrates a nonnegative-power polynomial in `l`: integration of `t^m l^j` for `m≥0` remains regular-log, and the residue term integrates `l^j dt/t` to `l^(j+1)/(j+1)`. Set its `l`-free constant coefficient to0. `CT` on the resulting word subalgebra `ℂ_p{t}[l]` is evaluation `t=l=0`, so the derivative-and-normalization proof of shuffle multiplicativity applies. Extend `A+-`linearly into `R_e[l]`; do not apply multiplicativity of `CT` to arbitrary Laurent coefficients. (iii) Given `λ`, set `c_v := λ(L_v)(b)`; the difference between `λ(L_w)` and `sum_(w = u v) λ_(x,b)(L_u) c_v` has derivative expressed through shorter words, which vanishes by induction, and value `c_w - c_w = 0` at `b`; the shuffle relations for `c` follow from multiplicativity of `λ` evaluated at `b`. At an end use the regular-log word subalgebra for `CT` and the same induction, so the constants satisfy shuffle relations there. The ordinary-disc classification and base-change formula do not need the simple-pole hypothesis.
-
-*In `Suggested.lean`:* `constantTerm`.
 
 *Needs:* L1.7, L1.12, L1.3, L1.4, L0.8, L0.22.
 
@@ -1061,8 +1023,6 @@ Standing hypotheses of this target: A datum on `(X, D)`; a in `ℂ_p`; for indep
 *Proof sketch.* Flatness of `L/K` preserves the kernel and cokernel of the `K`-linear differential, giving the first two cohomology assertions. First prove pole removal over `K`: a pole of order `m ≥ 1` gives a pole of order `m + 1` in its derivative. Thus a meromorphic function with dagger differential is analytic on a common strict neighbourhood and belongs to `A`. In particular, `E = Frac(A)` has constant field `K`. Choose a nonconstant local coordinate with meromorphic differential `dt ≠ 0` and write `d = dt·δ` on `E`. In characteristic zero the constant-field assertion makes `E/K` regular, so `R = E ⊗_K L` is a domain.
 
 Every nonzero `δ`-stable ideal of `R` contains 1: take an element with the least number of `K`-linearly independent `L` coefficients, divide by its first nonzero `E` coefficient, and differentiate. Minimality forces the derivative to vanish, so all normalized `E` coefficients lie in `K` and the element is a nonzero scalar in `L`. Now for `h ∈ Frac(B_L)` with `dh ∈ Ω_L`, the nonzero denominator ideal `{b ∈ R : bh ∈ R}` is `δ`-stable, since `δh ∈ R`. Hence `h ∈ R`. Expand it with `K`-linearly independent coefficients from `L`; membership of `dh` in `Ω_L` forces each `E` coefficient to have differential in `Ω`. Pole removal over `K` puts each coefficient in `A`, giving `h ∈ B_L`. Flatness then proves the stated independence of the `ω_i` for meromorphic primitives. For `L = ℂ_p`, restriction of `R` to a local meromorphic germ is a nonzero differential ring map, so its kernel is zero by the same ideal argument. Since `Ω` is projective of rank one, trivializing it over `E` also gives injectivity for forms. The argument applies to ordinary and annular germs. Finally, coefficients of any finite sum `Σ_i c_i f_i` lie in the finite-dimensional `K`-span of the `c_i`, whereas the powers of a transcendental `α` are `K`-linearly independent.
-
-*In `Suggested.lean`:* `geometricSeries_not_finite_coefficient_sum`.
 
 *Needs:* L1.2, L1.3, L1.7; AdicSpacesPartIV §F1.7; Mathlib `TensorProduct`, localization and flatness over fields.
 
@@ -1480,7 +1440,7 @@ Normalize the iterated integrals tangentially at zero, continue them onto the re
 - `complexPolylog_inversion_rootOfUnity`: for `0 < x < 1` and `k ≥ 1, Li_k^ℂ(e^(2πix)) + (−1)^k Li_k^ℂ(e^(−2πix)) = −(2πi)^k B_k(x)/k!`, from Mathlib's `HurwitzZeta.cosZeta_two_mul_nat` and `HurwitzZeta.sinZeta_two_mul_nat_add_one` for `k ≥ 2` and from the Fourier series of `x − 1/2` for `k = 1`.
 - `complexPolylog_coeff`: the Taylor coefficients at 0 are the images of those of `q_k`.
 
-*In `Suggested.lean`:* `complexPolylog`, `complexPolylog_continuousOn`, `complexPolylog_eq_expZeta`, `complexPolylog_inversion_rootOfUnity`, `complexPolylog_hasSum`, `complexPolylog_rootOfUnity_one`, `complexPolylog_distribution`.
+*In `Suggested.lean`:* `complexPolylog` is the scalar-series realization used in L3.13.
 
 *Needs:* PolylogarithmFunctions §§1.1–1.7 and §3.1; L0.F; Mathlib `HurwitzZeta.expZeta`, `HurwitzZeta.hasSum_expZeta_of_one_lt_re`, `HurwitzZeta.cosZeta_two_mul_nat`, `HurwitzZeta.sinZeta_two_mul_nat_add_one`, `Complex.log`, `Complex.hasSum_taylorSeries_neg_log`.
 
@@ -1514,8 +1474,6 @@ For these adapters, `Point K = Projectivization K (Fin 2 → K)`, with `finitePo
 - `crossRatio_mk`, `crossRatio_finite`, `crossRatio_infinity_first`, `crossRatio_infinity_second`, `crossRatio_infinity_third`, `crossRatio_infinity_fourth`, `crossRatio_admissible`, `crossRatio_complement`, `crossRatio_inverse`, `crossRatio_pair_swap`, `crossRatio_linearEquiv`, `exists_normalizer`, `normalizer_unique`: coordinate and bracket forms of PolylogarithmFunctions §5.8, with the displayed `1 − r` equation on distinct tuples. Uniqueness follows because a projective map fixing `∞, 0, 1` is the identity.
 - `coordinateMap_injective`, `fieldMap_finite`, `fieldMap_infinity`, `fieldMap_injective`, `fieldMap_id`, `fieldMap_comp`, `crossRatio_fieldMap`.
 - `normalizedFive_injective_iff`, `normalize_five`, `normalizedFive_crossRatios`, `normalized_cyclic_sum`, `cyclic_relation_of_scalar`, `dilogD_cyclic`, `dilogD_cyclic_field`, `dilogEvaluation_cyclic_field`.
-
-*In `Suggested.lean`:* `ProjectiveAlgebra.Point`, `ProjectiveAlgebra.finitePoint`, `ProjectiveAlgebra.infinity`, `ProjectiveAlgebra.detPair`, `ProjectiveAlgebra.crossRatio`, `ProjectiveAlgebra.normalizedFive`, `ProjectiveAlgebra.crossRatio_finite`, `ProjectiveAlgebra.cyclic_relation_of_scalar`, `ProjectiveAlgebra.crossRatio_admissible`, `ProjectiveAlgebra.crossRatio_linearEquiv`, `ProjectiveAlgebra.normalize_five`.
 
 *Needs:* PolylogarithmFunctions §5.8; L0.15, L0.16, L2.18, L2.69; Mathlib `OnePoint.equivProjectivization`, `OnePoint.equivProjectivization_smul`, `FreeAbelianGroup.of`, `FreeAbelianGroup.lift`, `QuotientAddGroup.mk'`, `QuotientAddGroup.lift`, `TensorProduct`, `Submodule.span`, `Submodule.mkQ`, `Projectivization.mk`, `Projectivization.rep`, `Projectivization.mk_rep`, `Projectivization.mk_eq_mk_iff'`, `Projectivization.map`, `Projectivization.map_mk`.
 
@@ -1551,8 +1509,6 @@ Standing hypotheses of this target: `k ∈ Z`; `p` prime; `ℂ_p` with `|p| = 1/
 
 *Construction.* Radius: for `k ≥ 0, |1/n^k|_p = p^{k·v_p(n)} ≤ n^k`, and for `k < 0, |n^{−k}|_p ≤ 1`, so `Σ |z|^n |n^{−k}|_p` converges for `|z| < 1` and the radius is at least 1 (Mathlib `FormalMultilinearSeries.radius`). At `|z| = 1` the terms have `|z^n/n^k|_p ≥ 1` for all `n` prime to `p`, so they do not tend to 0 and the radius is exactly 1. A power series with positive radius `r` is the power series expansion of its sum on the ball of radius `r` (Mathlib `HasFPowerSeriesOnBall`), so `Li_k^ser` is analytic on `D⁻(0,1)`. Termwise differentiation does not change the radius: `z·(d/dz)Σ z^n/n^k = Σ z^n/n^{k−1}`. `Li_0^ser = Σ_{n≥1} z^n = z/(1−z)` on `D⁻(0,1)`; `Li_1^ser = Σ z^n/n = −log(1−z)` by the definition of the logarithm series, and `log_a` restricted to `1 + m_{ℂ_p}` is that series (L0.15). The coefficients lie in `Q ⊂ K` and a closed subfield is closed under convergent sums; a continuous automorphism `σ` fixes `Q` and commutes with limits.
 
-*In `Suggested.lean`:* `polylogSer`, `polylogSer_hasFPowerSeriesOnBall`, `radius_polylogSeries`, `polylogSer_hasDerivAt`, `polylogSer_zero_index`, `polylogSer_one_eq_neg_logOneAdd`, `polylogSer_map`, `polylogSer_mem_of_mem`.
-
 *Needs:* L0.F, L0.15, `PadicComplex`, `FormalMultilinearSeries.radius`, `HasFPowerSeriesOnBall`, `PowerSeries`, `NormedSpace.logOneAdd`, `NormedSpace.logOneAdd_eq_tsum`.
 
 **Checks.**
@@ -1570,8 +1526,6 @@ Standing hypotheses of this target: `k ∈ Z`; `p` prime; `ℂ_p` with `|p| = 1/
 Standing hypotheses of this target: `N ≥ 2` the exact order of `ζ`; `p` prime.
 
 *Proof sketch.* `Φ_N(1) = Π_{c∈(Z/N)^×}(1 − ζ^c)` (Mathlib `Polynomial.cyclotomic` and Mathlib `IsPrimitiveRoot`); `Φ_{p^r}(1) = p` (Mathlib `Polynomial.eval_one_cyclotomic_prime_pow`), and for `N` not a prime power `Φ_N(1) = 1` (Mathlib `Polynomial.eval_one_cyclotomic_not_prime_pow`), while `Φ_{ℓ^s}(1) = ℓ` for a prime `ℓ ≠ p`, a p-adic unit. All factors have the same absolute value: `1 − ζ^c = (1 − ζ)(1 + ζ + ⋯ + ζ^{c−1})` gives `|1 − ζ^c| ≤ |1 − ζ|`, and exchanging `ζ` and `ζ^c` (`ζ = (ζ^c)^{c'}` with `cc' ≡ 1`) gives the reverse inequality. Hence `|1 − ζ|^{φ(N)} = |Φ_N(1)|_p`, which is `p^{−1}` for `N = p^r` and 1 otherwise; `φ(p^r) = p^{r−1}(p − 1)`. `|ζ| = 1` since `ζ^N = 1` (Mathlib `PadicComplex`, the absolute value is multiplicative). Teichmüller: for `K` finite over `ℚ_p` with residue field of size `q`, the roots of unity of order prime to `p` in `K` are the `(q−1)-`st roots of unity, which are the image of the Teichmüller lift (Tau Ceti `TauCeti.teichmuller`, Tau Ceti `TauCeti.range_teichmuller`).
-
-*In `Suggested.lean`:* `rootOfUnity_norm_one_sub`, expressing the distance through its `φ(N)`-th power for exact order `N ≥ 2`.
 
 *Needs:* `PadicComplex`, `IsPrimitiveRoot`, `IsPrimitiveRoot.prod_one_sub_pow_eq_order`, `Polynomial.cyclotomic`, `Polynomial.eval_one_cyclotomic_prime_pow`, `Polynomial.eval_one_cyclotomic_not_prime_pow`, `TauCeti.teichmuller`, `TauCeti.range_teichmuller`.
 
@@ -2312,8 +2266,6 @@ Standing hypotheses of this target: `p` is any prime; `a,c∈ℂ_p`; `L=log_a`; 
 
 *Proof sketch.* Subtract the two finite expansions and pad the shorter polynomial by zero coefficients. The resulting polynomial in `L(z−c)` vanishes on the nonempty open annulus `r<|z−c|<1`. Apply L0.21 on that annulus: every Laurent coefficient function vanishes there. The radii are nonnegative and genuinely distinct, so no empty-annulus injectivity assertion is used. Apply the identity principle L0.A2 (e) on the outer annulus to each coefficient family. Restriction to that annulus is the identity on coefficients (L0.A1), so the family is zero. All coefficients therefore vanish on the whole punctured disc, by their existing convergent series. Recover `f=g` there. Zero derivative of an arbitrary locally analytic function is not used.
 
-*In `Suggested.lean`:* `IsLogLaurentNear.eqOn_punctured`.
-
 *Needs:* L0.21, L0.20, L2.16, L0.A1, L0.A2.
 
 **Checks.**
@@ -2896,8 +2848,6 @@ Standing hypotheses of this target: `K` is a finite extension of `ℚ_p` (so tha
 
 *Construction.* `|1 - w| = 1` and `|w| ≤ 1` give `|w^m (1-w)^{-m-1}| ≤ 1`, so `A(T) := w(1+T)/(1 - w(1+T))` lies in `O_K[[T]]`. By the bounded Mahler-Amice bijection `M(ℤ_p, O_K) = O_K[[T]]` (RJW Theorem 3.25; PadicMeasuresIwasawaAlgebras Layer 2) there is a unique measure with this transform; uniqueness is Mathlib `AbstractMeasure.injective_amiceTransform`. Residue classes: by RJW (3.6), `μ(a + p^m ℤ_p) = p^{-m} sum_{ξ in μ_{p^m}} ξ^{-a} A_μ(ξ - 1)`, and `p^{-m} sum_ξ ξ^{-a} w ξ/(1 - w ξ) = w^a/(1 - w^{p^m})` for `0 < a ≤ p^m` (an identity of rational functions of `w`, checked by expanding in `w` for `|w| < 1`). For `|w| < 1` the Amice transform of `sum_{n≥1} w^n δ_n` is `sum_n w^n (1+T)^n = Li_0(w(1+T))`.
 
-*In `Suggested.lean`:* `geometricTransform`, `existsUnique_geometricMeasure` (the transform and its integral norm bound characterize the measure).
-
 *Needs:* PadicMeasuresIwasawaAlgebras Layer 2, `AbstractMeasure`, `AbstractMeasure.amiceTransform`, `AbstractMeasure.injective_amiceTransform`.
 
 **Checks.**
@@ -2965,8 +2915,6 @@ Here `dop F = (1 + T)F′` is the light specialization of the formal derivative 
 - `unitsZPow k p = 0`, because `p` is a nonunit; evaluating `x^(−k)` on all of `ℤ_p` would give the wrong support.
 - At the unit `−1`, `unitsZPow 1 (−1) = −1` and `unitsZPow 2 (−1) = 1`, also for `p = 2`; the tests distinguish the parity of the weight.
 
-*In `Suggested.lean`:* for any measure with the stated Amice transform, `negMoment_eq_of_primitive`, `dop`, `unitsZPow`; the statement uses RestrictedPowerSeries §7.1's `TauCetiRoadmap.RestrictedPowerSeries.OnOpenDisc 1` and §2.1's `TauCetiRoadmap.RestrictedPowerSeries.eval₂ (RingHom.id K)`.
-
 *Needs:* LocallyAnalyticDistributions Layer 1, PadicMeasuresIwasawaAlgebras Layer 2.
 
 ### L3.7 Negative moments of the geometric measure are modified polylogarithms
@@ -3028,7 +2976,7 @@ Standing hypotheses of this target: `k≥2` (for `k = 1` the series converges on
 
 *Proof sketch.* Put `Φ := N^{-1} G(θ) θ^{-1}`. By Mathlib `DirichletCharacter.IsPrimitive.fourierTransform_eq_inv_mul_gaussSum` applied to `θ^{-1}, F(θ^{-1})(j) = θ(-j) G(θ^{-1})`; with Mathlib `ZMod.dft_dft` and Mathlib `ZMod.dft_comp_neg` this gives `F Φ = θ`, using `G(θ) G(θ^{-1}) = θ(-1) N` (DirichletPadicLFunctions Layer 0; it also follows from Mathlib `ZMod.dft_dft`). Mathlib `ZMod.LFunction_dft` `(Φ(0) = 0)`: `L(θ, s) = N^{-1} G(θ) sum_j θ^{-1}(j) expZeta(-j/N, s)` for all `s`; substituting `j → -j` and `θ^{-1}(-1) = θ(-1)` gives `θ(-1) G(θ) N^{-1} = G(θ^{-1})^{-1}` times `sum_c θ^{-1}(c) expZeta(c/N, s)`. For `k ≥ 2` apply L3.12. For `k = 1` the value is RJW Theorem 6.1(i), `L(θ, 1) = −G(θ⁻¹)⁻¹ Σ_c θ⁻¹(c) log(1 − e^(2πic/N))` (DirichletPadicLFunctions Layer 3), and `Li_1(z) = −log(1 − z)` on the closed disc minus 1 (L2.Fa).
 
-*In `Suggested.lean`:* the case `k ≥ 2` (`k = 1` is RJW Theorem 6.1(i), through DirichletPadicLFunctions Layer 3), `LFunction_nat_eq_gaussSum_inv_mul_sum_complexPolylog`.
+*In `Suggested.lean`:* `LFunction_nat_eq_gaussSum_inv_mul_sum_complexPolylog` states the formula for every `k ≥ 1`, including the principal-logarithm value at weight one.
 
 *Needs:* `DirichletCharacter.LFunction`, `DirichletCharacter.LFunction_eq_LSeries`, `ZMod.LFunction_dft`, `DirichletCharacter.IsPrimitive.fourierTransform_eq_inv_mul_gaussSum`, `ZMod.dft_dft`, `ZMod.dft_comp_neg`, `gaussSum`, `ZMod.stdAddChar`, `ZMod.toAddCircle`, `HurwitzZeta.expZeta`, L3.12, DirichletPadicLFunctions Layer 0, DirichletPadicLFunctions Layer 3, 2.Fa.
 
@@ -3126,8 +3074,6 @@ Standing hypotheses of this target: (C10).
 - `rotatedSmoothedTransform_eq_rational`: For `b≥1` and `w` in a field `K` with `w≠1` and `w^b≠1`, the explicit `G_(b,w)` equals `(w(1+T)-1)^(-1)-b*(w^b(1+T)^b-1)^(-1)` in `K[[T]]`. These hypotheses ensure both separate denominators have nonzero constant coefficient. They hold for `w` a nontrivial `p`-power root of unity and `b` prime to p. This identity is not extended to `w=1`.
 
 *Construction.* Define `G` by the displayed finite sums. The denominator lemma gives an invertible constant coefficient. Existing `PowerSeries.mul_inv_cancel` gives `Q_b(W)G=R_b(W)`; multiplying by its inverse proves uniqueness. Applying `constantCoeff` gives `R_b(w)/Q_b(w)`. Let `h_n` be the coefficients of `Q_b(W)^(-1)`. The pinned `PowerSeries.coeff_inv` recurrence gives `h_0=Q_b(w)^(-1)` and, for `n>0, h_n=-h_0 sum_(i+j=n,j<n)q_i h_j`. Since `|h_0|=1` and all `|q_i|≤1`, strong induction and the finite ultrametric inequality give `|h_n|≤1`. The finite `R` polynomial and `PowerSeries.coeff_mul` give `|coeff_n G|≤1`. For each real `0≤ρ<1, |coeff_n G|ρ^n≤ρ^n` tends to zero; use `PowerSeries.isRestricted_iff` to obtain `R^+`. For `|t|<1`, the series converges in the complete ultrametric field. Multiplication by the finite polynomial `Q` is justified by finite summation and gives `Q_b(w(1+t))G(t)=R_b(w(1+t))`. The denominator lemma at `w(1+t)`, still in the disc of 1, permits division. This proves evaluation on the whole disc, not merely a germ. The finite identities `(Z-1)Q_b(Z)=Z^b-1` and `(Z-1)R_b(Z)=Q_b(Z)-b` follow by telescoping; the first is baseline `geom_sum_mul`, the second follows by subtracting adjacent coefficients. At `Z=1+T`, compare `Q_b(1+T)` with the exact supplier `smoothingDenominator` and `T R_b(1+T)=Q_b(1+T)-b`. Use `TauCetiRoadmap.DirichletPadicLFunctions.smoothedSeries_spec` and `TauCetiRoadmap.DirichletPadicLFunctions.smoothedSeries_unique` to identify `G_(b,1)` with `TauCetiRoadmap.DirichletPadicLFunctions.smoothedSeries K b hb`, carrying `hb : IsUnit (b : K)`. No generic smoothing definition is introduced here. If `z≠1, Q_b(z)≠0` on the disc implies `z^b-1≠0`, and the finite identities give the displayed scalar rational expression after clearing denominators. At `z=1, sum_(i<b-1)(b-1-i)=b(b-1)/2` and `Q_b(1)=b` give `(b-1)/2`. This is a removable value, not evaluation of the two separate reciprocal terms. A field homomorphism carries the finite sums to their coefficient images and preserves the unique inverse when `Q_b(w)≠0`, so the construction commutes with coefficient maps. `b=1` gives zero. For the inverse-negative-control, baseline `PowerSeries.inv_eq_zero` makes both old separate inverses zero at `w=1`, whereas `G_(2,1)` has constant `1/2`.
-
-*In `Suggested.lean`:* `rotatedSmoothedTransform`, `constantCoeff_rotatedSmoothedTransform_one`, `rotatedSmoothedTransform_mul_denominator`, `rotatedSmoothedTransform_unique`, `rotatedSmoothedTransform_coeff_bound`, `rotatedSmoothedTransform_mem_openDisc`, `rotatedSmoothedTransform_eval`, `rotatedSmoothedTransform_eq_rational`.
 
 *Needs:* L3.17, DirichletPadicLFunctions Layer 1, `PowerSeries.mul_inv_cancel`, `PowerSeries.constantCoeff_inv`, `PowerSeries.coeff_inv`, `PowerSeries.coeff_mul`, `PowerSeries.isRestricted_iff`, `PowerSeries.inv_eq_zero`, `geom_sum_mul`.
 
@@ -3291,7 +3237,7 @@ Standing hypotheses of this target: `θ` nontrivial primitive of conductor `N`; 
 
 *Proof sketch.* Specialise L3.28 to `k = 1` and use `Li_1(z) = -log_p(1 - z)` (L2.5, L0.18). Compare with the statement of RJW Theorem 6.1, whose owner is DirichletPadicLFunctions Layer 3.
 
-*In `Suggested.lean`:* `LFunction_one_eq_gaussSum_inv_mul_sum_complexPolylog` for the complex weight-one comparison.
+*In `Suggested.lean`:* the weight-one specialization of `LFunction_nat_eq_gaussSum_inv_mul_sum_complexPolylog` is the complex comparison.
 
 *Needs:* L3.28, L3.13, L2.5, L0.18, DirichletPadicLFunctions Layer 3.
 
@@ -3394,8 +3340,8 @@ Layers L0–L2; PolylogarithmFunctions §§4.2–4.7; DirichletPadicLFunctions L
 
 Locators give theorem, section and page in the edition listed; published page numbers are marked as such.
 
-- **Weibel:** Charles Weibel, [The K-book: An introduction to algebraic K-theory](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf), author copy dated 29 August 2013; IV §6.4, p. 321.
-- **Quillen:** Daniel Quillen, [Higher algebraic K-theory I](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf), Lecture Notes in Mathematics 341 (1973), 85–147; locators use the published pagination.
+- **Weibel:** Charles Weibel, *The K-book: An introduction to algebraic K-theory*, edition dated 29 August 2013; IV §6.4, p. 321.
+- **Quillen:** Daniel Quillen, *Higher algebraic K-theory I*, Lecture Notes in Mathematics 341 (1973), 85–147; locators use the published pagination.
 - **Feliu:** Elisenda Feliu, [A chain morphism for Adams operations on rational algebraic K-theory](https://arxiv.org/abs/0808.3882v2), arXiv:0808.3882v2.
 - **RJW:** Joaquin Rodrigues Jacinto, Chris Williams, [An introduction to p-adic L-functions](https://arxiv.org/abs/2309.15692v2), arXiv:2309.15692v2.
 - **F:** Hidekazu Furusho, [p-adic multiple zeta values I: p-adic multiple polylogarithms and the p-adic KZ equation](https://arxiv.org/abs/math/0304085v2), arXiv:math/0304085v2 (published Invent. Math. 155 (2004)).
@@ -3414,7 +3360,7 @@ Locators give theorem, section and page in the edition listed; published page nu
 - **DJ:** Rob de Jeu, [Describing all multivariable functional equations of dilogarithms](https://arxiv.org/abs/2007.11014v1), arXiv:2007.11014v1, 21 July 2020.
 - **FPZ:** Xander Faber, Keith Pardue, David Zelinsky, [Cross-Ratios of Scheme-Valued Points](https://arxiv.org/abs/2012.03073v1), arXiv:2012.03073v1, 5 December 2020.
 - **Lazard 1962:** Michel Lazard, [Les zéros des fonctions analytiques d'une variable sur un corps valué complet](http://www.numdam.org/item/PMIHES_1962__14__47_0/), Publ. Math. IHÉS 14 (1962), 47–75 (version of record).
-- **Kedlaya pde:** Kiran S. Kedlaya, [p-adic Differential Equations](https://kskedlaya.org/papers/p-adic_differential_equations.pdf), Cambridge Studies in Advanced Mathematics 125, Cambridge University Press, 2010; author copy from the author's page; locators use the printed pagination.
+- **Kedlaya pde:** Kiran S. Kedlaya, *p-adic Differential Equations*, Cambridge Studies in Advanced Mathematics 125, Cambridge University Press, 2010; locators use the printed pagination.
 - **BC:** Francesco Baldassarri, joint work with Bruno Chiarellotto, [Algebraic versus rigid cohomology with logarithmic coefficients: the 1-dimensional example](https://www.kurims.kyoto-u.ac.jp/~kyodo/kokyuroku/contents/pdf/0773-02.pdf), RIMS Kôkyûroku 773 (1991), pp.7–21.
 
 - **Stacks:** The Stacks Project, [§53.4: Duality, tag 0E31](https://stacks.math.columbia.edu/tag/0E31), Lemmas 53.4.1(6) and 53.4.4(2).
