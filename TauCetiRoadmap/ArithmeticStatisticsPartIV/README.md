@@ -54,9 +54,9 @@ AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layers 4�
 
 ## How to read the build
 
-The mathematical specification is this README; `Suggested.lean` gives representative light definitions and signatures on the pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers. Its short definitions give partition representatives, Cohen–Lenstra weights, surjection moments, matrix laws and exponent-bounded group classes; the remaining definitions and basic properties below specify the library to build. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
-The p-adic signatures use the native quotient module `padicCokernel` and normalized `padicMatrixHaar` directly: `surjectionMoment_cokernelLaw` states the exact Haar moment, `tendsto_cokernelLaw` the rectangular Friedman–Washington limit, and `tendsto_translation_cokernelLaw` its square `1 − F` form. Their target is any finite additive abelian group `A` with `IsPGroup p (Multiplicative A)`, and their measurable structure on `ℤ_p` is Borel. The partition-indexed measures and their group-valued moment uniqueness and convergence theorems require the isomorphism-class carrier specified in §3.3.
+The p-adic signatures use the native quotient module `padicCokernel` and normalized `padicMatrixHaar` directly: `surjectionMoment_cokernelLaw` states the exact Haar moment, `tendsto_cokernelLaw` the rectangular Friedman–Washington limit, and `tendsto_translation_cokernelLaw` its square `1 − F` form. Their target is any finite additive abelian group `A` with `IsPGroup p (Multiplicative A)`, and their measurable structure on `ℤ_p` is Borel. The partition carrier `FinAbPGroupClass` and its native cyclic-product representatives support the Cohen–Lenstra mass, moment and all-prime convergence statements. Wood's bounded moment theorem uses `Distributions.BoundedAbGroupClass`, a subtype of Mathlib's categorical skeleton of integer modules, with the native exterior square in its growth hypothesis.
 
 ## Layer 3: Finite groups, matrix laws and moment tools
 
@@ -70,16 +70,16 @@ The finite laws are independent of their arithmetic interpretations. For the all
 
 `n ≥ 1`; for the Galois-group restriction `Γ` is a transitive subgroup of `S_n`, identified up to conjugacy. `P` must be invariant under `ℚ`-algebra isomorphism; otherwise the count depends on the chosen subfield in the class. The discriminant is Mathlib's signed `NumberField.discr`; the interval `(ξ, η)` is open at both ends, matching BST's `N₃(ξ, η)`. Fields are counted up to isomorphism, not as subfields of `ℚ̄` (a non-Galois cubic field has three conjugate subfields and is counted once).
 
-The required API is:
+Required definitions and properties:
 
-- `numberFieldCount`: `N_n(P; ξ, η) ∈ ℕ`, the number of `ℚ`-isomorphism classes of degree-n number fields `K` with `ξ < Disc(K) < η` and `P(K)`, for an isomorphism-invariant predicate `P`.
-- `finite_numberFieldsInInterval`: The set `S_n(P; ξ, η)` of intermediate fields of `ℚ̄/ℚ` of degree `n` with `ξ < discr < η` and `P` is finite (from `NumberField.finite_of_discr_bdd`).
-- `numberFieldCount_eq_sum_card_aut`: `(N_n(P; ξ, η) : ℚ) = Σ_{K ∈ S_n(P; ξ, η)} (#Aut(K/ℚ) : ℚ)/(n : ℚ)` (each isomorphism class has `n/#Aut(K/ℚ)` conjugate subfields).
-- `numberFieldCount_mono`: `N_n(P; ξ, η) ≤ N_n(P'; ξ', η')` whenever `P ⇒ P'` and `(ξ, η) ⊆ (ξ', η')`.
-- `numberFieldCount_add_of_disjoint`: For disjoint isomorphism-invariant predicates `P, P': N_n(P ∨ P'; ξ, η) = N_n(P; ξ, η) + N_n(P'; ξ, η)`; in particular `N_n(P; ξ, η) = Σ_{r₂=0}^{⌊n/2⌋} N_n(P ∧ (r₂(K) = r₂); ξ, η)`.
-- `numberFieldCount_neg_eq_odd_nrComplexPlaces`: For `X≥0, N_n(P; −X, 0) = N_n(P ∧ (r₂(K) odd); −X, X)` `= N_n(P ∧ (r₂(K) odd); X)`, where the last notation is the absolute-discriminant count. A positive signed interval (0,X) would give zero for the `odd-r₂` predicate.
-- `numberFieldCount_eq_ncard_of_two`: For `n = 2` every quadratic field is Galois with exactly one subfield of `ℚ̄` in its class, so `N₂(P; ξ, η) = #S₂(P; ξ, η)`.
-- `numberFieldCount_congr`: If `P` and `P'` agree on all number fields of degree `n` then `N_n(P; ξ, η) = N_n(P'; ξ, η)`.
+- `N_n(P; ξ, η) ∈ ℕ`, the number of `ℚ`-isomorphism classes of degree-n number fields `K` with `ξ < Disc(K) < η` and `P(K)`, for an isomorphism-invariant predicate `P`.
+- The set `S_n(P; ξ, η)` of intermediate fields of `ℚ̄/ℚ` of degree `n` with `ξ < discr < η` and `P` is finite (from `NumberField.finite_of_discr_bdd`).
+- `(N_n(P; ξ, η) : ℚ) = Σ_{K ∈ S_n(P; ξ, η)} (#Aut(K/ℚ) : ℚ)/(n : ℚ)` (each isomorphism class has `n/#Aut(K/ℚ)` conjugate subfields).
+- `N_n(P; ξ, η) ≤ N_n(P'; ξ', η')` whenever `P ⇒ P'` and `(ξ, η) ⊆ (ξ', η')`.
+- For disjoint isomorphism-invariant predicates `P, P': N_n(P ∨ P'; ξ, η) = N_n(P; ξ, η) + N_n(P'; ξ, η)`; in particular `N_n(P; ξ, η) = Σ_{r₂=0}^{⌊n/2⌋} N_n(P ∧ (r₂(K) = r₂); ξ, η)`.
+- For `X≥0, N_n(P; −X, 0) = N_n(P ∧ (r₂(K) odd); −X, X)` `= N_n(P ∧ (r₂(K) odd); X)`, where the last notation is the absolute-discriminant count. A positive signed interval (0,X) would give zero for the `odd-r₂` predicate.
+- For `n = 2` every quadratic field is Galois with exactly one subfield of `ℚ̄` in its class, so `N₂(P; ξ, η) = #S₂(P; ξ, η)`.
+- If `P` and `P'` agree on all number fields of degree `n` then `N_n(P; ξ, η) = N_n(P'; ξ, η)`.
 
 The set `S_n(P; ξ, η)` is contained in the set of intermediate fields `K` of `ℚ̄/ℚ` with `|discr K| ≤ ⌈max(|ξ|, |η|)⌉`, which is finite by `NumberField.finite_of_discr_bdd`; take `Nat.card` of the quotient by the isomorphism relation. Invariance of `P` and of finrank and discr under `ℚ`-isomorphism makes the quotient well defined; the embedding of every number field of degree `n` into `ℚ̄` (its minimal polynomial splits in `ℚ̄`) shows that every isomorphism class is represented. The subfield formula: the members of `S_n(P; ξ, η)` isomorphic to a fixed `K` are the images of the `n` embeddings `K → ℚ̄`, two embeddings having the same image iff they differ by an automorphism of `K`, so the class of `K` has `n/#Aut(K/ℚ)` members and the sum of the rational weights `#Aut(K/ℚ)/n` is `N_n(P; ξ, η)`. In a non-Galois cubic class each of its three subfields contributes `1/3`; natural-number division would incorrectly give zero. The family of degree-n number fields up to isomorphism, ordered by `|Disc|`, with weight 1 (or `1/#Aut(K/ℚ)` for the weighted count), is an instance of the arithmetic family of [ArithmeticStatisticsPartI §0.1, arithmetic family](../ArithmeticStatisticsPartI/README.md#arithmetic-family); its strict counting function `countLT` is `N_n(P; X)`, and its bounded-height finiteness is Hermite's theorem.
 
@@ -101,16 +101,16 @@ The set `S_n(P; ξ, η)` is contained in the set of intermediate fields `K` of `
 
 For `m≥1`, the class group is Mathlib's `ClassGroup (𝓞 K)` of the ring of integers (the wide class group); narrow class groups, where used, are named explicitly. `Cl(K)` is finite (`NumberField.classNumber`), so `h_m(K)` is a positive integer dividing the class number.
 
-The required API is:
+Required definitions and properties:
 
-- `classGroupTorsionCard`: `h_m(K) = Nat.card {c : ClassGroup (𝓞 K) // c ^ m = 1}`.
-- `classGroupTorsionCard_pos`: `1 ≤ h_m(K)` (the trivial class is m-torsion).
-- `classGroupTorsionCard_dvd_classNumber`: `h_m(K)` divides `NumberField.classNumber K`.
-- `classGroupTorsionCard_mul_of_coprime`: For coprime `m`, m': `h_{mm'}(K) = h_m(K) h_{m'}(K)`.
-- `classGroupTorsionCard_prime_eq_pow_rank`: For `p` prime, `h_p(K) = #(Cl(K)/Cl(K)^p) = p^{rk_p Cl(K)}` with `rk_p A = dim_{F_p} A/pA`.
-- `classGroupTorsionCard_one`: `h₁(K) = 1`.
-- `classGroupTorsionCard_two_eq_elementaryTwoQuotient`: `h₂(K) = #(Cl(K)/Cl(K)^2)` on Tau Ceti’s elementary-two-quotient carrier.
-- `classGroupTorsionCard_congr`: A `ℚ`-algebra isomorphism `K ≃ K'` gives `h_m(K) = h_m(K')`.
+- `h_m(K) = Nat.card {c : ClassGroup (𝓞 K) // c ^ m = 1}`.
+- `1 ≤ h_m(K)` (the trivial class is m-torsion).
+- `h_m(K)` divides `NumberField.classNumber K`.
+- For coprime `m`, m': `h_{mm'}(K) = h_m(K) h_{m'}(K)`.
+- For `p` prime, `h_p(K) = #(Cl(K)/Cl(K)^p) = p^{rk_p Cl(K)}` with `rk_p A = dim_{F_p} A/pA`.
+- `h₁(K) = 1`.
+- `h₂(K) = #(Cl(K)/Cl(K)^2)` on Tau Ceti’s elementary-two-quotient carrier.
+- A `ℚ`-algebra isomorphism `K ≃ K'` gives `h_m(K) = h_m(K')`.
 
 Define `h_m(K)` as `Nat.card` of the subtype `{c : ClassGroup (𝓞 K) // c ^ m = 1}`; it is the kernel of the m-th power endomorphism of the finite abelian group `Cl(K)`. For a finite abelian group `A, #A[m] = #(A/mA) = #Hom(A, ℤ/mℤ)` (duality of finite abelian groups), and for `m = p` prime `#A[p] = p^{rk_p A}`. For coprime `m`, m': `A[mm'] ≅ A[m] × A[m']`, so `h_{mm'} = h_m h_{m'}`; and `h_m(K)` divides `h(K) = NumberField.classNumber K` by Lagrange.
 
@@ -135,18 +135,18 @@ Define `h_m(K)` as `Nat.card` of the subtype `{c : ClassGroup (𝓞 K) // c ^ m 
 
 The polynomial definition permits all `n,k≥0`. For the subspace count `q=#𝔽_q` is a prime power; the count is zero for `k>n`.
 
-The required API is:
+Required definitions and properties:
 
-- `gaussBinomPoly`: the natural-coefficient Gaussian polynomial with the displayed successor recursion, zero column and empty-size values; its evaluation is `gaussBinom`.
-- `gaussBinom`: `[n k]_t` as an element of a commutative semiring, via polynomial evaluation of the recursion (0 for `k > n`).
-- `gaussBinom_zero_right`: `[n 0]_t = 1`.
-- `gaussBinom_self`: `[n n]_t = 1`.
-- `gaussBinom_succ_succ`: `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t`.
-- `gaussBinom_eq_prod`: For `k≤n`, when no `t^i (1 ≤ i ≤ n)` equals `1: [n k]_t = ∏_{i=1}^{k}(1 − t^{n−k+i})/(1 − t^i)`.
-- `gaussBinom_eq_zero_of_lt`: `[n k]_t = 0` for `n < k`.
-- `gaussBinom_symm`: `[n k]_t = [n n−k]_t` for `k ≤ n`.
-- `gaussBinom_one`: `[n k]_1 = Nat.choose n k`.
-- `card_submodules_finrank_eq_gaussBinom`: For a finite field `K` with `q` elements, `#{W ≤ K^n : dim W = k} = [n k]_q`.
+- The natural-coefficient Gaussian polynomial with the displayed successor recursion, zero column and empty-size values; its evaluation is the Gaussian coefficient.
+- `[n k]_t` as an element of a commutative semiring, via polynomial evaluation of the recursion (0 for `k > n`).
+- `[n 0]_t = 1`.
+- `[n n]_t = 1`.
+- `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t`.
+- For `k≤n`, when no `t^i (1 ≤ i ≤ n)` equals `1: [n k]_t = ∏_{i=1}^{k}(1 − t^{n−k+i})/(1 − t^i)`.
+- `[n k]_t = 0` for `n < k`.
+- `[n k]_t = [n n−k]_t` for `k ≤ n`.
+- `[n k]_1 = Nat.choose n k`.
+- For a finite field `K` with `q` elements, `#{W ≤ K^n : dim W = k} = [n k]_q`.
 
 Define `[n k]_t` by the recursion in `ℕ[t]`, and evaluate at `t` using the natural-number coefficient map. Product formula: induct on `n`, treating the zero column separately; the recursion `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t` for `n,k≥0` is checked between the products by clearing the nonzero denominators in a field. Subspace count: the k-dimensional subspaces of `𝔽_q^n` are the orbits of `GL_k(𝔽_q)` acting freely on linearly independent k-tuples; divide `mathlib:card_linearIndependent (#independent k-tuples = ∏_{i<k}(q^n − q^i))` by `mathlib:Matrix.card_GL_field (#GL_k(𝔽_q) = ∏_{i<k}(q^k − q^i))` and compare with the product formula.
 
@@ -166,11 +166,11 @@ Define `[n k]_t` by the recursion in `ℕ[t]`, and evaluate at `t` using the nat
 
 <a id="cauchy-q-binomial-theorem"></a>
 
-**Cauchy q binomial theorem.** `cauchy_qBinomial`: for an element `t` of a commutative ring and `n ≥ 0`, in the polynomial ring in `z: ∏_{i=0}^{n−1} (1 + t^{i} z) = Σ_{k=0}^{n} t^{k(k−1)/2} [n k]_t z^{k}`.
+**Cauchy q binomial theorem.** For an element `t` of a commutative ring and `n ≥ 0`, in the polynomial ring in `z: ∏_{i=0}^{n−1} (1 + t^{i} z) = Σ_{k=0}^{n} t^{k(k−1)/2} [n k]_t z^{k}`.
 
 `n ≥ 0; t` arbitrary
 
-Induct on `n`: multiply the identity for `n` by `(1 + t^{n} z)` and compare coefficients of `z^{k+1}` for `0≤k≤n` using `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t` and its equivalent form `[n+1 k+1]_t = [n k+1]_t + t^{n−k}[n k]_t` ([gaussian binomial coefficient](#gaussian-binomial-coefficient), API `gaussBinom_succ_succ` and `gaussBinom_symm`). Coefficient comparison is routine algebra in `ℤ[t][z]` (`Polynomial.coeff` (Mathlib)).
+Induct on `n`: multiply the identity for `n` by `(1 + t^{n} z)` and compare coefficients of `z^{k+1}` for `0≤k≤n` using `[n+1 k+1]_t = [n k]_t + t^{k+1}[n k+1]_t` and its equivalent form `[n+1 k+1]_t = [n k+1]_t + t^{n−k}[n k]_t` ([gaussian binomial coefficient](#gaussian-binomial-coefficient), using the successor recursion and symmetry). Coefficient comparison is routine algebra in `ℤ[t][z]` (`Polynomial.coeff` (Mathlib)).
 
 *Needs:* [gaussian binomial coefficient](#gaussian-binomial-coefficient), `Polynomial.coeff` (Mathlib).
 
@@ -188,19 +188,19 @@ Induct on `n`: multiply the identity for `n` by `(1 + t^{n} z)` and compare coef
 
 **Isomorphism classes of finite abelian p groups.** The carrier `L` of isomorphism classes of finite abelian p-groups is the type of pairs `(n, λ)` with `n ∈ ℕ` and `λ` a partition of `n` (Mathlib `Nat.Partition n`). For a prime `p` the class `(n, λ)` is realised by the standard representative `A_λ = ⊕_i ℤ/p^{λ_i}` (parts in decreasing order), a group of order `p^n`. Attached data: the conjugate partition `λ'_i = #{j : λ_j ≥ i}` (so `λ'_1` is the p-rank and `p^{λ'_1} = |A_λ[p]|`), the multiplicity `m_i(λ) = #{j : λ_j = i}`, the automorphism count `|Aut A_λ|`, and the trivial class `(0, ∅)`. Every finite abelian p-group is isomorphic to `A_λ` for exactly one `λ`.
 
-The required API is:
+Required definitions and properties:
 
 - `FinAbPGroupClass.toGroup`: The standard representative `⊕_i ℤ/p^{λ_i}` of a class, an additive commutative group.
-- `FinAbPGroupClass.card_toGroup`: For `p` prime, `|toGroup p (n, λ)| = p^n`.
-- `FinAbPGroupClass.exists_addEquiv_toGroup`: Every finite abelian group `G` in which every element is killed by a power of `p` is isomorphic to toGroup `p A` for some class `A` (compatibility with Mathlib's structure theorem `AddCommGroup.equiv_directSum_zmod_of_finite`).
-- `FinAbPGroupClass.eq_of_addEquiv`: If toGroup `p A ≅` toGroup `p B` then `A = B`.
-- `FinAbPGroupClass.conjPart`: The conjugate partition `λ'_i = #{j : λ_j ≥ i}`.
-- `FinAbPGroupClass.partMult`: The multiplicity `m_i(λ)` of the part `i`.
-- `FinAbPGroupClass.card_torsion_eq_pow_conjPart`: `|{x ∈ A_λ : p x = 0}| = p^{λ'_1}` (the p-rank).
-- `FinAbPGroupClass.autCard`: `|Aut(A_λ)|`, the number of additive automorphisms of the representative.
-- `FinAbPGroupClass.autCard_pos`: `|Aut A_λ| > 0`.
-- `FinAbPGroupClass.trivial`: The trivial class `(0, ∅)`.
-- `FinAbPGroupClass.subsingleton_toGroup_trivial`: The representative of the trivial class is the zero group.
+- For `p` prime, `|toGroup p (n, λ)| = p^n`.
+- Every finite abelian group `G` in which every element is killed by a power of `p` is isomorphic to toGroup `p A` for some class `A` (compatibility with Mathlib's structure theorem `AddCommGroup.equiv_directSum_zmod_of_finite`).
+- If toGroup `p A ≅` toGroup `p B` then `A = B`.
+- The conjugate partition `λ'_i = #{j : λ_j ≥ i}`.
+- The multiplicity `m_i(λ)` of the part `i`.
+- `|{x ∈ A_λ : p x = 0}| = p^{λ'_1}` (the p-rank).
+- `|Aut(A_λ)|`, the number of additive automorphisms of the representative.
+- `|Aut A_λ| > 0`.
+- The trivial class `(0, ∅)`.
+- The representative of the trivial class is the zero group.
 
 Define the carrier as the dependent pair type `Σ n, Nat.Partition n`; sort the parts decreasingly and take the product of ZMod `(p^{λ_i})` as representative, with its AddCommGroup structure from the Pi instance. Order: `|A_λ| = ∏ p^{λ_i} = p^{Σλ_i} = p^n` (ZMod.card and `Fintype.card` of a Pi type). Existence of a class for a finite abelian p-group `G`: apply `AddCommGroup.equiv_directSum_zmod_of_finite` to get `G ≅ ⊕ ℤ/q_i^{e_i}`; since `G` is p-primary every `q_i = p` (or `e_i = 0`), so the exponents form a partition of `log_p|G|`. Uniqueness: the conjugate partition is recovered from the invariants `|p^{i-1}G/p^iG| = p^{λ'_i}`, which are isomorphism invariants, and a partition is determined by its conjugate. The p-torsion count `|A_λ[p]| = p^{λ'_1}`: each cyclic factor `ℤ/p^{λ_j}` with `λ_j ≥ 1` contributes a factor p.
 
@@ -235,15 +235,15 @@ Describe `End(A)` as the ring of `n×n` matrices `(a_{ij})` with `a_{ij} ∈ ℤ
 
 **Surjection count.** For additive abelian groups `X` and `A`, `Sur(X, A)` is the set of surjective group homomorphisms `X → A` and `|Sur(X, A)|` its cardinality (Nat.card; it is finite when `X` is finitely generated and A finite).
 
-The required API is:
+Required definitions and properties:
 
 - `surjCard`: `|Sur(X, A)|` as a natural number.
-- `surjCard_congr`: Isomorphisms `X ≅ X', A ≅ A'` give `|Sur(X, A)| = |Sur(X', A')|`.
-- `surjCard_self_eq_card_aut`: For every finite additive abelian group `A`, `|Sur(A,A)| = #(A ≃+ A)`.
-- `surjCard_toGroup_self`: `|Sur(A_λ, A_λ)| = |Aut(A_λ)|`.
-- `surjCard_le_card_hom`: `|Sur(X, A)| ≤ |Hom(X, A)|` for finite `X, A`.
-- `surjCard_punit`: `|Sur(X, 0)| = 1`.
-- `surjCard_eq_zero_of_card_lt`: If `|X| < |A|` (finite) then `|Sur(X, A)| = 0`.
+- Isomorphisms `X ≅ X', A ≅ A'` give `|Sur(X, A)| = |Sur(X', A')|`.
+- For every finite additive abelian group `A`, `|Sur(A,A)| = #(A ≃+ A)`.
+- `|Sur(A_λ, A_λ)| = |Aut(A_λ)|`.
+- `|Sur(X, A)| ≤ |Hom(X, A)|` for finite `X, A`.
+- `|Sur(X, 0)| = 1`.
+- If `|X| < |A|` (finite) then `|Sur(X, A)| = 0`.
 
 Define `|Sur(X, A)|` as `Nat.card` of the subtype `{f : X →+ A // f surjective}`. Invariance: composing with isomorphisms `X ≅ X', A ≅ A'` is a bijection on surjections. For finite `X, A`: a surjection from a group of smaller order does not exist; surjective endomorphisms of a finite group are automorphisms.
 
@@ -322,7 +322,7 @@ Group the sum by `n = log_p|A|: Σ_A |A|^{−u}|Aut A|^{−1} = Σ_n q^{nu} Σ_{
 
 <a id="cohen-lenstra-mass-formula"></a>
 
-**Cohen lenstra mass formula.** For a prime `p` and `u ≥ 0, Σ_{A ∈ L} c_{p,u}/(|A|^u |Aut A|) = 1, i.e`. the Cohen–Lenstra weights have total mass one.
+**Cohen lenstra mass formula.** `cohenLenstra_mass`: for a prime `p` and `u ≥ 0, Σ_{A ∈ L} c_{p,u}/(|A|^u |Aut A|) = 1, i.e`. the Cohen–Lenstra weights have total mass one.
 
 Multiply [weighted inverse automorphism sum](#weighted-inverse-automorphism-sum) by `c_{p,u} = ∏_{j≥u+1}(1 − p^{−j})`; the product is multipliable and nonzero, so `c_{p,u}·c_{p,u}^{−1} = 1`. Transport the real series to `ℝ≥0∞` (ENNReal.ofReal of nonnegative terms) to get the HasSum statement used by the PMF.
 
@@ -339,20 +339,20 @@ Multiply [weighted inverse automorphism sum](#weighted-inverse-automorphism-sum)
 
 **Cohen lenstra measure.** For a prime `p` and an integer `u ≥ 0` put `c_{p,u} = ∏_{i ≥ u+1} (1 − p^{−i})`. The Cohen–Lenstra measure `μ_{p,u}` is the probability measure on the isomorphism classes `L` of finite abelian p-groups with `μ_{p,u}(A) = c_{p,u} / (|A|^u · |Aut A|)`. For odd `p`, `u=0` gives the conjectural imaginary-quadratic Cohen–Lenstra distribution of EVW §8.1 and §8.5, and `u=1` gives the corresponding real-quadratic model. The abstract probability measures are defined for every prime, including `2`. Total mass one is the mass formula ([cohen lenstra mass formula](#cohen-lenstra-mass-formula)), which the construction takes as input.
 
-The required API is:
+Required definitions and properties:
 
 - `cohenLenstraConstant`: `c_{p,u} = ∏_{i≥u+1} (1 − p^{−i})`.
 - `cohenLenstraWeight`: The weight `c_{p,u}/(|A|^u |Aut A|) ∈ [0, ∞]`.
-- `cohenLenstraMeasure`: `μ_{p,u}` as a probability mass function on the carrier (built from the mass formula).
-- `cohenLenstraMeasure_apply`: `μ_{p,u}(A) = c_{p,u}/(|A|^u |Aut A|)`.
-- `cohenLenstraConstant_pos`: `0 < c_{p,u}`.
-- `cohenLenstraConstant_lt_one`: `c_{p,u} < 1`.
-- `cohenLenstraConstant_eq_mul_succ`: `c_{p,u} = (1 − p^{−(u+1)}) c_{p,u+1}`.
-- `cohenLenstraWeight_trivial`: `μ_{p,u}(0) = c_{p,u}`.
-- `cohenLenstraWeight_mul_card_autCard`: `μ_{p,u}(A) · |A|^u |Aut A| = c_{p,u}`: the measure is proportional to `1/(|A|^u |Aut A|)`.
-- `cohenLenstraMeasure_rank_eq`: The p-rank law: `μ_{p,u}(p-rank = k) = p^{−k(k+u)} ∏_{i=1}^{k}(1 − p^{−i})^{−1} ∏_{i=1}^{k+u}(1 − p^{−i})^{−1} ∏_{i≥1}(1 − p^{−i})` (Wood, Corollary 3.5).
+- `μ_{p,u}` as a probability mass function on the carrier (built from the mass formula).
+- `μ_{p,u}(A) = c_{p,u}/(|A|^u |Aut A|)`.
+- `0 < c_{p,u}`.
+- `c_{p,u} < 1`.
+- `c_{p,u} = (1 − p^{−(u+1)}) c_{p,u+1}`.
+- `μ_{p,u}(0) = c_{p,u}`.
+- `μ_{p,u}(A) · |A|^u |Aut A| = c_{p,u}`: the measure is proportional to `1/(|A|^u |Aut A|)`.
+- The p-rank law: `μ_{p,u}(p-rank = k) = p^{−k(k+u)} ∏_{i=1}^{k}(1 − p^{−i})^{−1} ∏_{i=1}^{k+u}(1 − p^{−i})^{−1} ∏_{i≥1}(1 − p^{−i})` (Wood, Corollary 3.5).
 
-Define `c_{p,u}` as the convergent infinite product `∏_{i≥0} (1 − p^{−(i+u+1)})` (tprod), positive and `< 1` because `Σ p^{−i} < ∞`. Define the weight `w(A) = c_{p,u}/(|A|^u |Aut A|)` in `[0, ∞]` using the carrier's order `p^{A.1}` and autCard. By the mass formula the weights sum to 1, so they define a probability mass function (Mathlib PMF).
+Define `c_{p,u}` as the convergent infinite product `∏_{i≥0} (1 − p^{−(i+u+1)})` (tprod), positive and `< 1` because `Σ p^{−i} < ∞`. Define the weight `w(A) = c_{p,u}/(|A|^u |Aut A|)` in `[0, ∞]` using the carrier's order `p^{A.1}` and the number of additive automorphisms of its representative. By the mass formula the weights sum to 1, so they define a probability mass function (Mathlib PMF).
 
 *Needs:* [isomorphism classes of finite abelian p groups](#isomorphism-classes-of-finite-abelian-p-groups), [automorphism count of finite abelian p groups](#automorphism-count-of-finite-abelian-p-groups), [cohen lenstra mass formula](#cohen-lenstra-mass-formula).
 
@@ -373,14 +373,14 @@ Define `c_{p,u}` as the convergent infinite product `∏_{i≥0} (1 − p^{−(i
 
 **Surjection moment.** For a nonnegative measure `ν` on `L` (a function `L → [0, ∞]`) and a class `A`, the A-moment of `ν` is `⟨Sur(−, A)⟩_ν = Σ_{X ∈ L} ν(X) |Sur(X, A)| ∈ [0, ∞]`. The trivial-target moment is the total mass; all rearrangements are of nonnegative series.
 
-The required API is:
+Required definitions and properties:
 
 - `surjectionMoment`: `⟨Sur(−, A)⟩_ν = Σ_X ν(X)|Sur(X, A)|`.
-- `surjectionMoment_trivial`: The moment at the trivial class is the total mass `Σ_X ν(X)`.
-- `surjectionMoment_add`: The moment is additive in `ν`.
-- `surjectionMoment_const_mul`: The moment is homogeneous in `ν`.
-- `surjectionMoment_mono`: `ν ≤ ν'` pointwise implies `⟨Sur(−, A)⟩_ν ≤ ⟨Sur(−, A)⟩_ν'`.
-- `surjectionMoment_single`: The moment of the Dirac mass at `X` is `|Sur(X, A)|`.
+- The moment at the trivial class is the total mass `Σ_X ν(X)`.
+- The moment is additive in `ν`.
+- The moment is homogeneous in `ν`.
+- `ν ≤ ν'` pointwise implies `⟨Sur(−, A)⟩_ν ≤ ⟨Sur(−, A)⟩_ν'`.
+- The moment of the Dirac mass at `X` is `|Sur(X, A)|`.
 
 Define the moment as the `ℝ≥0∞-valued` tsum of `ν(X)·|Sur(X_p, A_p)|` over the carrier. Linearity and monotonicity in `ν` follow from `ENNReal.tsum_add` and monotonicity of tsum. For `A` trivial, `|Sur(X, 0)| = 1`, so the moment is `Σ ν(X)`.
 
@@ -428,9 +428,9 @@ The left side is the groupoid cardinality of pairs `(B, f : B ↠ G)` with `|B| 
 
 <a id="cohen-lenstra-moments"></a>
 
-**Cohen lenstra moments.** For a prime `p, u ≥ 0` and every finite abelian p-group `A: ⟨Sur(−, A)⟩_{μ_{p,u}} = Σ_X μ_{p,u}(X)|Sur(X, A)| = |A|^{−u}`. In particular every moment of `μ_{p,0}` equals 1.
+**Cohen lenstra moments.** `cohenLenstra_moments`: for a prime `p, u ≥ 0` and every finite abelian p-group `A: ⟨Sur(−, A)⟩_{μ_{p,u}} = Σ_X μ_{p,u}(X)|Sur(X, A)| = |A|^{−u}`. In particular every moment of `μ_{p,0}` equals 1.
 
-Write the moment as `c_{p,u} Σ_i p^{−iu} Σ_{|X|=p^i} |Sur(X, A)|/|Aut X|`. Apply [surjection weighted class count](#surjection-weighted-class-count) to each `i ≥ log_p|A|` (terms with `i < log_p|A|` vanish by `surjCard_eq_zero_of_card_lt`): the inner sum is `Σ_{|K|=p^{i}/|A|} 1/|Aut K|`. Reindex by `K: Σ_i p^{−iu} Σ_{|K| = p^i/|A|} 1/|Aut K| = |A|^{−u} Σ_K 1/(|K|^u|Aut K|) = |A|^{−u} c_{p,u}^{−1}` ([weighted inverse automorphism sum](#weighted-inverse-automorphism-sum)); multiply by `c_{p,u}`.
+Write the moment as `c_{p,u} Σ_i p^{−iu} Σ_{|X|=p^i} |Sur(X, A)|/|Aut X|`. Apply [surjection weighted class count](#surjection-weighted-class-count) to each `i ≥ log_p|A|` (terms with `i < log_p|A|` vanish by the cardinality obstruction to a surjection): the inner sum is `Σ_{|K|=p^{i}/|A|} 1/|Aut K|`. Reindex by `K: Σ_i p^{−iu} Σ_{|K| = p^i/|A|} 1/|Aut K| = |A|^{−u} Σ_K 1/(|K|^u|Aut K|) = |A|^{−u} c_{p,u}^{−1}` ([weighted inverse automorphism sum](#weighted-inverse-automorphism-sum)); multiply by `c_{p,u}`.
 
 *Needs:* [surjection weighted class count](#surjection-weighted-class-count), [weighted inverse automorphism sum](#weighted-inverse-automorphism-sum), [cohen lenstra measure](#cohen-lenstra-measure), [surjection moment](#surjection-moment), [surjection count](#surjection-count).
 
@@ -477,15 +477,15 @@ Put `u_A = |Aut A|·ν(A) ≥ 0`. The moment identity reads `u_A + Σ_{B ≠ A} 
 
 **Enlargement of finite abelian p groups.** For finite abelian ℓ-groups `A, A'` and `s ≥ 0`, `A'` is an s-enlargement of `A` if some surjection `A' ↠ A` has kernel of order `ℓ^s` (a 1-enlargement is an enlargement). Equivalently `|A'| = ℓ^s|A|` and the Young diagram of `A` is contained in that of `A'` (`a_i ≤ a'_i` for the conjugate partitions). The set `E_s(A)` of isomorphism classes of s-enlargements is finite, with at most `p(s + m)` elements where `ℓ^m = |A|`. The surjection is data separate from the isomorphism class.
 
-The required API is:
+Required definitions and properties:
 
-- `FinAbPGroupClass.IsEnlargement`: `A'` is an s-enlargement of `A`: ∃ surjection `A' ↠ A` with kernel of order `ℓ^s`.
-- `FinAbPGroupClass.enlargements`: The finite set `E_s(A)` of classes of order `ℓ^{s}|A|` whose diagram contains that of `A`.
-- `FinAbPGroupClass.isEnlargement_iff_conjPart`: IsEnlargement `ℓ s A' A ↔ |A'| = ℓ^s|A|` and `a_i ≤ a'_i` for all `i`.
-- `FinAbPGroupClass.mem_enlargements`: `B ∈ E_s(A) ↔ B` is an s-enlargement of `A`.
-- `FinAbPGroupClass.card_enlargements_le`: `|E_s(A)| ≤ p(m + s)`, the number of partitions of `m + s`.
-- `FinAbPGroupClass.IsEnlargement.trans`: An s-enlargement of a t-enlargement is an `(s + t)-enlargement`.
-- `FinAbPGroupClass.isEnlargement_zero_iff`: The 0-enlargements of `A` are `A` itself.
+- `A'` is an s-enlargement of `A`: ∃ surjection `A' ↠ A` with kernel of order `ℓ^s`.
+- The finite set `E_s(A)` of classes of order `ℓ^{s}|A|` whose diagram contains that of `A`.
+- IsEnlargement `ℓ s A' A ↔ |A'| = ℓ^s|A|` and `a_i ≤ a'_i` for all `i`.
+- `B ∈ E_s(A) ↔ B` is an s-enlargement of `A`.
+- `|E_s(A)| ≤ p(m + s)`, the number of partitions of `m + s`.
+- An s-enlargement of a t-enlargement is an `(s + t)-enlargement`.
+- The 0-enlargements of `A` are `A` itself.
 
 Define IsEnlargement `ℓ s A' A` by the existence of a surjective homomorphism of the representatives with kernel of cardinality `ℓ^s`. Characterisation: by exact-surjection-count-formula, a surjection `A′↠A` exists precisely when every conjugate-partition coordinate of `A` is bounded by the corresponding coordinate of A′. The order condition then fixes the kernel cardinality and `s`. Hence `E_s(A)` is the image of the partitions of `m + s` containing `α`, a finite set of size `≤ p(m + s)`. Composition: an s-enlargement of a t-enlargement is an `(s+t)-enlargement` (compose the surjections, orders multiply).
 
@@ -517,7 +517,7 @@ Since `X ↠ A, x_i ≥ a_i` for all `i` ([exact surjection count formula](#exac
 
 <a id="partition-tail-domination"></a>
 
-**Partition tail domination.** `partition_tail_domination`: for an integer `ℓ ≥ 3` and fixed `m ≥ 0, p(s + m)(ℓ − 1)^{−s}` `→ 0` as `s → ∞`, where `p(n)` is the number of partitions of `n`.
+**Partition tail domination.** For an integer `ℓ ≥ 3` and fixed `m ≥ 0, p(s + m)(ℓ − 1)^{−s}` `→ 0` as `s → ∞`, where `p(n)` is the number of partitions of `n`.
 
 Choose `r` with `(ℓ − 1)^{−1} < r < 1` (possible since `ℓ − 1 ≥ 2`). Expand finite Euler products with nonnegative coefficients and use monotone convergence to obtain `Σ_n p(n)r^n=∏_{j≥1}(1−r^j)⁻¹<∞`. Positivity and nonvanishing of the product follow from `Σ_j r^j<∞`. The formal partition identity identifies the coefficients, but its formal topology alone does not justify evaluation at nonzero `r`. Hence `p(n)r^n→0`. `p(s + m)(ℓ − 1)^{−s}` `= p(s + m) r^{s+m} · r^{−m} · (r(ℓ − 1))^{−s} → 0`.
 
@@ -535,7 +535,7 @@ Choose `r` with `(ℓ − 1)^{−1} < r < 1` (possible since `ℓ − 1 ≥ 2`).
 
 **Finite enlargement domination of tails.** Let `ℓ` be an odd prime, `ε > 0` and `A ∈ L` with `|A| = ℓ^m`. There are `c(A)` and a finite nonempty `M ⊂ L` such that for every `X ∈ L` with `|X| > c(A): |Sur(X, A)| ≤ ε · (Σ_{A'∈M} |Sur(X, A')|)/|M|`. One may take `M = E_s(A)` and `c(A) = ℓ^s|A|` for any `s` with `p(s + m)(ℓ − 1)^{−s}` `≤ ε`.
 
-Pick `s` by [partition tail domination](#partition-tail-domination); put `M = E_s(A)` (nonempty: `ℤ/ℓ^s ⊕ A`). If `Sur(X, A) = ∅` the inequality is trivial. Otherwise iterate [aggregate enlargement inequality](#aggregate-enlargement-inequality) `s` times (possible while `|X| > ℓ^t|A|`): there is `A' ∈ E_s(A)` (by `IsEnlargement.trans`) with `|Sur(X, A')| ≥ (ℓ − 1)^s|Sur(X, A)|`. Hence `|Sur(X, A)| ≤ (ℓ − 1)^{−s} Σ_{A'∈M}|Sur(X, A')| = (ℓ − 1)^{−s}|M|` · (average) `≤ p(s + m)(ℓ − 1)^{−s}` · (average) `≤ ε` · (average), using `|M| ≤ p(s + m) (card_enlargements_le)`.
+Pick `s` by [partition tail domination](#partition-tail-domination); put `M = E_s(A)` (nonempty: `ℤ/ℓ^s ⊕ A`). If `Sur(X, A) = ∅` the inequality is trivial. Otherwise iterate [aggregate enlargement inequality](#aggregate-enlargement-inequality) `s` times (possible while `|X| > ℓ^t|A|`): there is `A' ∈ E_s(A)` (by composition of enlargements) with `|Sur(X, A')| ≥ (ℓ − 1)^s|Sur(X, A)|`. Hence `|Sur(X, A)| ≤ (ℓ − 1)^{−s} Σ_{A'∈M}|Sur(X, A')| = (ℓ − 1)^{−s}|M|` · (average) `≤ p(s + m)(ℓ − 1)^{−s}` · (average) `≤ ε` · (average), using the partition bound `|M| ≤ p(s + m)` on the number of enlargements.
 
 *Needs:* [aggregate enlargement inequality](#aggregate-enlargement-inequality), [partition tail domination](#partition-tail-domination), [enlargement of finite abelian p groups](#enlargement-of-finite-abelian-p-groups).
 
@@ -594,7 +594,7 @@ The displayed mixture is a direct counterexample to the converse asserted in [[3
 
 <a id="moments-determine-cohen-lenstra-limits-for-all-p-and-u"></a>
 
-**Moments determine cohen lenstra limits for all p and u.** Let `p` be prime, `u ≥ 0` and `ν_n` probability measures on `L` with `⟨Sur(−, A)⟩_{ν_n} → |A|^{−u}` for every `A ∈ L`. Then `ν_n(A) → μ_{p,u}(A)` for every `A`. (Special case of Wood's moment theorem: moments `M_G ≤ |∧²G|` determine the limit.)
+**Moments determine cohen lenstra limits for all p and u.** `tendsto_of_cohenLenstra_moments`: let `p` be prime, `u ≥ 0` and `ν_n` probability measures on `L` with `⟨Sur(−, A)⟩_{ν_n} → |A|^{−u}` for every `A ∈ L`. Then `ν_n(A) → μ_{p,u}(A)` for every `A`. (Special case of Wood's moment theorem: moments `M_G ≤ |∧²G|` determine the limit.)
 
 Wood's Theorem 3.1 (from Wood, The distribution of sandpile groups of random graphs, Theorem 8.3): for sequences of random groups whose G-moments converge to `M_G ≤ |∧²G|` for all `G` of exponent dividing a, the limits of `P(X_n ⊗ ℤ/a ≅ H)` exist, have moments `M_G`, and are determined by `(M_G)`. Apply it with `M_G = |G|^{−u} ≤ 1 ≤ |∧²G|` and a `= p^{e+1}`, where the exponent of `A` divides `p^e`, comparing with `μ_{p,u}`, whose moments are `|G|^{−u}` ([cohen lenstra moments](#cohen-lenstra-moments)); `X ⊗ ℤ/p^{e+1} ≅ A` iff `X ≅ A` for exponent reasons.
 
@@ -613,16 +613,16 @@ Wood's Theorem 3.1 (from Wood, The distribution of sandpile groups of random gra
 
 **Cokernel law of haar random p adic matrices.** For a prime `p` and `n, u ≥ 0`, equip `M_{n×(n+u)}(ℤ_p)` (viewed as maps `ℤ_p^{n+u} → ℤ_p^n`) with its normalised Haar measure (the additive Haar measure of the compact group, total mass 1, Borel `σ-algebra` of `ℤ_p`). The cokernel law is `ν_{n,u}(A) = Haar{M : coker M = ℤ_p^n/Mℤ_p^{n+u} ≅ A}` for classes `A ∈ L`; it is a probability measure on `L`.
 
-The required API is:
+Required definitions and properties:
 
 - `padicMatrixHaar`: Normalised Haar measure on `M_{n×m}(ℤ_p)`, total mass 1.
 - `padicCokernel`: `coker(M) = ℤ_p^n / M ℤ_p^m`.
-- `cokernelLaw`: The finite-n law `A ↦ P(coker M ≅ A)` for Haar `M ∈ M_{n×(n+u)}(ℤ_p)`.
-- `padicMatrixHaar_univ`: The Haar measure is a probability measure.
-- `cokernelLaw_le_one`: Each mass is at most 1.
-- `tsum_cokernelLaw`: The finite-n law has total mass 1 (finite cokernel almost surely).
+- The finite-n law `A ↦ P(coker M ≅ A)` for Haar `M ∈ M_{n×(n+u)}(ℤ_p)`.
+- The Haar measure is a probability measure.
+- Each mass is at most 1.
+- The finite-n law has total mass 1 (finite cokernel almost surely).
 - `surjectionMoment_cokernelLaw`: `E|Sur(coker M, A)| = |Sur(ℤ_p^n, A)|·|A|^{−(n+u)}`.
-- `cokernelLaw_trivial_eq`: For square matrices `P(coker M = 0) = |GL_n(F_p)|/p^{n²}` (Mathlib `Matrix.card_GL_field`).
+- For square matrices `P(coker M = 0) = |GL_n(F_p)|/p^{n²}` (Mathlib `Matrix.card_GL_field`).
 - `tendsto_cokernelLaw`: The finite-n laws converge pointwise to `μ_{p,u}` ([friedman washington cokernel law](#friedman-washington-cokernel-law)).
 
 Give `ℤ_p` the Borel `σ-algebra`; the Pi type of matrices is a compact abelian topological group (PadicInt.compactSpace, Tychonoff), so the additive Haar measure normalised on the whole group exists (Mathlib `MeasureTheory.Measure.addHaarMeasure`). Define `coker M` as the quotient of `ℤ_p^n` by the range of mulVecLin `M` and `ν_{n,u}(A)` as the measure of the set of `M` with `coker M ≅ A_p`. Finiteness almost surely: if `n=0` the cokernel is zero. For `n>0` the determinant of the first `n` columns is a nonzero polynomial in the entries. Its zero set has Haar measure zero by induction on the number of variables, one-variable root finiteness, and Fubini. `A` nonzero determinant has finite p-adic valuation; the adjugate identity shows that its image contains `p^k Z_p^n` for some `k`, so the full cokernel is a finite p-group. Full rank modulo `p` is sufficient but not necessary (the `1×1` matrix `[p]` has finite nonzero cokernel). Measurability of each class event: apply Smith normal form over the DVR `Z_p` to the matrix image (Mathlib Submodule.smithNormalForm). For `A` killed by `p^e, coker(M)≅A` iff `coker(M mod p^{e+1})≅A`, as follows by comparing the finite cyclic factors and any free factor. Thus the event is a finite union of congruence cylinders and is clopen. The disjoint class events cover a set of full measure, proving total mass one.
@@ -691,12 +691,12 @@ The map `F ↦ 1 − F` is a measure-preserving homeomorphism of `M_g(ℤ_ℓ)` 
 
 **Cohen lenstra measure over a finite set of primes.** For a finite set `S` of primes and `u ≥ 0, CL_{S,u}` is the product measure on tuples `(A_ℓ)_{ℓ∈S}` of classes of finite abelian ℓ-groups: `CL_{S,u}((A_ℓ)) = ∏_{ℓ∈S} μ_{ℓ,u}(A_ℓ)`. A finite abelian group `H` supported at `S` is identified with the tuple of its ℓ-primary parts; `CL_S = CL_{S,0}` is Lipnowski–Tsimerman's measure.
 
-The required API is:
+Required definitions and properties:
 
-- `cohenLenstraMeasureProd`: `CL_{S,u}((A_ℓ)) = ∏_{ℓ∈S} μ_{ℓ,u}(A_ℓ)`.
-- `hasSum_cohenLenstraMeasureProd`: `CL_{S,u}` has total mass 1.
-- `cohenLenstraMeasureProd_singleton`: For `S = {ℓ}, CL_{S,u} = μ_{ℓ,u}`.
-- `cohenLenstraMeasureProd_empty`: For `S = ∅` the measure is the point mass 1.
+- `CL_{S,u}((A_ℓ)) = ∏_{ℓ∈S} μ_{ℓ,u}(A_ℓ)`.
+- `CL_{S,u}` has total mass 1.
+- For `S = {ℓ}, CL_{S,u} = μ_{ℓ,u}`.
+- For `S = ∅` the measure is the point mass 1.
 
 Define the product of the `μ_{ℓ,u}` over `ℓ ∈ S`. Total mass one: the product of the mass formulas (finite product of HasSum).
 
@@ -717,12 +717,12 @@ Define the product of the `μ_{ℓ,u}` over `ℓ ∈ S`. Total mass one: the pro
 
 **Matrix kernel law over a finite field.** For a finite field `F` and `m, n, j ≥ 0, P_F(m, n, j)` is the probability that a uniformly random `m × n` matrix over `F` has right kernel (in `F^n`) of dimension `j: P_F(m, n, j) = #{M ∈ M_{m×n}(F) : dim ker M = j}/|F|^{mn}`. Koymans–Pagano's `P(m, n, j)` is `P_{𝔽₂}(m, n, j)`.
 
-The required API is:
+Required definitions and properties:
 
 - `matrixKernelLaw`: `P_F(m, n, j)` as a rational number.
-- `sum_matrixKernelLaw`: `Σ_{j=0}^{n} P_F(m, n, j) = 1`.
-- `matrixKernelLaw_eq_zero_of_lt`: `P_F(m, n, j) = 0` unless `n − m ≤ j ≤ n`.
-- `matrixKernelLaw_zero_eq_card_GL`: `P_F(n, n, 0) = |GL_n(F)|/|F|^{n²}` (Mathlib `Matrix.card_GL_field`).
+- `Σ_{j=0}^{n} P_F(m, n, j) = 1`.
+- `P_F(m, n, j) = 0` unless `n − m ≤ j ≤ n`.
+- `P_F(n, n, 0) = |GL_n(F)|/|F|^{n²}` (Mathlib `Matrix.card_GL_field`).
 
 Define the ratio of the cardinality of the subtype of matrices with finrank of ker (mulVecLin `M) = j` to `|F|^{mn} (Matrix.card_matrix)`. The events for `j = 0`, …, `n` partition `M_{m×n}(F)` (rank–nullity).
 
@@ -756,12 +756,12 @@ A rank-r matrix is determined by its column space `W ⊆ F^m (dim r)` and a surj
 
 **Symmetric matrix kernel law.** For a finite field `F` and `r, n ≥ 0, P_Sym,F(r, n)` is the probability that a uniformly random symmetric `r × r` matrix over `F` has kernel of dimension `n: #{M = M^T ∈ M_r(F) : dim ker M = n}/|F|^{r(r+1)/2}`. Koymans–Pagano's `P_Sym(r, n)` is `P_Sym,𝔽₂(r, n)`.
 
-The required API is:
+Required definitions and properties:
 
 - `symmetricKernelLaw`: `P_Sym,F(r, n)` as a rational number.
-- `sum_symmetricKernelLaw`: `Σ_{n=0}^{r} P_Sym,F(r, n) = 1`.
-- `symmetricKernelLaw_self`: `P_Sym,F(r, r) = |F|^{−r(r+1)/2}`.
-- `symmetricKernelLaw_eq_zero_of_lt`: `P_Sym,F(r, n) = 0` for `n > r`.
+- `Σ_{n=0}^{r} P_Sym,F(r, n) = 1`.
+- `P_Sym,F(r, r) = |F|^{−r(r+1)/2}`.
+- `P_Sym,F(r, n) = 0` for `n > r`.
 - `tendsto_symmetricKernelLaw`: Over `𝔽₂, P_Sym(r, n) → ∏_{j odd}(1 − 2^{−j})/∏_{i=1}^{n}(2^i − 1)`.
 
 Symmetric matrices are determined by their `r(r+1)/2` entries on and above the diagonal, so there are `|F|^{r(r+1)/2}` of them. Define the ratio; the events for `n = 0`, …, `r` partition the symmetric matrices.
@@ -781,7 +781,7 @@ Symmetric matrices are determined by their `r(r+1)/2` entries on and above the d
 
 **Koymans pagano rank identity.** For every `m ≥ 0: 1/(2^{m+1} − 1) = Σ_{n=0}^{m} (1/(2^{n+1} − 1)) · P(m, m, n)/2^m`, with `P(m, m, n) = P_{𝔽₂}(m, m, n)`.
 
-The required API is:
+Required definitions and properties:
 
 - `koymansPaganoRankIdentity`: For `m>=0`, sum over `n=0,...,m` of `P_F2(m,m,n)/(2^m (2^(n+1)-1))` equals `1/(2^(m+1)-1)`.
 
@@ -805,7 +805,7 @@ Use the normalized kernel-weight identity below; the independent-(T,U) condition
 
 <a id="symmetric-image-obstruction"></a>
 
-**Symmetric image obstruction.** `symmetric_image_obstruction`: for a field `F, n ≥ 0`, a symmetric matrix `S` in `M_n(F)`, and `v` in `F^n, v` belongs to `im S` if and only if `v·z = 0` for every `z` in `ker S`. The pairing is the ordinary bilinear coordinate dot product, without conjugation.
+**Symmetric image obstruction.** For a field `F, n ≥ 0`, a symmetric matrix `S` in `M_n(F)`, and `v` in `F^n, v` belongs to `im S` if and only if `v·z = 0` for every `z` in `ker S`. The pairing is the ordinary bilinear coordinate dot product, without conjugation.
 
 If `v=Sx` and `Sz=0`, symmetry gives `v·z=x·Sz=0`. For the converse use the native dual-annihilator criterion for `W=im S`. Every functional `φ` vanishing on `W` is a dot product `z·(−)`: take `z_i=φ(e_i)` and expand with the coordinate basis and its finite reconstruction theorem. Vanishing on each `S e_i` says `Sᵀz=0`, hence `Sz=0` by symmetry. The assumed annihilation gives `φ(v)=z·v=0`. The dual-annihilator criterion implies `v∈W`. This argument does not identify bilinear forms with quadratic forms and uses no division by two.
 
@@ -821,7 +821,7 @@ If `v=Sx` and `Sz=0`, symmetry gives `v·z=x·Sz=0`. For the converse use the na
 
 <a id="symmetric-border-rank-in-image"></a>
 
-**Symmetric border rank in image.** `symmetric_border_rank_in_image`: for a field `F` and symmetric `S` in `M_n(F)`, let `x∈F^n, v=Sx, a∈F`, and `B=[[S,v],[vᵀ,a]]` on `F^n⊕F`. Then `rank B = rank S` if `a=x·Sx`, and `rank B = rank S+1` otherwise, equivalently `rank S` plus the indicator of `a≠x·Sx`.
+**Symmetric border rank in image.** For a field `F` and symmetric `S` in `M_n(F)`, let `x∈F^n, v=Sx, a∈F`, and `B=[[S,v],[vᵀ,a]]` on `F^n⊕F`. Then `rank B = rank S` if `a=x·Sx`, and `rank B = rank S+1` otherwise, equivalently `rank S` plus the indicator of `a≠x·Sx`.
 
 Put `c=a−x·Sx`. The invertible coordinate change `(y,t)↦(y+tx,t)` identifies `ker B` with `ker S × {t∈F : ct=0}`. Indeed `B(y,t)=0` is equivalent to `S(y+tx)=0` and `ct=0`, since `vᵀy=xᵀSy`. When `c=0` the second factor is `F` and adds one to the kernel dimension; when `c≠0` it is zero-dimensional. Use native finrank invariance, the product-dimension identity and rank-nullity in dimension `n+1`. The scalar `x·Sx` is independent of the chosen preimage of `v`: two preimages differ by an element of `ker S` and `v` annihilates that kernel.
 
@@ -837,7 +837,7 @@ Put `c=a−x·Sx`. The invertible coordinate change `(y,t)↦(y+tx,t)` identifie
 
 <a id="symmetric-border-rank-outside-image"></a>
 
-**Symmetric border rank outside image.** `symmetric_border_rank_outside_image`: for a field `F`, a symmetric matrix `S` in `M_n(F), v∈F^n` outside `im S`, and every `a∈F`, the symmetric border `B=[[S,v],[vᵀ,a]]` has `rank S+2`.
+**Symmetric border rank outside image.** For a field `F`, a symmetric matrix `S` in `M_n(F), v∈F^n` outside `im S`, and every `a∈F`, the symmetric border `B=[[S,v],[vᵀ,a]]` has `rank S+2`.
 
 The top block equation `Sy+tv=0` forces `t=0`, since a nonzero `t` would put `v` in `im S`. Thus `ker B` is linearly isomorphic to `{y∈ker S : v·y=0}` via `y↦(y,0)`. The image-obstruction lemma says `y↦v·y` is a nonzero linear functional on `ker S`. Apply the native codimension-one kernel theorem to this restricted functional. Rank-nullity for `S` and `B` now gives `rank B=(n+1)−(dim ker S−1)=rank S+2`. The nonzero restricted functional also ensures dim `ker S≥1`, so no negative dimension or truncated subtraction is used.
 
@@ -853,7 +853,7 @@ The top block equation `Sy+tv=0` forces `t=0`, since a nonzero `t` would put `v`
 
 <a id="symmetric-border-rank-fibers"></a>
 
-**Symmetric border rank fibers.** `symmetric_border_rank_fibers`: let `F` have `q` elements and `S∈M_n(F)` be symmetric of `rank r`. For every `k≥0`, the number of pairs `(v,a)∈F^n×F` for which `[[S,v],[vᵀ,a]]` has `rank k` is `q^r` if `k=r; (q−1)q^r` if `k=r+1; q^(n+1)−q^(r+1)` if `k=r+2`; and zero otherwise. The diagonal entry a is unrestricted.
+**Symmetric border rank fibers.** Let `F` have `q` elements and `S∈M_n(F)` be symmetric of `rank r`. For every `k≥0`, the number of pairs `(v,a)∈F^n×F` for which `[[S,v],[vᵀ,a]]` has `rank k` is `q^r` if `k=r; (q−1)q^r` if `k=r+1; q^(n+1)−q^(r+1)` if `k=r+2`; and zero otherwise. The diagonal entry a is unrestricted.
 
 The image of `S` has `q^r` elements by the native finite-vector-space cardinality theorem and the definition of `Matrix.rank`. For each column in the image the in-image rank lemma gives exactly one corner preserving rank and `q−1` other corners increasing it by one. Count columns `v`, not preimages `x`; the invariant corner value was proved independent of the preimage. There are `q^n−q^r` columns outside the image, and every one of their `q` corners increases rank by two. The outside-image rank lemma excludes all other ranks. The bound `r≤n` ensures each natural subtraction is exact. Sum the disjoint finite fibers.
 
@@ -870,7 +870,7 @@ The image of `S` has `q^r` elements by the native finite-vector-space cardinalit
 
 <a id="symmetric-rank-count-recurrence"></a>
 
-**Symmetric rank count recurrence.** `symmetric_rank_count_recurrence`: let `F` have `q` elements, and let `N_F(n,k)` count symmetric matrices in `M_n(F)` of `rank k`, using the existing native finite subtype. Define the numerical coefficient `c_q(n,r,k)` to be `q^r` when `k=r, (q−1)q^r` when `k=r+1, q^(n+1)−q^(r+1)` when `k=r+2`, and zero otherwise. Then for every `n,k≥0, N_F(n+1,k)=Σ_{r=0}^n N_F(n,r)c_q(n,r,k)`. This notation introduces no new carrier or separately defined library object.
+**Symmetric rank count recurrence.** Let `F` have `q` elements, and let `N_F(n,k)` count symmetric matrices in `M_n(F)` of `rank k`, using the existing native finite subtype. Define the numerical coefficient `c_q(n,r,k)` to be `q^r` when `k=r, (q−1)q^r` when `k=r+1, q^(n+1)−q^(r+1)` when `k=r+2`, and zero otherwise. Then for every `n,k≥0, N_F(n+1,k)=Σ_{r=0}^n N_F(n,r)c_q(n,r,k)`. This notation introduces no new carrier or separately defined library object.
 
 Reindex `Fin(n+1)` by `Fin n` plus a singleton. Reading the principal block, the extra column and the corner is a bijection from symmetric matrices to triples (S,v,a); writing the symmetric block matrix is its inverse. Native reindexing preserves rank. Group the finite count first by the principal block `S` and then by its `rank r`, using the native dependent-sum cardinality theorem. Every rank lies in 0,…,n by the native width bound. Substitute the border-fiber formula. The sum version states the boundary cases without negative rank indices or negative exponents; for `2≤k≤n+1` it becomes `N_F(n+1,k)=q^kN_F(n,k)+(q−1)q^(k−1)N_F(n,k−1)+(q^(n+1)−q^(k−1))N_F(n,k−2)`.
 
@@ -886,7 +886,7 @@ Reindex `Fin(n+1)` by `Fin n` plus a singleton. Reading the principal block, the
 
 <a id="symmetric-rank-product-recurrence"></a>
 
-**Symmetric rank product recurrence.** `symmetric_rank_product_recurrence`: for natural `q≥2` and `s,t≥0`, let `P_q(s,t)=[∏_{i=1}^{⌊t/2⌋} q^(2i)/(q^(2i)−1)]·∏_{i=0}^{t−1}(q^(s−i)−1)`, interpreted in `ℚ`; natural `s−i` is truncated at zero. Thus `P_q(s,0)=1` and `P_q(s,t)=0` for `t>s`. With `c_q(n,r,k)` as in symmetric-rank-count-recurrence, `P_q(n+1,k)=Σ_{r=0}^n P_q(n,r)c_q(n,r,k)` for all `n,k≥0`. `P` is local mathematical notation for the displayed expression, not a new library definition.
+**Symmetric rank product recurrence.** For natural `q≥2` and `s,t≥0`, let `P_q(s,t)=[∏_{i=1}^{⌊t/2⌋} q^(2i)/(q^(2i)−1)]·∏_{i=0}^{t−1}(q^(s−i)−1)`, interpreted in `ℚ`; natural `s−i` is truncated at zero. Thus `P_q(s,0)=1` and `P_q(s,t)=0` for `t>s`. With `c_q(n,r,k)` as in symmetric-rank-count-recurrence, `P_q(n+1,k)=Σ_{r=0}^n P_q(n,r)c_q(n,r,k)` for all `n,k≥0`. `P` is local mathematical notation for the displayed expression, not a new library definition.
 
 All denominators `q^(2i)−1` are nonzero since `i≥1` and `q≥2`. Empty products give the `k=0` case. For `k=1` use `q(q^n−1)+(q−1)=q^(n+1)−1`, with the empty-size boundary included. For `2≤k≤n+1` put `D=P_q(n,k−2), a=q^(k−1), t=q^(n−k+2)`. Cancel the common nonzero `D`. If `k` is even put `C=qa/(qa−1)`. The ratios `P_q(n,k)/D, P_q(n,k−1)/D` and `P_q(n+1,k)/D` are respectively `C(t−1)(t/q−1), t−1` and `C(at−1)(t−1)`. The recurrence reduces to `qa·C(t−1)(t/q−1)+(q−1)a(t−1)+a(t−1)=C(at−1)(t−1)`. If `k` is odd, `k≥3`; put `C=a/(a−1)`. The same three ratios are `C(t−1)(t/q−1), C(t−1)` and `C(at−1)(t−1)`. The reduced identity is `qa·C(t−1)(t/q−1)+(q−1)a·C(t−1)+a(t−1)=C(at−1)(t−1)`. Both identities follow after multiplying by their displayed nonzero denominators and ordinary polynomial algebra. When `k=n+2` the only possibly contributing term is `r=n`, whose coefficient `q^(n+1)−q^(n+1)` is zero. For `k>n+2` there are no contributing terms. The factor with `i=s` makes every `P_q(s,k)` with `k>s` vanish, so these cases agree with the left side. Cast the natural coefficients to `ℚ` using `r≤n` before distributing subtraction.
 
@@ -920,7 +920,7 @@ Use the native subtype count `N_F(n,k)`, with `N_F(0,0)=1` and `N_F(0,k)=0` for 
 
 <a id="euler-q-binomial-sum"></a>
 
-**Euler q-binomial sum.** For real `0<q<1`, `euler_qBinomial_sum` proves convergence of the nonnegative series and infinite product in `Σ_{n≥0} q^{n(n+1)/2}/∏_{i=1}^n(1−q^i) = ∏_{i≥1}(1+q^i)`.
+**Euler q-binomial sum.** For real `0<q<1`, prove convergence of the nonnegative series and infinite product in `Σ_{n≥0} q^{n(n+1)/2}/∏_{i=1}^n(1−q^i) = ∏_{i≥1}(1+q^i)`.
 
 Apply the finite Cauchy identity at `t=z=q`. Extend its summands by zero for `n>N`. For each fixed n the Gaussian product formula shows that `[N n]_q` increases to `1/∏_{i=1}^n(1−q^i)` as `N→∞`. The extended summands are nonnegative and increasing, so monotone convergence for counting measure interchanges their limit and sum. The geometric series `Σ_{i≥1}q^i` converges, giving convergence of the product `∏_{i≥1}(1+q^i)` and hence finiteness of the series. At `q=1/2` this supplies the normalization of the symmetric kernel limit.
 
@@ -958,14 +958,14 @@ If `r=n=0`, the finite mass is 1 and the limiting mass lies in `[0,1]`, so the e
 
 `A` is a finite commutative group; `p` is prime; `k≥1`.
 
-The required API is:
+Required definitions and properties:
 
-- `FieldStatistics.powerRank`: The integer `log_p` of the cardinal of p-torsion inside `p^{k−1}`-th powers.
-- `FieldStatistics.powerRank_eq_log_quotient`: For `k≥1, powerRank(A,p,k)=log_p # (A^{p^{k−1}}/A^{p^k})`.
-- `FieldStatistics.powerRank_congr`: A group isomorphism preserves every prime-power rank.
-- `FieldStatistics.powerRank_prod`: Prime-power rank is additive on finite direct products.
-- `FieldStatistics.powerRank_antitone`: For `k≥1, rk_{p^{k+1}}(A)≤rk_{p^k}(A)`.
-- `FieldStatistics.powerRank_one_eq_elementaryTwo`: For `p=2,k=1, 2^powerRank` equals the cardinal of `A/A²`; for `A=Cl(K)`, use `TauCeti.ClassGroup.ElementaryTwoQuotient`.
+- The integer `log_p` of the cardinal of p-torsion inside `p^{k−1}`-th powers.
+- For `k≥1, rk_{p^k}(A)=log_p # (A^{p^{k−1}}/A^{p^k})`.
+- A group isomorphism preserves every prime-power rank.
+- Prime-power rank is additive on finite direct products.
+- For `k≥1, rk_{p^{k+1}}(A)≤rk_{p^k}(A)`.
+- For `p=2,k=1, 2^{rk₂(A)}` equals the cardinal of `A/A²`; for `A=Cl(K)`, use `TauCeti.ClassGroup.ElementaryTwoQuotient`.
 
 Take the image of the power homomorphism, then its p-torsion. Finite abelian group structure identifies the resulting cardinal with a power of p. Relate the cardinal to the adjacent quotient; the p-power factor decomposition gives the rank, and the existing elementary-two quotient supplies the `k=1` comparison.
 
@@ -984,15 +984,15 @@ Take the image of the power homomorphism, then its p-torsion. Finite abelian gro
 
 **FK linking phase.** On `E_k=(𝔽₂²)^k` put `Φ_k(u,v)=Σ_j(u_{j,1}+v_{j,1})(u_{j,1}+v_{j,2})`. Two indices are linked exactly when `Φ_k(u,v)+Φ_k(v,u)=1`. Set `P_k(w)=Σ_j w_{j,1}(w_{j,1}+w_{j,2})`; then linkage equals `P_k(u+v)`. These are `𝔽₂`-valued expressions; exponents in a Jacobi-symbol product use their representatives 0,1.
 
-The required API is:
+Required definitions and properties:
 
 - `FieldStatistics.FKSpace`: the coordinate carrier `Fin k → 𝔽₂×𝔽₂`; its cardinality is `4^k`, and coordinatewise linear operations are inherited.
-- `FieldStatistics.fkPhase`: The `𝔽₂`-valued phase `Φ_k` on ordered pairs.
-- `FieldStatistics.fkQuadratic`: The quadratic expression `P_k`.
-- `FieldStatistics.fkLinked`: Linkage means `fkPhase(u,v)+fkPhase(v,u)=1`.
-- `FieldStatistics.fkPhase_diagonal`: `Φ_k(u,u)=0`.
-- `FieldStatistics.fkPhase_linked_iff`: `Φ_k(u,v)+Φ_k(v,u)=P_k(u+v)`.
-- `FieldStatistics.fkLinked_translate`: Simultaneous translation `u↦u+c, v↦v+c` preserves linkage.
+- The `𝔽₂`-valued phase `Φ_k` on ordered pairs.
+- The quadratic expression `P_k`.
+- Linkage means `Φ_k(u,v)+Φ_k(v,u)=1`.
+- `Φ_k(u,u)=0`.
+- `Φ_k(u,v)+Φ_k(v,u)=P_k(u+v)`.
+- Simultaneous translation `u↦u+c, v↦v+c` preserves linkage.
 
 Expand each Jacobi factor of the first moment and raise to the kth power. Pairwise coprime squarefree factors provide the `(𝔽₂²)^k` indexing. Expand `Φ_k(u,v)+Φ_k(v,u)`, keeping the characteristic-two quadratic term as well as its alternating polar form.
 
@@ -1014,12 +1014,12 @@ Expand each Jacobi factor of the first moment and raise to the kth power. Pairwi
 
 The bijection also holds for `k=0`, when both carriers are singletons. The extra `Γ` constraints require `k≥1` and `Γ` nonempty. Good means the full nonsymmetric bilinear form vanishes, not merely its alternating symmetrization.
 
-The required API is:
+Required definitions and properties:
 
-- `FieldStatistics.mem_fkGoodPlanes`: `U` is good iff `dim U=k` and `L(u,v)=0` for every `u,v∈U`.
-- `FieldStatistics.finite_fkGoodPlanes`: the set is finite, as a subset of subspaces of the finite vector space `E_k`.
+- `U` is good iff `dim U=k` and `L(u,v)=0` for every `u,v∈U`.
+- The set is finite, as a subset of subspaces of the finite vector space `E_k`.
 - `FieldStatistics.fk_good_subspace_bijection`: the displayed equivalence with subspaces of `𝔽₂^k`, including `k=0`.
-- `FieldStatistics.fkGoodPlanes_ncard`: its cardinality is `N(k,2)=∑_{d=0}^k [k d]_2`.
+- Its cardinality is `N(k,2)=∑_{d=0}^k [k d]_2`.
 - `FieldStatistics.fkGoodPlanes_linear_constraint`: each of the two constraints for nonempty `Γ` has `N(k−1,2)` solutions for `k≥1`.
 
 Use the displayed change of basis to express `L` as the perfect `X×Y` pairing. Projection of a good k-plane to `X` is `F`, and projection to `Y` lies in `F^⊥`. Dimensions force `U=F⊕F^⊥`. The extra linear constraint means respectively containing one nonzero vector or lying in one hyperplane; quotient or duality yields `N(k−1,2)`.
@@ -1041,14 +1041,14 @@ Use the displayed change of basis to express `L` as the perfect `X×Y` pairing. 
 
 **Wood grid separator.** For a prime `p` and an antitone nonnegative integer vector `b` of length `m+1`, set `S_i(b)=∑_{j≤i}b_j`. Define `H_b(z)=∏_{j≥b₀+1}(1−z₀/p^j) · ∏_{i=1}^m ∏_{j=S_i(b)+1}^{S_{i−1}(b)+b_{i−1}}(1−z_i/p^j)`. Empty finite products are `1`. `H_b` is entire, vanishes at `z_i=p^{S_i(f)}` for every antitone `f` lexicographically greater than `b`, and is nonzero at the grid point of `b`.
 
-The required API is:
+Required definitions and properties:
 
-- `Distributions.woodGridSeparator`: the displayed product on the complex coordinate space.
-- `Distributions.woodGridSeparator_entire`: the separator is analytic on the whole coordinate space.
-- `Distributions.woodGridSeparator_zero`: At `z=0` the value is 1.
-- `Distributions.woodGridSeparator_one_variable`: When `m=0` only the one-variable infinite product remains.
-- `Distributions.woodGridSeparator_upper`: At the grid point of any antitone `f` lexicographically greater than `b`, the value is zero.
-- `Distributions.woodGridSeparator_diagonal`: At the grid point of the antitone `b` itself, the value is nonzero.
+- The displayed product on the complex coordinate space.
+- The separator is analytic on the whole coordinate space.
+- At `z=0` the value is 1.
+- When `m=0` only the one-variable infinite product remains.
+- At the grid point of any antitone `f` lexicographically greater than `b`, the value is zero.
+- At the grid point of the antitone `b` itself, the value is nonzero.
 
 Use the infinite product only in coordinate zero, and finite polynomials in the other coordinates. At the first larger coordinate of `f`, identify a vanishing factor. Use absolute convergence and nonvanishing of all factors at `b` to separate the diagonal.
 
@@ -1066,7 +1066,7 @@ Use the infinite product only in coordinate zero, and finite polynomials in the 
 
 <a id="refinement-wood-coefficient-bound"></a>
 
-**Wood coefficient bound.** `Distributions.woodGridSeparator_coefficient_bound`: let `p` be prime and `b∈ℕ^(m+1)` antitone. The separator `H_b` is entire and its Taylor coefficients `a_d` satisfy `|a_d|≤E_b p^(−b₀d₀−d₀(d₀+1)/2)` for one `E_b>0`; coefficients vanish unless `Σ_{i=1}^m d_i≤b₀−b_m (hence≤b₀)`. `Distributions.woodGridSeparator_head_expansion` gives the infinite-product head coefficient `c_n=(−1)^n p^(−b₀n)/∏_{j=1}^n(p^j−1)`. Absolute values are necessary for exchanging signed sums.
+**Wood coefficient bound.** Let `p` be prime and `b∈ℕ^(m+1)` antitone. The separator `H_b` is entire and its Taylor coefficients `a_d` satisfy `|a_d|≤E_b p^(−b₀d₀−d₀(d₀+1)/2)` for one `E_b>0`; coefficients vanish unless `Σ_{i=1}^m d_i≤b₀−b_m (hence≤b₀)`. The head expansion gives the infinite-product head coefficient `c_n=(−1)^n p^(−b₀n)/∏_{j=1}^n(p^j−1)`. Absolute values are necessary for exchanging signed sums.
 
 Prove locally uniform convergence of the head product on compact subsets of `ℂ`. Its functional equation `G(pz)=(1−z/p^b₀)G(z)` gives the exact coefficient recurrence. Bound the reciprocal product by `∏_{j≥1}(1−p^(−j))^(−1)` and multiply by the maximum absolute coefficient of the finite polynomial.
 
@@ -1112,7 +1112,7 @@ For each profile `ν` expand the product of grid separators in its Taylor coeffi
 
 <a id="refinement-wood-bounded-moment-limit"></a>
 
-**Wood bounded moment limit.** Let `a≥1` and `A_a` be finite abelian group classes of exponent dividing a. Let `X_n` be random finitely generated abelian groups and suppose `E#Sur(X_n,G)→M_G` for every `G∈A_a`, with `0≤M_G≤|∧²G|`. For every `H∈A_a, ℙ(X_n/aX_n≅H)` has a limit; these limiting masses sum to 1 and have the moments `M_G`. A second sequence with the same moments has the same limiting quotient law. The theorem concerns `X_n/aX_n`, not an unproved full-group limit.
+**Wood bounded moment limit.** `Distributions.wood_bounded_moment_limit`: let `a≥1` and `A_a` be finite abelian group classes of exponent dividing a. Let `X_n` be random finitely generated abelian groups and suppose `E#Sur(X_n,G)→M_G` for every `G∈A_a`, with `0≤M_G≤|∧²G|`. For every `H∈A_a, ℙ(X_n/aX_n≅H)` has a limit; these limiting masses sum to 1 and have the moments `M_G`. A second sequence with the same moments has the same limiting quotient law. The theorem concerns `X_n/aX_n`, not an unproved full-group limit.
 
 Convert surjection moments to homomorphism moments by the finite sum over image subgroups; use the exterior-square subgroup bound. For each test type `λ` choose the dominating type with conjugate entries `2λ′_i+1`; the sum of homomorphism-count ratios is finite and controls tails. Extract subsequential masses on the countable exponent-bounded carrier, preserve moments by domination and apply grid uniqueness. The trivial-group moment fixes total mass 1; uniqueness upgrades subsequences to the whole sequence. For the all-p,u target, take `a=p^(e+1)` when the desired finite p-group `H` has exponent dividing `p^e`: the quotient is isomorphic to `H` exactly when the original finite p-group is `H`. This isolates its mass without assuming a full-group limit for arbitrary finitely generated groups.
 
