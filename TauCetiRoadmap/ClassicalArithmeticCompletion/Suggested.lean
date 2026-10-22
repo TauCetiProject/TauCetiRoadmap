@@ -26,15 +26,6 @@ theorem int_exists_modEq_and_modEq_iff (m n a b : ℤ) :
       a ≡ b [ZMOD (Int.gcd m n : ℤ)] := by
   sorry
 
-/-- Zero modulus means equality, so the remaining congruence is a genuine condition. -/
-example (a b n : ℤ) :
-    (∃ x : ℤ, x ≡ a [ZMOD 0] ∧ x ≡ b [ZMOD n]) ↔ a ≡ b [ZMOD n] := by
-  sorry
-
-/-- Compatible noncoprime moduli give a class modulo their lcm. -/
-example : ∃ x : ℤ, x ≡ 1 [ZMOD 4] ∧ x ≡ 3 [ZMOD 6] := by
-  sorry
-
 /-! ## Layer 1: residues and reciprocity -/
 
 namespace Residues
@@ -59,10 +50,6 @@ theorem card_nonzero_pow_roots {F : Type*} [Field F] [Fintype F] (n : ℕ)
     Nat.card {b : F // b ≠ 0 ∧ b ^ n = a} = (Fintype.card F - 1).gcd n := by
   sorry
 
-/-- The zero-exponent count includes every nonzero element. -/
-example : Nat.card {b : ZMod 7 // b ≠ 0 ∧ b ^ 0 = 1} = 6 := by
-  sorry
-
 /-- A primary Gaussian integer has residue one modulo `(1+i)^3`.
 The full README API includes `IsPrimaryGaussian.div_intCast`,
 `IsPrimaryGaussian.exists_prod_primary_primes`, `IsPrimaryGaussian.norm_sub_one_div_four`,
@@ -70,18 +57,6 @@ The full README API includes `IsPrimaryGaussian.div_intCast`,
 -/
 def IsPrimaryGaussian (z : GaussianInt) : Prop :=
   (⟨1, 1⟩ : GaussianInt) ^ 3 ∣ z - 1
-
-/-- This primary norm-five element fixes the choice of associate. -/
-example : IsPrimaryGaussian (⟨-1, 2⟩ : GaussianInt) := by
-  sorry
-
-/-- Odd real part and even imaginary part alone do not imply the primary congruence. -/
-example : ¬ IsPrimaryGaussian (⟨1, 2⟩ : GaussianInt) := by
-  sorry
-
-/-- Changing the unit by minus one changes the primary congruence. -/
-example : IsPrimaryGaussian 1 ∧ ¬ IsPrimaryGaussian (-1) := by
-  sorry
 
 end Residues
 
@@ -92,18 +67,6 @@ namespace Sequences
 /-- Rationality has a denominator invertible as a power series and no numerator-degree bound. -/
 def IsRational {K : Type*} [Field K] (f : PowerSeries K) : Prop :=
   ∃ P Q : Polynomial K, Q.coeff 0 ≠ 0 ∧ f * (Q : PowerSeries K) = (P : PowerSeries K)
-
-/-- The geometric series is rational. -/
-example : IsRational (PowerSeries.mk fun _ : ℕ => (1 : ℚ)) := by
-  sorry
-
-/-- The Fibonacci generating series has denominator `1 - X - X²`. -/
-example : IsRational (PowerSeries.mk fun n => (Nat.fib n : ℚ)) := by
-  sorry
-
-/-- The exponential series is a non-example in characteristic zero. -/
-example : ¬ IsRational (PowerSeries.mk fun n : ℕ => (1 : ℚ) / n.factorial) := by
-  sorry
 
 /-- First-kind Lucas sequence, retaining the repeated-root cases.
 The full README API includes `lucasU_add_two`, `lucasU_mul_sub`, `lucasU_one`, `lucasU_one_neg_one`,
@@ -123,30 +86,6 @@ def lucasV {R : Type*} [CommRing R] (P Q : R) : ℕ → R
   | 0 => 2
   | 1 => P
   | n + 2 => P * lucasV P Q (n + 1) - Q * lucasV P Q n
-
-/-- Repeated roots give a linear first-kind sequence. -/
-example (n : ℕ) : lucasU (2 : ℤ) 1 n = n := by
-  sorry
-
-/-- The sign of Q is witnessed by Fibonacci. -/
-example (n : ℕ) : lucasU (1 : ℤ) (-1) n = Nat.fib n := by
-  sorry
-
-/-- The first-kind parameters three and two give the Mersenne values. -/
-example (n : ℕ) : lucasU (3 : ℤ) 2 n = 2 ^ n - 1 := by
-  sorry
-
-/-- Second-kind values distinguish the two recurrence parameters. -/
-example (n : ℕ) : lucasV (3 : ℤ) 2 n = 2 ^ n + 1 := by
-  sorry
-
-/-- The repeated-root second-kind sequence is constant. -/
-example (n : ℕ) : lucasV (2 : ℤ) 1 n = 2 := by
-  sorry
-
-/-- Doubling the index gives Mathlib's Lucas–Lehmer recurrence. -/
-example (i : ℕ) : lucasV (4 : ℤ) 1 (2 ^ i) = LucasLehmer.s i := by
-  sorry
 
 /-- Strong divisibility requires coprime integer parameters. -/
 theorem gcd_lucasU {P Q : ℤ} (h : IsCoprime P Q) (m n : ℕ) :
@@ -171,18 +110,6 @@ structure DFAO (α σ Δ : Type*) where
 def DFAO.eval {α σ Δ : Type*} (M : DFAO α σ Δ) (w : List α) : σ :=
   w.foldl M.step M.start
 
-/-- Noncommuting transitions detect a mistaken reversal. -/
-example :
-    (⟨fun q b => if b then 2 * q else q + 1, 0, id⟩ : DFAO Bool (ZMod 3) (ZMod 3)).eval
-      [false, true] = 2 ∧
-    (⟨fun q b => if b then 2 * q else q + 1, 0, id⟩ : DFAO Bool (ZMod 3) (ZMod 3)).eval
-      [true, false] = 1 := by
-  sorry
-
-/-- The empty word reads the initial state. -/
-example {α σ Δ : Type*} (M : DFAO α σ Δ) : M.eval [] = M.start := by
-  sorry
-
 /-- Least-significant-first automaticity, using Mathlib's radix digits.
 The full README API includes `IsAutomatic.finite_range`, `isAutomatic_const`,
 `isAutomatic_of_eventually_periodic`, `isAutomatic_thueMorse`.
@@ -197,32 +124,6 @@ The full README API includes `kernel_subset`, `kernel_thueMorse`.
 -/
 def kernel (k : ℕ) {Δ : Type*} (a : ℕ → Δ) : Set (ℕ → Δ) :=
   {b | ∃ e r : ℕ, r < k ^ e ∧ b = fun n => a (k ^ e * n + r)}
-
-/-- Constant sequences are automatic in every genuine radix. -/
-example (k : ℕ) [NeZero k] (hk : 2 ≤ k) (c : ℤ) :
-    IsAutomatic k (fun _ : ℕ => c) := by
-  sorry
-
-/-- The Thue–Morse sequence, the parity of the binary digit sum, is 2-automatic. -/
-example : IsAutomatic 2 (fun n : ℕ => (Nat.digits 2 n).sum % 2) := by
-  sorry
-
-/-- An infinite range excludes automaticity with finitely many states. -/
-example : ¬ IsAutomatic 2 (fun n : ℕ => n) := by
-  sorry
-
-/-- Exponent zero includes the original sequence in its kernel. -/
-example {Δ : Type*} (a : ℕ → Δ) : a ∈ kernel 2 a := by
-  sorry
-
-/-- A constant sequence has a singleton kernel. -/
-example (c : ℤ) : kernel 2 (fun _ : ℕ => c) = {fun _ : ℕ => c} := by
-  sorry
-
-/-- The parity kernel contains the sequence and the two constant subsequences. -/
-example : kernel 2 (fun n : ℕ => n % 2) =
-    {fun n => n % 2, fun _ => 0, fun _ => 1} := by
-  sorry
 
 /-- Eilenberg's finite-kernel characterisation. -/
 theorem isAutomatic_iff_finite_kernel {k : ℕ} [NeZero k] (hk : 2 ≤ k)
@@ -280,48 +181,10 @@ theorem nonempty_cokernel_equiv_of_smith {m n r : ℕ}
       (Π i : Fin r, ZMod (d i)) × (Fin (m - r) → ℤ)) := by
   sorry
 
-/-- The rectangular zero diagonal has no artificial pivot. -/
-example : smithDiag 2 3 (fun i : Fin 0 => Fin.elim0 i) = 0 := by
-  sorry
-
-/-- The displayed positive chain has the prescribed matrix entries. -/
-example : smithDiag 2 2 ![1, 6] = !![(1 : ℤ), 0; 0, 6] := by
-  sorry
-
-/-- Positivity and the divisibility chain force the diagonal `(1,6)` for `diag(2,3)`. -/
-example {r : ℕ} (d : Fin r → ℕ)
-    (P Q : Matrix (Fin 2) (Fin 2) ℤ) (hr : r ≤ 2)
-    (hd : ∀ i, 0 < d i) (hchain : ∀ i j, i ≤ j → d i ∣ d j)
-    (hP : IsUnit P.det) (hQ : IsUnit Q.det)
-    (hdiag : P * !![(2 : ℤ), 0; 0, 3] * Q = smithDiag 2 2 d) :
-    List.ofFn d = [1, 6] := by
-  sorry
-
-/-- A singular Smith decomposition retains exactly its positive nonzero factor. -/
-example {r : ℕ} (d : Fin r → ℕ)
-    (P Q : Matrix (Fin 2) (Fin 2) ℤ) (hr : r ≤ 2)
-    (hd : ∀ i, 0 < d i) (hchain : ∀ i j, i ≤ j → d i ∣ d j)
-    (hP : IsUnit P.det) (hQ : IsUnit Q.det)
-    (hdiag : P * !![(2 : ℤ), 0; 0, 0] * Q = smithDiag 2 2 d) :
-    List.ofFn d = [2] := by
-  sorry
-
 /-- Integer-valued means values in the coefficient domain, rather than coefficients in it. -/
 def IsIntegerValued {D K : Type*} [CommRing D] [Field K] [Algebra D K]
     (f : Polynomial K) : Prop :=
   ∀ x : D, ∃ y : D, f.eval (algebraMap D K x) = algebraMap D K y
-
-/-- The binomial polynomial is integer-valued despite its rational coefficients. -/
-example : IsIntegerValued (D := ℤ) (C (1 / 2 : ℚ) * X * (X - 1)) := by
-  sorry
-
-/-- The cubic difference is divisible by three at every integer. -/
-example : IsIntegerValued (D := ℤ) (C (1 / 3 : ℚ) * (X ^ 3 - X)) := by
-  sorry
-
-/-- The polynomial X/2 fails at the integer one. -/
-example : ¬ IsIntegerValued (D := ℤ) (C (1 / 2 : ℚ) * X) := by
-  sorry
 
 /-- Perron's weak criterion includes both endpoint exclusions and nonzero constant term. -/
 theorem perron_irreducible_of_le {f : ℤ[X]} (hmon : f.Monic) (h2 : 2 ≤ f.natDegree)
@@ -331,29 +194,11 @@ theorem perron_irreducible_of_le {f : ℤ[X]} (hmon : f.Monic) (h2 : 2 ≤ f.nat
     (hpos : f.eval 1 ≠ 0) (hneg : f.eval (-1) ≠ 0) : Irreducible f := by
   sorry
 
-/-- Equality really occurs in this irreducible example. -/
-example : Irreducible (X ^ 2 + C (2 : ℤ) * X - 1) := by
-  sorry
-
-/-- Reality cannot be dropped from the boundary exclusion argument. -/
-example :
-    (X ^ 2 - C (2 * Complex.I) * X - 1 : Polynomial ℂ).eval Complex.I = 0 := by
-  sorry
-
 end Certificates
 
 /-! ## Layer 4: classical Diophantine equations -/
 
 namespace Diophantine
-
-/-- For discriminants 4m, Pell coordinates double only the first coordinate. -/
-example (m x y : ℤ) (h : x ^ 2 - m * y ^ 2 = 1) :
-    (2 * x) ^ 2 - (4 * m) * y ^ 2 = 4 := by
-  sorry
-
-/-- The discriminant-twelve solution detects doubling the wrong coordinate. -/
-example : (4 : ℤ) ^ 2 - 12 * 1 ^ 2 = 4 ∧ (4 : ℤ) ^ 2 - 12 * 2 ^ 2 = -32 := by
-  sorry
 
 /-- Ordered coefficient-three Markoff triples.
 The full README API includes `markoffSet.comp_perm_mem_iff`, `markoffSet.map_mem`,
@@ -369,28 +214,6 @@ The full README API includes `markoffVieta_add_self`, `markoffVieta_apply_of_ne`
 -/
 def markoffVieta {R : Type*} [CommRing R] (i : Fin 3) (x : Fin 3 → R) : Fin 3 → R :=
   fun j => if j = i then 3 * ∏ k ∈ Finset.univ.erase i, x k - x i else x j
-
-/-- The initial positive triple. -/
-example : ![(1 : ℤ), 1, 1] ∈ markoffSet ℤ := by
-  sorry
-
-/-- Modulo three the nonzero locus has the eight sign triples. -/
-example : ![(1 : ZMod 3), 1, -1] ∈ markoffSet (ZMod 3) := by
-  sorry
-
-/-- The two coefficient conventions have different cardinalities in characteristic three. -/
-example :
-    Nat.card {x : Fin 3 → ZMod 3 // x ∈ markoffSet (ZMod 3)} = 9 ∧
-    Nat.card {x : Fin 3 → ZMod 3 // x 0 ^ 2 + x 1 ^ 2 + x 2 ^ 2 = x 0 * x 1 * x 2} = 1 := by
-  sorry
-
-/-- The largest-coordinate move descends to the root. -/
-example : markoffVieta 2 ![(1 : ℤ), 1, 2] = ![1, 1, 1] := by
-  sorry
-
-/-- Moving a different coordinate gives the next positive triple. -/
-example : markoffVieta 0 ![(1 : ℤ), 1, 2] = ![5, 1, 2] := by
-  sorry
 
 /-- Every positive Markoff triple descends by one Vieta move unless it is the root. -/
 theorem markoff_descent (x : Fin 3 → ℤ) (hx : x ∈ markoffSet ℤ)
@@ -419,40 +242,6 @@ def markoffHurwitzMove {R : Type*} [CommRing R] {n : ℕ} (a : R) (j : Fin n)
     (x : Fin n → R) : Fin n → R :=
   fun i => if i = j then a * ∏ t ∈ Finset.univ.erase j, x t - x j else x i
 
-/-- Coefficient-one level eight is distinct from coefficient-three level zero. -/
-example : ![(2 : ℤ), 3, 5] ∈ markoffHurwitzSet 3 1 8 := by
-  sorry
-
-/-- Level three has no point modulo four, so reduction to that target is surjective. -/
-example : markoffHurwitzSet (R := ZMod 4) 3 1 3 = ∅ := by
-  sorry
-
-/-- The negative fundamental branch uses the minus sign in its quadratic norm reduction. -/
-example : ![(3 : ℤ), 3, 4] ∈ markoffHurwitzSet 3 1 (-2) ∧
-    (2 * (4 : ℤ) - 3 * 3) ^ 2 - (3 ^ 2 - 4) * 3 ^ 2 = 4 * (-2 - 3 ^ 2) := by
-  sorry
-
-/-- Unrestricted quadratic roots can grow as the square root of the modulus parameter. -/
-example (p : ℕ) (hp : p.Prime) (hodd : p ≠ 2) :
-    Nat.card {b : Fin (2 * p ^ 2) //
-      (b.val : ℤ) ^ 2 ≡ ((p : ℤ) ^ 2 + 2) ^ 2 - 4 [ZMOD (4 * (p : ℤ) ^ 2)]} = p := by
-  sorry
-
-/-- An even-dimensional example tests the full coordinate product. -/
-example : ![(1 : ℤ), 1, 1, 1] ∈ markoffHurwitzSet 4 4 0 := by
-  sorry
-
-/-- The generalised move preserves every level. -/
-example {R : Type*} [CommRing R] {n : ℕ} (a k : R) (j : Fin n)
-    (x : Fin n → R) (hx : x ∈ markoffHurwitzSet n a k) :
-    markoffHurwitzMove a j x ∈ markoffHurwitzSet n a k := by
-  sorry
-
-/-- Generalised moves are actual involutions, even in small characteristic. -/
-example {R : Type*} [CommRing R] {n : ℕ} (a : R) (j : Fin n) :
-    Function.Involutive (markoffHurwitzMove a j) := by
-  sorry
-
 /-- Three-square classification includes zero and excludes the complete 4-adic obstruction. -/
 theorem legendre_three_square (n : ℕ) :
     (∃ x y z : ℤ, x ^ 2 + y ^ 2 + z ^ 2 = n) ↔
@@ -469,40 +258,12 @@ structure NumericalSemigroup where
 def aperySet (S : AddSubmonoid ℕ) (n : ℕ) : Set ℕ :=
   {s | s ∈ S ∧ (s < n ∨ s - n ∉ S)}
 
-/-- The full semigroup has no gaps. -/
-example : (((⊤ : AddSubmonoid ℕ) : Set ℕ)ᶜ).Finite := by
-  sorry
-
-/-- Even numbers do not form a numerical semigroup. -/
-example : ¬ ((Set.range fun n : ℕ => 2 * n)ᶜ).Finite := by
-  sorry
-
-/-- The full semigroup's Apéry set consists of the first n naturals. -/
-example (n : ℕ) (hn : 0 < n) : aperySet ⊤ n = {s | s < n} := by
-  sorry
-
-/-- For the semigroup generated by 3 and 5, the Apéry set at 3 has maximum ten. -/
-example : aperySet (AddSubmonoid.closure ({3, 5} : Set ℕ)) 3 = {0, 5, 10} := by
-  sorry
-
 /-- A finite set of positive denominators whose unit fractions sum to `r`; being a set, it
 cannot repeat a denominator.
 The full README API includes `isEgyptianExpansion_empty_iff`, `isEgyptianExpansion_singleton`.
 -/
 def IsEgyptianExpansion (r : ℚ) (D : Finset ℕ) : Prop :=
   0 ∉ D ∧ ∑ d ∈ D, (1 : ℚ) / d = r
-
-/-- A classical two-term expansion. -/
-example : IsEgyptianExpansion (5 / 6) {2, 3} := by
-  sorry
-
-/-- Three distinct positive denominators expand one. -/
-example : IsEgyptianExpansion 1 {2, 3, 6} := by
-  sorry
-
-/-- The repeated sum `1/3 + 1/3` is not available: `{3}` expands `1/3`, not `2/3`. -/
-example : ¬ IsEgyptianExpansion (2 / 3) {3} := by
-  sorry
 
 /-- Every positive rational is a finite sum of distinct unit fractions. -/
 theorem exists_egyptianExpansion {r : ℚ} (hr : 0 < r) :
@@ -529,18 +290,6 @@ The full README API includes `quadraticUnitAction_add`, `quadraticUnitAction_fre
 -/
 def quadraticUnitAction (s : ZMod 2) (x : ℤ × ZMod 2) : ℤ × ZMod 2 :=
   (-x.1, x.2 + s * (x.1 : ZMod 2))
-
-/-- Norm-minus-one generators have nonzero shear. -/
-example : quadraticUnitAction 1 (1, 0) = (-1, 1) := by
-  sorry
-
-/-- Norm-one generators reverse the free coordinate without a torsion shear. -/
-example : quadraticUnitAction 0 (1, 0) = (-1, 0) := by
-  sorry
-
-/-- Even exponents kill the shear. -/
-example : quadraticUnitAction 1 (2, 1) = (-2, 1) := by
-  sorry
 
 /-- The unit-coordinate action is an involution. -/
 theorem quadraticUnitAction_involutive (s : ZMod 2) :
@@ -596,9 +345,10 @@ theorem isFactorBaseBound_minkowski (K : Type*) [Field K] [NumberField K] :
         Real.sqrt |(discr K : ℝ)|)) := by
   sorry
 
-/-- The discrete-logarithm matrix modulo `p` of `v` at the primes `P i` has full column rank,
-stated without choosing generators: exponents killing every `p`-th power residue character are
-divisible by `p` (README §5.3a).
+/-- Exponents killing every residue-power test are divisible by `p` (README §5.3a).
+When `p` is prime, the `P i` are maximal, `p ∣ Ideal.absNorm (P i) - 1`, and `v j ∉ P i`
+for every `i` and `j`, this is equivalent to full column rank modulo `p` of the residue
+discrete-logarithm matrix.
 
 The full README API includes `isMaxRank_and_not_dvd_index_of_powerResidueIndependent`,
 `isMaxRank_and_not_dvd_index_of_powerResidueIndependent_torsion`,
@@ -673,58 +423,6 @@ end NumberFieldCertificates
 
 namespace SmallHeight
 
-/-- Polynomial Mahler measure retains every occurrence in the multiset of complex roots. -/
-example (p : Polynomial ℂ) :
-    p.mahlerMeasure = ‖p.leadingCoeff‖ *
-      (p.roots.map (fun z => max 1 ‖z‖)).prod := by
-  exact Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots p
-
-/-- A repeated root contributes twice to the logarithmic measure and twice to the product. -/
-example :
-    ((X - C 2) ^ 2 : Polynomial ℂ).mahlerMeasure = 4 ∧
-    ((X - C 2) ^ 2 : Polynomial ℂ).logMahlerMeasure = 2 * Real.log 2 := by
-  sorry
-
-/-- Polynomial Mahler measure is multiplicative, including zero factors and repeated roots. -/
-example (p q : Polynomial ℂ) :
-    (p * q).mahlerMeasure = p.mahlerMeasure * q.mahlerMeasure := by
-  exact Polynomial.mahlerMeasure_mul p q
-
-/-- Logarithmic polynomial Mahler measure is additive for a nonzero product. -/
-example (p q : Polynomial ℂ) (hpq : p * q ≠ 0) :
-    (p * q).logMahlerMeasure = p.logMahlerMeasure + q.logMahlerMeasure := by
-  exact Polynomial.logMahlerMeasure_mul_eq_add_logMahlerMeasure hpq
-
-/-- The zero and unit polynomials distinguish multiplicative and logarithmic conventions. -/
-example :
-    (0 : Polynomial ℂ).mahlerMeasure = 0 ∧
-    (0 : Polynomial ℂ).logMahlerMeasure = 0 ∧
-    (1 : Polynomial ℂ).mahlerMeasure = 1 ∧
-    (1 : Polynomial ℂ).logMahlerMeasure = 0 := by
-  simp
-
-/-!
-The scalar power laws and Kronecker criterion of README §§6.15–6.16 are supplied by
-HeightsAndUnits §1.3 on Mathlib's absolute-height carriers. These examples fix their
-normalization and algebraicity boundary without introducing duplicate scalar theorems.
--/
-
-/-- A fourth root of unity has absolute logarithmic height zero. -/
-example : NumberField.absLogHeight₁ Complex.I = 0 := by
-  sorry
-
-/-- Unit-circle conjugates of a nonintegral algebraic number can have positive height. -/
-example :
-    ‖((3 + 4 * Complex.I) / 5 : ℂ)‖ = 1 ∧
-    NumberField.absLogHeight₁ ((3 + 4 * Complex.I) / 5 : ℂ) = Real.log 5 / 2 := by
-  sorry
-
-/-- Transcendental height zero witnesses the algebraicity boundary of Kronecker's criterion. -/
-example (x : ℝ) (hx : ¬ IsAlgebraic ℚ x) :
-    NumberField.absLogHeight₁ x = 0 ∧ x ≠ 0 ∧
-      ¬ ∃ n : ℕ, 0 < n ∧ x ^ n = 1 := by
-  sorry
-
 /-- Pisot numbers include degree-one integers at least two, and exclude nonintegral rationals.
 
 The full README API includes `IsPisot.eq_of_one_le_norm`, `IsPisot.norm_lt_one`, `IsPisot.one_lt`,
@@ -745,53 +443,6 @@ def IsSalem (τ : ℝ) : Prop :=
     (∀ z ∈ (minpoly ℤ τ).aroots ℂ, z ≠ (τ : ℂ) → ‖z‖ ≤ 1) ∧
     ∃ z ∈ (minpoly ℤ τ).aroots ℂ, ‖z‖ = 1
 
-/-- Degree-one integer Pisot numbers fix the lower endpoint. -/
-example : IsPisot 2 ∧ ¬ IsPisot 1 := by
-  sorry
-
-/-- Having no other conjugate does not excuse failure of integrality. -/
-example : ¬ IsPisot (3 / 2) := by
-  sorry
-
-/-- The golden ratio has its other conjugate strictly inside the unit disc. -/
-example : IsPisot Real.goldenRatio := by
-  sorry
-
-/-- The negative conjugate of square root two lies outside the unit disc. -/
-example : ¬ IsPisot (Real.sqrt 2) := by
-  sorry
-
-/-- The golden-ratio polynomial has Mahler measure equal to its positive root. -/
-example : (X ^ 2 - X - 1 : Polynomial ℂ).mahlerMeasure = Real.goldenRatio := by
-  sorry
-
-/-- Quadratic Pisot examples distinguish having one large conjugate from having two. -/
-example : IsPisot (1 + Real.sqrt 3) ∧
-    ¬ IsPisot (3 + Real.sqrt 2) ∧ ¬ IsSalem (3 + Real.sqrt 2) := by
-  sorry
-
-/-- The golden ratio is Pisot rather than Salem. -/
-example : ¬ IsSalem Real.goldenRatio := by
-  sorry
-
-/-- Integers and reciprocal quadratic units have no conjugate on the unit circle. -/
-example : ¬ IsSalem 2 ∧ ¬ IsSalem ((3 + Real.sqrt 5) / 2) := by
-  sorry
-
-/-- A reciprocal quartic gives a genuine Salem reference root. -/
-example : IsSalem (sSup {x : ℝ | x ^ 4 - 3 * x ^ 3 + 3 * x ^ 2 - 3 * x + 1 = 0}) := by
-  sorry
-
-/-- The Salem quartic's Mahler measure is its largest real root. -/
-example : (X ^ 4 - C (3 : ℂ) * X ^ 3 + C 3 * X ^ 2 - C 3 * X + 1).mahlerMeasure =
-    sSup {x : ℝ | x ^ 4 - 3 * x ^ 3 + 3 * x ^ 2 - 3 * x + 1 = 0} := by
-  sorry
-
-/-- Lehmer's largest root gives the degree-ten Salem example. -/
-example : IsSalem (sSup {x : ℝ |
-    x ^ 10 + x ^ 9 - x ^ 7 - x ^ 6 - x ^ 5 - x ^ 4 - x ^ 3 + x + 1 = 0}) := by
-  sorry
-
 /-- Positive powers retain the Salem condition. -/
 theorem IsSalem.pow {τ : ℝ} (h : IsSalem τ) {n : ℕ} (hn : 0 < n) :
     IsSalem (τ ^ n) := by
@@ -802,41 +453,11 @@ theorem IsPisot.pow {θ : ℝ} (h : IsPisot θ) {n : ℕ} (hn : 0 < n) :
     IsPisot (θ ^ n) := by
   sorry
 
-/-- Squaring the golden ratio remains Pisot. -/
-example : IsPisot (Real.goldenRatio ^ 2) := by
-  sorry
-
-/-- Cubing the plastic number realizes its defining equation and remains Pisot. -/
-example :
-    let θ := sSup {x : ℝ | x ^ 3 - x - 1 = 0}
-    IsPisot (θ ^ 3) ∧ θ ^ 3 = θ + 1 := by
-  sorry
-
-/-- Squaring the quartic and degree-ten Salem roots preserves their degrees. -/
-example :
-    let τ₄ := sSup {x : ℝ | x ^ 4 - 3 * x ^ 3 + 3 * x ^ 2 - 3 * x + 1 = 0}
-    let τ₁₀ := sSup {x : ℝ |
-      x ^ 10 + x ^ 9 - x ^ 7 - x ^ 6 - x ^ 5 - x ^ 4 - x ^ 3 + x + 1 = 0}
-    IsSalem (τ₄ ^ 2) ∧ (minpoly ℤ (τ₄ ^ 2)).natDegree = 4 ∧
-      IsSalem (τ₁₀ ^ 2) ∧ (minpoly ℤ (τ₁₀ ^ 2)).natDegree = 10 := by
-  sorry
-
 /-- The sharp Schinzel–Zassenhaus bound in a carrier-free polynomial form. -/
 theorem schinzel_zassenhaus {P : Polynomial ℤ} (hP : P.Monic) (hirr : Irreducible P)
     (hdeg : 0 < P.natDegree) (h0 : P.coeff 0 ≠ 0)
     (hcycl : ∀ n : ℕ, 0 < n → P ≠ cyclotomic n ℤ) :
     ∃ z ∈ P.aroots ℂ, Real.rpow 2 (1 / (4 * (P.natDegree : ℝ))) ≤ ‖z‖ := by
-  sorry
-
-/-- The quadratic and degree-ten examples satisfy their respective house bounds. -/
-example : Real.rpow 2 (1 / 8) ≤ Real.goldenRatio ∧
-    Real.rpow 2 (1 / 40) ≤ sSup {x : ℝ |
-      x ^ 10 + x ^ 9 - x ^ 7 - x ^ 6 - x ^ 5 - x ^ 4 - x ^ 3 + x + 1 = 0} := by
-  sorry
-
-/-- Cyclotomic roots have norm one and cannot satisfy the strict house growth conclusion. -/
-example (n : ℕ) (hn : 0 < n) (z : ℂ) (hz : z ∈ (cyclotomic n ℤ).aroots ℂ) :
-    ‖z‖ = 1 := by
   sorry
 
 /-- Schur sequences have a holomorphic witness and a closed norm bound on the open disc.
@@ -847,39 +468,6 @@ def RealSchurSeries (e : ℕ → ℝ) : Prop :=
   ∃ f : ℂ → ℂ, DifferentiableOn ℂ f (Metric.ball 0 1) ∧
     ∀ z ∈ Metric.ball (0 : ℂ) 1,
       HasSum (fun j : ℕ => (e j : ℂ) * z ^ j) (f z) ∧ ‖f z‖ ≤ 1
-
-/-- Boundary constant witnesses are permitted. -/
-example : RealSchurSeries (fun n => if n = 0 then 1 else 0) := by
-  sorry
-
-/-- The other constant on the unit-circle boundary is also Schur. -/
-example : RealSchurSeries (fun n => if n = 0 then -1 else 0) := by
-  sorry
-
-/-- Positive-degree monomials give Schur series with zero constant coefficient. -/
-example (k : ℕ) (hk : 1 ≤ k) :
-    RealSchurSeries (fun n => if n = k then 1 else 0) := by
-  sorry
-
-/-- A constant outside the closed unit disc is rejected. -/
-example : ¬ RealSchurSeries (fun n => if n = 0 then 3 / 2 else 0) := by
-  sorry
-
-/-- A disc automorphism supplies the rational Schur example and its first coefficients. -/
-example :
-    let e : ℕ → ℝ := fun n => if n = 0 then 1 / 2 else (3 / 4) * (-1 / 2) ^ (n - 1)
-    RealSchurSeries e ∧ e 0 = 1 / 2 ∧ e 1 = 3 / 4 ∧ e 2 = -3 / 8 ∧
-      ∀ z ∈ Metric.ball (0 : ℂ) 1,
-        HasSum (fun n => (e n : ℂ) * z ^ n) ((1 / 2 + z) / (1 + z / 2)) := by
-  sorry
-
-/-- A nonconstant bounded holomorphic disc witness has strict interior norm bound. -/
-example (f : ℂ → ℂ) (hf : DifferentiableOn ℂ f (Metric.ball 0 1))
-    (hb : ∀ z ∈ Metric.ball (0 : ℂ) 1, ‖f z‖ ≤ 1)
-    (hnonconst : ∃ z ∈ Metric.ball (0 : ℂ) 1,
-      ∃ w ∈ Metric.ball (0 : ℂ) 1, f z ≠ f w) :
-    ∀ z ∈ Metric.ball (0 : ℂ) 1, ‖f z‖ < 1 := by
-  sorry
 
 /-- Finite pair-product diameter, with the unused small indices fixed to zero.
 The full README API includes `finiteFeketeDiameter_two`.
@@ -897,43 +485,6 @@ The full README API includes `transfiniteDiameter_affine`, `transfiniteDiameter_
 noncomputable def transfiniteDiameter (K : Set ℂ) : ℝ :=
   sInf (Set.range (fun n : ℕ => finiteFeketeDiameter K (n + 2)))
 
-/-- The diameter convention is zero at the single-point index. -/
-example : finiteFeketeDiameter (Metric.closedBall (0 : ℂ) 1) 1 = 0 := by
-  sorry
-
-/-- Two points in the unit disc can have distance two. -/
-example : finiteFeketeDiameter (Metric.closedBall (0 : ℂ) 1) 2 = 2 := by
-  sorry
-
-/-- The unit disc has transfinite diameter one. -/
-example : transfiniteDiameter (Metric.closedBall (0 : ℂ) 1) = 1 := by
-  sorry
-
-/-- Finite compact sets have zero transfinite diameter. -/
-example : transfiniteDiameter ({0, 1} : Set ℂ) = 0 := by
-  sorry
-
-/-- Finite-set examples separate pair diameter from limiting diameter. -/
-example : finiteFeketeDiameter ({0, 2} : Set ℂ) 2 = 2 ∧
-    finiteFeketeDiameter ({0, 2} : Set ℂ) 3 = 0 ∧
-    transfiniteDiameter ({0, 2} : Set ℂ) = 0 := by
-  sorry
-
-/-- A singleton has zero finite diameter at every used index. -/
-example (n : ℕ) (hn : 2 ≤ n) :
-    finiteFeketeDiameter ({7} : Set ℂ) n = 0 ∧ transfiniteDiameter ({7} : Set ℂ) = 0 := by
-  sorry
-
-/-- The radius-two disc gives pair diameter four and limiting diameter two. -/
-example : finiteFeketeDiameter (Metric.closedBall (0 : ℂ) 2) 2 = 4 ∧
-    transfiniteDiameter (Metric.closedBall (0 : ℂ) 2) = 2 := by
-  sorry
-
-/-- The segment capacity convention differs from ordinary segment length. -/
-example : transfiniteDiameter (segment ℝ (-1 : ℂ) 1) = 1 / 2 ∧
-    transfiniteDiameter (segment ℝ (0 : ℂ) 1) = 1 / 4 := by
-  sorry
-
 /-- A radial hedgehog is the union of the closed radial segments.
 The full README API includes `radialHedgehog_affine_scale`, `radialHedgehog_compact`,
 `radialHedgehog_complement`, `radialHedgehog_eq_iUnion_segment`, `radialHedgehog_mem`,
@@ -941,34 +492,6 @@ The full README API includes `radialHedgehog_affine_scale`, `radialHedgehog_comp
 -/
 def radialHedgehog {n : ℕ} (a : Fin n → ℂ) : Set ℂ :=
   {z | ∃ i : Fin n, ∃ t : ℝ, t ∈ Set.Icc 0 1 ∧ z = (t : ℂ) * a i}
-
-/-- A single segment includes its midpoint. -/
-example : (2 : ℂ) ∈ radialHedgehog (fun _ : Fin 1 => (4 : ℂ)) := by
-  sorry
-
-/-- Its endpoint is included but extension beyond it is not. -/
-example : ¬ (5 : ℂ) ∈ radialHedgehog (fun _ : Fin 1 => (4 : ℂ)) := by
-  sorry
-
-/-- An empty family and a zero endpoint give different hedgehogs. -/
-example : radialHedgehog (fun i : Fin 0 => Fin.elim0 i) = ∅ ∧
-    radialHedgehog (fun _ : Fin 1 => (0 : ℂ)) = {0} := by
-  sorry
-
-/-- A single spike is its closed radial segment. -/
-example : radialHedgehog (fun _ : Fin 1 => (4 : ℂ)) = segment ℝ 0 4 ∧
-    transfiniteDiameter (radialHedgehog (fun _ : Fin 1 => (4 : ℂ))) = 1 := by
-  sorry
-
-/-- Every single spike attains the one-spike diameter bound, including the zero spike. -/
-example (a : ℂ) : transfiniteDiameter (radialHedgehog (fun _ : Fin 1 => a)) = ‖a‖ / 4 := by
-  sorry
-
-/-- Opposite endpoints and duplicate endpoints have distinct sharp diameters. -/
-example : transfiniteDiameter (radialHedgehog ![(1 : ℂ), -1]) = 1 / 2 ∧
-    radialHedgehog ![(1 : ℂ), 1] = segment ℝ 0 1 ∧
-    transfiniteDiameter (radialHedgehog ![(1 : ℂ), 1]) = 1 / 4 := by
-  sorry
 
 /-- Dubinin's bound allows coincident endpoints and uses the family size. -/
 theorem dubinin_hedgehog_bound {n : ℕ} (hn : 1 ≤ n) (a : Fin n → ℂ) :
@@ -985,71 +508,11 @@ The full README API includes `shiftedHankelDet_integer`, `shiftedHankelDet_map`,
 def shiftedHankelDet {R : Type*} [CommRing R] (a : ℕ → R) (n : ℕ) : R :=
   Matrix.det (fun i j : Fin n => a (i.val + j.val + 1))
 
-/-- The empty Hankel determinant is one over every coefficient ring. -/
-example {R : Type*} [CommRing R] (a : ℕ → R) : shiftedHankelDet a 0 = 1 := by
-  sorry
-
-/-- One-by-one Hankel determinant reads a₁ rather than a₀. -/
-example (a : ℕ → ℚ) : shiftedHankelDet a 1 = a 1 := by
-  sorry
-
-/-- The two-by-two value pins both shift and determinant sign. -/
-example (a : ℕ → ℚ) : shiftedHankelDet a 2 = a 1 * a 3 - a 2 ^ 2 := by
-  sorry
-
-/-- Geometric coefficients give rank one from the shifted first entry. -/
-example : shiftedHankelDet (fun j => (2 : ℚ) ^ j) 1 = 2 ∧
-    shiftedHankelDet (fun j => (2 : ℚ) ^ j) 2 = 0 := by
-  sorry
-
-/-- The zeroth coefficient has no effect on the shifted two-by-two example. -/
-example (c : ℚ) : shiftedHankelDet
-    (fun j => if j = 0 then c else if j = 1 then 2 else if j = 2 then 3 else 5) 2 = 1 := by
-  sorry
-
-/-- One zero leading determinant can be followed by a nonzero determinant. -/
-example :
-    let a : ℕ → ℚ := fun j => if j = 2 then 1 else 0
-    shiftedHankelDet a 1 = 0 ∧ shiftedHankelDet a 2 = -1 := by
-  sorry
-
 /-- Exterior continuation includes the actual Laurent germ, not only a holomorphic function. -/
 def ExteriorLaurentContinuation (a : ℕ → ℂ) (K : Set ℂ) : Prop :=
   IsCompact K ∧ K.Nonempty ∧ ∃ G : ℂ → ℂ,
     DifferentiableOn ℂ G Kᶜ ∧ ∃ R : ℝ, 0 < R ∧ K ⊆ Metric.closedBall 0 R ∧
       ∀ z : ℂ, R < ‖z‖ → HasSum (fun j : ℕ => a j * (z⁻¹) ^ j) (G z)
-
-/-- The geometric Laurent series continues away from its pole at one. -/
-example : ExteriorLaurentContinuation (fun _ => (1 : ℂ)) {1} := by
-  sorry
-
-/-- The compact exceptional set must be nonempty. -/
-example : ¬ ExteriorLaurentContinuation (fun _ => (0 : ℂ)) ∅ := by
-  sorry
-
-/-- A pole at two is compatible with the geometric Laurent tail. -/
-example : ExteriorLaurentContinuation
-    (fun j => if j = 0 then 0 else (2 : ℂ) ^ (j - 1)) {2} ∧
-    Sequences.IsRational
-      (PowerSeries.mk fun j => if j = 0 then 0 else (2 : ℚ) ^ (j - 1)) := by
-  sorry
-
-/-- The square-root Laurent branch has a noninteger first coefficient. -/
-example : ExteriorLaurentContinuation (fun j =>
-    (∏ i ∈ Finset.range j, ((1 / 2 : ℂ) - i)) / (j.factorial : ℂ) * (-1) ^ j)
-      (segment ℝ (0 : ℂ) 1) ∧
-    (1 / 2 : ℂ) * (-1) = -1 / 2 := by
-  sorry
-
-/-- The exponential cannot have a convergent expansion in nonpositive powers at infinity. -/
-example : ¬ ∃ (a : ℕ → ℂ) (R : ℝ), 0 < R ∧
-    ∀ z : ℂ, R < ‖z‖ → HasSum (fun j => a j * (z⁻¹) ^ j) (Complex.exp z) := by
-  sorry
-
-/-- A constant Laurent germ permits any nonempty compact exceptional set. -/
-example (K : Set ℂ) (hK : IsCompact K) (hne : K.Nonempty) :
-    ExteriorLaurentContinuation (fun j => if j = 0 then (7 : ℂ) else 0) K := by
-  sorry
 
 /-- Bertrandias's integer-coefficient rationality criterion has strict diameter bound. -/
 theorem bertrandias_rationality (a : ℕ → ℤ) (K : Set ℂ)
@@ -1079,26 +542,6 @@ def HasNIB (A B G : Type*) [CommRing A] [CommRing B] [Algebra A B]
     [Group G] [Fintype G] [MulSemiringAction G B] [IsGaloisGroup G A B] : Prop :=
   ∃ α : B, IsNIBGenerator A B G α
 
-/-- In a nontrivial extension the element one has repeated conjugates. -/
-example (A B G : Type*) [CommRing A] [CommRing B] [Algebra A B]
-    [Group G] [Fintype G] [MulSemiringAction G B] [IsGaloisGroup G A B]
-    [Nontrivial A] [Nontrivial G] : ¬ IsNIBGenerator A B G 1 := by
-  sorry
-
-/-- Odd prime cyclotomic extensions have the standard integral normal generator. -/
-example (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) (L : Type*) [Field L] [NumberField L]
-    [IsCyclotomicExtension {p} ℚ L] [IsGalois ℚ L] :
-    IsNIBGenerator (NumberField.RingOfIntegers ℚ) (NumberField.RingOfIntegers L)
-      (L ≃ₐ[ℚ] L) ((IsCyclotomicExtension.zeta_spec p ℚ L).toInteger) := by
-  sorry
-
-/-- Gaussian integers give the rational-versus-integral distinction. -/
-example (L : Type*) [Field L] [NumberField L] [IsCyclotomicExtension {4} ℚ L]
-    [IsGalois ℚ L] :
-    ¬ HasNIB (NumberField.RingOfIntegers ℚ) (NumberField.RingOfIntegers L)
-      (L ≃ₐ[ℚ] L) := by
-  sorry
-
 /-- Tame residue extensions are separable and have index prime to residue characteristic. -/
 def IsTamelyRamifiedAt (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
     (P : Ideal B) [P.IsPrime] : Prop :=
@@ -1109,20 +552,6 @@ def IsTamelyRamifiedAt (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
 def IsTamelyRamified (A B : Type*) [CommRing A] [CommRing B] [Algebra A B] : Prop :=
   ∀ (P : Ideal B) [P.IsPrime], P ≠ ⊥ → IsTamelyRamifiedAt A B P
 
-/-- Index one gives tameness when the residue extension is separable. -/
-example (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
-    (P : Ideal B) [P.IsPrime]
-    (hsep : Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P))
-    (he : P.ramificationIdx A = 1) : IsTamelyRamifiedAt A B P := by
-  sorry
-
-/-- An inseparable residue extension prevents tameness even at ramification index one. -/
-example (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
-    (P : Ideal B) [P.IsPrime]
-    (hsep : ¬ Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P))
-    (he : P.ramificationIdx A = 1) : ¬ IsTamelyRamifiedAt A B P := by
-  sorry
-
 /-- Finite integral Dedekind towers detect tameness in both steps through prime lifting. -/
 theorem isTamelyRamified_trans_iff (A B C : Type*)
     [CommRing A] [IsDedekindDomain A] [CommRing B] [IsDedekindDomain B]
@@ -1132,21 +561,6 @@ theorem isTamelyRamified_trans_iff (A B C : Type*)
     (hinjAB : Function.Injective (algebraMap A B))
     (hinjBC : Function.Injective (algebraMap B C)) :
     IsTamelyRamified A C ↔ IsTamelyRamified A B ∧ IsTamelyRamified B C := by
-  sorry
-
-/-- In the self extension, the residue extension and ramification index are trivial. -/
-example (A : Type*) [CommRing A] [IsDedekindDomain A] : IsTamelyRamified A A := by
-  sorry
-
-/-- The prime-cyclotomic extension has tame ramification, including p=2. -/
-example (p : ℕ) [Fact p.Prime] (L : Type*) [Field L] [NumberField L]
-    [IsCyclotomicExtension {p} ℚ L] :
-    IsTamelyRamified (NumberField.RingOfIntegers ℚ) (NumberField.RingOfIntegers L) := by
-  sorry
-
-/-- The Gaussian extension tests wild ramification at two. -/
-example (L : Type*) [Field L] [NumberField L] [IsCyclotomicExtension {4} ℚ L] :
-    ¬ IsTamelyRamified (NumberField.RingOfIntegers ℚ) (NumberField.RingOfIntegers L) := by
   sorry
 
 /-- Local Noether for a complete DVR with finite residue field and a finite Galois algebra. -/
@@ -1165,14 +579,6 @@ The full README API includes `StableEquivalent.of_equiv`.
 def StableEquivalent (R P Q : Type*) [Ring R] [AddCommGroup P] [AddCommGroup Q]
     [Module R P] [Module R Q] : Prop :=
   ∃ n : ℕ, Nonempty ((P × (Fin n → R)) ≃ₗ[R] (Q × (Fin n → R)))
-
-/-- Equal modules need no stabilisation. -/
-example : StableEquivalent ℤ ℤ ℤ := by
-  sorry
-
-/-- Different rational ranks cannot be repaired with a common free summand. -/
-example : ¬ StableEquivalent ℤ (Fin 0 → ℤ) ℤ := by
-  sorry
 
 /-- A group element invisible to every linear character has determinant one in every
 finite-dimensional representation. The determinant of the representation is a linear
@@ -1228,8 +634,9 @@ in README §2.21 on its explicitly constructed Weierstrass curve.
 The README also states the interfaces for higher residue symbols, Cartier operators,
 matrix normal forms, integer-valued polynomial ideals, numerical semigroups,
 number-field presentations, capacity and conformal radius, and integral Galois modules.
-Bach's bound, the Belabas–Diaz y Diaz–Friedman criterion, the explicit prime ideal theorem
-and the truncated Euler sum (§§5.1b, 5.1c and 5.16a (i)–(ii)) assume Riemann hypotheses for
+Bach's bound `isFactorBaseBound_of_grh`, the Belabas–Diaz y Diaz–Friedman targets
+`isFactorBaseBound_of_weil_inequality` and `isFactorBaseBound_of_sum_gt`, the explicit prime
+ideal theorem and the truncated Euler sum (§§5.1b, 5.1c and 5.16a (i)–(ii)) assume Riemann hypotheses for
 continued Dedekind and class-group L-functions, which have no carrier at the pins; they are
 README targets.
 Their constructions require carriers or comparison theory beyond the light definitions

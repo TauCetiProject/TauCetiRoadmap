@@ -11322,7 +11322,7 @@ Write `R(u)=j R_K` with j a positive integer. From `L≤R_K` and R(u)<2L obtain 
 
 Let K have unit rank r and torsion order `w_K = |μ_K|`, let ζ generate `μ_K`, let p be a prime, and let `P_1, …, P_m` be maximal ideals of `𝓞_K` with `p | N(P_i) − 1`. A finite family `v_1, …, v_s` in `𝓞_K` is p-power-residue independent at the `P_i` if every e ∈ ℕ^s with `∏_j v_j^(e_j (N(P_i) − 1)/p) ≡ 1 (mod P_i)` for all i has `p | e_j` for all j. For units `u_1, …, u_r`: (a) if `p ∤ w_K` and u is p-power-residue independent, then u has maximal rank and `p ∤ [𝓞_K^× : ⟨u⟩·μ_K]`; (b) if `(u_1, …, u_r, ζ)` is p-power-residue independent, which can happen only when `p | w_K`, the same conclusion holds. In both cases u and ζ generate `𝓞_K^×` modulo p-th powers.
 
-Fixing a generator `g_i` of the cyclic group `(𝓞_K/P_i)^×`, independence says exactly that the m × s matrix of discrete logarithms `log_(g_i)(v_j mod P_i)`, reduced modulo p, has rank s over `𝔽_p`; the definition uses the p-th power residue characters `x ↦ x^((N(P_i) − 1)/p)` and needs no choice of generators. The residue characteristic of each `P_i` differs from p, and units stay units modulo `P_i`. When `p ∤ w_K` the root of unity ζ is a p-th power and carries no information; when `p | w_K` its column is needed (third check below).
+Assume additionally that `v_j ∉ P_i` for every i and j. Fixing a generator `g_i` of the cyclic group `(𝓞_K/P_i)^×`, independence then says exactly that the m × s matrix of discrete logarithms `log_(g_i)(v_j mod P_i)`, reduced modulo p, has rank s over `𝔽_p`; the definition uses the p-th power residue characters `x ↦ x^((N(P_i) − 1)/p)` and needs no choice of generators. The residue characteristic of each `P_i` differs from p, and units stay units modulo `P_i`. When `p ∤ w_K` the root of unity ζ is a p-th power and carries no information; when `p | w_K` its column is needed (third check below).
 
 The supporting API comprises:
 
@@ -11344,6 +11344,7 @@ If u were dependent modulo torsion, dividing a relation by its p-content (G/μ_K
 - Same field, p = 2, P = (7, √2 − 3) and P′ = (7, √2 − 4): the quadratic characters of (ε, −1) are (0, 1) at P (ε ≡ 4 is a square, −1 ≡ 6 is not) and (1, 1) at P′ (ε ≡ 5 is not a square), an invertible matrix over `𝔽_2`; ε and −1 generate the units modulo squares.
 - The column of ζ is needed when `p | w_K`: u = −ε² has nonsquare residues 5 at P and 3 at P′, so its column alone has rank 1 = r, yet `[𝓞_K^× : ⟨−ε²⟩·{±1}] = 2`. With the column of −1 the two columns coincide, the rank is 1 < 2, and (b) refuses.
 - Rank zero: for K = ℚ(i) and p = 3 the empty family passes and `[𝓞_K^× : μ_K] = 1`.
+- K = ℚ, p = 2, P = (3) and v = (0): the residue product is `0^e`, equal to 1 only for e = 0, so PowerResidueIndependent holds. The discrete logarithm of zero is undefined, showing why the matrix interpretation requires `v_j ∉ P_i`.
 
 *Needs:* [A regulator lower bound establishes a fundamental system of units](#layer-5-topic-3); Mathlib `NumberField.Units.IsMaxRank`; Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`; Mathlib `NumberField.Units.rank`; Mathlib `NumberField.Units.torsion`; Mathlib `NumberField.Units.torsionOrder`; Mathlib `Ideal.Quotient.mk`; Mathlib `Ideal.absNorm`; Mathlib `Subgroup.index`.
 
@@ -11781,7 +11782,17 @@ Then `Cl(K) ≅ ℤ^N/Aℤ^N` by [The class group from a complete relation matri
 
 ### 5.16a A lower bound for the class number times the regulator from a truncated Euler product
 
-Let `κ_K = NumberField.dedekindZeta_residue K = 2^(r_1) (2π)^(r_2) h_K R_K / (w_K √Δ_K)` be the residue of `ζ_K` at 1, n = [K:ℚ], `ψ_K = TauCeti.primePsi K Set.univ` and `ψ = Chebyshev.psi`, and for T ≥ 2 let `S_K(T) = Σ_(2 ≤ m ≤ T) (Λ_K(m) − Λ(m)) / (m log m)`, where `Λ_K(m)` is the sum of log N(P) over the prime powers `P^k` of norm m (Tau Ceti `TauCeti.primeVonMangoldtCoeff K Set.univ`) and Λ is Mathlib's `ArithmeticFunction.vonMangoldt`. (i) Under DedekindERH K, every x ≥ 100 satisfies `|ψ_K(x) − x| ≤ √x ((log x/(2π) + 2) log Δ_K + (log² x/(8π) + 2) n)`; for K = ℚ, under RiemannHypothesis, this bounds `|ψ(x) − x|`. (ii) Under DedekindERH K and RiemannHypothesis, for every T ≥ 100, `|log κ_K − S_K(T)| ≤ ε_K(T)`, where `ε_K(T)` is the explicit bound that partial summation of (i), for K and for ℚ, gives for the tail beyond T of the series `Σ_m (Λ_K(m) − Λ(m)) / (m log m)`; `ε_K(T) → 0` as T → ∞. (iii) If `|log κ_K − S| ≤ ε` for real numbers S and ε, then `h* = w_K √Δ_K / (2^(r_1) (2π)^(r_2)) · exp(S − ε)` satisfies `h* ≤ h_K R_K ≤ h* · exp(2ε)`.
+Let `κ_K = NumberField.dedekindZeta_residue K = 2^(r_1) (2π)^(r_2) h_K R_K / (w_K √Δ_K)` be the residue of `ζ_K` at 1, n = [K:ℚ], `ψ_K = TauCeti.primePsi K Set.univ` and `ψ = Chebyshev.psi`, and for T ≥ 2 let `S_K(T) = Σ_(2 ≤ m ≤ T) (Λ_K(m) − Λ(m)) / (m log m)`, where `Λ_K(m)` is the sum of log N(P) over the prime powers `P^k` of norm m (Tau Ceti `TauCeti.primeVonMangoldtCoeff K Set.univ`) and Λ is Mathlib's `ArithmeticFunction.vonMangoldt`.
+
+(i) Under DedekindERH K, every x ≥ 100 satisfies `|ψ_K(x) − x| ≤ √x ((log x/(2π) + 2) log Δ_K + (log² x/(8π) + 2) n)`; for K = ℚ, under RiemannHypothesis, this bounds `|ψ(x) − x|`.
+
+(ii) Put `L = log T`, `a = (n + 1)/(8π)`, `b = log Δ_K/(2π)`, `c = 2 log Δ_K + 2(n + 1)` and
+
+`ε_K(T) = T^(−1/2) [a(3L + 6) + b(3 + 2/L) + c(3/L + 2/L²)]`.
+
+Under DedekindERH K and RiemannHypothesis, for every T ≥ 100, `|log κ_K − S_K(T)| ≤ ε_K(T)`, and `ε_K(T) → 0` as T → ∞.
+
+(iii) If `|log κ_K − S| ≤ ε` for real numbers S and ε, then `h* = w_K √Δ_K / (2^(r_1) (2π)^(r_2)) · exp(S − ε)` satisfies `h* ≤ h_K R_K ≤ h* · exp(2ε)`.
 
 With `S = S_K(T)` and `ε = ε_K(T)`, the lower bound of (iii) is the specified `h*` of [The class-number–regulator completeness criterion](#layer-5-topic-16), and the interval of (iii) gives the a and η of §5.22. Equivalently `S_K(T) = Σ 1/(k N(P)^k) − Σ 1/(k p^k)`, the first sum over the prime powers `P^k` of norm at most T and the second over the rational prime powers `p^k ≤ T`: a truncation of the logarithm of the Euler product of `ζ_K/ζ`. Clauses (i) and (ii) carry DedekindERH K (AnalyticNumberTheoryPartI §2.42), which has no carrier at the pins, so they are README targets; RiemannHypothesis is Mathlib's. Clause (iii) has a Lean signature.
 
@@ -11791,24 +11802,31 @@ The supporting API comprises:
 - `abs_log_dedekindZeta_residue_sub_le_of_dedekindERH`: clause (ii).
 - `classNumber_mul_regulator_bounds_of_abs_log_residue_sub_le`: clause (iii).
 
-(Loïc Grenié and Giuseppe Molteni, [Explicit versions of the prime ideal theorem for Dedekind zeta functions under GRH](#reference-grenie-molteni-2016), Corollary 1.2 and inequality (1.5), p. 3, deduced from Theorem 1.1, p. 2, by choosing its height parameter; the hypothesis `ζ_K(s) ≠ 0` for Re s > 1/2 is stated in Section 1, p. 2, and the case K = ℚ is covered in the proof of Corollary 1.2, p. 13.) Clause (i) is Corollary 1.2.
-
-(Eric Bach, [Improved approximations for Euler products](#reference-bach-euler-products-1995), cited by title; no theorem number is verified.) Under the Riemann hypothesis for `ζ_K` the source approximates `log κ_K = log (ζ_K/ζ)(1)` by weighted averages of log A(x + i), where A(x) is the product of `(1 − 1/N(P))^(−1)` over the primes with N(P) < x and of (1 − 1/p) over the rational primes p < x, with error `O(log Δ_K / (√x log x))`. Clause (ii) is the unweighted truncation, with the explicit constants of (i).
+(Loïc Grenié and Giuseppe Molteni, [Explicit versions of the prime ideal theorem for Dedekind zeta functions under GRH](#reference-grenie-molteni-2016), Corollary 1.2 and inequality (1.5), p. 3, deduced from Theorem 1.1, p. 2, by choosing its height parameter; the hypothesis `ζ_K(s) ≠ 0` for Re s > 1/2 is stated in Section 1, p. 2, and the case K = ℚ is covered in the proof of Corollary 1.2, p. 13.) Clause (i) is Corollary 1.2; clause (ii) is its partial-summation consequence for K and ℚ with the remainder displayed above.
 
 (Jean-François Biasse and Claus Fieker, [Subexponential class group and unit group computation in large degree number fields](#reference-biasse-fieker-classgroup-2014), Section 4.3, printed p. 398.) The source writes `hR = (|μ| √|Δ| / (2^(r_1) (2π)^(r_2))) · lim_(s→1) (s − 1) ζ_K(s)` and certifies with a bound `h*` satisfying `h* ≤ hR < 2h*`, obtained from the Euler product under GRH; clause (iii) reads that formula as an interval.
 
 To prove this, for (i) Grenié and Molteni insert Re ρ = 1/2 into the truncated explicit formula for `ψ_K`, bound the sums over zeros with an explicit zero count for `ζ_K`, and choose the truncation height; these analytic inputs are those of the conditional route of AnalyticNumberTheoryPartI §2.49, made explicit.
 
-For (ii), for real σ > 1 the Euler products of `ζ_K` (Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`) and of ζ give `log ζ_K(σ) − log ζ(σ) = Σ_m (Λ_K(m) − Λ(m)) m^(−σ) / log m`. As σ → 1⁺ the left side tends to `log κ_K` (Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` and `riemannZeta_residue_one`), and by Abel's theorem for Dirichlet series the right side tends to the series at 1. The tail of that series beyond T is bounded by partial summation of the Grenié–Molteni bound applied to `ψ_K − ψ` (Mathlib `sum_mul_eq_sub_integral_mul`).
+For (ii), set `A(t) = ψ_K(t) − ψ(t)` and `f(t) = 1/(t log t)`. Clause (i) for K and ℚ gives `|A(t)| ≤ √t (a log² t + b log t + c)` for t ≥ 100. Hence `A(t) f(t) → 0`, and `∫_100^∞ |A(t) f′(t)| dt` converges. Partial summation first proves convergence of the series at 1 and expresses its tail beyond T as `−A(T) f(T) − ∫_T^∞ A(t) f′(t) dt`, including when T is a prime-power norm.
+
+Since `−f′(t) = (log t + 1)/(t² log² t)`, the absolute value of the tail is at most
+
+`T^(−1/2) (aL + b + c/L) + ∫_T^∞ t^(−3/2) [a log t + a + b + (b + c)/log t + c/log² t] dt`.
+
+Use `1/log t ≤ 1/L`, `∫_T^∞ t^(−3/2) dt = 2/√T` and `∫_T^∞ t^(−3/2) log t dt = (2L + 4)/√T`. Adding the boundary term gives precisely `ε_K(T)`; each term tends to zero.
+
+For real σ > 1 the Euler products of `ζ_K` (Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`) and of ζ give `log ζ_K(σ) − log ζ(σ) = Σ_m (Λ_K(m) − Λ(m)) m^(−σ) / log m`. The convergence at 1 just proved permits Abel's theorem for Dirichlet series. As σ → 1⁺ the left side tends to `log κ_K` (Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` and `riemannZeta_residue_one`), identifying the sum at 1 with `log κ_K`.
 
 Clause (iii) is Mathlib `NumberField.dedekindZeta_residue_def` solved for `h_K R_K`.
 
 **Checks.**
 
 - K = ℚ(i), x = 10⁴: `ψ_K(x) ≈ 10041.9`, so `|ψ_K(x) − x| ≈ 41.9`, well inside the bound of (i), about 1555.5; for ℚ, `|ψ(10⁴) − 10⁴| ≈ 13.4` against about 537.5.
-- K = ℚ(i): `S_K(10⁴) ≈ −0.24117`, against `log κ_K = log(π/4) ≈ −0.24156`.
+- K = ℚ(i): `S_K(10⁴) ≈ −0.24117`, against `log κ_K = log(π/4) ≈ −0.24156`. The displayed formula gives `ε_K(10⁴) ≈ 0.077885` and the interval `0.92543 ≤ h_K R_K = 1 ≤ 1.08142`.
 - K = ℚ: `Λ_K = Λ`, so `S_K(T) = 0` for every T, and `κ_ℚ = 1`; (ii) holds with any ε ≥ 0, and (iii) gives `h* = exp(−ε) ≤ 1 = h_ℚ R_ℚ`.
 - The truncated sum alone gives no lower bound: for ℚ(i), `(4/π) exp(S_K(10⁴)) ≈ 1.0004 > h_K R_K = 1`. The error term of (ii) is what makes `h*` a lower bound.
+- At the endpoint T = 100 for K = ℚ(i), `S_K(100) ≈ −0.242013` and `ε_K(100) ≈ 0.966517`; the actual logarithmic error is about 0.000449, and `L = log 100 > 0` makes every denominator well defined. At T = 121, the inert prime 11 contributes a jump `1/242` to S_K; `A(T)` includes the jump at the cutoff.
 
 *Needs:* [The class-number–regulator completeness criterion](#layer-5-topic-16); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-42); [TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.49 effective Chebotarev density theorem](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AnalyticNumberTheoryPartI/README.md#s2-49); Mathlib `NumberField.dedekindZeta_residue`; Mathlib `NumberField.dedekindZeta_residue_def`; Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`; Mathlib `riemannZeta_residue_one`; Mathlib `RiemannHypothesis`; Mathlib `Chebyshev.psi`; Mathlib `ArithmeticFunction.vonMangoldt`; Mathlib `sum_mul_eq_sub_integral_mul`; Tau Ceti `TauCeti.primePsi`; Tau Ceti `TauCeti.primeVonMangoldtCoeff`; Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`.
 
@@ -12168,7 +12186,7 @@ Polynomial Mahler measure uses Mathlib's `Polynomial.mahlerMeasure` and `Polynom
 **Checks.**
 
 - p = (X − 2)² has root multiset {2, 2}, M(p) = 4 and logMahlerMeasure(p) = 2 log 2.
-- M(pq) = M(p)M(q) for all complex polynomials p, q (`Polynomial.mahlerMeasure_mul`), including p = q = X − 2. For pq ≠ 0 the logarithmic measures add; the nonzero hypothesis is necessary when one factor is zero and the other has nonzero logarithmic measure.
+- M(pq) = M(p)M(q) for all complex polynomials p, q (`Polynomial.mahlerMeasure_mul`), including p = q = X − 2. For pq ≠ 0 the logarithmic measures add (`Polynomial.logMahlerMeasure_mul_eq_add_logMahlerMeasure`); the nonzero hypothesis is necessary when one factor is zero and the other has nonzero logarithmic measure.
 - The zero polynomial has both measures zero, whereas the constant polynomial 1 has multiplicative measure 1 and logarithmic measure 0. Thus exponentiating the zero polynomial's logarithmic measure does not give its multiplicative measure.
 
 <a id="layer-6-topic-1"></a>
