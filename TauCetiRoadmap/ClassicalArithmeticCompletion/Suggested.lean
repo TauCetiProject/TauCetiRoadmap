@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.Psi
 
 /-!
 # ClassicalArithmeticCompletion: representative target signatures
@@ -692,23 +691,8 @@ theorem classNumber_eq_prod_of_saturated {K : Type*} [Field K] [NumberField K] {
     classNumber K = ∏ i, n i := by
   sorry
 
-/-- A bound `E` on `ψ_K - ψ` bounds the error of the truncated Euler sum for the residue
-(README §5.16a (i)). -/
-theorem abs_log_dedekindZeta_residue_sub_le {K : Type*} [Field K] [NumberField K]
-    (E : ℝ → ℝ) {x₀ T : ℝ} (hx₀ : 2 ≤ x₀) (hT : x₀ ≤ T)
-    (hE : ∀ x, x₀ ≤ x → |TauCeti.primePsi K Set.univ x - Chebyshev.psi x| ≤ E x)
-    (hint : MeasureTheory.IntegrableOn
-      (fun x => E x * (1 + Real.log x) / (x * Real.log x) ^ 2) (Set.Ioi x₀))
-    (hlim : Tendsto (fun x => E x / (x * Real.log x)) atTop (𝓝 0)) :
-    |Real.log (dedekindZeta_residue K) - ∑ n ∈ Finset.Icc 2 ⌊T⌋₊,
-        (TauCeti.primeVonMangoldtCoeff K Set.univ n - ArithmeticFunction.vonMangoldt n) /
-          (n * Real.log n)| ≤
-      E T / (T * Real.log T) +
-        ∫ x in Set.Ioi T, E x * (1 + Real.log x) / (x * Real.log x) ^ 2 := by
-  sorry
-
 /-- An interval for the logarithm of the residue is an interval for `h_K R_K`
-(README §5.16a (ii)). -/
+(README §5.16a (iii)). -/
 theorem classNumber_mul_regulator_bounds_of_abs_log_residue_sub_le {K : Type*} [Field K]
     [NumberField K] {S ε : ℝ} (h : |Real.log (dedekindZeta_residue K) - S| ≤ ε) :
     Units.torsionOrder K * Real.sqrt |(discr K : ℝ)| /
@@ -1282,9 +1266,10 @@ in README §2.21 on its explicitly constructed Weierstrass curve.
 The README also states the interfaces for higher residue symbols, Cartier operators,
 matrix normal forms, integer-valued polynomial ideals, numerical semigroups,
 number-field presentations, capacity and conformal radius, and integral Galois modules.
-Bach's bound, the Belabas–Diaz y Diaz–Friedman criterion and the explicit prime ideal
-theorem of §§5.1b, 5.1c and 5.16a (iii) assume Riemann hypotheses for continued Dedekind and
-class-group L-functions, which have no carrier at the pins; they are README targets.
+Bach's bound, the Belabas–Diaz y Diaz–Friedman criterion, the explicit prime ideal theorem
+and the truncated Euler sum (§§5.1b, 5.1c and 5.16a (i)–(ii)) assume Riemann hypotheses for
+continued Dedekind and class-group L-functions, which have no carrier at the pins; they are
+README targets.
 Their constructions require carriers or comparison theory beyond the light definitions
 in this file. In particular, balanced scalar change, the character-idele quotient,
 root-number classes and the integral group logarithm remain README targets. The Gauss/root
