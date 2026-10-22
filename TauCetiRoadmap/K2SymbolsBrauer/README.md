@@ -10,7 +10,7 @@ This roadmap owns the explicit bar and symbol normalization adapters, the finite
 
 ### Prerequisites and boundaries
 
-Layer 0 and the supplying roadmaps GeneralAlgebraicKTheory §§3.2–3.14 and Layers 4, 7–8, StableHomotopyKTheory Layers 1–4, and KTheoryLowDegrees §§6.1–6.2, 8.1 and 13.1–13.5 have the contracts below. The README specifies the construction targets on their carriers; `Suggested.lean` records the forms statable on the pinned libraries and is not an exhaustive checklist.
+Layer 0 and the supplying roadmaps GeneralAlgebraicKTheory §§3.2–3.14 and Layers 4, 7–8, StableHomotopyKTheory Layers 1–4, and KTheoryLowDegrees §§6.1–6.2, 8.1 and 13.1–13.5 have the contracts below. Named APIs below specify construction targets. `Suggested.lean` contains the headline statements statable on the pinned libraries and their supporting definitions; it is not an exhaustive checklist.
 
 - **Stable matrices and classical K-theory.** §§0.1–0.2 construct `GL, E`, elementary identities over arbitrary associative rings, Whitehead's lemma and classical and relative `K₁`; §0.3 constructs `St` and classical `K₂`. KTheoryLowDegrees §6.2 supplies the stable elementary centralizer calculation, and §§8.1, 13.1 supply the determinant and normalized `K₁` comparisons. Its §13.2 supplies the quotient-root calculation and the signed comparison prism used by relative constructions. The associative-ring elementary identities are constructed in §0.1, including distant commutation and the reverse coefficient `−ba`.
 - **Higher K-theory.** GeneralAlgebraicKTheory supplies the ring K-space, plus/Q comparison, biexact products, transfers, localization, dévissage, resolution and homotopy-fibre relative K-theory. StableHomotopyKTheory supplies classifying spaces, plus constructions, the universal-extension foundation, homotopy fibres and their long exact sequences. Hurewicz, Whitehead and covering spaces come from AlgebraicTopology Stages 5 and 8. The extra multiplicative comparison and its explicit torus normalization are §8.1 here.
@@ -98,6 +98,8 @@ For every associative unital `R`, construct `K₁(R)=GL(R)/E(R)` and its functor
 ### 0.3 Finite and stable Steinberg groups
 
 For every associative unital ring `R` and `n≥3`, construct `St_n(R)` by the presentation in Conventions and the surjection `φ_n:St_n(R)→E_n(R)`. Construct stabilization and coefficient maps, their commuting squares with `φ_n`, and `St(R)=colim St_n(R)`. Define classical `K₂(R)=ker(St(R)→E(R))`. Prove stable centrality, perfectness of `St(R)`, and universality of the central extension `St(R)→E(R)`: every central extension of `E(R)` receives a unique homomorphism from `St(R)` over `E(R)`. Prove universality directly by normalized lifts of root words and their relations, independently of the generic Hopf and plus comparisons. Express the result in the universal-extension API of StableHomotopyKTheory; its generic comparisons then apply to this extension. Layers 2–3 supply the additional finite-rank refinements and bar calibration. (Weibel, Definitions III.5.1–5.3.1 and Theorem III.5.5, pp.217–220.)
+
+`Suggested.lean` defines `Steinberg.Root`, `Steinberg.rootWord`, `Steinberg.relators` and `Steinberg.FiniteRank` by this presentation for the central-extension splitting theorem in §3.2.
 
 **Checks.**
 
@@ -262,7 +264,7 @@ Provide the following API.
 
 For `n` at least five every central extension of `St_n(R)` splits. If the canonical surjection `St_n(R) -> E_n(R)` is separately known to have central kernel, then it is the universal central extension of `E_n(R)`; centrality is not a consequence of splitting. (Weibel, III.5.5.1, p. 220.)
 
-This construction uses the finite-rank carriers of §0.3 and is specified in the README.
+`Suggested.lean` states `Steinberg.centralExtension_splits`: every surjective central extension has a unique homomorphic section.
 
 `R` is an associative unital ring; `n` is at least five.
 
@@ -439,8 +441,6 @@ Steinberg pairings `F^× × F^× → A`, the universal degree-two presentation, 
 
 For an abelian group `A` written additively, `IsSteinbergPairing(c)` for `c:Fˣ×Fˣ→A` means `c(ab,d)=c(a,d)+c(b,d), c(a,bd)=c(a,b)+c(a,d)`, and `c(a,b)=0` whenever `a+b=1` in `F`. The last condition uses the field values of two units, so neither zero nor a fake totalised inverse enters the definition. (Matsumoto, §5, Lemma 5.6 and bilinear conditions (S°), pp. 27–28; Weibel, III.6.1, p. 231.)
 
-`Suggested.lean` declares `IsSteinbergPairing` and checks that the constant pairing 1 is not one.
-
 `F` is a field and `A` is an `AddCommGroup`.
 
 Provide the following API.
@@ -463,7 +463,7 @@ Provide the following API.
 
 Put `U=Additive Fˣ` and `P₂(F)=(U⊗ℤU)/R₂`, where `R₂` is the `ℤ-submodule` spanned by `a⊗b` for unit pairs with `a+b=1`. Let `p(a,b)` be the quotient class of `a⊗b`. For every abelian `A`, evaluation on `p` gives a bijection between additive maps `P₂(F)→A` and Steinberg pairings `Fˣ×Fˣ→A`. (Weibel, III.6.1 and III.7.1, pp. 231, 245.)
 
-`Suggested.lean` declares `steinbergRelations`, `SymbolGroup` and `symbol`, with `symbol_swap`, `symbol_self`, `symbol_neg_one_neg_one_real`, `subsingleton_symbolGroup_of_finite` and `existsUnique_lift_of_isSteinbergPairing`.
+`Suggested.lean` defines `steinbergRelations`, `SymbolGroup` and `symbol` for the field Dennis–Stein presentation in §13.4.
 
 Provide the following API.
 
@@ -538,7 +538,7 @@ Every Steinberg pairing satisfies `c(a,-a)=0, c(a,b)=-c(b,a), c(a,a)=c(a,-1)`, a
 
 For a field `F` form the tensor algebra of the multiplicative group written additively, with the degree-one element attached to a nonzero `x` written `l(x)`. Define the graded ring `K^M` of `F` as the quotient of that tensor algebra by the two-sided ideal generated by the homogeneous elements `l(x)` tensor `l(one minus x)` with `x` different from zero and one. The Milnor K-group in degree `n` is the degree-n part, presented by symbols that are multiplicative in each entry and vanish when two consecutive entries sum to one. Degree zero is the integers and degree one is the multiplicative group written additively. When an index `n−1` occurs at `n=0` in the residue algebra, `K⁽ᴹ⁾_j(F)=0` for `j<0`. (Weibel, III.7.1, p. 245.)
 
-`Suggested.lean` declares `milnorRel`, `MilnorK`, `MilnorK.ofUnit` and `MilnorK.symbol`, with `MilnorK.symbol_perm`, `MilnorK.symbol_eq_zero_of_finite`, `MilnorK.one_ne_zero` and `MilnorK.real_diagonal_ne_zero`.
+`Suggested.lean` defines `milnorRel`, `MilnorK`, `MilnorK.ofUnit`, `MilnorK.symbol` and `MilnorK.degree`. The degree group is the image of Mathlib's homogeneous tensor-algebra submodule in the Steinberg ring quotient.
 
 All tensor products are over the integers.
 
@@ -592,7 +592,7 @@ Provide the following API.
 
 **Checks.**
 
-- The degree-zero component and its multiplication are canonically `ℤ`; `MilnorK.one_ne_zero` states `1≠0` in the ring.
+- The degree-zero component and its multiplication are canonically `ℤ`; `1≠0` in the ring.
 - The degree-one symbol class identifies `K⁽M⁾₁(F)` with `Additive Fˣ` and sends the unit 1 to zero.
 - `degreeTwoEquiv({a,b})=symbol(a,b)`.
 - For a free rank-two module with basis `x,y, x⊗y−y⊗x≠0` before imposing relations; a commutative ideal quotient cannot supply this bridge.
@@ -617,7 +617,7 @@ Provide the following API.
 - For `F₂` the constant 7 survives in degree zero and `1≠0` in `Kᴹ(F₂)`.
 - The one-entry symbol `{1}` is zero in degree one, whereas the empty symbol is the ring unit.
 - For units `a,b` with `a+b=1`, the degree-four symbol `{r,a,b,s}` vanishes; imposing only a left-ideal relation would not justify the trailing `s`.
-- `MilnorK.real_diagonal_ne_zero` states that `{-1}²={-1,-1}` is nonzero over `ℝ`, so the graded ring is not an exterior algebra.
+- The symbol `{-1}²={-1,-1}` is nonzero over `ℝ`, so the graded ring is not an exterior algebra.
 
 *Needs:* §5.5; Mathlib `RingCon.mk'`; Mathlib `TensorAlgebra.gradedAlgebra`; Mathlib `TensorAlgebra.lift`; Mathlib `TensorAlgebra.equivDirectSum`; Mathlib `PiTensorProduct.isEmptyEquiv`; Mathlib `PiTensorProduct.subsingletonEquiv`.
 
@@ -728,6 +728,8 @@ For a finite field Fq and `n >= 2, K_n^M(Fq)=0`. (Weibel, III.7.2(a), p. 245.)
 
 Fq is a finite field. `n >= 2`.
 
+`Suggested.lean` states the vanishing of the native degree group as `MilnorK.finiteField_vanishing`.
+
 **Checks.**
 
 - `K0^M(Fq)=Z` is not covered.
@@ -766,6 +768,8 @@ For a prime `p`, assume every polynomial `X^p−a` with `a∈F×` splits into li
 
 `F` is algebraically closed. `n >= 2`.
 
+`Suggested.lean` states `MilnorK.uniqueDivisible_of_isAlgClosed`: multiplication by every positive integer is bijective on the native degree group.
+
 **Checks.**
 
 - For each prime `p`, multiplication by `p` is both surjective and injective in degree at least two.
@@ -779,6 +783,8 @@ For a prime `p`, assume every polynomial `X^p−a` with `a∈F×` splits into li
 For `n≥1` let `D_n⊂K⁽M⁾_n(ℝ)` be the `ℤ-span` of symbols with at least one strictly positive entry. Let `e_n={−1,…,−1}`. Then `D_n` is divisible, `e_n` has exact order two, and every class decomposes uniquely as `εe_n+d` with `ε∈ℤ/2` and `d∈D_n`. The sign map sends a symbol to 1 in `ℤ/2` exactly when all entries are negative, and its kernel equals `D_n`. For `n=2` use the light realization `realPositive⊂Q₂(ℝ)`. (Weibel, Example III.7.2(c), real symbol in Example III.6.2.1, pp. 245, 232.)
 
 `n≥1`; the usual ordered field `ℝ`; entries are nonzero units.
+
+`Suggested.lean` defines the positive-entry submodule `MilnorK.realPositive` and states `MilnorK.real_decomposition`, with the inclusion of that submodule and the class `{−1,…,−1}` fixed by the equivalence. It states the ring calculation modulo two as `MilnorK.real_modTwo_equiv_polynomial`, sending the degree-one class of `−1` to the polynomial generator.
 
 Provide the following API.
 
@@ -1449,7 +1455,7 @@ Provide the following API.
 
 Let `v` be a discrete valuation on the field `F`, taken as a surjective valuation `v : F → ℤᵐ⁰` with additive order `ord_v` (Tau Ceti's Valuation.ord, so a uniformiser has order one), valuation ring `R`, residue field `k` and residue map `R^× → k^×, u ↦ ū`. Fix a uniformiser `t`. Every `f ∈ F^×` is uniquely `f = t^{ord_v f}·u_f` with `u_f ∈ R^×`. For `f, g ∈ F^×` define `∂_v{f,g} = (−1)^{ord_v(f)·ord_v(g)} · ū_f^{ord_v(g)} · ū_g^{−ord_v(f)} ∈ k^×`. Since `f^{v(g)}/g^{v(f)} = u_f^{v(g)}·u_g^{−v(f)}`, this is the roadmap's `(−1)^{v(f)v(g)}·(f^{v(g)}/g^{v(f)})‾`, and the residue map is applied only to the units `u_f` and `u_g`. With this convention `∂_v{u,t} = ū` and `∂_v{t,u} = ū^{−1}` for `u ∈ R^×`. The K-book's tame symbol (Lemma III.6.3), `∂_v({r,s}) = (−1)^{v(r)v(s)}·(s^{v(r)}/r^{v(s)})‾`, equals `∂_v{s,r} = ∂_v{r,s}^{−1}` in this notation: it is the inverse of this one. Independence of `t` is §9.3. (Weibel, Lemma III.6.3, p. 234.)
 
-`Suggested.lean` records the unit part `(−1)^{v(f)v(g)}f^{v(g)}g^{−v(f)}` as `tameUnit`, with `tameUnit_mem_unitGroup`, `tameUnit_mul_left` and `tameUnit_steinberg`, and checks the normalisations `∂{u, π} = ū` and `∂{π, u} = ū⁻¹`.
+`Suggested.lean` defines `tameUnit` as the field unit `(−1)^{v(f)v(g)}f^{v(g)}g^{−v(f)}` used in the tame-symbol reciprocity statement of §10.30.
 
 `v : F → ℤᵐ⁰` is a surjective (normalised) discrete valuation on the field `F`, with valuation ring `R`, residue field `k` and a chosen uniformiser `t (ord_v t = 1)`. `f` and `g` are nonzero elements of `F`.
 
@@ -2372,6 +2378,8 @@ Let `X` be a proper regular integral curve over `F` with function field `K`, and
 
 `X` is integral, proper and regular of dimension one over `F`; `f` and `g` are nonzero rational functions.
 
+`Suggested.lean` states `weil_reciprocity_tameSymbol` over all places of the function field, using Tau Ceti’s residue norms and including finite support.
+
 **Checks.**
 
 - For `X = ℙ¹` it is Weil's formula `(f, g)_∞ · ∏_p N_p(f, g)_p = 1` of III.6.5.3.
@@ -2385,7 +2393,7 @@ Let `X` be a proper regular integral curve over `F` with function field `K`, and
 
 Let `K` be a function field of one variable over `F` and `f, g ∈ K^×` whose principal divisors (Tau Ceti's Divisor.principal) have disjoint supports. At a place `P` in the support of div `g` one has `ord_P f = 0` and the roadmap's tame symbol is `∂_P{f, g} = f(P)^{ord_P g}`; at a place `P` in the support of div `f` it is `∂_P{f, g} = g(P)^{−ord_P f}`; elsewhere it is 1 (§9.2; the sign `(−1)^{ord_P f · ord_P g}` is 1 on both supports). Applying the residue-field norms `N_{k(P)/F}` and taking the product, §10.30 becomes `f(div g)·g(div f)^{−1} = 1`, that is `f(div g) = g(div f)` for Tau Ceti's evaluation Divisor.eval, whose local factors are the norms `N_{k(P)/F}(f(P))`. In particular, for an elliptic curve — a Weierstrass curve `W` over `F` with W.IsElliptic, `K = W.FunctionField`, a function field of one variable by WeierstrassCurve.Affine.isFunctionField — this is the milestone 'Weil reciprocity `f(div g) = g(div f)`' of EllipticCurves Layer 2, a prerequisite of its divisor construction of the Weil pairing: that milestone is the disjoint-support, degree-two special case of Layer 10's theorem, stated with the same evaluation and the same principal divisors, and the two must be stated compatibly. The general theorem, in every degree and for every function field of one variable, stays Layer 10's (§10.29); the elliptic statement is a special case, not a proof of reciprocity for other curves. In the K-book's normalisation every local factor is inverted (`∂^{Wb}_P{f, g} = f(P)^{−ord_P g}` on the support of `div g`) and the identity is unchanged. (Weibel, III.6.5.3, Weil Reciprocity Formula 6.5.3, p. 236.)
 
-`Suggested.lean` states this, with Tau Ceti's `Divisor.eval` and `Divisor.principal`, as `weil_reciprocity_of_disjoint`.
+`Suggested.lean` states `weil_reciprocity_of_disjoint` on Tau Ceti's divisor evaluation and principal divisors.
 
 K/F is a function field of one variable and `f, g ∈ K^×` have principal divisors with disjoint supports. For the elliptic instance, `W` is a Weierstrass curve over `F` with W.IsElliptic and `K = W.FunctionField`; its places and divisors are those of Tau Ceti's function-field library, on which EllipticCurves Layer 0 builds.
 
@@ -2414,6 +2422,8 @@ For a number field `F` with r1 real embeddings and `n >= 3, K_n^M(F)` is `(Z/2)^
 
 `F` is a number field. `n >= 3`.
 
+`Suggested.lean` states `MilnorK.numberField_realSign_equiv`, normalized on symbols by the signs at every real embedding.
+
 For the proof, first obtain finite generation from the finite-exceptional-prime filtration of Chapter II, Theorem 1.1 and Corollary 1.2: the residue targets vanish in degrees at least two over finite fields. For each odd prime ℓ, adjoining roots of unity through an extension of degree prime to ℓ and applying the projection formula makes restriction injective modulo ℓ. The local/global degree-two symbol pairing and the idele pairing of §§3–5 then kill every triple symbol modulo ℓ. In characteristic zero the same argument at two leaves precisely the real sign classes. Weak approximation supplies elements with one chosen negative real signature, and their repeated symbols give a section of the real-sign map with order-two image. Finite generation and the absence of all other primary quotients show that this section exhausts the group. The higher-degree statement follows by multiplying symbols, with the sign classes retained. Each step is needed: a sign detector alone does not prove surjectivity onto all of `K⁽ᴹ⁾_n(F)`.
 
 **Checks.**
@@ -2426,7 +2436,11 @@ For the proof, first obtain finite generation from the finite-exceptional-prime 
 
 ### 10.32a Local function-field norm-residue symbols
 
-Let `K` be a finite extension of `𝔽_q((t))`, let `ℓ` be a prime different from `char K`, and fix a primitive `ℓ`th root `ζ∈K`. Use Mathlib `BrauerGroup K` with Tau Ceti's commutative-group structure, ClassFieldTheory Layer 5's cohomological Brauer group and `invMap`, and ClassicalArithmeticCompletion §1.14's local symbol in their equal-characteristic prime-to-characteristic scope. Define `[a,b]_K=normResidueSymbol b a`. The supplied pairing is bimultiplicative and Steinberg, perfect on `Kˣ/Kˣℓ`, with `[a,b]_K=1` exactly when `b` is a norm from `K(a^{1/ℓ})`. Construct the cyclic algebra `(a,b)_ζ` with `X^ℓ=a, Y^ℓ=b, YX=ζXY` and its class in `BrauerGroup K`. Construct the natural equivalence from the algebraic Brauer group to the supplied cohomological Brauer group by descent of matrix splittings, compatible with tensor products and splitting fields. Its underlying group-isomorphism milestone `algebraicBrauer_equiv_cohomologicalBrauer` is stated for every field on the pinned carriers. Prove that its image has invariant `j/ℓ` exactly when `[a,b]_K=ζ^j`. This fixes the algebra and symbol order. Deduce `K₂ᴹ(K)/ℓ≃μ_ℓ` and the residue-unit formula `[u,π]_K=ū^((Q−1)/ℓ)` in the residue field of cardinality `Q`. (Bass–Tate, Chapter II, proof of Theorem 2.1(3), p.399; Weibel, III.6.2.4, pp.233–234; Milne, *Class Field Theory*, IV §3, Theorem 3.14 and Corollary 3.16, pp.137–138, algebraic/cohomological Brauer comparison.)
+Let `K` be a finite extension of `𝔽_q((t))`, let `ℓ` be a prime different from `char K`, and fix a primitive `ℓ`th root `ζ∈K`. Use Mathlib `BrauerGroup K` with Tau Ceti's commutative-group structure, ClassFieldTheory Layer 5's cohomological Brauer group and `invMap`, and ClassicalArithmeticCompletion §1.14's local symbol in their equal-characteristic prime-to-characteristic scope. Define `[a,b]_K=normResidueSymbol b a`. The supplied pairing is bimultiplicative and Steinberg, perfect on `Kˣ/Kˣℓ`, with `[a,b]_K=1` exactly when `b` is a norm from `K(a^{1/ℓ})`. Construct the cyclic algebra `(a,b)_ζ` with `X^ℓ=a, Y^ℓ=b, YX=ζXY` and its class in `BrauerGroup K`. Construct the natural equivalence from the algebraic Brauer group to the supplied cohomological Brauer group by descent of matrix splittings, compatible with tensor products and splitting fields.
+
+Its underlying group-isomorphism milestone `algebraicBrauer_equiv_cohomologicalBrauer` is stated in `Suggested.lean` for every field on the pinned carriers.
+
+Prove that its image has invariant `j/ℓ` exactly when `[a,b]_K=ζ^j`. This fixes the algebra and symbol order. Deduce `K₂ᴹ(K)/ℓ≃μ_ℓ` and the residue-unit formula `[u,π]_K=ū^((Q−1)/ℓ)` in the residue field of cardinality `Q`. (Bass–Tate, Chapter II, proof of Theorem 2.1(3), p.399; Weibel, III.6.2.4, pp.233–234; Milne, *Class Field Theory*, IV §3, Theorem 3.14 and Corollary 3.16, pp.137–138, algebraic/cohomological Brauer comparison.)
 
 **Checks.**
 
@@ -2465,6 +2479,8 @@ For every global function field `F/𝔽_q(t)`, enumerate the places `v_i` in inc
 If `F` has transcendence degree one over a finite field and `n >= 3, K_n^M(F)=0`. (Bass–Tate, Chapter II, Theorem 2.1(3), p.396, proof pp.397–402, using §§1, 3–5; Weibel, III.7.2(a), p.245.)
 
 `F` has transcendence degree one over a finite field. `n >= 3`.
+
+`Suggested.lean` states `MilnorK.transcendenceDegreeOne_vanishing` for every such field, without a finite-generation hypothesis.
 
 Use the published positive-characteristic case of Bass–Tate, Chapter II, Theorem 2.1(3), for global function fields. Its proof uses the finiteness and characteristic-prime inputs of §10.32c and the prime-to-characteristic local/global pairings and reciprocity of §§10.32a–10.32b. The global pairing and the cyclic-algebra comparison are targets here; the local invariant and symbol are supplied as in §10.32a. The symbol-pairing argument is in Bass–Tate, Chapter II, pp.399–401, while §§3–5 prove the finiteness theorem. ClassFieldTheory’s number-field reciprocity contract in §10.32 does not supply them. For a field of transcendence degree one that is not finitely generated, each finite tuple of symbol entries lies in a global function subfield: adjoining one transcendental element to the finite ground field makes the remaining finitely many entries algebraic, hence gives a finite extension of a rational function field. Functoriality then gives the stated vanishing for the entire field.
 
@@ -2954,7 +2970,7 @@ Provide the following API.
 - `IsThreefoldStable.exists_unit_perturbation`: The definition returns `t` and the three unit proofs for supplied pairs.
 - `IsThreefoldStable.ringEquiv`: A ring equivalence preserves and reflects the predicate, compatibly with identity and composition.
 - `isThreefoldStable_iff_residue_card_ge_four`: For semilocal `A`, threefold stability is equivalent to cardinality at least four of every residue field.
-- `K2.isThreefoldStable_field_iff`: its field case, IsThreefoldStable `F ↔ 4 ≤` ENat.card `F`; each unimodular pair excludes at most one `t`.
+- For a field, threefold stability is equivalent to cardinality at least four; each unimodular pair excludes at most one `t`.
 
 **Checks.**
 
@@ -2972,7 +2988,7 @@ Theorem III.5.11.1(a). Let `R` be a commutative local ring, or a field. Then the
 
 <a id="ds-groups"></a>
 
-The absolute presentation group and its generator map use only §13.2.
+The absolute presentation group and its generator map use only §13.2. `Suggested.lean` defines `K2.DSPair`, `K2.dsRel` and `K2.DennisSteinGroup`, and states the field presentation as `K2.dennisSteinGroup_equiv_symbolGroup`.
 
 Provide the following API.
 
@@ -3221,8 +3237,8 @@ Provide the following API.
 - For `I² = 0` it specialises to §13.12.
 - It is asserted for an ideal contained in the Jacobson radical of a commutative ring; scheme-theoretic radicality is not the hypothesis.
 - Non-example: `R = F_3[x,y]/(x²,y²), z = xy`, `I = (z), r = x, s = y, t = x+y`. Here `I² = 0` and `I` lies in the Jacobson radical; `rs = st = tr = z` but no entry is in `I`, so this triple is not admitted as relative D3. In the differential detector `I ⊗_R Ω¹_{(R/I)/ℤ} ≅ F_3², ⟨x,z⟩−⟨z,x+y⟩−⟨z,y⟩` has image `(1,1)`, not 0.
-- On the actual ring DualNumber (DualNumber (ZMod 3)), use Mathlib's regular-action ring constructions (`K2.dualNumberF3CommRing`, `K2.iteratedDualNumberF3CommRing`) and let `x` be the inner epsilon, `y` the outer epsilon and `I =` (`xy`). The three D3 pairs for `(x,y,x+y)` are admissible but `x, y` and `x+y` are outside `I`; the D3 relation word uses the pairs `(x,xy), (xy,x+y), (xy,y)` and is outside `K2.relDSRel I` as a set of defining relations. Here `y(x+y)=xy`, so the first pair has second entry `xy`.
-- For the same ring/ideal, in the basis `xy⊗dx, xy⊗dy` of `I ⊗_R Ω¹_{(R/I)/ℤ}, δ⟨x,xy⟩ = (2,0), δ⟨xy,x+y⟩ = (1,1), δ⟨xy,y⟩ = (0,1)`. The named milestone `K2.relDSRel_d3_defect_not_mem_closure` states that this word is outside `AddSubgroup.closure (K2.relDSRel I)`. The differential proves it: the extra D3 defect is `(1,1) ≠ 0`, while all source-allowed D1/D2/D3 defects vanish.
+- On the actual ring DualNumber (DualNumber (ZMod 3)), use the commutative-ring instances from the regular left and right actions and let `x` be the inner epsilon, `y` the outer epsilon and `I =` (`xy`). The three D3 pairs for `(x,y,x+y)` are admissible but `x, y` and `x+y` are outside `I`; the D3 relation word uses the pairs `(x,xy), (xy,x+y), (xy,y)` and is outside `K2.relDSRel I` as a set of defining relations. Here `y(x+y)=xy`, so the first pair has second entry `xy`.
+- For the same ring/ideal, in the basis `xy⊗dx, xy⊗dy` of `I ⊗_R Ω¹_{(R/I)/ℤ}, δ⟨x,xy⟩ = (2,0), δ⟨xy,x+y⟩ = (1,1), δ⟨xy,y⟩ = (0,1)`. This word is outside the additive subgroup generated by the guarded defining relations. The differential proves it: the extra D3 defect is `(1,1) ≠ 0`, while all source-allowed D1/D2/D3 defects vanish.
 - For `I = ⊥`, relDennisSteinGroup `I` and relative `K₂` are trivial; the guarded quotient has no spurious nonzero generators.
 
 *Needs (relative definitions and generator map):* §13.2; §13.7; Mathlib `DualNumber`; Mathlib `DualNumber.eps`; Mathlib `Ideal.mul_mem_left`; Mathlib `Ideal.mul_mem_right`.
@@ -3387,7 +3403,7 @@ The ring is `ℤ/4`; admissibility means `rs` is even. The source group is the a
 Provide the following API.
 
 - `zmodFourSymbolParity`: The displayed function on `(ℤ/4)²` with values in `ℤ/2`; only admissible pairs define `K₂` generators.
-- `zmodFourSymbolParity_relations`: The table satisfies D1–D3 on their exact admissible domains; in `ℤ/4` a unit `u` is exactly an element with `u·u=1`, so the check is a finite computation (`a decided example` in the Lean file).
+- `zmodFourSymbolParity_relations`: The table satisfies D1–D3 on their exact admissible domains; in `ℤ/4` a unit `u` is exactly an element with `u·u=1`, so the check is a finite computation.
 - `zmodFourK2Equiv`: The induced map `K₂(ℤ/4)≃ℤ/2` has inverse `1↦D(3,2)`.
 - `zmodFourK2Equiv_generator`: The equivalence sends `{−1,−1}` to 1 and the zero class to 0.
 
@@ -3437,12 +3453,12 @@ Layers 2, 4, 6, 7 and 12; GeneralAlgebraicKTheory §§8.1 and 10.12; KTheoryLowD
 
 ## References
 
-- [Weibel] C. A. Weibel, *The K-book: an introduction to algebraic K-theory*, Graduate Studies in Mathematics 145, AMS, 2013; author's copy https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf (cited by theorem number and printed page; printed page = PDF page − 8).
-- [Bass–Tate] H. Bass and J. Tate, The Milnor ring of a global field, in *Algebraic K-Theory II*, Lecture Notes in Mathematics 342, Springer, 1973, 349–446; public proceedings copy https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/SLN342.pdf.
+- [Weibel] C. A. Weibel, *The K-book: an introduction to algebraic K-theory*, Graduate Studies in Mathematics 145, AMS, 2013 (cited by theorem number and printed page; printed page = PDF page − 8).
+- [Bass–Tate] H. Bass and J. Tate, The Milnor ring of a global field, in *Algebraic K-Theory II*, Lecture Notes in Mathematics 342, Springer, 1973, 349–446.
 - [Moreno Ramírez] J. J. Moreno Ramírez, *Algunos cálculos de K-grupos algebraicos*, Universidad de El Salvador thesis, 2017, §4.3, Theorem 4.3.22, pp.108–109, and §4.4.1, Lemmas 4.4.1.5–4.4.1.6, pp.112–119; institutional copy https://repositorio.ues.edu.sv/server/api/core/bitstreams/aa0c56ee-f0fe-4025-8d68-f252459f26d1/content.
 - [Milnor] J. Milnor, *Introduction to Algebraic K-Theory*, Annals of Mathematics Studies 72, Princeton University Press, 1971.
 - [Matsumoto] H. Matsumoto, Sur les sous-groupes arithmétiques des groupes semi-simples déployés, Ann. Sci. ÉNS (4) 2 (1969), 1–62, https://www.numdam.org/article/ASENS_1969_4_2_1_1_0.pdf.
-- [Steinberg] R. Steinberg, *Lectures on Chevalley Groups*, Yale University notes, 1967; public scan https://www.math.utah.edu/~ptrapa/math-library/steinberg/steinberg-yale-notes.pdf.
+- [Steinberg] R. Steinberg, *Lectures on Chevalley Groups*, Yale University notes, 1967.
 - [Löh] C. Löh, *Group Cohomology*, lecture notes, Universität Regensburg, 2019, https://loeh.app.uni-regensburg.de/teaching/grouphom_ss19/lecture_notes.pdf.
 - [Waldhausen 1985] F. Waldhausen, Algebraic K-theory of spaces, Lecture Notes in Mathematics 1126, 1985, 318–419; author copy https://www.math.uni-bielefeld.de/~fw/LNM1126_318-419.pdf.
 - [Weibel 1981] C. A. Weibel, A survey of products in algebraic K-theory, Lecture Notes in Mathematics 854, 1981, 494–517; author copy https://sites.math.rutgers.edu/~weibel/archive/papers-dir/Survey-K-products.pdf.
@@ -3450,8 +3466,8 @@ Layers 2, 4, 6, 7 and 12; GeneralAlgebraicKTheory §§8.1 and 10.12; KTheoryLowD
 - [Suslin] A. A. Suslin, Reciprocity laws and the stable rank of polynomial rings, Math. USSR Izv. 15 (1980), 589–623.
 - [Gille–Szamuely] P. Gille and T. Szamuely, *Central Simple Algebras and Galois Cohomology*, Cambridge Studies in Advanced Mathematics 101, 2006.
 - [Soulé] C. Soulé, *Groupes arithmétiques et K-théorie des anneaux d'entiers de corps de nombres*, thèse, Paris VII, 1978, https://www.ihes.fr/~soule/documents/These_Christophe_Soule.pdf.
-- [Dennis–Stein survey] R. K. Dennis and M. R. Stein, The functor K₂: a survey of computations and problems, in *Algebraic K-Theory II*, Lecture Notes in Mathematics 342, Springer, 1973, 243–280; public proceedings copy https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/SLN342.pdf (§9(a), p.249: the identities (S1)–(S7); §12, pp.253–255: the presentation for discrete valuation rings and their quotients, and K₂ of Witt vectors of length m).
-- [Dennis–Stein] R. K. Dennis and M. R. Stein, K₂ of radical ideals and semi-local rings revisited, in *Algebraic K-Theory II*, Lecture Notes in Mathematics 342, Springer, 1973, 281–303; public proceedings copy https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/SLN342.pdf.
+- [Dennis–Stein survey] R. K. Dennis and M. R. Stein, The functor K₂: a survey of computations and problems, in *Algebraic K-Theory II*, Lecture Notes in Mathematics 342, Springer, 1973, 243–280 (§9(a), p.249: the identities (S1)–(S7); §12, pp.253–255: the presentation for discrete valuation rings and their quotients, and K₂ of Witt vectors of length m).
+- [Dennis–Stein] R. K. Dennis and M. R. Stein, K₂ of radical ideals and semi-local rings revisited, in *Algebraic K-Theory II*, Lecture Notes in Mathematics 342, Springer, 1973, 281–303.
 - [van der Kallen 1977] W. van der Kallen, The K₂ of rings with many units, Ann. Sci. ÉNS (4) 10 (1977), 473–515, https://www.numdam.org/item/ASENS_1977_4_10_4_473_0.pdf.
 - [van der Kallen–Maazen–Stienstra] W. van der Kallen, H. Maazen and J. Stienstra, A presentation for some K₂(n, R), Bull. AMS 81 (1975), 934–936, https://webspace.science.uu.nl/~kalle101/maazenStK.pdf.
 - [van der Kallen 1984] W. van der Kallen, A note on excision for K₂, in *Algebraic K-Theory, Number Theory, Geometry and Analysis* (Bielefeld 1982), Lecture Notes in Mathematics 1046, Springer, 1984, 173–177, https://webspace.science.uu.nl/~kalle101/ExcisionK_2.pdf (§2, p.176: an idempotent ideal for which degree-two excision fails).
