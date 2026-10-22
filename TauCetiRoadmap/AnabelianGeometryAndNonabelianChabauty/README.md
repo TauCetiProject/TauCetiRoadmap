@@ -34,7 +34,7 @@ Sections of an arithmetic exact sequence are identified only under conjugation b
 
 At a prime v away from p, the stringent quadratic Chabauty condition is membership in the local Kummer image. At p it is crystalline. The global depth-one cut is the rational Mordell–Weil Kummer image, rather than a rank substitution in the whole Selmer group. For a global height `h=h_p+Σ_(v≠p)h_v`, the correction set is `Υ={−Σ_v t_v | t_v∈Γ_v}`. A single away-place value 3 therefore contributes −3.
 
-The coordinate and set-level specializations have the following domains. `Nonabelian.IsCocycle` displays the ordered equation for `ρ:G→*MulAut U`; `Nonabelian.gauge` displays our inverse-parameter convention and `Nonabelian.positiveDefect` the central defect. Continuous cocycles and their classes use the native Tau Ceti carriers specified below. `ArithmeticPath.pathCocycle` uses a common group frame for the two arithmetic sections. `Unipotent.UnipotentLength` is the finite-dimensional linear-representation specialization of extension length over an arbitrary field; the geometric categories below use characteristic-zero coefficients, and `RelativeMaps.RelativeOpenHom` is the representative before target geometric conjugacy. `Selmer.SelmerSet` is the intersection on any supplied class carrier C with localization maps; its arithmetic instance uses native nonabelian H¹, and the represented cohomology schemes are constructed in Layer 4. `Period.periodRatio` is the group representative before its right homogeneous coset. `Heights.IsNiceCorrespondence` specifies the linear cycle conditions after the cycle maps have been supplied; `HeightPrevalue` gives the linear correction formula, and `HeightDeterminant` gives the determinant in fixed coordinates. `Frontier.GaloisSection` is a section before geometric conjugacy; `KimDimensionCondition` records the numeric inequality for supplied dimensions, and `EventualEquality` records eventual equality of supplied loci. Each geometric carrier and comparison is constructed separately below with its own hypotheses.
+The geometric carriers and comparisons below carry their own hypotheses: arithmetic paths restrict to the identity on constants; unipotent length is extension length in the specified tensor category; relative maps are taken modulo target geometric conjugacy; and Selmer conditions use native nonabelian H¹ with arithmetic localization maps. Periods lie in right homogeneous cosets. Correspondences use the geometric cycle maps, heights use the stated splitting corrections, and determinants use fixed feature coordinates. Sections are taken modulo geometric conjugacy, dimension conditions use the represented schemes, and eventual equality retains its tail quantifier.
 
 For algebra-valued unipotent points, the final topology is declared on each finite coordinate power. A continuous cochain on a compact domain has finite-dimensional coordinate image. Polynomial operations on these images give the compact-cochain continuity needed for gauge classes and central induction. An ordinary product-topology group structure is an additional specialization, with its compatibility hypothesis stated explicitly; it is not assumed for an arbitrary coefficient algebra.
 
@@ -50,7 +50,7 @@ Canonical abelian cohomology is `continuousCohomology` of a topological represen
 
 <a id="native-nonabelian-h1"></a>
 
-The native continuous nonabelian supplier is Tau Ceti's `RepresentationTheory/Homological/ContCohomology/Nonabelian/Basic.lean` and `Nonabelian/Inflation.lean` at [ce47fe1](https://github.com/TauCetiProject/TauCeti/tree/ce47fe1230545b9a6998d23746b87c8bdbaeb9e1/TauCeti/RepresentationTheory/Homological/ContCohomology/Nonabelian). Adoption requires a Tau Ceti dependency containing these modules and imports of those individual modules before implementing the carrier-dependent Layer 0 targets. The representative signatures use only APIs available at the fixed `a91d3aa` pin: the ordered equation, gauge-coordinate formulas and intersections on a supplied class carrier. They introduce no replacement cocycle type or H¹ quotient.
+The native continuous nonabelian supplier is Tau Ceti's `RepresentationTheory/Homological/ContCohomology/Nonabelian/Basic.lean` and `Nonabelian/Inflation.lean` at [ce47fe1](https://github.com/TauCetiProject/TauCeti/tree/ce47fe1230545b9a6998d23746b87c8bdbaeb9e1/TauCeti/RepresentationTheory/Homological/ContCohomology/Nonabelian). Adoption requires a Tau Ceti dependency containing these modules and imports of those individual modules before implementing the carrier-dependent Layer 0 targets. At the `a91d3aa` pin these modules are absent, so `Suggested.lean` states no carrier-dependent Layer 0 theorem.
 
 Use `TauCeti.NonabelianH1.Cocycle`, its `setoid`, and `TauCeti.NonabelianH1` directly. The names `TauCeti.NonabelianCohomology.Z1` and `TauCeti.NonabelianCohomology.H1` below denote compatibility aliases to these carriers, rather than new structures or quotients. Native `Cocycle.apply_one`, `Cocycle.apply_inv`, `mk_eq_mk_iff`, `mk_eq_one_iff`, compatible-pair `Cocycle.map`/`map` and `res` supply their basic identities and functoriality. The native gauge `c.twist(a)(g)=a⁻¹c(g)(g•a)` equals this roadmap's `x·c` with `a=x⁻¹`. In particular native `Cocycle.twist` changes a representative by a constant gauge; the coefficient action `g⋆u=c(g)(g•u)c(g)⁻¹` constructed here is a different operation.
 
@@ -516,7 +516,7 @@ Use [Restriction of continuous nonabelian cocycles](#nc-3-cocycle-restriction); 
 ### 0.8 Twisting by a cocycle
 <a id="nc-3-twisting"></a>
 
-**Twisting by a cocycle.** Let `c ∈ Z¹(G, U)`. The twisted group ₍c₎U is U with the action `g ⋆ u := c(g)·(g•u)·c(g)⁻¹`, again a continuous action by automorphisms. The map `τ_c : Z¹(G, ₍c₎U) → Z¹(G, U)`, `c′ ↦ (g ↦ c′(g)·c(g))`, is a bijection carrying the trivial cocycle to c and the twisted-conjugation action of U on the left to that on the right; it induces a bijection of underlying sets `H¹(G, ₍c₎U) ≅ H¹(G, U)` sending the source base point to [c]; it becomes a pointed equivalence only when the target is repointed at [c]. Twisting is compatible with G-stable subgroups (for cocycles with values in them) and with quotients by normal ones, so that fibres of the maps in [Kernel of inclusion in nonabelian cohomology](#nc-3-exact-sequence) over [c] become fibres over the base point after twisting. The equation-level specialization `Nonabelian.twisted_cocycle_iff` identifies the twisted cocycle equation for d with the original equation for `g↦d(g)c(g)`, without constructing a second cocycle carrier.
+**Twisting by a cocycle.** Let `c ∈ Z¹(G, U)`. The twisted group ₍c₎U is U with the action `g ⋆ u := c(g)·(g•u)·c(g)⁻¹`, again a continuous action by automorphisms. The map `τ_c : Z¹(G, ₍c₎U) → Z¹(G, U)`, `c′ ↦ (g ↦ c′(g)·c(g))`, is a bijection carrying the trivial cocycle to c and the twisted-conjugation action of U on the left to that on the right; it induces a bijection of underlying sets `H¹(G, ₍c₎U) ≅ H¹(G, U)` sending the source base point to [c]; it becomes a pointed equivalence only when the target is repointed at [c]. Twisting is compatible with G-stable subgroups (for cocycles with values in them) and with quotients by normal ones, so that fibres of the maps in [Kernel of inclusion in nonabelian cohomology](#nc-3-exact-sequence) over [c] become fibres over the base point after twisting. The equation-level calculation identifies the twisted cocycle equation for d with the original equation for `g↦d(g)c(g)`, without constructing a second cocycle carrier.
 
 G is a topological group and U a topological group with an action of G by group automorphisms (MulDistribMulAction G U) such that the action map `G × U → U` is continuous (ContinuousSMul G U). c a continuous cocycle.
 
@@ -1428,7 +1428,7 @@ Use [Canonical additive comparison](#nc-3-canonical-comparison-naturality); [Rev
 
 G,B topological groups continuous automorphism action on B b continuous when asserting continuity.
 
-Form the displayed product using multiplication, inverse, action and group multiplication. Apply q, the cocycle law and cancellation to prove the kernel assertion. For cocycle tests use `D=1` iff the multiplicative cocycle law. The equation-level signatures are `Nonabelian.positiveDefect_eq_one_iff` and `Nonabelian.positiveDefect_mem_ker`.
+Form the displayed product using multiplication, inverse, action and group multiplication. Apply q, the cocycle law and cancellation to prove the kernel assertion. For cocycle tests use `D=1` iff the multiplicative cocycle law.
 
 The interface consists of the following named results.
 
@@ -1451,7 +1451,7 @@ Use [Continuous 1-cocycles and invariants with nonabelian coefficients](#nc-3-co
 
 <a id="nc-3-continuous-central-obstruction"></a>
 
-**Continuous central H2 bridge.** Let `i:Multiplicative M→B` be injective, equivariant and central. If a continuous `f:G×G→M` satisfies `i(ofAdd(f(g,h)))=D_b(g,h)`, then f lies in ContCohomology.Z2 G M. Replacing b by i(ofAdd(a(g)))b(g), for a continuous `a:G→M`, changes f by d1(a). Therefore its continuous H2 class is unchanged. The group-coordinate identity is `Nonabelian.positiveDefect_central_cocycle`; `Nonabelian.central_defect_mem_Z2` transports a continuous defect to the native continuous degree-two cocycles through the injective central equivariant map. The cochain identity `Nonabelian.central_defect_change_lift` gives the change by `d¹(a)` on the native complex.
+**Continuous central H2 bridge.** Let `i:Multiplicative M→B` be injective, equivariant and central. If a continuous `f:G×G→M` satisfies `i(ofAdd(f(g,h)))=D_b(g,h)`, then f lies in ContCohomology.Z2 G M. Replacing b by i(ofAdd(a(g)))b(g), for a continuous `a:G→M`, changes f by d1(a). Therefore its continuous H2 class is unchanged. The central-defect identity transports a continuous defect to the native continuous degree-two cocycles through the injective central equivariant map. The change of lift adds `d¹(a)` on the native complex.
 
 G,B topological groups M topological additive abelian G-module i injective central equivariant f continuous a continuous.
 
@@ -1469,7 +1469,7 @@ Use [Positive central defect](#nc-3-positive-defect); `TauCeti.ContCohomology.d1
 
 <a id="nc-3-central-lift-exactness"></a>
 
-**Continuous lift exactness.** In the preceding central situation, `[f]=0` in continuous H2 iff there is a continuous `a:G→M` such that i(ofAdd(a(g)))b(g) is a cocycle. If `q∘b=c` and `q∘i=1`, that corrected cocycle is a continuous lift of c. Conversely every continuous lift differs from b by a continuous M-valued cochain provided i is a homeomorphism onto `ker(q)`. The specialization `Nonabelian.central_defect_lift_iff` states vanishing as membership in the native continuous coboundary subgroup `B2`; the coefficient map is continuous, and the corrected lift is continuous.
+**Continuous lift exactness.** In the preceding central situation, `[f]=0` in continuous H2 iff there is a continuous `a:G→M` such that i(ofAdd(a(g)))b(g) is a cocycle. If `q∘b=c` and `q∘i=1`, that corrected cocycle is a continuous lift of c. Conversely every continuous lift differs from b by a continuous M-valued cochain provided i is a homeomorphism onto `ker(q)`. Vanishing is membership in the native continuous coboundary subgroup `B2`; the coefficient map is continuous, and the corrected lift is continuous.
 
 The hypotheses of [Continuous central H2 bridge](#nc-3-continuous-central-obstruction); b and i continuous for the corrected lift; a homeomorphism onto `ker(q)` for the converse concerning arbitrary lifts.
 
@@ -2616,7 +2616,7 @@ Use [Coefficient naturality on the `H¹` orbit quotient](#nc-3-twist-coefficient
 ### 0.37 Gauge stabilizers, gauge witnesses and kernel injectivity
 <a id="nc-3-gauge-stabilizer-fixed"></a>
 
-**Gauge stabilizers are twisted invariants.** For a continuous cocycle c and `x∈U`, x belongs to the gauge stabilizer `Stab_U(c)` exactly when its underlying element in `Twist(c)` is G-fixed. No topology on the space of cocycles is required. Its equation-level form is `Nonabelian.gauge_eq_self_iff`; the pointwise algebraic equivalence also holds for arbitrary functions c.
+**Gauge stabilizers are twisted invariants.** For a continuous cocycle c and `x∈U`, x belongs to the gauge stabilizer `Stab_U(c)` exactly when its underlying element in `Twist(c)` is G-fixed. No topology on the space of cocycles is required. The pointwise algebraic equivalence also holds for arbitrary functions c.
 
 Standing hypotheses (H28).
 
@@ -2710,7 +2710,7 @@ For an inner twist of a trivial action by the identity cocycle `S₃→S₃`, th
 Finally, a finite quotient of a profinite source records cocycles valued in the fixed subgroup of its open normal kernel. Every ambient gauge relating two inflated cocycles is automatically fixed by that same kernel, so inflation reflects equality without refining the quotient.
 
 
-The equation-level coordinate API names the identity-value theorem `Nonabelian.cocycle_one`, algebraic gauge preservation `gauge_isCocycle`, and `gauge_continuous` under joint continuity of the action and the topological-group structure on U. These express the native formulas with an explicit automorphism homomorphism and the inverse gauge parameter; continuous cocycle and class carriers are supplied by Tau Ceti. No topology on `H¹` is needed.
+The ordered cocycle law forces the identity value to be one. Gauge translation preserves this law and, under joint continuity of the action on the topological coefficient group, preserves continuity. These assertions use the inverse gauge parameter fixed above and require no topology on `H¹`.
 
 
 For `G=U=S₃` acting on U by conjugation, `c(g)=g⁻¹` is an ordered cocycle. Put `a=(01)`, `x=(01)`, `y=(12)` and t=xy. The reversed gauge expression `d(g)=g(a⁻¹)c(g)a` gives `d(x)=x`, `d(y)=y` and `d(t)=1`. Its required cocycle right side at (x,y) is d(x)x(d(y))=yx≠1. Thus this expression does not preserve cocycles. In contrast, the declared constant gauge `a·c(g)=a c(g)g(a)⁻¹` equals `c(g)` in this example. Repointing a right torsor by `p↦p·a` gives `a⁻¹c(g)g(a)`, which is the declared gauge with parameter `a⁻¹` (Kim, published survey, p. 642, read together with the torsor action on pp. 637–641).
@@ -2817,7 +2817,7 @@ Use [Arithmetic path torsor](#nc-0-arithmetic-geometric-paths); `CategoryTheory.
 
 <a id="nc-0-arithmetic-path-cocycle"></a>
 
-**Cocycle of a geometric arithmetic path.** For p in `P(b,x)` set `c_p(sigma)=p^(-1)sigma(p)` in `N_b`. Then `c_p(sigma*tau)=c_p(sigma) alpha_b(sigma)(c_p(tau))` and `c_p·h(sigma)=h^(-1)c_p(sigma) alpha_b(sigma)(h)`. It is continuous. Hence its class in the nonabelian `H¹(Γ_k, N_b)` of Layer 0 depends only on the equivariant path torsor. In coordinates for any continuous q:E→Gamma and two continuous sections s0,s1, pathAction(sigma,h)=s1(sigma) `h s0(sigma)^(-1)`, and `pathCocycle_h=h^(-1)pathAction(sigma,h)`. For geometry s1 is the transferred endpoint section at a chosen reference path; the kernel model is not a substitute geometric path type. In the common group frame, `ArithmeticPath.pathCocycle_changePoint` gives the displayed inverse-parameter gauge formula.
+**Cocycle of a geometric arithmetic path.** For p in `P(b,x)` set `c_p(sigma)=p^(-1)sigma(p)` in `N_b`. Then `c_p(sigma*tau)=c_p(sigma) alpha_b(sigma)(c_p(tau))` and `c_p·h(sigma)=h^(-1)c_p(sigma) alpha_b(sigma)(h)`. It is continuous. Hence its class in the nonabelian `H¹(Γ_k, N_b)` of Layer 0 depends only on the equivariant path torsor. In coordinates for any continuous q:E→Gamma and two continuous sections s0,s1, pathAction(sigma,h)=s1(sigma) `h s0(sigma)^(-1)`, and `pathCocycle_h=h^(-1)pathAction(sigma,h)`. For geometry s1 is the transferred endpoint section at a chosen reference path; the kernel model is not a substitute geometric path type. The inverse-parameter gauge formula also holds in a common group frame.
 
 Arithmetic-path carrier and jointly continuous action as above. `H¹` is the pointed gauge-orbit set of [Nonabelian first cohomology as a pointed set](#nc-3-nonabelian-h1).
 
@@ -2843,7 +2843,7 @@ Use [Arithmetic path torsor](#nc-0-arithmetic-geometric-paths); [Path transport 
 
 <a id="nc-0-path-section-comparison"></a>
 
-**Neutral path classes and conjugate sections.** For p in `P(b,x)`, `t_x,p(sigma)=c_p(sigma)s_b(sigma)`. The path class is neutral iff there exists a `Gamma_k`-fixed geometric path `b→x`, iff `t_x,p` is conjugate to `s_b` by an element of `N_b`. In coordinate form a fixed h satisfies s1(sigma)=h s0(sigma) h inverse for every sigma. Neutrality means `c_h(sigma)=k alpha_b(sigma)(k)` inverse for some k; the fixed path is `h·k`. These are existence statements, not uniqueness of the fixed path or surjectivity of rational points onto section classes. The representative-level criterion is `ArithmeticPath.pathCocycle_neutral_iff`: the cocycle at p is identically one exactly when p conjugates the endpoint section to the reference section.
+**Neutral path classes and conjugate sections.** For p in `P(b,x)`, `t_x,p(sigma)=c_p(sigma)s_b(sigma)`. The path class is neutral iff there exists a `Gamma_k`-fixed geometric path `b→x`, iff `t_x,p` is conjugate to `s_b` by an element of `N_b`. In coordinate form a fixed h satisfies s1(sigma)=h s0(sigma) h inverse for every sigma. Neutrality means `c_h(sigma)=k alpha_b(sigma)(k)` inverse for some k; the fixed path is `h·k`. These are existence statements, not uniqueness of the fixed path or surjectivity of rational points onto section classes. The cocycle at p is identically one exactly when p conjugates the endpoint section to the reference section.
 
 Same endpoints; all conjugating elements lie in `N_b`.
 
@@ -3672,7 +3672,7 @@ Use [Fields are étale `K(π,1)`](#nc-0-field); [Elementary curve fibrations pre
 
 k is algebraically closed of characteristic zero; C is a connected smooth projective k-curve of genus `g≥1`. p is a prime number, so p is invertible in k. The fundamental group is the full profinite `π₁ᵉᵗ(C,x)`. a is a natural number, including zero; no common witness for all a is claimed.
 
-For `a=0` choose C itself. For the induction step apply [A connected prime-degree étale cover](#nc-0-connected-prime-degree-cover) to the current curve. SF.3's finite-étale Riemann–Hurwitz formula `g(D)=1+p(g(C)−1)` guarantees genus≥1, so the induction can be repeated. Finite étale covers compose, and their degrees multiply. A tower of a degree-p covers is connected and its composite has degree `p^a`; connectedness of each chosen source is retained. Do not assert that successive Galois covers have a Galois composite. Apply the degree-pullback formula of [Étale cohomology of curves with `μ_n` coefficients](#curve-kummer-cohomology) with `n=p^a≥1`. Multiplication by `p^a` in `Z/(p^a)` is zero, so the map kills every class at once. A single degree-p cover only multiplies `H²(μ_(p^a))` by p and does not suffice when a&gt;1. With a primitive `p^a`-th root chosen on k the same conclusion holds for constant `Z/(p^a)` coefficients. Higher coefficient dévissage of arbitrary monodromy is a different step, supplied by [Constant prime-field tests on all finite covers](#nc-0-prime-field-effacement).
+For `a=0` choose C itself. For the induction step apply [A connected prime-degree étale cover](#nc-0-connected-prime-degree-cover) to the curve at that stage. SF.3's finite-étale Riemann–Hurwitz formula `g(D)=1+p(g(C)−1)` guarantees genus≥1, so the induction can be repeated. Finite étale covers compose, and their degrees multiply. A tower of a degree-p covers is connected and its composite has degree `p^a`; connectedness of each chosen source is retained. Do not assert that successive Galois covers have a Galois composite. Apply the degree-pullback formula of [Étale cohomology of curves with `μ_n` coefficients](#curve-kummer-cohomology) with `n=p^a≥1`. Multiplication by `p^a` in `Z/(p^a)` is zero, so the map kills every class at once. A single degree-p cover only multiplies `H²(μ_(p^a))` by p and does not suffice when a&gt;1. With a primitive `p^a`-th root chosen on k the same conclusion holds for constant `Z/(p^a)` coefficients. Higher coefficient dévissage of arbitrary monodromy is a different step, supplied by [Constant prime-field tests on all finite covers](#nc-0-prime-field-effacement).
 
 **Checks.**
 
@@ -3751,7 +3751,7 @@ For a smooth proper geometric curve of genus `g≥1` in characteristic zero, a c
 On `P¹−{0,1,∞}`, the unit tangent at 0 is a base-point fibre functor, although 0 is not an ordinary endpoint of the open curve. Its finite Kummer projections measure z and 1−z. In `P¹−{∞}=A¹` the geometric fundamental group is trivial, so the local inertia map has zero image. This prevents confusing a local inertia group with an injective subgroup in every affine curve.
 
 
-In the common group frame, `ArithmeticPath.pathCocycle_law` gives the cocycle equation for conjugation by the reference section. If both sections split the same quotient q and `q(p)=1`, `pathCocycle_mem_ker` places its values in `MonoidHom.ker q`. The latter hypothesis is necessary to interpret p as a geometric path.
+In a common group frame, the path cocycle satisfies the cocycle equation for conjugation by the reference section. If both sections split the same quotient q and `q(p)=1`, its values lie in `MonoidHom.ker q`. The latter hypothesis is necessary to interpret p as a geometric path.
 
 ### Dependencies
 
@@ -3913,7 +3913,7 @@ Use [PadicDifferentialEquationsAndRigidCohomology](../PadicDifferentialEquations
 
 <a id="nc-2-unipotent-length"></a>
 
-**Unipotent length.** In a neutral Tannakian category C over a characteristic-zero field k, with unit 1, let `C_n` be the full subcategory of objects admitting a filtration `E=E_0 ⊇ E_1 ⊇ … ⊇ E_(n+1)=0` with each `E_i/E_(i+1)` a finite direct sum of 1. Zero summands are allowed. Write IsUnipotentLength(n,E) for this property, and Un(C) for the full subcategory of objects satisfying it for some n. Thus `C_0` consists of trivial objects, including zero. Filtrations witness a property; they are not extra data on the objects or extra restrictions on the full subcategory morphisms. Tensor products of lengths n and m have length at most `n+m`; `C_n` need not be tensor closed. For finite-dimensional linear representations over any field, `Unipotent.length_mono` gives monotonicity in the allowed length, and `Unipotent.length_tensor` gives the sum bound for the diagonal tensor action.
+**Unipotent length.** In a neutral Tannakian category C over a characteristic-zero field k, with unit 1, let `C_n` be the full subcategory of objects admitting a filtration `E=E_0 ⊇ E_1 ⊇ … ⊇ E_(n+1)=0` with each `E_i/E_(i+1)` a finite direct sum of 1. Zero summands are allowed. Write IsUnipotentLength(n,E) for this property, and Un(C) for the full subcategory of objects satisfying it for some n. Thus `C_0` consists of trivial objects, including zero. Filtrations witness a property; they are not extra data on the objects or extra restrictions on the full subcategory morphisms. Tensor products of lengths n and m have length at most `n+m`; `C_n` need not be tensor closed. For finite-dimensional linear representations over any field, the allowed length is monotone and the diagonal tensor action satisfies the same sum bound.
 
 C is k-linear, abelian, rigid symmetric monoidal, with `End(1)=k` and an exact faithful k-linear tensor fibre functor to finite-dimensional vector spaces.
 
@@ -3941,7 +3941,7 @@ Use [Neutral tensor category and Hopf reconstruction](#neutral-tensor-reconstruc
 
 <a id="nc-2-invariant-vector-criterion"></a>
 
-**Invariant vectors and unipotence.** For a neutral Tannakian category C over a characteristic-zero field k, the following are equivalent: every object is a successive extension of units; its reconstructed affine group is pro-unipotent; every nonzero object E has a nonzero morphism `1→E`. The zero object is excluded from the last quantifier. In each finite-dimensional representation, an invariant line and induction on dimension produce a full unipotent flag. The finite-dimensional representation implication is `Unipotent.exists_fixed_of_unipotent`, over any field with an explicit nonzero-space hypothesis.
+**Invariant vectors and unipotence.** For a neutral Tannakian category C over a characteristic-zero field k, the following are equivalent: every object is a successive extension of units; its reconstructed affine group is pro-unipotent; every nonzero object E has a nonzero morphism `1→E`. The zero object is excluded from the last quantifier. In each finite-dimensional representation, an invariant line and induction on dimension produce a full unipotent flag. A nonzero finite-dimensional unipotent representation has a nonzero invariant vector over any field.
 
 Neutral Tannakian hypotheses of [Unipotent length](#nc-2-unipotent-length).
 
@@ -4664,7 +4664,7 @@ Use [InverseGaloisAndArithmeticFundamentalGroups](../InverseGaloisAndArithmeticF
 
 Proper smooth geometrically connected curve, rational b; coefficient p in the étale realization. Good reduction is required only for crystalline comparison and the local filtered statement. The Jacobian and Abel–Jacobi construction are imported from JacobianChallenge; the cohomological bridges are separate inputs, including the Tate-module/H¹ comparison of SchemeAndStackFoundations SF.3 and the Jacobian differential and rational Kummer comparison.
 
-The first augmentation/Lie graded piece is `Ext^1(1,1)∨=H^1∨`, so central depth one is its vector group. Import the Jacobian and the pointed Abel–Jacobi morphism from JacobianChallenge B–F, and the untwisted étale `H^1`/Tate-module identification and Abel–Jacobi pullback from InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (finite-level curve–Jacobian `H¹` comparison) and AbelianSchemesAndArithmeticModuli §A4.4 (étale `H¹` and the Tate module). Dualize with the same covariance. For endpoint compatibility, pull back the finite étale multiplication-by-`p^r` covers of J along `a_b`: their fibre over x is the division-point torsor of [x−b], and the fibre over b has its zero lift. Passing to the Tate-module inverse limit and rationalizing gives the Kummer torsor. The exact de Rham Abel–Jacobi `H^1` comparison and proper curve Hodge calculation are additional requirements, not assertions supplied by the current upstream B–F layers. Apply the linear abelian-scheme comparison and the dual Hodge filtration. The annihilator description gives `Lie(J)` as the quotient; the identification of linear path coefficients with ordinary integrals is supplied by [Coleman functions and normalized primitives](#coleman-functions-primitives) after its construction in §5.0.
+The first augmentation/Lie graded piece is `Ext^1(1,1)∨=H^1∨`, so central depth one is its vector group. Import the Jacobian and the pointed Abel–Jacobi morphism from JacobianChallenge B–F, and the untwisted étale `H^1`/Tate-module identification and Abel–Jacobi pullback from InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (finite-level curve–Jacobian `H¹` comparison) and AbelianSchemesAndArithmeticModuli §A4.4 (étale `H¹` and the Tate module). Dualize with the same covariance. For endpoint compatibility, pull back the finite étale multiplication-by-`p^r` covers of J along `a_b`: their fibre over x is the division-point torsor of [x−b], and the fibre over b has its zero lift. Passing to the Tate-module inverse limit and rationalizing gives the Kummer torsor. The exact de Rham Abel–Jacobi `H^1` comparison and proper curve Hodge calculation are additional requirements, not assertions supplied by the cited B–F layers. Apply the linear abelian-scheme comparison and the dual Hodge filtration. The annihilator description gives `Lie(J)` as the quotient; the identification of linear path coefficients with ordinary integrals is supplied by [Coleman functions and normalized primitives](#coleman-functions-primitives) after its construction in §5.0.
 
 **Checks.**
 
@@ -4783,7 +4783,7 @@ For a gauge G=1−aE with `E²=0`, differentiating G contributes −daE. The con
 Two endpoint augmentations matter in the crystalline comparison: equal endpoints recover the Hopf algebra, whereas unequal endpoints give its path comodule. A comparison of group algebras at a single point cannot specify the second endpoint. For a ramified local field, the special-fibre realization is over its maximal unramified subfield `K₀` and the Hodge realization is over K; they are compared after the prescribed scalar extension.
 
 
-For a finite-dimensional representation over any field, `Unipotent.length_zero_iff` says that `UnipotentLength ρ 0` holds exactly when the action is trivial, including on nonzero vector spaces. Its filtration has `n+1` graded layers, agreeing with `C_n` and the exact-category extension length above; it does not construct the geometric category.
+For a finite-dimensional representation over any field, extension length zero means that the action is trivial, including on nonzero vector spaces. A length-n filtration has `n+1` graded layers, agreeing with `C_n` and the exact-category extension length above.
 
 ### Dependencies
 
@@ -5695,7 +5695,7 @@ Use [Hom reconstruction over finitely generated p-adic fields](#nc-1-finitely-ge
 
 Sub-p-adic K with chosen embedding; full `G_K`, not its pro-p quotient.
 
-The group-theoretic specialization `RelativeMaps.geometric_conjugator` uses continuous homomorphisms f,g over a surjective source projection and a centre-free base G. If `g(x)=a f(x) a⁻¹` for every x, then a lies in the target projection kernel. Projecting the conjugacy identity and using surjectivity makes the image of a central.
+For continuous homomorphisms f,g over a surjective source projection and a centre-free base G, if `g(x)=a f(x) a⁻¹` for every x, then a lies in the target projection kernel. Projecting the conjugacy identity and using surjectivity makes the image of a central.
 
 For p-adic K use the tame quotient and cohomological freeness/nonabelianity of wild inertia. For finitely generated extensions induct with an Artin-neighborhood/free-curve sequence. If a central element acts nontrivially on a finite Galois extension generated by `α`, choose an elliptic curve with `j=α` and remove its origin. Over a finitely generated p-adic composite field, the punctured-elliptic Isom helper identifies this curve with its conjugate, forcing `α` to equal its moved value. Project the conjugacy relation to `G_K`; its surjective source forces the conjugator’s image to be central.
 
@@ -5823,7 +5823,7 @@ A rational point of `Pic¹` is a relative Picard point. Its Brauer obstruction m
 Finite-field tame reconstruction, stable log special-fibre reconstruction and local geometrically pro-p Hom reconstruction keep different carriers. The local pro-p extension retains the full Galois quotient. The canonical line bundle obtained from the corrected stable-log relation is `K_Y`, with its degree and pole behavior; a symbol for an unspecified ample bundle would not give the canonical map required by the Hom argument.
 
 
-For a supplied continuous quotient q, `RelativeMaps.over_identity` says that a relative open representative into the identity quotient is forced to equal q. Existence of that representative additionally imposes openness of its image; the uniqueness statement alone does not assert that every q has open image.
+For a continuous quotient q, a relative open representative into the identity quotient is forced to equal q. Existence of that representative additionally imposes openness of its image; uniqueness alone does not assert that every q has open image.
 
 ### Dependencies
 
@@ -6303,7 +6303,7 @@ The central invariant factor in Kim's induction is `V^B/V`. It is a quotient of 
 At depth one, the crystalline Selmer condition agrees with the Bloch–Kato finite condition on the Jacobian's rational Tate module. Globally its exact sequence retains the rational Tate module of Sha. A nonzero Sha direction is therefore present in the full Selmer variety and is removed only by the separate Mordell–Weil cut of Layer 5.
 
 
-For the intersection on a supplied class carrier with supplied localizations, `Selmer.condition_mono` states that replacing each local condition by a subset shrinks `SelmerSet` (by `Set.iInter_mono` applied to `Set.preimage_mono`). `Selmer.finite_points_of_refined_locus` assumes that every global Kummer class satisfies every local condition and combines this containment with an injective localization of global points into a finite refined locus. No dimension or representability conclusion follows from the set intersection alone; an empty refinement excluding infinitely many global points fails the containment hypothesis.
+Replacing each local condition by a subset shrinks their localization-preimage intersection, by `Set.iInter_mono` and `Set.preimage_mono`. If every global Kummer class satisfies all local conditions, containment in a finite refined locus and injectivity of the global-point localization imply finiteness of the global points. No dimension or representability conclusion follows from the set intersection alone; an empty refinement excluding infinitely many global points fails the containment hypothesis.
 
 ### Dependencies
 
@@ -6361,7 +6361,7 @@ The API consists of the transported adapters `colemanDilogarithm_series`, `colem
 
 <a id="nc-4-admissible-period"></a>
 
-**The period of an admissible path torsor.** Let K be a characteristic-zero p-adic field and `U_n` the finite-depth de Rham unipotent group of Layer 2. Write `H_n=F⁰U_n`, a closed split unipotent subgroup, not assumed normal, and `Q_n=U_n/H_n` for the represented quotient by right multiplication. On a commutative K-algebra R, an admissible right `U_n`-torsor T has the Layer 2 finite coordinate filtration, a compatible Frobenius with a unique fixed point `p_φ`, and a Hodge reduction `F⁰T` with an R-point `p_H`. Define admissiblePeriod(T)=[u] in `Q_n(R)`, where `p_φ·u=p_H`. Changing `p_H` to `p_H·h` changes u to uh for `h∈H_n(R)`, hence preserves its class. Quotient representability and triviality of split-unipotent torsors over affine bases are imported inputs. Point reduction: for a Torsor `U_nᵒᵖ T`, u is the underlying `U_n` element of `p_H` divided by `p_φ` in the opposite group; the point quotient is Mathlib's left-coset carrier `U_n/H_n` with relation `u⁻¹v∈H_n`. The group-coordinate criterion `Period.periodRatio_coset_eq_iff` identifies equality of period cosets with membership of `p_H⁻¹p′_H` in the Hodge subgroup, for any subgroup without a normality hypothesis.
+**The period of an admissible path torsor.** Let K be a characteristic-zero p-adic field and `U_n` the finite-depth de Rham unipotent group of Layer 2. Write `H_n=F⁰U_n`, a closed split unipotent subgroup, not assumed normal, and `Q_n=U_n/H_n` for the represented quotient by right multiplication. On a commutative K-algebra R, an admissible right `U_n`-torsor T has the Layer 2 finite coordinate filtration, a compatible Frobenius with a unique fixed point `p_φ`, and a Hodge reduction `F⁰T` with an R-point `p_H`. Define admissiblePeriod(T)=[u] in `Q_n(R)`, where `p_φ·u=p_H`. Changing `p_H` to `p_H·h` changes u to uh for `h∈H_n(R)`, hence preserves its class. Quotient representability and triviality of split-unipotent torsors over affine bases are imported inputs. Point reduction: for a Torsor `U_nᵒᵖ T`, u is the underlying `U_n` element of `p_H` divided by `p_φ` in the opposite group; the point quotient is Mathlib's left-coset carrier `U_n/H_n` with relation `u⁻¹v∈H_n`. The group-coordinate criterion identifies equality of period cosets with membership of `p_H⁻¹p′_H` in the Hodge subgroup, for any subgroup without a normality hypothesis.
 
 `U_n` and its filtered/Frobenius path structure come from Layer 2; Frobenius Lang invertibility uses the positive-weight hypotheses there, not an arbitrary automorphism of an arbitrary unipotent group. All R are commutative K-algebras, including nonreduced ones; `H_n` is smooth split unipotent and the Hodge torsor is trivial over Spec R.
 
@@ -6744,7 +6744,7 @@ Use [Iterated integrals as Albanese coordinates](#nc-4-iterated-coordinates); [K
 
 Finite type is required for the image dimension bound; Q is integral and affine for a nonzero global regular equation. All dimensions and the image morphism are over the same stated field.
 
-The coordinate-algebra statement `selmer_period_annihilator` takes finite-type k-algebras A and B, B a domain, and `period:B→ₐ[k]A` with `ringKrullDim A<ringKrullDim B`. It gives `b≠0` with `period(b)=0`. To obtain this stronger choice for a nonreduced source, raise a nonzero equation for the reduced image closure to a power killing its nilpotent pullback; B being a domain preserves nonvanishing. This algebraic statement holds over any field.
+In coordinate algebras, take finite-type k-algebras A and B, B a domain, and `period:B→ₐ[k]A` with `ringKrullDim A<ringKrullDim B`. The dimension inequality gives `b≠0` with `period(b)=0`. To obtain this stronger choice for a nonreduced source, raise a nonzero equation for the reduced image closure to a power killing its nilpotent pullback; B being a domain preserves nonvanishing. This algebraic statement holds over any field.
 
 For each irreducible component of the reduced source, use the generic fibre dimension formula to bound the dimension of its image closure. Take the finite union of component image closures; strict inequality makes it proper. A proper reduced closed subscheme of an affine integral scheme has a nonzero defining ideal; choose f in that ideal. For the K-variant use the Weil restriction counit and invariance of source dimension under field extension.
 
@@ -6791,7 +6791,7 @@ Use [RestrictedPowerSeries](../RestrictedPowerSeries/README.md) Layers 0–1 and
 
 Finite extension K is essential for compactness and a finite residue field; the full `C_p`-disc is not the domain. The local functions are analytic on the whole ordinary open geometric residue disc and nonzero on each integral disc. Only integral discs disjoint from the removed boundary are used; no open punctured-disc compactness assertion is made.
 
-The compact-chart statement `analytic_zero_set_finite` applies over any nontrivially normed field: if D is compact, f is analytic on a neighborhood of each point of D, and f has no zero germ at any point of D, then `{t∈D:f(t)=0}` is finite. Isolated zeros and compactness prove this formulation without a connectedness assumption. Whole-disc analyticity and nonvanishing on every subdisc supply its germ hypothesis in the curve application; local analyticity and a single nonzero value alone do not.
+The compact-chart zero theorem applies over any nontrivially normed field: if D is compact, f is analytic on a neighborhood of each point of D, and f has no zero germ at any point of D, then `{t∈D:f(t)=0}` is finite. Isolated zeros and compactness prove this formulation without a connectedness assumption. Whole-disc analyticity and nonvanishing on every subdisc supply its germ hypothesis in the curve application; local analyticity and a single nonzero value alone do not.
 
 Use the good-reduction residue-disc parameterization of [Residue discs and logarithmic ends](#residue-discs-logarithmic-ends) and the finiteness of 𝒳(k). Rescale `t=πs`: convergence at a real radius strictly between `|π|` and 1 implies the rescaled coefficients tend to zero. Apply [Strassmann on a compact analytic chart](#strassmann-bound) to each nonzero rescaled series. Take a finite union of finite zero sets, then its subset cut out by Z.
 
@@ -6800,7 +6800,7 @@ Use the good-reduction residue-disc parameterization of [Residue discs and logar
 - On a rescaled compact chart, the pullback `s−a` for `a∈O_K` has exactly the single zero a; the nonzero constant pullback has none.
 - If `f∘j` vanishes identically on one disc, that disc may remain wholly in the locus and the criterion does not apply.
 - An arbitrary nonzero function analytic only on an open disc need not have finitely many zeros throughout that geometric disc.
-- A locally constant function on `ℤ_p` that is zero on `pℤ_p` and one elsewhere is locally analytic and nonzero, but has infinitely many zeros. It violates the zero-germ hypothesis of `analytic_zero_set_finite`.
+- A locally constant function on `ℤ_p` that is zero on `pℤ_p` and one elsewhere is locally analytic and nonzero, but has infinitely many zeros. It violates the zero-germ hypothesis of the compact-chart zero theorem.
 
 The construction and its conventions follow [Minhyong Kim](#reference-kim2009), §3, the Coleman-function zero-set argument, p. 121.
 
@@ -6812,7 +6812,7 @@ Use [Pullback of regular period functions](#nc-4-regular-pullback); [Residue dis
 
 All local conditions contain the allowed global path classes, including bad places. Use the endpoint-compatible path comparison, effective torsor descent, all-algebra local invariant lifting and Selmer representability constructed in Layers 2 and 4. The strict dimension inequality is a verified or assumed mathematical input, never silently concluded from the theorem.
 
-`chabautyKim_finite` states the affine finite-chart form. For finite-type K-algebras `A=O(S)` and integral `B=O(Q)`, the period morphism is `period:B→ₐ[K]A` and a local point is `j(x):B→ₐ[K]K`. The closed period locus consists of x whose evaluation kills `ker(period)`. A strict Krull-dimension inequality, finitely many compact charts covering Y, analytic evaluation of every b in B, and absence of a zero germ for every `b≠0` make that locus finite. A set of global points in Y with witnesses `j(x)=a∘period` is finite as well. This form works over any nontrivially normed field satisfying the explicit chart hypotheses; for curves, residue-disc density and the preceding geometric comparisons supply them.
+The affine finite-chart form has the following hypotheses. For finite-type K-algebras `A=O(S)` and integral `B=O(Q)`, the period morphism is `period:B→ₐ[K]A` and a local point is `j(x):B→ₐ[K]K`. The closed period locus consists of x whose evaluation kills `ker(period)`. A strict Krull-dimension inequality, finitely many compact charts covering Y, analytic evaluation of every b in B, and absence of a zero germ for every `b≠0` make that locus finite. A set of global points in Y with witnesses `j(x)=a∘period` is finite as well. This form works over any nontrivially normed field satisfying the explicit chart hypotheses; for curves, residue-disc density and the preceding geometric comparisons supply them.
 
 Use [A regular equation from a small Selmer image](#nc-4-selmer-annihilator) to choose a nonzero regular equation for the geometric Selmer period image closure. Use [Kim density on every residue disc](#nc-4-residue-disc-density) and [Pullback of regular period functions](#nc-4-regular-pullback) to obtain a nonzero analytic function on every integral disc. Apply [Finiteness under discwise nonvanishing](#nc-4-finite-annihilator-locus) and the three locus inclusions. Use [Global points lie in the Chabauty–Kim loci](#nc-4-rational-integral-containment) and the injective field embedding to deduce global finiteness.
 
@@ -7033,7 +7033,7 @@ For stringent proper-curve Selmer conditions, impose the finite away-place Kumme
 For `K/ℚ_p` of degree d, compare both sides after Weil restriction to `ℚ_p`, multiplying the K-dimension of the de Rham target by d. Comparing that number with an unadjusted K-dimension on the Selmer side would manufacture a false strict inequality.
 
 
-The group-frame identity `Period.translate_periodRatio` is `I·(I⁻¹γ)=γ`. It pins the right period direction before passing to the homogeneous coset; it makes no normality assumption on `F⁰U`.
+The group-frame identity `I·(I⁻¹γ)=γ` fixes the right period direction before passing to the homogeneous coset; it makes no normality assumption on `F⁰U`.
 
 The proved period example applies right Hodge translation `γ↦γh` for `h∈H` and verifies equality in the homogeneous coset relation for every subgroup H, including nonnormal ones.
 
@@ -7192,8 +7192,8 @@ The interface consists of the following named results.
 
 - For a symplectic basis `aᵢ,bᵢ` with `〈aᵢ,bⱼ〉=δᵢⱼ`, the diagonal middle component is `Σᵢ(bᵢ⊗aᵢ−aᵢ⊗bᵢ)`. Our T sends it to −id with trace −2g. Subtracting the two fibre classes does not change it, so this symmetric correspondence is not nice for `g≥1`. For `g=0` its middle component is zero and it is again not nice.
 - Define `Γ_σ={(σ(x),x)}`. Its middle component acts as `−σ*`, and the swapped graph acts as `−(σ⁻¹)*`. This graph direction is part of the convention.
-- On `H=ℚ²` with `〈(x₁,x₂),(y₁,y₂)〉=x₁y₂−x₂y₁`, `Heights.symplecticTensorAction_trace` states that the trace of `symplecticTensorAction(u,v)` is `u₁v₂−u₂v₁`, the cup pairing; this is T on a simple tensor. `T(b⊗a−a⊗b)(w)=−w`, whose trace is −2; `T(a⊗b)` has matrix diag(0,1), with trace `1=〈a,b〉`. Reversing the pairing would reverse both values.
-- If either input of `symplecticTensorAction` is zero, the endomorphism is zero. With `a=(1,0)`, `b=(0,1)`, T(b⊗a)=diag(−1,0), which differs from T(a⊗b)=diag(0,1); exchanging the factors without the graded minus sign fails the adjoint convention.
+- On `H=ℚ²` with `〈(x₁,x₂),(y₁,y₂)〉=x₁y₂−x₂y₁`, the simple tensor `u⊗v` acts by `w↦〈u,w〉v` and has trace `u₁v₂−u₂v₁`, the cup pairing. Thus `T(b⊗a−a⊗b)(w)=−w`, whose trace is −2; `T(a⊗b)` has matrix diag(0,1), with trace `1=〈a,b〉`. Reversing the pairing would reverse both values.
+- If either simple-tensor factor is zero, its endomorphism is zero. With `a=(1,0)`, `b=(0,1)`, T(b⊗a)=diag(−1,0), which differs from T(a⊗b)=diag(0,1); exchanging the factors without the graded minus sign fails the adjoint convention.
 - For a pullback `π₁*Z₁`, `ξ=0` although the class in `H²(X×X)` is nonzero: the Künneth projection, not the whole cycle class, is used.
 
 The construction and its conventions follow [Jennifer S. Balakrishnan, Netan Dogra, J. Steffen Muller, Jan Tuitman and Jan Vonk](#reference-bdmtv), §2.3, the definitions of symmetric and nice correspondences, Lemma 2.4 and its proof, p. 900; Remark 2.5, p. 901; [Jennifer S. Balakrishnan and Netan Dogra](#reference-bd1), §6.2, the cycle class `cl_Z` through Künneth projectors, p. 25.
@@ -7508,7 +7508,7 @@ The interface consists of the following named results.
 
 - `preheight_two_negative_terms`: For `V=Q²` with W the first coordinate and Fil0 the second, `s1(x,y)=(x,0)`, `s2(x,y)=(0,y)`, alpha=(1,2), `beta_phi=2*first`, `beta_Fil=3*second`, `gamma_phi=7` and `gamma_Fil=1`, the result is −2.
 - `preheight_zero_alpha`: Changing alpha to 0 gives 6.
-- `preheight_central_variation`: With alpha=(1,2) as before, changing `gamma_phi` from 7 to 8 gives −1.
+- With alpha=(1,2) as before, changing `gamma_phi` from 7 to 8 gives −1.
 - `preheight_projection_order`: With the same alpha, beta and gamma data, exchanging s1 and s2 gives 6 instead of −2. This detects reversal of the chosen-complement and Fil0 projections.
 - Both beta terms have negative signs.
 - Holding the adjacent classes fixed does not force the local height to be fixed under a central change.
@@ -7645,7 +7645,7 @@ Use [Quadratic Chabauty pair](#nc-5-quadratic-chabauty-pair); [Height and first 
 
 Use the compact closed chart domains and density on every nonempty open subdisc. Layer 5 supplies the analytic zero theorem for the imported convergent series, with the relevant compactness/subdisc hypotheses.
 
-`quadraticChabauty_finite` states this finite-chart theorem in arbitrary finite coordinate dimension m. It uses `AJ:X→K^m`, a scalar height θ, a linear E, a vector c and a bilinear B. The joint coordinates indexed by `Option (Fin m)` place θ at `none` and AJ at `some i`. On finitely many compact charts covering Y, all coordinates are analytic and no nonzero multivariate polynomial in them has a zero germ at a chart point. For finite Υ the residual locus is finite, and so is every global point set in Y whose residuals lie in Υ. These explicit hypotheses give the same conclusion over any nontrivially normed field.
+The finite-chart theorem applies in arbitrary finite coordinate dimension m. It uses `AJ:X→K^m`, a scalar height θ, a linear E, a vector c and a bilinear B. The joint coordinates indexed by `Option (Fin m)` place θ at `none` and AJ at `some i`. On finitely many compact charts covering Y, all coordinates are analytic and no nonzero multivariate polynomial in them has a zero germ at a chart point. For finite Υ the residual locus is finite, and so is every global point set in Y whose residuals lie in Υ. These explicit hypotheses give the same conclusion over any nontrivially normed field.
 
 For each alpha in Upsilon the polynomial `T−B(W,E W+c)−alpha` is nonzero because its T coefficient is 1. Joint subdisc density makes its analytic pullback nonzero on every open subdisc. Invoke the Layer 5 analytic zero theorem on each compact chart, then take finite unions of finite zero sets and their chart images. Use `rational_mem` for containment. Identifying every surviving point as rational requires a separate certified exclusion argument.
 
@@ -7663,7 +7663,7 @@ Use [Quadratic Chabauty pair](#nc-5-quadratic-chabauty-pair); Layer 5, albanese 
 
 <a id="nc-5-height-determinant"></a>
 
-**Corrected height determinant.** Let psi(x) in `k^m` be the coordinate vector of the height feature `AJ_b(x)⊗(E AJ_b(x)+c)`, in a selected tensor-feature space, and anchors P1,…,Pm with known residuals `alpha_i`. For a candidate residual alpha form the `(m+1)×(m+1)` matrix whose first row is (theta(x)−alpha,psi(x)) and ith anchor row is `(theta(P_i)−alpha_i,psi(P_i))`. HeightDeterminant is its Matrix.det. Candidate and anchor residuals are subtracted separately. To use its vanishing as a height equation, the anchor feature matrix must have nonzero determinant. The coordinate theorem `Heights.determinant_duplicate_row` gives vanishing at an anchor with its own residual correction.
+**Corrected height determinant.** Let psi(x) in `k^m` be the coordinate vector of the height feature `AJ_b(x)⊗(E AJ_b(x)+c)`, in a selected tensor-feature space, and anchors P1,…,Pm with known residuals `alpha_i`. For a candidate residual alpha form the `(m+1)×(m+1)` matrix whose first row is (theta(x)−alpha,psi(x)) and ith anchor row is `(theta(P_i)−alpha_i,psi(P_i))`. HeightDeterminant is its Matrix.det. Candidate and anchor residuals are subtracted separately. To use its vanishing as a height equation, the anchor feature matrix must have nonzero determinant. At an anchor with its own residual correction, the determinant vanishes because two rows coincide.
 
 k is a field; the geometric application uses Qp. For arithmetic use alpha and all `alpha_i` belong to the complete signed correction set. X may index pairs (correspondence, point): candidate and anchor features may come from different correspondences if their corrected heights are evaluations of the same global functional on the same balanced feature space. This is the cross-class anchor convention in the `X_s(13)` application.
 
@@ -7777,7 +7777,7 @@ For a corrected determinant with `m+1` rows, the selected m rational anchor rows
 The relative-cycle comparison gives the three graded pieces `ℚ_p`, V and `ℚ_p(1)`. The central Tate twist already occurs in the height module `A_Z(b,x)`; inserting another twist changes the Hodge weights and local height domain. The split path `at x=b` has split endpoint extension and zero normalized height.
 
 
-The linear correspondence API contains `Heights.nice_add_pullback`: adding a pullback preserves symmetry modulo pullbacks, trace zero and the primitive class when the swap stabilizes that condition and trace and class kill the pullback space. `away_constants_finite` makes `AwayHeightConstants` finite for a finite place set and finite local value sets; `height_sum_correction` places `h_p−h` in that negative sum set. `HeightDeterminantMatrix` uses the candidate correction in the first row and each anchor’s own correction in its row. In `determinant_equation`, a linear feature functional fitting the anchor heights and a nonzero determinant of the anchor feature matrix make determinant zero equivalent to `θ(x)−L(ψ(x))=α`. The nonzero determinant is the basis hypothesis, rather than a nonvanishing condition on the candidate height.
+Adding a pullback preserves symmetry modulo pullbacks, trace zero and the primitive class when the swap stabilizes that condition and trace and class kill the pullback space. A finite place set and finite local value sets give a finite signed correction set, and the global height identity puts `h_p−h` in that set. The determinant uses the candidate correction in the first row and each anchor’s own correction in its row. A linear feature functional fitting the anchor heights and a nonzero determinant of the anchor feature matrix make determinant zero equivalent to `θ(x)−L(ψ(x))=α`. The nonzero determinant is the basis hypothesis, rather than a nonvanishing condition on the candidate height.
 
 ### Dependencies
 
@@ -7986,7 +7986,7 @@ The interface consists of the following named results.
 - `GrothendieckSectionConjecture`: The proposition: for every number field k and every smooth projective geometrically connected curve `X/k` of genus `≥ 2`, SectionConjecture(X/k).
 - `GrothendieckSectionConjectureFinitelyGenerated`: The proposition: for every field k finitely generated over `ℚ` and every smooth projective geometrically connected curve `X/k` of genus `≥ 2`, SectionConjecture(X/k).
 - `sectionConjecture_of_equiv`: SectionConjecture is invariant under isomorphism of k-schemes, via SectionClasses.map and `sectionClassMap_natural`.
-- `SectionConjectureFor`: Bijectivity of a supplied class map `κ: P → S`. For an extension datum `q: E → Γ`, take S to be its geometric-kernel conjugacy classes of sections; SectionConjecture(X/k) uses `q =` pr, `P = X(k)` and `κ = κ_X`. The Lean prototypes for this and the cuspidal proposition use supplied class sets and maps; the global geometric propositions use the curve and section constructions of this layer.
+- The section conjecture uses the geometric-kernel conjugacy classes of sections of `pr:π→Γ_k` and the rational-point map `κ_X:X(k)→Sect(X/k)`; bijectivity is asserted for this geometric map.
 
 **Checks.**
 
@@ -8019,10 +8019,10 @@ Construct the local sequence from the tame punctured branch of IG.1.2 and the ch
 The interface consists of the following named results.
 
 - `CuspidalPacket`: The subset of section classes obtained from the local section classes at the specified rational cusp.
-- `CuspidalSectionConjecture`: Bijectivity of the interior-point and packet map, with every member of a packet retained. In the Lean prototype, `κ: P → S` and `packet: D → Set S` are the supplied interior map and packets.
-- `cuspidalSectionConjecture_iff`: The abstract proposition is equivalent to injectivity of κ, disjointness of its image from every packet, disjointness of packets at distinct cusps, and exhaustion of S by the interior image and the packets.
-- `cuspidalSectionConjecture_cusp_unique`: Under this proposition, a section class belonging to two packets has equal cusp indices.
-- `cuspidalSectionConjecture_empty_boundary`: With an empty cusp index set, the abstract proposition reduces to SectionConjectureFor κ, the proper-curve statement.
+- `CuspidalSectionConjecture`: Bijectivity of the geometric interior-point and packet map, with every member of each cuspidal packet retained.
+- This bijectivity is equivalent to injectivity of the interior-point map, disjointness of its image from every packet, disjointness of packets at distinct cusps, and exhaustion of the section classes by the interior image and the packets.
+- Under this proposition, a section class belonging to two packets has equal cusp indices.
+- With empty boundary, the packet decomposition reduces to bijectivity of the proper-curve section map.
 
 **Checks.**
 
@@ -8052,8 +8052,8 @@ The interface consists of the following named results.
 - `kimDimensionConjecture_of_refined`: For a represented closed refinement `S′_n⊆S_n`, `dim S′_n≤dim S_n`, so the unrefined inequality implies the refined inequality. If every allowed global point has its Kummer class in `S′_n`, the refined inequality gives finiteness of that point set by §5.7. A dimension bound for a refinement alone gives no containment and does not imply the unrefined dimension conjecture.
 - `kimDimensionConjecture_basepoint`: The proposition does not depend on the integral base point b: change of base point gives isomorphic Selmer varieties (BDCKW §2.9) and the de Rham dimensions are independent of b.
 - `dim_Q_eq_sum`: `dim Q_n = Σ_{k=1}^{n} (d_k − f_k)`, where `d_k = dim gr_k U` and `f_k = dim F⁰ gr_k U_dR` ([Dimensions of the lower central quotients](#nc-6-graded-central-dimensions)).
-- `KimDimensionCondition` (the Lean name; `Frontier.KimDimensionCondition`): The form on dimension sequences: for selDim, dRDim : `ℕ → ℕ`, `∃ n ≥ 1`, selDim n &lt; dRDim n; KimDimensionConjecture is the instance selDim `n = dim S_n`, dRDim `n = dim Q_n`.
-- `kimDimensionCondition_mono`: If selDim′ `≤` selDim pointwise, the inequality for selDim implies it for selDim′ (the dimension form of `kimDimensionConjecture_of_refined`).
+- The dimension condition is `∃ n ≥ 1, dim S_n < dim Q_n`, using the represented Selmer and de Rham schemes.
+- Lowering the Selmer dimensions pointwise preserves the strict inequality (the dimension form of `kimDimensionConjecture_of_refined`).
 
 **Checks.**
 
@@ -8189,7 +8189,7 @@ Use [Vanishing of the strict Selmer groups of tensor powers](#nc-6-selmer-vanish
 
 The central extensions `1 → gr_{n}U → U⟨n⟩ → U⟨n−1⟩ → 1` make `H¹(G_T, U⟨n⟩)` fibred over a subvariety of `H¹(G_T, U⟨n−1⟩)` with fibres torsors under `H¹(G_T, gr_n U)` ([Central extensions: the action of `H¹(G, Z)` and the connecting map to `H²`](#nc-3-central-extension), [Finite-level representability](#nc-3-finite-level-representability)), so `dim S_n ≤ Σ_{k ≤ n} dim H¹(G_T, gr_k U)`. `H⁰(G_T, gr_k U) = 0` for `k ≥ 1` (weights of `H₁` are −1 and −2), so Tate's global Euler characteristic formula over Q (ArithmeticGaloisDuality §R02.4.4, with rational coefficients) gives `dim H¹ − dim H² = d_k⁻`. Keep the initial H² contribution C and apply [Kim's `H²` estimate](#nc-6-h2-growth-bound) only for `k≥k₀`. Bound `dim F⁰ gr_k U_dR` by `g^k` (`F⁰` of `H₁^{dR ⊗k}` has dimension `dim H¹(O)^{⊗k} = g^k`), so `dim Q_n ≥ Σ_{k ≤ n} (d_k − g^k)`. Trace of complex conjugation c: in the affine case `gr_• U` is the free Lie algebra on `H₁` with c acting through `H₁`, so `τ_k` is given by the graded character formula of free Lie algebras applied to the involution c ([Witt character and the surface relation](#free-lie-character)). On `H₁`, c has trace 0 on the compact part (it is antisymplectic) and trace 1 − r on the boundary part of the Gysin sequence (EtaleCohomologyFoundations §§0.9–0.11, F.6), r being the number of real boundary points; hence `t = 1 − r`, and `t = −m` exactly when `g = 0` and every boundary point is real. In the proper case `τ_k = 0` for odd k because `gr_k U` is pure of odd weight −k. Compare: `dim Q_n−dim S_n ≥ Σ_{1≤k≤n} d_k⁺ − C − Σ_{k₀≤k≤n} P(k)g^k − Σ_{1≤k≤n} g^k`, and by [Dimensions of the lower central quotients](#nc-6-graded-central-dimensions) and the trace computation `Σ_{k ≤ n} d_k⁺ ≥ c·λ^n/n` for infinitely many n with `λ` &gt; g; choose such n. Finiteness then follows from `finite_of_kimDimensionConjecture`.
 
-The numerical summation interface `Frontier.sum_h1_le_with_initial_h2` takes natural-valued dimension sequences h₁, h₂ and d⁻, the identities `h₁(k)=d⁻(k)+h₂(k)` for `k≥1`, a threshold `k₀≥1` and bounds `h₂(k)≤e(k)` for `k≥k₀`. It gives `Σ_{1≤k≤n} h₁(k) ≤ Σ_{1≤k≤n} d⁻(k) + Σ_{1≤k<k₀} h₂(k) + Σ_{k₀≤k≤n} e(k)` for every n. Apply it with `e(k)=P(k)g^k`; the finite initial sum remains present when `g=0`.
+For natural-valued dimension sequences h₁, h₂ and d⁻ with `h₁(k)=d⁻(k)+h₂(k)` for `k≥1`, a threshold `k₀≥1` and bounds `h₂(k)≤e(k)` for `k≥k₀` give `Σ_{1≤k≤n} h₁(k) ≤ Σ_{1≤k≤n} d⁻(k) + Σ_{1≤k<k₀} h₂(k) + Σ_{k₀≤k≤n} e(k)` for every n. Apply this with `e(k)=P(k)g^k`; the finite initial sum remains present when `g=0`.
 
 **Checks.**
 
@@ -8298,6 +8298,8 @@ Use [Kim's dimension conjecture](#nc-6-kim-dimension-conjecture); [Kim's `H²` e
 
 **The dimension conjecture for the thrice-punctured line.** Let `X = P¹ ∖ {0, 1, ∞}` over `Z[1/S]` with S a finite set of primes, `b ∈ 𝒳(Z[1/S])` an S-integral base point (if `𝒳(Z[1/S])` is empty there is nothing to prove), and `p ∉ S` an odd prime. Then `KimDimensionConjecture(X, p)` holds, hence `X(Z[1/S])` is finite (Siegel's theorem for this curve). Explicitly `gr_n U ≅ ℚ_p(n)^{r_n}` with `r_n` the Witt numbers for `m = 2`, `F⁰ = 0` on `U_dR` so `dim Q_n = Σ_{k ≤ n} r_k`, and `dim S_n ≤ |S|·2 + Σ_{3 ≤ k ≤ n, k odd}` `r_k`, which is smaller for n large.
 
+`thricePuncturedLine_sIntegralPoints_finite` in `Suggested.lean` states the S-integral finiteness conclusion using Mathlib’s ring `(S : Set (IsDedekindDomain.HeightOneSpectrum ℤ)).integer ℚ`: its elements x with `IsUnit x ∧ IsUnit (1 - x)` form a finite set. These are exactly the integral points avoiding 0, 1 and ∞. The conclusion holds for every finite S without a chosen base point or auxiliary prime. The Selmer dimension inequality remains the geometric target above.
+
 S finite, `p ∉ S` odd (the rational Tate cohomology comparison below assumes odd p); `T = S ∪ {p}`; the base point is S-integral, as in Kim 2005 p.17. Uses Soulé's computation of `H¹(G_T, ℚ_p(k))`: zero for even `k ≥ 2` and one-dimensional for odd `k ≥ 3`. Kim 2005 also takes p large compared with the depth for its comparison maps; here the comparison is that of Layer 5, for every prime of good reduction.
 
 `H₁ = ℚ_p(1)²` and `gr_n U` is a quotient of `H₁^{⊗n}`, so `gr_n U ≅ ℚ_p(n)^{r_n}` with `r_n` from [Dimensions of the lower central quotients](#nc-6-graded-central-dimensions). `H¹_f(G_T, ℚ_p(1)) = Z[1/S]^× ⊗ ℚ_p` has dimension |S| (SelmerIwasawaCohomology L0, S-unit Kummer identification); `H¹(G_T, ℚ_p(k)) = 0` for even `k ≥ 2` and has dimension one for odd `k ≥ 3` (the [rational Tate cohomology comparison](#soule-rational-tate-cohomology)). The [Central extensions: the action of `H¹(G, Z)` and the connecting map to `H²`](#nc-3-central-extension) fibration gives `dim S_n ≤ 2|S| + Σ_{odd 3 ≤ k ≤ n} r_k` ([Central extensions: the action of `H¹(G, Z)` and the connecting map to `H²`](#nc-3-central-extension)). Since the Hodge filtration of `H¹_dR` is `F¹ =` everything, `F⁰U_dR` is trivial and `dim Q_n = Σ_{k ≤ n} r_k`; the even-degree terms make the difference positive for large n. Finiteness follows from [Conditional Chabauty–Kim finiteness](#nc-4-dimension-finiteness).
@@ -8331,8 +8333,8 @@ The interface consists of the following named results.
 - `kimLocus_indep_T`: For `T ⊆ T′` both containing p and the bad primes, the Selmer schemes for T and T′ are isomorphic compatibly with `loc_p`, so `X(ℤ_p)_n` does not depend on T.
 - `kimLocus_indep_basepoint`: Twisting by the path torsor `P(b, c)` identifies the Selmer schemes for integral base points b and c compatibly with `loc_p` and the Kummer maps, so `X(ℤ_p)_n` does not depend on b.
 - `kimConjectureS`: The S-integral proposition: `X(ℤ_p)_{S,n} = 𝒳(Z[1/S])` for n large, with `KimConjectureS ∅ = KimConjecture`.
-- `EventualEquality`: The form on families of sets: `L n = G` for all large n; KimConjecture is the instance `L n = X(ℤ_p)_n`, `G = 𝒳(Z)`.
-- `eventualEquality_iff_exists_subset` (the set-level signature `Frontier.eventualEquality_iff_exists_subset`): For an antitone family L with `G ⊆ L n` for all n, eventual equality holds if and only if `L n ⊆ G` for some n.
+- Eventual equality means `X(ℤ_p)_n = 𝒳(Z)` for all sufficiently large n.
+- For an antitone family L with `G ⊆ L n` for all n, eventual equality holds if and only if `L n ⊆ G` for some n.
 - `eventualEquality_iInter`: For an antitone family, eventual equality with G implies `⋂_n L n = G`; the converse fails `(kimConjecture_not_intersection)`.
 
 **Checks.**
@@ -8340,7 +8342,7 @@ The interface consists of the following named results.
 - For `𝒳=Spec ℤ[z,1/z,1/(1−z)]`, `𝒳(ℤ₂)=∅` because modulo 2 one of z and 1−z is zero. Hence `Im j₂=∅`, whereas the imposed good-place condition is `{1}`. The literal-image variant is empty at every depth, including p=7; it cannot have the two primitive sixth roots as its depth-one locus.
 - `kimConjecture_thrice_punctured_p5`: For `𝒳 = P¹ ∖ {0, 1, ∞}` over Z with the tangential base point at 0 and `p = 5`, `X(Z_5)_1 = ∅ = 𝒳(Z)`, so the conjecture holds from depth 1 (BDCKW §6.1).
 - `kimLocus_thrice_punctured_p7`: For the same 𝒳 and `p = 7`, `X(Z_7)_1 = {ζ_6, ζ_6⁵} ≠ 𝒳(Z) = ∅`: equality is eventual, not at depth 1 (BDCKW §6.2).
-- `kimConjecture_not_intersection` (the set-level boundary theorem `Frontier.intersection_not_eventual_equality`): Eventual equality is stronger than `⋂_n X(ℤ_p)_n = 𝒳(Z)`: for the decreasing family `L_n = G ∪ {m ∈ ℕ : m ≥ n}` with G finite, the intersection is G but no `L_n` equals G, so a definition by the intersection would accept it.
+- `kimConjecture_not_intersection`: Eventual equality is stronger than `⋂_n X(ℤ_p)_n = 𝒳(Z)`: for the decreasing family `L_n = G ∪ {m ∈ ℕ : m ≥ n}` with G finite, the intersection is G but no `L_n` equals G, so a definition by the intersection would accept it.
 - `kimConjectureS_empty`: For `S = ∅` the S-integral Selmer scheme is `Sel_n(𝒳)` and KimConjectureS reduces to KimConjecture.
 - `kimLocusS_half_contains`: For `P¹ ∖ {0, 1, ∞}` over `Z[1/2]` and an odd prime p, the three points 2, −1 and `1/2` lie in `X(ℤ_p)_{{2},2}`, the zero set of `2Li_2(z) + log(z)log(1 − z)` (BDCKW §8.2).
 - For `P¹ ∖ {0, 1, ∞}` over Z and `p = 5`, `X(Z_5)_1 = ∅ = 𝒳(Z)` ([Kim's conjecture at depth one for the thrice-punctured line](#nc-6-thrice-punctured-depth-one)).
@@ -8383,7 +8385,7 @@ Let `L_n={0}∪{n,n+1,…}` in the natural numbers. This is a decreasing sequenc
 For the thrice-punctured line, use the integral unit tangent at 0. The depth-one coordinates are log z and `log(1−z)`. A common zero in `ℤ_p` with z and 1−z units makes both roots of unity and forces a primitive sixth root in the source-qualified calculation. For `p=3,5`, the depth-one locus is empty (BDCKW §6.1). For `p=7`, the two depth-one candidates disappear at depth two: BDCKW §6.3 establishes `Li₂(ζ₆) ≠ 0` numerically for primes `p ≡ 1 mod 3` below `10⁵`. The conditions `p ≡ 3,5 mod 8` in §7.6 concern a genus-two cover of a punctured elliptic curve, with `d=2` nonsquare in `ℚ_p`. The base point is tangential because this open curve has no ordinary Z-point.
 
 
-For an antitone family of loci containing all rational points, `Frontier.intersection_of_eventual_equality` deduces intersection equality from `EventualEquality`. Its hypotheses preserve the early loci as well as the tail; intersection equality by itself does not imply a stable tail.
+For an antitone family of loci containing all rational points, eventual equality implies intersection equality. The containment hypotheses preserve the early loci as well as the tail; intersection equality by itself does not imply a stable tail.
 
 ### Dependencies
 
