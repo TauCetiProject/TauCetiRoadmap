@@ -45,8 +45,8 @@ Generic determinant laws, Cayley–Hamilton reconstruction and coefficient desce
 belong to TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants; the new targets here
 extract the geometric Hecke module and apply those laws to that module.
 Its Layer 3a.1 also supplies characteristic-polynomial duality, character
-scaling and the classical `k≥2` coefficient normalization. The light coefficient
-expressions below fix the additional weight-one and inverse-Hecke-operator
+scaling and the classical `k≥2` coefficient normalization. The coefficient
+formulas below fix the additional weight-one and inverse-Hecke-operator
 conventions; they do not introduce another determinant or scaling theory.
 
 SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies the arbitrary-rank
@@ -351,7 +351,7 @@ the even-degree weight-two case are the precise targets of §0.7.
 
 **R15.5A.1–R15.5A.2.** Primitive classical parabolic multiplicity, its pairing, coefficient descent and higher-weight attachment. Sections 1.1–1.5 compare these with DFG premotives and §3.11 with the Hilbert convention; they do not reconstruct the classical attachment.
 
-**R15.5A.2a–R15.5A.3.** Classical conjugate prime moments, sparse eigenvalues and the finite-image weight-one Artin attachment, including the uniform finite-group bound and prime-to-order lifting. Layer 2 uses these interfaces. Its light finite-group signatures in `TauCeti.ClassicalModularGalois` are proposed shapes for these mathematical steps; their names are not specified exports of the supplier.
+**R15.5A.2a–R15.5A.3.** Classical conjugate prime moments, sparse eigenvalues and the finite-image weight-one Artin attachment, including the uniform finite-group bound and prime-to-order lifting. Layer 2 uses these interfaces.
 
 **R15.2.** Generation of the weight-two Hecke algebra `𝕋_R` of `Γ_H(N)` (Darmon–Diamond–Taylor Lemma 4.1): by the `T_n`, or by the `T_p` and `⟨d⟩`; and, for `D` prime to `N` with `D` odd or 2 invertible in `R`, by the `T_n` with `(n, D) = 1` (Diamond–Im Proposition 3.5.1; Wiles 1995, p. 491).
 
@@ -586,10 +586,10 @@ Layer 5 identifies ordinary lattices, crystalline/Wach factors and CM lines.
 Layer 6 constructs integral Hecke families and their deformation maps from the
 whole geometric determinant. Layer 7 assembles strict fixed-form systems and
 their large-image and ordinary-density consequences. The internal prerequisites
-of each subsection point backward in this build. New comparison API names are in
-`TauCetiRoadmap.AutomorphicGaloisRepresentations`; the supplier-owned Layer 2
-prototypes use `TauCeti.ClassicalModularGalois`. The representative signatures
-in Suggested.lean use only carriers available at the pinned commits.
+of each subsection point backward in this build. Suggested.lean states the
+ordinary-prime density theorem of §7.7 on the pinned newform, coefficient-field
+and prime-density carriers. The geometric, local and integral-family targets
+require the arithmetic carriers specified in their layers.
 
 ## Layer 0: Period, family and geometric interfaces
 
@@ -1108,19 +1108,15 @@ conjugate to `diag(1,−1)`. These rational statements hold at every finite `λ`
 
 See [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — Lemma 5.7, p. 58 (arXiv v2); [H. Darmon, F. Diamond and R. Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf) — Theorem 3.1(a)–(c), p. 86 (revision of 9 September 2007); [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — Theorem 1.2.4(i), p. 2, with 1.0.0, p. 1, and 4.2.2, p. 9; [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §5.5, pp. 59–60, and p. 96 (arXiv v2).
 
-For the light arithmetic calculation define `arithFrobCharpoly a ψ p k` over
-any coefficient field to be `X²−aX+ψp^{k−1}`. Define
-`arithFrobCharpolyDual a ψ p k` as `X²−(a/d)X+1/d`, where `d=ψp^{k−1}`.
-The dual formula represents a characteristic polynomial only when `d≠0`;
-it is the cohomological representation evaluated at arithmetic Frobenius.
-The arithmetic dual of that cohomological representation has the original
-polynomial. The functions make sense for `k=0`, but the geometric interpretation
-here assumes `k≥2` and must not use truncated natural subtraction as a weight-zero
-formula.
-
-
-- `arithFrobCharpoly`: The arithmetic good-prime polynomial with its nebentypus factor.
-- `arithFrobCharpolyDual`: The dual polynomial at the same Frobenius, with the nonzero-determinant interpretation above.
+For coefficient calculations the arithmetic good-prime polynomial is
+`X²−aX+ψp^{k−1}`. At the same Frobenius its dual polynomial is
+`X²−(a/d)X+1/d`, where `d=ψp^{k−1}`. The dual formula represents a
+characteristic polynomial only when `d≠0`; it is the cohomological
+representation evaluated at arithmetic Frobenius. The arithmetic dual of that
+cohomological representation has the original polynomial. A natural-number
+expression using `k−1` also makes sense for `k=0`, but the geometric
+interpretation here assumes `k≥2` and must not use truncated natural subtraction
+as a weight-zero formula.
 
 **Checks.**
 
@@ -1247,10 +1243,8 @@ The classical construction in this layer is supplied by
 AlgebraicModularFormsAndSerreWeights R15.5A.2a–R15.5A.3. The interfaces below
 fix its use with the DFG and Hilbert conventions. R15.5A.3 supplies the
 uniform finite-image bound and prime-to-order integral lifting through its
-stated finite-group proof steps. Suggested.lean proposes shapes for these
-mathematical interfaces in `TauCeti.ClassicalModularGalois`, including
-polynomial-support checks; the declaration names are prototypes, not exports
-specified by that supplier.
+stated finite-group proof steps, including the polynomial-support comparisons
+below.
 
 ### 2.1 Rankin's prime estimate
 
@@ -1292,20 +1286,19 @@ the eigenvalue-lifting and general reduction-image targets.
 
 Use the finite-group step of R15.5A.3. For a prime `ℓ` and a finite subgroup
 `G⊆GL₂(𝔽_ℓ)`,
-`ConditionC ℓ G η M` means that some subset `H⊆G` has size at least
+`C(η,M)` means that some subset `H⊆G` has size at least
 `(1−η)|G|` and at most `M` characteristic polynomials. The subset need not be
-a subgroup. `IsSemisimpleSubgroup` is Mathlib's
+a subgroup. Semisimplicity is Mathlib's
 `Representation.IsSemisimpleRepresentation` of the standard representation of
-`G` on `𝔽_ℓ²`, unfolded: every invariant subspace has an invariant complement.
+`G` on `𝔽_ℓ²`: every invariant subspace has an invariant complement.
 AlgebraicModularFormsAndSerreWeights uses the same Mathlib predicate in
 `TauCeti.ClassicalModularGalois.weightOne_attachment`.
 Semisimplicity does not mean that every element is diagonalizable.
 The reciprocal polynomials `det(1−hT)` and monic characteristic polynomials
 have the same support cardinality.
 
-The representative signatures `ConditionC.mono`, `ConditionC.of_index_two`
-and `card_charpoly_fibre` express the finite-group steps of R15.5A.3:
-index-two restriction doubles `η`, and a monic quadratic
+In the finite-group proof of R15.5A.3, increasing either bound preserves
+Condition `C`, index-two restriction doubles `η`, and a monic quadratic
 with nonzero constant term has `ℓ²+ℓ, ℓ²` or `ℓ²−ℓ` invertible-matrix realizations
 when it has two, one or no distinct roots over `𝔽_ℓ`.
 
@@ -1317,19 +1310,18 @@ Mathlib `Matrix.card_GL_field`.
 **Checks.**
 
 - `GL₂(𝔽_ℓ)` satisfies `C(0, ℓ(ℓ − 1))` and not `C(0, M)` for `M < ℓ(ℓ − 1)`: its elements have exactly the `ℓ(ℓ − 1)` characteristic polynomials `T² − tT + d` with `d ≠ 0`.
-- `not_conditionC_zero` (boundary theorem): For `η < 1` no subgroup satisfies `C(η, 0)`: `H` would have no polynomials, so `H = ∅` and `0 ≥ (1 − η)|G| > 0`.
+- For `η < 1` no subgroup satisfies `C(η, 0)`: `H` would have no polynomials, so `H = ∅` and `0 ≥ (1 − η)|G| > 0`.
 - `not_conditionC_cyclic_five` (non-example): The subgroup of `GL₂(𝔽₅)` generated by `diag(2, 1)` has order 4 and four characteristic polynomials `(T − 2ⁱ)(T − 1)`, so it fails `C(0, 3)`; it satisfies `C(1/4, 3)`.
 - The split Cartan subgroup of `GL₂(𝔽₃)`, also of order 4, satisfies `C(0, 3)`: `diag(1, 2)` and `diag(2, 1)` share a characteristic polynomial. A definition that counted elements instead of polynomials would treat it like the cyclic group of order 4 above.
 - `card_charpoly_fibre_three` (compatibility): For `ℓ = 3` the fibres have sizes 12, 9 and 6, over 1, 2 and 3 polynomials, and `1·12 + 2·9 + 3·6 = 48 = |GL₂(𝔽₃)|` agrees with Mathlib's `Matrix.card_GL_field`.
 - The trivial subgroup is semisimple, since every subspace has a complement.
 - A split diagonal Cartan is semisimple even though it preserves two coordinate lines; irreducibility is not the definition.
 - The cyclic group generated by `!![1,1;0,1]` over `𝔽₅` has no invariant complement to its fixed line and fails semisimplicity, despite satisfying `C(0,1)`.
-- The value `ℓ=0` is outside both definitions' prime domain. Without that hypothesis, `ZMod 0=ℤ` and the infinite group `GL₂(ℤ)` has `Nat.card` zero, making the empty subset satisfy `C(0,0)` despite the intended finite-group interpretation.
+- The value `ℓ=0` is outside the prime-field domain. Without that hypothesis, `ZMod 0=ℤ` and the infinite group `GL₂(ℤ)` has `Nat.card` zero, making the empty subset satisfy `C(0,0)` despite the intended finite-group interpretation.
 
 ### 2.5 Bounded finite semisimple images
 
-Use R15.5A.3's uniform finite-image bound, represented here by the signature
-`card_le_of_conditionC`: for `η<1/2` and `M`, one bound `A(η,M)`
+Use R15.5A.3's uniform finite-image bound: for `η<1/2` and `M`, one bound `A(η,M)`
 works for all coefficient primes and all semisimple `G` satisfying `C(η,M)`.
 Keep the reducible diagonalizable case and the loss `η↦2η` at an index-two
 normalizer subgroup. Semisimplicity is indispensable.
@@ -1350,8 +1342,7 @@ reduction, and the excluded primes dividing `Nℓ` do not affect the density.
 
 ### 2.7 Prime-to-residue-characteristic lifting
 
-Use R15.5A.3's prime-to-order integral lifting step, represented here by the
-signature `exists_lift_of_not_dvd_card`: a representation of a specified
+Use R15.5A.3's prime-to-order integral lifting step: a representation of a specified
 finite group `Γ` over the finite residue field of a complete DVR `O` lifts to `O`
 when `ℓ∤|Γ|`, preserving faithfulness when given. It supplies neither arbitrary
 pseudorepresentation reconstruction nor lifting without the prime-to-order
@@ -1391,11 +1382,11 @@ Use R15.5A.3's unique semisimple finite-image representation for a nonzero
 weight-one eigensystem of odd nebentypus `ψ`. Its arithmetic good polynomial
 is `X²−a_pX+ψ(p)`, it is unramified outside `N`, and it is irreducible exactly
 in the cuspidal case. Here identify its dual's geometric polynomial with the
-`k=1` specialization of `arithFrobCharpoly`; the dual at the same Frobenius uses
-`arithFrobCharpolyDual`. Weight one does not define a `Sym^{k−2}` DFG premotive
+`k=1` specialization of the arithmetic polynomial in §1.5; its dual at the same
+Frobenius has polynomial `X²−(a_p/ψ(p))X+ψ(p)⁻¹`. Weight one does not define a `Sym^{k−2}` DFG premotive
 or a regular Hilbert infinity type.
 
-*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.3; §1.5's polynomial definitions.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.3; §1.5's polynomial normalization.
 
 (Source: Deligne–Serre Theorem 4.1, Corollary 4.2, pp. 513–514; §8, pp. 525–527.)
 
@@ -1706,30 +1697,25 @@ Prove all identities in the convention table, the inverse-uniformiser eigenvalue
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 0.4–0.5, printed pp. 409–410; [Takeshi Saito](https://arxiv.org/pdf/math/0612077v2) — §2, p. 9 of the arXiv version; [Mark Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/def.dvi) — §4.1, author-copy p. 31; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — Introduction, p. 242; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — §2.4.2, p. 255; [C. M. Skinner and A. J. Wiles](http://www.numdam.org/item/PMIHES_1999__89__5_0.pdf) — §2.1, p. 9; (3.1′), p. 30; (3.2)–(3.3), pp. 38–39; [C. Khare and J.-P. Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf) — §1.2, p. 5; §7, pp. 57–58, and Lemma 7.2, p. 60; §9.1.1, pp. 78–80 (authors' final version); [Pierre Colmez, Gabriel Dospinescu and Wiesława Nizioł](https://webusers.imj-prg.fr/~wieslawa.niziol/GPW5.pdf) — §5.2.1, pp. 44–45.
 
-For the light coefficient calculations define `hilbertGeomCharpoly t s q` as
-`X²−tX+qs` over any coefficient field, `carayolGeomCharpoly t s q` as
-`X²−(t/s)X+q/s`, and `hodgeDegrees k w` as
-`((w−k+2)/2,(w+k)/2)`. Require `q,s≠0` for the representation dictionary and
-`k≥2` with `k≡w` mod 2 for the labelled-degree interpretation. The polynomial
-expressions still exist algebraically outside these hypotheses; that does not
-make the corresponding automorphic input admissible.
+The coefficient formulas are `X²−tX+qs` in the geometric Hilbert convention and
+`X²−(t/s)X+q/s` in Carayol's convention. The labelled degree pair is
+`((w−k+2)/2,(w+k)/2)`, with sum `w+1` under parity and shift `(1,1)` for
+`w↦w+2`. Require `q,s≠0` for the representation dictionary and `k≥2` with
+`k≡w` mod 2 for the labelled-degree interpretation. The polynomial expressions
+still exist algebraically outside these hypotheses; that does not make the
+corresponding automorphic input admissible.
 
-The expression `hilbertGeomCharpoly t s q` is
-IntegralHeckeAndGaloisDeterminants §3a.1's
-`Spherical.glnPolynomial 2 q ![1, t, s]` at geometric Frobenius.
-The inverse-operator eigenvalues `t/s, 1/s` in `carayolGeomCharpoly` and the
-weight-one case of `arithFrobCharpoly` supply the additional conventions here.
-
-
-- `hilbertGeomCharpoly`: The rank-two geometric good polynomial, with coefficient of `X` equal to `−t` and constant coefficient `qs`.
-- `carayolGeomCharpoly`: The polynomial after the central-character correction; multiply the roots of the first polynomial by `s⁻¹`.
-- `hodgeDegrees`, `hodgeDegrees_sum`, `hodgeDegrees_normTwist`: The labelled pair, sum `w+1` under parity, and shift by `(1,1)` for `w↦w+2`.
+The Hilbert polynomial is IntegralHeckeAndGaloisDeterminants §3a.1's
+`Spherical.glnPolynomial 2 q ![1, t, s]` at geometric Frobenius. The
+inverse-operator eigenvalues `t/s, 1/s` in Carayol's polynomial and the
+weight-one specialization of §1.5's arithmetic polynomial supply the additional
+conventions here.
 
 **Checks.**
 
-- For 11a1 at `3, (t,s,q)=(−1,1,3)` gives `X²+X+3` in both polynomial definitions. Its labelled degrees at `(k,w)=(2,0)` are `(0,1)`.
-- After the norm twist, `(t,s,q)=(−3,9,3)` gives `X²+3X+27` for `hilbertGeomCharpoly` and `X²+X/3+1/3` for `carayolGeomCharpoly`; equating the two loses the central-character factor. The degrees become `(1,2)`.
-- With `t=0,s=q=1` both polynomial definitions give `X²+1`. At `(k,w)=(12,10)`, `hodgeDegrees` gives `(0,11)`; the sum is 11.
+- For 11a1 at `3, (t,s,q)=(−1,1,3)` gives `X²+X+3` in both polynomial conventions. Its labelled degrees at `(k,w)=(2,0)` are `(0,1)`.
+- After the norm twist, `(t,s,q)=(−3,9,3)` gives `X²+3X+27` in the Hilbert convention and `X²+X/3+1/3` in Carayol's convention; equating the two loses the central-character factor. The degrees become `(1,2)`.
+- With `t=0,s=q=1` both polynomial conventions give `X²+1`. At `(k,w)=(12,10)`, the labelled pair is `(0,11)`; the sum is 11.
 - Taking `s=0` is outside the dictionary even though field division makes an algebraic expression. Taking `(k,w)=(2,1)` violates parity and must not create a half-integral Hodge type by integer rounding.
 
 ### 3.12 Hilbert Hodge–Tate property
@@ -2081,11 +2067,10 @@ components; its weight, central character and every normalized Hecke value
 must be transported. The Galois identification is the comparison target of
 §4.11, not part of this data definition.
 
-For light coefficient checks define `nearlyOrdinaryUnitValue νu xu v` over a
-field with a finite embedding index as `νu * ∏_τ xu(τ)^{−v(τ)}`. Its local
-interpretation requires nonzero embedding values and the finite smooth
-character above. It only evaluates the coefficient expression; it does not
-construct the local Galois character.
+The coefficient expression for the all-unit value is
+`νu * ∏_τ xu(τ)^{−v(τ)}`. Its local interpretation requires nonzero embedding
+values and the finite smooth character above; the Galois character is supplied
+by the reciprocity construction.
 
 *Needs:* GL2AutomorphicRepresentationsAndTransfer R16.2, cohomological form
 spaces and refined principal/special local models with inverse translation;
@@ -2107,7 +2092,6 @@ identification proved in the next target.
 - `NearlyOrdinaryEigenpacket.twist`: Transport the weight, central character, all unit values and normalized roots by the specified global character, with the algebraic correction for a norm twist in §4.11.
 - `NearlyOrdinaryEigenpacket.isOrdinary`: Require `δ_𝔭|O_K×=1` at every `p`-place.
 - `NearlyOrdinaryEigenpacket.changeUniformizer`: Transport the operator and root by `δ_𝔭(u)`, leaving the character unchanged.
-- `nearlyOrdinaryUnitValue`: Evaluate the finite factor times the labelled algebraic product; zero exponents return the finite factor, and nonzero exponents retain their labelled embeddings.
 
 **Checks.**
 
@@ -2115,7 +2099,7 @@ identification proved in the next target.
 - A finite ramified character twist of an ordinary eigenpacket remains nearly ordinary, but need not satisfy the unramified ordinary predicate.
 - A supersingular good-prime polynomial with both roots of positive valuation gives no unit-root eigenpacket.
 - For nonparallel `k=(2,4), µ=2` and `v=(1,0)`, the quotient on a principal unit with `τ₁(u)=1+p` is `(1+p)⁻¹` when `ν(u)=1`. No finite twist can trivialize this on an open unit subgroup.
-- For `nearlyOrdinaryUnitValue`, zero `v` and `νu=−1` give `−1`; for embedding values `(4,4)` and `v=(1,0), νu=1` gives 1/4; on the torsion unit `−1` with embedding values `(−1,−1)` and `νu=−1`, the same exponents give 1. These detect losing either the algebraic or finite factor. At `p=3, 4` is a principal unit.
+- For the all-unit coefficient expression, zero `v` and `νu=−1` give `−1`; for embedding values `(4,4)` and `v=(1,0), νu=1` gives 1/4; on the torsion unit `−1` with embedding values `(−1,−1)` and `νu=−1`, the same exponents give 1. These detect losing either the algebraic or finite factor. At `p=3, 4` is a principal unit.
 - In `F=ℚ(√13), p=3` splits and `ϖ=4+√13` has norm 3. Choose `𝔭` where `√13≡−1`, so `ϖ` is a uniformizer there and a unit at the other 3-place. Put `k=4` at `𝔭` and `k=2` at the other place, giving `v=(0,1)`. If `θ` is the other embedding of `ϖ`, then `c_out=θ⁻¹`; a raw root `β=θ⁻¹` gives local `α=1`. Equating `β` with `α` fails this outside-place correction.
 - At `p=3`, if `ν(4)=ζ₃, A_𝔭(4)=1/4` and `α=2`, changing `ϖ` to `4ϖ` gives `α′=ζ₃/2`. For `x=yϖⁿ` the new unit is `yu^{−n}`, so the new formula gives the same `δ_𝔭(x)`, also for `n<0`.
 
@@ -2342,9 +2326,9 @@ as `λ(T_y)A_𝔭(y)`, and its uniformizer value as the local normalized `α_�
 the determinant gives the other character. Use its central/Tate table when
 the chosen realization is `ρ_{π_SW}` instead of `ρ_Π`. A quotient is unramified only under the
 ordinary specialization, not for every nearly ordinary form. Fix the rational
-line before intersecting with `T`. Algebraically `ordinaryLatticePlus` is
-`T ⊓ V⁺.restrictScalars O`, while `ordinaryLatticePlusIn` is the inverse image of
-`V⁺` in the module `T`; the latter is the submodule used to form the quotient. For a
+line before intersecting with `T`. Algebraically the intersection is
+`T ⊓ V⁺.restrictScalars O`, and its inverse image in the module `T` is the
+submodule used to form the quotient. For a
 DVR use a uniformizer `ϖ_λ`, so the nonsaturated competing submodule is
 `ϖ_λOe₁`; `p` need not be a uniformizer in a ramified coefficient field.
 
@@ -2363,12 +2347,11 @@ all-unit/uniformizer comparison is obtained by the intervening argument of
 - `ordinaryRefinement` (constructor): The unit root `α` and the specified ordinary filtration proved above of the fixed representation.
 - `ordinaryRefinement_quotient` (projection): The unramified quotient character with arithmetic `Frob` eigenvalue `α`.
 - `ordinaryRefinement_subcharacter` (characterisation): The subcharacter is `εχ_p^{k−1}` times the inverse quotient character.
-- `ordinaryLatticePlus` (constructor): `T∩V⁺` as an invariant `O_λ`-submodule.
-- `ordinaryLatticePlus_saturated` (structure): For a domain `O` with fraction field `K`, `T/T⁺` is torsion-free for every `K`-subspace `V⁺`. Rank one is supplied by `ordinaryLatticeQuotient_free_rank_one` under the DVR, finite full-lattice and dimension hypotheses below.
+- Intersection with the specified ordinary line gives an invariant `O_λ`-submodule. For a domain `O` with fraction field `K`, `T/T⁺` is torsion-free for every `K`-subspace `V⁺`, where `T⁺=T∩V⁺`.
 - `ordinaryRefinement_coeffChange` (functoriality): Flat coefficient extension transports the line and lattice intersection with the appropriate saturation comparison.
 - `ordinaryRefinement_period` (compatibility): Use the already specified rational period line under the realisation comparison.
-- `ordinaryLatticePlusIn`: The inverse image of `V⁺` under `T↪V`, as an `O`-submodule of `T`; its quotient is `T/T⁺`.
-- `ordinaryLatticeQuotient_free_rank_one`: A finite full DVR lattice in a two-dimensional fraction-field space has free rank-one quotient by its intersection with a specified line.
+- The inverse image of `V⁺` under `T↪V` is an `O`-submodule of `T`, with quotient `T/T⁺`.
+- A finite full DVR lattice in a two-dimensional fraction-field space has free rank-one quotient by its intersection with a specified line.
 
 **Checks.**
 
@@ -3038,6 +3021,17 @@ Fix a non-CM weight-two newform of squarefree level `N` and trivial nebentypus. 
 *Needs:* [7.5 Ribet–Momose classical large image](#75-ribetmomose-classical-large-image); `ArithmeticGaloisRepresentations:Layer 5`; [7.6 Residual ramification at the fixed squarefree level](#76-residual-ramification-at-the-fixed-squarefree-level); `GL2AutomorphicRepresentationsAndTransfer:§R16.4.4`; [7.3 The fixed-eigenform compatible family](#73-the-fixed-eigenform-compatible-family).
 
 See [Christopher Skinner](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p01-s.pdf) — §3, p. 350, first three paragraphs; [Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/rankin.pdf) — Theorem 2.1, pp. 188–190.
+
+Suggested.lean states the density conclusion as
+`fixedSquarefreeForm_ordinary_density_one`, using `HeckeRing.GL2.Newform N 2`
+with squarefree `N` and trivial nebentypus. These hypotheses exclude CM.
+The definition `ordinaryGoodPrimes` uses the native coefficient field
+`TauCeti.CoefficientField f`: a good rational prime `p` belongs when the integral
+coefficient `a_p` lies outside some nonzero prime ideal above `p`. Rational
+primes are represented by the nonzero prime ideals of `𝓞 ℚ`, with `p` their
+absolute norm. The conclusion uses `NumberField.Set.HasNaturalDensity` with
+value 1. The residual irreducibility and ramification conclusions require the
+attached residual representations specified in §§6.2 and 7.6.
 
 ### Examples
 
