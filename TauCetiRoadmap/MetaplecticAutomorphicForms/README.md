@@ -68,7 +68,7 @@ Every use keeps the local field, representation category, normalization and conv
 
 ## How to read the build
 
-`Suggested.lean` records suggested forms for the light definitions and milestones that can be stated against the pinned APIs. This README specifies every target, including the constructions and basic APIs outside that file.
+`Suggested.lean` states smooth Stone–von Neumann (§1.1), the unitary classification and its Hilbert multiplicity theorem (§1.2), and the genus-two theta inversion formula (§8.24), against the pinned APIs. Its definitions supply the Heisenberg group, the locally constant compactly supported Schrödinger carrier and the explicit theta series needed for those statements. Its module docstring identifies the missing mathematical carriers for the other headline signatures. This README specifies every target and its basic theory; names in its other targets describe the intended library declarations.
 
 Layer 0 fixes bilinear Heisenberg coordinates, Lagrangian polarizations and the Schrödinger models. Layer 1 proves Stone–von Neumann and builds the oscillator normalizer, an extension of `Sp(W)` by the circle. Layer 2 computes the Weil index and the Leray invariant, uses them to build the Rao cocycle, the character `λ₂` and the metaplectic double cover with its genuine Weil representation, and then gives the operator formulas and the local compact splitting of 2.6a. Layer 3 builds dual pairs, their splittings (with the Hermitian normalizations of 3.3a–3.3b) and the local theta correspondence. The Jacquet and doubling filtrations 3.12–3.13 and the type-II and MVW inputs 3.14–3.15 are built before the nonquaternionic part of 3.7. The finite-length result 3.6 precedes the instantiation of the small quotient 3.5 on big theta modules. Quaternionic conservation in 3.16 uses 3.3c independently of Howe duality and precedes the quaternionic Howe theorem in 3.7; section numbers identify the targets throughout. Layer 4 assembles the adelic cover and the global Weil representation. Layers 5 and 6 construct global theta kernels, lifts and their integral comparisons; 5.14a supplies the Poisson comparison that 5.15 uses. Layer 7 matches the classical half-integral-weight conventions and spectral transforms; 7.49 and the global companion construction 7.29a precede the normalized-series automorphy theorem 7.33. Layer 8 supplies the genus-two two-cusp analysis built from one BFH datum (8.28a) and ends with the exports 8.85–8.87. Every target needs only preceding construction stages in its layer and earlier layers; each subsection states its hypotheses, interfaces, source locator and direct prerequisites, and the examples at the end of each layer collect the convention witnesses.
 
@@ -82,9 +82,9 @@ Define `bilinearFactorSet` as follows. Construct `α_B(x,y)=B(x,y)`, viewed mult
 
 (Kudla96, I.1, p.3).
 
-- `bilinearFactorSet_apply`: The additive value of `α_B(x,y)` is `B(x,y)`.
-- `bilinearFactorSet_mul_left`: The coefficient coordinate of pq is `t+s+B(x,y)`.
-- `bilinearFactorSet_mul_right`: The quotient coordinate of pq is `x+y`.
+- The additive value of `α_B(x,y)` is `B(x,y)`.
+- The coefficient coordinate of pq is `t+s+B(x,y)`.
+- The quotient coordinate of pq is `x+y`.
 
 **Checks.**
 
@@ -94,7 +94,7 @@ Define `bilinearFactorSet` as follows. Construct `α_B(x,y)=B(x,y)`, viewed mult
 
 ### 0.2 Inverse in the bilinear extension
 
-Prove `bilinearFactorSet_inv`: For `p=(t,x)` in `E_B`, `p⁻¹=(−t+B(x,x),−x)`.
+Prove the inverse formula: for `p=(t,x)` in `E_B`, `p⁻¹=(−t+B(x,x),−x)`.
 
 `R` is a commutative ring; `W` and `C` are additive commutative groups and R-modules. `B:W×W→C` is a native R-bilinear map. Write `E_B` for the existing FactorSet.Extension of the bilinear factor set.  Coordinates are (t,w), coefficient first; identity is (0,0). The coefficient action is the native trivial action.
 
@@ -102,7 +102,7 @@ Prove `bilinearFactorSet_inv`: For `p=(t,x)` in `E_B`, `p⁻¹=(−t+B(x,x),−x
 
 ### 0.3 Commutator in a bilinear central extension
 
-Prove `bilinearFactorSet_commutator`: For `p=(t,x),q=(s,y)`, with commutator convention `pqp⁻¹q⁻¹`, the commutator is `inl(B(x,y)−B(y,x))`.
+Prove the commutator formula: for `p=(t,x),q=(s,y)`, with commutator convention `pqp⁻¹q⁻¹`, the commutator is `inl(B(x,y)−B(y,x))`.
 
 `R` is a commutative ring; `W` and `C` are additive commutative groups and R-modules. `B:W×W→C` is a native R-bilinear map. Write `E_B` for the existing FactorSet.Extension of the bilinear factor set.  Coordinates are (t,w), coefficient first; identity is (0,0). The coefficient action is the native trivial action.
 
@@ -110,7 +110,7 @@ Prove `bilinearFactorSet_commutator`: For `p=(t,x),q=(s,y)`, with commutator con
 
 ### 0.4 Center criterion for a bilinear extension
 
-Prove `bilinearFactorSet_mem_center_iff`: An element (t,x) belongs to the center of `E_B` iff `B(x,y)=B(y,x)` for every `y∈W`.
+Prove the center criterion: an element (t,x) belongs to the center of `E_B` iff `B(x,y)=B(y,x)` for every `y∈W`.
 
 `R` is a commutative ring; `W` and `C` are additive commutative groups and R-modules. `B:W×W→C` is a native R-bilinear map. Write `E_B` for the existing FactorSet.Extension of the bilinear factor set.  Coordinates are (t,w), coefficient first; identity is (0,0). The coefficient action is the native trivial action.
 
@@ -345,9 +345,9 @@ Within this roadmap: none. From other roadmaps: AutomorphicLFunctionsAndLocalFac
 
 ### 1.1 Smooth Stone–von Neumann theorem
 
-Prove `smooth_stoneVonNeumann`: For a finite-dimensional symplectic space over a nonarchimedean local field of characteristic different from two and a nontrivial continuous unitary `ψ`, every irreducible smooth complex representation of `H(W)` with central character `ψ` is isomorphic to the Schrödinger model. Its Heisenberg intertwining endomorphism algebra is `C`.
+Prove `StoneVonNeumann.smooth_stoneVonNeumann`: For a finite-dimensional symplectic space over a nonarchimedean local field of characteristic different from two and a nontrivial continuous unitary `ψ`, every irreducible smooth complex representation of `H(W)` with central character `ψ` is isomorphic to the Schrödinger model. Its Heisenberg intertwining endomorphism algebra is `C`.
 
-No odd-residue-characteristic assumption is imposed. For the use of Sun–Zhu’s formulation restrict to characteristic zero; Kudla’s statement allows characteristic different from two.
+No odd-residue-characteristic assumption is imposed. For the use of Sun–Zhu’s formulation restrict to characteristic zero; Kudla’s statement allows characteristic different from two. In `Suggested.lean`, the model is `StoneVonNeumann.schwartzBruhat`, the compactly supported submodule of Mathlib's `LocallyConstant`, and smoothness is the open-stabilizer condition on `Representation`; the classification includes the explicit Schrödinger formula.
 
 (Kudla96, I.1 Theorem1.1 p.3). *Needs:* 0.16; SmoothRepresentationsOfLocalGroups §SR.0.2; SmoothRepresentationsOfLocalGroups §SR.3a.1 (Schur’s lemma).
 
@@ -355,9 +355,9 @@ No odd-residue-characteristic assumption is imposed. For the use of Sun–Zhu’
 
 ### 1.2 Unitary Stone–von Neumann theorem
 
-Prove `unitary_stoneVonNeumann`: Every irreducible strongly continuous unitary representation of the real Heisenberg group with nontrivial unitary central character is unitarily equivalent to `L²(X)`; all unitary representations with that character are Hilbert multiplicities of it. The complex local-field Heisenberg statement is obtained by viewing its alternating pairing and character on the underlying real group.
+Prove `StoneVonNeumann.unitary_stoneVonNeumann` and `StoneVonNeumann.unitary_stoneVonNeumann_multiplicity`: Every irreducible strongly continuous unitary representation of the real Heisenberg group with nontrivial unitary central character is unitarily equivalent to `L²(X)`; all unitary representations with that character are Hilbert multiplicities of it. The complex local-field Heisenberg statement is obtained by viewing its alternating pairing and character on the underlying real group.
 
-Finite-dimensional real symplectic space and nontrivial central character; strong continuity is required.
+Finite-dimensional real symplectic space and nontrivial central character; strong continuity is required. In `Suggested.lean`, `StoneVonNeumann.halfPairing` gives the half-alternating form in an arbitrary complete polarization, and the conclusions identify the representation with the explicit almost-everywhere Schrödinger action on `MeasureTheory.Lp` or its Hilbert `lp` sum. Irreducibility means absence of a proper nonzero closed invariant subspace.
 
 (Weil64, I.§10 Théorème1, printed157, PDF15 (scalar commutant); classification proof is Garrett20; Garrett20, Author notes23March2020, Claims0.1–0.7, PDF1–4). *Needs:* 0.17.
 
@@ -2494,8 +2494,8 @@ Define `SiegelSpace` as follows. `H₂` is the subtype of complex symmetric `2×
 (BFH90, §1, p.546, definition of `H₂`).
 
 - `SiegelSpace`: the subtype of complex symmetric `Z` with (`Im` Z).PosDef.
-- `SiegelSpace.im`: the imaginary part `Y` of `Z`, a positive-definite real matrix.
-- `SiegelSpace.base`: the base point `iI₂`.
+- The imaginary part `Y` of `Z`, a positive-definite real matrix.
+- The base point `iI₂`.
 
 **Checks.**
 
@@ -2611,9 +2611,9 @@ Define `genusTwoTheta` as follows. For positive integer a and `ν∈Z²`, specia
 
 (BFH90, §2, p.551, (2.1)). *Needs:* 8.10; Layer 6.
 
-- `genusTwoTheta_residue`: `θᵃ_{ν+2aℓ}=θᵃ_ν`.
-- `genusTwoTheta_elliptic`: `θ(Z,W)=e(aZ[λ]+2aWᵀλ)θ(Z,W+Zλ+ρ)` for integral `λ,ρ`.
-- `genusTwoTheta_diagonal`: At `ν=0` and diagonal `Z`, `θ=∏i jacobiTheta₂(2aW_i,2aZ_ii)`.
+- Residue invariance: `θᵃ_{ν+2aℓ}=θᵃ_ν`.
+- Elliptic covariance: `θ(Z,W)=e(aZ[λ]+2aWᵀλ)θ(Z,W+Zλ+ρ)` for integral `λ,ρ`.
+- Diagonal factorization: At `ν=0` and diagonal `Z`, `θ=∏i jacobiTheta₂(2aW_i,2aZ_ii)`.
 
 **Checks.**
 
@@ -2735,7 +2735,7 @@ Prove `theta_decomposition`: Under the Jacobi regularity and lattice hypotheses 
 
 ### 8.24 Genus-two theta Fourier transform
 
-Prove `theta_fourier_transform`: For `a>0` and `Z∈H₂`, `θᵃ_ν(−Z⁻¹,Z⁻¹W)=e(aZ⁻¹[W]) √(−det Z)/(2a) Σ_{μ mod2a} e(−νᵀμ/(2a))θᵃ_μ(Z,W)`. The holomorphic branch `√(−det Z)` is positive when `Z=iY`. The finite Fourier matrix has square equal to residue negation after normalization by 1/(2a).
+Prove `GenusTwo.theta_fourier_transform`: For `a>0` and `Z∈H₂`, `θᵃ_ν(−Z⁻¹,Z⁻¹W)=e(aZ⁻¹[W]) √(−det Z)/(2a) Σ_{μ mod2a} e(−νᵀμ/(2a))θᵃ_μ(Z,W)`. The holomorphic branch `√(−det Z)` is positive when `Z=iY`. The finite Fourier matrix has square equal to residue negation after normalization by 1/(2a).
 
 (BFH90, §2, p.554, (2.12)–(2.13)). *Needs:* 8.18; Layer 2; Layer 6.
 

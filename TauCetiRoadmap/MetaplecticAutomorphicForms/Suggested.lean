@@ -1,47 +1,63 @@
 import Mathlib
 import TauCeti.Algebra.GroupAction.Trivial
-import TauCeti.GroupTheory.GroupExtension.Of.FactorSet
-import TauCeti.LinearAlgebra.BilinearForm.Isometry
+import TauCeti.Topology.Algebra.GroupExtension.FactorSet
 
 /-!
-# MetaplecticAutomorphicForms: representative target signatures
+# Metaplectic groups, Weil representations and automorphic theta kernels
 
-The roadmap is `README.md`. This file records the definitions and theorem signatures of the
-roadmap that can be stated against the pinned Mathlib and Tau Ceti APIs; it is not exhaustive.
-The oscillator normalizer and its metaplectic double cover, the Weil index, oscillator actions on
-Schwartz–Bruhat spaces, local theta modules, adelic covers, genuine automorphic forms, the
-Siegel–Weil and Rallis identities, half-integral-weight Maass spaces and the genus-two Eisenstein
-families are README targets: their carriers are not available at the pins.
+**This file is not the roadmap and is not exhaustive.** The definitive specification is
+`README.md`.
 
-The design choices made explicit here:
+Layer 1, §1.1 is stated as smooth Stone–von Neumann over every nonarchimedean local field of
+characteristic different from two, including the scalar endomorphism assertion. Its model is
+the compactly supported submodule of Mathlib's `LocallyConstant`, and smoothness is the open
+stabilizer condition on Mathlib's `Representation`.
 
-* A Heisenberg extension uses coefficient-first coordinates `(t, w)` with law
-  `(t, w)(s, v) = (t + s + B(w, v), w + v)`. It is Tau Ceti's factor-set extension of
-  `Multiplicative W` by `Multiplicative C` for the trivial action. The symplectic model takes
-  `B = ω/2` and so needs `2` invertible.
-* A bilinear isometry acts on the extension through the vector coordinate. In the isometry group
-  the product `e * f` applies `f` first.
-* The Schrödinger operator of `(t, x, y)` multiplies by `ψ(t + B(u, y) + B(x, y)/2)` and
-  translates by `x`.
-* The finite Weil operators use the `ω_L` convention: `T` multiplies `e_μ` by `e(−q(μ))`, and
-  `S` is the discriminant-pairing Fourier transform with the positive exponent.
-* Genus-two Gaussian integrals use ordinary Lebesgue measure. The theta pairing then has diagonal
-  value `√det Y/(4a)`, and the real Gaussian Fourier integral in `W` has factor `√(−det Z)/(2m)`.
+Layer 1, §1.2 is stated as the unitary Stone–von Neumann classification: an irreducible
+strongly continuous unitary representation with a fixed nontrivial central character is the
+Schrödinger model on Mathlib's `MeasureTheory.Lp`, and every such unitary representation is a
+Hilbert `lp` sum of that model. The statements allow arbitrary finite-dimensional real
+polarizations and nontrivial continuous circle-valued characters. Irreducibility is expressed
+using closed invariant submodules; orbit continuity is explicit because `ContRepresentation`
+only bundles continuity of each individual operator. The group is Tau Ceti's native factor-set
+extension with its product topology and the half-alternating Heisenberg law.
+
+Layer 8, §8.24 is stated as the genus-two theta inversion formula, including its finite Fourier
+phase, normalization and principal square root. The series and Siegel domain have short
+matrix-based definitions on Mathlib's carriers.
+
+The other headline signatures are not stated at the pins:
+
+* Layer 0's smooth-vector identification needs the Hilbert oscillator action and its smooth
+  orbit maps. Layer 1's oscillator normalizer needs its strong-operator topology and its action
+  on the Schrödinger model.
+* Layer 2's Weil-index comparison, Leray/Rao cocycles and genuine Weil representation need the
+  distributional Weil index and normalized topological metaplectic double cover and action.
+* Layer 3's Howe duality, conservation, first-occurrence, see-saw and parameter comparisons need
+  smooth contragredients, big and small theta modules, enhanced Witt towers and the specified
+  local parameter categories. Generic algebraic coinvariants do not provide these objects.
+* Layer 4's product formula, rational splitting and global Weil representation need the local
+  Weil indices, restricted-product cover and adelic Schwartz–Bruhat oscillator model. Its
+  conditional function-field programme also needs factorization gerbes and global excursions.
+* Layer 5's convergence and automorphic theta lifting need that global oscillator model and
+  genuine automorphic spaces. Layer 6's Siegel–Weil, Rallis, nonvanishing and global see-saw
+  identities also need genuine induced sections, regularized Laurent coefficients and standard
+  doubling factors.
+* Layer 7's Duke–Imamoḡlu–Tóth trace identities, Biró lift and Shimura eigenline bijection need
+  the half-weight Maass and Kohnen-plus cusp spaces, their Hecke actions and geometric traces.
+* Layer 8's BFH coefficient and local-test exports need the newform datum, Jacobi Eisenstein
+  families, compact-type Whittaker/Novodvorsky transforms and their genuine adelic comparison.
 -/
 
 namespace TauCetiRoadmap.MetaplecticAutomorphicForms
 
-/-! ## Layer 0: Symplectic and Heisenberg groups with topology -/
-
 namespace Heisenberg
 
-open LinearMap (BilinForm)
 open Multiplicative
-
 attribute [local instance] TauCeti.trivialMulDistribMulAction
 
-variable {R C W W' : Type*} [CommRing R] [AddCommGroup C] [Module R C]
-  [AddCommGroup W] [Module R W] [AddCommGroup W'] [Module R W']
+variable {R C W : Type*} [CommRing R] [AddCommGroup C] [Module R C]
+  [AddCommGroup W] [Module R W]
 
 /-- The factor set `(w, v) ↦ B(w, v)` of a bilinear map `B : W × W → C`, for the trivial action
 of `W` on `C` (0.1). Its Tau Ceti extension is the group with law
@@ -56,403 +72,121 @@ def bilinearFactorSet (B : LinearMap.BilinMap R W C) :
     abel
   map_one_one' := by simp
 
-@[simp]
-theorem bilinearFactorSet_apply (B : LinearMap.BilinMap R W C) (x y : Multiplicative W) :
-    bilinearFactorSet B (x, y) = ofAdd (B x.toAdd y.toAdd) :=
-  rfl
-
-/-- Multiplication in coefficient-first coordinates (0.1). -/
-theorem bilinearFactorSet_mul_left (B : LinearMap.BilinMap R W C)
-    (p q : (bilinearFactorSet B).Extension) :
-    (p * q).left.toAdd = p.left.toAdd + q.left.toAdd + B p.right.toAdd q.right.toAdd := by
-  sorry
-
-/-- The commutator of `p` and `q` is central, with coefficient `B(w, v) − B(v, w)` (0.3). -/
-theorem bilinearFactorSet_commutator (B : LinearMap.BilinMap R W C)
-    (p q : (bilinearFactorSet B).Extension) :
-    p * q * p⁻¹ * q⁻¹ = (bilinearFactorSet B).inl
-      (ofAdd (B p.right.toAdd q.right.toAdd - B q.right.toAdd p.right.toAdd)) := by
-  sorry
-
-/-- **Center criterion** (0.4): `p` is central exactly when `B(w, ·) = B(·, w)` for its vector
-coordinate `w`. -/
-theorem bilinearFactorSet_mem_center_iff (B : LinearMap.BilinMap R W C)
-    (p : (bilinearFactorSet B).Extension) :
-    p ∈ Subgroup.center (bilinearFactorSet B).Extension ↔
-      ∀ y : W, B p.right.toAdd y = B y p.right.toAdd := by
-  sorry
-
-/-- The half-alternating commutator recovers the original symplectic pairing (0.5). -/
-theorem halfForm_commutator (B : BilinForm R W) (hB : B.IsAlt) [Invertible (2 : R)]
-    (p q : (bilinearFactorSet ((⅟(2 : R)) • B)).Extension) :
-    p * q * p⁻¹ * q⁻¹ = (bilinearFactorSet ((⅟(2 : R)) • B)).inl
-      (ofAdd (B p.right.toAdd q.right.toAdd)) := by
-  sorry
-
-/-- **Center of the Heisenberg group** (0.6): for an alternating nondegenerate form `B` with `2`
-invertible, the center of the extension by `B/2` is the coefficient group. -/
-theorem halfForm_center (B : BilinForm R W) (hB : B.IsAlt) (hn : B.Nondegenerate)
-    [Invertible (2 : R)] :
-    Subgroup.center (bilinearFactorSet ((⅟(2 : R)) • B)).Extension =
-      ((bilinearFactorSet ((⅟(2 : R)) • B)).inl).range := by
-  sorry
-
-/-- A bilinear isometry `e : (W, B) ≃ (W', B')` induces `(t, w) ↦ (t, e w)` between the
-extensions (0.7). -/
-def extensionIsometry {B : BilinForm R W} {B' : BilinForm R W'} (e : B.IsometryEquiv B') :
-    (bilinearFactorSet B).Extension ≃* (bilinearFactorSet B').Extension where
-  toFun p := ⟨p.left, ofAdd (e p.right.toAdd)⟩
-  invFun p := ⟨p.left, ofAdd (e.symm p.right.toAdd)⟩
-  left_inv p := by
-    ext
-    · rfl
-    · simp only [toAdd_ofAdd]
-      exact congrArg ofAdd (e.toLinearEquiv.symm_apply_apply p.right.toAdd)
-  right_inv p := by
-    ext
-    · rfl
-    · simp only [toAdd_ofAdd]
-      exact congrArg ofAdd (e.toLinearEquiv.apply_symm_apply p.right.toAdd)
-  map_mul' p q := by
-    ext
-    · simp only [TauCeti.FactorSet.Extension.mul_left, TauCeti.trivialMulDistribMulAction_smul,
-        bilinearFactorSet_apply, toAdd_ofAdd, e.map_app]
-    · simp only [TauCeti.FactorSet.Extension.mul_right, toAdd_mul, toAdd_ofAdd, map_add]
-
-/-- Inverse isometries induce inverse extension maps between arbitrary modules (0.7). -/
-example {B : BilinForm R W} {B' : BilinForm R W'} (e : B.IsometryEquiv B')
-    (p : (bilinearFactorSet B).Extension) :
-    extensionIsometry e.symm (extensionIsometry e p) = p := by
-  exact (extensionIsometry e).symm_apply_apply p
-
-/-- The isometry group of `B` acts on the extension through the vector coordinate (0.8). -/
-def extensionIsometryAction (B : BilinForm R W) :
-    TauCeti.BilinForm.isometryGroup B →* MulAut (bilinearFactorSet B).Extension where
-  toFun e := extensionIsometry
-    { (e : W ≃ₗ[R] W) with
-      map_app' := fun x y => (TauCeti.BilinForm.mem_isometryGroup_iff.mp e.2) x y }
-  map_one' := rfl
-  map_mul' _ _ := rfl
-
-/-- Every isometry fixes the coefficient subgroup pointwise (0.8). -/
-example (B : BilinForm R W) (e : TauCeti.BilinForm.isometryGroup B) (t : R) :
-    extensionIsometryAction B e ((bilinearFactorSet B).inl (ofAdd t)) =
-      (bilinearFactorSet B).inl (ofAdd t) := by
-  change (⟨ofAdd t, ofAdd ((e : W ≃ₗ[R] W) 0)⟩ : (bilinearFactorSet B).Extension) = _
-  simp only [map_zero]
-  rfl
-
-/-- The character `(t, w) ↦ χ(t)` of the extension (0.12). It is multiplicative because `χ`
-kills the values of `B`; without that hypothesis the coefficient of a product carries `B(w, v)`. -/
-def centralCharacter {A : Type*} [Group A] (B : LinearMap.BilinMap R W C)
-    (χ : Multiplicative C →* A) (hχ : ∀ x y : W, χ (ofAdd (B x y)) = 1) :
-    (bilinearFactorSet B).Extension →* A where
-  toFun p := χ p.left
-  map_one' := by simp
-  map_mul' p q := by
-    simp only [TauCeti.FactorSet.Extension.mul_left, TauCeti.trivialMulDistribMulAction_smul,
-      bilinearFactorSet_apply, map_mul, hχ, mul_one]
-
-/-- **Uniqueness of the section-trivial extension** (0.11–0.12): a homomorphism agreeing with
-`χ` on the coefficient group and trivial on the canonical section is `centralCharacter`. -/
-theorem centralCharacter_unique {A : Type*} [Group A] (B : LinearMap.BilinMap R W C)
-    (χ : Multiplicative C →* A) (hχ : ∀ x y : W, χ (ofAdd (B x y)) = 1)
-    (ρ : (bilinearFactorSet B).Extension →* A)
-    (hc : ∀ t : C, ρ ((bilinearFactorSet B).inl (ofAdd t)) = χ (ofAdd t))
-    (hs : ∀ x : W, ρ ⟨1, ofAdd x⟩ = 1) :
-    ρ = centralCharacter B χ hχ := by
-  sorry
-
 end Heisenberg
 
-namespace Schroedinger
+namespace StoneVonNeumann
+
+universe u
+
+/-- The half symplectic form in a complete polarization (0.15):
+`((x,y),(a,b)) ↦ (B(x,b) − B(a,y))/2`. -/
+noncomputable def halfPairing {F X Y : Type*} [Field F] [AddCommGroup X] [Module F X]
+    [AddCommGroup Y] [Module F Y] (B : X →ₗ[F] Y →ₗ[F] F) :
+    LinearMap.BilinForm F (X × Y) where
+  toFun p :=
+    { toFun q := (B p.1 q.2 - B q.1 p.2) / 2
+      map_add' q r := by simp; ring
+      map_smul' c q := by simp; ring }
+  map_add' p q := LinearMap.ext fun r => by dsimp; simp; ring
+  map_smul' c p := LinearMap.ext fun q => by dsimp; simp; ring
+
+/-- The nonarchimedean Schrödinger carrier (0.15–1.1): the compactly supported submodule of
+Mathlib's locally constant complex-valued functions. -/
+def schwartzBruhat (X : Type*) [TopologicalSpace X] : Submodule ℂ (LocallyConstant X ℂ) where
+  carrier := {f | HasCompactSupport f}
+  zero_mem' := HasCompactSupport.zero
+  add_mem' hf hg := hf.add hg
+  smul_mem' c _ hf := hf.smul_left (f := fun _ => c)
 
 open Multiplicative
+attribute [local instance] TauCeti.trivialMulDistribMulAction
 
-variable {F V W : Type*} [Field F] [AddCommGroup V] [Module F V] [AddCommGroup W] [Module F W]
-
-/-- The Schrödinger operator of `(t, x, y)` on functions `V → ℂ` (0.15): for a pairing
-`B : V × W → F` and a character `ψ` of `F`, it sends `φ` to
-`u ↦ ψ(t + B(u, y) + B(x, y)/2) φ(u + x)`. -/
-noncomputable def schroedinger (ψ : Multiplicative F →* ℂˣ) (B : V →ₗ[F] W →ₗ[F] F) (t : F)
-    (x : V) (y : W) : (V → ℂ) →ₗ[ℂ] (V → ℂ) where
-  toFun φ u := (ψ (ofAdd (t + B u y + (2 : F)⁻¹ * B x y)) : ℂ) * φ (u + x)
-  map_add' φ φ' := by
-    funext u
-    simp [mul_add]
-  map_smul' c φ := by
-    funext u
-    simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]
-    ring
-
-/-- **The Schrödinger law** (0.15): with `2 ≠ 0`, the operators compose by the Heisenberg law
-`(t, x, y)(s, a, b) = (t + s + (B(x, b) − B(a, y))/2, x + a, y + b)`. -/
-theorem schroedinger_mul (ψ : Multiplicative F →* ℂˣ) (B : V →ₗ[F] W →ₗ[F] F)
-    (h2 : (2 : F) ≠ 0) (t s : F) (x a : V) (y b : W) :
-    (schroedinger ψ B t x y).comp (schroedinger ψ B s a b) =
-      schroedinger ψ B (t + s + (2 : F)⁻¹ * (B x b - B a y)) (x + a) (y + b) := by
+/-- **Smooth Stone–von Neumann** (1.1): every irreducible smooth Heisenberg representation
+with nontrivial continuous unitary central character is the Schrödinger model, with scalar
+intertwining endomorphisms. The field has characteristic different from two; dyadic residue
+characteristic and positive field characteristic are both allowed. -/
+theorem smooth_stoneVonNeumann
+    {F X Y E : Type*} [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F]
+    [AddCommGroup X] [Module F X] [FiniteDimensional F X]
+    [TopologicalSpace X] [IsTopologicalAddGroup X] [ContinuousSMul F X] [T2Space X]
+    [AddCommGroup Y] [Module F Y] [FiniteDimensional F Y]
+    [TopologicalSpace Y] [IsTopologicalAddGroup Y] [ContinuousSMul F Y] [T2Space Y]
+    [AddCommGroup E] [Module ℂ E]
+    (h2 : (2 : F) ≠ 0) (B : X →ₗ[F] Y →ₗ[F] F) (hB : Function.Bijective B.flip)
+    (ψ : Multiplicative F →* Circle) (hψ : Continuous ψ) (hnψ : ψ ≠ 1)
+    (ρ : Representation ℂ (Heisenberg.bilinearFactorSet (halfPairing B)).Extension E)
+    [ρ.IsIrreducible]
+    (hsmooth : ∀ ξ : E, IsOpen {g | ρ g ξ = ξ})
+    (hcentral : ∀ (t : F) (ξ : E),
+      ρ ((Heisenberg.bilinearFactorSet (halfPairing B)).inl (ofAdd t)) ξ =
+        (ψ (ofAdd t) : ℂ) • ξ) :
+    (∃ U : E ≃ₗ[ℂ] schwartzBruhat X,
+      ∀ (g : (Heisenberg.bilinearFactorSet (halfPairing B)).Extension) (ξ : E) (u : X),
+        (U (ρ g ξ)).1 u =
+          (ψ (ofAdd (g.left.toAdd + B u g.right.toAdd.2 +
+            B g.right.toAdd.1 g.right.toAdd.2 / 2)) : ℂ) *
+              (U ξ).1 (u + g.right.toAdd.1)) ∧
+      ∀ T : Representation.IntertwiningMap ρ ρ,
+        ∃ c : ℂ, T.toLinearMap = c • LinearMap.id := by
   sorry
 
-/-- The Schrödinger operators preserve the squared L² integral for a translation-invariant
-measure and a unitary character (0.15); the descent to L² classes is 0.17. -/
-theorem schroedinger_isUnitary (ψ : Multiplicative F →* ℂˣ) (B : V →ₗ[F] W →ₗ[F] F)
-    [TopologicalSpace V] [IsTopologicalAddGroup V] [MeasurableSpace V] [BorelSpace V]
-    (μ : MeasureTheory.Measure V) [μ.IsAddLeftInvariant]
-    (hψ : ∀ s, ‖(ψ (ofAdd s) : ℂ)‖ = 1) (t : F) (x : V) (y : W) (φ : V → ℂ) :
-    (∫ u, ‖schroedinger ψ B t x y φ u‖ ^ 2 ∂μ) = ∫ u, ‖φ u‖ ^ 2 ∂μ := by
+open MeasureTheory
+
+variable {X Y : Type*} {H : Type u}
+  [NormedAddCommGroup X] [NormedSpace ℝ X] [FiniteDimensional ℝ X]
+  [NormedAddCommGroup Y] [NormedSpace ℝ Y] [FiniteDimensional ℝ Y]
+  [MeasurableSpace X] [BorelSpace X]
+  [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+
+/-- **Unitary Stone–von Neumann** (1.2): every nonzero irreducible strongly continuous unitary
+representation with central character `ψ` is unitarily equivalent to the Schrödinger model.
+The equivalence intertwines the actual almost-everywhere translation and phase formula. -/
+theorem unitary_stoneVonNeumann [Nontrivial H]
+    (B : X →ₗ[ℝ] Y →ₗ[ℝ] ℝ) (hB : Function.Bijective B.flip)
+    (ψ : Multiplicative ℝ →* Circle) (hψ : Continuous ψ) (hnψ : ψ ≠ 1)
+    (μ : Measure X) [μ.IsAddHaarMeasure]
+    (ρ : ContRepresentation ℂ (Heisenberg.bilinearFactorSet (halfPairing B)).Extension H)
+    (hcont : ∀ ξ : H, Continuous (fun g => ρ g ξ))
+    (hunitary : ∀ g (ξ : H), ‖ρ g ξ‖ = ‖ξ‖)
+    (hirr : ∀ S : Submodule ℂ H, IsClosed (S : Set H) →
+      (∀ g (ξ : H), ξ ∈ S → ρ g ξ ∈ S) → S = ⊥ ∨ S = ⊤)
+    (hcentral : ∀ (t : ℝ) (ξ : H),
+      ρ ((Heisenberg.bilinearFactorSet (halfPairing B)).inl (ofAdd t)) ξ =
+        (ψ (ofAdd t) : ℂ) • ξ) :
+    ∃ U : H ≃ₗᵢ[ℂ] Lp ℂ 2 μ,
+      ∀ (g : (Heisenberg.bilinearFactorSet (halfPairing B)).Extension) (ξ : H),
+        ∀ᵐ u ∂μ, U (ρ g ξ) u =
+          (ψ (ofAdd (g.left.toAdd + B u g.right.toAdd.2 +
+            B g.right.toAdd.1 g.right.toAdd.2 / 2)) : ℂ) *
+              U ξ (u + g.right.toAdd.1) := by
   sorry
 
-/-- **Haar measure on the Heisenberg group** (0.14): for left-invariant measures `μ` on `F` and
-`ν` on `V`, the product measure is invariant under left multiplication by any `p` in the law
-`(t, v) ↦ (p₁ + t + B(p₂, v), p₂ + v)`. -/
-theorem heisenberg_haar (B : LinearMap.BilinForm F V)
-    [TopologicalSpace F] [TopologicalSpace V] [IsTopologicalAddGroup F]
-    [IsTopologicalAddGroup V] [MeasurableSpace F] [MeasurableSpace V]
-    [BorelSpace F] [BorelSpace V] [SecondCountableTopology F] [SecondCountableTopology V]
-    (μ : MeasureTheory.Measure F) (ν : MeasureTheory.Measure V)
-    [MeasureTheory.SFinite μ] [MeasureTheory.SFinite ν]
-    [μ.IsAddLeftInvariant] [ν.IsAddLeftInvariant]
-    (hB : Continuous (fun q : V × V => B q.1 q.2)) (p : F × V) :
-    MeasureTheory.Measure.map (fun q : F × V => (p.1 + q.1 + B p.2 q.2, p.2 + q.2)) (μ.prod ν) =
-      μ.prod ν := by
+/-- **Hilbert multiplicities in Stone–von Neumann** (1.2): every strongly continuous unitary
+representation with central character `ψ` is a Hilbert direct sum of Schrödinger models. -/
+theorem unitary_stoneVonNeumann_multiplicity
+    (B : X →ₗ[ℝ] Y →ₗ[ℝ] ℝ) (hB : Function.Bijective B.flip)
+    (ψ : Multiplicative ℝ →* Circle) (hψ : Continuous ψ) (hnψ : ψ ≠ 1)
+    (μ : Measure X) [μ.IsAddHaarMeasure]
+    (ρ : ContRepresentation ℂ (Heisenberg.bilinearFactorSet (halfPairing B)).Extension H)
+    (hcont : ∀ ξ : H, Continuous (fun g => ρ g ξ))
+    (hunitary : ∀ g (ξ : H), ‖ρ g ξ‖ = ‖ξ‖)
+    (hcentral : ∀ (t : ℝ) (ξ : H),
+      ρ ((Heisenberg.bilinearFactorSet (halfPairing B)).inl (ofAdd t)) ξ =
+        (ψ (ofAdd t) : ℂ) • ξ) :
+    ∃ (I : Type u) (U : H ≃ₗᵢ[ℂ] lp (fun _ : I => Lp ℂ 2 μ) 2),
+      ∀ (g : (Heisenberg.bilinearFactorSet (halfPairing B)).Extension) (ξ : H) (i : I),
+        ∀ᵐ u ∂μ, U (ρ g ξ) i u =
+          (ψ (ofAdd (g.left.toAdd + B u g.right.toAdd.2 +
+            B g.right.toAdd.1 g.right.toAdd.2 / 2)) : ℂ) *
+              U ξ i (u + g.right.toAdd.1) := by
   sorry
 
-/-- The center acts by the prescribed character on every function (0.15). -/
-example (ψ : Multiplicative F →* ℂˣ) (B : V →ₗ[F] W →ₗ[F] F) (t : F) (φ : V → ℂ) :
-    schroedinger ψ B t 0 0 φ = (ψ (ofAdd t) : ℂ) • φ := by
-  funext u
-  simp [schroedinger]
-
-/-- Translation and modulation have the central commutation phase (0.15). -/
-example (ψ : Multiplicative F →* ℂˣ) (B : V →ₗ[F] W →ₗ[F] F) (x : V) (y : W) :
-    (schroedinger ψ B 0 x 0).comp (schroedinger ψ B 0 0 y) =
-      (ψ (ofAdd (B x y)) : ℂ) • (schroedinger ψ B 0 0 y).comp (schroedinger ψ B 0 x 0) := by
-  ext φ u
-  simp only [LinearMap.comp_apply, LinearMap.smul_apply, Pi.smul_apply, smul_eq_mul,
-    schroedinger, LinearMap.coe_mk, AddHom.coe_mk, map_zero, LinearMap.zero_apply,
-    mul_zero, zero_add, add_zero, map_add, LinearMap.add_apply]
-  rw [ofAdd_add, map_mul, Units.val_mul]
-  ring
-
-end Schroedinger
-
-/-! ## Layer 3: Dual pairs and local theta modules -/
-
-namespace DualPair
-
-open LinearMap (BilinForm)
-open scoped TensorProduct
-
-variable {F V W : Type*} [Field F] [AddCommGroup V] [Module F V] [AddCommGroup W] [Module F W]
-
-/-- A scalar action different from one kills the native coinvariants (3.9). Applied to the
-tensor product of the oscillator with the smooth contragredient, this detects mismatched central characters. -/
-theorem thetaCoinvariants_scalarMismatch {G : Type*} [Group G]
-    (ρ : Representation F G V) (g : G) (c : F) (hc : c ≠ 1)
-    (hg : ∀ x : V, ρ g x = c • x) (x : V) : Representation.Coinvariants.mk ρ x = 0 := by
-  sorry
-
-/-- **The dual-pair form is symplectic** (3.1): a symmetric `b` and an alternating `ω` give an
-alternating `b ⊗ ω`, in every characteristic. -/
-theorem tensorSymplecticForm_isAlt (b : BilinForm F V) (ω : BilinForm F W) (hb : b.IsSymm)
-    (hω : ω.IsAlt) : (b.tmul ω).IsAlt := by
-  sorry
-
-/-- Nondegenerate finite-dimensional factors give a nondegenerate `b ⊗ ω` (3.1). -/
-theorem tensorSymplecticForm_nondegenerate [FiniteDimensional F V] [FiniteDimensional F W]
-    (b : BilinForm F V) (ω : BilinForm F W) (hb : b.Nondegenerate) (hω : ω.Nondegenerate) :
-    (b.tmul ω).Nondegenerate := by
-  sorry
-
-/-- The tensor action of `O(V) × Sp(W)` on `V ⊗ W` (3.1): `(g, h) ↦ g ⊗ h`. -/
-def orthogonalSymplecticEmbedding (b : BilinForm F V) (ω : BilinForm F W) :
-    TauCeti.BilinForm.isometryGroup b × TauCeti.BilinForm.isometryGroup ω →*
-      (V ⊗[F] W ≃ₗ[F] V ⊗[F] W) where
-  toFun p := TensorProduct.congr (p.1 : V ≃ₗ[F] V) (p.2 : W ≃ₗ[F] W)
-  map_one' := TensorProduct.congr_refl_refl
-  map_mul' _ _ := TensorProduct.congr_mul _ _ _ _
-
-/-- The image of the tensor action preserves `b ⊗ ω` (3.1). -/
-theorem orthogonalSymplecticEmbedding_isometry (b : BilinForm F V) (ω : BilinForm F W)
-    (p : TauCeti.BilinForm.isometryGroup b × TauCeti.BilinForm.isometryGroup ω) :
-    orthogonalSymplecticEmbedding b ω p ∈ TauCeti.BilinForm.isometryGroup (b.tmul ω) := by
-  sorry
-
-/-- The two tensor factors act by commuting linear automorphisms (3.1). -/
-theorem dualPair_commute (b : BilinForm F V) (ω : BilinForm F W)
-    (g : TauCeti.BilinForm.isometryGroup b) (h : TauCeti.BilinForm.isometryGroup ω) :
-    Commute (orthogonalSymplecticEmbedding b ω (g, 1))
-      (orthogonalSymplecticEmbedding b ω (1, h)) := by
-  sorry
-
-/-- **Kernel of the dual-pair map** (3.1): for nonzero `V` and `W`, `(g, h)` acts trivially on
-`V ⊗ W` exactly when `g = a` and `h = a⁻¹` for a scalar `a`. -/
-theorem dualPair_kernel [Nontrivial V] [Nontrivial W] (b : BilinForm F V) (ω : BilinForm F W)
-    (g : TauCeti.BilinForm.isometryGroup b) (h : TauCeti.BilinForm.isometryGroup ω) :
-    orthogonalSymplecticEmbedding b ω (g, h) = 1 ↔
-      ∃ a : Fˣ, (∀ v, (g : V ≃ₗ[F] V) v = (a : F) • v) ∧ ∀ w, (h : W ≃ₗ[F] W) w = (a⁻¹ : Fˣ) • w := by
-  sorry
-
-open Classical in
-/-- The first occurrence of a tower of theta modules (3.10): the least index with a nonzero
-member, and `⊤` when every member vanishes. -/
-noncomputable def firstOccurrence (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] : WithTop ℕ :=
-  if h : ∃ r, ∃ x : Θ r, x ≠ 0 then (Nat.find h : ℕ) else ⊤
-
-/-- The first occurrence is `⊤` exactly when every member of the tower is zero. -/
-theorem firstOccurrence_eq_top_iff (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] :
-    firstOccurrence Θ = ⊤ ↔ ∀ r (x : Θ r), x = 0 := by
-  sorry
-
-/-- Finite first occurrence supplies a nonzero member at that rank (3.10). -/
-theorem firstOccurrence_nonzero (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] (r : ℕ)
-    (hr : firstOccurrence Θ = (r : WithTop ℕ)) : ∃ x : Θ r, x ≠ 0 := by
-  sorry
-
-/-- Every member below first occurrence vanishes, including when the index is infinite (3.10). -/
-theorem firstOccurrence_vanishing (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] (r : ℕ)
-    (hr : (r : WithTop ℕ) < firstOccurrence Θ) (x : Θ r) : x = 0 := by
-  sorry
-
-/-- A nonzero member at rank zero realizes first occurrence at rank zero (3.10). -/
-example (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] (x : Θ 0) (hx : x ≠ 0) : firstOccurrence Θ = 0 := by
-  classical
-  have h : ∃ r, ∃ x : Θ r, x ≠ 0 := ⟨0, x, hx⟩
-  have hfind : Nat.find h = 0 := Nat.le_zero.mp (Nat.find_min' h ⟨x, hx⟩)
-  simp [firstOccurrence, h, hfind]
-
-/-- A tower of zero modules has infinite first occurrence (3.10). -/
-example (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] [∀ r, Subsingleton (Θ r)] :
-    firstOccurrence Θ = ⊤ := by
-  classical
-  have h : ¬ ∃ r, ∃ x : Θ r, x ≠ 0 := by
-    rintro ⟨r, x, hx⟩
-    exact hx (Subsingleton.elim x 0)
-  simp [firstOccurrence, h]
-
-end DualPair
-
-/-! ## Layer 4: Adelic metaplectic covers and finite Weil representations -/
-
-namespace FiniteWeil
-
-open Real
-
-variable {D : Type*} [AddCommGroup D] [Fintype D] [DecidableEq D]
-
-/-- The diagonal operator `T` of the finite Weil representation in the `ω_L` convention (4.7):
-`(Tφ)(μ) = e(−q(μ)) φ(μ)` for a `ℚ/ℤ`-valued quadratic form `q`. -/
-noncomputable def finiteWeil_TOperator (q : D → AddCircle (1 : ℝ)) : (D → ℂ) →ₗ[ℂ] (D → ℂ) :=
-  Matrix.toLin' (Matrix.diagonal fun μ => ((AddCircle.toCircle (-q μ) : Circle) : ℂ))
-
-/-- The operator `S` (4.7): `(Sφ)(ν) = c/√|D| · Σ_μ e((μ, ν)) φ(μ)` for the discriminant pairing
-`(·, ·)` and the Weil phase `c` fixed by `ψ`. -/
-noncomputable def finiteWeil_SOperator (pair : D →+ D →+ AddCircle (1 : ℝ)) (c : ℂ) :
-    (D → ℂ) →ₗ[ℂ] (D → ℂ) :=
-  Matrix.toLin' fun ν μ =>
-    c / (Real.sqrt (Fintype.card D) : ℂ) * ((AddCircle.toCircle (pair μ ν) : Circle) : ℂ)
-
-/-- **`S² = c²·[−1]`** (4.7): for a symmetric nondegenerate discriminant pairing,
-`(S²φ)(ν) = c² φ(−ν)`. -/
-theorem finiteWeil_SOperator_sq (pair : D →+ D →+ AddCircle (1 : ℝ)) (c : ℂ)
-    (hsymm : ∀ μ ν, pair μ ν = pair ν μ) (hnd : ∀ ν, (∀ μ, pair μ ν = 0) → ν = 0)
-    (φ : D → ℂ) (ν : D) :
-    finiteWeil_SOperator pair c (finiteWeil_SOperator pair c φ) ν = c ^ 2 * φ (-ν) := by
-  sorry
-
-end FiniteWeil
-
-/-! ## Layer 7: Half-integral weight, plus spaces and Shimura lifting -/
-
-namespace HalfWeight
-
-open UpperHalfPlane Complex
-
-/-- `z ↦ (z + ν)/4` on the upper half-plane. -/
-noncomputable def shiftFour (ν : Fin 4) (z : ℍ) : ℍ :=
-  ⟨((z : ℂ) + (ν : ℕ)) / 4, by
-    have := z.im_pos
-    simp only [Complex.div_ofNat_im, Complex.add_im, Complex.natCast_im, add_zero]
-    positivity⟩
-
-/-- `z ↦ −1/(4z)` on the upper half-plane. -/
-noncomputable def invertFour (z : ℍ) : ℍ :=
-  ⟨-(4 * (z : ℂ))⁻¹, by
-    have h1 : 0 < (4 * (z : ℂ)).im := by
-      simpa [Complex.mul_im] using mul_pos (by norm_num : (0 : ℝ) < 4) z.im_pos
-    have h2 : 4 * (z : ℂ) ≠ 0 := fun h => by simp [h] at h1
-    rw [Complex.neg_im, Complex.inv_im, neg_div, neg_neg]
-    exact div_pos h1 (Complex.normSq_pos.mpr h2)⟩
-
-/-- The operators `U` and `W` of the plus space in the unitary normalization (7.10):
-`UF(z) = (√2/4) Σ_{ν mod 4} F((z + ν)/4)` and
-`WF(z) = e^{iπ/4} (z/|z|)^{−1/2} F(−1/(4z))`. The factor `√2` comes from the weight `y^{1/4}`. -/
-noncomputable def plusU (F : ℍ → ℂ) (z : ℍ) : ℂ :=
-  (Real.sqrt 2 : ℂ) / 4 * ∑ ν : Fin 4, F (shiftFour ν z)
-
-@[inherit_doc plusU]
-noncomputable def plusW (F : ℍ → ℂ) (z : ℍ) : ℂ :=
-  Complex.exp (Complex.I * Real.pi / 4) * ((z : ℂ) / (‖(z : ℂ)‖ : ℂ)) ^ (-1 / 2 : ℂ) *
-    F (invertFour z)
-
-/-- The plus-space projector `pr⁺ = (2/3) W U + 1/3` (7.10); it is the orthogonal projection onto
-the plus space only on the weight-one-half Maass space, a README target. -/
-noncomputable def plusProjector (F : ℍ → ℂ) : ℍ → ℂ :=
-  (2 / 3 : ℂ) • plusW (plusU F) + (1 / 3 : ℂ) • F
-
-end HalfWeight
-
-/-! ## Layer 8: Genus-two Jacobi and Eisenstein analysis -/
+end StoneVonNeumann
 
 namespace GenusTwo
 
-open Matrix MeasureTheory
-open scoped ComplexConjugate
-
-/-! ### Fourier indices (8.1–8.9) -/
-
-local notation "V" => Fin 2 → ℤ
-local notation "FData" => QuadraticForm ℤ V × V
-
-/-- The integral shift of a genus-two Fourier index `(T, R)` (8.1), with `a = m/N` and
-`c = N^{1−j}` at cusp `j`: `T ↦ T + c(a λλᵀ − Rλᵀ)`, `R ↦ R − 2aλ` in quadratic-form terms. -/
-def fourierShift (a c : ℤ) (l : V) (p : FData) : FData :=
-  (p.1 + c • (a • QuadraticMap.linMulLin (dotProductBilin ℤ ℤ l) (dotProductBilin ℤ ℤ l) -
-      QuadraticMap.linMulLin (dotProductBilin ℤ ℤ p.2) (dotProductBilin ℤ ℤ l)),
-    p.2 - (2 * a) • l)
-
-/-- The discriminant form `4aT − c RRᵀ` of a Fourier index (8.2). -/
-def fourierDiscriminant (a c : ℤ) (p : FData) : QuadraticForm ℤ V :=
-  (4 * a) • p.1 - c • QuadraticMap.linMulLin (dotProductBilin ℤ ℤ p.2) (dotProductBilin ℤ ℤ p.2)
-
-/-- **Discriminant invariance** (8.3). -/
-theorem fourierDiscriminant_shift (a c : ℤ) (l : V) (p : FData) :
-    fourierDiscriminant a c (fourierShift a c l p) = fourierDiscriminant a c p := by
-  sorry
-
-/-- **Classification of Fourier-index orbits** (8.7): for `a ≠ 0`, two indices are related by
-an integral shift exactly when they have the same discriminant and congruent vectors modulo
-`2a`. -/
-theorem exists_fourierShift_iff (a c : ℤ) (ha : a ≠ 0) (p q : FData) :
-    (∃ l : V, fourierShift a c l p = q) ↔
-      fourierDiscriminant a c p = fourierDiscriminant a c q ∧
-        ∀ i, Int.ModEq (2 * a) (p.2 i) (q.2 i) := by
-  sorry
-
-/-- **Unique index with a prescribed residue lift** (8.8). -/
-theorem existsUnique_fourierRepresentative (a c : ℤ) (ha : a ≠ 0) (p : FData) (ν : V)
-    (hν : ∀ i, Int.ModEq (2 * a) (p.2 i) (ν i)) :
-    ∃! Q : QuadraticForm ℤ V, fourierDiscriminant a c (Q, ν) = fourierDiscriminant a c p := by
-  sorry
-
-/-- Shift-invariant coefficients depend only on the discriminant and residue vector (8.9). -/
-theorem coefficient_eq_of_fourierInvariants {A : Type*} (a c : ℤ) (ha : a ≠ 0)
-    (B : FData → A) (hB : ∀ (l : V) (p : FData), B (fourierShift a c l p) = B p)
-    (p q : FData) (hΔ : fourierDiscriminant a c p = fourierDiscriminant a c q)
-    (hR : ∀ i, Int.ModEq (2 * a) (p.2 i) (q.2 i)) : B p = B q := by
-  sorry
-
-/-! ### Siegel space, theta series and Gaussian integrals (8.10–8.28) -/
+open Matrix
 
 /-- `e(z) = exp(2πiz)`. -/
 noncomputable def expTwoPi (z : ℂ) : ℂ := Complex.exp (2 * Real.pi * Complex.I * z)
@@ -465,34 +199,11 @@ imaginary part. -/
 abbrev SiegelSpace : Type :=
   {Z : Matrix (Fin 2) (Fin 2) ℂ // Zᵀ = Z ∧ (Z.map Complex.im).PosDef}
 
-/-- The imaginary part `Y` of a point of the Siegel space. -/
-def SiegelSpace.im (Z : SiegelSpace) : Matrix (Fin 2) (Fin 2) ℝ := Z.1.map Complex.im
-
-/-- The base point `iI₂`. -/
-noncomputable def SiegelSpace.base : SiegelSpace :=
-  ⟨Complex.I • (1 : Matrix (Fin 2) (Fin 2) ℂ), by
-    constructor
-    · simp
-    · have : ((Complex.I • (1 : Matrix (Fin 2) (Fin 2) ℂ)).map Complex.im) = 1 := by
-        ext i j
-        fin_cases i <;> fin_cases j <;> simp
-      rw [this]
-      exact Matrix.PosDef.one⟩
-
 /-- The genus-two theta series `θᵃ_ν(Z, W) = Σ_{R ≡ ν mod 2a} e(Z[R]/(4a) + RᵀW)` (8.18). -/
 noncomputable def genusTwoTheta (a : ℕ) (ν : Fin 2 → ℤ) (Z : Matrix (Fin 2) (Fin 2) ℂ)
     (W : Fin 2 → ℂ) : ℂ :=
   ∑' R : Fin 2 → ℤ, if ∀ i, Int.ModEq (2 * (a : ℤ)) (R i) (ν i) then
     expTwoPi (quad Z (fun i => (R i : ℂ)) / (4 * a) + (fun i => (R i : ℂ)) ⬝ᵥ W) else 0
-
-/-- **Quasi-periodicity** (8.18): `θ(Z, W) = e(a(Z[λ] + 2Wᵀλ)) θ(Z, W + Zλ + ρ)` for integral
-`λ, ρ`. -/
-theorem genusTwoTheta_elliptic (a : ℕ) (ha : 0 < a) (ν l r : Fin 2 → ℤ) (Z : SiegelSpace)
-    (W : Fin 2 → ℂ) :
-    genusTwoTheta a ν Z.1 W =
-      expTwoPi (a * (quad Z.1 (fun i => (l i : ℂ)) + 2 * (W ⬝ᵥ fun i => (l i : ℂ)))) *
-        genusTwoTheta a ν Z.1 (W + Z.1 *ᵥ (fun i => (l i : ℂ)) + fun i => (r i : ℂ)) := by
-  sorry
 
 /-- **Theta inversion** (8.24): for `a > 0` and `Z` in the Siegel space,
 `θᵃ_ν(−Z⁻¹, Z⁻¹W) = e(a Z⁻¹[W]) √(−det Z)/(2a) Σ_{μ mod 2a} e(−νᵀμ/(2a)) θᵃ_μ(Z, W)`, with the
@@ -506,54 +217,6 @@ theorem theta_fourier_transform (a : ℕ) (ha : 0 < a) (Z : SiegelSpace) (W : Fi
             genusTwoTheta a (fun i => ((μ i : ℕ) : ℤ)) Z.1 W := by
   sorry
 
-/-- **Gaussian orthogonality** (8.21): with ordinary Lebesgue measure on `ℂ²`, written as
-`det Y dλ dρ` in the coordinates `W = Zλ + ρ`, the weighted pairing of `θᵃ_μ` and `θᵃ_ν` is
-`√det Y/(4a)` when `μ ≡ ν (mod 2a)` and zero otherwise. -/
-theorem theta_pairing (a : ℕ) (ha : 0 < a) (Z : SiegelSpace) (μ ν : Fin 2 → ℤ) :
-    (∫ l : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
-      ∫ r : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
-        let W := Z.1 *ᵥ (fun i => (l i : ℂ)) + (fun i => (r i : ℂ))
-        genusTwoTheta a μ Z.1 W * conj (genusTwoTheta a ν Z.1 W) *
-          Complex.exp (-4 * Real.pi * a *
-            quad ((Z.im)⁻¹.map (fun x : ℝ => (x : ℂ))) (fun i => ((W i).im : ℂ))) *
-          (Z.im.det : ℂ)) =
-      if ∀ i, Int.ModEq (2 * (a : ℤ)) (μ i) (ν i) then
-        (Real.sqrt Z.im.det : ℂ) / (4 * a) else 0 := by
-  sorry
-
-/-- **Real Gaussian Fourier integral in `W`** (8.62): for `Z` in the Siegel space and `m > 0`,
-`∫_{ℝ²} e(−m Z⁻¹[W] − RᵀW) dW = √(−det Z)/(2m) · e(Z[R]/(4m))`, with the principal square root,
-which is the holomorphic branch positive at `Z = iY`. This is the source of the factor `1/(2m)` in
-the genus-two unfolding kernel; the theta pairing of 8.21 does not enter it. -/
-theorem gaussianFourier_genusTwo (Z : SiegelSpace) (m : ℝ) (hm : 0 < m) (R : Fin 2 → ℝ) :
-    ∫ W : Fin 2 → ℝ,
-        expTwoPi (-(m : ℂ) * quad Z.1⁻¹ (fun i => (W i : ℂ)) - ∑ i, (R i : ℂ) * W i) =
-      (-Z.1.det) ^ (1 / 2 : ℂ) / (2 * m) * expTwoPi (quad Z.1 (fun i => (R i : ℂ)) / (4 * m)) := by
-  sorry
-
 end GenusTwo
-
-/-!
-The README specifies the further constructions and theorems: the oscillator
-normalizer (Layer 1), the Weil index, Leray invariant, Rao cocycle, metaplectic double cover,
-genuine Weil representation and generator formulas (Layer 2), the theta modules, Howe duality and
-the conservation, see-saw and splitting theorems (Layer 3), the adelic cover, product formula and
-global Weil representation (Layer 4), theta kernels, genuine automorphic forms and theta lifts
-(Layer 5), the Siegel–Weil, Rallis and Jacobi interfaces (Layer 6), the weight-one-half Maass space,
-Kohnen plus space, Poincaré families and Shimura lift (Layer 7), and the genus-two similitude cover,
-Jacobi Eisenstein series, Whittaker and Novodvorsky transforms and unfolding identities (Layer 8).
-
-The basic APIs specified in the README include the following additional target names:
-bilinearFactorSet_inv bilinearFactorSet_mul_right
-centralCharacter_apply centralCharacter_canonicalSection centralCharacter_inl
-centralCharacter_multiplicative_iff extensionIsometryAction_apply
-extensionIsometryAction_injective extensionIsometryAction_inl extensionIsometry_apply
-extensionIsometry_inl extensionIsometry_refl extensionIsometry_trans
-firstOccurrence_dimension
-fourierDiscriminant_apply fourierDiscriminant_zero fourierDiscriminant_zero_vector
-fourierShift_add fourierShift_fst_apply fourierShift_injective fourierShift_modEq
-fourierShift_neg fourierShift_snd fourierShift_zero genusTwoTheta_diagonal
-genusTwoTheta_residue schroedinger_apply schroedinger_center.
--/
 
 end TauCetiRoadmap.MetaplecticAutomorphicForms
