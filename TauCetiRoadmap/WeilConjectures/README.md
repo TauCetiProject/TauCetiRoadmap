@@ -154,8 +154,15 @@ Betti numbers only in a specified family. WC.5 develops the numerical moment
 criteria and polynomial-count consequences, with an independent surface route
 to curve RH. WC.6 applies the arithmetic to smooth proper schemes and mixed
 coefficients; WC.7 identifies the factors in actual geometry and assembles the
-endpoint. Each Lean statement uses existing carriers or one of the three light
-real-bodied definitions; geometric constructions remain README targets.
+endpoint.
+
+`Suggested.lean` states absolute convergence of the arithmetic Euler product,
+integral rationality of the actual point-count series,
+the smooth proper signed functional equation, rational-series descent, local
+Fatou normalization, pure factor extraction and the two principal numerical
+moment theorems. Its two definitions use Mathlib's extension fields, scheme
+morphisms and formal power series. The sections below explicitly identify these
+acceptance statements; other named interfaces describe library targets.
 
 ## Layer WC.0: Rational points and Frobenius conventions
 
@@ -167,7 +174,11 @@ For finite-type `X → Spec k` and `r ≥ 1`, identify the supplied finite ratio
 
 The comparison exports finiteness on the actual Hom type. It does not install a finite type on the underlying scheme or its algebraic-closure points. The finite-field cardinality theorem makes `#k_r = q^r`, rather than `p^r` when `q` is not prime.
 
-*Needs:* Mathlib's finite-field extension, dimension, cardinality and isomorphism declarations above; EtaleCohomologyFoundations §F.10.1. **Source:** Deligne I, §1.4(a)–(d), equation (1.4.1), pp. 274–275; EtaleCohomologyFoundations §F.10.1. Suggested name: `TauCeti.PointCounting.finite_extension_point_tower_comparison`.
+`extensionPointCount` in `Suggested.lean` takes the cardinality of this actual
+Hom type in the category of schemes over `Spec k`, using
+`FiniteField.Extension k p r` for each positive degree `r`.
+
+*Needs:* Mathlib's finite-field extension, dimension, cardinality and isomorphism declarations above; EtaleCohomologyFoundations §F.10.1. **Source:** Deligne I, §1.4(a)–(d), equation (1.4.1), pp. 274–275; EtaleCohomologyFoundations §F.10.1. Library target: `finite_extension_point_tower_comparison`.
 
 ### Closed points as Frobenius orbits
 
@@ -175,7 +186,7 @@ Identify the closed points of finite-type `X/k` with arithmetic-`q`-Frobenius or
 
 This comparison supplies both the closed-point counts `a_m` and their relation to `N_r`. The exponent in `1 − T^{deg(x)}` is the residue-field **degree**. The norm `#κ(x) = q^{deg(x)}` appears instead in the arithmetic Dirichlet Euler factor.
 
-*Needs:* the extension-tower comparison; `FiniteField.natCard_algHom_of_finrank_dvd`; EtaleCohomologyFoundations §F.10.1 and DeligneWeightsAndPurity §1.10. **Source:** Deligne I, §1.4(c)–(d), p. 275. Suggested name: `TauCeti.PointCounting.closed_point_degree_comparison`.
+*Needs:* the extension-tower comparison; `FiniteField.natCard_algHom_of_finrank_dvd`; EtaleCohomologyFoundations §F.10.1 and DeligneWeightsAndPurity §1.10. **Source:** Deligne I, §1.4(c)–(d), p. 275. Library target: `closed_point_degree_comparison`.
 
 ### The rational geometric-Frobenius realization
 
@@ -183,7 +194,7 @@ For separated finite-type `X/k` and `ℓ ≠ p`, identify the spaces used in thi
 
 The comparison includes compatibility with coefficient extension: dimensions, traces and characteristic polynomials transport by the specified scalar-extension maps. Rationalization is a construction with its own finiteness theorem; the existence of integral cohomology groups alone does not supply these conclusions.
 
-*Needs:* the point-tower comparison; EtaleCohomologyFoundations §§F.4.1–F.4.6 and F.10.2b; `Matrix.charpolyRev`. **Source:** Deligne I, §1.15, p. 279, and §2.2, pp. 280–281. Suggested name: `TauCeti.PointCounting.geometric_frobenius_realization_comparison`.
+*Needs:* the point-tower comparison; EtaleCohomologyFoundations §§F.4.1–F.4.6 and F.10.2b; `Matrix.charpolyRev`. **Source:** Deligne I, §1.15, p. 279, and §2.2, pp. 280–281. Library target: `geometric_frobenius_realization_comparison`.
 
 The convention checks are a geometric point, a degree-two closed point, and `ℙ¹` over `𝔽₄`. Their expected scalars and counts distinguish inverse Frobenius, degree from norm, and `q` from `p` before the zeta formulas are used.
 
@@ -215,6 +226,10 @@ The intended carrier is Mathlib's formal Dirichlet series and, on the stated
 half-plane, its complex-valued sum. This target contains no functional equation.
 (Source: Deligne I, §§1.1–1.1.3, pp. 273–274.)
 
+`arithmeticZeta_absoluteConvergence` in `Suggested.lean` states absolute Euler
+product convergence on a right half-plane for the actual closed points of a
+finite-type scheme over `Spec ℤ`, with norms given by residue-field cardinalities.
+
 **Checks.**
 
 - `Spec 𝔽_(q^m)` over `ℤ` contributes `(1−q^(−ms))⁻¹`; replacing degree by norm
@@ -240,7 +255,10 @@ The product is locally finite in each coefficient. `Z_X(0) = 1`. Finite disjoint
 
 For a finite-type scheme over `ℤ`, the arithmetic extension uses the closed-point norm `N(x) = #κ(x)`, with Euler factor `(1 − N(x)^{−s})⁻¹`. Its formal Dirichlet expansion has constant term one; an analytic comparison requires a supplied right half-plane of absolute convergence. Over `𝔽_q`, the substitution is `ζ_X(s) = Z_X(q^{−s})` in that convergence region. Use the arithmetic-product target above for its construction and convergence; the finite-field construction alone does not give that extension.
 
-*Needs:* both point comparisons in WC.0; DeligneWeightsAndPurity §1.10; SchemeAndStackFoundations Layer 1 and the arithmetic-product target above for the last assertion. **Source:** Deligne I, §§1.1–1.1.3, pp. 273–274. Suggested name: `TauCeti.PointCounting.zeta_euler_comparison`.
+`zetaSeries` in `Suggested.lean` is the displayed exponential series, formed by
+substitution into Mathlib's formal exponential.
+
+*Needs:* both point comparisons in WC.0; DeligneWeightsAndPurity §1.10; SchemeAndStackFoundations Layer 1 and the arithmetic-product target above for the last assertion. **Source:** Deligne I, §§1.1–1.1.3, pp. 273–274. Library target: `zeta_euler_comparison`.
 
 ### Closed-point Möbius inversion
 
@@ -254,7 +272,7 @@ Consequently the second sum is nonnegative and divisible by `r`. Recovering `a_r
 
 The algebraic form takes arbitrary integer-valued `a` and `N` with the first identity and derives the second by Mathlib's Möbius inversion. Nonnegativity is a separate consequence of their geometric meaning.
 
-*Needs:* WC.0 closed points; `ArithmeticFunction.sum_eq_iff_sum_smul_moebius_eq`. **Source:** Deligne I, §1.4(d) and (1.4.1), p. 275; Mathlib's stated Möbius theorem. Suggested name: `TauCeti.PointCounting.closed_point_counts_mobius`.
+*Needs:* WC.0 closed points; `ArithmeticFunction.sum_eq_iff_sum_smul_moebius_eq`. **Source:** Deligne I, §1.4(d) and (1.4.1), p. 275; Mathlib's stated Möbius theorem. Library target: `closed_point_counts_mobius`.
 
 ### The cohomological determinant comparison
 
@@ -266,7 +284,7 @@ N_r = ∑_i (-1)^i Tr(F_i^r),    Z_X(T) = ∏_i det(1 − TF_i)^((-1)^(i+1)) ∈
 
 Only finitely many degrees occur, and the rational expression has the specified Euler-series expansion at zero. For proper `X` pass to ordinary cohomology through the supplied isomorphism. Frobenius is invertible, so `deg P_{i,ℓ} = b_{i,ℓ}`, including `P = 1` for the zero space. Neither eigenvalue purity nor semisimplicity is used.
 
-*Needs:* WC.0 rational realization; the Euler comparison; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4 and DeligneWeightsAndPurity §1.10; DeligneWeightsAndPurity §0.10; `Matrix.charpolyRev` and `reverse_charpoly`. **Source:** Deligne I, §§1.5–1.5.4, pp. 275–276, and §1.15, p. 279. Suggested name: `TauCeti.PointCounting.cohomological_zeta_comparison`.
+*Needs:* WC.0 rational realization; the Euler comparison; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4 and DeligneWeightsAndPurity §1.10; DeligneWeightsAndPurity §0.10; `Matrix.charpolyRev` and `reverse_charpoly`. **Source:** Deligne I, §§1.5–1.5.4, pp. 275–276, and §1.15, p. 279. Library target: `cohomological_zeta_comparison`.
 
 ### Rational-series descent
 
@@ -274,7 +292,10 @@ Let `K → L` be a field extension and `f ∈ K[[T]]`. Suppose there are `P,Q �
 
 A proof may use eventual recurrences, finite Hankel rank and descent of the resulting linear equations. Applying it with `K = ℚ` and `L = ℚ_ℓ` to the Euler series gives `Z_X ∈ ℚ(T)`. Reduce the fraction and normalize each constant coefficient to one. Uniqueness of the reduced pair follows over the field; integrality comes next.
 
-*Needs:* `PowerSeries.ext` and polynomial/field algebra; ClassicalArithmeticCompletion §6.44 for the Hankel criterion; the cohomological comparison and DeligneWeightsAndPurity §1.10 for compatibility with supplied geometric rationality. **Source:** Milne, Lemma 27.9 and proof, pp. 156–157; Deligne I, proof of (1.7) ⇒ (1.6), p. 276, for the Hankel descent. Suggested name: `TauCeti.PointCounting.rational_series_descent`.
+`rational_series_descent` in `Suggested.lean` states this theorem for arbitrary
+field extensions.
+
+*Needs:* `PowerSeries.ext` and polynomial/field algebra; ClassicalArithmeticCompletion §6.44 for the Hankel criterion; the cohomological comparison and DeligneWeightsAndPurity §1.10 for compatibility with supplied geometric rationality. **Source:** Milne, Lemma 27.9 and proof, pp. 156–157; Deligne I, proof of (1.7) ⇒ (1.6), p. 276, for the Hankel descent. Library target: `rational_series_descent`.
 
 ### Local Fatou normalization
 
@@ -284,7 +305,10 @@ Let `ℓ` be any prime. If `f ∈ 1 + Tℤ_ℓ[[T]]` and `P,Q ∈ ℚ_ℓ[T]` ar
 
 In a splitting field, a denominator reciprocal root of norm greater than one would give a zero of `Q` in the convergence disc of `f`. Evaluating `Qf = P` there contradicts coprimality. Apply the argument to `f⁻¹` as well for the numerator. This local statement applies even when `ℓ = p`, although `p` cannot be used as the coefficient prime in the étale trace formula.
 
-*Needs:* local fields and their finite extensions from **LocalFieldsRamification, Layer 0**; norm comparison for series, `Summable.of_norm_bounded`, geometric-series summability, and `PowerSeries.ext`. **Source:** Milne, Lemma 27.10 and proof, p. 158. Suggested name: `TauCeti.PointCounting.local_fatou_normalization`.
+`local_fatou_normalization` in `Suggested.lean` states this theorem for every
+prime, with both numerator and denominator bounds.
+
+*Needs:* local fields and their finite extensions from **LocalFieldsRamification, Layer 0**; norm comparison for series, `Summable.of_norm_bounded`, geometric-series summability, and `PowerSeries.ext`. **Source:** Milne, Lemma 27.10 and proof, p. 158. Library target: `local_fatou_normalization`.
 
 **Checks.**
 
@@ -301,7 +325,11 @@ For separated finite-type `X/k`, let `Z_X = U/V` be the reduced rational present
 
 Compare the integral Euler series and determinant expression here with the normalized integral presentation supplied by DeligneWeightsAndPurity §4.4. Its global integral-series theorem applies to the Euler series. Uniqueness of the reduced normalized pair identifies the supplied numerator and denominator with this counting presentation. No weight statement enters; the reduced `U` and `V` are parity products after cancellations, rather than individual degree factors.
 
-*Needs:* the cohomological and Euler comparisons; DeligneWeightsAndPurity §§1.10 and 4.4 normalized integral rational-series presentation; Mathlib `padicNorm` and rational arithmetic. **Source:** Milne, Proposition 27.11 and proof, p. 158; Deligne I, proof of (1.7) ⇒ (1.6), p. 276. Suggested name: `TauCeti.PointCounting.normalized_integral_zeta_presentation`.
+`normalized_integral_zeta_presentation` in `Suggested.lean` states this for the
+actual `zetaSeries` of a scheme over any finite field. Finite type is expressed
+by Mathlib's locally finite type and quasi-compact morphism classes.
+
+*Needs:* the cohomological and Euler comparisons; DeligneWeightsAndPurity §§1.10 and 4.4 normalized integral rational-series presentation; Mathlib `padicNorm` and rational arithmetic. **Source:** Milne, Proposition 27.11 and proof, p. 158; Deligne I, proof of (1.7) ⇒ (1.6), p. 276. Library target: `normalized_integral_zeta_presentation`.
 
 ### Finite groupoid mass
 
@@ -313,19 +341,14 @@ mass(C) = ∑_{[x]∈π₀C} 1/#Aut(x) ∈ ℚ.
 
 Use Mathlib's `isIsomorphicSetoid` and `Aut`. Automorphism cardinalities are positive because the identity exists. An isomorphism conjugates automorphism groups, so the summand is independent of representatives. The finiteness data are arguments, to be proved before applying the definition to a point groupoid.
 
-The definition is `TauCeti.PointCounting.groupoidMass`. Its API is:
-
-| Name in TauCeti.PointCounting | Hypotheses and conclusion |
-| --- | --- |
-| `groupoidMass_aut_card_iso` | An isomorphism `x ≅ y` identifies the finite automorphism cardinalities. |
-| `groupoidMass_equivalence` | An equivalence `C ≌ D` between finite-mass groupoids preserves mass. |
-| `groupoidMass_discrete` | For finite `A`, `mass(Discrete A) = #A`. |
-| `groupoidMass_singleObj` | For a finite group `G`, `mass(SingleObj G) = 1/#G`. |
-| `groupoidMass_product` | For finite-mass `C,D`, `mass(C × D) = mass(C)mass(D)`. |
-| `groupoidMass_sum` | For finite-mass `C,D`, `mass(C ⊕ D) = mass(C) + mass(D)`. |
-| `groupoidMass_actionCategory` | For a finite group `G` acting on finite `Y`, `mass(ActionCategory G Y) = #Y/#G`. |
-
-The last assertion follows by orbit–stabilizer, including nonfree actions. For a sum or action category, the Lean signature carries any groupoid instance that instance search requires explicitly.
+Name the library definition `groupoidMass`. Prove that isomorphisms identify
+finite automorphism cardinalities and that equivalences preserve mass. A finite
+discrete groupoid has mass equal to its number of objects; a single-object
+groupoid attached to a finite group `G` has mass `1/#G`. Products multiply
+masses and disjoint unions add them. For a finite group acting on a finite set
+`Y`, orbit–stabilizer gives mass `#Y/#G`, including nonfree actions. For a sum
+or action category, carry any groupoid instance that instance search requires
+explicitly.
 
 **Checks.**
 
@@ -402,7 +425,7 @@ Compare a finite-type stack's weighted count with groupoidMass on its actual fin
 
 For `[Y/G]`, with `Y` finite type and `G` a connected smooth linear algebraic group over `k`, Lang's torsor triviality gives `#Y(k)/#G(k)`. A disconnected group requires the torsor forms; the connected formula cannot be used without them. For a finite-type DM stack with coarse space `X_c`, the rational weighted count equals `#X_c(k)`. For a separated finite-type DM stack with bounded finite-dimensional rational compact-support cohomology and its stack trace theorem, the mass is the alternating Frobenius trace.
 
-*Needs:* finite groupoid mass; WC.0 rational realization; SchemeAndStackFoundations Layer 1 and WC.1 stack point/coarse/trace targets; ReductiveGroupsPartII §RG2.3 for Lang. **Source:** Bergström–Faber–Payne, Proposition 1.3(i)–(iv), published pp. 1324–1325. Suggested name: `TauCeti.PointCounting.stack_count_comparison`.
+*Needs:* finite groupoid mass; WC.0 rational realization; SchemeAndStackFoundations Layer 1 and WC.1 stack point/coarse/trace targets; ReductiveGroupsPartII §RG2.3 for Lang. **Source:** Bergström–Faber–Payne, Proposition 1.3(i)–(iv), published pp. 1324–1325. Library target: `stack_count_comparison`.
 
 ### Twists and Frobenius
 
@@ -410,7 +433,7 @@ Let a finite group `G` act over `k` on separated finite-type `X`, and assume eff
 
 The action is defined over `k`, so it commutes with Frobenius. Extension of this fixed twist to `k_r` has descent operator `σ^rF_q^r`. It usually differs from constructing the σ-twist anew over `k_r`, whose operator is `σF_q^r`. This distinction is part of the comparison API.
 
-*Needs:* WC.0 point transport; the cohomological comparison; SchemeAndStackFoundations Layer 1 effective descent; EtaleCohomologyFoundations §§F.4.5–F.4.6 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3. **Source:** Bergström–Faber–Payne, §§9.1–9.2 and Remark 9.2, published pp. 1351–1352. Suggested name: `TauCeti.PointCounting.twisted_frobenius_point_comparison`.
+*Needs:* WC.0 point transport; the cohomological comparison; SchemeAndStackFoundations Layer 1 effective descent; EtaleCohomologyFoundations §§F.4.5–F.4.6 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3. **Source:** Bergström–Faber–Payne, §§9.1–9.2 and Remark 9.2, published pp. 1351–1352. Library target: `twisted_frobenius_point_comparison`.
 
 ### The integral character lattice
 
@@ -418,7 +441,7 @@ Under those twist hypotheses, `f(σ) = #X^σ(k)` is a class function. In a chara
 
 There is a unique lift of `f` to the integral complex representation ring if and only if every `a_λ` is an integer. Its value at the identity then recovers the ordinary count; addition and product agree with representation-ring operations whenever the summands lie in this lattice. Merely being a Frobenius trace of a class function does not establish lattice membership. WC.5 will provide an application where actual Betti representation classes establish integrality.
 
-*Needs:* the twist comparison; Tau Ceti `repRing`, `repRingCharacter`, `mem_range_repRingCharacter_iff`, `repRingCharacter_injective`, and `mem_virtualCharacters_iff`, with a finite group and characteristic-zero coefficients. **Source:** Bergström–Faber–Payne, Definition 9.1 and its surrounding discussion, published p. 1351; the precise lattice qualification uses Tau Ceti's character-image criterion. Suggested name: `TauCeti.PointCounting.equivariant_count_character_lattice`.
+*Needs:* the twist comparison; Tau Ceti `repRing`, `repRingCharacter`, `mem_range_repRingCharacter_iff`, `repRingCharacter_injective`, and `mem_virtualCharacters_iff`, with a finite group and characteristic-zero coefficients. **Source:** Bergström–Faber–Payne, Definition 9.1 and its surrounding discussion, published p. 1351; the precise lattice qualification uses Tau Ceti's character-image criterion. Library target: `equivariant_count_character_lattice`.
 
 ### Signed Frobenius configurations
 
@@ -428,16 +451,13 @@ Let `σ` be a permutation of a type `A`. Assume that for each `n` there are fini
 c_n(σ) = ∑_{S : |S|=n, σS=S} (-1)^(o(S)) ∈ ℤ.
 ```
 
-The definition is `TauCeti.PointCounting.signedConfigurationCoefficient`. A finite subset contains distinct points. Its sign counts orbits, so an orbit of length two has sign `−1`. For `A = X` over the algebraic closure, the finite configuration condition follows from WC.0's finiteness of closed points of every bounded degree.
+Name the library definition `signedConfigurationCoefficient`. A finite subset contains distinct points. Its sign counts orbits, so an orbit of length two has sign `−1`. For `A = X` over the algebraic closure, the finite configuration condition follows from WC.0's finiteness of closed points of every bounded degree.
 
-| Name in TauCeti.PointCounting | Hypotheses and conclusion |
-| --- | --- |
-| `signedConfigurationCoefficient_zero` | Under finite-configuration hypotheses, `c₀ = 1`. |
-| `signedConfigurationCoefficient_one` | `c₁ = −#Fix(σ)`. |
-| `signedConfigurationCoefficient_conjugate` | A bijection `A ≃ B` transports `σ` and preserves every `c_n`. |
-| `signedConfigurationCoefficient_above_card` | For finite `A` and `n > #A`, `c_n = 0`. |
-| `signedConfigurationCoefficient_sumCongr` | For permutations of `A` and `B` with the required finiteness, `c_n(σ ⊕ τ) = Σ_{i+j=n} c_i(σ)c_j(τ)`. |
-| `signedConfigurationCoefficient_generating` | For finite `A`, `Σ_{n≤#A} c_nT^n = ∏_{O orbit}(1 − T^{#O})` in `ℤ[T]`. |
+Prove that `c₀=1` and `c₁=−#Fix(σ)`, and that conjugating by a bijection
+preserves every coefficient. For finite `A`, coefficients above `#A` vanish.
+Disjoint union gives `c_n(σ ⊕ τ)=Σ_{i+j=n} c_i(σ)c_j(τ)` under the stated
+finiteness hypotheses. For finite `A`, the generating polynomial is
+`Σ_{n≤#A} c_nT^n=∏_{O orbit}(1−T^{#O})` in `ℤ[T]`.
 
 **Checks.**
 
@@ -455,7 +475,7 @@ For separated finite-type `Y/k`, the coefficient of `T^n` in `Z_Y⁻¹` is `c_n`
 
 Every coefficient sum is finite although the whole geometric point set may be infinite. The proof uses the Euler product and bounded-degree closed-point finiteness, then the finite generating-polynomial API coefficientwise.
 
-*Needs:* signed configurations; the Euler product; SchemeAndStackFoundations Layer 1 for the geometric configuration interpretation. **Source:** Bergström–Faber–Payne, §7, equation (8), published p. 1337, citing the configuration identity of Vakil–Wood. Suggested name: `TauCeti.PointCounting.inverse_zeta_configuration_formula`.
+*Needs:* signed configurations; the Euler product; SchemeAndStackFoundations Layer 1 for the geometric configuration interpretation. **Source:** Bergström–Faber–Payne, §7, equation (8), published p. 1337, citing the configuration identity of Vakil–Wood. Library target: `inverse_zeta_configuration_formula`.
 
 ### Termination for proper even cohomology
 
@@ -467,7 +487,7 @@ Z_Y⁻¹ = ∏_{i even} det(1 − TF_i)
 
 is a polynomial of degree `B`, so `c_n = 0` for `n > B`. Moreover `Σ_{n=0}^B c_n = 0`. Indeed the constant function gives a Frobenius-fixed vector in `H⁰` even if components are permuted, so the product vanishes at `T = 1`. For empty `Y` the inverse zeta is 1 and the coefficient sum is 1.
 
-*Needs:* cohomological and configuration comparisons. **Source:** Bergström–Faber–Payne, Proposition 7.4 and proof, published p. 1338. Suggested name: `TauCeti.PointCounting.inverse_zeta_even_termination`.
+*Needs:* cohomological and configuration comparisons. **Source:** Bergström–Faber–Payne, Proposition 7.4 and proof, published p. 1338. Library target: `inverse_zeta_even_termination`.
 
 ### The Hasse–Weil sieve
 
@@ -481,7 +501,7 @@ Then the number of smooth fibres is
 
 For `0 ≤ h < B`, the exact error after truncating at `h` is `Σ_{n=h+1}^B S_n`. A fibre contributes to this tail only when its even Betti sum exceeds `h`. Finiteness is coefficientwise configuration finiteness, not finiteness of all geometric singular points. The reduced-curve case specializes to finite singular loci. No flatness assumption or unproved uniform asymptotic estimate is introduced into the sieve.
 
-*Needs:* termination, signed configurations and WC.0 finite parameter points; the proper singular-locus hypotheses are supplied by the application. **Source:** Bergström–Faber–Payne, Propositions 7.1 and 7.5, Remark 7.6 and their proofs, published pp. 1336–1339. Suggested name: `TauCeti.PointCounting.hasse_weil_sieve`.
+*Needs:* termination, signed configurations and WC.0 finite parameter points; the proper singular-locus hypotheses are supplied by the application. **Source:** Bergström–Faber–Payne, Propositions 7.1 and 7.5, Remark 7.6 and their proofs, published pp. 1336–1339. Library target: `hasse_weil_sieve`.
 
 ### A curve numerator before root bounds
 
@@ -493,7 +513,7 @@ Z_C = Π_C(T)/((1 − T)(1 − qT)),    N_r = 1 + q^r − ∑_{j=1}^{2g} α_j^r 
 
 The `α_j` are all reciprocal roots with multiplicity. One can derive integrality directly from `Π_C = (1 − T)(1 − qT)Z_C` and the integral series once the cohomological numerator is a polynomial. Rational descent identifies its coefficients. This construction asserts no modulus bound and is available to the surface proof of curve RH.
 
-*Needs:* the cohomological and Euler comparisons; DeligneWeightsAndPurity §0.10; AbelianSchemesAndArithmeticModuli §A4.4 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1, including `b₁ = 2g`. **Source:** Deligne I, §§1.5–1.5.4, pp. 275–276; Mustață, Remark 3.7 and equations (3.8)–(3.10), p. 21. Suggested name: `TauCeti.PointCounting.curve_zeta_numerator_without_rh`.
+*Needs:* the cohomological and Euler comparisons; DeligneWeightsAndPurity §0.10; AbelianSchemesAndArithmeticModuli §A4.4 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1, including `b₁ = 2g`. **Source:** Deligne I, §§1.5–1.5.4, pp. 275–276; Mustață, Remark 3.7 and equations (3.8)–(3.10), p. 21. Library target: `curve_zeta_numerator_without_rh`.
 
 ### Examples
 
@@ -531,7 +551,7 @@ P_i(1/(q^d T)) = (-1)^(b_i) δ_i q^(−d b_i) T^(−b_i) P_{2d−i}(T).
 
 Taking the alternating product and pairing determinants yields the displayed zeta equation. The algebraic signature can state these degree identities on polynomials over any field and prove the product identity there. Its evaluated form assumes `q` and `T` nonzero and the displayed denominators nonzero; the geometric statement is in the rational-function field.
 
-*Needs:* WC.1 cohomological comparison; EtaleCohomologyFoundations §§F.5–F.6 and EtaleDualityAndPerverseSheaves §8.2; DeligneWeightsAndPurity §0.16; `Matrix.charpoly_inv`. **Source:** Deligne I, §§2.3–2.6, pp. 281–282; Milne, Theorem 27.12 and proof, p. 158. Suggested name: `TauCeti.PointCounting.signed_zeta_functional_equation`.
+*Needs:* WC.1 cohomological comparison; EtaleCohomologyFoundations §§F.5–F.6 and EtaleDualityAndPerverseSheaves §8.2; DeligneWeightsAndPurity §0.16; `Matrix.charpoly_inv`. **Source:** Deligne I, §§2.3–2.6, pp. 281–282; Milne, Theorem 27.12 and proof, p. 158. Library target: `signed_zeta_functional_equation`.
 
 ### The integral half exponent
 
@@ -539,7 +559,7 @@ For the same `X`, `dχ` is even. If `d` is even there is nothing to prove. If `d
 
 The algebraic parity signature needs only the symmetric Betti list `b_i = b_{2d−i}` and evenness of `b_d` when `d` is odd. Its geometric specialization imports the alternating-pairing theorem. Rational `ℚ₂` coefficients are allowed when `p ≠ 2`: the residue field of `ℤ₂` does not change the characteristic of `ℚ₂`.
 
-*Needs:* the signed assembly; EtaleCohomologyFoundations §§F.5–F.6 and EtaleDualityAndPerverseSheaves §8.2. **Source:** Deligne I, §2.6, p. 281; Milne, Theorem 27.12 and Remark 27.13, pp. 158–159. Suggested name: `TauCeti.PointCounting.middle_degree_parity`.
+*Needs:* the signed assembly; EtaleCohomologyFoundations §§F.5–F.6 and EtaleDualityAndPerverseSheaves §8.2. **Source:** Deligne I, §2.6, p. 281; Milne, Theorem 27.12 and Remark 27.13, pp. 158–159. Library target: `middle_degree_parity`.
 
 ### Rational descent and the exact sign
 
@@ -557,7 +577,7 @@ Z_X(1/(q^d T)) = ε q^m T^χ Z_X(T).
 
 For odd `d`, the alternating middle pairing gives `ε = +1`. For even `d`, `ε = (−1)^e`, where `e` is the algebraic multiplicity of the eigenvalue **`+q^{d/2}`** in `H^d`. This is the dimension of the generalized eigenspace. It need not be the dimension of the eigenspace, and Frobenius semisimplicity is not assumed.
 
-*Needs:* the signed equation and parity; WC.1 rational descent; the determinant-sign input from EtaleDualityAndPerverseSheaves §§8.1–8.2. **Source:** Deligne I, §2.6, pp. 281–282; Milne, Remark 27.13, p. 159. Suggested name: `TauCeti.PointCounting.functional_equation_multiplier_descent`.
+*Needs:* the signed equation and parity; WC.1 rational descent; the determinant-sign input from EtaleDualityAndPerverseSheaves §§8.1–8.2. **Source:** Deligne I, §2.6, pp. 281–282; Milne, Remark 27.13, p. 159. Library target: `functional_equation_multiplier_descent`.
 
 ### Finite extension and the sign
 
@@ -569,7 +589,7 @@ Under extension `k_r/k`, the Betti list and `χ` stay fixed, `F` becomes `F^r`, 
 
 with `q` replaced by `q^r` in the functional equation. In particular, raising `ε` alone to the r-th power can give the wrong answer. The determinant of the powered permutation handles nontrivial component cycles automatically.
 
-*Needs:* WC.0 Frobenius extension compatibility and the preceding multiplier descent. **Source:** Deligne I, §2.6, pp. 281–282, together with the base-extension argument in §7.2 ⇒ §1.7, p. 301. Suggested name: `TauCeti.PointCounting.functional_equation_base_extension`.
+*Needs:* WC.0 Frobenius extension compatibility and the preceding multiplier descent. **Source:** Deligne I, §2.6, pp. 281–282, together with the base-extension argument in §7.2 ⇒ §1.7, p. 301. Library target: `functional_equation_base_extension`.
 
 A geometric point has `χ = 1` and `ε = −1`; its sign is still `−1` after a degree-two extension, whereas `ε² = +1`. The projective plane has `χ = 3` and multiplier `−q³T³`. A genus-two curve has `χ = −2` and multiplier `q⁻¹T⁻²`. These are checks of the same rational-function identity. The equivariant coefficientwise duality application appears after the polynomial-count theorem in WC.5.
 
@@ -597,7 +617,12 @@ uniqueness. Rational companion matrices of the reversed factors give the
 supplier's invertible `ℚ_ℓ`-Frobenius modules for a singleton coefficient-prime
 set; this adapter does not require geometric purity.
 
-*Needs:* WC.1 normalized integral presentation; DeligneWeightsAndPurity §§0.1 and 4.4 `degreeFactorExtraction`; `IsGalois.mem_range_algebraMap_iff_fixed` under finite-dimensional Galois hypotheses and `IsIntegrallyClosed.eq_map_mul_C_of_dvd`. **Source:** Deligne I, proof of (1.7) ⇒ (1.6), pp. 276–277; Milne, §27.14(c)–(d) and proof, p. 159. Suggested name: `TauCeti.PointCounting.degreewise_pure_factor_extraction`.
+`degreewise_pure_factor_extraction` in `Suggested.lean` allows any
+characteristic-zero realization field. Algebraicity and the modulus under every
+complex embedding of each root's generated number field are explicit hypotheses;
+the conclusion retains multiplicities, normalization, degrees and coprimality.
+
+*Needs:* WC.1 normalized integral presentation; DeligneWeightsAndPurity §§0.1 and 4.4 `degreeFactorExtraction`; `IsGalois.mem_range_algebraMap_iff_fixed` under finite-dimensional Galois hypotheses and `IsIntegrallyClosed.eq_map_mul_C_of_dvd`. **Source:** Deligne I, proof of (1.7) ⇒ (1.6), pp. 276–277; Milne, §27.14(c)–(d) and proof, p. 159. Library target: `degreewise_pure_factor_extraction`.
 
 ### The projective Weil factors
 
@@ -608,7 +633,7 @@ WC.1 determinant expression; uniqueness identifies both families. For every `i` 
 
 Its reciprocal roots are algebraic integers, and every complex conjugate of each has modulus `q^{i/2}`. Factors in different degrees are coprime; both the factors and their degrees are independent of `ℓ`. This conclusion contains no Frobenius semisimplicity statement.
 
-*Needs:* WC.0 rational realization; WC.1 cohomological comparison; generic extraction; DeligneWeightsAndPurity §§4.3–4.4 projective purity and canonical factors. **Source:** Deligne I, Theorem 1.6 and Lemma 1.7, p. 276, with the extraction proof on pp. 276–277. Suggested name: `TauCeti.PointCounting.integral_projective_weil_factors`.
+*Needs:* WC.0 rational realization; WC.1 cohomological comparison; generic extraction; DeligneWeightsAndPurity §§4.3–4.4 projective purity and canonical factors. **Source:** Deligne I, Theorem 1.6 and Lemma 1.7, p. 276, with the extraction proof on pp. 276–277. Library target: `integral_projective_weil_factors`.
 
 The zero space gives `Π_i = 1`. A permutation in degree zero retains its cycle factors and all roots of unity with their multiplicities. A unipotent block has the same polynomial as its semisimplification; this does not identify the two operators. These checks preserve the scope of the theorem.
 
@@ -632,7 +657,7 @@ H^i_et(X_s̄, ℚ_ℓ) ≃ H^i_sing(X_t(ℂ), ℚ) ⊗_ℚ ℚ_ℓ.
 
 The isomorphism depends on `γ`; dimensions and Betti numbers do not. Compatibility with cup products, Tate twists and finite group actions is part of the supplied comparison. The exact family and path are arguments. No conclusion constructs a lifting family or complex variety from an arbitrary finite-field scheme.
 
-*Needs:* WC.0 rational realization; EtaleCohomologyFoundations §§F.2.1–F.2.2 and F.4.6 for lisse transport; ComplexComparisonPartII §§C6.3–C6.6 for Artin comparison. **Source:** Milne, §27.14(e), p. 159, with proper-smooth transport in Theorems 20.2–20.4, pp. 127–128, its lifting application in Theorem 20.5, p. 129, and Artin comparison in Theorem 21.1, p. 130; the named comparison layers specify the maps and compatibilities. Suggested name: `TauCeti.PointCounting.betti_comparison_supplied_family`.
+*Needs:* WC.0 rational realization; EtaleCohomologyFoundations §§F.2.1–F.2.2 and F.4.6 for lisse transport; ComplexComparisonPartII §§C6.3–C6.6 for Artin comparison. **Source:** Milne, §27.14(e), p. 159, with proper-smooth transport in Theorems 20.2–20.4, pp. 127–128, its lifting application in Theorem 20.5, p. 129, and Artin comparison in Theorem 21.1, p. 130; the named comparison layers specify the maps and compatibilities. Library target: `betti_comparison_supplied_family`.
 
 This interface can compare a complete intersection with a supplied complex complete intersection, or compare the fibres of a family over `Spec ℤ` after removing the coefficient prime. A case with no specified complex fibre still has the WC.3 factor theorem; it does not receive a complex Betti comparison. Equivariant polynomial counts use this transport only after WC.5 establishes the Tate conclusion.
 
@@ -658,7 +683,7 @@ c_k β_k^n = ∑_{j<d} A_{jk} (∑_{i<d} c_i β_i^(n+j)).
 
 Distinctness makes `V` invertible. The coefficient uses `A_{jk}`, not `A_{kj}`: a moment window is the row vector `(c_iβ_i^n)_i` multiplied by `V`. Zero roots and arbitrary characteristic are allowed. For an empty family there is no `k`.
 
-*Needs:* `Matrix.vandermonde`, `det_vandermonde_ne_zero_iff`, `mul_nonsing_inv`. **Source:** Mathlib, LinearAlgebra/Vandermonde and Matrix/NonsingularInverse, the named determinant and inverse theorems; this is their finite-matrix consequence. Suggested name: `TauCeti.FiniteSpectrum.recover_consecutive_moments`.
+*Needs:* `Matrix.vandermonde`, `det_vandermonde_ne_zero_iff`, `mul_nonsing_inv`. **Source:** Mathlib, LinearAlgebra/Vandermonde and Matrix/NonsingularInverse, the named determinant and inverse theorems; this is their finite-matrix consequence. Library target: `recover_consecutive_moments`.
 
 ### A quantitative moment-window bound
 
@@ -670,7 +695,7 @@ Now let `K` be a normed field, `C,R ≥ 0`, and suppose `|Σ_i c_iβ_i^m| ≤ CR
 
 The window constant depends on `β` and `R` but not on `n`. No division by `R` or `c_k` appears, so `R = 0` and zero coefficients are permitted. Use positive `n` when deducing a conclusion from the zero-radius case.
 
-*Needs:* moment recovery and Mathlib `norm_sum_le`. **Source:** the same Vandermonde and inverse declarations, with finite-sum norm inequalities. Suggested name: `TauCeti.FiniteSpectrum.consecutive_moment_bound`.
+*Needs:* moment recovery and Mathlib `norm_sum_le`. **Source:** the same Vandermonde and inverse declarations, with finite-sum norm inequalities. Library target: `consecutive_moment_bound`.
 
 ### Visible distinct roots
 
@@ -678,19 +703,22 @@ With the same eventual bound and an injective `β`, `c_k ≠ 0` implies `|β_k| 
 
 This theorem needs neither completeness nor characteristic zero. The tail may begin at any fixed `N`. A root with zero coefficient is invisible and has no asserted bound.
 
-*Needs:* the moment-window bound; unbounded powers for a ratio greater than one; the Vandermonde moment-uniqueness theorem for the zero case. **Source:** Hongjie Yu, Appendix C, unnumbered finite-spectrum lemma and proof, p. 81; the weighted distinct-root form is proved by the explicit matrix argument above. Suggested name: `TauCeti.FiniteSpectrum.norm_le_of_distinct_moment_bound`.
+*Needs:* the moment-window bound; unbounded powers for a ratio greater than one; the Vandermonde moment-uniqueness theorem for the zero case. **Source:** Hongjie Yu, Appendix C, unnumbered finite-spectrum lemma and proof, p. 81; the weighted distinct-root form is proved by the explicit matrix argument above. Library target: `norm_le_of_distinct_moment_bound`.
 
 ### Grouping coincident roots
 
 For `α,w:Fin d → K` with possible repeats, write `a_β = Σ_{i:α_i=β}w_i`. If the weighted moment sum is eventually bounded by `CR^n`, every root with `a_β ≠ 0` has modulus at most `R`. Grouping takes place before the distinct-root theorem. A nonzero individual `w_i` is insufficient if the full fibre sum vanishes.
 
-*Needs:* the visible distinct-root theorem and finite fibre grouping. **Source:** Yu, Appendix C, p. 81; grouping is the finite algebraic reduction to distinct roots. Suggested name: `TauCeti.FiniteSpectrum.norm_le_of_grouped_moment_bound`.
+`norm_le_of_grouped_moment_bound` in `Suggested.lean` states this weighted
+finite-spectrum theorem over any normed field, with an arbitrary eventual tail.
+
+*Needs:* the visible distinct-root theorem and finite fibre grouping. **Source:** Yu, Appendix C, p. 81; grouping is the finite algebraic reduction to distinct roots. Library target: `norm_le_of_grouped_moment_bound`.
 
 ### The unweighted power-sum converse
 
 For a characteristic-zero normed field and any finite family `α`, an eventual bound `|Σ_iα_i^n| ≤ CR^n`, `C,R ≥ 0`, implies `|α_i| ≤ R` for every `i`. Equal roots have a positive integer multiplicity, and its image in `K` is nonzero. This is exactly the use of characteristic zero. Neither nonzero roots nor distinctness are required.
 
-*Needs:* the grouped-spectrum theorem. **Source:** Yu, Appendix C, p. 81. Suggested name: `TauCeti.FiniteSpectrum.norm_le_of_power_sum_bound`.
+*Needs:* the grouped-spectrum theorem. **Source:** Yu, Appendix C, p. 81. Library target: `norm_le_of_power_sum_bound`.
 
 ### Equivalence with bounds for all positive powers
 
@@ -698,7 +726,7 @@ For such a family and `R ≥ 0`, every root has modulus at most `R` if and only 
 
 The quantifier over all positive powers is essential: a first moment, or any prescribed finite initial window without control of the tail, can miss cancellation.
 
-*Needs:* the power-sum converse and `norm_sum_le`. **Source:** Yu, Appendix C, p. 81; the reverse estimate is the finite triangle inequality. Suggested name: `TauCeti.FiniteSpectrum.power_sum_bound_iff`.
+*Needs:* the power-sum converse and `norm_sum_le`. **Source:** Yu, Appendix C, p. 81; the reverse estimate is the finite triangle inequality. Library target: `power_sum_bound_iff`.
 
 ### Reciprocal moments escaping the unit ball
 
@@ -710,7 +738,7 @@ Let `K` be a normed field, `d > 0`, `γ` injective, `0 < |γ_i| < 1` and `c_i �
 
 Otherwise the distinct-root theorem with `R = C = 1` would bound every inverse root by one. In a p-adic field the displayed sum lies outside the valuation ring. The explicit proof works for arbitrary nonzero coefficients, not only integral coefficients, and proves escape arbitrarily far out.
 
-*Needs:* the distinct-spectrum bound. **Source:** Yu, Appendix C, p. 81, with this stronger coefficient generality supplied by the preceding proof. Suggested name: `TauCeti.FiniteSpectrum.reciprocal_moments_escape`.
+*Needs:* the distinct-spectrum bound. **Source:** Yu, Appendix C, p. 81, with this stronger coefficient generality supplied by the preceding proof. Library target: `reciprocal_moments_escape`.
 
 ### The convergent generating expression
 
@@ -722,7 +750,7 @@ For a normed field `K`, finite `β,c`, and `z` with `|β_i z| < 1` for every `i`
 
 State it using `HasSum`, rather than assigning a totalized infinite sum to a possibly divergent series. Repeated and zero roots are allowed. Each geometric series already has a sum in `K`; completeness is unnecessary here.
 
-*Needs:* Mathlib `hasSum_geometric_of_norm_lt_one` and finite interchange of sums. **Source:** Milne, Lemma 27.5 and proof, pp. 155–156; Mustață, proof of Lemma 3.8, equations (3.11)–(3.12), p. 21. Suggested name: `TauCeti.FiniteSpectrum.hasSum_power_sum_generating`.
+*Needs:* Mathlib `hasSum_geometric_of_norm_lt_one` and finite interchange of sums. **Source:** Milne, Lemma 27.5 and proof, pp. 155–156; Mustață, proof of Lemma 3.8, equations (3.11)–(3.12), p. 21. Library target: `hasSum_power_sum_generating`.
 
 ### A common numerator and denominator
 
@@ -734,7 +762,7 @@ D(T) = ∏_i (1 − β_i T),    B(T) = ∑_i c_i β_i T ∏_{j≠i} (1 − β_j 
 
 Then `D(0) = 1`, hence `D ≠ 0`. Whenever all factors `1 − β_i z` are nonzero, `B(z)/D(z) = Σ_i c_iβ_i z/(1 − β_i z)`. Thus `B/D` is a well-defined element of the existing rational-function field, and is the rational expression of the convergent sum. For an empty family `D = 1` and `B = 0`.
 
-*Needs:* polynomial evaluation, finite products and field algebra. **Source:** Milne, Lemma 27.5, pp. 155–156; Mustață, equations (3.11)–(3.12), p. 21, with denominators explicitly combined. Suggested name: `TauCeti.FiniteSpectrum.generating_common_denominator`.
+*Needs:* polynomial evaluation, finite products and field algebra. **Source:** Milne, Lemma 27.5, pp. 155–156; Mustață, equations (3.11)–(3.12), p. 21, with denominators explicitly combined. Library target: `generating_common_denominator`.
 
 ### The formal polynomial identity
 
@@ -746,7 +774,7 @@ D G = B in K[[T]].
 
 This theorem requires no norm, convergence, characteristic restriction, root distinctness, or field hypothesis. It holds with zero divisors. Prove the single-root geometric coefficient identity and multiply by the remaining factors, then sum. `D`, `B` and `G` are local expressions on existing carriers, not new structures.
 
-*Needs:* `PowerSeries.mk`, `coeff_mk`, `ext`, `mk_one_mul_one_sub_eq_one`, rescaling and coefficient multiplication, and polynomial inclusion. **Source:** Mathlib, RingTheory/PowerSeries/WellKnown, the named geometric-series product identity, with Basic's coefficient and rescale API. Suggested name: `TauCeti.FiniteSpectrum.formal_power_sum_product`.
+*Needs:* `PowerSeries.mk`, `coeff_mk`, `ext`, `mk_one_mul_one_sub_eq_one`, rescaling and coefficient multiplication, and polynomial inclusion. **Source:** Mathlib, RingTheory/PowerSeries/WellKnown, the named geometric-series product identity, with Basic's coefficient and rescale API. Library target: `formal_power_sum_product`.
 
 ### Comparison in Laurent series
 
@@ -754,7 +782,7 @@ When `K` is a field, the image of `G` in `LaurentSeries K` equals the image of `
 
 This uses a common field of Laurent series. It does not require, or assert, a direct inclusion of every rational function into power series.
 
-*Needs:* the formal product and common-denominator identities; polynomial inclusion injectivity, `HahnSeries.ofPowerSeries_injective`, `RatFunc.coe_coe`, `RatFunc.algebraMap_apply_div` and coefficient comparison. **Source:** Mathlib, RingTheory/LaurentSeries and HahnSeries/PowerSeries, the named embeddings and rational-function compatibility declarations. Suggested name: `TauCeti.FiniteSpectrum.formal_power_sum_eq_ratFunc`.
+*Needs:* the formal product and common-denominator identities; polynomial inclusion injectivity, `HahnSeries.ofPowerSeries_injective`, `RatFunc.coe_coe`, `RatFunc.algebraMap_apply_div` and coefficient comparison. **Source:** Mathlib, RingTheory/LaurentSeries and HahnSeries/PowerSeries, the named embeddings and rational-function compatibility declarations. Library target: `formal_power_sum_eq_ratFunc`.
 
 ### The exact pole-cancellation criterion
 
@@ -766,7 +794,7 @@ B(β_k⁻¹) = c_k ∏_{j≠k} (1 − β_j/β_k).
 
 All displayed factors are nonzero, so this value is zero exactly when `c_k = 0`. `D` has a simple zero there. The reduced rational function therefore has a pole at `β_k⁻¹` exactly when `c_k ≠ 0`. With repeats, first group the roots and use their total coefficient. A zero root has no finite reciprocal pole.
 
-*Needs:* the common numerator and denominator. **Source:** Milne, Lemma 27.5, pp. 155–156; Mustață, proof of Lemma 3.8, p. 21, with cancellation explicitly resolved. Suggested name: `TauCeti.FiniteSpectrum.generating_pole_cancellation_iff`.
+*Needs:* the common numerator and denominator. **Source:** Milne, Lemma 27.5, pp. 155–156; Mustață, proof of Lemma 3.8, p. 21, with cancellation explicitly resolved. Library target: `generating_pole_cancellation_iff`.
 
 ### No poles in the bounded disc
 
@@ -774,7 +802,7 @@ Suppose `β` is injective, every `c_i` is nonzero, and the weighted moments sati
 
 Use the finite-spectrum bound first and then geometric summation. Pole analysis is a consequence and is not used circularly to establish the root bound. Coefficients that become zero after grouping must be removed before asserting denominator nonvanishing.
 
-*Needs:* distinct-spectrum bound, generating sum and common denominator. **Source:** Milne, Lemma 27.5, pp. 155–156; Mustață, equations (3.11)–(3.12), p. 21. Suggested name: `TauCeti.FiniteSpectrum.no_pole_of_power_sum_bound`.
+*Needs:* distinct-spectrum bound, generating sum and common denominator. **Source:** Milne, Lemma 27.5, pp. 155–156; Mustață, equations (3.11)–(3.12), p. 21. Library target: `no_pole_of_power_sum_bound`.
 
 ### Reciprocal pairing upgrades the bound to equality
 
@@ -782,7 +810,7 @@ Let `α` be a finite complex family, `τ` a permutation of its index set, `R > 0
 
 Taking `R = √q` gives the numerical curve-RH conclusion. In geometry the reciprocal pairing is an explicit duality input, and this argument is applied in every complex embedding.
 
-*Needs:* the unweighted converse and the specified reciprocal pairing. **Source:** Mustață, Remark 3.7, p. 21. Suggested name: `TauCeti.FiniteSpectrum.norm_eq_of_reciprocal_pairing`.
+*Needs:* the unweighted converse and the specified reciprocal pairing. **Source:** Mustață, Remark 3.7, p. 21. Library target: `norm_eq_of_reciprocal_pairing`.
 
 ### A strict bound from little-o moments
 
@@ -790,7 +818,7 @@ For a normed field `K`, injective `β`, coefficients `c` and `R > 0`, suppose `|
 
 For repeated roots, group the full fibre coefficients first. The weighted statement needs neither completeness nor characteristic zero.
 
-*Needs:* moment recovery and finite norm inequalities. **Source:** van den Bogaart–Edixhoven, Lemma 4.1 and proof, pp. 6–7, with this weighted form obtained by the Vandermonde argument. Suggested name: `TauCeti.FiniteSpectrum.norm_lt_of_moments_little_o`.
+*Needs:* moment recovery and finite norm inequalities. **Source:** van den Bogaart–Edixhoven, Lemma 4.1 and proof, pp. 6–7, with this weighted form obtained by the Vandermonde argument. Library target: `norm_lt_of_moments_little_o`.
 
 ### Polynomial approximation of graded moments
 
@@ -804,7 +832,10 @@ then `b_i = 0` for odd `i ≥ s`. For even `i = 2j ≥ s` with `i ≤ r`, `P_j =
 
 Group the combined roots from the graded moments and the polynomial terms. At or above the cutoff, the strict little-o bound forces each total coefficient to vanish. Distinct cohomological moduli prevent cancellation between different degrees. Odd-degree coefficients have one sign and cannot cancel; in an even degree only the polynomial root `p^j` can remain. This formulation also handles `s > r` and makes no assertion about lower polynomial coefficients.
 
-*Needs:* the strict visible-root theorem. **Source:** van den Bogaart–Edixhoven, Lemma 4.1, pp. 6–7, whose range is `s ≤ r ≤ 2s`; Bergström–Faber–Payne, proof of Proposition 3.1, published p. 1330. The unrestricted high-cutoff form is the stated numerical extension. Suggested name: `TauCeti.FiniteSpectrum.graded_polynomial_approximation`.
+`graded_polynomial_approximation` in `Suggested.lean` states this theorem with
+unrestricted natural cutoffs `r,s`, including the coefficients beyond degree `r`.
+
+*Needs:* the strict visible-root theorem. **Source:** van den Bogaart–Edixhoven, Lemma 4.1, pp. 6–7, whose range is `s ≤ r ≤ 2s`; Bergström–Faber–Payne, proof of Proposition 3.1, published p. 1330. The unrestricted high-cutoff form is the stated numerical extension. Library target: `graded_polynomial_approximation`.
 
 The numerical checks include an empty spectrum; repeated roots with their multiplicities; roots 2 and −2 whose first moment vanishes and second moment is 8; a root with cancelling fibre weights; and two equal roots in characteristic two whose multiplicity disappears. Four roots `1, i, −1, −i` have their first three moments zero and fourth moment 4. Further checks fix the inverse-Vandermonde transpose, zero-radius tails, zero at the origin, positive rather than zero exponents, repeated denominators, a zero root with no finite pole, and the reciprocal pair `3 ± 4i` of modulus 5. Formal-series checks include an empty family, one root, characteristic-two cancellation, and the special constant coefficient at the origin.
 
@@ -818,7 +849,7 @@ For smooth projective geometrically connected `X/k` of dimension `d ≥ 1` and e
 
 The `b_i` are degrees of the canonical integral factors of WC.3. Geometric connectedness identifies `H⁰` and `H^{2d}` with the scalar endpoint lines, so only interior degrees appear in the error. Apply the all-power trace formula and the triangle inequality to the eigenvalues in any complex embedding. For curves the coefficient is `b₁ = 2g`, with no additional factor of two.
 
-*Needs:* WC.3 projective factors; WC.1 all-power trace comparison; EtaleCohomologyFoundations §§F.5–F.6 for the endpoints; `norm_sum_le`. **Source:** Deligne I, Lemma 1.7, p. 276, and the trace application in Theorem 8.1 and proof, pp. 301–302. Suggested name: `TauCeti.PointCounting.all_extension_point_count_bound`.
+*Needs:* WC.3 projective factors; WC.1 all-power trace comparison; EtaleCohomologyFoundations §§F.5–F.6 for the endpoints; `norm_sum_le`. **Source:** Deligne I, Lemma 1.7, p. 276, and the trace application in Theorem 8.1 and proof, pp. 301–302. Library target: `all_extension_point_count_bound`.
 
 ### Components and dimension zero
 
@@ -830,7 +861,7 @@ For smooth projective pure-`d` `X/k` with `d ≥ 1`, let `σ` permute its geomet
 
 For `d = 0`, `X` is finite étale and there is only degree-zero cohomology: `N_r = c_r`. Its zeta is the product of `(1 − T^m)⁻¹` over component cycles of lengths `m`. A geometric point gives `N_r = 1`. A single degree-`m` closed point gives `m` if `m` divides `r` and zero otherwise. The dimension-zero case is kept separate so that the same line is not counted twice as both endpoints.
 
-*Needs:* WC.0 orbit dictionary; the preceding estimate for positive dimension; EtaleCohomologyFoundations §F.6 pairings for the top permutation module; EtaleCohomologyFoundations §§F.0.2 and F.4.5 for finite-étale permutation cohomology. **Source:** Deligne I, §§1.4–1.5, pp. 274–275, and §2.5, p. 281. Suggested name: `TauCeti.PointCounting.component_and_dimension_zero_counts`. The explicit finite-étale factor comparison is used again in WC.7.
+*Needs:* WC.0 orbit dictionary; the preceding estimate for positive dimension; EtaleCohomologyFoundations §F.6 pairings for the top permutation module; EtaleCohomologyFoundations §§F.0.2 and F.4.5 for finite-étale permutation cohomology. **Source:** Deligne I, §§1.4–1.5, pp. 274–275, and §2.5, p. 281. Library target: `component_and_dimension_zero_counts`. The explicit finite-étale factor comparison is used again in WC.7.
 
 ### Compatibility with curve and elliptic bounds
 
@@ -838,7 +869,7 @@ For a smooth projective geometrically connected genus-`g` curve, use the actual 
 
 Make the same comparison over each `k_r` using WC.0's extension transport. The result is agreement of counts and estimates. It does not repeat the Jacobian or elliptic proof.
 
-*Needs:* the all-extension estimate; DeligneWeightsAndPurity §§1.6–1.7; **EllipticCurves, Layer 3**; Tau Ceti `pointCount`, `pointCount_eq_card_point` with ellipticity and finite affine solutions, and `frobeniusTrace`. **Source:** Milne, Theorem 27.15, p. 159, for the purity estimate; Mustață, Example 3.10, pp. 22–23, for elliptic normalization. Suggested name: `TauCeti.PointCounting.curve_elliptic_bound_comparison`.
+*Needs:* the all-extension estimate; DeligneWeightsAndPurity §§1.6–1.7; **EllipticCurves, Layer 3**; Tau Ceti `pointCount`, `pointCount_eq_card_point` with ellipticity and finite affine solutions, and `frobeniusTrace`. **Source:** Milne, Theorem 27.15, p. 159, for the purity estimate; Mustață, Example 3.10, pp. 22–23, for elliptic normalization. Library target: `curve_elliptic_bound_comparison`.
 
 ### Recurrences and Newton recovery
 
@@ -858,7 +889,7 @@ In characteristic zero the first `b_i` moments recover the factor recursively. T
 
 For a genus-`g` curve, `S_n = 1 + q^n − N_n` and `S₀ = 2g`. In any dimension, `Q_total = ∏_i Π_i` annihilates the point-count moment sequence after the algebraic extension `N₀ = χ`. This is not a point count over a field with one element. Its degree `Σ_i b_i` is an upper bound on recurrence order; cancellations can reduce the minimal order.
 
-*Needs:* DeligneWeightsAndPurity §0.10 and `Matrix.reverse_charpoly`; WC.3 for general canonical projective factors and WC.1's root-bound-free curve numerator for curves. **Source:** Milne, Lemma 27.5 and Theorem 27.6, pp. 155–156; Deligne I, equation (1.5.3), pp. 275–276, and §1.15, p. 279. Suggested name: `TauCeti.PointCounting.extension_count_recurrence`.
+*Needs:* DeligneWeightsAndPurity §0.10 and `Matrix.reverse_charpoly`; WC.3 for general canonical projective factors and WC.1's root-bound-free curve numerator for curves. **Source:** Milne, Lemma 27.5 and Theorem 27.6, pp. 155–156; Deligne I, equation (1.5.3), pp. 275–276, and §1.15, p. 279. Library target: `extension_count_recurrence`.
 
 ### Complete intersections
 
@@ -870,11 +901,11 @@ Let `X/k` be a smooth projective geometrically connected complete intersection o
 
 Weak Lefschetz identifies the nonmiddle cohomology with projective space. The middle primitive part has exactly b reciprocal roots and is the only error term, with trace sign `(−1)^n`. The complex model and comparison come from the complete-intersection supplier, rather than an arbitrary lifting assumption for all varieties.
 
-*Needs:* the Weil estimate; WC.4 comparison in the supplied family; EtaleDualityAndPerverseSheaves §§4.3 and 4.7. **Source:** Deligne I, Theorem 8.1 and its proof, pp. 301–302. Suggested name: `TauCeti.PointCounting.complete_intersection_point_count`.
+*Needs:* the Weil estimate; WC.4 comparison in the supplied family; EtaleDualityAndPerverseSheaves §§4.3 and 4.7. **Source:** Deligne I, Theorem 8.1 and its proof, pp. 301–302. Library target: `complete_intersection_point_count`.
 
 ### Exact polynomial point count
 
-For an isomorphism-invariant count function `N:ℕ → ℚ` and `P ∈ ℚ[T]`, define `TauCeti.PointCounting.HasPolynomialPointCount N P` by
+For an isomorphism-invariant count function `N:ℕ → ℚ` and `P ∈ ℚ[T]`, define the library predicate `HasPolynomialPointCount N P` by
 
 ```text
 ∀ q ∈ ℕ, IsPrimePow(q) → N(q) = P(q).
@@ -882,16 +913,13 @@ For an isomorphism-invariant count function `N:ℕ → ℚ` and `P ∈ ℚ[T]`, 
 
 Mathlib's prime-power predicate means `p^r` with `p` prime and `r ≥ 1`. Values of `N` at 0, 1 and non-prime-powers do not affect the predicate. Actual point sets or finite-mass groupoids supply `N` through WC.0 and WC.1. This definition does not create geometric point sets from a numerical function.
 
-| Name in TauCeti.PointCounting | Hypotheses and conclusion |
-| --- | --- |
-| `HasPolynomialPointCount_eval` | A witness and a prime-power `q` give `N(q) = P(q)`. |
-| `HasPolynomialPointCount_unique` | Two polynomial witnesses for the same `N` are equal. |
-| `HasPolynomialPointCount_zero` | The zero function has witness zero. |
-| `HasPolynomialPointCount_add` | Witnesses `P,Q` for `N,M` give witness `P + Q` for the pointwise sum. |
-| `HasPolynomialPointCount_mul` | Witnesses `P,Q` give witness `PQ` for the pointwise product. |
-| `HasPolynomialPointCount_congr` | Functions equal on prime powers have exactly the same witnesses. |
-
-Uniqueness uses infinitely many prime-power evaluations and Mathlib's `Polynomial.eq_of_infinite_eval_eq`. The operation lemmas transport disjoint-union and product counts when the geometric comparisons supply those operations.
+Prove evaluation at every prime power and uniqueness of the polynomial witness.
+The zero function has witness zero; pointwise sums and products have the sum and
+product of their witnesses. Functions equal on prime powers have exactly the
+same witnesses. Uniqueness uses infinitely many prime-power evaluations and
+Mathlib's `Polynomial.eq_of_infinite_eval_eq`. The operation lemmas transport
+disjoint-union and product counts when the geometric comparisons supply those
+operations.
 
 **Checks.**
 
@@ -914,7 +942,7 @@ Then `H^k` vanishes for odd `k ≥ s`. For `s ≤ 2j ≤ 2d`, `P_j = dim H^{2j}`
 
 For a DM stack, use mass and the actual stack trace, purity, smooth proper transport and rational comparison contracts. The same graded-moment argument then applies. The error exponent used throughout the proof is `s`, so it remains valid when `s > d`.
 
-*Needs:* graded polynomial approximation; WC.4 supplied comparison; WC.1 stack trace where applicable; DeligneWeightsAndPurity §7.15 and DeligneWeightsAndPurity §8.24’s smooth proper DM purity. **Source:** Bergström–Faber–Payne, Proposition 3.1 and proof, published p. 1330; van den Bogaart–Edixhoven, Lemma 4.1, pp. 6–7. Suggested name: `TauCeti.PointCounting.local_polynomial_count_cutoff`.
+*Needs:* graded polynomial approximation; WC.4 supplied comparison; WC.1 stack trace where applicable; DeligneWeightsAndPurity §7.15 and DeligneWeightsAndPurity §8.24’s smooth proper DM purity. **Source:** Bergström–Faber–Payne, Proposition 3.1 and proof, published p. 1330; van den Bogaart–Edixhoven, Lemma 4.1, pp. 6–7. Library target: `local_polynomial_count_cutoff`.
 
 ### Approximate counts and Tate semisimplification
 
@@ -936,7 +964,7 @@ Smooth proper transport supplies the good-reduction Frobenius traces; duality re
 
 The input `P` may have incorrect lower coefficients. For example, on `ℙ²` the approximation `T² + T` has error 1, which is little-o of `p^n`, while the exact count is `T² + T + 1`. The theorem constructs `C` instead of asserting `P = C`. For a DM stack, all of the stack trace, comparison, purity and duality inputs are explicit requirements.
 
-*Needs:* the local cutoff; WC.4 transport; WC.2 duality; **ArithmeticGaloisRepresentations §§5.1 and 5.3** for density-one Frobenius determination; polynomial equality on infinitely many evaluations. **Source:** van den Bogaart–Edixhoven, Theorem 2.1, p. 3, and proof in §4, pp. 6–9. Suggested name: `TauCeti.PointCounting.approximate_counts_tate_semisimplification`.
+*Needs:* the local cutoff; WC.4 transport; WC.2 duality; **ArithmeticGaloisRepresentations §§5.1 and 5.3** for density-one Frobenius determination; polynomial equality on infinitely many evaluations. **Source:** van den Bogaart–Edixhoven, Theorem 2.1, p. 3, and proof in §4, pp. 6–9. Library target: `approximate_counts_tate_semisimplification`.
 
 ### Polynomial counts over all `Spec ℤ`
 
@@ -952,7 +980,7 @@ To remove semisimplification, twist each even-degree representation to weight ze
 
 The DM version has the same conclusion only with the stack extension of the comparison and local p-adic inputs, as well as trace, purity and duality. The theorem does not infer that extension from the scheme case.
 
-*Needs:* exact polynomial count; the open-`U` theorem; **PadicHodgeTheory §§5.3 and 8.1**; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`), applied to the finite Galois extensions cut out by finite image quotients; WC.1 stack comparison contracts when applicable. **Source:** van den Bogaart–Edixhoven, Theorem 2.1 last clause, p. 3, Lemma 4.2 and the end of the proof, pp. 8–10; Bergström–Faber–Payne, §3, p. 1330, and Proposition 9.3, p. 1352. Suggested name: `TauCeti.PointCounting.polynomial_counts_over_z_tate_cohomology`.
+*Needs:* exact polynomial count; the open-`U` theorem; **PadicHodgeTheory §§5.3 and 8.1**; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`), applied to the finite Galois extensions cut out by finite image quotients; WC.1 stack comparison contracts when applicable. **Source:** van den Bogaart–Edixhoven, Theorem 2.1 last clause, p. 3, Lemma 4.2 and the end of the proof, pp. 8–10; Bergström–Faber–Payne, §3, p. 1330, and Proposition 9.3, p. 1352. Library target: `polynomial_counts_over_z_tate_cohomology`.
 
 ### Equivariant polynomial counts
 
@@ -966,7 +994,7 @@ Odd cohomology vanishes. For every `q` and `σ ∈ G`, the character of `A(q)` a
 
 For rational irreducible representations, retain their Schur indices and endomorphism fields when extracting multiplicities. Complex character inner products alone do not automatically give rational-irrep multiplicities. The DM version also requires effective twists and the stack comparison/purity/duality and arithmetic inputs.
 
-*Needs:* WC.4 comparison; the all-Spec-ℤ Tate theorem; WC.1 twists and character-lattice comparison; Tau Ceti `repRing` and `repRingCharacter`. **Source:** Bergström–Faber–Payne, Proposition 9.3 and proof, published p. 1352. Suggested name: `TauCeti.PointCounting.equivariant_polynomial_point_counts`.
+*Needs:* WC.4 comparison; the all-Spec-ℤ Tate theorem; WC.1 twists and character-lattice comparison; Tau Ceti `repRing` and `repRingCharacter`. **Source:** Bergström–Faber–Payne, Proposition 9.3 and proof, published p. 1352. Library target: `equivariant_polynomial_point_counts`.
 
 ### Equivariant palindromicity
 
@@ -978,7 +1006,7 @@ A_j = A_{d−j}^∨,    A(T) = T^d A(T⁻¹)^∨.
 
 The second equality is a Laurent-polynomial identity, with dual applied to each coefficient. Multiplicity polynomials for dual irreducibles are paired. Each is palindromic when that irreducible is self-dual. A DM application uses stack duality, rather than the scheme pairing.
 
-*Needs:* equivariant polynomial counts; EtaleCohomologyFoundations §§F.5–F.6, or WC.1 stack pairing; the contragredient on rational representations and its induced map on Tau Ceti’s representation ring. **Source:** Bergström–Faber–Payne, Remark 9.4, published p. 1352. Suggested name: `TauCeti.PointCounting.equivariant_polynomial_duality`.
+*Needs:* equivariant polynomial counts; EtaleCohomologyFoundations §§F.5–F.6, or WC.1 stack pairing; the contragredient on rational representations and its induced map on Tau Ceti’s representation ring. **Source:** Bergström–Faber–Payne, Remark 9.4, published p. 1352. Library target: `equivariant_polynomial_duality`.
 
 ### The independent surface route to curve bounds
 
@@ -1002,7 +1030,7 @@ D² = −2g,    E² = −2g q^r,    D E = N_r − 1 − q^r.
 
 Hodge index gives `|N_r − 1 − q^r| ≤ 2gq^{r/2}`. SchemeAndStackFoundations §§5.9–5.11 owns the intersections, adjunction, ampleness and Hodge-index inequality. Here the comparison transports that result to the exact extension-point tower, retaining every `r`.
 
-*Needs:* SchemeAndStackFoundations §§5.9–5.11 surface theorem; WC.0 point-tower and orbit comparisons. **Source:** Mustață, proof of Theorem 3.6 and Proposition 3.9, p. 22, with the fibre labels fixed as above. Suggested name: `TauCeti.PointCounting.surface_all_extension_bound_comparison`.
+*Needs:* SchemeAndStackFoundations §§5.9–5.11 surface theorem; WC.0 point-tower and orbit comparisons. **Source:** Mustață, proof of Theorem 3.6 and Proposition 3.9, p. 22, with the fibre labels fixed as above. Library target: `surface_all_extension_bound_comparison`.
 
 ### Curve RH from the surface bound
 
@@ -1010,7 +1038,7 @@ Take the WC.1 integral degree-`2g` numerator `Π_C`, which was constructed witho
 
 Since `Π_C` has rational integral coefficients, its full reciprocal-root multiset includes every complex conjugate with multiplicity. This establishes the all-conjugates curve RH statement and agrees with the same numerator and functional equation. This route does not use the curve-purity results of DeligneWeightsAndPurity §§1.1–1.9, projective purity in §§4.3–4.4, WC.3 projective purity, or the earlier WC.5 Weil estimate. It does use the purity-free zeta rationality and formal-series compatibility of DeligneWeightsAndPurity §1.10 through WC.1.
 
-*Needs:* surface all-extension bound; WC.1 curve numerator and trace formula; WC.2 duality; finite-spectrum converse and reciprocal-pairing equality. **Source:** Mustață, Remark 3.7, Lemma 3.8 and Theorem 3.6, pp. 21–22. Suggested name: `TauCeti.PointCounting.curve_rh_from_surface_bound`.
+*Needs:* surface all-extension bound; WC.1 curve numerator and trace formula; WC.2 duality; finite-spectrum converse and reciprocal-pairing equality. **Source:** Mustață, Remark 3.7, Lemma 3.8 and Theorem 3.6, pp. 21–22. Library target: `curve_rh_from_surface_bound`.
 
 ### Examples
 
@@ -1036,7 +1064,7 @@ geometric factor construction or the projective specialization.
 
 The nonprojective toric threefold target below supplies an actual smooth proper nonprojective variety with its cohomology comparison. Projective spaces alone do not exercise the removal of projectivity. The empty scheme and a degree-`m` finite étale point separately check trivial factors and a nontrivial degree-zero permutation.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2 actual geometry; WC.0 realization; WC.1 cohomological comparison and normalized integral presentation; WC.3 generic degreewise extraction; DeligneWeightsAndPurity §7.15; `Matrix.charpolyRev` and `eval_charpolyRev`. **Source:** Deligne II, Corollary 3.3.9 and proof, p. 207; Deligne I, proof of (1.7) ⇒ (1.6), pp. 276–277. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.exists_unique_integral_degree_factors_of_smooth_proper`.
+*Needs:* SchemeAndStackFoundations Layers 0–2 actual geometry; WC.0 realization; WC.1 cohomological comparison and normalized integral presentation; WC.3 generic degreewise extraction; DeligneWeightsAndPurity §7.15; `Matrix.charpolyRev` and `eval_charpolyRev`. **Source:** Deligne II, Corollary 3.3.9 and proof, p. 207; Deligne I, proof of (1.7) ⇒ (1.6), pp. 276–277. Library target: `exists_unique_integral_degree_factors_of_smooth_proper`.
 
 ### A smooth proper nonprojective threefold
 
@@ -1143,7 +1171,7 @@ If `β ≠ 0` is a zero or pole of the **reduced** rational function, then `α =
 
 There is no smoothness or properness assumption. The result does not assert integer coefficients or `ℓ`-independence for individual cohomological factors, nor weight exactly `i`. A sheaf with a real weight relative to only one chosen embedding does not meet the algebraic mixedness hypothesis here.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2; DeligneWeightsAndPurity §§5.2–5.3 and 7.8–7.12; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 and DeligneWeightsAndPurity §1.10; matrix determinants and `RatFunc`. **Source:** Deligne II, Corollary 3.3.4, p. 206; SGA 4½, Rapport, §§3.1–3.4 and 3.6, pp. 86–88, for determinant rationality and the closed-point formula. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.reciprocal_divisor_weight_le`.
+*Needs:* SchemeAndStackFoundations Layers 0–2; DeligneWeightsAndPurity §§5.2–5.3 and 7.8–7.12; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 and DeligneWeightsAndPurity §1.10; matrix determinants and `RatFunc`. **Source:** Deligne II, Corollary 3.3.4, p. 206; SGA 4½, Rapport, §§3.1–3.4 and 3.6, pp. 86–88, for determinant rationality and the closed-point formula. Library target: `reciprocal_divisor_weight_le`.
 
 ### The smooth proper signed equation
 
@@ -1155,14 +1183,20 @@ For smooth proper pure-`d` `X/k`, apply WC.2 to the actual graded pairing and th
 
 The determinants can also be read from the highest coefficients of `Π_i`: their normalization makes this another check of `ℓ`-independence. Integer exponents handle negative `χ`. This is the WC.2 theorem on the smooth proper factor package, not a second construction of the multiplier.
 
-*Needs:* smooth proper integral factors; WC.2 signed assembly, parity and multiplier descent; EtaleCohomologyFoundations §§F.5–F.6 and EtaleDualityAndPerverseSheaves §8.2; SchemeAndStackFoundations Layers 0–2. **Source:** Deligne I, §§2.3–2.6, pp. 281–282, with (1.5.4). Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.functional_equation_of_smooth_proper`.
+`functional_equation_of_smooth_proper` in `Suggested.lean` states the signed
+rational-function identity for an actual smooth proper pure-dimensional scheme.
+Given its reduced normalized presentation, it reads `χ=deg V−deg U` and
+characterizes `Δ` uniquely by the equation and its square. Identifying these with
+the cohomological Euler characteristic and determinant is the comparison above.
+
+*Needs:* smooth proper integral factors; WC.2 signed assembly, parity and multiplier descent; EtaleCohomologyFoundations §§F.5–F.6 and EtaleDualityAndPerverseSheaves §8.2; SchemeAndStackFoundations Layers 0–2. **Source:** Deligne I, §§2.3–2.6, pp. 281–282, with (1.5.4). Library target: `functional_equation_of_smooth_proper`.
 
 <a id="homology-manifold-weil-assembly"></a>
 
 ### Proper rational homology manifolds
 
 The export `WC.6/homology-manifold-weil-assembly` is implemented by
-`TauCeti.AlgebraicGeometry.WeilZeta.weil_factors_of_dualizing_constant`.
+`weil_factors_of_dualizing_constant`.
 
 Let `X/k` be proper finite type of pure dimension `d`. For every `ℓ` under consideration suppose its actual dualizing object has a **Frobenius-equivariant** isomorphism
 
@@ -1174,7 +1208,7 @@ This geometric dualizing-object condition gives the rational homology-manifold f
 
 The geometric isomorphism is the hypothesis. It is not replaced by a field asserting purity or RH. No smoothness is required once this dualizing-object contract is supplied.
 
-*Needs:* DeligneWeightsAndPurity §7.15; EtaleCohomologyFoundations §F.5 and EtaleDualityAndPerverseSheaves §8.2 for the pairing/determinant extension; WC.1 normalized zeta; WC.3 generic extraction; WC.2 algebraic assembly; SchemeAndStackFoundations Layers 0–2. **Source:** Deligne II, §3.3.11, p. 207. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.weil_factors_of_dualizing_constant`.
+*Needs:* DeligneWeightsAndPurity §7.15; EtaleCohomologyFoundations §F.5 and EtaleDualityAndPerverseSheaves §8.2 for the pairing/determinant extension; WC.1 normalized zeta; WC.3 generic extraction; WC.2 algebraic assembly; SchemeAndStackFoundations Layers 0–2. **Source:** Deligne II, §3.3.11, p. 207. Library target: `weil_factors_of_dualizing_constant`.
 
 ### Smooth proper DM stack purity
 
@@ -1186,7 +1220,7 @@ Identify the supplied purity theorem with WC.1's point-mass, compact-support
 and pairing adapters. The underlying purity and perfect pairing are supplied
 by that section; WC.1 provides their counting and determinant compatibilities.
 
-*Needs:* SchemeAndStackFoundations §§1.19–1.20; WC.1 stack counting and pairing adapters; DeligneWeightsAndPurity §§7.15 and 8.24 coarse comparison, duality and purity. **Source:** Bergström–Faber–Payne, proof of Proposition 3.1, published p. 1330, and proof of Proposition 4.2, p. 1331; Deligne II, §3.3.11, p. 207. van den Bogaart–Edixhoven, Lemma 3.2, p. 5, gives the coarse comparison in characteristic zero; the finite-characteristic comparison is supplied by DeligneWeightsAndPurity §8.24. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.pure_cohomology_of_smooth_proper_dm_stack`.
+*Needs:* SchemeAndStackFoundations §§1.19–1.20; WC.1 stack counting and pairing adapters; DeligneWeightsAndPurity §§7.15 and 8.24 coarse comparison, duality and purity. **Source:** Bergström–Faber–Payne, proof of Proposition 3.1, published p. 1330, and proof of Proposition 4.2, p. 1331; Deligne II, §3.3.11, p. 207. van den Bogaart–Edixhoven, Lemma 3.2, p. 5, gives the coarse comparison in characteristic zero; the finite-characteristic comparison is supplied by DeligneWeightsAndPurity §8.24. Library target: `pure_cohomology_of_smooth_proper_dm_stack`.
 
 ### The rigid/crystalline comparison boundary
 
@@ -1220,7 +1254,7 @@ Z_{ℙ^n}(T) = ∏_{j=0}^n (1 − q^j T)⁻¹,    N_r = ∑_{j=0}^n q^(jr)  (r �
 
 The cohomology computation and its Frobenius action precede the zeta calculation. They are not reconstructed by guessing eigenvalues from the point count. For `n = 0` the answer is `1/(1 − T)`, consistent with the dimension-zero branch of WC.5. For `n = 1`, `N₁ = q + 1` and the signed multiplier is `qT²`.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2 projective-space construction; EtaleCohomologyFoundations §§0.9 and F.7, and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4; WC.6 smooth proper factors; WC.1 all-power trace formula; WC.5 recurrence interface. **Source:** Deligne I, §§1.5 and 2.5–2.6, pp. 275–276 and 281–282, specialized to these Tate classes. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.degree_factors_projective_space`.
+*Needs:* SchemeAndStackFoundations Layers 0–2 projective-space construction; EtaleCohomologyFoundations §§0.9 and F.7, and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4; WC.6 smooth proper factors; WC.1 all-power trace formula; WC.5 recurrence interface. **Source:** Deligne I, §§1.5 and 2.5–2.6, pp. 275–276 and 281–282, specialized to these Tate classes. Library target: `degree_factors_projective_space`.
 
 ### Finite étale schemes
 
@@ -1232,7 +1266,7 @@ For finite étale `X/k`, write its finite geometric point set as disjoint Froben
 
 This identifies the actual canonical factor with the orbit polynomial, including multiplicities when orbit lengths coincide. For `Spec k_m` there is a single factor `1 − T^m`, and the count is `m` for `m ∣ r` and zero otherwise. Its zeros are roots of unity, as weight zero requires. Empty `X` has the empty product one and every count zero. This is the geometric factor application of the WC.0 orbit dictionary and WC.5 dimension-zero calculation.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2 finite étale schemes; WC.0 closed points; EtaleCohomologyFoundations §§F.0.2 and F.4.5; WC.1 determinant trace formula; WC.6 smooth proper factors. **Source:** Deligne I, §1.4(c)–(d), p. 275; SGA 4½, Rapport, Corollary 3.4 and Remark 3.5, pp. 87–88. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.degree_factor_finite_etale_orbits`.
+*Needs:* SchemeAndStackFoundations Layers 0–2 finite étale schemes; WC.0 closed points; EtaleCohomologyFoundations §§F.0.2 and F.4.5; WC.1 determinant trace formula; WC.6 smooth proper factors. **Source:** Deligne I, §1.4(c)–(d), p. 275; SGA 4½, Rapport, Corollary 3.4 and Remark 3.5, pp. 87–88. Library target: `degree_factor_finite_etale_orbits`.
 
 ### Products and Künneth
 
@@ -1250,7 +1284,7 @@ For `ℙ¹ × ℙ¹` the degree factors are `1 − T`, `(1 − qT)²` and `1 −
 Z(T) = 1/((1 − T)(1 − qT)²(1 − q²T)),    N_r = (1 + q^r)².
 ```
 
-*Needs:* SchemeAndStackFoundations Layers 0–2 fibre products; EtaleCohomologyFoundations §§F.4.5–F.4.6 Künneth and actions, and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4; WC.6 factors; the projective-space computation; WC.5 all-power traces and recurrences. **Source:** Deligne I, §1.5.3, pp. 275–276, with the supplier's Künneth isomorphism. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.degree_factors_product_of_smooth_proper`.
+*Needs:* SchemeAndStackFoundations Layers 0–2 fibre products; EtaleCohomologyFoundations §§F.4.5–F.4.6 Künneth and actions, and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4; WC.6 factors; the projective-space computation; WC.5 all-power traces and recurrences. **Source:** Deligne I, §1.5.3, pp. 275–276, with the supplier's Künneth isomorphism. Library target: `degree_factors_product_of_smooth_proper`.
 
 ### Curves and their Jacobians
 
@@ -1268,7 +1302,7 @@ The identification with the Jacobian is a comparison of constructions, including
 
 At `g = 0`, `Π₁ = 1` and `N_r = 1 + q^r`. At `g = 1`, writing `a = q + 1 − N₁` gives `Π₁ = 1 − aT + qT²` and `S_r = aS_{r−1} − qS_{r−2}`, with `S₀ = 2`. These normalizations connect the curve factor to the independent elliptic point-count carrier.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2 curves; AbelianSchemesAndArithmeticModuli §A4.4 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1; WC.1 curve numerator; WC.6 smooth proper factors and signed equation; WC.5 recurrence and moment recovery. **Source:** Deligne I, §§1.5–1.5.4, pp. 275–276; Mustață, Remark 3.7, equations (3.8)–(3.10), p. 21. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.degree_one_factor_curve`.
+*Needs:* SchemeAndStackFoundations Layers 0–2 curves; AbelianSchemesAndArithmeticModuli §A4.4 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1; WC.1 curve numerator; WC.6 smooth proper factors and signed equation; WC.5 recurrence and moment recovery. **Source:** Deligne I, §§1.5–1.5.4, pp. 275–276; Mustață, Remark 3.7, equations (3.8)–(3.10), p. 21. Library target: `degree_one_factor_curve`.
 
 ### Worked elliptic example over `𝔽₅`
 
@@ -1286,7 +1320,7 @@ S₀ = 2,    S₁ = −2,    S_r = −2 S_{r−1} − 5 S_{r−2}  (r ≥ 2).
 
 It gives `S₂ = −6` and `N₂ = 1 + 25 − (−6) = 32`. The specialization compares its count hypothesis with `WeierstrassCurve.pointCount_eq_card_point` and the scheme’s point dictionary. Checking the affine equation or a `2 × 2` companion matrix alone is only part of this geometric application.
 
-*Needs:* the curve factor comparison; SchemeAndStackFoundations Layers 0–2 model and point dictionary; Mathlib `WeierstrassCurve`, `WeierstrassCurve.Δ`, and `WeierstrassCurve.Affine.Equation`; Tau Ceti `pointCount`, `pointCount_eq_card_point` and `frobeniusTrace`; WC.5 recurrence. **Source:** the elementary enumeration just given uses the specified equation, with the genus-one normalization of Mustață, Example 3.10, pp. 22–23. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.zeta_weierstrass_five`.
+*Needs:* the curve factor comparison; SchemeAndStackFoundations Layers 0–2 model and point dictionary; Mathlib `WeierstrassCurve`, `WeierstrassCurve.Δ`, and `WeierstrassCurve.Affine.Equation`; Tau Ceti `pointCount`, `pointCount_eq_card_point` and `frobeniusTrace`; WC.5 recurrence. **Source:** the elementary enumeration just given uses the specified equation, with the genus-one normalization of Mustață, Example 3.10, pp. 22–23. Library target: `zeta_weierstrass_five`.
 
 ### Worked genus-two example with negative Euler characteristic
 
@@ -1312,7 +1346,7 @@ Z_C(1/(2T)) = (1/2) T^(−2) Z_C(T).
 
 This example exercises integer powers and reciprocal substitution. An attempted identity using a natural-valued Euler characteristic would discard its exponent. Beyond the four initial counts, the numerator supplies `S_{r+4} + 4S_r = 0` for `r ≥ 0`, with `S₀ = 4`, hence every extension count.
 
-*Needs:* the curve factor comparison and WC.5 Newton/recurrence API; **AlgebraicCurves, Layer 10** Artin–Schreier model, reduced local invariant and different; **Layer 7** Hurwitz; **Layer 12B–12E** model/place/genus dictionary. **Source:** AlgebraicCurves Layers 7, 10 and 12; the displayed finite-field trace calculation and Newton identities determine this specialization. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.zeta_artin_schreier_genus_two`.
+*Needs:* the curve factor comparison and WC.5 Newton/recurrence API; **AlgebraicCurves, Layer 10** Artin–Schreier model, reduced local invariant and different; **Layer 7** Hurwitz; **Layer 12B–12E** model/place/genus dictionary. **Source:** AlgebraicCurves Layers 7, 10 and 12; the displayed finite-field trace calculation and Newton identities determine this specialization. Library target: `zeta_artin_schreier_genus_two`.
 
 ### The sign for the projective plane
 
@@ -1324,7 +1358,7 @@ Z_{ℙ²}(1/(q²T)) = −q³ T³ Z_{ℙ²}(T).
 
 The minus sign is required. It comes from `(−1)^χ`, not from a discretionary convention for a square root of `q^{dχ}`. The factors also give `N_r = 1 + q^r + q^{2r}`; direct substitution in this rational expression checks the sign for every prime power `q`.
 
-*Needs:* projective-space factors; WC.6 signed smooth proper equation, itself reusing WC.2; Mathlib `RatFunc`. **Source:** Deligne I, §2.6, pp. 281–282, specialized to the projective-space computation. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.functional_equation_projective_plane`.
+*Needs:* projective-space factors; WC.6 signed smooth proper equation, itself reusing WC.2; Mathlib `RatFunc`. **Source:** Deligne I, §2.6, pp. 281–282, specialized to the projective-space computation. Library target: `functional_equation_projective_plane`.
 
 ### The multiplicative group and compact support
 
@@ -1336,7 +1370,7 @@ P_{1,c} = 1 − T,    P_{2,c} = 1 − qT,    Z_{𝔾_m}(T) = (1 − T)/(1 − qT
 
 The reciprocal zero 1 has weight 0, whereas the reciprocal pole `q` has weight 2. In particular the degree-one compact-support group has weight zero. This is compatible with the mixed upper bound and illustrates why the smooth proper pure-degree rule cannot be applied to an open curve. The comparison identifies the localization realization with InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4’s ordinary/compact-support example and with the arithmetic zeta expression.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2; EtaleCohomologyFoundations §§0.7, F.4.5 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4; WC.6 mixed divisor bound; WC.5 recurrence compatibility. **Source:** SGA 4½, Rapport, §§3.1–3.2 and 3.6, pp. 86 and 88, for the compact-support determinant convention. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.l_function_multiplicative_group`.
+*Needs:* SchemeAndStackFoundations Layers 0–2; EtaleCohomologyFoundations §§0.7, F.4.5 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4; WC.6 mixed divisor bound; WC.5 recurrence compatibility. **Source:** SGA 4½, Rapport, §§3.1–3.2 and 3.6, pp. 86 and 88, for the compact-support determinant convention. Library target: `l_function_multiplicative_group`.
 
 ### Frobenius from base-field algebraic cycles
 
@@ -1350,7 +1384,7 @@ is surjective. The image of every base-field cycle is Galois invariant by cycle-
 
 Surjectivity from `CH^j(X_{k̄})` instead would only say that geometric cycles span. Frobenius can permute those classes. The descent to `k` in the hypothesis is what forces scalar action. This distinction remains essential in the numerical Picard applications below.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2; EtaleCohomologyFoundations §F.6 and EtaleDualityAndPerverseSheaves §1.3 and their Galois/Tate compatibilities; WC.0 Frobenius convention. **Source:** Schröer, §7 Tate-twist discussion, p. 20, and proof of Proposition 7.1, p. 21. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.frobenius_scalar_of_surjective_base_cycle_map`.
+*Needs:* SchemeAndStackFoundations Layers 0–2; EtaleCohomologyFoundations §F.6 and EtaleDualityAndPerverseSheaves §1.3 and their Galois/Tate compatibilities; WC.0 Frobenius convention. **Source:** Schröer, §7 Tate-twist discussion, p. 20, and proof of Proposition 7.1, p. 21. Library target: `frobenius_scalar_of_surjective_base_cycle_map`.
 
 ### Zeta factors from algebraic cycles
 
@@ -1362,7 +1396,7 @@ Let `X/k` be smooth proper geometrically connected of dimension `d`. For a prime
 
 WC.6 identifies these polynomials with the canonical integral factors. In particular the `b_{2j}` are independent of `ℓ`, although the hypothesis may be checked at one chosen coefficient prime. The determinant calculation itself uses the scalar-action theorem and WC.1; it does not use root bounds to infer scalar action. At degree zero geometric connectedness gives `b₀ = 1`.
 
-*Needs:* base-field scalar Frobenius; WC.1 cohomological determinant comparison; WC.6 canonical factors; SchemeAndStackFoundations Layers 0–2 actual scheme. **Source:** Schröer, Proposition 7.1 and proof, pp. 20–21. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.zeta_of_surjective_base_cycles`.
+*Needs:* base-field scalar Frobenius; WC.1 cohomological determinant comparison; WC.6 canonical factors; SchemeAndStackFoundations Layers 0–2 actual scheme. **Source:** Schröer, Proposition 7.1 and proof, pp. 20–21. Library target: `zeta_of_surjective_base_cycles`.
 
 ### Counts over every extension from cycles
 
@@ -1374,7 +1408,7 @@ N_r = ∑_{j=0}^d b_{2j} q^(jr).
 
 The same base-field cycles identify `F` once; the extension theorem uses its powers `F^r`. There is no separate descent assumption for each extension. The all-power trace formula or the logarithmic derivative of the displayed zeta product gives the count, and WC.5's recurrence agrees with both. In particular `N₁ ≥ 1`, since `b₀ = 1` and all summands are nonnegative. The dimension-zero connected case gives `N_r = 1`.
 
-*Needs:* scalar Frobenius and the cycle zeta product; WC.1 all-power trace formula; WC.5 recurrence interface; SchemeAndStackFoundations Layers 0–2 rational-point finiteness. **Source:** Schröer, Proposition 7.1 point-count conclusion and proof, pp. 20–21. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.count_extension_of_surjective_base_cycles`.
+*Needs:* scalar Frobenius and the cycle zeta product; WC.1 all-power trace formula; WC.5 recurrence interface; SchemeAndStackFoundations Layers 0–2 rational-point finiteness. **Source:** Schröer, Proposition 7.1 point-count conclusion and proof, pp. 20–21. Library target: `count_extension_of_surjective_base_cycles`.
 
 ### Numerical divisor descent and surface invariant comparisons
 
@@ -1497,7 +1531,7 @@ Z_X(T) = 1/((1 − T)(1 − qT)^(b₂)(1 − q²T)),    N_r = 1 + b₂ q^r + q^(
 
 The statement allows nonprime `q`; `N₁` is the count over `k`, not a count over its prime subfield. Its mere-proper formulation requires the numerical divisor comparison in that generality. A projective Hodge-index theorem can be used only after projectivity is proved, or through the proper-surface comparison just specified.
 
-*Needs:* cycle zeta product and all-extension count; EtaleCohomologyFoundations §§F.5–F.6; EtaleCohomologyFoundations §F.6 and EtaleDualityAndPerverseSheaves §1.3; SchemeAndStackFoundations §§5.9–5.11 surface intersections; WC.7 numerical divisor descent for the specified lattice comparison and base-defined divisor descent. **Source:** Schröer, Corollary 7.2 and proof, p. 21, with the divisor-cycle discussion on pp. 19–20. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.count_surface_of_constant_num`.
+*Needs:* cycle zeta product and all-extension count; EtaleCohomologyFoundations §§F.5–F.6; EtaleCohomologyFoundations §F.6 and EtaleDualityAndPerverseSheaves §1.3; SchemeAndStackFoundations §§5.9–5.11 surface intersections; WC.7 numerical divisor descent for the specified lattice comparison and base-defined divisor descent. **Source:** Schröer, Corollary 7.2 and proof, p. 21, with the divisor-cycle discussion on pp. 19–20. Library target: `count_surface_of_constant_num`.
 
 ### Twenty-five points over `𝔽₂`
 
@@ -1509,7 +1543,7 @@ Z_X(T) = 1/((1 − T)(1 − qT)^10(1 − q²T)),    N_r = 1 + 10 q^r + q^(2r)  (
 
 For `k = 𝔽₂`, `N₁ = 25` and `N₂ = 57`. A genus-one fibration need not have a section, so none is added. In the second case both geometric rationality and relative minimality are retained; their role is to supply the stated invariants, and they are not discarded merely because the final numerical expression is simple.
 
-*Needs:* the constant-Num surface theorem; WC.7 Enriques and rational genus-one invariant comparisons and numerical divisor descent. **Source:** Schröer, Corollary 7.3 and proof, p. 21. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.count_enriques_or_rational_genus_one`.
+*Needs:* the constant-Num surface theorem; WC.7 Enriques and rational genus-one invariant comparisons and numerical divisor descent. **Source:** Schröer, Corollary 7.3 and proof, p. 21. Library target: `count_enriques_or_rational_genus_one`.
 
 ### A maximal-count criterion for rational surfaces
 
@@ -1525,7 +1559,7 @@ The freeness, `Pic⁰ = 0` and finite-order hypotheses are supplied by geometric
 At `ρ=10` it agrees with NeronModelsAndSemistableAbelianVarietiesPartII §5.2's
 Picard-constancy criterion, using the same cycle-class map.
 
-*Needs:* NeronModelsAndSemistableAbelianVarietiesPartII §§4.0, 5.0–5.2 common blowups, Picard/cohomology and rank-ten criterion; SchemeAndStackFoundations Layers 0–2 actual rational surface; SchemeAndStackFoundations §§5.9–5.11 surface comparison; EtaleCohomologyFoundations §§F.5–F.6 and EtaleCohomologyFoundations §F.6 and EtaleDualityAndPerverseSheaves §1.3; WC.1 trace and WC.5 finite-spectrum compatibility; WC.7 rational-surface Picard/étale comparison and finite-order action. **Source:** Schröer, §7 and Corollary 7.2, pp. 19–21; the reverse implication is the finite-order trace argument above. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.constant_picard_iff_maximal_count_rational_surface`.
+*Needs:* NeronModelsAndSemistableAbelianVarietiesPartII §§4.0, 5.0–5.2 common blowups, Picard/cohomology and rank-ten criterion; SchemeAndStackFoundations Layers 0–2 actual rational surface; SchemeAndStackFoundations §§5.9–5.11 surface comparison; EtaleCohomologyFoundations §§F.5–F.6 and EtaleCohomologyFoundations §F.6 and EtaleDualityAndPerverseSheaves §1.3; WC.1 trace and WC.5 finite-spectrum compatibility; WC.7 rational-surface Picard/étale comparison and finite-order action. **Source:** Schröer, §7 and Corollary 7.2, pp. 19–21; the reverse implication is the finite-order trace argument above. Library target: `constant_picard_iff_maximal_count_rational_surface`.
 
 ### The smooth proper endpoint
 
@@ -1541,7 +1575,7 @@ The endpoint assembles the individual comparisons rather than using any one conc
 
 Applications can consume a single interface—such as the all-power trace formula for a recurrence—without importing every part of the endpoint. The dimension-zero and negative-Euler-characteristic examples test the edges of the signed equation, while the open-curve example tests the distinction between degree and weight.
 
-*Needs:* WC.0 actual point/Frobenius comparisons; WC.1 arithmetic zeta, normalized rationality and all-power trace formula; WC.2 signed determinant assembly; WC.3 generic factor extraction; WC.4 supplied-family comparison; WC.5 numerical/recurrence interfaces; WC.6 smooth proper factors and mixed divisor bound; SchemeAndStackFoundations Layers 0–2; DeligneWeightsAndPurity §7.15. **Source:** Deligne II, Corollary 3.3.9 and §3.3.11, p. 207; Deligne I, §§1.4–1.7 and 2.2–2.6, pp. 274–277 and 280–282; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4. Suggested name: `TauCeti.AlgebraicGeometry.WeilZeta.weil_conclusions_of_smooth_proper`.
+*Needs:* WC.0 actual point/Frobenius comparisons; WC.1 arithmetic zeta, normalized rationality and all-power trace formula; WC.2 signed determinant assembly; WC.3 generic factor extraction; WC.4 supplied-family comparison; WC.5 numerical/recurrence interfaces; WC.6 smooth proper factors and mixed divisor bound; SchemeAndStackFoundations Layers 0–2; DeligneWeightsAndPurity §7.15. **Source:** Deligne II, Corollary 3.3.9 and §3.3.11, p. 207; Deligne I, §§1.4–1.7 and 2.2–2.6, pp. 274–277 and 280–282; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4. Library target: `weil_conclusions_of_smooth_proper`.
 
 ### Examples
 
