@@ -116,7 +116,7 @@ The same roadmap §§1.8–1.10 supplies `ArithmeticDivisor`, `ArithmeticChow1`,
 
 ## How to read the build
 
-Layer 0 fixes normalizations and heights; Layer 1 adds Kummer/trace/finite generation. Layer 2 supplies adelic evaluation, Layer 3 torsor descent. Layer 4's Mordell theorem uses the independent Vojta–Bombieri route of Layer 5; Parshin is a separate conditional implication. Layer 5's arithmetic positivity proves equidistribution before division-group Mordell–Lang and Bogomolov. Layer 6 assembles genus conclusions and conjectural propositions. Read §0.34 before §§0.31–33. Suggested.lean contains only light native-carrier definitions and statable end signatures; the closing comment lists the other interfaces.
+Layer 0 fixes normalizations and heights; Layer 1 adds Kummer/trace/finite generation. Layer 2 supplies adelic evaluation, Layer 3 torsor descent. Layer 4's Mordell theorem uses the independent Vojta–Bombieri route of Layer 5; Parshin is a separate conditional implication. Layer 5's arithmetic positivity proves equidistribution before division-group Mordell–Lang and Bogomolov. Layer 6 assembles genus conclusions and conjectural propositions. Read §0.34 before §§0.31–33. `Suggested.lean` states Mordell–Weil, Mordell and Siegel finiteness, characteristic-zero Manin–Mumford, finite-rank Mordell–Lang and the genus-zero Hasse principle on native carriers; its module docstring identifies the geometric interfaces needed for the other headline statements.
 
 ## Layer 0: height classes, the Weil machine and canonical heights
 
@@ -262,7 +262,7 @@ For algebraic x_i∈ℂ, `absLogHeight_tuple_le`: max_i h(x_i)≤h([1:x₁:…:x
 
 ### 0.14 Linear coordinate changes
 
-`normalizedHeight_linearChange_bounded`: T∈GL_(n+1)(K) gives |h_K(Tx)−h_K(x)|≤C_T. For injective rectangular A, h_K(Ax)≤h_K(x)+C_A. Apply native `Height.logHeight_linearMap_apply_le`, §0.12 and T⁻¹. Over a number field with the native relative height the representative signature is `logHeight_linearChange_bounded`. Source: Conrad §9 p.30. *Needs:* §§0.11–12.
+`normalizedHeight_linearChange_bounded`: T∈GL_(n+1)(K) gives |h_K(Tx)−h_K(x)|≤C_T. For injective rectangular A, h_K(Ax)≤h_K(x)+C_A. Apply native `Height.logHeight_linearMap_apply_le`, §0.12 and T⁻¹. Over a number field the native relative height obeys the same bounded-change estimate. Source: Conrad §9 p.30. *Needs:* §§0.11–12.
 
 **Checks.**
 
@@ -320,7 +320,7 @@ For φ:S→S, d>1 and |f(φs)−df(s)|≤C define `tateLimit φ d f`=f+Σ_(m≥0
 
 - A constant f with φ=id has limit zero
 - an exact scaling function is fixed
-- `tateLimit_elliptic`: doubling with f=naiveHeight/2, d=4 gives one half of native elliptic `canonicalHeight`.
+- Doubling with f=naiveHeight/2, d=4 gives one half of native elliptic `canonicalHeight`.
 - For id, d=2, f=1 the error bound 1 is attained.
 - For successor, d=1, f(n)=n, normalized iterates at zero equal m and diverge.
 
@@ -603,7 +603,7 @@ For every isogeny φ:A→B of abelian varieties over a number field K, apply SI 
 
 ### 1.6 Weak Mordell–Weil
 
-`finite_quotient_nsmul`: for global K, m≥1 prime to charK, A(K)/mA(K) is finite. Use Kummer and §1.5 over number fields; over function fields apply §3.3a to the proper finite étale torsor [m]:A→A, independently of Mordell–Weil. The Lean signature states the number-field case on the native additive point group `AbelianVariety.Points A K`, with `AbelianVariety.torsion A n L` the kernel of [n] on L-points. Source: Poonen Theorem 8.4.9 pp.242–243.
+`finite_quotient_nsmul`: for global K, m≥1 prime to charK, A(K)/mA(K) is finite. Use Kummer and §1.5 over number fields; over function fields apply §3.3a to the proper finite étale torsor [m]:A→A, independently of Mordell–Weil. Source: Poonen Theorem 8.4.9 pp.242–243.
 
 **Checks.**
 
@@ -613,7 +613,7 @@ For every isogeny φ:A→B of abelian varieties over a number field K, apply SI 
 
 ### 1.7 Mordell–Weil
 
-`fg_points`: over number-field K, A(K) is finitely generated with finite torsion, hence ℤ^r⊕torsion. A symmetric ample height is nonnegative, quadratic and Northcott. Section 1.6 and the triangle bound satisfy native `AddCommGroup.fg_of_descent'`; §0.20 also gives torsion finiteness. Sources: Conrad Theorem 7.1/Corollary 7.2 pp.23–24; Poonen §8.4.5 p.242. *Needs:* §§0.18–21 and ArakelovGeometryAndAbelianHeights §1.13, 1.6.
+`AbelianVariety.fg_points` in `Suggested.lean`: over number-field K, A(K) is finitely generated with finite torsion, hence ℤ^r⊕torsion. A symmetric ample height is nonnegative, quadratic and Northcott. Section 1.6 and the triangle bound satisfy native `AddCommGroup.fg_of_descent'`; §0.20 also gives torsion finiteness. Sources: Conrad Theorem 7.1/Corollary 7.2 pp.23–24; Poonen §8.4.5 p.242. *Needs:* §§0.18–21 and ArakelovGeometryAndAbelianHeights §1.13, 1.6.
 
 **Checks.**
 
@@ -878,7 +878,7 @@ For finite-type K-algebra A, K a number field, define `AdelicPoints K A`=A→ₐ
 **Checks.**
 
 - Spec K gives a singleton
-- `adelicPoints_affineLine_homeomorph`: evaluation at t identifies the points for A=K[t] with the native adeles, with nonsurjective rational diagonal
+- Evaluation at t identifies the points for A=K[t] with the native adeles, with nonsurjective rational diagonal
 - K[t,u]/(tu−1) gives ideles with the units topology.
 - ℚ[t]/(t²+1) has no adelic points despite having ℚ₅-points.
 - Hausdorffness and closed discrete rational diagonal are §2.6.
@@ -942,7 +942,7 @@ For global function field K with exact finite constants k and smooth projective 
 
 ### 2.6 The affine rational diagonal
 
-`discrete_closed_diagonal`: for finite-type A/K, X(K)→X(𝔸_K) has discrete closed image and is a closed embedding; the Lean signature records the closed discrete image. Restrict the native K^n⊂𝔸_K^n diagonal along a finite-generator embedding. Source: Conrad *Adelic topology* Examples 2.2–2.3 p.3 and the paragraph preceding Example 4.3 p.10. *Needs:* §2.1; RG2.0.1; native adelic diagonal.
+`discrete_closed_diagonal`: for finite-type A/K, X(K)→X(𝔸_K) has discrete closed image and is a closed embedding. Restrict the native K^n⊂𝔸_K^n diagonal along a finite-generator embedding. Source: Conrad *Adelic topology* Examples 2.2–2.3 p.3 and the paragraph preceding Example 4.3 p.10. *Needs:* §2.1; RG2.0.1; native adelic diagonal.
 
 **Checks.**
 
@@ -2085,7 +2085,7 @@ This is the absolute/projective adapter to SubspaceTheorem §6.2’s `NumberFiel
 
 ### 4.8 Siegel finiteness
 
-Smooth geometrically integral affine X/number field, completion genus g: every IntegralPoints 𝒳 is finite if g≥1, or g=0 with ≥3 geometric boundary points. Extend K/use Jacobian multiplication covers to obtain three rational boundary points; Chevalley–Weil controls integral lifts. Riemann–Roch pole spaces have bases with successive boundary vanishings. Choose each v's nearby boundary; resulting product estimates meet §4.7a. Its finitely many proper sections meet the curve finitely. Genus zero reduces to S-units. Source: Corvaja–Zannier Theorem 1/proof pp.267–271; Szpiro [Si] p.84. *Needs:* §§4.2, 4.7–7a; Riemann–Roch; DA S-units.
+Smooth geometrically integral affine X/number field, completion genus g: every IntegralPoints 𝒳 is finite if g≥1, or g=0 with ≥3 geometric boundary points. Extend K/use Jacobian multiplication covers to obtain three rational boundary points; Chevalley–Weil controls integral lifts. Riemann–Roch pole spaces have bases with successive boundary vanishings. Choose each v's nearby boundary; resulting product estimates meet §4.7a. Its finitely many proper sections meet the curve finitely. Genus zero reduces to S-units. The statement `siegel_finite` in `Suggested.lean` uses native S-integer subalgebras spanning the affine coordinate algebra and counts boundary points over the algebraic closure. Source: Corvaja–Zannier Theorem 1/proof pp.267–271; Szpiro [Si] p.84. *Needs:* §§4.2, 4.7–7a; Riemann–Roch; DA S-units.
 
 **Checks.**
 
@@ -2167,7 +2167,7 @@ Layers 0–3; JacobianChallenge Layer F; SchemeAndStackFoundations §§3.1–3.7
 
 ### 5.1 Cosets and torsion subvarieties
 
-For abelian A/k, `IsCoset X` means X_k̄=x+B as a closed scheme; `IsTorsionCoset` requires x torsion modulo B; `IsTorsionSubvariety` means that X_k̄ is a finite union of torsion cosets as a reduced closed scheme, allowing Galois-conjugate components. Surjectivity of [n] on B gives a torsion lift of x. API: translate, inverse, union, extension, quotient fibres, torsion inverse images. Sources: Conrad Theorem 3.7 p.6. *Needs:* AS A6.3–5; §1.0 quotients.
+For abelian A/k, `IsCoset X` means X_k̄=x+B as a closed scheme; `IsTorsionCoset` requires x torsion modulo B; `IsTorsionSubvariety` means that X_k̄ is a finite union of torsion cosets as a reduced closed scheme, allowing Galois-conjugate components. Surjectivity of [n] on B gives a torsion lift of x. API: translate, inverse, union, extension, quotient fibres, torsion inverse images. On native geometric point groups, `AbelianVariety.cosetSupport` in `Suggested.lean` gives the reduced closed support of a translate of an abelian homomorphism image. Sources: Conrad Theorem 3.7 p.6. *Needs:* AS A6.3–5; §1.0 quotients.
 
 **Checks.**
 
@@ -2258,7 +2258,7 @@ Restrict λ_L to B; its kernel has size (deg_L B/h!)² and controls B∩C. Ortho
 
 ### 5.5 Finite-rank subgroups
 
-`HasFiniteRank Γ` means dim_ℚ(ℚ⊗ℤΓ)<∞. Equivalently (`finiteRank_iff_le_divisionHull`) Γ lies in the division hull of a finitely generated subgroup: choose tensor generators/clear individual denominators, allowing torsion. API: `HasFiniteRank.of_fg`, subgroups, images, sums, isogenies, division hull. Source: Poonen *Mordell–Lang plus Bogomolov* §2 p.2. *Needs:* native tensor/FiniteDimensional; §1.1.
+`HasFiniteRank Γ` means dim_ℚ(ℚ⊗ℤΓ)<∞. Equivalently (`finiteRank_iff_le_divisionHull`) Γ lies in the division hull of a finitely generated subgroup: choose tensor generators/clear individual denominators, allowing torsion. API: finite generation implies finite rational rank; subgroups, images, sums, isogenies and division hulls preserve finite rational rank. Source: Poonen *Mordell–Lang plus Bogomolov* §2 p.2. *Needs:* native tensor/FiniteDimensional; §1.1.
 
 **Checks.**
 
@@ -2270,7 +2270,7 @@ Restrict λ_L to B; its kernel has size (deg_L B/h!)² and controls B∩C. Ortho
 
 ### 5.6 Manin–Mumford in characteristic zero
 
-Algebraically closed char0, A abelian, X closed: `torsionClosure_isTorsionSubvariety`, the reduced closure of X∩A_tors is a finite union of torsion cosets. Spread over finite-type ℚ, use §§5.6a–d, extend scalars; quotient full stabilizers/induct on dimension. Sources: Roessler *Note* Lemma 0 p.2 and §2 pp.6–10 for this route; Pink–Rössler 2002 Theorems 1.1 and 2.1 pp.539–540 for the original route through Serre's ramification theorem. *Needs:* §§5.1–6d.
+Algebraically closed char0, A abelian, X closed: `torsionClosure_isTorsionSubvariety`, the reduced closure of X∩A_tors is a finite union of torsion cosets. Spread over finite-type ℚ, use §§5.6a–d, extend scalars; quotient full stabilizers/induct on dimension. The `Suggested.lean` statement uses native closed supports and closed immersions of abelian varieties, with torsion translation points. Sources: Roessler *Note* Lemma 0 p.2 and §2 pp.6–10 for this route; Pink–Rössler 2002 Theorems 1.1 and 2.1 pp.539–540 for the original route through Serre's ramification theorem. *Needs:* §§5.1–6d.
 
 **Checks.**
 
@@ -2595,7 +2595,7 @@ Let C be a smooth projective geometrically connected curve of genus≥2 over a n
 
 ### 5.13 Finite-rank Mordell–Lang
 
-For A over an algebraically closed characteristic-zero field, Γ≤A with finite rational rank, and closed X⊂A, the reduced closure of X∩Γ is a finite union of cosets a+B with a∈Γ. Descend generators of a division hull to a finitely generated E/ℚ; §§5.13a–c reduce to number fields without bounding degrees of division points. Sources: Poonen, *Division group*, Theorem 1 p.2; Hindry Appendix I pp.597–599 (motivation for the specialization route). *Needs:* §§5.5, 5.13a–c.
+For A over an algebraically closed characteristic-zero field, Γ≤A with finite rational rank, and closed X⊂A, the reduced closure of X∩Γ is a finite union of cosets a+B with a∈Γ. Descend generators of a division hull to a finitely generated E/ℚ; §§5.13a–c reduce to number fields without bounding degrees of division points. The statement `finiteRank_mordellLang` in `Suggested.lean` uses native point subgroups and reduced Zariski-closed supports, with no finite-generation assumption on Γ. Sources: Poonen, *Division group*, Theorem 1 p.2; Hindry Appendix I pp.597–599 (motivation for the specialization route). *Needs:* §§5.5, 5.13a–c.
 
 **Checks.**
 
@@ -2903,7 +2903,7 @@ For separated finite-type X over a number field define `IsLocallySoluble X:=∀v
 
 ### 6.2 Genus zero
 
-A smooth projective geometrically connected genus-zero curve over a number field is a smooth conic and satisfies Hasse. A rational point identifies it with ℙ¹, hence gives infinitely many dense rational points and weak approximation. The associated quaternion's finitely many ramified places decide solubility. Anticanonical embedding and projection prove the identifications; GQF Layer 5 supplies Hasse–Minkowski. Source: Poonen Example 4.5.8/Proposition 4.5.10/Theorem 4.5.11 pp.106–108. *Needs:* §§2.26, 6.1; scheme genus-zero anticanonical embedding.
+A smooth projective geometrically connected genus-zero curve over a number field is a smooth conic and satisfies Hasse. The statement `genusZero_hassePrinciple` in `Suggested.lean` uses native curve points over every finite and infinite completion. A rational point identifies it with ℙ¹, hence gives infinitely many dense rational points and weak approximation. The associated quaternion's finitely many ramified places decide solubility. Anticanonical embedding and projection prove the identifications; GQF Layer 5 supplies Hasse–Minkowski. Source: Poonen Example 4.5.8/Proposition 4.5.10/Theorem 4.5.11 pp.106–108. *Needs:* §§2.26, 6.1; scheme genus-zero anticanonical embedding.
 
 **Checks.**
 
