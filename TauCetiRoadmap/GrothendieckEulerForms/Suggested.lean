@@ -629,9 +629,8 @@ theorem ForgetGradingData.shiftEquiv_class (D : ForgetGradingData Eg Eu shift)
       ((exactK0NativeEquiv Cg Eg).symm
         ((D.nativeGrading).shiftEquiv (exactK0NativeEquiv Cg Eg (exactK0Class Eg X)))) =
     exactK0NativeEquiv Cg Eg (exactK0Class Eg (shift.functor.obj X))
-  rw [(exactK0NativeEquiv Cg Eg).apply_symm_apply,
-    exactK0NativeEquiv_class Cg Eg X,
-    exactK0NativeEquiv_class Cg Eg (shift.functor.obj X)]
+  refine ((exactK0NativeEquiv Cg Eg).apply_symm_apply _).trans ?_
+  rw [exactK0NativeEquiv_class Cg Eg X, exactK0NativeEquiv_class Cg Eg (shift.functor.obj X)]
   exact _root_.TauCeti.GradedExactStructure.shiftEquiv_of (D.nativeGrading) X
 
 end NativeGradingComparisons
