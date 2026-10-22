@@ -242,12 +242,33 @@ Here $u$ is the recorded use of the first computation. Also export the
 stage-to-stage form, the zero-query case, query substitution/composition, and
 finite simultaneous preservation for a list of successful computations.
 
-Prove **both** representation directions against
-`RecursiveIn {χ_Z}` for arbitrary partial functions. The direction from Mathlib
-to codes is necessary to transfer non-reducibility; the other direction is
-necessary to transfer positive algorithms. Connect c.e. domains and total
-computations in both directions too. Index transformations are computable
-uniformly and do not depend on the oracle whose program they transform.
+Prove **both** representation directions for each fixed total oracle
+$O:\mathbb N\to\mathbb N$, against `RecursiveIn {fun n => Part.some (O n)}` for
+arbitrary partial functions, and derive the set-oracle form against
+`RecursiveIn {χ_Z}`. The direction from Mathlib to codes is necessary to transfer
+non-reducibility; the other direction is necessary to transfer positive
+algorithms. Connect c.e. domains and total computations in both directions too.
+
+Separate this extensional adequacy from effective compilation. Adequacy
+quantifies over arbitrary partial functions at one fixed oracle. Uniformity
+statements take explicit program indices or coded schemes as input and produce
+computable index transformations whose correctness holds for every oracle:
+
+* a universal program index $u$, independent of the oracle, with
+  $\Phi^O_u(\langle e,x\rangle)\simeq\Phi^O_e(x)$ for all $O,e,x$;
+* for each source numbering $\Psi$ kept for interoperability, a computable translation
+  $t$ with $\Phi^O_{t(e)}(x)\simeq\Psi^O_e(x)$ for all $O,e,x$. For Mathlib's
+  ordinary codes this is the query-free embedding, computable on encoded
+  programs. For the coordinated single-oracle API, once its code type is
+  adopted, the comparison is an identity or normalization theorem rather than
+  a second maintained implementation;
+* $s\text{-}m\text{-}n$ and fixed-point index maps whose correctness holds for every oracle.
+
+No computable extraction of a program from an arbitrary `RecursiveIn` proof is
+assumed, and $\forall Z\ \exists e$ does not become $\exists e\ \forall Z$. For
+example, $F_Z(x)=1$ if $Z=\varnothing$ and $0$ otherwise is a constant function
+for each $Z$, but no single program computes $F_Z$ for every $Z$: a computation
+halting on $\varnothing$ with use $u$ halts with the same output on $\lbrace u\rbrace$.
 
 ### L0.3. Fixed and moving oracles
 

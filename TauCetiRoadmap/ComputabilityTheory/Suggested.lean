@@ -42,9 +42,14 @@ noncomputable def characteristic (A : Set ℕ) (x : ℕ) : ℕ := by
   classical
   exact if x ∈ A then 1 else 0
 
+/-- A total natural-valued oracle, viewed as a Mathlib partial function. -/
+def totalOracle (O : ℕ → ℕ) : ℕ →. ℕ := fun x => Part.some (O x)
+
 /-- The total characteristic function, viewed as a Mathlib partial function. -/
 noncomputable def oracle (A : Set ℕ) : ℕ →. ℕ :=
   fun x => Part.some (characteristic A x)
+
+theorem oracle_eq_totalOracle (A : Set ℕ) : oracle A = totalOracle (characteristic A) := rfl
 
 local notation:50 A " ≤ᵀ " B => _root_.TuringReducible (oracle A) (oracle B)
 local notation:50 A " ≡ᵀ " B => _root_.TuringEquivalent (oracle A) (oracle B)
@@ -283,9 +288,13 @@ end Oracle.Single
 
 open Oracle.Single
 
-/-- The chosen acceptable numbering of set-oracle computations. -/
+/-- The chosen acceptable numbering of computations relative to a total natural-valued oracle. -/
+noncomputable def PhiTotal (O : ℕ → ℕ) (e : ℕ) : ℕ →. ℕ :=
+  Code.eval O (Code.ofNat e)
+
+/-- The set-oracle numbering, the 0/1-valued specialization of `PhiTotal`. -/
 noncomputable def Phi (Z : Set ℕ) (e : ℕ) : ℕ →. ℕ :=
-  Code.eval (characteristic Z) (Code.ofNat e)
+  PhiTotal (characteristic Z) e
 
 /-- `W^Z_e`, the domain of `Φ^Z_e`. -/
 def W (Z : Set ℕ) (e : ℕ) : Set ℕ := {x | (Phi Z e x).Dom}
@@ -299,10 +308,26 @@ theorem mem_phi_iff_stage (Z : Set ℕ) (e x y : ℕ) :
     y ∈ Phi Z e x ↔ ∃ s d, Code.stageAt s Z e x = some d ∧ d.output = y := by
   sorry
 
-/-- Adequacy of the numbering for Mathlib's `RecursiveIn`. Nonreducibility results use the
-direction from `RecursiveIn` to codes; positive algorithms use the converse. -/
+/-- Extensional adequacy for a fixed total oracle, for arbitrary partial functions. Nonreducibility
+results use the direction from `RecursiveIn` to codes; positive algorithms use the converse. -/
+theorem recursiveIn_iff_code_total (O : ℕ → ℕ) (f : ℕ →. ℕ) :
+    RecursiveIn {totalOracle O} f ↔ ∃ e, PhiTotal O e = f := by
+  sorry
+
+/-- Adequacy for set oracles, the 0/1-valued specialization. -/
 theorem recursiveIn_iff_code (Z : Set ℕ) (f : ℕ →. ℕ) :
-    RecursiveIn {oracle Z} f ↔ ∃ e, Phi Z e = f := by
+    RecursiveIn {oracle Z} f ↔ ∃ e, Phi Z e = f :=
+  recursiveIn_iff_code_total (characteristic Z) f
+
+/-- One universal program, the same for every oracle. -/
+theorem universal_oracle_program :
+    ∃ u, ∀ (O : ℕ → ℕ) (e x : ℕ), PhiTotal O u (Nat.pair e x) = PhiTotal O e x := by
+  sorry
+
+/-- The translation from Mathlib's ordinary codes is computable on encoded programs. With
+`Code.eval_embed` it is a translation of numberings that is correct for every oracle. -/
+theorem embed_computable :
+    Computable (fun c : Nat.Partrec.Code => Code.encode (Code.embed c)) := by
   sorry
 
 theorem rePredIn_iff_W (Z C : Set ℕ) :
@@ -324,6 +349,14 @@ theorem smn_uniform :
 
 theorem fixed_point_uniform_in_oracle (f : ℕ → ℕ) (hf : Computable f) :
     ∃ e, ∀ Z : Set ℕ, Phi Z e = Phi Z (f e) := by
+  sorry
+
+/-- Pointwise adequacy does not give one program for a family of oracle-computable functions. Each
+`fun _ => if Z = ∅ then 1 else 0` is a constant, but a program halting on `∅` with use `u` gives the
+same output on `{u}`. -/
+theorem no_uniform_program_for_emptiness :
+    ¬ ∃ e, ∀ Z : Set ℕ,
+      Phi Z e = fun _ => Part.some (by classical exact if Z = ∅ then 1 else 0) := by
   sorry
 
 /-! ## L1: finite stages and c.e. limits -/
