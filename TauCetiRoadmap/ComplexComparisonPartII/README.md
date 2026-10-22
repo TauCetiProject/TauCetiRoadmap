@@ -424,13 +424,13 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
 - **Log structures** are monoid sheaves with a multiplicative structure map to `(O, ·)`; charts may
   send non-units to `0` (the standard log point `ℕ → ℂ`, `1 ↦ 0`). "Fine" means integral and
   finitely generated; saturation is a separate condition and is never assumed silently.
-- **Lean.** Declarations live in `TauCetiRoadmap.ComplexComparisonPartII`; the names below are
-  relative to it. The local prototypes `commutatorWith` and `IsDifferentialOperator`
-  model FormalConnectionsOpers F2.2's canonical algebraic declarations.
-  Targets whose carriers are not in Mathlib or Tau Ceti at the pins (complex
-  analytic spaces, analytification, algebraic spaces, compact manifolds with forms) are specified in
-  this README only; `Suggested.lean` records the light definitions and the statements that can be
-  typed against the pinned libraries.
+- **Lean.** The names below specify target declarations in
+  `TauCetiRoadmap.ComplexComparisonPartII`, except for the explicitly supplied APIs.
+  `Suggested.lean` states `montelTheorem` and `schwartzFiniteness` (C1.6) and
+  `sheafSingularComparison` (C5.1) against the pinned libraries. The geometric comparison
+  targets require complex analytic spaces, analytification, algebraic-space derived
+  categories, global form and connection complexes or constructible étale coefficients
+  that are not available at the pins; their statements are specified in this README.
 
 ## Exact supplier contracts
 
@@ -910,11 +910,11 @@ on every analytic chart, including nonreduced ones; it is compatible with chart 
 The supplied `CoherentAnalyticModule.ofPresentation` takes a local exact presentation
 `O^p → O^q → F → 0` to an object. Prove `CoherentAnalyticModule.hom_ext` for the
 descended category: restrictions to an open cover determine a morphism.
-`Suggested.lean` records the finite-presentation form over any locally ringed space
-using `TauCeti.SheafOfModules.ringCatSheaf`; it represents coherent modules when the
+The finite-presentation form over any locally ringed space uses
+`TauCeti.SheafOfModules.ringCatSheaf`; it represents coherent modules when the
 structure sheaf is coherent (Demailly, II.3.11–3.16, pp. 87–88; II §9.4, p. 124).
 For the locally ringed space underlying a scheme `X`, this is the pinned
-`TauCeti.AlgebraicGeometry.FinitelyPresentedSheaf X`. The abbreviation extends that
+`TauCeti.AlgebraicGeometry.FinitelyPresentedSheaf X`. This full subcategory extends that
 category to every locally ringed space, including C−1.1's analytic spaces.
 *Needs:* RealAnalyticGeometry R3.2 item 0 (predicate, `presentation_iff` and manifold
 calculus); Mathlib `SheafOfModules.IsFinitePresentation`;
@@ -1543,8 +1543,8 @@ complete uniform additive groups, locally convex spaces and continuous linear ma
 
 Prove `schwartzFiniteness` (L. Schwartz): let `E`, `F` be Fréchet spaces, `g : E → F` a continuous
 linear surjection and `h : E → F` a compact linear map. Then `g + h` has closed image of finite
-codimension (Demailly, IX.1.8–1.9, pp. 406–407). Its special case for Banach spaces is
-`schwartzFiniteness_banach`. *Needs:* `frechetOpenMapping`; Mathlib `IsCompactOperator`.
+codimension (Demailly, IX.1.8–1.9, pp. 406–407). The statement in `Suggested.lean`
+retains this Fréchet generality. *Needs:* `frechetOpenMapping`; Mathlib `IsCompactOperator`.
 
 Prove `cartanSerreFiniteness`: for a compact Hausdorff second-countable complex analytic space `T` (nilpotents allowed) and a
 coherent analytic module `F`, every `H^q(T, F)` is a finite-dimensional complex vector space, and
@@ -2401,10 +2401,8 @@ Use FormalConnectionsOpers F2.2's ordinary algebraic foundation. For arbitrary c
 `k`, a commutative `k`-algebra `A`, arbitrary `A`-modules `M`, `N` and a `k`-linear map
 `D : M → N`, `IsDifferentialOperator k m D` means order at most `m`: order zero is
 `A`-linearity, and order at most `m+1` means every commutator
-`commutatorWith k a D = D ∘ (a·) − a·D` has order at most `m`. The local prototypes
-`TauCetiRoadmap.ComplexComparisonPartII.IsDifferentialOperator` and
-`TauCetiRoadmap.ComplexComparisonPartII.commutatorWith` model F2.2's canonical
-algebraic declarations.
+`commutatorWith k a D = D ∘ (a·) − a·D` has order at most `m`. These are F2.2's
+canonical algebraic declarations.
 F2.2 owns additivity in `D` and `a`, the commuting criterion, the order-zero equivalence,
 monotonicity, sums at a common order, the composition bound and localization/sheafification.
 This elementary interface has no characteristic, smoothness or projectivity hypothesis.
@@ -3252,7 +3250,7 @@ Prove `semipositiveWedge`: with the complex orientation, products of semipositiv
 are positive, and if `α`, `β` and `α − β` are semipositive `(1,1)`-forms on a neighbourhood of a pure
 `d`-dimensional analytic set `Z`, then `∫_Z χ βᵈ ≤ ∫_Z χ αᵈ` for every nonnegative compactly supported
 smooth `χ`; every mixed term `(α − β)^j ∧ β^{d−j}` integrates nonnegatively. Pointwise this is
-`det B ≤ det A` for Hermitian matrices `0 ≤ B ≤ A` (`det_le_det_of_posSemidef`) (Demailly, III.1.7–1.12, pp. 131–132;
+`det B ≤ det A` for Hermitian matrices `0 ≤ B ≤ A` (Demailly, III.1.7–1.12, pp. 131–132;
 Dimitrov–Gao–Habegger, proof of Proposition 4.2, display (4.3), PDF p. 17). *Needs:*
 `AnalyticCycleIntegration`;
 Mathlib `Matrix.PosSemidef`.
@@ -3290,7 +3288,7 @@ Mathlib `circleIntegral`.
 - `lelongPoincareSection.projectiveLine`: for `O(1)` on `P¹` with the Fubini–Study metric and the
   section `z₀`, vanishing simply at one point, the left side integrates to `0` over `P¹` (it is `d` of
   a current on a compact manifold), `[div z₀]` to `1` and `c₁(O(1), h)` to `1`
-  (`fubiniStudy_integral_eq_one`); the function equation applied to the section would assert `0 = 1`.
+  by the affine-chart integral below; the function equation applied to the section would assert `0 = 1`.
 - `lelongPoincareSection.coordinate`: for the trivial bundle on `ℂ` with constant metric, `f = zᵐ`
   gives `m[0]` and `f = z/(z − 1)` gives `[0] − [1]`; poles count negatively.
 - `lelongPoincareSection.frame`: for a nowhere vanishing holomorphic `e` with `‖e‖²_h = e^{−|z|²}` on
@@ -3346,7 +3344,7 @@ DifferentialGeometry Layers 6–8.
   `‖1‖² = e^{−|z|²}` has nonzero exact normalized curvature, still with integral class zero.
 - For `O(1)` on `P¹`, `P_L` is the Hopf bundle of frames of `O(−1)`; the shared
   inverse-character class and `integralLineBundleChernClass O(1)` are the positive integral
-  generator, pairing to one (`fubiniStudy_integral_eq_one`).
+  generator, pairing to one by the affine-chart integral below.
 - For any right circle bundle `P`, its inverse-character line has class `c₁(P)` and its
   standard-character line has class `−c₁(P)`. Thus the underlying dual of `L` has class
   `−integralLineBundleChernClass L`, and `L ⊗ L∨` has integral class zero.
@@ -3358,8 +3356,8 @@ DifferentialGeometry Layers 6–8.
 Prove `chernFubiniStudyIntersection`: for a Hermitian holomorphic line bundle `L` on a complex
 manifold, the form `(i/2π)Θ(L)` of its Chern connection is closed and its de Rham class is the image of the integral
 first Chern class `integralLineBundleChernClass L`; on `Pʳ` the normalised Fubini–Study form
-represents `c₁(O(1))` and integrates to `1` over a line (in the affine chart, `∫_ℂ π⁻¹(1 + |z|²)⁻² dλ = 1`,
-`fubiniStudy_integral_eq_one`); and for a projective `d`-dimensional algebraic cycle `Z` (with multiplicities) and a
+represents `c₁(O(1))` and integrates to `1` over a line (in the affine chart, `∫_ℂ π⁻¹(1 + |z|²)⁻² dλ = 1`);
+and for a projective `d`-dimensional algebraic cycle `Z` (with multiplicities) and a
 line bundle `L`, `∫_Z c₁(L, h)ᵈ` equals the algebraic intersection degree `(c₁(L)ᵈ · Z)`, with mixed
 degrees and Segre pullbacks normalised the same way. The assertion on any complex manifold uses
 the integral class and Čech–curvature comparison of `integralLineBundleChernClass`.
@@ -3810,10 +3808,10 @@ ResolutionOfSingularitiesCharacteristicZero §6.2 (`sncCompactification`) and
 §C1.9 (`properSchemeGagaEquivalence`).
 
 The residue-strip functions also have an elementary API. For `a ∈ ℂ`,
-`residueStripRep a = a − floor(Re a)`; `residueStripRep_mem` proves membership in the half-open
-strip and integer difference, and the API includes invariance under integer translation and
+`residueStripRep a = a − floor(Re a)`; prove membership in the half-open
+strip and integer difference, and include invariance under integer translation and
 idempotence. The imaginary part is preserved. For `localMonodromy a = exp(−2πia)`,
-`localMonodromy_add_int` proves integer invariance; the API includes nonvanishing and the
+prove integer invariance, nonvanishing and the
 addition-to-multiplication law. These are the scalar normalizations of Deligne's residue
 construction (II.5.3–5.6, pp. 94–96).
 
