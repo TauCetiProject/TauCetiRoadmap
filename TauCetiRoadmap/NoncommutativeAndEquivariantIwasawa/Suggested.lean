@@ -32,7 +32,7 @@ variable (p : ℕ) [Fact p.Prime] {Δ : Type*} [Group Δ]
 
 /-- The base step of the induction showing that the augmentation ideal of `𝔽_p[Δ]` is nilpotent
 for a finite `p`-group `Δ` (§§0.4, 1.8): for `z` with `z ^ p = 1`, `(z - 1) ^ p = 0` in
-`𝔽_p[Δ]`. Over `ℤ_p` the same element is not nilpotent. -/
+`𝔽_p[Δ]`. For a nonidentity element of order `p`, `z - 1` is not nilpotent over `ℤ_p`. -/
 theorem of_sub_one_pow_char (z : Δ) (hz : z ^ p = 1) :
     (MonoidAlgebra.of (ZMod p) Δ z - 1) ^ p = 0 := by
   have : CharP (MonoidAlgebra (ZMod p) Δ) p :=
