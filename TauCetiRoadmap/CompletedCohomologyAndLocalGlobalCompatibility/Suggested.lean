@@ -9,7 +9,13 @@ contragredient weights, kernel containment for pro-modularity, and tensor evalua
 Mathlib's intertwining maps. Arithmetic completed towers, local Langlands families and patched
 modules have their definitive specifications in README.md. Its local correspondence contracts
 use the shared `GL2Block`, `MontrealFunctor` and `WDTypeRing` carriers; the crystalline completion
-includes the all-prime nonspecial exceptional case. Patched projectivity uses the uniformizer
+includes the all-prime nonspecial exceptional case. Type specialisation and its faithful Hecke
+image allow arbitrary maximal ideals; the separate typed representation-deformation-ring
+surjection requires a non-Eisenstein ideal, its absolutely irreducible residual representation
+and the compatible fixed-determinant problem. Its arithmetic carriers and the split-local
+classicality comparison are specified in README.md §§2.8 and 6.1. The local correspondence and
+deformation/envelope construction contracts are §§0.2–0.4 on the imported shared carriers.
+Patched projectivity uses the uniformizer
 algebra `Λ ≅ O[[S]]`, and fixed central characters are specialized over the full central algebra
 `Λ_Z` in the category with compact character `ξ` and smooth-dual character `ξ⁻¹`.
 -/
