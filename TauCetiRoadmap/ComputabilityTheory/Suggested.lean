@@ -20,6 +20,8 @@ here neither finishes a layer nor the roadmap.
 All definitions below have bodies. Every `sorry` is the proof of a stated theorem or example,
 never the body of a predicate or of an evaluator. The finite examples after L6, and the zero
 restraint of large indices in L9, are proved directly from the definitions as a check on them.
+A few further statements are derived from other stated theorems; such a proof is conditional on
+the admitted statements it uses.
 The operational code prototype is deliberately concrete so that its use and adequacy obligations
 can be read against actual semantics.
 
@@ -994,8 +996,20 @@ theorem agreementLength_spec (s : ℕ) (A C : Set ℕ) (e : ℕ) :
       agreesAt s A C e (agreementLength s A C e) = false := by
   sorry
 
+/-- Every use up to and including the first disagreement lies under the restraint. -/
+theorem stageUse_le_agreementRestraint (s : ℕ) (A C : Set ℕ) (e : ℕ) {x : ℕ}
+    (hx : x ≤ agreementLength s A C e) :
+    Code.stageUse s A e x ≤ agreementRestraint s A C e :=
+  Finset.le_sup (f := fun x => Code.stageUse s A e x) (Finset.mem_range.mpr (Nat.lt_succ_of_le hx))
+
 theorem first_disagreement_use_le (s : ℕ) (A C : Set ℕ) (e : ℕ) :
-    Code.stageUse s A e (agreementLength s A C e) ≤ agreementRestraint s A C e := by
+    Code.stageUse s A e (agreementLength s A C e) ≤ agreementRestraint s A C e :=
+  stageUse_le_agreementRestraint s A C e le_rfl
+
+theorem agreementLength_computable (A C : ℕ → Finset ℕ)
+    (hA : Computable (fun s => finiteCode (A s)))
+    (hC : Computable (fun s => finiteCode (C s))) :
+    Computable (fun p : ℕ × ℕ => agreementLength p.2 (A p.2 : Set ℕ) (C p.2 : Set ℕ) p.1) := by
   sorry
 
 theorem sacksRestraint_computable (A C : ℕ → Finset ℕ)
@@ -1003,6 +1017,44 @@ theorem sacksRestraint_computable (A C : ℕ → Finset ℕ)
     (hC : Computable (fun s => finiteCode (C s))) :
     Computable (fun p : ℕ × ℕ => sacksRestraint A C p.1 p.2) := by
   sorry
+
+/-- A computation at an argument up to and including the first disagreement, with its output and
+use, survives a transition that does not injure the requirement. The target may change. -/
+theorem sacks_computation_preserved (A C : ℕ → Finset ℕ) (hA : Monotone A)
+    {e s x : ℕ} {d : Code.Halt}
+    (hx : x ≤ agreementLength s (A s : Set ℕ) (C s : Set ℕ) e)
+    (hd : Code.stageAt s (A s : Set ℕ) e x = some d)
+    (hJ : injuriesAt A (sacksRestraint A C) e s = ∅) :
+    Code.stageAt (s + 1) (A (s + 1) : Set ℕ) e x = some d := by
+  have huse : d.use ≤ agreementRestraint s (A s : Set ℕ) (C s : Set ℕ) e := by
+    simpa [Code.stageUse, hd] using
+      stageUse_le_agreementRestraint s (A s : Set ℕ) (C s : Set ℕ) e hx
+  apply Code.stageAt_persistent (Nat.le_succ s)
+  apply Code.stageAt_agreement hd
+  intro z hz
+  simp only [Finset.mem_coe]
+  refine ⟨fun h => hA (Nat.le_succ s) h, fun h => ?_⟩
+  by_contra hns
+  have hmem : z ∈ injuriesAt A (sacksRestraint A C) e s := by
+    simp only [injuriesAt, fresh, sacksRestraint, Finset.mem_filter, Finset.mem_sdiff,
+      Option.any_some, decide_eq_true_eq]
+    exact ⟨⟨h, hns⟩, by omega⟩
+  simp [hJ] at hmem
+
+/-- Agreement is preserved as well when, in addition, the target bit does not change. -/
+theorem sacks_agreement_preserved (A C : ℕ → Finset ℕ) (hA : Monotone A) {e s x : ℕ}
+    (hx : x ≤ agreementLength s (A s : Set ℕ) (C s : Set ℕ) e)
+    (hagree : agreesAt s (A s : Set ℕ) (C s : Set ℕ) e x = true)
+    (hJ : injuriesAt A (sacksRestraint A C) e s = ∅)
+    (hC : x ∈ C s ↔ x ∈ C (s + 1)) :
+    agreesAt (s + 1) (A (s + 1) : Set ℕ) (C (s + 1) : Set ℕ) e x = true := by
+  unfold agreesAt at hagree ⊢
+  cases hd : Code.stageAt s (A s : Set ℕ) e x with
+  | none => simp [hd] at hagree
+  | some d =>
+    rw [hd] at hagree
+    rw [sacks_computation_preserved A C hA hx hd hJ]
+    simpa [characteristic, hC] using hagree
 
 /-- If `Φ^A_e = C`, the agreement length tends to infinity. -/
 theorem agreement_cofinal_of_computes (A C : ℕ → Finset ℕ)
@@ -1018,11 +1070,24 @@ theorem nonreduction_of_finite_sacks_injury (A C : CEApproximation) (e : ℕ)
     Phi (stageLimit A.stage) e ≠ oracle (stageLimit C.stage) := by
   sorry
 
+/-- Finite injury and a limiting disagreement give stabilization of the agreement length, and
+hence of the restraint. The proof excludes transient convergence at the first limiting
+disagreement: once injury has stopped, such a computation would be preserved forever. -/
+theorem sacks_agreement_and_restraint_stabilize (A C : CEApproximation) (e : ℕ)
+    (hI : (injurySet A.stage (sacksRestraint A.stage C.stage) e).Finite)
+    (hNE : Phi (stageLimit A.stage) e ≠ oracle (stageLimit C.stage)) :
+    ∃ l b s₀, ∀ s, s₀ ≤ s →
+      agreementLength s (A.stage s : Set ℕ) (C.stage s : Set ℕ) e = l ∧
+        sacksRestraint A.stage C.stage e s = some b := by
+  sorry
+
 theorem sacks_restraint_stabilizes (A C : CEApproximation) (e : ℕ)
     (hNC : ¬ ComputablePred (fun x => x ∈ stageLimit C.stage))
     (hI : (injurySet A.stage (sacksRestraint A.stage C.stage) e).Finite) :
     ∃ b s₀, ∀ s, s₀ ≤ s → sacksRestraint A.stage C.stage e s = some b := by
-  sorry
+  obtain ⟨_, b, s₀, h⟩ := sacks_agreement_and_restraint_stabilize A C e hI
+    (nonreduction_of_finite_sacks_injury A C e hNC hI)
+  exact ⟨b, s₀, fun s hs => (h s hs).2⟩
 
 /-- At stage `s` no index `e ≥ s` has a convergent computation, so its restraint is zero. -/
 theorem sacksRestraint_of_le (A C : ℕ → Finset ℕ) {e s : ℕ} (h : s ≤ e) :
@@ -1092,7 +1157,9 @@ theorem sacksSplit_requirement (B C : CEApproximation)
     let A := fun s => sacksSplit B.stage C.stage s i
     (injurySet A (sacksRestraint A C.stage) e).Finite ∧
       Phi (stageLimit A) e ≠ oracle (stageLimit C.stage) ∧
-      ∃ b s₀, ∀ s, s₀ ≤ s → sacksRestraint A C.stage e s = some b := by
+      ∃ l b s₀, ∀ s, s₀ ≤ s →
+        agreementLength s (A s : Set ℕ) (C.stage s : Set ℕ) e = l ∧
+          sacksRestraint A C.stage e s = some b := by
   sorry
 
 /-- The constructed halves satisfy the full statement of [S, VII.3.2]. -/

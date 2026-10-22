@@ -683,6 +683,15 @@ first disagreement as well as the computations at smaller arguments. Define the
 empty/no-convergence behavior explicitly. Prove computability uniformly from the
 enumerations and program index.
 
+Prove the one-step preservation theorem: if $x\le\ell(e,s)$,
+$\Phi^{A_s}_{e,s}(x)\downarrow$ with output $y$ and use $u$, and no element
+enters at $s+1$ below or at the restraint $r(e,s)$ calculated at stage $s$, then
+$\Phi^{A_{s+1}}_{e,s+1}(x)\downarrow$ with the same output and use. This needs
+no hypothesis on $C$. Agreement at $x$ is preserved as well when, in addition,
+$C_{s+1}(x)=C_s(x)$. Keep the two hypotheses separate in the interval versions:
+preserving a computation needs only the absence of injury, while preserving its
+agreement with $C$ also needs the relevant target bits to stay unchanged.
+
 On an injury-free interval, prove the simultaneous preservation equations of
 the Remark in [S, VII.3, p.122], the stable-disagreement alternative, and the
 following key implication [S, VII.3.1, Lemma 1]: if the limiting functional
@@ -691,9 +700,27 @@ search to decide $C$. The stage after which there is no injury is not computed
 from the data; its fixed finite value is a parameter in an existence proof of a
 computable decision procedure.
 
-Prove restraint stabilization from the first limiting disagreement, including
-the case of a divergent limiting computation. Do not simply assume that lengths
-of agreement or restraints are globally monotone.
+Prove that finite injury and a limiting disagreement
+$\Phi_e^A\ne C$ together give stabilization of the agreement length, and hence
+of the restraint. Let $x_0$ be the first limiting disagreement. If
+$\Phi_e^A(x_0)$ diverges, computations on the approximations $A_s$ may still
+converge transiently at $x_0$. Once injuries have stopped and the target bits
+below $x_0$ and the computations at smaller arguments have settled, such a
+transient computation is protected by the inclusive maximum and would be
+preserved forever, giving a convergent computation on $A$. So the agreement
+length is eventually $x_0$, and the restraint, a maximum over finitely many
+settled uses, stabilizes. The order is
+
+$$
+\text{finite injury}+\text{limiting disagreement}
+\Longrightarrow\text{agreement-length stabilization}
+\Longrightarrow\text{restraint stabilization}.
+$$
+
+State this with the disagreement as a hypothesis, so that it does not depend on
+how nonreduction was obtained; in the constructions nonreduction comes from
+Lemma 1. Do not simply assume that lengths of agreement or restraints are
+globally monotone.
 
 ### L9.2. A simple set avoiding a prescribed noncomputable c.e. cone
 
@@ -723,7 +750,8 @@ threatened pair, if any, has $e\le s$, and the search runs over $e\le s$ and
 $i\le 1$.
 
 Prove by induction on the priority of $(e,i)$ the three statements of
-[S, p.125]: $I^i_e$ is finite, $C\ne\Phi_e^{A_i}$, and $r^i(e,s)$ converges.
+[S, p.125]: $I^i_e$ is finite, $C\ne\Phi_e^{A_i}$, and $r^i(e,s)$ converges,
+together with convergence of $\ell^i(e,s)$, which the lowness proof uses.
 For finite injury, the higher-priority restraints converge by the induction
 hypothesis, so from some stage on they are all below a number $r$. An element
 entering $A_i$ with $x\le r^i(e,s)$ is threatened by $(e,i)$, so it was routed
