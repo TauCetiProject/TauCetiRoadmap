@@ -25,7 +25,9 @@ Bloch–Gabber–Kato requires Cartier and logarithmic Witt differentials; motiv
 and étale descent require cycle complexes, Milnor products and norms, and twisted étale
 cohomology. The logarithmic trace, Witt–Bott comparison
 and nilpotent-thickening calculations require cyclotomic spectra and absolute logarithmic
-de Rham–Witt complexes. The local homotopy splitting additionally requires height-one
+de Rham–Witt complexes. The big Witt comparison `bigWittPowerSeriesComparison` (§5.16a)
+requires the general coordinate big Witt group and identifies its addition with power-series
+multiplication. The local homotopy splitting additionally requires height-one
 localization and stable unitary spaces; the perfect-characteristic-two and dyadic comparisons
 require Poincaré GW/L spectra and their homotopy fixed points. The finite-rank symplectic
 Chern comparison requires the Lang classifying comparison and higher étale Chern maps.

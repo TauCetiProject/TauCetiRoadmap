@@ -24,6 +24,8 @@ For classical traces, `TRⁿ = T^(C_{p^(n−1)})` for n ≥ 1. R is cyclotomic r
 
 For a commutative ring k and N ≥ 1, `𝕎_N(k)` denotes the big Witt group for the initial truncation set {1,…,N}. It is realised as the multiplicative group of truncated power series with constant term one, `(1 + t·k[t]/(t^(N+1)))ˣ`, on Mathlib's `Polynomial` and `PowerSeries` carriers; `𝕎(k)` is `1 + t·k[[t]]`. The Verschiebung `V_n : 𝕎_m(k) → 𝕎_(mn)(k)` is induced by t ↦ tⁿ, and the Teichmüller class of a is (1 − a t)⁻¹. With this convention 𝕎_N(k) is written additively. For perfect k of characteristic p it splits as the product of the p-typical truncated Witt groups `W_s(k)` indexed by d ≤ N with p ∤ d, where s is the number of j ≥ 0 with d p^j ≤ N.
 
+Section 5.16a gives the outbound comparison with QWittVectors' coordinate model. General big Witt ring theory belongs to QWittVectors; the power-series group model and its truncated-polynomial quotient calculation belong here.
+
 K-book citations refer to the author draft of 29 August 2013; its PDF page is the printed page plus eight. HM03 means the January 2004 author version of the 2003 Annals paper, with its own page numbers. Other versions are fixed under References.
 
 ## Exact supplier contracts
@@ -1165,6 +1167,24 @@ With mod-p coefficients and odd p, prove the Tate differentials d²ε = tσ, d²
 - In weight s = 1 < e, the circle-orbit term survives even though e ∤ s.
 - At n = v_p(e), the displayed odd representative replaces tc₂.
 
+### 5.16a Big Witt coordinate comparison
+
+**Big Witt power-series comparison** (`bigWittPowerSeriesComparison`). For every commutative unital ring R and N ≥ 1, put `S_N = {1,…,N}`. Give the natural group isomorphism from the additive coordinate big Witt group `W_(S_N)(R)` to the multiplicative power-series group `𝕎_N(R)` of the Conventions:
+
+```text
+γ_N : (W_(S_N)(R), +) ≃ (1 + tR[t]/(t^(N+1)), ×),
+γ_N((a_d)) = ∏_(d=1)^N (1 − a_d t^d)^(−1) mod t^(N+1).
+```
+
+Require compatibility with coefficient ring maps, restriction `S_M ⊆ S_N` for 1 ≤ M ≤ N and reduction modulo `t^(M+1)`, Verschiebung `V_n : W_(S_m)(R) → W_(S_(mn))(R)` and substitution t ↦ tⁿ for m,n ≥ 1, and Teichmüller classes `(a,0,…) ↦ (1 − a t)^(−1)`. Passing to the restriction limit gives `γ : (W_(ℕ_>0)(R), +) ≃ (1 + tR[[t]], ×)`. These comparisons carry the coordinate quotient `W_(S_(mn))(R)/V_n W_(S_m)(R)` to `𝕎_(mn)(R)/V_n𝕎_m(R)` with commuting quotient projections, so they transport the actual map of §5.17. This is the outbound contract for QWittVectors §§1.1–1.5 on its general coordinate carrier, with no characteristic or perfectness hypothesis (HesselholtBig §1, Lemmas 1.3–1.5 pp.8–9, Proposition 1.14 p.14, Addendum 1.16 and Example 1.17 p.15).
+
+**Checks.**
+
+- At N = 1, `γ_1(a) = 1 + a t mod t²`, fixing the Teichmüller sign.
+- Over ℤ at N = 2, the Witt sum `(1,0) + (1,0) = (2,−1)` maps to `1 + 2t + 3t² mod t³ = (1 − t)^(−2) mod t³`; componentwise addition would give the wrong t² coefficient.
+- For m = 1 and n = 2, `V_2(a) = (0,a)` maps to `1 + a t² mod t³`. For n = 1, V₁ is the identity and both displayed quotients are zero.
+- Over 𝔽₂ at N = 2, `(0,1)` has zero ghosts but maps to `1 + t² mod t³ ≠ 1`; the comparison does not require injective ghosts.
+
 ### 5.17 Twisted TR and relative K-theory of nilpotent thickenings
 
 **Characteristic-p motivic concentration** (`geisserLevine_motivicConcentration`). For every field F of characteristic p, n≥0 and ν≥1, prove H^j(F,ℤ/p^ν(n))=0 for j≠n and identify Hⁿ with Kₙᴹ(F)/p^ν, compatibly with differential symbols, field maps, norms and coefficients. Construct the cycle-complex comparison giving concentration from the characteristic-p cycle argument, then extend from p to p^ν through coefficient sequences. This is a target on `motivicCycles`' shared coefficient complexes and their actual field and norm maps, using §3.0's differential-symbol theorem; it does not assume the higher K-theory comparison (Geisser–Levine Theorem 8.1 pp.489–490 and Theorem 8.3 p.491).
@@ -1443,6 +1463,7 @@ The first kernel summand is a ℚ-vector space. The first cokernel term is a ℚ
 - In odd degree the finite p-primary torsion survives injectively.
 - For K₃ the image is dense by λ₁ = 0; density is weaker than surjectivity and does not supply a lattice splitting.
 - A rank-d completed group alone does not determine t_i and λ_(i−1) separately.
+- The completion of T = ℤₚ is T itself, with zero cokernel. The completion map ℤ_(p) → ℤₚ has dense image and nonzero ℚ-vector-space cokernel ℤₚ/ℤ_(p), as in §0.0.
 
 ### 6.10 Uncountability and the Milnor summand
 
@@ -1561,7 +1582,7 @@ For finite L/ℚ₂ and its valuation ring V, with residue field 𝔽_q, q even,
 
 ### Examples
 
-Compute the displayed completed groups for ℚ₂, ℚ₃, an unramified quadratic extension and ℚ₅(ζ₅); compare their integral torsion and completion kernels. For E = 𝔽₃((t)), retain the order-two K₂ quotient and the uncountable divisible kernel even though completed K₂ is zero. Use T = ℤₚ as an elementary model of a dense integral image with a nontrivial rational cokernel. These examples distinguish integral, finite-coefficient, ordinary-completed and derived-completed information.
+Compute the displayed completed groups for ℚ₂, ℚ₃, an unramified quadratic extension and ℚ₅(ζ₅); compare their integral torsion and completion kernels. For E = 𝔽₃((t)), retain the order-two K₂ quotient and the uncountable divisible kernel even though completed K₂ is zero. Use the dense inclusion P = ℤ_(p) ↪ T = ℤₚ from §0.0 as an elementary model of a dense integral image with a nontrivial rational cokernel. These examples distinguish integral, finite-coefficient, ordinary-completed and derived-completed information.
 
 ### Dependencies
 
@@ -1707,6 +1728,7 @@ All descriptions and theorem formulations above are in this roadmap's own words.
 - **HM04:** Lars Hesselholt and Ib Madsen, “On the de Rham–Witt complex in mixed characteristic,” [author PDF](https://www.math.nagoya-u.ac.jp/~larsh/papers/013/final.pdf), introductory Theorems A–E and the following remark pp.1–5. Theorem A p.2 constructs the nonlogarithmic initial complex; p.4 describes its log extension, and p.5 distinguishes absolute from relative forms. The log initiality and filtration used here are HM03 §3.2, constructed in §5.2a.
 - **Hesselholt96:** Lars Hesselholt, “On the p-typical curves in Quillen's K-theory,” [author PDF](https://www.math.nagoya-u.ac.jp/~larsh/papers/005/acta.pdf), Theorems B–C p.2, §1.2 p.5 and the Milnor-limit argument in the proof of Corollary 2.4.7 p.24.
 - **Hesselholt05:** Lars Hesselholt, “K-theory of truncated polynomial algebras,” handbook survey, [author PDF](https://www.math.nagoya-u.ac.jp/~larsh/papers/s01/handbook.pdf), §§3.5–3.13; all Hesselholt05 page locators denote PDF pages. Theorem 5 is PDFp.17 (printed 87), Proposition 7 PDFp.22 (printed 92), Proposition 8 PDFp.24 (printed 94), Lemma 9 PDFp.26 (printed 96), and Theorems 10–11,13 PDFpp.28,30,33 (printed 98,100,103).
+- **HesselholtBig:** Lars Hesselholt, *The big de Rham–Witt complex*, [arXiv:1006.3125v3](https://arxiv.org/pdf/1006.3125v3), 7 December 2014, §1, Lemmas 1.3–1.5 pp.8–9, Proposition 1.14 p.14, Addendum 1.16 and Example 1.17 p.15; accessed 22 October 2026. These fix the coordinate-to-power-series comparison and its inverse-factor convention.
 - **GH06:** Thomas Geisser and Lars Hesselholt, “On the K-theory of complete regular local 𝔽ₚ-algebras,” [author PDF](https://www.math.nagoya-u.ac.jp/~larsh/papers/011/paper.pdf), Theorems A–B pp.2–3, Proposition 2.8 p.16, end of §2 p.18 and Theorem 3.1 p.19. The numbered regular-local characteristic-p statements, rather than the filename, fix the results used here.
 - **NS:** Thomas Nikolaus and Peter Scholze, “On topological cyclic homology,” *Acta Mathematica* 221 (2018), 203–409, [published PDF](https://www.intlpress.com/site/pub/files/_fulltext/journals/acta/2018/0221/0002/ACTA-2018-0221-0002-a001.pdf). Classical/modern comparison: §§II.4,II.6 and IV.4, including Theorems II.6.3,II.6.9 and especially Theorem II.4.10 and Corollary IV.4.8, Proposition IV.4.9 and Corollary IV.4.10 pp.360–361, with the cyclotomic refinements pp.362–365. For the integral arithmetic pullback use [arXiv v2](https://arxiv.org/pdf/1707.01799v2), Theorem II.4.10 p.52, square (1) and Theorem II.4.11 p.53; these locators use that version's own pagination.
 - **Calmès et al. III:** Baptiste Calmès, Emanuele Dotto, Yonatan Harpaz, Fabian Hebestreit, Markus Land, Kristian Moi, Denis Nardin, Thomas Nikolaus and Wolfgang Steimle, *Hermitian K-theory for stable ∞-categories III: Grothendieck–Witt groups of rings*, [arXiv:2009.07225v4](https://arxiv.org/pdf/2009.07225v4). Use §3.1 pp.49–53, Corollary R.10 p.10, the shifted localization discussion in §1.3 and Corollary 2.2.5 p.39. This source treats symmetric bilinear characteristic-two theory in its Poincaré convention.
