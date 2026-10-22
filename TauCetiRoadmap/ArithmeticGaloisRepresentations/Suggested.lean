@@ -24,7 +24,10 @@ The small definitions below use native integral closures, subrepresentations and
 The full Weil–Deligne adapter, purity and local constants require the local Weil group and the
 normalized Weil–Deligne parameter of the named suppliers; those structures are absent at the
 pins. The all-perfect-residue conductor, integrality, induction, reduction and wild-bound
-statements require the absolute upper ramification filtration and its break decomposition.
+statements use LocalFieldsRamification Layers 3a and 4a's supplied `perfectResidueHerbrand`
+filtration and the break decomposition of §3.1. That section derives the eventual Herbrand formula
+from the supplied different and transition functions; §3.2 uses ClassFieldTheory Layer 7's
+`map_unitFiltration_normResidue` for the representation-theoretic character-conductor comparison.
 The general Tate-module, pairing, determinant and coefficient adapters require the geometric
 abelian-scheme torsion and `AbelianTate` fibre; the elliptic Tate module alone does not supply them.
 Function-field recognition requires closed-point Frobenius on the restricted-ramification
