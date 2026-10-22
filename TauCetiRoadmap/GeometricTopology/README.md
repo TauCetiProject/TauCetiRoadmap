@@ -886,6 +886,23 @@ Compute the tangent/cotangent conventions separately. For S^(2k), Euler(TS)=2 in
 
 Reversing the ambient orientation negates the entire intersection form; reversing an individual zero-section basis vector changes its row and column. On a tree choose bipartition signs ε_v so ε_vε_w=-1 along every edge. Conjugating the negated matrix by diag(ε_v) returns the off-diagonal+1 pattern and gives diagonal+2. This explains the source's two matrix sign patterns; it does not assert that positive E8 and negative E8 are isometric. Include the zero-vertex graph, disconnected graph, rank2 bundle example and all orientation transport equations. The specific E8 plumbing boundary's simple connectivity, almost parallelizability and later surgery uses remain separate HS/GT targets, not premises of this finite matrix calculation.
 
+<a id="gt1-finite-dimensional-immersion"></a>
+**Finite-dimensional immersion and embedding criterion.** For smooth real manifolds
+without boundary and finite-dimensional model spaces, construct the implication
+from `ContMDiff I J ∞ f` and injectivity of `mfderiv I J f x` at x to
+`Manifold.IsImmersionAt I J ∞ f x`. In source/target charts choose a complement
+to the derivative image, augment the map by the complement variable, and apply
+the inverse function theorem to obtain the immersion normal form. For the global
+conclusion consume native `TauCeti.isImmersion_iff_forall_isImmersionAt`
+(`Geometry/Manifold/Immersion.lean`): its finite-dimensional-target argument already
+replaces the pointwise complements by one common model and handles an empty source.
+Supply compatibility with restriction and changes of charts. For an injective map
+from a compact domain into a Hausdorff target, combine this with the compact-to-Hausdorff
+topological-embedding theorem to obtain `Manifold.IsSmoothEmbedding`, then bundle
+`TauCeti.SmoothEmbedding`. This criterion supplies the smooth local-normal-form step
+in GT4's torus-knot construction; an injective derivative alone is not that bundled
+structure. Half-space/neat boundary statements retain their separate pair-chart hypotheses.
+
 ### Layer 2: locally flat embeddings in general dimension
 
 Topological manifolds have embeddings that are pathological in ways smooth embeddings are
@@ -1073,6 +1090,28 @@ topological-group and uniform-space API from Mathlib's algebra-and-topology libr
 -- def ofSmoothFamily (F : P × M → M) (h : ∀ p, IsDiffeo (F p ·)) : C(P, Diff I M) := …  -- forward only
 -- theorem smale_conjecture : ∃ h : ContinuousMap.HomotopyEquiv (orthogonalGroup 4 ℝ) (Diff 𝓘 (sphere 3)), h.toFun = orthogonalInclusion
 ```
+
+<a id="gt3-smooth-family-isotopy-extension"></a>
+**Smooth-family isotopy extension.** In addition to the continuous function-space
+extension above, own this smooth version. Let N be a compact smooth manifold
+without boundary and M a Hausdorff paracompact finite-dimensional smooth manifold
+without boundary. For a jointly smooth family `F_t:N→M` of smooth embeddings,
+defined on an open time interval containing I, construct a native
+`TauCeti.Diffeotopy` Φ of M satisfying `Φ(t,F₀(x))=F_t(x)`.
+Extend the velocity along the moving embedded image to a smooth time-dependent
+ambient vector field using GT1's tubular neighborhoods and smooth partitions of
+unity. Choose a common compact spatial support around the compact trace over I.
+Consume [DifferentialGeometry 3.5's finite-dimensional two-time flow](https://github.com/TauCetiProject/TauCetiRoadmap/blob/43f7d956d73eee21a2d99457f62e29981359b82e/TauCetiRoadmap/DifferentialGeometry/README.md#layer-3-flows),
+including joint smoothness, inverse laws and compact-time escape. Prove that each
+trajectory stays in the compact support together with its initial point, giving
+existence throughout I. Flow uniqueness gives `Φ(t,F₀(x))=F_t(x)`.
+The smooth flow and inverse give the total diffeomorphism of `I×M` required by
+`Diffeotopy`, with identity at zero. A continuous path in the Whitney
+diffeomorphism group alone does not supply this conclusion. For a relative version,
+let V,U be open ambient sets with closure V⊂U. Assume `F_t(x)=F₀(x)` whenever
+`F₀(x)∈U`, and `F_t(x)∉U` otherwise. Arrange that the extended velocity vanishes
+on V and that Φ fixes V pointwise. GT4's explicit torus-knot-to-unknot families consume this
+version of the theorem.
 
 **Design notes.** State the Smale conjecture as a homotopy equivalence of the underlying
 spaces, not as an isomorphism of homotopy groups, so it is not silently weaker; the
@@ -1451,7 +1490,90 @@ Define ordinary genus g(K) as the minimum genus over ALL compact connected embed
 
 Construct orientation-compatible connected sum using marked small arcs/discs, prove independence, associativity, commutativity and unknot identity. Decomposing spheres carry the actual PL/smooth/tame comparison. Prove ordinary-genus additivity: upper bound by boundary-connected surfaces; lower bound by putting a minimum spanning surface transverse to the decomposing sphere, removing inessential intersection circles using innermost-disc surgery and the necessary irreducibility/collar facts, leaving one essential joining arc and splitting into spanning surfaces whose genera sum to the original. Export all precise irreducibility and surgery lemmas used, not a bare citation to genus. Prove existence of a finite prime decomposition by strict genus drop for nontrivial factors; prove uniqueness separately via the sphere-system cut-and-paste/innermost-circle argument and oriented isotopy of the resulting factors. Prime uniqueness gives cancellation in the oriented-knot connected-sum monoid. Its only invertible element is the unknot: no nontrivial knot has a connected-sum inverse.
 
-Give explicit torus, pretzel, rational twist and Whitehead/twisted-double patterns with orientations and all signed/degenerate parameter branches. For torus links compare coordinate interchange by an orientation-preserving ambient isotopy in S3, single sign reversal with mirror, simultaneous sign reversal with orientation transport, and component gcd. An abstract symmetry of the square torus need not extend to the required ambient isotopy. For each clasp sign ε=±1 and meridional twist m∈ℤ, define the standard Whitehead pattern W_(ε,m) in a marked solid torus. Its algebraic winding is0 and geometric wrapping is2: give an explicit meridional disc meeting it twice, and exclude a disjoint meridional disc using the independently certified nonsplitting of the Whitehead link; prove mirror and meridional twists preserve this index. For every companion J, construct a once-punctured-torus spanning surface and one-clasp-change unknotting witness for W_(ε,m)(J), giving genus≤1 and u≤1, with nontriviality required for equality. For NONTRIVIAL tame J, prove the companion torus essential and the Schubert satellite bridge inequality b(P(J))≥w_geom(P)b(J), with w_geom the minimum geometric meridional-disc intersection number. Construct a doubled b(J)-bridge position with the clasp and all twists on monotone strands and exactly2b(J) maxima; conclude b(W_(ε,m)(J))=2b(J). For J the unknot, give the actual rational twist-knot/unknot diagram branches separately: bridge1 when the result is the unknot and bridge2 otherwise. The essential-satellite lower bound is not applied to that branch.
+Give explicit torus, pretzel, rational twist and Whitehead/twisted-double patterns with orientations and all signed/degenerate parameter branches. For torus links compare coordinate interchange by an orientation-preserving ambient isotopy in S3, single sign reversal with mirror, simultaneous sign reversal with orientation transport, and component gcd. An abstract symmetry of the square torus need not extend to the required ambient isotopy.
+
+<a id="gt4-torus-models"></a>
+For the coprime-integer knot case, fix the actual Clifford-torus model
+`κ_(p,q)(u)=2^(−1/2)(u^p,u^q)` for `u∈Circle⊂ℂ`, in the unit sphere of
+`EuclideanSpace ℂ (Fin 2)`. Integer powers include negative parameters.
+Prove its norm is one, its smoothness and its injective differential, whose
+angular-parameter speed squared is `(p²+q²)/2`. Bezout's identity gives
+injectivity when `IsCoprime p q`; compactness then gives a smooth embedding.
+Use the real linear isometry `(z₀,z₁)↦(Re z₀,Im z₀,Re z₁,Im z₁)` into
+`EuclideanSpace ℝ (Fin 4)`, with this coordinate order and the standard boundary
+orientation of its unit sphere. Prove the isometry and its orientation comparison;
+on `(z,0)` it agrees with native `TauCeti.complexToEuclideanFour`. Consume
+[GT1's finite-dimensional immersion criterion](#gt1-finite-dimensional-immersion)
+to obtain the actual native `SmoothCircleEmbedding (𝓡 3) (sphere 0 1)`, with the
+pointwise formula above. Prove smooth corestriction to the sphere and use the
+chain rule for its ambient inclusion to transfer the nonzero differential to the
+sphere tangent map. Compactness supplies the topological-embedding part;
+the immersion criterion supplies the required smooth local normal form.
+
+For `p=1`, construct the isotopy of embeddings
+`u↦(sqrt(1−s²)u,su^q)`, decreasing s from `1/sqrt(2)` to zero.
+The first coefficient stays positive, so injectivity and immersion persist.
+Use [Layer3's smooth-family extension](#gt3-smooth-family-isotopy-extension)
+to reach the native `TauCeti.unknot`.
+Simultaneous conjugation handles p=−1; coordinate interchange handles q=±1.
+Thus every coprime pair with `|p|≤1` or `|q|≤1`, including a zero entry, gives an
+unknot. The converse and chirality are supplied by the
+[GT6 torus-signature calculation](#gt6-torus-signatures). `(0,0)` is a constant map
+and is excluded from the knot carrier. Retain the general multiple-component
+and gcd torus-link targets as well.
+
+Identify the model with the course's flat-torus winding pair: for
+`u=exp(2πit)`, its coordinates `(x,y)=(qt,pt) mod ℤ²` have slope p/q.
+Here x is the second complex phase and y the first, both modulo one. Include
+the vertical/horizontal cases without division. For the three-dimensional
+picture use stereographic projection from `(0,0,0,1)`, which misses the Clifford
+torus. Its image is the torus of revolution
+`(sqrt(y₀²+y₁²)−sqrt(2))²+y₂²=1`. The first complex-coordinate circle is the
+longitude, and the second is the meridian with its transported orientation.
+Prove this smooth presentation comparison and the realized braid-closure comparison
+`(σ₁⋯σ_(p−1))^q` for coprime p>0 and integer q, with the existing positive-crossing convention.
+For negative p use |p| strands and the mirror/reversal identifications. In particular,
+identify the positive `(2,3)` model with the named right-handed trefoil.
+The symmetric flat-torus square alone is not an ambient-isotopy proof.
+
+Construct the ambient coordinate interchange explicitly. For `z=(z₀,z₁)∈ℂ²`, put
+`P₊z=((z₀+z₁)/2,(z₀+z₁)/2)` and
+`P₋z=((z₀−z₁)/2,−(z₀−z₁)/2)`, and define
+`U_t=P₊+exp(πit)P₋`. Prove joint smoothness, norm preservation, inverse `U_(−t)`,
+`U₀=id`, and `U₁(z₀,z₁)=(z₁,z₀)`. On `I×S³` construct the level-preserving
+smooth diffeomorphism `(t,x)↦(t,U_t x)`, with inverse `(t,x)↦(t,U_(−t) x)`.
+Its identity at time zero supplies exactly the native `TauCeti.Diffeotopy` fields.
+It gives an orientation-preserving ambient isotopy carrying the parametrized
+`κ_(p,q)` to `κ_(q,p)`.
+
+Fix the smooth mirror operation on native S³ presentations as
+`transDiffeomorph` by the sphere diffeomorphism induced by
+`(x₀,x₁,x₂,x₃)↦(x₀,x₁,x₂,−x₃)`. This is an actual fixed reflection,
+not a choice among all orientation-reversing diffeomorphisms. Under the specified
+realification it is `(z,w)↦(z,conj w)`, with determinant −1, and sends
+`κ_(p,q)` exactly to `κ_(p,−q)`. Prove the corresponding equality of parametrized
+embeddings. To compare with the diagram mirror, rotate the `(x₂,x₃)` plane
+through π, fixing x₀,x₁. Its endpoint is `diag(1,1,−1,−1)`, whose composition
+with the fixed x₃ reflection is x₂ reflection. This SO(4) path compares the two
+mirror presentations by ambient isotopy. The x₂ reflection fixes the stereographic
+pole and becomes `y₂↦−y₂` in ℝ³, negating every crossing for projection to the
+`(y₀,y₁)` plane. The fixed x₃ reflection itself exchanges the two poles.
+Simultaneous conjugation has real determinant +1.
+Realize it by rotating the plane of the two imaginary coordinates through π while
+fixing the two real coordinates. This is an ambient isotopy from the identity,
+ending at `κ_(−p,−q)(u)=κ_(p,q)(u⁻¹)`, and therefore proves invertibility with
+its actual orientation transport. Also prove
+`κ_(−p,q)(u)=κ_(p,−q)(u⁻¹)`; applying this inversion isotopy to the mirror gives
+the source's single-p-sign mirror comparison as an oriented knot comparison.
+[The source-input note](source-inputs.md#torus-symmetry-source) preserves the
+literal negative-p braid notation and its positive strand-count interpretation.
+These are ambient-sphere constructions, rather
+than an assumed extension of a torus mapping class. The companion
+[TorusKnotTargets.lean](TorusKnotTargets.lean) supplies the coordinate formulas and
+representative signatures; the smooth-embedding and native-isotopy comparisons
+remain targets of these paragraphs.
+
+For each clasp sign ε=±1 and meridional twist m∈ℤ, define the standard Whitehead pattern W_(ε,m) in a marked solid torus. Its algebraic winding is0 and geometric wrapping is2: give an explicit meridional disc meeting it twice, and exclude a disjoint meridional disc using the independently certified nonsplitting of the Whitehead link; prove mirror and meridional twists preserve this index. For every companion J, construct a once-punctured-torus spanning surface and one-clasp-change unknotting witness for W_(ε,m)(J), giving genus≤1 and u≤1, with nontriviality required for equality. For NONTRIVIAL tame J, prove the companion torus essential and the Schubert satellite bridge inequality b(P(J))≥w_geom(P)b(J), with w_geom the minimum geometric meridional-disc intersection number. Construct a doubled b(J)-bridge position with the clasp and all twists on monotone strands and exactly2b(J) maxima; conclude b(W_(ε,m)(J))=2b(J). For J the unknot, give the actual rational twist-knot/unknot diagram branches separately: bridge1 when the result is the unknot and bridge2 otherwise. The essential-satellite lower bound is not applied to that branch.
 
 Certify the infinite genus-one twist family (fixed rational convention [2,2n],n≥1, determinant4n+1 and one-clasp-change certificate), proving pairwise distinction/nontriviality then primality by genus additivity. For the separate arbitrary-genus/unknotting-number-one source family, use physical pages73–76 of the course *Knot Theory.pdf* (source identity `ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`), with exact paragraph identities `KM-P073-B004–B007/B009`, `KM-P074-B004–B016`, `KM-P075-B004–B008/B010` and `KM-P076-B004–B006/B009` in the source index. The source convention is `V_ij=lk(x_i,x_j^+)`. On 1-based indices and for `k≥1`, the page75 algebraic template has size `2k`: `V_11=V_(2k,2k)=1`, `V_(i,i−1)=−1` for `2≤i≤2k`, `V_(i,i+1)=−1` for even `i` with `2≤i<2k`, and every other entry is zero. Prove the tridiagonal-continuant identity `det(V−tVᵀ)=(-1)^(k−1)(1−t)^(2k)+t^k`; its nonzero extreme coefficients give span `2k`, including `k=1`. The distinct page74 six-circle example has matrix `V_3−E_44`: its determinant is `1−5t+11t²−13t³+11t⁴−5t⁵+t⁶`, whereas the page75 `k=3` matrix has determinant `1−6t+15t²−19t³+15t⁴−6t⁵+t⁶`. Retain both matrices; their page74/page75 fourth diagonal entries are respectively `−1` and `0`. The self-contained [source-input note](source-inputs.md#two-distinct-seifert-matrices-and-the-general-template) supplies both six-by-six matrices, the general template and the corrected three page74-array entries; these are transcript corrections, not source errors. The exact page76 oriented band/closure data, marked crossing and `2k` basis-to-band correspondence remain a source-input hold: recover these data and prove their match to this algebraic template, an actual genus-`k` spanning surface, and the one-crossing-change unknotting certificate. Explain the printed “`k` bands” and its relation to `2k` basis generators instead of assuming a handle count. A generic realization of the same Seifert matrix does not certify the literal source family; this qualification retains the full geometric target. Give actual genus-k spanning surfaces and nontriviality before asserting g=k/u=1. Include all source independent-invariant connected-sum/doubling families, exact lower/upper bounds and indices.
 
@@ -2165,6 +2287,36 @@ This is defined at Alexander roots too. Its descent through presentation
 changes uses the actual Seifert comparisons. For concordant knots K,J, prove
 raw-signature equality under the explicit safe premises `ω≠1`, `Δ_K(ω)≠0`
 and `Δ_J(ω)≠0`. Raw values at roots are not the full-circle concordance invariant.
+
+<a id="gt6-torus-signatures"></a>
+**Torus knots and chirality.** For coprime positive P,Q≥2, construct the standard
+positive-braid Seifert surface and its ordered homology basis. With `B_n` having
+diagonal1, superdiagonal−1 and all other entries zero, identify its Seifert matrix
+with `V=−B_(P−1)⊗B_(Q−1)` in the native sign convention. Supply the oriented
+basis loops and their pairing entries, with any explicit unimodular basis-change
+matrix used: the equality is entrywise in that constructed basis.
+For the signature calculation, derive the eigenvalues `−exp(2πik/(n+1))` of
+`B_n⁻¹B_nᵀ` from its finite recurrence. Positive definiteness of the A_n Cartan
+matrix `B_n+B_nᵀ` fixes the phase of `x*B_n x` for each eigenvector to
+`π(1/2−k/(n+1))`. Tensor eigenvectors of `V⁻¹Vᵀ` have distinct eigenvalues
+`exp(2πi(i/P+j/Q))` by coprimality, and are orthogonal for `V+Vᵀ`.
+The value on each tensor eigenvector has the sign of `cos(π(i/P+j/Q))`.
+Thus, letting N_mid count the pairs `1≤i<P`, `1≤j<Q` with
+`1/2<i/P+j/Q<3/2`, and N_out count the other pairs, prove the signed equation
+`rawSignature(T(P,Q),−1)=N_out−N_mid<0` and hence `N_mid−N_out>0`.
+Coprimality excludes the two boundary
+values. For strict positivity, partition the lattice rectangle into orbits under
+`i↦P−i` and `j↦Q−j`. Put `a=min(i/P,1−i/P)` and `b=min(j/Q,1−j/Q)`.
+An orbit with a+b<1/2 has equally many inside/outside points; if a+b>1/2 every point
+is inside. Equality is excluded. The orbit of `i=floor(P/2),j=floor(Q/2)` is of the
+second kind, so the total difference is positive. Prove this count explicitly.
+Transport to signed p,q using
+GT4's mirror/reversal constructions. The mirror-sign and reversal laws then show
+that T(p,q) and T(p,−q) are distinct even after forgetting circle orientation
+when |p|,|q|≥2, with ambient equivalence still given by isotopy.
+Together with the explicit GT4 unknot isotopies this gives the full unknot range
+`|p|≤1` or `|q|≤1` for coprime p,q. This signature comparison is downstream of the
+GT4 geometric/braid identifications; the early ambient isotopies do not consume it.
 
 Own the geometric algebraic-sliceness comparison used in that proof: from a
 smooth or locally flat slice disk construct a stabilized integral Seifert

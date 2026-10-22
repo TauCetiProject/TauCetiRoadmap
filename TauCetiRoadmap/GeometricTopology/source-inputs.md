@@ -143,3 +143,21 @@ These holds retain the full original programme. The note supplies explicit
 algebraic inputs and source locators, not the missing geometry, source proof,
 native implementation or completed theorem. Operational recovery records may
 exist elsewhere; no private file is a prerequisite for understanding this note.
+
+
+<a id="torus-symmetry-source"></a>
+## Torus-knot symmetry exercise and signed braid notation
+
+The problem source `06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`,
+physical page1 problem6, asks for the coordinate-swap and single/double-sign comparisons
+for coprime torus knots. The main notes
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical page23,
+use the flat-torus slope p/q and write the negative-p braid as
+`(σ_(p−1)⁻¹⋯σ₁⁻¹)^q` for p<0. Preserve that literal index. The mathematical
+braid interpretation uses a=|p| positive strands and the reversed inverse word
+`(σ_(a−1)⁻¹⋯σ₁⁻¹)^q`; it has no negative strand count. Keep the source's
+single-p-sign mirror conclusion, compared with the fixed single-q-sign mirror
+by the orientation-reversal/invertibility construction in
+[GT4's torus model](README.md#gt4-torus-models). The square-torus coordinate swap
+requires the actual ambient S³ isotopy given there. This note records source
+wording and the precise corrected target; it is not a diagram-identity certificate.
