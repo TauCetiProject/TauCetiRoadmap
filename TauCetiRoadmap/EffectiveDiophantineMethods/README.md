@@ -123,7 +123,7 @@ identify topics; this order specifies which results are available to each target
 ### From Mathlib and Tau Ceti
 
 Use Mathlib at 6b7abb3c7686292736be2955bd3eb9ebf63b456a and Tau Ceti at
-a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039 for the representative Lean signatures. The mathematical
+a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039 for the Lean statements in `Suggested.lean`. The mathematical
 interfaces below also reuse the pinned library results described under scope. Additive quotients
 use QuotientAddGroup, the additive versions of `QuotientGroup.mk'`, map, `map_mk', eq_iff_div_mem`, surjectivity and composition; no private quotient implementation is needed. Finite
 enumerations use `Finset.filter`, image, `biUnion`, and the corresponding membership and
@@ -454,34 +454,32 @@ distance and enumeration data. Layer 2 combines those with explicit transcendenc
 Thue, Thue–Mahler and S-unit equations. Layer 3 certifies local descent, ranks, heights and
 Mordell–Weil subgroup indices. Layer 4 constructs the geometric integration comparisons and
 residue-disc bounds. Layer 5 combines compatible reductions in a finite sieve. Layer 6 verifies
-quadratic Chabauty formulas and complete example lists under their displayed input hypotheses. The
-Lean companion records only signatures expressible over its existing carriers; all geometric targets retain their full mathematical specification below.
+quadratic Chabauty formulas and complete example lists under their displayed input hypotheses. `Suggested.lean`
+states headline results on the pinned carriers. Other named interfaces below specify library targets; the README gives their full mathematical specification.
 
-### Representative Lean milestones
+### Headline Lean statements
 
-The companion states the following milestones on the pinned scalar, matrix, group,
-power-series and finite-set carriers. Each signature carries the hypotheses of the
-indicated target.
+`Suggested.lean` states the following headline theorems. Its definitions supply
+only the scalar constants, generated subgroup and convergent-series evaluation
+needed to express these results on native Mathlib and Tau Ceti carriers.
 
-| Targets | Representative statements in Suggested.lean |
+| Target | Statement in `Suggested.lean` |
 | --- | --- |
-| Root isolation and Hensel distance (§§0.3, 0.5) | `ED0.exists_isolating_box`, `ED0.hensel_distance` |
-| Closed ellipsoid enumeration and real exclusion (§§1.7–1.8, 1.11) | `ED1.finite_ellipsoid`, `ED1.mem_fpEnumeration`, `ED1.linear_form_excluded` |
-| Logarithm errors and reduction chains (§§2.1, 2.6, 2.8) | `realLogPartialSum_error`, `padicLog_tail_precision`, `ED2.ExponentReductionChain.sound` |
-| Exact elliptic heights, independence and saturation (§§3.13–3.14, 3.17) | `ED3.canonicalHeight_mem_doubling_interval`, `ED3.independent_of_gram_det_pos`, `ED3.index_eq_one_of_forall_isPSaturated` |
-| Finite-index logarithm extension and residue-disc zero bounds (§§4.2, 4.11) | `ED4.formalLogExtension_unique`, `ED4.ker_formalLogExtension`, `ED4.dominant_of_residue_bounds` |
-| Sieve completeness and iteration (§§5.10, 5.16) | `ED5.Sieve.complete_of_unique_fibres`, `ED5.Sieve.siftChain_eq_admissibleClasses` |
-| Conditional complete lists and candidate comparison (§§6.1–6.2) | `ED6.FiniteSolutionSet.coe_eq_setOf`, `ED6.FiniteSolutionSet.mem_iff`, `ED6.candidates_eq_known` |
+| Exact logarithmic lower bound (§2.3) | `ED2.matveev_lower_bound` |
+| Normalized p-adic valuation upper bound (§2.5) | `ED2.yu_valuation_upper_bound` |
+| Rational height difference bound (§3.12) | `ED3.canonicalHeight_sub_naiveHeight_cremona` |
+| Weighted number-field height difference bound (§3.12) | `ED3.canonicalHeight_sub_naiveHeight_silverman` |
+| Full Mordell–Weil basis and regulator (§3.22) | `ED3.mordellWeil_basis_of_height_and_saturation` |
+| Quantitative geometric root matching with multiplicities (§6.16) | `ED6.roots_determined_of_truncation` |
 
-The exact Thue, Thue–Mahler and S-unit list theorems (§§2.20, 2.28, 2.33) use
-the complete arithmetic data and validity predicates specified in Layer 2. The
-Chabauty–Coleman and quadratic Chabauty endpoints (§§4.12–4.14, 4.18, 6.4) use
-the curve, relative Jacobian, integration and residue-disc constructions. The
-geometric root matching of §6.16 uses analytic multiplicities over completed
-`ℂ_p`. The worked point lists in Layers 3–6 carry their specified model,
-arithmetic-input and completeness hypotheses. These full targets are specified
-in their sections; the scalar and finite-set signatures above supply the
-corresponding precision, exclusion and comparison results.
+The exact Thue, Thue–Mahler and S-unit list implications use the complete
+arithmetic data and validity constructions of Layer 2. The geometric Chabauty
+and sieve endpoints use actual Jacobians, Abel–Jacobi maps, logarithms, models
+and reduction comparisons. Quadratic Chabauty also uses the filtered Frobenius
+connection and geometric heights. These constructions are absent at the pins;
+the module docstring identifies the affected headline results. The conditional
+worked applications retain all their arithmetic and geometric input hypotheses
+in the mathematical targets below.
 
 ## Layer 0: Exact algebraic values and scalar precision
 
@@ -490,11 +488,11 @@ error and embedding facts; no numerical coincidence is an equality test.
 
 ### 0.1 Exact enclosures and the precision contract
 
-`ED0.realIntervalContains l u x, ED0.complexBoxContains lr ur li ui z`, and `ED0.padicBallContains p c N x` are the underlying containment predicates in the Lean companion. Their definitions are
-respectively `l≤x≤u`, containment of real and imaginary parts, and `‖x−c‖≤p^(−N)`. They allow a
-zero-width interval and a zero ball centre. The singleton real interval and complex box examples
-in the Lean companion prove that zero widths determine the enclosed value. The Checks also test
-positive-width overlap, exclusion and absolute p-adic precision.
+Closed interval containment means `l ≤ x ≤ u`; complex-box containment applies
+this to the real and imaginary parts; a rational-centred p-adic ball means
+`‖x − c‖ ≤ p^(−N)`. Zero widths determine the enclosed real or complex value.
+A zero ball centre is allowed. The Checks test positive-width overlap, exclusion
+and absolute p-adic precision.
 
 Three enclosure types carry every approximate value of this roadmap. (i) For `t ∈ ℝ`, a RealEnclosure
 t is a closed nonempty rational interval `I = [l, u]` (Mathlib's NonemptyInterval `ℚ`) with `l ≤ t ≤ u` in
@@ -544,7 +542,7 @@ examples alone do not test either record constructor.
 
 **Checks.**
 
-- `complexBoxContains 0 0 1 1 I` holds with zero width; `complexBoxContains 1 1 0 0 I` fails, detecting swapped real and imaginary coordinates. The origin is excluded from the first box.
+- The zero-width box `[0,0] × [1,1]` contains `i`; `[1,1] × [0,0]` does not, detecting swapped real and imaginary coordinates. The origin is excluded from the first box.
 - `realEnclosure_sqrt_two`. [141/100, 142/100] is a RealEnclosure of `√2` with width 1/100; since 1/100 `≤ 2^(−6)` it has absolute precision 6 but not 7.
 - `realEnclosure_ofRat_width`. `RealEnclosure.ofRat q` has width 0 for every rational q.
 - `complexEnclosure_I`. ([0, 0], [1, 1]) is a ComplexEnclosure of `Complex.I`.
@@ -554,8 +552,8 @@ examples alone do not test either record constructor.
 - `padicEnclosure_normalize_zero`. At `p = 3`, centre `c = 0` and precision `N = 2`, the canonical `ED.0` exact algebraic/ball data record is `(N, v, s) = (2, 2, 0)`. The pinned totalized `padicValRat 3 0 = 0` must not select `v = 0`: a `v < N` record requires a nonzero residue prime to p.
 - Every enclosure check is a comparison of rationals: [141/100, 142/100] ∋ `√2` is verified by `141² < 2·100² < 142²`.
 - An enclosure containing two distinct numbers exists `(realEnclosure_overlap)`, so
-  overlap alone does not imply equality. In contrast, `realIntervalContains 0 0 x`
-  implies `x=0`, and a complex box with both widths zero determines its value.
+  overlap alone does not imply equality. The singleton interval `[0,0]` contains
+  only `0`, and a complex box with both widths zero determines its value.
 
 ([de Weger (1989)](https://ir.cwi.nl/pub/13190), §2.5, printed pp. 33–34; [J. R. Doyle, D.
 Krumm](https://arxiv.org/abs/1111.4963), §4, before §4.1 (arXiv v4 p. 9).)
@@ -604,7 +602,7 @@ do not identify the selected root. For equality, use the gcd of the two rational
 unique-root witnesses in refined common neighbourhoods. Distinct roots eventually have disjoint
 discs.
 
-The representative `ED0.exists_isolating_box` states finite-root separation in `ℂ` for a nonzero rational polynomial and a positive requested width, on carriers available at the pins.
+Finite-root separation supplies a rational box of every positive requested width for each selected complex root.
 
 **Checks.**
 
@@ -794,7 +792,7 @@ Hensel-disc and residual inequalities. The root-distance theorem gives `‖z−b
 `z ≡ b (mod p^N`) give `z^j ≡ b^j (mod p^N`); multiplying by `a_j` with `v_p(a_j) ≥` −e gives `‖σ_a(α) − Σ_j a_j b^j‖ ≤ p^(e−N)`. If `‖a − a′‖ ≥ max(‖f′(a)‖, ‖f′(a′)‖)` then the two roots z, z′ satisfy `‖z − z′‖ = ‖a − a′‖ > 0` by the strict ultrametric inequality. The canonical record of the enclosure is the `ED.0`
 PadicEnclosure record of `(Σ_j a_j b^j, N − e) (§0.1)`.
 
-The representative `ED0.exists_padic_ball` supplies rational centres at every integer absolute precision in `Q_p`; constructing the chosen algebraic embedding remains the stronger target above.
+Rational centres exist at every integer absolute precision in `Q_p`; the chosen algebraic embedding also requires the Hensel and power-basis data above.
 
 **Checks.**
 
@@ -836,7 +834,7 @@ and `σ_c(α)` lie in a box of widths `≤ 2^(−n)`, then `|Re σ_c(α)| ≤ 2^
 `|σ_c(α)|² ≤ 2·4^(−n)`; the p-adic statement is the converse direction of (c). (e) is a direct
 computation; numerical agreement alone proves no identity.
 
-The representative `ED0.padic_nonzero_of_error_lt` states the strict relative-error criterion and equality of norms over `Q_p`.
+Over `Q_p`, strict error smaller than the norm of a nonzero centre gives nonvanishing and equality of norms.
 
 **Checks.**
 
@@ -882,7 +880,7 @@ uniformiser is `WithZero.exp(−1)`. Product rule: `σ(αβ) −` cc′ `= σ(α
 
 **Checks.**
 
-- In `Q(√3)`, the prime above 3 has residue degree 1 and ramification index 2. It admits no embedding into `Q_3`, since an element squaring to 3 would have valuation 1/2 (`ED0.no_sqrt_three_in_padic_three`). A residue-degree-one test alone cannot supply this datum.
+- In `Q(√3)`, the prime above 3 has residue degree 1 and ramification index 2. It admits no embedding into `Q_3`, since an element squaring to 3 would have valuation 1/2. A residue-degree-one test alone cannot supply this datum.
 
 
 - `valuation_rat_eighteen`. For `K = ℚ` (minpoly `X − 1`, a `= 1), p = 3` and `α = 18`, the enclosure `(18, 3)` certifies valuation `2 = padicValRat 3 18`.
@@ -937,7 +935,7 @@ quotient, inverse precision `N_k-2s` multiplied by a numerator of `valuation≥s
 divided by the pivot both have `precision≥m`. DenseRange `ι` and the valuation topology supply all
 requested input balls.
 
-The representative `Q_p` signatures are `ED0.padic_ball_add, ED0.padic_ball_mul, ED0.padic_ball_inv` and `ED0.padic_quotient_error`. Their norm hypotheses state exactly the bounds needed for addition, multiplication, inversion and pivot division; the ramified uniformizer formulation remains the target above.
+Over `Q_p`, the norm formulation gives the corresponding addition, multiplication, inversion and pivot-division error bounds.
 
 **Checks.**
 
@@ -1477,7 +1475,7 @@ and the checked inequality (iv). p-adic kind: apply §1.6. The p-adic form uses
 exact coefficient residues. The integer nondivisibility conclusion is stronger and safer than
 applying an integer-valued valuation to the exact-zero branch.
 
-The representative `ED1.linear_form_excluded` gives the final rounded-sum exclusion implication on integer vectors and real coefficients, after the lattice distance witness has supplied its strict bound.
+The strict lattice-distance bound gives the final rounded-sum exclusion implication for integer vectors and real coefficients.
 
 **Checks.**
 
@@ -1652,6 +1650,10 @@ p. 110.)
 
 ### 2.3 Exact lower bound for a linear form in logarithms
 
+The headline statement is `ED2.matveev_lower_bound` in `Suggested.lean`.
+Its rational constant is `ED2.matveevConstantUpper`, with the square-root and
+logarithm upper bounds of §2.2 explicit in the hypotheses.
+
 Let c be the value of a MatveevConstantData for `(n, D) (§2.2)` admissible for a number field `K`
 with `σ : K →+* ℂ` and [`K : ℚ] ≤ D, α_1, …, α_n ∈ K^×` and nonzero logarithms `λ_1, …, λ_n (exp λ_j = σ(α_j))`. Then for every `b ∈ ℤ^n` with `Λ := b_1λ_1 + ⋯ + b_nλ_n ≠ 0: Real.log |Λ| > −c·(1 + Real.log`
 B*), B* `:= max_j |b_j| ≥ 1`; equivalently `|Λ| > exp(−c(1 + Real.log` B*)). In Tzanakis–de Weger's
@@ -1723,6 +1725,10 @@ Yu](http://archive.numdam.org/article/CM_1994__91_3_241_0.pdf), §0.1, p. 242.)
 
 ### 2.5 Exact upper bound for the p-adic valuation of a multiplicative form
 
+The headline statement is `ED2.yu_valuation_upper_bound` in `Suggested.lean`,
+using `ED2.yuConstantUpper`. It expresses normalized valuation as
+`−log ‖α^b − 1‖ / log p` in an arbitrary finite normed extension of `Q_p`.
+
 Let `Φ⁺` be the value of a YuConstantData for `(n, d, p) (§2.4)` admissible for nonzero algebraic
 numbers `α_1, …, α_n` of a number field `K, [K : ℚ] ≤ d`, and let `ι : K → L` be a field embedding into a
 finite extension `L` of `ℚ_p`, with `v_p` the valuation of `L` normalised by `v_p(p) = 1`. Then for every `b ∈ ℤ^n ∖ {0}` with `α_1^{b_1}⋯α_n^{b_n} ≠ 1: v_p(ι(α_1^{b_1}⋯α_n^{b_n}) − 1) < Φ⁺·Real.log(d·max(|b_1|, …, |b_n|, 3))`. For `α_j ∈ ℚ` the valuation is `padicValRat p`.
@@ -1790,7 +1796,7 @@ operation count is asserted. For every requested m choose `N` so `ceil(d+N(d-e/(
 finite expression `precision≥m+ord(M)`, and refine the input balls sufficiently. Apply the pivot
 quotient theorem before constructing `ED.1` residues.
 
-The representative `exists_padic_log_truncation` expresses positivity of the tail slope and existence of a truncation meeting any integer precision.
+The positive tail slope supplies a truncation meeting every requested integer precision.
 
 **Checks.**
 
@@ -2984,17 +2990,16 @@ w, each prime of `S` dividing at most one of them.
 
 *Needs:* DiophantineApproximationAndTranscendence §4.1 `(sUnits_rat_mulEquiv)`; DiophantineApproximationAndTranscendence §4.5 (coprime S-unit reduction); DiophantineApproximationAndTranscendence §4.5 (effective S-unit finiteness); Mathlib `padicValRat`.
 
-The representative Lean predicates `ED2.supportedOn S n` and
-`ED2.coprimeSUnitTriple S` (u,v,w) describe the positive integral formulation:
-every prime divisor of each entry lies in `S, u+v=w, gcd(u,v)=1` and `u≤v`.
-In particular support is imposed on `S`, and 1 is supported on every `S`; 0 is excluded
-by positivity. The rational solution set above retains its signed sixfold symmetry.
+In the positive integral formulation, every prime divisor of each entry of
+`(u,v,w)` lies in `S`, with `u+v=w`, `gcd(u,v)=1` and `u≤v`.
+The integer 1 is supported on every `S`; positivity excludes 0.
+The rational solution set above retains its signed sixfold symmetry.
 
-The light predicates have the following additional checks.
+**Checks for the positive integral formulation.**
 
-- `supportedOn {2,3} 12` holds, whereas `supportedOn {2,3} 5` fails at the prime 5.
-- `supportedOn ∅ 1` holds. For every finite `S, supportedOn S 0` fails: choose a prime outside `S`, which divides 0. The triple predicate also records positivity explicitly.
-- `coprimeSUnitTriple {2,3} (1,2,3)` holds; `(2,2,4)` fails the coprimality condition.
+- Every prime divisor of 12 lies in `{2,3}`, whereas 5 has a prime divisor outside that set.
+- The integer 1 has no prime divisors. For every finite `S`, the integer 0 has a prime divisor outside `S`; positivity excludes it from a solution triple.
+- The triple `(1,2,3)` is a positive coprime ordered triple supported on `{2,3}`; `(2,2,4)` fails coprimality.
 - `(2,1,3)` fails the ordering condition, and `(0,1,1)` fails positivity even though the additive equation holds.
 - `sUnitExponentHeight ∅ (x,y)=0`; for `S={2,3}`, the solutions (3,-2), `(1/2,1/2)` and (9/8,-1/8) have heights 1, 1 and 3 respectively. In the last case the 2-adic valuations are -3 and -3 and the 3-adic valuations are 2 and 0.
 
@@ -3645,6 +3650,12 @@ points give subgroups of `α(E(ℚ))`. Local solubility outside 2dd′ `∞` is 
 
 ### 3.12 Cremona's rational height difference bound
 
+`Suggested.lean` states the rational estimate as
+`ED3.canonicalHeight_sub_naiveHeight_cremona`, with `ED3.cremonaMu`, and the
+number-field estimate as `ED3.canonicalHeight_sub_naiveHeight_silverman`, with
+`ED3.silvermanMu`. The definition `ED3.archimedeanLogHeight` records the weighted
+archimedean contribution divided by the field degree.
+
 For a nonsingular integral standard Weierstrass equation `W` over `Q` with discriminant `Δ`, j-invariant j
 and `b₂`, let `2*=1` if `b₂=0` and 2 otherwise. Put `μ_C=((log|Δ| + log⁺j)/6 + log⁺(b₂/12) + log(2*)`),
 where `log⁺t=log max(1,|t|)`, exactly as Cremona III Proposition `3.5.1 p.77`. For every rational point
@@ -3722,7 +3733,7 @@ by 4ⁿ. `h(Q) = log H` by Mathlib `Rat.mulHeight₁_eq_max` and Tau Ceti `Point
 interval arithmetic by `ED.2` rational logarithm/error bounds rational-interval-product. Only exact
 rational arithmetic and the logarithm enclosures enter; no floating-point value is trusted.
 
-The representative `ED3.canonicalHeight_mem_doubling_interval` states this interval implication for actual pinned elliptic points, with the full native height and the `4^n` denominator explicit.
+The interval implication uses the full native height and the `4^n` denominator.
 
 **Checks.**
 
@@ -4013,6 +4024,13 @@ v2)](https://arxiv.org/abs/0803.2836), §1, p. 2 (arXiv v2).)
 *Needs:* §3.7; §3.11; §3.23; §3.14; §3.19; §3.20; §3.18; §3.17; HeightsRationalPointsAndObstructions Layer 1; JacobianChallenge Layer `D` (relative Picard and Jacobian).
 
 ### 3.22 Exact Mordell–Weil basis
+
+The headline statement is `ED3.mordellWeil_basis_of_height_and_saturation`
+in `Suggested.lean`. It uses `ED3.mordellWeilSubgroup` for the subgroup generated
+by the complete torsion list and the proposed points. For positive rank it
+concludes that this is the full group, that the points give a basis of the native
+points modulo torsion, and that their Gram determinant is the native regulator.
+The rank-zero case uses the complete torsion list as specified below.
 
 Let `W` over `ℚ` be elliptic with integral coefficients, `T = E(ℚ)_tors` exact (torsion-by-reduction),
 and `P₁,…,P_r ∈ E(ℚ)`. Assume: `(i) rank E(ℚ) ≤ r` (rank-upper-bound or two-isogeny-rank-bound); `(ii) det(⟨P_i, P_j⟩) ≥ δ > 0` (regulator-lower-bound); (iii) `λ > 0` with ĥ `≥ λ` on non-torsion points
@@ -4933,7 +4951,7 @@ Applied to `f = I_B` on a residue disc (`§4.4`, §4.7), (a)–(e) bound the zer
 `ED4.dominant_of_residue_bounds` carries convergence of the coefficients of `f(pT)`,
 a nonzero N-th coefficient and strict domination of every later scaled coefficient;
 it gives finiteness and at most N distinct zeros on the closed disc. Zeros mean
-convergent evaluation equal to zero, expressed by `HasSum` in the Lean companion.
+convergent evaluation equal to zero.
 
 Work under the following conditions. p prime; f' `∈ ℤ_p[[t]]` (scale `ω` so that it is integral with
 nonzero reduction); zeros counted as distinct points of `pℤ_p`. In (d), 'known modulo `p^{k_i}'` means a
@@ -5890,7 +5908,7 @@ them.
 For the proof, Assume a globally compatible g exists. Global-soundness puts `q_L(g)` in `A_S(L)`,
 contradicting its emptiness.
 
-The representative `ED5.sieve_empty` states the necessary-condition obstruction directly for homomorphisms on existing additive groups.
+The necessary local conditions therefore give an obstruction for the global group.
 
 **Checks.**
 
@@ -6212,7 +6230,7 @@ applied to `g = ι(P)` gives `q_L(ι(P)) ∈ admissibleClasses(S, L, ρ, Y)`; ex
 local-overapproximations justifies working with `Y_p ⊇ X_p`; for `mapLocal` data the local sets are the
 images of `X_p` in the quotients.
 
-The representative `ED5.sieve_weaken` states that replacing each necessary local set by a superset preserves all surviving global elements.
+Replacing each necessary local set by a superset preserves every surviving global element.
 
 **Checks.**
 
@@ -7010,9 +7028,8 @@ p.926; [BDMTV (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), §3.5, p.15
 
 *Needs:* §6.1; §0.6; §4.18; §5.23.
 
-The representative theorem `ED6.candidates_eq_known` states this set-theoretic
-comparison on existing carriers; the geometric zero counts and exclusions supply
-its hypotheses.
+The geometric zero counts and exclusions supply the coverage, uniqueness and
+matching hypotheses of this comparison.
 
 ### 6.3 Residue-disc datum for quadratic Chabauty functions
 
@@ -7805,6 +7822,15 @@ p.25 (arXiv v4); [BDMTV (published,
 *Needs:* §0.8; §0.6; §6.13; Mathlib PowerSeries; Mathlib `Padic.valuation`.
 
 ### 6.16 Provable determination of roots in a residue disc
+
+`Suggested.lean` states `ED6.roots_determined_of_truncation` in the normalized
+form `G(T)=p^(−k)F(pT)`, with positive integer precision `N=n−k`.
+The definition `ED6.seriesValue` is the convergent coefficient sum.
+For any complete algebraically closed normed extension of `Q_p`, the theorem
+matches its geometric zero multiset on the closed unit disc with the actual
+polynomial roots of `H` there, within radius `p^(−N/d)`, counting analytic
+multiplicities. The coefficient-error hypothesis is supplied by the finite
+coefficient and tail bounds below; rescaling gives the claimed balls for `F`.
 
 (BDMTV 2021 Lemma `4.7.`) Let `F(x) = Σ_{i≥0} F_i x^i ∈ Q_p[[x]]` such that `F(pT)` is restricted (its
 coefficients tend to zero), and integers k, m, n with `n > k, m ≥ 1, min_i{ord_p(F_i) + i} = k`, using
@@ -8983,13 +9009,13 @@ Conditional on the explicit arithmetic/datum inputs below, let `S` be the set of
 integers whose prime factors lie in `{2, 3, 5, 7, 11, 13}`. The equation `x + y = z` with `x, y, z ∈ S, gcd(x, y) = 1` and `x ≤ y` has exactly 545 solutions; 514 of them satisfy `ord_2(xyz) ≤ 12, ord_3(xyz) ≤ 7, ord_5(xyz) ≤ 5, ord_7(xyz) ≤ 4, ord_11(xyz) ≤ 3, ord_13(xyz) ≤ 3`, and the other 31 are listed in
 de Weger's Table II, the largest being `91 + 1771470 = 1771561 (7·13 + 2·3¹¹·5 = 11⁶)`. Data
 data: the initial bound `m(xyz) := max_p ord_p(xyz) < 5.60·10²⁷ (de` Weger §6.2, from Yu's p-adic and
-Waldschmidt's archimedean bounds); p-adic reduction with the parameters `(μ_0, μ) = (2, 605), (1, 385), (1, 275), (1, 220), (1, 165), (1, 165)` for `p = 2, …, 13` and lattice lower bounds `ℓ(Γ*_μ) > √5 · 5.60·10²⁷`, giving `ord_p(xyz) ≤ 606, 385, 275, 220, 165, 165`, so `m ≤ 606`; a second round `(μ = 66, 42, 30, 24, 18, 18)` giving `m ≤ 67`; a third round `(μ = 55, 35, 25, 20, 15, 15)` giving `m ≤ 56`; then
+Waldschmidt's archimedean bounds); p-adic reduction with the parameters `(μ_0, μ) = (2, 605), (1, 385), (1, 275), (1, 220), (1, 165), (1, 165)` for `p = 2, …, 13` and lattice lower bounds `ℓ(Γ*_μ) > √5 · 5.60·10²⁷`, giving `ord_p(xyz) ≤ 606, 385, 275, 220, 165, 165`, so `m ≤ 606`; a second reduction `(μ = 66, 42, 30, 24, 18, 18)` giving `m ≤ 67`; a third reduction `(μ = 55, 35, 25, 20, 15, 15)` giving `m ≤ 56`; then
 Fincke–Pohst enumeration of the short vectors of the same lattices down to `f(2) = 4, f(p) = 1` for `p ≥ 3`, and a final exhaustive search.
 
 Work under the following conditions. The initial bound is supplied through §2.33 from the imported
 p-adic and archimedean lower bounds (DiophantineApproximationAndTranscendence §§3.6–3.7, Yu and Matveev); a weaker imported bound only enlarges
 the first `μ`. Supply the exact rational/integer lattice bases, unimodular transforms, rational
-squared-distance witnesses and reduction parameters for every stated round, and the finite final
+squared-distance witnesses and reduction parameters for every stated reduction step, and the finite final
 exponent/candidate tables. Check their identities, thresholds, full branch/row coverage and exact
 S-unit membership by `ED.1/ED.2`; do not assume that the finite list is complete or has545 solutions.
 The logarithm error formulas justify the residues used by the reduction, so the enumeration
