@@ -22,10 +22,9 @@ Hecke images retain the abstract action, and interpolation carries a specified n
 mathematical assertions below are targets for formalisation; the existing library inputs are
 distinguished in the `*Needs:*` annotations. Each construction states its usable API and its checks.
 The companion [Suggested.lean](Suggested.lean), in the namespace
-`TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants`, prototypes the central definitions and the
-headline theorems, including named boundary targets. A target that ends with a `*Lean:*` line
-is carried by the declarations listed there; every other target and unlisted Check is specified
-in this README only and has no Lean declaration. This document fixes
+`TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants`, states headline theorems against the pinned
+libraries, using concrete definitions where needed to express them. A target that ends with a
+`*Lean:*` line has the indicated acceptance statement; the other targets and all Checks are specified in this README. This document fixes
 the mathematical scope, including hypotheses whose carriers come from another roadmap.
 
 ## Scope and ownership
@@ -138,8 +137,8 @@ group-algebra antipode, the `HopfAlgebra (MonoidAlgebra A G)` instance of
 matrix or universal case of a determinant statement here. The Fitting ideal is
 `TauCeti.fittingIdeal`, its base change `TauCeti.fittingIdeal_baseChange`, the character map of a
 group algebra `MonoidAlgebra.lift`, and the spin polynomials are those of
-SmoothRepresentationsOfLocalGroups; `Suggested.lean` uses `TauCeti.fittingIdeal`,
-`MonoidAlgebra.lift` and `SmoothRepresentationsOfLocalGroups.SpinPolynomial`.
+SmoothRepresentationsOfLocalGroups. The integral Ribet statements in `Suggested.lean` use
+`TauCeti.fittingIdeal` and `MonoidAlgebra.lift` directly.
 
 ## Conventions
 
@@ -322,7 +321,7 @@ The following APIs are used directly, with no additional image or Fitting aliase
   `Matrix.charpoly_diagonal` in `Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean`
   (the last declaration is in `Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`).
   These supply matrix reversal, inversion and diagonal computations. Layer 3a's
-  `Determinant.reciprocal_charpoly` is the polynomial-law determinant analogue over
+  reciprocal characteristic-polynomial identity is the polynomial-law determinant analogue over
   arbitrary commutative coefficient rings; it does not assume a matrix realization.
 - `Ideal.Quotient.field` in `Mathlib/RingTheory/Ideal/Quotient/Basic.lean` supplies
   the residue-field structure used by Layer 3b.
@@ -338,9 +337,9 @@ The following APIs are used directly, with no additional image or Fitting aliase
 - `SmoothRepresentationsOfLocalGroups.SpinPolynomial` and
   `SmoothRepresentationsOfLocalGroups.SpinPolynomial.reciprocal` in
   `TauCetiRoadmap/SmoothRepresentationsOfLocalGroups/Suggested.lean`.
-  Its `T1,T2` correspond to `T₂,T₁` here. The monic variant `Spherical.gsp4SpinPolynomial`
+  Its `T1,T2` correspond to `T₂,T₁` here. The monic variant `Q`
   reflects the degree-four polynomial and swaps those indices; the dual-spin variant
-  `Spherical.gsp4DualSpinPolynomial` additionally inverts the central unit.
+  `P` additionally inverts the central unit.
 
 
 
@@ -548,9 +547,10 @@ a realising representation.
 
 ## How to read the build
 
-`README.md` is normative; `Suggested.lean` pins names and signatures for the central objects and
-the headline theorems, including named boundary targets. The targets that end with a `*Lean:*` line are
-prototyped there by the listed declarations; the others are specified in this README only. Each
+`README.md` is normative; `Suggested.lean` states the headline results whose objects can be
+expressed at the library pins. Its module documentation identifies the signatures that need
+additional objects. The targets that end with a `*Lean:*` line have the indicated acceptance
+statements; the others are specified in this README. Each
 `*Needs:*` annotation names its mathematical prerequisites. The build order is
 IHG.0 → IHG.3a → IHG.1 → IHG.2 → IHG.3b → IHG.4 → IHG.5 → IHG.6.
 
@@ -606,7 +606,6 @@ the unique linear map whose underlying function is `P.ground`, without flatness 
 finite-generation assumptions ([Chenevier](https://arxiv.org/pdf/0809.0415v2),
 Example 1.2(i) and footnote 11, p.7). *Needs:* DerivedModuleAlgebra §0.DP.1 / Homogeneous
 polynomial laws; Mathlib `PolynomialLaw.ground`, `TensorProduct.lid`, `LinearMap.lTensor`.
-*Lean:* none (README-only).
 
 **Checks.**
 
@@ -624,22 +623,20 @@ polynomial laws; Mathlib `PolynomialLaw.ground`, `TensorProduct.lid`, `LinearMap
 `d`-dimensional determinant valued in `A` is a degree-`d` homogeneous polynomial law `D : R → A`
 that preserves `1` and multiplication after every commutative scalar extension; `d ≥ 0` is allowed,
 and for `d = 0` the only determinant is the constant `1`. For `R = A[G]`, with `G` a group or
-monoid, it is called a determinant on `G`. Define the structure `Determinant` and its value
-`Determinant.eval`, and prove `D(xy) = D(x)D(y)`, `D(1) = 1`, `D(ax) = a^d D(x)` and that units go
+monoid, it is called a determinant on `G`. Define the structure `Determinant` and its ground value
+`D(x)`, and prove `D(xy) = D(x)D(y)`, `D(1) = 1`, `D(ax) = a^d D(x)` and that units go
 to units ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.5, Definition,
 p. 9). *Needs:* DerivedModuleAlgebra §0.DP.1 (homogeneous and multiplicative polynomial laws), Mathlib `PolynomialLaw.ground`.
-*Lean:* `Determinant`, `Determinant.eval`.
 
 **Checks.**
 
-- `eval (ofMatrix id) M = det M` on `M_d(A)`: the determinant law of the identity representation
+- `D_id(M) = det(M)` on `M_d(A)`: the determinant law of the identity representation
   computes the matrix determinant, so a law normalised differently would fail on `M = 1`.
 - A determinant of dimension `0` is the constant `1`, the degenerate case; a definition forcing
   `D(0) = 0` would exclude it.
 - Over `𝔽_p`, on the polynomial algebra `𝔽_p[T]`, the `p`-th powers of evaluation at `0` and at
   `1` are two different `p`-dimensional determinants with the same trace, namely zero, so a
-  definition that recorded only the trace would identify two distinct determinants
-  (`Determinant.exists_distinct_determinants_eq_trace`).
+  definition that recorded only the trace would identify two distinct determinants.
 
 **Characteristic polynomial and trace of a determinant.** For `D` a `d`-dimensional determinant on
 `R` and `x ∈ R`, define `χ(x, t) := D_{A[t]}(t − x) ∈ A[t]`, where `A[t]` is a commutative
@@ -652,12 +649,10 @@ p. 9). *Needs:* DerivedModuleAlgebra §0.DP.1 (homogeneous and multiplicative po
 It is monic, with `natDegree = d` when `A` is nonzero. For `d ≥ 1`, `Λ_0 = 1`, `Λ_d = D`, and `Λ_1 =: Tr` is an `A`-linear map with
 `Tr(1) = d`. Define `Determinant.charpoly` (`χ`) and `Determinant.trace` (`Λ_1`, set to `0` in
 degree zero), prove that `χ(x, t)` is monic, that `deg χ = d`, and that `χ(x, 0) = (−1)^d D(x)`,
-define `Determinant.traceLinear` (`Tr` as an `A`-linear map) and prove `Tr(1) = d`
+construct `Tr` as an `A`-linear map and prove `Tr(1) = d`
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, p. 12;
 [Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, (1.3), p. 12). *Needs:* Determinants (Chenevier), Mathlib `Polynomial`, `Algebra.TensorProduct.rid`, `Polynomial.Monic`,
 §0.2 / Linear-map laws and ground-value adapters.
-*Lean:* `Determinant.charpoly`, `Determinant.trace`, `Determinant.traceLinear`,
-`Determinant.charpoly_monic`, `Determinant.natDegree_charpoly`, `Determinant.charpoly_coeff_zero`.
 
 **Checks.**
 
@@ -672,16 +667,14 @@ define `Determinant.traceLinear` (`Tr` as an `A`-linear map) and prove `Tr(1) = 
 into the full matrix algebra, prove that `D := det ∘ ρ`, computed after each scalar extension as
 `det_S ∘ (ρ ⊗ S)`, is a `d`-dimensional determinant with `D(x) = det ρ(x)`,
 `χ(x, t) = charpoly ρ(x)` and `Tr = tr ∘ ρ`, and that conjugate representations give the same
-determinant. Define `Determinant.ofMatrix` and prove `D(x) = det ρ(x)`, `Tr = tr ∘ ρ`,
-`Determinant.charpoly_ofMatrix` (`χ(x) = charpoly ρ(x)`) and that conjugate representations have the
+determinant. Construct the matrix determinant law `det ∘ ρ` and prove `D(x) = det ρ(x)`, `Tr = tr ∘ ρ`,
+`χ(x) = charpoly ρ(x)` and that conjugate representations have the
 same determinant ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.5, p. 9). *Needs:* Characteristic polynomial and trace of a determinant, Mathlib `Matrix.det`, `Matrix.det_mul`, `Matrix.det_smul`,
 `Matrix.det_conj`, `RingHom.map_det`, `Matrix.charpoly`, `Matrix.trace`.
-*Lean:* `Determinant.ofMatrix`, `Determinant.charpoly_ofMatrix`, `Determinant.eval_ofMatrix`,
-`Determinant.trace_ofMatrix`, `Determinant.ofMatrix_eq_of_conjugate`.
 
 **Checks.**
 
-- `ofMatrix id` on `M_d(A)` evaluates to `det`: the construction applied to the identity
+- The determinant law of the identity on `M_d(A)` evaluates to `det`: the construction applied to the identity
   representation computes the ordinary determinant, so any scalar-extension step that failed to
   commute with `det` would already show here.
 - Its trace is the matrix trace, so a construction whose `Λ_1` did not agree with `Matrix.trace`
@@ -698,7 +691,7 @@ Proof of Lemma 2.2, p. 24). *Needs:* Characteristic polynomial and trace of a de
 
 **Checks.**
 
-- `ofMatrix` of a block sum is the product of the `ofMatrix` of the blocks, so a product law not
+- The determinant law of a block sum is the product of the determinant laws of the blocks, so a product law not
   agreeing with the matrix determinant of `diag(ρ_1, ρ_2)` would fail.
 - Traces add: `Tr(D_1 D_2)(x) = Tr_1(x) + Tr_2(x)`, so a product whose degree-`(d−1)` coefficient
   was not the sum would be detected.
@@ -718,7 +711,7 @@ identity is `D`, and that restriction along `ψ ∘ φ` is restriction along `ψ
 - Restriction along the identity returns `D` itself, so a comap that re-indexed or re-scaled the
   law would fail on `φ = id`.
 - Restriction of `det ∘ ρ` along `φ` is `det ∘ (ρ ∘ φ)`: both compute `det ρ(φ x)`, so a comap not
-  compatible with `ofMatrix` would give a different law.
+  compatible with the matrix determinant law would give a different law.
 - Restriction to a subgroup `H ≤ G` along `A[H] → A[G]` computes `D` on `H`-elements, so a comap
   that did not use `MonoidAlgebra.mapDomainAlgHom` of the inclusion would not be restriction.
 
@@ -735,7 +728,7 @@ Mathlib `TensorProduct.AlgebraTensorModule.cancelBaseChange`.
 
 - Base change to `A` itself is `D`: `D ⊗ A = D` under `A ⊗_A R ≅ R`, so a construction not using
   the cancellation isomorphism would produce a different law.
-- Base change of `det ∘ ρ` is `det ∘ (ρ ⊗ S)`, so a construction not commuting with `ofMatrix` would
+- Base change of `det ∘ ρ` is `det ∘ (ρ ⊗ S)`, so a construction not commuting with the matrix determinant law would
   fail on the matrix case.
 - Transitivity: `(D ⊗ S) ⊗ T = D ⊗ T` for `S → T`, so a construction depending on the intermediate
   algebra would give two different laws on `T ⊗_A R`.
@@ -774,12 +767,9 @@ with `T(1) = d`, `T(xy) = T(yx)`, and the pseudocharacter identity
 for all `x_i ∈ R`, where `T^σ(x) = ∏` over the cycles `(j_1 … j_s)` of `σ` of
 `T(x_{j_1}⋯x_{j_s})`, fixed points included. Define `cycleProduct` (the product of `x` along a
 cycle), `cycleTerm` (`T^σ(x)`) and the predicate `IsPseudocharacter`, and prove
-`Determinant.isPseudocharacter_trace` (the trace of a
-determinant is a pseudocharacter) ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, Lemma 1.12(iii) and
+that the trace of a determinant is a pseudocharacter ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.10, Lemma 1.12(iii) and
 §1.26, pp. 12, 20). *Needs:* Mathlib `Equiv.Perm.sign`, `Equiv.Perm.SameCycle`,
 `Function.minimalPeriod`, `LinearMap`.
-*Lean:* `cycleProduct`, `cycleTerm`, `cycleTerm_reindex` (central functions are invariant under
-simultaneous relabelling), `IsPseudocharacter`.
 
 FreeProbability §F8, Gaussian and Haar random-matrix asymptotic freeness, consumes
 `cycleProduct` and `cycleTerm` for normalized complex-matrix traces, with the permutation
@@ -805,7 +795,6 @@ faithful if `Ker(P) = 0`. Define `PolynomialLaw.ker` (the kernel as a submodule)
 (`Ker(P) = 0`), and prove that `P` factors through `M/K` iff `K ≤ Ker(P)`
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.17, p. 16).
 *Needs:* Mathlib `PolynomialLaw`, `Submodule`, `TensorProduct`.
-*Lean:* `PolynomialLaw.ker`.
 
 **Checks.**
 
@@ -968,8 +957,8 @@ p. 17). *Needs:* The kernel of a polynomial law, D(1 + rr′) = D(1 + r′r).
 that `Ker(D)` is a two-sided ideal of `R`, proper if `d > 0` and `R ≠ 0`, and that it is the largest
 two-sided ideal `K` such that `D` factors through a determinant of `R/K`. Define `Ker(D)` as a
 two-sided ideal whose membership agrees with the submodule kernel `PolynomialLaw.ker` of the
-underlying law, and prove that it is proper for `d > 0` and `R` nontrivial; statements about this
-ideal in `Suggested.lean` are written as membership in `PolynomialLaw.ker` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 1.19(ii), p. 17). *Needs:*
+underlying law, and prove that it is proper for `d > 0` and `R` nontrivial; the kernel clause of semisimple reconstruction
+in `Suggested.lean` is written as membership in `PolynomialLaw.ker` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Lemma 1.19(ii), p. 17). *Needs:*
 The kernel of a determinant, Laws factor through their kernel, Mathlib
 `TwoSidedIdeal`.
 
@@ -1031,7 +1020,6 @@ of all mixed maps `D^{[α]} : G^d → A` in Chenevier's definition. Define
 `Determinant.IsContinuous` using the coefficients of `χ_D`; prove that a continuous determinant is determined on a dense subgroup and that, for profinite `G` and discrete
 `A`, continuity means that the kernel is open ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §2.30, p. 37). *Needs:*
 Amitsur's formula for determinants, Mathlib `Continuous`, `MonoidAlgebra.of`.
-*Lean:* `Determinant.IsContinuous`, `Determinant.isContinuous_ofMatrix`.
 
 **Checks.**
 
@@ -1082,9 +1070,9 @@ group-algebra inversion; prove `(D∨)∨ = D`, that for `g ∈ G`,
 `P_D∨,g(X) = X^d P_D,g(X⁻¹)/P_D,g(0)`, and that the determinant of the transpose-inverse matrix
 representation is `D∨` ([Quast](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf), §3.4, p.17; Chenevier §1.5, p.9, for the definition of a determinant on `A[G]`). *Needs:*
 The determinant of a matrix representation. The identity `χ_{D∨}(g) = χ_D(g⁻¹)` pins inversion
-on every group element, so the dual is read as evaluation of `D` at `g⁻¹`; the reciprocal formula
-`Determinant.reciprocal_charpoly` of Layer 3a is stated in that form and follows from this identity
-and the formula for `P_D∨,g`.
+on every group element, so the dual is read as evaluation of `D` at `g⁻¹`; the reciprocal
+characteristic-polynomial identity of Layer 3a is stated in that form and follows from this
+identity and the formula for `P_D∨,g`.
 
 **Checks.**
 
@@ -1145,6 +1133,7 @@ surjective affine étale splitting charts and proves faithful flatness and split
 Its Checks are the split matrix algebra, `ℂ⊗_ℝ ℍ ≃ M₂(ℂ)`
 with `Algebra.Etale ℝ ℂ` and `Module.FaithfullyFlat ℝ ℂ`, and the absence of an
 `ℝ`-algebra isomorphism `ℍ ≃ M₂(ℝ)`.
+*Lean:* `Determinant.existsUnique_of_isAzumaya`.
 
 **Checks.**
 
@@ -1420,7 +1409,7 @@ Chenevier §§1.5, 1.9, 1.17–1.19 and the divided-power functor of §1.3.
 
 | Interface | Computed Checks |
 |---|---|
-| `Determinant.traceLinear` | The degree-one identity sends `a` to `a`; the trace of `[[2,3],[4,5]]` is `7`; every degree-zero trace is zero. |
+| `Tr` | The degree-one identity sends `a` to `a`; the trace of `[[2,3],[4,5]]` is `7`; every degree-zero trace is zero. |
 | One-dimensional determinants as algebra maps | The inverse at `f` evaluates to `f(r)`; the identity over `ℤ` takes `2` to `2`; the identity over `𝔽₂` has polynomial `X−1` at `1`. The inverse is this evaluation at every input. |
 | `cycleProduct` | The identity permutation returns the chosen entry; the transposition starting at `0` gives `x₀x₁`; starting at `1` gives `x₁x₀`. |
 | `cycleTerm` | The empty tuple gives `1`; the identity on two entries gives `T(x₀)T(x₁)`; the transposition gives `T(x₀x₁)`, with one cycle factor. |
@@ -1462,7 +1451,7 @@ These are the scalar-extension constructions in Chenevier, §§1.1–1.5.
 
 | Definitions or convention | Computed Checks |
 |---|---|
-| `Determinant`, `Determinant.eval`, `Determinant.ofMatrix`, `Determinant.charpoly`, `Determinant.trace`, `Determinant.traceLinear`, the law `χ`, the CH ideal and the Cayley–Hamilton property | On the scalar algebra `ℤ`, the empty representation at zero has determinant and characteristic polynomial `1`, trace `0`, and CH ideal the unit ideal. Rank one at `−3` gives `−3`, `X+3`, trace `−3`, and zero CH ideal. On `M₂(ℤ)`, `[[2,3],[4,5]]` gives `−2`, `X²−7X−2`, trace `7`, and zero CH law. |
+| `Determinant`, `D(x)`, `det ∘ ρ`, `Determinant.charpoly`, `Determinant.trace`, `Tr`, the law `χ`, the CH ideal and the Cayley–Hamilton property | On the scalar algebra `ℤ`, the empty representation at zero has determinant and characteristic polynomial `1`, trace `0`, and CH ideal the unit ideal. Rank one at `−3` gives `−3`, `X+3`, trace `−3`, and zero CH ideal. On `M₂(ℤ)`, `[[2,3],[4,5]]` gives `−2`, `X²−7X−2`, trace `7`, and zero CH law. |
 | The law of a linear map | Identity, zero, and multiplication by two evaluated at three gives six. |
 | Products of determinants | Two identity characters at three give value `9`, polynomial `X²−6X+9`, trace `6`; the two projections at `(0,3)` give `0`, `X²−3X`, `3`; degree zero is the unit. |
 | Restriction of determinants | Identity; evaluation at two takes `X` to `2`; evaluation at zero kills `X` and preserves `1`. |
@@ -1672,7 +1661,7 @@ The formulas use `q,Tᵢ ∈ A`; an operator algebra is obtained by taking that 
 ### 3a.1 GLₙ Hecke polynomials and Frobenius conventions
 
 **Integral GLn Hecke polynomial.** For `n ≥ 0`, `q ∈ A` and operators `T_0, …, T_n` in a
-commutative ring `A`, define `Spherical.glnPolynomial` as
+commutative ring `A`, define `P` as
 
 ```text
 P(X) = ∑_{i=0}^n (−1)^i q^{i(i−1)/2} T_i X^{n−i}.
@@ -1687,7 +1676,6 @@ determinant coefficient is
 degree `n` when `A` is nonzero, and that it is compatible with every ring homomorphism ([ACC](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), §2.2.5, equation (2.2.6),
 p.922). *Needs:* IHG.0, Characteristic polynomial and trace of a determinant; [Smooth representations of local
 groups](../SmoothRepresentationsOfLocalGroups/README.md) SR.4.3, *gln-generators*.
-*Lean:* `Spherical.glnPolynomial`, `Spherical.glnPolynomial_monic`.
 
 **Checks.**
 
@@ -1702,8 +1690,7 @@ groups](../SmoothRepresentationsOfLocalGroups/README.md) SR.4.3, *gln-generators
   polynomial is integral in `q` and the `T_i`, so a definition that only existed after adjoining a
   square root of `q` would not transport along an arbitrary coefficient map.
 
-**Normalized Satake coefficients for GLn.** The algebraic target
-`Spherical.glnPolynomial_satake` holds for every `s ∈ A`, with `q = s²`, and every
+**Normalized Satake coefficients for GLn.** The Satake factorization of `P` holds for every `s ∈ A`, with `q = s²`, and every
 `z : Fin n → A`. Its elementary symmetric coefficient is the sum of products over all
 `i`-element subsets of `Fin n`. In the Satake interpretation, `q` is a unit and `s` is a
 chosen square root in a coefficient extension. Under `S(T_i) = s^{i(n−i)} e_i(z_1, …, z_n)` one has
@@ -1715,9 +1702,8 @@ S(P(X)) = ∏_{j=1}^n (X − s^{n−1} z_j).
 The equality follows because `i(i−1) + i(n−i) = i(n−1)`. The integral polynomial `P` is independent
 of the square-root extension ([ACC](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), §2.2.5, equation (2.2.6), pp.921–922; the displayed factorization is the elementary
 symmetric expansion with the stated Satake normalization). *Needs:* Integral GLn Hecke polynomial.
-*Lean:* `Spherical.glnPolynomial_satake`.
 
-**Determinant coefficient of the GLn parameter.** Prove `Determinant.eval_eq_of_charpoly_eq_glnPolynomial`
+**Determinant coefficient of the GLn parameter.** Prove the determinant coefficient identity
 for any `A`-algebra `R`, a degree-`n` determinant `D` on `R` and `r ∈ R` with
 `D.charpoly r = P`: its value is `q^{n(n−1)/2}T_n`. In particular, at a specified
 Frobenius element `F_v`,
@@ -1725,7 +1711,6 @@ Frobenius element `F_v`,
 `s^{n(n−1)} ∏ z_j`. This target is an equality at a specified element; global character identification is
 outside this layer ([ACC](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), §2.2.5, equation (2.2.6), p.922). *Needs:*
 Integral GLn Hecke polynomial.
-*Lean:* `Determinant.eval_eq_of_charpoly_eq_glnPolynomial`.
 
 **Characteristic polynomial under a character twist.** For a rank-`n` determinant `D` of `G`, a
 character `θ : G → A^×` and `g ∈ G`, twisting the group algebra by `h ↦ θ(h)h` gives
@@ -1734,26 +1719,24 @@ character `θ : G → A^×` and `g ∈ G`, twisting the group algebra by `h ↦ 
 χ_{D⊗θ,g}(X) = ∑_{i=0}^n (−1)^i θ(g)^i Λ_i(g) X^{n−i}.
 ```
 
-The named coefficient target is `Determinant.charpoly_smul_coeff`: for any degree-`n`
+The coefficient target is the following: for any degree-`n`
 determinant on an `A`-algebra, `r` in that algebra, `a ∈ A` and `i ≤ n`, the coefficient
 of degree `n−i` at `a • r` is `a^i` times the coefficient at `r`. Apply this with
 `r = g`, `a = θ(g)` and restriction along `h ↦ θ(h)h`. The determinant character
 changes by `θ^n` by the homogeneity `D(ax) = a^d D(x)` of a determinant ([ACC](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), §2.2.20–24,
 pp.932–934). *Needs:* Restriction of determinants.
-*Lean:* `Determinant.charpoly_smul_coeff`.
 
 **Normalized reciprocal characteristic polynomial.** For a degree-`n` determinant on `A[G]`
 and a group element `g` (hence a unit of the group algebra),
-use `Determinant.reciprocal_charpoly` and write `P_g(X) = ∑ a_i X^{n−i}` with `a_0 = 1` and `a_n` a unit. Prove that
+write `P_g(X) = ∑ a_i X^{n−i}` with `a_0 = 1` and `a_n` a unit. Prove that
 `P_{g^{-1}}(X) = a_n^{-1} ∑_{i=0}^n a_i X^i`, equivalently `X^n P_g(X^{-1}) / P_g(0)`; this is
 the monic polynomial with inverse roots ([ACC](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), §2.2.20, p.932). The
 statement is coefficientwise: the coefficient of `X^i` at `g⁻¹`, multiplied by `P_g(0)`, is the
 coefficient of `X^{n−i}` at `g`. *Needs:*
 Characteristic polynomial and trace of a determinant.
-*Lean:* `Determinant.reciprocal_charpoly`.
 
 **Arithmetic and geometric Frobenius conversion.** Fix `F_v^ar` with `F_v^geom = (F_v^ar)^{-1}`.
-Apply `Determinant.reciprocal_charpoly`: if `P` is the characteristic polynomial at `F_v^ar`, the polynomial at `F_v^geom` is the
+Apply the reciprocal characteristic-polynomial identity: if `P` is the characteristic polynomial at `F_v^ar`, the polynomial at `F_v^geom` is the
 normalized reciprocal of `P`, and that if a source instead specifies `P` at geometric Frobenius,
 its arithmetic polynomial is that reciprocal. ACC23 explicitly uses geometric Frobenius, so
 importing its polynomial requires this convention conversion. The cyclotomic character has
@@ -1772,7 +1755,7 @@ the corresponding determinant is `D∨ ⊗ ε^{1−n}` when Frobenius is geometr
 Normalized reciprocal characteristic polynomial.
 
 **Rank-one normalization by reciprocity.** For `GL_1`, `K = O_v^×` and `T_1 = [KπK]`, so
-`P = X − T_1`. The degree-one case of `Determinant.reciprocal_charpoly` says that an unramified character with `θ(F_v^ar) = u` has arithmetic polynomial
+`P = X − T_1`. The degree-one reciprocal characteristic-polynomial identity says that an unramified character with `θ(F_v^ar) = u` has arithmetic polynomial
 `X − u` and geometric polynomial `X − u^{-1}`. Reciprocity sends `π` to the explicitly chosen
 Frobenius, so a character evaluated under the opposite Artin convention is inverted
 ([ACC](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), Notation and §2.2.5, equation (2.2.6), pp.905–906, 921–922). *Needs:*
@@ -1798,11 +1781,11 @@ Q(X) = X⁴ − T_1 X³ + (qT_2 + (q³+q)T_0) X² − q³ T_0 T_1 X + q⁶ T_0²
 be the monic spin polynomial of SmoothRepresentationsOfLocalGroups, SR.4 (its
 `SpinPolynomial.reciprocal`), with `T_0, T_1, T_2` the double cosets of `diag(ϖ,ϖ,ϖ,ϖ)`,
 `diag(ϖ,ϖ,1,1)`, `diag(ϖ²,ϖ,ϖ,1)` for a uniformiser `ϖ`, `q` the residue cardinality, that is
-SR.4's `T0`, `T2`, `T1`. The explicit formula `Spherical.gsp4SpinPolynomial` equals the
+SR.4's `T0`, `T2`, `T1`. The explicit formula `Q` equals the
 fixed-degree reflection of that supplied polynomial with these indices exchanged.
 Its constant coefficient `q⁶T_0²` and its compatibility with every coefficient change are
 targets. The dual definition needs only `T_0 ∈ Aˣ`; `q` can be any
-element. Define `Spherical.gsp4DualSpinPolynomial`
+element. Define `P`
 as
 
 ```text
@@ -1811,13 +1794,11 @@ P(X) = X⁴ − T_0^{-1} T_1 X³ + T_0^{-2}(qT_2 + (q³+q)T_0) X² − q³ T_0^{
 
 the scaled dual polynomial. Assume additionally that `q` is a unit for the reciprocal
 interpretation. Prove
-`Spherical.gsp4DualSpinPolynomial_reciprocal` (`P(X) = X⁴ Q(q³/X) / Q(0)`, stated coefficient by
+the scaled reciprocal identity (`P(X) = X⁴ Q(q³/X) / Q(0)`, stated coefficient by
 coefficient after clearing `Q(0)`) and `P(0) = q⁶ T_0^{-2}`; the roots of `P` are `q³`
 divided by the spin-`Q` roots ([BCGP](https://arxiv.org/pdf/2502.20645v1), Equation (1.8.27) and Lemma 1.8.28, p.17).
 *Needs:* IHG.0, Characteristic polynomial and trace of a determinant; [Smooth representations of local groups](../SmoothRepresentationsOfLocalGroups/README.md)
 SR.4.5, *gsp4-spin-polynomial* and *gsp4-galois-comparison*.
-*Lean:* `Spherical.gsp4SpinPolynomial`, `Spherical.gsp4DualSpinPolynomial`,
-`Spherical.gsp4DualSpinPolynomial_reciprocal`.
 
 **Checks.** The three direct dual-polynomial computations in the table below distinguish
 `q=0`, the identity parameter, and a nontrivial central unit. In particular,
@@ -1825,10 +1806,8 @@ SR.4.5, *gsp4-spin-polynomial* and *gsp4-galois-comparison*.
 constant coefficients `Q(0)=256`, `P(0)=16` at `q=T₀=2` distinguishes scaled
 duality from the unscaled normalized reciprocal, whose constant is `1/256`.
 
-**Geometric-Frobenius dual-spin conversion.** The named target is
-`Determinant.charpoly_dualSpin`, for an arbitrary degree-four determinant on `A[G]`,
-a specified `g ∈ G`, units `q,T₀` and the displayed characteristic polynomial `Q`.
-It identifies the characteristic polynomial of the dual at `q³ • g`, that is the characteristic
+**Geometric-Frobenius dual-spin conversion.** For an arbitrary degree-four determinant on `A[G]`,
+a specified `g ∈ G`, units `q,T₀` and the displayed characteristic polynomial `Q`, identify the characteristic polynomial of the dual at `q³ • g`, that is the characteristic
 polynomial of `D` at `q³ • g⁻¹`, with `P`.
 For BCGP25 geometric Frobenius `F_ℓ`, this says that if
 `det(X − ρ(F_ℓ)) = Q_ℓ(X)`, then `det(X − (ρ∨ ⊗ ε^{-3})(F_ℓ)) = P_ℓ(X)`, because
@@ -1836,10 +1815,8 @@ For BCGP25 geometric Frobenius `F_ℓ`, this says that if
 polynomials. This conversion applies to a determinant whenever duality and the twist are defined
 ([BCGP](https://arxiv.org/pdf/2502.20645v1), Lemma 1.8.28, p.17). *Needs:* GSp4 dual-spin Hecke polynomial,
 Characteristic polynomial under a character twist, Arithmetic and geometric Frobenius conversion, Contragredient determinant.
-*Lean:* `Determinant.charpoly_dualSpin`.
 
-**Full similitude character under duality and twist.** Prove
-`similitude_dual_twist`: for invertible matrices `r,J` over `A` and units
+**Full similitude character under duality and twist.** Prove that for invertible matrices `r,J` over `A` and units
 `μ,θ`, if `rᵀJr=μJ`, then `θr⁻ᵀ` preserves `J⁻¹` up to `μ⁻¹θ²`.
 This matrix identity holds in every size, including zero, and does not require an
 alternating form. For a symplectic representation it applies pointwise: if `ρ : G → GSp4(A)` has
@@ -1849,7 +1826,6 @@ values are `q³ T_0` for `ρ` and `q³ T_0^{-1}` for the converted representatio
 `μ²` does not determine `μ`, including over `ℤ/4`, where `1` and `−1` have equal squares; over a field of
 characteristic two the squaring map is injective ([BCGP](https://arxiv.org/pdf/2502.20645v1),
 §1.8.7–8 and Lemma 1.8.28, pp.9–10, 16–17). *Needs:* Geometric-Frobenius dual-spin conversion, [ReductiveGroups, layer 9][reductivegroups9].
-*Lean:* `similitude_dual_twist`.
 
 ### Examples
 
@@ -1858,10 +1834,10 @@ normalizations and excluded hypotheses.
 
 | Definition or convention | Computation |
 |---|---|
-| `Spherical.glnPolynomial` | `n=0,q=0,T₀=1`: `1`; `n=1,q=7,T=(1,3)`: `X−3`; `n=2,q=2,T=(1,3,5)`: `X²−3X+10` |
+| `P` | `n=0,q=0,T₀=1`: `1`; `n=1,q=7,T=(1,3)`: `X−3`; `n=2,q=2,T=(1,3,5)`: `X²−3X+10` |
 | Integral base change and monicity | Over `𝔽₂`, `q=0,T=(1,1,1)` gives `X²+X`; rank zero with `T₀=0` over `ℤ` is not monic |
-| `Spherical.gsp4SpinPolynomial` | At `(q,T₀,T₁,T₂)=(1,1,4,4)`: `(X−1)⁴`; at `(0,1,3,5)`: `X⁴−3X³`; at `(2,1,3,5)`: `X⁴−3X³+20X²−24X+64` |
-| `Spherical.gsp4DualSpinPolynomial` | At `(1,1,4,4)`: `(X−1)⁴`; at `(0,2,3,5)` over `ℚ`: `X⁴−(3/2)X³`; at `(2,2,3,5)`: `X⁴−(3/2)X³+(15/2)X²−6X+16` |
+| `Q` | At `(q,T₀,T₁,T₂)=(1,1,4,4)`: `(X−1)⁴`; at `(0,1,3,5)`: `X⁴−3X³`; at `(2,1,3,5)`: `X⁴−3X³+20X²−24X+64` |
+| `P` | At `(1,1,4,4)`: `(X−1)⁴`; at `(0,2,3,5)` over `ℚ`: `X⁴−(3/2)X³`; at `(2,2,3,5)`: `X⁴−(3/2)X³+(15/2)X²−6X+16` |
 | Satake powers and determinant sign | `s=2,z=(3,5)` gives `(X−6)(X−10)=X²−16X+60`; the determinant is `60`, not `−60` |
 | Double-coset inversion | `q=2,T=(1,5,3)` gives `X²−5X+6`; transformed generators give `X²−(5/3)X+2/3=(2/3) reflect₂(P)(X/2)` |
 | Classical weight | `k=4,q=2,a=3,ω=1` gives `X²−3X+8`; using truncated natural subtraction at weight one would give constant `2` instead of `1` |
@@ -2026,9 +2002,10 @@ semisimple representation `ρ : R → M_d(k)`, unique up to conjugacy, with `ker
 factorial assumption is required ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Theorem 2.12, pp.28–31).
 Semisimplicity is that of `matrixModule ρ` as an `R`-module, uniqueness is among semisimple
 representations, and the kernel clause says that `ρ(r) = 0` iff `r` lies in `PolynomialLaw.ker` of
-the law of `D`.
+the law of `D`. The predicate `Determinant.IsRealizedBy` identifies the entire scalar-extended
+law with the matrix determinant.
 *Needs:* Determinants on split simple factors.
-*Lean:* `matrixModule`, `Determinant.exists_semisimple_ofMatrix_eq`.
+*Lean:* `Determinant.exists_semisimple_realization`.
 
 **The Frobenius law of a finite-exponent extension.** Let `k` be a field of exponential
 characteristic `p` and `L/k` a field extension with maximal separable subextension
@@ -2072,7 +2049,7 @@ Theorem 2.16, p.31). *Needs:* Mathlib `PolynomialLaw`, `separableClosure`,
 `C` be a central simple `L`-algebra of degree `n`, so `dim_L C = n²`; it is Azumaya over `L` of
 constant rank `n²` ([SemisimpleAlgebras, layer 4][semisimplealgebras4]). Regard its reduced norm
 `Nrd_{C/L}` as a `k`-polynomial law `C → L`, evaluating it at `B ⊗_k L` through
-`B ⊗_k C ≅ (B ⊗_k L) ⊗_L C`, and let `N_{L_s/k} = Determinant.ofMatrix (Algebra.leftMulMatrix b)`
+`B ⊗_k C ≅ (B ⊗_k L) ⊗_L C`, and let `N_{L_s/k} = det ∘ Algebra.leftMulMatrix b`
 for a `k`-basis `b` of `L_s`. Define, with `PolynomialLaw.comp`,
 
 ```text
@@ -2196,7 +2173,6 @@ that representation: `IsAbsolutelyIrreducible` asks of the family of matrices `�
 and that after every extension to an algebraically closed field no proper nonzero subspace is
 stable. Two copies of the trivial character are not absolutely irreducible, while every character
 is.
-*Lean:* `IsAbsolutelyIrreducible` (for a realising matrix family).
 
 **Checks.**
 
@@ -2271,7 +2247,7 @@ The group-algebra form is the Lean target: a determinant on `A[G]` whose coeffic
 residue field is `det ∘ ρ̄` for a representation `ρ̄` that is absolutely irreducible as a matrix
 family (so that `D̄` is split, the image of `ρ̄` being `M_d(k)`) is `det ∘ ρ` for a representation
 `ρ : A[G] → M_d(A)`, unique up to conjugation.
-*Lean:* `Determinant.exists_ofMatrix_eq_of_henselian`.
+*Lean:* `Determinant.exists_realization_of_henselian`.
 
 **Generalized matrix algebra.** A GMA of block sizes `(d_i)` over `A` is an `A`-algebra `R` with
 orthogonal idempotents `e_i` summing to one, isomorphisms `e_i R e_i ≅ M_{d_i}(A)`, and a cyclic
@@ -2556,6 +2532,8 @@ here, and the compactness assumption supplies the initial stable lattice. *Needs
 Two-block determinant reducibility ideal, Off-diagonal extension injection, Mathlib `IsDiscreteValuationRing`, `IsFractionRing`, `NormedField`,
 `IsUltrametricDist`, `IsAdicComplete`.
 
+*Lean:* `classical_ribet_lattice`.
+
 ### 1.5 Universal algebras and coefficient descent
 
 **Universal Cayley–Hamilton algebra.** For a group `G` and `d ≥ 0`, let `Z(G,d)` represent
@@ -2611,6 +2589,7 @@ in `GL₄`, then constructs the descended invertible alternating form with the p
 and selects a symplectic basis, controlling the near-identity conjugator; the `p > 2` hypothesis in
 this general result is essential to the cited argument ([Gee–Geraghty](https://arxiv.org/pdf/1001.2044), Lemma 7.1.1 and
 proof, p.25). *Needs:* Absolutely irreducible coefficient descent, Full similitude character under duality and twist, Mathlib `IsAdicComplete`, `IsAdic`.
+
 *Lean:* `symplectic_coefficient_descent`.
 
 ### 1.6 Compatible local compression
@@ -2684,7 +2663,7 @@ representation of `k[Γ]`. The comparison of *Determinants and GLn excursion pse
 its normalization against `c_{d,i}`, identifies its determinant and every characteristic
 coefficient with the supplied invariant evaluation. Uniqueness up to conjugacy is the
 uniqueness already stated in *Semisimple reconstruction of field determinants*
-(`Determinant.exists_semisimple_ofMatrix_eq`).
+(`Determinant.exists_semisimple_realization`).
 ([Emerson–Morel](https://arxiv.org/pdf/2310.03869v2), Theorem 4.1, pp.13–15;
 [Chenevier](https://arxiv.org/pdf/0809.0415v2), Theorem 2.12.) *Needs:* Determinants and GLn
 excursion pseudocharacters, Semisimple reconstruction of field determinants.
@@ -2859,7 +2838,7 @@ extension of the endomorphism finiteness argument in
 No finite projective dimension is assumed. Prove that the image `α.range` of any commutative
 action on such a `C` is a finite `A`-module, as a submodule of `End(C)`.
 *Needs:* `ModuleCat.finite_ext`, `DerivedCategory`.
-*Lean:* `HeckeImage.Supported`, `HeckeImage.FiniteCohomology`, `HeckeImage.derived_hom_finite`.
+*Lean:* `HeckeImage.derived_hom_finite`.
 
 **Checks.**
 
@@ -2893,7 +2872,6 @@ the codomain identified as the range of the cohomology action composed with `α`
 sends `[α(h)]` to `(H^i(α(h)))_i`.
 Source: [ACC, Lemma 2.2.4 and its setup, p.920](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf).
 *Needs:* the preceding image constructions.
-*Lean:* `HeckeImage.IsGhost`.
 
 **Checks.** Scalar values and the nonzero Ext class distinguish the cohomology action
 from the derived action. The two-degree column is in `D(ℤ)`, where
@@ -2921,10 +2899,10 @@ is a statement about the full, possibly noncommutative endomorphism ring. In the
 proof, truncate a product of `b−a` ghosts below the top degree. Once that truncation
 vanishes, the product factors through `C → H^b(C)[−b]`. The remaining ghost factors
 through `τ≤b−1 C → C`, so their composite is zero. Prove
-`HeckeImage.action_annihilator_power`: if `I` lies in the action ghost kernel of `α`, then
+the action-annihilator bound: if `I` lies in the action ghost kernel of `α`, then
 `I^(b−a+1) ≤ ker α`. Source: [ACC, proof of Lemma 2.2.4, pp.920–921](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf).
 *Needs:* the cohomology action and truncation triangles.
-*Lean:* `HeckeImage.ghost_nilpotence`, `HeckeImage.action_annihilator_power`.
+*Lean:* `HeckeImage.ghost_nilpotence`.
 
 **Checks and orientation.** On `[a,a]` the exponent is one: every ghost vanishes.
 The orientation Check uses the nonzero class `δ : 𝔽₂[−1] → 𝔽₂[0]`: the matrix with
@@ -2938,7 +2916,7 @@ Nilpotence gives the prime-spectrum comparison by
 under the supplier's quotient ideal correspondence. These are library applications,
 not additional spectrum constructions.
 
-**Finite local factors.** Prove `HeckeImage.finite_local_factors`: if `A` is
+**Finite local factors.** Prove the finite local-factor decomposition: if `A` is
 complete noetherian local and `T` is a finite commutative `A`-algebra, there are
 `s : ℕ`, finite `A`-algebras `B_i`, and `T ≃ₐ[A] ∏ i : Fin s, B_i`, with each `B_i`
 noetherian, local and complete at its own maximal ideal. Allow `s=0` for the zero
@@ -2946,7 +2924,6 @@ algebra. This product decomposition is the algebra input to the summand construc
 the chosen coordinate idempotents are transported by the algebra equivalence.
 Source: [Stacks, Lemma 10.160.2](https://stacks.math.columbia.edu/tag/0325).
 *Needs:* finite algebras, adic completeness.
-*Lean:* `HeckeImage.finite_local_factors`.
 
 **Specified idempotent summands.** For every `C ∈ D(A)` and `e²=e`, define
 the localized complex `eC`, with inclusion `i` and
@@ -2955,7 +2932,6 @@ projection `p`, and prove `i ≫ p = 1` and
 The countable coproduct input is the existence of countable coproducts in `D(A)`; construct
 it using coproducts of module complexes and their localization. Source:
 [Bökstedt–Neeman, Corollary 1.7, p.213, and Proposition 3.2, pp.221–222](https://www.numdam.org/item/CM_1993__86_2_209_0.pdf).
-*Lean:* `HeckeImage.exists_idempotent_splitting`.
 
 Construct `H^i(eC) ≅ range H^i(e)` and prove that its composite with the submodule inclusion is
 `H^i(i)`. Construct `eC ⊞ (1−e)C ≅ C` and prove that its forward map is the pair of splitting
@@ -3083,11 +3059,11 @@ finite modules, respectively. Layer IHG.5 consumes `HeckeImage.ghost_nilpotence`
 
 **Maximal ideals of Galois type.** Let `T` be any commutative ring, `m` a maximal ideal with
 finite residue field `k = T/m` equipped with the discrete topology, `G` a group with a topology,
-`n : ℕ`, `Frob : V → G`, and `P : V → k[X]`. Define `Spherical.IsGaloisType m n Frob P`
+`n : ℕ`, `Frob : V → G`, and `P : V → k[X]`. Define Galois type for `m,n,Frob,P`
 by existence of a continuous semisimple representation on `kⁿ` whose characteristic polynomial
 at `Frob v` is `P v`. Lean uses its equivalent algebra map `k[G] →ₐ[k] M_n(k)` and the
 invariant-complement condition from Layer 1, semisimplicity of `matrixModule ρ`. Define
-`Spherical.IsNonEisenstein` by existence of such a representation whose matrix family is
+non-Eisenstein by existence of such a representation whose matrix family is
 absolutely irreducible in the sense of Layer 1 (`IsAbsolutelyIrreducible`).
 It implies Galois type and `0 < n`; rank zero is allowed only for Galois type. The two predicates
 use the same realizing representation inside each existential, including its Frobenius identities.
@@ -3097,16 +3073,13 @@ For a spherical Hecke algebra away from `S`, take `G = G_{F,S}`, `V` the finite 
 [ACC, Definition 2.3.6, p.938](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf).
 Existence for geometric cohomology is supplied by its geometric owner. The general predicates
 make no density assumption on `Frob` and allow `V` to be empty.
-*Lean:* `Spherical.IsGaloisType`, `Spherical.IsNonEisenstein`.
 
-**Basic consequences.** Prove `Spherical.IsNonEisenstein.isGaloisType` and the two further
-consequences: under the hypotheses
+**Basic consequences.** Prove the following consequences: under the hypotheses
 above, a non-Eisenstein system is Galois type of positive rank, and every observed polynomial
 of a Galois-type system is monic of degree exactly `n` with nonzero constant term. These are
 consequences of the definitions, positivity in absolute irreducibility, and the characteristic
 polynomial of an invertible matrix (Mathlib's `Matrix.charpoly_monic`,
 `Matrix.charpoly_natDegree_eq_dim`, `Matrix.det_eq_sign_charpoly_coeff`).
-*Lean:* `Spherical.IsNonEisenstein.isGaloisType`.
 
 **Uniqueness.** Prove the following for continuous degree-`n` determinants
 of `k[G]` over any Hausdorff topological field `k`, with the conjugacy saturation of `Frob(V)`
@@ -3117,15 +3090,14 @@ reconstruction and Brauer–Nesbitt then apply
 ([Chenevier, Theorem 2.12 and its uniqueness proof, pp.28–31](https://arxiv.org/pdf/0809.0415v2)).
 For the finite residue-field representations above, Layer 1 identifies their semisimple
 realizations after a common algebraic closure. Empty observations do not supply density in a group.
-*Lean:* the case `A = k` of `Determinant.eq_of_charpoly_frobenius`.
 
 **Checks.** In the finite
 field checks take `T = 𝔽_p`, `m = 0`, and identify `T/m` with `𝔽_p`.
 
 | Definition | Discriminating Checks |
 |---|---|
-| `Spherical.IsGaloisType` | Trivial group, rank zero, polynomial `1` is realized; trivial group over `𝔽₂`, rank one, `X−1` is realized; rank two gives `(X−1)²`; at the identity over `𝔽₅`, `X−2` cannot occur in rank one; `X` cannot occur for a group element; rank two cannot have polynomial `X−1`; with `V = ∅`, the trivial line is still realized. |
-| `Spherical.IsNonEisenstein` | The zero representation is rejected; the trivial line over `𝔽₂` is accepted; two equal trivial characters are rejected although their sum is semisimple; the tautological character of `(𝔽₅)ˣ` is accepted; the trivial line remains absolutely irreducible with no observations. |
+| Galois type | Trivial group, rank zero, polynomial `1` is realized; trivial group over `𝔽₂`, rank one, `X−1` is realized; rank two gives `(X−1)²`; at the identity over `𝔽₅`, `X−2` cannot occur in rank one; `X` cannot occur for a group element; rank two cannot have polynomial `X−1`; with `V = ∅`, the trivial line is still realized. |
+| non-Eisenstein | The zero representation is rejected; the trivial line over `𝔽₂` is accepted; two equal trivial characters are rejected although their sum is semisimple; the tautological character of `(𝔽₅)ˣ` is accepted; the trivial line remains absolutely irreducible with no observations. |
 
 Over `𝔽₂`, `(X−1)² = X²+1`: a zero trace does not lower the
 rank. The trivial and sign characters of `C₂` over `𝔽₃` differ
@@ -3208,7 +3180,6 @@ By *Coefficient reconstruction from group words* (`Determinant.eq_of_charpoly_eq
 polynomial is the coefficientwise image of that of `D`; the statements in `Suggested.lean` use
 this characterization, the predicate `Determinant.IsCoefficientChange`.
 Source: [Chenevier, §1.1, pp.6–7 and §2.30, p.37](https://arxiv.org/pdf/0809.0415v2).
-*Lean:* `Determinant.IsCoefficientChange`, `Determinant.isCoefficientChange_ofMatrix`.
 
 **Uniqueness from Frobenius density.** `Determinant.eq_of_charpoly_frobenius` takes a group
 `G` with a topology, a Hausdorff coefficient ring `A`, continuous degree-`d` determinants `D,E`,
@@ -3451,14 +3422,13 @@ Containment `K ⊆ J` is needed only for the interpretation as `J/K`.
 The power identity `(J^b)^a = J^(ba)` proves the bound, including zero exponents in the
 zero ring. *Needs:* Mathlib ideal multiplication and powers.
 
-**Nilpotence of sums of commutative ideals.** `Nilpotence.sup`: if `a,b > 0`,
+**Nilpotence of sums of commutative ideals.** If `a,b > 0`,
 `I^a = 0` and `J^b = 0`, then `(I+J)^(a+b−1) = 0`.
 For a finite family with positive exponents `a_i`, the sum has
 exponent `1 + Σ(a_i−1)`, including exponent one for the empty family.
 In every product of `a+b−1` factors, either at least `a` come from `I` or at least `b`
 from `J`. This sharpens `Ideal.sup_pow_add_le_pow_sup_pow` (exponent `a+b`).
 *Needs:* Mathlib `Ideal`, distributivity of ideal multiplication over sums.
-*Lean:* `Nilpotence.sup`.
 
 **Nilpotence in a product of coefficient rings.** A jointly
 injective family `f_i : A → B_i` detects a common exponent: if `(J.map f_i)^N = 0`
@@ -3477,7 +3447,7 @@ Thus the kernel of the action on both factors is square-zero inside the image al
 acting faithfully on `M`. For an arbitrary acting algebra the conclusion is annihilation
 on `M`, unless its action is faithful. *Needs:* Mathlib `Submodule`, ideal powers.
 
-**Quantified composition of Hecke error ideals.** `Nilpotence.comparison`: for ring maps
+**Quantified composition of Hecke error ideals.** For ring maps
 `f : T → T₁`, `g : T → T₂`, assume `(ker f ∩ ker g)^a = 0` and error ideals
 `J₁^b = J₂^c = 0` with `b,c > 0`. Then
 `(f⁻¹(J₁) ∩ g⁻¹(J₂))^(a·max(b,c)) = 0`.
@@ -3485,7 +3455,6 @@ For an action faithful on a two-factor filtered module, the comparison kernel ha
 For a derived-to-cohomology comparison, use the inclusive amplitude exponent.
 *Needs:* Nilpotence through a quotient extension; Nilpotence in a product of coefficient rings;
 Layer 2, Ghost nilpotence and annihilators.
-*Lean:* `Nilpotence.comparison`.
 
 **Checks.**
 
@@ -3496,7 +3465,7 @@ Layer 2, Ghost nilpotence and annihilators.
 - For `T = ℤ/(8)`, `f = id`, `g` reduction to `ℤ/(4)` and `J₁ = J₂ = (2)` in their
   respective rings, `a=1`, `b=3`, `c=2` give exponent three. Exponent two fails.
 
-**Uniform nilpotence in an inverse limit.** `Nilpotence.inverse_limit`: for ideals `K_r`
+**Uniform nilpotence in an inverse limit.** For ideals `K_r`
 in `A` with `⋂ K_r = 0`, an ideal `J`, and one natural number `N`, assume
 `(J.map (A → A/K_r))^N = 0` for every `r`. Then `J^N = 0`.
 No completeness or monotonicity is needed for this detection statement. To apply it to
@@ -3504,12 +3473,10 @@ an actual inverse limit, take `J` to be the ideal of elements whose coordinates 
 to the specified compatible error ideals; its coordinate images are contained in those
 ideals. Uniformity is essential (Scholze, Corollary 5.4.2, footnote 29, p.1060).
 *Needs:* Nilpotence in a product of coefficient rings, separation by the coefficient quotients.
-*Lean:* `Nilpotence.inverse_limit`.
 
 ### 5.3 Residual specialization, representations and lattices
 
-**Residual semisimple specialization.** Prove `Determinant.exists_semisimple_specialization`.
-For `d > 0`, a maximal ideal `m` of `T`, an inclusion `J ⊆ m`, an algebraically closed
+**Residual semisimple specialization.** For `d > 0`, a maximal ideal `m` of `T`, an inclusion `J ⊆ m`, an algebraically closed
 field `k` with a specified `T/m`-algebra structure, and a determinant `D` over `T/J`,
 the coefficient change along `T/J → T/m → k` is the determinant of a semisimple
 matrix representation, unique among semisimple representations up to conjugation by
@@ -3519,7 +3486,6 @@ The algebraic theorem is [Chenevier, Theorem 2.12, p.28](https://arxiv.org/pdf/0
 used in [Scholze, Corollary 5.4.3, p.1060](https://annals.math.princeton.edu/wp-content/uploads/annals-v182-n3-p03-p.pdf).
 *Needs:* Layer 1, Semisimple reconstruction of field determinants;
 Group-algebra coefficient change; `Ideal.Quotient.factor`.
-*Lean:* `Determinant.exists_semisimple_specialization`.
 
 **Representation over the nilpotent quotient.** Let `d > 0`, `T/J` be henselian local,
 and the residual determinant be split and absolutely irreducible. Construct an algebra
@@ -3612,9 +3578,7 @@ congruence and is excluded only by this hypothesis, and without it the Fitting c
 fail (the local module is `0` and its Fitting ideal is the unit ideal). The Checks record this: the
 scalar representation fails irreducibility, satisfies the congruences and refutes the
 containment, and for the trivial group the only cocycle is `0`, which refutes the global theorem
-without irreducibility (`IntegralRibet.no_ribet_conclusion_trivial_group`).
-*Lean:* `IntegralRibet.Congruence`, `IntegralRibet.fieldRepresentation`,
-`IntegralRibet.IrreducibleOnFields`, `IntegralRibet.LocalInput`.
+without irreducibility.
 
 **Check.** The zero ring cannot serve as the total fraction ring of `ℤ`. If the
 fraction-ring hypothesis were omitted, every assertion about field quotients of that zero ring
@@ -3650,7 +3614,6 @@ character `ψ : A[G] → A`, define `IntegralRibet.differenceModule` as `Δψ`, 
 products `x*y` with `x ∈ Δχ`, `y ∈ Δψ`. Prove that `Δψ`
 is generated by the `ρ(g) − ψ(g)I₂` for `g ∈ G` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.1, equation (14),
 pp.8–9). *Needs:* Mathlib `MonoidAlgebra`, `Matrix`, `Submodule`.
-*Lean:* `IntegralRibet.differenceMap`, `IntegralRibet.differenceModule`.
 
 **Checks.**
 
@@ -3668,7 +3631,6 @@ pp.8–9). *Needs:* Mathlib `MonoidAlgebra`, `Matrix`, `Submodule`.
 
 **Product containment of difference modules.** For the preceding algebra maps, prove
 `ΔχΔψ ⊆ Δψ` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.1, p.9). *Needs:* Character difference modules.
-*Lean:* `IntegralRibet.product_le_differenceModule`.
 
 **Checks.**
 
@@ -3683,7 +3645,6 @@ pp.8–9). *Needs:* Mathlib `MonoidAlgebra`, `Matrix`, `Submodule`.
 (`IntegralRibet.productInside`), with the quotient map from `Δψ` to `M₀`. Prove that
 the classes of `ρ(g) − ψ(g)I₂` generate `M₀`
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.1, equation (14), p.9). *Needs:* Product containment of difference modules.
-*Lean:* `IntegralRibet.productInside`, `IntegralRibet.initialModule`.
 
 **Checks.**
 
@@ -3692,7 +3653,7 @@ the classes of `ρ(g) − ψ(g)I₂` generate `M₀`
 - For the integral upper-unipotent representation of `ℤ` and `χ = ψ = 1`, `M₀ ≅ ℤ`: `Δψ = ℤE₁₂`
   and the product is zero, so this is a torsion-free nonzero quotient. The zero denominator does not distinguish a
   submodule product from its ambient two-sided ideal.
-  `IntegralRibet.unipotent_initialModule` identifies this quotient and its canonical cocycle.
+  The normalized identification sends the canonical cocycle at `n` to `n`.
 - An `A`-linear map `Δψ → L` factors uniquely through `M₀` iff it annihilates every product
   `(ρ(t) − χ(t))(ρ(u) − ψ(u))`: this is the universal property of the quotient, which a definition
   with the wrong submodule in the denominator would fail.
@@ -3704,8 +3665,6 @@ one-cocycle for the scalar action `α`, `κ₀(gh) = κ₀(g) + α(g)κ₀(h)`, 
 that the `A`-span of `κ₀(G)` is all of `M₀`
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 2.3 and proof, p.9). *Needs:* [ProfiniteCohomology, layer
 2][profinitecohomology2], Initial Ribet quotient module.
-*Lean:* `IntegralRibet.canonicalCocycle`, `IntegralRibet.canonicalCocycle_mul`,
-`IntegralRibet.span_canonicalCocycle`.
 
 **Checks.**
 
@@ -3735,10 +3694,6 @@ is no `v₀` relation and no `y_v`. Prove that `κ|G_{v₀} = 0`,
 `κ(g) = (α(g) − 1)y_v` on the other `Σ` subgroups, and `κ|I_v = 0` for `v ∈ P`, and that
 `N` is generated by `κ(G)` together with the `y_v`
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.1, pp.9–10, with the sign corrected to Theorem 2.1). *Needs:* Canonical Ribet cocycle.
-*Lean:* `IntegralRibet.LocalData`, `IntegralRibet.extraPlaces`, `IntegralRibet.enlargedModule`,
-`IntegralRibet.localRelations`, `IntegralRibet.localModule`, `IntegralRibet.localCocycle`,
-`IntegralRibet.localVector`, `IntegralRibet.localCocycle_relations`,
-`IntegralRibet.span_localCocycle_localVector`.
 
 **Checks.**
 
@@ -4542,7 +4497,7 @@ coefficient ring in the mixed-minor application
 generic-element step; Lemma 15.29.6, tag 0663, for the Koszul homotopy; the iterated
 argument is a target here). *Needs:* DerivedModuleAlgebra §0.K.1 / Koszul complex of a finite sequence, Mathlib
 `RingTheory.Sequence.IsWeaklyRegular`, homology long exact sequences.
-*Lean:* `IntegralRibet.genericLinearSequence`, `IntegralRibet.generic_combinations_regular`.
+*Lean:* `IntegralRibet.generic_combinations_regular`.
 
 **Checks.**
 
@@ -4568,7 +4523,6 @@ Empty blocks contribute no variables or equations; a singleton has zero minor id
 and its `b_j` can instead be counted among the unused variables, with `b′_j` absorbed
 in `R₀` ([DKSW](https://arxiv.org/pdf/2310.16396v2), Corollary 5.12, monomial equivalence
 argument, printed p.43). *Needs:* Mathlib `MvPolynomial`, tensor products.
-*Lean:* `IntegralRibet.localMinorIdeal` specifies the sum of minors.
 
 **Checks.**
 
@@ -4622,7 +4576,7 @@ of ordered determinantal ideals, Tau Ceti `RingTheory/Flat/QuotientRegular.lean`
   by `L₂`: its product with each `b_j` equals `b′_jL₁`. It is nonzero because setting
   both `b` coordinates to zero retains this polynomial. Specializing all coefficients
   to zero also destroys regularity for one equation.
-  `IntegralRibet.mixed_scalar_regular_bound_sharp` states the two-equation boundary.
+  These computations give the two-equation boundary.
 
 **Generic variable count for the Ribet relations.** Let `N` count difference-generator
 slots after stabilization, `s=|Σ∖{v₀}|`, `t=|P|`, and `a₃,a₄,a₅` count selected rows
@@ -5085,13 +5039,13 @@ Ribet theory for distinct residual characters, Irreducibility excludes an exact 
 *Lean:* `IntegralRibet.global_ribet`.
 
 **Checks for difference and local-relation maps.** The integral unipotent example is
-`IntegralRibet.unipotentRepresentation`, `ρ(n)=[[1,n],[0,1]]`, with additive integers
-written as `Multiplicative ℤ` and both characters trivial. The scalar fixture
-`IntegralRibet.scalarRepresentation ψ` is `ρ(g)=ψ(g)I₂`. The sign-character input uses
+`ρ(n)=[[1,n],[0,1]]`, with additive integers
+written as `Multiplicative ℤ` and both characters trivial. The scalar representation is
+`ρ(g)=ψ(g)I₂`. The sign-character input uses
 `G=ℤˣ`, `ρ(u)=uI₂` and both comparison characters equal to `1`; its differences span
-`2ℤI₂` and their products span `4ℤI₂`. These fixtures are defined in [Suggested.lean](Suggested.lean);
-`IntegralRibet.unipotent_initialModule` states the normalized unipotent quotient comparison.
-The other table entries are prose Checks.
+`2ℤI₂` and their products span `4ℤI₂`. The unipotent quotient comparison is normalized by
+sending the class of `E₀₁` to `1`.
+The table gives the resulting Checks.
 
 | Definition | Computed Check | Degenerate Check | Agreement Check |
 |---|---|---|---|
@@ -5121,11 +5075,11 @@ polynomial quotients.
 | Invariant subring `A` | Each free coefficient belongs to the subring | With no generators over `ℤ` it is all of `ℤ` | The lower-right entry of a selected triangular matrix belongs to it |
 | Borel invariants `H⁰(B, R)` | The trace of a generic matrix belongs to it | With no variables it is the entire ring | The upper entry of a full generic matrix does not belong to it |
 
-**Local-data carriers.** `IntegralRibet.emptyLocalData` has count `0`, empty `sigma`, and no
-distinguished place. `IntegralRibet.fullLocalData` has count `1`, subgroup equal to the entire
-group, and distinguished place `0`. `IntegralRibet.twoPlaceLocalData` has count `2`, full
+**Local-data carriers.** The empty datum has count `0`, empty `sigma`, and no
+distinguished place. The full datum has count `1`, subgroup equal to the entire
+group, and distinguished place `0`. The two-place datum has count `2`, full
 subgroup and distinguished place at `0`, trivial subgroup at place `1`, and both places in
-`sigma`. `IntegralRibet.threePlaceLocalData` has count `3`, all places in `sigma`, trivial
+`sigma`. The three-place datum has count `3`, all places in `sigma`, trivial
 subgroups and distinguished place `1`. Each fixture has trivial inertia
 (DKSW Theorem 2.1, pp.7–8). For an arbitrary `IntegralRibet.LocalData`, count zero forces no
 distinguished place;

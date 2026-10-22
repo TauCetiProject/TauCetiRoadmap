@@ -2,47 +2,41 @@ import Mathlib
 import TauCeti.RingTheory.FittingIdeal.Basic
 
 /-!
-# Integral Hecke actions, determinants and interpolation: representative target signatures
+# Integral Hecke actions, determinants and interpolation: headline statements
 
-The mathematical roadmap is `README.md`. This file records the definitions and the headline
-theorems that can already be stated against the pinned Mathlib and Tau Ceti APIs. It is not an exhaustive list of the targets of any
-layer. DerivedModuleAlgebra §§0.DP.1–0.DP.2 and 0.K.1 supply polynomial-law predicates,
-Roby algebras and Koszul complexes. The determinant fields below spell out the supplied
-homogeneity and multiplicativity conditions on Mathlib's law carrier.
-DerivedModuleAlgebra §0.DP.1 supplies the arbitrary-module degree-one characterization;
-README §0.2 constructs linear-map laws and their ground-value and uniqueness adapters.
-README §0.7 uses ReductiveGroups layer 1 and Tau Ceti's native
-cofree adjunction for arbitrary-base flat-Hopf cohomology and algebraic induction, with
-tensor-permutation and inversion comparisons; §6.4 supplies the integral GL₂ applications.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`; these statements are acceptance targets for its headline results.
 
-Design choices.
-* A `d`-dimensional determinant (Chenevier) is a Mathlib `PolynomialLaw` `R →ₚₗ[A] A` that is
-  homogeneous of degree `d` and multiplicative after every scalar extension to a commutative
-  `A`-algebra in the universe of `A`. Its characteristic polynomial is `D_{A[X]}(X − x)` (monic
-  convention) and its trace is `Λ₁`. Degree zero is allowed.
-* On a group algebra, coefficient change along `A →+* B` is read on the characteristic polynomials
-  of group elements (`Determinant.IsCoefficientChange`); by Amitsur's formula
-  (`Determinant.eq_of_charpoly_eq`) these determine the whole polynomial law.
-* The general untwisted invariant-word colimit and its pseudocharacter representing-ring
-  comparison are specified in README §0.7 for arbitrary commutative bases and abstract groups.
-  Its comparison with SR.6.3 identifies the colimit cocones under the finite-wild hypotheses and
-  trivial Weil action.
-* A matrix representation acts on `Kᵈ` through `matrixModule`; simplicity and semisimplicity are
-  Mathlib's `IsSimpleModule` and `IsSemisimpleModule`.
-* Fitting ideals are Tau Ceti's `TauCeti.fittingIdeal`; the monic GSp₄ spin polynomial uses
-  the generator order of IHG.3a.2.
+Mathlib's polynomial laws support the concrete determinant and trace definitions below.
+The statements cover coefficient reconstruction and trace comparison (IHG.0), Azumaya reduced
+norms (IHG.0.6), semisimple and henselian reconstruction, classical Ribet lattices and
+coefficient descent (IHG.1),
+ghost nilpotence (IHG.2), Frobenius uniqueness and integral interpolation (IHG.4),
+coefficient descent through a Hecke comparison (IHG.5), generic regularity (IHG.6.5),
+and the local and global integral Ribet theorems (IHG.6.7).
+
+The determinant coordinate-ring and Vaccarino statements need the homogeneous divided-power
+algebra with its internal multiplication from DerivedModuleAlgebra §0.DP.2, absent at the pins.
+Reductive pseudocharacter comparison, its representing ring, and GL reconstruction need the
+scheme-invariant tensor coordinate algebras and word-substitution diagram of IHG.0.7;
+the pinned Hopf and general-linear coordinate APIs do not supply these objects.
+The arbitrary-field factor classification needs the finite-exponent norm laws of IHG.1.2.
+Multiplicity-free GMA reconstruction, its Ext comparison, and local compression need the GMA
+and its labelled residual constituents from IHG.1.3–1.4. Universal Cayley–Hamilton and generic
+representation-algebra statements need the characteristic-law quotient of IHG.1.1 and IHG.1.5. Operator localization needs the derived telescope and
+its homology comparison of IHG.2.3. The invariant and relation-complex theorems of IHG.6.3–6.7
+need the rational cohomology, good filtrations, and Buchsbaum–Rim complexes specified there. These headline signatures are deferred until their objects exist;
+none is represented by an unspecified predicate. The Hecke coefficient conversions of
+IHG.3a and the residual predicates of IHG.3b are specified in `README.md`.
 -/
 
 namespace TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
-
 
 noncomputable section
 
 open TensorProduct Polynomial
 
 universe u
-
-/-! ## Layer IHG.0: polynomial laws, determinants and pseudocharacters -/
 
 namespace PolynomialLaw
 
@@ -54,9 +48,16 @@ def ker {M N : Type*} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N
     (f : M →ₚₗ[A] N) : Submodule A M where
   carrier := {x | ∀ (S : Type u) [CommRing S] [Algebra A S] (b : S) (m : S ⊗[A] M),
     f.toFun' S (b ⊗ₜ x + m) = f.toFun' S m}
-  add_mem' := sorry
-  zero_mem' := sorry
-  smul_mem' := sorry
+  add_mem' := by
+    intro x y hx hy S _ _ b m
+    simp only [TensorProduct.tmul_add, add_assoc]
+    rw [hx S b (b ⊗ₜ y + m), hy S b m]
+  zero_mem' := by
+    intro S _ _ b m
+    simp
+  smul_mem' := by
+    intro a x hx S _ _ b m
+    simpa only [TensorProduct.tmul_smul, TensorProduct.smul_tmul'] using hx S (a • b) m
 
 end PolynomialLaw
 
@@ -76,10 +77,6 @@ structure Determinant (A : Type u) [CommRing A] (R : Type*) [Ring R] [Algebra A 
 namespace Determinant
 
 variable {A : Type u} [CommRing A] {R : Type*} [Ring R] [Algebra A R] {d : ℕ}
-
-/-- The value `D(x) ∈ A`. -/
-def eval (D : Determinant A R d) (x : R) : A := D.toLaw.ground x
-
 /-- The characteristic polynomial `χ(x, X) = D_{A[X]}(X − x)` ([Chenevier], §1.10, p. 12). -/
 def charpoly (D : Determinant A R d) (x : R) : A[X] :=
   Algebra.TensorProduct.rid A A A[X]
@@ -89,94 +86,31 @@ def charpoly (D : Determinant A R d) (x : R) : A[X] :=
 def trace (D : Determinant A R d) (x : R) : A :=
   if d = 0 then 0 else -(D.charpoly x).coeff (d - 1)
 
-/-- The trace as an `A`-linear map ([Chenevier], §1.10, p. 12). -/
-def traceLinear (D : Determinant A R d) : R →ₗ[A] A where
-  toFun := D.trace
-  map_add' := sorry
-  map_smul' := sorry
+/-- A matrix representation realizes the entire determinant law, after every scalar extension. -/
+def IsRealizedBy (D : Determinant A R d) (ρ : R →ₐ[A] Matrix (Fin d) (Fin d) A) : Prop :=
+  ∀ (S : Type u) [CommRing S] [Algebra A S] (x : S ⊗[A] R),
+    Algebra.TensorProduct.rid A S S (D.toLaw.toFun' S x) =
+      Matrix.det ((matrixEquivTensor (Fin d) A S).symm
+        (Algebra.TensorProduct.map (AlgHom.id A S) ρ x))
 
-/-- The characteristic polynomial of a determinant is monic. -/
-theorem charpoly_monic (D : Determinant A R d) (x : R) : (D.charpoly x).Monic := sorry
-
-/-- Over a nonzero coefficient ring the characteristic polynomial has the determinant's dimension. -/
-theorem natDegree_charpoly [Nontrivial A] (D : Determinant A R d) (x : R) :
-    (D.charpoly x).natDegree = d := sorry
-
-/-- The constant characteristic coefficient is the signed determinant value. -/
-theorem charpoly_coeff_zero (D : Determinant A R d) (x : R) :
-    (D.charpoly x).coeff 0 = (-1 : A) ^ d * D.eval x := sorry
-
-/-- The determinant `det ∘ ρ` of a matrix representation, computed after every scalar extension as
-`det_S ∘ (S ⊗ ρ)` through `S ⊗_A M_d(A) ≅ M_d(S)` ([Chenevier], §1.5, p. 9). -/
-def ofMatrix (ρ : R →ₐ[A] Matrix (Fin d) (Fin d) A) : Determinant A R d where
-  toLaw :=
-    { toFun' := fun S _ _ x =>
-        (Algebra.TensorProduct.rid A S S).symm
-          (@Matrix.det (Fin d) _ _ S (algebraMap A S).commSemiringToCommRing
-            ((matrixEquivTensor (Fin d) A S).symm
-              (Algebra.TensorProduct.map (AlgHom.id A S) ρ x)))
-      isCompat' := sorry }
-  isHomogeneous := sorry
-  isMultiplicative := sorry
-
-/-- The characteristic polynomial of `det ∘ ρ` at `x` is `Matrix.charpoly (ρ x)` ([Chenevier],
-§1.5, p. 9). -/
-theorem charpoly_ofMatrix (ρ : R →ₐ[A] Matrix (Fin d) (Fin d) A) (x : R) :
-    (ofMatrix ρ).charpoly x = (ρ x).charpoly := sorry
-
-/-- The ground value of the matrix determinant law is the ordinary matrix determinant. -/
-theorem eval_ofMatrix (ρ : R →ₐ[A] Matrix (Fin d) (Fin d) A) (x : R) :
-    (ofMatrix ρ).eval x = (ρ x).det := sorry
-
-/-- The trace extracted from the matrix determinant law is the matrix trace, including dimension zero. -/
-theorem trace_ofMatrix (ρ : R →ₐ[A] Matrix (Fin d) (Fin d) A) (x : R) :
-    (ofMatrix ρ).trace x = (ρ x).trace := sorry
-
-/-- Conjugate matrix representations define the same determinant as a polynomial law. -/
-theorem ofMatrix_eq_of_conjugate (ρ σ : R →ₐ[A] Matrix (Fin d) (Fin d) A)
-    (P : (Matrix (Fin d) (Fin d) A)ˣ)
-    (h : ∀ x, σ x = (P : Matrix (Fin d) (Fin d) A) * ρ x * (↑(P⁻¹) : Matrix (Fin d) (Fin d) A)) :
-    ofMatrix ρ = ofMatrix σ := sorry
-
-/-- In residue characteristic p, distinct p-dimensional determinants can have the same trace. -/
-theorem exists_distinct_determinants_eq_trace (p : ℕ) [Fact p.Prime] :
-    ∃ D E : Determinant (ZMod p) (ZMod p)[X] p, D.traceLinear = E.traceLinear ∧ D ≠ E := sorry
-
-/-- Coefficient reconstruction using Amitsur's formula: the characteristic polynomials of group elements determine a
-determinant on a monoid algebra as a polynomial law, with no factorial inverted ([Chenevier],
-Lemma 1.12(ii) and Corollary 1.14, pp. 12–15). -/
+/-- Amitsur's formula reconstructs the entire law from characteristic polynomials of
+monoid elements, without inverting a factorial (README §0.5; Chenevier Corollary 1.14, p.14). -/
 theorem eq_of_charpoly_eq {G : Type*} [Monoid G] (D E : Determinant A (MonoidAlgebra A G) d)
     (h : ∀ g : G, D.charpoly (MonoidAlgebra.of A G g) = E.charpoly (MonoidAlgebra.of A G g)) :
     D = E := sorry
 
-/-- Continuity of every coefficient of `g ↦ χ_D(g,X)` for the supplied topologies. Over a
-topological ring this is equivalent to continuity of every `Λ_i`. For a topological group,
-Amitsur's formula also identifies it with continuity of all mixed determinant maps
-([Chenevier], §2.30, p. 37). -/
+/-- Continuity of every characteristic coefficient on the group (Chenevier §2.30, p.37). -/
 def IsContinuous {G : Type*} [Group G] [TopologicalSpace G] [TopologicalSpace A]
     (D : Determinant A (MonoidAlgebra A G) d) : Prop :=
   ∀ i, Continuous fun g : G ↦ (D.charpoly (MonoidAlgebra.of A G g)).coeff i
 
-/-- The determinant of a continuous matrix representation has continuous characteristic coefficients. -/
-theorem isContinuous_ofMatrix {G : Type*} [Group G] [TopologicalSpace G] [TopologicalSpace A]
-    [IsTopologicalRing A] (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin d) (Fin d) A)
-    (hρ : Continuous fun g : G ↦ ρ (MonoidAlgebra.of A G g)) :
-    (ofMatrix ρ).IsContinuous := sorry
-
 /-- `E` is the coefficient change of `D` along `φ`: at every group element the characteristic
-polynomial of `E` is the image of that of `D`. By `eq_of_charpoly_eq` this pins `E` as a
-polynomial law, so it is the scalar extension of `D` along `φ` ([Chenevier], §1.1, pp. 6–7). -/
+polynomial of `E` is the image of that of `D`. Amitsur's formula determines the full law
+from these coefficients (Chenevier, Corollary 1.14, p.14). -/
 def IsCoefficientChange {G B : Type*} [Monoid G] [CommRing B]
     (D : Determinant A (MonoidAlgebra A G) d) (φ : A →+* B)
     (E : Determinant B (MonoidAlgebra B G) d) : Prop :=
   ∀ g : G, (D.charpoly (MonoidAlgebra.of A G g)).map φ = E.charpoly (MonoidAlgebra.of B G g)
-
-/-- Applying a coefficient homomorphism to a matrix representation changes its determinant coefficients by that homomorphism. -/
-theorem isCoefficientChange_ofMatrix {G B : Type u} [Monoid G] [CommRing B]
-    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin d) (Fin d) A) (φ : A →+* B) :
-    (ofMatrix ρ).IsCoefficientChange φ
-      (ofMatrix (MonoidAlgebra.lift B _ G
-        (φ.mapMatrix.toMonoidHom.comp (ρ.toMonoidHom.comp (MonoidAlgebra.of A G))))) := sorry
 
 end Determinant
 
@@ -193,11 +127,6 @@ included. -/
 def cycleTerm {n : ℕ} (T : R → A) (σ : Equiv.Perm (Fin n)) (x : Fin n → R) : A :=
   ∏ i ∈ Finset.univ.filter (fun i ↦ ∀ j, σ.SameCycle i j → i ≤ j), T (cycleProduct σ x i)
 
-/-- For a central function, the cycle term is unchanged by simultaneous relabelling of the permutation and its inputs. -/
-theorem cycleTerm_reindex {n : ℕ} (T : R → A)
-    (hT : ∀ x y, T (x * y) = T (y * x)) (σ τ : Equiv.Perm (Fin n)) (x : Fin n → R) :
-    cycleTerm T (τ * σ * τ⁻¹) (fun i => x (τ⁻¹ i)) = cycleTerm T σ x := sorry
-
 /-- A `d`-dimensional pseudocharacter: an `A`-linear central `T` with `T(1) = d` and
 `∑_{σ ∈ S_{d+1}} sgn(σ) T^σ(x₁, …, x_{d+1}) = 0` ([Chenevier], §1.10 and §1.26, pp. 12, 20; the
 hypothesis `d! ∈ Aˣ` of that definition is carried by the comparison theorems instead). -/
@@ -206,121 +135,35 @@ def IsPseudocharacter (d : ℕ) (T : R →ₗ[A] A) : Prop :=
     ∀ x : Fin (d + 1) → R,
       ∑ σ : Equiv.Perm (Fin (d + 1)), (Equiv.Perm.sign σ : ℤ) • cycleTerm T σ x = 0
 
-/-- The trace of a determinant is a pseudocharacter, over any `A` ([Chenevier], Lemma 1.12(iii),
-pp. 12–14). -/
+/-- The trace of an arbitrary determinant is linear and satisfies the pseudocharacter
+identity, including in small characteristic (README §0.5; Chenevier Lemma 1.12(iii), pp.12–14). -/
 theorem Determinant.isPseudocharacter_trace {d : ℕ} (D : Determinant A R d) :
-    IsPseudocharacter d D.traceLinear := sorry
+    ∃ T : R →ₗ[A] A, D.trace = T ∧ IsPseudocharacter d T := sorry
 
 /-- If `d!` is a unit, a determinant is determined by its trace ([Chenevier], Proposition 1.27,
 p. 20). -/
 theorem Determinant.injective_trace {d : ℕ} (hd : IsUnit (d.factorial : A)) :
-    Function.Injective fun D : Determinant A R d ↦ D.traceLinear := sorry
+    Function.Injective fun D : Determinant A R d ↦ D.trace := sorry
 
 /-- Over a `ℚ`-algebra every pseudocharacter is the trace of a unique determinant ([Chenevier],
 Proposition 1.27, p. 20). -/
 theorem Determinant.exists_unique_trace_eq [Algebra ℚ A] {d : ℕ} (T : R →ₗ[A] A)
-    (hT : IsPseudocharacter d T) : ∃! D : Determinant A R d, D.traceLinear = T := sorry
+    (hT : IsPseudocharacter d T) : ∃! D : Determinant A R d, D.trace = T := sorry
 
 /-- The same when `(2d)!` is a unit, or `d = 2` and `2` is a unit ([Chenevier], Proposition 1.29,
 pp. 20–22). -/
 theorem Determinant.exists_unique_trace_eq_of_isUnit {d : ℕ}
     (hd : IsUnit ((2 * d).factorial : A) ∨ (d = 2 ∧ IsUnit (2 : A))) (T : R →ₗ[A] A)
-    (hT : IsPseudocharacter d T) : ∃! D : Determinant A R d, D.traceLinear = T := sorry
+    (hT : IsPseudocharacter d T) : ∃! D : Determinant A R d, D.trace = T := sorry
 
 end Pseudocharacter
 
-/-! ## Layer IHG.3a: Hecke polynomial and multiplier conventions -/
-
-namespace Spherical
-
-variable {A : Type u} [CommRing A]
-
-/-- The integral `GL_n` Hecke polynomial `∑_{i=0}^n (−1)^i q^{i(i−1)/2} T_i X^{n−i}` ([ACC],
-§2.2.5, equation (2.2.6), p. 922). -/
-def glnPolynomial (n : ℕ) (q : A) (T : Fin (n + 1) → A) : A[X] :=
-  ∑ i : Fin (n + 1), C ((-1) ^ i.val * q ^ (i.val * (i.val - 1) / 2) * T i) * X ^ (n - i.val)
-
-/-- Normalising the zeroth spherical generator to one makes the integral Hecke polynomial monic. -/
-theorem glnPolynomial_monic (n : ℕ) (q : A) (T : Fin (n + 1) → A) (hT : T 0 = 1) :
-    (glnPolynomial n q T).Monic := sorry
-
-/-- Normalised Satake coefficients: with `q = s²` and `T_i = s^{i(n−i)} e_i(z)`, the Hecke
-polynomial is `∏_j (X − s^{n−1} z_j)`, over any commutative ring ([ACC], §2.2.5,
-equation (2.2.6), pp. 921–922). -/
-theorem glnPolynomial_satake (n : ℕ) (s : A) (z : Fin n → A) :
-    glnPolynomial n (s ^ 2) (fun i ↦ s ^ (i.val * (n - i.val)) *
-      ∑ I ∈ (Finset.univ : Finset (Fin n)).powersetCard i.val, ∏ j ∈ I, z j) =
-      ∏ j : Fin n, (X - C (s ^ (n - 1) * z j)) := sorry
-
-/-- The monic `GSp₄` spin polynomial `X⁴ − T₁X³ + (qT₂ + (q³+q)T₀)X² − q³T₀T₁X + q⁶T₀²`: the
-fixed-degree reflection of the constant-term-one spin polynomial, with the two noncentral
-generators exchanged ([BCGP], the polynomial `Q_ℓ` of §1.8.8, p. 16). -/
-def gsp4SpinPolynomial (q T₀ T₁ T₂ : A) : A[X] :=
-  X ^ 4 - C T₁ * X ^ 3 + C (q * T₂ + (q ^ 3 + q) * T₀) * X ^ 2 -
-    C (q ^ 3 * T₀ * T₁) * X + C (q ^ 6 * T₀ ^ 2)
-
-/-- The scaled dual spin polynomial
-`X⁴ − T₀⁻¹T₁X³ + T₀⁻²(qT₂ + (q³+q)T₀)X² − q³T₀⁻²T₁X + q⁶T₀⁻²`, whose roots are `q³` divided by the
-spin roots ([BCGP], Lemma 1.8.28, p. 17). -/
-def gsp4DualSpinPolynomial (q : A) (T₀ : Aˣ) (T₁ T₂ : A) : A[X] :=
-  X ^ 4 - C ((↑T₀⁻¹) * T₁) * X ^ 3 + C ((↑T₀⁻¹) ^ 2 * (q * T₂ + (q ^ 3 + q) * ↑T₀)) * X ^ 2 -
-    C (q ^ 3 * (↑T₀⁻¹) ^ 2 * T₁) * X + C (q ^ 6 * (↑T₀⁻¹) ^ 2)
-
-/-- `P(X) Q(0) = X⁴ Q(q³/X)`, coefficient by coefficient ([BCGP], Lemma 1.8.28, p. 17). -/
-theorem gsp4DualSpinPolynomial_reciprocal (q T₀ : Aˣ) (T₁ T₂ : A) (i : ℕ) (hi : i ≤ 4) :
-    (gsp4DualSpinPolynomial (q : A) T₀ T₁ T₂).coeff i * ((q : A) ^ 6 * (T₀ : A) ^ 2) =
-      (gsp4SpinPolynomial (q : A) T₀ T₁ T₂).coeff (4 - i) * (q : A) ^ (3 * (4 - i)) := sorry
-
-end Spherical
-
-namespace Determinant
-
-variable {A : Type u} [CommRing A] {d : ℕ}
-
-/-- The top coefficient of the Hecke polynomial is the determinant: if `χ_D(r) = P` then
-`D(r) = q^{d(d−1)/2} T_d`, including degree zero ([ACC], §2.2.5, equation (2.2.6), p. 922). -/
-theorem eval_eq_of_charpoly_eq_glnPolynomial {R : Type*} [Ring R] [Algebra A R]
-    (D : Determinant A R d) (r : R) (q : A) (T : Fin (d + 1) → A)
-    (h : D.charpoly r = Spherical.glnPolynomial d q T) :
-    D.eval r = q ^ (d * (d - 1) / 2) * T (Fin.last d) := sorry
-
-/-- Character twist: the coefficient of `X^{d−i}` at `a • r` is `aⁱ` times that at `r`
-([ACC], §2.2.20–24, pp. 932–934). -/
-theorem charpoly_smul_coeff {R : Type*} [Ring R] [Algebra A R] (D : Determinant A R d) (r : R)
-    (a : A) (i : ℕ) (hi : i ≤ d) :
-    (D.charpoly (a • r)).coeff (d - i) = a ^ i * (D.charpoly r).coeff (d - i) := sorry
-
-/-- The polynomial at `g⁻¹` is the normalised reciprocal of the polynomial at `g`, which converts
-between arithmetic and geometric Frobenius ([ACC], §2.2.20, p. 932). -/
-theorem reciprocal_charpoly {G : Type*} [Group G] (D : Determinant A (MonoidAlgebra A G) d)
-    (g : G) (i : ℕ) (hi : i ≤ d) :
-    (D.charpoly (MonoidAlgebra.of A G g⁻¹)).coeff i *
-        (D.charpoly (MonoidAlgebra.of A G g)).coeff 0 =
-      (D.charpoly (MonoidAlgebra.of A G g)).coeff (d - i) := sorry
-
-/-- Geometric-Frobenius dual-spin conversion: if the polynomial at `g` is the spin polynomial,
-then the polynomial of `D∨ ⊗ ε⁻³` at `g`, that is of `D` at `q³ • g⁻¹`, is the dual spin
-polynomial ([BCGP], Lemma 1.8.28, p. 17). -/
-theorem charpoly_dualSpin {G : Type*} [Group G] (D : Determinant A (MonoidAlgebra A G) 4) (g : G)
-    (q T₀ : Aˣ) (T₁ T₂ : A)
-    (h : D.charpoly (MonoidAlgebra.of A G g) = Spherical.gsp4SpinPolynomial (q : A) T₀ T₁ T₂) :
-    D.charpoly ((q : A) ^ 3 • MonoidAlgebra.of A G g⁻¹) =
-      Spherical.gsp4DualSpinPolynomial (q : A) T₀ T₁ T₂ := sorry
-
-end Determinant
-
-/-- Full similitude under duality and twist: if `rᵀ J r = μ J`, then `θ r⁻ᵀ` preserves `J⁻¹` up to
-`μ⁻¹ θ²`, in every size ([BCGP], §1.8.7–8 and Lemma 1.8.28, pp. 9–10, 16–17). -/
-theorem similitude_dual_twist {A : Type u} [CommRing A] {n : ℕ}
-    (r J : (Matrix (Fin n) (Fin n) A)ˣ) (μ θ : Aˣ)
-    (h : (r : Matrix (Fin n) (Fin n) A).transpose * J * r =
-      (μ : A) • (J : Matrix (Fin n) (Fin n) A)) :
-    ((θ : A) • (↑r⁻¹ : Matrix (Fin n) (Fin n) A).transpose).transpose *
-        (↑J⁻¹ : Matrix (Fin n) (Fin n) A) *
-        ((θ : A) • (↑r⁻¹ : Matrix (Fin n) (Fin n) A).transpose) =
-      ((↑μ⁻¹ : A) * (θ : A) ^ 2) • (↑J⁻¹ : Matrix (Fin n) (Fin n) A) := sorry
-
-/-! ## Layer IHG.1: reconstruction and coefficient descent -/
+/-- The unique degree-`d` determinant of a constant-rank Azumaya algebra is its reduced norm
+(README §0.6; Chenevier, Example 1.7(ii) and Exercise 2.5, pp.10,26). -/
+theorem Determinant.existsUnique_of_isAzumaya {A R : Type u} [CommRing A] [Ring R]
+    [Algebra A R] [IsAzumaya A R] (d : ℕ) (hd : 0 < d)
+    (hrank : Module.rankAtStalk (R := A) R = d * d) :
+    Nonempty (Determinant A R d) ∧ Subsingleton (Determinant A R d) := sorry
 
 /-- The vector module `Kᵈ` of a matrix representation `ρ : R → M_d(K)`, through
 `M_d(K) ≃ End(Kᵈ)` and restriction of scalars. -/
@@ -340,13 +183,13 @@ def IsAbsolutelyIrreducible {k G : Type u} [Field k] {d : ℕ}
 /-- Semisimple reconstruction over an algebraically closed field: every `d`-dimensional
 determinant, `d ≥ 1`, is `det ∘ ρ` for a semisimple `ρ : R → M_d(k)` with the same kernel, unique up
 to conjugation; no factorial is inverted ([Chenevier], Theorem 2.12, pp. 28–31). -/
-theorem Determinant.exists_semisimple_ofMatrix_eq {k R : Type u} [Field k] [IsAlgClosed k]
+theorem Determinant.exists_semisimple_realization {k R : Type u} [Field k] [IsAlgClosed k]
     [Ring R] [Algebra k R] (d : ℕ) (hd : 0 < d) (D : Determinant k R d) :
     ∃ ρ : R →ₐ[k] Matrix (Fin d) (Fin d) k,
-      Determinant.ofMatrix ρ = D ∧ IsSemisimpleModule R (matrixModule ρ) ∧
+      D.IsRealizedBy ρ ∧ IsSemisimpleModule R (matrixModule ρ) ∧
       (∀ r, ρ r = 0 ↔ r ∈ PolynomialLaw.ker D.toLaw) ∧
       ∀ σ : R →ₐ[k] Matrix (Fin d) (Fin d) k,
-        Determinant.ofMatrix σ = D → IsSemisimpleModule R (matrixModule σ) →
+        D.IsRealizedBy σ → IsSemisimpleModule R (matrixModule σ) →
         ∃ P : (Matrix (Fin d) (Fin d) k)ˣ, ∀ x,
           σ x = (P : Matrix (Fin d) (Fin d) k) * ρ x * (↑P⁻¹ : Matrix (Fin d) (Fin d) k) := sorry
 
@@ -355,14 +198,15 @@ is the determinant of an absolutely irreducible representation over the residue 
 determinant of a representation `A[G] → M_d(A)`, unique up to conjugation ([Chenevier], Theorem
 2.22(i), p. 34, applied to `A[G]/CH(D)` for existence; uniqueness by inner conjugacy of
 automorphisms of `M_d(A)` over a local ring, [Allen–Newton–Thorne], proof of Theorem 2.4, p. 5). -/
-theorem Determinant.exists_ofMatrix_eq_of_henselian {A G : Type u} [CommRing A]
+theorem Determinant.exists_realization_of_henselian {A G : Type u} [CommRing A]
     [HenselianLocalRing A] [Group G] {d : ℕ} (D : Determinant A (MonoidAlgebra A G) d)
     (ρbar : MonoidAlgebra (IsLocalRing.ResidueField A) G →ₐ[IsLocalRing.ResidueField A]
       Matrix (Fin d) (Fin d) (IsLocalRing.ResidueField A))
     (hIrr : IsAbsolutelyIrreducible fun g : G ↦ ρbar (MonoidAlgebra.of _ G g))
-    (hres : D.IsCoefficientChange (IsLocalRing.residue A) (Determinant.ofMatrix ρbar)) :
-    ∃ ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin d) (Fin d) A, Determinant.ofMatrix ρ = D ∧
-      ∀ σ : MonoidAlgebra A G →ₐ[A] Matrix (Fin d) (Fin d) A, Determinant.ofMatrix σ = D →
+    (hres : ∀ g : G, (D.charpoly (MonoidAlgebra.of A G g)).map (IsLocalRing.residue A) =
+      (ρbar (MonoidAlgebra.of _ G g)).charpoly) :
+    ∃ ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin d) (Fin d) A, D.IsRealizedBy ρ ∧
+      ∀ σ : MonoidAlgebra A G →ₐ[A] Matrix (Fin d) (Fin d) A, D.IsRealizedBy σ →
         ∃ P : (Matrix (Fin d) (Fin d) A)ˣ, ∀ x,
           σ x = (P : Matrix (Fin d) (Fin d) A) * ρ x * (↑P⁻¹ : Matrix (Fin d) (Fin d) A) := sorry
 
@@ -426,6 +270,35 @@ theorem symplectic_coefficient_descent {A B G : Type u} [CommRing A] [CommRing B
       ∀ g, (ρA g : Matrix (Fin 4) (Fin 4) A).map (algebraMap A B) =
         (P : Matrix (Fin 4) (Fin 4) B) * ρ g * (↑P⁻¹ : Matrix (Fin 4) (Fin 4) B) := sorry
 
+/-- A stable full lattice whose residual representation is a nonsplit extension in the
+prescribed orientation (README §1.4; Ribet, Proposition 2.1, pp.154–155). -/
+theorem classical_ribet_lattice {A K G : Type u} [CommRing A] [IsDomain A]
+    [IsDiscreteValuationRing A] [NormedField K] [CompleteSpace K] [LocallyCompactSpace K]
+    [IsUltrametricDist K] [Algebra A K] [IsFractionRing A K]
+    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
+    (hA : ∀ x : K, (∃ a : A, algebraMap A K a = x) ↔ ‖x‖ ≤ 1)
+    [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    (ρ : G →* (Matrix (Fin 2) (Fin 2) K)ˣ)
+    (hρ : Continuous fun g ↦ (ρ g : Matrix (Fin 2) (Fin 2) K))
+    (hirr : ∀ W : Submodule K (Fin 2 → K),
+      (∀ g, ∀ x ∈ W, (ρ g : Matrix (Fin 2) (Fin 2) K).mulVec x ∈ W) → W = ⊥ ∨ W = ⊤)
+    (χ ψ : G →* (IsLocalRing.ResidueField A)ˣ) (hdistinct : χ ≠ ψ)
+    (hchar : ∀ g, ∃ P : A[X],
+      P.map (algebraMap A K) = (ρ g : Matrix (Fin 2) (Fin 2) K).charpoly ∧
+      P.map (IsLocalRing.residue A) =
+        (X - C (χ g : IsLocalRing.ResidueField A)) * (X - C (ψ g : IsLocalRing.ResidueField A))) :
+    ∃ (L : Submodule A (Fin 2 → K)) (b : Module.Basis (Fin 2) A L)
+      (ρA : G →* (Matrix (Fin 2) (Fin 2) A)ˣ),
+      Submodule.span K (L : Set (Fin 2 → K)) = ⊤ ∧
+      (∀ g i, (ρ g : Matrix (Fin 2) (Fin 2) K).mulVec (b i : Fin 2 → K) =
+        ∑ j, (ρA g : Matrix (Fin 2) (Fin 2) A) j i • (b j : Fin 2 → K)) ∧
+      (∀ g, IsLocalRing.residue A ((ρA g : Matrix (Fin 2) (Fin 2) A) 0 0) = χ g ∧
+        IsLocalRing.residue A ((ρA g : Matrix (Fin 2) (Fin 2) A) 1 1) = ψ g ∧
+        IsLocalRing.residue A ((ρA g : Matrix (Fin 2) (Fin 2) A) 1 0) = 0) ∧
+      ¬ ∃ v : IsLocalRing.ResidueField A, ∀ g,
+        IsLocalRing.residue A ((ρA g : Matrix (Fin 2) (Fin 2) A) 0 1) =
+          ((ψ g : IsLocalRing.ResidueField A) - (χ g : IsLocalRing.ResidueField A)) * v := sorry
+
 /-! ## Layer IHG.2: integral and derived Hecke actions -/
 
 namespace HeckeImage
@@ -462,73 +335,7 @@ theorem ghost_nilpotence (C : DerivedCategory (ModuleCat.{u} A)) (a b : ℤ) (ha
     (hC : Supported C a b) (fs : Fin ((b - a).toNat + 1) → End C) (hfs : ∀ i, IsGhost (fs i)) :
     (List.ofFn fs).prod = 0 := sorry
 
-/-- For a commutative Hecke action `α` on `C` supported in `[a, b]`, an ideal acting by ghosts has
-`(b − a + 1)`-st power in `ker α` ([ACC], Lemma 2.2.4, p. 920). -/
-theorem action_annihilator_power {H : Type u} [CommRing H] [Algebra A H]
-    (C : DerivedCategory (ModuleCat.{u} A)) (α : H →ₐ[A] End C) (a b : ℤ) (hab : a ≤ b)
-    (hC : Supported C a b) (I : Ideal H) (hI : ∀ h ∈ I, IsGhost (α h)) :
-    I ^ ((b - a).toNat + 1) ≤ RingHom.ker α.toRingHom := sorry
-
-/-- Idempotents split in `D(A)`, so `C ≅ eC ⊕ (1 − e)C` for every idempotent endomorphism `e`
-([Bökstedt–Neeman], Corollary 1.7, p. 213, and Proposition 3.2, pp. 221–222). -/
-theorem exists_idempotent_splitting (C : DerivedCategory (ModuleCat.{u} A)) (e : End C)
-    (he : e * e = e) :
-    ∃ (Ce : DerivedCategory (ModuleCat.{u} A)) (i : Ce ⟶ C) (p : C ⟶ Ce),
-      i ≫ p = 𝟙 Ce ∧ p ≫ i = e := sorry
-
-/-- A finite commutative algebra over a complete noetherian local ring is a finite (possibly empty)
-product of finite complete noetherian local algebras ([Stacks], Lemma 10.160.2, tag 0325). -/
-theorem finite_local_factors [IsLocalRing A] [IsNoetherianRing A]
-    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
-    (T : Type u) [CommRing T] [Algebra A T] [Module.Finite A T] :
-    ∃ (s : ℕ) (factor : Fin s → CommAlgCat.{u} A),
-      (∀ i, Module.Finite A (factor i) ∧ IsNoetherianRing (factor i) ∧
-        ∃ h : IsLocalRing (factor i), letI := h
-          IsAdicComplete (IsLocalRing.maximalIdeal (factor i)) (factor i)) ∧
-      Nonempty (T ≃ₐ[A] ∀ i, factor i) := sorry
-
 end HeckeImage
-
-/-! ## Layer IHG.3b: residual maximal ideals of Galois type -/
-
-namespace Spherical
-
-attribute [local instance] Ideal.Quotient.field
-
-/-- `m` is of Galois type for the Frobenius polynomials `P`: some continuous semisimple
-`ρ : G → GL_n(T/m)` has characteristic polynomial `P v` at `Frob v` ([ACC], Definition 2.3.6,
-p. 938). -/
-def IsGaloisType {T G V : Type u} [CommRing T] [Group G] [TopologicalSpace G]
-    (m : Ideal T) [m.IsMaximal] [Finite (T ⧸ m)] [TopologicalSpace (T ⧸ m)]
-    [DiscreteTopology (T ⧸ m)] (n : ℕ) (Frob : V → G) (P : V → (T ⧸ m)[X]) : Prop :=
-  ∃ ρ : MonoidAlgebra (T ⧸ m) G →ₐ[T ⧸ m] Matrix (Fin n) (Fin n) (T ⧸ m),
-    Continuous (fun g : G ↦ ρ (MonoidAlgebra.of (T ⧸ m) G g)) ∧
-      IsSemisimpleModule (MonoidAlgebra (T ⧸ m) G) (matrixModule ρ) ∧
-      ∀ v, (ρ (MonoidAlgebra.of (T ⧸ m) G (Frob v))).charpoly = P v
-
-/-- `m` is non-Eisenstein: the realising representation can be taken absolutely irreducible
-([ACC], Definition 2.3.6, p. 938). -/
-def IsNonEisenstein {T G V : Type u} [CommRing T] [Group G] [TopologicalSpace G]
-    (m : Ideal T) [m.IsMaximal] [Finite (T ⧸ m)] [TopologicalSpace (T ⧸ m)]
-    [DiscreteTopology (T ⧸ m)] (n : ℕ) (Frob : V → G) (P : V → (T ⧸ m)[X]) : Prop :=
-  ∃ ρ : MonoidAlgebra (T ⧸ m) G →ₐ[T ⧸ m] Matrix (Fin n) (Fin n) (T ⧸ m),
-    Continuous (fun g : G ↦ ρ (MonoidAlgebra.of (T ⧸ m) G g)) ∧
-      IsSemisimpleModule (MonoidAlgebra (T ⧸ m) G) (matrixModule ρ) ∧
-      IsAbsolutelyIrreducible (fun g : G ↦ ρ (MonoidAlgebra.of (T ⧸ m) G g)) ∧
-      ∀ v, (ρ (MonoidAlgebra.of (T ⧸ m) G (Frob v))).charpoly = P v
-
-/-- A non-Eisenstein ideal is of Galois type, with the same realising representation. -/
-theorem IsNonEisenstein.isGaloisType {T G V : Type u} [CommRing T] [Group G]
-    [TopologicalSpace G] (m : Ideal T) [m.IsMaximal] [Finite (T ⧸ m)]
-    [TopologicalSpace (T ⧸ m)] [DiscreteTopology (T ⧸ m)] (n : ℕ)
-    (Frob : V → G) (P : V → (T ⧸ m)[X]) (h : IsNonEisenstein m n Frob P) :
-    IsGaloisType m n Frob P := by
-  obtain ⟨ρ, hc, hs, _, hp⟩ := h
-  exact ⟨ρ, hc, hs, hp⟩
-
-end Spherical
-
-/-! ## Layer IHG.4: interpolation over integral coefficient rings -/
 
 namespace Determinant
 
@@ -584,12 +391,10 @@ theorem existsUnique_interpolation {G V : Type*} [Group G] [TopologicalSpace G]
 
 end Determinant
 
-/-! ## Layer IHG.5: quantified nilpotent comparison -/
-
 /-- Descent through a Hecke comparison `φ : T → B`: for compact `G`, compact Hausdorff `T / ker φ`
 with continuous injective lift to Hausdorff `B`, a continuous determinant over `B` whose
 coefficients on a dense set lie in the image descends uniquely to `T / ker φ`; the nilpotence
-exponent of the error ideal enters only through `Nilpotence` ([Scholze], proof of
+exponent of the error ideal is quantified separately in README §5.2 ([Scholze], proof of
 Theorem 5.4.1, pp. 1058–1059). -/
 theorem Determinant.existsUnique_descent_kerLift {T B G : Type u} [CommRing T] [CommRing B]
     [Group G] [TopologicalSpace G] [CompactSpace G] {d : ℕ} (φ : T →+* B)
@@ -601,49 +406,6 @@ theorem Determinant.existsUnique_descent_kerLift {T B G : Type u} [CommRing T] [
       (D.charpoly (MonoidAlgebra.of B G g)).coeff k = RingHom.kerLift φ a) :
     ∃! E : Determinant (T ⧸ RingHom.ker φ) (MonoidAlgebra (T ⧸ RingHom.ker φ) G) d,
       E.IsContinuous ∧ E.IsCoefficientChange (RingHom.kerLift φ) D := sorry
-
-/-- Residual semisimple specialisation: for `d > 0`, `J ≤ m` with `m` maximal and an algebraically
-closed field `k` over `T/m`, the coefficient change of a determinant over `T/J` along
-`T/J → T/m → k` is the determinant of a semisimple representation, unique up to conjugation among
-semisimple ones ([Chenevier], Theorem 2.12, p. 28; [Scholze], Corollary 5.4.3, p. 1060). -/
-theorem Determinant.exists_semisimple_specialization {T G k : Type u} [CommRing T] [Group G]
-    [Field k] [IsAlgClosed k] (J m : Ideal T) [m.IsMaximal] (hJm : J ≤ m) [Algebra (T ⧸ m) k]
-    {d : ℕ} (hd : 0 < d) (D : Determinant (T ⧸ J) (MonoidAlgebra (T ⧸ J) G) d) :
-    ∃ ρ : MonoidAlgebra k G →ₐ[k] Matrix (Fin d) (Fin d) k,
-      D.IsCoefficientChange ((algebraMap (T ⧸ m) k).comp (Ideal.Quotient.factor hJm))
-        (Determinant.ofMatrix ρ) ∧
-      IsSemisimpleModule (MonoidAlgebra k G) (matrixModule ρ) ∧
-      ∀ σ : MonoidAlgebra k G →ₐ[k] Matrix (Fin d) (Fin d) k,
-        D.IsCoefficientChange ((algebraMap (T ⧸ m) k).comp (Ideal.Quotient.factor hJm))
-          (Determinant.ofMatrix σ) →
-        IsSemisimpleModule (MonoidAlgebra k G) (matrixModule σ) →
-        ∃ P : (Matrix (Fin d) (Fin d) k)ˣ, ∀ x,
-          σ x = (P : Matrix (Fin d) (Fin d) k) * ρ x * (↑P⁻¹ : Matrix (Fin d) (Fin d) k) := sorry
-
-namespace Nilpotence
-
-variable {A : Type u} [CommRing A]
-
-/-- The sharp bound for sums: `I^a = J^b = 0` with `a, b > 0` gives `(I + J)^{a+b−1} = 0`, improving
-Mathlib's `Ideal.sup_pow_add_le_pow_sup_pow`. -/
-theorem sup (I J : Ideal A) (a b : ℕ) (ha : 0 < a) (hb : 0 < b) (hI : I ^ a = ⊥) (hJ : J ^ b = ⊥) :
-    (I ⊔ J) ^ (a + b - 1) = ⊥ := sorry
-
-/-- Quantified composition of error ideals: `(ker f ∩ ker g)^a = 0`, `I^b = 0`, `J^c = 0` give
-`(f⁻¹ I ∩ g⁻¹ J)^{a·max(b,c)} = 0` ([Scholze], proof of Theorem 5.4.1, p. 1059). -/
-theorem comparison {B C : Type u} [CommRing B] [CommRing C] (f : A →+* B) (g : A →+* C)
-    (I : Ideal B) (J : Ideal C) (a b c : ℕ) (hb : 0 < b) (hc : 0 < c)
-    (hker : (RingHom.ker f ⊓ RingHom.ker g) ^ a = ⊥) (hI : I ^ b = ⊥) (hJ : J ^ c = ⊥) :
-    (I.comap f ⊓ J.comap g) ^ (a * max b c) = ⊥ := sorry
-
-/-- A uniform exponent in all quotients of a separated system bounds the exponent in `A`
-([Scholze], Corollary 5.4.2 and footnote 29, p. 1060). -/
-theorem inverse_limit (K : ℕ → Ideal A) (hsep : ⨅ r, K r = ⊥) (J : Ideal A) (n : ℕ)
-    (hn : ∀ r, (J.map (Ideal.Quotient.mk (K r))) ^ n = ⊥) : J ^ n = ⊥ := sorry
-
-end Nilpotence
-
-/-! ## Layer IHG.6: integral Ribet modules and Fitting ideals -/
 
 namespace IntegralRibet
 
@@ -688,40 +450,6 @@ theorem mixed_scalar_regular (S : Type u) [CommRing S] {n k u ℓ : ℕ}
       ((genericLinearSequence (fun j : Fin (n + u) ↦
         (MvPolynomial.X (Sum.inr j) : Q)) ℓ).map (Ideal.Quotient.mk I)) := sorry
 
-/-- Two generic scalar equations on a single two-column minor block exceed its regularity bound of one. -/
-theorem mixed_scalar_regular_bound_sharp :
-    let Q := MvPolynomial (Fin 2 ⊕ Fin 2) ℤ
-    let P := MvPolynomial (Fin 2 × Fin 2) Q
-    let L : Fin 2 → P := fun i ↦ ∑ j : Fin 2,
-      MvPolynomial.X (i, j) * MvPolynomial.C (MvPolynomial.X (Sum.inr j))
-    let I := (localMinorIdeal ℤ 0 (fun _ : Fin 2 ↦ (0 : Fin 1))).map
-      (MvPolynomial.C : Q →+* P)
-    let J := I ⊔ Ideal.span {L 0}
-    let v := Ideal.Quotient.mk J (∑ j : Fin 2,
-      MvPolynomial.X (0, j) * MvPolynomial.C (MvPolynomial.X (Sum.inl j)))
-    ¬ RingTheory.Sequence.IsWeaklyRegular (P ⧸ I)
-      ((genericLinearSequence (fun j : Fin 2 ↦
-        (MvPolynomial.X (Sum.inr j) : Q)) 2).map (Ideal.Quotient.mk I)) ∧
-      v ≠ 0 ∧ v * Ideal.Quotient.mk J (L 1) = 0 := sorry
-
-/-- The integral upper-unipotent representation `n ↦ [[1,n],[0,1]]`, with additive integers
-written as `Multiplicative ℤ`. -/
-def unipotentRepresentation :
-    MonoidAlgebra ℤ (Multiplicative ℤ) →ₐ[ℤ] Matrix (Fin 2) (Fin 2) ℤ :=
-  MonoidAlgebra.lift ℤ _ _
-    { toFun := fun n ↦ Matrix.of ![![1, n.toAdd], ![0, 1]]
-      map_one' := by ext i j; fin_cases i <;> fin_cases j <;> simp
-      map_mul' := by
-        intro n m
-        ext i j
-        fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_succ, add_comm] }
-
-/-- The scalar matrix representation associated to a unit character. -/
-def scalarRepresentation (ψ : G →* Aˣ) :
-    MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) A :=
-  MonoidAlgebra.lift A _ G
-    ((algebraMap A (Matrix (Fin 2) (Fin 2) A)).toMonoidHom.comp ((Units.coeHom A).comp ψ))
-
 /-- `t ↦ ρ(t) − ψ(t) I₂` on `A[G]`. -/
 def differenceMap (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (ψ : G →* Aˣ) :
     MonoidAlgebra A G →ₗ[A] Matrix (Fin 2) (Fin 2) B :=
@@ -752,26 +480,6 @@ def canonicalCocycle (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B)
   (↑(ψ g)⁻¹ : A) • (productInside ρ χ ψ).mkQ
     ⟨differenceMap ρ ψ (MonoidAlgebra.of A G g), LinearMap.mem_range_self _ _⟩
 
-/-- The canonical Ribet function satisfies the cocycle law for the scalar action of `χψ⁻¹`. -/
-theorem canonicalCocycle_mul (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B)
-    (χ ψ : G →* Aˣ) (g h : G) :
-    canonicalCocycle ρ χ ψ (g * h) = canonicalCocycle ρ χ ψ g +
-      ((χ g : A) * (↑(ψ g)⁻¹ : A)) • canonicalCocycle ρ χ ψ h := sorry
-
-/-- The values of the canonical Ribet cocycle generate the initial quotient module. -/
-theorem span_canonicalCocycle (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B)
-    (χ ψ : G →* Aˣ) :
-    Submodule.span A (Set.range (canonicalCocycle ρ χ ψ)) = ⊤ := sorry
-
-/-- The product of the character difference modules lies in the right difference module. -/
-theorem product_le_differenceModule (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ) :
-    Submodule.span A {z | ∃ x ∈ differenceModule ρ χ, ∃ y ∈ differenceModule ρ ψ, z = x * y} ≤
-      differenceModule ρ ψ := sorry
-
-/-- The initial integral unipotent Ribet module is the integer line, with canonical cocycle the identity. -/
-theorem unipotent_initialModule : ∃ e : initialModule unipotentRepresentation 1 1 ≃ₗ[ℤ] ℤ,
-    ∀ n : ℤ, e (canonicalCocycle unipotentRepresentation 1 1 (Multiplicative.ofAdd n)) = n := sorry
-
 /-- Local data: subgroups `G_v` for `v ∈ S = Σ ⊔ P`, inertia subgroups `I_v ⊆ G_v`, and a chosen
 place `v₀ ∈ Σ` when `Σ` is nonempty ([DKSW], Theorem 2.1, pp. 7–8). -/
 structure LocalData (G : Type u) [Group G] where
@@ -783,43 +491,6 @@ structure LocalData (G : Type u) [Group G] where
   distinguished : Option (Fin count)
   distinguished_mem : ∀ v, distinguished = some v → v ∈ sigma
   distinguished_exists : sigma.Nonempty → ∃ v, distinguished = some v
-
-/-- The empty set of local places. -/
-abbrev emptyLocalData (G : Type u) [Group G] : LocalData G :=
-  ⟨0, ∅, Fin.elim0, Fin.elim0, fun v ↦ v.elim0, none, fun v ↦ v.elim0, by simp⟩
-
-/-- One distinguished place with full subgroup and trivial inertia. -/
-abbrev fullLocalData (G : Type u) [Group G] : LocalData G where
-  count := 1
-  sigma := Finset.univ
-  subgroup := fun _ ↦ ⊤
-  inertia := fun _ ↦ ⊥
-  inertia_le := fun _ ↦ bot_le
-  distinguished := some 0
-  distinguished_mem := fun v _ ↦ Finset.mem_univ v
-  distinguished_exists := by intro _; exact ⟨0, rfl⟩
-
-/-- Two sigma places: distinguished place zero has full subgroup, place one has trivial subgroup. -/
-abbrev twoPlaceLocalData (G : Type u) [Group G] : LocalData G where
-  count := 2
-  sigma := Finset.univ
-  subgroup := fun v ↦ if v = 0 then ⊤ else ⊥
-  inertia := fun _ ↦ ⊥
-  inertia_le := fun _ ↦ bot_le
-  distinguished := some 0
-  distinguished_mem := fun v _ ↦ Finset.mem_univ v
-  distinguished_exists := by intro _; exact ⟨0, rfl⟩
-
-/-- Three sigma places with trivial subgroups and distinguished place one. -/
-abbrev threePlaceLocalData (G : Type u) [Group G] : LocalData G where
-  count := 3
-  sigma := Finset.univ
-  subgroup := fun _ ↦ ⊥
-  inertia := fun _ ↦ ⊥
-  inertia_le := fun _ ↦ bot_le
-  distinguished := some 1
-  distinguished_mem := fun v _ ↦ Finset.mem_univ v
-  distinguished_exists := by intro _; exact ⟨1, rfl⟩
 
 variable (L : LocalData G)
 
@@ -855,19 +526,6 @@ def localCocycle (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ
 def localVector (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ)
     (v : {v // v ∈ extraPlaces L}) : localModule L ρ χ ψ :=
   (localRelations L ρ χ ψ).mkQ (0, Pi.single v 1)
-
-/-- The local Ribet cocycle vanishes at the distinguished subgroup and at the specified inertia groups, and is a prescribed coboundary at each extra sigma place. -/
-theorem localCocycle_relations (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B)
-    (χ ψ : G →* Aˣ) :
-    (∀ v, L.distinguished = some v → ∀ g ∈ L.subgroup v, localCocycle L ρ χ ψ g = 0) ∧
-    (∀ (v : {v // v ∈ extraPlaces L}) (g : G), g ∈ L.subgroup v →
-      localCocycle L ρ χ ψ g = ((χ g : A) * (↑(ψ g)⁻¹ : A) - 1) • localVector L ρ χ ψ v) ∧
-    (∀ v, v ∉ L.sigma → ∀ g ∈ L.inertia v, localCocycle L ρ χ ψ g = 0) := sorry
-
-/-- The local Ribet module is generated by the cocycle values and the adjoined local vectors. -/
-theorem span_localCocycle_localVector (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B)
-    (χ ψ : G →* Aˣ) :
-    Submodule.span A (Set.range (localCocycle L ρ χ ψ) ∪ Set.range (localVector L ρ χ ψ)) = ⊤ := sorry
 
 /-- Characteristic polynomials are integral and reduce modulo `I` to `(X − χ(g))(X − ψ(g))`. -/
 def Congruence (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ)
@@ -907,18 +565,8 @@ structure LocalInput {Tilde : Type u} [CommRing Tilde] [Algebra A Tilde] [Algebr
   inertia_congruence : ∀ v, v ∉ L.sigma → ∀ g : G, (hg : g ∈ L.inertia v) →
     (↑(xi v ⟨g, L.inertia_le v hg⟩) : Tilde) - algebraMap A Tilde (χ g) ∈ Itilde
 
-/-- Ribet's method in the residually indistinguishable case with all local conditions: under the
-hypotheses of [DKSW], Theorem 2.1, together with a finite `T`-lattice `Λ ⊆ M₂(K)` containing both
-difference modules whose induced topology is `m`-adic, the local module `N` is finite, `κ` is
-continuous, `κ(G)` and the `y_v` generate `N`, and
-`(∏_{v ∈ P} (ξ_v(σ_v) − χ(σ_v))) · Fitt₀(N) · T̃ ⊆ Ĩ` ([DKSW], Theorem 2.1, pp. 7–8, and §2.1,
-pp. 8–9). For each stabilized relation minor, §6.3 of the roadmap constructs formal matrices
-`𝔈, 𝔈′` with `π(𝔈) ≡ E_arith` entrywise modulo `Ĩ` and `π(𝔈′) = E′_arith`.
-For minors with nonempty nondistinguished-place blocks, the count `L = u + k` and the mixed
-resolution at that bound supply upper exactness for the formal error comparison. A minor with
-an empty such block has a zero place column and zero weighted determinant. The formal error
-comparison and `det E′_arith = 0` give `det E_arith ∈ Ĩ`; its exact weighted determinant identity
-supplies the Fitting containment. -/
+/-- The canonical local Ribet module is finite and carries all the prescribed local
+conditions and the weighted Fitting bound (README §6.7; DKSW Theorem 2.1, pp.7–8). -/
 theorem local_ribet {Tilde : Type u} [CommRing Tilde] [Algebra A Tilde] [Algebra Tilde B]
     [IsScalarTower A Tilde B] [IsArtinianRing B] [IsPrincipalIdealRing B]
     [IsLocalization (nonZeroDivisors Tilde) B] [IsLocalRing A] [IsNoetherianRing A]
@@ -944,6 +592,14 @@ theorem local_ribet {Tilde : Type u} [CommRing Tilde] [Algebra A Tilde] [Algebra
       letI : TopologicalSpace (localModule L ρ χ ψ) :=
         (IsLocalRing.maximalIdeal A).adicModuleTopology (localModule L ρ χ ψ)
       Continuous (localCocycle L ρ χ ψ) ∧
+        (∀ g h, localCocycle L ρ χ ψ (g * h) = localCocycle L ρ χ ψ g +
+          ((χ g : A) * (↑(ψ g)⁻¹ : A)) • localCocycle L ρ χ ψ h) ∧
+        (∀ v, L.distinguished = some v → ∀ g ∈ L.subgroup v,
+          localCocycle L ρ χ ψ g = 0) ∧
+        (∀ (v : {v // v ∈ extraPlaces L}) (g : G), g ∈ L.subgroup v →
+          localCocycle L ρ χ ψ g =
+            ((χ g : A) * (↑(ψ g)⁻¹ : A) - 1) • localVector L ρ χ ψ v) ∧
+        (∀ v, v ∉ L.sigma → ∀ g ∈ L.inertia v, localCocycle L ρ χ ψ g = 0) ∧
         Submodule.span A (Set.range (localCocycle L ρ χ ψ) ∪ Set.range (localVector L ρ χ ψ)) = ⊤ ∧
         (Ideal.span {∏ v ∈ Finset.univ.filter (fun v ↦ v ∉ L.sigma),
           ((↑(loc.xi v (σ v)) : Tilde) - algebraMap A Tilde (χ (σ v)))} : Ideal Tilde) *
@@ -974,13 +630,6 @@ theorem global_ribet [IsLocalization (nonZeroDivisors A) B] [IsLocalRing A] [IsN
         (∀ x : M, Submodule.span A
           (Set.range fun g ↦ κ g + ((↑(χ g) : A) * (↑(ψ g)⁻¹ : A) - 1) • x) = ⊤) ∧
         TauCeti.fittingIdeal A M 0 ≤ I := sorry
-
-/-- For the trivial group and a proper congruence ideal, no generating cocycle has zeroth Fitting ideal in that ideal. -/
-theorem no_ribet_conclusion_trivial_group [Nontrivial A] (I : Ideal A) (hI : I ≠ ⊤) :
-    ¬ ∃ (M : ModuleCat.{u} A) (_ : Module.Finite A M), ∃ κ : PUnit.{u + 1} → M,
-      (∀ g h, κ (g * h) = κ g + (1 : A) • κ h) ∧
-      (∀ x : M, Submodule.span A (Set.range fun g ↦ κ g + ((1 : A) - 1) • x) = ⊤) ∧
-      TauCeti.fittingIdeal A M 0 ≤ I := sorry
 
 end IntegralRibet
 
