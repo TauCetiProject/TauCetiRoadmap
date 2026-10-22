@@ -1554,8 +1554,12 @@ the constructions here or an additional generic characteristic-class owner.
 3. Acceptance: construct the projective Euler sequence from the tautological
    line and tangent chart derivatives, proving its bundle exactness; thus CP^n
    has c(TCP^n)=(1+h)^(n+1) and its Euler number is n+1;
-   construct the radial normal-line/tangent stable isomorphism for S^n, and
-   prove oriented TS^n has Euler number1+(-1)^n and p(TS^n)=1. On an oriented
+   construct the smooth bundle isomorphism from the native tangent bundle
+   of S^n to the bundle with fibre x^⊥ by differentiating the ambient
+   inclusion, prove its smooth local inverse, and extend by the radial
+   normal line to `TS^n⊕ε¹≅ε^(n+1)`. This adapter uses native sphere
+   differential calculus, SBC B2 and TopK T1's bundle comparison, before C4–C6.
+   Prove oriented TS^n has Euler number1+(-1)^n and p(TS^n)=1. On an oriented
    real plane prove e=c₁ and p₁=e²; odd-rank Euler has the displayed torsion
    qualification, with the universal oriented rank3 bundle
    as a nonzero example: e mod2=w₃≠0 on BSO(3), and pullback to a sufficiently
