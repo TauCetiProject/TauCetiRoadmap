@@ -886,9 +886,10 @@ pro-`p` quotient.
   `TauCeti.LocalFieldsRamification`: `RamificationIndexDomain`, `herbrandOrderIso`, `herbrand` and
   `inverseHerbrand`, with the integral formula `coe_herbrand`, the finite-sum formula
   (`coe_herbrand_of_mem_Icc`, `coe_herbrand_of_coe_eq_natCast`), continuity and strict
-  monotonicity (`continuous_herbrand`, `herbrand_strictMono` and their counterparts for `ψ`),
-  concavity (`herbrand_slope_anti_adjacent`), the identity on `[-1, 0]`
-  (`herbrand_of_coe_le_zero`, `inverseHerbrand_of_coe_le_zero`), `herbrand_inverseHerbrand` and
+  monotonicity (`continuous_herbrand`, `TauCeti.LocalFieldsRamification.herbrand_strictMono` and
+  their counterparts for `ψ`), concavity (`TauCeti.LocalFieldsRamification.herbrand_slope_anti_adjacent`),
+  the identity on `[-1, 0]` (`TauCeti.LocalFieldsRamification.herbrand_of_coe_le_zero`,
+  `TauCeti.LocalFieldsRamification.inverseHerbrand_of_coe_le_zero`), `herbrand_inverseHerbrand` and
   `inverseHerbrand_herbrand`; and the upper numbering `upperRamificationGroup`, with
   `G^{φ(u)} = G_u` (`upperRamificationGroup_herbrand`), antitonicity and normality. This roadmap's
   names are reducible aliases of these definitions and its two inversion theorems are closed
@@ -1173,6 +1174,33 @@ both `K` and `L`, which forces local compactness and a finite residue field, tog
 only the cardinalities of the lower groups. Section 3a.2 builds them on the local-ring filtration,
 and the Layer 3 functions are its instance `G = L ≃ₐ[K] L`, `B = 𝒪[L]`.
 
+<a id="perfect-residue-herbrand"></a>
+
+**Perfect-residue Herbrand contract (`perfectResidueHerbrand`).** For complete DVR fraction
+fields with perfect residue field, this is the package of §§3a.1–3a.3 and §§4a.1–4a.3, in both
+characteristics, including their comparisons with the finite-local-field API. Its sources are
+Serre, *Local Fields*, IV §§1–3 and V §7, Theorem 1; Serre 1961, n° 3.1 and n° 3.4–3.5; and
+Brinon–Conrad, Exercise 1.4.4(3), with the equal-characteristic argument in §4a.3.
+Its absolute group is Mathlib's `Field.absoluteGaloisGroup`. The section numbers specify the
+named contract.
+
+| Export | Sections |
+|---|---|
+| integer rings, lower filtration, lower index and different | §3a.1 |
+| finite Herbrand functions, upper numbering, quotients and towers | §3a.2 |
+| full Hasse–Arf | §3a.3 |
+| absolute upper filtration, finite projections, inertia and wild inertia | §4a.1 |
+| finite separable transition functions and open-subgroup identity | §4a.2 |
+| completed maximal unramified comparison | §4a.3 |
+
+**Checks.**
+
+- Over `F̄_p((t))`, `y^p − y = t⁻¹` has lower and upper break `1` and different `2(p − 1)`.
+- Over `Frac W(F̄_p)`, for odd `p`, adjoining `ζ_p` has degree `p − 1`, lower and upper break
+  `0`, and different `p − 2`.
+- On `ℚ_2(ζ_8)/ℚ_2`, the package gives lower jumps `1, 3` and upper jumps `1, 2`, agreeing with
+  Layer 3 rather than identifying the two numberings.
+
 #### 3a.1 Integer rings, the lower filtration and the different
 
 `B` is a complete discrete valuation ring, free of rank `[L : K]` over `A`; the valuation of `L`
@@ -1181,12 +1209,22 @@ is the unique one extending that of `K`, `v_L = e·v_K` on `K`, and `[L : K] = e
 `lowerIndex B σ = v_L(σx − x)`. The groups `G_i` are normal in `G` and antitone in `i`,
 `G_i = G` for `i ≤ −1`, `G_0` is the inertia group (the kernel of the action on
 `IsLocalRing.ResidueField B`), and `G_i = 1` for all large `i`. For a subgroup `H = Gal(L/K′)`,
-`H_i = H ∩ G_i`. For a uniformizer `π_L`, `σ ↦ σ(π_L)/π_L` embeds `G_0/G_1` in
-`(IsLocalRing.ResidueField B)ˣ` and `G_i/G_(i+1)` in the additive group of
-`IsLocalRing.ResidueField B` for `i ≥ 1`. Hence `G_0/G_1` is cyclic of order prime to the residue
+`H_i = H ∩ G_i`. For a uniformizer `π_L`, reduction of `σ(π_L)/π_L` embeds `G_0/G_1` in
+`(IsLocalRing.ResidueField B)ˣ`. For `i ≥ 1`, reduction of
+`(σ(π_L) − π_L)/π_L^(i+1)` embeds `G_i/G_(i+1)` in the additive residue field. The ratio first
+gives a uniformizer-independent map to `U(L,i)/U(L,i+1)`, where `U(L,i) = 1 + 𝔪_B^i`;
+identifying that quotient with the additive residue field uses `π_L`.
+Hence `G_0/G_1` is cyclic of order prime to the residue
 characteristic, `G_1` is the Sylow `p`-subgroup of `G_0` when the residue characteristic is
 `p > 0`, and `G_1 = 1` when it is zero. Hilbert's formula holds: the different exponent `d(L/K)`,
 the `v_L`-valuation of Mathlib's `differentIdeal A B`, is `Σ_(i ≥ 0) (#G_i − 1)`.
+Its ideal-valued form, `differentIdeal A B = 𝔪_B^(Σ_(i ≥ 0) (#G_i − 1))`, is
+`differentIdeal_eq_pow_maximalIdeal_of_separable_residue` in `Suggested.lean`.
+Integral monogenicity and computation of the lower index at a generator are stated together as
+`exists_generator_lowerIndex_eq_addVal`, for any finite faithful extension of DVRs with
+separable residue extension, without completeness. It uses the pinned general-DVR
+`TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top` and
+`TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top`.
 
 (Jean-Pierre Serre, [Local Fields](#reference-serre-local-fields), II §2, Proposition 3; III §6,
 Proposition 12; IV §1, Propositions 2 and 4.) (Jean-Pierre Serre, [Sur les corps locaux à corps
@@ -1224,7 +1262,9 @@ local-field instance).
 - For every perfect `k` of characteristic `p`, including `k = F̄_p`, the Artin–Schreier extension
   `y^p − y = t⁻¹` of `k((t))` has `v_L(y) = −1`, the uniformizer `y⁻¹`, and a generator `σ` with
   `σ(y) = y + 1` moves it by `−1/(y(y + 1))`, of valuation `2`. So `G_0 = G_1 = G`, `G_2 = 1` and
-  `d = 2(p − 1)`, over an infinite residue field when `k = F̄_p`.
+  `d = 2(p − 1)`, over an infinite residue field when `k = F̄_p`. At level `1`, the additive
+  graded character of this generator is `−1`, since
+  `(σ(y⁻¹) − y⁻¹)/(y⁻¹)² = −y/(y + 1)`; the unscaled ratio instead reduces to `1`.
 - For odd `p` and `K = Frac W(F̄_p)`, `((X + 1)^p − 1)/X` is Eisenstein, so `K(ζ_p)/K` is totally
   and tamely ramified of degree `p − 1`, with `G_0 = G`, `G_1 = 1` and `d = p − 2`.
 - On `ℚ_2(ζ_8)/ℚ_2` the groups are those of Layer 3, `#G_0 = #G_1 = 4`, `#G_2 = #G_3 = 2`,
@@ -1262,9 +1302,11 @@ clos](#reference-serre-1961), n° 3.1, formula (5) with properties a–d′ of t
 printed p. 127, and Propositions 3 and 4, printed p. 128, for totally ramified `L/K`.)
 
 *Proof.* The analytic facts are Tau Ceti's proofs in
-`TauCeti/NumberTheory/LocalField/Herbrand/Basic.lean`, which use only that the integrand is the
-antitone step function `#G_t/#G_0`, equal to `1` on `(−1, 0]` and to `1/#G_0` for large `t`; they
-carry over to the local-ring carrier, and agreement holds because
+`TauCeti/NumberTheory/LocalField/Herbrand/Basic.lean`: the integrand is the antitone step function
+`#G_t/#G_0`, equal to `1` on `(−1, 0]` and bounded below by `1/#G_0`. This positive lower bound
+makes the integral tend to infinity for every finite action. Eventual equality with `1/#G_0`
+holds for the faithful separated DVR action of 3a.1. These arguments carry over to the
+local-ring carrier, and agreement holds because
 `TauCeti.LocalFieldsRamification.lowerRamificationGroup` is defined as the local-ring filtration.
 Integrality of `ψ(n)` is the finite-sum formula together with Lagrange's theorem, as in Layer 3's
 `coe_psiNat`. For Herbrand's theorem, the lower index of a class `s ∈ G/H` is
@@ -1286,6 +1328,8 @@ Layer 3 (Herbrand functions and the upper numbering, for the local-field instanc
 - For `K(ζ_p)/K` with `K = Frac W(F̄_p)` and `p` odd, `φ(u) = u/(p − 1)` for `u ≥ 0`, and
   `ψ(1) = p − 1` is an integer although `φ(1) = 1/(p − 1)` is not.
 - If `G_0 = 1`, then `φ` and `ψ` are the identity and `G^v = 1` for every `v > −1`.
+- For the trivial action of `C_2` on `ℤ_2`, all lower groups are `C_2` and the density is
+  constantly `1`, not eventually `1/2`; nevertheless `φ` and `ψ` are the identity.
 - For `M = ℚ_2(ζ_8)` and `L = ℚ_2(√2)` over `K = ℚ_2`, `ψ_(L/K)(3) = 4` and
   `ψ_(M/L)(4) = 7 = ψ_(M/K)(3)`, while `ψ_(L/K)(ψ_(M/L)(3)) = ψ_(L/K)(5) = 8`: composing in the
   other order is wrong.
@@ -1307,7 +1351,82 @@ clos](#reference-serre-1961), n° 3.4, Propositions 6 and 7, printed pp. 132–1
 Proposition 8 with its Corollary 1, printed pp. 135–136, for totally ramified abelian `L/K` with
 algebraically closed residue field.) (Alexander Grothendieck, [Éléments de géométrie algébrique
 III, première partie](#reference-ega-iii-1), Chapitre 0, (10.3.1) and the completion remark after
-its proof, printed pp. 20–22, for the extension of the residue field.)
+its proof, printed pp. 20–23, for the extension of the residue field.)
+
+The following prerequisites are targets of this section.
+
+**Residue enlargement and preservation of ramification.** For a complete DVR `R` with residue
+field `κ` and a specified algebraic closure `κ̄/κ`, construct a faithfully flat local map
+`R → R′` to a complete DVR with residue field `κ̄` and `𝔪_(R′) = 𝔪_R R′`. Every uniformizer of
+`R` stays a uniformizer. For a totally ramified finite Galois extension `E/Frac R` with group
+`H`, a uniformizer `π_E` with Eisenstein polynomial `f` gives a field
+`E′ = (Frac R′)[X]/(f)` of the same degree, integral closure `R′[π_E]`, and the same Galois group.
+Prove that the normalized values of `σπ_E − π_E`, the lower groups, and the Herbrand functions
+are preserved: the Eisenstein generator remains a uniformizer, and expansion in its integral
+power basis preserves the valuation of each displacement. Sources: EGA III, Chapitre 0,
+(10.3.1), its associated-graded formula (10.3.1.5) and completion remark, printed pp. 20–23;
+§3a.1's monogenic lower-index formula (Serre, *Local Fields*, IV §1, Proposition 1).
+
+**Checks.**
+
+- For algebraically closed `κ`, `R′ = R` satisfies the target.
+- For `R = κ[[t]]`, the map to `κ̄[[t]]` keeps the uniformizer `t`; in characteristic `p`, the
+  Artin–Schreier extension of §3a.1 keeps its lower break `1` and different `2(p − 1)`.
+- A totally ramified tame extension of degree `e` retains `G_0` of order `e` and `G_1 = 1`;
+  an unramified extension of degree greater than one splits after this base change, so the
+  field-and-degree assertion requires total ramification.
+
+**Proalgebraic units and norm-kernel components.** For a complete discretely valued field `F`
+with algebraically closed residue field `κ`, construct the commutative proalgebraic unit group
+`U_F` from the unit groups of its truncated valuation rings, using their perfect
+quasialgebraic structures in positive residue characteristic. In residue characteristic zero,
+construct a coefficient-field section `κ → 𝒪_F` and use its induced section in each finite
+extension `E`. Construct closed principal-unit
+subgroups, kernels, images, quotients and identity components `H⁰`, with component group
+`π₀(H) = H/H⁰`. Supply right exactness of `π₀` and its compatibility with inverse limits.
+The unit groups and all principal-unit subgroups are connected. For finite Galois `E/F` with
+group `H`, the norm is a surjective proalgebraic morphism `U_E → U_F`. Put `V = ker N` and
+`I_H U_E = ⟨σ(a)/a : σ ∈ H, a ∈ U_E⟩`. Prove `V⁰ = I_H U_E` and the canonical isomorphism
+`H/[H,H] ≅ π₀(V)`, sending `σ` to the component of `σ(π_E)/π_E`, independently of `π_E`.
+Sources: Serre 1961, §1, n° 1.1–1.6, printed pp. 106–113, and §2, n° 2.1–2.3, especially
+Propositions 2–3 and their corollaries, printed pp. 118–120. This target includes the
+quasialgebraic and proalgebraic group and component-group theory used by those statements.
+PadicPeriodRings uses these unit groups for its geometric reciprocity construction; its
+finite-isogeny fundamental group, reciprocity map and Sen tower estimates belong there.
+
+**Checks.**
+
+- For `E = F`, `V = 1` and `π₀(V) = 1`.
+- For `F = κ((t))`, `U_F/U_F¹ ≅ κˣ` and `U_Fⁿ/U_F^(n+1) ≅ (κ,+)` for `n ≥ 1` are connected,
+  although a norm kernel can be disconnected.
+- In characteristic `p`, for `E/F` given by `y^p − y = t⁻¹`, `π₀(V) ≅ C_p`: connectedness of
+  `U_E` and `U_F` does not imply connectedness of the norm kernel.
+
+**Graded norms and filtered norm-kernel components.** Keep the preceding algebraically closed
+residue field and a finite Galois `E/F` with group `H`, without assuming `H` abelian. Write
+`U_Eⁿ = 1 + 𝔪_Eⁿ` for `n ≥ 1` and `U_E⁰ = U_E`. For every integer `s ≥ 0`, prove
+`N(U_E^(ψ(s))) = U_Fˢ` and `N(U_E^(ψ(s)+1)) = U_F^(s+1)`, and exactness as quasialgebraic groups of
+`1 → H_(ψ(s))/H_(ψ(s)+1) → U_E^(ψ(s))/U_E^(ψ(s)+1) → U_Fˢ/U_F^(s+1) → 1`,
+where the first map is the uniformizer ratio and the second is induced by the norm.
+Put `V_s = V ∩ U_E^(ψ(s))`. Construct the exact sequence of quasialgebraic groups
+`1 → U_E^(ψ(s)+1)/U_E^(ψ(s+1)) → V_s/V_(s+1) → H_(ψ(s))/H_(ψ(s)+1) → 1`:
+the first map lifts a unit by multiplying by an element of `U_E^(ψ(s+1))` to make its norm
+one, and the last map uses the preceding graded norm kernel. Prove
+`π₀(V_s/V_(s+1)) ≅ H_(ψ(s))/H_(ψ(s)+1)`, the bound
+`#π₀(V_s) ∣ ∏_(n ≥ s) [H_(ψ(n)) : H_(ψ(n)+1)]` (only finitely many factors differ from one),
+and the surjection `δ_s : H_(ψ(s)) → π₀(V_s)` given by `σ(π_E)/π_E`.
+For abelian `H`, prove `H_(ψ(s)+1) = H_(ψ(s+1))`, that `δ_s` is an isomorphism, and that
+`π₀(V_s) → π₀(V)` is injective. Sources: Serre 1961, n° 3.4, Propositions 6–7 with their
+corollaries, printed pp. 132–135, and n° 3.5, Proposition 8(i)–(iii), printed p. 135.
+
+**Checks.**
+
+- For `E = F`, every graded norm is the identity and all `V_s` are trivial.
+- For a tame cyclic extension of degree `e`, the depth-zero norm has kernel `μ_e`, while every
+  positive-depth graded norm is bijective; `π₀(V_0) ≅ C_e` and `π₀(V_s) = 1` for `s ≥ 1`.
+- In characteristic `p`, for `y^p − y = t⁻¹`, the depth-one graded norm has kernel `C_p`;
+  `π₀(V_1) ≅ C_p` and `π₀(V_2) = 1`. Its additive norm polynomial is surjective over `κ = F̄_p`, whereas over
+  `F_p` an additive polynomial with kernel of order `p` is not surjective on residue points.
 
 *Proof.* A jump at `−1` is an integer. For `v ≥ 0` the upper groups of `G` are those of its
 inertia group `G_0 = Gal(L/K_0)`, where `K_0` is the maximal unramified subextension: both have
@@ -1318,14 +1437,16 @@ ring of `K_0`, whose maximal ideal is generated by `𝔪_(A_0)` and whose residu
 algebraic closure of `k`; it exists by EGA (10.3.1) and is a complete discrete valuation ring with
 the same uniformizer. The Eisenstein polynomial stays Eisenstein over `A′`, so `L′ = K′(π_L)` is a
 totally ramified Galois extension of `K′ = Frac A′` with group `G_0`, integer ring `A′[π_L]` and
-the same values `v_L(σπ_L − π_L)`: the lower filtration, hence the upper one, is unchanged. Over an
-algebraically closed residue field the norm induces exact sequences
-`0 → G_(ψ(s))/G_(ψ(s)+1) → U_L^(ψ(s))/U_L^(ψ(s)+1) → U_K^(s)/U_K^(s+1) → 0`, and comparing them
-with the kernel of the norm on units shows, for abelian `G`, that `G_m ≠ G_(m+1)` forces `φ(m)` to
-be an integer (Serre 1961, n° 3.5, Corollary 1 to Proposition 8). The finite-residue proof of
+the same values `v_L(σπ_L − π_L)`: the lower filtration, hence the upper one, is unchanged.
+The proalgebraic and graded-norm targets give `π₀(V) ≅ G_0` in the abelian case. Its order,
+together with the bound on `#π₀(V_0)`, forces `G_(ψ(s)+1) = G_(ψ(s+1))` for every integer
+`s ≥ 0`: a strict inclusion would make the product of graded indices smaller than `#G_0`.
+A lower jump `m` with nonintegral `φ(m)` would lie between `ψ(s)` and `ψ(s+1)` and contradict
+that equality (Serre 1961, n° 3.5, Corollary 1 to Proposition 8). The finite-residue proof of
 Layer 3 counts indices of norm groups and does not apply here.
 
-*Needs:* 3a.1; 3a.2; Layer 3 (`hasseArf`, for agreement); Mathlib `Polynomial.IsEisensteinAt`
+*Needs:* 3a.1; 3a.2; this section's residue-enlargement, proalgebraic-unit and filtered
+norm-kernel targets; Layer 3 (`hasseArf`, for agreement); Mathlib `Polynomial.IsEisensteinAt`
 and its irreducibility criterion, and adic completion of a Noetherian local ring.
 
 **Checks.**
@@ -1681,6 +1802,11 @@ put `L′ = LK′`; prove `e(L′/K′) = e(L/K)` and `d(L′/K′) = d(L/K)`, s
 `G_(K′)^v` corresponds to `G_K^v` for every `v ≥ 0`. This holds in both characteristics. The
 residue degree and the full Galois group of `L/K` are not preserved.
 
+This section owns the completed field and its valuation and residue-field properties on the
+general perfect-residue domain. ReductiveGroupsPartII §RG2.0.4 uses the finite-residue
+specialization through its adapter `MaxUnramifiedCompletion.Breve`; it owns the extended
+arithmetic Frobenius and its fixed-field results on that domain.
+
 (Olivier Brinon and Brian Conrad, [CMI summer school notes on p-adic Hodge
 theory](#reference-brinon-conrad), Exercise 1.4.4(3), printed p. 10, and the proof of
 Lemma 13.1.6, printed p. 201, in mixed characteristic.)
@@ -1796,10 +1922,10 @@ The declaration-level overlap is:
 | LeanBridge declarations at the audited revision | Roadmap destination and disposition |
 |---|---|
 | `PadicField.ringOfIntegers`, `PadicField.valuation`, `valuation_le_one_iff_isIntegral`, `ringEquiv_valuation_integer`, and the `ValuativeRel`, `IsValuativeTopology`, and `IsNonarchimedeanLocalField` instances | Adapt the proofs to the roadmap's `ValuativeRel`, `ValuativeExtension`, `𝒪[K]`, and `IsNonarchimedeanLocalField` carriers. The bespoke `PadicField` class is not exported. |
-| `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Tau Ceti implements these destinations on the valuative carriers (`TauCeti.ramificationIndex`, `TauCeti.absoluteRamificationIndex`, `TauCeti.inertiaDegree`, their tower laws, `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.map_maximalIdeal_eq_maximalIdeal_pow`); nothing is ported. |
+| `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `PadicField.Extension.absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Tau Ceti implements these destinations on the valuative carriers (`TauCeti.ramificationIndex`, `TauCeti.absoluteRamificationIndex`, `TauCeti.inertiaDegree`, their tower laws, `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.map_maximalIdeal_eq_maximalIdeal_pow`); nothing is ported. |
 | `mono_exists_primitive` and its supporting Newton-lift declarations | Adapt to `exists_integerRing_adjoin_eq_top` on `𝒪[K] → 𝒪[L]`; do not expose the generic helper namespace as a second local-field API. |
 | `TraceFiltration.intTrace_residue_scaling` | Reuse or adapt as the residue-trace input to tame/wild different bounds, behind the public different theorems. |
-| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md). |
+| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `PadicField.Extension.differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md). |
 
 For every adapted proof, the implementation record must identify the LeanBridge declaration and
 revision or say explicitly that the proof was replaced. Regardless of implementation source,

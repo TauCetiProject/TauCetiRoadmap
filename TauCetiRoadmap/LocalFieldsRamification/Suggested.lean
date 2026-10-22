@@ -18,6 +18,7 @@ import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Map
 import TauCeti.NumberTheory.LocalField.UnitFiltration.RamificationGroup
 import TauCeti.NumberTheory.LocalField.UnitsDecomposition
+import TauCeti.RingTheory.DiscreteValuationRing.Monogenic
 import TauCeti.Topology.Algebra.Group.Profinite.Presentation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCetiRoadmap.ProfiniteProPGroups.Suggested
@@ -84,8 +85,10 @@ revisions have neither a Herbrand function on the local-ring filtration
 `TauCeti.IsLocalRing.ramificationGroupReal` nor an absolute upper filtration. The general Herbrand
 functions and upper numbering, the absolute upper filtration, the open-subgroup identity and the
 completed maximal unramified comparison are therefore `README.md` targets, because their carriers
-are missing. Full Hasse–Arf needs none of them in Serre's lower-numbering form, and is stated as
-`hasseArf_dvd_sum_card_ramificationGroup`.
+are missing. The named README contract `perfectResidueHerbrand` comprises §§3a.1–3a.3 and
+§§4a.1–4a.3. Integral monogenicity, the lower-index computation and Hilbert's different formula
+are stated below on existing DVR carriers. Full Hasse–Arf needs no generalized upper filtration
+in Serre's lower-numbering form, and is stated as `hasseArf_dvd_sum_card_ramificationGroup`.
 -/
 
 namespace TauCetiRoadmap.LocalFieldsRamification
@@ -1418,11 +1421,44 @@ theorem tameCharacter_conj_of_smul_eq_pow {G : Type w} [Group G] [MulSemiringAct
 
 end TameCharacter
 
-/-! ## Layer 3a: Hasse–Arf over a complete discretely valued field
+/-! ## Layer 3a: ramification over a complete discretely valued field
 
 Stated on Mathlib's discrete valuation rings, a finite group acting with invariants
 (`Algebra.IsInvariant`), and Tau Ceti's lower filtration of a group acting on a local ring
 (`TauCeti.IsLocalRing.ramificationGroup`), none of which assumes a finite residue field. -/
+
+/-- **Layer 3a, integral monogenicity and the lower index.** A finite faithful extension of
+discrete valuation rings with separable residue extension has a generator at which every lower
+index is computed (Serre, *Local Fields*, III §6, Proposition 12, and IV §1, Proposition 1).
+The action fixes the base ring; completeness and residue finiteness are unnecessary. -/
+theorem exists_generator_lowerIndex_eq_addVal
+    (A B : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
+    [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Algebra A B]
+    [Module.Finite A B] [FaithfulSMul A B] [IsLocalHom (algebraMap A B)]
+    [Algebra.IsSeparable (IsLocalRing.ResidueField A) (IsLocalRing.ResidueField B)]
+    (G : Type*) [Group G] [MulSemiringAction G B] [SMulCommClass G A B] :
+    ∃ x : B, Algebra.adjoin A {x} = ⊤ ∧ ∀ σ : G,
+      TauCeti.IsLocalRing.lowerIndex B σ = IsDiscreteValuationRing.addVal B (σ • x - x) := by
+  obtain ⟨x, hx⟩ := TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top (R := A) (S := B)
+  exact ⟨x, hx, fun σ ↦
+    TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top hx σ⟩
+
+/-- **Layer 3a, Hilbert's different formula.** For a finite extension of complete DVRs with
+separable residue extension and a faithful finite Galois action with invariants the base ring,
+the different ideal is the power of the maximal ideal with exponent `∑ (|G_i| - 1)`
+(Serre, *Local Fields*, IV §1, Proposition 4). The sum is finite because the lower groups
+are eventually trivial. No residue-finiteness or commutativity of the Galois group is required. -/
+theorem differentIdeal_eq_pow_maximalIdeal_of_separable_residue
+    (A B : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
+    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
+    [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Algebra A B]
+    [Module.Finite A B] [FaithfulSMul A B] [IsLocalHom (algebraMap A B)]
+    [Algebra.IsSeparable (IsLocalRing.ResidueField A) (IsLocalRing.ResidueField B)]
+    (G : Type*) [Group G] [Finite G] [MulSemiringAction G B] [SMulCommClass G A B]
+    [Algebra.IsInvariant A B G] [FaithfulSMul G B] :
+    differentIdeal A B = IsLocalRing.maximalIdeal B ^
+      (∑ᶠ i : ℕ, (Nat.card (TauCeti.IsLocalRing.ramificationGroup G B (i : ℤ)) - 1)) :=
+  sorry
 
 /-- **Layer 3a, Hasse–Arf without residue finiteness**, in Serre's lower-numbering form
 (Serre, *Local Fields*, V §7, Theorem 1). `A` is a complete discrete valuation ring and `B` a
