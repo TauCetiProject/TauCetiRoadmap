@@ -190,7 +190,7 @@ The native elliptic substrate is supplied by
 The action preserves addition and the point at infinity, and its restriction agrees with
 the point action under the torsion inclusion. No second point action or torsion carrier
 is part of this roadmap. Mathlib's `Field.absoluteGaloisGroup ℚ` is the acting group,
-abbreviated `GQ` in the representative signatures. There `GQ` is written as
+abbreviated `GQ` in `Suggested.lean`. There `GQ` is written as
 `AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ`, the unfolded automorphism group, so
 the native point and torsion actions apply directly. The Krull topology is transported
 from the absolute Galois group.
@@ -375,11 +375,18 @@ algorithm, the Tate curve**
 ([EllipticCurves roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EllipticCurves/README.md#layer-4-elliptic-curves-over-local-fields--reduction-tates-algorithm-the-tate-curve-aec-vii-ataec-ivv)).
 
 
-Names below are in the namespace `TauCeti.EllipticCurve.Modularity`. They name the
-proposed interface and its mathematical assertions. The accompanying `Suggested.lean`
-records the definitions and milestones statable against the pinned APIs; it is
-not an exhaustive checklist. Conductor-dependent choices, schemes not supplied at the
-pins and their constructions have their intended signatures in this README.
+Names below are in the namespace `TauCeti.EllipticCurve.Modularity`. The accompanying
+`Suggested.lean` states headline theorems on the pinned native carriers; it is not an
+exhaustive checklist. It defines `GQ`, `lCoeff`, `coeff`, `HasGoodReductionAt`,
+`HasMultiplicativeReductionAt`, `HasRationalCyclicSubgroup`, `exceptionalPrimes` and
+`IsNewformOf` to state those theorems. Other interface names in this README specify
+mathematical targets without asserting that their Lean declarations exist.
+
+The arithmetic conductor, Serre weight and shared residual attachment API are absent
+at the pins, as are rational modular curves, their Jacobians and modular quotients.
+Their conductor-dependent and geometric targets are specified below. The newform
+modularity and completed L-series statements in `Suggested.lean` exhibit a positive
+level; the exact-conductor identification is the target of R29.4.
 
 ## References
 
@@ -402,8 +409,8 @@ roles are:
   argument; Theorem 5 in §4.7, pp. 208–209, specifies the real multiplication
   companion. The modularity input in the 1987 paper is conjectural;
   ClassicalSerreModularity §R27.6 supplies it as a theorem.
-* [G. Faltings, *Endlichkeitssätze für abelsche Varietäten über Zahlkörpern*,
-  Invent. Math. 73 (1983), 349–366][faltings]. In §5, Satz 3 and Satz 4,
+* G. Faltings, *Endlichkeitssätze für abelsche Varietäten über Zahlkörpern*,
+  Invent. Math. 73 (1983), 349–366. In §5, Satz 3 and Satz 4,
   p. 360, give semisimplicity and the endomorphism comparison. Korollar 1
   and Korollar 2, p. 361, give the Hom comparison and equivalent criteria
   for isogeny. They support both the construction of a quotient isogeny
@@ -420,8 +427,8 @@ roles are:
   finite free module over a discrete valuation ring after a finite
   extension. Its linear algebra statement is applicable to the integral
   Hecke module used here, regardless of the title's weight-one setting.
-* [J. E. Cremona, *Algorithms for modular elliptic curves*, second edition
-  (1997), Chapter II][cremona]. Section 2.6, pp. 24–25, gives the
+* J. E. Cremona, *Algorithms for modular elliptic curves*, second edition
+  (1997), Chapter II. Section 2.6, pp. 24–25, gives the
   newform/elliptic-curve and coefficient conventions; §2.7 and Lemma
   2.7.1, pp. 25–26, describe oldclasses and their divisor multiplicities;
   §2.15.1, p. 47, gives the differential and period interpretation of a
@@ -490,7 +497,7 @@ that detect loss of a local or global condition.
 
 Prove that for every elliptic curve E over ℚ, every ℚ-defined endomorphism is
 multiplication by a unique integer, so `End_ℚ(E) ≃+* ℤ`.
-The milestone `rationalEndomorphisms_eq_int` uses the pinned
+The headline statement `rationalEndomorphisms_eq_int` in `Suggested.lean` uses the pinned
 `TauCeti.AlgebraicGeometry.AbelianVariety.End` ring for any abelian variety A over ℚ
 with `A.dim = 1`. Use the action on the
 one-dimensional rational invariant-differential line to embed `End_ℚ(E)` into ℚ:
@@ -532,18 +539,17 @@ but rationality of a chosen generator does not.
   given Frobenius polynomial irreducible over 𝔽₇ excludes a stable order-7 subgroup.
 - The order-7 subgroup in the 162b1 Check has a Galois orbit of x-coordinates of
   degree three. It is stable even though it has no rational nonzero generator:
-  `AddSubgroup.torsionBy curveIsogenyOnly.toAffine.Point (7 : ℤ) = ⊥`.
+  the rational point group of `y²+xy+y=x³−x²−5x+5` has no nonzero seven-torsion.
   Its good reduction at 5 has six points, excluding rational seven-torsion.
-  The named boundary target `rationalCyclicSubgroup_without_rational_generator`
-  asserts the stable order-7 subgroup and the absence of rational seven-torsion together.
+  This Check asserts the stable order-7 subgroup and the absence of rational
+  seven-torsion together.
 
 ### Rational 3- and 5-isogeny Checks
 
 <a id="rational-small-isogeny-checks"></a>
 
-**Hauptmodul relations** (`rationalThreeIsogeny_hauptmodul`,
-`rationalFiveIsogeny_hauptmodul`). For every elliptic curve E over ℚ with a rational
-cyclic 3-isogeny, there is `u∈ℚ`, `u≠0`, such that
+**Hauptmodul relations** (rational cyclic 3- and 5-isogenies). For every elliptic
+curve E over ℚ with a rational cyclic 3-isogeny, there is `u∈ℚ`, `u≠0`, such that
 `j_E·u=(u+27)(u+3)³`. For a rational cyclic 5-isogeny there is `v∈ℚ`, `v≠0`, such
 that `j_E·v=(v²+10v+5)³`. These are necessary relations for the given curve, including
 the special j-values; they do not identify a rational kernel generator. Use the
@@ -565,14 +571,13 @@ College London FLT project.
 - The parameters 0 and ∞ are cusps, not nonsingular elliptic curves. In the displayed
   affine relations, `u=0` or `v=0` would force respectively `729=0` or `125=0`.
 
-**The 15-isogeny boundary** (`rationalFifteenIsogeny_j`,
-`not_both_rational_three_five_isogenies`). If E has both rational cyclic 3- and
-5-isogenies, their kernels generate a rational cyclic subgroup of order 15 and
+**The 15-isogeny boundary** (rational cyclic 15-isogenies). If E has both rational
+cyclic 3- and 5-isogenies, their kernels generate a rational cyclic subgroup of order 15 and
 
 `j_E ∈ {−25/2, −349938025/8, −121945/32, 46969655/32768}.`
 
-The first target states this four-value conclusion for every E. The second assumes
-that E has good or multiplicative reduction at 5 and excludes the simultaneous
+Prove this four-value conclusion for every E. Also assume
+that E has good or multiplicative reduction at 5 and exclude the simultaneous
 isogenies. For the four displayed values, `v_5(j_E)` is respectively `2,2,1,1`.
 For nonzero j, good reduction at 5 makes its valuation a nonnegative multiple of 3, while
 multiplicative reduction makes it negative. Thus the local hypothesis suffices; global
@@ -618,17 +623,15 @@ many multiplicative primes and each has nonzero `v_ℓ(j_E)`. The clause does no
 quantify over every prime at which the displayed model has a denominator, nor over all
 bad reduction types.
 
-The API has the following assertions. `exceptionalPrimes_finite` states that `Σ_E`
-is finite. Its consequence `nonexceptionalPrimes_infinite` states that
-`{p : ℕ | p.Prime ∧ p ∉ exceptionalPrimes E}` is infinite.
-`irreducible_of_not_mem` states that, for a prime `p∉Σ_E`, every Galois-stable
-subgroup of the native geometric p-torsion is zero or the whole group. In the
+The headline statement `exceptionalPrimes_finite` in `Suggested.lean` asserts that
+`Σ_E` is finite. Consequently, `{p : ℕ | p.Prime ∧ p ∉ exceptionalPrimes E}` is
+infinite. For a prime `p∉Σ_E`, every Galois-stable subgroup of the native geometric
+p-torsion is zero or the whole group. In the
 supplier's linear packaging this says
 `Representation.IsIrreducible (residualRep E p)` over `𝔽_p`: every additive subgroup
-of a group killed by p is a `𝔽_p`-subspace. The theorem `goodReduction_of_not_mem` gives good reduction at
-`p`, and `not_dvd_conductor_of_not_mem` presents its equivalent arithmetic form. The
-first two names above give the defining set and the rational-subgroup predicate; users
-of the remaining assertions need not unfold either.
+of a group killed by p is a `𝔽_p`-subspace. Good reduction holds at p, equivalently
+`p∤N_E`. Users of these consequences need not unfold the exceptional set or the
+rational-subgroup predicate.
 
 For finiteness of the last clause, use the finite ℚ-isogeny class of `E` from
 FaltingsFinitenessAndIsogenyTheorems
@@ -682,23 +685,23 @@ exceptional-set API and the residual conductor supplier contract.
 
 ### Concrete models used in the Checks
 
-The literal equations in `Suggested.lean` use the following coefficient tuples, in the
-order `a₁,a₂,a₃,a₄,a₆`. Their API is exactly Mathlib's `WeierstrassCurve` coefficient
+The worked Checks use the following coefficient tuples, in the order
+`a₁,a₂,a₃,a₄,a₆`. They use Mathlib's `WeierstrassCurve` coefficient
 projections, discriminant and c-invariants. For these literal models, no database
 lookup or classification is a target. The formulas are those of Silverman, AEC III.1 and Mathlib's
 `WeierstrassCurve.Δ` and `WeierstrassCurve.c₄`.
 
 | Model | Coefficient tuple | Δ | c₄ |
 | --- | --- | --- | --- |
-| `curve11a1` | `(0, -1, 1, -10, -20)` | `-161051` | `496` |
-| `curve11a2` | `(0, -1, 1, -7820, -263580)` | `-11` | `375376` |
-| `curve11a3` | `(0, -1, 1, 0, 0)` | `-11` | `16` |
-| `curve26b1` | `(1, -1, 1, -3, 3)` | `-1664` | `129` |
-| `curveValuationOnly` | `(1, 0, 0, -7, 9)` | `-17536` | `337` |
-| `curveIsogenyOnly` | `(1, -1, 1, -5, 5)` | `-648` | `225` |
-| `curveCM` | `(0, 0, 0, -1, 0)` | `64` | `48` |
-| `curve37a1` | `(0, 0, 1, -1, 0)` | `37` | `48` |
-| `curve11a1TwistNegOne` | `(0, 4, 0, -160, 1264)` | `-659664896` | `7936` |
+| 11a1 | `(0, -1, 1, -10, -20)` | `-161051` | `496` |
+| 11a2 | `(0, -1, 1, -7820, -263580)` | `-11` | `375376` |
+| 11a3 | `(0, -1, 1, 0, 0)` | `-11` | `16` |
+| 26b1 | `(1, -1, 1, -3, 3)` | `-1664` | `129` |
+| 274a1 | `(1, 0, 0, -7, 9)` | `-17536` | `337` |
+| 162b1 | `(1, -1, 1, -5, 5)` | `-648` | `225` |
+| 32a2 | `(0, 0, 0, -1, 0)` | `64` | `48` |
+| 37a1 | `(0, 0, 1, -1, 0)` | `37` | `48` |
+| the twist of 11a1 by −1 | `(0, 4, 0, -160, 1264)` | `-659664896` | `7936` |
 
 **Checks.** For each row separately:
 
@@ -713,42 +716,41 @@ lookup or classification is a target. The formulas are those of Silverman, AEC I
 
 ### Checks of all four exceptional-set clauses
 
-The named boundary targets `exceptionalPrimes_valuation_only` and
-`exceptionalPrimes_isogeny_only` establish membership together with good reduction at 7
-and the absence of the competing clause: no rational 7-isogeny in the first case, and
+The valuation-only and isogeny-only Checks establish membership together with good
+reduction at 7 and the absence of the competing clause: no rational 7-isogeny in the first case, and
 no multiplicative valuation divisible by 7 in the second. The remaining Checks assume
 the displayed reduction, point and subgroup data for the concrete nonsingular equations.
 They distinguish the small-prime, bad-reduction, valuation, and rational-isogeny clauses; membership alone in
 an example satisfying two clauses does not test either one separately.
 
-* `exceptionalPrimes_11a1`: for
+* For 11a1:
   `E: y²+y=x³-x²-10x-20`, both 5 and 11 lie in `Σ_E`.
   Here `Δ=-11^5`, `c_4=496`, and (`5,5`) has order 5. The prime
   11 is bad, while 5 is also included by the small-prime clause.
-* `exceptionalPrimes_contains_small`: for every `E`, the primes 2, 3
+* For every `E`, the primes 2, 3
   and 5 are included. The statement has no hypothesis on the reduction
   type at those primes.
-* `exceptionalPrimes_CM`: for `E:y²=x³-x`, with
+* For `E:y²=x³-x`, with
   `Δ=2^6` and geometric CM by ℤ[i], the set remains finite and
   contains 2. The finiteness theorem is not restricted to non-CM curves.
-* `exceptionalPrimes_11a1_seven`: 7 is outside the exceptional set of
+* The prime 7 is outside the exceptional set of
   11a1. It is good at 7, its only multiplicative prime is 11, and
   `v_(11)(j_E)=-5`. There is no rational cyclic subgroup of order 7:
   the good reduction count `#E(𝔽_3)=5` gives `a_3=-1`, and
   `a_3²-4·3≡3 (mod 7)` is a nonsquare. A globally stable
   `𝔽_7`-line would force that Frobenius polynomial to split.
-* `exceptionalPrimes_26b1`: for
+* For 26b1:
   `y²+xy+y=x³-x²-3x+3`, 7 is exceptional despite good reduction
   at 7. The point (`1,0`) has order 7, with multiples giving
   `x=1,-1,3`, and `Δ=-2^7·13, c_4=129` give
   `v_2(j_E)=-7`. The isogeny and valuation clauses both apply.
-* `exceptionalPrimes_valuation_only`: for
+* In the valuation-only case:
   `y²+xy=x³-7x+9`, `Δ=-2^7·137, c_4=337`. At the
   multiplicative prime 2, `v_2(j_E)=-7`, so 7 is exceptional. It is
   good at 7 and has no rational 7-isogeny: `#E(𝔽_3)=6`,
   `a_3=-2`, and the Frobenius discriminant is the nonsquare 6 modulo
   7. This test detects deletion of the valuation clause.
-* `exceptionalPrimes_isogeny_only`: for
+* In the isogeny-only case:
   `y²+xy+y=x³-x²-5x+5`, `Δ=-2³·3^4, c_4=225`.
   It is good at 7, additive at 3, and multiplicative only at 2, where
   `v_2(j_E)=-3`. Nevertheless 7 is exceptional through a rational
@@ -758,8 +760,8 @@ an example satisfying two clauses does not test either one separately.
   test detects deletion of the rational-isogeny clause, and also
   distinguishes a rational subgroup from a rational generator.
 
-Apart from the named boundary targets, the displayed arithmetic values are explicit
-hypotheses of these worked Checks.
+Apart from the valuation-only and isogeny-only assertions, the displayed arithmetic
+values are explicit hypotheses of these worked Checks.
 The roadmap does not ask for tables, point-enumeration procedures or an algorithm for
 recognizing modular curves. Their mathematical interpretation uses the curve invariant
 and point-group APIs. The
@@ -935,13 +937,13 @@ character from a congruence. Suppose `K` is a number field, `p` is prime, `𝔭�
 
 `ζ^m=1, p∤ m, ζ-1∈𝔭.`
 
-Then `eq_one_of_pow_eq_one_of_sub_mem` asserts `ζ=1`. Reduction is injective on
+Then `ζ=1`. Reduction is injective on
 roots of unity of order prime to `p`. One proof uses the factorization of `ζ^m-1`:
 if `ζ≠1`, the sum of the `m` powers is zero, but its reduction is `m`, which is
 nonzero in characteristic `p`. This proof also makes the prime-to-`p` condition
 explicit.
 
-The milestone `character_eq_one_of_sub_mem` gives the character consequence for any
+The character consequence holds for any
 finite group G: an algebraic-integer-valued unit character reducing to 1 at a prime
 above p is trivial if p does not divide `#G`.
 Consequently, if a character `ε` of `(ℤ/Nℤ)^×` takes
@@ -980,7 +982,7 @@ means that the witness's selected prime may vary while its form at `p=7` is fixe
 
 * `serreWitness_11a1` asserts that the form of the witness of 11a1 at
   7 is `f_(11)`, as a function on the upper half-plane. The preceding
-  `exceptionalPrimes_11a1_seven` test supplies the domain condition.
+  nonexceptionality Check at 7 supplies the domain condition.
 * `serreWitness_trace_2` asserts the exact values
   `A_2(g_7)=-2=a_2(11a1)`. In particular the congruence API must
   specialize correctly at a good prime distinct from 7.
@@ -1011,8 +1013,7 @@ existence, proves its uniqueness, and determines the coefficient field.
 ### Vanishing of an algebraic integer
 
 Let `K` be a number field and `α∈𝓞_K`. Suppose `P` is an infinite set of
-distinct rational primes and, for each `p∈ P`, there is a prime ideal `𝔭_p⊂𝓞_K` above `p` containing `α`. Then `eq_zero_of_mem_primes`
-asserts `α=0`.
+distinct rational primes and, for each `p∈ P`, there is a prime ideal `𝔭_p⊂𝓞_K` above `p` containing `α`. Then `α=0`.
 
 Indeed `p∣Norm_(K/ℚ)(α)` for each such `p`. The norm is
 an ordinary integer. If it were nonzero it could have only finitely many prime divisors.
@@ -1022,7 +1023,7 @@ determinant of multiplication by `α` modulo `p`: a prime ideal above `p` contai
 `α` makes this multiplication noninvertible on `𝓞_K/p𝓞_K`, so its
 determinant is zero modulo `p`.
 
-The integer form `int_eq_zero_of_forall_dvd` says that an integer divisible by every
+The integer form says that an integer divisible by every
 member of an infinite subset of ℕ is zero. A nonzero integer's positive divisors are
 bounded by its absolute value; infinite subsets of ℕ are unbounded. Mathlib
 `Int.eq_zero_of_abs_lt_dvd` gives the final contradiction. This integer form does not
@@ -1060,14 +1061,14 @@ Equivalently, one can require agreement outside a finite set containing the prim
 dividing `MN_E`. This makes attachment the appropriate input to an independent local
 comparison theorem.
 
-The API `IsNewformOf.unique` says that two attached newforms at levels `M,M'` have
+Cross-level uniqueness says that two attached newforms at levels `M,M'` have
 `M=M'` and identical Fourier coefficients at every index. Transporting one form along
 the level equality then identifies the bundled forms. The proof invokes cross-level
 strong multiplicity one with agreement at almost all primes not dividing `MM'`. Both
 forms must be new. An oldform raised from a proper divisor is not an input to this
 theorem.
 
-`IsNewformOf.congr` says that if `a_ℓ(E)=a_ℓ(E')` at almost all primes, then `F`
+If `a_ℓ(E)=a_ℓ(E')` at almost all primes, then `F`
 is attached to `E` exactly when it is attached to `E'`. Changes of Weierstrass model and
 ℚ-isogenies satisfy this hypothesis by their good-prime Tate-module comparisons. The
 predicate therefore depends on the isogeny class, even though a later chosen
@@ -1082,11 +1083,11 @@ in the cross-level weight-two trivial-character form associated there with Miyak
 Theorem 4.6.19. The fixed-level library theorem listed in the supplier contracts cannot
 replace this input.
 
-The defining predicate has three named tests:
+The defining predicate has three Checks:
 
-* `isNewformOf_11a1` asserts that `f_(11)` is attached both to 11a1
+* The form `f_(11)` is attached both to 11a1
   and to 11a3, `y²+y=x³-x²`, which is ℚ-isogenous to it.
-* `not_isNewformOf_37a1` asserts that no newform of level 11 is
+* No newform of level 11 is
   attached to `37a1:y²+y=x³-x`. At 3 its trace is `-3`, while
   `f_(11)` has coefficient `-1`. That single discrepancy alone
   does not disprove an almost-all-primes condition. The theorem in
@@ -1094,7 +1095,7 @@ The defining predicate has three named tests:
   isogeny criterion, supplies the decisive obstruction: the
   conductors 37 and 11 differ. In particular, the two good-prime
   sequences cannot agree outside a finite set.
-* `not_isNewformOf_of_char_ne_one` asserts that a weight-two newform
+* A weight-two newform
   with nontrivial character is attached to no `E/ℚ`.
   This test follows from the explicit character clause, regardless
   of any sample coefficient agreement.
@@ -1150,7 +1151,8 @@ and the attachment predicate. Finiteness of the forms is ModularForms Layer 4.
 
 ### Rationality of the whole coefficient field
 
-For any attached newform `F` of any level, `IsNewformOf.coeff_int` states that each
+For any attached newform `F` of any level, the headline statement
+`IsNewformOf.coeff_int` in `Suggested.lean` asserts that each
 `A_n(F)` is a rational integer. In particular `K_F=ℚ`. This conclusion applies
 to an attached form provided by a geometric construction as well as to the form just
 constructed by congruences.
@@ -1189,7 +1191,7 @@ theorem: ClassicalSerreModularity §R27.6 supplies the witnesses of R29.2, and
 independence from the selected witness. The selected-form API and its isogeny and twist
 Checks require no existence input for the curves. The API is:
 
-* `isNewformOf_newformOf`: `F_E` is attached to `E`.
+* Attachment: `IsNewformOf E (newformOf E)`.
 * `newformOf_coeff_prime`: `A_ℓ(F_E)=a_ℓ(E)` at every good
   prime ℓ, with no further exceptional primes.
 * `newformOf_unique`: every attached newform `F` at any positive
@@ -1254,7 +1256,7 @@ retained.
 
 ### The rational Tate-module comparison
 
-For every prime `r`, `IsNewformOf.nonempty_tateModule_equiv` asserts an isomorphism of
+For every prime `r`, prove an isomorphism of
 `ℚ_r[G_(ℚ)]`-modules
 
 `V_r(E)≃ V_r(F).`
@@ -1329,11 +1331,9 @@ Darmon–Diamond–Taylor, §2.2, Proposition 2.12, p. 57.
 
 ### The level is the conductor
 
-`IsNewformOf.level_eq_conductor` states that every attached newform has
+Prove that every attached newform has
 
 `M=conductor E.`
-
-The name `IsNewformOf.level_eq` retains the same equality as an alias.
 
 Fix a rational prime ℓ and choose `r≠ℓ`. Restrict the Tate isomorphism to the
 decomposition group at ℓ. The Artin conductor of `V_r(E)` at ℓ gives `v_ℓ(N_E)`. Full
@@ -1363,7 +1363,8 @@ other direction: its conductor forces an attached form's level to be 37.
 
 ### The bad factors and all Dirichlet coefficients
 
-`IsNewformOf.localPolynomial_eq` identifies, for every rational prime ℓ, Mathlib's local
+The headline statement `IsNewformOf.localPolynomial_eq` in `Suggested.lean`
+identifies, for every rational prime ℓ, Mathlib's local
 polynomial with
 
 `P_ℓ(E,T)=1-A_ℓ(F)T+ (ℓ T² if ℓ ∤ N_E; 0 if ℓ ∣ N_E)`
@@ -1383,7 +1384,7 @@ information; the local-factor interface must preserve it too.
 
 The statement compares Mathlib's minimal model over ℤℓ with its local polynomial.
 Mathlib's number-field Euler product instead uses completions at height-one prime ideals
-of `𝓞_(ℚ)`. Construct `localPolynomial_completion_eq_padic` here: for E/ℚ elliptic,
+of `𝓞_(ℚ)`. Prove the completion-to-p-adic transport here: for E/ℚ elliptic,
 `v : HeightOneSpectrum (𝓞 ℚ)` and `ℓ = Rat.HeightOneSpectrum.primesEquiv v`, prove
 
 `(E.baseChange (v.adicCompletion ℚ)).localPolynomial (v.adicCompletionIntegers ℚ) = (E.baseChange ℚ_[ℓ]).localPolynomial ℤ_[ℓ]`.
@@ -1404,7 +1405,7 @@ chosen minimal equations to be definitionally equal.
 `adicCompletion.padicEquiv`, `adicCompletionIntegers.padicIntEquiv` and their inclusion
 diagrams; `AlgebraicGeometry/EllipticCurve/LFunction.lean`, `localPolynomial` and
 `LFunction`; EllipticCurves Layer 4, minimal-model invariance (Silverman, AEC VII.1,
-VII.5). Use this named transport with `IsNewformOf.localPolynomial_eq` when deriving
+VII.5). Use this transport with `IsNewformOf.localPolynomial_eq` when deriving
 `IsNewformOf.coeff_eq` and `LFunction_eq`.
 
 **Checks.**
@@ -1417,7 +1418,7 @@ VII.5). Use this named transport with `IsNewformOf.localPolynomial_eq` when deri
   two is included. Scaling the 11a1 equation by `7²,7³` also leaves the first Check
   unchanged after minimalization.
 
-`IsNewformOf.coeff_eq` then gives
+The headline statement `IsNewformOf.coeff_eq` in `Suggested.lean` then gives
 
 `A_n(F)=a_n(E) (n≥0).`
 
@@ -1476,7 +1477,7 @@ it is therefore an elliptic curve over ℚ. Its rational Tate module is the repr
 of `F`, through its comparison with the J₁ quotient. By R29.4 it is isomorphic to
 `V_r(E)`.
 
-`IsNewformOf.nonempty_quotientIsogeny` states that there is a ℚ-isogeny
+Prove that there is a ℚ-isogeny
 `λ:A_F^0→ E`. Faltings's isogeny criterion gives an isogeny over the ground
 field ℚ. A rational Tate-module isomorphism alone is not an isomorphism of elliptic
 curves; the conclusion is isogeny. One can choose an isogeny in the indicated direction,
@@ -1490,8 +1491,8 @@ scheme and its origin are imported objects, rather than alternative definitions 
 modular quotient.
 
 Two consequences are useful without any existence theorem for all elliptic curves.
-`IsNewformOf.exists_hom_J0` gives a surjective homomorphism J₀(`M`) → `E` over ℚ from an
-attached form of level `M`. `IsNewformOf.exists_hom_X0` gives a nonconstant, hence
+An attached form of level `M` gives a surjective homomorphism J₀(`M`) → `E` over ℚ
+and a nonconstant, hence
 surjective, morphism X₀(`M`) → `E` sending ∞ to `O`. Here R29.4 implies `M=N_E`, but the
 signatures permit an arbitrary attached form's level.
 
@@ -1507,7 +1508,8 @@ the Abel–Jacobi and nonzero composite interfaces specified next.
 ### The morphism from X₀ at the conductor
 
 Put `F_E = newformOf E`.
-For a chosen `QuotientIsogeny E (newformOf E) (isNewformOf_newformOf E)` `λ`,
+Let `h_E` denote the attachment proof for `F_E`. For a chosen
+`λ : QuotientIsogeny E (newformOf E) h_E`,
 define `modularParametrisation E λ : X₀(N_E) ⟶ E` in schemes over ℚ by the composite
 
 `X_0(N_E) →[x↦[x-∞]] J_0(N_E)  →[π_(F_E)] A_(F_E)^0 →[λ] E.`
@@ -1604,8 +1606,9 @@ presentation at a larger level from being mistaken for the conductor.
 
 ### Absolute irreducibility of the rational Tate module
 
-For every elliptic curve `E/ℚ` and prime `r`, `span_range_rationalTateRep`
-asserts that the ℚᵣ-linear span of the image of `G_(ℚ)` is
+For every elliptic curve `E/ℚ` and prime `r`, the headline statement
+`span_range_rationalTateRep` in `Suggested.lean` asserts that the ℚᵣ-linear span of
+the image of `G_(ℚ)` is
 
 `ℚ_r[ρ_(E,r)(G_(ℚ))] =End_(ℚ_r)(V_r(E)).`
 
@@ -1799,14 +1802,14 @@ For every elliptic curve `E/ℚ` of conductor
 3. There is a nonconstant morphism
    `X_0(N_E)→ E` over ℚ sending ∞ to `O`.
 
-The names `modularity`, `modularity_quotient`, and `modularity_parametrisation` present
-these formulations. The first is R29.3 and R29.4 for `F_E`; the second composes the
+The statement `modularity` in `Suggested.lean` presents the newform formulation.
+The first assertion is R29.3 and R29.4 for `F_E`; the second composes the
 quotient map with the isogeny in R29.5; the third is the parametrisation there.
 ClassicalSerreModularity §R27.6 supplies the witness existence used in their proofs,
 so all three conclusions are unconditional. The Lean target `modularity` exhibits a
 positive level with an attached form and the all-coefficient identity. The exact-level
-refinement `Newform (conductor E) 2` is the selected form `newformOf`; the comparison
-`IsNewformOf.level_eq_conductor` identifies the existential level with the conductor. The corollary
+refinement `Newform (conductor E) 2` is the selected form `newformOf`; the
+exact-conductor comparison identifies the existential level with the conductor. The corollary
 `residualArisesFrom_conductor` gives `ArisesFromLevel E p (conductor E)` for every
 prime p, by `ArisesFrom.of_isNewformOf`. It has no nonexceptionality or residual
 irreducibility hypothesis; it does not assert that the residual conductor equals `N_E`
@@ -1852,12 +1855,12 @@ following additional Checks:
 
 ### Elliptic coefficient summability
 
-**Elliptic coefficient summability** (`lCoeff_LSeriesSummable`). For every
+**Elliptic coefficient summability** (`lCoeff_LSeriesSummable` in `Suggested.lean`). For every
 `E : WeierstrassCurve ℚ` with `E.IsElliptic` and every `s : ℂ` with `3/2 < s.re`, prove
 
 `LSeriesSummable (fun n => (lCoeff E n : ℂ)) s`.
 
-The milestone `lCoeff_abs_le_divisor_sqrt` establishes
+The coefficient-bound milestone establishes
 `|a_n(E)| ≤ d(n)√n` for `n≥1`, where `d(n) = n.divisors.card` counts positive divisors.
 At a good prime ℓ, Hasse's bound makes the roots α, β of `X²-a_ℓ(E)X+ℓ`
 have absolute value `√ℓ`. The R29.4 recurrence gives
@@ -1890,11 +1893,12 @@ bound and summability deduction are targets here. Use Mathlib
 
 Put `F_E = newformOf E`.
 `LFunction_eq E` gives equality of the formal Dirichlet coefficients of `E` and `F_E`.
-The continuation theorem `exists_entire_completed_LSeries E`
+The headline statement `exists_entire_completed_LSeries E` in `Suggested.lean`
 is unconditional; its pinned signature exhibits a positive level N together with an
 attached form and the entire completed function using N. The exact-conductor comparison
 identifies N with `N_E`. The attached-form version
-`IsNewformOf.exists_entire_completed_LSeries` instead takes attachment directly.
+`IsNewformOf.exists_entire_completed_LSeries` in `Suggested.lean` instead takes
+attachment directly.
 By the local factor theorem of R29.4, their Euler products include identical factors at
 bad primes as well as good primes. By `lCoeff_LSeriesSummable` and the all-coefficient
 identity, both complex Dirichlet series converge absolutely and agree for `Re s>3/2`.
@@ -1993,7 +1997,5 @@ objects owned by the neighbouring roadmaps, and each can be consumed without
 reconstructing the existence proof.
 
 [serre]: https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf
-[faltings]: https://math.uchicago.edu/~drinfeld/Deligne%27s_conjecture_Manin_conf/Faltings_argument/Faltings.pdf
 [carayol]: https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf
 [deligne-serre]: https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf
-[cremona]: https://johncremona.github.io/book/fulltext/chapter2.pdf
