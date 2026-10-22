@@ -45,6 +45,10 @@ groups; a Shimura-variety name is used only when the axiom SV3 holds.
 | M5 | Siegel, Hilbert and unitary examples | `siegelIntegralDatum`, `siegelModuli`, `genusOneComparison`, `hilbertIntegralDatum`, `unitaryRationalDatum` |
 | M6 | Arithmetic moduli, coarse spaces and Hodge lines | `levelForgetting_finiteEtale`, `arbitraryLevelStack`, `siegelStack`, `polarizedStackFiniteType`, `coarseModuli`, `fieldOfModuli`, `descentObstruction`, `PELModuli.hodgeLine`, `finiteFieldFiniteness` |
 
+`Suggested.lean` states `detPoly_classifies` and `detPoly_classifies_charZero` (M0.15),
+with the definition `detPoly` (M0.14), and `compatibleComplexStructures_conjugacy` (M0.11).
+Other target names below specify the interfaces to build.
+
 ## Scope and ownership
 
 **Owned here.** Positive involutions on finite-dimensional semisimple `ℚ`-algebras and their PEL Albert
@@ -336,7 +340,7 @@ over `ℤ` after the standard block-basis reindexing, so the principal PEL Siege
 `TauCeti.AlmostComplexStructure.hodgeStructure` is the weight-one structure on the real carrier
 with Weil operator `J`. The homological structure on `V` is supplied by
 AbelianSchemesAndArithmeticModuli A5.2 `RiemannForm.homological` with `E = −ψ`, as in M0.11;
-its cohomological dual lives on `V∨`. `IntegralPELLinearDatum.J` uses
+its cohomological dual lives on `V∨`. The real complex structure of an integral datum uses
 `TauCeti.AlmostComplexStructure` directly, including its `square_neg` law; it
 does not introduce another complex-structure carrier. The Siegel complex-structure
 matrix is Mathlib's `Matrix.J (Fin g) ℝ`, with square identity `Matrix.J_squared`.
@@ -429,8 +433,8 @@ of `Tr_{F_i/ℚ}` composed with the reduced trace of `B_i` over `F_i` (computed 
 `StarOrder`: an `O : Subalgebra ℤ B` with ClassicalArithmeticCompletion §7.4's
 `IntegralOrder.IsOrder O` and `O* = O`; it inherits the involution. The forgetful carrier
 `StarOrder.toSubalgebra` retains `O`, and `StarOrder.toSubring` is its underlying subring.
-The pinned prototype expresses the order proof as `StarOrder.isLattice`, of type
-`Submodule.IsLattice ℚ O.toSubmodule`, exactly the supplier's defining condition.
+The order condition is `Submodule.IsLattice ℚ O.toSubmodule`, exactly the supplier's
+defining condition.
 Prove `StarOrder.orderEquiv`, the canonical equivalence with the subtype of pairs consisting
 of a `ℤ`-subalgebra and proofs that it is an `IntegralOrder.IsOrder` and is star-stable.
 Both directions retain the same carrier; proof irrelevance gives the inverse identities.
@@ -452,8 +456,7 @@ with its centre, `F` is totally real or CM); `PositiveInvolution.fixedCenter_tot
 centre `F₀` of a simple `B` is totally real). Positivity on `B` extends to `B ⊗ ℝ` by density and
 positive definiteness: density first gives positive semidefiniteness; a nonzero
 radical of this rational quadratic form would contain a nonzero rational vector,
-contradicting strict positivity. The light predicate `IsPositiveInvolution` records
-this trace inequality on a finite-dimensional star-algebra; classification uses
+contradicting strict positivity. Classification of finite-dimensional star-algebras uses
 the stated semisimplicity hypothesis (Milne, *Introduction to Shimura varieties*, Proposition 8.10 and
 Definition 8.11, pp. 84–85); the PEL data start from such a pair (Lan, *Arithmetic compactifications
 of PEL-type Shimura varieties*, thesis, §1.2.1, p. 45; Kottwitz, *Points on some Shimura varieties
@@ -643,19 +646,11 @@ M0.11, M0.13, M0.16 and M0.18 apply to this representation without faithfulness;
 only promotion to `RationalPELDatum` and its group/Shimura adapters requires it.
 The API also includes `IntegralPELDatum.ofSubOrder` and `IntegralPELDatum.ofSubOrder_form` (restriction of
 the action to a full star-stable suborder, keeping the form and `J`). Kottwitz's rational data are
-compared in Lan, Remark 1.2.1.4, p. 47. The light carrier
-`IntegralPELLinearDatum` records just the symplectic lattice, the extended action
-`realAction`, its extended form `realForm`, and a Tau Ceti
-`AlmostComplexStructure` `J`, with order commutation,
-isometry and positivity; unlike `IntegralPELDatum` it does not bundle a positive
-semisimple ambient algebra or a star-order. Its projections are the linear API
-above; adjoining that ambient data recovers the full datum. Its zero-rank,
-principal-Siegel and wrong-sign checks are the corresponding checks below.
-The scalar-extension API of `realForm` is its `ℝ`-bilinearity and
-`realForm (1 ⊗ x) (1 ⊗ y) = ψ(x,y)`; that of `realAction` is
-`ℝ`-linearity, `realAction(b)(1 ⊗ x) = 1 ⊗ bx`, and compatibility
-with identity and multiplication of the order action. These are the
-base-change operations on the existing bilinear-form and endomorphism carriers. *Needs:* M0.1, M0.4; Tau Ceti `SymplecticForm`,
+compared in Lan, Remark 1.2.1.4, p. 47. The real extension of the pairing is
+`ℝ`-bilinear with `ψ_ℝ(1 ⊗ x, 1 ⊗ y) = ψ(x,y)`; the real extension of the action is
+`ℝ`-linear, sends `1 ⊗ x` to `1 ⊗ bx`, and respects identity and multiplication.
+These are base-change operations on the existing bilinear-form and endomorphism carriers.
+*Needs:* M0.1, M0.4; Tau Ceti `SymplecticForm`,
 `SymplecticForm.Compatible`, `AlmostComplexStructure`.
 
 **Checks.**
@@ -669,13 +664,13 @@ base-change operations on the existing bilinear-form and endomorphism carriers. 
   over its good reflex base without a faithful rational promotion.
 - `IntegralPELDatum.wrong_sign`: for `g > 0`, with the same lattice and form but `h(√−1)` replaced by its negative,
   `(1/√−1)⟨x, h(√−1)x⟩` is negative definite; that tuple is not a datum.
-- On the principal rank-two lattice, `realForm e f = 1` and
-  `realAction(2)e = 2e`; composing the actions of `2` and `3` gives `6e`.
+- On the principal rank-two lattice, `ψ_ℝ(e,f) = 1` and the real action of `2`
+  sends `e` to `2e`; composing the actions of `2` and `3` gives `6e`.
   The form retains its integral normalization and the action retains multiplication.
-- For the zero lattice, `realForm` and every `realAction(b)` are the unique
+- For the zero lattice, the extended pairing and every extended action are the unique
   zero maps; the underlying endomorphism ring has `0 = 1`.
-- For an integral vector `x`, `realAction(−1)(1 ⊗ x) = −(1 ⊗ x)`;
-  on the standard pair, `realForm (2e) f = 2` and `realForm f (2e) = −2`.
+- For an integral vector `x`, the real action of `−1` sends `1 ⊗ x` to `−(1 ⊗ x)`;
+  on the standard pair, `ψ_ℝ(2e,f) = 2` and `ψ_ℝ(f,2e) = −2`.
   These computations detect a lost scalar or an exchanged argument.
 - `IntegralPELDatum.compatible_iff`: for a datum and a nonzero real vector `x`, the pairing of `x`
   with `Jx` is strictly positive in the convention of the `Compatible` adapter.
@@ -720,13 +715,9 @@ scheme `G ⊆ GL(L) × G_m` cut out by `O`-linearity and the multiplier equation
 `IntegralPELDatum.coordinatePoints` (its `R`-points, under convolution, are the pair group). The
 similitude character is `PELDatum.multiplier : G → G_m`, `(g, r) ↦ r`, with kernel the isometry group
 `PELDatum.isometryGroup = G₁`; the multiplier-one closed subgroup has its own coordinate algebra
-`IntegralPELDatum.isometryCoordinate`. The light predicate `IsSimilitude`
-records these equations for an existing lattice, a linear automorphism and
-a specified unit: order commutation and the bilinear multiplier identity. Its
-identity, composition and inverse laws are the corresponding point-group API;
-the zero-lattice and nonflat Checks below keep the multiplier as data.
-`IsSimilitude.multiplier_unique` states uniqueness on a nonzero lattice over a
-nonzero flat base. Over `ℚ` define `PELDatum.similitudeGroup` (the pair group over
+`IntegralPELDatum.isometryCoordinate`. Identity, composition and inverse respect the
+order-commutation and multiplier equations; the zero-lattice and nonflat Checks below
+keep the multiplier as data. Over `ℚ` define `PELDatum.similitudeGroup` (the pair group over
 `ℚ`-algebras), `RationalPELDatum.coordinate` and `RationalPELDatum.coordinatePoints`; this is the group
 of `B`-linear symplectic similitudes of `V`. From `G` define `G(ℤ/nℤ)`, `G(Ẑ^□)`, the principal
 congruence subgroup, for `n ≥ 1` with no prime divisor in `□`,
@@ -765,8 +756,7 @@ ProfiniteArithmetic Layer 0.
   `⟨e₂, f₂⟩` by `1`, so it is not even a similitude.
 - `similitudeGroup_multiplier_nonflat`: on `ℤ²` with the form `5J`, over `𝔽₅` the identity has both
   multipliers `1` and `2`; uniqueness fails on this nonflat base although the form is nondegenerate
-  over `ℤ`. The named boundary theorem `IsSimilitude.multiplier_nonflat` retains the
-  integral lattice and the two distinct multipliers in the `IsSimilitude` predicate.
+  over `ℤ`. Both distinct multipliers belong to the pair group over this base.
 
 ### M0.8 Structure of the similitude group
 
@@ -923,12 +913,14 @@ the Weil operator is `−J` and the Tau Ceti polarizing form is `Q = ψ`, since
 operator `J` and form `−ψ`. Dualizing the homological structure gives the
 cohomological structure on `V∨`, with form
 `Q∨(ξ,η) = ψ((ψ♭)⁻¹ξ,(ψ♭)⁻¹η)`. Keep this dual carrier and form explicit;
-an integral dual form requires the denominator adjustment of A5.2. On the integral linear
-carrier, `IntegralPELLinearDatum.isRiemannForm` supplies `E = −ψ`.
+an integral dual form requires the denominator adjustment of A5.2. For an integral datum,
+`E = −ψ` is a Riemann form for `J`.
 Applying `TauCeti.AlmostComplexStructure.IsRiemannForm.isPolarization` to it gives the polarization
 of the effective weight-one structure of `J` by `−ψ`.
-`IntegralPELLinearDatum.conjugacy` states real order-linear isometric conjugacy
-for two such data on the same lattice with the same integral pairing. *Needs:* M0.5, M0.6, M0.7; Tau Ceti `AlmostComplexStructure.hodgeStructure`,
+The statement `compatibleComplexStructures_conjugacy` in `Suggested.lean` gives the conjugacy
+assertion on a finite-dimensional real space with a star-adjoint order action: any two
+order-linear complex structures compatible with the same symplectic form are intertwined
+by an order-linear isometry. *Needs:* M0.5, M0.6, M0.7; Tau Ceti `AlmostComplexStructure.hodgeStructure`,
 `Hodge.HodgeStructureOn`, `Hodge.IsPolarization`,
 `Hodge.isPolarization_of_weilOperator_invariant_on_realPoints_of_pos`, `SymplecticForm.exists_compatible`,
 `SymplecticForm.Compatible`; AbelianSchemesAndArithmeticModuli A5.2
@@ -1034,18 +1026,18 @@ and the CM type in the unitary comparison; Tau Ceti `Matrix.IsHermitian.signatur
 Define `detPoly`: for a noetherian domain `R₀`, an `R₀`-order `O` free with basis `α₁, …, α_t`, a
 scheme `S` over `R₀` and a locally free `O_S`-module `M` of finite rank with an `O`-action,
 `Det_{O|M}(X₁, …, X_t) = det_{O_S}(X₁α₁ + ⋯ + X_tα_t | M) ∈ O_S[X₁, …, X_t]`, defined locally on a
-trivialization and glued (`detPoly_sheaf`, with coefficientwise restriction `detPoly_sheaf_restrict`);
+trivialization and glued, with coefficientwise restriction;
 equivalently an element of `Sym(O^∨) ⊗ O_S` (Lan, Definition 1.1.2.17, p. 19; Kottwitz's polynomial
-`f`, §5, p. 389). The API is `detPoly_basis_indep` (independence of the basis, by the linear
-substitution formula); `detPoly_eval` (its value at `x ∈ O ⊗ O_S` is `det(x | M)`);
-`detPoly_baseChange` (`Det_{O|f*M} = f*Det_{O|M}`); `detPoly_exact` (multiplicative in short exact
-sequences of `O`-modules, by block-triangular determinants); `detPoly_homogeneous` (homogeneous of
-degree `rank M`); and `detPoly_eq_polyCharpoly` (with `φ : O → End(M)` and the basis `b`,
-`Det_{O|M} = (−1)^{rank M}` times the constant coefficient of Mathlib's
-`LinearMap.polyCharpoly φ b`, the characteristic polynomial of the generic element; base change by
-`LinearMap.polyCharpoly_baseChange` and specialization by `LinearMap.polyCharpoly_map_eq_charpoly`).
-The affine statements of `detPoly_basis_indep`, `detPoly_baseChange`, `detPoly_exact` and
-`detPoly_homogeneous` use finite free modules over any commutative ring; the sheaf statements
+`f`, §5, p. 389). Prove independence of the basis by linear substitution, evaluation at
+`x ∈ O ⊗ O_S` as `det(x | M)`, compatibility with base change
+`Det_{O|f*M} = f*Det_{O|M}`, multiplicativity in short exact sequences of `O`-modules by
+block-triangular determinants, and homogeneity of degree `rank M`.
+With `φ : O → End(M)` and basis `b`, this is `(−1)^{rank M}` times the constant coefficient of
+Mathlib's `LinearMap.polyCharpoly φ b`, the characteristic polynomial of the generic element;
+base change is supplied by `LinearMap.polyCharpoly_baseChange` and specialization by
+`LinearMap.polyCharpoly_map_eq_charpoly`. This gives the definition `detPoly` in `Suggested.lean`
+needed for the classification theorem M0.15.
+The affine statements use finite free modules over any commutative ring; the sheaf statements
 are their local versions. The basis statement substitutes the coordinates of the new generic
 element, and the exact-sequence statement carries injectivity, surjectivity and equivariance.
 *Needs:* Mathlib `LinearMap.polyCharpoly`, `LinearMap.polyCharpoly_baseChange`,
@@ -1056,7 +1048,7 @@ element, and the exact-sequence statement carries injectivity, surjectivity and 
 - Scalar action: for `O = ℤ` with basis `1` and `M` free of rank `r`, `Det = X^r`.
 - Gaussian actions: for `O = ℤ[i]` with basis `(1, i)` and `M = ℂ` with `i` acting by `√−1`,
   `Det = X₁ + √−1 X₂`; with `i` acting by `−√−1`, `Det = X₁ − √−1 X₂`.
-- `detPoly_eval_charpoly`: for `x ∈ O`, `Det_{O|M}` at the coordinates of `−x` equals
+- For `x ∈ O`, `Det_{O|M}` at the coordinates of `−x` equals
   `(LinearMap.charpoly (φ x)).eval 0`; for `x = 1` on a rank-one module both sides are `−1`, so no
   extra sign appears.
 - Characteristic-three boundary: for `O = ℤ[i]`, `k = 𝔽₉`, `τ : ℤ[i] → 𝔽₉`, `M = k³` with `i` acting by `τ(i)`
@@ -1081,14 +1073,16 @@ The same-field statement `detPoly_classifies` takes two unital algebra actions a
 equality of their determinant polynomials with a linear equivalence intertwining every element.
 It applies to any finite-dimensional semisimple algebra over that field. In the scalar-extension
 statement above it is applied to `C ⊗_k K`, whose semisimplicity follows from the separable-centre
-hypothesis. `detPoly_classifies_charZero` states the trace version in characteristic zero. *Needs:* M0.14; Mathlib
+hypothesis. The statements `detPoly_classifies` and `detPoly_classifies_charZero`
+in `Suggested.lean` give the determinant and characteristic-zero trace classifications,
+respectively. *Needs:* M0.14; Mathlib
 `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`, `Algebra.IsSeparable`.
 
 **Checks.**
 
 - `detCondition_not_trace`: over `𝔽_p` with `C = 𝔽_p`, the modules `𝔽_p^p` and `0` have equal
-  (zero) traces and different determinant polynomials `X^p` and `1`; the named boundary theorem
-  `detCondition_not_trace` states this for every field of characteristic `p`.
+  (zero) traces and different determinant polynomials `X^p` and `1`, over every field of
+  characteristic `p`.
 - `detPoly_classifies_charZero`: over `ℚ` with `C = ℚ × ℚ`, modules with equal traces are isomorphic.
 - For `C = M₂(ℚ)` and its standard simple module, the generic determinant is
   `X₁₁X₂₂ − X₁₂X₂₁`, rather than a product of embedding linear forms; its
@@ -1174,16 +1168,16 @@ every exponent over nonzero local rings, including nonreduced rings. M1.3 applie
 criterion to the Lie module. *Needs:* M0.14, M0.16, M0.27.
 
 For unital algebra actions on finite free modules over a commutative ring,
-`SatisfiesDetCondition.charpoly_eq` gives equality of the characteristic polynomials of every
-element from the determinant condition. It uses the whole polynomial identity specialized at
+the determinant condition gives equality of the characteristic polynomials of every
+element. It uses the whole polynomial identity specialized at
 `T·1 − a`, retaining the unital-action hypothesis.
 
 **Checks.**
 
 - Over `𝔽₃`, the linear families `φ(a) = a diag(1,0)` and `ψ = 0` on
   `𝔽₃²` have equal zero determinant polynomials and different traces at `1`.
-  The trace implication uses unital algebra actions; the light predicate on
-  arbitrary linear families asserts only polynomial equality.
+  The trace implication uses unital algebra actions; polynomial equality for arbitrary
+  linear families does not imply it.
 - `detCondition_siegel`: for the Siegel datum of genus `g`, `Det_{ℤ|V₀} = X^g` and `M` satisfies the
   condition iff it is locally free of rank `g`.
 - `detCondition_char3_signature`: for `K = ℚ(i)`, a unitary datum of signature `(3, 0)` at `τ`
@@ -1403,15 +1397,12 @@ For a CM field `F` with maximal totally real subfield `F⁺`, fix a coefficient 
 In the CM field constructions below, the unadorned subfield `F ⊆ ℂ` means `τ_∞(F)`
 (Liu–Tian–Xiao–Zhang–Zhu, Ground fields, p. 119).
 
-The light predicate `IsGeneralizedCMType` imposes the conjugate-pair
-equation on a finitely supported multiplicity function; `IsCMType` specializes
-it to rank one; `IsCMType.le_one` bounds every rank-one coefficient by one.
 Define `GeneralizedCMType`: for a CM field `F` with set of complex embeddings `Σ_∞`, a finitely
 supported `Ψ = Σ_τ r_τ τ ∈ ℕ[Σ_∞]` (Mathlib `Finsupp`) with `r_τ + r_{τ^c} = N` for all `τ`
 (Liu–Tian–Xiao–Zhang–Zhu, Definition 3.3.1, p. 147). Its reflex field `GeneralizedCMType.reflexField`
 is the fixed field of the stabilizer of `Ψ` in `Aut(ℂ/ℚ)` (computed in a finite Galois extension
-containing all `τ(F)`). In rank one, the multiplicity predicate `IsCMType`
-identifies `Ψ` with the indicator of a CM type supplied by ShimuraVarieties §5.1;
+containing all `τ(F)`). In rank one, every coefficient is at most one, so `Ψ` is the indicator
+of a CM type supplied by ShimuraVarieties §5.1;
 its type-reflex field agrees with that supplier's `TauCeti.CM.CMType.reflexField`. The API is
 `GeneralizedCMType.galois_smul` (transport `τ ↦ σ ∘ τ`) and `GeneralizedCMType.galois_reflex`
 (`z ∈ F_Ψ` iff `σ(z) ∈ F_{σΨ}`); `GeneralizedCMType.reflexField_eq_pel` (for a unitary PEL datum over
@@ -2922,7 +2913,7 @@ polarization class does not depend on the positive clearing scalar). Nonemptines
 lattice and an `h` (Lan, Remark 1.4.3.13). SV3 is not used. *Needs:* M0.11, M0.20, M1.9, M3.1;
 AbelianSchemesAndArithmeticModuli A5.
 
-The object-level consequence `complexPoints_realization` takes a finite free integral lattice,
+The object-level realization consequence takes a finite free integral lattice,
 an almost complex structure, a Riemann form, and an order action whose real extension commutes
 with the complex structure. It produces a complex abelian variety `A`, a unital order action
 `i : O → End(A)` and `g ≥ 0` with `rank L = 2g`, `dim A = g`, and
@@ -2937,7 +2928,7 @@ level and comparison of homology.
 - `complexPoints_nonempty`: every `ker¹`-piece contains a point.
 - `complexPoints_not_only_V`: for a Case-A odd datum with `ker¹ ≠ 1`, Milne's condition `(∗∗)` selects
   one piece and drops the others; `M_K^ad(ℂ)` contains them all.
-- For the principal rank-two lattice, `complexPoints_realization` gives an elliptic curve with
+- For the principal rank-two lattice, realization gives an elliptic curve with
   faithful scalar action and `g = 1`.
 - For `O = ℤ × ℤ` acting through the first projection on that lattice, the resulting action
   kills exactly the second factor; an injective order action would give the wrong realization.
@@ -3482,13 +3473,10 @@ Define `siegelIntegralDatum g D`: for `g ≥ 0` and positive integers `d₁ | d�
 `(ℤ, id, L_D, ⟨·,·⟩_D, h)` with `L_D = ℤ^{2g}` on the basis `e₁, …, e_g, f₁, …, f_g`,
 `⟨e_i, f_j⟩_D = d_i δ_{ij}` (in `ℤ(1)` after the choice of `√−1`), `⟨e_i, e_j⟩ = ⟨f_i, f_j⟩ = 0`, and
 `h(√−1) = J_D` with `J_D = Matrix.J (Fin g) ℝ`, `J_D e_i = f_i`, `J_D f_i = −e_i`, so that
-`⟨x, J_D y⟩ = Σ_i d_i (x_{e_i}y_{e_i} + x_{f_i}y_{f_i})` is positive definite. The light matrix `siegelGram D` records
-this integral form; `siegelGram_one` identifies its principal form with
-`−Matrix.J`, and `siegelGram_det` computes its determinant as `(∏ d_i)²`.
-`siegel_type_pos` states positivity for arbitrary positive weights;
-`siegel_pos` and `siegel_neg` state positivity for the principal form and negativity after
-replacing `J` by `−J`, respectively.
-The associated integral bilinear form is `siegelForm`.
+`⟨x, J_D y⟩ = Σ_i d_i (x_{e_i}y_{e_i} + x_{f_i}y_{f_i})` is positive definite for arbitrary positive
+weights. The integral Gram matrix is formed from blocks `0`, `diag(D)`, `−diag(D)`, `0`;
+its principal form is `−Matrix.J`, and its determinant is `(∏ d_i)²`.
+Replacing `J` by `−J` makes the associated real form negative definite in positive genus.
 Genus zero is allowed integrally. `siegelRationalDatum` is its rationalization for `g > 0`. The API is
 `siegelDatum_coordinate` (for `g > 0` the coordinate Hopf algebra of the rationalized datum is that of
 `GSp_{2g}`, independent of `D`); `siegelDatum_reflex` (`ℚ`); `siegelDatum_badPrimes` (at level `n`
@@ -3588,8 +3576,7 @@ ModularCurvesPartII §1.5 (Conrad, *Modular curves*, Example 7.15 and Propositio
 
 Define `hilbertIntegralDatum F`: for a totally real field `F` of degree `d` with different `𝔡`, the
 integral datum `(O_F, id, L, ψ, h)` with `L = O_F ⊕ 𝔡⁻¹ ⊆ F²`,
-`ψ((x₁, x₂), (y₁, y₂)) = Tr_{F/ℚ}(x₁y₂ − x₂y₁)` (the light function
-`hilbertPairing`) and `h(√−1)` acting on
+`ψ((x₁, x₂), (y₁, y₂)) = Tr_{F/ℚ}(x₁y₂ − x₂y₁)` (`hilbertPairing`) and `h(√−1)` acting on
 `L ⊗ ℝ = ⊕_{τ : F → ℝ} ℝ²` by `(a, b) ↦ (−b, a)` in each factor. The pairing is alternating, satisfies
 `ψ(bx, y) = ψ(x, by)` for `b ∈ O_F` (`* = id`), is `ℤ`-valued on `L` because `O_F · 𝔡⁻¹ ⊆ 𝔡⁻¹`, and
 `L` is self-dual: the trace dual of `O_F` is `𝔡⁻¹` and that of `𝔡⁻¹` is `O_F` (Mathlib
