@@ -567,7 +567,9 @@ abbrev exteriorBidual (R : Type*) [CommRing R] (r : ℕ) (X : Type*) [AddCommGro
     [Module R X] : Type _ :=
   Module.Dual R (⋀[R]^r (Module.Dual R X))
 
-/-- The shared determinant evaluation `⋀^r_R X → ⋂^r_R X`, `x ↦ (φ ↦ ⟨φ, x⟩)`. -/
+/-- The shared determinant evaluation `⋀^r_R X → ⋂^r_R X`, `x ↦ (φ ↦ ⟨φ, x⟩)`.
+In the functional-first convention of README §§6.3 and 6.9, contraction evaluates at `v ∧ Φ`;
+the published Stark comparison uses this evaluation without an additional degree sign. -/
 noncomputable abbrev toExteriorBidual (R : Type*) [CommRing R] (r : ℕ) (X : Type*)
     [AddCommGroup X] [Module R X] : ⋀[R]^r X →ₗ[R] exteriorBidual R r X :=
   (exteriorPower.pairingDual R X r).flip
@@ -656,9 +658,34 @@ bimodule normal form, centralizerLatticeOrder and pairingCorner, and the
 ordinaryFiltration, ordinaryLocalCondition and anticyclotomicSelmerStructure
 carriers are likewise README targets. Their statements specify the module sides,
 fullness, finite arithmetic support and coefficient-prime hypotheses there.
-The remaining README targets, including the arithmetic Iwasawa comparison of Layer 8,
-the coinduced Euler-system lift and the higher-rank regulator, need arithmetic
-carriers absent at the pin. The README Checks sections_zero_hub, sections_one_vertex
+The arithmetic Frobenius criterion KolyvaginSystems.mem_rubinPrimes_of_frobenius
+of README §1.7 requires q outside N and tau fixing the finite compositum of F(1),
+cyclotomic roots and unit radicals, as well as nonzero tau-invariants and Frobenius
+conjugacy on the further compositum with W_M.
+The ring-class restriction condition of §5.2 is defined at every inert prime away
+from p and ramification. Its local maximal-tame identification also requires
+p not dividing ell - 1 and the CM-unit index; for odd p these hold at the active
+primes under the stated unit hypothesis. A nonzero coefficient quotient killed
+by ell + 1 already forces the required residue congruence.
+StarkSystems.KolyvaginSystemRank, StarkSystems.regulator and the structure results
+of §§6.7–6.8 have positive rank at finite level and in every order limit;
+StarkSystems.StarkSystem in §§6.5–6.6 retains rank zero. The negative exterior
+degree in the Kolyvagin edge relation has no instance at rank zero.
+The arithmetic determinant targets of §7.5a are
+EulerSystems.verticalDeterminantSystem, EulerSystems.basicEulerSystemMap,
+EulerSystems.basicEulerSystems, EulerSystems.horizontalDeterminantSystem,
+EulerSystems.verticalToHorizontal_surjective, EulerSystems.determinantRegulatorSquare,
+EulerSystems.higherDerivative_surjective and EulerSystems.higherDerivative_order_surjective.
+They construct Euler families from the actual compact-support determinants and
+compare their derivatives with horizontal Stark systems and the regulator, under
+the archimedean freeness and local vanishing hypotheses stated there.
+KolyvaginSystem.exceptionalSet_twist in §8.13 uses direct images of ideals under
+Tw_rho for the positive tautological action of §8.5. The inverse transport in
+§8.9 instead concerns Rubin's conjugation action. The inert-prime splitting
+statement in §§8.1 and 8.28 applies to primes away from p.
+These targets, the arithmetic Iwasawa comparison of Layer 8, the coinduced
+Euler-system lift and the higher-rank regulator need arithmetic carriers absent
+at the pin. The README Checks sections_zero_hub, sections_one_vertex
 and sections_ne_product concern the sections of GraphSheaf above. -/
 
 end TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
