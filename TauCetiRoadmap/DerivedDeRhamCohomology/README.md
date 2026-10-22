@@ -33,10 +33,11 @@ derived category. This is the form of the ringed-site cup product ([StacksSites]
 (`Crystalline.crysCup_unit`, `Crystalline.crysCup_assoc`, `Crystalline.crysCup_graded_comm`). The
 Alexander–Whitney product on the totalization of a cosimplicial commutative dg algebra is not strictly
 commutative, so no strict global dg algebra is asserted; 5.8 states the adapter from the affine models
-to the cup-product target. The [suggested Lean file](Suggested.lean) records the ordinary
-differential-symbol presentation, quotient completeness, p-bases and the
-other statements that can be written against the pinned Mathlib and Tau Ceti; every construction is
-specified by the owning roadmap.
+to the cup-product target. The [suggested Lean file](Suggested.lean) states the p-basis theorem,
+Bhatt's flatness criteria, Ext in the category of complexes, canonical divided powers on an augmentation ideal,
+and universal PD envelope existence and its regular-immersion presentation. Its module docstring
+identifies the missing objects needed to state the derived, descent and period headline results;
+every construction is specified by the owning roadmap.
 
 ## Scope and ownership
 
@@ -459,8 +460,8 @@ are not substituted.
 
 *Needs:* Mathlib `KaehlerDifferential.D`, `frobenius`.
 
-Lean: `DerivedDeRham.IsPBasis`, `DerivedDeRham.pBasis_kaehler_basis`,
-`DerivedDeRham.test_pbasis_transcendence_not_enough`.
+Lean: `DerivedDeRham.IsPBasis`, `DerivedDeRham.pBasis_kaehler_basis`. The latter states the
+p-basis theorem in `Suggested.lean` on Mathlib's Kähler differential module.
 
 **Checks.**
 
@@ -528,7 +529,8 @@ Proposition 5.1, not a general identification of complete flatness and ordinary 
 DerivedModuleAlgebra §1.5 When ordinary quotient towers compute completion.
 
 Lean: `DerivedDeRham.ordinaryFlatnessFromCompleteFlatness`,
-`DerivedDeRham.ordinaryFaithfulFlatnessFromCompleteFaithfulFlatness`.
+`DerivedDeRham.ordinaryFaithfulFlatnessFromCompleteFaithfulFlatness`. Both criteria are stated
+in `Suggested.lean` with the Noetherian, nonzerodivisor and classical completeness hypotheses.
 
 ### 1.11 Quotient completeness under a nonzerodivisor condition
 
@@ -721,8 +723,7 @@ Prove the following named laws.
   are surjective, so both derived limits are discrete by DerivedModuleAlgebra §1.1. The natural map is injective with image
   the series whose coefficients have a common bound on their p-power denominators. The series
   `Σ_(n≥0) p^(−n)t^n` has no such bound: for any `N`, its coefficient in degree `N+1`, multiplied by
-  `p^N`, is `1/p ∉ ℤ_p`. Thus inversion does not commute with this completion. The representative
-  Lean theorem states the absence of a common denominator for this series.
+  `p^N`, is `1/p ∉ ℤ_p`. Thus inversion does not commute with this completion.
 
 ### 1.16 The Rees description of filtered modules
 
@@ -851,8 +852,8 @@ negative-degree Ext defined to be zero. This is [BMS19] Proposition 5.6; it is n
 *Needs:* Layer 1: The Beilinson heart is the category of complexes; Layer 1: The Beilinson
 t-structure; Mathlib `CategoryTheory.Abelian.Ext`.
 
-Lean: `DerivedDeRham.complexHeartExt`, `DerivedDeRham.complexHeartExt_positive_shift`,
-`DerivedDeRham.complexHeartExt_negative_total`.
+Lean: `DerivedDeRham.complexHeartExt` states the full formula in `Suggested.lean`, including
+both vanishing ranges, using Ext in Mathlib's abelian category of cochain complexes.
 
 **Checks.**
 
@@ -981,9 +982,6 @@ consists of maps `δₙ:A→A`, `n≥0`, zero outside `I`, such that for all `x,
 identities are not assumed. Every divided power structure on `I` is an additive candidate with the
 same operations.
 
-`Suggested.lean` declares `PD.AdditivePowers`, `PD.AdditivePowers.ofDividedPowers`,
-`PD.AdditivePowers.ofDividedPowers_dpow`.
-
 *Hypotheses.* `A` is a commutative ring and `I⊂A` is an ideal. The operations `δₙ`, `n≥0`, are maps `A→A` that
 vanish outside `I` in every degree, including degree 0; this is the convention of Mathlib's
 `DividedPowers`.
@@ -1071,8 +1069,6 @@ candidates*; Mathlib `DividedPowers.dpow_sum'`; Mathlib `MvPolynomial.basisMonom
 existing `DividedPowers I` with operation `δ`. No freeness, factorial invertibility, or nilpotence is
 required.
 
-`Suggested.lean` declares `PD.exists_dividedPowers_of_generators`.
-
 *Hypotheses.* `A` is a commutative ring, `I⊂A` an ideal, `δ` an additive candidate on `I` and `S⊂A` a subset
 with `I=span(S)`. For every `s∈S`: `δₘ(s)δₙ(s)=choose(m+n,m)·δₘ₊ₙ(s)` for all `m,n≥0`, and
 `δₘ(δₙ(s))=uniformBell(m,n)·δₘₙ(s)` for all `m≥0` and all `n>0`.
@@ -1118,10 +1114,10 @@ every degree.
 
 The API:
 
-- `PD.convolution_eq`: `C` is the antidiagonal sum of the two systems.
-- `PD.convolution_swap`: Exchanging the two ideals and elements leaves `C` unchanged.
-- `PD.convolution_mem`: For `n>0`, `Cₙ(x,y)` lies in `I+J` when `x∈I` and `y∈J`.
-- `PD.convolution_eq_coeff_exp_mul`: For all `x,y∈A` and `n≥0`, `Cₙ(x,y)` is the `n`-th coefficient of the
+- `C` is the antidiagonal sum of the two systems.
+- Exchanging the two ideals and elements leaves `C` unchanged.
+- For `n>0`, `Cₙ(x,y)` lies in `I+J` when `x∈I` and `y∈J`.
+- For all `x,y∈A` and `n≥0`, `Cₙ(x,y)` is the `n`-th coefficient of the
   product of power series (`DividedPowers.exp γ x)·(DividedPowers.exp ε y`), where `DividedPowers.exp γ x=Σₙγₙ(x)Tⁿ`.
 
 *Proof sketch.* Use the finite antidiagonal sum in `A`. Record the quadratic mixed term `x y`
@@ -1169,9 +1165,9 @@ a divided power structure on `J`, with `γₙ(w)=εₙ(w)` for every `n≥0` and
 
 The API:
 
-- `PD.supCandidate_dpow_add`: For `x∈I`, `y∈J` and every `n≥0`: `δₙ(x+y)=Cₙ(x,y)`.
-- `PD.supCandidate_left`: For `x∈I` and every `n≥0`: `δₙ(x)=γₙ(x)`.
-- `PD.supCandidate_right`: For `y∈J` and every `n≥0`: `δₙ(y)=εₙ(y)`.
+- For `x∈I`, `y∈J` and every `n≥0`: `δₙ(x+y)=Cₙ(x,y)`.
+- For `x∈I` and every `n≥0`: `δₙ(x)=γₙ(x)`.
+- For `y∈J` and every `n≥0`: `δₙ(y)=εₙ(y)`.
 
 *Proof sketch.* Use membership in `I+J` to choose a decomposition; sum-independence removes the
 choice. Membership and degrees zero/one follow termwise. For homogeneity choose `ax,ay` as the
@@ -1216,10 +1212,10 @@ a divided power structure on `J`, with `γₙ(w)=εₙ(w)` for every `n≥0` and
 
 The API:
 
-- `PD.sup_dpow_add`: For `x∈I`, `y∈J` and every `n≥0`, the glued operation at `x+y` is `Cₙ(x,y)`.
-- `PD.sup_left`: The identity ring map from `(A,I,γ)` to the glued PD ring is a PD morphism.
-- `PD.sup_right`: The identity ring map from `(A,J,ε)` to the glued PD ring is a PD morphism.
-- `PD.sup_isDPMorphism_iff`: Let `g:A→C` be a ring map and `κ` a divided power structure on an ideal `K`
+- For `x∈I`, `y∈J` and every `n≥0`, the glued operation at `x+y` is `Cₙ(x,y)`.
+- The identity ring map from `(A,I,γ)` to the glued PD ring is a PD morphism.
+- The identity ring map from `(A,J,ε)` to the glued PD ring is a PD morphism.
+- Let `g:A→C` be a ring map and `κ` a divided power structure on an ideal `K`
   of `C`. Then `g` is a PD morphism from `I+J` with the glued structure to `(K,κ)` if and only if `g` is a PD
   morphism from `(I,γ)` to `(K,κ)` and from `(J,ε)` to `(K,κ)`.
 
@@ -1252,8 +1248,7 @@ degree. A divided power structure `θ` on `I+J` satisfies `θₙ=γₙ` on `I` a
 if `θ` is the glued structure of compatible-sum. (2) A divided power structure on `I+J` restricting to `γ`
 on `I` and to `ε` on `J` exists if and only if `γₙ(w)=εₙ(w)` for all `n≥0` and all `w∈I∩J`; it is then unique.
 
-`Suggested.lean` declares `PD.exists_dividedPowers_sup_iff`; uniqueness is Mathlib's
-`DividedPowers.dpow_eq_from_gens` applied to the generating set `I ∪ J`.
+Uniqueness is Mathlib's `DividedPowers.dpow_eq_from_gens` applied to the generating set `I ∪ J`.
 
 *Hypotheses.* `A` is a commutative ring with ideals `I` and `J`; `γ` is a divided power structure on `I` and `ε`
 a divided power structure on `J`. In part (1), `γₙ(w)=εₙ(w)` for every `n≥0` and every `w∈I∩J`; in part (2)
@@ -1359,9 +1354,9 @@ divided power structure on `I`; `IB` is the ideal of `B` generated by `f(x)`.
 
 The API:
 
-- `PD.extendPrincipal_dpow`: For every `b∈B` and every `n≥0`: `γᴮₙ(b·f(x))=bⁿ·f(γₙ(x))`.
-- `PD.extendPrincipal_isDPMorphism`: `f` is a PD morphism from `(I,γ)` to `(IB,γᴮ)`.
-- `PD.extendPrincipal_generator_independent`: If `I=(x)` and `I=(y)`, the structures on `IB` constructed
+- For every `b∈B` and every `n≥0`: `γᴮₙ(b·f(x))=bⁿ·f(γₙ(x))`.
+- `f` is a PD morphism from `(I,γ)` to `(IB,γᴮ)`.
+- If `I=(x)` and `I=(y)`, the structures on `IB` constructed
   from the generator `x` and from the generator `y` are equal.
 
 *Proof sketch.* Every element of `IB` is bf(x); use principal-independence to descend the displayed
@@ -1395,11 +1390,11 @@ divided powers only when every `xᵢ` lies in `I`.
 
 The API:
 
-- `PD.extensionCoefficient_eq`: `Eₙ` is the multiset-indexed finite sum without multinomial
+- `Eₙ` is the multiset-indexed finite sum without multinomial
   coefficients.
-- `PD.extensionCoefficient_one`: For `r=1`, every `b∈B`, every `x∈A` and every `n≥0`: `Eₙ(b,x)=bⁿ·f(γₙ(x))`.
-- `PD.extensionCoefficient_mem`: For `n>0` and `xᵢ∈I` the coefficient lies in `IB`.
-- `PD.dpow_sum_mul_map_eq_extensionCoefficient`: If `θ` is a divided power structure on `IB` and `f` is a
+- For `r=1`, every `b∈B`, every `x∈A` and every `n≥0`: `Eₙ(b,x)=bⁿ·f(γₙ(x))`.
+- For `n>0` and `xᵢ∈I` the coefficient lies in `IB`.
+- If `θ` is a divided power structure on `IB` and `f` is a
   PD morphism from `(I,γ)` to `(IB,θ)`, then for all `x₁,…,xᵣ∈I`, all `b₁,…,bᵣ∈B` and all `n≥0`:
   `θₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x)`.
 
@@ -1477,9 +1472,9 @@ an ideal and `γ` a divided power structure on `I`; `IB` is the ideal of `B` gen
 
 The API:
 
-- `PD.flatCandidate_formula`: For `x₁,…,xᵣ∈I`, `b₁,…,bᵣ∈B` and `n≥0`: `δₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x)`.
-- `PD.flatCandidate_base`: For `x∈I` and every `n≥0`: `δₙ(f(x))=f(γₙ(x))`.
-- `PD.flatCandidate_outside`: For `z∉IB` and every `n≥0`: `δₙ(z)=0`.
+- For `x₁,…,xᵣ∈I`, `b₁,…,bᵣ∈B` and `n≥0`: `δₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x)`.
+- For `x∈I` and every `n≥0`: `δₙ(f(x))=f(γₙ(x))`.
+- For `z∉IB` and every `n≥0`: `δₙ(z)=0`.
 
 *Proof sketch.* Membership in the generated ideal supplies a finite presentation.
 Flat-presentation-independence proves choice independence. At `n=0`, every `γ₀(xᵢ)=1` so the sole
@@ -1523,23 +1518,21 @@ additive candidate on a flat extension*; §PD.2 *The scalar-extension coefficien
 on `IB` for which `A→B` is a PD morphism. Its operation on a finite expression `Σᵢbᵢ·f(xᵢ)` with `xᵢ∈I` and
 `bᵢ∈B` is `Eₙ(b,x)`.
 
-`Suggested.lean` declares `PD.existsUnique_dividedPowers_map_of_flat`.
-
 *Hypotheses.* `A` is a commutative ring, `B` a flat commutative `A`-algebra with structure map `f:A→B`, `I⊂A`
 an ideal and `γ` a divided power structure on `I`; `IB` is the ideal of `B` generated by `f(I)`.
 
 The API:
 
-- `PD.extendFlat_formula`: For `x₁,…,xᵣ∈I`, `b₁,…,bᵣ∈B` and `n≥0`: `γᴮₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x)`.
-- `PD.extendFlat_isDPMorphism`: `f` is a PD morphism from `(I,γ)` to `(IB,γᴮ)`.
-- `PD.extendFlat_unique`: If `θ` is a divided power structure on `IB` and `f` is a PD morphism from `(I,γ)`
+- For `x₁,…,xᵣ∈I`, `b₁,…,bᵣ∈B` and `n≥0`: `γᴮₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x)`.
+- `f` is a PD morphism from `(I,γ)` to `(IB,γᴮ)`.
+- If `θ` is a divided power structure on `IB` and `f` is a PD morphism from `(I,γ)`
   to `(IB,θ)`, then `θ=γᴮ`.
-- `PD.extendFlat_isDPMorphism_iff`: Let `g:B→C` be a ring map and `κ` a divided power structure on an
+- Let `g:B→C` be a ring map and `κ` a divided power structure on an
   ideal `K` of `C`. Then `g` is a PD morphism from `(IB,γᴮ)` to `(K,κ)` if and only if `g∘f` is a PD morphism
   from `(I,γ)` to `(K,κ)`.
-- `PD.extendFlat_trans`: Let `B` be a flat `A`-algebra and `C` a flat `B`-algebra. Then `C` is a flat
+- Let `B` be a flat `A`-algebra and `C` a flat `B`-algebra. Then `C` is a flat
   `A`-algebra, `(IB)C=IC`, and the extension of `γᴮ` along `B→C` is equal to the extension of `γ` along `A→C`.
-- `PD.extendFlat_eq_ofRingEquiv`: If the structure map `f:A→B` is bijective, with associated ring
+- If the structure map `f:A→B` is bijective, with associated ring
   isomorphism `e`, then `γᴮ` is `DividedPowers.ofRingEquiv` applied to `γ` along `e`: `γᴮₙ(e(x))=e(γₙ(x))` for
   all `x∈A` and all `n≥0`.
 
@@ -1588,8 +1581,6 @@ on generators*.
 **Divided powers after localization.** Let `S⊂A` be multiplicative, `B=S⁻¹A` and `γ` on `I`. The unique
 extension to `IB` exists by flatness, and `γᴮₙ(x/s)=γₙ(x)/sⁿ` for `x∈I`, `s∈S`, `n≥0`.
 
-`Suggested.lean` declares `PD.dpow_localization`.
-
 *Hypotheses.* `A` is a commutative ring, `S⊂A` a multiplicative subset, `B` a localization of `A` at `S`, `I⊂A`
 an ideal and `γ` a divided power structure on `I`. `x∈I`, `s∈S` and `n≥0`.
 
@@ -1615,20 +1606,17 @@ all finite products `γ_(e₁)(x₁)⋯γ_(eₜ)(xₜ)`, where `xⱼ∈I`, `eⱼ
 with total degree zero. Thus the convention at `n=0` is intrinsic to the same formula. The carrier is
 `Ideal R` and the operations are those of the given `DividedPowers I`.
 
-`Suggested.lean` declares `PD.pdFiltration`, `PD.pdFiltration_zero`, `PD.pdFiltration_one`
-and the boundary theorem `PD.pd_filtration_two_adic_constant`.
-
 *Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). `n` and the weights `e_j` are natural numbers, the `x_j` are elements of `I`, and the
 empty product (value 1, weight 0) is allowed.
 
 The API:
 
-- `PD.pdFiltration_le_iff`: For any ideal `K` of `R`, `Fⁿ_γI⊆K` if and only if every finite weighted
+- For any ideal `K` of `R`, `Fⁿ_γI⊆K` if and only if every finite weighted
   product of total degree at least `n` belongs to `K`.
-- `PD.prod_dpow_mem_pdFiltration`: For `xⱼ∈I` and natural weights `eⱼ` whose sum is at least `n`, the
+- For `xⱼ∈I` and natural weights `eⱼ` whose sum is at least `n`, the
   product `∏ⱼγ_(eⱼ)(xⱼ)` belongs to `Fⁿ_γI`, including the empty word when `n=0`.
-- `PD.dpow_mem_pdFiltration`: For `x∈I` and `n≥0`, `γ_n(x)` belongs to `Fⁿ_γI`.
-- `PD.pdFiltration_eq_span_of_span`: If `I=Ideal.span(S)`, then `Fⁿ_γI` is the ideal generated by the
+- For `x∈I` and `n≥0`, `γ_n(x)` belongs to `Fⁿ_γI`.
+- If `I=Ideal.span(S)`, then `Fⁿ_γI` is the ideal generated by the
   finite products `∏_j γ_(e_j)(s_j)` with `s_j∈S` and `Σ_j e_j≥n`.
 
 *Proof sketch.* Let `W_n` be the set of all products `γ_(e₁)(x₁)⋯γ_(eₜ)(xₜ)` over finite lists of pairs
@@ -1741,8 +1729,6 @@ Mathlib `Ideal.span_mul_span`; Mathlib `Ideal.span_le`; Mathlib `Ideal.subset_sp
 **Ordinary powers inside divided powers.** For every `n≥0`, `Iⁿ⊆Fⁿ_γI`, with the usual ideal power on
 the left.
 
-`Suggested.lean` declares `PD.pow_le_pdFiltration`.
-
 *Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`).
 
 *Proof sketch.* Induct on `n`. The base case is `pdFiltration_zero` and `I⁰=R`. For the successor multiply
@@ -1844,9 +1830,6 @@ powers induced from `ℤ₂` satisfies `(2)²=0` and is not PD-nilpotent; the au
 lies in the nilradical (`y^p=p!·γ_p(y)=0`) and is not nilpotent. If `p` is a prime that is nilpotent in
 `R/I`, then `I≤nilradical R` if and only if `p` is nilpotent in `R`.
 
-`Suggested.lean` declares `PD.IsPDNilpotent`, `PD.IsPDNilpotent.isNilpotent`
-and the boundary theorem `PD.test_nilpotent_two_structures`.
-
 *Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). In the last sentence `p` is a prime number and some power of `p` lies in `I`.
 
 The API:
@@ -1899,25 +1882,22 @@ structure on `pA` with `γₙ(p)=cₙ` for all `n≥1`. Every ring map between t
 for these structures, and for `A=ℤ_p` the structure is `PadicInt.dividedPowers p`. The prime `p=2` is
 included, and nothing is assumed about p-torsion in `A`.
 
-`Suggested.lean` declares `PD.canonicalCoeff`, `PD.exists_dividedPowers_span_p`,
-`PD.isDPMorphism_canonical`.
-
 *Hypotheses.* `p` is a prime number. `A` is a commutative ring in which every integer not divisible by `p`
 is invertible. `A` may have p-torsion, and `p` may be nilpotent or zero in `A`; `A` need not be flat over
 `ℤ₍p₎`.
 
 The API:
 
-- `PD.canonicalP_dpow_mul`: For all `a∈A` and `n≥0`: `γₙ(p·a)=cₙ·aⁿ`, where `c₀=1` and `cₙ` is the image in `A`
+- For all `a∈A` and `n≥0`: `γₙ(p·a)=cₙ·aⁿ`, where `c₀=1` and `cₙ` is the image in `A`
   of `pⁿ/n!∈ℤ₍p₎` for `n≥1`. In particular `γₙ(p)=cₙ`.
-- `PD.pow_div_factorial_mem_span`: For a prime `p` and `n≥1`, the rational number `pⁿ/n!` lies in `pℤ₍p₎`:
+- For a prime `p` and `n≥1`, the rational number `pⁿ/n!` lies in `pℤ₍p₎`:
   the p-adic valuation of `n!` is less than `n`. Consequently `cₙ∈pA` for `n≥1`.
-- `PD.canonicalP_unique`: If `θ` is a divided power structure on `pA` with `θₙ(p)=cₙ` for all `n≥1`, then
+- If `θ` is a divided power structure on `pA` with `θₙ(p)=cₙ` for all `n≥1`, then
   `θ=γ`. In particular `γ` is the only divided power structure on `pA` for which `ℤ₍p₎→A` is a PD morphism
   from the structure `x↦xⁿ/n!` on `pℤ₍p₎`.
-- `PD.canonicalP_isDPMorphism`: Every ring map `g:A→A′` between commutative rings in which the
+- Every ring map `g:A→A′` between commutative rings in which the
   integers not divisible by `p` are invertible is a PD morphism from `(pA,γ)` to `(pA′,γ′)`.
-- `PD.canonicalP_padicInt`: For `A=ℤ_p` the structure `γ` on `pℤ_p` is `PadicInt.dividedPowers p`.
+- For `A=ℤ_p` the structure `γ` on `pℤ_p` is `PadicInt.dividedPowers p`.
 
 *Proof sketch.* For `n≥1` the p-adic valuation of `n!` is less than `n` (`padicValNat_factorial_lt_of_ne_zero`), so `pⁿ/n!` lies in `pℤ₍p₎`. On `ℤ₍p₎`, the localization of `ℤ` at the
 prime ideal `(p)` (`Localization.AtPrime`), which embeds in `ℚ`, define the divided power structure on
@@ -1959,8 +1939,6 @@ Mathlib `DividedPowers.OfSquareZero.dividedPowers`; Mathlib `dividedPowersBot`.
 `φ:A→B` a ring map (`I` need not map into `J`). `δ` is compatible with `γ` if there is a divided power
 structure `γ̄` on the ideal `J+IB` such that `φ` is a divided power morphism `(I,γ)→(J+IB,γ̄)` and the
 identity of `B` is a divided power morphism `(J,δ)→(J+IB,γ̄)`.
-
-`Suggested.lean` declares `PD.IsCompatibleWith`.
 
 *Hypotheses.* `(A,I,γ)` and `(B,J,δ)` are divided power rings; `φ:A→B` is a ring homomorphism.
 
@@ -2301,8 +2279,6 @@ Mathlib `DividedPowers.Quotient.dividedPowers`; Mathlib `DividedPowers.isSubDPId
 factors uniquely through a PD `A`-algebra map `(D,K,δ)→(C,L,ε)`. `K` need not contain `ID`; the powers on
 `K` and `ID` have a common extension on `K+ID`.
 
-`Suggested.lean` declares `PD.IsCompatiblePDEnvelope`, `PD.exists_isCompatiblePDEnvelope`.
-
 *Hypotheses.* The base powers extend to the image ideal `I(B/J)`; neither `IB⊆J` nor extension to `B`
 is required. Compatibility of each test ideal with `γ` is part of the universal property.
 
@@ -2620,6 +2596,10 @@ powers on `(p)`. Then `D=A⟨x₁,…,x_r⟩/(x_t−f_t)`, it coincides with the
 base, `D` is flat over `ℤ/p^n`, and `D/pD=D_(A/p)((I+pA)/pA)`, the envelope of the image of `I` in the
 `𝔽_p`-algebra `A/p`.
 
+`Suggested.lean` states the presentation in (0) as `PD.regularImmersionEnvelope`, using
+`PD.regularEnvelopeRelations` for the ideal `(x₁−f₁,…,x_r−f_r)` on Mathlib's divided-power algebra.
+The hypothesis is exactly `(K)`, over an arbitrary divided power base.
+
 *Hypotheses.* (0): `(B,I,γ)` is a divided power ring, `f₁,…,f_r∈B`, and `(K)` holds: if `Σ_t r_t f_t∈I` with
 `r_t∈B`, then `(r_t)−Σ_(i<j)c_(ij)(f_j e_i−f_i e_j)∈I^r` for some `c_(ij)∈B`. (1): `p` is a prime, `A` an
 `𝔽_p`-algebra and `f₁,…,f_r` a regular sequence in `A` (`RingTheory.Sequence.IsRegular A [f₁,…,f_r]`; only
@@ -2909,7 +2889,7 @@ degree zero and strict alternation in characteristic two. The carriers are the a
 `DeRham.Forms A B n = exteriorPower B n (KaehlerDifferential A B)` (an `A`-module by restriction of
 scalars), `DeRham.Symbols A B n = (B × (Fin n → B)) →₀ A`, the basis symbol `DeRham.sym A B n c v`,
 the elementary form `DeRham.elementary A B n c v = c • ιMulti (D v₁, …, D vₙ)`, the wedge product
-`DeRham.wedge` of the graded exterior algebra and `DeRham.zeroForm`, all stated in `Suggested.lean`.
+`DeRham.wedge` of the graded exterior algebra and `DeRham.zeroForm`.
 
 Sources for this group: [StacksDR], Section 10.132, the construction before Lemma 10.132.1, pp.334–336
 of Commutative Algebra; [Riou], proposed `Mathlib/RingTheory/DeRham/Basic.lean`, `presentationDifferentialsDown` through
@@ -2935,7 +2915,7 @@ requirement in the coefficient before applying `d`.
 Prove the following named laws.
 
 - `symbolRelations_eq_span`: `Rₙ` is exactly the `A`-span of the six displayed relation families
-  (definitional in `Suggested.lean`).
+  by definition.
 - `symbolRelations_coeff_add`: coefficient additivity belongs to `Rₙ`.
 - `symbolRelations_slot_mul`: the slot Leibniz relation belongs to `Rₙ` for every slot.
 
@@ -3035,9 +3015,8 @@ Lean: `DeRham.freeDifferential_relations`.
 
 For every `n ≥ 0` define `dₙ : Ωⁿ → Ωⁿ⁺¹`, `DeRham.d A B n`, `A`-linear, as the descent of `δₙ` along
 `qₙ` (by 2.4 and 2.6). It is characterized by `dₙ(c Dv₁ ∧ … ∧ Dvₙ) = Dc ∧ Dv₁ ∧ … ∧ Dvₙ`; this
-characterizing property is the predicate `DeRham.IsDeRhamDifferential` of `Suggested.lean`, which
-states existence and uniqueness of such a map as `DeRham.existsUnique_isDeRhamDifferential`. The scalar
-ring is `A`; in general `d` is not `B`-linear. The intended Lean signature is
+elementary-form rule also determines the map uniquely. The scalar ring is `A`; in general `d` is not
+`B`-linear. The intended Lean signature is
 
 ```lean
 DeRham.d (A B : Type u) [CommRing A] [CommRing B] [Algebra A B] (n : ℕ) :
@@ -3089,8 +3068,7 @@ For every `n`, `dₙ₊₁ ∘ dₙ = 0` as an `A`-linear map `Ωⁿ → Ωⁿ�
 *Needs:* Layer 2: Differential of an elementary form; Layer 2: Differential symbols generate all forms;
 Mathlib `Derivation.map_one_eq_zero`.
 
-Lean: `DeRham.d_squared` (stated in `Suggested.lean` for any pair of maps satisfying
-`IsDeRhamDifferential`).
+Lean: `DeRham.d_squared`.
 
 ### 2.11 The graded Leibniz identity
 
@@ -3141,10 +3119,8 @@ differential-algebra universal property are the functorial input for polynomial 
 
 For an `A`-algebra homomorphism `f : B → C`, extend the pinned `KaehlerDifferential.mapSemilinear` to
 `f`-semilinear maps `f*ₙ : Ωⁿ_(B/A) → Ωⁿ_(C/A)`, `DeRham.pullback f n`. On elementary forms,
-`c Dv₁ ∧ … ∧ Dvₙ` maps to `f(c) D(fv₁) ∧ … ∧ D(fvₙ)`; this characterization is the predicate
-`DeRham.IsFormPullback` of `Suggested.lean`, with existence and uniqueness stated as
-`DeRham.existsUnique_isFormPullback`; `DeRham.IsFormPullback.zero_degree` identifies degree-zero
-pullback with `f`. These maps are `A`-linear as well, but in general are not
+`c Dv₁ ∧ … ∧ Dvₙ` maps to `f(c) D(fv₁) ∧ … ∧ D(fvₙ)`; the elementary-form rule determines the pullback
+uniquely. In degree zero, pullback identifies with `f`. These maps are `A`-linear as well, but in general are not
 `B`-linear for an unrelated `B`-action on `C`. The intended Lean signature is
 
 ```lean
@@ -3242,8 +3218,8 @@ Prove the following named laws.
 
 For an ordinary base square `A → A′`, `B′ = B ⊗_A A′`, the ordinary differential graded de Rham
 algebra satisfies `Ω•_(B/A) ⊗_A A′ ≃ Ω•_(B′/A′)`, with its ordinary tensor and Hodge filtration; in
-each degree this is the linear equivalence `A′ ⊗_A Ωⁿ_(B/A) ≃ Ωⁿ_(B′/A′)` stated in
-`Suggested.lean`. For polynomial `A`-algebras `B, C`, `Ω•_(B ⊗_A C/A) ≃ Ω•_(B/A) ⊗_A Ω•_(C/A)`,
+each degree this is the linear equivalence `A′ ⊗_A Ωⁿ_(B/A) ≃ Ωⁿ_(B′/A′)`. For polynomial `A`-algebras
+`B, C`, `Ω•_(B ⊗_A C/A) ≃ Ω•_(B/A) ⊗_A Ω•_(C/A)`,
 including the signed differential and degree-sum filtration. In the polynomial case these complexes
 are K-flat: in finitely many variables `Ω•` is a bounded complex of free `A`-modules, and in general
 it is the filtered colimit of these over finite sets of variables, K-flat by
@@ -3259,7 +3235,7 @@ Rham complexes; Layer 2: The graded Leibniz identity; Layer 2: Pullback of ordin
 forms; DerivedModuleAlgebra §0.2 Derived tensor products on module derived categories; Mathlib
 `KaehlerDifferential.D`.
 
-Lean: `DerivedDeRham.ordinaryBaseChangeKunneth` (degreewise linear part in `Suggested.lean`).
+Lean: `DerivedDeRham.ordinaryBaseChangeKunneth`.
 
 **Checks.**
 
@@ -3607,8 +3583,7 @@ Frobenius, the algebraic input to the `B^(1)`-action.
 
 *Needs:* Layer 2: The graded Leibniz identity; Mathlib `Derivation.leibniz_pow`.
 
-Lean: `DeRham.d_frobenius_smul` (stated in `Suggested.lean` for maps satisfying
-`IsDeRhamDifferential`).
+Lean: `DeRham.d_frobenius_smul`.
 
 **Checks.**
 
@@ -4459,8 +4434,7 @@ Prove the following named laws.
   pieces.
 - `test_scheme_derham_base_linear`: for a nonzero ring `A` and `B = A[t]`, `Q_2` has model
   `B --d--> B dt`, with `d(t·1) = dt ≠ 0 = t·d(1)`. Thus its differential cannot be a morphism in
-  `ModuleCat B` or in sheaves of `O_X`-modules. The representative theorem
-  `DeRham.IsDeRhamDifferential.polynomial_not_linear` states this obstruction. Restriction to the
+  `ModuleCat B` or in sheaves of `O_X`-modules. Restriction to the
   overlap `D(t)` gives the same calculation; the affine comparison and its refinement maps use
   base-linear morphisms.
 - `test_scheme_derham_affine_line`: for `X = Spec F_p[t]`, `H¹` of ordinary smooth de Rham cohomology is
@@ -4524,8 +4498,7 @@ SchemeAndStackFoundations §§2.5, 2.18; EnhancedDerivedSheaves §§0.1–0.3, E
 
 - `test_raw_lci_hodge_completion`: for `A = F_p[t] → B = F_p`, `t ↦ 0`, raw `dR` is
   `⊕_(j≥0) F_p·γ_j(t)`, whereas Hodge completion is `∏_(j≥0) F_p·γ_j(t)`. The series with every
-  coefficient equal to 1 is outside the image of completion. The representative Lean theorem
-  states this failure of surjectivity of the finite-support inclusion. Derived p-completion
+  coefficient equal to 1 is outside the image of completion. Derived p-completion
   leaves both characteristic-p objects unchanged.
 - `test_raw_lci_refinement`: over `A = F_p[t]`, take `B = F_p[s]` with `t ↦ 0`. The cover
   `D(s), D(1−s)` and its refinement `D(s²), D(s(1−s)), D((1−s)²)` give the same raw Čech
