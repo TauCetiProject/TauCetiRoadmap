@@ -134,6 +134,37 @@ In THIS smooth-simple application allow a finite-dimensional Hausdorff second-co
 
 **M2.5e Scope and escape test.** M0/M3+ keep their compact-target hypotheses; no nodal gluing, virtual engine, orbifold or simple-image normalization enters this extension. For the split product J=i_(R²)⊕J_(S²) and product symplectic form on R²×S², the spheres `{a}×S²` are regular in one fixed class/area and escape every compact set. Their normal CR line is trivial, tangent is O(2), and both cokernels vanish. Thus no compact moduli/cobordism/count follows. A later such application supplies actual uniform image confinement/no-escape and its relevant compactness theorem. Punctured/noncompact sources, boundary conditions and weighted ends remain separate problems.
 
+### M2.6 Product-class rigidity and its normal obstruction
+
+Let (Σ,j) be a closed connected Riemann surface of genus g with a positive
+area form, and let F be a connected symplectic manifold with a smooth tame J_F, with dim_R F=2(n−1).
+Take n≥1 and use the product form, almost complex structure and class
+A=[Σ×{p}]. Use M2.5's compact-image carrier when F is noncompact. Compactness
+of F is not needed for this smooth-curve statement; no global moduli
+compactness follows in the noncompact case. For a holomorphic map from any
+closed connected Riemann surface into Σ×F in class A, prove that its second
+projection is constant, and that its first projection has degree one and is
+a biholomorphism. Use HF F2.6c's closed-source energy/area identity, separately
+from its compactness applications; derive degree-one rigidity from the local
+positive branching multiplicities. Thus its source genus is forced to be g,
+and identify the smooth unmarked map quotient with F by the constant value
+of its second projection, including the quotient topology. Identify the
+one-marked quotient with Σ×F through its actual evaluation map.
+
+At the slice Σ×{p}, identify the normal CR operator with the ordinary
+∂̄ on the trivial complex bundle Σ×T_pF. Compute kernel T_pF and cokernel
+`H^(0,1)(Σ)⊗_ℂ T_pF`, of complex dimensions n−1 and g(n−1).
+Compare with M2's full moving-domain deformation complex: cancel the tangent
+and domain-deformation directions while retaining the low-genus automorphism
+quotient, and prove the same normal obstruction remains. Compute
+`<c₁(T(Σ×F)),A>=2−2g`, actual real moduli dimension2n−2 and signed expected
+real dimension `(n−1)(2−2g)`. Prove regularity for g=0 and nonregularity for
+g>0,n>1. At n=1, F is a point, the normal bundle is zero and the curve is
+regular in every genus; the unmarked quotient is one point, with trivial
+stabilizer and actual/expected dimension0. This explicit nongeneric product family
+is a test of the index and universal-J theorem, not an application of its
+generic-parameter conclusion to a fixed product J.
+
 ## M3. Global stable-map topology and compactness
 
 Before the cross-center/open-image argument, prove the **bubble-openness lemma** for a chosen finite stabilization by auxiliary labels. Use D7.1's `forgetAuxiliarySet` on the retained-arrow groupoid with specified retained and forgotten auxiliary-label sets, its enumeration-independent comparison, permutation-arrow/Aut descent and family/base-change laws, in the stable target-signature range on the combined marked D-family. Retain the **full graph over the uncontracted combined universal domain**, with all labels and multiplicities. Push this graph under the domain contraction only as a graph relation for the exclusion test; it need not be a graph of a map before that test. On relatively compact family patches choose uniform exact target balls and shrink the domain/target buffers using the reference map's modulus of continuity. If a component is contracted to one domain point, every point of its image then lies in the same small exact ball. Stokes and taming exclude every nonconstant closed normalization component there; the uniform primitive/monotonicity constants are the earlier M3 energy-threshold inputs, not a finite-graph bound. Allow stable collision bubbles when transported retained u-labels meet comparison v-labels. They are inserted domain vertices, not original components of the map. After deleting comparison-only tails, construct the collision refinement so each remaining inserted vertex has at least two retained special flags; prove this from the marked-point bubble/forget construction. Each original constant vertex in a contracted rational tree has at least three retained special flags. If V_orig and V_ins are the two vertex counts, the whole-tree identity gives at least `3V_orig+2V_ins−2(V_orig+V_ins−1)=V_orig+2` external flags. A contracted tree has at most two, hence V_orig=0. Thus only pure inserted constant trees may contract, harmlessly; no original vertex or nonconstant-map multiplicity is discarded. Use the whole-tree count, not a false three-flags assertion for collision vertices or a claim that individual ghosts stay stable after each iterative contraction. The chosen stable target signature excludes contraction of an entire unmarked genus-one exceptional curve. Transport the retained auxiliary labels in disjoint off-node local sections; the surviving augmented source remains pointed stable and, after shrinking, belongs to the chosen D chart. Prove in this way that the chart image under auxiliary forgetting is open before M7. No faithful graph is replaced by its collapsed relation in the countable presentation.
@@ -153,6 +184,31 @@ Prove every covering condition used in IS4.2(a–g): a fixed finite cover of the
 There is a useful explicit combinatorial bound. If a is the number of nonconstant components, energy gives `a*hbar<=omega(beta)`. For a stable connected limit graph, summing `2g_v-2+val_v` gives `2g-2+n`; each ghost vertex contributes at least1 and each nonconstant vertex at least−2. Hence `#ghost<=2g-2+n+2a`, and `#edges<=3a+3g-3+n`. Interpret an impossible negative bound as emptiness. Construct the bound and a uniform finite auxiliary-mark budget rather than presuming all map domains lie in the stable pointed DM space. Irrational symplectic periods do not obstruct the positive analytic energy threshold; no minimum positive period in the full homology lattice is assumed.
 
 Upgrade the resulting sequential compactness using the independently proved global second countability: it implies Lindelof, sequential compactness implies countable compactness, and together they imply compactness. Prove the same countable presentation and subsequence theorem over compact smooth parameter bases. Thus the conclusion is compact Hausdorff coarse stable-map spaces and proper projection to compact P for compact smooth tame J-families; closed subsets over compact subsets of P are compact by the same argument. It is not compactness of every thickened chart, nor a claim that the nonregular coarse source has finite CW type. Construct this theorem for all genera, including varying conformal structures and degenerating normalization components; local gluing charts alone do not prove it. For the zero-area case, prove every component map constant. The space is empty unless beta=0; for beta=0 the underlying domain must have the stable pointed signature, and the constant-map space is the product of X with the corresponding stable-domain coarse space. Treat that case without a nonconstant rescaling argument.
+
+### M3.1 A nodal conic limit in the complex projective plane
+
+On CKG K7's projective carrier CP² with its standard complex structure and
+a Fubini–Study form, construct the family `XY=εZ²`. For ε≠0 identify each
+fiber as the embedded degree2 sphere parametrized by
+`[s:t]↦[s²:εt²:st]`. Prove that its stable-map limit as ε→0 consists of
+two degree1 components, the lines X=0 and Y=0, meeting at [0:0:1].
+Give the source node and both normalization maps. The source plumbing is
+`zv=ε`, with v=1/w on the bubble branch. In target coordinates x=X/Z, y=Y/Z
+near [0:0:1], the smoothing is `xy=ε` and the map is x=z, y=v.
+The map is stable because both components are nonconstant; no unmarked
+pointed-domain stability is assumed.
+
+Verify convergence in M3's actual topology: in z=s/t the principal component
+converges away from z=0 to `[z:0:1]`, while z=εw gives the bubble map
+`[0:1:w]` away from its node w=∞. Prove no additional component or energy
+is lost: if a line has area L, the smooth conic has area2L and both limiting
+components have area L. Use the genus-zero dual tree and unmarked stability
+to exclude extra constant components, separately from this area argument.
+Compare the source smoothing, target maps, homology classes and energy measures. Deduce noncompactness of the smooth embedded
+conic locus by M3's Hausdorff uniqueness of stable limits and its comparison
+with the smooth quotient topology: this two-component limit cannot be
+isomorphic to a smooth-domain map. Exhibit it in the stable-map compactification.
+Convergence of image sets alone does not establish convergence of maps.
 
 ## M4. Nodal linearization, index and finite-dimensional obstruction data
 
