@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-This roadmap owns the arithmetic comparisons of ordinary Hecke algebras with deformation and pseudo-deformation rings, the permissible and nice-prime conditions, the arithmetic verification of characteristic-p patching, the resulting localized `R = T` statements, and their ordinary modularity consequences. The finite-set pairing and trace in Suggested.lean express the coefficient formulas used by these comparisons. They do not construct a quaternionic class set or an ordinary tower.
+This roadmap owns the arithmetic comparisons of ordinary Hecke algebras with deformation and pseudo-deformation rings, the permissible and nice-prime conditions, the arithmetic verification of characteristic-p patching, the resulting localized `R = T` statements, and their ordinary modularity consequences. Suggested.lean states the connectedness and component-intersection theorems of §4.3, the numerical criterion of §4.20 and the distinct-prime class-group theorem of §5.9.
 
 PadicFamilies, Layers 0a, 0, 4 and 5, owns ordinary projectors, towers, control, freeness, weight algebras and the classical big ordinary Galois representation. The comparisons and EPW new-quotient refinements below add arithmetic compatibility. HilbertModularVarietiesAndShimuraCurves §§R18.3.1–R18.3.22 supplies fixed-central-character definite forms, neat levels and integral pairings. GL2AutomorphicRepresentationsAndTransfer §§R17.3.1–R17.3.9, R17.4.8–R17.4.11 and R17.4.16 supplies Jacquet–Langlands, solvable base change/descent and quadratic induction. Sections 1.6, 4.6a and 6.14 specify the additional arithmetic realization, single-coefficient descent and solvable preparation needed here.
 
@@ -20,9 +20,9 @@ ClassicalSerreModularity §I.1 owns the classical ℚ ordinary lifting theorems,
 
 For the Skinner–Wiles constructions, `p` is an odd prime, `F` is totally real, `d = [F:ℚ], 𝒫 = {v₁,…,v_t}` is the set of places over `p`, and `d_i = [F_{v_i}:ℚ_p]`. Fix an identification of algebraic closures `Q̄_p` and `ℂ` when comparing algebraic eigenforms and p-adic Hecke eigenvalues. The quaternionic realization additionally requires `d` even and uses the algebra `D/F` ramified exactly at infinity and split at every finite place. Let `𝒪` be the ring of integers of a finite extension of `ℚ_p`, with uniformizer `ϖ`, fraction field `K` and finite residue field `k`. Complete local coefficient rings are Noetherian 𝒪-algebras with specified residue field. Equal-characteristic `k[[λ]]` enters only after reduction at a characteristic-p prime and in the patching argument, not as a replacement for `𝒪` in the arithmetic lifting hypotheses.
 
-Write `X(U) = D×\Gᴰ(𝔸_f)/U` and identify `H⁰(X(U),R)` with functions `X(U) → R`. The stabilizer order is `c_U(x)`. The arithmetic pairing is `Σ_x c_U(x)⁻¹ f(x)g(x)`, defined over `R` when these orders are units. Over a field the finite-set formula `quaternionicPairing` is defined for any counts, but perfectness requires every cast count to be nonzero; the inverse-of-zero convention does not remove this requirement. On one point over `ℚ, c=2` and `f=3,g=4` give 6; `c=0` gives 0 and a degenerate pairing. Over `𝔽₂, c=2` also gives zero. A unit-stabilizer two-point set gives `2·4+3·5=23`.
+Write `X(U) = D×\Gᴰ(𝔸_f)/U` and identify `H⁰(X(U),R)` with functions `X(U) → R`. The stabilizer order is `c_U(x)`. The arithmetic pairing is `Σ_x c_U(x)⁻¹ f(x)g(x)`, defined over `R` when these orders are units. Over a field the finite-set pairing formula is defined for any counts, but perfectness requires every cast count to be nonzero; the inverse-of-zero convention does not remove this requirement. On one point over `ℚ, c=2` and `f=3,g=4` give 6; `c=0` gives 0 and a degenerate pairing. Over `𝔽₂, c=2` also gives zero. A unit-stabilizer two-point set gives `2·4+3·5=23`.
 
-For a finite-set map `π:Y → X`, restriction is `f ↦ f∘π` and `traceAlong` is `g ↦ (x ↦ Σ_{π(y)=x}g(y))`, with no division by the fibre size. Two values 2 and 3 in one fibre have trace 5, and an empty fibre has trace 0. The arithmetic level trace sums level cosets, so a class `y` above `x` occurs `c_U(x)/c_V(y)` times; it agrees with `traceAlong` when the effective stabilizers are free. For `c_U(x)=2,c_V(y)=1` and `g(y)=3` it has value 6, making the target weighted value `(1/2)·6=3` equal the source value. The superscript `⁺` denotes the action through the Hecke adjoint `t⁺`, not a norm-factor subspace or a central-character condition. A central double coset `z` translates in one direction, and its adjoint translates by `z⁻¹`. The completed group-ring duality uses the coefficient of the identity, not the augmentation that sends every group element to 1.
+For a finite-set map `π:Y → X`, restriction is `f ↦ f∘π` and the fibre trace is `g ↦ (x ↦ Σ_{π(y)=x}g(y))`, with no division by the fibre size. Two values 2 and 3 in one fibre have trace 5, and an empty fibre has trace 0. The arithmetic level trace sums level cosets, so a class `y` above `x` occurs `c_U(x)/c_V(y)` times; it agrees with the unweighted fibre trace when the effective stabilizers are free. For `c_U(x)=2,c_V(y)=1` and `g(y)=3` it has value 6, making the target weighted value `(1/2)·6=3` equal the source value. The superscript `⁺` denotes the action through the Hecke adjoint `t⁺`, not a norm-factor subspace or a central-character condition. A central double coset `z` translates in one direction, and its adjoint translates by `z⁻¹`. The completed group-ring duality uses the coefficient of the identity, not the augmentation that sends every group element to 1.
 
 Normalize the residually reducible representation as `ρ_c = (1 c;0 χ)`, with `χ` totally odd and `χ|D_i ≠ 1`. Require `c ≠ 0` where the Schur condition is used. Its ordinary local flag has sub-character reducing to `χ` and quotient reducing to 1; local admissibility permits that flag by requiring the residual extension to split at p. Distinguish this local flag from the displayed global upper-triangular presentation. With an irreducible residual representation use the specified local characters `χ₁⁽ⁱ⁾,χ₂⁽ⁱ⁾` and the χ₂-good ordinary modular seed. Distinctness is on `D_i`; it need not hold on inertia.
 
@@ -175,17 +175,17 @@ Perfection on `X(U)` follows by the point-indicator basis with diagonal Gram ent
 Provide the following operations and compatibility statements.
 
 - `stabiliserCount`: `c_U(x) =` #Stab_Ū(x).
-- `quaternionicPairing`: ⟨f, `g⟩_U = Σ c_U(x)^{−1} f(x)g(x)`.
-- `quaternionicPairing_perfect`: `H⁰ ≅ Hom_R(H⁰, R)` when all `c_U(x)` are units. On a finite set `X`, Suggested.lean states its full coefficient-ring form: for unit weights `c:X→Rˣ` over any commutative ring and every linear functional `ℓ`, there is a unique `f` with `Σ_x c(x)⁻¹f(x)g(x)=ℓ(g)` for every `g`. Taking the units to be the stabilizer counts gives the arithmetic pairing; over a field this is `quaternionicPairing`.
+- The stabilizer-weighted pairing: ⟨f, `g⟩_U = Σ c_U(x)^{−1} f(x)g(x)`.
+- Perfection: `H⁰ ≅ Hom_R(H⁰, R)` when all `c_U(x)` are units. The full coefficient-ring form on a finite set `X` is: for unit weights `c:X→Rˣ` over any commutative ring and every linear functional `ℓ`, there is a unique `f` with `Σ_x c(x)⁻¹f(x)g(x)=ℓ(g)` for every `g`. Taking the units to be the stabilizer counts gives the arithmetic pairing; over a field this is the displayed finite-set pairing.
 - `quaternionicPairing_hecke_adjoint`: ⟨[UgU]f, h⟩ `=` ⟨f, `[Ug^{−1}U]h⟩`.
 - `heckeAdjoint`: `t ↦ t⁺`, an isomorphism `T(U_a, 𝒪) ≅ T⁺(U_a, 𝒪)`.
 - `ordinaryPairing_perfect`: `eH⁰ × eH⁰⁺ → R` is perfect.
 - `quaternionicPairing_central_scaling`: For parallel weight 2, trivial coefficients and trivial central character, with both effective stabilizer orders units, `B_X(q* f,q* g)=#C·IntegralPairing(f,g)` on the central quotient.
-- `quaternionicPairing_nondegenerate`: For any finite `X` and field `R`, the coefficient pairing is nondegenerate if every cast count `c(x)` is nonzero. Testing against the point indicator at `x` recovers `f(x)`. This is the precise field-valued signature in Suggested.lean; the arithmetic integral assertion requires unit counts.
+- Nondegeneracy: For any finite `X` and field `R`, the coefficient pairing is nondegenerate if every cast count `c(x)` is nonzero. Testing against the point indicator at `x` recovers `f(x)`. The arithmetic integral assertion requires unit counts.
 
 **Checks.**
 
-- `quaternionicPairing_free`: If Ū acts freely (all `c_U(x) = 1`), ⟨f, g⟩ `= Σ f(x)g(x)` and the Gram matrix in the basis of point indicators is the identity.
+- Free effective stabilizers: If Ū acts freely (all `c_U(x) = 1`), ⟨f, g⟩ `= Σ f(x)g(x)` and the Gram matrix in the basis of point indicators is the identity.
 - On `X(U)` one point with stabiliser order `c`: ⟨f, g⟩ `= c^{−1}fg`, perfect `iff c` is a unit in `R`; over `𝒪` with `p | c` the pairing is not defined.
 - If the count at a point vanishes in the coefficient field, its point indicator is nonzero but pairs to zero with every function. Positive natural-number counts divisible by the characteristic have this defect too.
 - `heckeAdjoint_central`: For central `g = z ∈ A_f^×`, [UzU] is translation by `z` and its adjoint is translation by `z^{−1}`.
@@ -210,16 +210,16 @@ For `x∈X(U)` and `y` above `x`, the number of coset representatives giving `y`
 
 Provide the following operations and compatibility statements.
 
-- `traceAlong`: For a finite map `π:Y→X` and additive coefficients, `traceAlong(π,g)(x)=∑_{π(y)=x}g(y)`. This is the unweighted finite-set shadow; the arithmetic trace also counts stabilizer multiplicities.
-- `traceAlong_id`: For `π=id_X`, traceAlong(π,g)=g.
-- `sum_comp_mul_eq_sum_mul_traceAlong`: For commutative semiring coefficients, `∑_y f(πy)g(y)=∑_x` f(x)traceAlong(π,g)(x).
-- `traceAlong_comp`: For finite maps `Z→Y→X` and additive coefficients, trace along the composite equals successive unweighted fibre traces. For the arithmetic level trace the corresponding multiplicity factors `c_U/c_V` and `c_V/c_W` multiply to `c_U/c_W`.
+- For a finite map `π:Y→X` and additive coefficients, `tr_π(g)(x)=∑_{π(y)=x}g(y)`. This is the unweighted finite-set shadow; the arithmetic trace also counts stabilizer multiplicities.
+- For `π=id_X`, the fibre trace is `g`.
+- For commutative semiring coefficients, `∑_y f(πy)g(y)=∑_x f(x)tr_π(g)(x)`.
+- For finite maps `Z→Y→X` and additive coefficients, trace along the composite equals successive unweighted fibre traces. For the arithmetic level trace the corresponding multiplicity factors `c_U/c_V` and `c_V/c_W` multiply to `c_U/c_W`.
 
 **Checks.**
 
 - If Y=Fin `2, X` is a singleton and `g=(2,3)`, the trace at the single point is 5; it is a sum, not an average.
 - For π:Unit→Fin 2 with `π(*)=0` and `g(*)=7`, the trace at 1 is 0.
-- `traceAlong_id`: For `π=id` on a finite type, every fibre is a singleton and the trace is `g`.
+- For `π=id` on a finite type, every fibre is a singleton and the trace is `g`.
 - An empty source gives the zero function on every finite target.
 - The traces are the transition maps of `M_∞`; the pullbacks are those of `H_∞`.
 - For one target class of stabilizer order 2 and one source class of order 1, the trace of value 3 is 6, not 3; the weighted target pairing is then `(1/2)·6=3`.
@@ -713,28 +713,28 @@ A (2-dimensional) pseudo-representation of `Gal(F̄/F)` into a commutative topol
 
 `p` odd; the complex conjugation `z_1` normalises the basis.
 
-The identities for `{a_σ, d_σ, b_σc_τ}` expand the matrix product, as in `PseudoRep.ofRep`.
+The identities for `{a_σ, d_σ, b_σc_τ}` expand the matrix product.
 
 The trace a `+ d` is a 2-dimensional pseudocharacter (IntegralHeckeAndGaloisDeterminants §0.5), 2 being invertible.
 
 Provide the following operations and compatibility statements.
 
-- `PseudoRep`: `{a, d, x}` with the seven identities.
-- `PseudoRep.trace`: a `+ d`.
-- `PseudoRep.det`: `a(σ)d(σ) − x(σ, σ)`.
-- `PseudoRep.ofRep`: `{a_σ, d_σ, b_σc_τ}` for a continuous matrix representation `ρ` with `ρ(z_1) = diag(1, −1)`, over a commutative topological ring with 2 invertible.
-- `PseudoRep.residual`: The actual continuous ordered triple `{1,χ,0}` for a character `χ` with `χ(z_1)=−1`.
-- `PseudoRep.ofRep_conj_diagonal`: Diagonal conjugation does not change ofRep.
-- `PseudoRep.trace_isPseudocharacter`: The trace is an IHG.0 pseudocharacter of dimension 2.
+- The ordered data: `{a, d, x}` with the seven identities.
+- Trace: a `+ d`.
+- Determinant: `a(σ)d(σ) − x(σ, σ)`.
+- Representation comparison: `{a_σ, d_σ, b_σc_τ}` for a continuous matrix representation `ρ` with `ρ(z_1) = diag(1, −1)`, over a commutative topological ring with 2 invertible.
+- Residual triple: The actual continuous ordered triple `{1,χ,0}` for a character `χ` with `χ(z_1)=−1`.
+- Diagonal conjugation leaves the ordered construction unchanged.
+- Pseudocharacter comparison: The trace is an IHG.0 pseudocharacter of dimension 2.
 
 **Checks.**
 
 - For 2×2 matrices, `b_{στ}c_{αβ} = (a_σb_τ + b_σd_τ)(c_αa_β + d_αc_β)` expands to the fourth identity.
-- Directly evaluate `PseudoRep.trace` and `PseudoRep.det` at 1 to obtain `(2,1)`, and on `PseudoRep.residual` at `σ` to obtain `(1+χ(σ),χ(σ))`. On `PseudoRep.ofRep` with matrix `[[2,1],[1,1]]` obtain trace 3, determinant 1 and `x(σ,σ)=1`; neither a negated trace nor a constant determinant passes these tests.
+- Directly evaluate the trace and determinant at 1 to obtain `(2,1)`, and on the residual triple at `σ` to obtain `(1+χ(σ),χ(σ))`. On the ordered construction with matrix `[[2,1],[1,1]]` obtain trace 3, determinant 1 and `x(σ,σ)=1`; neither a negated trace nor a constant determinant passes these tests.
 - `pseudoRep_residual`: `ρ_c` and `ρ_{c′}` have the same pseudo-representation `ρ_0 = {1, χ, 0}`, since `x =` bc vanishes when c-entries are 0.
-- `pseudoRep_det_of_rep`: For `ρ = (a b`; `c d`), the ordered construction has trace `a_σ+d_σ=trρ(σ)` and determinant `a_σd_σ − b_σc_σ=detρ(σ)`, as stated in Suggested.lean.
-- `PseudoRep.ofRep_conj_diagonal`: Conjugating by `diag(u, 1)` scales `b` by `u` and `c` by `u^{−1}`, leaving `b_σc_τ` fixed.
-- For fixed `z₁` and 2 invertible, `a(σ)=(T(σ)+T(z₁σ))/2`, `d(σ)=(T(σ)−T(z₁σ))/2` and `x(σ,τ)=a(στ)−a(σ)a(τ)`. The normalizer-dependent ordered presentation carries no independent data beyond the trace. `PseudoRep.trace_recovery` gives the doubled equations and the formula for `x` in Suggested.lean.
+- For `ρ = (a b`; `c d`), the ordered construction has trace `a_σ+d_σ=trρ(σ)` and determinant `a_σd_σ − b_σc_σ=detρ(σ)`.
+- Conjugating by `diag(u, 1)` scales `b` by `u` and `c` by `u^{−1}`, leaving `b_σc_τ` fixed.
+- For fixed `z₁` and 2 invertible, `a(σ)=(T(σ)+T(z₁σ))/2`, `d(σ)=(T(σ)−T(z₁σ))/2` and `x(σ,τ)=a(στ)−a(σ)a(τ)`. The normalizer-dependent ordered presentation carries no independent data beyond the trace. Equivalently, `2a(σ)=T(σ)+T(z₁σ)` and `2d(σ)=T(σ)−T(z₁σ)`.
 - Every `ρ_c, c ∈ H¹(F_Σ/F, k(χ^{−1}))`, has pseudo-representation `ρ_0`: the pseudo-deformation ring forgets `c`.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §2.4, p. 19 (Numdam PDF page 16; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §2.4, p. 21 (Numdam PDF page 18; printed page `=` PDF page `+ 3).`)
@@ -1132,7 +1132,7 @@ Use the diagonal weight action on the tensor product: if `ḡ` is the `N_𝒟`-c
 
 - At `n=1` the trace twist is `Φ(Frob_ℓ)⁻¹` and the central twist is its square. At `N_𝒟=1` both twists and the group factor are trivial.
 - Choose a good `ℓ` with `χ(Frob_ℓ)=1`. The trace has residue 2 and is a unit since `p` is odd; the central operator is a unit too. Cancelling either in the mixed-tensor rule recovers the same value `α(1⊗[n])=Φ(n)`.
-- Under a character `ξ`, the two corrected mixed images specialize to `(T(ℓ) mod q)ξ(n)` and `(S(ℓ) mod q)ξ(n)`. The coefficient theorem `tensorTwist_characterCheck` verifies both cancellations with arbitrary unit character values.
+- Under a character `ξ`, the two corrected mixed images specialize to `(T(ℓ) mod q)ξ(n)` and `(S(ℓ) mod q)ξ(n)`. Both cancellations hold for arbitrary unit character values.
 - A quotient coordinate twists by `[ū]` while the determinant twists by `[ḡ]²`; replacing the former by its square would change the chosen ordinary quotient.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.6, p. 54 (Numdam PDF page 51; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.6, Proposition 3.23, p. 55 (Numdam PDF page 52; printed page `=` PDF page `+ 3).`)
@@ -1568,6 +1568,8 @@ A Noetherian local Cohen–Macaulay; `I⊆m_A`; `r ≤ d − 2`.
 
 Proposition A.1 (Raynaud, Corollaire 4.2): Prove that `Spec(A/I) ∖ {m_A/I}` is connected as the first assertion of this target.
 
+Suggested.lean states these results as `puncturedSpectrum_connected` and `components_meet_in_large_dimension`. Its predicate `IsCohenMacaulayLocal` expresses Cohen–Macaulayness by a regular sequence of length `dim A`; the component statement uses Mathlib’s minimal primes over `I`.
+
 Induction on `d − r`: for `d − r = 2` this is the proposition; otherwise pick a one-dimensional `𝔭` in `C′_1 ∩ C′_2` and pass to `A_𝔭` (Cohen–Macaulay of dimension `d − 1`), where the decomposition stays nontrivial.
 
 **Checks.**
@@ -1958,6 +1960,8 @@ The numerical criterion applies in §4.15 after its DVR cut, with the compatible
 
 Prove [de Smit–Rubin–Schoof, Criterion I](https://www.mat.uniroma2.it/~schoof/ci.pdf) in its full complete-DVR form. Let `C` be a complete DVR and `R↠T` a surjection of complete Noetherian local C-algebras with compatible surjective augmentations to `C`, with `T` finite flat over `C`. Put `H_R=ker(R→C)`, `G_T=Ann_T(ker(T→C))`, `δ:T→C` and `η_T=δ(G_T)`, and assume `η_T≠0`. Then `ℓ_C(H_R/H_R²)≥ℓ_C(C/η_T)`, with equality exactly when `R→T` is an isomorphism between complete intersections over `C`. Thus the opposite weak inequality suffices for the isomorphism. This includes the case with `R` finite and `T` a reduced complete intersection used in the arithmetic argument; the general criterion allows an arbitrary complete Noetherian `R` and finite flat `T`. (Criterion I, Introduction, author PDF p. 1; proof in §3, pp. 10–11; in Modular Forms and Fermat's Last Theorem, Springer, 1997.)
 
+Suggested.lean states Criterion I as `numerical_completeIntersection_criterion`. Its predicate `IsRelativeCompleteIntersection` means a presentation by a regular sequence in a finite-variable power-series algebra over `C`.
+
 Skinner–Wiles characteristic-p patching over `k[[T]]`, with its data, all axioms `(5.1)–(5.11)`, and the conclusions of Lemma 5.6 and Propositions 5.7–5.9. Let `k` be a finite field of characteristic `p`, `A = k[[T]]` with fraction field `K`, and `𝓛 = {0} ∪ {N_j : j≥1}`, where the `N_j` are strictly increasing positive odd integers, and `n ≥ 1`; Set `A₀=B₀=A`. For each positive odd `N∈𝓛`, define `A_N = A[[s_1, …, s_n]]/(s_i^{N+1})` and `B_N = A[[t_1, …, t_n]]/(t_i^{(N+1)/2}) ⊆ A_N` via `t_i ↦ s_i²/(1+s_i) = (1+s_i)+(1+s_i)⁻¹−2`. A patching datum is: rings `R^{(N)} = A[[x_1, …, x_m]]/𝔞^{(N)}` (`m` independent of `N`) finite free over `A` with `𝔞^{(N)} ⊆ (x_i)`, surjections `R^{(N)} ↠ R^{(0)}`, B_N-algebra structures, and for `a=0` or odd `1≤a≤N`, rings `R^{(N)}_a` with `(5.2)–(5.5)` (`𝔭^{d(a)} = 0` in `R^{(N)}_a, 𝔭/𝔭² ≅ Aⁿ ⊕ Tor` with `Tor` bounded independently of `N` and `a`); trace subrings `R^{tr(N)} = A[[y_1, …, y_m]]/𝔟^{(N)}` with `(5.6)–(5.8)` (the cokernel of `𝔮/𝔮² → 𝔭/𝔭²` bounded independently of `N`); modules `M^{(N)}` free over `A` of rank `r·rank_A A_N`, compatible over `A_N`, with quotients `M^{(N)}_a` satisfying `(5.9)–(5.10)` (in particular `M^{(N)}_a ⊗ K` free over `A_a ⊗ K` with (s_i)-coinvariants `M^{(0)} ⊗ K`, and `z·M^{(0)} ⊆ M^{(N)}_0` for a fixed `z` with `ord_T(z mod 𝔮^{(0)}) ≠ 0`); and `x^{(N)} ∈ R^{tr(N)}` annihilating `ker(M^{(N)}_a/(s_i) ↠ M^{(N)}_0)` with `ord_T(x^{(N)} mod 𝔮^{(N)}) = t` independent of `N` (5.11).
 
 Prove the abstract characteristic-p extraction, freeness and complete-intersection conclusions of SW99 Lemma 5.6 and Propositions 5.7–5.9 for precisely this datum. Supply the indicated augmentation ideals `H_R` and `G_T` and congruence map `δ` of de Smit–Rubin–Schoof Criterion `I` when using the numerical criterion: the compatible augmentations `R→C` and `T→C` are part of the data, `H_R=ker(R→C), G_T=Ann_T(ker(T→C))`, and `δ:T→C`. The length inequality is asserted when the displayed lengths are finite. These are mathematical existence and comparison theorems. Their arithmetic verification is §4.8; their generic-fibre applications are §4.9. The stronger Cohen–Macaulay connectedness and intersection theorem is proved in §4.3 from SW99 Appendix A.1–A.2.
@@ -2168,7 +2172,7 @@ Define the additional hypothesis `CMComponentSupport` as follows. There exist a 
 
 **Conditional lifting** (`fullScopeOrdinaryLifting`). Under these hypotheses and `CMComponentSupport`, `ρ` is attached to a cuspidal nearly ordinary Hilbert representation over `F`, with the specified local quotient labels. In the absence of complex-place inducing fields §5.6 supplies the lifting conclusion independently of this additional hypothesis. For `F=ℚ` the full classical conclusion and imaginary-quadratic correction are owned by ClassicalSerreModularity §I.1 and consumed through §5.7.
 
-Prove the implication through the supplied surjection: `ker(r_{𝒟_L})⊆q⊆ker(x_L)` gives a unique local `𝒪`-algebra map `θ_L:T_{𝒟_L}→𝒪` with `θ_L∘r_{𝒟_L}=x_L`. Surjectivity makes it a continuous map respecting the determinant and quotient weight coordinates. The coefficient statement `componentSupport_factor` in Suggested.lean records this factorization with the support inclusion as an explicit argument. The determinant and finite-order inertial quotient make `θ_L` algebraic, so PadicFamilies §5.8 realizes it by a nearly ordinary form of parallel weight `μ+1`. Compare its Galois representation using §3.34 and the distinguished quotient recovery; then apply §4.6a's single-coefficient solvable descent.
+Prove the implication through the supplied surjection: `ker(r_{𝒟_L})⊆q⊆ker(x_L)` gives a unique local `𝒪`-algebra map `θ_L:T_{𝒟_L}→𝒪` with `θ_L∘r_{𝒟_L}=x_L`. Surjectivity makes it a continuous map respecting the determinant and quotient weight coordinates. The determinant and finite-order inertial quotient make `θ_L` algebraic, so PadicFamilies §5.8 realizes it by a nearly ordinary form of parallel weight `μ+1`. Compare its Galois representation using §3.34 and the distinguished quotient recovery; then apply §4.6a's single-coefficient solvable descent.
 
 Every use of this full-scope export for a complex-place inducing field carries `CMComponentSupport`. A bound of `δ⁻=d_L` on a CM constituent does not imply the required kernel inclusion.
 
@@ -2186,6 +2190,8 @@ Every use of this full-scope export for a complex-place inducing field carries `
 ### 5.9 The distinct-prime class-group bound in the abelian lifting route
 
 Let `K` be an abelian number field, `ℓ` and `p` distinct primes, and `K_n/K` the layer of degree `ℓⁿ` of the cyclotomic ℤ_ℓ-extension of `K`. Then the orders of the p-primary parts of the class groups of the `K_n` are bounded independently of `n`, and so are eventually constant (Washington, §1, Theorem, p. 87). §5.2 applies this to `E` and `E(χ)`, both abelian over `ℚ`, with `ℓ ≠` p.
+
+Suggested.lean states the bound and eventual constancy as `cyclotomic_classGroup_primary_stabilizes`, with `pPrimaryClassNumber` the order of Mathlib’s p-primary class subgroup. The layers are number fields with degree `ℓⁿ` over `K`, successive field embeddings, and embeddings into finite `K(μ_{ℓ^m})`; these conditions express the cyclotomic tower on native field carriers.
 
 `K` abelian over `ℚ` and `ℓ ≠ p` are both essential. The bound concerns character sums with coefficients involving the two distinct primes; it is not a consequence of a same-prime Iwasawa μ-invariant statement.
 
