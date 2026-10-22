@@ -90,8 +90,11 @@ too, under their Tau Ceti names; `LocalFieldsRamification` states the ones the p
 revision lacks, under the same names, so the unqualified names used below resolve to Tau Ceti's
 declarations once those are imported.
 
-ArithmeticGaloisRepresentations §3.2 owns finite and absolute unit-filtration reciprocity and the
-upper-numbering character-conductor comparison, using the reciprocity maps and conductors here.
+Unit-filtration reciprocity is stated at finite level, `map_unitFiltration_normResidue`, on the
+unit filtration and upper numbering of `LocalFieldsRamification`. Its absolute form, the closure of
+`artinMap (U_K^(n))` as the image of the absolute upper group `G_K^n`, is a `README.md` target:
+its carrier, the absolute upper filtration of `LocalFieldsRamification` Layer 4a, is missing at the
+pinned revisions.
 -/
 
 namespace TauCetiRoadmap.ClassFieldTheory
@@ -2161,6 +2164,30 @@ theorem unitFiltration_characterConductorExp_le_ker
     (chi : ContinuousMonoidHom Kˣ ℂˣ) :
     LocalFieldsRamification.unitFiltration K (characterConductorExp K chi)
       ≤ chi.toMonoidHom.ker :=
+  sorry
+
+/-- **Unit-filtration reciprocity** (Serre, *Local Fields*, XV §2, Theorem 2). For a finite
+abelian `L/K`, in either characteristic, and every depth `n ≥ 0`, the finite reciprocity map
+carries the image of `U_K^(n)` onto the upper ramification group `Gal(L/K)^n`, read in the
+abelianization. At `n = 0` the image is the inertia group. -/
+theorem map_unitFiltration_normResidue [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L]
+    (_hab : ∀ sigma tau : L ≃ₐ[K] L, sigma * tau = tau * sigma) (n : ℕ) :
+    (LocalFieldsRamification.unitFiltration K n).map
+        ((normResidue K L).toMonoidHom.comp
+          (QuotientGroup.mk' (LocalFieldsRamification.normGroup K L))) =
+      (LocalFieldsRamification.upperRamificationGroup K L
+        ⟨(n : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg n)⟩).map
+          Abelianization.of :=
+  sorry
+
+/-- **The conductor exponent is read off the upper numbering**: for a finite abelian `L/K` it is
+the least depth `n` with `Gal(L/K)^n = 1`. A consequence of `map_unitFiltration_normResidue`. -/
+theorem conductorExponent_eq_sInf_upperRamificationGroup [Algebra K L]
+    [ValuativeExtension K L] [Module.Finite K L] [IsGalois K L]
+    (_hab : ∀ sigma tau : L ≃ₐ[K] L, sigma * tau = tau * sigma) :
+    conductorExponent K L = sInf {n : ℕ | LocalFieldsRamification.upperRamificationGroup K L
+      ⟨(n : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg n)⟩ = ⊥} :=
   sorry
 
 /-! ### The cyclotomic normalization
