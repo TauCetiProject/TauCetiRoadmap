@@ -6,6 +6,8 @@
 
 The work here concerns arithmetic specialisations and comparison theorems. Existing completed-tower carriers, abstract patching and local deformation representability retain their suppliers’ definitions; relative Robba rings, Galois realization, character modules and triangulation data retain PhiGammaModulesAndIwasawaCohomology as their owner; smooth local Langlands families and determinant laws retain SmoothRepresentationsOfLocalGroups and IntegralHeckeAndGaloisDeterminants as their owners. Layer 0 constructs the local p-adic representation theory, Scholze functor and definite unitary input needed for the comparisons. An arithmetic comparison below adds the named geometric tower, coefficient system, Hecke operators or integral normalisation; it does not introduce a replacement generic carrier.
 
+`Suggested.lean` contains no headline theorem signatures: the pinned libraries lack the arithmetic completed towers, local Langlands functors and Galois deformation rings needed to state them. Its module docstring identifies these missing objects by target. The named interfaces below specify the library to be built; the mathematical statements and their hypotheses are given in their respective sections.
+
 | Mathematics | Owner |
 |---|---|
 | Generic completed towers, coefficient limits, duality, admissibility, descent, supports, the CompletedCohomologyPartII Layer 8 modular/Hilbert/quaternionic realisation, the derived Hecke inverse limit and its residual localisation; compatible-sections construction for specified cohomological image diagrams | CompletedCohomologyPartII Layers 0–8 |
@@ -379,7 +381,7 @@ Use the following named interfaces:
 - `TauCeti.ModularCompletedCohomology.galoisAction` (instance): The continuous `G_ℚ`-action, unramified outside `Σ(K^p)` at tame level `K^p`, commuting with G and the Hecke operators.
 - `TauCeti.ModularCompletedCohomology.heckeOperator` (data): `T_ℓ` and `S_ℓ` for `ℓ ∉ Σ(K^p)`, acting continuously and commuting with `G_ℚ × G`.
 - `TauCeti.ModularCompletedCohomology.tameRestriction_isClosedEmbedding` (functoriality): For `K^{p′} ⊂ K^p` the pullback on `Ĥ^1(−)_E` is a closed G-equivariant embedding, compatible with the Hecke operators at primes unramified in both.
-- `TauCeti.ModularCompletedCohomology.multiplicitySpace` (constructor): For a continuous representation V of `G_ℚ` on a finite-dimensional E-space, `Hom_{E[G_ℚ]}(V, Ĥ^1_E)` with its induced `GL_2(𝔸_f)`-action; the Lean prototype uses Mathlib’s `Representation.IntertwiningMap ρV ρH` directly, and no separate `multiplicitySpace` declaration is prototyped.
+- `TauCeti.ModularCompletedCohomology.multiplicitySpace` (constructor): For a continuous representation V of `G_ℚ` on a finite-dimensional E-space, `Hom_{E[G_ℚ]}(V, Ĥ^1_E)` with its induced `GL_2(𝔸_f)`-action; algebraic multiplicities use Mathlib’s `Representation.IntertwiningMap`, and continuous multiplicities use `ContIntertwiningMap`.
 - `TauCeti.ModularCompletedCohomology.multiplicityEvaluation` (constructor): The evaluation map `V ⊗ Hom_{E[G_ℚ]}(V, Ĥ^1_E) → Ĥ^1_E`, `v ⊗ f ↦ f(v)`, equivariant for the residual actions.
 - `TauCeti.ModularCompletedCohomology.multiplicityEvaluation_injective` (relation): For V finite-dimensional, irreducible and with only scalar equivariant endomorphisms, the evaluation map is injective.
 - `TauCeti.ModularCompletedCohomology.equivCC` (compatibility): The canonical identification with CompletedCohomologyPartII §2.1 (coefficient limit completion) for the modular tower of CompletedCohomologyPartII Layer 8.
@@ -597,7 +599,7 @@ DLB, §4.1, Définition 4.3, p. 20: For B̄ over `ℚ` split at p and ramified a
 
 TUNG-2, §4.1, Lemma 4.1.1, p. 18: Tung uses the same `S_ψ(U^p, E/O)` and `M_ψ(U^p)` for a definite quaternion algebra over a totally real field in which 2 splits completely.
 
-The discrete two-point permutation action has continuous translations, as provided by `twoPointAction_continuous`. The representative `DefiniteQuaternion.translate` works for any commutative ring O, topological O-module M with continuous scalar multiplications, space X and group with continuous translations on X. It sends f to `x ↦ f(g⁻¹x)`, as an O-linear map. Prove `translate_one`, `translate_mul`, and `translate_apply_smul`. The representative `DefiniteQuaternion.withCentralCharacter` uses a homomorphism `ι:Z→D` and `ψ:Z→Oˣ` and is the submodule defined by `f(ι(z)x)=ψ(z)f(x)`. It needs no commutation assumption merely to define that submodule; preservation by D-translation additionally requires the image of ι to be central. Prove `withCentralCharacter_mem`, linear closure and, with this centrality hypothesis, translation stability. Without any centrality hypothesis, `translate_central_of_mem` shows that translation by `ι(z)` acts on the submodule by the scalar `ψ(z)⁻¹`, and `withCentralCharacter_isClosed` shows that the submodule is closed for Hausdorff M, as an intersection of evaluation equalizers.
+The discrete two-point permutation action has continuous translations. Translation on continuous functions is defined for any commutative ring O, topological O-module M with continuous scalar multiplications, space X and group D with continuous translations on X. It sends f to `x ↦ f(g⁻¹x)` as an O-linear map; prove the identity, multiplication and evaluation-at-`gx` formulas. For a homomorphism `ι:Z→D` and `ψ:Z→Oˣ`, the central-character submodule is defined by `f(ι(z)x)=ψ(z)f(x)`. It needs no commutation assumption merely to define that submodule; preservation by D-translation additionally requires the image of ι to be central. Prove the membership criterion, linear closure and, with this centrality hypothesis, translation stability. Without any centrality hypothesis, translation by `ι(z)` acts on the submodule by the scalar `ψ(z)⁻¹`. For Hausdorff M the submodule is closed, as an intersection of evaluation equalizers.
 
 **Checks.**
 
@@ -622,8 +624,8 @@ A proof proceeds as follows.
 
 **Checks.**
 
-- The regular-orbit comparison `functions_free_finite_orbits` is a continuous O-linear equivalence intertwining inverse translation on every summand; an arbitrary linear change of basis on a two-point orbit need not intertwine.
-- The named boundary `functions_free_finite_orbits_empty` has zero summands for empty X.
+- For a compact free action with finitely many orbits, the regular-orbit comparison is a continuous O-linear equivalence intertwining inverse translation on every summand; an arbitrary linear change of basis on a two-point orbit need not intertwine.
+- For empty X the regular-orbit comparison has zero summands.
 
 - For `F = ℚ`, B̄ of discriminant 2 and `p = 3`, (b) holds with `K^p` maximal away from 2 and principal-congruence and torsion-free at an auxiliary prime `ℓ_0 ≥ 5`.
 - Non-example: without a torsion-free component the `GL_2(ℤ_p)`-action on X can have nontrivial finite stabilisers, and C(X, M) is then only a sum of induced modules from those stabilisers.
@@ -849,11 +851,11 @@ DLB, Lemmes 4.5, 4.6, 4.7, pp. 21–22: p-adic automorphic forms of weight W are
 
 PAN, 3.2.10, p. 22 (used in the proof of Theorem 3.5.5, pp. 29–30): For a definite quaternion algebra over a totally real field, `S_{(k,w),ψ}(U^pU_p, E) ≅ Hom_{U_p}(W^*_{(k,w)}, S_ψ(U^p)_E)`, Hecke-equivariantly.
 
-For the representative interfaces, allow any complete nontrivially normed field E, any space X with a group K acting by continuous translations, and a finite-dimensional Hausdorff topological E-representation W. Define `DefiniteQuaternion.weightedForms` by `f(kx)=ρ(k)f(x)`. Define `DefiniteQuaternion.equivariantDualMaps` as the submodule of linear maps `φ:W*→C(X,E)` satisfying `φ(ℓ∘ρ(k⁻¹))=translate(k)(φ(ℓ))`. These match (a) after turning its right action into a left action by inversion. Prove the membership, evaluation and weight-change lemmas, and `weightedForms_equiv`: an E-linear equivalence characterised by the pairing `ℓ(f(x))=φ(ℓ)(x)` for all ℓ and x, not merely an abstract equivalence of dimensions. Finite-dimensionality gives the continuity of the reconstructed W-valued function; an algebraic infinite-dimensional dual is not a substitute.
+For the weighted-function comparison, allow any complete nontrivially normed field E, any space X with a group K acting by continuous translations, and a finite-dimensional Hausdorff topological E-representation W. Define weighted forms by `f(kx)=ρ(k)f(x)` and equivariant dual maps as the submodule of linear maps `φ:W*→C(X,E)` satisfying `φ(ℓ∘ρ(k⁻¹))=k·φ(ℓ)`, where K acts on continuous functions by inverse translation. These match (a) after turning its right action into a left action by inversion. Prove the membership, evaluation and weight-change lemmas, and an E-linear equivalence characterised by the pairing `ℓ(f(x))=φ(ℓ)(x)` for all ℓ and x. Finite-dimensionality gives the continuity of the reconstructed W-valued function; an algebraic infinite-dimensional dual is not a substitute.
 
 **Checks.**
 
-- For the trivial one-dimensional weight, `weightedForms` is `C(X,E)^K`, not all of C(X,E). On a transitive two-point K-set only constant functions satisfy the condition.
+- For the trivial one-dimensional weight, the weighted-form space is `C(X,E)^K`, not all of C(X,E). On a transitive two-point K-set only constant functions satisfy the condition.
 - If k fixes x and its action on W has no fixed vector, `f(x)=0`. In a one-dimensional nontrivial scalar weight a nonzero constant function therefore fails the definition.
 - For a scalar weight t, the dual action is `t⁻¹`. The equivariant map satisfies `φ(ℓ∘ρ(k⁻¹))(kx)=φ(ℓ)(x)`; using ρ(k) instead gives a factor `t²` and fails for `t²≠1`.
 - For `X=K`, the weighted function `f(x)=ρ(x)w` and `φ(ℓ)(x)=ℓ(ρ(x)w)` correspond. Evaluation at the identity recovers w; the zero map corresponds exactly to the zero form.
@@ -1246,7 +1248,7 @@ PAN, §3.7.1–3.7.2, p. 37: The variant completed homology `M_{ψ,ξ}(U^p)` and
 
 PAN, Proposition 5.6.1 and Remark 5.6.2, p. 86: Existence of the Eisenstein maximal ideal of the ordinary Hecke algebra under a p-adic L-value condition, generalising Skinner–Wiles Proposition 3.18.
 
-The representative `eisensteinIdeal` is the ideal generated by the image of ϖ and the elements `T_v−(1+χ_v)`; it is meaningful for arbitrary commutative O-algebras T, independently of properness. Prove containment of every generator and its universal kernel criterion. The representative `IsProModular(φ,q)` is `ker φ ≤ q`. Prove `IsProModular.of_le`. For surjective φ, `IsProModular.iff_mem_range` identifies pro-modular primes with the contractions `Set.range (PrimeSpectrum.comap φ)`, using Mathlib’s `range_comap_of_surjective`.
+For arbitrary commutative O-algebras T, the Eisenstein ideal generated by the image of ϖ and the elements `T_v−(1+χ_v)` is meaningful independently of properness. Prove containment of every generator and its universal kernel criterion. For a ring map φ, kernel containment `ker φ ≤ q` is preserved under specialisation. For surjective φ, this predicate identifies the pro-modular primes with the contractions `Set.range (PrimeSpectrum.comap φ)`, using Mathlib’s `range_comap_of_surjective`.
 
 **Checks.**
 
@@ -1407,7 +1409,7 @@ EM11, Proposition 6.4.2, Remark 6.4.3, Definitions 6.4.1 and 6.4.4, pp. 81–83:
 
 EM11, Appendix C, Definitions C.6, C.23, C.28, C.32, C.37, C.43, Proposition C.36, pp. 103–115: Saturation, coadmissible and cofinitely generated smooth representations over a complete local ring, closures, cotorsion-free submodules and the completed tensor product `⊗̃`.
 
-The representative `multiplicityEvaluation` uses `Representation.IntertwiningMap` directly and sends `v⊗f` to `f(v)`, for any field E and two E-linear representations of a group G. Its theorem `multiplicityEvaluation_injective` assumes finite-dimensional V, irreducibility (no nonzero proper invariant submodule) and `End_G(V)=E`; `multiplicityEvaluation_trivial_not_injective` proves the failure of injectivity for trivial actions on `V=E²` and `H=E`. The arithmetic setting has continuous actions and its separate complete-local tensor comparison; the algebraic statement does not supply that topology.
+Algebraic multiplicity evaluation uses `Representation.IntertwiningMap` directly and sends `v⊗f` to `f(v)`, for any field E and two E-linear representations of a group G. Prove its injectivity for finite-dimensional V under irreducibility (no nonzero proper invariant submodule) and `End_G(V)=E`. Injectivity fails for trivial actions on `V=E²` and `H=E`, as the Check below shows. The arithmetic setting has continuous actions and its separate complete-local tensor comparison; the algebraic statement does not supply that topology.
 
 **Checks.**
 
@@ -1813,7 +1815,7 @@ In the CEGGPS setting: (1) define the `R_∞` support of `M_∞` to be `V(Ann_{R
 
 For a finitely generated A[[K]]-module, `Supp_A` is `V(annihilator)`; generators over A[[K]] generate an A-submodule with the same support (EP Lemma 6.2). For (4), keep the all-odd-p irreducibility and reducedness input of Tung Proposition 3.9. Formal smoothness is only a sufficient special case. Auxiliary local components must be chosen as in that construction; the EP union-of-components theorem alone does not prove faithfulness.
 
-The representative `annihilator_span_eq` in Suggested.lean states the algebra used for the finite span: for a commutative ring R acting on M, a ring B acting R-linearly, and a subset S with B-span equal to M, `Ann_R(span_R S)=Ann_R(M)`. The actions must commute; without that hypothesis, an element killing S need not kill its B-span. The case `M=0` is allowed. Checks are the regular module with `S={1}`, a quotient R/I with `S={1 mod I}` giving annihilator I, and the empty generating set for the zero module giving the unit ideal.
+The algebra used for the finite span is the equality `Ann_R(span_R S)=Ann_R(M)` for a commutative ring R acting on M, a ring B acting R-linearly, and a subset S with B-span equal to M. The actions must commute; without that hypothesis, an element killing S need not kill its B-span. The case `M=0` is allowed. Checks are the regular module with `S={1}`, a quotient R/I with `S={1 mod I}` giving annihilator I, and the empty generating set for the zero module giving the unit ideal.
 
 A proof proceeds as follows.
 
@@ -1824,7 +1826,7 @@ A proof proceeds as follows.
 
 **Checks.**
 
-- For `annihilator_span_eq`, the scalar span of `1` in `R/I` has annihilator I, and the empty span in the zero module has the unit ideal as annihilator (EP Lemma 6.2, p. 26).
+- The scalar span of `1` in `R/I` has annihilator I, and the empty span in the zero module has the unit ideal as annihilator (EP Lemma 6.2, p. 26).
 
 - If `p ≥ 5`, r̄ is absolutely irreducible and its framed ring is formally smooth, the projected support in `Spec R^□_{r̄}` is full. Full support of the patched ring still retains the auxiliary-component condition; reducedness is needed to deduce faithfulness from it.
 - Theorem 6.3 gives support on a union of components, so Tung’s Proposition 3.9 keeps its irreducibility, reducedness and density inputs.
