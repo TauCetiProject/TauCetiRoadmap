@@ -1301,7 +1301,7 @@ that is every `u` with `G^v ≠ G^u` for all `v > u`, is an integer. By the fini
 finiteness of the residue field is assumed; on nonarchimedean local fields the theorem is Layer 3's
 `hasseArf`.
 
-(Jean-Pierre Serre, [Local Fields](#reference-serre-local-fields), V §7, Theorem 1, printed p. 93.)
+(Jean-Pierre Serre, [Local Fields](#reference-serre-local-fields), V §7, Theorem 1.)
 (Jean-Pierre Serre, [Sur les corps locaux à corps résiduel algébriquement
 clos](#reference-serre-1961), n° 3.4, Propositions 6 and 7, printed pp. 132–134, and n° 3.5,
 Proposition 8 with its Corollary 1, printed pp. 135–136, for totally ramified abelian `L/K` with
@@ -1742,15 +1742,14 @@ This roadmap retains the local arithmetic and ramification inputs on which both 
 
 The mathematical spine is Serre, *Local Fields*; Neukirch, *Algebraic Number Theory*;
 Neukirch–Schmidt–Wingberg, *Cohomology of Number Fields*; and Ribes–Zalesskii,
-*Profinite Groups*. The sources located by number and printed page in Layers 3a and 4a follow.
+*Profinite Groups*. The sources cited by number in Layers 3a and 4a follow.
 
 <a id="reference-serre-local-fields"></a>
 
 ### Source: Serre, *Local Fields*
 
 Jean-Pierre Serre, *Local Fields*, Graduate Texts in Mathematics 67, Springer, 1979, the
-translation of *Corps locaux*, Hermann, 1962. Located by chapter, section and statement number,
-with printed pages of the English edition.
+translation of *Corps locaux*, Hermann, 1962. Located by chapter, section and statement number.
 
 <a id="reference-serre-1961"></a>
 
