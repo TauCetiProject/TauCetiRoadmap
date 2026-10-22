@@ -64,7 +64,7 @@ From ArithmeticStatisticsPartV require [cubic fields totally ramified at large p
 
 ## How to read the build
 
-This README specifies the mathematics; `Suggested.lean` gives representative definitions and signatures on pinned carriers. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+This README specifies the mathematics; `Suggested.lean` states the headline theorems expressible on pinned carriers, with the definitions needed to state them. The sections below state every target with its hypotheses, source locator, API and Checks. The module docstring identifies headline statements requiring arithmetic or geometric objects absent from the pins. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
 ## Layer 4: Selmer averages and arithmetic applications
 
@@ -208,7 +208,7 @@ Define the integrands as functions of (I, J) on {Δ ≠ 0} and integrate over th
 
 <a id="average-over-a-height-ordered-family"></a>
 
-**Average over a height ordered family.** Let F be an arithmetic family in the sense of Layer 0 (a set with a height h having finite sublevel sets) and φ a real function on F. For X ∈ R let N(F; X) := #{E ∈ F : h(E) < X} and `Avg_F(φ; X)` := (`Σ_{E ∈ F, h(E) < X}` φ(E)) / N(F; X) (with value 0 when N(F; X) = 0). φ has average c over F if `Avg_F(φ; X)` → c as X → ∞; its upper average is `limsup_{X→∞}` `Avg_F(φ; X)`. For elliptic curves over Q the height is H(E) = max{4|A|³, 27B²} or H'(E) = max{|I(E)|³, J(E)²/4}; since 27H = 4H' (Layer 0) the two orderings give the same averages and upper averages. The average size of the 2-Selmer group over F is the average of E ↦ #`S_2(E)`. The Lean definitions `shortCurve`, `shortPairSublevel` and `shortPairAverage` specialize this construction to minimal nonsingular integral short pairs, strict real height cutoffs and the actual family denominator. The sum over a finite sublevel is written as `tsum`; an empty sublevel still has average zero.
+**Average over a height ordered family.** Let F be an arithmetic family in the sense of Layer 0 (a set with a height h having finite sublevel sets) and φ a real function on F. For X ∈ R let N(F; X) := #{E ∈ F : h(E) < X} and `Avg_F(φ; X)` := (`Σ_{E ∈ F, h(E) < X}` φ(E)) / N(F; X) (with value 0 when N(F; X) = 0). φ has average c over F if `Avg_F(φ; X)` → c as X → ∞; its upper average is `limsup_{X→∞}` `Avg_F(φ; X)`. For elliptic curves over Q the height is H(E) = max{4|A|³, 27B²} or H'(E) = max{|I(E)|³, J(E)²/4}; since 27H = 4H' (Layer 0) the two orderings give the same averages and upper averages. The average size of the 2-Selmer group over F is the average of E ↦ #`S_2(E)`. The Lean definitions `minimalShortPairs`, `shortCurve`, `shortPairSublevel` and `shortPairAverage` specialize this construction to minimal nonsingular integral short pairs, strict real height cutoffs and the actual family denominator. The sum over a finite sublevel is written as `tsum`; an empty sublevel still has average zero.
 
 The average is a limit of ratios of finite sums; its existence is part of any theorem asserting it. Upper averages (limsup) are used for statements, such as the rank bound, that assert no limit. Rescaling h to c·h with c>0 changes N(F; X) into `N_h(F; X/c)`, and `Avg_{c·h}(φ;X)`=`Avg_h(φ;X/c)`. Limits and limsups as X → ∞ are unchanged; finite-cutoff averages need not agree at the same X.
 
@@ -550,7 +550,7 @@ Apply weighted-p-adic-change-of-measure to `φ = 1_{S_p(F)}`: every f ∈ `S_p(F
 
 **Two division quotient of a group with a finite index zp subgroup.** Let G be an abelian group and U ≤ G a subgroup of finite index with U ≅ (`Z_p`, +) as abstract groups, p prime. Then G[2] and G/2G are finite and `#(G/2G) = |2|_p^{-1}·#G[2]`: #(G/2G) = #G[2] for p odd and #(G/2G) = 2·#G[2] for p = 2.
 
-Only the abstract group structure is used; G is written additively and 2G is the image of multiplication by 2. The Lean target `two_division_finiteIndex` includes finiteness of the kernel and quotient, using `nsmulAddMonoidHom` and `AddSubgroup.index` on the existing additive groups.
+Only the abstract group structure is used; G is written additively and 2G is the image of multiplication by 2. Require finiteness of the kernel and quotient, using `nsmulAddMonoidHom` and `AddSubgroup.index` on the existing additive groups.
 
 Tau Ceti's `AddSubgroup.index_range_nsmul_mul_card_ker` with n = 2 gives (G : 2G)·#U[2] = #G[2]·(U : 2U) for the finite-index subgroup U. Here U[2] = `Z_p`[2] = 0 and `(U : 2U) = #(Z_p/2Z_p) = |2|_p^{-1}`. G[2] meets U trivially, so it injects into the finite group G/U and is finite; then the displayed identity gives `#(G/2G) = |2|_p^{-1}·#G[2]`, and G/2G is finite.
 
@@ -570,7 +570,7 @@ Tau Ceti's `AddSubgroup.index_range_nsmul_mul_card_ker` with n = 2 gives (G : 2G
 
 **Local two descent index.** Let p be a prime and E an elliptic curve over `Q_p`. Then #(E(`Q_p`)/2E(`Q_p`)) = #E(`Q_p`)[2] if p ≠ 2 and #(E(`Q_p`)/2E(`Q_p`)) = 2·#E(`Q_p`)[2] if p = 2.
 
-E elliptic over `Q_p`, given by any Weierstrass equation (the statement is invariant under isomorphism). The Lean target `local_two_descent_index` states the finite kernel, finite doubling index and displayed cardinal identity on `WeierstrassCurve.Affine.Point`, for every prime p and every elliptic Weierstrass equation over `Padic p`.
+E elliptic over `Q_p`, given by any Weierstrass equation (the statement is invariant under isomorphism). Require the finite kernel, finite doubling index and displayed cardinal identity on `WeierstrassCurve.Affine.Point`, for every prime p and every elliptic Weierstrass equation over `Padic p`.
 
 Import HeightsRationalPointsAndObstructions §1.17, `card_quotient_two_padic`, with g=1 and F=Q_p. Its normalized absolute value gives |2|_p⁻¹=1 at odd p and 2 at p=2. Transport along the elliptic point-group comparison.
 
@@ -590,7 +590,7 @@ Import HeightsRationalPointsAndObstructions §1.17, `card_quotient_two_padic`, w
 
 **Archimedean selmer ratio is one half.** For (I, J) ∈ R² with Δ(I, J) ≠ 0 and `E = E^{I,J}`: #E(R)[2] = 4 and #(E(R)/2E(R)) = 2 if Δ(I, J) > 0, and #E(R)[2] = 2 and #(E(R)/2E(R)) = 1 if Δ(I, J) < 0; in both cases the ratio is 1/2. Moreover for f ∈ `V_R^{(i)}` with invariants (I, J), #`Stab_{PGL_2(R)}(f)` = #E(R)[2], i.e. `n_0 = n_{2±} = 4` and `n_1` = 2.
 
-Δ(I, J) = (4I³ − J²)/27 is the discriminant of the cubic x³ − (I/3)x − J/27 (polynomial identity). The Lean target `archimedean_two_descent_index` states the doubling-ratio identity for every real elliptic Weierstrass equation, together with finiteness of its kernel and quotient. The quartic stabilizer comparison uses the orbit dictionary specified here.
+Δ(I, J) = (4I³ − J²)/27 is the discriminant of the cubic x³ − (I/3)x − J/27 (polynomial identity). Require the doubling-ratio identity for every real elliptic Weierstrass equation, together with finiteness of its kernel and quotient. The quartic stabilizer comparison uses the orbit dictionary specified here.
 
 Import the real counterpart of HeightsRationalPointsAndObstructions §1.17 for the doubling quotient. The additions here identify the quartic real orbits and stabilizers with that ratio. E(R)[2] = {O} ∪ {(r, 0) : r a real root of x³ − (I/3)x − J/27}; the cubic has three real roots iff its discriminant is positive and one iff negative (discriminant as the product of squared root differences, mathlib:Cubic.discr_eq_prod_three_roots over C: a complex-conjugate pair contributes a negative square). By Layer 1 (Theorem 3.2 over K = R), #(E(R)/2E(R)) is the number of R-soluble `PGL_2(R)`-orbits with invariants (I, J), and stabilizers are ≅ E(R)[2]. By the real orbit structure (Layer 2, §2.1 of the source) the forms with invariants (I, J) form one `SL_2`^±(R)-orbit (in `V^{(1)}`) if Δ < 0 and three (in `V^{(0)}`, `V^{(2+)}`, `V^{(2−)}`) if Δ > 0; `PGL_2(R)`-orbits coincide with `SL_2`^±(R)-orbits for the twisted action. By real-solubility-of-binary-quartic-forms the soluble ones are `V^{(1)}` (Δ < 0) and `V^{(0)}`, `V^{(2+)}` (Δ > 0), giving 1 and 2.
 
@@ -778,7 +778,7 @@ Embed x³ + Ax + B ↦ the binary cubic form x³ + Axy² + By³; a `GL_2(Z)`-cla
 
 **Count of curves in a large family.** Let F be a large family of elliptic curves defined by congruence conditions and N(F; X) := #{E ∈ F : H'(E) < X}. Then `N(F; X) = M_∞(F; X)·Π_p M_p(F) + o(X^{5/6})`, and the product converges: `1 − M_p(F) = O(p^{-2})` for all but finitely many p.
 
-The Lean target `shortPair_congruence_count_asymptotic` states the positive-denominator specialization for every nonempty finite union of coefficient residue classes, using `shortPairSublevel` and the height H. It gives a positive limit of `N(F; X)/X^(5/6)`; the general local-mass formula retains its stated hypotheses.
+For every nonempty finite union of coefficient residue classes admitting a minimal nonsingular pair, the denominator in height H has a positive limit of `N(F; X)/X^(5/6)`. Use the actual union of residue classes and its denominator; the general local-mass formula retains its stated hypotheses.
 
 Curves are counted up to Q-isomorphism, through their invariants (I, J) = (−3A, −27B) for the unique minimal pair (A, B) (Layer 0, from Tau Ceti EllipticCurves layer 8). The main term may vanish (if some `M_p(F)` = 0); the statement is still true, and theorems dividing by N(F; X) assume `Π_p` `M_p(F)` > 0.
 
@@ -858,6 +858,8 @@ Vol(`PGL_2(Z)`\`PGL_2(R)`) = 2ζ(2) (Layer 2). `vol(PGL_2(Z_p)) = 1 − p^{-2}` 
 
 **Average size of the 2 selmer group is three.** Let F be a large family of elliptic curves over Q defined by congruence conditions (Layer 0) with `M_p(F)` > 0 for every prime p. When the curves in F are ordered by height H (equivalently H'), the average size of the 2-Selmer group is 3: `lim_{X→∞}` `Σ_{E ∈ F, H(E) < X}` #`S_2(E)` / #{E ∈ F : H(E) < X} = 3. The average of #`S_2(E)` − 1 equals Vol(`PGL_2(Z)`\`PGL_2(R)`)·`Π_p` vol(`PGL_2(Z_p)`) = 2, the Tamagawa number of `PGL_2`.
 
+The Lean statement `average_twoSelmer_largeFamily` uses `IsLargeFamily` on integral short pairs. The definition uses the actual coefficient closures `localPairClosure` and their additive Haar probability measures `pairHaar`, with positive masses, null boundaries, the large-prime square-discriminant condition and a nonempty permitted real sign set. The transformation `(A,B)↦(−3A,−27B)` identifies these coefficient conditions with the invariant conditions above.
+
 F must be large, not merely defined by congruence conditions: largeness allows infinitely many conditions but requires that at all but finitely many p nothing is excluded away from p² | Δ. `M_p(F)` > 0 for every p: an added hypothesis without which the source's proof does not apply. The ordering is by the naive height; a different ordering (by conductor or discriminant) is a different theorem. `S_2(E)` is the 2-Selmer group `Sel_2(E/Q)` of Tau Ceti EllipticCurves layer 7, identified by Layer 1 with the locally soluble 2-coverings; it is finite.
 
 By selmer-average-as-product-of-local-masses the average of #`S_2(E)` − 1 is `Vol(PGL_2(Z)\PGL_2(R))·(M_∞(V, F; X)/M_∞(F; X))·Π_p (1 − p^{-2})M_p(V, F)/M_p(F)`. By local-selmer-mass-ratios the ratios are 1/2 at ∞, 2 at p = 2 and 1 at odd p. By tamagawa-number-of-pgl2-is-two the value is `2ζ(2)·(1/2)·2·Π_p(1 − p^{-2}) = 2`. Add the constant 1 (average-over-a-height-ordered-family: averages add) and pass from H' to H (27H = 4H').
@@ -902,7 +904,7 @@ For one residue class, CRT factors its condition into independent prime-power co
 
 **Average selmer size over all curves and congruence families.** When all elliptic curves over Q are ordered by height (Theorem 1.1), or those in any nonempty family E: y² = x³ + Ax + B defined by finitely many congruence conditions on A and B (Theorem 1.3), or all semistable elliptic curves, the average size of the 2-Selmer group `S_2(E)` is 3.
 
-Ordering by the naive height H(`E_{A,B}`) = max{4|A|³, 27B²} of the minimal pair. The Lean target `average_twoSelmer_congruence` states the finite-congruence assertion using `twoSelmerSize`, the cardinality of Tau Ceti's `WeierstrassCurve.Affine.selmerGroup₂` with `R = ℤ` and the single real completion. Its nonemptiness hypothesis requires a minimal nonsingular pair in the permitted residue set. Taking all residue classes gives the all-curve theorem.
+Ordering by the naive height H(`E_{A,B}`) = max{4|A|³, 27B²} of the minimal pair. The Lean target `average_twoSelmer_congruence` states the finite-congruence assertion using `twoSelmerSize`, the cardinality of Tau Ceti's `WeierstrassCurve.Affine.selmerGroup₂` with `R = ℤ` and the single real completion. Its hypothesis `IsFiniteCongruenceFamily` requires a minimal nonsingular pair in the permitted residue set and allows either discriminant sign or both, with coupled residue conditions retained. Taking all residue classes gives the all-curve theorem.
 
 Apply average-size-of-the-2-selmer-group-is-three to all curves, to each nonempty individual residue class, and to the semistable family. For a finite disjoint union F=⊔`F_i`, the deviations `Σ_{E∈F_i,H<X}`(#S₂(E)−3) are o(N(`F_i`;X)); for any ε>0 choose a common threshold for all finitely many i, add the bounds, and divide by `Σ_i` N(`F_i`;X). The union also has average 3, without any assertion that it is one independent product of local conditions.
 
@@ -1038,7 +1040,7 @@ Define `S_m(f;X)` as a finite sum over F(X) (finiteness from [arithmetic family]
 
 **Rational p torsion has density zero.** For every prime p, the set of `E_{A,B}` with E(ℚ)[p] ≠ 0 has density 0 in the family of elliptic curves over ℚ ordered by naive height.
 
-Here p is any prime. The Lean target `rational_p_torsion_density_zero` states this density as the `shortPairAverage` of the indicator of a nonidentity point killed by p, on the pinned Weierstrass point group.
+Here p is any prime. The density is the height average of the indicator of a nonidentity point killed by p on the Weierstrass point group.
 
 p = 2: this is [rational two torsion has density zero](#rational-two-torsion-has-density-zero) (an integer root t of x³ + Ax + B gives B = −t³ − At with `|t| ≪ X^{1/6}`, so `O(X^{1/2})` pairs against `≍ X^{5/6}` curves). p odd: E(ℚ)[p] ≠ 0 forces a rational root of the p-division polynomial of `E_{A,B}`. The generic curve over ℚ(A, B) has no rational p-torsion (its mod-p image is `GL_2(𝔽_p)`, so its p-division polynomial has no root in ℚ(A, B); this generic statement is part of the present target), so the set is contained in a thin set of (A, B) ∈ ℤ², which by the counting form of Hilbert irreducibility has `o(X^{5/6})` points in the box `|A| ≪ X^{1/3}, |B| ≪ X^{1/2}` (InverseGaloisAndArithmeticFundamentalGroups:IG.2).
 
@@ -1080,7 +1082,7 @@ Parametrisation (source §3): 3-Selmer elements of `E_{A,B}` correspond to `PGL_
 
 **Average rank bound from the 3 selmer average.** Over `E_{A,B}`/ℚ ordered by height, the upper average of the 3-Selmer rank `r_3(E)` := `dim_{𝔽_3}` `Sel_3(E)` is at most 7/6; hence the upper average of rank E(ℚ) is at most 7/6 < 1.17. Use the minimal-pair, congruence-family, height and moment conventions above.
 
-The input is that the average of #`Sel_3` is 4 ([average size of the 3 selmer group](#average-size-of-the-3-selmer-group)). The Lean target `average_rank_le_seven_sixths` states the Mordell–Weil conclusion on `shortCurve` point groups in every nonempty finite-congruence family, as an eventual bound `7/6+ε` for each ε>0.
+The input is that the average of #`Sel_3` is 4 ([average size of the 3 selmer group](#average-size-of-the-3-selmer-group)). The Lean target `average_rank_le_seven_sixths` states the Mordell–Weil conclusion on `shortCurve` point groups for `IsLargeFamily` or `IsFiniteCongruenceFamily`, as an eventual bound `7/6+ε` for each ε>0.
 
 For every integer r ≥ 0, 6r − 3 ≤ 3^r (equality at r = 1, 2; convexity). At each nonempty height cutoff, the pointwise inequality gives `6·Avg(r₃)≤Avg(3^{r₃})+3`. Take limsup and use `Avg(3^{r₃})→4` to obtain M⁺₁(r₃)≤7/6. This is an affine inequality at finite cutoffs; an upper moment is not generally linear under sums. rank E(ℚ) ≤ `r_3(E)` since E(ℚ)/3E(ℚ) ↪ `Sel_3(E)` (EllipticCurves Layer 7), the step of [rank bound from the selmer average](#rank-bound-from-the-selmer-average).
 
@@ -1144,7 +1146,7 @@ Parametrisation: locally soluble 5-coverings embed in ℙ⁴ as genus-one normal
 limsup_(X→∞) D_F(X)⁻¹ Σ_(E∈F,H(E)<X) (N(E)−1)(N(E)−2) ≤ 8.
 ```
 
-The summand is nonnegative: N(E) is a power of two, so it is zero when N=1 or 2. It counts an ordered nonidentity first class and a second class excluding the identity and that first class. Equivalently, mark each nontrivial quartic covering of E, then remove its two distinguished second classes. The denominator is the count of elliptic curves, not the count of marked quartics. The Lean target `markedQuartic_factorialMoment_le` states the finite-congruence-family bound using `twoSelmerSize` and `shortPairAverage`, with real subtraction and an eventual bound `8+ε` for every ε>0.
+The summand is nonnegative: N(E) is a power of two, so it is zero when N=1 or 2. It counts an ordered nonidentity first class and a second class excluding the identity and that first class. Equivalently, mark each nontrivial quartic covering of E, then remove its two distinguished second classes. The denominator is the count of elliptic curves, not the count of marked quartics. Use real subtraction in the finite-congruence-family bound; it gives an eventual upper bound `8+ε` for every ε>0.
 
 Prove this bound by inserting the [marked quartic Selmer embedding](../ArithmeticStatisticsPartII/README.md#marked-quartic-selmer-embedding) into the smoothed orbit integral. Retain the reciprocal transporter weights on both the quartic and the fixed-A representations. Nongeneric nondistinguished orbits contribute `O_F`(X^(5/6−λ)) for some λ>0 after integration, rather than merely having coefficient density zero. The two distinguished classes account exactly for the subtracted 2 for every generic first class.
 
@@ -1170,7 +1172,7 @@ Evaluate the main term using the same invariant differentials on `PSO_A` and PGL
 
 **Second moment of the 2 selmer group.** When elliptic curves over ℚ, or those of any nonempty subfamily defined by finitely many congruence conditions, are ordered by height, the upper second moment M⁺_2(#`Sel_2(E)`) is at most 15. (15 = (2 + 1)(4 + 1) is the Poonen–Rains prediction for the second moment; equality is not proved.) Bhargava–Shankar–Swaminathan use the model `E_{I,J}` : y² = x³ − (I/3)x − J/27 with height (4/27)max(|I|³, J²/4); its comparison with (`E_{A,B}`, max(4|A|³, 27B²)) is the normalisation comparison owned by [invariants height and eligible pairs](../ArithmeticStatisticsPartI/README.md#invariants-height-and-eligible-pairs) and changes no average. Use the minimal-pair, congruence-family, height and moment conventions above.
 
-Here F is a nonempty family of elliptic curves over ℚ defined by finitely many congruence conditions, and its height counting function tends to infinity; the congruence conditions must admit minimal nonsingular models, so empty congruence families are excluded. The Lean target `secondMoment_twoSelmer_le` uses `shortPairAverage` and `twoSelmerSize` on every such finite-congruence family. It states that for every ε>0, the average of `twoSelmerSize²` is eventually at most `15+ε`, expressing the upper bound without assuming a second-moment limit.
+Here F is a nonempty family of elliptic curves over ℚ defined by finitely many congruence conditions, and its height counting function tends to infinity; the congruence conditions must admit minimal nonsingular models, so empty congruence families are excluded. The Lean target `secondMoment_twoSelmer_le` uses `shortPairAverage` and `twoSelmerSize` on every `IsFiniteCongruenceFamily`, including either real sign or both. It states that for every ε>0, the average of `twoSelmerSize²` is eventually at most `15+ε`, expressing the upper bound without assuming a second-moment limit.
 
 put N(E)=#Sel₂(E) and use the pointwise identity N²=(N−1)(N−2)+3N−2. The [marked quartic factorial-moment bound](#marked-quartic-factorial-moment-bound) gives upper average at most 8 for the first term, and the first-moment theorem gives average N→3. Thus the upper second moment is at most 8+9−2=15. The marked count excludes two distinguished second classes, not one. Its integral parametrization, uniform leading-coefficient estimates and mass normalization are specified in the linked parametrization and marked-count targets. This argument does not multiply two unconditioned averages or identify the Selmer groups before and after monicization.
 
@@ -1258,7 +1260,7 @@ Use the finite transporter/stabilizer formula of [orbit weight as a stabilizer s
 
 - Take the regular integral pencil A=I₄, B=diag(0,1,2,3), with invariant det(xA−yB)=x(x−y)(x−2y)(x−3y). A coefficient-family condition excluding this invariant gives weight zero, regardless of its transporter count.
 - Allow that invariant instead. The intersection q_A=q_B=0 has no real projective point because q_A is positive definite; this pencil orbit is insoluble over R and still has weight zero, although its invariant hyperelliptic curve has real points.
-- For the allowed invariant f=x⁴−xy³−y⁴, use `solublePencilA`=((0,0,0,1),(0,0,1,0),(0,1,0,0),(1,0,0,1)) and `solublePencilB`=((0,0,1,0),(0,1,0,0),(1,0,0,1),(0,0,1,1)). Their determinant pencil is f, with Disc(f)=−283, and (1,0,0,0) is a common isotropic vector, so this genus-one pencil is soluble over Q. Its rational G-orbit contains exactly one integral G(Z)-orbit, and both stabilizers are trivial; hence its reciprocal weight and total weight are one. For the complete classification, put R=Z[θ], θ⁴−θ−1=0. The matrices are the coefficient-of-θ³ pairings uv and θuv on the power basis. The squarefree discriminant makes R maximal. In the rational orbit of (R,1,1), the oriented-ideal classification reduces an integral representative, after rescaling by an element of Q(θ)×, to (I,t,t²) with t∈Q×. Unimodularity forces I²=tR. Every rational prime has an odd ramification index above it: all indices are one away from 283, and at 283 the pattern is (2,1,1). Thus every valuation of t is even, t=±a², and I=aR; rescaling and the integral central-quotient action of −1 give the displayed single orbit. Irreducibility modulo two and the irreducible cubic resolvent u³+4u−1, together with the nonsquare discriminant, give Galois group S₄. There is no invariant nontrivial even partition modulo complement, so the rational stabilizer J[2](Q) is trivial, as is its integral subgroup. Use the group-scheme G(Z), including its −1 Kummer class. The determinant, common-zero and unimodularity calculations are mirrored in Suggested.lean; the orbit classification uses [[110]](#ref-110), Theorems 16–17, §2, pp.7–8.
+- For the allowed invariant f=x⁴−xy³−y⁴, use A=((0,0,0,1),(0,0,1,0),(0,1,0,0),(1,0,0,1)) and B=((0,0,1,0),(0,1,0,0),(1,0,0,1),(0,0,1,1)). Their determinant pencil is f, with Disc(f)=−283, and (1,0,0,0) is a common isotropic vector, so this genus-one pencil is soluble over Q. Its rational G-orbit contains exactly one integral G(Z)-orbit, and both stabilizers are trivial; hence its reciprocal weight and total weight are one. For the complete classification, put R=Z[θ], θ⁴−θ−1=0. The matrices are the coefficient-of-θ³ pairings uv and θuv on the power basis. The squarefree discriminant makes R maximal. In the rational orbit of (R,1,1), the oriented-ideal classification reduces an integral representative, after rescaling by an element of Q(θ)×, to (I,t,t²) with t∈Q×. Unimodularity forces I²=tR. Every rational prime has an odd ramification index above it: all indices are one away from 283, and at 283 the pattern is (2,1,1). Thus every valuation of t is even, t=±a², and I=aR; rescaling and the integral central-quotient action of −1 give the displayed single orbit. Irreducibility modulo two and the irreducible cubic resolvent u³+4u−1, together with the nonsquare discriminant, give Galois group S₄. There is no invariant nontrivial even partition modulo complement, so the rational stabilizer J[2](Q) is trivial, as is its integral subgroup. Use the group-scheme G(Z), including its −1 Kummer class. The orbit classification uses [[110]](#ref-110), Theorems 16–17, §2, pp.7–8.
 
 <a id="refinement-pencil-selmer-weighted-count"></a>
 
@@ -1330,7 +1332,7 @@ Apply Layer 2’s one-sided infinite-weight bound. Multiply the compatible local
 
 <a id="refinement-restricted-selmer-set"></a>
 
-**Restricted selmer set.** Given a finite set S, places V, actual local targets `Q_v`, localisation maps `loc_v`:S→`Q_v` (or maps from a containing carrier), and local images `I_v`⊆`Q_v`, define `restrictedSelmerSet`={s∈S:∀v,`loc_v(s)`∈`I_v`}. For the order-k application S=Sel₂(J¹), k>0 odd, `Q_v`=J¹(`Q_v`)/2J(`Q_v`), and `I_v` is the image of effective degree-k divisors e under e−((k−1)/2)d. Use effective divisors over `Q_v`, including conjugate pairs, rather than only k-tuples of `Q_v`-points. The torsor-cover/local-orbit dictionary giving `loc_v` is imported from Layer 1 and must be natural under local choices.
+**Restricted selmer set.** Given a finite set S, places V, actual local targets `Q_v`, localisation maps `loc_v`:S→`Q_v` (or maps from a containing carrier), and local images `I_v`⊆`Q_v`, define the restriction `S^res`={s∈S:∀v,`loc_v(s)`∈`I_v`}. For the order-k application S=Sel₂(J¹), k>0 odd, `Q_v`=J¹(`Q_v`)/2J(`Q_v`), and `I_v` is the image of effective degree-k divisors e under e−((k−1)/2)d. Use effective divisors over `Q_v`, including conjugate pairs, rather than only k-tuples of `Q_v`-points. The torsor-cover/local-orbit dictionary giving `loc_v` is imported from Layer 1 and must be natural under local choices.
 
 Required API:
 
@@ -1364,21 +1366,21 @@ Intersect the pullbacks of the effective-divisor images with the finite Selmer s
 
 <a id="refinement-odd-component-bound"></a>
 
-**Odd component bound.** Define `oddComponentBound m k` by `S_m(k)`=Σ_(0≤j≤k,j odd) binomial(m,j), with binomial(m,j)=0 for j>m; the empty sum is zero. For m≥1 the normalized component bound is `S_m(k)`/2^(m−1). This numerical construction records the image bound from degree-k real divisors; it is not asserted to equal the geometric image cardinal in every real model.
+**Odd component bound.** Define `S_m(k)`=Σ_(0≤j≤k,j odd) binomial(m,j), with binomial(m,j)=0 for j>m; the empty sum is zero. For m≥1 the normalized component bound is `S_m(k)`/2^(m−1). This numerical construction records the image bound from degree-k real divisors; it is not asserted to equal the geometric image cardinal in every real model.
 
 Required API:
 
 - `ArithmeticSelmerRefinement.component_bound_mono`: `S_m(k)`≤`S_m(l)` for k≤l.
 
-- `Selmer.component_bound_le`: For m>0, `S_m(k)`≤2^(m−1).
+- Full-quotient bound: For m>0, `S_m(k)`≤2^(m−1).
 
-- `Selmer.component_bound_saturated`: For m>0 and k≥m, `S_m(k)`=2^(m−1).
+- Saturation: For m>0 and k≥m, `S_m(k)`=2^(m−1).
 
-- `Selmer.component_bound_strict`: For m>0, k odd and k<m−1, `S_m(k)`<2^(m−1).
+- Strictness: For m>0, k odd and k<m−1, `S_m(k)`<2^(m−1).
 
-- `Selmer.component_bound_ratio_tendsto`: For each fixed k, `S_m(k)`/2^(m−1) tends to zero as m→∞.
+- Fixed-cutoff decay: For each fixed k, `S_m(k)`/2^(m−1) tends to zero as m→∞.
 
-- `Selmer.component_bound_one`: For k>0, `S_1(k)`=1, the saturated single-component boundary case.
+- Single component: For k>0, `S_1(k)`=1, the saturated single-component boundary case.
 
 Count odd subsets of connected components. Each real point contributes its component mod two; a conjugate pair contributes zero. Use finite binomial sums and the exponential denominator to obtain the stated API.
 
@@ -1404,7 +1406,7 @@ Count odd subsets of connected components. Each real point contributes its compo
 
 **Real effective divisor image.** Let C/R be a smooth genus-g hyperelliptic curve with 2m real branch points and m>0. Its m real components give #J(R)/2J(R)=2^(m−1). For k>0 odd, the image of actual effective degree-k R-divisors in J¹(R)/2J(R), after translation by ((k−1)/2)d, has cardinal at most `S_m(k)`. Conjugate nonreal pairs have trivial class modulo 2J(R), and 2P−d∈2J(R) for real P. The m=0 cases require their own soluble real components and are only bounded by the full local quotient.
 
-Import HeightsRationalPointsAndObstructions §3.18c, `realEffectiveFraction` and its effective-divisor image bound, including conjugate-pair cancellation. This part adds compatibility with `restrictedSelmerSet` localization and the actual-Div¹ family convention. Use the section-free Abel map from TauCetiRoadmap.JacobianChallenge Layer D and SchemeAndStackFoundations §§3.6–3.7, translated by the actual hyperelliptic divisor.
+Import HeightsRationalPointsAndObstructions §3.18c, `realEffectiveFraction` and its effective-divisor image bound, including conjugate-pair cancellation. This part adds compatibility with restricted-Selmer localization and the actual-Div¹ family convention. Use the section-free Abel map from TauCetiRoadmap.JacobianChallenge Layer D and SchemeAndStackFoundations §§3.6–3.7, translated by the actual hyperelliptic divisor.
 
 *Needs:* HeightsRationalPointsAndObstructions §3.18c (`realEffectiveFraction` and effective-divisor image bound), [restricted selmer set](#refinement-restricted-selmer-set), [odd component bound](#refinement-odd-component-bound), TauCetiRoadmap.JacobianChallenge Layer D, [field pencil stabilizers](../ArithmeticStatisticsPartII/README.md#refinement-field-pencil-stabilizers), SchemeAndStackFoundations §§3.6–3.7 (section-free Abel maps), SchemeAndStackFoundations §§3.6–3.7 (unpointed degree torsors).
 
@@ -1663,6 +1665,8 @@ For a fixed component cutoff M, control the many-component real strata by sup_(m
 
 **Small odd degree points disappear.** For every fixed positive integer m, the lower density, among all smooth genus-g coefficient-height hyperelliptic models, of curves with no point over any odd-degree extension of degree≤m tends to one as g→∞. Height tends to infinity first. All extensions are included, not only Galois extensions or rational points.
 
+The Lean statement `small_odd_degree_points_disappear` uses `hyperellipticPolynomial` in descending coefficients, the smooth degree-(2g+2) coefficient cubes `hyperellipticSublevel`, and `hasOddDegreePoint`. The equation predicate `hyperellipticHasPoint` includes affine points and the points at infinity, which exist over a field precisely when the leading coefficient is a square. Finite extensions range over finite-dimensional intermediate fields of an algebraic closure of Q. The inner height liminf precedes the genus limit.
+
 Choose the largest odd k≤m. Trace a point of any smaller odd degree to an effective rational divisor and add effective degree-two hyperelliptic fibres to reach k. An odd-degree global divisor together with the degree-two divisor gives an actual degree-one divisor over each completion. Hence a curve outside the locally actual-Div¹-soluble family has no odd-degree point. Inside that family, the effective degree-k divisor gives a member of the restricted Selmer set; Markov’s inequality bounds the proportion with such a point by its average cardinal. Multiply by the family’s proportion, which is at most one. Use the ordered-limit Div¹ version with the finite-place product cancelled; no local C-point implication is used.
 
 *Needs:* [restricted selmer set](#refinement-restricted-selmer-set), [order k vanishing average](#refinement-order-k-vanishing-average), [hyperelliptic model family](../ArithmeticStatisticsPartI/README.md#hyperelliptic-model-family), [density denominator comparisons](../ArithmeticStatisticsPartI/README.md#density-denominator-comparisons).
@@ -1688,6 +1692,8 @@ Outside generic exceptions, a nonempty Sel₂(J¹) has size #Sel₂(J)≥2 and a
 <a id="refinement-positive-index-two"></a>
 
 **Positive index two.** For each g≥1, a positive lower proportion of locally C-soluble genus-g coefficient-height models over Q have no point over any finite odd-degree extension; equivalently J¹(Q)=∅ and index(C)=2. The same holds in the positive-density admissible families of the preceding target, with actual Div¹-solubility locally in place of local C-points.
+
+The Lean statement `positive_no_odd_degree_points` states the no-odd-degree-point conclusion for every g≥1 in the full locally C-soluble family `locallySolubleHyperelliptic`, with its actual smooth coefficient-cube denominator. The point condition includes the real completion and every p-adic completion. The Picard and index identifications and the admissible-family assertion retain the hypotheses above.
 
 A rational point of J¹ pulls multiplication-by-two on J back to a locally soluble two-cover, so an empty Selmer set forces J¹(Q) empty. Apply the actual-divisor comparison and the index-divides-two argument.
 
@@ -1770,7 +1776,7 @@ Compare the Bloch–Kato Selmer group over K with the invariant and anti-invaria
 
 <a id="refinement-rank-one-family"></a>
 
-**Rank one family.** `RankOneFamily` is the set of integral short pairs (A,B) with v₂(A)=4, B≡16 mod64, Δ₀=−4A³−27B²=256d, d positive odd squarefree, gcd(Δ₀,195)=1, Δ₀ a square modulo 39, 7|d, 864B a nonsquare in `F_7`, and #E_(A,B)(`F_5`) not congruent to one modulo five. These last two coefficient tests express nonsplit multiplicative reduction at seven and good ordinary reduction at five; #E(`F_5`)=1+# {(x,y)∈F_5²:y²=x³+Ax+B}. Via the imported unique minimal-short-pair convention this is the family F of elliptic-curve isomorphism classes. Use H=max(4|A|³,27B²) and the fixed quadratic discriminant D=−39.
+**Rank one family.** The family F is the set of integral short pairs (A,B) with v₂(A)=4, B≡16 mod64, Δ₀=−4A³−27B²=256d, d positive odd squarefree, gcd(Δ₀,195)=1, Δ₀ a square modulo 39, 7|d, 864B a nonsquare in `F_7`, and #E_(A,B)(`F_5`) not congruent to one modulo five. These last two coefficient tests express nonsplit multiplicative reduction at seven and good ordinary reduction at five; #E(`F_5`)=1+# {(x,y)∈F_5²:y²=x³+Ax+B}. Via the imported unique minimal-short-pair convention this is the family F of elliptic-curve isomorphism classes. Use H=max(4|A|³,27B²) and the fixed quadratic discriminant D=−39.
 
 Required API:
 
@@ -1805,8 +1811,6 @@ Replace the local reduction conditions by their discriminant/c₆ and finite-fie
 <a id="refinement-rank-one-family-properties"></a>
 
 **Rank one family properties.** F has asymptotic count `c_F` X^(5/6)+o(X^(5/6)), `c_F`>0, in the minimal-short-pair height. Every E∈F is semistable of odd squarefree conductor d, with at least two odd factors; E[5] is irreducible and ramified at every factor of d. For D=−39, 2 and 5 split in Q(√D), seven is inert, and E,E^D have opposite root numbers. The twist short pair is minimal and H(E^D)=39⁶H(E); the original and twisted families are disjoint as isomorphism classes.
-
-The Lean target `rankOneFamily_count_asymptotic` states the positive asymptotic count of `RankOneFamily` through `shortPairSublevel`, with the height H and exponent 5/6.
 
 At two use y²+y=x³+(A/16)x+(B/16−1)/4. Its coefficients are integral and its discriminant is d, so reduction is good. The dyadic residue condition has coefficient Haar mass 1/(32·64); the other finitely imposed local conditions have positive mass, witnessed by (−208,464). For sufficiently large odd primes the excluded square-discriminant locus has mass O(p⁻²), so its convergent Euler product is positive. Apply the discriminant tail to pass from finite CRT densities to the large-family asymptotic. Neither the dyadic density nor the reduction assertion uses the printed valuation-three condition. At odd bad primes the minimal discriminant valuation is one, so the conductor is d and mod-five inertia is nontrivial. A reducible residual semistable ordinary representation would have semisimplification 1⊕ω; its Frobenius eigenvalues contradict nonsplit reduction at seven because 7≠−1 mod 5. Verify the quadratic characters and root-number formula. Squarefreeness with seven dividing d and d square mod 39 excludes conductor seven alone. Apply the imported large-family denominator, with the local positivity witnessed explicitly.
 
@@ -2099,7 +2103,7 @@ Discard rational 2-torsion using a weighted tail controlled by the second-moment
 
 **Five basic bounds.** In every large family F with positive local masses and nonempty real sign region of minimal elliptic curves over Q ordered by invariant height, limsup average(`dim_F5` Sel₅)≤21/20 and lower density(dim Sel₅≤1)≥19/24. These hold from mean#Sel₅=6, after controlling rational 5-torsion; Mordell–Weil rank is bounded by the reduced Selmer dimension.
 
-The Lean target `fiveSelmer_basic_rank_bounds` states the Mordell–Weil consequences in every nonempty finite-congruence family, using `shortPairAverage` for the rank and the rank-at-most-one indicator. Its eventual bounds for every ε>0 express upper average rank at most 21/20 and lower proportion at least 19/24.
+The Lean target `fiveSelmer_basic_rank_bounds` states the Mordell–Weil consequences for every `IsLargeFamily` or `IsFiniteCongruenceFamily`, using `shortPairAverage` for the rank and the rank-at-most-one indicator. Its eventual bounds for every ε>0 express upper average rank at most 21/20 and lower proportion at least 19/24.
 
 Use 20r−15≤5^r for every integer r≥0. Use the cost 5^r≥25 on r≥2 and≥1 elsewhere. Apply the mean bound to finite-height inequalities; take limsup or liminf only after the pointwise comparison.
 
