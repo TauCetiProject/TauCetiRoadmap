@@ -1449,35 +1449,29 @@ upper jump `u`, an integer by Hasse–Arf. For a character `χ` of `Gal(L/K)`, t
 `χ ∘ normResidue` trivial on `U_K^(n)` is the least `n` with `χ(G^n) = 1`.
 
 (Jean-Pierre Serre, [Local Fields](#reference-serre-local-fields), XV §2, Theorem 2 and Corollary 3
-to Theorem 1, printed p. 228.)
+to Theorem 1.)
 
-*Proof.* Write `ω` for `normResidue`, `U^(n)` for `U_K^(n)`, `ψ` for `ψ_(L/K)` and `N` for the
-norms; the unit-filtration and Herbrand inputs are `LocalFieldsRamification` Layer 3. (i) Depth
-zero. On the maximal unramified subextension `L_0`, `ω(x)` acts as the `v_K(x)`-th power of
-arithmetic Frobenius (`normResidue_uniformizer`, `localArtinMap_unit_of_unramified` and
-`artinMap_quotient`), so `ω(U^(0)) ⊆ G_0`; both groups have order `e(L/K)`, because
-`v_K(N_(L/K)(Lˣ)) = f(L/K)·ℤ` gives `[Kˣ : U^(0) · N_(L/K)(Lˣ)] = f(L/K)`. (ii) Reduction to total
-ramification. For `n ≥ 0`, `G^n` is the upper group at `n` of `G_0 = Gal(L/L_0)`, the norm maps
-`U_(L_0)^(n)` onto `U^(n)` (`LocalFieldsRamification` Layer 3, the norm on the unit filtration, item
-3), and `ω_(L/K)(N_(L_0/K)(y)) = ω_(L/L_0)(y)` (`artinMap_groundNorm`); so `L/K` may be taken
-totally ramified. (iii) Graded norms. For every `m ≥ 0` the Herbrand-shifted inclusions
-`N(U_L^(ψ(m))) ⊆ U^(m)` and `N(U_L^(ψ(m)+1)) ⊆ U^(m+1)` (`map_norm_unitFiltration_psiNat_le`) induce
-a map `U_L^(ψ(m))/U_L^(ψ(m)+1) → U^(m)/U^(m+1)`. Induct on `[L : K]` through a subgroup `H` of prime
-order with fixed field `M`: by `ψ_(L/K) = ψ_(L/M) ∘ ψ_(M/K)` the map is the composite of the graded
-norms of `M/K` at `m` and of `L/M` at `ψ_(M/K)(m)`, and Herbrand's quotient theorem,
-`H ∩ G^v = H^(ψ_(M/K)(v))` and the prime-degree computation (`LocalFieldsRamification` Layer 3, the
-norm on the unit filtration, item 4) show that it is bijective when `G^m = 1` and surjective when
-`G^(m+1) = G`. (iv) The inclusion `ω(U^(n)) ⊆ G^n`. The fixed field `M` of `G^n` has
-`Gal(M/K)^n = 1`, so every graded norm of `M/K` at a depth `m ≥ n` is bijective, and successive
-approximation gives `U^(n) = N_(M/K)(U_M^(ψ_(M/K)(n))) ⊆ N_(M/K)(Mˣ)`; hence `ω(U^(n))` dies in
-`Gal(M/K) = G/G^n`. (v) The inclusion `G^n ⊆ ω(U^(n))`. Put `H = G^n` and `M = L^H`. Then
-`H^w = H ∩ G^n = H` for `w = ψ_(M/K)(n)`, a natural number (`psiNat`), so the graded norms of `L/M`
-are surjective at every depth below `w`, `U_M^(0) = N_(L/M)(U_L^(0)) · U_M^(w)`, and
-`ω_(L/M)(U_M^(w)) = ω_(L/M)(U_M^(0)) = H` by (i). Norm functoriality and
-`N_(M/K)(U_M^(ψ_(M/K)(n))) ⊆ U^(n)` give `H ⊆ ω(U^(n))`. For the absolute form, restriction maps
-`G_K^n` onto `G^n` (`LocalFieldsRamification` Layer 4a), `artinMap` restricts to `ω`
-(`artinMap_restrict`), and a closed subgroup of `G_K^ab` is determined by its images in the finite
-quotients. The conductor statements follow from the definition of `conductorExponent` as a least
+*Proof.* The route is Serre's (Local Fields, XV §2). Functoriality of the reciprocity map in finite
+quotients and in norms (`artinMap_quotient`, `artinMap_groundNorm`) reduces the theorem to `L/K`
+totally ramified and abelian: for `n ≥ 0`, `G^n` lies in the inertia group `G_0 = Gal(L/L_0)`, `L_0`
+the maximal unramified subextension, and is its upper group at `n`, while the norm from `L_0` maps
+each `U_(L_0)^(n)` onto `U_K^(n)` (`LocalFieldsRamification` Layer 3, the norm on the unit
+filtration, item 3). The case `n = 0`, that the units map onto the inertia group, comes from the
+unramified normalization (`normResidue_uniformizer`, `localArtinMap_unit_of_unramified`). For `L/K`
+totally ramified, the norm is read on the unit filtration through the Herbrand function: it maps
+`U_L^(ψ(n))` into `U_K^(n)` and `U_L^(ψ(n)+1)` into `U_K^(n+1)`
+(`map_norm_unitFiltration_psiNat_le`), and on the graded quotients its kernel is the image of
+`G_(ψ(n))/G_(ψ(n)+1)` under `σ ↦ σ(π_L)/π_L` (Local Fields, V §6). Over an algebraically closed
+residue field the same exact sequences hold with a surjective norm ([Serre
+1961](#reference-serre-1961), n° 3.4, Proposition 6, printed p. 132). Over a finite residue field
+the graded quotients of `U_L` and `U_K` at these depths have the same order, so the cokernels of the
+graded norms measure the jumps of the upper filtration, and multiplying along the filtration
+compares the index of `N_(L/K)(U_L^(ψ(n)))` in `U_K^(n)` with `#G^n`. The theorem then follows from
+the compatibility of the reciprocity map with norms: for an intermediate field `M`, the reciprocity
+map of `L/M` is that of `L/K` composed with `N_(M/K)`, applied with the Herbrand shift `ψ_(M/K)` to
+the fixed field of `G^n`. The absolute form follows by restriction to the finite abelian quotients
+(`artinMap_restrict`), on which the images of `G_K^n` are the `G^n` (`LocalFieldsRamification` Layer
+4a), and the conductor statements follow from the definition of `conductorExponent` as a least
 depth.
 
 *Needs:* Layer 4 (`artinMap_quotient`, `artinMap_groundNorm`); Layer 6 (`normResidue`,
@@ -2308,8 +2302,8 @@ existence and the `GlobalNumberFields` order/`Pic` API.
 - <a id="reference-serre-local-fields"></a>J.-P. Serre, *Local Fields*, Graduate Texts in
   Mathematics 67, Springer, 1979, Chapters XI–XV: local class formations, the character formula
   for the reciprocity map, the local invariant, normalization conventions, and (XV §2)
-  unit-filtration reciprocity, located by printed page of this edition; *Galois Cohomology* for
-  local duality and Euler characteristics.
+  unit-filtration reciprocity, located by chapter, section and statement number; *Galois
+  Cohomology* for local duality and Euler characteristics.
 - J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of Number Fields*, 2nd ed.: finite and
   profinite cohomology, local duality, and global formations; (3.3.4) and (3.3.6) for strict and
   ordinary cohomological dimension, (7.1.8) and (7.2.5) for `cd` and `scd` of a local field,
@@ -2346,3 +2340,12 @@ existence and the `GlobalNumberFields` order/`Pic` API.
 Implementation should cite exact theorem numbers and exact source commits in file docstrings as
 the supplier audit is completed. The README records the mathematical contract; a private
 provenance ledger is not a substitute for public, checkable source references.
+
+<a id="reference-serre-1961"></a>
+
+### Source: Serre, *Sur les corps locaux à corps résiduel algébriquement clos*
+
+Jean-Pierre Serre, [Sur les corps locaux à corps résiduel algébriquement
+clos](http://www.numdam.org/item?id=BSMF_1961__89__105_0), Bulletin de la Société Mathématique de
+France 89 (1961), 105–154. Located by numbered paragraph and printed page; from n° 3.2 on it
+assumes an algebraically closed residue field.
