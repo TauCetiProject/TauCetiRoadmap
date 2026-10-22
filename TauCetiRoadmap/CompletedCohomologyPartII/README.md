@@ -99,7 +99,7 @@ Tau Ceti `TauCeti.TateModule` in `TauCeti/Algebra/Module/Torsion/TateModule.lean
 
 ### Native linear-map interfaces
 
-Use `ContinuousLinearMap.comp` for continuous-dual precomposition and `LinearMap.range` for the image of a support arrow, with its existing submodule structure. Use `LinearMap.IsIdempotentElem.mem_range_iff` for the fixed-point description of an idempotent range and `ContinuousLinearMap.IsIdempotentElem.isClosed_range` for its closedness on a T1 topological additive group. The split arithmetic localisation and its topology comparison are §8.13, rather than new versions of these library facts. The light names `torsionColimit`, `coefficientLimit`, `completedHecke` and `completedLocalization` in the Lean forms select the native categorical colimit, limit and range for a supplied diagram or projector; they add no quotient construction or topological assertion.
+Use `ContinuousLinearMap.comp` for continuous-dual precomposition and `LinearMap.range` for the image of a support arrow, with its existing submodule structure. Use `LinearMap.IsIdempotentElem.mem_range_iff` for the fixed-point description of an idempotent range and `ContinuousLinearMap.IsIdempotentElem.isClosed_range` for its closedness on a T1 topological additive group. The split arithmetic localisation and its topology comparison are §8.13, rather than new versions of these library facts. The tower constructions use these native colimits, limits and ranges with the specified arithmetic diagrams and projectors.
 
 ### External roadmap contracts
 
@@ -446,16 +446,16 @@ Applications include Layer 2 completion: The coefficient limit is taken on these
 
 The API consists of the following maps and identities.
 
-- `torsionColimit_of`: A finite-level cohomology class has its native colimit image.
-- `torsionColimit_eq`: Two representatives agree iff they agree after a common refinement.
-- `torsionColimit_cofinal`: Restriction to a cofinal basis yields the native final-functor isomorphism.
-- `torsionColimit_homology`: `H^n` of the actual filtered complex colimit is the colimit of `H^n`.
+- A finite-level cohomology class has its native colimit image.
+- Two representatives agree iff they agree after a common refinement.
+- Restriction to a cofinal basis yields the native final-functor isomorphism.
+- `H^n` of the actual filtered complex colimit is the colimit of `H^n`.
 
 **Checks.**
 
-- `constant_finite`: A constant identity system with value `O/ϖ^s` has that same colimit.
-- `torsionColimit_circle_killed`: For degree-p circle covers, degree-one pullback is `p` and the fixed-exponent colimit is zero; the named theorem states this for the multiplication-by-p module diagram.
-- `torsionColimit_locally_constant_not_all`: For `K_0=ℤ_p` fixed `s`, the degree-zero regular torsor colimit contains precisely locally constant functions, not arbitrary set functions. The named theorem uses `p=2`, `s=1` and excludes the singleton indicator at zero.
+- A constant identity system with value `O/ϖ^s` has that same colimit.
+- For degree-p circle covers, degree-one pullback is `p` and the fixed-exponent colimit is zero.
+- For `K_0=ℤ_p` fixed `s`, the degree-zero regular torsor colimit contains precisely locally constant functions, not arbitrary set functions. For `p=2`, `s=1`, the singleton indicator at zero is excluded.
 - At fixed `s` the regular torsor gives locally constant functions `K_0→O/ϖ^s`.
 - The order level colimit then coefficient limit is pinned.
 
@@ -657,7 +657,7 @@ To prove this, use the general strict admissible Banach/Schikhof theory of F.1; 
 
 Let `M^•` be a bounded-above complex of `ϖ`-adically complete, `ϖ`-torsion-free O-modules. Then (1) no nonzero element of `H^i(M^•)` has a compatible system of `ϖ`-power roots (`x_0 = x` and `ϖ x_n = x_{n−1}`): `Hom_O(E, H^i(M^•)) = 0`, hence its `ϖ`-adic Tate module `lim_n H^i(M^•)[ϖ^n]` (transitions multiplication by `ϖ`) is zero. This does not say that `H^i(M^•)` has no nonzero `ϖ`-divisible element (one lying in `ϖ^n H^i(M^•)` for every `n`); without the hypothesis of (4) such elements can exist; (2) for every `n` there is a natural exact sequence `0 → H^i(M^•)/ϖ^n → H^i(M^•/ϖ^n) → H^{i+1}(M^•)[ϖ^n] → 0`, and these sequences form an inverse system whose third terms have transition multiplication by `ϖ`; (3) the induced map `lim_n H^i(M^•)/ϖ^n → lim_n H^i(M^•/ϖ^n)` is an isomorphism; (4) if moreover `lim_n H^i(M^•/ϖ^n)` has bounded `ϖ`-power torsion for every `i`, then `H^i(M^•) → lim_n H^i(M^•)/ϖ^n` is also an isomorphism, so `H^i(M^•)` is `ϖ`-adically complete and separated and equals `lim_n H^i(M^•/ϖ^n)`. The statement is for complete and torsion-free terms: for `M = E` in degree 0 the limit of `H^0(M/ϖ^n)` is 0 while `H^0(M) = E`.
 
-Assume throughout this subsection that `M^•` is bounded above; each `M^i` is `ϖ`-adically complete and separated (IsAdicComplete for the ideal `(ϖ)`) and `ϖ`-torsion-free. Clause (4) also assumes that every `lim_n H^i(M^•/ϖ^n)` has bounded `ϖ`-power torsion. The convergent-sum proof of clause (1) works more generally over any commutative ring `O` with an element `ϖ`, provided each term is IsAdicComplete for `(ϖ)` and multiplication by `ϖ` is injective. In that form `E` is replaced by `O[1/ϖ]`; this is the algebraic clause stated in Suggested.lean, and makes no additional assertion about an arithmetic tower.
+Assume throughout this subsection that `M^•` is bounded above; each `M^i` is `ϖ`-adically complete and separated (IsAdicComplete for the ideal `(ϖ)`) and `ϖ`-torsion-free. Clause (4) also assumes that every `lim_n H^i(M^•/ϖ^n)` has bounded `ϖ`-power torsion. The convergent-sum proof of clause (1) works more generally over any commutative ring `O` with an element `ϖ`, provided each term is IsAdicComplete for `(ϖ)` and multiplication by `ϖ` is injective. In that form `E` is replaced by `O[1/ϖ]`; the algebraic assertion makes no additional claim about an arithmetic tower.
 
 (Pan22, §4.4, Lemma 4.4.4, Forum Math. Pi 10 (2022), e7, statement p. 44, proof p. 45 (arXiv:2008.07099v3, p. 48): For a bounded-above complex of p-adically complete p-torsion-free modules whose `mod-p^n` cohomologies have limits with bounded torsion, cohomology is the limit of its reductions and the limit of the `mod-p^n` cohomologies; the proof shows that no cohomology module receives a nonzero map from `ℚ_p`, uses the universal-coefficient sequence with multiplication by `p` on the torsion terms, and concludes by a divisibility argument.)
 
@@ -1035,7 +1035,7 @@ To prove this, use the second integral UCT to identify `D_O(H̃^n)` with the sta
 
 For a profinite `K_0`, an integral admissible complex of amplitude `[a,b]` means a complex represented in degrees `[a,b]` by finite direct summands of `C(K_0,O)^{n_i}`, with uniform `ϖ`-adic topology and the continuous regular action. Duals are compact `Λ`-modules with transpose right action; convert by inversion when a left category is desired. If `K_0` is pro-p and `Λ` is local, finite projectives are free and these terms may be taken as `C(K_0,O)^{n_i}`. This termwise notion is stronger than admissibility of cohomology.
 
-For a profinite `K_0` with coefficients `O` as fixed above, prove `iwasawa_isLocal_iff_pro_p`: `O[[K_0]]` is local exactly when `K_0` is pro-p, with maximal ideal generated topologically by `ϖ` and g−1. The forward implication is detected in finite quotients: a finite group that is not a p-group contains an element of prime order `ℓ≠p`, and `ℓ⁻¹` times its cyclic subgroup sum is a nonzero idempotent different from 1 in the residual group algebra. A local ring has no such idempotent. In the pro-p direction the augmentation ideal of each finite residual p-group algebra is nilpotent, and the inverse-limit radical test applies. Finite projectives over this local ring are free. (ST, Lemmas 3.2–3.3, p.14, give the radical and compact Nakayama arguments; GN, §2.1.5, Definition 2.1.6 and Proposition 2.1.9, pp.9–10, use the noetherian local-ring hypothesis for minimal complexes. The finite-quotient necessity follows from the idempotent calculation just given.)
+For a profinite `K_0` with coefficients `O` as fixed above, prove `iwasawa_isLocal_iff_pro_p` (stated in `Suggested.lean`): `O[[K_0]]` is local exactly when `K_0` is pro-p, with maximal ideal generated topologically by `ϖ` and g−1. The forward implication is detected in finite quotients: a finite group that is not a p-group contains an element of prime order `ℓ≠p`, and `ℓ⁻¹` times its cyclic subgroup sum is a nonzero idempotent different from 1 in the residual group algebra. A local ring has no such idempotent. In the pro-p direction the augmentation ideal of each finite residual p-group algebra is nilpotent, and the inverse-limit radical test applies. Finite projectives over this local ring are free. (ST, Lemmas 3.2–3.3, p.14, give the radical and compact Nakayama arguments; GN, §2.1.5, Definition 2.1.6 and Proposition 2.1.9, pp.9–10, use the noetherian local-ring hypothesis for minimal complexes. The finite-quotient necessity follows from the idempotent calculation just given.)
 
 (BP, Definition 1.4.1 and Remark 1.4.2, pp.4–5: The torus pro-p source uses continuous-function terms and dual perfect complexes; finite summands are required for general profinite groups.)
 
@@ -1213,7 +1213,7 @@ Choose a finite CW pair `(Z_0,∂Z_0)` from the supplied neat ALS Borel–Serre 
 
 (E06, Theorem 2.1.5 proof and Theorem 2.1.12, pp.22–24,26–27: A finite triangulation lifts to a profinite cell torsor; compact support has a homological version.; GN, §2.1.1–2.1.4, pp.7–8: The arithmetic chain model and its correspondence action are the finite-level comparison targets.)
 
-To prove this, import generic cellular chains and singular comparison from current AlgebraicTopology. Use the actual ALS finite pair and regular tower; choose compatible cell lifts through the compact torsors. Build the lifted differential from finite attaching maps with lattice transport, retaining the boundary subcomplex. Check compatibility of the supplied comparisons up to specified homotopies, without asserting strictly commuting arbitrary choices.
+To prove this, import generic cellular chains and singular comparison from AlgebraicTopology. Use the actual ALS finite pair and regular tower; choose compatible cell lifts through the compact torsors. Build the lifted differential from finite attaching maps with lattice transport, retaining the boundary subcomplex. Check compatibility of the supplied comparisons up to specified homotopies, without asserting strictly commuting arbitrary choices.
 
 Applications include Layer 4 completed chains: A compatible finite-rank lifted basis makes the inverse limit finite free; Layer 6 Fu hyper-Tor: Its finite-level coefficient complex is recovered from this model.
 
@@ -1377,7 +1377,7 @@ This layer applies the noetherianity of `Λ` to the chain model of Layer 4: comp
 
 For the actual lifted finite-cell tower over compact p-adic analytic `K_0`, `H̃_n` and `H̃_n^{BM}` are finitely generated left `Λ=O[[K_0]]`-modules. The topology inherited from the compact chain complex agrees with the canonical finite-module topology. Kernels and images of its continuous differentials are closed. This asserts neither freeness of homology nor degree concentration, and does not cover arbitrary profinite groups.
 
-First prove `iwasawa_noetherian_left` and `iwasawa_noetherian_right` for `O[[K_0]]` and `k[[K_0]]` when `K_0` is compact p-adic analytic. For an open uniform subgroup `U` the residual augmentation filtration has gr `k[[U]]≅k[X₁,…,X_d]`; use its separated complete filtration to lift noetherianity. For the integral ring use a compatible complete filtration that also records the central coefficient uniformizer, and prove the required filtered noetherian lifting with ramified `O` included. The finite-coset decomposition over `O[[U]]` then passes left and right noetherianity to `K_0`. This is the ring theorem, distinct from arithmetic finite generation. (ST, §3 opening and Proposition 3.1, p.13; Venjakob, Theorem 3.22, pp.16–18, and the residual graded-ring discussion after Theorem 3.30, p.20. Venjakob writes `ℤ_p/𝔽_p`; the finite coefficient extension and ramified uniformizer filtration are part of the theorem here.) The pinned Tau Ceti compact-module finite-generation criterion may discharge a density criterion once its hypotheses hold; the present arithmetic argument identifies the actual homology kernels and uses noetherianity.
+First prove left and right noetherianity for `O[[K_0]]` and `k[[K_0]]` when `K_0` is compact p-adic analytic. This ring theorem is `iwasawa_noetherian` in `Suggested.lean`, using the native analytic Lie-group structure and allowing ramified coefficient rings. For an open uniform subgroup `U` the residual augmentation filtration has gr `k[[U]]≅k[X₁,…,X_d]`; use its separated complete filtration to lift noetherianity. For the integral ring use a compatible complete filtration that also records the central coefficient uniformizer, and prove the required filtered noetherian lifting with ramified `O` included. The finite-coset decomposition over `O[[U]]` then passes left and right noetherianity to `K_0`. This is the ring theorem, distinct from arithmetic finite generation. (ST, §3 opening and Proposition 3.1, p.13; Venjakob, Theorem 3.22, pp.16–18, and the residual graded-ring discussion after Theorem 3.30, p.20. Venjakob writes `ℤ_p/𝔽_p`; the finite coefficient extension and ramified uniformizer filtration are part of the theorem here.) The pinned Tau Ceti compact-module finite-generation criterion may discharge a density criterion once its hypotheses hold; the present arithmetic argument identifies the actual homology kernels and uses noetherianity.
 
 (CE, Theorem 1.1(1), p.3; Theorem 1.16, pp.12–13: Finite generation and the canonical topology hold under the finite-cell and analytic hypotheses.; ST, Proposition 3.1 and Lemmas 3.2–3.4, pp.13–14: Finite modules over the compact noetherian algebra have the canonical compact topology.)
 
@@ -1449,7 +1449,7 @@ To prove this, identify the dual of the actual torsion-free completed lattice us
 
 For a torsion-free uniform open `U` of analytic dimension `d`, establish the Auslander regularity of the rings `Λ_U=O[[U]]` and `Ω_U=k[[U]]`, with global dimensions `d+1` and `d`. For a nonzero finite module `M`, define `j_R(M)=min{i:Ext_R^i(M,R)≠0}` and `δ_R(M)=gldim(R)−j_R(M)`; assign the zero module grade `+∞` and dimension `−∞` separately. If `ϖ M=0` then `j_Λ(M)=j_Ω(M)+1`. If `M` is `ϖ`-torsion-free, reducing a finite free resolution gives `0→Ext_Λ^i(M,Λ)/ϖ→Ext_Ω^i(M/ϖ,Ω)→Ext_Λ^{i+1}(M,Λ)[ϖ]→0`. Equality of the two grades in the torsion-free case additionally uses the Auslander purity/grade argument here; it does not follow from an all-degree `Ext` isomorphism. For `Λ_U` over a uniform domain, rank zero is equivalent to positive grade; pass to a general compact analytic `K_0` by finite-index restriction with the finite-index dimension comparison below.
 
-The foundational statements owned here are `iwasawa_auslanderRegular`, `iwasawa_grade_coefficient`, `iwasawa_grade_torsionFree` and `iwasawa_dimension_finiteIndex`. For torsion-free uniform `U`, prove Auslander regularity by a complete filtered-ring argument, treating `p=2` after an extra-powerful shrink and then finite-index change. Show gldim `O[[U]]=d+1` and gldim `k[[U]]=d`, with the `O` version proved by the central-uniformizer coefficient extension rather than by silently substituting `p` for `ϖ`. Define rank using the Ore division ring of the uniform domain. For finite `Λ`-modules restriction to a uniform open subgroup preserves grade; rational rank rescales by the finite subgroup index, so its vanishing is independent of this choice. For finite `Ω`-modules canonical dimension is likewise invariant under finite-index restriction. Prove these restriction statements by the finite-free Frobenius extension/Ext comparison, not by assuming every `K_0` ring is a domain. (Venjakob, Theorem 3.26 and its finite-index `Ext` argument, p.18; Proposition 3.28 and Theorems 3.29–3.30, pp.19–20, for `ℤ_p` coefficients. The `O` coefficient extension and torsion-free reduction purity step are explicit parts of G1.)
+The foundational statements owned here are Auslander regularity, the coefficient grade shift, the torsion-free reduction grade comparison and finite-index invariance of dimension. For torsion-free uniform `U`, prove Auslander regularity by a complete filtered-ring argument, treating `p=2` after an extra-powerful shrink and then finite-index change. Show gldim `O[[U]]=d+1` and gldim `k[[U]]=d`, with the `O` version proved by the central-uniformizer coefficient extension rather than by silently substituting `p` for `ϖ`. Define rank using the Ore division ring of the uniform domain. For finite `Λ`-modules restriction to a uniform open subgroup preserves grade; rational rank rescales by the finite subgroup index, so its vanishing is independent of this choice. For finite `Ω`-modules canonical dimension is likewise invariant under finite-index restriction. Prove these restriction statements by the finite-free Frobenius extension/Ext comparison, not by assuming every `K_0` ring is a domain. (Venjakob, Theorem 3.26 and its finite-index `Ext` argument, p.18; Proposition 3.28 and Theorems 3.29–3.30, pp.19–20, for `ℤ_p` coefficients. The `O` coefficient extension and torsion-free reduction purity step are explicit parts of G1.)
 
 The API comprises `grade_zeroModule`, `grade_coefficient_shift`, `ext_reduction_exact`, `grade_torsionFree_reduction`, `dimension_restrict_open` and `rank_zero_iff_positive_grade`, each in the coefficient and handedness regimes just stated.
 
@@ -1813,7 +1813,7 @@ For an oriented neat arithmetic d-manifold tower and dual coefficient local syst
 
 (CE, §1.3, p.6, with the opposite-ring convention in §1.2, p.5: The completed Poincaré spectral sequence uses Iwasawa `Ext`. The orientation-sensitive chain comparison is the additional proof obligation G7; CE Theorem 1.16(5) is instead coefficient reduction, and Nakamura Lemma 2.4 concerns continuous O-duality.)
 
-To prove this, import only finite-level manifold/support duality from ALS.5 and current AlgebraicTopology. Lift its pairing compatibly to the actual cellular `Λ`-model, acquiring G7’s orientation/opposite-ring check. Use the perfect model to compute RHom and the hyper-Ext filtration. Retain all coefficient torsion and use the correct global-dimension bound.
+To prove this, import only finite-level manifold/support duality from ALS.5 and AlgebraicTopology. Lift its pairing compatibly to the actual cellular `Λ`-model, acquiring G7’s orientation/opposite-ring check. Use the perfect model to compute RHom and the hyper-Ext filtration. Retain all coefficient torsion and use the correct global-dimension bound.
 
 **Checks.**
 
@@ -2006,12 +2006,12 @@ The transported actions are consumed by TorsionCohomologyInfrastructure:TC.2: Th
 
 The API consists of the following maps and identities.
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction`: The monoid action on the existing topological coefficient-limit object is the image of the natural diagram action under the limit functor; arithmetic finite actions are transported first.
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction_projection`: Each limit projection intertwines the induced operator with the corresponding diagram component.
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction_unique`: Two continuous actions agreeing under every coefficient projection agree.
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction_commute`: Commuting natural diagram actions induce commuting operators on the limit.
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction_jointlyContinuous`: If each coordinate action is jointly continuous, the action on the induced limit topology is jointly continuous.
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction_localized`: A continuous idempotent commuting with all action operators has an invariant image with the restricted continuous action.
+- The monoid action on the existing topological coefficient-limit object is the image of the natural diagram action under the limit functor; arithmetic finite actions are transported first.
+- Each limit projection intertwines the induced operator with the corresponding diagram component.
+- Two continuous actions agreeing under every coefficient projection agree.
+- Commuting natural diagram actions induce commuting operators on the limit.
+- If each coordinate action is jointly continuous, the action on the induced limit topology is jointly continuous.
+- A continuous idempotent commuting with all action operators has an invariant image with the restricted continuous action.
 
 **Checks.**
 
@@ -2039,10 +2039,10 @@ Applications include Gee–Newton, Definition 2.1.11, p. 10: The big algebra is 
 
 The API consists of the following maps and identities.
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.derivedHeckeDiagram`: The functor on the cofiltered normal-level/coefficient category has object `T_{U,s}` and transition given by the specified derived coefficient change.
-- `TauCetiRoadmap.CompletedCohomologyPartII.derivedHeckeDiagram_class`: Every transition sends the derived image class of `h∈H` to its target image class.
-- `TauCetiRoadmap.CompletedCohomologyPartII.derivedHeckeDiagram_surjective`: Each transition is surjective; finite images are finite commutative O-algebras.
-- `TauCetiRoadmap.CompletedCohomologyPartII.derivedHeckeDiagram_coherence`: Identity and composite transitions agree, including their base-change comparison isomorphisms.
+- The functor on the cofiltered normal-level/coefficient category has object `T_{U,s}` and transition given by the specified derived coefficient change.
+- Every transition sends the derived image class of `h∈H` to its target image class.
+- Each transition is surjective; finite images are finite commutative O-algebras.
+- Identity and composite transitions agree, including their base-change comparison isomorphisms.
 
 **Checks.**
 
@@ -2090,21 +2090,21 @@ Downstream applications include Gee–Newton, Lemma 2.1.14, p. 11: The finite re
 
 The API consists of the following maps and identities.
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke`: The carrier is RingCat.sectionsSubring for the finite derived-image functor; use its inherited commutative ring and the product-induced topology.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_eval`: Evaluation at any `(U,s)` is a continuous surjective ring map and satisfies all transition equations.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_ext`: Two elements agree exactly when their evaluations at every finite image agree.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_lift`: A compatible family of continuous ring maps to the finite images factors uniquely and continuously through `T̂`.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_dense`: The abstract `H` map is dense because it surjects onto every finite image; density does not assert surjectivity onto the limit.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_cofinal`: Restriction to a cofinal level/coefficient subsystem is a topological ring isomorphism preserving each retained evaluation.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_action`: Evaluation of `t` acting on a compatible module element equals the corresponding finite image operator applied to that coordinate.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_action_continuous`: If the finite coordinate actions are jointly continuous and compatible with the diagram, the induced action on the compatible-sections completed module is jointly continuous for the product-induced topologies.
+- `completedHecke`: The carrier is RingCat.sectionsSubring for the finite derived-image functor; use its inherited commutative ring and the product-induced topology.
+- Evaluation at any `(U,s)` is a continuous surjective ring map and satisfies all transition equations.
+- Two elements agree exactly when their evaluations at every finite image agree.
+- A compatible family of continuous ring maps to the finite images factors uniquely and continuously through `T̂`.
+- The abstract `H` map is dense because it surjects onto every finite image; density does not assert surjectivity onto the limit.
+- Restriction to a cofinal level/coefficient subsystem is a topological ring isomorphism preserving each retained evaluation.
+- Evaluation of `t` acting on a compatible module element equals the corresponding finite image operator applied to that coordinate.
+- If the finite coordinate actions are jointly continuous and compatible with the diagram, the induced action on the compatible-sections completed module is jointly continuous for the product-induced topologies.
 
 **Checks.**
 
 - For the constant identity-transition diagram on a finite commutative ring A, `T̂≅A` with its discrete topology.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_scalar`: For `A_s=ℤ/p^s` with reduction maps (the native `coefficientRingDiagram` uses exponents `n+1`), `T̂≅ℤ_p`; the map `ℤ→ℤ_p` is dense and is not surjective.
-- At `p=0`, `coefficientRingDiagram` has `ZMod 0=ℤ` at every object and identity maps; its ring limit is `ℤ`. This generic constructor test lies outside the finite arithmetic coefficient hypotheses.
-- At `p=1`, `coefficientRingDiagram` has the one-element ring at every object and identity maps; its limit is the one-element ring and has empty maximal spectrum.
+- For `A_s=ℤ/p^s` with reduction maps, `T̂≅ℤ_p`; the map `ℤ→ℤ_p` is dense and is not surjective.
+- At `p=0`, the coefficient system `ZMod (p^(n+1))` has `ZMod 0=ℤ` at every object and identity maps; its ring limit is `ℤ`. This generic constructor test lies outside the finite arithmetic coefficient hypotheses.
+- At `p=1`, the coefficient system `ZMod (p^(n+1))` has the one-element ring at every object and identity maps; its limit is the one-element ring and has empty maximal spectrum.
 - For the one-element finite image diagram, the completed ring is the one-element ring and its maximal spectrum is empty.
 - For the contractible perfect disk `[k --1→ k]`, the derived image is the zero ring; it acts on the zero derived object and homology, but cannot act unitally on the nonzero chain terms.
 - No topology of pointwise convergence on End(completed homology) replaces the specified inverse-limit topology.
@@ -2116,7 +2116,7 @@ The API consists of the following maps and identities.
 
 <a id="completed-semilocal-product"></a>
 
-Let `T̂` be the preceding inverse limit and fix the finite base image `A_0` of residual-support-stability. Then evaluation `q:T̂→A_0` is surjective and `ker(q)` is contained in `J(T̂)`. Pullback gives a bijection `MaxSpec(A_0)≅MaxSpec(T̂)`, including algebraic maximal ideals, not only continuous ones. With this finite index set, `T̂≅∏_m T̂_m` as rings and as topological rings when each factor is endowed with the inverse-limit topology from its finite local factors. Each `T̂_m` is a compact complete Hausdorff local ring with the same finite residue field as the corresponding `A_0` factor, and equals the algebraic localization of `T̂` at `m`. The topology asserted here is the finite-image inverse-limit topology. No noetherianity, finite O-module assertion, or identification with the algebraic J-adic topology is inferred merely from semilocality.
+Let `T̂` be the preceding inverse limit and fix the finite base image `A_0` of residual-support-stability. Then evaluation `q:T̂→A_0` is surjective and `ker(q)` is contained in `J(T̂)`. Pullback gives a bijection `MaxSpec(A_0)≅MaxSpec(T̂)`, including algebraic maximal ideals, not only continuous ones. With this finite index set, `T̂≅∏_m T̂_m` as rings and as topological rings when each factor is endowed with the inverse-limit topology from its finite local factors. Each `T̂_m` is a compact complete Hausdorff local ring with the same finite residue field as the corresponding `A_0` factor, and equals the algebraic localization of `T̂` at `m`. The topology asserted here is the finite-image inverse-limit topology. The statement `completedHecke_decomposition` in `Suggested.lean` includes the residual-label and residue-field identifications, semilocality and the canonical topological product decomposition. Its `completedHeckeLocalTopology` gives algebraic localizations the quotient topology from `T̂`, identified by this decomposition with the topology of the corresponding inverse-limit factors. No noetherianity, finite O-module assertion, or identification with the algebraic J-adic topology is inferred merely from semilocality.
 
 Assume throughout this subsection that Every finite transition is surjective and its map to `A_0` has radical kernel. Finite local-factor decompositions and their uniqueness are supplied by IntegralHeckeAndGaloisDeterminants §§2.1–2.2. For the zero image system, the maximal spectrum is empty and the empty product is the one-element ring.
 
@@ -2148,11 +2148,11 @@ Downstream applications include Layer 8 completed residual localization: Its act
 
 The API consists of the following maps and identities.
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.residualProjector`: The element of `T̂` formed from the compatible finite local-factor idempotents.
-- `TauCetiRoadmap.CompletedCohomologyPartII.residualProjector_eval`: Its evaluation equals the unique projector for the specified finite residual factor.
-- `TauCetiRoadmap.CompletedCohomologyPartII.residualProjector_unique`: An element with those finite evaluations is the same residual projector; consequently it is independent of all cofinal choices.
-- `TauCetiRoadmap.CompletedCohomologyPartII.residualProjector_relations`: The residual projectors are idempotent, pairwise orthogonal and have finite sum 1.
-- `TauCetiRoadmap.CompletedCohomologyPartII.residualProjector_factor`: Multiplication by the residual projector identifies its image ring with the corresponding factor of the semilocal product.
+- The element of `T̂` formed from the compatible finite local-factor idempotents.
+- Its evaluation equals the unique projector for the specified finite residual factor.
+- An element with those finite evaluations is the same residual projector; consequently it is independent of all cofinal choices.
+- The residual projectors are idempotent, pairwise orthogonal and have finite sum 1.
+- Multiplication by the residual projector identifies its image ring with the corresponding factor of the semilocal product.
 
 **Checks.**
 
@@ -2179,13 +2179,13 @@ The residual summand is consumed by CompletedCohomologyAndLocalGlobalCompatibili
 
 The API consists of the following maps and identities.
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization`: The native range of the continuous residual idempotent on the completed object, with induced topology.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_inclusion`: The range subtype inclusion is continuous and linear.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_projection`: `P` corestricts to a continuous linear projection onto its range, and the inclusion/projection composites are 1 on the range and `P` on `M`.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_map`: Any continuous linear map intertwining two labelled projectors restricts to the ranges, respecting identity and composition.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_algebraic`: For the supported residual label and semilocal product ring, the selected image is algebraically the localization of `M` at that maximal ideal.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_decomposition`: A finite family of orthogonal continuous idempotents with sum 1 gives a continuous linear equivalence with the product of their ranges, whose coordinates are the projectors.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_complete`: For the complete separated additive uniformity of the Hausdorff completed object, its closed residual range is complete with the induced uniformity.
+- The native range of the continuous residual idempotent on the completed object, with induced topology.
+- The range subtype inclusion is continuous and linear.
+- `P` corestricts to a continuous linear projection onto its range, and the inclusion/projection composites are 1 on the range and `P` on `M`.
+- Any continuous linear map intertwining two labelled projectors restricts to the ranges, respecting identity and composition.
+- For the supported residual label and semilocal product ring, the selected image is algebraically the localization of `M` at that maximal ideal.
+- A finite family of orthogonal continuous idempotents with sum 1 gives a continuous linear equivalence with the product of their ranges, whose coordinates are the projectors.
+- For the complete separated additive uniformity of the Hausdorff completed object, its closed residual range is complete with the induced uniformity.
 
 **Checks.**
 
@@ -2221,7 +2221,7 @@ To prove this, at each fixed `s`, represent a vector at some finite level; apply
 
 <a id="derived-cohomological-residual-comparison"></a>
 
-Suppose the finite derived image diagram `T_i` maps surjectively and compatibly to the corresponding image `T_i^H` on the direct sum of finite homology groups, and all complexes have cohomology in one common interval `[a,b]`, `a≤b`. The induced map of finite-ring inverse limits `T̂→T̂^H` is surjective and its kernel has `(b−a+1)`-st power zero (`derivedCohomologicalResidualComparison`). Consequently it induces a bijection of residual maximal ideals and transports the unique residual projectors. It need not be an isomorphism. An action on one completed homology degree, or on End of its completed limit, is a further quotient and is not identified with either all-degree inverse-limit image algebra without a separate theorem.
+Suppose the finite derived image diagram `T_i` maps surjectively and compatibly to the corresponding image `T_i^H` on the direct sum of finite homology groups, and all complexes have cohomology in one common interval `[a,b]`, `a≤b`. The induced map of finite-ring inverse limits `T̂→T̂^H` is surjective and its kernel has `(b−a+1)`-st power zero. Consequently it induces a bijection of residual maximal ideals and transports the unique residual projectors. It need not be an isomorphism. An action on one completed homology degree, or on End of its completed limit, is a further quotient and is not identified with either all-degree inverse-limit image algebra without a separate theorem.
 
 Assume that finite-ring diagrams share the same cofiltered index and compatible image-quotient maps. A uniform cohomological interval supplies the uniform exponent. The IHG equivariant ghost bound is required in the actual derived category of the group-ring complexes.
 
@@ -2340,7 +2340,7 @@ Needed by [8.9](#residual-support-stability).
 
 ### Arithmetic carriers at the library pins
 
-The pinned libraries have generic limits, topological modules and derived categories, but not the arithmetic tower and local-system carriers of Layers 0–7 or the canonical-model comparison. The suggested Lean file therefore states the compatible-sections, limit-action and idempotent-range interfaces on existing carriers. The arithmetic comparisons, actions, finite images and support and duality maps are targets of the layers, with their precise prerequisites.
+The pinned libraries have generic limits, topological modules and derived categories, but not the arithmetic tower and local-system carriers of Layers 0–7 or the canonical-model comparison. The suggested Lean file states the profinite Iwasawa local-ring criterion, analytic Iwasawa noetherianity and the semilocal topological decomposition on native carriers. The arithmetic comparisons, actions, finite images and support and duality maps are targets of the layers, with their precise prerequisites.
 
 Needed by [8.4](#arithmetic-tower-realisation), [8.5](#definite-unitary-degree-zero), [8.6](#scholze-4-2-convention-and-the-perfectoid-comparison), [8.7](#transported-arithmetic-actions), [8.8](#compatible-derived-hecke-images), [8.14](#localisation-limit-support-dual-compatibility).
 
@@ -2377,9 +2377,9 @@ Pan (2022), proof of Lemma 4.4.4, p. 45 (arXiv v3, p. 48). After the universal-c
 
 ## Suggested Lean forms
 
-`Suggested.lean` uses the namespace `TauCetiRoadmap.CompletedCohomologyPartII`. Its light definitions are specializations of the native categorical colimit and topological-module limit, the native commutative-ring limit and the range of a continuous residual projector. It states `torsionColimit_homology` and `torsionColimit_cofinal` for supplied module diagrams, Pan's `homology_hom_away_eq_zero`, `interiorSubmodule_closed`, the continuity and uniqueness of induced limit actions, the algebraic universal property and semilocal decomposition of the finite-ring inverse limit, its uniform nilpotent-kernel comparison `derivedCohomologicalResidualComparison`, and the completeness, continuous splitting and finite product decomposition of residual summands. The named tower tests are `torsionColimit_circle_killed`, `torsionColimit_locally_constant_not_all` and `completedHecke_scalar`.
+`Suggested.lean` uses the namespace `TauCetiRoadmap.CompletedCohomologyPartII`. It declares `iwasawa_isLocal_iff_pro_p` (§3.11), `iwasawa_noetherian` (§5.1), `completedHecke` (§8.10), `completedHeckeLocalTopology` and `completedHecke_decomposition` (§8.11). The first two statements use the pinned completed group algebra and analytic Lie-group carriers. The last theorem identifies all algebraic residual maximal ideals and residue fields and gives the canonical topological product of local factors for a finite-ring diagram over any small cofiltered index. The two definitions select native compatible sections and the quotient topology on their algebraic localizations.
 
-The arithmetic tower, chain models, completed tensor products and comparison morphisms require carriers absent at the fixed pins. Their precise statements, APIs and Checks remain in the layers above, and their intended declaration names are listed in the Lean file's closing comment. No private substitute for an arithmetic cohomology theory is introduced.
+The arithmetic tower and local-system carriers, integral admissible category, lifted finite-cell model, completed coefficient tensors and derived locally analytic-vector functor are absent at the pins. Consequently the arithmetic finiteness, descent, support duality and Shimura comparison theorems, and residual localization of the actual arithmetic tower, have no Lean signatures here. Their mathematical statements, hypotheses and Checks are specified in the layers above. Section 8.15 also needs the compatible finite equivariant derived-image diagram and its all-degree homology action.
 
 ## Downstream consumers
 
