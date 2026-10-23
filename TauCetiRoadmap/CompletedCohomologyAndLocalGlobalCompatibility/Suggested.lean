@@ -18,8 +18,11 @@ mathematical objects, whose construction is specified in the README:
 * The local correspondence and completion theorems of §§0.2–0.4 require the admissible
   integral and Banach representation categories, Colmez's correspondence, the Montréal
   functor, Galois deformation rings and projective block envelopes. Sections 0.2–0.4
-  own the shared correspondence and comparison theorems; LocalGaloisDeformationRings
-  supplies the underlying block, Montréal and full Weil–Deligne type-ring objects.
+  transport the shared correspondences and comparisons supplied by
+  PadicLocalLanglandsForGL2Qp, including its block, Montréal and full Weil–Deligne
+  type interfaces. They construct the cohomological coefficient, dual and determinant
+  adapters, arithmetic product blocks and stated small-prime extensions. General
+  deformation-ring machinery is supplied by LocalGaloisDeformationRings.
   The Scholze finiteness theorem of §0.6 requires the Lubin–Tate period torsor and its
   equivariant étale sheaves.
   The definite unitary input of §0.7 specializes the common forms carrier and weighted
@@ -51,8 +54,12 @@ mathematical objects, whose construction is specified in the README:
   (§§5.7–5.8) require arithmetic patched modules, universal Galois deformation rings,
   their Hodge-type quotients, and the associated trianguline spaces and cycles.
   The quaternionic patched module and one-place partial module (§§5.5–5.5a) also
-  require the pseudo-compact representation categories with the inverse central
-  character; their projectivity is stated in those categories, and their finite
+  require the determinant-varying dyadic ring, its determinant-one fibre and its
+  invariant ring, with the free twisting action and determinant torsor supplied by
+  GlobalGaloisDeformations. Their completed-homology adapter, finite-free typed and
+  partial comparisons, equivariant supports and normalized invariant-ring cycles
+  are the constructions of §§5.5–5.5a. The modules also require the pseudo-compact
+  representation categories with the inverse central character; their projectivity is stated in those categories, and their finite
   generation is over the indicated patched coefficient group algebra.
   The generic locally analytic Jacquet functor used in §5.2a is supplied by
   OverconvergentAutomorphicForms §0.6; the arithmetic analytic vectors, patched sheaf
@@ -61,6 +68,12 @@ mathematical objects, whose construction is specified in the README:
   (§6.2), the global locally algebraic formula (§6.3) and supercuspidal globalisation
   (§6.4) require the arithmetic Hecke and deformation objects, p-adic Hodge conditions,
   local Langlands correspondence and classical or finite-slope automorphic forms.
+  The locally algebraic formula uses the generic Breuil–Schneider/Colmez smooth
+  factor, retaining the full reducible principal series at nongeneric crystalline
+  parameters, together with the cohomological normalization bridge of §6.3.
+  The algebraic type comparison of §2.8 pairs the contragredient type and dual
+  lattice with the weight of §2.7; tame determinant compatibility in §3.2 uses
+  inflation along the natural quotient between ramification-restricted Galois groups.
 
 Absolute Galois groups, continuous representations, general linear groups, adic
 completions, completed group algebras, continuous functions, annihilators and spectra
