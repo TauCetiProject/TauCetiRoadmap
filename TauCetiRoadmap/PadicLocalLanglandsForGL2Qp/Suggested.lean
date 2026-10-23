@@ -31,8 +31,11 @@ operator and Serre-weight representations. The Montreal, reconstruction and
 all-prime correspondence theorems (Layer 3) need those constructions, Colmez's
 glued section spaces and admissible unitary Banach representations. Algebraic and
 analytic vector comparisons and completion classifications (Layer 4) also need
-filtered periods, locally analytic induction and inertial types. Section 4.1a uses
-NoncommutativeAndEquivariantIwasawa §F.6's general continuous period boundary;
+filtered periods, locally analytic induction and inertial types. Section 4.6 uses
+the normalized classical Weil parameter and its raw lift: a repeated scalar
+parameter is lifted to the regular nonsplit Frobenius extension before imposing
+weak admissibility, while monodromy varies in the filtration locus. Section 4.1a
+uses NoncommutativeAndEquivariantIwasawa §F.6's general continuous period boundary;
 its Colmez presentation and dual-exponential adjunction require generalized
 differential-period spaces. The block-centre,
 type-ring and Breuil–Mézard theorems (Layer 5, §§6.0–6.8) need compact block
