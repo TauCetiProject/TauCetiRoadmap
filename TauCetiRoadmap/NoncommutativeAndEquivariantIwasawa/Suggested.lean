@@ -23,8 +23,14 @@ The later headline statements require objects absent from the pins:
 * Perfection and base change of the arithmetic complexes (§§4.5–4.7), the normalized main
   conjectures (Layer 5), and the Kakde and Ritter–Weiss results (§§6.15, 6.30, 6.34–6.35) need
   those K-groups, the congruence groups and the arithmetic Iwasawa complexes and zeta functions.
-* The abelian minus theorem (§6.36) needs the smoothed arithmetic Selmer module and its
-  equivariant zeta element; a generic commutative Fitting ideal does not supply them.
+* The elliptic local-condition comparison (§4.1) needs arithmetic Kummer and ordinary
+  cohomology, including their finite quotient at primes above p. Good ordinary reduction
+  gives equality at finite local fields precisely when the reduction has no p-torsion.
+* The abelian minus theorem (§6.36) uses IntegralIwasawaTheory's arithmetic Selmer carrier,
+  its inversion twist, compatible restriction maps and the equivariant zeta element.
+  Its p-local smoothing comparison uses vanishing of smoothed-unit p-primary torsion
+  at every layer;
+  a generic commutative Fitting ideal does not supply these arithmetic objects.
 * The leading-term interpolation formulas (§§7.13–7.14, 7.18) and height comparison (§7.17)
   need the arithmetic Selmer complexes, Picard-valued determinants, Bockstein trivializations,
   periods and regulators. Generic continuous-cohomology Bocksteins do not supply these objects.
