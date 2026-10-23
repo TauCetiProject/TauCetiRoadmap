@@ -20,6 +20,9 @@ mathematical objects, whose construction is specified in the README:
   comparison and density of §§2.1–2.2, Serre-weight theorem of §2.4 and homological and
   quaternionic comparisons of §§2.6–2.8 require the actual modular, Shimura-curve and
   definite quaternionic towers, their coefficient cohomology and their Hecke actions.
+  Section 1.5's integral duality also requires the selected torsion object's divisibility
+  and compatible coefficient comparisons; central-character compatibility alone does
+  not supply them.
 * The Hecke-valued Galois, factorisation and crystalline-density theorems of §§3.2–3.6
   require the arithmetic completed Hecke algebras, their universal representations and
   their classical loci. The Eisenstein comparison of §3.8 also requires determinant-fixed
@@ -35,6 +38,9 @@ mathematical objects, whose construction is specified in the README:
   theorems (§§5.4, 5.6), and Pan's nice-prime and residually irreducible theorems
   (§§5.7–5.8) require arithmetic patched modules, universal Galois deformation rings,
   their Hodge-type quotients, and the associated trianguline spaces and cycles.
+  The generic locally analytic Jacquet functor used in §5.2a is supplied by
+  OverconvergentAutomorphicForms §0.6; the arithmetic analytic vectors, patched sheaf
+  and trianguline comparisons are the constructions required here.
 * Promodularity and the Fontaine–Mazur and Kisin consequences (§6.1), Böckle's `R = T`
   (§6.2), the global locally algebraic formula (§6.3) and supercuspidal globalisation
   (§6.4) require the arithmetic Hecke and deformation objects, p-adic Hodge conditions,
