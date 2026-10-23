@@ -22,13 +22,18 @@ The headline results requiring these objects are:
   restriction injectivity for the original representation alone does not supply it.
 * Layers 2–3: unramifiedness of Euler classes (§2.3), Kolyvagin's congruence (§3.14), and
   the Euler-to-Kolyvagin derivative maps (§§3.16–3.17, 3.19). The integral divided-polynomial
-  congruence and ordinary comparison (§§2.8, 3.14) use nontrivial ray edges; trivial ray
+  congruence and ordinary comparison (§§2.8, 3.14, 3.18) use nontrivial ray edges; trivial ray
   edges identify the fields and components and use the identity comparison and lift.
+  The MR04 derivatives use the full cyclotomic tame fields (§3.9a), including at `p = 2`.
+  Their comparison with finite-ray derivatives requires the coefficient modulus to divide
+  the finite-ray degrees; local, coefficient, tame-tensor and correction maps retain this condition.
   Ring-class conductor arithmetic uses ImaginaryQuadraticClassNumber H1.4's residue-unit
   exact sequence and ClassFieldTheory Layer 13's Artin correspondence (§2.9).
 * Layers 4–5: rational and integral Selmer bounds (§§4.7, 4.13, 4.17–4.21), rank-one
   freeness and dual Selmer structure (§§5.3, 5.6), and the self-dual bound and exact
-  primitivity formula (§§5.10, 5.13). The Howard–Zanarella paired hypotheses use the
+  primitivity formula (§§5.10, 5.13). The MR04 Artinian
+  stub-sheaf results (§5.3), in every core rank, require `P ⊆ P_k` for `k = length(R)`.
+  The Howard–Zanarella paired hypotheses use the
   lattice Tate dual `T† = Hom_R(T,R)(1)` and its dual local conditions (§0.2);
   compact/discrete duality retains the Cartier dual. The Howard auxiliary-prime filtration
   uses maximal-ideal depth, with finite cyclotomic congruences in prime selection
@@ -55,8 +60,9 @@ The headline results requiring these objects are:
   retain discrete coefficients, with the coefficient trace comparison of §0.2.
   Specialized exact-length hypotheses use lattice Tate duals (§8.32); the local discrete dual
   at the coefficient prime is `U† ⊗_O F/O`, with its coefficient trace comparison (§8.35).
-  The finite-quotient derivative construction uses a local stabilization index and a separate deeper
-  auxiliary-prime index (§8.17). Generalized reduction, specialization and blind spots
+  The finite-quotient derivative construction uses the full cyclotomic branch over `O/J_n`,
+  a local stabilization index and a separate deeper auxiliary-prime index (§8.17).
+  Generalized reduction, specialization and blind spots
   retain the ambient auxiliary-prime filtration (§§3.3, 8.12, 8.24). Intrinsic targets
   use the inverse of the restriction comparison under its prime-set and residual
   hypotheses (§8.18); generalized extensionality is levelwise equality in the direct limits.

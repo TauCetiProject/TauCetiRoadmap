@@ -815,7 +815,7 @@ The precise hypotheses are `T` free over `R`, unramified at `q, q ∤ p∞`.
 
 If `q` splits completely in `K(1)` (in particular if `q` is principal), `K(q)_q/K_q` is totally tamely ramified, so `G_q` is cyclic. For principal `q`, its order lies in `I_q`, giving `G_q ⊗ R/I_q ≅ R/I_q` noncanonically. For nonprincipal `q`, `I_q = R` and both modules are zero, regardless of whether `G_q` is cyclic. Tensor these comparisons over the primes dividing `n`.
 
-The two definitions of `I_q` agree in their use: both give |`G_q|·(T/I_qT) = 0` and `det(1 − Fr_q | T/I_qT) = 0` (under the rank-one coinvariants condition), which are the hypotheses of the finite–singular comparison.
+The two definitions of `I_q` use their respective tame groups: both give |`G_q|·(T/I_qT) = 0` and `det(1 − Fr_q | T/I_qT) = 0` (under the rank-one coinvariants condition), which are the hypotheses of the finite–singular comparison. At `p=2`, the MR04 full cyclotomic group and the finite-modulus ray group remain distinct; §3.9a supplies their derivative comparison only at a common allowed modulus.
 
 Howard's variant for `K` imaginary quadratic and `ℓ` inert: `I_ℓ` is the smallest ideal containing `ℓ + 1` for which `Fr_λ` acts trivially on `T/I_ℓT`, and `G_ℓ = k_λ^×/k_ℓ^×`.
 
@@ -2100,7 +2100,7 @@ Coefficient reduction induces `K̄S_Q(T) → K̄S_Q(T/IT)` from the maps on `T/(
 
 The zero family is a Kolyvagin system; a system may have `κ_1 = 0`.
 
-Under the principal-artinian or DVR hypotheses of Layer 5.3, core rank one gives the isomorphism `KS → K̄S`; without these hypotheses the comparison need be neither injective nor surjective.
+Under the principal-artinian or DVR hypotheses of Layer 5.3, core rank one gives the isomorphism `KS → K̄S`; the Artinian branch requires `P ⊆ P_k` for `k = length(R)`. Without these hypotheses the comparison need be neither injective nor surjective.
 
 Additional arithmetic check: `κ_1 ∈ H¹_F(K, T) ⊗ ℤ = H¹_F(K, T)`: the stalk at 1 has `I_1 = 0, G_1 = ℤ` and `F(1) = F`.
 
@@ -2310,11 +2310,36 @@ Scalar and quotient compatibility: `κ(ac) = aκ(c)`, and (iii).
 
 Additional arithmetic check: For `r = 1` and `F = K` with `K(1) = K, κ_{K,1,M} = c_K` mod `M`.
 
-Additional arithmetic check: For `K = ℚ, T = ℤ_p(1), M = p^k` and `ℓ ≡` 1 `(mod p^k): κ_{ℚ,ℓ,M} ∈ ℚ^×/(ℚ^×)^{p^k}` is the unique class whose image in `ℚ(ℓ)^×/p^k` is `D_ℓ` applied to the cyclotomic unit of `ℚ(ℓ)` (here `W^{G_{ℚ(ℓ)}} = 0` for `p` odd).
+Additional arithmetic check: For `K = ℚ, T = ℤ_p(1), M = p^k`, `k≥1`, and `ℓ∈R_{ℚ,M}` (equivalently `ℓ≡1 (mod p^k)` for odd `p` and `ℓ≡1 (mod 2^{k+1})` for `p=2`): `κ_{ℚ,ℓ,M} ∈ ℚ^×/(ℚ^×)^{p^k}` restricts to `D_ℓ` applied to the cyclotomic Euler class of `ℚ(ℓ)` modulo `p^k`. For odd `p` this characterizes the class uniquely, since `W^{G_{ℚ(ℓ)}}=0`; at `p=2` the canonical cochain descent is retained.
 
 Additional arithmetic check: `κ_{F,r,M}` is not `Cor_{F(r)/F}(c_{F(r)}) = N_r c`: corestriction gives the Euler-factor multiple of `c_F`, which is 0 modulo `M` for `r ∈ R_{F,M}` with `r ≠ 1`, while `κ_{F,r,M}` is in general nonzero.
 
 *Needs:* Layer 3.4 Invariance of the derivative of the universal class; Layer 3.2 The induced module, the connecting map and lifts of an Euler system; Layer 2.2 The module of Euler systems; Layer 1.7 Kolyvagin primes: `P_k, P(L, τ)` and `R_{F,M}`.
+
+### 3.9a Full cyclotomic derivatives over `ℚ`
+
+**Full cyclotomic derivative and comparison.** Let `O` be the integers of a finite extension of `ℚ_p`, `T` a finite free continuous `O`-representation of `G_ℚ`, and `P` a set of primes away from `p` and the ramification of `T`. Suppose `T/(Fr_ℓ−1)T` is cyclic over `O` and `Fr_ℓ^{p^j}−1` is injective on `T` for every `ℓ ∈ P` and `j ≥ 0`. Let `c` be an Euler system in the Mazur–Rubin normalization of §§2.1, 2.6, on an abelian tower containing the maximal abelian `p`-extension unramified outside `p` and `P`. For `ℓ ∈ P`, let `L_ℓ` be the maximal `p`-extension inside `ℚ(μ_ℓ)`, and put `L_n = ∏_{ℓ|n} L_ℓ`. Thus `Gal(L_ℓ/ℚ)` has order `p^{v_p(ℓ−1)}`. These are the `p`-parts of the ray fields for modulus `ℓ∞`; at `p=2` they retain complex conjugation. At `p=2` they can differ from the finite-modulus fields `ℚ(ℓ)` of §1.1.
+
+For `0 ≠ M ∈ O`, a finite `F ⊆ ℚ∞` in which every `ℓ|n` splits completely, and squarefree `n` with `M | ℓ−1` and `M | P_ℓ(1)` for every `ℓ|n`, construct the derivative in `H¹(F,T/MT) ⊗_ℤ G_n`, with the MR04 tame groups `G_ℓ = 𝔽_ℓ^×` and `G_n = ⊗_{ℓ|n}G_ℓ`. After choosing tame generators, its restriction to `F L_n` is `D_n(c_{F L_n} mod M) ⊗ ⊗_{ℓ|n}σ_ℓ`; the tensor-valued class is independent of those generators. The coinduced connecting map gives a canonical descent even when finite-level invariants of `T/MT` are nonzero. It sends conductor one to `c_F mod M`, is `O`-linear, and commutes with coefficient reduction and corestriction in `F`. For an ideal `J=(M)`, the output on `T/JT` is independent of the chosen generator `M`.
+
+(Barry Mazur and Karl Rubin, Kolyvagin systems, Appendix A, Proposition A.2, pp.79–80, the proof of Theorem 5.3.3, pp.81–82, and the cyclotomic fields and universal presentation preceding Lemma A.6, pp.82–83; Karl Rubin, Euler Systems, Chapter 4 §§4–7.) These supply the cyclic cochain descent and local calculation with the full cyclotomic tame groups. The construction here retains arbitrary `O/(M)` coefficients.
+
+The following comparisons are part of this target.
+
+- Use the universal Euler presentation and connecting map of §§2.7, 3.2 on `F L_n`. The divisibility `M | #Gal(L_ℓ/ℚ)` follows from `M | ℓ−1`, because the discarded factor is a unit in `O`. The telescoping identity of §§3.1, 3.4 gives invariance. The local lift and decomposition-group arguments of §§3.11–3.13 give the finite condition away from `pn` and the tensor-valued finite–singular relation at each `ℓ|n`, after the polynomial dictionary. The canonical condition at infinity is the full local group; no splitting of real places in `L_n` is asserted. At `p`, retain §3.15's divisibility hypothesis or its stabilization at deeper coefficient and prime levels. The variant without a `p`-direction uses exactly §3.17's canonical-local-class and injective-`γ−1` hypotheses, with the auxiliary-prime lifting argument of §3.19.
+- The projection `𝔽_ℓ^× → Gal(L_ℓ/ℚ)` induces an isomorphism after tensoring with `O/(M)`. Retain the original group `𝔽_ℓ^×` in the augmentation algebra of §3.15. For the finite-part and permutation-correction targets of §§3.15, 3.17, require compatibility with these coefficient, base-field and tame-tensor maps and with restriction to deeper auxiliary-prime sets. The induced coefficient version uses `(O/J)[Gal(F/ℚ)]` when `Fr_ℓ|F=1` for every `ℓ|n`, as in §8.17.
+- Compare with §3.9 whenever `M` also divides `[ℚ(ℓ):ℚ]` for every `ℓ|n`, using the Euler classes on the finite-ray subfields obtained by corestriction. The quotient `Gal(L_ℓ/ℚ) → Gal(ℚ(ℓ)/ℚ)` then induces an isomorphism on the coefficient tame tensors, and the descended classes agree under it. More generally, replacing a cyclic layer by a quotient layer whose degree is divisible by `M` gives the same derivative through its norm map: if that degree is `d`, the full derivative differs from a lifted quotient derivative times the kernel norm by a multiple of `d`. Prove the comparison on the coinduced lifts as well as on their restrictions; agreement after restriction alone need not determine a global class. At odd `p` the two ray `p`-fields already coincide. At `p=2` the comparison is made only at the common allowed modulus and never divides by 2.
+
+**Checks.**
+
+- For `p=2`, `O=ℤ₂`, `T=ℤ₂(1)` and `n=5`, `P₅(X)=1−5X` and `J₅=(4)`. The coinvariants are `ℤ₂/4`, and every `5^{2^j}−1` is injective on the lattice. Since 5 generates `1+4ℤ₂`, the base `F₅` of §8.17 is `ℚ`. Here `L₅=ℚ(μ₅)` has degree 4, so modulus 4 is allowed. The finite ray field is `ℚ(5)=ℚ(√5)` of degree 2; §3.9 applies to that field only at modulus 2, where its derivative agrees with the reduction of the full cyclotomic one.
+- For `p=2`, `ℓ≡1 (mod 4)` and `s=v₂(ℓ−1)`, the full cyclotomic degree is `2^s` and the finite-ray degree is `2^{s−1}`. For `T=ℤ₂(1)`, `J_ℓ=(2^s)`. The first construction works modulo `J_ℓ` at every such depth, while the finite-ray comparison works modulo `2^{s−1}`. Increasing `s` preserves this distinction.
+- For odd `p`, the prime-to-`p` group generated by complex conjugation disappears in the maximal `p`-quotient. Thus `L_ℓ=ℚ(ℓ)`, and both the derivative and its coefficient tame tensor recover §3.9.
+- For a cyclic group of order 4 with generator `σ` and its order-two quotient, `D₄=σ+2σ²+3σ³` and the lifted quotient derivative times the kernel norm is `σ+σ³`. Their difference is `2σ²+2σ³`, so the comparison holds modulo 2; it supplies no comparison modulo 4 with an order-two ray layer.
+- If `M` is a unit, `T/MT=0` and the derivative is zero. At conductor one the derivative is the reduced bottom class. For `n=ℓ`, the finite-part sum of §3.15 is empty and the correction leaves the derivative unchanged; for `n=ℓq` it has the transposition term with the sign of §3.17.
+- Changing `M` to `uM` scales the identification `T/MT → W_M` by `u⁻¹` and its inverse by `u`; the quotient-valued derivative is unchanged. These identifications and the original-tame-group augmentation maps commute with every further coefficient reduction.
+
+*Needs:* Layers 2.1, 2.6–2.7 and 3.1–3.4, 3.9; the local cochain calculations of §§3.11–3.13; ClassFieldTheory Layer 13 for ray moduli including infinity; IntegralIwasawaTheory §§0.1–0.3, 1.1 for the cyclotomic fields and tower; SelmerIwasawaCohomology §§2.5, 3.6 for coefficient propagation and semilocal cohomology.
 
 ### 3.10 Derivative classes are unramified away from `pr`, finite up to a bounded factor
 
@@ -2450,7 +2475,7 @@ The two-branch comparison is a consequence of the definition for admissible towe
 
 ### 3.15 Derivative classes form a weak Kolyvagin system; their finite parts
 
-Let `K = ℚ, R` the integers of a finite extension of `ℚ_p, F = F_can` and `P` a set of primes `ℓ ≠ p`, unramified for `T`, with `T/(Fr_ℓ − 1)T` cyclic and `Fr_ℓ^{p^k} − 1` injective on `T` for all `k ≥ 0`. For an Euler system `c` for `(T, P, 𝒦)` with `𝒦` containing the maximal abelian `p`-extension unramified outside `p` and `P`, let `κ_n = κ_{[ℚ,n,I_n]} ⊗` (generators) `∈ H¹(ℚ, T/I_nT) ⊗ G_n, κ_1 = c_ℚ`. `(a)` If `H⁰(ℚ_p, T^*)` is divisible, `(κ_n)` is a weak Kolyvagin system for `(T, F_can, P)`; in general for each `k` and all large `j` the images `κ_n^{(k)}, n ∈ N_j`, form a weak Kolyvagin system for `(T/m^kT, F_can, P_j)`. `(b)` For `ℓ | n, (κ_n)_{ℓ,f} = Σ_{π ∈ S_1(n), π(ℓ) ≠ ℓ} (−1)^{ν(n/d_π)} (κ_{d_π})_{ℓ,f} ⊗ ⊗_{q | (n/d_π)} ρ_q(P_q(Fr_{π(q)}^{-1}))`, where `S_1(n)` is the set of permutations of the primes dividing `n` whose non-fixed primes form a single orbit, `d_π = ∏_{π(ℓ)=ℓ} ℓ`, and `A_{q,I} = ker((R/I)[G_q] → R/I)` is the augmentation ideal of the original finite tame group algebra. The `(R/I)`-linear comparison `ρ_q : A_{q,I}/A_{q,I}² ≅ G_q ⊗_ℤ R/I` sends `[σ] − 1` to `σ ⊗ 1`.
+Let `K = ℚ, R` the integers of a finite extension of `ℚ_p, F = F_can` and `P` a set of primes `ℓ ≠ p`, unramified for `T`, with `T/(Fr_ℓ − 1)T` cyclic and `Fr_ℓ^{p^k} − 1` injective on `T` for all `k ≥ 0`. For an Euler system `c` for `(T, P, 𝒦)` with `𝒦` containing the maximal abelian `p`-extension unramified outside `p` and `P`, let `κ_n ∈ H¹(ℚ, T/I_nT) ⊗ G_n` be the full cyclotomic derivative of §3.9a with MR04 ideals and tame groups, and `κ_1 = c_ℚ`. `(a)` If `H⁰(ℚ_p, T^*)` is divisible, `(κ_n)` is a weak Kolyvagin system for `(T, F_can, P)`; in general for each `k` and all large `j` the images `κ_n^{(k)}, n ∈ N_j`, form a weak Kolyvagin system for `(T/m^kT, F_can, P_j)`. `(b)` For `ℓ | n, (κ_n)_{ℓ,f} = Σ_{π ∈ S_1(n), π(ℓ) ≠ ℓ} (−1)^{ν(n/d_π)} (κ_{d_π})_{ℓ,f} ⊗ ⊗_{q | (n/d_π)} ρ_q(P_q(Fr_{π(q)}^{-1}))`, where `S_1(n)` is the set of permutations of the primes dividing `n` whose non-fixed primes form a single orbit, `d_π = ∏_{π(ℓ)=ℓ} ℓ`, and `A_{q,I} = ker((R/I)[G_q] → R/I)` is the augmentation ideal of the original finite tame group algebra. The `(R/I)`-linear comparison `ρ_q : A_{q,I}/A_{q,I}² ≅ G_q ⊗_ℤ R/I` sends `[σ] − 1` to `σ ⊗ 1`.
 
 The precise hypotheses are `K = ℚ`; the two conditions on the primes of `P`; `𝒦` contains the maximal abelian `p`-extension of `ℚ` unramified outside `p` and `P`.
 
@@ -2458,13 +2483,13 @@ The precise hypotheses are `K = ℚ`; the two conditions on the primes of `P`; `
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Appendix `A`, Theorem A.4, p. 80). The formula for the finite parts.
 
-`(a)`: Layer 3.13 Local behaviour of derivative classes gives `κ_n ∈ H¹_{F^{np}}` and relation (5); the condition at `p` is automatic if `H⁰(ℚ_p, T^*)` is divisible (Lemma A.1) and holds for the images in `T/m^k` after restricting to `N_j` (Proposition A.2).
+`(a)`: The full cyclotomic local comparison of §3.9a gives `κ_n ∈ H¹_{F^{np}}` and relation (5); the condition at `p` is automatic if `H⁰(ℚ_p, T^*)` is divisible (Lemma A.1) and holds for the images in `T/m^k` after restricting to `N_j` (Proposition A.2).
 
 ([Barry Mazur and Karl Rubin, Refined class number formulas and Kolyvagin systems](https://arxiv.org/abs/0909.3916), §2, equation (1), p. 2). The integral augmentation comparison; extending coefficients gives `ρ_q`.
 
 The group algebra uses `MonoidAlgebra (R ⧸ I) G_q`, with the original multiplicative group `G_q`; the tensor product uses its underlying abelian group over `ℤ`. Modulo the square of the augmentation ideal, `[στ] − 1 = ([σ] − 1) + ([τ] − 1)`. The inverse comparison sends `σ ⊗ a` to `a([σ] − 1)`; these maps are inverse on generators and commute with coefficient reduction.
 
-`(b)`: compute the restriction of `κ_m` to `ℚ(ℓ)_ℓ` through the `ℓ`-finite quotient of the universal Euler system and the augmentation filtration (Propositions `A`.8, `A`.13, `A`.15); `P_q(Fr_{π(q)}^{-1})` lies in the augmentation ideal because `P_q(1) ∈ I_q`.
+`(b)`: compute the restriction of `κ_m` to the completion of the full cyclotomic layer `L_ℓ` of §3.9a through the `ℓ`-finite quotient of the universal Euler system and the augmentation filtration (Propositions `A`.8, `A`.13, `A`.15); `P_q(Fr_{π(q)}^{-1})` lies in the augmentation ideal because `P_q(1) ∈ I_q`. The coefficient, tame-tensor and base-field comparisons of §3.9a commute with this calculation and hence with the correction of §3.17.
 
 **Checks.**
 
@@ -2473,7 +2498,7 @@ The group algebra uses `MonoidAlgebra (R ⧸ I) G_q`, with the original multipli
 - For `R` unramified quadratic over `ℤ₃`, `I = 3R`, `k = 𝔽₉` and `G_q = C₃`, the algebra `k[C₃] ≅ k[x]/(x³)` has augmentation quotient `kx` of dimension one over `k`, as does `C₃ ⊗_ℤ k`. Replacing the indexing group by the additive group of this tensor gives `k[C₃²] ≅ k[x,y]/(x³,y³)` and augmentation quotient of dimension two. The arithmetic data `T = R(1)`, `q = 7` have this tame group and conductor ideal.
 - For the trivial tame group, the augmentation ideal and `G_q ⊗_ℤ R/I` are both zero. Reducing `R/I` further carries `[σ] − 1 ↦ σ ⊗ 1` to the same formula over the new coefficients.
 
-*Needs:* Layer 3.13 Local behaviour of derivative classes; Layer 3.3 Kolyvagin systems, weak Kolyvagin systems and their limits; Layer 0.7 The canonical and the unramified Selmer structures; Layer 2.7 The universal Euler system.
+*Needs:* Layer 3.9a Full cyclotomic derivatives over `ℚ`; Layer 3.13 Local behaviour of derivative classes; Layer 3.3 Kolyvagin systems, weak Kolyvagin systems and their limits; Layer 0.7 The canonical and the unramified Selmer structures; Layer 2.7 The universal Euler system.
 
 ### 3.16 Derivative classes of `χ`-anticyclotomic Euler systems
 
@@ -2485,7 +2510,7 @@ There are two prime sets. The broad set `R_{K′,M}` consists of squarefree prod
 loc^s_q(κ_{K′,rq,M}) = φ^fs_q(loc_q κ_{K′,r,M})   for every M and every rq ∈ R_{K′,M,τ}.
 ```
 
-For `d=1` it is 3.13. For `d>1` published §9.4, p.182, asserts it with a proof sketch only, and the local obstruction recorded below is not resolved there; the relation is therefore a hypothesis of its consumer 4.21`(b)`, not a target.
+For `d=1` it is 3.13, on the finite-ray prime set whose degrees are divisible by `M`. Over `ℚ`, comparison with the full cyclotomic derivative of §3.9a uses only these common allowed moduli; the MR04 ideal does not supply the finite-ray degree condition at `p=2`. For `d>1` published §9.4, p.182, asserts it with a proof sketch only, and the local obstruction recorded below is not resolved there; the relation is therefore a hypothesis of its consumer 4.21`(b)`, not a target.
 
 **The semidirect universal presentation.** Define `chiUniversalPresentation(r)` to be the `O[G_r]`-module generated by `x_s` for `s|r`, with relations
 
@@ -2566,7 +2591,7 @@ Mazur–Rubin, §3.2, Theorems3.2.`4/3`.2.7 and Remarks3.2.`3/3`.2.5, pp.23–24
 
 In the setting of Layer 3.15 Derivative classes form a weak Kolyvagin system; their finite parts, define for `n ∈ N κ′_n = Σ_{π ∈ S(n)}` sign`(π) κ_{d_π} ⊗ ⊗_{ℓ | (n/d_π)} ρ_ℓ(P_ℓ(Fr_{π(ℓ)}^{-1})) ∈ H¹(ℚ, T/I_nT) ⊗ G_n`, the sum over all permutations of the primes dividing `n`. Then `(κ′_n)` satisfies the finite–singular relations and `(κ′_n)_{ℓ,f} = 0` for `ℓ | n`. Theorem (Mazur–Rubin 3.2.4): if `𝒦` contains the maximal abelian `p`-extension of `ℚ` unramified outside `p` and `P`, and `(a) T/(Fr_ℓ − 1)T` is cyclic and `(b) Fr_ℓ^{p^k} − 1` is injective on `T` for all `ℓ ∈ P, k ≥ 0`, then `c ↦ κ′` is a canonical `G_ℚ`-equivariant homomorphism `ES(T) → K̄S(T, F_can, P)` with `κ̄_1 = c_ℚ`; if moreover `H⁰(ℚ_p, T^*)` is divisible it is a homomorphism `ES(T) → KS(T, F_can, P)` with `κ_1 = c_ℚ`. Variant (3.2.7): if `𝒦` contains the maximal abelian `p`-extension unramified outside a cofinite set of primes containing `P` (no `p`-direction), `c_F ∈ H¹_{F_can}(F, T)` for all `F`, and there is `γ ∈ G_ℚ` with `γ − 1` killing `μ_{p^∞}` and injective on `T`, the same conclusions hold. The output in `K̄S` is a generalised Kolyvagin system; the ordinary one needs the local divisibility condition at `p`. Over a number field `K` the rank-one case of Layer 7.2 The higher Kolyvagin derivative gives the corresponding map.
 
-The precise hypotheses are `K = ℚ, R` the integers of a finite extension of `ℚ_p`; `(a), (b)` of Theorem 3.2.4; the Euler factors are `P_ℓ(Fr_ℓ^{-1})` with `P_ℓ(x) = det(1 − Fr_ℓ x | T)`.
+The precise hypotheses are `K = ℚ, R` the integers of a finite extension of `ℚ_p`; `(a), (b)` of Theorem 3.2.4; the Euler factors are `P_ℓ(Fr_ℓ^{-1})` with `P_ℓ(x) = det(1 − Fr_ℓ x | T)`. The derivatives use §3.9a's full cyclotomic fields and MR04 tame groups at every `p`, including 2; the finite-ray identification with §3.9 is used only at its allowed moduli. The variant without a `p`-direction carries the local-class and injective-`γ−1` hypotheses displayed above.
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Theorem 3.2.4, pp. 23–24). The theorem.
 
@@ -2614,27 +2639,25 @@ Additional arithmetic check: For `T` with `H⁰(ℚ_p, T^*)` not divisible, `H¹
 
 ### 3.18 Worked example: Kolyvagin's congruence for the multiplicative group
 
-Let `T = ℤ_p(1)`, so `H¹(F(r), T)` is the `p`-adic completion of `F(r)^×` and, for a prime `Q` of `F(r)` not dividing `p` with residue field `k_Q, H¹_f(F(r)_Q, T) = H¹_ur(F(r)_Q, T) ≅ k_Q^× ⊗ ℤ_p`; full local `H¹` is the completion of `F(r)_Q^×` and also has the valuation summand `ℤ_p`. Then `P(Fr_q^{-1} | T*; x) = 1 − x` and the congruence of Layer 3.14 Kolyvagin's congruence reads: for every `r ∈ R`, prime `q` with `rq ∈ R` and prime `Q` of `F(r)` above `q`, the element `c_{F(rq)} / c_{F(r)}^{((N(q) − 1)/[K(q):K(1)]) Fr_q^{-1}}` has order prime to `p` in `k_Q^×`, that is, the two classes agree in the `p`-adic completion of `k_Q^×`. For the cyclotomic-unit Euler system this is the `p`-part of the congruence `1 − ζ_{rq} ≡ 1 − ζ_r^{Fr_q^{-1}}` modulo every prime above `q`, which holds because `ζ_q ≡` 1 there. Kolyvagin's original definition imposed this congruence as an axiom; under Rubin's definition, which requires the system to extend along a `ℤ_p^d`-extension, it is a theorem (Layer 3.14 Kolyvagin's congruence), and conversely the congruence allows one to drop the `ℤ_p^d`-extension (rigidity condition (ii)`′(c)` of Layer 2.8 Variants: rigidity conditions, finite depth and anticyclotomic systems).
+Let `T = ℤ_p(1)`, so `H¹(F(r), T)` is the `p`-adic completion of `F(r)^×` and, for a prime `Q` away from `p`, `H¹_f(F(r)_Q,T) = H¹_ur(F(r)_Q,T) ≅ k_Q^× ⊗ ℤ_p`. Full local `H¹` also has the valuation summand `ℤ_p`. For an Euler system on an admissible tower, `r ∈ R` and a prime `q` with `rq ∈ R`, the multiplicative specialization of §3.14 has two branches.
 
-The precise hypotheses are `T = ℤ_p(1)`; `c` an Euler system for `T` over an admissible tower.
+- If `K(q) ≠ K(1)`, the unit residue quotient `c_{F(rq)} / c_{F(r)}^{((N(q)−1)/[K(q):K(1)])Fr_q⁻¹}` has trivial `p`-part in `k_Q^×`, for every prime `Q` of `F(rq)` above `q`. Equivalently, its residue has order prime to `p`. The residue fields of the upper and lower completions are identified through the totally ramified extension.
+- If `K(q) = K(1)`, then `F(rq)=F(r)` and `c_{F(rq)}=c_{F(r)}` before localization. Their unit residues agree by the identity comparison.
 
-([Karl Rubin, Euler Systems](https://swc-math.github.io/notes/files/99RubinES.pdf), Chapter IV §8, Example 8.2, p. 78 (1999 draft)). specialises the congruence of Corollary IV.8.1 to `T = ℤ_p(1)` and relates it to the congruence for cyclotomic units, with the denominator misprinted as `[K(q) : K]`
+The precise hypotheses for the divided-polynomial formula are `T=ℤ_p(1)`, an Euler system over an admissible tower, and a nontrivial ray edge `K(q)≠K(1)`. The identity branch applies to every Euler family on a trivial ray edge. The same two-branch congruence is the explicit input in the congruence rigidity alternative of §2.8.
 
-([Karl Rubin, Euler Systems](https://wstein.org/people/rubin/book/hEulerSystems.pdf), Chapter 4 §8, Example 4.8.2 and (4.13), p. 103 (published version)). the same example with the denominator `[K(q) : K(1)]`, the congruence read in the `p`-adic completion of `k_Q^×`
+(Karl Rubin, Euler Systems, 1999 draft, Chapter IV §8, Corollary 8.1 and Example 8.2, pp.77–78; published Chapter 4 §8, Example 4.8.2 and (4.13), p.103.) The polynomial specialization on nontrivial ray edges has denominator `[K(q):K(1)]`; the draft example prints `[K(q):K]`. The identity-edge relation is the field-indexed convention of draft Chapter II §1, Remark 1.4, p.22, and Definition IV.2.1, p.58.
 
-([Karl Rubin, Euler Systems](https://swc-math.github.io/notes/files/99RubinES.pdf), Chapter II §1, Remark 1.5, p. 23). Kolyvagin's method required an extra congruence condition; Rubin's universal-norm hypothesis makes it a consequence, and conversely the congruence can replace that hypothesis
+For `T=ℤ_p(1)`, the lattice dual in the Euler polynomial is the trivial `ℤ_p`, so `P_q(X)=1−X` and `(P_q(X)−P_q(N(q)X))/[K(q):K(1)] = ((N(q)−1)/[K(q):K(1)])X`. This polynomial gives the comparison only on the nontrivial branch.
 
-For `T = ℤ_p(1), T* = Hom(T, ℤ_p(1)) = ℤ_p` with trivial action, so `det(1 − Fr_q^{-1}x | T*) = 1 − x`.
+Local Kummer theory identifies `H¹(L,ℤ_p(1))` with `lim_a L^×/(L^×)^{p^a}`. At residue characteristic different from `p`, completed units identify with `k_L^×⊗ℤ_p`, and valuation gives `0 → k_L^×⊗ℤ_p → H¹(L,ℤ_p(1)) → ℤ_p → 0`. Euler classes are unramified away from `p` by §2.3, so their localizations have zero valuation and the comparison takes place in the residue-unit group. For cyclotomic classes on a nontrivial edge, the underlying residue calculation is `1−ζ_{mq} ≡ 1−ζ_m^{Fr_q⁻¹}` above `q`, with `m>1` prime to `q`; take the appropriate norms and smoothing before applying the Euler-system comparison. Rubin's universal-norm hypothesis makes the congruence a theorem; under the alternative rigidity contract it is an input (draft Chapter II §1, Remark 1.5, p.23).
 
-`(P_q(Fr_q^{-1}) − P_q(N(q)Fr_q^{-1}))/[K(q) : K(1)] = ((N(q) − 1)/[K(q) : K(1)])Fr_q^{-1}`. The 1999 draft prints the denominator `[K(q) : K]` in Example IV.8.2; the published Example 4.8.2 has `[K(q) : K(1)]`, as Corollary IV.8.1 requires . The two agree when `K(1) = K`, for instance for `K = ℚ`.
+**Checks.**
 
-Local Kummer theory gives `H¹(L, ℤ_p(1)) ≅ lim_a L^×/(L^×)^{p^a}`. For residue characteristic different from `p`, reduction identifies the completed units with `k_L^× ⊗ ℤ_p`, and valuation gives a split exact sequence `0 → k_L^× ⊗ ℤ_p → H¹(L, ℤ_p(1)) → ℤ_p → 0`. Euler-system classes at `q` lie in the finite/unramified subgroup by Layer 2.3 Euler-system classes are unramified away from `p`. Their unit reductions give the stated congruence. The full-group identification printed in both Rubin examples omits the valuation term.
-
-For `K = ℚ, r = 1` and the cyclotomic units `c_{ℚ(q)} = N(1 − ζ_q)` (suitably smoothed), the congruence says the unit is a `p`-th power residue up to the stated exponent modulo primes above `q`.
-
-For `q ∈ R` with `N(q) ≡` 1 modulo a high power of `p` the exponent `(N(q) − 1)/[K(q) : K(1)]` is a `p`-adic unit times a power of `p`, so the statement is nontrivial exactly on the `p`-part of `k_Q^×`.
-
-A local uniformizer has valuation 1 and a nonzero Kummer class in the `ℤ_p` summand; it is not an element of `H¹_f` and cannot be identified with a residue-field unit.
+- For `K=F=ℚ`, `p=2`, `r=1`, `q=3` and bad support `(2)`, the finite ray group is the 2-part of `𝔽₃^×/{±1}=1`. There is an admissible cyclotomic Euler family with bottom class 2: put `F_a=ℚ(ζ_{2^{a+2}})^+` and, for squarefree `s` supported on primes `ℓ≡1 (mod 4)`, take `c_{F_a(s)}=N_{ℚ(ζ_{2^{a+2}s})/F_a(s)}(1−ζ_{2^{a+2}s})`. The distribution identity of Rubin draft III §2.1, (2), p.34, gives the vertical and nontrivial horizontal relations; norm transitivity extends it to the admissible tower. Trivial ray primes repeat the same field and class. Here `c_ℚ=N_{ℚ(i)/ℚ}(1−i)=2`, so the comparison at 3 is `2=2`. Substituting the polynomial exponent 2 would give the quotient `1/2`, whose residue is `−1` of order 2 in `𝔽₃^×`; it remains nonzero in `𝔽₃^×⊗ℤ₂`.
+- On a nontrivial edge with `T=ℤ_p(1)` and `e=[K(q):K(1)]`, the exponent is `((N(q)−1)/e)Fr_q⁻¹` with positive sign. If `e=N(q)−1`, this is `Fr_q⁻¹`, recovering the unnormed cyclotomic residue calculation. An inverse sign fails that calculation.
+- For `K=ℚ`, odd `p` and `p | q−1`, the ray degree is the `p`-part of `q−1`; hence `(q−1)/[ℚ(q):ℚ]` is a `p`-adic unit. For `p=2` and `q≡1 (mod 4)`, the finite-ray degree is the 2-part of `(q−1)/2`, so the same exponent has 2-adic valuation one. These are nontrivial ray edges in both cases.
+- A local uniformizer has valuation 1 and a nonzero Kummer class in the `ℤ_p` summand. It is outside `H¹_f` and has no residue-unit interpretation in this comparison.
 
 *Needs:* Layer 3.14 Kolyvagin's congruence; Layer 3.11 The lifted telescoping identity and the key norm relation for lifts; Layer 2.8 Variants: rigidity conditions, finite depth and anticyclotomic systems; Layer 2.3 Euler-system classes are unramified away from `p`.
 
@@ -3537,13 +3560,13 @@ Additional arithmetic check: For `R` a field `H`.3 is automatic.
 
 ### 5.3 Kolyvagin systems in core rank one
 
-Let `(T, F, P)` satisfy `(H.0)`–`(H.6)` with `χ(T) = 1`. `(a) R` principal artinian of `length k: KS(T)` is free of rank one over `R`; for a core vertex `n, κ ↦ κ_n` is an isomorphism `KS(T) ≅ ℋ(n)`; if `κ_m ≠ 0` generates `m^jℋ′(m)` then `κ_n` generates `m^jℋ′(n)` for every `n`; for `j ≥ k` restriction `KS(T, P) → KS(T, P ∩ P_j)` is an isomorphism; for `j ≤ k` reduction `KS(T) → KS(T/m^jT)` is surjective; and `KS(T) → K̄S(T)` is an isomorphism. `(b) R` a discrete valuation ring, `(H.0)`–`(H.5)`, torsion-free local quotients, `P = P_1: KS(T) ≅ lim_k KS(T/m^kT, P_k) ≅ K̄S(T)`, and `KS(T)` is free of rank one, generated by a primitive `κ`. If `χ(T) = 0` then `KS(T) = 0` in both cases; if `χ(T) ≥ 2` and `R` is artinian, `KS(T)` contains free modules of every rank.
+Let `(T, F, P)` satisfy `(H.0)`–`(H.6)` with `χ(T) = 1`. `(a) R` principal artinian of `length k`, with `P ⊆ P_k`: `KS(T)` is free of rank one over `R`; for a core vertex `n, κ ↦ κ_n` is an isomorphism `KS(T) ≅ ℋ(n)`; if `κ_m ≠ 0` generates `m^jℋ′(m)` then `κ_n` generates `m^jℋ′(n)` for every `n`; for `j ≥ k` restriction `KS(T, P) → KS(T, P ∩ P_j)` is an isomorphism; for `j ≤ k` reduction `KS(T) → KS(T/m^jT)` is surjective; and `KS(T) → K̄S(T)` is an isomorphism. `(b) R` a discrete valuation ring, `(H.0)`–`(H.5)`, torsion-free local quotients, `P = P_1: KS(T) ≅ lim_k KS(T/m^kT, P_k) ≅ K̄S(T)`, and `KS(T)` is free of rank one, generated by a primitive `κ`. If `χ(T) = 0` then `KS(T) = 0` in both cases, retaining `P ⊆ P_k` in the Artinian case; if `χ(T) ≥ 2` and `R` is principal artinian of length `k` with `P ⊆ P_k`, `KS(T)` contains free modules of every rank.
 
-The precise hypotheses are `(H.0)`–`(H.6)` (artinian), or `(H.0)`–`(H.5)` with torsion-free local quotients (discrete valuation ring); `χ(T) = 1` for the main statements.
+The precise hypotheses are `(H.0)`–`(H.6)`, `R` principal artinian of length `k` and `P ⊆ P_k` (all Artinian clauses), or `(H.0)`–`(H.5)` with torsion-free local quotients and `P=P_1` (discrete valuation ring); `χ(T) = 1` for the rank-one statements. The depth condition makes every `I_n` zero. Hypothesis `(H.5)` alone supplies a lower containment of a deep prime set and does not imply this upper containment.
 
-([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Corollary 4.5.2, p. 48). The artinian statement.
+(Barry Mazur and Karl Rubin, Kolyvagin systems, Chapter 4 standing hypotheses, p.35, Corollaries 4.5.1–4.5.3, p.48.) The Artinian vanishing, higher-rank, freeness and comparison statements all retain the standing prime-depth hypothesis.
 
-([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Theorem 5.2.10, p. 57). The statement over a discrete valuation ring.
+(Barry Mazur and Karl Rubin, Kolyvagin systems, Theorem 5.2.10, p.57.) The statement over a discrete valuation ring.
 
 `(a): KS(T) = Γ(ℋ′)` (Layer 4.16 The sheaf of stub Selmer modules), a locally cyclic sheaf with trivial monodromy and hubs at the core vertices; apply Layer 4.11 Locally cyclic sheaves, hubs, monodromy and primitive sections.
 
@@ -3551,7 +3574,14 @@ The precise hypotheses are `(H.0)`–`(H.6)` (artinian), or `(H.0)`–`(H.5)` wi
 
 For `T = ℤ_p(1) ⊗ ρ^{-1}, ρ` even nontrivial: `KS(T)` is free of rank one, generated up to a unit by the cyclotomic-unit system when that system is primitive.
 
-Reduction surjectivity: every Kolyvagin system modulo `m^j` lifts.
+Reduction surjectivity: every Kolyvagin system modulo `m^j` on the stated prime set lifts.
+
+**Checks.**
+
+- For `R=ℤ/25`, the even quadratic character `ρ` of conductor 13, `T=R(1)⊗ρ⁻¹` and the propagated canonical structure, the prime `ℓ=61` has `ρ(61)=1` and `I₆₁=(5)≠0`. The choice `P=P_1^{all}` satisfies `(H.5)` but includes this prime outside `P₂`. Its conductor-61 component has coefficients `T/5T`, so the full-coefficient stub theorem applies only after restricting to `P∩P₂`.
+- For a field, `k=1` and `(H.5)` already gives `P⊆P₁`; the added Artinian depth condition is automatic and the rank-one result recovers evaluation at a core vertex.
+- If `P⊆P_k` and `1≤j≤k`, coefficient reduction to `R/m^j` preserves full-depth primes, since `I_ℓ=0` maps to zero. Evaluation at a common core vertex identifies the reduction map with the surjection of its free rank-one stalks.
+- For core rank zero and for core rank at least two, retain the same `P⊆P_k` in Corollary 4.5.1: the respective outputs are zero and free submodules of every finite rank. The prime-depth assumption is independent of which core-rank clause is used.
 
 *Needs:* Layer 4.16 The sheaf of stub Selmer modules; Layer 4.11 Locally cyclic sheaves, hubs, monodromy and primitive sections; Layer 4.12 Core vertices and leading vertices; Layer 5.1 Divisibility indices, elementary divisors and primitivity.
 
@@ -3619,7 +3649,7 @@ Self-duality replaces the core rank: `ε` is a parity, not a rank difference.
 
 Let `χ(T) = 1` and `0 ≠ κ ∈ KS(T)`. `(a) R = k` a field: dim `KS(T) = 1, κ_n ≠ 0` iff `n` is a core vertex, and `dim_k H¹_{F^*}(ℚ, T^*) = ord(κ)`. `(b) R` principal artinian of `length k, κ_1 ≠ 0: ∂^{(0)}(κ) ≥ ∂^{(1)}(κ) ≥` ⋯, `e_0(κ) ≥ e_1(κ) ≥ ⋯ ≥ 0` and `H¹_{F^*}(ℚ, T^*) ≅ ⊕_{i ≥ 0} R/m^{e_i(κ)}`; if `κ` is primitive and `κ_1 ≠ 0` then `length H¹_{F^*}(ℚ, T^*) = k − length(Rκ_1) = max{i : κ_1 ∈ m^iH¹_F(ℚ, T)}`, and if `κ` is primitive and `κ_1 = 0` then `length H¹_{F^*}(ℚ, T^*) ≥ k`. `(c) R` a discrete valuation ring: `∂^{(s)}(κ)` is nonincreasing and finite for `s ≥ ord(κ)`; the `e_i(κ)` are nonincreasing, nonnegative and independent of `κ ≠ 0`, as is `ord(κ)`; `corank_R H¹_{F^*}(ℚ, T^*) = ord(κ)`; `H¹_{F^*}(ℚ, T^*)/(H¹_{F^*}(ℚ, T^*))_div ≅ ⊕_{i ≥ ord(κ)} R/m^{e_i(κ)}`; its length is `∂^{(ord κ)}(κ) − ∂^{(∞)}(κ)`; and `κ` is primitive iff `∂^{(∞)}(κ) = 0`. Hence: `length H¹_{F^*}(ℚ, T^*)` is finite iff `κ_1 ≠ 0`; `length H¹_{F^*}(ℚ, T^*) ≤ ∂^{(0)}(κ)`; when `κ_1 ≠ 0`, equality holds iff `κ` is primitive; and `length H¹_{F^*}(ℚ, T^*) = length(H¹_F(ℚ, T)/L(T))` for the module of `L`-values `L(T)`.
 
-The precise hypotheses are the hypotheses of Layer 5.3 Kolyvagin systems in core rank one in each case; `χ(T) = 1`.
+The precise hypotheses are the hypotheses of Layer 5.3 Kolyvagin systems in core rank one in each case, including `P⊆P_k` for Artinian `R` of length `k`; `χ(T) = 1`.
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Theorem 5.2.12, p. 58). The structure theorem over a discrete valuation ring.
 
@@ -5098,11 +5128,11 @@ The precise hypotheses are Mazur–Rubin's Euler systems use the factors `P_ℓ(
 
 (Barry Mazur and Karl Rubin, Kolyvagin systems, Appendix `A`, proof of Theorem 5.3.3, pp. 81–82). The proof route.
 
-For `n > 1`, put `J_n = (ℓ − 1, P_ℓ(1) : ℓ | n) ⊆ O` and `I′_n = J_nΛ + (Fr_ℓ − 1 : ℓ | n) ⊆ Λ`. Then `I_n ⊆ I′_n` and both have finite index. Let `F_n ⊂ ℚ∞` be fixed by the closed subgroup generated by `Fr_ℓ` for `ℓ | n`. The quotient of the completed group algebra is `Λ/I′_n ≅ (O/J_n)[Gal(F_n/ℚ)]` as an `O`-algebra. Shapiro, with the induced action of §8.5, identifies `H¹(ℚ, 𝐓/I′_n𝐓) ≅ H¹(F_n, T/J_nT)`. Construct the derivative `κ_n` in this latter group, retaining its tame tensor factor, by §3.9 over `O/J_n`: choose a nonzero generator `a_n` of `J_n`, use Rubin's allowed modulus `a_n ∈ O`, and transport from `W_{a_n}` to `T/a_nT = T/J_nT`. Linearity and the coefficient maps of §3.9 make the result independent of this generator and compatible with further coefficient reduction and the field maps. At conductor one use the bottom tower class `(c_{ℚ_m})_m`.
+For `n > 1`, put `J_n = (ℓ − 1, P_ℓ(1) : ℓ | n) ⊆ O` and `I′_n = J_nΛ + (Fr_ℓ − 1 : ℓ | n) ⊆ Λ`. Then `I_n ⊆ I′_n` and both have finite index. Let `F_n ⊂ ℚ∞` be fixed by the closed subgroup generated by `Fr_ℓ` for `ℓ | n`. The quotient of the completed group algebra is `Λ/I′_n ≅ (O/J_n)[Gal(F_n/ℚ)]` as an `O`-algebra. Shapiro, with the induced action of §8.5, identifies `H¹(ℚ, 𝐓/I′_n𝐓) ≅ H¹(F_n, T/J_nT)`. Construct the derivative `κ_n` in this latter group by §3.9a on `F_n L_n`, with `L_ℓ` the maximal `p`-subfield of the full `ℚ(μ_ℓ)`, and retain the MR04 tame tensor factor `G_n`. For a nonzero generator `a_n` of `J_n`, each `a_n | ℓ−1` implies `a_n | [L_ℓ:ℚ]` in `O`, and `a_n | P_ℓ(1)` holds by definition. Every `ℓ|n` splits in `F_n`. These are the full cyclotomic derivative hypotheses at modulus `a_n`; no divisibility of the finite-ray degree `[ℚ(ℓ):ℚ]` is required. Transport from `W_{a_n}` to `T/a_nT = T/J_nT`. Section 3.9a's coefficient and base-field comparisons make the result independent of the generator and compatible with further reduction and the field maps. At conductor one use the bottom tower class `(c_{ℚ_m})_m`.
 
 For each `k ≥ 1` let `A_k = (γ^{p^k} − 1, p^k) ⊆ 𝔐^k`. These ideals are decreasing and cofinal with the powers of `𝔐`: the quotient `Λ/A_k ≅ (O/p^kO)[Γ/Γ^{p^k}]` is Artinian local, so some power of `𝔐` lies in `A_k`. Choose a local stabilization index `j ≥ k` such that the image of `H¹(Q_p, 𝐓/A_j𝐓)` in `H¹(Q_p, 𝐓/𝔐^k𝐓)` is `H¹_{F_Λ}(Q_p, 𝐓/𝔐^k𝐓)`.
 
-Choose a separate auxiliary-prime index `h ≥ j` with `𝔐^h ⊆ A_j` and `h ≥ e(j + 2)`, where `e = v_ϖ(p)`. For `ℓ ∈ P_h`, the conductor-ideal condition gives `ℓ − 1 ∈ 𝔐^h ∩ O = ϖ^hO ⊆ p^{j+2}O`, hence `ℓ ≡ 1 (mod p^{j+2})` and `Ψ(Fr_ℓ) ∈ Γ^{p^j}`. This cyclotomic congruence holds also for `p = 2`, where `Γ` identifies with `1 + 4ℤ₂`. Thus `Ψ(Fr_ℓ) − 1 ∈ (γ^{p^j} − 1) ⊆ A_j`. The rank-one Frobenius coinvariants modulo `𝔐^h` give `P_{𝐓,ℓ}(1) = P_{T,ℓ}(Ψ(Fr_ℓ)) ∈ 𝔐^h ⊆ A_j`. Polynomial subtraction then gives `P_{T,ℓ}(1) ∈ A_j ∩ O = p^jO`. Consequently `J_ℓ ⊆ p^jO` and `I′_ℓ ⊆ A_j`; summing over the divisors gives `I′_n ⊆ A_j` for every `n ∈ N_h`. The quotient-valued derivatives therefore pass through `𝐓/A_j𝐓` to `𝐓/𝔐^k𝐓`, satisfying the propagated local condition at `p`. Their images `κ_n^{(k)}`, indexed by `N_h`, form a weak Kolyvagin system for `(𝐓/𝔐^k𝐓, P_h)` (Rubin, Theorems IV.5.1 and IV.5.4).
+Choose a separate auxiliary-prime index `h ≥ j` with `𝔐^h ⊆ A_j` and `h ≥ e(j + 2)`, where `e = v_ϖ(p)`. For `ℓ ∈ P_h`, the conductor-ideal condition gives `ℓ − 1 ∈ 𝔐^h ∩ O = ϖ^hO ⊆ p^{j+2}O`, hence `ℓ ≡ 1 (mod p^{j+2})` and `Ψ(Fr_ℓ) ∈ Γ^{p^j}`. This cyclotomic congruence holds also for `p = 2`, where `Γ` identifies with `1 + 4ℤ₂`. Thus `Ψ(Fr_ℓ) − 1 ∈ (γ^{p^j} − 1) ⊆ A_j`. The rank-one Frobenius coinvariants modulo `𝔐^h` give `P_{𝐓,ℓ}(1) = P_{T,ℓ}(Ψ(Fr_ℓ)) ∈ 𝔐^h ⊆ A_j`. Polynomial subtraction then gives `P_{T,ℓ}(1) ∈ A_j ∩ O = p^jO`. Consequently `J_ℓ ⊆ p^jO` and `I′_ℓ ⊆ A_j`; summing over the divisors gives `I′_n ⊆ A_j` for every `n ∈ N_h`. The quotient-valued derivatives therefore pass through `𝐓/A_j𝐓` to `𝐓/𝔐^k𝐓`, satisfying the propagated local condition at `p`. Their images `κ_n^{(k)}`, indexed by `N_h`, form a weak Kolyvagin system for `(𝐓/𝔐^k𝐓, P_h)` by the full cyclotomic local comparison of §3.9a and §3.15.
 
 Mazur–Rubin's Theorem A.4 computes the finite parts `(κ_n)_{ℓ,f}`; the correction `κ`'`_n = Σ_{π∈S(n)}` sign`(π) κ_{d_π} ⊗ ∏_{ℓ|n/d_π} ρ_ℓ(P_ℓ(Fr^{-1}_{π(ℓ)}))` (their (33)) has zero finite localization at each divisor of `n` and retains the finite–singular relation already satisfied by the weak derivatives; each `ρ_ℓ` is formed in the original tame group algebra `(Λ/𝔐^k)[G_ℓ]` as in §3.15. This is the correction of Layer 3 (Theorem 3.2.4) carried out over `Λ/𝔐^k`.
 
@@ -5112,6 +5142,7 @@ The cyclotomic-unit Euler system for `O(1) ⊗ ρ^{-1}`, modified as in Rubin §
 
 **Checks.**
 
+- For `p=2`, `O=ℤ₂`, `T=ℤ₂(1)` and `n=5`, `J₅=(4)` and `F₅=ℚ`. The full cyclotomic field has degree 4, giving the derivative over `ℤ₂/4` and `Λ/I′₅≅ℤ₂/4`. The finite-ray degree is only 2. More generally `J_ℓ=(2^s)` and the full degree is `2^s` for `s=v₂(ℓ−1)≥2`, while the finite-ray degree is `2^{s−1}`; the separate index `h` is used for the final quotients, not to identify these fields.
 - For `p = 3`, `O` the unramified quadratic integers over `ℤ₃`, `T = O(1)` and `n = 7`, `P₇(1) = −6`, `J₇ = 3O` and `I′₇ = (3,Fr₇−1)`. Since `7` topologically generates `1+3ℤ₃`, `F₇ = ℚ` and `Λ/I′₇ ≅ O/3O ≅ 𝔽₉`. No integer cyclic quotient has this characteristic and cardinality. The Frobenius coinvariants are `O/6O`, which is cyclic over `O`, and every `7^(3^j)−1` acts injectively on `T`.
 - For `p = 3`, `O = ℤ₃`, `T = ℤ₃(1)`, `t = γ − 1` and `ℓ = 7 ∈ P₁`, `I′₇ = (3,t)` whereas `A₁ = (3,(1+t)³ − 1) = (3,t³)`. Thus `I′₇` is not contained in `A₁`; membership in `P_j` alone does not give the required containment at that same `j`.
 - More generally, choose `γ` corresponding to `4 ∈ 1 + 3ℤ₃` and a prime `ℓ ≡ 1 + 3^j (mod 3^{j+1})`. For `T = ℤ₃(1)`, this prime lies in `P_j` when admitted to `P`, but `Ψ(Fr_ℓ) − 1` modulo 3 has `t`-adic order `3^{j−1}`, while `A_j` modulo 3 is `(t^{3^j})`. The same-index containment fails at every depth.
@@ -5120,7 +5151,7 @@ The cyclotomic-unit Euler system for `O(1) ⊗ ρ^{-1}`, modified as in Rubin §
 - For `O = ℤ_p` and `J_n = p^aO`, the coefficient ring reduces to `ℤ/p^a`; for a general `O` the coefficient ring remains `O/J_n`. In both cases Shapiro retains the same finite group `Gal(F_n/ℚ)`.
 - At conductor one the bottom class is `(c_{ℚ_m})_m`; the zero Euler system maps to the zero Kolyvagin system.
 
-*Needs:* Layer 8.12 `Λ`-adic Kolyvagin systems; Layer 8.4 The `Λ`-adic class `c_{K,∞}` of an Euler system; Layer 8.5 The `Λ`-adic representation `𝐓 = T ⊗ Λ` and its Selmer structures; Layer 2.2 The module of Euler systems; Layer 2.1 Euler polynomials and their conventions; Layer 2.4 The conductor-indexed presentations; Layer 3.9 Kolyvagin's derivative classes `κ_{F,r,M}`; Layer 3.13 Local behaviour of derivative classes; Layer 3.15 Derivative classes form a weak Kolyvagin system; their finite parts; Layer 3.17 The map from Euler systems to Kolyvagin systems.
+*Needs:* Layer 8.12 `Λ`-adic Kolyvagin systems; Layer 8.4 The `Λ`-adic class `c_{K,∞}` of an Euler system; Layer 8.5 The `Λ`-adic representation `𝐓 = T ⊗ Λ` and its Selmer structures; Layer 2.2 The module of Euler systems; Layer 2.1 Euler polynomials and their conventions; Layer 2.4 The conductor-indexed presentations; Layer 3.9a Full cyclotomic derivatives over `ℚ`; Layer 3.13 Local behaviour of derivative classes; Layer 3.15 Derivative classes form a weak Kolyvagin system; their finite parts; Layer 3.17 The map from Euler systems to Kolyvagin systems.
 
 ### 8.18 Specialization of `Λ`-adic Kolyvagin systems at height-one primes
 
