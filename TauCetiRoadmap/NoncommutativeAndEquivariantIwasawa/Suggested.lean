@@ -9,7 +9,8 @@ import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Map
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`;
 references of the form §k.n refer to its subsections.
 
-The targets stated here are Brumer's exact integral and residual global dimensions (§0.11),
+The targets stated here are the all-profinite local-ring criterion (§0.4),
+Brumer's exact integral and residual global dimensions (§0.11),
 the rational global dimension (§0.12), and the canonical and saturated Ore theorems (§§1.7, 1.10).
 They use Tau Ceti's completed group algebra, Mathlib's projective dimension and Ore sets, and
 concrete group predicates. Coefficients are finite free discrete valuation algebras over ℤ_p,
@@ -98,6 +99,12 @@ variable [hOdomain : IsDomain O] [hODVR : IsDiscreteValuationRing O]
   [hOalg : Algebra ℤ_[p] O] [hOfree : Module.Free ℤ_[p] O] [hOfinite : Module.Finite ℤ_[p] O]
 
 include hp hcompact hT2 hTD hOdomain hODVR hOalg hOfree hOfinite
+
+/-- The local-ring criterion (§0.4): for every profinite group, the completed group
+algebra is local exactly when the group is pro-`p`, including ramified coefficients. -/
+theorem iwasawa_isLocal_iff_pro_p :
+    IsLocalRing (completedGroupAlgebra O G) ↔ IsProP p G := by
+  sorry
 
 /-- Brumer's theorem (§0.11): the left and right global dimensions are `d + 1` integrally and
 `d` residually, for every compact analytic group without elements of order `p`.
