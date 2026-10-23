@@ -587,7 +587,7 @@ names may change during implementation, but the mathematical direction of each m
 | global quotient and degree | `globalAbelianGaloisEquiv`, `globalAbelianGaloisEquiv_artinMap`, `index_globalNormSubgroup`, `globalClassFieldGaloisEquiv`, `globalClassField_index`; Tau Ceti's `galClassFieldEquiv` |
 | continuous local coefficients | `GalRep`, `H`, `muNRep`, `muNRep_ρ_apply`, `isSmoothDiscrete_muNRep`, `instFactIsSmoothDiscreteMuNRep`, `kummerClass`, `kummerClass_eq`, `kummerClass_mul`, `kummerEquiv_mixed`, `kummerEquiv_mixed_mk` |
 | Kummer transport and local Brauer group | `absoluteGaloisGroupComparison`, `comparisonDistribMulAction`, `muNRepCoeffDictionary`, `explicitKummerClass`, `explicitH1AddEquivH`, `inhomogeneousCocycle1`, `unitsRep`, `Br`, `invMap`, `brRes`, `brCor` |
-| local units and the `H²` bound | `unitsFiniteLayerRep`, `herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`, `index_normGroup_of_isCyclic`, `natCard_h2_units_le_finrank`, on Mathlib's normal basis `IsGalois.normalBasis` |
+| local units and the `H²` bound | `unitsFiniteLayerRep`, `herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`, `index_normGroup_of_isCyclic`, `natCard_h2_units_dvd_finrank`, `finite_h2_units`, `natCard_h2_units_le_finrank`, on Mathlib's normal basis `IsGalois.normalBasis` |
 | local invariant and Hilbert pairing | `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `kummerCupPairing_bil_comm`, `localSymbol`, `localSymbol_antisymm`, `localSymbol_eq_zero_iff_mem_normGroup`, `localSymbol_kummerClass_eq_zero_iff` |
 | the Tate dual and evaluation | `tateDual`, `tateDualEquiv`, `tateDualEquiv_ρ_apply`, `isSmoothDiscrete_tateDual`, `instFactIsSmoothDiscreteTateDual`, `tateDual_ρ_eq_self_iff`, `tateEvaluationPairing`, `tateEvaluationPairing_bil`, `tateDualMap`, `tateEvaluationPairing_tateDualMap`, `tateDualMap_exact`, `muNRepToTateDual`, `bijective_muNRepToTateDual` |
 | local duality and Euler characteristic, for finite smooth discrete modules | `tateDualityPairing`, `tateDualityPairing_tateDualMap`, `tateDualityPairing_muNRepToTateDual`, `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_mixed`, `eulerCharacteristic_finrank_fp`, `instFactIsSmoothDiscreteTrivialFp` |
@@ -597,7 +597,7 @@ names may change during implementation, but the mathematical direction of each m
 | global norm and Hilbert reciprocity | `cyclicHasseNorm`, `hilbertProductFormula` |
 | class fields, all applications of `globalClassField` | `rayNormSubgroup`, `rayClassField`, `hilbertClassField`, `narrowHilbertClassField`, `gal_rayClassField_equiv_rayClassGroup`, `kroneckerWeber` |
 | admissible moduli and ray-class reciprocity | `IsAdmissibleModulus`, `IsAdmissibleModulus.mem_support_of_ramified`, `abelianConductor`, `isAdmissibleModulus_iff_abelianConductor_dvd`, `isAdmissibleModulus_iff_le_rayClassField`, `not_isAdmissibleModulus_one_Qi`, `rayClassArtinMap`, `rayClassArtinMap_idealClass`, `rayClassArtinMap_surjective` |
-| ring class fields, **quadratic orders only** | `ringClassIdeleQuotient`, `ringClassNormSubgroup`, `ringClassField`, `ringClassArtinMap`, `ringClassArtinMap_eq_one_iff`, `gal_ringClassField_equiv_pic`, `ringClassField_maximal`, each carrying `Module.finrank ℚ K = 2` |
+| ring class fields, **quadratic orders only** | `ringClassIdeleQuotient`, `ringClassNormSubgroup`, `ringClassField`, `ringClassGaloisEquiv`, `ringClassArtinMap`, `ringClassArtinMap_eq_one_iff`, `gal_ringClassField_equiv_pic`, `ringClassField_maximal`, each carrying `Module.finrank ℚ K = 2` |
 
 ⚠ **The correspondence runs in one direction on subgroups and the opposite direction on fields.**
 Inclusion of open normal subgroups of `G_K` is *reverse* inclusion of the fields they cut out, so
@@ -905,8 +905,10 @@ Prove:
    ```
 
    for every character `χ : (U/V)^ab → ℚ/ℤ` (`character_artinMap`), where `class(a)` is Tau
-   Ceti's `NormalLayer.zeroTateClass` and the cup `artinCharacterCup` is Tau Ceti's Tate cup
-   product with the connecting class `characterConnectingClass`;
+   Ceti's `NormalLayer.zeroTateClass`; `characterConnectingClass` and `artinCharacterCup` are
+   reducible adapters to the native connecting class and bundled additive pairing in
+   Formation/Character.lean. The character formula and uniqueness consume the native
+   Formation/ArtinMap.lean theorems;
 5. uniqueness: any homomorphism satisfying the character formula is `artinMap`
    (`eq_artinMap_of_character`);
 6. **the norm limitation theorem** `ClassFormation.normSubgroup_maximalAbelianLayer`: a layer and
@@ -1017,18 +1019,28 @@ Lemmas 2.3–2.6):
   `Ĥ⁻¹ ≅ H¹` vanishes by Hilbert 90 (`groupCohomology.H1ofAutOnUnitsUnique`) and two-periodicity.
   ⚠ This is a Herbrand-quotient computation; it is not the norm-index theorem
   `index_localNormSubgroup` of Layer 8, which is reciprocity;
-- **the local `H²` bound** `natCard_h2_units_le_finrank`: `#H²(Gal(L/K), Lˣ) ≤ [L:K]` for every
-  finite Galois `L/K`. In the cyclic case two-periodicity identifies `H²` with `Ĥ⁰`; in general
-  `Gal(L/K)` is solvable (Tau Ceti's `TauCeti.LocalFieldsRamification.isSolvable_algEquiv`, which
-  landed after this repository's Tau Ceti pin), and the bound propagates along a normal subgroup
-  with cyclic quotient through inflation–restriction in degree two, which is exact because `H¹`
-  vanishes by Hilbert 90.
+- **the local `H²` bound and finiteness**: `natCard_h2_units_dvd_finrank` re-exports Tau Ceti's
+  divisibility theorem from Brauer/LocalH2Bound.lean for every finite Galois `L/K`. The native
+  proof uses cyclic two-periodicity, the unit Herbrand quotient and solvable reduction; the
+  solvability theorem is in Tau Ceti's LocalField/Solvable.lean. Since `[L:K] > 0`, divisibility
+  forces the natural cardinal to be nonzero, giving `finite_h2_units`, and implies
+  `natCard_h2_units_le_finrank`. Finiteness is a separate input: an infinite type has natural
+  cardinal zero, so the inequality alone would not suffice. Source: Milne, *Class Field Theory*,
+  III §2, Lemmas 2.3–2.6.
+
+**Checks.**
+
+- For `L = K`, the relative `H²` is trivial and its cardinal is `1`.
+- For a cyclic extension of degree `m`, two-periodicity and the cyclic norm index give cardinal
+  exactly `m`, in either characteristic.
+- An infinite additive group has natural cardinal `0`, which satisfies the numerical bound but
+  cannot divide the positive extension degree; this tests the finiteness step.
 
 Then the invariant extends: the unramified relative Brauer group of degree `[L:K]` has `[L:K]`
 elements and lies in the kernel of restriction to `L`, since restriction multiplies the unramified
-invariant by `[L:K]`; that kernel is the relative Brauer group of `L/K`, and by the bound the two
-are equal. So `Br K` is the union of the unramified relative Brauer groups, and `invMap` is the
-unramified invariant on all of it. The bound is an inequality; equality is the class-formation
+invariant by `[L:K]`; that kernel is the relative Brauer group of `L/K`. Finiteness together with
+the bound makes the two equal. So `Br K` is the union of the unramified relative Brauer groups,
+and `invMap` is the unramified invariant on all of it. Equality in the bound is the class-formation
 axiom of Layer 6.
 
 For every `n ≠ 0` in mixed characteristic, prove `h2MuEquivZMod_mixed : H²(F,μ_n) ≃ ZMod n`. A
@@ -1246,9 +1258,9 @@ Formation/Units.lean and Local/ClassFormation.lean. Identify its invariant with 
   normalization;
 - compatibility of restriction with multiplication by degree;
 - the finite-layer description of the Brauer group;
-- the Layer 5 cyclic norm index `index_normGroup_of_isCyclic` and local `H²` bound
-  `natCard_h2_units_le_finrank`, which show that the degree-`n` layer contributes the subgroup of
-  order `n`.
+- the Layer 5 cyclic norm index `index_normGroup_of_isCyclic` and local `H²` finiteness and bound
+  `finite_h2_units` and `natCard_h2_units_le_finrank`, which show that the degree-`n` layer
+  contributes the subgroup of order `n`.
 
 The proof of `localClassFormation` must not use local reciprocity, the norm-index theorem, local
 existence, or local duality: each is downstream of Tate's theorem.
@@ -1324,8 +1336,7 @@ arithmetic Frobenius, and the kernel is the norm group.
 
 *Prerequisites:* Layers 5, 6; `LocalFieldsRamification` (with Tau Ceti's maximal unramified
 extension, inertia, arithmetic Frobenius lifts and `Gal(K^ur/K) ≅ Ẑ`; for unit-filtration
-reciprocity, the unit filtration, norms, upper numbering and Hasse–Arf of its Layer 3 and the
-absolute upper filtration and finite-level surjections of its §4a.1); Tau Ceti's
+reciprocity, the unit filtration, norms, upper numbering and Hasse–Arf of its Layer 3); Tau Ceti's
 `galoisSubgroup`, `galoisSubgroupEquiv` and `zHat`; for the cyclotomic normalization, Mathlib's
 cyclotomic fields and the splitting of primes in them
 (`Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.lean`), Tau Ceti's
@@ -1333,10 +1344,10 @@ cyclotomic fields and the splitting of primes in them
 `exists_fieldUnit_valuation_sub_lt_and_signHom_eq`) and the factorization of a global norm into
 the field norms from the completions, `TauCeti.algebraMap_norm_eq_prod_norm`.
 
-Passing to the inverse limit over finite abelian extensions gives the absolute
-`artinMap : Kˣ → G_K^ab` into the topological abelianization. It is pinned by three named
-equations, none of which quantifies over a map it is meant to constrain; each is stated against a
-definition with a body.
+For a specified nonarchimedean local-field structure on `K`, passing to the inverse limit over
+finite abelian extensions gives `artinMap : Kˣ → G_K^ab` into the topological abelianization.
+Its parameters include the valuation, topology and local-field instance used in that construction.
+It is pinned by three named equations, each stated against a defined map.
 
 - **Restriction.** `restrictAbsolute K L iota : G_K →* Gal(L/K)` is the restriction of the absolute
   Galois group to a finite Galois extension embedded by `iota`: `AlgEquiv.restrictNormalHom` to
@@ -1349,10 +1360,10 @@ definition with a body.
 - **Unramified coordinate.** `unramifiedCoordinate : G_K^ab →* Ẑ` is the descent to the topological
   abelianization of `restrictMaximalUnramifiedHom` followed by
   `maximalUnramifiedGaloisGroupEquivZHat`, so `unramifiedCoordinate_mk` computes it on every class.
-  Both are Tau Ceti's and landed after this repository's Tau Ceti pin; `LocalFieldsRamification`
-  states them under their Tau Ceti names. It is continuous and surjective
-  (`continuous_unramifiedCoordinate`, `surjective_unramifiedCoordinate`), its kernel is the image of
-  inertia (`unramifiedCoordinate_mk_eq_one_iff`, against `LocalFieldsRamification`'s
+  Both are native Tau Ceti constructions from LocalField/Unramified/Inertia/Basic.lean and
+  LocalField/Unramified/ZHat.lean, including the restriction-kernel theorem used below. It is
+  continuous and surjective (`continuous_unramifiedCoordinate`, `surjective_unramifiedCoordinate`);
+  its kernel is the image of inertia (`unramifiedCoordinate_mk_eq_one_iff`, against Tau Ceti's
   `inertiaSubgroup`), and it sends exactly the arithmetic Frobenius lifts to `zHat.gen`
   (`unramifiedCoordinate_mk_eq_gen_iff`, against `IsArithFrobeniusLift`). On the Artin map it is the
   normalized valuation (`unramifiedCoordinate_artinMap`), by `artinMap_restrict` at the finite
@@ -1449,9 +1460,19 @@ image of `U_K^(n)` in `Kˣ/N_(L/K)(Lˣ)` onto the image of `G^n` in `Gal(L/K)^ab
 `U_K^(n) ↔ G^n`. At `n = 0` this says that the units map onto the inertia group `G_0`; the map is
 the arithmetic normalization of Layer 6, under which a uniformizer maps to an arithmetic Frobenius
 on the maximal unramified subextension. The absolute form follows: for every `n ≥ 0`, the closure
-of `artinMap(U_K^(n))` in `G_K^ab` is the image of the absolute upper group `G_K^n` of
-`LocalFieldsRamification` §4a.1. This absolute target consumes that all-depth inverse-limit
-package in addition to the finite targets of Layer 3. The conductor consequence is
+of `artinMap(U_K^(n))` in `G_K^ab` is the image of the absolute upper group `G_K^n`.
+For this passage, construct here, for every real `v ≥ −1`, the closed normal subgroup
+`G_K^v = ⋂_M res_M⁻¹(Gal(M/K)^v)`, where `M/K` runs over finite Galois subextensions of the
+algebraic closure and the finite groups use LocalFieldsRamification Layer 3. Prove that restriction
+maps `G_K^v` onto every finite upper group, that the filtration is decreasing, and that
+`G_K^(−1) = G_K` and `G_K^0 = I_K`, with the latter the native inertia subgroup. Herbrand's
+quotient theorem makes the transition maps surjective; compactness gives the finite-level
+surjections. This inverse-limit prerequisite is proved here on the local-field domain, with its
+ramification API intended for LocalFieldsRamification. Source: Serre, *Local Fields*, IV §3,
+Proposition 14; Serre, *Sur les corps locaux à corps résiduel algébriquement clos*, n° 3.1,
+the paragraph after Proposition 3, p. 128, for the inverse-limit construction.
+
+The conductor consequence is
 `conductorExponent_eq_sInf_upperRamificationGroup`: `conductorExponent K L` is the least `n ≥ 0`
 with `G^n = 1`, so it is `0` exactly for unramified `L/K` and otherwise `1 + u` for the largest
 upper jump `u`, an integer by Hasse–Arf. For a character `χ` of `Gal(L/K)`, the least `n` with
@@ -1460,25 +1481,42 @@ upper jump `u`, an integer by Hasse–Arf. For a character `χ` of `Gal(L/K)`, t
 (Jean-Pierre Serre, [Local Fields](#reference-serre-local-fields), XV §2, Theorem 2 and Corollary 3
 to Theorem 1.)
 
-*Filtered-norm supplier contract:* LocalFieldsRamification Layer 3, the norm on the unit
-filtration, supplies the following two consequences for every finite totally ramified abelian
-extension `E/F`, with group `J`, in either characteristic and at every integer `r ≥ 0`:
+**General abelian filtered norms.** This roadmap proves two intermediate targets for every
+finite totally ramified abelian extension `E/F`, with group `J`, in either characteristic and at
+every integer `r ≥ 0`:
 
-- if `J^r = 1`, then `N_(E/F)(U_E^(ψ_(E/F)(r))) = U_F^(r)`;
-- if `J^r = J`, then `U_F^(0) = N_(E/F)(U_E^(0)) · U_F^(r)`.
+- `map_unitFiltration_norm_eq_of_upper_eq_bot`: if `J^r = 1`, then
+  `N_(E/F)(U_E^(ψ_(E/F)(r))) = U_F^(r)`;
+- `sup_norm_unitFiltration_eq_of_upper_eq_top`: if `J^r = J`, then
+  `U_F^(0) = N_(E/F)(U_E^(0)) · U_F^(r)`.
 
-These are general abelian contracts, not just prime-degree graded calculations. Their source is
-Serre, *Local Fields*, V §§3, 6. For prime degree, the first follows from the graded norms beyond
-the unique break by successive approximation and completeness; the second follows from their
+*Source:* Serre, *Local Fields*, V §§3, 6. LocalFieldsRamification Layer 3 supplies the
+prime-degree graded norms, shifted norm inclusion, integral inverse-Herbrand depths and Herbrand
+tower formulae. The general abelian consequences are targets here, with their unit-filtration API
+intended for LocalFieldsRamification. For prime degree, the first follows from the graded norms
+beyond the unique break by successive approximation and completeness; the second follows from
 surjectivity at depths strictly below the break. For a general finite abelian group, induct along
 a prime-order quotient series. The quotient and subgroup forms of Herbrand's theorem transport
 the hypotheses to the two steps; norm transitivity and `ψ_(E/F) = ψ_(E/M) ∘ ψ_(M/F)` transport
 the first equality. For the second, decompose `U_F^(0)` using the quotient step and then
 `U_M^(0)` using the subgroup step; the shifted norm inclusion sends the remaining
-`U_M^(ψ_(M/F)(r))` into `U_F^(r)`. No reciprocity comparison enters these norm inputs.
+`U_M^(ψ_(M/F)(r))` into `U_F^(r)`. These proofs use no reciprocity comparison.
 
-*Proof.* Functoriality in finite quotients and norms (`artinMap_quotient`, `artinMap_groundNorm`)
-reduces to `L/K` totally ramified: for the maximal unramified subfield `L_0`, the upper groups at
+*Needs:* LocalFieldsRamification Layer 3 (the prime-degree graded norms and their consequences,
+shifted norm inclusion, unit completeness, Herbrand quotient and subgroup formulae and tower
+transitivity).
+
+**Checks.**
+
+- For the trivial extension, the first equality is the identity norm at every depth and the
+  second is `U_F^(0) = U_F^(0) · U_F^(r)`.
+- For a totally ramified tame extension, the second equality at `r = 0` is tautological; the
+  first at `r = 1` gives surjectivity on principal units.
+- For `ℚ_2(√2)/ℚ_2`, the second equality applies at `r = 2` and the first at `r = 3`, with
+  `ψ(3) = 4`. The first cannot be extended to `r = 2`: `5 ∈ U_F^(2)` is not a norm.
+
+*Proof of unit-filtration reciprocity.* Functoriality in finite quotients and norms
+(`artinMap_quotient`, `artinMap_groundNorm`) reduces to `L/K` totally ramified: for the maximal unramified subfield `L_0`, the upper groups at
 nonnegative depths are those of `L/L_0`, and `N_(L_0/K)(U_(L_0)^(n)) = U_K^(n)`.
 At depth zero, the norm valuation formula and the norm-index theorem identify the image of the
 units with inertia: for a totally ramified extension, a norm of a uniformizer is a uniformizer,
@@ -1487,14 +1525,14 @@ the general case. This uses finite reciprocity, not the all-depth comparison.
 
 For a totally ramified abelian `L/K`, put `H = G^n`, `M = L^H` and `s = ψ_(M/K)(n)`.
 Herbrand's quotient theorem gives `(G/H)^n = 1`, and its subgroup formula gives `H^s = H`.
-The two filtered-norm contracts give `N_(M/K)(U_M^(s)) = U_K^(n)` and
+The two general filtered-norm targets give `N_(M/K)(U_M^(s)) = U_K^(n)` and
 `U_M^(0) = N_(L/M)(U_L^(0)) · U_M^(s)`. Depth-zero reciprocity for `L/M` therefore gives
 `Art_(L/M)(U_M^(s)) = H`. Norm functoriality carries this equality to
 `Art_(L/K)(U_K^(n)) = H`, including `H = G`, `H = 1` and `n = 0`.
 
 For the absolute form, restrict to every finite abelian quotient using `artinMap_restrict`.
-LocalFieldsRamification §4a.1 maps the absolute upper group onto the finite upper group at each
-depth. Its image in `G_K^ab` is compact, hence closed, so agreement in all finite abelian
+The inverse-limit construction above maps the absolute upper group onto the finite upper group
+at each depth. Its image in `G_K^ab` is compact, hence closed, so agreement in all finite abelian
 quotients identifies it with the closure of the Artin image. The conductor statements follow
 from the least-depth definition of `conductorExponent` and Hasse–Arf.
 
@@ -1502,19 +1540,21 @@ from the least-depth definition of `conductorExponent` and Hasse–Arf.
 reciprocity, the norm kernel and unramified normalization); `artinMap_restrict` above;
 LocalFieldsRamification Layer 3 (unit filtration, norm valuation formula, unramified filtered-norm
 surjectivity, Herbrand quotient and subgroup formulae, tower transitivity, integral inverse
-Herbrand depths, shifted norm inclusion, prime-degree graded norms, the two general abelian
-filtered-norm consequences specified above, and Hasse–Arf) and §4a.1 (absolute upper filtration
-with finite-level surjections).
+Herbrand depths, shifted norm inclusion, prime-degree graded norms and Hasse–Arf); the two general
+abelian filtered-norm targets and the absolute inverse-limit construction above; Mathlib
+compactness for the passage to the absolute group.
 
 **Checks.**
 
-- For the trivial extension, both filtered-norm contracts reduce to identity norms and every
+- For the trivial extension, both general filtered-norm targets reduce to identity norms and every
   upper group is trivial; the conductor is `0`.
-- In a totally ramified tame extension, the second norm contract at `r = 0` is tautological;
+- In a totally ramified tame extension, the second filtered-norm target at `r = 0` is tautological;
   the first at `r = 1` gives surjectivity on principal units.
-- For `ℚ_2(√2)/ℚ_2`, the second norm contract at `r = 2` gives
+- For `ℚ_2(√2)/ℚ_2`, the second filtered-norm target at `r = 2` gives
   `U_K^(0) = N(U_L^(0)) · U_K^(2)`, and the first at `r = 3` gives
   `N(U_L^(ψ(3))) = U_K^(3)`. These test `H = G` and `H = 1` in the fixed-field argument.
+- At absolute depth `−1` the group is `G_K`, and at depth `0` it is native inertia; its image
+  in an unramified finite quotient is trivial.
 - For an unramified `L/K`, `G^0 = G_0 = 1`, so `normResidue` kills `U_K^(0)`, the conductor
   exponent is `0`, and a uniformizer maps to the arithmetic Frobenius.
 - For odd `p`, `K = ℚ_p` and `L = ℚ_p(ζ_p)`, `G^0 = G` and `G^v = 1` for `v > 0`, so
@@ -1616,12 +1656,13 @@ injective for finite extensions of `ℚ_p`.
 
 ### Layer 9: the local Weil group
 
-*Prerequisites:* Layers 5–8; `LocalFieldsRamification` (`inertia`, `maximalUnramified`, and the
+*Prerequisites:* Layers 5–8; Tau Ceti's unramified-extension API (`inertiaSubgroup` and the
 exact sequence `1 → I_K → G_K → Ẑ → 1`).
 
 A full layer, not a corollary of reciprocity. Build, in order:
 
-- **the carrier.** `localWeilGroup K ≤ G_K`, the preimage of `ℤ ⊆ Ẑ` under the imported surjection
+- **the carrier.** `localWeilGroup K ≤ G_K`, with the valuation, topology and nonarchimedean local-field
+  instance retained as parameters, is the preimage of `ℤ ⊆ Ẑ` under the imported surjection
   `G_K → Gal(K^ur/K) ≅ Ẑ`; it contains inertia (`inertia_le_localWeilGroup`), is normal, is dense
   in `G_K` and is a proper subgroup;
 - **the topology.** `WeilGroup K` is a type synonym for that subgroup carrying the **Weil
@@ -1639,7 +1680,12 @@ A full layer, not a corollary of reciprocity. Build, in order:
 - **functoriality under finite extensions.** `weilTransfer` is a continuous injection
   `W_L → W_K` with open image of index `[L:K]`; the degree map is multiplied by the residue degree
   along it (`weilDegree_weilTransfer`), so `deg_K = f(L/K) · deg_L`, equal only in the totally
-  ramified case. For `L/K` finite Galois, restriction `weilRestrict : W_K → Gal(L/K)` is surjective
+  ramified case. The characterizing equation `weilToAbsolute_weilTransfer` is
+  `weilToAbsolute K (weilTransfer K L iota w) = absoluteGaloisGroupExtend K L iota (weilToAbsolute L w)`.
+  Thus the inclusion is attached to the selected separable-closure identification, including its
+  conjugation choice. `weilTransfer_self` gives the identity when the selected absolute embedding
+  is the identity; `weilTransfer_comp` gives composition when the selected absolute embeddings
+  compose. For `L/K` finite Galois, restriction `weilRestrict : W_K → Gal(L/K)` is surjective
   with kernel the image of `weilTransfer`;
 - **the exact sequence with inertia.** `weilDegree : W_K → ℤ` is surjective with kernel inertia,
   giving `1 → I_K → W_K → ℤ → 1`, and it agrees with the frozen `unramifiedCoordinate`
@@ -1649,6 +1695,19 @@ A full layer, not a corollary of reciprocity. Build, in order:
   `Abelianization (W_K)` is the wrong target: the commutator subgroup of `W_K` need not be closed.
   Prove `localWeilArtinEquiv_compat` and `mem_range_artinMap_iff`, identifying the image of
   `artinMap` in `G_K^ab` with the image of the Weil group, under the same hypotheses.
+
+*Source:* Tate, *Number theoretic background*, Corvallis Part 2, §1, for the Weil carrier,
+topology and finite-extension inclusions; the chosen embedding is Tau Ceti's conjugation map in
+FieldTheory/Galois/AbsoluteGaloisGroup/FiniteExtension.lean.
+
+**Checks.**
+
+- For `L = K` with the identity absolute embedding, the Weil inclusion is the identity.
+- In a tower with compatible separable-closure identifications, the two successive inclusions
+  equal the direct inclusion.
+- For an unramified extension of degree `d`, a degree-one Weil element maps to degree `d`.
+- A noncentral inner twist of `W_L` preserves its image and degree but fails the characterizing
+  square; the square therefore fixes the inclusion beyond its image and index.
 
 Injectivity of `artinMap` (`injective_artinMap`), hence Layer 8, is a prerequisite of the
 abelianization comparison, and it is available for finite extensions of `ℚ_p` only; so the
@@ -1908,12 +1967,14 @@ induction on the index from three named inputs, along Milne VII §9, which is Ar
   `classField_sUnitsKummerLayer`, its abelianity and degree `p^{|S|+r}`
   (`degree_sUnitsKummerLayer`), the index computation `index_kummerNormSubgroup` from the local
   indices `p²/‖p‖_v` and the product formula, and the equality
-  `globalNormSubgroup_sUnitsKummerLayer` of two subgroups of the same index.
+  `globalNormSubgroup_sUnitsKummerLayer` of two subgroups of the same index. The quotient
+  equivalence `globalAbelianGaloisEquiv` and `index_globalNormSubgroup` are consequences of
+  Layer 11 for an already given abelian layer and precede this Kummer construction.
 
 **Checks.**
 
 - For abelian `ℚ(i)/ℚ`, an admissible modulus contains `(2)` and the real place; `(4)·∞`
-  is its conductor (Milne VII §3, Example 3.11).
+  is its conductor (Milne V §3, Example 3.11, p. 159).
 - For the splitting field `ℚ(∛2, ζ_3)/ℚ`, norm limitation identifies its idele-class norm
   subgroup with that of its maximal abelian subfield `ℚ(ζ_3)`. Thus `(3)·∞` is norm-admissible
   although `2` ramifies in the splitting field. The ramified-support theorem
@@ -1978,19 +2039,38 @@ local formula and the character dictionary, and the compatibility of conductors 
 (`IsAdmissibleModulus.mem_support_of_ramified`).
 
 For an order `O` in a **quadratic** field, the arithmetic input is the idelic ring-class quotient
-`ringClassIdeleQuotient : C_K → Pic O`, built from the imported conductor and the congruence
-description of the group `O.invertibleProperFractionalIdeals`; quotient only by the principal
-classes encoded by `O.mkPic`, obtaining `Pic O`. Raw proper ideals, including noninvertible ideals
+`ringClassIdeleQuotient : C_K → Pic O`. It is the composite of the native idelic ray-class
+quotient at the conductor with the native arithmetic ray-to-Picard map from
+Global/Orders/RayClass.lean, transported to the imported carriers. The adapter preserves the
+order's underlying subalgebra and Picard group, identifies the imported conductor with the native
+conductor, and intertwines the two idelic ray-class quotients. This layer builds these carrier
+comparisons against GlobalNumberFields Layers 2, 8 and 11; orders, conductors, ray classes and the
+arithmetic ray-to-Picard quotient remain owned by GlobalNumberFields.
+The ray-to-Picard map sends an ideal prime to the conductor to the Picard class of its contraction
+and is surjective with the native arithmetic kernel description. Raw proper ideals, including noninvertible ideals
 in `IdealClassMonoid O`, never enter this construction. Its kernel is `ringClassNormSubgroup`, and
 `ringClassField` is the class field of that subgroup — so the ring class field, like the Hilbert
 and ray class fields, is an application of the Layer 12 correspondence, and
 `gal_ringClassField_equiv_pic` follows from it rather than being assumed. Freeze
-`ringClassArtinMap` on that invertible carrier and its principal-kernel criterion
+`ringClassGaloisEquiv : Pic O ≃ Gal(H_O/K)` as the inverse of the quotient-kernel equivalence
+followed by the canonical global reciprocity equivalence. Define `ringClassArtinMap` on the
+invertible carrier by `I ↦ ringClassGaloisEquiv (O.mkPic I)`, and prove its principal-kernel criterion
 `ringClassArtinMap_eq_one_iff`. Freeze also the isomorphism `Gal(H_O/K) ≃ Pic O`
 (`gal_ringClassField_equiv_pic`), its ramification bound, the maximal-order comparison
 `ringClassField_maximal` — which by `globalClassField_unique` reduces to identifying the two norm
 subgroups — and the splitting criterion. Orders and Picard groups remain owned by
 `GlobalNumberFields`.
+
+*Source:* Cox, *Primes of the Form x² + ny²*, §7, Proposition 7.22, and §9, Theorem 9.18.
+
+**Checks.**
+
+- At the maximal order, the conductor is the unit ideal and the ring class field equals the
+  Hilbert class field.
+- For an ideal prime to the conductor, its contracted ideal's Picard class is the image of its
+  ray class; the ideal Artin map sends that class through the canonical reciprocity equivalence.
+- Postcomposing with a nontrivial automorphism of the Galois group preserves the kernel and
+  surjectivity but changes the Picard-to-Galois formula, so it is excluded by the definition.
 
 ⚠ The quadratic hypothesis `Module.finrank ℚ K = 2` is carried in the type of `ringClassField` and
 of every theorem about it, and is load-bearing. The congruence description of `Pic O` as a
@@ -2030,7 +2110,7 @@ independent computation. The equivalent multiplicative statement is `∏_v (a,b)
 and inherits the product formula.
 
 *Source:* Milne, *Class Field Theory*, III §4, Steps 3–4 and Theorem 4.4 (Kummer cup and invariant),
-VII §5, Example 5.4 (Hilbert reciprocity); Serre, *A Course in Arithmetic*, III §§1–2
+V §5, Example 5.4, p. 179 (Hilbert reciprocity); Serre, *A Course in Arithmetic*, III §§1–2
 (real and dyadic symbols).
 *Needs:* Layer 5's Kummer classes, named cup pairing and local invariant coordinate; Layer 10's
 archimedean invariants and sum formula.
