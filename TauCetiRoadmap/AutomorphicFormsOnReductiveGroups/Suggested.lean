@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.Algebra.Lie.HighestWeight.CentralCharacter.HarishChandra
 
 /-!
 # Automorphic forms on reductive groups: target signatures
@@ -13,11 +12,9 @@ representations of arbitrary compact Hausdorff groups and for continuous represe
 on complete Hausdorff locally convex complex spaces. Both use the same algebraic
 finite-orbit-span submodule. Local convexity is expressed on the underlying real space.
 
-README §2.2's reductive Harish-Chandra isomorphism is stated on the native enveloping
-centre, symmetric algebra and Weyl group. Its tensor-product target separates the Lie
-centre from the ordinary Weyl invariants of the derived Cartan. The equivalence fixes
-central generators; on the derived ideal it is Tau Ceti's Harish-Chandra projection
-evaluated at the parameter minus ρ, giving the linear Weyl-orbit convention.
+README §2.2 consumes the reductive centre and Harish-Chandra isomorphisms from
+LieHighestWeight Layer 9, reductive enveloping centers, with Layer 7's raw/dot and
+translated/ordinary invariant conventions.
 
 The other headline signatures require objects absent at the pins:
 * Layer 0's smoothing theorem needs the smooth adelic function and group Schwartz spaces.
@@ -105,47 +102,6 @@ theorem gFiniteSubmodule_dense_locallyConvex {K E : Type*} [Group K] [Topologica
     (π : ContRepresentation ℂ K E)
     (hπ : Continuous fun p : K × E => π p.1 p.2) :
     Dense (gFiniteSubmodule π.toRepresentation : Set E) := by
-  sorry
-
-open LieAlgebra LieModule Module
-
-/-- Ordinary Weyl-invariant polynomials on the dual of a splitting Cartan, on native
-symmetric-algebra and Weyl-group carriers (README §2.2). -/
-noncomputable def weylInvariants {S : Type*} [LieRing S] [LieAlgebra ℂ S]
-    [FiniteDimensional ℂ S] [IsKilling ℂ S]
-    (H : LieSubalgebra ℂ S) [H.IsCartanSubalgebra] [IsTriangularizable ℂ H S] :
-    Subalgebra ℂ (SymmetricAlgebra ℂ H) where
-  carrier := {p | ∀ (w : (IsKilling.rootSystem H).weylGroup) (μ : Dual ℂ H),
-    SymmetricAlgebra.lift (w • μ) p = SymmetricAlgebra.lift μ p}
-  mul_mem' hp hq w μ := by simp only [map_mul, hp w μ, hq w μ]
-  add_mem' hp hq w μ := by simp only [map_add, hp w μ, hq w μ]
-  algebraMap_mem' c w μ := by simp only [AlgHom.commutes]
-
-open scoped TensorProduct
-
-attribute [local instance 100] LieRing.ofAssociativeRing
-
-/-- README §2.2: the reductive Harish-Chandra isomorphism, with identity on the Lie centre
-and the ρ-shift of Tau Ceti's projection on the semisimple derived ideal. -/
-theorem reductiveHarishChandra_exists {L : Type*} [LieRing L] [LieAlgebra ℂ L]
-    [FiniteDimensional ℂ L] [HasCentralRadical ℂ L]
-    [IsKilling ℂ (derivedSeries ℂ L 1)]
-    (H : LieSubalgebra ℂ (derivedSeries ℂ L 1))
-    [H.IsCartanSubalgebra] [IsTriangularizable ℂ H (derivedSeries ℂ L 1)]
-    (b : (IsKilling.rootSystem H).Base) :
-    ∃ e : Subalgebra.center ℂ (UniversalEnvelopingAlgebra ℂ L) ≃ₐ[ℂ]
-        SymmetricAlgebra ℂ (LieAlgebra.center ℂ L) ⊗[ℂ] weylInvariants H,
-      (∀ x : LieAlgebra.center ℂ L,
-        (e.symm (SymmetricAlgebra.ι ℂ _ x ⊗ₜ[ℂ] (1 : weylInvariants H)) :
-          UniversalEnvelopingAlgebra ℂ L) = UniversalEnvelopingAlgebra.ι ℂ (x : L)) ∧
-      ∀ z : Subalgebra.center ℂ (UniversalEnvelopingAlgebra ℂ (derivedSeries ℂ L 1)),
-        ∃ p : weylInvariants H,
-          (∀ μ : Dual ℂ H, SymmetricAlgebra.lift μ (p : SymmetricAlgebra ℂ H) =
-            SymmetricAlgebra.lift (μ - TauCeti.weylVector (IsKilling.rootSystem H) b)
-              (TauCeti.hcProjection b z)) ∧
-          (e.symm (1 ⊗ₜ[ℂ] p) : UniversalEnvelopingAlgebra ℂ L) =
-            UniversalEnvelopingAlgebra.lift ℂ
-              ((UniversalEnvelopingAlgebra.ι ℂ).comp (derivedSeries ℂ L 1).incl) z := by
   sorry
 
 end TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
