@@ -41,7 +41,11 @@ The later headline statements require objects absent from the pins:
   countable-tower Milnor sequence (§F.3) need the derived coefficient-limit realization and
   quotient-equivariant resolutions on the supplied continuous cochain carrier.
 * The shared Hilbert families, their full and cuspidal Hecke images, and ordinary control
-  (§F.5) need the classical ideal-coefficient dictionary and ordinary tower. Full perfect
+  (§F.5) need the classical ideal-coefficient dictionary and ordinary tower. Both Hecke images
+  include the good-prime operators and every level-dividing U operator, including tame primes.
+  Coefficient recovery at every nonzero ideal and compatibility with restriction, the projector,
+  tower moment maps and specialization use this full action; the projector uses only primes
+  above p. Full perfect
   first-coefficient duality uses the positive-coefficient lattice, whose standard constants
   may be fractional. The standard-constant-integral sublattice has the restricted pairing;
   its cokernel is the image of the standard constants modulo the weight algebra. The tower
