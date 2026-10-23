@@ -33,7 +33,12 @@ filtered periods, locally analytic induction and inertial types. The block-centr
 type-ring and Breuil–Mézard theorems (Layer 5, §§6.0–6.8) need compact block
 categories, their projective envelopes, continuous (pseudo)deformation/type rings
 and module-cycle specialization. Mathlib's algebraic-cycle carrier alone does not
-supply these objects. The Jacquet–Langlands and Breuil–Strauch comparisons (§6.9)
+supply these objects. Section 4.3's all-prime nonspecial crystalline completion,
+including double roots, needs the trianguline and universal unitary completion
+carriers. Sections 5.8–5.9's envelope comparisons for p ≥ 3 with their residual
+exclusions, and §5.8's all-prime orthonormalizable universal family for absolutely
+irreducible residual representations, need those representation and deformation
+categories as well. The Jacquet–Langlands and Breuil–Strauch comparisons (§6.9)
 need the smooth transfer, Drinfeld covers, their function/differential spaces and
 de Rham cohomology. These results have no substitute statements here.
 -/

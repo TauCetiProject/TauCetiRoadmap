@@ -1463,6 +1463,14 @@ Nonvanishing, topological irreducibility and admissibility: Corollaires 5.3.1–
 
 `B(V) ≅ Π(V)`: compare Théorème 5.2.7 with Colmez's `Π(D)* ≅ D^♮ ⊠ ℙ¹ ⊗ δ_D^{−1}` ([§3.7](#section-3-7)) as in Kisin's proof of Theorem (1.2.8).
 
+**Nonspecial crystalline completion.** For every prime `p`, let `s=(δ₁,δ₂,ℒ)∈S_irr∩S_*^cris` and put `κ(s)=w(δ₁)−w(δ₂)`. Assume `s` is nonspecial, meaning `δ₁≠x^{κ(s)−1}εδ₂`. Write `B^an(δ₁,δ₂)=(Ind_B^G(δ₂⊗δ₁ε⁻¹))^an`, the induction of §4.8, and let `B^alg(δ₁,δ₂)` be its subspace of locally `SL₂(ℚ_p)`-algebraic vectors. Then `Π(V(s))` is its universal unitary completion: every continuous `L`-linear `G`-map from this factor to a unitary `L`-Banach representation extends uniquely to `Π(V(s))`. This includes exceptional parameters `δ₁=x^{κ(s)}δ₂`, which in the crystalline range have double-root Frobenius and need not be `φ`-semisimple. In the crystalline case with weights `a<b`, the factor is the correctly normalized `LL(V(s))⊗Sym^{b−a−1}L²⊗det^a`. On the overlap its completion is the Berger–Breuil `B(V)` above. Source: [Colmez–Dospinescu–Paškūnas, CDP14](#ref-cdp14), §3.3.4, Theorem 3.23(a) and its exceptional-case proof, pp.25–26.
+
+**Nonspecial completion Checks.**
+
+- With distinct crystalline Frobenius eigenvalues and nonspecial parameter, the two completion maps agree by their universal properties.
+- At `p=2`, take `φ(e₁)=p⁻¹e₁`, `φ(e₂)=p⁻¹(e₂+e₁)`, `N=0`, `Fil⁻²D=D`, `Fil⁻¹D=Fil⁰D=Le₂` and `Fil¹D=0`. Then `t_H=t_N=−2`, while the unique Frobenius-stable line `Le₁` has `t_H=−2<t_N=−1`, also after coefficient extension. This gives an absolutely irreducible crystalline double-root example of weights `(0,2)` covered by the nonspecial theorem and outside the `φ`-semisimple Berger–Breuil range.
+- At a special parameter `δ₁=x^{κ(s)−1}εδ₂`, CDP Theorem 3.23(c) completes the extension `E_ℒ`; the nonspecial completion theorem does not replace it by the locally algebraic factor.
+
 **Checks.**
 
 - For `V` crystalline irreducible with Hodge–Tate weights 0, `k−1` and distinct Frobenius eigenvalues, `B(V)` is the completion of `LL(V) ⊗ Sym^{k−2}, LL(V)` the unramified principal series of [§4.1](#section-4-1).
@@ -1471,7 +1479,7 @@ Nonvanishing, topological irreducibility and admissibility: Corollaires 5.3.1–
 
 The source is [Laurent Berger, Christophe Breuil, BB10](#ref-bb10), Introduction, pp. 2–3 (main Théorème); Théorème 4.3.1, pp.38–39; Théorème 5.2.7, p. 51; Corollaires 5.3.1–5.3.3, p. 52; [Mark Kisin, KISIN09](#ref-kisin09), Theorem (1.2.8), published p.650.
 
-*Needs:* [§2.5](#section-2-5); [§4.1](#section-4-1); [the Fontaine contract](#fontaine-contract); [§3.7](#section-3-7).
+*Needs:* [§2.5](#section-2-5); [§4.1](#section-4-1); [the Fontaine contract](#fontaine-contract); [§3.7](#section-3-7); [§1.6](#section-1-6) and its dyadic parameter classification for the all-prime completion.
 
 <a id="section-4-4"></a>
 
@@ -1897,23 +1905,37 @@ The source is [Matthew Emerton, EMERTON-LG](#ref-emerton-lg), Assumption 3.3.1 a
 
 ### 5.8 `P̃` is the dual of the universal deformation of `π̄`
 
-Assume `p ≥ 5, End(ρ̄) = 𝔽, ρ̄ ≇ χ ⊗ (ε *; 0 1)` and `ρ̄ ≇ χ ⊗ (1 *; 0 ε)`. Let `π̄` be as in [§5.7](#section-5-7), `π_{π̄}` its universal deformation over `R_ρ̄` (and `π^ψ_{π̄}` with central character `ψ` over `R^{ψε^{−1}}_ρ̄`), and `P̃^ψ, P̃` the projective envelopes of the dual of the socle in `C^ψ(O), C(O)`. (i) For `A ∈ Comp(O)` and a deformation `π` with central character `ψ`, the A-dual `π*` lies in `C^ψ(O)` and `V̌(π*) ≅ MF(π)(ε)`. (ii) (Paškūnas) `V̌` induces `End_{C^ψ(O)}(P̃^ψ) ≅ R^{ψε}_{ρ̄(ε)}, P̃^ψ` is flat over it and `V̌(P̃^ψ)` is the universal deformation. (iii) There are `G`-equivariant topological isomorphisms `P̃^ψ ≅ (π^ψ_{π̄})*, R^{ψε^{−1}}_ρ̄`-linear, and `P̃ ≅ π*_{π̄}, R_ρ̄`-linear; with `R_ρ̄ ≅ R^{ψε^{−1}}_ρ̄ ⊗̂ Λ` and `P̃ ≅ P̃^ψ ⊗̂ (1^{univ}∘det^{−1}), R_ρ̄ ≅ End_{C(O)}(P̃)`.
+Assume `p ≥ 3, End(ρ̄) = 𝔽, ρ̄ ≇ χ ⊗ (ε *; 0 1)` and `ρ̄ ≇ χ ⊗ (1 *; 0 ε)`. Let `π̄` be as in [§5.7](#section-5-7), `π_{π̄}` its universal deformation over `R_ρ̄` (and `π^ψ_{π̄}` with central character `ψ` over `R^{ψε^{−1}}_ρ̄`), and `P̃^ψ, P̃` the projective envelopes of the dual of the socle in `C^ψ(O), C(O)`. (i) For `A ∈ Comp(O)` and a deformation `π` with central character `ψ`, the A-dual `π*` lies in `C^ψ(O)` and `V̌(π*) ≅ MF(π)(ε)`. (ii) (Paškūnas) `V̌` induces `End_{C^ψ(O)}(P̃^ψ) ≅ R^{ψε}_{ρ̄(ε)}, P̃^ψ` is flat over it and `V̌(P̃^ψ)` is the universal deformation. (iii) There are `G`-equivariant topological isomorphisms `P̃^ψ ≅ (π^ψ_{π̄})*, R^{ψε^{−1}}_ρ̄`-linear, and `P̃ ≅ π*_{π̄}, R_ρ̄`-linear; with `R_ρ̄ ≅ R^{ψε^{−1}}_ρ̄ ⊗̂ Λ` and `P̃ ≅ P̃^ψ ⊗̂ (1^{univ}∘det^{−1}), R_ρ̄ ≅ End_{C(O)}(P̃)`.
 
-Here `p ≥ 5`; `End(ρ̄) = 𝔽`; `ρ̄` not a twist of `(ε *; 0 1)` nor of `(1 *; 0 ε)`.
+Here `p ≥ 3`; `End(ρ̄) = 𝔽`; `ρ̄` not a twist of `(ε *; 0 1)` nor of `(1 *; 0 ε)`, including the split cases. Thus a reducible `ρ̄` is a nonsplit extension of distinct characters with ratio outside `{1,ω,ω⁻¹}`.
 
 (i): Lemma B.23, from the definition of `V̌` and Pontryagin duality.
 
-(ii): Theorem B.24, quoting Paškūnas 2013 ([§5.5](#section-5-5)).
+(ii): For `p≥5`, Theorem B.24, quoting Paškūnas 2013 ([§5.5](#section-5-5)). For `p=3`, Paškūnas 2016 §2.2, Propositions 2.8–2.14 and Theorem 2.22 give the fixed-character envelope, its flatness and universal Galois deformation, for supersingular and generic principal-series socles. These are exactly the residual cases left by the two exclusions. This uses the integral envelope comparison, not only the rational centre isomorphism of §5.6.
 
 (iii): Lemma B.25 and Proposition B.26: compare the universal properties of `P̃^ψ` (projectivity, `Hom(P̃^ψ, −)` on the dual category) and of `π^ψ_{π̄}` through Kisin's isomorphism `Def(π̄) ≅ Def(ρ̄)`; twist away the central character with the universal character of the centre (CEGGPS Theorem 6.18 as quoted).
+
+The same argument gives (iii) at `p=3` from (ii). Splitting determinant variation uses the unique square root of a character congruent to 1 at odd `p`; it applies to complete local coefficient rings, including nonreduced ones.
 
 **Checks.**
 
 - The reduction of `P̃` modulo `𝔪_{R_ρ̄}` is `π̄^∨`.
+- At `p=3`, an absolutely irreducible `ρ̄≅ρ̄⊗ω` is included, even though its fixed-determinant deformation ring need not be formally smooth. The comparison uses Paškūnas's integral theorem rather than an unobstructed tangent-space argument.
+- At `p=3`, `ω=ω⁻¹`, and a twist of an extension between `1` and `ω` in either direction fails the residual exclusions. Its block contains characters through determinant and is not covered by this envelope identification.
+- A split sum of distinct characters fails `End(ρ̄)=𝔽`; scalar-endomorphism representability is not applied to it.
 
-The source is [Kentaro Nakamura, NAKAMURA23](#ref-nakamura23), Lemma B.23, Theorem B.24, Lemma B.25, Proposition B.26, pp. 100–103 (arXiv).
+The source is [Kentaro Nakamura, NAKAMURA23](#ref-nakamura23), Lemma B.23, Theorem B.24, Lemma B.25, Proposition B.26, pp.100–103 (arXiv), for `p≥5` and the duality/twisting argument; [Vytautas Paškūnas, PASKUNAS16](#ref-paskunas16), §2.2, Propositions 2.8–2.14 and Theorem 2.22, pp.8–16 (arXiv), for the fixed-character input at `p=3`.
 
-*Needs:* [§5.7](#section-5-7); [§5.5](#section-5-5); [§5.3](#section-5-3).
+**Universal family for absolutely irreducible residual representations.** For every prime `p` and absolutely irreducible `ρ̄:G_{ℚ_p}→GL₂(k)`, let `R_p=R_ρ̄` and `ρ^univ` be the unrestricted universal deformation of §0.4. Construct an orthonormalizable admissible `R_p[G]`-module `Π^univ` deforming §5.7's `π̄`, with `MF(Π^univ)≅ρ^univ` and central character `det(ρ^univ)ε`. Orthonormalizable means separated and complete for `𝔪_{R_p}`, with `Π^univ/𝔪_{R_p}ⁿΠ^univ` free over `R_p/𝔪_{R_p}ⁿ` for every `n≥1`; these quotients are admissible smooth representations. Require compatibility with continuous complete-local coefficient change and reduction. At every closed characteristic-zero point `x∈MaxSpec(R_p[1/p])`, completed specialization to its ring of integers and inversion of `p` gives `Π^univ⊗̂_{R_p}κ(x)≅Π(ρ_x(ε))`. The twist uses `V=MF(−)(ε)`; equivalently the family for Colmez's residual parameter `ρ̄(ε)` has Galois image `ρ^univ(ε)`. Its pullbacks give the local families used over arithmetic coefficient rings. Source: [Dospinescu–Le Bras, DLB17](#ref-dlb17), §13, p.69, before Definition 13.3; [Nakamura, NAKAMURA23](#ref-nakamura23), Definitions B.1 and B.17, pp.90 and 97, for the coefficient topology and admissibility.
+
+**Universal family Checks.**
+
+- Reduction at the closed residual point is the supersingular `π̄`, with `MF(π̄)=ρ̄`.
+- A characteristic-zero fibre has Colmez image `ρ_x(ε)` and central character `det(ρ_x)ε`; using `Π(ρ_x)` instead would give the wrong determinant twist.
+- Base change to `k[t]/(t²)` retains the chosen infinitesimal Galois deformation and freeness over that ring, not just its residual semisimplification.
+- The family includes `p=2` with absolutely irreducible `ρ̄`; a reducible residual representation does not satisfy its hypothesis. This all-prime family does not use the odd-prime splitting of determinant variation in (iii).
+
+*Needs:* [§5.7](#section-5-7); [§5.5](#section-5-5) for its stated prime range; [§5.3](#section-5-3); [§3.2](#section-3-2), [§3.6–§3.8](#section-3-6), [§0.4](#support-deformations) and [§0.1](#support-analytic) for the all-prime universal family.
 
 <a id="section-5-9"></a>
 
@@ -1921,7 +1943,7 @@ The source is [Kentaro Nakamura, NAKAMURA23](#ref-nakamura23), Lemma B.23, Theor
 
 Under the hypotheses of [§5.8](#section-5-8), for every compact `R_ρ̄`-module `M` the map `M → Hom_{C(O)}(P̃, P̃ ⊗̂_{R_ρ̄} M), m ↦ (v ↦ v ⊗̂ m)`, is a topological `R_ρ̄`-linear isomorphism; consequently, for compact `R_ρ̄`-modules `M₁, M₂, f ↦ id_{P̃} ⊗ f` is an `R_ρ̄`-linear isomorphism `Hom^{cont}_{R_ρ̄}(M₁, M₂) ≅ Hom^{cont}_{R_ρ̄[G]}(P̃ ⊗̂ M₁, P̃ ⊗̂ M₂)`.
 
-Here as in [§5.8](#section-5-8).
+Here `p≥3`, `End(ρ̄)=𝔽`, and neither cyclotomic-extension orientation of [§5.8](#section-5-8) occurs, including the split cases.
 
 `P̃` is projective in `C(O)` and flat over `R_ρ̄ = End(P̃)` ([§5.8](#section-5-8), [§5.3](#section-5-3)); `Hom(P̃, P̃ ⊗̂ M)` commutes with inverse limits of finite length `M` and equals `End(P̃) ⊗̂ M = M` (Lemma B.27).
 
@@ -1930,8 +1952,10 @@ Corollary B.28 follows by applying Lemma B.27 to `M₂` and composing.
 **Checks.**
 
 - For `M = R_ρ̄` this recovers `End(P̃) = R_ρ̄`.
+- For `M=0` both sides are zero; for `M=R_ρ̄/I` with closed ideal `I`, evaluation identifies the Hom module with `R_ρ̄/I`, including nonreduced Artinian quotients.
+- At `p=3` the comparison applies to supersingular and generic principal-series socles under §5.8's exclusions; it does not extend the envelope-removal assertion to the block of `1⊕ω`.
 
-The source is [Kentaro Nakamura, NAKAMURA23](#ref-nakamura23), Lemma B.27 and Corollary B.28, p. 104 (arXiv).
+The source is [Kentaro Nakamura, NAKAMURA23](#ref-nakamura23), Lemma B.27 and Corollary B.28, p.104 (arXiv); the same projectivity and finite-presentation argument uses §5.8's integral `p=3` envelope identification. For the fixed-character tensor comparison, [Paškūnas, PASKUNAS16](#ref-paskunas16), Proposition 2.10 and equation (3), p.10 (arXiv), give the corresponding fully faithful completed-tensor functor.
 
 *Needs:* [§5.8](#section-5-8); [§5.3](#section-5-3).
 
@@ -2421,6 +2445,8 @@ For `p=3` and a twist of an extension of 1 by `ω`, use the odd-prime cycle dedu
 Layers 1–5 with their prime and residual restrictions; the arithmetic patching inputs for Tung’s all-residual cases; the Drinfeld covering-space and de Rham geometry in the final comparison. Modularity-lifting and completed-cohomology roadmaps consume these results and are not used to supply a missing lower-layer proof.
 
 ## Downstream consumers
+
+CompletedCohomologyAndLocalGlobalCompatibility §§0.2–0.4 and LocalGaloisDeformationRings §§3.7.1–3.8 consume the local core of §§3.3, 3.7–3.8, 4.3 and 5.7–5.9, together with §§2.2–2.3, 3.1–3.2, 5.1–5.6 and 5.12's block, Montreal and full-type constructions. This includes §4.3's all-prime nonspecial completion with exceptional double roots and §5.8's `p=3` envelope range and absolutely irreducible universal family. CompletedCohomologyAndLocalGlobalCompatibility supplies the cohomological, dual and determinant normalization comparisons, type scalar-extension adapter, product blocks over `∏_{v|p}GL₂(ℚ_p)` and global realization; LocalGaloisDeformationRings supplies the deformation-theoretic applications of the imported local core.
 
 The local deformation-ring, type-occurrence and cycle statements supply GL2ModularityLifting §§8–9 and the local hypotheses in Dieulefait–Pacetti's Serre-modularity arguments. CompletedCohomologyAndLocalGlobalCompatibility §§2.1 and 4.10 consumes the analytic/algebraic-vector and block interfaces; CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10 uses the local correspondence in its global realisation. The shared general Banach/duality construction owner is §§0.1 and 0.3. The overlapping general constructions requested in CompletedCohomologyPartII F.1 are governed by this same contract: compact–discrete and Schikhof duality with the stated topologies, and admissibility by compact-open finite invariants. Its §6.7 concerns general derived analytic-vector recovery. Downstream applications use this common foundation and add their arithmetic chain-model and derived comparisons. Each consumer must select the prime, residual class, determinant and type actually covered by the theorem it invokes. The BCDT extended-type and supercuspidal comparisons carry their additional inputs explicitly.
 
