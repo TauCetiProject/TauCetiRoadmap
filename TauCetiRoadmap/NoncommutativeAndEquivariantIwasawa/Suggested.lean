@@ -1,6 +1,5 @@
 import Mathlib
 import TauCeti.Topology.Algebra.Group.Generation
-import TauCeti.Topology.Algebra.Group.LowerCentralSeries
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Map
 
@@ -15,8 +14,6 @@ the rational global dimension (§0.12), and the canonical and saturated Ore theo
 They use Tau Ceti's completed group algebra, Mathlib's projective dimension and Ore sets, and
 concrete group predicates. Coefficients are finite free discrete valuation algebras over ℤ_p,
 including ramified integer rings. No absence of p-torsion is assumed in the Ore theorems.
-The group predicates also have the constant-index characterization, open-subgroup stability
-and finite-group and p-adic lattice targets of §§0.1–0.2.
 
 The later headline statements require objects absent from the pins:
 
@@ -64,65 +61,6 @@ noncomputable def uniformDimension : ℕ :=
   Nat.log p (closedPowerSubgroup G p).index
 
 variable [hcompact : CompactSpace G] [hT2 : T2Space G] [hTD : TotallyDisconnectedSpace G]
-
-section GroupTargets
-
-include hp hcompact hT2 hTD
-
-/-- The uniform-group criterion (§0.1): in a finitely generated pro-`p` group,
-powerfulness and constant successive lower-`p`-series indices characterize uniformity. -/
-theorem IsUniform.iff_constantIndex (hpro : IsProP p G)
-    (hfg : IsTopologicallyFinitelyGenerated G) :
-    IsUniform p G ↔
-      ⁅(⊤ : Subgroup G), ⊤⁆ ≤ closedPowerSubgroup G (if p = 2 then 4 else p) ∧
-      ∀ n : ℕ, (pLowerCentralSeries p G (n + 1)).relIndex (pLowerCentralSeries p G n) =
-        (pLowerCentralSeries p G 1).index := by
-  sorry
-
-/-- Every successive lower-`p`-series index of a uniform group is `p` to its dimension (§0.1).
-The supplied series starts with the whole group at index zero. -/
-theorem IsUniform.lowerPSeries_index (hG : IsUniform p G) (n : ℕ) :
-    (pLowerCentralSeries p G (n + 1)).relIndex (pLowerCentralSeries p G n) =
-      p ^ uniformDimension p G := by
-  sorry
-
-/-- An open subgroup of a compact analytic group is compact analytic (§0.2). -/
-theorem IsCompactPAdicAnalytic.of_open (hG : IsCompactPAdicAnalytic p G)
-    (U : OpenSubgroup G) : IsCompactPAdicAnalytic p U.toSubgroup := by
-  sorry
-
-end GroupTargets
-
-omit hp hcompact hT2 hTD in
-/-- The defining uniform subgroup supplies an open normal pro-`p` subgroup (§0.2). -/
-theorem IsCompactPAdicAnalytic.exists_open_proP (hG : IsCompactPAdicAnalytic p G) :
-    ∃ U : OpenNormalSubgroup G, IsProP p U.toSubgroup := by
-  obtain ⟨U, hU⟩ := hG
-  exact ⟨U, hU.1⟩
-
-/-- The trivial group is uniform and has dimension zero (§0.1). -/
-theorem isUniform_trivial [Subsingleton G] :
-    IsUniform p G ∧ uniformDimension p G = 0 := by
-  sorry
-
-/-- The additive `p`-adic lattice of rank `d` is uniform of dimension `d`,
-including rank zero and the prime two (§0.1). -/
-theorem isUniform_padicInt_pow (d : ℕ) :
-    IsUniform p (Multiplicative (Fin d → ℤ_[p])) ∧
-      uniformDimension p (Multiplicative (Fin d → ℤ_[p])) = d := by
-  sorry
-
-/-- A finite discrete group is compact analytic, using its trivial open subgroup (§0.2). -/
-theorem isCompactPAdicAnalytic_finite [Finite G] [DiscreteTopology G] :
-    IsCompactPAdicAnalytic p G := by
-  sorry
-
-/-- The additive group of `ℤ_p` is compact analytic of dimension one (§0.2). -/
-theorem isCompactPAdicAnalytic_padicInt :
-    IsCompactPAdicAnalytic p (Multiplicative ℤ_[p]) ∧
-      uniformDimension p (Multiplicative ℤ_[p]) = 1 := by
-  sorry
-
 variable (O : Type u) [CommRing O]
 
 /-- The canonical denominators (§1.1), on the native completed group algebra. Scalars from
