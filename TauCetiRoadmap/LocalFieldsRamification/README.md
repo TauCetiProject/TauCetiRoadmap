@@ -218,9 +218,11 @@ pro-`p` quotient.
   adapts the residue-cardinality formula. `TauCeti.ramificationIndex` reads only the normalized
   valuation of `L` and the algebra map, and every theorem about it assumes
   `ValuativeExtension K L`. The total-ramification predicate
-  `IsTotallyRamified K L`, that is `TauCeti.ramificationIndex K L = Module.finrank K L`, is defined here on
-  that object, and `isTotallyRamified_iff_inertiaDegree_eq_one` is a closed proof from the product
-  formula.
+  `TauCeti.IsTotallyRamified K L`, that is
+  `TauCeti.ramificationIndex K L = Module.finrank K L`, and its residue-degree characterization
+  `TauCeti.isTotallyRamified_iff_inertiaDegree_eq_one` are native declarations from those same
+  two modules. Both are re-exported directly, preserving qualified consumer access without a
+  second definition or theorem.
   - *Prerequisites:*
     - `Layer 0: the normalized valuation`;
     - `Layer 0: finite extensions, III`;
@@ -238,6 +240,11 @@ pro-`p` quotient.
     valued base. *False generalization:* over an incomplete base, or with more than one prime
     above `𝓂[K]`, the identity becomes `∑_P e_P f_P = [L:K]`, which is `sum_ramification_inertia`
     and is a different theorem.
+  - *Checks:*
+    - The identity extension has `e = f = 1` and satisfies the native total-ramification predicate.
+    - An unramified quadratic extension has `e = 1`, `f = 2` and is not totally ramified.
+    - For `ℚ_2(√2)/ℚ_2`, `e = 2`, `f = 1`: both the degree equality and the residue-degree
+      characterization give total ramification.
 - **Valuations of natural numbers and the absolute ramification index.** Define
   `TauCeti.natCastValuation K n hn : ℕ` as the decoded normalized valuation `v_K((n : K))`, where
   `hn : (n : K) ≠ 0` is supplied to the definition. This is the general quantity used in power-class
@@ -1078,17 +1085,17 @@ pro-`p` quotient.
      `TauCeti.normGradedMap_zero_before_break` covers `v = 0 < t`;
      `TauCeti.normGradedMap_positive_before_break` covers `0 < v < t`;
      `TauCeti.normGradedMap_at_break` covers only `v = t > 0`; and
-     `TauCeti.normGradedMap_after_break` covers `v > t`. The at-break theorem explicitly requires
-     `IsTotallyRamified K L`, `0 < t`, and
-     `TauCeti.LocalFieldsRamification.UpperJump K L ⟨(t : ℝ), _⟩`; prime-degree Galois hypotheses supply cyclicity. In particular,
+     `TauCeti.normGradedMap_after_break` covers `v > t`. Under the ambient Galois hypotheses,
+     the at-break theorem explicitly requires prime degree, `0 < t`, and
+     `TauCeti.LocalFieldsRamification.UpperJump K L ⟨(t : ℝ), _⟩`.
+     These hypotheses imply total ramification and cyclicity. In particular,
      its kernel-and-cokernel conclusion is unavailable for an unramified extension or for the tame
      break at zero.
   5. *The consequences of item 4, for the same extensions.* `N_{L/K}(U(L, ψℕ v)) = U(K,v)` for
      every `v > t`, by successive approximation from item 4 and completeness.
      `[U(K,v) : N_{L/K}(U(L, ψℕ v)) · U(K,v+1)] = ℓ` for `v = t`, and `= 1` for `v ≠ t`.
-     Multiplication up the filtration then gives `[𝒪[K]ˣ : N_{L/K}(𝒪[L]ˣ)] = ℓ`. The induction for
-     Hasse–Arf consumes item 4 and these indices, and the conductor of a cyclic extension of prime
-     degree is `c(L/K) = t + 1`.
+     Multiplication up the filtration then gives `[𝒪[K]ˣ : N_{L/K}(𝒪[L]ˣ)] = ℓ`, and the conductor
+     of a cyclic extension of prime degree is `c(L/K) = t + 1`.
   - *Prerequisites:*
     - `Layer 3: Herbrand values as unit depths`;
     - `Layer 3: the quotient embeddings`;
@@ -1111,28 +1118,12 @@ pro-`p` quotient.
       `Tr(𝓂[L]^5) = 𝓂[K]^4`; the above-break graded map is bijective.
     - For a totally ramified tame quadratic over `ℚ_3`, `t = 0`: the depth-zero map on
       `𝔽_3ˣ` is squaring with kernel and cokernel of order `2`, while every positive graded norm
-      is bijective. Approximation starts strictly above the break.
-- **Hasse–Arf.** For a finite abelian Galois extension `L/K`, the jumps of the upper-numbering
-  filtration are integers. A jump is a `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
-  defined as `TauCeti.LocalFieldsRamification.UpperJump K L u` on the upper filtration `TauCeti.LocalFieldsRamification.upperRamificationGroup` of the preceding
-  milestone. The proof contract includes the induction chain, not merely the phrase
-  “reduce to cyclic prime degree”:
-  1. prove the unique-break and conductor calculation for cyclic extensions of prime degree;
-  2. choose a prime-order normal quotient series for the finite abelian group;
-  3. transport the filtration at every step using the abstract Herbrand quotient theorem and its
-     fixed field-theoretic equivalence;
-  4. compare conductors with norms using the five graded norm regimes and their kernel/cokernel
-     calculation above;
-  5. induct along the series, showing at each quotient that integrality of the upper breaks is
-     preserved.
-  - *Prerequisites:*
-    - `Layer 3: the norm on the unit filtration` (items 4 and 5);
-    - `Layer 3: Herbrand functions and the upper numbering` (normal-quotient compatibility and
-      tower transitivity);
-  - *Lean-facing exports:* `TauCeti.LocalFieldsRamification.UpperJump` and `hasseArf`.
-  - *Source:* Serre LF V §7. The hypothesis is that `G` is abelian. *False generalization:* for
-    `G` non-abelian the jumps of the upper numbering need not be integers; the quaternion
-    extension in Serre LF IV §3, exercise 3, is the standard witness.
+      is bijective. Approximation starts strictly above the break. The scalar-unit computation
+      in Worked examples (`tameQuadratic_norm_counterexample`) detects the failure of the
+      unshifted depth-two inclusion.
+
+The finite-local-field Hasse–Arf conclusion is the specialization at the end of §3a.3.
+
 - **The different and the discriminant.** Let `L/K` be finite separable. The different
   `𝔡_{L/K} ⊆ 𝒪[L]` is Mathlib's `differentIdeal 𝒪[K] 𝒪[L]`, the inverse of the trace dual of
   `𝒪[L]`. Define the discriminant `𝔩_{L/K} = N_{L/K}(𝔡_{L/K}) ⊆ 𝒪[K]`,
@@ -1226,7 +1217,7 @@ roadmap a counting roadmap or introducing a dependency on Counting Totally Ramif
 | local structure on a finite intermediate field | `TauCeti.finiteIntermediateFieldNormedField`, `TauCeti.finiteIntermediateFieldValuativeRel`, `TauCeti.finiteIntermediateFieldTopology`, `TauCeti.finiteIntermediateField_valuativeExtension`, `TauCeti.finiteIntermediateField_isValuativeTopology`, `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField` |
 | ramification index | `TauCeti.ramificationIndex` |
 | residue degree | `TauCeti.inertiaDegree` |
-| total ramification | `IsTotallyRamified`, `isTotallyRamified_iff_inertiaDegree_eq_one` |
+| total ramification | `TauCeti.IsTotallyRamified`, `TauCeti.isTotallyRamified_iff_inertiaDegree_eq_one`, re-exported directly |
 | Eisenstein generator | `isTotallyRamified_iff_exists_eisenstein_generator` |
 | integral monogenicity | `TauCeti.exists_integerRing_adjoin_eq_top` |
 | local different exponent | `TauCeti.differentExponent` |
@@ -1444,8 +1435,8 @@ that is every `u` with `G^v ≠ G^u` for all `v > u`, is an integer. By the fini
 `#G_1 + ⋯ + #G_j`. That lower-numbering form is stated in `Suggested.lean` as
 `hasseArf_dvd_sum_card_ramificationGroup`, on Mathlib's discrete valuation rings with
 `Algebra.IsInvariant A B G` and Tau Ceti's `TauCeti.IsLocalRing.ramificationGroup`. No
-finiteness of the residue field is assumed; on nonarchimedean local fields the theorem is Layer 3's
-`hasseArf`.
+finiteness of the residue field is assumed. Its finite-local-field specialization `hasseArf`
+follows after the general proof and the filtration agreement of §3a.2.
 
 (Jean-Pierre Serre, [Local Fields](#reference-serre-local-fields), V §7, Theorem 1.)
 (Jean-Pierre Serre, [Sur les corps locaux à corps résiduel algébriquement
@@ -1554,11 +1545,10 @@ The proalgebraic and graded-norm targets give `π₀(V) ≅ G_0` in the abelian 
 together with the bound on `#π₀(V_0)`, forces `G_(ψ(s)+1) = G_(ψ(s+1))` for every integer
 `s ≥ 0`: a strict inclusion would make the product of graded indices smaller than `#G_0`.
 A lower jump `m` with nonintegral `φ(m)` would lie between `ψ(s)` and `ψ(s+1)` and contradict
-that equality (Serre 1961, n° 3.5, Corollary 1 to Proposition 8). The finite-residue proof of
-Layer 3 counts indices of norm groups and does not apply here.
+that equality (Serre 1961, n° 3.5, Corollary 1 to Proposition 8).
 
 *Needs:* 3a.1; 3a.2; this section's residue-enlargement, proalgebraic-unit and filtered
-norm-kernel targets; Layer 3 (`hasseArf`, for agreement); Mathlib `Polynomial.IsEisensteinAt`
+norm-kernel targets; Mathlib `Polynomial.IsEisensteinAt`
 and its irreducibility criterion, and adic completion of a Noetherian local ring.
 
 **Checks.**
@@ -1570,7 +1560,32 @@ and its irreducibility criterion, and adic completion of a Noetherian local ring
   `y^p − y = t⁻¹` of `k((t))` has its single upper jump at the integer `1`.
 - A tamely ramified `L/K` with `G_0 ≠ 1` has its only nonnegative jump at `0`, and `L = K` has none.
 - Commutativity cannot be dropped: for the quaternion extension of Serre's *Local Fields*, IV §3,
-  Exercise 3, cited in Layer 3, the upper jumps are not all integers.
+  Exercise 3, the upper jumps are not all integers.
+
+**Finite-local-field Hasse–Arf.** For a finite abelian Galois extension `L/K` of nonarchimedean
+local fields, every `u` satisfying `TauCeti.LocalFieldsRamification.UpperJump K L u` is an integer.
+This is `hasseArf` in `Suggested.lean`. Specialize
+`hasseArf_dvd_sum_card_ramificationGroup` to `A = 𝒪[K]`, `B = 𝒪[L]` and `G = Gal(L/K)`;
+the residue extension is separable because the residue fields are finite. At each nonnegative
+lower jump `j`, the finite-sum formula gives `φ(j) = (#G_1 + ⋯ + #G_j)/#G_0`, so the divisibility
+theorem makes its corresponding upper jump integral. The jump at `−1`, when present, is already
+integral. Section 3a.2 identifies the lower and upper filtrations with Layer 3's canonical ones.
+Source: Serre, *Local Fields*, IV §3 and V §7, Theorem 1; Serre 1961, n° 3.5, Corollary 1 to
+Proposition 8, printed p. 136.
+
+*Needs:* §3a.3's general Hasse–Arf theorem; §3a.2's finite-sum formula, correspondence of jumps
+and finite-local-field agreement; Layer 0's integer-ring and residue-field structures.
+
+**Checks.**
+
+- For `ℚ_2(ζ_8)/ℚ_2`, the lower jumps `1, 3` give the integral upper jumps `1, 2`.
+- A nontrivial unramified extension has only the jump `−1`; a nontrivial totally ramified tame
+  extension has only the jump `0`.
+- The abstract filtration on `C_9` with `G_0 = G_1 = C_9`, `G_2 = ⋯ = G_5 = C_3` and `G_6 = 1`
+  has `φ(5) = 1 + 4/3 = 7/3`, although the subgroup and Herbrand quotient have integral breaks
+  `5` and `1`. It cannot be the ramification filtration of an abelian local-field extension:
+  at the lower jump `5`, the sum `9 + 3 + 3 + 3 + 3 = 21` is not divisible by `#G_0 = 9`.
+  Prime-degree integrality and tower transitivity alone do not imply Hasse–Arf.
 
 ### Layer 4: the tame quotient of the absolute Galois group
 
@@ -2010,6 +2025,15 @@ their sources and hypotheses are those of Layers 1–3.
 | `two_not_norm_unramifiedQuadratic` | The equation `x² − 5y² = 2` has no solution over `ℚ_2`. |
 | `ramifiedQuadratic_finrank` | Adjoining the square roots of `2` to `ℚ_2` has degree `2`. |
 | `dyadicCyclotomic_finrank` | Adjoining the eighth roots of unity to `ℚ_2` has degree `4`. |
+| `tameQuadratic_norm_counterexample` | In a totally ramified quadratic extension of `ℚ_3`, the scalar `4` is in `U(L,2)` and its norm is outside `U(ℚ_3,2)`. |
+
+*Check (unshifted norm failure).* Take `K = ℚ_3` and `L = ℚ_3(√3)`. The polynomial `X² − 3` is
+Eisenstein, so `e = 2`, `f = 1`, and the extension is tame. For the scalar unit `u = 4`, normalized
+valuations give `v_L(u − 1) = v_L(3) = 2`, hence `u ∈ U(L,2)`. Its norm is
+`N_(L/K)(u) = 4² = 16`, but `v_K(16 − 1) = v_3(15) = 1`, so `16 ∉ U(K,2)`.
+The named theorem carries degree `2` and ramification index `2` explicitly and applies to every
+such extension, independently of its presentation. The shifted inclusion instead uses
+`ψℕ(2) = 4` in this tame quadratic case.
 
 These controls exercise normalization, norm groups, lower and upper numbering, and the
 tame quotient; they are regression tests for conventions rather than substitutes for the
@@ -2023,7 +2047,8 @@ The external abstract dependency order is **[Continuous Cohomology of Profinite
 Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
 Groups](../ProfiniteProPGroups/README.md), consumed through Tau Ceti's native predicates and
 Sylow theorems → this roadmap**. Within this roadmap the intended order is
-Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 3a → Layer 4 → Layer 4a. Later work may proceed
+Layer 0 → Layer 1 → Layer 2 → Layer 3 (filtrations, norms and different) → §§3a.1–3a.3
+→ finite-local-field Hasse–Arf and its agreement → Layer 4 → Layer 4a. Later work may proceed
 against explicit hypotheses, but the accepted exports use the canonical objects produced by the
 preceding layers.
 

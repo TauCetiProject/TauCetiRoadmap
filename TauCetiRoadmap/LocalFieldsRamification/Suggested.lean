@@ -65,9 +65,9 @@ Product coordinates on the tame Tate module require choices; the Tate-module-val
 
 The local-field objects that the pinned Tau Ceti implements are **consumed, not restated**: the
 normalized valuation and the valuation of a natural-number cast (`TauCeti.normalizedValuation`,
-`TauCeti.natCastValuation`), the ramification index, the residue degree, the tame and wild
+`TauCeti.natCastValuation`), the ramification index, the residue degree, the total, tame and wild
 predicates and the absolute ramification index (`TauCeti.ramificationIndex`,
-`TauCeti.inertiaDegree`, `TauCeti.IsTamelyRamified`, `TauCeti.IsWildlyRamified`,
+`TauCeti.inertiaDegree`, `TauCeti.IsTotallyRamified`, `TauCeti.IsTamelyRamified`, `TauCeti.IsWildlyRamified`,
 `TauCeti.absoluteRamificationIndex`), the unit filtration and its graded pieces
 (`TauCeti.unitFiltration`, `TauCeti.UnitFiltrationGraded`), the Teichmüller lift
 (`TauCeti.teichmuller`), the spectral-norm construction of the local-field structure on a finite
@@ -119,6 +119,7 @@ export TauCeti (
   finiteExtensionNormedField finiteExtensionNormedFieldTopology finiteExtensionValuativeRel
   finiteIntermediateFieldNormedField finiteIntermediateFieldValuativeRel finiteIntermediateFieldTopology
   ramificationIndex inertiaDegree natCastValuation
+  IsTotallyRamified isTotallyRamified_iff_inertiaDegree_eq_one
   absoluteRamificationIndex unitFiltration normGroup
   UnitFiltrationGraded normGradedMap IsTamelyRamified
   IsWildlyRamified differentExponent discriminantExponent)
@@ -174,31 +175,10 @@ theorem integerRingTorsionFree [Algebra K L] [ValuativeExtension K L] :
     Module.IsTorsionFree 𝒪[K] 𝒪[L] :=
   inferInstance
 
-/-- **Layer 0, total ramification.** This is the canonical one-extension predicate consumed by
-Counting Totally Ramified Extensions. An intermediate-field family wrapper must compare to it and must not contain an independent
-definition of total ramification. -/
-def IsTotallyRamified [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] : Prop :=
-  ramificationIndex K L = Module.finrank K L
-
 /-- **Layer 0, the characteristic property of `f`.** Tau Ceti's `TauCeti.natCard_residueField`. -/
 theorem card_residueField [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] :
     Nat.card 𝓀[L] = Nat.card 𝓀[K] ^ inertiaDegree K L :=
   TauCeti.natCard_residueField K L
-
-/-- **Layer 0, residue-degree characterization of total ramification.** This is the stable
-one-extension bridge consumed by `MassFormula`; a family-level intermediate-field wrapper
-must compare to this theorem rather than define a second ramification predicate. No dependency on
-the consumer roadmap is introduced here. A closed proof from `e · f = n` and `0 < e`. -/
-theorem isTotallyRamified_iff_inertiaDegree_eq_one [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] :
-    IsTotallyRamified K L ↔ inertiaDegree K L = 1 := by
-  have h := ramificationIndex_mul_inertiaDegree K L
-  have he : 0 < ramificationIndex K L := TauCeti.ramificationIndex_pos
-  refine ⟨fun ht => Nat.eq_of_mul_eq_mul_left he ?_, fun hf => ?_⟩
-  · rw [mul_one]
-    exact h.trans ht.symm
-  · rw [hf, mul_one] at h
-    exact h
 
 /-! ## Layer 1: units, the filtration, and the multiplicative group -/
 
@@ -485,12 +465,14 @@ theorem map_norm_unitFiltration_psiNat_add_one_le [Algebra K L] [ValuativeExtens
         (unitFiltration L (psiNat K L i + 1)) ≤ unitFiltration K (i + 1) :=
   TauCeti.map_normUnits_unitFiltration_psiNat_add_one_le K L i
 
-/-- **Layer 3, Hasse–Arf.** Every upper jump of a finite abelian Galois extension is integral. -/
-theorem hasseArf [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L]
-    (hcomm : ∀ σ τ : L ≃ₐ[K] L, σ * τ = τ * σ)
-    (u : RamificationIndexDomain) (hu : UpperJump K L u) :
-    ∃ z : ℤ, (u : ℝ) = (z : ℝ) :=
+/-- **Layer 3, the failure of an unshifted norm inclusion.** In every totally ramified quadratic
+extension of `ℚ_3`, the scalar `4` has depth `2`, but its norm `16` has depth `1`.
+The degree and ramification-index hypotheses make this independent of a chosen field model. -/
+theorem tameQuadratic_norm_counterexample [Algebra ℚ_[3] L] [ValuativeExtension ℚ_[3] L]
+    [Module.Finite ℚ_[3] L] (hdeg : Module.finrank ℚ_[3] L = 2)
+    (he : ramificationIndex ℚ_[3] L = 2) (x : Lˣ) (hx : (x : L) = 4) :
+    x ∈ unitFiltration L 2 ∧
+      TauCeti.Algebra.normUnits ℚ_[3] x ∉ unitFiltration ℚ_[3] 2 :=
   sorry
 
 /-- **Layer 3, total ramification is equivalent to an Eisenstein generator.** The generator is
@@ -637,6 +619,18 @@ theorem hasseArf_dvd_sum_card_ramificationGroup
       TauCeti.IsLocalRing.ramificationGroup G B ((j : ℤ) + 1)) :
     Nat.card (TauCeti.IsLocalRing.ramificationGroup G B 0) ∣
       ∑ i ∈ Finset.Icc 1 j, Nat.card (TauCeti.IsLocalRing.ramificationGroup G B (i : ℤ)) :=
+  sorry
+
+/-- **Layer 3a, finite-local-field Hasse–Arf.** Every upper jump of a finite abelian Galois
+extension is integral. Specializing `hasseArf_dvd_sum_card_ramificationGroup` to the integer
+rings gives divisibility at every nonnegative lower jump; the finite-sum formula and agreement
+of the filtrations give this upper-numbering conclusion. The residue extension is separable
+because the residue fields are finite, and a jump at `-1` is already integral. -/
+theorem hasseArf [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L]
+    (hcomm : ∀ σ τ : L ≃ₐ[K] L, σ * τ = τ * σ)
+    (u : RamificationIndexDomain) (hu : UpperJump K L u) :
+    ∃ z : ℤ, (u : ℝ) = (z : ℝ) :=
   sorry
 
 /-! ## Layer 4: the absolute Galois group, wild inertia, and the tame quotient
