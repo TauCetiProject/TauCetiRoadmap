@@ -22,9 +22,12 @@ Layers 0–1 need relative crystalline and completed semistable period rings and
 cyclotomic analytic annuli. Layers 3–6 need arithmetic period functors, filtered
 (φ,N)-modules, Sen operators, Robba modules and B-pairs to state Hodge–Tate
 descent, ordinary semistability, Berger's equivalence and p-adic monodromy.
-Section 5.5's tensor-torsor and Kottwitz comparisons also need tensor-isomorphism
-torsors, their Galois classes and the algebraic fundamental group of a reductive
-group; tensor-automorphism reconstruction alone does not supply these objects.
+Section 5.3's completed-constants and normalization comparisons use
+NoncommutativeAndEquivariantIwasawa §F.6's generic period realization with native
+absolute monodromy. Section 5.5's finite-type tensor-torsor specialization uses
+MotivesAndAlgebraicCycles §6.8's general torsor and its actions. The torsor's Galois
+class and the Kottwitz comparisons also need the algebraic fundamental group of a
+reductive group; these carriers and comparisons are absent from the pins.
 Layers 2, 7 and 8 need pro-étale period sheaves, filtered connections and the
 geometric cohomology realizations for primitive and filtered de Rham,
 crystalline, semistable and prismatic comparison. Section 2.7's analytic log
