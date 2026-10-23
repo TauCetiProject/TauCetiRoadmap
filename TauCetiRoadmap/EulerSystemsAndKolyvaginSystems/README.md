@@ -832,11 +832,13 @@ Additional arithmetic check: Two primes `ℓ, ℓ′` with `ℓ ≡ ℓ′ ≡` 
 
 ### 1.5 The transverse local condition
 
-In the situation of Layer 1.2 Finite and singular parts at an unramified prime, fix a totally tamely ramified cyclic extension `L/K_v` with `[L:K_v]·T = 0`. The maximal choice has `Gal(L/K_v) ≅ 𝔽^×` (for `K_v = ℚ_ℓ`, `L = ℚ_ℓ(μ_ℓ)`). Globally `L` is the completion of `K(q)` at `q`, of degree `|G_q|` dividing `|𝔽^×|`, with `T` killed by `|G_q|`; it need not be maximal (for `K = ℚ`, `p = 3` and `q = 7` it is the cubic subfield of `ℚ_7(μ_7)`). The `L`-transverse condition is `H¹_tr(K_v, T) = ker(H¹(K_v, T) → H¹(L, T)) = H¹(L/K_v, T^{G_L})`. It projects isomorphically onto `H¹_s(K_v, T)`, so `H¹(K_v, T) = H¹_f(K_v, T) ⊕ H¹_tr(K_v, T)`, functorially in `T`. It is defined by restriction to the specified extension `L`, not by a choice of complement.
+In the situation of Layer 1.2 Finite and singular parts at an unramified prime, fix a totally tamely ramified cyclic extension `L/K_v` with `[L:K_v]·T = 0`. The maximal choice has `Gal(L/K_v) ≅ 𝔽^×` (for `K_v = ℚ_ℓ`, `L = ℚ_ℓ(μ_ℓ)`). For `q` principal, or more generally splitting completely in `K(1)`, take `L = K(q)_q`, of degree `|G_q|` dividing `|𝔽^×|`, with `T` killed by `|G_q|`; it need not be maximal (for `K = ℚ`, `p = 3` and `q = 7` it is the cubic subfield of `ℚ_7(μ_7)`). The `L`-transverse condition is `H¹_tr(K_v, T) = ker(H¹(K_v, T) → H¹(L, T)) = H¹(L/K_v, T^{G_L})`. It projects isomorphically onto `H¹_s(K_v, T)`, so `H¹(K_v, T) = H¹_f(K_v, T) ⊕ H¹_tr(K_v, T)`, functorially in `T`. It is defined by restriction to the specified extension `L`, not by a choice of complement.
 
 The precise hypotheses are `T` unramified with `[L:K_v]·T = 0`; `L/K_v` totally tamely ramified cyclic.
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Definition 1.1.6(iv) and Lemma 1.2.4, pp. 9, 11). Definition of the transverse condition and the splitting.
+
+([Barry Mazur and Karl Rubin, Controlling Selmer groups in the higher core rank case](https://arxiv.org/abs/1312.4052v1), §2, immediately before Definition 2.1, p. 6). The global ray-field example when `q` is principal; splitting in `K(1)` gives the same total-ramification conclusion.
 
 Since `L/K_v` is totally ramified and `T` unramified, `T^{G_L} = T^{Fr=1}`; the composite `H¹(L/K_v, T^{G_L}) = Hom(Gal(L/K_v), T^{Fr=1}) → Hom(I, T^{Fr=1}) = H¹_s` is an isomorphism, because `Gal(L/K_v)` is the quotient of tame inertia of order `[L:K_v]` and `[L:K_v]·T = 0` (Mazur–Rubin 2004, Lemma 1.2.4, for the maximal `L`).
 
@@ -861,6 +863,7 @@ Consequently every transverse condition of this subsection is the transverse con
 - `transverse_trivial`: If the Frobenius-fixed module is zero, the transverse condition is zero.
 - `transverse_finite_projection`: The finite projection of a transverse class is zero under the supplied direct-sum comparison.
 - `transverse_eq_of_le_cubic`: For `K_v = ℚ_7`, `p = 3`, `T = ℤ/3` and `L′ ⊂ L = ℚ_7(μ_7)` the cubic subfield, the norm groups are `⟨7⟩ × (ℤ_7^×)^3` and `⟨7⟩ × (1 + 7ℤ_7)`, and both transverse conditions are `{f : f(7) = 0}` in `Hom(ℚ_7^×, ℤ/3)`.
+- For `K = ℚ(√−23)`, `p = 3` and `q = (2,ω)` with `ω = (1 + √−23)/2`, the class of `q` has order 3 and `h_K = 3`. Since `(O_K/q)^× = 1`, `K(q) = K(1)` and `K(q)_q/K_q` is unramified cubic. Thus this completion is not a transverse extension. Here `(ω−2) = q³`, no element has norm 2, and the Minkowski bound `2√23/π < 3.1`, together with `(ω) = q(3,ω)`, gives the class-group calculation.
 - `transverse_eq_of_le_degree`: The hypothesis `[L′:K_v]·T = 0` is needed. For `K_v = ℚ_19`, `T = ℤ/9` and `L′` the cubic subfield of `ℚ_19(μ_19)`, the `L′`-transverse condition consists of the homomorphisms killing `19` and `(ℤ_19^×)^3`, a group of order 3, whereas `H¹_s` has order 9; so it is not a complement of `H¹_f`.
 
 Different choices of `L` give different complements; all are transverse to `H¹_f`.
@@ -1046,7 +1049,7 @@ Additional arithmetic check: For `q ∈ P_1` with `H¹_s(K_q, T) ≠ 0, F(q) ≠
 
 ### 1.10 The transverse condition is self-dual
 
-Let `K_v` be nonarchimedean of residue characteristic `≠ p, T` unramified with `|𝔽^×|·T = 0`, and `L/K_v` totally ramified abelian of degree `|𝔽^×|`. Then `H¹_f(K_v, T)` and `H¹_f(K_v, T^*)` are exact orthogonal complements under the local Tate pairing `H¹(K_v, T) × H¹(K_v, T^*) → ℚ_p/ℤ_p`. If moreover `p` is odd, or `p = 2` and `(|𝔽^×|/2)·T = 0`, then `H¹_tr(K_v, T)` and `H¹_tr(K_v, T^*)` are exact orthogonal complements. No transverse self-duality is asserted at `p = 2` without the extra divisibility. For a totally tamely ramified cyclic `L′/K_v` with `[L′:K_v]·T = 0`, in particular the completion of `K(q)` at `q` when `|G_q|·T = 0`, choose `L ⊇ L′` of degree `|𝔽^×|` (`exists_maximal_tame_ge` of Layer 1.5); the `L′`-transverse condition is the `L`-transverse condition (`transverse_eq_of_le`), so the transverse assertion applies to it under the same hypothesis.
+Let `K_v` be nonarchimedean of residue characteristic `≠ p, T` unramified with `|𝔽^×|·T = 0`, and `L/K_v` totally ramified abelian of degree `|𝔽^×|`. Then `H¹_f(K_v, T)` and `H¹_f(K_v, T^*)` are exact orthogonal complements under the local Tate pairing `H¹(K_v, T) × H¹(K_v, T^*) → ℚ_p/ℤ_p`. If moreover `p` is odd, or `p = 2` and `(|𝔽^×|/2)·T = 0`, then `H¹_tr(K_v, T)` and `H¹_tr(K_v, T^*)` are exact orthogonal complements. No transverse self-duality is asserted at `p = 2` without the extra divisibility. For a totally tamely ramified cyclic `L′/K_v` with `[L′:K_v]·T = 0`, in particular `K(q)_q/K_q` when `q` splits completely in `K(1)` and `|G_q|·T = 0`, choose `L ⊇ L′` of degree `|𝔽^×|` (`exists_maximal_tame_ge` of Layer 1.5); the `L′`-transverse condition is the `L`-transverse condition (`transverse_eq_of_le`), so the transverse assertion applies to it under the same hypothesis.
 
 The precise hypotheses are `v ∤ p`; `T` unramified and a compact coefficient module over a coefficient ring; `|𝔽^×|·T = 0`; for the transverse assertion, `p` odd or `(|𝔽^×|/2)·T = 0`.
 
@@ -2411,7 +2414,7 @@ The congruence is a consequence of the definition for towers extending in the `p
 
 ### 3.15 Derivative classes form a weak Kolyvagin system; their finite parts
 
-Let `K = ℚ, R` the integers of a finite extension of `ℚ_p, F = F_can` and `P` a set of primes `ℓ ≠ p`, unramified for `T`, with `T/(Fr_ℓ − 1)T` cyclic and `Fr_ℓ^{p^k} − 1` injective on `T` for all `k ≥ 0`. For an Euler system `c` for `(T, P, 𝒦)` with `𝒦` containing the maximal abelian `p`-extension unramified outside `p` and `P`, let `κ_n = κ_{[ℚ,n,I_n]} ⊗` (generators) `∈ H¹(ℚ, T/I_nT) ⊗ G_n, κ_1 = c_ℚ`. `(a)` If `H⁰(ℚ_p, T^*)` is divisible, `(κ_n)` is a weak Kolyvagin system for `(T, F_can, P)`; in general for each `k` and all large `j` the images `κ_n^{(k)}, n ∈ N_j`, form a weak Kolyvagin system for `(T/m^kT, F_can, P_j)`. `(b)` For `ℓ | n, (κ_n)_{ℓ,f} = Σ_{π ∈ S_1(n), π(ℓ) ≠ ℓ} (−1)^{ν(n/d_π)} (κ_{d_π})_{ℓ,f} ⊗ ⊗_{q | (n/d_π)} ρ_q(P_q(Fr_{π(q)}^{-1}))`, where `S_1(n)` is the set of permutations of the primes dividing `n` whose non-fixed primes form a single orbit, `d_π = ∏_{π(ℓ)=ℓ} ℓ`, and `ρ_q : A_{q,I}/A_{q,I}² ≅ G_q ⊗ R/I` is `σ − 1 ↦ σ ⊗ 1` on the augmentation ideal `A_{q,I}` of `(R/I)[G_q ⊗ R/I]`.
+Let `K = ℚ, R` the integers of a finite extension of `ℚ_p, F = F_can` and `P` a set of primes `ℓ ≠ p`, unramified for `T`, with `T/(Fr_ℓ − 1)T` cyclic and `Fr_ℓ^{p^k} − 1` injective on `T` for all `k ≥ 0`. For an Euler system `c` for `(T, P, 𝒦)` with `𝒦` containing the maximal abelian `p`-extension unramified outside `p` and `P`, let `κ_n = κ_{[ℚ,n,I_n]} ⊗` (generators) `∈ H¹(ℚ, T/I_nT) ⊗ G_n, κ_1 = c_ℚ`. `(a)` If `H⁰(ℚ_p, T^*)` is divisible, `(κ_n)` is a weak Kolyvagin system for `(T, F_can, P)`; in general for each `k` and all large `j` the images `κ_n^{(k)}, n ∈ N_j`, form a weak Kolyvagin system for `(T/m^kT, F_can, P_j)`. `(b)` For `ℓ | n, (κ_n)_{ℓ,f} = Σ_{π ∈ S_1(n), π(ℓ) ≠ ℓ} (−1)^{ν(n/d_π)} (κ_{d_π})_{ℓ,f} ⊗ ⊗_{q | (n/d_π)} ρ_q(P_q(Fr_{π(q)}^{-1}))`, where `S_1(n)` is the set of permutations of the primes dividing `n` whose non-fixed primes form a single orbit, `d_π = ∏_{π(ℓ)=ℓ} ℓ`, and `A_{q,I} = ker((R/I)[G_q] → R/I)` is the augmentation ideal of the original finite tame group algebra. The `(R/I)`-linear comparison `ρ_q : A_{q,I}/A_{q,I}² ≅ G_q ⊗_ℤ R/I` sends `[σ] − 1` to `σ ⊗ 1`.
 
 The precise hypotheses are `K = ℚ`; the two conditions on the primes of `P`; `𝒦` contains the maximal abelian `p`-extension of `ℚ` unramified outside `p` and `P`.
 
@@ -2421,11 +2424,18 @@ The precise hypotheses are `K = ℚ`; the two conditions on the primes of `P`; `
 
 `(a)`: Layer 3.13 Local behaviour of derivative classes gives `κ_n ∈ H¹_{F^{np}}` and relation (5); the condition at `p` is automatic if `H⁰(ℚ_p, T^*)` is divisible (Lemma A.1) and holds for the images in `T/m^k` after restricting to `N_j` (Proposition A.2).
 
+([Barry Mazur and Karl Rubin, Refined class number formulas and Kolyvagin systems](https://arxiv.org/abs/0909.3916), §2, equation (1), p. 2). The integral augmentation comparison; extending coefficients gives `ρ_q`.
+
+The group algebra uses `MonoidAlgebra (R ⧸ I) G_q`, with the original multiplicative group `G_q`; the tensor product uses its underlying abelian group over `ℤ`. Modulo the square of the augmentation ideal, `[στ] − 1 = ([σ] − 1) + ([τ] − 1)`. The inverse comparison sends `σ ⊗ a` to `a([σ] − 1)`; these maps are inverse on generators and commute with coefficient reduction.
+
 `(b)`: compute the restriction of `κ_m` to `ℚ(ℓ)_ℓ` through the `ℓ`-finite quotient of the universal Euler system and the augmentation filtration (Propositions `A`.8, `A`.13, `A`.15); `P_q(Fr_{π(q)}^{-1})` lies in the augmentation ideal because `P_q(1) ∈ I_q`.
 
-For `n = ℓ: S_1(ℓ)` has no `π` with `π(ℓ) ≠ ℓ`, so `(κ_ℓ)_{ℓ,f} = 0`.
+**Checks.**
 
-For `n = ℓq` the only `π` is the transposition, `d_π = 1`, and `(κ_{ℓq})_{ℓ,f} = (κ_1)_{ℓ,f} ⊗ ρ_ℓ(P_ℓ(Fr_q^{-1})) ⊗ ρ_q(P_q(Fr_ℓ^{-1}))`.
+- For `n = ℓ`, `S_1(ℓ)` has no `π` with `π(ℓ) ≠ ℓ`, so `(κ_ℓ)_{ℓ,f} = 0`.
+- For `n = ℓq` the only `π` is the transposition, `d_π = 1`, and `(κ_{ℓq})_{ℓ,f} = (κ_1)_{ℓ,f} ⊗ ρ_ℓ(P_ℓ(Fr_q^{-1})) ⊗ ρ_q(P_q(Fr_ℓ^{-1}))`.
+- For `R` unramified quadratic over `ℤ₃`, `I = 3R`, `k = 𝔽₉` and `G_q = C₃`, the algebra `k[C₃] ≅ k[x]/(x³)` has augmentation quotient `kx` of dimension one over `k`, as does `C₃ ⊗_ℤ k`. Replacing the indexing group by the additive group of this tensor gives `k[C₃²] ≅ k[x,y]/(x³,y³)` and augmentation quotient of dimension two. The arithmetic data `T = R(1)`, `q = 7` have this tame group and conductor ideal.
+- For the trivial tame group, the augmentation ideal and `G_q ⊗_ℤ R/I` are both zero. Reducing `R/I` further carries `[σ] − 1 ↦ σ ⊗ 1` to the same formula over the new coefficients.
 
 *Needs:* Layer 3.13 Local behaviour of derivative classes; Layer 3.3 Kolyvagin systems, weak Kolyvagin systems and their limits; Layer 0.7 The canonical and the unramified Selmer structures; Layer 2.7 The universal Euler system.
 
@@ -2528,7 +2538,7 @@ The precise hypotheses are `K = ℚ, R` the integers of a finite extension of `�
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Theorem 3.2.7, p. 24). The variant without the `p`-direction.
 
-Relation (5) for `κ′` follows from that for `κ` by inspection of the sum.
+Each `ρ_ℓ` in this sum is the augmentation comparison in `(R/I_n)[G_ℓ]` of §3.15, after coefficient reduction. Relation (5) for `κ′` follows from that for `κ` by inspection of the sum.
 
 Group the sum according to `π(ℓ) = ℓ` or not: `κ′_n = Σ_{π(ℓ)=ℓ}` sign`(π) s_π ⊗` (⋯) with `s_π = κ_{d_π} − Σ_{π′ ∈ S_1(d_π), π′(ℓ)≠ℓ} (−1)^{ν(d_π/d_{π′})} κ_{d_{π′}} ⊗` (⋯); Layer 3.15 Derivative classes form a weak Kolyvagin system; their finite parts gives `(s_π)_{ℓ,f} = 0`.
 
@@ -3881,7 +3891,7 @@ Additional arithmetic check: If `rank_R T = 1` then 4.7`(i)` holds and 4.7(ii) h
 
 ### 6.3 Selmer contractions and coefficient change
 
-Let `R` be a commutative noetherian self-injective local ring and `A` finite free, with all Selmer modules here finitely generated. Use functional-first contraction: on a bidual `x`, `ι_v(x)(Φ)=x(v∧Φ)`; determinant evaluation then intertwines it with `ι_v(c₁∧⋯∧c_d)=Σ_i(−1)^{i−1}v(c_i)c₁∧⋯∧ĉ_i∧⋯∧c_d`. If `F′≤F` and the change-of-condition map `H¹_F(K,A) → R^s` has kernel `H¹_F′(K,A)`, contraction by its ordered `s` components maps `B^{r+s}_F(A)` to `B^r_F′(A)`. For one component `v_q, r≥1, B^r_F′(A)` identifies with the kernel of `v_q:B^r_F(A)→B^{r−1}_F(A)`. Membership in `B^r_F′(A)` is detected by every `(r−1)`-fold contraction. Given a quotient `R→S` of self-injective rings and the actual coefficient-reduction square into a finite free ambient cohomology module satisfying BSS II Corollary 2.7, the change map constructed here induces `B^r_F(A)→B^r_G(A⊗S)`. No assertion of unconditional base-change isomorphism is made.
+Let `R` be a commutative noetherian self-injective local ring and `A` finite free, with all Selmer modules here finitely generated. Use functional-first contraction: on a bidual `x`, `ι_v(x)(Φ)=x(v∧Φ)`; determinant evaluation then intertwines it with `ι_v(c₁∧⋯∧c_d)=Σ_i(−1)^{i−1}v(c_i)c₁∧⋯∧ĉ_i∧⋯∧c_d`. Successive degree-one contractions satisfy `ι_v ι_w = −ι_w ι_v`. If `F′≤F` and the change-of-condition map `H¹_F(K,A) → R^s` has kernel `H¹_F′(K,A)`, contraction by its ordered `s` components maps `B^{r+s}_F(A)` to `B^r_F′(A)`. For one component `v_q, r≥1, B^r_F′(A)` identifies with the kernel of `v_q:B^r_F(A)→B^{r−1}_F(A)`. Membership in `B^r_F′(A)` is detected by every `(r−1)`-fold contraction. Given a quotient `R→S` of self-injective rings and the actual coefficient-reduction square into a finite free ambient cohomology module satisfying BSS II Corollary 2.7, the change map constructed here induces `B^r_F(A)→B^r_G(A⊗S)`. No assertion of unconditional base-change isomorphism is made.
 
 The precise hypotheses are `R` noetherian and self-injective; every dualized module finitely generated; The ordered maps are actual localizations for `F′≤F`; coefficient change has the free ambient square and injective bottom map of BSS II Corollary 2.7.
 
@@ -3949,7 +3959,7 @@ For a sign witness take `G=C₃×C₂`, with `g` of order three and complex conj
 
 ### 6.5 Stark systems
 
-`(a)` (Mazur–Rubin 2016; `R` principal artinian of `length k`, Selmer data `(T, F, P, r)` with `I_q = 0` for `q ∈ P`.) For `n ∈ N` put `W_n = ⊕_{q | n} Hom(H¹_tr(K_q, T), R)`, free of `rank ν(n)`, and `Y_n = ⋀^{r+ν(n)} H¹_{F^n}(K, T) ⊗ ⋀^{ν(n)} W_n`. For `m | n` the square of `H¹_{F^m} ⊆ H¹_{F^n}` with the transverse localisations is cartesian and induces `Ψ_{n,m} : Y_n → Y_m`, with `Ψ_{n′,n″} ∘ Ψ_{n,n′} = Ψ_{n,n″}`. `SS_r(T) = SS_r(T, F, P) = lim_{n ∈ N} Y_n`. For `R` a discrete valuation ring, `SS_r(T) = lim_k SS_r(T/m^kT, P_k)`. `(b)` (Burns–Sakamoto–Sano; `R` commutative noetherian self-injective local with finite residue field, as in 0.2, `A` free of finite rank.) `SS_r(A, F) = lim_{n ∈ N} ⋂^{r+ν(n)}_R H¹_{F^n}(K, A)`, after fixing isomorphisms `λ_q:H¹_{/f}(K_q,A)≃R` for all auxiliary primes and a total ordering of those primes, with transition maps `v_{m,n} = ⋀_{q | m/n} v_q`, where `v_q : H¹_{F^m}(K, A) → H¹_{/f}(K_q, A) ≅ R`, signs chosen so that `v_{m′,n} = v_{m,n} ∘ v_{m′,m}`. For `ε ∈ SS_r(A, F)` and `i ≥ 0, I_i(ε) = Σ_{ν(n) = i} im(ε_n) ⊆ R`, each `ε_n` being a homomorphism `⋀^{r+ν(n)}H¹_{F^n}(K, A)^* → R`. For a local Gorenstein order `R` and `T` free over `R, SS_r(T, F) = lim_m SS_r(T/p^mT, F)` and `I_i(ε) = lim_m I_i(ε^{(m)})`.
+`(a)` (Mazur–Rubin 2016; `R` principal artinian of `length k`, Selmer data `(T, F, P, r)` with `I_q = 0` for `q ∈ P`.) For `n ∈ N` put `W_n = ⊕_{q | n} Hom(H¹_tr(K_q, T), R)`, free of `rank ν(n)`, and `Y_n = ⋀^{r+ν(n)} H¹_{F^n}(K, T) ⊗ ⋀^{ν(n)} W_n`. For `m | n` the square of `H¹_{F^m} ⊆ H¹_{F^n}` with the transverse localisations is cartesian and induces `Ψ_{n,m} : Y_n → Y_m`, with `Ψ_{n′,n″} ∘ Ψ_{n,n′} = Ψ_{n,n″}`. `SS_r(T) = SS_r(T, F, P) = lim_{n ∈ N} Y_n`. For `R` a discrete valuation ring, `SS_r(T) = lim_k SS_r(T/m^kT, P_k)`. `(b)` (Burns–Sakamoto–Sano; `R` commutative noetherian self-injective local with finite residue field, as in 0.2, `A` free of finite rank.) `SS_r(A, F) = lim_{n ∈ N} ⋂^{r+ν(n)}_R H¹_{F^n}(K, A)`, after fixing isomorphisms `λ_q:H¹_{/f}(K_q,A)≃R` for all auxiliary primes and a total ordering of those primes, with transition maps `v_{m,n} = sgn(m,n) C_{v,m/n}`, where `C_{v,m/n}(x)(Φ) = x(v_{q₁} ∧ ⋯ ∧ v_{q_s} ∧ Φ)` for the increasingly ordered primes of `m/n`. Here `sgn(m,n)` is the sign of the permutation from the concatenated ordered lists `(primes of m/n, primes of n)` to the ordered primes of `m`. Here `v_q : H¹_{F^m}(K, A) → H¹_{/f}(K_q, A) ≅ R` is localization followed by the fixed trivialization, and these signs give `v_{m′,n} = v_{m,n} ∘ v_{m′,m}`. In particular, removing the `i`th prime of `m` gives `v_{m,m/q_i} = (−1)^{i−1}ι_{v_{q_i}}`; the transition from a one-prime conductor to 1 is positive. For `ε ∈ SS_r(A, F)` and `i ≥ 0, I_i(ε) = Σ_{ν(n) = i} im(ε_n) ⊆ R`, each `ε_n` being a homomorphism `⋀^{r+ν(n)}H¹_{F^n}(K, A)^* → R`. For a local Gorenstein order `R` and `T` free over `R, SS_r(T, F) = lim_m SS_r(T/p^mT, F)` and `I_i(ε) = lim_m I_i(ε^{(m)})`.
 
 The precise hypotheses are as in `(a)` or `(b)`.
 
@@ -3960,6 +3970,8 @@ The precise hypotheses are as in `(a)` or `(b)`.
 ([David Burns, Ryotaro Sakamoto and Takamichi Sano, On the theory of higher rank Euler, Kolyvagin and Stark systems, II](https://arxiv.org/abs/1805.08448v1), Definition 4.1, p. 20). The ideals `I_i(ε)`.
 
 `(a): Ψ_{n,m}` is contraction against `h_{s+1} ∘ loc^tr_{q_{s+1}}`, …, `h_t ∘ loc^tr_{q_t}` tensored with `h₁ ∧ ⋯ ∧ h_t ↦ h₁ ∧ ⋯ ∧ h_s`; it is independent of the generators `h_i` and of the ordering (Mazur–Rubin 2016, Proposition A.3).
+
+([David Burns and Takamichi Sano, On the theory of higher rank Euler, Kolyvagin and Stark systems](https://arxiv.org/abs/1612.06187v1), §3.1, the definition of `v_{m,n}`). The permutation signs for functional-first transitions.
 
 `(b): v_{m,n}` lands in the bidual of the kernel `H¹_{F^n}` by the coefficient-change map of Layer 6.3.
 
@@ -4024,26 +4036,28 @@ Over a non-domain order the statement is an equality of ideals, not a valuation 
 
 ### 6.7 Kolyvagin systems of `rank r` and the regulator map
 
-`(a)` (Mazur–Rubin 2016.) The rank-`r` Selmer sheaf on `X(P)` has stalks `S(n) = ⋀^r H¹_{F(n)}(K, T/I_nT) ⊗ G_n`, edge modules `S(e) = H¹_tr(K_q, T/I_{nq}T) ⊗ ⋀^{r−1}H¹_{F_q(n)}(K, T/I_{nq}T) ⊗ G_{nq}` for `e = {n, nq}`, and vertex-to-edge maps the contractions against `loc^f_q` (finite projection followed by `φ^fs_q`) from `n` and against `loc^tr_q` from `nq`. `KS_r(T, F, P) = Γ(S)`; for `r = 1` this is Layer 3.3 Kolyvagin systems, weak Kolyvagin systems and their limits. The stub subsheaf has `S′(n) = m^{λ(n)}S(n), λ(n) = length H¹_{F(n)^*}(K, T^*)`, and `KS′_r(T) = Γ(S′)`. `(b)` (Burns–Sakamoto–Sano; `r≥1`.) `KS_r(A, F)` is the module of families `κ_n ∈ ⋂^r_R H¹_{F(n)}(K, A) ⊗ G_n` with `v_q(κ_n) = φ^fs_q(κ_{n/q})` in `⋂^{r−1}_R H¹_{F_q(n/q)}(K, A) ⊗ G_n` for `q | n`; with generators of the `G_q` fixed, `I_i(κ) = Σ_{ν(n)=i} im(κ_n)`. For a Gorenstein order, `KS_r(T, F) = lim_m KS_r(T/p^mT, F)`. `(c)` For `r≥1`, the regulator: `Reg_r : SS_r(A, F) → KS_r(A, F), ε ↦ (⋀_{q | n} φ^fs_q (ε_n))_n`; in Mazur–Rubin's setting `Π : SS_r(T) → KS′_r(T), ε ↦ ((−1)^{ν(n)}Π_n(ε_n))_n`.
+`(a)` (Mazur–Rubin 2016.) The rank-`r` Selmer sheaf on `X(P)` has stalks `S(n) = ⋀^r H¹_{F(n)}(K, T/I_nT) ⊗ G_n`, edge modules `S(e) = H¹_tr(K_q, T/I_{nq}T) ⊗ ⋀^{r−1}H¹_{F_q(n)}(K, T/I_{nq}T) ⊗ G_{nq}` for `e = {n, nq}`, and vertex-to-edge maps the contractions against `loc^f_q` (finite projection followed by `φ^fs_q`) from `n` and against `loc^tr_q` from `nq`. `KS_r(T, F, P) = Γ(S)`; for `r = 1` this is Layer 3.3 Kolyvagin systems, weak Kolyvagin systems and their limits. The stub subsheaf has `S′(n) = m^{λ(n)}S(n), λ(n) = length H¹_{F(n)^*}(K, T^*)`, and `KS′_r(T) = Γ(S′)`. `(b)` (Burns–Sakamoto–Sano; `r≥1`.) `KS_r(A, F)` is the module of families `κ_n ∈ ⋂^r_R H¹_{F(n)}(K, A) ⊗ G_n` with `v_q(κ_n) = φ^fs_q(κ_{n/q})` in `⋂^{r−1}_R H¹_{F_q(n/q)}(K, A) ⊗ G_n` for `q | n`; with generators of the `G_q` fixed, `I_i(κ) = Σ_{ν(n)=i} im(κ_n)`. For a Gorenstein order, `KS_r(T, F) = lim_m KS_r(T/p^mT, F)`. `(c)` For `r≥1`, the regulator: `Reg_r : SS_r(A, F) → KS_r(A, F), ε ↦ ((−1)^{ν(n)} C_{φ,n}(ε_n))_n`; in Mazur–Rubin's setting `Π : SS_r(T) → KS′_r(T), ε ↦ ((−1)^{ν(n)}Π_n(ε_n))_n`.
 
 The precise hypotheses are as in Layer 6.5 Stark systems, with `r≥1` for both Kolyvagin-system constructions and their regulators, at finite level and in every order limit. Stark systems in §§6.5–6.6 retain `r≥0`; the degree `r−1` edge contraction here has no rank-zero instance.
 
 ([Barry Mazur and Karl Rubin, Controlling Selmer groups in the higher core rank case](https://arxiv.org/abs/1312.4052v1), Definition 10.4, p. 21). Kolyvagin systems of `rank r`.
 
-([David Burns, Ryotaro Sakamoto and Takamichi Sano, On the theory of higher rank Euler, Kolyvagin and Stark systems, II](https://arxiv.org/abs/1805.08448v1), §5.2, p. 25). The regulator map.
+([David Burns and Takamichi Sano, On the theory of higher rank Euler, Kolyvagin and Stark systems](https://arxiv.org/abs/1612.06187v1), §4.2, the definition before Proposition 4.3 and its proof). The signed regulator with the functional-first transitions of §6.5.
+
+([David Burns, Ryotaro Sakamoto and Takamichi Sano, On the theory of higher rank Euler, Kolyvagin and Stark systems, II](https://arxiv.org/abs/1805.08448v1), §5.2, p. 25). The regulator and its arithmetic setting, transported to these contraction conventions.
 
 ([Barry Mazur and Karl Rubin, Controlling Selmer groups in the higher core rank case](https://arxiv.org/abs/1312.4052v1), Proposition 12.3, p. 24). The map `Π`.
 
-The edge compatibility of `Reg_r(ε): v_q(⋀_{q′ | n} φ^fs_{q′}(ε_n)) = φ^fs_q(⋀_{q′ | n/q} φ^fs_{q′}(v_q ε_n)) = φ^fs_q(κ(ε_{n/q}))`, using the Stark relation `v_q(ε_n) = ε_{n/q}`.
+For `n = q₁⋯q_d` in increasing order, `C_{φ,n}(x)(Φ) = x(φ^fs_{q₁} ∧ ⋯ ∧ φ^fs_{q_d} ∧ Φ)`, retaining the ordered tame tensor factors. Thus it applies the first contraction first. For `q = q_i`, put `s = (−1)^{i−1}`. The Stark relation is `s ι_{v_q}(ε_n) = ε_{n/q}`. Anticommuting `ι_{v_q}` past the `d` regulator contractions contributes `(−1)^d`; moving `φ^fs_q` to the last position among those functionals contributes `(−1)^{d−i}`. Consequently `v_q(Reg_r(ε)_n) = s C_{φ,n}(ε_{n/q}) = (−1)^{d−1} φ^fs_q(C_{φ,n/q}(ε_{n/q})) = φ^fs_q(Reg_r(ε)_{n/q})`. The conductor sign is essential even when `d = 1`.
 
-The contraction maps are those of Layer 6.1 Exterior biduals of Selmer modules; the sign `(−1)^{ν(n)}` in `Π` fixes the ordering conventions.
+All contractions use §6.3. Reordering primes changes both the Stark determinant trivialization and the ordered contraction by the corresponding permutation sign. The same conductor sign appears in `Π`; the published unsigned Stark comparison of §6.9 is retained.
 
 The definition exposes the following operations and relations.
 
 - `TauCeti.StarkSystems.KolyvaginSystemRank`: For `r≥1`, `KS_r(T, F, P) = Γ` of the rank-`r` Selmer sheaf; `KS_r(A, F)` in biduals.
 - `TauCeti.StarkSystems.KolyvaginSystemRank.rank_one_equiv`: At a fixed finite coefficient level with `I_q=0` for every selected prime and reflexive modified Selmer modules, the degree-one bidual Kolyvagin module is equivalent to the ordinary module. The exterior-power MR version needs no reflexivity in degree one.
 - `TauCeti.StarkSystems.KolyvaginSystemRank.stub`: `KS′_r(T) ≤ KS_r(T)`, sections of the stub subsheaf.
-- `TauCeti.StarkSystems.regulator`: For `r≥1`, `Reg_r : SS_r → KS_r`, an `R`-linear map, with the same positive rank at every coefficient level.
+- `TauCeti.StarkSystems.regulator`: For `r≥1`, `Reg_r : SS_r → KS_r`, the `R`-linear signed ordered contraction above, with the same positive rank at every coefficient level.
 - `TauCeti.StarkSystems.regulator_eval_one`: `Reg_r(ε)_1 = ε_1`.
 - `TauCeti.StarkSystems.KolyvaginSystemRank.ideal`: `I_i(κ) = Σ_{ν(n)=i} im(κ_n)`.
 
@@ -4055,7 +4069,8 @@ The definition exposes the following operations and relations.
 - `TauCeti.StarkSystems.stub_stalk_zero_field`: At field coefficients, positive dual length and a nonzero rank-`r` exterior stalk give zero stub stalk strictly smaller than the full stalk.
 - `TauCeti.StarkSystems.rank_two_stalk`: On a rank-two free Selmer model and `r=2`, the exterior and bidual vertex stalks are both `R(e₁∧e₂)`; degree three gives zero. In degree one the exterior version is the original Selmer module, while the bidual version requires the stated reflexivity comparison.
 - `TauCeti.StarkSystems.stub_length_zero`: `A` vertex with dual length zero has full stub stalk. For `R=ℤ/p³` and a free rank-one stalk, dual lengths 1 and 3 give the distinct stub stalks `pR` and 0, respectively.
-- `TauCeti.StarkSystems.regulator_leading_and_scale`: The leading regulator component equals `ε₁`. Scaling `ε` by a multiplies every regulator component by `a`; on the one-prime rank-two contraction witness, the MR convention gives `−e₂`, not `e₂` in odd characteristic.
+- `TauCeti.StarkSystems.regulator_leading_and_scale`: The leading regulator component equals `ε₁`. Scaling `ε` by `a` multiplies every regulator component by `a`.
+- Over a field of odd characteristic, let `r = 1`, `X = ke₁ ⊕ ke₂`, `v = e₁*`, `φ = e₂*` and `ε_q = e₁∧e₂`. Then `ε₁ = ι_v(ε_q) = e₂`, `Reg_1(ε)_q = −ι_φ(ε_q) = e₁` and `v(Reg_1(ε)_q) = 1 = φ(ε₁)`. The unsigned value `−e₁` fails this edge equation.
 - `TauCeti.StarkSystems.rank_system_constant_model`: `A` one-vertex sheaf has all of its stalk as sections; on a two-vertex identity-edge model, sections are the diagonal. Thus (1,1) satisfies the relation and (1,0) fails it.
 - `TauCeti.StarkSystems.rank_ideal_values`: `A` zero component contributes 0, a free rank-one bidual component with coefficient `π^a` contributes `(π^a)`, and a unit coefficient contributes `R`. For two components with values `x` and `y`, the image ideal is `(x,y)`, including over non-principal coefficient rings.
 
@@ -4065,9 +4080,7 @@ For `r = 1: KS_1 = KS` and `Reg_1(ε)_1 = ε_1`.
 
 Additional arithmetic check: For `r = 1` the edge module is `H¹_tr(K_q, T/I_{nq}T) ⊗ G_{nq} ≅ H¹_s ⊗ G_{nq}` and the relation is (5) of Mazur–Rubin 2004.
 
-Additional arithmetic check: For `n = q: Reg_r(ε)_q = φ^fs_q(ε_q) ∈ ⋂^r H¹_{F(q)}(K, A) ⊗ G_q`, and `v_q(Reg_r(ε)_q) = φ^fs_q(ε_1)`.
-
-In the rank-two one-prime witness above, the unadjusted contraction is `e₂` and the MR regulator factor `(−1)^ν(n)` makes it `−e₂`. The BSS edge contractions introduce `(−1)^{r−1}` on both sides; for `r=2` both factors are `−1` and cancel. At `p=2` signs coincide in the residue field, so an odd-characteristic witness is needed to detect reversal.
+Additional arithmetic check: For `n = q`, `Reg_r(ε)_q = −ι_{φ^fs_q}(ε_q) ∈ ⋂^r H¹_{F(q)}(K, A) ⊗ G_q`, and `v_q(Reg_r(ε)_q) = φ^fs_q(ε_1)`. At two primes `q₁ < q₂`, the Stark transitions are `ι_{v_{q₁}}` and `−ι_{v_{q₂}}`; both paths to 1 give `ι_{v_{q₂}}ι_{v_{q₁}}`, and the regulator has conductor sign +1. In characteristic 2 these signs coincide, so the odd-characteristic one-prime check distinguishes the conventions.
 
 *Needs:* Layer 6.5 Stark systems; Layer 6.1 Exterior biduals of Selmer modules; Layer 3.3 Kolyvagin systems, weak Kolyvagin systems and their limits; Layer 4.1 The Selmer graph and the Selmer sheaf; Layer 1.8 The finite–singular comparison map.
 
@@ -4101,11 +4114,11 @@ Let `R` be principal artinian local, `A` finite free over `R, F` cartesian, sign
 
 The precise hypotheses are Sakamoto §4.5 hypotheses: principal artinian `R`, cartesian `F`, `r=χ(F)≥0`, `Q` infinite of sufficient level with core vertices, and the fixed local isomorphisms and ordering for the plain model. The determinant-twisted comparison itself does not require these trivializations.
 
-([Ryotaro Sakamoto, Stark systems over Gorenstein local rings](https://msp.org/ant/2018/12-10/ant-v12-n10-p02-s.pdf), published version, Lemma 4.13 and Proposition 4.14, pp. 2313–2314). The compatible comparison of the two Stark definitions. Sakamoto §4.1 and Definition 4.3 retain `det W_n`; Definition 4.9 chooses the local trivializations.
+([Ryotaro Sakamoto, Stark systems over Gorenstein local rings](https://msp.org/ant/2018/12-10/ant-v12-n10-p02-s.pdf), published version, Lemma 4.13 and Proposition 4.14, pp. 2313–2314). The compatible comparison of the two Stark definitions. Sakamoto §4.1 and Definition 4.2 retain `det W_n`; Definition 4.9 chooses the local trivializations.
 
 Lemma 4.13 proves that `ξ` commutes with the one-dimensional kernel contraction; its proof decomposes the finite module as `Rm⊕N₀` with `N=Im⊕N₀` and checks the determinant formula.
 
-Apply it successively to localizations to obtain compatibility of `C̃_n` with the determinant-twisted transitions. Functional-first contraction agrees with the `v_q∧Φ` evaluation in BSS II §6.5; the regulator uses these same ordered contractions. Conjugating transitions by `id⊗t_n` gives compatibility of `C_n` with the plain model; changes of local basis and ordering act on both components and transitions.
+Apply it successively to localizations to obtain compatibility of `C̃_n` with the determinant-twisted transitions. Functional-first contraction agrees with the `v_q∧Φ` evaluation in BSS II §6.5; the regulator uses these same ordered contractions together with the conductor sign of §6.7. Conjugating transitions by `id⊗t_n` gives compatibility of `C_n` with the plain model; changes of local basis and ordering act on both components and transitions.
 
 At a core vertex the relaxed Selmer module is free and `ξ` is bijective; cofinality and evaluation of both inverse limits at such vertices give Proposition 4.14.
 
@@ -4317,7 +4330,7 @@ Use the coefficient order `R`, representation `T`, ramification sets `S(F)` and 
 - If `F′/F` adds exactly one ramified prime `q`, the constructed Euler classes satisfy `Cor(c_{F′})=P_q(Fr_q⁻¹)c_F`; omitting the localization factor would instead give an incorrect norm relation when this Euler factor is a nonunit.
 - Zero in `VS` gives the zero Euler family. A unit change of the archimedean determinant basis rescales `θ` by a unit and preserves its image; the construction asserts no distinguished special-value basis.
 
-**Horizontal determinants and the regulator square.** At a coefficient level `M=p^m`, take `E` as in §7.2, `A_E=Ind_{G_E}^{G_K}(T/MT)` and `R_E=(R/MR)[Gal(E/K)]`. Assume Hypotheses 6.7 and 6.11, and 3.2, 3.3 and 4.2 for `A_E` with the common refined prime set of BSS II Remark 6.16. Assume also `H⁰(K_v,A_E^*(1))=0` for every finite `v∈S`. Construct `HS(A_E)=lim_n det_{R_E} C_{K,S_n}(A_E)` from derived reduction of the preceding complexes; its transitions are induced by the local singular-cohomology triangles and their rank-one determinant trivializations. Build the natural surjection `π_M:VS(T,𝒦)→HS(A_E)` and the isomorphism `h_M:HS(A_E)≃SS_r(A_E,F_can)`. Identify the full-at-`S` structure in Burns–Sano with `F_can` under the displayed local vanishing. Prove the arithmetic comparison `D_r^E∘θ=Reg_r∘h_M∘π_M` as a square of maps out of `VS`, including the Euler–Stark congruences, the correction determinants of §7.2, and the functional-first contractions of §6.3. The maps commute with reduction `p^{m+1}→p^m`, admissible enlargement of `E` and restriction to `F⊆E`; these are comparisons of the arithmetic constructions, not arbitrary choices of rank-one module maps.
+**Horizontal determinants and the regulator square.** At a coefficient level `M=p^m`, take `E` as in §7.2, `A_E=Ind_{G_E}^{G_K}(T/MT)` and `R_E=(R/MR)[Gal(E/K)]`. Assume Hypotheses 6.7 and 6.11, and 3.2, 3.3 and 4.2 for `A_E` with the common refined prime set of BSS II Remark 6.16. Assume also `H⁰(K_v,A_E^*(1))=0` for every finite `v∈S`. Construct `HS(A_E)=lim_n det_{R_E} C_{K,S_n}(A_E)` from derived reduction of the preceding complexes; its transitions are induced by the local singular-cohomology triangles and their rank-one determinant trivializations. Build the natural surjection `π_M:VS(T,𝒦)→HS(A_E)` and the isomorphism `h_M:HS(A_E)≃SS_r(A_E,F_can)`. Identify the full-at-`S` structure in Burns–Sano with `F_can` under the displayed local vanishing. Prove the arithmetic comparison `D_r^E∘θ=Reg_r∘h_M∘π_M` as a square of maps out of `VS`, including the Euler–Stark congruences, the correction determinants of §7.2, and the functional-first contractions of §6.3 with the signed regulator of §6.7. Normalize `h_M` by the ordered determinant trivializations and removed-primes-first transitions of §§6.5 and 6.9; use the same order in the Euler–Stark congruences. Componentwise the square reads `(D_r^E(θ(z)))_n = (−1)^{ν(n)} C_{φ,n}((h_M(π_M(z)))_n)`. This normalization transports the arithmetic comparison, including its permutation signs. The maps commute with reduction `p^{m+1}→p^m`, admissible enlargement of `E` and restriction to `F⊆E`; these are comparisons of the arithmetic constructions, not arbitrary choices of rank-one module maps.
 
 ([David Burns and Takamichi Sano, On the theory of higher rank Euler, Kolyvagin and Stark systems](https://arxiv.org/abs/1612.06187v1), Definition 3.2, Theorem 3.11(ii), §4.3.2 and the proof of Theorem 4.16; [Burns–Sakamoto–Sano II](https://arxiv.org/abs/1805.08448v1), proof of Corollary 6.17, pp.43–44). The horizontal systems, vertical-to-horizontal surjection and comparison with the higher derivative; the local vanishing implies the horizontal local obstruction is zero.
 
@@ -4328,7 +4341,7 @@ Use the coefficient order `R`, representation `T`, ramification sets `S(F)` and 
 **Checks.**
 
 - At conductor one the comparison gives `(D_r^E(θ(z)))₁=θ(z)_E mod M`; the Stark regulator has the same leading component.
-- At one prime `q`, `Δ_q=0` and `Δ₁=1`; the comparison identifies the corrected derivative with the finite–singular contraction of the horizontal Stark component, without an additional diagonal term.
+- At one prime `q`, `Δ_q=0` and `Δ₁=1`; the comparison gives `(D_r^E(θ(z)))_q = −ι_{φ^fs_q}((h_M(π_M(z)))_q)`. On the free model `v=e₁*`, `φ=e₂*`, `ε_q=e₁∧e₂`, its value is `e₁` and its edge value is `1=φ(ε₁)`; there is no additional diagonal term.
 - Reducing a vertical determinant system directly modulo `p^m` or via `p^{m+1}` gives the same horizontal Stark and Kolyvagin systems. Changing the auxiliary field `E` and descending to the same `F` also gives the same system.
 
 **Surjectivity of the higher derivative.** Under all the preceding finite-level hypotheses and `p>3`, prove `D_r^F:ES_r(T,𝒦)→KS_r(A_F,F_can)` surjective for every `F⊆E`; indeed its restriction to `Eᵇ(T,𝒦)` is surjective. The square, surjectivity of `π_M`, the isomorphisms `h_M` and `Reg_r`, and the coefficient map from `A_E` to `A_F` prove this assertion. For `p=3` assume the residual representation `T̄` is not isomorphic to `T̄^*(1)` on every local coefficient factor, and use the Mazur–Rubin prime-selection theorem as in BSS II Remark 6.19; the same surjectivity conclusion holds. For a Gorenstein order assume Hypothesis 4.7, Hypothesis 4.2 of the same positive rank at every `p^m` level of the induced representations, and `H⁰(E_w,(T/pT)^∨(1))=0` for every finite `w|S`, as in Corollary 6.18(iii). Construct the compatible derivative into `KS_r(T_F,F_can)` and prove its surjectivity. Reduce first modulo `p`, lift a basis through the arithmetic determinant square, and apply Nakayama to the free rank-one order module; coefficient compatibility makes the lifted Euler system a basis at every level. For semilocal orders apply this argument on each local factor. This supplies the basis needed for unconditional all-system Fitting equalities; the Rubin–Stark conjecture is needed only to select its particular arithmetic family.
@@ -4697,23 +4710,23 @@ The definition exposes the following operations and relations.
 
 ### 8.8 The true Iwasawa Selmer group and the singular local term at `p`
 
-Suppose that for every `K ⊂_f F ⊂ K∞` and every `w | p` there are subspaces `H¹_f(F_w, V) ⊂ H¹(F_w, V)` and `H¹_f(F_w, V*) ⊂ H¹(F_w, V*)` that are orthogonal complements under the local Tate pairing, with `Cor_{F'_{w'}/F_w} H¹_f(F'_{w'}, V) ⊂ H¹_f(F_w, V)` and `Res_{F'_{w'}/F_w} H¹_f(F_w, V*) ⊂ H¹_f(F'_{w'}, V*)` for `F ⊂ F`', `w`' | `w`. Propagate them to `T` and `W*` (SelmerIwasawaCohomology L2) and put `H¹_s = H¹/H¹_f, H¹(F_p, ·) = ⊕_{w|p} H¹(F_w, ·)`. Define `S(K∞, W*) = colim_F S(F, W*), H¹_{∞,s}(K_p, T) = lim_F H¹_s(F_p, T)`, and `loc^s_{Σp}: H¹_∞(K, T) → H¹_{∞,s}(K_p, T)` the localisation (Rubin, Remark II.3.6).
+For every `K ⊂_f F ⊂ K∞`, take the natural conjugation actions on local cohomology and require the local-condition input to be Galois equivariant: `g(H¹_f(F_w,V)) = H¹_f(F_{gw},V)` for every `g ∈ Gal(F/K)` and `w | p`. The actions commute with restriction, corestriction and localization along the tower, with `g′ ∈ Gal(F′/K)` acting downstairs through its restriction to `F`. Suppose there are subspaces `H¹_f(F_w, V) ⊂ H¹(F_w, V)` and `H¹_f(F_w, V*) ⊂ H¹(F_w, V*)` that are orthogonal complements under the local Tate pairing, with `Cor_{F'_{w'}/F_w} H¹_f(F'_{w'}, V) ⊂ H¹_f(F_w, V)` and `Res_{F'_{w'}/F_w} H¹_f(F_w, V*) ⊂ H¹_f(F'_{w'}, V*)` for `F ⊂ F`', `w`' | `w`. Propagate them to `T` and `W*` (SelmerIwasawaCohomology L2) and put `H¹_s = H¹/H¹_f, H¹(F_p, ·) = ⊕_{w|p} H¹(F_w, ·)`. Define `S(K∞, W*) = colim_F S(F, W*), H¹_{∞,s}(K_p, T) = lim_F H¹_s(F_p, T)`, and `loc^s_{Σp}: H¹_∞(K, T) → H¹_{∞,s}(K_p, T)` the localisation (Rubin, Remark II.3.6).
 
-The precise hypotheses are The two compatibility inclusions are equivalent, by the local pairing and orthogonality; The construction depends on the chosen `H¹_f` at `p`; ordinary, Bloch–Kato and unit conditions are inputs of the applications; SelmerIwasawaCohomology L2 and L4 supply their generic local carriers.
+The precise hypotheses are orthogonal local conditions, Galois equivariance and compatible tower actions as above. Equivariance of the local Tate pairing gives `g(H¹_f(F_w,V*)) = H¹_f(F_{gw},V*)` for the dual condition. The two restriction/corestriction inclusions are equivalent by adjointness and orthogonality; equivariance is a separate input. The construction depends on the chosen `H¹_f` at `p`; ordinary, Bloch–Kato and unit conditions are inputs of the applications; SelmerIwasawaCohomology L2 and L4 supply their generic local carriers.
 
 ([Karl Rubin, Euler systems](https://swc-math.github.io/notes/files/99RubinES.pdf), Ch. II §3, Remark 3.6, pp. 28–29 (published Remark 2.3.6, p. 42)). The data of the construction.
 
 ([Karl Rubin, Euler systems](https://swc-math.github.io/notes/files/99RubinES.pdf), Ch. II §3, Remark 3.6, p. 29). The two modules with the same hypotheses and conclusion, expressed in roadmap notation.
 
-The compatibilities give maps `S(F, W*) → S(F', W*)` and `H¹_s(F'_p, T) → H¹_s(F_p, T)`, so the colimit and the limit are defined.
+The compatibilities give equivariant maps `S(F, W*) → S(F', W*)` and `H¹_s(F'_p, T) → H¹_s(F_p, T)`. Galois equivariance makes the semilocal conditions stable under permutation of places and conjugation; propagation to `T` and `W*` preserves this property. The continuous tower actions therefore induce the `Λ`-module structures on the compact inverse limit and the Pontryagin dual of the discrete direct limit. Localization descends to the singular quotients and is `Λ`-linear.
 
 Each `H¹_s(F_w, T)` is `O`-torsion-free, as it injects into `H¹_s(F_w, V)` (Rubin, proof of Theorem II.2.10).
 
 The definition exposes the following operations and relations.
 
-- `TauCeti.EulerSystem.trueSelmerInf`: `S(K∞, W*) = colim_F S(F, W*)` for compatible orthogonal conditions at `p`.
-- `TauCeti.EulerSystem.singularLocalInf`: `H¹_{∞,s}(K_p, T) = lim_F ⊕_{w|p} H¹_s(F_w, T)`.
-- `TauCeti.EulerSystem.locSingularInf`: `loc^s_{Σp}: H¹_∞(K, T) → H¹_{∞,s}(K_p, T), Λ`-linear.
+- `TauCeti.EulerSystem.trueSelmerInf`: `S(K∞, W*) = colim_F S(F, W*)` for compatible Galois-equivariant orthogonal conditions at `p`, with its continuous tower action.
+- `TauCeti.EulerSystem.singularLocalInf`: `H¹_{∞,s}(K_p, T) = lim_F ⊕_{w|p} H¹_s(F_w, T)` as a compact `Λ`-module under the equivariant local-condition hypotheses.
+- `TauCeti.EulerSystem.locSingularInf`: For the equivariant local-condition input above, `loc^s_{Σp}: H¹_∞(K, T) → H¹_{∞,s}(K_p, T)` is `Λ`-linear.
 - `TauCeti.EulerSystem.restrictedSelmerInf_le_true`: `S_{Σp}(K∞, W*) ⊂ S(K∞, W*)`.
 - `TauCeti.EulerSystem.compatible_cor_iff_res`: Corestriction-stability of `H¹_f(·, V)` is equivalent to restriction-stability of `H¹_f(·, V*)`.
 - `TauCeti.EulerSystem.singularLocal_torsionFree`: Each `H¹_s(F_w, T)` is `O`-torsion-free.
@@ -4724,6 +4737,7 @@ The definition exposes the following operations and relations.
 - `TauCeti.EulerSystem.singularLocalInf_full_condition`: With `H¹_f(F_w, V) = H¹(F_w, V)` at all `w | p, H¹_f(F_w, V*) = 0`, the propagated condition on `W*` is 0, so `S(K∞, W*) = S_{Σp}(K∞, W*)` and `H¹_{∞,s}(K_p, T) = 0`.
 - `TauCeti.EulerSystem.singularLocal_strict_condition`: With `H¹_f(F_w, V) = 0` at all `w | p, H¹_f(F_w, T)` is the torsion of `H¹(F_w, T)` and `H¹_s(F_w, T) = H¹(F_w, T)/H¹(F_w, T)_tors`.
 - `TauCeti.EulerSystem.singularLocalInf_cyclotomic`: For `T* = O_{χ^{-1}}(1)` over `Q∞` with the unit condition, `H¹_{∞,s}(Q_p, T*) ≅ Y∞^χ/U∞^χ`, which is `O` if `χ(p) = 1` and 0 otherwise (Rubin, Proposition III.2.6(ii)).
+- In the regular modules `O[C_{p^n}]` with quotient-group transition maps, the lines `O·[1]` are compatible but a nonidentity group element moves `[1]` outside its line. Their inverse limit `O·1 ⊂ O[[Γ]]` is not a `Λ`-submodule. Taking orthogonal complements under the dual evaluation pairings preserves the adjoint transition compatibility and still does not make these lines stable. Such conditions fail the Galois-equivariance input.
 - `TauCeti.EulerSystem.singularLocal_not_torsion`: The `O`-torsion of `H¹(F_w, T)` is `H⁰(F_w, W)/image H⁰(F_w, V)`. For odd `p`, `F_w = ℚ_p` and `T` of rank one, unramified, with arithmetic Frobenius acting by `1+p`, this quotient is `O/p`; for trivial `T = O` it is zero although `H⁰(F_w, W) = W ≠ 0`. But `H¹_s(F_w, T)` never has torsion: a definition of `H¹_s` as `H¹(F_w, T)` modulo the image of `H¹_f(F_w, V)` without saturation fails this.
 
 If `H¹_f(F_w, V) = H¹(F_w, V)` at every `w | p`, then `H¹_{∞,s}(K_p, T) = 0` and `S(K∞, W*) = S_{Σp}(K∞, W*)`.
@@ -5022,17 +5036,22 @@ The precise hypotheses are Mazur–Rubin's Euler systems use the factors `P_ℓ(
 
 ([Barry Mazur, Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Appendix `A`, proof of Theorem 5.3.3, pp. 81–82). The proof route.
 
-For `n ∈ N` let `I`'`_n ⊂ Λ` be the ideal generated by `ℓ − 1, P_ℓ(1)` and `Fr_ℓ − 1` for `ℓ | n`; then `I_n ⊂ I`'`_n`, both have finite index for `n > 1, Λ/I`'`_n ≅ (Z/M_n)[Gal(F_n/Q)]` with `F_n ⊂ Q∞` fixed by the `Fr_ℓ (ℓ | n)`, and Rubin's derivative class `κ_{[F_n,n,M_n]} ∈ H¹(F_n, T/M_n) = H¹(Q, 𝐓/I'_n𝐓)` is denoted `κ_n` (Layer 3).
+For `n > 1`, put `J_n = (ℓ − 1, P_ℓ(1) : ℓ | n) ⊆ O` and `I′_n = J_nΛ + (Fr_ℓ − 1 : ℓ | n) ⊆ Λ`. Then `I_n ⊆ I′_n` and both have finite index. Let `F_n ⊂ ℚ∞` be fixed by the closed subgroup generated by `Fr_ℓ` for `ℓ | n`. The quotient of the completed group algebra is `Λ/I′_n ≅ (O/J_n)[Gal(F_n/ℚ)]` as an `O`-algebra. Shapiro, with the induced action of §8.5, identifies `H¹(ℚ, 𝐓/I′_n𝐓) ≅ H¹(F_n, T/J_nT)`. Construct the derivative `κ_n` in this latter group, retaining its tame tensor factor, by §3.9 over `O/J_n`: choose a nonzero generator `a_n` of `J_n`, use Rubin's allowed modulus `a_n ∈ O`, and transport from `W_{a_n}` to `T/a_nT = T/J_nT`. Linearity and the coefficient maps of §3.9 make the result independent of this generator and compatible with further coefficient reduction and the field maps. At conductor one use the bottom tower class `(c_{ℚ_m})_m`.
 
-For each `k` let `A_k = (γ^{p^k} − 1, p^k) ⊂ 𝔐^k` and choose `j ≥ k` such that the image of `H¹(Q_p, 𝐓/A_j𝐓)` in `H¹(Q_p, 𝐓/𝔐^k𝐓)` is `H¹_{F_Λ}(Q_p, 𝐓/𝔐^k𝐓)`; then `I`'`_n ⊂ A_j` for `n ∈ N_j` and the images `κ_n^{(k)}` form a weak Kolyvagin system for `(𝐓/𝔐^k, P_j)` (Rubin, Theorems IV.5.1 and IV.5.4).
+For each `k` let `A_k = (γ^{p^k} − 1, p^k) ⊂ 𝔐^k` and choose `j ≥ k` such that the image of `H¹(Q_p, 𝐓/A_j𝐓)` in `H¹(Q_p, 𝐓/𝔐^k𝐓)` is `H¹_{F_Λ}(Q_p, 𝐓/𝔐^k𝐓)`; then `I′_n ⊆ A_j` for `n ∈ N_j` and the images `κ_n^{(k)}` form a weak Kolyvagin system for `(𝐓/𝔐^k, P_j)` (Rubin, Theorems IV.5.1 and IV.5.4).
 
-Mazur–Rubin's Theorem A.4 computes the finite parts `(κ_n)_{ℓ,f}`; the correction `κ`'`_n = Σ_{π∈S(n)}` sign`(π) κ_{d_π} ⊗ ∏_{ℓ|n/d_π} ρ_ℓ(P_ℓ(Fr^{-1}_{π(ℓ)}))` (their (33)) has zero finite localization at each divisor of `n` and retains the finite–singular relation already satisfied by the weak derivatives; this is the correction of Layer 3 (Theorem 3.2.4) carried out over `Λ/𝔐^k`.
+Mazur–Rubin's Theorem A.4 computes the finite parts `(κ_n)_{ℓ,f}`; the correction `κ`'`_n = Σ_{π∈S(n)}` sign`(π) κ_{d_π} ⊗ ∏_{ℓ|n/d_π} ρ_ℓ(P_ℓ(Fr^{-1}_{π(ℓ)}))` (their (33)) has zero finite localization at each divisor of `n` and retains the finite–singular relation already satisfied by the weak derivatives; each `ρ_ℓ` is formed in the original tame group algebra `(Λ/𝔐^k)[G_ℓ]` as in §3.15. This is the correction of Layer 3 (Theorem 3.2.4) carried out over `Λ/𝔐^k`.
 
 The resulting systems are compatible as `k` grows, defining an element of `KS‾(𝐓)`; its bottom class is the image of `(c_{Q_n})_n`.
 
 The cyclotomic-unit Euler system for `O(1) ⊗ ρ^{-1}`, modified as in Rubin §IX.6, gives `κ^{ρ,∞}` (Büyükboduk, §4.1.1).
 
-The zero Euler system maps to the zero Kolyvagin system.
+**Checks.**
+
+- For `p = 3`, `O` the unramified quadratic integers over `ℤ₃`, `T = O(1)` and `n = 7`, `P₇(1) = −6`, `J₇ = 3O` and `I′₇ = (3,Fr₇−1)`. Since `7` topologically generates `1+3ℤ₃`, `F₇ = ℚ` and `Λ/I′₇ ≅ O/3O ≅ 𝔽₉`. No integer cyclic quotient has this characteristic and cardinality. The Frobenius coinvariants are `O/6O`, which is cyclic over `O`, and every `7^(3^j)−1` acts injectively on `T`.
+- Changing a generator `a_n` to `u a_n` multiplies the class in `W_{a_n}` by `u⁻¹` and the identification back to `T/J_nT` by `u`; the quotient-valued derivative is unchanged. Reducing this class further agrees with constructing it after the corresponding coefficient reduction.
+- For `O = ℤ_p` and `J_n = p^aO`, the coefficient ring reduces to `ℤ/p^a`; for a general `O` the coefficient ring remains `O/J_n`. In both cases Shapiro retains the same finite group `Gal(F_n/ℚ)`.
+- At conductor one the bottom class is `(c_{ℚ_m})_m`; the zero Euler system maps to the zero Kolyvagin system.
 
 *Needs:* Layer 8.12 `Λ`-adic Kolyvagin systems; Layer 8.4 The `Λ`-adic class `c_{K,∞}` of an Euler system; Layer 8.5 The `Λ`-adic representation `𝐓 = T ⊗ Λ` and its Selmer structures; Layer 2.2 The module of Euler systems; Layer 2.1 Euler polynomials and their conventions; Layer 2.4 The conductor-indexed presentations; Layer 3.9 Kolyvagin's derivative classes `κ_{F,r,M}`; Layer 3.13 Local behaviour of derivative classes; Layer 3.15 Derivative classes form a weak Kolyvagin system; their finite parts; Layer 3.17 The map from Euler systems to Kolyvagin systems.
 
