@@ -16,8 +16,10 @@ The other headline results require constructions absent at the pins:
 * Layer 0's Artin–Schreier–Witt descent equivalence needs the finite locally free
   étale coefficient-sheaf and Witt Frobenius-module categories and their fixed-basis
   torsors. Small-group Lang classification needs the small-lattice Greenberg groups.
-  Compact descent and local Tate duality need the derived compact-cochain models,
-  coherent quotient actions and normalized arithmetic trace.
+  Compact finite descent needs the derived compact-cochain carrier and coherent
+  quotient actions. Section 0.6 specializes the cochains and local Tate duality
+  supplied by NoncommutativeAndEquivariantIwasawa §F.3; its derived Hochschild–Serre
+  roof and Milnor sequence use these same cochains.
 * Layer 1's realization, slope filtration, overconvergence and decompletion theorems
   need the cyclotomic period rings, Robba rings, radius models and their module
   categories. The period-sheaf, curve and B-pair comparisons need their period

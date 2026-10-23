@@ -51,9 +51,10 @@ PadicMeasuresIwasawaAlgebras. The compact abelian character spaces and scalar Me
 locally analytic manifold and distribution theory belongs to LocallyAnalyticDistributions Layers 0–3. The
 local derived inverse-limit tower and its Shapiro comparison are constructed independently of `ψ` in §5.0.
 SelmerIwasawaCohomology Layer 3 uses this local interface in its global theory. Finite discrete cochains come
-from ProfiniteCohomology; §0.6 extends them to compact coefficients and proves the continuous descent
-statements required here, with canonical comparisons to NoncommutativeAndEquivariantIwasawa §F.3 on
-its finite-`O_E`/E coefficient domain. ArithmeticGaloisDuality D7 consumes that shared arithmetic API.
+from ProfiniteCohomology; NoncommutativeAndEquivariantIwasawa §F.3 supplies compact and rational cochains,
+lattice independence and local duality. Section 0.6 specializes those objects to finite-`O_E`/E coefficients
+and constructs the derived continuous descent statements required here. ArithmeticGaloisDuality D7 consumes
+that shared arithmetic API.
 Period-ring acyclicity with Banach coefficients is proved in §3.6.
 
 Section 5.7 owns the general continuous period-boundary construction for finite-dimensional representations,
@@ -164,7 +165,7 @@ coefficient, twist and field-map compatibility.
 DerivedModuleAlgebra §1.T.1, “The Milnor sequence for towers of complexes”, and §1.1,
 “Derived limits of towers”, supply the native module `Rlim`, shifted-cone model, Milnor sequence,
 projections, connecting maps, cofinal comparisons and maps preserving specified square homotopies.
-Section 0.6 applies these constructions to the finite continuous-cochain tower.
+Section 0.6 applies these constructions to the supplied finite continuous-cochain tower.
 
 PerfectoidSpaces §§P1.6, P1.10–P1.11 and P1.16–P1.18 supply tilting and `Witt/θ`
 comparisons; §§P3.7–P3.13 supply finite étale tilting and almost purity. Section P1.31 supplies the
@@ -173,10 +174,11 @@ cochains along finite surjections, continuous cochains into an inverse limit, an
 canonical carrier for compact coefficients. Use its jointly continuous actions and quotient topologies.
 ProfiniteCohomology Layers 0–12 supply the finite discrete cochains, their functorial maps, cup products,
 Shapiro, the five-term inflation–restriction sequence and cohomological dimension. Section 0.6 constructs
-the finite-coefficient Hochschild–Serre bar roof before its compact limit; the compact derived realization
-and compact descent comparison are also constructed there. ClassFieldTheory Layer 5 supplies finite local
-Tate duality, the invariant and local Euler characteristic; §§0.6 and 3.6 here pass to lattices and rational
-coefficients. Its Layers 6–7 supply the continuous local Artin map and geometric normalization by inversion,
+the finite-coefficient Hochschild–Serre bar roof before its compact limit, on the cochains supplied by
+NoncommutativeAndEquivariantIwasawa §F.3. ClassFieldTheory Layer 5 supplies finite local
+Tate duality, the invariant and local Euler characteristic; NoncommutativeAndEquivariantIwasawa §F.3 supplies
+their compact and rational extensions used in §§0.6 and 3.6. ClassFieldTheory Layers 6–7 supply the continuous
+local Artin map and geometric normalization by inversion,
 and Layer 9 the topological Weil group and reciprocity. LocalFieldsRamification Layer 2 supplies finite
 unramified extensions and their Frobenius maps.
 
@@ -191,11 +193,13 @@ hypotheses. CrystallineCohomology §CR.4.7 supplies higher-rank Dieudonné–Man
 perfect-field isocrystals; §1.0b constructs the Robba slope filtration and pure descent, without assuming a
 slope filtration for affinoid families.
 
-On the finite-`O_E`/E domain, NoncommutativeAndEquivariantIwasawa §F.3 supplies
-`arithmeticContinuousCochains`, `arithmeticHochschildSerre` and `arithmeticLocalDuality`, including lattice
-independence, coefficient maps, evaluation cups, restriction/corestriction and the normalized local invariant.
-Section 0.6 constructs its specified derived-limit and bar models and compares them with those objects and
-maps. The period-coefficient acyclicity and Herr comparisons remain the targets of §3.6.
+NoncommutativeAndEquivariantIwasawa §F.3 supplies continuous cochains for profinite groups with compact
+coefficients that are inverse limits of finite modules, discrete torsion coefficients and finite-dimensional
+E-representations. Its arithmeticContinuousCochains, arithmeticHochschildSerre and arithmeticLocalDuality
+contracts include lattice independence, coefficient maps, evaluation cups, restriction/corestriction and the
+normalized local invariant. Section 0.6 uses their finite-`O_E`/E specializations directly and constructs the derived
+Hochschild–Serre roof and its compact limit on these objects. The period-coefficient acyclicity and Herr
+comparisons remain the targets of §3.6.
 
 NoncommutativeAndEquivariantIwasawa §F.6 supplies the common field-coefficient Robba core for every finite
 K and E: annuli, restrictions, commuting Frobenius and cyclotomic actions, exact tensor étale realization,
@@ -399,20 +403,21 @@ the classification assertion of KL-I Proposition 3.2.9, not merely existence of 
 
 ### 0.6 Compact continuous complexes and finite descent
 
-For a profinite `G` and a finitely generated `O_E`-module `T` with continuous action, define
-`compactGaloisComplex G T` as `Rlim_m C•_cont(G,T/ϖ^mT)` on the native module derived category. Identify it
-with continuous cochains into `T` using the coefficientwise inverse-limit and lifting results of
-PerfectoidTowers P9.0. Finite continuous coefficients use the supplied ProfiniteCohomology complex directly;
-finite-dimensional `E` coefficients use a stable lattice followed by inversion of `ϖ` and a commensurability
-comparison. Preserve the actual inflation, restriction, corestriction and cup maps. Apply the supplied module
-Milnor sequence as `compactGaloisComplex_milnor`:
+For a profinite `G` and a finitely generated `O_E`-module `T` with jointly continuous action, define
+`compactGaloisComplex G T` to be NoncommutativeAndEquivariantIwasawa §F.3's arithmeticContinuousCochains
+complex restricted to these coefficients. Its supplied compact-limit comparison identifies it with
+`Rlim_m C•_cont(G,T/ϖ^mT)` and continuous cochains into `T`; the latter comparison uses PerfectoidTowers P9.0.
+Finite continuous coefficients and finite-dimensional `E` coefficients likewise use §F.3's finite and
+rational specializations, with their actual inflation, restriction, corestriction and cup maps. Lattice
+independence, cup and trace naturality are supplied by §F.3. Apply the supplied module
+Milnor sequence to this coefficient tower as `compactGaloisComplex_milnor`:
 `0 → lim¹ H^(i−1) → H^i(Rlim C_m) → lim H^i(C_m) → 0`; omit the `lim¹` term only when the relevant system is
 Mittag–Leffler. Retain its projections, connecting maps, cofinality and specified homotopy squares.
-The API also comprises derived coefficient triangles and their
-ordinary reduction comparison for `O_E`-flat `T`, `compactGaloisComplex_latticeIndependent`, cup and trace
-naturality. Sources: CC-1999 §§II.1–II.3; KPX §4.1; the supplied cochain-limit comparison. *Needs:*
-ProfiniteCohomology Layers 0–12; PerfectoidTowers P9.0; DerivedModuleAlgebra §§1.T.1,1.1,S.1; native localization;
-PadicMeasuresIwasawaAlgebras §5.2.
+Retain the derived coefficient triangles and their ordinary reduction comparison for `O_E`-flat `T`
+under this specialization. Sources: NoncommutativeAndEquivariantIwasawa §F.3; Nekovář, *Selmer complexes*,
+§§3.7, 4.1.1–4.1.3 and 4.2.1–4.2.9; Stacks Tag 07KY for the Milnor sequence. *Needs:*
+NoncommutativeAndEquivariantIwasawa §F.3; ProfiniteCohomology Layers 0–12; PerfectoidTowers P9.0;
+DerivedModuleAlgebra §§1.T.1,1.1,S.1; native localization; PadicMeasuresIwasawaAlgebras §5.2.
 
 For a profinite `G`, a closed normal subgroup `H`, quotient `Q=G/H` and a finite discrete continuous
 `G`-module `F`, construct `finiteDiscreteHochschildSerreRoof`, the natural derived comparison
@@ -425,29 +430,23 @@ Source: NSW, Chapter II §4, Theorem 2.4.1, p.111, with the continuous bar-doubl
 Use DerivedModuleAlgebra §S.1 for the first-quadrant spectral sequence and its abutment maps.
 
 For an open normal subgroup `H` with finite quotient `Q`, construct `compactFiniteDescent : RΓ(G,T) ≃
-RΓ(Q,RΓ(H,T))` using this roof modulo `ϖ^m`. Keep the coherent `Q` action before passing to the limit.
-For a closed normal subgroup `H` with profinite quotient, construct compact continuous Hochschild–Serre by taking the derived coefficient limit of
-these finite-coefficient bar roofs and using the cochain lifting comparison. The Banach period version is the
-separate target of §3.6; compact descent does not assert exactness of Banach invariants. Extend finite local
-Tate duality from ClassFieldTheory Layer 5 to finite `O_E-lattices` and finite-dimensional E-representations
-by reduction, compact limits and rationalization, with the evaluation pairing, invariant and Euler
-characteristic preserved. The Tate dual of a lattice is the compact/discrete dual in the integral pairing;
-after rationalization it is `V^∨(1)`. API: finite descent transitivity and transfer,
-`compactLocalTateDuality`, `rationalLocalTateDuality`, normalized cup invariant. Sources: CC-1999 §II; Liu §2
-and Theorem 0.2; KPX Theorem 2.3.11. These are compact/rational extensions of the finite-coefficient supplier,
-not a new finite duality theorem.
+RΓ(Q,RΓ(H,T))` as the finite-quotient application of this derived Hochschild–Serre roof to the imported
+cochains, using it modulo `ϖ^m`. Keep the coherent `Q` action before passing to the limit. For a closed normal
+subgroup `H` with profinite quotient, construct compact continuous Hochschild–Serre by taking the derived
+coefficient limit of these finite-coefficient bar roofs and using the cochain lifting comparison. Here the
+iterated derived invariants mean that coefficient-limit construction, retaining the coherent quotient action.
+Its spectral sequence and edge maps recover §F.3's supplied Hochschild–Serre comparison. Retain finite descent
+transitivity and open finite-index transfer. Sources: NSW, Chapter II §4, Theorem 2.4.1, p.111;
+Nekovář, *Selmer complexes*, §§4.1.1–4.1.3; the cochain-limit contracts above. The Banach period version is the
+separate target of §3.6; compact descent does not assert exactness of Banach invariants.
 
-Construct `compactGaloisComplex_arithmeticComparison` on the common finite-`O_E`/E domain with
-NoncommutativeAndEquivariantIwasawa §F.3's `arithmeticContinuousCochains`, `arithmeticHochschildSerre` and
-`arithmeticLocalDuality`. Compare the finite-level homogeneous/inhomogeneous cochains, take the same derived
-coefficient limit and rationalization, and identify the bar-totalization roofs. For the comparison `θ_T`,
-require `θ_U ∘ C_here(f) = C_arithmetic(f) ∘ θ_T` for `f:T→U` and
-`θ_(T⊗U)(a∪b)=θ_T(a)∪θ_U(b)`, with derived tensors where required. Restriction and corestriction commute
-with θ, and the duality comparison carries evaluation and the degree-two trace to the same invariant.
-These are equations in the derived category, retaining the coherent quotient actions. ArithmeticGaloisDuality
-D7's finite-`O_E`/E specialization is compared through this arithmetic API. Sources:
-NoncommutativeAndEquivariantIwasawa §F.3; Nekovář, *Selmer complexes*, §§3.7, 4.2.1–4.2.9 and
-§§5.2.2–5.2.7. *Needs:* NoncommutativeAndEquivariantIwasawa §F.3; the finite cochains and limit contracts above.
+For finite `K/ℚ_p`, use NoncommutativeAndEquivariantIwasawa §F.3's arithmeticLocalDuality on finite
+`O_E`-lattices and finite-dimensional E-representations, including its evaluation pairing, invariant and Euler
+characteristic. The integral pairing uses the compact/discrete Tate dual; after rationalization the dual is
+`V^∨(1)`. Coefficient maps, derived tensor cups, restriction and corestriction here are literally the supplied
+maps on these coefficients, so their specialization preserves evaluation and the degree-two trace with the
+same normalized invariant. ArithmeticGaloisDuality D7's finite-`O_E`/E specialization uses this same API.
+Sources: NoncommutativeAndEquivariantIwasawa §F.3; Nekovář, *Selmer complexes*, §§5.2.2–5.2.7.
 
 **Checks.**
 
@@ -467,12 +466,12 @@ NoncommutativeAndEquivariantIwasawa §F.3; Nekovář, *Selmer complexes*, §§3.
   compact finite descent is the identity roof.
 - On `ℚ_p`, the ordered pair `χ_ur,κ(p)` has invariant `+1`; exchanging the classes negates it. The same
   normalization is retained under lattice change.
-- For `T=O_E` and `f=ϖ`, both routes around the coefficient square multiply cochains by `ϖ`; the comparison
-  before rationalization retains the reduction triangle.
-- For two degree-one classes, θ preserves their evaluation cup and its sign under interchange; at `ℚ_p`
-  it sends the ordered `χ_ur,κ(p)` invariant to `+1` in the arithmetic model.
-- For an open subgroup, both routes around the corestriction square give the same transfer; for the identity
-  subgroup inclusion the square reduces to θ itself.
+- For `T=O_E` and `f=ϖ`, specialization of the supplied coefficient map multiplies cochains by `ϖ`;
+  the compact-limit comparison before rationalization retains the reduction triangle.
+- For two degree-one classes, specialization preserves their evaluation cup and its sign under interchange;
+  at `ℚ_p` the ordered `χ_ur,κ(p)` invariant is `+1` in the same arithmetic complex.
+- For an open subgroup, specialization of corestriction is the same transfer on the same cochains;
+  for the identity subgroup inclusion it is the identity map.
 
 ### Examples
 
