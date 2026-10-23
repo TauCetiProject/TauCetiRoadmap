@@ -16,17 +16,22 @@ reconstruction with a marked symmetric monoidal equivalence (§6.2), and constru
 an antipode from rigidity of finite comodules (§6.2). They use Mathlib's categories,
 functors, simple objects and Hopf algebras, and Tau Ceti's finite right comodules.
 
-The geometric headline signatures are deferred at Mathlib `6b7abb3` and Tau Ceti `a91d3aa`:
+The geometric headlines require carriers absent at Mathlib `6b7abb3` and Tau Ceti `a91d3aa`:
 
 * Layers 0–3 need Chow groups, adequate relations and graded correspondences. These
   carriers, the Chow and numerical motive categories, and normalized geometric Weil
-  theories, including the algebraic de Rham trace and its marked comparison with
-  complex integration, are absent. Thus diagonal-support vanishing, Manin's identity principle,
+  theories, including the positive first Chern class `c₁,dR(L) = -c′₁(L)` relative to
+  Deligne's Hodge II §§2.2.4–2.2.5, the algebraic de Rham trace and its marked comparison
+  with complex integration, are absent. Thus diagonal-support vanishing, Manin's identity
+  principle,
   projective-bundle decompositions, all-degree realization comparisons and Jannsen's
   numerical-motive theorem cannot yet be stated on their geometric objects.
 * Layer 4 needs finite correspondences, transfer sheaves, Suslin/Tate complexes,
-  higher-cycle complexes and motivic localizations. Cancellation, higher-Chow comparison,
-  the Chow embedding, compact-support duality and the motivic measure need these objects.
+  higher-cycle complexes and motivic localizations. The unrestricted Verdier universal
+  property concerns exact functors annihilating the whole localization kernel; the
+  projection-cone test also requires preservation of the relevant coproducts (README §4.6).
+  Cancellation, higher-Chow comparison, the Chow embedding, compact-support duality and
+  the motivic measure need these objects.
   The perfect-field projective Chow embedding uses transported pure Chow duality and
   cancellation; its statement requires these same geometric carriers.
   Generic derived categories and the additive triangulated Grothendieck group exist;
