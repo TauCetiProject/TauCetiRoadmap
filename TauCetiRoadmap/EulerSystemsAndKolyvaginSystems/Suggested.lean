@@ -7,9 +7,8 @@ import Mathlib
 `README.md`. Suggested signatures express selected headline theorems; discharging them
 finishes neither a layer nor the roadmap.
 
-No headline theorem is statable against the pinned Mathlib and Tau Ceti interfaces.
-The missing objects are arithmetic Selmer structures with coefficient-linear cohomology,
-propagated and dual local conditions, and the Euler, Kolyvagin and Stark system carriers.
+The arithmetic headline theorems require arithmetic Selmer structures with coefficient-linear
+cohomology, propagated and dual local conditions, and the Euler, Kolyvagin and Stark system carriers.
 Tau Ceti's continuous `H1` supplies an additive cohomology group, but not these arithmetic
 module and local-condition interfaces. Defining them requires the developments specified
 in the README, rather than a few definitions on existing carriers.
@@ -29,15 +28,18 @@ The headline results requiring these objects are:
   linear duals alone do not supply the arithmetic systems or their transition maps.
   The regulator uses functional-first contractions, the conductor sign and the
   ordered permutation signs of §6.7; the determinant comparison uses the same normalization.
+  IntegralIwasawaTheory §12.6 supplies the shared exterior-bidual and finite-CM Rubin-lattice core.
 * Layer 8: the Euler-to-Kolyvagin map over the finite coefficient rings `O/J_n`
   (§8.17), weak Leopoldt (§§8.25, 8.27), Iwasawa bounds and primitivity equalities
   (§§8.28–8.33), and integral divisibilities (§§8.34–8.39). These also require the
   compact-coefficient Iwasawa Selmer modules, specialization maps and characteristic
   ideals specified in that layer and its suppliers. The local-condition input at `p`
-  includes Galois equivariance and compatible tower actions (§8.8).
+  includes Galois equivariance and compatible tower actions (§8.8). The finite-quotient
+  derivative construction uses a local stabilization index and a separate deeper
+  auxiliary-prime index (§8.17). Generalized specialization lands in generalized
+  systems; their extensionality is levelwise equality in the direct limits (§8.12).
 
-These are README targets. There are no compiled theorem declarations here until their
-arithmetic carriers can be used in the statements.
+These arithmetic statements are README targets on the specified Selmer and system carriers.
 -/
 
 namespace TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
