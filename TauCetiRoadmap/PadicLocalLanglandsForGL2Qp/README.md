@@ -32,7 +32,7 @@ The construction owner for each common API is the section here listed below, inc
 | `moduleCycle`, `moduleCycle_specialization`, Hilbert–Samuel multiplicity | §0.5 | `CycleSupport.*` are affine representation adapters with the same support, dimension and flatness hypotheses. |
 | `SerreWeight`, `compactInduction`, `heckeOperatorT`, `endEquivPolynomial`, `compactInduction_free` over `ℚ_p` | §§2.7–2.8 | `NormalizerType.serreWeight` is the same finite weight; full-normalizer and Colmez-parameter comparisons are adapters. |
 | `DivisionAlgebraTypes.jacquetLanglands` | §6.9 | The `m=1` correspondence from `D×` to `GL_d(F)` is the inverse of `DrinfeldComparison.localJacquetLanglands`; arbitrary `m` uses its general inner-form extension. |
-| Finite-residue `fundamentalCharacter`, `peuRamifieH1`, `IsPeuRamifiee` | §0.3 | Norm and Frobenius comparisons fix the characters; the BCDT total Kummer predicate restricts to Serre's ramification predicate on its nontrivial-wild domain. |
+| Finite-residue `fundamentalCharacter`, `peuRamifieH1`, `IsPeuRamifiee` | §0.3 | Norm and Frobenius comparisons fix the characters; BCDT uses membership in the total Kummer subspace, while `IsPeuRamifiee` retains Serre's nontrivial-wild hypothesis. |
 
 ## Conventions
 
@@ -275,12 +275,14 @@ For a finite extension `L/ℚ_p` with integers `O`, define `DualitySupport.torsi
 - A scalar action `ζ` dualizes to `ζ⁻¹`. The smooth character and its compact dual therefore have inverse central characters.
 - Over ramified `O` the trace comparison retains the inverse different; using the trace directly on `L/O` gives an `O`-linear but nonperfect pairing with kernel `𝔇⁻¹/O`. For odd `p` and `L=ℚ_p(√p)`, the nonzero class of `(2√p)⁻¹` lies in this kernel. A chosen generator of `𝔇⁻¹` supplies the corrected comparison.
 
-For a finite `K/ℚ_p` with residue cardinality `q` and absolute ramification index `e_K`, construct the shared `fundamentalCharacter` API on its supplied tame inertia quotient, at every niveau `f≥1`, with values in `𝔽_(p^f)^×` after a compatible tame-root and residue-embedding choice. Prove surjectivity, norm compatibility, coefficient conjugation by `p`-powers and conjugation by an arithmetic Frobenius lift through the `q`-power map. The niveau-one comparison is `ω₁^(e_K)=ω|_(I_K)`; over `ℚ_p` it is `ω₁=ω`. For extensions of 1 by `ω` over `ℚ_p`, construct the subspace `peuRamifieH1` as the Kummer image of units and define `IsPeuRamifiee` by membership in that subspace; très ramifié is its complement among extension classes. The BCDT adapter uses these same characters and this predicate. Prove `RamificationSupport.peuRamifie_restricted`: on the domain of extension classes with nontrivial wild inertia, this total unit-Kummer predicate agrees with Serre’s restricted peu ramifié predicate. On all classes its condition is “wild inertia is trivial, or the restricted predicate holds”; the split class is included by the first alternative. This separates the subspace condition from a predicate whose domain excludes wild-trivial extensions. Prove invariance under isomorphism and scalar extension, compatibility with twists and Cartier duality `ρ̄∨⊗ω`, and the comparison with the Serre-weight convention used in BCDT §1.3. Sources: BCDT01 §1.3, pp.854–856, with its Serre-weight convention; Serre, **SERRE87**, §2. The chosen characters and the extension-class convention are shared by §§2.7–2.8, 3.3 and 5.13.
+For a finite `K/ℚ_p` with residue cardinality `q` and absolute ramification index `e_K`, construct the shared `fundamentalCharacter` API on its supplied tame inertia quotient, at every niveau `f≥1`, with values in `𝔽_(p^f)^×` after a compatible tame-root and residue-embedding choice. Prove surjectivity, norm compatibility, coefficient conjugation by `p`-powers and conjugation by an arithmetic Frobenius lift through the `q`-power map. The niveau-one comparison is `ω₁^(e_K)=ω|_(I_K)`; over `ℚ_p` it is `ω₁=ω`. For extensions of 1 by `ω` over `ℚ_p`, construct the subspace `peuRamifieH1` as the Kummer image of units. Membership is the total unit-Kummer condition, including the split class. Define `IsPeuRamifiee(ρ̄_c)` to mean that wild inertia acts nontrivially and `c∈peuRamifieH1`; this is Serre's restricted unit-Kummer condition. Define `IsTresRamifiee` by nontrivial wild inertia and `c∉peuRamifieH1`. The BCDT adapter uses these characters and membership in `peuRamifieH1`. Prove `RamificationSupport.peuRamifie_restricted`: for every extension class `c`, membership in `peuRamifieH1` is equivalent to trivial wild inertia on `ρ̄_c` or `IsPeuRamifiee(ρ̄_c)`. The latter predicate includes the nontrivial-wild hypothesis, so on that domain the equivalence reduces to Serre's predicate. Prove invariance under isomorphism and scalar extension, compatibility with twists and Cartier duality `ρ̄∨⊗ω`, and the comparison with the Serre-weight convention used in BCDT §1.3. Sources: BCDT01 §1.3, pp.854–856, with its Serre-weight convention; Serre, **SERRE87**, §§2.1–2.4, especially (2.4.6)–(2.4.7), p.186. The chosen characters and the extension-class convention are shared by §§2.7–2.8, 3.3 and 5.13.
 
 **Checks.**
 
 - `ω₂^(p+1)=ω`, and the two conjugate niveau-two characters are `ω₂` and `ω₂^p`; replacing both by `ω` loses the irreducible inertia case.
-- The split extension is peu ramifié; a Kummer class represented by a uniformiser is outside the unit subspace.
+- The split class lies in `peuRamifieH1` and has two-dimensional wild invariants, so it satisfies the trivial-wild alternative and not `IsPeuRamifiee`. A Kummer class represented by a uniformiser is outside the unit subspace.
+- Over `ℚ₃`, the unit class of 4 is nonzero because a unit cube is `±1 mod 9`; its extension has nontrivial wild inertia and satisfies `IsPeuRamifiee`.
+- Over `ℚ₂`, the unit class of 5 is nonzero and gives the unramified quadratic extension: `(1+√5)/2` has polynomial `X²−X−1`, irreducible and separable modulo 2. It lies in `peuRamifieH1` and satisfies the trivial-wild alternative, although the extension is nonsplit.
 - The dual of a split character sum has characters `ωχ₁⁻¹,ωχ₂⁻¹`; applying Cartier duality twice recovers the original pair.
 - At `p=2, ω₁` is trivial but `ω₂` has order 3. Thus the niveau-two test remains discriminating in residue characteristic two.
 
@@ -473,7 +475,7 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §I.2.2–I.2.3, pp. 31�
 
 ### 1.4 The operator `ψ` and the lattices `D⁺, D^♮` and `D^♯`
 
-Let `D` be an étale `(φ,Γ)`-module over `O_E` (torsion or free). Every `x ∈ D` is uniquely `Σ_{i=0}^{p−1} (1+T)^i φ(x_i)`, and `ψ(x) := x₀` is the left inverse of `φ` commuting with `Γ` (PhiGammaModulesAndIwasawaCohomology §§2.2–2.5). Define `D⁺ = {z : (φ^n(z))_n bounded}, D⁺⁺ = {z : φ^n(z) → 0}, D^{nr} = ∩_n φ^n(D), D^♮ =` the smallest compact `O_E⁺`-submodule of `D` that is stable under `ψ` and generates `D`, and `D^♯ =` the largest compact `O_E⁺`-submodule of `D` stable under `ψ` on which `ψ` is surjective; for `D ∈ ΦΓ^et(E)` these are `L·Δ^♮, L·Δ^♯` etc. for a `φ`- and `Γ`-stable `O_E`-lattice `Δ`. Then `D⁺⁺ ⊂ D⁺ ⊂ D^♮ ⊂ D^♯, D⁺ = D^{nr} ⊕ D⁺⁺`, a surjection `D → D₁` of étale modules induces surjections `D^♮ → D₁^♮` and `D^♯ → D₁^♯, D^{nr} = 0` when `V(D)^{H'} = 0` (e.g. `D` irreducible of rank `≥ 2`), and for `D` torsion, in the residue pairing `Ď × D → L/O_L` the orthogonal of `D^♮` is `Ď⁺` and that of `D^♯` is `Ď⁺⁺`, so `D^♯/D^♮` is dual to `Ď^{nr}`.
+Let `D` be an étale `(φ,Γ)`-module over `O_E` (torsion or free), and put `H'=Gal(ℚ̄_p/ℚ_p^ab)`, the kernel of the maximal abelian quotient of `G_(ℚ_p)`. Every `x ∈ D` is uniquely `Σ_{i=0}^{p−1} (1+T)^i φ(x_i)`, and `ψ(x) := x₀` is the left inverse of `φ` commuting with `Γ` (PhiGammaModulesAndIwasawaCohomology §§2.2–2.5). Define `D⁺ = {z : (φ^n(z))_n bounded}, D⁺⁺ = {z : φ^n(z) → 0}, D^{nr} = ∩_n φ^n(D), D^♮ =` the smallest compact `O_E⁺`-submodule of `D` that is stable under `ψ` and generates `D`, and `D^♯ =` the largest compact `O_E⁺`-submodule of `D` stable under `ψ` on which `ψ` is surjective; for `D ∈ ΦΓ^et(E)` these are `L·Δ^♮, L·Δ^♯` etc. for a `φ`- and `Γ`-stable `O_E`-lattice `Δ`. Then `D⁺⁺ ⊂ D⁺ ⊂ D^♮ ⊂ D^♯, D⁺ = D^{nr} ⊕ D⁺⁺`, a surjection `D → D₁` of étale modules induces surjections `D^♮ → D₁^♮` and `D^♯ → D₁^♯, D^{nr} = 0` when `V(D)^{H'} = 0` (in particular, for rational `D` absolutely irreducible of rank `≥ 2`), and for `D` torsion, in the residue pairing `Ď × D → L/O_L` the orthogonal of `D^♮` is `Ď⁺` and that of `D^♯` is `Ď⁺⁺`, so `D^♯/D^♮` is dual to `Ď^{nr}`.
 
 Here `D` étale over `O_E`; the existence of `D^♮` and `D^♯` is Colmez's (from his Iwasawa-theory paper [35]).
 
@@ -498,12 +500,14 @@ Surjectivity under quotients (Proposition I.3.2), the description of `D^{nr}` (P
 
 - `PhiGammaModuleEt.natural_trivial`: For `D = E`: `D^♮ = E⁺ = L ⊗ O_L[[T]]` and `D^♯ = T^{−1}E⁺`.
 - `PhiGammaModuleEt.nr_trivial`: For `D = E`: `D^{nr} = L` and `D⁺⁺ = T E⁺`.
+- For `p=3, L=ℚ₃`, take `D=E_L²`, `φ_D=Aφ_E` with `A=(0 −1;1 0)`, and `Γ` acting only on coefficients. The lattice with matrix `A∈GL₂(ℤ₃)` is étale, and the associated unramified representation is irreducible over `L` because `X²+1` is irreducible there. Every constant `v` satisfies `v=φ_Dⁿ(A⁻ⁿv)`, so `L²⊆D^{nr}`. Here `H'` acts trivially; over `ℚ₃(i)` the representation splits into characters, so ordinary irreducibility cannot replace absolute irreducibility.
+- If rational `D` is absolutely irreducible of rank at least two, normality of `H'` makes `V(D)^{H'}` either zero or all of `V(D)`. The latter would give an absolutely irreducible representation of an abelian group of dimension at least two, which is impossible; hence `D^{nr}=0`.
 - `PhiGammaModuleEt.natural_zero`: For `D = 0` all four lattices are 0.
 - `PhiGammaModuleEt.natural_ne_sharp_trivial`: `D^♮ ≠ D^♯` for `D = E (T^{−1} ∈ D^♯ ∖ D^♮)`, so the two treillis are different objects.
 - Example: for `D = E` (trivial), `D⁺ = D^♮ = E⁺, D⁺⁺ = T E⁺, D^{nr} = L` and `D^♯ = T^{−1}E⁺` (Colmez p. 33).
 - `D ↦ D^♮` and `D ↦ D^♯` are not exact (Colmez §VII.4.7 shows `D ↦ D^♮ ⊠ P¹` is not exact).
 
-The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §I.3.2, pp. 33–35: the definitions, Example, Propositions I.3.2–I.3.4; [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §6, p. 11.
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §I.3.2, pp. 33–35: the definitions, Example, Propositions I.3.2–I.3.4; Introduction §1, p.5, for `H'`, and §6, p.11. Proposition I.3.3 supplies the invariant-vanishing criterion; absolute irreducibility gives the example over a finite coefficient field.
 
 *Needs:* [the Fontaine contract](#fontaine-contract); [§1.3](#section-1-3); PhiGammaModulesAndIwasawaCohomology §§2.2–2.3; PhiGammaModulesAndIwasawaCohomology §2.2; PhiGammaModulesAndIwasawaCohomology §2.4.
 
@@ -1832,9 +1836,11 @@ The source is [Vytautas Paškūnas, PASKUNAS13](#ref-paskunas13), §1.1, p. 5; A
 
 ### 5.5 Paškūnas: endomorphism rings of projective envelopes are deformation rings
 
-Assume `p ≥ 5` (and for (iii) `p = 2` with `B` of type (i) or (ii)). (i) For every block `B`, the centre of `Ẽ_B`, hence of `Mod^{l.fin}_{G,ζ}(O)_B`, is naturally isomorphic to `R^{ps,ζε}_{tr ρ̄_B}`; `Ẽ_B` is finitely generated over its centre and is a matrix algebra over it after localising away from the reducible locus. (ii) If `B = {π}` with `π` supersingular, `V(J_B)^∨(ζε) ≅ ρ^{un}` and `Ẽ_B ≅ R^{ζε}_ρ, ρ = V(π)`; if `B` is of type (ii), `V(J_B)^∨(ζε) ≅ ρ₁^{un} ⊕ ρ₂^{un}` and `Ẽ_B ≅ End_{G_{ℚ_p}}(ρ₁^{un} ⊕ ρ₂^{un}), ρ₁, ρ₂` the non-split extensions. (iii) (`p = 2`, Paškūnas 2016) for `B` of types (i), (ii) the centre of `Mod^{l.adm}_{G,ψ}(O)[B]` is `R^{ps,ψ}` and, for `B = {π}, E_B` is the fixed-determinant deformation ring of `ρ̄^{ss}`. (iv) `Ban^{adm}_{G,ζ}(L) = ⊕_B Ban^{adm}_{G,ζ}(L)_B`; for `B` containing an absolutely irreducible object, `Ban^{adm.fl}_{G,ζ}(L)_B ≅ ⊕_{𝔫 ∈ MaxSpec R^{ps}[1/p]} Ban^{adm.fl}_{G,ζ}(L)_{B,𝔫}`, the `𝔫`-part anti-equivalent to finite length modules over the `𝔫`-adic completion of `Ẽ_B[1/p]`; when `T_𝔫` is the trace of an absolutely irreducible `V` this is finite length modules over the completion of `R^{ps}[1/p]`, with the unique irreducible `Π_𝔫` the non-ordinary `Π` with `V(Π_𝔫) ≅ V`; when `T_𝔫 = ψ₁ + ψ₂`, the irreducibles are subquotients of the two unitary principal series. (v) For `Π` absolutely irreducible non-ordinary with `V = V(Π), Ban^{adm.fl}_{G,ζ}(L)_Π` is a direct summand equivalent to finite length `R^{ζε}_V`-modules via `B ↦ Hom(V^u, V̌(B))`.
+Assume `p ≥ 5` (and for (iii) `p = 2` with `B` of type (i) or (ii)). (i) For every block `B`, the centre of `Ẽ_B`, hence of `Mod^{l.fin}_{G,ζ}(O)_B`, is naturally isomorphic to `R^{ps,ζε}_{tr ρ̄_B}`; `Ẽ_B` is finitely generated over its centre; on the characteristic-zero irreducible locus it is Azumaya over that centre, hence étale-locally a matrix algebra. (ii) If `B = {π}` with `π` supersingular, `V(J_B)^∨(ζε) ≅ ρ^{un}` and `Ẽ_B ≅ R^{ζε}_ρ, ρ = V(π)`; if `B` is of type (ii), `V(J_B)^∨(ζε) ≅ ρ₁^{un} ⊕ ρ₂^{un}` and `Ẽ_B ≅ End_{G_{ℚ_p}}(ρ₁^{un} ⊕ ρ₂^{un}), ρ₁, ρ₂` the non-split extensions. (iii) (`p = 2`, Paškūnas 2016) for `B` of types (i), (ii) the centre of `Mod^{l.adm}_{G,ψ}(O)[B]` is `R^{ps,ψ}` and, for `B = {π}, E_B` is the fixed-determinant deformation ring of `ρ̄^{ss}`. (iv) `Ban^{adm}_{G,ζ}(L) = ⊕_B Ban^{adm}_{G,ζ}(L)_B`; for `B` containing an absolutely irreducible object, `Ban^{adm.fl}_{G,ζ}(L)_B ≅ ⊕_{𝔫 ∈ MaxSpec R^{ps}[1/p]} Ban^{adm.fl}_{G,ζ}(L)_{B,𝔫}`, the `𝔫`-part anti-equivalent to finite length modules over the `𝔫`-adic completion of `Ẽ_B[1/p]`; when `T_𝔫` is the trace of a two-dimensional absolutely irreducible representation `V` defined over `κ(𝔫)`, this is finite length modules over the `𝔫`-adic completion of `R^{ps}[1/p]`, with the unique irreducible `Π_𝔫` the non-ordinary `Π` with `V(Π_𝔫) ≅ V`; when `T_𝔫 = ψ₁ + ψ₂`, the irreducibles are subquotients of the two unitary principal series. (v) For `Π` absolutely irreducible non-ordinary with `V = V(Π), Ban^{adm.fl}_{G,ζ}(L)_Π` is a direct summand equivalent to finite length `R^{ζε}_V`-modules via `B ↦ Hom(V^u, V̌(B))`.
 
 Here `p ≥ 5` for (i), (ii), (iv), (v) (Paškūnas 2013); `p = 2` and blocks (i), (ii) for (iii) (Paškūnas 2016); the remaining primes and blocks are covered by [§5.6](#section-5-6).
+
+For the scalar-residual block, put `Z_B=R^{ps}` and let `𝔫∈MaxSpec Z_B[1/p]` be an irreducible pseudotrace point, with residue field `κ(𝔫)`. The fibre of `Ẽ_B[1/p]` is central simple of dimension four, and its `𝔫`-adic completion is Azumaya of rank four over the completed centre. It is `M₂` over that completed centre if and only if `T_𝔫` has a two-dimensional model over `κ(𝔫)`. Without this hypothesis (iv) retains the completed endomorphism algebra. Extending the residue field can split it, but does not give a splitting over the original completed centre.
 
 Verify (H0)–(H5) for `Q` built from `π` ([§5.3](#section-5-3)) by `Ext` computations in the block (Paškūnas 2013 §§6–10), giving Ẽ local with `𝔪`-adic topology.
 
@@ -1848,8 +1854,10 @@ Banach representations: §§4, 11 and Proposition 1.8, Corollary 1.9, Theorems 1
 
 - For `B = {π}` supersingular and `p ≥ 5, Ẽ_B ≅ R^{ζε}_ρ` is commutative.
 - For generic reducible `B, Ẽ_B` is not commutative but its centre is `R^{ps}`. The two nonzero orthogonal projections of `P₁⊕P₂` cannot occur in a commutative local deformation ring.
+- At `p=5, L=ℚ₅`, take residual trace 2 and determinant 1, with `ζ=ε⁻¹`. The quaternion algebra `D=(2,5)_(ℚ₅)`, with `i²=2, j²=5, ij=−ji`, is division: `ℚ₅(√2)` is unramified quadratic, and its norm has even valuation, excluding 5. Choose `a²=51, b²=126` with `a,b≡1 mod 5`. Then `u=a+5i, v=b+5j` are in `1+5O_D`, have reduced norm 1 and generate `D`. The free maximal pro-5 quotient of `G_(ℚ₅)` on two generators gives a continuous representation with these images. Its reduced trace lifts 2; after a splitting extension its matrix realization is absolutely irreducible, but its Cayley–Hamilton fibre is `D`, and the endomorphism fibre is `D^op≅D`. This is an irreducible point with no two-dimensional model over `ℚ₅`, so its completed algebra does not split.
+- With the same prime, residual trace and determinant, the two matrices `(1 5;0 1)` and `(1 0;5 1)` define an absolutely irreducible representation over `ℚ₅`: their invariant lines differ. Its pseudotrace has a two-dimensional model over that field, so the scalar-block completed algebra is `M₂` over the completed centre. After a finite residue-field splitting extension the preceding quaternion point also has this matrix conclusion, only over the extended centre.
 
-The source is [Vytautas Paškūnas, PASKUNAS13](#ref-paskunas13), Theorems 1.4–1.7, Proposition 1.8, Corollary 1.9, Theorems 1.10–1.11, pp. 4–6; [Vytautas Paškūnas, PASKUNAS16](#ref-paskunas16), Theorems 1.2–1.3 and Corollary 1.4, p. 3.
+The source is [Vytautas Paškūnas, PASKUNAS13](#ref-paskunas13), Theorems 1.4–1.7, Proposition 1.8, Corollary 1.9, Theorems 1.10–1.11, pp.4–6; §9.2, p.96, Corollaries 9.27–9.29, pp.101–102, and Corollaries 9.35–9.36, p.104; [Vytautas Paškūnas, PASKUNAS16](#ref-paskunas16), Theorems 1.2–1.3 and Corollary 1.4, p. 3.
 
 *Needs:* [§5.3](#section-5-3); [§5.4](#section-5-4); [§5.2](#section-5-2); [§3.2](#section-3-2); [the Banach contract](#banach-contract); [§0.4](#support-deformations).
 
@@ -2084,7 +2092,7 @@ Spell out each case of BCDT §1.3 on the classification of [§2.8](#section-2-8)
 
 Compare the inertia-and-extension recipe for the full set `W_Serre(ρ̄^∨⊗ω)` with the displayed admittance table. The comparison is set membership; it does not identify every admitted label with a single minimal integer weight.
 
-The peu/très ramifié extension predicate and the fundamental-character conventions are required from the local Galois/Serre-weight owner, with the precise contract given by the local Galois ramification predicates.
+Use §0.3's fundamental characters and unit-Kummer subspace. In these extension formulas, “peu ramifié” means membership in `peuRamifieH1`, including split classes; it does not impose the nontrivial-wild hypothesis of `IsPeuRamifiee`.
 
 **Checks.**
 
@@ -2446,11 +2454,11 @@ Layers 1–5 with their prime and residual restrictions; the arithmetic patching
 
 ## Downstream consumers
 
-CompletedCohomologyAndLocalGlobalCompatibility §§0.2–0.4 and LocalGaloisDeformationRings §§3.7.1–3.8 consume the local core of §§3.3, 3.7–3.8, 4.3 and 5.7–5.9, together with §§2.2–2.3, 3.1–3.2, 5.1–5.6 and 5.12's block, Montreal and full-type constructions. This includes §4.3's all-prime nonspecial completion with exceptional double roots and §5.8's `p=3` envelope range and absolutely irreducible universal family. CompletedCohomologyAndLocalGlobalCompatibility supplies the cohomological, dual and determinant normalization comparisons, type scalar-extension adapter, product blocks over `∏_{v|p}GL₂(ℚ_p)` and global realization; LocalGaloisDeformationRings supplies the deformation-theoretic applications of the imported local core.
+CompletedCohomologyAndLocalGlobalCompatibility §§0.2–0.4 and LocalGaloisDeformationRings §§3.7.1–3.8 consume the local core of §§3.3, 3.7–3.8, 4.3 and 5.7–5.9, together with §§2.2–2.3, 3.1–3.2, 5.1–5.6 and 5.12's block, Montreal and full-type constructions. This includes §4.3's all-prime nonspecial completion with exceptional double roots. The Dospinescu–Le Bras universal family and the extension of the integral envelope and removal-of-envelope comparisons to `p=3` are local constructions of §§5.8–5.9; their completed-cohomology specializations use these constructions with the stated residual exclusions. CompletedCohomologyAndLocalGlobalCompatibility supplies the cohomological, dual and determinant normalization comparisons, type scalar-extension adapter, product blocks over `∏_{v|p}GL₂(ℚ_p)` and global realization; LocalGaloisDeformationRings supplies the deformation-theoretic applications of the imported local core.
 
 The local deformation-ring, type-occurrence and cycle statements supply GL2ModularityLifting §§8–9 and the local hypotheses in Dieulefait–Pacetti's Serre-modularity arguments. CompletedCohomologyAndLocalGlobalCompatibility §§2.1 and 4.10 consumes the analytic/algebraic-vector and block interfaces; CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10 uses the local correspondence in its global realisation. The shared general Banach/duality construction owner is §§0.1 and 0.3. The overlapping general constructions requested in CompletedCohomologyPartII F.1 are governed by this same contract: compact–discrete and Schikhof duality with the stated topologies, and admissibility by compact-open finite invariants. Its §6.7 concerns general derived analytic-vector recovery. Downstream applications use this common foundation and add their arithmetic chain-model and derived comparisons. Each consumer must select the prime, residual class, determinant and type actually covered by the theorem it invokes. The BCDT extended-type and supercuspidal comparisons carry their additional inputs explicitly.
 
-The downstream common-API identifications are as follows. LocallyAnalyticDistributions §§0.0–0.3 and 1.3 apply §0.1's locally convex limits, `LA(X,L)`, `D(H,L)`, tensor, biduality and convolution constructions, adding its broader coefficient and derived comparisons. CompletedCohomologyPartII F.1 applies §§0.1 and 0.3's general compact–discrete and Schikhof dualities and admissible Banach category, independently of its arithmetic chain models. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3.1–3.3 and R07.4.13 apply §0.2's shared `FilteredPhiNModule`, weak-admissibility and semistable equivalence; PadicHodgeTheory §§3.4–3.5 uses the same carrier and period/Sen/monodromy comparisons. ArithmeticGaloisRepresentations §2.3 applies §0.3's finite-residue fundamental-character construction, while FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.5, R07.5.13 and R07.5.15 apply its ramification predicates and §§2.7–2.8's `ℚ_p` Serre-weight, compact-induction and Hecke constructions. The generality of these constructions remains as stated in their owning sections here.
+The common-API contracts for downstream specializations are as follows. LocallyAnalyticDistributions §§0.0–0.3 and 1.3 apply §0.1's locally convex limits, `LA(X,L)`, `D(H,L)`, tensor, biduality and convolution constructions, adding its broader coefficient and derived comparisons. CompletedCohomologyPartII F.1 applies §§0.1 and 0.3's general compact–discrete and Schikhof dualities and admissible Banach category, independently of its arithmetic chain models. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3.1–3.3 and R07.4.13 apply §0.2's shared `FilteredPhiNModule`, weak-admissibility and semistable equivalence; PadicHodgeTheory §§3.4–3.5 uses the same carrier and period/Sen/monodromy comparisons. ArithmeticGaloisRepresentations §2.3 applies §0.3's finite-residue fundamental-character construction, while FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.5, R07.5.13 and R07.5.15 specialize its restricted `IsPeuRamifiee` and total `peuRamifieH1` interfaces and §§2.7–2.8's `ℚ_p` Serre-weight, compact-induction and Hecke constructions. The ramification comparison uses membership in the total subspace for split and other wild-trivial classes; the restricted predicate retains its nontrivial-wild hypothesis. The generality of these constructions remains as stated in their owning sections here.
 
 LocalGaloisDeformationRings Layer F and §§3.1–3.5 apply §§0.4 and 5.4's continuous deformation and pseudodeformation foundations. Its §§3.7.1–3.8 apply the `GL2Block`, Montreal and `WDTypeRing` constructions of Layers 2–5 here; its §2.26.1 applies §6.9's general division-algebra Jacquet–Langlands equivalence, with `DivisionAlgebraTypes.jacquetLanglands` inverse to `DrinfeldComparison.localJacquetLanglands` at `m=1`. DeformationAndDerivedPatchingAlgebra §§3.11–3.12 and 6.7 and ArithmeticGaloisDuality D7.1 apply §0.5's Hilbert–Samuel and affine module-cycle foundation. These are shared constructions at the indicated sections here, with the downstream arithmetic and geometric applications distinguished from their construction.
 
@@ -2460,7 +2468,7 @@ Page numbers refer to the indicated author/preprint version unless a published p
 
 <a id="ref-colmez10"></a>
 
-- **COLMEZ10.** Pierre Colmez, [Représentations de GL2(Qp) et (φ,Γ)-modules](https://webusers.imj-prg.fr/~pierre.colmez/kirilov.pdf). Astérisque 330 (2010), 281–509; read in the author's version kirilov.pdf (238 pp.), whose page numbers are cited.
+- **COLMEZ10.** Pierre Colmez, [Représentations de GL2(Qp) et (φ,Γ)-modules](https://webusers.imj-prg.fr/~pierre.colmez/kirilov.pdf). Astérisque 330 (2010), 281–509; locators refer to the author's version kirilov.pdf (238 pp.).
 
 <a id="ref-colmez08tri"></a>
 
@@ -2472,11 +2480,11 @@ Page numbers refer to the indicated author/preprint version unless a published p
 
 <a id="ref-paskunas13"></a>
 
-- **PASKUNAS13.** Vytautas Paškūnas, [The image of Colmez's Montreal functor](https://arxiv.org/abs/1005.2008). Publ. Math. IHÉS 118 (2013), 1–191; read arXiv:1005.2008v3.
+- **PASKUNAS13.** Vytautas Paškūnas, [The image of Colmez's Montreal functor](https://arxiv.org/abs/1005.2008). Publ. Math. IHÉS 118 (2013), 1–191; locators refer to arXiv:1005.2008v3.
 
 <a id="ref-cdp14"></a>
 
-- **CDP14.** Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, [The p-adic local Langlands correspondence for GL2(Qp)](https://arxiv.org/abs/1310.2235). Cambridge J. Math. 2 (2014), 1–47; read arXiv:1310.2235v1.
+- **CDP14.** Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, [The p-adic local Langlands correspondence for GL2(Qp)](https://arxiv.org/abs/1310.2235). Cambridge J. Math. 2 (2014), 1–47; locators refer to arXiv:1310.2235v1.
 
 <a id="ref-cdp-wild"></a>
 
@@ -2484,55 +2492,55 @@ Page numbers refer to the indicated author/preprint version unless a published p
 
 <a id="ref-paskunas-blocks14"></a>
 
-- **PASKUNAS-BLOCKS14.** Vytautas Paškūnas, [Blocks for mod p representations of GL2(Qp)](https://arxiv.org/abs/1104.5602). Automorphic forms and Galois representations, vol. 2, LMS Lecture Note Series 415 (2014); read arXiv:1104.5602v2.
+- **PASKUNAS-BLOCKS14.** Vytautas Paškūnas, [Blocks for mod p representations of GL2(Qp)](https://arxiv.org/abs/1104.5602). Automorphic forms and Galois representations, vol. 2, LMS Lecture Note Series 415 (2014); locators refer to arXiv:1104.5602v2.
 
 <a id="ref-paskunas15"></a>
 
-- **PASKUNAS15.** Vytautas Paškūnas, [On the Breuil–Mézard conjecture](https://arxiv.org/abs/1209.5205). Duke Math. J. 164 (2015), 297–359; read arXiv:1209.5205v3.
+- **PASKUNAS15.** Vytautas Paškūnas, [On the Breuil–Mézard conjecture](https://arxiv.org/abs/1209.5205). Duke Math. J. 164 (2015), 297–359; locators refer to arXiv:1209.5205v3.
 
 <a id="ref-hu-tan15"></a>
 
-- **HU-TAN15.** Yongquan Hu, Fucheng Tan, [The Breuil–Mézard conjecture for non-scalar split residual representations](https://arxiv.org/abs/1309.1658). Ann. Sci. ÉNS (4) 48 (2015), 1383–1421; read arXiv:1309.1658v2 (page numbers of the arXiv file).
+- **HU-TAN15.** Yongquan Hu, Fucheng Tan, [The Breuil–Mézard conjecture for non-scalar split residual representations](https://arxiv.org/abs/1309.1658). Ann. Sci. ÉNS (4) 48 (2015), 1383–1421; locators refer to arXiv:1309.1658v2 (page numbers of the arXiv file).
 
 <a id="ref-tung21a"></a>
 
-- **TUNG21A.** Shen-Ning Tung, [On the automorphy of 2-dimensional potentially semi-stable deformation rings of G_Qp](https://arxiv.org/abs/1803.07451). Algebra Number Theory 15 (2021), 2173–2194; read arXiv:1803.07451v4.
+- **TUNG21A.** Shen-Ning Tung, [On the automorphy of 2-dimensional potentially semi-stable deformation rings of G_Qp](https://arxiv.org/abs/1803.07451). Algebra Number Theory 15 (2021), 2173–2194; locators refer to arXiv:1803.07451v4.
 
 <a id="ref-paskunas16"></a>
 
-- **PASKUNAS16.** Vytautas Paškūnas, [On 2-dimensional 2-adic Galois representations of local and global fields](https://arxiv.org/abs/1509.00332). Algebra Number Theory 10 (2016), 1301–1358; read arXiv:1509.00332v2.
+- **PASKUNAS16.** Vytautas Paškūnas, [On 2-dimensional 2-adic Galois representations of local and global fields](https://arxiv.org/abs/1509.00332). Algebra Number Theory 10 (2016), 1301–1358; locators refer to arXiv:1509.00332v2.
 
 <a id="ref-tung21b"></a>
 
-- **TUNG21B.** Shen-Ning Tung, [On the modularity of 2-adic potentially semi-stable deformation rings](https://arxiv.org/abs/1908.06174). Math. Z. 298 (2021), 107–159; read arXiv:1908.06174v3.
+- **TUNG21B.** Shen-Ning Tung, [On the modularity of 2-adic potentially semi-stable deformation rings](https://arxiv.org/abs/1908.06174). Math. Z. 298 (2021), 107–159; locators refer to arXiv:1908.06174v3.
 
 <a id="ref-paskunas-tung21"></a>
 
-- **PASKUNAS-TUNG21.** Vytautas Paškūnas, Shen-Ning Tung, [Finiteness properties of the category of mod p representations of GL2(Qp)](https://arxiv.org/abs/2104.08948). read arXiv:2104.08948v2.
+- **PASKUNAS-TUNG21.** Vytautas Paškūnas, Shen-Ning Tung, [Finiteness properties of the category of mod p representations of GL2(Qp)](https://arxiv.org/abs/2104.08948). Locators refer to arXiv:2104.08948v2.
 
 <a id="ref-cdn23"></a>
 
-- **CDN23.** Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, [Factorisation de la cohomologie étale p-adique de la tour de Drinfeld](https://arxiv.org/abs/2204.11214). Forum Math. Pi 11 (2023), e16; read arXiv:2204.11214v2.
+- **CDN23.** Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, [Factorisation de la cohomologie étale p-adique de la tour de Drinfeld](https://arxiv.org/abs/2204.11214). Forum Math. Pi 11 (2023), e16; locators refer to arXiv:2204.11214v2.
 
 <a id="ref-cdnkisin"></a>
 
-- **CDNKISIN.** Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, [Correspondance de Langlands locale p-adique et anneaux de Kisin](https://arxiv.org/abs/2204.11217). read arXiv:2204.11217v2 (24 April 2023).
+- **CDNKISIN.** Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, [Correspondance de Langlands locale p-adique et anneaux de Kisin](https://arxiv.org/abs/2204.11217). Locators refer to arXiv:2204.11217v2 (24 April 2023).
 
 <a id="ref-cdn20"></a>
 
-- **CDN20.** Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, [Cohomologie p-adique de la tour de Drinfeld : le cas de la dimension 1](https://arxiv.org/abs/1704.08928). J. Amer. Math. Soc. 33 (2020), 311–362; read arXiv:1704.08928v2 (arXiv page numbers cited).
+- **CDN20.** Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, [Cohomologie p-adique de la tour de Drinfeld : le cas de la dimension 1](https://arxiv.org/abs/1704.08928). J. Amer. Math. Soc. 33 (2020), 311–362; locators refer to arXiv:1704.08928v2 (arXiv page numbers cited).
 
 <a id="ref-cd14"></a>
 
-- **CD14.** Pierre Colmez, Gabriel Dospinescu, [Complétés universels de représentations de GL2(Qp)](https://arxiv.org/abs/1301.7647). Algebra Number Theory 8 (2014); read arXiv:1301.7647v1.
+- **CD14.** Pierre Colmez, Gabriel Dospinescu, [Complétés universels de représentations de GL2(Qp)](https://arxiv.org/abs/1301.7647). Algebra Number Theory 8 (2014); locators refer to arXiv:1301.7647v1.
 
 <a id="ref-dospinescu15"></a>
 
-- **DOSPINESCU15.** Gabriel Dospinescu, [Extensions de représentations de de Rham et vecteurs localement algébriques](https://arxiv.org/abs/1302.4567). Compositio Math. 151 (2015); read arXiv:1302.4567v1.
+- **DOSPINESCU15.** Gabriel Dospinescu, [Extensions de représentations de de Rham et vecteurs localement algébriques](https://arxiv.org/abs/1302.4567). Compositio Math. 151 (2015); locators refer to arXiv:1302.4567v1.
 
 <a id="ref-bb10"></a>
 
-- **BB10.** Laurent Berger, Christophe Breuil, [Sur quelques représentations potentiellement cristallines de GL2(Qp)](https://arxiv.org/abs/math/0601545). Astérisque 330 (2010), 155–211; read arXiv:math/0601545v1.
+- **BB10.** Laurent Berger, Christophe Breuil, [Sur quelques représentations potentiellement cristallines de GL2(Qp)](https://arxiv.org/abs/math/0601545). Astérisque 330 (2010), 155–211; locators refer to arXiv:math/0601545v1.
 
 <a id="ref-emerton-lg"></a>
 
@@ -2540,7 +2548,7 @@ Page numbers refer to the indicated author/preprint version unless a published p
 
 <a id="ref-gee-kisin14"></a>
 
-- **GEE-KISIN14.** Toby Gee, Mark Kisin, [The Breuil–Mézard conjecture for potentially Barsotti–Tate representations](https://arxiv.org/abs/1208.3179). Forum Math. Pi 2 (2014), e1; read [arXiv:1208.3179v5](https://arxiv.org/abs/1208.3179v5), including Appendix B, pp.38–41.
+- **GEE-KISIN14.** Toby Gee, Mark Kisin, [The Breuil–Mézard conjecture for potentially Barsotti–Tate representations](https://arxiv.org/abs/1208.3179). Forum Math. Pi 2 (2014), e1; locators refer to [arXiv:1208.3179v5](https://arxiv.org/abs/1208.3179v5), including Appendix B, pp.38–41.
 
 <a id="ref-kisin09"></a>
 
@@ -2548,11 +2556,11 @@ Page numbers refer to the indicated author/preprint version unless a published p
 
 <a id="ref-nakamura23"></a>
 
-- **NAKAMURA23.** Kentaro Nakamura, [Zeta morphisms for rank two universal deformations](https://arxiv.org/abs/2006.13647). Invent. Math. 234 (2023), 171–290; read arXiv:2006.13647v2 (arXiv page numbers cited).
+- **NAKAMURA23.** Kentaro Nakamura, [Zeta morphisms for rank two universal deformations](https://arxiv.org/abs/2006.13647). Invent. Math. 234 (2023), 171–290; locators refer to arXiv:2006.13647v2 (arXiv page numbers cited).
 
 <a id="ref-dlb17"></a>
 
-- **DLB17.** Gabriel Dospinescu, Arthur-César Le Bras, [Revêtements du demi-plan de Drinfeld et correspondance de Langlands p-adique](https://arxiv.org/abs/1509.00606). Ann. of Math. 186 (2017), 321–411; read arXiv:1509.00606v2.
+- **DLB17.** Gabriel Dospinescu, Arthur-César Le Bras, [Revêtements du demi-plan de Drinfeld et correspondance de Langlands p-adique](https://arxiv.org/abs/1509.00606). Ann. of Math. 186 (2017), 321–411; locators refer to arXiv:1509.00606v2.
 
 <a id="ref-breuil03"></a>
 
@@ -2560,11 +2568,11 @@ Page numbers refer to the indicated author/preprint version unless a published p
 
 <a id="ref-bcdt01"></a>
 
-- **BCDT01.** Christophe Breuil, Brian Conrad, Fred Diamond, Richard Taylor, [On the modularity of elliptic curves over Q: wild 3-adic exercises](https://www.imo.universite-paris-saclay.fr/~christophe.breuil/PUBLICATIONS/STW.pdf). J. Amer. Math. Soc. 14 (2001), 843–939; read Breuil's author copy STW.pdf (same text; pp. 10–12 there correspond to pp. 854–856 of the journal).
+- **BCDT01.** Christophe Breuil, Brian Conrad, Fred Diamond, Richard Taylor, [On the modularity of elliptic curves over Q: wild 3-adic exercises](https://www.imo.universite-paris-saclay.fr/~christophe.breuil/PUBLICATIONS/STW.pdf). J. Amer. Math. Soc. 14 (2001), 843–939; locators refer to Breuil's author copy STW.pdf (same text; pp. 10–12 there correspond to pp. 854–856 of the journal).
 
 <a id="ref-dp22"></a>
 
-- **DP22.** Luis Dieulefait, Ariel Pacetti, [A simplified proof of Serre's conjecture](https://arxiv.org/abs/2108.07577). RACSAM 117 (2023), article 153; read arXiv:2108.07577v2.
+- **DP22.** Luis Dieulefait, Ariel Pacetti, [A simplified proof of Serre's conjecture](https://arxiv.org/abs/2108.07577). RACSAM 117 (2023), article 153; locators refer to arXiv:2108.07577v2.
 
 <a id="ref-kpx14"></a>
 

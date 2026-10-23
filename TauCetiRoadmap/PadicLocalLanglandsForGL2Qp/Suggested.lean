@@ -36,7 +36,10 @@ differential-period spaces. The block-centre,
 type-ring and Breuil–Mézard theorems (Layer 5, §§6.0–6.8) need compact block
 categories, their projective envelopes, continuous (pseudo)deformation/type rings
 and module-cycle specialization. Mathlib's algebraic-cycle carrier alone does not
-supply these objects. Section 4.3's all-prime nonspecial crystalline completion,
+supply these objects. On the characteristic-zero irreducible locus the block
+algebra is Azumaya; in the scalar-residual case, splitting over a completed centre
+requires a two-dimensional model of the pseudotrace over the point's residue field.
+Section 4.3's all-prime nonspecial crystalline completion,
 including double roots, needs the trianguline and universal unitary completion
 carriers. Sections 5.8–5.9's envelope comparisons for p ≥ 3 with their residual
 exclusions, and §5.8's all-prime orthonormalizable universal family for absolutely
