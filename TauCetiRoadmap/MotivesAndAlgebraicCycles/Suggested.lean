@@ -22,7 +22,10 @@ The geometric headlines require carriers absent at Mathlib `6b7abb3` and Tau Cet
   carriers, the Chow and numerical motive categories, and normalized geometric Weil
   theories, including the positive first Chern class `c₁,dR(L) = -c′₁(L)` relative to
   Deligne's Hodge II §§2.2.4–2.2.5, the algebraic de Rham trace and its marked comparison
-  with complex integration, are absent. Thus diagonal-support vanishing, Manin's identity
+  with complex integration, are absent. The pure-realization interface retains the
+  directed Tate marking `e : F[2] ≃ G(𝟙(1))`: replacing `e` by `λe` for `λ∈Fˣ`
+  scales `cl^r` by `λ^(-r)` and `Tr_X` by `λ^d`, where `d=dim X` (README §2.3).
+  Thus diagonal-support vanishing, Manin's identity
   principle,
   projective-bundle decompositions, all-degree realization comparisons and Jannsen's
   numerical-motive theorem cannot yet be stated on their geometric objects.
