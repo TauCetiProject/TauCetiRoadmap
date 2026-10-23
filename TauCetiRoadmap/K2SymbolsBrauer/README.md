@@ -47,7 +47,7 @@ The norm-residue pairings use arithmetic Frobenius. In §§10.32a–10.32b write
 
 ### Shared classical foundations and local presentation refinements
 
-[AlgebraicKTheory, A1–A3 and A5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md#a1-stable-matrices-elementary-operations-and-whiteheads-lemma) supplies stable matrices and Whitehead’s theorem (A1), classical and relative `K₁` (A2–A3), and finite/stable Steinberg groups, classical `K₂`, stable universality, Matsumoto and finite-field vanishing (A5). Realize the Layer 0 contracts on those shared carriers; presentation variants are identified by `classicalCarrierTransport`.
+AlgebraicKTheory, A1–A3 and A5 supplies stable matrices and Whitehead’s theorem (A1), classical and relative `K₁` (A2–A3), and finite/stable Steinberg groups, classical `K₂`, stable universality, Matsumoto and finite-field vanishing (A5). Realize the Layer 0 contracts on those shared carriers; presentation variants are identified by `classicalCarrierTransport`.
 
 §0.1 supplies stable matrices and elementary identities; §0.2 supplies classical and relative `K₁`; §0.3 supplies finite and stable Steinberg groups, their functorial maps, stable centrality, universality and classical `K₂`; §0.4 supplies the classical field presentation and finite-field vanishing. Layers 1, 4 and 8 fix the additional bar/product normalization.
 
