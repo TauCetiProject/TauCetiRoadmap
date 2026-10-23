@@ -19,6 +19,8 @@ The headline results requiring these objects are:
   comparison (§1.8), and the auxiliary-prime selection theorems (§§1.15–1.16, 1.21–1.23).
 * Layers 2–3: unramifiedness of Euler classes (§2.3), Kolyvagin's congruence (§3.14), and
   the Euler-to-Kolyvagin derivative maps (§§3.16–3.17, 3.19).
+  Ring-class conductor arithmetic uses ImaginaryQuadraticClassNumber H1.4's residue-unit
+  exact sequence and ClassFieldTheory Layer 13's Artin correspondence (§2.9).
 * Layers 4–5: rational and integral Selmer bounds (§§4.7, 4.13, 4.17–4.21), rank-one
   freeness and dual Selmer structure (§§5.3, 5.6), and the self-dual bound and exact
   primitivity formula (§§5.10, 5.13). The Howard–Zanarella paired hypotheses use the
@@ -34,14 +36,19 @@ The headline results requiring these objects are:
   ordered permutation signs of §6.7; the determinant comparison uses the same normalization.
   Its ordinary compact-support complex retains the archimedean term and the
   resulting surjection in degree one (§7.5a).
-  IntegralIwasawaTheory §12.6 supplies the shared exterior-bidual and finite-CM Rubin-lattice core.
+  IntegralIwasawaTheory §12.6 supplies the shared exterior-bidual and finite-CM Rubin-lattice core,
+  including the rational Rubin–Brumer–Stark element and its evaluation and change-of-place API.
+  Section 7.3 uses adapters to that element and owns the conjecture predicate and system applications.
 * Layer 8: the Euler-to-Kolyvagin map over the finite coefficient rings `O/J_n`
   (§8.17), weak Leopoldt (§§8.25, 8.27), Iwasawa bounds and primitivity equalities
   (§§8.28–8.33), and integral divisibilities (§§8.34–8.39). These also require the
   compact-coefficient Iwasawa Selmer modules, specialization maps and characteristic
   ideals specified in that layer and its suppliers. The local-condition input at `p`
-  includes Galois equivariance and compatible tower actions (§8.8). Specialized
-  exact-length hypotheses use lattice Tate duals (§8.32); the local discrete dual
+  includes Galois equivariance and compatible tower actions (§8.8). Restriction control
+  uses fixed-vector conditions and determinants on the finite free lattices
+  `T` and `T†`; twisting `T` by `ρ` twists `T†` by `ρ⁻¹` (§8.15). Its Selmer and error terms
+  retain discrete coefficients, with the coefficient trace comparison of §0.2.
+  Specialized exact-length hypotheses use lattice Tate duals (§8.32); the local discrete dual
   at the coefficient prime is `U† ⊗_O F/O`, with its coefficient trace comparison (§8.35).
   The finite-quotient derivative construction uses a local stabilization index and a separate deeper
   auxiliary-prime index (§8.17). Generalized reduction, specialization and blind spots
