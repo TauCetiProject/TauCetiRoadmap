@@ -47,8 +47,12 @@ The later headline statements require objects absent from the pins:
   weight-dependent denominator is cleared, retaining its specialization domain. The
   Leopoldt descent theorem (§7.10) uses actual finite-dimensional characters and multiplicity
   spaces. The general period-boundary and exponential prefix (§F.6)
-  needs topological period sequences and continuous cochains; its identification of invariant
-  quotient periods with the de Rham tangent space requires the de Rham hypothesis. The
+  needs topological period sequences and continuous cochains. Its quotient-period boundary has
+  image H¹_e for every continuous representation; the exponential on de Rham periods has image
+  the common kernel of the maps to B_e and B_dR⁺ cohomology. These constructions are natural in
+  morphisms of representations. Identifying quotient periods with the de Rham tangent space
+  requires the de Rham hypothesis; a nonsplit extension of ℚ_p(1) by ℚ_p has zero exponential
+  but nonzero H¹_e. These statements require the missing period and cochain constructions. The
   independent period-realization prefix, including filtered Galois descent and nilpotence of
   period-ring monodromy, needs the semistable period invariants and raw Weil–Deligne carrier.
   The differential branch needs the Robba and étale prefix, including
