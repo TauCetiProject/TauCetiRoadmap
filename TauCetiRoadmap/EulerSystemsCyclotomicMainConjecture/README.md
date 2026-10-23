@@ -539,7 +539,8 @@ Use its §2.8 rigidity predicate and finite-depth variant, retaining
 require finiteness away from `p` and either a `γ` fixing
 `K(1)(μ_(p∞),(O_Kˣ)^(1/p∞))` with `γ−1` injective on `T`, or all
 `Fr_q^(p^a)−1` injective together with the separate local congruence
-of §F.6. Finite-depth local finiteness retains its uniform multiplier.
+of §F.6: polynomial comparison when `K(q)≠K(1)`, and identity when
+`K(q)=K(1)`. Finite-depth local finiteness retains its uniform multiplier.
 These hypotheses are inputs whenever the finite cyclotomic descent uses
 that alternative; the infinite cyclotomic tower uses admissibility.
 (**RUBIN-ES**, IX §§1, 3, pp.133–137.)
@@ -581,14 +582,21 @@ numbers through the supplied descent map.
 Its §§3.10–3.14 and 3.19 supply the local relations:
 `loc_q^s κ_(F,rq,M)=φ_(q,σ_q)^fs(loc_q κ_(F,r,M))`, finiteness away
 from `pr`, preservation of prescribed zero localizations away from `p`,
-and `loc_Q c_(F(rq))=A_q(Fr_q⁻¹)loc_Q c_(F(r))`, with
-`A_q(X)=(P_q(X)−P_q(Nq X))/[K(q):K(1)]` integral.
+and the following two-branch congruence in `H¹(F(rq)_Q,T)` for `Q|q`.
+If `K(q)≠K(1)`, then
+`loc_Q c_(F(rq))=A_q(Fr_q⁻¹)loc_Q c_(F(r))`, with
+`A_q(X)=(P_q(X)−P_q(Nq X))/[K(q):K(1)]` integral; the class on the
+right is restricted to `F(rq)_Q`. If `K(q)=K(1)`, then `F(rq)=F(r)`
+and `loc_Q c_(F(rq))=loc_Q c_(F(r))`.
 Equal localization orders use free rank-one Frobenius coinvariants;
 finite-depth variants retain their uniform finite-condition multiplier.
-The cyclotomic specialization has `P_q=1−X`, so
-`A_q(X)=((Nq−1)/[K(q):K(1)])X`.
+The cyclotomic specialization has `P_q=1−X`, so on a nontrivial ray edge
+`A_q(X)=((Nq−1)/[K(q):K(1)])X`. At derivative primes, a nonunit
+`M` dividing `[K(q):K(1)]` forces `K(q)≠K(1)`; in particular this
+holds for `M=p^k`, `k≥1`.
 (**RUBIN-ES**, IV Theorems 5.1 and 5.4, pp.67–68, §§6–7,
-pp.69–76, Corollary 8.1, p.77, IX Theorem 5.2, p.140.)
+pp.69–76, Corollary 8.1, p.77 for nontrivial ray edges, Definition IV.2.1,
+p.58 for the identity branch, IX Theorem 5.2, p.140.)
 
 **Checks.**
 
@@ -603,6 +611,20 @@ pp.69–76, Corollary 8.1, p.77, IX Theorem 5.2, p.140.)
   by `a⁻¹`, which is cancelled by the tensor generator.
 - The finite condition away from `pr` gives no condition at `p`;
   a claimed strict condition there would strengthen the theorem.
+- For `K=ℚ`, `p=3`, `T=ℤ₃` with trivial action and bad support `(3)`,
+  put `𝒦=ℚ_∞∏_(ℓ≠3)ℚ(ℓ)` and
+  `ψ=log₃⟨ε_cyc⟩/log₃(4)`. For finite `L⊆𝒦`, let `S(L)` be its
+  ramified primes other than 3 and set
+  `c_L=(∏_(ℓ∈S(L))(1−ℓ⁻¹))/[L:ℚ]·res_L ψ`.
+  This is an integral Euler system with `P_ℓ(X)=1−ℓ⁻¹X`: choose
+  `L′=ℚ_n∏_(ℓ∈S(L))ℚ(ℓ)⊇L`, put `e_ℓ=3^{v₃(ℓ−1)}`, and
+  corestrict `(res_(L′)ψ/3^n)∏_(ℓ∈S(L))((1−ℓ⁻¹)/e_ℓ)`.
+  The class being corestricted is integral since `ψ(G_(L′))⊆3^nℤ₃`
+  and each ratio is a 3-adic unit; restriction–corestriction gives the
+  stated Euler factors. At `q=2`, `r=1`, `L=ℚ`, the ray field is
+  `ℚ(2)=ℚ`, so the local comparison is the identity. Its Frobenius value
+  is `ψ(Fr₂)=log₃(−2)/log₃(4)=1/2`; applying the polynomial `A₂=X/2`
+  would give `1/4`.
 
 *Needs:* EulerSystemsAndKolyvaginSystems §§2.7, 3.1–3.4, 3.9–3.14, 3.19; §§F.1–F.5; ProfiniteCohomology Layers 5–10 for connecting
 maps, coinduction, Shapiro and semilocal restriction.
@@ -2517,7 +2539,7 @@ See **GREITHER-1992**, Introduction, the Definition and properties `(a)`–`(f)`
 
 <a id="greither-semilocal-norm-descent"></a>
 ### 4.2 Norm descent for semilocal units, with bounded errors (Greither, Lemmas 2.1–2.2)
-Let `p` be a prime, `F/ℚ` abelian with `p ∤ cond(F)`, `K_n = F(ζ_{2p^{n+1}})` (so `K_0 = F(√−1)` when `p = 2`), `K_∞ = ∪K_n`, `𝒰_n = (ℤ_p ⊗ 𝒪_{K_n})^×` the semilocal units above `p`, `U_n` its pro-`p` part, `C_n^disc=D(K_n)∩𝒪_{K_n}^×` the actual circular units, `𝒞_n=closure(C_n^disc)⊆𝒰_n` and `C_n` the pro-`p` part of `𝒞_n`; `𝒰_∞`, `U_∞`, `𝒞_∞`, `C_∞` their norm inverse limits; `t = 1` for odd `p` and `t = 2` for `p = 2`. (Lemma 2.2) Let `H ⊆ Δ` be finite abelian groups, `X` a `ℤ_pΔ`-module, `X′` a `ℤ_p(Δ/H)`-module, and `N`: `X → X′`, `i`: `X′ → X Δ`-maps with Ni `= |H|` and iN `= Σ_{σ∈H}σ`. Then the kernel and cokernel of the induced map `N̄`: `X_H → X′` are annihilated by `|H|`. (Lemma 2.1) For `F′ ⊆ F` with `H = Gal(F/F′)`, the kernel and cokernel of the norm map `α`: `(𝒰_n)_H → 𝒰′_n` are annihilated by `|H| = [F:F′]`. (Corollary) If `χ` is a character of `F′`, the kernel and cokernel of `α_χ`: `(𝒰_∞)_χ → (𝒰′_∞)_χ` are annihilated by `[F:F′]²`.
+Let `p` be a prime, `F/ℚ` abelian with `p ∤ cond(F)`, `K_n = F(ζ_{2p^{n+1}})` (so `K_0 = F(√−1)` when `p = 2`), `K_∞ = ∪K_n`, `𝒰_n = (ℤ_p ⊗ 𝒪_{K_n})^×` the semilocal units above `p`, `U_n` its pro-`p` part, `C_n^disc=D(K_n)∩𝒪_{K_n}^×` the actual circular units, `𝒞_n=closure(C_n^disc)⊆𝒰_n` and `C_n` the pro-`p` part of `𝒞_n`; `𝒰_∞`, `U_∞`, `𝒞_∞`, `C_∞` their norm inverse limits; `t = 1` for odd `p` and `t = 2` for `p = 2`. (Lemma 2.2) Let `H ⊆ Δ` be finite abelian groups, `X` a `ℤ_pΔ`-module, `X′` a `ℤ_p(Δ/H)`-module, and `N`: `X → X′`, `i`: `X′ → X Δ`-maps with Ni `= |H|` and iN `= Σ_{σ∈H}σ`. Then the kernel and cokernel of the induced map `N̄`: `X_H → X′` are annihilated by `|H|`. (Lemma 2.1) For `F′ ⊆ F` with `H = Gal(F/F′)`, the kernel and cokernel of the norm map `α`: `(𝒰_n)_H → 𝒰′_n` are annihilated by `|H| = [F:F′]`. (Corollary) If `χ` is a character of `F′`, the kernel and cokernel of the pro-`p` norm map `α_χ`: `(U_∞)_χ → (U′_∞)_χ` are annihilated by `[F:F′]²`.
 
 These bounds are the bounded errors of the character functors when the group order is divisible by `p`. Since `F/F′` is unramified above `p`, `𝒰_n` is cohomologically trivial as an `H`-module, so `α` is in fact an isomorphism. The bound by `|H|` is all that Greither's later arguments use.
 
@@ -2525,7 +2547,7 @@ Prove this as follows.
 
 1. Lemma 2.2: if `N̄(x̄) = 0`, then `|H|·x = iN(x) + (|H| − Σσ)x ∈ I_H·X`, since `Σσ ≡ |H| mod` the augmentation ideal; so `|H|` kills `ker N̄`. For `x′ ∈ X′`, `|H|x′ = N(i(x′))`, so `|H|` kills `coker N̄`.
 2. Lemma 2.1: the kernel of the norm `(𝒰_n)_H → 𝒰_n^H = 𝒰′_n` is a Tate cohomology group of `H` in degree `−1`, and the cokernel is `Ĥ⁰(H, 𝒰_n)`. Both are annihilated by `|H|`.
-3. Corollary: for `A = ker α` and `B = coker α`, taking `χ`-parts gives `A_χ → 𝒰_{∞,χ} → Im(α)_χ → 0` and `Tor(ℤ_p(χ), B) → Im(α)_χ → 𝒰′_{∞,χ} → B_χ → 0`, with `Tor` over `ℤ_p[Gal(F/ℚ)]`. `[F:F′]` annihilates `A_χ`, `B_χ` and the `Tor` term, so the composite has kernel and cokernel killed by `[F:F′]²`. Coinvariants commute with the inverse limit because the modules are compact.
+3. Corollary: restrict the norm and inclusion to pro-`p` units, and pass to the compact inverse limits to obtain `β:(U_∞)_H→U′_∞`. For `A=ker β` and `B=coker β`, taking `χ`-parts gives `A_χ → U_{∞,χ} → Im(β)_χ → 0` and `Tor(ℤ_p(χ), B) → Im(β)_χ → U′_{∞,χ} → B_χ → 0`, with `Tor` over `ℤ_p[Gal(F/ℚ)]`; `χ|H=1` identifies `((U_∞)_H)_χ` with `U_{∞,χ}`. `[F:F′]` annihilates `A_χ`, `B_χ` and the `Tor` term, so the composite has kernel and cokernel killed by `[F:F′]²`. Coinvariants commute with this compact inverse limit. The full-unit norm and Tate-cohomology assertions use abelian groups with action; only their pro-`p` parts enter the character functor.
 
 **Checks.**
 
@@ -2534,6 +2556,10 @@ Prove this as follows.
 - The closure `𝒞_n` is compact, and its pro-`p` part is the image of
   `C_n^disc⊗ℤ_p` in `U_n`; residue torsion of order prime to `p` lies in
   the complementary finite factor.
+- At `p=3`, `F=ℚ`, the constant sequence `(-1)_n` is norm coherent,
+  since each tower step has degree 3. It has order 2 in `𝒰_∞` and
+  disappears in `U_∞`. A unital `ℤ₃`-module has no nonzero element of
+  order 2, so the full-unit group cannot be the character-functor carrier.
 
 See **GREITHER-1992**, §2, the setting, p. 455. The definitions of `𝒰_n`, `U_n`, `𝒞_n`, `C_n`. **GREITHER-1992**, §2, Lemma 2.2, p. 456. Lemma 2.2.
 
@@ -2677,9 +2703,15 @@ If `m=cond(ρ|Δ)=1`, the restriction to `Δ` is trivial but `ρ` on `Φ` can be
 Prove this as follows.
 
 1. First suppose `m=cond(ρ|Δ)>1`. Lemma 2.11(b) applies to the nontrivial `Δ`-character `ρ|Δ`, so its projected circular-unit module is generated by `η_m`. The following calculation proves the required image on that generator. The separate `m=1` case is treated after this calculation.
-2. Let `f_0 = ζ_mX + (1 − ζ_m)` and `e = |(𝒪/p𝒪)^×|`. Its constant term satisfies `f_0(0)^e ≡ 1 mod p` and `𝒩(f_0) = Frob(f_0)`, so `f_0^e ∈ 𝔐°`, and `ψ(η^e) = N_{ℚ(m)/ℚ(m)∩F}(f_0^e)`. Here `𝔐°` requires the constant-term congruence, as in Greither's definition on p.458; no congruence of the whole series to 1 is needed. It suffices that `(1 − φ)δ(f_0)_{χ^{−1}} = (G_p(T′, ρ)·ζ_m(1 − X))_{χ^{−1}}`, then take the norm.
-3. Evaluate at `X = 1 − ζ_{p^{ν′}} (ν′ = ν + t)`; these evaluations separate points. The left side: `δ(f_0) = (1 − X)ζ_m/(ζ_mX + 1 − ζ_m)`, so `(1 − φ)δ(f_0)|_{1−ζ_{p^{ν′}}} = ζ_{p^{ν′}}ζ_m/(1 − ζ_{p^{ν′}}ζ_m) − ζ_{p^{ν′−1}}ζ_m^p/(1 − ζ_{p^{ν′−1}}ζ_m^p)`.
-4. The right side: with `q_ν = m·p^{ν′}` and the Stickelberger elements `ξ′_ν(ρ) = −q_ν^{−1}Σ_a` a`·ρω^{−1}(a)γ_ν(a)` (Washington, p. 118, as used by Greither, p. 467), `G_p(T′, ρ) = lim ξ′_ν(ρ)`. This limit is IntegralIwasawaTheory §6.3 (`bernoulliStickelberger_dictionary`) with that roadmap's `m` equal to `cond(ρ|Δ)`, including `m=1`, at every `p` (`q=4` at `p=2`): the negative of the `ρω^{−1}`-projected Bernoulli distribution at level `ν`, with coefficient `a/q_ν−1/2` at `σ_a⁻¹`, written in the coordinates `γ_ν(a)` and inverted, is `ξ′_ν(ρ)`. Use `χ=ρ` in the supplier's arithmetic test character `ρ_{χ,s}(σ_x)=χ(x)⁻¹ω(x)⟨x⟩^s` and retain its minus sign. The constant part of the negative projection contributes `+½Σ_aρω^{−1}(a)γ_ν(a)=0`, because `ρ` is even and `ω` odd, so `ρω^{−1}` is a nontrivial character of `Δ′` and its sum over each fibre of `a↦γ_ν(a)` vanishes. The interpolation `G_p(u^s−1,ρ)=L_p(s,ρ)` is the dictionary's `f_ρ(u^s−1)=L_p(ρ,s)`. Then `q_ν·G_p(T′, ρ)z_{χ^{−1}}|_{1−ζ_{p^{ν′}}} = −(Σ_{(a,q_ν)=1} a(ζ_mζ_{p^{ν′}})^a)_{χ^{−1}}`.
+2. Work first over `𝒪̃=ℤ_p⊗_ℤ𝒪_(ℚ(ζ_m))`, with its own Coleman operators and `𝔐̃°`, and put `f₀=ζ_mX+(1−ζ_m)` and `ẽ=|(𝒪̃/p𝒪̃)^×|`. Since `m>1` is prime to `p`, `1−ζ_m` is a unit in every factor of `𝒪̃`, so `f₀(0)^ẽ≡1 mod p`. The identity `𝒩(f₀)=Frob(f₀)` then gives `f₀^ẽ∈𝔐̃°`. Here the congruence concerns only the constant term. Inflate `ρ` and `χ` to `Gal(ℚ(ζ_m)/ℚ)×Φ`; steps 3–6 calculate their components over `𝒪̃`, with upstairs generator `z̃_(χ⁻¹)=(ζ_m(1−X))_(χ⁻¹)`.
+
+   Coefficient descent is part of this target. Put `F′=F∩ℚ(ζ_m)`, `A=ℤ_p⊗𝒪_(F′)` and `H=Gal(ℚ(ζ_m)/F′)`. For any unit series `f∈𝒪̃[[X]]ˣ`, define `N_H f=∏_(σ∈H)σf∈A[[X]]ˣ` and `Tr_H g=Σ_(σ∈H)σg`. Prove `δ(N_H f)=Tr_H δ(f)` for `δ(f)=(1−X)f′/f`. Coefficient Frobenius commutes with `H` and with the substitution defining `φ`, hence
+   `(1−φ_A)δ(N_H f)=Tr_H((1−φ_(𝒪̃))δ(f))`.
+   Coleman norm commutes with every `σ∈H`, so `N_H` carries `𝔐̃°` into the corresponding `𝔐_A°`; the Frobenius-corrected interpolation evaluations commute with this coefficient norm as well. Embed `A` into the standing `𝒪=ℤ_p⊗𝒪_F`. In the interpolation notation of §4.5 this gives `ψ(η_m^ẽ)=N_H(f₀^ẽ)`. The product rule and the Galois product/sum formulas for norm and trace prove these compatibilities (Mathlib `Algebra.norm_eq_prod_automorphisms`, `Algebra.trace_eq_sum_automorphisms`; ColemanPowerSeries §1.85). Thus the upstairs equality
+   `((1−φ_(𝒪̃))δ(f₀))_(χ⁻¹)=(G_p(T′,ρ)ζ_m(1−X))_(χ⁻¹)`
+   descends by `Tr_H`, taking `ζ_m` to `y_(χ⁻¹)` of §4.6. Divide out the `p`-adic unit `ẽ` after applying the logarithmic derivative. This supplies the claimed image over `F` without assuming `ζ_m∈𝒪`.
+3. Evaluate at `X = 1 − ζ_{p^{ν′}} (ν′ = ν + t)`; these evaluations separate points. The left side: `δ(f₀) = (1 − X)ζ_m/(ζ_mX + 1 − ζ_m)`, so `(1 − φ)δ(f₀)|_{1−ζ_{p^{ν′}}} = ζ_{p^{ν′}}ζ_m/(1 − ζ_{p^{ν′}}ζ_m) − ζ_{p^{ν′−1}}ζ_m^p/(1 − ζ_{p^{ν′−1}}ζ_m^p)`.
+4. The right side: with `q_ν = m·p^{ν′}` and the Stickelberger elements `ξ′_ν(ρ) = −q_ν^{−1}Σ_a` a`·ρω^{−1}(a)γ_ν(a)` (Washington, p. 118, as used by Greither, p. 467), `G_p(T′, ρ) = lim ξ′_ν(ρ)`. This limit is IntegralIwasawaTheory §6.3 (`bernoulliStickelberger_dictionary`) with that roadmap's `m` equal to `cond(ρ|Δ)`, including `m=1`, at every `p` (`q=4` at `p=2`): the negative of the `ρω^{−1}`-projected Bernoulli distribution at level `ν`, with coefficient `a/q_ν−1/2` at `σ_a⁻¹`, written in the coordinates `γ_ν(a)` and inverted, is `ξ′_ν(ρ)`. Use `χ=ρ` in the supplier's arithmetic test character `ρ_{χ,s}(σ_x)=χ(x)⁻¹ω(x)⟨x⟩^s` and retain its minus sign. The constant part of the negative projection contributes `+½Σ_aρω^{−1}(a)γ_ν(a)=0`, because `ρ` is even and `ω` odd, so `ρω^{−1}` is a nontrivial character of `Δ′` and its sum over each fibre of `a↦γ_ν(a)` vanishes. The interpolation `G_p(u^s−1,ρ)=L_p(s,ρ)` is the dictionary's `f_ρ(u^s−1)=L_p(ρ,s)`. Then `q_ν·G_p(T′, ρ)z̃_(χ⁻¹)|_{1−ζ_{p^{ν′}}} = −(Σ_{(a,q_ν)=1} a(ζ_mζ_{p^{ν′}})^a)_{χ^{−1}}`.
 5. Lemma 2.15: `(a) Σ_{a=1}^{q_ν}` a`·x^a = −q_ν·x/(1 − x)` for `x = ζ_mζ_{p^{ν′}}`, a root of unity of order `q_ν`, `x ≠ 1`. `(b)` Removing the multiples of `p` gives `Σ_{(a,p)=1}` a`·x^a = −q_ν·x/(1 − x) + q_ν·x^p/(1 − x^p)`, with `x^p = ζ_m^pζ_{p^{ν′−1}}`. So the terms with `(a, p) = 1` give the left side.
 6. The terms with `(a, m) > 1` lie in `ℚ(ζ_d, ζ_{p^{ν′}})` for proper divisors `d` of `m`. Their `χ^{−1}`-part vanishes because `m` is the conductor (as in Lemma 2.11), so they contribute 0.
 7. If `m=1`, then `p` is odd and `ρ` is an even character, trivial on `Δ` and nontrivial on `Φ≅μ_{p−1}⊂Γ′`. Fix `b∈μ_{p−1}` with `ρ(b)≠1`.
@@ -2741,6 +2773,18 @@ Prove this as follows.
 
 **Checks.**
 
+- At `p=3`, `F=ℚ(√5)` and `ρ` the quadratic character of conductor 5,
+  trivial on `Φ`, the target coefficient residue field is `𝔽₉` with
+  unit-group order 8, but `𝒪̃/3𝒪̃=𝔽₈₁` and `ẽ=80`. For
+  `z=ζ̄₅`, `(1−z)^8=(1−z⁹)/(1−z)=−z⁴≠1`, while
+  `(1−z)^80=1`. The series `f₀` belongs to `𝒪̃[[X]]`, not `𝒪[[X]]`.
+- In the same example put `Y=1−X` and `s=ζ₅+ζ₅⁻¹∈F`. Then
+  `N_H(f₀)=(1−ζ₅Y)(1−ζ₅⁻¹Y)=1−sY+Y²` lies in the target ring.
+  Its logarithmic derivative is the sum of those of the two factors,
+  verifying trace descent rather than a scalar multiple of one factor.
+- When `F′=ℚ(ζ_m)`, `H=1`, so coefficient norm and trace are both
+  identities and `y_(χ⁻¹)` is the projected `ζ_m`. The comparison
+  introduces no extra degree factor in this case.
 - For `F=ℚ` and `p=5`, `ρ=ω²` is even and nontrivial on `Φ` but has `m=cond(ρ|Δ)=1`, so the nontrivial `Δ`-character lemma cannot justify it and step 7 is needed. Take `b` the Teichmüller lift of 2, of order 4. Then `ρ(b)=b²=−1`, so `b[b]−1` acts on the `χ^{−1}`-part as `−2`, a 5-adic unit, and the polar coefficient is `Σ_{b′∈μ₄}ρ^{−1}(b′)=1−1+1−1=0`.
 - Trivial `ρ` is excluded from step 7. For `ρ=1` the polar coefficient is `Σ_{b′}1=p−1≠0`, and `ρ(b)−1=0` for every `b`; this is the pole of the `p`-adic zeta function.
 - For the comparison of steps 8–11 in the same case choose `a=2`. Then `h₂=2−X`, Dlog `h₂=−(1−X)/(2−X)`,
@@ -2760,7 +2804,7 @@ Prove this as follows.
   `𝔐°` must not be strengthened to a congruence of the entire series.
 - For `(m,p,ν′)=(3,2,2)`, put `x=ζ₃ζ₄`, a primitive twelfth root. Then `Σ_{a=1}^{12}`a `x^a=−12x/(1−x)`. Removing the even a gives `−12x/(1−x)+12x²/(1−x²)`, with `x²=ζ₃²ζ₂`. Replacing `ζ₃²` by `ζ₃` changes this nonzero rational function value. The same test applies at (5,3,1), (7,2,3) and (3,5,1).
 
-See **GREITHER-1992**, §2, proof of Theorem 2.13, p. 466. The one-generator reduction is valid for nontrivial `ρ|Δ`. For `m=1` the smoothed-unit argument of step 7 replaces it. **GREITHER-1992**, §2, proof of Corollary 2.7, p. 461. The identity `D([a]g)=`a`·[a]D(g)` used for the smoothing factor. **GREITHER-1992**, §2, proof of Theorem 2.13, right-hand side, p. 467. The Stickelberger computation; Lemma 2.15(b) is misprinted. **GREITHER-1992**, §2, Remark after Theorem 2.13, p. 468. Greither's remark that an integral version is expected.
+See **GREITHER-1992**, §2, proof of Theorem 2.13, p. 466. The one-generator reduction is valid for nontrivial `ρ|Δ`; its series calculation takes place over `𝒪̃` before coefficient norm descent. The product rule and the Galois norm/trace formulas give step 2's descent identities. For `m=1` the smoothed-unit argument of step 7 replaces it. **GREITHER-1992**, §2, proof of Corollary 2.7, p. 461. The identity `D([a]g)=`a`·[a]D(g)` used for the smoothing factor. **GREITHER-1992**, §2, proof of Theorem 2.13, right-hand side, p. 467. The Stickelberger computation; Lemma 2.15(b) is misprinted. **GREITHER-1992**, §2, Remark after Theorem 2.13, p. 468. Greither's remark that an integral version is expected.
 Steps 8–12 are the comparison of that smoothed conductor-one image with the
 ColemanPowerSeries §§4.24, 4.27 normalisation, using the same finite-sum identity, **RJW-PADIC-L**, §10.2–§10.3, Theorems 12.17, 12.23 and §12.3–§12.4,
 pp.48–49, 62–65 (arXiv v2), and the signed actual-generator theorem of
@@ -2849,7 +2893,9 @@ This is Rubin's Lemma 1.2 (Rubin, Invent. Math. 93 (1988), p. 703, with its proo
 Lemmas 3.9–3.11 are then proved as follows.
 
 1. Lemma 3.9. The sequence `0 → lim H^{−1}(Γ_{mn}, E_m) → (E_∞)_{1−γ_n} → E_n → lim H⁰(Γ_{mn}, E_m) → 0` has outer terms killed by `(γ − 1)p^κ`, by `rubinUnitTateBound`.
-2. `V_χ(U_∞)` is free cyclic over `ℚ_p ⊗ Λ_χ` (proof of Corollary 2.14), hence so is `V_χ(E_∞)`. This gives `α`: `E_{∞,χ} → Λ_χ` with finite cokernel and kernel killed by a power of `p`.
+2. Restrict the Coleman map of §4.5 to the real global-unit limit. Its kernel on semilocal units is the local Tate-root module, with the additional local signs at 2. Abelian Leopoldt (IntegralIwasawaTheory §4.4) identifies completed global units with their semilocal image. A global completed unit whose local images are roots of unity has zero local logarithms, so Leopoldt puts it in the torsion of the completed global units. For a totally real field this pro-`p` torsion is zero at odd `p` and consists only of signs at 2. Norms along the degree-two tower kill these signs. Thus the global-unit limit has zero intersection with the Coleman kernel. After inverting `p`, character projection is exact, and embeds `V_χ(E_∞)` into the free rank-one Coleman target of §4.6. Dirichlet unit ranks and the control sequence in step 1 give `Λ_χ`-rank one for `χ≠1`. Since `Λ_χ[1/p]` is a PID, this finitely generated submodule is free cyclic. No freeness of `V_χ(U_∞)` is needed.
+
+   For the integral map put `M=E_{∞,χ}`. Finite generation and rational torsion-freeness imply that `M_tors` is killed by one fixed power of `p`. Then `N=M/M_tors` is torsion-free of rank one over the two-dimensional regular local ring `Λ_χ`. PadicMeasuresIwasawaAlgebras §4.2 gives `N↪N**≅Λ_χ` with finite cokernel. Composing with `M→N` gives `α:E_{∞,χ}→Λ_χ` with precisely that finite cokernel and `p`-power-annihilated kernel.
 3. A `Tor` argument gives `0 → A_n → (E_{∞,χ})_{1−γ_n} → E_{n,χ} → B_n → 0` with `(γ − 1)p^{c′}` killing `A_n` and `B_n`. Maps `ϑ_n` then fit a square with `(γ − 1)²p^{2c′}α` on top (Rubin, p. 705).
 4. `H_χ·(α(E_{∞,χ})/α(im C_{∞,χ}))` is finite, so `p^sH_χ ∈ α(im C_{∞,χ})`, giving `(γ − 1)²p^{s+2c′}H_χΛ_{n,χ} ⊆ ϑ_n(im C_{n,χ})`. Also `p^{s′}·im C_{∞,χ} ⊆ H_χE_{∞,χ}`, because `ℚ_pE_{∞,χ}` is cyclic. Take `c_1 = max(s′, s + 2c′)`.
 5. Lemma 3.11. `X` is finitely generated `Λ`-torsion, so it suffices that `Z = X/(γ − 1)X` is finite. `Z` is the Galois group of the maximal unramified `p`-extension `N` of `K_∞^+` that is abelian over `K_0^+`. `N` is unramified outside `p` and is a compositum of finitely many `ℤ_p`-extensions and a finite extension. By Leopoldt for the real abelian `K_0^+` its only `ℤ_p`-extension is `K_∞^+`, so `N/K_∞^+` is finite.
@@ -2858,10 +2904,23 @@ Lemmas 3.9–3.11 are then proved as follows.
 **Checks.**
 
 - The constants `c_1`, `c_2` depend on `F` only, not on `n`; this is what the induction needs.
+- At `p=3`, `F=ℚ(√−2)` is split at 3 and `K_n^+=ℚ(√6)ℚ_n`.
+  Its completion at 3 is `ℚ₃(μ_(3^{n+1}))`. Local norm-coherent roots
+  give `ℤ₃(1)⊆U_∞^χ` for the nontrivial character of
+  `Gal(ℚ(√6)/ℚ)`. For `γ` of cyclotomic value 4 and `T=γ−1`, this
+  line is killed by `T−3` and survives inversion of 3:
+  `ℤ₃[[T]][1/3]/(T−3)≅ℚ₃`. Thus the rational semilocal module is
+  not free, while Leopoldt excludes this line from the global units.
+- At `p=2`, a coherent sequence of global signs has
+  `ε_n=N_(n+1/n)(ε_(n+1))=ε_(n+1)^2=1`. Finite-level signs cannot
+  supply a kernel in the real global-unit limit.
+- For the rank-one lattice `N=(p,T)⊆ℤ_p[[T]]`, its bidual is
+  `ℤ_p[[T]]` and its cokernel is `𝔽_p`. Rational freeness alone does
+  not make the original lattice free; the bidual gives the required map.
 
 See **GREITHER-1992**, §3, Lemmas 3.9–3.10, p. 475. Lemmas 3.9 and 3.10. **GREITHER-1992**, §3, proof of Lemma 3.9, pp. 475–476. Rubin's Lemma 1.2 and the weakened hypotheses. **GREITHER-1992**, §3, Lemma 3.11 and the proof of 3.10, p. 477. The proof of Lemma 3.10. **RUBIN-1988**, Lemma 1.2, p. 703, and its proof, pp. 703–704; the exact sequence on p. 705. `rubinUnitTateBound`.
 
-*Needs:* [§4.1](#greither-chi-parts); [§4.8](#greither-semilocal-units); IntegralIwasawaTheory §0.3; IntegralIwasawaTheory §2.8 (`uniformCapitulationBound`); IntegralIwasawaTheory §3.2 (`inertiaClassControl`); IntegralIwasawaTheory §4.4; Tau Ceti `TateCohomology.herbrandQuotient`; `TauCetiRoadmap.ClassFieldTheory Layer 0`; PadicMeasuresIwasawaAlgebras §4.6 (the characteristic ideal).
+*Needs:* [§4.1](#greither-chi-parts); [§4.5](#greither-semilocal-coleman-map); [§4.6](#greither-circular-unit-generators); [§4.8](#greither-semilocal-units); IntegralIwasawaTheory §0.3; IntegralIwasawaTheory §2.8 (`uniformCapitulationBound`); IntegralIwasawaTheory §3.2 (`inertiaClassControl`); IntegralIwasawaTheory §4.4; Tau Ceti `TateCohomology.herbrandQuotient`; `TauCetiRoadmap.ClassFieldTheory Layer 0`; PadicMeasuresIwasawaAlgebras §4.2 (rank-one reflexive hull and finite cokernel), §4.6 (the characteristic ideal).
 
 <a id="greither-kolyvagin-step"></a>
 ### 4.11 The Kolyvagin step and the Maschke lift (Greither, Lemmas 3.12–3.13)

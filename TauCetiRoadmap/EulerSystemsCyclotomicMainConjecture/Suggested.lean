@@ -30,7 +30,12 @@ does not supply these objects. The Coleman, Gauss-logarithm and ray-class compar
 Gras formulas (§§4.3–4.8, 4.18–4.19, 4.23–4.26) also need the specified Coleman operators,
 normalised Iwasawa logarithm, norm limits of semilocal circular-unit closures, ordinary
 finite-modulus ray-class limits and Sinnott lattices. The ray comparison retains the dyadic
-real-inertia correction between ordinary and real-modulus groups. The Tate-twisted conclusions
+real-inertia correction between ordinary and real-modulus groups. Character quotients of
+semilocal units use their pro-`p` parts. The real global-unit comparison excludes the local
+Tate-root kernel; it does not assert freeness of the semilocal-unit module. The circular-unit
+Coleman calculation uses cyclotomic coefficients followed by coefficient norm and trace descent.
+The generic local congruence has an identity branch when the ray field is unchanged.
+The Tate-twisted conclusions
 (§5.3) use the Greenberg Selmer/Galois-module comparisons and contragredient duals of
 SelmerIwasawaCohomology §4.20. These arithmetic objects are required to state the corresponding
 milestones; elementary norm identities and character sums do not replace them.
