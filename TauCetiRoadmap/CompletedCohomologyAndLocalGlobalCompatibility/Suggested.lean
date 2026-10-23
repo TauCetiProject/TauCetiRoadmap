@@ -38,6 +38,10 @@ mathematical objects, whose construction is specified in the README:
   theorems (§§5.4, 5.6), and Pan's nice-prime and residually irreducible theorems
   (§§5.7–5.8) require arithmetic patched modules, universal Galois deformation rings,
   their Hodge-type quotients, and the associated trianguline spaces and cycles.
+  The quaternionic patched module and one-place partial module (§§5.5–5.5a) also
+  require the pseudo-compact representation categories with the inverse central
+  character; their projectivity is stated in those categories, and their finite
+  generation is over the indicated patched coefficient group algebra.
   The generic locally analytic Jacquet functor used in §5.2a is supplied by
   OverconvergentAutomorphicForms §0.6; the arithmetic analytic vectors, patched sheaf
   and trianguline comparisons are the constructions required here.
