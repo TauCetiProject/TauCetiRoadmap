@@ -28,6 +28,8 @@ The headline results requiring these objects are:
   linear duals alone do not supply the arithmetic systems or their transition maps.
   The regulator uses functional-first contractions, the conductor sign and the
   ordered permutation signs of §6.7; the determinant comparison uses the same normalization.
+  Its ordinary compact-support complex retains the archimedean term and the
+  resulting surjection in degree one (§7.5a).
   IntegralIwasawaTheory §12.6 supplies the shared exterior-bidual and finite-CM Rubin-lattice core.
 * Layer 8: the Euler-to-Kolyvagin map over the finite coefficient rings `O/J_n`
   (§8.17), weak Leopoldt (§§8.25, 8.27), Iwasawa bounds and primitivity equalities
@@ -36,8 +38,10 @@ The headline results requiring these objects are:
   ideals specified in that layer and its suppliers. The local-condition input at `p`
   includes Galois equivariance and compatible tower actions (§8.8). The finite-quotient
   derivative construction uses a local stabilization index and a separate deeper
-  auxiliary-prime index (§8.17). Generalized specialization lands in generalized
-  systems; their extensionality is levelwise equality in the direct limits (§8.12).
+  auxiliary-prime index (§8.17). Generalized reduction, specialization and blind spots
+  retain the ambient auxiliary-prime filtration (§§3.3, 8.12, 8.24). Intrinsic targets
+  use the inverse of the restriction comparison under its prime-set and residual
+  hypotheses (§8.18); generalized extensionality is levelwise equality in the direct limits.
 
 These arithmetic statements are README targets on the specified Selmer and system carriers.
 -/
