@@ -12,6 +12,9 @@ No headline theorem is statable against the pinned Mathlib
 `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The signatures require the following
 mathematical objects, whose construction is specified in the README:
 
+* The integral-isomorphism criterion of §0.1 requires the category of O-torsion-free,
+  ϖ-adically admissible representations over a complete local noetherian O-algebra,
+  rational isomorphism and injectivity on the residual maximal-ideal socles.
 * The local correspondence and completion theorems of §§0.2–0.4 require the admissible
   integral and Banach representation categories, Colmez's correspondence, the Montréal
   functor, Galois deformation rings and projective block envelopes. The Scholze finiteness
