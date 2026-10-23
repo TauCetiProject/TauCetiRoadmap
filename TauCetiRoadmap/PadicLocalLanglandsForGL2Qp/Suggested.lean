@@ -9,7 +9,8 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Ba
 `README.md`; these statements suggest Lean forms for its headline targets.
 
 The statements here are the shared Hilbert–Samuel polynomiality theorem for finite
-modules over noetherian local rings (§0.5), and finite representation length for
+modules over noetherian local rings, with an ideal of definition on the module (§0.5),
+and finite representation length for
 finitely generated admissible smooth torsion representations of GL₂(ℚ_p) over the ring of
 integers of any finite extension of ℚ_p (§2.2), at every prime. The latter uses
 Mathlib's actual integer ring, torsion submodules and group-algebra module, together
@@ -19,7 +20,8 @@ central-character and compact-open admissibility hypotheses on those carriers.
 The other headline signatures require objects absent from the pins. The analytic
 duality and analytic-vector theorems (§0.1, §§2.4–2.5) need locally convex analytic
 function/distribution spaces and admissible Banach representation categories.
-The filtered-period equivalence, monodromy and deformation theorems (§§0.2–0.4)
+The filtered-period equivalence, the normalization comparisons with the supplied
+monodromy and period realization, and the deformation theorems (§§0.2–0.4)
 need period rings, filtered (φ,N)-modules, coefficient-linear compact duality and
 GLₙ-valued local deformation functors. The canonical lattices and trianguline classification
 (§§1.3–1.7) need étale and Robba (φ,Γ)-modules and Weil–Deligne parameters.
@@ -53,13 +55,17 @@ open ValuativeRel
 
 namespace TauCetiRoadmap.PadicLocalLanglandsForGL2Qp
 
-/-- Section 0.5: lengths modulo powers of an m-primary ideal are eventually polynomial.
+/-- Section 0.5: lengths modulo powers of an ideal of definition on a finite module
+are eventually polynomial. The ideal lies in the maximal ideal and M/IM has finite length;
+it need not be m-primary in the ring.
 The finite-length assertion keeps the natural-valued length faithful to module length.
-Source: Stacks, Algebra, Proposition 10.59.5 (tag 00K8). -/
+Source: Stacks, Algebra, Proposition 10.59.5 (tag 00K8), applied over A/ann(M),
+or Proposition 10.58.7 (tag 00K1) on the associated graded module. -/
 theorem exists_hilbertSamuel_polynomial
     (A : Type*) [CommRing A] [IsNoetherianRing A] [IsLocalRing A]
     (M : Type*) [AddCommGroup M] [Module A M] [Module.Finite A M]
-    (I : Ideal A) (hI : I.radical = IsLocalRing.maximalIdeal A) :
+    (I : Ideal A) (hI : I ≤ IsLocalRing.maximalIdeal A)
+    (hM : IsFiniteLength A (M ⧸ (I • (⊤ : Submodule A M)))) :
     ∃ P : Polynomial ℚ,
       (∀ n : ℕ, IsFiniteLength A (M ⧸ (I ^ (n + 1) • (⊤ : Submodule A M)))) ∧
       ∀ᶠ n : ℕ in Filter.atTop,
