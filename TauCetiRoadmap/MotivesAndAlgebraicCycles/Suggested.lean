@@ -46,7 +46,10 @@ The geometric headlines require carriers absent at Mathlib `6b7abb3` and Tau Cet
   scalar-extension and affine tensor-isomorphism torsor constructions are also absent.
 * Layer 7's known cycle-conjecture implications and cases, Bloch–Beilinson/Murre
   equivalence, and conditional motivic t-structure consequences need the geometric
-  cycles, realizations and motive categories above. The real results additionally need
+  cycles, realizations and motive categories above. The Hodge-conjecture implications
+  use Betti/de Rham cohomology; transport to another realization requires a normalized
+  comparison preserving cycle classes, cup products, traces and Tate markings.
+  The real results additionally need
   semialgebraic equivariant cohomology, admissible cycle targets and Gersten residues.
   Odd-Euler-characteristic torsion descent needs geometric coherent Euler invariants
   and Picard descent; height and arithmetic-theta theorems need arithmetic cycle

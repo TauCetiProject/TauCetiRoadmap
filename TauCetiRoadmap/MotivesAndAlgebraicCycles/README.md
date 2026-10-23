@@ -30,7 +30,7 @@ For real closed `R`, let `C=R(i)` and `G=Gal(C/R)`. Over the actual real numbers
 
 ## Exact supplier contracts
 
-The resolution, complex-comparison, rational K-theory and higher-cycle inputs come from **ResolutionOfSingularitiesCharacteristicZero**, **ComplexComparisonPartII**, **SchemeKTheoryOperations** and **KTheoryFiniteLocalFields**, respectively. The contracts below specify the sections and hypotheses used. StandardConjectures and the reconstruction consumers receive the shared interfaces described under Downstream consumers.
+The four direct open-roadmap inputs are resolution from **ResolutionOfSingularitiesCharacteristicZero**, complex comparison from **ComplexComparisonPartII**, rational K-theory from **SchemeKTheoryOperations** and higher cycles from **KTheoryFiniteLocalFields**. The contracts below specify the sections and hypotheses used. Their merge order includes their own prerequisites: in particular, GroebnerGeometry G4 supplies the ordinary associated-graded core used by ResolutionOfSingularitiesCharacteristicZero §1.10. The motivic layers consume the resolution outputs specified below. StandardConjectures and the reconstruction consumers receive the shared interfaces described under Downstream consumers.
 
 ### From Mathlib and Tau Ceti
 
@@ -1315,7 +1315,9 @@ Define Hodge standard positivity on primitive algebraic classes `PA_H^j=A_H^j∩
 `(a,b)↦(-1)^j deg(a·b·η^{d-2j})`, `2j≤d`.
 Its values are rational; no ordering on `ℚ_ℓ` is used. Supply primitive restriction, bilinearity, symmetry, positivity on nonzero classes, positive rescaling and transport. (Kleiman, §5, pp.16–19.)
 
-Prove `B⇒A,C`, `A(X×X)` for the product polarization implies `B(X)`, and hence the global equivalence of A and B. Prove `D⇒A` and `A` together with Hodge positivity implies `D`. Over the complex numbers rational Hodge for all required codimensions gives A and D; Hodge for `X×X` gives B. The numerical realization factors through numerical motives only after D in the relevant coefficient scope. (Kleiman, Theorem 4.1, Corollary 4.2, pp.14–15, Proposition 5.1 and its consequences, pp.17–19.)
+Prove `B⇒A,C`, `A(X×X)` for the product polarization implies `B(X)`, and hence the global equivalence of A and B. Prove `D⇒A` and `A` together with Hodge positivity implies `D`. The numerical realization factors through numerical motives only after D in the relevant coefficient scope. (Kleiman, Theorem 4.1, Corollary 4.2, pp.14–15, Proposition 5.1 and its consequences, pp.17–19.)
+
+For smooth projective `X/ℂ`, rational Hodge in every codimension on `X` implies A and D for rational Betti cohomology and its normalized de Rham realization; rational Hodge on `X×X` implies B for these realizations. For another classical Weil theory `H`, supply §2.5's `NormalizedComparison` with Betti or de Rham cohomology over a common coefficient field. Its cycle compatibility and faithful coefficient extension identify the rational cycle-class kernels; its cup-product and Tate compatibilities identify `L`, and its trace and correspondence compatibilities transport A, B and D, including the correspondence action on `X×X`. An arbitrary Weil theory carries no such comparison as an axiom. (Kleiman, Corollary 5-3, p.18, and Corollary 4.2, pp.14–15; §2.5.)
 
 **Checks.**
 
@@ -1324,6 +1326,8 @@ Prove `B⇒A,C`, `A(X×X)` for the product polarization implies `B(X)`, and henc
 - On a point C has just its degree-zero diagonal. On projective space odd projectors vanish. Modifying a representative by a homologically trivial correspondence does not preserve Chow-idempotence automatically.
 - On `ℙ¹×ℙ¹`, with divisor generators `a,b`, `a-b` pairs to zero with `a+b` but to `-1` with `a`. D must test all complementary cycles.
 - For surfaces the primitive divisor form is minus intersection; on a point it is multiplication. Rescaling an ample class by a positive rational number preserves positivity.
+- Under a normalized comparison with Betti cohomology, a rational cycle has zero `H`-class exactly when its Betti class is zero: extending either coefficient field faithfully reflects zero. This identifies the kernel needed to transport D.
+- On `ℙ¹`, an invertible graded linear map fixing `1` and sending the normalized point class `h` to `2h` fails cycle, trace and Lefschetz compatibility. It is excluded by the normalized-comparison hypothesis even though it preserves cohomological dimensions.
 
 ### 7.4 Established standard cases and point smash nilpotence
 
