@@ -6,6 +6,8 @@
 
 This roadmap follows ClassFieldTheory. It owns finite cyclotomic class modules, their arithmetic character conventions, Hilbert's relative-unit and capitulation applications, the Stickelberger element and its integral ideal, Bernoulli annihilators, reflection, the modular construction of the converse to Herbrand, and regularity. Its prime-power circular-unit and norm-limit endpoints specialize the shared arithmetic constructions of IntegralIwasawaTheory. The inverse-character vanishing and its translation to unramified extensions and constant-coefficient étale cohomology are explicit end results.
 
+The Bernoulli congruences and Kummer criterion in §§3.1 and 5.1 migrate the AINTLIB project FltRegularBernoulli. Its projector algebra, prime-conductor Stickelberger formulas and conditional Herbrand implications are formalised sources for §§0.2–0.4, 2.1 and 3.2. The source declarations and their hypotheses are specified there; the targets retain the native class action, all-conductor formulas and unrestricted congruences stated here.
+
 Mathlib supplies basic cyclotomic fields, integer rings, Dirichlet's unit theorem, ideal norms and class-number finiteness. GlobalNumberFields Layer 10 supplies the cyclotomic ramification and splitting comparisons. NumberFieldArithmetic Layers 4 and 6 supply the different and its ramification criterion. ClassFieldTheory supplies reciprocity, Hilbert class fields, functoriality, the conductor–discriminant formula, and the generic unit and S-unit Herbrand-quotient computations. These are prerequisites, not new targets here. In particular the conductor–discriminant formula is in ClassFieldTheory Layer 13. It is not an additional cyclotomic theorem to develop.
 
 ModularForms supplies modular forms, Fourier expansions, Eisenstein series, Hecke operators and integral Hecke modules. The residual eigencharacter lifting comparison is supplied in §4.2 below. ModularCurves supplies the modular curves, their integral moduli geometry, finite locally free group schemes and the finite connected–étale sequence. Section 4.3 specifies a shared field-valued abelian package and the shared Albanese modular quotient; its cyclotomic application takes the coefficient factor of that quotient's native Tate module. Section 4.4 specifies the shared small-ramification and Barsotti–Tate comparisons, followed by the prime-level good-reduction and local-splitting applications. These general prefixes precede the residual lattice application and use no Herbrand–Ribet converse. A residual extension with its desired ramification is not assumed as input.
@@ -130,6 +132,8 @@ For odd `p` and `r≥1`, define `cyclotomicClassEigenspace p r i` as the image o
 
 Provide `projector_mul_projector`, `projector_sum`, `projector_periodic`, `classEigenspace_periodic`, `classEigenspace_smul`, and compatibility with quotient, submodule, norm and extension maps. The scalar `p−1` is a unit of `ℤ_p`; use its unit inverse, not division in a fraction field followed by an unspecified descent. Sources: Sharifi Definition 2.8.1, Remark 2.8.2, Notation 2.8.3, Propositions 2.8.4 and 2.8.6, and Lemmas 2.8.5 and 2.8.7, pp.69–71; cyclotomic specialization §4.4, p.111. The generic projector algebra comes from the supplier contract; this target is its arithmetic specialization.
 
+The formalised source is AINTLIB module BernoulliRegular.Idempotents: BernoulliRegular.charIdempotent is `|G|⁻¹Σ_a χ(a)[a⁻¹]` for a finite abelian group over a commutative ring with invertible group order, and BernoulliRegular.orthogonalIdempotents_charIdempotent proves orthogonality over a domain. Reindexing by inversion gives the coefficients `χ(a)⁻¹` on `[a]` used here. Migrate this algebra through the supplied generic projector API and specialize to the native tame action.
+
 **Checks.**
 
 - On `ℤ/25ℤ` with the order-four tame group acting through a fixed lift of the character `ω³`, `e_3` is the identity and `e_1` is zero. Inverting the exponent in the image condition would interchange these answers.
@@ -147,11 +151,15 @@ j_(r/s) ∘ N_(s/r) = Σ_(g∈Gal(K_(p^s)/K_(p^r))) g.
 
 Together with the supplied norm-after-extension degree identity, this gives the tower comparisons. These identities do not assert that extension of classes is injective. Source: Sharifi Definition 1.3.3 and the adjacent identities, p.15; §2.8, pp.69–73.
 
+For the decomposition, migrate BernoulliRegular.completeOrthogonalIdempotents_charIdempotent from AINTLIB module BernoulliRegular.Idempotents. In addition to §0.2's hypotheses it assumes enough roots of unity for the exponent of G and proves that the character idempotents sum to one in the group ring. Its action on the native class module gives the module decomposition; norm and extension compatibility use their equivariance.
+
 The direction can be checked on a quadratic orbit `{𝔓,c𝔓}`: extending the norm of `[𝔓]` gives `[𝔓]+[c𝔓]`, while norm after extension of a base ideal class gives twice that class. In a cyclic degree-p step the analogous orbit sum has p terms. An element of order p can therefore be killed by `N∘j`; one cannot cancel the degree.
 
 ### 0.4 The real field and the dyadic boundary
 
 For odd `p`, prove `realClassModuleEquivPlus`: extension of ideals gives `A_p(K_(p^r)^+)≅A_r^+`, with inverse `N/2`. Prove `minus_eq_norm_kernel` and `plus_even_components`. On a c-fixed element `x` of order `p^s`, `j(Nx/2)=x`; on a c-anti-fixed element `y`, `Ny=0`. This follows from the two norm identities and invertibility of two on a p-group. Source: Sharifi Lemma 1.3.5, p.15, and §4.2, pp.105–108.
+
+AINTLIB module BernoulliRegular.Idempotents supplies BernoulliRegular.plusIdempotent and BernoulliRegular.minusIdempotent, the elements `(1±[c])/2`. BernoulliRegular.plusIdempotent_eq_sum_even and BernoulliRegular.minusIdempotent_eq_sum_odd identify them with the sums of character projectors having `χ(c)=1` and `χ(c)=−1`. Migrate these identities with §0.3's hypotheses, `c²=1` and invertible two; the real-field comparison also uses the arithmetic norm identities above.
 
 At `p=2` define and keep separate `dyadicNormKernel=ker N`, `dyadicAntiInvariants=ker(1+c)` and `dyadicMinusQuotient=A/(1+c)A`. Their comparison maps and their kernels/cokernels are targets; prove the defects between the norm and anti-invariant descriptions are killed by two, using the norm/extension identities. No direct-sum plus/minus theorem is asserted over `ℤ_2`. This integral distinction is used before Layer 5 proves that the actual cyclotomic two-primary groups vanish.
 
@@ -329,6 +337,8 @@ augmentation(θ_m) = φ(m)/2.
 
 The last two identities include `m=2`, where `c=1` and `θ_2=[1]/2`. For a nontrivial character `χ` viewed at modulus m, evaluation is the finite Bernoulli sum `m⁻¹Σ aχ⁻¹(a)`; its comparison to the primitive-conductor value is part of §3.1. Source: Sharifi Definition 4.5.1(a), pp.113–114, and Theorem 4.5.7, p.117.
 
+Migrate the prime-conductor formulas from AINTLIB module BernoulliRegular.Stickelberger: BernoulliRegular.stickelbergerElement is `θ_p` with the same inverse basis, BernoulliRegular.stickelbergerScaled is the integral sum `Σ_a a₀[a⁻¹]`, and BernoulliRegular.smul_stickelbergerElement identifies `pθ_p` with that sum in the rational group ring. These declarations assume p prime. The target here extends the finite-sum formulas to every `m≥2`; the denominator ideal and its full integral image remain the targets of §2.2.
+
 **Checks.**
 
 - At `m=5`, the coefficients at `[3]` and `[2]` are `2/5` and `3/5`. The unequal values detect a missing basis inverse.
@@ -433,7 +443,13 @@ B_(1,ω^(k−1)) ∈ ℤ_p,
 B_(1,ω^(k−1)) ≡ B_k/k mod p.
 ```
 
-Also prove the separate exceptional calculation `p B_(1,ω⁻¹)∈ℤ_pˣ` and `p B_(1,ω⁻¹)≡−1 mod p`. The latter value is not itself p-integral. Prove the ordinary Bernoulli denominator and Kummer congruences used here in the existing Bernoulli API: `p B_n` is p-integral; for positive even n with `(p−1)∤n`, `B_n/n` is p-integral and its residue depends only on n modulo `p−1`. Use finite power-sum identities and the finite sums above to pass to Teichmüller values modulo `p²`. These finite arithmetic comparison theorems are targets here; they do not require a p-adic L-function. Sources: Mazur I §2, pp.52–54, proof of Corollary 2.9; Ribet Lemma 3.1, pp.156–157. The index range keeps k and its Bernoulli denominator p-units.
+Also prove the separate exceptional calculation `p B_(1,ω⁻¹)∈ℤ_pˣ` and `p B_(1,ω⁻¹)≡−1 mod p`. The latter value is not itself p-integral. Migrate the ordinary Bernoulli denominator and Kummer congruences from AINTLIB and establish their unrestricted forms in the existing Bernoulli API: `p B_n` is p-integral; for positive even n with `(p−1)∤n`, `B_n/n` is p-integral and its residue depends only on n modulo `p−1`. Use finite power-sum identities and the finite sums above to pass to Teichmüller values modulo `p²`. These finite arithmetic comparison theorems are targets here; they do not require a p-adic L-function. Sources: Mazur I §2, pp.52–54, proof of Corollary 2.9; Ribet Lemma 3.1, pp.156–157. The index range keeps k and its Bernoulli denominator p-units.
+
+The formalised denominator sources are in AINTLIB module BernoulliRegular.KummerCongruence.VonStaudtClausen. BernoulliRegular.bernoulli_div_mem_padicInt gives `B_k/k∈ℤ_p` for `0<k<p−1`; BernoulliRegular.bernoulli_mem_padicInt_of_not_pSubOne_dvd gives `B_k∈ℤ_p` for `k<p−1`. BernoulliRegular.p_mul_bernoulli_mem_padicInt_restricted gives `p B_k∈ℤ_p` for even `k≥2`, assuming `∀ j≤k, p³∤j+1`. All three assume p odd prime. Removing these index restrictions is part of the unrestricted integrality targets above.
+
+AINTLIB module BernoulliRegular.KummerCongruence.Kummer proves BernoulliRegular.bernoulli_div_sModEq_of_modEq: for odd prime p and positive even `m≡n mod p−1` with `(p−1)∤n`, the difference `B_m/m−B_n/n` lies in `pℤ_p`, assuming `p∤m,n,m+1,n+1` and `∀ j≤m, p³∤j+1`, and likewise for n. For the Teichmüller comparison here take `n=k` and `m=p(k−1)+1`. The range `2≤k≤p−3` makes both indices positive and even, gives `m≡k mod p−1`, `m≡1 mod p`, `m+1≡2 mod p`, `k+1<p`, and `m+1<p²`; hence all these side hypotheses hold. The unrestricted congruence target also includes indices divisible by p and indices beyond these bounds. The finite-sum source is BernoulliRegular.voronoi_congruence_mod_p in BernoulliRegular.KummerCongruence.Voronoi, comparing `(a^k−1)B_k` with `k a^(k−1)Σ_(j<p) j^(k−1)⌊ja/p⌋` modulo p for `p∤a` and the stated index restrictions. BernoulliRegular.KummerCongruence.VoronoiHigherOrder provides its modulo-p² refinement with the quadratic floor term for even `4≤k≤p−1` and `p∤k+1`.
+
+Migrate the Teichmüller comparisons from AINTLIB module BernoulliRegular.KummerCongruence.Bridge. BernoulliRegular.bernoulliGen_teichmuller_pow_sModEq_div gives `B_(1,ω^j)−B_(j+1)/(j+1)∈pℤ_p` for positive odd j, `j+1<p−1`, `(p−1)∤j+1` and `p∤j+1,j+2`; set `j=k−1` to obtain the displayed congruence. BernoulliRegular.bernoulliGen_teichmuller_inv_sub_bernoulli_mem_padicInt gives `B_(1,ω⁻¹)−B_(p−1)∈ℤ_p`, while BernoulliRegular.boundary_teichmuller_factor_eq_one_add_p_mul gives `−p B_(1,ω⁻¹)=1+pz` for some `z∈ℤ_p`, proving the exceptional unit and its residue. These results assume p odd prime. Their BernoulliRegular.BernoulliGen agrees in degree one at modulus greater than one with the native generalized Bernoulli value used here; the conductor-one convention is distinguished in the Checks.
 
 **Checks.**
 
@@ -441,6 +457,8 @@ Also prove the separate exceptional calculation `p B_(1,ω⁻¹)∈ℤ_pˣ` and 
 - A nontrivial even character has first Bernoulli value zero; the trivial character is excluded. The raw sum `m⁻¹Σ a₀χ(a)` at modulus one is zero, while the supplied generalized value there is `1/2`; the nontriviality hypothesis is essential to its first-degree residue formula. The primitive trivial value is `B_(1,1)=1/2` and `L(0,1)=−1/2`, agreeing with the ordinary number `B₁=−1/2`. Over a field of characteristic dividing m the raw expression has inverse of m equal to zero; the supplied ℚ-algebra carrier and all arithmetic congruence statements exclude that coefficient field.
 - At `p=5,k=2`, the integral value `B_(1,ω)` reduces to `B₂/2=1/12≡3 mod 5`. It is a unit. The excluded character `ω⁻¹=ω³` has a pole of order one in its denominator instead.
 - Inflating a nontrivial character from conductor f to modulus fℓ introduces `1−χ(ℓ)` when `ℓ∤f`. That factor can vanish, so the primitive-conductor condition cannot be replaced by a modulus label.
+- At conductor one, AINTLIB's BernoulliRegular.BernoulliGen in degree one evaluates the Bernoulli polynomial at zero and gives `−1/2`. The native value evaluates it at one and gives `+1/2`. The migration comparison at modulus greater than one uses the vanishing of the zero-residue summand and does not change this boundary convention.
+- At `p=5`, the indices 2 and 10 are congruent modulo four and `B₁₀/10−B₂/2=−5/66∈5ℤ_5`. The unrestricted congruence includes this pair although the source theorem's hypothesis `p∤10` fails.
 
 ### 3.2 Integral characterwise annihilation and Herbrand's implication
 
@@ -451,6 +469,8 @@ For `i=1`, use `b=1+p`, so that `[b]=1` at conductor p. The smoothing scalar is 
 Prove `herbrand`: if `2≤k≤p−3` is even and `A^(1−k)≠0`, then p divides the integer numerator of `B_k`. Its contrapositive is the form used for inverse-character vanishing. A nonzero finite p-group cannot be killed by a p-adic unit. The converse is constructed in Layer 4, rather than inferred from an annihilator. Sources: Mazur Corollary 2.9, pp.53–54; Sharifi Theorem 4.5.7, p.117.
 
 The distinguished components must remain separate: `A^(1)=0` is the exceptional Stickelberger calculation, while `A^(−1)=0` follows from `B₂`. They coincide only when the index group has order two, as at p=3. At p=5 they are exponents one and three, and a convention test must distinguish them.
+
+The formalised source for the divisibility implications is AINTLIB module BernoulliRegular.Herbrand.Basic. BernoulliRegular.OrdinaryBernoulliPDivisible means divisibility of the ordinary numerator; BernoulliRegular.TeichmullerBernoulliPDivisible means `B_(1,ω^j)∈pℤ_p`; BernoulliRegular.GeneralizedBernoulliPDivisible uses the inverse of a rational-valued unit character. BernoulliRegular.generalizedBernoulliPDivisible_of_nontrivial_oddComponent requires BernoulliRegular.OddComponentHerbrandBridge, whose hypothesis supplies the implication from annihilation and nontriviality to divisibility. Its component is a character-tagged subgroup of the class-group p-Sylow at conductor `p(p−1)`. BernoulliRegular.ordinaryBernoulliPDivisible_of_generalizedBernoulliPDivisible additionally requires BernoulliRegular.GeneralizedBernoulliToTeichmullerBridge and a positive odd j with `j+1<p−1`, and concludes `p∣num(B_(j+1))`. Migrate these conditional implications where their hypotheses apply. The native theorem here derives divisibility from the actual integral action of §§0.1–0.3 and the ℚ_p-valued character comparison of §3.1; a rational-character label on a subgroup supplies neither that eigenspace nor the comparison.
 
 ### 3.3 Kummer reflection with the correct dual action
 
@@ -748,7 +768,7 @@ Layers 0–3; ModularForms' Eisenstein and integral Hecke theory; ModularCurves'
 
 Define `IsRegularPrime p` for a nonzero natural p by `¬ p∣h(K_p)`. All arithmetic theorems assume p prime. The predicate in Suggested.lean does not bundle primality. Prove `regular_iff_classModule_zero`, `regular_iff_no_unramified_abelian_p_extension`, and invariance under the chosen cyclotomic-field model. The extension assertion concerns nontrivial abelian p-extensions unramified at every finite prime and split at real places. It follows from the ordinary Hilbert class field. Sources: Sharifi Example 1.3.14, p.18, for class-module regularity; the Hilbert class-field interpretation of §1.3, pp.14–18; and the Bernoulli comparison below.
 
-For odd p prove `kummer_criterion`:
+For odd p migrate Kummer's criterion as `kummer_criterion`:
 
 ```text
 IsRegularPrime p ↔
@@ -756,6 +776,8 @@ IsRegularPrime p ↔
 ```
 
 The statement `kummer_criterion` appears in Suggested.lean. For the forward direction use the relative class-number product: any numerator divisibility supplies a p-factor in `h_p⁻`. For the reverse direction Herbrand's annihilator kills every odd component except index one, which is already zero; reflection kills the even components. This proof of Kummer's criterion does not need Ribet's converse, even though that stronger theorem is available. The full class number is used in the definition; replacing it by the relative class number requires the reflection argument just given. Sources: Sharifi Theorem 4.2.20, pp.107–108, Corollary 4.4.4, p.113, and Theorem 4.5.7, p.117; Mazur I Corollary 2.9, pp.53–54, supplies the Bernoulli implication used in the reverse direction.
+
+The formalised source is BernoulliRegular.kummer_criterion in AINTLIB module BernoulliRegular.Main: for odd prime p it uses the FltRegular predicate IsRegularPrime and the indices `2j` with `1≤j` and `2j≤p−3`. Its proof uses BernoulliRegular.dvd_h_iff_exists_dvd_bernoulli_units from BernoulliRegular.CyclotomicUnits.UnitsReflection, the full class-number divisibility criterion obtained from the relative class-number product and cyclotomic-unit weak reflection. Migrate that proof and its supporting results. The predicate comparison with `IsRegularPrime` here is equivalence of coprimality with nondivisibility at a prime, since both class numbers are the cardinality of the native class group. Reindexing `k=2j` gives the displayed range. These changes add no arithmetic hypothesis; the native annihilator and general reflection targets of §§3.2–3.3 retain their full scope.
 
 **Checks.**
 
@@ -1061,6 +1083,7 @@ Explicit cyclotomic arithmetic, Fermat-type applications and unit computations c
 
 ## References
 
+- AINTLIB, [FltRegularBernoulli project](https://github.com/CBirkbeck/AINTLIB/tree/main/projects/FltRegularBernoulli), namespace BernoulliRegular, Apache-2.0; [*Kummer's Criterion and Regular Primes in Lean* blueprint](https://cbirkbeck.github.io/AINTLIB-blueprints/flt-bernoulli/). The formalised sources are modules BernoulliRegular.Idempotents, BernoulliRegular.Stickelberger, BernoulliRegular.KummerCongruence.VonStaudtClausen, BernoulliRegular.KummerCongruence.Voronoi, BernoulliRegular.KummerCongruence.VoronoiHigherOrder, BernoulliRegular.KummerCongruence.Kummer, BernoulliRegular.KummerCongruence.Bridge, BernoulliRegular.Herbrand.Basic, BernoulliRegular.CyclotomicUnits.UnitsReflection and BernoulliRegular.Main. Their declarations, hypotheses and comparisons with the targets here are specified in §§0.2–0.4, 2.1, 3.1–3.2 and 5.1. Integration follows the repository's author-coordination and attribution requirements.
 - Romyar Sharifi, [*Iwasawa Theory*](https://www.math.ucla.edu/~sharifi/iwasawa.pdf), author's lecture notes. The numbering used here is that of the 189-page version: §§1.3–1.5 for class modules, Kummer radicals and group determinants; §2.8 for character components; §§3.1–3.2 for cyclotomic towers and norm limits; §§4.1–4.5 for Dirichlet values, class-number products, circular units, reflection and Stickelberger annihilation. Individual statements and printed pages are specified where used.
 - Hugh L. Montgomery and Robert C. Vaughan, *Multiplicative Number Theory I: Classical Theory*, Chapter 9, §9.2, pp.273–274, Theorems 9.5 and 9.7 (Theorems 5 and 7 in the draft), and §9.3, Theorem 9.17, p.286 (Theorem 17 in the draft), for primitive inverse-pair products and the signed quadratic Gauss sum, including discriminants −4 and ±8.
 - David Hilbert, *Die Theorie der algebraischen Zahlkörper*, Jahresbericht der Deutschen Mathematiker-Vereinigung 4 (1897), pp.175–546. The [ETH/e-rara digitization](https://doi.org/10.3931/e-rara-10039) supplies the original numbering: §§54–58, pp.271–279, for relative units and capitulation; §126, Satz 148, pp.394–397, for the primary radical; §141, Satz 156, pp.439–440, for Kummer's lemma. The ideal-class and field-extension formulations here use modern native carriers.
