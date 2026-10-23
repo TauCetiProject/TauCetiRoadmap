@@ -21,8 +21,9 @@ and refined family eigensymbols, Selmer local conditions and Mellin transforms f
 critical-eigensymbol and secondary L-function theorems, including Eisenstein refinements
 (Layer 3). Layer 4's family Galois modules, modular zeta classes, Iwasawa/Selmer cohomology,
 period regulators and relative Robba modules are also absent, as are Layer 5's quaternionic
-ordinary towers, Hilbert coefficient families and their period modules. The family reciprocity,
-Euler-system divisibility, Coleman triangulation and totally real control/period theorems
+ordinary towers, the imported Hilbert coefficient families and their geometric tower comparisons,
+and quaternionic period modules. The family reciprocity, Euler-system divisibility, Coleman
+triangulation and totally real control/period theorems
 therefore have no signatures here. Classical forms and single-weight symbols alone do not
 provide these family carriers.
 
