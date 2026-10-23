@@ -19,18 +19,21 @@ is the arithmetic field, `F` its cyclotomic overfield, `χ` its Galois character
 compatible Dirichlet presentation. Faithfulness in the unit-index statements makes `K`
 the field cut out by the character.
 
-The Euler-system constructions (§§0.17, 0.28, 0.30–0.31) need the generic Euler-system
-carrier and compact Kummer comparison, absent from the pins. Finite Kummer maps and the native
+The Euler-system constructions (§§0.17, 0.28, 0.30–0.31), including the Stickelberger
+family formed with the tame-radical normalized local functional, need the generic Euler-system
+carrier and compact Kummer comparison. Finite Kummer maps and the native
 `ℤ_p(1)` exist, but do not supply those interfaces. The Iwasawa divisibility, unit/class equality
 and analytic main conjectures (§§2.4, 3.4–3.5, 4.12–4.14, 4.27, 5.2) need the arithmetic
 norm-limit modules,
 characteristic ideals and the Kubota–Leopoldt pseudomeasure. A completed group algebra alone
 does not supply these objects. The Coleman, Gauss-logarithm and ray-class comparisons and
-Gras formulas (§§4.4–4.8, 4.18–4.19, 4.23–4.26) also need the specified Coleman operators,
-normalised Iwasawa logarithm, ray-class limits and Sinnott lattices. The Tate-twisted conclusions (§5.3)
-need Greenberg Selmer groups and their Pontryagin duals. These statements are deferred here
-until those mathematical objects are defined; elementary norm identities and character-sum
-checks do not replace them.
+Gras formulas (§§4.3–4.8, 4.18–4.19, 4.23–4.26) also need the specified Coleman operators,
+normalised Iwasawa logarithm, norm limits of semilocal circular-unit closures, ordinary
+finite-modulus ray-class limits and Sinnott lattices. The ray comparison retains the dyadic
+real-inertia correction between ordinary and real-modulus groups. The Tate-twisted conclusions
+(§5.3) use the Greenberg Selmer/Galois-module comparisons and contragredient duals of
+SelmerIwasawaCohomology §4.20. These arithmetic objects are required to state the corresponding
+milestones; elementary norm identities and character sums do not replace them.
 -/
 
 noncomputable section
