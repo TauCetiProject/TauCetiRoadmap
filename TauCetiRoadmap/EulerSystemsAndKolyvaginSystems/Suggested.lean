@@ -17,6 +17,9 @@ The headline results requiring these objects are:
 
 * Layers 0–1: the canonical and unramified core-rank formulas (§0.10), the finite–singular
   comparison (§1.8), and the auxiliary-prime selection theorems (§§1.15–1.16, 1.21–1.23).
+  The induced sufficient criterion in §1.15 assumes restriction injectivity for the induced
+  finite representation at each coefficient depth, on its joint coefficient kernel;
+  restriction injectivity for the original representation alone does not supply it.
 * Layers 2–3: unramifiedness of Euler classes (§2.3), Kolyvagin's congruence (§3.14), and
   the Euler-to-Kolyvagin derivative maps (§§3.16–3.17, 3.19).
   Ring-class conductor arithmetic uses ImaginaryQuadraticClassNumber H1.4's residue-unit
