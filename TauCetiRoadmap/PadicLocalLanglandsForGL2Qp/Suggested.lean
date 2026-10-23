@@ -31,7 +31,11 @@ operator and Serre-weight representations. The Montreal, reconstruction and
 all-prime correspondence theorems (Layer 3) need those constructions, Colmez's
 glued section spaces and admissible unitary Banach representations. Algebraic and
 analytic vector comparisons and completion classifications (Layer 4) also need
-filtered periods, locally analytic induction and inertial types. Section 4.6 uses
+filtered periods, locally analytic induction and inertial types. Section 4.9's
+compactly supported P-finite space lies in the analytic vectors and is dense in the
+Banach representation; density in the locally analytic topology for a supersingular
+object requires its Galois representation to be nontrianguline. These spaces also
+require the analytic representation carriers. Section 4.6 uses
 the normalized classical Weil parameter and its raw lift: a repeated scalar
 parameter is lifted to the regular nonsplit Frobenius extension before imposing
 weak admissibility, while monodromy varies in the filtration locus. Section 4.1a
