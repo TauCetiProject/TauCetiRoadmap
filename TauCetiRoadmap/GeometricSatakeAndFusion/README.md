@@ -7,8 +7,9 @@ Fargues–Fontaine curve. Its special fibre supplies projective lattice models
 and dimension calculations, using Witt coefficients in mixed characteristic and
 power-series coefficients in equal characteristic. Universally locally acyclic, flat perverse sheaves
 form the Satake category; convolution gives rigidity, fusion gives its symmetric
-tensor structure, and relative Tannaka reconstruction recovers the pinned dual
-group. A final comparison identifies normalized Frobenius traces with the
+tensor structure, and relative Tannaka reconstruction from MotivesAndAlgebraicCycles
+§6.4 recovers the pinned dual group after the Satake hypotheses are verified here.
+A final comparison identifies normalized Frobenius traces with the
 classical spherical Satake transform.
 
 The development has five layers. GS0 constructs loop spaces, Schubert geometry,
@@ -25,8 +26,11 @@ not depend on the characteristic-two integral rank-one argument.
 
 This roadmap supplies the common construction of local modification spaces,
 their flat-perverse ULA Satake categories, weight and fibre functors,
-convolution, coherent fusion, relative reconstruction and the pinned dual
-equivalence. GS0–GS4 own these foundations together with their coefficient,
+convolution, coherent fusion, the Satake verification and application of relative
+reconstruction, and the pinned dual equivalence. General neutral and relative
+reconstruction and finiteness and connectedness recognition are supplied by
+MotivesAndAlgebraicCycles §§6.1–6.4. GS0–GS4 own the Satake foundations together
+with their coefficient,
 finite-set, Weil and Cartan-duality comparisons. Applications use these same
 carriers and tensor comparisons. Geometric Hecke actions on bundle-stack
 cohomology and Igusa-variety torsion-concentration results belong to their
@@ -48,7 +52,7 @@ below; merely having its abstract carrier is insufficient.
 | VStackSheavesAndLisseCategories §§VS0–VS1, VS3; DiamondSixOperations §§S2–S6 | Enhanced Artin quotient descent and bounded proper correspondences; ULA and hyperbolic localization with monodromicity and coefficient hypotheses; complete congruence filtrations and ordinary-cohomology continuity; VS1.5 perfect locally constant Drinfeld realization over `Perf_k`, `k=overline(𝔽_q)`, with its Tate character; relative duality and enhanced coefficient comparison. Representable diamond operations alone do not cover quotient-stack maps. |
 | EnhancedDerivedSheaves §§E3.1–E3.4, E5:presentability.1–E5:presentability.2 | Coherent composition of pull–push kernels and filtered support extension; the generated Ind t-structure with accessibility and small generators. Pairwise associators in a homotopy category do not give this coherence. |
 | EtaleDualityAndPerverseSheaves §§2.1–2.4, 2.7, 2.10, 2.12; §§3.1–3.3; §§5.3, 5.5–5.6 | Perverse hearts, recollement, affine Artin vanishing, intersection complexes and semismall pushforward; ramified adic coefficient reduction; rational purity, geometric semisimplicity and proper decomposition on the stated finite models. The last three results enter only the rational and torsion-bound arguments. |
-| This roadmap, GS4, [relative reconstruction](#relative-reconstruction) | Bounded representability, dual finite-piece coalgebras, tensor multiplication, rigidity antipodes, neutral reconstruction, and finite-type/connectedness recognition. These are general mathematical targets here; the pinned known-Hopf comparison is used only after reconstruction. |
+| MotivesAndAlgebraicCycles §§6.1–6.4 | General relative finite-piece reconstruction, dual coalgebra assembly, tensor multiplication, rigidity antipodes, neutral reconstruction, and finite-type and characteristic-zero connectedness recognition. GS4 constructs the Satake bounded representers, verifies the hypotheses and applies these results, preserving the marked fibre and coactions. The pinned known-Hopf comparison is used only after reconstruction. |
 | LanglandsParameterStacks §LP3.0 | Induced and Weyl modules, good filtrations and their tensor theorem over fields. The Steinberg-kernel and tilting calculations needed in characteristic two are targets of [integral rank-one identification](#rank-one-integral-identification). The all-prime relative classifying-stack base change and exact-representation completion used by perfect Satake are targets of [the representation-complex interface](#representation-complex-interface). |
 | SmoothRepresentationsOfLocalGroups §SR.4 | The spherical Hecke algebra and normalized classical Satake transform, including the unramified nonsplit version. The geometric comparison does not construct this transform. |
 | ClassFieldTheory, layer 9 | The local Weil group, its topology, inertia, geometric-Frobenius degree and continuous representation conventions. |
@@ -129,8 +133,9 @@ Frobenius. Finite-model Frobenius descent is additional data for the classical
 trace bridge; a geometric ULA object alone does not define its arithmetic trace.
 
 The short names below label mathematical targets in `TauCeti.GeometricSatake`.
-The associated [Suggested.lean](Suggested.lean) states `neutralTannakaReconstruction`
-from GS4 on the pinned module and comodule categories. The geometric targets,
+The associated [Suggested.lean](Suggested.lean) records the carriers needed for
+the geometric targets. General neutral reconstruction is supplied by
+MotivesAndAlgebraicCycles §§6.1–6.2. The geometric targets,
 including the Satake equivalences, require the Grassmannians, Hecke v-stacks and
 sheaf categories specified here; their signatures require those constructions.
 Other short names specify the mathematical interfaces to be constructed.
@@ -207,7 +212,7 @@ The following abbreviations denote the full lists of supplier results:
 
 ## How to read the build
 
-GS0 constructs loop/modification moduli and finite Schubert bounds, then Witt resolutions, determinant descent and projectivity. Complete the Witt flag construction before comparing affine flags over the integral untilt base. Build `wittFiltration` before `zhuBoundPresentation`. Build `rationalWeightsFinite` before `mvCycleDimension` and the equidimensionality assertions for semi-infinite intersections; the affine-intersection construction precedes concentration. Construct finite admissible unions in GS0, and complete their local-model special-fibre identification and functoriality after GS4 generic Satake, using the nearby-cycle construction specified with that target. GS1 uses these spaces for semicontinuity, hyperbolic localization, ULA recognition and relative perversity. GS2 proves convolution closure and rigidity before GS3 constructs corrected symmetric fusion. GS4 supplies relative reconstruction, identifies the generic and integral dual groups, normalizes the Weil action and extends to perfect representation complexes. Classical trace comparison follows both Satake equivalences and the independent spherical transform.
+GS0 constructs loop/modification moduli and finite Schubert bounds, then Witt resolutions, determinant descent and projectivity. Complete the Witt flag construction before comparing affine flags over the integral untilt base. Build `wittFiltration` before `zhuBoundPresentation`. Build `rationalWeightsFinite` before `mvCycleDimension` and the equidimensionality assertions for semi-infinite intersections; the affine-intersection construction precedes concentration. Construct finite admissible unions in GS0, and complete their local-model special-fibre identification and functoriality after GS4 generic Satake, using the nearby-cycle construction specified with that target. GS1 uses these spaces for semicontinuity, hyperbolic localization, ULA recognition and relative perversity. GS2 proves convolution closure and rigidity before GS3 constructs corrected symmetric fusion. GS4 applies MotivesAndAlgebraicCycles §6.4 to Satake, identifies the generic and integral dual groups, normalizes the Weil action and extends to perfect representation complexes. Classical trace comparison follows both Satake equivalences and the independent spherical transform.
 
 ## Layer GS0: modification spaces and Schubert geometry
 
@@ -1758,7 +1763,7 @@ GS0–GS2; RelativeFarguesFontaine §§3.9, 4.7; ReductiveGroupsPartII RG2.5; Cl
 
 ### Bounded representability and the coordinate Hopf algebra
 
-Verify bounded adjunctions and all three `F`-split coequalizer conditions, then apply the relative reconstruction theorem of this section. Dualize the fibre of each bounded generator before forming the filtered coordinate coalgebra. Coefficient limits and tensor products must preserve its Hopf operations.
+Verify bounded adjunctions and all three `F`-split coequalizer conditions, then apply relative reconstruction from MotivesAndAlgebraicCycles §6.4. Dualize the fibre of each bounded generator before forming the filtered coordinate coalgebra. Coefficient limits and tensor products must preserve its Hopf operations.
 
 <a id="tannakian-left-adjoint"></a>
 
@@ -1787,14 +1792,11 @@ Provide the following API.
 
 <a id="relative-reconstruction"></a>
 
-**Relative finite-piece reconstruction** (`relativeReconstruction`). Let `A` be an essentially small rigid symmetric monoidal category, `C` a symmetric monoidal category with a coherent tensor action of `A`, and `F:C→A` a conservative strong symmetric `A`-linear functor. Assume `C` has coequalizers of `F`-split pairs and `F` preserves and reflects them. Let `C=⋃_i C_i` be a filtered cover by full subcategories stable under that action and those coequalizers, such that `F|C_i` is represented internally by `X_i`. Use an ambient universe for the filtered system and form `Ind(A)`. The intended result is a commutative bialgebra `H=colim_i F(X_i)^∨` in `Ind(A)` and a strong symmetric `A`-linear equivalence `C≃Comod_A(H)`, where the underlying comodule is an object of `A`. If `C` is rigid, the reconstructed bialgebra has an antipode. ([FS](#source-fs), Proposition VI.10.2 and proof, pp. 232–234.)
+### Imported reconstruction
 
-Prove the following four assertions, including their transition maps and universal properties. They are general results of this section, and their application to the actual Satake category is the next target.
+Import relative reconstruction from MotivesAndAlgebraicCycles §6.4 with the following contract. Let `A` be an essentially small rigid symmetric monoidal category, `C` a symmetric monoidal category with a coherent tensor action of `A`, and `F:C→A` a conservative strong symmetric `A`-linear functor. Assume `C` has coequalizers of `F`-split pairs and `F` preserves and reflects them. Let `C=⋃_i C_i` be a small filtered cover by full subcategories stable under that action and those coequalizers. Require preservation by the restricted functors and transition inclusions separately, and enriched representers `X_i` with `Hom_Ci(V⊙X_i,Y)≃Hom_A(V,F_iY)`. In an ambient universe the supplier gives a commutative bialgebra `H=colim_i F(X_i)^∨` in `Ind(A)` and a strong symmetric `A`-linear equivalence `C≃Comod_A(H)`, where the underlying comodule is an object of `A`. If `C` is rigid, the reconstructed bialgebra has an antipode. ([FS](#source-fs), Proposition VI.10.2 and proof, pp. 232–234.)
 
-- `relative-finite-piece-reconstruction`: The representing object gives `L_i(V)=V⊗X_i` left adjoint to `F|C_i`. Its monad is tensoring with the algebra `F(X_i)`, and the bounded comparison is the module category of that algebra, by the stated split-coequalizer hypotheses.
-- `relative-coalgebra-assembly`: Dualizing gives the finite-piece coalgebra `F(X_i)^∨`; an inclusion `C_i⊂C_j` gives `X_j→X_i` and hence the forward coalgebra transition. The filtered colimit coactions identify `C` with comodules whose underlying object is in `A`, naturally under enlargement of the cover.
-- `relative-bialgebra-reconstruction`: Tensor products land in a larger finite piece and induce multiplication on `H`, compatible with its coalgebra, unit and counit. The comparisons for tensor, unit, associativity and symmetry are coherent.
-- `relative-rigid-antipode`: Duals in `C` give an antipode on `H` satisfying both convolution-inverse identities. The comparison preserves evaluation and coevaluation. This is an antipode on the coordinate algebra, not an inverse of the base category `A`.
+The imported finite-piece theorem identifies the monad of `V↦V⊙X_i ⊣ F_i` with tensoring by `F(X_i)`. Its dual-coalgebra assembly sends `X_j→X_i` to the forward transition `F(X_i)^∨→F(X_j)^∨`. Its tensor reconstruction supplies multiplication and coherent tensor comparisons, and its rigidity theorem supplies both antipode identities and preserves evaluation and coevaluation. These are the general constructions of MotivesAndAlgebraicCycles §6.4; the Satake targets below identify their fibres and coactions with the geometric ones.
 
 **Checks.**
 
@@ -1802,36 +1804,33 @@ Prove the following four assertions, including their transition maps and univers
 - For finite-support modules graded by an abelian group `M`, reconstruction gives the group algebra, with `Δ(e^m)=e^m⊗e^m`, `ε(e^m)=1` and `S(e^m)=e^(−m)`. Using `F(X_i)` without dualization reverses the coalgebra arrows.
 - A rigid category of finite projective modules over a general ring need not be abelian or semisimple. The split-coequalizer hypothesis remains explicit; conservation alone cannot replace preservation.
 
-Also prove `neutral-tannaka-reconstruction`: for an essentially small rigid abelian tensor category over a field `k` with `End(1)=k` and a faithful exact `k`-linear tensor fibre functor to finite-dimensional vector spaces, its tensor-automorphism functor is represented by an affine group and the category is its finite-dimensional representation category. Prove `tannaka-finiteness-recognition` (the group is of finite type exactly when the category admits a tensor generator) and, over a characteristic-zero field, `tannaka-connectedness-recognition` (the group is connected exactly when no representation with nontrivial group action has its subquotient-and-finite-sum closure stable under tensor products). In the connectedness criterion use the precise form of [DM](#source-dm), Corollary 2.22: for every object `X`, if the category generated by `X` is closed under tensor products, then `X` is trivial; “generated” here means subquotients of finite direct sums, rather than tensor generation. ([DM](#source-dm), Theorem 2.11, Proposition 2.20 and Corollary 2.22, pp. 20–25.) The generic Satake application proves these recognition hypotheses from its highest-weight growth. Characteristic-zero finite-type reductivity then uses ReductiveGroups Layer 6.
-
-The statement `neutralTannakaReconstruction` in [Suggested.lean](Suggested.lean)
-expresses the neutral reconstruction theorem as existence of a commutative Hopf
-algebra, a symmetric monoidal equivalence with its finite-dimensional comodules,
-and a monoidal natural isomorphism with the given fibre functor. The pinned
-`TauCeti.FGComoduleCat` supplies the algebraic representation category; the Hopf
-algebra is a conclusion of the theorem.
+Import neutral reconstruction from MotivesAndAlgebraicCycles §§6.1–6.2: an essentially small rigid symmetric abelian tensor category over a field `k`, with `End(1)=k` and a faithful exact `k`-linear symmetric tensor fibre in finite-dimensional vector spaces, is symmetrically equivalent to finite-dimensional representations of its affine tensor-automorphism group, with the marked fibre preserved. No tensor generator is required for reconstruction. Import finite-type recognition and characteristic-zero connectedness recognition from §6.3. Finite type is equivalent to a tensor generator. Connectedness in characteristic zero means that no object with nontrivial action has its finite-sum/subquotient hull closed under tensor products; this hull is distinct from a tensor-generated subcategory. ([DM](#source-dm), Theorem 2.11, Proposition 2.20 and Corollary 2.22, pp. 20–25.) The generic Satake application verifies these hypotheses using highest weights. Characteristic-zero finite-type reductivity uses ReductiveGroups Layer 6.
 
 **Checks.** A split torus has a faithful tensor generator and is connected while retaining nontrivial characters. A nontrivial finite constant group has a nontrivial representation with finite tensor hull and fails connectedness recognition. An infinite product of multiplicative groups is connected but has no finite tensor generator, so finite type must be checked separately.
 
-*Needs:* EnhancedDerivedSheaves §§E3.1–E3.4, E5:abstract.1, E5:abstract.4, E5:presentability.1; `CategoryTheory.Adjunction`; `CategoryTheory.Monad.HasCoequalizerOfIsSplitPair`; `CategoryTheory.Monad.PreservesColimitOfIsSplitPair`; `CategoryTheory.Monad.ReflectsColimitOfIsSplitPair`; `HopfAlgebra`; ReductiveGroups Layer 1 (the comodule and representation dictionary).
+*Needs:* MotivesAndAlgebraicCycles §§6.1–6.4; EnhancedDerivedSheaves §§E3.1–E3.4, E5:abstract.1, E5:abstract.4, E5:presentability.1; `CategoryTheory.Adjunction`; `CategoryTheory.Monad.HasCoequalizerOfIsSplitPair`; `CategoryTheory.Monad.PreservesColimitOfIsSplitPair`; `CategoryTheory.Monad.ReflectsColimitOfIsSplitPair`; `HopfAlgebra`; ReductiveGroups Layer 1 (the comodule and representation dictionary).
 
 <a id="relative-tannaka-hypotheses"></a>
 
-**Relative Tannaka hypotheses for Satake** (`relativeTannakaHypotheses`). With `A=Rep_{W_E^I}^{fp}(Λ)`, `C=Sat^I_G(Λ)`, corrected tensor and `F^I`, verify the hypotheses of the relative reconstruction theorem of this section: A is rigid symmetric, `C` is symmetric `A`-linear, `F` is strong symmetric `A`-linear and conservative, `C` admits coequalizers of `F`-split pairs and `F` reflects and preserves these coequalizers, and bounded full subcategories form a filtered cover stable under the `A`-action and those coequalizers, with restricted `F` represented by `X_W`. `Sat^I` over a general ring is not asserted to be an abelian category.
+**Relative Tannaka hypotheses for Satake** (`relativeTannakaHypotheses`). With `A=Rep_{W_E^I}^{fp}(Λ)`, `C=Sat^I_G(Λ)`, corrected tensor and `F^I`, verify the hypotheses of MotivesAndAlgebraicCycles §6.4: A is rigid symmetric, `C` is symmetric `A`-linear, `F` is strong symmetric `A`-linear and conservative, `C` admits coequalizers of `F`-split pairs and `F` reflects and preserves these coequalizers, and bounded full subcategories form a small filtered cover stable under the `A`-action and those coequalizers, with restricted `F` represented by `X_W` through the bounded adjunction. The restricted functors and bound inclusions preserve these coequalizers. `Sat^I` over a general ring is not asserted to be an abelian category.
 
 `F`-split diagrams are split after total cohomology. VI.7.10 constructs the relevant kernel/cokernel Satake objects when fibres split or are direct summands, so their coequalizers remain flat perverse and their fibres give the split quotient. Bounds remain bounded under those coequalizers and the LocSys action; enlargement makes the cover filtered. Apply the bounded adjunction to produce the finite-piece monad. Check preservation as well as reflection for relative monadic reconstruction; preservation is asserted separately alongside reflection.
 
-**Checks.** The relative base `A` retains all Weil local systems; it is not replaced by Vect or assumed semisimple. A nonsplit exact sequence of finite projective coefficient modules is not treated as an unrestricted cokernel construction in Satake.
+**Checks.**
+
+- The relative base `A` retains all Weil local systems; it is not replaced by Vect or assumed semisimple.
+- A nonsplit exact sequence of finite projective coefficient modules is not treated as an unrestricted cokernel construction in Satake.
+- For nested bounds and an `F`-split pair, the bounded coequalizer maps to the same split quotient under both restricted fibre functors and the bound inclusion; reflection alone does not give this preservation.
 
 ([FS](#source-fs), VI.10.2–10.3 pp232–235; VI.7.10 pp222–223.)
 
-*Needs:* [Bounded left adjoints](#tannakian-left-adjoint); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [Fusion and Verdier duality](#fusion-verdier-duality); [Satake category](#satake-category-and-fibre-functor); [Closure of Satake under convolution](#convolution-preserves-satake-and-dualizability); [relative-finite-piece-reconstruction](#relative-reconstruction); [relative-coalgebra-assembly](#relative-reconstruction); [relative-bialgebra-reconstruction](#relative-reconstruction); [relative-rigid-antipode](#relative-reconstruction); `CategoryTheory.Monad.HasCoequalizerOfIsSplitPair`; `CategoryTheory.Monad.PreservesColimitOfIsSplitPair`; `CategoryTheory.Monad.ReflectsColimitOfIsSplitPair`; [Cohomology](#satake-fibre-functor).
+*Needs:* [Bounded left adjoints](#tannakian-left-adjoint); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [Fusion and Verdier duality](#fusion-verdier-duality); [Satake category](#satake-category-and-fibre-functor); [Closure of Satake under convolution](#convolution-preserves-satake-and-dualizability); MotivesAndAlgebraicCycles §6.4; `CategoryTheory.Monad.HasCoequalizerOfIsSplitPair`; `CategoryTheory.Monad.PreservesColimitOfIsSplitPair`; `CategoryTheory.Monad.ReflectsColimitOfIsSplitPair`; [Cohomology](#satake-fibre-functor).
 
 <a id="geometric-coordinate-hopf-algebra"></a>
 
-**Geometric Satake coordinate Hopf algebra** (`satakeCoordinateHopf`). Apply the relative reconstruction theorem of this section to Satake. In `Ind(A)`, define `H^I_Λ=colim_W (F_W X_W)^∨`. It has a canonical commutative bialgebra structure from tensor products and an antipode from Satake rigidity. The comparison is a symmetric equivalence `Sat^I_G(Λ)≃Comod_{A,underlying A}(H^I_Λ)`. Forgetting `W_E^I` gives an ordinary flat coordinate Hopf algebra and hence an affine flat group scheme `G^∨,I_Λ`. This reconstructs `H` from the Satake category; the baseline known-Hopf tensorAutFunctor is only a compatibility comparison once `H` is constructed.
+**Geometric Satake coordinate Hopf algebra** (`satakeCoordinateHopf`). Apply MotivesAndAlgebraicCycles §6.4 with the verified Satake data. In `Ind(A)`, define `H^I_Λ=colim_W (F_W X_W)^∨`. It has a canonical commutative bialgebra structure from tensor products and an antipode from Satake rigidity. The comparison is a symmetric equivalence `Sat^I_G(Λ)≃Comod_{A,underlying A}(H^I_Λ)`, with a monoidal identification of its underlying-object functor with `F^I`. On each bound its coaction is dual to the geometric adjunction action `F_W(Y)⊗F_W(X_W)→F_W(Y)`, and these coactions agree under enlargement. Forgetting `W_E^I` gives an ordinary flat coordinate Hopf algebra and hence an affine flat group scheme `G^∨,I_Λ`. This reconstructs `H` from the Satake category; the baseline known-Hopf tensorAutFunctor is only a compatibility comparison once `H` is constructed.
 
-Use the four reconstruction targets below for finite-piece reconstruction, filtered coalgebra assembly, multiplication and antipode. Their abstract constructions and universal properties are targets of this section. Each dual fibre is finite projective; its filtered colimit is flat. Tensor compatibility yields commutativity and unit/counit; rigidity supplies the antipode equations. The comparison restricts to comodules whose underlying object lies in A, precisely retaining finite projectivity and continuous Weil action. Compare with the existing known-Hopf reconstruction only after extending to a field where its hypotheses hold. Apply the corrected VI.10.2 wording: obtain a bialgebra first, then an antipode on `H` under rigidity; do not apply an inverse to the base category A.
+Use the supplier's finite-piece reconstruction, filtered coalgebra assembly, multiplication and antipode. Each dual Satake fibre is finite projective; its filtered colimit is flat. The imported tensor compatibility and rigidity give the Hopf operations on this geometric coordinate object. The comparison restricts to comodules whose underlying object lies in A, precisely retaining finite projectivity and continuous Weil action. After extending to a field, identify the supplier's finite right comodules with the pinned `TauCeti.FGComoduleCat`; the marked fibre comparison identifies the tensor-automorphism functors on every coefficient algebra, compatibly with scalar extension. The known-Hopf comparison evaluates the same coefficient coactions. The antipode acts on `H`.
 
 Provide the following API.
 
@@ -1850,7 +1849,7 @@ Provide the following API.
 
 ([FS](#source-fs), Propositions VI.10.2–VI.10.3 pp232–235.)
 
-*Needs:* [Relative Tannaka hypotheses for Satake](#relative-tannaka-hypotheses); [relative-coalgebra-assembly](#relative-reconstruction); [relative-bialgebra-reconstruction](#relative-reconstruction); [relative-rigid-antipode](#relative-reconstruction); EnhancedDerivedSheaves §E5:presentability.1; `HopfAlgebra`; `Bialgebra`; `TauCeti.AffineGroupSchemeCat`; `TauCeti.Tannaka.tensorAutFunctor`; `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`; `CategoryTheory.Limits.HasColimit`.
+*Needs:* [Relative Tannaka hypotheses for Satake](#relative-tannaka-hypotheses); MotivesAndAlgebraicCycles §6.4; EnhancedDerivedSheaves §E5:presentability.1; `HopfAlgebra`; `Bialgebra`; `TauCeti.AffineGroupSchemeCat`; `TauCeti.Tannaka.tensorAutFunctor`; `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`; `CategoryTheory.Limits.HasColimit`.
 
 <a id="multileg-and-coefficient-reconstruction"></a>
 
@@ -1878,15 +1877,19 @@ Use VI.6.7 to transport geometric Satake to the Witt fibre. Equivariance and con
 
 <a id="generic-fibre-reductivity"></a>
 
-**Reductivity of the generic Satake group** (`genericFibreReductivity`). The geometric generic fibre `G^∨_{Q_ℓ}` is a connected reductive group of finite type. Finite dominant-monoid generators give a tensor generator (including its dual), so the reconstruction targets here and DM 2.20 gives finite type. For every nontrivial IC highest weight the highest weights `nμ` in tensor powers grow, ruling out a nontrivial finite tensor hull; the reconstruction targets here and DM 2.22 gives connectedness. Having established finite type and connectedness, use geometric semisimplicity and the characteristic-zero reductivity criterion from the existing ReductiveGroups owner. DM 2.23 also expresses the semisimplicity criterion as proreductivity; the finite-type criterion has no additional pro-group assertion.
+**Reductivity of the generic Satake group** (`genericFibreReductivity`). The geometric generic fibre `G^∨_{Q_ℓ}` is a connected reductive group of finite type. Finite dominant-monoid generators give a tensor generator (including its dual), so MotivesAndAlgebraicCycles §6.3 gives finite type (DM 2.20). For every nontrivial IC highest weight the highest weights `nμ` in tensor powers grow, ruling out a nontrivial finite tensor hull; MotivesAndAlgebraicCycles §6.3 gives connectedness (DM 2.22). Having established finite type and connectedness, use geometric semisimplicity and the characteristic-zero reductivity criterion from the existing ReductiveGroups owner. DM 2.23 also expresses the semisimplicity criterion as proreductivity; the finite-type criterion has no additional pro-group assertion.
 
 Choose finite generators for dominant weights, and use the highest-weight constituent `IC_{μ+ν}` of convolution to generate all simples by tensor operations/subquotients.
 
-**Checks.** For `G` a split torus the group is its dual torus, not a semisimple group. Semisimplicity alone would allow disconnected or infinite proreductive groups; the preceding two recognition steps are necessary.
+**Checks.**
+
+- For `G` a split torus the group is its dual torus, not a semisimple group.
+- A nontrivial finite constant group in characteristic zero has a semisimple representation category but is disconnected, so connectedness requires its separate recognition step.
+- An infinite product of multiplicative groups has a semisimple representation category but no finite tensor generator, so finite type requires its separate recognition step.
 
 ([FS](#source-fs), VI.11.1 proof pp235–236; [DM](#source-dm), Proposition 2.20, Corollary 2.22 and Proposition 2.23 pp24–27; [Zhu](#source-zhu), §2.5 p454, first paragraph.)
 
-*Needs:* [Geometric rational semisimplicity](#rational-semisimplicity); [Coordinate Hopf algebra](#geometric-coordinate-hopf-algebra); [tannaka-finiteness-recognition](#relative-reconstruction); [tannaka-connectedness-recognition](#relative-reconstruction); ReductiveGroups Layer 6; ReductiveGroupsPartII RG2.5; `TauCeti.reductiveAffineGroupSchemeProperty`.
+*Needs:* [Geometric rational semisimplicity](#rational-semisimplicity); [Coordinate Hopf algebra](#geometric-coordinate-hopf-algebra); MotivesAndAlgebraicCycles §6.3; ReductiveGroups Layer 6; ReductiveGroupsPartII RG2.5; `TauCeti.reductiveAffineGroupSchemeProperty`.
 
 <a id="witt-rational-tannakian-category"></a>
 
@@ -1904,7 +1907,7 @@ Zhu's ring `W_O(R) =` `W(R)` `⊗_{W(k)} O` equals `W(R)` `⊗_{W(F_q)} O_E`, so
 
 ([Zhu](#source-zhu), §2 opening p429; §2.1.1 p430; §2.5 p454, first paragraph; [FS](#source-fs), VI.7 p219 after the proof of Proposition VI.7.4; Remark I.2.14 p17.)
 
-*Needs:* [One-leg Satake equivalence](#one-leg-satake-comparison); [One-leg ULA special/generic comparison](#integral-family-comparison); AdicCoefficientsAndComparisons L0, `rational-constructible-coefficients`; [Cohomology](#satake-fibre-functor); [Duals of Satake objects](#satake-rigidity); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [Geometric rational semisimplicity](#rational-semisimplicity); [Reductivity of the generic Satake group](#generic-fibre-reductivity); [Coefficient reconstruction](#multileg-and-coefficient-reconstruction); [neutral-tannaka-reconstruction](#relative-reconstruction); [Rational parity and integral torsion bounds](#standard-costandard-torsion-bound).
+*Needs:* [One-leg Satake equivalence](#one-leg-satake-comparison); [One-leg ULA special/generic comparison](#integral-family-comparison); AdicCoefficientsAndComparisons L0, `rational-constructible-coefficients`; [Cohomology](#satake-fibre-functor); [Duals of Satake objects](#satake-rigidity); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [Geometric rational semisimplicity](#rational-semisimplicity); [Reductivity of the generic Satake group](#generic-fibre-reductivity); [Coefficient reconstruction](#multileg-and-coefficient-reconstruction); MotivesAndAlgebraicCycles §§6.1–6.2; [Rational parity and integral torsion bounds](#standard-costandard-torsion-bound).
 
 
 ### Examples
@@ -1913,7 +1916,7 @@ For a split torus with cocharacter group `M`, dualizing the bounded representing
 
 ### Dependencies
 
-GS0–GS3; the general relative and neutral reconstruction targets here; EnhancedDerivedSheaves E3, E5; EtaleDualityAndPerverseSheaves §§5.3, 5.5–5.6; ReductiveGroups Layers 1, 6 and 9; AdicCoefficientsAndComparisons L0–L1, L3.
+GS0–GS3; MotivesAndAlgebraicCycles §§6.1–6.4; EnhancedDerivedSheaves E3, E5; EtaleDualityAndPerverseSheaves §§5.3, 5.5–5.6; ReductiveGroups Layers 1, 6 and 9; AdicCoefficientsAndComparisons L0–L1, L3.
 
 ## Layer GS4: Integral identification, normalization and functoriality
 
@@ -2017,7 +2020,7 @@ The generic root datum result identifies the root datum of the Tannakian group o
 
 ([Zhu](#source-zhu), Theorem 0.3 p408 ; Corollary 2.22 p444; §2.5 pp454–455; §0.5 p412; [FS](#source-fs), Remark I.2.14 p17; VI introduction pp188–189.)
 
-*Needs:* [Rational Witt category](#witt-rational-tannakian-category); [Generic root datum](#generic-root-datum); [Torus and rank one](#torus-and-rank-one-identification); [Symmetric constant terms](#symmetric-constant-term); [One-leg Satake equivalence](#one-leg-satake-comparison); [MV intersections](#semi-infinite-intersections-and-mv-cycles); [Rational special-fibre weights](#rational-weight-concentration); [neutral-tannaka-reconstruction](#relative-reconstruction); ReductiveGroupsPartII RG2.5; LanglandsParameterStacks §LP3.0; ReductiveGroups Layer 9.
+*Needs:* [Rational Witt category](#witt-rational-tannakian-category); [Generic root datum](#generic-root-datum); [Torus and rank one](#torus-and-rank-one-identification); [Symmetric constant terms](#symmetric-constant-term); [One-leg Satake equivalence](#one-leg-satake-comparison); [MV intersections](#semi-infinite-intersections-and-mv-cycles); [Rational special-fibre weights](#rational-weight-concentration); MotivesAndAlgebraicCycles §§6.1–6.2; ReductiveGroupsPartII RG2.5; LanglandsParameterStacks §LP3.0; ReductiveGroups Layer 9.
 
 <a id="normalized-satake-equivalence"></a>
 
@@ -2157,7 +2160,7 @@ For `G=PGL₂`, the minuscule fibre is `Λ⊕Λ(−1)` and the reconstructed int
 
 ### Dependencies
 
-GS0–GS3 and the GS4 reconstruction targets; ReductiveGroups Layers 3, 6, 7 and 9; ReductiveGroupsPartII RG2.0, RG2.0a, RG2.3–RG2.5; LanglandsParameterStacks §LP3.0; EnhancedDerivedSheaves E1.8, E5; VStackSheavesAndLisseCategories VS1, VS3; DiamondSixOperations S6.
+GS0–GS3 and the GS4 Satake reconstruction application; MotivesAndAlgebraicCycles §§6.1–6.4; ReductiveGroups Layers 3, 6, 7 and 9; ReductiveGroupsPartII RG2.0, RG2.0a, RG2.3–RG2.5; LanglandsParameterStacks §LP3.0; EnhancedDerivedSheaves E1.8, E5; VStackSheavesAndLisseCategories VS1, VS3; DiamondSixOperations S6.
 
 ## Layer GS4: Frobenius traces and classical spherical Satake
 
@@ -2300,7 +2303,7 @@ PY. Gopal Prasad and Jiu-Kang Yu, [On quasi-reductive group schemes](https://mat
 
 <a id="source-dm"></a>
 
-DM. Pierre Deligne and James `S`. Milne, [Tannakian categories](https://www.math.columbia.edu/~dejong/tannakian/Deligne-Milne-Tannakian-Categories.pdf). Author-hosted notes revised 15 August 2012; statements numbered 2.20, 2.22, 2.23; pp24–27.
+DM. Pierre Deligne and James `S`. Milne, [Tannakian categories](https://www.jmilne.org/math/xnotes/tc.pdf). Author-hosted notes revised 15 August 2012; statements numbered 2.20, 2.22, 2.23; pp24–27.
 
 <a id="source-dh"></a>
 
