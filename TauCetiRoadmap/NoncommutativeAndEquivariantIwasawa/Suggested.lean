@@ -31,9 +31,13 @@ The later headline statements require objects absent from the pins:
 * Denominator-corrected Fitting annihilation (§7.23) needs noncommutative Fitting orders,
   reduced norms, maximal Fitting invariants and their denominator ideals.
 * The shared Hilbert families and ordinary control (§F.5) need the classical ideal-coefficient
-  dictionary and ordinary tower. The independent period-realization prefix (§F.6) needs the
-  semistable period invariants and raw Weil–Deligne carrier; its differential branch needs
-  the Robba and étale prefix, slope and monodromy prefix, then the embedded de Rham lattice.
+  dictionary and ordinary tower. The general period-boundary and exponential prefix (§F.6)
+  needs topological period sequences and continuous cochains; its identification of invariant
+  quotient periods with the de Rham tangent space requires the de Rham hypothesis. The
+  independent period-realization prefix needs the semistable period invariants and raw
+  Weil–Deligne carrier. The differential branch needs the Robba and étale prefix, including
+  extension of overconvergent Frobenius lifts with radius estimates, then the slope and
+  monodromy prefix and the embedded de Rham lattice.
 
 These results are not stated here. Their missing constructions are specified in the README.
 -/
