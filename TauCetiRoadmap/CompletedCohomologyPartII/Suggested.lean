@@ -1,6 +1,4 @@
 import Mathlib
-import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Basic
-import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
 
 /-!
 # Completed cohomology, homology and arithmetic towers: headline targets
@@ -9,10 +7,9 @@ import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
 `README.md`. These statements suggest Lean forms for headline results; discharging them
 finishes neither a layer nor the roadmap.
 
-The stated results are the profinite Iwasawa local-ring criterion (§3.11), integral and
-residual analytic Iwasawa noetherianity (§5.1), and the semilocal topological product
-decomposition of the finite Hecke-image inverse limit (§8.11). They use native completed
-group algebras, analytic Lie groups, compatible sections, maximal spectra and localizations.
+The stated result is the semilocal topological product decomposition of the finite
+Hecke-image inverse limit (§8.11). It uses native compatible sections, maximal spectra
+and localizations.
 The only additional topology is the quotient topology on each algebraic local factor.
 
 The arithmetic endpoints require types absent at the pinned Mathlib and Tau Ceti revisions:
@@ -29,37 +26,8 @@ no abstract nilpotent quotient is substituted for that diagram.
 -/
 
 open CategoryTheory CategoryTheory.Limits
-open scoped Manifold ContDiff
 
 namespace TauCetiRoadmap.CompletedCohomologyPartII
-
-variable (p : ℕ) [Fact p.Prime]
-variable (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-  [CharZero O] [Finite (IsLocalRing.ResidueField O)]
-  [CharP (IsLocalRing.ResidueField O) p]
-  [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
-
-/-- The local-ring criterion for completed group algebras of profinite groups
-(README §3.11). The coefficient ring includes every ring of integers of a finite
-extension of `ℚ_[p]`, including ramified extensions. -/
-theorem iwasawa_isLocal_iff_pro_p (K : Type*) [Group K] [TopologicalSpace K]
-    [IsTopologicalGroup K] [CompactSpace K] [T2Space K] [TotallyDisconnectedSpace K] :
-    IsLocalRing (TauCeti.completedGroupAlgebra O K) ↔ TauCeti.IsProP p K := by
-  sorry
-
-/-- The analytic Iwasawa ring theorem (README §5.1): both integral and residual
-completed group algebras of a compact p-adic analytic group are left and right noetherian.
-Analyticity is Mathlib's `LieGroup` at regularity `ω`. -/
-theorem iwasawa_noetherian
-    (V : Type*) [NormedAddCommGroup V] [NormedSpace ℚ_[p] V] [FiniteDimensional ℚ_[p] V]
-    (K : Type*) [Group K] [TopologicalSpace K] [ChartedSpace V K]
-    [LieGroup 𝓘(ℚ_[p], V) ω K]
-    [CompactSpace K] [T2Space K] :
-    IsNoetherianRing (TauCeti.completedGroupAlgebra O K) ∧
-    IsNoetherianRing (TauCeti.completedGroupAlgebra O K)ᵐᵒᵖ ∧
-    IsNoetherianRing (TauCeti.completedGroupAlgebra (IsLocalRing.ResidueField O) K) ∧
-    IsNoetherianRing (TauCeti.completedGroupAlgebra (IsLocalRing.ResidueField O) K)ᵐᵒᵖ := by
-  sorry
 
 universe u v
 
