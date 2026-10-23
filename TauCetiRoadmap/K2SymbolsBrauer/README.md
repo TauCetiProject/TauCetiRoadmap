@@ -179,13 +179,13 @@ Provide the following API.
 
 - `Steinberg.column`: `rho_t(v)=product` over `i≠t` of `x_it(v_i)`, with commuting factors and fixed finite index type.
 - `Steinberg.row`: `eta_t(v)=product` over `i≠t` of `x_ti(v_i)`, with commuting factors.
-- `Steinberg.column_add`: `rho_t(v+w)=rho_t(v)rho_t(w)`; the identical row law also holds.
-- `Steinberg.column_basis`: `rho_t` of the vector supported at `i` with value `r` is `x_it(r)`; row basis evaluates to `x_ti(r)`.
-- `Steinberg.phi_column`: The image under `phi_n` is `I+sum_i E_it(v_i)`; row image is `I+sum_i E_ti(v_i)`.
-- `Steinberg.column_injective`: `rho_t` and `eta_t` are injective, and remain injective after mapping to stable `St(R)`.
-- `Steinberg.column_conj`: For `a,b≠t` and `a≠b, x_ab(c)rho_t(v)x_ab(c)` inverse equals `rho_t(v with v_a increased by c v_b)`.
-- `Steinberg.row_conj`: Under the same hypotheses conjugation increases row coordinate `v_b` by `−v_a c`.
-- `Steinberg.column_map`: Ring maps act on every vector entry; index stabilization adds zero entries. Row maps satisfy the same laws.
+- Steinberg.column_add: `rho_t(v+w)=rho_t(v)rho_t(w)`; the identical row law also holds.
+- Steinberg.column_basis: `rho_t` of the vector supported at `i` with value `r` is `x_it(r)`; row basis evaluates to `x_ti(r)`.
+- Steinberg.phi_column: The image under `phi_n` is `I+sum_i E_it(v_i)`; row image is `I+sum_i E_ti(v_i)`.
+- Steinberg.column_injective: `rho_t` and `eta_t` are injective, and remain injective after mapping to stable `St(R)`.
+- Steinberg.column_conj: For `a,b≠t` and `a≠b, x_ab(c)rho_t(v)x_ab(c)` inverse equals `rho_t(v with v_a increased by c v_b)`.
+- Steinberg.row_conj: Under the same hypotheses conjugation increases row coordinate `v_b` by `−v_a c`.
+- Steinberg.column_map: Ring maps act on every vector entry; index stabilization adds zero entries. Row maps satisfy the same laws.
 
 **Checks.**
 
@@ -246,11 +246,11 @@ Let `n≥5` and `q:Y→St_n(R)` be a surjective homomorphism with central kernel
 Provide the following API.
 
 - `Steinberg.normalisedRootLift`: `y_ij(a)` is the commutator of any indicated two preimages under `q`.
-- `Steinberg.normalisedRootLift_image`: `q(y_ij(a))=x_ij(a)`.
-- `Steinberg.normalisedRootLift_choice`: Changing either preimage or the intermediate index leaves `y_ij(a)` unchanged.
-- `Steinberg.normalisedRootLift_zero`: `y_ij(0)=1`, since any lift of `x_kj(0)=1` lies in the central kernel.
-- `Steinberg.normalisedRootLift_product`: For arbitrary lifts of `x_ik(a),x_kj(b)`, their commutator is `y_ij(ab)`.
-- `Steinberg.normalisedRootLift_extensionHom`: A homomorphism `Y→Y′` over `St_n` carries normalized lifts to normalized lifts; `q′` must again be a surjective central extension.
+- Steinberg.normalisedRootLift_image: `q(y_ij(a))=x_ij(a)`.
+- Steinberg.normalisedRootLift_choice: Changing either preimage or the intermediate index leaves `y_ij(a)` unchanged.
+- Steinberg.normalisedRootLift_zero: `y_ij(0)=1`, since any lift of `x_kj(0)=1` lies in the central kernel.
+- Steinberg.normalisedRootLift_product: For arbitrary lifts of `x_ik(a),x_kj(b)`, their commutator is `y_ij(ab)`.
+- Steinberg.normalisedRootLift_extensionHom: A homomorphism `Y→Y′` over `St_n` carries normalized lifts to normalized lifts; `q′` must again be a surjective central extension.
 
 **Checks.**
 
@@ -335,11 +335,11 @@ Provide the following API.
 
 - `K2.classicalHomologyEquiv`: `α_R` is the kernel restriction of the unique Hopf universal-extension equivalence.
 - `K2.classicalPlusEquiv`: `β_R` is the displayed cover/Hurewicz/integral-homology composite.
-- `K2.classicalHomologyEquiv_natural`: `α_S∘K₂(f)=H₂^grp(E(f);Z)∘α_R` for any unital ring map `f`.
-- `K2.classicalPlusEquiv_natural`: `β_S∘K₂(f)=π₂(BGL(f)⁺)∘β_R`, with the stated basepoint or trivial-action condition.
-- `K2.classicalPlusEquiv_cover`: `hur_R∘p_R,*⁻¹∘β_R=H₂^top(j_R)∘γ_R∘α_R`.
-- `K2.classicalPlusEquiv_transport`: Changing the plus/cover model by a based equivalence compatible under `BE` and `BGL` carries `β` to the new `β`; changing the Hopf presentation carries `α` by the canonical equivalence.
-- `K2.classicalPlusEquiv_KSpace`: Transport `β` along the based equivalence between `BGL⁺` and the zero component of the ring K-space of GeneralAlgebraicKTheory §3.2.
+- K2.classicalHomologyEquiv_natural: `α_S∘K₂(f)=H₂^grp(E(f);Z)∘α_R` for any unital ring map `f`.
+- K2.classicalPlusEquiv_natural: `β_S∘K₂(f)=π₂(BGL(f)⁺)∘β_R`, with the stated basepoint or trivial-action condition.
+- K2.classicalPlusEquiv_cover: `hur_R∘p_R,*⁻¹∘β_R=H₂^top(j_R)∘γ_R∘α_R`.
+- K2.classicalPlusEquiv_transport: Changing the plus/cover model by a based equivalence compatible under `BE` and `BGL` carries `β` to the new `β`; changing the Hopf presentation carries `α` by the canonical equivalence.
+- K2.classicalPlusEquiv_KSpace: Transport `β` along the based equivalence between `BGL⁺` and the zero component of the ring K-space of GeneralAlgebraicKTheory §3.2.
 
 **Checks.**
 
@@ -491,12 +491,12 @@ Provide the following API.
 - `steinbergRelations`: `R₂(F)` is the `ℤ-span` of `a⊗b` with `a+b=1`.
 - `SymbolGroup`: `Q₂(F)=T₂(F)/R₂(F)`.
 - `symbol`: For units `a,b, symbol(a,b)` is their tensor class.
-- `symbol_mul_left`: `symbol(ab,c)=symbol(a,c)+symbol(b,c)`.
-- `symbol_mul_right`: `symbol(a,bc)=symbol(a,b)+symbol(a,c)`.
-- `symbol_steinberg`: If `a+b=1` in `F` then `symbol(a,b)=0`.
-- `symbol_one_left`: `symbol(1,a)=0`.
-- `symbol_one_right`: `symbol(a,1)=0`.
-- `symbol_inv_left`: `symbol(a⁻¹,b)=−symbol(a,b)`.
+- symbol_mul_left: `symbol(ab,c)=symbol(a,c)+symbol(b,c)`.
+- symbol_mul_right: `symbol(a,bc)=symbol(a,b)+symbol(a,c)`.
+- symbol_steinberg: If `a+b=1` in `F` then `symbol(a,b)=0`.
+- symbol_one_left: `symbol(1,a)=0`.
+- symbol_one_right: `symbol(a,1)=0`.
+- symbol_inv_left: `symbol(a⁻¹,b)=−symbol(a,b)`.
 - `universal`: Every bilinear complementary-zero pairing factors through a unique linear map `Q₂(F)→A`.
 - `hom_ext`: Two linear maps out of `Q₂(F)` agreeing on all symbols are equal.
 - `map_exists`: A field map induces a unique linear map sending symbols to symbols of mapped units; the maps respect identity and composition.
@@ -548,15 +548,15 @@ Provide the following API.
 
 - `MilnorK`: The graded ring, and its degree-n part.
 - `MilnorK.symbol`: The symbol of an n-tuple of nonzero elements.
-- `MilnorK.symbol_mul`: Multiplicativity in each entry.
-- `MilnorK.symbol_steinberg`: A complementary two-entry symbol vanishes; multiplying on either side gives vanishing for consecutive complementary entries in any symbol.
+- MilnorK.symbol_mul: Multiplicativity in each entry.
+- MilnorK.symbol_steinberg: A complementary two-entry symbol vanishes; multiplying on either side gives vanishing for consecutive complementary entries in any symbol.
 - `MilnorK.zero`: Degree zero is the integers.
 - `MilnorK.one`: Degree one is the unit group written additively.
 - `MilnorK.map`: Functoriality in the field.
-- `MilnorK.hom_ext`: Graded ring maps agreeing on degree-one units are equal, since products of these generate.
+- MilnorK.hom_ext: Graded ring maps agreeing on degree-one units are equal, since products of these generate.
 - `MilnorK.lift`: A homomorphism `F× ->` degree-one elements of a graded target that kills every Steinberg product extends uniquely to a graded ring map.
-- `MilnorK.map_id_comp`: Field maps induce graded maps respecting identity and composition on every symbol.
-- `MilnorK.symbol_product`: Concatenating two tuples gives the product of their symbols with degree addition.
+- MilnorK.map_id_comp: Field maps induce graded maps respecting identity and composition on every symbol.
+- MilnorK.symbol_product: Concatenating two tuples gives the product of their symbols with degree addition.
 
 **Checks.**
 
@@ -589,8 +589,8 @@ Provide the following API.
 - `MilnorK.degreeTwoEquiv`: `K⁽M⁾₂(F)≃ₗ[ℤ]Q₂(F)`, with positive symbol normalization.
 - `MilnorK.relationComponent`: `I∩T_n=R_n`.
 - `MilnorK.gradedQuotientEquiv`: The direct sum of degree quotients is the underlying additive group of the tensor-algebra ring quotient.
-- `MilnorK.concat_quotient`: Multiplication of pure symbol classes is concatenation, and `R_iT_j+T_iR_j⊆R_{i+j}`.
-- `MilnorK.degreePresentation_natural`: Every field map commutes with the degree presentation and with the degree-two equivalence.
+- MilnorK.concat_quotient: Multiplication of pure symbol classes is concatenation, and `R_iT_j+T_iR_j⊆R_{i+j}`.
+- MilnorK.degreePresentation_natural: Every field map commutes with the degree presentation and with the degree-two equivalence.
 
 **Checks.**
 
@@ -792,16 +792,16 @@ Provide the following API.
 
 - `MilnorK.realPositive`: `D_n` is the `span` of degree-n real symbols with a positive entry, `n≥1`.
 - `MilnorK.realSign`: The additive sign map is 1 on all-negative symbols and 0 on all others.
-- `MilnorK.realSign_kernel`: `ker(realSign)=D_n`.
+- MilnorK.realSign_kernel: `ker(realSign)=D_n`.
 - `MilnorK.realDecomposition`: `K⁽M⁾_n(ℝ)≃+(ℤ/2)×D_n`, sending `e_n` to `(1,0)`.
-- `MilnorK.realPositive_divisible`: For every integer `m>0`, multiplication by `m` on `D_n` is surjective.
+- MilnorK.realPositive_divisible: For every integer `m>0`, multiplication by `m` on `D_n` is surjective.
 - `realPositive`: The degree-two realization is the `span` in `Q₂(ℝ)` of `symbol(a,b)` with `a>0` or `b>0`.
-- `realPositive_divisible`: For `m>0` multiplication by `m` on realPositive is surjective.
+- realPositive_divisible: For `m>0` multiplication by `m` on realPositive is surjective.
 - `real_sign_exists`: The all-negative pairing descends to a linear sign map `Q₂(ℝ)→ZMod 2` with kernel realPositive.
 - `real_minus_one_nonzero`: `symbolℝ(−1,−1)≠0`.
 - `real_decomposition`: `Q₂(ℝ)≃ₗ[ℤ]ZMod 2×realPositive`.
-- `realPositive_contains`: A real symbol with a positive entry belongs to realPositive.
-- `realPositive_excludes_minus_one`: `symbolℝ(−1,−1)∉realPositive`.
+- realPositive_contains: A real symbol with a positive entry belongs to realPositive.
+- realPositive_excludes_minus_one: `symbolℝ(−1,−1)∉realPositive`.
 
 **Checks.**
 
@@ -866,8 +866,8 @@ For `i != j` and a unit `r`, define `w_ij(r)=x_ij(r)x_ji(-r^-1)x_ij(r)`. Its ele
 Provide the following API.
 
 - `Steinberg.w`: The indexed word `w_ij(r)` for `i != j`.
-- `Steinberg.w_toGL`: `phi(w_ij(r))` has `r,-r^-1` in the two off-diagonal positions.
-- `Steinberg.w_map`: Unital ring homomorphisms preserve the indexed word and its elementary image.
+- Steinberg.w_toGL: `phi(w_ij(r))` has `r,-r^-1` in the two off-diagonal positions.
+- Steinberg.w_map: Unital ring homomorphisms preserve the indexed word and its elementary image.
 
 **Checks.**
 
@@ -886,8 +886,8 @@ For `i != j` and a unit `r`, define `h_ij(r)=w_ij(r)w_ij(-1)`. Its elementary im
 Provide the following API.
 
 - `Steinberg.hDiag`: For `i != j` and a unit `r`, define `h_ij(r)=w_ij(r)w_ij(-1)`. Its elementary image is diagonal with `r,r^-1` in positions `i,j`.
-- `Steinberg.hDiag_toGL`: The image is `diag(r,r^-1)` on coordinates `i,j`.
-- `Steinberg.hDiag_map`: Ring homomorphisms preserve `h_ij(r)`, retaining the two indices.
+- Steinberg.hDiag_toGL: The image is `diag(r,r^-1)` on coordinates `i,j`.
+- Steinberg.hDiag_map: Ring homomorphisms preserve `h_ij(r)`, retaining the two indices.
 
 **Checks.**
 
@@ -1009,14 +1009,14 @@ Let `A` be a commutative ring and `n ≥ 3`, let `St_n(A)` be the finite-rank St
 Provide the following API.
 
 - `Steinberg.monomialSubgroup`: `W_n(A)`: the subgroup of `St_n(A)` generated by all `w_ij(u), i ≠ j, u ∈ A^×`.
-- `Steinberg.w_mem_monomialSubgroup`: `w_ij(u) ∈ W_n(A)`.
-- `Steinberg.h_mem_monomialSubgroup`: `h_ij(u) ∈ W_n(A)`.
+- Steinberg.w_mem_monomialSubgroup: `w_ij(u) ∈ W_n(A)`.
+- Steinberg.h_mem_monomialSubgroup: `h_ij(u) ∈ W_n(A)`.
 - `Steinberg.monomialKernel`: `C_n(A) = W_n(A) ⊓ ker φ_n`.
-- `Steinberg.mem_monomialKernel_iff`: `z ∈ C_n(A) ↔ z ∈ W_n(A) ∧ φ_n z = 1`.
-- `Steinberg.toElementary_monomialSubgroup`: Lemma 9.1: the image of `W_n(A)` in `GL_n(A)` is the set of permutationGL `π ·` diagGL `v` with `sign(π)·∏ v_k = 1`.
-- `Steinberg.monomialSubgroup_map`: For `f : A →+* B`, Steinberg.map `f` carries `W_n(A)` into `W_n(B)` and `C_n(A)` into `C_n(B)`.
-- `Steinberg.monomialSubgroup_stabilise`: Stabilisation carries `W_n(A)` into `W_{n+1}(A)` and `C_n(A)` into `C_{n+1}(A)`.
-- `Steinberg.monomialSubgroup_int`: For `n ≥ 3, W_n(ℤ)` is generated by the `w_ij(1)`; it is IntegerSteinbergModel.monomialSubgroup of §12.6.
+- Steinberg.mem_monomialKernel_iff: `z ∈ C_n(A) ↔ z ∈ W_n(A) ∧ φ_n z = 1`.
+- Steinberg.toElementary_monomialSubgroup: Lemma 9.1: the image of `W_n(A)` in `GL_n(A)` is the set of permutationGL `π ·` diagGL `v` with `sign(π)·∏ v_k = 1`.
+- Steinberg.monomialSubgroup_map: For `f : A →+* B`, Steinberg.map `f` carries `W_n(A)` into `W_n(B)` and `C_n(A)` into `C_n(B)`.
+- Steinberg.monomialSubgroup_stabilise: Stabilisation carries `W_n(A)` into `W_{n+1}(A)` and `C_n(A)` into `C_{n+1}(A)`.
+- Steinberg.monomialSubgroup_int: For `n ≥ 3, W_n(ℤ)` is generated by the `w_ij(1)`; it is IntegerSteinbergModel.monomialSubgroup of §12.6.
 
 **Checks.**
 
@@ -1054,10 +1054,10 @@ Additivity immediately gives `w_ab(u)⁻¹=w_ab(−u)`. To obtain `w_ab(u)=w_ba(
 
 Provide the following API.
 
-- `Steinberg.w_conj_root`: The seven displayed formulas with their explicit index hypotheses, for arbitrary commutative `A` and `n≥3`.
-- `Steinberg.monomial_conj_root`: Formula `(a)` for any monomial word and any stated decomposition of its elementary image.
-- `Steinberg.monomial_conj_w_h`: Formula `(b)` and normality of the subgroup generated by the diagonal words.
-- `Steinberg.monomialKernel_le_center`: `C_n(A)≤Z(St_n(A))`, deduced from the action on generators.
+- Steinberg.w_conj_root: The seven displayed formulas with their explicit index hypotheses, for arbitrary commutative `A` and `n≥3`.
+- Steinberg.monomial_conj_root: Formula `(a)` for any monomial word and any stated decomposition of its elementary image.
+- Steinberg.monomial_conj_w_h: Formula `(b)` and normality of the subgroup generated by the diagonal words.
+- Steinberg.monomialKernel_le_center: `C_n(A)≤Z(St_n(A))`, deduced from the action on generators.
 
 **Checks.**
 
@@ -1080,18 +1080,18 @@ These finite-rank targets use §0.3’s Steinberg carrier and are specified in t
 Provide the following API.
 
 - `Steinberg.finiteRankSymbol`: `{u, v}_n := [h_12(u), h_13(v)]` at the standard triple `(1, 2, 3)`.
-- `Steinberg.commutator_h_eq_finiteRankSymbol`: For pairwise distinct `i, j, k: [h_ij(u), h_ik(v)] = {u, v}_n`.
-- `Steinberg.finiteRankSymbol_eq_h`: For pairwise distinct `i, j, k: {u, v}_n = h_ik(uv) h_ik(u)⁻¹ h_ik(v)⁻¹`.
-- `Steinberg.finiteRankSymbol_mem_monomialKernel`: `{u, v}_n ∈ C_n(A)`; in particular it is central in `St_n(A)`.
-- `Steinberg.finiteRankSymbol_mul_left`: `{uu′, v}_n = {u, v}_n {u′, v}_n`.
-- `Steinberg.finiteRankSymbol_mul_right`: `{u, vv′}_n = {u, v}_n {u, v′}_n`.
-- `Steinberg.finiteRankSymbol_swap`: `{v, u}_n = ({u, v}_n)⁻¹`.
-- `Steinberg.finiteRankSymbol_one_left`: `{1, v}_n = 1` and `{u, 1}_n = 1`.
-- `Steinberg.finiteRankSymbol_one_sub`: If `u` and `1 − u` are units, `{u, 1 − u}_n = 1`.
-- `Steinberg.finiteRankSymbol_neg`: `{u, −u}_n = 1` for every unit `u`.
-- `Steinberg.finiteRankSymbol_stabilise`: Stabilisation sends `{u, v}_n` to `{u, v}_{n+1}`; the image in `St(A)` is `steinbergSymbol u v` of §6.4.
-- `Steinberg.finiteRankSymbol_map`: For `f : A →+* B`, Steinberg.map `f {u, v}_n = {f u, f v}_n`.
-- `Steinberg.finiteRankSymbol_neg_one_neg_one_int`: Over `ℤ, {−1, −1}_n = w_12(1)⁴`.
+- Steinberg.commutator_h_eq_finiteRankSymbol: For pairwise distinct `i, j, k: [h_ij(u), h_ik(v)] = {u, v}_n`.
+- Steinberg.finiteRankSymbol_eq_h: For pairwise distinct `i, j, k: {u, v}_n = h_ik(uv) h_ik(u)⁻¹ h_ik(v)⁻¹`.
+- Steinberg.finiteRankSymbol_mem_monomialKernel: `{u, v}_n ∈ C_n(A)`; in particular it is central in `St_n(A)`.
+- Steinberg.finiteRankSymbol_mul_left: `{uu′, v}_n = {u, v}_n {u′, v}_n`.
+- Steinberg.finiteRankSymbol_mul_right: `{u, vv′}_n = {u, v}_n {u, v′}_n`.
+- Steinberg.finiteRankSymbol_swap: `{v, u}_n = ({u, v}_n)⁻¹`.
+- Steinberg.finiteRankSymbol_one_left: `{1, v}_n = 1` and `{u, 1}_n = 1`.
+- Steinberg.finiteRankSymbol_one_sub: If `u` and `1 − u` are units, `{u, 1 − u}_n = 1`.
+- Steinberg.finiteRankSymbol_neg: `{u, −u}_n = 1` for every unit `u`.
+- Steinberg.finiteRankSymbol_stabilise: Stabilisation sends `{u, v}_n` to `{u, v}_{n+1}`; the image in `St(A)` is `steinbergSymbol u v` of §6.4.
+- Steinberg.finiteRankSymbol_map: For `f : A →+* B`, Steinberg.map `f {u, v}_n = {f u, f v}_n`.
+- Steinberg.finiteRankSymbol_neg_one_neg_one_int: Over `ℤ, {−1, −1}_n = w_12(1)⁴`.
 
 **Checks.**
 
@@ -1120,9 +1120,9 @@ in `W_n/S`. For the middle equality, the exact conjugation formula before using 
 
 Provide the following API.
 
-- `Steinberg.monomial_mod_diagonal`: For nonzero commutative `A`, the specified permutation map `W_n/H_n≃S_n`, with its adjacent-word inverse.
-- `Steinberg.diagonal_mod_symbols`: Modulo `S`, the diagonal subgroup is the determinant-one unit torus, with coordinates `∏h_i(c_i)` and inverse `c_i=d₁⋯d_i`.
-- `Steinberg.monomialKernel_eq_symbols`: `C_n=S` for every commutative `A` and `n≥3`, including the zero ring, compatibly with coefficient maps and stabilization.
+- Steinberg.monomial_mod_diagonal: For nonzero commutative `A`, the specified permutation map `W_n/H_n≃S_n`, with its adjacent-word inverse.
+- Steinberg.diagonal_mod_symbols: Modulo `S`, the diagonal subgroup is the determinant-one unit torus, with coordinates `∏h_i(c_i)` and inverse `c_i=d₁⋯d_i`.
+- Steinberg.monomialKernel_eq_symbols: `C_n=S` for every commutative `A` and `n≥3`, including the zero ring, compatibly with coefficient maps and stabilization.
 
 **Checks.**
 
@@ -1144,10 +1144,10 @@ Provide the following API.
 - `Steinberg.upperUnipotent`: `T_n(A)` is the subgroup generated by `x_ij(a)` with `i < j`.
 - `Steinberg.upperUnipotentComplement`: For `i < n, T′_i` is generated by all positive roots except `(i, i+1)`; `T′_i` is normal in `T_n(A)`.
 - `Steinberg.orderedUpperProduct`: A family `(a_ij)` for `i < j` gives the lexicographically ordered product in `T_n(A)`. Every element is obtained uniquely.
-- `Steinberg.toElementary_upperUnipotent`: The restriction of `φ_n` is a group isomorphism `T_n(A) ≃ U_n(A)`, with `U_n(A)` Tau Ceti’s upperUnitriangularGroup.
-- `Steinberg.upperUnipotent_ext`: Elements of `T_n(A)` with equal elementary images are equal; their unique ordered coordinates agree.
-- `Steinberg.upperUnipotent_map`: A ring map sends ordered coordinates to their images and carries `T_n` and `T′_i` into their counterparts. Identity and composition hold on generators.
-- `Steinberg.upperUnipotent_simpleRoot_factor`: For fixed `i`, every `t ∈ T_n(A)` is `x_{i,i+1}(a)t′` with unique `a ∈ A` and `t′ ∈ T′_i`; a is the `(i,i+1)` entry of `φ_n(t)`.
+- Steinberg.toElementary_upperUnipotent: The restriction of `φ_n` is a group isomorphism `T_n(A) ≃ U_n(A)`, with `U_n(A)` Tau Ceti’s upperUnitriangularGroup.
+- Steinberg.upperUnipotent_ext: Elements of `T_n(A)` with equal elementary images are equal; their unique ordered coordinates agree.
+- Steinberg.upperUnipotent_map: A ring map sends ordered coordinates to their images and carries `T_n` and `T′_i` into their counterparts. Identity and composition hold on generators.
+- Steinberg.upperUnipotent_simpleRoot_factor: For fixed `i`, every `t ∈ T_n(A)` is `x_{i,i+1}(a)t′` with unique `a ∈ A` and `t′ ∈ T′_i`; a is the `(i,i+1)` entry of `φ_n(t)`.
 
 **Checks.**
 
@@ -2583,14 +2583,14 @@ Let `V` be an indexed family of normalized discrete valuations on a field `F` of
 Provide the following API.
 
 - `MilnorK.globalResidueHom`: The additive homomorphism to the dependent residue direct sum, constructed with the finite-support proof for each input.
-- `MilnorK.globalResidueHom_apply`: For every `v` and `x`, the v-coordinate of `globalResidueHom(V,n)(x)` is `r_v,n(x)`.
-- `MilnorK.globalResidueHom_unique`: A homomorphism to this direct sum with all the same residue coordinates equals `globalResidueHom(V,n)`.
-- `MilnorK.globalResidueHom_support_subset`: For any finite symbol expression for `x`, the support of `globalResidueHom(V,n)(x)` is contained in the union of the nonzero-order supports of all its entries; equality is not asserted.
-- `MilnorK.globalResidueHom_eq_zero_iff`: `globalResidueHom(V,n)(x)=0` iff `r_v,n(x)=0` for every `v`. Thus its kernel is the intersection of the individual residue kernels.
-- `MilnorK.globalResidueHom_degree_one`: At `n=1` the coordinates are `ord_v(a)`; for Dedekind primes and for function-field places, compare to the principal divisor by coefficient extensionality.
-- `MilnorK.globalResidueHom_degree_two`: At `n=2` its coordinates in `k_vˣ` are `t_v(f,g)`, with addition on `Additive k_vˣ` interpreted multiplicatively.
-- `MilnorK.globalResidueHom_quillen`: For a Dedekind `R, D⁽ᴿ⁾_n Φ_n=(−1)^(n−1)DirectSum.map(Φ_(n−1)) globalResidueHom(V,n)`. This compares actual maps, not only groups.
-- `MilnorK.globalResidueHom_reindex`: Relabeling `V` by an equivalence, and transporting its valuations and residue fields along that equivalence, reindexes the output. No unrestricted field-extension naturality is claimed.
+- MilnorK.globalResidueHom_apply: For every `v` and `x`, the v-coordinate of `globalResidueHom(V,n)(x)` is `r_v,n(x)`.
+- MilnorK.globalResidueHom_unique: A homomorphism to this direct sum with all the same residue coordinates equals `globalResidueHom(V,n)`.
+- MilnorK.globalResidueHom_support_subset: For any finite symbol expression for `x`, the support of `globalResidueHom(V,n)(x)` is contained in the union of the nonzero-order supports of all its entries; equality is not asserted.
+- MilnorK.globalResidueHom_eq_zero_iff: `globalResidueHom(V,n)(x)=0` iff `r_v,n(x)=0` for every `v`. Thus its kernel is the intersection of the individual residue kernels.
+- MilnorK.globalResidueHom_degree_one: At `n=1` the coordinates are `ord_v(a)`; for Dedekind primes and for function-field places, compare to the principal divisor by coefficient extensionality.
+- MilnorK.globalResidueHom_degree_two: At `n=2` its coordinates in `k_vˣ` are `t_v(f,g)`, with addition on `Additive k_vˣ` interpreted multiplicatively.
+- MilnorK.globalResidueHom_quillen: For a Dedekind `R, D⁽ᴿ⁾_n Φ_n=(−1)^(n−1)DirectSum.map(Φ_(n−1)) globalResidueHom(V,n)`. This compares actual maps, not only groups.
+- MilnorK.globalResidueHom_reindex: Relabeling `V` by an equivalence, and transporting its valuations and residue fields along that equivalence, reindexes the output. No unrestricted field-extension naturality is claimed.
 
 **Checks.**
 
@@ -2688,7 +2688,7 @@ Provide the following API.
 - `mem_unramifiedSubgroup_iff`: `x ∈ U ↔ ∀ i, ∂_{v i} x = 1`.
 - `unramifiedOutside`: For `S ⊆ I, ⨅ i ∉ S, ker(∂_{v i})`; `unramifiedOutside ∅ = unramifiedSubgroup`, and it is monotone in `S`.
 - `unramifiedSubgroup_eq_ker_residueSum`: Under finite support, `U = ker(K_2(F) → ⨁ i, k(v i)ˣ)`.
-- `symbol_mem_unramifiedSubgroup`: If `u` and `w` are units at every `v_i` then `{u, w} ∈ U`.
+- symbol_mem_unramifiedSubgroup: If `u` and `w` are units at every `v_i` then `{u, w} ∈ U`.
 - `range_K2_le_unramifiedSubgroup`: For a Dedekind domain `R` with fraction field `F` and `I = HeightOneSpectrum R`, the image of `K_2(R) → K_2(F)` lies in `U`.
 - `unramifiedSubgroup_map_le`: Restriction along a finite extension carrying the family into the family maps `U` into `U`.
 - `transfer_mem_unramifiedSubgroup`: The transfer of a finite extension of number fields maps the unramified subgroup of the larger field into that of the smaller.
@@ -2921,15 +2921,15 @@ The displayed word is a README construction target on §0.3’s stable Steinberg
 Provide the following API.
 
 - `K2.dennisStein`: For commuting `r, s : R` and a proof that `1 − r s` is a unit, the element `⟨r, s⟩ : K₂(R)`.
-- `K2.coe_dennisStein`: `(⟨r, s⟩ : St(R)) = x_ji(−s u⁻¹) x_ij(−r) x_ji(s) x_ij(u⁻¹ r) h_ij(u)⁻¹` with `u = 1 − r s`, for any `i ≠ j`.
-- `K2.dennisStein_index_indep`: The words for `(i, j)` and for `(k, l)` are equal in `St(R)`.
-- `K2.phi_dennisSteinWord`: The image in `E(R)` of `x_ji(−s u⁻¹) x_ij(−r) x_ji(s) x_ij(u⁻¹ r)` is `diag(u, u⁻¹)` at `(i, j)`.
-- `K2.dennisStein_zero_left`: `⟨0, s⟩ = 1`.
-- `K2.dennisStein_zero_right`: `⟨r, 0⟩ = 1`.
-- `K2.dennisStein_eq_steinbergSymbol`: For a unit `r, ⟨r, s⟩ = {r, 1 − r s}`.
-- `K2.steinbergSymbol_eq_dennisStein`: For commuting units `u, v, {u, v} = ⟨u, u⁻¹ (1 − v)⟩`.
-- `K2.map_dennisStein`: For a ring homomorphism `f : R → R', K₂(f) ⟨r, s⟩ = ⟨f r, f s⟩`.
-- `K2.dennisStein_plusConvention`: If `1 + ab` is a unit, the older plus-convention word `P(a,b)` equals the modern word `⟨−a,b⟩`, by direct substitution into the displayed words; there is no additional inversion.
+- K2.coe_dennisStein: `(⟨r, s⟩ : St(R)) = x_ji(−s u⁻¹) x_ij(−r) x_ji(s) x_ij(u⁻¹ r) h_ij(u)⁻¹` with `u = 1 − r s`, for any `i ≠ j`.
+- K2.dennisStein_index_indep: The words for `(i, j)` and for `(k, l)` are equal in `St(R)`.
+- K2.phi_dennisSteinWord: The image in `E(R)` of `x_ji(−s u⁻¹) x_ij(−r) x_ji(s) x_ij(u⁻¹ r)` is `diag(u, u⁻¹)` at `(i, j)`.
+- K2.dennisStein_zero_left: `⟨0, s⟩ = 1`.
+- K2.dennisStein_zero_right: `⟨r, 0⟩ = 1`.
+- K2.dennisStein_eq_steinbergSymbol: For a unit `r, ⟨r, s⟩ = {r, 1 − r s}`.
+- K2.steinbergSymbol_eq_dennisStein: For commuting units `u, v, {u, v} = ⟨u, u⁻¹ (1 − v)⟩`.
+- K2.map_dennisStein: For a ring homomorphism `f : R → R', K₂(f) ⟨r, s⟩ = ⟨f r, f s⟩`.
+- K2.dennisStein_plusConvention: If `1 + ab` is a unit, the older plus-convention word `P(a,b)` equals the modern word `⟨−a,b⟩`, by direct substitution into the displayed words; there is no additional inversion.
 
 **Checks.**
 
@@ -3124,9 +3124,9 @@ Provide the following API.
 - `K2.relK2.toK2`: The map `K₂(R, I) → K₂(R)`.
 - `K2.relK2.exact`: Exactness of `K₂(R, I) → K₂(R) → K₂(R/I) → K₁(R, I) → K₁(R) → K₁(R/I)` (Theorem III.5.7.1).
 - `K2.relK2.map`: A ring homomorphism `f : R → R'` with `f(I) ⊆ I'` induces `K₂(R, I) → K₂(R', I')`, with `map_id` and `map_comp`.
-- `K2.relK2_bot`: `K₂(R, ⊥)` is trivial.
+- K2.relK2_bot: `K₂(R, ⊥)` is trivial.
 - `K2.relDennisStein`: For `s ∈ I, r` commuting with `s` and `1 − r s` a unit, the relative symbol `⟨r, s⟩ ∈ K₂(R, I)`.
-- `K2.toK2_relDennisStein`: relK2.toK2 `⟨r, s⟩ = ⟨r, s⟩`.
+- K2.toK2_relDennisStein: relK2.toK2 `⟨r, s⟩ = ⟨r, s⟩`.
 
 **Checks.**
 
@@ -3143,8 +3143,8 @@ Provide the following API.
 Provide the following API.
 
 - `K2.relK2EquivDoubleQuotient`: `K₂(R, I) ≃ K₂′(R, I)/C`, compatible with `K2.relK2.toK2` and `K₂(add)`.
-- `K2.crossCommutator_mem_K2`: every cross-commutator `[x_ij(0, u), x_kl(v, −v)]` lies in `K₂(B)` and in `K₂′(R, I)`.
-- `K2.K2Double_split`: `K₂(B) ≃ K₂(R) × K₂′(R, I)` through `K₂(pr)` and the section `a ↦ (a, 0)`.
+- K2.crossCommutator_mem_K2: every cross-commutator `[x_ij(0, u), x_kl(v, −v)]` lies in `K₂(B)` and in `K₂′(R, I)`.
+- K2.K2Double_split: `K₂(B) ≃ K₂(R) × K₂′(R, I)` through `K₂(pr)` and the section `a ↦ (a, 0)`.
 - `K2.idealDouble`: for commutative `R`, the model `R ×_{R/I} R` of the double as the subring of `R × R` where the coordinates agree modulo `I`; `(r, x) ↦ (r, r + x)` identifies `R ⊕ I` with it.
 
 **Checks.**
@@ -3177,9 +3177,9 @@ For an ideal `I` of a unital ring `A`, use the augmented double `A⋉I` with mul
 Provide the following API.
 
 - `K2.relK2PlusMap`: `Φ`, natural for maps of pairs.
-- `K2.relK2PlusMap_forget`: the projection `π₂K(A,I)→π₂K(A)` composed with `Φ` equals `Ξ_A` composed with `K2.relK2.toK2`.
+- K2.relK2PlusMap_forget: the projection `π₂K(A,I)→π₂K(A)` composed with `Φ` equals `Ξ_A` composed with `K2.relK2.toK2`.
 - `K2.relK2PlusEquiv`: `Φ` is bijective (Keune–Loday).
-- `K2.relK2_exact_K3`: exactness of the six-term segment above with the transported boundary.
+- K2.relK2_exact_K3: exactness of the six-term segment above with the transported boundary.
 
 **Checks.**
 
@@ -3197,7 +3197,7 @@ Provide the following API.
 
 - `K2.relK2.toK2_injective_of_split`: injectivity of the forgetful map.
 - `K2.relK2.range_toK2_of_split`: its image is `ker(K₂(A)→K₂(A/I))`.
-- `K2.relK2PlusEquiv_of_split`: `Φ` is bijective, with both boundaries zero.
+- K2.relK2PlusEquiv_of_split: `Φ` is bijective, with both boundaries zero.
 
 **Checks.**
 
@@ -3247,8 +3247,8 @@ Provide the following API.
 - `K2.RelDSGen`: The subtype of `R × R` with at least one entry in `I`.
 - `K2.relDSRel`: D1 and D2 on relative generators and D3 only for `r ∈ I ∨ s ∈ I ∨ t ∈ I`. The three generator witnesses for D3 are derived from that entry condition, never used as a weaker substitute.
 - `K2.relDennisSteinGroup`: FreeAbelianGroup (RelDSGen `I`) modulo AddSubgroup.closure (relDSRel `I`), with the guarded D3 set.
-- `K2.relDSRelFirst`, `K2.closure_relDSRelFirst`: the first-input D3 guard and the equality of the two closures (below).
-- `K2.subsingleton_relDennisSteinGroup_bot`: `D(R,⊥)` is trivial.
+- `K2.relDSRelFirst`, K2.closure_relDSRelFirst: the first-input D3 guard and the equality of the two closures (below).
+- K2.subsingleton_relDennisSteinGroup_bot: `D(R,⊥)` is trivial.
 - `K2.relDennisSteinGroup.toRelK2`: For `I ≤` Ideal.jacobson `⊥`, the relative generator map descends through exactly the source-allowed D1–D3 relations.
 - `K2.relDennisSteinGroup.toRelK2_surjective`: generation (below), under the standing hypothesis `I⊆Jac(R)`, without a splitting or a residue-field size bound.
 - `K2.relDennisSteinGroup.toRelK2_bijective`: Keune's Theorem 15 (below).
@@ -3395,7 +3395,7 @@ Provide the following API.
 
 - `K2.vanDerKallenModule`: `M_R`, a quotient of the free R-module on `R` by the three displayed families.
 - `K2.dualNumberRelK2Equiv`: `K₂(R[ε],(ε))≃M_R`, with `aDb↦N(a,b)`.
-- `K2.vanDerKallenModule_equiv_kaehler`: for `2∈Rˣ, M_R≃Ω¹_{R/ℤ}, Db↦db`, constructed directly on the module quotient.
+- K2.vanDerKallenModule_equiv_kaehler: for `2∈Rˣ, M_R≃Ω¹_{R/ℤ}, Db↦db`, constructed directly on the module quotient.
 
 **Checks.**
 
