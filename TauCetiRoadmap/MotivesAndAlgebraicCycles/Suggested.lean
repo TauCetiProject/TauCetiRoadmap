@@ -95,9 +95,10 @@ theorem coalgebra_reconstruction (K : Type u) [Field K]
         ω ⋙ forget₂ _ (ModuleCat K)) := by
   sorry
 
-/-- Neutral Tannaka reconstruction over any field: the reconstructed commutative
-Hopf algebra has a symmetric monoidal equivalence with the original category and
-a monoidal identification of its forgetful fiber with the specified fiber.
+/-- Neutral Tannaka reconstruction over any field, without a tensor generator:
+the original category is symmetrically monoidally equivalent to finite right
+comodules over a reconstructed commutative Hopf algebra, with a monoidal
+identification of the forgetful fiber with the specified fiber.
 README §§6.1–6.2; Deligne–Milne, Theorem 2.11, pp.20–24. -/
 theorem neutralTannakian_recognition (K : Type u) [Field K]
     (C : Type v) [Category.{u} C] [EssentiallySmall.{u} C]
