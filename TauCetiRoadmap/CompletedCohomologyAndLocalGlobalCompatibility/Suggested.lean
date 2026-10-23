@@ -21,8 +21,14 @@ mathematical objects, whose construction is specified in the README:
   transport the shared correspondences and comparisons supplied by
   PadicLocalLanglandsForGL2Qp, including its block, Montréal and full Weil–Deligne
   type interfaces. They construct the cohomological coefficient, dual and determinant
-  adapters, arithmetic product blocks and stated small-prime extensions. General
-  deformation-ring machinery is supplied by LocalGaloisDeformationRings.
+  adapters and arithmetic product blocks. The p = 3 envelope and removal comparisons
+  and the all-prime absolutely irreducible universal family are supplied by
+  PadicLocalLanglandsForGL2Qp §§5.8–5.9, retaining scalar residual endomorphisms and
+  both cyclotomic-extension exclusions for the envelope comparisons. Its §§0.1, 0.3–0.5
+  supply the shared duality and Banach categories, continuous deformation and type rings,
+  affine cycles and multiplicity theory. CompletedCohomologyPartII,
+  LocalGaloisDeformationRings and DeformationAndDerivedPatchingAlgebra supply the
+  tower, local-condition and patching comparisons on those common foundations.
   The Scholze finiteness theorem of §0.6 requires the Lubin–Tate period torsor and its
   equivariant étale sheaves.
   The definite unitary input of §0.7 specializes the common forms carrier and weighted
@@ -53,6 +59,10 @@ mathematical objects, whose construction is specified in the README:
   theorems (§§5.4, 5.6), and Pan's nice-prime and residually irreducible theorems
   (§§5.7–5.8) require arithmetic patched modules, universal Galois deformation rings,
   their Hodge-type quotients, and the associated trianguline spaces and cycles.
+  The dyadic constructor also requires §3.7's augmented Hecke algebra with the auxiliary
+  U-operator, pro-Iwahori level, distinct residual Frobenius roots and chosen residual
+  factor. Its type, augmentation and partial-module comparisons retain that factor;
+  generic rank one and the normalized cycles refer to this selected summand.
   The quaternionic patched module and one-place partial module (§§5.5–5.5a) also
   require the determinant-varying dyadic ring, its determinant-one fibre and its
   invariant ring, with the free twisting action and determinant torsor supplied by
