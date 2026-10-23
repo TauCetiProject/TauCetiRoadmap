@@ -11,7 +11,7 @@ import Mathlib.LinearAlgebra.Matrix.ToLin
 import Mathlib.Algebra.MvPolynomial.Funext
 import Mathlib.RingTheory.MvPolynomial.Basic
 import Mathlib.RingTheory.Nullstellensatz
-import Mathlib.Data.Real.Basic
+import Mathlib.Basic.Real.Basic
 import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Image
 
 open scoped BigOperators
@@ -77,7 +77,7 @@ theorem compose_range {V Z : Type*} (f : Model W X Y) (g : Model V Y Z) :
 
 /-- Identifiability at one parameter modulo a specified symmetry equivalence. -/
 def IdentifiableAt (f : Model W X Y) (symmetry : Setoid W) (w : W) : Prop :=
-  ∀ v, f v = f w ↔ symmetry.Rel v w
+  ∀ v, f v = f w ↔ symmetry.r v w
 
 /-- An MLP-specific constructor of realisation maps, not a universal architecture interface.
 The final activation is required to be `id`, following Finkel et al. -/
@@ -138,7 +138,7 @@ def monomial (L : ℕ) (d : Fin (L + 1) → ℕ) (r : Fin L → ℕ)
 
 end MLPArchitecture
 
-/-- The concrete signatures below specialize the field-generic roadmap to the real field. -/
+/- The concrete signatures below specialize the field-generic roadmap to the real field. -/
 /-- A bias is supplied explicitly, so zero bias is a specialization. -/
 def dense {ι ο : Type*} [Fintype ι] :
     Model (Matrix ο ι ℝ × (ο → ℝ)) (ι → ℝ) (ο → ℝ) :=
