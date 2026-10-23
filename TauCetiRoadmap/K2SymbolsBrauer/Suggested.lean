@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.Algebra.BrauerGroup.Group
+import TauCeti.Algebra.CrossedProduct.Comparison
 import TauCeti.NumberTheory.ClassFieldTheory.Brauer.Basic
 import TauCeti.RingTheory.Valuation.Discrete.Order
 import TauCeti.FieldTheory.FunctionField.Divisor.Eval
@@ -18,7 +18,9 @@ statable: finite-field vanishing, unique divisibility over algebraically closed 
 real decomposition, and the Bass–Tate calculations for number fields and fields of
 transcendence degree one over a finite field. The field Dennis–Stein presentation, tame-symbol
 Weil reciprocity over all places of any one-variable function field, its disjoint-divisor
-form, and the algebraic/cohomological Brauer-group isomorphism are also stated.
+form, and the universe extension of the supplied algebraic/cohomological Brauer-group
+comparison are also stated. Its composite on fields in `Type` preserves the supplied
+crossed-product normalization.
 
 The pinned libraries have no stable matrix/Steinberg carriers or classical and Quillen
 K-groups. Thus the stable universal-extension, finite-rank matrix, Matsumoto, classical/plus
@@ -29,8 +31,62 @@ dual-number and dyadic K₂ theorems (Layer 13) cannot be stated on their intend
 Higher Milnor residue and norm maps are also absent: the Bass–Tate sequence, Kato's generator
 independence, complete norm–residue square and integral Weil–Suslin reciprocity in all degrees
 (Layers 9–10) require those constructions. The local/global cyclic-algebra symbol comparisons
-of §§10.32a–10.32b require their cyclic algebras and symbol maps. These results have no
+and global degree-two norm-residue equivalence of §§10.32a–10.32b require their cyclic algebras and symbol maps. These results have no
 substitute statements here.
+
+The README also specifies the following construction APIs and supporting results. They
+are README contracts, rather than declarations in this headline file. The classical,
+finite-rank, residue and relative APIs use the carriers and maps described above; the
+native Milnor and real-field APIs extend the definitions and headline calculations below.
+
+Classical comparison and relative Dennis–Stein support (Layers 4, 8 and 13):
+`K2.K2Double_split`, `K2.classicalHomologyEquiv_natural`, `K2.classicalPlusEquiv_KSpace`,
+`K2.classicalPlusEquiv_cover`, `K2.classicalPlusEquiv_natural`,
+`K2.classicalPlusEquiv_transport`, `K2.closure_relDSRelFirst`, `K2.coe_dennisStein`,
+`K2.crossCommutator_mem_K2`, `K2.dennisStein_eq_steinbergSymbol`, `K2.dennisStein_index_indep`,
+`K2.dennisStein_plusConvention`, `K2.dennisStein_zero_left`, `K2.dennisStein_zero_right`,
+`K2.map_dennisStein`, `K2.phi_dennisSteinWord`, `K2.relK2PlusEquiv_of_split`,
+`K2.relK2PlusMap_forget`, `K2.relK2_bot`, `K2.relK2_exact_K3`,
+`K2.steinbergSymbol_eq_dennisStein`, `K2.subsingleton_relDennisSteinGroup_bot`,
+`K2.toK2_relDennisStein`, `K2.vanDerKallenModule_equiv_kaehler`.
+
+Native Milnor presentations and residue support (Layers 5, 9 and 10):
+`MilnorK.concat_quotient`, `MilnorK.degreePresentation_natural`,
+`MilnorK.globalResidueHom_apply`, `MilnorK.globalResidueHom_degree_one`,
+`MilnorK.globalResidueHom_degree_two`, `MilnorK.globalResidueHom_eq_zero_iff`,
+`MilnorK.globalResidueHom_quillen`, `MilnorK.globalResidueHom_reindex`,
+`MilnorK.globalResidueHom_support_subset`, `MilnorK.globalResidueHom_unique`, `MilnorK.hom_ext`,
+`MilnorK.map_id_comp`, `MilnorK.realPositive_divisible`, `MilnorK.realSign_kernel`,
+`MilnorK.symbol_mul`, `MilnorK.symbol_product`, `MilnorK.symbol_steinberg`.
+
+Finite-rank root, column and monomial refinements (Layers 2, 3 and 6):
+`Steinberg.column_add`, `Steinberg.column_basis`, `Steinberg.column_conj`,
+`Steinberg.column_injective`, `Steinberg.column_map`,
+`Steinberg.commutator_h_eq_finiteRankSymbol`, `Steinberg.diagonal_mod_symbols`,
+`Steinberg.finiteRankSymbol_eq_h`, `Steinberg.finiteRankSymbol_map`,
+`Steinberg.finiteRankSymbol_mem_monomialKernel`, `Steinberg.finiteRankSymbol_mul_left`,
+`Steinberg.finiteRankSymbol_mul_right`, `Steinberg.finiteRankSymbol_neg`,
+`Steinberg.finiteRankSymbol_neg_one_neg_one_int`, `Steinberg.finiteRankSymbol_one_left`,
+`Steinberg.finiteRankSymbol_one_sub`, `Steinberg.finiteRankSymbol_stabilise`,
+`Steinberg.finiteRankSymbol_swap`, `Steinberg.hDiag_map`, `Steinberg.hDiag_toGL`,
+`Steinberg.h_mem_monomialSubgroup`, `Steinberg.mem_monomialKernel_iff`,
+`Steinberg.monomialKernel_eq_symbols`, `Steinberg.monomialKernel_le_center`,
+`Steinberg.monomialSubgroup_int`, `Steinberg.monomialSubgroup_map`,
+`Steinberg.monomialSubgroup_stabilise`, `Steinberg.monomial_conj_root`,
+`Steinberg.monomial_conj_w_h`, `Steinberg.monomial_mod_diagonal`,
+`Steinberg.normalisedRootLift_choice`, `Steinberg.normalisedRootLift_extensionHom`,
+`Steinberg.normalisedRootLift_image`, `Steinberg.normalisedRootLift_product`,
+`Steinberg.normalisedRootLift_zero`, `Steinberg.phi_column`, `Steinberg.row_conj`,
+`Steinberg.toElementary_monomialSubgroup`, `Steinberg.toElementary_upperUnipotent`,
+`Steinberg.upperUnipotent_ext`, `Steinberg.upperUnipotent_map`,
+`Steinberg.upperUnipotent_simpleRoot_factor`, `Steinberg.w_conj_root`, `Steinberg.w_map`,
+`Steinberg.w_mem_monomialSubgroup`, `Steinberg.w_toGL`.
+
+Symbol and real-field support (Layers 5 and 9):
+`realPositive_contains`, `realPositive_divisible`, `realPositive_excludes_minus_one`,
+`symbol_inv_left`, `symbol_mem_unramifiedSubgroup`, `symbol_mul_left`, `symbol_mul_right`,
+`symbol_one_left`, `symbol_one_right`, `symbol_steinberg`.
+
 -/
 
 namespace TauCetiRoadmap.K2SymbolsBrauer
@@ -64,7 +120,7 @@ def relators : Set (FreeGroup (Root R n)) :=
       w = ⁅rootWord R n i j hij a, rootWord R n k i hki b⁆ *
         (rootWord R n k j hkj (-b * a))⁻¹)}
 
-/-- The finite-rank Steinberg group on Mathlib's presented-group carrier (§0.3). -/
+/-- The finite-word Steinberg presentation adapter to AlgebraicKTheory A5 (§0.3). -/
 abbrev FiniteRank : Type u := PresentedGroup (relators R n)
 
 /-- Every central extension of the finite-rank Steinberg group has a unique homomorphic
@@ -212,8 +268,37 @@ theorem weil_reciprocity_of_disjoint (hF : TauCeti.IsFunctionField k F) (f g : F
 
 end Reciprocity
 
-/-- The algebraic Brauer group of a field is isomorphic to its continuous-cohomology
-Brauer group, after reading the tensor-product group additively. -/
+/-- The canonical continuous H² model over the separable closure is identified with the
+class-field-theory Brauer carrier through the supplied explicit-cohomology dictionary (§10.32a). -/
+noncomputable def cohomologicalBrauerToBr (F : Type) [Field F] :
+    continuousCohomology 2 (TauCeti.ofDiscreteModule ℤ
+      (TauCeti.AbsoluteGaloisGroup F) (TauCeti.UnitsCoeff F)) ≃+
+        TauCeti.ClassFieldTheory.Br F := by
+  let : LocallyCompactSpace (TauCeti.AbsoluteGaloisGroup F) :=
+    @WeaklyLocallyCompactSpace.locallyCompactSpace (TauCeti.AbsoluteGaloisGroup F) _
+      (@T2Space.r1Space _ _ (krullTopology_t2 (K := F) (L := SeparableClosure F)))
+      ⟨fun _ => ⟨Set.univ, isCompact_univ, Filter.univ_mem⟩⟩
+  exact (TauCeti.ContCohomology.explicitH2AddEquivContinuousCohomology
+    (TauCeti.AbsoluteGaloisGroup F) (TauCeti.UnitsCoeff F)).symm.trans
+      (TauCeti.ClassFieldTheory.unitsRepH2Equiv F)
+
+/-- The supplied crossed-product comparison, transported to the class-field-theory
+Brauer carrier (§10.32a). -/
+noncomputable def algebraicBrauerToBr (F : Type) [Field F] :
+    Additive (BrauerGroup F) ≃+ TauCeti.ClassFieldTheory.Br F :=
+  (TauCeti.brauerCohomologyEquiv F).trans (cohomologicalBrauerToBr F)
+
+/-- The transported Brauer comparison sends a crossed-product class to its inflated
+cocycle class in the class-field-theory carrier (§10.32a). -/
+theorem algebraicBrauerToBr_galoisCocycle (F : Type) [Field F]
+    (g : TauCeti.GaloisCocycle F) :
+    algebraicBrauerToBr F (Additive.ofMul g.brauerClass) =
+      cohomologicalBrauerToBr F g.inflateClass := by
+  exact congrArg (cohomologicalBrauerToBr F)
+    (TauCeti.brauerCohomologyEquiv_galoisCocycle_brauerClass g)
+
+/-- The universe extension of the supplied Brauer comparison identifies algebraic Brauer
+classes with the continuous-cohomology Brauer group (§10.32a). -/
 theorem algebraicBrauer_equiv_cohomologicalBrauer (F : Type u) [Field F] :
     Nonempty (Additive (BrauerGroup.{u, u} F) ≃+ TauCeti.ClassFieldTheory.Br F) := by
   sorry
