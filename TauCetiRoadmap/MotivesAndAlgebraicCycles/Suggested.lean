@@ -20,12 +20,15 @@ The geometric headline signatures are deferred at Mathlib `6b7abb3` and Tau Ceti
 
 * Layers 0–3 need Chow groups, adequate relations and graded correspondences. These
   carriers, the Chow and numerical motive categories, and normalized geometric Weil
-  theories are absent. Thus diagonal-support vanishing, Manin's identity principle,
+  theories, including the algebraic de Rham trace and its marked comparison with
+  complex integration, are absent. Thus diagonal-support vanishing, Manin's identity principle,
   projective-bundle decompositions, all-degree realization comparisons and Jannsen's
   numerical-motive theorem cannot yet be stated on their geometric objects.
 * Layer 4 needs finite correspondences, transfer sheaves, Suslin/Tate complexes,
   higher-cycle complexes and motivic localizations. Cancellation, higher-Chow comparison,
   the Chow embedding, compact-support duality and the motivic measure need these objects.
+  The perfect-field projective Chow embedding uses transported pure Chow duality and
+  cancellation; its statement requires these same geometric carriers.
   Generic derived categories and the additive triangulated Grothendieck group exist;
   they do not supply the geometric motive or scissor-ring carriers.
 * Layer 5's geometric headlines need pair diagrams, their coefficient coalgebras,
