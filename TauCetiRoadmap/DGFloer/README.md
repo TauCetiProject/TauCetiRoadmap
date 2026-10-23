@@ -88,8 +88,9 @@ This roadmap consumes, and does not rebuild:
 - **[Algebraic topology](../AlgebraicTopology/README.md).**
   - Stage 2: relative singular homology and local coefficient systems.
   - Stage 4: CW pairs, cellular approximation and cofibrations.
-  - Stage 5: Eilenberg--Zilber, the Künneth theorems, the Serre-fibration carrier, and the homology
-    Serre spectral sequence over CW bases.
+  - Stage 5: Eilenberg--Zilber, the Künneth theorems and the Serre-fibration carrier
+    `TauCeti.TopCat.serreFibrations`. The ordinary homology Serre spectral sequence is not among
+    the inputs: Layer 1 item 2 supplies it, and Stage 5.5 consumes it.
   - Stage 6: fundamental classes, the orientation local system, cap products, Poincaré and
     Poincaré--Lefschetz duality.
   - Stage 8: absolute and relative Hurewicz in degrees `≥ 2`, and Whitehead.
@@ -158,9 +159,12 @@ This roadmap owns everything else it states. In particular it owns:
 
 Four of these touch other roadmaps and are coordination points:
 
-- **The filtered-complex spectral sequence.** The algebraic topology roadmap builds its Serre
-  spectral sequence from a skeletal filtration. Once the generic construction of Layer 1 exists,
-  that roadmap is expected to consume it.
+- **The filtered-complex and ordinary Serre spectral sequences.** This roadmap is the supplier of
+  both. Layer 1 item 3 builds the generic filtered-complex spectral sequence, and Layer 1 item 2
+  builds the ordinary Serre spectral sequence, over CW bases and then over arbitrary bases, from
+  the skeletal filtration, using only the native Serre-fibration carrier and Stages 1--4 of the
+  algebraic topology roadmap. That roadmap (Stage 5.5) consumes them and builds no Serre spectral
+  sequence of its own.
 - **The cotangent bundle of a manifold.** Lane F3 of the Heegaard Floer roadmap takes its cotangent
   examples from here.
 - **The Pontryagin--Thom collapse.** Layer 1 builds it with the same data as the homotopy spheres
@@ -342,8 +346,37 @@ None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They
    - the long exact sequence of a pair;
    - excision;
    - the Künneth theorems;
-   - cubical local coefficients;
-   - the Serre spectral sequence.
+   - cubical local coefficients.
+
+   The Serre spectral sequence is the exception: it is built directly on cubical chains, as in
+   Serre's original (*Homologie singulière des espaces fibrés*, Chapter II), from Serre's
+   filtration and the filtered-complex spectral sequence of Layer 1 item 3.
+   - For a continuous map `p : E → B`, `F_s C^□_n(E; A)` is the image in the normalized chains of
+     the span of the cubes `u : Iⁿ → E` with `p ∘ u = v ∘ pr_s` for some cube `v : Iˢ → B`, where
+     `pr_s : Iⁿ → Iˢ` is the projection onto the first `s` coordinates. Equivalently, `p ∘ u` does
+     not depend on the last `n − s` coordinates. It is not enough that `p ∘ u` factor through some
+     cube of dimension `≤ s`: for `p = id : I → I` every cube would then lie in `F_1`.
+   - `F_s C^□_n = 0` for `s < 0` and `F_s C^□_n = C^□_n` for `s ≥ n`.
+   - For a Hurewicz fibration, the comparison enters in identifying `E¹` with the chains of the
+     base with coefficients in the homology of the fibre.
+   - **Two constructions, with named scopes.** This *cubical* Serre spectral sequence, over an
+     arbitrary path-connected base and without a CW structure, is the one that the cubical
+     consumers use: Layer 5 item 4 (the index spectral sequence is isomorphic to it from `E²` on)
+     and Layer 8 item 6 (Theorem J). The *CW-approximation* Serre spectral sequence of Layer 1
+     item 2, with its skeletal filtration, is the ordinary Serre spectral sequence and the
+     supplier of the algebraic topology roadmap (Stage 5.5: `arbitraryCWSerreSpectralSequence`
+     and `arbitraryBaseSerreSpectralSequence`). Its domain is every Serre fibration; the cubical
+     sequence does not replace it or narrow it.
+   - **Comparison.** For a Hurewicz fibration over a path-connected base, the two are naturally
+     isomorphic as spectral sequences from `E²` on:
+     - the isomorphism is compatible with the identification `E²_{p,q} = H_p(B; H_q(F))`, where
+       `H_q(F)` is the local system of the fibre homology (the monodromy local system on the
+       CW side, the local system `b ↦ H_q(p⁻¹ b)` on the cubical side);
+     - it is compatible with the abutment filtration of `H_*(E)`;
+     - it is natural in maps of fibrations.
+     It is stated for a Hurewicz fibration. A Serre fibration enters only through the algebraic
+     topology roadmap's carrier `TauCeti.TopCat.serreFibrations`, via the bridge that every
+     Hurewicz fibration is a Serre fibration (Layer 2 item 2).
 4. Fundamental chains: a compact oriented topological manifold with corners whose boundary is a
    union of products of lower-dimensional ones has a fundamental chain rel boundary in
    `C^□_*`. Its boundary is the signed sum of the cross products of the fundamental chains of the
@@ -366,8 +399,24 @@ These are general facts that the later layers use, which no other roadmap builds
    - Every space has a CW approximation, natural up to homotopy.
    - A weak homotopy equivalence induces isomorphisms on singular homology with local
      coefficients.
-   - As a corollary, the Serre spectral sequence over an arbitrary path-connected base, by pulling
-     back along a CW approximation. The source applies it over `Ω₀Q`, `Ω²B` and `Y`.
+   - **The ordinary Serre spectral sequence.** For a Serre fibration (a morphism of
+     `TauCeti.TopCat.serreFibrations`), built in two steps from Stages 1--4 of the algebraic
+     topology roadmap and item 3, with no input from Stage 5.5 of that roadmap:
+     - `arbitraryCWSerreSpectralSequence`, over a path-connected CW base `B`. Filter the total
+       space by the preimages `E_p = p⁻¹(B^(p))` of the skeleta, with `E_{−1}` empty, and show that
+       the singular chains are exhausted by this filtration. Apply item 3. Identify
+       `E²_{p,q} = H_p(B; H_q(F))`, where `H_q(F)` is the monodromy local system given by path
+       transport, and prove strong convergence to `H_{p+q}(E)`, with the abutment filtration and
+       its graded pieces. Prove naturality in maps of fibrations and in the coefficients.
+     - `arbitraryBaseSerreSpectralSequence`, over an arbitrary path-connected base. Pull the
+       fibration back along a CW approximation `B' → B`. The induced map of total spaces is a
+       weak equivalence, by the fibration homotopy sequence. Transport the sequence of the
+       previous step to the original fibration, together with its `E²` page, convergence and
+       abutment filtration, using the comparison of the local-coefficient homology of `B'` and
+       `B` and the weak equivalence of the total spaces. Prove independence of the CW
+       approximation and naturality from `E²` on. The source applies it over `Ω₀Q`, `Ω²B` and `Y`.
+     Layer 0 item 3 builds a second, cubical Serre spectral sequence, for Hurewicz fibrations over
+     arbitrary bases, and requires its natural comparison with this one from `E²` on.
 3. **The spectral sequence of a filtered complex.** For a bounded-below, exhaustive, increasing
    filtration of a chain complex over a ring: the spectral sequence with
    `E¹_{p,q} = H_{p+q}(F_p/F_{p−1})`, its strong convergence, and naturality under filtered maps.
@@ -608,7 +657,8 @@ corner structures.
      Hurewicz fibrations by transport along the Moore-path replacement `E → E'`, which is a fibre
      homotopy equivalence and has a transitive lifting function;
    - `H_*(B; C_*(F')) ≅ H_*(E') ≅ H_*(E)`;
-   - the index spectral sequence is isomorphic to the Serre spectral sequence from `E²` on;
+   - the index spectral sequence is isomorphic, from `E²` on, to the cubical Serre spectral
+     sequence of Layer 0 item 3 (and so, by its comparison, to the CW-approximation one);
    - direct and shriek maps correspond to the maps induced by maps of total spaces and by the
      Umkehr maps of pulled-back fibrations.
 5. **Classes living over the fundamental class.**
@@ -762,7 +812,7 @@ real boundary conditions.
    - The canonical filtration (Definition 3.38) and the spectral sequence with
      `E² = FH_*(H; H_q(𝓕))` (Theorem 3.39).
    - Theorem J: for a Hurewicz fibration `F → E → 𝓛₀X`, `FH_*(H; C_*(F)) ≅ H_{*+n}(E|_X)`,
-     compatibly with the Serre spectral sequence.
+     compatibly with the cubical Serre spectral sequence of Layer 0 item 3.
 7. **Symplectic homology** `SH_*(W; 𝓕)` with DG coefficients for a Liouville domain.
    - The zero-energy identification `SH^{=0}_*(W; 𝓕) ≅ H_{*+n}(W, ∂W; i_W^*𝓕)`
      (Proposition 3.44), which defines `i_{W*}`.
