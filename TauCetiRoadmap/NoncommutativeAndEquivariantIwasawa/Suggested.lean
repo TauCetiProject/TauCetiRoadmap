@@ -38,7 +38,11 @@ The later headline statements require objects absent from the pins:
 * Denominator-corrected Fitting annihilation (§7.23) needs noncommutative Fitting orders,
   reduced norms, maximal Fitting invariants and their denominator ideals.
 * The shared Hilbert families and ordinary control (§F.5) need the classical ideal-coefficient
-  dictionary and ordinary tower. The general period-boundary and exponential prefix (§F.6)
+  dictionary and ordinary tower. Normalized Eisenstein families use the fraction-field extension
+  of the integral standard-component module; integral control applies after the specified
+  weight-dependent denominator is cleared, retaining its specialization domain. The
+  Leopoldt descent theorem (§7.10) uses actual finite-dimensional characters and multiplicity
+  spaces. The general period-boundary and exponential prefix (§F.6)
   needs topological period sequences and continuous cochains; its identification of invariant
   quotient periods with the de Rham tangent space requires the de Rham hypothesis. The
   independent period-realization prefix needs the semistable period invariants and raw
