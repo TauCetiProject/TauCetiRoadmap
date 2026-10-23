@@ -37,16 +37,21 @@ The later headline statements require objects absent from the pins:
   periods and regulators. Generic continuous-cohomology Bocksteins do not supply these objects.
 * Denominator-corrected Fitting annihilation (§7.23) needs noncommutative Fitting orders,
   reduced norms, maximal Fitting invariants and their denominator ideals.
-* The shared Hilbert families and ordinary control (§F.5) need the classical ideal-coefficient
-  dictionary and ordinary tower. Normalized Eisenstein families use the fraction-field extension
-  of the integral standard-component module; integral control applies after the specified
+* The compact derived Hochschild–Serre comparison with coherent quotient action and the
+  countable-tower Milnor sequence (§F.3) need the derived coefficient-limit realization and
+  quotient-equivariant resolutions on the supplied continuous cochain carrier.
+* The shared Hilbert families, their full and cuspidal Hecke images, and ordinary control
+  (§F.5) need the classical ideal-coefficient dictionary and ordinary tower. Normalized
+  Eisenstein families use the fraction-field extension of the integral standard-component
+  module; integral control applies after the specified
   weight-dependent denominator is cleared, retaining its specialization domain. The
   Leopoldt descent theorem (§7.10) uses actual finite-dimensional characters and multiplicity
   spaces. The general period-boundary and exponential prefix (§F.6)
   needs topological period sequences and continuous cochains; its identification of invariant
   quotient periods with the de Rham tangent space requires the de Rham hypothesis. The
-  independent period-realization prefix needs the semistable period invariants and raw
-  Weil–Deligne carrier. The differential branch needs the Robba and étale prefix, including
+  independent period-realization prefix, including filtered Galois descent and nilpotence of
+  period-ring monodromy, needs the semistable period invariants and raw Weil–Deligne carrier.
+  The differential branch needs the Robba and étale prefix, including
   extension of overconvergent Frobenius lifts with radius estimates, then the slope and
   monodromy prefix and the embedded de Rham lattice.
 
