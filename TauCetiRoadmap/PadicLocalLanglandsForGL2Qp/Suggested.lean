@@ -21,7 +21,7 @@ duality and analytic-vector theorems (§0.1, §§2.4–2.5) need locally convex 
 function/distribution spaces and admissible Banach representation categories.
 The filtered-period equivalence, monodromy and deformation theorems (§§0.2–0.4)
 need period rings, filtered (φ,N)-modules, coefficient-linear compact duality and
-local deformation functors. The canonical lattices and trianguline classification
+GLₙ-valued local deformation functors. The canonical lattices and trianguline classification
 (§§1.3–1.7) need étale and Robba (φ,Γ)-modules and Weil–Deligne parameters.
 
 The mod-p classification (§§2.6–2.8) needs smooth compact induction, its Hecke
@@ -29,7 +29,10 @@ operator and Serre-weight representations. The Montreal, reconstruction and
 all-prime correspondence theorems (Layer 3) need those constructions, Colmez's
 glued section spaces and admissible unitary Banach representations. Algebraic and
 analytic vector comparisons and completion classifications (Layer 4) also need
-filtered periods, locally analytic induction and inertial types. The block-centre,
+filtered periods, locally analytic induction and inertial types. Section 4.1a uses
+NoncommutativeAndEquivariantIwasawa §F.6's general continuous period boundary;
+its Colmez presentation and dual-exponential adjunction require generalized
+differential-period spaces. The block-centre,
 type-ring and Breuil–Mézard theorems (Layer 5, §§6.0–6.8) need compact block
 categories, their projective envelopes, continuous (pseudo)deformation/type rings
 and module-cycle specialization. Mathlib's algebraic-cycle carrier alone does not
