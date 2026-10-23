@@ -1,5 +1,6 @@
 import Mathlib
 import TauCetiRoadmap.SchemeAndStackFoundations.Suggested
+import TauCetiRoadmap.PurityOfBranchLocus.Suggested
 
 /-!
 # EnhancedDerivedSheaves: representative target signatures
@@ -87,14 +88,6 @@ Stacks 00OE and 065T): over a regular ring of Krull dimension at most `d`, every
 generated or not, has projective dimension at most `d`. -/
 theorem isRegularRing_projectiveDimension_le (R : Type u) [CommRing R] [IsRegularRing R] (d : ℕ)
     (hd : ringKrullDim R ≤ d) (M : ModuleCat.{u} R) : HasProjectiveDimensionLE M d := by
-  sorry
-
-/-- **The homological criterion for regularity** (Section E1.6; Stacks 00OC): a Noetherian local
-ring whose residue field has finite projective dimension is a regular local ring. -/
-theorem isRegularLocalRing_of_projectiveDimension_residueField (R : Type u) [CommRing R]
-    [IsLocalRing R] [IsNoetherianRing R] (n : ℕ)
-    (h : HasProjectiveDimensionLE (ModuleCat.of R (ResidueField R)) n) :
-    IsRegularLocalRing R := by
   sorry
 
 /-- **Kunz's theorem, forward direction** (`frobenius_flat_of_isRegular`, Section E1.6; Stacks
