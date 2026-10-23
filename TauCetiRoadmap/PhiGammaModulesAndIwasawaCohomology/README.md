@@ -56,9 +56,14 @@ statements required here, with canonical comparisons to NoncommutativeAndEquivar
 its finite-`O_E`/E coefficient domain. ArithmeticGaloisDuality D7 consumes that shared arithmetic API.
 Period-ring acyclicity with Banach coefficients is proved in §3.6.
 
-The only Bloch–Kato construction made here is the local exponential and its image `H¹_e` needed for the
-analytic application. General regulators, Perrin–Riou maps, Coleman maps, Selmer structures and main
-conjectures belong to their respective roadmaps. No GL₂ representation, involution or sheaf on the projective
+Section 5.7 owns the general continuous period-boundary construction for finite-dimensional representations,
+the local exponential and its de Rham image theorem. The overlapping period prefix in
+NoncommutativeAndEquivariantIwasawa §F.6 consists of the same continuous sections, tensor-cochain sequences,
+quotient-period boundary, exponential, `H¹_e` and coefficient, twist and field-map compatibilities.
+Section 5.7 identifies these presentations on their actual period rings and cochains, independently of the
+Robba and differential-lattice comparisons of §§1.0 and 5.6a. General regulators, Perrin–Riou maps, Coleman
+maps, Selmer structures and main conjectures belong to their respective roadmaps. No GL₂ representation,
+involution or sheaf on the projective
 line is constructed here. The geometric modification below constructs the particular Fitting-ideal flattening
 required by triangulations.
 
@@ -151,8 +156,10 @@ PadicPeriodRings §§1.1–1.5 supply the completed algebraic closure, its conti
 fields, normalized cyclotomic traces, Tate–Sen estimates and naturally topologized de Rham periods. Its
 §§3–4.3 supply `B_cris`, `B_st` and `B_dR`, their structure maps, invariant functors, regularity and the
 underlying fundamental period sequence. Section 5.7 constructs its continuous nonequivariant sections,
-the tensor-cochain long exact sequence and the exponential boundary for finite-dimensional continuous
-representations, including coefficient and twist naturality.
+the tensor-cochain long exact sequences and the boundary on invariant quotient periods for every
+finite-dimensional continuous representation. Its restriction to de Rham periods defines the exponential;
+the image equality for that restriction carries a de Rham hypothesis. These constructions include
+coefficient, twist and field-map compatibility.
 
 DerivedModuleAlgebra §1.T.1, “The Milnor sequence for towers of complexes”, and §1.1,
 “Derived limits of towers”, supply the native module `Rlim`, shifted-cone model, Milnor sequence,
@@ -196,6 +203,11 @@ overconvergence and compatible radius models. It also specifies the unique diffe
 unfiltered cyclotomic de Rham localizations. Sections 1.0 and 5.6a construct the comparisons for their stated
 presentations on this common domain, including embeddings in the localized realization, connection, φ, Γ,
 twists, tensor and dual. Its monodromy and Weil–Deligne constructions use this same core.
+The general period-boundary prefix also presented in §F.6 is the package owned by §5.7 here. Its comparison
+uses identity maps on the period rings, tensor symmetry, the diagonal inclusions and the displayed
+difference maps, and preserves the quotient-period injection and connecting morphisms before imposing a
+de Rham hypothesis. This prefix uses only PadicPeriodRings and continuous cochains; neither Robba
+realization nor the differential lattice is a prerequisite for it.
 
 ### From analytic roadmaps
 
@@ -1985,21 +1997,45 @@ comparison and the construction and uniqueness above.
 
 ### 5.7 The local exponential and the all-level image condition
 
-For every finite-dimensional continuous E-representation `V` of `G_K`, construct continuous
-nonequivariant sections of the supplied fundamental sequence and its pullback
+**Period boundaries and the de Rham image theorem.** For every finite `K/ℚ_p`, finite coefficient field
+`E/ℚ_p` and finite-dimensional continuous E-representation `V` of `G_K`, put `B_e=B_cris^{φ=1}`.
+Construct continuous nonequivariant sections of the supplied fundamental sequence
+`0→ℚ_p→B_e→B_dR/B_dR^+→0` and its pullback
 `0→ℚ_p→B_cris^{φ=1}⊕B_dR^+→B_dR→0`, with diagonal first map and difference map `(x,y)↦x−y`.
 Tensor with `V` on the canonical period topologies and construct the continuous-cochain long exact
-sequence. Its boundary defines `blochKatoExp V : D_dR(V)/Fil⁰→H¹(K,V)`, naturally in coefficients,
-Tate twists and restriction/corestriction. Also construct the companion exact sequence
+sequences. Also construct the companion exact sequence
 `0→ℚ_p→B_cris⊕B_dR^+→B_cris⊕B_dR→0`, with last map `(x,y)↦((1−φ)x,x−y)`,
-its continuous sections and tensor-cochain long exact sequence. No de Rham hypothesis is needed for these
-boundaries. Source: Bloch–Kato, Proposition 1.17 and Remark 1.18, pp.340–341.
+its diagonal first map, continuous sections and tensor-cochain long exact sequence.
 
-Define `blochKatoHe V = ker(H¹(K,V)→H¹(K,B_cris^{φ=1}⊗V))`. Prove that the exponential boundary
-has image `H¹_e`. This local construction is needed here because a finite local condition `H¹_f` alone does not supply `H¹_e`. Sources: Berger-intro §II.3.4 and §V.2, p.35, and the original
-exponential comparison in Berger-exp-2003 §II, pp.11–18. API: naturality, finite-extension
-restriction/corestriction, the image equality and the period-lattice criterion. No equality `H¹_e=H¹_f` is
-imposed in general.
+Set `Q_V=((B_dR/B_dR^+)⊗_{ℚ_p}V)^{G_K}` and define
+`blochKatoHe V = H¹_e(K,V) = ker(H¹(K,V)→H¹(K,B_e⊗V))`.
+The fundamental connecting morphism `∂_V:Q_V→H¹(K,V)` has image `H¹_e(K,V)` for every such `V`.
+Construct the natural injection `ι_V:D_dR(V)/Fil⁰→Q_V` and define
+`blochKatoExp V = ∂_V∘ι_V`. Identify this exponential with the pullback boundary, factored through
+`Fil⁰`, and prove for arbitrary continuous `V` that its image is
+`ker(H¹(K,V)→H¹(K,B_e⊗V)⊕H¹(K,B_dR^+⊗V))`.
+For **de Rham** `V`, prove that `ι_V` is an isomorphism and hence that the exponential has image
+`H¹_e(K,V)`. The general quotient-period boundary and its restriction have distinct image theorems;
+no equality `H¹_e=H¹_f` is imposed.
+
+Compare the overlapping period-boundary presentation of NoncommutativeAndEquivariantIwasawa §F.6 by
+identity on the period rings and `V`, and by tensor symmetry when the factors are reversed. These maps
+intertwine the diagonal inclusions, `x−y` and `((1−φ)x,x−y)`, identify `Q_V`, `ι_V` and `H¹_e`, and preserve
+the connecting morphisms. If `z∈D_dR(V)` and `w` lifts `z` in the pullback, the class is represented by
+`g↦gw−w`, identifying the kernel with `V` by its diagonal inclusion. Changing the lift changes this cocycle
+by a coboundary, so the boundary is independent of the section. The inclusion into the companion has final
+map `z↦(0,z)` and gives the same class. Prove naturality for coefficient maps and extension, tensoring the
+sequences with Tate twists, finite-extension restriction and corestriction, using period trace for
+corestriction. All these comparisons hold before the de Rham specialization.
+
+Sources: Bloch–Kato, Proposition 1.17 and Remark 1.18, pp.340–341, for continuous sections and boundaries;
+Lemma 3.8.1, Corollary 3.8.4 and Definition 3.10, pp.355–359, for the de Rham comparison and image;
+Berger-exp-2003, Introduction, p.2, for the period-quotient construction. API: the quotient-period boundary,
+canonical period injection, `blochKatoExp`, `blochKatoHe`, the general and de Rham image equalities,
+section independence and the coefficient, twist, field-map and tensor-cochain comparison laws.
+*Needs:* PadicPeriodRings §§1.4–1.5 and 4.1–4.3; continuous cochains and their functorial maps as in §0.6,
+extended to these period coefficients using the continuous sections above. The Robba and differential
+realizations enter only the following all-level application.
 
 Now specialize to `K=ℚ_p` and the Dospinescu–Le Bras setting: `π` is a supercuspidal smooth `GL₂(ℚ_p)`
 representation with trivial central character, `Π` is an absolutely irreducible admissible unitary Banach
@@ -2037,11 +2073,24 @@ radius estimates. API: `allLevelExp_iff_tNrig`, `allLevelExp_oneSubPhi_injective
 
 - For `V=0`, both the exponential image and all-level condition vanish.
 - A diagonal scalar pair maps to zero under `x−y`; reversing the difference reverses the boundary sign.
-  Tensoring a Tate twist or changing E commutes with this same boundary and the continuous sections.
+  Tensor symmetry identifies this cocycle with the §F.6 presentation and with the companion boundary at
+  `(0,z)`. Changing sections leaves its cohomology class unchanged.
+- Coefficient extension and tensoring the sequences with a Tate twist preserve these connecting maps.
+  For finite `K′/K`, corestriction uses the period trace; corestriction after restriction multiplies a class
+  by `[K′:K]` in both presentations.
 - For `V=ℚ_p, D_dR/Fil⁰=0` and `H¹_e=0`, while `H¹_f` contains the unramified class; replacing `H¹_e` by
   `H¹_f` changes the condition.
 - For `V=ℚ_p(1)`, the exponential image is the unit/logarithmic local condition, not the class of a
   uniformizer.
+- Nonsplit reverse-Tate extension: for `K=E=ℚ_p`, take a nonsplit
+  `0→ℚ_p→V→ℚ_p(1)→0`. Such extensions exist and are not de Rham, since
+  `dim H¹(ℚ_p,ℚ_p(−1))=1` but `H¹_g(ℚ_p,ℚ_p(−1))=0` (Bloch–Kato, Example 3.9, p.359, and the extension
+  criterion preceding Proposition 3.8). Thus `D_dR(V)=Fil⁰D_dR(V)=ℚ_p`, and `blochKatoExp V` has zero
+  source. Nevertheless `W₁=t⁻¹B_dR^+/B_dR^+≃ℂ_p(−1)` has
+  `(W₁⊗V)^{G_{ℚ_p}}≃ℚ_p`, by the vanishing of both `H⁰` and `H¹` of `ℂ_p(−1)` (Brinon–Conrad,
+  Theorem 2.2.7, p.15; PadicPeriodRings §1.4). This line injects into `Q_V`, whereas
+  `D_cris(V)^{φ=1}=ℚ_p` maps to zero there. The fundamental boundary therefore injects it into `H¹_e`,
+  which is nonzero. The general `∂_V` image theorem holds, and the exponential-image equality fails.
 - Omitting the factor t would allow a nonzero constant de Rham obstruction; the all-level localization test
   excludes it.
 - A trianguline or arbitrary de Rham rank-two representation is not automatically in the specified
@@ -2059,8 +2108,9 @@ condition needs the exponential rather than just a finite local condition.
 
 ### Dependencies
 
-Layers 1–4, independent Iwasawa and Shapiro contracts, the de Rham differential-equation and fundamental
-period exact-sequence contracts. The all-level application uses the original exponential-image argument and
+The general period-boundary prefix uses PadicPeriodRings and the continuous-cochain construction of §5.7.
+The all-level application also uses Layers 1–4, independent Iwasawa and Shapiro contracts and the de Rham
+differential-equation realization. It uses the exponential-image equality under its de Rham hypothesis and
 checks both `ψ` cokernels separately before its annular generation consequence.
 
 ## Layer 6: specialized Wach interfaces
@@ -2612,7 +2662,8 @@ reported claim.
 - **CC-1999** — Cherbonnier and Colmez, *Théorie d'Iwasawa des représentations p-adiques d'un corps local*, Journal of the AMS 12 (1999), 241–268, [author manuscript](https://webusers.imj-prg.fr/~pierre.colmez/CCjams.pdf), §§II.1–II.3, manuscript pp.11–15.
 - **Berger-intro** — Laurent Berger, *An introduction to the theory of p-adic representations*, [arXiv:math/0210184](https://arxiv.org/abs/math/0210184), for period and exponential conventions.
 - **Berger-diffeq** — Laurent Berger, *Représentations p-adiques et équations différentielles*, Inventiones Mathematicae 148 (2002), 219–284, [arXiv:math/0102179](https://arxiv.org/abs/math/0102179), Theorem 5.10.
-- **Bloch–Kato** — Spencer Bloch and Kazuya Kato, *L-functions and Tamagawa numbers of motives*, The Grothendieck Festschrift I (1990), 333–400, Proposition 1.17 and Remark 1.18, pp.340–341, for the continuous period-sequence sections and boundary.
+- **Bloch–Kato** — Spencer Bloch and Kazuya Kato, *L-functions and Tamagawa numbers of motives*, The Grothendieck Festschrift I (1990), 333–400, Proposition 1.17 and Remark 1.18, pp.340–341, for the continuous period-sequence sections and boundary; Lemma 3.8.1, Corollary 3.8.4, Example 3.9 and Definition 3.10, pp.355–359, for the de Rham image theorem and its boundary cases.
+- **Brinon–Conrad** — Olivier Brinon and Brian Conrad, *CMI summer school notes on p-adic Hodge theory*, [author notes](https://math.stanford.edu/~conrad/papers/notes.pdf), Theorem 2.2.7, p.15, for the continuous `ℂ_p`-twist cohomology used in §5.7.
 - **Berger-exp-2003** — Berger, *Bloch and Kato's exponential map: three explicit formulas*, Documenta Mathematica, Extra Volume Kato (2003), 99–129, [author manuscript](https://perso.ens-lyon.fr/laurent.berger/articles/article03.pdf), especially the exponential comparison and Appendix A, Theorem A.3, manuscript pp.26–27.
 - **Berger-Wach-2004** — Berger, *Limites de représentations cristallines*, Compositio Mathematica 140 (2004), 1473–1498, [author manuscript](https://perso.ens-lyon.fr/laurent.berger/articles/article06.pdf), Proposition II.1.1 and §III.4. Read with the author's [errata](https://perso.ens-lyon.fr/laurent.berger/articles/errata.pdf): the rational Wach module becomes étale after the correct B_F scalar extension, not an incorrect overconvergent one.
 - **LLZ-2010** — Antonio Lei, David Loeffler and Sarah Livia Zerbes, *Wach modules and Iwasawa theory for modular forms*, Asian Journal of Mathematics 14 (2010), 475–528, [institutional manuscript](https://wrap.warwick.ac.uk/id/eprint/38052/1/WRAP_Loeffler_modularforms.pdf), Theorem 3.5 and Lemma 3.15. The paper assumes p odd.

@@ -29,8 +29,11 @@ The other headline results require constructions absent at the pins:
 * Layer 5's integral and analytic Iwasawa comparisons need the independent
   corestriction tower, its Shapiro maps and the period realization. The pairing
   specialization needs the residue-normalized analytic pairing; generation needs
-  the Robba-type Γ annuli. The all-level exponential-image theorem needs de Rham
-  differential lattices, cyclotomic localization and the Bloch–Kato exponential.
+  the Robba-type Γ annuli. The general period-boundary image theorem needs the
+  topological period sequences, their tensor cochains and invariant quotient periods.
+  The exponential on de Rham periods is the restriction of that boundary; its image
+  theorem carries a de Rham hypothesis. The all-level exponential-image theorem needs
+  de Rham differential lattices, cyclotomic localization and the Bloch–Kato exponential.
 * Layer 6's Wach existence, good-basis and Iwasawa-interface theorems need the
   embedded Wach lattices, their filtered crystalline reduction and the positive
   analytic scalar extension `wachAnalyticModule V = B_rig,E^+ ⊗_(B_E^+) N(V)`.
