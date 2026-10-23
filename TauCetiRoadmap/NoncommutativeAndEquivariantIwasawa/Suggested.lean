@@ -41,10 +41,14 @@ The later headline statements require objects absent from the pins:
   countable-tower Milnor sequence (§F.3) need the derived coefficient-limit realization and
   quotient-equivariant resolutions on the supplied continuous cochain carrier.
 * The shared Hilbert families, their full and cuspidal Hecke images, and ordinary control
-  (§F.5) need the classical ideal-coefficient dictionary and ordinary tower. Normalized
-  Eisenstein families use the fraction-field extension of the integral standard-component
-  module; integral control applies after the specified
-  weight-dependent denominator is cleared, retaining its specialization domain. The
+  (§F.5) need the classical ideal-coefficient dictionary and ordinary tower. Full perfect
+  first-coefficient duality uses the positive-coefficient lattice, whose standard constants
+  may be fractional. The standard-constant-integral sublattice has the restricted pairing;
+  its cokernel is the image of the standard constants modulo the weight algebra. The tower
+  comparisons preserve both lattices and their specialization exact sequence. Normalized
+  Eisenstein families lie in the ordinary positive-coefficient lattice. Their specified
+  weight-dependent clearing factor places them in the standard-constant-integral sublattice,
+  retaining the fractional specialization domain. The
   Leopoldt descent theorem (§7.10) uses actual finite-dimensional characters and multiplicity
   spaces. The general period-boundary and exponential prefix (§F.6)
   needs topological period sequences and continuous cochains. Its quotient-period boundary has
