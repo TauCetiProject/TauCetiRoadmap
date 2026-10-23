@@ -20,7 +20,7 @@ Completed cohomology and modularity lifting consume the local interfaces here. T
 
 The shared foundations required by this roadmap have one construction each. Sections 0.1–0.5 own the analytic, duality, filtered-period, deformation and affine-cycle APIs used below. The names with `AnalyticSupport`, `DualitySupport`, `DeformationSupport` and `CycleSupport` prefixes denote these shared APIs or their specialization maps, not independent carriers for each consumer. The block and type-ring constructions of §§5.1–5.6 and 5.12 likewise supply the common contracts `GL2Block.projectiveEnvelope`, `GL2Block.centre`, `GL2Block.residualGalois`, `MontrealFunctor.torsionEtaleRealization` and `WDTypeRing`. The `Block` and `KisinRingLL` notation below specializes those constructions. Every specialization retains the original coefficient, determinant and topology hypotheses.
 
-The construction owner for each common API is the section here listed below. A use of the common API is an application of that construction, with the same universal property and hypotheses. A different prefix denotes an adapter only when its comparison to that API is specified.
+The construction owner for each common API is the section here listed below, including the general foundations rather than only their Colmez adapters. Downstream specializations use that construction with its universal property and hypotheses. A different prefix denotes an adapter only when its comparison to that API is specified. The general division-algebra transfer and the degree-two inverse used in the Drinfeld comparison are likewise one construction.
 
 | Common API | Construction owner here | Specialization or extension |
 | --- | --- | --- |
@@ -182,7 +182,7 @@ The `**O`-linear duality adapter** identifies `Hom_O(−,L/O)` with that underly
 
 PadicPeriodRings §§4.1–4.3 supplies `B_cris`, `B_st`, `B_dR`, their invariant functors and the rational crystalline, semistable and de Rham predicates. PhiGammaModulesAndIwasawaCohomology §1.0 supplies the rational Robba realisation and §5.6a the de Rham differential-equation module `N_dR(V)`. The additional realization, weak-admissibility, differential-period and Weil–Deligne dictionaries are the targets of §0.2. All use covariance and `χ`-weight `+1` as fixed above.
 
-SmoothRepresentationsOfLocalGroups SR.5.2, “Shared raw Weil–Deligne parameters”, “Operations on raw parameters”, “Frobenius semisimplification” and “Classical parameters and the generic convention”, supplies raw parameters, the operation retaining `N`, the classical `GLₙ` correspondence and characteristic-zero coefficient descent. In §1.7, `rec` denotes the representation-to-parameter inverse of the supplier’s parameter-to-representation map; `recᵀ(π)=rec(π)⊗ν^(-1/2)` is the rank-two Tate normalization. Section 1.7 here converts its arithmetic reciprocity convention using ClassFieldTheory Layer 7 and writes Colmez's induction in the unitary and Tate conventions. The p-adic occurrence theorem, multiplicity one, uniqueness for `p>2` and dyadic independence of semisimplified reductions after the algebraic factor are targets of §4.4 (Paškūnas 2016 §2.C, published pp.1325–1326).
+SmoothRepresentationsOfLocalGroups SR.5.2, “Shared raw Weil–Deligne parameters”, “Operations on raw parameters”, “Frobenius semisimplification” and “Classical parameters and the generic convention”, supplies raw parameters, the operation retaining `N`, the classical `GLₙ` correspondence and characteristic-zero coefficient descent. Its reciprocity is arithmetic. Section 1.7 constructs the transported inverse `rec_geo(π)=rec_arith(π)∨`, where `rec_arith` is the representation-to-parameter inverse of the supplier's unitary correspondence, and sets `rec_geoᵀ(π)=rec_geo(π)⊗ν_geo^(-1/2)`. Here `ν_geo(w)=p^(deg w)` is the geometric Weil realization of `ν=|·|`; its arithmetic realization is `ν_geo⁻¹`. This duality transport precedes Colmez's induction and Tate/unitary comparisons. The p-adic occurrence theorem, multiplicity one, uniqueness for `p>2` and dyadic independence of semisimplified reductions after the algebraic factor are targets of §4.4 (Paškūnas 2016 §2.C, published pp.1325–1326).
 
 For BCDT admittance, LocalGaloisGroups and LocalFieldsRamification supply the local Galois group, inertia and tame quotients. Section 0.3 supplies the fundamental-character and peu/très ramifié comparisons; §2.8 supplies the finite and normaliser representations. The Cartier dual is `ρ̄∨⊗ω`, and `ω₂^(p+1)=ω`. The BCDT inertia case table is stated in §5.13.
 
@@ -194,7 +194,7 @@ IntegralHeckeAndGaloisDeterminants §§0.1–0.5 supplies determinant polynomial
 
 ## How to read the build
 
-Layer 0 constructs the supporting analytic and arithmetic comparisons; Layer 1 fixes Colmez's normalizations. In Layer 2 construct §2.1's categories and §2.8's finite types, then §§2.6–2.7 and the finiteness/duality results of §§2.1–2.3. Section 2.5 at this stage supplies only the completion definition and conditional coherent-lattice criterion. Construct the torsion Montreal functor of §§3.1–3.3, then the envelope and Morita machinery of §§5.1 and 5.3 before the correspondence. Construct the compatible-module gluing of §§3.4–3.6 and the compatible-pair analytic-radius construction of §3.11 before the correspondence proof. For the Paškūnas `p≥5` route prove §5.5(i)–(ii) first. The all-prime CDP route instead uses the envelope-module and rational-commutativity arguments stated in §3.8, without presupposing a deformation-ring identification. Prove §§3.7–3.8, then the irreducible analytic comparisons of §3.11. The dyadic identification §5.5(iii) follows on this route. The Banach consequences of §5.5(iv)–(v) follow after the correspondence. Prove the `GL₂` H-coherence and analytic universal-completion conclusions of §2.5 from the compatible-module analytic result after §3.11. In Layer 4 construct §4.1a’s localization and reciprocity bridge, then §4.2(i)’s nonvanishing criterion. Construct §4.2a’s action on `N_rig⊠ℙ¹` and prove VI.6.41, then §4.2b’s algebraic filtration independence (VI.6.42), followed by the remaining type comparisons of §4.2 and §4.11’s analytic quotient (VI.6.43). The action construction uses only §4.2(i), not its filtration-independence consequence. Layer 4 also compares de Rham deformations; the remaining Layer 5 targets compare centres, type rings and cycles. Layer 6 makes case-specific local and conditional global deductions. Carriers determine which targets admit signatures in Suggested.lean; this README is the specification.
+Layer 0 constructs the supporting analytic and arithmetic comparisons; Layer 1 fixes Colmez's normalizations. In Layer 2 construct §2.1's categories and §2.8's finite types, then §§2.6–2.7 and the finiteness/duality results of §§2.1–2.3. Section 2.5 at this stage supplies only the completion definition and conditional coherent-lattice criterion. Construct the torsion Montreal functor of §§3.1–3.3, then the envelope and Morita machinery of §§5.1 and 5.3 before the correspondence. Construct the compatible-module gluing of §§3.4–3.5 and the compatible-pair analytic-radius construction of §3.11 before the correspondence proof. For the Paškūnas `p≥5` route prove §5.5(i)–(ii) first. The all-prime CDP residual-finiteness route uses the envelope-module and rational-commutativity arguments of §3.8 without presupposing a deformation-ring identification. Independently prove §3.6a’s residual density and coefficient/lattice descent, then §3.6’s family stability and §3.7’s existence and reconstruction. The scalar dyadic case uses CDP-WILD Theorem 10.1 in these conventions. Combine existence with CDP’s separate residual-finiteness and injectivity arguments for §3.8, then prove the irreducible analytic comparisons of §3.11. The dyadic identification §5.5(iii) follows on this route. The Banach consequences of §5.5(iv)–(v) follow after the correspondence. Prove the `GL₂` H-coherence and analytic universal-completion conclusions of §2.5 from the compatible-module analytic result after §3.11. In Layer 4 construct §4.1k’s almost-de-Rham Kirillov maps and conditional structural results, then §4.1a’s localization, restriction-surjectivity and reciprocity comparisons, followed by §4.2(i)’s nonvanishing criterion. Section 4.7 contains the subsequent de Rham Kirillov consequences. On the nonempty irreducible locus `F_irr`, construct §4.2a’s action on `N_rig⊠ℙ¹` and prove VI.6.41, then §4.2b’s algebraic filtration independence (VI.6.42), followed by the remaining type comparisons of §4.2 and §4.11’s analytic quotient (VI.6.43). The action construction uses only §4.2(i), not its filtration-independence consequence. Layer 4 also compares de Rham deformations; the remaining Layer 5 targets compare centres, type rings and cycles. Layer 6 makes case-specific local and conditional global deductions; before §6.1, construct §6.0’s ratio-`ω` compact deformation and §6.0a’s ratio-`ω⁻¹` envelope comparison separately. Carriers determine which targets admit signatures in Suggested.lean; this README is the specification.
 
 ## Layer 0: Supporting analytic and arithmetic foundations
 
@@ -396,7 +396,7 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §4–§5, 
 
 For a commutative topological ring `Λ` let `T̂(Λ)` be the group of continuous characters `δ` : `ℚ_p^× → Λ^×`. Through local class field theory normalised so that `p` corresponds to a geometric Frobenius, `W_{ℚ_p}^{ab} ≅ ℚ_p^×`, and a character `δ ∈ T̂(Λ)` is viewed as the character of the Weil group `W_{ℚ_p}` given by `δ(g) = δ(p)^{−deg g} · δ(χ(g))`, where deg `g ∈ ℤ` is defined by `g(x) = x^{p^{deg g}}` on `𝔽̄_p` and `χ` is the cyclotomic character. When `n ↦ δ(p^n)` extends continuously to `ℤ̂` (in particular when `Λ = k_L`, or `Λ = L` and `δ` is unitary, i.e. `v_p(δ(p)) = 0`), `δ` extends to a continuous character of `G_{ℚ_p}`. Under this dictionary the character `x ↦ x|x|` corresponds to `χ`, its reduction `ω` mod `p` to the mod `p` cyclotomic character, and the unramified character `μ_λ` (`μ_λ(p) = λ`, trivial on `ℤ_p^×`) to the unramified character sending a geometric Frobenius to `λ`. For `δ ∈ T̂(L)` its weight is `w(δ) = log δ(u)/log u` for any `u ∈ ℤ_p^×` not a root of unity; for unitary `δ` it is the generalised Hodge–Tate weight of `δ (w(x|x|) = 1)`.
 
-Here `L` is a finite extension of `ℚ_p` with ring of integers `O_L = O`, uniformiser `ϖ` and residue field `k_L = k`. The normalisation (uniformisers `↦` geometric Frobenii) is the one of Colmez, Paškūnas and Colmez–Dospinescu–Paškūnas; SmoothRepresentationsOfLocalGroups SR.5.2 uses the same `Art_F(ϖ) =` geometric Frobenius, and the arithmetic normalisation of §0.2 states crystalline characters through `Art^arith`, the inverse normalisation.
+Here `L` is a finite extension of `ℚ_p` with ring of integers `O_L = O`, uniformiser `ϖ` and residue field `k_L = k`. The normalisation (uniformisers `↦` geometric Frobenii) is the one of Colmez, Paškūnas and Colmez–Dospinescu–Paškūnas. SmoothRepresentationsOfLocalGroups SR.5.2 instead uses arithmetic reciprocity; §1.7 transports its correspondence by parameter duality. The arithmetic character formula of §0.2 uses `Art^arith=(Art^geo)⁻¹`.
 
 Use the following named operations and compatibility results.
 
@@ -408,9 +408,9 @@ Use the following named operations and compatibility results.
 - `PadicChar.toGalois_normChar`: `toGalois(x|x|) = χ` (Mathlib cyclotomicCharacter at `ℚ̄_p`).
 - `PadicChar.toGalois_mul`: `toGalois(δ₁δ₂) = toGalois(δ₁)·toGalois(δ₂)`.
 - `PadicChar.toGalois_unramified`: `toGalois(μ_λ)` is unramified and sends a geometric Frobenius to `λ`.
-- `PadicChar.arith_dictionary`: Composed with the arithmetic normalisation of the arithmetic normalisation of §0.2, `toGalois(δ)∘Art^arith = δ⁻¹` on `ℤ_p^×`-part and `δ(p)⁻¹` at `p`: the two normalisations differ by inversion.
+- `PadicChar.arith_dictionary`: `toGalois(δ)∘Art^arith = δ⁻¹` on all of `ℚ_p^×`; in particular its arithmetic-Frobenius value is `δ(p)⁻¹` for unramified `δ`.
 
-Local class field theory for `ℚ_p`: the reciprocity isomorphism `ℚ_p^× ≅ W_{ℚ_p}^{ab}` with `p ↦` geometric Frobenius (trivial on `μ_{p^∞}`) and `u ∈ ℤ_p^× ↦` the element acting on `μ_{p^∞}` by `u`, so that the inverse map is `g ↦ p^{−deg g} χ(g)` (cited from the Tau Ceti ClassFieldTheory roadmap through SmoothRepresentationsOfLocalGroups SR.5.2, which fixes `Art_F`).
+Local class field theory for `ℚ_p`: invert ClassFieldTheory's arithmetic Artin map to obtain `ℚ_p^× ≅ W_{ℚ_p}^{ab}` with `p ↦` geometric Frobenius (trivial on `μ_{p^∞}`) and `u ∈ ℤ_p^× ↦` the element acting on `μ_{p^∞}` by `u`. Its inverse is `g ↦ p^{−deg g} χ(g)`.
 
 Compute `x|x|` on `p^{−deg g}χ(g)`: `|p^{−deg g}χ(g)| = p^{deg g}`, so `(x|x|)(p^{−deg g}χ(g)) = χ(g)`; hence `x|x| ↔ χ`, and reducing mod `ϖ` gives `ω`.
 
@@ -589,32 +589,30 @@ The source is [Pierre Colmez, COLMEZ08TRI](#ref-colmez08tri), §0.2–0.4, pp. 2
 
 ### 1.7 Colmez's classical correspondence `LL(M)` against SR.5.2
 
-Let `M` be a two-dimensional representation of the Weil–Deligne group `WD_{ℚ_p}` over `L` that is not a twist of the trivial representation by a character, with Frobenius normalised as in §0.2 with the raw Weil–Deligne carrier from SmoothRepresentationsOfLocalGroups SR.5.2 and characters read through [§1.2](#section-1-2). Colmez's `LL(M)` is: `Ind_B^G(δ₁ ⊗ δ₂|·|^{−1}) (≅ Ind_B^G(δ₂ ⊗ δ₁|·|^{−1}))` for `M = δ₁ ⊕ δ₂` with `δ₁ ∉ {δ₂, δ₂|·|, δ₂|·|^{−1}}`; for `M = δ ⊕ δ|·|` with `N = 0`, the reducible `Ind_B^G(δ|·| ⊗ δ|·|^{−1})`, an extension of `δ∘det` by `St ⊗ (δ∘det)`; for `M = δ ⊕ δ|·|` with `N ≠ 0, St ⊗ (δ∘det)`; for the non-split extension of `δ` by `δ, Ind_B^G(δ ⊗ δ|·|^{−1})`; and for `M` irreducible, the supercuspidal `rec^{−1}(M⊗ν^{−1/2})`. For Hodge–Tate weights `a<b`, hence filtration jumps `−b<−a`, put `LL(M, Fil) = LL(M) ⊗ W_{a,b−a}` with `W_{a,k} = Sym^{k−1} ⊗ det^a`. The bridge theorem: for `M` not of the form `δ ⊕ δ|·|` with `N = 0, LL(M)` is the irreducible `π` with `rec(π) ⊗ ν^{1/2} ≅ M^{F-ss}`, where `rec` is the unitary correspondence of SmoothRepresentationsOfLocalGroups SR.5.2 and `ν = |·|`; equivalently `M^{F-ss} ≅ recᵀ(π) ⊗ ν` for the Tate normalisation `recᵀ(π) = rec(π) ⊗ ν^{−1/2}` of §1.7’s Tate/unitary conversion, so `det M = ω_π·ν`. In the case `M = δ ⊕ δ|·|` with `N = 0`, Colmez takes the full reducible principal series `Ind_B^G(δ|·| ⊗ δ|·|^{−1})` instead of the one-dimensional Langlands quotient that `rec^{−1}` attaches. Colmez’s functor `V` and the Kisin–Emerton functor `MF` differ by a Tate twist: `V(π) = MF(π)(ε)`. Colmez’s list permits a non-semisimple Weil self-extension. Only the comparison with `rec` uses its Frobenius semisimplification `M^{F-ss}`, retaining `N`; in particular special representations retain nonzero monodromy. In the supercuspidal case `LL(M)=rec_T^{-1}(M⊗ν^{−1})` for the SR.5.2 Tate-normalised correspondence.
-
-Here `M` two-dimensional, not a character twist of the trivial representation. The geometric-Frobenius normalisation on both sides ([§1.2](#section-1-2), SR.5.2).
-
-Write each case of Colmez's list in §1.7’s normalised induction `i_B^G(a, b) = Ind_B^G(a|·|^{1/2} ⊗ b|·|^{−1/2})`: `Ind_B^G(δ₁ ⊗ δ₂|·|^{−1}) = i_B^G(δ₁|·|^{−1/2}, δ₂|·|^{−1/2})`, whose unitary parameter is `(δ₁ ⊕ δ₂)|·|^{−1/2}` by the SR.5.2 principal-series parameter; twisting by `ν^{1/2}` gives `M`, and §1.7’s Tate/unitary conversion rewrites this as `recᵀ ⊗ ν`.
-
-The Steinberg case: the SR.5.2 Steinberg parameter gives the monodromy-nonzero parameter of `St ⊗ (δ∘det)`, matching Colmez's `N ≠ 0` case.
-
-The `N = 0` non-generic case is where Colmez's `LL` differs from `rec^{−1}`: SR.5.2 attaches the one-dimensional Langlands quotient, Colmez the reducible principal series; keep the full representation in this case.
-
-For a nonsplit Weil self-extension of `δ`, Colmez’s principal series has unitary parameter `(δ ⊕ δ)ν^{−1/2}`. Thus the classical parameter remembers `M^{F-ss}`, not the unipotent Frobenius extension; semisimplifying Frobenius does not discard `N`.
-
-Supercuspidal case: the SR.5.2 supercuspidal parameter with the same twist by `ν^{1/2}`.
-
-`V(π) = MF(π)(ε)`: Colmez defines `V(Π)` as the Tate dual of `V(D(Π))`, Emerton defines `MF(π)` as its Pontryagin dual (Emerton lg §3.2, footnote 6), and the two duals differ by `χ`.
+Construct **`ClassicalLL.geometricTransport`** on the shared Frobenius-semisimple raw Weil–Deligne parameters in arbitrary rank over a nonarchimedean local field `F` with residue cardinality `q`. Write `LL_arith` for the supplier's unitary parameter-to-representation map and `rec_arith` for its inverse. Define `rec_geo(π)=rec_arith(π)∨` and `LL_geo(M)=LL_arith(M∨)`. Parameter duality is `(r,N)∨=(r∨,−Nᵗ)` on the same Weil group, with arithmetic degree unchanged; it preserves the relation `r(w)Nr(w)⁻¹=q^(deg w)N`. It is not precomposition by inversion on the nonabelian Weil group. Prove the inverse identities, coefficient descent/extension, `rec_geo(π∨)=rec_geo(π)∨`, preservation of Frobenius semisimplification and nonzero monodromy, and `rec_geo(π⊗(η∘det))=rec_geo(π)⊗η_geo`. Here `η_geo=η∘(Art^geo)⁻¹=η_arith⁻¹` for a smooth character `η`. The raw duality and the classical contragredient comparison give this transport. Sources: SmoothRepresentationsOfLocalGroups SR.5.2, “Operations on raw parameters” and “Classical parameters and the generic convention”; ClassFieldTheory Layer 9; Colmez §VI.6.11, p.192, for the geometric character convention over `ℚ_p`.
 
 **Checks.**
 
-- For `M = μ_α ⊕ μ_β` unramified with `α/β ∉ {1, p, p^{−1}}, LL(M) = Ind_B^G(μ_α ⊗ μ_β|·|^{−1})` has central character `μ_{αβ}|·|^{−1}`, and its unitary parameter under SR.5.2 is `(μ_α ⊕ μ_β)|·|^{−1/2}`.
-- For `M = δ ⊕ δ|·|` with `N ≠ 0, LL(M) = St ⊗ (δ∘det)`, whose SR.5.2 parameter `δ|·|^{1/2} ⊕ δ|·|^{−1/2}` with nonzero monodromy becomes `M` after the twist by `|·|^{1/2}`.
-- `LL(M ⊗ η) = LL(M) ⊗ (η∘det)` for a character `η`, and the central character of `LL(M)` is `det(M)·|·|^{−1}`.
-- A nonsplit Weil self-extension of `δ` has the same classical parameter as `(δ ⊕ δ)ν^{−1/2}`; its non-semisimple Frobenius is not recovered from `rec`. This operation still retains `N` for the Steinberg case.
+- For any unramified `μ_α`, its geometric Weil character has arithmetic-Frobenius value `α⁻¹`. The supplier sends that parameter to `μ_(α⁻¹)`, whereas `LL_geo` sends it to `μ_α`. At `p=5, α=2`, these uniformizer values are `1/2` and `2`.
+- For `ν=|·|`, `ν_geo(w)=p^(deg w)` and `ν_arith(w)=p^(−deg w)`. Thus `rec_geo(π⊗|det|^s)=rec_geo(π)⊗ν_geo^s`, whenever the chosen coefficient field contains the required norm power. A fixed norm twist alone does not invert arbitrary `μ_α`.
+- Duality sends `N` to `−Nᵗ`, so a nonzero Steinberg monodromy remains nonzero; applying transport twice recovers `(r,N)` up to the canonical bidual identification. A raw unipotent Frobenius self-extension becomes split only on Frobenius semisimplification.
 
-The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §VI.6.11, p. 192; [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §11, p. 17; [Matthew Emerton, EMERTON-LG](#ref-emerton-lg), §3.2, p. 19 and footnote 6; [Matthew Emerton, EMERTON-LG](#ref-emerton-lg), Notation and conventions, pp. 11–13.
+Let `M` be a two-dimensional raw Weil–Deligne parameter over `L`, not a character twist of the trivial two-dimensional parameter, with characters read through [§1.2](#section-1-2). Colmez's `LL(M)` is: `Ind_B^G(δ₁⊗δ₂ν⁻¹)` for `M=δ₁⊕δ₂` with `δ₁/δ₂∉{1,ν,ν⁻¹}`; the full reducible `Ind_B^G(δν⊗δν⁻¹)` for `M=δ⊕δν, N=0`; `St⊗(δ∘det)` for that Weil representation with `N≠0`; `Ind_B^G(δ⊗δν⁻¹)` for a nonsplit Weil self-extension of `δ`; and `LL_geo(M⊗ν_geo^(-1/2))` for irreducible `M`. The full reducible principal series is an extension of `δ∘det` by `St⊗(δ∘det)`. For Hodge–Tate weights `a<b` and filtration jumps `−b<−a`, put `LL(M,Fil)=LL(M)⊗W_{a,b−a}`.
 
-*Needs:* [§1.2](#section-1-2); SmoothRepresentationsOfLocalGroups §SR.5.2 (“Classical parameters and the generic convention”); [§0.2](#support-hodge).
+Prove the bridge: outside `M=δ⊕δν, N=0`, `LL(M)` is the irreducible `π` with `rec_geo(π)⊗ν_geo^(1/2)≅M^(F-ss)`. Put `rec_geoᵀ(π)=rec_geo(π)⊗ν_geo^(-1/2)`; equivalently `M^(F-ss)≅rec_geoᵀ(π)⊗ν_geo`. These half-norm formulas are stated over a coefficient extension containing the chosen square root and descend by the supplier's coefficient comparison. In rank two the determinant identity is `det M=(ω_π)_geo·ν_geo`. In the exceptional `N=0` case, `LL_geo(M⊗ν_geo^(-1/2))` is the one-dimensional Langlands quotient, while Colmez retains the full principal series. The monodromy is retained in every case; only this bridge replaces raw Frobenius by its semisimplification.
+
+With normalized induction `i_B^G(a,b)=Ind_B^G(aν^(1/2)⊗bν^(-1/2))`, Colmez's generic principal series is `i_B^G(δ₁ν^(-1/2),δ₂ν^(-1/2))`. Its transported unitary parameter is `(δ₁⊕δ₂)⊗ν_geo^(-1/2)`. The same transport gives the Steinberg parameter and the supercuspidal formula above. Colmez's covariant functor and the Kisin–Emerton functor satisfy `V(π)=MF(π)(ε)`: the additional Tate dual changes the Pontryagin dual by `χ`.
+
+**Checks.**
+
+- For unramified `M=μ_α⊕μ_β` with `α/β∉{1,p,p⁻¹}`, the smooth factor is `Ind_B^G(μ_α⊗μ_βν⁻¹)`, its central character is `μ_(αβ)ν⁻¹`, and `rec_geo` gives `M⊗ν_geo^(-1/2)`. The arithmetic parameter is its dual.
+- For `M=δ⊕δν, N≠0`, `rec_geo(St⊗(δ∘det))` has Weil part `δν^(1/2)⊕δν^(-1/2)` in the geometric dictionary and nonzero monodromy. Twisting by `ν_geo^(1/2)` recovers `M`; taking `N=0` instead changes the classical quotient.
+- `LL(M⊗η_geo)=LL(M)⊗(η∘det)` and `ω_(LL(M))=(det M)_geo·ν⁻¹`, where `(det M)_geo` denotes its character on `ℚ_p×` by geometric reciprocity.
+- A nonsplit Weil self-extension of `δ` has the same transported classical parameter as `(δ⊕δ)⊗ν_geo^(-1/2)`. Its unipotent Frobenius data are not recovered by the classical correspondence.
+
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §VI.6.11, p.192; Introduction §11, p.17; [Matthew Emerton, EMERTON-LG](#ref-emerton-lg), Notation and conventions, pp.11–13, and §3.2, p.19 and footnote 6.
+
+*Needs:* [§1.2](#section-1-2); SmoothRepresentationsOfLocalGroups SR.5.2 (“Operations on raw parameters”, “Frobenius semisimplification” and “Classical parameters and the generic convention”); [§0.2](#support-hodge).
 
 ### Examples
 
@@ -1107,7 +1105,7 @@ Here the coefficient, finite-free, topology and residue hypotheses above; centra
 
 Construct the family over finite Artinian quotients as in §II.2.4.
 
-Apply the family closedness criterion, Lemma II.3.6, to the crystabelline stability computation. The residual-prime density input needed for this step remains the correspondence density and Schur inputs.
+Apply the family closedness criterion, Lemma II.3.6, to the crystabelline stability computation. The residual-prime density and coefficient/lattice descent for this step are the theorem of §3.6a, independent of the subsequent bijection.
 
 Use Proposition II.2.15 for specialisation of the unsaturated construction, followed by saturation on the fibre.
 
@@ -1118,32 +1116,44 @@ Use Proposition II.2.15 for specialisation of the unsaturated construction, foll
 
 The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §II.2.4, pp.60–61, Proposition II.2.15; Theorem II.3.3 and Lemma II.3.6, pp.63–64; §II.3.4, pp.69–70.
 
-*Needs:* [§3.5](#section-3-5); [§0.4](#support-deformations).
+*Needs:* [§3.5](#section-3-5); [§0.4](#support-deformations); [§3.6a](#section-3-6a).
+
+<a id="section-3-6a"></a>
+
+### 3.6a Crystalline density and coefficient descent for existence
+
+Prove **`CorrespondenceSupport.crystallineDensity_descent`** in the full framed deformation spaces of §0.4, before using §3.6's closed stability locus. For each two-dimensional characteristic-zero `V`, allow a finite coefficient extension and a stable lattice whose residual representation has a Zariski-dense set of benign irreducible crystalline points in its framed generic fibre. Retain the full residual case division: all classes for `p≥5`; at `p=3` the cyclotomic-extension and induced `ω₂²` classes as well as the other classes; at `p=2` nonscalar residual semisimplification and the scalar case separately. This is density in the full framed space used to extend stability, with no fixed-Hodge-type or arbitrary fixed-determinant density assertion. For scalar dyadic semisimplification, twist its character away and use the framed deformation ring of the trivial residual representation. After a finite coefficient extension every characteristic-zero representation with trivial residual semisimplification has a lattice with trivial residual representation. Prove that natural lattices commute with finite coefficient extension, `(O_L′⊗_O D₀)^♮=O_L′⊗_O D₀^♮`, and that `G`-compatibility descends faithfully along that extension and is preserved by character twists. Thus a lattice change or coefficient extension does not restrict the final existence theorem. Sources: Colmez II.3.2–II.3.4 and footnote 7, pp.15–17, 63–70, for the original residual cases; Colmez–Dospinescu–Paškūnas, **CDP-WILD**, Lemma 9.5, Theorem 9.6, Remarks 9.7–9.8 and the proof of Theorem 10.1, pp.13–16, for the dyadic density and descent.
+
+**Checks.**
+
+- At `p=2`, a nonsplit lattice extension of the trivial residual character by itself need not itself have trivial reduction. Lemma 9.5's finite extension and change of lattice place its characteristic-zero representation on the trivial-residual framed space; residual semisimplification alone does not identify the two deformation functors.
+- The trivial-residual dyadic generic fibre has two irreducible components. Benign crystalline points are dense in each, not just in one; closedness plus density in only one component would leave the other untreated.
+- Twisting a scalar residual character away and then back preserves compatibility. Faithfully flat coefficient descent recovers compatibility over `L`, rather than an existence assertion only over `L′`.
+- In CDP-WILD Theorem 10.1 the printed Galois output is `V_source(Π(D))=V(D)∨(1)`. Under the convention here `V(Π)=(V_source(Π))∨(1)`, the output is `V(D)` and the central character remains `χ⁻¹det V(D)`.
+
+*Needs:* [§0.4](#support-deformations); [§1.6](#section-1-6); [§2.3](#section-2-3); [§3.4–§3.5](#section-3-4); the Fontaine contract.
 
 <a id="section-3-7"></a>
 
 ### 3.7 Colmez's theorem: `Π(D)` is irreducible and `D(Π(D)) = Ď`
 
-Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2. (i) `D^♮ ⊠ ℙ¹` is stable under `G`. (ii) `Π(D) = (D ⊠ ℙ¹)/(D^♮ ⊠ ℙ¹)` is a topologically irreducible object of `Rep_L G, D^♮ ⊠ ℙ¹ ≅ Π(D)* ⊗ δ_D`, so there is an exact sequence `0 → Π(D)* ⊗ δ_D → D ⊠ ℙ¹ → Π(D) → 0`. (iii) `D(Π(D)) = Ď`; equivalently `V(Π(V)) ≅ V` for every absolutely irreducible two-dimensional `V`. The proof of (i) is by closedness of the stability locus and a Zariski-dense set of crystabelline or trianguline points; Colmez's text records the needed Zariski density for `p ≥ 5`, for `p = 3` except for twists of extensions of `k_L` by `k_L(ω)` and of ind `ω₂²` (those two cases following from Böckle's computation of mod 3 deformation rings), and for `p = 2` when `V^{ss}` is not the sum of two equal characters (a computation of Chenevier); Colmez–Dospinescu–Paškūnas (characteristic zero methods, valid for all `p`) give the bijection of [§3.8](#section-3-8), which includes `V(Π) ≅ V` for all absolutely irreducible `V`.
+Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2. (i) `D^♮ ⊠ ℙ¹` is stable under `G`. (ii) `Π(D) = (D ⊠ ℙ¹)/(D^♮ ⊠ ℙ¹)` is a topologically irreducible object of `Rep_L G, D^♮ ⊠ ℙ¹ ≅ Π(D)* ⊗ δ_D`, so there is an exact sequence `0 → Π(D)* ⊗ δ_D → D ⊠ ℙ¹ → Π(D) → 0`. (iii) `D(Π(D)) = Ď`; equivalently `V(Π(V)) ≅ V` for every absolutely irreducible two-dimensional `V`. The proof of (i) uses §3.6's closed stability locus and §3.6a's benign crystalline density, with its exceptional residual cases and coefficient/lattice descent. CDP-WILD Theorem 10.1 closes the scalar dyadic existence case in the Tate-duality convention specified there.
 
-Here `D` irreducible of rank 2 over `E`; `p` any prime with the case division specified in the statement.
+Here `D` irreducible of rank 2 over `E`; `p` any prime, with density and descent supplied by §3.6a in every residual case.
 
-Use the family-stability theorem and the explicit density hypothesis just stated to obtain `G`-stability, with the residual exceptions in Colmez’s footnote 7 retained.
+Use [§3.6a](#section-3-6a)'s density and descent with the family-stability theorem to obtain `G`-stability and existence for all primes, independently of §3.8. Duality, Corollary II.2.12, and the rank-two wedge pairing give the exact sequence and identify `D(Π(D))` with `Ď`.
 
-Duality, Corollary II.2.12, and the rank-two wedge pairing give the exact sequence and identify `D(Π(D))` with `Ď`.
-
-For irreducibility, use the absence of finite-dimensional subobjects and quotients together with the theorem identifying `dim V` of irreducible factors, and exactness. Exactness and an irreducible Galois image alone do not exclude a nonzero finite-dimensional kernel or quotient (the correspondence density and Schur inputs). The all-prime characteristic-zero proof of CDP is an alternative route, not a density theorem.
-
-The family argument needs schematic crystalline/trianguline density in each residual deformation space, including the scalar residual case at `p=2` and the cyclotomic/induced exceptional cases at `p=3`. Closedness of the correspondence locus is insufficient without density in that same space. An alternative characteristic-zero route must supply Banach Schur, residual finite length, the infinitesimal-character computation, and exclusion of finite-dimensional subobjects and finite-dimensional quotients. A finite-dimensional internal subquotient is not excluded by the last condition. These are supporting theorem targets, not consequences of exactness of `V`. See Colmez–Dospinescu–Paškūnas Theorems 1.1, 1.4 and 1.8 and §§2–4. Their introduction, p.3, identifies the Banach Schur theorem of Dospinescu–Schraen (cited there as `[27]`); the supporting target is `End_G(Π)=L` for absolutely irreducible admissible `Π`, used explicitly in the proof of CDP Theorem 2.21, p.14.
+For irreducibility, use the absence of finite-dimensional subobjects and quotients, the dimension theorem for irreducible Galois images, and exactness. A finite-dimensional internal subquotient is not excluded merely by those endpoint vanishings. CDP's residual-finiteness, infinitesimal-character and Banach Schur arguments complete these comparisons after existence; they do not replace density. The supporting Schur target is `End_G(Π)=L` for absolutely irreducible admissible `Π`, as used in CDP Theorem 2.21, p.14, with Dospinescu–Schraen cited in its introduction, p.3.
 
 **Checks.**
 
 - For `V` crystalline irreducible with distinct Frobenius eigenvalues, `Π(V)` is the Berger–Breuil completion.
 - `V(Π(V)) ≅ V`.
+- An absolutely irreducible `V` with scalar dyadic residual semisimplification has the same existence and reconstruction conclusions after §3.6a; residual finiteness alone would not prove its stability.
 
-The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Théorème 0.17, Remarque 0.18 and footnote 7, pp. 15–17; Théorème II.3.1, Remarque II.3.2 and Théorème II.3.3, pp. 62–63; [Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, CDP14](#ref-cdp14), Abstract and §1.1, pp. 1–3.
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Théorème 0.17, Remarque 0.18 and footnote 7, pp.15–17; Théorème II.3.1, Remarque II.3.2 and Théorème II.3.3, pp.62–63; [Colmez–Dospinescu–Paškūnas, CDP-WILD](#ref-cdp-wild), Theorem 10.1, pp.15–16; [Colmez–Dospinescu–Paškūnas, CDP14](#ref-cdp14), §1.1 and §1.3, pp.1–5.
 
-*Needs:* [§3.5](#section-3-5); [§3.2](#section-3-2); [§3.4](#section-3-4); [§1.6](#section-1-6); [§0.4](#support-deformations); [§3.6](#section-3-6).
+*Needs:* [§3.5](#section-3-5); [§3.2](#section-3-2); [§3.4](#section-3-4); [§1.6](#section-1-6); [§0.4](#support-deformations); [§3.6](#section-3-6); [§3.6a](#section-3-6a).
 
 <a id="section-3-8"></a>
 
@@ -1155,7 +1165,7 @@ Here `L/ℚ_p` finite; `Π` admissible unitary with central character (automatic
 
 For `p≥5`, use Paškūnas’s projective-envelope method, with its endomorphism comparison and crystalline-density input; those key arguments are not formal consequences of the listed local categories.
 
-For all `p`, construct the projective envelopes and their topological endomorphism algebras of §§5.1 and 5.3 first; identifying those algebras with deformation rings is a separate comparison. The CDP argument uses residual finiteness, Schur’s lemma for Banach representations, and the infinitesimal character on locally analytic vectors. These inputs are the correspondence density and Schur inputs specified here.
+For all `p`, construct the projective envelopes and their topological endomorphism algebras of §§5.1 and 5.3 first; identifying those algebras with deformation rings is a separate comparison. Existence uses §§3.6a–3.7, including scalar dyadic density and descent. The separate CDP arguments prove residual finiteness and injectivity using Schur’s lemma and the infinitesimal character on locally analytic vectors; these are subsequent inputs to the bijection.
 
 The determinant follows from the central-character formula once the correspondence is established. Residual finite length for arbitrary finite-length objects uses dévissage and the lattice-independence theorem.
 
@@ -1277,6 +1287,7 @@ Use the following named operations and compatibility results.
 - `LocAlgType.smoothFactor_twist`: `LL(V ⊗ η) = LL(V) ⊗ (η∘det)` for smooth `η`.
 - `LocAlgType.indep_filtration`: `LL(V, a, b)` depends on (`D_pst(V)` as `(φ, N, G_{ℚ_p})`-module, `a, b`) only.
 - `LocAlgType.admissibleFiltrations`: The weakly admissible filtration locus `F` with jumps `−b<−a`; it is either empty or the complement of at most two points of `ℙ¹(M_dR)`.
+- `LocAlgType.irreducibleFiltrations`: `F_irr={ℒ∈F : V(D_ℒ) is irreducible}`. Equivalently, no nonzero proper `φ,N,G`-stable subobject with its induced filtration is weakly admissible. The action and algebraic/analytic filtration comparisons of §§4.2a–4.2b and 4.11 use this locus, with nonemptiness where a reference line is chosen.
 
 `WD(V)` from `D_pst(V)` by Fontaine's recipe (§0.2’s Fontaine Weil–Deligne functor, using §0.2’s p-adic monodromy theorem).
 
@@ -1288,7 +1299,7 @@ Independence of the filtration is by construction; the parametrisation of admiss
 
 - `LocAlgType.algFactor_weights_0_1`: For Hodge–Tate weights `(0, 1), Alg(V)` is the trivial representation.
 - `LocAlgType.algFactor_dim`: `dim Alg(V) = b − a`.
-- For `V=L⊕L(χ)`, Hodge–Tate weights `(0,1)` give filtration jumps `(−1,0)` and `t_H=t_N=−1`, since crystalline Frobenius has eigenvalues `1,p⁻¹`. Filtration jumps `(0,1)` instead give `t_H=1` and fail weak admissibility.
+- For `V=L⊕L(χ)`, Hodge–Tate weights `(0,1)` give filtration jumps `(−1,0)` and `t_H=t_N=−1`, since crystalline Frobenius has eigenvalues `1,p⁻¹`. Filtration jumps `(0,1)` instead give `t_H=1` and fail weak admissibility. With `φ(e₁)=e₁, φ(e₂)=p⁻¹e₂` and `Fil⁰=Le₁`, the resulting line belongs to `F` and not `F_irr`: it recovers the reducible representation `L⊕L(χ)`.
 - `LocAlgType.equal_weights_excluded`: For equal Hodge–Tate weights no `Alg(V)` is defined by this distinct-weight formula; if `V` is also absolutely irreducible then `Π(V)^{alg}=0` by [§4.2](#section-4-2). The irreducibility hypothesis is necessary for that vanishing criterion.
 - `LocAlgType.crystalline_unramified`: For `V` crystalline with generic Frobenius eigenvalues `α, β, LL(V)` is unramified and `LL(V)^{K}` is one-dimensional.
 - For `V` crystalline with distinct Frobenius eigenvalues `α, β (α/β ≠ p^{±1})` and weights `a < b, LL(V)` is the unramified principal series attached to the two unramified characters `μ_α, μ_β`, and `Alg(V) = Sym^{b−a−1} ⊗ det^a`.
@@ -1298,11 +1309,38 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §11, Théo
 
 *Needs:* [§1.7](#section-1-7); [§0.2](#support-hodge).
 
+<a id="section-4-1k"></a>
+
+### 4.1k Almost-de-Rham Kirillov construction
+
+Here almost de Rham means integral Sen weights; use §0.2’s differential periods and construct the generalized period space `D_pdR,n` as the vectors in the differential-period realization killed by a power of `γ_n−1`, with its induced positive lattice. At dyadic levels retain the torsion invariants before choosing a generator. This is the generalized-period presentation of Colmez §VI.3.2, Proposition VI.3.1, pp.149–150.
+
+Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2, almost de Rham with Hodge–Tate weights `ℓ < ℓ + k, Π = Π(D)`, and `X^-_∞ ⊂ D̃_dif/D̃⁺_dif` the `L_∞[t]/t^k`-module of Colmez §VI.4. (i) For `z ∈ Π^{alg}, K_z(x) f_D = ι^-_0((x 0; 0 1)·z)` defines `K_z` : `ℚ_p^× → L_∞[t]/t^k` with `σ_a(K_z(x)) = K_z(ax)`, its coefficients locally constant with compact support in `ℚ_p`, and `z ↦ K_z` is a bijection of `Π^{alg}` onto its Kirillov model. (ii) `Π^{alg}`, if nonzero, is of type `(ℓ, k)` and irreducible, except in the special case where it is an extension of `W_{ℓ,k} ⊗ (δ₀∘det)` by `W_{ℓ,k} ⊗ St ⊗ (δ₀∘det)` for a smooth `δ₀`. (iii) The `P`-algebraic vectors with compact support `Π^{P−alg}_c` satisfy: `z ↦ φ_z` is a `B`-equivariant isomorphism `Π^{P−alg}_c ≅ LP_c(ℚ_p^×, X^-_∞)^Γ` (locally polynomial, compactly supported functions with `Γ`-equivariance), `Π^{P−alg}_c ⊂ Π^{an}`, and `Π^{P−alg}_c ⊂ Π^{alg}` when `Π^{alg} ≠ 0`. This is the `P`-equivariant embedding of functions on `ℚ_p^×` with values in `D^-_dif` into `Π(V)^{la}` used by consumers.
+
+Here `D` irreducible of rank 2, almost de Rham with weights `ℓ < ℓ + k` (for (i)–(ii)); (iii) for `D` irreducible of rank 2 with these weights. Name the maps `Kirillov.ofAlgebraicVector` and `Kirillov.ofPAlgebraicVector`, the subspace `Kirillov.compactPAlgebraic`, and the equivariance and bijectivity targets `Kirillov.gamma_equivariant` and `Kirillov.compactPAlgebraic_equiv`.
+
+(i): Proposition VI.5.6 from Lemme VI.5.4 (the map `z ↦ φ_z = ι^-_0` on the `B`-orbit).
+
+(ii): Théorème VI.5.7, from the Kirillov model and Proposition VI.2.12 on smooth representations with a Kirillov model.
+
+(iii): Proposition VI.5.8 (surjectivity via an explicit lift in `Ñ_dif`), Corollaire VI.5.9 and Proposition VI.5.12(i).
+
+**Checks.**
+
+- For `D` crystalline irreducible with weights 0, `k`, the Kirillov functions of `Π^{alg}` take values in `L_∞[t]/t^k` and are compactly supported in `ℚ_p`.
+- `Π^{P−alg}_c ≅ ⊕_{i∈ℤ} X^-_∞` via `z ↦ (ι^-_i(z̃))_i` (Lemme VI.5.10).
+- The zero vector gives the zero function. Conversely a function with all values zero has preimage zero by the injectivity of the Kirillov map.
+- A nonzero constant function on `ℚ_p^×` cannot lie in the compact `P`-algebraic model: its support is not compact in `ℚ_p^×`. Compact support in `ℚ_p` for the coefficients of an algebraic vector in (i) is a different condition, and may allow accumulation at zero.
+
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §VI.5.2–VI.5.4: Proposition VI.5.6 and Théorème VI.5.7, p. 167; Proposition VI.5.8, Corollaire VI.5.9 and Lemme VI.5.10, p. 168; Proposition VI.5.12(i), p. 169.
+
+*Needs:* [§3.7](#section-3-7); [§3.11](#section-3-11); [§0.2](#support-hodge). The structural assertions are conditional on nonzero algebraic vectors and do not use the de Rham criterion.
+
 <a id="section-4-1a"></a>
 
 ### 4.1a Localization, exponential conditions and the Weyl reciprocity bridge
 
-Let `D` be absolutely irreducible of rank two and almost de Rham, normalized by a twist to weights `0,k` with `k≥1`. Here almost de Rham means integral Sen weights; use §0.2’s differential periods and construct the generalized period space `D_pdR,n` as the vectors in the differential-period realization killed by a power of `γ_n−1`, with its induced positive lattice. At dyadic levels retain the torsion invariants before choosing a generator. This is the generalized-period presentation of Colmez §VI.3.2, Proposition VI.3.1, pp.149–150. Put `V=V(D)`, `V̌=V∨(1)`, `Ď=D(V̌)` and `F_n=ℚ_p(μ_(p^n))`. Construct `AlgebraicReciprocity.localization`, the maps `c_(i,n)` from `C_rig(D)=(1−φ)D_rig^(ψ=1)` to `H¹(F_n,V⊗χ^i)`, by the supplied Iwasawa realization and integration against `χ^i` on `Γ_n`. Prove twist, restriction/corestriction and coefficient compatibility, with the sign matched to `1−φ`. Construct the maps for `Ď` as well. These are localizations of an Iwasawa class, not the definition of either heart in §3.10. Source: Colmez Introduction §12, pp.19–20, and §VIII.1, pp.227–230.
+Let `D` be absolutely irreducible of rank two and almost de Rham, normalized by a twist to weights `0,k` with `k≥1`. Use §4.1k’s generalized differential-period spaces and their positive lattices, including torsion invariants at dyadic levels. Put `V=V(D)`, `V̌=V∨(1)`, `Ď=D(V̌)` and `F_n=ℚ_p(μ_(p^n))`. Construct `AlgebraicReciprocity.localization`, the maps `c_(i,n)` from `C_rig(D)=(1−φ)D_rig^(ψ=1)` to `H¹(F_n,V⊗χ^i)`, by the supplied Iwasawa realization and integration against `χ^i` on `Γ_n`. Prove twist, restriction/corestriction and coefficient compatibility, with the sign matched to `1−φ`. Construct the maps for `Ď` as well. These are localizations of an Iwasawa class, not the definition of either heart in §3.10. Source: Colmez Introduction §12, pp.19–20, and §VIII.1, pp.227–230.
 
 Use PhiGammaModulesAndIwasawaCohomology §5.7’s fundamental-sequence boundary, `blochKatoExp` and `blochKatoHe=H¹_e`. Construct its Colmez presentation on `(D_pdR,n(V)/D_pdR,n⁺(V))^Γ_n`, with restriction agreeing with the supplied exponential on `D_dR/Fil⁰`. Construct `AlgebraicReciprocity.dualExp` on `H¹(F_n,V̌)` with values in `D_pdR,n⁺(V̌)/(γ_n−1)`, and put `H¹_(p−e)=ker(exp*)`. Prove `AlgebraicReciprocity.exp_adjunction`: `(x,exp(y))_n=⟨exp*(x),y⟩_dif`, under both `H⁰(H′,V)=0` and `H⁰(H′,V̌)=0`, where `H′=Gal(ℚ̄_p/ℚ_p^ab)`. Verify these hypotheses for every twist used here: the invariant space is a Galois subrepresentation, and an absolutely irreducible rank-two representation cannot factor through the abelian quotient. This also verifies the corresponding vanishing for the cyclotomic kernel used to invert `1−φ`. Source: Colmez §VIII.2, Lemma VIII.2.1 and Theorem VIII.2.2, pp.231–232.
 
@@ -1328,15 +1366,23 @@ Construct **`AlgebraicReciprocity.dualPEHeart`**, the subspace `C_(p−e)(Ď)�
 - If a localization pairs nontrivially with an exponential image, adjunction excludes it from the corresponding dual-exponential kernel; requiring only the localization itself to be zero would discard the kernel's nonzero classes.
 - In the de Rham case the twisted Robba extensions of `C_e(D)` and `C_(p−e)(Ď)` agree under the rank-two dual identification; in the non-de Rham case they differ, as detected by the complementary exponential and dual-exponential period conditions.
 
+Prove **`Kirillov.algebraicRestriction_surjective`** for this irreducible almost-de-Rham `D` of weights `0,k`. At radius `r=r_(m(D))`, put `M_e=(D]0,r]⊠ℤ_p×)+⋃_n λ_(k,n)⁻¹C_e(D)`, where `λ_(k,n)=∏_(j=0)^(k−1)(γ_n−χ(γ_n)^j)` and the inverse images are taken in `D_rig⊠ℤ_p×`. The differential-period map identifies `M_e/(D]0,r]⊠ℤ_p×)` with `⊕_(i≥m(D)+1)(X⁻⊠p⁻ⁱℤ_p×)`. Restriction of `P`-algebraic lifts lands in `M_e`. If `Π^{alg}≠0`, restriction of the full algebraic-vector space surjects onto that quotient, by §4.1k's compact Kirillov bijection and conditional inclusion. This is the precise generation statement used in the non-de-Rham argument. Source: Colmez Lemma VI.6.12 and the proof of Theorem VI.6.13, pp.176–177; Corollary VI.5.9, p.168.
+
+**Checks.**
+
+- Each finite-support tuple of differential-period classes has a lift when `Π^{alg}≠0`; this is surjectivity of the full algebraic-vector image, not a claim about an arbitrary single vector.
+- A lift differing by an element of `D]0,r]⊠ℤ_p×` has the same quotient image; the construction retains this kernel.
+- In the non-de-Rham case the Weyl comparison forces the algebraic lifts into this kernel, whereas a nonzero algebraic-vector space would surject onto the nonzero period quotient. This contradiction proves vanishing. The zero algebraic-vector space gives no surjectivity assertion.
+
 Prove `AlgebraicReciprocity.weyl_eHeart`, the equality `w(C_e(D))=C′_(p−e)(D)` (Colmez Theorem 0.25, p.20, and Theorem VI.6.8, p.175). Then prove `AlgebraicReciprocity.weyl_stable_iff_deRham`: the Robba-distribution extension of `C_e(D)` is Weyl-stable exactly when `D` is de Rham (Proposition 0.26, p.20). Here its extension means its image under multiplication in `D_rig⊠ℤ_p×`, equivalently extension from `R⁺(Γ)` to `R(Γ)`; no tensor product over an unspecified ring is used. The rank-two dual identification, both vanishing hypotheses in the reciprocity argument, and the distinct weights remain in these statements.
 
 **Checks.**
 
 - In the de Rham case the Weyl image is the same extended submodule, with rank two, and `w²=1` recovers it.
 - In the almost de Rham but non-de Rham case the two extended submodules differ, so an involution on their ambient space alone does not prove stability.
-- A nonzero locally algebraic-vector image generates the extended `C_e(D)` by the Kirillov comparison; its Weyl stability therefore forces de Rhamness. The zero image gives no such implication without nonvanishing.
+- If `Π^{alg}≠0`, the preceding restriction theorem supplies the full period quotient. Its Weyl-stability obstruction forces de Rhamness; a zero image supplies no such conclusion.
 
-*Needs:* [§0.2](#support-hodge); [§3.10](#section-3-10); [§3.11](#section-3-11); [§4.1](#section-4-1); PhiGammaModulesAndIwasawaCohomology §§2.6, 5.1 and 5.7.
+*Needs:* [§0.2](#support-hodge); [§3.10](#section-3-10); [§3.11](#section-3-11); [§4.1](#section-4-1); [§4.1k](#section-4-1k); PhiGammaModulesAndIwasawaCohomology §§2.6, 5.1 and 5.7.
 
 <a id="section-4-2"></a>
 
@@ -1346,9 +1392,9 @@ Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2, `V = V(D)` and `Π = Π(D)`. (i
 
 Here `D` irreducible of rank 2 over `E`; (ii)–(v) assume `Π^{alg}≠0`, equivalently `V` de Rham with distinct weights; the supercuspidal case of (v) assumes the supercuspidal comparison input. The Emerton–Colmez convention dictionary remains the Emerton–Colmez convention comparison.
 
-(i) non-de Rham: a nonzero algebraic-vector image generates the Robba-distribution extension of `C_e(D)` by the Kirillov model. Section 4.1a constructs this subspace and its localization maps, proves the explicit-reciprocity adjunction under its two vanishing hypotheses, and identifies its Weyl image. Its stability criterion forces de Rhamness, giving VI.6.13.
+(i) non-de Rham: §4.1k constructs the almost-de-Rham Kirillov maps, and §4.1a proves the precise restriction-surjectivity lemma VI.6.12 after defining `C_e(D)`. Its explicit-reciprocity and Weyl comparisons force the algebraic lifts into the period-map kernel when `D` is not de Rham, contradicting surjectivity if algebraic vectors were nonzero. This gives VI.6.13.
 
-(i) de Rham: nonvanishing by Lemme VI.6.19 (Théorème VI.6.18); the type `(ℓ, k)` structure by Proposition VI.5.1 and the Kirillov model (Théorème VI.5.7).
+(i) de Rham: nonvanishing by Lemme VI.6.19 (Théorème VI.6.18); the type `(ℓ,k)` structure and Theorem VI.5.7 are already the conditional results of §4.1k. Their de Rham consequences are §4.7.
 
 (ii) is the separate target of [§4.2b](#section-4-2b), after [§4.2a](#section-4-2a) constructs the filtration-independent action on `N_rig⊠ℙ¹`. Neither result is an input to (i).
 
@@ -1371,17 +1417,17 @@ The Emerton convention conversion is another supporting comparison: reconcile hi
 
 The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Théorèmes 0.20–0.21, p. 17; Théorème 0.25 and Proposition 0.26, p. 20; Théorème VI.5.7, p. 167; Théorèmes VI.6.13 and VI.6.18, pp. 177–178; Théorème VI.6.42, p. 189; Théorème VI.6.50 and Remarque VI.6.51, pp. 192–193; [Matthew Emerton, EMERTON-LG](#ref-emerton-lg), Theorem 3.3.22 and Remark 3.3.23, p. 28; §7.4, pp. 96–98; [Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, CDP14](#ref-cdp14), Theorem 1.3 and footnote 5, p. 2; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDNKISIN](#ref-cdnkisin), Remarque 0.2(v), p. 3; [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDN20](#ref-cdn20), §0.2, p. 4 and footnote 4 (arXiv).
 
-*Needs:* For (i), [§4.1a](#section-4-1a), [§4.1](#section-4-1), [§3.7](#section-3-7), [§3.11](#section-3-11), [§2.4](#section-2-4), [§1.6](#section-1-6) and [§0.2](#support-hodge). Part (ii) is proved in §4.2b after §4.2a; (iii)–(v) follow with that result, and (v) retains the supercuspidal comparison input.
+*Needs:* For (i), [§4.1k](#section-4-1k), [§4.1a](#section-4-1a), [§4.1](#section-4-1), [§3.7](#section-3-7), [§3.11](#section-3-11), [§2.4](#section-2-4), [§1.6](#section-1-6) and [§0.2](#support-hodge). Part (ii) is proved in §4.2b after §4.2a; (iii)–(v) follow with that result, and (v) retains the supercuspidal comparison input.
 
 <a id="section-4-2a"></a>
 
 ### 4.2a The differential-equation action before filtration comparison
 
-For `M`, `a<b` and nonempty `F` of §4.1, normalize the weights to `0,k` by twisting. Construct `AnalyticBoxtimes.filtrationIndependentAction` on `N_rig⊠ℙ¹`, where `N_rig` is the supplied unfiltered differential equation attached to `M`. Construct the chartwise Weyl maps from any `D_ℒ`, prove the radius-extension and duality comparisons, and show that all these maps give the same `G`-action. Prove this independence from the compact gluing and the skeleton formulas: compare the Weyl operators, eliminate their scalar discrepancy by the stable natural lattice, and extend from the two charts. This is Proposition VI.6.41; algebraic filtration independence is its consequence in §4.2b. Source: Colmez §VI.6.9, Corollary VI.6.40 and Proposition VI.6.41, pp.188–189.
+For `M`, `a<b` and nonempty `F_irr` of §4.1, normalize the weights to `0,k` by twisting. Construct `AnalyticBoxtimes.filtrationIndependentAction` on `N_rig⊠ℙ¹`, where `N_rig` is the supplied unfiltered differential equation attached to `M`. Construct the chartwise Weyl maps from `D_ℒ` for `ℒ∈F_irr`, prove the radius-extension and duality comparisons, and show that all these maps give the same `G`-action. Prove this independence from the compact gluing and the skeleton formulas: compare the Weyl operators, eliminate their scalar discrepancy by the stable natural lattice, and extend from the two charts. Irreducibility gives `D_nr=0` in the annular-to-global comparison; weak admissibility alone does not. This is Proposition VI.6.41; algebraic filtration independence is its consequence in §4.2b. Source: Colmez §VI.6.9, Corollary VI.6.40 and Proposition VI.6.41, pp.188–189.
 
 **Checks.**
 
-- For two admissible lines, the Weyl maps agree on the common annular sections and hence on `N_rig⊠ℙ¹`; separate actions on isomorphic underlying spaces are insufficient.
+- For two lines in `F_irr`, the Weyl maps agree on the common annular sections and hence on `N_rig⊠ℙ¹`; separate actions on isomorphic underlying spaces are insufficient.
 - The resulting Weyl operator squares to 1 and agrees with each `D_ℒ` on its embedded overconvergent sections.
 - For weights `0,k`, the submodule `t^kN_rig⊠ℙ¹` and the natural intersection used in §4.2b are `G`-stable; replacing the filtered lattice by the unfiltered equation does not identify the individual Banach quotients.
 
@@ -1391,13 +1437,13 @@ For `M`, `a<b` and nonempty `F` of §4.1, normalize the weights to `0,k` by twis
 
 ### 4.2b Algebraic filtration independence
 
-Prove `LocAlgType.algebraicVectors_indep_filtration`, the assertion §4.2(ii): for admissible lines `ℒ₁,ℒ₂∈F`, the locally algebraic representations `Π(D_ℒ₁)^(alg)` and `Π(D_ℒ₂)^(alg)` are isomorphic. Use §4.2a’s common `G`-action and the intersection exact sequence of Colmez Theorem VI.6.34: its filtration-independent middle term determines the algebraic constituents. This proof uses neither §4.11’s analytic quotient nor the supercuspidal smooth-factor identification. Source: Colmez Theorem VI.6.34, p.185, Proposition VI.6.41 and Theorem VI.6.42, p.189.
+Prove `LocAlgType.algebraicVectors_indep_filtration`, the assertion §4.2(ii): for `ℒ₁,ℒ₂∈F_irr`, the locally algebraic representations `Π(D_ℒ₁)^(alg)` and `Π(D_ℒ₂)^(alg)` are isomorphic. Use §4.2a’s common `G`-action and the intersection exact sequence of Colmez Theorem VI.6.34: its filtration-independent middle term determines the algebraic constituents. This proof uses neither §4.11’s analytic quotient nor the supercuspidal smooth-factor identification. Source: Colmez Theorem VI.6.34, p.185, Proposition VI.6.41 and Theorem VI.6.42, p.189.
 
 **Checks.**
 
-- At weights `(0,1)`, distinct admissible lines give isomorphic smooth-vector representations, including the supercuspidal case.
+- At weights `(0,1)`, distinct lines in `F_irr` give isomorphic smooth-vector representations, including the supercuspidal case.
 - For `a<b`, the common algebraic factor still has dimension `b−a`; changing the filtration does not change that factor.
-- Distinct admissible lines can give distinct Banach completions; algebraic isomorphism does not assert analytic or Banach isomorphism.
+- Distinct lines in `F_irr` can give distinct Banach completions; algebraic isomorphism does not assert analytic or Banach isomorphism.
 
 *Needs:* [§4.2a](#section-4-2a); [§4.2(i)](#section-4-2) only; [§4.1](#section-4-1); [§3.11](#section-3-11).
 
@@ -1405,7 +1451,7 @@ Prove `LocAlgType.algebraicVectors_indep_filtration`, the assertion §4.2(ii): f
 
 ### 4.3 Berger–Breuil: unitary completions of locally algebraic principal series
 
-Let `V` be an absolutely irreducible two-dimensional `L`-representation of `G_{ℚ_p}` that becomes crystalline over an abelian extension of `ℚ_p` and is `φ`-semisimple, with Hodge–Tate weights `a < b`. Let `B(V)` be the p-adic completion of the locally algebraic representation `Alg(V) ⊗ Lisse(V)` (a locally algebraic principal series) with respect to a `G`-stable finitely generated `O`-lattice. Then `B(V)` is nonzero, topologically irreducible and admissible, and it is the universal unitary completion of `Alg(V) ⊗ Lisse(V)`; its dual is identified with the `ψ`-limit `(lim_ψ D(V))_b`. With Colmez's construction, `B(V) ≅ Π(V)`.
+Let `V` be an absolutely irreducible two-dimensional `L`-representation of `G_{ℚ_p}` that becomes crystalline over an abelian extension of `ℚ_p` and is `φ`-semisimple, with Hodge–Tate weights `a < b`. Let `B(V)` be the p-adic completion of the locally algebraic representation `Alg(V) ⊗ Lisse(V)` (a locally algebraic principal series) with respect to a `G`-stable `O`-lattice finitely generated as an `O[G]`-module, as in §2.5. Then `B(V)` is nonzero, topologically irreducible and admissible, and it is the universal unitary completion of `Alg(V) ⊗ Lisse(V)`; its dual is identified with the `ψ`-limit `(lim_ψ D(V))_b`. With Colmez's construction, `B(V) ≅ Π(V)`.
 
 Here `V` crystabelline, `φ`-semisimple and absolutely irreducible; `p` any prime as in Berger–Breuil’s setup. Use their modified locally algebraic model when the usual irreducible smooth factor is one-dimensional. Kisin’s separate theorem retains `p>2`.
 
@@ -1421,8 +1467,9 @@ Nonvanishing, topological irreducibility and admissibility: Corollaires 5.3.1–
 
 - For `V` crystalline irreducible with Hodge–Tate weights 0, `k−1` and distinct Frobenius eigenvalues, `B(V)` is the completion of `LL(V) ⊗ Sym^{k−2}, LL(V)` the unramified principal series of [§4.1](#section-4-1).
 - `B(V)^{alg} = Alg(V) ⊗ Lisse(V)`.
+- The locally algebraic principal series is infinite-dimensional over `L`; an `O`-finite module would span only a finite-dimensional space. Finite generation here is by finitely many `G`-orbits.
 
-The source is [Laurent Berger, Christophe Breuil, BB10](#ref-bb10), Introduction, pp. 2–3 (main Théorème); Théorème 5.2.7, p. 51; Corollaires 5.3.1–5.3.3, p. 52; [Mark Kisin, KISIN09](#ref-kisin09), Theorem (1.2.8), published p.650.
+The source is [Laurent Berger, Christophe Breuil, BB10](#ref-bb10), Introduction, pp. 2–3 (main Théorème); Théorème 4.3.1, pp.38–39; Théorème 5.2.7, p. 51; Corollaires 5.3.1–5.3.3, p. 52; [Mark Kisin, KISIN09](#ref-kisin09), Theorem (1.2.8), published p.650.
 
 *Needs:* [§2.5](#section-2-5); [§4.1](#section-4-1); [the Fontaine contract](#fontaine-contract); [§3.7](#section-3-7).
 
@@ -1430,15 +1477,15 @@ The source is [Laurent Berger, Christophe Breuil, BB10](#ref-bb10), Introduction
 
 ### 4.4 Henniart's `K`-types `σ(τ), σ^cr(τ)` and `σ(w, τ)`
 
-Let `τ` : `I_{ℚ_p} → GL₂(L)` be a representation with open kernel that extends to `W_{ℚ_p}` (an inertial type). Henniart's theorem: there exists a smooth irreducible representation `σ(τ)` (resp. `σ^cr(τ)`) of `K = GL₂(ℤ_p)` on an `L`-vector space such that for every smooth absolutely irreducible infinite-dimensional representation `π` of `G, Hom_K(σ(τ), π) ≠ 0` (resp. `Hom_K(σ^cr(τ), π) ≠ 0`) iff `LL(π)|_{I_{ℚ_p}} ≅ τ` (resp. and the monodromy `N = 0`), `LL` being the classical correspondence of [§1.7](#section-1-7). `σ(τ) ≅ σ^cr(τ)` except for scalar `τ ≅ χ ⊕ χ`, where `σ(τ) ≅ s̃t ⊗ (χ∘det)` (`s̃t` the Steinberg representation of `GL₂(𝔽_p)` inflated to `K`) and `σ^cr(τ) ≅ χ∘det`. For a Hodge type `w = (a, b)` with `b > a` put `σ(w, τ) = σ(τ) ⊗ Sym^{b−a−1}L² ⊗ det^a` and `σ^cr(w, τ)` likewise; Kisin writes `σ(k, τ) = σ(τ) ⊗ Sym^{k−2}L²` for `w = (0, k−1)`. For a `K`-stable `O`-lattice `Θ ⊂ σ(w, τ), σ̄(w, τ) := (Θ/ϖΘ)^{ss}` is independent of `Θ`, and `m_σ(w, τ)` (resp. `m^cr_σ(w, τ)`) is the multiplicity of an irreducible smooth `k`-representation `σ` of `K` in `σ̄(w, τ)` (resp. `σ̄^cr(w, τ)`). For `p>2` these types are unique. At `p=2` choose a type with the required occurrence property; the semisimplified reductions `σ̄(w,τ)` and `σ̄^cr(w,τ)`, hence their multiplicities, are independent of that choice. Occurrence in an infinite-dimensional irreducible smooth representation has multiplicity one.
+Let `τ` : `I_{ℚ_p} → GL₂(L)` be a representation with open kernel that extends to `W_{ℚ_p}` (an inertial type). Henniart's theorem: there exists a smooth irreducible representation `σ(τ)` (resp. `σ^cr(τ)`) of `K = GL₂(ℤ_p)` on an `L`-vector space such that for every smooth absolutely irreducible infinite-dimensional representation `π` of `G, Hom_K(σ(τ), π) ≠ 0` (resp. `Hom_K(σ^cr(τ), π) ≠ 0`) iff `r_(rec_geo(π))|_{I_{ℚ_p}}≅τ` (resp. this inertial isomorphism and `N_(rec_geo(π))=0`), with the transported representation-to-parameter map of [§1.7](#section-1-7). `σ(τ) ≅ σ^cr(τ)` except for scalar `τ ≅ χ ⊕ χ`, where `σ(τ) ≅ s̃t ⊗ (χ∘det)` (`s̃t` the Steinberg representation of `GL₂(𝔽_p)` inflated to `K`) and `σ^cr(τ) ≅ χ∘det`. For a Hodge type `w = (a, b)` with `b > a` put `σ(w, τ) = σ(τ) ⊗ Sym^{b−a−1}L² ⊗ det^a` and `σ^cr(w, τ)` likewise; Kisin writes `σ(k, τ) = σ(τ) ⊗ Sym^{k−2}L²` for `w = (0, k−1)`. For a `K`-stable `O`-lattice `Θ ⊂ σ(w, τ), σ̄(w, τ) := (Θ/ϖΘ)^{ss}` is independent of `Θ`, and `m_σ(w, τ)` (resp. `m^cr_σ(w, τ)`) is the multiplicity of an irreducible smooth `k`-representation `σ` of `K` in `σ̄(w, τ)` (resp. `σ̄^cr(w, τ)`). For `p>2` these types are unique. At `p=2` choose a type with the required occurrence property; the semisimplified reductions `σ̄(w,τ)` and `σ̄^cr(w,τ)`, hence their multiplicities, are independent of that choice. Occurrence in an infinite-dimensional irreducible smooth representation has multiplicity one.
 
-Here `τ` of Galois type; the classical correspondence normalised as in [§1.7](#section-1-7) (Kisin §1.1: central character `τ̃|_{ℚ_p^×}`).
+The half-norm Tate/unitary twists are unramified, so they change neither this inertial restriction nor the predicate `N=0`. Here `τ` of Galois type; the classical correspondence normalised as in [§1.7](#section-1-7) (Kisin §1.1: central character `τ̃|_{ℚ_p^×}`).
 
 Use the following named operations and compatibility results.
 
 - `HenniartType.sigma`: `σ(τ)`, the smooth irreducible `L`-representation of `K` attached to `τ`.
 - `HenniartType.sigmaCris`: `σ^cr(τ)`.
-- `HenniartType.hom_ne_zero_iff`: `Hom_K(σ(τ), π) ≠ 0` iff `LL(π)|_I ≅ τ`, for `π` absolutely irreducible infinite-dimensional.
+- `HenniartType.hom_ne_zero_iff`: `Hom_K(σ(τ), π) ≠ 0` iff `r_(rec_geo(π))|_I≅τ`, for `π` absolutely irreducible infinite-dimensional; the crystalline variant also requires `N_(rec_geo(π))=0`.
 - `HenniartType.sigmaCris_eq_sigma`: `σ^cr(τ) ≅ σ(τ)` unless `τ` is scalar.
 - `HenniartType.sigmaW`: `σ(w, τ) = σ(τ) ⊗ Sym^{b−a−1} ⊗ det^a` and `σ^cr(w, τ)`.
 - `HenniartType.reductionSS`: `σ̄(w, τ)`, the semisimplified reduction of a `K`-stable lattice, independent of the lattice.
@@ -1515,28 +1562,19 @@ The source is [Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, CDP14](#r
 
 <a id="section-4-7"></a>
 
-### 4.7 Kirillov models of `P`-algebraic and locally algebraic vectors
+### 4.7 De Rham consequences of the Kirillov model
 
-Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2, almost de Rham with Hodge–Tate weights `ℓ < ℓ + k, Π = Π(D)`, and `X^-_∞ ⊂ D̃_dif/D̃⁺_dif` the `L_∞[t]/t^k`-module of Colmez §VI.4. (i) For `z ∈ Π^{alg}, K_z(x) f_D = ι^-_0((x 0; 0 1)·z)` defines `K_z` : `ℚ_p^× → L_∞[t]/t^k` with `σ_a(K_z(x)) = K_z(ax)`, its coefficients locally constant with compact support in `ℚ_p`, and `z ↦ K_z` is a bijection of `Π^{alg}` onto its Kirillov model. (ii) `Π^{alg}`, if nonzero, is of type `(ℓ, k)` and irreducible, except in the special case where it is an extension of `W_{ℓ,k} ⊗ (δ₀∘det)` by `W_{ℓ,k} ⊗ St ⊗ (δ₀∘det)` for a smooth `δ₀`. (iii) The `P`-algebraic vectors with compact support `Π^{P−alg}_c` satisfy: `z ↦ φ_z` is a `B`-equivariant isomorphism `Π^{P−alg}_c ≅ LP_c(ℚ_p^×, X^-_∞)^Γ` (locally polynomial, compactly supported functions with `Γ`-equivariance), `Π^{P−alg}_c ⊂ Π^{an}`, and `Π^{P−alg}_c ⊂ Π^{alg}` when `Π^{alg} ≠ 0`. This is the `P`-equivariant embedding of functions on `ℚ_p^×` with values in `D^-_dif` into `Π(V)^{la}` used by consumers.
-
-Here `D` irreducible of rank 2, almost de Rham with weights `ℓ < ℓ + k` (for (i)–(ii)); (iii) for `D` irreducible of rank 2 with these weights. Name the maps `Kirillov.ofAlgebraicVector` and `Kirillov.ofPAlgebraicVector`, the subspace `Kirillov.compactPAlgebraic`, and the equivariance and bijectivity targets `Kirillov.gamma_equivariant` and `Kirillov.compactPAlgebraic_equiv`.
-
-(i): Proposition VI.5.6 from Lemme VI.5.4 (the map `z ↦ φ_z = ι^-_0` on the `B`-orbit).
-
-(ii): Théorème VI.5.7, from the Kirillov model and Proposition VI.2.12 on smooth representations with a Kirillov model.
-
-(iii): Proposition VI.5.8 (surjectivity via an explicit lift in `Ñ_dif`), Corollaire VI.5.9 and Proposition VI.5.12(i).
+For irreducible de Rham `D` of rank two with distinct weights `ℓ<ℓ+k`, §4.2(i) supplies the nonvanishing condition in §4.1k. Consequently `Π^{P−alg}_c⊂Π^{alg}⊂Π^{an}` and the type `(ℓ,k)` structure and irreducibility/special-extension alternative hold without a separate nonvanishing hypothesis. When §4.2 identifies the smooth factor, compare its classical Kirillov model with `Kirillov.ofAlgebraicVector`; retain the supercuspidal comparison input in that case. The maps, equivariance and bijectivity are constructed in §4.1k before the criterion.
 
 **Checks.**
 
-- For `D` crystalline irreducible with weights 0, `k`, the Kirillov functions of `Π^{alg}` take values in `L_∞[t]/t^k` and are compactly supported in `ℚ_p`.
-- `Π^{P−alg}_c ≅ ⊕_{i∈ℤ} X^-_∞` via `z ↦ (ι^-_i(z̃))_i` (Lemme VI.5.10).
-- The zero vector gives the zero function. Conversely a function with all values zero has preimage zero by the injectivity of the Kirillov map.
-- A nonzero constant function on `ℚ_p^×` cannot lie in the compact `P`-algebraic model: its support is not compact in `ℚ_p^×`. Compact support in `ℚ_p` for the coefficients of an algebraic vector in (i) is a different condition, and may allow accumulation at zero.
+- For crystalline irreducible `D` of weights `0,k`, the algebraic Kirillov coefficients are locally constant and compactly supported in `ℚ_p`, while the compact `P`-algebraic subspace has compact support in `ℚ_p×`.
+- At weights `(0,1)` the algebraic factor is trivial, and the comparison is the smooth Kirillov model.
+- In the almost-de-Rham but non-de-Rham case, §4.1k still constructs the compact `P`-algebraic model inside analytic vectors; §4.2 gives `Π^{alg}=0`, so its inclusion in algebraic vectors cannot be inferred.
 
-The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §VI.5.2–VI.5.4: Proposition VI.5.6 and Théorème VI.5.7, p. 167; Proposition VI.5.8, Corollaire VI.5.9 and Lemme VI.5.10, p. 168; Proposition VI.5.12(i), p. 169.
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Proposition VI.5.6, Theorem VI.5.7 and Corollary VI.5.9, pp.167–168; Theorems VI.6.13 and VI.6.18, pp.177–178.
 
-*Needs:* [§4.2](#section-4-2); [§3.11](#section-3-11); [§0.2](#support-hodge).
+*Needs:* [§4.1k](#section-4-1k); [§4.2](#section-4-2); [§3.11](#section-3-11); [§0.2](#support-hodge).
 
 <a id="section-4-8"></a>
 
@@ -1615,9 +1653,9 @@ The source is [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDNKISIN](#
 
 ### 4.11 The analytic quotient is independent of the filtration
 
-Fix the rank-two potentially semistable `(φ,N,G)`-module `M`, distinct weights (normalised to 0,`k` with `k>0`), and a nonempty weakly admissible filtration locus `F`. In the nonspecial case the canonical analytic representation `Π(M,0,k)^{an}` has an algebraic subrepresentation consisting of two copies of the filtration-independent `Π(M,0,k)^{alg}`. Its quotient `Π′(M,0,k)^{an}` is independent of the filtration. For every `ℒ∈F` there is an exact sequence `0→Π(M,0,k)^{alg}→Π(D_ℒ)^{an}→Π′(M,0,k)^{an}→0`; `Π(D_ℒ)^{an}` is obtained from the canonical representation by quotienting by one algebraic copy. The special case has the modified algebraic piece described in Remark VI.6.44.
+Fix the rank-two potentially semistable `(φ,N,G)`-module `M`, distinct weights (normalised to 0,`k` with `k>0`), and the nonempty irreducible admissible locus `F_irr` of §4.1. In the nonspecial case the canonical analytic representation `Π(M,0,k)^{an}` has an algebraic subrepresentation consisting of two copies of the filtration-independent `Π(M,0,k)^{alg}`. Its quotient `Π′(M,0,k)^{an}` is independent of the filtration. For every `ℒ∈F_irr` there is an exact sequence `0→Π(M,0,k)^{alg}→Π(D_ℒ)^{an}→Π′(M,0,k)^{an}→0`; `Π(D_ℒ)^{an}` is obtained from the canonical representation by quotienting by one algebraic copy. The special case has the modified algebraic piece described in Remark VI.6.44.
 
-Here Colmez §VI.6.9 setup; `F` nonempty; the two-copy assertion assumes the nonspecial case, including the supercuspidal application.
+Here Colmez §VI.6.9 setup; `F_irr` nonempty; the two-copy assertion assumes the nonspecial case, including the supercuspidal application.
 
 Use [§4.2a](#section-4-2a)’s constructed `N_rig⊠ℙ¹` and filtration-independent `G`-action, Proposition VI.6.41, followed by [§4.2b](#section-4-2b)’s algebraic comparison, Theorem VI.6.42.
 
@@ -1625,6 +1663,7 @@ Construct `AnalyticBoxtimes.analyticQuotient` from the common `G`-module `(t^kN_
 
 **Checks.**
 
+- The filtration of `L⊕L(χ)` in §4.1 lies outside `F_irr`; this analytic quotient theorem has no assertion at that reducible point.
 - In the supercuspidal weight-`(0,1)` case the quotient is `Π^{an}/Π^{lisse}`.
 - The theorem does not say that `Π(D_ℒ)^{an}` itself is independent of `ℒ`.
 - In the nonspecial case the common representation has two algebraic copies, while each `Π(D_ℒ)^{an}` quotients by one copy; quotienting by both gives the common analytic quotient, not the individual analytic representation.
@@ -1946,7 +1985,7 @@ Use Theorem 2.44 for projectivity and Cohen–Macaulay/equidimensional hypothese
 
 Use Proposition 4.14 with its exception intact, then the deformation-ring and algebraic-vector arguments of Corollary 6.5 to obtain the full final type-ring equality.
 
-For the fixed-central-character application, first prove the prescribed-central-character versions of Theorems 2.42 and 2.44. The compact character is `ζ⁻¹` on `Z∩K`, since smooth objects have character `ζ`. Let `Λ_(P,ζ⁻¹)` be `O[[P]]` modulo the closed relations `z−ζ(z)⁻¹` for `z∈P∩Z`. Require `R` Cohen–Macaulay, `N` `R`-flat and
+For the fixed-central-character application, first prove the prescribed-central-character versions of Theorems 2.42 and 2.44. The Theorem 2.42 criterion uses restricted projectivity, equidimensionality and the generic/infinitesimal Hom bounds, with no `R`-flatness hypothesis on `N`. Theorem 2.44 is a sufficient method to obtain its hypotheses when `N` is `R`-flat; direct projectivity and Cohen–Macaulay arguments also suffice. The compact character is `ζ⁻¹` on `Z∩K`, since smooth objects have character `ζ`. Let `Λ_(P,ζ⁻¹)` be `O[[P]]` modulo the closed relations `z−ζ(z)⁻¹` for `z∈P∩Z`. Require `R` Cohen–Macaulay, `N` `R`-flat and
 `projdim_(Λ_(P,ζ⁻¹))(k⊗̂_R N)+max_σ dim_R M(σ)≤dim R`,
 where `σ` ranges over weights with the matching smooth central character. Derive projectivity in `Mod^{pro}_{K,ζ⁻¹}(O)`, Cohen–Macaulayness and the cycle formula in this category by the same compact Hom argument. Apply this adapter to `N=P̃`, using Paškūnas15 Corollary 5.3 and §6.1; full `O[[K]]`-projectivity is not an application hypothesis. The finite-dimensional `K`-type and Artinian de Rham inputs of Layer 4 still govern support and reducedness.
 
@@ -2005,9 +2044,9 @@ The source is [Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł, CDNKISIN](#
 
 ### 5.13 Admittance of residual representations by types (BCDT)
 
-Let `ℓ` be a prime and `ρ̄` : `G_ℓ → GL₂(𝔽̄_ℓ)` continuous. For the irreducible `𝔽̄_ℓ`-representations `σ_{n,m}` of `GL₂(ℤ_ℓ), σ'_{m₁,m₂}` of `U₀(ℓ)` and `σ'_{{m₁,m₂},a}, σ'_{{m},a}` of `Ũ₀(ℓ)` ([§2.8](#section-2-8)), Breuil–Conrad–Diamond–Taylor define when `σ` admits and simply admits `ρ̄`, explicitly in terms of `ρ̄|_{I_ℓ}` through the fundamental characters `ω, ω₂`, the peu/très ramifié condition, and central characters `(ω^{−1}det ρ̄)|_{W_ℓ}`; e.g. `σ_{n,m}` admits `ρ̄` iff `ρ̄|_{I_ℓ} ≅ ω₂^{1−ℓn−m(ℓ+1)} ⊕ ω₂^{ℓ−n−m(ℓ+1)}` or `ρ̄|_{I_ℓ} ≅ (ω^{1−m} *; 0 ω^{−n−m})` (peu ramifié if `n = 0`), and `σ_{n,0}` admits `ρ̄` iff `σ_{n,0}` belongs to the full Serre-weight set of `ρ̄^∨⊗ω`, including both boundary labels when they occur. An `ℓ`-type `τ` (reducible: `σ_τ` a representation of `GL₂(ℤ_ℓ)`; irreducible: of `U₀(ℓ)`; extended type `τ'` with irreducible restriction to `I_ℓ`: of `Ũ₀(ℓ)`) admits `σ` if `σ` is a Jordan–Hölder constituent of `Λ ⊗ 𝔽̄_ℓ` for an invariant lattice `Λ ⊂ σ_τ`, simply if with multiplicity one; `τ` (simply) admits `ρ̄` if it admits some `σ` that admits `ρ̄` (resp. a unique such `σ`, simply, which simply admits `ρ̄`). The remaining cases are fixed as follows. Choose exponents in `{0,…,ℓ−2}`. An Iwahori character `σ′_{m₁,m₂}` admits `ρ̄` when inertia is either the niveau-two pair with exponents `1−ℓm_i−m_j` and `ℓ−m_i−ℓm_j` (`m_i≥m_j` and `{m_i,m_j}={m₁,m₂}`), or an extension with diagonal `(ω^{1−m₁},ω^{−m₂})`, or one with the two exponents interchanged. If `m₁≠m₂` it simply admits precisely in the two extension cases; if `m₁=m₂` it simply admits precisely for the très ramifié extension. A two-dimensional normaliser representation `σ′_{{m₁,m₂},a}` admits when its Iwahori restriction admits and its central character is `ω^{-1}det ρ̄`; it simply admits when that central condition holds and one of the two extension cases holds. The normaliser character `σ′_{{m},a}` requires Iwahori admittance and the same central condition; in the très ramifié case it additionally requires a quotient of `ρ̄` equal to `ω^{-m}χ` for unramified `χ` with Frobenius value `−a`. For this normaliser character simple admittance equals admittance; for `σ_{n,m}` it also equals admittance. A type simply admits `ρ̄` exactly when it has a unique admitted constituent, that constituent occurs with multiplicity one, and the constituent itself simply admits `ρ̄`.
+Let `ℓ` be an odd prime and `ρ̄` : `G_ℓ → GL₂(𝔽̄_ℓ)` continuous. For the irreducible `𝔽̄_ℓ`-representations `σ_{n,m}` of `GL₂(ℤ_ℓ), σ'_{m₁,m₂}` of `U₀(ℓ)` and `σ'_{{m₁,m₂},a}, σ'_{{m},a}` of `Ũ₀(ℓ)` ([§2.8](#section-2-8)), Breuil–Conrad–Diamond–Taylor define when `σ` admits and simply admits `ρ̄`, explicitly in terms of `ρ̄|_{I_ℓ}` through the fundamental characters `ω, ω₂`, the peu/très ramifié condition, and central characters `(ω^{−1}det ρ̄)|_{W_ℓ}`; e.g. `σ_{n,m}` admits `ρ̄` iff `ρ̄|_{I_ℓ} ≅ ω₂^{1−ℓn−m(ℓ+1)} ⊕ ω₂^{ℓ−n−m(ℓ+1)}` or `ρ̄|_{I_ℓ} ≅ (ω^{1−m} *; 0 ω^{−n−m})` (peu ramifié if `n = 0`), and `σ_{n,0}` admits `ρ̄` iff `σ_{n,0}` belongs to the full Serre-weight set of `ρ̄^∨⊗ω`, including both boundary labels when they occur. An `ℓ`-type `τ` (reducible: `σ_τ` a representation of `GL₂(ℤ_ℓ)`; irreducible: of `U₀(ℓ)`; extended type `τ'` with irreducible restriction to `I_ℓ`: of `Ũ₀(ℓ)`) admits `σ` if `σ` is a Jordan–Hölder constituent of `Λ ⊗ 𝔽̄_ℓ` for an invariant lattice `Λ ⊂ σ_τ`, simply if with multiplicity one; `τ` (simply) admits `ρ̄` if it admits some `σ` that admits `ρ̄` (resp. a unique such `σ`, simply, which simply admits `ρ̄`). The remaining cases are fixed as follows. Choose exponents in `{0,…,ℓ−2}`. An Iwahori character `σ′_{m₁,m₂}` admits `ρ̄` when inertia is either the niveau-two pair with exponents `1−ℓm_i−m_j` and `ℓ−m_i−ℓm_j` (`m_i≥m_j` and `{m_i,m_j}={m₁,m₂}`), or an extension with diagonal `(ω^{1−m₁},ω^{−m₂})`, or one with the two exponents interchanged. If `m₁≠m₂` it simply admits precisely in the two extension cases; if `m₁=m₂` it simply admits precisely for the très ramifié extension. A two-dimensional normaliser representation `σ′_{{m₁,m₂},a}` admits when its Iwahori restriction admits and its central character is `ω^{-1}det ρ̄`; it simply admits when that central condition holds and one of the two extension cases holds. The normaliser character `σ′_{{m},a}` requires Iwahori admittance and the same central condition; in the très ramifié case it additionally requires a quotient of `ρ̄` equal to `ω^{-m}χ` for unramified `χ` with Frobenius value `−a`. For this normaliser character simple admittance equals admittance; for `σ_{n,m}` it also equals admittance. A type simply admits `ρ̄` exactly when it has a unique admitted constituent, that constituent occurs with multiplicity one, and the constituent itself simply admits `ρ̄`.
 
-Here weight 2 (potentially Barsotti–Tate) types as in BCDT; the definition uses `ρ̄` rather than its Cartier dual because of the normalisations of CDT.
+Here `ℓ` is odd, as in BCDT §§1.2–1.3; weight 2 (potentially Barsotti–Tate) types as in BCDT; the definition uses `ρ̄` rather than its Cartier dual because of the normalisations of CDT.
 
 Use the following named operations and compatibility results.
 
@@ -2042,20 +2081,23 @@ The source is [Christophe Breuil, Brian Conrad, Fred Diamond, Richard Taylor, BC
 
 ### 5.14 BCDT's Conjecture 1.3.`1(1)` from the Breuil–Mézard identity
 
-Let `p = ℓ, k ⊂ 𝔽̄_p` finite, `ρ̄` : `G_{ℚ_p} → GL₂(k)` continuous with centraliser `k, τ` an `ℓ`-type (resp. `τ'` an extended type with irreducible restriction to inertia) with tamely ramified determinant and non-central image. If `ρ̄` satisfies the Breuil–Mézard cycle identity ([§5.10](#section-5-10)) and `C_σ(ρ̄) ≠ 0` exactly when the dual weight `σ∨` admits `ρ̄` in BCDT's convention, then `τ` (resp. `τ'`) admits `ρ̄` iff `R^D_{V,O} ≠ 0` (resp. `R^{D'}_{V,O} ≠ 0`), i.e. iff `ρ̄` has a potentially Barsotti–Tate lift of type `τ` (resp. extended type `τ'`). The all-residual identities of [§6.3](#section-6-3) and [§6.5](#section-6-5) carry their explicit arithmetic patching hypotheses; Paškūnas 2015 gives `C_σ(ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0` for Colmez's atom `β` of `ρ̄` when `p ≥ 5` and `End ρ̄ = k`. Part `(2)` of the conjecture (simple admittance `⇔` acceptability) is not derived here: BCDT's 'acceptable' is a patching-theoretic condition, not a property of `R^D` alone. For the extended-type assertion the ordinary inertial cycle identity must be replaced by the corresponding extended-type cycle/nonvanishing comparison; this extra hypothesis is part of the admitted-weight and extended-type comparison, since an inertial ring need not select an unramified quadratic branch.
+Let `p=ℓ>2, k ⊂ 𝔽̄_p` finite, `ρ̄` : `G_{ℚ_p} → GL₂(k)` continuous with centraliser `k, τ` an `ℓ`-type (resp. `τ'` an extended type with irreducible restriction to inertia) with tamely ramified determinant and non-central image. If `ρ̄` satisfies the Breuil–Mézard cycle identity ([§5.10](#section-5-10)) and `C_σ(ρ̄) ≠ 0` exactly when the dual weight `σ∨` admits `ρ̄` in BCDT's convention, then `τ` (resp. `τ'`) admits `ρ̄` iff `R^D_{V,O} ≠ 0` (resp. `R^{D'}_{V,O} ≠ 0`), i.e. iff `ρ̄` has a potentially Barsotti–Tate lift of type `τ` (resp. extended type `τ'`). The all-residual identities of [§6.3](#section-6-3) and [§6.5](#section-6-5) carry their explicit arithmetic patching hypotheses; Paškūnas 2015 gives `C_σ(ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0` for Colmez's atom `β` of `ρ̄` when `p ≥ 5` and `End ρ̄ = k`. Part `(2)` of the conjecture (simple admittance `⇔` acceptability) is not derived here. Acceptability means `R^D≠0` and existence of a surjective local `O`-algebra map `O[[X]]→R^D`, with the same definition for `R^{D′}`; it is a property of that deformation ring. Nonvanishing alone does not give this one-parameter presentation (BCDT §1.1, author p.7). For the extended-type assertion the ordinary inertial cycle identity must be replaced by the corresponding extended-type cycle/nonvanishing comparison; this extra hypothesis is part of the admitted-weight and extended-type comparison, since an inertial ring need not select an unramified quadratic branch.
 
-Here `p = ℓ`; the hypotheses of BCDT Conjecture 1.3.1; the identification of `{σ∨ : C_σ(ρ̄) ≠ 0}` with BCDT's admitted weights (the admitted-weight and extended-type comparison). For extended types, also assume the type-specific nonvanishing/cycle comparison in the admitted-weight and extended-type comparison; ordinary inertial-type cycles alone do not distinguish the two unramified quadratic extensions.
+Here `p=ℓ>2`; the hypotheses of BCDT Conjecture 1.3.1; the identification of `{σ∨ : C_σ(ρ̄) ≠ 0}` with BCDT's admitted weights (the admitted-weight and extended-type comparison). For extended types, also assume the type-specific nonvanishing/cycle comparison in the admitted-weight and extended-type comparison; ordinary inertial-type cycles alone do not distinguish the two unramified quadratic extensions.
 
-For `U₀(ℓ)`- and `Ũ₀(ℓ)`-types induce `σ_τ` to `GL₂(ℤ_ℓ)`: `σ'` admits `ρ̄` iff a constituent of `Ind σ'` admits `ρ̄` (BCDT §1.3).
+For `U₀(ℓ)`-types use `Ind_(U₀(ℓ))^(GL₂(ℤ_ℓ)) σ_τ`: an Iwahori constituent admits `ρ̄` iff some constituent of its induction admits `ρ̄` (BCDT §1.3). For `Ũ₀(ℓ)`-types keep the normalizer representation and its `w_ℓ` action: `w_ℓ` has determinant of valuation one and lies outside `GL₂(ℤ_ℓ)`, so no such induction to `GL₂(ℤ_ℓ)` is defined. Restriction to the Iwahori forgets the normalizer branch. The extended-type deduction instead uses the branch-sensitive cycle/nonvanishing comparison in the statement, with normalizer labels and `w_ℓ` eigenvalues retained.
 
-Transport the characteristic-zero type convention by duality as well: if `b_η(τ)` is the multiplicity of a BCDT weight `η` in its type reduction, the corresponding Breuil–Mézard multiplicity is `m_σ(τ)=b_(σ∨)(τ)`. This type-normalization comparison is a hypothesis of the deduction, including the induced Iwahori and normalizer cases. By the transported cycle identity, `z(R^D/ϖ) = Σ_σ b_(σ∨)(τ)C_σ(ρ̄)`; since `R^D` is `O`-flat, `R^D ≠ 0` iff `R^D/ϖ ≠ 0` iff some `σ` with `b_(σ∨)(τ)>0` has `C_σ(ρ̄) ≠ 0`.
+Transport the characteristic-zero type convention by duality as well: if `b_η(τ)` is the multiplicity of a BCDT weight `η` in its type reduction, the corresponding Breuil–Mézard multiplicity is `m_σ(τ)=b_(σ∨)(τ)`. This type-normalization comparison is a hypothesis of the deduction, including Iwahori induction; normalizer cases require the separate branch-sensitive comparison and are not identified by restriction and induction. By the transported cycle identity, `z(R^D/ϖ) = Σ_σ b_(σ∨)(τ)C_σ(ρ̄)`; since `R^D` is `O`-flat, `R^D ≠ 0` iff `R^D/ϖ ≠ 0` iff some `σ` with `b_(σ∨)(τ)>0` has `C_σ(ρ̄) ≠ 0`.
 
 `C_σ(ρ̄) ≠ 0` iff `σ∨` admits `ρ̄`: for `p ≥ 5, End ρ̄ = k`, from Paškūnas 2015 Theorem 1.1(iii) (`z(σ, ρ̄) ≠ 0` iff `Hom_K(σ, β) ≠ 0`) and the `K`-socle of `β`; in general this matching of BCDT's explicit list with the cycles is the admitted-weight and extended-type comparison in the statement.
 
-This implication is conditional on the admitted-weight/nonzero-cycle comparison in the statement. For `p≥5` and `End ρ̄=k`, Paškūnas 2015 Theorem 1.1(iii) identifies nonzero cycles with `K`-socle occurrence in the atom `β`. Use the BCDT table with `σ∨`, where `σ_(n,m)∨=σ_(n,−n−m)`, or equivalently use the original label on `ρ̄∨⊗ω`. Apply this same dual relabelling to type-reduction multiplicities. Other residual classes and `p=2` require their own comparison. An extended type also requires a branch-sensitive nonvanishing result, since inertial cycles do not distinguish unramified quadratic branches. The patching-theoretic acceptability assertion in BCDT Conjecture 1.3.`1(2)` is a different theorem and is not inferred from ring nonvanishing.
+This implication is conditional on the admitted-weight/nonzero-cycle comparison in the statement. For `p≥5` and `End ρ̄=k`, Paškūnas 2015 Theorem 1.1(iii) identifies nonzero cycles with `K`-socle occurrence in the atom `β`. Use the BCDT table with `σ∨`, where `σ_(n,m)∨=σ_(n,−n−m)`, or equivalently use the original label on `ρ̄∨⊗ω`. Apply this same dual relabelling to type-reduction multiplicities. Other odd-prime residual classes require their own admitted-weight comparison. The all-prime Henniart types of §4.4 do not supply a dyadic BCDT normalizer-type construction; the BCDT interface here has domain `p>2`. An extended type also requires a branch-sensitive nonvanishing result, since inertial cycles do not distinguish unramified quadratic branches. The acceptability assertion in BCDT Conjecture 1.3.`1(2)` also requires the one-parameter presentation and is not inferred from ring nonvanishing.
 
 **Checks.**
 
+- At `p≥5`, for a très ramifié extension `0→ω→ρ̄→1→0`, the normalizer characters `(m,a)=(0,1)` and `(0,−1)` have identical Iwahori restriction and central character. The quotient-Frobenius condition admits only `a=−1`; their restricted-and-induced `K`-representations cannot detect this difference.
+- The nonzero ring `O[[X,Y]]` has two independent relative tangent directions, so no surjective local `O`-algebra map `O[[T]]→O[[X,Y]]` exists. Nonvanishing does not imply acceptability; `O[[X]]` itself is acceptable.
+- At `p=2`, §4.4 still supplies its inertial `K`-type contract, while the BCDT-specific deduction here does not apply. At `p=3`, its odd-prime type construction does apply, with the admitted-weight and branch comparisons still required.
 - At `p=5`, `ρ̄=ind(ω₂²)` has inertia exponents `{2,10}` modulo 24. Its supersingular socle contains `σ=Sym¹`, while the undualized BCDT label requires `{20,4}`. The dual label `σ_(1,−1)` gives `{2,10}`.
 - Duality sends `(n,m)` to `(n,−n−m)` and applying it twice recovers `(n,m)`; multiplicity two remains two under relabelling.
 - Weight 2, `τ` trivial (crystalline): admittance by `σ_{0,0} ⇔ ρ̄` has a crystalline lift with Hodge–Tate weights 0, 1 (finite flat).
@@ -2096,6 +2138,23 @@ Prove `NongenericBM.flat_projective_support`: `N` is `R`-flat, projective on res
 
 *Needs:* [§5.11](#section-5-11)’s general fixed-character criterion; [§5.10](#section-5-10); [§3.3](#section-3-3); [§2.3](#section-2-3); [§0.4](#support-deformations); [§0.5](#support-cycles). The generic envelope identifications of §§5.5 and 5.8 are not inputs to this construction.
 
+<a id="section-6-0a"></a>
+
+### 6.0a The reverse-cyclotomic projective envelope
+
+For `p≥5` and a nonsplit `ρ̄=(χ *;0 χω)`, fix `ζ` with `det ρ̄=ζε` modulo `ϖ`, and write `ψ=ζ` for the determinant parameter of §5.10. Put `π=π_α⊗(χ∘det)=Ind_B^G(χω⊗χω⁻¹)` and let `P̃→π∨` be its projective envelope with compact central character `ζ⁻¹`. Prove **`ReverseCyclotomicBM.envelope_comparison`**: `E=End(P̃)≅R^ψ_ρ̄`, `V̌(P̃)` is the rank-two universal deformation with determinant `ψε`, and the residual module `Q=k⊗̂_E P̃` fits into the nonsplit sequence `0→(τ₁⊗(χ∘det))∨→Q→π∨→0`, where `0→Sp→τ₁→1⊕1→0` is Paškūnas's specified universal two-dimensional extension. Construct this `τ₁` and `Q`, including the linking extension classes; their semisimplifications alone do not specify them. Prove finite generation of `Q` over `O[[K]]`, absence of `SL₂`-invariants in `P̃∨`, and projectivity of `P̃` on restriction to the prescribed-central-character compact `K`-category. Prove exact completed tensoring with `V̌(P̃)`, equivalently its `E`-flatness; compare it with the flat image of `P̃` in the quotient by objects with trivial `SL₂`-action. Sources: Paškūnas15 §6.1, Proposition 6.1, equation (35), Remarks 6.2–6.3 and Corollary 5.3, pp.29–31; Paškūnas13 §10.2–§10.4, especially Remark 10.33, Corollary 10.41, Lemma 10.42, Theorem 10.71 and Corollary 10.72, pp.115–129 in arXiv v3. The last two give respectively the endomorphism-ring and universal-Galois-deformation comparisons.
+
+Apply §5.11's fixed-character Theorem 2.42 criterion directly. Restricted `K`-projectivity is Corollary 5.3; the Cohen–Macaulay and equidimensional type-support conclusions come from Paškūnas15 Corollary 6.4, using Lemma 2.33 and Proposition 2.29. Corollary 6.5 identifies the type annihilator and Theorem 6.6 gives the cycles and multiplicity one. This route uses flatness of the Galois realization, not an assertion that the full `P̃` is `R^ψ_ρ̄`-flat; Theorem 2.44's sufficient flatness criterion is not required. The universal smooth-deformation comparison of §5.8 retains its two orientation exclusions.
+
+**Checks.**
+
+- For a nonsplit `0→1→ρ̄→ω→0`, the subcharacter/quotient ratio is `ω⁻¹`. It is generic in Paškūnas15 §6.1 but excluded from §5.8, and uses this envelope with the displayed `τ₁` residual extension.
+- Twisting by `χ` preserves that ratio. Duality reverses and inverts the characters simultaneously, also preserving it; neither operation turns this case into §6.0's ratio `ω`.
+- The inducing characters `χω,χω⁻¹` give central character `χ²=(ω⁻¹det ρ̄)`, as required. Reduction of `V̌(P̃)` is `ρ̄`, whereas reduction of the full compact envelope is `Q`, with the additional character and Steinberg constituents above. A rank-two Galois free module does not identify `Q` with a generic two-principal-series extension.
+- Restricted projectivity has central character `ζ⁻¹`; it gives the exact compact Hom used in the cycle criterion. Flatness after quotienting out the `SL₂`-trivial subcategory does not alone imply flatness of the original envelope.
+
+*Needs:* [§2.2–§2.3](#section-2-2); [§3.3](#section-3-3); [§5.1](#section-5-1); [§5.11](#section-5-11)'s general fixed-character criterion; [§4.5](#section-4-5); [§0.4](#support-deformations); [§0.5](#support-cycles).
+
 <a id="section-6-1"></a>
 
 ### 6.1 Paškūnas 2015: Breuil–Mézard for `p ≥ 5` and `End ρ̄ = k`
@@ -2104,7 +2163,7 @@ Let `p ≥ 5` and `ρ̄` : `G_{ℚ_p} → GL₂(k)` with `End_{G_{ℚ_p}}(ρ̄) 
 
 Here `p ≥ 5`; `End(ρ̄) = k`. Split `ρ̄` (Hu–Tan) and non-split self-extensions `(χ *; 0 χ)` are not covered.
 
-For generic `ρ̄` (irreducible, or nonsplit with character ratio outside `{1,ω}`), apply §5.11’s fixed-character criterion to `N=P̃`, using §5.5’s envelope comparison and §5.8’s generic freeness. For nonsplit cyclotomic extensions use [§6.0](#section-6-0)’s `β` and its universal compact deformation `N`, its `R`-flatness, fixed-character `K`-projectivity and support comparisons. This gives Paškūnas15 Theorem 6.24 without invoking the excluded generic-envelope theorem.
+For irreducible `ρ̄` or nonsplit extensions with character ratio outside `{1,ω,ω⁻¹}`, apply §5.11’s fixed-character criterion to `N=P̃`, using §5.5’s envelope comparison and §5.8’s flatness. The generic branch of Paškūnas15 also contains ratio `ω⁻¹`: use §6.0a’s separate residual module, envelope/Galois comparison, restricted projectivity and type-support theorem for that case. For ratio `ω`, use [§6.0](#section-6-0)’s `β` and universal compact deformation `N`, its `R`-flatness, fixed-character `K`-projectivity and support comparisons. These cases give Theorems 6.6 and 6.24 without applying §5.8 to either excluded orientation.
 
 Supports of `M(Θ)` for `Θ ⊂ σ(w, τ)`: Proposition 4.14 via [§4.5](#section-4-5) and [§4.2](#section-4-2).
 
@@ -2112,12 +2171,13 @@ Cycles `z(σ, ρ̄) := z₁(M(σ))`, their nonvanishing and multiplicity: Theore
 
 **Checks.**
 
+- A nonsplit `0→1→ρ̄→ω→0` has scalar endomorphisms and uses §6.0a; it satisfies the theorem even though neither §5.8 nor §6.0 covers it.
 - For `ρ̄` absolutely irreducible, `z(σ, ρ̄) ≠ 0` exactly for the Serre weights `σ` of `ρ̄` (the `K`-socle of the supersingular `π` with `V(π) ↔ ρ̄`).
 - For `(w, τ) = ((0,1), 1)` crystalline, `R^{ψ,cr}_ρ̄((0,1), 1)` is the finite flat deformation ring and its special fibre cycle is `z(1, ρ̄)`.
 
 The source is [Vytautas Paškūnas, PASKUNAS15](#ref-paskunas15), Theorem 1.1 and the paragraph after it, pp.2–3; §6.2, Theorem 6.10, Definition 6.11, Corollary 6.22 and Theorem 6.24, pp.32–38.
 
-*Needs:* [§5.11](#section-5-11); [§5.10](#section-5-10); [§4.5](#section-4-5). The generic case uses §§5.5 and 5.8; the nonsplit cyclotomic-extension case uses §6.0 instead.
+*Needs:* [§5.11](#section-5-11); [§5.10](#section-5-10); [§4.5](#section-4-5). Ratios outside `{1,ω,ω⁻¹}` and irreducible representations use §§5.5 and 5.8; ratio `ω⁻¹` uses §6.0a; ratio `ω` uses §6.0.
 
 <a id="section-6-2"></a>
 
@@ -2364,6 +2424,10 @@ Layers 1–5 with their prime and residual restrictions; the arithmetic patching
 
 The local deformation-ring, type-occurrence and cycle statements supply GL2ModularityLifting §§8–9 and the local hypotheses in Dieulefait–Pacetti's Serre-modularity arguments. CompletedCohomologyAndLocalGlobalCompatibility §§2.1 and 4.10 consumes the analytic/algebraic-vector and block interfaces; CompletedCohomologyAndLocalGlobalCompatibility §§4.4–4.5 and 4.10 uses the local correspondence in its global realisation. The shared general Banach/duality construction owner is §§0.1 and 0.3. The overlapping general constructions requested in CompletedCohomologyPartII F.1 are governed by this same contract: compact–discrete and Schikhof duality with the stated topologies, and admissibility by compact-open finite invariants. Its §6.7 concerns general derived analytic-vector recovery. Downstream applications use this common foundation and add their arithmetic chain-model and derived comparisons. Each consumer must select the prime, residual class, determinant and type actually covered by the theorem it invokes. The BCDT extended-type and supercuspidal comparisons carry their additional inputs explicitly.
 
+The downstream common-API identifications are as follows. LocallyAnalyticDistributions §§0.0–0.3 and 1.3 apply §0.1's locally convex limits, `LA(X,L)`, `D(H,L)`, tensor, biduality and convolution constructions, adding its broader coefficient and derived comparisons. CompletedCohomologyPartII F.1 applies §§0.1 and 0.3's general compact–discrete and Schikhof dualities and admissible Banach category, independently of its arithmetic chain models. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3.1–3.3 and R07.4.13 apply §0.2's shared `FilteredPhiNModule`, weak-admissibility and semistable equivalence; PadicHodgeTheory §§3.4–3.5 uses the same carrier and period/Sen/monodromy comparisons. ArithmeticGaloisRepresentations §2.3 applies §0.3's finite-residue fundamental-character construction, while FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.5, R07.5.13 and R07.5.15 apply its ramification predicates and §§2.7–2.8's `ℚ_p` Serre-weight, compact-induction and Hecke constructions. The generality of these constructions remains as stated in their owning sections here.
+
+LocalGaloisDeformationRings Layer F and §§3.1–3.5 apply §§0.4 and 5.4's continuous deformation and pseudodeformation foundations. Its §§3.7.1–3.8 apply the `GL2Block`, Montreal and `WDTypeRing` constructions of Layers 2–5 here; its §2.26.1 applies §6.9's general division-algebra Jacquet–Langlands equivalence, with `DivisionAlgebraTypes.jacquetLanglands` inverse to `DrinfeldComparison.localJacquetLanglands` at `m=1`. DeformationAndDerivedPatchingAlgebra §§3.11–3.12 and 6.7 and ArithmeticGaloisDuality D7.1 apply §0.5's Hilbert–Samuel and affine module-cycle foundation. These are shared constructions at the indicated sections here, with the downstream arithmetic and geometric applications distinguished from their construction.
+
 ## References
 
 Page numbers refer to the indicated author/preprint version unless a published page is explicitly named. Source formulas are used with the normalisations and corrections above; the text states the mathematical targets in its own words.
@@ -2387,6 +2451,10 @@ Page numbers refer to the indicated author/preprint version unless a published p
 <a id="ref-cdp14"></a>
 
 - **CDP14.** Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, [The p-adic local Langlands correspondence for GL2(Qp)](https://arxiv.org/abs/1310.2235). Cambridge J. Math. 2 (2014), 1–47; read arXiv:1310.2235v1.
+
+<a id="ref-cdp-wild"></a>
+
+- **CDP-WILD.** Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, [Irreducible components of deformation spaces: wild 2-adic exercises](https://arxiv.org/abs/1310.2233). Int. Math. Res. Not. (2015), 5333–5356; Lemma 9.5, Theorem 9.6 and Theorem 10.1, arXiv pp.13–16.
 
 <a id="ref-paskunas-blocks14"></a>
 

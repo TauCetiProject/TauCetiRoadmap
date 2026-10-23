@@ -8,9 +8,9 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Ba
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; these statements suggest Lean forms for its headline targets.
 
-The statements here are Hilbert–Samuel polynomiality for finite modules over
-noetherian local rings (§0.5) and finite representation length for finitely
-generated admissible smooth torsion representations of GL₂(ℚ_p) over the ring of
+The statements here are the shared Hilbert–Samuel polynomiality theorem for finite
+modules over noetherian local rings (§0.5), and finite representation length for
+finitely generated admissible smooth torsion representations of GL₂(ℚ_p) over the ring of
 integers of any finite extension of ℚ_p (§2.2), at every prime. The latter uses
 Mathlib's actual integer ring, torsion submodules and group-algebra module, together
 with Tau Ceti's smooth-discrete predicate. The two definitions below express its
@@ -43,7 +43,8 @@ open ValuativeRel
 namespace TauCetiRoadmap.PadicLocalLanglandsForGL2Qp
 
 /-- Section 0.5: lengths modulo powers of an m-primary ideal are eventually polynomial.
-The finite-length assertion keeps the natural-valued length faithful to module length. -/
+The finite-length assertion keeps the natural-valued length faithful to module length.
+Source: Stacks, Algebra, Proposition 10.59.5 (tag 00K8). -/
 theorem exists_hilbertSamuel_polynomial
     (A : Type*) [CommRing A] [IsNoetherianRing A] [IsLocalRing A]
     (M : Type*) [AddCommGroup M] [Module A M] [Module.Finite A M]
