@@ -47,13 +47,17 @@ The geometric headlines require carriers absent at Mathlib `6b7abb3` and Tau Cet
   finite-valued comodules in `Ind(A)`. Its period theorems need diagram coefficient
   algebras, the formal period algebra and marked geometric fibers. The arbitrary-fiber
   scalar-extension and affine tensor-isomorphism torsor constructions are also absent.
-* Layer 7's known cycle-conjecture implications and cases, Bloch–Beilinson/Murre
-  equivalence, and conditional motivic t-structure consequences need the geometric
-  cycles, realizations and motive categories above. The Hodge-conjecture implications
+* Layer 7's known cycle-conjecture implications and cases, the equivalence of global
+  Murre data with global Bloch–Beilinson plus rational Künneth algebraicity (including
+  the strong variants and identification of filtrations), and conditional motivic
+  t-structure consequences need the geometric cycles, realizations and motive categories
+  above. The Hodge-conjecture implications
   use Betti/de Rham cohomology; transport to another realization requires a normalized
   comparison preserving cycle classes, cup products, traces and Tate markings.
   The real results additionally need
   semialgebraic equivariant cohomology, admissible cycle targets and Gersten residues.
+  The real blowup isomorphism requires smooth closed centers of positive pure
+  codimension, or componentwise positive codimensions for a disconnected center.
   Odd-Euler-characteristic torsion descent needs geometric coherent Euler invariants
   and Picard descent; height and arithmetic-theta theorems need arithmetic cycle
   pairings, compatible realizations, Shimura towers and theta cycles. Abstract Hodge
