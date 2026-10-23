@@ -11,8 +11,8 @@ The boundary is deliberate. The **Class Field Theory** roadmap consumes these ob
 finite-group Tate cohomology, class formations, local reciprocity, and duality. The **Local
 Galois Groups** roadmap consumes them, together with abstract pro-`p` group theory, to determine
 `G_K(p)` and its Demushkin presentation. This roadmap in turn depends on [**Profinite and
-Pro-`p` Groups**](../ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
-imports its `Suggested.lean` directly, and on Tau Ceti's free profinite groups and profinite
+Pro-`p` Groups**](../ProfiniteProPGroups/README.md) for abstract profinite Sylow theory,
+consumed through its canonical Tau Ceti implementation, and on Tau Ceti's free profinite groups and profinite
 presentations (`TauCeti.freeProfiniteGroup`, `TauCeti.presentedProfiniteGroup`). It does not
 redeclare any of those group-theoretic suppliers.
 
@@ -47,12 +47,12 @@ different, and the relative-discriminant consequences. In particular it imports
 `lowerRamificationGroup`; it does not define a second filtration or choose another indexing
 convention.
 
-[Counting Totally Ramified Extensions #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226)
+Counting Totally Ramified Extensions
 is a direct downstream consumer. This roadmap owns the arithmetic of each finite extension:
 the induced local-field structures, `ramificationIndex`, `inertiaDegree`, total/tame/wild
 ramification, Eisenstein generators and integral monogenicity, the different and local
 discriminant exponents, their invariance under `K`-equivalence, and Eisenstein power-basis
-valuation orthogonality. #226 owns the family and counting layer: `σ_K(n)`, its derived weight
+valuation orthogonality. Counting Totally Ramified Extensions owns the family and counting layer: `σ_K(n)`, its derived weight
 `c(L) = d(L) - n + 1`, representative sets, quantitative root counting, coefficient-space and
 Haar-measure calculations, and the mass formulas. It may define intermediate-field wrappers,
 but they must install this roadmap's canonical structures and reduce to its canonical invariants.
@@ -370,7 +370,7 @@ pro-`p` quotient.
   of uniformizer, and `𝒪[K]ˣ ≃ μ_{q−1} × U(K,1)`. Prove that `U(K,1)` is pro-`p`, as the inverse
   limit of the `p`-groups `U(K,1)/U(K,i)`. State it in quotient form: every continuous finite
   quotient of `U(K,1)` is a `p`-group. This is exactly the predicate
-  `ProfiniteProPGroups.IsProP p (U(K,1))`, so the two statements are the same statement and not
+  `TauCeti.IsProP p (U(K,1))`, so the two statements are the same statement and not
   two rephrasings. Prove that the torsion subgroup
   `μ(K)` is finite. Tau Ceti implements the two isomorphisms, on `U(K,0) = 𝒪[K]ˣ`, as
   `TauCeti.unitsEquivIntProd` and `TauCeti.unitFiltrationZeroEquivProd`
@@ -378,8 +378,8 @@ pro-`p` quotient.
   decomposition `TauCeti.existsUnique_eq_zpow_mul`, the change of uniformizer
   `TauCeti.coe_unitsEquivIntProd_apply_snd_eq_mul`, the kernel and continuity of `v_K`
   (`TauCeti.ker_normalizedValuation`, `TauCeti.continuous_normalizedValuation`) and its splitting
-  `TauCeti.normalizedValuation_comp_zpowersHom`. The pro-`p` statement and the statements about
-  `μ(K)` remain.
+  `TauCeti.normalizedValuation_comp_zpowersHom`. The pro-`p` statement is supplied by
+  `UnitFiltration/ProP.lean`; `unitFiltration_one_isProP` applies that theorem.
   - *Prerequisites:*
     - `Layer 1: the unit filtration as an object`;
     - `Layer 1: Teichmüller`;
@@ -389,7 +389,8 @@ pro-`p` quotient.
     - the dependence on the uniformizer, which is an isomorphism of the two splittings;
     - finiteness of `μ(K)` and its order;
     - the `p`-part and the prime-to-`p` part of `μ(K)`;
-    - the projection `Kˣ → ℤ`, which is `v_K`, and its splitting.
+    - the projection `Kˣ → ℤ`, which is `v_K`, and its splitting;
+    - `existsUnique_eq_zpow_mul`, the unique decomposition into a uniformizer power and a unit.
   - *Source:* Serre LF II §§4–5; Neukirch ANT II §5.
 - **Deep units in mixed characteristic.** Let `K/ℚ_p` be finite of degree `N`, with absolute
   ramification index `e = absoluteRamificationIndex K p`. Let `i : ℕ` satisfy the integer
@@ -401,20 +402,29 @@ pro-`p` quotient.
     - `Layer 1: the unit filtration as an object`;
     - `Layer 0: the absolute ramification index`;
     - `Layer 0: finite extensions, III`;
-    - at the exact pin, `NormedSpace.expSeries`, `NormedSpace.exp`,
-      `NormedSpace.expSeries_hasSum_exp_of_mem_ball`, and `NormedSpace.continuousOn_exp` provide
-      the exponential-series side, while `PowerSeries.log`, `PowerSeries.coeff_log`,
-      `PowerSeries.map_log`, and `PowerSeries.HasEval` provide the formal logarithm and evaluation
-      interface. The pin does **not** provide a ready-made local-field logarithm with the sharp
-      domain or inverse theorems. Constructing `localExponential` and `localLogarithm`, proving
-      their convergence and continuity on the stated depths, and proving
-      `localLogarithm_localExponential` and `localExponential_localLogarithm` are separate named
-      submilestones, summarized by `deepUnitExpLogEquiv`.
+    - Mathlib's evaluated series `NormedSpace.exp` and `NormedSpace.log`, named here by
+      the reducible aliases `localExponential` and `localLogarithm`;
+    - Tau Ceti's `DeepUnits/Basic.lean`: the topological logarithmic equivalence
+      `TauCeti.deepUnitExpLogEquiv`, its two evaluation rules and inverse theorems.
+      This roadmap's `deepUnitExpLogEquiv` is its inverse, with type
+      `Multiplicative (𝓂[K]^i) ≃ₜ* U(K,i)`. Its exponential and logarithm evaluation rules are
+      `coe_deepUnitExpLogEquiv_apply` and `coe_deepUnitExpLogEquiv_symm_apply`;
+      `localLogarithm_localExponential`, `localExponential_localLogarithm`,
+      `continuous_localExponential_deep` and `continuous_localLogarithm_deep` are closed
+      applications of Tau Ceti's sharp-domain theorems.
   - *Source:* NSW (7.4.4); Neukirch ANT II §5. The hypotheses used are `char K = 0` and the
     integer inequality. At the boundary `(p − 1) * i = e`, the series `log` still converges but
     injectivity is not uniform: it fails when `U(K,i)` contains a nontrivial `p`-power root of
     unity, while fields without that torsion can still have injectivity. No unconditional boundary
     theorem is part of the contract.
+  - *Checks:*
+    - On `ℚ_2` at depth `2`, the logarithm identifies `1 + 4ℤ_2` with `4ℤ_2`, with
+      exponential as its continuous inverse.
+    - At depth `1` on `ℚ_2`, `−1 ∈ U(K,1)` and `log(−1) = 0`; equality in the depth
+      inequality does not guarantee injectivity.
+    - For an unramified finite extension of `ℚ_p`, `p > 2`, depth `1` satisfies the strict
+      inequality; the two evaluation rules agree with the original evaluated series.
+
 - **Power classes, the primary statement.** For `n : ℕ` with `n ≠ 0`, the primary theorem is an
   equality of natural numbers:
 
@@ -432,7 +442,7 @@ pro-`p` quotient.
   follows from the formula and is exported separately as
   `finiteIndex_range_powMonoidHom_of_isUnit` or `finiteIndex_range_powMonoidHom`, so downstream
   declarations can consume a `Subgroup.FiniteIndex` proof without reconstructing it. Tau Ceti
-  implements regime 1: the count `TauCeti.card_powerClasses_of_isUnit`, the vanishing
+  implements both regimes, including the prime-to-residue count `TauCeti.card_powerClasses_of_isUnit`, the vanishing
   `TauCeti.natCastValuation_eq_zero_of_isUnit`, finite index
   `TauCeti.finiteIndex_range_powMonoidHom_of_isUnit` and the count `4`
   `TauCeti.card_squareClasses_of_isUnit`
@@ -440,8 +450,10 @@ pro-`p` quotient.
   the identification of the two spellings of the square classes,
   `TauCeti.square_eq_range_powMonoidHom`. This roadmap's `card_powerClasses_of_isUnit`,
   `finiteIndex_range_powMonoidHom_of_isUnit`, `card_squareClasses_of_isUnit` and
-  `square_eq_range_powMonoidHom` are closed proofs of them. Regime 2, the dyadic count and the
-  worked example are the remaining milestones.
+  `square_eq_range_powMonoidHom` are closed proofs of them. Tau Ceti also supplies the
+  characteristic-zero count and finite index through its generic nonzero-cast theorems in
+  `PowerSubgroup/Basic.lean`, and the dyadic specialization in `SquareClass.lean`; this
+  roadmap's mixed-characteristic and dyadic statements apply those declarations.
   - *Prerequisites:*
     - `Layer 1: structure of Kˣ`;
     - `Layer 1: deep units in mixed characteristic` (regime 2 only);
@@ -484,7 +496,9 @@ pro-`p` quotient.
   The name is `isOpen_range_powMonoidHom`. It holds in regime 1 for either characteristic, and in
   regime 2 for every `n`. ⚠ This does **not** follow from the count above. Finiteness of an
   abstract quotient of a topological group says nothing about the topology of the kernel: the
-  additive group `ℚ_p` with the discrete topology has finite quotients by non-open subgroups. The
+  product `∏_ℕ 𝔽_2` admits an algebraic linear functional to `𝔽_2` extending parity on finitely
+  supported sequences. Its kernel has index two but is not open: every basic tail subgroup
+  contains a coordinate vector with functional value one. The
   proof exhibits an open subgroup inside the range:
   - in regime 1, `U(K,1) ⊆ (Kˣ)^n`, by Hensel's lemma applied to `X^n − u` at the approximate
     root `1`. The derivative `n X^{n−1}` is a unit there, because `n` is a unit in `𝒪[K]`, and
@@ -524,6 +538,14 @@ pro-`p` quotient.
   - *Source:* Serre LF V §3 and Neukirch ANT II §5. The hypotheses are the regime hypotheses.
     *False generalization:* at `K = 𝔽_q((t))` and `n = p` the range is not open, because
     `1 + t^m` is not a `p`-th power for `p ∤ m` and those elements accumulate at `1`.
+  - *Checks:*
+    - The parity extension on `∏_ℕ 𝔽_2` above has a kernel of index `2` containing no
+      basic tail subgroup, so finiteness alone cannot prove openness.
+    - On `ℚ_2`, squaring carries `U(K,2)` onto `U(K,3)`, exhibiting an open subgroup
+      inside the squares even though `2` is not a unit of the valuation ring.
+    - In `𝔽_q((t))`, the elements `1 + t^m`, with `p ∤ m`, approach `1` outside the
+      `p`-th powers; the nonzero-cast hypothesis cannot be dropped.
+
 - **The dyadic square-class count.** Prove `#(ℚ_2ˣ/(ℚ_2ˣ)²) = 8`. This is an instance of the
   primary statement, and not a separate theorem.
   - *Prerequisites:* `Layer 1: power classes, the primary statement`.
@@ -534,8 +556,9 @@ pro-`p` quotient.
   `unitFiltration_le_range_powMonoidHom_two`. ⚠ This is **not** an instance
   of the cardinality count, which decides how many square classes there are and not which
   subgroup lies inside the squares. The proof is Hensel's lemma applied to `X² − u`, or the
-  deep-unit logarithm with the fact that multiplication by `2` carries the logarithmic lattice at
-  depth `2e+1` into the lattice at depth `e+1`. ⚠ The hypothesis is mixed characteristic. In
+  deep-unit logarithm and the equality `2 · 𝓂[K]^(e+1) = 𝓂[K]^(2e+1)`. For
+  `u ∈ U(K,2e+1)`, division gives `x = log(u)/2 ∈ 𝓂[K]^(e+1)` and `exp(x)² = u`.
+  Both depths lie in the strict dyadic exponential/logarithm domain. ⚠ The hypothesis is mixed characteristic. In
   equal characteristic `2` the element `2` is zero and there is no absolute ramification index,
   so the displayed statement is not even the contract for that case.
 
@@ -572,8 +595,16 @@ pro-`p` quotient.
   - *Source:* Serre, *A Course in Arithmetic*, II §3, for `ℚ_2`; Neukirch ANT II §5 in general.
     The hypotheses used are that `K/ℚ_2` is finite, for both halves. There is no corresponding
     absolute-index threshold statement in equal characteristic `2`.
+  - *Checks:*
+    - On `ℚ_2`, the lattice equality is `2 · 4ℤ_2 = 8ℤ_2`; dividing a depth-`3`
+      logarithm by `2` gives a depth-`2` logarithm and hence a square root.
+    - The unit `5 ∈ 1 + 4ℤ_2` is not a square; the threshold `2e+1` cannot be replaced
+      by `2e`.
+    - In equal characteristic `2`, `1 + t^(2r+1)` is never a square in `𝔽_2((t))`,
+      however large `r` is; division by `2` is unavailable.
 
 ### Layer 2: unramified extensions and Frobenius
+
 
 - **The arithmetic predicate.** Define `IsUnramified K L` for a finite extension of local fields:
   the map of value groups is bijective, equivalently `ramificationIndex K L = 1`, and the residue
@@ -679,6 +710,15 @@ pro-`p` quotient.
     - compatibility with the finite levels;
     - the induced surjection `G_K → Ẑ`, which Layer 4 names;
     - the fixed field of a closed subgroup, in the two directions.
+  - *Source:* Serre LF III §5; Tau Ceti `Unramified/Maximal.lean` and `Unramified/ZHat.lean`.
+  - *Checks:*
+    - On `ℚ_2`, arithmetic Frobenius sends a primitive seventh root `ζ` to `ζ²`,
+      and its canonical profinite-integer coordinate is `1`.
+    - Its reduction at the unramified degree-`f` level has order `f`; the profinite
+      coordinate reduces modulo `f`.
+    - A uniformizer has no square root in the maximal unramified extension, since the
+      latter keeps the integer value group; it is not the algebraic closure.
+
 - **Norms.** Name the image of the field norm: `normGroup L/K := (N_{L/K})(Lˣ) : Subgroup Kˣ`,
   which `ClassFieldTheory.normResidue` and `conductorExponent` consume. For `L/K` unramified prove
   `N_{L/K}(𝒪[L]ˣ) = 𝒪[K]ˣ`, named `map_norm_unitFiltration_zero` and stated on the depth-zero
@@ -686,8 +726,10 @@ pro-`p` quotient.
   **norm-equation form**, as `mem_normGroup_iff_dvd_normalizedValuation`: `x ∈ normGroup L/K` if
   and only if `f` divides `v_K(x)`. That is the shape a consumer applies, since it decides one
   element at a time when the equation `N_{L/K}(y) = x` is solvable, and it needs no chosen
-  uniformizer, where the product description does. Both come from `e = 1`, which makes
-  `v_K(N_{L/K} y) = f · v_L(y)`, together with surjectivity on units. This is the concrete form
+  uniformizer, where the product description does. The identity
+  `v_K(N_{L/K} y) = f · v_L(y)` holds for every finite compatible local-field extension.
+  In the unramified case, surjectivity on units makes this necessary valuation condition
+  sufficient. This is the concrete form
   of the statement that units are universal norms in the unramified direction. It is consumed by
   `ClassFieldTheory.normResidue` and the finite-Tate package `ClassFieldTheory.tateH`. ⚠ `f` here
   is the residue degree `inertiaDegree K L` of Layer 0, and the
@@ -709,13 +751,21 @@ pro-`p` quotient.
   - *API:*
     - the norm group as a named subgroup of `Kˣ`;
     - surjectivity of the norm on units, in the filtration form above;
-    - the norm-equation criterion, and the valuation identity `v_K(N_{L/K} y) = f · v_L(y)` that
-      it rests on;
+    - the norm-equation criterion, and the general valuation identity `normalizedValuation_norm`,
+      which reads `v_K(N_{L/K} y) = f · v_L(y)` for every finite compatible extension;
     - the two worked `ℚ_2(√5)/ℚ_2` cases of the examples section, one solvable and one not.
   - *Source:* Serre LF V §2. The proof is surjectivity on each graded piece, plus completeness.
-    *False generalization:* for a ramified extension the norm of a unit is a unit, but the image
-    is a proper subgroup: at `L = ℚ_2(√2)` the image of `𝒪[L]ˣ` has index `2` in `ℤ_2ˣ`, so the
-    norm-equation criterion is false there in both directions.
+    *False generalization:* surjectivity on units can fail for ramified extensions.
+    The condition `f ∣ v_K(x)` remains necessary for every norm, but need not be sufficient.
+  - *Checks:*
+    - For `L = ℚ_2(√2)`, `f = 1`, and the unit-norm image has index `2` in `ℤ_2ˣ`;
+      `3` is not a norm, although the valuation condition is automatic. If a unit norm were `3`,
+      the integral norm form `a² − 2b²` would be `3` modulo `8`, which is impossible.
+    - For `L = ℚ_2(∛2)`, Eisenstein gives total ramification of degree `3`. Each
+      `u ∈ ℤ_2ˣ` has a cube root `a ∈ ℤ_2ˣ` by Hensel, and the scalar norm `N(a) = a³ = u`:
+      ramification does not force failure of unit-norm surjectivity.
+    - For the unramified quadratic `ℚ_2(√5)/ℚ_2`, units are norms and `2` is not;
+      the residue degree in the valuation identity is `2`.
 
 ### Layer 3: ramification, the tame and wild cases, and the filtration
 
@@ -782,7 +832,7 @@ pro-`p` quotient.
 
   The second equality uses total ramification. The summands with nonzero coefficients have
   pairwise distinct values modulo `n`, so there is no cancellation. Export the formula in the
-  canonical `IsDiscreteValuationRing.addVal` spelling. Counting Totally Ramified Extensions #226
+  canonical `IsDiscreteValuationRing.addVal` spelling. Counting Totally Ramified Extensions
   consumes it to derive the box/ball and coordinate-cube descriptions used by its measure
   argument; those family-level corollaries are not owned here.
   - *Prerequisites:*
@@ -796,7 +846,18 @@ pro-`p` quotient.
     - `addVal_sum_eisenstein_powerBasis`, the exact minimum formula above;
     - the induced power basis;
     - compatibility with the comparison of `𝒪[L]` and the integral closure from Layer 0.III.
-  - *Source:* Serre LF III §6, Proposition 12.
+  - *Source:* Serre LF III §6, Proposition 12. Tau Ceti supplies local monogenicity in
+    `Monogenic.lean`, the integral Eisenstein criterion in `Eisenstein/TotallyRamified.lean`,
+    and the power-basis minimum in `Eisenstein/PowerBasis.lean`; the declarations here apply
+    those theorems, transporting integral generation to field generation for the last formula.
+  - *Checks:*
+    - An unramified extension is generated integrally by the Teichmüller lift of a residue-field
+      generator, although a base uniformizer alone cannot generate a nontrivial unramified field.
+    - In a totally ramified Eisenstein extension, a root generates the integer ring and its power
+      basis has terms with distinct normalized values modulo the degree.
+    - For `ℚ_2(√2)`, the values of `a + b√2` are the minimum of `2v_2(a)` and `2v_2(b)+1`;
+      allowing a zero coefficient gives the expected infinite value for that term.
+
 - **The lower-numbering filtration.** For `L/K` finite Galois with group `G`, define `G_i = {σ | ∀
   x : 𝒪[L], v_L(σ x − x) ≥ i + 1}` for `i : ℤ`. The function is total, with `G_i = ⊤` for
   `i ≤ −1`. Equivalently, `σ` acts trivially on `𝒪[L]/𝓂[L]^{i+1}`. Prove that each `G_i` is a
@@ -868,7 +929,8 @@ pro-`p` quotient.
     - the two composed forms;
     - the group-theoretic consequences above;
     - the action formula;
-    - `tameCharacter_conj` and `tameCharacter_conj_of_smul_eq_pow`;
+    - `tameCharacter_conj` and `tameCharacter_conj_of_smul_eq_pow`, closed applications of
+      Tau Ceti's `UnitFiltration/Conjugation.lean`;
     - naturality under passage to a subgroup `H ≤ G`.
   - *Source:* Serre LF IV §2.
 - **Herbrand functions and the upper numbering.** Define `φ_{L/K}(u) = ∫_0^u dt/[G_0 : G_t]` for
@@ -892,9 +954,11 @@ pro-`p` quotient.
   `TauCeti.LocalFieldsRamification.inverseHerbrand_of_coe_le_zero`), `herbrand_inverseHerbrand` and
   `inverseHerbrand_herbrand`; and the upper numbering `upperRamificationGroup`, with
   `G^{φ(u)} = G_u` (`upperRamificationGroup_herbrand`), antitonicity and normality. This roadmap's
-  names are reducible aliases of these definitions and its two inversion theorems are closed
-  proofs. The image of a jump, the quotient theorem and its field-theoretic corollary, tower
-  transitivity and the worked computation remain.
+  names are reducible aliases of these definitions. The inversion, fixed-field quotient and
+  tower theorems are closed applications of Tau Ceti's `Herbrand/UpperQuotient.lean` and
+  `Herbrand/Tower.lean`. `UpperJump` is the canonical strict-drop predicate from
+  `Herbrand/Jump.lean`, equivalent by antitonicity to the inequality formulation below.
+  Full Hasse–Arf and the general-residue contracts remain targets.
 
   State the abstract quotient theorem first. Let `M/K` be finite Galois, put
   `G = Gal(M/K)`, let `H ≤ G` be normal, and equip `G ⧸ H` with the quotient filtration. Then
@@ -907,7 +971,9 @@ pro-`p` quotient.
   and `L/K` is Galois. With the restriction/quotient equivalences fixed, prove
   `φ_{M/K} = φ_{L/K} ∘ φ_{M/L}` and
   `ψ_{M/K} = ψ_{M/L} ∘ ψ_{L/K}`. Inverting the composite reverses its order, and the two orders
-  differ as soon as one step is wild. These exports are consumed by
+  need not agree in general. For `L = ℚ_2(√2)` and `M = L K_2`, with `K_2/ℚ_2` unramified
+  quadratic, `M/L` is unramified, so its Herbrand functions are the identity and the two orders
+  agree despite the wild step. These exports are consumed by
   `ClassFieldTheory.conductorExponent` and `characterConductorExp`.
   - *Prerequisites:*
     - `Layer 3: the lower-numbering filtration`;
@@ -926,18 +992,28 @@ pro-`p` quotient.
       hypotheses above;
     - the computation for `ℚ_2(μ_8)/ℚ_2` in the examples section.
   - *Source:* Serre LF IV §3.
+  - *Checks:*
+    - On `ℚ_2(ζ_8)/ℚ_2`, `φ(2) = 3/2`, separating lower and upper indices.
+    - For the wild `L = ℚ_2(√2)` and `M = L K_2` with `K_2/ℚ_2` unramified quadratic,
+      the functions of `M/L` are the identity: the two compositions agree.
+    - For `M = ℚ_2(ζ_8)` and `L = ℚ_2(√2)`, §3a.2 gives the noncommuting values
+      `ψ_(M/L)(ψ_(L/K)(3)) = 7` and `ψ_(L/K)(ψ_(M/L)(3)) = 8`.
+
 - **Herbrand values as unit depths.** `φ` takes non-integral values at integers: in `ℚ_2(μ_8)/ℚ_2`
   below, `φ(2) = 3/2`. Its inverse does not. Prove that `ψ_{L/K}(n)` is a natural number for every
   `n : ℕ`. The integral depth `ψℕ_{L/K} : ℕ → ℕ` (`psiNat`) is `n ↦ ⌊ψ_{L/K}(n)⌋₊`, read on the
   canonical `inverseHerbrand`, and the integrality is its characterizing lemma
   `(ψℕ_{L/K} n : ℝ) = ψ_{L/K} n` (`coe_psiNat`): the floor rounds nothing. This is the only
-  conversion from a Herbrand value to a unit depth in this roadmap. Every index of `U(K, −)` and
+  conversion from a Herbrand value to a unit depth in this roadmap. `psiNat` is a reducible
+  alias of Tau Ceti's integral depth, and `coe_psiNat` and `psiNat_tower` are closed applications
+  of its theorems in `Herbrand/Basic.lean` and `Herbrand/Tower.lean`. Every index of `U(K, −)` and
   of `U(L, −)` below is a literal natural number or a value of `ψℕ`, and `φ` never indexes a unit
   group. The proof is the piecewise
   formula with Lagrange's theorem: write `g_i = #G_i`, and take `t` to be the largest jump with
   `φ(t) ≤ n`; then `ψ(n) = t + (g_0·n − ∑_{i=1}^{t} g_i) / g_{t+1}`, and `g_{t+1}` divides `g_0`
   and every `g_i` with `i ≤ t`, because the filtration is decreasing.
   - *Prerequisites:* `Layer 3: Herbrand functions and the upper numbering`.
+  - *Source:* Serre LF IV §3, the piecewise formula and subgroup indices.
   - *API:*
     - `psiNat`;
     - `coe_psiNat`;
@@ -949,6 +1025,13 @@ pro-`p` quotient.
       quotient/restriction equivalences fixed;
     - the closed form in the cyclic prime-degree case, which is `ψℕ v = v` for `v ≤ t` and
       `ψℕ v = t + ℓ(v − t)` for `v ≥ t`.
+  - *Checks:*
+    - In the identity extension, `ψℕ(n) = n`, including `ψℕ(0) = 0`.
+    - For `ℚ_2(√2)/ℚ_2`, `ψℕ(3) = 4`, while `φ(3) = 5/2`; integral unit depths
+      come from the inverse function.
+    - A totally ramified tame Galois extension of degree `e` has `ψℕ(n) = en` for
+      `n ≥ 0`, so every resulting unit depth is integral.
+
 - **The norm on the unit filtration.** ⚠ `N_{L/K}(U(L,i)) ⊆ U(K,i)` is **false** for a ramified
   extension `L/K`. In a tame quadratic extension in residue characteristic `3`, the norm of an
   element of `U(L,2)` is outside `U(K,2)`; the examples section has the computation. The true
@@ -964,7 +1047,11 @@ pro-`p` quotient.
      `N_{L/K}(U(L, ψℕ_{L/K}(i))) ⊆ U(K, i)` for every `i : ℕ`. Both depths are natural numbers,
      because `ψℕ` is. The unshifted corollary is `N_{L/K}(U(L,i)) ⊆ U(K, ⌊φ_{L/K}(i)⌋)`, which
      follows from `ψ(⌊φ(i)⌋) ≤ i`. Name the shifted theorem
-     `map_norm_unitFiltration_psiNat_le`; it is the form consumed by
+     `map_norm_unitFiltration_psiNat_le`. Also prove the successor-depth inclusion
+     `N_{L/K}(U(L, ψℕ(i)+1)) ⊆ U(K,i+1)`, named
+     `map_norm_unitFiltration_psiNat_add_one_le`. Together these inclusions make the graded norm
+     well-defined; applying the first at `i+1` alone does not control this successor depth.
+     Tau Ceti supplies both in `Norm/Herbrand.lean`. These are the forms consumed by
      `ClassFieldTheory.conductorExponent` and `characterConductorExp`.
   3. *Unramified `L/K`.* `N_{L/K}(U(L,i)) = U(K,i)` for every `i : ℕ`, an equality, and here `ψℕ`
      is the identity. The case `i = 0` is the norm surjectivity of Layer 2. The downstream
@@ -974,14 +1061,22 @@ pro-`p` quotient.
      `t = 0` holds exactly in the tame case `ℓ ≠ p`, where the Galois hypothesis forces `μ_ℓ ⊆ K`
      and therefore `ℓ ∣ q − 1`. Coordinatize the graded pieces by a uniformizer `π_L` and by
      `π_K = N_{L/K}(π_L)`. The norm induces `gr_v N : U(L, ψℕ v)/U(L, ψℕ v + 1) → U(K, v)/U(K,
-     v+1)`. The milestone is the computation of that map in the four cases that occur:
+     v+1)`, with `[u] ↦ [N(u)]` (`normGradedMap_mk`). The map `normGradedMap` is a reducible
+     alias of Tau Ceti's norm-induced map in `Norm/Graded.lean`. Compute all five regimes:
      - `v = t = 0`, the tame case: `y ↦ y^ℓ` on `𝓀ˣ`, with kernel and cokernel `μ_ℓ(𝓀)` of order
        `ℓ`, by `ℓ ∣ q − 1`;
      - `v = 0 < t`, so `ℓ = p`: `y ↦ y^p` on `𝓀ˣ`, the Frobenius of a finite field, bijective;
      - `0 < v < t`, which again forces `ℓ = p`: `y ↦ y^p` on `𝓀⁺`, Frobenius again, bijective;
      - `v = t > 0`: the additive map `y ↦ y^ℓ − c^{ℓ−1}·y` on `𝓀⁺`, where `c = θ_t(σ) ∈ 𝓀ˣ` is the
        value at a generator `σ` of `G` of the level-`t` embedding `θ_t` above. The map is
-       `𝔽_ℓ`-linear, with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`.
+       `𝔽_ℓ`-linear, with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`;
+     - `v > t`, including the tame case `t = 0`: put `m = ψℕ(v) = t + ℓ(v − t)` and
+       `d = (t+1)(ℓ−1)`. The trace ideal formula gives
+       `Tr(𝓂[L]^m) = 𝓂[K]^v` and `Tr(𝓂[L]^(m+1)) = 𝓂[K]^(v+1)`.
+       Moreover `N(1+x) ≡ 1 + Tr(x) mod 𝓂[K]^(v+1)` for `x ∈ 𝓂[L]^m`, since the
+       higher norm terms have greater depth. Thus the graded norm is the induced trace map,
+       surjective, and bijective because both graded pieces have `q` elements.
+       This is `normGradedMap_after_break`, supplied by Tau Ceti's `Norm/AfterBreak.lean`.
 
      ⚠ The exponent on `c` is not a slip. The element `c` changes when the generator `σ` changes,
      and `c^{ℓ−1}` does not, because `λ^{ℓ−1} = 1` for `λ ∈ 𝔽_ℓˣ`. A version with a bare `c` would
@@ -990,8 +1085,9 @@ pro-`p` quotient.
      `ℓ`. The representative declarations keep these regimes separate:
      `normGradedMap_tame_break_zero` covers `v = t = 0`;
      `normGradedMap_zero_before_break` covers `v = 0 < t`;
-     `normGradedMap_positive_before_break` covers `0 < v < t`; and
-     `normGradedMap_at_break` covers only `v = t > 0`. The last theorem explicitly requires
+     `normGradedMap_positive_before_break` covers `0 < v < t`;
+     `normGradedMap_at_break` covers only `v = t > 0`; and
+     `normGradedMap_after_break` covers `v > t`. The at-break theorem explicitly requires
      `IsTotallyRamified K L`, `0 < t`, and
      `UpperJump K L ⟨(t : ℝ), _⟩`; prime-degree Galois hypotheses supply cyclicity. In particular,
      its kernel-and-cokernel conclusion is unavailable for an unramified extension or for the tame
@@ -1011,9 +1107,20 @@ pro-`p` quotient.
   - *Source:* Serre LF V §2 for item 3, Serre LF V §3 for item 4, and Serre LF V §6 for item 2.
     *False generalization:* the unshifted inclusion in item 2, which the counterexample in the
     examples section refutes.
-  - *Lean-facing exports:* `map_norm_unitFiltration_psiNat_le`, `UnitFiltrationGraded`,
-    `normGradedMap`, `normGradedMap_tame_break_zero`, `normGradedMap_zero_before_break`,
-    `normGradedMap_positive_before_break`, and `normGradedMap_at_break`.
+  - *Lean-facing exports:* `map_norm_unitFiltration_psiNat_le`,
+    `map_norm_unitFiltration_psiNat_add_one_le`, `UnitFiltrationGraded`,
+    `normGradedMap`, `normGradedMap_mk`, `normGradedMap_tame_break_zero`,
+    `normGradedMap_zero_before_break`, `normGradedMap_positive_before_break`,
+    `normGradedMap_at_break`, and `normGradedMap_after_break`.
+  - *Checks:*
+    - For `ℚ_2(√2)/ℚ_2`, `t = 2` and `ψℕ(3) = 4`; the two inclusions give
+      `N(U(L,4)) ⊆ U(K,3)` and `N(U(L,5)) ⊆ U(K,4)`, so the graded map descends at depth `3`.
+      The first inclusion at depth `4` instead starts at `ψℕ(4) = 6` and does not suffice.
+    - For this extension `d = 3`, `Tr(𝓂[L]^4) = 𝓂[K]^3` and
+      `Tr(𝓂[L]^5) = 𝓂[K]^4`; the above-break graded map is bijective.
+    - For a totally ramified tame quadratic over `ℚ_3`, `t = 0`: the depth-zero map on
+      `𝔽_3ˣ` is squaring with kernel and cokernel of order `2`, while every positive graded norm
+      is bijective. Approximation starts strictly above the break.
 - **Hasse–Arf.** For a finite abelian Galois extension `L/K`, the jumps of the upper-numbering
   filtration are integers. A jump is a `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
   defined as `UpperJump K L u` on the upper filtration `upperRamificationGroup` of the preceding
@@ -1023,7 +1130,7 @@ pro-`p` quotient.
   2. choose a prime-order normal quotient series for the finite abelian group;
   3. transport the filtration at every step using the abstract Herbrand quotient theorem and its
      fixed field-theoretic equivalence;
-  4. compare conductors with norms using the four graded norm maps and their kernel/cokernel
+  4. compare conductors with norms using the five graded norm regimes and their kernel/cokernel
      calculation above;
   5. induct along the series, showing at each quotient that integrality of the upper breaks is
      preserved.
@@ -1042,8 +1149,8 @@ pro-`p` quotient.
   exponent `d(L/K) := v_L(𝔡_{L/K})` and the local discriminant exponent
   `δ(L/K) := v_K(𝔩_{L/K})`; prove `δ(L/K) = f(L/K) d(L/K)`. Both exponents and both ideals are
   invariant under a `K`-algebra isomorphism of finite separable extensions, with transport along
-  the induced integer-ring equivalence. This is the exact invariance consumed when #226 regroups
-  its mass formula by `K`-isomorphism classes. Prove: `𝔡_{L/K} = 𝒪[L]` if and only if `L/K` is
+  the induced integer-ring equivalence. Counting Totally Ramified Extensions consumes this
+  invariance when regrouping its mass formula by `K`-isomorphism classes. Prove: `𝔡_{L/K} = 𝒪[L]` if and only if `L/K` is
   unramified; for `L/K` Galois,
   `d(L/K) = ∑_{i≥0} (#(lowerRamificationGroup K L i) − 1)`; and generally
   `d(L/K) = e − 1` if and only if `L/K` is tamely ramified. Thus a wildly ramified extension has
@@ -1067,8 +1174,9 @@ pro-`p` quotient.
   product formula and tame criterion are closed proofs. `TauCeti.differentExponent` is defined for
   every compatible extension and its theorems assume `Algebra.IsSeparable K L`;
   `TauCeti.discriminantExponent` takes separability as an argument of the definition. The
-  invariance under `K`-isomorphism, the Hilbert formula, the mixed-characteristic upper bound and
-  the worked value remain.
+  invariance under `K`-isomorphism, the Hilbert formula and the wild bounds are supplied in
+  `Different/AlgEquiv.lean`, `Different/Hilbert.lean`, `Different/Wild.lean` and
+  `Discriminant/Basic.lean`; the corresponding declarations here are closed applications.
   - *Prerequisites:*
     - `Mathlib: differentIdeal`, `Mathlib/RingTheory/Trace/`;
     - `Layer 3: the lower-numbering filtration`;
@@ -1086,12 +1194,16 @@ pro-`p` quotient.
     - the value for `ℚ_2(√2)/ℚ_2`, which is `3`.
   - *Source:* Serre LF III §§3–6 for the different and the discriminant, and Serre LF IV §1 for
     the valuation formula, which needs `L/K` Galois.
+  - *Checks:*
+    - For `ℚ_2(√2)/ℚ_2`, `e = 2`, `f = 1`, and `d = δ = 3`, attaining the wild upper bound.
+    - For `ℚ_2(i)/ℚ_2`, `d = 2 = e`, attaining the wild lower bound.
+    - A finite unramified extension has `d = δ = 0`; changing its `K`-isomorphic model preserves
+      both exponents and transports the different and discriminant ideals.
 
 ### Consumer contract: Counting Totally Ramified Extensions
 
 The governing rule is that this roadmap owns the arithmetic of one finite extension of a
-nonarchimedean local field, while [Counting Totally Ramified Extensions
-#226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226) owns the construction and counting
+nonarchimedean local field, while Counting Totally Ramified Extensions owns the construction and counting
 of families of such extensions. The dependency is one-way:
 
 ```text
@@ -1103,7 +1215,7 @@ ramification, Eisenstein generators and integral monogenicity, the different and
 discriminant exponents, their invariance under `K`-algebra equivalence, and the valuation formula
 for an Eisenstein power basis.
 
-#226 consumes those declarations. It owns the family `σ_K(n)`, `totallyRamifiedOfDegree`,
+Counting Totally Ramified Extensions consumes those declarations. It owns the family `σ_K(n)`, `totallyRamifiedOfDegree`,
 `IsRepresentativeSet`, the mass-formula weight `wildExponent c(L) = d(L) - n + 1`, quantitative
 Newton and root-counting arguments, local constancy of root counts, the coefficient space and
 Eisenstein region, nonarchimedean lattice-index and Haar-scaling formulas, finiteness and
@@ -1117,9 +1229,9 @@ wrapper must install this roadmap's `finiteIntermediateField*` structures and ca
 theorem with the canonical invariant below. A wrapper must not contain an independent definition
 of the ramification index, total-ramification predicate, different, discriminant ideal, or
 discriminant exponent. This permits harmless family-level totalization without making this
-roadmap a counting roadmap or introducing a dependency on #226.
+roadmap a counting roadmap or introducing a dependency on Counting Totally Ramified Extensions.
 
-| Consumer need in #226 | Owner/export in this roadmap |
+| Consumer need in Counting Totally Ramified Extensions | Owner/export in this roadmap |
 |---|---|
 | local structure on a finite intermediate field | `finiteIntermediateFieldNormedField`, `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_valuativeExtension`, `finiteIntermediateField_isValuativeTopology`, `finiteIntermediateField_isNonarchimedeanLocalField` |
 | ramification index | `ramificationIndex` |
@@ -1142,7 +1254,7 @@ Two results needed by the mass formula remain owned here:
 
 The counting roadmap owns only their family-level consequences: invariance of `wildExponent`,
 coordinate-box and coordinate-cube descriptions, volume computations, and the resulting
-integrals. #226 itself must be updated separately to install this adapter contract and replace its
+integrals. Counting Totally Ramified Extensions installs this adapter contract and replaces its
 temporary arithmetic declarations with the canonical exports above.
 
 ### Layer 3a: ramification over complete discretely valued fields
@@ -1390,13 +1502,23 @@ group `H`, the norm is a surjective proalgebraic morphism `U_E → U_F`. Put `V 
 `H/[H,H] ≅ π₀(V)`, sending `σ` to the component of `σ(π_E)/π_E`, independently of `π_E`.
 Sources: Serre 1961, §1, n° 1.1–1.6, printed pp. 106–113, and §2, n° 2.1–2.3, especially
 Propositions 2–3 and their corollaries, printed pp. 118–120. This target includes the
-quasialgebraic and proalgebraic group and component-group theory used by those statements.
+specialized quasialgebraic and proalgebraic group and component-group theory used by those
+statements. Use ReductiveGroups Layer 3 for finite-type closed subgroups, normal quotients and
+identity components; SchemeAndStackFoundations §0.24 for perfection in characteristic `p`; and
+AdicSpacesPartII §R0.19.9 for the generic pro-category and its limit–colimit Hom formula.
+Identify perfect quasialgebraic groups with the perfections of the relevant smooth finite-type
+groups, and realize the proalgebraic unit groups as pro-objects in that category. The
+finite-stage subgroup, quotient and component constructions must agree with the supplied
+ones, and the principal-unit filtration must agree with the kernels of the truncation maps.
+The exactness and inverse-limit assertions for components above belong to this specialized
+package. These comparisons do not require geometric reciprocity.
 PadicPeriodRings uses these unit groups for its geometric reciprocity construction; its
 finite-isogeny fundamental group, reciprocity map and Sen tower estimates belong there.
 
 **Checks.**
 
-- For `E = F`, `V = 1` and `π₀(V) = 1`.
+- For `E = F`, `V = 1` and `π₀(V) = 1`; the constant pro-object has the supplied finite-type
+  component group, and the identity perfection comparison is the identity.
 - For `F = κ((t))`, `U_F/U_F¹ ≅ κˣ` and `U_Fⁿ/U_F^(n+1) ≅ (κ,+)` for `n ≥ 1` are connected,
   although a norm kernel can be disconnected.
 - In characteristic `p`, for `E/F` given by `y^p − y = t⁻¹`, `π₀(V) ≅ C_p`: connectedness of
@@ -1462,10 +1584,10 @@ and its irreducibility criterion, and adic completion of a Noetherian local ring
 
 ### Layer 4: the tame quotient of the absolute Galois group
 
-**Suppliers.** For the group theory of this layer, `Suggested.lean` imports
-`TauCetiRoadmap.ProfiniteProPGroups.Suggested` and Tau Ceti's
-`TauCeti.Topology.Algebra.Group.Profinite.Presentation` and
-`TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic` directly. No supplied group-theoretic
+**Suppliers.** For the group theory of this layer, `Suggested.lean` imports Tau Ceti's
+profinite Sylow, presentation and profinite-integer modules directly. These implement the
+ProfiniteProPGroups contract; its roadmap-facing predicates are reducible aliases of the same
+`TauCeti.IsProP` and `TauCeti.IsProPSylow`. No supplied group-theoretic
 declaration is restated: there is no `Supplied.*` alias and no private replacement carrier for the
 pro-`p`, Sylow, free-group or presentation API. For the Galois theory of the finite levels it uses
 Mathlib's `FiniteGaloisIntermediateField` and `AlgEquiv.restrictNormalHom`, and Tau Ceti's Galois
@@ -1474,21 +1596,21 @@ correspondence for normal extensions, `TauCeti.fixingSubgroup_fixedField`
 every characteristic.
 
 The dependency is **type-checked, not promised**. Layer 1's `unitFiltration_one_isProP` is stated
-against `ProfiniteProPGroups.IsProP` — the same statement as the inverse-limit description, not a
+against `TauCeti.IsProP` — the same statement as the inverse-limit description, not a
 rephrasing of it — and Layer 4 consumes its suppliers with **closed** proofs: the uniqueness of
 wild inertia as the pro-`p` Sylow subgroup of inertia is
-`ProfiniteProPGroups.IsProPSylow.eq_of_normal` applied, and the uniqueness of the marked Iwasawa
+`TauCeti.IsProPSylow.eq_of_normal` applied, and the uniqueness of the marked Iwasawa
 presentation and of its coordinate is `TauCeti.presentedProfiniteGroup.hom_ext_of` applied. A
 rename, a carrier change or a changed hypothesis in a supplier breaks this build rather than being
 absorbed silently.
 
-**Contract audit.** The group-theoretic and Galois-theoretic declarations this roadmap consumes are
-exactly these, and no others:
+**Contract audit.** The group-theoretic and Galois-theoretic declarations this roadmap consumes
+include the following canonical interfaces:
 
 | Used in | Declaration |
 | --- | --- |
-| Layer 1, and inside `IsProPSylow` | `ProfiniteProPGroups.IsProP` |
-| Layer 4, wild inertia | `ProfiniteProPGroups.exists_isProPSylow`, `ProfiniteProPGroups.IsProP.exists_le_isProPSylow`, `ProfiniteProPGroups.IsProPSylow.eq_of_normal`, `ProfiniteProPGroups.IsProPSylow.map_of_surjective` |
+| Layer 1, and inside `IsProPSylow` | `TauCeti.IsProP` |
+| Layer 4, wild inertia | `TauCeti.exists_isProPSylow`, `TauCeti.IsProP.exists_le_isProPSylow`, `TauCeti.IsProPSylow.eq_of_normal`, `TauCeti.IsProPSylow.map_of_surjective` |
 | Layer 4, the Iwasawa presentation | `TauCeti.freeProfiniteGroup` with `of` and `lift`; `TauCeti.presentedProfiniteGroup` with `of`, `lift`, `hom_ext_of` and `congr` |
 | Layers 2 and 4, the unramified coordinate | `TauCeti.zHat` and `TauCeti.zHat.gen` |
 | Layer 4, the finite levels, wild inertia and `K^t` | Mathlib's `FiniteGaloisIntermediateField`, `AlgEquiv.restrictNormalHom` and `InfiniteGalois.restrictNormalHom_continuous`; Tau Ceti's `TauCeti.fixingSubgroup_fixedField` and `IntermediateField.fixingSubgroup_inf_separableClosure` |
@@ -1539,7 +1661,7 @@ used by no milestone here.
   by `TauCeti.quotientInertiaSubgroupEquiv`. The arithmetic Frobenius lifts are the `σ` with
   `TauCeti.IsArithFrobeniusLift K σ`, that is, restricting to `TauCeti.maximalUnramifiedFrobenius`:
   they exist (`TauCeti.exists_isArithFrobeniusLift`), they form a left coset of `I_K`
-  (`TauCeti.IsArithFrobeniusLift.setOf_eq_leftCoset`), and each of them generates `G_K`
+  (the coset description for arithmetic Frobenius lifts), and each of them generates `G_K`
   topologically together with `I_K`
   (`TauCeti.IsArithFrobeniusLift.topologicalClosure_zpowers_sup_inertiaSubgroup`). Every
   statement below about Frobenius lifts is made against `TauCeti.IsArithFrobeniusLift`.
@@ -1553,16 +1675,21 @@ used by no milestone here.
 - **Wild inertia.** Define wild inertia `P_K` (`wildInertia`) as the inverse limit of the
   finite-level `G_1`: the elements of `G_K` whose restriction to every finite Galois subextension
   `L` lies in `G_1(L/K)`, that is, in `finiteGaloisLowerRamificationGroup K L 1`. The
-  characterizing statement is `mem_wildInertia_iff`, a closed proof. `P_K` is a closed normal
-  subgroup of `G_K` (`wildInertia_isClosed`, `wildInertia_normal`), by closed proofs: restriction is
+  characterizing statement is `mem_wildInertia_iff`. The subgroup `wildInertia` is a reducible
+  alias of `TauCeti.wildInertiaSubgroup`, and its finite-level characterization adapts the
+  canonical normal-subextension characterization to finite Galois intermediate fields. `P_K` is a closed normal
+  subgroup of `G_K` (`wildInertia_isClosed`, `wildInertia_normal`), by the native closedness
+  and normality theorems: restriction is
   continuous into each finite discrete `Gal(L/K)`, and each `G_1(L/K)` is normal. Closedness is
   what makes the tame quotient `G_K/P_K` Hausdorff, hence profinite. Define the maximal tamely
   ramified extension `K^{t}` (`maximalTame`) as the separable part of the fixed field of `P_K`,
-  that is, the fixed field intersected with `separableClosure K K^{al}`. ⚠ The intersection is part
+  that is, the fixed field intersected with `separableClosure K K^{al}`. This is the
+  characterization of the canonical `TauCeti.maximalTameExtension`, of which `maximalTame`
+  is a reducible alias. ⚠ The intersection is part
   of the definition: in characteristic `p` the fixed field of every subgroup of `G_K` contains the
   purely inseparable closure of `K`, while `K^{t}` is separable over `K`. Then
-  `P_K = Gal(K^{al}/K^{t})` (`fixingSubgroup_maximalTame`) is a closed proof from closedness,
-  `TauCeti.fixingSubgroup_fixedField` and `IntermediateField.fixingSubgroup_inf_separableClosure`.
+  `P_K = Gal(K^{al}/K^{t})` (`fixingSubgroup_maximalTame`) is the canonical fixing-subgroup
+  characterization.
   Prove that the image of `P_K` in each `Gal(L/K)` is all of
   `G_1(L/K)` (`map_restrictNormalHom_wildInertia`): restriction maps `G_0` onto `G_0` and `G_1` is
   the unique `p`-Sylow subgroup of `G_0`, and compactness passes to the limit. Prove that a finite
@@ -1584,10 +1711,10 @@ used by no milestone here.
     - Tau Ceti: `TauCeti.fixingSubgroup_fixedField`,
       `IntermediateField.fixingSubgroup_inf_separableClosure`;
     - **Profinite and Pro-`p` Groups**:
-      `ProfiniteProPGroups.exists_isProPSylow`,
-      `ProfiniteProPGroups.IsProP.exists_le_isProPSylow`,
-      `ProfiniteProPGroups.IsProPSylow.eq_of_normal`, and
-      `ProfiniteProPGroups.IsProPSylow.map_of_surjective`.
+      `TauCeti.exists_isProPSylow`,
+      `TauCeti.IsProP.exists_le_isProPSylow`,
+      `TauCeti.IsProPSylow.eq_of_normal`, and
+      `TauCeti.IsProPSylow.map_of_surjective`.
   - *API:*
     - the subgroup `P_K` with `mem_wildInertia_iff`, and the field `K^{t}`;
     - closedness, `wildInertia_isClosed`, and normality, `wildInertia_normal`;
@@ -1597,7 +1724,14 @@ used by no milestone here.
       (`map_restrictNormalHom_wildInertia`);
     - `wildInertia_le_inertia`;
     - the pro-`p` property;
-    - the Sylow identification.
+    - the Sylow identification and its uniqueness consequence `wildInertia_eq_of_isProPSylow`.
+  - *Source:* Serre LF IV §2; Tau Ceti `WildInertia.lean`.
+  - *Checks:*
+    - At a finite unramified level the images of both inertia and wild inertia are trivial.
+    - At a totally ramified tame level the wild image is trivial while the inertia image has
+      order `e`; the two canonical subgroups must not be identified.
+    - At `ℚ_2(√2)/ℚ_2`, the wild image is the whole cyclic group of order `2`.
+
 - **The tame character and the twist.** Prove `I_K/P_K ≅ lim_{p∤m} μ_m(Kˢ) = Ẑ^{(p')}(1)`, by
   `σ ↦ (σ(π^{1/m})/π^{1/m})_m`, and independence of the choices. ⚠ The notation `Ẑ^{(p')}(1)` is
   *defined* here, as the prime-to-`p` Tate module of `μ`. As a profinite group it is
@@ -1609,7 +1743,14 @@ used by no milestone here.
   These two statements determine the conjugation action of all of `G_K` on `I_K/P_K`, because a
   Frobenius lift and `I_K` generate `G_K` topologically; the action is not restated with a
   profinite exponent. The finite-level form of the twist is `tameCharacter_conj_of_smul_eq_pow` of
-  Layer 3.
+  Layer 3. The canonical map is `inertiaTameCharacter`, a reducible alias of
+  `TauCeti.inertiaTameCharacter`, with values in `TauCeti.PrimeToPTateModule`.
+  Its component formula is `coe_proj_inertiaTameCharacter_apply`; the induced topological
+  isomorphism is `quotientWildInertiaSubgroupEquiv`. These are supplied by
+  `TauCeti/NumberTheory/LocalField/Tame/Character.lean`. The product-coordinate existence theorem
+  `tameInertiaEquiv`, indexed by `PrimesAway p`, follows after choosing compatible generators
+  of prime-power roots of unity; these coordinates are not part of the choice-independent
+  character.
   - *Prerequisites:*
     - `Layer 4: wild inertia`;
     - `Layer 4: inertia`, for the Frobenius lifts;
@@ -1623,23 +1764,35 @@ used by no milestone here.
     - `tameInertia` and `tameInertia_isMulCommutative`;
     - the intrinsic twist, `tameQuotient_mk_conj_of_isArithFrobeniusLift`;
     - the specialization at one prime `ℓ ≠ p`.
+  - *Source:* Serre LF IV §2; NSW (7.5.2); Tau Ceti `Tame/Character.lean`.
+  - *Checks:*
+    - Replacing a uniformizer by a unit times that uniformizer leaves the character
+      unchanged, because the prime-to-`p` Kummer characters of units vanish.
+    - Two `m`-th roots differ by an `m`-th root of unity fixed by inertia, so both give
+      the same component `σ(α)/α`.
+    - For `K = ℚ_2`, the level-`3` character is sent to its square by arithmetic
+      Frobenius; a choice of product coordinates does not change this intrinsic twist.
+
 - **The Iwasawa presentation.** Prove that tame inertia is procyclic, topologically generated by
   the class of an element of inertia: `exists_topologicalClosure_zpowers_eq_tameInertia` gives a
   `τ` together with `τ ∈ I_K` and the equality of the closed subgroup generated by its class with
   `I_K/P_K`. The membership is part of that theorem. It holds because `I_K/P_K` is the image of
   `I_K`, so a generator has a lift in `I_K`, and two lifts of one class differ by an element of
   `P_K ≤ I_K` (`wildInertia_le_inertia`). No canonical `τ` is intended. For an arithmetic
-  Frobenius lift `σ` and such a `τ`, construct the topological isomorphism
+  Frobenius lift `σ` and an element `τ : inertia K`, with
+  `hτ : (Subgroup.zpowers (inertiaTameCharacter K τ)).topologicalClosure = ⊤`, the canonical
+  `TauCeti.tameQuotientEquiv` gives the topological isomorphism
   `tameQuotientEquiv K σ τ hσ hτ` from `G_K/P_K` onto
-  `IwasawaGroup K = presentedProfiniteGroup (Fin 2) {σ τ σ⁻¹ τ^{−q}} = ⟨σ, τ | σ τ σ⁻¹ = τ^q⟩`,
+  `IwasawaGroup K = presentedProfiniteGroup (ULift (Fin 2)) {σ τ σ⁻¹ τ^{−q}}`,
+  the profinite presentation `⟨σ, τ | σ τ σ⁻¹ = τ^q⟩`,
   **marked** by its values `σ̄ ↦ of 0` and `τ̄ ↦ of 1`. These two values determine it, because the
   generators generate the presented group topologically
   (`TauCeti.presentedProfiniteGroup.hom_ext_of`, applied to the inverse), so it involves no choice
   beyond `σ` and `τ`. The coordinate `iwasawaCoordinate : IwasawaGroup K → Ẑ`, `of 0 ↦ zHat.gen`,
-  `of 1 ↦ 1`, is built on the presentation: `freeIwasawaCoordinate` is the continuous
-  homomorphism of the free profinite group with these values (`TauCeti.freeProfiniteGroup.lift`),
-  it kills the relator because `gen · 1 · gen⁻¹ · 1^{−q} = 1`, and
-  `TauCeti.presentedProfiniteGroup.lift` descends it. Its kernel is `⟨⟨of 1⟩⟩`, the closed normal
+  `of 1 ↦ 1`, is the reducible alias of `TauCeti.iwasawaCoordinate`, with the matching
+  universe for `TauCeti.zHat`. The coordinate descends from the free profinite group because
+  `gen · 1 · gen⁻¹ · 1^{−q} = 1`. The uniqueness statements are `iwasawaCoordinate_unique` and
+  `tameQuotientEquiv_unique`. Its kernel is `⟨⟨of 1⟩⟩`, the closed normal
   closure of `of 1`. This is a statement about the presented group alone, proved in its finite
   quotients: an element outside `⟨⟨of 1⟩⟩` survives modulo some open normal subgroup containing
   `of 1`, and there, with a quotient of order `m`, the quotient map is the reduction of the
@@ -1673,7 +1826,7 @@ used by no milestone here.
     - `iwasawaRelator`, `IwasawaGroup` and its marked generators `iwasawaSigma`, `iwasawaTau`;
     - `tameQuotientEquiv` with its two computation rules;
     - the two choice-free consequences;
-    - `freeIwasawaCoordinate` and `iwasawaCoordinate`, the values and kernel of the latter, and
+    - `iwasawaCoordinate`, its values and kernel, and
       its comparison with the unramified coordinate;
     - `tameQuotientPresentation`.
   - *Source:* NSW (7.5.2) and (7.5.3), after Iwasawa. The hypotheses are that `K` is a
@@ -1682,6 +1835,15 @@ used by no milestone here.
     **Local Galois Groups** export `LocalGaloisGroups.rank_absoluteGaloisGroup` computes its rank
     as `[K:ℚ_p] + 2`. This roadmap makes no full-group rank claim in equal characteristic; a
     characteristic-`p` analogue requires a separately stated theorem and hypotheses.
+  - *Implementation:* the relator, presentation, coordinate, marked equivalence and all their
+    displayed computation rules are reducible aliases or closed applications from Tau Ceti's
+    `Tame/Presentation.lean`. The geometric translation uses `Tame/Geometric.lean` in the same way.
+  - *Checks:*
+    - The Frobenius and tame generators have coordinate values `zHat.gen` and `1`, respectively.
+    - Changing the Frobenius lift multiplies its class by tame inertia and leaves its coordinate
+      unchanged; both lifts land in the marked Frobenius coset.
+    - The geometric generator has coordinate `zHat.gen⁻¹`, distinguishing the two markings of
+      the same unmarked presentation.
 - **Translation lemmas.** Define the geometric relator `σ⁻¹ τ σ τ^{−q}` (`iwasawaRelatorGeometric`)
   and the isomorphism of presented groups `σ ↦ σ⁻¹`, `τ ↦ τ` (`iwasawaGeometricEquiv`), built by
   `TauCeti.presentedProfiniteGroup.congr` from the involution of the free profinite group that
@@ -1804,7 +1966,9 @@ residue degree and the full Galois group of `L/K` are not preserved.
 
 This section owns the completed field and its valuation and residue-field properties on the
 general perfect-residue domain. ReductiveGroupsPartII §RG2.0.4 uses the finite-residue
-specialization through its adapter `MaxUnramifiedCompletion.Breve`; it owns the extended
+specialization through its finite-residue adapter MaxUnramifiedCompletion.Breve. That adapter
+identifies the field maps, valuation and uniformity, residue-field algebraic closure and
+preserved uniformizers with this construction. ReductiveGroupsPartII owns the extended
 arithmetic Frobenius and its fixed-field results on that domain.
 
 (Olivier Brinon and Brian Conrad, [CMI summer school notes on p-adic Hodge
@@ -1841,7 +2005,20 @@ handled through a Galois closure, and the absolute statement is the limit over `
 
 The acceptance suite includes `ℚ_2`, its unramified quadratic extension, the totally ramified
 quadratic extension generated by `√2`, and the dyadic cyclotomic tower generated by `μ_8`.
-These examples must exercise normalization, norm groups, lower and upper numbering, and the
+The named theorem targets in `Suggested.lean` include the following finite-field controls;
+their sources and hypotheses are those of Layers 1–3.
+
+| Target | Mathematical control |
+| --- | --- |
+| `card_squareClasses_padic_two` | `ℚ_2` has eight square classes. |
+| `padicUnit_square_of_eight_dvd_sub_one` | Every `2`-adic unit congruent to `1` modulo `8` is a square. |
+| `unramifiedQuadratic_finrank` | Adjoining the cube roots of unity to `ℚ_2` has degree `2`. |
+| `unramifiedQuadratic_unit_norm` | Every `2`-adic unit is represented by `x² − 5y²` over `ℤ_2`. |
+| `two_not_norm_unramifiedQuadratic` | The equation `x² − 5y² = 2` has no solution over `ℚ_2`. |
+| `ramifiedQuadratic_finrank` | Adjoining the square roots of `2` to `ℚ_2` has degree `2`. |
+| `dyadicCyclotomic_finrank` | Adjoining the eighth roots of unity to `ℚ_2` has degree `4`. |
+
+These controls exercise normalization, norm groups, lower and upper numbering, and the
 tame quotient; they are regression tests for conventions rather than substitutes for the
 generic theorems. Layers 3a and 4a add two fields with infinite residue field `F̄_p`: the
 Artin–Schreier extension `y^p − y = t⁻¹` of `F̄_p((t))`, with its break at `1` and different
@@ -1851,8 +2028,8 @@ exponent `2(p − 1)`, and the tame extension `Frac W(F̄_p)(ζ_p)` of `Frac W(F
 
 The external abstract dependency order is **[Continuous Cohomology of Profinite
 Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
-Groups](../ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
-roadmap**. Within this roadmap the intended order is
+Groups](../ProfiniteProPGroups/README.md), consumed through Tau Ceti's native predicates and
+Sylow theorems → this roadmap**. Within this roadmap the intended order is
 Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 3a → Layer 4 → Layer 4a. Later work may proceed
 against explicit hypotheses, but the accepted exports use the canonical objects produced by the
 preceding layers.
@@ -1906,16 +2083,13 @@ Located by exercise or lemma number and printed page.
 ## Existing implementation audit: `LRubia/LeanBridge`
 
 The directory
-[`LeanBridge/PadicField`](https://github.com/LRubia/LeanBridge/tree/22c093c1c5de577acebe74cf76bb33d7d2734a6c/LeanBridge/PadicField)
+[LeanBridge/PadicField](https://github.com/LRubia/LeanBridge)
 was audited at revision `22c093c1c5de577acebe74cf76bb33d7d2734a6c`. At that revision the
 repository is Apache-2.0 and the six files `Basic.lean`, `Ramification.lean`,
 `Monogenicity.lean`, `TraceFiltration.lean`, `DiffExp.lean`, and `Test.lean` are sorry-free.
 
-Contact status: this PR records no maintainer-contact outcome concerning reuse. Adaptation status:
-this roadmap PR copies no LeanBridge implementation; it records the overlap so an implementer can
-contact the maintainers, decide what to adapt, and record that decision before porting code.
-Apache-2.0 permits reuse subject to its notice requirements, but the eventual implementation must
-still preserve attribution and document any modifications.
+Porting proofs requires coordination with the authors and preservation of the Apache-2.0
+notices and attribution. The mathematical targets use the canonical valuative carriers below.
 
 The declaration-level overlap is:
 
@@ -1923,7 +2097,7 @@ The declaration-level overlap is:
 |---|---|
 | `PadicField.ringOfIntegers`, `PadicField.valuation`, `valuation_le_one_iff_isIntegral`, `ringEquiv_valuation_integer`, and the `ValuativeRel`, `IsValuativeTopology`, and `IsNonarchimedeanLocalField` instances | Adapt the proofs to the roadmap's `ValuativeRel`, `ValuativeExtension`, `𝒪[K]`, and `IsNonarchimedeanLocalField` carriers. The bespoke `PadicField` class is not exported. |
 | `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `PadicField.Extension.absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Tau Ceti implements these destinations on the valuative carriers (`TauCeti.ramificationIndex`, `TauCeti.absoluteRamificationIndex`, `TauCeti.inertiaDegree`, their tower laws, `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.map_maximalIdeal_eq_maximalIdeal_pow`); nothing is ported. |
-| `mono_exists_primitive` and its supporting Newton-lift declarations | Adapt to `exists_integerRing_adjoin_eq_top` on `𝒪[K] → 𝒪[L]`; do not expose the generic helper namespace as a second local-field API. |
+| `mono_exists_primitive` and its supporting Newton-lift declarations | Tau Ceti supplies monogenicity in `Monogenic.lean`; `exists_integerRing_adjoin_eq_top` on `𝒪[K] → 𝒪[L]` is a closed application. No LeanBridge proof or second local-field API is needed. |
 | `TraceFiltration.intTrace_residue_scaling` | Reuse or adapt as the residue-trace input to tame/wild different bounds, behind the public different theorems. |
 | `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `PadicField.Extension.differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md). |
 
