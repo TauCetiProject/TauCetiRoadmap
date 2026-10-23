@@ -34,9 +34,11 @@ comparisons (Layer 5), and independence, closed-point specialization and strict 
 cohomological and Weil–Deligne realizations. The elliptic Tate representation alone does not
 supply these general carriers. The excellent-DVR hypothesis in the good-reduction isogeny
 theorem also has no predicate at the pins; existence of a good model itself is expressible as
-in `EquationGoodComparison`. The period comparisons require the shared crystalline and
-semistable period functors and the filtered Raynaud realization. The connected-model Kummer,
-localization, isogeny-defect and cotangent theorems of §§6.4a–6.4d require the relative open
+in `EquationGoodComparison`. The period comparisons use the generic potentially semistable
+realization of NoncommutativeAndEquivariantIwasawa §F.6, its normalization transport and
+filtered-module identification in README §5.3, and the filtered Raynaud realization.
+The connected-model Kummer, localization, isogeny-defect and cotangent theorems of
+§§6.4a–6.4d require the relative open
 identity models, component sheaves and invariant cotangent modules. The remaining elliptic
 comparisons require the minimal regular model, its Kodaira configurations and its Néron
 identity fibre; the ordinary-surface and full-level curve consequences require the general
