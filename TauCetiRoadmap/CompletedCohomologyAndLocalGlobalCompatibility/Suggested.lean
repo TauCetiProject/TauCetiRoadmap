@@ -17,8 +17,15 @@ mathematical objects, whose construction is specified in the README:
   rational isomorphism and injectivity on the residual maximal-ideal socles.
 * The local correspondence and completion theorems of §§0.2–0.4 require the admissible
   integral and Banach representation categories, Colmez's correspondence, the Montréal
-  functor, Galois deformation rings and projective block envelopes. The Scholze finiteness
-  theorem of §0.6 requires the Lubin–Tate period torsor and its equivariant étale sheaves.
+  functor, Galois deformation rings and projective block envelopes. Sections 0.2–0.4
+  own the shared correspondence and comparison theorems; LocalGaloisDeformationRings
+  supplies the underlying block, Montréal and full Weil–Deligne type-ring objects.
+  The Scholze finiteness theorem of §0.6 requires the Lubin–Tate period torsor and its
+  equivariant étale sheaves.
+  The definite unitary input of §0.7 specializes the common forms carrier and weighted
+  Hecke adapter of AutomorphicFormsOnReductiveGroups §§7.4–7.5, with inverse coefficient
+  action and the stated monoid-extension and base-change hypotheses. Its arithmetic
+  unitary group, weight/type normalization and completed tower are also required.
 * The non-Eisenstein injectivity and regular-representation theorem of §1.4, classical
   comparison and density of §§2.1–2.2, Serre-weight theorem of §2.4 and homological and
   quaternionic comparisons of §§2.6–2.8 require the actual modular, Shimura-curve and
@@ -28,8 +35,10 @@ mathematical objects, whose construction is specified in the README:
   not supply them.
 * The Hecke-valued Galois, factorisation and crystalline-density theorems of §§3.2–3.6
   require the arithmetic completed Hecke algebras, their universal representations and
-  their classical loci. The Eisenstein comparison of §3.8 also requires determinant-fixed
-  pseudo-deformation rings and the quaternionic Hecke quotient.
+  their classical loci. Residual localization in §3.4 selects the closed residual-idempotent
+  summand with its inherited uniformizer-adic topology; it is distinct from ordinary
+  maximal-ideal module completion. The Eisenstein comparison of §3.8 also requires
+  determinant-fixed pseudo-deformation rings and the quaternionic Hecke quotient.
 * Emerton's refined, Banach, mod-p and homological local–global theorems (§§4.4–4.7)
   require those completed towers and local Langlands families, with their coadmissible
   tensor products. The definite quaternionic theorem (§4.9), Pan's block compatibility
