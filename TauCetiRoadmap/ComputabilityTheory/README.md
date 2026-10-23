@@ -688,9 +688,16 @@ $\Phi_{e,s}^{A_s}(x)\downarrow$ with output $y$ and use $u$, and no element
 enters at $s+1$ below or at the restraint $r(e,s)$ calculated at stage $s$, then
 $\Phi_{e,s+1}^{A_{s+1}}(x)\downarrow$ with the same output and use. This needs
 no hypothesis on $C$. Agreement at $x$ is preserved as well when, in addition,
-$C_{s+1}(x)=C_s(x)$. Keep the two hypotheses separate in the interval versions:
-preserving a computation needs only the absence of injury, while preserving its
-agreement with $C$ also needs the relevant target bits to stay unchanged.
+$C_{s+1}(x)=C_s(x)$. To iterate preservation across an interval, require that
+the live restraint continues to cover the recorded use, as in L6.3, or prove
+that coverage from the construction's invariants. Absence of injury is not
+enough: a change in $C$ at a smaller argument can shorten the agreement length
+and release the protection. For example, let $\Phi_e(0)=0$ without queries and
+$\Phi_e^X(1)=X(1)$, with $A$ and $C$ empty. The restraint covers position $1$
+until $0$ enters $C$; it then drops to $0$, and $1$ can enter $A$ without
+injury, changing the computation at $1$ although $C(1)$ never changed.
+Preserving agreement additionally requires the target bit at the argument to
+remain unchanged.
 
 On an injury-free interval, prove the simultaneous preservation equations of
 the Remark in [S, VII.3, p.122], the stable-disagreement alternative, and the
