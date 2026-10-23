@@ -72,8 +72,9 @@ Tannakian reconstruction from a Hopf algebra (`TauCeti.FGComoduleCat`,
 representations, the genus, Riemann–Roch spaces and Weil differentials of function fields, the
 trace on short exact sequences (`LinearMap.trace_eq_add_of_exact`) and point counts and Frobenius
 traces of elliptic curves over finite fields (`WeierstrassCurve.frobeniusTrace`).
-Recognition of an abstract neutral Tannakian category (as opposed to
-reconstruction from a given Hopf algebra) is in neither library and is a target here ([§RD.6.64](#rd-6-64)).
+Recognition of an abstract neutral Tannakian category is supplied by
+MotivesAndAlgebraicCycles §§6.1–6.3. Its application adapter here identifies the reconstructed
+category with Tau Ceti's finite comodules and preserves the specified fibre functor ([§RD.6.64](#rd-6-64)).
 
 **What it takes from TauCetiRoadmap.** AdicSpaces for the analytic vocabulary; AlgebraicCurves
 Layer 9 for the comparison of Kähler and Weil differentials with residues; EllipticCurves Layer 3
@@ -90,6 +91,10 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
 ([§RD.7.7](#rd-7-7) and [§RD.7.8](#rd-7-8)).
 
 **What it takes from other roadmaps.** All of the following are roadmaps built before this one.
+- MotivesAndAlgebraicCycles §§6.1–6.3: neutral Tannaka reconstruction over any field,
+ the marked symmetric monoidal fibre comparison and the tensor-generator finite-type criterion.
+ [§RD.6.64](#rd-6-64) applies these results on Tau Ceti's finite-comodule carrier; the isocrystal
+ categories and their monodromy groups are the applications here.
 - AdicSpacesPartIV: dagger algebras, weak completions, Monsky–Washnitzer algebras, dagger spaces
  and their de Rham complexes (Layer F1); AdicSpacesPartII R0 supplies affinoid geometry;
  AdicSpacesPartIII R2.3–R2.4 supplies Raynaud generic fibres, tubes and specialisation, and
@@ -13929,22 +13934,24 @@ The API:
 **Theorem.** Let `K` be a field in a fixed universe, `(C, ⊗)` an essentially small K-linear rigid abelian symmetric monoidal category in that universe with `End(1) = K`, and `ω : C → Vec_K` an exact faithful K-linear symmetric monoidal functor (a fibre functor; `(C, ω)` is a neutral Tannakian category). Then (a) the functor on commutative K-algebras `S ↦ Aut^⊗(ω ⊗ S)` is represented by an affine group scheme `G = Spec(B)` over `K`; (b) `ω` lifts to an equivalence of symmetric monoidal categories `C ≃ Rep_K(G)` compatible with the fibre functors, where `Rep_K(G)` is the category of finite-dimensional comodules over `B` (Tau Ceti's FGComoduleCat `K B`); (c) if `C` has a tensor generator `X` (every object is a subquotient of a finite sum of `X^{⊗a} ⊗ (X^∨)^{⊗b}`), then `G` is of finite type and `ω(X)` is a faithful representation, so `G` is a closed subgroup of `GL(ω(X))`.
 
 
-This recognition theorem is a foundational input to [§RD.5.112a](#rd-5-112a); its construction uses only the library inputs below and precedes that application independently of the layer numbering.
+This application adapter uses MotivesAndAlgebraicCycles §§6.1–6.3 for recognition and the
+tensor-generator criterion. It supplies the finite-comodule and fibre comparison used in
+[§RD.5.112a](#rd-5-112a), independently of the layer numbering.
 
 *Hypotheses.*
 
 - `K` any field; `C` essentially small in the coefficient universe, rigid abelian with `End(1) = K; ω` takes values in finite-dimensional vector spaces in that universe and is exact, faithful, K-linear and symmetric monoidal.
-- The pinned Tau Ceti library already has finite comodules over a coalgebra (Tau Ceti `TauCeti.FGComoduleCat`), their symmetric and rigid monoidal structure over a commutative Hopf algebra over a field (`TauCeti.FGComoduleCat.instSymmetricCategory`, `TauCeti.FGComoduleCat.instRigidCategory`) and Tannakian reconstruction (`TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`: the points of a commutative Hopf algebra over a field are the tensor automorphisms of scalar extension on its finite comodules, naturally in the algebra). Recognition, that an abstract neutral Tannakian category is such a comodule category, is in neither the library nor TauCetiRoadmap ReductiveGroups Layer 1, so it is a target here.
+- The pinned Tau Ceti library supplies finite comodules over a coalgebra (Tau Ceti `TauCeti.FGComoduleCat`), their symmetric and rigid monoidal structure over a commutative Hopf algebra over a field (`TauCeti.FGComoduleCat.instSymmetricCategory`, `TauCeti.FGComoduleCat.instRigidCategory`) and reconstruction from a given Hopf algebra (`TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`: its points are the tensor automorphisms of scalar extension on its finite comodules, naturally in the value algebra).
 
 *Proof sketch.*
 
-1. Construct the coalgebra `B =` colim over finite subcategories `⟨X⟩` of the duals of the finite-dimensional algebras `End(ω|⟨X⟩)`, without using `⊗: ω` identifies `⟨X⟩` with modules over `End(ω|⟨X⟩)`, hence with comodules over its dual (Deligne–Milne Lemma 2.13), and `C` with comodules over `B` (Proposition 2.14); finite-dimensional comodules are Tau Ceti's FGComoduleCat `K B`.
-2. The tensor structure makes `B` a commutative bialgebra (Deligne–Milne Proposition 2.16; commutativity from the symmetry); rigidity of `C` gives the antipode, so `G = Spec B` is an affine group scheme. Its points represent `Aut^⊗(ω ⊗ S)`: this is Tau Ceti's reconstruction TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor applied to the commutative Hopf algebra `B`, transported along `C ≃` FGComoduleCat `K B`.
-3. (c) is Deligne–Milne Proposition 2.20 (b): a tensor generator gives a finitely generated Hopf algebra, and the representation on `ω(X)` is faithful (Proposition 2.21 (b) for the closed-immersion criterion).
+1. Apply MotivesAndAlgebraicCycles §§6.1–6.2 to `(C, ω)`. Identify its finite right comodules over the supplied commutative Hopf algebra `B` with Tau Ceti's FGComoduleCat `K B`, preserving the symmetric tensor structure, duals and the marked fibre functor by a monoidal natural isomorphism.
+2. Transport Tau Ceti's reconstruction TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor along this equivalence. For every commutative K-algebra `S`, this identifies the points of `G = Spec B` with `Aut^⊗(ω ⊗ S)`, compatibly with scalar extension in `S` and with the supplied representation equivalence.
+3. Apply MotivesAndAlgebraicCycles §6.3 to the tensor generator `X`. The resulting representation on `ω(X)` gives the finite-type closed embedding in (c).
 
 *Sources.* Deligne–Milne, *Tannakian categories*, Theorem 2.11, p. 21, with Lemma 2.13 and Propositions 2.14 and 2.16, pp. 22-24, and Definition 2.19 and Propositions 2.20-2.21, p. 25.
 
-*Needs:* Tau Ceti `TauCeti.FGComoduleCat`; Tau Ceti `TauCeti.FGComoduleCat.instSymmetricCategory`; Tau Ceti `TauCeti.FGComoduleCat.instRigidCategory`; Tau Ceti `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`; Mathlib `CategoryTheory.MonoidalCategory`; Mathlib `CategoryTheory.RightRigidCategory`; Mathlib `FDRep`.
+*Needs:* MotivesAndAlgebraicCycles §§6.1–6.3 *Neutral reconstruction, generation and finite type*; Tau Ceti `TauCeti.FGComoduleCat`; Tau Ceti `TauCeti.FGComoduleCat.instSymmetricCategory`; Tau Ceti `TauCeti.FGComoduleCat.instRigidCategory`; Tau Ceti `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`; Mathlib `CategoryTheory.MonoidalCategory`; Mathlib `CategoryTheory.RightRigidCategory`; Mathlib `FDRep`.
 
 **Checks.**
 
@@ -14102,7 +14109,7 @@ The API:
 *Proof sketch.*
 
 1. `C_M` is a neutral Tannakian category over `K` with fibre functor `N ↦ N_x` (Hom spaces are finite-dimensional and commute with base extension).
-2. Tannaka reconstruction: the automorphism group scheme of the fibre functor and the equivalence with its representations require the missing neutral Tannakian recognition theorem of Layer RD.6 (Saavedra; Deligne–Milne), with the comodule dictionary of the Tau Ceti ReductiveGroups roadmap, Layer 1.
+2. Apply the adapter [§RD.6.64](#rd-6-64) to this category and fibre: MotivesAndAlgebraicCycles §§6.1–6.3 supplies recognition and the tensor-generator criterion, and the adapter preserves the marked fibre on Tau Ceti's finite-comodule carrier.
 3. Irreducible `N ∈ C_M` give irreducible representations `N_x`; absolute irreducibility requires `N` to remain irreducible after coefficient extension; `G_M` acts trivially on constant objects.
 4. `F` acts on `C_M` by `σ`-pullback, normalising `G_M`; this defines `W_n`.
 
@@ -14776,7 +14783,7 @@ For `k` factors, relative Künneth identifies the `k`-fold tensor power with deg
 
 ### Dependencies
 
-Earlier layers: RD.0, RD.1, RD.2, RD.3, RD.4, RD.5. Other roadmaps: AdicSpacesPartIII, AdicSpacesPartIV, ArithmeticGaloisRepresentations, ClassicalArithmeticCompletion, CompactOperators, DeligneWeightsAndPurity, EtaleCohomologyFoundations, InverseGaloisAndArithmeticFundamentalGroups, JacobianChallenge, LefschetzPencilsAndVanishingCycles, LocallyAnalyticDistributions, ReductiveGroups, ReductiveGroupsPartII, SchemeAndStackFoundations. Libraries: Mathlib and Tau Ceti.
+Earlier layers: RD.0, RD.1, RD.2, RD.3, RD.4, RD.5. Other roadmaps: AdicSpacesPartIII, AdicSpacesPartIV, ArithmeticGaloisRepresentations, ClassicalArithmeticCompletion, CompactOperators, DeligneWeightsAndPurity, EtaleCohomologyFoundations, InverseGaloisAndArithmeticFundamentalGroups, JacobianChallenge, LefschetzPencilsAndVanishingCycles, LocallyAnalyticDistributions, MotivesAndAlgebraicCycles, ReductiveGroups, ReductiveGroupsPartII, SchemeAndStackFoundations. Libraries: Mathlib and Tau Ceti.
 
 ## Layer RD.7: Coefficient comparisons and Weil factors
 
