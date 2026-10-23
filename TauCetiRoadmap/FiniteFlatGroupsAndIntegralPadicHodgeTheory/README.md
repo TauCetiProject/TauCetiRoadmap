@@ -171,7 +171,8 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   Sections R07.P2–R07.P5 import their finite-`K` specializations and supply the
   crystalline-to-de Rham implication. Section R07.P3 specializes the continuous sections,
   both period-sequence long exact sequences and `blochKatoExp` supplied by
-  PhiGammaModulesAndIwasawaCohomology §5.7 to the finite-flat realization interfaces.
+  NoncommutativeAndEquivariantIwasawa §F.6, *Period sequences and exponential*, to the
+  finite-flat realization interfaces.
   Section R07.P5a owns the integral coefficient predicates. Sections R07.P7.1–R07.P7.5 give finite-coefficient de Rham and
   Hodge–Tate adapters, labelled Sen theory, character criteria and lifting applications.
   Section R07.3.3a owns the general-ring filtered Frobenius carrier; §R07.3.4 specializes its
@@ -437,10 +438,10 @@ laws) with `FormalGroup.IsComm`.
   realization interfaces, §R07.P5 gives the crystalline-to-de Rham implication, and
   §R07.P5a owns integral coefficient predicates.
   Section R07.3.0 gives the finite-`K` arithmetic realization comparisons.
-- **PhiGammaModulesAndIwasawaCohomology.** Section 5.7, *The local exponential and the
-  all-level image condition*, supplies continuous nonequivariant sections of both fundamental
-  period sequences, their tensor-cochain long exact sequences and `blochKatoExp` for every
-  finite-dimensional continuous representation over a finite extension of `ℚ_p`.
+- **NoncommutativeAndEquivariantIwasawa.** Section F.6, *Period sequences and exponential*,
+  supplies continuous nonequivariant sections of the fundamental period sequence, its pullback
+  and its companion, their tensor-cochain long exact sequences and `blochKatoExp` for every
+  finite `K/ℚ_p`, finite coefficient field and finite-dimensional continuous representation of `G_K`.
   Section R07.P3 uses its `x−y` and `1−φ` conventions and identifies its boundaries with
   the finite-flat realization interfaces; no de Rham hypothesis is needed for these boundaries.
 - **ArithmeticGaloisDuality.** §R02.1.2 supplies continuous-cochain long exact sequences
@@ -1353,8 +1354,8 @@ crystalline carriers and period structure maps).
 
 ### R07.P3 Fundamental period sequences with continuous sections
 
-Consume PhiGammaModulesAndIwasawaCohomology §5.7, *The local exponential and the
-all-level image condition*: its continuous nonequivariant sections of the fundamental
+Consume NoncommutativeAndEquivariantIwasawa §F.6, *Period sequences and exponential*:
+its continuous nonequivariant sections of the fundamental
 sequence of PadicPeriodRings §4.3 and its pullback
 `0→ℚ_p→B_cris^(φ=1)⊕B_dR^+→B_dR→0`, and of the companion sequence
 `0→ℚ_p→B_cris⊕B_dR^+→B_cris⊕B_dR→0`.
@@ -1400,8 +1401,9 @@ Example 3.9, p. 359, for the rank-one boundary cases.)
 - For the nonzero finite flat group `μ_p`, its generic points tensor to zero over
   `ℤ_p` with `ℚ_p`; the rational boundary cannot define its integral crystalline predicate.
 
-*Needs:* PhiGammaModulesAndIwasawaCohomology §5.7 (`blochKatoExp`, continuous sections
-and both tensor-cochain long exact sequences); PadicPeriodRings §4.3 (underlying fundamental
+*Needs:* NoncommutativeAndEquivariantIwasawa §F.6, *Period sequences and exponential*
+(`blochKatoExp`, continuous sections and tensor-cochain long exact sequences);
+PadicPeriodRings §4.3 (underlying fundamental
 exact sequence); §§R07.P2 and R07.P5 (period and realization interfaces);
 §R07.1.8 (Tate modules and finite levels); §R07.1.24a (finite-flat model predicate);
 §R07.P5a (integral coefficient predicates over unramified bases).
