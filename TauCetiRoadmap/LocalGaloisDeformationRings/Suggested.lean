@@ -24,10 +24,11 @@ smooth representation classes, division-algebra types and deformation-cycle maps
 
 The period comparisons and type-quotient geometry of Layers 0 and 3 need coefficient
 period rings, filtered modules with descent, and potentially semistable representation
-predicates. The block-centre theorem (3.8) also needs the mod-p GL₂ block and Montréal
-functor. The finite-flat resolutions, Barsotti–Tate component comparisons and endpoint
-ring theorems of Layers 4–5 need coefficient Fontaine–Laffaille and Breuil–Kisin
-categories and their realizations and model schemes.
+predicates. The deformation comparisons with the imported block-centre and full-type
+rings (3.7.1–3.8) need the GL₂ block, Montréal functor and type-ring carriers supplied
+by PadicLocalLanglandsForGL2Qp. The finite-flat resolutions, Barsotti–Tate component
+comparisons and endpoint ring theorems of Layers 4–5 need coefficient Fontaine–Laffaille
+and Breuil–Kisin categories and their realizations and model schemes.
 
 The ordinary component and eigenvalue-ring theorems of Layer 6, its GL₃ shape and
 Serre-weight component labelling, and the comparison of determinant-ordinary and flag
