@@ -35,6 +35,8 @@ the period-ring maps and the embedded lattice, rather than merely their isomorph
 prerequisite direction is NoncommutativeAndEquivariantIwasawa → this roadmap; its §F.3 compact-cochain
 contract has the same direction. PadicHodgeTheory §§4.1 and 5.1 are downstream consumers of these common
 objects; their cyclotomic and differential presentations use the comparison maps specified here.
+In particular, PadicHodgeTheory §5.1 presents the common embedded differential lattice through
+`deRhamDiffEq_coreComparison`; its additional interpolation and monodromy results use that same lattice.
 
 The ordinary finite local Artinian coefficient category is the finite-dimensional coefficient specialization
 of §1.2; its Herr/Ext comparison is in §3.6. The localized Artinian construction of §3.9 additionally allows
@@ -200,8 +202,9 @@ twists, tensor and dual. Its monodromy and Weil–Deligne constructions use this
 ColemanPowerSeries §§1.45–1.49, “Trace and Frobenius scalars” through “The zeroth Frobenius coordinate is
 psi”, is a direct prerequisite of §2.5. It supplies the integral zeroth Frobenius coordinate `ψ` on
 `ℤ_p[[π]]`, its trace identity `pψ=φ⁻¹Tr` and
-trace divisibility before reduction, including `phiBasis_repr_zero_eq_psi`. Its integral trace comparison
-in §1.48 consumes IntegralIwasawaTheory §7.1: the supplier chain is IntegralIwasawaTheory →
+trace divisibility before reduction, with §1.49's comparison `c₀(F)=AbstractMeasure.psiSeries(F)`.
+Its integral trace comparison in §1.48 consumes IntegralIwasawaTheory §7.1: the supplier chain is
+IntegralIwasawaTheory →
 ColemanPowerSeries → this roadmap. PadicMeasuresIwasawaAlgebras §2.2 identifies this `ψ` with the
 measure operator and `ψ`-zero with support on units. Its §3a.1 supplies the universal character and
 weight-space components for `ℤ_p^×`, including `{±1}×(1+4ℤ₂)`, through PadicFunctionalAnalysis §§5.1–5.3.
@@ -513,7 +516,8 @@ coefficient change and finite-extension trace. On radius models these equations 
 and commute with further restriction and Frobenius generation. Sources: KL-I Theorems 9.5.4–9.5.6;
 CC-1998 Corollary III.5.2; the §F.6 contract. *Needs:* NoncommutativeAndEquivariantIwasawa §F.6; the
 norm-field and realization constructions above. Downstream, PadicHodgeTheory §4.1 uses this comparison
-for its cyclotomic presentation, including sums, tensor, duals and all Tate twists.
+for its cyclotomic presentation, including sums, tensor, duals and all Tate twists; its §5.1 uses the
+induced localized comparison and `deRhamDiffEq_coreComparison` of §5.6a for the differential lattice.
 
 **Checks.**
 
@@ -942,7 +946,8 @@ finite-free Frobenius expansion. On the positive `ℚ_p` ring it agrees with the
 rational rings prove `ψ=p⁻¹φ⁻¹Tr_{R/φ(R)}`; on integral rings first construct the coordinate map, prove
 `Tr=pφψ`, and only then reduce modulo `p^n`. Trace divisibility alone in characteristic `p` does not specify
 `ψ`. Sources: CC-1998 §III.2, pp.16–19; KPX §2.2, pp.16–18; ColemanPowerSeries §§1.45–1.49, especially
-`phiBasis_repr_zero_eq_psi`. *Needs:* ColemanPowerSeries §§1.45–1.49, with its integral trace from
+§1.49's zeroth-coordinate equality `c₀(F)=AbstractMeasure.psiSeries(F)`.
+*Needs:* ColemanPowerSeries §§1.45–1.49, with its integral trace from
 IntegralIwasawaTheory §7.1; §1.1 and §2.2.
 
 Prove continuity in the actual integral weak topology and each admissible annulus topology. In the standard
@@ -1954,8 +1959,9 @@ under `fieldRobbaCoreComparison`. The map is the restriction of the ambient loca
 It intertwines every sufficiently deep cyclotomic localization, ∂, φ and Γ, and is natural for field and
 coefficient change, twists, tensor and dual. The localization characterization and uniqueness force this
 comparison and its composition law; no choice of a horizontal basis is part of it. PadicHodgeTheory §5.1
-is a downstream specialization of this same embedded-lattice contract, with its `_localization` spelling
-corresponding to `deRhamDiffEq_localize`; its monodromy applications use that identification. Sources:
+transports this common embedded lattice through `deRhamDiffEq_coreComparison` for its differential
+presentation, with its `_localization` spelling corresponding to `deRhamDiffEq_localize`. Its additional
+interpolation and monodromy targets retain that embedding and localization adapter. Sources:
 Berger-diffeq Theorem 5.10 and its construction by cyclotomic localization; Berger-intro §IV.4.1 for arbitrary
 weights by twists; the §F.6 contract. *Needs:* NoncommutativeAndEquivariantIwasawa §F.6; §1.0's core
 comparison and the construction and uniqueness above.
@@ -2138,14 +2144,26 @@ Theorem 3.5 and proof, manuscript pp.10–12. Normalize the constant Frobenius m
 basis through the `ψ`-zero coordinate map, and use the small `Γ` operator estimates to prove generation and
 independence.
 
+Write `B_E^+=E⊗_{ℚ_p}(ℤ_p[[π]][1/p])` and let `B_rig,E^+` be the E-valued power series converging on
+the open unit disc, with their Fréchet topology. Construct the positive analytic Wach module
+`wachAnalyticModule V = N_Wach,rig^+(V) = B_rig,E^+⊗_(B_E^+)N(V)` with its induced period embedding,
+`Γ` action and localized Frobenius. Prove finite freeness of rank `dim_E V` and compatibility with finite
+coefficient extension. Here
+`φ*N_Wach,rig^+(V)` is the `B_rig,E^+`-span of its Frobenius image. The differential equation
+`N_dR(V)` of §5.6a is a module over the full Robba ring; §5.7 retains the notation `N_rig(V)` for it.
+Sources: LLZ-2011 §§1C1 and 1C4, pp.1100–1103, and Proposition 2.11, p.1115.
+
 For the prescribed rational crystalline-basis version `wachGoodBasis_exists`, define positivity by
 `Fil⁰D_cris(V)=D_cris(V)`. In the standing convention this means weights `0≤s_1≤⋯≤s_d`; LLZ-2011 §1.3.4
 and §2.1 label these by their negatives, `−s_d≤⋯≤−s_1≤0`. For any E-basis `ν_i` of `D_cris(V)`, choose
 an `E⊗B^+` basis `n_i` of `N(V)` lifting
-it such that `(1+π)φ(n_i)` form a `Λ_E(Γ)`-basis. After scalar extension the same vectors give a
-distribution-algebra basis of `(φ*N_rig(V))^{ψ=0}`. Sources: LLZ-2011 Proposition 2.11, Theorem 2.12 and
-Corollary 2.13, p.1115. Record separately the original twisted formulation in LLZ-2010 Lemma 3.15, manuscript
-pp.12–13: for a positive V with standing weights `0≤r_1≤⋯≤r_d`, source labels
+it such that `(1+π)φ(n_i)` form a `Λ_E(Γ)`-basis of `(φ*N(V))^{ψ=0}`. With `D(Γ,E)` the analytic
+distribution algebra of §4.0, prove the scalar-extension isomorphism `wachCoordinates_analytic`:
+`D(Γ,E)⊗_(Λ_E(Γ))(φ*N(V))^{ψ=0} ≅ (φ*N_Wach,rig^+(V))^{ψ=0}`, induced by `λ⊗x↦λ·x`.
+The same vectors are then a `D(Γ,E)`-basis of this positive analytic target. Sources: LLZ-2011
+Proposition 2.11, Theorem 2.12 and Corollary 2.13, p.1115. Record separately the original twisted
+formulation in LLZ-2010 Lemma 3.15, manuscript pp.12–13: for a positive V with standing weights
+`0≤r_1≤⋯≤r_d`, source labels
 `−r_d≤⋯≤−r_1≤0` and `m=Σr_i`, lifts `n_i` can be chosen so that
 `(1+π)φ(π^{−m}n_i⊗e_m)` form a basis of `(φ*N(V(m)))^{ψ=0}`. Those vectors belong to the twisted module; they
 are not identified with coordinates for `V`. The Tate twist has the same meaning in both conventions:
@@ -2162,7 +2180,16 @@ good; LLZ-2011 Remark 2.14, p.1116, records that stronger claim as conjectural. 
 **Checks.**
 
 - For the trivial rank-one lattice the standard coordinate vector `(1+π)φ(e)` is the unit-supported `ψ`-zero
-  generator.
+  generator. Its positive analytic module is `B_rig,E^+ e`, and the analytic coordinate map identifies
+  `D(Γ,E)e` with `(B_rig,E^+ e)^{ψ=0}` by the scalar Mellin transform.
+- For odd p and `V=E=ℚ_p`, one has `N_dR(E)=R_E`. Put `u=1/π−1/((1+π)^p−1)`. The root-sum identity
+  `Σ_{ζ^p=1}1/(ζ(1+π)−1)=p/((1+π)^p−1)` gives `ψ(1/π)=1/π`, so `ψ(u)=0`.
+  This u lies in the Robba ring on `p^(−1/(p−1))<|π|<1`, but its principal part at zero is
+  `(1−1/p)/π`; it does not lie in `B_rig,E^+`. The distribution span of `1+π` is the positive
+  `ψ`-zero space, so it cannot span the full Robba `ψ`-zero space.
+- For a finite `E′/E`, coefficient extension gives
+  `B_rig,E′^+⊗_(B_rig,E^+)N_Wach,rig^+(V) ≅ N_Wach,rig^+(E′⊗_E V)` and preserves the analytic coordinates.
+  Rank zero gives the zero positive module and the unique coordinate isomorphism between zero modules.
 - A scalar basis change `n′=bn` with constant `b∈O_E^×` changes the vector by `b` and its coordinate by `b⁻¹`.
 - A nonconstant `B` changes Frobenius vectors by `φ(B)`, not `B`; omitting `φ` gives a wrong coordinate
   matrix.

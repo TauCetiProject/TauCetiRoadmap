@@ -32,7 +32,10 @@ The other headline results require constructions absent at the pins:
   the Robba-type Γ annuli. The all-level exponential-image theorem needs de Rham
   differential lattices, cyclotomic localization and the Bloch–Kato exponential.
 * Layer 6's Wach existence, good-basis and Iwasawa-interface theorems need the
-  embedded Wach lattices and their filtered crystalline reduction.
+  embedded Wach lattices, their filtered crystalline reduction and the positive
+  analytic scalar extension `wachAnalyticModule V = B_rig,E^+ ⊗_(B_E^+) N(V)`.
+  The analytic coordinate theorem uses this carrier; Layer 5's `deRhamDiffEq V`
+  is the differential equation over the full Robba ring.
 * Layer 7's rank-one family classification and global triangulation theorems need
   the relative Robba sheaves, character spaces, Sen modules, analytic Fitting
   modifications and coherent flags, including their saturated fiber constructions.
