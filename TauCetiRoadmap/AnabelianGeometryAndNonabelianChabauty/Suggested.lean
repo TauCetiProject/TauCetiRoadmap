@@ -24,7 +24,10 @@ nonabelian H¹ carrier; the specified `TauCeti.NonabelianH1` modules are not in 
 Tau Ceti revision. Layer 1's curve and Artin-tower K(π,1) theorems need the scheme étale
 fundamental group and its canonical cohomology comparison. Layer 2's unipotent realization
 and crystalline comparison theorems need geometric tensor categories, unipotent path
-torsors and their filtered realizations. Layer 3's Hom theorems need the arithmetic
+torsors and their filtered realizations. Their abstract neutral tensor reconstruction
+and tensor-isomorphism torsors are supplied by MotivesAndAlgebraicCycles §§6.1–6.3
+and 6.8; Layer 2 specializes them to unipotent categories in characteristic zero.
+Layer 3's Hom theorems need the arithmetic
 fundamental-group extensions and their relative geometric pro-p quotients.
 
 Layers 4–6 need algebra-valued unipotent cohomology, represented Selmer varieties,
