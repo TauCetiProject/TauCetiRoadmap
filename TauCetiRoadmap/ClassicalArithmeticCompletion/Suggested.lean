@@ -51,9 +51,6 @@ theorem card_nonzero_pow_roots {F : Type*} [Field F] [Fintype F] (n : ℕ)
   sorry
 
 /-- A primary Gaussian integer has residue one modulo `(1+i)^3`.
-The full README API includes `IsPrimaryGaussian.div_intCast`,
-`IsPrimaryGaussian.exists_prod_primary_primes`, `IsPrimaryGaussian.norm_sub_one_div_four`,
-`isPrimaryGaussian_add_mul_iff`, `isPrimaryGaussian_intCast_iff`.
 -/
 def IsPrimaryGaussian (z : GaussianInt) : Prop :=
   (⟨1, 1⟩ : GaussianInt) ^ 3 ∣ z - 1
@@ -69,8 +66,6 @@ def IsRational {K : Type*} [Field K] (f : PowerSeries K) : Prop :=
   ∃ P Q : Polynomial K, Q.coeff 0 ≠ 0 ∧ f * (Q : PowerSeries K) = (P : PowerSeries K)
 
 /-- First-kind Lucas sequence, retaining the repeated-root cases.
-The full README API includes `lucasU_add_two`, `lucasU_mul_sub`, `lucasU_one`, `lucasU_one_neg_one`,
-`lucasU_succ_eq_eval_dickson`, `lucasU_two_mul`, `lucasU_zero`.
 -/
 def lucasU {R : Type*} [CommRing R] (P Q : R) : ℕ → R
   | 0 => 0
@@ -78,9 +73,6 @@ def lucasU {R : Type*} [CommRing R] (P Q : R) : ℕ → R
   | n + 2 => P * lucasU P Q (n + 1) - Q * lucasU P Q n
 
 /-- Second-kind Lucas sequence with initial values two and P.
-
-The full README API includes `lucasV_add_two`, `lucasV_eq_add_pow`, `lucasV_eq_eval_dickson`,
-`lucasV_one`, `lucasV_sq_sub`, `lucasV_zero`.
 -/
 def lucasV {R : Type*} [CommRing R] (P Q : R) : ℕ → R
   | 0 => 2
@@ -94,9 +86,6 @@ theorem gcd_lucasU {P Q : ℤ} (h : IsCoprime P Q) (m n : ℕ) :
   sorry
 
 /-- A finite-output automaton; state finiteness is imposed by automaticity.
-
-The full README API includes `DFAO.evalFrom_append`, `DFAO.evalFrom_cons`, `DFAO.evalFrom_nil`,
-`DFAO.eval_mapOutput`, `DFAO.eval_prod`, `DFAO.eval_toDFA`, `DFAO.mem_accepts_toDFA`.
 -/
 structure DFAO (α σ Δ : Type*) where
   /-- Transition from a state on one input letter. -/
@@ -111,16 +100,12 @@ def DFAO.eval {α σ Δ : Type*} (M : DFAO α σ Δ) (w : List α) : σ :=
   w.foldl M.step M.start
 
 /-- Least-significant-first automaticity, using Mathlib's radix digits.
-The full README API includes `IsAutomatic.finite_range`, `isAutomatic_const`,
-`isAutomatic_of_eventually_periodic`, `isAutomatic_thueMorse`.
 -/
 def IsAutomatic (k : ℕ) [NeZero k] {Δ : Type*} (a : ℕ → Δ) : Prop :=
   ∃ (σ : Type) (_ : Fintype σ) (M : DFAO (Fin k) σ Δ),
     ∀ n, a n = M.output (M.eval ((Nat.digits k n).map (Fin.ofNat k)))
 
 /-- The k-kernel consists of all radix subsequences with a valid residue.
-
-The full README API includes `kernel_subset`, `kernel_thueMorse`.
 -/
 def kernel (k : ℕ) {Δ : Type*} (a : ℕ → Δ) : Set (ℕ → Δ) :=
   {b | ∃ e r : ℕ, r < k ^ e ∧ b = fun n => a (k ^ e * n + r)}
@@ -201,16 +186,11 @@ end Certificates
 namespace Diophantine
 
 /-- Ordered coefficient-three Markoff triples.
-The full README API includes `markoffSet.comp_perm_mem_iff`, `markoffSet.map_mem`,
-`markoffSet.mem_iff`, `markoffSet.ones_mem`, `markoffSet.zero_mem`.
 -/
 def markoffSet (R : Type*) [CommRing R] : Set (Fin 3 → R) :=
   {x | x 0 ^ 2 + x 1 ^ 2 + x 2 ^ 2 = 3 * x 0 * x 1 * x 2}
 
 /-- One Vieta move changes only the selected coordinate.
-
-The full README API includes `markoffVieta_add_self`, `markoffVieta_apply_of_ne`,
-`markoffVieta_apply_self`, `markoffVieta_map`, `markoffVieta_zero`.
 -/
 def markoffVieta {R : Type*} [CommRing R] (i : Fin 3) (x : Fin 3 → R) : Fin 3 → R :=
   fun j => if j = i then 3 * ∏ k ∈ Finset.univ.erase i, x k - x i else x j
@@ -224,19 +204,11 @@ theorem markoff_descent (x : Fin 3 → ℤ) (hx : x ∈ markoffSet ℤ)
   sorry
 
 /-- Markoff–Hurwitz sets retain all coordinates, ring characteristics and parameters.
-
-The full README API includes `markoffHurwitzSet.comp_perm_mem_iff`, `markoffHurwitzSet.map_mem`,
-`markoffHurwitzSet.mem_iff`, `markoffHurwitzSet.signChange_mem_iff`, `markoffHurwitzSet_three_one`,
-`markoffHurwitzSet_three_three_zero`.
 -/
 def markoffHurwitzSet {R : Type*} [CommRing R] (n : ℕ) (a k : R) :
     Set (Fin n → R) := {x | ∑ i, x i ^ 2 = a * ∏ i, x i + k}
 
 /-- Generalised Vieta move for coefficient a.
-
-The full README API includes `markoffHurwitzMove_apply_of_ne`, `markoffHurwitzMove_apply_self`,
-`markoffHurwitzMove_involutive`, `markoffHurwitzMove_map`, `markoffHurwitzMove_mem`,
-`markoffHurwitzMove_three_one`, `markoffHurwitzMove_three_three`.
 -/
 def markoffHurwitzMove {R : Type*} [CommRing R] {n : ℕ} (a : R) (j : Fin n)
     (x : Fin n → R) : Fin n → R :=
@@ -260,7 +232,6 @@ def aperySet (S : AddSubmonoid ℕ) (n : ℕ) : Set ℕ :=
 
 /-- A finite set of positive denominators whose unit fractions sum to `r`; being a set, it
 cannot repeat a denominator.
-The full README API includes `isEgyptianExpansion_empty_iff`, `isEgyptianExpansion_singleton`.
 -/
 def IsEgyptianExpansion (r : ℚ) (D : Finset ℕ) : Prop :=
   0 ∉ D ∧ ∑ d ∈ D, (1 : ℚ) / d = r
@@ -283,10 +254,6 @@ end Diophantine
 namespace NumberFieldCertificates
 
 /-- Conjugation in additive unit coordinates; its shear records the norm sign.
-
-The full README API includes `quadraticUnitAction_add`, `quadraticUnitAction_free_generator`,
-`quadraticUnitAction_norm`, `quadraticUnitAction_parameter`,
-`quadraticUnitAction_torsion_generator`.
 -/
 def quadraticUnitAction (s : ZMod 2) (x : ℤ × ZMod 2) : ℤ × ZMod 2 :=
   (-x.1, x.2 + s * (x.1 : ZMod 2))
@@ -349,10 +316,6 @@ theorem isFactorBaseBound_minkowski (K : Type*) [Field K] [NumberField K] :
 When `p` is prime, the `P i` are maximal, `p ∣ Ideal.absNorm (P i) - 1`, and `v j ∉ P i`
 for every `i` and `j`, this is equivalent to full column rank modulo `p` of the residue
 discrete-logarithm matrix.
-
-The full README API includes `isMaxRank_and_not_dvd_index_of_powerResidueIndependent`,
-`isMaxRank_and_not_dvd_index_of_powerResidueIndependent_torsion`,
-`dvd_of_isPrincipal_prod_pow_of_powerResidueIndependent`.
 -/
 def PowerResidueIndependent {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι]
     {m : ℕ} (p : ℕ) (P : Fin m → Ideal (𝓞 K)) (v : ι → 𝓞 K) : Prop :=
@@ -424,19 +387,12 @@ end NumberFieldCertificates
 namespace SmallHeight
 
 /-- Pisot numbers include degree-one integers at least two, and exclude nonintegral rationals.
-
-The full README API includes `IsPisot.eq_of_one_le_norm`, `IsPisot.norm_lt_one`, `IsPisot.one_lt`,
-`isPisot_iff_minpoly_rat`, `isPisot_natCast_iff`, `isPisot_plasticNumber`.
 -/
 def IsPisot (θ : ℝ) : Prop :=
   IsIntegral ℤ θ ∧ 1 < θ ∧
     ∀ z ∈ (minpoly ℤ θ).aroots ℂ, z ≠ (θ : ℂ) → ‖z‖ < 1
 
 /-- Salem numbers have another conjugate on the unit circle.
-
-The full README API includes `IsSalem.even_natDegree`, `IsSalem.exists_norm_eq_one`,
-`IsSalem.four_le_natDegree`, `IsSalem.isConjRoot_inv`, `IsSalem.norm_le_one`, `IsSalem.not_isPisot`,
-`IsSalem.one_lt`.
 -/
 def IsSalem (τ : ℝ) : Prop :=
   IsIntegral ℤ τ ∧ 1 < τ ∧
@@ -461,8 +417,6 @@ theorem schinzel_zassenhaus {P : Polynomial ℤ} (hP : P.Monic) (hirr : Irreduci
   sorry
 
 /-- Schur sequences have a holomorphic witness and a closed norm bound on the open disc.
-
-The full README API includes `RealSchurSeries.coeff_zero_eq`, `RealSchurSeries.function_unique`.
 -/
 def RealSchurSeries (e : ℕ → ℝ) : Prop :=
   ∃ f : ℂ → ℂ, DifferentiableOn ℂ f (Metric.ball 0 1) ∧
@@ -470,7 +424,6 @@ def RealSchurSeries (e : ℕ → ℝ) : Prop :=
       HasSum (fun j : ℕ => (e j : ℂ) * z ^ j) (f z) ∧ ‖f z‖ ≤ 1
 
 /-- Finite pair-product diameter, with the unused small indices fixed to zero.
-The full README API includes `finiteFeketeDiameter_two`.
 -/
 noncomputable def finiteFeketeDiameter (K : Set ℂ) (n : ℕ) : ℝ :=
   if n < 2 then 0 else
@@ -479,16 +432,11 @@ noncomputable def finiteFeketeDiameter (K : Set ℂ) (n : ℕ) : ℝ :=
         ‖z i - z j‖) (2 / ((n : ℝ) * ((n : ℝ) - 1)))}
 
 /-- Transfinite diameter is the infimum starting with two points.
-
-The full README API includes `transfiniteDiameter_affine`, `transfiniteDiameter_finite`.
 -/
 noncomputable def transfiniteDiameter (K : Set ℂ) : ℝ :=
   sInf (Set.range (fun n : ℕ => finiteFeketeDiameter K (n + 2)))
 
 /-- A radial hedgehog is the union of the closed radial segments.
-The full README API includes `radialHedgehog_affine_scale`, `radialHedgehog_compact`,
-`radialHedgehog_complement`, `radialHedgehog_eq_iUnion_segment`, `radialHedgehog_mem`,
-`radialHedgehog_mono_lengths`, `radialHedgehog_norm_le`, `radialHedgehog_zero_mem`.
 -/
 def radialHedgehog {n : ℕ} (a : Fin n → ℂ) : Set ℂ :=
   {z | ∃ i : Fin n, ∃ t : ℝ, t ∈ Set.Icc 0 1 ∧ z = (t : ℂ) * a i}
@@ -500,10 +448,6 @@ theorem dubinin_hedgehog_bound {n : ℕ} (hn : 1 ≤ n) (a : Fin n → ℂ) :
   sorry
 
 /-- The Hankel convention has a +1 shift, and the empty determinant equals one.
-
-The full README API includes `shiftedHankelDet_integer`, `shiftedHankelDet_map`,
-`shiftedHankelDet_monic_basis`, `shiftedHankelDet_one`, `shiftedHankelDet_two`,
-`shiftedHankelDet_zero`.
 -/
 def shiftedHankelDet {R : Type*} [CommRing R] (a : ℕ → R) (n : ℕ) : R :=
   Matrix.det (fun i j : Fin n => a (i.val + j.val + 1))
@@ -528,9 +472,6 @@ end SmallHeight
 namespace GaloisModules
 
 /-- Conjugates must be linearly independent and span the full integral module.
-
-The full README API includes `IntegralGaloisModule.IsNIBGenerator.basis_apply`,
-`IntegralGaloisModule.IsNIBGenerator.exists_unit`, `IntegralGaloisModule.IsNIBGenerator.unit_smul`.
 -/
 def IsNIBGenerator (A B G : Type*) [CommRing A] [CommRing B] [Algebra A B]
     [Group G] [Fintype G] [MulSemiringAction G B] [IsGaloisGroup G A B] (α : B) : Prop :=
@@ -573,8 +514,6 @@ theorem local_noether (A B G : Type*) [CommRing A] [IsDomain A]
   sorry
 
 /-- Stable equivalence adds the same finite free summand to both modules.
-
-The full README API includes `StableEquivalent.of_equiv`.
 -/
 def StableEquivalent (R P Q : Type*) [Ring R] [AddCommGroup P] [AddCommGroup Q]
     [Module R P] [Module R Q] : Prop :=
@@ -635,7 +574,8 @@ The README also states the interfaces for higher residue symbols, Cartier operat
 matrix normal forms, integer-valued polynomial ideals, numerical semigroups,
 number-field presentations, capacity and conformal radius, and integral Galois modules.
 Bach's bound `isFactorBaseBound_of_grh`, the Belabas–Diaz y Diaz–Friedman targets
-`isFactorBaseBound_of_weil_inequality` and `isFactorBaseBound_of_sum_gt`, the explicit prime
+`isFactorBaseBound_of_weil_inequality` (with an admissible even Weil test function) and
+`isFactorBaseBound_of_sum_gt`, the explicit prime
 ideal theorem and the truncated Euler sum (§§5.1b, 5.1c and 5.16a (i)–(ii)) assume Riemann hypotheses for
 continued Dedekind and class-group L-functions, which have no carrier at the pins; they are
 README targets.
