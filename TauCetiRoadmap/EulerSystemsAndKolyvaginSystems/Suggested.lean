@@ -31,7 +31,10 @@ The headline results requiring these objects are:
   exact sequence and ClassFieldTheory Layer 13's Artin correspondence (§2.9).
 * Layers 4–5: rational and integral Selmer bounds (§§4.7, 4.13, 4.17–4.21), rank-one
   freeness and dual Selmer structure (§§5.3, 5.6), and the self-dual bound and exact
-  primitivity formula (§§5.10, 5.13). The MR04 Artinian
+  primitivity formula (§§5.10, 5.13). The partial divisibility indices (§5.1) use a
+  bounded minimum with top `k` over a principal Artinian ring of length `k`, giving `k`
+  on empty conductor-size levels; over a DVR the empty-level index is `∞`.
+  The MR04 Artinian
   stub-sheaf results (§5.3), in every core rank, require `P ⊆ P_k` for `k = length(R)`.
   The Howard–Zanarella paired hypotheses use the
   lattice Tate dual `T† = Hom_R(T,R)(1)` and its dual local conditions (§0.2);

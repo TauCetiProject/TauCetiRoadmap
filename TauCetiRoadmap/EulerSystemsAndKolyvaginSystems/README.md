@@ -3434,15 +3434,17 @@ The classical square-index formula with a constant independent of `K` has the ad
 
 For a module `M` over a commutative local ring `(R,m)`, first define the elementwise, untruncated index `TauCeti.KolyvaginSystems.divisibilityIndex(x)` as `sup{j∈ℕ : x∈m^jM}` in `ℕ∞`. It is `∞` for zero, and can also be `∞` for nonzero elements when the `m`-adic filtration is not separated. For a chosen uniformizer in a DVR this agrees with `ordAt` of Layer 1.3. The finite-artinian cyclic-image invariant below is a separate, truncated notion; it is not this elementwise supremum. This definition uses powers of the maximal ideal and their action on a submodule, rather than a chosen generator of `m`.
 
-Let `(T, F, P)` be a Selmer triple and `κ ∈ KS(T)`. `(a) R` principal artinian of `length k: ∂^{(r)}(κ) = min{k − length(Rκ_n) : n ∈ N, ν(n) = r}` and `e_i(κ) = ∂^{(i)}(κ) − ∂^{(i+1)}(κ)` for `i ≥ 0`. `(b) R` a discrete valuation ring: `∂^{(r)}(κ) = max{j : κ_n ∈ m^j H¹_{F(n)}(K, T/I_nT) ⊗ G_n for every n ∈ N with ν(n) = r} ∈ ℕ ∪ {∞}, ∂^{(0)}(κ) = max{j : κ_1 ∈ m^jH¹_F(K, T)}, e_i(κ) = ∂^{(i)}(κ) − ∂^{(i+1)}(κ)` for `i ≥ ord(κ)`, and `∂^{(∞)}(κ) = min{∂^{(r)}(κ) : r ≥ 0}`. `κ` is primitive if its image in `KS(T/mT)` is nonzero. In the DVR case, the index `∂^{(0)}(κ)` is `∞` when `κ_1=0`. In the artinian case use the truncated definition `k−length(Rκ_1)`, which equals `k` for `κ_1=0`, not `∞`. The two conventions agree through limits for nonzero DVR systems under the rank-one admissibility hypotheses.
+Let `(T, F, P)` be a Selmer triple and `κ ∈ KS(T)`. `(a) R` principal artinian of `length k: ∂^{(r)}(κ) = min ({k} ∪ {k − length(Rκ_n) : n ∈ N(P), ν(n) = r})` and `e_i(κ) = ∂^{(i)}(κ) − ∂^{(i+1)}(κ)` for `i ≥ 0`. `(b) R` a discrete valuation ring: `∂^{(r)}(κ) = max{j : κ_n ∈ m^j H¹_{F(n)}(K, T/I_nT) ⊗ G_n for every n ∈ N with ν(n) = r} ∈ ℕ ∪ {∞}, ∂^{(0)}(κ) = max{j : κ_1 ∈ m^jH¹_F(K, T)}, e_i(κ) = ∂^{(i)}(κ) − ∂^{(i+1)}(κ)` for `i ≥ ord(κ)`, and `∂^{(∞)}(κ) = min{∂^{(r)}(κ) : r ≥ 0}`. `κ` is primitive if its image in `KS(T/mT)` is nonzero. In the DVR case, the index `∂^{(0)}(κ)` is `∞` when `κ_1=0`. In the artinian case use the truncated definition `k−length(Rκ_1)`, which equals `k` for `κ_1=0`, not `∞`. The two conventions agree through limits for nonzero DVR systems under the rank-one admissibility hypotheses.
+
+Every cyclic image `Rκ_n` is a quotient of `R`, so its length lies between 0 and `k`. The artinian minimum is therefore taken in `{0,…,k}`, with `k` included: it agrees with the minimum of the cyclic-image indices on every nonempty conductor-size level and equals `k` on an empty level. Its value is viewed in `ℕ∞` through the natural embedding. Over a DVR an empty level imposes no divisibility condition, so its index is `∞`.
 
 The precise hypotheses are For the definitions: `R` principal artinian `(length k)` or a DVR, with its specified Kolyvagin-system carrier; For monotonicity, scaling, elementary-divisor and order characterisations: the admissibility hypotheses of Layer 5.3 Kolyvagin systems in core rank one and `χ(T)=1`; use nonzero `κ` for DVR elementary divisors.
 
-([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Definition 5.2.11, pp. 57–58). The invariants over a discrete valuation ring.
+(Barry Mazur and Karl Rubin, *Kolyvagin systems*, Definition 5.2.11, pp. 57–58). The invariants over a discrete valuation ring.
 
-([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Definition 4.5.5, p. 49). Primitivity.
+(Barry Mazur and Karl Rubin, *Kolyvagin systems*, Definition 4.5.5, p. 49). Primitivity.
 
-([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Definition 4.5.7, p. 49). The artinian invariants.
+(Barry Mazur and Karl Rubin, *Kolyvagin systems*, Definition 4.5.7, p. 49). The artinian invariants on nonempty levels; the bounded-minimum convention above extends them to arbitrary prime sets.
 
 In the artinian case `length(Rκ_n) = k −` (largest `j` with `κ_n ∈ m^j` of a free stalk); the two definitions agree in the limit: `∂^{(s)}(κ) = lim_k ∂^{(s)}(κ^{(k)})` (Theorem 5.2.12`(i)`).
 
@@ -3451,7 +3453,7 @@ Primitivity uses the reduction map `KS(T) → KS(T/mT)` of Layer 3.3 Kolyvagin s
 The definition exposes the following operations and relations.
 
 - `TauCeti.KolyvaginSystems.divisibilityIndex`: The elementwise supremum in `ℕ∞` over powers of the maximal ideal; zero has index `∞`, and an element outside `mM` has index zero. On a DVR this agrees with `ordAt` for a uniformizer.
-- `TauCeti.KolyvaginSystems.KolyvaginSystem.divIndex`: `∂^{(r)}(κ) ∈ ℕ∞` for `r ≥ 0`.
+- `TauCeti.KolyvaginSystems.KolyvaginSystem.divIndex`: `∂^{(r)}(κ) ∈ ℕ∞` for every `r ≥ 0` and arbitrary `P`; over a length-`k` principal artinian ring its value lies in `{0,…,k}`. Empty conductor-size levels have value `k` in the artinian case and `∞` in the DVR case.
 - `TauCeti.KolyvaginSystems.KolyvaginSystem.divIndex_zero`: `∂^{(0)}(κ) = sup{j : κ_1 ∈ m^j H¹_F(K, T)}`; it is `⊤` iff `κ_1 = 0` (`R` a discrete valuation ring, `H¹_F` torsion-free).
 - `TauCeti.KolyvaginSystems.KolyvaginSystem.elementaryDivisor`: `e_i(κ) = ∂^{(i)}(κ) − ∂^{(i+1)}(κ)`, defined for `i ≥ ord(κ)`.
 - `TauCeti.KolyvaginSystems.KolyvaginSystem.divIndexInfty`: `∂^{(∞)}(κ) = inf_r ∂^{(r)}(κ)`.
@@ -3466,14 +3468,16 @@ The definition exposes the following operations and relations.
 - `divisibilityIndex.residue_nonzero`: If `x∉mM`, its elementwise index is zero. In particular `1∈R` has index zero for every nonzero local ring.
 - `divisibilityIndex.padic_power`: In `ℤ_p` the element `p^j` has index `j` for each `j≥0`; `p³` becomes an element of index 5 after multiplication by `p²`. In `M=ℚ_p` viewed as a `ℤ_p`-module, 1 has index `∞`, detecting an unjustified separation claim.
 - `divIndex_zero_order`: The zero system has infinite order.
-- `divIndex_zero_artinian`: In a length-`k` artinian ring, the zero system has partial invariant `k` at every nonempty conductor-size level.
+- `divIndex_zero_artinian`: In a length-`k` principal artinian ring, the zero system has partial invariant `k` at every conductor-size level, including empty levels.
+- For `P = ∅`, the size-one level is empty: every system has `∂^{(1)} = k` over a length-`k` principal artinian ring and `∂^{(1)} = ∞` over a DVR. In particular, the zero system over `𝔽₃` has `∂^{(1)} = 1`.
+- For finite `P` and `r > #P`, every system has `∂^{(r)} = k` over a length-`k` principal artinian ring and `∂^{(r)} = ∞` over a DVR, since a squarefree conductor uses at most `#P` primes.
 - `divIndex_scaling`: Over a DVR with torsion-free size-zero stalks, initial index 3 becomes 5 after multiplication by `π²`.
 
 Over a DVR under rank-one admissibility, `∂^{(r)}(πκ)=∂^{(r)}(κ)+1` and `e_i(πκ)=e_i(κ)` for their finite range. Over length-`k` artinian rings the values truncate at `k`, so elementary divisors need not remain unchanged.
 
 The order uses threshold `∞` over a DVR and `k` over an artinian ring.
 
-Additional arithmetic check: For `κ=0` over a DVR, `∂^{(r)}=∞` for all `r`; over a principal artinian ring of `length k, ∂^{(r)}=k`. In both cases `ord(κ)=∞` and `κ` is not primitive.
+Additional arithmetic check: For `κ=0` over a DVR, `∂^{(r)}=∞` for all `r`; over a principal artinian ring of `length k, ∂^{(r)}=k` for all `r`, including empty levels. In both cases `ord(κ)=∞` and `κ` is not primitive.
 
 Additional arithmetic check: For `R = k` a field, `κ` is primitive iff `κ ≠ 0`.
 
@@ -3863,7 +3867,7 @@ For `E/ℚ` of analytic rank one over `K` and the Heegner system, combined with 
 
 The zero system has infinite order.
 
-In a length-`k` artinian ring, the zero system has partial invariant `k` at every nonempty conductor-size level.
+In a length-`k` principal artinian ring, the zero system has partial invariant `k` at every conductor-size level, including empty levels.
 
 Over a DVR with torsion-free size-zero stalks, initial index 3 becomes 5 after multiplication by `π²`.
 
