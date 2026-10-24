@@ -111,7 +111,10 @@ real-splitting `Y_ord` of §4.23. The supplier's full `𝔛_S` allows real
 ramification; the two modules differ by the real-inertia sequence there.
 
 A plus superscript refers to the real field or the plus quotient specified in
-the target. At `p=2` it never licenses division by 2. For the analytic series choose `u` generating `1+2pℤ_p` and put `q₀=u−1`; thus the pole `s=1` corresponds to `T=q₀`. In the finite-index formulas
+the target. In Layer 4, the real-field circular units are Sinnott's
+norm-generated group; the CM-plus circular units are its separately named
+intersection counterpart from the CM field (§4.12). At `p=2` these integral
+lattices can differ. No plus construction licenses division by 2. For the analytic series choose `u` generating `1+2pℤ_p` and put `q₀=u−1`; thus the pole `s=1` corresponds to `T=q₀`. In the finite-index formulas
 of Layer 4, the notation copied as mathematical notation from Greither is
 `|a|_p=p^{v_p(a)}`, the reciprocal of the usual `p`-adic absolute value. Thus
 `Nχ(a)=p^{[ℚ_p(χ):ℚ_p]v_p(a)}=|a|_p^{d(χ)}`. This convention is used only for
@@ -2524,7 +2527,7 @@ The API consists of the following statements.
 - `chiPart_odd_kills_plus` (characterisation): For odd `χ`, `(1 + j)M ↦ 0` in `M_χ`.
 - `chiPart_minus_two` (characterisation): `p = 2`, `Δ₂` cyclic, `M` a minus module, `χ` odd: `M_χ ≅ M_{χ|Δ₀}` (property `(g)`).
 
-These interfaces are used in §4.14: the `χ`-parts in which the main conjecture is stated for all `p`. §4.12: the `ρ`-parts of `X` and `E_∞/C_∞` when `p` divides `[F : ℚ]`.
+These interfaces are used in §4.14: the `χ`-parts in which the main conjecture is stated for all `p`. §4.12: the `ρ`-parts of `X^CM` and `E_∞^CM/C_∞^CM` when `p` divides `[F : ℚ]`.
 
 **Checks.**
 
@@ -2867,7 +2870,7 @@ See **GREITHER-1992**, §3, Rubin's maps and Euler systems, p. 471. Every circul
 
 <a id="greither-finite-level-links"></a>
 ### 4.10 Links between the Iwasawa modules and the finite layers, with bounded constants (Greither, Lemmas 3.9–3.11)
-Let `F/ℚ` be abelian and unramified at `p`, `K_n = F(ζ_{2p^{n+1}})`, `Δ = Gal(K_0^+/ℚ)`, `G_n = Gal(K_n^+/ℚ)`, `Γ_n = Gal(K_n^+/K_0^+)`, `γ` a generator of `Γ = lim Γ_n` and `γ_n = γ^{p^n}`. Write `X = lim A(K_n^+)`, and `E_∞`, `C_∞` for the plus-part limits of the global units and circular units. For an even character `χ ≠ 1` of `Δ` put `Λ_χ = ℤ_p(χ)[[T]]`, `Λ_{n,χ} = Λ_χ/(1 − γ_n)`, and let `H_χ` generate `char((E_∞/C_∞)_χ)`. Fix a quasi-isomorphism `X_χ → ⊕_{i=1}^k Λ_χ/(g_i)`, so that `char(X_χ) = (g)` with `g = g_1⋯g_k`. (Lemma 3.9) There are `c_1 = c_1(F)` and `G_n`-maps `ϑ_n`: `E_{n,χ} → Λ_{n,χ}` with `(γ − 1)²p^{c_1}·H_χ·Λ_{n,χ} ⊆ ϑ_n(im C_{n,χ}) ⊆ p^{−c_1}·H_χ·Λ_{n,χ}`. (Lemma 3.10) There are `c_2 = c_2(F)` and `G_n`-maps `τ_n`: `A_{n,χ} → ⊕_i Λ_{n,χ}/(g_i)` with `p^{c_2}·coker(τ_n) = 0`. (Lemma 3.11) `γ − 1` acts on `X` with finite kernel and cokernel.
+Let `F/ℚ` be abelian and unramified at `p`, `K_n = F(ζ_{2p^{n+1}})`, `Δ = Gal(K_0^+/ℚ)`, `G_n = Gal(K_n^+/ℚ)`, `Γ_n = Gal(K_n^+/K_0^+)`, `γ` a generator of `Γ = lim Γ_n` and `γ_n = γ^{p^n}`. Define `X^real = lim A(K_n^+)`, `E_∞^real = lim Ê(K_n^+)` and `C_∞^real = lim Ĉ(K_n^+)`, with norm transitions and semilocal images as in §4.3; hats denote pro-`p` completion, and `C(K_n^+)` is Sinnott's norm-generated group of IntegralIwasawaTheory §1.7. Within this subsection abbreviate these three real-field limits by `X`, `E_∞`, `C_∞`, and their finite-level objects by `A_n`, `E_n`, `C_n`. For an even character `χ ≠ 1` of `Δ` put `Λ_χ = ℤ_p(χ)[[T]]`, `Λ_{n,χ} = Λ_χ/(1 − γ_n)`, and let `H_χ` generate `char((E_∞/C_∞)_χ)`. Fix a quasi-isomorphism `X_χ → ⊕_{i=1}^k Λ_χ/(g_i)`, so that `char(X_χ) = (g)` with `g = g_1⋯g_k`. (Lemma 3.9) There are `c_1 = c_1(F)` and `G_n`-maps `ϑ_n`: `E_{n,χ} → Λ_{n,χ}` with `(γ − 1)²p^{c_1}·H_χ·Λ_{n,χ} ⊆ ϑ_n(im C_{n,χ}) ⊆ p^{−c_1}·H_χ·Λ_{n,χ}`. (Lemma 3.10) There are `c_2 = c_2(F)` and `G_n`-maps `τ_n`: `A_{n,χ} → ⊕_i Λ_{n,χ}/(g_i)` with `p^{c_2}·coker(τ_n) = 0`. (Lemma 3.11) `γ − 1` acts on `X` with finite kernel and cokernel.
 
 Prove first `rubinUnitTateBound`. Let `K_∞/K_0` be a `ℤ_p`-extension of a totally real field in which every prime above `p` is totally ramified from `K_0` on and no other prime ramifies, with layers `K_m`, `Γ_{m,n}=Gal(K_m/K_n)`, `E_m` the units of `K_m` and `Ĥ^i` Tate cohomology. Then there is an integer `k`, independent of `m≥n≥0`, with
 
@@ -2943,7 +2946,30 @@ See **GREITHER-1992**, §3, before Lemma 3.12, p. 477. After Rubin's Lemma 7.1. 
 
 <a id="greither-real-main-conjecture"></a>
 ### 4.12 The real main conjecture for all `p` (Greither, Theorem 3.1)
-Let `p` any prime (`p = 2` included), `F/ℚ` abelian and unramified at `p`, `K_n = F(ζ_{2p^{n+1}})` (so `K_0 = F(√−1)` when `p = 2`), `K_∞ = ∪K_n`, `Δ′ = Gal(K_0/ℚ)`, `Γ = Gal(K_∞/K_0) ≅ ℤ_p`, and `Λ_χ = ℤ_p(χ)[[T]]`. For every even character `ρ ≠ 1` of `K_0`, the characteristic ideal of the `Λ_ρ`-module `X_ρ (X = lim A_p(K_n))` divides the characteristic ideal of `(E_∞/C_∞)_ρ`, where `E_∞` is the limit of the pro-`p` parts of the closures of the global units. For `ρ = 1` both are (1). Equality holds, as a by-product of the proof of Theorem 3.2. `X` and `E_∞/C_∞` may be replaced by their plus parts.
+Let `p` be any prime (`p = 2` included), `F/ℚ` abelian and unramified at `p`,
+`K_n = F(ζ_{2p^{n+1}})` (so `K_0 = F(√−1)` when `p = 2`), `K_∞ = ∪K_n`,
+`Δ′ = Gal(K_0/ℚ)`, `Γ = Gal(K_∞/K_0) ≅ ℤ_p`, and `Λ_ρ = ℤ_p(ρ)[[T]]`.
+Put `X^CM = lim A_p(K_n)` and let `E_∞^CM`, `C_∞^CM` be the norm limits
+of the pro-`p` closures of the global units and of the circular units of these
+CM fields (§4.3). For every even character `ρ ≠ 1` of `Δ′`,
+`char((X^CM)_ρ)` divides `char((E_∞^CM/C_∞^CM)_ρ)`. Equality holds as a
+consequence of the proof of Theorem 3.2. For `ρ = 1` both CM-tower
+characteristic ideals are `(1)`.
+
+The real-field limits `X^real`, `E_∞^real`, `C_∞^real` are those of §4.10.
+Separately, put `E_∞^{CM,+}=E_∞^real` and
+`C_∞^{CM,+}=lim (C(K_n)∩E(K_n^+))̂`, using semilocal images after completion.
+This CM-plus circular group is formed by intersection before taking the norm limit;
+it is not the norm-generated group of the real fields. Inclusion and the real norm give
+`C_∞^real ⊆ C_∞^{CM,+}` and `2C_∞^{CM,+} ⊆ C_∞^real`.
+For even `ρ`, the class characteristic ideals agree integrally for the CM and real
+towers, whereas the unit quotients agree after inverting `p` and their integral
+characteristic ideals can differ by a power of a coefficient uniformizer.
+Thus `char((X^real)_ρ)` divides `char((E_∞^real/C_∞^real)_ρ)` integrally,
+and equality transfers to the real-field and CM-plus objects over `Λ_ρ[1/p]`.
+No integral real-field equality, or trivial-character unit ideal for the real-field
+quotient at `p=2`, follows from the CM equality. For odd `p`, 2 is a unit, so this
+real-field replacement preserves the integral equality as well.
 
 The proof is Kolyvagin–Rubin's Euler system of circular units (Rubin, Invent. Math. 103 (1991)). Every circular number starts an Euler system (Greither §3, via Lemma 2.3).
 
@@ -2953,20 +2979,22 @@ Factors of `p` and `(γ − 1)` accumulate through Lemmas 3.9–3.13; they are r
 
 Prove this as follows.
 
-1. Reduce to plus parts and to even `χ ≠ 1`: for `χ = 1`, `X_χ` is quasi-isomorphic to `lim A(ℚ_ν) = 0`.
+1. For the divisibility argument use the real-field objects of §4.10, writing `g` for the class characteristic generator and `H_χ` for that of `(E_∞^real/C_∞^real)_χ`. Greither's Remark (a) identifies them with the CM objects after inverting `p`; Ferrero–Washington makes the CM and real class characteristic ideals agree integrally. For `χ=1`, the CM class module is quasi-isomorphic to `lim A(ℚ_ν)=0` and its CM unit quotient has characteristic ideal `(1)` (Remark (b)). The real-field unit quotient has no such assertion at 2. The induction treats even `χ≠1`.
 2. Fix `n`, `K = K_n^+`, `h` a power of `p` with `h ≥ |Λ_{n,χ}/(H_χ)|`, `|Λ_{n,χ}/(ord Δ)|`, `|Λ_{n,χ}/(p)|`, and `M = |A_χ|·h^{3k+ck+1}` with `c = max(c_1, c_2)`. By Lemma 3.10 choose `c_i ∈ A_χ` with `τ_n(c_i) = p^{c_2}` in the `i`-th place; then `p^{c_2}·Ann`(`c_i` in `A_χ/`(`c_1`, …, `c_{i−1}`)) `⊆ g_iΛ_{n,χ}`. By Lemma 3.9 choose a circular unit `ξ` with `ϑ_n(ξ) = (γ − 1)²p^{c_1}H_χ`, and an Euler system starting with `ξ`.
 3. Construct primes `λ_1`, …, `λ_{k+1}` of `K` inductively (Corollary 3.8, Lemmas 3.12–3.13) with `[λ_i]_χ = p²c_i`, `ℓ_i ∈ 𝒮_{M,K}`, `v_{λ_1}(κ_{ℓ_1}) =` unit`·|Δ|·(γ − 1)²p^{2+c_1}H_χ`, and for `2 ≤ i ≤ k + 1`: `g_{i−1}·v_{λ_i}(κ_{r_i}) =` unit`·|Δ|·p^{2+c_2}(γ − 1)^{2^{i−1}}·v_{λ_{i−1}}(κ_{r_{i−1}})`. At step `i`, apply Lemma 3.12 with `η = (γ − 1)^{2^{i−1}}` and `E = p^{c_2}`; its hypothesis (iii) is the bound on `N = (γ − 1)^{2^{i−1}}(𝒥_{ℓ_{i−1}}/(M, (κ_{r_{i−1}})_{[ℓ_{i−1}]}))`, where Greither prints the exponent as `2^t`.
 4. Multiplying out gives `g_1⋯g_k·v_{λ_{k+1}}(κ_{r_{k+1}}) = |Δ|^{k+1}p^{k(2+c_2)+(2+c_1)}(γ − 1)^{2^{k+1}}·H_χ = η·H_χ` in `Λ_{n,χ}/(M)`. So `g` divides `ηH_χ` in `Λ_{n,χ}/(p^n)` for every `n`, and hence in `Λ_χ` (as in Rubin).
-5. By Lemma 3.11 and `μ = 0` (Ferrero–Washington), `η` acts on `X_χ` with finite kernel and cokernel, so `η` and `g` are coprime in `ℚ_pΛ_χ`: `p^N = aη +` bg. Hence `g | p^N·H_χ`, and since `μ = 0`, `p ∤ g`, so `g | H_χ`.
+5. By Lemma 3.11 and `μ = 0` (Ferrero–Washington), `η` acts on the real class module with finite kernel and cokernel, so `η` and `g` are coprime in `ℚ_pΛ_χ`: `p^N = aη +` bg. Hence `g | p^N·H_χ`, and since `μ = 0`, `p ∤ g`, so `g | H_χ`. Rational comparison gives the same divisibility for the CM unit quotient, and `p ∤ g` makes that divisibility integral too. This removes powers of `p` from the class divisor; it does not remove them from the real-field unit quotient.
 
 **Checks.**
 
 - For odd `p` and `p ∤ [F : ℚ]` this is Rubin's III.2.7 (§2.4).
-- `p = 2` is new in this source.
+- At `p=2`, `K_1^+=ℚ(√2)` for `F=ℚ`. With `ε=1+√2`, the real norm-generated circular units are `⟨−1,ε²⟩`, whereas the CM intersection circular units are `⟨−1,ε⟩`. This is the prime-power convention of IntegralIwasawaTheory §§1.7–1.8.
+- For the same dyadic tower `k_n=ℚ(ζ_(2^(n+2)))^+`, the 2-class groups vanish by one-prime class control over `ℚ`, so `h(k_n)` is odd; no class-number-one assertion is needed. The norm-generated index is `2^(2^n−1)h(k_n)` (§3.3(g)). The real norms square the generators of the CM intersection circular group, whose index is odd (IntegralIwasawaTheory §1.8). Thus `Ĉ(k_n)=μ₂·Ê(k_n)²`. Degree-two norms kill the sign system, whose inverse limit and derived inverse limit are zero, giving `C_∞^real=2E_∞^real`. The unit limit is torsion-free because coherent signs vanish, and has `Λ=ℤ₂[[Gal(∪k_n/ℚ)]]`-rank one by the global-local sequence and weak Leopoldt (IntegralIwasawaTheory §§2.6–2.7). Hence `char(X^real)=(1)` and `char(E_∞^real/C_∞^real)=(2)`. The factor `(2)` is a height-one contribution.
+- Inverting 2 makes `(2)` a unit ideal, in agreement with the transferred equality over `Λ[1/2]`. It cannot justify the integral equality for this real-field lattice.
 
-See **GREITHER-1992**, §3, Theorem 3.1, p. 468. The statement. **GREITHER-1992**, §3, Remark `b`) after Theorem 3.1, p. 468. The trivial character. **GREITHER-1992**, §3, before Theorem 3.7, p. 471. The `p = 2` modification. **GREITHER-1992**, §3, proof of Theorem 3.7, p. 472. Odd `p` is Rubin's. **GREITHER-1992**, §3, the proof strategy, p. 470. The accumulated factors and their removal. **GREITHER-1992**, §3, the induction, p. 480. The induction. **GREITHER-1992**, §3, the end of the proof, p. 481. `g | ηH_χ`. **GREITHER-1992**, §3, the end of the proof, p. 482. Removing `p` and `γ − 1`.
+See **GREITHER-1992**, §3, Theorem 3.1 and Remarks (a)–(c), p. 468. The CM equality, the real-field rational comparison and the scope of the trivial-character assertion. **GREITHER-1992**, §3, before Theorem 3.7, p. 471. The `p = 2` modification. **GREITHER-1992**, §3, proof of Theorem 3.7, p. 472. Odd `p` is Rubin's. **GREITHER-1992**, §3, the proof strategy, p. 470. The accumulated factors and their removal. **GREITHER-1992**, §3, the induction, p. 480. The induction. **GREITHER-1992**, §3, the end of the proof, p. 481. `g | ηH_χ`. **GREITHER-1992**, §3, the end of the proof, p. 482. Removing `p` and `γ − 1`.
 
-*Needs:* [§4.1](#greither-chi-parts); [§2.4](#cyclotomic-iwasawa-divisibility); §F.8; IntegralIwasawaTheory §1.8; IntegralIwasawaTheory §5.6; [§4.9](#greither-chebotarev-at-two); [§4.10](#greither-finite-level-links); [§4.11](#greither-kolyvagin-step); IntegralIwasawaTheory §4.4; PadicMeasuresIwasawaAlgebras §4.6 (the characteristic ideal).
+*Needs:* [§4.1](#greither-chi-parts); [§2.4](#cyclotomic-iwasawa-divisibility); [§3.3](#finite-layer-comparison) (the real norm-generated index); §F.8; IntegralIwasawaTheory §§1.7–1.8, 2.2, 2.6–2.7, 3.1 (circular lattices, completions, weak Leopoldt, global-local reciprocity and one-prime class control); IntegralIwasawaTheory §5.6; [§4.9](#greither-chebotarev-at-two); [§4.10](#greither-finite-level-links); [§4.11](#greither-kolyvagin-step); IntegralIwasawaTheory §4.4; PadicMeasuresIwasawaAlgebras §4.6 (the characteristic ideal).
 
 <a id="greither-kummer-duality"></a>
 ### 4.13 Kummer duality between the odd and even sides (Greither, Lemma 3.3 and Proposition 3.4)
@@ -3008,7 +3036,7 @@ Prove first `exceptionalOmega_finite`: `X_ω` is finite for every `F` and `p`, a
 
 The main statement is then proved as follows.
 
-1. Two exact sequences: `0 → U_∞/E_∞ → Y → X → 0` and `0 → E_∞/C_∞ → U_∞/C_∞ → U_∞/E_∞ → 0`. The first is IntegralIwasawaTheory §2.7 (`infiniteGlobalLocalSequence`); its sign term at `p = 2` is killed by 2 and disappears after `⊗ℚ_p`, where Greither's comparisons of characteristic ideals take place.
+1. Use the CM-tower objects `X=X^CM`, `E_∞=E_∞^CM`, `C_∞=C_∞^CM` of §4.12. Two exact sequences: `0 → U_∞/E_∞ → Y → X → 0` and `0 → E_∞/C_∞ → U_∞/C_∞ → U_∞/E_∞ → 0`. The first is IntegralIwasawaTheory §2.7 (`infiniteGlobalLocalSequence`); its sign term at `p = 2` is killed by 2 and disappears after `⊗ℚ_p`, where Greither's comparisons of characteristic ideals take place.
 2. By Theorem 3.1, `h_ρ·char(X_ρ) = char((E_∞/C_∞)_ρ)`. With Corollary 2.14, `h_ρ·char(Y_ρ) = char(U_∞/C_∞)_ρ = char(Λ/(½G_p(T, ρ))*(1))`.
 3. Proposition 3.4 converts `char(Y_ρ^+)` into `char(X_χ*(1))`, so `char(X_χ)` divides `(½G_p(T, χ̌))` for every odd `χ ≠ ω`.
 4. `X_ω` is finite (`exceptionalOmega_finite`).
@@ -3665,13 +3693,13 @@ See **GREITHER-1992**, §4, proof of Theorem 4.11, p. 493. The coinvariant step.
 
 <a id="greither-ray-class-transfer"></a>
 ### 4.24 Norm and inclusion maps on `p`-adic ray class groups (Greither, Lemma 4.13)
-Let `F/K` be a `p`-extension of cyclic number fields that are unramified above `p`, with `C = Gal(F/K)` and `A′=A′_fin` the finite-modulus ray limit of §4.23. There are Galois-equivariant homomorphisms `α`: `A′(F) → A′(K)`, induced by `N_{F/K}`, and `β`: `A′(K) → A′(F)`, induced by `K ⊂ F`, such that `α` is surjective, `β` is injective, and `βα` is multiplication by the norm element `Σ_{σ∈C}σ`.
+Let `F/ℚ` be abelian and unramified at `p`, with cyclic `p`-Sylow subgroup, and let `K` be an intermediate field with `[F:K]` a power of `p`. Put `C = Gal(F/K)` and `A′=A′_fin` the finite-modulus ray limit of §4.23. There are Galois-equivariant homomorphisms `α`: `A′(F) → A′(K)`, induced by `N_{F/K}`, and `β`: `A′(K) → A′(F)`, induced by `K ⊂ F`, such that `α` is surjective, `β` is injective, and `βα` is multiplication by the norm element `Σ_{σ∈C}σ`.
 
-`F/ℚ` is cyclic, `K` is its intermediate field, and `[F:K]` is a power of `p`. Both fields are unramified at `p`; abelian Leopoldt supplies the principal-unit lattice calculation.
+`Gal(F/ℚ)` need not be cyclic. Both fields are unramified at `p`; abelian Leopoldt supplies the principal-unit lattice calculation.
 
 Prove this as follows.
 
-1. The inertia groups generate `Gal(F/ℚ)`, since `ℚ` has no nontrivial extension unramified at every finite prime. Their images generate its cyclic `p`-Sylow quotient, so one inertia group surjects onto that quotient. It therefore contains the entire `p`-Sylow subgroup. For a prime `ℓ≠p` with this inertia, `F/K` is totally ramified above `ℓ`. Thus `F/K` has no nontrivial subextension unramified outside `p`, and reciprocity makes `α` onto. This does not require total ramification in `F/ℚ`.
+1. The inertia groups generate `Gal(F/ℚ)`, since `ℚ` has no nontrivial extension unramified at every finite prime. Their images generate its cyclic `p`-Sylow quotient, so one inertia group surjects onto that quotient. Taking primary parts in this finite abelian group shows that this inertia group contains the entire `p`-Sylow subgroup, hence contains `C`. For a prime `ℓ≠p` with this inertia, `F/K` is totally ramified above `ℓ`. Thus `F/K` has no nontrivial subextension unramified outside `p`, and reciprocity makes `α` onto. This does not require total ramification in `F/ℚ`.
 2. For a divisor `𝔪` of `K`, `ker(C_𝔪(K) → C_𝔪(F))` embeds into `H¹(C, E_𝔪(F))` with `E_𝔪(F) = ker(O_F^× → (O_F/𝔪O_F)^×)`. Since `lim` is left exact, it suffices that `lim_ν H¹(C, E_{(p^ν)}(F)) = 0`.
 3. Leopoldt's conjecture for `p` and `F` gives `N ≥ 2` such that every `x ∈ E_{(p^{N+1})}(F)` is a `p`-th power of a unit `y`, and `y ∈ E_{(p^N)}(F)` because `p` is unramified in `F`.
 4. Let `p^c = |C|` and `ν ≥ N`. Every 1-cocycle `x = (x_σ)` in `Z¹(C, E_{(p^{ν+c})}(F))` has `x_σ = y_σ^{p^c}` with `y_σ ∈ E_{(p^ν)}(F)`. `E_{(p^ν)}(F)` contains no nontrivial `p`-power root of unity: for odd `p` because `F` is unramified at `p`, and for `p = 2` because `−1 ≢ 1 mod 4` and `ν ≥ 2`. So `(y_σ)` is again a cocycle, and the image of `x` in `H¹(C, E_{(p^ν)}(F))` is divisible by `p^c`, hence zero.
@@ -3680,8 +3708,9 @@ Prove this as follows.
 
 - For `p = 2` the field `F` contains `−1`. The cocycle step needs `ν ≥ N ≥ 2`, not the absence of 2-power roots of unity from `F` that Greither states.
 - For `F=ℚ(√5)ℚ(ζ₇)⁺`, `p=3` and `K=ℚ(√5)`, `Gal(F/ℚ)=C₆` has inertia of orders 2 at 5 and 3 at 7. Neither prime is totally ramified over `ℚ`, but `F/K` is totally ramified at 7, which is the required relative statement.
+- For `p=3`, `F=ℚ(√5,√13,ζ₇+ζ₇⁻¹)` and `K=ℚ(√5,√13)`, the group is `C₂×C₂×C₃` and 3 is unramified. The inertia at 7 contains the full 3-Sylow subgroup, so the degree-three extension `F/K` satisfies both transfer conclusions although `F/ℚ` is not cyclic.
 
-See **GREITHER-1992**, §4, proof of Lemma 4.13, p. 495. The maps `α` and `β`. **GREITHER-1992**, §4, proof of Lemma 4.13, p. 495. The use of Leopoldt's conjecture.
+See **GREITHER-1992**, §4, Lemma 4.13 and its proof, p. 495. The norm and inclusion maps; the inertia argument uses only cyclicity of the `p`-Sylow subgroup, giving the stated abelian generality. **GREITHER-1992**, §4, proof of Lemma 4.13, p. 495. The use of Leopoldt's conjecture.
 
 *Needs:* [§4.23](#greither-ray-class-real-fields) (ordinary finite-ray comparison); `TauCetiRoadmap.ClassFieldTheory Layer 13` (ray class groups and reciprocity); `TauCetiRoadmap.ProfiniteCohomology` Layer 9 (Hilbert 90); IntegralIwasawaTheory §4.4.
 
@@ -3694,13 +3723,15 @@ In these finite-index formulas Greither’s notation `|a|_p` means `p^{v_p(a)}`,
 Prove this as follows.
 
 1. Let `χ′ = χ|Δ_0 ≠ 1`. If `Δ_p = 1`, the statement is Theorem 4.11. Otherwise let `C` be the subgroup of `Δ_p` of order `p`, and `F_1` its fixed field.
-2. Lemma 4.13 gives `α`: `A′(F) → A′(F_1)` onto and `β`: `A′(F_1) → A′(F)` injective with `βα = N_C`.
+2. Apply §4.24 in its abelian, cyclic-`p`-Sylow generality to `F/F_1`. It gives `α`: `A′(F) → A′(F_1)` onto and `β`: `A′(F_1) → A′(F)` injective with `βα = N_C`.
 3. If `Δ_p = ⟨σ⟩` has order `p^k`, then `N_C = Φ_{p^k}(σ)`, and for `χ` faithful on `Δ_p`, `A′(F)_χ = A′(F)_{χ′}/Φ_{p^k}(σ)A′(F)_{χ′}` (`Φ_{p^k}` is irreducible over the unramified `ℚ_p(χ′)`). Since `α` is onto and `β` injective, `N_C·A′(F)_{χ′} = β(A′(F_1)_{χ′}) ≅ A′(F_1)_{χ′}`, so `|A′(F)_χ| = |A′(F)_{χ′}|/|A′(F_1)_{χ′}|` (Solomon, Corollary II.1).
 4. A character of `F` is a character of `F_1` exactly when it is not faithful on `Δ_p`. By Theorem 4.11 the quotient is `∏|½L_p(1, ξ)|_p^{d(χ′)}` over the `ξ` with `ξ|Δ_0 = χ′` that are faithful on `Δ_p`. These `ξ` are the `ℚ_p(χ′)`-conjugates of `χ`, so the product is `|½L_p(1, χ)|_p^{d(χ)}`.
 
 **Checks.**
 
 - `χ|Δ_0 ≠ ε` is needed: for `Δ_p = 1` and `χ = 1`, `A′(F)_χ` has `ℤ_p`-rank one and `L_p(s, 1)` has a pole at `s = 1`.
+- With `p=3` and `F=ℚ(√5,√13,ζ₇+ζ₇⁻¹)`, take a nontrivial quadratic character on `Δ_0=C₂×C₂` and a faithful character on `Δ_p=C₃`. Its order is 6, so the theorem applies; step 2 uses the transfer over `F_1=ℚ(√5,√13)` without a cyclicity hypothesis on `F/ℚ`.
+- If `Δ_p=1` and `χ≠1`, the character quotient is already the prime-to-`p` component of §4.23; no degree-`p` transfer is used.
 
 See **GREITHER-1992**, §1, Theorem `C`, p. 454. Theorem `C` with `χ|Δ_0 ≠ ε`. **GREITHER-1992**, §4, Theorem 4.12, p. 494. Theorem 4.12; its printed hypothesis omits `χ|Δ_0 ≠ ε`. **GREITHER-1992**, §4, proof of Theorem 4.12, p. 494. The order of the `χ`-part.
 

@@ -26,7 +26,12 @@ carrier and compact Kummer comparison. Finite Kummer maps and the native
 and analytic main conjectures (§§2.4, 3.4–3.5, 4.12–4.14, 4.27, 5.2) need the arithmetic
 norm-limit modules,
 characteristic ideals and the Kubota–Leopoldt pseudomeasure. A completed group algebra alone
-does not supply these objects. The Coleman, Gauss-logarithm and ray-class comparisons and
+does not supply these objects. The integral unit/class equality of §4.12 uses the CM-tower
+circular units. Real-field norm-generated circular units give the integral divisibility,
+with equality after inverting `p`; at 2 their quotient can retain a height-one factor `(2)`.
+The CM-plus intersection lattice is a separate construction. The ray transfer of §4.24
+allows abelian fields with cyclic `p`-Sylow subgroup, as required in §4.25.
+The Coleman, Gauss-logarithm and ray-class comparisons and
 Gras formulas (§§4.3–4.8, 4.18–4.19, 4.23–4.26) also need the specified Coleman operators,
 normalised Iwasawa logarithm, norm limits of semilocal circular-unit closures, ordinary
 finite-modulus ray-class limits and Sinnott lattices. The ray comparison retains the dyadic
