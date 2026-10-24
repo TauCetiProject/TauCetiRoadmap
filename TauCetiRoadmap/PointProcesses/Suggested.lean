@@ -228,13 +228,26 @@ variable {S : Type*} [MetricSpace S] [PolishSpace S] [LocallyCompactSpace S] [Me
 def campbellMeasure (N : Ω → Measure X) (Y : Ω → T) : Measure (X × T) :=
   P.bind fun ω => (N ω).map fun x => (x, Y ω)
 
+/-- A random measure with σ-finite intensity has an a.e. equal Mathlib s-finite kernel. -/
+theorem exists_isSFiniteKernel_ae_eq {N : Ω → Measure X} (hN : Measurable N)
+    [SigmaFinite (intensity P N)] :
+    ∃ κ : Kernel Ω X, IsSFiniteKernel κ ∧ ∀ᵐ ω ∂P, κ ω = N ω := by
+  sorry
+
+/-- The graph pushforward used in the Campbell measure is a.e. measurable. -/
+theorem aemeasurable_campbellKernel {N : Ω → Measure X} {Y : Ω → T} (hN : Measurable N)
+    (hY : Measurable Y) [SigmaFinite (intensity P N)] :
+    AEMeasurable (fun ω => (N ω).map fun x => (x, Y ω)) P := by
+  sorry
+
 theorem campbellMeasure_fst {N : Ω → Measure X} {Y : Ω → T} (hN : Measurable N)
-    (hY : Measurable Y) :
+    (hY : Measurable Y) [SigmaFinite (intensity P N)] :
     (campbellMeasure P N Y).fst = intensity P N := by
   sorry
 
 theorem lintegral_campbellMeasure {N : Ω → Measure X} {Y : Ω → T} (hN : Measurable N)
-    (hY : Measurable Y) {g : X × T → ℝ≥0∞} (hg : Measurable g) :
+    (hY : Measurable Y) [SigmaFinite (intensity P N)]
+    {g : X × T → ℝ≥0∞} (hg : Measurable g) :
     ∫⁻ p, g p ∂campbellMeasure P N Y = ∫⁻ ω, ∫⁻ x, g (x, Y ω) ∂N ω ∂P := by
   sorry
 
@@ -264,11 +277,16 @@ theorem _root_.MeasureTheory.Measure.eq_sigmaFiniteCondKernel_of_measure_eq_comp
     ∀ᵐ x ∂ρ.fst, κ x = ρ.sigmaFiniteCondKernel x := by
   sorry
 
-/-- The Palm kernel of a random measure `N` with respect to a jointly observed `Y`. -/
+/-- The Palm kernel of a random measure `N` with respect to a jointly observed `Y`.
+Use a fixed Dirac kernel when the Campbell first marginal is not σ-finite; the disintegration
+theorem below assumes measurable inputs and σ-finite intensity. -/
 def palmKernel (N : Ω → Measure X) (Y : Ω → T) [StandardBorelSpace T] [Nonempty T]
-    [SigmaFinite (intensity P N)] : Kernel X T :=
-  haveI : SigmaFinite (campbellMeasure P N Y).fst := sorry
-  (campbellMeasure P N Y).sigmaFiniteCondKernel
+    [SigmaFinite (intensity P N)] : Kernel X T := by
+  classical
+  by_cases h : SigmaFinite (campbellMeasure P N Y).fst
+  · letI := h
+    exact (campbellMeasure P N Y).sigmaFiniteCondKernel
+  · exact Kernel.const X (Measure.dirac (Classical.arbitrary T))
 
 theorem compProd_intensity_palmKernel {N : Ω → Measure X} {Y : Ω → T} [StandardBorelSpace T]
     [Nonempty T] [SigmaFinite (intensity P N)] (hN : Measurable N) (hY : Measurable Y) :
@@ -988,6 +1006,25 @@ def IsAdaptedPoisson (𝓕 : Filtration ℝ≥0 mΩ) (M : Ω → Measure (ℝ≥
     ∀ t, Indep (MeasurableSpace.comap (fun ω => (M ω).restrict (Set.Ioi t ×ˢ Set.univ))
       inferInstance) (𝓕 t) P
 
+/-- Predictable compensation for a general σ-finite adapted Poisson random measure with no
+intensity mass at the origin; bounded time slabs can have infinite ground mass. -/
+theorem IsAdaptedPoisson.lintegral_eq {𝓕 : Filtration ℝ≥0 mΩ}
+    {M : Ω → Measure (ℝ≥0 × E')} {μ : Measure (ℝ≥0 × E')} [SigmaFinite μ]
+    (hM : IsAdaptedPoisson P 𝓕 M μ) (hzero : μ ({0} ×ˢ Set.univ) = 0)
+    {H : ℝ≥0 × Ω × E' → ℝ≥0∞} (hH : IsPredictableIntegrand 𝓕 H) :
+    ∫⁻ ω, ∫⁻ p, H (p.1, ω, p.2) ∂M ω ∂P =
+      ∫⁻ ω, ∫⁻ p, H (p.1, ω, p.2) ∂μ ∂P := by
+  sorry
+
+/-- Lift forward Poisson compensation to the locally finite marked carrier. -/
+theorem IsAdaptedPoisson.isCompensator {𝓕 : Filtration ℝ≥0 mΩ}
+    {N : Ω → TemporalPointMeasure E} (hN : Measurable N)
+    {μ : Measure (ℝ≥0 × E)} [SigmaFinite μ]
+    (hM : IsAdaptedPoisson P 𝓕 (fun ω => (N ω : Measure (ℝ≥0 × E))) μ)
+    (hloc : ∀ K : Set ℝ≥0, IsCompact K → μ (K ×ˢ Set.univ) < ∞) :
+    IsCompensator P 𝓕 N (fun _ => ⟨μ, hloc⟩) := by
+  sorry
+
 /-- Watanabe's characterization. -/
 theorem isAdaptedPoisson_of_isCompensator_const {𝓕 : Filtration ℝ≥0 mΩ}
     {N : Ω → TemporalPointMeasure Unit} (hN : Measurable N)
@@ -1107,7 +1144,8 @@ def IsEmptyPastHawkes (ν : ℝ) (h : ℝ → ℝ≥0) (N : Ω → PointMeasure 
 `h(s) ds`; the theorems below assume `h` vanishes on `(-∞, 0]`. -/
 def hawkesClusterKernel (h : ℝ → ℝ≥0) : Kernel ℝ (Measure ℝ) := sorry
 
-theorem lintegral_count_hawkesClusterKernel {h : ℝ → ℝ≥0} (hsupp : ∀ s ≤ 0, h s = 0)
+theorem lintegral_count_hawkesClusterKernel {h : ℝ → ℝ≥0} (h_meas : Measurable h)
+    (hsupp : ∀ s ≤ 0, h s = 0)
     (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) (x : ℝ) :
     ∫⁻ ζ, ζ Set.univ ∂hawkesClusterKernel h x = ENNReal.ofReal (1 / (1 - ∫ s, (h s : ℝ))) := by
   sorry
@@ -1119,20 +1157,20 @@ def stationaryHawkesLaw (ν : ℝ) (h : ℝ → ℝ≥0) : Measure (PointMeasure
 instance (ν : ℝ) (h : ℝ → ℝ≥0) : IsProbabilityMeasure (stationaryHawkesLaw ν h) := sorry
 
 theorem vaddInvariantMeasure_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) :
     VAddInvariantMeasure ℝ (PointMeasure ℝ) (stationaryHawkesLaw ν h) := by
   sorry
 
 theorem intensityDensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) :
     intensityDensity (stationaryHawkesLaw ν h) (fun ξ : PointMeasure ℝ => (ξ : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) =
       ENNReal.ofReal (ν / (1 - ∫ s, (h s : ℝ))) := by
   sorry
 
 theorem hasHawkesIntensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) :
     HasHawkesIntensity (stationaryHawkesLaw ν h) ν h id := by
   sorry
@@ -1140,7 +1178,7 @@ theorem hasHawkesIntensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} 
 /-- Stationary uniqueness, using the remote-past disagreement estimate and convergence of the
 constructed empty-past law to the stationary cluster law. -/
 theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
     (hN : HasHawkesIntensity P ν h N) [VAddInvariantMeasure ℝ (PointMeasure ℝ) (P.map N)]
     (hfin : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) < ∞) :
@@ -1150,7 +1188,7 @@ theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < �
 /-- Convergence from the empty past, in total variation on every window `(0, L]` after
 translation by `T`. -/
 theorem tendsto_emptyPast_restrict {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
     (hN : IsEmptyPastHawkes P ν h N) (L : ℝ) :
     Tendsto (fun T : ℝ => ⨆ s : {s : Set (PointMeasure ℝ) // MeasurableSet s},

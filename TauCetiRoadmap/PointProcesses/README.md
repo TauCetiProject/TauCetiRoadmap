@@ -124,11 +124,13 @@ supply.
   `Filtration.predictable`, `IsStronglyPredictable`, `Filtration.IsRightContinuous`, and
   `Locally`, is the vocabulary of Layers 10–12.  This roadmap does not build any of the
   rest: every integral here is a pathwise Lebesgue–Stieltjes integral against a point
-  measure and never an Itô integral; a compensator is *defined* by an integral identity and
-  *constructed* explicitly for internal histories and their initial enlargements; and every
-  theorem of Layers 11–12 takes the compensator as a hypothesis.  Existence of a compensator
-  in an arbitrary filtration is the Doob–Meyer theorem for counting processes, which belongs
-  to that project; no target here depends on it.
+  measure and never an Itô integral.  Compensators are *defined* by an integral identity
+  and *constructed* by the explicit hazard formula for time-simple processes in their
+  internal histories and initial enlargements, and directly from predictable Poisson
+  compensation for the Poisson-driven constructions.  Watanabe and random time change
+  take a compensator as a hypothesis.  General-filtration compensator existence via
+  Doob–Meyer, including its finite-horizon-integrable marked-batch specialization, is
+  outside this roadmap; no target here depends on it.
 * **The [standard-distributions roadmap](../StandardDistributions/README.md)** owns the
   scalar laws: `poissonMeasure` with its moments, transforms, tail, and parameter
   measurability; `pgf`; `expMeasure` with memorylessness, minima, and Erlang sums; and the
@@ -186,11 +188,13 @@ The completed trunk provides the following theorem packages.
    law, inheritance of stationarity and mixing, and the size-biased directing law under Palm.
 9. **Compensator theorem package.** A compensator is a predictable random measure
    satisfying the integral identity against nonnegative predictable integrands; it is unique
-   up to evanescence; it exists for the internal history of every locally finite temporal
-   point process and for initial enlargements of that history, by an explicit hazard
-   formula; and pathwise integrals of bounded predictable integrands against the
-   compensated measure are martingales, with the isometry when the compensator is
-   continuous.
+   up to evanescence; for time-simple locally finite temporal point processes it exists
+   in the internal history and its initial enlargements, by an explicit hazard formula.
+   Compensated pathwise integrals are martingales when their absolute integrals against
+   the compensator have finite expectation on every bounded time interval.  For
+   time-simple processes with a continuous compensator, square-integrable integrands
+   satisfy the isometry.  The definition, uniqueness, and integrable martingale theorem
+   also apply to processes with simultaneous batches.
 10. **Poisson-clock theorem package.** Watanabe's characterization and random time change
     identify a continuous, nonterminating compensated clock with a unit-rate Poisson process;
     Poisson embedding constructs processes from predictable intensities under explicit
@@ -797,9 +801,21 @@ locally finite intensity.  **From Mathlib.** Finite-measure standard-Borel disin
 
 **Build.**
 
-* Campbell measures `campbellMeasure P N Y` on `X × T` for a random measure `N` and a jointly
-  observed random element `Y`, their marginals, and the Campbell integration formula for
-  nonnegative and integrable functions.
+* Campbell measures `campbellMeasure P N Y` on `X × T` for a random measure `N` with
+  σ-finite intensity and a jointly observed random element `Y`, their marginals, and the
+  Campbell integration formula for nonnegative and integrable functions.
+* The adapter `exists_isSFiniteKernel_ae_eq`: for measurable `N : Ω → Measure X` with
+  σ-finite intensity, construct a Mathlib s-finite kernel agreeing with `N` outside a
+  common measurable `P`-null set.  Choose a countable measurable partition of `X` into
+  finite-intensity pieces.  Outside a common null set each path has finite mass on each
+  piece.  Replace paths on that null set by zero, restrict to each partition piece, and
+  split the path space by integer bounds on that piece's mass to obtain kernels with
+  uniform finite bounds.  Their countable sum is the required kernel.  Use Mathlib's
+  [`IsSFiniteKernel`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Probability/Kernel/Defs.html#ProbabilityTheory.IsSFiniteKernel)
+  integration and mapping API to prove almost-everywhere measurability of
+  `ω ↦ (N ω).map (fun x ↦ (x, Y ω))` and the parameter integrals in the Campbell formula.
+  This is a measurability adapter within the σ-finite-intensity scope, not an enlargement
+  of that scope to arbitrary s-finite intensities.
 * A σ-finite disintegration adapter: for a measure `ρ` on `α × Ω'` with σ-finite first
   marginal and standard-Borel nonempty `Ω'`, choose a positive measurable `g` on `α` with
   `∫⁻ g ∂ρ.fst < ∞`, disintegrate the finite measure `ρ.withDensity (g ∘ Prod.fst)` with
@@ -839,12 +855,21 @@ variable {S : Type*} [MetricSpace S] [PolishSpace S] [LocallyCompactSpace S] [Me
 def campbellMeasure (N : Ω → Measure X) (Y : Ω → T) : Measure (X × T) :=
   P.bind fun ω => (N ω).map fun x => (x, Y ω)
 
+theorem exists_isSFiniteKernel_ae_eq {N : Ω → Measure X} (hN : Measurable N)
+    [SigmaFinite (intensity P N)] :
+    ∃ κ : Kernel Ω X, IsSFiniteKernel κ ∧ ∀ᵐ ω ∂P, κ ω = N ω
+
+theorem aemeasurable_campbellKernel {N : Ω → Measure X} {Y : Ω → T} (hN : Measurable N)
+    (hY : Measurable Y) [SigmaFinite (intensity P N)] :
+    AEMeasurable (fun ω => (N ω).map fun x => (x, Y ω)) P
+
 theorem campbellMeasure_fst {N : Ω → Measure X} {Y : Ω → T} (hN : Measurable N)
-    (hY : Measurable Y) :
+    (hY : Measurable Y) [SigmaFinite (intensity P N)] :
     (campbellMeasure P N Y).fst = intensity P N
 
 theorem lintegral_campbellMeasure {N : Ω → Measure X} {Y : Ω → T} (hN : Measurable N)
-    (hY : Measurable Y) {g : X × T → ℝ≥0∞} (hg : Measurable g) :
+    (hY : Measurable Y) [SigmaFinite (intensity P N)]
+    {g : X × T → ℝ≥0∞} (hg : Measurable g) :
     ∫⁻ p, g p ∂campbellMeasure P N Y = ∫⁻ ω, ∫⁻ x, g (x, Y ω) ∂N ω ∂P
 
 /-- Disintegration of a measure on a product with σ-finite first marginal and standard Borel second
@@ -869,10 +894,16 @@ theorem _root_.MeasureTheory.Measure.eq_sigmaFiniteCondKernel_of_measure_eq_comp
     (h : ρ.fst ⊗ₘ κ = ρ) :
     ∀ᵐ x ∂ρ.fst, κ x = ρ.sigmaFiniteCondKernel x
 
-/-- The Palm kernel of a random measure `N` with respect to a jointly observed `Y`. -/
+/-- The Palm kernel of a random measure `N` with respect to a jointly observed `Y`.
+Use a fixed Dirac kernel when the Campbell first marginal is not σ-finite; the disintegration
+theorem below assumes measurable inputs and σ-finite intensity. -/
 def palmKernel (N : Ω → Measure X) (Y : Ω → T) [StandardBorelSpace T] [Nonempty T]
-    [SigmaFinite (intensity P N)] : Kernel X T :=
-  (campbellMeasure P N Y).sigmaFiniteCondKernel
+    [SigmaFinite (intensity P N)] : Kernel X T := by
+  classical
+  by_cases h : SigmaFinite (campbellMeasure P N Y).fst
+  · letI := h
+    exact (campbellMeasure P N Y).sigmaFiniteCondKernel
+  · exact Kernel.const X (Measure.dirac (Classical.arbitrary T))
 
 theorem compProd_intensity_palmKernel {N : Ω → Measure X} {Y : Ω → T} [StandardBorelSpace T]
     [Nonempty T] [SigmaFinite (intensity P N)] (hN : Measurable N) (hY : Measurable Y) :
@@ -1627,8 +1658,8 @@ side, and they determine the stationary law exactly when `P(N ≠ 0) = 1`.
 * The local interpretation: for bounded measurable `g` and a measurable selection `X` of an
   occurrence in the ball `B(0, r)` with deterministic tie-breaking,
   `𝔼[g(X +ᵥ N) | N(B(0,r)) ≥ 1] → 𝔼⁰ g(N⁰)` as `r → 0`, for a simple `N`.
-* Allocations and the mass-transport principle: for a translation-covariant measurable
-  allocation `τ` of locations to occurrences,
+* Allocations and the mass-transport principle for a simple `N`: for a
+  translation-covariant measurable allocation `τ` of locations to occurrences,
   `𝔼[1{τ(0,N) ≠ ∞} f(N) g(θ_{τ(0,N)} N)] = λ 𝔼⁰[g(N⁰) ∫_{C^τ(0,N⁰)} f(θₓN⁰) dx]`.  Include
   the Voronoi allocation with deterministic measurable tie-breaking.
 * Slivnyak's theorem in stationary form: `N` is Poisson if and only if `P⁰` is the law of
@@ -1636,11 +1667,13 @@ side, and they determine the stationary law exactly when `P(N ≠ 0) = 1`.
 * Voronoi inversion for a simple `N`: with `X` the nearest occurrence to the origin,
   `𝔼[1{N ≠ 0} h(X, N)] = λ 𝔼⁰ ∫_{C₀(N⁰)} h(-x, θₓN⁰) dx`, and the mean cell volume
   `λ 𝔼⁰ volume (C₀(N⁰)) = P(N ≠ 0)`.
-* On the line, with `T₁` the first occurrence after the origin: Palm–Khinchin inversion
+* On the line, for a simple `N`, with `T₁` the first occurrence after the origin:
+  Palm–Khinchin inversion
   `𝔼[1{N ≠ 0} f(N)] = λ 𝔼⁰ ∫₀^{T₁} f(θ_t N⁰) dt` and `λ 𝔼⁰ T₁ = P(N ≠ 0)`; the
-  cycle-stationary correspondence, a bijection between stationary laws with `0 < λ < ∞`
-  and `P(N ≠ 0) = 1` and laws with an occurrence at the origin that are invariant under the
-  shift to the next occurrence and have finite positive mean first interval.
+  cycle-stationary correspondence, a bijection between stationary simple-process laws
+  with `0 < λ < ∞` and `P(N ≠ 0) = 1` and simple-process laws with an occurrence at the
+  origin that are invariant under the shift to the next occurrence and have finite
+  positive mean first interval.
 * Stationary renewal processes on the line.  For a probability measure `F` on `(0, ∞)` with
   mean `m ∈ (0, ∞)`, the Palm renewal law is the law of `∑_{n ∈ ℤ} δ_{S_n}` with `S₀ = 0`
   and two-sided i.i.d. increments of law `F`, built from `Measure.infinitePi`.  Prove that
@@ -1788,7 +1821,22 @@ Ceti.** `Measure.ext_of_forall_integral_exp_neg_natCast_mul_eq` and
 
   for all nonnegative measurable `f`; this is Layer 2's Campbell formula with `Y = Λ`.
 * `N` is almost surely simple if and only if `Λ` is almost surely atomless.
-* Mapping, restriction, marking, and thinning with the director thinned by the same density.
+* Mapping and restriction, with the director mapped or restricted by the same operation.
+  Marking with a Markov kernel `κ : Kernel S E` has the stronger joint-law hypothesis
+
+  ```text
+  𝓛((Λ,N), M) = 𝓛(Λ,N) ⊗ₘ ((μ,ξ) ↦ markKernel κ ξ).
+  ```
+
+  Thus, conditional on both `Λ` and `N`, the marks have Layer 6's independent marking
+  law.  Prove that, conditional on `Λ`, `M` is Poisson with intensity `Λ ⊗ₘ κ`, giving
+  the Cox marking theorem with this specified director.  Derive thinning with measurable
+  retention probability `p : S → [0,1]` by two-color marking and restriction to the
+  retained color; the director is `Λ.withDensity p` on the same probability space.
+  Layer 6's `IsIndependentMarking P N κ M` alone specifies only the joint law of `(N,M)`:
+  it yields the marginal marked law by mixing Poisson laws against `𝓛(Λ ⊗ₘ κ)`,
+  but does not identify the director jointly with `M`.  Use the stronger contract for
+  every assertion preserving the named director (Last–Penrose, Exercises 13.8–13.9).
 * Cox superposition with a specified conditional joint law, as the target
   `isCox_superposition_of_jointLaw`.  For measurable directors `Λ₁, Λ₂` and point
   processes `N₁, N₂`, put `D = (Λ₁, Λ₂)` and let
@@ -1892,7 +1940,15 @@ Mathlib.** `Filtration`, `IsStoppingTime`, `Filtration.predictable`, `IsStrongly
 
 Nothing in this layer is an Itô integral, a Doob–Meyer decomposition, or a bracket.  Every
 integral is a pathwise `lintegral` against the point measure or the compensator, and
-general-filtration existence of compensators is not a target.
+general-filtration existence of compensators is not a target.  The existence theorem here
+is the explicit hazard construction for time-simple processes in their internal histories
+and initial enlargements, following Brémaud's Theorems 5.2.2–5.2.4.  Layer 11 supplies
+direct predictable compensation for adapted Poisson measures and their predictable
+thinnings.  Neither construction depends on Doob–Meyer.  The marked carriers, compensator
+predicate, uniqueness, and integrable martingale theorem are available to general
+stochastic-calculus developments; constructing compensators for arbitrary adapted marked
+batch processes in a general filtration, even under finite-horizon integrability, remains
+outside this roadmap.
 
 **Build.**
 
@@ -1914,9 +1970,9 @@ general-filtration existence of compensators is not a target.
 * `IsCompensator P 𝓕 N A`: `N` is adapted to `𝓕`, `A` is a random element of
   `MarkedLocallyFiniteMeasure ℝ≥0 E`, each `(t, ω) ↦ A ω ((0,t] × B)` is predictable, and
   `𝔼 ∫ H dN = 𝔼 ∫ H dA` for every nonnegative predictable `H`.  Prove that it suffices to
-  test nonnegative left-continuous adapted integrands, that two compensators agree almost
-  surely as measures, and that the compensator in a filtration enlarged by an independent
-  σ-field is unchanged.
+  test nonnegative left-continuous adapted integrands, and that two compensators agree
+  almost surely as measures.  Prove that the compensator is unchanged on enlarging `𝓕`
+  by a σ-field independent of its terminal σ-field `⨆ t, 𝓕_t`.
 * Existence for the internal history and its initial enlargements, for a time-simple `N`,
   by the hazard formula.  Let `G_{n+1}` be a regular conditional law, given `𝓕_{Tₙ}`, of
   the pair `(S_{n+1}, Z_{n+1})` on `ℝ≥0∞ × (E ⊕ Unit)`, where `S_{n+1} = T_{n+1} - Tₙ`, and
@@ -1937,11 +1993,23 @@ general-filtration existence of compensators is not a target.
   conditional mark distribution given an event at `τ` and `𝓕_{τ-}`.
 * Stochastic intensities: `HasStochasticIntensity P 𝓕 N Q λ` says
   `A(dt, dz) = λ(t, z) dt Q(dz)` is a compensator for a named σ-finite `Q` and a
-  predictable `λ`.  Prove that an intensity exists if and only if the Campbell measure
-  of `N` on the predictable σ-field is absolutely continuous with respect to
-  `volume ⊗ Q ⊗ P`, that it is then `volume ⊗ Q ⊗ P`-a.e. unique, that it survives an
-  independent enlargement and any intermediate history containing the internal one, and
-  that in the hazard formula with densities `g_{n+1}` it is
+  predictable `λ`.  For measurable adapted `N` satisfying
+  `𝔼 N((0,T] × E) < ∞` for every finite `T`, prove that an intensity exists if and only
+  if its predictable Campbell measure is absolutely continuous with respect to
+  `dt P(dω) Q(dz)` restricted to `𝓕.predictable.prod mE`.  Here the predictable Campbell
+  measure is characterized by `H ↦ 𝔼 ∫ H(t,ω,z) N(dt,dz)` on nonnegative predictable
+  tests.  Its Radon–Nikodym derivative `λ` is predictable; the finite expected counts
+  give `𝔼 ∫₀^T ∫ λ dQ dt < ∞` and hence almost-sure local integrability, so the density
+  defines a `MarkedLocallyFiniteMeasure`-valued compensator.  For general batch
+  processes with only σ-finite mean intensity, require this almost-sure local
+  integrability explicitly when converting a predictable density satisfying the
+  compensation identity into `HasStochasticIntensity`; absolute continuity alone does
+  not supply it.  Prove uniqueness `dt P(dω) Q(dz)`-a.e.
+* Change of filtration for intensities.  An intensity survives enlargement by a σ-field
+  independent of `⨆ t, 𝓕_t`.  For `internalHistory N ≤ 𝓖 ≤ 𝓕`, an `𝓕`-intensity `λ`
+  is also a `𝓖`-intensity provided `λ` is `𝓖`-predictable.  Prove this by testing against
+  `𝓖`-predictable integrands and constructing the same density measure in `𝓖`.
+* In the hazard formula with densities `g_{n+1}`, prove
   `λ(t, z) = g_{n+1}(t - Tₙ, z) / G_{n+1}([t - Tₙ, ∞] × univ)` on `(Tₙ, Tₙ₊₁]`.
 * Total activity.  For time-simple `N`, `N(ℝ≥0 × E) < ∞` almost surely on
   `{∫₀^∞ ∫ λ dQ dt < ∞}` and `N(ℝ≥0 × E) = ∞` almost surely on the complement.
@@ -2065,7 +2133,26 @@ intensities, stopping times, and compensated martingales.
 
 * `IsAdaptedPoisson P 𝓕 Π μ`: a Poisson random measure `Π` on `ℝ≥0 × E'` with intensity
   `μ`, adapted to `𝓕`, whose restriction to `(t, ∞) × E'` is independent of `𝓕_t` for
-  every `t`.  Prove that its compensator in `𝓕` is `μ` itself.
+  every `t`.  For σ-finite `μ` with `μ ({0} × E') = 0`, first prove the measure-valued
+  predictable compensation identity `IsAdaptedPoisson.lintegral_eq`
+
+  ```text
+  𝔼 ∫ H(t,ω,z) Π(dt,dz) = 𝔼 ∫ H(t,ω,z) μ(dt,dz)
+  ```
+
+  for every nonnegative `𝓕`-predictable marked `H`, using predictable rectangles and
+  monotone extension.  The zero-origin hypothesis treats the initial predictable
+  σ-field explicitly.  This theorem takes `Measure (ℝ≥0 × E')`-valued processes; it
+  does not require finite ground mass on bounded time intervals.
+  Derive `IsAdaptedPoisson.isCompensator` when `Π` is represented by a measurable
+  `TemporalPointMeasure E`-valued process and `μ (K × E) < ∞` for every compact `K`.
+  Build measurable lifts after restriction to increasing measurable sets of finite
+  `μ`-mass, and after predictable thinning with locally integrable accepted intensity.
+  For the product master driver, use mark bands `Eₙ × [0,n]` with `Q(Eₙ) < ∞`
+  and `Eₙ ↑ E`, each of finite intensity on every bounded time slab.  The master intensity
+  `dt Q(dz) du` has zero origin mass and is σ-finite, but has infinite ground mass on
+  positive time slabs when `Q ≠ 0`; use the measure-valued theorem for it and lift the
+  accepted process.
 * Watanabe's characterization: a time-simple `TemporalPointMeasure PUnit`-valued process
   adapted to `𝓕` whose `𝓕`-compensator is a deterministic atomless locally finite `ν` is
   `𝓕`-adapted Poisson with intensity `ν`.  Do not extend the statement across
@@ -2138,6 +2225,20 @@ def IsAdaptedPoisson (𝓕 : Filtration ℝ≥0 mΩ) (M : Ω → Measure (ℝ≥
     (∀ t, Measurable[𝓕 t] fun ω => (M ω).restrict (Set.Iic t ×ˢ Set.univ)) ∧
     ∀ t, Indep (MeasurableSpace.comap (fun ω => (M ω).restrict (Set.Ioi t ×ˢ Set.univ))
       inferInstance) (𝓕 t) P
+
+theorem IsAdaptedPoisson.lintegral_eq {𝓕 : Filtration ℝ≥0 mΩ}
+    {M : Ω → Measure (ℝ≥0 × E')} {μ : Measure (ℝ≥0 × E')} [SigmaFinite μ]
+    (hM : IsAdaptedPoisson P 𝓕 M μ) (hzero : μ ({0} ×ˢ Set.univ) = 0)
+    {H : ℝ≥0 × Ω × E' → ℝ≥0∞} (hH : IsPredictableIntegrand 𝓕 H) :
+    ∫⁻ ω, ∫⁻ p, H (p.1, ω, p.2) ∂M ω ∂P =
+      ∫⁻ ω, ∫⁻ p, H (p.1, ω, p.2) ∂μ ∂P
+
+theorem IsAdaptedPoisson.isCompensator {𝓕 : Filtration ℝ≥0 mΩ}
+    {N : Ω → TemporalPointMeasure E} (hN : Measurable N)
+    {μ : Measure (ℝ≥0 × E)} [SigmaFinite μ]
+    (hM : IsAdaptedPoisson P 𝓕 (fun ω => (N ω : Measure (ℝ≥0 × E))) μ)
+    (hloc : ∀ K : Set ℝ≥0, IsCompact K → μ (K ×ˢ Set.univ) < ∞) :
+    IsCompensator P 𝓕 N (fun _ => ⟨μ, hloc⟩)
 
 /-- Watanabe's characterization. -/
 theorem isAdaptedPoisson_of_isCompensator_const {𝓕 : Filtration ℝ≥0 mΩ}
@@ -2360,7 +2461,8 @@ def IsEmptyPastHawkes (ν : ℝ) (h : ℝ → ℝ≥0) (N : Ω → PointMeasure 
 `h(s) ds`; the theorems below assume `h` vanishes on `(-∞, 0]`. -/
 def hawkesClusterKernel (h : ℝ → ℝ≥0) : Kernel ℝ (Measure ℝ)
 
-theorem lintegral_count_hawkesClusterKernel {h : ℝ → ℝ≥0} (hsupp : ∀ s ≤ 0, h s = 0)
+theorem lintegral_count_hawkesClusterKernel {h : ℝ → ℝ≥0} (h_meas : Measurable h)
+    (hsupp : ∀ s ≤ 0, h s = 0)
     (hint : Integrable (fun s => (h s : ℝ))) (hm : ∫ s, (h s : ℝ) < 1) (x : ℝ) :
     ∫⁻ ζ, ζ Set.univ ∂hawkesClusterKernel h x = ENNReal.ofReal (1 / (1 - ∫ s, (h s : ℝ)))
 
@@ -2369,25 +2471,25 @@ and the Hawkes cluster kernel. -/
 def stationaryHawkesLaw (ν : ℝ) (h : ℝ → ℝ≥0) : Measure (PointMeasure ℝ)
 
 theorem vaddInvariantMeasure_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) :
     VAddInvariantMeasure ℝ (PointMeasure ℝ) (stationaryHawkesLaw ν h)
 
 theorem intensityDensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) :
     intensityDensity (stationaryHawkesLaw ν h) (fun ξ : PointMeasure ℝ => (ξ : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) =
       ENNReal.ofReal (ν / (1 - ∫ s, (h s : ℝ)))
 
 theorem hasHawkesIntensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) :
     HasHawkesIntensity (stationaryHawkesLaw ν h) ν h id
 
 /-- Stationary uniqueness, using the remote-past disagreement estimate and convergence of the
 constructed empty-past law to the stationary cluster law. -/
 theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
     (hN : HasHawkesIntensity P ν h N) [VAddInvariantMeasure ℝ (PointMeasure ℝ) (P.map N)]
     (hfin : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure ℝ)) (Set.Ico 0 1) < ∞) :
@@ -2396,7 +2498,7 @@ theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < �
 /-- Convergence from the empty past, in total variation on every window `(0, L]` after
 translation by `T`. -/
 theorem tendsto_emptyPast_restrict {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
-    (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
+    (h_meas : Measurable h) (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
     (hN : IsEmptyPastHawkes P ν h N) (L : ℝ) :
     Tendsto (fun T : ℝ => ⨆ s : {s : Set (PointMeasure ℝ) // MeasurableSet s},
@@ -2439,8 +2541,9 @@ without unfolding implementation details.
 6. A Cox count satisfies `Var N(B) = 𝔼Λ(B) + Var Λ(B)`; its reduced Palm director is the
    Palm kernel of the director; and the Gamma-mixed Poisson process has negative-binomial
    counts.
-7. A compensated count `N_t - A_t` and a bounded predictable compensated integral are
-   martingales; the hazard formula gives `γ dt` for the homogeneous Poisson process; after
+7. A compensated count `N_t - A_t` and a predictable compensated integral are
+   martingales under the finite-expectation hypotheses of Layer 10; the hazard formula
+   gives `γ dt` for the homogeneous Poisson process; after
    a continuous nonterminating time change the event times are unit Poisson.
 8. The same subcritical linear Hawkes law is obtained from the Poisson-embedding and
    immigrant–offspring constructions; its stationary mean rate simplifies to `ν/(1 - ∫h)`;
@@ -2464,7 +2567,12 @@ The references are not interchangeable; use them for the jobs they do best.
   structure (Propositions 8.2, 8.7, 8.8, 8.11–8.13); Chapter 9 Palm distributions (Theorems
   9.1, 9.4, 9.6, Propositions 9.5, 9.7); Chapter 10 allocations and mass transport
   (Theorem 10.2); and Chapter 13 random measures and Cox processes (Proposition 13.6,
-  Theorems 13.7, 13.8, 13.11).
+  Theorems 13.7, 13.8, 13.11, Exercises 13.8–13.9 on conditioning Cox markings on the
+  director as well as the process).
+* Tomas Björk, [*An Introduction to Point Processes from a Martingale Point of
+  View*](https://www.math.kth.se/matstat/fofu/PointProc3.pdf), 2011, Proposition 3.5.1,
+  for change of filtration of a stochastic intensity.  Layer 10 uses its special case
+  where the original intensity is already predictable in the smaller filtration.
 * Olav Kallenberg, *Foundations of Modern Probability*, 3rd ed., Springer, 2021.  Chapter 7
   for null arrays; Chapter 15 for Poisson and Cox processes on general spaces (Theorem 15.5,
   Lemmas 15.6–15.7, Theorem 15.8, Corollary 15.9) and for the general-filtration
