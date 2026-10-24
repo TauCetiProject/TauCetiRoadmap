@@ -1,3 +1,5 @@
+import Mathlib.Algebra.Homology.Embedding.CochainComplex
+import Mathlib.Algebra.Homology.HomotopyCategory.MappingCocone
 import Mathlib.Algebra.Homology.Homotopy
 import Mathlib.Algebra.Homology.HomologicalComplexBiprod
 import Mathlib.Algebra.Homology.QuasiIso
@@ -42,6 +44,8 @@ import TauCeti.Geometry.Manifold.IntegralCurve.Maximal
 import TauCeti.Geometry.Manifold.LocalDiffeomorph
 import TauCeti.Geometry.Manifold.LocallyFlat.Basic
 import TauCeti.Geometry.Manifold.TwoForm.Closed
+import TauCeti.Geometry.Manifold.Riemannian.Pullback
+import TauCeti.Geometry.Manifold.Riemannian.Sphere
 import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
 import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
@@ -62,13 +66,16 @@ import TauCeti.MeasureTheory.Integral.DivergenceTheorem
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-Every load-bearing layer has at least one compiled declaration here. Where the pin cannot
+Every load-bearing layer has at least one representative declaration here. Where the pin cannot
 yet express a type, the file fixes it *provisionally*: a definition with a `sorry` body
 (never a `Prop`-typed placeholder) whose type pins the data, followed by the theorems that
 pin its characteristic equations. The implementation need not match these definitions
 definitionally; it must provide the data and laws they state. Real definitions are given
 wherever the pin allows (`mpullback`, `flowDomain`, `degreeAtRegularValue`, `mgradient`,
 `laplaceBeltrami`, …), so that the statements about them mean exactly what they say.
+
+`mgradient` is compatibility notation for the Riesz expression; the native gradient
+source and its additional comparison obligations are named in README12.2.
 
 Existing Tau Ceti declarations are imported and consumed rather than restated: the
 boundary manifold (`TauCeti.isManifold_boundary`), the manifold inverse function theorem at
@@ -1469,6 +1476,148 @@ theorem exists_timeDependentFlow [IsManifold I 1 M] {v : ℝ → (x : M) → Tan
 
 end Flows
 
+/-! ## Layer 3.6: inward fields and domination through the intrinsic interior -/
+
+section InwardGeometry
+
+variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
+  (M : Type*) [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+
+/-- Layer3.6 uses the native intrinsic interior with its open-submanifold atlas. -/
+def smoothInteriorOpen : TopologicalSpace.Opens M :=
+  ⟨I.interior M, I.isOpen_interior (n := ∞) (by simp)⟩
+
+/-- **Layer3.6.** The intrinsic interior inherits a boundaryless atlas. -/
+instance smoothInterior_boundaryless : BoundarylessManifold I (smoothInteriorOpen I M) :=
+  ⟨fun x => I.isInteriorPoint_iff_isInteriorPoint_val.mpr (show I.IsInteriorPoint (x : M) from x.property)⟩
+
+/-- **Layer3.6.** Every open submanifold is sigma-compact under the charted
+local compactness/countability hypotheses. The model carrier H is explicit. -/
+theorem sigmaCompactSpace_open_of_charted (H : Type*) [TopologicalSpace H]
+    [SecondCountableTopology H] [LocallyCompactSpace H]
+    {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [SigmaCompactSpace M]
+    (U : TopologicalSpace.Opens M) : SigmaCompactSpace U := by
+  let : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
+  let : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
+  let : LocallyCompactSpace U := U.isOpen.locallyCompactSpace
+  infer_instance
+
+/-- **Layer3.6.** The interior instance needs no Hausdorff hypothesis. -/
+instance smoothInterior_sigmaCompact [SigmaCompactSpace M] [FiniteDimensional ℝ E] :
+    SigmaCompactSpace (smoothInteriorOpen I M) := by
+  let : SecondCountableTopology H := I.secondCountableTopology
+  let : LocallyCompactSpace H := I.locallyCompactSpace
+  exact sigmaCompactSpace_open_of_charted H (smoothInteriorOpen I M)
+
+/-- **Layer3.6.** Actual smooth maps and homotopy equations for inward domination. -/
+structure InwardDomination where
+  retract : M → smoothInteriorOpen I M
+  homotopy : ℝ × M → M
+  smooth_retract : ContMDiff I I ∞ retract
+  smooth_homotopy : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I ∞ homotopy
+  at_zero : ∀ x, homotopy (0,x) = (retract x : M)
+  at_one : ∀ x, homotopy (1,x) = x
+  preserves_interior : ∀ t x, I.IsInteriorPoint x → I.IsInteriorPoint (homotopy (t,x))
+
+/-- **Layer3.6.** Construct the inward field, complete semiflow and its domination data. -/
+noncomputable def inwardDomination [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] : InwardDomination I M := by
+  sorry
+
+end InwardGeometry
+
+section NonautonomousFlows
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [CompleteSpace E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [BoundarylessManifold I M] [T2Space M]
+
+/-- The autonomous suspension on the actual open time slab. -/
+def suspendedTimeField (J : TopologicalSpace.Opens ℝ)
+    (v : ↥J → (x : M) → TangentSpace I x) (p : ↥J × M) :
+    TangentSpace ((𝓘(ℝ, ℝ)).prod I) p := (1, v p.1 p.2)
+
+/-- Maximal two-time domain, ordered as (target time, initial time, initial point).
+This is the existing autonomous domain adapter, including its connected-time component. -/
+def timeDependentFlowDomain (J : TopologicalSpace.Opens ℝ)
+    (v : ↥J → (x : M) → TangentSpace I x) : Set (↥J × (↥J × M)) :=
+  {p | ((p.1 : ℝ) - (p.2.1 : ℝ), (p.2.1, p.2.2)) ∈
+    flowDomain (suspendedTimeField J v)}
+
+/-- Suspension's spatial projection; values outside the maximal domain are junk. -/
+noncomputable def timeDependentFlow (J : TopologicalSpace.Opens ℝ)
+    (v : ↥J → (x : M) → TangentSpace I x) (t s : ↥J) (x : M) : M :=
+  (flowOf (suspendedTimeField J v) ((t : ℝ) - (s : ℝ)) (s, x)).2
+
+/-- DG3.5 finite-dimensional openness is an adapter of the native autonomous
+maximal-flow theorem on the suspension, independent of the Banach extension. -/
+theorem isOpen_timeDependentFlowDomain_of_finiteDimensional [FiniteDimensional ℝ E]
+    (J : TopologicalSpace.Opens ℝ) (v : ↥J → (x : M) → TangentSpace I x)
+    (hv : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I.tangent ∞
+      (fun p : ↥J × M => (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) :
+    IsOpen (timeDependentFlowDomain J v) := by
+  sorry
+
+/-- DG3.5 finite-dimensional joint regularity uses the native autonomous flow on
+`↥J × M`; no 3.1/3.2 Banach smooth-dependence theorem is a prerequisite. -/
+theorem contMDiffOn_timeDependentFlow_of_finiteDimensional [FiniteDimensional ℝ E]
+    (J : TopologicalSpace.Opens ℝ) (v : ↥J → (x : M) → TangentSpace I x)
+    (hv : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I.tangent ∞
+      (fun p : ↥J × M => (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) :
+    ContMDiffOn ((𝓘(ℝ, ℝ)).prod ((𝓘(ℝ, ℝ)).prod I)) I ∞
+      (fun p : ↥J × (↥J × M) => timeDependentFlow J v p.1 p.2.1 p.2.2)
+      (timeDependentFlowDomain J v) := by
+  sorry
+
+theorem timeDependentFlow_spec (J : TopologicalSpace.Opens ℝ)
+    (v : ↥J → (x : M) → TangentSpace I x)
+    (hv : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I.tangent ∞
+      (fun p : ↥J × M => (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) :
+    IsOpen (timeDependentFlowDomain J v) ∧
+    ContMDiffOn ((𝓘(ℝ, ℝ)).prod ((𝓘(ℝ, ℝ)).prod I)) I ∞
+      (fun p : ↥J × (↥J × M) => timeDependentFlow J v p.1 p.2.1 p.2.2)
+      (timeDependentFlowDomain J v) ∧
+    (∀ s x, (s, s, x) ∈ timeDependentFlowDomain J v ∧
+      timeDependentFlow J v s s x = x) ∧
+    (∀ t s x, (t, s, x) ∈ timeDependentFlowDomain J v →
+      HasMFDerivAt 𝓘(ℝ, ℝ) I (fun r : ↥J => timeDependentFlow J v r s x) t
+        (ContinuousLinearMap.smulRight (1 : ℝ →L[ℝ] ℝ)
+          (v t (timeDependentFlow J v t s x)))) ∧
+    (∀ r t s x, (t, s, x) ∈ timeDependentFlowDomain J v →
+      (r, t, timeDependentFlow J v t s x) ∈ timeDependentFlowDomain J v →
+      (r, s, x) ∈ timeDependentFlowDomain J v ∧
+      timeDependentFlow J v r t (timeDependentFlow J v t s x) =
+        timeDependentFlow J v r s x) ∧
+    (∀ t s x, (t, s, x) ∈ timeDependentFlowDomain J v →
+      (s, t, timeDependentFlow J v t s x) ∈ timeDependentFlowDomain J v ∧
+      timeDependentFlow J v s t (timeDependentFlow J v t s x) = x) := by
+  sorry
+
+/-- On a compact manifold every pair of times in an open interval is admissible. -/
+theorem timeDependentFlowDomain_eq_univ [FiniteDimensional ℝ E] [CompactSpace M]
+    (J : TopologicalSpace.Opens ℝ) (hJ : OrdConnected (J : Set ℝ))
+    (v : ↥J → (x : M) → TangentSpace I x)
+    (hv : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I.tangent ∞
+      (fun p : ↥J × M => (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) :
+    timeDependentFlowDomain J v = Set.univ := by
+  sorry
+end NonautonomousFlows
+
+section SharpMorseSard
+variable {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [NormedAddCommGroup F] [NormedSpace ℝ F]
+  [FiniteDimensional ℝ F] [MeasurableSpace F] [BorelSpace F]
+
+/-- DG10.2 owns sharp finite regularity; HF F0 consumes this flat theorem. -/
+theorem addHaar_image_criticalPoints_eq_zero_sharp (k : ℕ)
+    (hk : Module.finrank ℝ E - Module.finrank ℝ F < k) (f : E → F)
+    (hf : ContDiff ℝ k f) :
+    (MeasureTheory.Measure.addHaar : MeasureTheory.Measure F)
+      (f '' {x | ¬Function.Surjective (fderiv ℝ f x)}) = 0 := by
+  sorry
+end SharpMorseSard
+
 /-! ## Layer 4: the Frobenius theorem -/
 
 section Frobenius
@@ -1822,6 +1971,23 @@ theorem integralTopForm_mpullback_of_preserving [IsManifold I ∞ M] [IsManifold
     integralTopForm o (mpullback I I' f φ) = integralTopForm o' φ :=
   sorry
 
+/-- **Layers 5.2 and 9.3.** Change of variables for a smooth open embedding between
+arbitrary real manifold models of equal finite dimension. Compact support inside the image
+replaces surjectivity; the target may have boundary. The pulled-back form has compact support
+because the embedding identifies its source with the open image. -/
+theorem integralTopForm_mpullback_of_openEmbedding [IsManifold I ∞ M]
+    [IsManifold I' ∞ M'] [T2Space M] [T2Space M']
+    [SigmaCompactSpace M] [SigmaCompactSpace M']
+    (hm : Module.finrank ℝ E = m) (hm' : Module.finrank ℝ E' = m)
+    (o : Manifold.Orientation I M (Fin m)) (o' : Manifold.Orientation I' M' (Fin m))
+    (f : M → M') (hf : Topology.IsOpenEmbedding f)
+    (hfd : IsLocalDiffeomorph I I' ∞ f)
+    (ho : ∀ x, IsOrientationPreservingAt o o' f x)
+    (φ : RoughForm I' M' ℝ m) (hφ : IsSmoothForm I' ∞ φ)
+    (hc : IsCompact φ.tsupport) (hs : φ.tsupport ⊆ Set.range f) :
+    integralTopForm o (mpullback I I' f φ) = integralTopForm o' φ :=
+  sorry
+
 theorem integralTopForm_mpullback_of_reversing [IsManifold I ∞ M] [IsManifold I' ∞ M']
     (o : Manifold.Orientation I M (Fin m)) (o' : Manifold.Orientation I' M' (Fin m))
     (f : M ≃ₘ⟮I, I'⟯ M') (hf : ∀ x, IsOrientationReversingAt o o' f x)
@@ -1892,11 +2058,38 @@ theorem homotopyOperator_spec [IsManifold I 2 M] [CompleteSpace F]
         mextDeriv (homotopyOperator φ) x + homotopyOperator (mextDeriv φ) x :=
   sorry
 
+/-- Integration over the compact interval preserves finite and infinite regularity. -/
+theorem homotopyOperator_contMDiff (r : ℕ∞ω) [IsManifold I ∞ M] [CompleteSpace F]
+    {φ : RoughForm (I.prod (𝓡∂ 1)) (M × Set.Icc (0 : ℝ) 1) F (k + 1)}
+    (hφ : IsSmoothForm (I.prod (𝓡∂ 1)) r φ) :
+    IsSmoothForm I r (homotopyOperator φ) := by
+  sorry
+
+/-- Smooth input has smooth homotopy integral. -/
+theorem homotopyOperator_smooth [IsManifold I ∞ M] [CompleteSpace F]
+    {φ : RoughForm (I.prod (𝓡∂ 1)) (M × Set.Icc (0 : ℝ) 1) F (k + 1)}
+    (hφ : IsSmoothForm (I.prod (𝓡∂ 1)) ∞ φ) :
+    IsSmoothForm I ∞ (homotopyOperator φ) := by
+  exact homotopyOperator_contMDiff ∞ hφ
+
+/-- Pullback naturality, including smooth parameter-slice inclusions. -/
+theorem homotopyOperator_natural [IsManifold I ∞ M] [CompleteSpace F]
+    {E' H' N : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+    [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+    [TopologicalSpace N] [ChartedSpace H' N] [IsManifold I' ∞ N]
+    (f : N → M) (hf : ContMDiff I' I ∞ f)
+    (φ : RoughForm (I.prod (𝓡∂ 1)) (M × Set.Icc (0 : ℝ) 1) F (k + 1))
+    (hφ : IsSmoothForm (I.prod (𝓡∂ 1)) ∞ φ) :
+    mpullback I' I f (homotopyOperator φ) =
+      homotopyOperator (mpullback (I'.prod (𝓡∂ 1)) (I.prod (𝓡∂ 1))
+        (Prod.map f id) φ) := by
+  sorry
+
 end HomotopyOperator
 
 section Densities
 
-/-- **Layer 5.5.** A density on a real vector space: a function of `m`-tuples that transforms
+/-- **Layer 5.5a.** A density on a real vector space: a function of `m`-tuples that transforms
 by `|det|`. -/
 structure Density (V : Type*) [AddCommGroup V] [Module ℝ V] (m : ℕ) where
   toFun : (Fin m → V) → ℝ
@@ -1910,12 +2103,12 @@ variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensi
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
   [ChartedSpace H M] {m : ℕ}
 
-/-- **Layer 5.5.** Rough densities on a manifold. -/
+/-- **Layer 5.5a.** Rough densities on a manifold. -/
 abbrev RoughDensity (I : ModelWithCorners ℝ E H) (M : Type*) [TopologicalSpace M]
     [ChartedSpace H M] (m : ℕ) : Type _ :=
   (x : M) → Density (TangentSpace I x) m
 
-/-- **Layer 5.5.** The density `φ · sign_o` of a top form and an orientation; pinned by
+/-- **Layer 5.5a.** The density `φ · sign_o` of a top form and an orientation; pinned by
 `toDensity_apply`. -/
 noncomputable def RoughForm.toDensity (φ : RoughForm I M ℝ m) (o : Manifold.Orientation I M (Fin m)) :
     RoughDensity I M m :=
@@ -1928,7 +2121,7 @@ theorem RoughForm.toDensity_apply (hm : Module.finrank ℝ E = m) (φ : RoughFor
     (φ.toDensity o x).toFun b = if b.orientation = orientationAt o x then φ x b else -φ x b :=
   sorry
 
-/-- **Layer 5.5.** Integration of compactly supported continuous densities, orientation-free;
+/-- **Layer 5.5a.** Integration of compactly supported continuous densities, orientation-free;
 `integralTopForm_eq_integralDensity` identifies it with 5.2 on oriented manifolds, and 12.4
 identifies Tau Ceti's `riemannianVolume` with integration of `riemannianDensity` through it. -/
 noncomputable def integralDensity (μ : RoughDensity I M m) : ℝ :=
@@ -1942,7 +2135,7 @@ end Densities
 
 section Gates
 
-/-- **Layer 5.5, acceptance: the angular form.** The flat form `x dy − y dx` on `ℂ = ℝ²`, and its
+/-- **Layer 5.5a, acceptance: the angular form.** The flat form `x dy − y dx` on `ℂ = ℝ²`, and its
 pullback `dθ` to the circle along the inclusion. -/
 noncomputable def planeAngularForm : RoughForm 𝓘(ℝ, ℂ) ℂ ℝ 1 :=
   fun z ↦ ContinuousAlternatingMap.ofSubsingleton ℝ ℂ ℝ (0 : Fin 1)
@@ -1957,7 +2150,7 @@ theorem abs_integralTopForm_circleAngularForm (o : Manifold.Orientation (𝓡 1)
     |integralTopForm o circleAngularForm| = 2 * Real.pi :=
   sorry
 
-/-- **Layer 5.5, acceptance: the fundamental theorem of calculus on `Icc 0 1`.** The standard
+/-- **Layer 5.5a, acceptance: the fundamental theorem of calculus on `Icc 0 1`.** The standard
 orientation of the interval is the one positive on Mathlib's tangent vector `1`. -/
 noncomputable def Icc.standardOrientation :
     Manifold.Orientation (𝓡∂ 1) (Set.Icc (0 : ℝ) 1) (Fin 1) :=
@@ -2197,9 +2390,25 @@ abbrev deRhamCohomology (k : ℕ) : Type _ :=
   ((deRhamComplex I M).homology k)
 
 variable (I M) in
+/-- A closed form as the native cycle with that actual underlying form. -/
+noncomputable def deRhamClosedFormCycle (k : ℕ) (η : ↥(closedForms I M k)) :
+    (deRhamComplex I M).cycles k :=
+  (deRhamComplex I M).moduleCatCyclesMk η.1 (k + 1)
+    (by apply (ComplexShape.up ℕ).next_eq'; rfl) (by sorry)
+
+theorem iCycles_deRhamClosedFormCycle (k : ℕ) (η : ↥(closedForms I M k)) :
+    (deRhamComplex I M).iCycles k (deRhamClosedFormCycle I M k η) = η.1 := by
+  unfold deRhamClosedFormCycle
+  exact HomologicalComplex.iCycles_moduleCatCyclesMk _ _ _ _ _ _
+
+variable (I M) in
 /-- The class of a closed form. -/
 noncomputable def deRhamCohomology.mk (k : ℕ) : ↥(closedForms I M k) →ₗ[ℝ] deRhamCohomology I M k :=
   sorry
+
+theorem deRhamCohomology.mk_apply (k : ℕ) (η : ↥(closedForms I M k)) :
+    deRhamCohomology.mk I M k η =
+      (deRhamComplex I M).homologyπ k (deRhamClosedFormCycle I M k η) := sorry
 
 theorem deRhamCohomology.mk_surjective (k : ℕ) : Function.Surjective (deRhamCohomology.mk I M k) :=
   sorry
@@ -2545,6 +2754,15 @@ def SmoothSimplex (p : ℕ) : Type _ :=
 noncomputable def SmoothSimplex.toContinuousMap (σ : SmoothSimplex I M p) : C(fullSimplex p, M) :=
   ⟨σ.1, sorry⟩
 
+open scoped Simplicial
+
+/-- The actual singular simplex, using the native barycentric-simplex equivalence. -/
+noncomputable def SmoothSimplex.toSingular (σ : SmoothSimplex I M p) :
+    TopCat.toSSet.obj (TopCat.of M) _⦋p⦌ :=
+  ((TopCat.of M).toSSetObjEquiv _).symm
+    (σ.toContinuousMap.comp ⟨(fullSimplexEquivStdSimplex p).symm,
+      (fullSimplexEquivStdSimplex p).symm.continuous⟩)
+
 /-- The `i`-th face of a smooth simplex. -/
 noncomputable def SmoothSimplex.face (σ : SmoothSimplex I M (p + 1)) (i : Fin (p + 2)) :
     SmoothSimplex I M p :=
@@ -2574,37 +2792,151 @@ noncomputable def smoothToSingular :
     smoothSingularChainComplex I M ⟶ realSingularChains (TopCat.of M) :=
   sorry
 
-variable (I M) in
-/-- **Layer 8.3, the smoothing theorem as data** [Lee, Thm. 18.7]. Relative Whitney approximation
-on a Hausdorff, σ-compact, finite-dimensional smooth manifold gives a chain map back, built by
-induction over faces. Smooth chart compatibility is essential: a merely charted space can have
-only constant smooth paths while its underlying topological space is path connected. -/
-noncomputable def smoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
-    [FiniteDimensional ℝ E] :
-    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M :=
-  sorry
+theorem smoothToSingular_f_single (σ : SmoothSimplex I M p) (a : ℝ) :
+    (smoothToSingular I M).f p (Finsupp.single σ a) =
+      ((TopCat.toSSet.obj (TopCat.of M)).ιChainComplex
+        (R := ModuleCat.of ℝ ℝ) σ.toSingular).hom a := sorry
 
-variable (I M) in
-noncomputable def homotopySmoothingComp [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
-    [FiniteDimensional ℝ E] :
-    Homotopy (smoothing I M ≫ smoothToSingular I M) (𝟙 (realSingularChains (TopCat.of M))) :=
-  sorry
+section SmoothChainMaps
+variable {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+  [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+  {M' : Type} [TopologicalSpace M'] [ChartedSpace H' M']
+  {f : M → M'}
 
-variable (I M) in
-noncomputable def homotopyCompSmoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
-    [FiniteDimensional ℝ E] :
-    Homotopy (smoothToSingular I M ≫ smoothing I M) (𝟙 (smoothSingularChainComplex I M)) :=
-  sorry
+/-- Pushforward is pointwise composition, with local smooth extendability. -/
+noncomputable def SmoothSimplex.map (hf : ContMDiff I I' ∞ f)
+    (σ : SmoothSimplex I M p) : SmoothSimplex I' M' p :=
+  ⟨f ∘ σ.1, sorry⟩
+
+noncomputable def smoothChainMap (hf : ContMDiff I I' ∞ f) :
+    smoothSingularChainComplex I M ⟶ smoothSingularChainComplex I' M' := sorry
+
+theorem smoothChainMap_f_single (hf : ContMDiff I I' ∞ f)
+    (σ : SmoothSimplex I M p) (a : ℝ) :
+    (smoothChainMap hf).f p (Finsupp.single σ a) =
+      Finsupp.single (σ.map hf) a := sorry
+
+theorem smoothToSingular_naturality (hf : ContMDiff I I' ∞ f) :
+    smoothChainMap hf ≫ smoothToSingular I' M' =
+      smoothToSingular I M ≫ SSet.chainComplexMap
+        (TopCat.toSSet.map (TopCat.ofHom ⟨f, hf.continuous⟩)) (ModuleCat.of ℝ ℝ) := sorry
+
+noncomputable def deRhamComplexMap [IsManifold I ∞ M] [IsManifold I' ∞ M']
+    (hf : ContMDiff I I' ∞ f) : deRhamComplex I' M' ⟶ deRhamComplex I M := sorry
+
+theorem deRhamComplexMap_f_apply [IsManifold I ∞ M] [IsManifold I' ∞ M']
+    (hf : ContMDiff I I' ∞ f) (k : ℕ) (η : SmoothForm I' M' ℝ k) :
+    (deRhamComplexMap hf).f k η = mpullbackₗ hf k η := sorry
+
+end SmoothChainMaps
 
 /-- **Layer 8.3, the relative smoothing theorem**, the actual input to the chain-level statement: a
 continuous simplex whose faces are already smooth is homotopic, relative to its boundary, to a
-smooth simplex with those faces. Needs Whitney approximation into a manifold in relative form. -/
-theorem exists_smoothSimplex_homotopicRel [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+smooth simplex with those faces. This direct face-induction target requires a boundaryless target;
+boundary/corner chain equivalence instead uses the inward domination construction. -/
+theorem exists_smoothSimplex_homotopicRel [BoundarylessManifold I M] [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
     [FiniteDimensional ℝ E] (σ : C(fullSimplex (p + 1), M))
     (hfaces : ∀ i, SmoothOnSubset I (σ ∘ simplexFace p i)) :
     ∃ τ : SmoothSimplex I M (p + 1), (∀ i, (τ.face i).1 = σ ∘ simplexFace p i) ∧
       Nonempty (σ.HomotopyRel τ.toContinuousMap (⋃ i, range (simplexFace p i))) :=
   sorry
+
+/-- The independent direct smoothing construction on boundaryless targets. -/
+noncomputable def boundarylessSmoothing [BoundarylessManifold I M]
+    [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M := by
+  sorry
+
+noncomputable def boundaryless_homotopySmoothingComp [BoundarylessManifold I M]
+    [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    Homotopy (boundarylessSmoothing (I := I) (M := M) ≫ smoothToSingular I M)
+      (𝟙 (realSingularChains (TopCat.of M))) := by
+  sorry
+
+noncomputable def boundaryless_homotopyCompSmoothing [BoundarylessManifold I M]
+    [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    Homotopy (smoothToSingular I M ≫ boundarylessSmoothing (I := I) (M := M))
+      (𝟙 (smoothSingularChainComplex I M)) := by
+  sorry
+
+section SmoothingViaBoundarylessModel
+
+variable {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+  [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+  {N : Type} [TopologicalSpace N] [ChartedSpace H' N]
+  [IsManifold I' ∞ N] [BoundarylessManifold I' N]
+  [T2Space N] [SigmaCompactSpace N] [FiniteDimensional ℝ E']
+  {j : N → M} {r : M → N}
+
+/-- The actual transfer chain map; its inverse laws use a smooth homotopy j ∘ r ~ id. -/
+noncomputable def smoothingViaBoundarylessModel
+    (hj : ContMDiff I' I ∞ j) (hr : ContMDiff I I' ∞ r) :
+    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M :=
+  SSet.chainComplexMap (TopCat.toSSet.map (TopCat.ofHom ⟨r, hr.continuous⟩))
+    (ModuleCat.of ℝ ℝ) ≫ boundarylessSmoothing (I := I') (M := N) ≫ smoothChainMap hj
+
+/-- Smooth domination, rather than strict face smoothing into a boundary target,
+transfers the normalized chain equivalence. The homotopy is actual smooth map data. -/
+noncomputable def smoothToSingularHomotopyEquivViaModel [IsManifold I ∞ M]
+    (hj : ContMDiff I' I ∞ j) (hr : ContMDiff I I' ∞ r)
+    (Hjr : ℝ × M → M)
+    (hHjr : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I ∞ Hjr)
+    (h0 : ∀ x, Hjr (0, x) = j (r x)) (h1 : ∀ x, Hjr (1, x) = x) :
+    HomotopyEquiv (smoothSingularChainComplex I M)
+      (realSingularChains (TopCat.of M)) where
+  hom := smoothToSingular I M
+  inv := smoothingViaBoundarylessModel hj hr
+  homotopyHomInvId := by sorry
+  homotopyInvHomId := by sorry
+
+@[simp] theorem smoothToSingularHomotopyEquivViaModel_hom [IsManifold I ∞ M]
+    (hj : ContMDiff I' I ∞ j) (hr : ContMDiff I I' ∞ r)
+    (Hjr : ℝ × M → M) (hHjr : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I ∞ Hjr)
+    (h0 : ∀ x, Hjr (0, x) = j (r x)) (h1 : ∀ x, Hjr (1, x) = x) :
+    (smoothToSingularHomotopyEquivViaModel hj hr Hjr hHjr h0 h1).hom =
+      smoothToSingular I M := rfl
+
+@[simp] theorem smoothToSingularHomotopyEquivViaModel_inv [IsManifold I ∞ M]
+    (hj : ContMDiff I' I ∞ j) (hr : ContMDiff I I' ∞ r)
+    (Hjr : ℝ × M → M) (hHjr : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I ∞ Hjr)
+    (h0 : ∀ x, Hjr (0, x) = j (r x)) (h1 : ∀ x, Hjr (1, x) = x) :
+    (smoothToSingularHomotopyEquivViaModel hj hr Hjr hHjr h0 h1).inv =
+      smoothingViaBoundarylessModel hj hr := rfl
+
+end SmoothingViaBoundarylessModel
+
+/-- The two construction lanes joined on the actual intrinsic interior. -/
+noncomputable def smoothToSingularHomotopyEquiv [IsManifold I ∞ M] [T2Space M]
+    [SigmaCompactSpace M] [FiniteDimensional ℝ E] :
+    HomotopyEquiv (smoothSingularChainComplex I M)
+      (realSingularChains (TopCat.of M)) :=
+  let d := inwardDomination I M
+  smoothToSingularHomotopyEquivViaModel contMDiff_subtype_val d.smooth_retract
+    d.homotopy d.smooth_homotopy d.at_zero d.at_one
+
+variable (I M) in
+/-- Layer8.3: the inverse produced by Layer3.6 inward domination and boundaryless smoothing.
+The strict face-fixing theorem is used only on the boundaryless intrinsic interior. -/
+noncomputable def smoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M :=
+  (smoothToSingularHomotopyEquiv (I := I) (M := M)).inv
+
+variable (I M) in
+noncomputable def homotopySmoothingComp [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    Homotopy (smoothing I M ≫ smoothToSingular I M) (𝟙 (realSingularChains (TopCat.of M))) :=
+  (smoothToSingularHomotopyEquiv (I := I) (M := M)).homotopyInvHomId
+
+variable (I M) in
+noncomputable def homotopyCompSmoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    Homotopy (smoothToSingular I M ≫ smoothing I M) (𝟙 (smoothSingularChainComplex I M)) :=
+  (smoothToSingularHomotopyEquiv (I := I) (M := M)).homotopyHomInvId
+
 
 /-- **Layer 8.4.** The integral of a `p`-form over a smooth `p`-simplex: the pullback integral
 over `Δᵖ`, pinned by `SmoothSimplex.integral_eq` for any smooth extension. Vector-valued forms
@@ -2622,8 +2954,33 @@ theorem SmoothSimplex.integral_eq [CompleteSpace F] (σ : SmoothSimplex I M p)
       mpullback 𝓘(ℝ, EuclideanSpace ℝ (Fin p)) I g φ x (fun i ↦ EuclideanSpace.single i 1) :=
   sorry
 
+/-- **Layer 8.4, zero-simplex evaluation.** In dimension zero the standard simplex is a single
+point and its Lebesgue measure is the unit point mass. Thus, for any smooth extension used by
+`integral_eq`, the simplex integral is evaluation of its pulled-back 0-form at that point. This is
+the point-evaluation law needed for 0-chains; it is distinct from `integral_zero`, which concerns
+the zero form in every degree. -/
+theorem SmoothSimplex.integral_zeroSimplex_eval [CompleteSpace F]
+    (σ : SmoothSimplex I M 0) (φ : RoughForm I M F 0)
+    {U : Set (EuclideanSpace ℝ (Fin 0))} (hU : IsOpen U)
+    (hsU : fullSimplex 0 ⊆ U)
+    {g : EuclideanSpace ℝ (Fin 0) → M}
+    (hg : ContMDiffOn 𝓘(ℝ, EuclideanSpace ℝ (Fin 0)) I ∞ g U)
+    (hgσ : ∀ x : fullSimplex 0, g x = σ.1 x)
+    (x₀ : fullSimplex 0) :
+    σ.integral φ = mpullback 𝓘(ℝ, EuclideanSpace ℝ (Fin 0)) I g φ x₀
+      (fun i ↦ EuclideanSpace.single i 1) := by
+  have h := σ.integral_eq φ hU hsU hg hgσ
+  -- `fullSimplex 0` is the singleton Euclidean 0-space and its volume is the unit point mass.
+  sorry
+
+/-- The integral of the zero form over each simplex vanishes. This is a separate
+flat integral target; chain additivity cannot establish it for an opaque simplex integral. -/
+@[simp] theorem SmoothSimplex.integral_zero [CompleteSpace F] (σ : SmoothSimplex I M p) :
+    σ.integral (0 : RoughForm I M F p) = 0 := by
+  sorry
+
 /-- **Layer 8.4, Stokes for the simplex** — its own flat target, an iterated-integral/FTC
-computation that neither uses nor waits for the corners Stokes of 5.5. -/
+computation that neither uses nor waits for the face-structured corners Stokes of 5.5b. -/
 theorem SmoothSimplex.integral_mextDeriv [IsManifold I 1 M] [CompleteSpace F]
     (σ : SmoothSimplex I M (p + 1))
     {φ : RoughForm I M F p} (hφ : IsSmoothForm I 1 φ) :
@@ -2635,13 +2992,62 @@ noncomputable def chainIntegral [CompleteSpace F] (c : SmoothSimplex I M p →�
     (φ : RoughForm I M F p) : F :=
   c.sum fun σ a ↦ a • σ.integral φ
 
+/-- Zero-form evaluation follows from the simplex zero-form theorem and finite summation. -/
+@[simp] theorem chainIntegral_zero [CompleteSpace F] (c : SmoothSimplex I M p →₀ ℝ) :
+    chainIntegral c (0 : RoughForm I M F p) = 0 := by
+  classical
+  simp [chainIntegral]
+
 theorem chainIntegral_smoothBoundary [IsManifold I 1 M] [CompleteSpace F]
     (c : SmoothSimplex I M (p + 1) →₀ ℝ)
     {φ : RoughForm I M F p} (hφ : IsSmoothForm I 1 φ) :
     chainIntegral (smoothBoundary I M p c) φ = chainIntegral c (mextDeriv φ) :=
   sorry
 
+theorem chainIntegral_map [IsManifold I ∞ M]
+    {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [TopologicalSpace H']
+    {I' : ModelWithCorners ℝ E' H'} {M' : Type} [TopologicalSpace M']
+    [ChartedSpace H' M'] [IsManifold I' ∞ M'] {f : M → M'}
+    (hf : ContMDiff I I' ∞ f) (c : SmoothSimplex I M p →₀ ℝ)
+    (η : SmoothForm I' M' ℝ p) :
+    chainIntegral ((smoothChainMap hf).f p c) (η : RoughForm I' M' ℝ p) =
+      chainIntegral c (mpullbackₗ hf p η : RoughForm I M ℝ p) := sorry
+
 variable [IsManifold I 1 M] [IsManifold I ∞ M]
+
+variable (I M) in
+/-- **Layer 8.4.** Smooth cochains use the same native linear dual as continuous cochains. -/
+noncomputable abbrev smoothSingularCochains : CochainComplex (ModuleCat.{0} ℝ) ℕ :=
+  (smoothSingularChainComplex I M).linearYonedaObj ℝ (ModuleCat.of ℝ ℝ)
+
+variable (I M) in
+/-- Restriction of continuous cochains along the actual smooth-chain inclusion. -/
+noncomputable def smoothCochainRestriction :
+    realSingularCochains (TopCat.of M) ⟶ smoothSingularCochains I M :=
+  (TauCeti.ChainComplex.linearYonedaFunctor ℝ (ModuleCat.of ℝ ℝ)).map
+    (smoothToSingular I M).op
+
+variable (I M) in
+/-- **Layer 8.4.** Integration as a cochain map; Stokes supplies its chain-map equation. -/
+noncomputable def smoothIntegration :
+    deRhamComplex I M ⟶ smoothSingularCochains I M := sorry
+
+theorem smoothIntegration_f_apply (k : ℕ) (η : SmoothForm I M ℝ k)
+    (c : SmoothSimplex I M k →₀ ℝ) :
+    (((smoothIntegration I M).f k η).hom c) = chainIntegral c η := sorry
+
+theorem smoothIntegration_naturality
+    {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [TopologicalSpace H']
+    {I' : ModelWithCorners ℝ E' H'} {M' : Type} [TopologicalSpace M']
+    [ChartedSpace H' M'] [IsManifold I' 1 M'] [IsManifold I' ∞ M'] {f : M → M'}
+    (hf : ContMDiff I I' ∞ f) :
+    deRhamComplexMap hf ≫ smoothIntegration I M =
+      smoothIntegration I' M' ≫
+        (TauCeti.ChainComplex.linearYonedaFunctor ℝ (ModuleCat.of ℝ ℝ)).map
+          (smoothChainMap hf).op := sorry
+
+theorem smoothCochainRestriction_quasiIso [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] : QuasiIso (smoothCochainRestriction I M) := sorry
 
 variable (I M) in
 /-- **Layer 8.4, the de Rham homomorphism** `I : H^k_dR(M) → H^k(M; ℝ)`, into Tau Ceti's singular
@@ -2650,6 +3056,14 @@ needed to transfer from smooth to continuous chains; natural in `M` (`deRhamHom_
 noncomputable def deRhamHom [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E] (k : ℕ) :
     deRhamCohomology I M k →ₗ[ℝ] realSingularCohomology (TopCat.of M) k :=
   sorry
+
+/-- The continuous comparison is the inverse of smooth-cochain restriction after integration.
+Together with its quasi-isomorphism this pins the map uniquely, including its scale and sign. -/
+theorem deRhamHom_comparison [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E]
+    (k : ℕ) (x : deRhamCohomology I M k) :
+    HomologicalComplex.homologyMap (smoothCochainRestriction I M) k
+      (deRhamHom I M k x) =
+    HomologicalComplex.homologyMap (smoothIntegration I M) k x := sorry
 
 theorem deRhamHom_naturality [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E]
     {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
@@ -2664,7 +3078,8 @@ theorem deRhamHom_naturality [T2Space M] [SigmaCompactSpace M] [FiniteDimensiona
 
 variable (I M) in
 /-- **Layer 8.5, the de Rham theorem** [Lee, Thm. 18.14]: `deRhamHom` is an isomorphism for every
-T2 σ-compact finite-dimensional smooth manifold. -/
+T2 σ-compact finite-dimensional real smooth manifold over every real model with corners.
+The README constructs the boundary/corner case through inward domination. -/
 noncomputable def deRhamEquiv [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E] (k : ℕ) :
     deRhamCohomology I M k ≃ₗ[ℝ] realSingularCohomology (TopCat.of M) k :=
   sorry
@@ -2674,6 +3089,167 @@ theorem deRhamEquiv_apply [T2Space M] [SigmaCompactSpace M] [FiniteDimensional �
   sorry
 
 end SmoothChains
+
+section RelativeDeRham
+
+open CategoryTheory
+
+variable {E H : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I 1 M] [IsManifold I ∞ M]
+variable (I M) in
+/-- Extension by zero uses the actual native nonnegative-to-integer embedding. -/
+noncomputable abbrev deRhamComplexZ :=
+  (deRhamComplex I M).extend ComplexShape.embeddingUpNat
+variable (I) in
+/-- Restriction of the actual integer-extended de Rham complexes. -/
+noncomputable def relativeDeRhamRestrictionZ (W : TopologicalSpace.Opens M) :
+    deRhamComplexZ I M ⟶ deRhamComplexZ I W :=
+  HomologicalComplex.extendMap
+    (deRhamComplexMap (I := I) (I' := I) (M := W) (M' := M)
+      (f := fun x : W => (x : M)) contMDiff_subtype_val)
+    ComplexShape.embeddingUpNat
+variable (I) in
+/-- The relative complex is the native restriction cone shifted by minus one. -/
+noncomputable def relativeDeRhamComplex (W : TopologicalSpace.Opens M) :
+    CochainComplex (ModuleCat ℝ) ℤ :=
+  CochainComplex.mappingCocone (relativeDeRhamRestrictionZ I W)
+/-- The actual topological pair, with its native relative cochains and LES. -/
+abbrev openManifoldPair (W : TopologicalSpace.Opens M) : TopPair :=
+  TopPair.ofSubset (X := TopCat.of M) (W : Set M)
+variable (I) in
+/-- Exported cone coordinates: the native second coordinate is the negative of beta. -/
+noncomputable def relativeDeRhamCoordinates (W : TopologicalSpace.Opens M) (k : ℕ) :
+    (relativeDeRhamComplex I W).X ((k : ℤ) + 1) ≃ₗ[ℝ]
+      (SmoothForm I M ℝ (k + 1) × SmoothForm I W ℝ k) := by
+  sorry
+variable (I) in
+noncomputable def relativeDeRhamCoordinatesZero (W : TopologicalSpace.Opens M) :
+    (relativeDeRhamComplex I W).X 0 ≃ₗ[ℝ] SmoothForm I M ℝ 0 := by
+  sorry
+variable (I) in
+/-- The coordinate differential is d(alpha,beta)=(d alpha,restriction alpha-d beta). -/
+theorem relativeDeRhamCoordinates_d (W : TopologicalSpace.Opens M) (k : ℕ)
+    (z : (relativeDeRhamComplex I W).X ((k : ℤ) + 1)) :
+    relativeDeRhamCoordinates I W (k + 1)
+      ((relativeDeRhamComplex I W).d ((k : ℤ) + 1) ((k : ℤ) + 2) z) =
+      (mextDerivₗ I M (k + 1) (relativeDeRhamCoordinates I W k z).1,
+       mpullbackₗ (I := I) (I' := I)
+         (f := fun x : W => (x : M)) contMDiff_subtype_val (k + 1)
+         (relativeDeRhamCoordinates I W k z).1 -
+       mextDerivₗ I W k (relativeDeRhamCoordinates I W k z).2) := by
+  sorry
+variable (I) in
+/-- First coordinates use the native cocone projection, rather than an
+unconstrained choice of linear equivalence. -/
+theorem relativeDeRhamCoordinates_fst (W : TopologicalSpace.Opens M) (k : ℕ)
+    (z : (relativeDeRhamComplex I W).X ((k : ℤ) + 1)) :
+    (relativeDeRhamCoordinates I W k z).1 =
+      ((deRhamComplex I M).extendXIso ComplexShape.embeddingUpNat
+        (i := k + 1) (by simp)).hom
+        ((CochainComplex.mappingCocone.fst (relativeDeRhamRestrictionZ I W)).f
+          ((k : ℤ) + 1) z) := by
+  sorry
+variable (I) in
+/-- Beta is the negative of the native degree-minus-one projection. -/
+theorem relativeDeRhamCoordinates_snd (W : TopologicalSpace.Opens M) (k : ℕ)
+    (z : (relativeDeRhamComplex I W).X ((k : ℤ) + 1)) :
+    (relativeDeRhamCoordinates I W k z).2 =
+      -((deRhamComplex I W).extendXIso ComplexShape.embeddingUpNat
+        (i := k) rfl).hom
+        ((CochainComplex.mappingCocone.snd (relativeDeRhamRestrictionZ I W)).v
+          ((k : ℤ) + 1) (k : ℤ) (by omega) z) := by
+  sorry
+variable (I) in
+theorem relativeDeRhamCoordinatesZero_fst (W : TopologicalSpace.Opens M)
+    (z : (relativeDeRhamComplex I W).X 0) :
+    relativeDeRhamCoordinatesZero I W z =
+      ((deRhamComplex I M).extendXIso ComplexShape.embeddingUpNat
+        (i := 0) rfl).hom
+        ((CochainComplex.mappingCocone.fst (relativeDeRhamRestrictionZ I W)).f 0 z) := by
+  sorry
+variable (I) in
+/-- The degree-zero differential is (d alpha, restriction alpha). -/
+theorem relativeDeRhamCoordinatesZero_d (W : TopologicalSpace.Opens M)
+    (z : (relativeDeRhamComplex I W).X 0) :
+    relativeDeRhamCoordinates I W 0 ((relativeDeRhamComplex I W).d 0 1 z) =
+      (mextDerivₗ I M 0 (relativeDeRhamCoordinatesZero I W z),
+       mpullbackₗ (I := I) (I' := I) (f := fun x : W => (x : M))
+         contMDiff_subtype_val 0 (relativeDeRhamCoordinatesZero I W z)) := by
+  sorry
+
+variable (I) in
+/-- A closed form vanishing on W represents (alpha,0), in every degree
+including zero. The cochain is constructed from the fixed coordinates. -/
+noncomputable def relativeDeRhamVanishingCochain (W : TopologicalSpace.Opens M)
+    (q : ℕ) (α : SmoothForm I M ℝ q) : (relativeDeRhamComplex I W).X (q : ℤ) := by
+  cases q with
+  | zero => exact (relativeDeRhamCoordinatesZero I W).symm α
+  | succ k =>
+    exact (relativeDeRhamCoordinates I W k).symm (α, 0)
+
+variable (I) in
+theorem relativeDeRhamVanishingCochain_d (W : TopologicalSpace.Opens M)
+    (q : ℕ) (α : SmoothForm I M ℝ q) (hclosed : α ∈ closedForms I M q)
+    (hvanish : mpullbackₗ (I := I) (I' := I) (f := fun x : W => (x : M))
+      contMDiff_subtype_val q α = 0) :
+    (relativeDeRhamComplex I W).d (q : ℤ) ((q : ℤ) + 1)
+      (relativeDeRhamVanishingCochain I W q α) = 0 := by
+  sorry
+
+variable (I) in
+noncomputable def relativeDeRhamVanishingCycle (W : TopologicalSpace.Opens M)
+    (q : ℕ) (α : SmoothForm I M ℝ q) (hclosed : α ∈ closedForms I M q)
+    (hvanish : mpullbackₗ (I := I) (I' := I) (f := fun x : W => (x : M))
+      contMDiff_subtype_val q α = 0) : (relativeDeRhamComplex I W).cycles (q : ℤ) :=
+  (relativeDeRhamComplex I W).moduleCatCyclesMk
+    (relativeDeRhamVanishingCochain I W q α) ((q : ℤ) + 1)
+    (by apply (ComplexShape.up ℤ).next_eq'; rfl)
+    (relativeDeRhamVanishingCochain_d I W q α hclosed hvanish)
+
+variable (I) in
+noncomputable def relativeDeRhamClassOfVanishing (W : TopologicalSpace.Opens M)
+    (q : ℕ) (α : SmoothForm I M ℝ q) (hclosed : α ∈ closedForms I M q)
+    (hvanish : mpullbackₗ (I := I) (I' := I) (f := fun x : W => (x : M))
+      contMDiff_subtype_val q α = 0) : (relativeDeRhamComplex I W).homology (q : ℤ) :=
+  (relativeDeRhamComplex I W).homologyπ (q : ℤ)
+    (relativeDeRhamVanishingCycle I W q α hclosed hvanish)
+
+include I in
+variable (I) in
+/-- Open finite-dimensional sigma-compact manifolds are sigma-compact; callers
+of the relative comparison need not supply a redundant instance for W. -/
+theorem sigmaCompactSpace_openManifold [FiniteDimensional ℝ E]
+    [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) : SigmaCompactSpace W := by
+  haveI : SecondCountableTopology H := I.secondCountableTopology
+  haveI : LocallyCompactSpace H := I.locallyCompactSpace
+  haveI : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
+  haveI : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
+  haveI : LocallyCompactSpace W := W.isOpen.locallyCompactSpace
+  infer_instance
+
+variable (I) in
+/-- The comparison carries the full smoothing hypotheses on both open-pair members. -/
+noncomputable def relativeDeRhamHom [FiniteDimensional ℝ E] [T2Space M]
+    [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) (k : ℕ) :
+    (relativeDeRhamComplex I W).homology (k : ℤ) →ₗ[ℝ]
+      (openManifoldPair W).singularCohomology
+        (ModuleCat.of ℝ ℝ) ℝ (ModuleCat.of ℝ ℝ) k := by
+  sorry
+variable (I) in
+noncomputable def relativeDeRhamEquiv [FiniteDimensional ℝ E] [T2Space M]
+    [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) (k : ℕ) :
+    (relativeDeRhamComplex I W).homology (k : ℤ) ≃ₗ[ℝ]
+      (openManifoldPair W).singularCohomology
+        (ModuleCat.of ℝ ℝ) ℝ (ModuleCat.of ℝ ℝ) k := by
+  sorry
+variable (I) in
+theorem relativeDeRhamEquiv_toLinearMap [FiniteDimensional ℝ E] [T2Space M]
+    [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) (k : ℕ) :
+    (relativeDeRhamEquiv I W k).toLinearMap = relativeDeRhamHom I W k := by
+  sorry
+
+end RelativeDeRham
 
 section MayerVietorisPrinciple
 
@@ -2709,7 +3285,7 @@ theorem smoothBoundary_circleLoop :
 noncomputable def circleAngularFormClosed' : closedForms (𝓡 1) Circle 1 :=
   ⟨⟨circleAngularForm, sorry⟩, sorry⟩
 
-/-- The period of `dθ` on the loop is `2π` — the number from 5.5 again, to catch orientation
+/-- The period of `dθ` on the loop is `2π` — the number from 5.5a again, to catch orientation
 drift — computed at chain level, where no universal-coefficient map is needed. -/
 theorem circleLoop_integral_circleAngularForm :
     circleLoop.integral circleAngularForm = 2 * Real.pi :=
@@ -3066,6 +3642,18 @@ theorem exists_fixedPoint_closedBall (f : C(Metric.closedBall (0 : E) 1, Metric.
     ∃ x, f x = x :=
   sorry
 
+/-- Layer 10.5: compare the continuous degree extension with AT's no-retraction
+argument; a smooth sphere map with a continuous disk extension has degree zero. -/
+theorem degree_eq_zero_of_sphereMap_extends (hn : 1 ≤ n)
+    (o : Manifold.Orientation (𝓡 n) (Metric.sphere (0 : E) 1) (Fin n))
+    (f : C(Metric.sphere (0 : E) 1, Metric.sphere (0 : E) 1))
+    (hf : ContMDiff (𝓡 n) (𝓡 n) ∞ f)
+    (F : C(Metric.closedBall (0 : E) 1, Metric.sphere (0 : E) 1))
+    (hF : ∀ x : Metric.sphere (0 : E) 1,
+      F ⟨x, Metric.sphere_subset_closedBall x.2⟩ = f x) :
+    degree o o f = 0 := by
+  sorry
+
 end SphereDegree
 
 section CircleDegree
@@ -3143,8 +3731,9 @@ variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensi
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
   [ChartedSpace H M] [IsManifold I 1 M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)] {m : ℕ}
 
-/-- **Layer 12.2, the gradient**: `sharp` of `df`, through Tau Ceti's fibrewise Riesz duality
-`Riemannian.Tensor.rieszDual` (consumed, not rebuilt). -/
+/-- **Layer 12.2, compatibility notation for `TauCeti.Manifold.riemannianGradient`**:
+this Riesz expression illustrates the interface against the pinned tensor API.
+Production uses the native gradient and its proved identities/smoothness. -/
 noncomputable def mgradient (I : ModelWithCorners ℝ E H) {M : Type*} [TopologicalSpace M]
     [ChartedSpace H M] [IsManifold I 1 M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
     (f : M → ℝ) (x : M) : TangentSpace I x :=
@@ -3240,7 +3829,7 @@ theorem riemannianVolumeForm_apply_orthonormal (hm : Module.finrank ℝ E = m)
 
 variable (I M) in
 /-- **Layer 12.4.** The Riemannian density, orientation-free: value `1` on orthonormal bases. It is
-what 5.5's densities are for; its chart coefficient is Tau Ceti's `chartVolumeDensity`, and
+what 5.5a's densities are for; its chart coefficient is Tau Ceti's `chartVolumeDensity`, and
 `integral_riemannianVolume_eq_integralDensity` ties it to `TauCeti.riemannianVolume`. -/
 noncomputable def riemannianDensity : RoughDensity I M (Module.finrank ℝ E) :=
   sorry
@@ -3259,7 +3848,7 @@ is Tau Ceti's `TauCeti.riemannianVolume I M` (`Geometry/Manifold/Riemannian/Volu
 Borel measure glued from the chart volumes, orientation-free, characterized by
 `TauCeti.eq_riemannianVolume_iff`, and locally finite by the instance
 `TauCeti.isLocallyFiniteMeasure_riemannianVolume`. No second measure is defined here. What this
-layer adds is the bridge to 5.5: the measure integrates compactly supported continuous functions
+layer adds is the bridge to 5.5a: the measure integrates compactly supported continuous functions
 as `integralDensity` of the invariant `riemannianDensity`, whose chart coefficient is Tau Ceti's
 `chartVolumeDensity`; hence as `∫_M f dV_g` on oriented `M`. -/
 theorem integral_riemannianVolume_eq_integralDensity [MeasurableSpace M] [BorelSpace M]
@@ -3295,8 +3884,9 @@ theorem mextDeriv_interior_riemannianVolumeForm [IsManifold I ∞ M]
   sorry
 
 /-- **Layer 12.5, the divergence theorem and Green's identities** on boundaryless `M`, for
-compactly supported fields and functions; the boundary version, with the outward unit normal
-and the induced metric of 5.1 and 12.1, is stated in `README.md`. -/
+compactly supported fields and functions. The supported smooth-boundary theorem, induced
+metric/measure and outward unit normal are represented in SupportedBoundaryDivergence below;
+face-structured extensions and the finite-regularity scope remain in README12.5. -/
 theorem integral_divergence_eq_zero [MeasurableSpace M] [BorelSpace M] [T2Space M]
     [SigmaCompactSpace M] [BoundarylessManifold I M] [IsManifold I ∞ M]
     [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
@@ -3328,24 +3918,207 @@ theorem integral_laplaceBeltrami_symm [MeasurableSpace M] [BorelSpace M] [T2Spac
 
 end Riemannian
 
+section ImmersionMetrics
+variable {ES FS HS HN SM NM : Type*}
+  [NormedAddCommGroup ES] [NormedSpace ℝ ES]
+  [NormedAddCommGroup FS] [NormedSpace ℝ FS]
+  [TopologicalSpace HS] [TopologicalSpace HN]
+  {IS : ModelWithCorners ℝ ES HS} {IN : ModelWithCorners ℝ FS HN}
+  [TopologicalSpace SM] [ChartedSpace HS SM]
+  [TopologicalSpace NM] [ChartedSpace HN NM]
+/-- DG12.1 data: pull back a pointwise Riemannian metric along an injective differential.
+Only the source must be finite dimensional; regularity is a separate theorem. -/
+@[instance_reducible]
+def immersionMetric [FiniteDimensional ℝ ES]
+    [IsManifold IS 1 SM] [IsManifold IN 1 NM]
+    [RiemannianBundle (fun x : NM => TangentSpace IN x)]
+    (f : SM → NM) (hinj : ∀ x, Function.Injective (mfderiv IS IN f x)) :
+    RiemannianBundle (fun x : SM => TangentSpace IS x) := by
+  sorry
+variable [FiniteDimensional ℝ ES] [IsManifold IS 1 SM] [IsManifold IN 1 NM]
+  [RiemannianBundle (fun x : NM => TangentSpace IN x)]
+theorem immersionMetric_inner (f : SM → NM)
+    (hinj : ∀ x, Function.Injective (mfderiv IS IN f x))
+    (x : SM) (u v : TangentSpace IS x) :
+    let _ := immersionMetric f hinj
+    inner ℝ u v = inner ℝ (mfderiv IS IN f x u) (mfderiv IS IN f x v) := by
+  sorry
+/-- Native contMDiffAt_pullback supplies the bilinear-form regularity. -/
+theorem immersionMetric_contMDiff (n : ℕ∞ω)
+    [IsContMDiffRiemannianBundle IN n FS (fun x : NM => TangentSpace IN x)]
+    (f : SM → NM) (hf : ContMDiff IS IN (n + 1) f)
+    (hinj : ∀ x, Function.Injective (mfderiv IS IN f x)) :
+    let _ := immersionMetric f hinj
+    IsContMDiffRiemannianBundle IS n ES (fun x : SM => TangentSpace IS x) := by
+  sorry
+section EuclideanAgreement
+variable {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
+theorem immersionMetric_eq_induced (n : ℕ∞ω) (f : SM → F)
+    (hf : ContMDiff IS 𝓘(ℝ, F) (n + 1) f)
+    (hinj : ∀ x, Function.Injective (mvfderiv IS f x)) :
+    immersionMetric f (fun x => by exact hinj x) =
+      (⟨(TauCeti.inducedRiemannianMetric f hf hinj).toRiemannianMetric⟩ :
+        RiemannianBundle (fun x : SM => TangentSpace IS x)) := by
+  sorry
+end EuclideanAgreement
+end ImmersionMetrics
+
+section SupportedBoundaryDivergence
+
+variable {n : ℕ} {M : Type*} [TopologicalSpace M]
+  [ChartedSpace (EuclideanHalfSpace (n + 1)) M]
+  [IsManifold (𝓡∂ (n + 1)) ∞ M] [T2Space M] [SecondCountableTopology M]
+  [SigmaCompactSpace M] [MeasurableSpace M] [BorelSpace M]
+  [RiemannianBundle (fun x : M => TangentSpace (𝓡∂ (n + 1)) x)]
+  [IsContMDiffRiemannianBundle (𝓡∂ (n + 1)) ∞
+    (EuclideanSpace ℝ (Fin (n + 1))) (fun x : M => TangentSpace (𝓡∂ (n + 1)) x)]
+  [IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin (n + 1)))
+    (fun x : M => TangentSpace (𝓡∂ (n + 1)) x)]
+
+/-- Restrict smooth ambient metric regularity explicitly for the native divergence API. -/
+local instance supportedBoundaryMetricC1 :
+    IsContMDiffRiemannianBundle (𝓡∂ (n + 1)) 1
+      (EuclideanSpace ℝ (Fin (n + 1))) (fun x : M => TangentSpace (𝓡∂ (n + 1)) x) :=
+  IsContMDiffRiemannianBundle.of_le (n := ∞) (by simp)
+
+local instance supportedBoundarySmooth :
+    IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ ((𝓡∂ (n + 1)).boundary M) :=
+  TauCeti.isManifold_boundary (n := n) (k := ∞) M (by simp)
+
+/-- DG12.5 uses the actual metric pulled back by the native boundary immersion. -/
+@[instance_reducible]
+noncomputable def halfSpaceBoundaryMetric :
+    RiemannianBundle (fun x : (𝓡∂ (n + 1)).boundary M =>
+      TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) :=
+  immersionMetric (IS := 𝓘(ℝ, EuclideanSpace ℝ (Fin n))) (IN := 𝓡∂ (n + 1))
+    (fun x : (𝓡∂ (n + 1)).boundary M => (x : M))
+    ((TauCeti.isImmersion_subtypeVal_boundary (n := n) (k := ∞) M
+      (by simp)).mfderiv_injective (by simp))
+
+theorem halfSpaceBoundaryMetric_inner (x : (𝓡∂ (n + 1)).boundary M)
+    (v w : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) :
+    letI := halfSpaceBoundaryMetric (n := n) (M := M)
+    inner ℝ v w = inner ℝ
+      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x v)
+      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x w) := by
+  sorry
+
+theorem halfSpaceBoundaryMetric_contMDiff :
+    letI := halfSpaceBoundaryMetric (n := n) (M := M)
+    IsContMDiffRiemannianBundle 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞
+      (EuclideanSpace ℝ (Fin n)) (fun x : (𝓡∂ (n + 1)).boundary M =>
+        TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) := by
+  sorry
+
+theorem halfSpaceBoundaryMetric_continuous :
+    letI := halfSpaceBoundaryMetric (n := n) (M := M)
+    IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin n))
+      (fun x : (𝓡∂ (n + 1)).boundary M =>
+        TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) := by
+  sorry
+
+/-- This selects the native measure of the induced metric, not an arbitrary boundary measure. -/
+noncomputable def halfSpaceBoundaryVolume : MeasureTheory.Measure ((𝓡∂ (n + 1)).boundary M) := by
+  letI := halfSpaceBoundaryMetric (n := n) (M := M)
+  letI := halfSpaceBoundaryMetric_continuous (n := n) (M := M)
+  exact TauCeti.riemannianVolume 𝓘(ℝ, EuclideanSpace ℝ (Fin n))
+    ((𝓡∂ (n + 1)).boundary M)
+
+/-- Pointwise finite-dimensional metric geometry supplies the unique outward orthogonal unit
+vector. The norm/inner-product predicates explicitly retain the ambient metric parameter. -/
+theorem exists_halfSpaceOutwardUnitNormal (x : (𝓡∂ (n + 1)).boundary M) :
+    ∃ v : TangentSpace (𝓡∂ (n + 1)) (x : M),
+      ‖v‖ = 1 ∧ IsOutwardPointing (x : M) v ∧
+        ∀ w : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x,
+          inner ℝ v
+            (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x w) = 0 := by
+  sorry
+
+/-- Chosen from the metric-dependent existence theorem; no divergence identity is an input. -/
+noncomputable def halfSpaceOutwardUnitNormal (x : (𝓡∂ (n + 1)).boundary M) :
+    TangentSpace (𝓡∂ (n + 1)) (x : M) :=
+  Classical.choose (exists_halfSpaceOutwardUnitNormal x)
+
+theorem halfSpaceOutwardUnitNormal_norm (x : (𝓡∂ (n + 1)).boundary M) :
+    ‖halfSpaceOutwardUnitNormal x‖ = 1 := by
+  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).1
+
+theorem halfSpaceOutwardUnitNormal_outward (x : (𝓡∂ (n + 1)).boundary M) :
+    IsOutwardPointing (x : M) (halfSpaceOutwardUnitNormal x) := by
+  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).2.1
+
+theorem halfSpaceOutwardUnitNormal_orthogonal (x : (𝓡∂ (n + 1)).boundary M)
+    (v : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) :
+    inner ℝ (halfSpaceOutwardUnitNormal x)
+      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x v) = 0 := by
+  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).2.2 v
+
+theorem halfSpaceOutwardUnitNormal_contMDiff :
+    ContMDiff 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)).tangent ∞
+      (fun x : (𝓡∂ (n + 1)).boundary M =>
+        (⟨(x : M), halfSpaceOutwardUnitNormal x⟩ : TangentBundle (𝓡∂ (n + 1)) M)) := by
+  sorry
+
+/-- The same ambient metric is used in the flux and the normal's defining laws. -/
+noncomputable def halfSpaceBoundaryFlux (X : (x : M) → TangentSpace (𝓡∂ (n + 1)) x)
+    (x : (𝓡∂ (n + 1)).boundary M) : ℝ :=
+  inner ℝ (X (x : M)) (halfSpaceOutwardUnitNormal x)
+
+/-- Both integrals genuinely exist under compactness of M or compact support of X. -/
+theorem integrable_divergence_and_boundaryFlux
+    {X : (x : M) → TangentSpace (𝓡∂ (n + 1)) x}
+    (hX : ContMDiff (𝓡∂ (n + 1)) (𝓡∂ (n + 1)).tangent ∞
+      (fun x => (⟨x, X x⟩ : TangentBundle (𝓡∂ (n + 1)) M)))
+    (hSupport : IsCompact (Set.univ : Set M) ∨
+      ∃ K : Set M, IsCompact K ∧ ∀ x ∉ K, X x = 0) :
+    MeasureTheory.Integrable (divergence (𝓡∂ (n + 1)) X)
+        (TauCeti.riemannianVolume (𝓡∂ (n + 1)) M) ∧
+      MeasureTheory.Integrable (halfSpaceBoundaryFlux X)
+        (halfSpaceBoundaryVolume (n := n) (M := M)) := by
+  sorry
+
+/-- DG12.5 smooth-boundary divergence: no orientability assumption, no unrestricted support. -/
+theorem integral_divergence_eq_boundaryFlux
+    {X : (x : M) → TangentSpace (𝓡∂ (n + 1)) x}
+    (hX : ContMDiff (𝓡∂ (n + 1)) (𝓡∂ (n + 1)).tangent ∞
+      (fun x => (⟨x, X x⟩ : TangentBundle (𝓡∂ (n + 1)) M)))
+    (hSupport : IsCompact (Set.univ : Set M) ∨
+      ∃ K : Set M, IsCompact K ∧ ∀ x ∉ K, X x = 0) :
+    (∫ x, divergence (𝓡∂ (n + 1)) X x
+      ∂TauCeti.riemannianVolume (𝓡∂ (n + 1)) M) =
+      ∫ x, halfSpaceBoundaryFlux X x
+        ∂halfSpaceBoundaryVolume (n := n) (M := M) := by
+  sorry
+
+end SupportedBoundaryDivergence
+
 section RoundMetric
 
+local instance : Fact (Module.finrank ℝ ℂ = 1 + 1) := ⟨by simp⟩
+
 /-- **Layer 12.1.** The round metric on the circle, the pullback of the ambient inner product along
-the inclusion; `volume_circle` is the gate `vol(S¹) = 2π`, reusing the integral from 5.5. -/
+the inclusion; `volume_circle` is the gate `vol(S¹) = 2π`, reusing the angular integral gate from 5.5a. -/
 @[instance_reducible]
 noncomputable def roundMetricCircle : RiemannianBundle (fun x : Circle ↦ TangentSpace (𝓡 1) x) :=
-  sorry
+  inferInstanceAs (RiemannianBundle
+    (fun x : Metric.sphere (0 : ℂ) 1 ↦ TangentSpace (𝓡 1) x))
 
 theorem roundMetricCircle_inner (x : Circle) (v w : TangentSpace (𝓡 1) x) :
     let _ := roundMetricCircle
     ⟪v, w⟫_ℝ = ⟪mfderiv (𝓡 1) 𝓘(ℝ, ℂ) (fun z : Circle ↦ (z : ℂ)) x v,
       mfderiv (𝓡 1) 𝓘(ℝ, ℂ) (fun z : Circle ↦ (z : ℂ)) x w⟫_ℝ :=
-  sorry
+  TauCeti.inner_tangentSpace_sphere x v w
+
+/-- Continuity is consumed from the same native round-sphere instance. -/
+theorem roundMetricCircle_continuous :
+    let _ := roundMetricCircle
+    IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 1))
+      (fun x : Circle ↦ TangentSpace (𝓡 1) x) :=
+  TauCeti.instIsContinuousRiemannianBundleSphere
 
 theorem volume_circle :
     let _ := roundMetricCircle
-    let _ : IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 1))
-      (fun x : Circle ↦ TangentSpace (𝓡 1) x) := sorry
+    let _ := roundMetricCircle_continuous
     TauCeti.riemannianVolume (𝓡 1) Circle Set.univ = ENNReal.ofReal (2 * Real.pi) :=
   sorry
 
