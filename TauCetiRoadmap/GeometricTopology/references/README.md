@@ -3,7 +3,7 @@
 Fair-use reference extracts for the in-copyright books cited by the
 [geometric-topology roadmap](../README.md). Each file gives the full citation, an exact
 locator (section/theorem number and printed page), a short summary of the relevant
-material, and the essential statements quoted verbatim with attribution. They exist so an
+material, and either short attributed quotations or a statement/proof summary. They exist so an
 agent working a layer can see the precise statement it is formalising without re-deriving
 it from memory; they are scholarly excerpts, not reproductions of the sources. Freely
 available sources (arXiv papers, Hatcher's notes, Morgan–Tian, Thurston's 1980 notes,
@@ -19,6 +19,7 @@ Calegari) are linked directly from the roadmap instead and have no extract here.
 - [hirsch-disc-theorem.md](hirsch-disc-theorem.md), the disc theorem (Hirsch, Thm 6.6; corrects the roadmap's earlier "§8.3" citation).
 - [lee-smooth-collar.md](lee-smooth-collar.md), collar neighbourhood theorem (Lee, Thm 9.25).
 - [lee-smooth-tubular.md](lee-smooth-tubular.md), tubular neighbourhood theorem (Lee, Thm 6.24).
+- [lee-riemannian-tubular.md](lee-riemannian-tubular.md), normal-exponential theorem and positive-radius proof (Lee RM, Thm 5.25, equations (5.21)–(5.24)).
 - [rs-pl-maps-and-polyhedra.md](rs-pl-maps-and-polyhedra.md), polyhedra and PL maps, the locally-finite definition (Rourke–Sanderson, Ch 1–2).
 - [hudson-pl-topology.md](hudson-pl-topology.md), PL maps and PL manifolds (Hudson; supporting).
 - [munkres-smoothing-triangulations.md](munkres-smoothing-triangulations.md), existence and uniqueness of smoothings/triangulations (Munkres, Thm 10.6, 10.5; smooth implies PL).
