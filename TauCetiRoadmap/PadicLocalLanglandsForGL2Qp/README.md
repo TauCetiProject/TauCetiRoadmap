@@ -443,7 +443,7 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §1, pp. 5�
 
 ### 1.3 The Tate dual of an étale `(φ,Γ)`-module and the rank-two twist
 
-For `D ∈ ΦΓ^et(O_E)` (resp. `ΦΓ^et(E), ΦΓ^et_tors`) the Tate dual is `Ď = Hom_{O_E}`(`D, O_E` dT/`(1+T)`) (resp. with `E` dT/`(1+T), (E/O_E)` dT/`(1+T)`) with the induced `φ` and `Γ`, where dT/`(1+T)` carries `φ`(dT/`(1+T)`) `=` dT/`(1+T)` and `σ_a`(dT/`(1+T)`) `= a` dT/`(1+T)`; the residue of the pairing gives a perfect pairing `{ , }` : `Ď × D → C`, with `C = O_L, L`, or `L/O_L` in the integral, rational, or torsion category respectively, and `V(Ď) = V̌`. If `D` is free of rank 2 over `O_E` or `E`, then `∧²D = R_base ⊗ α_D`, with `R_base = O_E` or `E` respectively, for the character `α_D ∈ T̂(O_L)` attached to `det V(D)` by [§1.2](#section-1-2), `δ_D := (x|x|)^{−1}α_D`, and `x ↦ x ⊗ δ_D^{−1}` is an isomorphism `D ≅ Ď ⊗ δ_D`, i.e. `Ď ≅ D ⊗ δ_D^{−1}`.
+For `D ∈ ΦΓ^et(O_E)` (resp. `ΦΓ^et(E), ΦΓ^et_tors`) the Tate dual is `Ď = Hom_{O_E}`(`D, O_E` dT/`(1+T)`) (resp. with `E` dT/`(1+T), (E/O_E)` dT/`(1+T)`) with the induced `φ` and `Γ`, where dT/`(1+T)` carries `φ`(dT/`(1+T)`) `=` dT/`(1+T)` and `σ_a`(dT/`(1+T)`) `= a` dT/`(1+T)`; the residue of the pairing gives a perfect pairing `{ , }` : `Ď × D → C`, with `C = O_L, L`, or `L/O_L` in the integral, rational, or torsion category respectively, and `V(Ď) = V̌`. If `D` is free of rank 2 over `O_E` or `E`, then `∧²D = R_base ⊗ α_D`, with `R_base = O_E` or `E` respectively, for the character `α_D ∈ T̂(O_L)` attached to `det V(D)` by [§1.2](#section-1-2), and `δ_D := (x|x|)^{−1}α_D`. The wedge map `v↦(w↦v∧w)` gives `D ≅ Hom(D,∧²D) ≅ Ď⊗δ_D`; tensoring by the inverse twisting line gives `Ď ≅ D⊗δ_D^{−1}`.
 
 Here `D` belongs to the integral, rational, or torsion étale category with the indicated coefficient-valued dual; the rank-two determinant identity assumes `D` free of rank 2 over `O_E` or `E`.
 
@@ -1324,9 +1324,17 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Introduction §11, Théo
 
 Here almost de Rham means integral Sen weights; use §0.2’s differential periods and construct the generalized period space `D_pdR,n` as the vectors in the differential-period realization killed by a power of `γ_n−1`, with its induced positive lattice. At dyadic levels retain the torsion invariants before choosing a generator. This is the generalized-period presentation of Colmez §VI.3.2, Proposition VI.3.1, pp.149–150.
 
-Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2, almost de Rham with Hodge–Tate weights `ℓ < ℓ + k, Π = Π(D)`, and `X^-_∞ ⊂ D̃_dif/D̃⁺_dif` the `L_∞[t]/t^k`-module of Colmez §VI.4. (i) For `z ∈ Π^{alg}, K_z(x) f_D = ι^-_0((x 0; 0 1)·z)` defines `K_z` : `ℚ_p^× → L_∞[t]/t^k` with `σ_a(K_z(x)) = K_z(ax)`, its coefficients locally constant with compact support in `ℚ_p`, and `z ↦ K_z` is a bijection of `Π^{alg}` onto its Kirillov model. (ii) `Π^{alg}`, if nonzero, is of type `(ℓ, k)` and irreducible, except in the special case where it is an extension of `W_{ℓ,k} ⊗ (δ₀∘det)` by `W_{ℓ,k} ⊗ St ⊗ (δ₀∘det)` for a smooth `δ₀`. (iii) The `P`-algebraic vectors with compact support `Π^{P−alg}_c` satisfy: `z ↦ φ_z` is a `B`-equivariant isomorphism `Π^{P−alg}_c ≅ LP_c(ℚ_p^×, X^-_∞)^Γ` (locally polynomial, compactly supported functions with `Γ`-equivariance), `Π^{P−alg}_c ⊂ Π^{an}`, and `Π^{P−alg}_c ⊂ Π^{alg}` when `Π^{alg} ≠ 0`. This is the `P`-equivariant embedding of functions on `ℚ_p^×` with values in `D^-_dif` into `Π(V)^{la}` used by consumers.
+Let `D ∈ ΦΓ^et(E)` be irreducible of rank 2, almost de Rham with Hodge–Tate weights `ℓ < ℓ+k`, where `ℓ∈ℤ` and `k≥1`. Put `D₀=D(−ℓ)=D⊗χ^{−ℓ}` and `Π₀=Π(D₀)`. Construct the period model first for `D₀`, whose weights are `(0,k)`. Its space `X^-_∞(D₀) ⊂ D̃_dif(D₀)/D̃⁺_dif(D₀)` is cyclic over `L_∞[t]/t^k`; choose a basis `f_(D₀)` of the one-dimensional quotient `D_pdR(D₀)/D_pdR⁺(D₀)` to identify these modules.
 
-Here `D` irreducible of rank 2, almost de Rham with weights `ℓ < ℓ + k` (for (i)–(ii)); (iii) for `D` irreducible of rank 2 with these weights. Name the maps `Kirillov.ofAlgebraicVector` and `Kirillov.ofPAlgebraicVector`, the subspace `Kirillov.compactPAlgebraic`, and the equivariance and bijectivity targets `Kirillov.gamma_equivariant` and `Kirillov.compactPAlgebraic_equiv`.
+(i) For `z∈Π₀^{alg}`, define `K_z(x) f_(D₀)=ι^-_0((x 0;0 1)·z)` and its coefficients by `K_z(x)=Σ_(i=0)^(k−1) K_(z,i)(x)(tx)^i`. Then `σ_a(K_z(x))=K_z(ax)` for `a∈ℤ_p×`, each `K_(z,i):ℚ_p×→L_∞` is locally constant with compact support in `ℚ_p`, and `z↦K_z` is a bijection onto the algebraic Kirillov model. The ordinary coefficient of `t^i` is `x^i K_(z,i)(x)`.
+
+(ii) For the original `Π=Π(D)`, if `Π^{alg}≠0`, it is of type `(ℓ,k)` and irreducible, except in the special case where it is an extension of `W_{ℓ,k}⊗(δ₀∘det)` by `W_{ℓ,k}⊗St⊗(δ₀∘det)` for a smooth `δ₀`.
+
+(iii) For `D₀`, the map `z↦φ_z` gives a `B`-equivariant isomorphism `Π₀,c^{P−alg} ≅ LP_c(ℚ_p×,X^-_∞(D₀))^Γ`, with locally polynomial functions compactly supported in `ℚ_p×`. This compact subspace lies in `Π₀^{an}`, and lies in `Π₀^{alg}` when `Π₀^{alg}≠0`.
+
+Transport (i) and (iii) to arbitrary `ℓ` using `PiOfD.twist`: `Π(D)≅Π₀⊗(ε^ℓ∘det)`. The function-space `B`-action is therefore multiplied by `ε(det g)^ℓ` for `g∈B`; its compact subspace is `Π_c^{P−alg}=Π₀,c^{P−alg}⊗(ε^ℓ∘det)`. On periods use the tensor identifications `D̃_dif(D₀)=D̃_dif(D)⊗L(χ^{−ℓ})` and `D̃⁺_dif(D₀)=D̃⁺_dif(D)⊗L(χ^{−ℓ})`, taking the positive generalized-period lattice by intersection in this realization. For the standard basis `e_(−ℓ)` of `L(χ^{−ℓ})`, the de Rham comparison is `v↦t^ℓv⊗e_(−ℓ)`, with `Fil^j D_dR(D₀)=t^ℓ Fil^(j−ℓ) D_dR(D)⊗e_(−ℓ)`. Thus normalization shifts the positive lattice in invariant period coordinates. The cyclic presentation and the coefficients `K_(z,i)` refer to the normalized model. These transported maps give the compact `P`-equivariant embedding into `Π(D)^{an}` used by consumers, with the same conditional inclusion in algebraic vectors.
+
+Name the normalized maps and their twist transports `Kirillov.ofAlgebraicVector` and `Kirillov.ofPAlgebraicVector`, the transported subspace `Kirillov.compactPAlgebraic`, and the equivariance and bijectivity targets `Kirillov.gamma_equivariant` and `Kirillov.compactPAlgebraic_equiv`.
 
 (i): Proposition VI.5.6 from Lemme VI.5.4 (the map `z ↦ φ_z = ι^-_0` on the `B`-orbit).
 
@@ -1336,14 +1344,16 @@ Here `D` irreducible of rank 2, almost de Rham with weights `ℓ < ℓ + k` (for
 
 **Checks.**
 
-- For `D` crystalline irreducible with weights 0, `k`, the Kirillov functions of `Π^{alg}` take values in `L_∞[t]/t^k` and are compactly supported in `ℚ_p`.
-- `Π^{P−alg}_c ≅ ⊕_{i∈ℤ} X^-_∞` via `z ↦ (ι^-_i(z̃))_i` (Lemme VI.5.10).
+- For `D` crystalline irreducible with weights `(0,k)`, normalization is the identity and the coefficients `K_(z,i)` of the algebraic Kirillov functions are locally constant with compact support in `ℚ_p`.
+- If `V₀` is irreducible crystalline of weights `(0,1)`, then `V₀(1)` has weights `(1,2)` and `Fil⁰ D_dR(V₀(1))=0`. Its quotient `D_pdR/D_pdR⁺=D_dR/Fil⁰` has dimension two, and its polynomial period quotient is `L_∞[t]/t ⊕ L_∞[t]/t²`. Normalizing by `χ⁻¹` recovers a single length-one module; the weight gap alone does not give that presentation before twisting.
+- At `k=2`, `K(x)=xt·1_(ℤ_p×)(x)` is `Γ`-equivariant and belongs to the compact model. Its `(tx)`-coefficient is the locally constant indicator, while its ordinary `t`-coefficient is `x·1_(ℤ_p×)(x)`, which is not locally constant on `ℤ_p×`. When `Π₀^{alg}≠0`, (iii) realizes it by an algebraic vector, including for the weights `(0,2)` crystalline example of §4.9.
+- `Π₀,c^{P−alg} ≅ ⊕_{i∈ℤ} X^-_∞(D₀)` via `z ↦ (ι^-_i(z̃))_i` (Lemme VI.5.10); twisting gives the corresponding `B`-module for `D`.
 - The zero vector gives the zero function. Conversely a function with all values zero has preimage zero by the injectivity of the Kirillov map.
-- A nonzero constant function on `ℚ_p^×` cannot lie in the compact `P`-algebraic model: its support is not compact in `ℚ_p^×`. Compact support in `ℚ_p` for the coefficients of an algebraic vector in (i) is a different condition, and may allow accumulation at zero.
+- A nonzero constant function on `ℚ_p^×` cannot lie in the compact `P`-algebraic model: its support is not compact in `ℚ_p^×`. Compact support in `ℚ_p` for the normalized coefficients `K_(z,i)` of an algebraic vector in (i) is a different condition, and may allow accumulation at zero.
 
-The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §VI.5.2–VI.5.4: Proposition VI.5.6 and Théorème VI.5.7, p. 167; Proposition VI.5.8, Corollaire VI.5.9 and Lemme VI.5.10, p. 168; Proposition VI.5.12(i), p. 169.
+The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), §VI.5.2–VI.5.4: weight normalization, p. 165; Proposition VI.5.6 and Théorème VI.5.7, p. 167; Proposition VI.5.8, Corollaire VI.5.9 and Lemme VI.5.10, p. 168; Proposition VI.5.12(i), p. 169.
 
-*Needs:* [§3.7](#section-3-7); [§3.11](#section-3-11); [§0.2](#support-hodge). The structural assertions are conditional on nonzero algebraic vectors and do not use the de Rham criterion.
+*Needs:* [§3.5](#section-3-5), including `PiOfD.twist`; [§3.7](#section-3-7); [§3.11](#section-3-11); [§0.2](#support-hodge). The structural assertions are conditional on nonzero algebraic vectors and do not use the de Rham criterion.
 
 <a id="section-4-1a"></a>
 
@@ -1598,11 +1608,11 @@ The source is [Pierre Colmez, Gabriel Dospinescu, Vytautas Paškūnas, CDP14](#r
 
 ### 4.7 De Rham consequences of the Kirillov model
 
-For irreducible de Rham `D` of rank two with distinct weights `ℓ<ℓ+k`, §4.2(i) supplies the nonvanishing condition in §4.1k. Consequently `Π^{P−alg}_c⊂Π^{alg}⊂Π^{an}` and the type `(ℓ,k)` structure and irreducibility/special-extension alternative hold without a separate nonvanishing hypothesis. When §4.2 identifies the smooth factor, compare its classical Kirillov model with `Kirillov.ofAlgebraicVector`; retain the supercuspidal comparison input in that case. The maps, equivariance and bijectivity are constructed in §4.1k before the criterion.
+For irreducible de Rham `D` of rank two with distinct weights `ℓ<ℓ+k`, §4.2(i) supplies the nonvanishing condition in §4.1k. Consequently `Π^{P−alg}_c⊂Π^{alg}⊂Π^{an}` for its transported compact subspace, and the type `(ℓ,k)` structure and irreducibility/special-extension alternative hold without a separate nonvanishing hypothesis. Use `D₀=D(−ℓ)` for the period generator and coefficients `K_(z,i)` in powers of `(tx)^i`, then transport by `Π(D)≅Π(D₀)⊗(ε^ℓ∘det)`. When §4.2 identifies the smooth factor, compare its classical Kirillov model with `Kirillov.ofAlgebraicVector`; retain the supercuspidal comparison input in that case. The maps, equivariance and bijectivity are constructed in §4.1k before the criterion.
 
 **Checks.**
 
-- For crystalline irreducible `D` of weights `0,k`, the algebraic Kirillov coefficients are locally constant and compactly supported in `ℚ_p`, while the compact `P`-algebraic subspace has compact support in `ℚ_p×`.
+- For crystalline irreducible `D` of weights `0,k`, the coefficients `K_(z,i)` in powers of `(tx)^i` are locally constant and compactly supported in `ℚ_p`, while the compact `P`-algebraic subspace has compact support in `ℚ_p×`. At `k=2`, the function `xt·1_(ℤ_p×)` has this property although its ordinary `t`-coefficient is not locally constant.
 - At weights `(0,1)` the algebraic factor is trivial, and the comparison is the smooth Kirillov model.
 - In the almost-de-Rham but non-de-Rham case, §4.1k still constructs the compact `P`-algebraic model inside analytic vectors; §4.2 gives `Π^{alg}=0`, so its inclusion in algebraic vectors cannot be inferred.
 

@@ -32,7 +32,11 @@ operator and Serre-weight representations. The Montreal, reconstruction and
 all-prime correspondence theorems (Layer 3) need those constructions, Colmez's
 glued section spaces and admissible unitary Banach representations. Algebraic and
 analytic vector comparisons and completion classifications (Layer 4) also need
-filtered periods, locally analytic induction and inertial types. Section 4.9's
+filtered periods, locally analytic induction and inertial types. Section 4.1k's
+cyclic Kirillov period model is constructed for D(−ℓ), with weights (0,k), and
+transported to D by the determinant character ε^ℓ, including the B-action and
+positive period lattices. Its locally constant coefficients multiply (tx)^i;
+the ordinary coefficients of t^i include the factor x^i. Section 4.9's
 compactly supported P-finite space lies in the analytic vectors and is dense in the
 Banach representation; density in the locally analytic topology for a supersingular
 object requires its Galois representation to be nontrianguline. These spaces also
