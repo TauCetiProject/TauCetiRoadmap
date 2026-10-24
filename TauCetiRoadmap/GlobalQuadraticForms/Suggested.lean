@@ -377,8 +377,8 @@ Every hypothesis is load-bearing.
 * `hdim` — dimension **exactly four**, used in the discriminant computation. Binary witness that
   it cannot be weakened: over `F = ℚ(i)` the form `⟨1,2⟩` is anisotropic, since `-2` is not a
   square in `ℚ(i)`, and it becomes isotropic over `F(√2)`, since `-2 = (i√2)²`;
-* `hd` — `d` represents the **plain** discriminant of the conventions, not the signed one, which
-  differs by `-1` in dimension four;
+* `hd` — `d` represents the **plain** discriminant of the conventions. In dimension four this
+  agrees with the signed discriminant, since the sign factor is `(-1)^6 = 1`;
 * `hdsq`, `hdeg`, `hs`, `hgen` — `E` is the quadratic **field** `F(√d)`, pinned by its degree and
   by a named generating square root. The bare hypothesis that some square root of `d` lies in `E`
   does not pin `E`: it also holds for `E = F(√d, √e)`, of degree four. When `d` is a square the

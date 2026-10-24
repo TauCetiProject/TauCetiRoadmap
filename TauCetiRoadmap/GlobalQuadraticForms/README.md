@@ -600,8 +600,9 @@ Every hypothesis is used.
 - **`E` must be pinned as `F(√d)`**, by carrying the generator `s`, the equation `s² = d` and
   `F(s) = E` together with `[E:F] = 2`. The bare hypothesis that some square root of `d` lies in
   `E` does not pin `E`: it holds for `E = F(√d, √e)`, which has degree four.
-- **The discriminant is the plain one** fixed in the conventions. Reading `d` as the signed
-  discriminant changes it by `(-1)^{n(n-1)/2} = -1` in dimension four and breaks the computation.
+- **The discriminant is the plain one** fixed in the conventions. In dimension four it agrees
+  with the signed discriminant, since `(-1)^{n(n-1)/2} = (-1)^6 = 1`. The residual plane below
+  has plain discriminant `[-1]`, corresponding to signed discriminant `[1]`.
 
 The proof: assume `V` anisotropic and take an isotropic `x + s y` in `E ⊗_F V`. Comparing
 components gives `Q(x) = -d Q(y)` and `B(x,y) = 0`. If `Q(y) = 0` then `Q(x) = 0`, so `x` and `y`
