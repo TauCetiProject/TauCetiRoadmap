@@ -2061,7 +2061,7 @@ The precise hypotheses are a Selmer triple; for the relation, `T/I_{nq}T` satisf
 
 `KS` is the submodule of `∏_n H¹_{F(n)}(K, T/I_nT) ⊗ G_n` cut out by the relations: an equaliser, containing 0.
 
-Functoriality (Remark 3.1.4): direct sums; change of ring `KS(T) ⊗ R′ → KS(T ⊗ R′)`; restriction to `P′ ⊆ P`; inclusion `KS(T, F′) ⊆ KS(T, F)` for `F′ ≤ F`; and for `n ∈ N` a map `KS(T, F, P) ⊗ Hom(G_n, R/I_n) → KS(T/I_nT, F(n), P(n))`.
+Functoriality (Remark 3.1.4): change of ring `KS(T) ⊗ R′ → KS(T ⊗ R′)`; restriction to `P′ ⊆ P`; inclusion `KS(T, F′) ⊆ KS(T, F)` for `F′ ≤ F`; and for `n ∈ N` a map `KS(T, F, P) ⊗ Hom(G_n, R/I_n) → KS(T/I_nT, F(n), P(n))`. These maps use the compatible conductor ideals, propagated local conditions and finite–singular comparisons of §1.8. Maps between different representations additionally require the polynomial-intertwining identity of §1.8 at every edge.
 
 In a Kolyvagin system `(κ_{nq})_q` is determined by `(κ_n)_q` (Remark 3.1.7); a weak system determines `κ_n` only modulo `H¹_F(K, T/I_nT)` (Remark 3.1.9).
 
@@ -2085,6 +2085,7 @@ Coefficient reduction induces `K̄S_Q(T) → K̄S_Q(T/IT)` from the maps on `T/(
 - `KolyvaginSystem.zero_mem`: The zero Kolyvagin system has order infinity.
 - `KolyvaginSystem.empty_primes`: For an empty prime set, evaluation gives `KS≃H¹_F(K,T)`.
 - `KolyvaginSystem.not_product`: `A` family with zero upper component and nonzero lower finite–singular localization at an edge is not a Kolyvagin system.
+- For `K=ℚ`, `R=𝔽₃`, `T=μ₃`, `P={7}` and `Σ(F)={3,∞}`, impose `H¹_F(ℚ₃,T)=𝔽₃[3]`, with brackets denoting Kummer classes. Then `H¹_F(ℚ,T)=𝔽₃[3]` and `H¹_{F(7)}(ℚ,T)=0`: a class unramified outside `3,7` is a combination of `[3]` and `[7]`; at 3 the nonzero unit class `[7]` is independent of the valuation class `[3]`, since cube units are `±1` modulo 9; at 7 the class `[3]` is nonzero and unramified, since the nonzero cubes modulo 7 are `1,6`, so it cannot be transverse. Here `I₇=0`, `P₇=1−X` and `Q₇=−1`, forcing `KS(T,F,{7})=0`. For `T⊕T` with the direct-sum conditions, the conductor-7 Selmer module is still zero, but `P₇=(1−X)²`, `Q₇=X−1` and `Q₇(Fr₇⁻¹)=0`, so `KS(T⊕T,F⊕F,{7})≅𝔽₃²`. Thus the system construction does not commute with direct sums on this carrier.
 - `WeakKolyvaginSystem.empty_primes`: With `P=∅`, weak and ordinary systems both equal `H¹_F(K,T)`; with one conductor prime, a weak class with nonzero finite part is excluded from ordinary `KS`.
 - `WeakKolyvaginSystem.edge_nonexample`: In a field edge model with `φ^fs=id`, lower value 1 and upper singular value 0 violate the weak equation too; relaxing transversality does not remove that equation. The zero family satisfies it.
 - `GeneralizedKolyvaginSystem.constant_diagram`: If all transition systems are the same module `M` with identity maps, the inverse/direct limit is `M`, not a product of copies of `M`.
@@ -4994,14 +4995,26 @@ The definition exposes the following operations and relations.
 - `TauCeti.KolyvaginSystem.zero_mem`: The zero collection is a `Λ`-adic Kolyvagin system, with `κ_1 = 0`; it satisfies every relation and certifies nothing.
 - `TauCeti.KolyvaginSystem.transverse_condition_required`: Weak derivative systems already satisfy the finite–singular relation. At a prime `ℓ` dividing `n` their finite localization may be nonzero, so they need not lie in the transverse local condition of `KS`. Appendix `A` removes this finite part while retaining the edge relation; a definition accepting every weak system as a Kolyvagin system loses transversality.
 - `TauCeti.KolyvaginSystem.edge_relation_required`: In a rank-one edge model with `φ^fs=id`, lower value 1 and upper singular value 0 fail the equation `0=1` even when the upper finite part is zero. Transversality alone therefore does not define a system.
-- `TauCeti.KolyvaginSystem.cyclotomic_free_rank_one`: For `T = O(1) ⊗ ρ^{-1}, ρ` an even character of prime-to-`p` order with `ρ(p) ≠ 1` and `ρ` unramified at `p`, the cyclotomic-unit `Λ`-adic Kolyvagin system generates the free rank-one module `KS‾(T ⊗ Λ, F_can, P)` (Büyükboduk, Proposition 4.1).
+- `TauCeti.KolyvaginSystem.cyclotomic_free_rank_one`: Under the cyclotomic-unit application contract below, the normalized system generates the free rank-one module `KS‾(T ⊗ Λ, F_can, P)` (Büyükboduk, Theorem 3.23 and Proposition 4.1).
 - `TauCeti.KolyvaginSystem.bottomClass_specialize`: Let `J = (γ − 1)` be the augmentation ideal and `F₀` the structure propagated from `F_Λ` to `𝐓/J𝐓 = T`. For `κ ∈ KS‾(𝐓, F_Λ, P)`, its reduction lies in `KS‾_Q(T,F₀)` and has bottom class the image of `κ_1` under `H¹(Q, 𝐓) → H¹(Q, T)`. For `κ` obtained from an Euler system `c`, this class is `c_Q`. Under §8.18's restriction-isomorphism hypotheses its inverse gives a system in intrinsic `KS‾(T,F₀,P)` with that bottom class.
 - For ordinary `κ ∈ KS(𝐓, F_Λ, P)`, ordinary coefficient change gives a system in `KS(T, F₀, P)` with the same bottom-class identity. A generalized input gives an ordinary target by first inverting the restriction comparison and then a specified ordinary-to-intrinsic-generalized comparison isomorphism. Neither inverse is part of unrestricted coefficient change.
 - At a fixed coefficient level, an ordinary representative and its restriction from `P ∩ P_j` to `P ∩ P_h`, `h ≥ j`, define the same direct-limit element. Generalized extensionality compares them on the common restricted prime set, without requiring components at conductors removed by that restriction.
 
 The zero system is allowed and has `κ_1 = 0`.
 
-For `T = O(1) ⊗ ρ^{-1}, ρ` even of prime-to-`p` order, unramified at `p`, with `ρ(p) ≠ 1, KS‾(T ⊗ Λ, F_can, P)` is free of rank one, generated by the cyclotomic-unit system (Büyükboduk, Theorem 3.23 and Proposition 4.1).
+**Cyclotomic-unit freeness and primitivity.** The shared cyclotomic-unit application contract is `K=ℚ`, `K∞=ℚ∞` cyclotomic, `p>2`, `O` the integers of a finite extension of `ℚ_p`, `T=O(1)⊗ρ⁻¹`, and `ρ` an even character of finite prime-to-`p` order, unramified at `p`, with `ρ(p)≠1`. Use the canonical Selmer structure and its propagated conditions. Put `U=γ−1`, `R_{k,m}=Λ/(ϖ^k,U^m)` and `T_{k,m}=𝐓⊗_Λ R_{k,m}` for `k,m≥1`. Choose `τ` as in §1.12 `(H.2)`; in this rank-one case `τ=1` is available. Let `𝒫^{cyc}_{k,m}` consist of primes outside `Σ(F_can)` whose Frobenius is conjugate to `τ` in `Gal(ℚ(T/ϖ^{k+m}T,μ_{p^{k+m+1}})/ℚ)`. Write `𝒫^{cyc}_j=𝒫^{cyc}_{k,m}` for `j=k+m≥2`, and take `P=𝒫^{cyc}_{1,1}` with this decreasing filtration.
+
+For this contract, `KS‾(𝐓,F_can,P)` is free of rank one, its normalized cyclotomic-unit system `κ^{ρ,∞}` generates it, and its residual image is nonzero. Consequently `κ^{ρ,∞}` is `Λ`-primitive. Normalize the cyclotomic family by the modification and twist of §8.17, so augmentation is the primitive classical cyclotomic system. The comparison with the intrinsic filtration `P∩P_j(𝐓)` uses §8.18's finite-level restriction isomorphisms, including their residual and augmentation comparisons. More generally, the same conclusions hold for any admissible prime filtration equipped with compatible restriction isomorphisms to these finite-level systems, commuting with coefficient reductions and augmentation and carrying the normalized cyclotomic system to the same system. An arbitrary subset of auxiliary primes does not supply this contract.
+
+([Kâzım Büyükboduk, Λ-adic Kolyvagin systems](https://arxiv.org/abs/0706.0377v2), §2.4, Lemma 3.21, Theorem 3.23 and §4.1.1, Proposition 4.1, pp.11, 25–29). The Frobenius filtration, its restriction isomorphisms, freeness and the normalized cyclotomic generator.
+
+The arithmetic verification includes the divisible-inertia condition for `A=T⊗_O (Frac(O)/O)` away from `p`, the vanishing `H⁰(ℚ_p,T^*)=0`, and the residual hypotheses used in the comparisons. For the MR04 `(H.4a)` of §1.12, inertia at `p` acts on `T̄` by the nontrivial mod-`p` cyclotomic character and trivially on `T^*[m]`; hence their prime-field-linear equivariant Hom is zero. This verifies the stronger prime-field condition directly, independently of the residue-field-linear formulation in Büyükboduk §2.2. Common-core evaluation gives the restriction comparisons of §8.18; Lemma 3.21 compares `𝒫^{cyc}_{k+m}` with `𝒫^{cyc}_j` for `j≥k+m`. Residual nonvanishing and §8.26 give `Λ`-primitivity, and freeness then makes the system a generator.
+
+**Checks.**
+
+- For `p=3`, `O=ℤ₃` and `ρ` the quadratic character of conductor 5, `ρ` is even and `ρ(3)=−1`. With `τ=1`, the prime 109 lies in `𝒫^{cyc}_{1,1}`: it is `1` modulo 27 and splits in `ℚ(√5)`. The contract gives a primitive cyclotomic generator with the canonical local conditions.
+- For `P=∅`, ordinary systems have only the conductor-one Selmer component by §3.3. The prescribed Frobenius sets are nonempty by Chebotarev, so this carrier has neither the prescribed filtration nor automatic restriction isomorphisms to it; the arithmetic generation and primitivity conclusions require that additional comparison.
+- For `p=2`, `O=W(𝔽₄)` and `ρ` a nontrivial cubic character of conductor 7, `ρ` is even, unramified at 2 and `ρ(2)≠1`. Nevertheless `T̄=𝔽₄(ρ̄⁻¹)` and `T^*[m]≅𝔽₄(ρ̄)` are isomorphic over `𝔽₂[G_ℚ]` via `x↦x²`. Thus §1.12 `(H.4a)` fails, as does `p>4`; this example lies outside the application contract. It diagnoses failure of this MR04 proof route, without asserting failure of the dyadic arithmetic conclusion.
 
 *Needs:* Layer 8.5 The `Λ`-adic representation `𝐓 = T ⊗ Λ` and its Selmer structures; Layer 1.4 The ideals `I_q, I_n` and the groups `G_q, G_n`; Layer 1.8 The finite–singular comparison map; Layer 1.9 The Selmer structures `F_a^b(c)`; Layer 3.3 Kolyvagin systems, weak Kolyvagin systems and their limits; `PadicMeasuresIwasawaAlgebras Layer 1`.
 
@@ -5142,7 +5155,7 @@ Mazur–Rubin's Theorem A.4 computes the finite parts `(κ_n)_{ℓ,f}`; the corr
 
 For fixed `k`, increasing `j` or `h` gives the same system after restriction to a common deeper `P_h`, by coefficient and field compatibility of the derivatives and naturality of the finite-part correction. The indices can be chosen increasing with `k` and with `h(k) ≥ k`, so these prime restrictions form a cofinal tail. Reduction from level `k + 1` to `k` agrees with the level-`k` construction after a common deeper prime restriction. The corrected systems therefore define compatible elements of `colim_h KS(𝐓/𝔐^k𝐓, F_Λ, P_h)`, independently of the stabilization and refinement choices, and hence an element of `KS‾(𝐓)`. Its bottom class is the image of `(c_{Q_n})_n`.
 
-The cyclotomic-unit Euler system for `O(1) ⊗ ρ^{-1}`, modified as in Rubin §IX.6, gives `κ^{ρ,∞}` (Büyükboduk, §4.1.1).
+Under §8.12's cyclotomic-unit application contract, the cyclotomic-unit Euler system for `O(1) ⊗ ρ^{-1}`, modified as in Rubin §IX.6, gives the normalized `κ^{ρ,∞}` with that contract's auxiliary-prime filtration (Büyükboduk, §4.1.1).
 
 **Checks.**
 
@@ -5183,7 +5196,7 @@ The ordinary Kolyvagin-system maps are the functoriality of Layer 8.12 `Λ`-adic
 
 - Identical filtrations give the identity, and two cofinal reindexings give the same map. At a finite coefficient level, evaluating a system before or after prime restriction at a common core vertex gives the same stalk value; both evaluations are isomorphisms under the arithmetic hypotheses.
 - For the singleton `P={31}` and `T=ℤ₅(1)` of §3.3, restriction from intrinsic `K̄S(T/5T)` to `K̄S_Q(T/5T)` kills the displayed nonzero system. The deep empty sets `Q_j` contain no required Frobenius set, and the residual Cartier dual has invariants. Thus this case satisfies neither comparison criterion.
-- For the cyclotomic-unit setting of Büyükboduk's Proposition 4.1, Lemma 3.21 identifies the finite-level restrictions. Augmentation followed by the inverse comparison has leading class `c_ℚ`; reducing first to a smaller coefficient level gives the same class and system.
+- Under §8.12's cyclotomic-unit application contract, Lemma 3.21 of Büyükboduk identifies the finite-level restrictions. Augmentation followed by the inverse comparison has leading class `c_ℚ`; reducing first to a smaller coefficient level gives the same class and normalized system.
 
 Hensel's lemma: for `N ≫ 0` the polynomial `g + ϖ^N` is distinguished, irreducible and has a root in `S_𝔓` arbitrarily close to that of `g`. The resulting `O`-orders agree for sufficiently close roots, giving `Λ/𝔓_N ≅ Λ/𝔓` and constant normalization index. Mazur–Rubin give this argument over `O=ℤ_p` in the proof of Theorem 5.3.10, p.66; the same argument over a finite extension uses its uniformizer `ϖ`. This order isomorphism is not an identification of `Λ`-actions.
 
@@ -5381,13 +5394,13 @@ The definition exposes the following operations and relations.
 
 **Checks.**
 
-- `TauCeti.KolyvaginSystem.cyclotomic_isLambdaPrimitive`: For `T = O(1) ⊗ ρ^{-1}, ρ` even of prime-to-`p` order, unramified at `p`, with `ρ(p) ≠ 1`, the cyclotomic-unit system `κ^{ρ,∞}` is `Λ`-primitive (Büyükboduk, Proposition 4.1).
+- `TauCeti.KolyvaginSystem.cyclotomic_isLambdaPrimitive`: Under §8.12's cyclotomic-unit application contract, including `p>2`, the canonical structure and the compatible Frobenius filtration, the normalized system `κ^{ρ,∞}` is `Λ`-primitive (Büyükboduk, Proposition 4.1).
 - `TauCeti.KolyvaginSystem.augmentation_mul_not_primitive`: For any `κ, (γ − 1)κ` has `κ_1` possibly nonzero but `J = (γ − 1)` in its blind spot, so it is not `Λ`-primitive: a definition of `Λ`-primitivity as '`κ_1 ≠ 0`' fails this.
 - `TauCeti.KolyvaginSystem.free_rank_one_primitive_iff`: If `KS‾(𝐓)` is free of rank one on a residually primitive `κ_0`, then `λκ_0` is `Λ`-primitive iff `λ ∈ Λ^×` iff `λκ_0` is residually primitive.
 - `TauCeti.KolyvaginSystem.zero_not_primitive`: The zero system has every ideal in its blind spot and is not `Λ`-primitive.
 - `TauCeti.KolyvaginSystem.blindSpot_zero_ideal`: For `I=0` the relative reduction map is the identity of `KS‾_Q(𝐓)`, so `0` lies in its relative blind spot iff `κ=0`. The test needs no representative of `κ` in `KS(𝐓)`, which need not exist since `KS(𝐓) → KS‾(𝐓)` need not be surjective.
 
-The cyclotomic-unit `Λ`-adic system for `O(1) ⊗ ρ^{-1}, ρ` even of prime-to-`p` order, unramified at `p`, with `ρ(p) ≠ 1`, is `Λ`-primitive (Büyükboduk, Proposition 4.1).
+Under §8.12's cyclotomic-unit application contract, the normalized `Λ`-adic system `κ^{ρ,∞}` is residually primitive and `Λ`-primitive (Büyükboduk, Proposition 4.1).
 
 `(γ − 1)κ` is never `Λ`-primitive.
 
@@ -5429,7 +5442,7 @@ The precise hypotheses are The converse fails in general: `Λ`-primitivity conce
 
 For every height-one `𝔓 ⊂ 𝔐` the relative reduction factors as `KS‾_Q(𝐓) → KS‾_Q(𝐓/𝔓𝐓) → KS‾_Q(𝐓/𝔐𝐓)` with the same `Q` throughout (Layer 3.3); a nonzero image at the end forces a nonzero image at `𝔓`, so `𝔓` is not in the blind spot (Büyükboduk, proof of Proposition 4.1).
 
-Applied to the cyclotomic-unit system for `O(1) ⊗ ρ^{-1}, ρ` even of prime-to-`p` order, unramified at `p`, with `ρ(p) ≠ 1`, which is primitive by Mazur–Rubin's Remark 6.1.8, it gives `Λ`-primitivity.
+Under §8.12's cyclotomic-unit application contract, the normalized system has nonzero residual image: its augmentation is primitive by Mazur–Rubin's Remark 6.1.8, and the compatible restriction isomorphisms identify this residual image with the relative one. The general implication above therefore gives `Λ`-primitivity. The implication for an arbitrary fixed relative filtration retains no odd-`p` or prime-abundance hypothesis.
 
 *Needs:* Layer 8.24 The blind spot and `Λ`-primitive Kolyvagin systems; Layer 8.12 `Λ`-adic Kolyvagin systems; Layer 5.1 Divisibility indices, elementary divisors and primitivity.
 
@@ -5538,7 +5551,7 @@ At the coefficient prime `𝔓=(ϖ)`, use `𝔓_N=(U^N+ϖ)`. For every `N≥1` t
 - For `O=ℤ_p`, `ϖ=p` and `f_O=1`, the horizontal family is `(ρ(U)+p^N)` and the vertical family is `(U^N+p)`, recovering the source normalization.
 - For `O=ℤ₅[π]` with `π²=−5`, the ideal `5Λ=(π²)` is not prime, and for every `m≥1`, `U^{2m}+5=(U^m−π)(U^m+π)` is a product of nonunits. The family `(U^N+π)` is Eisenstein for every `N≥1`, so its quotients are DVRs even in this ramified example.
 - For `Z=Λ/(ϖ^a)` and `𝔓_N=(U^N+ϖ)`, `length_{S_N}(Z/𝔓_N Z)=Na`, `length_O(Z/𝔓_N Z)=Na` and `length_ℤ_p(Z/𝔓_N Z)=f_O Na`. For `Z=Λ/(U^a)` and the horizontal family `(U+ϖ^N)`, the corresponding `O`-length is also `Na`; these test the two asymptotic slopes separately.
-- Cyclotomic units with `ρ(p) ≠ 1: κ^{ρ,∞}` is `Λ`-primitive and `χ = 1`, so `char(X∞) = Ind(κ^{ρ,∞})` (Büyükboduk, Proposition 4.1, citing this theorem).
+- Under §8.12's cyclotomic-unit application contract, including `p>2`, the canonical structure and the compatible Frobenius filtration, `κ^{ρ,∞}` is `Λ`-primitive, its bottom class is nonzero and `χ=1`, so `char(X∞)=Ind(κ^{ρ,∞})` (Büyükboduk, Proposition 4.1, citing this theorem).
 - Replacing `κ` by `(γ − 1)κ` keeps `(i)` but makes `Ind` larger by `(γ − 1)` and destroys `Λ`-primitivity, so (iii) cannot be applied.
 
 *Needs:* Layer 8.27 Weak Leopoldt from a `Λ`-adic Kolyvagin system (Mazur–Rubin, Theorem 5.3.6); Layer 8.19 Mazur–Rubin's principal index `Ind(c)`; Layer 8.24 The blind spot and `Λ`-primitive Kolyvagin systems; Layer 8.23 The generic core `rank χ(𝐓)` (Mazur–Rubin, Lemma 5.3.16); Layer 8.22 Control of Selmer groups at height-one specializations; Layer 8.18 Specialization of `Λ`-adic Kolyvagin systems at height-one primes; Layer 4.20 The Kolyvagin system bound; Layer 5.6 Structure of the dual Selmer group from a Kolyvagin system; `PadicMeasuresIwasawaAlgebras Layer 4`; `PadicMeasuresIwasawaAlgebras §4.6`.
