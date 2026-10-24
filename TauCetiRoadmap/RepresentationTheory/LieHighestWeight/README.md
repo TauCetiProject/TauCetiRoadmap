@@ -348,6 +348,121 @@ Built first and completely, because it is what the later reductions invoke, not 
 - **Clebsch-Gordan.** `V(m) ⊗ V(n) ≅ ⨁_{k} V(m+n-2k)` for `0 ≤ k ≤ min m n`. The decomposition of
   tensor products, a check on the character theory of Layer 6 in the rank-one case.
 
+#### Layer 0T: concrete polynomial tensor strings and their Hermitian orthogonality
+
+Construct the concrete rank-one tensor comparison here, alongside Layer 0. It consumes
+native symmetric powers and their standard `GL₂(ℂ)`/`SU(2)` actions, the elementary
+single-module ladder above, and finite-dimensional tensor linear algebra. It does not
+consume Layer 6's character formula, general compact Haar theory, either existence or
+orthogonality of an abstract Clebsch–Gordan decomposition, or the later reductive `gl_n`
+classification. The resulting
+concrete decomposition is a comparison with the preceding abstract Clebsch–Gordan target.
+The illustrative [Sl2TensorOrthogonalityTargets.lean](Sl2TensorOrthogonalityTargets.lean)
+suggests native carriers and formulas; this README is definitive and that file is not exhaustive.
+
+1. **Polynomial, symmetric-tensor and action dictionaries.** Let
+   `P_d = MvPolynomial.homogeneousSubmodule (Fin 2) ℂ d`, and put
+   `e_i^d = x^(d-i)y^i` for `0≤i≤d`, zero outside this range. Construct its monomial
+   basis and a linear equivalence to the existing `Sym[ℂ]^d (Fin 2 → ℂ)` that sends
+   `e_i^d` to the pure symmetric tensor with `d-i` copies of the first standard vector
+   and `i` copies of the second. Supply both inverse formulas, coordinates, zero-degree
+   unit, addition/scalars, multiplication between degrees, and the tensor-product
+   comparison with the bihomogeneous polynomials in two pairs of variables. Prove
+   naturality for the actual native `TauCeti.symPowerRep ℂ 2 d` and its restriction
+   `TauCeti.SU2.symPower d`. Here `x,y` denote standard *vectors*: a matrix
+   `[[a,b],[c,d]]` substitutes `x↦a x+c y`, `y↦b x+d y`.
+   These are not the contragredient polynomial functions of ReductiveGroups10C;
+   provide the dual/action dictionary when comparing with that model rather than
+   identifying their Borel and sign conventions silently. On diagonal matrices the
+   weight of `e_i^d` is `(d-i,i)`.
+
+2. **Actual operators and vectors.** Define on these polynomials
+   `E=x∂_y`, `F=y∂_x`, `H=EF-FE`, prove preservation of degree and all linear-map
+   laws, and identify them with differentiation of the actual upper/lower unipotent
+   and diagonal actions. Prove the group exponential formulas (finite sums for E,F),
+   their tensor Leibniz laws and `H=[E,F]`, `[H,E]=2E`, `[H,F]=-2F`.
+   In particular `E e_i=i e_(i-1)`, `F e_i=(d-i)e_(i+1)` and
+   `H e_i=(d-2i)e_i`, with zero endpoints. On `P_m⊗P_n` use the actual
+   `E_tot=E⊗1+1⊗E`, `F_tot=F⊗1+1⊗F`, and `H_tot`.
+   For every `0≤r≤min(m,n)` define the nonzero vector
+
+   `v_r=(x₁y₂-y₁x₂)^r x₁^(m-r)x₂^(n-r)
+       =Σ_(j=0)^r (-1)^j binom(r,j) e_j^m⊗e_(r-j)^n`.
+
+   Prove equality of these two actual constructions under the bihomogeneous
+   comparison, annihilation by E, invariance under the upper unipotent subgroup,
+   GL₂ highest weight `(m+n-r,r)`, and SL₂ highest weight `N_r=m+n-2r`.
+   Prove that the simultaneous E-kernel and fixed weight line is spanned by this
+   vector; the completed string basis in item4 then proves that the whole
+   E-kernel is the direct sum of these lines.
+   Construct every `F_tot^k v_r`, its finite binomial/Leibniz coefficient formula,
+   weight `(m+n-r-k,r+k)`, and the ladder identities
+   `E_tot F_tot^k v_r=k(N_r-k+1)F_tot^(k-1)v_r`,
+   `F_tot^(N_r+1)v_r=0`, with nonvanishing for `0≤k≤N_r`.
+   Exponents and bounds must be stated before using natural-number subtraction.
+
+3. **The invariant Hermitian form and normalization.** Use the form conjugate-linear
+   in the first variable with `⟨e_i^d,e_j^d⟩=δ_ij/binom(d,i)` and tensor-product
+   form on `P_m⊗P_n`. Construct its sesquilinearity, conjugate symmetry, strict
+   positivity, and compatible norm/inner-product structure retaining the existing
+   additive and complex scalar parents; give the pure-tensor product and coordinate
+   formulas. Prove invariance under the actual `U(2)` action and hence SU₂ restriction,
+   with `E†=F` and `H†=H`. Build this using the explicit averaged symmetrization
+   `(1/d!)·SymmetricPower.toTensorPower` into the tensor power with its product
+   Hermitian form. The native `toTensorPower` sums **all permutations**, including
+   repeated words. Its value on `e_i` is `i!(d-i)!` times the sum `u_i` of the
+   `binom(d,i)` distinct words; the averaged image is `u_i/binom(d,i)`.
+   Prove injectivity, naturality, isometry and each counting identity, including d=0.
+   Thus `‖u_i‖²=binom(d,i)` and `‖e_i‖²=1/binom(d,i)`.
+   The orthonormal polynomial basis is `sqrt(binom(d,i)) e_i`, whereas
+   `u_i/sqrt(binom(d,i))` is the same orthonormal tensor basis. Neither formula
+   licenses silently replacing one dictionary with the other.
+
+4. **Orthogonality before decomposition.** Prove directly from the adjoint identities
+   that `⟨F_tot^k v_r,F_tot^l v_s⟩=0` whenever r≠s (all k,l), and that different
+   H-weights are orthogonal. For equal weights and r<s, `k-l=s-r>0`; move the
+   lowering operators across the form to a positive power of E on `v_s`, which is
+   zero. Compute
+
+   `‖v_r‖²=Σ_j binom(r,j)^2/[binom(m,j)binom(n,r-j)]
+     =r!(m-r)!(n-r)!(m+n-r+1)!/[m!n!(m+n-2r+1)!]`,
+
+   `‖F_tot^k v_r‖²=k! N_r!/(N_r-k)! · ‖v_r‖²` for `0≤k≤N_r`.
+   Prove the finite-sum/factorial identity and all denominator positivity claims.
+   This gives explicit normalized strings. Prove their linear independence and
+   spanning by the dimension identity `Σ_r(N_r+1)=(m+1)(n+1)`; construct the actual
+   basis, inverse coordinate/projection maps and mutually orthogonal invariant
+   summands. Construct the GL₂ intertwiners
+   `det^r⊗Sym^(N_r)(ℂ²) → Sym^m(ℂ²)⊗Sym^n(ℂ²)` sending the highest monomial
+   to `v_r`; on its i-th monomial use `(N_r-i)!/N_r! · F_tot^i v_r`.
+   Check intertwining on the actual torus and both unipotent subgroups by the
+   polynomial formulas; use elementary matrix generation of GL₂, rather than
+   infer group equivariance from an unspecified differentiation comparison.
+   Supply injectivity, image, the direct-sum intertwining equivalence and its inverse,
+   SU₂ restriction and the comparison with Layer 0's abstract decomposition.
+   On each common SU₂ weight of two strings prove the corresponding orthogonality;
+   one uniform choice is `ε=(m+n) mod 2`, reached at `k=(N_r-ε)/2`.
+   Lowering preserves the invariant **summands**, and moves between weight spaces.
+
+5. **Symmetric-square calculation and all boundaries.** For n≥2 set
+   `A=y²⊗x^n`, `B=xy⊗x^(n-1)y`, `C=x²⊗x^(n-2)y²`.
+   With `w₁=v_0`, `w₂=-v_1`, `w₃=v_2`, prove
+
+   `F²w₁=2A+4nB+n(n-1)C`,
+   `Fw₂=A+(n-2)B-(n-1)C`, `w₃=A-2B+C`.
+
+   The A,B,C Gram matrix is diagonal with entries `1,1/(2n),2/[n(n-1)]`.
+   Prove the three cross-inner-products are zero by these actual vectors and this
+   form, and give their positive norms and unit normalizations. The three highest
+   weights are `(n+2,0),(n+1,1),(n,2)`; retain the determinant twists in the GL₂/U₂
+   decomposition. For n=0 there is only r=0; for n=1 only r=0,1. Treat m=0,
+   n=0, r=0, the trivial representation, empty lowering ranges and every zero
+   endpoint explicitly, without assigning meaning to a negative symmetric power.
+   The source's undefined p49 operator and overwritten p172 scalar expressions are
+   separate source-reading questions; the specified E and the proved formulas here
+   give precise mathematical targets without authenticating those glyphs.
+
+
 ### Layer 1: Cartan subalgebras and the root-space decomposition
 
 Mostly an assembly of Mathlib, made into the working vocabulary for the module theory.
@@ -1529,6 +1644,135 @@ system). It is independent of Layer 8.
   `s_(1)^2=s_(2)+s_(1,1)` vanishes. The generic tableau/count/product theorem has
   one owner, SchurWeyl; this layer owns its application to the actual Lie modules.
 
+#### Reductive enveloping centers and the actual invariant maps
+
+Work first over a characteristic-zero field K with a finite-dimensional reductive
+Lie algebra L, using this layer's actual central/derived splitting
+`e:L≃ₗ⁅K⁆z(L)×[L,L]`. The center factor is abelian. Consume native
+`TauCeti.UniversalEnvelopingAlgebra.mapEquiv`, `prodEquivTensor` and
+`symmetricAlgebraEquiv`; do not reconstruct their generic engines. Compose them
+to construct the actual algebra equivalence
+`U(L)≃Sym(z(L))⊗U([L,L])`. On a generator, its value is
+`ι_z(pr_z x)⊗1+1⊗ι_der(pr_der x)`, and the inverse multiplies the two
+inclusions. Export these equations, factor inclusions, inverse equations,
+naturality for splitting-preserving Lie maps, and forward/inverse PBW filtration
+compatibility with the total tensor filtration. The construction of this algebra
+equivalence uses universal properties and does not assume the HC theorem.
+
+Restrict this actual map to the center. Consume Mathlib's
+`Subalgebra.centralizer_range_includeRight_eq_center_tensorProduct`, the
+commutativity of the symmetric factor and tensor injectivity over K. Prove that
+`id⊗center.val` is injective and that its range is exactly the tensor algebra's
+center: commute with the right-factor generators to obtain central coefficients
+in a basis of the left factor; the left factor already commutes with everything.
+Export the resulting algebra equivalence
+`Z(U(L))≃Sym(z(L))⊗Z(U([L,L]))` with its inclusion square and pure-tensor formula,
+not just an equality of dimensions or a linear bijection. This center-factor
+argument also applies to an explicitly supplied product with any abelian factor;
+it uses no classification or algebraic closure. The reductive decomposition
+itself has the finite-dimensional characteristic-zero hypotheses of this layer.
+For the zero Lie algebra both enveloping and symmetric algebras are K and these
+maps are the scalar/unit identifications.
+
+For the HC and Chevalley refinements now assume K algebraically closed, retain
+a chosen Cartan H_s and positive base for the semisimple derived algebra, and
+put `H=z(L)×H_s` through the specified splitting. The Weyl group fixes z(L).
+Tensor the derived algebra's Layer7 **raw** HC map with the identity on
+`Sym(z(L))`. Its PBW projection is zero on the two nilradicals and identity on
+the whole H, including its center. Extend rho by zero on z(L); its translation
+has no central shift. Export the full reductive raw/dot and translated/ordinary
+algebra isomorphisms, both filtration directions, central-character evaluations
+and their diagrams with the tensor center map. The derived HC theorem, not an
+application of `IsKilling` to L, is the input. Keep the central weight functional
+arbitrary at the Lie-algebra level. Tensor the independent Layer7 Lie–Chevalley
+restriction with the central symmetric algebra and prove the actual restriction
+square and degreewise compatibility; invariants of this fixed central factor are
+all its polynomials. Finite bases degree by degree justify passage through the
+invariant subspaces, not an unproved invariants/base-change assertion.
+
+**Connected groups and the three different center comparisons.** For a smooth
+connected affine reductive algebraic group G over algebraically closed
+characteristic-zero K, construct its actual adjoint actions on L, its symmetric
+algebra and U(L), using the induced enveloping maps and native PBW functoriality.
+Each symmetric degree and each PBW step is a finite-dimensional rational
+G-module. Own the finite-dimensional rational comparison at this cut: a vector
+is G-fixed iff its differential is zero. Prove it from the closed stabilizer,
+its tangent/kernel comparison and the characteristic-zero Cartier smoothness
+comparison explicitly constructed in [ReductiveGroups Layer5P](../../ReductiveGroups/README.md#layer-5p-the-shared-polynomial-unipotent-exponential-and-logarithm), using its coordinate-Hopf/invariant-derivation argument
+and Layer2 tangent smoothness criteria. Only that generic closed-subgroup
+smoothness cut is consumed, not the unipotent functions or later Bruhat
+application. Equality of Lie algebras plus connectedness gives the whole G.
+State the corresponding complex analytic version using LieGroups Layers2–4's
+closed-subgroup/automatic-smoothness and connected exponential generation.
+These constructions include the actual action on each finite piece and its
+compatibility with the inclusions. In characteristic p a weight-p character of
+G_m has zero differential and is not trivial; for disconnected groups the
+component action also remains. Neither case is covered by this equality.
+
+Apply that comparison to obtain `U(L)^G=Z(U(L))` by commuting with every canonical
+Lie generator, and `Sym(L)^G=Sym(L)^L`. Separate the following maps:
+
+- Layer7 equivariant PBW symmetrization restricts to a **linear** equivalence
+  between invariant symmetric tensors and the center, with all product words
+  averaged by `1/m!`; it is not asserted multiplicative on invariant tensors.
+- Its leading symbols give the canonical graded-algebra identification
+  `gr Z(U(L))≃Sym(L)^G`, with the actual center filtration and symbol equations.
+- The chosen reductive HC isomorphism followed by inverse actual Chevalley
+  restriction gives an algebra isomorphism from the center to invariant
+  polynomials. Its Cartan/positive-base and rho translation conventions are
+  retained; it is not relabeled as ordinary symmetrization or as an unspecified
+  canonical equality. No Duflo construction is required as a premise.
+
+[CharacteristicClasses C5.1](../../CharacteristicClasses/README.md#c5-compact-lie-restriction-and-universal-rational-rings) remains the owner of the compact real-group
+infinitesimal-invariant comparison, geometric Cartan/root transport and real
+coefficient descent. Use that contract when specializing this diagram to compact
+real forms; do not add another compact Chevalley or Chern–Weil engine here.
+The connected algebraic PBW-piece comparison above has no compact form, C5
+cohomology, Borel–Weil, affine oper or invariant-evaluation theorem as a premise.
+
+**Matrices and trace duality.** Specialize to `gl_n(K)=Matrix (Fin n) (Fin n) K`.
+Consume native center/derived theorems in `GeneralLinear.Basic` and
+`TauCeti.traceBilinForm`, its nondegeneracy and Lie invariance in
+`GeneralLinear.TraceForm`. The actual invariant pairing is
+`B(A,B)=tr(AB)`, with dual matrix units E_ij and E_ji. Construct the
+finite-dimensional equivalence `A↦(B↦tr(AB))` and its inverse, prove conjugation/
+coadjoint equivariance, and transport the symmetric-algebra restriction square.
+Polynomial functions on L* are `Sym(L)` through evaluation into the double dual;
+polynomial functions on L are `Sym(L*)`. These are different carriers until the
+specified trace equivalence relates them. Do not use the degenerate gl_n Killing
+form for this identification.
+
+For n>0 the scalar coordinate is `c(A)=tr(A)/n`, the scalar projection is
+`c(A)I`, and the derived projection is `A−c(A)I`. Prove both composite identities,
+bracket preservation and trace zero using invertibility of n. Thus
+`Z(U(gl_n))≃K[t]⊗Z(U(sl_n))`, where the central variable maps to `ι(I)`.
+Under trace duality the symbol of `ι(I)` is the function `A↦tr(A)=σ₁(A)`,
+whereas the coefficient of I in the central projection is `tr(A)/n`. Export
+this factor-n comparison instead of conflating the two coordinates.
+For general characteristic the splitting requires n invertible; when p divides
+n the identity is trace-zero and this decomposition cannot be imported. The
+HC conclusions here continue to require characteristic zero. For n=0 the matrix
+Lie algebra, center and derived algebra are zero, so its center is K with no
+central polynomial variable. For n=1 the derived algebra is zero and the center
+is K[t]. Prove these maps separately rather than dividing by zero or invoking
+nonzero semisimple rank.
+
+Over algebraically closed characteristic-zero K, construct restriction of the
+actual conjugation-invariant polynomial functions to diagonal matrices. For
+n≥2 the nonzero discriminant locus is a dense open of diagonalizable matrices,
+so restriction is injective. Permutation conjugation makes its image symmetric;
+the elementary characteristic coefficients supply the inverse by the fundamental
+symmetric-polynomial theorem. Treat n=0 and1 directly. Export the full algebra
+maps, their generator evaluations, both inverse identities and homogeneous
+filtrations: gl_n has generators of degrees1,…,n, whereas sl_n has trace zero
+and generators of degrees2,…,n. Compose these actual maps with the reductive HC
+and trace squares. The questioned source algebra chain is thereby interpreted
+by three distinct specified comparisons, with its question mark preserved.
+
+The illustrative [ReductiveCenterTargets.lean](ReductiveCenterTargets.lean)
+retains the actual splitting, native maps and covering-product operands. Its
+proof targets are nonexhaustive; this README specifies the complete construction.
+
 ---
 
 ## Worked examples (acceptance criteria)
@@ -1802,6 +2046,8 @@ The polynomial group-side input uses its native torus/transvection and independe
 Schur-character route; the stable-subspace and intertwiner comparison is proved here.
 The full abstract ClassicalGroups classification is not an input to this comparison,
 so no dependency backedge is introduced.
+
+Layer9's reductive enveloping-product and center-factor constructions consume the native product/abelian/tensor-centralizer APIs and the existing early reductive splitting. Its HC and invariant-polynomial refinements consume Layer7; its connected algebraic fixed-vector comparison consumes only RG2/5P's tangent/Cartier cut, and its complex analytic comparison consumes LG2–4. None consumes Borel–Weil or characteristic-class cohomology. CompactGroups6a separately consumes the actual compact integration/period/global-form phases and CompactGroups0–6's group characters; its Lie input is LHW0–5 plus only the early6 finite-character/triangular block, not6F.
 
 Layer 10 consumes the Layer 1–2 integral-lattice carrier and comparison, plus RootSystems Layers 1–6 finite root geometry, based classification, and actual Weyl group. It builds the affine action without a Lie-group or period input. Only after that output exists does LieGroups' late compact-center application consume it together with LieGroups Layers 6–7 compact roots and actual torus periods; there is no dependency from this layer back into RootSystems or LieGroups.
 
