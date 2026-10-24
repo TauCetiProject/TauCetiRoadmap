@@ -265,7 +265,28 @@ the Kostant layer).
   factor-of-two bookkeeping), `Algebra.lmul` (the left-regular action), and `Matrix.single` (the
   matrix units) with `Matrix.trace`.
 
-## What is missing (build here)
+## Current native producers and remaining comparisons
+
+Consume existing Tau Ceti implementations on their actual carriers. `Suggested.lean` imports and checks the selected exports; it does not redefine those carriers or repeat their proofs. A declaration being present is implementation evidence, not acceptance of a whole imported proof closure. The inventory below states the native hypotheses and the remaining comparison interfaces; the layers specify their construction order.
+
+| Milestone | Current native API and scope | Remaining comparison or target |
+|---|---|---|
+| Degree filtration and algebra PBW | `CliffordAlgebra.filtration`, `filtration_mul`, `filtrationGradedEquiv`, `associatedGradedEquivExterior`; commutative rings, with invertible 2 for the exterior/PBW comparison | Use the actual word-filtration `GradedPiece`/associated graded and its generator equations. |
+| Clifford dimension and vector carrier | `CliffordAlgebra.finrank_eq_two_pow`: invertible 2, **nontrivial** scalar ring, finite free module. `CliffordAlgebra.ιRangeEquiv`: invertible 2, arbitrary module and form | No unrestricted-ring injectivity or zero-ring numerical formula is asserted. The universal zero-module algebra equivalences remain valid even over a trivial ring. |
+| Orthogonal group and covers | Native `TauCeti.QuadraticMap.orthogonalGroup`/`specialOrthogonalGroup`, `CliffordAlgebra.pinToOrthogonal`/`spinToSpecialOrthogonal`, `spinToSpecialOrthogonal_surjective`, `card_ker_spinToSpecialOrthogonal`, `spinDoubleCover` | Match the matrix Gram form. Surjectivity uses a finite nondegenerate space over a separably closed field of characteristic not two; the order-two kernel/extension additionally needs positive dimension. Zero is handled by `lipschitzGroup_eq_bot`, `instSubsingletonSpinGroup` and the zero-kernel/bijectivity corollaries. Preserve the general-field spinor-norm and real full-cover branches. |
+| Bivectors and arbitrary forms | `CliffordAlgebra.bivector`, `bivector_lie_ι`, `bivectorEquivSo`, `soEquivQuadratic`, `cliffordInducedRep`, `cliffordDerivationRep`; the abstract realization requires a finite-dimensional nondegenerate quadratic space over a field with invertible 2 | Consume the actual half-normalized action equations. Differentiation of the group cover is a separate smooth comparison. |
+| Genuine polarization and Fock action | `TauCeti.SpinPolarizationData` contains an actual direct-sum coordinate equivalence, perfect pairing and a line coordinate squaring to Q; `ofNondegenerate` supplies it over a separably closed field of characteristic not two. `TauCeti.spinAction`, `spinRep`, `pinRep` use this same carrier | Do not replace this data by a second partial polarization record. Retain odd-line action and its choice. |
+| Complex matrix structure | `CliffordAlgebra.nonempty_algEquiv_matrix_of_finrank_eq_two_mul`, `nonempty_algEquiv_matrix_prod_of_finrank_eq_two_mul_add_one`, and `nonempty_algEquiv_even_matrix_of_finrank_eq_two_mul_add_one`; field, separably closed, characteristic not two, finite dimension and nondegenerate Q | Polarization-dependent `cliffordEquivMatrix` and `evenCliffordEquivProdEnd` pin the maps. In even rank zero the even algebra is the scalar algebra; no two nonzero half-spin factors exist. |
+| Group irreducibility and half-spin | `CliffordAlgebra.span_spinGroup_eq_even` supplies the group/algebra bridge. `TauCeti.spinPlus_invariant` and half-spin subrepresentations require `P.line=⊥`; odd irreducibility is `spinRep_isIrreducible_of_odd` on the whole module | Keep the actual separably closed/char-not-two and nonzero odd-half hypotheses. In odd dimension, Clifford evenness does not imply exterior-parity invariance. |
+| Type D numbered weights | The four `TauCeti.SpinPolarizationData.isHighestWeightVector_typeDSpin{Plus,Minus}LieRep_...` exports use native `TypeDStd` Cartan/Borel, half-rank at least 4 and explicit even/odd rank | Adopt their parity-dependent fork assignment below. Root-rank zero/one and D2/D3 are handled directly, not through nonexistent generic fork nodes. Type B's actual generator/Cartan comparisons are consumed at their stated scopes before promotion to the complete highest-weight identification. |
+| Native triality and its carrier | `TauCeti.serreDiagramAut` with H/E/F, inverse, iterate and `serreLift_comp_serreDiagramAut` equations; `TauCeti.D4Tripled.trialityAutomorphism`/`trialityPoints`, root equations, inverse torus relabelling and three-block Levi | Layer8 consumes these implementations and owns the concrete numbered Serre equivalence and pinned **complex** tripled-points↔CliffordSpin comparison, all three intertwiners and the integrated-lift comparison. The native carrier alone does not assert this identification. |
+| Exceptional rank three | `TauCeti.nonempty_spinGroup_mulEquiv_specialLinearGroup_of_finrank_eq_three` over a separably closed field of characteristic not two, and its spin/standard intertwining endpoint | Keep full group converse/membership in higher ranks. In rank six, `range_spinGroup_toUnits_ne_evenUnitaryGroup_of_six_le_finrank` forbids the norm-only shortcut. |
+| Real forms and periodicity | Four `realClifford...Equiv...` base entries, `TauCeti.realCliffordBottEquiv`, `nonempty_realCliffordEightPeriodicityEquiv`, and native compact connectedness/covering/stabilizer/sphere APIs | Finish the actual signed table and real full-cover/topological comparisons without importing indefinite-domain connectedness or a full table from one recurrence. |
+| Kostant machine and CAR | `TauCeti.LieAlgebra.adjointSO`/`killingQuadraticForm`, `CliffordAlgebra.adjointCliffordHom` and scoped left-regular module; native `TauCeti.glCliffordHom` and CAR `isIsotypicOfType_glIrreducible_car`, `nonempty_lieModuleEquiv_directSum_glIrreducible_car` over algebraically closed characteristic-zero fields, all N | General Killing-semisimple Kostant isotypy/multiplicity, full spinor comparison and the stronger primitive-subspace theorem remain targets. The CAR example does not prove the general theorem. |
+
+The public development below additionally retains its finite monomial groups, general-field consumer, compact/complex polar topology, concrete smooth group models, algebraic-versus-differentiated action separation, odd-line sign comparison and all real-signature adapters. “Build” in a layer means consume its existing producer where listed and construct the remaining stated interfaces; it never licenses a duplicate generic owner.
+
+## Remaining constructions and comparisons
 
 The native foundations are suppliers, not new construction targets: consume the Clifford word
 filtration, its degree quotients and PBW equivalence, native polarization/Fock action,
@@ -301,8 +322,10 @@ scoped-instance choices as native aliases or explicit comparison proofs; they do
 not introduce a second quadratic realization. Standard bivectors retain their
 commutative-ring/invertible2 scope, abstract nondegenerate realization its field
 scope. Remaining admitted targets include the normalized full real cover's group
-laws, arbitrary-form Spin₃/Spin₆ comparisons, triality and order, Cartan-rank/parity
-bookkeeping, and Kostant/CAR isotypy, multiplicities and CAR highest weights.
+laws, the coupled arbitrary-form Spin₆ comparison, triality and order/outerness, Cartan-rank/parity
+bookkeeping, and the general Kostant statements. The arbitrary-form Spin₃ group endpoint and CAR
+named-simple, decomposition and highest-vector endpoints are already native. Consume them with
+the explicit form/Fock and old-statement comparisons; they are not new admitted generic theorems.
 Native `TauCeti.QuadraticMap.orthogonalGroup` and `specialOrthogonalGroup`,
 `CliffordAlgebra.ιRangeEquiv`, `pinToOrthogonal`, `spinToSpecialOrthogonal`,
 `TauCeti.realCliffordForm`, `SpinPolarizationData`, `spinAction`, `spinRep`,
@@ -319,7 +342,7 @@ neither discharge the remaining analytic/topological comparisons nor finish a la
   working interface, with the basic identities `ι_sq_scalar`, `ι_mul_ι_add_swap` (the polarization
   `ι a · ι b + ι b · ι a = polar Q a b`), and, for orthogonal vectors, the anticommutation
   `ι_mul_ι_comm_of_isOrtho`. Record the functor `CliffordAlgebra.map` and `equivOfIsometry`: an isometry of
-  forms induces an algebra isomorphism, so over `ℂ` the Clifford algebra depends only on the rank.
+  forms induces an algebra isomorphism. For finite-dimensional **nondegenerate** forms over `ℂ`, the Clifford algebra therefore depends only on the dimension. This classification aside does not impose nondegeneracy on the universal algebra or PBW construction: in dimension1 the zero form gives dual numbers, whereas `Q(x)=x²` gives `ℂ×ℂ`.
 - **The `ℤ/2`-grading.** Consume `evenOdd Q`, the `GradedAlgebra` instance, `evenOdd_isCompl`, and the even
   subalgebra `even Q`; state `involute` as the grade involution (`involute` is `+1` on `evenOdd Q 0`, `-1`
   on `evenOdd Q 1`) and record `spinGroup.mem_even`, `spinGroup.involute_eq`. This grading is what
@@ -774,6 +797,10 @@ the algebraic Lie-action comparisons and the separate group-differential branch.
   At rank0 use the scalar/zero parity split and its sole nonzero simple
   module. Keep the real norm±1 and component branches in Layer7 separate.
 
+- **CompactRealSpinSpanAndIrreducibility: real compact groups on complex spinors.** For a finite-dimensional positive-definite real quadratic space `(V_R,Q_R)`, consume native `CliffordAlgebra.span_spinGroup_eq_even_of_isSquare`. Its field/characteristic-not2/nondegenerate hypotheses hold over ℝ; its pair-normalization premise holds because `(Q_R v)⁻¹*(Q_R w)⁻¹>0` for nonisotropic v,w, hence is a real square. No `IsSepClosed ℝ` is asserted. This proves that the actual generated real Spin group spans the real even Clifford algebra, including the empty-product rank0 case. Equivalently, in an orthonormal basis the paired positive generators `e_i e_j` are native even norm-one Spin elements and their products span the even algebra; this does not say individual positive generators lie in native Pin.
+  Construct the native real-to-complex Clifford base-change and group-inclusion maps, proving their generator, evenness, norm and generated-membership equations. Prove that complexifying the real even algebra gives the complex even algebra, by the even-word spanning argument and the inverse base-change comparison. It follows that the complex-linear span of the image of compact real Spin is the whole even algebra of the complexified form. For its genuine native polarization P, group-invariant complex subspaces and complex-linear intertwiners therefore extend to the same even-Clifford action. Apply the existing full-endomorphism images to prove odd full-spin irreducibility and, in positive even dimension, half-spin irreducibility and inequivalence. Keep `P.line=⊥` for the half-spin subrepresentations and `P.W≠⊥` for the nonzero minus factor. Rank0 has the sole nonzero simple `S⁺=ℂ`, with `S⁻=0`; rank1 has the one-dimensional full spinor. This argument supplies real-compact restriction irreducibility; complex Spin irreducibility alone does not.
+  Geometric negative-metric consumers additionally use SpinGeometry G1.1's real even-algebra/group comparison, sending positive `e_i e_j` to minus the negative-form bivector, with its pinned vector conjugation and central signs. Over ℂ, positive-to-negative full Clifford transport sends v to iv; it is not a real full-algebra isomorphism. Retain G1.1's separate rank0 `μ₂` geometric carrier versus native trivial generated Spin. The bridge requires neither compact topology/Haar integration nor Bott/KO/triality; bare exterior, CAR and universal-algebra consumers do not inherit it.
+
 ### Layer 5: the fundamental representations of `Bₗ` and `Dₗ`
 
 Built on [the highest-weight roadmap](../LieHighestWeight/README.md) (the theorem of the highest weight, the
@@ -968,44 +995,255 @@ Use three explicit milestones:
 
 ### Layer 8: triality for `Spin₈`
 
-Triality sits well above the rest of the roadmap and is built in two stages, the first much cheaper than the
-second.
+Fix a nondegenerate eight-dimensional complex quadratic space `(V,Q₈)`, an even
+native `P : TauCeti.SpinPolarizationData Q₈`, `hline : P.line=⊥`, and a basis
+`b : Module.Basis (Fin 4) ℂ P.W`. All comparisons below retain this data. Transport
+along a specified form isometry/polarization comparison gives the theorem for every
+such Q₈; an unspecified choice is not a natural identification of carriers.
+The algebraic Lie stage precedes group differentiation and integration. The group
+stage constructs the algebraic comparison and compares it with the integrated lift.
 
-- **Stage one: representation-level triality (the root datum).** The `D₄` Dynkin diagram has an
-  **order-three** symmetry cyclically permuting its three outer nodes; consume the graph automorphism from
-  [the root-systems roadmap](../RootSystems/README.md) and lift it to an order-three automorphism of the root
-  datum of `𝔰𝔬(8)` permuting the three fundamental weights `ω₁` (the vector node) and `ω₃, ω₄` (the two
-  spinor nodes). At this level triality is the statement that the three `8`-dimensional highest-weight modules
-  `V ≅ S⁰`, `S⁺`, `S⁻` are cyclically permuted by the outer automorphism; this needs only Layer 5 and the
-  diagram symmetry.
-- **Stage two: triality as an outer automorphism of `Spin₈`.** Realizing the diagram automorphism as an
-  actual group automorphism `trialityAut : spinGroup Q₈ ≃* spinGroup Q₈` (order three, `trialityAut ^ 3 = 1`,
-  and not inner) requires lifting a root-datum automorphism to the simply connected group, an
-  integration/classification theorem for simply connected semisimple groups. Consume
-  LieGroups4–5's integration of Lie homomorphisms. Consume Layer2's
-  SpinComplexPolarTopology (connected for n≥2, simply connected for n≥3) and
-  Layer3's SpinDifferentialComparison, so actual Spin₈(ℂ), with its underlying-real
-  smooth structure and identified complex Lie algebra, satisfies the integration
-  hypotheses. **SpinSimplyConnectedIntegrationComparison** owns the isomorphism
-  with that integrating carrier and the lift of the pinned root-datum automorphism;
-  it does not infer topological simple-connectivity from the algebraic root datum. Its induced action on representations cyclically
-  permutes the three `8`-dimensional
-  irreducibles `V ≅ S⁰`, `S⁺`, `S⁻` (all of dimension `8`, the numerical coincidence that makes triality
-  possible). Choose a polarization P for Q₈, with `hline:P.line=⊥`. Use the actual
-  representations `ρ₊=(TauCeti.spinPlusSubrep P hline).toRepresentation` and
-  `ρ₋=(TauCeti.spinMinusSubrep P hline).toRepresentation`, and `ρᵥ` on V obtained
-  from native `CliffordAlgebra.spinToSpecialOrthogonal Q₈`. Fix the orientation of t
-  by the pullback cycle `ρᵥ∘t≅ρ₊`, `ρ₊∘t≅ρ₋`, `ρ₋∘t≅ρᵥ`.
-  Here precomposition acts on highest weights as `ω₁→ω₄→ω₃→ω₁`, since l=4
-  makes S⁺ have weight ω₄. Each isomorphism is a linear equivalence between the
-  indicated8-dimensional carriers intertwining the same Spin₈ group. The full
-  `TauCeti.spinRep Q₈ P` has dimension16 and is ρ₊⊕ρ₋; it is not a member of
-  this three-cycle. Reversing the diagram orientation replaces t by t⁻¹ and must
-  reverse all three displayed isomorphisms. This remains the integration summit.
-- **The consequences.** The order-`3` symmetry of the three `8`-dimensional representations, the
-  `Spin₈`-invariant trilinear form `S⁰ ⊗ S⁺ ⊗ S⁻ → ℂ` permuted by triality, and the relation to the
-  octonions (the multiplication `𝕆 ⊗ 𝕆 → 𝕆` as the triality form); state the trilinear form and its
-  invariance as the concrete outcome, cross-referencing the octonion structure where it is available.
+**Numbering and orientation.** Use `CartanMatrix.D 4`, the Bourbaki roots
+`α₁=e₁−e₂`, `α₂=e₂−e₃`, `α₃=e₃−e₄`, `α₄=e₃+e₄`, and the native
+`σ=TauCeti.trialityPermD4 : Equiv.Perm (Fin 4)`: zero-based `0→2→3→0`, fixing1,
+so one-based `1→3→4→1`. The character lattice P has fundamental basis
+`ω₁,…,ω₄` and the cocharacter lattice has the simple-coroot basis, as in
+[RootSystems Layer6](../RootSystems/README.md#layer-6-the-bourbaki-numbering-and-integral-root-data).
+Layer5 assigns S⁺ weight ω₄ and S⁻ weight ω₃ at half-rank4. Sending numbered
+root generators by σ acts on pulled-back highest weights by
+`ω₁→ω₄→ω₃→ω₁`. Distinguish this contravariant action from the direct permutation
+of vectors in the native tripled module.
+
+#### 8A. Consume the native Serre lift and build its concrete comparison
+
+Consume `TauCeti.serreDiagramAut ℂ (CartanMatrix.D 4) hσ` from
+[`Serre.Automorphism`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Lie/Presentation/Serre/Automorphism.lean),
+where `hσ` is the Cartan-preservation equality supplied by
+`cartanMatrix_D4_trialityPermD4`, transported from the native Dynkin-type spelling.
+Its H/E/F value equations, inverse/composition equations and
+`serreDiagramAut_iterate_eq_id` already supply the generic construction and
+order-dividing-three theorem. Consume its `serreLift_comp_serreDiagramAut` on an
+actual `IsSerreSystem`; no second generic diagram-lift engine is introduced.
+
+The concrete remaining construction is **SpinD4NumberedPresentationComparison**.
+Use `TauCeti.TypeDStd.serreRepresentation 4 (by decide)` on the actual split
+orthogonal matrix Lie algebra. Consume its complete H/E/F image equations,
+`P.typeDQuadraticEquiv b hline`,
+`typeDQuadraticEquiv_rootGenerator`, `typeDQuadraticEquiv_cartanGenerator`, and
+`typeDQuadraticEquiv_comp_serreRepresentation` from native
+`Spin.Polarization.TypeD.Serre.Comparison`. These already fix the chain and fork
+signs. Prove that this particular matrix Serre realization is bijective and bundle
+it as a Lie equivalence `c_mat`, then compose with `P.typeDQuadraticEquiv b hline`
+to obtain `c_quad` into native `CliffordAlgebra.quadraticLieSubalgebra Q₈`.
+
+The proof cut is explicit: compute the diagonal split Cartan in the hyperbolic
+basis `P.typeDBasis b hline`, its24 one-dimensional root spaces and four coroots;
+identify the positive Borel with the displayed positive roots and prove this
+Cartan is split/self-normalizing with the required triangularizability. Compute
+the Killing form as `κ(X,Y)=6 tr(XY)` in the8-dimensional standard module and
+prove nondegeneracy; use the connected D₄ root graph and nonzero opposite-root
+brackets to prove simplicity. Prove the simple raising/lowering generators
+generate the whole Lie algebra, and only then use
+[LieHighestWeight Layer7's normalized split-field Serre presentation](../LieHighestWeight/README.md#layer-7-the-center-of-ul-harish-chandra-freudenthal-and-serres-relations).
+Its finite-type root-bracket spanning/independent-image proof gives injectivity
+for this lift, rather than an assumed abstract isomorphism with unspecified
+scalings. The concrete coroot/root basis also supplies surjectivity and dimension28.
+D₄ is symmetric, but the map still uses that layer's transposed-Cartan convention;
+record the equality, not a silent change of convention. None of these steps uses
+triality, topological simple-connectivity or the group comparison below.
+
+For the Clifford formulas put `C_i=ι Q₈ (b_i)` and
+`A_i=ι Q₈ (P.dualVector b i)`; on the Fock module these are creation and contraction,
+with `A_i C_j+C_j A_i=δ_ij` and `N_i=C_i A_i`.
+The positive/negative chain elements are `C_i A_(i+1)` and `C_(i+1) A_i`
+for i=1,2,3. The fork elements are `C₃ C₄` and **`A₄ A₃`**. Their brackets are
+`N_i−N_(i+1)` and `N₃+N₄−1`. Thus the orthonormal Cartan coordinates are
+`H_i=N_i−1/2`; the simple coroots are `H_i−H_(i+1)` and `H₃+H₄`.
+These are the native numbered bivector representatives, with the same half-polar
+normalization as Layer3, not a fresh Chevalley sign choice.
+
+Transport the native diagram automorphism through `c_mat` and `c_quad`, compare
+it under the actual matrix/abstract-orthogonal/quadratic Lie equivalences, and
+prove its effect on the Cartan, positive Borel and every simple positive and
+negative generator. Use the native lift transport equation to identify the
+resulting homomorphisms. Construct the three Lie-module intertwiners on the
+actual vector and half-spin carriers by the highest-vector construction of8C
+below, first at Lie level. This is representation-level triality independently
+of any group-differential construction.
+
+#### 8B. One owner for the tripled complex-points and CliffordSpin comparison
+
+**SpinTrialityPinnedCarrierComparison is owned here in Layer8.** It constructs the
+following specific comparisons, consuming the generic pinned-group construction,
+base change and pinned-isomorphism theorem of
+[ReductiveGroups9B](../../ReductiveGroups/README.md#9b-pinned-groups-and-their-explicit-carriers).
+That generic owner is not a second home for these Clifford and three-module adapters.
+
+The native supplier is `TauCeti.D4Tripled.groupScheme`, its actual
+`points ℂ` subgroup of `GL₂₄(ℂ)`, numbered `rootSubgroupPoints`, and
+`weightTorusPoints`. Consume `PointsFunctor.pointsMulEquiv`/`pointsFunctorNatIso`
+for the represented Hopf-algebra points rather than substituting an abstract
+D₄ group for this carrier. Native `Triality.trialityAutomorphism` and
+`trialityPoints` already act on it. Native `Levi.coordinateMap_X_eq_zero` supplies
+preservation of all three8-dimensional coordinate blocks over every value ring.
+Those facts alone assert neither reductivity nor an identification with
+CliffordSpin. Build that comparison before transporting triality.
+
+1. **The faithful tripled algebraic carrier over ℂ.** Construct the simply connected
+   pinned group `G_sc` of `DynkinType.simplyConnectedRootDatum (.D 4)` using9B,
+   and its rational8-dimensional minuscule representations of highest weights
+   ω₁,ω₃,ω₄ on the actual three native integral weight lattices after scalar
+   extension. Integrate their integral divided-power/root matrices by9B's
+   Chevalley–Demazure construction and prove equality with the native tripled
+   raising/lowering and weight-torus matrices, not merely equality of characters.
+   The sum has trivial kernel: characteristic-zero differential injectivity
+   follows from the simple D₄ Lie algebra and the nonzero vector action; a residual
+   kernel is central, and its characters on the three blocks are ω₁,ω₃,ω₄,
+   which generate P modulo the root lattice. Prove these statements and obtain a
+   closed immersion into GL₂₄. Its image is the native toral closure after base
+   change to ℂ. Prove this last equality on the defining coordinate ideals:
+   identify the rational image with the rational closure generated by the same
+   root subgroups and weight torus, use9B root generation/big cells, and identify
+   the native integral ideal with its rational contraction. Prove localization
+   and flat characteristic-zero extension preserve that kernel; tensoring the
+   coordinate exact sequence with ℚ then ℂ gives equality of the ideals. Do not
+   assume that arbitrary scheme-theoretic closure commutes with arbitrary base
+   change. This construction supplies smoothness, connectedness, the maximal
+   torus, the Borel and the full simply connected based root datum of the
+   **complex** native carrier. It does not assert an unproved all-base integral
+   reductivity theorem.
+2. **The pinned algebraic Clifford carrier.** Realize native `spinGroup Q₈` as the
+   complex points of the closed subgroup in the even Clifford units satisfying
+   reversal norm1 and vector preservation. Both conditions are required. Use
+   Layer1's faithful even-Clifford action on S⁺⊕S⁻ and Layer2's actual Spin
+   cover to identify the complex points, with their inherited topology. On the
+   same Clifford algebra define `x_i(u)=1+u E_i` and `x_-i(u)=1+u F_i` with
+   the elements of8A. Prove `E_i²=F_i²=0`, their inverses `1−u E_i`,
+   `1−u F_i`, and actual native Spin membership, including vector preservation.
+   The conjugation action on vectors and the Fock action give the pinned root
+   matrices. Define `n_i(z)=x_i(z)x_-i(−z⁻¹)x_i(z)` and
+   `h_i(z)=n_i(z)n_i(−1)`, and `T_Cl(s)=∏_i h_i(s_i)`.
+   Prove the h_i commute, the torus is injective, its characters are the displayed
+   integral weights, and the root conjugation equations have simple roots equal
+   to the rows of `CartanMatrix.D 4`. The simple coroots are the h_i, not the
+   orthogonal e_i coordinate torus of SO₈, whose character lattice is smaller.
+   Construct the24 root subgroups by the fixed root words and the opposite
+   unipotent big-cell chart, prove the chart is an open immersion with dimension28,
+   and show translates cover this algebraic Clifford carrier. The Spin double
+   cover and the connected complex Spin topology of Layer2 identify its whole
+   complex-point group with the subgroup generated by these charts; do not
+   silently replace it by an unidentified identity component. Use these charts
+   to prove the defining carrier is reduced/smooth in characteristic zero.
+   Its semisimple Lie algebra excludes a positive-dimensional unipotent radical;
+   compute its full character lattice as P from the faithful vector/half-spin
+   actions and its simple-coroot lattice as all Y. These supply the reductive,
+   simply connected pinning hypotheses for9B, without using triality. All
+   algebraic-chart and carrier-equality comparisons in this item are targets
+   here; topology alone is not an algebraic-group-scheme isomorphism.
+3. **The comparison and its values.** Apply9B's pinned-isomorphism theorem to these
+   actual computed pinnings. Bundle the resulting algebraic isomorphisms and the
+   induced complex-point equivalence
+   `Ψ : TauCeti.D4Tripled.points ℂ ≃* CliffordAlgebra.spinGroup Q₈`.
+   Prove `Ψ(rootSubgroupPoints (.inl i) ℂ u)=x_i(u)` and the corresponding
+   negative equation, with the **same additive parameter** u. Prove
+   `Ψ(weightTorusPoints ℂ s)=T_Cl(s)` for `s : Fin 4 → ℂˣ`.
+   Give the inverse equations, all coordinate maps, and continuity/smoothness
+   of these algebraic maps on complex points. Its differential is exactly
+   `c_quad` through the tripled H/E/F realization and Layer3's abstract
+   orthogonal comparison, not only an unnumbered Lie equivalence. Prove
+   compatibility with `pointsMulEquiv` so scheme triality and matrix-point
+   triality yield the same Ψ-conjugate automorphism. Pinning uniqueness makes
+   these comparisons independent of proof choices; changes of b/P use their
+   specified transport maps.
+
+#### 8C. All three blocks, their maps, and the oriented pullback cycle
+
+Let B₁,B₃,B₄ be the actual coordinate subspaces on indices0–7,8–15,16–23 of
+`Fin 24 → ℂ`, with block representations β₁,β₃,β₄ of `D4Tripled.points ℂ`.
+Construct them by restricting the native24-dimensional representation using the
+Levi theorem, and prove they are invertible block maps; do not infer a
+representation from an informal matrix corner. Their highest vectors are the
+coordinate vectors at indices0,8,16. Construct linear equivalences
+`J₁:B₁≃ₗ[ℂ]V`, `J₃:B₃≃ₗ[ℂ]S⁻`, `J₄:B₄≃ₗ[ℂ]S⁺`, where
+`ρ₊=(TauCeti.spinPlusSubrep P hline).toRepresentation`,
+`ρ₋=(TauCeti.spinMinusSubrep P hline).toRepresentation`, and ρᵥ is the native
+`spinToSpecialOrthogonal Q₈` vector action. Pin J₁ at b₁, J₃ at
+`b₁∧b₂∧b₃`, and J₄ at `b₁∧b₂∧b₃∧b₄`, understood as vectors of the actual
+parity submodules. These have weights ω₁,ω₃,ω₄ in8A's Cartan/Borel.
+
+Build the maps on all eight weight vectors, not only on the highest lines:
+expose the chronological lowering-word table underlying the native private
+`d4TripledSummandWord` source table (it is not currently a public declaration),
+with each step proved to have simple-coroot pairing1, and use the normalized
+lowering operators. In the native coordinate order the maps are exactly:
+
+| Block coordinates | Images, in order (wedge factors increasing) |
+|---|---|
+| 0–7 | `b₁,b₂,b₃,b₄,b′₄,−b′₃,b′₂,−b′₁` |
+| 8–15 | `b₁₂₃,b₁₂₄,b₁₃₄,b₂₃₄,b₁,b₂,b₃,b₄` |
+| 16–23 | `b₁₂₃₄,b₁₂,b₁₃,b₂₃,b₁₄,b₂₄,b₃₄,1` |
+
+Here b′ is the polar-dual basis, `b_I` is the increasing exterior monomial in
+P.W, and 1 is the exterior unit. The chain/fork formulas of8A fix the signs
+shown; prove the tables by applying the lowering words to the chosen highest
+vectors. Prove nonvanishing and independence by their distinct weights, show that
+the full H/E/F actions agree on this basis, and prove path independence from
+the Serre relations/highest-weight presentation. This constructs the Lie
+intertwiners required in8A. For the group comparison prove the same equations
+on each x_±i(u) and on T(s), then use root generation from8B to obtain
+`J_j β_j(g)=ρ_j(Ψ g) J_j` for every g. All group actions are on these actual
+native vector/parity carriers. The full `TauCeti.spinRep Q₈ P` is16-dimensional
+and is S⁺⊕S⁻; it is not one of these three8-dimensional blocks.
+
+Let `P₂₄=TauCeti.D4Tripled.trialityMatrix ℂ`, the native permutation matrix.
+Native `d4TripledTrialityPerm` sends blocks `B₁→B₃→B₄→B₁`, and
+`trialityPoints ℂ g=P₂₄ g P₂₄⁻¹`. Define
+`t=Ψ ∘ trialityPoints ℂ ∘ Ψ⁻¹`. Define the three explicit intertwiners
+`K_v+=J₁(P₂₄|B₄)J₄⁻¹:S⁺→V`,
+`K_+−=J₄(P₂₄|B₃)J₃⁻¹:S⁻→S⁺`, and
+`K_−v=J₃(P₂₄|B₁)J₁⁻¹:V→S⁻`.
+Prove, for every s in native Spin₈,
+`ρᵥ(t s)K_v+=K_v+ρ₊(s)`,
+`ρ₊(t s)K_+−=K_+−ρ₋(s)`, and
+`ρ₋(t s)K_−v=K_−vρᵥ(s)`.
+Their cyclic composite on V is the identity by the native `P₂₄³=1`.
+Thus the retained pullback cycle is
+`ρᵥ∘t≅ρ₊`, `ρ₊∘t≅ρ₋`, `ρ₋∘t≅ρᵥ`.
+Prove the numbered root equations and the inverse torus relabelling
+`t(T_Cl(s))=T_Cl(fun k => s(σ.symm k))` from the native equations. A forward
+σ in this formula would contradict the pinned roots/weights.
+
+#### 8D. Integrated comparison, order, outerness and consequences
+
+Consume LieGroups4–5's integration of Lie homomorphisms, Layer2's
+SpinComplexPolarTopology (connected for n≥2, simply connected for n≥3) and
+Layer3's SpinDifferentialComparison. Regard the complex Lie automorphism of8A
+as real-linear and integrate it on the actual underlying-real smooth Spin₈(ℂ).
+**SpinSimplyConnectedIntegrationComparison** constructs the integrating-carrier
+isomorphism and proves that the resulting smooth automorphism equals t from8C,
+using the identical differential on the H/E/F generators and uniqueness of
+integration on a connected simply connected group. Construct the polarization/basis-dependent
+automorphism first with its Ψ value equation. The existing `trialityAut Q₈ hQ hV`
+chooses such data using native polarization existence; expose that choice and
+prove the displayed cycle for it. For other specified data use the proved
+polarization/form transport equations, rather than asserting equality of all
+pinned automorphisms without conjugating their pinnings. Algebraic simple-connectivity
+is not substituted for this topological hypothesis. This retains the group
+integration summit as well as its comparison with the native algebraic carrier.
+
+The native order-dividing-three statement transports to `t³=1`. Prove exact
+order3 and that t is not inner using8C and the three pairwise nonisomorphic
+highest weights ω₁,ω₃,ω₄: an inner twist is intertwined with the original
+representation by that group's action and cannot change its isomorphism class.
+Reversing σ uses t⁻¹ and reverses every block/pullback/torus equation together.
+Finally construct the nonzero `Spin₈`-invariant trilinear form
+`V⊗S⁺⊗S⁻→ℂ`, normalize it with the chosen Clifford multiplication and invariant
+pairings, and compute its transformation under t and the displayed intertwiners.
+Relate this triality form to octonion multiplication under specified quadratic
+and carrier isometries. These consequences retain the octonion target; no
+real-form identification is inferred from the complex comparison. The real
+Clifford/Pin/Spin/Bott programme of Layer7 and Kostant's independent Layer9
+remain separate with their existing hypotheses.
 
 ### Layer 9: Lie algebras acting through the Clifford algebra, and Kostant's isotypy corollary
 
@@ -1054,9 +1292,7 @@ here. Independent of Layers 6-8.
   [the highest-weight roadmap](../LieHighestWeight/README.md) the simple constituent is `L(ρ)`, the
   irreducible of highest weight the half-sum of positive roots; that name is prose here (the Layer 5
   device), and the Lean statements carry the content without it. Kostant's full `ρ`-decomposition
-  `C(𝔤) ≅ End(V_ρ) ⊗ C(P)` (with the primitive subspace `P`) is the stronger
-  bibliographical source of these corollaries; this layer specifies the isotypy and
-  multiplicity statements above and their spin-module variant. The **spin-module variant**: the full spinor module
+  `C(𝔤) ≅ End(V_ρ) ⊗ C(P)` is a required, strictly stronger construction target on explicit objects. Set `E=(⋀𝔤)^𝔤`, let `I` be its positive-degree augmentation ideal, and define `P` as the orthocomplement of `I²` inside `I` for the degreewise determinant extension of the Killing form (different exterior degrees are orthogonal). This is not the primitive subspace of the ordinary exterior Hopf coalgebra. Name the equivariant Chevalley/PBW quantization `σ : ⋀𝔤 ≃ₗ C(𝔤)`, with antisymmetrization normalized by `1/k!`. Prove that `σ(p)σ(q)+σ(q)σ(p)` is scalar, define `Q_P` by `σ(p)²=Q_P(p)·1`, and compare its polar form and reversal signs with the extended Killing forms; do not simply restrict the exterior bilinear form and assume the Clifford relations. Prove `dim P=l` and nondegeneracy. Let `A` be the image of `U(𝔤)` under the adjoint quadratic lift; it lies in the even Clifford algebra and its ordinary commutant is the invariant Clifford algebra. Construct `Cliff(P,Q_P)` faithfully into that commutant, write `B` for its image and identify `A≅End(V_ρ)`. Prove the ordinary commutant identities `Comm(A)=B` and `Comm(B)=A·Z(B)`, together with generation and the actual multiplication algebra equivalence `A⊗Cliff(P,Q_P)≃C(𝔤)`, including the ordinary-versus-graded tensor sign dictionary. Do not assert ordinary mutual commutants in odd rank: for `𝔰𝔩₂`, `C(𝔤)=M₂⊕M₂`, `A` is the diagonal `M₂` and `B=ℂ⊕ℂ` is central, so `Comm(B)` is the whole Clifford algebra. A graded-commutant formulation requires its own explicit grading comparison. Retain rank zero (`P=0`, `A=ℂ`). Restriction to the native left-regular `𝔤`-action must recover isotypy and multiplicity. Neither numerical dimension nor CAR proves this target; no relative symmetric-pair theorem is imported. The **spin-module variant**: the full spinor module
   `⋀·W` of `Cliff(𝔤, κ)` (Layer 4's `spinAction` composed with the adjoint quadratic lift; in positive even
   dimension it is `S⁺ ⊕ S⁻`, with the two half-spin summands separately smaller by a factor of two;
   at dimension0 the full spinor module is ℂ, with `S⁺=ℂ` and `S⁻=0`)
@@ -1064,8 +1300,11 @@ here. Independent of Layers 6-8.
 - **The worked instance: `gl_N` on `M_N(ℂ)` (the CAR algebra).** Consume native
   `TauCeti.traceQuadraticForm`, `polarBilin_traceQuadraticForm`, `glCliffordHom`,
   its `_single`, `_lie_ι` and `_normalOrdering` pins, and `carLieRingModule`,
-  `carLieModule`, `car_lie_def`. The remaining CAR isotypy, multiplicity and highest-weight
-  conclusions below concern these actual native actions. `𝔤 = gl_N` is **reductive, not
+  `carLieModule`, `car_lie_def`. Consume native `TauCeti.isIsotypicOfType_glIrreducible_car`,
+  `nonempty_lieModuleEquiv_directSum_glIrreducible_car`, `finrank_glIrreducible_glHalfStaircase` and
+  `exists_isGlHighestWeightVector_glHalfStaircase_car` over algebraically closed characteristic-zero
+  fields, for every N including0. Compare their named-simple/decomposition and highest-vector
+  predicates to the concrete submodule and matrix-unit statements below on these same native actions. `𝔤 = gl_N` is **reductive, not
   Killing-semisimple**, so its form is the **trace form** `Q X = tr (X²)` (nondegenerate where the
   Killing form is not), and its highest weight carries a half-integral central component; the
   reductive highest-weight vocabulary is
@@ -1079,11 +1318,12 @@ here. Independent of Layers 6-8.
   dimension `2^{N²}`) is isotypic with `2^{N(N+1)/2}` simple summands of dimension `2^{N(N-1)/2}`,
   each containing a highest weight vector of weight `ν = (N - 1/2, …, 1/2)` for the matrix-unit
   positive system. [Panyushev's Prop. 2.4 and Ex. 2.5(1)](https://arxiv.org/pdf/math/0001161#page=8)
-  supply reduced-spin identities and the adjoint-spin Kostant example. Derive this
-  normal-ordered `gl_N` case here: for N≥2 the quadratic lift restricts to `sl_N`
+  supply reduced-spin identities and the adjoint-spin Kostant example. Compare the actual native
+  normal-ordered `gl_N` proof with this derivation: for N≥2 the quadratic lift restricts to `sl_N`
   with isotypic highest weight `ρ`, while `glCliffordHom_normalOrdering` adds the
   scalar character `(N/2) tr`, giving `ν = ρ + (N/2)(1,…,1)`.
-  Own the left-regular multiplicity calculation and the direct N=0,1 branches.
+  Retain the left-regular multiplicity calculation and direct N=0,1 comparison branches; the native
+  decomposition already supplies their theorem-level endpoint.
   This decomposition is the one used in the CAR-matrix analysis of Shlyakhtenko
   (arXiv:2606.28648); the companion decomposition
   `V* ⊗ L(ν) ≅ ⨁_{t=1}^{N} L(ν - ε_t)` is the dual-standard Pieri rule of
@@ -1174,11 +1414,13 @@ fundamental representation of `Bₗ`/`Dₗ`" precise, and completes
 [the classical-groups roadmap](../ClassicalGroups/README.md). Layer 6 (the exceptional isomorphisms) needs
 Layers 4-5 for the low-rank spin modules. Layer 7's real Clifford algebra classification uses the
 Clifford-algebra constructions from Layer 0 and the real base entries above. The real Pin and Spin group results
-use the double cover from Layer 2; both branches are independent of Layers 4-6. Layer 8 (triality) needs
-Layer 5's half-spin identification and
-[the root-systems roadmap](../RootSystems/README.md)'s `D₄` diagram automorphism, and its group-level stage a
-further integration theorem, Layer2 compact/complex topology and Layer3 differential comparison;
-it is the summit. The algebraic parts of Layers0–3 and the double cover precede Lie highest weights;
+use the double cover from Layer 2; both branches are independent of Layers 4-6. Layer 8 (triality) consumes Layer5's half-spin identification, the native Serre diagram lift and
+the concrete numbered TypeD matrix/Clifford Serre transport, plus RootSystems Layer6 and
+LieHighestWeight Layer7 for the remaining presentation equivalence. Its specific tripled/Clifford
+pinned comparison consumes ReductiveGroups9B's generic construction and pinned-isomorphism theorem;
+Layer8 owns the actual carrier/root/torus/three-block adapters. Its integrated comparison additionally
+uses LieGroups4–5, Layer2 compact/complex topology and Layer3 differential comparison. The algebraic
+Lie stage is independent of this integration branch, and Kostant does not consume triality. The algebraic parts of Layers0–3 and the double cover precede Lie highest weights;
 the group-differential comparison is a sibling consuming the Layer4 algebraic action. The real-form
 algebra examples have their independent Layer0/2 foundations.
 
