@@ -696,12 +696,11 @@ variable {R Γu Γv Mb Mu Mv : Type*} [Semiring R]
   [Module R Mb] [Module R Mu] [Module R Mv]
   (𝒜u : Γu → Submodule R Mu) (𝒜v : Γv → Submodule R Mv)
 
-/-- A jointly injective span with linear lifts on admissible whole homogeneous pieces
+/-- A span with linear lifts on admissible whole homogeneous pieces
 (`README §0.8`). In a coefficient diagram it is a structure on a span of the index category. -/
 structure GradedCorrespondence (Mb : Type*) [AddCommMonoid Mb] [Module R Mb] where
   left : Mb →ₗ[R] Mu
   right : Mb →ₗ[R] Mv
-  joint_injective : Function.Injective (left.prod right)
   admissibleLeft : Set Γu
   liftLeft : ∀ γ ∈ admissibleLeft, 𝒜u γ →ₗ[R] Mb
   left_lift : ∀ γ (h : γ ∈ admissibleLeft) (a : 𝒜u γ), left (liftLeft γ h a) = a
@@ -726,7 +725,7 @@ noncomputable def GradedCorrespondence.transferRight [DecidableEq Γu]
     𝒜v η →ₗ[R] Mu :=
   homogeneousImage 𝒜u (S.left.comp (S.liftRight η h)) γ
 
-/-- The submodule of `Mu × Mv` identified with `Mb` (`README §0.8`, *matching*). -/
+/-- The image in `Mu × Mv`; joint injectivity identifies it with `Mb` (`README §0.8`). -/
 def GradedCorrespondence.toSubmodule (S : GradedCorrespondence 𝒜u 𝒜v Mb) :
     Submodule R (Mu × Mv) :=
   LinearMap.range (S.left.prod S.right)
@@ -739,13 +738,15 @@ structure GradedCorrespondence.CommonLift (S : GradedCorrespondence 𝒜u 𝒜v 
   left_lift : ∀ a : E, S.left (lift a) = αu a
   right_lift : ∀ a : E, S.right (lift a) = αv a
 
-instance GradedCorrespondence.CommonLift.instSubsingleton
-    (S : GradedCorrespondence 𝒜u 𝒜v Mb) {E : Type*} [AddCommMonoid E] [Module R E]
+/-- Joint injectivity is used for uniqueness, not for the definition of transfer. -/
+theorem GradedCorrespondence.CommonLift.subsingleton
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (hS : Function.Injective (S.left.prod S.right))
+    {E : Type*} [AddCommMonoid E] [Module R E]
     (αu : E →ₗ[R] Mu) (αv : E →ₗ[R] Mv) : Subsingleton (S.CommonLift αu αv) where
   allEq l m := by
     have h : l.lift = m.lift := by
       ext a
-      apply S.joint_injective
+      apply hS
       exact Prod.ext ((l.left_lift a).trans (m.left_lift a).symm)
         ((l.right_lift a).trans (m.right_lift a).symm)
     cases l
@@ -758,13 +759,16 @@ variable (𝒜u 𝒜v) in
 def GradedCorrespondence.graph (θ : Mu ≃ₗ[R] Mv) : GradedCorrespondence 𝒜u 𝒜v Mu where
   left := LinearMap.id
   right := θ.toLinearMap
-  joint_injective _ _ h := congrArg Prod.fst h
   admissibleLeft := Set.univ
   liftLeft γ _ := (𝒜u γ).subtype
   left_lift _ _ _ := rfl
   admissibleRight := Set.univ
   liftRight η _ := θ.symm.toLinearMap.comp (𝒜v η).subtype
   right_lift _ _ a := by simp
+
+theorem GradedCorrespondence.graph_joint_injective (θ : Mu ≃ₗ[R] Mv) :
+    Function.Injective ((GradedCorrespondence.graph 𝒜u 𝒜v θ).left.prod
+      (GradedCorrespondence.graph 𝒜u 𝒜v θ).right) := fun _ _ h => congrArg Prod.fst h
 
 /-- A change of graded correspondence, preserving admissibility and every lift. -/
 structure GradedCorrespondence.Map
@@ -1069,10 +1073,11 @@ def simplexMap {m : ℕ} (v : Fin (m + 1) → V) (t : Fin (m + 1) → ℝ) : V :
 def edgeVectors {m : ℕ} (v : Fin (m + 1) → V) : Fin m → V := fun j => v j.succ - v 0
 
 /-- Stratified general position of a `k`-simplex against a cell of codimension `k`
-(`README §1.4`): the edge vectors surject onto the normal quotient `V/dir(σ)`, the proper faces
-of the simplex miss `σ`, and the simplex misses the relative boundary of `σ`. -/
+(`README §1.4`): at an intersection the edges surject onto `V/dir(σ)`; proper parameter
+faces miss `σ`, and the simplex misses its relative boundary. Disjoint tests may be degenerate. -/
 structure IsTransverseSimplex (v : Fin (k + 1) → V) (σ : OrientedCell i k) : Prop where
-  span_eq_top : affineDir σ.carrier ⊔ Submodule.span ℝ (Set.range (edgeVectors v)) = ⊤
+  span_eq_top : (∃ t ∈ paramSimplex k, simplexMap v t ∈ σ.carrier) →
+    affineDir σ.carrier ⊔ Submodule.span ℝ (Set.range (edgeVectors v)) = ⊤
   faces_avoid : ∀ t ∈ paramSimplex k, (∃ j, t j = 0) → simplexMap v t ∉ σ.carrier
   frontier_avoid : ∀ t ∈ paramSimplex k, simplexMap v t ∉ intrinsicFrontier ℝ σ.carrier
 
@@ -1550,10 +1555,11 @@ end DirectedDiagram
 
 variable (K : OrderFiltration G)
 
-/-- `𝔇` is an outgoing completion of the finite family `Din` (`README §3.3`): it contains the
-initial walls, every added wall is outgoing, and it is consistent. -/
-def IsOutgoingCompletion {m : ℕ} (Din : Fin m → DirectedWall hi ρ D wallGroup) {κ : Type*}
-    (𝔇 : DirectedDiagram hi ρ D wallGroup K (Fin m ⊕ κ)) : Prop :=
+/-- `𝔇` is an outgoing completion of `Din` (`README §3.3`): it contains the initial walls,
+every added wall is outgoing, and it is consistent. `𝔇.finite_at_order` supplies the
+orderwise finiteness, also for the initial family. -/
+def IsOutgoingCompletion {ιin : Type*} (Din : ιin → DirectedWall hi ρ D wallGroup) {κ : Type*}
+    (𝔇 : DirectedDiagram hi ρ D wallGroup K (ιin ⊕ κ)) : Prop :=
   (∀ j, 𝔇.wall (Sum.inl j) = Din j) ∧ (∀ c, (𝔇.wall (Sum.inr c)).Outgoing) ∧ 𝔇.Consistent
 
 /-- The central kernel of `G≤k+1 → G≤k`, modeled by `E`; for BCH this is
@@ -1620,6 +1626,10 @@ structure ChamberTrivialization [FiniteDimensional ℝ V] {ι : Type*}
     𝔇.IsAdmissiblePolygon (k + 1) ![meridian j 0, meridian j 1, meridian j 2, meridian j 0] ∧
     ∀ 𝔡 ∈ walls, (convexHull ℝ (Set.range (meridian j)) ∩ 𝔡.carrier).Nonempty →
       j.carrier ⊆ 𝔡.carrier
+  /-- The filled meridian isolates its joint. Incidence only with walls containing the joint
+  does not exclude enclosing a second endpoint of the same wall. -/
+  meridian_isolates : ∀ j ∈ joints, ∀ j' ∈ joints,
+    (convexHull ℝ (Set.range (meridian j)) ∩ j'.carrier).Nonempty → j' = j
 
 namespace ChamberTrivialization
 
