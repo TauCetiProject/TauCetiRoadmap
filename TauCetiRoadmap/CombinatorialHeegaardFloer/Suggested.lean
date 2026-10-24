@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.LowDimTopology.Plumbing.ChainComplex
+import TauCeti.LowDimTopology.Plumbing.OneVertex
 
 /-!
 # Combinatorial Heegaard Floer and grid homology: target signatures
@@ -16,20 +18,71 @@ in the sibling `HeegaardFloer` roadmap, which also owns the reconciliation theor
 that match each invariant here to its holomorphic counterpart (they are
 analytic-blocked, so they are tracked with the slower track).
 
-Nothing knot-theoretic or Floer-theoretic exists in Mathlib yet, so there are no
-compiled targets to state against the pin. As the prerequisite *types* land in
-`TauCeti/` (grid diagrams and grid states first; then bigraded complexes over
-`𝔽₂[V₁,…,Vₙ]`; then plumbing lattices), state each lane's milestones here with
-`sorry` (human-owned roadmap territory, so `sorry` is allowed). The natural first new
-theorems (Lane G.3–G.5) are
+The plumbing package already supplies a characteristic-two weighted cubical
+complex and its homology for a finite plumbing graph and characteristic covector.
+Reuse this exact carrier where its hypotheses match; it is not the integral model,
+or a proof of the general graph/surface targets. Grid homology, link types,
+bigraded polynomial modules, and the broader lattice models remain roadmap targets.
+-/
 
-  `∂² = 0` for the fully blocked grid complex over `𝔽₂`,
-  `χ(GĤ K) = Δ_K(t)`, and
-  `GH' G ≅ GH' G'` for grids related by commutation and stabilization moves.
+noncomputable section
+
+namespace TauCetiRoadmap.CombinatorialHeegaardFloer
+
+abbrev NativePlumbingComplex {V : Type*} [DecidableEq V] [Fintype V]
+    (P : TauCeti.PlumbingGraph V) (k : P.characteristicVectors) :=
+  P.latticeChainComplex k
+
+abbrev NativePlumbingHomology {V : Type*} [DecidableEq V] [Fintype V]
+    (P : TauCeti.PlumbingGraph V) (k : P.characteristicVectors) (q : ℕ) :=
+  P.latticeChainHomology k q
+
+/-- The actual native object in a fixed cubical degree. -/
+abbrev NativePlumbingDegree {V : Type*} [DecidableEq V] [Fintype V]
+    (P : TauCeti.PlumbingGraph V) (k : P.characteristicVectors) (q : ℕ) :=
+  (P.latticeChainComplex k).X q
+
+/-- The actual native chain boundary from degree `q+1` to degree `q`. -/
+abbrev NativePlumbingBoundary {V : Type*} [DecidableEq V] [Fintype V]
+    (P : TauCeti.PlumbingGraph V) (k : P.characteristicVectors) (q : ℕ) :=
+  (P.latticeChainComplex k).d (q + 1) q
+
+/-- A tower-valued cochain is an actual `ℤ`-linear map out of the integral cube chains.
+This is a typed carrier shape; each source instance must still supply its precise cube
+chains and coefficient module `Tplus`. -/
+abbrev TowerValuedCochain (Cq Tplus : Type*) [AddCommGroup Cq] [Module ℤ Cq]
+    [AddCommGroup Tplus] [Module ℤ Tplus] :=
+  Cq →ₗ[ℤ] Tplus
+
+/-- The type of a degree-raising coboundary between two tower-valued cochain groups. -/
+abbrev TowerCochainStep (Cq Csucc Tplus : Type*) [AddCommGroup Cq] [Module ℤ Cq]
+    [AddCommGroup Csucc] [Module ℤ Csucc] [AddCommGroup Tplus] [Module ℤ Tplus] :=
+  TowerValuedCochain Cq Tplus →ₗ[ℤ] TowerValuedCochain Csucc Tplus
+
+-- Future comparison target: Némethi cohomology versus full cubical homology,
+-- only on an explicitly stated common hypothesis and with the grading, support,
+-- completion, Hom/duality, coefficient and characteristic-covector maps as arguments.
+-- `TowerValuedCochain` and `TowerCochainStep` name the actual Hom_Z carrier shape;
+-- the Némethi `Tplus` quotient and weighted face map remain explicit construction targets.
+-- theorem nemethi_to_full_cubical_on_overlap ... := by sorry
+
+-- Future integral/general-graph target: define the finite-support signed `ℤ[U]`
+-- chain complex, not a cochain complex; prove exponent bounds and `∂²=0` under
+-- explicit graph and surface hypotheses. Its map to Némethi's Hom_Z(-, Tplus)
+-- cochains requires a separately specified support/duality/completion comparison.
+-- def IntegralGraphComplex ... := ...
+-- theorem integral_graph_boundary_squared ... := by sorry
+
+end TauCetiRoadmap.CombinatorialHeegaardFloer
+
+/-!
+The natural first new grid theorems (Lane G.3–G.5) remain `∂² = 0` for the fully
+blocked grid complex over `𝔽₂`, `χ(GĤ K) = Δ_K(t)`, and invariance under the specified
+grid moves. The native plumbing imports do not implement them.
 -/
 
 namespace TauCetiRoadmap.CombinatorialHeegaardFloer
 
--- (no compiled targets yet; see README.md)
+-- (no theorem targets yet; see README.md)
 
 end TauCetiRoadmap.CombinatorialHeegaardFloer

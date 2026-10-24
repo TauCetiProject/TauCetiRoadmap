@@ -52,12 +52,14 @@ applications), plus one combinatorial neighbor:
    fully-combinatorial definition-plus-invariance of a Heegaard Floer 3-manifold
    invariant: HF̂ up to tracked `(𝔽 ⊕ 𝔽)`-tensor factors, exactly HF̂ for
    `b₁(Y) = 0` via a twisted refinement.
-3. **Lattice homology** of plumbed 3-manifolds (Némethi
-   [arXiv:0709.0841](https://arxiv.org/abs/0709.0841), after Ozsváth–Szabó
-   [arXiv:math/0203265](https://arxiv.org/abs/math/0203265)): pure lattice
-   combinatorics, invariance under Neumann moves, and Zemke's theorem
-   ([arXiv:2111.14962](https://arxiv.org/abs/2111.14962)) that it computes `HF⁻` of
-   all plumbed manifolds.
+3. **Lattice homology** has distinct algebraic models whose hypotheses must stay visible.
+   Némethi's cohomological weight-function model is not, by notation alone, the
+   homology of the full cubical `[K,E]` complex used by the analytic roadmap. The
+   full integral model here is an independent target; its signed cubical differential,
+   nonnegative exponents, and homology are specified below. The analytic roadmap's
+   Reconciliation2 owns a narrower completed mod-2 comparison for spherical
+   plumbing trees. It does not identify all of the following models or establish an
+   unrestricted integral comparison for arbitrary graphs.
 
 These three are exactly what this roadmap formalizes. The holomorphic theory is
 **on the roadmap, not a non-goal** — it is just the [other half](../HeegaardFloer/README.md),
@@ -75,7 +77,9 @@ roadmap owns (they are analytic-blocked, so they live with the slower track).
 - **Reconciliations (owned by the analytic roadmap).** Each invariant here has a
   "the two definitions agree" theorem matching it to its holomorphic counterpart
   (grid homology = knot Floer homology; `HF̂_st` = stabilized holomorphic `HF̂`;
-  lattice homology = `HF⁻` of plumbed manifolds). These seams wait on the
+  completed mod2 lattice homology = completed `HF⁻` for spherical plumbing
+  trees, with integral and broader-graph comparisons as separately specified
+  problems). These seams wait on the
   analytic tower, which is the long pole, so they are stated and tracked in the
   [analytic roadmap](../HeegaardFloer/README.md), not here.
 
@@ -110,16 +114,18 @@ roadmap owns (they are analytic-blocked, so they live with the slower track).
   as separate (later) targets, even while the first theorems prove only the
   isomorphism class. ⚠ Basepoint-moving maps act nontrivially (Zemke); do not
   quotient them away silently.
-- **Track stabilization factors explicitly.** The fully blocked grid homology
-  `GH̃(G)` depends on grid size: `GH̃(G) ≅ GĤ(L) ⊗ W^{⊗(n−1)}` with
-  `W = 𝔽 ⊕ 𝔽` in bigradings (0,0), (−1,−1); OSS's 3-manifold invariant is *stable*
+- **Track stabilization factors explicitly.** For an `ℓ`-component link, the
+  fully blocked grid homology satisfies `GH̃(G) ≅ GĤ(L) ⊗ W^{⊗(n−ℓ)}` under the
+  chosen grading convention; the knot case has `ℓ=1` and exponent `n−1`.
+  Here `W = 𝔽 ⊕ 𝔽` in bigradings (0,0), (−1,−1); OSS's 3-manifold invariant is *stable*
   in the same sense. Build the "graded vector space up to `⊗W`-stabilization"
   quotient as API, not ad hoc.
-- **Mind the bigrading bookkeeping.** Maslov gradings via the `J`-function
-  (`M_O(x) = J(x−O, x−O) + 1`), Alexander via
-  `A = ½(M_O − M_X) − (n−1)/2`: integer-valuedness is a lemma, not a definition.
-  Fix once whether differentials drop Maslov by 1 and preserve Alexander
-  (unblocked) and write the `(M, A)`-conventions table before stating anything.
+- **Mind the knot/link grading bookkeeping.** For a grid of size `n` with `ℓ`
+  components, the blocked-to-unblocked Alexander normalization uses the link
+  correction `(n−ℓ)/2`; the knot-only formula is the special case `ℓ = 1`, hence
+  `(n−1)/2`. Integer-valuedness is a lemma, not a definition. State the chosen
+  Maslov/Alexander conventions and prove the correction is invariant under each
+  link stabilization. Do not reuse the knot shift for links.
 - **Keep "computes" as a requirement, not an afterthought.** The acceptance
   criteria below evaluate the invariants on explicit small grids (`n ≤ 5` has at
   most `120` generators). Definitions whose differentials cannot be evaluated by
@@ -153,7 +159,10 @@ bigraded `𝔽[U]`-modules (τ's home); filtered complexes and filtered homotopy
 (Mathlib's spectral-sequence machinery is young and has no filtered-complex
 constructor, and the grid main line deliberately avoids spectral sequences, so
 only the filtered-complex API is needed); pointed Heegaard diagram combinatorics
-and the nice-move calculus; plumbing lattices and weight functions.
+and the nice-move calculus; the integral/surface-decorated lattice extensions and
+comparisons among cohomological, characteristic-cubical, and completed carriers.
+The native plumbing graph, characteristic-covector, weighted differential, and
+cubical homology API is consumed below, not recreated.
 
 ---
 
@@ -185,8 +194,12 @@ already. Milestone order:
    `V₁ − V₂ : GC⁻(G)[V₁] → GC⁻(G)[V₁]` (consume Mathlib's cones). ⚠ The homologies
    of the *blocked* theories depend on grid size through `⊗W` factors; only the
    stabilization-quotient (or `GĤ`, `GH⁻`) is the link invariant.
-6. **All `V_i` act identically on homology**; `GH⁻` as `𝔽[U]`-module; the structure
-   theorem for finitely generated bigraded `𝔽[U]`-modules; **τ**.
+6. **Basepoint actions.** Within each link component, the corresponding `V`-actions
+   are chain homotopic; variables attached to different components are not thereby
+   identified. Retain the multivariable `𝔽[V₁,…,V_ℓ]` action until a stated
+   specialization/forgetful map is applied. For knots (`ℓ=1`) this gives the usual
+   `𝔽[U]`-module and its finitely generated bigraded structure theorem, the home of
+   **τ**. For links, record the componentwise action and its naturality.
 7. **`|τ(K)| ≤ u(K)`** via crossing-change maps; `τ(T_{p,q})` via the canonical
    cycle; **the Milnor conjecture** (book Chapter 6, after Sarkar
    [arXiv:1011.5265](https://arxiv.org/abs/1011.5265)).
@@ -194,9 +207,14 @@ already. Milestone order:
    explicit that the combinatorial treatment "falls short of showing these bounds
    are sharp"; sharpness is holomorphic (the analytic roadmap's far future); state
    the bound, not detection.
-9. **Skein exact sequence; alternating knots are thin; links** (multivariable
-   Alexander polynomial as Euler characteristic; grid polytope vs Thurston norm,
-   again bound only).
+9. **Skein exact sequence; alternating knots are thin; links.** Fix the
+   symmetric Alexander-lattice and flavor conventions. For the hat theory the
+   Euler characteristic has two branches: for a knot (`ℓ=1`) it is the normalized
+   symmetrized Alexander polynomial `Δ_K(t)`; for a link with `ℓ>1` it is
+   `∏ᵢ(tᵢ^{1/2}−tᵢ^{−1/2}) Δ_L(t₁,…,tℓ)`, with the source's unit/sign normalization.
+   Do not obtain the knot formula by substituting `ℓ=1` into the link factor.
+   Test both branches on the unknot and the two-component unlink. The grid
+   polytope vs Thurston norm remains a bound, not detection.
 10. **Slice genus:** `|τ(K)| ≤ g_s(K)` via saddle/birth/death maps and normal forms
     of knot cobordisms (book Appendix B.5): the most topologically substantial
     step of the combinatorial line; gives the combinatorial Kronheimer–Mrowka
@@ -239,13 +257,159 @@ braid-group program) rather than duplicating them here.
 
 ### Lane L: lattice homology
 
-Plumbing trees/graphs and their lattices; Némethi's lattice (co)homology
-`ℍ⁻`/`ℍ⁰` as a `ℤ[U]`-module from lattice points and weight functions; invariance
-under **Neumann moves**; computations for Seifert-fibered examples; `d`-invariant
-analogues. Entirely finite combinatorics plus bilinear forms; a self-contained
-on-ramp to the *3-manifold* side with no Heegaard diagrams at all, and the cheapest
-lane to start in parallel. Far-future reconciliation: Zemke's `ℍ⁻ ≅ HF⁻` (the
-analytic roadmap names the `HF⁻` side).
+Keep three models separate and state their carrier, coefficient ring, degree,
+weight, and comparison domain before asserting an isomorphism.
+
+1. **Némethi cohomological weight-function model.** On the negative-definite
+   decorated-graph domain of Némethi §§3.1–3.2, retain the source's characteristic
+   covectors, normalization and genus correction. Let `C_q` be the free abelian
+   group on its oriented q-cubes and use the actual tower-valued cochain module
+   `F^q=Hom_ℤ(C_q,T⁺)`, where `T⁺=ℤ[U,U⁻¹]/Uℤ[U]`; this full Hom carrier is
+   not a finite-support free `𝔽₂[U]` cube module. Retain the source grading, `U`
+   action, weighted face-evaluation coboundary, augmentation and reduced output.
+   Its vertex function `χ` and `M^g` edge correction use the exact source
+   normalization. The degree-zero cohomological construction is distinct from
+   homology of the integral chain complex below. Its cited §3.4 invariance target is
+   the stated genus-zero `(-1)`-vertex blow-up/down with valence at most two, under
+   the source's graph and negative-definiteness hypotheses. Do not promote it to
+   arbitrary Neumann moves or arbitrary lattice isometries. The genus-one `(-1)`
+   one-vertex case is a required regression: for its canonical `K=-E`, both
+   vertices of its edge have weight zero while the edge has weight one; replacing
+   the source weight by the spherical maximum loses the reduced cohomology term.
+2. **Spherical characteristic `[K,E]` model.** For a finite tree of genus-zero
+   vertices with integral weights, a characteristic covector `K`, and a finite
+   vertex subset `E`, use cube degree `|E|`. In the source normalization, for
+   `I ⊆ E` write `f_K(I)=(⟨K,E_I⟩+Q(E_I,E_I))/2`, where
+   `E_I=Σ_{v∈I}E_v`, and `g(K,E)=min_{I⊆E} f_K(I)`. For `v∈E`, set
+   `A_v(K,E)=g(K,E\{v})` and
+   `B_v(K,E)=min_{I⊆E, v∈I} f_K(I)`. Over `𝔽₂[U]`, the two faces are
+   `U^(A_v−g)[K,E\{v}]` and
+   `U^(B_v−g)[K+2v*,E\{v}]`, summed over `v∈E`; `v*` is the covector
+   `Q(v,·)` in the chosen lattice convention. The roadmap targets nonnegative
+   exponents, `d²=0`, and the source's absolute/relative grading and boundary
+   `Spin^c` label on their actual hypotheses, then full homology in every cube
+   degree—not only degree zero. State orientation and weight normalization. Signs
+   and the integral coefficient system are separate targets; they are not supplied
+   by this characteristic-two formula.
+3. **General graph/surface integral cubical chain model and exact source overlap.** For a
+   finite plumbing graph `Γ` with integral symmetric intersection form `Q` and a
+   nonnegative genus `g_v` at each vertex (cycles are allowed), fix a characteristic
+   covector `K` (`K(x)≡Q(x,x) mod 2`) and use
+   `χ_K(l)=−(K(l)+Q(l,l))/2`. Its source-defined edge correction is the fixed
+   function `M^{g_v}` of the absolute endpoint change, not a free choice: for the
+   oriented edge from `l` to `l+E_v`, set
+   `w_K(l,[v]) = max(χ_K(l), χ_K(l+E_v)) + M^{g_v}(|χ_K(l+E_v)−χ_K(l)|)`.
+   Here `M^g` means precisely Némethi's function in §3.2.2 of arXiv:0709.0841v1;
+   use its definition and normalization. The weight of a positive-dimensional
+   cube is the maximum of its one-dimensional edge weights; vertices retain `χ_K`.
+   This fixes the graph, surface labels, characteristic sector, support and weight,
+   including the genus-one `(-1)` regression. It does not replace this edge weight
+   by the spherical maximum-of-vertices rule.
+
+   Define `w_K(l,∅)=χ_K(l)` and, for `c=(l,I)` with `|I|≥2`, let `w_K(c)` be the
+   maximum of its one-dimensional edge weights. For `I={v₁<⋯<v_q}`, let
+   `C_q^{Γ,K}` be the finite-support free `ℤ[U]`-module on oriented q-cubes, with
+   **chain degree** `q`, `deg(U)=−2`, and the source's absolute/relative grading
+   kept separate. Its signed cubical **boundary** is
+
+   `∂(l,I)=Σ_j (−1)^(j−1)(U^(w(c)−w(l,I\{v_j})) (l,I\{v_j})`
+   `− U^(w(c)−w(l+E_vj,I\{v_j})) (l+E_vj,I\{v_j}))`.
+
+   The fixed product orientation comes from the displayed vertex order. This map
+   lowers cube degree by one. Prove that the exponents are nonnegative integers,
+   `∂²=0`, and a vertex-order change induces the orientation isomorphism. Coefficient
+   reduction `ℤ[U]→𝔽₂[U]` gives a chain map only to the characteristic-two
+   finite-support chain model when the actual generators, weights, and characteristic
+   coordinate dictionary match; state and prove those conditions. It is **not** a
+   map to Némethi's cochain module merely by reducing coefficients.
+
+   **Némethi's cohomological model is a different carrier.** Let `C_q(Γ,K;ℤ)` be
+   the free abelian group on the oriented source cubes and
+   `T⁺=ℤ[U,U⁻¹]/Uℤ[U]`. The source cochains are
+   `F^q=Hom_ℤ(C_q(Γ,K;ℤ),T⁺)`, with the source grading (a degree-d cochain has
+   value of degree `d−2w(c)` on a cube `c`) and the source `U` action. This Hom is
+   the full linear-dual carrier; do not silently impose finite support. Its
+   coboundary `δ:F^q→F^(q+1)` evaluates on an oriented (q+1)-cube by the
+   source's weighted incidence sum of values on its q-faces. Use Némethi's exact
+   coefficient and weight conventions, including the augmentation and reduced
+   output; prove `δ²=0` on those definitions. This source cochain model has a
+   degree-raising differential, while `∂` above is degree-lowering. Even the
+   point-cube coefficient modules differ: every element of `T⁺` is killed by some
+   power of `U`, while nonzero elements of the free polynomial module `ℤ[U]` are
+   not. Therefore no same-generator equality or direct identification is implied.
+
+   State three separate scopes: the integral finite-support chain target above;
+   Némethi's `Hom_ℤ(-,T⁺)` cochain target on the negative-definite decorated-graph
+   hypotheses of §§3.1–3.2; and the existing characteristic-two native coordinate
+   chain complex. The coefficient-reduction arrow is `ρ_q:C_q^{int}→C_q^{native}`
+   only after an explicit shared-generator/weight/characteristic-coordinate
+   equivalence is constructed; its chain-map equation must be proved. For the source
+   cochains, retain the actual evaluation pairing
+   `ev_q:C_q^{source}×F^q→T⁺` and the source coboundary `δ_q:F^q→F^(q+1)`.
+   Any further map between the native chain model and the source cochains must be
+   supplied with an explicit degree rule (including any reversal/shift), support or
+   completion, coefficient action, characteristic-label map, and chain/cochain
+   compatibility equation. If that comparison needs an intermediate completed dual,
+   name its carrier and both maps; do not invent a direct isomorphism. The R2c
+   comparison target must state its own actual carrier, the maps from each model,
+   and the chain-map/quasi-isomorphism or chain-homotopy-inverse theorem it proves.
+   Keep the source augmentation/reduced map in the diagram. On graphs outside
+   Némethi's domain, retain the integral model without claiming Némethi invariance.
+   For the singular-form coordinate map `K=k+2Qx`, specify the characteristic orbit
+   or prove a different comparison; it need not be onto all characteristic covectors.
+
+   R2c consumes **both** the named integral chain complex and, on its exact source
+   domain, Némethi's tower-valued cochain complex, together with these explicit
+   comparison data and characteristic labels. R2c must construct the surgery presentation,
+   signed/higher maps, coefficient and `Spin^c` data, completion/derived bridges, and
+   the exact theorem supported by those bridges. The source's restricted graph-move
+   result remains only the genus-zero `(-1)`-vertex blow-up/down of valence at most
+   two; any broader move invariance is a separate target.
+
+The Némethi-to-`[K,E]` comparison is a third, separate theorem on the exact overlap
+of its hypotheses. It must state whether it compares source cohomology with a dual or
+with homology, and give the coefficient, support, completion, degree, sign, grading,
+and characteristic-covector translations. For nonsingular `Q`, the affine map
+`x ↦ K₀ + 2Qx` identifies the lattice points with characteristic covectors in its
+chosen orbit; for singular `Q`, specify the orbit or prove a different comparison.
+
+The current native coordinate chain module has finite-support generators `(x,E)`
+over `𝔽₂[U]` and fixes a characteristic vector `k`. Its actual typed interface is
+`P.latticeChainComplex k : ChainComplex (ModuleCat PlumbingCoefficient) ℕ`, with
+degree object `(P.latticeChainComplex k).X q`, differential
+`(P.latticeChainComplex k).d (q+1) q`, and `P.latticeChainHomology k q`; use its
+actual `d²=0` theorem and homology API rather than recreating them. These are native
+characteristic-two chain signatures only, not the signed `ℤ[U]` model or Némethi's
+`Hom_ℤ(-,T⁺)` cochains. A coordinate-to-characteristic reindexing uses `K=k+2Qx`.
+When `Q` is singular, this map can identify different coordinates, so an isomorphism
+with the full characteristic-labelled complex is not automatic. The zero-framed
+one-vertex case must be checked before any completion claim: in the native
+finite-support coordinate complex `d(e_x)=v_x+v_(x+1)`, giving `H₀=𝔽₂[U]` and
+`H₁=0`; in the characteristic `K=0` sector the two faces coincide and cancel,
+giving `H₀=H₁=𝔽₂[U]`. The source's completed characteristic version has `𝔽₂[[U]]`
+in both degrees. These are different carriers/support conventions, not an
+isomorphism. Keep this regression and prove each comparison on its own domain.
+
+For the spherical completed mod-2 comparison and the separate extension interfaces,
+consume [HeegaardFloer Reconciliation 2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f42fce12bc28a47dc3c23650a36f92738ac63ea1/TauCetiRoadmap/HeegaardFloer/README.md#L2897-L2972),
+which assigns the completed carrier, surgery and comparison constructions. The
+source-backed completed mod-2 theorem has scope spherical plumbing
+trees with the stated boundary hypotheses. The present lane supplies the concrete
+lattice complex and naturality data. Before using the theorem, establish the
+coefficient-change chain map, the precise completion (direct sum, restricted
+product, or full product), its support/topology, and the derived/UCT/limit
+hypotheses. Neither an infinite product nor its homology is silently an algebraic
+tensor or an unrestricted U-adic limit. The theorem does not establish the
+integral comparison or the broader graph/surface extension. The analytic owner
+supplies the surgery hypercube, higher polygon maps, and comparison/perturbation;
+there is no reverse analytic dependency here.
+
+For the negative-definite nonsingular rational-homology-sphere case, give the
+source-normalized correction-term formula only with its orientation, boundary
+`Spin^c`, grading, and sign conventions. State whether the input is the Némethi
+minimum or full-complex grading and supply the comparison theorem before identifying
+them. A minimum of a quadratic weight on an arbitrary integral matrix is not by
+itself a correction-term formula.
 
 ### Lane H: combinatorial HF̂ of 3-manifolds
 
@@ -268,8 +432,9 @@ pointed Heegaard diagrams of `Y` are connected by moves): Morse/Cerf theory that
 does not exist in Mathlib. Treat it the way Lane G treats Cromwell: make "diagrams
 modulo moves" the *definition* of the input equivalence class, state the invariance
 theorem against it, and put the identification with smooth 3-manifolds in a
-separable reconciliation target (which the analytic roadmap's Morse theory will
-eventually feed). ⚠ This package has no absolute gradings and no `U`-flavors; do not
+separable reconciliation target. Consume [MorseTheory](../MorseTheory/README.md)'s
+ordinary Morse/handle foundation and build the required Cerf moves and basepoint
+comparisons in that reconciliation target. ⚠ This package has no absolute gradings and no `U`-flavors; do not
 promise them here.
 
 The diagram combinatorics of H.1 are also the input the analytic roadmap's Lane F4
@@ -289,8 +454,33 @@ Concrete checks that rule out vacuous or mis-stated definitions:
   as instances of G.7; an alternating knot is thin (G.9).
 - **Oracle agreement:** spot-check `GĤ` ranks against published tables
   (HFKcalc/Knot Atlas data) for a handful of ≤ 8-crossing knots.
-- **Lattice homology:** `ℍ` of a concrete negative-definite plumbing (e.g. the
-  `E₈`-plumbing / Poincaré sphere) matches the literature.
+- **Lattice homology:** check the concrete negative-definite `E₈` plumbing against
+  the literature separately in Némethi's degree-zero model and the full spherical
+  `[K,E]` model, with the stated characteristic sector, coefficient ring, grading,
+  orientation and comparison. Do not treat agreement in one degree/model as the
+  other comparison.
+- **Seifert-fibered computations:** for normalized data `(g₀,b;(α₁,β₁),…,(αᵣ,βᵣ))`
+  with `αᵢ>βᵢ>0`, `gcd(αᵢ,βᵢ)=1`, choose and retain this plumbing convention:
+  write the unique negative continued fraction
+  `αᵢ/βᵢ=[cᵢ₁,…,cᵢₛ]⁻ = cᵢ₁−1/(cᵢ₂−⋯−1/cᵢₛ)`, with every `cᵢⱼ≥2`;
+  take a central vertex of genus `g₀` and weight `−b`; attach to it a linear leg
+  of weights `−cᵢ₁,…,−cᵢₛ` for each i. Orient the boundary as the boundary of
+  this oriented plumbing (outward-normal-first). In this convention the rational
+  Euler/Schur-complement number is `e=−b+Σᵢ βᵢ/αᵢ`; for the stated normalized
+  legs the intersection form is negative definite exactly when `e<0` (and for
+  `r=0` this reads `−b<0`). Record the convention, orientation, and `e` with every
+  output; an orientation reversal requires the corresponding explicit sign
+  conversion, not a silent change of `b` or the leg fractions. Compute characteristic
+  sectors, source cohomological cube weights, and d-type outputs only on the source
+  hypotheses, recording boundary `Spin^c`, coefficient flavor, and absolute/relative
+  grading normalization. For rational-homology-sphere cases, compute d-invariant
+  outputs only after the comparison theorem and its sign/orientation convention
+  are established. Compare degree-zero Némethi and full spherical `[K,E]` outputs
+  only on their common genus-zero hypotheses and after proving the comparison. For
+  positive-base-genus or other Seifert cases, retain the central surface-genus
+  decoration, use the L.3 graph/surface **chain** model and its distinct R2c
+  cochain/comparison inputs; do not infer the spherical-tree theorem. These remain
+  assigned computations, not established formulas.
 - **`HF̂_st` computes:** lens spaces give `𝔽^p` (one generator per spin^c
   structure); `S¹ × S²` exercises weak admissibility.
 
@@ -303,17 +493,25 @@ holomorphic side lives.
 
 - P. Ozsváth, A. Stipsicz, Z. Szabó, *Grid Homology for Knots and Links*, AMS
   Mathematical Surveys and Monographs 208, 2015: **the spine of Lane G**, nearly a
-  blueprint; Appendix A is Lane ALG's contents, Appendix B is Lane K's.
+  blueprint; Appendix A is Lane ALG's contents, Appendix B is Lane K's. Use
+  Remark 4.6.10, §11.1, and Theorem 11.6.1 for the link grading, componentwise
+  variables, and multivariable Euler-characteristic conventions; state the selected
+  normalization explicitly.
 - C. Manolescu, P. Ozsváth, S. Sarkar,
   [arXiv:math/0607691](https://arxiv.org/abs/math/0607691); Manolescu–Ozsváth–
   Szabó–Thurston [arXiv:math/0610559](https://arxiv.org/abs/math/0610559): grid
-  homology's origins; the latter is the self-contained one. (The former is also the
+  homology's origins; the latter is the self-contained one. Use v2 §6,
+  Theorem 6.1 for the separate `ℓ=1` knot and `ℓ>1` link Euler branches. (The former is also the
   **grid homology = HFK** reconciliation, which the analytic roadmap owns.)
 - P. Ozsváth, A. Stipsicz, Z. Szabó,
   [arXiv:0912.0830](https://arxiv.org/abs/0912.0830) and
   [arXiv:1301.0480](https://arxiv.org/abs/1301.0480): Lane H.
-- A. Némethi, [arXiv:0709.0841](https://arxiv.org/abs/0709.0841): Lane L. (Zemke's
-  `ℍ⁻ ≅ HF⁻` reconciliation is cited and tracked in the analytic roadmap.)
+- A. Némethi, [arXiv:0709.0841](https://arxiv.org/abs/0709.0841), especially
+  §§3.2.1–3.2.2, Example 4.2.4, and §3.4: Lane L's cohomological weights and
+  restricted graph moves. Zemke, [arXiv:2111.14962](https://arxiv.org/abs/2111.14962),
+  Theorem 1.1 and §2.3 (including equation (2.3)): the completed mod-2 spherical-tree
+  comparison and its characteristic-cube conventions. These are distinct targets;
+  the analytic roadmap separately specifies broader comparison problems.
 - É. Gallais, [arXiv:0706.0089](https://arxiv.org/abs/0706.0089): sign assignments
   and ℤ coefficients for grid homology (G.12).
 - A. Juhász, D. Thurston, I. Zemke,
