@@ -318,6 +318,59 @@ topology.
   `(weylCoxeterSystem b).length w₀ = (posRoots b).ncard`, and `w₀ ^ 2 = 1`; every `w` satisfies
   `ℓ(w) ≤ ℓ(w₀)`. The order of the Weyl group is `Nat.card P.weylGroup`.
 
+#### 4A. Finite root automorphisms and the based complement
+
+For the finite reduced crystallographic real root pairing of Layer4, spanning both
+spaces, construct the full native `RootPairing.Aut P` action on roots, coroots,
+positive systems and chambers. Use native reflection conjugation to prove that
+`P.weylGroup` is normal. Define `basedAut P b` as the subgroup preserving the
+actual base support, equivalently the open dominant chamber. Prove that a root
+automorphism takes that chamber to a chamber: transport the actual coroot
+inequalities and positive-system/base comparison. Chamber covering at one regular
+point alone is not this set-level transport theorem.
+
+Native chamber freeness/transitivity gives a unique factorization `g=wδ` with
+`w∈W` and `δ∈basedAut P b`. Construct the actual `W.IsComplement' (basedAut P b)`
+witness, then consume Mathlib's
+[`SemidirectProduct.mulEquivSubgroup`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/GroupTheory/SemidirectProduct.lean#L236-L240), not a second
+generic semidirect-equivalence construction. Its action is conjugation and its
+multiplication is `(w,δ)(v,η)=(w δ(v),δη)`. Export the map `(w,δ)↦wδ`, inverse
+`g↦(w,w⁻¹g)`, both inverse and multiplication equations, the two subgroup
+inclusions, projections, unique-factor theorem, intersection and normality laws,
+and their root/coroot, chamber and change-of-base equations. Keep native
+`RootPairing.Equiv.coweightEquiv` contravariant: its inverse is the geometric
+forward cocharacter action, including order3 triality.
+
+After Layers5–6, identify the based subgroup with automorphisms of the oriented Cartan matrix,
+using the actual finite root/coroot realization and inverse maps. Connected
+`A_r` has the reversal for `r≥2`, `D_r` the fork interchange for `r≥5`, `D₄`
+has triality `S₃`, and `E₆` has its involution; the other valid connected types
+have trivial based subgroup. Include `A₁`, and permutations of isomorphic
+components in reducible systems. Non-W root automorphisms exist in examples
+such as `A₂`; strict `Aut(Φ)>W` is not asserted for every type. In the spanning
+semisimple rank0 case both spaces and all three groups are trivial.
+
+For an actual finite-free integral root datum retain both lattices and compare
+with its rational/real scalar extension; do not impose integral `IsRootSystem`
+or identify an arbitrary isogeny lattice with the full weight lattice. For
+semisimple intermediate `Q⊆X⊆P`, `Q∨⊆Y⊆P∨`, construct the subgroup of based
+automorphisms preserving these actual dual lattices and the corresponding
+decomposition of full-datum automorphisms. Prove the integral/field extension
+and restriction maps inverse. A `D₄` vector isogeny form need not admit all
+triality permutations. For full reductive data use the cylinder chambers of
+the rational root span and carry the actual central/derived lattice gluing;
+the based full-datum stabilizer includes the compatible central automorphisms
+and need not be finite. A root-free rank-r datum has trivial W but its full
+datum automorphism group is `GL_r(ℤ)`, not the trivial group when r>0. State
+the finite root-space decomposition and this full-datum decomposition as
+different scopes, with their actual lattice and pairing maps.
+
+The signed ADE cover-lift group belongs to
+[ReductiveGroups9A.1a-L](../../ReductiveGroups/README.md), and the compact
+normalizer/Tits application to [LieGroups8N](../LieGroups/README.md). Neither
+the affine coweight quotient nor a based Lie functor is identified with a
+compact normalizer section.
+
 ### Layer 5: Dynkin diagrams and the Cartan-Killing classification
 
 - **The Dynkin type enumeration.** `DynkinType` : `A n | B n | C n | D n | E₆ | E₇ | E₈ | F₄ | G₂`, with
@@ -339,14 +392,15 @@ topology.
   (no vertex of degree `> 3`, at most one multiple edge, the chain/fork length constraints) eliminates
   everything outside the list, and validity removes the low-rank coincidences. Stated for a root system
   as `existsUnique_dynkinType`.
-- **Realization.** `exists_rootPairing_of_dynkinType t ht`: each **valid** `DynkinType t` is the Cartan
-  matrix of some irreducible reduced crystallographic finite root system. Build each from an **explicit
-  coordinate model**, not from an abstract "root system from a positive-definite Cartan matrix"
-  construction (which would re-run the finite-type machinery and risk circularity): `Aₙ` inside the
-  sum-zero hyperplane of `ℚ^{n+1}`, `Bₙ`/`Cₙ`/`Dₙ` as the classical short/long-root systems,
-  `E₈` from its even unimodular lattice with `E₇`, `E₆` as sub-systems, `F₄` and `G₂` from their
-  standard low-dimensional coordinates. This is the existence half, and it is independent of the
-  uniqueness half, so the two lanes proceed in parallel.
+- **Realization.** `exists_rootPairing_of_dynkinType t ht`: each **valid** local `DynkinType t` is the
+  Cartan matrix of an irreducible reduced crystallographic finite root system. Its root-index carrier
+  is `Fin t.numRoots`, while its ambient vector and covector carriers are `Fin t.rank → ℚ`; these differ
+  already for `A₁`, with rank one and two roots. The realization is obtained by transporting the
+  existing native `rationalRootSystem` and `rationalBase` through `toNativeDynkinType`, the proved
+  node/root-index casts, and the root-pairing equivalence. The native source constructs the nine family
+  data explicitly, so this lane is independent of this roadmap's uniqueness/classification theorem.
+  The local root datum and realization targets consume that same family data and prove the coordinate,
+  Cartan, length, and base equations needed by local consumers; they do not define a parallel model.
 - **The Cartan-Killing classification (summit).** Combining realization, `existsUnique_dynkinType`, and
   the final isomorphism step `nonempty_equiv_of_hasCartanType` (consuming Mathlib's
   `equivOfCartanMatrixEq`): every irreducible reduced crystallographic finite root system is isomorphic
@@ -373,6 +427,47 @@ any explicit construction of a semisimple group scheme starts here.
   `DynkinType.IsLongSimpleRoot` so downstream length-exchanging maps have something to refer to.
   Zero-based `Fin` indices against one-based Bourbaki labels are the standing trap here, so state the
   offset rather than leaving it to be inferred.
+
+- **Reuse the pinned native family, through a stated dictionary.** The local roadmap enumeration
+  `TauCetiRoadmap.RepresentationTheory.RootSystems.DynkinType` and the installed
+  `_root_.TauCeti.DynkinType` are distinct inductive types, even though their nine constructors
+  correspond. The realization and pinned-datum targets must not silently identify them or build a
+  second family of coordinates. Define the constructor map `toNativeDynkinType` case-by-case, then
+  prove, for every local `t`, preservation of `Valid`, `rank`, `numRoots`, the oriented Cartan
+  entries under the induced `Fin` casts, and `IsLongSimpleRoot` at each Bourbaki node. The G₂ arrow
+  orientation and B/C distinction are part of these equations. This map is a literal dictionary, not
+  a classification theorem, so it does not depend on Layer 5.
+
+  Reuse `_root_.TauCeti.DynkinType.rationalRootSystem` and `rationalBase` from
+  `TauCeti.LinearAlgebra.RootSystem.SimplyConnectedRootDatum.Rational`, with
+  `_root_.TauCeti.DynkinType.hasCartanType_rationalRootSystem` as the supplied realization. State
+  the local `HasCartanType` result after transporting the native standard matrix through the
+  dictionary and its oriented-node cast. Any local realization/equivalence target must identify the
+  native root-index equivalence, the rank-coordinate equivalence, and its root, coroot, pairing,
+  reflection-permutation and simple-base equations. Keep the existing `Fin t.numRoots` root carrier
+  separate from `Fin t.rank` coordinates. This reuse is independent of `existsUnique_dynkinType` and
+  of any classification argument. Keep the explicit family-coordinate descriptions as comparisons:
+  type A in the sum-zero hyperplane, the classical B/C/D systems, E8 with E6/E7 subsystems, and
+  standard F4/G2 coordinates must agree with the transported native model. They audit the family
+  constructions and local naming; they are not a second implementation.
+
+  Likewise, define the local pinned integral datum by transporting the actual native
+  `_root_.TauCeti.DynkinType.simplyConnectedRootDatum` from
+  `SimplyConnectedRootDatum.Assembly`, whose dispatcher is defined by cases into the nine family
+  data and whose `simpleIndex` is `Fin.castLE (rank_le_numRoots ht)`. The rational layer is in
+  `SimplyConnectedRootDatum.Rational`: `rationalRootSystem` is `rootPairingBaseChange` of that
+  datum, `rationalBase` is its transported base, and `hasCartanType_rationalRootSystem` consumes
+  native `hasCartanType_simplyConnectedRootDatum`. The local constructor map is a separate, explicit
+  dictionary; use it to transport rather than treating the two enums or their families as definitionally
+  identical. The transport contract
+  must give the root-index equivalence and coordinate equivalences on both character and
+  cocharacter lattices, and explicitly commute with root/coroot, pairing, and base change to ℚ.
+  Its simple-root map is the native `simpleIndex` followed by the root-index transport; identify the
+  local support equivalence with native `simpleSupportEquivSimplyConnectedBase`. Prove the simple
+  root rows are the local Bourbaki Cartan matrix and the simple coroot pairing is the Kronecker
+  pairing, preserving the chosen weight/coweight convention. These are target-level comparison
+  obligations; do not claim they are already implemented in the native import or proved by merely
+  citing `rationalRootSystem`.
 
 - **A named datum per valid type.** `DynkinType.simplyConnectedRootDatum t ht`, a `RootDatum` over
   `ℤ` with roots indexed by `Fin t.numRoots` and both lattices pinned to `Fin t.rank → ℤ`: the
@@ -424,13 +519,15 @@ root-system-independent lane that only needs Mathlib's Coxeter API.
 Layer 4 (chambers, the fundamental domain, the longest element) needs Layers 1-2 for the Weyl-group
 action and the length-equals-inversions identity. Layer 5 (the classification) needs Layer 4 for the
 positive-definite geometry that bounds the Cartan matrices; its uniqueness half (`existsUnique_dynkinType`)
-and its realization half (`exists_rootPairing_of_dynkinType`, explicit coordinate models) are
+and its realization half (`exists_rootPairing_of_dynkinType`, transported native family data) are
 independent and proceed in parallel, and the final isomorphism step consumes `equivOfCartanMatrixEq`.
 Layer 6 (the Bourbaki numbering and the pinned integral root data) needs only the `DynkinType`
 enumeration and its Cartan matrices, so it does not wait on either half of Layer 5, and the numbering
 convention should be fixed at the same time as `DynkinType.cartanMatrix` rather than afterwards. The
 worked examples are built alongside the layer that first makes them expressible: `Aₙ` after Layer 2,
 `G₂` after Layer 5.
+
+The Layer4A chamber-complement application uses Layer4 and native subgroup complements. Its oriented-Dynkin and integral/full-datum adapters follow Layers5–6 and are not premises of that classification. ReductiveGroups consumes the ADE cover comparison; LieGroups consumes the compact normalizer application only after its own period theorem.
 
 ## References
 
