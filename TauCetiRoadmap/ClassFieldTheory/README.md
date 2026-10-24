@@ -1467,8 +1467,8 @@ algebraic closure and the finite groups use LocalFieldsRamification Layer 3. Pro
 maps `G_K^v` onto every finite upper group, that the filtration is decreasing, and that
 `G_K^(−1) = G_K` and `G_K^0 = I_K`, with the latter the native inertia subgroup. Herbrand's
 quotient theorem makes the transition maps surjective; compactness gives the finite-level
-surjections. This inverse-limit prerequisite is proved here on the local-field domain, with its
-ramification API intended for LocalFieldsRamification. Source: Serre, *Local Fields*, IV §3,
+surjections. This roadmap owns the inverse-limit prerequisite on the local-field domain.
+Source: Serre, *Local Fields*, IV §3,
 Proposition 14; Serre, *Sur les corps locaux à corps résiduel algébriquement clos*, n° 3.1,
 the paragraph after Proposition 3, p. 128, for the inverse-limit construction.
 
@@ -1733,8 +1733,11 @@ and 7 (`realCyclotomicSymbol`, `absoluteGaloisGroupExtend`), and `sumLocalInv_eq
 everything after it add Layers 2, 4, 6 and 7. **Not** the global class formation and **not** the
 global Artin map: Layer 11 builds both out of this layer's output.
 
-Use the idele and idele-class carriers from `GlobalNumberFields` and assemble both the idele
-formation and the idele-class formation for a fixed separable closure, as Tau Ceti formations. The
+Use the idele and idele-class carriers from `GlobalNumberFields` through Tau Ceti's
+Global/Formation.lean: `ideleFormation` and `globalFormation` are reducible aliases of its
+formations for a fixed separable closure of the number field `K`. Their finite-layer coefficient
+comparisons must identify the action with the placewise arithmetic Galois action on ideles and
+its quotient action on idele classes. The
 formation of the multiplicative groups `Lˣ` themselves is the field formation of Layer 6
 (`multiplicativeFormation K = fieldFormation K`).
 
@@ -1778,12 +1781,53 @@ in invariant coordinates: `finiteInvAt` and `infiniteInvAt` are the local invari
 `sumLocalInv_eq_zero` is exactness in the middle, and `exists_br_of_sum_eq_zero` is exactness on
 the right.
 
-The hard arithmetic input is separated from the abstract formalism. The classical route is to
-establish the first and second fundamental inequalities for cyclic layers and deduce the required
-`H¹`-vanishing and the order of `H²`. The required inputs, each a named target, are:
+**Global Herbrand quotients and fixed points** (`herbrandQuotient_globalFormation`). For a
+finite Galois extension `L/K` of number fields, with its arithmetic action of `G = Gal(L/K)`,
+prove that extension of ideles induces `C_K ≃ C_L^G`. Under this comparison the group norm
+`c ↦ ∏_(σ ∈ G) σ(c)` is the arithmetic idele-class norm, giving
+`Ĥ⁰(G, C_L) ≃ C_K/N_(L/K)(C_L)`. Hilbert 90 applied to `1 → Lˣ → I_L → C_L → 1` supplies
+the fixed-point comparison; it uses no global reciprocity.
 
-- the Herbrand quotient of the relevant `S`-idele and `S`-unit modules;
-- the first fundamental inequality, `degree_le_card_normQuotient_of_isCyclic` (Milne VII §4);
+For cyclic `G`, prove finiteness of `Ĥ⁰(G, C_L)` and `Ĥ⁻¹(G, C_L)` and the equality
+`h_G(C_L) = [L:K]`. The Lean target states this on the native finite-layer representation,
+with the finite-layer coefficient comparisons above identifying it with `C_L`. Its finite-set
+inputs are the following named calculations on the imported arithmetic carriers:
+
+- The S-idele Herbrand calculation: let `S` be a finite set of places of `K` containing all
+  archimedean places and all places ramified in `L`, and let `T` be its full inverse image in
+  `L`. For `I_(L,T) = ∏_(w ∈ T) L_wˣ × ∏_(w ∉ T) 𝒪_wˣ`, the two Tate groups defining its
+  Herbrand quotient are finite and `h_G(I_(L,T)) = ∏_(v ∈ S) [L_w:K_v]`, with any `w | v`.
+  Shapiro and the local norm-index calculation give the factors, including degree two at a
+  real place that becomes complex; the unramified unit factors outside `T` have quotient `1`.
+- The S-unit Herbrand calculation: for `U_(L,T) = Lˣ ∩ I_(L,T)`, the same two Tate groups
+  are finite and `h_G(U_(L,T)) = (∏_(v ∈ S) [L_w:K_v])/[L:K]`. Use the Galois-equivariant
+  logarithmic unit lattice and its torsion subgroup, whose Herbrand quotient is `1`.
+- The S-class-group comparison: the quotient map gives the exact sequence
+  `1 → U_(L,T) → I_(L,T) → C_L → Cl_(L,T) → 1`, where `Cl_(L,T)` is the ideal class group
+  modulo the classes of the finite primes in `T`. Enlarge `S` by the base places under primes
+  generating the ideal class group of `L`; then `Cl_(L,T) = 1`. Multiplicativity gives the
+  stated idele-class quotient and finiteness before either fundamental inequality is used.
+
+*Source:* Milne, *Class Field Theory*, VII, Proposition 2.7, Proposition 3.1, Lemmas 4.1–4.2
+and Theorem 4.3, pp. 206–211.
+
+**Checks.**
+
+- For `L = K`, all local degrees and all three Herbrand quotients are `1`; the Tate groups
+  are trivial and the fixed-point comparison is the identity.
+- For `ℚ(i)/ℚ` with `S = {∞, 2}`, the local-degree product is `4`, the S-unit quotient is
+  `2`, and the idele-class quotient is `2`. Omitting the real place loses a factor of `2`.
+- If `S` does not kill the S-class group, the cokernel above remains present; enlarging `S`
+  to include places under its generators removes it. Adding an unramified nonsplit place
+  multiplies both finite-set quotients by its local degree and leaves `h_G(C_L)` unchanged.
+
+The hard arithmetic input is separated from the abstract formalism. Use this Herbrand calculation
+to establish the first fundamental inequality, then the second and the required `H¹`-vanishing
+and order of `H²`. The remaining named targets are:
+
+- the first fundamental inequality, `degree_le_card_normQuotient_of_isCyclic`, from
+  `herbrandQuotient_globalFormation` and the fixed-point and norm comparisons (Milne VII,
+  Corollary 4.4);
 - the second fundamental inequality, reduced to cyclic extensions of prime degree by the usual
   Sylow and tower arguments, in its `H²` form `card_H2_globalFormation_dvd_degree` (Milne VII,
   Theorem 5.1);
@@ -1998,8 +2042,8 @@ read on fields — together with `globalAbelianGaloisEquiv` and `globalClassFiel
 
 *Prerequisites:* Layers 10, 11, 12; `GlobalNumberFields` (orders and `Pic`).
 
-Develop the `S`-idele and unit-lattice Herbrand calculations on the imported idele carriers, as
-already required for Layer 10, and prove the cyclic Hasse norm theorem
+Use Layer 10's S-idele and S-unit Herbrand calculations, fixed-point and arithmetic norm
+comparisons, and `herbrandQuotient_globalFormation` to prove the cyclic Hasse norm theorem
 `cyclicHasseNorm`: for cyclic `L/K`, `x : Kˣ` is a global norm exactly when its principal idele is
 an idele norm. Separately define the genuine placewise predicates `IsFiniteLocalNorm` and
 `IsInfiniteLocalNorm` using the canonical local étale algebras
@@ -2061,12 +2105,20 @@ invertible carrier by `I ↦ ringClassGaloisEquiv (O.mkPic I)`, and prove its pr
 subgroups — and the splitting criterion. Orders and Picard groups remain owned by
 `GlobalNumberFields`.
 
-*Source:* Cox, *Primes of the Form x² + ny²*, §7, Proposition 7.22, and §9, Theorem 9.18.
+*Source:* Kopp–Lagarias, [*Ray class groups and ray class fields for orders of number
+fields*](https://arxiv.org/abs/2212.09177), Theorems 1.1–1.3, specialized to modulus `(O, ∅)`
+and quadratic `K`. These give the ring class field, its conductor bound, splitting criterion
+and canonical arithmetic Artin isomorphism for both real and imaginary quadratic fields.
+Cox, *Primes of the Form x² + ny²*, §7, Proposition 7.22, supplies the imaginary quadratic
+ray-class quotient description.
 
 **Checks.**
 
 - At the maximal order, the conductor is the unit ideal and the ring class field equals the
   Hilbert class field.
+- For the maximal order of `ℚ(√3)`, the ordinary class group is trivial and the narrow class
+  group has order `2`; the ring class field is `K`, and its trivial infinite modulus does not
+  produce the narrow Hilbert class field.
 - For an ideal prime to the conductor, its contracted ideal's Picard class is the image of its
   ray class; the ideal Artin map sends that class through the canonical reciprocity equivalence.
 - Postcomposing with a nontrivial automorphism of the Galois group preserves the kernel and
@@ -2345,7 +2397,8 @@ It contains:
   Layer 9;
 - the Brauer sequence and sum-of-local-invariants contracts of Layer 10, stated before
   `globalClassFormation` consumes them, together with the obstruction, refinement and
-  independence targets that define `globalInv` on every class;
+  independence targets that define `globalInv` on every class, and
+  `herbrandQuotient_globalFormation` before the first fundamental inequality;
 - the class-field correspondences of Layers 8 and 12, each assembled transparently from its
   existence theorem, its uniqueness theorem and its order statement, with the class field itself
   *defined* from existence rather than pinned by an unproved equation, and with the three named
@@ -2498,9 +2551,13 @@ existence and the `GlobalNumberFields` order/`Pic` API.
   existence theorem through Kummer theory and descent); VIII §4, Theorems 4.2 and 4.7 (the Brauer
   sequence, and `H²` of the idele classes cyclic of order `[L:K]`); the Hasse norm theorem and
   examples.
-- D. A. Cox, *Primes of the Form x² + ny²*, §7 (Prop. 7.22, the ring class group of an order
-  `ℤ + 𝔣𝒪_K` in a quadratic field as a ray-class quotient) and §9 (Thm. 9.18, `Gal(H_O/K) ≃ Pic O`):
-  the source and the exact scope of the ring class field targets of Layer 13.
+- G. S. Kopp and J. C. Lagarias, [*Ray class groups and ray class fields for orders of number
+  fields*](https://arxiv.org/abs/2212.09177), Theorems 1.1–1.3: at modulus `(O, ∅)`, the ring
+  class field, conductor bound, splitting criterion and canonical Artin isomorphism for orders
+  in number fields; Layer 13 uses their quadratic specialization, including real fields.
+- D. A. Cox, *Primes of the Form x² + ny²*, §7, Proposition 7.22: the ray-class quotient for
+  imaginary quadratic orders. Theorem 9.18, p. 191, concerns the generalized-dihedral
+  characterization of extensions contained in imaginary quadratic ring class fields.
 - A. Weil, *Sur la théorie du corps de classes*, J. Math. Soc. Japan 3 (1951); J. Tate,
   *Number theoretic background*, in *Automorphic Forms, Representations and L-functions* (Corvallis),
   Part 2, §1: the local Weil group, its topology, its functoriality and `Kˣ ≃ W_K^ab`.

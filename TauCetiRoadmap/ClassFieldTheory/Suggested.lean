@@ -9,6 +9,7 @@ import TauCeti.NumberTheory.ClassFieldTheory.Formation.GroundNorm
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Corestriction
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Cup
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Restriction
+import TauCeti.NumberTheory.ClassFieldTheory.Global.Formation
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Reciprocity
 import TauCeti.NumberTheory.LocalField.GaloisAction
 import TauCeti.NumberTheory.LocalField.Unramified.Inertia.Basic
@@ -3006,16 +3007,16 @@ section Global
 variable (K : Type) [Field K] [NumberField K]
 variable (L : Type) [Field L] [NumberField L] [Algebra K L]
 
-/-- The formation assembled from idele class groups of the finite separable extensions of `K`
-inside a fixed separable closure. -/
-noncomputable def globalFormation : Formation (TauCeti.AbsoluteGaloisGroup K) :=
-  sorry
+/-- The idele-class formation of a number field `K`, using Tau Ceti's arithmetic carrier and
+Galois action on the finite separable extensions inside a fixed separable closure. -/
+noncomputable abbrev globalFormation : Formation (TauCeti.AbsoluteGaloisGroup K) :=
+  TauCeti.ClassFieldTheory.globalFormation K
 
 /-- The formation assembled from the idele groups themselves, rather than the idele classes. The
 sum of local invariants is defined on its layers, where `H²` splits as a direct sum of local Brauer
 groups, and only then descends to the idele-class layers. -/
-noncomputable def ideleFormation : Formation (TauCeti.AbsoluteGaloisGroup K) :=
-  sorry
+noncomputable abbrev ideleFormation : Formation (TauCeti.AbsoluteGaloisGroup K) :=
+  TauCeti.ClassFieldTheory.ideleFormation K
 
 /-- The formation assembled from the multiplicative groups `Lˣ` of the finite separable extensions
 themselves, the first term of `1 → Lˣ → I_L → C_L → 1`. Its finite-layer `H²` is the relative
@@ -3250,6 +3251,17 @@ noncomputable def ideleToClassH2 (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup
     Lay.H (ideleFormation K) 2 →+ Lay.H (globalFormation K) 2 :=
   sorry
 
+/-- **The idele-class Herbrand quotient of a cyclic number-field layer.** The degree-zero and
+degree-minus-one Tate groups for the arithmetic Galois action are finite, and their cardinality
+ratio is the layer degree (Milne VII, Theorem 4.3). -/
+theorem herbrandQuotient_globalFormation
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
+    Finite (Lay.TateH (globalFormation K) 0) ∧
+      Finite (Lay.TateH (globalFormation K) (-1)) ∧
+      TauCeti.TateCohomology.herbrandQuotient (Lay.rep (globalFormation K)) =
+        (Lay.degree : ℚ) :=
+  sorry
+
 /-- `H¹` of every idele-class layer vanishes (Milne, *Class Field Theory*, VII, Theorem 5.1(b)).
 It is the input from which inflation `H²(Gal(L/K), C_L) → H²(Gal(M/K), C_M)` is injective and the
 inflation–restriction sequence in degree two is exact, both used below. -/
@@ -3258,8 +3270,9 @@ theorem subsingleton_h1_globalFormation
     Subsingleton (Lay.H (globalFormation K) 1) :=
   sorry
 
-/-- **The first fundamental inequality**: for a cyclic layer the norm index is at least the degree
-(Milne VII §4, from the Herbrand quotient of the idele classes). -/
+/-- **The first fundamental inequality**: for a cyclic number-field layer the norm index is at
+least the degree, from `herbrandQuotient_globalFormation` and the arithmetic fixed-point and norm
+comparisons (Milne VII, Corollary 4.4). -/
 theorem degree_le_card_normQuotient_of_isCyclic
     (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
     Lay.degree ≤ Nat.card (Lay.NormQuotient (globalFormation K)) :=
