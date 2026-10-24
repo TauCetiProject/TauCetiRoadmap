@@ -1467,8 +1467,9 @@ The absolute upper ramification subgroup absoluteUpperRamificationGroup is suppl
 LocalFieldsRamification §4a.1 for complete discretely valued fields with perfect residue field,
 specialized here to nonarchimedean local fields. That prerequisite supplies closedness, normality,
 antitonicity, surjection onto every finite upper group, and the endpoints `G_K^(−1) = G_K` and
-`G_K^0 = I_K`, with native inertia. Transport its canonical subgroup from
-`Field.absoluteGaloisGroup K` through `absoluteGaloisGroupComparison` before passing to `G_K^ab`.
+`G_K^0 = I_K`, with native inertia. The absolute comparison takes the image of this subgroup
+directly under the quotient map
+`Field.absoluteGaloisGroup K → Field.absoluteGaloisGroupAbelianization K` on the shared carrier.
 This roadmap proves the comparison with the Artin image and its conductor consequence.
 Source for the supplied filtration: Serre, *Local Fields*, IV §3, Proposition 14; Serre,
 *Sur les corps locaux à corps résiduel algébriquement clos*, n° 3.1, the paragraph after
@@ -1862,8 +1863,12 @@ that sum descends along `ideleToClassH2` to the *image* of the idele layer, with
 ⚠ That image is not the whole of `H²(Gal(L/K), C_L)`. From `1 → Lˣ → I_L → C_L → 1` the
 obstruction to lifting a class lies in `H³(Gal(L/K), Lˣ)`: the connecting map is
 `classToMultiplicativeH3`, into the third cohomology of `multiplicativeFormation`, and
-`range_ideleToClassH2` is the exactness statement. `H¹`-vanishing does not make the obstruction
-vanish. For `L = ℚ(√13, √17)` every decomposition group has order at most two — the decomposition
+`range_ideleToClassH2` is the exactness statement. The maps `ideleToClassH2` and
+`classToMultiplicativeH3` are reducible aliases of Tau Ceti's arithmetic quotient and connecting
+maps, and `range_ideleToClassH2` and `surjective_ideleToClassH2_of_isCyclic` re-export its proofs
+from `TauCeti/NumberTheory/ClassFieldTheory/Global/LiftingObstruction.lean`.
+`H¹`-vanishing does not make the obstruction vanish. For `L = ℚ(√13, √17)` every decomposition
+group has order at most two — the decomposition
 groups at unramified primes are cyclic, `13` splits in `ℚ(√17)` and `17` splits in `ℚ(√13)`, and
 the field is totally real — so `H²(Gal(L/ℚ), I_L) = ⨁_v Br(L_w/ℚ_v)` is killed by `2`, while
 `H²(Gal(L/ℚ), C_L)` is cyclic of order `4`. In general the image has order `lcm_v [L_w : K_v]`.

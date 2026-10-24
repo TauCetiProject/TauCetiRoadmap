@@ -10,6 +10,7 @@ import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Corestriction
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Cup
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Restriction
 import TauCeti.NumberTheory.ClassFieldTheory.Global.Formation
+import TauCeti.NumberTheory.ClassFieldTheory.Global.LiftingObstruction
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Reciprocity
 import TauCeti.NumberTheory.LocalField.GaloisAction
 import TauCeti.NumberTheory.LocalField.Unramified.Inertia.Basic
@@ -102,9 +103,11 @@ unit filtration and upper numbering of `LocalFieldsRamification`. Its absolute f
 `artinMap (U_K^(n))` as the image of the absolute upper group `G_K^n`, is a `README.md` target:
 LocalFieldsRamification §4a.1 supplies the canonical absolute upper filtration, its closedness,
 normality, antitonicity, finite-level surjections and inertia endpoint, specialized to
-nonarchimedean local fields. The supplied subgroup is transported through
-`absoluteGaloisGroupComparison` before passing to the topological abelianization. This roadmap
-provides the Artin-image comparison and its conductor consequence. The absolute comparison is
+nonarchimedean local fields. The supplied subgroup maps directly under the quotient from
+`Field.absoluteGaloisGroup K` to `Field.absoluteGaloisGroupAbelianization K`.
+`absoluteGaloisGroupComparison` supplies the separable-closure transport for coefficients and
+finite-reciprocity comparisons. This roadmap provides the Artin-image comparison and its
+conductor consequence. The absolute comparison is
 stated in `README.md` because the supplied carrier has no pinned Lean interface.
 -/
 
@@ -3250,10 +3253,11 @@ theorem exists_br_of_sum_eq_zero
 The layer invariant is the sum of local invariants, computed on the idele layer and descended to
 the idele-class layer. It is *defined* here, before `globalClassFormation` consumes it. -/
 
-/-- The comparison `H²(Gal(L/K), I_L) → H²(Gal(L/K), C_L)` induced by `I_L → C_L`. -/
-noncomputable def ideleToClassH2 (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
+/-- The comparison `H²(Gal(L/K), I_L) → H²(Gal(L/K), C_L)` induced by `I_L → C_L`,
+using Tau Ceti's arithmetic quotient map. -/
+noncomputable abbrev ideleToClassH2 (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Lay.H (ideleFormation K) 2 →+ Lay.H (globalFormation K) 2 :=
-  sorry
+  TauCeti.ClassFieldTheory.ideleToClassH2 K Lay
 
 /-- **The idele-class Herbrand quotient of a cyclic number-field layer.** The degree-zero and
 degree-minus-one Tate groups for the arithmetic Galois action are finite, and their cardinality
@@ -3307,21 +3311,22 @@ Galois group is not cyclic. Cyclicity is sufficient: there
 theorem surjective_ideleToClassH2_of_isCyclic
     (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
     Function.Surjective (ideleToClassH2 K Lay) :=
-  sorry
+  TauCeti.ClassFieldTheory.surjective_ideleToClassH2_of_isCyclic K Lay
 
 /-- **The obstruction to lifting**: the connecting homomorphism
-`H²(Gal(L/K), C_L) → H³(Gal(L/K), Lˣ)` of `1 → Lˣ → I_L → C_L → 1`. -/
-noncomputable def classToMultiplicativeH3
+`H²(Gal(L/K), C_L) → H³(Gal(L/K), Lˣ)` of `1 → Lˣ → I_L → C_L → 1`,
+using Tau Ceti's connecting map for this arithmetic exact sequence. -/
+noncomputable abbrev classToMultiplicativeH3
     (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Lay.H (globalFormation K) 2 →+ Lay.H (multiplicativeFormation K) 3 :=
-  sorry
+  TauCeti.ClassFieldTheory.classToMultiplicativeH3 K Lay
 
 /-- **Exactness at the idele-class layer**: a class lifts to the idele layer exactly when its
 obstruction vanishes. This is the precise form of the failure of surjectivity above. -/
 theorem range_ideleToClassH2
     (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     (ideleToClassH2 K Lay).range = (classToMultiplicativeH3 K Lay).ker :=
-  sorry
+  TauCeti.ClassFieldTheory.range_ideleToClassH2 K Lay
 
 /-- The local component of an idele-layer class at a finite place, in invariant coordinates. -/
 noncomputable def ideleLocalInvAt (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
