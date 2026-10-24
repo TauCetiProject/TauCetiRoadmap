@@ -3,14 +3,14 @@ import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCeti.Algebra.Quaternion.BrauerClass
-import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse.Basic
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Clifford
 import TauCeti.Algebra.CrossedProduct.CentralSimple
 import TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Defect
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Bimultiplicativity
 import TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic
-import TauCeti.LinearAlgebra.Matrix.PinPlusPlane
+import TauCeti.LinearAlgebra.Matrix.PinPlusPlane.Basic
 import TauCeti.Algebra.Quaternion.Binary
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.Algebra.Quaternion.SplittingCriterion
@@ -735,7 +735,7 @@ example (a b : K) (c : Kˣ)
     (hc : c ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![1, -a, -b, a * b])) :
     ((c : K) • weightedSumSquares K ![1, -a, -b, a * b]).Equivalent
       (weightedSumSquares K ![1, -a, -b, a * b]) :=
-  TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet a b c hc
+  (TauCeti.twoFoldPfister_smul_equivalent_iff a b c).mpr hc
 
 open TauCeti.BrauerGroup in
 /-- **Layer 5, the Clifford invariant.** The Brauer class of `C(q)` in even rank and of

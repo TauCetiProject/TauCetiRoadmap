@@ -1328,32 +1328,32 @@ end LayerBSplitContract
 The acceptance suite of the foundation — `rankOne`, `hyperbolicPlane`, `affineA1`, the ADE rows
 and the `D₈⁺ ≅ E₈` isometry — is discharged in `Completed/IntegralLattices/Suggested.lean` and is
 not restated. The two tests below use vocabulary of this file (`IsCharacteristicVector`,
-`padicDiscriminant`) on the certified `rankOne m = ⟨2m⟩`. -/
+`padicDiscriminant`) on the certified `rankOne (2 * m) = ⟨2m⟩`. -/
 
 section RankOneRejection
 
 /-- **Layer 1L, the rejection test for `vanDerBlij`'s unimodularity hypothesis.** For the
-rank-one lattice `⟨2⟩` — `rankOne 1` in this file's `⟨2m⟩` parametrization — every value of the
-form is even, so every vector, the zero vector included, is characteristic; the signature
+rank-one lattice `⟨2⟩` — `rankOne (2 * 1)` in this file's `⟨2m⟩` parametrization — every value
+of the form is even, so every vector, the zero vector included, is characteristic; the signature
 difference is `1`; and every characteristic norm `2k²` is even. The congruence of `vanDerBlij`
 therefore fails at every characteristic vector, so the statement with nondegeneracy in place of
 unimodularity is false. -/
 theorem rankOne_one_characteristic_congruence_fails :
-    let L : IntegralLattice ℚ := rankOne 1
+    let L : IntegralLattice ℚ := rankOne (2 * 1)
     (∀ w : L.carrier, L.IsCharacteristicVector w) ∧
       ∀ w : L.carrier,
         ¬ Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
 
-/-- **Layer 5B, the rejection test for `padicDiscriminant`'s dyadic exception.** `rankOne 1 = ⟨2⟩`
-and `rankOne 5 = ⟨10⟩` are even of rank `1 = l(A_{q₂})`; the 2-primary parts of their
-discriminant forms are isometric — both are `ℤ/2` with half-norm value `1/4 = 5/4` in `ℚ/ℤ`,
-the form `q_1^{(2)}(2) = q_5^{(2)}(2)` — and their Gram determinants `2` and `10` have different
-square classes in `ℚ₂`, because `5` is not a 2-adic square. So both are minimal 2-adic
-realizations of one `q₂` with different `discr`, and `padicDiscriminant_eq_squareClass_gramDet`
-is false at `p = 2` without its `HasCyclicTwoSummand` hypothesis. -/
+/-- **Layer 5B, the rejection test for `padicDiscriminant`'s dyadic exception.**
+`rankOne (2 * 1) = ⟨2⟩` and `rankOne (2 * 5) = ⟨10⟩` are even of rank `1 = l(A_{q₂})`; the 2-primary
+parts of their discriminant forms are isometric — both are `ℤ/2` with half-norm value `1/4 = 5/4` in
+`ℚ/ℤ`, the form `q_1^{(2)}(2) = q_5^{(2)}(2)` — and their Gram determinants `2` and `10` have
+different square classes in `ℚ₂`, because `5` is not a 2-adic square. So both are minimal 2-adic
+realizations of one `q₂` with different `discr`, and `padicDiscriminant_eq_squareClass_gramDet` is
+false at `p = 2` without its `HasCyclicTwoSummand` hypothesis. -/
 theorem padicDiscriminant_not_determined_by_cyclicTwoSummand :
-    let L₂ : IntegralLattice ℚ := rankOne 1
-    let L₁₀ : IntegralLattice ℚ := rankOne 5
+    let L₂ : IntegralLattice ℚ := rankOne (2 * 1)
+    let L₁₀ : IntegralLattice ℚ := rankOne (2 * 5)
     let q₂ : FiniteQuadraticModule :=
       FiniteQuadraticModule.primaryComponent (L₂.discriminantQuadraticModule (rankOne_isEven 1)) 2
     let q₁₀ : FiniteQuadraticModule :=

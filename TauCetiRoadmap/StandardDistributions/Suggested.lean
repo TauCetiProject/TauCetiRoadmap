@@ -22,7 +22,7 @@ import TauCeti.Probability.Distributions.Bernoulli.Basic
 import TauCeti.Probability.Distributions.Binomial.Tail
 import TauCeti.Probability.Distributions.Cauchy.Basic
 import TauCeti.Probability.Distributions.Cauchy.PDF
-import TauCeti.Probability.Distributions.ChiSquared
+import TauCeti.Probability.Distributions.ChiSquared.Basic
 import TauCeti.Probability.Distributions.Dirichlet.Basic
 import TauCeti.Probability.Distributions.Dirichlet.Moments
 import TauCeti.Probability.Distributions.Exponential.Basic
@@ -43,8 +43,8 @@ import TauCeti.Probability.Distributions.Gaussian.Pi
 import TauCeti.Probability.Distributions.Gaussian.QuadraticForm
 import TauCeti.Probability.Distributions.Gaussian.Transforms
 import TauCeti.Probability.Distributions.InverseGamma.Basic
-import TauCeti.Probability.Distributions.Laplace
-import TauCeti.Probability.Distributions.LogNormal
+import TauCeti.Probability.Distributions.Laplace.Basic
+import TauCeti.Probability.Distributions.LogNormal.Basic
 import TauCeti.Probability.Distributions.Multinomial.Aggregation
 import TauCeti.Probability.Distributions.Multinomial.Basic
 import TauCeti.Probability.Distributions.Multinomial.Transforms
@@ -54,7 +54,7 @@ import TauCeti.Probability.Distributions.Poisson.Tail
 import TauCeti.Probability.Distributions.StudentT.Basic
 import TauCeti.Probability.Distributions.StudentT.Cdf
 import TauCeti.Probability.Distributions.StudentT.Moments
-import TauCeti.Probability.Distributions.Uniform
+import TauCeti.Probability.Distributions.Uniform.Basic
 import TauCeti.Probability.Distributions.Wishart.Agreement
 import TauCeti.Probability.Distributions.Wishart.Bartlett
 import TauCeti.Probability.Distributions.Wishart.Basic

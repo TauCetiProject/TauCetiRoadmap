@@ -3,7 +3,7 @@ import TauCeti.Analysis.SpecialFunctions.LogIntegral
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.AbelSummation
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.Basic
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.Cancellation
-import TauCeti.NumberTheory.ArithmeticDirichletSeries.Convolution
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.Convolution.Basic
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.Counting
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.DirichletDensity.Basic
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.DirichletDensity.Negligible
@@ -208,8 +208,8 @@ open scoped Classical in
 /-- Restriction away from a finite set of primes kills the ideals not prime to it. -/
 theorem multiplicativeIdealWeight_restrict_apply (χ : TauCeti.MultiplicativeIdealWeight K)
     {S : Set (HeightOneSpectrum (𝓞 K))} (hS : S.Finite) (I : Ideal (𝓞 K)) :
-    χ.restrict S hS I = if Ideal.IsPrimeTo I S then χ I else 0 :=
-  MultiplicativeIdealWeight.restrict_apply χ hS I
+    χ.restrictAway S hS I = if Ideal.IsPrimeTo I S then χ I else 0 :=
+  MultiplicativeIdealWeight.restrictAway_apply χ hS I
 
 /-- An arbitrary complex norm twist `I ↦ χ(I) N(I)^{-z}` lands in the general carrier. -/
 theorem multiplicativeIdealWeight_normTwist_apply (z : ℂ)
@@ -259,7 +259,7 @@ example (χ ψ : UnitaryIdealWeight K) : (χ * ψ).1 = χ.1 * ψ.1 := rfl
 example (χ : UnitaryIdealWeight K) : (UnitaryIdealWeight.conj χ).1 = χ.1.conj := rfl
 
 example (χ : UnitaryIdealWeight K) (S : Set (HeightOneSpectrum (𝓞 K))) (hS : S.Finite) :
-    (UnitaryIdealWeight.restrict χ S hS).1 = χ.1.restrict S hS :=
+    (UnitaryIdealWeight.restrictAway χ S hS).1 = χ.1.restrictAway S hS :=
   rfl
 
 /-- Both carriers map to `IdealArithmeticFunction` by restriction to the nonzero ideals. -/
@@ -345,7 +345,7 @@ ideal of norm greater than one. -/
 theorem norm_normTwist_apply_ne_one (χ : UnitaryIdealWeight K) {z : ℂ} (hz : z.re ≠ 0)
     {I : Ideal (𝓞 K)} (hI : χ.1.IsGood I) (hN : 1 < Ideal.absNorm I) :
     ‖MultiplicativeIdealWeight.normTwist z χ.1 I‖ ≠ 1 :=
-  UnitaryIdealWeight.norm_normTwist_apply_ne_one χ hz hI hN
+  UnitaryIdealWeight.norm_normTwist_apply_ne_one χ hz hN
 
 end Layer0
 
@@ -1187,8 +1187,8 @@ theorem continuedLFunctionOfWeight_conj (χ : UnitaryIdealWeight K) (s : ℂ) :
 
 theorem HasCancellation.restrict {χ : UnitaryIdealWeight K} (hχ : HasCancellation χ)
     (S : Set (HeightOneSpectrum (𝓞 K))) (hS : S.Finite) :
-    HasCancellation (UnitaryIdealWeight.restrict χ S hS) :=
-  TauCeti.HasCancellation.restrict hχ S hS
+    HasCancellation (UnitaryIdealWeight.restrictAway χ S hS) :=
+  TauCeti.HasCancellation.restrictAway hχ S hS
 
 theorem unitaryIdealWeight_val_pow (χ : UnitaryIdealWeight K) (n : ℕ) : (χ ^ n).1 = χ.1 ^ n :=
   UnitaryIdealWeight.val_pow χ n

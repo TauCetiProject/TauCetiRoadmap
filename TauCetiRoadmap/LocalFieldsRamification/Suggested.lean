@@ -3,7 +3,7 @@ import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Basic
 import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
 import TauCeti.NumberTheory.LocalField.Discriminant.Basic
 import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
-import TauCeti.NumberTheory.LocalField.FiniteExtension.Tower
+import TauCeti.NumberTheory.LocalField.AlgebraicExtension.Tower
 import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 import TauCeti.NumberTheory.LocalField.InertiaDegree
 import TauCeti.NumberTheory.LocalField.NatCastValuation
@@ -60,7 +60,7 @@ predicates and the absolute ramification index (`TauCeti.ramificationIndex`,
 `TauCeti.absoluteRamificationIndex`), the unit filtration and its graded pieces
 (`TauCeti.unitFiltration`, `TauCeti.UnitFiltrationGraded`), the Teichmüller lift
 (`TauCeti.teichmuller`), the spectral-norm construction of the local-field structure on a finite
-extension and on a finite intermediate field (`TauCeti.finiteExtensionValuativeRel`,
+extension and on a finite intermediate field (`TauCeti.algebraicExtensionValuativeRel`,
 `TauCeti.finiteIntermediateFieldValuativeRel` and their companions), the integer-ring and
 residue-field algebra structures (`TauCeti.integerRingAlgebra`, `TauCeti.residueFieldAlgebra`), the
 Frobenius of an unramified extension and the norm group (`TauCeti.frobeniusAlgEquiv`,
@@ -165,43 +165,43 @@ theorem normalizedNormedField_topology_eq :
 
 /-- **Layer 0.I, the spectral-norm structure on a bare finite algebra.** Completeness and
 ultrametricity come from `normalizedNormedField`; no topology or valuation on `M` is assumed.
-Tau Ceti's `TauCeti.finiteExtensionNormedField`
-(`TauCeti/NumberTheory/LocalField/FiniteExtension/Basic.lean`), consumed by reducible alias. -/
+Tau Ceti's `TauCeti.algebraicExtensionNormedField`
+(`TauCeti/NumberTheory/LocalField/AlgebraicExtension/Basic.lean`), consumed by reducible alias. -/
 noncomputable abbrev finiteExtensionNormedField (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] : NormedField M :=
-  TauCeti.finiteExtensionNormedField K M
+  TauCeti.algebraicExtensionNormedField K M
 
 /-- **Layer 0.I, the topology induced by the spectral norm.** Tau Ceti's
-`TauCeti.finiteExtensionNormedFieldTopology`. -/
+`TauCeti.algebraicExtensionNormedFieldTopology`. -/
 noncomputable abbrev finiteExtensionNormedFieldTopology (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] : TopologicalSpace M :=
-  TauCeti.finiteExtensionNormedFieldTopology K M
+  TauCeti.algebraicExtensionNormedFieldTopology K M
 
 /-- **Layer 0.I, constructing the valuative structure on a finite extension.** The spectral
 norm supplies a `ValuativeRel M`; a particular `Valuation M ℤᵐ⁰` is an implementation witness,
 not a second public carrier. This is a definition rather than a global instance, avoiding a
 diamond when `M` already has a valuative structure. Tau Ceti's
-`TauCeti.finiteExtensionValuativeRel`, consumed by reducible alias. -/
+`TauCeti.algebraicExtensionValuativeRel`, consumed by reducible alias. -/
 noncomputable abbrev finiteExtensionValuativeRel (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] : ValuativeRel M :=
-  TauCeti.finiteExtensionValuativeRel K M
+  TauCeti.algebraicExtensionValuativeRel K M
 
 /-- **Layer 0.I, compatibility of the constructed structure with the base field.** Tau Ceti's
-`TauCeti.finiteExtension_valuativeExtension`. -/
+`TauCeti.algebraicExtension_valuativeExtension`. -/
 theorem finiteExtension_valuativeExtension (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] :
     letI := finiteExtensionValuativeRel K M
     ValuativeExtension K M :=
-  TauCeti.finiteExtension_valuativeExtension K M
+  TauCeti.algebraicExtension_valuativeExtension K M
 
 /-- **Layer 0.I, the constructed topology is valuative for the constructed relation.** This is
 the missing bridge from the spectral norm to the public valuative carrier. Tau Ceti's
-`TauCeti.finiteExtension_isValuativeTopology`. -/
+`TauCeti.algebraicExtension_isValuativeTopology`. -/
 theorem finiteExtension_isValuativeTopology (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] :
     @IsValuativeTopology M _ (finiteExtensionValuativeRel K M)
       (finiteExtensionNormedFieldTopology K M) :=
-  TauCeti.finiteExtension_isValuativeTopology K M
+  TauCeti.algebraicExtension_isValuativeTopology K M
 
 /-- **Layer 0.III, a bare finite algebra is a local field with the structures just constructed.**
 Unlike the compatibility example below, this theorem assumes no topology or valuative relation
@@ -215,31 +215,31 @@ theorem finiteExtension_isNonarchimedeanLocalField (M : Type v) [Field M] [Algeb
 
 /-- **Layer 0.II, comparison with an already topologized compatible extension.** Uniqueness of
 the extended valuation identifies the spectral-norm topology with the pre-existing valuative
-topology. Tau Ceti's `TauCeti.finiteExtensionNormedFieldTopology_eq`. -/
+topology. Tau Ceti's `TauCeti.algebraicExtensionNormedFieldTopology_eq`. -/
 theorem finiteExtensionNormedFieldTopology_eq (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] [ValuativeRel M] [TopologicalSpace M] [IsValuativeTopology M]
     [ValuativeExtension K M] :
     finiteExtensionNormedFieldTopology K M = (inferInstance : TopologicalSpace M) :=
-  TauCeti.finiteExtensionNormedFieldTopology_eq K M
+  TauCeti.algebraicExtensionNormedFieldTopology_eq K M
 
 /-- **Layer 0.II, uniqueness.** Any two valuations on a finite extension `M/K` restricting to
 the valuation class of `K` are equivalent. (Completeness of `K` is what makes this true, and
 it is part of `IsNonarchimedeanLocalField K`.) Tau Ceti's
-`TauCeti.finiteExtensionValuation_isEquiv`. -/
+`TauCeti.algebraicExtensionValuation_isEquiv`. -/
 theorem finiteExtensionValuation_isEquiv (M : Type v) [Field M] [Algebra K M] [Module.Finite K M]
     {Γ₁ Γ₂ : Type*} [LinearOrderedCommGroupWithZero Γ₁] [LinearOrderedCommGroupWithZero Γ₂]
     (w₁ : Valuation M Γ₁) (w₂ : Valuation M Γ₂)
     (h₁ : (w₁.comap (algebraMap K M)).IsEquiv (valuation K))
     (h₂ : (w₂.comap (algebraMap K M)).IsEquiv (valuation K)) :
     w₁.IsEquiv w₂ :=
-  TauCeti.finiteExtensionValuation_isEquiv h₁ h₂
+  TauCeti.algebraicExtensionValuation_isEquiv h₁ h₂
 
 /-- **Layer 0.II, the constructed relation agrees with any compatible existing relation.** Tau
-Ceti's `TauCeti.finiteExtensionValuativeRel_eq`. -/
+Ceti's `TauCeti.algebraicExtensionValuativeRel_eq`. -/
 theorem finiteExtensionValuativeRel_eq (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] [ValuativeRel M] [ValuativeExtension K M] :
     finiteExtensionValuativeRel K M = (inferInstance : ValuativeRel M) :=
-  TauCeti.finiteExtensionValuativeRel_eq K M
+  TauCeti.algebraicExtensionValuativeRel_eq K M
 
 omit [TopologicalSpace L] [IsNonarchimedeanLocalField L] in
 /-- **Layer 0.II, corollary: Galois invariance of the valuation.** Every `K`-algebra
@@ -307,22 +307,22 @@ theorem integerRing_eq_integralClosure [Algebra K L] [ValuativeExtension K L]
   congrArg (fun S : Subring L => (S : Set L)) (TauCeti.integerRing_eq_integralClosure K L)
 
 /-- **Layer 0.III, compatibility of the constructed topology in a finite tower.** Tau Ceti's
-`TauCeti.finiteExtensionNormedFieldTopology_tower`. -/
+`TauCeti.algebraicExtensionNormedFieldTopology_tower`. -/
 theorem finiteExtensionNormedFieldTopology_tower
     (M : Type w) [Field M] [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     [Algebra L M] [Module.Finite L M] [Algebra K M] [Module.Finite K M]
     [IsScalarTower K L M] :
     finiteExtensionNormedFieldTopology K M = finiteExtensionNormedFieldTopology L M :=
-  TauCeti.finiteExtensionNormedFieldTopology_tower K L M
+  TauCeti.algebraicExtensionNormedFieldTopology_tower K L M
 
 /-- **Layer 0.III, compatibility of the constructed valuative relation in a finite tower.** Tau
-Ceti's `TauCeti.finiteExtensionValuativeRel_tower`. -/
+Ceti's `TauCeti.algebraicExtensionValuativeRel_tower`. -/
 theorem finiteExtensionValuativeRel_tower
     (M : Type w) [Field M] [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     [Algebra L M] [Module.Finite L M] [Algebra K M] [Module.Finite K M]
     [IsScalarTower K L M] :
     finiteExtensionValuativeRel K M = finiteExtensionValuativeRel L M :=
-  TauCeti.finiteExtensionValuativeRel_tower K L M
+  TauCeti.algebraicExtensionValuativeRel_tower K L M
 
 /-- **Layer 0.III, adapter for a finite intermediate-field carrier.** This is the exact entry
 point required by Counting Totally Ramified Extensions #226: its intermediate field acquires the
@@ -1390,7 +1390,7 @@ theorem tameCharacter_conj {G : Type w} [Group G] [MulSemiringAction G L]
     [IsInvariantSubring G 𝒪[L]] {ϖ : 𝒪[L]} (hϖ : Irreducible ϖ) (g σ : G)
     (hσ : σ ∈ TauCeti.IsLocalRing.ramificationGroup G 𝒪[L] (0 : ℤ)) :
     (TauCeti.tameCharacter (G := G) hϖ
-        ⟨g * σ * g⁻¹, Subgroup.Normal.conj_mem inferInstance σ hσ g⟩ : 𝓀[L]) =
+        ⟨g * σ * g⁻¹, Subgroup.Normal.conj_mem σ hσ g⟩ : 𝓀[L]) =
       g • (TauCeti.tameCharacter (G := G) hϖ ⟨σ, hσ⟩ : 𝓀[L]) :=
   sorry
 
@@ -1404,7 +1404,7 @@ theorem tameCharacter_conj_of_smul_eq_pow {G : Type w} [Group G] [MulSemiringAct
     (hσ : σ ∈ TauCeti.IsLocalRing.ramificationGroup G 𝒪[L] (0 : ℤ)) {q : ℕ}
     (hg : ∀ x : 𝓀[L], g • x = x ^ q) :
     TauCeti.tameCharacter (G := G) hϖ
-        ⟨g * σ * g⁻¹, Subgroup.Normal.conj_mem inferInstance σ hσ g⟩ =
+        ⟨g * σ * g⁻¹, Subgroup.Normal.conj_mem σ hσ g⟩ =
       TauCeti.tameCharacter (G := G) hϖ ⟨σ, hσ⟩ ^ q :=
   Units.ext <| by rw [tameCharacter_conj hϖ g σ hσ, hg, Units.val_pow_eq_pow_val]
 
@@ -1875,7 +1875,7 @@ theorem ker_iwasawaCoordinate :
   have : Finite (IwasawaGroup K ⧸ V) := Subgroup.quotient_finite_of_isOpen V hV
   set m := Nat.card (IwasawaGroup K ⧸ V)
   have : NeZero m := ⟨Nat.card_pos.ne'⟩
-  let q := ContinuousMonoidHom.quotientMk V
+  let q := Subgroup.quotientMkContinuousMonoidHom V
   -- The coordinate modulo `m`, and `1 ↦ q σ` on `ZMod m`.
   let ρ : TauCeti.zHat →ₜ* Multiplicative (ZMod m) := TauCeti.zHat.lift (Multiplicative.ofAdd 1)
   let κ : Multiplicative (ZMod m) →ₜ* IwasawaGroup K ⧸ V :=

@@ -87,8 +87,8 @@ in N5 rather than hidden in proposition-valued placeholders here. -/
 structure SpectralTriple (π : A →⋆ₐ[ℂ] (H →L[ℂ] H)) where
   D : H →ₗ.[ℂ] H
   selfAdjoint : IsSelfAdjoint D
-  imaginary_mem_resolvent : Complex.I ∈ TauCeti.LinearPMap.resolventSet D
-  compact_resolvent : IsCompactOperator (TauCeti.LinearPMap.resolvent D Complex.I)
+  imaginary_mem_resolvent : Complex.I ∈ LinearPMap.resolventSet D
+  compact_resolvent : IsCompactOperator (LinearPMap.resolvent D Complex.I)
   domain_invariant : ∀ (a : A) (ξ : D.domain), π a (ξ : H) ∈ D.domain
   commutator : A →ₗ[ℂ] (H →L[ℂ] H)
   commutator_eq : ∀ (a : A) (ξ : D.domain),

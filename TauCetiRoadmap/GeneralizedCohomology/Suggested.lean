@@ -683,11 +683,13 @@ def levelMap {E F : SymmetricSpectrum} (f : E ⟶ F) (n : ℕ) : level E n ⟶ l
 /-- The finite permutation action on a spectrum level uses native automorphisms. -/
 def levelPermutation (E : SymmetricSpectrum) (n : ℕ) :
     Equiv.Perm (Fin n) →* Aut (level E n) where
-  toFun p := E.X.functor.mapIso (finiteBijectionIso p)
+  toFun p := Aut.of (E.X.functor.mapIso (finiteBijectionIso p))
   map_one' := by
+    apply Aut.ext
     apply Iso.ext
     exact E.X.functor.map_id n
   map_mul' p q := by
+    apply Aut.ext
     apply Iso.ext
     exact E.X.functor.map_comp q p
 

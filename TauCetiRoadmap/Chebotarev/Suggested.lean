@@ -308,7 +308,7 @@ theorem artinClass_restrict_fixedField (σ : L ≃ₐ[K] L)
     (cyclicFixedField K L σ) Q 𝔓 𝔭 hQE hQK hur τ hτ
 
 /-- The relative Frobenius fibre over the cyclic fixed field. -/
-def fixedFieldFrobeniusPrimeSet (σ : L ≃ₐ[K] L) :
+noncomputable def fixedFieldFrobeniusPrimeSet (σ : L ≃ₐ[K] L) :
     Set (HeightOneSpectrum (𝓞 (cyclicFixedField K L σ))) :=
   frobeniusPrimeSet (cyclicFixedField K L σ) L
     (ConjClasses.mk (fixedFieldGenerator K L σ))

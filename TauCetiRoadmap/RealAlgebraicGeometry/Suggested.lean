@@ -1,6 +1,6 @@
 import Mathlib
 import TauCeti.RingTheory.Polynomial.Resultant.Discriminant
-import TauCeti.Analysis.Analytic.Complexification
+import TauCeti.Analysis.Analytic.Complexification.Basic
 import TauCeti.Analysis.Analytic.Submanifold.Basic
 
 /-!

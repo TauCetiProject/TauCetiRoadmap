@@ -1778,7 +1778,9 @@ theorem proPKernel_proPKernel_eq_top (p : ℕ) [Fact p.Prime] (G : Type u) [Grou
     TauCeti.isProP_maximalProPQuotient.of_surjective φ hφ hφs
   -- So `G ⧸ K'` is pro-`p`, and the universal property puts `N` inside `K'`.
   have hpro : TauCeti.IsProP p (G ⧸ K') :=
-    TauCeti.IsProP.of_ker_isProP TauCeti.isProP_maximalProPQuotient hf hfs hker
+    TauCeti.IsProP.of_ker_isProP TauCeti.isProP_maximalProPQuotient
+      (MonoidHom.isOpenQuotientMap_of_isQuotientMap
+        (Topology.IsQuotientMap.of_surjective_continuous hfs hf)).isOpenMap hfs hker
   have hle : N ≤ K' := by
     have := TauCeti.proPKernel_le_ker hpro (QuotientGroup.mk' K') QuotientGroup.continuous_mk
     rwa [QuotientGroup.ker_mk'] at this

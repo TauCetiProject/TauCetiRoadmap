@@ -36,7 +36,7 @@ import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Code.OrthogonalQuotie
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Code.Quadratic
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Discriminant
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Even
-import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Golay
+import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Golay.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Monomial
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Naturality
 import TauCeti.LinearAlgebra.IntegralLattice.ConstructionA.Real

@@ -15,7 +15,7 @@ import Mathlib.Logic.Relation
 import Mathlib.LinearAlgebra.TensorProduct.Basic
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
 import TauCeti.KnotTheory.PDCode.Kauffman
-import TauCeti.KnotTheory.PDCode.Jones
+import TauCeti.KnotTheory.PDCode.Jones.Basic
 
 noncomputable section
 

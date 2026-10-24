@@ -43,7 +43,7 @@ variable [MeasurableSpace G] [BorelSpace G] [LocallyCompactSpace G] [T2Space G]
 
 /-- The norm estimate does not require covariance, which is used for multiplicativity. -/
 theorem exists_integratedOperator (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
-    (U : ContRepresentation ℂ G H) (hU : TauCeti.ContRepresentation.IsUnitary U)
+    (U : ContRepresentation ℂ G H) (hU : ContRepresentation.IsUnitary U)
     (hcont : ∀ ξ, Continuous fun g => U g ξ)
     (μ : Measure G) [μ.InnerRegularCompactLTTop]
     (f : G → A) (hf : Integrable f μ) :
@@ -53,14 +53,14 @@ theorem exists_integratedOperator (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
 
 /-- A named coefficient integrated operator with its actual vector integral. -/
 def integratedOperator (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
-    (U : ContRepresentation ℂ G H) (hU : TauCeti.ContRepresentation.IsUnitary U)
+    (U : ContRepresentation ℂ G H) (hU : ContRepresentation.IsUnitary U)
     (hcont : ∀ ξ, Continuous fun g => U g ξ)
     (μ : Measure G) [μ.InnerRegularCompactLTTop]
     (f : G → A) (hf : Integrable f μ) : H →L[ℂ] H :=
   (exists_integratedOperator π U hU hcont μ f hf).choose
 
 theorem integratedOperator_apply (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
-    (U : ContRepresentation ℂ G H) (hU : TauCeti.ContRepresentation.IsUnitary U)
+    (U : ContRepresentation ℂ G H) (hU : ContRepresentation.IsUnitary U)
     (hcont : ∀ ξ, Continuous fun g => U g ξ)
     (μ : Measure G) [μ.InnerRegularCompactLTTop]
     (f : G → A) (hf : Integrable f μ) (ξ : H) :
