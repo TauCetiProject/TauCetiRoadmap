@@ -63,8 +63,8 @@ a fully proved file of suggested forms cannot replace.
 The earlier version of this file proposed local stand-ins for the carriers, the counting functions
 and the transfer theorems, and left them unproved. They now live in Tau Ceti, so the statements
 below are made about the Tau Ceti objects. Four names stay in this namespace, at the end of the
-file, as abbreviations of the Tau Ceti objects, because `Chebotarev/Suggested.lean` imports them:
-`MultiplicativeIdealWeight`, `primeTheta`, `primePsi` and `HasNaturalDensity`.
+file, as abbreviations of the Tau Ceti objects, because the Chebotarev roadmap imported them until
+it was archived: `MultiplicativeIdealWeight`, `primeTheta`, `primePsi` and `HasNaturalDensity`.
 
 Deliberate differences from the README and from the earlier proposals:
 
@@ -1682,10 +1682,10 @@ theorem exists_normCoeff_eq_zero_not_forall_nonneg_of_gaussian {θ : 𝓞 K}
 
 end Examples
 
-/-! ## Names kept for `Chebotarev/Suggested.lean`
+/-! ## Names kept from the Chebotarev roadmap
 
 These four declarations are abbreviations of the Tau Ceti objects, under the names the
-`Chebotarev` roadmap imports from this namespace. -/
+`Chebotarev` roadmap imported from this namespace until it was archived. -/
 
 /-- The completely multiplicative ideal-weight carrier. -/
 abbrev MultiplicativeIdealWeight (K : Type*) [Field K] [NumberField K] : Type _ :=
