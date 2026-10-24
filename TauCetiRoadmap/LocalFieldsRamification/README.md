@@ -77,6 +77,10 @@ pro-`p` quotient.
     - the compatibility lemma for the two uniformities;
     - `IsNonarchimedeanLocalField ℤ_[p]`-facing corollaries, that is `CompactSpace ℤ_[p]` and
       `IsAdicComplete`;
+    - `padicIntegerRingEquiv : 𝒪[ℚ_[p]] ≃+* ℤ_[p]`, characterized as the identity on underlying
+      elements of `ℚ_[p]`, and its uniform-space companion with the same underlying map,
+      compatible with every power of the maximal ideal and with a residue-field equivalence
+      `𝓀[ℚ_[p]] ≃+* ZMod p` pinned by reduction (`PadicInt.toZMod`);
     - the same structure for a finite extension of `ℚ_[p]`, through Layer 0.III.
 - **The normalized valuation.** Define `v_K^× : Kˣ →* Multiplicative ℤ` through
   `valueGroupWithZeroIsoInt` and `WithZero.log`, and extend it across zero with `ℤᵐ⁰`. Prove the
@@ -128,7 +132,7 @@ pro-`p` quotient.
     - `Mathlib: Mathlib/RingTheory/Valuation/AlgebraInstances.lean`.
   - *Source:* Neukirch ANT II §6 and II §8, for a complete discretely valued base. The hypotheses
     used are completeness of `K` and finiteness of `L/K`. *False generalization:* a valuation on
-    an incomplete field has several inequivalent extensions to a finite extension, so completeness
+    an incomplete field can have several inequivalent extensions to a finite extension, so completeness
     is not a convenience here.
 - **Finite extensions, II: uniqueness.** Any two valuations on `L` that restrict to the valuation
   class of `K` are equivalent, in the sense of `Valuation.IsEquiv`. Any two `ValuativeRel L`
@@ -302,7 +306,10 @@ pro-`p` quotient.
     - the covariant algebra-map contract
       `map_unitFiltration_le K L i : map(K → L)(U(K,i)) ≤ U(L,e(L/K) * i)`;
     - separately, the contravariant norm contract
-      `map_norm_unitFiltration_psiNat_le K L i : N(U(L,ψℕ(i))) ≤ U(K,i)` from Layer 3.
+      `map_norm_unitFiltration_psiNat_le K L i : N(U(L,ψℕ(i))) ≤ U(K,i)` from Layer 3;
+    - for `K = ℚ_p`, `padicUnitEquiv : 𝒪[ℚ_[p]]ˣ ≃* ℤ_[p]ˣ`, induced by `padicIntegerRingEquiv`,
+      and the theorem identifying membership in `U(ℚ_p,i)` with divisibility of `u − 1` by `p^i`.
+      This connects the concrete `ℤ_[2]ˣ` examples of this roadmap to `unitFiltration`.
 - **Graded pieces.** Prove `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` by reduction, and, for `i ≥ 1`,
   `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` through `1 + x ↦ x mod 𝓂^{i+1}`. The counts `q − 1` and `q` are
   corollaries. ⚠ The depth-zero piece is multiplicative and the deeper pieces are additive. The
@@ -417,16 +424,17 @@ pro-`p` quotient.
   follows from the formula and is exported separately as
   `finiteIndex_range_powMonoidHom_of_isUnit` or `finiteIndex_range_powMonoidHom`, so downstream
   declarations can consume a `Subgroup.FiniteIndex` proof without reconstructing it. Tau Ceti
-  implements regime 1: the count `TauCeti.card_powerClasses_of_isUnit`, the vanishing
-  `TauCeti.natCastValuation_eq_zero_of_isUnit`, finite index
-  `TauCeti.finiteIndex_range_powMonoidHom_of_isUnit` and the count `4`
+  implements the generic count `TauCeti.card_powerClasses` for `(n : K) ≠ 0`, its finite-index
+  consequence `TauCeti.finiteIndex_range_powMonoidHom`, and their prime-to-residue
+  specializations `TauCeti.card_powerClasses_of_isUnit`,
+  `TauCeti.natCastValuation_eq_zero_of_isUnit` and
+  `TauCeti.finiteIndex_range_powMonoidHom_of_isUnit`. The count `4` is
   `TauCeti.card_squareClasses_of_isUnit`
-  (`TauCeti/NumberTheory/LocalField/PowerSubgroup/Basic.lean`), and
-  the identification of the two spellings of the square classes,
-  `TauCeti.square_eq_range_powMonoidHom`. This roadmap's `card_powerClasses_of_isUnit`,
-  `finiteIndex_range_powMonoidHom_of_isUnit`, `card_squareClasses_of_isUnit` and
-  `square_eq_range_powMonoidHom` are closed proofs of them. Regime 2, the dyadic count and the
-  worked example are the remaining milestones.
+  (`TauCeti/NumberTheory/LocalField/PowerSubgroup/Basic.lean`), and the square-class spellings
+  agree by `TauCeti.square_eq_range_powMonoidHom`. This companion's regime-1 count and index,
+  mixed-characteristic count, prime-to-residue square count and square-range identification
+  reuse these native proofs. Retain the displayed dyadic `4·q^e` specialization and the worked
+  representatives as explicit targets; the general mixed-characteristic count itself is native.
   - *Prerequisites:*
     - `Layer 1: structure of Kˣ`;
     - `Layer 1: deep units in mixed characteristic` (regime 2 only);
@@ -468,9 +476,11 @@ pro-`p` quotient.
 
   The name is `isOpen_range_powMonoidHom`. It holds in regime 1 for either characteristic, and in
   regime 2 for every `n`. ⚠ This does **not** follow from the count above. Finiteness of an
-  abstract quotient of a topological group says nothing about the topology of the kernel: the
-  additive group `ℚ_p` with the discrete topology has finite quotients by non-open subgroups. The
-  proof exhibits an open subgroup inside the range:
+  abstract quotient of a topological group says nothing about the topology of the kernel. For
+  example, in the product group `(ℤ/2)^ℕ`, the finite-support subgroup is dense. The quotient by
+  it is a nonzero `𝔽₂`-vector space; choose a nonzero linear functional to `𝔽₂`. The inverse
+  image of its kernel is a proper dense subgroup of index two, hence is not open. The local-field
+  proof instead exhibits an open subgroup inside the range:
   - in regime 1, `U(K,1) ⊆ (Kˣ)^n`, by Hensel's lemma applied to `X^n − u` at the approximate
     root `1`. The derivative `n X^{n−1}` is a unit there, because `n` is a unit in `𝒪[K]`, and
     `1 − u ∈ 𝓂[K]` for `u ∈ U(K,1)`;
@@ -519,8 +529,8 @@ pro-`p` quotient.
   `unitFiltration_le_range_powMonoidHom_two`. ⚠ This is **not** an instance
   of the cardinality count, which decides how many square classes there are and not which
   subgroup lies inside the squares. The proof is Hensel's lemma applied to `X² − u`, or the
-  deep-unit logarithm with the fact that multiplication by `2` carries the logarithmic lattice at
-  depth `2e+1` into the lattice at depth `e+1`. ⚠ The hypothesis is mixed characteristic. In
+  deep-unit logarithm: division by `2` carries the logarithmic lattice at depth `2e+1`
+  into the lattice at depth `e+1`; exponentiation then constructs a square root. ⚠ The hypothesis is mixed characteristic. In
   equal characteristic `2` the element `2` is zero and there is no absolute ramification index,
   so the displayed statement is not even the contract for that case.
 
@@ -699,8 +709,10 @@ pro-`p` quotient.
     - the two worked `ℚ_2(√5)/ℚ_2` cases of the examples section, one solvable and one not.
   - *Source:* Serre LF V §2. The proof is surjectivity on each graded piece, plus completeness.
     *False generalization:* for a ramified extension the norm of a unit is a unit, but the image
-    is a proper subgroup: at `L = ℚ_2(√2)` the image of `𝒪[L]ˣ` has index `2` in `ℤ_2ˣ`, so the
-    norm-equation criterion is false there in both directions.
+    can be a proper subgroup: at `L = ℚ_2(√2)` the image of `𝒪[L]ˣ` has index `2` in `ℤ_2ˣ`, so the
+    sufficiency half of the norm-equation criterion is false there. Here `f = 1`, so `f ∣ v_K(x)`
+    holds for every `x` while not every unit is a norm. Necessity survives in every extension:
+    `x = N_{L/K}(y)` gives `v_K(x) = f · v_L(y)`.
 
 ### Layer 3: ramification, the tame and wild cases, and the filtration
 
@@ -826,13 +838,38 @@ pro-`p` quotient.
   the uniformizer. Composed with the graded pieces of Layer 1 this reads `θ_0 : G_0/G_1 ↪ 𝓀[L]ˣ`,
   the tame character, so `G_0/G_1` is cyclic of order prime to `p`; and
   `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1`, by `σ ↦ (σ(π_L) − π_L)/π_L^{i+1}`, so those quotients
-  are elementary abelian `p`-groups. In Tau Ceti the tame character is `TauCeti.tameCharacter`,
-  with `TauCeti.tameCharacterGraded` on `G_0/G_1`, for any group acting on `L` and preserving
-  `𝒪[L]`. Prove the consequences: `G_1` is the unique `p`-Sylow subgroup of `G_0` and is normal,
+  are elementary abelian `p`-groups. In Tau Ceti the unit-quotient embedding is
+  `TauCeti.ramificationGroupGradedToUnitFiltrationGraded` and the tame character is
+  `TauCeti.tameCharacter`, with `TauCeti.tameCharacterGraded` on `G_0/G_1`, for any group acting on
+  `L` and preserving `𝒪[L]`.
+
+  ⚠ Independence of the uniformizer is a theorem about the unit-quotient form at every level and
+  about `θ_0`; it is **false** for the residue form at `i ≥ 1`. That form is the unit-quotient
+  `θ_i` followed by the Layer 1 coordinate attached to `π_L`
+  (`TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer`), and replacing `π_L` by
+  `u π_L` multiplies it by `residue(u)^{−i}`. So the residue form `wildRamificationCharacter`
+  takes the uniformizer as an argument. Tau Ceti already implements this composed positive-level
+  map and its injectivity, representative formula and change rule as
+  `ramificationGroupGradedToResidueField`, `_injective`, `_of_smul_sub_eq` and `_change` in
+  `UnitFiltration/RamificationGroup.lean`. The roadmap wrappers must transport the actual group
+  action, invariant integer ring, positive index and uniformizer hypotheses to those interfaces.
+  Injectivity and the action formula below do not determine it: multiplying a
+  positive-level residue character by a nonzero residue scalar preserves both, but changes the
+  constant `c` of the norm computation below, hence the norm polynomial. Over `k = 𝔽₄`, with
+  `K = k((s))` and `L = K(π)` for `π² + sπ + s = 0` (separable Eisenstein, so totally ramified),
+  the nonidentity automorphism has `σ(π) = π + s`, break one, and `θ_1(σ) = residue(s/π²) = 1`,
+  since `π² = s(π + 1)`. Also `N(π) = s` and, for `y ∈ k`, `N(1 + yπ) = 1 + (y² + y)s`, so in the
+  coordinates of `π` and `N(π)` the graded norm is `y ↦ y² + y`, with kernel `{0, 1}`. Replacing
+  `θ_1` by `ω·θ_1` for `ω ∈ 𝔽₄ \ 𝔽₂` satisfies every condition above but gives `c = ω` and the
+  polynomial `y ↦ y² + ωy`, with kernel `{0, ω}`, which is not the norm.
+
+  Prove the consequences: `G_1` is the unique `p`-Sylow subgroup of `G_0` and is normal,
   which is wild inertia at finite level; and `G_0` has the cyclic tame quotient `G_0/G_1`. Prove
   the action formula: for `σ ∈ G_0` and `τ ∈ G_i`, `θ_i(στσ⁻¹) = θ_0(σ)^i · θ_i(τ)` (Serre LF IV
-  §2, Proposition 9). It describes how the tame quotient acts on the wild graded pieces, and `θ_t`
-  is the constant in the norm computation below. Prove the equivariance of the tame character:
+  §2, Proposition 9), read in the residue form at a fixed `π_L`; both sides scale by the same
+  factor when `π_L` changes. It describes how the tame quotient acts on the wild graded pieces,
+  and the residue form of `θ_t`, nonzero on `G_t \ G_{t+1}` by injectivity, gives the constant in
+  the norm computation below. Prove the equivariance of the tame character:
   for `g ∈ G` and `σ ∈ G_0`, `θ_0(gσg⁻¹) = ḡ(θ_0(σ))`, where `ḡ` is the automorphism of `𝓀[L]`
   induced by `g` (`tameCharacter_conj`). Hence `θ_0(gσg⁻¹) = θ_0(σ)^q` whenever `g` acts on
   `𝓀[L]` as `x ↦ x^q` (`tameCharacter_conj_of_smul_eq_pow`), in particular, with `q = #𝓀[K]`,
@@ -849,8 +886,11 @@ pro-`p` quotient.
     - Tau Ceti: `TauCeti.tameCharacter` and its independence of the uniformizer,
       `TauCeti.tameCharacter_eq_of_irreducible`.
   - *API:*
-    - the embeddings at every level, with injectivity and independence of the uniformizer;
-    - the two composed forms;
+    - the unit-quotient embeddings at every level, with injectivity and independence of the
+      uniformizer;
+    - the two composed forms: `θ_0`, independent of the uniformizer, and the residue form
+      `wildRamificationCharacter` at `i ≥ 1`, with its representative formula
+      `wildRamificationCharacter_mk` and change rule `wildRamificationCharacter_change`;
     - the group-theoretic consequences above;
     - the action formula;
     - `tameCharacter_conj` and `tameCharacter_conj_of_smul_eq_pow`;
@@ -918,8 +958,10 @@ pro-`p` quotient.
   conversion from a Herbrand value to a unit depth in this roadmap. Every index of `U(K, −)` and
   of `U(L, −)` below is a literal natural number or a value of `ψℕ`, and `φ` never indexes a unit
   group. The proof is the piecewise
-  formula with Lagrange's theorem: write `g_i = #G_i`, and take `t` to be the largest jump with
-  `φ(t) ≤ n`; then `ψ(n) = t + (g_0·n − ∑_{i=1}^{t} g_i) / g_{t+1}`, and `g_{t+1}` divides `g_0`
+  formula with Lagrange's theorem: write `g_i = #G_i`, and choose `t` from zero together with
+  the nonnegative lower breakpoints, taking the largest one with `φ(t) ≤ n`. Including zero
+  covers an unramified extension and depths before the first positive jump. Then
+  `ψ(n) = t + (g_0·n − ∑_{i=1}^{t} g_i) / g_{t+1}`, and `g_{t+1}` divides `g_0`
   and every `g_i` with `i ≤ t`, because the filtration is decreasing.
   - *Prerequisites:* `Layer 3: Herbrand functions and the upper numbering`.
   - *API:*
@@ -958,14 +1000,49 @@ pro-`p` quotient.
      `t = 0` holds exactly in the tame case `ℓ ≠ p`, where the Galois hypothesis forces `μ_ℓ ⊆ K`
      and therefore `ℓ ∣ q − 1`. Coordinatize the graded pieces by a uniformizer `π_L` and by
      `π_K = N_{L/K}(π_L)`. The norm induces `gr_v N : U(L, ψℕ v)/U(L, ψℕ v + 1) → U(K, v)/U(K,
-     v+1)`. The milestone is the computation of that map in the four cases that occur:
+     v+1)`. The milestone is the computation of that map in the five cases that occur:
      - `v = t = 0`, the tame case: `y ↦ y^ℓ` on `𝓀ˣ`, with kernel and cokernel `μ_ℓ(𝓀)` of order
        `ℓ`, by `ℓ ∣ q − 1`;
      - `v = 0 < t`, so `ℓ = p`: `y ↦ y^p` on `𝓀ˣ`, the Frobenius of a finite field, bijective;
      - `0 < v < t`, which again forces `ℓ = p`: `y ↦ y^p` on `𝓀⁺`, Frobenius again, bijective;
-     - `v = t > 0`: the additive map `y ↦ y^ℓ − c^{ℓ−1}·y` on `𝓀⁺`, where `c = θ_t(σ) ∈ 𝓀ˣ` is the
-       value at a generator `σ` of `G` of the level-`t` embedding `θ_t` above. The map is
-       `𝔽_ℓ`-linear, with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`.
+     - `v = t > 0`: the additive map `y ↦ y^ℓ − c^{ℓ−1}·y` on `𝓀[K]⁺`. Here `c ∈ 𝓀[K]ˣ` is the
+       element whose image under the canonical map `𝓀[K] → 𝓀[L]` of `residueFieldAlgebra`,
+       bijective by total ramification, is the value at a generator `σ` of `G` of the residue
+       form of `θ_t` at `π_L`; it is nonzero because `σ ∉ G_{t+1}`. The map is `𝔽_ℓ`-linear,
+       with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`;
+     - `v > t`: a nonzero linear map on the common residue field, hence bijective. Construct
+       this case separately, in the coordinates of `π_L` and `N(π_L)`, rather than extending
+       one of the four preceding formulas beyond its range. Put
+       `m = ψℕ v = ℓv − (ℓ−1)t` and `d = (ℓ−1)(t+1)`. First prove the trace-ideal formula
+       `Tr(𝓂[L]^a) = 𝓂[K]^{⌊(a+d)/ℓ⌋}` from the trace-dual definition of the different.
+       Hilbert's different formula uses only the lower filtration and gives this value of `d`;
+       both constructions precede this norm calculation and do not use Hasse–Arf. For `a=m`
+       and `a=m+1` the two exponents are `v` and `v+1`. Expand the product defining the norm
+       and bound its higher elementary-symmetric terms to prove
+       `N(1+x)−1 ≡ Tr(x) mod 𝓂[K]^{v+1}` for `x ∈ 𝓂[L]^m`, using `m>t`. Thus trace descends
+       to a surjective map between the one-dimensional common-residue-field graded pieces.
+       Its coordinate is multiplication by a nonzero residue scalar, which also proves
+       injectivity. Export this case as `normGradedMap_after_break`. Tau Ceti already proves the
+       trace-first-order statement and this bijectivity in `Norm/AfterBreak.lean`, through
+       `norm_one_add_sub_one_sub_trace_mem_after_break` and `normGradedMap_after_break`.
+       The companion consumes the native graded norm by abbreviation, identifies the two
+       integral-depth definitions, and proves the equivalence of the unequal-group and native
+       strict-inclusion jump conventions using antitonicity. Its after-break wrapper therefore
+       reuses the native proof on the same carriers.
+
+     ⚠ Three normalizations are part of this statement. First, the identification of residue
+     fields is the canonical map, not an arbitrary isomorphism `𝓀[K] ≃ 𝓀[L]`: for `𝓀[K] = 𝔽₄`,
+     composing with Frobenius gives another isomorphism of the same type, and pulling back along
+     it changes `c`. Second, the map is stated as an equation in the coordinates,
+     `normGradedMap_at_break_apply`. Kernel and cokernel orders do not pin it down: they are
+     unchanged by rescaling the positive-level character, which is exactly what changes `c`.
+     Third, the two uniformizers are not independent. `c` is computed from `π_L` alone, while
+     the output coordinate is computed from `π_K`, and replacing `π_K` by `π_K·a` multiplies that
+     coordinate by `residue(a)^{−t}` and leaves the polynomial fixed. This is why `π_K` is
+     `N_{L/K}(π_L)` above. For an arbitrary uniformizer `π_K`, write `N_{L/K}(π_L) = π_K·a`; the
+     output coordinate at `π_K` is then `residue(a)^t·(y^ℓ − c^{ℓ−1}·y)`. In the `𝔽₄` example of
+     the quotient embeddings, the base uniformizer `ωs` has `a = ω⁻¹`, and the depth-one output
+     coordinate of `N(1 + yπ)` is `ω⁻¹(y² + y)`, not `y² + y`.
 
      ⚠ The exponent on `c` is not a slip. The element `c` changes when the generator `σ` changes,
      and `c^{ℓ−1}` does not, because `λ^{ℓ−1} = 1` for `λ ∈ 𝔽_ℓˣ`. A version with a bare `c` would
@@ -974,8 +1051,9 @@ pro-`p` quotient.
      `ℓ`. The representative declarations keep these regimes separate:
      `normGradedMap_tame_break_zero` covers `v = t = 0`;
      `normGradedMap_zero_before_break` covers `v = 0 < t`;
-     `normGradedMap_positive_before_break` covers `0 < v < t`; and
-     `normGradedMap_at_break` covers only `v = t > 0`. The last theorem explicitly requires
+     `normGradedMap_positive_before_break` covers `0 < v < t`;
+     `normGradedMap_at_break` covers only `v = t > 0`; and
+     `normGradedMap_after_break` covers `t < v`, including tame `t = 0`. The at-break theorem explicitly requires
      `IsTotallyRamified K L`, `0 < t`, and
      `UpperJump K L ⟨(t : ℝ), _⟩`; prime-degree Galois hypotheses supply cyclicity. In particular,
      its kernel-and-cokernel conclusion is unavailable for an unramified extension or for the tame
@@ -983,42 +1061,106 @@ pro-`p` quotient.
   5. *The consequences of item 4, for the same extensions.* `N_{L/K}(U(L, ψℕ v)) = U(K,v)` for
      every `v > t`, by successive approximation from item 4 and completeness. `[U(K,v) :
      N_{L/K}(U(L, ψℕ v)) · U(K,v+1)] = ℓ` for `v = t`, and `= 1` for `v ≠ t`. Multiplication up
-     the filtration then gives `[𝒪[K]ˣ : N_{L/K}(𝒪[L]ˣ)] = ℓ`. The induction for Hasse–Arf
-     consumes item 4 and these indices, and the conductor of a cyclic extension of prime degree is
-     `c(L/K) = t + 1`.
+     the filtration then gives `[𝒪[K]ˣ : N_{L/K}(𝒪[L]ˣ)] = ℓ`, and the conductor of a cyclic
+     extension of prime degree is `c(L/K) = t + 1`. These prime-degree norm-index results have
+     their own downstream uses. They do not supply the cyclic prime-power lower-break divisibility
+     required by Hasse–Arf; that arithmetic input is stated and proved as a separate target below.
   - *Prerequisites:*
     - `Layer 3: Herbrand values as unit depths`;
     - `Layer 3: the quotient embeddings`;
     - `Layer 1: graded pieces`;
     - `Layer 2: norms` (for item 3);
-    - `Layer 0: e and f, intrinsically`.
+    - `Layer 0: e and f, intrinsically`;
+    - the trace-dual construction, trace-ideal formula and lower-filtration Hilbert formula
+      of `Layer 3: the different and the discriminant`, before item 4's above-break branch.
+      These helpers have no norm-surjectivity or Hasse–Arf prerequisite.
   - *Source:* Serre LF V §2 for item 3, Serre LF V §3 for item 4, and Serre LF V §6 for item 2.
     *False generalization:* the unshifted inclusion in item 2, which the counterexample in the
     examples section refutes.
   - *Lean-facing exports:* `map_norm_unitFiltration_psiNat_le`, `UnitFiltrationGraded`,
     `normGradedMap`, `normGradedMap_tame_break_zero`, `normGradedMap_zero_before_break`,
-    `normGradedMap_positive_before_break`, and `normGradedMap_at_break`.
-- **Hasse–Arf.** For a finite abelian Galois extension `L/K`, the jumps of the upper-numbering
-  filtration are integers. A jump is a `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
-  defined as `UpperJump K L u` on the upper filtration `upperRamificationGroup` of the preceding
-  milestone. The proof contract includes the induction chain, not merely the phrase
-  “reduce to cyclic prime degree”:
-  1. prove the unique-break and conductor calculation for cyclic extensions of prime degree;
-  2. choose a prime-order normal quotient series for the finite abelian group;
-  3. transport the filtration at every step using the abstract Herbrand quotient theorem and its
-     fixed field-theoretic equivalence;
-  4. compare conductors with norms using the four graded norm maps and their kernel/cokernel
-     calculation above;
-  5. induct along the series, showing at each quotient that integrality of the upper breaks is
-     preserved.
+    `normGradedMap_positive_before_break`, `normGradedMap_at_break`,
+    `normGradedMap_at_break_apply`, and `normGradedMap_after_break`.
+- **Hasse–Arf.** For a finite abelian Galois extension `L/K`, every jump of the upper-numbering
+  filtration is an integer. A jump is `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
+  represented by `UpperJump K L u`. The proof contract contains an independent cyclic
+  prime-power arithmetic theorem; prime-degree norm cases and quotient compatibility alone do not
+  imply the result.
+
+  **Cyclic p-power arithmetic input.** Let `L/F` be totally ramified cyclic of degree `p^r`,
+  `r ≥ 1`, with residue characteristic `p`, and choose a uniformizer `π` of `L`. Normalize
+  `v_L(π)=1`. For a generator `σ ∈ Gal(L/F)` and an integer `k` for which `σ^k ≠ 1`, set
+  `c_k(σ) = v_L(σ^k(π)/π − 1) = i_L(σ^k) − 1`. The finite lower breaks are exactly
+  `b_j = c_{p^j}(σ)` for `0 ≤ j < r`; these use nonidentity powers only. They are strictly
+  increasing, and `|G_{b_j}| = p^{r−j}`. The Sen congruence gives
+  `p^{j+1} ∣ (b_{j+1} − b_j)` for `0 ≤ j < r−1`. There is no `b_r`: `σ^{p^r}=1`, so its
+  valuation is not a finite lower break. The zero-based index makes the last valid difference `j=r−2` when `r≥2`; for `r=1` the
+  difference range is empty.
+
+  The explicit upper-break conversion is `u_0=b_0` and
+  `u_j=b_0 + Σ_{a=0}^{j−1}(b_{a+1}−b_a)/p^{a+1}` for `1≤j<r`. These are integers by the
+  divisibilities above. This formula uses the Herbrand integral with slope `|G_x|/|G_0|`; it is
+  not an extra divisibility assumption.
+
+  **Proof source and dependency.** Fesenko–Vostokov, *Local Fields and Their Extensions*, second
+  edition (2002), Chapter III §4, printed pp. 91–93 (PDF physical pp. 101–103), proves the
+  cyclic p-power input using Sh. Sen’s proposition immediately preceding the argument. With
+  `c_k(σ)` as above, that proposition states: (i) `c_k` depends only on `v_p(k)`; (ii) for each
+  nonzero integer `k` there is `α_k` with `v_L(α_k)=k` and
+  `v_L(σ(α_k)/α_k−1)=c_k`; (iii) if `v_p(k_1−k_2)≥a`, then
+  `v_p(c_{k_1}−c_{k_2})≥a+1`. In (i), writing `k=i p^j` with `p∤i` compares powers of the
+  same order; in (ii), for `k>0` the product of the conjugates `σ^i(π)` gives the required
+  element (and inversion handles `k<0`); (iii) is proved by induction using the preceding
+  construction and a valuation comparison. Apply (iii) to `k_1=p^j`, `k_2=p^{j+1}` for
+  `j<r−1`. The complete lower-break list and group orders follow from the cyclic filtration and
+  (i), since these powers represent the successive nontrivial orders. The cited proof is available in the
+  [author-hosted second edition](https://ivanfesenko.org/wp-content/uploads/2021/10/vol.pdf#page=101). This theorem is the
+  independent arithmetic input: it is neither deduced from Hasse–Arf nor from the five
+  prime-degree norm regimes.
+
+  **From cyclic quotients to an arbitrary finite abelian group.** For a positive upper jump `u`,
+  take a rational `v>u` in the next constant interval of the finite filtration. Then
+  `G^v` is a proper subgroup of `G^u`. The quotient `G^u/G^v` is a nontrivial finite abelian
+  p-group (positive lower groups are p-groups, and upper numbering preserves this property).
+  Finite abelian character separation supplies a cyclic p-primary quotient
+  `q : G → C_{p^s}` whose kernel contains `G^v` but not `G^u`. By the upper-numbering quotient
+  theorem, the quotient extension has a jump at `u`. If its field has an unramified p-part,
+  pass to the maximal unramified intermediate field: for indices `i≥0`, lower groups restrict
+  to the same groups in the totally ramified part, and the Herbrand integral has the same
+  `G_0` denominator, so positive upper jumps are unchanged. The cyclic p-power theorem above
+  therefore makes `u` integral.
+
+  Handle the nonpositive endpoints separately. The unramified jump is `−1`; the tame-to-wild
+  boundary is `0`; both are integers. Degree one has no jumps. The positive-jump quotient
+  argument applies only to `u>0` and does not conflate these cases.
+
+  **Dependency order and exports.** First establish the cyclic lower-break list and Sen
+  divisibility from the cited arithmetic proposition; next derive the Herbrand upper-break
+  formula; then prove quotient detection, unramified-part invariance, and endpoint cases; finally
+  conclude `hasseArf`. Required native inputs are the lower-group p-group theorem, the upper
+  quotient/fixed-field equivalence, restriction of lower groups to the maximal unramified
+  intermediate, and Herbrand transitivity. The finite abelian character-separation lemma is an
+  explicit finite-group prerequisite. Neither local reciprocity nor class field theory is used.
+  The prime-degree unit-norm/conductor induction remains a separate result and cannot be a
+  premise for cyclic p-power divisibility. The nonabelian quaternion example in Serre LF IV §3,
+  exercise 3, remains the witness that abelianity cannot be dropped.
+
   - *Prerequisites:*
-    - `Layer 3: the norm on the unit filtration` (items 4 and 5);
-    - `Layer 3: Herbrand functions and the upper numbering` (normal-quotient compatibility and
-      tower transitivity);
-  - *Lean-facing exports:* `UpperJump` and `hasseArf`.
-  - *Source:* Serre LF V §7. The hypothesis is that `G` is abelian. *False generalization:* for
-    `G` non-abelian the jumps of the upper numbering need not be integers; the quaternion
-    extension in Serre LF IV §3, exercise 3, is the standard witness.
+    - `Layer 3: Herbrand functions and the upper numbering` (quotient compatibility,
+      tower transitivity, and fixed-field comparison);
+    - `Layer 3: lower ramification groups` (positive groups are p-groups and restriction to
+      maximal unramified subextensions);
+    - a finite abelian character-separation theorem for nontrivial finite abelian p-groups;
+    - Fesenko–Vostokov III §4, printed pp. 91–93, for the cyclic prime-power arithmetic input.
+  - *Proposed Lean-facing target declarations:* `CyclicLowerBreakData`,
+    `sen_cyclic_power_break_divisibility`,
+    `cyclic_power_upper_breaks_integral`, `cyclic_quotient_detects_positive_jump`,
+    `positive_upper_jumps_unchanged_after_unramified_base_change`, and `hasseArf`.
+  - *Source:* Fesenko–Vostokov III §4, pp. 91–93, for the arithmetic bridge; Serre LF V §7
+    for the finite-abelian theorem context. The source scopes and proof dependencies are explicit:
+    the Sen proposition treats totally ramified cyclic p-power extensions of local fields in
+    residue characteristic `p`; it is not the characteristic-p-only Artin–Schreier–Witt route.
+
 - **The different and the discriminant.** Let `L/K` be finite separable. The different
   `𝔡_{L/K} ⊆ 𝒪[L]` is Mathlib's `differentIdeal 𝒪[K] 𝒪[L]`, the inverse of the trace dual of
   `𝒪[L]`. Define the discriminant `𝔩_{L/K} = N_{L/K}(𝔡_{L/K}) ⊆ 𝒪[K]`,
@@ -1374,10 +1516,16 @@ used by no milestone here.
 ## Worked examples
 
 The acceptance suite includes `ℚ_2`, its unramified quadratic extension, the totally ramified
-quadratic extension generated by `√2`, and the dyadic cyclotomic tower generated by `μ_8`.
+quadratic extension generated by `√2`, the dyadic cyclotomic tower generated by `μ_8`, and the
+tame quadratic extension `Q3Sqrt3 = ℚ_3(√3)`, constructed as `AdjoinRoot (X² − 3)`.
 These examples must exercise normalization, norm groups, lower and upper numbering, and the
 tame quotient; they are regression tests for conventions rather than substitutes for the
 generic theorems.
+
+The last field is the counterexample to the unshifted norm inclusion of Layer 3. For the
+base-field unit `u = 4`, total ramification gives `v_L(u − 1) = v_L(3) = 2`, so `u ∈ U(L,2)`,
+while `N_{L/ℚ_3}(u) = 16` and `v_3(16 − 1) = 1`, so the norm is not in `U(ℚ_3,2)`
+(`norm_four_not_mem_unitFiltration_two`).
 
 ## Dependency order
 
@@ -1385,7 +1533,10 @@ The external abstract dependency order is **[Continuous Cohomology of Profinite
 Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
 Groups](../ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
 roadmap**. Within this roadmap the intended order is
-Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4. Later work may proceed against explicit
+Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4. Inside Layer 3 the trace-dual different,
+trace-ideal image formula and lower-filtration Hilbert formula precede the above-break graded
+norm; that branch precedes completeness-based deep norm surjectivity and Hasse–Arf. This order
+does not use Hasse–Arf to establish its own norm premise. Later work may proceed against explicit
 hypotheses, but the accepted exports use the canonical objects produced by the preceding layers.
 
 ## Material extracted from the former local-fields portfolio

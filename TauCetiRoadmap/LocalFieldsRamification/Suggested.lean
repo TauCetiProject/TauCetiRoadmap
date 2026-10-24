@@ -8,8 +8,9 @@ import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 import TauCeti.NumberTheory.LocalField.InertiaDegree
 import TauCeti.NumberTheory.LocalField.NatCastValuation
 import TauCeti.NumberTheory.LocalField.Norm.Unramified.Basic
-import TauCeti.NumberTheory.LocalField.PowerSubgroup.Basic
+import TauCeti.NumberTheory.LocalField.Norm.AfterBreak
 import TauCeti.NumberTheory.LocalField.PowerSubgroup.Open
+import TauCeti.NumberTheory.LocalField.PowerSubgroup.Basic
 import TauCeti.NumberTheory.LocalField.RamificationGroup
 import TauCeti.NumberTheory.LocalField.RamificationIndex
 import TauCeti.NumberTheory.LocalField.ResidueCorrespondence
@@ -17,6 +18,7 @@ import TauCeti.NumberTheory.LocalField.Squares
 import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Map
 import TauCeti.NumberTheory.LocalField.UnitFiltration.RamificationGroup
+import TauCeti.NumberTheory.LocalField.UnitFiltration.Uniformizer
 import TauCeti.NumberTheory.LocalField.UnitsDecomposition
 import TauCeti.Topology.Algebra.Group.Profinite.Presentation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
@@ -45,12 +47,13 @@ replacement carrier exists for any of them. What this roadmap does **not** consu
 pro-`p` quotient, the free pro-`p` group, or the generator-rank declarations: `G_K(p)`, its rank
 and its Demushkin presentation belong to `LocalGaloisGroups`.
 
-Tau Ceti's maximal unramified extension, inertia subgroup and arithmetic Frobenius lifts
-(`TauCeti.maximalUnramifiedExtension`, `TauCeti.inertiaSubgroup`, `TauCeti.IsArithFrobeniusLift`,
-and the API used with them) are newer than the Tau Ceti revision this library is pinned to. Each
-is stated here once, under its Tau Ceti name and with its Tau Ceti signature, and its docstring says
-so. Layer 4 opens `TauCeti`, so deleting these statements when the pin moves makes every use resolve
-to Tau Ceti's declaration.
+Tau Ceti implements the maximal unramified extension, inertia subgroup and arithmetic Frobenius
+lifts in `Unramified/Maximal.lean` and `Unramified/Inertia/Basic.lean`. The declarations below live
+in this roadmap's namespace and remain explicit local comparison targets. Matching names alone
+are not an implementation or an identification with the native carrier: importing these modules
+requires the actual field, closure, topology and universe transports. In particular, the native
+`zHat` target is universe-polymorphic, while the target chosen here is small. Preserve that
+comparison when replacing these local targets by native adapters.
 
 The local-field objects that the pinned Tau Ceti implements are **consumed, not restated**: the
 normalized valuation and the valuation of a natural-number cast (`TauCeti.normalizedValuation`,
@@ -485,6 +488,46 @@ theorem absoluteRamificationIndex_eq_natCastValuation (p : ℕ) [Fact p.Prime]
     absoluteRamificationIndex K p = natCastValuation K p hp :=
   TauCeti.absoluteRamificationIndex_eq_natCastValuation K p
 
+/-- **Layer 0, the integer ring of `ℚ_p` is `ℤ_p`.** This is the ring-level comparison between
+the roadmap's `𝒪[K]` API and its concrete `ℤ_[p]` examples. -/
+noncomputable def padicIntegerRingEquiv (p : ℕ) [Fact p.Prime] :
+    𝒪[ℚ_[p]] ≃+* ℤ_[p] :=
+  sorry
+
+/-- The integer-ring equivalence is the identity on the common ambient field `ℚ_p`. -/
+theorem coe_padicIntegerRingEquiv (p : ℕ) [Fact p.Prime] (x : 𝒪[ℚ_[p]]) :
+    ((padicIntegerRingEquiv p x : ℤ_[p]) : ℚ_[p]) = (x : ℚ_[p]) :=
+  sorry
+
+/-- **Layer 0, the integer-ring equivalence is also an equivalence of uniform spaces.** -/
+noncomputable def padicIntegerRingUniformEquiv (p : ℕ) [Fact p.Prime] :
+    𝒪[ℚ_[p]] ≃ᵤ ℤ_[p] :=
+  sorry
+
+/-- The ring and uniform equivalences have the same underlying map. -/
+theorem padicIntegerRingUniformEquiv_apply (p : ℕ) [Fact p.Prime] (x : 𝒪[ℚ_[p]]) :
+    padicIntegerRingUniformEquiv p x = padicIntegerRingEquiv p x :=
+  sorry
+
+/-- **Layer 0, compatibility with every power of the maximal ideal.** This pins the maximal
+ideal and the positive-depth unit filtrations under `padicIntegerRingEquiv`. -/
+theorem padicIntegerRingEquiv_mem_maximalIdeal_pow (p : ℕ) [Fact p.Prime]
+    (i : ℕ) (x : 𝒪[ℚ_[p]]) :
+    x ∈ 𝓂[ℚ_[p]] ^ i ↔
+      padicIntegerRingEquiv p x ∈ Ideal.span {((p : ℤ_[p]) ^ i)} :=
+  sorry
+
+/-- **Layer 0, the residue field of `ℚ_p` is `ZMod p`.** -/
+noncomputable def padicResidueFieldEquiv (p : ℕ) [Fact p.Prime] :
+    𝓀[ℚ_[p]] ≃+* ZMod p :=
+  sorry
+
+/-- Reduction through the integer-ring equivalence agrees with the residue-field equivalence. -/
+theorem padicResidueFieldEquiv_residue (p : ℕ) [Fact p.Prime] (x : 𝒪[ℚ_[p]]) :
+    padicResidueFieldEquiv p (IsLocalRing.residue _ x) =
+      PadicInt.toZMod (padicIntegerRingEquiv p x) :=
+  sorry
+
 /-! ## Layer 1: units, the filtration, and the multiplicative group -/
 
 /-- **Layer 1, the unit filtration** as an object: `U(K,0) = 𝒪[K]ˣ` and
@@ -494,6 +537,19 @@ afterwards. Tau Ceti's `TauCeti.unitFiltration`
 (`TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`), consumed by reducible alias. -/
 noncomputable abbrev unitFiltration (i : ℕ) : Subgroup Kˣ :=
   TauCeti.unitFiltration K i
+
+/-- **Layer 1, the integer-ring equivalence of `ℚ_p` on unit groups.** -/
+noncomputable def padicUnitEquiv (p : ℕ) [Fact p.Prime] :
+    𝒪[ℚ_[p]]ˣ ≃* ℤ_[p]ˣ :=
+  Units.mapEquiv (padicIntegerRingEquiv p).toMulEquiv
+
+/-- The concrete divisibility condition on `ℤ_pˣ` is exactly membership in the unit filtration
+of `ℚ_p`. At depth `0` both sides hold for every unit. -/
+theorem padicUnitEquiv_mem_unitFiltration (p : ℕ) [Fact p.Prime]
+    (i : ℕ) (u : 𝒪[ℚ_[p]]ˣ) :
+    Units.map (Subring.subtype 𝒪[ℚ_[p]]).toMonoidHom u ∈ unitFiltration ℚ_[p] i ↔
+      (p : ℤ_[p]) ^ i ∣ ((padicUnitEquiv p u : ℤ_[p]) - 1) :=
+  sorry
 
 /-- **Layer 1, membership at depth `0`:** the units of `𝒪[K]` inside `Kˣ`. Tau Ceti's
 `TauCeti.mem_unitFiltration_zero`. -/
@@ -650,25 +706,34 @@ theorem card_powerClasses_mixed (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
     Nat.card (Kˣ ⧸ (powMonoidHom n : Kˣ →* Kˣ).range)
       = n * Nat.card (rootsOfUnity n K)
         * Nat.card 𝓀[K] ^ natCastValuation K n hnK :=
-  sorry
+  TauCeti.card_powerClasses hnK
 
 /-- **Layer 1, openness of the power subgroup away from the residue characteristic.** Openness
 comes from the explicit deep subgroup contained in the range
 (`TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`); no finite-index implication is
-used. Tau Ceti's `TauCeti.isOpen_range_powMonoidHom`, which needs only `(n : K) ≠ 0`. -/
+used. Tau Ceti's `TauCeti.isOpen_range_powMonoidHom`, with the nonzero cast supplied by the unit hypothesis. -/
 theorem isOpen_range_powMonoidHom_of_isUnit (n : ℕ) (_hn : n ≠ 0)
     (hn' : IsUnit (n : ↥𝒪[K])) :
     IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) :=
-  TauCeti.isOpen_range_powMonoidHom fun h ↦ hn'.ne_zero (Subtype.ext (by simpa using h))
+  by
+    have hnK : (n : K) ≠ 0 := by
+      intro h
+      apply hn'.ne_zero
+      apply Subtype.ext
+      simpa using h
+    exact TauCeti.isOpen_range_powMonoidHom hnK
 
-/-- **Layer 1, openness of the power subgroup in mixed characteristic.** Tau Ceti's
-`TauCeti.isOpen_range_powMonoidHom`, since `n ≠ 0` in a field of characteristic zero. -/
+/-- **Layer 1, openness of the power subgroup in mixed characteristic.** -/
 theorem isOpen_range_powMonoidHom (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
     [ValuativeExtension ℚ_[p] K] [Module.Finite ℚ_[p] K]
     (n : ℕ) (_hn : n ≠ 0) :
-    IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) :=
-  haveI : CharZero K := charZero_of_injective_algebraMap (algebraMap ℚ_[p] K).injective
-  TauCeti.isOpen_range_powMonoidHom (Nat.cast_ne_zero.mpr _hn)
+    IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) := by
+  have hnK : (n : K) ≠ 0 := by
+    intro h
+    have h' : algebraMap ℚ_[p] K (n : ℚ_[p]) = algebraMap ℚ_[p] K 0 := by
+      simpa using h
+    exact (Nat.cast_ne_zero.mpr _hn) ((algebraMap ℚ_[p] K).injective h')
+  exact TauCeti.isOpen_range_powMonoidHom hnK
 
 /-- **Layer 1, finite index away from the residue characteristic.** This is derived from
 `card_powerClasses_of_isUnit`, independently of the openness proof. Tau Ceti's
@@ -845,9 +910,9 @@ noncomputable abbrev normGroup [Algebra K L] [Module.Finite K L] : Subgroup Kˣ 
 /-- **Layer 2, norms of units from an unramified extension.** `N_{L/K}(𝒪[L]ˣ) = 𝒪[K]ˣ`, written
 on the depth-zero step of the unit filtration, which `mem_unitFiltration_zero` identifies with
 the units of the valuation ring. ⚠ *False generalization:* for a ramified extension the norm of
-a unit is still a unit, but the image is a proper subgroup; at `L = ℚ_2(√2)` it has index `2` in
-`ℤ_2ˣ`. Tau Ceti's `TauCeti.map_normUnits_unitFiltration` at `i = 0`
-(`TauCeti/NumberTheory/LocalField/Norm/Unramified/Basic.lean`), under the same adaptation of `h` as
+a unit is still a unit, but the image can be a proper subgroup; at `L = ℚ_2(√2)` it has index `2` in
+`ℤ_2ˣ`. Tau Ceti's `TauCeti.map_normUnits_unitFiltration` at depth zero
+(`TauCeti/NumberTheory/LocalField/Norm/Unramified.lean`), under the same adaptation of `h` as
 `frobeniusAlgEquiv`. -/
 theorem map_norm_unitFiltration_zero [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     (h : ramificationIndex K L = 1) :
@@ -893,14 +958,13 @@ example : ¬ ∃ x y : ℚ_[2], (2 : ℚ_[2]) = x ^ 2 - 5 * y ^ 2 :=
 
 /-! ### Layer 2: the maximal unramified extension, from Tau Ceti
 
-Tau Ceti's maximal unramified extension, its arithmetic Frobenius and its identification with `Ẑ`
-are newer than the Tau Ceti revision this library is pinned to, so they are stated here once,
-under their Tau Ceti names and with their Tau Ceti signatures. -/
+The native maximal unramified extension, arithmetic Frobenius and identification with `Ẑ`
+are available in `Unramified/Maximal.lean` and `Unramified/ZHat.lean`. The local targets below
+retain their chosen carriers; native reuse requires explicit carrier and universe comparisons. -/
 
 /-- **Layer 2, the maximal unramified extension** `K^{ur}` of `K` inside `Ω`: the union of the
 unramified extensions of all finite degrees. Tau Ceti's `TauCeti.maximalUnramifiedExtension`
-(`TauCeti/NumberTheory/LocalField/Unramified/Maximal.lean`); stated here because the pinned Tau
-Ceti revision predates it; replaced by the import when the pin moves. -/
+(`TauCeti/NumberTheory/LocalField/Unramified/Maximal.lean`); a roadmap-local comparison target for the native declaration. -/
 noncomputable def maximalUnramifiedExtension (K : Type u) [Field K] [ValuativeRel K]
     [TopologicalSpace K] [IsNonarchimedeanLocalField K] (Ω : Type*) [Field Ω] [Algebra K Ω] :
     IntermediateField K Ω :=
@@ -909,18 +973,16 @@ noncomputable def maximalUnramifiedExtension (K : Type u) [Field K] [ValuativeRe
 /-- **Layer 2, the arithmetic Frobenius of `K^{ur}/K`**, for `Ω` separably closed: the unique
 automorphism raising every root of every `X^{q^f} − X`, `f ≠ 0`, to the `q`-th power. Tau Ceti's
 `TauCeti.maximalUnramifiedFrobenius` (`TauCeti/NumberTheory/LocalField/Unramified/Maximal.lean`);
-stated here because the pinned Tau Ceti revision predates it; replaced by the import when the pin
-moves. -/
+a roadmap-local comparison target for the native declaration. -/
 noncomputable def maximalUnramifiedFrobenius (Ω : Type*) [Field Ω] [Algebra K Ω] [IsSepClosed Ω] :
     Gal(maximalUnramifiedExtension K Ω/K) :=
   sorry
 
 /-- **Layer 2, `Gal(K^{ur}/K) ≅ Ẑ`**, carrying the arithmetic Frobenius to the canonical generator
 (the next statement). Tau Ceti's `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`
-(`TauCeti/NumberTheory/LocalField/Unramified/ZHat.lean`); stated here because the pinned Tau Ceti
-revision predates it; replaced by the import when the pin moves. ⚠ Tau Ceti's target is the
-universe-polymorphic `zHat.{max u v}`; the pinned `TauCeti.zHat` lives in `Type`, and the target
-here is that one. -/
+(`TauCeti/NumberTheory/LocalField/Unramified/ZHat.lean`); a roadmap-local comparison target for the native declaration. ⚠ Tau Ceti's target is the
+universe-polymorphic `zHat.{max u v}`; the target chosen
+here is the small `TauCeti.zHat` specialization, so that universe transport is an obligation. -/
 noncomputable def maximalUnramifiedGaloisGroupEquivZHat (Ω : Type*) [Field Ω] [Algebra K Ω]
     [IsSepClosed Ω] : Gal(maximalUnramifiedExtension K Ω/K) ≃ₜ* TauCeti.zHat :=
   sorry
@@ -928,8 +990,7 @@ noncomputable def maximalUnramifiedGaloisGroupEquivZHat (Ω : Type*) [Field Ω] 
 /-- **Layer 2.** The identification with `Ẑ` sends the arithmetic Frobenius to the canonical
 generator `TauCeti.zHat.gen`. Tau Ceti's
 `TauCeti.maximalUnramifiedGaloisGroupEquivZHat_apply_frobenius`
-(`TauCeti/NumberTheory/LocalField/Unramified/ZHat.lean`); stated here because the pinned Tau Ceti
-revision predates it; replaced by the import when the pin moves. -/
+(`TauCeti/NumberTheory/LocalField/Unramified/ZHat.lean`); a roadmap-local comparison target for the native declaration. -/
 @[simp]
 theorem maximalUnramifiedGaloisGroupEquivZHat_apply_frobenius (Ω : Type*) [Field Ω]
     [Algebra K Ω] [IsSepClosed Ω] :
@@ -1144,10 +1205,10 @@ abbrev UnitFiltrationGraded (i : ℕ) : Type u :=
   TauCeti.UnitFiltrationGraded K i
 
 /-- **Layer 3, the norm on Herbrand-shifted graded pieces.** -/
-noncomputable def normGradedMap [Algebra K L] [ValuativeExtension K L]
+noncomputable abbrev normGradedMap [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (v : ℕ) :
     UnitFiltrationGraded L (psiNat K L v) →* UnitFiltrationGraded K v :=
-  sorry
+  TauCeti.normGradedMap K L v
 
 /-- **Layer 3, tame ramification.** The residue characteristic does not divide `e(L/K)`
 (`TauCeti.isTamelyRamified_iff`). Tau Ceti's `TauCeti.IsTamelyRamified`
@@ -1169,6 +1230,24 @@ at `-1`. -/
 def UpperJump [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (u : RamificationIndexDomain) : Prop :=
   ∀ v : RamificationIndexDomain, u < v → upperRamificationGroup K L v ≠ upperRamificationGroup K L u
+
+/-- The integral depth uses exactly the native inverse-Herbrand floor; the subtype proofs
+are irrelevant. This comparison preserves the public local name. -/
+theorem psiNat_eq_native [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L] (v : ℕ) :
+    psiNat K L v = TauCeti.LocalFieldsRamification.psiNat K L v := rfl
+
+/-- The public unequal-group jump convention is equivalent to native strict inclusion because
+the actual upper ramification filtration is antitone. -/
+theorem upperJump_iff_native [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L] (u : RamificationIndexDomain) :
+    UpperJump K L u ↔ TauCeti.LocalFieldsRamification.UpperJump K L u := by
+  constructor
+  · intro h v huv
+    exact (lt_iff_le_and_ne).2
+      ⟨TauCeti.LocalFieldsRamification.upperRamificationGroup_antitone K L huv.le, h v huv⟩
+  · intro h v huv
+    exact ne_of_lt (h v huv)
 
 /-- **Layer 3, the tame prime-degree break at zero.** In a totally ramified Galois extension
 of prime degree, the graded norm at the tame break is the `ℓ`-th power map on residue units.
@@ -1219,7 +1298,32 @@ theorem normGradedMap_at_break [Algebra K L] [ValuativeExtension K L]
       Nat.card (UnitFiltrationGraded K t ⧸ (normGradedMap K L t).range) = ℓ :=
   sorry
 
-/-- **Layer 3, Hasse–Arf.** Every upper jump of a finite abelian Galois extension is integral. -/
+/-- **Layer 3, a depth strictly after the prime-degree break.** The trace-ideal formula and
+lower-filtration different formula give a nonzero linear graded trace; higher norm terms vanish
+at the next base depth. This includes the tame case `t = 0` and supplies the successive-
+approximation step for deep norm surjectivity, independently of Hasse–Arf. Native
+`TauCeti.normGradedMap_after_break` in `Norm/AfterBreak.lean` proves this on native carriers;
+the native norm abbreviation and explicit depth/jump comparisons close this wrapper. -/
+theorem normGradedMap_after_break [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L]
+    (ℓ : ℕ) [Fact ℓ.Prime] (_hdegree : Module.finrank K L = ℓ)
+    (_htr : IsTotallyRamified K L) (v t : ℕ) (_hvt : t < v)
+    (_ht : UpperJump K L
+      ⟨(t : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg t)⟩) :
+    Function.Bijective (normGradedMap K L v) := by
+  have hprime : (Module.finrank K L).Prime := _hdegree.symm ▸ (Fact.out : ℓ.Prime)
+  exact TauCeti.normGradedMap_after_break hprime _hvt
+    ((upperJump_iff_native K L _).mp _ht)
+
+/-- **Layer 3, Hasse–Arf.** Every upper jump of a finite abelian Galois extension is integral.
+
+The proof target is decomposed in the README: first construct the complete lower-break data for
+cyclic totally ramified extensions of degree `p^r`, including the Sen divisibility
+`p^(j+1) ∣ (b_(j+1) - b_j)` only for `j + 1 < r`; then derive integral upper breaks from the
+Herbrand sum. Next detect each positive jump by a cyclic p-primary quotient, compare after removing
+its unramified part, and handle `-1`, `0`, and degree one separately. These are independent
+prerequisites of this theorem; the prime-degree norm-index results are not used to assert the
+cyclic p-power divisibility. -/
 theorem hasseArf [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L]
     (hcomm : ∀ σ τ : L ≃ₐ[K] L, σ * τ = τ * σ)
@@ -1408,7 +1512,144 @@ theorem tameCharacter_conj_of_smul_eq_pow {G : Type w} [Group G] [MulSemiringAct
       TauCeti.tameCharacter (G := G) hϖ ⟨σ, hσ⟩ ^ q :=
   Units.ext <| by rw [tameCharacter_conj hϖ g σ hσ, hg, Units.val_pow_eq_pow_val]
 
+/-- **Layer 3, the residue form of the positive-level embedding**
+`θ_{n+1} : G_{n+1}/G_{n+2} → 𝓀[L]⁺` attached to a uniformizer `ϖ`: Tau Ceti's unit-quotient
+embedding `TauCeti.ramificationGroupGradedToUnitFiltrationGraded`, which does not depend on `ϖ`,
+followed by the residue coordinate `TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer`
+of `ϖ`, which does.
+
+⚠ Unlike the tame character, this map **depends on the uniformizer**: replacing `ϖ` by `ϖ u`
+multiplies it by `residue u ^ (-(n+1))` (`wildRamificationCharacter_change`). Injectivity and the
+action formula do not determine it, since multiplying it by a nonzero residue scalar preserves
+both; the representative formula `wildRamificationCharacter_mk` does. Over `k = 𝔽₄`,
+`K = k((s))` and `L = K(π)` with `π² + sπ + s = 0`, the nonidentity automorphism has
+`σ π = π + s`, break one, and value `residue (s/π²) = 1`; replacing the character by `ω` times
+it, for `ω ∈ 𝔽₄ \ 𝔽₂`, turns the norm polynomial `y ↦ y² + y` of `normGradedMap_at_break_apply`
+into `y ↦ y² + ω y`, which is not the norm. -/
+noncomputable def wildRamificationCharacter {G : Type w} [Group G] [MulSemiringAction G L]
+    [IsInvariantSubring G 𝒪[L]] {ϖ : 𝒪[L]} (hϖ : Irreducible ϖ) (n : ℕ) :
+    Additive (TauCeti.IsLocalRing.RamificationGroupGraded G 𝒪[L] ((n + 1 : ℕ) : ℤ)) →+ 𝓀[L] :=
+  (TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer n ϖ hϖ).toAddMonoidHom.comp
+    (MonoidHom.toAdditive
+      (TauCeti.ramificationGroupGradedToUnitFiltrationGraded (G := G) (n + 1) hϖ))
+
+/-- **Layer 3, the representative formula for the positive-level residue character:**
+`θ_{n+1}(σ) = residue ((σ ϖ − ϖ) / ϖ^(n+2))`, with the quotient written as an integral element
+`x`. -/
+theorem wildRamificationCharacter_mk {G : Type w} [Group G] [MulSemiringAction G L]
+    [IsInvariantSubring G 𝒪[L]] {ϖ : 𝒪[L]} (hϖ : Irreducible ϖ) (n : ℕ)
+    (σ : TauCeti.IsLocalRing.ramificationGroup G 𝒪[L] ((n + 1 : ℕ) : ℤ)) (x : 𝒪[L])
+    (hx : (x : L) * (ϖ : L) ^ (n + 2) = (σ : G) • (ϖ : L) - (ϖ : L)) :
+    wildRamificationCharacter (G := G) hϖ n
+        (Additive.ofMul
+          (QuotientGroup.mk σ :
+            TauCeti.IsLocalRing.RamificationGroupGraded G 𝒪[L] ((n + 1 : ℕ) : ℤ))) =
+      IsLocalRing.residue 𝒪[L] x :=
+  sorry
+
+/-- **Layer 3, the change of uniformizer for the positive-level residue character.** If
+`ϖ' = ϖ u`, the character at `ϖ` is `residue u ^ (n+1)` times the character at `ϖ'`, in Tau
+Ceti's convention for `TauCeti.uniformizerChangeResidueAddEquiv`. The tame character, by
+contrast, does not depend on the choice (`TauCeti.tameCharacter_eq_of_irreducible`). -/
+theorem wildRamificationCharacter_change {G : Type w} [Group G] [MulSemiringAction G L]
+    [IsInvariantSubring G 𝒪[L]] {ϖ ϖ' : 𝒪[L]} (hϖ : Irreducible ϖ) (hϖ' : Irreducible ϖ')
+    (n : ℕ)
+    (x : Additive (TauCeti.IsLocalRing.RamificationGroupGraded G 𝒪[L] ((n + 1 : ℕ) : ℤ))) :
+    wildRamificationCharacter (G := G) hϖ n x =
+      TauCeti.uniformizerChangeResidueAddEquiv ϖ ϖ' hϖ hϖ' (n + 1)
+        (wildRamificationCharacter (G := G) hϖ' n x) :=
+  sorry
+
 end TameCharacter
+
+/-- **Layer 3, the positive prime-degree break as a polynomial.** With `t = n + 1` the break,
+the graded norm in uniformizer coordinates is `y ↦ residue(a)^t · (y^ℓ − c^{ℓ−1}·y)`. Here `c` is
+the base residue whose image under the canonical map `𝓀[K] → 𝓀[L]` (bijective by total
+ramification) is the residue form of `θ_t` at `πL`, evaluated at a class `σ ∉ G_{t+1}`; the
+input coordinate is that of `πL` at depth `ψℕ(t)`; and the output coordinate is that of `πK`,
+where `N_{L/K}(πL) = πK · a`. For the compatible choice `πK = N_{L/K}(πL)`, `a = 1` and the
+factor disappears.
+
+⚠ This equation, not the kernel and cokernel counts of `normGradedMap_at_break`, is what pins
+`c`: rescaling the positive-level character changes `c` and the polynomial but not the counts.
+The residue-field identification is the canonical `algebraMap`, not an arbitrary equivalence,
+since composing with Frobenius of `𝓀[K] = 𝔽₄` gives another equivalence of the same type. The
+factor `residue(a)^t` is not optional: in the `𝔽₄` example of `wildRamificationCharacter`,
+`N(π) = s`, `c = 1`, `N(1 + yπ) = 1 + (y² + y)s`, and with `πK = ωs`, so that `a = ω⁻¹`, the
+depth-one output coordinate is `ω⁻¹(y² + y)`. The ramification groups are written as Tau Ceti's
+`TauCeti.IsLocalRing.ramificationGroup`, which is `lowerRamificationGroup` by
+`TauCeti.LocalFieldsRamification.lowerRamificationGroup_def`. -/
+theorem normGradedMap_at_break_apply [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L]
+    (ℓ : ℕ) [Fact ℓ.Prime] (_hdegree : Module.finrank K L = ℓ)
+    (_htr : IsTotallyRamified K L) (n : ℕ)
+    (_ht : UpperJump K L
+      ⟨((n + 1 : ℕ) : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg (n + 1))⟩)
+    (m : ℕ) (hm : psiNat K L (n + 1) = m + 1)
+    (πL : 𝒪[L]) (hπL : Irreducible πL) (πK : 𝒪[K]) (hπK : Irreducible πK)
+    (a : (↥𝒪[K])ˣ) (ha : ((πK * (a : ↥𝒪[K]) : ↥𝒪[K]) : K) = Algebra.norm K (πL : L))
+    (σ : TauCeti.IsLocalRing.ramificationGroup (L ≃ₐ[K] L) 𝒪[L] ((n + 1 : ℕ) : ℤ))
+    (_hσ : (σ : L ≃ₐ[K] L) ∉
+      TauCeti.IsLocalRing.ramificationGroup (L ≃ₐ[K] L) 𝒪[L] (((n + 1 : ℕ) : ℤ) + 1))
+    (c : 𝓀[K])
+    (_hc : algebraMap 𝓀[K] 𝓀[L] c =
+      wildRamificationCharacter (G := L ≃ₐ[K] L) hπL n
+        (Additive.ofMul
+          (QuotientGroup.mk σ :
+            TauCeti.IsLocalRing.RamificationGroupGraded (L ≃ₐ[K] L) 𝒪[L] ((n + 1 : ℕ) : ℤ))))
+    (y : 𝓀[K]) :
+    TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer n πK hπK
+        (Additive.ofMul
+          (normGradedMap K L (n + 1)
+            (cast (congrArg (UnitFiltrationGraded L) hm.symm)
+              (Additive.toMul
+                ((TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer m πL hπL).symm
+                  (algebraMap 𝓀[K] 𝓀[L] y)))))) =
+      IsLocalRing.residue 𝒪[K] (a : ↥𝒪[K]) ^ (n + 1) * (y ^ ℓ - c ^ (ℓ - 1) * y) :=
+  sorry
+
+/-- The Eisenstein polynomial `X² − 3` defining the tame quadratic extension `ℚ₃(√3)`. -/
+noncomputable def q3Sqrt3Polynomial : Polynomial ℚ_[3] :=
+  Polynomial.X ^ 2 - Polynomial.C 3
+
+noncomputable instance q3Sqrt3Polynomial_irreducible :
+    Fact (Irreducible q3Sqrt3Polynomial) :=
+  ⟨sorry⟩
+
+/-- **Layer 3, worked example: the field `ℚ₃(√3)`**, with the local-field structure of Layer 0.I
+and Layer 0.III. -/
+abbrev Q3Sqrt3 : Type := AdjoinRoot q3Sqrt3Polynomial
+
+noncomputable instance q3Sqrt3ModuleFinite : Module.Finite ℚ_[3] Q3Sqrt3 :=
+  sorry
+
+noncomputable instance q3Sqrt3ValuativeRel : ValuativeRel Q3Sqrt3 :=
+  finiteExtensionValuativeRel ℚ_[3] Q3Sqrt3
+
+noncomputable instance q3Sqrt3TopologicalSpace : TopologicalSpace Q3Sqrt3 :=
+  finiteExtensionNormedFieldTopology ℚ_[3] Q3Sqrt3
+
+noncomputable instance q3Sqrt3ValuativeExtension : ValuativeExtension ℚ_[3] Q3Sqrt3 :=
+  finiteExtension_valuativeExtension ℚ_[3] Q3Sqrt3
+
+noncomputable instance q3Sqrt3IsNonarchimedeanLocalField :
+    IsNonarchimedeanLocalField Q3Sqrt3 :=
+  finiteExtension_isNonarchimedeanLocalField ℚ_[3] Q3Sqrt3
+
+/-- `ℚ₃(√3)/ℚ₃` is a totally ramified quadratic extension. -/
+theorem q3Sqrt3_finrank_and_totallyRamified :
+    Module.finrank ℚ_[3] Q3Sqrt3 = 2 ∧ IsTotallyRamified ℚ_[3] Q3Sqrt3 :=
+  sorry
+
+/-- **Layer 3, the unshifted norm inclusion fails.** In `ℚ₃(√3)` the base-field unit `4` lies in
+`U(L,2)`, since `v_L(4 − 1) = v_L(3) = 2`, while its norm `16` does not lie in `U(ℚ₃,2)`, since
+`v_3(16 − 1) = 1`. The Herbrand shift of `map_norm_unitFiltration_psiNat_le` is necessary. -/
+theorem norm_four_not_mem_unitFiltration_two :
+    let u : Q3Sqrt3ˣ := Units.map (algebraMap ℚ_[3] Q3Sqrt3).toMonoidHom
+      (Units.mk0 (4 : ℚ_[3]) (by norm_num))
+    u ∈ unitFiltration Q3Sqrt3 2 ∧
+      Units.map (Algebra.norm ℚ_[3] : Q3Sqrt3 →* ℚ_[3]) u ∉ unitFiltration ℚ_[3] 2 :=
+  sorry
 
 /-! ## Layer 4: the absolute Galois group, wild inertia, and the tame quotient
 
@@ -1420,8 +1661,9 @@ objects with the Galois-theoretic ones. -/
 
 section Layer4
 
-/- A declaration below that carries a Tau Ceti name shadows the opened namespace; deleting it when
-the pin moves makes each of its uses resolve to Tau Ceti's declaration. -/
+/- The local declarations below take precedence over the opened namespace. Replace each by a
+native adapter only after checking its carrier, hypotheses and universe transport; an opened
+namespace alone does not supply that comparison. -/
 open TauCeti
 
 variable (p : ℕ) [Fact p.Prime]
@@ -1479,36 +1721,33 @@ instance finiteGaloisLowerRamificationGroup_normal
 
 /-! ### Inertia and arithmetic Frobenius lifts, from Tau Ceti
 
-Tau Ceti's inertia subgroup and arithmetic Frobenius lifts are newer than the Tau Ceti revision
-this library is pinned to, so they are stated here once, under their Tau Ceti names and with their
-Tau Ceti signatures. -/
+The native inertia subgroup and arithmetic Frobenius lifts are available in
+`Unramified/Inertia/Basic.lean`. The local comparison targets below must be related to these
+native objects before they can be counted as native reuse. -/
 
 /-- **Layer 4, inertia** `I_K = Gal(K^al/K^ur)`, the fixing subgroup of
 `maximalUnramifiedExtension K (AlgebraicClosure K)`. Tau Ceti's `TauCeti.inertiaSubgroup`
-(`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`); stated here because the pinned Tau
-Ceti revision predates it; replaced by the import when the pin moves. -/
+(`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`); a roadmap-local comparison target for the native declaration. -/
 noncomputable def inertiaSubgroup (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsNonarchimedeanLocalField K] : Subgroup (Field.absoluteGaloisGroup K) :=
   sorry
 
 /-- **Layer 4.** Inertia is closed in the Krull topology. Tau Ceti's
-`TauCeti.isClosed_inertiaSubgroup` (`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`);
-stated here because the pinned Tau Ceti revision predates it; replaced by the import when the pin
-moves. -/
+`TauCeti.isClosed_inertiaSubgroup` (`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`);
+a roadmap-local comparison target for the native declaration. -/
 theorem isClosed_inertiaSubgroup :
     IsClosed (inertiaSubgroup K : Set (Field.absoluteGaloisGroup K)) :=
   sorry
 
 /-- **Layer 4.** Inertia is normal, because `K^ur/K` is normal. Tau Ceti's
-`TauCeti.inertiaSubgroup_normal` (`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`);
-stated here because the pinned Tau Ceti revision predates it; replaced by the import when the pin
-moves. -/
+`TauCeti.inertiaSubgroup_normal` (`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`);
+a roadmap-local comparison target for the native declaration. -/
 instance inertiaSubgroup_normal : (inertiaSubgroup K).Normal :=
   sorry
 
 /-- **Layer 4, inertia under the name `ClassFieldTheory` states against**: a reducible alias of
-Tau Ceti's `TauCeti.inertiaSubgroup`, so that a statement about `inertia K` is a statement about
-it. -/
+the local `inertiaSubgroup` comparison target. Its identification with native
+`TauCeti.inertiaSubgroup` requires the preceding carrier comparison. -/
 noncomputable abbrev inertia : Subgroup (Field.absoluteGaloisGroup K) :=
   inertiaSubgroup K
 
@@ -1524,8 +1763,7 @@ theorem map_restrictNormalHom_inertia
 /-- **Layer 4, restriction to `K^ur`**, `G_K →* Gal(K^ur/K)`: a continuous surjection with kernel
 `I_K`, which with `maximalUnramifiedGaloisGroupEquivZHat` is the exact sequence
 `1 → I_K → G_K → Ẑ → 1`. Tau Ceti's `TauCeti.restrictMaximalUnramifiedHom`
-(`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`); stated here because the pinned Tau
-Ceti revision predates it; replaced by the import when the pin moves. -/
+(`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`); a roadmap-local comparison target for the native declaration. -/
 noncomputable def restrictMaximalUnramifiedHom :
     Field.absoluteGaloisGroup K →* Gal(maximalUnramifiedExtension K (AlgebraicClosure K)/K) :=
   sorry
@@ -1535,40 +1773,36 @@ Frobenius of `K^ur`. They form a left coset of `I_K`
 (`TauCeti.IsArithFrobeniusLift.setOf_eq_leftCoset`), and each of them generates `G_K`
 topologically together with `I_K`
 (`TauCeti.IsArithFrobeniusLift.topologicalClosure_zpowers_sup_inertiaSubgroup`). Tau Ceti's
-`TauCeti.IsArithFrobeniusLift` (`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`), with
-its Tau Ceti body; stated here because the pinned Tau Ceti revision predates it; replaced by the
-import when the pin moves. -/
+`TauCeti.IsArithFrobeniusLift` (`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`), with
+its local comparison body; a roadmap-local comparison target for the native declaration. -/
 def IsArithFrobeniusLift (σ : Field.absoluteGaloisGroup K) : Prop :=
   restrictMaximalUnramifiedHom K σ = maximalUnramifiedFrobenius K (AlgebraicClosure K)
 
 /-- **Layer 4.** Arithmetic Frobenius lifts exist, because restriction to `K^ur` is surjective.
 Tau Ceti's `TauCeti.exists_isArithFrobeniusLift`
-(`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`); stated here because the pinned Tau
-Ceti revision predates it; replaced by the import when the pin moves. -/
+(`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`); a roadmap-local comparison target for the native declaration. -/
 theorem exists_isArithFrobeniusLift :
     ∃ σ : Field.absoluteGaloisGroup K, IsArithFrobeniusLift K σ :=
   sorry
 
 /-- **Layer 4, the unramified quotient** `G_K/I_K`. Tau Ceti's `TauCeti.unramifiedQuotient`
-(`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`), with its Tau Ceti body; stated here
-because the pinned Tau Ceti revision predates it; replaced by the import when the pin moves.
+(`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`), with its local comparison body; stated here
+a roadmap-local comparison target for the native declaration.
 ⚠ Named, because `ClassFieldTheory` Layer 9 defines the local Weil group through the map to it,
 and a nameless quotient cannot be the subject of that definition. -/
 abbrev unramifiedQuotient : Type u :=
   Field.absoluteGaloisGroup K ⧸ inertiaSubgroup K
 
 /-- **Layer 4, the unramified degree map** `G_K ↠ G_K/I_K`, the quotient map. Tau Ceti's
-`TauCeti.unramifiedDegree` (`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`), with its
-Tau Ceti body; stated here because the pinned Tau Ceti revision predates it; replaced by the
-import when the pin moves. -/
+`TauCeti.unramifiedDegree` (`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`), with its
+local comparison body; a roadmap-local comparison target for the native declaration. -/
 noncomputable def unramifiedDegree :
     Field.absoluteGaloisGroup K →* unramifiedQuotient K :=
   QuotientGroup.mk' (inertiaSubgroup K)
 
 /-- **Layer 4.** Restriction to `K^ur` identifies the unramified quotient with `Gal(K^ur/K)` as a
 topological group. Tau Ceti's `TauCeti.quotientInertiaSubgroupEquiv`
-(`TauCeti/NumberTheory/LocalField/Unramified/Inertia.lean`); stated here because the pinned Tau
-Ceti revision predates it; replaced by the import when the pin moves. -/
+(`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean`); a roadmap-local comparison target for the native declaration. -/
 noncomputable def quotientInertiaSubgroupEquiv :
     unramifiedQuotient K ≃ₜ* Gal(maximalUnramifiedExtension K (AlgebraicClosure K)/K) :=
   sorry
