@@ -31,6 +31,13 @@ circular units. Real-field norm-generated circular units give the integral divis
 with equality after inverting `p`; at 2 their quotient can retain a height-one factor `(2)`.
 The CM-plus intersection lattice is a separate construction. The ray transfer of §4.24
 allows abelian fields with cyclic `p`-Sylow subgroup, as required in §4.25.
+The local norm, trace, interpolation, normalized arithmetic Coleman map and odd-prime
+principal sequence are supplied by IntegralIwasawaTheory §§7.1–7.3;
+ColemanPowerSeries supplies explicit carrier comparisons and refinements. The all-prime
+sequence over unramified arithmetic coefficient fields is a target of §4.4.
+Rubin's local functional (§0.30) uses cyclotomic tensor algebras over `ℚ_p` and `ℤ_p`,
+with the sum of the traces from all completions above `p` and unramified interpolation
+applied componentwise.
 The Coleman, Gauss-logarithm and ray-class comparisons and
 Gras formulas (§§4.3–4.8, 4.18–4.19, 4.23–4.26) also need the specified Coleman operators,
 normalised Iwasawa logarithm, norm limits of semilocal circular-unit closures, ordinary
