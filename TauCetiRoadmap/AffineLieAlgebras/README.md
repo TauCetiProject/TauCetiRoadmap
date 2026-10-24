@@ -8,6 +8,15 @@ coordinate and Poisson compatibility. Build usable maps, transport,
 extensionality, quotients and examples with each object, not just a path to
 these headline theorems.
 
+Also construct the positive even-lattice vertex algebra and its ADE degree-one
+Lie comparison as the independent C7 branch below. Its early formal vertex
+and abelian Heisenberg/Fock foundations are generic and do not assume the
+affine vacuum, the critical-center theorem, or the signed-ADE Jacobi proof.
+The later ADE specialization consumes the existing integral-lattice and
+signed-ADE carriers, compares raw brackets, and derives raw Jacobi from the
+vertex zero-product theorem. Neither this branch nor the elementary
+signed-Jacobi/folding route is a premise of the other.
+
 Basic current/vertex theory is over a characteristic-zero field 𝕜. Continuous
 classification, integration and center theorems concern a finite-dimensional
 complex simple Lie algebra g; simple includes nonabelian. Coefficients have
@@ -56,6 +65,11 @@ Consume rather than duplicate:
   invariants, their degrees/exponents and Kostant regular/slice prerequisites;
   A7 builds the jet/arc invariant theorem from those exact exports. No second finite-dimensional
   representation or root-system development is requested here.
+- [IntegralLattices](../IntegralLattices/README.md): the existing `IntegralLattice` carrier,
+  integral bilinear form, evenness and positive-definiteness. C7 consumes these actual
+  predicates and does not require unimodularity. [RootSystems](../RepresentationTheory/RootSystems/README.md)
+  supplies finite ADE root data; the degree-one target is the signed carrier in
+  [`ReductiveGroups/SignedADETargets.lean`](../ReductiveGroups/SignedADETargets.lean).
 - [FormalConnectionsOpers F1–F8](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1056): pinned
   original G(R((t))), positive congruence groups K_N, dual G∨, regular and
   punctured DS opers, coordinate action, function algebras, Miura transforms
@@ -425,6 +439,323 @@ coherence belong to GeometricRepresentationCategories; full groupoid integration
 remains conjectural there. Construct the vacuum vertex Poisson structure
 from ℏ-linear polar products. Division is justified by this flat family.
 
+## C7. Positive even-lattice vertex algebras and ADE degree one
+
+Its phases are ordered as follows: (i) a generic formal vertex-algebra
+foundation on native Hahn fields, including residue products, vacuum,
+translation, locality closure and reconstruction; (ii) an abelian Heisenberg
+central extension and symmetric Fock representation built from a complex
+vector space with a symmetric bilinear form; (iii) the positive even-lattice charge
+algebra, full Fock space and fields; (iv) conformal grading and transport;
+(v) the generic weight-one zero-product Lie theorem; (vi) the ADE comparison
+with the raw signed bracket; and (vii) the separate pinned-generator
+normalization. The generic phases precede and do not consume A6's affine
+vacuum or A7's critical-level theorem. Their operator covariance,
+coefficient reconstruction, internal grading and zero-mode laws are explicit
+construction targets, not an assumed vertex facade. The ADE phase does not install the
+SignedADE LieRing/LieAlgebra structures: it proves raw integral Jacobi by
+scalar-extension injectivity.
+
+This is a separate construction branch in this owner. It consumes the current
+`TauCeti.IntegralLattice` carrier and its evenness/positive-definiteness
+contracts from [IntegralLattices](../IntegralLattices/README.md), the finite
+root-system realizations/classification from [Root Systems](../RepresentationTheory/RootSystems/README.md),
+and the ADE root-lattice/norm-two-shell bridge owned by
+[ReductiveGroups RG9A.1a](../ReductiveGroups/README.md),
+together with the actual signed Lie carrier and bracket in
+[`ReductiveGroups/SignedADETargets.lean`](../ReductiveGroups/SignedADETargets.lean).
+It reuses the actual `HVertexOperator`/Hahn-series coefficient carrier and the
+field conventions recorded in A5–A6. A6's affine vacuum `Vκ` is not the lattice
+state space, and no assertion about `Vκ` proves a lattice-VOA law. C7 builds
+the lattice state space and fields separately, and proves its own vacuum,
+translation, truncation, locality and Borcherds identities. No signed-Jacobi,
+folding, compact-normalizer or Feigin–Frenkel theorem is a premise of this
+branch.
+
+**Inputs and normalization.** Work over `ℂ`. An input is a finite-rank,
+nondegenerate positive-definite even integral lattice `(L,B)` in the existing
+`TauCeti.IntegralLattice` carrier. Even means `B(α,α)∈2ℤ`; write
+`q(α)=B(α,α)/2∈ℤ`. Neither unimodularity nor self-duality is assumed. Choose a
+`ℤ`-basis with a total order. One normalized sign cocycle is
+
+    ε(α,β) = (−1)^( Σ_{i>j} B(b_i,b_j) α_i β_j ).
+
+Prove its unit, normalized 2-cocycle law and
+`ε(α,β) ε(β,α)⁻¹=(−1)^(B(α,β))`. The lattice central extension is the actual
+group `L̂=L×{±1}` with
+`(α,s)(β,t)=(α+β, st ε(α,β))`; its central involution acts by `−1` on the
+state space. Define the twisted group algebra `ℂ_ε[L]` on `L→₀ℂ` with
+`e^α e^β=ε(α,β)e^(α+β)`. Its associativity and unit are consequences of the
+cocycle equations, not extra assumptions. The displayed basis construction is
+an explicit choice, not an assertion that a lattice has a preferred ordered
+basis. If `ε'/ε` is the coboundary of `c:L→{±1}`, prove the induced map on
+basis vectors and its inverse; homomorphic changes of lift differ by a
+character of `L`. Lattice isometries act on the oscillator space and extend to
+the twisted group algebra only after the corresponding cocycle cochain is
+specified and checked.
+
+**Oscillators and state space.** Put `H=ℂ⊗ℚ(L⊗ℤℚ)` and extend `B` complex
+bilinearly; it remains symmetric. The loop-mode space is the finitely supported
+family `ℤ →₀ H`, with a one-dimensional central coordinate, so the Heisenberg
+carrier is `(ℤ →₀ H) × ℂ`. Its bracket has zero loop coordinate and central
+coordinate
+
+    c(x,y) = Σ_(m∈ℤ) m B(x_m,y_(−m)).
+
+The sum is finite because `x` and `y` have finite support. Symmetry of `B`
+makes `c(y,x)=−c(x,y)`; centrality then makes Jacobi immediate from the
+vanishing loop coordinate. The mode number is an index of a family, not an
+additive coordinate of a single mode. The oscillator generators are the
+finite-support direct sum `⊕_(n>0) H t^(−n)`. Define the Fock space, including
+every lattice charge, by
+
+    V_L = Sym_ℂ( ⊕_(n>0) H t^(−n) ) ⊗_ℂ ℂ_ε[L].
+
+For `h∈H` and `n>0`, `h(−n)` is multiplication by the corresponding
+symmetric-algebra generator and `h(n)` is its contraction derivation, with
+`h(n)` acting on a generator `k(−m)` by
+`n B(h,k) δ_(n,m)`. Define `h(0)e^α=B(h,α)e^α`. The generic oscillator action
+is a family in the actual symmetric bilinear form `B`, its symmetry input,
+every `n∈ℤ` and `h∈H`; its defining creation, contraction, zero-mode and
+commutator equations retain all these operands. Degenerate symmetric forms
+remain allowed in this generic phase. An admitted constructor, when used as
+a prototype, retains its determining data inside one complete dependent-Pi
+family; an unchanged result carrier alone cannot encode dependence on `B`. Prove on all
+Fock monomials
+that
+
+    [h(m),k(n)] = m B(h,k) δ_(m+n,0) · id.
+
+Assemble these operators and `c ↦ c·id` into a linear representation of the
+full finitely supported loop plus center, and state its bracket-intertwining
+law. The vacuum is `1⊗e^0`, and the charge vector is `e^α=1⊗e^α`. Give the
+actual Heisenberg representation, not only a formal collection of modes.
+Identify the charge-zero oscillator sector with the generic symmetric Fock
+representation by an explicit linear embedding and prove that every integer
+mode intertwines; its zero mode vanishes on the generic oscillator vacuum.
+On a charged vector retain the distinct formula
+`h(0)e^α=B(h,α)e^α`, and prove it is the charged specialization of the same
+Heisenberg representation.
+
+**Translation from the oscillator algebra.** Before any reconstruction or
+bundled vertex axioms, construct the unique complex-linear derivation `δ` of
+the symmetric oscillator algebra satisfying
+
+    δ(1)=0,  δ(uv)=δ(u)v+uδ(v),
+    δ(h(−m))=m h(−(m+1))  (m>0).
+
+A concrete construction sends each generator `g` to `ι(g)+ε ι(shift(g))`
+in the square-zero extension of the symmetric algebra by itself and uses the
+symmetric-algebra universal map; its constant component is the identity and
+its ε component is `δ`. Prove the linear, unit, product and generator equations
+for that actual map. Define the Fock translation by bilinear extension of
+
+    T(u⊗e^α)=(δ(u)+u α(−1))⊗e^α.
+
+Prove `T1=0`, `Te^α=α(−1)e^α` and independently prove the operator equation
+`[T,h(n)]=−n h(n−1)` for every integer `n`. Negative modes use the derivation
+law; for `n≥2` use the contraction derivations; at `n=1` the charge multiplication
+term supplies `−h(0)`; at `n=0` the operators commute. Derive charge-field
+covariance `[T,Y(e^α,z)]=∂_zY(e^α,z)` from the actual finite charge coefficient
+formula on every oscillator word and charge, then extend by the independent
+spanning theorem for Fock monomials. These proofs precede the generic vertex
+bundle and do not use its covariance projection.
+
+**Fields and finiteness.** Use the convention
+`Y(a,z)=Σ_(r∈ℤ) a_(r) z^(−r−1)`. For a charge vector set
+
+    E⁻_α(z)=exp( Σ_(n>0) α(−n) z^n/n ),
+    E⁺_α(z)=exp(−Σ_(n>0) α(n) z^(−n)/n ),
+    Y(e^α,z)=E⁻_α(z) E⁺_α(z) e_α z^(α(0)),
+
+where `e_α` is left multiplication by the basis vector in the twisted group
+algebra and `z^(α(0))e^β=z^(B(α,β))e^β`. Extend to a general Fock monomial by
+normal ordering: the field of
+`h₁(−m₁)…h_s(−m_s)e^α` is the normally ordered product of
+`(m_i−1)!⁻¹ ∂^(m_i−1)h_i(z)` with `Y(e^α,z)`, with negative modes to the
+left of nonnegative modes. For actual fields `A,B`, pin the binary normal
+product by
+
+    (:A B:)_(n) v = Σ_(i<0) A_(i) B_(n−1−i) v
+                    + Σ_(i≥0) B_(n−1−i) A_(i) v.
+
+For each fixed `n,v`, prove both tails vanish, evaluate this as a finite
+symmetric-cutoff sum and prove stability under enlarging the cutoff. Define
+the normal product of a list by recursion on the actual ordered list and
+final charge field. Divided derivatives retain their actual input field and
+positive derivative index. Prove each coefficient is a finite sum on every
+fixed Fock monomial; the resulting series has the required Hahn support. Prove
+reindexing and multiplication identities coefficientwise. This is a formal
+construction: no analytic convergence is asserted.
+
+In particular, on `u=h₁(−m₁)…h_s(−m_s)e^β`, the charge field has the
+normal-ordered action
+
+    Y(e^α,z)u = ε(α,β) z^B(α,β)
+      exp(Σ_(n>0) α(−n)z^n/n)
+      ∏_j (h_j(−m_j) − B(α,h_j)z^(−m_j)) e^(α+β).
+
+For normalized mode `r`, choose the subset `J` of oscillator factors that
+contract with `α`; its exponential degree is
+`q_J=−r−1−B(α,β)+Σ_(j∈J)m_j`. The term is zero when `q_J<0`. Otherwise its
+coefficient is the product of the contractions `∏_(j∈J)(−B(α,h_j))`, the
+uncontracted creation operators, and the finite partition sum for
+`exp(Σ_(n>0)α(−n)z^n/n)` at degree `q_J`. That sum ranges over the finitely many
+multiplicities `k_1,…,k_(q_J)≥0` with `Σ n k_n=q_J` and has coefficient
+`∏_n α(−n)^(k_n)/(n^(k_n) k_n!)`. State the coefficient equation for every
+word, both charges and every integer mode; this is the actual finite formula,
+not an alias of the state-field coefficient.
+
+Prove truncation for sufficiently large positive normalized indices
+(``a_(n)b=0`` for all ``n≥N``), the vacuum-field identity, absence of negative
+powers in ``Y(a,z)1``, and the full creation identity
+``Y(a,z)1=e^(zT)a`` coefficient by coefficient (not only its constant term). Require ``T1=0`` and the derivative identity ``Y(Ta,z)=∂_zY(a,z)``
+with the normalized mode shift. The early generic creative/local interface additionally requires the
+independent operator-covariance axiom ``[T,Y(a,z)]=∂_zY(a,z)`` on every state;
+in normalized modes this is ``T a_(n)−a_(n) T=−n a_(n−1)``. The generic
+covariance theorem projects this axiom. State derivative and full creation are
+retained, but are not used to infer this missing operator law. For the lattice
+construction, establish covariance of the actual Heisenberg and charge fields
+independently from the concrete translation above. Prove coefficient-level
+closure under each divided derivative and binary normal product using the
+existing finite-tail witnesses with a common cutoff for `v`, `Tv` and the
+shifted coefficients. Reindex the split negative/nonnegative sums; the only
+boundary at index zero has factor zero. Induct on the ordered list of factors,
+use the actual all-word normal-order equations and Fock spanning to obtain
+covariance for every state. Supply this pre-bundle theorem to the generic axiom
+field when constructing `latticeGradedVertexAxioms`. Reconstruction must consume
+covariant generating fields and cannot create its own missing hypothesis. Prove skew symmetry and the Borcherds/Jacobi
+identity for every three states. Prove locality in the actual
+coefficient convention: for each `a,b∈V_L` some `N≥0` satisfies
+`(z−w)^N[Y(a,z),Y(b,w)]=0` after the two iterated Hahn expansions are mapped
+to their common coefficient identities. For charge fields the exponent comes
+from `B(α,β)` and the commutator of `ε`; evenness is what gives an ordinary
+vertex algebra, rather than an odd-lattice vertex superalgebra. Reconstruct the
+state-field map from the Heisenberg and charge fields and prove uniqueness;
+prove all state-field, product and translation equations, not only locality of
+the generators. The resulting structure is a vertex operator algebra in the
+standard characteristic-zero sense specified by the A6 conventions. In this
+normalization ``Y(a,z)=Σ_n a_(n)z^(−n−1)``, define conformal operators by
+``L_m=ω_(m+1)``. The Virasoro relation is
+
+    [L_m,L_n]=(m−n)L_(m+n) + rank(L)/12 · (m^3−m)δ_(m+n,0) id.
+
+In normalized state modes this is
+
+    [ω_(m),ω_(n)]=(m−n)ω_(m+n−1)
+      + rank(L)/12 · ((m−1)^3−(m−1))δ_(m+n,2) id.
+
+The translation operator is ``L_(−1)=ω_(0)``. These shifts are part of the
+chosen coefficient convention.
+
+**Conformal grading.** Choose a complex-orthonormal basis `{h_i}` of the
+nondegenerate complex bilinear space `H`; the finite index type is stored as
+basis data, so install its `Fintype` witness locally when forming the finite
+sum (with local classical decidable equality). Prove basis independence of
+`ω=½Σ_i h_i(−1)^2 1`. Prove its Virasoro relations with central charge
+`rank(L)`, and prove the exact weight formula
+
+    wt(h₁(−m₁)…h_s(−m_s)e^α)=Σ_i m_i + B(α,α)/2.
+
+Thus the grading is by `ℕ`, `V_L[0]=ℂ·1`, and each homogeneous space is
+finite-dimensional. The actual monomial-span submodules form an internal
+algebraic direct sum: use native `DirectSum.IsInternal` and the canonical
+sum-of-inclusions `DirectSum.coeLinearMap`. Define the decomposition as its
+inverse, prove the inverse on each actual component is its inclusion, and
+export component evaluation, spanning and independence. The generic graded
+vertex interface has the same actual-submodule internality requirement; an
+unrelated external direct-sum isomorphism is insufficient. Use native
+`TauCeti.IntegralLattice.IsPosDef.finite_setOf_norm_le` for bounded charge sets,
+together with the finite-rank oscillator partitions; do not duplicate the
+positive-definite shell finiteness theorem in this owner. The broader evenness,
+shell classification and positive-lattice constructions remain in the written
+IntegralLattices prerequisite. Construct and prove direct-sum and isometry APIs: with the
+product cocycle,
+`V_(L⊕M) ≃ V_L ⊗ V_M` as graded vertex operator algebras and
+`ω_(L⊕M)=ω_L⊗1+1⊗ω_M`; construct each tensor-mode coefficient as the finite
+convolution with index `i+j=n−1`, prove both tails vanish for each fixed pair
+of states, and prove the result is independent of enlarging the symmetric
+cutoff. A lattice isometry plus its specified cocycle lift induces an
+isomorphism commuting with every field and conformal mode. Do not
+infer modularity, character transformation laws, rationality, `C₂`-cofiniteness,
+or holomorphicity from this construction.
+
+**ADE degree-one comparison.** For a finite simply-laced ADE Gram datum `D`
+from `SignedADETargets`, use its actual `IntegralLattice` with the explicit
+ordered-basis cocycle above, identical to `SignedADE.epsilon`. Prove that its
+norm-two shell is precisely the finite root system and that
+
+    V_(Q_D)[1] = H(−1)1 ⊕ ⨁_(α∈Q_D, B(α,α)=2) ℂ e^α.
+
+The grading contract is for every integer mode index: if `p+q−n−1≥0`, then
+`a_(n)b` lies in weight `p+q−n−1`; if that integer is negative, the mode is
+zero. Keep the coefficient evaluation `a_(n)b = coeff(Y(a),−n−1)b` explicit.
+This gives closure of the zero product from the actual field coefficient,
+rather than merely postulating a linear map on the weight-one subspace. The
+zero product `a_(0)b` makes this weight-one subspace a Lie algebra from
+the VOA axioms. Prove closure, skew symmetry and Jacobi for the zero product
+from truncation, full creation, Borcherds, translation and `V[0]=ℂ·1`; this generic theorem
+precedes the ADE specialization. Prove alternation and the Leibniz/Jacobi
+identity in the existing submodule addition. Build the literal `LieRing` by
+extending that captured additive group and the compatible complex
+`LieAlgebra` by extending the captured scalar module; expose both parent
+identities and the actual bracket evaluation. Carry these same parents
+through the lattice specialization and the raw complex-linear comparison.
+An existential unrelated additive parent cannot be transported by that
+comparison. Also prove the weight spaces form an exhaustive internal
+algebraic direct sum. Define the generic operation by the field's
+`−1` coefficient, record that evaluation equation, and prove the lattice
+specialization is exactly the separately defined lattice zero product before
+transferring the Lie laws. Define the scalar extension of the
+already-defined **raw bilinear map** `SignedADE.bracket` without installing
+the target `LieRing` or `LieAlgebra`. Construct the raw complex-linear
+comparison from weight one: send `h(−1)1` to the raw signed Cartan vector and
+each charge vector to the raw root coordinate through the chosen
+central-cover section. Verify on all pairs the four cases: Cartan–Cartan is
+zero; Cartan–root is the lattice pairing; root vectors with root-sum a root
+have coefficient `ε(α,β)`; opposite roots give `ε(α,−α) α(−1)1`; all other
+root pairs are zero. This proves the scalar-extended raw bracket satisfies
+Jacobi. Use the displayed free integral basis of the signed carrier to prove
+that its unit map into the complexification is injective, then descend this
+Jacobi identity to the raw integral bracket. For the injection use the
+actual map `x ↦ 1 ⊗ x`: `SignedADE.integralBasis D` makes the carrier free,
+so it is flat over `ℤ`; `Module.Flat.tensorProduct_mk_injective` applies with
+`R := ℤ`, `S := ℂ`, `M := Carrier D`, using the faithful `ℤ`-action on `ℂ`.
+This does not assert that `ℂ` is faithfully flat over `ℤ`. Only after this
+alternative proof may the LieRing/LieAlgebra instances be installed or used as
+comparison endpoints. Then prove the raw opposite-root and Serre-generator formulas.
+Consume Root Systems' ADE classification and the existing signed carrier and
+raw bracket; do not introduce a second root basis or Lie model. Use the
+root-lattice `Carrier` for the Lie algebra. The separate `FullCarrier D Y`
+remains the group-form-aware toral construction; it is not silently identified
+with `Q_D` for every global form.
+
+The pinned `SignedADE.normalizationSign` is a separate diagonal change of
+generators, not a lattice character. First prove the raw charge-to-raw-root
+comparison, with explicit evaluation on each Cartan oscillator and each
+norm-two charge. Extend the integral diagonal map by the native tensor-product
+`LinearEquiv.baseChange` to the complexification; prove its pure-tensor and
+inverse pure-tensor equations, then compose the raw VOA comparison with that
+same map. The transported bracket is
+explicitly ``[x,y]ₛ = S([S⁻¹x,S⁻¹y]raw)``; it is not asserted to be the
+unchanged raw epsilon bracket. Equivalently, the structure constants acquire
+``s(α)s(β)/s(α+β)``. Do not rescale just the charge side while leaving the raw
+epsilon bracket fixed. Pin the ordered basis and prove Cartan/root, root-sum,
+opposite-root, and Serre formulas for the resulting transported generators.
+
+The normalized Construction11 page-4 transcription records an attributed
+proposal: Richard suggests a vertex operator algebra containing the Lie algebra
+in degree 1 and says it uses all of `L̂`, not only `Δ̂`; the author says this
+seemed more trouble than worthwhile for their purposes. This is motivation for
+a separate construction target, not a theorem or a completed construction in
+the notes. The normalized semester-two pages 111–113 and 124 separately record
+the Borcherds central-extension Lie construction, norm-two lifts, and
+bracket/Jacobi checks. They do not establish the full lattice VOA construction
+specified in C7. Keep the attributed wording and the source records'
+transcription uncertainties; do not recast them as proof or as the author's
+chosen method. C7 does not change the independent order of RG9A signed Jacobi
+and subsequent folding work.
+
 ## A7. Vacuum center and proof prerequisites
 
 Prove Z(Vκ)=ℂ·vacuum at every noncritical κ, including zero. At critical
@@ -664,8 +995,11 @@ they do not replace them.
 ## Order, boundaries and references
 
 A1→A2→A3→A4→A5 constructs completion/category comparison independently
-of centers. A5→A6→A7→A8 supplies center proofs. Independent formal loop/DS
-suppliers feed A2/A3/A7/A8 and do not consume Feigin–Frenkel. Every listed
+of centers. A5→A6→A7→A8 supplies center proofs. C7 is a separate branch from
+finite positive even lattices, consuming the A6 field/coefficient interface and
+IntegralLattices, RootSystems and SignedADE; it does not feed A1–A8, RG9A
+Jacobi, or folding. Independent formal loop/DS suppliers feed A2/A3/A7/A8 and
+do not consume Feigin–Frenkel. Every listed
 Whitehead, free-field, invariant-jet and completion prerequisite is a target.
 Formal oper/gauge-groupoid theory retains its supplier owner.
 [GeometricRepresentationCategories](https://github.com/TauCetiProject/TauCetiRoadmap/blob/roadmap/geometric-representation-categories-20261018/TauCetiRoadmap/GeometricRepresentationCategories/README.md)
@@ -674,6 +1008,15 @@ not a foundation dependency of affine completion or centers. Compatible equivale
 separately owned precise **conjecture statement**, not an unconditional
 categorical-lift or global Langlands theorem requested here.
 
+- [Bakalov–Kac, *Twisted Modules over Lattice Vertex Algebras*](https://arxiv.org/html/math/0402315),
+  §2.2 Definition2.1 for operator translation as an axiom and the separate
+  state-derivative consequence, and §4.1 Theorem4.1 for the lattice generators
+  and translation identities. C7 retains its positive even-lattice restriction;
+  it does not introduce the odd-lattice super case.
+- [Kac, *Introduction to vertex algebras, Poisson vertex algebras, and integrable Hamiltonian PDE*](https://arxiv.org/abs/1512.00821),
+  §1.1 reconstruction: prove generator covariance before applying the
+  reconstruction theorem. The lattice coefficient and finite-tail contracts
+  above specify the construction required here.
 - [Frenkel, *Langlands Correspondence for Loop Groups*](https://math.berkeley.edu/~frenkel/loop.pdf),
   §1.3 continuous cohomology/integration, §2.1 and §3.2 left-ideal completion,
   Chapters6–8 free fields/screenings/center, §8.1.4 and §8.3 inverse dual form
