@@ -202,9 +202,9 @@ The roadmap uses the following existing material.
   fibrewise only and the passage to a global statement is an argument this roadmap owes (for
   Weierstrass models commutativity is anyway immediate from the symmetric addition formula).
   `Affine.lean`, the correspondence between commutative Hopf algebras and affine group
-  schemes (`algSpec`, `bialgSpec`, `hopfSpec`, fully faithful), landed in mathlib4#40500 on
-  2026-07-21 and is present at this repository's Mathlib pin `05ae0103` (2026-08-12). Layer 0B
-  consumes it rather than building the correspondence.
+  schemes (`algSpec`, `bialgSpec`, `hopfSpec`, fully faithful). The August 2026 source audit
+  recorded this API at Mathlib `05ae0103` (2026-08-12). Layer 0B consumes the correspondence;
+  the dated snapshot reference retains its historical source-audit scope.
 - `Mathlib/AlgebraicGeometry/Morphisms/FlatRank.lean`, which supplies `Scheme.Hom.finrank` and
   `Scheme.Hom.isLocallyConstant_finrank` — the locally constant rank that Convention 3 and
   Layer 2A are stated in terms of.
@@ -427,20 +427,70 @@ Prove compatibility with arbitrary base change.
 ### 0G. Parameter spaces for subgroup schemes
 
 Weil restriction represents maps from a fixed finite locally free source; it does not parameterise
-all subgroup schemes. Given a finite locally free commutative group scheme `G/S`, construct the
-relative Grassmannian of locally free rank-`N` quotients of its Hopf algebra. Cut out the unit,
+all subgroup schemes. This block owns the shared relative Grassmannian for a finite locally free
+`O_S`-module `E` over a scheme `S`: its functor on `T → S` is the set of locally free rank-`N`
+quotients of `E_T`, modulo quotient isomorphisms. Consume Mathlib's module-valued Grassmannian
+functor and Tau Ceti's `Module.Grassmannian.scheme`, `glueData`, `toSpec`, `chartEquiv` and
+`chartHomEquiv` on affine bases. Follow [Mathlib PR14686](https://github.com/leanprover-community/mathlib4/pull/14686)'s
+scheme design; build missing interfaces on these carriers and adopt Mathlib's when available.
+Prove affine representability, construct the universal quotient and kernel, and glue over
+trivializing affine covers of `E`. Prove independence of cover and trivializations, the relative
+universal property, and compatibility with arbitrary base change.
+For any finite locally free F, identify the N=1 Grassmannian with
+StableReduction Layer 2's `Proj_S(Sym F)`, using AVB L2A's
+`gradedSymmetricAlgebra F`, generated in degree one by the finite locally free
+module F. Prove its rank-one quotient functor-of-points equivalence, identify
+`F_P → O(1)` as the universal quotient, and make the identification and
+its O(1) comparison commute with arbitrary base change. This is the
+quotient-convention projective bundle, on the existing relative-Proj carrier.
+Construct the relative Plücker map first into `Grass_1(∧^N E)` from
+the universal exterior-power quotient
+`∧^N E_T → det(Q)` and transport it through that identification.
+Prove it is a closed immersion into `P(∧^N E)`,
+using the rank-one quotient convention `P(F)=Proj_S(Sym F)`. Consume
+[AlgebraicVectorBundles L0B–L0C,L2A](../AlgebraicVectorBundles/README.md) for the
+finite locally free sheaf, exterior powers/determinant and graded symmetric algebra,
+and [StableReduction Layer 2](../StableReduction/README.md)
+for relative Proj of finitely generated graded quasi-coherent algebras, its affine
+comparison and base change. Projective here means closed immersion into a projective
+bundle of a finite type quasi-coherent sheaf, as in
+[Stacks 01W8](https://stacks.math.columbia.edu/tag/01W8), with its morphism
+base-change API and stability under composition with a closed immersion;
+no globally trivial projective ambient space is assumed.
+Prove finite presentation and `SmoothOfRelativeDimension`, with dimension `N(n−N)` on a rank-`n` locus, the `N=0,n`
+point cases and emptiness when `N>n`. The generic relative construction is supplied here to
+flag/Schubert and other consumers, not rebuilt by them.
+
+Given a finite locally free commutative group scheme `G/S`, apply this construction to its Hopf
+algebra. Cut out the unit,
 multiplication, counit, comultiplication, antipode, and Hopf-ideal equations as closed loci. Prove
 that the relative spectrum of the universal quotient is a finite locally free subgroup scheme of
 `G`, has rank `N`, and commutes with arbitrary base change. The resulting parameter scheme is
 projective and finitely presented over `S`, with the stated universal subgroup. It is not asserted
 to be finite: for example, rank-`p` subgroup schemes of `α_p²` form a positive-dimensional family.
 
-At the current pin, Mathlib supplies the module-valued Grassmannian functor but not the relative
-Grassmannian scheme or its representability. This block constructs its affine charts, transition
-maps, gluing, and universal property. The elliptic specialization `G=E[N]` and the name
+The native affine chart/gluing construction is consumed rather than duplicated; its generic
+representability, relative extension and universal/base-change comparisons are targets of this
+block. Rank-`d` subspaces of a rank-`n` vector space correspond to quotient-rank-`n−d` of that
+space, or quotient-rank-`d` of its dual; supply both comparisons with the universal bundles.
+The elliptic specialization `G=E[N]` and the name
 `[N-Isog]` occur only in Layer 6, after `E[N]` exists.
 
-**Dependencies.** Layers 0B and 0F and Mathlib's algebraic Grassmannian functor.
+**Dependencies.** The generic block uses Mathlib's algebraic Grassmannian functor,
+exterior-power algebra and scheme gluing/morphism properties; native
+`TauCeti.RingTheory.Grassmannian.Chart.*` and
+`TauCeti.AlgebraicGeometry.Grassmannian.Basic`; AlgebraicVectorBundles L0B–L0C,L2A;
+and the general relative-Proj/projective-morphism portion of StableReduction Layer 2,
+which precedes its curve contraction consumers. The Hopf locus additionally uses
+Layer 0B's finite locally free group/Hopf algebra and closed-locus equations.
+Weil restriction in 0F is a separate parameter-space construction, not an input to
+the generic Grassmannian. SchemeAndStackFoundations' consumers of this block do not
+supply it with a later Grassmannian result.
+
+**Native provenance.** The affine Grassmannian modules are implemented at Tau Ceti
+`4f1bd4f40d0ed34139f54b8c7edc9b720bec4166`, beyond this repository's
+`a91d3aaf` dependency snapshot. Adopt these modules and build the missing interfaces
+on their carriers; this is not a claim that the snapshot already exports them.
 
 ## Layer 1: elliptic curves over a base scheme
 
@@ -1691,20 +1741,31 @@ Both that equality and the hard implication in the displayed equivalence are com
 
 ### 8C. The Axiomatic Isomorphism Theorem and the rings of §6.3
 
-Let `p` be prime and let `Φ : 𝒫₁ ⟶ 𝒫₂` be a morphism of moduli problems over `Ell`. Prove KM
-6.2.1 in the following exact form:
+Let `p` be prime and let `Φ : 𝒫₁ ⟶ 𝒫₂` be a morphism of moduli problems over `Ell`.
+Construct the morphism-compatible Axiomatic Isomorphism Theorem used in KM 6.2.1:
 
 1. both `𝒫₁` and `𝒫₂` satisfy Reg. 1, Reg. 3, and Reg. 4A;
 2. after inverting `p`, the morphism `Φ` is an isomorphism;
 3. for every algebraically closed field `k` of characteristic `p`, every supersingular
    `E₀/k`, and the universal formal deformation `𝔈/W(k)[[T]]`, the induced morphism of finite
-   `W(k)[[T]]`-schemes `(𝒫₁)_𝔈 ⟶ (𝒫₂)_𝔈` is an isomorphism.
+   `W(k)[[T]]`-schemes `(𝒫₁)_𝔈 ⟶ (𝒫₂)_𝔈` is an isomorphism;
+4. the particular arrow `Φ` has simultaneous comparison data: for every scheme `S`, elliptic
+   curves `E,E'/S` and supplied isomorphism `ξ:E[p^∞]≃E'[p^∞]`, construct isomorphisms of
+   representing `S`-schemes `c_i:(𝒫_i)_E≃(𝒫_i)_{E'}` for `i=1,2` with
+   `c₂ ∘ Φ_E = Φ_{E'} ∘ c₁`. Require compatibility of this square with the represented
+   arbitrary-base-change identifications. Comparisons need not be unique or canonical; state
+   the existence and compatible transport actually used in the proof. Separate objectwise
+   Reg. 3 is not this condition. Keep 7A's objectwise axiom for its regularity theorem.
 
 Then `Φ` is an isomorphism. Prove this by adjoining a common representable étale rigidifier,
 regarding the two finite schemes as coherent algebras on the rigidifier scheme, and showing that
-the kernel and cokernel of the induced algebra map vanish. The generic isomorphism and the
-supersingular completed-local isomorphisms put every point in the open vanishing locus; the
-homogeneity argument of Layer 7 supplies the passage between local points.
+the kernel and cokernel of the induced algebra map vanish. Under the simultaneous comparisons,
+prove that the algebra arrows are conjugate and their kernel/cokernel vanishing loci correspond;
+in particular transport the isomorphism locus of `Φ`, not just its source and target schemes.
+Construct the base-change and faithfully flat descent comparisons used in this argument; do not
+assert that arbitrary nonflat pullback preserves a kernel. The generic isomorphism and the
+supersingular completed-local isomorphisms, together with this arrow-compatible homogeneity
+argument of Layer 7, put every point in the open vanishing locus.
 
 **The two moduli problems compared (KM 6.1, p. 155).** For `N = pⁿ`, both problems refine
 `[Γ₁(pⁿ)]`-with-subgroup data: `𝒫₁(E/S)` is the set of triples `(P, G, Q)` with `P` a Drinfeld
@@ -1712,10 +1773,19 @@ generator of a cyclic rank-`N` subgroup `G ⊆ E[N]` and `Q` a section of the **
 `D ⊆ G` — the unique finite locally free subscheme of rank `φ(N)` of which the sections `{aP}`,
 `(a,N)=1`, are a full set; `𝒫₂(E/S)` asks instead `Q ∈ Gˣ(S)`, a generator (8B). Since `D ⊆ Gˣ`,
 there is a forgetful morphism `𝒫₁ ⟶ 𝒫₂`, and the cyclicity theorem is the statement `D = Gˣ`,
-i.e. that this morphism is an isomorphism. Verify hypotheses (1) and (2) of the Axiomatic
-Isomorphism Theorem for this pair (KM 6.3.1, pp. 156–157: Reg. 1 through finiteness over
-`[Γ₁(pⁿ)]`, Reg. 3 from the definitions, Reg. 4A from PD-4, the generic isomorphism from the
-étale theory); the work is condition (3), the supersingular local isomorphism, which is the
+i.e. that this morphism is an isomorphism. Verify hypotheses (1), (2), and (4) of the
+Axiomatic Isomorphism Theorem for this pair. Reg. 1 uses finiteness over `[Γ₁(pⁿ)]`, Reg. 4A
+uses PD-4, and the generic isomorphism uses the étale theory (KM 6.3.1, pp. 156–157).
+For both Reg. 3 and the arrow comparison use the **same** induced group-scheme isomorphism
+`ξ_n:E[pⁿ]≃E'[pⁿ]` from `ξ`. Transport the triple by
+`(P,G,Q)↦(ξ_n(P),ξ_n(G),ξ_n(Q))`. Prove that this transports subgroup inclusion and
+Drinfeld generator/full-set conditions. The characterized primitive subscheme of `G` is
+carried to the primitive subscheme of `ξ_n(G)` by its full-set characterization and uniqueness;
+the generator scheme `Gˣ` is carried to `(ξ_n(G))ˣ` by the generator functor. Construct the
+induced isomorphisms of both representing schemes, with inverse induced by `ξ_n⁻¹`, and prove
+that they commute with arbitrary base change. Show the square for the actual inclusion
+`D↪Gˣ` commutes before invoking the isomorphism theorem; do not assume `D=Gˣ` to construct
+these comparisons. The remaining condition (3), the supersingular local isomorphism, is the
 following calculation.
 
 **The rings of §6.3, each an explicit target (KM 6.3.2, pp. 157–158).** Fix an algebraically
@@ -2590,8 +2660,9 @@ Lean toolchain:   v4.33.0-rc1
 Mathlib revision: 3edb3c0658f69f197b1e501b1f7623f3f7b3898c
 ```
 
-That Mathlib revision is newer than this repository's pin, so the code is not a Lake dependency
-and its declarations require API reconciliation before migration. Files under
+The comparison of that Mathlib revision with `05ae0103` belongs to the August 2026 audit.
+The AINTLIB code is not a Lake dependency; its declarations require reconciliation with the
+selected dependency APIs before migration. Files under
 `projects/ModularCurves` carry Apache-2.0 headers; the repository's default branch at
 `1c1c74664e40071c2c2165bc55ca2616a67ccd6b` contains the Apache-2.0 root licence. Any adaptation
 must retain the file-level notices and be coordinated with the AINTLIB authors. No AINTLIB code is
@@ -2619,9 +2690,12 @@ The durable parts of that development relevant to the proof decomposition are:
 - `ModularCurve/YOne*.lean`, `YFullRoute.lean`, and `YRho.lean` for the three distinct fine-curve
   constructions.
 
-`Suggested.lean` builds at the repository's Mathlib pin `05ae0103` (2026-08-12) with
-`import TauCetiRoadmap.EllipticCurves.Suggested`, so the equation-level boundary of Layers 2A
-and 2E is type-checked against the merged Elliptic Curves roadmap rather than described.
+The earlier provenance reports a `Suggested.lean` build at Mathlib `05ae0103` (2026-08-12),
+including `import TauCetiRoadmap.EllipticCurves.Suggested` for the equation-level boundary of
+Layers 2A and 2E. That record retains its historical validation scope. The selected floor for
+this proposal is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a`, Tau Ceti
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`, and Lean `v4.35.0-rc3`; the August record
+does not certify a build or an AINTLIB revision-order comparison at this floor.
 
 The audit confirms the chart-by-chart group-law decomposition and the need for genuine coherent
 cohomology in the pole-sheaf route. It also confirms that alternation and scheme-theoretic
