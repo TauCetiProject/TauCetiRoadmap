@@ -565,6 +565,88 @@ consuming existing covariant-derivative curvature and torsion APIs and translati
 conventions. These include the dual and tensor-connection exercises as specializations of
 B3 rather than new connection objects.
 
+### K4.P. Holomorphic Picard groups and the exponential comparison
+
+On K1–K3's complex manifolds, construct the sheaf of units 𝒪× of the actual
+holomorphic-function sheaf, its multiplicative group operations, restriction and
+local logarithms. Use native sheaves of abelian groups (applying `Additive` to
+𝒪× for cohomology), native sheaf cohomology and its connecting maps. This is
+the sheaf Picard construction; `CommRing.Pic` alone classifies invertible
+modules over a ring and does not identify line bundles on an arbitrary space.
+
+Define Pic_hol(M) as holomorphic isomorphism classes of K4's rank-one locally
+free 𝒪-modules, equivalently holomorphic line bundles. Construct the frame
+𝒪×-torsor and its inverse by gluing trivial lines, including the actual
+overlap cocycles, coboundary changes of frames and refinement maps. Prove the
+group isomorphism Pic_hol(M)≃H¹(M,𝒪×), with tensor, dual, trivial line and
+pullback laws. Relate this construction to K4's kernel-of-∂̄ sheaf and to
+SmoothBundlesConnections B1/B6's underlying smooth line, unit-circle reduction,
+connection and Čech constructions; do not introduce a second bundle carrier.
+
+Prove exactness, including stalkwise surjectivity by a local holomorphic
+logarithm, of 0→ℤ→𝒪→𝒪×→1, with f↦exp(2πif) and ℤ the constant sheaf.
+Construct its long exact sequence using the native `Sheaf.H.δ` API and prove
+naturality. In particular retain the complete segment
+
+H¹(M,ℤ)→H¹(M,𝒪)→Pic_hol(M)→H²(M,ℤ)→H²(M,𝒪).
+
+Identify the middle connecting map with the integral first Chern class of
+the underlying smooth line, through the explicit exponential/Čech and
+sheaf/singular comparison maps on manifolds. Fix the frame convention
+e_j=e_i g_ij and check the signs against B6's dual associated line and its
+principal-circle transitions, rather than equating a frame cocycle with its
+inverse. Verify on K7's positively oriented ℂP¹ that O(1) has Chern number1
+and that the Chern connection has c₁=[iF/(2π)]. Construct compatibility with
+curvature and the real de Rham comparison, including torsion invisible to
+curvature, tensor powers and conjugate/dual signs.
+
+Prove that H¹(M,𝒪)=H²(M,𝒪)=0 makes c₁:Pic_hol(M)→H²(M,ℤ) an isomorphism.
+On the underlying smooth manifold consume
+[TopologicalKTheory T1.6d](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7575afad9ceed0ff19ecf5629ba196e54fdf7637/TauCetiRoadmap/TopologicalKTheory/README.md#L608-L611)'s
+finite-rank bundle and isomorphism smoothing in **unstabilized rank one**.
+Write Pic_sm(M) and Pic_cont(M) for smooth and continuous complex-line
+isomorphism classes, respectively. Construct the forgetful group isomorphism
+F_M:Pic_sm(M)≃Pic_cont(M): every continuous line has a smooth representative
+continuously isomorphic to it, and continuously isomorphic smooth lines admit
+a smooth isomorphism. The latter makes the inverse on classes independent of
+all representative and smoothing choices. This is a bijection of actual
+rank-one isomorphism classes, not merely stable K₀ classes and not a claimed
+bijection between the individual smooth and continuous morphism sets.
+Identify F_M with forgetting regularity of the SAME underlying complex line.
+Prove compatibility with the trivial line, tensor product and dual, and
+F_N(f*L)=f*F_M(L) for smooth maps f:N→M, in particular for holomorphic maps.
+Use the same integral singular c₁ on both sides and prove
+c₁_cont(F_M[L])=c₁_sm([L]), including torsion, through the transition-cocycle
+and sheaf/singular comparisons already fixed above.
+
+Compose Pic_hol(M)→Pic_sm(M)→[F_M]Pic_cont(M). Prove that it is the ordinary
+forgetful map on underlying lines and respects tensor, dual and holomorphic
+pullback. Under H¹(M,𝒪)=H²(M,𝒪)=0, the exponential c₁ isomorphism and
+SBC B2/B6's smooth complex-line classification make the first map an
+isomorphism; F_M then gives each **continuous** complex-line isomorphism
+class exactly one holomorphic isomorphism class. This asserts neither a
+unique literal Dolbeault operator on a fixed smooth bundle nor a lift of a
+specified group action. Without the vanishing
+hypotheses retain the exact sequence, its kernel and image, instead of an
+unrestricted Picard–H² identification. For compact connected M prove that
+global holomorphic units are constants; identify automorphisms of a
+holomorphic line with those units. Give the disconnected componentwise
+version without replacing componentwise constants by one global scalar.
+
+This generic construction uses K2's local ∂̄/Dolbeault resolution and
+Čech/derived comparison, K3's function sheaf and K4's line bundles.
+SBC B6.1 owns the manifold good-cover/sheaf/singular comparison; consume
+SBC B6's smooth line classification and curvature comparisons through it.
+AlgebraicTopology supplies singular cochains and their coefficient exact
+sequences, not a second manifold sheaf/singular bridge. The continuous-line
+corollary additionally consumes TopologicalKTheory T1.6d's unstabilized
+rank-one smoothing interface specified above. These are its explicit lower
+inputs. Its conditional Picard isomorphism uses supplied vanishing and does
+not assume Borel–Weil, Kodaira embedding, flag cohomology or K7's section
+dimension calculations. SchubertGeometry S3P constructs the flag-specific
+vanishing by K5/K6 harmonic theory and the actual isotropy weights.
+
+
 ## K5. Compact Hermitian elliptic theory and Serre duality
 
 **K5a. Real and complex-coefficient analysis on real manifolds.** This shared
@@ -1477,6 +1559,50 @@ Prove nonempty closed complex submanifolds of projective space are compact Kähl
 0≤k≤dim from nonzero Kähler powers. These are the geometric inputs to
 GeometricQuantization, whose scaled symplectic forms use k≥1.
 
+**K7.2.RationalQuartic — a section that does not extend.** On K7.1's single
+projective carriers construct the holomorphic map
+`q:ℂP¹→ℂP³`, `[s:t]↦[s⁴:s³t:st³:t⁴]`. Prove representative independence
+from the common degree four and nonvanishing from `s≠0` or `t≠0`. Its two
+source charts map to the ambient charts `x₀≠0` and `x₃≠0`, respectively,
+by `z=t/s↦(z,z³,z⁴)` and `u=s/t↦(u⁴,u³,u)`. Supply the inverse coordinates
+`x₁/x₀` and `x₂/x₃`, the overlap law `u=1/z`, and the graph equations in
+these charts. Prove injectivity and the holomorphic immersion and inverse
+onto the image. Compactness of ℂP¹ and the Hausdorff property of ℂP³ give
+the topological embedding and closed image `M`; the graph charts make M a
+smooth closed complex submanifold. Identify M biholomorphically with ℂP¹.
+
+Construct the actual pullback isomorphism `q*O_(ℂP³)(1)≃O_(ℂP¹)(4)`
+by the homogeneous frames, and compare its transitions and section pullback
+with K7.2's monomial identifications. Under the ordered bases
+`x₀,x₁,x₂,x₃` and `s⁴,s³t,s²t²,st³,t⁴`, prove that the actual restriction
+`H⁰(ℂP³,O(1))→H⁰(M,O(1)|_M)` is `(a,b,c,d)↦(a,b,0,c,d)`.
+Its image has dimension four inside a five-dimensional target, with image
+exactly the vectors whose middle coefficient is zero; the section `s²t²`
+does not extend. Transport the native coefficient map, left inverse and
+image calculation in `RationalQuarticCoordinates.lean` through these
+geometric identifications. The coordinate calculation alone does not
+construct the projective, bundle or section comparisons.
+
+Compute the actual higher-twist restriction maps by multiplying the same
+four degree-four sections. For n=2 the attainable exponents of t are all
+0,…,8, from the pairs `(0,0),(0,1),(1,1),(0,3),(0,4),(1,4),(3,3),(3,4),(4,4)`
+of exponents in `{0,1,3,4}`. Inductively their n-fold sums fill 0,…,4n
+for every n≥2. Prove restriction is therefore surjective for n≥2 and
+`h⁰(M,O(n)|_M)=4n+1` for n≥0. For n=0 the restriction is the identity on
+constants. This gives an explicit low-twist failure and its subsequent
+surjectivity on the same embedding.
+
+For a general closed complex submanifold `i:M↪ℂPᴺ` and `L=i*O(1)`, consume
+[ComplexComparisonPartII C0 and C1.7–C1.8](https://github.com/TauCetiProject/TauCetiRoadmap/pull/848)'s
+analytic twists, coherent closed-embedding pushforward and analytic Serre
+vanishing. Construct the coherent analytic ideal sequence
+`0→I_M(n)→O(n)→i_*Lⁿ→0`, its section restriction and connecting map.
+Vanishing of `H¹(I_M(n))` for sufficiently large n gives eventual
+surjectivity. This analytic argument applies before Chow algebraization.
+The rational quartic supplies the specific nonextension example; its
+higher-twist calculation uses the explicit monomial products above.
+
+
 For a complex torus `ℂⁿ/Λ` with a full real lattice, consume #280's quotient and descent.
 Prove its flat Kähler structure, invariant holomorphic forms, and
 `h^(p,q)=binomial(n,p)binomial(n,q)`. Include the elliptic one-dimensional case and its
@@ -1668,7 +1794,12 @@ and GT Layer11. K7.1 uses K3.0, K1's complex orientation and
 #279 Milestones 1–3 and AT Stage4.6's projective quotient topology, and precedes K2's ℂP¹ acceptance. K7.2's CW
 construction uses K7.1 and AT Stage 4 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
-and the generic spectral-sequence machinery. K7.2's torus computations follow
+and the generic spectral-sequence machinery. K7.2.RationalQuartic's embedding uses
+K7.1; its bundle and section comparisons use K7.2's twists and monomial
+section calculation. Its explicit higher-twist surjectivity uses monomial
+products. The general eventual-surjectivity comparison follows
+ComplexComparisonPartII C1.8, whose early CK inputs do not consume this
+example. K7.2's torus computations follow
 #280 Milestone 1 and K5b/K6.1. Its Riemann-surface genus and integral cup
 computations follow K1's realification/complex orientation, the K7 adapter to
 [PlanarTopology](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#L108-L120) and
