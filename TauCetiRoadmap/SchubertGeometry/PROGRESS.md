@@ -1,0 +1,12 @@
+# Progress log: SchubertGeometry
+
+An append-only record of what landed on the SchubertGeometry roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"83eb372ddb535a669d1020d2fa66f2731ba79e9a","prs":[18632,19015],"roadmap":"SchubertGeometry","to_sha":"273ea28e12515bd7f9e5c2aefd933352264b83e1"}-->
+## SchubertGeometry: 2026-10-19 to 2026-10-21 (`83eb372` to `273ea28`)
+
+The first piece of the roadmap's finite-type path engine (S4.1) landed: an abstract category of normal crystals over a root datum with a base. A [normal crystal](https://taucetiproject.org/docs/TauCeti/RepresentationTheory/Crystal/Basic.html#TauCeti.NormalCrystal) carries a weight map, partial raising and lowering operators and natural string lengths satisfying Kashiwara's axioms with normality. It comes with the string identities, for instance that raising n times is defined exactly when n ≤ ε_i ([`isSome_eIter_iff`](https://taucetiproject.org/docs/TauCeti/RepresentationTheory/Crystal/Basic.html#TauCeti.NormalCrystal.isSome_eIter_iff)), and the observation that a crystal is determined by its weights and raising operators ([`ext`](https://taucetiproject.org/docs/TauCeti/RepresentationTheory/Crystal/Basic.html#TauCeti.NormalCrystal.ext)). It also has [strict morphisms](https://taucetiproject.org/docs/TauCeti/RepresentationTheory/Crystal/Basic.html#TauCeti.NormalCrystal.StrictHom) and the dual crystal (TauCeti#18632).
+
+The [tensor product](https://taucetiproject.org/docs/TauCeti/RepresentationTheory/Crystal/Tensor.html#TauCeti.NormalCrystal.tensor) followed, with Kashiwara's tie convention, the one under which Littelmann's concatenation of paths corresponds to tensoring. It comes with Kashiwara's max formulas for the string lengths ([`tensor_ε_eq_max`](https://taucetiproject.org/docs/TauCeti/RepresentationTheory/Crystal/Tensor.html#TauCeti.NormalCrystal.tensor_ε_eq_max)), an [associator](https://taucetiproject.org/docs/TauCeti/RepresentationTheory/Crystal/Tensor.html#TauCeti.NormalCrystal.tensorAssoc) with explicit inverse, and the isomorphism [(B₁ ⊗ B₂)^∨ ≅ B₂^∨ ⊗ B₁^∨](https://taucetiproject.org/docs/TauCeti/RepresentationTheory/Crystal/Tensor.html#TauCeti.NormalCrystal.dualTensor) (TauCeti#19015). Connected components and transport along isomorphisms, which S4.1 also asks for, are not there yet, and no crystal of paths has been built.

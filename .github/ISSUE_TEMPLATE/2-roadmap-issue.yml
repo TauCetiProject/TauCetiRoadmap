@@ -58,6 +58,7 @@ body:
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
+        - GeometricCurrents
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
@@ -79,6 +80,7 @@ body:
         - LocalFieldsRamification
         - LocalGaloisGroups
         - LocalPurity
+        - MarkovChainsAndRenewal
         - MassFormula
         - ModularCurves
         - ModularForms
@@ -108,6 +110,7 @@ body:
         - QuantumGroups
         - Rank24LatticeConstructions
         - RealAlgebraicGeometry
+        - RealAnalyticGeometry
         - ReductiveGroups
         - ReflectionInvariantTheory
         - Regularity
