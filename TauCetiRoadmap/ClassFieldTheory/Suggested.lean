@@ -100,8 +100,12 @@ used below resolve to those native declarations.
 Unit-filtration reciprocity is stated at finite level, `map_unitFiltration_normResidue`, on the
 unit filtration and upper numbering of `LocalFieldsRamification`. Its absolute form, the closure of
 `artinMap (U_K^(n))` as the image of the absolute upper group `G_K^n`, is a `README.md` target:
-its inverse-limit carrier and finite-level surjections are intermediate targets of Layer 7.
-The absolute ramification-filtration carrier has no pinned Lean interface.
+LocalFieldsRamification §4a.1 supplies the canonical absolute upper filtration, its closedness,
+normality, antitonicity, finite-level surjections and inertia endpoint, specialized to
+nonarchimedean local fields. The supplied subgroup is transported through
+`absoluteGaloisGroupComparison` before passing to the topological abelianization. This roadmap
+provides the Artin-image comparison and its conductor consequence. The absolute comparison is
+stated in `README.md` because the supplied carrier has no pinned Lean interface.
 -/
 
 namespace TauCetiRoadmap.ClassFieldTheory
