@@ -100,8 +100,12 @@ localization machinery is introduced to obtain them.
   annihilated by every first argument.  They and their quotients remain distinct unless an explicit
   duality proves otherwise.
 - **Graded throughout.**  The internal grading is not an afterthought added in Layer 6.  A graded
-  exact category is an exact category with a chosen grading-shift autoequivalence `{1}` preserving
-  conflations; every construction in Layers 1--5 has a graded counterpart over that datum, and the
+  exact category is an exact category with a chosen additive grading-shift autoequivalence `{1}`
+  whose functor and inverse both preserve conflations, equivalently whose functor preserves and
+  reflects them. Use native `TauCeti.GradedExactStructure`, including `shift_exact` and
+  `shift_inverse_exact`, or the explicit local/native exact-structure comparison with both fields.
+  Forward preservation alone does not make the induced K₀ map invertible. Every construction in
+  Layers 1--5 has a graded counterpart over that datum, and the
   graded counterpart is a target of this roadmap, built alongside the ungraded one rather than
   after it.  Concretely: graded exact and abelian `K₀` with their shift action, graded finite and
   linear resolutions, the graded Cartan map and matrix, graded Ext with its internal degree, and
@@ -144,20 +148,23 @@ localization machinery is introduced to obtain them.
   `Mathlib/Algebra/Polynomial/Laurent.lean`.
 
 Mathlib's Euler-characteristic definitions use `finsum`, so the predicates and theorems below add
-the genuine boundedness and finite-dimensionality interface needed by Euler pairings.  Mathlib does
-not yet provide Quillen exact structures/exact categories or any of the categorical Grothendieck
-groups in this roadmap.
+the genuine boundedness and finite-dimensionality interface needed by Euler pairings.  The categorical implementation is consumed from Tau Ceti's exact-category and Grothendieck-group modules described below; the presence of those implementations does not remove the finiteness and comparison hypotheses.
 
-Two pieces of open Mathlib work determine compatible shapes but are not dependencies.  The
-Euler--Poincaré development in
-[#29713](https://github.com/leanprover-community/mathlib4/pull/29713) formulates the bounded,
-finite-dimensional chain-complex theorem above the landed Euler-characteristic API.  The
-finite-resolution development in
-[#41880](https://github.com/leanprover-community/mathlib4/pull/41880) packages objects admitting
-finite resolutions by an `ObjectProperty`.  If either interface is absent, implement the complete
-compatible target in Tau Ceti; if it is present, consume it.
+The bounded, finite-dimensional Euler--Poincaré interface is compatible with the development in
+[Mathlib #29713](https://github.com/leanprover-community/mathlib4/pull/29713), and objects admitting
+finite resolutions use the `ObjectProperty` shape of
+[Mathlib #41880](https://github.com/leanprover-community/mathlib4/pull/41880). Consume the actual
+pinned interfaces and Tau Ceti's implemented finite-resolution and bounded-Euler APIs. Where a
+stated comparison is not supplied, construct that complete comparison in Tau Ceti without
+assuming that an external proposal has landed or waiting for its implementation.
 
 ### Tau Ceti and sibling-roadmap material to consume
+
+The categorical carriers are the implemented `TauCeti.ExactStructure`, `TauCeti.SplitK0`, `TauCeti.ExactK0`, `TauCeti.AbelianK0` and `TauCeti.TriangulatedK0`. Consume `TauCeti.CategoryTheory.Exact.{KernelCokernelPair,ExactStructure,Functor,Split,Abelian,ExtensionClosed}` and `TauCeti.CategoryTheory.GrothendieckGroup.{Presentation,Split,Exact,Abelian,Triangulated,Resolution,Resolving,BoundedHomotopy,Derived,Graded,ForgetGrading}`. The milestones below specify their required complete API and the comparisons with the composable-pair and skeleton presentations; they do not commission parallel implementations of landed declarations. Native conflations are predicates on `ShortComplex C`, and native exact structures use property-specific pushout/pullback existence and stability. The composable-pair presentation in `Suggested.lean` is a comparison presentation: construct its equivalence with the native exact structures, preserving the distinguished pairs, split/abelian structures, exact functors and object classes. Its local quotient and triangulated presentations must be compared to the native carriers by class-preserving natural additive equivalences before they are used downstream. No equality between these different carriers is inferred from matching names.
+
+Native `TauCeti.ExactK0.BiadditiveInvariant.bilift`, `TauCeti.extEuler`, `extEulerPairing` and their computation/naturality theorems supply finite-support Euler descent in `TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.{Basic,Descent,Map,Resolution,Numerical}`. The native full-subcategory pairing assumes the stated additive extension-closed object properties. A pairing pulled back along other source categories instead requires additive conflation-exact functors into the canonical abelian exact structure; landing in Euler-admissible objects alone is insufficient. The graded implementations in `ExtEuler.Graded.{Basic,Shift,Descent,Matrix}` and `GrothendieckGroup.Laurent` retain their own finite-support and shift hypotheses. Preserve the broader comparison, universe, general-field and graded/ungraded targets below without weakening those native hypotheses.
+
+The ring-specific balanced carrier and finite-projective/idempotent construction belong to [AlgebraicKTheory](../AlgebraicKTheory/README.md), its **Conventions, dependencies and ownership** and **A0** module stages. [KTheoryLowDegrees](../KTheoryLowDegrees/README.md), its **Supplied algebraic constructions and categorical comparisons** and Layer 1.1, transports those constructions to left modules and row coordinates. Layer 2A below consumes the actual earlier module/idempotent stages through those explicit opposite-ring transports, and proves the right-module, characteristic-predicate, universe and small-monoid comparisons. The generic categorical Layers 0–2 have no dependency on this ring-specific work. The module/idempotent precursor of A0 precedes its categorical K₀ comparison; that later comparison consumes the native generic groups and must not be imported back into the precursor. No higher K-space, determinant-spectrum, stable K₁ or arithmetic stage of either roadmap is a premise of Layer 2A. This keeps one balanced carrier and one finite-projective matrix construction.
 
 The [quiver-representation roadmap](../RepresentationTheory/QuiverRepresentations/README.md) owns
 finite-dimensional algebras, projective covers, simples, Krull--Schmidt decompositions,
@@ -266,9 +273,15 @@ Specialize Layer 1 while retaining a uniform public API.
   complex level.  A derived category of a general Quillen exact category would require
   exact-acyclic localization infrastructure and is outside this roadmap; do not smuggle that
   construction into this milestone.
-- **Graded exact categories and graded K₀.**  Define a graded exact category as an exact category
-  with a chosen conflation-exact autoequivalence `{1}`, together with graded conflation-exact
-  functors and graded exact equivalences.  Build graded split, exact, abelian and triangulated K₀
+- **Graded exact categories and graded K₀.** Consume native
+  `TauCeti.GradedExactStructure` from
+  [`Exact/Graded/Basic`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/Exact/Graded/Basic.lean#L61-L78): an exact structure with a chosen additive
+  autoequivalence `{1}` and conflation-exactness of BOTH its functor and inverse. Through the
+  Layer0 local/native comparison identify the two conflation predicates and transport both
+  exactness witnesses; do not identify the structures by a name match. Equivalently use preservation
+  and reflection, with the native inverse-exactness theorem. Retain native graded conflation-exact
+  functors and graded exact equivalences and their chosen shift-commutation isomorphisms.
+  Build graded split, exact, abelian and triangulated K₀
   by the same Layer 1 engine, each carrying the induced `ℤ`-action `[M{n}]` of the shift, with the
   universal property for invariants equipped with a compatible invertible shift action.  Prove
   that forgetting the grading along a conflation-exact functor `U` with `{1} ⋙ U ≅ U` induces a
@@ -279,6 +292,32 @@ Specialize Layer 1 while retaining a uniform public API.
 Weibel, Chapter II, Sections 5--7 supplies split and exact K₀, Section 6.1.2 supplies the abelian
 universal property, and Exercise II.9.15 supplies the triangulated presentation and bounded
 comparisons.
+
+### Layer 2A: arbitrary-ring finite projectives and change of scalars
+
+This algebraic specialization applies to arbitrary associative unital rings A,B, including the zero ring. Generic categorical Layers 1–2 are constructed independently before it; their small presentations and splitK₀ universal properties have no finite-projective-module premise. The module, balanced tensor, retract and idempotent constructions below are independent of that generic group-completion engine. Only the final comparison consumes both these module constructions and the already constructed Layers 1–2. None of these algebraic steps assumes finite-dimensional algebra, an involution, topology, positivity or a C*-norm. The category of left modules follows the standing convention; a source right A-module is a native Module Aᵐᵒᵖ. Retain right-sided formulas explicitly in the comparison below, and derive the left-handed version by taking opposite rings.
+
+**Balanced extension of scalars.** Consume AlgebraicKTheory’s associative balanced quotient through the explicit left-module/opposite-ring transport in KTheoryLowDegrees, and identify its right-module carrier M⊗_A B for f:A→+*B with the quotient of the free abelian group on pairs (m,b) by the additive relations in each variable and (ma,b)=(m,f(a)b). Define the right B action on generators by (m,b)c=(m,bc), prove it preserves every relation, and prove all module laws. Export the universal property for biadditive A-balanced maps to abelian groups and its right-B-linear specialization. Do not instantiate Mathlib TensorProduct over a noncommutative A: its base CommSemiring hypothesis is real. AlgebraicKTheory first forms the additive tensor over ℤ and then imposes the A-balancing relations. Prove its comparison with the free-abelian-on-pairs presentation by the additive-tensor and free-group universal properties; both maps preserve m⊗b, kill the displayed relations and are inverse by generator induction. The ℤ-base use satisfies native commutativity, whereas the balancing ring A remains arbitrary. Compare the arbitrary-ring characteristic-predicate interface specified by that balanced construction through the concrete balanced map flippedTmul:N→ₗ[A](M→+X), with domain-precomposition A action (a•h)(m)=h(ma). Prove explicitly that this linearity is exactly the balancing equation. Export lift, lift_comp and lift_uniq in that shape, generation/induction and the unique additive comparison between any two universal carriers. Use a local domain-action instance so it is not confused with an unrelated codomain module action. Construct the characteristic predicate and induced left/right bimodule actions for this quotient; an ordinary commutative-base TensorProduct example does not supply the arbitrary-ring quotient carrier. For N=B with left A action through f and right B multiplication, supply the actual commuting A/Bᵐᵒᵖ actions and identify the quotient right Module Bᵐᵒᵖ with the right-module action of the arbitrary-ring characteristic-predicate quotient constructed here by uniqueness on generators. Preserve universes: a characteristic predicate quantifying target P only in the universe of X is a same-universe specialization. Prove the concrete quotient universal property for abelian groups P in arbitrary universes directly by the free-group quotient eliminator, and construct ULift comparisons, independence of lifts and the natural comparison at a common maximum universe. Instantiate that specialization without weakening the exported cross-universe universal property. A Tensor-Hom adjunction restricted to a commutative base does not supply this arbitrary-A carrier. Installed Mathlib `IsTensorProduct` in `Mathlib.RingTheory.IsTensorProduct` assumes `CommSemiring`; its bilinear lift is used only for the commutative specialization. The arbitrary-ring flipped characteristic predicate and its right-module action are explicit comparisons with the Part II balanced quotient, not an assertion that the installed commutative predicate has weaker hypotheses.
+
+Construct maps induced by right-linear maps, their identity/composition equations, and the additive functor on module categories. Construct explicit natural right-module equivalences A⊗_A B≃B, M⊗_A A≃M and (M⊕N)⊗_A B≃(M⊗_A B)⊕(N⊗_A B). Their maps are a⊗b↦f(a)b, m⊗a↦ma and componentwise inclusion/projection; prove their inverses and naturality by induction on tensor generators. For A→B→C construct (M⊗_A B)⊗_B C≃M⊗_A C by (m⊗b)⊗c↦m⊗g(b)c, inverse m⊗c↦(m⊗1)⊗c. Prove unit, associativity and base-change coherence on generators, including zero modules and zero rings.
+
+The domain-action and opposite-module presentations require explicit transports. For an actual Module Rᵐᵒᵖ M use the double-opposite ring map R→(Rᵐᵒᵖ)ᵈᵐᵃ and the displayed domain-action formula; for a commutative left-module presentation use the commutativity-dependent toOpposite map. Construct and name the ring/action identifications between MulOpposite and DomMulAct, prove their scalar equations and the same balanced universal property, rather than letting definitional equality or an instance diamond silently change the action. The base-change case uses genuine right multiplication on B and its Hom-space precomposition transport. Compare the common lifts/induced maps on generators, so the finite-projective API is natural under either carrier presentation.
+
+**Additive-monoid targets and the historical quotient comparison.** The preceding free-abelian-group eliminator initially has abelian-group targets, whereas the characteristic predicate quantifies AddCommMonoid targets. Supply this missing adapter explicitly. For P an arbitrary AddCommMonoid and a balanced biadditive f:M×B→P, define its lift to native AddUnits P by value f(m,b), inverse f(−m,b), and prove the two inverse equations using additivity and f(0,b)=0. Equivalently, at each b use native AddMonoidHom.toHomUnits on f(·,b). Native AddUnits.coeHom is injective, so its value equations prove additivity in b and the balancing/linearity identities for the lifted map. Apply the free-group quotient universal property into the abelian group AddUnits P and compose AddUnits.coeHom to obtain the required tensor→+P. Prove uniqueness: every additive map from the tensor group to P lifts by toHomUnits; equality on tensor generators and injectivity of coeHom identify it with this lift. This works in every target universe, not just the prototype class universe.
+
+Compare also the FreeAddMonoid(M×N) quotient by addConGen of zero, addition, right/left balancing and additive commutation relations, with its flipped lift. Construct the ring-specialized comparison with that universal-property shape. On this monoid quotient define negation by m tensor n↦(−m) tensor n, prove it preserves every defining relation and gives additive inverses by generator induction. Its resulting additive group has the same free-group universal property. The two quotient maps preserving generators are inverse by the respective induction principles, commute with the actual right-B action and the characteristic-predicate flipped lifts, and obey the ULift/naturality comparisons already required. No general non-unital or all-semiring formalization is required by the ring-specific finite-projective source.
+
+**Finite free retracts.** Use native Module.Projective and Module.Finite over Aᵐᵒᵖ. A finitely generated projective M admits maps i:M→A^n, r:A^n→M with r i=id for some finite n: choose a finite generating surjection and split it by projectivity. Conversely any retract of a finite free module is finitely generated projective, by finite generation under images and projectivity under retracts. Construct M⊕ker(r)≃A^n using (m,k)↦i(m)+k and v↦(r(v),v−i(r(v))); prove the displayed inverse equations. The complement is finitely generated projective. No finite-complement assertion is made for a projective module without finite generation. Apply the tensor functor to the splitting equations and identify A^n⊗_A B≃B^n to prove change of scalars preserves finite projectives without a flatness hypothesis. Prove naturality and the coherent two-step comparison above on the full finite-projective subcategories.
+
+**Idempotent matrices and actual ranges.** Consume Part II Layer 1.1’s explicit row-coordinate transport of AlgebraicKTheory A0’s idempotent presentations over the opposite ring and construct the explicit transpose/right-module comparison below. With column vectors in A^n and right scalar multiplication, an A-valued n×n matrix acts by left matrix multiplication. Prove its right linearity and the equivalence between matrices and endomorphisms of this native finite free module. For p²=p define P_p={v | pv=v}, equivalently range(p), as a right submodule. The inclusion and p supply the splitting; 1−p supplies the complementary range and P_p⊕P_(1−p)≃A^n. Conversely transport i r from a finite free retract to an idempotent matrix and construct M≃P_p, not merely an equality of K-classes.
+
+For p∈M_n(A),q∈M_m(A), prove P_p≃P_q iff rectangular matrices x∈M_(m,n)(A), y∈M_(n,m)(A) satisfy yx=p, xy=q after normalization x=qxp,y=pyq. An isomorphism of ranges extends by projection/inclusion to such x,y. Conversely restrict normalized x,y to the ranges and check both composites. If only xy=q,yx=p are initially supplied, normalize to qxp and pyq and prove the same identities, explicitly using p²=p,q²=q. Include n=0,m=0,zero idempotents and the zero ring. This is algebraic equivalence, without self-adjointness or a partial isometry.
+
+Prove equivalence is reflexive, symmetric and transitive by normalized rectangular products. Prove block direct sums preserve it, permutation matrices give commutativity/associativity/unitality, and common zero-block stabilization gives the same equivalence. For the last assertion the normalized x,y give the involution U=[[1−p,y],[x,1−q]], U²=1, conjugating diag(p,0_m) to diag(0_n,q); compose with the explicit block permutation. Do not assert cancellation or conjugacy without stabilization.
+
+**Small monoid and split K₀ comparison.** Use AlgebraicKTheory A0’s idempotent monoid through the displayed Part II coordinate transport, and prove its identification with the explicit commutative quotient of the small sigma type of finite sizes and matrix carriers in the ring universe. Construct its equivalence with isomorphism classes of finite projective right modules from the range/retract comparisons, independently of a chosen presentation. Prove block sum corresponds to biproduct, unit and arbitrary finite sums, and scalar extension sends p to f.mapMatrix(p) with its actual range comparison. Consume Layer 1's small-model independence and Layer 2's splitK₀ universal property, native TauCeti.SplitK0 and Algebra.GrothendieckAddGroup to construct the natural group-completion isomorphism. Export classes [P], generation by differences, and the correct stable equality criterion: [P]−[Q]=[P']−[Q'] iff some finite projective T satisfies P⊕Q'⊕T≃P'⊕Q⊕T. The common T is essential in a noncancellative monoid. Prove functoriality under unital ring maps, identity/composition and opposite-ring translation. OperatorKTheory K1 consumes this algebraic comparison only after its separate Hilbert-module/polar comparison converts idempotents to projections over a unital C*-algebra; no such conversion is asserted here for an arbitrary ring.
+
+**Construction checks.** Require the unit A, A=0, n=0, p=0/1, a noncentral idempotent in M₂(A), rectangular unequal-size range equivalences and a noncommutative matrix ring A=M₂(k). Check the balancing equation against ma⊗b=m⊗f(a)b and the right B action. A deliberately commutative-only tensor carrier must fail the noncommutative control. Withhold finite-complement output on an infinite free module; withhold projection/partial-isometry output absent *-structure and C*-hypotheses. Positive controls retain ordinary ring-map extension and matrix composition without flatness or topology. These are written construction targets; no new Lean declaration is claimed implemented by this text.
 
 ### Layer 3: finite resolutions and the resolution theorem
 
@@ -314,9 +353,14 @@ Develop finite resolutions as reusable categorical data before applying them to 
   and one over its semisimple degree-zero part, define a **linear** graded projective resolution
   of a graded module: the `i`th term is generated in internal degree `i`.  Prove the elementary
   reformulations -- linearity of the resolution of the graded simples is equivalent to diagonal
-  vanishing of the bigraded `Ext^{i,j}(S,S)` for `i ≠ j`, and equivalently to the graded Cartan
-  and Poincaré series being inverse up to `q ↦ -q` -- and prove that a linear resolution is
-  minimal.  This is the vocabulary in which Koszulity is stated: **this layer supplies the
+  vanishing of the bigraded `Ext^{i,j}(S,S)` for `i ≠ j`. Prove that a linear resolution is
+  minimal. Define the matrix-valued Betti Poincaré series using the multiplicities of graded
+  projectives in that minimal resolution, retaining both homological and internal degrees.
+  The alternating Euler identity with the graded Cartan matrix is coefficientwise, under
+  local finiteness and the degreewise finiteness that makes each coefficient a finite sum.
+  Under diagonal support it specializes to the one-variable inverse with `q ↦ -q`; a converse
+  stated using Betti series must retain that support/comparison data. Do not infer Koszulity
+  merely from a numerical Hilbert-series identity for a separately named quadratic dual.  This is the vocabulary in which Koszulity is stated: **this layer supplies the
   definition and its elementary equivalences, and the duality theorems which use them belong to
   the DG/`A∞` roadmap's relative-Koszul layer and to the zigzag roadmap.**  Fixing it here keeps
   one notion of linearity for both, rather than two.
@@ -408,11 +452,25 @@ The reusable finite-support theorem comes before the Ext specialization.
 - **Descent.**  Descend the object-level value to a biadditive pairing on the exact/abelian
   Grothendieck groups of the two selected subcategories.  Give the universal characterization and
   naturality under functors carrying Ext and preserving the chosen finiteness data.
-- **Projectives and resolutions.**  Prove projective evaluation
-  `χ(P,N)=dim_k Hom(P,N)` and, under the split hypothesis, `χ(P_i,S_j)=δ_{ij}`; retain the
-  `dim_k D_i` diagonal over a general field and the separate integral multiplicity pairing.  Under
-  finite projective resolutions, compute `χ(M,N)` from the alternating Hom complex and identify its
-  matrix with the inverse/transposed Cartan matrix in the pinned bases.
+- **Projectives and resolutions.** Prove projective evaluation
+  `χ(P,N)=dim_k Hom(P,N)`. For the finite exhaustive pairwise nonisomorphic simple and
+  indecomposable-projective families with projective covers `P_i→S_i`, put
+  `C_ij=[P_j:S_i]`, `E_ij=χ(S_i,S_j)` and `D=diag(dim_k End_A(S_i))`.
+  Under the actual Euler-admissibility hypotheses prove `χ(P_i,S_j)=δ_ij D_ii` and
+  **`CᵀE=D`**. Consume native
+  `TauCeti.cartanMatrix_transpose_mul_extEulerMatrix_eq_diagonal` in
+  [`ExtEulerMatrix`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RepresentationTheory/GrothendieckGroup/ExtEulerMatrix.lean#L83-L98),
+  with its Artinian, finite-family, projective-cover and Euler-admissibility inputs.
+  For a finite-dimensional algebra, when finitely generated modules admit the specified finite
+  resolutions by finitely generated projectives, compute the Euler form by the alternating Hom
+  complex and use the resulting invertible Cartan comparison to prove **`E=C⁻ᵀD`**.
+  Reuse native `TauCeti.extEulerMatrix_eq_inverseCartanMatrix_transpose_mul_diagonal`
+  and its actual resolution hypotheses; the diagonal is on the RIGHT, so
+  `E_ij=(C⁻¹)_ji dim_k End_A(S_j)`. The unweighted `CᵀE=I` and `E=C⁻ᵀ` are the
+  separate corollaries requiring `∀i, dim_k End_A(S_i)=1`, for example in the split/absolutely-simple
+  case. Retain the separate integral multiplicity pairing instead of conflating it with raw
+  k-dimension. As a compulsory nonsplit check take `k=ℝ`, `A=ℂ`, `S=P=ℂ`: higher Ext vanishes,
+  `C=[1]`, `D=[2]` and raw `E=[2]`, while the multiplicity pairing is `[1]`.
 - **Graded Ext and graded descent.**  Redo the layer for a graded abelian category: bigraded
   `Ext^{n,j}`, Euler-admissibility with both the cohomological and the internal support finite,
   the graded long exact sequences in both variables, and descent to graded `K₀`.  Keep the two
@@ -441,8 +499,12 @@ are already built in Layers 2--5.  This layer adds only the coefficient ring and
 it.  Let `R = ℤ[q,q⁻¹]`, represented by `LaurentPolynomial ℤ`, with bar involution
 `LaurentPolynomial.invert`.
 
-- **Shift-module structure.**  For a graded exact category from Layer 2, construct the `R`-module
-  structure on its graded K₀ and prove
+- **Shift-module structure.** For Layer2's two-sided exact grading datum, consume native
+  `TauCeti.GradedExactStructure.shiftEquiv` from
+  [`GrothendieckGroup/Graded`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/CategoryTheory/GrothendieckGroup/Graded.lean#L300-L315).
+  Its inverse is induced by the actual inverse shift, using inverse conflation-exactness.
+  Transport it through the class-preserving local/native K₀ comparison, then construct the `R`-module
+  structure on graded K₀ and prove
   `[M{n}]=q^n[M]` for every `n : ℤ`, in particular `[M{1}]=q[M]`.  State the universal
   property for additive invariants equipped with a compatible invertible shift action.
 - **Finite Laurent support.**  Define graded dimension only for graded vector spaces whose pieces
@@ -489,7 +551,13 @@ reversed ungraded K-group letters.
   side, state only the corresponding one-sided nondegeneracy.
 - **Functoriality.**  A map on the left descends only after proving it sends the left radical into
   the target left radical; state and prove the dual condition on the right.  Pairing-preserving
-  pairs of maps yield a map of both numerical quotients.  Equivalences induce equivalences.
+  pairs of maps yield maps of both numerical quotients only after proving both radical
+  inclusions. Explicitly, for `f:L→L'`, `g:R→R'` and
+  `b'(f x,g y)=b(x,y)`, require `f(rad_left(b)) ⊆ rad_left(b')` and
+  `g(rad_right(b)) ⊆ rad_right(b')`. Pairing preservation on the images alone does not imply
+  these inclusions. Surjectivity of `g` suffices for the left inclusion, and surjectivity of
+  `f` suffices for the right; prove these sufficient criteria separately. Pairing-preserving
+  equivalences induce equivalences of the two respective quotients, with their inverse maps.
 - **Euler specialization.**  Apply the construction to ordinary and q-Euler pairings.  Keep the
   left and right quotients as distinct public definitions.  Prove an identification only when an
   explicit duality already constructed in this roadmap supplies it.
