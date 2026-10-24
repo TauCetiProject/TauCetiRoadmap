@@ -8,9 +8,10 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Ba
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; these statements suggest Lean forms for its headline targets.
 
-The statements here are the shared Hilbert–Samuel polynomiality theorem constructed
+The statements here are the shared Hilbert–Samuel existence and uniqueness theorem constructed
 in §0.5 for finite modules over noetherian local rings, with an ideal of definition
-on the module (its maximal-ideal case is a specialization of this same theorem),
+on the module (its maximal-ideal case is a specialization of this same theorem;
+agreement with cumulative lengths identifies every other polynomial presentation),
 and finite representation length for
 finitely generated admissible smooth torsion representations of GL₂(ℚ_p) over the ring of
 integers of any finite extension of ℚ_p (§2.2), at every prime. The latter uses
@@ -24,7 +25,9 @@ function/distribution spaces and admissible Banach representation categories.
 The filtered-period equivalence, the normalization comparisons with the supplied
 monodromy and period realization, and the deformation theorems (§§0.2–0.4)
 need period rings, filtered (φ,N)-modules, coefficient-linear compact duality and
-GLₙ-valued local deformation functors. The canonical lattices and trianguline classification
+GLₙ-valued local deformation functors with their actual universal continuous lifts.
+Their representing-pair comparison preserves those lifts and their fixed residual bases.
+The canonical lattices and trianguline classification
 (§§1.3–1.7) need étale and Robba (φ,Γ)-modules and Weil–Deligne parameters.
 
 The mod-p classification (§§2.6–2.8) needs smooth compact induction, its Hecke
@@ -52,7 +55,12 @@ the dual-exponential tests on V̌(i) for 0 ≤ i < k. The block-centre,
 type-ring and Breuil–Mézard theorems (Layer 5, §§6.0–6.8) need compact block
 categories, their projective envelopes, continuous (pseudo)deformation/type rings
 and module-cycle specialization. Mathlib's algebraic-cycle carrier alone does not
-supply these objects. On the characteristic-zero irreducible locus the block
+supply these objects. Section 5.5(v)'s functor is an equivalence from the opposite
+finite-length Banach category to finite-length deformation-ring modules:
+the Banach functor V̌(B) = Hom_L(V(B), L)(ζε) reverses arrows, and so does
+postcomposition on Hom_G(Vᵘ, V̌(B)). Its Banach category and universal Galois
+deformation are among these absent carriers.
+On the characteristic-zero irreducible locus the block
 algebra is Azumaya; in the scalar-residual case, splitting over a completed centre
 requires a two-dimensional model of the pseudotrace over the point's residue field.
 Section 4.3's all-prime nonspecial crystalline completion,
@@ -74,7 +82,8 @@ open ValuativeRel
 namespace TauCetiRoadmap.PadicLocalLanglandsForGL2Qp
 
 /-- Section 0.5: lengths modulo powers of an ideal of definition on a finite module
-are eventually polynomial. The ideal lies in the maximal ideal and M/IM has finite length;
+agree eventually with a unique rational polynomial, identifying its shared presentations.
+The ideal lies in the maximal ideal and M/IM has finite length;
 it need not be m-primary in the ring.
 The finite-length assertion keeps the natural-valued length faithful to module length.
 Source: Stacks, Algebra, Proposition 10.59.5 (tag 00K8), applied over A/ann(M),
@@ -84,7 +93,7 @@ theorem exists_hilbertSamuel_polynomial
     (M : Type*) [AddCommGroup M] [Module A M] [Module.Finite A M]
     (I : Ideal A) (hI : I ≤ IsLocalRing.maximalIdeal A)
     (hM : IsFiniteLength A (M ⧸ (I • (⊤ : Submodule A M)))) :
-    ∃ P : Polynomial ℚ,
+    ∃! P : Polynomial ℚ,
       (∀ n : ℕ, IsFiniteLength A (M ⧸ (I ^ (n + 1) • (⊤ : Submodule A M)))) ∧
       ∀ᶠ n : ℕ in Filter.atTop,
         ((Module.length A (M ⧸ (I ^ (n + 1) • (⊤ : Submodule A M)))).toNat : ℚ) =
