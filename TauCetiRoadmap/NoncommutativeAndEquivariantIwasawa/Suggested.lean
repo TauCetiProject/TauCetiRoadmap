@@ -1,0 +1,186 @@
+import Mathlib
+import TauCeti.Topology.Algebra.Group.Generation
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
+import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Map
+
+/-!
+# Noncommutative and equivariant Iwasawa theory: headline targets
+
+**This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`;
+references of the form §k.n refer to its subsections.
+
+The targets stated here are the all-profinite local-ring criterion (§0.4),
+Brumer's exact integral and residual global dimensions (§0.11),
+the rational global dimension (§0.12), and the canonical and saturated Ore theorems (§§1.7, 1.10).
+They use Tau Ceti's completed group algebra, Mathlib's projective dimension and Ore sets, and
+concrete group predicates. Coefficients are finite free discrete valuation algebras over ℤ_p,
+including ramified integer rings. No absence of p-torsion is assumed in the Ore theorems.
+
+The later headline statements require objects absent from the pins:
+
+* Boundary surjectivity (§2.15) needs ring K₁ and the relative K₀ of the Ore localization.
+* The evaluation–Euler characteristic formula (§3.6) needs characteristic elements, Artin
+  evaluation and compact completed group homology.
+* Perfection and base change of the arithmetic complexes (§§4.5–4.7), the normalized main
+  conjectures (Layer 5), and the Kakde and Ritter–Weiss results (§§6.15, 6.30, 6.34–6.35) need
+  those K-groups, the congruence groups and the arithmetic Iwasawa complexes and zeta functions.
+* The elliptic local-condition comparison (§4.1) needs arithmetic Kummer and ordinary
+  cohomology, including their finite quotient at primes above p. Good ordinary reduction
+  gives equality at finite local fields precisely when the reduction has no p-torsion.
+* The abelian minus theorem (§6.36) uses IntegralIwasawaTheory's arithmetic Selmer carrier,
+  its inversion twist, compatible restriction maps and the equivariant zeta element.
+  Its p-local smoothing comparison uses vanishing of smoothed-unit p-primary torsion
+  at every layer;
+  a generic commutative Fitting ideal does not supply these arithmetic objects.
+* The leading-term interpolation formulas (§§7.13–7.14, 7.18) and height comparison (§7.17)
+  need the arithmetic Selmer complexes, Picard-valued determinants, Bockstein trivializations,
+  periods and regulators. Generic continuous-cohomology Bocksteins do not supply these objects.
+* Denominator-corrected Fitting annihilation (§7.23) needs noncommutative Fitting orders,
+  reduced norms, maximal Fitting invariants and their denominator ideals.
+* The compact derived Hochschild–Serre comparison with coherent quotient action and the
+  countable-tower Milnor sequence (§F.3) need the derived coefficient-limit realization and
+  quotient-equivariant resolutions on the supplied continuous cochain carrier.
+* The shared Hilbert families, their full and cuspidal Hecke images, and ordinary control
+  (§F.5) need the classical ideal-coefficient dictionary and ordinary tower. Both Hecke images
+  include the good-prime operators and every level-dividing U operator, including tame primes.
+  Coefficient recovery at every nonzero ideal and compatibility with restriction, the projector,
+  tower moment maps and specialization use this full action; the projector uses only primes
+  above p. Full perfect
+  first-coefficient duality uses the positive-coefficient lattice, whose standard constants
+  may be fractional. The standard-constant-integral sublattice has the restricted pairing;
+  its cokernel is the image of the standard constants modulo the weight algebra. The tower
+  comparisons preserve both lattices and their specialization exact sequence. Normalized
+  Eisenstein families lie in the ordinary positive-coefficient lattice. Their specified
+  weight-dependent clearing factor places them in the standard-constant-integral sublattice,
+  retaining the fractional specialization domain. The
+  Leopoldt descent theorem (§7.10) uses actual finite-dimensional characters and multiplicity
+  spaces. The general period-boundary and exponential prefix (§F.6)
+  needs topological period sequences and continuous cochains. Its quotient-period boundary has
+  image H¹_e for every continuous representation; the exponential on de Rham periods has image
+  the common kernel of the maps to B_e and B_dR⁺ cohomology. These constructions are natural in
+  morphisms of representations. Identifying quotient periods with the de Rham tangent space
+  requires the de Rham hypothesis; a nonsplit extension of ℚ_p(1) by ℚ_p has zero exponential
+  but nonzero H¹_e. These statements require the missing period and cochain constructions. The
+  independent period-realization prefix, including filtered Galois descent and nilpotence of
+  period-ring monodromy, needs the semistable period invariants and raw Weil–Deligne carrier.
+  The differential branch needs the Robba and étale prefix, including
+  extension of overconvergent Frobenius lifts with radius estimates, then the slope and
+  monodromy prefix and the embedded de Rham lattice.
+
+These results are not stated here. Their missing constructions are specified in the README.
+-/
+
+namespace TauCeti.NoncommIwasawa
+
+universe u
+
+variable (p : ℕ) [hp : Fact p.Prime] (G : Type u) [Group G] [TopologicalSpace G]
+  [IsTopologicalGroup G]
+
+/-- The closed subgroup generated by all `n`-th powers (§0.1). -/
+def closedPowerSubgroup (n : ℕ) : Subgroup G :=
+  (Subgroup.closure (Set.range (fun g : G => g ^ n))).topologicalClosure
+
+/-- Uniformity (§0.1): pro-`p`, topologically finitely generated, torsion-free and powerful,
+with the fourth-power commutator condition at `p = 2`. -/
+def IsUniform : Prop :=
+  IsProP p G ∧ IsTopologicallyFinitelyGenerated G ∧
+    (∀ g : G, IsOfFinOrder g → g = 1) ∧
+    ⁅(⊤ : Subgroup G), ⊤⁆ ≤ closedPowerSubgroup G (if p = 2 then 4 else p)
+
+/-- The group-side analytic predicate (§0.2), used on profinite groups below. -/
+def IsCompactPAdicAnalytic : Prop :=
+  ∃ U : OpenNormalSubgroup G, IsUniform p U.toSubgroup
+
+/-- For a uniform group this is its dimension: `log_p [G : G^p]` (§0.1). -/
+noncomputable def uniformDimension : ℕ :=
+  Nat.log p (closedPowerSubgroup G p).index
+
+variable [hcompact : CompactSpace G] [hT2 : T2Space G] [hTD : TotallyDisconnectedSpace G]
+variable (O : Type u) [CommRing O]
+
+/-- The canonical denominators (§1.1), on the native completed group algebra. Scalars from
+`O[[H]]` act through the map induced by `H ↪ G`; the quotient is by the left ideal `O[[G]]s`. -/
+noncomputable def canonicalSet (H : Subgroup G) : Set (completedGroupAlgebra O G) :=
+  let f := completedGroupAlgebra.map O H.subtype continuous_subtype_val
+  letI := f.toRingHom.toModule
+  letI : IsScalarTower (completedGroupAlgebra O H) (completedGroupAlgebra O G)
+      (completedGroupAlgebra O G) := ⟨fun x a b => mul_assoc (f x) a b⟩
+  {s | Module.Finite (completedGroupAlgebra O H)
+    ((completedGroupAlgebra O G) ⧸
+      (Submodule.span (completedGroupAlgebra O G) {s}).restrictScalars
+        (completedGroupAlgebra O H))}
+
+/-- The `p`-saturation of the canonical denominators (§1.10). For a coefficient DVR, saturating
+by `p` or by its uniformizer gives the same localization. -/
+def saturatedSet (H : Subgroup G) : Set (completedGroupAlgebra O G) :=
+  {f | ∃ n : ℕ, ∃ s ∈ canonicalSet G O H, f = (p : completedGroupAlgebra O G) ^ n * s}
+
+variable [hOdomain : IsDomain O] [hODVR : IsDiscreteValuationRing O]
+  [hOalg : Algebra ℤ_[p] O] [hOfree : Module.Free ℤ_[p] O] [hOfinite : Module.Finite ℤ_[p] O]
+
+include hp hcompact hT2 hTD hOdomain hODVR hOalg hOfree hOfinite
+
+/-- The local-ring criterion (§0.4): for every profinite group, the completed group
+algebra is local exactly when the group is pro-`p`, including ramified coefficients. -/
+theorem iwasawa_isLocal_iff_pro_p :
+    IsLocalRing (completedGroupAlgebra O G) ↔ IsProP p G := by
+  sorry
+
+/-- Brumer's theorem (§0.11): the left and right global dimensions are `d + 1` integrally and
+`d` residually, for every compact analytic group without elements of order `p`.
+Global dimension is expressed as the supremum of Mathlib's module projective dimensions. -/
+theorem brumer_gldim (hG : IsCompactPAdicAnalytic p G)
+    (hpTorsion : ∀ g : G, g ^ p = 1 → g = 1)
+    (U : OpenNormalSubgroup G) (hU : IsUniform p U.toSubgroup) :
+    (⨆ M : ModuleCat.{u} (completedGroupAlgebra O G),
+      CategoryTheory.projectiveDimension M) =
+      (uniformDimension p U.toSubgroup + 1 : WithBot ℕ∞) ∧
+    (⨆ M : ModuleCat.{u} (completedGroupAlgebra O G)ᵐᵒᵖ,
+      CategoryTheory.projectiveDimension M) =
+      (uniformDimension p U.toSubgroup + 1 : WithBot ℕ∞) ∧
+    (⨆ M : ModuleCat.{u} (completedGroupAlgebra (IsLocalRing.ResidueField O) G),
+      CategoryTheory.projectiveDimension M) =
+      (uniformDimension p U.toSubgroup : WithBot ℕ∞) ∧
+    (⨆ M : ModuleCat.{u} (completedGroupAlgebra (IsLocalRing.ResidueField O) G)ᵐᵒᵖ,
+      CategoryTheory.projectiveDimension M) =
+      (uniformDimension p U.toSubgroup : WithBot ℕ∞) := by
+  sorry
+
+open scoped TensorProduct
+
+/-- The rational dimension theorem (§0.12), on the bounded-denominator scalar extension,
+with both left and right global dimension equal to the group dimension. -/
+theorem rationalIwasawa_gldim (hG : IsCompactPAdicAnalytic p G)
+    (hpTorsion : ∀ g : G, g ^ p = 1 → g = 1)
+    (U : OpenNormalSubgroup G) (hU : IsUniform p U.toSubgroup) :
+    (⨆ M : ModuleCat.{u} (FractionRing O ⊗[O] completedGroupAlgebra O G),
+      CategoryTheory.projectiveDimension M) =
+      (uniformDimension p U.toSubgroup : WithBot ℕ∞) ∧
+    (⨆ M : ModuleCat.{u} (FractionRing O ⊗[O] completedGroupAlgebra O G)ᵐᵒᵖ,
+      CategoryTheory.projectiveDimension M) =
+      (uniformDimension p U.toSubgroup : WithBot ℕ∞) := by
+  sorry
+
+/-- The canonical Ore theorem (§1.7): exactly the denominators defined by `O[[H]]`-finiteness
+form a multiplicative submonoid of regular elements, Ore on both sides. -/
+theorem canonicalSet_oreSet (hG : IsCompactPAdicAnalytic p G)
+    (H : Subgroup G) [H.Normal] (hH : IsClosed (H : Set G))
+    (e : G ⧸ H ≃ₜ* Multiplicative ℤ_[p]) :
+    ∃ S : Submonoid (completedGroupAlgebra O G),
+      (S : Set (completedGroupAlgebra O G)) = canonicalSet G O H ∧
+      S ≤ nonZeroDivisors (completedGroupAlgebra O G) ∧
+      Nonempty (OreLocalization.OreSet S) ∧ Nonempty (OreLocalization.OreSet S.op) := by
+  sorry
+
+/-- The saturated Ore theorem (§1.10), with the same group hypotheses and both Ore structures. -/
+theorem saturatedSet_oreSet (hG : IsCompactPAdicAnalytic p G)
+    (H : Subgroup G) [H.Normal] (hH : IsClosed (H : Set G))
+    (e : G ⧸ H ≃ₜ* Multiplicative ℤ_[p]) :
+    ∃ S : Submonoid (completedGroupAlgebra O G),
+      (S : Set (completedGroupAlgebra O G)) = saturatedSet p G O H ∧
+      S ≤ nonZeroDivisors (completedGroupAlgebra O G) ∧
+      Nonempty (OreLocalization.OreSet S) ∧ Nonempty (OreLocalization.OreSet S.op) := by
+  sorry
+
+end TauCeti.NoncommIwasawa
