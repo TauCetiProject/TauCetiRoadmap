@@ -53,7 +53,8 @@ import TauCeti.NumberTheory.NumberField.LocalGlobal.RamificationGroup
 import TauCeti.NumberTheory.NumberField.LocalGlobal.Semilocal.Basic
 import TauCeti.NumberTheory.NumberField.LocalGlobal.Semilocal.Factorization
 import TauCeti.NumberTheory.NumberField.LocalGlobal.Semilocal.Integers
-import TauCeti.NumberTheory.NumberField.LocalGlobal.Semilocal.NormTrace
+import TauCeti.NumberTheory.NumberField.LocalGlobal.Semilocal.Norm.Trace
+import TauCeti.NumberTheory.NumberField.LocalGlobal.Semilocal.Norm.Units
 import TauCeti.NumberTheory.NumberField.Monogenic
 import TauCeti.NumberTheory.NumberField.NormalClosure
 import TauCeti.NumberTheory.NumberField.Quadratic.Frobenius
