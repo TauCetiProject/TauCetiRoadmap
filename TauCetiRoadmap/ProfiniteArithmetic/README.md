@@ -114,10 +114,10 @@ Two targets change existing Tau Ceti declarations instead of adding new ones.
   it instead of saying that the ring structure is not treated. Nothing in the existing
   `TauCeti.zHat` API changes.
 
-`Suggested.lean` names the generalized declarations through reducible aliases
-(`ProfiniteCompletion.continuousMonoidHomEquiv`, `zHat.lift`) and pins the ring API under this
-roadmap's namespace (`zHat.toZMod`, …). The theorem `zHat.lift_eq_tauCeti` records that on targets
-in `Type` the generalized lift is the one into the universe of `TauCeti.zHat`.
+`Suggested.lean` names these declarations, and the rest of the API, through reducible aliases of
+Tau Ceti's (`ProfiniteCompletion.continuousMonoidHomEquiv`, `zHat.lift`, `zHat.toZMod`, …). The
+theorem `zHat.lift_eq_tauCeti` records that on targets in `Type` the generalized lift is the one
+into the universe of `TauCeti.zHat`.
 
 ## Conventions
 
@@ -198,17 +198,14 @@ universal property `PadicInt.lift` with `PadicInt.lift_spec` and `PadicInt.lift_
 `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`, `DirectSum`, `LieRing`,
 `LieAlgebra`.
 
-Mathlib has no ring of profinite integers, no profinite power, no group structure on
-`ContinuousMulEquiv G G`, no `ℤ_p`-power on a nonabelian group, and no graded Lie ring of a lower
-central series. Tau Ceti has three of these, and this roadmap consumes them: the `ℤ_p`-power on a
-pro-`p` group, the profinite completion `TauCeti.zHat` of `ℤ` as a group with its universal
-property for targets in `Type`, and the lower `p`-series with its graded bracket for every `p`,
-whose case `p = 0` is the closed lower central series. Neither has the ring structure on `ẑ`, a
-group or a topology on `G ≃ₜ* G`, the outer automorphism group, or the `ℤ_p`-linear graded Lie
-algebra of the closed series; each is built here, the ring structure on Tau Ceti's own
-`TauCeti.zHat`. The `FLT` project's `ZHat` is the same ring presented as compatible residues in
-`∏ n, ZMod n`; Layer 0.2 proves that presentation as a characterization of `ẑ`, so a comparison
-with `ZHat` is a theorem, not a second definition.
+The roadmap uses Tau Ceti's ring on `Additive TauCeti.zHat`, its completion and profinite-power
+maps, its continuous and outer automorphism groups with the congruence and quotient topologies,
+and its lower `p`-series with graded bracket, scalar action and abelianization comparison. The
+closed lower central series is the case `p = 0`. Each layer specifies the intrinsic API and its
+comparison with these native declarations; the compatible Frattini-family construction in 2.4
+uses the native quotient coordinates and cofinal reconstruction. The `FLT` project's `ZHat`
+presents the same ring by compatible residues in `∏ n, ZMod n`; Layer 0.2 proves that
+characterization of `ẑ`, so its comparison is a theorem, not a second definition.
 
 ## How to read the build
 
@@ -549,12 +546,43 @@ about `TauCeti.zHat` itself.
   a power of `p`.
   *Needs:* M `frattini`, `frattini_nongenerating`, `IsPGroup`, `MulAction` orbit counting.
   *Source:* Gorenstein, *Finite Groups*, Chapter 5 §1; Huppert, *Endliche Gruppen I*, III §3.
-- **The pro-`p` theorem.** For a topologically finitely generated pro-`p` group `G`, the kernel of
-  `ContinuousAut G →* MulAut (G ⧸ proPFrattini p G)` is an open pro-`p` subgroup of
-  `ContinuousAut G`, so `ContinuousAut G` is virtually pro-`p`. It is the inverse limit of the
-  finite kernels of 2.4 over the characteristic open normal subgroups of `G` contained in
-  `proPFrattini p G`.
-  *Needs:* L2.2; TC `TauCeti.proPFrattini`; the finite theorem.
+- **The pro-`p` theorem and its complete compatible-family model.** For a topologically
+  finitely generated profinite pro-`p` group `G`, put `Φ = proPFrattini p G` and
+  `H = ker[ContinuousAut G →* MulAut (G ⧸ Φ)]`. This is an open pro-`p` subgroup, so
+  `ContinuousAut G` is virtually pro-`p`. Construct the following model of the entire `H`.
+  Let `I` contain all topologically characteristic open normal subgroups `N ≤ Φ`, let
+  `P_N = G/N`, and let `K_N = ker[MulAut P_N →* MulAut (P_N/frattini P_N)]` be the full finite
+  kernel of the preceding theorem. Give each `K_N` the discrete topology. For `N ≤ M` let
+  `q_NM : P_N →* P_M` be `TauCeti.QuotientGroup.mapOfLE`.
+  1. Prove `Φ` open and topologically characteristic, `I` cofinal among all open normal
+     subgroups (choose a characteristic open subgroup inside `W ∩ Φ`), and `⋂ N∈I, N = 1`.
+     Prove the exact quotient-Frattini identity `frattini P_N = Φ/N` under its quotient
+     identification; retain its membership and map equations.
+  2. Define `K_comp` as the subgroup of the full product `∏ N∈I, K_N` cut out by all equations
+     `q_NM (α_N x) = α_M (q_NM x)` for every `N ≤ M` and every `x ∈ P_N`. Prove closure under
+     multiplication and inversion, the coordinate computation laws, and closedness in the
+     product topology. An arbitrary element of `K_N` need not preserve `M/N`, so this
+     definition does not assert transition homomorphisms between the full kernels.
+  3. Restriction defines `R : H →* K_comp`. Prove every coordinate Frattini-trivial using the
+     quotient-Frattini identity and prove injectivity using cofinality. Conversely, reconstruct
+     an automorphism `A` from every compatible family: apply the cofinal profinite-limit
+     universal property to `α_N(gN)` and separately to `α_N⁻¹(gN)`. Prove the coordinate
+     equations, multiplicativity, continuity and both composite identities. The coordinate
+     `N = Φ` is the identity, since `frattini (G/Φ) = 1`, so `A ∈ H`. Prove `R(A) = α` and
+     `reconstruct(R(φ)) = φ`, giving surjectivity onto the complete compatibility subgroup.
+  4. Prove `R` continuous in each native congruence coordinate. The native compactness of
+     `ContinuousAut G` and closedness of `H` make the continuous bijection a topological group
+     equivalence `H ≃ₜ* K_comp`; pin it and its inverse by the coordinate laws. Apply the finite
+     kernel theorem, `TauCeti.IsProP.pi` and `TauCeti.IsProP.subgroup` to prove `K_comp` pro-`p`
+     and transport this property through the equivalence. Prove openness from the finite
+     discrete `Φ` coordinate. Include the trivial-group/rank-zero case without an extra
+     countability assumption.
+  Reuse `TauCeti.existsUnique_monoidHom_mk'_comp_eq_of_forall_exists_le` and the native
+  `ContinuousAut.exists_mapQuotient_eq`/`range_pi_mapQuotient` constructions, proving their
+  cofinal restriction and comparison with `I`; do not define a second automorphism topology.
+  *Needs:* L2.2; TC `TauCeti.proPFrattini`, quotient-Frattini comparison and the native
+  cofinal-limit/automorphism reconstruction; the finite theorem and native product/subgroup
+  stability of pro-`p` groups.
   *Source:* Ribes–Zalesskii §4.4 and §4.5; Dixon–du Sautoy–Mann–Segal, *Analytic pro-p groups*,
   Chapter 5.
 -  **The free case.** For `F = TauCeti.freeProP p (Fin n)`,
@@ -608,8 +636,8 @@ about `TauCeti.zHat` itself.
   `lcsGradedPieceZeroEquiv : gr_0(G) ≃ₜ+ Additive (TopologicalAbelianization G)`, pinned on
   classes by `lcsGradedPieceZeroEquiv_mk`. Its algebraic part is Tau Ceti's
   `TauCeti.gradedPieceZeroEquiv` together with `γ_1(G) = closure ⁅G, G⁆`
-  (`closedLowerCentralSeries_one`). Neither Mathlib nor Tau Ceti states the identification, so this
-  roadmap owns it.
+  (`closedLowerCentralSeries_one`). Use the native graded-piece/abelianization comparison with
+  its computation and topological inverse laws.
 - **The bracket (Tau Ceti).** `lcsBracket G j k` is Tau Ceti's
   `TauCeti.gradedBracket 0 G j k : gr_j(G) →+ gr_k(G) →+ gr_{j+k+1}(G)`, induced by the commutator,
   with the defining equation `lcsBracket_mk` on classes. Tau Ceti proves it biadditive,
@@ -771,8 +799,10 @@ Layer 1 except where a `^[ℓ]` statement is involved.
   automorphism for all of `N`.
 - Profiniteness of `ContinuousAut G` is stated for a topologically finitely generated profinite
   `G` and nowhere else.
-- The finite `p`-group theorem of 2.4 is proved by the free action on generating tuples, and
-  the pro-`p` theorem is its inverse limit.
+- The finite `p`-group theorem of 2.4 is proved by the free action on generating tuples. The
+  global kernel is identified with the entire closed compatibility subgroup of the product of
+  finite kernels, with cofinality, quotient-Frattini, reconstruction, inverse and topology laws;
+  no transition map on arbitrary full finite kernels is presumed.
 - The congruence topology is the initial topology for the **discrete** topology `⊥` on each
   finite automorphism group, and `ContinuousAut.continuous_mapQuotient` says so.
 - The closed lower central series is Tau Ceti's lower `p`-series at `p = 0`, 0-based, and no
@@ -785,8 +815,8 @@ Layer 1 except where a `^[ℓ]` statement is involved.
   characteristic quotients, and the action of `ContinuousOut G` on
   `ClosedSubgroupConjClasses G`, are pinned declarations with computation theorems.
 - The topological characteristicity of `TauCeti.proPKernel` and `TauCeti.proPFrattini` is Tau
-  Ceti's, applied directly; the Heisenberg group is Tau Ceti's, and only its topology is added
-  here.
+  Ceti's, applied directly; the Heisenberg group and its topology are Tau Ceti's, and the
+  congruence-level comparison and neighbourhood-basis targets use those native parents.
 - `gr_0` and `gr_1` of a free pro-`p` group of finite rank have the bases `x̄_i` and
   `[x̄_i, x̄_j]` (`i < j`) by theorems proved with detecting homomorphisms, to `ℤ_p` and to the
   Heisenberg group over `ℤ_p`; no comparison with the completion of a discrete free nilpotent
