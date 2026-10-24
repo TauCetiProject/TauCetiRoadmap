@@ -11,11 +11,17 @@ import TauCeti.Topology.Homotopy.HomotopyGroup.LoopSpace
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
+The Layer 4 declarations below illustrate only the finite-generator algebraic complex.
+Layer 4.5 additionally constructs an arbitrary-small-CW, finite-support semi-free Brown
+resolution, its path-space augmentation comparison and the resulting derived tensor maps.
+Those topological and infinite-basis targets are specified in README.md; neither finite
+matrix Maurer--Cartan data nor the finite `P → M` prototype supplies their resolution proof.
+
 Only Layer 0 (singular cubes), Layer 2 (Moore paths) and Layer 4 (twisting cocycles over a
 DG algebra) are prototyped: they rest on material that exists in Mathlib and Tau Ceti today.
 The Moore-path carrier is the strict-concatenation model; it is not homeomorphic to the
 fixed-interval loop space, and the two are compared by a homotopy equivalence (README, standing
-conventions). In Layer 4, `P → M` stands for `M ⊗_R K_m`, where `K_m` is the twisted complex of
+conventions). In Layer 4, `P → M` stands for `M ⊗_A K_m`, where `K_m` is the twisted complex of
 free left modules of the README; the coefficient `m x y` acts on the right of `α`.
 The twisting equation is written in the source's homological sign convention on a
 cohomologically graded algebra, through the grading bridge `C^{-n} = C_n` of the README; its
@@ -139,7 +145,7 @@ def gradingInvolution (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ
 theorem gradingInvolution_of_mem (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ] {q : ℤ}
     {α : M} (hα : α ∈ ℳ q) : gradingInvolution ℳ α = q.negOnePow • α := sorry
 
-/-- The twisted complex `M ⊗_R K_m`, with `M ⊗ ⟨P⟩` identified with `P → M`, is graded in total
+/-- The twisted complex `M ⊗_A K_m`, with `M ⊗ ⟨P⟩` identified with `P → M`, is graded in total
 degree `n` by `f x ∈ ℳ (n + ind x)`: the generator `x` sits in cohomological degree `-ind x`. -/
 def totalGrading (ℳ : ℤ → Submodule R M) {P : Type*} (ind : P → ℤ) (n : ℤ) :
     Submodule R (P → M) where
@@ -153,7 +159,7 @@ variable {h : TauCeti.IsDGAlgebra 𝒜 d} {P : Type*} [Fintype P] [DecidableEq P
   [SetLike.GradedSMul (TauCeti.InternalGrading.ofDecomposition 𝒜).opposite.piece ℳ]
   [DirectSum.Decomposition ℳ]
 
-/-- The twisted differential on `M ⊗_R K_m`, identified with `P → M`. Its `y`-component is
+/-- The twisted differential on `M ⊗_A K_m`, identified with `P → M`. Its `y`-component is
 `(D f) y = ∂(f y) + Σ_x (m_{x,y} acting on the right) (ε (f x))`, where `ε = gradingInvolution ℳ`
 carries the Koszul sign. On a homogeneous elementary tensor this is
 `D(α ⊗ x) = ∂α ⊗ x + (-1)^{|α|} Σ_y α · m_{x,y} ⊗ y` (`twistedDifferential_single`). The right
