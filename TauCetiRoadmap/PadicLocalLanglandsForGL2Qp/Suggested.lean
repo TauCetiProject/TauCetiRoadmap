@@ -8,13 +8,14 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Ba
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; these statements suggest Lean forms for its headline targets.
 
-The statements here are the shared Hilbert–Samuel existence and uniqueness theorem constructed
-in §0.5 for finite modules over noetherian local rings, with an ideal of definition
-on the module (its maximal-ideal case is a specialization of this same theorem;
-agreement with cumulative lengths identifies every other polynomial presentation),
-and finite representation length for
-finitely generated admissible smooth torsion representations of GL₂(ℚ_p) over the ring of
-integers of any finite extension of ℚ_p (§2.2), at every prime. The latter uses
+The statements here give shared Hilbert–Samuel existence and uniqueness for finite
+modules over noetherian local rings with an ideal of definition on the module (§0.5),
+and finite representation length for finitely generated admissible smooth torsion
+representations of GL₂(ℚ_p) over the ring of integers of any finite extension of ℚ_p
+(§2.2), at every prime. The polynomial theorem supplies the single polynomial used
+by the graded-series and maximal-ideal specializations: the latter sets I to the
+maximal ideal, and ambient multiplicity extracts the dimension-normalized coefficient
+at the ambient dimension. The representation-length theorem uses
 Mathlib's actual integer ring, torsion submodules and group-algebra module, together
 with Tau Ceti's smooth-discrete predicate. The two definitions below express its
 central-character and compact-open admissibility hypotheses on those carriers.
@@ -35,7 +36,10 @@ operator and Serre-weight representations. The Montreal, reconstruction and
 all-prime correspondence theorems (Layer 3) need those constructions, Colmez's
 glued section spaces and admissible unitary Banach representations. Algebraic and
 analytic vector comparisons and completion classifications (Layer 4) also need
-filtered periods, locally analytic induction and inertial types. Section 4.1k's
+filtered periods, locally analytic induction and inertial types. Section 4.4's common
+supercuspidal type-occurrence and multiplicity-one theorem, including its finite
+coefficient-field Hom comparison, needs compact types and smooth representation
+carriers. Section 4.1k's
 cyclic Kirillov period model is constructed for D(−ℓ), with weights (0,k), and
 transported to D by the determinant character ε^ℓ, including the B-action and
 positive period lattices. Its locally constant coefficients multiply (tx)^i;
@@ -82,7 +86,8 @@ open ValuativeRel
 namespace TauCetiRoadmap.PadicLocalLanglandsForGL2Qp
 
 /-- Section 0.5: lengths modulo powers of an ideal of definition on a finite module
-agree eventually with a unique rational polynomial, identifying its shared presentations.
+agree eventually with a unique rational polynomial. Its specialization at the maximal
+ideal supplies the same polynomial to the ambient multiplicity construction.
 The ideal lies in the maximal ideal and M/IM has finite length;
 it need not be m-primary in the ring.
 The finite-length assertion keeps the natural-valued length faithful to module length.
