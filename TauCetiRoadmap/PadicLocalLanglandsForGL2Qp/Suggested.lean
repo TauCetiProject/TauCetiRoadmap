@@ -8,8 +8,9 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Ba
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; these statements suggest Lean forms for its headline targets.
 
-The statements here are the shared Hilbert–Samuel polynomiality theorem for finite
-modules over noetherian local rings, with an ideal of definition on the module (§0.5),
+The statements here are the shared Hilbert–Samuel polynomiality theorem constructed
+in §0.5 for finite modules over noetherian local rings, with an ideal of definition
+on the module (its maximal-ideal case is a specialization of this same theorem),
 and finite representation length for
 finitely generated admissible smooth torsion representations of GL₂(ℚ_p) over the ring of
 integers of any finite extension of ℚ_p (§2.2), at every prime. The latter uses
@@ -41,7 +42,9 @@ parameter is lifted to the regular nonsplit Frobenius extension before imposing
 weak admissibility, while monodromy varies in the filtration locus. Section 4.1a
 uses NoncommutativeAndEquivariantIwasawa §F.6's general continuous period boundary;
 its Colmez presentation and dual-exponential adjunction require generalized
-differential-period spaces. The block-centre,
+differential-period spaces. Its exponential heart is the image of the ψ-fixed
+generalized period module under ∇ₖ(1 − φ), characterized by the twists V(−i), paired with
+the dual-exponential tests on V̌(i) for 0 ≤ i < k. The block-centre,
 type-ring and Breuil–Mézard theorems (Layer 5, §§6.0–6.8) need compact block
 categories, their projective envelopes, continuous (pseudo)deformation/type rings
 and module-cycle specialization. Mathlib's algebraic-cycle carrier alone does not
@@ -55,7 +58,11 @@ exclusions, and §5.8's all-prime orthonormalizable universal family for absolut
 irreducible residual representations, need those representation and deformation
 categories as well. The Jacquet–Langlands and Breuil–Strauch comparisons (§6.9)
 need the smooth transfer, Drinfeld covers, their function/differential spaces and
-de Rham cohomology. These results have no substitute statements here.
+de Rham cohomology. Their ρ-superscripts denote continuous equivariant-Hom
+multiplicity spaces, with the subspace topology in the finite product Hom_L(ρ, X).
+Over the splitting coefficient field, evaluation identifies ρ ⊗ Hom_D×(ρ, X)
+with the full projector image.
+These results have no substitute statements here.
 -/
 
 open ValuativeRel
