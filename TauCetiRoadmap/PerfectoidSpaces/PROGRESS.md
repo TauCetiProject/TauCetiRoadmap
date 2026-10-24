@@ -1,0 +1,14 @@
+# Progress log: PerfectoidSpaces
+
+An append-only record of what landed on the PerfectoidSpaces roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"86157896f688bfaed3392ccc5e4c6da5d1a19c54","prs":[19616,19630,19972,20148,20283],"roadmap":"PerfectoidSpaces","to_sha":"b4b3ce57a438a4ec6e21ef62e4a5607ae920a5e0"}-->
+## PerfectoidSpaces: 2026-10-21 to 2026-10-23 (`8615789` to `b4b3ce5`)
+
+The roadmap's foundational definition is in: a [perfectoid Tate ring](https://taucetiproject.org/docs/TauCeti/RingTheory/Perfectoid/Basic.html#TauCeti.Perfectoid.IsPerfectoidTateRing) is a complete Hausdorff uniform Tate ring with a pseudouniformiser `ϖ` such that `ϖ^p` divides `p` in `R°` and Frobenius `R°/ϖ → R°/ϖ^p` is bijective, stated with no base field so that mixed-characteristic products are allowed (TauCeti#19630). Alongside it come the Frobenius maps on quotients, the observation that [surjectivity of Frobenius suffices](https://taucetiproject.org/docs/TauCeti/RingTheory/Perfectoid/Basic.html#TauCeti.Perfectoid.IsPerfectoidTateRing.of_surjective) because injectivity follows from `R°` being integrally closed, and the first boundary cases: the zero ring is perfectoid, and [`ℚ_p` is not](https://taucetiproject.org/docs/TauCeti/RingTheory/Perfectoid/Padic.html#TauCeti.Perfectoid.not_isPerfectoidTateRing_padic), even though Frobenius on `𝔽_p` is bijective.
+
+The first real theorem about the notion also landed: [in characteristic `p`, perfectoid means perfect](https://taucetiproject.org/docs/TauCeti/RingTheory/Perfectoid/PerfectRing.html#TauCeti.Perfectoid.isPerfectoidTateRing_iff_perfectRing) (Scholze's Proposition 3.5). The hard direction rests on the fact that a [perfect complete Tate ring of characteristic `p` is uniform](https://taucetiproject.org/docs/TauCeti/RingTheory/Huber/Perfect.html#TauCeti.Huber.IsUniform.of_perfectRing), proved by applying the open mapping theorem to Frobenius. On the examples side, [every complete algebraically closed nonarchimedean field with `‖p‖ < 1` is perfectoid](https://taucetiproject.org/docs/TauCeti/RingTheory/Perfectoid/IsAlgClosed.html#TauCeti.Perfectoid.isPerfectoidTateRing_of_isAlgClosed), which gives `ℂ_p` as an instance. A [product is perfectoid exactly when both factors are](https://taucetiproject.org/docs/TauCeti/RingTheory/Perfectoid/Basic.html#TauCeti.Perfectoid.isPerfectoidTateRing_prod_iff), resting on products of Tate rings being Tate and on `(A × B)° = A° × B°`.
+
+On the almost-mathematics side, a non-finitely-generated maximal ideal of a valuation domain is now shown to be idempotent, and the maximal ideal of `𝒪_{ℂ_p}` is shown not to be finitely generated. Together these are the input for the setup `(K°, K°°)`, but the basic-setup structure itself has not been built yet.
