@@ -1,0 +1,171 @@
+import Mathlib
+
+/-!
+# Arithmetic Iwasawa theory: headline target signatures
+
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`; these statements suggest Lean forms for its mathematical targets.
+
+The statements below give the prime-power Hasse unit index (§1.5), the full and real
+circular-unit indices for every prime (§§1.5–1.6), class-number growth for every
+number-field ℤₚ-extension (§3.3), Ferrero–Washington for every abelian number field
+(§5.6), and Vandiver propagation (§7.4). The growth theorem uses native fixed fields
+of the power subgroups under a topological Galois-group isomorphism. Their class
+numbers are expressed by `Nat.card` of the ordinary ideal class groups. The
+Ferrero–Washington statement uses the finite fields E(μ_{p^{n+1}}), retaining the
+finite torsion part of the cyclotomic tower; finite initial shifts are absorbed by
+the eventual growth equation.
+
+The definitions below support the README's generator-membership target
+`cyclotomicNumbers_generator_mem` and unit-membership target
+`cyclotomicUnits_mem_iff` (§1.2), the prime-power generator targets
+`cyclotomicUnits_generators` and `realCyclotomicUnits_generators` (§1.3), and
+`realCyclotomicUnits_cyclic` (§1.4), which gives generation over the real Galois
+group ring with sign torsion retained. These supporting API targets are specified
+in the README alongside the tower roots and normalized real generators.
+
+Section 12.6 also uses Mathlib's exterior powers and duals for the shared
+`StarkSystems.exteriorBidual` and `StarkSystems.toExteriorBidual`, with arguments
+ordered as the coefficient ring, exterior degree and module. Their determinant
+formula and naturality apply before any arithmetic specialization.
+
+Other headline signatures are deferred because the pinned libraries lack the
+arithmetic objects they mention. The general-conductor circular-unit formula
+(§1.8) needs the norm-generated circular subgroup and Sinnott distribution lattice.
+Weak Leopoldt and the global-local sequence (Layer 2), and abelian Leopoldt
+(§4.4), need the restricted-ramification Galois modules and completed global-unit
+localization. The procyclic Hochschild–Serre comparison (§2.4a) needs the
+relative continuous-cochain complex, its quotient action and compact homology.
+Coleman interpolation, its arithmetic image, and the conditional
+cyclic module (Layer 7) need the compatible local tower and its norm-unit limit.
+The analytic constructions (Layers 5–6) need the canonical Kubota–Leopoldt and
+Deligne–Ribet pseudomeasures. The finite CM Fitting identities (§9.7) need the
+arithmetic Selmer and generalized Ritter–Weiss modules. The integral
+Sinnott–Kurihara statements (§§8.2, 12.5) also carry the unramified,
+root-killing smoothing hypotheses; their fractional ideals remain unrestricted.
+The Eisenstein argument needs its ordinary Hecke and Hilbert-form lattices,
+the compactification, equivariant cusp-constant lifts and level-one Hasse lifts
+of §9.3. The `hilbertHasseLift` contract has a threshold N₀ depending on F, p and
+the precision m: its weights are positive even multiples of (p−1)p^N₀, with
+N₀≥1 at 2. The argument also needs §9.5's separate classical attachment, ordinary filtration and
+nonreduced oldform assembly. The integral main
+conjecture and its arithmetic presentation (§11.7) need the bounded Burns–Flach
+complex with its canonical determinant lattice and total-fraction trivialization.
+The character formulations, étale special-value comparisons, Brumer–Stark and
+Rubin–Stark consequences (Layer 12) also need these arithmetic modules, the adic
+étale coefficient objects, or the smoothed equivariant L-values and unit lattices.
+The dyadic descent comparison (§10.5) retains the same ramification set S on
+both sides, with the ring of S-integers as its étale input.
+No substitute predicates or arbitrary complexes stand in for these constructions.
+-/
+
+noncomputable section
+
+namespace TauCetiRoadmap.IntegralIwasawaTheory
+
+open scoped NumberField
+
+namespace StarkSystems
+
+/-- The exterior bidual of a module over a commutative ring. -/
+abbrev exteriorBidual (R : Type*) [CommRing R] (r : ℕ) (M : Type*)
+    [AddCommGroup M] [Module R M] : Type _ :=
+  Module.Dual R (⋀[R]^r (Module.Dual R M))
+
+/-- Determinant evaluation from the exterior power to its bidual. -/
+def toExteriorBidual (R : Type*) [CommRing R] (r : ℕ) (M : Type*)
+    [AddCommGroup M] [Module R M] : ⋀[R]^r M →ₗ[R] exteriorBidual R r M :=
+  (exteriorPower.pairingDual R M r).flip
+
+/-- Evaluation of decomposable wedges is the determinant of the functional values. -/
+theorem toExteriorBidual_ιMulti (R : Type*) [CommRing R] (r : ℕ) (M : Type*)
+    [AddCommGroup M] [Module R M] (u : Fin r → M) (φ : Fin r → Module.Dual R M) :
+    toExteriorBidual R r M (exteriorPower.ιMulti R r u) (exteriorPower.ιMulti R r φ) =
+      Matrix.det (Matrix.of (fun i j => φ j (u i))) := by
+  exact exteriorPower.pairingDual_ιMulti_ιMulti φ u
+
+/-- Determinant evaluation commutes with linear maps and the induced bidual maps. -/
+theorem toExteriorBidual_natural (R : Type*) [CommRing R] (r : ℕ)
+    (M N : Type*) [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
+    (f : M →ₗ[R] N) :
+    (exteriorPower.map r f.dualMap).dualMap.comp (toExteriorBidual R r M) =
+      (toExteriorBidual R r N).comp (exteriorPower.map r f) := by
+  sorry
+
+end StarkSystems
+
+/-- Circular numbers generated by the root, the sign, and all nonzero differences.
+Taking the subgroup in Kˣ permits inverses before intersecting with integral units. -/
+def cyclotomicNumbers {K : Type*} [Field K] (ζ : K) (N : ℕ) : Subgroup Kˣ :=
+  Subgroup.closure {u | (u : K) = -1 ∨ (u : K) = ζ ∨
+    ∃ b : ℕ, 0 < b ∧ b < N ∧ (u : K) = 1 - ζ ^ b}
+
+/-- The integral units whose field images are circular numbers. -/
+def cyclotomicUnits (K : Type*) [Field K] [NumberField K]
+    (ζ : K) (N : ℕ) : Subgroup (𝓞 K)ˣ :=
+  (cyclotomicNumbers ζ N).comap (Units.map (algebraMap (𝓞 K) K).toMonoidHom)
+
+/-- The real intersection of full-field circular units, rather than the norm-generated group. -/
+def realCyclotomicUnits (K : Type*) [Field K] [NumberField K]
+    (ζ : K) (N : ℕ) : Subgroup (𝓞 (NumberField.maximalRealSubfield K))ˣ :=
+  (cyclotomicUnits K ζ N).comap
+    (Units.map (algebraMap (𝓞 (NumberField.maximalRealSubfield K)) (𝓞 K)).toMonoidHom)
+
+/-- §§1.5–1.6: both prime-power circular-unit indices equal the real class number. -/
+theorem primePowerCircularUnitIndex (p a : ℕ) [Fact p.Prime] (ha : 0 < a)
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {p ^ a} ℚ K]
+    (ζ : K) (hζ : IsPrimitiveRoot ζ (p ^ a)) :
+    (cyclotomicUnits K ζ (p ^ a)).index =
+      NumberField.classNumber (NumberField.maximalRealSubfield K) ∧
+    (realCyclotomicUnits K ζ (p ^ a)).index =
+      NumberField.classNumber (NumberField.maximalRealSubfield K) := by
+  sorry
+
+/-- §1.5: an odd-prime-power cyclotomic field has Hasse unit index one. -/
+theorem primePowerHasseUnitIndex_one (p a : ℕ) [Fact p.Prime] (hp : p ≠ 2) (ha : 0 < a)
+    (K : Type*) [Field K] [NumberField K]
+    [IsCyclotomicExtension {p ^ a} ℚ K] :
+    NumberField.IsCMField.indexRealUnits K = 1 := by
+  sorry
+
+/-- The degree-pⁿ layer cut out by the subgroup pⁿℤₚ of the Galois group. -/
+def zpExtensionLayer (p : ℕ) [Fact p.Prime]
+    {K L : Type*} [Field K] [Field L] [Algebra K L]
+    (e : Gal(L/K) ≃ₜ* Multiplicative ℤ_[p]) (n : ℕ) : IntermediateField K L :=
+  IntermediateField.fixedField
+    (Subgroup.comap e.toMonoidHom (powMonoidHom (α := Multiplicative ℤ_[p]) (p ^ n)).range)
+
+/-- The eventual class-number growth equation, with an integer constant term. -/
+def HasIwasawaGrowth (p : ℕ) (v : ℕ → ℕ) (μ lam : ℕ) (ν : ℤ) : Prop :=
+  ∃ N : ℕ, ∀ n ≥ N,
+    (v n : ℤ) = (μ : ℤ) * (p : ℤ) ^ n + (lam : ℤ) * (n : ℤ) + ν
+
+/-- §3.3: Iwasawa's class-number growth theorem for every number-field ℤₚ-extension. -/
+theorem classNumberGrowth (p : ℕ) [Fact p.Prime]
+    {K L : Type*} [Field K] [NumberField K] [Field L] [Algebra K L] [IsGalois K L]
+    (e : Gal(L/K) ≃ₜ* Multiplicative ℤ_[p]) :
+    ∃ μ lam : ℕ, ∃ ν : ℤ, HasIwasawaGrowth p
+      (fun n => padicValNat p (Nat.card (ClassGroup (𝓞 (zpExtensionLayer p e n)))))
+      μ lam ν := by
+  sorry
+
+/-- §5.6: abelian cyclotomic class-number valuations are eventually linear, including at 2. -/
+theorem ferreroWashington (E : Type*) [Field E] [NumberField E]
+    [IsAbelianGalois ℚ E] (p : ℕ) [Fact p.Prime] :
+    ∃ lam : ℕ, ∃ ν : ℤ, HasIwasawaGrowth p
+      (fun n => padicValNat p (NumberField.classNumber (CyclotomicField (p ^ (n + 1)) E)))
+      0 lam ν := by
+  sorry
+
+/-- Vandiver's condition for an odd prime, on the native maximal real subfield. -/
+def VandiverCondition (p : ℕ) : Prop :=
+  p ≠ 2 ∧ p.Prime ∧
+    ¬p ∣ NumberField.classNumber (NumberField.maximalRealSubfield (CyclotomicField p ℚ))
+
+/-- §7.4: Vandiver's base-field condition forces p-class vanishing at every real layer. -/
+theorem vandiver_propagation (p : ℕ) (h : VandiverCondition p) (a : ℕ) (ha : 0 < a) :
+    ¬p ∣ NumberField.classNumber
+      (NumberField.maximalRealSubfield (CyclotomicField (p ^ a) ℚ)) := by
+  sorry
+
+end TauCetiRoadmap.IntegralIwasawaTheory
