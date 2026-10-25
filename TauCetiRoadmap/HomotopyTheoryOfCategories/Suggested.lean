@@ -12,10 +12,10 @@ these are targets, not implementations.
 Classes of functors are `MorphismProperty Cat.{u, u}`, and a functor `F : A ⥤ B` between small
 categories enters such a class as `F.toCatHom`. The minimal localizer `Winfty` is defined
 intrinsically as an intersection; its identification with the Thomason equivalences (functors
-whose nerve is a simplicial weak equivalence) is Layer 3 of the README and is not prototyped
+whose nerve is a simplicial weak equivalence) is Layer 4 of the README and is not prototyped
 here, because the simplicial weak equivalences are supplied by the GeneralizedCohomology roadmap.
 
-Layers 6–8 build on Mathlib's `HomotopicalAlgebra.ReedyStructure W₁ W₂ α` (degree `deg`, the
+Layers 7–9 build on Mathlib's `HomotopicalAlgebra.ReedyStructure W₁ W₂ α` (degree `deg`, the
 axioms `lt₁`, `lt₂`, `nonempty_unique`, the opposite structure `ReedyStructure.op`, the degree of
 a morphism `ReedyStructure.degHom` and its lemmas, `ReedyStructure.skeletal`),
 `SemiSimplexCategory`, `SSet.Nonsingular`, `SSet.N`, `WideSubcategory`, `Functor.Elements`,
@@ -28,13 +28,159 @@ Mathlib `ReedyStructure`.
 
 universe w v₁ u₁ v u
 
+/-! ## Layer 0: categorical prerequisites
+
+Stated for arbitrary categories, in the Mathlib namespaces they extend. -/
+
+section CategoricalPrerequisites
+
+universe v₂ u₂
+
+namespace CategoryTheory.Adjunction
+
+variable {C : Type u₁} {D : Type u₂} [Category.{v₁} C] [Category.{v₂} D]
+  {L : C ⥤ D} {R : D ⥤ C} (adj : L ⊣ R)
+
+/-- For an adjunction `L ⊣ R` with unit `η` and counit `ε`, the four conditions `ηR`, `Rε`,
+`εL` and `Lη` invertible are equivalent. An adjunction satisfying them is *idempotent*. -/
+theorem idempotent_tfae :
+    List.TFAE [∀ Y, IsIso (adj.unit.app (R.obj Y)), ∀ Y, IsIso (R.map (adj.counit.app Y)),
+      ∀ X, IsIso (adj.counit.app (L.obj X)), ∀ X, IsIso (L.map (adj.unit.app X))] := by
+  sorry
+
+/-- The objects of `C` at which the unit of `L ⊣ R` is an isomorphism. -/
+def fixedLeft : ObjectProperty C := fun X ↦ IsIso (adj.unit.app X)
+
+/-- The objects of `D` at which the counit of `L ⊣ R` is an isomorphism. -/
+def fixedRight : ObjectProperty D := fun Y ↦ IsIso (adj.counit.app Y)
+
+instance : adj.fixedLeft.IsClosedUnderIsomorphisms := by
+  sorry
+
+instance : adj.fixedRight.IsClosedUnderIsomorphisms := by
+  sorry
+
+variable {adj} in
+lemma fixedRight_obj {X : C} (h : adj.fixedLeft X) : adj.fixedRight (L.obj X) := by
+  sorry
+
+variable {adj} in
+lemma fixedLeft_obj {Y : D} (h : adj.fixedRight Y) : adj.fixedLeft (R.obj Y) := by
+  sorry
+
+lemma fixedRight_iff_exists {Y : D} :
+    adj.fixedRight Y ↔ ∃ X, adj.fixedLeft X ∧ Nonempty (L.obj X ≅ Y) := by
+  sorry
+
+/-- The restriction of `L` to the fixed objects. -/
+def fixedLeftToFixedRight : adj.fixedLeft.FullSubcategory ⥤ adj.fixedRight.FullSubcategory :=
+  adj.fixedRight.lift (adj.fixedLeft.ι ⋙ L) fun X ↦ fixedRight_obj X.2
+
+/-- The restriction of `R` to the fixed objects. -/
+def fixedRightToFixedLeft : adj.fixedRight.FullSubcategory ⥤ adj.fixedLeft.FullSubcategory :=
+  adj.fixedLeft.lift (adj.fixedRight.ι ⋙ R) fun Y ↦ fixedLeft_obj Y.2
+
+/-- Any adjunction restricts to an equivalence between the objects at which the unit is an
+isomorphism and the objects at which the counit is an isomorphism; its unit and counit are those
+of the adjunction. -/
+noncomputable def fixedEquiv :
+    adj.fixedLeft.FullSubcategory ≌ adj.fixedRight.FullSubcategory := by
+  sorry
+
+/-- For an idempotent adjunction, the objects at which the unit is an isomorphism form a
+reflective subcategory, with reflector `L ⋙ R`. -/
+noncomputable abbrev fixedLeftReflective (h : ∀ X, adj.fixedRight (L.obj X)) :
+    Reflective adj.fixedLeft.ι := by
+  sorry
+
+/-- For an idempotent adjunction, the objects at which the counit is an isomorphism form a
+coreflective subcategory, with coreflector `R ⋙ L`. -/
+noncomputable abbrev fixedRightCoreflective (h : ∀ Y, adj.fixedLeft (R.obj Y)) :
+    Coreflective adj.fixedRight.ι := by
+  sorry
+
+/-- When the unit is an isomorphism (`L` fully faithful), the essential image of `L` is the
+fixed subcategory `fixedRight`. -/
+lemma essImage_eq_fixedRight [IsIso adj.unit] : L.essImage = adj.fixedRight := by
+  sorry
+
+end CategoryTheory.Adjunction
+
+namespace CategoryTheory.Idempotents
+
+open Karoubi
+
+variable {C D : Type*} [Category* C] [Category* D] [Preadditive C] [Preadditive D]
+
+theorem additive_iff_toKaroubi_comp (F : Karoubi C ⥤ D) :
+    F.Additive ↔ (toKaroubi C ⋙ F).Additive := by
+  sorry
+
+variable (C D) in
+/-- Precomposition with `toKaroubi C`, as a functor between categories of additive functors. -/
+def whiskeringLeftToKaroubiAdditive : (Karoubi C ⥤+ D) ⥤ (C ⥤+ D) :=
+  (additiveFunctor C D).lift
+    (AdditiveFunctor.forget _ _ ⋙ (Functor.whiskeringLeft C (Karoubi C) D).obj (toKaroubi C))
+    (fun F ↦ inferInstanceAs (toKaroubi C ⋙ F.obj).Additive)
+
+instance : (whiskeringLeftToKaroubiAdditive C D).Full := by
+  sorry
+
+instance : (whiskeringLeftToKaroubiAdditive C D).Faithful := by
+  sorry
+
+variable (C D) in
+/-- When `D` is idempotent complete, additive functors `C ⥤ D` are equivalent to additive
+functors `Karoubi C ⥤ D`. -/
+noncomputable def karoubiUniversalAdditive [IsIdempotentComplete D] :
+    C ⥤+ D ≌ Karoubi C ⥤+ D := by
+  sorry
+
+end CategoryTheory.Idempotents
+
+namespace CategoryTheory
+
+open Limits
+
+/-- **Beck's monadicity theorem** as a characterization: the comparison functor of `F ⊣ G` is an
+equivalence iff `G` reflects isomorphisms and, for every `G`-split pair, the coequalizer exists
+and is preserved by `G`. -/
+theorem Monad.isEquivalence_comparison_iff {C : Type u₁} {D : Type u₂} [Category.{v₁} C]
+    [Category.{v₁} D] {F : C ⥤ D} {G : D ⥤ C} (adj : F ⊣ G) :
+    (Monad.comparison adj).IsEquivalence ↔
+      G.ReflectsIsomorphisms ∧ ∀ ⦃X Y : D⦄ (u v : X ⟶ Y), G.IsSplitPair u v →
+        HasCoequalizer u v ∧ PreservesColimit (parallelPair u v) G := by
+  sorry
+
+/-- **Beck's comonadicity theorem** as a characterization. -/
+theorem Comonad.isEquivalence_comparison_iff {C : Type u₁} {D : Type u₂} [Category.{v₁} C]
+    [Category.{v₁} D] {F : C ⥤ D} {G : D ⥤ C} (adj : F ⊣ G) :
+    (Comonad.comparison adj).IsEquivalence ↔
+      F.ReflectsIsomorphisms ∧ ∀ ⦃X Y : C⦄ (u v : X ⟶ Y), F.IsCosplitPair u v →
+        HasEqualizer u v ∧ PreservesLimit (parallelPair u v) F := by
+  sorry
+
+instance (priority := 100) Monad.reflectsIsomorphisms_of_monadicRightAdjoint
+    {C : Type u₁} {D : Type u₂} [Category.{v₁} C] [Category.{v₁} D] (G : D ⥤ C)
+    [MonadicRightAdjoint G] : G.ReflectsIsomorphisms := by
+  sorry
+
+instance (priority := 100) Comonad.reflectsIsomorphisms_of_comonadicLeftAdjoint
+    {C : Type u₁} {D : Type u₂} [Category.{v₁} C] [Category.{v₁} D] (F : C ⥤ D)
+    [ComonadicLeftAdjoint F] : F.ReflectsIsomorphisms := by
+  sorry
+
+end CategoryTheory
+
+end CategoricalPrerequisites
+
 namespace TauCetiRoadmap.HomotopyTheoryOfCategories
 
 open CategoryTheory CategoryTheory.Limits HomotopicalAlgebra Opposite MonoidalCategory
 
 noncomputable section
 
-/-! ## Layer 0: the 1-truncated layer -/
+/-! ## Layer 1: the 1-truncated layer -/
 
 section OneTruncated
 
@@ -72,7 +218,7 @@ def IsGroupoidFibration {E D : Type u} [Groupoid.{v} E] [Groupoid.{v} D] (p : E 
 
 end OneTruncated
 
-/-! ## Layer 1: basic localizers -/
+/-! ## Layer 2: basic localizers -/
 
 section Localizer
 
@@ -138,7 +284,7 @@ def IsLocallyConstant (W : MorphismProperty Cat.{u, u}) {A B : Type u} [SmallCat
 
 end Localizer
 
-/-! ## Layer 2: presheaves -/
+/-! ## Layer 3: presheaves -/
 
 section Presheaf
 
@@ -203,7 +349,7 @@ section DirectCategories
 open CategoryTheory Opposite
 
 
-/-! ## Layer 6: direct and inverse categories -/
+/-! ## Layer 7: direct and inverse categories -/
 
 namespace CategoryTheory
 
@@ -312,7 +458,7 @@ def inversePart (r : ReedyStructure W₁ W₂ α) :
 
 end HomotopicalAlgebra.ReedyStructure
 
-/-! ## Layer 7: examples of direct and Reedy categories -/
+/-! ## Layer 8: examples of direct and Reedy categories -/
 
 namespace CategoryTheory
 
@@ -334,7 +480,7 @@ end CategoryTheory
 
 namespace SemiSimplexCategory
 
-/-- The semi-simplex category is direct, with degree `len`. README 7.4 obtains this structure
+/-- The semi-simplex category is direct, with degree `len`. README 8.4 obtains this structure
 from the Reedy structure of the simplex category by restriction to monomorphisms
 (`ReedyStructure.directPart`), transported along the isomorphism of categories between
 `SemiSimplexCategory` and the wide subcategory of monomorphisms of `SimplexCategory`. -/
@@ -345,13 +491,25 @@ def reedyStructure :
 instance : IsDirect SemiSimplexCategory := by
   sorry
 
+lemma len_le_of_hom {n m : SemiSimplexCategory} (f : n ⟶ m) : n.len ≤ m.len := by
+  sorry
+
+/-- A morphism of `SemiSimplexCategory` which is not an identity strictly increases `len`. -/
+lemma len_lt_of_not_identities {n m : SemiSimplexCategory} (f : n ⟶ m)
+    (hf : ¬ MorphismProperty.identities _ f) : n.len < m.len := by
+  sorry
+
+/-- In `SemiSimplexCategory`, every endomorphism is an identity (from `IsDirect.eq_id_of_endo`). -/
+lemma eq_id_of_endo {n : SemiSimplexCategory} (f : n ⟶ n) : f = 𝟙 n := by
+  sorry
+
 end SemiSimplexCategory
 
 /-- Semi-simplicial objects of a category. -/
 abbrev SemiSimplicialObject (D : Type u) [Category.{v} D] :=
   SemiSimplexCategoryᵒᵖ ⥤ D
 
-/-! ## Layer 8: non-singular presheaves on direct categories -/
+/-! ## Layer 9: non-singular presheaves on direct categories -/
 
 namespace CategoryTheory
 
@@ -399,7 +557,7 @@ open CategoryTheory CategoryTheory.Limits HomotopicalAlgebra Opposite MonoidalCa
 
 noncomputable section
 
-/-! ## Layer 9: derivators -/
+/-! ## Layer 10: derivators -/
 
 section Derivator
 
@@ -430,7 +588,7 @@ def SatisfiesDer3 : Prop :=
 
 end Derivator
 
-/-! ## Layer 10: cofibration categories -/
+/-! ## Layer 11: cofibration categories -/
 
 section CofibrationCategory
 
@@ -465,7 +623,7 @@ theorem brown_factorization [IsCofibrationCategory C] {X Y : C}
 
 end CofibrationCategory
 
-/-! ## Layer 11: gr-categories, crossed modules, Picard categories -/
+/-! ## Layer 12: gr-categories, crossed modules, Picard categories -/
 
 section GrCategory
 
