@@ -36,8 +36,11 @@ The canonical lattices and trianguline classification
 The mod-p classification (§§2.6–2.8) needs smooth compact induction, its Hecke
 operator and Serre-weight representations. The Montreal, reconstruction and
 all-prime correspondence theorems (Layer 3) need those constructions, Colmez's
-glued section spaces and admissible unitary Banach representations. Algebraic and
-analytic vector comparisons and completion classifications (Layer 4) also need
+glued section spaces and admissible unitary Banach representations. The analytic
+radius comparisons (§3.11) use the Montreal essential image with source
+central character δ⁻¹ for a unitary δ; the compatible quotient and section spaces
+have index δ. These comparisons also require the absent analytic carriers.
+Algebraic and analytic vector comparisons and completion classifications (Layer 4) also need
 filtered periods, locally analytic induction and inertial types. Section 4.4's common
 supercuspidal type-occurrence and multiplicity-one theorem, including its finite
 coefficient-field Hom comparison, needs compact types and smooth representation

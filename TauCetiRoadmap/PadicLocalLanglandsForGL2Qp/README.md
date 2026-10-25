@@ -1245,11 +1245,12 @@ The source is [Pierre Colmez, COLMEZ10](#ref-colmez10), Proposition V.2.1, p.125
 
 ### 3.11 Locally analytic vectors of `Π(D)`
 
-First construct `AnalyticBoxtimes.compatibleRadius` for a unitary character `δ` and a compatible pair `D∈C_L(δ)`, where `C_L(δ)` is the essential image of the torsion/integral Montreal construction after localization, as in CD14 §0.4. This condition is established for that image without the bijection on irreducibles. Construct the compatible quotient `Π_δ(D)` and its exact sequence with the Cartier-dual quotient. For sufficiently large radius index `b`, restriction to `D^(0,r_b]⊠_δℙ¹` gives the analytic-radius exact sequence of CD14 Theorems 0.8 and 0.10, pp.7–8. Prove the radius-norm and lattice estimates used in Theorem 0.7. These provide the compatible-module input to H-coherence; the irreducible specialization below follows after §3.7.
+First construct `AnalyticBoxtimes.compatibleRadius` for a unitary character `δ` and `D∈C_L(δ⁻¹)`. For each unitary `η`, define `C_L(η)=EssIm(D:Rep_L(η)^op→ΦΓ^et(E))`, using §3.2's contravariant Montreal functor after localization; the index records the source central character. Then `(D,δ)` is compatible without using the bijection on irreducibles. Construct the quotient `Π_δ(D)∈Rep_L(δ)` and its exact sequence with the Cartier-dual quotient. For sufficiently large radius index `b`, restriction to `D^(0,r_b]⊠_δℙ¹` gives the analytic-radius exact sequence. The quotient and section spaces retain the index `δ`. Source: [Colmez–Dospinescu, CD14](#ref-cd14), published §0.D, pp.1452–1453, Proposition III.44(i), p.1478, Proposition 0.10 and Theorem 0.11, pp.1453–1454. Prove the radius-norm and lattice estimates used in arXiv v1 Theorem 0.7. These provide the compatible-module input to H-coherence; the irreducible specialization below follows after §3.7.
 
 **Compatible-radius Checks.**
 
 - At `D=0` all section and radius modules are zero, and their exact sequence is the zero sequence.
+- At `p=5, L=ℚ₅`, use the crystalline `V` of §4.9, whose determinant has Frobenius `5⁻²` and filtration jump `−2`, so `det V=χ²`. For `Π₀=Π(V)`, the central character is `ε`, and `D₀=D(Π₀)∈C_L(ε)` realizes `V∨(1)` with determinant 1. Thus its unique compatible character is `ε⁻¹` (CD14, published Theorem III.15(i), p.1469). The radius construction applies with `δ=ε⁻¹`; the choice `δ=ε` fails since `ε(6)=6≠6⁻¹=ε⁻¹(6)`.
 - A finite-dimensional Banach representation has zero Montreal module; the reconstruction is modulo finite-dimensional representations, so the radius comparison cannot identify it with the zero representation without that quotient.
 - The congruence subgroup `1+p^mM₂(ℤ_p)` uses `m≥2` at `p=2`; `m=1` is not the source's uniform-group input.
 
@@ -2624,7 +2625,7 @@ Page numbers refer to the indicated author/preprint version unless a published p
 
 <a id="ref-cd14"></a>
 
-- **CD14.** Pierre Colmez, Gabriel Dospinescu, [Complétés universels de représentations de GL2(Qp)](https://arxiv.org/abs/1301.7647). Algebra Number Theory 8 (2014); locators refer to arXiv:1301.7647v1.
+- **CD14.** Pierre Colmez, Gabriel Dospinescu, [Complétés universels de représentations de GL2(Qp)](https://arxiv.org/abs/1301.7647). Algebra Number Theory 8 (2014); locators refer to arXiv:1301.7647v1 unless labelled published, which refers to the [journal text](https://msp.org/ant/2014/8-6/ant-v8-n6-p03-s.pdf).
 
 <a id="ref-dospinescu15"></a>
 
