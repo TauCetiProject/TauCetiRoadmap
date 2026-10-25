@@ -90,8 +90,13 @@ variable {r : ℕ} {E E' : Type*}
 instance : CoeFun (Chirotope r E) (fun _ => (Fin r → E) → SignType) := ⟨Chirotope.toFun⟩
 
 instance : Neg (Chirotope r E) :=
-  ⟨fun χ => { toFun := fun b => -χ b, exists_ne_zero := sorry, eq_zero_of_not_injective := sorry,
-    comp_perm := sorry, isBase_exchange := sorry, grassmannPlucker := sorry }⟩
+  ⟨fun χ =>
+    { toFun := fun b => -χ b
+      exists_ne_zero := sorry
+      eq_zero_of_not_injective := sorry
+      comp_perm := sorry
+      isBase_exchange := sorry
+      grassmannPlucker := sorry }⟩
 
 /-- The matroid of bases of a chirotope on a finite type. -/
 def matroid [Finite E] (χ : Chirotope r E) : Matroid E :=
@@ -184,6 +189,7 @@ def IsTope (L : OrientedMatroid E) (T : E → SignType) : Prop :=
 def IsCocircuit (L : OrientedMatroid E) (X : E → SignType) : Prop :=
   X ∈ L.covectors ∧ X ≠ 0 ∧ ∀ Y ∈ L.covectors, Y ≠ 0 → SignVector.ConfLE Y X → Y = X
 
+open scoped Classical in
 /-- The walls of a tope: the coordinates whose negation gives another tope. -/
 def walls (L : OrientedMatroid E) (T : E → SignType) : Set E :=
   {e | T e ≠ 0 ∧ L.IsTope (Function.update T e (-T e))}
@@ -230,7 +236,7 @@ namespace MonotoneArrangement
 variable {n : ℕ} (A : MonotoneArrangement n)
 
 /-- The abscissa where `i` and `j` cross (`i ≠ j`). -/
-def crossX (i j : Fin n) : ℝ := sorry
+def crossX (A : MonotoneArrangement n) (i j : Fin n) : ℝ := sorry
 
 def IsSimple : Prop :=
   ∀ i j k : Fin n, i < j → j < k → A.crossX i j ≠ A.crossX j k
@@ -243,7 +249,7 @@ def signAt (p : ℝ × ℝ) : Option (Fin n) → SignType
 
 /-- The chirotope: `sign (crossX j k - crossX i j)` on `some i, some j, some k` with
 `i < j < k`, and `1` on `some i, some j, none` with `i < j`, extended alternatingly. -/
-def chirotope (hn : 2 ≤ n) : Chirotope 3 (Option (Fin n)) := sorry
+def chirotope (A : MonotoneArrangement n) (hn : 2 ≤ n) : Chirotope 3 (Option (Fin n)) := sorry
 
 theorem chirotope_isSimple (hn : 2 ≤ n) : (A.chirotope hn).IsSimple := sorry
 
@@ -366,8 +372,8 @@ open Matrix in
 /-- Pappus's theorem in cross-product form, over any field. -/
 theorem pappus {K : Type*} [Field K] (A B : Fin 3 → Fin 3 → K)
     (hA : (Matrix.of A).det = 0) (hB : (Matrix.of B).det = 0) :
-    (Matrix.of ![(A 1 ×₃ B 2) ×₃ (A 2 ×₃ B 1), (A 0 ×₃ B 2) ×₃ (A 2 ×₃ B 0),
-      (A 0 ×₃ B 1) ×₃ (A 1 ×₃ B 0)]).det = 0 := sorry
+    (Matrix.of ![(A 1 ⨯₃ B 2) ⨯₃ (A 2 ⨯₃ B 1), (A 0 ⨯₃ B 2) ⨯₃ (A 2 ⨯₃ B 0),
+      (A 0 ⨯₃ B 1) ⨯₃ (A 1 ⨯₃ B 0)]).det = 0 := sorry
 
 /-- The Pappus configuration of Layer 6.3. -/
 def pappusPoints : Fin 9 → Fin 3 → ℚ :=
