@@ -7,7 +7,7 @@ morphisms; subtopoi, universal closure operators, Lawvere–Tierney topologies, 
 subtopoi, gluing and the surjection–embedding factorization; connected, locally connected, local,
 hyperconnected and localic morphisms; points and fibre functors with Deligne's theorem; locales and
 localic topoi with the localic reflection; and fibre products of topoi, ending with
-`Sh(S × T) ≃ Sh(S) × Sh(T)` for locally compact `S` and its failure for `ℚ × ℚ`.
+`Sh(S × T) ≃ Sh(S) × Sh(T)` for core-compact `S` and its failure for `ℚ × ℚ`.
 
 Mathlib already has the site-level half of this subject: Grothendieck topologies and sheaves,
 continuous and cocontinuous functors with their sheaf pushforwards, `sheafPullback`, dense subsites
@@ -143,7 +143,12 @@ fibre functors, never through models of theories.
   functor `Locale.pt` with `adjunctionTopToLocalePT` (`Topology/Order/Category/FrameAdjunction`),
   `Nucleus`, `Sublocale`, `nucleusIsoSublocale`, `TopologicalSpace.Opens` with its frame instance
   and `Opens.comap`, `TopCat.Sheaf.pushforward`, `TopCat.Sheaf.pullback`,
-  `TopCat.Sheaf.pullbackPushforwardAdjunction`, `LocallyCompactSpace`, `QuasiSober`.
+  `TopCat.Sheaf.pullbackPushforwardAdjunction`, `LocallyCompactSpace`, `QuasiSober` with
+  `IsIrreducible.genericPoint`, `Prod.instT0Space`, `Pi.instT0Space`, `Preperfect`
+  (`Topology/Perfect`), `IsCompactElement` with `isCompactElement_iff_le_of_directed_sSup_le`
+  (`Order/CompactlyGenerated/Basic`). Mathlib has no way-below relation, no core-compact spaces,
+  no scattered spaces, and no instance making a product of quasi-sober spaces quasi-sober; Layer 8
+  builds them.
 - **Open Mathlib PRs whose shape is followed.** mathlib4#41216 (locally connected sites: the class
   `IsLocallyConnectedSite`, `π₀`, `π₀ConstantSheafAdj`) and mathlib4#26757 (elementary topoi and
   power objects). Both are built here as Layer 5 and Layer 1 targets respectively, named and shaped
@@ -166,7 +171,7 @@ fibre functors, never through models of theories.
 | 5 | Classes of morphisms | connected, locally connected, local, hyperconnected, localic; hyperconnected–localic factorization |
 | 6 | Points | points of a site = points of its topos; Deligne's theorem |
 | 7 | Locales and localic topoi | localic topoi ≃ locales; sublocales = subtopoi; localic reflection |
-| 8 | Fibre products | existence; `Sh(S × T) ≃ Sh(S) × Sh(T)` for `S` locally compact; `ℚ × ℚ` |
+| 8 | Fibre products | existence; `Sh(S × T) ≃ Sh(S) × Sh(T)` for `S` core-compact; `ℚ × ℚ` |
 
 ### Layer 1: Grothendieck topoi and Giraud's theorem
 
@@ -460,11 +465,38 @@ this layer.
   `(⨆ Uᵢ, V)` and `(U, ⨆ Vⱼ)`), with frame homomorphisms `inl`, `inr` and the universal property
   `Order.Frame.IsCoproduct inl inr`. Prove that the product of localic topoi is localic and
   `Sh(L) × Sh(M) ≃ Sh(L ⊗ M)` (Elephant C1.6; Stone Spaces II.2).
+- **Way-below and core-compactness.** For a complete lattice `L`, `CompleteLattice.WayBelow a b`
+  (`a ≪ b`) holds when every nonempty directed `s` with `b ≤ sSup s` has a member above `a`, the
+  quantifier pattern of Mathlib's `isCompactElement_iff_le_of_directed_sSup_le`. Prove
+  `a ≪ b → a ≤ b`, `a' ≤ a → a ≪ b → b ≤ b' → a' ≪ b'`, `⊥ ≪ b`, closure under binary `⊔`, and
+  `a ≪ a ↔ IsCompactElement a`. A space `X` is *core-compact*,
+  `class CoreCompactSpace X : Prop`, when every `x ∈ U` with `U : Opens X` lies in some
+  `V : Opens X` with `V ≪ U`; equivalently every open is the supremum of the opens way below it
+  (`Opens X` is a continuous lattice, Stone Spaces VII.4). Prove: `V ≪ U` whenever `V ⊆ K ⊆ U`
+  for a compact `K` (Mathlib's `IsCompact.elim_directed_cover`), hence the instance
+  `LocallyCompactSpace X → CoreCompactSpace X`; core-compactness passes to open and to closed
+  subspaces and to binary products. *Check:* `ℚ` is not core-compact.
+- **Scattered spaces.** `class ScatteredSpace X : Prop` holds when every nonempty `A : Set X`
+  has a point `x ∈ A` and an open `W ∋ x` with `W ∩ A ⊆ {x}`; prove
+  `scatteredSpace_iff : ScatteredSpace X ↔ ∀ C : Set X, Preperfect C → C = ∅` against Mathlib's
+  `Preperfect`. A scattered space is `T0Space` (`ScatteredSpace.t0Space`, by isolating a point of
+  `{x, y}`) and `QuasiSober` (`ScatteredSpace.quasiSober`: a relatively isolated point of an
+  irreducible closed set is its generic point), so scattered spaces are sober and their points are
+  the points of their topoi (Layer 7). Discrete spaces, finite `T0` spaces and the Sierpiński space
+  are scattered, and every subspace of a scattered space is scattered.
+- **Products of sober spaces.** An arbitrary product of quasi-sober spaces is quasi-sober (instance
+  `quasiSober_pi`: the generic point of an irreducible closed `S ⊆ Π i, X i` is the family of the
+  generic points of the closures of the projections of `S`), and so is a binary product
+  (`quasiSober_prod`). With Mathlib's `Pi.instT0Space` and `Prod.instT0Space`, products of sober
+  spaces are sober. Hence, by Layer 7, for sober `S, T` the points of `Sh(S × T)` are the pairs of
+  points of `S` and `T`, which are the points of the product topos `Sh(S) × Sh(T)` (its universal
+  property with `Type u`), with no hypothesis of compactness.
 - **Spaces.** For spaces `S, T : Type u`, the frame homomorphisms
   `Opens.comap (Prod.fst)` and `Opens.comap (Prod.snd)` induce a surjection of frames
-  `Opens S ⊗ Opens T → Opens (S × T)`. If `S` is locally compact (`LocallyCompactSpace S`), it is an
+  `Opens S ⊗ Opens T → Opens (S × T)`. If `S` is core-compact (`CoreCompactSpace S`), it is an
   isomorphism, so `Opens (S × T)` is the frame coproduct and `Sh(S × T)` is the product
-  `Sh(S) × Sh(T)` of topoi (Isbell 1981; Stone Spaces II.2 and VII.4). For `S = T = ℚ` it is not
+  `Sh(S) × Sh(T)` of topoi (Isbell 1981, Theorem 4; Stone Spaces II.2 and VII.4); this covers
+  every locally compact `S` through the instance above. For `S = T = ℚ` it is not
   injective: `Opens (ℚ × ℚ)` is not the frame coproduct, and `Sh(ℚ × ℚ)` is not the product of
   `Sh(ℚ)` with itself (Isbell 1972; Stone Spaces II.2).
 
@@ -500,8 +532,14 @@ before the identification of points in Layer 6, which is its special case.
 The frame coproduct by C-ideals with its universal property, and the identification of
 `Opens (X × Y)` with that coproduct under a local-compactness-type hypothesis, have been
 formalized in `lean/Grothendieck/Folder161_3.lean` of
-[Commutator-IO/grothendieck-project](https://github.com/Commutator-IO/grothendieck-project). It is
-cited prior work for Layer 8, not its specification.
+[Commutator-IO/grothendieck-project](https://github.com/Commutator-IO/grothendieck-project), from
+a reading of folder 161-3 of the Grothendieck fonds (Montpellier), on the topos of a product. The
+way-below relation on opens, core-compact spaces, scattered spaces with their `T0Space` and
+`QuasiSober` instances, and `quasiSober_pi` are in
+`lean/Grothendieck/Upstream/QuasiSoberPiCoreCompact.lean` of the same repository (CC0), where the
+way-below relation is stated for opens only (`WayBelowOpen`) and core-compactness and
+scatteredness are plain definitions (`CoreCompact`, `Scattered`). Both files are cited prior work
+for Layer 8, not its specification.
 
 ## References
 
@@ -535,4 +573,10 @@ cited prior work for Layer 8, not its specification.
   5–32: locales, localic products and the product `ℚ × ℚ`.
 - [Isbell 1981] J. R. Isbell, "Product spaces in locales", *Proceedings of the American
   Mathematical Society* 81 (1981), 116–118: the localic product of a locally compact space with
-  any space is spatial.
+  any space is spatial; Theorem 4, under a hypothesis that every core-compact space satisfies.
+- [GHKLMS] G. Gierz, K. H. Hofmann, K. Keimel, J. D. Lawson, M. Mislove, D. S. Scott, *Continuous
+  Lattices and Domains*, Encyclopedia of Mathematics and its Applications 93, Cambridge University
+  Press (2003). Chapter I, §1 (the way-below relation).
+- [Hofmann–Lawson 1978] K. H. Hofmann, J. D. Lawson, "The spectral theory of distributive
+  continuous lattices", *Transactions of the American Mathematical Society* 246 (1978), 285–310:
+  core-compact spaces and continuous frames of opens.

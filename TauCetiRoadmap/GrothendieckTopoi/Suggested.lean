@@ -20,10 +20,13 @@ import Mathlib.CategoryTheory.Sites.Pullback
 import Mathlib.CategoryTheory.Subobject.Classifier.Defs
 import Mathlib.CategoryTheory.Subobject.Lattice
 import Mathlib.Order.Closure
+import Mathlib.Order.CompactlyGenerated.Basic
 import Mathlib.Order.Sublocale
 import Mathlib.Topology.Compactness.LocallyCompact
 import Mathlib.Topology.Instances.Rat
+import Mathlib.Topology.Perfect
 import Mathlib.Topology.Sets.Opens
+import Mathlib.Topology.Sober
 
 /-!
 # Grothendieck topoi: target signatures
@@ -346,7 +349,7 @@ noncomputable def sublocaleEquivSubtopos (L : Type u) [Order.Frame L] :
     Sublocale L ≃ Subtopos (Sheaf (Frame.grothendieckTopology L) (Type u)) :=
   sorry
 
-/-! ## Layer 8: coproducts of frames and products of spaces -/
+/-! ## Layer 8: coproducts of frames, core-compact, scattered and sober spaces, products of spaces -/
 
 /-- `i` and `j` exhibit `N` as the coproduct of the frames `L` and `M`. -/
 structure IsFrameCoproduct {L M N : Type u} [Order.Frame L] [Order.Frame M] [Order.Frame N]
@@ -354,10 +357,62 @@ structure IsFrameCoproduct {L M N : Type u} [Order.Frame L] [Order.Frame M] [Ord
   existsUnique_lift : ∀ (P : Type u) [Order.Frame P] (f : FrameHom L P) (g : FrameHom M P),
     ∃! h : FrameHom N P, h.comp i = f ∧ h.comp j = g
 
+/-- `a` is way below `b`: every nonempty directed set whose supremum is above `b` has a member
+above `a`. -/
+def CompleteLattice.WayBelow {L : Type*} [CompleteLattice L] (a b : L) : Prop :=
+  ∀ s : Set L, s.Nonempty → DirectedOn (· ≤ ·) s → b ≤ sSup s → ∃ x ∈ s, a ≤ x
+
+theorem CompleteLattice.WayBelow.le {L : Type*} [CompleteLattice L] {a b : L}
+    (h : CompleteLattice.WayBelow a b) : a ≤ b :=
+  sorry
+
+theorem CompleteLattice.wayBelow_self_iff {L : Type*} [CompleteLattice L] (a : L) :
+    CompleteLattice.WayBelow a a ↔ IsCompactElement a :=
+  sorry
+
 open TopologicalSpace in
-/-- For `S` locally compact, `Opens (S × T)` is the frame coproduct of `Opens S` and `Opens T`. -/
+/-- `X` is core-compact: every point of an open `U` lies in an open way below `U`. -/
+class CoreCompactSpace (X : Type*) [TopologicalSpace X] : Prop where
+  exists_wayBelow : ∀ (U : Opens X) (x : X), x ∈ U →
+    ∃ V : Opens X, x ∈ V ∧ CompleteLattice.WayBelow V U
+
+instance (priority := 100) LocallyCompactSpace.coreCompactSpace (X : Type*) [TopologicalSpace X]
+    [LocallyCompactSpace X] : CoreCompactSpace X :=
+  sorry
+
+theorem not_coreCompactSpace_rat : ¬ CoreCompactSpace ℚ :=
+  sorry
+
+/-- `X` is scattered: every nonempty subset has a relatively isolated point. -/
+class ScatteredSpace (X : Type*) [TopologicalSpace X] : Prop where
+  exists_isolated : ∀ A : Set X, A.Nonempty →
+    ∃ x ∈ A, ∃ W : Set X, IsOpen W ∧ x ∈ W ∧ W ∩ A ⊆ {x}
+
+theorem scatteredSpace_iff (X : Type*) [TopologicalSpace X] :
+    ScatteredSpace X ↔ ∀ C : Set X, Preperfect C → C = ∅ :=
+  sorry
+
+instance (priority := 100) ScatteredSpace.t0Space (X : Type*) [TopologicalSpace X]
+    [ScatteredSpace X] : T0Space X :=
+  sorry
+
+instance (priority := 100) ScatteredSpace.quasiSober (X : Type*) [TopologicalSpace X]
+    [ScatteredSpace X] : QuasiSober X :=
+  sorry
+
+/-- An arbitrary product of quasi-sober spaces is quasi-sober. -/
+instance quasiSober_pi {ι : Type*} (X : ι → Type*) [∀ i, TopologicalSpace (X i)]
+    [∀ i, QuasiSober (X i)] : QuasiSober (∀ i, X i) :=
+  sorry
+
+instance quasiSober_prod (X Y : Type*) [TopologicalSpace X] [TopologicalSpace Y]
+    [QuasiSober X] [QuasiSober Y] : QuasiSober (X × Y) :=
+  sorry
+
+open TopologicalSpace in
+/-- For `S` core-compact, `Opens (S × T)` is the frame coproduct of `Opens S` and `Opens T`. -/
 theorem isFrameCoproduct_opens_prod (S T : Type u) [TopologicalSpace S] [TopologicalSpace T]
-    [LocallyCompactSpace S] :
+    [CoreCompactSpace S] :
     IsFrameCoproduct (Opens.comap (⟨Prod.fst, continuous_fst⟩ : C(S × T, S)))
       (Opens.comap (⟨Prod.snd, continuous_snd⟩ : C(S × T, T))) :=
   sorry
