@@ -22,7 +22,9 @@ central-character and compact-open admissibility hypotheses on those carriers.
 
 The other headline signatures require objects absent from the pins. The analytic
 duality and analytic-vector theorems (§0.1, §§2.4–2.5) need locally convex analytic
-function/distribution spaces and admissible Banach representation categories.
+function/distribution spaces and admissible unitary Banach representation categories;
+the dual modules admit a full-group-stable compact torsion-free finitely generated
+integral Iwasawa model, whose rationalization is the module, with inverse central character.
 The filtered-period equivalence, the normalization comparisons with the supplied
 monodromy and period realization, and the deformation theorems (§§0.2–0.4)
 need period rings, filtered (φ,N)-modules, coefficient-linear compact duality and
