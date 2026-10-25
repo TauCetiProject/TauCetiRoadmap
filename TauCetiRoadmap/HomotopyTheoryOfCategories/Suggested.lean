@@ -188,6 +188,8 @@ end Presheaf
 
 section Derivator
 
+-- The type necessarily lives in `Type (max (w+1) (v₁+1) (u₁+1))`.
+set_option linter.checkUnivs false in
 /-- A prederivator: a pseudofunctor from `Catᵒᵖ` (1-cells reversed) to `Cat`. -/
 abbrev Prederivator := Pseudofunctor (Cat.{w, w})ᵒᵖ Cat.{v₁, u₁}
 
