@@ -6,8 +6,7 @@ and returning to `M` through a *retraction*. This roadmap asks for that theory, 
 [B23] = N. Boumal, *An Introduction to Optimization on Smooth Manifolds*, Cambridge University
 Press, 2023, with [AMS08] = P.-A. Absil, R. Mahony, R. Sepulchre, *Optimization Algorithms on
 Matrix Manifolds*, Princeton University Press, 2008, for Newton's method and trust regions. The
-Manopt toolbox [BMAS14] is the software form of the same theory; this roadmap specifies the
-mathematics behind it, not the toolbox.
+Manopt toolbox [BMAS14] is the numerical implementation.
 
 The geometry these algorithms run on is owned by other roadmaps and consumed here: the metric,
 gradient and Hessian (DifferentialGeometry Layer 12), the Levi-Civita connection, geodesics and
@@ -15,7 +14,9 @@ the exponential map (HopfRinow), second fundamental forms and Riemannian submers
 (RiemannianGeometry R1 and R5a), parallel transport and strongly geodesically convex
 neighbourhoods (SmoothBundlesConnections B5 and B6.0), critical-point theory and continuous
 gradient flows (MorseTheory), metric geodesic convexity (OptimalTransport Layer 9), and the smooth
-real Grassmannian (GeneralizedCohomology G4.0b). This roadmap owns
+real Grassmannian (GeneralizedCohomology G4.0b). 
+
+This roadmap owns:
 
 1. the standard matrix manifolds as concrete Riemannian manifolds: the embedded carriers and
    `P(n)`, which it builds, and the Riemannian structure of the Grassmannian, which it puts on
@@ -28,22 +29,27 @@ real Grassmannian (GeneralizedCohomology G4.0b). This roadmap owns
    complexity bounds (O4) and local rates (O5);
 6. the Riemannian characterization of geodesic convexity and its algorithmic consequences (O6).
 
-The headline theorems are the `O(1/ε²)` iteration bounds for gradient descent and trust regions
-[BAC19], local quadratic convergence of Riemannian Newton [AMS08, Ch. 6], local superlinear
-convergence of trust regions with truncated conjugate gradients [AMS08, Ch. 7; ABG07], the benign
-landscape of the Rayleigh quotient on the sphere, and linear convergence of gradient descent for
-geodesically strongly convex costs. Named theorems are milestones inside a fuller development:
-every carrier, retraction and algorithm below comes with its evaluation lemmas and basic API.
+The headline theorems : 
+- `O(1/ε²)` iteration bounds for gradient descent and trust regions
+[BAC19]
+- local quadratic convergence of Riemannian Newton [AMS08, Ch. 6]
+- local superlinear convergence of trust regions with truncated conjugate gradients [AMS08, Ch. 7; ABG07]
+- the benign landscape of the Rayleigh quotient on the sphere
+- linear convergence of gradient descent for geodesically strongly convex costs. 
 
-Suggested homes: `TauCeti/Geometry/Manifold/Optimization/` for retractions, calculus and
+Suggested module structure : `TauCeti/Geometry/Manifold/Optimization/` for retractions, calculus and
 algorithms, and `TauCeti/Geometry/Manifold/Instances/{Stiefel,Grassmannian,FixedRank,PosDef}.lean`
 for carriers.
 
 ## Scope
 
 Manifolds are finite-dimensional, real, Hausdorff and boundaryless; algorithms are deterministic
-and run in exact arithmetic. The catalogue is exactly the manifolds of O0.3. Outside this roadmap:
-conjugate-gradient and quasi-Newton methods together with the Wolfe-condition line searches they
+and run in exact arithmetic. The catalogue is exactly the manifolds of O0.3. 
+
+
+## Out of scope
+
+Conjugate-gradient and quasi-Newton methods together with the Wolfe-condition line searches they
 need; stochastic, nonsmooth, derivative-free and inequality-constrained methods on manifolds;
 floating-point error analysis; automatic differentiation; the toolbox's software devices
 (finite-difference gradient checks, caching, hashing, vectorization of tangent vectors); and the

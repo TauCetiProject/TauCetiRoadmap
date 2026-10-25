@@ -12,17 +12,9 @@ import TauCeti.Topology.MetricSpace.Length
 import TauCetiRoadmap.DifferentialGeometry.Suggested
 
 /-!
-# Riemannian optimization: target signatures
+# Riemannian optimization: suggested signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
-
-The gradient and Hessian are DifferentialGeometry Layer 12's `mgradient` and `hessian`, imported
-from that roadmap's signature file rather than restated. Unimplemented objects have honest
-`sorry` bodies; no free proposition stands in for a derivative, a domain or a rate. Statements
-that already follow from Tau Ceti are proved in place.
+NB Statements that already follow from Tau Ceti are proved in place.
 -/
 
 noncomputable section
@@ -484,15 +476,14 @@ theorem const_of_isGeodesicallyConvexWith [CompactSpace M] [ConnectedSpace M] {f
 
 end Metric
 
-/-! ## Acceptance: Manopt's first example and the round sphere -/
+/-! ## Acceptance: Sphere example from ManOpt -/
 
 section Rayleigh
 
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
   {n : ℕ} [Fact (Module.finrank ℝ V = n + 1)]
 
-/-- **Acceptance.** Manopt's first example, the cost `x ↦ -⟪A x, x⟫` on the unit sphere with its
-round metric. -/
+/-- **Acceptance.** the cost `x ↦ -⟪A x, x⟫` on the unit sphere with its metric. -/
 def rayleighCost (A : V →L[ℝ] V) (x : Metric.sphere (0 : V) 1) : ℝ :=
   -⟪A (x : V), (x : V)⟫_ℝ
 
@@ -511,14 +502,14 @@ theorem mgradient_rayleighCost_eq_zero_iff (A : V →L[ℝ] V) (hA : IsSelfAdjoi
       Module.End.HasEigenvector (A : V →ₗ[ℝ] V) ⟪A (x : V), (x : V)⟫_ℝ (x : V) := by
   sorry
 
-/-- Benign landscape: every second-order critical point is a global minimizer. -/
+/-- Benign cost landscape case: every second-order critical point is a global minimizer. -/
 theorem isMinOn_rayleighCost_of_hessian_nonneg (A : V →L[ℝ] V) (hA : IsSelfAdjoint A)
     {x : Metric.sphere (0 : V) 1} (hcrit : mgradient (𝓡 n) (rayleighCost A) x = 0)
     (hpsd : ∀ v : TangentSpace (𝓡 n) x, 0 ≤ hessian (𝓡 n) (rayleighCost A) x v v) :
     IsMinOn (rayleighCost A) univ x := by
   sorry
 
-/-- **Acceptance (O6.4), with the Distances on the catalogue convention.** On the round sphere,
+/-- **Acceptance (O6.4), with the Distances on the catalogue convention.** On the sphere,
 with its Riemannian distance installed in place of the ambient chordal metric, a continuous
 geodesically convex function is constant. -/
 theorem const_of_isGeodesicallyConvexWith_sphere [PreconnectedSpace (Metric.sphere (0 : V) 1)]
