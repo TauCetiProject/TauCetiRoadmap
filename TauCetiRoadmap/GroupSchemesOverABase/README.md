@@ -270,7 +270,10 @@ special fibre at `2` is connected while its generic fibre has two components.
 **Checks.** `Hom(𝔾_m, 𝔾_m)` over any connected `S` is `ℤ`; the subtori `t ↦ diag(t, 1)` and
 `t ↦ g_a diag(t, 1) g_a⁻¹` of `GL₂` over `𝔸¹ = Spec k[a]`, with `g_a` the upper unitriangular
 matrix with entry `a`, agree at `a = 0` and differ: GS3.2 is about homomorphisms into a group of
-multiplicative type, not about subtori of a non-commutative group.
+multiplicative type, not about subtori of a non-commutative group. The obstruction is the torsion
+locus: `{g | g² = 1}` in `GL₂` has a 2-dimensional tangent space at `diag(1, −1)`, whereas in a
+commutative `G` of finite type `[ℓ]` has differential `ℓ` on `Lie G`, so `G[ℓ^k]` is unramified over
+`S[1/ℓ]`.
 
 ## Layer GS4: smooth groups over a field and their ranks
 
