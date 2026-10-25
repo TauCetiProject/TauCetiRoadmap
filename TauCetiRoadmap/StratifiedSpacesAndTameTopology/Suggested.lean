@@ -254,7 +254,7 @@ open scoped Classical in
 def IsCellDecomposition (S : OMinimalStructure R) :
     (n : ℕ) → Finset (Set (Fin n → R)) → Prop
   | 0, 𝒞 => 𝒞 = {univ}
-  | n + 1, 𝒞 => (∀ C ∈ 𝒞, S.IsCell (n + 1) C) ∧ Setoid.IsPartition (𝒞 : Set (Set _)) ∧
+  | n + 1, 𝒞 => (∀ C ∈ 𝒞, S.IsCell (n + 1) C) ∧ Setoid.IsPartition (↑𝒞 : Set (Set (Fin (n + 1) → R))) ∧
       IsCellDecomposition S n (𝒞.image fun C => {x : Fin n → R | ∃ y ∈ C, Fin.tail y = x})
 
 /-- The cell decomposition theorem (van den Dries, Chapter 3, (2.11)(I)), for an o-minimal
@@ -270,10 +270,10 @@ end OMinimalStructure
 
 /-- The open simplex spanned by a finite set of points: strictly positive barycentric
 combinations. -/
-def openSimplex {R : Type u} [Field R] [LinearOrder R] {n : ℕ} (σ : Finset (Fin n → R)) :
+def openSimplex {R : Type u} [Field R] [LinearOrder R] {n : ℕ} (τ : Finset (Fin n → R)) :
     Set (Fin n → R) :=
-  {x | ∃ w : (Fin n → R) → R, (∀ v ∈ σ, 0 < w v) ∧ ∑ v ∈ σ, w v = 1 ∧
-    ∑ v ∈ σ, w v • v = x}
+  {x | ∃ w : (Fin n → R) → R, (∀ v ∈ τ, 0 < w v) ∧ ∑ v ∈ τ, w v = 1 ∧
+    ∑ v ∈ τ, w v • v = x}
 
 /-- The triangulation theorem (van den Dries, Chapter 8, (2.9)) for an o-minimal expansion of an
 ordered field: a definable set is definably homeomorphic to a union of open simplices of a finite
@@ -287,8 +287,8 @@ theorem OMinimalStructure.exists_triangulation {R : Type u} [Field R] [LinearOrd
     ∃ (K : Geometry.SimplicialComplex R (Fin n → R)) (T : Set (Finset (Fin n → R)))
       (Φ : (Fin n → R) → (Fin n → R)),
       K.faces.Finite ∧ T ⊆ K.faces ∧ S.DefinableMapOn A Φ ∧ ContinuousOn Φ A ∧ InjOn Φ A ∧
-      Φ '' A = ⋃ σ ∈ T, openSimplex σ ∧ ContinuousOn (Function.invFunOn Φ A) (Φ '' A) ∧
-      ∀ B ∈ ℬ, ∃ T' ⊆ T, Φ '' B = ⋃ σ ∈ T', openSimplex σ := by
+      Φ '' A = ⋃ τ ∈ T, openSimplex τ ∧ ContinuousOn (Function.invFunOn Φ A) (Φ '' A) ∧
+      ∀ B ∈ ℬ, ∃ T' ⊆ T, Φ '' B = ⋃ τ ∈ T', openSimplex τ := by
   sorry
 
 end TauCetiRoadmap.StratifiedSpacesAndTameTopology
