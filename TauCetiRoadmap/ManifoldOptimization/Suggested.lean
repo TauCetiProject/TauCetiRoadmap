@@ -1,7 +1,9 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
-import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.AlongCurve.Basic
+import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.AlongCurve.Acceleration
 import TauCeti.Geometry.Manifold.MFDeriv.Curve
+import TauCeti.Geometry.Manifold.Riemannian.Distance
+import TauCeti.Geometry.Manifold.Riemannian.Geodesic.Basic
 import TauCeti.Geometry.Manifold.Riemannian.Geodesic.HopfRinow
 import TauCeti.Geometry.Manifold.Riemannian.Geodesic.Exponential
 import TauCeti.Geometry.Manifold.Riemannian.Sphere
@@ -19,12 +21,13 @@ finishes neither a layer nor the roadmap.
 
 The gradient and Hessian are DifferentialGeometry Layer 12's `mgradient` and `hessian`, imported
 from that roadmap's signature file rather than restated. Unimplemented objects have honest
-`sorry` bodies; no free proposition stands in for a derivative, a domain or a rate.
+`sorry` bodies; no free proposition stands in for a derivative, a domain or a rate. Statements
+that already follow from Tau Ceti are proved in place.
 -/
 
 noncomputable section
 
-namespace TauCetiRoadmap.RiemannianOptimization
+namespace TauCetiRoadmap.ManifoldOptimization
 
 open Set Bundle Filter
 open scoped Manifold Bundle Topology ContDiff InnerProductSpace
@@ -51,8 +54,9 @@ structure Retraction where
   zero_mem_domain : ∀ x : M, (⟨x, 0⟩ : TangentBundle I M) ∈ domain
   contMDiffOn : ContMDiffOn I.tangent I ∞ toFun domain
   apply_zero : ∀ x : M, toFun ⟨x, 0⟩ = x
-  mfderiv_curve_zero : ∀ (x : M) (v : TangentSpace I x),
-    mfderiv 𝓘(ℝ, ℝ) I (fun t : ℝ ↦ toFun ⟨x, t • v⟩) 0 (1 : ℝ) = v
+  /-- The curve `t ↦ R_x(t v)` has velocity `v` at `t = 0`. -/
+  curveVelocity_zero : ∀ (x : M) (v : TangentSpace I x),
+    TauCeti.Manifold.curveVelocity I (fun t : ℝ ↦ toFun ⟨x, t • v⟩) 0 = v
 
 namespace Retraction
 
@@ -86,10 +90,11 @@ DifferentialGeometry 12.3's `hessian` (see `inner_hessianOp`). -/
 def hessianOp (f : M → ℝ) (x : M) : TangentSpace I x →L[ℝ] TangentSpace I x :=
   CovariantDerivative.leviCivitaConnection I M (mgradient I f) x
 
+omit [I.Boundaryless] [T2Space M] in
 /-- The bilinear form of `hessianOp` is `hessian`; definitional. -/
 theorem inner_hessianOp (f : M → ℝ) (x : M) (v w : TangentSpace I x) :
-    ⟪hessianOp I f x v, w⟫_ℝ = hessian I f x v w := by
-  sorry
+    ⟪hessianOp I f x v, w⟫_ℝ = hessian I f x v w :=
+  rfl
 
 /-- **O2.1.** Each `R_x` is a local diffeomorphism at `0`, by the manifold inverse function
 theorem `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`. -/
@@ -98,26 +103,35 @@ theorem Retraction.isLocalDiffeomorphAt_retr_zero (R : Retraction I M) (x : M) :
   sorry
 
 /-- **O2.2.** A second-order retraction: every curve `t ↦ R_x(t v)` has zero covariant
-acceleration at `t = 0`, for HopfRinow's along-curve derivative. -/
+acceleration at `t = 0`, Tau Ceti's `CovariantDerivative.acceleration` for the Levi-Civita
+connection. -/
 def Retraction.IsSecondOrder (R : Retraction I M) : Prop :=
   ∀ (x : M) (v : TangentSpace I x),
-    (CovariantDerivative.leviCivitaConnection I M).alongCurveWithin
-      (fun t : ℝ ↦ R.retr x (t • v))
-      (TauCeti.Manifold.curveVelocityWithin I (fun t : ℝ ↦ R.retr x (t • v)) univ) univ 0 = 0
+    (CovariantDerivative.leviCivitaConnection I M).acceleration
+      (fun t : ℝ ↦ R.retr x (t • v)) 0 = 0
 
 variable (I M) in
-/-- **O2.2.** The Riemannian exponential map as a retraction on its natural domain. The proof
-fields are discharged by Tau Ceti's `isOpen_setOfPred_mem_expDomain`, `zero_mem_expDomain`,
-`contMDiffOn_riemannianExp_tangentBundle`, `riemannianExp_zero` and
-`mfderiv_riemannianExp_apply_zero`. -/
+/-- **O2.2.** The Riemannian exponential map as a retraction on its natural domain, discharged
+from Tau Ceti's exponential-map API. -/
 def expRetraction : Retraction I M where
   toFun z := TauCeti.Manifold.riemannianExp I M z.proj z.2
   domain := {z | z.2 ∈ TauCeti.Manifold.expDomain I M z.proj}
-  isOpen_domain := sorry
-  zero_mem_domain := sorry
-  contMDiffOn := sorry
-  apply_zero := sorry
-  mfderiv_curve_zero := sorry
+  isOpen_domain := TauCeti.Manifold.isOpen_setOfPred_mem_expDomain
+  zero_mem_domain x := TauCeti.Manifold.zero_mem_expDomain x
+  contMDiffOn := TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle
+  apply_zero x := TauCeti.Manifold.riemannianExp_zero x
+  curveVelocity_zero x v := by
+    have h0 : (0 : ℝ) • v ∈ TauCeti.Manifold.expDomain I M x := by
+      rw [zero_smul]
+      exact TauCeti.Manifold.zero_mem_expDomain x
+    -- The velocity at `0` is the differential of `exp_x` at `0 • v`; substituting the base point
+    -- avoids rewriting inside the tangent space it lives in.
+    have key : ∀ p : TangentSpace I x, p = 0 →
+        (mfderiv 𝓘(ℝ, TangentSpace I x) I (TauCeti.Manifold.riemannianExp I M x) p v : E) = v := by
+      rintro p rfl
+      exact TauCeti.Manifold.mfderiv_riemannianExp_apply_zero x v
+    exact (TauCeti.Manifold.curveVelocity_riemannianExp_smul (I := I) (M := M) h0).trans
+      (key _ (zero_smul ℝ v))
 
 /-- **O2.2.** The exponential map is a second-order retraction. -/
 theorem expRetraction_isSecondOrder : (expRetraction I M).IsSecondOrder := by
@@ -129,11 +143,10 @@ theorem expRetraction_isSecondOrder : (expRetraction I M).IsSecondOrder := by
 theorem deriv_deriv_comp_eq {f : M → ℝ} (hf : ContMDiff I 𝓘(ℝ) 2 f) {γ : ℝ → M}
     (hγ : ContMDiff 𝓘(ℝ, ℝ) I 2 γ) (t : ℝ) :
     deriv (deriv (f ∘ γ)) t =
-      hessian I f (γ t) (TauCeti.Manifold.curveVelocityWithin I γ univ t)
-          (TauCeti.Manifold.curveVelocityWithin I γ univ t) +
+      hessian I f (γ t) (TauCeti.Manifold.curveVelocity I γ t)
+          (TauCeti.Manifold.curveVelocity I γ t) +
         ⟪mgradient I f (γ t),
-          (CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ
-            (TauCeti.Manifold.curveVelocityWithin I γ univ) univ t⟫_ℝ := by
+          (CovariantDerivative.leviCivitaConnection I M).acceleration γ t⟫_ℝ := by
   sorry
 
 /-- **O3.1**, consuming MorseTheory M4's manifold Fermat theorem. -/
@@ -151,6 +164,15 @@ theorem eventually_lt_of_hessian_pos {f : M → ℝ} (hf : ContMDiff I 𝓘(ℝ)
     (hcrit : mgradient I f x = 0)
     (hpos : ∀ v : TangentSpace I x, v ≠ 0 → 0 < hessian I f x v v) :
     ∀ᶠ y in 𝓝[≠] x, f x < f y := by
+  sorry
+
+/-- **O3.6.** Tau Ceti's chart-wise nondegeneracy is criticality together with invertibility of
+the Hessian operator, through MorseTheory M1's identification of the critical Hessian with
+`hessian`. -/
+theorem isManifoldNondegenerateCriticalPoint_iff_isUnit_hessianOp {f : M → ℝ}
+    (hf : ContMDiff I 𝓘(ℝ) ∞ f) (x : M) :
+    TauCeti.IsManifoldNondegenerateCriticalPoint I f x ↔
+      mgradient I f x = 0 ∧ IsUnit (hessianOp I f x) := by
   sorry
 
 /-! ### O2.4: pullback regularity -/
@@ -242,8 +264,8 @@ theorem tendsto_norm_mgradient_armijoSeq (R : Retraction I M) (hR : R.IsGlobal) 
   sorry
 
 /-- **O4.2.** Every cluster point of the Armijo sequence of a `C¹` cost is critical. -/
-theorem mgradient_eq_zero_of_mapClusterPt (R : Retraction I M) (hR : R.IsGlobal) {f : M → ℝ}
-    (hf : ContMDiff I 𝓘(ℝ) 1 f) {L f_low αbar τ r : ℝ} (hL : 0 < L)
+theorem mgradient_eq_zero_of_mapClusterPt_armijoSeq (R : Retraction I M) (hR : R.IsGlobal)
+    {f : M → ℝ} (hf : ContMDiff I 𝓘(ℝ) 1 f) {L f_low αbar τ r : ℝ} (hL : 0 < L)
     (hPB : SatisfiesPullbackBound R f L) (hlow : ∀ x, f_low ≤ f x) (hαbar : 0 < αbar)
     (hτ : τ ∈ Ioo (0 : ℝ) 1) (hr : r ∈ Ioo (0 : ℝ) 1) (x₀ : M) {xbar : M}
     (h : MapClusterPt xbar atTop (armijoSeq R f αbar τ r x₀)) : mgradient I f xbar = 0 := by
@@ -280,8 +302,15 @@ def trSeq (R : Retraction I M) (f : M → ℝ)
     (step : (x : M) → ℝ → TangentSpace I x) (ρ' Δbar : ℝ) (x₀ : M) (Δ₀ : ℝ) (k : ℕ) : M × ℝ :=
   (trUpdate R f H step ρ' Δbar)^[k] (x₀, Δ₀)
 
+/-- **O4.3.** The constant of the trust-region complexity bound, explicit in the optimality gap
+`gap = f x₀ - f_low`, the pullback constant `L`, the model bound `β`, the Cauchy constant `c₁`,
+the acceptance threshold `ρ'` and the initial radius `Δ₀`. -/
+def trComplexityConst (gap L β c₁ ρ' Δ₀ : ℝ) : ℝ :=
+  3 * gap / (2 * ρ' * c₁ * min Δ₀ (c₁ / (4 * (L + β)))) + max 1 (4 * (L + β) * Δ₀ / c₁) / 2
+
 /-- **O4.3.** The `O(1/ε²)` bound on the index of the first `ε`-critical trust-region iterate
-[BAC19]. It does not count iterations with large gradient that follow that index. -/
+[BAC19], with the constant `trComplexityConst`. It does not count iterations with large gradient
+that follow that index. -/
 theorem trSeq_exists_norm_mgradient_le (R : Retraction I M) (hR : R.IsGlobal) {f : M → ℝ}
     {H : (x : M) → TangentSpace I x →L[ℝ] TangentSpace I x}
     {step : (x : M) → ℝ → TangentSpace I x} {f_low L β c₁ ρ' Δbar Δ₀ : ℝ} (x₀ : M)
@@ -294,8 +323,9 @@ theorem trSeq_exists_norm_mgradient_le (R : Retraction I M) (hR : R.IsGlobal) {f
       c₁ * ‖mgradient I f x‖ * min Δ (‖mgradient I f x‖ / β) ≤
         trModel f H x 0 - trModel f H x (step x Δ))
     (hpull : ∀ k : ℕ, let st := trSeq R f H step ρ' Δbar x₀ Δ₀ k;
-      PullbackBoundAt R f L st.1 (step st.1 st.2)) :
-    ∃ C : ℝ, ∀ ε : ℝ, 0 < ε → ε ≤ 1 → ∃ k ≤ ⌈C / ε ^ 2⌉₊,
+      PullbackBoundAt R f L st.1 (step st.1 st.2))
+    (ε : ℝ) (hε : 0 < ε) (hε₁ : ε ≤ 1) :
+    ∃ k ≤ ⌈trComplexityConst (f x₀ - f_low) L β c₁ ρ' Δ₀ / ε ^ 2⌉₊,
       ‖mgradient I f (trSeq R f H step ρ' Δbar x₀ Δ₀ k).1‖ ≤ ε := by
   sorry
 
@@ -310,6 +340,7 @@ variable {V F : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteD
 
 /-- **O0.1.** The named charted structure on a regular level set `h⁻¹(0)`, from Tau Ceti's
 section-zero theorem. Provisional: the body is the target. -/
+@[instance_reducible]
 def levelSetChartedSpace (h : V → F) (n : ℕ)
     (hn : Module.finrank ℝ V = n + Module.finrank ℝ F) (hh : ContDiff ℝ ∞ h)
     (hsurj : ∀ x, h x = 0 → Function.Surjective (fderiv ℝ h x)) :
@@ -337,19 +368,18 @@ variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensi
 
 variable (I) in
 /-- **O0.1.** The canonical metric is the one induced by `ι : M → V`, the identity recorded by
-Tau Ceti's `inducedRiemannianMetric_inner`. -/
+Tau Ceti's `inducedRiemannianMetric_inner`. It makes the differential of `ι` injective. -/
 def IsInducedBy (ι : M → V) : Prop :=
   ∀ (x : M) (v w : TangentSpace I x), ⟪v, w⟫_ℝ = ⟪mvfderiv I ι x v, mvfderiv I ι x w⟫_ℝ
 
 variable (I) in
 /-- **O1.1.** The tangent space at `x`, read as a subspace of `V`. -/
 def tangentSubspace (ι : M → V) (x : M) : Submodule ℝ V :=
-  LinearMap.range (mvfderiv I ι x)
+  (mvfderiv I ι x).range
 
 /-- **O1.2.** The Riemannian gradient of a restricted cost is the projected Euclidean gradient. -/
 theorem mvfderiv_mgradient_comp (ι : M → V) (hι : ContMDiff I 𝓘(ℝ, V) ∞ ι)
-    (hinj : ∀ x, Function.Injective (mvfderiv I ι x)) (hmet : IsInducedBy I ι)
-    {fbar : V → ℝ} {x : M} (hf : DifferentiableAt ℝ fbar (ι x)) :
+    (hmet : IsInducedBy I ι) {fbar : V → ℝ} {x : M} (hf : DifferentiableAt ℝ fbar (ι x)) :
     mvfderiv I ι x (mgradient I (fbar ∘ ι) x) =
       (tangentSubspace I ι x).starProjection (gradient fbar (ι x)) := by
   sorry
@@ -358,11 +388,11 @@ theorem mvfderiv_mgradient_comp (ι : M → V) (hι : ContMDiff I 𝓘(ℝ, V) �
 multiplier of the normal component of the Euclidean gradient, the Riemannian Hessian is the
 projected Hessian of the Lagrangian `f̄ − λ ∘ h`. -/
 theorem mvfderiv_hessianOp_comp (ι : M → V) (hι : ContMDiff I 𝓘(ℝ, V) ∞ ι)
-    (hinj : ∀ x, Function.Injective (mvfderiv I ι x)) (hmet : IsInducedBy I ι)
+    (hmet : IsInducedBy I ι)
     {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F] [FiniteDimensional ℝ F]
     {h : V → F} (hh : ContDiff ℝ ∞ h) (hlevel : ∀ x, h (ι x) = 0)
     (hsurj : ∀ x, Function.Surjective (fderiv ℝ h (ι x)))
-    (hker : ∀ x, tangentSubspace I ι x = LinearMap.ker (fderiv ℝ h (ι x)))
+    (hker : ∀ x, tangentSubspace I ι x = (fderiv ℝ h (ι x)).ker)
     {fbar : V → ℝ} (hf : ContDiff ℝ ∞ fbar) (x : M) (lam : F →L[ℝ] ℝ)
     (hlam : gradient (fun y ↦ lam (h y)) (ι x) =
       (tangentSubspace I ι x)ᗮ.starProjection (gradient fbar (ι x)))
@@ -414,8 +444,16 @@ theorem armijo_local_linear (R : Retraction I M) {f : M → ℝ} (hf : ContMDiff
       dist (armijoSeq R f αbar τ r x₀ k) xs ≤ C * q ^ k * dist x₀ xs := by
   sorry
 
-/-- **O6.1.** `κ`-convexity along every metric geodesic segment: a local signature model of
-OptimalTransport Layer 9's predicate, whose declaration implementations use. -/
+variable (I) in
+/-- **O6.1.** A metric geodesic segment, for the Riemannian distance, is a smooth geodesic on
+`[0, 1]`. -/
+theorem isGeodesicCurveOn_of_isGeodesicSegment {γ : ℝ → M} {x y : M}
+    (h : TauCeti.IsGeodesicSegment γ x y) : TauCeti.Manifold.IsGeodesicCurveOn I γ (Icc 0 1) := by
+  sorry
+
+/-- **O6.1.** `κ`-convexity along every metric geodesic segment: the form of OptimalTransport
+Layer 9's predicate along every segment, as a local signature model whose declaration
+implementations use. -/
 def IsGeodesicallyConvexWith (κ : ℝ) (f : M → ℝ) : Prop :=
   ∀ (γ : ℝ → M) (x y : M), TauCeti.IsGeodesicSegment γ x y → ∀ t ∈ Icc (0 : ℝ) 1,
     f (γ t) ≤ (1 - t) * f x + t * f y - κ / 2 * t * (1 - t) * dist x y ^ 2
@@ -434,22 +472,24 @@ theorem rgd_linear_of_isGeodesicallyConvexWith [CompleteSpace M] (R : Retraction
     f (rgdSeq R f L⁻¹ x₀ k) - f xs ≤ (1 - κ / L) ^ k * (f x₀ - f xs) := by
   sorry
 
-/-- **O6.4.** On a compact connected manifold, continuous geodesically convex functions are
-constant. The `ContMDiff` hypothesis is continuity, stated so that the Riemannian structure is
-part of the theorem. -/
+variable (I) in
+include I in
+/-- **O6.4.** On a compact connected Riemannian manifold, continuous geodesically convex
+functions are constant. The Riemannian hypotheses are included explicitly; without them the
+predicate can hold vacuously. -/
 theorem const_of_isGeodesicallyConvexWith [CompactSpace M] [ConnectedSpace M] {f : M → ℝ}
-    (hf : ContMDiff I 𝓘(ℝ) 0 f) (hconv : IsGeodesicallyConvexWith 0 f) (x y : M) :
+    (hf : Continuous f) (hconv : IsGeodesicallyConvexWith 0 f) (x y : M) :
     f x = f y := by
   sorry
 
 end Metric
 
-/-! ## Acceptance: Manopt's first example -/
+/-! ## Acceptance: Manopt's first example and the round sphere -/
 
 section Rayleigh
 
-variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] {n : ℕ}
-  [Fact (Module.finrank ℝ V = n + 1)]
+variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
+  {n : ℕ} [Fact (Module.finrank ℝ V = n + 1)]
 
 /-- **Acceptance.** Manopt's first example, the cost `x ↦ -⟪A x, x⟫` on the unit sphere with its
 round metric. -/
@@ -478,6 +518,16 @@ theorem isMinOn_rayleighCost_of_hessian_nonneg (A : V →L[ℝ] V) (hA : IsSelfA
     IsMinOn (rayleighCost A) univ x := by
   sorry
 
+/-- **Acceptance (O6.4), with the Distances on the catalogue convention.** On the round sphere,
+with its Riemannian distance installed in place of the ambient chordal metric, a continuous
+geodesically convex function is constant. -/
+theorem const_of_isGeodesicallyConvexWith_sphere [PreconnectedSpace (Metric.sphere (0 : V) 1)]
+    {f : Metric.sphere (0 : V) 1 → ℝ} (hf : Continuous f) :
+    letI : MetricSpace (Metric.sphere (0 : V) 1) :=
+      TauCeti.MetricSpace.ofRiemannianMetric (𝓡 n) (Metric.sphere (0 : V) 1)
+    IsGeodesicallyConvexWith 0 f → ∀ x y, f x = f y := by
+  sorry
+
 end Rayleigh
 
-end TauCetiRoadmap.RiemannianOptimization
+end TauCetiRoadmap.ManifoldOptimization

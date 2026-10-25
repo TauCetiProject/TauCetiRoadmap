@@ -12,10 +12,14 @@ mathematics behind it, not the toolbox.
 The geometry these algorithms run on is owned by other roadmaps and consumed here: the metric,
 gradient and Hessian (DifferentialGeometry Layer 12), the Levi-Civita connection, geodesics and
 the exponential map (HopfRinow), second fundamental forms and Riemannian submersions
-(RiemannianGeometry R1 and R5a), critical-point theory and continuous gradient flows
-(MorseTheory), and metric geodesic convexity (OptimalTransport Layer 9). This roadmap owns
+(RiemannianGeometry R1 and R5a), parallel transport and strongly geodesically convex
+neighbourhoods (SmoothBundlesConnections B5 and B6.0), critical-point theory and continuous
+gradient flows (MorseTheory), metric geodesic convexity (OptimalTransport Layer 9), and the smooth
+real Grassmannian (GeneralizedCohomology G4.0b). This roadmap owns
 
-1. the standard matrix manifolds as concrete Riemannian manifolds (O0);
+1. the standard matrix manifolds as concrete Riemannian manifolds: the embedded carriers and
+   `P(n)`, which it builds, and the Riemannian structure of the Grassmannian, which it puts on
+   GeneralizedCohomology's carrier (O0);
 2. the extrinsic calculus that computes Riemannian gradients and Hessians from Euclidean ones, on
    embedded submanifolds and on quotients (O1);
 3. retractions, their order, Taylor expansions along them, and vector transports (O2);
@@ -59,24 +63,45 @@ hyperbolic and Poincaré models, the essential manifold, tensor formats).
   distance. Rates are explicit inequalities: *linear* means `d(x_k, x*) ≤ C q^k d(x₀, x*)` for all
   `k`, with `0 ≤ q < 1`; *quadratic* means `d(x_{k+1}, x*) ≤ c d(x_k, x*)²` for all `k`; *order `p`*
   means `d(x_{k+1}, x*) ≤ c d(x_k, x*)^p` for all sufficiently large `k`.
+- **Distances on the catalogue.** An embedded catalogue manifold is a subtype of its ambient space
+  and inherits the ambient metric (chordal on the sphere, Frobenius on matrices), for which
+  `IsRiemannianManifold` fails; on the sphere it has no nonconstant geodesic segments at all.
+  Distance-level statements about a catalogue manifold `X` (completeness, distance formulas,
+  geodesic segments, convexity, rates) are made for `TauCeti.MetricSpace.ofRiemannianMetric I X`,
+  whose topology is definitionally the manifold topology: installed locally (`letI`) on every
+  carrier except `P(n)`, as Tau Ceti's `HyperbolicMetric` does, and as the `MetricSpace` instance
+  of the `P(n)` type of O0.3. The inherited metric is never used for them.
 - **Gradient and Hessian.** The gradient is DifferentialGeometry 12.2's `mgradient I f x`; the
   Hessian bilinear form is 12.3's `hessian I f x v w = ⟪∇_v grad f, w⟫`. The Hessian operator
   `hessianOp I f x : TangentSpace I x →L[ℝ] TangentSpace I x` is `∇(grad f)` at `x` for Mathlib's
   `CovariantDerivative.leviCivitaConnection`, so `hessian I f x v w = ⟪hessianOp I f x v, w⟫`
   (`inner_hessianOp`). It
   is the operator form of the same Hessian, not a second one. MorseTheory M1 identifies `hessian`
-  at a critical point with the critical Hessian, and Tau Ceti's
+  at a critical point with the critical Hessian, and O3.6 identifies Tau Ceti's
   `IsManifoldNondegenerateCriticalPoint` with invertibility of `hessianOp` there.
 - **Minimization.** Every algorithm minimizes. A maximization problem is stated by negating the
   cost; Manopt's first example is the cost `x ↦ -⟪A x, x⟫` on the sphere.
 - **Euclidean data.** `V` and `F` are finite-dimensional real inner-product spaces. The Euclidean
   gradient is Mathlib's `gradient`, the Euclidean Hessian operator is `fderiv ℝ (gradient f̄)`,
   and orthogonal projection onto a submodule `K` is `K.starProjection : V →L[ℝ] V`.
-- **Matrices.** The ambient space of `n × p` real matrices carries the Frobenius inner product
-  `⟪A, B⟫ = tr(AᵀB)`. Realize it on `EuclideanSpace ℝ (Fin n × Fin p)` with an explicit linear
-  isometry to `Matrix (Fin n) (Fin p) ℝ`, used for products, transposes and traces; do not install
-  a global inner-product instance on `Matrix`. `Sym(p)` and `Skew(p)` are the symmetric and
-  skew-symmetric subspaces with the restricted inner product, and `sym(A) = (A + Aᵀ)/2`.
+- **Matrices.** The ambient space of `n × p` real matrices is `EuclideanSpace ℝ (Fin n × Fin p)`,
+  whose inner product is the Frobenius product `⟪A, B⟫ = tr(AᵀB)`. Products, transposes and traces
+  are read through the linear equivalence
+  `toMatrix : EuclideanSpace ℝ (Fin n × Fin p) ≃ₗ[ℝ] Matrix (Fin n) (Fin p) ℝ`,
+  `toMatrix A i j = A (i, j)`; do not install a global inner-product instance on `Matrix`. A
+  structure on a subset of `Matrix` (`Matrix.orthogonalGroup`, say) is compared with a carrier here
+  through the bijection that `toMatrix` restricts to, never through the identity, since the two
+  live in different types. `Sym(p)` and `Skew(p)` are the symmetric and skew-symmetric subspaces
+  with the restricted inner product, and `sym(A) = (A + Aᵀ)/2`.
+- **Spectral data.** The singular values `σᵢ(A)` are Mathlib's `LinearMap.singularValues` of
+  `Matrix.toEuclideanLin (toMatrix A)`: zero-indexed and nonincreasing, so `σ₀(A)` is the
+  operator norm (`‖A‖` is the Frobenius norm), which is also OperatorIdeals' convention. Square
+  roots, exponentials and logarithms of symmetric matrices are Mathlib's continuous functional
+  calculus `cfc`, from `Matrix.IsHermitian.instContinuousFunctionalCalculus`:
+  `X^{1/2} = cfc Real.sqrt X`, `X^{−1/2} = cfc (fun t ↦ (√t)⁻¹) X`, `expm S = cfc Real.exp S` and
+  `logm X = cfc Real.log X`. The Q-factor `qf(Z)` of a matrix `Z` of full column rank has the
+  columns `InnerProductSpace.gramSchmidtNormed` makes from the columns of `Z`: the orthonormal
+  factor of the QR decomposition with positive diagonal.
 - **Retractions are total, with domains.** A retraction is a map on the whole tangent bundle that
   is smooth on an open domain containing the zero section; theorems about its values carry the
   domain hypothesis, and a *global* retraction has domain `univ` (O2.1). This is the convention of
@@ -97,8 +122,10 @@ hyperbolic and Poincaré models, the essential manifold, tensor formats).
 Checked against the pin; re-grep before citing anything in code.
 
 - **Manifold calculus:** `mfderiv`, `mvfderiv` (`Geometry/Manifold/MFDeriv/NormedSpace.lean`),
-  `Manifold.IsImmersion`, `Manifold.IsSmoothEmbedding`, `IsLocalDiffeomorphAt`, and the instances
-  lowering `IsManifold I ∞ M` and `IsContMDiffRiemannianBundle I ∞ E _` to every finite order.
+  `Manifold.IsImmersion`, `Manifold.IsSubmersion`, `Manifold.IsSmoothEmbedding`,
+  `IsLocalDiffeomorphAt`, and the instances lowering `IsManifold I ∞ M` and
+  `IsContMDiffRiemannianBundle I ∞ E _` to every finite order; `ModelWithCorners.pi` and the
+  charted space `ModelPi` of finite powers, with no `IsManifold` instance for them.
 - **Riemannian layer:** `Bundle.RiemannianBundle`, `IsContMDiffRiemannianBundle`,
   `IsRiemannianManifold`, `riemannianMetricVectorSpace`, and the Levi-Civita connection
   `CovariantDerivative.leviCivitaConnection`.
@@ -114,25 +141,34 @@ Checked against the pin; re-grep before citing anything in code.
   (`Analysis/InnerProductSpace/Rayleigh.lean`).
 - **Matrix sets and eigenvectors:** `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
   `Matrix.PosDef`, `Module.End.HasEigenvector`.
+- **Spectral data:** `LinearMap.singularValues` (`Analysis/InnerProductSpace/SingularValues.lean`),
+  `Matrix.toEuclideanLin`, the functional calculus of Hermitian matrices
+  `Matrix.IsHermitian.instContinuousFunctionalCalculus`
+  (`Analysis/Matrix/HermitianFunctionalCalculus.lean`), and `InnerProductSpace.gramSchmidtNormed`
+  (`Analysis/InnerProductSpace/GramSchmidtOrtho.lean`).
 
 ## What Tau Ceti already has (consume)
 
 - **The exponential map** (HopfRinow): `TauCeti.Manifold.riemannianExp` and `expDomain`, with
-  `isOpen_setOfPred_mem_expDomain`, `contMDiffOn_riemannianExp_tangentBundle`,
-  `riemannianExp_zero`, `mfderiv_riemannianExp_apply_zero` and
+  `isOpen_setOfPred_mem_expDomain`, `zero_mem_expDomain`, `contMDiffOn_riemannianExp_tangentBundle`,
+  `riemannianExp_zero`, `curveVelocity_riemannianExp_smul`, `mfderiv_riemannianExp_apply_zero` and
   `isLocalDiffeomorphAt_riemannianExp_zero`
   (`Geometry/Manifold/Riemannian/Geodesic/Exponential.lean`); `riemannianLog`
-  (`…/Geodesic/Normal.lean`); `IsGeodesicCurveOn` (`…/Geodesic/Basic.lean`). Together these make
-  the exponential map a retraction with no new analysis (O2.2).
+  (`…/Geodesic/Normal.lean`); `TauCeti.Manifold.IsGeodesicCurveOn` (`…/Geodesic/Basic.lean`).
+  Together these make the exponential map a retraction with no new analysis: `Suggested.lean`
+  discharges `expRetraction` from them (O2.2).
 - **Curves:** `CovariantDerivative.alongCurveWithin`
-  (`Geometry/Manifold/VectorBundle/CovariantDerivative/AlongCurve/Basic.lean`) and
-  `TauCeti.Manifold.curveVelocityWithin` (`Geometry/Manifold/MFDeriv/Curve.lean`).
+  (`Geometry/Manifold/VectorBundle/CovariantDerivative/AlongCurve/Basic.lean`), the covariant
+  acceleration `CovariantDerivative.acceleration` (`…/AlongCurve/Acceleration.lean`), and
+  `TauCeti.Manifold.curveVelocity` (`Geometry/Manifold/MFDeriv/Curve.lean`).
 - **Metrics:** `TauCeti.inducedRiemannianMetric` with `inducedRiemannianMetric_inner`, the metric
   induced by an immersion into an inner-product space (`Geometry/Manifold/Riemannian/Induced.lean`);
   the round metric `TauCeti.sphereRoundMetric` with its `RiemannianBundle` and analytic
   `IsContMDiffRiemannianBundle` instances (`…/Riemannian/Sphere.lean`); product metrics
-  (`…/Riemannian/Prod.lean`); restricted metrics on convex open subsets of inner-product spaces with
-  `isRiemannianManifold_of_convex` (`…/Riemannian/Convex.lean`); and
+  (`…/Riemannian/Prod.lean`); the Riemannian distance `TauCeti.MetricSpace.ofRiemannianMetric` of a
+  preconnected manifold, whose topology is definitionally the manifold topology, with its
+  `IsRiemannianManifold` instance (`…/Riemannian/Distance.lean`), installed as in
+  `TauCeti.HyperbolicMetric` (`…/Riemannian/Hyperbolic.lean`); and
   `completeSpace_of_isPretransitive_isom`, completeness of homogeneous Riemannian manifolds
   (`…/Riemannian/Homogeneous.lean`).
 - **Riesz duality:** `Riemannian.Tensor.rieszDual`, through which DifferentialGeometry defines
@@ -142,6 +178,8 @@ Checked against the pin; re-grep before citing anything in code.
   MorseTheory M2 specializes to scalar levels and O0.1 specializes to vector-valued constraints.
 - **The manifold inverse function theorem:** `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`
   (`Geometry/Manifold/LocalDiffeomorph.lean`).
+- **Flows:** `maximalIntegralCurve` on `maximalIntegralCurveInterval`, with the escape lemma
+  `eventually_notMem_nhdsLT_maximalIntegralCurve` (`Geometry/Manifold/IntegralCurve/Maximal.lean`).
 - **Morse:** `TauCeti.IsManifoldNondegenerateCriticalPoint` and `IsMorse`
   (`Geometry/Manifold/Morse/Basic.lean`), and the vector-space library `Analysis/Calculus/Morse/`.
 - **Metric geodesics:** `TauCeti.IsGeodesicSegment` and `IsGeodesicSpace`
@@ -152,29 +190,37 @@ Checked against the pin; re-grep before citing anything in code.
 - [DifferentialGeometry](../DifferentialGeometry/README.md) Layer 12: `mgradient`, `hessian`,
   metric existence, and metrics on open subsets.
 - [HopfRinow](../HopfRinow/README.md): the Levi-Civita connection and its regularity, along-curve
-  differentiation, exponential maps and local logarithms, the Gauss lemma, minimizing geodesics,
-  Hopf–Rinow, and the metric length- and geodesic-space API.
+  differentiation, exponential maps and local logarithms, the Gauss lemma, minimizing geodesics and
+  the uniqueness of minimizers in normal balls, the first variation of energy, Hopf–Rinow, and the
+  metric length- and geodesic-space API.
 - [RiemannianGeometry](../RiemannianGeometry/README.md): R5a's second fundamental form `B` and shape
-  operator `S_η` with their pinned signs, and R1's Riemannian submersions, horizontal lifts and
-  homogeneous metrics on `G/H`.
+  operator `S_η` with their pinned signs, and R1's Riemannian submersions with their horizontal and
+  vertical projections and horizontal lifts.
 - [MorseTheory](../MorseTheory/README.md): M1's critical Hessian, its identification with
-  `hessian`, isolation and strict minimality of nondegenerate minima; M4's manifold Fermat theorem;
-  M6's local estimate `|f − f(p)| ≤ C‖grad f‖²` near a nondegenerate critical point and its
-  continuous gradient-flow convergence.
+  `hessian`, isolation and strict minimality of nondegenerate minima; M2's regular levels of scalar
+  functions; M4's manifold Fermat theorem; M6's local estimate `|f − f(p)| ≤ C‖grad f‖²` near a
+  nondegenerate critical point and its continuous gradient-flow convergence.
 - [OptimalTransport](../OptimalTransport/README.md) Layer 9: the `λ`-geodesic-convexity predicate
   `Φ(γ_t) ≤ (1−t)Φ(γ₀) + tΦ(γ₁) − (λ/2)t(1−t)d(γ₀,γ₁)²`; Layer 10: metric gradient flows and
   `EVI_λ`.
 - [SmoothBundlesConnections](https://github.com/TauCetiProject/TauCetiRoadmap/blob/791dd408dc48930060b28043245bbb1a8d82b5de/TauCetiRoadmap/SmoothBundlesConnections/README.md)
-  B1.4–B1.5: smooth quotients by free proper actions with submersion projections and
-  principal-bundle structure, and horizontal distributions.
+  B5: parallel transport along piecewise `C¹` curves, for the Levi-Civita connection through B3's
+  frame-bundle description; B6.0: uniform normal and strong-convexity radii on compact sets, and
+  strongly geodesically convex neighbourhoods, in which any two points are joined by a unique
+  minimizing geodesic.
 - [LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 2: the closed-subgroup theorem,
   which makes `Matrix.orthogonalGroup` and `Matrix.specialOrthogonalGroup` Lie groups.
-- [GeometricTopology](../GeometricTopology/README.md) Layer 1: normal bundles and tubular
-  neighbourhoods of embedded submanifolds, on which the nearest-point projection is smooth.
+- [GeneralizedCohomology](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory)
+  G4.0b: the smooth graph-chart structure on the real Grassmannian `finiteGrassmannian ℝ p n` of
+  `p`-dimensional subspaces of `Fin n → ℝ` (TopologicalKTheory T1.5's carrier), of dimension
+  `p(n − p)`.
+- [DGFloer](../DGFloer/README.md#layer-1-topological-prerequisites) Layer 1 item 7: the Stiefel
+  manifolds of orthonormal 2-frames.
+- [LieGroupoidsPoisson](../LieGroupoidsPoisson/README.md) G0.1: regular fibres of submersions as
+  manifolds.
 - [Majorization](../OperatorTheory/Majorization/README.md) Part A (Ky Fan variational theory),
   [PrincipalAngles](../OperatorTheory/PrincipalAngles/README.md) (principal angles from singular
-  values) and [PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) (functional
-  calculus, positive square roots, polar factors).
+  values) and [PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) (polar factors).
 - [VariationalMethods](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md)
   V4: successive Rayleigh minimization and min–max on Hilbert spaces, the infinite-dimensional
   counterpart of the Rayleigh acceptance example.
@@ -189,10 +235,6 @@ Checked against the pin; re-grep before citing anything in code.
   proximal-gradient and Nesterov methods) with their rates. Its Euclidean statements are the
   `M = V`, `R_x(v) = x + v` specializations of O4.1 and O6.3. Coordinate step-size and
   descent-lemma vocabulary with its authors, and confirm its licence before adapting any of it.
-- SmoothBundlesConnections B1.5 consumes a regular-level carrier for submersions from
-  LieGroupoidsPoisson G0.1. O0.1 owns locally defined submanifolds of inner-product spaces; on a
-  global level set the two carriers are compared literally, and one of them is chosen as the shared
-  carrier with that roadmap's owners.
 
 ---
 
@@ -212,15 +254,26 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   is a `Manifold.IsSmoothEmbedding` whose tangent range at `x` is `ker (fderiv ℝ h_U x)`, and that
   two families of local defining functions give the same structure (the identity is a
   diffeomorphism). Global level sets are the special case `levelSetChartedSpace`,
-  `isManifold_levelSet`. Equip the result with `TauCeti.inducedRiemannianMetric` of the inclusion;
-  the predicate `IsInducedBy I ι` records the identity `⟪v, w⟫ = ⟪ι'v, ι'w⟫` that O1 consumes.
-- **O0.2 Products and powers.** Products with Tau Ceti's product metric, finite powers `Fin k → M`
-  on Mathlib's product charts with the sum metric, and componentwise gradients, Hessians,
-  retractions and exponential maps. Acceptance: the oblique manifold of O0.3 is identified with the
-  `m`-th power of the sphere by a diffeomorphic isometry.
+  `isManifold_levelSet`, on `{x : V // h x = 0}`. This structure is the carrier of every embedded
+  catalogue manifold. Where MorseTheory M2 (regular levels of a scalar `h`) or LieGroupoidsPoisson
+  G0.1 (regular fibres of a submersion) builds a manifold structure on such a level set, prove that
+  the evident identification with `{x : V // h x = 0}` is a diffeomorphism to
+  `levelSetChartedSpace`; no other structure is used here. Equip the result with
+  `TauCeti.inducedRiemannianMetric` of the inclusion; the predicate `IsInducedBy I ι` records the
+  identity `⟪v, w⟫ = ⟪ι'v, ι'w⟫` that O1 consumes.
+- **O0.2 Products, powers and quotient metrics.** Products with Tau Ceti's product metric; finite
+  powers `Fin k → M` on Mathlib's charts for `ModelWithCorners.pi`, building here their `IsManifold`
+  instance, the identification of the tangent space of the power with the product of tangent
+  spaces, and the sum metric; and componentwise gradients, Hessians, retractions and exponential
+  maps. *Quotient metrics:* let `π : M̄ → M` be a surjective `Manifold.IsSubmersion` and `G` a Lie
+  group acting smoothly on `M̄` by isometries, preserving `π` and transitively on each fibre. Prove
+  that there is a unique Riemannian metric on `M` making `π` a Riemannian submersion in
+  RiemannianGeometry R1's sense, smooth because it is read through local smooth sections of `π`.
+  Acceptance: the oblique manifold of O0.3 is identified with the `m`-th power of the sphere by a
+  diffeomorphic isometry.
 - **O0.3 The catalogue.** For each manifold: the carrier, its dimension, the tangent space as a
   subspace of the ambient space, the orthogonal projection onto it, and the comparison with any
-  structure already present on the same set.
+  structure already present on the same set or built on it by another roadmap.
   - **Sphere** `{x ∈ V : ‖x‖ = 1}`, from `h(x) = ‖x‖² − 1`. The identity is a diffeomorphism from
     the O0.1 structure to Mathlib's stereographic structure and an isometry to Tau Ceti's round
     metric. Tangent space `(ℝ ∙ x)ᗮ`, projection `u ↦ u − ⟪x, u⟫x`.
@@ -228,32 +281,42 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
     projection removes from each column its component along the corresponding column of `X`.
   - **Stiefel** `St(n, p) = {X : XᵀX = I_p}`, `p ≤ n`, from `h(X) = XᵀX − I_p ∈ Sym(p)`: dimension
     `np − p(p+1)/2`, tangent space `{U : XᵀU + UᵀX = 0}`, projection `Z ↦ Z − X sym(XᵀZ)`. For `p = 1`
-    the carrier and structure are literally the sphere's.
-  - **Orthogonal groups.** `O(n) = St(n, n)` and `SO(n)`, its clopen subset with `det = 1`. The
-    identity is a diffeomorphism between the O0.1 structure and LieGroups' closed-subgroup structure
-    on `Matrix.orthogonalGroup` and `Matrix.specialOrthogonalGroup`; the tangent space at `Q` is
-    `Q · Skew(n)`.
-  - **Grassmann** `Gr(n, p) = St(n, p)/O(p)` for the free proper right action `X ↦ XQ`: the smooth
-    quotient of SmoothBundlesConnections B1.4, with the metric making the projection a Riemannian
-    submersion (RiemannianGeometry R1). Dimension `p(n − p)`; horizontal space at `X` is
-    `{U : XᵀU = 0}`, with projection `Z ↦ (I − XXᵀ)Z`. Prove that `[X] ↦ XXᵀ` is a smooth embedding
-    onto the rank-`p` orthogonal projectors, and that the Riemannian distance between `[X]` and
-    `[Y]` is `‖θ‖₂` for the principal angles `θ` between `span X` and `span Y` (the `cos θ_i` are the
-    singular values of `XᵀY`), consuming PrincipalAngles.
+    the carrier equals the unit sphere of `EuclideanSpace ℝ (Fin n × Fin 1)` as a set
+    (`XᵀX = I₁` iff `‖X‖ = 1`), and `Equiv.setCongr` of that equality is a diffeomorphism and an
+    isometry between the two O0.1 structures. `St(n, p)` is owned here for every `p`; for `p = 2`,
+    `X ↦ (Xe₁, Xe₂)` is a diffeomorphism onto DGFloer Layer 1 item 7's Stiefel manifold of
+    orthonormal 2-frames.
+  - **Orthogonal groups.** `O(n) = St(n, n)` and `SO(n)`, its clopen subset with `det = 1`.
+    `toMatrix` restricts to bijections from these onto `Matrix.orthogonalGroup (Fin n) ℝ` and
+    `Matrix.specialOrthogonalGroup (Fin n) ℝ`, and the bijections are diffeomorphisms from the O0.1
+    structures to LieGroups' closed-subgroup structures; the tangent space at `Q` is `Q · Skew(n)`.
+  - **Grassmann** `Gr(n, p)` is GeneralizedCohomology G4.0b's smooth real Grassmannian
+    `finiteGrassmannian ℝ p n`, of dimension `p(n − p)`; no second carrier is built. Prove that
+    `π : St(n, p) → Gr(n, p)`, sending `X` to the span of its columns, is a smooth surjective
+    submersion whose fibres are the orbits of the right action `X ↦ XQ` of `O(p)`, which acts by
+    isometries, and give `Gr(n, p)` the quotient metric of O0.2 for `π`. The horizontal space at
+    `X` is `{U : XᵀU = 0}`, with projection `Z ↦ (I − XXᵀ)Z`. Prove that `π X ↦ XXᵀ` is a smooth
+    embedding onto the rank-`p` orthogonal projectors, and that the Riemannian distance between
+    `π X` and `π Y` is `‖θ‖₂` for the principal angles `θ` between the two subspaces (the `cos θ_i`
+    are the singular values of `XᵀY`), consuming PrincipalAngles.
   - **Fixed rank** `ℝ_r^{m×n} = {X : rank X = r}`, `1 ≤ r ≤ min(m, n)`: locally defined by Schur
     complements (near `X` with an invertible `r × r` minor, after permuting rows and columns,
-    `[A B; C D] ↦ D − CA⁻¹B`), dimension `(m + n − r)r`, tangent space at `X = UΣVᵀ` (thin SVD)
-    `{UMVᵀ + U_pVᵀ + UV_pᵀ : M ∈ ℝ^{r×r}, U_pᵀU = 0, V_pᵀV = 0}`. For `r < min(m, n)` the set is
-    not closed in `ℝ^{m×n}`, and no completeness statement is made for it.
-  - **Positive-definite matrices** `P(n) = {X ∈ Sym(n) : X ≻ 0}`, an open subset of `Sym(n)` of
-    dimension `n(n+1)/2`, with the affine-invariant metric `⟪U, W⟫_X = tr(X⁻¹UX⁻¹W)`, a smooth field
-    of coercive bilinear forms on that open subset. Prove that the congruences `X ↦ AXAᵀ`
-    (`A` invertible) act transitively by isometries, hence completeness through
-    `completeSpace_of_isPretransitive_isom`; that
+    `[A B; C D] ↦ D − CA⁻¹B`), dimension `(m + n − r)r`, tangent space at `X = UΣVᵀ`, for any
+    `U ∈ St(m, r)`, `V ∈ St(n, r)` and invertible `Σ`,
+    `{UMVᵀ + U_pVᵀ + UV_pᵀ : M ∈ ℝ^{r×r}, U_pᵀU = 0, V_pᵀV = 0}`. The set is not closed in
+    `ℝ^{m×n}`, and no completeness statement is made for it.
+  - **Positive-definite matrices** `P(n)`: a type synonym of the open subset of `Sym(n)` where
+    `toMatrix X` is `Matrix.PosDef`, of dimension `n(n+1)/2`, carrying Mathlib's open-subset charts,
+    the affine-invariant metric `⟪U, W⟫_X = tr(X⁻¹UX⁻¹W)` (a smooth field of coercive bilinear
+    forms) as its `RiemannianBundle` instance, and its Riemannian distance
+    `TauCeti.MetricSpace.ofRiemannianMetric` as its `MetricSpace` instance. Being a synonym, it
+    inherits neither the Frobenius metric of `Sym(n)` nor the flat metric of Tau Ceti's scoped
+    open-subset instances. Prove that the congruences `X ↦ AXAᵀ` (`A` invertible) act transitively
+    by isometries, hence completeness through `completeSpace_of_isPretransitive_isom`; that
     `exp_X(U) = X^{1/2} expm(X^{−1/2}UX^{−1/2}) X^{1/2}` is defined on all of `T_X P(n)`; that
     `d(X, Y) = ‖logm(X^{−1/2}YX^{−1/2})‖_F`; and that the geodesic midpoint is the matrix geometric
-    mean `X # Y = X^{1/2}(X^{−1/2}YX^{−1/2})^{1/2}X^{1/2}`. Square roots, exponentials and logarithms
-    come from PolarDecomposition's functional calculus.
+    mean `X # Y = X^{1/2}(X^{−1/2}YX^{−1/2})^{1/2}X^{1/2}`, in the functional calculus of the
+    Spectral data convention.
 
 ### O1. Extrinsic calculus
 
@@ -280,8 +343,9 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `Hess f(X)[U] = Proj_X(∇²f̄(X)[U] − U sym(Xᵀ∇f̄(X)))`; on the Grassmannian, for `f̄` invariant under
   `X ↦ XQ`, the horizontal lift of `grad f` is `(I − XXᵀ)∇f̄(X)`.
 - **O1.4 Curves.** For a `C²` cost and a `C²` curve,
-  `(f ∘ γ)'' = Hess f(γ)[γ', γ'] + ⟪grad f(γ), D_t γ'⟫` (`deriv_deriv_comp_eq`), with `D_t`
-  HopfRinow's `alongCurveWithin`. For embedded `M`, `ι'(D_t γ') = Proj(d²(ι ∘ γ)/dt²)`.
+  `(f ∘ γ)'' = Hess f(γ)[γ', γ'] + ⟪grad f(γ), D_t γ'⟫` (`deriv_deriv_comp_eq`), with `D_t γ'`
+  Tau Ceti's `CovariantDerivative.acceleration` for the Levi-Civita connection, HopfRinow's
+  along-curve derivative of the velocity. For embedded `M`, `ι'(D_t γ') = Proj(d²(ι ∘ γ)/dt²)`.
 
 ### O2. Retractions and vector transports
 
@@ -297,20 +361,29 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `t = 0`. For embedded `M`, `R` is second order iff the ambient acceleration
   `d²/dt² ι(R_x(t v))|_{t=0}` lies in `Proj_x^⊥ V` for every `v`. The exponential map is a retraction
   (`expRetraction`, discharged from Tau Ceti's exponential API) and is second order
-  (`expRetraction_isSecondOrder`). The metric-projection retraction `R_x(v) = P_M(x + v)` of a
-  locally defined submanifold is defined on the open set where `x + v` lies in GeometricTopology's
-  tubular neighbourhood, is smooth there, and is second order [AM12]. Required instances:
-  - sphere: `(x + v)/‖x + v‖`, global and second order (it is the metric projection);
-  - Stiefel, polar: `(X + U)(I + UᵀU)^{−1/2}`, global and second order (it is the metric
-    projection);
-  - Stiefel, Q-factor: `qf(X + U)`, the orthonormal factor of the QR decomposition with positive
-    diagonal, global and first order, and not second order when `p ≥ 2` (witness in the worked
-    examples);
-  - Grassmann: `([X], ξ) ↦ [qf(X + ξ̄)]`, well defined because a retraction `R̄` on the total space
-    with `π(R̄_{XQ}(ξ̄Q)) = π(R̄_X(ξ̄))` for `Q ∈ O(p)` descends; state and prove that descent lemma in
-    general;
-  - fixed rank: rank-`r` truncation of the SVD of `X + U`, defined where
-    `σ_r(X + U) > σ_{r+1}(X + U)`, second order;
+  (`expRetraction_isSecondOrder`). *Metric projection:* for a locally defined submanifold
+  `S ⊆ V`, let `𝒰 ⊆ V` be the union of the open sets on which every point has a unique nearest
+  point in `S` and the nearest-point map `P_S` is smooth. Prove that `𝒰` contains `S`: near
+  `x ∈ S`, `(p, λ) ↦ p + Dh_U(p)*λ` is a local diffeomorphism from `(S ∩ U) × F_U` onto a
+  neighbourhood of `x` in `V` (manifold inverse function theorem), and its inverse followed by the
+  first projection is `P_S` there [AM12]. The metric-projection retraction `R_x(v) = P_S(x + v)` is
+  defined on the open set where `x + v ∈ 𝒰`, is smooth there, and is second order [AM12]. Required
+  instances, each identified with the metric projection on its domain:
+  - sphere: `(x + v)/‖x + v‖`, global and second order, since every `y ≠ 0` has the unique nearest
+    point `y/‖y‖`;
+  - Stiefel, polar: `(X + U)(I + UᵀU)^{−1/2}`, global and second order, since the polar factor
+    `Z(ZᵀZ)^{−1/2}` (PolarDecomposition) of a matrix `Z` of full column rank is its unique nearest
+    point in `St(n, p)` [AM12];
+  - Stiefel, Q-factor: `qf(X + U)`, global and first order, and not second order when `p ≥ 2`
+    (witness in the worked examples);
+  - Grassmann: `(π X, ξ) ↦ π(qf(X + ξ̄))`, with `ξ̄` the horizontal lift of `ξ` at `X`, well defined
+    because a retraction `R̄` on the total space with `π(R̄_{XQ}(ξ̄Q)) = π(R̄_X(ξ̄))` for `Q ∈ O(p)`
+    descends; state and prove that descent lemma in general;
+  - fixed rank: `Z ↦ ΠZ` for `Z = X + U`, with `Π` the orthogonal projection onto the sum of the
+    eigenspaces of `ZZᵀ` for its `r` largest eigenvalues (the rank-`r` truncation of the SVD of
+    `Z`), defined where `σ_{r−1}(Z) > σ_r(Z)` and second order, since there `ΠZ` is the unique
+    nearest rank-`r` matrix in the Frobenius norm (the Eckart–Young theorem with its uniqueness case
+    [EY36; AM12]);
   - positive-definite matrices: the exponential map, global.
 - **O2.3 Taylor expansions.** For a retraction `R`, the covariant acceleration `a_x(v)` of
   `t ↦ R_x(t v)` at `0` is a quadratic map of `v`. For a `C²` cost,
@@ -326,9 +399,9 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `(x, v) ∈ domain` and `u ∈ T_xM`, to `T_v u ∈ T_{R_x(v)}M`, linearly in `u`, smoothly in the
   tangent-bundle trivializations, with `T_{0_x} = id`. Constructions: the differentiated retraction
   `T_v u = d/dt R_x(v + t u)|_{t=0}`; on embedded `M` the projection transport
-  `ι'(T_v u) = Proj_{R_x(v)}(ι'u)`; and parallel transport along `t ↦ exp_x(t v)` (HopfRinow's
-  along-curve derivative), which is isometric. Prove the projection transport on the sphere is not
-  isometric for `v ≠ 0`.
+  `ι'(T_v u) = Proj_{R_x(v)}(ι'u)`; and parallel transport along `t ↦ exp_x(t v)`
+  (SmoothBundlesConnections B5, for the Levi-Civita connection), which is isometric. Prove the
+  projection transport on the sphere is not isometric for `v ≠ 0`.
 
 ### O3. Optimality conditions
 
@@ -349,6 +422,11 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
 - **O3.5 Second-order critical points and quotients.** Define second-order critical points
   (`grad f(x) = 0`, `Hess f(x) ⪰ 0`). On a quotient, `f` is critical (second-order critical) at
   `π x̄` iff `f ∘ π` is at `x̄`.
+- **O3.6 Nondegeneracy.** For a smooth cost, `TauCeti.IsManifoldNondegenerateCriticalPoint I f x`
+  holds iff `grad f(x) = 0` and `hessianOp I f x` is invertible
+  (`isManifoldNondegenerateCriticalPoint_iff_isUnit_hessianOp`), from MorseTheory M1's
+  identification of the critical Hessian with `hessian`, `inner_hessianOp`, and the Riesz
+  correspondence between nondegenerate bilinear forms and invertible operators. O5 uses this form.
 
 ### O4. Global convergence and complexity
 
@@ -365,8 +443,8 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   is at least `min(ᾱ, 2τ(1 − r)/L)` and
   `f(x) − f(x⁺) ≥ r min(ᾱ, 2τ(1 − r)/L) ‖grad f(x)‖²` (`armijo_decrease`). The consequences of O4.1
   follow with this constant (`tendsto_norm_mgradient_armijoSeq`,
-  `mgradient_eq_zero_of_mapClusterPt`). On a compact manifold with a global retraction and a `C²`
-  cost, O2.4 supplies the bound.
+  `mgradient_eq_zero_of_mapClusterPt_armijoSeq`). On a compact manifold with a global retraction
+  and a `C²` cost, O2.4 supplies the bound.
 - **O4.3 Trust regions** (`trModel`, `trRatio`, `trUpdate`, `trSeq`). The model is
   `m_x(s) = f(x) + ⟪grad f(x), s⟫ + ½⟪H_x s, s⟫` with self-adjoint `H_x`.
   - *Cauchy point:* the minimizer of `m_x` along `−grad f(x)` within radius `Δ`, with
@@ -384,10 +462,15 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   - *Complexity* (`trSeq_exists_norm_mgradient_le`): with `f ≥ f_low`, `‖H_x‖ ≤ β`, self-adjoint
     `H_x`, steps inside the radius, Cauchy decrease
     `m_x(0) − m_x(s) ≥ c₁‖g‖ min(Δ, ‖g‖/β)` with `c₁ ∈ (0, 1]`, and the two-sided pullback bound with
-    constant `L` at each iterate's trial step, there is `C`, explicit in
-    `f(x₀) − f_low, L, β, c₁, ρ', Δ₀`, such that for every `ε ∈ (0, 1]` some `k ≤ ⌈C/ε²⌉` has
-    `‖grad f(x_k)‖ ≤ ε`. The proof runs through the radius lemma: while `‖grad f(x_k)‖ > ε`,
-    `Δ_k ≥ min(Δ₀, c₁ε/(8(L + β)))`. Corollary: `liminf ‖grad f(x_k)‖ = 0`.
+    constant `L ≥ 0` at each iterate's trial step, for every `ε ∈ (0, 1]` some `k ≤ ⌈C/ε²⌉` has
+    `‖grad f(x_k)‖ ≤ ε`, with the explicit constant (`trComplexityConst`)
+    `C = 3(f(x₀) − f_low)/(2ρ'c₁ min(Δ₀, c₁/(4(L + β)))) + max(1, 4(L + β)Δ₀/c₁)/2`.
+    The proof runs through the radius lemma: if `‖grad f(x_j)‖ > ε` for all `j < k`, then
+    `Δ_k ≥ Δ_ε = min(Δ₀, c₁ε/(4(L + β)))`, because a radius at most `c₁ε/(L + β)` gives `ρ ≥ 1/2`.
+    Each successful step before `k` then decreases `f` by at least `ρ'c₁εΔ_ε`, each unsuccessful
+    one divides the radius by `4`, and no step more than doubles it; counting both kinds gives the
+    bound. The bound concerns the index of the first `ε`-critical iterate and gives no count of the
+    iterations with large gradient after that index. Corollary: `liminf ‖grad f(x_k)‖ = 0`.
 
 ### O5. Local convergence
 
@@ -399,7 +482,7 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   the iterates in a sublevel component and uses MorseTheory M6's local estimate together with O3.3.
 - **O5.2 Newton's method** (`newtonStep`, `newtonSeq`, `newton_local_quadratic`). Near any
   nondegenerate critical point, of any index, and for any retraction, the Newton sequence converges
-  quadratically.
+  quadratically; O3.6 makes `hessianOp` invertible near the critical point.
 - **O5.3 Trust regions with truncated CG**, with `H_x = hessianOp I f x`. (a) Near a nondegenerate
   local minimizer `x*` there is a neighbourhood from which the iterates converge to `x*`. (b) If the
   iterates converge to a nondegenerate local minimizer, all but finitely many steps are accepted,
@@ -409,12 +492,20 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
 
 *[B23, Ch. 11].*
 
-- **O6.1 Characterization.** `IsGeodesicallyConvexWith κ f` is OptimalTransport Layer 9's
-  predicate with `λ` renamed `κ`, along every metric geodesic segment (`TauCeti.IsGeodesicSegment`).
-  For smooth `f` it holds iff `Hess f ⪰ κ g` everywhere (`isGeodesicallyConvexWith_iff`), using
-  HopfRinow's identification of metric geodesic segments with smooth minimizing geodesics and the
-  minimality of short radial geodesics. State the same characterization on open geodesically convex
-  subsets (every two points joined by a metric geodesic segment inside the subset).
+- **O6.1 Segments and characterization.** Prove that every metric geodesic segment
+  (`TauCeti.IsGeodesicSegment`, for the Riemannian distance) is a smooth geodesic on `[0, 1]`
+  (`isGeodesicCurveOn_of_isGeodesicSegment`), from SmoothBundlesConnections B6.0's strongly
+  geodesically convex neighbourhoods and HopfRinow's uniqueness of minimizers in normal balls; and
+  that every point has a neighbourhood `W` and an `r > 0` such that each geodesic of length less
+  than `r` starting in `W` is, reparametrized affinely to `[0, 1]`, a metric geodesic segment
+  (B6.0's uniform normal radius). `IsGeodesicallyConvexWith κ f` is OptimalTransport Layer 9's
+  `λ`-geodesic-convexity predicate, written with `κ`, along every metric geodesic segment. For
+  smooth `f` it holds iff `Hess f ⪰ κ g` everywhere (`isGeodesicallyConvexWith_iff`). On a complete
+  connected manifold, prove the same characterization for convexity along some metric geodesic
+  segment between each pair of points, so that `IsGeodesicallyConvexWith` agrees with Layer 9's
+  predicate whether that is stated along every segment or along some segment between each pair.
+  State the characterization on open geodesically convex subsets as well (every two points joined
+  by a metric geodesic segment inside the subset).
 - **O6.2 Consequences**, on a complete connected manifold. For `κ ≥ 0`, every critical point and
   every local minimizer is a global minimizer. For `κ > 0`, a minimizer `x*` exists and is unique,
   `f(y) − f(x*) ≥ (κ/2) d(y, x*)²`, and the Polyak–Łojasiewicz inequality
@@ -423,12 +514,23 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `f(x_k) − f(x*) ≤ (1 − κ/L)^k (f(x₀) − f(x*))` (`rgd_linear_of_isGeodesicallyConvexWith`); in
   positive dimension the hypotheses force `κ ≤ L`.
 - **O6.4 Compactness.** A continuous `0`-geodesically convex function on a compact connected
-  manifold is constant (`const_of_isGeodesicallyConvexWith`).
-- **O6.5 Continuous time.** The negative-gradient flow of a smooth `κ`-geodesically convex cost on a
-  complete connected manifold is an `EVI_κ` solution in OptimalTransport Layer 10's sense.
+  manifold is constant (`const_of_isGeodesicallyConvexWith`): by O6.1, every point near a maximum
+  point `p` lies on a metric geodesic segment with `p` in its interior, along which the function is
+  convex with an interior maximum, so the set where the maximum is attained is open.
+- **O6.5 Continuous time.** Let `f` be a smooth `κ`-geodesically convex cost on a complete
+  connected manifold and `x_t` the maximal integral curve of `−grad f` from `x₀`
+  (`maximalIntegralCurve`). Prove: (a) for every `y`, the upper right Dini derivative of
+  `t ↦ ½d(x_t, y)²` is at most `⟪grad f(x_t), γ'(0)⟫` for every minimizing geodesic
+  `γ : [0, 1] → M` from `x_t` to `y`, from HopfRinow's first variation of energy, so convexity along
+  `γ` gives `½ D⁺_t d(x_t, y)² + (κ/2) d(x_t, y)² ≤ f(y) − f(x_t)`; (b) the curve is defined on
+  `[0, ∞)`: with `y = x₀`, this inequality and convexity at `x₀` bound `d(x_t, x₀)` on bounded time
+  intervals, closed balls are compact (Hopf–Rinow), and the escape lemma
+  `eventually_notMem_nhdsLT_maximalIntegralCurve` excludes a finite end time; (c) the flow is
+  therefore an `EVI_κ` solution in OptimalTransport Layer 10's sense.
 - **O6.6 Positive-definite matrices.** `log det` is geodesically affine, `tr` is geodesically
   convex, and `tr X − log det X` has the unique minimizer `I`; prove each from the explicit
-  geodesics of O0.3.
+  geodesics of O0.3, which by O6.1 and the injectivity of `exp_X` are all the metric geodesic
+  segments of `P(n)`.
 
 ## Worked examples (acceptance criteria)
 
@@ -443,15 +545,15 @@ Discharge these alongside the layers; they catch vacuous statements and sign err
   `λ_max` is simple, its two unit eigenvectors are nondegenerate minimizers, so O5.2 applies.
 - **Product of spheres** (Manopt's manifolds page). For `f(x, y) = ⟪x, Ay⟫` on
   `S^{m−1} × S^{n−1}`: `(x, y)` is critical iff `Ay = σx` and `Aᵀx = σy` with `σ = ⟪x, Ay⟫`, and the
-  minimum value is `−σ_max(A)`.
+  minimum value is `−σ₀(A)`, minus the operator norm of `A`.
 - **Brockett's cost on the Stiefel manifold** [Bro91]. For symmetric `A` and
   `N = diag(μ₁, …, μ_p)`, `f(X) = tr(XᵀAXN)`: if the `μ_i` are distinct and nonzero, `X` is critical
   iff `AX = XΛ` with `Λ` diagonal; if `μ₁ ≥ … ≥ μ_p ≥ 0`, the minimum value is `Σ μ_i λ_i^↑` with the
   eigenvalues in increasing order, consuming Majorization's Ky Fan theory.
-- **Principal subspace on the Grassmannian.** `f([X]) = −tr(XᵀAX)` is well defined; `[X]` is
-  critical iff `span X` is `A`-invariant; the minimum value is `−(λ₁ + … + λ_p)` with the eigenvalues
-  in decreasing order; and if `λ_p > λ_{p+1}`, every second-order critical point is the dominant
-  `p`-dimensional invariant subspace.
+- **Principal subspace on the Grassmannian.** `f(π X) = −tr(XᵀAX)` is well defined; a subspace
+  `W ∈ Gr(n, p)` is critical iff it is `A`-invariant; the minimum value is `−(λ₁ + … + λ_p)` with
+  the eigenvalues in decreasing order; and if `λ_p > λ_{p+1}`, every second-order critical point is
+  the dominant `p`-dimensional invariant subspace.
 - **Retractions.** For `X = [e₁ e₂] ∈ St(3, 2)` and `U = [e₃ e₃]` (tangent, since `XᵀU = 0`), the
   Q-factor curve has ambient acceleration `−2X [[1/2, 1], [0, 1/2]]` at `0`, which is not of the form
   `XΣ` with `Σ` symmetric, so the Q-factor retraction is not second order; the polar curve has
@@ -460,7 +562,9 @@ Discharge these alongside the layers; they catch vacuous statements and sign err
   pullback bound with `L = a` and equality, gradient descent with step `1/a` and Newton's method both
   reach `0` in one step; `f(x) = x⁴` satisfies the pullback bound for no `L`.
 - **Convexity.** `P(n)` is complete, `log det` is geodesically affine and `tr` geodesically convex
-  on it; on the sphere every continuous geodesically convex function is constant.
+  on it; on the sphere with its Riemannian distance (the Distances on the catalogue convention),
+  every continuous geodesically convex function is constant
+  (`const_of_isGeodesicallyConvexWith_sphere`).
 
 ## Statements that must not enter the library
 
@@ -486,16 +590,14 @@ Each is a tempting mistake with its refutation.
   for every `L`.
 - **"Newton's method is attracted only to minimizers."** For `f(x) = −x²` on `ℝ`, one Newton step from
   any point lands on the maximizer `0`.
-- **"The trust-region bound counts every iteration with a large gradient."** It bounds the index of
-  the first `ε`-critical iterate. Iterations with large gradient that follow a small-gradient phase
-  are not controlled by the same argument, and no count of them is asserted.
 - **"The lifted cost on a quotient's total space is Morse."** At a critical point the vertical space
   lies in the kernel of `Hess(f ∘ π)`; Newton's local theory is applied on the quotient.
 - **"Geodesic convexity is useful on compact manifolds."** Continuous geodesically convex functions
   on compact connected manifolds are constant (O6.4).
 - **"Geodesic convexity along metric segments is a Riemannian notion."** On a metric space with no
-  nonconstant geodesic segments every function satisfies the predicate vacuously; O6.1 and O6.4
-  carry their Riemannian hypotheses explicitly.
+  nonconstant geodesic segments every function satisfies the predicate vacuously, and the unit
+  sphere with its ambient chordal metric is such a space. O6.1 and O6.4 carry their Riemannian
+  hypotheses explicitly, and the catalogue states convexity for its Riemannian distances.
 
 ## Relation to sibling roadmaps
 
@@ -503,30 +605,45 @@ One owner per shared construction, stated identically on both sides.
 
 - **DifferentialGeometry** owns metrics, `mgradient` and `hessian`; this roadmap adds only the
   operator form `hessianOp` of the same Hessian.
-- **HopfRinow** owns the connection, geodesics, the exponential map and local logarithms, and the
-  metric geodesic-space API; O2.2 consumes the exponential map as a retraction.
+- **HopfRinow** owns the connection, geodesics, the exponential map and local logarithms, the first
+  variation of energy, and the metric geodesic-space API; O2.2 consumes the exponential map as a
+  retraction.
 - **RiemannianGeometry** owns the second fundamental form, the shape operator and Riemannian
-  submersions; O1.3 states the optimization formulas in their terms.
+  submersions; O1.3 states the optimization formulas in their terms, and O0.2 constructs quotient
+  metrics in R1's sense.
 - **MorseTheory** owns critical Hessians, the manifold Fermat theorem, strict minimality of
-  nondegenerate minima, and continuous gradient flows with their convergence; this roadmap owns
-  discrete iterations and their rates.
+  nondegenerate minima, regular levels of scalar functions, and continuous gradient flows with
+  their convergence; this roadmap owns discrete iterations and their rates, and O0.1 compares its
+  level-set structure with M2's.
 - **OptimalTransport** owns metric geodesic convexity, metric gradient flows and `EVI`; O6 owns
-  the Riemannian characterization and the consequences for discrete algorithms.
-- **SmoothBundlesConnections** owns smooth quotients by free proper actions; **LieGroups** owns
-  the Lie-group structure of matrix groups; **GeometricTopology** owns tubular neighbourhoods;
-  O0.3 compares with each of them literally.
+  the Riemannian characterization, its agreement with Layer 9's predicate, and the consequences for
+  discrete algorithms.
+- **SmoothBundlesConnections** owns parallel transport and strongly geodesically convex
+  neighbourhoods; O2.5 and O6.1 consume them.
+- **GeneralizedCohomology** owns the smooth real Grassmannian; O0.3 adds its quotient metric, the
+  projection from `St(n, p)` and the Riemannian computations, and builds no second carrier.
+- **DGFloer** builds Stiefel manifolds of orthonormal 2-frames; this roadmap owns `St(n, p)` for
+  every `p`, and O0.3 proves the diffeomorphism with DGFloer's carrier for `p = 2`.
+- **LieGroupoidsPoisson** owns regular fibres of submersions, and **LieGroups** the Lie-group
+  structure of matrix groups; O0.1 and O0.3 compare with them.
 - **Majorization**, **PrincipalAngles** and **PolarDecomposition** own Ky Fan theory, principal
-  angles and matrix functional calculus. **VariationalMethods** owns Rayleigh minimization on
-  Hilbert spaces.
+  angles and polar factors; matrix functional calculus is Mathlib's. **VariationalMethods** owns
+  Rayleigh minimization on Hilbert spaces.
 
 ## Ordering
 
-O0.1 and O1.1–O1.2 come first. O2.1 and the exponential part of O2.2 depend only on Tau Ceti and
-proceed alongside them; O2.3 needs O1.4. O3 needs DifferentialGeometry 12 and MorseTheory M1 and
-M4. O4.1–O4.2 need O2.1 and O2.4; O4.3 needs O2.1. O5 needs O2.3 and O3.3; O6 needs O4.1 and
-HopfRinow's geodesic-space API. The catalogue items of O0.3 are independent of one another; the
-Grassmannian also needs SmoothBundlesConnections B1.4 and RiemannianGeometry R1. Discharge the
-worked examples alongside the layers they exercise. Claim single numbered items or smaller.
+O0.1 and O1.1–O1.2 come first; O0.1's comparisons also need MorseTheory M2 and LieGroupoidsPoisson
+G0.1, and O0.2's quotient metrics need RiemannianGeometry R1. O2.1 and the exponential part of
+O2.2 depend only on Tau Ceti and proceed alongside them; O2.3 needs O1.4, and O2.5's parallel
+transport needs SmoothBundlesConnections B5. O3 needs DifferentialGeometry 12 and MorseTheory M1
+and M4. O4.1–O4.2 need O2.1 and O2.4; O4.3 needs O2.1. O5 needs O2.3, O3.3 and O3.6, and O5.3 also
+O4.3's truncated conjugate gradients. O6.1 needs HopfRinow Layer 2 and SmoothBundlesConnections
+B6.0; O6.2–O6.4 need O6.1 and HopfRinow's geodesic-space API, with O6.3 also needing O4.1; O6.5
+needs O6.1, HopfRinow's first variation of energy and OptimalTransport Layer 10; O6.6 needs O0.3's
+`P(n)`. The catalogue items of O0.3 are independent of one another; the orthogonal groups need
+LieGroups Layer 2, the comparison for `St(n, 2)` needs DGFloer Layer 1, and the Grassmannian needs
+GeneralizedCohomology G4.0b, LieGroups Layer 2 and O0.2's quotient metrics. Discharge the worked
+examples alongside the layers they exercise. Claim single numbered items or smaller.
 
 ## References
 
@@ -546,6 +663,8 @@ worked examples alongside the layers they exercise. Claim single numbered items 
   *SIAM J. Numer. Anal.* 20(3) (1983), 626–637.
 - [Bro91] R. W. Brockett, Dynamical systems that sort lists, diagonalize matrices, and solve linear
   programming problems, *Linear Algebra Appl.* 146 (1991), 79–91.
+- [EY36] C. Eckart, G. Young, The approximation of one matrix by another of lower rank,
+  *Psychometrika* 1(3) (1936), 211–218.
 - [BMAS14] N. Boumal, B. Mishra, P.-A. Absil, R. Sepulchre, Manopt, a Matlab toolbox for
   optimization on manifolds, *J. Mach. Learn. Res.* 15 (2014), 1455–1459. Documentation:
   [manifolds](https://www.manopt.org/manifolds.html),
