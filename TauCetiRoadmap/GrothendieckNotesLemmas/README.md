@@ -1,6 +1,6 @@
 # Roadmap: general lemmas from the formalisation of Grothendieck's working notes
 
-**Summary.** Thirty-one small results that Mathlib lacks, each needed by a Lean proof of a
+**Summary.** Twenty-five small results that Mathlib lacks, each needed by a Lean proof of a
 statement in Alexandre Grothendieck's working notes (Montpellier fonds) or in his Bourbaki
 drafts. They were proposed to Mathlib as pull requests in October 2026 and closed under Mathlib's
 policy on AI-generated contributions. Tau Ceti welcomes AI contributions, so this roadmap
@@ -23,12 +23,13 @@ Source of the first formalisation, one file per closed PR (CC0):
 repository. Nothing here attributes a result to Grothendieck. Most targets are standard, with
 references given; the few that are not are marked « no printed source found ».
 
+The category-theory targets of the same origin are in
+[HomotopyTheoryOfCategories](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1521) (Layer 0 and 8.4).
+
 ## What Mathlib already has (consume)
 
 - `Polynomial.hasseDeriv`, `Nat.Prime.dvd_choose_pow`, Lucas's theorem (`Choose.choose_modEq_choose_mod_mul_choose_div`), `Polynomial.expand`.
 - `Module.Flat`, `Module.FinitePresentation`, `IsAdicComplete`, `Module.primaryComponent`.
-- `CategoryTheory.Adjunction`, `Idempotents.Karoubi`, `Monad.MonadicRightAdjoint` (Beck),
-  `ReedyStructure` (`Mathlib/AlgebraicTopology/Reedy/Basic.lean`), `SemiSimplexCategory`.
 - `ContinuousMap.curry` and `uncurry` with their continuity under `LocallyCompactSpace`.
 - `Matrix.det`, `exteriorPower` bases, `LinearMap.singularValues`
   (`Mathlib/Analysis/InnerProductSpace/SingularValues.lean`).
@@ -95,23 +96,7 @@ Source files: `FlatProdPi`, `FinitePresentationPiRightHomBijective`,
 
 Source files: `DerivationLeibnizProd`, `DerivationLieMulLeft`.
 
-### Layer 4: category theory
-
-1. `Adjunction.idempotent_tfae`: the equivalent conditions for an idempotent adjunction. The fixed
-   subcategories `fixedLeft`, `fixedRight`, the equivalence `fixedEquiv` between them, and the
-   reflection `fixedLeftAdjunction`.
-2. `Idempotents.karoubiUniversalAdditive`: with values in an additive Karoubian category, additive
-   functors on `C` and on its Karoubi envelope are equivalent.
-3. `Monad.isEquivalence_comparison_iff`: Beck's (co)monadicity theorem as an iff.
-4. `ReedyStructure.ofWellFounded`: direct categories through well-foundedness, and the direct Reedy
-   structure on `SemiSimplexCategory` (`reedyStructure`, `len_lt_of_not_identities`). The closing
-   review on Mathlib asked that the structure on the semi-simplex category be **restricted from
-   one on the full simplex category**. Follow that design, not the source file's.
-
-Source files: `AdjunctionIdempotent`, `KaroubiAdditiveFunctors`, `MonadicityIff`,
-`SemiSimplexCategoryReedy`.
-
-### Layer 5: topology
+### Layer 4: topology
 
 1. `ContinuousMap.continuous_curry_of_r1Space`, `continuous_uncurry_of_r1Space`,
    `curryOfR1Space`: the exponential law `C(X × Y, Z) ≃ₜ C(X, C(Y, Z))` for the compact-open
@@ -124,7 +109,7 @@ Source files: `AdjunctionIdempotent`, `KaroubiAdditiveFunctors`, `MonadicityIff`
 
 Source files: `CurryR1Space`, `NoetherianIsOpenOfStableUnderGeneralization`.
 
-### Layer 6: finite monoids and linear algebra
+### Layer 5: finite monoids and linear algebra
 
 1. `Monoid.exists_forall_mul_eq_self_iff_of_finite`: a finite monoid has a right zero iff any two
    principal right ideals meet and every morphism to a group is trivial. Neither condition can be
@@ -140,11 +125,11 @@ Source files: `CurryR1Space`, `NoetherianIsOpenOfStableUnderGeneralization`.
    integer-valued polynomials (Pólya 1915; Cahen–Chabert 1997, ch. I).
 
 Source files: `MonoidRightZero`, `MatrixDetFinTwoCauchyBinet`,
-`SingularValuesSigmaTwo` (which also holds 6.3), `PolynomialIntegerValued`.
+`SingularValuesSigmaTwo` (which also holds 5.3), `PolynomialIntegerValued`.
 
 ## Ordering
 
-Any target can be taken alone. The only dependencies are 1.3 → 1.4 and 6.3 → 6.4. Small
+Any target can be taken alone. The only dependencies are 1.3 → 1.4 and 5.3 → 5.4. Small
 targets first: 1.1, 1.2, 1.5, 2.1, 2.6, 3.1, 3.2 are each under forty lines in the first
 formalisation.
 
@@ -159,6 +144,6 @@ formalisation.
 
 The lemmas were needed by the Lean proofs of the Grothendieck edition (grothendieck.commutator.io),
 written by Claude Opus 5.5 (claude-opus-5-5) under Michel Hua's direction in October 2026. Mathlib
-closed the pull requests on 11–22 October 2026 under its policy on AI contributions. One review
-remark (Joël Riou, on the Reedy structure) is carried into Layer 4.4. This roadmap was drafted with
-the same model and must be read and revised by its human author before submission.
+closed the pull requests on 11–22 October 2026 under its policy on AI contributions. This roadmap
+was drafted with the same model and must be read and revised by its human author before
+submission.
