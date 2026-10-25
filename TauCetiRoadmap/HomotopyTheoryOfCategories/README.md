@@ -1,4 +1,4 @@
-# Roadmap: homotopy theory of small categories — basic localizers, test categories, derivators and 2-groups
+# Roadmap: homotopy theory of small categories — basic localizers, test categories, direct categories, derivators and 2-groups
 
 **Summary.** Build the homotopy theory of small categories in the form Grothendieck gave it in
 *Pursuing Stacks* and *Les Dérivateurs*, and its 1-truncated algebraic shadow. The roadmap
@@ -14,6 +14,12 @@ constructs:
 - Thomason's model structure on `Cat`, Dwyer maps and pushouts along them;
 - weak, local, strict **test categories**, with `Δ`, the cube category `□` and the cube category
   with connections `□_c` as the worked examples;
+- **direct and inverse categories** on Mathlib's `HomotopicalAlgebra.ReedyStructure`: the
+  well-founded characterisation of direct categories and their canonical degree, restriction and
+  transport of Reedy structures, the standard examples (posets with well-founded order, small
+  diagram shapes, the simplex and semi-simplex categories, the semi-cubical and globe
+  categories), and **non-singular presheaves** on a direct category with their face posets,
+  discrete fibrations and pinned posets;
 - **derivators**: prederivators, the axioms Der1–Der4, strong, pointed and stable derivators,
   homotopy exact and (co)Cartesian squares, Kan extension along sieves and cosieves, the
   triangulated structure on the values of a stable derivator, and the derivators of a model
@@ -30,34 +36,48 @@ constructs:
 checklist and its admitted constructions are targets. Suggested homes in Tau Ceti:
 `TauCeti/CategoryTheory/Groupoid/` (Layer 0), `TauCeti/CategoryTheory/Localizer/` (Layers 1–2),
 `TauCeti/AlgebraicTopology/Thomason/` (Layers 3–4), `TauCeti/AlgebraicTopology/TestCategory/`
-(Layer 5), `TauCeti/CategoryTheory/Derivator/` (Layer 6),
-`TauCeti/AlgebraicTopology/CofibrationCategory/` (Layer 7), `TauCeti/CategoryTheory/GrCategory/`
-(Layer 8) and `TauCeti/CategoryTheory/Sites/PicardStack/` (Layer 9). The file split is an
-implementation choice; the dependency order is not.
+(Layer 5), `TauCeti/AlgebraicTopology/Reedy/` (Layers 6–7, mirroring Mathlib's
+`Mathlib/AlgebraicTopology/Reedy/`), `TauCeti/CategoryTheory/Presheaf/Nonsingular.lean` and
+`TauCeti/CategoryTheory/DiscreteFibration.lean` (Layer 8), `TauCeti/CategoryTheory/Derivator/`
+(Layer 9), `TauCeti/AlgebraicTopology/CofibrationCategory/` (Layer 10),
+`TauCeti/CategoryTheory/GrCategory/` (Layer 11) and `TauCeti/CategoryTheory/Sites/PicardStack/`
+(Layer 12). The file split is an implementation choice; the dependency order is not.
 
 ## Scope boundary
 
 **In scope**: everything listed in the summary, for small categories in a fixed universe `u`
-(`Cat.{u, u}`), and the comparison theorems that connect it with simplicial sets.
+(`Cat.{u, u}`), and the comparison theorems that connect it with simplicial sets. Layers 6–7
+(direct and inverse categories, Reedy structures) are stated for arbitrary categories and ask for
+no smallness (convention 16).
 
 **Out of scope, with owner.**
 
 | Material | Owner | Use here |
 | --- | --- | --- |
+| Latching and matching objects, Reedy weak factorization systems, the Reedy model structure | Joël Riou's Mathlib project ([leanprover-community/project-intentions#5](https://github.com/leanprover-community/project-intentions/issues/5)), announced in the TODO of Mathlib's [`Mathlib/AlgebraicTopology/Reedy/Basic.lean`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/AlgebraicTopology/Reedy/Basic.lean) | not used: Layers 6–8 state nothing about them, and every Reedy structure here is a Mathlib `ReedyStructure`, so that they combine with that work |
 | Kan–Quillen model structure on `SSet`, simplicial weak equivalences, `sd ⊣ Ex` comparisons, geometric realization | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G2 item 1; Mathlib (`SSet.sd`, `SSet.ex`, `SSet.sdExAdjunction`) | consumed in Layers 3–5 |
-| Homotopy groups of spaces, weak homotopy equivalences, Hurewicz and Whitehead | [AlgebraicTopology](../AlgebraicTopology/README.md), Stage 8; Tau Ceti `TauCeti/Topology/Homotopy/HomotopyGroup/` | consumed in Layer 8 |
+| Homotopy groups of spaces, weak homotopy equivalences, Hurewicz and Whitehead | [AlgebraicTopology](../AlgebraicTopology/README.md), Stage 8; Tau Ceti `TauCeti/Topology/Homotopy/HomotopyGroup/` | consumed in Layer 11 |
 | `K(G, 1)` spaces and group cohomology of classifying spaces | [ClassifyingSpaces](../ClassifyingSpaces/README.md) | not used |
 | Grothendieck topoi, their points and morphisms, the classifying topos `B_G` | the [Grothendieck topoi roadmap](../GrothendieckTopoi/README.md) | not used: sites appear here only as bases of coefficient stacks |
-| Stacks in groupoids on schemes, gerbes, site-level stackification `Stack.stackification`, torsors, the Picard groupoid and Picard stack of a curve | [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md), §§1.15, 1.18, 3.4, 3.7 | `Stack.stackification` consumed in Layer 9 |
-| Globular sets, Grothendieck ∞-groupoids, the homotopy hypothesis | [GrothendieckInfinityGroupoids](../GrothendieckInfinityGroupoids/README.md) | not used |
-| Direct and inverse categories (`IsDirect`), Reedy structures, the semi-cubical category, non-singular presheaves | [DirectReedyCategories](../DirectReedyCategories/README.md) | `IsDirect` consumed in Layer 7 |
+| Stacks in groupoids on schemes, gerbes, site-level stackification `Stack.stackification`, torsors, the Picard groupoid and Picard stack of a curve | [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md), §§1.15, 1.18, 3.4, 3.7 | `Stack.stackification` consumed in Layer 12 |
+| The globe category `𝔾` (Layer 0.1 there), globular sets, Grothendieck ∞-groupoids, the homotopy hypothesis | [GrothendieckInfinityGroupoids](../GrothendieckInfinityGroupoids/README.md) | `𝔾` consumed in 7.6, which proves it direct; globular sets stay there |
 | Quillen exact categories and Grothendieck groups | [GrothendieckEulerForms](../GrothendieckEulerForms/README.md) | not used |
 | Spectra and stable homotopy | [GeneralizedCohomology](../GeneralizedCohomology/README.md) | not used |
 
+Not in this roadmap either: generalized, elegant and Eilenberg–Zilber Reedy categories; weighted
+(co)limits, boundaries of representables, the inductive construction of diagrams and skeletal
+filtrations; geometric realisation and sphericity of non-singular presheaves; regular CW
+complexes. [BordismFormalGroups](https://github.com/TauCetiProject/TauCetiRoadmap/pull/947) and
+[GrothendieckInfinityGroupoids](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1060) consume
+Layers 6–7 and own none of their targets; the Reedy model structures BordismFormalGroups uses come
+from Riou's project, not from here.
+
 The boundary in one sentence: if a statement is about small categories up to a class of weak
 equivalences, presheaves on a small category, diagrams of shape a small category in a derivator,
-or monoidal groupoids, it is here; if it is about simplicial sets or spaces alone, about topoi,
-or about stacks on schemes, it belongs to the owner named above.
+direct and inverse categories and their Reedy structures, non-singular presheaves on a direct
+category, or monoidal groupoids, it is here; if it is about simplicial sets or spaces alone, about
+latching and matching objects or the Reedy model structure, about topoi, or about stacks on
+schemes, it belongs to the owner named above.
 
 ## What exists (consume)
 
@@ -83,15 +103,39 @@ or about stacks on schemes, it belongs to the owner named above.
 - `MonoidalCategory`, `BraidedCategory`, `SymmetricCategory`, `GrpObj`, `Rep`,
   `groupCohomology`, `CochainComplex`, `DerivedCategory`, `Pretriangulated`, `Sheaf`,
   `GrothendieckTopology`, `FundamentalGroupoid`, `Path`, `IsTopologicalGroup`.
+- [`HomotopicalAlgebra.ReedyStructure W₁ W₂ α`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/AlgebraicTopology/Reedy/Basic.lean):
+  a degree `deg : C → α` into a type with `[LinearOrder α] [OrderBot α] [SuccOrder α] [WellFoundedLT α]`,
+  the axioms `lt₁` (non-identity morphisms of `W₁` lower the degree), `lt₂` (those of `W₂` raise it),
+  `nonempty_unique` (every morphism has a unique factorization as a `W₁`-morphism followed by a
+  `W₂`-morphism, as `MorphismProperty.MapFactorizationData`); the opposite structure
+  `ReedyStructure.op`; the degree of a morphism `degHom` with `degHom_le`, `degHom_comp_le_left`,
+  `degHom_comp_le_right`, `exists_fac`, `prop₁_of_degHom_eq_deg_right`, `prop₂_of_degHom_eq_deg_left`;
+  `deg_eq_of_iso`, `prop₁_of_iso`, `prop₂_of_iso` and `skeletal`.
+- [`SimplexCategory.reedyStructure`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean)
+  (mathlib4#44778): `ReedyStructure (epimorphisms SimplexCategory) (monomorphisms _) ℕ` with degree
+  `len`. It is on Mathlib `master` but not in the Mathlib that TauCetiRoadmap currently pins; see 7.3.
+- `SemiSimplexCategory` (objects `⦋n⦌ₛ`, morphisms order embeddings, the faithful functor
+  `toSimplexCategory`, `Mono` instances, `homOfMono`); its docstring leaves semi-simplicial objects
+  as a TODO. `AugmentedSimplexCategory := WithInitial SimplexCategory`, `SimplexCategory.Truncated`.
+- `SSet.Nonsingular`, the poset `SSet.N` of non-degenerate simplices, `SSet.Nonsingular.δ_injective`,
+  `SSet.nonDegenerate_δ` and the colimit description over `X.N` (`NonsingularColimit.lean`).
+- `WideSubcategory`, `ObjectProperty.FullSubcategory`, `MorphismProperty.identities`,
+  `MorphismProperty.map`, `MorphismProperty.prod`, `Functor.Elements` with `Functor.Elements.π`,
+  `Subfunctor`, `yonedaEquiv`, `Quiver.IsThin`, `Skeletal`, `Subobject`,
+  `Preorder.smallCategory`, `WalkingParallelPair`, `WalkingSpan`, `WellFounded.rank` with
+  `WellFounded.rank_eq` and `WellFounded.rank_lt_of_rel`.
 
 Mathlib has no weak equivalences of `Cat`, no basic localizers, test categories, derivators,
-cofibration categories in Baues' sense, gr-categories, crossed modules or Picard stacks.
+cofibration categories in Baues' sense, gr-categories, crossed modules or Picard stacks; no
+direct or inverse categories, no semi-simplicial objects, no semi-cubical category, no
+non-singular presheaves on a general category and no discrete fibrations.
 
 **Tau Ceti**: `TauCeti/CategoryTheory/Groupoid/ConnectedFunctor.lean` and `SingleObj.lean`
 (natural isomorphisms out of connected groupoids, the equivalence of a connected groupoid with
 `SingleObj` of a vertex group), `TauCeti/Topology/Homotopy/HomotopyGroup/` (functoriality of
 `π_n`, `LoopSpace.lean` identifying `π_{n+1}(X, x)` with `π_n` of the loop space,
-`ContinuousMap.IsWeakHomotopyEquivalence`), `TauCeti/CategoryTheory/Monoidal/Grp/`.
+`ContinuousMap.IsWeakHomotopyEquivalence`), `TauCeti/CategoryTheory/Monoidal/Grp/`. No Tau Ceti
+file mentions Reedy structures or direct categories.
 
 Nothing on this roadmap waits for Mathlib, and no target is discharged by a Mathlib pull request.
 
@@ -164,6 +208,26 @@ Nothing on this roadmap waits for Mathlib, and no target is discharged by a Math
     `π₀ = coker d` and `π₁ = ker d`.
 14. **Fibrations of groupoids** are star-surjective functors (Brown–Heath–Kamps 1983, §2).
     The homotopy pullback of groupoids is Mathlib's `CategoricalPullback` (iso-comma).
+15. **Reedy structures are Mathlib's.** A Reedy category is a category with a
+    `ReedyStructure W₁ W₂ α`. `W₁` is the class of degree-*lowering* morphisms (epimorphisms for
+    `Δ`) and `W₂` the degree-*raising* ones (monomorphisms for `Δ`); the canonical factorization is
+    a `W₁`-morphism **followed by** a `W₂`-morphism. Every result is stated for general `α` unless it
+    names `ℕ` or `Ordinal`. No second Reedy structure type is introduced.
+16. **Direct and inverse.** `DirectRel C X Y := ∃ f : X ⟶ Y, ¬ MorphismProperty.identities C f`.
+    `class IsDirect (C) : Prop` has the single field `wellFounded : WellFounded (DirectRel C)`;
+    `class IsInverse (C) : Prop` has the single field `isDirect_op : IsDirect Cᵒᵖ`. A direct Reedy
+    structure is a `ReedyStructure (identities C) ⊤ α`, an inverse one a
+    `ReedyStructure ⊤ (identities C) α`. The canonical degree of a direct category is
+    `IsDirect.rank X := WellFounded.rank (DirectRel C) X`, valued in `Ordinal.{u}` for `C : Type u`,
+    and `IsDirect.reedyStructure` is the structure it defines. Nothing asks for smallness in
+    Layers 6–7.
+17. **Products** of Reedy structures are stated for `ℕ`-valued degrees, with
+    `deg (c, d) = deg c + deg d` and classes `W₁.prod W₁'`, `W₂.prod W₂'`.
+18. **Non-singular presheaves.** For `X : Cᵒᵖ ⥤ Type w`, `Presheaf.IsNonsingular X` means: for all
+    `x : X.obj (op c)` and `u v : c' ⟶ c`, `X.map u.op x = X.map v.op x → u = v`. A functor
+    `p : E ⥤ C` is a discrete fibration (`Functor.IsDiscreteFibration p`) if for every `e` the map
+    `⟨e', g⟩ ↦ ⟨p.obj e', p.map g⟩` from `Σ e', e' ⟶ e` to `Σ c, c ⟶ p.obj e` is bijective.
+    `DiscreteFibration C` is the full subcategory of `Over (Cat.of C)` on discrete fibrations.
 
 ## The build, in layers
 
@@ -291,7 +355,141 @@ Nothing on this roadmap waits for Mathlib, and no target is discharged by a Math
   homological localizer of Layer 3. Construct the monoidal structures on `□` and `□_c`
   (Maltsiniotis 2009, §1.2).
 
-### Layer 6: derivators
+### Layer 6: direct and inverse categories
+
+Conventions 15–17. Every item is stated for an arbitrary category `C : Type u` with
+`[Category.{v} C]`.
+
+6.1 **Definitions and basic API.** `DirectRel`, `IsDirect`, `IsInverse`, with
+`isInverse_iff : IsInverse C ↔ IsDirect Cᵒᵖ` and `isDirect_iff_isInverse_op : IsDirect C ↔ IsInverse Cᵒᵖ`.
+In a direct category every endomorphism is the identity (`IsDirect.eq_id_of_endo`), every
+isomorphism is an identity, and the category is skeletal (`IsDirect.skeletal`); dually for inverse
+categories. Closure: discrete categories are direct; if `F : C ⥤ D` sends non-identity morphisms
+to non-identity morphisms and `D` is direct, so is `C`; hence full subcategories and wide
+subcategories of direct categories are direct; binary products of direct categories are direct.
+*Check:* `ℤ` with its order is thin, skeletal, has only monomorphisms and identity endomorphisms,
+and is not direct.
+
+6.2 **Well-founded characterisation.** For any `α` as in convention 15, a
+`ReedyStructure (identities C) ⊤ α` makes `C` direct (`IsDirect.of_reedyStructure`), and
+`IsDirect C ↔ Nonempty (ReedyStructure (identities C) ⊤ Ordinal.{u})`. The instance
+`Unique ((identities C).MapFactorizationData ⊤ f)` and its dual
+`Unique ((⊤ : MorphismProperty C).MapFactorizationData (identities C) f)`. The canonical degree:
+`IsDirect.rank_lt` (non-identity morphisms raise `rank`), the recursion
+`IsDirect.rank X = ⨆ (f : non-identity morphism Y ⟶ X), Order.succ (IsDirect.rank Y)`, and minimality:
+for every direct Reedy structure `r` with values in `α : Type w`,
+`Ordinal.lift.{w} (IsDirect.rank X) ≤ Ordinal.lift.{u} (Ordinal.typein (· < ·) (r.deg X))`.
+
+6.3 **Finite degrees.** `Nonempty (ReedyStructure (identities C) ⊤ ℕ) ↔ ∃ _ : IsDirect C, ∀ X, IsDirect.rank X < ω`.
+Sufficient condition: `C` is direct and, for every `X`, there are finitely many objects with a
+morphism to `X` (then `X ↦` the length of the longest chain of non-identity morphisms ending at `X`
+is a degree).
+
+6.4 **Induction.** Well-founded induction and recursion over the objects of a direct category,
+and over the degree of a Reedy structure, stated as `IsDirect.induction` / `IsDirect.rec` and
+`ReedyStructure.induction` / `ReedyStructure.rec` with the unfolding equation of the recursor.
+
+6.5 **Restriction and transport.** For `r : ReedyStructure W₁ W₂ α`:
+`r.directPart : ReedyStructure (identities (WideSubcategory W₂)) ⊤ α` and
+`r.inversePart : ReedyStructure ⊤ (identities (WideSubcategory W₁)) α`, both with degree `r.deg`.
+Restriction to a full subcategory given by an `ObjectProperty P` such that, whenever `P X` and
+`P Y`, `P` holds of the intermediate object of the Reedy factorization of every `f : X ⟶ Y`; the
+degree sieves `{X | r.deg X ≤ a}` and `{X | r.deg X < a}` satisfy this (`r.truncation a`,
+`r.truncationLT a`). Transport along an isomorphism of categories `F : C ⥤ D` (an equivalence
+bijective on objects), with the classes `W₁.map F`, `W₂.map F`. `r.op` exchanges the direct and
+inverse parts: `r.op.directPart` and `r.inversePart` correspond under `WideSubcategory` and `op`.
+
+6.6 **Products.** `ReedyStructure.prod` for `ℕ`-valued degrees (convention 17), with the
+factorization componentwise (Riehl–Verity, TAC 2014, 2.7).
+
+### Layer 7: examples of direct and Reedy categories
+
+7.1 **Partial orders.** For a partial order `P` with Mathlib's `Preorder.smallCategory`:
+`IsDirect P ↔ WellFoundedLT P` and `IsInverse P ↔ WellFoundedGT P`. Under `[LocallyFiniteOrderBot P]`,
+`x ↦ (Finset.Iio x).card` is an `ℕ`-valued direct degree (`reedyStructureOfLocallyFiniteOrderBot`).
+Instances and checks: `ℕ`, `Fin n`, `Finset ι` ordered by inclusion, the lexicographic order on
+`ℕ ×ₗ ℕ` (direct, with no `ℕ`-valued degree).
+
+7.2 **Small diagram shapes.** `WalkingParallelPair` with the source of degree `0` and the target
+of degree `1` is direct (Riehl–Verity, TAC 2014, 2.5). `WalkingSpan` carries two Reedy structures:
+the direct one with the apex of degree `0`, and the one with the apex of degree `1`, one leg
+lowering and the other raising the degree (2.3–2.4 there); both are constructed, and the second is
+neither direct nor inverse.
+
+7.3 **The simplex categories.** `SimplexCategory.reedyStructure` is Mathlib's (mathlib4#44778).
+If the Mathlib pinned by Tau Ceti predates that pull request, this item builds it here with exactly
+Mathlib's name and statement (`ReedyStructure (epimorphisms SimplexCategory) (monomorphisms _) ℕ`,
+degree `len`), replaced by deletion plus import when the pin moves. On top of it: its opposite on
+`Δᵒᵖ` (`ReedyStructure.op`), its truncations to `SimplexCategory.Truncated n` (6.5), and a Reedy
+structure on `AugmentedSimplexCategory` with epimorphisms and monomorphisms and degree `len + 1`,
+`0` for the initial object (Riehl–Verity, TAC 2014, 2.6).
+
+7.4 **The semi-simplex category.** The isomorphism of categories between `SemiSimplexCategory` and
+`WideSubcategory (monomorphisms SimplexCategory)` (bijective on objects, `toSimplexCategory` on
+morphisms). `SemiSimplexCategory.reedyStructure : ReedyStructure (identities SemiSimplexCategory) ⊤ ℕ`
+is **obtained** from the Reedy structure of `Δ` by restriction to monomorphisms,
+`SimplexCategory.reedyStructure.directPart` (6.5), transported along that isomorphism (6.5); it has
+degree `len`, and `IsDirect SemiSimplexCategory` follows (6.2). Faces
+`SemiSimplexCategory.δ i : ⦋n⦌ₛ ⟶ ⦋n + 1⦌ₛ` with `toSimplexCategory.map (δ i) = SimplexCategory.δ i`,
+the simplicial identity `δ_comp_δ`, every morphism `⦋m⦌ₛ ⟶ ⦋n + 1⦌ₛ` with `m ≤ n` factors through a
+face, and every morphism is a composite of faces. Semi-simplicial objects
+`SemiSimplicialObject D := SemiSimplexCategoryᵒᵖ ⥤ D`, with the restriction functor
+`SimplicialObject D ⥤ SemiSimplicialObject D` given by precomposition with `toSimplexCategory.op`.
+
+7.5 **The semi-cubical category.** `SemiCubeCategory`: objects `⦋n⦌□` for `n : ℕ`; a morphism
+`⦋m⦌□ ⟶ ⦋n⦌□` is a map `c : Fin n → Option Bool` with exactly `m` coordinates equal to `none` (the
+face of `[0,1]ⁿ` fixing coordinate `i` to `b` when `c i = some b`, the free coordinates kept in
+increasing order); the composite of `c : ⦋m⦌□ ⟶ ⦋n⦌□` and `d : ⦋n⦌□ ⟶ ⦋p⦌□` is `d` at fixed coordinates
+and, at the `k`-th free coordinate of `d`, the value of `c` at `k`. Category axioms, every
+morphism mono, a direct structure with degree `n`, and the count: there are `Nat.choose n k * 2 ^ (n - k)`
+morphisms `⦋k⦌□ ⟶ ⦋n⦌□`, summing to `3 ^ n` over `k`. It is distinct from the cube category `□` of
+convention 8, which also has degeneracies.
+
+7.6 **The globe category.** `𝔾` of GrothendieckInfinityGroupoids, Layer 0.1, is direct with degree
+`n`, all of its morphisms are monomorphisms, and there are two morphisms `k ⟶ n` for `k < n`.
+
+### Layer 8: non-singular presheaves on direct categories
+
+8.1 **Non-singular presheaves** (convention 18), for any category `C`.
+`Presheaf.IsNonsingular X ↔ Quiver.IsThin X.Elements`; for `[SmallCategory C]` and `X : Cᵒᵖ ⥤ Type u`,
+`Presheaf.IsNonsingular X ↔ ∀ c x, Mono (yonedaEquiv.symm x)`. Every representable is non-singular
+iff every morphism of `C` is a monomorphism (cf. Cisinski 2006, 8.2.2). Stability: a presheaf with a
+morphism to a non-singular presheaf is non-singular (`Presheaf.IsNonsingular.of_hom`; in particular
+subpresheaves, `Subfunctor`), coproducts, filtered colimits, and pushouts `X ⊔_A Y` along two
+monomorphisms `A ⟶ X`, `A ⟶ Y`.
+
+8.2 **Face posets.** For `[IsDirect C]` and `X` non-singular, the type `(c : C) × X.obj (op c)` with
+`⟨c', x'⟩ ≤ ⟨c, x⟩ :↔ ∃ u : c' ⟶ c, X.map u.op x = x'` is a partial order (`Presheaf.FacePoset X`),
+`X.Elements` is equivalent to `(Presheaf.FacePoset X)ᵒᵖ`, and `IsDirect (Presheaf.FacePoset X)`. The
+canonical cocone exhibits `X` as the colimit of the representables over `Presheaf.FacePoset X`.
+For `X : SSet` with `[X.Nonsingular]`, the non-degenerate simplices form a semi-simplicial set
+(by `SSet.nonDegenerate_δ`), it is non-singular, and its face poset is order-isomorphic to `X.N`.
+*Check:* for `C = SemiSimplexCategory` and `X` non-singular, an element `⟨⦋m⦌ₛ, x⟩` has `m + 1`
+pairwise distinct vertices (its faces of dimension `0`), and `e ↦` (vertices of `e`) is an order
+isomorphism from `{e // e ≤ ⟨⦋m⦌ₛ, x⟩}` onto the non-empty subsets of that vertex set.
+
+8.3 **Discrete fibrations.** `Functor.IsDiscreteFibration` and `DiscreteFibration C`
+(convention 18); the equivalence `(Cᵒᵖ ⥤ Type v) ≌ DiscreteFibration C` for `C : Type v` with
+`[SmallCategory C]`, sending `X` to the projection from (the opposite of) `X.Elements`; it
+restricts to an equivalence between non-singular presheaves and discrete fibrations whose source
+is thin, and, for `[IsDirect C]`, whose source is a partial order. Monomorphisms of presheaves
+correspond to functors over `C` injective on objects.
+
+8.4 **Pinned posets.** For `[IsDirect C]` with every morphism a monomorphism: `Over c` is thin and
+skeletal, order-isomorphic to the poset of subobjects of `yoneda.obj c` of the form
+`Subobject.mk (yoneda.map u)`; a discrete fibration `p : K ⥤ C` from a partial order induces, for
+each `ξ : K`, an order isomorphism between `{η // η ≤ ξ}` and `Over (p.obj ξ)` compatible with `p`;
+and conversely a map `τ` from `K` to the objects of `C`, strictly monotone for the partial order
+`c ≤ c' :↔ Nonempty (c ⟶ c')` on objects (antisymmetric because `C` is direct), with such
+compatible isomorphisms `u_ξ` satisfying `u_ξ ∘ u_η = u_{u_ξ η}` comes from a unique discrete
+fibration. The category of non-singular presheaves is thereby equivalent to the category of these
+pinned posets, with type-preserving maps compatible with the pinnings as morphisms. Directness is
+used only through skeletality and `IsDirect.eq_id_of_endo` (which also give the antisymmetry of
+`c ≤ c'`): state 8.4 for a small skeletal `C` in which every endomorphism is the identity and every
+morphism is a monomorphism, and derive the `[IsDirect C]` form; the ordered set `ℤ` of 6.1 satisfies
+these hypotheses without being direct.
+
+### Layer 9: derivators
 
 - **Prederivators** (convention 9): morphisms (pseudonatural transformations), the represented
   prederivator `J ↦ (J ⥤ C)` (Groth 2013, Example 1.11: a derivator iff `C` is complete and
@@ -317,9 +515,9 @@ Nothing on this roadmap waits for Mathlib, and no target is discharged by a Math
   compatible with restrictions and homotopy Kan extensions.
 - **Examples.** The derivator `J ↦ Ho(M^J)` of a Mathlib model category `M` (Groth 2013,
   Theorem 1.38; Cisinski 2003); in particular the derivator `HOT := J ↦ Ho(Cat^J)` of Thomason's
-  model structure (Layer 4). The derivator of a cofibration category is Layer 7.
+  model structure (Layer 4). The derivator of a cofibration category is Layer 10.
 
-### Layer 7: cofibration categories
+### Layer 10: cofibration categories
 
 - **Axioms** (convention 10) as a class over Mathlib's `CategoryWithCofibrations` and
   `CategoryWithWeakEquivalences`. Cofibrant objects, cofibrant replacement, and the full
@@ -336,10 +534,10 @@ Nothing on this roadmap waits for Mathlib, and no target is discharged by a Math
   category.
 - **Derivator.** A cofibration category is a right derivable category in the sense of
   Cisinski 2010, 2.22, and the prederivator `E ↦ Ho(C^E)` on finite direct categories `E`
-  (`IsDirect` of DirectReedyCategories, finite) is a weak right derivator of domain `Dir_f`
+  (`IsDirect` of 6.1, finite) is a weak right derivator of domain `Dir_f`
   satisfying Der5 (Cisinski 2010, Corollary 2.24, Definition A.5 dualized).
 
-### Layer 8: gr-categories, crossed modules and Picard categories
+### Layer 11: gr-categories, crossed modules and Picard categories
 
 - **Gr-categories** (convention 11): monoidal functors and monoidal natural transformations
   between them; `π₀`, `π₁`, the action, functoriality of these invariants; every gr-category is
@@ -377,7 +575,7 @@ Nothing on this roadmap waits for Mathlib, and no target is discharged by a Math
   `π₁ ≅ π₂(X, x)` (through Tau Ceti's loop-space identification), and the action is the
   standard action of `π₁` on `π₂`.
 
-### Layer 9: Picard stacks over a site
+### Layer 12: Picard stacks over a site
 
 - **Picard stacks.** For a small site `(C, J)`, a Picard stack is a
   `F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat` with `F.IsStack J`, groupoid values, a Picard structure on each
@@ -401,20 +599,45 @@ Nothing on this roadmap waits for Mathlib, and no target is discharged by a Math
 Layer 0 is foundational and uses Mathlib only. Layer 1 uses Layer 0 for its examples. Layer 2
 uses Layer 1. Layer 3 uses Layers 1–2 and the Kan–Quillen model structure of
 GeneralizedCohomology. Layer 4 uses Layer 3. Layer 5 uses Layers 2–3. Layer 6 uses Mathlib's
-model categories and Layer 4 for the example `HOT`. Layer 7 uses Layer 6 and DirectReedyCategories'
-`IsDirect`. Layer 8 uses Mathlib, Tau Ceti's homotopy groups and Layer 0. Layer 9 uses Layer 8
-and SchemeAndStackFoundations' `Stack.stackification`. Layers 0–2, 6 and 8 can proceed in
-parallel once Layer 0's fundamental groupoid exists.
+`ReedyStructure` only. Layer 7 uses Layer 6, and GrothendieckInfinityGroupoids' globe category
+for 7.6. Layer 8 uses Layers 6–7 and Mathlib's `SSet.Nonsingular`. Layer 9 uses Mathlib's model
+categories and Layer 4 for the example `HOT`. Layer 10 uses Layer 9 and Layer 6's `IsDirect`.
+Layer 11 uses Mathlib, Tau Ceti's homotopy groups and Layer 0. Layer 12 uses Layer 11 and
+SchemeAndStackFoundations' `Stack.stackification`. Layers 6–8 use none of Layers 0–5 and can
+start at once; Layers 0–2, 9 and 11 can proceed in parallel once Layer 0's fundamental
+groupoid exists.
 
 ## Provenance
 
 This roadmap was written from the needs of the Grothendieck edition of the Montpellier fonds,
-whose Lean files contain hand-built fragments of Layers 0, 1 and 7: fundamental localizers,
+whose Lean files contain hand-built fragments of Layers 0, 1, 6–8 and 10: fundamental localizers,
 `W₀`, `W₋₁`, the trivial localizer and the minimal one as an intersection (folder 114); the
 1-truncated model of weak equivalences of action groupoids (folder 118); Baues' axioms C1–C3,
-cofibrant replacement and Brown's factorization (folder 106); direct categories of models
-(folder 104); relative square rectification in a model category (folder 107). Those files are
-not prescriptive; the specification above is.
+cofibrant replacement and Brown's factorization (folder 106); direct categories of models and
+non-singular presheaves (folders 104 and 76, detailed below); relative square rectification in a
+model category (folder 107). Those files are not prescriptive; the specification above is.
+
+Existing formalizations of Layers 6–8 to port or consult (cited sources, not specifications):
+
+- Michel Hua, leanprover-community/mathlib4#44731 (`Mathlib/AlgebraicTopology/Reedy/Direct.lean`):
+  `ReedyStructure.ofWellFounded` (the rank as an `Ordinal`-valued direct degree), `wellFounded`,
+  `eq_id_of_endo` and the `Unique ((identities C).MapFactorizationData ⊤ f)` instance — 6.1–6.2.
+- Michel Hua, leanprover-community/mathlib4#44732 (`Mathlib/AlgebraicTopology/Reedy/SemiSimplexCategory.lean`):
+  a direct structure on `SemiSimplexCategory` with degree `len` built directly; 7.4 obtains it
+  from the Reedy structure of `Δ` by restriction to monomorphisms instead.
+- [`lean/Grothendieck/Folder104.lean`](https://github.com/Commutator-IO/grothendieck-project/blob/main/lean/Grothendieck/Folder104.lean)
+  (CC0), from a reading of folder 104 of the Grothendieck fonds (Montpellier): `reedyDirecte`,
+  `wf_of_degre`, `entiers_relatifs_non_directe` (Layer 6), `DeltaInj` with `δ_comp_δ` and
+  `factorise_face` (7.4), `card_I_cube` and `somme_faces_cube` (7.5); `nonSingulier_of_hom`,
+  `admissible_coproduit` and `admissible_pushout` (8.1, with `admissible_iff` identifying its
+  « admissible » presheaves with the non-singular ones), `mono_iff_injective_versEpingle` (8.3), and
+  the pinned-poset equivalence `equivalence_page13` (8.4), proved for a small skeletal category
+  whose morphisms are monomorphisms and whose endomorphisms are identities, with no
+  well-foundedness hypothesis.
+- [`lean/Grothendieck/Folder76.lean`](https://github.com/Commutator-IO/grothendieck-project/blob/main/lean/Grothendieck/Folder76.lean)
+  (CC0), namespace `Grothendieck.Folder76.Sommets`, for non-singular semi-simplicial sets given
+  explicitly (`NonSingular`): `NonSingular.vertex_inj` and `NonSingular.isFlagGeom`, the Check of
+  8.2.
 
 ## References
 
@@ -425,7 +648,11 @@ not prescriptive; the specification above is.
   Propositions 2.2.3, 2.2.9, Corollary 2.2.4, Remark 2.2.5, Theorem 2.2.11, 2.3.1,
   Theorem 2.3.2, Corollary 2.3.3, Theorem 2.3.6.
 - D.-C. Cisinski, *Les préfaisceaux comme modèles des types d'homotopie*, Astérisque 308
-  (2006): Corollary 8.4.13 and Proposition 8.4.27 (the cube category is a test category).
+  (2006), Zbl 1111.18008: Corollary 8.4.13 and Proposition 8.4.27 (the cube category is a test
+  category); §8.2 (8.2.2, representables and monomorphisms).
+- E. Riehl and D. Verity, *The theory and practice of Reedy categories*, Theory Appl. Categ. 29
+  (2014), 256–301, Zbl 1302.55014, [arXiv:1304.6871](https://arxiv.org/abs/1304.6871). Item
+  numbers cited in Layers 6–7 (2.3–2.7) are those of the arXiv version.
 - D.-C. Cisinski, « Images directes cohomologiques dans les catégories de modèles », *Ann.
   Math. Blaise Pascal* 10 (2003), 195–244 (the derivator of a model category).
 - D.-C. Cisinski, « Catégories dérivables », *Bull. SMF* 138 (2010), 317–393: 1.1 (axioms
