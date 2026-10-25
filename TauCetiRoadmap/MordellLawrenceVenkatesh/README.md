@@ -79,6 +79,8 @@ It uses, and does not redevelop:
   is ArithmeticGaloisRepresentations §1.8;
 - Strassmann's theorem over a complete nonarchimedean field (RestrictedPowerSeries §2.4);
 - The universal Legendre curve over `ℤ[1/2][λ, 1/(λ(λ−1))]` (TauCetiRoadmap ModularCurves, Layer 4C);
+- The Legendre coefficient model over every commutative ring, with its discriminant, `c₄`, ellipticity
+  criterion and `j`-invariant (EllipticLegendreCharacterInterfaces §§0.1, 0.4);
 - The one-dimensional affine group `TauCeti.AffineGroup F = F ⋊ F^×` with its translation and linear
   subgroups, its order and its Frobenius-group structure (Tau Ceti at `a91d3aa`,
   `TauCeti/GroupTheory/SpecificGroups/Affine/Basic.lean`); this roadmap adds the permutation-group statements
@@ -406,6 +408,10 @@ numbers `k.n` refer to this document; `LV20` is the paper of Lawrence and Venkat
   (inertia at punctures: peripheral inertia is the prime-to-`p` Tate module), §IG.3.1 (Riemann existence for punctured
   curves and the extension to branched covers).
 - **EtaleDualityAndPerverseSheaves** §§0.5–0.7 (trace and Poincaré duality on curves, the cup-product pairing).
+- **EllipticLegendreCharacterInterfaces** §0.1 (the Legendre coefficient model as a `WeierstrassCurve` over
+  every commutative ring, singular parameters included) and §0.4 (its discriminant and `c₄` over every
+  commutative ring, its ellipticity criterion and its `j`-invariant). Section 6.4 uses them with parameter `t`;
+  ModularCurves Layer 4C remains the owner of the universal smooth family.
 ## How to read the build
 
 Layers LV.0 and LV.1 are independent toolkits: linear algebra and finite group theory, and the Galois-theoretic
@@ -2083,33 +2089,27 @@ of `2` and `3` give the two independent integer coordinates, while the sign is i
 ### 6.4 The Legendre family and its cyclic variant (LV20 §4.2)
 
 The universal smooth family is ModularCurves Layer `4C`. The coefficient model
-`y² = x(x − 1)(x − t)` is to be defined as a `WeierstrassCurve R` over every commutative ring, including
-singular parameters and characteristic two, so that the discriminant and specialization tests
-make sense before any ellipticity assumption. It does not introduce another moduli family.
+`y² = x(x − 1)(x − t)` over every commutative ring is EllipticLegendreCharacterInterfaces §0.1 with
+parameter `t`. Its discriminant `Δ = 16t²(1 − t)²` and `c₄ = 16(t² − t + 1)` over every commutative
+ring, its ellipticity criterion and its `j`-invariant are EllipticLegendreCharacterInterfaces §0.4.
+This section introduces neither another coefficient model nor another moduli family.
 
-**Construction.** Let `𝒪` be a ring with `2 ∈ 𝒪^×` and `𝒴 := Spec 𝒪[t, 1/(t(1 − t))] = ℙ¹_𝒪 ∖ {0, 1, ∞}`. The Weierstrass curve `E : y² = x(x − 1)(x − t)` over `𝒴` has discriminant `16t²(t − 1)²`, a unit, so it is an elliptic curve over `𝒴` (an abelian scheme of relative dimension 1 with its principal polarization), with `j = 2⁸(t² − t + 1)³/(t²(t − 1)²)`. For `m` a power of 2, put `𝒴' := Spec 𝒪[u, 1/(u(1 − u^m))]` and `π : 𝒴' → 𝒴, t ↦ u^m`; `π` is finite étale of degree `m`, since `𝒪[t, 1/(t(1−t))][u]/(u^m − t) ≅ 𝒪[u, 1/(u(1 − u^m))]` is standard étale. Let `X → 𝒴'` be the Legendre curve with parameter `u, y² = x(x − 1)(x − u)` (the pullback of `E` along the open immersion `𝒴' ⊆ 𝒴, u ↦ t`, which is defined since `u − 1` divides `u^m − 1`). Then `X → 𝒴' → 𝒴` is an abelian-by-finite family of relative dimension 1; for `𝒪 = 𝒪_S` with `S ⊇` places above 2 it is a good model of its generic fibre, and for `t₀ ∈ 𝒴(K)` the fibre algebra is `E_{t₀} = K[u]/(u^m − t₀)`, with `X_{t₀}` geometrically the disjoint union of the curves `E_u, u^m = t₀`.
+**Construction.** Let `𝒪` be a ring with `2 ∈ 𝒪^×` and `𝒴 := Spec 𝒪[t, 1/(t(1 − t))] = ℙ¹_𝒪 ∖ {0, 1, ∞}`. Over `𝒴` the coefficient model `E : y² = x(x − 1)(x − t)` has unit discriminant, so it is an elliptic curve over `𝒴` (an abelian scheme of relative dimension 1 with its principal polarization). For `m` a power of 2, put `𝒴' := Spec 𝒪[u, 1/(u(1 − u^m))]` and `π : 𝒴' → 𝒴, t ↦ u^m`; `π` is finite étale of degree `m`, since `𝒪[t, 1/(t(1−t))][u]/(u^m − t) ≅ 𝒪[u, 1/(u(1 − u^m))]` is standard étale. Let `X → 𝒴'` be the Legendre curve with parameter `u, y² = x(x − 1)(x − u)` (the pullback of `E` along the open immersion `𝒴' ⊆ 𝒴, u ↦ t`, which is defined since `u − 1` divides `u^m − 1`). Then `X → 𝒴' → 𝒴` is an abelian-by-finite family of relative dimension 1; for `𝒪 = 𝒪_S` with `S ⊇` places above 2 it is a good model of its generic fibre, and for `t₀ ∈ 𝒴(K)` the fibre algebra is `E_{t₀} = K[u]/(u^m − t₀)`, with `X_{t₀}` geometrically the disjoint union of the curves `E_u, u^m = t₀`.
 
 The Legendre curve is the base change of the universal curve of the Legendre problem of TauCetiRoadmap ModularCurves, Layer `4C`, along `ℤ[1/2][λ, 1/(λ(λ − 1))] → 𝒪[t, 1/(t(1 − t))]`, `λ ↦ t`; what is new here is the cyclic variant and its structure as an abelian-by-finite family.
 
-- for every commutative ring `R` and `t : R`, the coefficient model `y² = x(x − 1)(x − t)` as a `WeierstrassCurve R`; its specialization over `O[t, 1/(t(1−t))]` is the supplied universal smooth family.
-- Its discriminant `16t²(t − 1)²` is a unit when 2 is.
-- `j = 2⁸(t² − t + 1)³/(t²(t − 1)²)`.
 - The abelian-by-finite family `X → 𝒴' → 𝒴` with `π(u) = u^m`.
 - It is a good model over `𝒪_S` when `S` contains the places above 2.
 - `E_{t₀} = K[u]/(u^m − t₀)`.
 - Over `ℂ`, the total space of `X` over `𝒴'(ℂ) = ℂ ∖ ({0} ∪ μ_m)` is the restriction of the Legendre family over `ℂ ∖ {0, 1}`.
-- `j(−1) = j(2) = j(1/2) = 1728`.
-- `Δ = 16t²(t − 1)²`.
 
-*Construction.* Compute the discriminant of the Weierstrass equation; a Weierstrass curve with unit discriminant over a ring is elliptic (Mathlib) and is an abelian scheme with its canonical principal polarization. `π` is standard étale: `u^m − t` is monic in `u` with derivative mu`^{m−1}`, a unit because `m` and `u = t/u^{m−1}` are. The supplied Hodge bundles and the integral connection of 2.1a give the good-model conditions over the smooth separated `𝒪_S`-scheme `𝒴`. The fibre of `π` over `t₀` is `Spec K[u]/(u^m − t₀)`, and the fibre of `X` over it is the Legendre curve with parameter `u`. (LV20, §4.2, p. 21.) *Needs:* 2.1; 2.1a; 2.2; AbelianSchemesAndArithmeticModuli §§A0.2, A1.6; AbelianSchemesAndArithmeticModuli §A2.5; AbelianSchemesAndArithmeticModuli §A4.3; Mathlib `WeierstrassCurve`; Mathlib `WeierstrassCurve.IsElliptic`; Mathlib `WeierstrassCurve.j`; Mathlib `StandardEtalePair`.
+*Construction.* By EllipticLegendreCharacterInterfaces §0.4 the discriminant is `16t²(1 − t)²`, a unit in `𝒪[t, 1/(t(1 − t))]` because 2 is a unit in `𝒪`; a Weierstrass curve with unit discriminant over a ring is elliptic (Mathlib) and is an abelian scheme with its canonical principal polarization. `π` is standard étale: `u^m − t` is monic in `u` with derivative mu`^{m−1}`, a unit because `m` and `u = t/u^{m−1}` are. The supplied Hodge bundles and the integral connection of 2.1a give the good-model conditions over the smooth separated `𝒪_S`-scheme `𝒴`. The fibre of `π` over `t₀` is `Spec K[u]/(u^m − t₀)`, and the fibre of `X` over it is the Legendre curve with parameter `u`. (LV20, §4.2, p. 21.) *Needs:* 2.1; 2.1a; 2.2; EllipticLegendreCharacterInterfaces §§0.1, 0.4; AbelianSchemesAndArithmeticModuli §§A0.2, A1.6; AbelianSchemesAndArithmeticModuli §A2.5; AbelianSchemesAndArithmeticModuli §A4.3; Mathlib `WeierstrassCurve`; Mathlib `WeierstrassCurve.IsElliptic`; Mathlib `StandardEtalePair`.
 
 **Checks.**
 
-- The Legendre coefficients have `Δ=16t²(t−1)²` and `j=256(t²−t+1)³/(t²(t−1)²)`.
-- For `m=2, t₀=4` over `ℚ`, the finite étale fibre algebra is `ℚ×ℚ` and the two curves are `E₂` and `E_{−2}`.
-- At `t=0` or `t=1, Δ=0`, so the Legendre equation does not define an elliptic fibre.
-- `t = −1, 2, 1/2` (the `S`-units of `ℚ` with `S = {2, ∞}`) all give `j = 1728`, the curve `y² = x³ − x` up to twist.
-- `m = 2, t₀ = 4: E_{t₀} = K[u]/(u² − 4) ≅ K × K` and `X_{t₀} = E_2 ⊔ E_{−2}`.
+- `t = −1, 2, 1/2` (the `S`-units of `ℚ` with `S = {2, ∞}`) all give `j = 1728`: the inputs `(Δ, c₄)` from EllipticLegendreCharacterInterfaces §0.4 are `(64, 48)`, `(64, 48)` and `(1, 12)`, and `c₄³/Δ = 1728` in each case. The curve is `y² = x³ − x` up to twist.
+- At `t = 0` or `t = 1`, `Δ = 0`, so the coefficient model is not elliptic there; this is why `𝒴` omits `0, 1` and `𝒴'` omits `0` and `μ_m`.
+- For `m = 2, t₀ = 4` over `ℚ`: `E_{t₀} = ℚ[u]/(u² − 4) ≅ ℚ × ℚ` and `X_{t₀} = E₂ ⊔ E_{−2}`, with `j`-values `1728` and `21952/9` by EllipticLegendreCharacterInterfaces §0.4. The pullback of `E` along `π` would instead give two copies of `E₄`, with `j = 35152/9`, so `X` is not `π^*E`.
 
 ### 6.5 Monodromy of the Legendre family
 
@@ -2186,13 +2186,13 @@ from the pinned `Set.unit_fg_of_units` and `Group.fg_iff_subgroup_fg`, as in §6
 
 ### Examples
 
-- `j(−1) = j(2) = j(1/2) = 1728` for the Legendre curve, and `Δ = 16t²(t − 1)²` vanishes at `t = 0, 1`.
+- `j(−1) = j(2) = j(1/2) = 1728` for the Legendre curve, and `Δ = 16t²(1 − t)²` vanishes at `t = 0, 1` (EllipticLegendreCharacterInterfaces §0.4).
 - For `m = 2` and `t₀ = 4` over `ℚ`, the fibre algebra of the cyclic variant is `ℚ[u]/(u² − 4) ≅ ℚ × ℚ`, and its
   curves are `E₂` and `E_{−2}`.
 
 ### Dependencies
 
-Layers LV.0, LV.1, LV.2, LV.3, LV.4, LV.5; ArithmeticGaloisDuality §R02.3.1; TauCetiRoadmap LocalFieldsRamification Layer 2; TauCetiRoadmap Chebotarev Layer 10; AbelianSchemesAndArithmeticModuli §§A0.2, A1.6; AbelianSchemesAndArithmeticModuli §A2.5; AbelianSchemesAndArithmeticModuli §A4.3; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; ComplexComparisonPartII §§C5.1–C5.2; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap ReductiveGroups Layer 6; TauCetiRoadmap Completed/UniversalCovers Stage 2; PadicHodgeTheory §§3.2–3.4; WeightsInEtaleCohomology Layer R34.1; ComplexComparisonPartII §C4.5; Mathlib and Tau Ceti as listed under each target.
+Layers LV.0, LV.1, LV.2, LV.3, LV.4, LV.5; ArithmeticGaloisDuality §R02.3.1; TauCetiRoadmap LocalFieldsRamification Layer 2; TauCetiRoadmap Chebotarev Layer 10; EllipticLegendreCharacterInterfaces §§0.1, 0.4; AbelianSchemesAndArithmeticModuli §§A0.2, A1.6; AbelianSchemesAndArithmeticModuli §A2.5; AbelianSchemesAndArithmeticModuli §A4.3; AbelianSchemesAndArithmeticModuli §§A5.6–A5.7; ComplexComparisonPartII §§C5.1–C5.2; TauCetiRoadmap ReductiveGroups Layer 3; TauCetiRoadmap ReductiveGroups Layer 6; TauCetiRoadmap Completed/UniversalCovers Stage 2; PadicHodgeTheory §§3.2–3.4; WeightsInEtaleCohomology Layer R34.1; ComplexComparisonPartII §C4.5; Mathlib and Tau Ceti as listed under each target.
 
 ## Layer LV.7: Rational points on the base of an abelian-by-finite family
 
