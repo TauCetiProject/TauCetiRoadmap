@@ -397,6 +397,98 @@ theorem mvfderiv_hessianOp_comp (ι : M → V) (hι : ContMDiff I 𝓘(ℝ, V) �
 
 end Embedded
 
+/-! ## Matrices and the Fisher carriers (O0.3, O2.2) -/
+
+section Fisher
+
+/-- **Conventions.** The ambient space of `n × p` matrices, read as `Matrix` through
+`toMatrix A i j = A (i, j)`. -/
+def toMatrix {n p : ℕ} : EuclideanSpace ℝ (Fin n × Fin p) ≃ₗ[ℝ] Matrix (Fin n) (Fin p) ℝ :=
+  (WithLp.linearEquiv 2 ℝ (Fin n × Fin p → ℝ)).trans
+    ((LinearEquiv.curry ℝ ℝ (Fin n) (Fin p)).trans (Matrix.ofLinearEquiv ℝ))
+
+theorem toMatrix_apply {n p : ℕ} (A : EuclideanSpace ℝ (Fin n × Fin p)) (i : Fin n) (j : Fin p) :
+    toMatrix A i j = A (i, j) :=
+  rfl
+
+variable {κ : Type*} [Fintype κ]
+
+/-- **Conventions.** The entrywise map `t ↦ 2√t`. The Fisher metric of a Fisher carrier is the
+metric induced by its composite with the inclusion. -/
+def fisherEmbedding (x : EuclideanSpace ℝ κ) : EuclideanSpace ℝ κ :=
+  WithLp.toLp 2 fun i ↦ 2 * Real.sqrt (x i)
+
+/-- `fisherEmbedding` is smooth on the vectors with positive entries. -/
+theorem contDiffOn_fisherEmbedding :
+    ContDiffOn ℝ ∞ (fisherEmbedding (κ := κ)) {x | ∀ i, 0 < x i} := by
+  refine contDiffOn_piLp' 2 fun i ↦ ?_
+  have h : ContDiffOn ℝ ∞ (fun x : EuclideanSpace ℝ κ ↦ x i) {x | ∀ i, 0 < x i} :=
+    contDiffOn_piLp_apply 2
+  exact contDiffOn_const.mul (h.sqrt fun x hx ↦ (hx i).ne')
+
+/-- At a vector with positive entries, the derivative of `fisherEmbedding` divides the `i`-th
+entry by `√x_i`; in particular it is injective. -/
+theorem fderiv_fisherEmbedding_apply {x : EuclideanSpace ℝ κ} (hx : ∀ i, 0 < x i)
+    (u : EuclideanSpace ℝ κ) (i : κ) :
+    fderiv ℝ fisherEmbedding x u i = u i / Real.sqrt (x i) := by
+  have hcoord : ∀ j, HasFDerivAt (fun y : EuclideanSpace ℝ κ ↦ 2 * Real.sqrt (y j))
+      ((2 * (1 / (2 * Real.sqrt (x j)))) • PiLp.proj (𝕜 := ℝ) 2 (fun _ : κ ↦ ℝ) j) x := by
+    intro j
+    have h := ((PiLp.hasFDerivAt_apply (𝕜 := ℝ) 2 x j).sqrt (hx j).ne').const_mul 2
+    simpa [smul_smul] using h
+  have hdiff : DifferentiableAt ℝ fisherEmbedding x :=
+    (differentiableAt_piLp 2).2 fun j ↦ (hcoord j).differentiableAt
+  have hf := hdiff.hasFDerivAt
+  rw [← hasFDerivWithinAt_univ, hasFDerivWithinAt_piLp] at hf
+  -- Both derivatives of the `i`-th coordinate are the derivative of `y ↦ 2√(y i)`.
+  have key := (hasFDerivWithinAt_univ.mp (hf i)).unique (hcoord i)
+  have := DFunLike.congr_fun key u
+  simp only [ContinuousLinearMap.comp_apply, PiLp.proj_apply, smul_apply, smul_eq_mul] at this
+  rw [this]
+  have hs : Real.sqrt (x i) ≠ 0 := (Real.sqrt_pos.2 (hx i)).ne'
+  field_simp
+
+/-- **Conventions.** The metric induced by `fisherEmbedding` is the Fisher metric
+`⟪u, v⟫_x = Σ u_i v_i / x_i`. -/
+theorem inner_fderiv_fisherEmbedding {x : EuclideanSpace ℝ κ} (hx : ∀ i, 0 < x i)
+    (u v : EuclideanSpace ℝ κ) :
+    ⟪fderiv ℝ fisherEmbedding x u, fderiv ℝ fisherEmbedding x v⟫_ℝ = ∑ i, u i * v i / x i := by
+  rw [PiLp.inner_apply]
+  refine Finset.sum_congr rfl fun i _ ↦ ?_
+  rw [fderiv_fisherEmbedding_apply hx, fderiv_fisherEmbedding_apply hx, Real.inner_apply,
+    div_mul_div_comm, Real.mul_self_sqrt (hx i).le]
+
+variable {n : ℕ}
+
+open scoped Classical in
+/-- **O2.2.** The Sinkhorn–Knopp scaling `SK(A)`: a doubly stochastic matrix `D₁AD₂`, with `D₁, D₂`
+positive diagonal, when one exists, and `0` otherwise. For `A` with positive entries one exists and
+it is unique (OptimalTransport Layer 13A item 8). -/
+def sinkhornScaling (A : EuclideanSpace ℝ (Fin n × Fin n)) : EuclideanSpace ℝ (Fin n × Fin n) :=
+  if h : ∃ u v : Fin n → ℝ, (∀ i, 0 < u i) ∧ (∀ j, 0 < v j) ∧
+      Matrix.diagonal u * toMatrix A * Matrix.diagonal v ∈ doublyStochastic ℝ (Fin n) then
+    toMatrix.symm (Matrix.diagonal h.choose * toMatrix A * Matrix.diagonal h.choose_spec.choose)
+  else 0
+
+/-- **O2.2.** The Sinkhorn–Knopp scaling is smooth on the matrices with positive entries. -/
+theorem contDiffOn_sinkhornScaling :
+    ContDiffOn ℝ ∞ (sinkhornScaling (n := n)) {A | ∀ i j, 0 < A (i, j)} := by
+  sorry
+
+/-- **O2.2.** At a doubly stochastic `X` with positive entries, the derivative of the scaling is the
+Fisher-orthogonal projection onto the tangent space of `DS(n)`: its value has zero row and column
+sums, and what it removes is Fisher-normal, of the form `(α𝟏ᵀ + 𝟏βᵀ) ⊙ X`. -/
+theorem fderiv_sinkhornScaling {X : EuclideanSpace ℝ (Fin n × Fin n)}
+    (hX : toMatrix X ∈ doublyStochastic ℝ (Fin n)) (hpos : ∀ i j, 0 < X (i, j))
+    (Z : EuclideanSpace ℝ (Fin n × Fin n)) :
+    (toMatrix (fderiv ℝ sinkhornScaling X Z)).mulVec 1 = 0 ∧
+      Matrix.vecMul 1 (toMatrix (fderiv ℝ sinkhornScaling X Z)) = 0 ∧
+      ∃ α β : Fin n → ℝ, toMatrix (Z - fderiv ℝ sinkhornScaling X Z) =
+        Matrix.hadamard (Matrix.of fun i j ↦ α i + β j) (toMatrix X) := by
+  sorry
+
+end Fisher
+
 /-! ## O5–O6: rates and geodesic convexity, with the Riemannian distance -/
 
 section Metric
