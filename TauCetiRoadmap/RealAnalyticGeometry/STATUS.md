@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"RealAnalyticGeometry","to_sha":"271e1af4dd54c50b9192cf3e213b7686843a0b3a","ts":"2026-10-24T23:22:30Z"}-->
+# Status: RealAnalyticGeometry
+
+This file documents the status of the RealAnalyticGeometry roadmap up until `271e1af` (2026-10-24T23:22:30Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The foundations are in place. Real-analytic charts and the identity theorem work, real-analytic functions on open sets can be complexified, and semianalytic sets have their definition and Boolean-closure API. Neither summit has a substantive step yet: the local normal decomposition (R1) has not begun, and the triangulation theorem (R2) has only two of its preliminary lemmas. Stein theory and global complexification (R3), Grauert's embedding (R4) and manifold triangulation (R5) are untouched.
+
+### Named results
+
+- **The identity theorem on analytic manifolds** — two analytic functions on a connected analytic manifold without boundary that agree near one point agree everywhere ([`ContMDiff.eq_of_eventuallyEq`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/ContMDiff/Analytic.html#ContMDiff.eq_of_eventuallyEq)).
+- **Complexification on open sets** — a real-analytic function on an open set of ℝⁿ extends holomorphically to a conjugation-invariant complex neighbourhood whose real points are exactly that set, and the extension commutes with conjugation ([`AnalyticOnNhd.exists_complexification`](https://taucetiproject.org/docs/TauCeti/Analysis/Analytic/Complexification/Neighborhood.html#AnalyticOnNhd.exists_complexification)). This extension is unique near the real points ([`AnalyticOnNhd.exists_eqOn_of_forall_real`](https://taucetiproject.org/docs/TauCeti/Analysis/Analytic/Complexification/Neighborhood.html#AnalyticOnNhd.exists_eqOn_of_forall_real)).
+- **Analytic maps in charts** — a map between analytic manifolds is analytic at a point exactly when it is continuous there and its coordinate expression is analytic ([`TauCeti.contMDiffAt_omega_iff`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/ContMDiff/Analytic.html#TauCeti.contMDiffAt_omega_iff)). Changes of coordinates are analytic as well ([`ModelWithCorners.analyticOnNhd_extendCoordChange`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/ContMDiff/Analytic.html#ModelWithCorners.analyticOnNhd_extendCoordChange)).
+- **Łojasiewicz's topographic lemma** — an analytic submanifold whose height differences are bounded by `A` times its base distances is the graph of an `A`-Lipschitz function, and that function is analytic on an analytic base ([`TauCeti.IsAnalyticSubmanifold.exists_topographic`](https://taucetiproject.org/docs/TauCeti/Analysis/Analytic/Submanifold/Topographic.html#TauCeti.IsAnalyticSubmanifold.exists_topographic)). It comes with the shear estimate for slopes `|z| < 1/A` ([`TauCeti.mul_dist_tail_le_dist_tail_horizontalShear`](https://taucetiproject.org/docs/TauCeti/Analysis/Analytic/Submanifold/Topographic.html#TauCeti.mul_dist_tail_le_dist_tail_horizontalShear)).
+- **Coning a boundary triangulation** — coning a triangulation of the boundary of a compact convex set to an interior point triangulates the whole set ([`Geometry.SimplicialComplex.space_cone_of_space_eq_intrinsicFrontier`](https://taucetiproject.org/docs/TauCeti/Analysis/Convex/SimplicialComplex/Cone.html#Geometry.SimplicialComplex.space_cone_of_space_eq_intrinsicFrontier)).
+
+### Notable definitions and infrastructure
+
+- **Semianalytic sets.** A set is semianalytic at a point ([`TauCeti.SemianalyticAt`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAnalytic/Semianalytic/Basic.html#TauCeti.SemianalyticAt)) when, near that point, it is a finite Boolean combination of analytic sign conditions. It is semianalytic ([`TauCeti.IsSemianalytic`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAnalytic/Semianalytic/Basic.html#TauCeti.IsSemianalytic)) when this holds at every point of the ambient space. The definitions come with the closure properties R1 asks for: the sets are stable under shrinking, Boolean operations, locally finite unions, analytic preimages and analytic isomorphisms. Different presentations are shown to be equivalent, and semialgebraic sets are semianalytic.
+- **Sign-condition normal form.** A Boolean combination of analytic sign conditions is described by a condition on the signs of finitely many analytic functions ([`TauCeti.IsAnalyticBooleanCombination.exists_eq_setOf_sign`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAnalytic/Semianalytic/Basic.html#TauCeti.IsAnalyticBooleanCombination.exists_eq_setOf_sign)). This is the form a normal-decomposition argument will need to refine.
+- **Cones on simplicial complexes.** The cone on a simplicial complex ([`Geometry.SimplicialComplex.cone`](https://taucetiproject.org/docs/TauCeti/Analysis/Convex/SimplicialComplex/Cone.html#Geometry.SimplicialComplex.cone)) is defined, together with a condition saying when a point can serve as its apex. This construction drives the dimension induction in the polyhedral subdivision lemma.
+
+### Roadmap coverage
+
+R0 is partial. Analyticity of chart transitions, the description of analytic maps in charts, the identity theorem and the neighbourhood complexification adapter (with conjugation compatibility and uniqueness) are proved. The chart-local germ API is not established, and neither is its agreement with RealAlgebraicGeometry Layer 7's complexification maps. R1 is partial. Its first paragraph (definitions, shrinking, equivalence of presentations, Boolean closure, preimage and isomorphism stability) is done on normed spaces, though not yet in manifold charts. The local normal decomposition, semianalytic dimension, the frontier condition and component finiteness are untouched. R1.1 has only the inclusion of semialgebraic sets into semianalytic ones. Nash germs, the graph criterion and locally semialgebraic sets are untouched. R2 is partial at the level of preliminary lemmas: it has Lemma 6 with its shear estimate, and the coning step of the polyhedral subdivision lemma. R2.1, R3.0–R3.2, R4 and R5 are untouched.
+
+## The frontier
+
+- **Relative convex-polyhedral subdivision lemma (R2)** — the coning step exists. What remains is the dimension induction over a locally finite family of polytopes, with agreement on common faces and preservation of prescribed boundary triangulations. It depends on none of the analytic work.
+- **Local normal decomposition (R1)** — the core of the roadmap, and not begun. The first step is real Weierstrass preparation, from the new complexification together with ComplexKahlerGeometry K3's convergent preparation. The induction also needs RealAlgebraicGeometry Layers 1, 2 and 4 (Thom encodings, subresultants, root matching).
+- **Property (P) hypersurface lemma (R2, Lemma 7)** — the next lemma after the topographic lemma. It also rests on Weierstrass preparation and discriminants.
+- **Semianalytic sets on manifolds and the germ API (R0/R1)** — test semianalyticity in analytic charts using the new chart-transition results. Then build restriction, pullback and transport of analytic germs, and prove agreement with RealAlgebraicGeometry Layer 7.
+- **Global Bruhat–Whitney complexification (R3.0)** — the neighbourhood adapter supplies the local input. The paracompact gluing still needs the open-gluing carrier from ComplexManifolds.
