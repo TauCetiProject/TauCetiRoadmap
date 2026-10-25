@@ -76,6 +76,7 @@ theorem IsGrothendieckTopos.hasSubobjectClassifier (hE : IsGrothendieckTopos E) 
   sorry
 
 /-- The subobjects of an object of a Grothendieck topos form a frame. -/
+@[instance_reducible]
 noncomputable def IsGrothendieckTopos.subobjectFrame (hE : IsGrothendieckTopos E) (X : E) :
     Order.Frame (Subobject X) :=
   sorry
@@ -195,6 +196,7 @@ structure GrothendieckToposCat where
 attribute [instance] GrothendieckToposCat.str
 
 /-- 1-cells are geometric morphisms and 2-cells natural transformations of direct images. -/
+@[instance_reducible]
 noncomputable def GrothendieckToposCat.bicategory : Bicategory GrothendieckToposCat.{u} := sorry
 
 section Global
