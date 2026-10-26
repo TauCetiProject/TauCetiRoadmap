@@ -124,16 +124,17 @@ of that roadmap, which proves it from sentence-level Craig interpolation for Lω
 its projective-class membership predicate `PCMem`: `PCMem g Θ M` holds when `M` itself, on the
 same carrier, expands along `g` to a model of `Θ`. With `g = LHom.sumInl : L →ᴸ L.sum L₁`, `M` is
 the `L`-reduct of a model of `Θ`, the symbols of `L₁` being auxiliary relations chosen
-existentially; Layer 5 uses them to describe a branch through a tree. In this roadmap's coding
-setting (countably many relation symbols, codes of structures on `ℕ`), projective classes
-correspond to invariant analytic sets as model classes correspond to invariant Borel sets, and
-`pcSeparation` plays the role of Lusin separation, turning the two analytic descriptions of `B`
-and its complement into one sentence. That correspondence needs the countable coding;
-`pcSeparation` itself holds for arbitrary languages. For languages `L`, `L₁`, `L₂` in arbitrary
-universes and `Θ₁ : Sentenceω (L.sum L₁)`, `Θ₂ : Sentenceω (L.sum L₂)`: if no countable nonempty
-`L`-structure in `Type` lies in both projective classes, some `θ : Sentenceω L` holds in every
-nonempty member of the first class and fails in every nonempty member of the second, in every
-universe.
+existentially; Layer 5 uses them to describe a branch through a tree. For a countable relational
+language, on the space of structures with carrier `ℕ`, these projective classes are exactly the
+isomorphism-invariant analytic sets (`analyticSet_iff_exists_pc`); Lω₁ω model classes are exactly
+the isomorphism-invariant Borel sets (`lopezEscobar_iff`). There `pcSeparation` plays the role of
+Lusin separation, turning the two analytic descriptions of `B` and its complement into one
+sentence. A countable carrier alone does not give this correspondence: it needs the countable
+language. `PCMem` and `pcSeparation` themselves are for arbitrary languages. For languages `L`,
+`L₁`, `L₂` in arbitrary universes and `Θ₁ : Sentenceω (L.sum L₁)`, `Θ₂ : Sentenceω (L.sum L₂)`: if
+no countable nonempty `L`-structure in `Type` lies in both projective classes, some
+`θ : Sentenceω L` holds in every nonempty member of the first class and fails in every nonempty
+member of the second, in every universe.
 
 ```lean
 def PCMem {L' : FirstOrder.Language.{u', v'}} (g : L →ᴸ L') (Θ : Sentenceω L') (M : Type w)
