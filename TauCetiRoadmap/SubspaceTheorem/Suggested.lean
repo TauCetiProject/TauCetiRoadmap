@@ -18,8 +18,8 @@ carriers, imported from its `Suggested.lean` and used directly; where Tau Ceti a
 same definition (`TauCeti.irrationalityExponent`, `MvPolynomial.hasseDeriv`,
 `MvPolynomial.weightedIndex`, `MvPolynomial.logHeight`), the port consumes Tau Ceti's. The affine
 height `Height.mulHeightAff x` is written out as `mulHeight (fun o : Option ι ↦ o.elim 1 x)`, its
-definition. Successive minima over `K` (Layer 4.2) are stated against SuccessiveMinima's
-`successiveMin` and live in the README only.
+definition. Successive minima over `K` (Layer 4.2) are stated against Tau Ceti's
+`ZLattice.successiveMin` and live in the README only.
 
 Every height is Mathlib's **relative** height over the fixed number field; the local factor at an
 infinite place carries the exponent `InfinitePlace.mult`; a finite set of places is a pair of

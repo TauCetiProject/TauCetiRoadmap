@@ -125,8 +125,13 @@ has there, with subdirectories `Roth/`, `Parallelepiped/`, `Subspace/`, `Transce
   `linearIndependent_iff_exists_genWronskian_ne_zero` and `Polynomial.hasseWronskian`;
   `MvPolynomial.taylor`, `orderAt`, `linearSubst` with `exists_aeval_pderiv_linearSubst_ne_zero`,
   `dehomogenize`, and the Kronecker substitution `MvPolynomial.exists_injOn_weight`
-  (`TauCeti/RingTheory/MvPolynomial/`). Heights: `TauCeti.absoluteProjectiveTupleHeight` with
-  `absoluteProjectiveTupleHeight_eq`, `NumberField.mulHeight_algebraMap`, `absMulHeight₁_eq_rpow`,
+  (`TauCeti/RingTheory/MvPolynomial/`). Successive minima: `ZLattice.successiveMin` for a
+  `ZLattice` and a `ConvexBody`, zero-based
+  (`TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`), and the upper half of Minkowski's
+  second theorem `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`
+  (`TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`). Heights:
+  `TauCeti.absoluteProjectiveTupleHeight` with `absoluteProjectiveTupleHeight_eq`,
+  `NumberField.mulHeight_algebraMap`, `absMulHeight₁_eq_rpow`,
   `mahlerMeasure_eq_absMulHeight₁_pow`, `finite_setOf_absMulHeight₁_le`, `TauCeti.naiveHeight`,
   `TauCeti.house`, `Polynomial.mulHeight` and `MvPolynomial.mulHeight` with their logarithmic
   forms, `Polynomial.mulHeight_mul_le`, the Gelfond inequality
@@ -202,10 +207,8 @@ has there, with subdirectories `Roth/`, `Parallelepiped/`, `Subspace/`, `Transce
 - **GlobalNumberFields** Layer 0, through the Tau Ceti declarations named above: the place
   carrier `Place K`, the normalized absolute values, the product formula and its functoriality
   under a finite extension with the local degrees in the exponents.
-- **SM**, by milestone. 1.1
-  `successiveMin` for a `ZLattice` and a `ConvexBody`, zero-based; 1.7
-  `exists_successiveMin_witnesses`; 2.1.4 `minkowski_second_lower` and 3.21
-  `minkowski_second_upper`; 0.1.2 `hermitian_gram_hadamard`.
+- **SM**, by milestone. 1.5 `exists_successiveMin_witnesses`; 2.1.4 `minkowski_second_lower`;
+  0.1.2 `hermitian_gram_hadamard`.
 
 ### Instances owned by other roadmaps
 
@@ -839,11 +842,11 @@ Three pieces of infrastructure sit beneath 4.1, each its own target.
   `IsZLattice ℝ` instances: the bridge from `𝓞 K`-modules to SM's vocabulary.
 
 **4.2 Successive minima over `K`** (Bombieri–Gubler, Definition C.2.9; Theorem C.2.11 in shape, with
-the constants of SM 2.1.4 and 3.21). For an `𝓞 K`-module `Λ` and a body `B` as in 4.1, the
-`K`-minimum `NumberField.successiveMinimum Λ B l`, indexed from `0` like SM's `successiveMin`, is
-the infimum of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors linearly independent over
-`K`, and `0` for `l ≥ card ι`. Statements take `Λ` only through
-`[DiscreteTopology Λ.mixedImage] [IsZLattice ℝ Λ.mixedImage]`. Deliverables:
+the constants of SM 2.1.4 and of Tau Ceti's upper half of Minkowski's second theorem). For an
+`𝓞 K`-module `Λ` and a body `B` as in 4.1, the `K`-minimum `NumberField.successiveMinimum Λ B l`,
+indexed from `0` like `ZLattice.successiveMin`, is the infimum of the `t > 0` for which `Λ ∩ t • B`
+contains `l + 1` vectors linearly independent over `K`, and `0` for `l ≥ card ι`. Statements take
+`Λ` only through `[DiscreteTopology Λ.mixedImage] [IsZLattice ℝ Λ.mixedImage]`. Deliverables:
 - *Attainment by one family*,
   `NumberField.exists_linearIndependent_mem_smul_successiveMinimum`: there are `card ι` vectors of
   `Λ`, linearly independent over `K`, the `l`-th in `successiveMinimum Λ B l • B`. Each minimum is
@@ -851,8 +854,8 @@ the infimum of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors l
   family is then assembled one vector at a time, since `l + 1` independent vectors realizing the
   `l`-th minimum include one outside the span of the `l` already chosen. Cassels's greedy
   construction with its minimality clause is not needed.
-- *Comparison with the real minima*: with `λ` SM's `successiveMin` of `Λ.mixedImage` and `B`
-  (a lattice of rank `d · card ι`),
+- *Comparison with the real minima*: with `λ` Tau Ceti's `ZLattice.successiveMin` of
+  `Λ.mixedImage` and `B` (a lattice of rank `d · card ι`),
   `λ l ≤ μ l` (`NumberField.successiveMin_mixedImage_le`) and `μ l ≤ λ (d l)`
   (`NumberField.successiveMinimum_le_successiveMin_mixedImage`), the second by DAT §2.8's
   extraction lemma `exists_linearIndependent_comp_finrank_mul` applied to the `d (l + 1)` real
@@ -870,9 +873,10 @@ the infimum of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors l
   ```
 
   (`NumberField.covolume_le_prod_successiveMinimum_pow_mul_measure`,
-  `NumberField.prod_successiveMinimum_pow_mul_measure_le`), from SM's `minkowski_second_lower`
-  and `minkowski_second_upper` and the comparison above. This is Bombieri–Vaaler and McFeat's
-  adelic theorem in the generality the Subspace Theorem needs.
+  `NumberField.prod_successiveMinimum_pow_mul_measure_le`), from SM's `minkowski_second_lower`,
+  Tau Ceti's `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume` and the
+  comparison above. This is Bombieri–Vaaler and McFeat's adelic theorem in the generality the
+  Subspace Theorem needs.
 - *For an approximation domain*, combined with 4.1: `(∏ l, μ l) ^ d` is `Q ^ (−approxWeight)` up
   to two constants depending on `K`, `S₀`, `card ι` and the determinants
   (`NumberField.le_prod_successiveMinimum_approx`, `NumberField.prod_successiveMinimum_approx_le`).
