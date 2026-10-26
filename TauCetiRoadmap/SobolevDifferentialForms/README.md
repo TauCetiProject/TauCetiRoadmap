@@ -5,15 +5,15 @@ derivative `extDeriv` and `extDeriv_extDeriv`; Tau Ceti has test forms with
 `TauCeti.TestFunction.extDerivCLM` (`d ∘ d = 0` on `𝓓(Ω, E [⋀^Fin k]→L[ℝ] F)`), weak derivatives
 `TauCeti.HasWeakFDerivOn`, and the scalar Sobolev spaces `TauCeti.W1p`, `TauCeti.Wkp`. This roadmap
 builds the **Sobolev theory of differential forms on a Euclidean domain**: the weak exterior
-derivative, the Banach spaces `WᵖΛᵏ(Ω)` for `1 ≤ p ≤ ∞` and their Hilbert case `HΛᵏ(Ω) := W²Λᵏ(Ω)`
-(in dimension three: `H¹`, `H(curl)`, `H(div)`, `L²`), the
-**L² de Rham complex** as a Hilbert complex with its Hodge decomposition, pullback under
+derivative, the Banach spaces `WᵖΛᵏ(Ω)` for `1 ≤ p ≤ ∞` and their Hilbert case `HΛᵏ(Ω) := W²Λᵏ(Ω)`,
+the **L² de Rham complex** as a Hilbert complex with its Hodge decomposition, pullback under
 diffeomorphisms, traces and gluing across interfaces, and **compactness and closed range** of the
 complex on bounded Lipschitz domains.
 
 The bar for "done": someone working with mixed formulations, Maxwell's equations or Hodge
-Laplacians on a domain finds `WᵖΛᵏ(Ω)` and `HΛᵏ(Ω)` with the API they expect (density, pullback, traces,
-gluing, closed range, Hodge decomposition) and the vector-calculus special cases connected to it.
+Laplacians on a domain finds `WᵖΛᵏ(Ω)` and `HΛᵏ(Ω)` with the API they expect (density, pullback,
+traces, gluing, closed range, Hodge decomposition), connected to the scalar Sobolev spaces in
+degree `0` and to the divergence in degree `n − 1`.
 
 ## Standing setting
 
@@ -99,23 +99,18 @@ gluing, closed range, Hodge decomposition) and the vector-calculus special cases
    isometry `WᵖΛᵏ₀(Ω) → WᵖΛᵏ(E)` commuting with `d`.
 8. **Degree zero and top degree.** `WᵖΛ⁰(Ω) = W^{1,p}(Ω)` with equal norms (with
    `TauCeti.W1p volume Ω p`), `WᵖΛ⁰₀(Ω) = W^{1,p}_0(Ω)` for `p < ∞`, and `WᵖΛⁿ(Ω) = LᵖΛⁿ(Ω)`.
-9. **Vector proxies in dimension three.** For `n = 3`, define the weak curl and divergence of vector
-   fields in `Lᵖ(Ω; ℝ³)`, the spaces `Wᵖ(curl, Ω)`, `Wᵖ(div, Ω)` (`H(curl, Ω)`, `H(div, Ω)` for
-   `p = 2`), and the isometric isomorphisms `WᵖΛ¹ ≃ Wᵖ(curl)`, `WᵖΛ² ≃ Wᵖ(div)` (via the proxies
-   `α ↦ (α e₁, α e₂, α e₃)` and the Hodge star) under which `d` becomes `grad`, `curl`, `div`.
-   For every `n`, relate Tau Ceti's divergence of a weakly differentiable vector field
-   (`TauCeti/Analysis/Sobolev/WeakDeriv/Divergence.lean`, the trace of a full weak derivative) to
-   the weak `d` in degree `n − 1`: if `g` has weak derivative `G`, the `(n−1)`-form `⋆` of the
-   `1`-form `x ↦ ⟪g x, ·⟫` has weak exterior derivative `tr G · vol`. The weak `d` in degree `n − 1` needs no weak derivative of `g`.
+9. **Divergence in degree `n − 1`.** Relate Tau Ceti's divergence of a weakly differentiable
+   vector field (`TauCeti/Analysis/Sobolev/WeakDeriv/Divergence.lean`, the trace of a full weak
+   derivative) to the weak `d` in degree `n − 1`: if `g` has weak derivative `G`, the
+   `(n−1)`-form `⋆` of the `1`-form `x ↦ ⟪g x, ·⟫` has weak exterior derivative `tr G · vol`.
+   The weak `d` in degree `n − 1` needs no weak derivative of `g`.
 
 ## Milestone 3: pullback and change of variables
 
 10. **Pullback.** For a `C¹` diffeomorphism `Φ : Ω' → Ω` with `‖DΦ‖, ‖DΦ⁻¹‖ ≤ L` and `|det DΦ| ≥ c`:
     the pullback `Φ^* u` maps `WᵖΛᵏ(Ω)` to `WᵖΛᵏ(Ω')`, commutes with the weak `d`, and has explicit
     norm bounds in `n, k, p, L, c`. Specialize to affine maps `F x = B x + b`:
-    `‖F^* u‖_{LᵖΛᵏ(F⁻¹ Ω)} ≤ ‖B‖^k |det B|^{−1/p} ‖u‖_{LᵖΛᵏ(Ω)}` (exponent `0` for `p = ∞`), and in
-    dimension three identify the
-    affine pullbacks with the covariant and contravariant Piola transforms of `H(curl)` and `H(div)`.
+    `‖F^* u‖_{LᵖΛᵏ(F⁻¹ Ω)} ≤ ‖B‖^k |det B|^{−1/p} ‖u‖_{LᵖΛᵏ(Ω)}` (exponent `0` for `p = ∞`).
     The same for a bi-Lipschitz homeomorphism `Φ : Ω' → Ω` with Lipschitz constants `≤ L` for `Φ`
     and `Φ⁻¹`, with `DΦ` defined a.e. by Rademacher's theorem: `Φ^*` maps `WᵖΛᵏ(Ω)` to `WᵖΛᵏ(Ω')`
     and, for `p < ∞`, `WᵖΛᵏ₀(Ω)` to `WᵖΛᵏ₀(Ω')`, commutes with the weak `d`, and has norm bounds in
@@ -144,9 +139,7 @@ interface) and PDE Lane A.6 (the Lipschitz-domain predicate `Set.IsLipschitzDoma
     piecewise classical `du` a.e., if and only if on every shared boundary piece
     `frontier Ωᵢ ∩ frontier Ωⱼ ∩ Ω` the tangential traces from `Ωᵢ` and `Ωⱼ` agree `μHE[n−1]`-a.e.
     For `k = 0` (with item 8) this is the statement that a function Lipschitz on each piece is in
-    `W^{1,p}(Ω)` iff its traces agree on interfaces, from G6's BV gluing and A.6's trace. In
-    dimension three, state the proxy forms: tangential continuity for `Wᵖ(curl)`, normal continuity
-    for `Wᵖ(div)`.
+    `W^{1,p}(Ω)` iff its traces agree on interfaces, from G6's BV gluing and A.6's trace.
 
 ## Milestone 5: the L² de Rham complex as a Hilbert complex
 
@@ -215,7 +208,8 @@ regularity has an elementary proof by Fourier sine and cosine series (Lim–Spre
 - **Not here:** forms on manifolds and the L² theory on Riemannian manifolds; the identification of
   the harmonic spaces on a Lipschitz domain with de Rham cohomology; boundary conditions on a
   part of the boundary; regularized Poincaré and Bogovskiĭ operators and explicit Poincaré
-  constants; the `Lᵖ` Hodge decomposition and closed range for `p ≠ 2`; fractional trace spaces
+  constants; vector-field proxies (`H(curl)`, `H(div)`) and Piola transforms; the `Lᵖ` Hodge
+  decomposition and closed range for `p ≠ 2`; fractional trace spaces
   (`H^{−1/2}`); approximation of forms by piecewise polynomial forms on partitions of a domain.
 
 ## Acceptance criteria
@@ -224,8 +218,6 @@ regularity has an elementary proof by Fourier sine and cosine series (Lim–Spre
   density, degree-zero and top-degree identifications) before Milestones 5 and 6 start.
 - The gluing theorem is tested on two half-cubes sharing a face: a form continuous across the face
   is in `HΛᵏ`, a form whose tangential part jumps is not.
-- In dimension three the proxy statements (`grad`, `curl`, `div`; tangential and normal continuity)
-  are stated as theorems, not only as remarks.
 
 ## References
 
@@ -240,6 +232,3 @@ regularity has an elementary proof by Fourier sine and cosine series (Lim–Spre
 - Z. Lim, T. Sprekeler, M. Waurick, *Revisiting Picard's proof of the Picard–Weber–Weck
   selection theorem*, arXiv:2608.31054: the Gaffney identity on the cube by sine and cosine
   series (Theorem 4.10), in the vector-field setting.
-- V. Girault, P.-A. Raviart, *Finite Element Methods for Navier–Stokes Equations*, Springer, 1986,
-  Chapter I (`H(div)`, `H(curl)`).
-- P. Monk, *Finite Element Methods for Maxwell's Equations*, Oxford, 2003, Chapter 3.
