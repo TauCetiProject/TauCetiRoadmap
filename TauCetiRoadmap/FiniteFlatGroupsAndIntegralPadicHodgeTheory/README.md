@@ -44,9 +44,9 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 | R07.1 | Finite flat group schemes and `p`-divisible groups | `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT.of_exact`, `FormalLieGroup`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
 | R07.G | Global admissible groups | `admissible-global-models`, `admissible-geometric-lengths`, `admissible-cohomology-bound`, `admissible-rank-one-global`, `admissible-global-purity`, `dyadic-D-model`, `dyadic-finite-flat-amalgam` |
 | R07.2 | Dieudonné theory | `canonicalDecomposition`, `DieudonneRing`, `dieudonneEquivalenceFinite`, `dieudonnePDivisible`, `dieudonneManinClassification`, `isogenyClassification`, `hasseInvariant`, `btStackSmooth`, `BarsottiTate.universalCover`, `deJongDieudonneEquivalence` |
-| R07.3 | Filtered modules and Fontaine–Laffaille theory | `FilteredPhiNModule`, `FilteredPhiNModule.IsWeaklyAdmissible`, `dSt_isWeaklyAdmissible`, `FLModule`, `flExactFaithful`, `flTameInertia`, `flFullFaithfulness`, `flAdmissibility`, `flFiniteFlatDictionary` |
+| R07.3 | Filtered modules and Fontaine–Laffaille theory | `isWeaklyAdmissible_iff_polygon`, `crisEigenvector_filtration_bound`, `dStar`, `FLModule`, `flExactFaithful`, `flTameInertia`, `flFullFaithfulness`, `flAdmissibility`, `flFiniteFlatDictionary` |
 | R07.4 | Breuil–Kisin modules | `KisinModule`, `kummerFieldOfNorms`, `kedlayaSlopeFiltration`, `kisinCrystallineEmbedding`, `semistableFiniteHeight`, `crystalline01IsBt`, `kisinPDivisibleClassification`, `dyadicClassification`, `bmsKisinFunctor`, `descentDataLatticeClassification` |
-| R07.5 | Local residual types | `formalGroupTorsionInertia`, `supersingularTorsionInertia`, `IsPeuRamifiee`, `finiteFlatWeightTwoCriterion`, `savittResidualTypes`, `flResidualWeights`, `peuRamifieH1`, `SerreWeight` |
+| R07.5 | Local residual types | `formalGroupTorsionInertia`, `supersingularTorsionInertia`, `isPeuRamifiee_iff_valuation`, `finiteFlatWeightTwoCriterion`, `savittResidualTypes`, `flResidualWeights`, `peuRamifieH1Int`, `SerreWeight` |
 | R07.6 | Deformation and ramification consequences | `abelianSchemeTorsionFiniteFlat`, `fontaineRamificationBound`, `illusieObstructionHomomorphisms`, `flatDeformationTangentSpace`, `raynaudDetTateModule`, `cyclotomicImageStability` |
 
 ## Scope and ownership
@@ -81,11 +81,12 @@ Frobenius-fixed Witt vectors and the descent of characteristic polynomials, the 
 the dictionary between conventions, the Hasse invariant and Hasse–Witt duality of a `BT₁`,
 smoothness of the stacks of `BT_n`, universal covers, and Dieudonné theory over smooth bases (de
 Jong), over `f`-semiperfect rings (Scholze–Weinstein) and over perfect valuation rings (Berthelot).
-Filtered `(φ, N)`-modules, their Hodge and Newton numbers, weak admissibility and Fontaine's theorem
-that semistable representations give weakly admissible modules. Fontaine–Laffaille theory over
+The filtered `(φ, N)`-modules, weak admissibility and semistable equivalence of
+PadicLocalLanglandsForGL2Qp §0.2 are consumed, not rebuilt: R07.3.1–R07.3.3 fix notation on that
+carrier and add the slope, polygon and eigenvector consequences used integrally. Fontaine–Laffaille theory over
 `W(k)` for any perfect `k`. Breuil–Kisin theory, including the Robba ring and Kedlaya's slope
 filtration theorem in the form Kisin uses, the field of norms of the Kummer tower, Kisin's
-classification of crystalline and semistable lattices with its proof of the Colmez–Fontaine theorem,
+classification of crystalline and semistable lattices with Kisin's route to finite `E`-height,
 Breuil's `S`-modules, the classification of `p`-divisible groups and finite flat group schemes over
 `𝒪_K` (with the dyadic case), Breuil–Kisin modules with torsion and the all-weight Kisin functor,
 integral comparisons with the Dieudonné crystal, Wach modules, coefficients and Savitt's weight-two
@@ -124,9 +125,14 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   which Tau Ceti implements as `TauCeti.inertiaTameCharacter` and
   `TauCeti.quotientWildInertiaSubgroupEquiv`. §R07.1.26 keeps only what lies beyond Layer 4:
   the tame quotient for arbitrary perfect residue fields and its agreement with that carrier.
-  ArithmeticGaloisRepresentations §2.3 owns the finite-residue fundamental characters and their
+  PadicLocalLanglandsForGL2Qp §0.3 owns the finite-residue fundamental characters and their
   Frobenius, norm and cyclotomic facts; §R07.1.26 supplies their perfect-residue generalisation
   and agreement theorem.
+- TauCetiRoadmap.PadicLocalLanglandsForGL2Qp: §0.2 (the filtered `(φ, N)`-module carrier,
+  weak admissibility and the semistable equivalence), §0.3 (finite-residue fundamental
+  characters and the `ℚ_p` unit-Kummer subspace and peu/très ramifiée predicates) and §§2.7–2.8
+  (the `ℚ_p` Serre weights, compact inductions and spherical Hecke operator); the exact contracts
+  are listed under *Exact supplier contracts*.
 - TauCetiRoadmap.EllipticCurves Layer 4 (the Tate curve), TauCetiRoadmap.ProfiniteCohomology Layer 9
   (Hilbert `90` and Kummer theory) and TauCetiRoadmap.ClassFieldTheory Layers 5, `7` and `11` (local Tate
   duality and the local and global Artin maps), including Layer 7's unit-filtration reciprocity
@@ -188,8 +194,7 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   pairs), and PurityOfBranchLocus §2.1
   (purity of the branch locus, SGA 1 `X` 3.1, Stacks Tag 0BMB) and §2.2
   (the global corollary for finite normal covers with dominant components over regular bases),
-  ArithmeticGaloisRepresentations §2.3 (finite-residue fundamental characters and residual tame
-  inertia) and Layer 6 (Tate modules of elliptic curves), and the smooth and
+  ArithmeticGaloisRepresentations §2.3 (residual tame-inertia classification) and Layer 6 (Tate modules of elliptic curves), and the smooth and
   compact induction of SmoothRepresentationsOfLocalGroups Layer SR.2.
 
 **Not built here.** The general theory of displays (Zink), the Norman–Oort deformation theory of
@@ -214,8 +219,8 @@ AutomorphicGaloisRepresentations and
 PotentialAutomorphyInfrastructure consume these specializations for labelled weights and
 automorphic applications; Serre's computation of the characters on `E[p]` for ramified
 bases `e > 1` belongs to SerreWeightAndLevelOptimisation. The general `p`-adic comparison theorems
-for varieties belong to PadicHodgeTheory, which imports the filtered modules, weak admissibility and
-the Colmez–Fontaine theorem from here.
+for varieties belong to PadicHodgeTheory. The filtered modules, weak admissibility and the
+semistable equivalence it uses are owned by PadicLocalLanglandsForGL2Qp §0.2, not by this roadmap.
 
 ## Conventions
 
@@ -393,6 +398,29 @@ laws) with `FormalGroup.IsComm`.
 - **GlobalNumberFields.** Layers 9–10 supply Hecke characters, algebraic infinity types and
   unit relations for §R07.P7.3.
 
+### From TauCetiRoadmap.PadicLocalLanglandsForGL2Qp
+
+- **§0.2.** The carrier `FilteredPhiNModule K` over a complete discretely valued
+  characteristic-zero `K` with perfect residue field and a chosen Cohen subfield `K₀`: invertible
+  semilinear `φ`, nilpotent `N` with `Nφ = pφN`, an exhaustive separated decreasing filtration on
+  `K ⊗_{K₀} D` and finite Galois descent data; weak admissibility by `t_H = t_N` with
+  `t_H ≤ t_N` on `φ,N`-stable subobjects; the tensor, dual, twist, exact-category,
+  scalar-change and descent API; and the theorem that `D_st` is a fully faithful equivalence from
+  semistable representations onto weakly admissible objects, in every rank. Used in
+  §§R07.3.1–R07.3.3 and R07.4.13.
+- **§0.3.** For every nonarchimedean local field with finite residue field, including equal
+  characteristic, the `fundamentalCharacter` at every niveau on the tame inertia quotient, with
+  residue embedding, independence of the uniformiser, Teichmüller lift, least niveau,
+  surjectivity, restriction, norm, `p`-power and Frobenius laws and `ω₁^(e_K) = ω|_(I_K)` for finite
+  `K/ℚ_p` (§R07.1.26). Over `ℚ_p`, the subspace `peuRamifieH1` of extensions of 1 by `ω` (the total
+  unit-Kummer condition, containing the split class), the predicates `IsPeuRamifiee` (nontrivial
+  wild inertia and membership) and `IsTresRamifiee`, and `RamificationSupport.peuRamifie_restricted`
+  (membership is equivalent to trivial wild inertia or `IsPeuRamifiee`), with isomorphism,
+  scalar-extension, twist and Cartier-duality invariance (§§R07.5.5 and R07.5.13).
+- **§§2.7–2.8.** Over `ℚ_p`, `SerreWeight`, `compactInduction` on SmoothRepresentationsOfLocalGroups
+  SR.2's compact induction, `heckeOperatorT` with its double-coset formula,
+  `endEquivPolynomial` (`End_G(I(σ_r)) ≅ k[T]`) and `compactInduction_free` (§R07.5.15).
+
 ### From AbelianSchemesAndArithmeticModuli, CrystallineCohomology, PadicPeriodRings and the further foundational roadmaps
 
 - **AbelianSchemesAndArithmeticModuli.** §A4.5 `BarsottiTate` with `BarsottiTate.truncation`,
@@ -455,12 +483,7 @@ laws) with `FormalGroup.IsComm`.
   §1.5 supplies characteristic-zero finite coefficient models; §7.6 supplies strong irreducibility,
   the Zariski and
   Goursat inputs, roots of characters and projective lifting used in §§R07.P7.1–R07.P7.5.
-  Section 2.3 supplies the finite-local-field `fundamentalCharacter`,
-  `fundamentalCharacter_pow_p`, norm maps between levels, `cyclotomic_restrict_tameInertia`
-  and the residual tame-inertia classification. Section R07.1.26 extends the characters to
-  arbitrary perfect residue fields as `perfectResidueFundamentalCharacter`, with
-  `perfectResidueFundamentalCharacter_eq_fundamentalCharacter` after identifying the tame
-  quotient, roots of unity and residue embeddings; the finite-residue API has this single supplier.
+  Section 2.3 supplies the residual tame-inertia classification.
 - **PerfectoidSpaces.** §§P1.6, P1.`10` and P1.`16`–P1.`18` supply the tilt, Fontaine map,
   primitive kernel and perfectoid-field inputs to the period constructions.
 - **DerivedDeRhamCohomology.** §§PD.1–PD.7 supply divided powers, envelopes and their
@@ -1991,7 +2014,8 @@ statement; the proof is on pp. 261–263.)
 ### R07.1.26 Tame inertia and its fundamental characters
 
 Construct `tameInertiaIso` for arbitrary perfect residue fields and
-`perfectResidueFundamentalCharacter`, extending ArithmeticGaloisRepresentations §2.3.
+`perfectResidueFundamentalCharacter`, extending the finite-residue `fundamentalCharacter` of
+PadicLocalLanglandsForGL2Qp §0.3.
 For `d` prime to `p` and a uniformiser `x` of `K_nr, K_d = K_nr(x^{1/d})` is totally and tamely ramified of degree `d`, and `θ_d(s) = s(x^{1/d})/x^{1/d}`
 defines an isomorphism `Gal(K_d/K_nr) → μ_d` independent of `x` and of the root; the `θ_d` assemble to an
 isomorphism `θ : I_t → lim_d μ_d` (transition maps `α ↦ α^{d′}`). For `q = p^n`, the fundamental
@@ -2012,9 +2036,11 @@ lift acts on `I_t` by `u ↦ u^{p^f}`; for `k = F_p` this is `u ↦ u^p` (Serre 
 *Construction.* For `K` a local field (finite residue field) the isomorphism `θ : I_t ≅ lim_{(d,p)=1} μ_d, σ ↦ (σ(π^{1/d})/π^{1/d})_d`, independent of the uniformiser and the roots, is
 TauCetiRoadmap.LocalFieldsRamification Layer 4 (implemented in Tau Ceti as
 `TauCeti.inertiaTameCharacter` and `TauCeti.quotientWildInertiaSubgroupEquiv`); this target uses it
-for its finite-residue specialization. ArithmeticGaloisRepresentations §2.3 supplies the
-finite-residue fundamental characters, their Frobenius powers, norm and cyclotomic restriction,
-and the finite-residue two-dimensional classification. This target extends the character
+for its finite-residue specialization. PadicLocalLanglandsForGL2Qp §0.3 supplies the
+finite-residue fundamental characters at every niveau, including equal characteristic, with
+their residue embeddings, Frobenius powers, norm compatibility and the cyclotomic comparison
+`ω₁^(e_K)=ω|_(I_K)` for finite `K/ℚ_p`; ArithmeticGaloisRepresentations §2.3 supplies the
+finite-residue two-dimensional classification. This target extends the character
 construction and its identities to arbitrary perfect residue fields, with explicit agreement
 after identifying inertia, roots of unity and the chosen residue embeddings; it consumes the
 finite-residue classification. For a perfect residue field the same construction applies:
@@ -2042,15 +2068,16 @@ The API:
 - `perfectResidueFundamentalCharacter_norm`: `θ_{q−1}^{(q−1)/(p−1)} = θ_{p−1}`.
 - `perfectResidueCyclotomic_restrict_tameInertia`: `χ̄|_{I_t} = θ_{p−1}^e`.
 - `perfectResidueFundamentalCharacter_eq_fundamentalCharacter`: For finite residue field,
-  after the tame-quotient identification and matching the embedding `F_{p^n} → k̄`, this is
-  ArithmeticGaloisRepresentations §2.3's `fundamentalCharacter`; its Frobenius powers, norm
-  and cyclotomic identity agree with that API.
+  in mixed characteristic, after the tame-quotient identification and matching the embedding
+  `F_{p^n} → k̄`, this is PadicLocalLanglandsForGL2Qp §0.3's `fundamentalCharacter`; its
+  Frobenius powers, norm and cyclotomic identity agree with that API.
 - `tameInertiaIso_eq_inertiaTameCharacter`: For `K` a nonarchimedean local field (finite residue
   field), `θ` agrees with Tau Ceti LocalFieldsRamification Layer 4's tame character `I_K/P_K ≅ Ẑ^{(p′)}(1)` (`TauCeti.inertiaTameCharacter`), composed with `lim μ_d ≅ Ẑ^{(p′)}(1)`.
 
 *Needs:* Mathlib `Field.absoluteGaloisGroup`; Mathlib `IsDiscreteValuationRing`;
-TauCetiRoadmap.LocalFieldsRamification Layer 4; ArithmeticGaloisRepresentations §2.3
-(the finite-residue fundamental-character API and residual tame-inertia classification).
+TauCetiRoadmap.LocalFieldsRamification Layer 4; PadicLocalLanglandsForGL2Qp §0.3 (the
+finite-residue fundamental-character API); ArithmeticGaloisRepresentations §2.3 (the residual
+tame-inertia classification).
 
 **Checks.**
 
@@ -2644,6 +2671,7 @@ constant and diagonalizable groups; TauCetiRoadmap.ModularCurves Layers 0B, `0C,
 TauCetiRoadmap.LocalFieldsRamification Layers 3 and `4`; TauCetiRoadmap.ClassFieldTheory Layers 7
 and `11`; AbelianSchemesAndArithmeticModuli §A4.5 and Layer A3; DerivedModuleAlgebra §0.4;
 SchemeAndStackFoundations §0.23 and §4.1 (and §5.4 for the projective-line-bundle Check);
+TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.3 (finite-residue fundamental characters);
 EtaleCohomologyFoundations §F.0.2 (`VanishingCycles.finiteEtaleGaloisCategory`);
 PadicPeriodRings §§1–2; Mathlib's local rings, discrete valuation rings, power series, Kähler
 differentials and continuous cohomology; Mathlib schemes, ringed-space gluing, pullbacks,
@@ -4452,51 +4480,57 @@ of the supplied continuous sections and boundary maps and §R07.P5a for integral
 
 ### R07.3.1 Filtered `(φ, N)`-modules
 
-Define `FilteredPhiNModule`. Let `K` be a field of characteristic `0`, complete for a discrete
-valuation, with perfect residue field `k` of characteristic `p`; let `K₀ = W(k)[1/p] ⊆ K` and let
-`σ` be the Witt vector Frobenius on `K₀`. A filtered `(φ, N)`-module over `K` is a
-finite-dimensional `K₀`-vector space `D` with
+Fix the notation `FilteredPhiNModule` for the carrier `FilteredPhiNModule K` of
+PadicLocalLanglandsForGL2Qp §0.2, and do not rebuild it. Here `K` is a field of characteristic
+`0`, complete for a discrete valuation, with perfect residue field `k` of characteristic `p`; since
+`k` is perfect its Cohen subfield is the canonical `K₀ = W(k)[1/p] ⊆ K`, with Witt vector Frobenius
+`σ`. An object is a finite-dimensional `K₀`-space `D` with a `σ`-semilinear bijection `φ`, a
+nilpotent `K₀`-linear `N` with `N φ = p φ N`, and an exhaustive separated decreasing filtration on
+`D_K = K ⊗_{K₀} D`, with no condition linking the filtration to `φ` or `N`; morphisms preserve all
+three structures, and the tensor, dual, Tate twist, exact-category, scalar-change and descent
+operations are §0.2's. Filtered `φ`-modules are the full subcategory with `N = 0`. In these
+operations tensor products use `φ ⊗ φ`, `N ⊗ 1 + 1 ⊗ N` and the tensor filtration; duals use
+`(φ^∨ f) = σ ∘ f ∘ φ^{−1}`, `N^∨ = −N^t` and `Fil^i(D^∨_K) = (Fil^{1−i} D_K)^⊥`; the Tate twist
+`D⟨r⟩` has Frobenius `p^{−r} φ` and `Fil^i(D⟨r⟩_K) = Fil^{i+r} D_K`, which is §0.2's twist and also
+the twist of CrystallineCohomology §CR.7.1, moving every slope and every filtration jump down by
+`r`. The category is additive and `ℚ_p`-linear but not abelian.
 
-- a `σ`-semilinear bijection `φ : D → D` (so `(D, φ)` is an isocrystal);
-- a `K₀`-linear endomorphism `N : D → D` with `N φ = p φ N`;
-- a decreasing filtration `(Fil^i D_K)_{i ∈ ℤ}` of `D_K = K ⊗_{K₀} D` by `K`-subspaces, exhaustive
-  (`Fil^i D_K = D_K` for `i ≪ 0`) and separated (`Fil^i D_K = 0` for `i ≫ 0`), with no condition
-  linking it to `φ` or `N`.
+This roadmap adds three things on the imported carrier. First, `toIsocrystal`, the identification
+of its underlying `(D, φ)` with an object of Mathlib's `WittVector.Isocrystal` over
+`FractionRing (WittVector p k)`, compatible with morphisms, tensor products and twists. Second, the
+effectivity predicate `Fil⁰ D_K = D_K`. Third, `nilpotent_N`: the nilpotence required of `N` in
+§0.2 is automatic, because `N` maps the slope-`α` part of the isocrystal into the slope-`(α − 1)`
+part.
 
-Morphisms are `K₀`-linear maps commuting with `φ` and `N` whose `K`-linear extension preserves the
-filtrations. Filtered `φ`-modules are the full subcategory with `N = 0`. The category is additive
-and `ℚ_p`-linear but not abelian (a bijective morphism need not be an isomorphism: the filtration
-can strictly grow). Tensor products use `φ ⊗ φ`, `N ⊗ 1 + 1 ⊗ N` and the tensor filtration; duals
-use `(φ^∨ f) = σ ∘ f ∘ φ^{−1}`, `N^∨ = −N^t` and `Fil^i(D^∨_K) = (Fil^{1−i} D_K)^⊥`. The Tate twist
-`D⟨r⟩` has the same `D` and `N`, Frobenius `p^{−r} φ` and `Fil^i(D⟨r⟩_K) = Fil^{i+r} D_K`; this is
-the twist of CrystallineCohomology §CR.7.1, and it moves every slope and every filtration jump down
-by `r`. `D` is effective when `Fil⁰ D_K = D_K`. The monodromy `N` is automatically nilpotent: `N`
-maps the slope-`α` part of the isocrystal into the slope-`(α − 1)` part.
-
-*Construction.* Everything is linear algebra over `K₀` and `K` on top of Mathlib's isocrystals;
-nilpotence of `N` follows from the Dieudonné–Manin decomposition of CrystallineCohomology §CR.4.7
-after extending scalars
-to `W(k̄)[1/p]`, since `N φ = p φ N` shifts slopes by `−1` and only finitely many slopes occur.
-(Brinon–Conrad 2009, Definition 7.3.4, p. 98: filtered `φ`-modules; Definition 8.2.5, p. 112: `(φ, N)`-modules and the category `MF^{φ,N}_K`; Lemma 8.2.8, p. 113: nilpotence of `N`; Definition 8.3.1,
-p. 117: Tate twists; Kisin 2006, §1.1: the same category as the target of Kisin's contravariant
-functors.)
+*Construction.* The isocrystal comparison sends `K₀` to `FractionRing (WittVector p k)` by the
+canonical isomorphism `W(k)[1/p] ≅ FractionRing (WittVector p k)`, intertwining `σ` with
+`WittVector.FractionRing.frobenius`. Nilpotence of `N` follows from the Dieudonné–Manin
+decomposition of CrystallineCohomology §CR.4.7 after extending scalars to `W(k̄)[1/p]`, since
+`N φ = p φ N` shifts slopes by `−1` and only finitely many slopes occur.
+(Brinon–Conrad 2009, Definition 7.3.4, p. 98: filtered `φ`-modules; Definition 8.2.5, p. 112:
+`(φ, N)`-modules and the category `MF^{φ,N}_K`; Lemma 8.2.8, p. 113: nilpotence of `N`;
+Definition 8.3.1, p. 117: Tate twists; Kisin 2006, §1.1: the same category as the target of
+Kisin's contravariant functors.)
 
 The API:
 
-- `FilteredPhiNModule`: the structure above, with `FilteredPhiNModule.Hom`.
+- `FilteredPhiNModule`: notation for PadicLocalLanglandsForGL2Qp §0.2's `FilteredPhiNModule K`,
+  with its morphisms `FilteredPhiNModule.Hom`.
 - `FilteredPhiNModule.toIsocrystal`: the underlying isocrystal, an object of Mathlib's
   `WittVector.Isocrystal` after forgetting `N` and the filtration.
-- `FilteredPhiNModule.unit`: `K₀` with `φ = σ`, `N = 0`, `Fil⁰ = D_K`, `Fil¹ = 0`.
-- `FilteredPhiNModule.tensor`, `FilteredPhiNModule.dual`: the tensor structure above.
-- `FilteredPhiNModule.twist`: `D⟨r⟩`, with `twist_zero : D⟨0⟩ = D` and `twist_add : D⟨r⟩⟨s⟩ = D⟨r + s⟩`.
+- `FilteredPhiNModule.unit`: §0.2's unit, `K₀` with `φ = σ`, `N = 0`, `Fil⁰ = D_K`, `Fil¹ = 0`.
+- `FilteredPhiNModule.tensor`, `FilteredPhiNModule.dual`: §0.2's tensor structure, with the
+  formulas above.
+- `FilteredPhiNModule.twist`: §0.2's `D⟨r⟩`, with `twist_zero : D⟨0⟩ = D` and
+  `twist_add : D⟨r⟩⟨s⟩ = D⟨r + s⟩`.
 - `FilteredPhiNModule.IsEffective`: `Fil⁰ D_K = D_K`.
-- `FilteredPhiNModule.nilpotent_N`: `N` is nilpotent.
-- `FilteredPhiNModule.subobject`: a `φ`- and `N`-stable `K₀`-subspace `D′` with the induced
+- `FilteredPhiNModule.nilpotent_N`: `N φ = p φ N` alone forces `N` to be nilpotent.
+- `FilteredPhiNModule.subobject`: §0.2's `φ`- and `N`-stable `K₀`-subspaces `D′` with the induced
   filtration `Fil^i D′_K = D′_K ∩ Fil^i D_K`; quotients carry the image filtration.
 
-*Needs:* CrystallineCohomology §CR.4.7 (*Slope decomposition on the existing isocrystal carrier*);
-Mathlib `WittVector`; Mathlib `WittVector.frobeniusEquiv`; Mathlib `WittVector.Isocrystal`;
-§R07.2.15.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.2 (the carrier and its operations); CrystallineCohomology
+§CR.4.7 (*Slope decomposition on the existing isocrystal carrier*); Mathlib `WittVector`; Mathlib
+`WittVector.frobeniusEquiv`; Mathlib `WittVector.Isocrystal`; §R07.2.15.
 
 **Checks.**
 
@@ -4511,45 +4545,50 @@ Mathlib `WittVector`; Mathlib `WittVector.frobeniusEquiv`; Mathlib `WittVector.I
 - `FilteredPhiNModule.N_nonzero`: `D = K₀e₀ ⊕ K₀e₁` with `φ(e₀) = e₀`, `φ(e₁) = p e₁`, `N(e₁) = e₀`,
   `N(e₀) = 0` satisfies `Nφ = pφN`; with `N(e₀) = e₁` instead the relation fails (`N φ e₀ = e₁` but
   `p φ N e₀ = p² e₁`).
+- `FilteredPhiNModule.toIsocrystal_twist`: for `K = ℚ_p(√p)` the Cohen subfield is
+  `K₀ = ℚ_p`, and `toIsocrystal(unit⟨−m⟩)` is Mathlib's `WittVector.StandardOneDimIsocrystal p 𝔽_p m`,
+  whose Frobenius is `p^m` times the Witt Frobenius; for `m = 1` this is `D*_cris(ℚ_p(1))`. The
+  isocrystal has rank `1` over `K₀`, while `D_K` has `ℚ_p`-dimension `2`: the comparison is over
+  the Cohen subfield, not over `K`.
 
 ### R07.3.2 Hodge and Newton numbers and weak admissibility
 
-Define `FilteredPhiNModule.IsWeaklyAdmissible`, with the Hodge and Newton numbers
-`FilteredPhiNModule.tH` and `FilteredPhiNModule.tN`. For a nonzero filtered `(φ, N)`-module `D` over
-`K` (§R07.3.1):
+Use PadicLocalLanglandsForGL2Qp §0.2's Hodge and Newton numbers and weak admissibility on the
+carrier of §R07.3.1; `FilteredPhiNModule.tH`, `FilteredPhiNModule.tN` and
+`FilteredPhiNModule.IsWeaklyAdmissible` are notation for them. Concretely, for a nonzero object `D`:
 
 ```text
 t_H(D) = Σ_i i · dim_K gr^i(D_K),        gr^i = Fil^i D_K / Fil^{i+1} D_K,
 t_N(D) = v_p(det φ) = v_p(λ)   where φ(e) = λ e on the line det D = Λ^top D,
 ```
 
-with `v_p(p) = 1`; `v_p(λ)` does not depend on the basis vector `e`, since changing `e` to `ce`
-replaces `λ` by `σ(c) c^{−1} λ`. Both numbers are additive in short exact sequences of filtered `(φ, N)`-modules (the induced filtration on the subobject and the image filtration on the quotient) and
-satisfy `t(D^∨) = −t(D)` and `t(D⟨r⟩) = t(D) − r · dim D`. `D` is **weakly admissible** if `t_H(D) = t_N(D)` and `t_H(D′) ≤ t_N(D′)` for every subobject `D′ ⊆ D` stable under `φ` and `N`, with the
-induced filtration. Equivalently, the Newton polygon of every such `D′` lies on or above its Hodge
-polygon, with the same endpoints for `D′ = D`.
+with `v_p(p) = 1`, and `D` is weakly admissible when `t_H(D) = t_N(D)` and `t_H(D′) ≤ t_N(D′)` for
+every `φ,N`-stable subobject `D′` with the induced filtration. The additivity of both numbers in
+short exact sequences, `t(D^∨) = −t(D)`, `t(D⟨r⟩) = t(D) − r · dim D`, stability of weak
+admissibility under duality and twist, and the abelian, extension-closed subcategory of weakly
+admissible objects with strict morphisms are part of §0.2's exact-category API and are not
+reproved here.
 
-*Construction.* The definitions are as displayed. Additivity of `t_H` is additivity of `dim gr^i` on
-strict exact sequences; additivity of `t_N` is multiplicativity of determinants. The Newton and
-Hodge polygon form is Fontaine's lemma comparing the two polygons; it makes weak admissibility
-invariant under the unramified scalar extension `K₀ → W(k̄)[1/p]`. Weak admissibility is stable
-under duality and Tate twist, and the weakly admissible objects form an abelian full subcategory,
-closed under extensions, in which every morphism is strict for the filtrations. (Brinon–Conrad 2009,
-Definition 8.1.1, p. 102: the Hodge polygon and `t_H`; Definition 8.1.7, p. 105: the Newton polygon
-and `t_N`; Lemma 8.1.13, p. 109: the polygon form; Definition 8.2.1, p. 110, and Definition 8.2.9,
-p. 114: weak admissibility without and with `N`; Proposition 8.2.2, p. 110: duality.)
+Prove `isWeaklyAdmissible_iff_polygon`: `D` is weakly admissible exactly when the Newton polygon
+of every such `D′` lies on or above its Hodge polygon, with the same endpoints for `D′ = D`.
+
+*Construction.* The polygon form is Fontaine's lemma comparing the two polygons, after the
+slope decomposition of CrystallineCohomology §CR.4.7; it makes weak admissibility invariant under
+the unramified scalar extension `K₀ → W(k̄)[1/p]`. (Brinon–Conrad 2009, Definition 8.1.1, p. 102:
+the Hodge polygon and `t_H`; Definition 8.1.7, p. 105: the Newton polygon and `t_N`; Lemma 8.1.13,
+p. 109: the polygon form; Definition 8.2.1, p. 110, and Definition 8.2.9, p. 114: weak
+admissibility without and with `N`; Proposition 8.2.2, p. 110: duality.)
 
 The API:
 
-- `FilteredPhiNModule.tH`, `FilteredPhiNModule.tN`: the two integers, with `tH_add`, `tN_add` on
-  short exact sequences, `tH_dual`, `tN_dual` and `tH_twist`, `tN_twist`.
-- `FilteredPhiNModule.IsWeaklyAdmissible`: the predicate above.
-- `IsWeaklyAdmissible.dual`, `IsWeaklyAdmissible.twist`: stability under `D ↦ D^∨` and `D ↦ D⟨r⟩`.
-- `IsWeaklyAdmissible.abelian`: weakly admissible modules form an abelian category, closed under
-  extensions, and morphisms between them are strict.
+- `FilteredPhiNModule.tH`, `FilteredPhiNModule.tN`: §0.2's two integers, with its additivity,
+  duality and twist laws.
+- `FilteredPhiNModule.IsWeaklyAdmissible`: §0.2's predicate, with its stability under
+  `D ↦ D^∨` and `D ↦ D⟨r⟩` and its abelian subcategory.
 - `isWeaklyAdmissible_iff_polygon`: the Newton–Hodge polygon form.
 
-*Needs:* §R07.3.1; §R07.2.16.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.2 (Hodge and Newton numbers and weak admissibility);
+§R07.3.1; §R07.2.16; CrystallineCohomology §CR.4.7.
 
 **Checks.**
 
@@ -4562,24 +4601,28 @@ The API:
 - `isWeaklyAdmissible_zero`: the zero module is weakly admissible (all conditions are empty).
 - `tN_basis_independent`: replacing `e` by `pe` in the rank-one example multiplies `λ` by `σ(p)/p = 1`, and replacing it by a unit `c` multiplies `λ` by the unit `σ(c)/c`; `t_N` is unchanged.
 
-### R07.3.3 Fontaine's theorem: semistable representations give weakly admissible modules
+### R07.3.3 The semistable equivalence on the imported carrier and the eigenvector bound
 
-Prove `dSt_isWeaklyAdmissible` and `dSt_fullyFaithful`. Let `K` be as in §R07.3.1 and let `D_st`,
-`D_cris`, `IsSemistable` and `IsCrystalline` be the period functors and predicates of PadicPeriodRings §§4.2–4.3,
-with finite `K/ℚ_p` comparisons supplied by
-§R07.3.0 (covariant, `D_st(V) = (B_st ⊗_{ℚ_p} V)^{G_K}`, with
-`D_cris(V) = D_st(V)^{N = 0}`), whose `B_cris` agrees on finite `K` with §R07.P2. Then:
+Let `K` be as in §R07.3.1 and let `D_st`, `D_cris`, `IsSemistable` and `IsCrystalline` be the
+period functors and predicates of PadicPeriodRings §§4.2–4.3, with finite `K/ℚ_p` comparisons
+supplied by §R07.3.0 (covariant, `D_st(V) = (B_st ⊗_{ℚ_p} V)^{G_K}`, with
+`D_cris(V) = D_st(V)^{N = 0}`), whose `B_cris` agrees on finite `K` with §R07.P2. Use
+PadicLocalLanglandsForGL2Qp §0.2's theorem that `D_st` is a fully faithful equivalence from
+semistable representations onto weakly admissible objects of `FilteredPhiNModule K`, in every
+rank. The names below are notation for its parts:
 
-`1`. for every semistable representation `V`, the filtered `(φ, N)`-module `D_st(V)` is weakly
-   admissible (§R07.3.2); in particular `D_cris(V)` is weakly admissible for crystalline `V`;
-`2`. `D_st` is fully faithful from semistable representations to filtered `(φ, N)`-modules, with
-   quasi-inverse on its essential image `V_st(D) = (B_st ⊗_{K₀} D)^{φ = 1, N = 0} ∩ Fil⁰(B_dR ⊗_K D_K)`, and it is compatible with tensor products, duals and Tate twists;
-`3`. call `D` **admissible** if `D ≅ D_st(V)` for a semistable `V`; then `D` is admissible exactly
-   when `D` is weakly admissible and `dim_{ℚ_p} V_st(D) = dim_{K₀} D`, and for every weakly
-   admissible `D` the space `V_st(D)` is finite-dimensional with `dim_{ℚ_p} V_st(D) ≤ dim_{K₀} D`.
+`1`. `dSt_isWeaklyAdmissible`: for every semistable `V`, `D_st(V)` is weakly admissible
+   (§R07.3.2); `dCris_isWeaklyAdmissible` is the crystalline case;
+`2`. `dSt_fullyFaithful`: `D_st` is fully faithful and compatible with tensor products, duals and
+   Tate twists, with quasi-inverse `vSt`, `V_st(D) = (B_st ⊗_{K₀} D)^{φ = 1, N = 0} ∩ Fil⁰(B_dR ⊗_K D_K)`;
+`3`. `FilteredPhiNModule.IsAdmissible` means `D ≅ D_st(V)` for a semistable `V`, and
+   `isAdmissible_iff` states that `D` is admissible exactly when it is weakly admissible, exactly
+   when `dim_{ℚ_p} V_st(D) = dim_{K₀} D`.
 
-The contravariant functors used in Layer R07.4 are `D*_st(V) = Hom_{G_K}(V, B_st) ≅ D_st(V^∨)`, and
-likewise for `D*_cris`; they carry the same statements through `D ↦ D^∨`.
+This roadmap adds the contravariant functors used in Layer R07.4,
+`D*_st(V) = Hom_{G_K}(V, B_st) ≅ D_st(V^∨)` and likewise `D*_cris`, which carry the same
+statements through `D ↦ D^∨`, and the following arithmetic bound on periods, which gives
+part `1` for arbitrary filtered subobjects.
 
 Prove `crisEigenvector_filtration_bound`: after completed unramified extension so that `k` is
 algebraically closed, for `λ ∈ K₀^×, s ∈ ℤ` and nonzero `b ∈ B_cris` with `φ(b) = λb`
@@ -4589,41 +4632,33 @@ unit `w` (Brinon–Conrad, Lemma 9.3.3), the unit-slope case of Mathlib's
 `WittVector.exists_frobenius_solution_fractionRing`. If `s > n`, then `b/(t^n w)` belongs to
 `(B_cris)^{φ=1} ∩ Fil¹ B_dR = 0`, by the fundamental exact sequence, a contradiction.
 
-*Proof sketch.* `(1)` For rank-one semistable `V`, completed unramified base change makes `V` a
-Tate character, whose period `t^{−n}` gives `t_H = t_N`. The same argument applies to `det V`
-and hence gives equality for `D = D_st(V)`. It applies to a subobject via a subrepresentation
-only for subobjects `D′ = D_st(W)`, with their induced filtration, actually realized by a
-semistable `G_K`-subrepresentation `W ⊆ V` (admissible subobjects); arbitrary filtered
-`(φ,N)`-subobjects are not assumed to have this form. For such an arbitrary nonzero `D′` of
-rank `r`, embed `det D′` into `Λ^r D = D_st(Λ^r V)`. Monodromy is nilpotent and hence zero
-on this determinant line. Expand a generator `e` in a `ℚ_p`-basis of `Λ^r V`: its period
-coefficients `b_i` satisfy `N(b_i) = 0`, so `b_i ∈ B_cris, φ(b_i) = λb_i`, and
-`b_i ∈ Fil^{t_H(D′)} B_dR`. Apply `crisEigenvector_filtration_bound` to any nonzero
-coefficient to get `t_H(D′) ≤ v_p(λ) = t_N(D′)`. This uses no realization of `D′`.
-`(2)` Regularity of `B_st` makes
-the comparison map `B_st ⊗_{K₀} D_st(V) → B_st ⊗_{ℚ_p} V` an isomorphism compatible with `φ`, `N`,
-the filtration and `G_K`; take `φ = 1`, `N = 0` and `Fil⁰` invariants, using `B_cris^{φ = 1} ∩ Fil⁰ B_dR = ℚ_p` (the fundamental exact sequence, §R07.P3). `(3)` The dimension bound
-for weakly admissible `D` is the first half of the Colmez–Fontaine argument; the converse direction
-"weakly admissible implies admissible" is the theorem proved in §R07.4.13. (Brinon–Conrad 2009,
-Proposition 9.2.11, p. 144: regularity of `B_st`; Proposition 9.2.14, p. 146: full faithfulness and
-the quasi-inverse; Lemma 9.3.3 and Theorem 9.3.4 with its proof, pp. 147–148:
-the eigenvector filtration bound and weak admissibility; Definition 9.3.8 and Proposition
-9.3.9, p. 151: admissibility and the dimension bound.)
+*Proof sketch.* The bound gives part `1` of §0.2's theorem directly, including for filtered
+subobjects not realized by subrepresentations. For a nonzero `φ,N`-stable `D′ ⊆ D_st(V)` of rank
+`r`, embed `det D′` into `Λ^r D_st(V) = D_st(Λ^r V)`. Monodromy is nilpotent and hence zero on
+this line. Expand a generator `e` in a `ℚ_p`-basis of `Λ^r V`: its period coefficients `b_i`
+satisfy `N(b_i) = 0`, so `b_i ∈ B_cris, φ(b_i) = λb_i`, and `b_i ∈ Fil^{t_H(D′)} B_dR`. Apply
+`crisEigenvector_filtration_bound` to any nonzero coefficient to get
+`t_H(D′) ≤ v_p(λ) = t_N(D′)`; equality for `D′ = D_st(V)` follows from the rank-one case, where
+completed unramified base change makes `det V` a Tate character with period `t^{−n}`. The
+identification `D*_st(V) ≅ D_st(V^∨)` is the tensor–Hom adjunction for the regular ring `B_st`.
+(Brinon–Conrad 2009, Proposition 9.2.11, p. 144: regularity of `B_st`; Proposition 9.2.14,
+p. 146: full faithfulness and the quasi-inverse; Lemma 9.3.3 and Theorem 9.3.4 with its proof,
+pp. 147–148: the eigenvector filtration bound and weak admissibility; Definition 9.3.8 and
+Proposition 9.3.9, p. 151: admissibility.)
 
 The API:
 
 - `crisEigenvector_filtration_bound`: the bound above for `λ ∈ K₀^×` after completed
   unramified base change to algebraically closed residue field.
-- `dSt_isWeaklyAdmissible`, `dCris_isWeaklyAdmissible`: part `1`.
-- `dSt_fullyFaithful`, `vSt`, `vSt_dSt`: part `2`, with `V_st` and the natural isomorphism
+- `dSt_isWeaklyAdmissible`, `dCris_isWeaklyAdmissible`: part `1` of §0.2's theorem.
+- `dSt_fullyFaithful`, `vSt`, `vSt_dSt`: part `2`, with the natural isomorphism
   `V_st(D_st(V)) ≅ V`.
-- `FilteredPhiNModule.IsAdmissible`: `D ≅ D_st(V)` for some semistable `V`.
-- `isAdmissible_iff`: part `3`, and `finrank_vSt_le` for weakly admissible `D`.
+- `FilteredPhiNModule.IsAdmissible`, `isAdmissible_iff`: part `3`.
 - `dStar`: the contravariant `D*_st` and `D*_cris`, with `dStar_eq_dual : D*_st(V) ≅ D_st(V^∨)`.
 
-*Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.3.1; §R07.3.2;
-PadicPeriodRings §§4.1–4.3 (`B_st`, `D_st`,
-`D_cris`, semistable and crystalline representations); §R07.P2 (`bCris`) and
+*Needs:* PadicLocalLanglandsForGL2Qp §0.2 (the semistable equivalence onto weakly admissible
+objects); PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`; `B_st`, `D_st`, `D_cris`,
+semistable and crystalline representations); §R07.3.1; §R07.3.2; §R07.P2 (`bCris`) and
 §R07.P3 (the fundamental exact sequence); Mathlib
 `WittVector.exists_frobenius_solution_fractionRing` (Witt-unit Frobenius normalization).
 
@@ -5324,8 +5359,9 @@ R07.1.34; §R07.4.20 for the representation adapter.
 Layer R07.2 (Dieudonné–Manin and slopes); §§R07.P2–R07.P5 and PadicPeriodRings §§3–4 (supplied period rings, `D_cris`,
 rational crystalline predicates); §R07.3.3a (general filtered Frobenius carrier) and
 §§R07.3.4–R07.3.15 (Fontaine–Laffaille theory and period realization);
-PadicPeriodRings §§4.1–4.3 (`B_st`, `D_st`); Mathlib `WittVector`, `PreTilt`,
-`WittVector.fontaineTheta`, `Module.length`.
+PadicPeriodRings §§4.1–4.3 (`B_st`, `D_st`); TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.2
+(filtered `(φ, N)`-modules, weak admissibility and the semistable equivalence); Mathlib
+`WittVector`, `PreTilt`, `WittVector.fontaineTheta`, `Module.length`.
 
 ## Layer R07.4: Breuil–Kisin modules
 
@@ -5892,13 +5928,15 @@ part `(2)`; Kisin 2008, §1.2, p. 4: part `(1)`.)
   inclusions, to `p^{−n}𝔖e ⊂ ℰe`, all of `E`-height `1`. These embeddings come from the
   contravariant `Hom` pairing.
 
-### R07.4.13 Semistable representations have finite `E`-height; weakly admissible implies admissible
+### R07.4.13 Semistable representations have finite `E`-height
 
-Prove `semistableFiniteHeight`. Let `D` be an effective weakly admissible filtered `(φ, N)`-module over
-`K` and `𝔐 ∈ Mod^{φ,N}_{/𝔖}` a lattice in `𝔐(D)` (the image of `D` under Kisin's embedding). Then there is a
-canonical `G_{K∞}`-equivariant bijection `Hom_{𝔖,φ}(𝔐, 𝔖^ur) ⊗ ℚ_p ≅ Hom_{Fil,φ,N}(D, B⁺_st)`; both
-sides have dimension `dim_{K₀} D`, and `D` is admissible. Consequently: `(a)` weakly admissible filtered
-`(φ, N)`-modules are admissible (Colmez–Fontaine; Kisin's proof); `(b)` if `V` is semistable with
+Prove `semistableFiniteHeight`. Let `D` be an effective weakly admissible object of
+`FilteredPhiNModule K` (§R07.3.1) and `𝔐 ∈ Mod^{φ,N}_{/𝔖}` a lattice in `𝔐(D)` (the image of `D`
+under Kisin's embedding). Then there is a canonical `G_{K∞}`-equivariant bijection
+`Hom_{𝔖,φ}(𝔐, 𝔖^ur) ⊗ ℚ_p ≅ Hom_{Fil,φ,N}(D, B⁺_st)`, and both sides have dimension `dim_{K₀} D`.
+Consequently: `(a)` the representation attached to `D` by this bijection is the one given by
+PadicLocalLanglandsForGL2Qp §0.2's semistable equivalence (Colmez–Fontaine), so Kisin's lattice
+realization and §0.2's equivalence agree; `(b)` if `V` is semistable with
 Hodge–Tate weights in `[0, h]`, every `G_{K∞}`-stable lattice of `V` has `E`-height `≤ h`, and the filtered
 `(φ, N)`-module `D*_st(V)` is recovered from its `𝔖`-lattice by `D(𝔐 ⊗ 𝒪)`.
 
@@ -5910,17 +5948,19 @@ The setting is the Kummer frame of §R07.4.1. Conventions: Kisin's contravariant
 *Proof sketch.* Put `𝓜 = 𝔐 ⊗_𝔖 𝒪` and identify `D` with `D(𝓜)` (1.2.8). The inclusion `𝔖 ⊂ B⁺_cris` extends
 continuously to `𝒪`, sending `E(u)` into `Fil¹B⁺_cris` (Kisin 2006, 2.1.5, proof). Compose `𝔐 → 𝔖^ur ⊂ W(R)`
 with `φ` and the maps (2.1.6)–(2.1.8) to get a `G_{K∞}`-equivariant injection `Hom_{𝔖,φ}(𝔐, 𝔖^ur) ⊗ ℚ_p → Hom_{Fil,φ,N}(D, B⁺_st)`. The left side has dimension `d = dim D` (2.1.4), and the right side has
-dimension `≤ d` (§R07.3.3, part `3`), so the map is a bijection and `D` is admissible. `(b): D = D*_st(V)` is
+dimension `d`, because `D = D*_st(V)` for a semistable `V` by §0.2's equivalence (§R07.3.3, part `3`) and the
+right side is then `V`; so the map is a bijection, which is `(a)`. Kisin's argument also proves
+the admissibility of `D` without §0.2. `(b): D = D*_st(V)` is
 effective with `grⁱD_K = 0` for `i > h`, so `coker(1 ⊗ φ)` on `𝓜(D) = ⊕_{i≤h}(𝒪/E(u)ⁱ)^{hᵢ}` is killed by
 `E(u)^h` (1.2.2). The cokernel `C` of `1 ⊗ φ` on `𝔐` is killed by a power of `E(u)`, so `C ⊗_𝔖 𝒪 = C[1/p]`, and
 `E(u)^h C[1/p] = 0`. The lattice `𝒩 ∩ 𝔐[1/p]` of any `G_{K∞}`-stable lattice then has `E`-height `≤ h` by the
 argument of §R07.4.12 `(3)` (Kisin 2008, 2.5.5, cites 1.2.2 and 2.1.5 for this). (Kisin 2006, §2.1.5,
 Proposition (2.1.5), p. 21: hypotheses of the proposition; Kisin 2006, Introduction, p. 2:
-consequence `(a)`; Kisin 2008, §2.5, proof of Theorem (2.5.5), p. 19: consequence `(b)`.)
+Kisin's proof of the Colmez–Fontaine theorem behind `(a)`; Kisin 2008, §2.5, proof of Theorem (2.5.5), p. 19: consequence `(b)`.)
 
-*Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.10; §R07.4.12; §R07.4.6; §R07.3.3;
-PadicPeriodRings §§4.1–4.3
-(`B_st`, `D_st`).
+*Needs:* PadicLocalLanglandsForGL2Qp §0.2 (the semistable equivalence onto weakly admissible
+objects); PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`; `B_st`, `D_st`); §R07.4.10;
+§R07.4.12; §R07.4.6; §R07.3.3.
 
 **Checks.**
 
@@ -6656,9 +6696,11 @@ PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.21; §R07.4.4
 
 Define `FilteredPhiNModuleDD`. A filtered `(φ, N, F/F′, E)`-module of rank `n` is a free `F₀ ⊗_{ℚ_p} E`-module `D` of rank `n` with an `F₀`-semilinear, `E`-linear automorphism `φ`, a nilpotent `F₀ ⊗ E`-linear `N`
 with `Nφ = pφN`, a decreasing exhaustive separated filtration on `D_F = F ⊗_{F₀} D`, and an
-`F₀`-semilinear, `E`-linear action of `Gal(F/F′)` commuting with `φ` and `N` and preserving the filtration. It
-is weakly admissible if the underlying filtered `(φ, N)`-module over `F` (forgetting the
-`Gal(F/F′)`-action) is weakly admissible. Let `α_{F′} : W_{F′} → ℤ` send arithmetic Frobenius to `1` and put
+`F₀`-semilinear, `E`-linear action of `Gal(F/F′)` commuting with `φ` and `N` and preserving the filtration.
+Forgetting `E`, it is an object of PadicLocalLanglandsForGL2Qp §0.2's `FilteredPhiNModule F` with
+finite Galois descent data; this target adds the `E`-linear structure and `WD(D)`. It is weakly
+admissible if the underlying object of `FilteredPhiNModule F` (forgetting the `Gal(F/F′)`-action)
+is weakly admissible in §0.2's sense. Let `α_{F′} : W_{F′} → ℤ` send arithmetic Frobenius to `1` and put
 `a(g) = [k_{F′}:F_p]α_{F′}(g)`. If `g_D` is the semilinear descent action,
 `r(g) = g_D ∘ φ^{−a(g)}` is `F₀ ⊗ E`-linear and defines `WD(D)`, with
 `r(g)Nr(g)^{−1} = p^{a(g)}N`. Here the Weil norm is `|g| = p^{−a(g)}`, so the
@@ -6688,11 +6730,12 @@ The API:
 - `FilteredPhiNModuleDD`: A filtered `(φ, N, F/F′, E)`-module.
 - `FilteredPhiNModuleDD.galoisAction`: The semilinear `Gal(F/F′)`-action commuting with `φ` and `N` and
   preserving the filtration.
-- `FilteredPhiNModuleDD.IsWeaklyAdmissible`: Weak admissibility of the underlying filtered `(φ, N)`-module.
+- `FilteredPhiNModuleDD.IsWeaklyAdmissible`: §0.2's weak admissibility of the underlying object.
 - `FilteredPhiNModuleDD.weilDeligne`: `WD(D)` with `r(g) = g_D ∘ φ^{−[k_{F′}:F_p]α_{F′}(g)}` and its arithmetic norm relation.
 - `galoisType`: `τ(V) = WD(V)|_{I}`.
 
-*Needs:* §R07.3.1; §R07.3.2.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.2 (the carrier with finite Galois descent data); §R07.3.1;
+§R07.3.2.
 
 **Checks.**
 
@@ -6714,19 +6757,19 @@ from weakly admissible `D` with `Fil⁰D_F = D_F` and `Fil^k D_F = 0` to represe
 with Hodge–Tate weights in `{0, …, k − 1}`.
 
 The setting is Savitt's setting of §R07.4.27. Colmez–Fontaine (weakly admissible implies admissible)
-is §R07.4.13.
+is PadicLocalLanglandsForGL2Qp §0.2's semistable equivalence (§R07.3.3).
 
 *Proof sketch.* `G_{F′}` acts on `B_st` and, through `Gal(F/F′)`, on `D`, and `B_st ⊂ B_dR` is
 Galois-equivariant, so `D^F_st(V)` carries the descent data and `V^{F′}_st(D)` is a
 `G_{F′}`-representation, semistable over `F` of dimension `rk D` by the Colmez–Fontaine theorem
-(§R07.4.13; Savitt, §2.2). The natural map `B_st ⊗ V^{F′}_st(D) → B_st ⊗ D` is `G_{F′}`-equivariant; its
+(PadicLocalLanglandsForGL2Qp §0.2; Savitt, §2.2). The natural map `B_st ⊗ V^{F′}_st(D) → B_st ⊗ D` is `G_{F′}`-equivariant; its
 `G_F`-invariants give `D^F_st(V^{F′}_st(D)) ≅ D`, an isomorphism of `(φ, N, F, E)`-modules that respects
 `Gal(F/F′)` (Proposition 2.9); similarly `V ≅ V^{F′}_st(D^F_st(V))`. `V^{F′}_{st,k}(D) ≅ V^{F′}_st(D)(k − 1)` as in Breuil–Mézard, Lemme 3.1.1.2 (Lemma 2.11), which gives the weight-range statement
 (Corollary 2.12). (Savitt 2005, §2.2, Proposition 2.9, p. 6: the equivalence; Savitt 2005, §2.2,
 Corollary 2.12, p. 7: the weight range.)
 
-*Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.27; §R07.3.3; §R07.4.13;
-PadicPeriodRings §4.1 (`B_st`).
+*Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.27; §R07.3.3;
+PadicLocalLanglandsForGL2Qp §0.2; PadicPeriodRings §4.1 (`B_st`).
 
 **Checks.**
 
@@ -7265,8 +7308,8 @@ projective over `A ⊗_{ℚ_p} K` and `𝓜` is free over `A ⊗_{ℚ_p} K₀`; 
 equivalences between `Rep^cris_A` (`G_K`-representations on finite free `A`-modules, crystalline over `ℚ_p`)
 and `(Mod/K₀)_{A-fr}`; `(3)` both commute with finite base change `A → A′` within these categories.
 
-The setting is Kisin 2009's standing hypotheses of §R07.4.36. The input is the Colmez–Fontaine
-theorem of §R07.4.13 with Fontaine's full faithfulness (§R07.3.3).
+The setting is Kisin 2009's standing hypotheses of §R07.4.36. The input is the semistable
+equivalence of PadicLocalLanglandsForGL2Qp §0.2, used through §R07.3.3.
 
 *Proof sketch.* `(1): Hom_{A⊗K}(𝓜_K, −) ≅ Hom_{K⊗K}(K, Hom_A(𝓜_K, −))` is exact because `K` is
 projective over `K ⊗ K`, and descent gives projectivity over `A ⊗ K₀`; freeness by the Frobenius
@@ -7275,7 +7318,7 @@ argument of (1.2.7) (Kisin 2009, 1.3.2). `(2): 𝓜 ⊗_A N` lies in `(Mod/K₀)
 in (1.2.7), since `D_cris` and `V_cris` commute with `⊗_A N` (1.3.5). (Kisin 2009, §1.3.4, Proposition
 (1.3.4), p. 15: Proposition 1.3.4; Kisin 2009, §1.3.1, p. 14: the category.)
 
-*Needs:* §R07.4.10; §R07.3.3; §R07.4.13.
+*Needs:* §R07.4.10; §R07.3.3; PadicLocalLanglandsForGL2Qp §0.2.
 
 **Checks.**
 
@@ -7297,7 +7340,8 @@ in (1.2.7), since `D_cris` and `V_cris` commute with `⊗_A N` (1.3.5). (Kisin 2
 
 Layers R07.2 and R07.3; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Dieudonné crystal, Grothendieck–Messing);
 §§R07.P2–R07.P5 and PadicPeriodRings §§3–4; §R07.3.0;
-TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.ProfiniteCohomology Layer 9; Mathlib
+TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.ProfiniteCohomology Layer 9;
+TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.2 (the semistable equivalence); Mathlib
 `PowerSeries`, `Polynomial.IsEisensteinAt`, `AdicCompletion`, `WittVector`, `PreTilt`,
 `WittVector.fontaineTheta`.
 
@@ -7492,7 +7536,8 @@ Proposition 4, pp.189–190, and §2.6, p.188; §§R07.5.6 and R07.5.8.
 
 ### R07.5.5 Peu ramifiée and très ramifiée representations
 
-Define `IsPeuRamifiee` and `IsTresRamifiee`. Let `ρ : G_p = Gal(ℚ̄_p/ℚ_p) → GL(V) = GL₂(F̄_p)` with
+Use PadicLocalLanglandsForGL2Qp §0.3's `IsPeuRamifiee` and `IsTresRamifiee`, and extend them to
+Serre's full domain. Let `ρ : G_p = Gal(ℚ̄_p/ℚ_p) → GL(V) = GL₂(F̄_p)` with
 `P_K` acting nontrivially. Then `D = V^{P_K}` is a `G_p`-stable line, `G_p` acts on `D` by `θ₂ = χ̄^β ε₂` and on
 `V/D` by `θ₁ = χ̄^α ε₁` with `ε₁, ε₂` unramified, `0 ≤ α ≤ p − 2` and `1 ≤ β ≤ p − 1`. In the case `β = α + 1`,
 let `K` be the field cut out by `ρ(I)` over `K₀ = ℚ_p^nr` and `K_t = K₀(ζ_p)` its maximal tame subextension;
@@ -7501,9 +7546,17 @@ peu ramifiée if `v_p(x_i) ≡ 0 mod p` for all `i`, i.e. the `x_i` can be chose
 très ramifiée otherwise. For `p = 2 (χ̄ = 1, α = 0, β = 1)` this applies to `ρ = (1 u; 0 1)` with `u : G₂ → ℤ/2` ramified.
 
 Serre works over `ℚ_p`; only `ρ|_{G_p}` matters, and the definition depends only on `ρ|_I` and on
-`K₀ = ℚ_p^nr`. In extension-type formulas, “`∗` peu ramifiée” denotes the total
-unit-Kummer condition, including wild-trivial extension classes. It agrees with
-`IsPeuRamifiee` on the nontrivial-wild domain; §R07.5.13 gives the total `H¹` comparison.
+`K₀ = ℚ_p^nr`. When `β = α + 1` and `ε₁ = ε₂`, `ρ ≅ ρ̄_c ⊗ θ₁` for an extension class `c` of `1` by
+`χ̄` over `ℚ_p` with nontrivial wild inertia; on this common domain `IsPeuRamifiee ρ` and
+`IsTresRamifiee ρ` are §0.3's predicates on `ρ̄_c`, independent of the presentation by §0.3's
+isomorphism and twist invariance. When `ε₁ ≠ ε₂`, `IsPeuRamifiee ρ` is defined by Serre's Kummer
+condition above and `IsTresRamifiee ρ` by its failure; by `tresRamifiee_characters` such `ρ` is
+always peu ramifiée. Prove `isPeuRamifiee_iff_valuation` on the whole domain; on the common domain
+it identifies Serre's Kummer condition with §0.3's membership `c ∈ peuRamifieH1`. In
+extension-type formulas, “`∗` peu ramifiée” denotes §0.3's total unit-Kummer condition
+`c ∈ peuRamifieH1`, including wild-trivial extension classes; by
+`RamificationSupport.peuRamifie_restricted` it agrees with `IsPeuRamifiee` on the nontrivial-wild
+domain, and §R07.5.13 gives the `ℚ_l` and integral `H¹` comparisons.
 
 *Construction.* `V^{P_K} ≠ 0` since `P_K` is pro-`p`; it is a line because `P_K` acts nontrivially; it is
 `G_p`-stable because `P_K` is normal (Serre 1987, §2.4). `β = α + 1` gives `Gal(K_t/K₀) = (ℤ/p)^*, K_t = K₀(ζ_p)`, and `Gal(K/K_t) = ρ(P_K)` elementary abelian with the cyclotomic action of `Gal(K_t/K₀)`;
@@ -7514,17 +7567,25 @@ condition (2.4.7) is independent of the choice of the `x_i`: the subgroup they g
 
 The API:
 
-- `IsPeuRamifiee`: The Kummer generators of `K/K_t` can be chosen among units of `K₀`.
-- `IsTresRamifiee`: The negation, in the case `β = α + 1`.
+- `IsPeuRamifiee`: §0.3's predicate on the common domain; for `ε₁ ≠ ε₂`, the Kummer generators of
+  `K/K_t` can be chosen among units of `K₀`.
+- `IsTresRamifiee`: §0.3's predicate on the common domain; the negation of the Kummer condition
+  for `ε₁ ≠ ε₂`, in the case `β = α + 1`.
 - `kummerSubgroup`: The subgroup of `K₀^*/K₀^{*p}` generated by the `x_i`.
-- `isPeuRamifiee_iff_valuation`: Peu ramifiée iff `v_p` vanishes `mod p` on the Kummer subgroup.
+- `isPeuRamifiee_iff_valuation`: Peu ramifiée iff `v_p` vanishes `mod p` on the Kummer subgroup;
+  on the common domain this is §0.3's membership in `peuRamifieH1`.
 - `isPeuRamifiee_of_unit`: Under nontrivial wild inertia, a Kummer class of a unit
   gives a peu ramifiée representation.
 
-*Needs:* §R07.1.26.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.3 (`peuRamifieH1`, `IsPeuRamifiee`, `IsTresRamifiee`,
+`RamificationSupport.peuRamifie_restricted`); §R07.1.26.
 
 **Checks.**
 
+- The split class `c = 0` lies in §0.3's `peuRamifieH1` but has trivial wild inertia, so it is
+  outside the domain of `IsPeuRamifiee`: the total unit-Kummer subspace and Serre's restricted
+  predicate differ exactly on wild-trivial classes. Over `ℚ₂` the unit class of `5` gives the
+  unramified quadratic extension, nonsplit and in `peuRamifieH1`, yet not `IsPeuRamifiee`.
 - `isPeuRamifiee_sqrt_neg_one`: `p = 2, K = ℚ₂(√−1)`: the class of `−1` is a unit class, so `(1 u; 0 1)`
   is peu ramifiée.
 - `isTresRamifiee_sqrt_two`: `p = 2, K = ℚ₂(√2): v₂(2) = 1` is odd, so `(1 u; 0 1)` is très ramifiée.
@@ -7904,14 +7965,18 @@ the remark that the coefficients must be `ℤ_l`.)
 
 ### R07.5.13 The peu ramifié subspaces `H¹_f(G_L, F_l(ε̄χ̄))` and `H¹_f(G_L, ℤ_l(εχ))`
 
-Define `peuRamifieH1`. Let `L/ℚ_l` be finite and `χ̄ : G_L → F_l^×` (resp. `χ : G_L → ℤ_l^×`) unramified.
+Extend PadicLocalLanglandsForGL2Qp §0.3's `peuRamifieH1` from `ℚ_l` and the trivial twist to
+finite `L/ℚ_l` and unramified twists, and add its integral version. Let `L/ℚ_l` be finite and
+`χ̄ : G_L → F_l^×` (resp. `χ : G_L → ℤ_l^×`) unramified.
 `H¹_f(G_L, F_l(ε̄_lχ̄))` is the kernel of the composite `H¹(G_L, F_l(ε̄_lχ̄)) → H¹(G_{L^nr}, F_l(ε̄_l)) ≅ L^{nr,×}/(L^{nr,×})^l → ℤ/l`, the last map induced by the valuation; `H¹_f(G_L, ℤ_l(ε_lχ))` is the
 kernel of `H¹(G_L, ℤ_l(ε_lχ)) → H¹(G_{L^nr}, ℤ_l(ε_l)) ≅ lim_r L^{nr,×}/(L^{nr,×})^{l^r} → ℤ_l`. If `χ̄`
 (resp. `χ`) is nontrivial, `H¹_f = H¹`; and `H¹(G_L, F_l(ε̄_l))/H¹_f(G_L, F_l(ε̄_l)) ≅ F_l`. For `L = ℚ_l`
-and `χ̄ = 1`, a class `c` lies in `H¹_f` exactly when its extension `ρ_c` of the trivial character
-by `ε̄_l` has trivial wild inertia or is peu ramifiée in the restricted sense of §R07.5.5.
-Equivalently its Kummer generator can be taken to be a unit. On the nontrivial-wild domain
-this is precisely Serre's predicate; the kernel also contains the zero and wild-trivial classes.
+and `χ̄ = 1`, `H¹_f` is §0.3's `peuRamifieH1`, the Kummer image of the units: a class lies in it
+exactly when its Kummer generator can be taken to be a unit. By §0.3's
+`RamificationSupport.peuRamifie_restricted`, `c` lies in it exactly when its extension `ρ_c` of
+the trivial character by `ε̄_l` has trivial wild inertia or satisfies `IsPeuRamifiee` (§R07.5.5);
+on the nontrivial-wild domain this is precisely Serre's predicate, and the subspace also contains
+the zero and wild-trivial classes.
 
 `L/ℚ_l` finite, `L^nr` its maximal unramified extension; Kummer theory `H¹(G_M, μ_{l^r}) ≅ M^×/(M^×)^{l^r}` for a field `M` of characteristic `0` is TauCetiRoadmap.ProfiniteCohomology Layer 9
 (Hilbert `90` and Kummer theory); over `L^nr` the twist by `χ̄` disappears because `χ̄` is unramified.
@@ -7932,15 +7997,18 @@ the two facts `H¹_f = H¹` for nontrivial `χ̄` and `H¹/H¹_f ≅ F_l`.)
 
 The API:
 
-- `peuRamifieH1`: `H¹_f(G_L, F_l(ε̄χ̄))` as a subspace of `H¹(G_L, F_l(ε̄χ̄))`.
+- `peuRamifieH1`: `H¹_f(G_L, F_l(ε̄χ̄))` as a subspace of `H¹(G_L, F_l(ε̄χ̄))`; for `L = ℚ_l` and
+  `χ̄ = 1` it is notation for §0.3's `peuRamifieH1`, the valuation kernel and the unit Kummer
+  image coinciding because `ℚ_l^×/(ℚ_l^×)^l → ℤ/l` is the valuation.
 - `peuRamifieH1Int`: `H¹_f(G_L, ℤ_l(εχ))` as a `ℤ_l`-submodule of `H¹(G_L, ℤ_l(εχ))`.
 - `peuRamifieH1_eq_top`: `χ̄ ≠ 1` implies `H¹_f = H¹`.
 - `peuRamifieH1_quotient`: `H¹(G_L, F_l(ε̄))/H¹_f ≅ F_l`.
-- `peuRamifieH1_iff_isPeuRamifiee`: For `L = ℚ_l, χ̄ = 1` and every class `c, c ∈ H¹_f` iff wild inertia acts trivially on `ρ_c` or `IsPeuRamifiee(ρ_c)`.
-  The second disjunct includes the nontrivial-wild hypothesis of §R07.5.5.
-  Under nontrivial wild inertia this reduces to the restricted peu ramifiée iff.
+- For `L = ℚ_l, χ̄ = 1` and every class `c`, `c ∈ H¹_f` iff wild inertia acts trivially on `ρ_c` or
+  `IsPeuRamifiee(ρ_c)`: this is §0.3's `RamificationSupport.peuRamifie_restricted`, used here
+  without a second proof. The second disjunct includes the nontrivial-wild hypothesis.
 
-*Needs:* §R07.5.5; TauCetiRoadmap.ProfiniteCohomology Layer 9.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.3 (`peuRamifieH1`,
+`RamificationSupport.peuRamifie_restricted`); §R07.5.5; TauCetiRoadmap.ProfiniteCohomology Layer 9.
 
 **Checks.**
 
@@ -7990,7 +8058,9 @@ Layer 5 (local Tate duality).
 
 ### R07.5.15 Serre weights of `GL₂(F)` and their compact inductions
 
-Define `SerreWeight`. Let `F` be a non-archimedean local field with ring of integers `O_F`, uniformiser
+Use PadicLocalLanglandsForGL2Qp §§2.7–2.8's `SerreWeight`, `compactInduction`, `heckeOperatorT`,
+`endEquivPolynomial` and `compactInduction_free` for `F = ℚ_p`, and extend them to every
+non-archimedean local field. Let `F` be a non-archimedean local field with ring of integers `O_F`, uniformiser
 `ϖ`, residue field `k_F` of characteristic `p, G = GL₂(F), K = GL₂(O_F)` and `Z` the centre. A Serre weight
 is an irreducible smooth representation `σ` of `KZ` on a finite-dimensional `F̄_p`-vector space on which `Z`
 acts by a character; its restriction to `K` factors through `GL₂(k_F)`, and for `F = ℚ_p` the Serre
@@ -8003,7 +8073,13 @@ unless `(r, λ) ∈ {(0, ±1), (p − 1, ±1)}`, where it has length `2` with co
 twist of the Steinberg (special) representation; for `F = ℚ_p` and `λ = 0, I(σ)/(T)` is irreducible
 (Breuil), and these are the supersingular representations.
 
-Other central-uniformiser actions are treated through the separate character twist `χ∘det`.
+For `F = ℚ_p` the five names are notation for §§2.7–2.8's objects after scalar extension from its
+finite coefficient field to `F̄_p`: the double coset of `diag(1,p)^{−1}` is §2.7's
+`KZ·diag(p,1)·KZ`, since `p·I₂ ∈ KZ`, and both normalize `T` by the highest-weight projection with
+`p·I₂` acting trivially on `σ_r`. For general `F` this target constructs the same objects on
+SmoothRepresentationsOfLocalGroups SR.2's compact induction, with a restriction comparison to
+§§2.7–2.8 at `F = ℚ_p`. Other central-uniformiser actions are treated through the separate
+character twist `χ∘det`.
 `F` non-archimedean local with finite residue field of characteristic `p`; coefficients `F̄_p`; smooth
 means every vector has open stabiliser. Smooth representations and compact induction are
 TauCetiRoadmap.SmoothRepresentationsOfLocalGroups' (Layer SR.2, with the Hecke algebras of Layer
@@ -8024,14 +8100,17 @@ Breuil 2003, Théorème 1.1, p. 3: for `F = ℚ_p` the quotients `I(σ)/(T)` are
 
 The API:
 
-- `SerreWeight`: An irreducible smooth `F̄_p[KZ]`-module with central character.
+- `SerreWeight`: An irreducible smooth `F̄_p[KZ]`-module with central character; §§2.7–2.8's
+  `SerreWeight` for `F = ℚ_p`.
 - `SerreWeight.sym`: For `F = ℚ_p: Sym^r ⊗ det^s` with `0 ≤ r ≤ p − 1`.
-- `compactInduction`: `I(σ) = c-Ind_{KZ}^G σ` as a smooth `G`-representation.
-- `heckeOperatorT`: The Hecke operator `T ∈ End_G(I(σ))`.
-- `endEquivPolynomial`: `End_G(I(σ)) ≅ F̄_p[T]` as `F̄_p`-algebras.
-- `compactInduction_free`: `I(σ)` is free over `F̄_p[T]`.
+- `compactInduction`: `I(σ) = c-Ind_{KZ}^G σ` as a smooth `G`-representation; §2.7's
+  `compactInduction` for `F = ℚ_p`.
+- `heckeOperatorT`: The Hecke operator `T ∈ End_G(I(σ))`; §2.7's `heckeOperatorT` for `F = ℚ_p`.
+- `endEquivPolynomial`: `End_G(I(σ)) ≅ F̄_p[T]` as `F̄_p`-algebras; §2.7's for `F = ℚ_p`.
+- `compactInduction_free`: `I(σ)` is free over `F̄_p[T]`; §2.7's for `F = ℚ_p`.
 
-*Needs:* TauCetiRoadmap.SmoothRepresentationsOfLocalGroups Layer SR.2 (compact induction).
+*Needs:* PadicLocalLanglandsForGL2Qp §§2.7–2.8 (the `ℚ_p` Serre weights and Hecke construction);
+TauCetiRoadmap.SmoothRepresentationsOfLocalGroups Layer SR.2 (compact induction).
 
 **Checks.**
 
@@ -8050,6 +8129,10 @@ The API:
   the twist is absorbed into `σ`. The exceptional `±1` list uses the central scalar `1` normalization.
 - At `p = 5`, the natural weight and its `det²` twist both have dimension `2` and
   determinant `det`, but traces `3` and `2` at `diag(2,1)`; these invariants do not distinguish weights.
+- For `F = ℚ_p`, the restriction comparison sends `T` to §2.7's `heckeOperatorT`, not to a scalar
+  multiple: at `σ` trivial and `λ = 1` both give the reducible quotient with Steinberg
+  submodule and trivial quotient, while `T` rescaled by `2` at `p = 5` would make `λ = 1`
+  irreducible.
 
 
 ### Examples
@@ -8065,7 +8148,7 @@ The API:
 Layers R07.1, R07.3 and R07.4; TauCetiRoadmap.LocalFieldsRamification Layer 4;
 TauCetiRoadmap.EllipticCurves Layer 4; TauCetiRoadmap.ProfiniteCohomology Layer 9;
 TauCetiRoadmap.SmoothRepresentationsOfLocalGroups Layer SR.2; ArithmeticGaloisRepresentations Layer
-6.
+6; TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §§0.3 and 2.7–2.8.
 
 ## Layer R07.6: Deformation and ramification consequences
 
@@ -8771,8 +8854,9 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
   theory is supplied by CrystallineCohomology §CR.4.7; §R07.2.15 here owns its group-theoretic
   application. PadicHodgeTheory also uses the Fontaine–Laffaille categories, the ring `S`,
   the raw functor `U_S` with its endpoint analysis, and the translated
-  `flIntervalRealization` (R07.3) and imports the filtered modules, weak admissibility and the
-  Colmez–Fontaine theorem (§R07.3.1, §R07.3.2, §R07.4.13).
+  `flIntervalRealization` (R07.3). Its filtered modules, weak admissibility and semistable
+  equivalence are owned by PadicLocalLanglandsForGL2Qp §0.2, not by this roadmap; this roadmap's
+  notation for them (§§R07.3.1–R07.3.3) is an abbreviation of that carrier.
 - **ClassicalSerreModularity**, **SerreWeightAndLevelOptimisation**, **EllipticCurveModularity**,
   **GL2ModularityLifting** and **PotentialModularityAndCompatibleSystems** use the residual types of
   R07.5 (inertia on `E[p]`, Serre's finite-flat criterion, Savitt's residual types, residual

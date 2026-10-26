@@ -23,7 +23,7 @@ dimension, Dieudonné crystals, crystalline and semistable period rings and thei
 realizations are absent from the pins. Consequently Tate's Hodge–Tate and generic-fibre
 theorems (§§R07.1.19, R07.1.22), the Barsotti–Tate and relative Dieudonné classifications
 (§§R07.2.10, R07.2.27–R07.2.29), Fontaine–Laffaille realization and admissibility,
-Colmez–Fontaine and crystalline-lattice comparisons (R07.3–R07.4), and Raynaud's
+the crystalline-lattice comparisons (R07.3–R07.4), and Raynaud's
 Tate-module determinant theorem (§R07.6.9) have no signatures here. The Robba ring and
 its slope filtration, Raynaud's vector schemes and the Oort–Tate parameter group schemes,
 marked admissible global models and their fppf extension categories, labelled Sen and
