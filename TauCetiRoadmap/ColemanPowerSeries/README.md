@@ -6,7 +6,9 @@ The arithmetic objects are finite intermediate fields, their native integer ring
 
 ## Scope and ownership
 
-This roadmap owns explicit carrier comparisons and API refinements: the chosen-root integer-ring and relative-basis comparisons, the fixed-root lift of coefficient Frobenius, Frobenius-twisted residue splittings, signed Tate coordinates, finite semilocal transport, multiplication-matrix identities, uniform iterate precision and arbitrary-coefficient logarithmic-derivative calculations. IntegralIwasawaTheory §§7.1–7.3 own the norm, trace, interpolation, arithmetic Coleman map, exact sequences, real principal circular closure and its quotient. Sections recording those results below are consumed contracts, under the supplier’s names. The all-prime formal logarithmic-derivative and boundary statements in Layer 3 extend §7.2’s odd-prime context by independent integral arguments, including `p=2`.
+This roadmap owns explicit carrier comparisons and API refinements: the chosen-root integer-ring and relative-basis comparisons, the fixed-root lift of coefficient Frobenius, Frobenius-twisted residue splittings, signed Tate coordinates, finite semilocal transport, multiplication-matrix identities, uniform iterate precision and arbitrary-coefficient logarithmic-derivative calculations. IntegralIwasawaTheory §§7.1–7.3 own the norm, trace, interpolation, the odd-prime arithmetic Coleman map, exact sequences, real principal circular closure and its quotient. Sections recording those results below are consumed contracts, under the supplier’s names. The all-prime formal logarithmic-derivative and boundary statements in Layer 3 extend §7.2’s odd-prime context by independent integral arguments, including `p=2`. The all-prime normalized Coleman map `Col=−Col₀` of §2.39 is constructed here; its odd-prime specialization is identified with §7.2's `arithmeticColeman`.
+
+This roadmap also owns the elementary cyclotomic denominator `cyclotomicSeries`, the integral smoothing series `smoothingSeries` and their comparison `smoothingSeries_bernoulli_comparison` with the Bernoulli smoothing of IntegralIwasawaTheory §5.0 (§§2.10–2.10a). Later roadmaps that need the binomial-coefficient denominator, its unit-denominator smoothed series or the inverse-Amice smoothing measure consume these declarations rather than redefining them.
 
 The neighbouring roadmaps supply the following mathematics.
 
@@ -14,9 +16,9 @@ The neighbouring roadmaps supply the following mathematics.
 - **ProfiniteProPGroups, Layer 3, and ProfiniteArithmetic, §1.3:** pro-p closure and continuous p-adic powers, with their native Tau Ceti implementations. The targets here verify its hypotheses on principal norm limits and compare its action with the actual arithmetic action.
 - **PadicMeasuresIwasawaAlgebras (PMIA), Layers 0–5:** integral measures, weak topology, Amice and intrinsic unit-domain transforms, bounded `ψ`, inverse weighting, completed group algebras, pseudomeasures and finite-flat exactness. The new statements here compare those operators with the arithmetic norm, derivative, action and quotient; they do not define another measure carrier.
 - **IntegralIwasawaTheory, §§7.1–7.3:** `colemanSeriesBasis`, `colemanNorm`, `colemanTrace`, `localUnitNormLimit`, `colemanInterpolation`, `colemanLogDerivative_surjective`, the fixed-space boundary sequence, `arithmeticColeman`, `principalColeman_exact`, `principalColeman_plusEquiv`, `realPrincipalCircularClosure` and `realCircularClosure_colemanImage`, including finite-free coefficient change.
-- **IntegralIwasawaTheory, §5.0:** the canonical Kubota–Leopoldt pseudomeasure, its integral Bernoulli smoothing and exact smoothing multiplier. The elementary denominator and its independent smoothed series are specified in §2.10 and §2.10a here. The arithmetic reciprocity comparison fixes the sign relative to the supplied normalization.
+- **IntegralIwasawaTheory, §5.0:** the canonical Kubota–Leopoldt pseudomeasure, its integral Bernoulli smoothing and exact smoothing multiplier. The elementary denominator and its independent smoothed series are owned by §2.10 and §2.10a here, not by IntegralIwasawaTheory. The arithmetic reciprocity comparison fixes the sign relative to the supplied normalization.
 - **IntegralIwasawaTheory, §§1.1–1.4:** the actual global cyclotomic fields, global cyclotomic-unit groups, their real subgroups and the finite-conductor cyclic-generation theorem. Its §7.3 supplies their real principal local closures and inverse limit; the explicit root-compatible embeddings and finite/full/real carrier comparisons are specified here.
-- **NumberFieldArithmetic, Layer 5:** completion tensors and the integral semilocal equivalence, including projections and Galois transport. The finite-product constructions below identify its cyclotomic factors and norms.
+- **NumberFieldArithmetic, Layer 5 (archived under `Completed/`):** completion tensors and the integral semilocal equivalence, including projections and Galois transport. The finite-product constructions below identify its cyclotomic factors and norms.
 
 
 The local cyclotomic Eisenstein calculation and irreducibility are supplied by **LocalGaloisGroups, Layer 0**. Use the shifted prime-power cyclotomic polynomial there, including its constant coefficient `p`. The pinned library implements `TauCeti.irreducible_cyclotomic_prime_pow_ratPadic` in `TauCeti/NumberTheory/Cyclotomic/Irreducible.lean` and `TauCeti.finrank_cyclotomic_prime_pow_ratPadic` in `TauCeti/NumberTheory/LocalField/RootsOfUnity/Cyclotomic.lean`. The latter gives `[K_n:ℚ_p]=p^n(p−1)` on the chosen primitive-root extension. These are inputs to the relative degree and chosen-root comparisons here.
@@ -47,7 +49,7 @@ The corrected norm on `Bˣ` is `M=Σ⁻¹N`. Its fixed subgroup is `B^(N=Σ)`. C
 
 Here `ε_n` is native convergent evaluation at `π_n`. The positive twist belongs to interpolation and the negative twist to the inverse. With `E=ℚ_p`, `σ=id`, so this is the base norm-fixed interpolation. The points `π_n` do not tend to zero; separation uses Weierstrass preparation and unbounded minimal-polynomial degree.
 
-For the `ℚ_p` arithmetic Coleman composite, `Δ(F)=YF′F⁻¹`, `W=ker(ψ−id)` and `V=ker ψ`. The fixed-space boundary is `W→V`, `F↦F−φ(F)`. The raw map `Col₀` has the sign of this displayed composite. The normalized map `Col=−Col₀` satisfies `Col(c(a))=λ_a=([a]−1)ζ_p`; `ζ_p` keeps the normalization of IntegralIwasawaTheory §5.0. The endpoint of the principal sequence is the **first moment** `μ↦μ(x)`, rather than mass `μ↦μ(1)`.
+For the `ℚ_p` arithmetic Coleman composite, `Δ(F)=YF′F⁻¹`, `W=ker(ψ−id)` and `V=ker ψ`. The fixed-space boundary is `W→V`, `F↦F−φ(F)`. The raw map `Col₀` has the sign of this displayed composite. The normalized map `Col=−Col₀` is defined here for every prime (§2.39); for odd `p` it is IntegralIwasawaTheory §7.2's `arithmeticColeman`. It satisfies `Col(c(a))=λ_a=([a]−1)ζ_p`; `ζ_p` keeps the normalization of IntegralIwasawaTheory §5.0. The endpoint of the principal sequence is the **first moment** `μ↦μ(x)`, rather than mass `μ↦μ(1)`.
 
 The declaration namespaces distinguish the `ℤ_p` series calculations (`TauCetiRoadmap.ColemanPowerSeries.Series`), their arithmetic realizations (`TauCetiRoadmap.ColemanPowerSeries.Arithmetic`), the unramified arithmetic tower (`TauCetiRoadmap.ColemanPowerSeries.Unramified`) and its series operators (`TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries`). The base and unramified interpolation maps are specializations of the supplied `colemanInterpolation`; fully qualified refinement names distinguish their Frobenius comparisons. No compatibility is inferred from a shared short name.
 
@@ -2210,7 +2212,7 @@ Makes the semilocal evaluation and norm targets literal finite products of actua
 
 Layer 1, unramified interpolation interface: Provides the actual coefficient fields, unit towers and arithmetic transition maps used in Frobenius-twisted evaluation. Layer 0 and Layer 2–Layer 4: Makes the semilocal evaluation and norm targets literal finite products of actual local fields.
 
-*Needs:* [Cyclotomic levels over unramified coefficients](#colemanpowerseries-l0-unramified-coefficient-level); [The actual consecutive norm on coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-norm); [NumberFieldArithmetic layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); `MulEquiv.piUnits`.
+*Needs:* [Cyclotomic levels over unramified coefficients](#colemanpowerseries-l0-unramified-coefficient-level); [The actual consecutive norm on coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-norm); [NumberFieldArithmetic layer 5 the global local dictionary at finite places](../../Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); `MulEquiv.piUnits`.
 
 (Sharifi, Iwasawa Theory: [Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf), §6.1 opening and semilocal unit decomposition, pp.157–158; the finite-family arithmetic specialization is derived here) The cited text treats unramified cyclotomic unit norms, Frobenius-twisted interpolation or semilocal coefficients. This result is the explicit arithmetic specialization or bridge derived in its proof steps, not a separately numbered theorem attributed to the notes.
 
@@ -4173,7 +4175,7 @@ Provides semilocal equivariance when a number-field Galois group permutes primes
 
 Layer 1, unramified interpolation interface: Provides the actual coefficient fields, unit towers and arithmetic transition maps used in Frobenius-twisted evaluation. Layer 0 and Layer 2–Layer 4: Provides semilocal equivariance when a number-field Galois group permutes primes above `p`.
 
-*Needs:* [Unramified coefficients and the cyclotomic field are disjoint](#colemanpowerseries-l0-unramified-coefficient-disjoint); [Shuffle the actual semilocal limit](#colemanpowerseries-l0-unramified-semilocal-shuffle); [Coefficient Frobenius on the semilocal tower](#colemanpowerseries-l0-unramified-semilocal-frobenius); [Arithmetic actions on coefficient unit limits](#colemanpowerseries-l0-unramified-coefficient-limit-actions); [NumberFieldArithmetic layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [Extend a genuine coefficient transport](#colemanpowerseries-l0-unramified-semilocal-coefficient-transport); [The actual componentwise semilocal norm](#colemanpowerseries-l0-unramified-semilocal-norm).
+*Needs:* [Unramified coefficients and the cyclotomic field are disjoint](#colemanpowerseries-l0-unramified-coefficient-disjoint); [Shuffle the actual semilocal limit](#colemanpowerseries-l0-unramified-semilocal-shuffle); [Coefficient Frobenius on the semilocal tower](#colemanpowerseries-l0-unramified-semilocal-frobenius); [Arithmetic actions on coefficient unit limits](#colemanpowerseries-l0-unramified-coefficient-limit-actions); [NumberFieldArithmetic layer 5 the global local dictionary at finite places](../../Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [Extend a genuine coefficient transport](#colemanpowerseries-l0-unramified-semilocal-coefficient-transport); [The actual componentwise semilocal norm](#colemanpowerseries-l0-unramified-semilocal-norm).
 
 (Sharifi, Iwasawa Theory: [Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf), §6.1 opening and semilocal unit decomposition, pp.157–158; the finite-family arithmetic specialization is derived here) The cited text treats unramified cyclotomic unit norms, Frobenius-twisted interpolation or semilocal coefficients. This result is the explicit arithmetic specialization or bridge derived in its proof steps, not a separately numbered theorem attributed to the notes.
 
@@ -7335,7 +7337,7 @@ Layer 0 supplies the exact coefficient-field, degree, absolute integral-basis, r
 
 ## Layer 2: The arithmetic Coleman map and reciprocity
 
-The formal weighted logarithmic derivative is additive on products of units and has a denominator-cleared cyclotomic formula. The cyclotomic series is the Dirichlet supplier's geometric-sum denominator, with its actual unit witness. Norm-compatible cyclotomic ratios interpolate to that series. The elementary boundary `F↦F−φ(F)` on `ψ`-fixed series lands in ker `ψ` by the independent identity `ψφ=id`; this construction is introduced here because the Coleman composite uses it before Layer 3 computes its kernel and range. Interpolation, `Δ`, this boundary, inverse weighting and intrinsic unit Amice give `Col₀`. Comparing the smoothed series fixes its negative reciprocity sign; `Col=−Col₀` has the positive Dirichlet numerator. The actual finite Galois action, scalar structure and completed action identify its principal restriction as a continuous module map.
+The formal weighted logarithmic derivative is additive on products of units and has a denominator-cleared cyclotomic formula. The cyclotomic series is the geometric-sum denominator of §2.10, owned here, with its actual unit witness. Norm-compatible cyclotomic ratios interpolate to that series. The elementary boundary `F↦F−φ(F)` on `ψ`-fixed series lands in ker `ψ` by the independent identity `ψφ=id`; this construction is introduced here because the Coleman composite uses it before Layer 3 computes its kernel and range. Interpolation, `Δ`, this boundary, inverse weighting and intrinsic unit Amice give `Col₀`. Comparing the smoothed series fixes its negative reciprocity sign; `Col=−Col₀`, defined at every prime, has the positive numerator `λ_a`. The actual finite Galois action, scalar structure and completed action identify its principal restriction as a continuous module map.
 
 <a id="colemanpowerseries-l2-logarithmic-derivative"></a>
 
@@ -7529,16 +7531,16 @@ For the proof, `constantCoeff(g_m)=0`, so `HasSubst.of_constantCoeff_zero'` supp
 
 `R` is a commutative ring. Put `B=R[[T]]`, `Y=1+T` and `D=PowerSeries.derivative`. Inverses of elements of `Bˣ` mean units' inverses, not inversion of `T`. Throughout, `f_a` is the finite-sum cyclotomic denominator of §2.10.
 
-Define `cyclotomicSeries` by `f_a(T) = ∑_(0≤i<a) (1+T)^i` for every natural a and every commutative ring `R`. Its signature is `{R : Type} → [CommRing R] → ℕ → PowerSeries R`. Prove `cyclotomicSeries_def`, the denominator factorization `T f_a = (1+T)^a − 1`, the constant coefficient formula `constantCoeff f_a = a`, the unit criterion `IsUnit f_a ↔ IsUnit (a : R)`, and compatibility with every commutative-ring coefficient homomorphism. These facts use the native power-series unit criterion and do not assume that `R` is a domain.
+Define `cyclotomicSeries` by `f_a(T) = ∑_(0≤i<a) (1+T)^i` for every natural a and every commutative ring `R`. Its signature is `{R : Type} → [CommRing R] → ℕ → PowerSeries R`. Prove `cyclotomicSeries_def`, the denominator factorization `T f_a = (1+T)^a − 1`, the constant coefficient formula `constantCoeff f_a = a`, the coefficient formula `f_a[n] = choose(a, n+1)`, the unit criterion `IsUnit f_a ↔ IsUnit (a : R)`, and compatibility with every commutative-ring coefficient homomorphism. These facts use the native power-series unit criterion and do not assume that `R` is a domain.
 
 **Checks.**
 
 - Over every commutative ring `R`, `f_0=0`.
-- Over `ℤ`, `f_3=3+3T+T²`.
+- Over `ℤ`, `f_3=3+3T+T²`, whose coefficients are `choose(3,1), choose(3,2), choose(3,3)`.
 - Over `ℤ/3ℤ`, `f_3` is not a unit.
 - The existing coefficient map `ℤ→ℤ/3ℤ` sends `f_3` to `T²`.
 
-For the proof, multiply the proposed equality by `T`. The finite geometric-sum identity identifies the left side with `(1+T)^a−1`. For the right side, induct on the finite sum (or telescope using `T=(1+T)−1`) to get the same polynomial. The base `a=0` gives zero; the successor step adds `T(1+T)^a`. Cancel `T` with the baseline `PowerSeries.X_mul_injective`, valid even with zero divisors. The identification includes `f_0=0` and `f_1=1`, and introduces no new carrier or inverse of `T`.
+For the proof, multiply the proposed equality by `T`. The finite geometric-sum identity identifies the left side with `(1+T)^a−1`. For the right side, induct on the finite sum (or telescope using `T=(1+T)−1`) to get the same polynomial. The base `a=0` gives zero; the successor step adds `T(1+T)^a`. Cancel `T` with the baseline `PowerSeries.X_mul_injective`, valid even with zero divisors. The identification includes `f_0=0` and `f_1=1`, and introduces no new carrier or inverse of `T`. The coefficient formula is the hockey-stick identity `Σ_(i<a) choose(i,n) = choose(a,n+1)`, read off from the binomial expansion of each `(1+T)^i`.
 
 `f_3=3+3T+T²`, not `(1+T)³−1` and not its logarithm.
 
@@ -8189,18 +8191,18 @@ All topology claims are weak/coefficientwise; no norm topology on integral measu
 
 ### 2.39 The sign-adjusted Coleman map
 
-Keep the hypotheses of the preceding target.
+Keep the hypotheses of the preceding target; in particular `p` is any prime, including 2.
 
-Use `arithmeticColeman` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
+Define `normalizedColeman` by the following specification.
 
+`Col=−Col₀` on the underlying additive group of actual intrinsic unit measures on `ℤ_pˣ`. It has the same domain, kernel and image as `Col₀`, the image being a subgroup; its explicit reciprocity sign is positive. The supplier IntegralIwasawaTheory §7.2 defines `arithmeticColeman` only for odd `p`, so the all-prime map is constructed here, and its odd-prime specialization is identified with the supplied one.
 
-The supplied object is `Col=−Col₀` on the underlying additive group of actual intrinsic unit measures. It has the same domain, kernel and image; its explicit reciprocity sign is positive.
-
-The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+The API includes the following statements.
 
 - `Col(u)=−Col₀(u)`.
 - `Col(uv)=Col(u)+Col(v)`.
 - `Col(u)=0` iff `Col₀(u)=0`.
+- For odd `p`, `Col(u)` equals the underlying measure of `arithmeticColeman(u)` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map), transported through PMIA's identification of intrinsic unit measures with `Λ(ℤ_pˣ)`.
 
 **Checks.**
 
@@ -8208,10 +8210,13 @@ The supplied contract has the following properties. Separately named matrix, sig
 - `ColemanMapTests.normalized_inverse`: `Col(u⁻¹)=−Col(u)`.
 - `ColemanMapTests.sign_relation`: For every `u` the actual measure outputs of Col and `Col₀` add to zero.
 - `ColemanMapTests.normalized_second_moment_three`: At `p=3`, `Col(c(2))(x²)=1/2`, whereas `Col₀(c(2))(x²)=−1/2`. These are distinct nonzero elements of `ℤ_3`.
+- `ColemanMapTests.dyadic_signed_roots`: At `p=2` the norm-compatible signed root tower `(−ρ_n)_n` is interpolated by `−Y`; then `Δ(−Y)=1`, the boundary `1−φ` kills the constant 1, and `Col` of this tower is zero. The unsigned roots do not form an element of `U∞`, so the dyadic Tate line enters through the signed tower.
 
-*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
+For the proof, negate `Col₀` on the additive measure group; additivity and the kernel statement follow from §2.37. For odd `p`, unfold the supplier's formula `arithmeticColeman u=−Amice⁻¹(H((1−Φ)δ(f_u)))`: its interpolation, logarithmic derivative, boundary and inverse derivative are the ones composed in §2.37, and the remaining difference is only the transport between intrinsic unit measures and the completed group algebra, which PMIA §1.7 and §2.6 make compatible with Amice.
 
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.3 and Proposition 10.4, printed p.165; Definition 10.14 and Theorem 10.15, printed p.170; Theorem 12.17 proof, printed pp.184–185)
+*Needs:* [The raw Coleman map](#colemanpowerseries-l2-raw-coleman-map); [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) for the odd-prime agreement; [PadicMeasuresIwasawaAlgebras §1.7](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra); [PadicMeasuresIwasawaAlgebras §2.6: unit measure amice kernel equivalence](../PadicMeasuresIwasawaAlgebras/README.md#26-measures-on-the-units-inside-measures-on-ℤ_p).
+
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.3 and Proposition 10.4, printed p.165; Definition 10.14 and Theorem 10.15, printed p.170; Theorem 12.17 proof, printed pp.184–185) The source works at odd `p`; the dyadic case of this definition is the same composite, negated, on the all-prime carriers above.
 
 <a id="colemanpowerseries-l2-raw-cyclotomic-numerator"></a>
 
@@ -8221,11 +8226,11 @@ Keep the hypotheses of the preceding target.
 
 Prove the following statement.
 
-For natural a prime to `p`, `Col₀(c(a))=−λ_a` as actual intrinsic measures, where `λ_a` is the intrinsic inverse-weighted numerator of the independent Bernoulli smoothing in IntegralIwasawaTheory §5.0. Hence `Col(c(a))=λ_a=([a]−1)ζ_p`.
+For natural a prime to `p`, `Col₀(c(a))=−λ_a` as actual intrinsic measures, where `λ_a` is the intrinsic inverse-weighted numerator of the independent Bernoulli smoothing in IntegralIwasawaTheory §5.0. Hence `Col(c(a))=λ_a=([a]−1)ζ_p` for every prime `p`, with `Col` the map of §2.39; for odd `p` this is the value of the supplied `arithmeticColeman`.
 
 For the proof, interpolate `c(a)` to `f_a` using the actual Coleman equivalence. The existing logarithmic-derivative comparison gives `Δ(f_a)=C(a−1)−F_a`. The fixed-space boundary equals the unit-support projector on this `ψ`-fixed series and kills `C(a−1)`. Its value is therefore minus the unit-restricted smoothed series. Apply the imported inverse weight/inverseMahler intertwining and intrinsic restriction to identify the actual output with `−λ_a`. Intrinsic Amice injectivity proves equality of measures, not merely equality at finitely many moments. Use the exact smoothing multiplier of IntegralIwasawaTheory §5.0 for `λ_a=([a]−1)ζ_p`. Negation yields the normalized identity.
 
-For `p=3,a=2`, twice the second moment of the raw output is `−1`, whereas twice that of the normalized output is `+1`. The `a=1` boundary is zero.
+For `p=3,a=2`, twice the second moment of the raw output is `−1`, whereas twice that of the normalized output is `+1`. The `a=1` boundary is zero. At `p=2` the parameter `a` is odd, and the comparison uses the dyadic case of §2.10a.
 
 *Needs:* [The cyclotomic unit tower](#colemanpowerseries-l2-cyclotomic-unit-tower); [The raw Coleman map](#colemanpowerseries-l2-raw-coleman-map); [The sign-adjusted Coleman map](#colemanpowerseries-l2-normalized-coleman-map); [Smoothed logarithmic derivative](#colemanpowerseries-l2-cyclotomic-smoothed-comparison); [IntegralIwasawaTheory §5.0: canonical pseudomeasure and integral numerator](../IntegralIwasawaTheory/README.md#50-the-canonical-kubotaleopoldt-object); [IntegralIwasawaTheory §5.0: canonical pseudomeasure and integral numerator](../IntegralIwasawaTheory/README.md#50-the-canonical-kubotaleopoldt-object); [PadicMeasuresIwasawaAlgebras §2.3: inverse mahler intertwining](../PadicMeasuresIwasawaAlgebras/README.md#23-inverting-multiplication-by-x-on-the-units).
 
@@ -10187,3 +10192,5 @@ A residue coefficient `c` outside `𝔽_p` satisfies `c^p≠c`. Testing a Teichm
 Arithmetic Iwasawa applications use the actual principal sequence, cyclotomic closures and local quotient. Arithmetic applications with finite unramified local coefficients consume the Frobenius-twisted interpolation equivalence and finite semilocal comparisons. Coefficient-change users must distinguish these arithmetic towers from tensor extensions of the `ℤ_p` sequence.
 
 [PhiGammaModulesAndIwasawaCohomology](../PhiGammaModulesAndIwasawaCohomology/README.md#from-analytic-roadmaps) consumes §§1.45–1.49 for the integral zeroth Frobenius coordinate, trace divisibility and the comparison `τ=pψ` with the supplied bounded-measure operator.
+
+DirichletPadicLFunctions, Layer 1 (§§1.1–1.2 and 1.6), consumes §§2.10–2.10a. Its binomial smoothing denominator is `cyclotomicSeries` (coefficients `choose(a,n+1)`, and `T f_a = (1+T)^a − 1` identifies the two over every commutative ring by injectivity of multiplication by `T`); its unit-denominator smoothed series is `smoothingSeries`, by uniqueness in `T f_a F = f_a − C(a)`; and its inverse-Amice smoothing measure and canonical numerator comparison are those of `smoothingSeries_bernoulli_comparison`. Its moment, p-adic-parameter and analytic refinements remain there.
