@@ -530,7 +530,7 @@ classical elliptic theory (Schauder, De Giorgi–Nash–Moser).
 ### Lane G: mixed and Neumann boundary conditions
 
 Boundary conditions imposed on a part of the boundary, built on Lane A's Lipschitz domains and
-traces and Lane D's energy method; nothing in Lanes A and D changes.
+traces and Lane D's energy method.
 
 28. **Admissible boundary parts.** A relatively open `Γ ⊆ frontier Ω` is admissible with
     constant `L` when `Ω` satisfies the Lipschitz-domain predicate of A.6 with constant `L` and,
@@ -546,8 +546,7 @@ traces and Lane D's energy method; nothing in Lanes A and D changes.
     - `W^{1,p}_∅ = W^{1,p}` for Lipschitz `Ω` (from A.6's extension operator);
     - for admissible `Γ` (item 28),
       `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | trace u = 0 μHE[n−1]-a.e. on Γ}`. For `Γ = frontier Ω`
-      this is A.6's identification `ker(trace) = W^{1,p}_0`, which this item cites rather than
-      reproves.
+      this is A.6's identification `ker(trace) = W^{1,p}_0`.
 30. **Poincaré–Friedrichs.** For a bounded connected `Ω`, an admissible `Γ` with
     `μHE[n−1] Γ > 0` and `1 ≤ p < ∞`: `‖u‖_p ≤ C ‖∇u‖_p` on `W^{1,p}_Γ(Ω)`. The proof is by
     contradiction from Rellich (A.6), so this constant is an existence statement, not an
