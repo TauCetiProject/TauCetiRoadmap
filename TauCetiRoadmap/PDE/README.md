@@ -543,7 +543,8 @@ traces and Lane D's energy method. As in Lane A.6's Tau Ceti implementation, a d
     that `Γ = ∅` and `Γ = frontier Ω` are admissible for every Lipschitz domain.
 29. **Functions vanishing on a boundary part.** For a relatively open `Γ ⊆ frontier Ω` and
     `1 ≤ p < ∞`, `W^{1,p}_Γ(Ω)` is the `W^{1,p}(Ω)`-closure of the restrictions to `Ω` of
-    `φ ∈ C_c^∞(ℝⁿ)` with `tsupport φ` disjoint from `closure Γ` (Lean: `W1pVanishingOn Ω p Γ`).
+    smooth compactly supported `φ` on the ambient space with `tsupport φ` disjoint from
+    `closure Γ` (Lean: `W1pVanishingOn Ω p Γ`).
     Prove:
     - `W^{1,p}_Γ = W^{1,p}_0` when `Γ = frontier Ω`, for every open `Ω`;
     - `W^{1,p}_∅ = W^{1,p}` for Lipschitz `Ω` (from A.6's extension operator);
