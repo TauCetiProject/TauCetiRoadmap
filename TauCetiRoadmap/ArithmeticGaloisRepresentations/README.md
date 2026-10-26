@@ -466,9 +466,11 @@ Galois-equivariant) and the `ℓ`-adic Tate module with its continuous `G_K`-act
 `frobeniusTrace`, `pointCount`, the Frobenius isogeny acting as `(x, y) ↦ (x^q, y^q)`,
 `deg(1 − π_q) = #E(F_q)` and `π_q² − a_q π_q + q = 0`; the trace formula on `V_ℓ` for every
 endomorphism is §6.1 here. Layer 4 supplies the Tate curve with its Galois-equivariant
-uniformisation `L^×/q^ℤ ≅ E_q(L)`, the Tate parameter with `v(q) = −v(j)`, and the
-unramified quadratic splitting character for multiplicative reduction; §6.3 constructs its torsion
-representation. Layer 4 supplies reduction on points and its formal-group kernel; §6.1 here owns
+uniformisation `L^×/q^ℤ ≅ E_q(L)` and the Tate parameter with `v(q) = −v(j)`; §6.3 constructs its
+torsion representation. Layer 5 supplies the separable quadratic twist splitting a nonsplit
+multiplicative reduction, built from the monic node quadratic, and the point isomorphism
+`E^L(M) ≅ E(M)` twisted by the quadratic character of `L/K`; it does not assert that this character
+is unramified, and §6.3's *Unramified splitting character* owns that refinement. Layer 4 supplies reduction on points and its formal-group kernel; §6.1 here owns
 the equivariant specialization of geometric torsion of order prime to the residue characteristic
 and its compatibility with Layer 3's Frobenius action, used for the good-prime trace comparison.
 JacobianChallenge layer E supplies
@@ -1963,7 +1965,8 @@ endomorphism `N` of a finite-dimensional vector space over a field:
 `M_{−1} = 0` and `M_0 = V`, and that conjugation transports it. Prove that it is the unique finite
 increasing filtration with `N M_a ⊆ M_{a−2}` and `N^a : gr_a ≅ gr_{−a}` for all `a ≥ 0`; that
 `M(cN) = M(N)` for `c ≠ 0`; that `r(w) N r(w)⁻¹ = c(w) N` with `c(w) ≠ 0` gives `r(w) M_a = M_a`; the
-primitive decomposition `gr_a = ⊕_{i ≥ 0} N^i P_{a+2i}` with `P_a = ker(N^{a+1} : gr_a → gr_{−a−2})`;
+primitive decomposition `gr_a = ⊕_{i ≥ 0} N^i P_{a+2i}` for every integer `a`, with
+`P_b = ker(N^{b+1} : gr_b → gr_{−b−2})` for `b ≥ 0` and `P_b = 0` for `b < 0`;
 the dual filtration `M_a(V^∨) = M_{−a−1}(V)^⊥`; and, in characteristic zero, the tensor compatibility
 `M_c(V ⊗ V') = Σ_{a+b=c} M_a(V) ⊗ M_b(V')` (FSY, §5.3.2, p. 57; Deligne 1980, §1.6). The kernel and
 image description and the elementary API are linear algebra; uniqueness and the primitive
@@ -3860,19 +3863,49 @@ inertia-filtration interfaces.
 - A Jordan block of size three is unipotent but its square difference from `1` is nonzero;
   the two-step inertia-filtration predicate excludes it.
 
+<a id="unramified-splitting-character"></a>
+
+**Unramified splitting character.** Let `K` be a nonarchimedean local field with valuation ring
+`O_K` and residue field `k`, and let `W` be a minimal Weierstrass equation over `K` with
+multiplicative reduction. Write `T² + a₁T + n` for the monic node quadratic, with `n` the constant
+coefficient of the node polynomial divided by the unit `c₄`, so `n ∈ O_K` and `a₁² − 4n` is a
+unit (Tau Ceti's split-multiplicative twist file). Prove that `O_K[T]/(T² + a₁T + n)` is finite
+étale over `O_K`; hence `L = K[T]/(T² + a₁T + n)` is either `K × K`, exactly when the reduction is
+split, or an unramified quadratic field extension, exactly when it is nonsplit. Define the
+splitting character `δ_W : G_K → {±1}` as trivial in the split case and as Tau Ceti's
+`Algebra.IsQuadraticExtension.quadraticCharacter` of `L/K`, composed with restriction, otherwise.
+Prove that `δ_W` is trivial on `I_K` in every residue characteristic, `2` included, and that
+`δ_W(Frob)` is `+1` or `−1` according as the reduction is split or nonsplit. Prove that
+`quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map` gives a `G_K`-isomorphism
+`E[m] ≅ E^L[m] ⊗ δ_W` for every `m ≥ 1`, hence equal restrictions to `I_K`, with `E^L` having split
+multiplicative reduction (Darmon–Diamond–Taylor 2007, §2.2, Prop. 2.12 and its proof, pp. 57–58;
+Silverman, *Advanced Topics*, V.5; Serre, *Local Fields*, III §5). The étale step is that a
+monic polynomial with unit discriminant over a local ring has finite étale quotient; unramifiedness
+of `L/K` follows. *Needs:* §2.3 for `I_K`; EllipticCurves Layer 5 and Tau Ceti's
+`exists_quadraticTwist_hasSplitMultiplicativeReduction` for the twist; Mathlib's finite étale
+algebras and unramified extensions of a DVR.
+
+**Checks.**
+- Over `ℚ_ℓ` with `ℓ` odd, a nonsplit node quadratic has unit discriminant `u` with `u` a nonsquare
+  mod `ℓ`, and `L = ℚ_ℓ(√u)` is the unramified quadratic extension.
+- Over `ℚ₂`, the node quadratic `T² + T + 1` has discriminant `−3`, a unit; `L = ℚ₂(ζ₃)` is
+  unramified although `2` is not invertible, while `ℚ₂(√−1)` is ramified and is never a splitting
+  field here.
+- Twisting by a ramified quadratic character turns multiplicative into additive reduction, so
+  bare existence of some quadratic twist does not determine the inertia action.
+
 <a id="multiplicative-residual-unramified-criterion"></a>
 
 **Multiplicative residual unramified criterion.** Let `K` be a nonarchimedean local field
 of residue characteristic `ℓ`, `E/K` have multiplicative reduction, `v_K` the integer-normalized valuation and `p ≠ ℓ` prime.
 Prove `E[p]` unramified iff `p ∣ v_K(j(E))`. The Tate parameter has
 `v_K(q) = −v_K(j(E))`; the Kummer cocycle on inertia is this integer times the surjective
-mod-`p` tame character. For nonsplit multiplicative reduction, use the unramified quadratic
-splitting character: its restriction to inertia is trivial, including when `p = 2`.
-Relate the twist to Tau Ceti's `exists_quadraticTwist_hasSplitMultiplicativeReduction` and
-EllipticCurves Layer 4's equivariant Tate uniformization; the quadratic-twist existence theorem
-alone does not assert that the splitting character is unramified
+mod-`p` tame character. For nonsplit multiplicative reduction, the target above gives
+`E[p] ≅ E^L[p] ⊗ δ_W` with `δ_W` trivial on inertia, including when `p = 2`, and `E^L` split, so
+EllipticCurves Layer 4's equivariant Tate uniformization applies to `E^L`
 (DDT, Proposition 2.12(a)–(c), pp. 57–58; Silverman, *Advanced Topics*, V.5).
-*Needs:* §2.3's tame character; the Tate-curve and residual elliptic targets; EllipticCurves Layer 4.
+*Needs:* §2.3's tame character; the Tate-curve, unramified splitting character and residual
+elliptic targets; EllipticCurves Layer 4.
 *Lean:* `TateModule.multiplicative_residual_unramified_iff`.
 
 **Checks.**
