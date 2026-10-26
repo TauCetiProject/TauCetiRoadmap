@@ -726,9 +726,13 @@ Index sets are countable because `α + 2 < ω₁`, so the conjunctions and disju
   cofinality of the successors in the limit `ω₁`.
 - **`lomega1omegaHanfNumber_eq_beth_omega_one`** (headline): `Hanf(Lω₁ω) = ℶ_ω₁`.
 
-Cardinal arithmetic needed and not in Mathlib, each a target: a countable union of sets of
-cardinality at most an infinite `κ` has cardinality at most `κ`; a countable sum of cardinals at
-most an infinite `κ` is at most `κ`; an injection into `Set Y` bounds by `2 ^ #Y`.
+The cardinal arithmetic used here follows from Mathlib, with the consumer forms derived as small
+lemmas where convenient: a countable sum of cardinals at most an infinite `κ` is at most `κ`
+(`Cardinal.sum_le_sum`, `Cardinal.sum_const` and `Cardinal.mul_le_of_le`); a countable union of
+sets of cardinality at most an infinite `κ` has cardinality at most `κ`
+(`Cardinal.mk_iUnion_le_sum_mk`, or `Cardinal.mk_iUnion_le_lift` across universes, then the sum
+bound); an injection into `Set Y` bounds by `2 ^ #Y` (`Cardinal.mk_le_of_injective` and
+`Cardinal.mk_set`).
 
 **Acceptance check:** the ladder at `α = 0`, with `Set ℕ` as maximal model (`cₙ = {n}`, `U_⊥` the
 singletons, `E(x, y)` iff `x = {n}` with `n ∈ y`) and every model of cardinality at most `2^ℵ₀`.
