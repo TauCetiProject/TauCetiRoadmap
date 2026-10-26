@@ -111,6 +111,9 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
  (weak admissibility, Newton above Hodge).
 - RestrictedPowerSeries §§1.1–1.2, 5.1 and 7.1 supplies closed/open disc coefficients and simultaneous classical distinguished coordinates; RigidAnalyticGeometry §1.2 supplies classical affinoid normalization. RD.0.2 identifies its disc subcases with the supplied carriers and topologies; RD.3.26 supplies the additional compatible dagger-coordinate adapter.
 - DerivedDeRhamCohomology §PD.6: divided powers, relative PD envelopes and completed envelopes.
+- CongruenceSpectralGap §§4.2a–4.2b: the coefficient-generic scalar hyper-Kloosterman sum, its
+ eliminated-variable comparison and its numerical Deligne bound in every rank over every finite
+ field. The Kloosterman F-isocrystal, its connection and its purity ([§RD.6.95](#rd-6-95)–[§RD.6.97](#rd-6-97)) are owned here.
 - CrystallineCohomology: crystals, isocrystals and F-crystals,
  crystalline cohomology and its Frobenius, perfectness, Künneth, duality and the trace, logarithmic
  structures, log crystalline cohomology, Hyodo–Kato cohomology and log rigid Hyodo–Kato cohomology
@@ -525,6 +528,11 @@ Section numbers are those of the roadmaps named; each is built before this one.
 - §CR.6.5 (*Proper log rigid and crystalline Hyodo–Kato cohomology*): used in RD.4.44, RD.4.48 and RD.7.20; `LogRigidHK.complex` and its proper completion map are canonical on the strictly semistable locally constant-coefficient overlap.
 - §§CR.1.2, CR.1.4, CR.3.2 and CR.3:Frobenius-isogeny.1: used in RD.3.37, RD.4.38, RD.7.1, RD.7.10.
 - §§CR.5.1–CR.5.4 and CR.6.4: used in RD.4.44, RD.4.45, RD.4.47, RD.4.49, RD.5.109, RD.5.111.
+
+**CongruenceSpectralGap.**
+
+- §4.2a (*Raw hyper-Kloosterman sums over every finite field*): `hyperKloosterman F k ψ r` for a finite field `F`, a commutative coefficient ring `K`, `ψ : AddChar F K` and `r ∈ Fˣ`, the sum of `ψ(x_1 + ⋯ + x_k)` over unit `k`-tuples with product `r`; its transport along ring homomorphisms `K → K′`, its scaling rule and its eliminated-variable comparison with the sum over `(Fˣ)^n` of `ψ(Σ x_i + r(∏ x_i)^{−1})` at `k = n + 1`. Used in RD.6.95–RD.6.97.
+- §4.2b (*Kloosterman sheaves and the general Deligne estimate*): `hyperKloosterman_bound`, `‖hyperKloosterman F k ψ r‖ ≤ k·|F|^((k−1)/2)` for `ψ : AddChar F ℂ` nontrivial, `k ≥ 1` and `r ∈ Fˣ`. Used in RD.6.97, which gives a rigid proof for `p` odd and `p ∤ k`.
 
 **DerivedDeRhamCohomology.**
 
@@ -14654,9 +14662,9 @@ The API:
 
 ### RD.6.95 The Kloosterman F-isocrystal `Kl_{n+1}`
 
-**Construction.** Let `p` be odd, `q` a power of `p, K = W(𝔽_q)[1/p](π)` with `π^{p−1} = −p` and `σ_K = id`, and `n ≥ 1` with `p ∤ n + 1`. Let `f : G_m^{n+1} → A^1, f(z, x_1, …, x_n) = x_1 + ⋯ + x_n + z/(x_1⋯x_n)`, and pr : `G_m^{n+1} → G_m` the projection to `z`. The Kloosterman F-isocrystal is `Kl_{n+1} := R^n pr_{rig,*}(f^*L_π)`, the relative rigid cohomology in degree `n` of the Dwork isocrystal `L_π` ([§RD.6.42](#rd-6-42)) pulled back along `f`, with the Frobenius structure induced by functoriality. It is an overconvergent F-isocrystal of `rank n + 1` on `G_m`, the other relative cohomology groups vanish, and over the dagger algebra `K⟨z, z^{-1}⟩†` its connection is the Dwork–Sperber hypergeometric connection (Crew 1994 (1.1.5)). Its linear Frobenius at `z_0 ∈ 𝔽_{q^r}^×` has trace `(−1)^n Kl_{n+1}(z_0; q^r)`, where `Kl_{n+1}(z_0; q^r) := Σ_{x_1⋯x_{n+1} = z_0} ψ(Tr(x_1 + ⋯ + x_{n+1}))` with `ψ = ψ_π^{-1}` ([§RD.6.48](#rd-6-48)).
+**Construction.** Let `p` be odd, `q` a power of `p, K = W(𝔽_q)[1/p](π)` with `π^{p−1} = −p` and `σ_K = id`, and `n ≥ 1` with `p ∤ n + 1`. Let `f : G_m^{n+1} → A^1, f(z, x_1, …, x_n) = x_1 + ⋯ + x_n + z/(x_1⋯x_n)`, and pr : `G_m^{n+1} → G_m` the projection to `z`. The Kloosterman F-isocrystal is `Kl_{n+1} := R^n pr_{rig,*}(f^*L_π)`, the relative rigid cohomology in degree `n` of the Dwork isocrystal `L_π` ([§RD.6.42](#rd-6-42)) pulled back along `f`, with the Frobenius structure induced by functoriality. It is an overconvergent F-isocrystal of `rank n + 1` on `G_m`, the other relative cohomology groups vanish, and over the dagger algebra `K⟨z, z^{-1}⟩†` its connection is the Dwork–Sperber hypergeometric connection (Crew 1994 (1.1.5)). Its linear Frobenius at `z_0 ∈ 𝔽_{q^r}^×` has trace `(−1)^n Kl_{n+1}(z_0; q^r)`, where `Kl_{n+1}(z_0; q^r)` is CongruenceSpectralGap §4.2a's `hyperKloosterman` of rank `n + 1` over `𝔽_{q^r}` at `z_0` for the `K`-valued additive character `ψ ∘ Tr_{𝔽_{q^r}/𝔽_p}` with `ψ = ψ_π^{-1}` ([§RD.6.48](#rd-6-48)), the sum of `ψ(Tr(x_1 + ⋯ + x_{n+1}))` over unit tuples with product `z_0`.
 
-`Suggested.lean` defines the finite character sum `RD6.kloostermanSum`.
+The scalar sum is consumed, not redefined: its definition is coefficient generic, so it applies to `K`-valued characters. The fibre of pr over `z_0` has the `n` coordinates `x_1, …, x_n`, and the eliminated-variable comparison of CongruenceSpectralGap §4.2a identifies the fibre sum `Σ_{x ∈ (𝔽_{q^r}^×)^n} ψ(Tr(x_1 + ⋯ + x_n + z_0(x_1⋯x_n)^{−1}))` with `hyperKloosterman` at rank `n + 1`. The index shift is this roadmap's `n` against the supplier's rank `k = n + 1`. What is owned here is the rigid realisation: the F-isocrystal, its Dwork–Sperber connection, its Frobenius structure and its trace function.
 
 *Hypotheses.*
 
@@ -14676,14 +14684,15 @@ The API:
 
 1. Sperber's Dwork-theoretic computation identifies the relative cohomology with the free module of `rank n + 1` carrying the hypergeometric connection (Crew 1994 §1.5, citing Sperber §6); Crew 1994 Proposition 1.2 shows that connection is overconvergent.
 2. The Frobenius structure is induced from that of `L_π` by functoriality of relative rigid cohomology (Crew 1994 §1.5, citing Berthelot).
-3. Traces: the fibre at `z_0` is `H^n_rig` of `pr^{-1}(z_0) ≅ G_m^n` with coefficient `f^*L_π`, which agrees with `H^n_{c,rig}` there, all other degrees vanishing (base change to fibres and this forget-supports isomorphism are part of [§RD.6.94](#rd-6-94)); the trace formula [§RD.6.23](#rd-6-23) on the fibre together with the trace function of `L_π` ([§RD.6.48](#rd-6-48)) then gives the Kloosterman sum with the sign `(−1)^n`.
+3. Traces: the fibre at `z_0` is `H^n_rig` of `pr^{-1}(z_0) ≅ G_m^n` with coefficient `f^*L_π`, which agrees with `H^n_{c,rig}` there, all other degrees vanishing (base change to fibres and this forget-supports isomorphism are part of [§RD.6.94](#rd-6-94)); the trace formula [§RD.6.23](#rd-6-23) on the fibre together with the trace function of `L_π` ([§RD.6.48](#rd-6-48)) then gives the fibre sum with the sign `(−1)^n`, which the comparison of CongruenceSpectralGap §4.2a identifies with `hyperKloosterman` at rank `n + 1`.
 
 *Sources.* Crew, *Kloosterman sums and monodromy of a p-adic hypergeometric equation*, Section 1.1 and Proposition 1.2, pp. 4-6, and Section 1.5, pp. 10-11; Fresán–Sabbah–Yu, *Hodge theory of Kloosterman connections*, Section 3.2.2, p. 25.
 
-*Needs:* [§RD.6.42](#rd-6-42) *The Dwork (Artin–Schreier) isocrystal `L_π`*; [§RD.6.46](#rd-6-46) *Dwork's additive character attached to `π`*; [§RD.6.48](#rd-6-48) *Sign and direction conventions for Dwork and Kummer F-isocrystals*; [§RD.6.23](#rd-6-23) *The rigid Lefschetz trace formula for Frobenius*; [§RD.5.52](#rd-5-52) *Generic pushforwards are `(σ,∇)`-modules (Kedlaya, Theorem 7.3.3)*; [§RD.3.25](#rd-3-25) *Overconvergent F-isocrystals*; [§RD.4.12](#rd-4-12) *Rigid cohomology with compact supports `Hⁱ_{c,rig}(X/K, E)`*; [§RD.6.94](#rd-6-94) *The Kloosterman family: relative rigid cohomology is an overconvergent F-isocrystal on `G_m`*.
+*Needs:* [§RD.6.42](#rd-6-42) *The Dwork (Artin–Schreier) isocrystal `L_π`*; [§RD.6.46](#rd-6-46) *Dwork's additive character attached to `π`*; [§RD.6.48](#rd-6-48) *Sign and direction conventions for Dwork and Kummer F-isocrystals*; [§RD.6.23](#rd-6-23) *The rigid Lefschetz trace formula for Frobenius*; [§RD.5.52](#rd-5-52) *Generic pushforwards are `(σ,∇)`-modules (Kedlaya, Theorem 7.3.3)*; [§RD.3.25](#rd-3-25) *Overconvergent F-isocrystals*; [§RD.4.12](#rd-4-12) *Rigid cohomology with compact supports `Hⁱ_{c,rig}(X/K, E)`*; [§RD.6.94](#rd-6-94) *The Kloosterman family: relative rigid cohomology is an overconvergent F-isocrystal on `G_m`*; CongruenceSpectralGap §4.2a *Raw hyper-Kloosterman sums over every finite field* (`hyperKloosterman` and its eliminated-variable comparison).
 
 **Checks.**
 
+- Index shift: at `n = 1` the fibre sum `Σ_{x ∈ 𝔽_q^×} ψ(x + z_0/x)` and the product-fibre sum `hyperKloosterman 𝔽_q 2 ψ z_0` run over the same `q − 1` terms, through `x ↦ (x, z_0/x)`; at the degenerate rank `n = 0` both are `ψ(z_0)`. Reading the supplier's rank as `n` instead of `n + 1` would pair the rank-two isocrystal `Kl_2` with the one-term sum `ψ(z_0)`.
 - `kloostermanIsocrystal_rank_two`: `Kl_2` has rank 2 and `Tr(F_{z_0}) = −Σ_{x∈𝔽_q^×} ψ(x + z_0/x)` for `z_0 ∈ 𝔽_q^×`.
 - `kloostermanIsocrystal_degenerate`: For `n = 0` (a boundary case outside the range `n ≥ 1`), `Kl_1 ≅ L_π|_{G_m}` and its trace at `z_0 ∈ 𝔽_{q^r}^×` is `ψ(Tr z_0)` with `ψ = ψ_π^{-1}`.
 - `kloostermanIsocrystal_euler`: `χ(G_m, Kl_{n+1}) = −Swan_∞(Kl_{n+1}) = −1`, as [§RD.6.54](#rd-6-54) and [§RD.6.52](#rd-6-52) predict for a coefficient unipotent at 0.
@@ -14709,7 +14718,7 @@ For `k` factors, relative Künneth identifies the `k`-fold tensor power with deg
 
 *Sources.* Fresán–Sabbah–Yu, *Hodge theory of Kloosterman connections*, §2.1, (2.3), the change of variables following it and the localized Fourier identity (2.6) in the proof of Proposition 2.4, p. 12; Proposition 2.10 (tensor/convolution comparison), p. 14; §3.2.2, (3.13)–(3.14), p. 25 (rigid cohomology identities).
 
-*Needs:* [§RD.6.94](#rd-6-94) *The Kloosterman family: relative rigid cohomology is an overconvergent F-isocrystal on `G_m`*; [§RD.6.95](#rd-6-95) *The Kloosterman F-isocrystal `Kl_{n+1}`*; [§RD.5.94](#rd-5-94) *The Künneth formula with supports for smooth varieties*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism*.
+*Needs:* [§RD.6.94](#rd-6-94) *The Kloosterman family: relative rigid cohomology is an overconvergent F-isocrystal on `G_m`*; [§RD.6.95](#rd-6-95) *The Kloosterman F-isocrystal `Kl_{n+1}`*; [§RD.5.94](#rd-5-94) *The Künneth formula with supports for smooth varieties*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism*; CongruenceSpectralGap §4.2a *Raw hyper-Kloosterman sums over every finite field*.
 
 **Checks.**
 
@@ -14724,7 +14733,7 @@ For `k` factors, relative Künneth identifies the `k`-fold tensor power with deg
 
 **Theorem.** In the setting of [§RD.6.95](#rd-6-95): (a) `Kl_{n+1}` is unipotent at 0 with nilpotent residue a single Jordan block of size `n + 1`; (b) at `∞` it is totally wild: its local monodromy is irreducible of `rank n + 1` with all breaks equal to 1/`(n + 1)`, so `Irr_∞ = Swan_∞ = 1`; (c) `H⁰_rig(G_m, Kl_{n+1}) = 0` and `dim H¹_rig(G_m, Kl_{n+1}) = 1`; (d) `Kl_{n+1}` is `ι`-pure of weight `n` for every `ι : K^alg → C`, i.e. every eigenvalue of `F_{z_0}` is a Weil `q^{deg z_0}`-number of weight `n`.
 
-`Suggested.lean` states the numerical consequence of (d) as `RD6.kloostermanSum_bound`, for every finite field and every rank: `|Kl_{n+1}(z)| ≤ (n+1) q^{n/2}` for a nontrivial additive character.
+By the trace formula of [§RD.6.95](#rd-6-95), (d) bounds the sum under every `ι`: `|ι(Kl_{n+1}(z_0; q^r))| ≤ (n + 1)·sqrt(q^r)^n`. Every nontrivial complex additive character of `𝔽_{q^r}` is `x ↦ ι(ψ_π^{-1}(Tr(ax)))` for a unit `a`, and scaling the argument by `a` replaces `z_0` by `a^{n+1} z_0` (the scaling rule of CongruenceSpectralGap §4.2a), so this is a rigid proof, for `p` odd and `p ∤ n + 1`, of CongruenceSpectralGap §4.2b's `hyperKloosterman_bound` at rank `k = n + 1`. The bound itself, in every characteristic and every rank, is consumed from there and is not restated here.
 
 *Hypotheses.* `p` odd, `p ∤ n + 1`.
 
@@ -14737,11 +14746,12 @@ For `k` factors, relative Künneth identifies the `k`-fold tensor power with deg
 
 *Sources.* Crew, *Kloosterman sums and monodromy of a p-adic hypergeometric equation*, Proposition 1.2 and its proof, pp. 5-8, and Section 1.5, p. 11; Fresán–Sabbah–Yu, *Hodge theory of Kloosterman connections*, Sections 3.2.1-3.2.2, pp. 23-25.
 
-*Needs:* [§RD.6.93](#rd-6-93) *Purity of middle rigid cohomology*; [§RD.6.94](#rd-6-94) *Kloosterman fibres and the forget-supports isomorphism*; [§RD.6.57](#rd-6-57) *Realizability of a pure weight-zero coefficient*; [§RD.6.95](#rd-6-95) *The Kloosterman F-isocrystal `Kl_{n+1}`*; [§RD.6.52](#rd-6-52) *Irregularity equals Swan conductor for overconvergent F-isocrystals*; [§RD.6.54](#rd-6-54) *Christol–Mebkhout global p-adic Euler–Poincaré formula with irregularities*; [§RD.6.83](#rd-6-83) *Purity of `H¹` on the affine line via the Fourier transform*; [§RD.6.28](#rd-6-28) *Pointwise `ι`-weights of overconvergent F-isocrystals*; [§RD.1.19](#rd-1-19) *Break multiset and differential Swan conductor of a solvable `∇`-module*; [§RD.2.16](#rd-2-16) *Unipotent `∇`-modules are the modules `V ⊗ R` with nilpotent residue*; DeligneWeightsAndPurity §0.10 *The characteristic power series `det(1 − tF)` and traces of powers*; DeligneWeightsAndPurity §0.1 *Weil `q`-numbers of integer weight*; [§RD.6.96](#rd-6-96) *The Kloosterman F-isocrystal as a localized Fourier transform*.
+*Needs:* [§RD.6.93](#rd-6-93) *Purity of middle rigid cohomology*; [§RD.6.94](#rd-6-94) *Kloosterman fibres and the forget-supports isomorphism*; [§RD.6.57](#rd-6-57) *Realizability of a pure weight-zero coefficient*; [§RD.6.95](#rd-6-95) *The Kloosterman F-isocrystal `Kl_{n+1}`*; [§RD.6.52](#rd-6-52) *Irregularity equals Swan conductor for overconvergent F-isocrystals*; [§RD.6.54](#rd-6-54) *Christol–Mebkhout global p-adic Euler–Poincaré formula with irregularities*; [§RD.6.83](#rd-6-83) *Purity of `H¹` on the affine line via the Fourier transform*; [§RD.6.28](#rd-6-28) *Pointwise `ι`-weights of overconvergent F-isocrystals*; [§RD.1.19](#rd-1-19) *Break multiset and differential Swan conductor of a solvable `∇`-module*; [§RD.2.16](#rd-2-16) *Unipotent `∇`-modules are the modules `V ⊗ R` with nilpotent residue*; DeligneWeightsAndPurity §0.10 *The characteristic power series `det(1 − tF)` and traces of powers*; DeligneWeightsAndPurity §0.1 *Weil `q`-numbers of integer weight*; [§RD.6.96](#rd-6-96) *The Kloosterman F-isocrystal as a localized Fourier transform*; CongruenceSpectralGap §4.2a *Raw hyper-Kloosterman sums over every finite field*; CongruenceSpectralGap §4.2b *Kloosterman sheaves and the general Deligne estimate* (`hyperKloosterman_bound`).
 
 **Checks.**
 
-- `n = 1`: the two Frobenius eigenvalues at `z_0 ∈ 𝔽_q^×` have absolute value `√q` under every `ι`, the Weil bound `|Kl_2(z_0; q)| ≤ 2√q`.
+- Normalisation: the bound read off (d) is `(n + 1)·sqrt(q)^n`, and `sqrt(q)^n = q^(n/2) = q^(((n+1)−1)/2)` with real exponents, which is the right side of `hyperKloosterman_bound` at `k = n + 1`. At `n = 0` both sides are `1·q^0 = 1`, and `|ψ(z_0)| = 1`; using `q^((n−1)/2)` would give `q^(−1/2) < 1` and fail there.
+- `n = 1`: the two Frobenius eigenvalues at `z_0 ∈ 𝔽_q^×` have absolute value `√q` under every `ι`, giving the Weil bound `|Kl_2(z_0; q)| ≤ 2√q`, the rank-two case of `hyperKloosterman_bound`.
 - `χ(G_m, Kl_{n+1}) = −1`.
 - For `n = 1`, the two breaks at `∞` are 1/2,1/2 and become 1,1 after the tame quadratic pullback; the residue at 0 is a nonzero nilpotent rank-two block.
 
@@ -14778,12 +14788,12 @@ For `k` factors, relative Künneth identifies the `k`-fold tensor power with deg
 - `G_m: H¹_c = K` of weight 0 and `H¹ = K(−1)` of weight 2, so the middle cohomology vanishes and is trivially pure of weight 1 ([§RD.6.93](#rd-6-93)); `H¹_c` has slope 0 ([§RD.6.89](#rd-6-89)).
 - Dwork coefficient `L_{x^d}, p ∤ d: Irr_∞ = Swan_∞ = d, χ(A^1, L_{x^d}) = 1 − d` ([§RD.6.54](#rd-6-54), [§RD.6.52](#rd-6-52)); its trace function is `x ↦ ψ_π(Tr(x^d))⁻¹` ([§RD.6.48](#rd-6-48)). For `p=5,d=2,x=2`, this is `ψ_π(4)⁻¹`, distinct from `ψ_π(2)⁻¹`.
 - Kummer coefficient `K_a, a ∉ Z`: tame, `χ(G_m, K_a) = 0`, finite monodromy `μ_m` ([§RD.6.47](#rd-6-47), [§RD.6.65](#rd-6-65)).
-- Kloosterman coefficient `Kl_2`: rank 2, `Swan_∞ = 1, χ = −1`, Frobenius eigenvalues of absolute value `√q`, the Weil bound `|Kl_2(z; q)| ≤ 2√q` and the relation `Kl_2(z; q^2) = 2q − Kl_2(z; q)^2` ([§RD.6.97](#rd-6-97), [§RD.6.95](#rd-6-95)); `H¹_mid(G_m, Kl_2) = 0` ([§RD.6.98](#rd-6-98)).
+- Kloosterman coefficient `Kl_2`: rank 2, `Swan_∞ = 1, χ = −1`, Frobenius eigenvalues of absolute value `√q`, the Weil bound `|Kl_2(z; q)| ≤ 2√q` (the rank-two case of CongruenceSpectralGap §4.2b) and the relation `Kl_2(z; q^2) = 2q − Kl_2(z; q)^2` ([§RD.6.97](#rd-6-97), [§RD.6.95](#rd-6-95)); `H¹_mid(G_m, Kl_2) = 0` ([§RD.6.98](#rd-6-98)).
 - A Tate-curve type degeneration: `ker N = im N` pure of weight 0 inside a weight-1 coefficient ([§RD.6.80](#rd-6-80)).
 
 ### Dependencies
 
-Earlier layers: RD.0, RD.1, RD.2, RD.3, RD.4, RD.5. Other roadmaps: AdicSpacesPartIII, AdicSpacesPartIV, ArithmeticGaloisRepresentations, ClassicalArithmeticCompletion, CompactOperators, DeligneWeightsAndPurity, EtaleCohomologyFoundations, InverseGaloisAndArithmeticFundamentalGroups, JacobianChallenge, LefschetzPencilsAndVanishingCycles, LocallyAnalyticDistributions, MotivesAndAlgebraicCycles, ReductiveGroups, ReductiveGroupsPartII, SchemeAndStackFoundations. Libraries: Mathlib and Tau Ceti.
+Earlier layers: RD.0, RD.1, RD.2, RD.3, RD.4, RD.5. Other roadmaps: AdicSpacesPartIII, AdicSpacesPartIV, ArithmeticGaloisRepresentations, ClassicalArithmeticCompletion, CompactOperators, CongruenceSpectralGap, DeligneWeightsAndPurity, EtaleCohomologyFoundations, InverseGaloisAndArithmeticFundamentalGroups, JacobianChallenge, LefschetzPencilsAndVanishingCycles, LocallyAnalyticDistributions, MotivesAndAlgebraicCycles, ReductiveGroups, ReductiveGroupsPartII, SchemeAndStackFoundations. Libraries: Mathlib and Tau Ceti.
 
 ## Layer RD.7: Coefficient comparisons and Weil factors
 

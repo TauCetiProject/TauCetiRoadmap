@@ -9,9 +9,8 @@ all of them finishes neither a layer nor the roadmap.
 
 The statements here are Arabia's controlled lifting for smooth algebras modulo an
 arbitrary ideal (RD.0.39), the cyclic-vector theorem for a nonzero derivation over any
-characteristic-zero field (RD.1.7), Deligne's Kloosterman bound in every rank over every
-finite field (RD.6.97), and the extraction of unique integral factors from distinct Weil
-weights over any characteristic-zero coefficient field (RD.7.5).
+characteristic-zero field (RD.1.7), and the extraction of unique integral factors from
+distinct Weil weights over any characteristic-zero coefficient field (RD.7.5).
 
 The analytic headline results of RD.0 require annular function rings, the Robba and
 Amice rings, weak completions and their topologies. These carriers are absent from the
@@ -31,8 +30,9 @@ at the pins.
 
 The Lefschetz trace formula, rationality of coefficient L-functions, index formulas,
 Fourier comparison and p-adic Weil II of RD.6 therefore have no signatures here. The
-Kloosterman bound uses a finite character sum without asserting the missing geometric
-purity statement. RD.7's rigid–crystalline comparison with coefficients, equality of
+scalar hyper-Kloosterman sum and its numerical Deligne bound belong to
+CongruenceSpectralGap §§4.2a–4.2b; the Kloosterman F-isocrystal and its purity (RD.6.95,
+RD.6.97), which give a rigid proof of that bound, need the same absent carriers. RD.7's rigid–crystalline comparison with coefficients, equality of
 rigid, crystalline and étale Weil factors, abelian-variety comparison, crystalline
 lattice bounds and Kloosterman moment comparisons require the corresponding geometric
 cohomology and filtered comparison objects, also absent from the pins. Only their
@@ -92,25 +92,6 @@ theorem katz_cyclic_vector {K V : Type*} [Field K] [CharZero K]
   sorry
 
 end RD1
-
-namespace RD6
-
-/-- The rank-`n+1` Kloosterman sum, with the final variable determined by
-the product constraint (RD.6.95). -/
-noncomputable def kloostermanSum {F K : Type*} [Field F] [Fintype F]
-    [CommRing K] (ψ : AddChar F K) (n : ℕ) (z : Fˣ) : K := by
-  classical
-  exact ∑ x : Fin n → Fˣ,
-    ψ ((∑ i, (x i : F)) + (z : F) * (((∏ i, x i)⁻¹ : Fˣ) : F))
-
-/-- Deligne’s bound for Kloosterman sums over every finite field and in every rank,
-the numerical consequence of Kloosterman purity in RD.6.97(d). -/
-theorem kloostermanSum_bound {F : Type*} [Field F] [Fintype F]
-    (ψ : AddChar F ℂ) (hψ : ψ ≠ 1) (n : ℕ) (z : Fˣ) :
-    ‖kloostermanSum ψ n z‖ ≤ (n + 1) * Real.sqrt (Fintype.card F) ^ n := by
-  sorry
-
-end RD6
 
 namespace RD7
 
