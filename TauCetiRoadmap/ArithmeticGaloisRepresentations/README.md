@@ -56,7 +56,8 @@ The roadmap owns:
 - decomposition and inertia groups at the places of a number field and the restriction of a global
   representation to them, unramified and tamely ramified representations and the ramification set,
   Frobenius characteristic polynomials, unramified characters, Dirichlet characters as Galois
-  characters, Serre's fundamental characters over finite residue fields, the arithmetic adapter
+  characters, abbreviations of PadicLocalLanglandsForGL2Qp §0.3's fundamental characters
+  over finite residue fields, the arithmetic adapter
   to SmoothRepresentationsOfLocalGroups' Frobenius-semisimplified Weil–Deligne parameter,
   the `ContinuousRep` monodromy specialization of §2.4, local Euler factors,
   their finite-image comparison with the adelic convergence factors in §2.5a,
@@ -552,6 +553,18 @@ geometrically integral curves over finite fields, through surface intersections 
 Section 5.13 applies it over every finite extension and to the descended twists of finite covers;
 the curve/Jacobian cohomology comparison and Rosati root-modulus criterion are not inputs here.
 
+### From `TauCetiRoadmap.PadicLocalLanglandsForGL2Qp`
+
+Section 0.3 supplies, for every nonarchimedean local field with finite residue field (including
+equal characteristic), `fundamentalCharacter` at every niveau `f ≥ 1` on its tame inertia quotient,
+built from the Kummer character of a `(p^f−1)`-st root of a uniformiser with the residue embedding
+retained; its independence of the uniformiser and root, the Teichmüller lift, the least niveau of
+a finite-image tame character, surjectivity, restriction and norm compatibility, `p`-power
+coefficient conjugation, Frobenius conjugation through the `q`-power map, and the niveau-one
+comparison `ω₁^(e_K) = ω|_(I_K)` for finite `K/ℚ_p`. Section 2.3 here consumes exactly these and
+exports `fundamentalCharacter`, `fundamentalCharacter_pow_p` and `cyclotomic_restrict_tameInertia`
+as abbreviations on Tau Ceti's tame quotient.
+
 ### From `LFunctions`, `AdelicAlgebraicGroups` and `CFSGBasicProperties`
 
 The external roadmap dependencies are [LFunctions](https://github.com/TauCetiProject/TauCetiRoadmap/pull/248)
@@ -605,7 +618,7 @@ is computed directly. The automorphism-group input to the verification lemmas re
 | Object | Exact supplier | Convention/consumer |
 | --- | --- | --- |
 | Frobenius-semisimplified Weil–Deligne parameter and functor | [SmoothRepresentationsOfLocalGroups](../SmoothRepresentationsOfLocalGroups/README.md#wd-linear-substrate) SR.5.2, `wd-linear-substrate` through `wd-frobenius-semisimplification`, and **Classical parameters and the generic convention**, `classical-llc-normalization` | Owns exp/log, Grothendieck monodromy, parameter operations, the full construction with its inverse and exactness, Frobenius semisimplification, and the normalized parameter and functor with dual compatibility, descent and scalar extension. Section 2.4 owns the `ContinuousRep` specialization and arithmetic adapter; §2.5 owns the agreement theorem and local factors. These consume the same `(V, r, N)` data, with Frobenius semisimplicity an additional hypothesis. Arithmetic Frobenius has degree +1 and conjugates monodromy by q; dual monodromy is −Nᵗ. |
-| Fundamental characters and residual tame inertia | §2.3 here | §2.3 here owns the finite-residue-field fundamental-character API and the rank-two level-1/level-2 classification over ℚ_p. The downstream FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 consumes that API and owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with this finite-residue specialization. R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. The generalized fundamental character specializes to the same finite-residue character, including its Frobenius powers, norm and cyclotomic restriction; it introduces no competing finite-residue API. |
+| Fundamental characters and residual tame inertia | PadicLocalLanglandsForGL2Qp §0.3, `fundamentalCharacter` | The supplier owns the finite-residue fundamental characters at every niveau, including equal characteristic, with residue embeddings, Teichmüller lift, least niveau, norm, restriction, Frobenius and niveau-one cyclotomic laws. Section 2.3 here supplies the abbreviations `fundamentalCharacter`, `fundamentalCharacter_pow_p` and `cyclotomic_restrict_tameInertia` on Tau Ceti's tame quotient and owns the rank-two level-1/level-2 classification over ℚ_p. The downstream FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 owns the extension to complete mixed-characteristic DVRs with arbitrary perfect residue field and its agreement with the finite-residue characters; R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat applications. |
 | Projective-unitary simplicity | CFSGBasicProperties T1–T2; Mathlib rank-two simplicity | §7.12 owns the Hermitian matrix, centre and quotient comparison with the valid derived central quotient at fixed-field parameter `q`, and transports supplied simplicity. Rank two uses `PSL₂(F_q)`; the small exceptions and rank one are direct checks. |
 | Finite-order and algebraic Hecke continuation and completed equation | LFunctions Layers 0, 5–6 | §2.7 restates `finite-order-hecke-functional-equation`, compares standard integrals on algebraic norm twists, and identifies the supplied root numbers with the finite-sum product in `root-number-product-formula`. |
 | Arithmetic character constants and root numbers | §2.7 here, `local-constant-gauss-sum` and `root-number-product-formula` | Finite Gauss-sum definitions and identities for all local quasi-characters and global unitary characters, independent of analytic functional equations. |
@@ -637,8 +650,9 @@ They use Mathlib linear representations, ClassFieldTheory Layer 9 and Tau Ceti's
 characters. Section 2.4 specializes monodromy to `ContinuousRep` and packages its underlying
 action through the supplied full construction. Section 2.5 identifies the adapter's
 Frobenius-semisimplified output with `classical-llc-normalization` and builds the local factors.
-Section 2.3 → FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 has the same direction
-as Layer 6 → that supplier's elliptic finite-flat applications. Within a layer the subsections
+PadicLocalLanglandsForGL2Qp §0.3 → §2.3's abbreviations and residual classification;
+§2.3 → FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26's perfect-residue extension, the
+same direction as Layer 6 → that supplier's elliptic finite-flat applications. Within a layer the subsections
 are in build order.
 For global constants, §2.7's finite Gauss sums → root-number product formula;
 GlobalNumberFields → LFunctions Layer 5 → §2.7's finite-order Hecke functional equation.
@@ -1689,29 +1703,41 @@ p. 54). *Needs:* Tau Ceti `inertiaPadicTameCharacter`, `PadicTateTwist`.
   open kernel `I_K` and scalar zero.
 
 **Fundamental characters.** For a nonarchimedean local field `K` with finite residue field of
-characteristic `p`, let `I_t = I_K/P_K` and `n ≥ 1`. Define `fundamentalCharacter`, the
-fundamental character of level `n`,
-`θ_{p^n−1} : I_t → F_{p^n}^×`, the reduction of the Kummer character of `π^{1/(p^n−1)}` (intended
-signature `TauCeti.inertiaSubgroup K →* (GaloisField p n)ˣ`, independent of `π`), the predicate
-`IsFundamentalOfLevel n`, the `level` of a character of `I_t` with values in `F̄_p^×` (the least `n`
-such that it factors through `θ_{p^n−1}`), and the Teichmüller lift of `θ_{p^n−1}`. Prove
-`θ(s u s⁻¹) = θ(u)^{q}` for an arithmetic lift `s`; `θ_{p−1}^{e} = χ̄_p|_{I_K}` for characteristic-zero `K`
-of absolute ramification index `e` (witness over `ℚ_p`: `ζ_p − 1 ≡ α := (−p)^{1/(p−1)}` to first order, so
-`σα/α ≡ χ_p(σ) mod 𝔪`, giving `χ̄_p`, not its inverse); `ω_2 · ω_2^p = ω` for `ω_2 = θ_{p²−1}`
-(`θ_{p²−1}^{p+1} = θ_{p−1}`); independence of the choices, the norm relation, the conjugation formula,
-the identity `θ_{p−1} = χ̄_p` over `ℚ_p`, and restriction (Serre 1987, 2.1, p. 183; Serre 1972, 1.3,
-Prop. 2, p. 264, 1.7, p. 267, and 1.8, Prop. 8, p. 269; Khare–Wintenberger 2009 (I), 1.5, p. 4).
-The finite-residue names `fundamentalCharacter`, `fundamentalCharacter_pow_p` and
-`cyclotomic_restrict_tameInertia` belong to this target; the API includes Frobenius powers of the
-chosen embedding of `F_{p^n}` and norm maps between levels. The downstream
-FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 uses this API and owns its extension to arbitrary perfect residue fields, with an
-agreement theorem after identifying inertia, roots of unity and the chosen residue embeddings.
-*Needs:* Tau Ceti `rootsOfUnityEquivResidueField`, `residue_teichmuller`, `inertiaKummerCharacter`.
+characteristic `p` and cardinality `q`, including equal characteristic, and `n ≥ 1`, the fundamental
+character of level `n` is PadicLocalLanglandsForGL2Qp §0.3's `fundamentalCharacter` at niveau `n`:
+`θ_{p^n−1} : I_t → F_{p^n}^×` on the tame inertia quotient `I_t = I_K/P_K`, the reduction of the
+Kummer character of a `(p^n−1)`-st root of a uniformiser through the retained residue embedding of
+`F_{p^n}`. The supplier owns its independence of the uniformiser and root, the Teichmüller lift,
+the least niveau of a finite-image tame character (the `level` here, with `IsFundamentalOfLevel n`
+meaning level `n`), surjectivity, restriction and norm compatibility between niveaux, conjugation of
+coefficients by `p`-powers, the Frobenius law `θ(s u s⁻¹) = θ(u)^q` for an arithmetic lift `s`, and
+the niveau-one comparison `θ_{p−1}^{e} = χ̄_p|_{I_K}` for finite `K/ℚ_p` of absolute ramification
+index `e`. Here `I_t` is taken as Tau Ceti's quotient
+`inertiaSubgroup K ⧸ (wildInertiaSubgroup K).subgroupOf (inertiaSubgroup K)`, identified with
+`ℤ̂^{(p')}(1)` by `quotientWildInertiaSubgroupEquiv` as in **The tame character** above. Define
+`fundamentalCharacter K n`, with signature that quotient `→* (GaloisField p n)ˣ` after the supplier's
+residue embedding, as an abbreviation of the supplier's character transported along the
+identification of this quotient with the supplier's tame inertia quotient. Define
+`fundamentalCharacter_pow_p` as the abbreviation of the norm law `θ_{p²−1}^{p+1} = θ_{p−1}`, that is
+`ω_2 · ω_2^p = ω` for `ω_2 = θ_{p²−1}`, and `cyclotomic_restrict_tameInertia` as the abbreviation of
+the niveau-one comparison, which over `ℚ_p` reads `θ_{p−1} = χ̄_p|_{I}` (Serre 1987, 2.1, p. 183;
+Serre 1972, 1.3, Prop. 2, p. 264, 1.7, p. 267, and 1.8, Prop. 8, p. 269; Khare–Wintenberger 2009 (I),
+1.5, p. 4). The downstream FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 owns the extension
+to arbitrary perfect residue fields, with an agreement theorem after identifying inertia, roots of
+unity and the chosen residue embeddings.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.3 (`fundamentalCharacter` at every niveau, its residue
+embeddings, Teichmüller lift, least niveau, norm, restriction and Frobenius laws, niveau-one
+comparison); Tau Ceti `inertiaSubgroup`, `wildInertiaSubgroup`, `quotientWildInertiaSubgroupEquiv`,
+`rootsOfUnityEquivResidueField`, `residue_teichmuller`, `inertiaKummerCharacter`.
 
 **Checks.**
 - `ω_2^{p+1} = ω`, and over `ℚ_p`, `θ_{p−1} = χ̄_p|_{I}`; the trivial character has level `1`.
 - `ω_2` extends to `G_{ℚ_{p²}}` but not to `G_{ℚ_p}`.
 - The Teichmüller lift of `θ` reduces to `θ`.
+- The identification of Tau Ceti's tame quotient with the supplier's tame inertia quotient is
+  compatible with Kummer characters: over `ℚ_p` with `π = p`, both send `σ` to the reduction of
+  `σ(p^{1/(p−1)})/p^{1/(p−1)}` in `F_p^×` (Tau Ceti's `inertiaKummerCharacter (p − 1)` at `p`),
+  and the image of wild inertia goes to `1` on both sides.
 
 **Inertia on residual representations.** Let `k₁` be a discrete field of characteristic `p` and
 `ρ̄ : G_K → GL(V)` continuous on a finite-dimensional `V`. Prove that a semisimple `ρ̄` kills `P_K`,
@@ -2421,6 +2447,7 @@ Layer 1; Tau Ceti's inertia, Frobenius, cyclotomic and tame declarations;
 9, 13; `TauCetiRoadmap.NumberFieldArithmetic` layers 2, 5;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6.
 For §2.1a: EtaleCohomologyFoundations §F.3a.
+For §2.3: PadicLocalLanglandsForGL2Qp §0.3's fundamental characters.
 For §§2.4–2.5: SmoothRepresentationsOfLocalGroups SR.5.2 `wd-linear-substrate`,
 `nilpotent-exp-log`, `grothendieck-monodromy`, `wd-parameter-operations`,
 `full-wd-construction`, `wd-frobenius-semisimplification` and `classical-llc-normalization`.
