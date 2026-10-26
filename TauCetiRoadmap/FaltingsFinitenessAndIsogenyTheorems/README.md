@@ -2433,7 +2433,7 @@ the same holds for every genus. Only injectivity of `C ↦ (J(C), θ_C)` on isom
 
 *Proof route.* Over `k̄`, AbelianSchemesAndArithmeticModuliPartII B4.1 supplies geometric strong
 Torelli (Milne III Theorem 12.1(a), proved in III §13 after Martens): for points `P`, `P′` with Abel
-maps `f_P`, `f_{P′}` and a polarized isomorphism `β`, there are `α : C_k̄ ≅ C′_k̄`, a sign and `c` with
+maps `f_P(Q) = [Q − P]`, `f_{P′}` and a polarized isomorphism `β`, there are `α : C_k̄ ≅ C′_k̄`, a sign and `c` with
 `f_{P′} ∘ α = ±β ∘ f_P + c`. This target owns the rest.
 
 - *Uniqueness* (Milne III Theorem 12.1(b)). If two triples satisfy the equation with the same sign
@@ -2470,8 +2470,10 @@ AbelianSchemesAndArithmeticModuli A6.18 `polarizedAutomorphisms`, A6.20
   (the quadratic-twist question for non-hyperelliptic curves) is not part of the statement.
 - For hyperelliptic `C` the automorphism `−1` of `J` comes from the hyperelliptic involution, consistent with
   the sign absorption.
-- For non-hyperelliptic `C = C′` and `β = [−1]`, the unique triple is `(id, −, 0)`: no automorphism
-  realises the sign `+`, and the descended isomorphism is the identity.
+- For non-hyperelliptic `C = C′`, `β = [−1]` and `P = P′`, the unique triple is `(id, −, 0)`: no
+  automorphism realises the sign `+`, and the descended isomorphism is the identity. For distinct
+  base points evaluating at `Q = P` gives the triple `(id, −, [P − P′])`, and `[P − P′] ≠ 0` because a
+  principal divisor `P − P′` would give a degree-one map `C → ℙ¹`.
 
 ### R28.5.15 Korollar 1 to Satz 6: curves with good reduction outside `S`
 
