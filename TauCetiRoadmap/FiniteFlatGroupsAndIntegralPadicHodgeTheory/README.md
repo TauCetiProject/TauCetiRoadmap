@@ -178,7 +178,9 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   crystalline-to-de Rham implication. Section R07.P3 specializes the continuous sections,
   both period-sequence long exact sequences and `blochKatoExp` supplied by
   NoncommutativeAndEquivariantIwasawa §F.6, *Period sequences and exponential*, to the
-  finite-flat realization interfaces.
+  finite-flat realization interfaces. Sections R07.4.4, R07.4.7 and R07.4.8 restate §F.6 stage 1
+  (the Cohen-ring étale equivalence and the Robba carriers) and stage 2 (degrees, slopes,
+  Dieudonné–Manin and the slope filtration) at the Kummer frame.
   Section R07.P5a owns the integral coefficient predicates. Sections R07.P7.1–R07.P7.5 give finite-coefficient de Rham and
   Hodge–Tate adapters, labelled Sen theory, character criteria and lifting applications.
   Section R07.3.3a owns the general-ring filtered Frobenius carrier; §R07.3.4 specializes its
@@ -472,6 +474,18 @@ laws) with `FormalGroup.IsComm`.
   finite `K/ℚ_p`, finite coefficient field and finite-dimensional continuous representation of `G_K`.
   Section R07.P3 uses its `x−y` and `1−φ` conventions and identifies its boundaries with
   the finite-flat realization interfaces; no de Rham hypothesis is needed for these boundaries.
+  Section F.6 stage 1, *Field Robba and étale prefix*, supplies the Cohen-ring étale equivalence
+  for every field of characteristic `p` (fixed-vector and inverse functors, unit and counit
+  comparisons, reduction modulo `pⁿ`, the Artin–Schreier case on `p`-torsion), consumed by
+  §R07.4.4, and the full, bounded and integral Robba rings and the Amice ring over every complete
+  discretely valued field of characteristic `0`, consumed by §R07.4.7 at `C = W(k)[1/p]`. Section
+  F.6 stage 2, *Slope and local-monodromy prefix*, supplies degrees and slopes normalised by
+  `v_p(p) = 1`, Dieudonné–Manin over the extended Robba ring, the unique saturated slope filtration
+  and descent of pure modules to the bounded ring, consumed by §§R07.4.7–R07.4.8 with `q = p`,
+  `φ(u) = u^p` and `e_C = 1`. This roadmap keeps the Kummer-tower frame and field of norms
+  (§§R07.4.1, R07.4.3), the semistability predicate, the lattice form of purity, the ring-theoretic
+  lemmas on `ℛ^int` and `ℛ^×`, the Harder–Narasimhan comparison and the integral torsion
+  comparisons of §§R07.4.5, R07.4.9–R07.4.13.
 - **ArithmeticGaloisDuality.** §R02.1.2 supplies continuous-cochain long exact sequences
   for quotient maps admitting continuous nonequivariant sections; §R02.2.3a supplies
   the finite-type procyclic cohomology calculation.
@@ -5551,33 +5565,23 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3.
 
 ### R07.4.4 Fontaine's equivalence for étale `φ`-modules over a Cohen ring
 
-Prove `etalePhiModulesCohenRing`. Let `F` be any field of characteristic `p` with separable closure `F^s`
-and `H = Gal(F^s/F)`. `(i) (mod p) D ↦ T(D) = (F^s ⊗_F D)^{φ⊗φ=1}` is an equivalence from étale
-`φ`-modules over `F` (finite-dimensional `F`-spaces with a Frobenius-semilinear map
-whose linearisation `F ⊗_{F,Frob} D → D` is bijective) to finite-dimensional continuous
-`F_p`-representations of `H`, with
-quasi-inverse `V ↦ (F^s ⊗_{F_p} V)^H`; the comparison `F^s ⊗_F D ≅ F^s ⊗_{F_p} T(D)` is an isomorphism
-(Hilbert `90` for `GL_n`). `(ii)` (integral) Let `𝒪_ℰ` be a Cohen ring of `F` with a Frobenius lift `φ` and
-`𝒪_{ℰ^ur}` the strict henselisation with completion `𝒪̂_{ℰ^ur}` (residue field `F^s`). Then `M ↦ (𝒪̂_{ℰ^ur} ⊗ M)^{φ=1}` is an exact tensor equivalence from finitely generated étale `φ`-modules over `𝒪_ℰ` to
-finitely generated `ℤ_p`-modules with continuous `H`-action, compatible with ranks, duals and `⊗`.
+State `etalePhiModulesCohenRing` as the adapter of NoncommutativeAndEquivariantIwasawa §F.6
+stage 1 (*Field Robba and étale prefix*): for every field `F` of characteristic `p` with separable
+closure `F^s`, `H = Gal(F^s/F)`, every Cohen ring `𝒪_ℰ` of `F` with Frobenius lift `φ`, and
+`𝒪̂_{ℰ^ur}` the `p`-adic completion of its strict henselisation, the supplier proves that the
+fixed-vector functor `M ↦ (𝒪̂_{ℰ^ur} ⊗_{𝒪_ℰ} M)^{φ=1}` and its inverse
+`T ↦ (𝒪̂_{ℰ^ur} ⊗_{ℤ_p} T)^{H}` are quasi-inverse exact tensor equivalences between finitely
+generated étale `φ`-modules over `𝒪_ℰ` and finitely generated `ℤ_p`-modules with continuous
+`H`-action, with unit and counit the comparison isomorphisms, compatible with ranks, lengths, duals
+and tensor products and with reduction modulo every `pⁿ`, and equal to the Artin–Schreier
+equivalence on `p`-torsion objects. This target restates those statements; the instance used in
+this layer is `F = k((u))`, the field of norms of §R07.4.3, with `𝒪_ℰ` the `p`-adic completion of
+`𝔖[1/u]` (§R07.4.1) and `φ(u) = u^p`. The Kummer frame and the Checks below are this roadmap's.
+(Fontaine, A.1.2.6–A.1.2.7, as cited by Kisin 2006, §2.1, Lemma (2.1.2) and Corollary (2.1.4),
+p. 21, and Kisin 2009, §1.1.12, pp. 8–9.)
 
-Here `F` is any field of characteristic `p` (no `Γ`-action is needed) and `𝒪_ℰ` is a complete DVR
-with uniformiser `p` and residue field `F`, with a lift `φ` of the Frobenius. For `F = k((u))` the field of
-norms of §R07.4.3, `𝒪_ℰ` is the `p`-adic completion of `𝔖[1/u]` (§R07.4.1).
-
-*Proof sketch.* `(i) H¹(H, GL_n(F^s)) = 1` makes `F^s ⊗_F D_F(T) → F^s ⊗ T` an isomorphism, so `D_F(T)`
-has dimension `dim T`; the inverse functor uses that `φ − 1` is surjective on `F^s` (Artin–Schreier)
-(Breuil, Proposition 2.2.1, quoting Fontaine). `(ii)` Dévissage from `(i)`: for `p`-torsion modules apply
-`(i)`; for `p^n`-torsion induct using exactness, which follows from surjectivity of `φ − 1` on
-`𝒪̂_{ℰ^ur}/p^n`; pass to the limit for finite free modules (Fontaine, `A`.1.2.6, as cited by Kisin 2006,
-2.1.4). (Breuil 1999, §2.2, Proposition 2.2.1 and its quasi-inverse `T_F`, p. 4: Fontaine's `mod p`
-equivalence for an arbitrary field `F` of characteristic `p`, quoting Fontaine, Grothendieck Festschrift
-II, p. 259; Kisin 2006, §2.1, proof of Lemma (2.1.2) and Corollary (2.1.4), p. 21: Kisin's use of
-Fontaine's equivalence (citing Fontaine `B`.1.8.4 and `A`.1.2) for `V_𝔖` and its torsion version; Kisin
-2009, §1.1.12, pp. 8–9: `K_∞/K` is strictly APF and, by Fontaine `A`.1.2.6 and `A`.`3, M ↦ (𝒪̂_{ℰ^ur} ⊗ M)^{φ=1}` is an equivalence of abelian categories from étale `φ`-modules over `𝒪_ℰ` to
-`ℤ_p`-representations of `G_{K∞}`, with the displayed quasi-inverse.)
-
-*Needs:* §R07.4.3; §R07.4.1; Mathlib `Field.absoluteGaloisGroup`; TauCetiRoadmap.ProfiniteCohomology
+*Needs:* NoncommutativeAndEquivariantIwasawa §F.6 stage 1 (the Cohen-ring étale equivalence);
+§R07.4.3; §R07.4.1; Mathlib `Field.absoluteGaloisGroup`; TauCetiRoadmap.ProfiniteCohomology
 Layer 9.
 
 **Checks.**
@@ -5656,51 +5660,50 @@ with the filtration induced by `ξ_{[0,r)}` (1.2.6). Theorem (1.2.15): essential
 
 ### R07.4.7 The Robba ring and `φ`-modules over it
 
-Define `robba`, `robbaBounded`, `robbaInt` and `PhiModule.slope`. Keep the notation of §R07.4.1 (`k`
-perfect, `W = W(k)`, `K₀ = W[1/p]`, `φ` acting as `σ` on coefficients and `u ↦ u^p`). For `0 < r < 1` let `ℛ_r` be the ring of Laurent series `f = Σ_{i ∈ ℤ} a_i u^i` with `a_i ∈ K₀` converging on the
-annulus `r ≤ |u| < 1` (for the absolute value with `|p| = p^{−1}`). Then:
-
-- the **Robba ring** is `ℛ = ⋃_{r < 1} ℛ_r`, the ring of germs at the boundary of the open unit
-  `disc`; it contains `𝒪 = ℛ ∩ K₀⟦u⟧`, the rigid functions on the open unit `disc` of §R07.4.1;
-- the **bounded Robba ring** `ℛ^b ⊂ ℛ` consists of the `f` with bounded coefficients (`sup_i |a_i| < ∞`); it is a field, the overconvergent subfield `ℰ^† = ℰ ∩ ℛ` of `ℰ = 𝒪_ℰ[1/p]`;
-- `ℛ^int = ℛ^b ∩ 𝒪_ℰ` is the subring of series with coefficients in `W`; it is a henselian discrete
-  valuation ring with uniformiser `p` and residue field `k((u))`, not `p`-adically complete, and the
-  units of `ℛ` are exactly the nonzero elements of `ℛ^b`.
-
-`φ` preserves `ℛ`, `ℛ^b`, `ℛ^int` and `𝒪`. A **`φ`-module** over one of these rings `A` is a finite
-free `A`-module `M` with a `φ`-semilinear `φ_M` whose linearisation `φ*M → M` is an isomorphism. For
-`M` of rank one over `ℛ` with `φ_M(v) = λ v`, `λ ∈ ℛ^× = (ℛ^b)^×`, the **degree** is `deg M = w(λ)`,
-where `w` is the `p`-adic valuation of `ℛ^b` (`w(Σ a_i u^i) = min_i v_p(a_i)`); in general `deg M = deg Λ^{rank} M` and the **slope** is `μ(M) = deg M / rank M`. `M` is **semistable** if `μ(M′) ≥ μ(M)` for every nonzero saturated `φ`-submodule `M′`, and **pure of slope `c/d`** (`d > 0`) if it
-has an `ℛ^int`-lattice on which `p^{−c} φ^d` carries some (equivalently any) basis to a basis. Pure
-of slope `0` means: `M = ℛ ⊗_{ℛ^int} M^int` for an étale `φ`-module `M^int` over `ℛ^int`.
-
-*Construction.* The rings and their basic properties are Kedlaya's `Γ_an,con`, `Γ_con[π^{−1}]` and
-`Γ_con` for `K = k((u))` with `q = p`; that `ℛ^int` is a henselian discrete valuation ring and that
-`ℛ^× = (ℛ^b)^×` (a nonzero element of `ℛ_r` is a unit exactly when it has no zero on the annulus,
-which for germs at the boundary means that it is bounded and invertible in `ℛ^b`) are Kedlaya's
-lemmas on these rings. The degree is well defined because changing the generator `v` multiplies `λ`
-by `φ(c)/c` for a unit `c ∈ (ℛ^b)^×`, and `w(φ(c)) = w(c)`. The characterisation of "pure" through
-lattices is Kedlaya's alternative description of isoclinic modules; his definition (all absolute
-Harder–Narasimhan slopes equal) is equivalent to it and is stated as an API item. (Kedlaya 2005,
+Define `robba`, `robbaBounded`, `robbaInt` and `PhiModule.slope` as adapters of
+NoncommutativeAndEquivariantIwasawa §F.6. Keep the notation of §R07.4.1 (`k` perfect, `W = W(k)`,
+`K₀ = W[1/p]`). Stage 1 (*Field Robba and étale prefix*) of the supplier, at the complete discretely
+valued field `C = K₀` with residue field `k`, supplies the full Robba ring `ℛ` (germs at the boundary
+of Laurent series converging on annuli `r < |u| < 1`, `|p| = p^{−1}`), its bounded subring
+`ℛ^b = ℛ^int[1/p]` and integral subring `ℛ^int` (series with coefficients in `W`), and the completed
+Amice ring `𝒪_ℰ`; stage 2 (*Slope and local-monodromy prefix*), applied with `q = p`, the Witt vector
+Frobenius `σ` as coefficient endomorphism and the overconvergent lift `φ(u) = u^p`, supplies the
+Frobenius on these rings, `φ`-modules (finite free modules with `φ`-semilinear `φ_M` whose
+linearisation is an isomorphism), their degree and slope `μ(M) = deg M / rank M`, and purity. The
+supplier normalises degrees by `v_p(p) = 1`; here `e_C = 1`, so its adapter `deg_w = e_C·deg` is the
+identity and the degree of a rank-one `ℛ e` with `φ(e) = λ e` is `w(λ)`, where
+`w(Σ a_i u^i) = min_i v_p(a_i)` on `ℛ^b`. The names `robba`, `robbaBounded`, `robbaInt`,
+`PhiModule`, `PhiModule.deg`, `PhiModule.slope` and `PhiModule.IsPure` restate these supplied objects.
+Defined here on the imported carrier: `PhiModule.IsSemistable` (`μ(M′) ≥ μ(M)` for every nonzero
+saturated `φ`-submodule `M′`), and the lattice form of purity (pure of slope `c/d`, `d > 0`, iff some
+`ℛ^int`-lattice has a basis carried by `p^{−c} φ^d` to a basis; pure of slope `0` iff
+`M = ℛ ⊗_{ℛ^int} M^int` for an étale `M^int` over `ℛ^int`). Also proved here, as lemmas on the
+imported rings: `𝒪 = ℛ ∩ K₀⟦u⟧` is the ring of rigid functions on the open unit `disc` of §R07.4.1,
+`ℛ^b` is the overconvergent subfield `ℰ^† = ℰ ∩ ℛ` of `ℰ = 𝒪_ℰ[1/p]`, `ℛ^int` is a henselian
+discrete valuation ring with uniformiser `p` and residue field `k((u))` that is not `p`-adically
+complete, and `ℛ^× = (ℛ^b)^×`. (NoncommutativeAndEquivariantIwasawa §F.6, stages 1–2; Kedlaya 2005,
 Definition 2.2.13, p. 9, and Definition 2.4.8, p. 15: the rings; Lemma 2.1.12, p. 7: henselian;
-Corollary 2.5.12, p. 19: units of the annulus rings; Definition 3.1.1, p. 31: `σ`-modules;
-Definition 3.4.1, p. 36: degree and slope; Definition 3.4.5, p. 37: semistability; Definition 4.6.1,
-p. 52: pure (isoclinic) modules; Proposition 6.3.5, p. 65: the lattice description; Kisin 2006,
-§1.3.1–§1.3.2: these rings and notions in the notation used here.)
+Corollary 2.5.12, p. 19: units of the annulus rings; Definition 3.4.1, p. 36: degree and slope;
+Definition 3.4.5, p. 37: semistability; Definition 4.6.1, p. 52: pure (isoclinic) modules;
+Proposition 6.3.5, p. 65: the lattice description; Kisin
+2006, §1.3.1–§1.3.2: these rings and notions in the notation used here.)
 
 The API:
 
-- `robba`, `robbaBounded`, `robbaInt`: the three rings with `φ`, and the inclusions `𝒪 ⊂ ℛ`, `ℛ^int ⊂ ℛ^b ⊂ ℛ`, `ℛ^int ⊂ 𝒪_ℰ`.
-- `robbaInt_isHenselian`, `robbaInt_residueField : ℛ^int/p ≅ k((u))`.
-- `robba_units : ℛ^× = (ℛ^b)^×`.
-- `PhiModule`, `PhiModule.deg`, `PhiModule.slope`, with `deg_tensor`, `deg_dual` and additivity of
-  `deg` in short exact sequences.
-- `PhiModule.IsSemistable`, `PhiModule.IsPure`, and `isPure_iff_hnSlopes`: Kedlaya's definition
-  through absolute Harder–Narasimhan slopes agrees with the lattice form.
-- `PhiModule.isPure_zero_iff_etale`: pure of slope `0` iff it comes from an étale `φ`-module over
-  `ℛ^int`.
+- `robba`, `robbaBounded`, `robbaInt`: adapters for the supplied rings with `φ`, and the inclusions
+  `𝒪 ⊂ ℛ`, `ℛ^int ⊂ ℛ^b ⊂ ℛ`, `ℛ^int ⊂ 𝒪_ℰ`.
+- This roadmap's lemmas on the imported carrier: `robbaInt_isHenselian`,
+  `robbaInt_residueField : ℛ^int/p ≅ k((u))`, and `robba_units : ℛ^× = (ℛ^b)^×`.
+- `PhiModule`, `PhiModule.deg`, `PhiModule.slope`: adapters for the supplied `φ`-modules, degree and
+  slope; `deg_tensor`, `deg_dual` and additivity of `deg` in short exact sequences are proved here.
+- `PhiModule.IsPure` (adapter) and `PhiModule.IsSemistable` (defined here); this roadmap's lemmas
+  `isPure_iff_hnSlopes` (the supplied purity, Kedlaya's condition that all absolute
+  Harder–Narasimhan slopes are equal, agrees with the lattice form) and
+  `PhiModule.isPure_zero_iff_etale` (pure of slope `0` iff it comes from an étale `φ`-module over
+  `ℛ^int`).
 
-*Needs:* §R07.4.1; Mathlib `WittVector`; Mathlib `PowerSeries`; Mathlib `LaurentSeries`.
+*Needs:* NoncommutativeAndEquivariantIwasawa §F.6 stages 1–2 (the Robba carriers, degrees and
+slopes); §R07.4.1; Mathlib `WittVector`; Mathlib `PowerSeries`; Mathlib `LaurentSeries`.
 
 **Checks.**
 
@@ -5715,47 +5718,44 @@ The API:
 
 ### R07.4.8 Kedlaya's slope filtration theorem
 
-Prove `kedlayaSlopeFiltration`. In the setting of §R07.4.7:
+State `kedlayaSlopeFiltration` as the adapter of NoncommutativeAndEquivariantIwasawa §F.6 stage 2
+(*Slope and local-monodromy prefix*) in the setting of §R07.4.7 (`C = K₀`, `q = p`, coefficient
+Frobenius `σ`, `φ(u) = u^p`, `e_C = 1`). The supplier proves the Dieudonné–Manin decomposition over
+the extended Robba ring `ℛ^alg` (built from the completed algebraic closure of `k((u))`), the unique
+saturated increasing slope filtration of every `φ`-module over `ℛ`, and descent of pure modules to
+the bounded ring `ℛ^b`. In the form used by Kisin this reads:
 
-`1`. (Dieudonné–Manin over the extended Robba ring.) After base change to the extended Robba ring
-   `ℛ^alg` (built in the same way from the completed algebraic closure of `k((u))` in place of
-   `k((u))`), every `φ`-module is a direct sum of standard modules `M_{c,d}`: `M_{c,d}` is free on
-   `e₁, …, e_d` with `φ(e_i) = e_{i+1}` for `i < d` and `φ(e_d) = p^c e₁`, for `c ∈ ℤ`, `d > 0` with `gcd(c,d) = 1`,
-   of slope `c/d`.
-`2`. (Slope filtration.) Every `φ`-module `M` over `ℛ` has a unique filtration `0 = M₀ ⊂ M₁ ⊂ ⋯ ⊂ M_l = M` by saturated `φ`-submodules whose successive quotients `M_i/M_{i−1}` are pure of slopes `s₁ < ⋯ < s_l`; it is the Harder–Narasimhan filtration of `M`, and it is compatible with base change
-   to `ℛ^alg`.
+`1`. (Dieudonné–Manin.) After base change to `ℛ^alg` every `φ`-module is a direct sum of standard
+   modules `M_{c,d}`: `M_{c,d}` is free on `e₁, …, e_d` with `φ(e_i) = e_{i+1}` for `i < d` and
+   `φ(e_d) = p^c e₁`, for `c ∈ ℤ`, `d > 0` with `gcd(c,d) = 1`, of slope `c/d`.
+`2`. (Slope filtration.) Every `φ`-module `M` over `ℛ` has a unique filtration
+   `0 = M₀ ⊂ M₁ ⊂ ⋯ ⊂ M_l = M` by saturated `φ`-submodules whose successive quotients
+   `M_i/M_{i−1}` are pure of slopes `s₁ < ⋯ < s_l`.
 `3`. (Descent of pure modules.) Base change is an equivalence from pure `φ`-modules of slope `s` over
-   `ℛ^b` to pure `φ`-modules of slope `s` over `ℛ`, and is fully faithful into `φ`-modules over `ℰ`;
-   in particular a `φ`-module over `ℛ` is semistable if and only if it is pure.
+   `ℛ^b` to pure `φ`-modules of slope `s` over `ℛ`.
 
-*Proof sketch.* `(1)` Over `ℛ^alg` every `φ`-module of positive rank contains an eigenvector `φ(v) = λ v` (Kedlaya's existence of eigenvectors, by successive approximation in the extended Robba ring);
-comparing slopes of eigenvectors with the Harder–Narasimhan polygon and splitting extensions of
-standard modules of increasing slope gives the decomposition. `(2)` The Harder–Narasimhan filtration
-exists over any of these rings because slopes are bounded on saturated submodules; it is compatible
-with base change to `ℛ^alg`, where it splits by `(1)`, and it descends to `ℛ` because each step is the
-unique maximal submodule of minimal slope, hence Galois-stable, and its top exterior power descends
-by the Bézout property of `ℛ`. `(3)` A pure module of slope `0` over `ℛ` acquires a Frobenius-stable
-lattice over `ℛ^b` after a finite separable extension of `k((u))`, unique by full faithfulness,
-hence Galois-stable and descending; the case `c/d` reduces to slope `0` by restriction of `φ` to
-`φ^d` and a twist by `p^{−c}`. This is the full content of Kedlaya's theorem; the auxiliary results
-it uses (Bézout property of `ℛ`, existence of eigenvectors over `ℛ^alg`, the calculus of slopes,
-Galois descent of saturated submodules) are part of this target. (Kedlaya 2004, Theorem 4.16, p. 57:
-part `1`; Theorem 6.10, p. 77: part `2`; Kedlaya 2005, Definition 4.1.1, p. 40: standard modules;
-Theorem 4.5.7, p. 50: Dieudonné–Manin over `ℛ^alg`; Theorem 6.3.3, p. 64: part `3`; Theorem 6.4.1, p.
-65: part `2` in the form used here; Corollary 6.4.3, p. 66: semistable equals pure; Kisin 2006,
-§1.3.2, Theorem (1.3.2): the statement as used for Breuil–Kisin modules.)
+Proved here from these supplied statements, on the imported carrier: the filtration of `2` is the
+Harder–Narasimhan filtration for the slope of §R07.4.7 and is compatible with base change to `ℛ^alg`
+(both by its uniqueness); base change from pure modules over `ℛ^b` to `φ`-modules over `ℰ` is fully
+faithful; and a `φ`-module over `ℛ` is semistable if and only if it is pure (a semistable module has
+a one-step Harder–Narasimhan filtration, hence a one-step filtration in `2`). (NoncommutativeAndEquivariantIwasawa §F.6, stage 2; Kedlaya 2004,
+Theorem 4.16, p. 57, and Theorem 6.10, p. 77; Kedlaya 2005, Definition 4.1.1, p. 40: standard
+modules; Theorem 4.5.7, p. 50: Dieudonné–Manin over `ℛ^alg`; Theorem 6.3.3, p. 64: part `3`;
+Theorem 6.4.1, p. 65: part `2`; Corollary 6.4.3, p. 66: semistable equals pure; Kisin 2006, §1.3.2,
+Theorem (1.3.2): the statement as used for Breuil–Kisin modules.)
 
 The API:
 
 - `PhiModule.standard`: `M_{c,d}`, with `standard_slope : slope M_{c,d} = c/d` and
   `standard_isPure`.
-- `dieudonneManin_robbaAlg`: part `1`.
-- `PhiModule.slopeFiltration`, `slopeFiltration_unique`, `slopeFiltration_eq_hn`,
-  `slopeFiltration_baseChange`: part `2`.
-- `PhiModule.pure_descends`: part `3`, and `isSemistable_iff_isPure`.
+- `dieudonneManin_robbaAlg`: adapter for part `1`.
+- `PhiModule.slopeFiltration`, `slopeFiltration_unique`: adapters for part `2`;
+  `slopeFiltration_eq_hn`, `slopeFiltration_baseChange`: proved here.
+- `PhiModule.pure_descends`: adapter for part `3`; `isSemistable_iff_isPure`: proved here.
 
-*Needs:* CrystallineCohomology §CR.4.7 (*Slope decomposition on the existing isocrystal carrier*);
-§R07.4.7; §R07.2.15; Mathlib `WittVector`.
+*Needs:* NoncommutativeAndEquivariantIwasawa §F.6 stage 2 (Dieudonné–Manin, slope filtration and
+bounded descent); CrystallineCohomology §CR.4.7 (*Slope decomposition on the existing isocrystal
+carrier*); §R07.4.7; §R07.2.15; Mathlib `WittVector`.
 
 **Checks.**
 
@@ -5803,7 +5803,8 @@ whose base change to `ℛ` is pure of slope `0`.
 
 The setting is the Kummer frame of §R07.4.1. Conventions: Kisin's contravariant functors and `HT(χ) = +1`, as in *Conventions*. The Robba ring and slopes are §R07.4.7, and Kedlaya's slope filtration
 with the descent of pure modules to `ℛ^b` is §R07.4.8; the auxiliary lemmas Kisin quotes from
-Kedlaya 2004 (Lemma 4.1, Propositions 4.4, 4.5, 5.13 and 6.5) are steps of that target.
+Kedlaya 2004 (Lemma 4.1, Propositions 4.4, 4.5, 5.13 and 6.5) are steps of the supplier's slope
+theory (NoncommutativeAndEquivariantIwasawa §F.6 stage 2), reached through those adapters.
 
 *Proof sketch.* Rank one: for `D = K₀e` with `φ(e) = αe, 𝓜(D) = λ^{−t_H(D)}·𝒟₀`, and its slope is `v_p(α) − t_H(D) = t_N(D) − t_H(D)` (Kisin 2006, 1.3.8, first part). The slope filtration of `𝓜(D) ⊗ ℛ`
 (Kedlaya) descends to a filtration of `𝓜(D)` by saturated, `φ`- and `N_∇`-stable submodules (Kisin 2006,
@@ -7341,7 +7342,9 @@ in (1.2.7), since `D_cris` and `V_cris` commute with `⊗_A N` (1.3.5). (Kisin 2
 Layers R07.2 and R07.3; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Dieudonné crystal, Grothendieck–Messing);
 §§R07.P2–R07.P5 and PadicPeriodRings §§3–4; §R07.3.0;
 TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.ProfiniteCohomology Layer 9;
-TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.2 (the semistable equivalence); Mathlib
+TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.2 (the semistable equivalence);
+NoncommutativeAndEquivariantIwasawa §F.6 stages 1–2 (Cohen-ring étale equivalence, Robba
+carriers and slope theory); Mathlib
 `PowerSeries`, `Polynomial.IsEisensteinAt`, `AdicCompletion`, `WittVector`, `PreTilt`,
 `WittVector.fontaineTheta`.
 
