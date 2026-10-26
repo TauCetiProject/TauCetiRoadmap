@@ -62,8 +62,8 @@ relative `Шⁱ` and the cyclotomic power kernel; exponent-two ramification fiel
 antiunit class-field rank and the absence of `ℤ_p`-extensions unramified at `p`. Ext of discrete
 modules, Tate's duality for a `P`-class formation and for the `S`-idele classes, archimedean local
 duality, the restricted products `Pʳ_S` and their self-duality, Poitou–Tate duality, global
-finiteness, cohomological dimension, high-degree cohomology of units, the decomposition map and
-the modular cyclic induction it uses, the global Euler characteristic, the function-field
+finiteness, cohomological dimension, high-degree cohomology of units, the decomposition map, the
+rationalized modular Artin theorem (a corollary of RepresentationTheory/ModularInduction), the global Euler characteristic, the function-field
 Poitou–Tate and Euler theorems, finite compact support, all-place `Ш` duality with transfer
 adjunction, Grunwald–Wang with its dyadic obstruction (ClassFieldTheory expressly leaves it out),
 character roots and their local Brauer obstructions, totally real base change with prescribed
@@ -115,10 +115,12 @@ and Khare–Wintenberger numerics of Layer R02.6.
   groups, Layer 6; the connected component and ray
   classes, Layer 7; norms of ideles, Layer 8), *NumberFieldArithmetic* (unramified sets of primes,
   Layer 1; relative discriminants, Layer 4; different exponents, Layer 6), *Chebotarev* (Layer 10),
-  *ProfiniteProPGroups* (supernatural orders, Layer 1), *RepresentationTheory/InductionRestriction*
-  (Brauer induction, Layer 6), *ReductiveGroups* (Layers 4–7, tori and their character lattices `X*(T)`, used
+  *ProfiniteProPGroups* (supernatural orders, Layer 1), *RepresentationTheory/ModularInduction*
+  (the Grothendieck group `modRepK0 k G` of finitely generated `k[G]`-modules with its induction
+  and base change, Layers 0–1, and the modular Artin theorem, Layer 4), *ReductiveGroups* (Layers 4–7, tori and their character lattices `X*(T)`, used
   for torus duality) and *AlgebraicCurves* (function-field divisors, the product formula and the
-  finiteness of `Cl⁰` over a finite field, Layers 3 and 5).
+  finiteness of `Cl⁰` over a finite field, Layers 3 and 5; the regular projective model of a
+  function field with its closed points as places, Layer 12).
 
 **Further roadmaps this roadmap builds on.**
 
@@ -236,8 +238,7 @@ spaces,
 `Representation.toSubmodule_range_asAlgebraHom`, `ContinuousMap.discreteTopology`,
 `TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.InternalHom` with `homAction` and
 `evalPairing`, `TauCeti.exists_continuous_section`, `TauCeti.FactorSet`, `TauCeti.KummerCoeff`,
-`TauCeti.kummerShortExact`, the periodicity of Tate cohomology of cyclic groups, Artin's induction
-theorem `TauCeti.ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`,
+`TauCeti.kummerShortExact`, the periodicity of Tate cohomology of cyclic groups,
 `TauCeti.traceBilinForm` with `traceBilinForm_nondegenerate`, the trace-zero ideal `TauCeti.slIdeal`
 (which is `ad⁰`; no second trace-zero submodule is defined) and `TauCeti.Place` for function fields;
 Mathlib's `Algebra.IsUnramifiedIn` for unramifiedness at a finite place, quantified explicitly over
@@ -440,8 +441,6 @@ as inputs; and Galois representations attached to automorphic forms.
   `TauCeti.ClassFieldTheory.muNRepH2Equiv` and `TauCeti.ClassFieldTheory.h2MuEquivZMod`.
 - `Rep.FiniteCyclicGroup.tateCohomologyIsoEven`, `tateCohomologyIsoOdd` and
   `TauCeti.TateCohomology.herbrandQuotient_eq_one_of_finite`: Tate cohomology of cyclic groups.
-- `TauCeti.ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`: Artin's induction
-  theorem.
 - `TauCeti.traceBilinForm`, `TauCeti.traceBilinForm_nondegenerate`, `TauCeti.slIdeal`,
   `TauCeti.mem_slIdeal_iff`: the trace form of `gl_n`, nondegenerate over every commutative
   semiring, and the trace-zero ideal, which is `ad⁰` in Layers D8 and R02.6 (as a Lie ideal of the
@@ -467,9 +466,13 @@ as inputs; and Galois representations attached to automorphic forms.
   isomorphisms, the abstract Artin map, the local invariant, `tateDualityPairing_perfect_mixed`,
   `finite_H`, `eulerCharacteristic_mixed`, `cd_p_absoluteGaloisGroup_eq_two`, the local Artin map,
   the global Brauer sequence and the global class formation for number fields.
+- `RepresentationTheory/ModularInduction`: `modRepK0 k G` (exact `K₀` of finitely generated
+  `k[G]`-modules, Serre's `R_k(G)`), `modRepK0.ind`, `modRepK0.res`, `modRepK0.baseChange` and
+  `modularArtin_natCard_nsmul_mem_indCyclicCoprime`: in characteristic `p`, `|G|` times every class
+  is induced from cyclic subgroups of order prime to `p`. Section R02.4.4 consumes these and keeps
+  the decomposition map, which that roadmap excludes.
 - `GlobalNumberFields` Layers 1 and 6–8, `NumberFieldArithmetic` Layers 1, 4 and 6, `Chebotarev`
-  Layer 10, `ProfiniteProPGroups` Layer 1, `RepresentationTheory/InductionRestriction` Layer 6 and
-  `AlgebraicCurves` Layers 3 and 5, and the tori of `ReductiveGroups`, as listed under *Scope and
+  Layer 10, `ProfiniteProPGroups` Layer 1, `AlgebraicCurves` Layers 3, 5 and 12, and the tori of `ReductiveGroups`, as listed under *Scope and
   ownership*.
 
 ### From further roadmaps
@@ -535,14 +538,17 @@ as inputs; and Galois representations attached to automorphic forms.
   §2.1 / **The local embedding**: `GaloisRep.localEmbeddingMap`;
   §2.1 / **Local restriction**: `GaloisRep.localRestriction` and its change-of-embedding
   isomorphisms. Supplied by ArithmeticGaloisRepresentations §4.4 / **Dickson's theorem**:
-  `GL2Subgroup.dickson_projectiveImage`; §4.7 / **Characteristic two**:
-  `GL2Subgroup.sl2_submodules_charTwo` for the invariants and submodules, and the target's
-  `H¹(SL₂(F₀), M₂(F)) = 0`; §5.13 / **Chebotarev for function fields**.
+  `GL2Subgroup.dickson_projectiveImage`; §4.7 / **Characteristic two** for the invariants and
+  submodules and the target's `H¹(SL₂(F₀), M₂(F)) = 0` (a target without an exported name);
+  §5.13 / **Restricted-ramification function-field groups and Frobenius** (the group `G_{K_C,U}`,
+  its decomposition and inertia groups and Frobenius classes) and **Chebotarev for function fields**.
   Supplied by ArithmeticGaloisRepresentations §7.2 / **The adjoint**: `ContinuousRep.ad`,
-  `ContinuousRep.adZero`, `ContinuousRep.adQuot`, `ContinuousRep.tracePairing_perfect`
-  (the trace pairing on `ad ρ`); §7.2 / **The trace pairing on matrices**:
-  `tracePairing_matrix_perfect` (on `M_n(A)`); §7.7 / **`SL₂` with adjoint coefficients**:
-  `ResidualImage.h1_SL2_adZero_eq_zero`; §7.6 / **Projective lifting** for Tate's vanishing.
+  `ContinuousRep.adZero`, `ContinuousRep.adQuot` and the perfect invariant trace pairing on
+  `ad ρ` asserted in that target; §7.2 / **The trace pairing on matrices** (perfectness of
+  `(X, Y) ↦ tr(XY)` on `M_n(A)`); §7.7 / **`SL₂` with adjoint coefficients**; §7.6 /
+  **Projective lifting** for Tate's vanishing. The three targets of §§4.7, 7.2 and 7.7 cited
+  without a Lean name are consumed as stated there, with their coefficient restrictions and
+  small-field exceptions.
 
 ## How to read the build
 
@@ -2124,6 +2130,19 @@ with its Krull topology. For each place `v` fix an embedding `F^s ↪ F_v^s` ove
   prime, `ℓ` included, lies in the set `P` of primes `p` with `p^∞ ∣ [F_S : F]`.
 - `kummer_unramified_iff`: for `n` prime to `ℓ` and `a ∈ Fˣ`, `F(a^{1/n})/F` is unramified at
   `v` exactly when `n ∣ ord_v(a)`.
+- `curveGroup_equiv_galoisGroupS`: for `S` finite and nonempty, let `C` be the smooth projective
+  geometrically connected curve over `𝔽_q` with function field `F`, whose closed points are the
+  places of `F`, and `U = C ∖ S`. Then `G_{F,S}` is canonically isomorphic to the group `G_{F,U}`
+  of ArithmeticGaloisRepresentations §5.13: both are the quotient of `G_F` by the closed normal
+  subgroup generated by the inertia groups at the places outside `S`, whose fixed field is `F_S`.
+  The isomorphism commutes with the quotient maps from `G_F` and with enlarging `S` (shrinking
+  `U`); for the same extension of `v` to `F^s` it carries the images of `G_v` and `I_v` to the
+  decomposition and inertia groups of §5.13 at the closed point `v`; and for `v ∉ S` it carries
+  the Frobenius class of `v`, the image of a lift of `a ↦ a^{q^{deg v}}`, to the arithmetic
+  Frobenius class of §5.13. Statements of this roadmap with finite `S` transport §5.13's
+  decomposition, inertia and Frobenius API and its Chebotarev theorem through this isomorphism;
+  the group `G_{F,S}` is constructed here because the duality theorems also use infinite `S`, for
+  which `C ∖ S` is not open.
 
 *Proof sketch.* As for number fields (*The Galois group `G_{K,S}` of the maximal extension
 unramified outside `S`*): composita and Galois closures of extensions unramified outside `S` are
@@ -2131,8 +2150,14 @@ unramified outside `S`. Constant field extensions are unramified at every place,
 `n`-th root of a constant generates a constant field extension when `ℓ ∤ n`. The Kummer criterion
 is the prime-to-`ℓ` tame computation at `v` (Neukirch–Schmidt–Wingberg, VIII §3, pp. 452–453,
 (8.3.2)–(8.3.4), for `F_S`, the constant field extensions and the Kummer sequence for
-`S`-units with `n` prime to `ℓ`). *Needs:* *Function-field places, ideles and `S`-units*;
-Mathlib `Field.absoluteGaloisGroup`, `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`.
+`S`-units with `n` prime to `ℓ`). For the comparison with §5.13, the fixed field of the closed
+normal subgroup generated by the inertia groups outside `S` is the largest subextension of `F^s`
+unramified outside `S` by the infinite Galois correspondence, which is `F_S`; the places of `F` are
+the closed points of `C` because `C` is the normalization of the projective line in `F`. *Needs:* *Function-field places, ideles and `S`-units*;
+ArithmeticGaloisRepresentations §5.13 / **Restricted-ramification function-field groups and
+Frobenius**; AlgebraicCurves Layer 12, step 12B (the regular projective model of `F` and its
+closed points as places); Mathlib `Field.absoluteGaloisGroup`,
+`InfiniteGalois.IntermediateFieldEquivClosedSubgroup`.
 
 **Checks.**
 
@@ -2143,6 +2168,10 @@ Mathlib `Field.absoluteGaloisGroup`, `InfiniteGalois.IntermediateFieldEquivClose
   `t = 0` and does not; `p`-primary ramification is wild and is not governed by the Kummer test.
 - `ff_kummer_test`: for `ℓ ≠ 2`, `F(√t)/F` is ramified exactly at `t = 0` and `t = ∞`
   (`ord_0 t = 1`, `ord_∞ t = −1`), so it lies in `F_S` for `S = {0, ∞}` but not for `S = {∞}`.
+- For `F = 𝔽_q(t)`, `S = {0, ∞}` and `U = 𝔾_m`, the comparison identifies the quotient of
+  `G_{F,S}` cut out by `F(t^{1/a})`, `a` prime to `ℓ`, with the corresponding quotient of §5.13's
+  `G_{F,U}`; the Frobenius at the place `t − c`, `c ∈ 𝔽_qˣ`, acts on `t^{1/a}` through `c^{(q−1)/a}`
+  when `a ∣ q − 1` on both sides. For `S = {∞}` and `a > 1` neither group admits this quotient.
 
 **Local inputs at places of a global function field.** Let `F_v` be the completion of a global
 function field at a place `v`, a local field of characteristic `ℓ` (isomorphic to
@@ -2807,7 +2836,8 @@ ClassFieldTheory Layers 7, 12 and 13.
 - TauCetiRoadmap ProfiniteProPGroups: Layer 1.
 - TauCetiRoadmap ProfiniteCohomology: Layers 1, 2, 3, 4, 5, 7, 8, 9, 10, 11.
 - ArithmeticGaloisRepresentations: Layer 2, §2.1 (decomposition, inertia and wild inertia groups;
-  local restriction and change of embedding); §5.13 / **Chebotarev for function fields**.
+  local restriction and change of embedding); §5.13 / **Restricted-ramification function-field
+  groups and Frobenius** and **Chebotarev for function fields**.
 - TauCetiRoadmap GlobalNumberFields: Layers 6, 7, 8.
 - TauCetiRoadmap ClassFieldTheory: Layers 2, 6, 7, 10, 11, 12, 13.
 - Earlier targets: §R02.3.0d *Finite Galois localization and Sha kernels*.
@@ -2816,7 +2846,7 @@ ClassFieldTheory Layers 7, 12 and 13.
   `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, Mathlib `Set.integer`, Mathlib
   `NumberField.finite_of_discr_bdd`, Mathlib `tateCohomology`, Mathlib `Set.unit`, Mathlib
   `RestrictedProduct`, Mathlib `ClassGroup`, Tau Ceti `TauCeti.kummerShortExact`.
-- TauCetiRoadmap AlgebraicCurves: Layers 3 and 5, and TauCetiRoadmap ClassFieldTheory: Layers 3–5, for the
+- TauCetiRoadmap AlgebraicCurves: Layers 3, 5 and 12, and TauCetiRoadmap ClassFieldTheory: Layers 3–5, for the
   global function-field targets of R02.3.2; Tau Ceti `TauCeti.Place`, `TauCeti.Place.degree` and Mathlib
   `FunctionField` there as well.
 
@@ -3588,12 +3618,15 @@ p. 29.) *Needs:* *Poitou–Tate duality and the nine-term exact sequence*;
   the primitive uses vanishing of the relevant torsion in `H³(G_S, E_S)`, not in `H³(G_S, M)`.
 
 **Surjectivity of the decomposition map.** Let `G` be a finite group, `K` a finite extension of
-`ℚ_p` containing the `|G|`-th roots of unity, and `k` its residue field. Reduction of
-`G`-stable integral lattices gives a well-defined decomposition homomorphism
-`d : R_K(G) → R_k(G)`, independent of the lattice and compatible with induction, and `d ⊗ ℚ` is
-surjective. (Integral surjectivity also holds, by Serre's Theorem 33, but only the rational form is
-needed: it is what carries Artin's induction theorem over to the modular Grothendieck group in
-*`R_{𝔽_p}(G) ⊗ ℚ` is induced from cyclic p′-subgroups*.)
+`ℚ_p` containing the `|G|`-th roots of unity, and `k` its residue field. Write
+`R_K(G) = modRepK0 K G` and `R_k(G) = modRepK0 k G` for the Grothendieck groups of
+RepresentationTheory/ModularInduction (exact `K₀` of finitely generated modules over the group
+algebra). Reduction of `G`-stable integral lattices gives a well-defined decomposition
+homomorphism `d : R_K(G) → R_k(G)`, independent of the lattice and commuting with
+`modRepK0.ind` and `modRepK0.res`, and `d ⊗ ℚ` is surjective. (Integral surjectivity also holds,
+by Serre's Theorem 33, but only the rational form is needed. ModularInduction excludes the
+decomposition map; it is used here to reduce the `ℤ_p`-lattice of `S`-units in *The equivariant
+Kummer Euler class*.)
 
 *Proof sketch.* Construct `d` from stable lattices over the valuation ring and prove independence of
 the lattice using finite-length quotient filtrations. Induction commutes with reduction because the
@@ -3602,11 +3635,10 @@ Lemma 2.10 (Serre, *Linear representations of finite groups*, §16.1, Theorem 33
 characters of the simple `k[G]`-modules are linearly independent functions on the `p`-regular
 conjugacy classes, and restrictions of ordinary characters span these class functions once the
 splitting field is large enough; so the decomposition matrix has full row rank, which is the
-rational surjectivity. Combine `d` with Artin's induction theorem (RepresentationTheory/InductionRestriction Layer 6),
-and pass back from a finite splitting residue field by restriction of scalars, whose composite with
-extension of scalars is multiplication by the degree. (Milne, *Arithmetic Duality
-Theorems*, Chapter I, §2, proof of Lemma 2.10, p. 32
-(PDF p. 40).) *Needs:* RepresentationTheory/InductionRestriction Layer 6.
+rational surjectivity. (Serre, *Linear representations of finite groups*, §15.2, for `d`; Milne,
+*Arithmetic Duality Theorems*, Chapter I, §2, proof of Lemma 2.10, p. 32
+(PDF p. 40).) *Needs:* RepresentationTheory/ModularInduction Layers 0–1 (`modRepK0`, its universal
+property, `modRepK0.ind`, `modRepK0.res`).
 
 **Checks.**
 
@@ -3615,21 +3647,20 @@ Theorems*, Chapter I, §2, proof of Lemma 2.10, p. 32
 - `p ∤ |G|`: reduction is a bijection between irreducible representations, so `d` is an
   isomorphism.
 
-**`R_{𝔽_p}(G) ⊗ ℚ` is induced from cyclic p′-subgroups.** For a finite group `G`,
-`R_{𝔽_p}(G) ⊗ ℚ` is generated by the images of `Ind_H^G : R_{𝔽_p}(H) ⊗ ℚ → R_{𝔽_p}(G) ⊗ ℚ`, as `H`
-runs over the cyclic subgroups of `G` of order prime to `p`.
+**`R_{𝔽_p}(G) ⊗ ℚ` is induced from cyclic p′-subgroups.** For a finite group `G`, put
+`R_{𝔽_p}(G) = modRepK0 (ZMod p) G`. Then `ℚ ⊗ R_{𝔽_p}(G)` is spanned over `ℚ` by the images of
+`ℚ ⊗ modRepK0.ind C`, as `C` runs over the cyclic subgroups of `G` of order prime to `p`.
+Consequently a homomorphism from `R_{𝔽_p}(G)` to a torsion-free abelian group is determined by its
+values on these induced classes, which is the form used by *Tate's global Euler characteristic
+formula*.
 
-*Proof sketch.* Artin's induction theorem: in characteristic `0`, `#G` times every virtual character
-is an integral combination of characters induced from cyclic subgroups
-(`TauCeti.ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`). *Surjectivity of the
-decomposition map* transfers this to `R_k(G) ⊗ ℚ` for a large finite field `k`, and restriction of
-scalars from `k` to `𝔽_p` to `R_{𝔽_p}(G) ⊗ ℚ`. It remains to pass from cyclic `H = H_p × H′` to its
-prime-to-`p` part `H′`: a simple `k[H]`-module `N` is inflated from `H′`, and
-`[Ind_{H′}^H N] = |H_p|·[N]` in characteristic `p`; divide by `|H_p|` only after passing to the
-rational Grothendieck group. (Milne, *Arithmetic Duality
-Theorems*, Chapter I, §2, Lemma 2.10, p. 32 (PDF
-p. 40).) *Needs:* *Surjectivity of the decomposition map*; Tau Ceti
-`TauCeti.ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`.
+*Proof sketch.* This is the rationalization of the modular Artin theorem owned by
+RepresentationTheory/ModularInduction: by `modularArtin_natCard_nsmul_mem_indCyclicCoprime` at
+`k = ZMod p`, `|G| • x` lies in the subgroup `indCyclicCoprime` for every class `x`; tensor with `ℚ`
+and divide by the nonzero integer `|G|`. For the torsion-free consequence, two homomorphisms that
+agree on the induced classes agree on `|G| • x`, hence on `x`. (Milne, *Arithmetic Duality
+Theorems*, Chapter I, §2, Lemma 2.10, p. 32 (PDF p. 40).) *Needs:* RepresentationTheory/ModularInduction
+Layer 0 (`modRepK0`) and Layer 4 (`modularArtin_natCard_nsmul_mem_indCyclicCoprime`).
 
 **Checks.**
 
@@ -3637,6 +3668,12 @@ p. 40).) *Needs:* *Surjectivity of the decomposition map*; Tau Ceti
   `R_{𝔽_p}(G) = ℤ`; the induced classes span `R_{𝔽_p}(G) ⊗ ℚ` but only `pℤ` integrally, so the
   statement cannot be made without `⊗ ℚ`.
 - `p ∤ |G|`: the statement is Artin's induction theorem for `𝔽_p`-representations.
+- `G = S₃`, `p = 3`: `R_{𝔽₃}(S₃) = ℤ[1] ⊕ ℤ[sgn]`, and the cyclic `3′`-subgroups are `1` and the
+  three subgroups of order `2`. Inducing the trivial and sign characters of `⟨(12)⟩` gives
+  `2[1] + [sgn]` and `[1] + 2[sgn]` (Brauer characters `(3, 1)` and `(3, −1)` on the classes of
+  `1` and `(12)`), and inducing from `1` gives `3[1] + 3[sgn]`. These span a sublattice of index
+  `3`, containing `3[sgn]` but not `[sgn]`, and all of `R_{𝔽₃}(S₃) ⊗ ℚ`; the multiplier `|G| = 6`
+  is a multiple of this index.
 
 **The Euler characteristic quotient is multiplicative.** Let `S` be finite. For finite
 `G_S`-modules `M` whose order is a unit in `R_{K,S}`, let
@@ -3672,7 +3709,7 @@ number field `K` containing the archimedean places and all places above `p`, and
 Galois extension inside `K_S`. Suppose that `Δ = Gal(L/K)` has order prime to `p`, that `L` is
 totally imaginary and contains `μ_p`, and, if `p = 2`, that `L` contains `μ₄`. Write `S_L` for the
 places above `S`, `S_{L,f}` for its finite places and `S_∞(L)` for its archimedean places. In the
-Grothendieck group of finite-dimensional `𝔽_p[Δ]`-modules, with the conjugation action on
+Grothendieck group `modRepK0 (ZMod p) Δ` of finite-dimensional `𝔽_p[Δ]`-modules, with the conjugation action on
 cohomology and the permutation action on places, prove
 
 ```text
@@ -3767,7 +3804,8 @@ Conventions (Tate groups at the archimedean places).
 
 *Proof sketch.* *The Euler characteristic quotient is multiplicative* reduces to `M` killed by a
 prime `p`, a unit in `R_{K,S}`. Choose a finite Galois `L ⊆ K_S` splitting `M` and containing `μ_p`
-(`μ₄` if `p = 2`). The quotient `φ` defines a homomorphism on `R_{𝔽_p}(Gal(L/K))`.
+(`μ₄` if `p = 2`). The quotient `φ` defines a homomorphism from `R_{𝔽_p}(Gal(L/K))` to the
+torsion-free group `ℚ_{>0}^×`, by the universal property `modRepK0.lift`.
 *`R_{𝔽_p}(G) ⊗ ℚ` is induced from cyclic p′-subgroups* reduces to modules induced from such
 subgroups: Shapiro identifies the global Euler characteristics, and Mackey decomposition at
 archimedean places identifies the ordinary-invariant factors and normalised absolute values.
@@ -4583,7 +4621,8 @@ R02.3); ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function field
 - TauCetiRoadmap ClassFieldTheory: Layers 3, 4, 5, 6, 10, 11, 12.
 - TauCetiRoadmap AdelicAlgebraicGroups: §§1.1–1.2, §1.5 and §3.4 (torus adelic topology,
   compact open levels and finite class sets).
-- TauCetiRoadmap RepresentationTheory/InductionRestriction: Layer 6.
+- TauCetiRoadmap RepresentationTheory/ModularInduction: Layers 0, 1 and 4 (`modRepK0`, induction,
+  restriction and the modular Artin theorem).
 - Earlier targets: §§R02.4.5a–R02.4.5b *Finite-coefficient Poitou–Tate input* and
   *Grunwald–Wang and its exceptional class*.
 - ArithmeticGaloisRepresentations: §5.13 / **Chebotarev for function fields**;
@@ -4601,8 +4640,7 @@ R02.3); ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function field
   Ceti `Rep.FiniteCyclicGroup.tateCohomologyIsoEven`, Tau Ceti
   `Rep.FiniteCyclicGroup.tateCohomologyIsoOdd`, Tau Ceti
   `TauCeti.TateCohomology.herbrandQuotient_eq_one_of_finite`, Mathlib `RestrictedProduct`, Mathlib
-  `RestrictedProduct.topologicalSpace`, Mathlib `PontryaginDual`, Tau Ceti
-  `TauCeti.ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`.
+  `RestrictedProduct.topologicalSpace`, Mathlib `PontryaginDual`.
 
 ## Layer D7: Derived continuous cohomology and compact arithmetic duality
 
@@ -6509,6 +6547,12 @@ exact annihilators*).
   duality and completion inputs); §S.1 (the double-complex spectral sequence).
 - NoncommutativeAndEquivariantIwasawa: §F.3 (arithmetic cochains, compact Hochschild–Serre
   comparison and duality); §F.4 (`arithmeticSelmerComplex`).
+- IntegralIwasawaTheory: §2.0 (`arithmeticCompactSupport`, `arithmeticCompactDuality` and the
+  ordinary-to-Tate comparison, for finite p-primary and finite-free `ℤ_p` number-field
+  coefficients); §10.0 (the tower comparison, `compactArithmeticShapiro` on its abelian p-adic Lie
+  tower domain, `arithmeticLocalMappingFiber`); §10.1 (`burnsFlachFiniteComplex`,
+  `burnsFlachFinite_perfect`), the ordinary Burns–Flach complex, which is kept distinct from the
+  modified-support comparison at real dyadic places.
 - EnhancedDerivedSheaves: §E1.8.DMA.1 (`derivedTensor_affine`).
 - TauCetiRoadmap ProfiniteCohomology: Layers 4, 7, 10, 12.
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 7.
@@ -6749,8 +6793,8 @@ in the adjoint module, and identifies the determinant derivative with the trace.
 `n`-dimensional `k`-vector space, `ad = End_k(V)` with the conjugation action, and
 `ad⁰ = ker(tr : ad → k)`. The adjoint and trace-zero adjoint representations, the perfect trace
 pairing and `(ad⁰)^∨ ≅ ad/k·Id` over any coefficient ring are ArithmeticGaloisRepresentations Layer
-7, §7.2 (`ContinuousRep.adZero`, `ContinuousRep.adQuot`, `ContinuousRep.tracePairing_perfect` on
-`ad ρ` and `tracePairing_matrix_perfect` on `M_n(A)`), cited; Tau Ceti's `TauCeti.traceBilinForm` used below is
+7, §7.2 (`ContinuousRep.adZero`, `ContinuousRep.adQuot` and the perfect trace pairing on `ad ρ`
+in **The adjoint**; perfectness on `M_n(A)` in **The trace pairing on matrices**), cited; Tau Ceti's `TauCeti.traceBilinForm` used below is
 the bilinear form of the latter pairing on `Matrix n n k`; this target adds the
 criterion for the restricted pairing on `ad⁰` and the boundary `δ` in continuous cohomology, which
 the fixed-determinant calculations use. The trace pairing `(X, Y) ↦ tr(XY)` on `ad` is perfect and
@@ -6931,7 +6975,7 @@ mod-`3` cyclotomic character is trivial on `H`, so it suffices that
 `H¹(H, ad⁰ρ̄ ⊗_k k̄) = 0`. Inflation along `SL₂(𝔽_{3^r}) → PSL₂(𝔽_{3^r})`, whose central kernel
 `{±1}` has order prime to `3` and acts trivially on `ad⁰`, is injective on `H¹`; and
 `H¹(SL₂(𝔽_{3^r}), ad⁰) = 0` (ArithmeticGaloisRepresentations §7.7 / **`SL₂` with adjoint
-coefficients**, `ResidualImage.h1_SL2_adZero_eq_zero`, with `#F = 3^r ≠ 5`), which persists after
+coefficients**, with `#F = 3^r ≠ 5`), which persists after
 the flat scalar extension to `k̄`. So
 `ψ(G_{F_n}) ≠ 0`; some `g ∈ Gal(F_n/ℚ(ζ_{ℓⁿ}))` of order prime to `ℓ` fixes a nonzero element of
 `ψ(G_{F_n})`; lift `g` to `σ₀` and take `σ = τσ₀` with `τ ∈ G_{F_n}` chosen so that
@@ -6942,7 +6986,7 @@ Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper
 of Theorem 2.49, p. 83 (author PDF, revised 9 September 2007); [Darmon–Diamond–Taylor, *Fermat's
 Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §2.8,
 end of the proof of Theorem 2.49, p. 84 (author PDF, revised 9 September 2007).) *Needs:*
-ArithmeticGaloisRepresentations Layer 7, §7.7 (`ResidualImage.h1_SL2_adZero_eq_zero`); *The five-term
+ArithmeticGaloisRepresentations Layer 7, §7.7 / **`SL₂` with adjoint coefficients**; *The five-term
 sequence and the transgression* (Layer R02.2); *Restriction and corestriction descent for finite
 index* (Layer R02.2);
 ArithmeticGaloisRepresentations Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`).
@@ -7132,7 +7176,7 @@ the abelian quotient. ([Khare–Wintenberger, *Serre's modularity conjecture
 description of the power kernel* (Layer R02.3); *The Kummer sequence for S-units* (Layer R02.3);
 Chebotarev Layer 10; ArithmeticGaloisRepresentations Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`) and
 §4.7 / **Characteristic two**: for `F₀` of order `2^r`, `r ≥ 2`, the target provides
-`H¹(SL₂(F₀), M₂(F)) = 0`, and `GL2Subgroup.sl2_submodules_charTwo` provides the invariants and the
+`H¹(SL₂(F₀), M₂(F)) = 0`, the invariants and the
 `SL₂(F₀)`-submodules of `M₂(F)`, namely `0`, the scalars, `ad⁰` and `M₂(F)`.
 
 **Checks.**
@@ -7205,8 +7249,8 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
   and §§D7.7.1–D7.7.2 dual local conditions.
 - PadicPeriodRings: §0.1 (procyclic `H¹`).
 - EllipticCurves: Layer 7 *Selmer structures, the Selmer group, and Sha*.
-- ArithmeticGaloisRepresentations: Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`) and §4.7 (`GL2Subgroup.sl2_submodules_charTwo`); Layer 7, §7.7
-  (`ResidualImage.h1_SL2_adZero_eq_zero`).
+- ArithmeticGaloisRepresentations: Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`) and §4.7 / **Characteristic two**; Layer 7, §7.7
+  / **`SL₂` with adjoint coefficients**.
 - TauCetiRoadmap Chebotarev: Layer 10.
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 7, 12.
 - Libraries: Mathlib `groupCohomology`.
