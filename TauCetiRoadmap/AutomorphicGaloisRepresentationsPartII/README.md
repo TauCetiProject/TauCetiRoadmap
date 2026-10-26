@@ -23,8 +23,12 @@ General representation theory, raw compact-unitary cohomology, determinant inter
 period-ring carriers and residual Hecke predicates are supplied by the roadmaps in the contracts
 below. AG2.P supplies the finite-coefficient and normalization adapters for arithmetic
 p-adic Hodge theory and the normalized-system correspondence-trace comparison.
-AG2.6 owns the shared relative Fargues–Fontaine curves, bundle and Hecke categories and
-geometric spectral action, followed by their AHTW applications. The particular families and
+AG2.6 uses the relative Fargues–Fontaine curves and divisors of VectorBundlesAndIsocrystals
+VB−1, the bundle stacks, Newton strata and lisse categories of VStackSheavesAndLisseCategories
+VS3–VS4, the Satake equivalence of GeometricSatakeAndFusion GS0–GS4 and the parameter
+stacks of LanglandsParameterStacks LP1 and LP4. It owns the extension of the bundle geometry
+to `Perf_{𝔽_q}`, the global Hecke modification stacks and Hecke functors, the geometric
+spectral action and the minuscule local Shimura complexes, followed by their AHTW applications. The particular families and
 compactifications belong to AG2.3–AG2.4. SmallRamificationAndAbelianVarietyBaseCases owns
 the arbitrary-rank raw carrier and operations; AG2.P owns the compatibility predicates
 and their preservation under those operations.
@@ -161,8 +165,10 @@ Checks. They are used only after the hypotheses of the named specialization are 
 - PadicPeriodRings §§4.1–4.3 supply `B_cris, B_st, B_dR` and their actual invariant functors
   and admissibility predicates. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3
   supply finite-`K` filtered `(φ,N)`-modules, weak admissibility and the semistable realization
-  interface. LocalGaloisDeformationRings §0.4 owns the common coefficient Robba category,
-  `D_rig`, étale equivalence and overconvergence, including finite coefficient fields.
+  interface. PhiGammaModulesAndIwasawaCohomology §§1.1–1.2 owns the common coefficient Robba
+  category, `D_rig`, étale equivalence and overconvergence; LocalGaloisDeformationRings §0.4
+  supplies its finite local coefficient specialization, including finite coefficient fields,
+  with the identifications of coefficient rings, tensor products and duals.
   PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1 supply filtered exactness, finite-extension
   comparison, the cyclotomic realization adapters, `N_dR(V)` and arithmetic p-adic
   monodromy. Its proof uses PadicDifferentialEquationsAndRigidCohomology
@@ -247,7 +253,8 @@ subfield of `L`, and retains the commuting `E`-action, Frobenius and `N_ℓ`.
 There is no geometric-realization hypothesis or restriction on ramification, rank or `ℓ`.
 
 This is the finite-coefficient specialization of PadicHodgeTheory §5.1 on
-LocalGaloisDeformationRings §0.4's `D_rig`, identified with `D†_rig` by PadicHodgeTheory
+PhiGammaModulesAndIwasawaCohomology §1.2's `D_rig`, in the finite-coefficient specialization of
+LocalGaloisDeformationRings §0.4, identified with `D†_rig` by PadicHodgeTheory
 §4.3. Use its full-rank `N_dR(V)⊂D†_rig(V)[1/t]`, connection `t⁻¹∇_V`, invertible
 Frobenius linearization, localization and twist-independence comparisons. Its monodromy
 proof passes from the supplied differential logarithmic solutions through the field of
@@ -277,7 +284,8 @@ Theorems 5.19–5.20 and the proof of 5.19, pp.56–58.)
   scalar commutes with the comparison. Forgetting `E` during scalar restriction must
   not replace its action by a Frobenius action on `E`.
 
-*Needs:* LocalGaloisDeformationRings §0.4; PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1;
+*Needs:* PhiGammaModulesAndIwasawaCohomology §§1.1–1.2; LocalGaloisDeformationRings §0.4;
+PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1;
 PadicPeriodRings §§4.1–4.3; ArithmeticGaloisRepresentations §§1.1–1.6 and 1.12;
 NeronModelsAndSemistableAbelianVarieties §5.3.
 
@@ -2193,22 +2201,19 @@ For `n≥2`, a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, any 
 ### Relative Fargues–Fontaine curves and degree-one divisors
 
 For a nonarchimedean local field `K` with residue field `𝔽_q` of characteristic `p`,
-uniformizer `π` and arbitrary `S∈Perf_{𝔽_q}`, construct `relativePeriodChart`,
-`relativeFarguesFontaineCurve` and `relativeDegreeOneDivisor`. These are shared geometric
-interfaces independent of any automorphic Galois realization. For affinoid
-`S=Spa(R,R⁺)` and a pseudouniformizer `ϖ`, use ramified Witt coefficients
-`W_{O_K}(R⁺)` in mixed characteristic and `R⁺[[π]]` in equal characteristic, with
-the `(π,[ϖ])`-adic topology, where `[ϖ]` is the constant lift in equal characteristic.
-The period domain removes both zero loci; its quotient
-by q-power Frobenius is `X_{K,S}`. Prove sheafiness, independence of `ϖ`, gluing over
-arbitrary perfectoid bases, functoriality and finite local-field extension comparison,
-retaining the induced residue-field map and Frobenius powers.
-
-Construct the marked-untilt/closed-Cartier-divisor correspondence, the divisor stack
-`Div¹_K=Spd(K)/φ^ℤ` and its degree-one modification interface. Compare the charts,
-quotient and marked divisor with FarguesFontaineDiamonds F0–F4 on its fixed-field
-`K=ℚ_p` domain. That comparison does not supply a relative construction over general
-`S`, and no adic morphism `X_{K,S}→S` is assumed.
+uniformizer `π` and arbitrary `S∈Perf_{𝔽_q}`, the charts, curve and divisors are
+VectorBundlesAndIsocrystals VB−1's: its ramified Witt coefficients (`W_{O_K}(R⁺)` in mixed
+characteristic, `R⁺[[π]]` in equal characteristic, with the `(π,[ϖ])`-adic topology),
+relative annuli, relative period domain with analytic quotient `X_{K,S}=Y_S/φ^ℤ`, marked
+untilt Cartier divisors and `Div¹_K=Spd(K)/φ^ℤ`. This roadmap names that common construction
+`relativePeriodChart`, `relativeFarguesFontaineCurve` and `relativeDegreeOneDivisor` and uses
+no second construction. Prove the comparisons that AG2.6 consumes on the same carriers:
+independence of `ϖ`, gluing over arbitrary perfectoid bases, functoriality and finite
+local-field extension comparison retaining the induced residue-field map and Frobenius
+powers, and the degree-one modification interface. VB−1 compares the charts, quotient and
+marked divisor with FarguesFontaineDiamonds F0–F4 on its fixed-field `K=ℚ_p` domain; that
+comparison does not supply the relative construction over general `S`, and no adic morphism
+`X_{K,S}→S` is assumed.
 (Source: Fargues–Scholze, §II.1, Propositions II.1.1–II.1.3,
 pp.47–49, Definition II.1.15 and Propositions II.1.16–II.1.18, pp.54–56,
 Definition II.1.19, p.56.)
@@ -2222,27 +2227,35 @@ Definition II.1.19, p.56.)
   only perfectoid fields does not give this relative functor.
 - An untilt over `K` gives degree one, whereas twice its divisor has degree two.
 
-*Needs:* FarguesFontaineDiamonds F0–F4, fixed-field comparison;
-AdicSpaces Layers 0–6; PerfectoidSpaces P1–P2; DiamondsAndVStacks D2–D4.
+*Needs:* VectorBundlesAndIsocrystals VB−1, relative coefficients, annuli, period domain,
+analytic quotient and marked untilt divisors; FarguesFontaineDiamonds F0–F4, fixed-field
+comparison; AdicSpaces Layers 0–6; PerfectoidSpaces P1–P2; DiamondsAndVStacks D2–D4.
 
 ### Bundle strata, lisse categories and the geometric Hecke action
 
-For the preceding local `K` and any connected reductive `G/K`, construct the v-stack
-`BunG` of `G`-torsors on `X_{K,S}`, with v-descent, Newton strata `newtonStratum`
-indexed by `B(G)` and the neutral stratum `[*/G(K)]`. Construct `DLisBunG` as the
-localizing category generated by `f♮Λ` for separated representable cohomologically
-smooth `f`, with `f♮⊣f*`, base change and projection formula. Supply stratum restriction
-and extension functors, the comparison with derived smooth `G_b(K)`-representations,
-compact generators from open pro-`p` subgroups and the compactness criterion using
-finite Newton support. Retain the nonbasic strata and their unipotent geometry.
+For the preceding local `K` and any connected reductive `G/K`, the v-stack `BunG` of
+`G`-torsors on `X_{K,S}`, its Newton strata `newtonStratum` indexed by `B(G)`, the full
+stratum automorphism groups and the filtered contracting charts are
+VStackSheavesAndLisseCategories VS4.0's constructions over `Perf_k` for algebraically
+closed `k` over `𝔽_q`. `DLisBunG` is VS3.2's lisse category, the localizing category
+generated by `f♮Λ` for separated representable cohomologically smooth `f`, with `f♮⊣f*`,
+base change and projection formula. VS4.4 supplies HN localization, the comparison of
+strata with derived smooth `G_b(K)`-representations, compact generators from open pro-`p`
+subgroups and the compactness criterion using finite Newton support. The target here is
+the same moduli problem over `Perf_{𝔽_q}`: identify its base change along `Spd k→Spd 𝔽_q`
+with the supplied carriers, descend v-descent, the strata and the charts along that map,
+and retain the stratum restriction and extension functors, the nonbasic strata and their
+unipotent geometry.
 
-For `ℓ≠p`, a chosen `√q`, and coefficients `Λ` over `ℤ_ℓ[√q]`, construct the finite-leg
-`HeckeModification` stacks, bounded-support coefficient-flat perverse ULA Satake
-sheaves, their fusion/convolution and the pinned dual-group fibre functor. Prove the
-integral geometric Satake equivalence, with parity-corrected symmetry and its Weil
-normalization. Hyperbolic localization and the collision estimates supply full
-faithfulness; constant terms, the rank-one calculation and integral Peter–Weyl
-generators supply the tensor reconstruction and its pinning.
+For `ℓ≠p`, a chosen `√q`, and coefficients `Λ` over `ℤ_ℓ[√q]`, the bounded-support
+coefficient-flat perverse ULA Satake sheaves, their fusion and convolution, the pinned
+dual-group fibre functor and the integral geometric Satake equivalence with
+parity-corrected symmetry and its Weil normalization are GeometricSatakeAndFusion
+GS0–GS4's, including its normalized Satake equivalence and perfect-complex Satake
+functor. Construct the finite-leg global `HeckeModification` stacks over
+`BunG×(Div¹_K)^I`, with source and target maps, unit, leg-repetition maps and completion
+to GS0's local modification spaces, and identify their bounded pieces with GS0's
+Schubert-bounded loci.
 
 Construct `HeckeFunctor` on `DLisBunG`, using the normalized ULA Satake kernels and
 the supplied six operations. Prove preservation of compact and ULA objects, duality,
@@ -2250,8 +2263,8 @@ the two adjunctions, fusion, coalescence and coherent Weil actions for every fin
 set of legs. Compare solid `♮` with torsion étale `!` on these ULA kernels. For a
 minuscule `μ` and algebraically closed complete `C/K`, identify the underlying
 transform `T_{μ,C}` with the modification correspondence, including shift
-`d_μ=⟨2ρ,μ⟩`. All these carriers and geometric transforms are owned here; the
-Igusa/Newton comparison below is their automorphic application.
+`d_μ=⟨2ρ,μ⟩`. The global Hecke stacks, `HeckeFunctor` and the minuscule transform
+are owned here; the Igusa/Newton comparison below is their automorphic application.
 (Source: Fargues–Scholze, Definition III.0.1 and
 Theorem III.0.2, pp.87–88; Chapters III–V, especially Proposition V.2.2;
 §§VI.9–VI.12, pp.226–244; §§VII.3, VII.6–VII.7, pp.257–274;
@@ -2269,6 +2282,7 @@ Theorem IX.0.1 and Corollary IX.2.4, pp.317–318, 324.)
   because each individual restriction is compact. Nonbasic strata are retained.
 
 *Needs:* relative curves and divisors;
+VStackSheavesAndLisseCategories VS3.2, VS4.0 and VS4.4; GeometricSatakeAndFusion GS0–GS4;
 DiamondEtaleCohomology C2–C5; DiamondSixOperations S1–S4;
 AdicCoefficientsAndComparisons L0; EnhancedDerivedSheaves E0 and E5;
 ReductiveGroups Layers 0–3; ReductiveGroupsPartII RG2.5;
@@ -2278,13 +2292,13 @@ SmoothRepresentationsOfLocalGroups SR.0 and SR.0d.
 
 For the same `K,G`, import SmoothRepresentationsOfLocalGroups SR.6.1–SR.6.3's crossed
 Weil cocycles, finite-wild schemes, coefficient change and excursion/invariant-function
-comparison. Form `parameterStack=Z¹(W_K,Ĝ)/Ĝ`, retaining its quotient-stack stabilizers
-and universal torsor, with the pinned Weil action through a finite quotient `Q`.
-Its finite-wild levels are open and closed. Construct their perfect-complex categories
-and the integral perfect-generation comparison: prime-to-`ℓ` central covers, good
-filtrations and the finite-wild relations express the level coordinate algebras in
-`Ind Perf(BĜ)`. This is the generation input for the spectral action, with
-`ℓ∤|π₀Z(G)|`; no singular-support or categorical local Langlands equivalence is required.
+comparison. `parameterStack=Z¹(W_K,Ĝ)/Ĝ`, with the pinned Weil action through a finite
+quotient `Q`, is LanglandsParameterStacks LP1.7–LP1.8's quotient stack, retaining its
+stabilizers, universal torsor and open-and-closed finite-wild levels. Its perfect-complex
+categories, universal representation bundles and integral perfect generation by
+`Perf(BĜ)`, with the module comparison in `Ind Perf(BĜ)`, are LP4.1–LP4.3's under
+`ℓ∤|π₁(Ĝ)_tors|`, which is equivalent to `ℓ∤|π₀Z(G)|`. This is the generation input for
+the spectral action; no singular-support or categorical local Langlands equivalence is required.
 
 For `Λ=O_L`, `L/ℚ_ℓ(√q)` finite and `ℓ∤|π₀Z(G)|`, prove the universal equivalence
 between compactly supported `Perf(parameterStack_Λ)`-actions on a small idempotent-complete
@@ -2320,6 +2334,7 @@ pp.317–319; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.340–350.)
   only after rationalization does not determine an integral action on torsion objects.
 
 *Needs:* bundle and Hecke categories;
+LanglandsParameterStacks LP1.7–LP1.8 and LP4.1–LP4.3;
 SmoothRepresentationsOfLocalGroups SR.6.1–SR.6.3; SchemeAndStackFoundations, quotient stacks;
 EnhancedDerivedSheaves E5; ReductiveGroupsPartII RG2.5; ClassFieldTheory Layer 9.
 
@@ -2567,11 +2582,22 @@ AG2.P: finite-coefficient periods.
 
 ### Bounded boundary comparison and degree shifting
 
-For the CM field and S-good levels of AHTW, Proposition 5.2.8, fix the
-coefficient place `a` and a second place `b` satisfying
-`Σ_{v∈S_p−{a,b}} [F⁺_v:ℚ_p] > [F⁺:ℚ]/2`. Retain its requirement on every rational residue
-characteristic outside `S`: it is unramified in `F` with some place over it in `S`, or splits in
-an imaginary quadratic subfield. Construct the auxiliary Hecke element `T_n` of that proposition.
+Let `F` be a CM field containing an imaginary quadratic field in which `p` splits (AHTW,
+Assumption 5.2.6), so every `p`-adic place of `F⁺` splits in `F`, and take the S-good levels of
+AHTW, Proposition 5.2.8, for a finite set `S` of finite places of `F` that is stable under
+complex conjugation and contains the `p`-adic places. Fix the coefficient place `a|p` of `F`,
+put `a⁺=a|F⁺`, and fix `b⁺∈S_p(F⁺)` with `b⁺≠a⁺` such that
+`Σ_{v⁺∈S_p(F⁺)−{a⁺,b⁺}} [F⁺_{v⁺}:ℚ_p] > [F⁺:ℚ]/2`; the sum runs over places of `F⁺`.
+For every finite place `v∉S` with residue characteristic `l`, require that either `l` is
+unramified in `F` and `S` contains no `l`-adic place of `F`, or `l` splits in an imaginary
+quadratic subfield of `F`. The printed AHTW v1 condition asks instead for an `l`-adic place in
+`S`; no finite `S` satisfies that version, by the Chebotarev Check below, and the condition used
+here is that of ACC+, Theorems 2.3.5 and 2.3.7, through which the Galois-type quotients of
+Scholze's construction enter. Prove the enlargement lemma: for every finite `S₀`
+containing the `p`-adic places, the set `S` of all places of `F` above the rational primes below
+`S₀` or ramified in `F` is finite, stable under complex conjugation, contains `S₀`, and
+satisfies the first alternative at every finite place outside it. Construct the auxiliary
+Hecke element `T_n` of that proposition.
 For every dominant weight `λ` and integral Bernstein coefficient system `L`, prove
 `boundedBoundaryDegreeShifting`: there are `N₁≥1`, depending only on `n` and `F`, and `N₂≥0`,
 depending additionally on a, `λ` and `L`, such that for all degrees, levels, moduli `m` and supported
@@ -2584,13 +2610,24 @@ and Borel–Serre boundary cohomology with their specified coefficient modules; 
 part alone does not establish the boundary assertion. For a spherical cuspidal eigensystem,
 a finite-order character twist makes `T_n` nonzero, so the characteristic-zero point satisfies
 the comparison after all moduli are combined. Prove the source extension/descent step removing
-the auxiliary place hypotheses, yielding the following all-CM theorem.
-(Source: AHTW, Lemma 5.2.7, Proposition 5.2.8, Theorem 5.2.9 and Remark 5.2.10,
-pp.74–77.)
+the auxiliary place hypotheses: after a cyclic CM base change arranging Assumption 5.2.6 and the
+inequality for some `b⁺`, choose `S` by the enlargement lemma from the ramification of
+`π` and the `p`-adic places. This yields the following all-CM theorem.
+(Source: AHTW, Assumption 5.2.6, Lemma 5.2.7, Proposition 5.2.8, Theorem 5.2.9 and
+Remark 5.2.10, pp.73–77; ACC+, Theorems 2.3.5 and 2.3.7 and the remark after 2.3.5,
+pp.937–938.)
 
 **Checks.**
 
 - A generic localization with `T_n` invertible recovers the earlier unit-localized argument.
+- Requiring an `l`-adic place in `S` is never satisfiable: Chebotarev in a normal closure
+  `M/ℚ` of `F` gives infinitely many `l` unramified in `M` with Frobenius conjugate to complex
+  conjugation. Such an `l` outside the primes below `S` has no place in `S` and is inert in
+  every imaginary quadratic subfield, whereas the enlargement lemma puts every place
+  above it outside `S` in the first alternative.
+- For `F⁺=ℚ(√5)`, `F=ℚ(√5,i)` and `p=29`, which splits completely since `11²≡5` and
+  `12²≡−1 mod 29`, `a` and `b⁺` above the two distinct places of `F⁺` leave an empty sum,
+  so `0>1` fails; counting the four places of `F` instead would wrongly give `2>1`.
 - `T_n` nonzero at a characteristic-zero point is enough to remove the annihilated error
   there, although `T_n` need not be a unit in the integral Hecke algebra.
 - The `p^N₂-torsion` error depends on the coefficient system; treating `N₂` as independent of
