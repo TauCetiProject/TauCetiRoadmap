@@ -35,3 +35,7 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-07)
 - [Algebraic codes and code-lattice constructions](AlgebraicCodingTheory/README.md)
   (declared complete 2026-10-07)
+- [Arithmetic Dirichlet series and Tauberian methods](ArithmeticDirichletSeries/README.md)
+  (declared complete 2026-10-07)
+- [Number fields, ramification, Frobenius, and the LMFDB invariants](NumberFieldArithmetic/README.md)
+  (declared complete 2026-10-07)
