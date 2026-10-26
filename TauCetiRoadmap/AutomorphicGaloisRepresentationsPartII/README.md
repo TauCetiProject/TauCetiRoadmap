@@ -28,7 +28,13 @@ VB−1, the bundle stacks, Newton strata and lisse categories of VStackSheavesAn
 VS3–VS4, the Satake equivalence of GeometricSatakeAndFusion GS0–GS4 and the parameter
 stacks of LanglandsParameterStacks LP1 and LP4. It owns the extension of the bundle geometry
 to `Perf_{𝔽_q}`, the global Hecke modification stacks and Hecke functors, the geometric
-spectral action and the minuscule local Shimura complexes, followed by their AHTW applications. The particular families and
+spectral action with its excursion operators and integral spectral centre, and the minuscule
+local Shimura towers with their compactly supported cohomology and Hecke realization for
+arbitrary `(G,b,μ)`. These four AG2.6 sections form a self-contained prefix in the
+dependency order: they use only the suppliers just named and no automorphic, Galois or Igusa target of this roadmap, so a
+roadmap needing these objects on this domain imports these carriers. The AHTW Igusa
+compactification, Newton filtration, local–classical comparison and annihilator arguments
+follow them. The particular families and
 compactifications belong to AG2.3–AG2.4. SmallRamificationAndAbelianVarietyBaseCases owns
 the arbitrary-rank raw carrier and operations; AG2.P owns the compatibility predicates
 and their preservation under those operations.
@@ -100,7 +106,9 @@ Checks. They are used only after the hypotheses of the named specialization are 
 - ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7 supply automorphic representations,
   algebraic highest weights, coefficient representations, infinitesimal characters and the
   cohomological/C-algebraic dictionary. AutomorphicSpectralTheory §4.7 supplies compact quotient
-  discrete spectral decomposition. ArithmeticLocallySymmetricSpaces ALS.5b.5 supplies
+  discrete spectral decomposition, and §7.1 supplies solvable `GLₙ` base change, descent of
+  Galois-invariant cuspidal representations and the fibre theorem used by AG2.6's descent to
+  soluble non-Galois intermediate fields. ArithmeticLocallySymmetricSpaces ALS.5b.5 supplies
   cuspidal cohomology with algebraic coefficients over a number field, the input to
   HLTT Corollary 1.9 for the boundary Levi.
 - AutomorphicFormsOnReductiveGroups §5.7 supplies the smooth finite-part scalar twist,
@@ -193,6 +201,14 @@ Checks. They are used only after the hypotheses of the named specialization are 
   the dominance relation and pure WD uniqueness comparisons from those objects.
 - PadicDifferentialEquationsAndRigidCohomology Layers RD.4–RD.6 supply rigid/dagger comparison,
   supported spectral sequences, finiteness and weight bounds, with their Frobenius conventions.
+- VectorBundlesAndIsocrystals VB−1 supplies the relative Fargues–Fontaine charts, analytic
+  quotient and marked untilt divisors over `Perf_k`. VStackSheavesAndLisseCategories VS3.2,
+  VS4.0 and VS4.4 supply `BunG`, its Newton strata and charts, the lisse category and its
+  stratum comparisons. GeometricSatakeAndFusion GS0–GS4 supply the integral geometric Satake
+  equivalence, fusion and the bounded local Hecke stacks. LanglandsParameterStacks LP1.7–LP1.8
+  and LP4.1–LP4.3 supply the parameter stack, its perfect complexes and integral perfect
+  generation. AG2.6 extends these to `Perf_{𝔽_q}` and builds the global Hecke, spectral and
+  local Shimura targets on them.
 
 ## Conventions
 
@@ -434,7 +450,10 @@ does not imply them.
   that coefficient place belongs to a finite exceptional set.
 
 *Needs:* SmallRamificationAndAbelianVarietyBaseCases §5.0d;
-ArithmeticGaloisRepresentations Layers 1–2 and §7.4; NumberFieldArithmetic Layer 0;
+ArithmeticGaloisRepresentations Layers 1–2 and §7.4; NumberFieldArithmetic §§1.1–1.2,
+for the relative splitting criteria and unramified sets used when finite restriction
+enlarges `S`, and §2.4, for the Frobenius tower formula `Frob_w=Frob_v^{f(w|v)}` in the
+restricted polynomials;
 AG2.P: finite-coefficient periods;
 AG2.P: arithmetic p-adic monodromy, for coefficient-prime WD parameters;
 AG2.0: algebraic Galois characters,
@@ -2188,15 +2207,175 @@ Throughout this target, the even-rank AG2.6 coefficient-prime two-signature mode
 
 (Sources: Caraiani-p, §§2–4; Theorem 4.6, Remark 4.7, Proposition 5.1, pp.31–32; Caraiani-p-published, §3A, pp.1609–1611, including Lemma 3.2; comparison hypotheses immediately before Corollary 2.3, p.1609.)
 
+### The extremely regular irreducibility input
+
+For `n≥2`, `ExtremelyRegularIrreducibility n` is the following proposition: for every
+imaginary CM field `F₁` and every regular algebraic conjugate-self-dual cuspidal `Π₁` of
+`GL_n(𝔸_{F₁})` whose weight is extremely regular in the sense of AG2.0, there are a prime
+`ℓ′` and `ι′:ℚ̄_{ℓ′}≅ℂ` with `r_{ℓ′,ι′}(Π₁)` irreducible. It is a hypothesis of the
+coefficient-prime targets below, not a target of this roadmap. BLGGT Theorem 5.5.2 proves it,
+with a Dirichlet-density-one set of `ℓ′`, by applying potential automorphy and the order of the
+Rankin–Selberg pole at `s=1` to the irreducible constituents of `r_{ℓ′,ι′}(Π₁)`; that
+potential-automorphy argument uses only the Iwahori comparison of **Polarized admissibility
+at the coefficient prime**. A roadmap proving the density-one theorem discharges this
+hypothesis and obtains the unconditional forms of the targets that carry it.
+(Sources: BLGGT, §2.1, p.32, definition of extreme regularity; Theorem 5.5.2 and proof,
+pp.81–82; BLGGT-lp-II, §1, p.5, and §2, pp.6–7, for its use.)
+
+**Checks.**
+
+- The shifted labels `{0,1,2,3}` are not extremely regular, since `0+3=1+2`; the labels
+  `{0,1,3,7}` are, since their one-, two- and three-element subsets have pairwise distinct sums.
+- For `F₂/F₁` quadratic CM and a character `ψ` with `ψ≠ψ^σ`, the induced
+  `Ind_{G_{F₂}}^{G_{F₁}} ψ` is irreducible while its restriction to `G_{F₂}` is `ψ⊕ψ^σ`:
+  the proposition concerns `F₁`, and irreducibility after restriction needs the separate
+  linear-disjointness argument below.
+- In rank one every member is irreducible, which is why the proposition is stated for `n≥2`.
+
+### Descent to soluble non-Galois intermediate fields
+
+The target `solubleIntermediateDescent` has the following hypotheses and conclusion.
+
+Let `F′/F` be a finite soluble Galois extension of imaginary CM fields, `E` a CM field with
+`F⊆E⊆F′`, and `Π` regular algebraic, essentially conjugate-self-dual and cuspidal for
+`GL_n(𝔸_F)`. If `r_{ℓ′,ι′}(Π)|_{G_{F′}}` is irreducible for one pair `(ℓ′,ι′)`, then there
+is a regular algebraic, essentially conjugate-self-dual cuspidal `Π_E` of `GL_n(𝔸_E)` with
+`r_{ℓ,ι}(Π_E)≅r_{ℓ,ι}(Π)|_{G_E}` for every `(ℓ,ι)`, whose weight is the restriction of that of
+`Π`. At every finite place `u|v` of `E`, `rec(Π_{E,u})` is the restriction of `rec(Π_v)` to
+`W_{E_u}`. `E/F` need not be Galois. Route: the base change `BC_{F′/F}(Π)` is cuspidal because
+its Galois representation is irreducible. Descend along a composition series of the soluble
+Galois group `Gal(F′/E)` by cyclic prime-degree steps `L′/L`, using AutomorphicSpectralTheory
+§7.1's descent of Galois-invariant cuspidal representations and its fibre theorem. Invariance
+at each step follows from strong multiplicity one, because the conjugate representation has
+the same Galois representation `r|_{G_{L′}}`. Two irreducible representations of `G_L` with the
+same irreducible restriction to `G_{L′}` differ by a character of `Gal(L′/L)`, so exactly one
+twist of the descended representation has Galois representation `r|_{G_L}`. The local
+statement follows by Čebotarev at an auxiliary prime `ℓ″` different from the residue
+characteristic of `v` and AG2.5's full away-prime comparison over `E` and `F`.
+
+*Needs:* AutomorphicSpectralTheory §7.1, solvable `GLₙ` base change, descent and fibres;
+AG2.2: Attachment under cuspidal solvable base change; AG2.0: good-place attachment;
+AG2.5: full away-prime comparison; ArithmeticGaloisRepresentations Layers 1 and 5.
+
+(Sources: BLGHT, Lemma 1.4 and proof, pp.41–42; BLGGT-lp-II, proof of Theorem 2.1, pp.6–7.)
+
+**Checks.**
+
+- For `E=F` the descent is `Π` itself; for `E=F′` it is the cuspidal base change.
+- A cyclic step `L′/L` of character `η` has two descents `π_L` and `π_L⊗η` with the same base
+  change; only comparison with `r|_{G_L}` selects one of them.
+- If `Π=AI_{F′/F}(ψ)` for quadratic `F′/F`, then `r|_{G_{F′}}=ψ⊕ψ^σ` is reducible and
+  `BC_{F′/F}(Π)=ψ⊞ψ^σ` is not cuspidal, so the irreducibility hypothesis cannot be dropped.
+- For an `S₃` extension `F′/F` and `E` the fixed field of a transposition, `E/F` is cubic and
+  not Galois; cyclic base change from `F` does not construct `Π_E`.
+
+### The extremely regular Shin-regular coefficient-prime comparison
+
+The target `extremelyRegularCoefficientPrimeComparison` has the following hypotheses and
+conclusion.
+
+Let `m≥2`, `F` imaginary CM, `(Π,χ)` regular algebraic essentially conjugate-self-dual cuspidal
+for `GL_m(𝔸_F)` of extremely regular and Shin-regular weight, and `ℓ, ι` and `v|ℓ`. If
+`r_{ℓ′,ι′}(Π)` is irreducible for one pair `(ℓ′,ι′)`, then
+`ι WD(r_{ℓ,ι}(Π)|_{G_{F_v}})^{F-ss} ≅ rec(Π_v|det|^{(1−m)/2})`. Route: reduce to the
+conjugate-self-dual case by AG2.2's twist. Shin-regular purity of the WD representation
+follows from the Iwahori comparison after a soluble Galois base change and finite-extension
+purity, so by **Pure Weil–Deligne comparison up to equivalence** it suffices to compare
+traces of every `σ∈W_{F_v}` of nonzero valuation. For such `σ`, let `E_v` be the fixed field of
+the subgroup generated by `σ` and the kernel of the action of `I_{F_v}` on `rec(Π_v)`, and
+`E′_v` its normal
+closure. Let `M/F` be the Galois extension cut out by the component group of the Zariski
+closure of `r_{ℓ′,ι′}(Π)(G_F)`. Choose a finite soluble Galois CM extension `F′/F`, linearly
+disjoint from `M`, with `F′_w≅E′_v` at every `w|v`, by the Grunwald–Wang theorem applied along
+the derived series of `Gal(E′_v/F_v)`. Then `r_{ℓ′,ι′}(Π)(G_{F′})` has the same Zariski
+closure, so its restriction remains irreducible. With `E` the fixed field in `F′` of
+`Gal(F′_w/E_v)`, apply `solubleIntermediateDescent`; `BC_{E_v/F_v}(Π_v)` has Iwahori-fixed
+vectors, and the Iwahori comparison over `E` gives the trace of `σ`.
+
+*Needs:* AG2.6: Descent to soluble non-Galois intermediate fields; AG2.6: polarized admissibility;
+AG2.2: Twisting an essentially self-dual form into unitary type; AG2.5: pure WD uniqueness;
+AG2.5: full away-prime comparison; ArithmeticGaloisRepresentations Layer 2;
+ArithmeticGaloisDuality §R02.4.6, Grunwald–Wang; EndoscopicTransferAndUnitaryTraceComparison
+§§6.24–6.29 and 13.1–13.4.
+
+(Sources: BLGGT-lp-II, Theorem 2.1 and proof, pp.6–7; BLGGT-lp-I, Corollary 1.3 and
+Proposition 1.1, pp.4–5.)
+
+**Checks.**
+
+- Traces on inertia alone do not suffice: the trivial and the unramified quadratic character
+  of `W_{F_v}` agree on `I_{F_v}` and differ at Frobenius, an element of valuation one.
+- For `r=Ind_{G_{F₂}}^{G_F} ψ` with `F₂/F` quadratic, `M` contains `F₂`, and any `F′⊇F₂` makes the
+  restriction reducible; linear disjointness from `M` is what preserves irreducibility.
+- If `Gal(E′_v/F_v)=S₃` and `σ` generates a subgroup of order two modulo inertia, `E_v/F_v` is
+  cubic and not Galois, so the descent target, not cyclic base change, produces `Π_E`.
+
+### Polarized coefficient-prime domination
+
+The target `polarizedCoefficientPrimeDomination` has the following hypotheses and conclusion.
+
+Let `m≥2` and assume `ExtremelyRegularIrreducibility m`. For `F` imaginary CM, `(Π,χ)` regular
+algebraic essentially conjugate-self-dual cuspidal for `GL_m(𝔸_F)`, `ℓ, ι` and `v|ℓ`,
+`ι WD(r_{ℓ,ι}(Π)|_{G_{F_v}})^{F-ss} ≺ rec(Π_v|det|^{(1−m)/2})` in AG2.5's monodromy order; in
+particular the two semisimplified Weil representations agree. For Shin-regular weight the two
+sides are isomorphic. Route: after a soluble CM base change in which `v` splits, arrange
+`[F⁺:ℚ]` even, `F/F⁺` unramified at finite places, every `ℓ`-adic and ramified place split,
+and Iwahori level away from `v`. Descend to a definite unitary group quasi-split at all finite
+places by the Labesse transfer, and construct the source's Chenevier eigenvariety: weights
+vary at the `ℓ`-adic places other than `v`, and a Bernstein idempotent at `v` selects
+representations whose parameter is `≺_I`-dominated by that of `Π_v`. The extremely regular
+Shin-regular classical points form a Zariski-dense accumulation subset; at them the previous
+target applies, its irreducibility input being `ExtremelyRegularIrreducibility m`. On a proper
+generically finite cover carrying a locally free family `M` with the interpolated
+pseudo-character, prove the family period statement used by the source: Sen weights at `v`
+are constant, and over a finite Galois extension of `F_v` the semistable period module of
+`M` is locally free of rank `m` and commutes with specialization. Its WD trace then agrees
+with the Bernstein-centre pseudo-character on a Zariski-dense set, hence everywhere,
+giving the semisimple comparison at `Π`. Pass from `≺_I` to `≺`. The Shin-regular equality
+follows from the purity in the previous target and **Pure Weil–Deligne comparison up to
+equivalence**.
+
+*Needs:* AG2.6: extremely regular Shin-regular comparison; AG2.6: Descent to soluble
+non-Galois intermediate fields; AG2.5: monodromy order; AG2.5: pure WD uniqueness;
+AG2.3: definite-unitary eigenvariety instance, for the construction pattern; AG2.3: classical
+density; AG2.3: family determinant; AG2.P: finite-coefficient periods and comparison;
+LocallyAnalyticDistributions §§4.2, 4.15–4.16; SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
+IntegralHeckeAndGaloisDeterminants Layers 0–1 and §4.2;
+EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+
+(Sources: BLGGT-lp-II, Theorem 3.1, Corollary 3.2 and proof, pp.7–11, invoking Chenevier,
+*Une application des variétés de Hecke des groupes unitaires*, Proposition 3.11, Lemme 3.14,
+Proposition 3.16 and Corollaire 3.19, and Bellaïche–Chenevier, *Families of Galois
+representations and Selmer groups*, Astérisque 324, Lemma 7.8.11 and Proposition 7.8.19.)
+
+**Checks.**
+
+- A rank-two Steinberg parameter dominates the WD representation `1⊕|·|` with `N=0`; the
+  order gives equal Weil parts, not equal monodromy.
+- The weight with labels `{0,1,2,3}` at every embedding is not extremely regular, but
+  translating it far into the dominant chamber, to labels such as `{0,1,3,7}`, is; this is
+  why the extremely regular points are dense in the varying-weight family.
+- Rank `m=2` with parallel weight `a_τ=(0,0)` is not Shin-regular, so this target gives
+  only domination there; equality needs the purity argument of the next target.
+
 ### Full polarized local–global compatibility at `ℓ`
 
 The target `fullPolarizedCoefficientPrimeComparison` has the following hypotheses and conclusion.
 
-For `n≥2`, a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, any `ℓ, ι` and `v|ℓ, WD(r_{Π,ℓ,ι}|G_{F_v})^{F-ss} ≅ ι⁻¹ rec(Π_v|det|^{(1−n)/2})` with monodromy. The algebraic-character twist of AG2.2 extends this to the stated polarized branch. The theorem has no Shin-regularity condition; it uses purity of the geometric summand selected for `Π^∨` with its coefficient `ξ_{Π^∨}`, temperedness and the pure-parameter uniqueness theorem. Odd rank and even rank of Shin-regular weight use BLGGT-lp-II Theorem A. Caraiani-p Theorem 1.1, stated for every `n≥2`, supplies the remaining even-rank case through the two-signature log-crystalline argument. Rank one is supplied by algebraic local class field theory.
+For `n≥2`, assume `ExtremelyRegularIrreducibility n`. For a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, any `ℓ, ι` and `v|ℓ, WD(r_{Π,ℓ,ι}|G_{F_v})^{F-ss} ≅ ι⁻¹ rec(Π_v|det|^{(1−n)/2})` with monodromy. The algebraic-character twist of AG2.2 extends this to the stated polarized branch. The semisimple Weil comparison is **Polarized coefficient-prime domination**. The theorem has no Shin-regularity condition; it uses purity of the geometric summand selected for `Π^∨` with its coefficient `ξ_{Π^∨}`, temperedness and the pure-parameter uniqueness theorem. Odd rank and even rank of Shin-regular weight are the equality case of that domination target. Caraiani-p Theorem 1.1, stated for every `n≥2`, supplies the remaining even-rank case: it takes the semisimple comparison from BLGGT-lp-II Theorem A and proves purity through the two-signature log-crystalline argument. Purity alone, or an isomorphism after restriction to a finite extension, does not replace the semisimple comparison over `F_v`. Rank one is supplied by algebraic local class field theory and needs no irreducibility input.
 
-*Needs:* AG2.6: polarized admissibility; AG2.6: log-crystalline purity; AG2.2: Twisting an essentially self-dual form into unitary type; AG2.5: full away-prime comparison; ArithmeticGaloisRepresentations Layer 2; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+**Checks.**
 
-(Sources: BLGGT-lp-II, Theorem A, p.2; Caraiani-p, Theorem 1.1, pp.1–2; §§2 and 5.)
+- The trivial character of `W_K` and a quadratic character trivial on `W_L` for a quadratic
+  `L/K` are both pure of weight zero with `N=0` and agree on `W_L`, but are not isomorphic.
+- For a rank-two Steinberg parameter, the semisimple comparison leaves `N=0` and `N≠0`
+  possible; purity and temperedness select the Steinberg monodromy.
+- Rank two with parallel weight `a_τ=(0,0)` is outside the Shin-regular range and uses the
+  two-signature purity branch.
+
+*Needs:* AG2.6: polarized coefficient-prime domination; AG2.6: polarized admissibility; AG2.6: log-crystalline purity; AG2.5: pure WD uniqueness; AG2.2: Twisting an essentially self-dual form into unitary type; AG2.5: full away-prime comparison; ArithmeticGaloisRepresentations Layer 2; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+
+(Sources: BLGGT-lp-II, Theorem A, p.2, and Corollary 3.2, p.7; Caraiani-p, Theorem 1.1, pp.1–2; §§2 and 5.)
 
 ### Relative Fargues–Fontaine curves and degree-one divisors
 
@@ -2338,13 +2517,52 @@ LanglandsParameterStacks LP1.7–LP1.8 and LP4.1–LP4.3;
 SmoothRepresentationsOfLocalGroups SR.6.1–SR.6.3; SchemeAndStackFoundations, quotient stacks;
 EnhancedDerivedSheaves E5; ReductiveGroupsPartII RG2.5; ClassFieldTheory Layer 9.
 
+### Minuscule local Shimura spaces and their Hecke realization
+
+For a finite extension `K/ℚ_p`, a connected reductive `G/K`, a conjugacy class `μ` of
+minuscule cocharacters with reflex field `E`, an element `b` of the `μ`-admissible subset
+of `B(G)` in the orientation of modifications fixed by `HeckeFunctor`, and a compact open
+`U⊆G(K)`, construct `localShimuraTower`: the spaces `M_{(G,b,μ),U}` over `Spd Ĕ` of
+modifications of type `μ` from `E_b` to the trivial bundle, up to `U`, with their actions
+of `G_b(K)` and of `G(K)` on the tower, the Weil descent datum and the étale period maps to
+the bounded affine Grassmannian. For `Λ` a `ℤ_ℓ`-algebra of the preceding coefficient types
+and `ℓ≠p`, define `localShimuraCohomology` as Huber's compactly supported cohomology
+`RΓ_c(M_{(G,b,μ),U,C},Λ)`, the colimit over quasicompact opens, and its colimit over `U`.
+Prove that it is a complex of smooth `G_b(K)`-representations, compact in the derived
+smooth category when `U` is pro-`p`, with continuous `W_E`-action. Prove
+`localShimuraHeckeRealization`: up to the shift and twist fixed by `d_μ=⟨2ρ,μ⟩`,
+`RΓ_c(M_{(G,b,μ),U,C},Λ) ≅ i_b* T_μ(j₁! c-Ind_U^{G(K)} Λ)` on the shared `BunG`, Newton
+strata and `HeckeFunctor` carriers, compatibly with `W_E`. Prove the adjoint formula
+expressing `R Hom_{G_b(K)}(RΓ_c(M_{(G,b,μ),U,C},Λ), ρ)` through `i₁* T_{μ^∨}(R i_{b*}ρ)`, and its
+finite-length consequence for finite-length `ρ` over `ℚ̄_ℓ`. These carriers use no automorphic,
+Galois or Igusa input of this roadmap.
+(Source: Fargues–Scholze, §IX.3, Theorem IX.3.1 and its proof and Proposition IX.3.2,
+pp.324–326; Scholze–Weinstein, *Berkeley Lectures on p-adic Geometry*, Lectures 23–24, for
+the tower and its period maps.)
+
+**Checks.**
+
+- For `GL_n`, `μ=(1,0,…,0)` and basic `b` of slope `1/n`, the tower is the Lubin–Tate tower
+  and `G_b(K)` is the unit group of the central division algebra of invariant `1/n`.
+- For trivial `μ` the only admissible class is `b=1`; the tower is the discrete set
+  `G(K)/U`, the cohomology is `c-Ind_U^{G(K)} Λ` and the Hecke transform is the identity.
+  A nontrivial central `μ` instead admits only the basic class with Kottwitz invariant determined by `μ`, not `b=1`.
+- If `b` is not `μ`-admissible the tower is empty, and `i_b* T_μ(j₁!A)` vanishes because
+  modifications of type `μ` of the trivial bundle land only in admissible strata.
+
+*Needs:* relative curves;
+bundle strata and Hecke action;
+DiamondsAndVStacks D2–D4; DiamondEtaleCohomology C2–C5; DiamondSixOperations S1–S4;
+SmoothRepresentationsOfLocalGroups SR.0 and SR.0d.
+
 ### Local Shimura complexes for the AHTW datum
 
 For AHTW §2.2’s `U(n,n)` datum, auxiliary split `p≠ℓ`, algebraically closed complete `C/ℚ_p`,
 choose `p^(1/2)` in the coefficient field and a complete DVR `O` finite over
-`ℤ_ℓ[p^(1/2)]`. For a local Artinian `O`-algebra `Λ` with `ℓ` nilpotent, construct
-for every `b∈B(G,μ⁻¹)` the minuscule local Shimura space of modifications `E_b⇢E₀` and its
-normalized compactly supported complex `RΓ_c(G,b,μ,Λ)` on the preceding shared
+`ℤ_ℓ[p^(1/2)]`. For a local Artinian `O`-algebra `Λ` with `ℓ` nilpotent, specialize
+`localShimuraTower` and `localShimuraCohomology` to every `b∈B(G,μ⁻¹)`, giving the
+minuscule local Shimura space of modifications `E_b⇢E₀` and its normalized compactly
+supported complex `RΓ_c(G,b,μ,Λ)`, with `localShimuraHeckeRealization` on the shared
 `BunG`, Newton strata, `DLisBunG` and `HeckeFunctor` carriers. Use their stratum
 equivalence, `j_b!`, `j₁*`, `T_{μ,C}` and base-change and ULA properties. Construct the
 partial Igusa compactification and `V_b=RΓ_{c−∂}(Ig_b,Λ)`, with cohomology in `[0,d_b]`.
@@ -2644,11 +2862,11 @@ IntegralHeckeAndGaloisDeterminants §4.2; the base-change and patching targets o
 
 The target `allCMCoefficientPrimeComparison` has the following hypotheses and conclusion.
 
-A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1`, regular algebraic cuspidal `π` of highest weight a, `ℓ, ι` and `v|ℓ, r_{π,ℓ,ι}|G_{F_v}` is de Rham, has `HT_τ={a_{ιτ,i}+n−i}`, and `WD(r_{π,ℓ,ι}|G_{F_v})^{ss} ≅ ι⁻¹ rec^T(π_v)^{ss}`. Here `rec^T(π_v)=rec(π_v|det|^{(1−n)/2})`. No conjugate self-duality, residual irreducibility or decomposed genericity hypothesis is imposed. This is the July 2026 preprint theorem, with its precise input chain recorded below.
+A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1`, regular algebraic cuspidal `π` of highest weight a, `ℓ, ι` and `v|ℓ, r_{π,ℓ,ι}|G_{F_v}` is de Rham, has `HT_τ={a_{ιτ,i}+n−i}`, and `WD(r_{π,ℓ,ι}|G_{F_v})^{ss} ≅ ι⁻¹ rec^T(π_v)^{ss}`. Here `rec^T(π_v)=rec(π_v|det|^{(1−n)/2})`. No conjugate self-duality, residual irreducibility or decomposed genericity hypothesis is imposed on `π`. This is the July 2026 preprint theorem, with its precise input chain recorded below. That chain includes AHTW Theorem 5.4.13, used in Lemma 5.4.18, which applies ACC+ Theorem 2.3.3; part (c) of that theorem at `p`-adic places is the polarized coefficient-prime comparison, here used through its semisimple part, for conjugate-self-dual constituents of rank at most `2n`. The target therefore assumes `ExtremelyRegularIrreducibility m` for every `m` with `2≤m≤2n`, and every target below that uses it carries this hypothesis.
 
-*Needs:* AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.P: finite-coefficient periods and comparison; AutomorphicGaloisRepresentationsPartII AG2.4; AG2.4: HLTT existence; AG2.6: global stable period quotients; AG2.6: bounded boundary comparison and degree shifting.
+*Needs:* AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.P: finite-coefficient periods and comparison; AutomorphicGaloisRepresentationsPartII AG2.4; AG2.4: HLTT existence; AG2.6: global stable period quotients; AG2.6: bounded boundary comparison and degree shifting; AG2.6: polarized coefficient-prime domination.
 
-(Sources: AHTW, Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9.)
+(Sources: AHTW, Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9; Theorem 5.4.13, pp.97–98, and Lemma 5.4.18 with its proof, pp.103–104; ACC+, Theorem 2.3.3(c), pp.935–937.)
 
 **Checks.**
 
@@ -2714,7 +2932,7 @@ For arbitrary regular algebraic cuspidal `π` over a CM field, `r_{π,λ}|G_{F_v
 
 The target `totallyRealPolarizedCoefficientPrimeComparison` has the following hypotheses and conclusion.
 
-For a regular algebraic essentially self-dual cuspidal `π` over a totally real `F`, the attached BLGGT representation has the stated labelled Hodge weights, is de Rham, is crystalline at spherical coefficient-prime places and semistable at Iwahori places. Full coefficient-prime WD comparison is obtained from the polarized CM theorem by choosing a quadratic CM extension split at the target finite place, retaining cuspidality, matching the base-changed Galois representation, and comparing that unchanged local completion. This also covers the totally-real members used by Newton–Thorne; no unrestricted nonpolarized totally-real assertion is added.
+For a regular algebraic essentially self-dual cuspidal `π` over a totally real `F`, the attached BLGGT representation has the stated labelled Hodge weights, is de Rham, is crystalline at spherical coefficient-prime places and semistable at Iwahori places. Full coefficient-prime WD comparison is obtained from the polarized CM theorem by choosing a quadratic CM extension split at the target finite place, retaining cuspidality, matching the base-changed Galois representation, and comparing that unchanged local completion; for `n≥2` it therefore assumes `ExtremelyRegularIrreducibility n`. This also covers the totally-real members used by Newton–Thorne; no unrestricted nonpolarized totally-real assertion is added.
 
 *Needs:* AG2.3: totally real polarized existence; AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.6: full polarized comparison; AG2.6: Hodge comparison by descent; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
@@ -2814,7 +3032,7 @@ For a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, there is one 
 
 The target `polarizedSystemPurity` has the following hypotheses and conclusion.
 
-For a regular algebraic polarized cuspidal `(π,χ)` with `a_{τ,i}+a_{τc,n+1−i}=w, R_π` is pure and BLGGT-strictly pure of weight `W=w+n−1`. Its polarization is `r_λ^c≅r_λ^∨⊗μ_λ, μ_λ=ε_ℓ^{1−n}r_{χ,λ}`; the `χ`-system has purity weight `2w`. Total oddness uses `μ_λ(c_v)=(−1)^{n−1+w}χ_v(−1)`, so the required sign is `χ_v(−1)=(−1)^{n+w}`. BLGGT strict purity describes pure common WD parameters away from the coefficient prime; all-place strict compatibility needs the separately proved coefficient-prime theorem, not a change of definition.
+For a regular algebraic polarized cuspidal `(π,χ)` with `a_{τ,i}+a_{τc,n+1−i}=w, R_π` is pure and BLGGT-strictly pure of weight `W=w+n−1`. Its polarization is `r_λ^c≅r_λ^∨⊗μ_λ, μ_λ=ε_ℓ^{1−n}r_{χ,λ}`; the `χ`-system has purity weight `2w`. Total oddness uses `μ_λ(c_v)=(−1)^{n−1+w}χ_v(−1)`, so the required sign is `χ_v(−1)=(−1)^{n+w}`. BLGGT strict purity describes pure common WD parameters away from the coefficient prime; all-place strict compatibility needs the separately proved coefficient-prime theorem, not a change of definition, and for `n≥2` carries its hypothesis `ExtremelyRegularIrreducibility n`.
 
 *Needs:* AG2.6: automorphic compatible system; AG2.6: full polarized comparison; ArithmeticGaloisRepresentations §7.4; AG2.0: multiplier parity; AG2.5: full away-prime comparison; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
 
@@ -2834,7 +3052,7 @@ The weak compatibility proved for the constructed `R_π` implies very weak compa
 
 The target `coefficientPrimeComparisonStrength` has the following hypotheses and conclusion.
 
-The polarized branch has de Rham admissibility and full pure WD comparison at every coefficient-prime place. The all-CM nonselfdual branch has de Rham admissibility, full labelled Hodge weights, ss compatibility and the monodromy upper bound of AHTW v1; spherical crystallinity and Iwahori semistability follow from WD criteria. Full `N` equality for general nonselfdual ramified places is not supplied by these statements. Fontaine–Laffaille, ordinary lifting and residual-image conclusions retain their separate consumer hypotheses.
+The polarized branch has de Rham admissibility and, under `ExtremelyRegularIrreducibility n` for `n≥2`, full pure WD comparison at every coefficient-prime place. The all-CM nonselfdual branch has de Rham admissibility, full labelled Hodge weights, ss compatibility and the monodromy upper bound of AHTW v1; spherical crystallinity and Iwahori semistability follow from WD criteria. Full `N` equality for general nonselfdual ramified places is not supplied by these statements. Fontaine–Laffaille, ordinary lifting and residual-image conclusions retain their separate consumer hypotheses.
 
 *Needs:* AG2.6: full polarized comparison; AG2.6: Nonselfdual spherical and Iwahori admissibility; AG2.6: nonselfdual monodromy bound.
 
@@ -3146,7 +3364,7 @@ The required API is:
 
 The target `PolarizedComparisonExport` has the following hypotheses and conclusion.
 
-`PolarizedComparisonExport(π,χ)` wraps GoodPrimeExport with the actual polarization isomorphisms and multiplier, the corrected total-odd sign, the labelled Hodge comparison maps, and full `F-ss` WD comparison at all finite places, including coefficient-prime places. It supplies the proved pure/strict branch predicates. Forgetful maps return the good-prime package, AG2.6’s polarized system and each local comparison; they do not insert residual enormousness or an ordinary refinement.
+`PolarizedComparisonExport(π,χ)` wraps GoodPrimeExport with the actual polarization isomorphisms and multiplier, the corrected total-odd sign, the labelled Hodge comparison maps, and full `F-ss` WD comparison at all finite places, including coefficient-prime places; for `n≥2` it carries the hypothesis `ExtremelyRegularIrreducibility n` of the AG2.6 coefficient-prime comparison. It supplies the proved pure/strict branch predicates. Forgetful maps return the good-prime package, AG2.6’s polarized system and each local comparison; they do not insert residual enormousness or an ordinary refinement.
 
 The required API is:
 
@@ -3379,6 +3597,9 @@ Potential automorphy and modularity lifting use the characteristic-zero and resi
 of AG2.7, with residual irreducibility, enormousness, levels and auxiliary primes as their own
 hypotheses. Shimura-cohomology applications use the chosen unitary discrete parameter and its
 local normalization. Neither use turns a nonselfdual monodromy bound into equality of `N`.
+The coefficient-prime comparisons for `n≥2` carry `ExtremelyRegularIrreducibility`; a
+consumer that proves the density-one irreducibility theorem from potential automorphy, using
+only the Iwahori comparison of AG2.6, discharges it and obtains the unconditional comparisons.
 
 ## Bibliography
 
@@ -3389,6 +3610,14 @@ Thomas Barnet-Lamb, Toby Gee, David Geraghty and Richard Taylor, [Potential auto
 ### BLGGT-lp-II
 
 Thomas Barnet-Lamb, Toby Gee, David Geraghty and Richard Taylor, [Local-global compatibility for l = p, II](https://virtualmath1.stanford.edu/~rltaylor/lg2.pdf). Ann. Sci. ÉNS 47 (2014), 165–179; locators use the author copy, with Theorem A on p.2.
+
+### BLGGT-lp-I
+
+Thomas Barnet-Lamb, Toby Gee, David Geraghty and Richard Taylor, [Local-global compatibility for l = p, I](https://www.ma.imperial.ac.uk/~tsg/Index_files/localglobalI.pdf). Ann. Fac. Sci. Toulouse Math. (6) 21 (2012), 57–92; locators use the author copy.
+
+### BLGHT
+
+Tom Barnet-Lamb, David Geraghty, Michael Harris and Richard Taylor, [A family of Calabi–Yau varieties and potential automorphy II](https://doi.org/10.2977/PRIMS/31). Publ. RIMS Kyoto Univ. 47 (2011), 29–98; journal pages.
 
 ### ACC+
 
