@@ -124,10 +124,12 @@ of that roadmap, which proves it from sentence-level Craig interpolation for Lω
 its projective-class membership predicate `PCMem`: `PCMem g Θ M` holds when `M` itself, on the
 same carrier, expands along `g` to a model of `Θ`. With `g = LHom.sumInl : L →ᴸ L.sum L₁`, `M` is
 the `L`-reduct of a model of `Θ`, the symbols of `L₁` being auxiliary relations chosen
-existentially; Layer 5 uses them to describe a branch through a tree. On codes, projective
-classes are the analytic counterpart of model classes, and `pcSeparation` is the counterpart of
-Lusin separation that turns the two analytic descriptions of `B` and its complement into one
-sentence. For languages `L`, `L₁`, `L₂` in arbitrary
+existentially; Layer 5 uses them to describe a branch through a tree. In this roadmap's coding
+setting (countably many relation symbols, codes of structures on `ℕ`), projective classes
+correspond to invariant analytic sets as model classes correspond to invariant Borel sets, and
+`pcSeparation` plays the role of Lusin separation, turning the two analytic descriptions of `B`
+and its complement into one sentence. That correspondence needs the countable coding;
+`pcSeparation` itself holds for arbitrary languages. For languages `L`, `L₁`, `L₂` in arbitrary
 universes and `Θ₁ : Sentenceω (L.sum L₁)`, `Θ₂ : Sentenceω (L.sum L₂)`: if no countable nonempty
 `L`-structure in `Type` lies in both projective classes, some `θ : Sentenceω L` holds in every
 nonempty member of the first class and fails in every nonempty member of the second, in every
