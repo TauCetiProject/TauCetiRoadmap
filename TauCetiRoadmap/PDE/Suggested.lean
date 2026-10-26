@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Analysis.Sobolev.W1p.Zero
 
 /-!
 # Partial differential equations: target signatures
@@ -240,5 +241,39 @@ theorem holderOnParabolicSlab_iff_subtype {n : ℕ} {a b : ℝ}
       holderOnWith_univ.mp h
     have h'' : HolderWith C α ((parabolicSlab (n := n) a b).domRestrict u) := h'
     exact HolderWith.restrict_iff.mp h''
+
+/-! ### Lane G: functions vanishing on a boundary part
+
+The admissibility predicate (G.28) refines Lane A.6's Lipschitz-domain predicate, and G.30–G.32
+consume A.6's trace; neither is in the pinned Tau Ceti revision, so only G.29's space and its
+endpoint at the whole frontier are prototyped here.
+-/
+
+section LaneG
+
+open MeasureTheory TopologicalSpace TauCeti
+open scoped ENNReal ContDiff
+
+variable {n : ℕ}
+
+/-- `W^{1,p}_Γ(Ω)` (G.29): the closure of the restrictions of smooth compactly supported functions
+whose support stays away from `closure Γ`. -/
+noncomputable def w1pVanishingOnSubmodule (Ω : Opens (EuclideanSpace ℝ (Fin n))) (p : ℝ≥0∞)
+    [Fact (1 ≤ p)] (Γ : Set (EuclideanSpace ℝ (Fin n))) : Submodule ℝ (W1p volume Ω p) :=
+  (Submodule.span ℝ {u | ∃ φ : EuclideanSpace ℝ (Fin n) → ℝ, ContDiff ℝ ∞ φ ∧
+      HasCompactSupport φ ∧ Disjoint (tsupport φ) (closure Γ) ∧
+      (W1p.value u : EuclideanSpace ℝ (Fin n) → ℝ) =ᵐ[volume.restrict (Ω : Set _)] φ}).topologicalClosure
+
+/-- `W^{1,p}_Γ(Ω)` as a type, in the pattern of `TauCeti.W1p0`. -/
+noncomputable abbrev W1pVanishingOn (Ω : Opens (EuclideanSpace ℝ (Fin n))) (p : ℝ≥0∞) [Fact (1 ≤ p)]
+    (Γ : Set (EuclideanSpace ℝ (Fin n))) :=
+  w1pVanishingOnSubmodule Ω p Γ
+
+/-- At the whole frontier, `W^{1,p}_Γ(Ω)` is `W^{1,p}_0(Ω)`, for every open `Ω` (G.29). -/
+theorem w1pVanishingOnSubmodule_frontier (Ω : Opens (EuclideanSpace ℝ (Fin n))) (p : ℝ≥0∞)
+    [Fact (1 ≤ p)] (hp : p ≠ (∞ : ℝ≥0∞)) :
+    w1pVanishingOnSubmodule Ω p (frontier (Ω : Set _)) = W1p0 volume Ω p := sorry
+
+end LaneG
 
 end TauCetiRoadmap.PDE

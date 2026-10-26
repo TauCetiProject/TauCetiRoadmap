@@ -530,7 +530,9 @@ classical elliptic theory (Schauder, De Giorgi–Nash–Moser).
 ### Lane G: mixed and Neumann boundary conditions
 
 Boundary conditions imposed on a part of the boundary, built on Lane A's Lipschitz domains and
-traces and Lane D's energy method.
+traces and Lane D's energy method. As in Lane A.6's Tau Ceti implementation, a domain is an open
+`Ω ⊆ WithLp 2 (ℝ × E)` for a finite-dimensional real inner product space `E`
+(`Set.IsLipschitzDomainWith`), and the trace is `TauCeti.W1p.frontierTrace`.
 
 28. **Admissible boundary parts.** A relatively open `Γ ⊆ frontier Ω` is admissible with
     constant `L` when `Ω` satisfies the Lipschitz-domain predicate of A.6 with constant `L` and,
@@ -541,12 +543,14 @@ traces and Lane D's energy method.
     that `Γ = ∅` and `Γ = frontier Ω` are admissible for every Lipschitz domain.
 29. **Functions vanishing on a boundary part.** For a relatively open `Γ ⊆ frontier Ω` and
     `1 ≤ p < ∞`, `W^{1,p}_Γ(Ω)` is the `W^{1,p}(Ω)`-closure of the restrictions to `Ω` of
-    `φ ∈ C_c^∞(ℝⁿ)` with `tsupport φ` disjoint from `closure Γ`. Prove:
+    `φ ∈ C_c^∞(ℝⁿ)` with `tsupport φ` disjoint from `closure Γ` (Lean: `W1pVanishingOn Ω p Γ`).
+    Prove:
     - `W^{1,p}_Γ = W^{1,p}_0` when `Γ = frontier Ω`, for every open `Ω`;
     - `W^{1,p}_∅ = W^{1,p}` for Lipschitz `Ω` (from A.6's extension operator);
     - for admissible `Γ` (item 28),
-      `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | trace u = 0 μHE[n−1]-a.e. on Γ}`. For `Γ = frontier Ω`
-      this is A.6's identification `ker(trace) = W^{1,p}_0`.
+      `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | W1p.frontierTrace u = 0 μHE[n−1]-a.e. on Γ}`. For
+      `Γ = frontier Ω` this is A.6's identification `ker(trace) = W^{1,p}_0`, one inclusion of
+      which is `TauCeti.W1p.w1p0Submodule_le_ker_frontierTrace`.
 30. **Poincaré–Friedrichs.** For a bounded connected `Ω`, an admissible `Γ` with
     `μHE[n−1] Γ > 0` and `1 ≤ p < ∞`: `‖u‖_p ≤ C ‖∇u‖_p` on `W^{1,p}_Γ(Ω)`. The proof is by
     contradiction from Rellich (A.6), so this constant is an existence statement, not an
