@@ -34,8 +34,9 @@ any of the classical lemmas of Brenner–Scott, Chapter 4, or Ciarlet, Chapter 3
   of Mathlib's `MvPolynomial.restrictTotalDegree (Fin n) ℝ m` under the evaluation map
   `q ↦ fun x => MvPolynomial.eval (fun i => x i) q`. Prove that evaluation is injective on it,
   that `Module.finrank ℝ (polynomialsDegLE n m) = (n + m).choose n`, and that its elements lie in
-  `W^{k,p}(Ω)` for bounded `Ω` and every `k`, giving the finite-dimensional subspace
-  `Wkp.polynomialsDegLE` of `Wkp volume Ω p k`.
+  `W^{k,p}(Ω)` for bounded `Ω` and every `k`, through an injective continuous linear map
+  `Wkp.ofPolynomialL : polynomialsDegLE n m →L[ℝ] Wkp volume Ω p k` whose range is the
+  finite-dimensional subspace `Wkp.polynomialsDegLE`.
 - **Star-shaped with respect to a ball**, stated inline as in
   `TauCeti.enorm_sub_setAverage_le_of_starConvex`: hypotheses `0 < ρ` and
   `∀ y ∈ Metric.ball x₀ ρ, StarConvex ℝ y (Ω : Set E)`, with no named predicate. Constants depend
@@ -62,10 +63,11 @@ any of the classical lemmas of Brenner–Scott, Chapter 4, or Ciarlet, Chapter 3
      `TauCeti.W1p.norm_gradient_le` and `TauCeti.W1p.norm_le_norm_value_add_norm_gradient`; above
      it from `TauCeti.Wkp.norm_sq_eq_norm_lowerOrder_sq_add_norm_iteratedGradient_sq_succ`;
    - `|q|_{j,p} = 0` for `q ∈ Wkp.polynomialsDegLE m` and `j ≥ m + 1`;
-   - **change of exponent:** for bounded `Ω` and `1 ≤ q ≤ p`, a continuous linear inclusion
-     `Wkp.ofExponentL : W^{k,p}(Ω) →L[ℝ] W^{k,q}(Ω)` that keeps the value and every weak
-     derivative field (componentwise Mathlib's `MemLp.mono_exponent` on the finite measure
-     `volume.restrict Ω`; the defining weak-derivative identities do not depend on the exponent),
+   - **change of exponent:** for `Ω` of finite measure and `1 ≤ q ≤ p`, a continuous linear
+     inclusion `Wkp.ofExponentLE : W^{k,p}(Ω) →L[ℝ] W^{k,q}(Ω)` generalizing
+     `TauCeti.W1p.ofExponentLE` (same hypothesis `IsFiniteMeasure (volume.restrict Ω)`), that keeps
+     the value and every weak derivative field (componentwise `Lp.antitone`, as in
+     `W1p.ofExponentLE`; the defining weak-derivative identities do not depend on the exponent),
      with `|u|_{j,q} ≤ volume Ω ^ (1/q − 1/p) · |u|_{j,p}` for every `j ≤ k`.
 2. **Integrating polynomial fields.** A polynomial Poincaré lemma, purely algebraic: if
    `P : Fin n → MvPolynomial (Fin n) ℝ` has every `P i ∈ restrictTotalDegree (Fin n) ℝ m` and
@@ -100,7 +102,8 @@ any of the classical lemmas of Brenner–Scott, Chapter 4, or Ciarlet, Chapter 3
    `Ω`, and `|det DΦ| ≥ c > 0`, the map `u ↦ u ∘ Φ` is a bounded linear operator
    `W^{k,p}(Ω) → W^{k,p}(Ω')`. Its weak derivatives are given by the chain rule (Mathlib's Faà di
    Bruno formula for iterated derivatives of a composition, applied to the classical fields and
-   carried to weak derivatives by density), and its operator norm has an explicit bound in
+   carried to weak derivatives by density; Mathlib's `HasFTaylorSeriesUpToOn.comp`, whose series
+   is `FormalMultilinearSeries.taylorComp`), and its operator norm has an explicit bound in
    `n, k, p, L, c`. This generalizes `TauCeti.W1p.compL` to all orders.
 6. **Affine scaling of seminorms.** For `F x = B x + b` with `B` invertible and `Ω' = F ⁻¹' Ω`:
    `|u ∘ F|_{j,p,Ω'} ≤ ‖B‖^j |det B|^{−1/p} |u|_{j,p,Ω}` and
@@ -122,8 +125,10 @@ Throughout, `Ω` is bounded and star-shaped with respect to `Metric.ball x₀ ρ
 8. **Taylor polynomials of smooth functions.** For `u` of class `C^m` near `y`,
    `T^m_y u (x) := ∑_{j ≤ m} (1/j!) iteratedFDeriv ℝ j u y (fun _ => x − y)`, an element of
    `polynomialsDegLE n m` in `x`, with the integral form of the remainder along the segment
-   from `y` to `x` (from the one-variable Taylor theorem applied to `t ↦ u (y + t (x − y))`).
-9. **The averaged Taylor polynomial.** For `u ∈ W^{m,p}(Ω)`,
+   from `y` to `x` (from Mathlib's one-variable `taylor_integral_remainder` applied to
+   `t ↦ u (y + t (x − y))`; Mathlib has no multivariate Taylor theorem with remainder).
+9. **The averaged Taylor polynomial** `averagedTaylorL φ m : W^{m,p}(Ω) →L[ℝ] polynomialsDegLE n m`.
+   For `u ∈ W^{m,p}(Ω)`,
    `Q^m u (x) := ∫ (Wkp.value u) y φ y dy + ∑_{1 ≤ j ≤ m} (1/j!) ∫ (D^j u)(y)⟨x − y⟩^j φ y dy`.
    Every integrand is integrable because `D^j u ∈ Lᵖ(Ω)` and `φ` is bounded with compact support
    in the ball, by Hölder's inequality on a finite measure; no inclusion between Sobolev spaces
