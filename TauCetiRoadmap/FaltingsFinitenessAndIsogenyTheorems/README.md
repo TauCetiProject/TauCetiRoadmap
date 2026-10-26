@@ -368,9 +368,11 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   `Rep.mackeyDecomposition` and `ContinuousRep.finite_doubleCoset_mackey`, and
   `ContinuousRep.det_ind`. Induction is from an open subgroup of a compact group on a finite-rank
   free module; the Mackey restriction subgroup is closed. §1.6
-  stable lattices; §1.8 `iso_of_trace_eq` (semisimple finite-dimensional representations with equal
-  traces are isomorphic in characteristic `0`); §5.1 `GaloisRep.dense_frobeniusSet` and its
-  finite-quotient consequence; §5.3 `GaloisRep.iso_of_trace_eq_on_dense`; §6.1
+  stable lattices; §1.8 Brauer–Nesbitt (`ContinuousRep.iso_of_charpoly_eq`) in its trace form:
+  semisimple representations of dimension `d` with equal traces are isomorphic when `d!` is
+  invertible, in particular in characteristic `0`; §5.1 density of `GaloisRep.frobeniusSet` and its
+  finite-quotient consequence; §5.3 recognition on a dense subset, both from Frobenius
+  polynomials (`GaloisRep.iso_of_frobenius_charpoly_eq`) and from traces when `n!` is invertible; §6.1
   `TateModule.tateModule`, `TateModule.tateModuleRep`, “The elliptic comparison” and
   “Functoriality of the arithmetic adapter”. These use AbelianSchemesAndArithmeticModuli
   §A4.1 `AbelianTate.map` and `AbelianTate.baseChange`; an isogeny induces an injection of Tate
@@ -1074,8 +1076,12 @@ M6.7 `descentObstruction`.
 - For an elliptic curve (`g = 1`) every polarization is `m·λ_0`, of degree `m²` with kernel `B[m]`; a maximal
   isotropic `H` has order `m`; for `m = p²` one choice is `B[p]` (isotropic because `e_{p²}(x, py') = e_{p²}(px, y') = 1`
   for `x ∈ B[p]`), giving `B' ≅ B`.
-- Without a fixed `S` no uniform `K'` exists (the fields `K(B[d])` are unbounded), which is why Satz 1 is
-  stated for principal polarizations only.
+- Without a fixed `S` the Hermite–Minkowski step for `K(B[12d])` has no common ramification bound, and
+  no uniform `K'` exists, already for `d = 1`: if `E/K` has good reduction at `𝔭 ∤ 2` and `v_𝔭(a) = 1`,
+  the twist `E^{(a)}` has additive reduction at `𝔭`, inertia acting on `T_l` (`𝔭 ∤ l`) through the
+  character of `K(√a)/K`, which takes the value `−1`; so `E^{(a)}_{K'}` is semistable above `𝔭` only if
+  `𝔭` ramifies in `K'`, which fails for almost all `𝔭`. This is why Satz 1 is stated for principal
+  polarizations only.
 
 ### Examples
 
@@ -1899,8 +1905,9 @@ the image of `π`, so `tr(σ | V_l(A_1)) = tr(σ | V_l(A_2))` for all `σ ∈ π
 isomorphic by the trace criterion in characteristic `0`. (iv) ⇒ (iii) is trivial, and (i) ⇒ (iv) because an
 isogeny gives `V_{l'}(A_1) ≅ V_{l'}(A_2)` for every `l'`, hence isomorphic dual-cohomology inertia invariants with their geometric Frobenius actions.
 
-*Needs:* R28.4.5, R28.4.6; ArithmeticGaloisRepresentations §1.8 `iso_of_trace_eq`, §5.1
-`GaloisRep.dense_frobeniusSet`, §5.3 `GaloisRep.iso_of_trace_eq_on_dense`, §6.1, §6.3 `TateModule.localEulerFactor`
+*Needs:* R28.4.5, R28.4.6; ArithmeticGaloisRepresentations §1.8 (trace form of Brauer–Nesbitt in
+characteristic `0`), §5.1 (density of `GaloisRep.frobeniusSet`), §5.3 (trace recognition on a dense
+subset), §6.1, §6.3 `TateModule.localEulerFactor`
 (good-reduction comparison and isogeny invariance); NeronModelsAndSemistableAbelianVarieties §5.1
 `NeronOggShafarevich`, §5.2 `GoodIsogeny`; TauCetiRoadmap Chebotarev Layer 10
 (`hasDirichletDensity_frobeniusPrimeSet`); AbelianSchemesAndArithmeticModuli A6.1, A6.7; Tau Ceti
@@ -2017,7 +2024,8 @@ span `M/lM`, and hence `M` by Nakayama. The linear form `tr m_1 − tr m_2` vani
 on them by conjugacy invariance of trace, hence on `M`, so `ρ_1` and `ρ_2` have the same trace and, being semisimple, are isomorphic.
 
 *Needs:* R28.1.9; TauCetiRoadmap Chebotarev Layer 10 (`hasDirichletDensity_frobeniusPrimeSet`);
-ArithmeticGaloisRepresentations §1.6 (stable lattices), §1.8 `iso_of_trace_eq`, §5.1
+ArithmeticGaloisRepresentations §1.6 (stable lattices), §1.8 (trace form of Brauer–Nesbitt in
+characteristic `0`), §5.1
 the finite-quotient consequence of Frobenius density; Mathlib `Submodule.FG`, Nakayama
 (`Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`).
 
