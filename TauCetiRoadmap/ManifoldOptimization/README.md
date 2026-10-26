@@ -13,9 +13,9 @@ gradient and Hessian (DifferentialGeometry Layer 12), the Levi-Civita connection
 the exponential map (HopfRinow), second fundamental forms and Riemannian submersions
 (RiemannianGeometry R1 and R5a), parallel transport and strongly geodesically convex
 neighbourhoods (SmoothBundlesConnections B5 and B6.0), critical-point theory and continuous
-gradient flows (MorseTheory), metric geodesic convexity and the Sinkhorn–Knopp theorem
-(OptimalTransport Layers 9 and 13A), and the smooth real Grassmannian (GeneralizedCohomology
-G4.0b).
+gradient flows (MorseTheory), metric geodesic convexity, entropic transport and the
+Sinkhorn–Knopp theorem (OptimalTransport Layers 9, 13A and 13B), and the smooth real Grassmannian
+(GeneralizedCohomology G4.0b).
 
 This roadmap owns:
 
@@ -70,17 +70,26 @@ multinomial manifolds of [DH19].
   instances scoped in `Bundle`, so files `open Bundle`.
 - **Distances and rates.** A statement about distances or rates assumes `[MetricSpace M]` and
   `[IsRiemannianManifold I M]`, HopfRinow's convention identifying `dist` with the Riemannian
-  distance. Rates are explicit inequalities: *linear* means `d(x_k, x*) ≤ C q^k d(x₀, x*)` for all
+  distance; since that distance is infinite between components, the two force `M` to be
+  connected. Rates are explicit inequalities: *linear* means `d(x_k, x*) ≤ C q^k d(x₀, x*)` for all
   `k`, with `0 ≤ q < 1`; *quadratic* means `d(x_{k+1}, x*) ≤ c d(x_k, x*)²` for all `k`; *order `p`*
   means `d(x_{k+1}, x*) ≤ c d(x_k, x*)^p` for all sufficiently large `k`.
 - **Distances on the catalogue.** An embedded catalogue manifold is a subtype of its ambient space
   and inherits the ambient metric (chordal on the sphere, Frobenius on matrices), for which
-  `IsRiemannianManifold` fails; on the sphere it has no nonconstant geodesic segments at all.
-  Distance-level statements about a catalogue manifold `X` (completeness, distance formulas,
-  geodesic segments, convexity, rates) are made for `TauCeti.MetricSpace.ofRiemannianMetric I X`,
-  whose topology is definitionally the manifold topology: installed locally (`letI`) on every
-  carrier except `P(n)` and the Fisher carriers, as Tau Ceti's `HyperbolicMetric` does, and as the
-  `MetricSpace` instance of those types. The inherited metric is never used for them.
+  `IsRiemannianManifold` fails; on the sphere it has no nonconstant geodesic segments at all. The
+  inherited metric is never used for distance-level statements about a catalogue manifold `X`
+  (completeness, distance formulas, geodesic segments, convexity, rates). They are made for its
+  Riemannian distance, whose topology is definitionally the manifold topology. On a connected `X`
+  this is `TauCeti.MetricSpace.ofRiemannianMetric I X`, which takes `[PreconnectedSpace X]`:
+  installed locally (`letI`), as Tau Ceti's `HyperbolicMetric` does, and the `MetricSpace`
+  instance of `P(n)` and of the Fisher carriers, which are convex and hence connected. The
+  Riemannian distance between points of different components is infinite
+  (`riemannianEDist_lt_top_iff_mem_connectedComponent`), so on a disconnected carrier
+  (`O(n) = St(n, n)` for `n ≥ 1`, the sphere of a one-dimensional `V`, `OB(1, m)` for `m ≥ 1`,
+  and `ℝ_n^{n×n}`) no `MetricSpace` satisfies `IsRiemannianManifold`. Such a carrier takes Mathlib's
+  extended metric `EMetricSpace.ofRiemannianMetric I X`, installed locally, and statements that
+  need a finite distance, the theorems of O5 and O6 among them, are made on a connected component
+  with its structure from O0.2.
 - **Gradient and Hessian.** The gradient is DifferentialGeometry 12.2's `mgradient I f x`; the
   Hessian bilinear form is 12.3's `hessian I f x v w = ⟪∇_v grad f, w⟫`. The Hessian operator
   `hessianOp I f x : TangentSpace I x →L[ℝ] TangentSpace I x` is `∇(grad f)` at `x` for Mathlib's
@@ -136,7 +145,9 @@ multinomial manifolds of [DH19].
   junk values are pinned: Newton's step uses `Ring.inverse` (step `0` where the Hessian is not
   invertible); the Armijo exponent is an `sInf` over `ℕ` (`0` when no exponent qualifies, a case
   excluded by the decrease theorem); the trust-region ratio uses Lean's division (`0` on a zero
-  model decrease, a case excluded by Cauchy decrease away from critical points).
+  model decrease, a case excluded by Cauchy decrease away from critical points). At a critical
+  point truncated conjugate gradients returns `0`, so the ratio is `0`, the step is rejected and
+  the iterate is kept.
 - **Algorithm constants.** Armijo backtracking has `ᾱ > 0`, `τ ∈ (0,1)`, `r ∈ (0,1)`; the step
   size is `ᾱ τ^i` for the least `i` with `f x − f (R_x(−ᾱτ^i grad f x)) ≥ r ᾱ τ^i ‖grad f x‖²`.
   Trust regions have acceptance threshold `ρ' ∈ (0, 1/4)`, radius cap `Δ̄ > 0` and `Δ₀ ∈ (0, Δ̄]`;
@@ -153,11 +164,14 @@ Checked against the pin; re-grep before citing anything in code.
   `IsContMDiffRiemannianBundle I ∞ E _` to every finite order; `ModelWithCorners.pi` and the
   charted space `ModelPi` of finite powers, with no `IsManifold` instance for them.
 - **Riemannian layer:** `Bundle.RiemannianBundle`, `IsContMDiffRiemannianBundle`,
-  `IsRiemannianManifold`, `riemannianMetricVectorSpace`, and the Levi-Civita connection
+  `IsRiemannianManifold`, `riemannianMetricVectorSpace`, the extended Riemannian distance
+  `Manifold.riemannianEDist` with its extended metric space `EMetricSpace.ofRiemannianMetric`
+  (`Geometry/Manifold/Riemannian/Basic.lean`), and the Levi-Civita connection
   `CovariantDerivative.leviCivitaConnection`.
 - **The sphere:** the stereographic atlas `EuclideanSpace.instChartedSpaceSphere` with
   `EuclideanSpace.instIsManifoldSphere`, `contMDiff_coe_sphere`, `range_mvfderiv_subtypeVal`
-  (the tangent space at `v` is `(ℝ ∙ v)ᗮ`) and `injective_mvfderiv_subtypeVal_sphere`.
+  (the tangent space at `v` is `(ℝ ∙ v)ᗮ`), `injective_mvfderiv_subtypeVal_sphere`, and
+  `isPreconnected_sphere` in dimension at least `2` (`Analysis/Normed/Module/Connected.lean`).
 - **Euclidean calculus and projections:** `gradient` (`Analysis/Calculus/Gradient/Basic.lean`),
   `Submodule.starProjection`, and the Lagrange multiplier theorem
   `IsLocalExtrOn.exists_multipliers_of_hasStrictFDerivAt`.
@@ -193,10 +207,15 @@ Checked against the pin; re-grep before citing anything in code.
   induced by an immersion into an inner-product space (`Geometry/Manifold/Riemannian/Induced.lean`);
   the round metric `TauCeti.sphereRoundMetric` with its `RiemannianBundle` and analytic
   `IsContMDiffRiemannianBundle` instances (`…/Riemannian/Sphere.lean`); product metrics
-  (`…/Riemannian/Prod.lean`); the Riemannian distance `TauCeti.MetricSpace.ofRiemannianMetric` of a
-  preconnected manifold, whose topology is definitionally the manifold topology, with its
-  `IsRiemannianManifold` instance (`…/Riemannian/Distance.lean`), installed as in
-  `TauCeti.HyperbolicMetric` (`…/Riemannian/Hyperbolic.lean`); and
+  (`…/Riemannian/Prod.lean`); the restriction of a metric to an open submanifold, the scoped
+  instance `TauCeti.Manifold.instRiemannianBundleOpen`, with
+  `TauCeti.Manifold.pathELength_subtypeVal_comp` (`…/Riemannian/Restriction.lean`); the
+  Riemannian distance `TauCeti.MetricSpace.ofRiemannianMetric` of a preconnected manifold, whose
+  topology is definitionally the manifold topology, with its `IsRiemannianManifold` instance
+  (`…/Riemannian/Distance.lean`), installed as in `TauCeti.HyperbolicMetric`
+  (`…/Riemannian/Hyperbolic.lean`);
+  `TauCeti.Manifold.riemannianEDist_lt_top_iff_mem_connectedComponent`, by which the extended
+  distance is finite exactly within a connected component (`…/Riemannian/Distance.lean`); and
   `completeSpace_of_isPretransitive_isom`, completeness of homogeneous Riemannian manifolds
   (`…/Riemannian/Homogeneous.lean`).
 - **Riesz duality:** `Riemannian.Tensor.rieszDual`, through which DifferentialGeometry defines
@@ -230,7 +249,7 @@ Checked against the pin; re-grep before citing anything in code.
   nondegenerate critical point and its continuous gradient-flow convergence.
 - [OptimalTransport](../OptimalTransport/README.md) Layer 9: the `λ`-geodesic-convexity predicate
   `Φ(γ_t) ≤ (1−t)Φ(γ₀) + tΦ(γ₁) − (λ/2)t(1−t)d(γ₀,γ₁)²`; Layer 10: metric gradient flows and
-  `EVI_λ`; Layer 13A: cost-regularized transport and its unique minimizer, and item 8's
+  `EVI_λ`; Layer 13A: cost-regularized transport and its unique minimizer; Layer 13B item 8: the
   Sinkhorn–Knopp theorem, by which a matrix `A` with positive entries has a doubly stochastic
   scaling `D₁AD₂`, with `D₁, D₂` positive diagonal, and the scaled matrix is unique [Sin64].
 - [SmoothBundlesConnections](https://github.com/TauCetiProject/TauCetiRoadmap/blob/791dd408dc48930060b28043245bbb1a8d82b5de/TauCetiRoadmap/SmoothBundlesConnections/README.md)
@@ -292,16 +311,21 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `TauCeti.inducedRiemannianMetric` of the inclusion, and the synonyms of the Fisher carriers with
   that of `fisherEmbedding ∘ ι` (Conventions); the predicate `IsInducedBy I ι` records the identity
   `⟪v, w⟫ = ⟪ι'v, ι'w⟫` that O1 consumes.
-- **O0.2 Products, powers and quotient metrics.** Products with Tau Ceti's product metric; finite
-  powers `Fin k → M` on Mathlib's charts for `ModelWithCorners.pi`, building here their `IsManifold`
-  instance, the identification of the tangent space of the power with the product of tangent
-  spaces, and the sum metric; and componentwise gradients, Hessians, retractions and exponential
-  maps. *Quotient metrics:* let `π : M̄ → M` be a surjective `Manifold.IsSubmersion` and `G` a Lie
-  group acting smoothly on `M̄` by isometries, preserving `π` and transitively on each fibre. Prove
-  that there is a unique Riemannian metric on `M` making `π` a Riemannian submersion in
-  RiemannianGeometry R1's sense, smooth because it is read through local smooth sections of `π`.
-  Acceptance: the oblique manifold of O0.3 is identified with the `m`-th power of the sphere by a
-  diffeomorphic isometry.
+- **O0.2 Products, powers, connected components and quotient metrics.** Products with Tau Ceti's
+  product metric; finite powers `Fin k → M` on Mathlib's charts for `ModelWithCorners.pi`, building
+  here their `IsManifold` instance, the identification of the tangent space of the power with the
+  product of tangent spaces, and the sum metric; and componentwise gradients, Hessians, retractions
+  and exponential maps. *Connected components:* a connected component `C` of `M` is open, since `M`
+  is locally connected, and as an open submanifold with the restricted metric
+  (`instRiemannianBundleOpen`) it is a connected Riemannian manifold, to which
+  `MetricSpace.ofRiemannianMetric` applies. Prove that its Riemannian distance is the restriction of
+  `riemannianEDist` on `M`: a `C¹` path in `M` starting in `C` stays in `C`, and its length is the
+  same read in `C` (`pathELength_subtypeVal_comp`). *Quotient metrics:* let `π : M̄ → M` be a
+  surjective `Manifold.IsSubmersion` and `G` a Lie group acting smoothly on `M̄` by isometries,
+  preserving `π` and transitively on each fibre. Prove that there is a unique Riemannian metric on
+  `M` making `π` a Riemannian submersion in RiemannianGeometry R1's sense, smooth because it is
+  read through local smooth sections of `π`. Acceptance: the oblique manifold of O0.3 is identified
+  with the `m`-th power of the sphere by a diffeomorphic isometry.
 - **O0.3 The catalogue.** For each manifold: the carrier, its dimension, the tangent space as a
   subspace of the ambient space, the orthogonal projection onto it, and the comparison with any
   structure already present on the same set or built on it by another roadmap.
@@ -372,11 +396,12 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
     `α, β` exist, and the correction term does not depend on the choice [DH19]. `toMatrix`
     restricts to a bijection from `DS(n)` onto the elements of Mathlib's
     `doublyStochastic ℝ (Fin n)` with positive entries, and the inclusion of `DS(n)` into
-    `Mult(n, n)` is a smooth embedding and an isometry onto its image, both metrics being induced
-    by `fisherEmbedding`. For `n ≥ 2` none of the three Fisher carriers is complete: the segment
-    from one of its points to a vertex of the simplex, to a matrix whose columns are such vertices,
-    or to a permutation matrix, respectively, has finite Fisher length on `[0, 1)` and no limit in
-    the carrier.
+    `Mult(n, n)` is a smooth embedding that pulls the Fisher metric of `Mult(n, n)` back to that of
+    `DS(n)`, both being induced by `fisherEmbedding`; hence `d_Mult(X, Y) ≤ d_DS(X, Y)` on `DS(n)`.
+    For `n ≥ 2`, and `m ≥ 1` for `Mult(n, m)`, none of the three Fisher carriers is complete: the
+    segment from one of its points to a vertex of the simplex, to a matrix whose columns are such
+    vertices, or to a permutation matrix, respectively, has finite Fisher length on `[0, 1)` and no
+    limit in the carrier.
 
 ### O1. Extrinsic calculus
 
@@ -438,8 +463,9 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   - Stiefel, polar: `(X + U)(I + UᵀU)^{−1/2}`, global and second order, since the polar factor
     `Z(ZᵀZ)^{−1/2}` (PolarDecomposition) of a matrix `Z` of full column rank is its unique nearest
     point in `St(n, p)` [AM12];
-  - Stiefel, Q-factor: `qf(X + U)`, global and first order, and not second order when `p ≥ 2`
-    (witness in the worked examples);
+  - Stiefel, Q-factor: `qf(X + U)`, global and first order, and second order exactly when `p ≤ 1`,
+    where it is the sphere retraction, or `n = p = 2`, where it is the polar retraction (worked
+    examples);
   - Grassmann: `(π X, ξ) ↦ π(qf(X + ξ̄))`, with `ξ̄` the horizontal lift of `ξ` at `X`, well defined
     because a retraction `R̄` on the total space with `π(R̄_{XQ}(ξ̄Q)) = π(R̄_X(ξ̄))` for `Q ∈ O(p)`
     descends; state and prove that descent lemma in general;
@@ -454,7 +480,7 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
     examples);
   - doubly stochastic: `R_X(ξ) = SK(X ⊙ exp(ξ ⊘ X))` [DH19], global and first order, and not second
     order on `DS(2)`, where `SK = sinkhornScaling` sends a matrix with positive entries to its
-    doubly stochastic scaling (OptimalTransport Layer 13A item 8). Prove that `SK` is smooth on the
+    doubly stochastic scaling (OptimalTransport Layer 13B item 8). Prove that `SK` is smooth on the
     matrices with positive entries (`contDiffOn_sinkhornScaling`), by the implicit function
     theorem for the scaling equations in logarithmic coordinates modulo their common scalar: at a
     solution `P` the linearization `(a, b) ↦ (a + Pb, Pᵀa + b)` has kernel spanned by `(𝟏, −𝟏)`,
@@ -477,8 +503,9 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   tangent-bundle trivializations, with `T_{0_x} = id`. Constructions: the differentiated retraction
   `T_v u = d/dt R_x(v + t u)|_{t=0}`; on embedded `M` the projection transport
   `ι'(T_v u) = Proj_{R_x(v)}(ι'u)`; and parallel transport along `t ↦ exp_x(t v)`
-  (SmoothBundlesConnections B5, for the Levi-Civita connection), which is isometric. Prove the
-  projection transport on the sphere is not isometric for `v ≠ 0`.
+  (SmoothBundlesConnections B5, for the Levi-Civita connection), which is isometric. Prove that
+  the projection transport of the sphere retraction `(x + v)/‖x + v‖` of O2.2 is not isometric for
+  `v ≠ 0`.
 
 ### O3. Optimality conditions
 
@@ -562,8 +589,10 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   quadratically; O3.6 makes `hessianOp` invertible near the critical point.
 - **O5.3 Trust regions with truncated CG**, with `H_x = hessianOp I f x`. (a) Near a nondegenerate
   local minimizer `x*` there is a neighbourhood from which the iterates converge to `x*`. (b) If the
-  iterates converge to a nondegenerate local minimizer, all but finitely many steps are accepted,
-  the radius constraint is eventually inactive, and the convergence has order `min(1 + θ, 2)`.
+  iterates converge to a nondegenerate local minimizer `x*`, then either some iterate is `x*`, after
+  which every trial step is `0` and is rejected (Conventions), or all but finitely many steps are
+  accepted and the radius constraint is eventually inactive; in both cases the convergence has
+  order `min(1 + θ, 2)`.
 
 ### O6. Geodesic convexity
 
@@ -634,12 +663,17 @@ Discharge these alongside the layers; they catch vacuous statements and sign err
 - **Retractions.** For `X = [e₁ e₂] ∈ St(3, 2)` and `U = [e₃ e₃]` (tangent, since `XᵀU = 0`), the
   Q-factor curve has ambient acceleration `−2X [[1/2, 1], [0, 1/2]]` at `0`, which is not of the form
   `XΣ` with `Σ` symmetric, so the Q-factor retraction is not second order; the polar curve has
-  acceleration `−X UᵀU`, which is normal. On `Δ°(2)` at `x = (p, 1 − p)` with `ξ = (1, −1)`, the
-  curve of the open-simplex retraction has covariant acceleration of length
-  `|1 − 2p|/(2(p(1 − p))^{3/2})` at `0`, nonzero for `p ≠ 1/2`. The first column `X ↦ Xe₁` maps
-  `DS(2)` onto `Δ°(2)`, pulling the Fisher metric back to half that of `DS(2)`, and carries the
-  Sinkhorn curve at `X` with `ξ = [[1, −1], [−1, 1]]` to the simplex curve at `Xe₁`, so neither
-  retraction is second order.
+  acceleration `−X UᵀU`, which is normal. On `St(n, p)` with `2 ≤ p < n`, `X = [e₁ ⋯ e_p]` and
+  `U = [e_{p+1} e_{p+1} 0 ⋯ 0]` give the same acceleration padded with zero columns. On `O(n)` with
+  `n ≥ 3`, at `I` with `U = e₂e₁ᵀ − e₁e₂ᵀ + e₃e₁ᵀ − e₁e₃ᵀ`, the Q-factor curve has acceleration
+  `−2e₁e₁ᵀ − e₂e₂ᵀ − e₃e₃ᵀ − 2e₂e₃ᵀ`, which is not symmetric and so not normal. On `O(2)` every
+  tangent vector at `X` is `U = XΩ` with `Ω = [[0, −a], [a, 0]]`, so
+  `(X + tU)ᵀ(X + tU) = (1 + a²t²)I` and `qf(X + tU) = (X + tU)/√(1 + a²t²)`, the polar curve. On
+  `Δ°(2)` at `x = (p, 1 − p)` with `ξ = (1, −1)`, the curve of the open-simplex retraction has
+  covariant acceleration of length `|1 − 2p|/(2(p(1 − p))^{3/2})` at `0`, nonzero for `p ≠ 1/2`.
+  The first column `X ↦ Xe₁` maps `DS(2)` onto `Δ°(2)`, pulling the Fisher metric back to half
+  that of `DS(2)`, and carries the Sinkhorn curve at `X` with `ξ = [[1, −1], [−1, 1]]` to the
+  simplex curve at `Xe₁`, so neither retraction is second order.
 - **Exponentiated gradient on the simplex.** On `Δ°(n)`, `x` is critical iff `∇f̄(x) ∈ ℝ𝟏`, and a
   gradient step with step size `t` and the open-simplex retraction is the multiplicative-weights
   update `x⁺ = (x ⊙ exp(−t∇f̄(x)))/⟪x, exp(−t∇f̄(x))⟫`.
@@ -652,8 +686,9 @@ Discharge these alongside the layers; they catch vacuous statements and sign err
   pullback bound with `L = a` and equality, gradient descent with step `1/a` and Newton's method both
   reach `0` in one step; `f(x) = x⁴` satisfies the pullback bound for no `L`.
 - **Convexity.** `P(n)` is complete, `log det` is geodesically affine and `tr` geodesically convex
-  on it; on the sphere with its Riemannian distance (the Distances on the catalogue convention),
-  every continuous geodesically convex function is constant
+  on it; on the unit sphere of a `V` of dimension at least `2`, connected by
+  `isPreconnected_sphere`, with its Riemannian distance (the Distances on the catalogue
+  convention), every continuous geodesically convex function is constant
   (`const_of_isGeodesicallyConvexWith_sphere`).
 
 ## Statements that must not enter the library
@@ -668,8 +703,14 @@ Each is a tempting mistake with its refutation.
 - **"A second-order retraction moves along geodesics."** Only the acceleration at `t = 0` vanishes:
   the sphere's `t ↦ (x + t v)/‖x + t v‖` runs along a great circle at angular speed
   `‖v‖/(1 + t²‖v‖²)`.
-- **"The Q-factor retraction on the Stiefel manifold is second order."** False for `p ≥ 2`; see the
-  worked examples.
+- **"The Q-factor retraction on the Stiefel manifold is second order."** False whenever `p ≥ 2` and
+  `n ≥ 3`; see the worked examples. On `O(2)` it is the polar retraction.
+- **"The inclusion `DS(n) → Mult(n, n)` preserves Riemannian distance."** It preserves the metric
+  tensor only. Take `X = J/3`, with `J` the all-ones `3 × 3` matrix, and the tangent vector
+  `U = [[1, −1, 0], [−1, 1, 0], [0, 0, 0]]` of `DS(3)`. For small `t > 0` the minimizing
+  `Mult(3, 3)`-geodesic from `X` to `X + tU` is unique (under `√`, a minor great-circle arc in each
+  column), and its midpoint has third row sum `1/3 + 4/(3(1 + cos θ)) > 1`, with `θ > 0` the angle
+  of its first column arc. So it leaves `DS(3)`, and `d_Mult(X, X + tU) < d_DS(X, X + tU)`.
 - **"On a Fisher carrier the gradient is the projected Euclidean gradient."** On `Δ°(2)` at
   `x = (1/4, 3/4)` with `f̄(y) = y₁`, the Fisher gradient is `(3/16, −3/16)` and the projected
   Euclidean gradient `(1/2, −1/2)`: O1.2 applies to `fisherEmbedding ∘ ι`, not to `ι`.
@@ -729,7 +770,7 @@ One owner per shared construction, stated identically on both sides.
 O0.1 and O1.1–O1.2 come first; O0.1's comparisons also need MorseTheory M2 and LieGroupoidsPoisson
 G0.1, and O0.2's quotient metrics need RiemannianGeometry R1. O2.1 and the exponential part of O2.2
 depend only on Tau Ceti and proceed alongside them; O2.3 needs O1.4, O2.5's parallel transport needs
-SmoothBundlesConnections B5, and O2.2's Sinkhorn retraction needs OptimalTransport Layer 13A item 8.
+SmoothBundlesConnections B5, and O2.2's Sinkhorn retraction needs OptimalTransport Layer 13B item 8.
 O3 needs DifferentialGeometry 12 and MorseTheory M1 and M4. O4.1–O4.2 need O2.1 and O2.4; O4.3 needs
 O2.1. O5 needs O2.3, O3.3 and O3.6, and O5.3 also O4.3's truncated conjugate gradients. O6.1 needs
 HopfRinow Layer 2 and SmoothBundlesConnections B6.0; O6.2–O6.4 need O6.1 and HopfRinow's
@@ -739,8 +780,8 @@ independent of one another, except that `Δ°(n)` uses the sphere, `Mult(n, m)` 
 O0.2's powers, and `DS(n)` uses `Mult(n, n)`; the orthogonal groups need LieGroups Layer 2, the
 comparison for `St(n, 2)` needs DGFloer Layer 1, and the Grassmannian needs GeneralizedCohomology
 G4.0b, LieGroups Layer 2 and O0.2's quotient metrics. Discharge the worked examples alongside the
-layers they exercise; the entropic transport example also needs OptimalTransport Layer 13A. Claim
-single numbered items or smaller.
+layers they exercise; the entropic transport example also needs OptimalTransport Layer 13A and
+Layer 13B item 8. Claim single numbered items or smaller.
 
 ## References
 

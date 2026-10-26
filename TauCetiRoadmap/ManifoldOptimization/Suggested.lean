@@ -270,7 +270,9 @@ def trModel (f : M → ℝ) (H : (x : M) → TangentSpace I x →L[ℝ] TangentS
     (s : TangentSpace I x) : ℝ :=
   f x + ⟪mgradient I f x, s⟫_ℝ + 1 / 2 * ⟪H x s, s⟫_ℝ
 
-/-- **O4.3.** Actual over predicted decrease, with Lean's division (`0` on a zero denominator). -/
+/-- **O4.3.** Actual over predicted decrease, with Lean's division (`0` on a zero denominator). At a
+critical point truncated CG returns `0`, so the ratio is `0` and `trUpdate` rejects the step and
+keeps the iterate. -/
 def trRatio (R : Retraction I M) (f : M → ℝ)
     (H : (x : M) → TangentSpace I x →L[ℝ] TangentSpace I x) (x : M) (s : TangentSpace I x) :
     ℝ :=
@@ -463,7 +465,7 @@ variable {n : ℕ}
 open scoped Classical in
 /-- **O2.2.** The Sinkhorn–Knopp scaling `SK(A)`: a doubly stochastic matrix `D₁AD₂`, with `D₁, D₂`
 positive diagonal, when one exists, and `0` otherwise. For `A` with positive entries one exists and
-it is unique (OptimalTransport Layer 13A item 8). -/
+it is unique (OptimalTransport Layer 13B item 8). -/
 def sinkhornScaling (A : EuclideanSpace ℝ (Fin n × Fin n)) : EuclideanSpace ℝ (Fin n × Fin n) :=
   if h : ∃ u v : Fin n → ℝ, (∀ i, 0 < u i) ∧ (∀ j, 0 < v j) ∧
       Matrix.diagonal u * toMatrix A * Matrix.diagonal v ∈ doublyStochastic ℝ (Fin n) then
