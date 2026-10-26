@@ -126,7 +126,7 @@ Throughout, `Ω` is bounded and star-shaped with respect to `Metric.ball x₀ ρ
    `T^m_y u (x) := ∑_{j ≤ m} (1/j!) iteratedFDeriv ℝ j u y (fun _ => x − y)`, an element of
    `polynomialsDegLE n m` in `x`, with the integral form of the remainder along the segment
    from `y` to `x` (from Mathlib's one-variable `taylor_integral_remainder` applied to
-   `t ↦ u (y + t (x − y))`; Mathlib has no multivariate Taylor theorem with remainder).
+   `t ↦ u (y + t (x − y))`).
 9. **The averaged Taylor polynomial** `averagedTaylorL φ m : W^{m,p}(Ω) →L[ℝ] polynomialsDegLE n m`.
    For `u ∈ W^{m,p}(Ω)`,
    `Q^m u (x) := ∫ (Wkp.value u) y φ y dy + ∑_{1 ≤ j ≤ m} (1/j!) ∫ (D^j u)(y)⟨x − y⟩^j φ y dy`.
