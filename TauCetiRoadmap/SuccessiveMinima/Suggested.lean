@@ -14,8 +14,9 @@ Design choices made explicit here:
   with an explicit additive Haar measure in Minkowski's second theorem;
 * `MeasureTheory.successiveMin` is the definition of Mathlib's successive-minima proposal, on
   arbitrary sets with natural indices and `ℝ≥0` values;
-* `successiveMin` is its real-valued adapter on a `ConvexBody`, indexed by
-  `Fin (finrank ℝ E)`, with `i` meaning the `(i+1)`-st minimum;
+* `successiveMin` is Tau Ceti's `ZLattice.successiveMin`, restated with its definition because
+  this file imports only Mathlib: real-valued on a `ConvexBody`, indexed by `Fin (finrank ℝ E)`,
+  with `i` meaning the `(i+1)`-st minimum. The Tau Ceti API on it is not restated here;
 * central symmetry of the body is a separate hypothesis, assumed only where it is needed;
 * Gram matrices are Mathlib's `Matrix.gram`, conjugate-linear in the first argument.
 -/
@@ -149,10 +150,12 @@ namespace TauCetiRoadmap.SuccessiveMinima
 section MinimaConvention
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
-/-- The real-valued, zero-based `Fin` adapter of the foundational successive minima (1.1).
-Its geometric laws need `L` discrete and full and `0 ∈ interior K`. -/
+/-- Tau Ceti's `ZLattice.successiveMin`, with its definition (1.1): the infimum of the `t ≥ 0`
+such that `t • K` contains `i + 1` real-linearly independent vectors of `L`. Its geometric laws need
+`L` discrete and full and `0 ∈ interior K`. -/
 def successiveMin (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) : ℝ :=
-  (MeasureTheory.successiveMin L (K : Set E) i.val : ℝ)
+  sInf {t : ℝ | 0 ≤ t ∧ ∃ v : Fin (i.val + 1) → E,
+    LinearIndependent ℝ v ∧ ∀ j, v j ∈ L ∧ v j ∈ t • (K : Set E)}
 
 end MinimaConvention
 
@@ -171,17 +174,6 @@ theorem minkowski_second_lower (L : Submodule ℤ E) [DiscreteTopology L]
     [Measure.IsAddHaarMeasure μ] :
     ((2 : ℝ) ^ (finrank ℝ E) / (Nat.factorial (finrank ℝ E) : ℝ)) * ZLattice.covolume L μ ≤
       (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) := by sorry
-
-/-- **Minkowski's second theorem, upper half** (3.21, Henk's proof):
-`(∏ λ_i) μ(K) ≤ 2^d covol L` for any additive Haar measure on a finite-dimensional real
-normed space and a symmetric convex body with `0` in its interior, including dimension zero. -/
-theorem minkowski_second_upper
-    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
-    (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E)
-    [Measure.IsAddHaarMeasure μ] :
-    (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) ≤
-      2 ^ finrank ℝ E * ZLattice.covolume L μ := by sorry
 
 end MinkowskiSecond
 
@@ -227,12 +219,11 @@ end SameFlag
 section SuccessiveMinima
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
-/-- In finite dimension the rank-threshold adapter equals the positive-dilation infimum of
-independent families, without geometric hypotheses on the lattice or body (1.1). -/
-theorem successiveMin_def [FiniteDimensional ℝ E]
+/-- In finite dimension the foundational minimum of a convex body is its body minimum, without
+geometric hypotheses on the lattice or body (1.1). -/
+theorem _root_.MeasureTheory.coe_successiveMin [FiniteDimensional ℝ E]
     (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (finrank ℝ E)) :
-    successiveMin L K i = sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i.val + 1) → E,
-      (∀ j, v j ∈ (t • (K : Set E)) ∩ (L : Set E)) ∧ LinearIndependent ℝ v} := by sorry
+    (MeasureTheory.successiveMin L (K : Set E) i.val : ℝ) = successiveMin L K i := by sorry
 
 /-- The zero-based natural-index extension of the successive minima, with value zero at and
 beyond the ambient dimension (1.1a). -/
@@ -253,7 +244,7 @@ theorem successiveMinNat_of_le (L : Submodule ℤ E) (K : ConvexBody E) (i : ℕ
 
 variable [FiniteDimensional ℝ E]
 
-/-- The natural-index adapter equals the foundational minimum, including the zero values at
+/-- The natural-index extension equals the foundational minimum, including the zero values at
 and beyond the ambient dimension (1.1a). -/
 theorem successiveMinNat_eq (L : Submodule ℤ E) (K : ConvexBody E) (i : ℕ) :
     successiveMinNat L K i = (MeasureTheory.successiveMin L (K : Set E) i : ℝ) := by sorry
@@ -269,26 +260,18 @@ theorem finite_gauge_sublevel (r : ℝ) :
 
 /-- The successive minimum is the least gauge threshold at which the lattice vectors of gauge at
 most the threshold span `i + 1` dimensions (1.3); no symmetry of `K` is needed. -/
-theorem successiveMin_isLeast (i : Fin (finrank ℝ E)) :
+theorem successiveMin_isLeast_gauge (i : Fin (finrank ℝ E)) :
     IsLeast {r : ℝ | 0 ≤ r ∧ i.val + 1 ≤
       finrank ℝ (Submodule.span ℝ {x : E | x ∈ L ∧ gauge (K : Set E) x ≤ r})}
       (successiveMin L K i) := by sorry
 
-/-- Every successive minimum of a full lattice is positive (1.4). -/
-theorem successiveMin_pos (i : Fin (finrank ℝ E)) : 0 < successiveMin L K i := by sorry
-
-/-- Successive minima increase with the index, allowing repeated values (1.5). -/
-theorem successiveMin_monotone : Monotone (successiveMin L K) := by sorry
-
-/-- `λ_i ≤ r` exactly when the lattice vectors in `r K` span `i + 1` dimensions (1.6). -/
-theorem successiveMin_le_iff (i : Fin (finrank ℝ E)) (r : ℝ) (hr : 0 ≤ r) :
+/-- `λ_i ≤ r` exactly when the lattice vectors in `r K` span `i + 1` dimensions (1.4). -/
+theorem successiveMin_le_iff_finrank (i : Fin (finrank ℝ E)) (r : ℝ) (hr : 0 ≤ r) :
     successiveMin L K i ≤ r ↔ i.val + 1 ≤
       finrank ℝ (Submodule.span ℝ ((L : Set E) ∩ r • (K : Set E))) := by sorry
 
 /-- One real basis of lattice vectors attains all successive minima, with the strict-sublevel
-flags (1.7); it need not be an integral basis, and `K` need not be symmetric. The greedy
-construction behind it extends independent families one vector at a time through Mathlib's
-`linearIndependent_finSnoc`. -/
+flags (1.5); it need not be an integral basis, and `K` need not be symmetric. -/
 theorem exists_successiveMin_witnesses :
     ∃ b : Basis (Fin (finrank ℝ E)) ℝ E,
       (∀ i, b i ∈ L) ∧
@@ -297,21 +280,21 @@ theorem exists_successiveMin_witnesses :
       ∀ i, ∀ x : L, gauge (K : Set E) x < successiveMin L K i → (x : E) ∈ b.flag i.castSucc := by
   sorry
 
-/-- Enlarging the body decreases every successive minimum (1.8). -/
+/-- Enlarging the body decreases every successive minimum (1.6). -/
 theorem successiveMin_antitone_body (K' : ConvexBody E)
     (hK' : (0 : E) ∈ interior (K' : Set E)) (hKK' : K ≤ K')
     (i : Fin (finrank ℝ E)) : successiveMin L K' i ≤ successiveMin L K i := by sorry
 
-/-- Passing to a full superlattice decreases every successive minimum (1.9). -/
+/-- Passing to a full superlattice decreases every successive minimum (1.7). -/
 theorem successiveMin_monotone_lattice (M : Submodule ℤ E)
     [DiscreteTopology M] [IsZLattice ℝ M] (hLM : L ≤ M)
     (i : Fin (finrank ℝ E)) : successiveMin M K i ≤ successiveMin L K i := by sorry
 
-/-- `λ_i(L, cK) = λ_i(L, K)/c` for `c > 0` (1.10). -/
+/-- `λ_i(L, cK) = λ_i(L, K)/c` for `c > 0` (1.8). -/
 theorem successiveMin_smul_body (c : ℝ) (hc : 0 < c) (i : Fin (finrank ℝ E)) :
     successiveMin L (c • K) i = successiveMin L K i / c := by sorry
 
-/-- Transporting lattice and body by the same linear equivalence preserves the minima (1.11).
+/-- Transporting lattice and body by the same linear equivalence preserves the minima (1.9).
 The image lattice is discrete and full, and `0` is interior to the image body, as consequences of
 `hL'` and `heK`. -/
 theorem successiveMin_linearEquiv
@@ -322,12 +305,12 @@ theorem successiveMin_linearEquiv
     (i : Fin (finrank ℝ E)) (j : Fin (finrank ℝ F)) (hij : i.val = j.val) :
     successiveMin L' K' j = successiveMin L K i := by sorry
 
-/-- `λ_0 ≤ r` exactly when `r K` contains a nonzero lattice vector (1.12). -/
+/-- `λ_0 ≤ r` exactly when `r K` contains a nonzero lattice vector (1.10). -/
 theorem successiveMin_first_le_iff (hd : 0 < finrank ℝ E) (r : ℝ) (hr : 0 ≤ r) :
     successiveMin L K ⟨0, hd⟩ ≤ r ↔
       ∃ x : E, x ∈ L ∧ x ≠ 0 ∧ x ∈ r • (K : Set E) := by sorry
 
-/-- An integral basis whose real flags contain the strict sublevels of the minima (1.13); no bound
+/-- An integral basis whose real flags contain the strict sublevels of the minima (1.11); no bound
 on its vectors is claimed, and `K` need not be symmetric. -/
 theorem exists_integral_minimum_flag :
     ∃ b : Basis (Fin (finrank ℝ E)) ℤ L, ∀ i, ∀ x : E, x ∈ L →
@@ -387,8 +370,8 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
 
 include ha ham
 
-/-- A weighted coordinate box has successive minima its increasing weights (2.1.5): the upper
-bound of Minkowski's second theorem is attained. -/
+/-- A weighted coordinate box has successive minima its increasing weights (2.1.5): the upper bound
+of Minkowski's second theorem, which is Tau Ceti's, is attained. -/
 theorem successiveMin_box
     (hK : (K : Set E) = {x : E | ∀ j, a j * |b.repr x j| ≤ 1})
     (i : Fin (finrank ℝ E)) :
@@ -410,7 +393,7 @@ theorem minkowski_linear_forms {n : ℕ} (hn : 0 < n)
     (a : Fin n → ℝ) (ha : ∀ i, 0 < a i) (hprod : |A.det| ≤ ∏ i, a i) :
     ∃ z : Fin n → ℤ, z ≠ 0 ∧ ∀ i, |∑ j, A i j * (z j : ℝ)| ≤ a i := by sorry
 
-/-! ## Layer 3: Minkowski's upper inequality -/
+/-! ## Layer 3: Translate volumes and consequences of the upper inequality -/
 
 section UpperInequality
 
@@ -423,27 +406,25 @@ theorem finite_interior_disjoint_translate_volume
     (hv : Pairwise fun i j ↦ Disjoint (v i +ᵥ interior K) (v j +ᵥ interior K)) :
     μ (⋃ i, v i +ᵥ K) = Fintype.card ι * μ K := by sorry
 
-/-- The gauge is invariant under transporting both the set and the point along a linear
-equivalence (3.8). -/
-theorem gauge_linearEquiv {E F : Type*} [AddCommGroup E] [Module ℝ E] [AddCommGroup F]
-    [Module ℝ F] (e : E ≃ₗ[ℝ] F) (K : Set E) (x : E) :
-    gauge (e '' K) (e x) = gauge K x := by sorry
+/-- Convex sets with pairwise disjoint interiors across two finite families meet in a null set
+(3.2). -/
+theorem convex_cluster_intersection_null
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [MeasurableSpace E] [BorelSpace E] (μ : Measure E) [Measure.IsAddHaarMeasure μ]
+    {ι κ : Type*} [Finite ι] [Finite κ] (A : ι → Set E) (B : κ → Set E)
+    (hA : ∀ i, Convex ℝ (A i)) (hB : ∀ j, Convex ℝ (B j))
+    (hAB : ∀ i j, Disjoint (interior (A i)) (interior (B j))) :
+    μ ((⋃ i, A i) ∩ ⋃ j, B j) = 0 := by sorry
 
-/-- The telescoping product behind Henk's volume chain (3.17). -/
-theorem weighted_ratio_product (n : ℕ) (a : Fin (n + 1) → ℝ) (ha : ∀ j, 0 < a j) :
-    a 0 ^ (n + 1) * ∏ i : Fin n, (a i.succ / a i.castSucc) ^ (n - i.val) = ∏ j, a j := by
-  sorry
-
-/-- **Henk's coordinate form of the upper inequality** (3.20): increasing thresholds satisfying
-the strict flag condition for `ℤ^d` bound the volume of a symmetric convex body. -/
-theorem coordinate_flag_upper {d : ℕ} (K : ConvexBody (Fin d → ℝ))
-    (hK : (0 : Fin d → ℝ) ∈ interior (K : Set (Fin d → ℝ))) (hsym : ∀ x ∈ K, -x ∈ K)
-    (a : Fin d → ℝ) (ha : ∀ i, 0 < a i) (ham : Monotone a)
+/-- **The coordinate form of the upper inequality** (3.3): nonnegative thresholds satisfying the
+strict flag condition for `ℤ^d` bound the volume of a symmetric convex body. -/
+theorem coordinate_flag_upper {d : ℕ} (K : ConvexBody (Fin d → ℝ)) (hsym : ∀ x ∈ K, -x ∈ K)
+    (a : Fin d → ℝ) (ha : ∀ i, 0 ≤ a i)
     (hflag : ∀ (i : Fin d) (z : Fin d → ℤ),
       gauge (K : Set (Fin d → ℝ)) (fun j ↦ (z j : ℝ)) < a i → ∀ j, i ≤ j → z j = 0) :
     (∏ i, a i) * volume.real (K : Set (Fin d → ℝ)) ≤ 2 ^ d := by sorry
 
-/-- **Minkowski's first theorem on successive minima** (3.22):
+/-- **Minkowski's first theorem on successive minima** (3.4):
 `λ_0^d μ(K) ≤ 2^d covol L` in positive dimension. -/
 theorem minkowski_first_successiveMin {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]

@@ -1,37 +1,43 @@
 # Roadmap: successive minima and Minkowski's theorems
 
-**Summary.** This roadmap develops the successive minima of a convex body with respect to a lattice,
-and both sharp halves of Minkowski's second theorem, in a finite-dimensional real normed space with
-an arbitrary additive Haar measure. It also covers the hermitian Gram–Hadamard bound, integral bases
-with a prescribed flag, and Minkowski's linear forms theorem. We want it because these are the basic
-quantitative tools of the geometry of numbers: Siegel's lemma and its Bombieri–Vaaler form, bases
-of unit lattices of controlled height, the Subspace Theorem, lattice-point counting and reduction
-theory all start from them.
+**Summary.** This roadmap develops the successive minima of a convex body with respect to a lattice
+and the lower half of Minkowski's second theorem, in a finite-dimensional real normed space with an
+arbitrary additive Haar measure, together with the sharpness of both halves. It also covers the
+hermitian Gram–Hadamard bound, integral bases with a prescribed flag, and Minkowski's linear forms
+theorem. We want it because these are the basic quantitative tools of the geometry of numbers:
+Siegel's lemma and its Bombieri–Vaaler form, bases of unit lattices of controlled height, the
+Subspace Theorem, lattice-point counting and reduction theory all start from them.
 
-The roadmap builds on Mathlib's `ZLattice`, `ConvexBody`, `gauge` and Minkowski's first theorem. It
-adopts the foundational successive minima of
-[Mathlib's successive-minima proposal](https://github.com/leanprover-community/mathlib4/pull/35812)
-and adds a real-valued `Fin d`-indexed adapter. On that adapter it proves:
-- the gauge-threshold calculus;
-- attainment of all minima by one independent family, for bodies that need not be symmetric;
+The roadmap builds on Mathlib's `ZLattice`, `ConvexBody`, `gauge` and Minkowski's first theorem,
+and on Tau Ceti's real-valued body minima `ZLattice.successiveMin`, with their attainment, threshold
+calculus and the upper half of Minkowski's second theorem. It adopts the foundational successive
+minima of
+[Mathlib's successive-minima proposal](https://github.com/leanprover-community/mathlib4/pull/35812),
+identifies them with Tau Ceti's body minima, and proves on the body minima:
+- the rank forms of the threshold calculus, and one real basis attaining all minima with the
+  strict-sublevel flags, for bodies that need not be symmetric;
 - monotonicity in the body and the lattice, and transport along linear equivalences;
 - an integral basis whose flag contains the strict sublevels;
-- both halves of Minkowski's second theorem, with equality on weighted cross-polytopes and boxes.
+- the lower half of Minkowski's second theorem, with equality on weighted cross-polytopes, and
+  equality in the upper half on weighted boxes;
+- Minkowski's first theorem on successive minima.
 
-The end theorems are `minkowski_second_lower` (2.1.4) and `minkowski_second_upper` (3.21).
+The end theorem is `minkowski_second_lower` (2.1.4).
 
 | Layer | Construction |
 | --- | --- |
 | 0 | Gram determinants and integral bases with a prescribed flag |
 | 1 | Successive minima |
 | 2 | Minkowski's lower inequality and the linear forms theorem |
-| 3 | Minkowski's upper inequality |
+| 3 | Translate volumes and consequences of the upper inequality |
 
-Layer 1 needs Layer 0.2 only for the integral minimum flag (1.13). Layer 2 needs Layer 1. Layer 3
-needs Layer 1 and the transport argument of 2.1.4. Layer 0.1 is independent of the rest.
+Layer 1 needs Layer 0.2 only for the integral minimum flag (1.11). Layer 2 needs Layer 1. Layer 3
+needs Tau Ceti's upper inequality and the body-minimum API. Layer 0.1 is independent of the rest.
 
 Suggested home: `TauCeti/MeasureTheory/Group/GeometryOfNumbers/` for `MeasureTheory.successiveMin`
-and Layers 1–3, beside Mathlib's `Mathlib/MeasureTheory/Group/GeometryOfNumbers.lean`;
+and its lemmas (1.1b), beside Mathlib's `Mathlib/MeasureTheory/Group/GeometryOfNumbers.lean`;
+`TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean` for the rest of Layer 1;
+`TauCeti/NumberTheory/GeometryOfNumbers/` for Layers 2 and 3;
 `TauCeti/Analysis/InnerProductSpace/` for Layer 0.1; and `TauCeti/Algebra/Module/ZLattice/` for
 Layer 0.2.
 
@@ -41,24 +47,54 @@ Layer 0.2.
 
 - The hermitian Gram–Hadamard inequality and its coordinate form (0.1).
 - The integral basis with the flags of a prescribed real basis of lattice vectors (0.2).
-- The foundational `MeasureTheory.successiveMin` of Mathlib's successive-minima proposal, its real
-  `Fin d` adapter `successiveMin` and the natural-index extension `successiveMinNat`, with:
+- The foundational `MeasureTheory.successiveMin` of Mathlib's successive-minima proposal, its
+  identification with Tau Ceti's `ZLattice.successiveMin`, and the natural-index extension
+  `successiveMinNat`, with:
   - the proposal's lemmas on the foundational definition (1.1b);
-  - the threshold calculus;
-  - positivity and monotonicity in the index;
-  - attainment by one real basis;
+  - the rank forms of the threshold calculus;
+  - attainment by one real basis with the strict-sublevel flags;
   - monotonicity in the body and the lattice;
   - scaling and transport along linear equivalences;
   - the integral minimum flag (Layer 1).
-- Minkowski's second theorem, both halves, with an explicit additive Haar measure, and the box and
-  cross-polytope minima that show both are sharp (2.1, 3).
-- Minkowski's first theorem on successive minima, `λ_0^d·μ(K) ≤ 2^d·covolume(L,μ)` (3.22).
+- The lower half of Minkowski's second theorem, with an explicit additive Haar measure, and the box
+  and cross-polytope minima that show both halves are sharp (2.1).
 - Minkowski's linear forms theorem with its boundary convention (2.2).
+- Two volume lemmas for translates of convex sets, the coordinate form of the upper inequality, and
+  Minkowski's first theorem on successive minima, `λ_0^d·μ(K) ≤ 2^d·covolume(L,μ)` (Layer 3).
 
 ### Already in Mathlib or Tau Ceti
 
 These are used without restatement:
 - Blichfeldt's theorem, `MeasureTheory.exists_pair_mem_lattice_not_disjoint_vadd`.
+- Tau Ceti's real-valued successive minima of a `ℤ`-submodule with respect to a convex body, in
+  `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`: `ZLattice.successiveMin L K i` for
+  `i : Fin (finrank ℝ E)`, the real infimum of the `t ≥ 0` such that `t • K` contains `i+1`
+  real-linearly independent vectors of `L`. For a discrete full `L` and `0 ∈ interior K`, with no
+  symmetry, it supplies:
+  - the threshold `ZLattice.successiveMin_le_iff` and its attainment
+    `ZLattice.successiveMin_isLeast`, both stated with independent families;
+  - positivity `ZLattice.successiveMin_pos` and monotonicity `ZLattice.monotone_successiveMin`;
+  - independent lattice vectors attaining all minima,
+    `ZLattice.exists_linearIndependent_gauge_eq_successiveMin`;
+  - the strict-sublevel flag of such vectors,
+    `ZLattice.mem_span_image_Iio_of_gauge_lt_successiveMin`;
+  - a lattice vector of least gauge outside a proper subspace,
+    `ZLattice.exists_mem_notMem_forall_gauge_le`.
+
+  For symmetric `K` it supplies the integral basis with `b_i ∈ (max 1 ((i+1)/2)·λ_i)·K`,
+  `ZLattice.exists_basis_mem_smul_successiveMin`.
+- The upper half of Minkowski's second theorem, in Tau Ceti's
+  `TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`:
+  `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`, which is
+  `(∏_i λ_i(L,K))·μ.real(K) ≤ 2^d·covolume(L,μ)` for a discrete full `L`, an arbitrary additive Haar
+  measure `μ` and a symmetric `K : ConvexBody E`, with no interior hypothesis. Its general form
+  `ZLattice.prod_mul_measure_le_two_pow_mul_covolume` takes independent lattice vectors `a_i` and
+  numbers `g_i ≥ 0` such that every lattice vector of gauge below `g_j` lies in the span of
+  `a_0, …, a_(j−1)`. The `ENNReal` form is
+  `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`.
+- The gauge of a preimage under a linear map, Tau Ceti's `LinearMap.gauge_preimage`, and the gauge
+  sublevels of a convex body as its dilates, `ConvexBody.gauge_le_iff_mem_smul` and
+  `ConvexBody.gauge_pos_iff`.
 - Minkowski's first theorem in its strict and compact forms,
   `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure` and
   `…_le_measure`.
@@ -76,8 +112,9 @@ These are used without restatement:
   ([IntegralLattices](../IntegralLattices/README.md) 2F), in Tau Ceti as
   `TauCeti.IntegralLattice.successiveMinimum`, and their Minkowski bound
   `TauCeti.IntegralLattice.IsPosDef.prod_successiveMinimum_mul_pi_pow_le`. Those are natural numbers
-  on the `IntegralLattice` carrier, bounded through the Euclidean ball. The minima here are real
-  numbers on `ConvexBody` carriers, bounded by the exact volume of the body.
+  on the `IntegralLattice` carrier, bounded through the Euclidean ball. The minima here are
+  `ZLattice.successiveMin`, real numbers on `ConvexBody` carriers, bounded by the exact volume of
+  the body.
 
 ### Not owned here
 
@@ -104,8 +141,9 @@ An oriented determinant is never used as a covolume.
 
 **Convex bodies and minima.** A body is a `ConvexBody E` with `0` in its interior. Central symmetry
 is a separate hypothesis, assumed only where stated. The gauge is Mathlib's `gauge`. The successive
-minima are real numbers indexed by `i : Fin d`, `d = finrank ℝ E`, with `i` meaning the `(i+1)`-st
-minimum. There is no minimum in dimension zero. The polar of a box is a weighted cross-polytope.
+minima of a body are Tau Ceti's `ZLattice.successiveMin`, real numbers indexed by `i : Fin d`,
+`d = finrank ℝ E`, with `i` meaning the `(i+1)`-st minimum; no second body-minimum function is
+introduced. There is no minimum in dimension zero. The polar of a box is a weighted cross-polytope.
 
 **Mathlib's successive-minima proposal.** Build `MeasureTheory.successiveMin` here, with the name,
 signature and definition of
@@ -116,14 +154,17 @@ motivates the arbitrary-set core and the separate geometric hypotheses. The prop
 monotonicity, threshold-attainment and directional-family and basis lemmas are built here as well,
 with its names and hypotheses (1.1b). A directional basis is a real ambient basis, not necessarily
 an integral lattice basis. The
-proposal's `proof_wanted` form of Minkowski's second theorem supplies no proof. Both product
-inequalities, the gauge flags and the transport laws are targets here.
+proposal's `proof_wanted` form of Minkowski's second theorem supplies no proof; the upper inequality
+is Tau Ceti's, and the lower one is 2.1.4.
 
 ## Headline signatures
 
-The opening theorem block of `Suggested.lean` states `minkowski_second_lower` (2.1.4) and
-`minkowski_second_upper` (3.21) against the real-valued adapter `successiveMin` (1.1). The source
-locators and checks for these signatures are in their numbered targets below.
+The opening theorem block of `Suggested.lean` states `minkowski_second_lower` (2.1.4) against the
+body minima `successiveMin` (1.1). Its source locators and checks are in 2.1.4 below.
+
+`Suggested.lean` imports only Mathlib, so it restates `ZLattice.successiveMin` with its Tau Ceti
+definition, as `TauCetiRoadmap.SuccessiveMinima.successiveMin`, and states every body-minimum target
+against it. The Tau Ceti declarations listed above are not restated there.
 
 ## Layer 0: Gram determinants and integral bases with a prescribed flag
 
@@ -224,17 +265,33 @@ Mathlib `Matrix.gram`, `InnerProductSpace.gramSchmidtOrthonormalBasis`,
 
 ## Layer 1: Successive minima
 
-This layer defines the successive minima `λ_i(L, K)` of a convex body `K` with `0` in its interior
-with respect to a discrete full lattice `L`, as real numbers indexed by `Fin d` with `d = dim E`.
-It proves their gauge-threshold calculus and their attainment by one independent family, for bodies
-that need not be symmetric. It proves their monotonicity in the body and the lattice and their
-transport along linear equivalences. It ends with the integral minimum flag (1.13). The minima are
-defined on the carriers `IsZLattice` and `ConvexBody`, and the symmetry hypothesis is imposed only
-where a statement needs it.
+The successive minima `λ_i(L, K)` of a convex body `K` with `0` in its interior with respect to a
+discrete full lattice `L` are Tau Ceti's `ZLattice.successiveMin L K i`, real numbers indexed by
+`Fin d` with `d = dim E`. Tau Ceti proves their attainment, positivity, monotonicity in the index
+and threshold calculus in terms of independent families, for bodies that need not be symmetric.
+This layer builds the foundational definition of Mathlib's proposal on arbitrary sets and proves
+that it agrees with `ZLattice.successiveMin` (1.1). It then proves the rank forms of the threshold
+calculus and one real basis attaining all minima with the strict-sublevel flags, as corollaries of
+the Tau Ceti API. It proves their monotonicity in the body and the lattice and their transport
+along linear equivalences, and ends with the integral minimum flag (1.11). The minima live on the
+carriers `IsZLattice` and `ConvexBody`, and the symmetry hypothesis is imposed only where a
+statement needs it.
 
-The symmetric-body source for the definition and gauge calculus of 1.1–1.7 and the scaling law of
-1.10 is Evertse2023, §2.3, Lemma 2.8, printed pp.23–24 (physical pp.13–14). The proofs below also
-give the stated nonsymmetric extension. 1.7 is Cassels, Ch. VIII, Lemma 1, p.204, which is stated
+Write `λ_i` for `ZLattice.successiveMin L K i` below. The Tau Ceti inputs are used as follows.
+
+| Role | Tau Ceti declaration |
+| --- | --- |
+| threshold with independent families | `ZLattice.successiveMin_le_iff`, `ZLattice.successiveMin_le` |
+| attainment of the threshold | `ZLattice.successiveMin_isLeast` |
+| positivity, monotonicity in the index | `ZLattice.successiveMin_pos`, `ZLattice.monotone_successiveMin` |
+| one independent family attaining all minima | `ZLattice.exists_linearIndependent_gauge_eq_successiveMin` |
+| strict-sublevel flags of that family | `ZLattice.mem_span_image_Iio_of_gauge_lt_successiveMin` |
+| least gauge outside a proper subspace | `ZLattice.exists_mem_notMem_forall_gauge_le` |
+| gauge sublevels as dilates | `ConvexBody.gauge_le_iff_mem_smul`, `ConvexBody.gauge_pos_iff` |
+
+The symmetric-body source for the definition and gauge calculus of 1.1–1.5 and the scaling law of
+1.8 is Evertse2023, §2.3, Lemma 2.8, printed pp.23–24 (physical pp.13–14). The proofs below also
+give the stated nonsymmetric extension. 1.5 is Cassels, Ch. VIII, Lemma 1, p.204, which is stated
 for any bounded star body and so needs no symmetry.
 
 *Standing hypotheses.* `E` is a finite-dimensional real normed vector space; `L` is a discrete full
@@ -249,29 +306,35 @@ For the coordinate checks in ℤ², write `K₂₃ = [−1/2,1/2]×[−1/3,1/3]`
 
 **Definition** (1.1). Define `MeasureTheory.successiveMin L s i`, for a `ℤ`-submodule `L` of a real
 normed space `E`, an arbitrary set `s` and `i : ℕ`, as
-`sInf {r : ℝ≥0 | i < Set.finrank ℝ (r • s ∩ L)}`, following the Mathlib proposal. Define
-`successiveMin L K i`, for `K : ConvexBody E` and `i : Fin d`, as
-`(MeasureTheory.successiveMin L (K : Set E) i.val : ℝ)`.
+`sInf {r : ℝ≥0 | i < Set.finrank ℝ (r • s ∩ L)}`, following the Mathlib proposal. The body minimum
+is Tau Ceti's `ZLattice.successiveMin L K i`, for `K : ConvexBody E` and `i : Fin d`: the real
+infimum of the `t ≥ 0` such that the dilate `t·K` contains `i.val+1` real-linearly independent
+vectors of `L`.
 
-In finite dimension prove `successiveMin_def`: the adapter is the real infimum of the `t > 0` such
-that the dilate `t·K` contains `i.val+1` real-linearly independent vectors of `L`. This is a
-real-valued function on carriers. The `Fin d` index excludes every index `≥ d`, at which no such `t`
-exists and the infimum would be the junk value `sInf ∅ = 0`. Its geometric laws require `L` discrete
-and full and `0 ∈ interior K`; central symmetry is needed for Minkowski's product inequalities.
+In finite dimension prove `MeasureTheory.coe_successiveMin`: for every `ℤ`-submodule `L`, every
+`K : ConvexBody E` and every `i : Fin d`,
+`(MeasureTheory.successiveMin L (K : Set E) i.val : ℝ) = ZLattice.successiveMin L K i`.
+This comparison needs no discreteness, fullness, interior or symmetry. The `Fin d` index excludes
+every index `≥ d`, at which no such `t` exists and both infima are the junk value `sInf ∅ = 0`. The
+geometric laws of the minima require `L` discrete and full and `0 ∈ interior K`; central symmetry is
+needed for Minkowski's product inequalities.
 
-The proof of `successiveMin_def` uses the equivalence between the finite rank threshold and an
-independent family of length `i.val+1`. Zero dilation has rank zero, and both infima give zero for
-an empty threshold set. This comparison needs finite dimension but no discreteness, fullness,
-interior or symmetry. The gauge-threshold, attainment, monotonicity and transport API is 1.2–1.12;
-the integral minimum flag is 1.13. The prescribed box and cross-polytope minima are
-`successiveMin_box` (2.1.5) and `successiveMin_crosspolytope` (2.1.6).
+In finite dimension a set `S` has `i.val < Set.finrank ℝ S` exactly when it contains `i.val+1`
+real-linearly independent vectors: extract an independent family spanning `span ℝ S`, or bound the
+rank below by the family. So the two threshold sets correspond under `ℝ≥0 → ℝ`, and the real
+infimum of the image of a set of `ℝ≥0` is the coercion of its infimum, also when the set is empty.
+The threshold calculus, attainment, monotonicity and transport targets are 1.2–1.10; the integral
+minimum flag is 1.11. The prescribed box and cross-polytope minima are `successiveMin_box` (2.1.5)
+and `successiveMin_crosspolytope` (2.1.6).
 
-For a closed body with zero in its interior and `t > 0`, `x ∈ t·K` exactly when `gauge K x ≤ t`,
-and only the zero vector has gauge zero. This identifies the dilation infimum with the least gauge
-threshold of `successiveMin_isLeast`, which is how the gauge calculus below is read off the
+For a closed body with zero in its interior and `t > 0`, `x ∈ t·K` exactly when `gauge K x ≤ t`
+(`ConvexBody.gauge_le_iff_mem_smul`), and only the zero vector has gauge zero
+(`ConvexBody.gauge_pos_iff`). This identifies the dilation infimum with the least gauge threshold of
+`successiveMin_isLeast_gauge` (1.3), which is how the gauge calculus below is read off the
 definition.
-*Needs:* Mathlib `ConvexBody`, `gauge`, `gauge_le_one_iff_mem_closure`, `finrank_span_eq_card`,
-`gauge_closedBall`.
+*Needs:* Mathlib `Set.finrank`, `exists_linearIndependent`, `finrank_span_eq_card`,
+`LinearIndependent.fintype_card_le_finrank`, `Submodule.finrank_mono`, `NNReal.coe_sInf`; Tau Ceti
+`ZLattice.successiveMin_def`.
 **Checks.**
 
 - For `L = ℤ ⊂ ℝ` and `K = [−2,2]`, `λ_0(L,K) = 1/2` (`successiveMin_int_Icc`).
@@ -280,7 +343,7 @@ definition.
 - For the zero lattice in `ℝ^0` and its singleton convex body, the product over all minima indices
   is 1.
 - For `L = 2ℤ` in ℝ and `K = [−1,1]`, `λ_0 = 2`, not 1.
-- On `K = closedBall(0,1)`, the gauge-threshold condition of `successiveMin_isLeast` is
+- On `K = closedBall(0,1)`, the gauge-threshold condition of `successiveMin_isLeast_gauge` is
   `dim span{x ∈ L : ‖x‖ ≤ r} ≥ i.val+1`.
 - In ℤ² with the unit square, vectors (1,1),(1,−1) independently attain both minima 1, but their
   integral span has index two.
@@ -290,26 +353,29 @@ definition.
   `0` of `sInf ∅` in both definitions; the comparison still holds. The geometric laws of this
   layer retain `IsZLattice ℝ L`.
 - For the nondiscrete subgroup `ℤ + ℤ√2` in ℝ and `K = [−1,1]`, both definitions give zero; the
-  adapter identity does not assert attainment or positivity.
+  comparison does not assert attainment or positivity.
 
 **Natural-index extension** (1.1a). Define `successiveMinNat L K i` for `i : ℕ` to be
-`successiveMin L K ⟨i, hi⟩` if `hi : i < d`, and zero otherwise. Prove `successiveMinNat_of_lt` for
-the first branch and `successiveMinNat_of_le` for `d ≤ i`. The extension is zero-based, so an index
-`i` below `d` still denotes the source's `(i+1)`-st minimum. These identities are definitional and
-need no discreteness, fullness, interior or symmetry hypotheses. In finite dimension prove
-`successiveMinNat_eq`: `successiveMinNat L K i = (MeasureTheory.successiveMin L (K : Set E) i : ℝ)`
-for every natural index, using the zero rank threshold beyond `d`. They apply when a dimension
-formula is a proved equality rather than a definitional one. Positivity and monotonicity concern the
-restriction to indices below `d`; the zero extension need not be monotone on ℕ.
+`ZLattice.successiveMin L K ⟨i, hi⟩` if `hi : i < d`, and zero otherwise. Prove
+`successiveMinNat_of_lt` for the first branch and `successiveMinNat_of_le` for `d ≤ i`. The
+extension is zero-based, so an index `i` below `d` still denotes the source's `(i+1)`-st minimum.
+These identities are definitional and need no discreteness, fullness, interior or symmetry
+hypotheses. In finite dimension prove `successiveMinNat_eq`:
+`successiveMinNat L K i = (MeasureTheory.successiveMin L (K : Set E) i : ℝ)` for every natural
+index: below `d` this is 1.1, and beyond it both sides are zero by `successiveMin_of_finrank_le`
+(1.1b). They apply when a
+dimension formula is a proved equality rather than a definitional one. Positivity and monotonicity
+concern the restriction to indices below `d`; the zero extension need not be monotone on ℕ.
 (Source: Evertse2023, §2.3, definition of successive minima, printed p.23, with the zero-based
 reindexing of 1.1; the out-of-range value is the explicit convention here.)
-*Needs:* 1.1 `successiveMin` and Mathlib `Fin`.
+*Needs:* Tau Ceti `ZLattice.successiveMin`, Mathlib `Fin`, 1.1 `MeasureTheory.coe_successiveMin`,
+1.1b `successiveMin_of_finrank_le`.
 **Checks.**
 
 - For ℤ² and `K₂₃`, the natural-index values at 0, 1 and 2 are 2, 3 and 0; index 2 is not a third
   positive minimum (`successiveMinNat_box_two_three`).
-- In dimension zero every natural-index value is zero in both the adapter and the foundational
-  definition, while the product over `Fin 0` remains one.
+- In dimension zero every natural-index value is zero in both `successiveMinNat` and the
+  foundational definition, while the product over `Fin 0` remains one.
 - For the standard lattice in `ℝ⁶` and the box with weights `(1,2,3,4,5,6)` (half-widths
   `1,1/2,1/3,1/4,1/5,1/6`), the natural-index values at `2 = 2·1` and `6 = 2·3` are `3` and `0`
   (`successiveMinNat_box_six`, and an `example` for index 6). The indices are transported along the
@@ -350,10 +416,12 @@ Mathlib's `Real.finrank_eq_int_finrank_of_discrete`. The next two are in its
 [`Convex/Basic.lean`](https://github.com/khwilson/mathlib4/blob/8423d1c878e50d8504a230ffd9b6ec76ce6a08eb/Mathlib/Analysis/Convex/Basic.lean#L573-L574):
 `Convex.smul_mono_of_zero_mem`, `p • s ⊆ q • s` for convex `s ∋ 0` and `0 ≤ p ≤ q`.
 
-The adapter laws below are the `Fin d` forms of these lemmas. 1.3 reads its attained threshold off
-`lt_setFinrank_successiveMin_smul`, 1.5 is `successiveMin_mono`, and 1.7 strengthens
-`exists_directional_basis` by the gauge equalities and the strict-sublevel flags. A `ConvexBody`
-with `0` in its interior is convex, compact and a neighbourhood of `0`.
+A `ConvexBody` with `0` in its interior is convex, compact and a neighbourhood of `0`. On such a
+body, and through 1.1, these lemmas are the foundational counterparts of Tau Ceti's body-minimum
+API: `lt_setFinrank_successiveMin_smul` of `ZLattice.successiveMin_isLeast`, `successiveMin_mono`
+of `ZLattice.monotone_successiveMin`, and `exists_directional_basis` of
+`ZLattice.exists_linearIndependent_gauge_eq_successiveMin`. They extend that API to arbitrary sets
+and to lattices of lower rank. The body-minimum targets below use the Tau Ceti API.
 (Source: the proposal, revision `8423d1c`, lines 80–304.)
 *Needs:* Mathlib `Real.finrank_eq_int_finrank_of_discrete`, `ZLattice.rank`,
 `Module.Free.exists_basis`, `Absorbent.absorbs_finite`, `absorbent_nhds_zero`,
@@ -389,16 +457,16 @@ A discrete lattice meets a bounded set in finitely many points.
 - For ℤ² and the unit square, bound 2 gives 25 points.
 - For ℤ and the nonsymmetric body `[−1/10,1]`, bound 2 gives exactly the three points 0, 1, 2.
 
-Prove `successiveMin_isLeast` (1.3): for every `i : Fin d`, `λ_i(L,K)` is the least element of
-`A_i = {r ≥ 0 : dim span_ℝ{x ∈ L : gauge K x ≤ r} ≥ i.val+1}`.
-For `r > 0` the members of `A_i` are the `r` with `i.val < Set.finrank ℝ (r • K ∩ L)`, because
-`x ∈ r·K` exactly when `gauge K x ≤ r`. `r = 0` is not a member, since only the zero vector has
-gauge zero, and the foundational threshold at `0` has rank zero as well. So `λ_i` is a lower bound
-of `A_i` by definition. It is a member by `lt_setFinrank_successiveMin_smul` (1.1b), whose index
-bound `i.val < finrank ℤ L` is `ZLattice.rank`.
-*Needs:* Mathlib `Submodule.finrank_mono`, `finrank_span_eq_card`, `gauge_le_one_iff_mem_closure`,
-`gauge_eq_zero`, `absorbent_nhds_zero`, `ConvexBody.isCompact`, `IsCompact.isVonNBounded`,
-`ZLattice.rank`, 1.1 `successiveMin_def`, 1.1b `lt_setFinrank_successiveMin_smul`.
+Prove `successiveMin_isLeast_gauge` (1.3): for every `i : Fin d`, `λ_i(L,K)` is the least element of
+`A_i = {r ≥ 0 : dim span_ℝ{x ∈ L : gauge K x ≤ r} ≥ i.val+1}`. `K` need not be symmetric.
+For `r > 0`, `gauge K x ≤ r` exactly when `x ∈ r·K`, and a set contains `i.val+1` real-linearly
+independent vectors exactly when its span has dimension at least `i.val+1`. So for `r > 0` the
+members of `A_i` are the thresholds of `ZLattice.successiveMin_le_iff`, and `λ_i` is a lower bound
+of `A_i` by `ZLattice.successiveMin_le`. `r = 0` is not a member, since only the zero vector has
+gauge zero. `λ_i` is a member by `ZLattice.successiveMin_isLeast`, because `λ_i > 0`.
+*Needs:* Mathlib `Submodule.finrank_mono`, `finrank_span_eq_card`, `exists_linearIndependent`; Tau
+Ceti `ConvexBody.gauge_le_iff_mem_smul`, `ConvexBody.gauge_pos_iff`, `ZLattice.successiveMin_le`,
+`ZLattice.successiveMin_isLeast`, `ZLattice.successiveMin_pos`.
 **Checks.**
 
 - `A_i` contains its endpoint; replacing ≤ by < in the membership assertion is false.
@@ -406,70 +474,33 @@ bound `i.val < finrank ℤ L` is `ZLattice.rank`.
   rank-one span is `ℝe₁` instead of `ℝe₀`.
 - At threshold zero the lattice sublevel spans dimension zero, so no valid minimum index qualifies.
 
-Prove `successiveMin_pos` (1.4): for every `i : Fin d`, `0 < λ_i(L,K)`. `K` need not be symmetric.
-By 1.3, `λ_i` is a member of `A_i`. The rank at the threshold 0 is that of the span of the zero
-vector, which is below `i.val+1`, so `λ_i ≠ 0`.
-*Needs:* 1.3 `successiveMin_isLeast`, 1.2 `finite_gauge_sublevel`.
-**Checks.**
-
-- For `(1/2)ℤ` and the unit interval the minimum is 1/2: positivity does not imply a lower bound
-  of 1.
-- For `(1/2)ℤ` and the nonsymmetric body `[−1/10,1]`, the minimum is again 1/2, attained by 1/2 and
-  not by −1/2, whose gauge is 5.
-- For the subgroup `ℤ + ℤ√2` of ℝ, which is not discrete, the dilation infimum for `[−1,1]` is 0:
-  discreteness of `L` is load-bearing.
-
-Prove `successiveMin_monotone` (1.5): the function `i ↦ λ_i(L,K)` on `Fin d` is monotone. `K` need
-not be symmetric.
-This is `successiveMin_mono` (1.1b) on the adapter, with `j.val < d = finrank ℤ L` by
-`ZLattice.rank` and `K` absorbent by `absorbent_nhds_zero`.
-*Needs:* Mathlib `ZLattice.rank`, `absorbent_nhds_zero`, 1.1b `successiveMin_mono`.
-**Checks.**
-
-- The unit cube has a constant sequence of minima; strict monotonicity is false.
-- For ℤ² and the nonsymmetric rectangle `[−1/10,1]²`, both minima are 1.
-- The order is that of the index, not of the coordinates: for ℤ² and `K₃₂` the minima are (2,3),
-  with `λ_0` attained by `e₁` and `λ_1` by `e₀`.
-
-Prove `successiveMin_le_iff` (1.6): for `r ≥ 0`, `λ_i(L,K) ≤ r` if and only if
+Prove `successiveMin_le_iff_finrank` (1.4): for `r ≥ 0`, `λ_i(L,K) ≤ r` if and only if
 `i.val+1 ≤ dim_ℝ span_ℝ((L : Set E) ∩ r·(K : Set E))`.
-*Needs:* Mathlib `gauge_eq_zero`, `gauge_smul_of_nonneg`, `gauge_le_one_iff_mem_closure`,
-`Submodule.finrank_mono`, `absorbent_nhds_zero`, `ConvexBody.isCompact`, `IsCompact.isVonNBounded`,
-1.3 `successiveMin_isLeast`.
+This is `ZLattice.successiveMin_le_iff` with the independent family in `L ∩ r·K` replaced by the
+dimension of the span of `L ∩ r·K`.
+*Needs:* Mathlib `exists_linearIndependent`, `finrank_span_eq_card`, `Submodule.finrank_mono`; Tau
+Ceti `ZLattice.successiveMin_le_iff`.
 **Checks.**
 
 - At `r = 0` the right side is false for every valid index.
 - At `r = λ_i` the threshold holds.
 
-Prove `exists_successiveMin_witnesses` (1.7): there exists a real basis `b` indexed by `Fin d` such
+Prove `exists_successiveMin_witnesses` (1.5): there exists a real basis `b` indexed by `Fin d` such
 that `b_i ∈ L`, `gauge K b_i = λ_i(L,K)`, and every `x ∈ L` of gauge `< λ_i` lies in
-`span_ℝ{b_j : j < i}`. In particular `b_i ∈ λ_i K`, and all minimum bounds are attained by one
-independent family. `K` need not be symmetric. This strengthens `exists_directional_basis` (1.1b)
-by the gauge equalities and the strict-sublevel flags.
-The family is chosen greedily, in two steps.
-1. Prove `exists_min_gauge_outside`: if `W < E` is a proper real subspace, there is `v ∈ L ∖ W` with
-   `gauge K v ≤ gauge K x` for every `x ∈ L ∖ W`; in particular the selected gauge is positive. A
-   full lattice is not contained in `W`, and by 1.2 the minimum is taken over finitely many gauge
-   values.
-2. Prove `exists_greedy_gauge_family`: there is a real-linearly-independent family `v : Fin d → L`
-   such that `a_i = gauge K v_i` is positive and nondecreasing, and every `x ∈ L` with
-   `gauge K x < a_i` lies in `span_ℝ{v_j : j < i}`. Here `v_i` is the vector of step 1 for `W` the
-   span of `v_0, …, v_(i−1)`, appended with `linearIndependent_finSnoc`.
-
-The family has `d` members and thus is a real basis; no integral-basis claim is made. For `r < a_i`
-every lattice vector of gauge at most `r` lies in a span of dimension `i`, and for `r ≥ a_i` the
-vectors `v_0, …, v_i` qualify, so by 1.3 `a_i = λ_i`. Since `K` is closed and `λ_i > 0`,
-`gauge K b_i = λ_i` gives `b_i ∈ λ_i K`.
-*Needs:* Mathlib `IsZLattice`, `Set.exists_min_image`, `gauge_pos`, `absorbent_nhds_zero`,
-`ConvexBody.isCompact`, `IsCompact.isVonNBounded`, `linearIndependent_finSnoc`,
-`finrank_span_eq_card`, `basisOfLinearIndependentOfCardEqFinrank'`,
-`gauge_le_one_iff_mem_closure`, `gauge_smul_of_nonneg`, 1.2 `finite_gauge_sublevel`, 1.3
-`successiveMin_isLeast`, 1.4 `successiveMin_pos`.
+`span_ℝ{b_j : j < i}`, which is `b.flag i.castSucc`. In particular `b_i ∈ λ_i K`, and all minimum
+bounds are attained by one independent family. `K` need not be symmetric.
+`ZLattice.exists_linearIndependent_gauge_eq_successiveMin` gives `d` real-linearly independent
+lattice vectors with these gauges, which form a real basis. Their strict-sublevel flags are
+`ZLattice.mem_span_image_Iio_of_gauge_lt_successiveMin`. Since `K` is closed and `λ_i > 0`,
+`gauge K b_i = λ_i` gives `b_i ∈ λ_i K`. The family need not be an integral basis; 1.11 supplies
+one with the same flags.
+*Needs:* Mathlib `basisOfLinearIndependentOfCardEqFinrank'`,
+`coe_basisOfLinearIndependentOfCardEqFinrank'`, `Module.Basis.flag`; Tau Ceti
+`ZLattice.exists_linearIndependent_gauge_eq_successiveMin`,
+`ZLattice.mem_span_image_Iio_of_gauge_lt_successiveMin`, `ZLattice.successiveMin_pos`,
+`ConvexBody.gauge_le_iff_mem_smul`.
 **Checks.**
 
-- For ℤ² and `W = ℝe₀`, the least outside gauge is 3 for `K₂₃` and 2 for `K₃₂`. The respective
-  outside witnesses are `e₁` with gauge 3 and `e₁` with gauge 2.
-- `W = ⊤` is excluded because the complement is empty.
 - Repeated minima are allowed: the unit square has both values 1.
 - Strict inequality in the flag is essential: `e_0` has gauge equal to the first minimum and does
   not lie in the zero prefix.
@@ -479,34 +510,39 @@ vectors `v_0, …, v_i` qualify, so by 1.3 `a_i = λ_i`. Since `K` is closed and
 - For the nonsymmetric body `[−1/10,1]` and `L = ℤ` the minimum 1 is attained by 1 but not by −1,
   whose gauge is 10; outside the symmetric case a witness family is not closed under negation.
 
-Prove `successiveMin_antitone_body` (1.8): if `K ⊆ K'` and both bodies contain zero in their
+Prove `successiveMin_antitone_body` (1.6): if `K ⊆ K'` and both bodies contain zero in their
 interior, then `λ_i(L,K') ≤ λ_i(L,K)` for every `i`.
 (Source: direct body-monotonicity deduction from the threshold definition in Evertse2023, §2.3,
 printed p.23.)
-*Needs:* Mathlib `Submodule.finrank_mono`, 1.6 `successiveMin_le_iff`, 1.4 `successiveMin_pos`.
+The independent family attaining `λ_i(L,K)` lies in `λ_i·K ⊆ λ_i·K'`.
+*Needs:* Mathlib `Set.smul_set_mono`; Tau Ceti `ZLattice.successiveMin_isLeast`,
+`ZLattice.successiveMin_le`.
 **Checks.**
 
 - Changing `[−1,1]` to `[−2,2]` divides the only minimum by two.
 
-Prove `successiveMin_monotone_lattice` (1.9): if `L ≤ M` are discrete full lattices in the same
+Prove `successiveMin_monotone_lattice` (1.7): if `L ≤ M` are discrete full lattices in the same
 `E`, then `λ_i(M,K) ≤ λ_i(L,K)`.
 (Source: deduction from the threshold definition in Evertse2023, §2.3, printed p.23; Lemma 2.8,
 pp.23–24, supplies attainment, rather than stating lattice monotonicity.)
-*Needs:* Mathlib `Submodule.finrank_mono`, 1.6 `successiveMin_le_iff`, 1.4 `successiveMin_pos`.
+The independent family attaining `λ_i(L,K)` consists of vectors of `M`. `ZLattice.successiveMin_le`
+assumes nothing of `M`.
+*Needs:* Tau Ceti `ZLattice.successiveMin_isLeast`, `ZLattice.successiveMin_le`.
 **Checks.**
 
 - `2ℤ ⊂ ℤ` gives minima 2 and 1 for the unit interval.
 
-Prove `successiveMin_smul_body` (1.10): for `c > 0`, `λ_i(L, cK) = λ_i(L,K)/c`, with the scalar
+Prove `successiveMin_smul_body` (1.8): for `c > 0`, `λ_i(L, cK) = λ_i(L,K)/c`, with the scalar
 action on `ConvexBody`.
 Since `gauge_(cK) = c⁻¹·gauge_K`, the threshold set `A_i` of 1.3 for `cK` is `c⁻¹` times the one for
 `K`.
-*Needs:* Mathlib `gauge_smul_left_of_nonneg`, `ConvexBody.coe_smul`, 1.3 `successiveMin_isLeast`.
+*Needs:* Mathlib `gauge_smul_left_of_nonneg`, `ConvexBody.coe_smul`, 1.3
+`successiveMin_isLeast_gauge`.
 **Checks.**
 
 - Scaling the unit interval by 3 changes its minimum from 1 to 1/3.
 
-Prove `successiveMin_linearEquiv` (1.11): let `e : E ≃ₗ[ℝ] F`, `L' = e(L)` as integral submodules,
+Prove `successiveMin_linearEquiv` (1.9): let `e : E ≃ₗ[ℝ] F`, `L' = e(L)` as integral submodules,
 and `K' = e(K)` as convex bodies. For valid indices `i, j` with `i.val = j.val`,
 `λ_j(L',K') = λ_i(L,K)`. `E, F` are finite-dimensional normed real spaces, and `L`, `K` satisfy the
 standing hypotheses. `L'` is discrete and full and `0 ∈ interior K'` as a consequence of `L' = e(L)`
@@ -515,33 +551,37 @@ and `K' = e(K)`, not as hypotheses. The equivalence need not be orthogonal or un
 (physical pp.14–15); the nonsingularity hypothesis is corrected as in Misprints M2.)
 *Needs:* Mathlib `LinearEquiv.finrank_eq`, `LinearEquiv.toContinuousLinearEquiv`,
 `Submodule.map_equiv_eq_comap_symm`, `ZLattice.comap_discreteTopology`, `instIsZLatticeComap`,
-`Homeomorph.image_interior`, 1.6 `successiveMin_le_iff`, 1.4 `successiveMin_pos`.
+`Homeomorph.image_interior`, `LinearIndependent.map'`; Tau Ceti `ZLattice.successiveMin_isLeast`,
+`ZLattice.successiveMin_le`.
 **Checks.**
 
 - Scaling both ℤ and `[−1,1]` by 2 preserves minimum 1; scaling only the lattice gives 2.
 - A shear acts simultaneously on the standard lattice and unit square without changing their two
   minima.
 
-Prove `successiveMin_first_le_iff` (1.12): if `d > 0` and `r ≥ 0`, `λ_0(L,K) ≤ r` if and only if
+Prove `successiveMin_first_le_iff` (1.10): if `d > 0` and `r ≥ 0`, `λ_0(L,K) ≤ r` if and only if
 there exists `x ∈ L` with `x ≠ 0` and `x ∈ rK`.
 (Source: Evertse2023, §2.3, definition and Lemma 2.8, pp.23–24; Henk2002, p.2 before Theorem 1.2.)
-*Needs:* Mathlib `finrank_span_eq_card`, `Submodule.finrank_mono`, 1.6 `successiveMin_le_iff`.
+This is `ZLattice.successiveMin_le_iff` at index zero, where one vector is independent exactly when
+it is nonzero.
+*Needs:* Mathlib `linearIndependent_unique_iff`; Tau Ceti `ZLattice.successiveMin_le_iff`.
 **Checks.**
 
 - For ℤ and the unit interval, `r = 1` has witnesses ±1, while every `0 ≤ r < 1` has none.
 
-Prove `exists_integral_minimum_flag` (1.13): there is an integral basis `b : Fin d → L` such that
+Prove `exists_integral_minimum_flag` (1.11): there is an integral basis `b : Fin d → L` such that
 `x ∈ L` and `gauge K x < λ_i` imply that `x` belongs to the real flag of `b` at `i`, the span of its
 first `i` vectors.
 Symmetry of `K` is not assumed. No bound on the individual gauges of the `b_i` is claimed; only the
 attained real basis's flag is preserved. The form that bounds the vectors, at the cost
-`max 1 ((i+1)/2)` and for a symmetric body, is [HeightsAndUnits](../HeightsAndUnits/README.md) 2.1;
-its general form is Tau Ceti's `ZLattice.exists_basis_gauge_le_max_one_mul`.
-Apply 0.2.1 to the real basis of 1.7: the integral basis it returns has the same real flags, and
+`max 1 ((i+1)/2)` and for a symmetric body, is Tau Ceti's
+`ZLattice.exists_basis_mem_smul_successiveMin`, which is
+[HeightsAndUnits](../HeightsAndUnits/README.md) 2.1.
+Apply 0.2.1 to the real basis of 1.5: the integral basis it returns has the same real flags, and
 those contain the strict sublevels.
 (Source: Cassels, Ch. VIII, Lemma 2, p.204, there with integer coefficients; Henk2002, pp.3–4,
 (2.1)–(2.3).)
-*Needs:* Mathlib `Module.Basis.flag`, 1.7 `exists_successiveMin_witnesses`, 0.2.1
+*Needs:* Mathlib `Module.Basis.flag`, 1.5 `exists_successiveMin_witnesses`, 0.2.1
 `exists_integral_basis_same_flag`.
 **Checks.**
 
@@ -561,8 +601,8 @@ are `(1/2,1)`, not `(1,2)`.
 
 ### Dependencies
 
-Layer 0.2 (for 1.13); Mathlib `ConvexBody`, `gauge` and its calculus, `IsZLattice`,
-`ZSpan.setFinite_inter`, `Module.Basis.flag`.
+Layer 0.2 (for 1.11); Tau Ceti `ZLattice.successiveMin` and its API; Mathlib `ConvexBody`, `gauge`
+and its calculus, `IsZLattice`, `ZSpan.setFinite_inter`, `Module.Basis.flag`.
 
 ## Layer 2: Minkowski's lower inequality and the linear forms theorem
 
@@ -627,27 +667,28 @@ centrally symmetric about zero, and has zero in its interior. A lower-rank latti
 considered as a full lattice in its real span with that span's own volume. No ambient-volume
 inequality for a measure-zero subspace is claimed.
 
-*Transport to Euclidean space.* For both product inequalities, transport once by the continuous
+*Transport to Euclidean space.* Transport once by the continuous
 linear equivalence `e = toEuclidean`, with lattice `e(L)`, body `e(K)` and measure `ν = μ.map e`.
 This is an additive Haar measure by Mathlib `ContinuousLinearEquiv.isAddHaarMeasure_map`. The
 equivalence and its inverse preserve these transported measures, `ZLattice.covolume_comap`
-identifies the covolumes, and 1.11 `successiveMin_linearEquiv` identifies minima with equal index
+identifies the covolumes, and 1.9 `successiveMin_linearEquiv` identifies minima with equal index
 values. In Euclidean space `ν = c·volume` for a finite positive `c`. The fundamental-domain formula
 makes the covolume scale by `c`, while the minima are measure independent. Multiplying the
 canonical-volume inequality by `c` gives the `ν`-measure inequality and hence the original
 `μ`-measure inequality. (Source: Mathlib `MeasureTheory.Measure.isAddLeftInvariant_eq_smul` and
 `ZLattice.covolume_eq_measure_fundamentalDomain`.)
 
-*Euclidean case.* Take the attaining basis `b` of 1.7, so that `b_i ∈ λ_i K`. By 2.1.2 the
+*Euclidean case.* Take the attaining basis `b` of 1.5, so that `b_i ∈ λ_i K`. By 2.1.2 the
 cross-polytope with weights `λ_i` lies in `K`, 2.1.1 gives its volume
 `(2^d/d!)·|det_o(b)|/∏_i λ_i`, and 2.1.3 bounds `covolume(L)` by `|det_o(b)|`.
 (Source: Evertse2023, §2.3, Theorem 2.9 and its complete lower-bound proof, printed pp.24, 26–27.)
 *Needs:* Mathlib `toEuclidean`, `ContinuousLinearEquiv.isAddHaarMeasure_map`,
 `ZLattice.covolume_comap`, `ConvexBody.isCompact`, `volume_euclideanSpace_eq_dirac`,
 `MeasureTheory.Measure.isAddLeftInvariant_eq_smul`,
-`ZLattice.covolume_eq_measure_fundamentalDomain`, 1.11 `successiveMin_linearEquiv`, 1.7
-`exists_successiveMin_witnesses`, 1.4 `successiveMin_pos`, 2.1.1 `weighted_crosspolytope_volume`,
-2.1.2 `weighted_crosspolytope_subset`, 2.1.3 `covolume_le_abs_basis_det`.
+`ZLattice.covolume_eq_measure_fundamentalDomain`; Tau Ceti `ZLattice.successiveMin_pos`; 1.9
+`successiveMin_linearEquiv`, 1.5 `exists_successiveMin_witnesses`, 2.1.1
+`weighted_crosspolytope_volume`, 2.1.2 `weighted_crosspolytope_subset`, 2.1.3
+`covolume_le_abs_basis_det`.
 **Checks.**
 
 - For ℤ² and the unit diamond, product 1 times area 2 equals `2²/2!`.
@@ -664,10 +705,11 @@ Prove `successiveMin_box` (2.1.5): let `b` be a real basis of `E` indexed by `Fi
 `L = span_ℤ(range b)`, and `a : Fin d → ℝ` positive and nondecreasing. If `K` is the convex body
 `{x : ∀ j, a_j|b.repr(x)_j| ≤ 1}`, then `λ_i(L,K) = a_i` for every `i`.
 `b : Basis (Fin d) ℝ E` where `d = finrank ℝ E`. `L` is exactly its integral span. All `a_i > 0`
-and `a` is monotone. The stated set is the carrier of `K`.
+and `a` is monotone. The stated set is the carrier of `K`. Together with
+`ZLattice.covolume_eq_det_mul_measureReal`, this attains equality in Tau Ceti's upper inequality.
 (Source: Evertse2023, §2.3, Example 2, printed pp.25–26 (physical pp.15–16).)
-*Needs:* Mathlib `finrank_span_eq_card`, `Submodule.finrank_mono`, 1.6 `successiveMin_le_iff`, 1.4
-`successiveMin_pos`.
+*Needs:* Mathlib `finrank_span_eq_card`, `Submodule.finrank_mono`; Tau Ceti
+`ZLattice.successiveMin_pos`; 1.4 `successiveMin_le_iff_finrank`.
 **Checks.**
 
 - `a = (2,3)` gives minima 2, 3.
@@ -681,8 +723,8 @@ attains equality in 2.1.4.
 and `a` is monotone. The weighted ℓ¹ set is the carrier of `K`.
 (Source: Evertse2023, §2.3, Example 3 and Exercise 2.9, printed p.26 (physical p.16).)
 *Needs:* Mathlib `finrank_span_eq_card`, `Submodule.finrank_mono`,
-`ZLattice.covolume_eq_det_mul_measureReal`, 1.6 `successiveMin_le_iff`, 1.4 `successiveMin_pos`,
-2.1.1 `weighted_crosspolytope_volume`.
+`ZLattice.covolume_eq_det_mul_measureReal`; Tau Ceti `ZLattice.successiveMin_pos`; 1.4
+`successiveMin_le_iff_finrank`, 2.1.1 `weighted_crosspolytope_volume`.
 **Checks.**
 
 - `a = (2,3)`, `b` standard in ℝ² gives minima 2, 3 and area 1/3, so the product-volume is 2.
@@ -734,25 +776,13 @@ force `x = 0`, so the denominator is nonzero.
 Layer 1; Mathlib's first convex body theorem, `ZLattice.covolume` with its fundamental-domain and
 Haar-scaling lemmas, `toEuclidean`, and the Haar-measure image lemmas.
 
-## Layer 3: Minkowski's upper inequality
+## Layer 3: Translate volumes and consequences of the upper inequality
 
-The upper inequality follows Henk's short proof through volumes of unions of translates of `½K`
-along a flag of coordinate boxes.
-
-*Standing notation for 3.11–3.16 and 3.20.* These are sets, finite unions and scalar images, not
-new box or lattice carrier types. For `d, q ∈ ℕ`, write `M_q = {z ∈ ℤ^d : −q ≤ z_j ≤ q for every
-j}`, a finite interval in the function lattice. Write `c(z) = (z_j : ℝ)_j`,
-`U_q(S) = ⋃_{z ∈ M_q} (c(z) + S)`, and `M_q^k = {z ∈ M_q : z_j = 0 when k ≤ j < d}`. Write
-`U_q^k(S)` for the same union restricted to `M_q^k`. Indices are zero-based. A cutoff
-`k ∈ {0, …, d}` retains the first `k` coordinates; the transverse dimension is `d − k`.
-Empty-coordinate products and volumes use the zero-dimensional convention.
-
-*Standing notation for 3.2–3.7.* `E` and `F` are finite-dimensional real normed vector spaces with
-their Borel measurable structures; `μ` and `ν` are additive Haar measures on `E` and `F`. Use their
-product measure `μ×ν`. The spaces may have dimension zero. For a finite indexing type `I` and
-`v : I → E`, write `U_v(K) = ⋃_{i ∈ I} {(v_i + x, y) : (x,y) ∈ K}`. Write `f₁,r(x,y) = (rx, y)` and
-`f₂,r(x,y) = (x, ry)`. These are ordinary finite unions and linear maps, not new constructors or
-carrier types.
+The upper half of Minkowski's second theorem is Tau Ceti's
+`ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`, listed under *Already in
+Mathlib or Tau Ceti*. This layer proves two volume lemmas for finite unions of translates of convex
+sets, the coordinate form of the upper inequality for `ℤ^d`, and Minkowski's first theorem on
+successive minima.
 
 Prove `finite_interior_disjoint_translate_volume` (3.1): let `K ⊆ E` be compact and convex, and
 `v : I → E` a finite family. If `v_i + int(K)` and `v_j + int(K)` are disjoint whenever `i ≠ j`,
@@ -770,80 +800,8 @@ interior-disjointness hypothesis controls when the cardinal factor is valid.
 - The closed intervals `[0,1]` and `[1,2]` have union of real volume 2 despite sharing an endpoint.
 - Two copies of `[0,1]` have union volume 1, not 2; their interiors are not disjoint.
 
-Prove `finite_translate_section` (3.2): for every `K ⊆ E×F`, `y ∈ F` and finite `v : I → E`,
-`{x : (x,y) ∈ U_v(K)} = ⋃_i (v_i + {x : (x,y) ∈ K})`.
-(Source: Henk2002, p.6, the section inclusion between (3.6) and the successive integrations.)
-**Checks.**
 
-- The union of translates of `[0,1]` indexed by `Fin 0` is the empty real set.
-
-Prove `convex_section_enlargement` (3.3): if `K ⊆ E×F` is convex and `r ≥ 1`, then for every
-`y ∈ F` there exists `t ∈ E` such that `{x : (x,y) ∈ U_v(K)} ⊆ t + {x : (x,y) ∈ U_v(f₁,r(K))}`.
-(Source: Henk2002, p.6, pointwise `t(x)` inclusion immediately after (3.6).)
-*Needs:* Mathlib `Convex.add_smul_sub_mem`, 3.2 `finite_translate_section`.
-**Checks.**
-
-- `[2,3] ⊆ [4,6] − 2`, using `a = 2` and `r = 2`.
-- `[2,3]` is not a subset of its dilation `[4,6]` about zero; the translation cannot be omitted.
-- There is no real `t` with `{0,1,3} ⊆ {0,2,6} + t`; arbitrary nonconvex sections do not satisfy
-  the containment.
-
-Prove `section_union_volume_mono` (3.4): for convex `K ⊆ E×F`, `r ≥ 1` and every `y ∈ F`,
-`μ{x : (x,y) ∈ U_v(K)} ≤ μ{x : (x,y) ∈ U_v(f₁,r(K))}`.
-(Source: Henk2002, p.6, the inequality between section-volume integrals.)
-*Needs:* Mathlib `MeasureTheory.measure_preimage_mul_right`, 3.3 `convex_section_enlargement`.
-**Checks.**
-
-- At `r = 1`, `f₁,r(K) = K` for every subset of `ℝ×ℝ`, so every section inequality is an equality.
-
-Prove `partial_dilation_union_volume` (3.5): for compact convex `K ⊆ E×F`, finite `v : I → E` and
-`r ≥ 1`, `(μ×ν)(U_v(K)) ≤ (μ×ν)(U_v(f₁,r(K)))`.
-(Source: Henk2002, p.6 (3.6) and the three-line successive-integration argument ending on p.7.)
-*Needs:* Mathlib `IsCompact.image`, `isCompact_iUnion`, `IsCompact.isClosed`,
-`IsClosed.measurableSet`, `measurable_measure_prodMk_right`,
-`MeasureTheory.Measure.prod_apply_symm`, `MeasureTheory.lintegral_mono`, 3.4
-`section_union_volume_mono`.
-**Checks.**
-
-- At `r = 1` both measurable unions are the same, so the product-volume comparison is an equality.
-- For an empty index type both sides are zero, including when either factor has dimension zero.
-- The integration uses only the two measurable section-volume functions; no measurable choice of
-  the pointwise center is permitted as an unstated premise.
-
-Prove `complementary_dilation_union` (3.6): for any real `r`, any `K ⊆ E×F` and finite
-`v : I → E`, `U_v(rK) = f₂,r(U_v(f₁,r(K)))`.
-(Source: Henk2002, p.6, identity `M_q^i + K_{i+1} = f₂(M_q^i + f₁(K_i))`.)
-**Checks.**
-
-- On `ℝ×ℝ`, `f₁,2(3,5) = (6,5)`.
-- On `ℝ×ℝ`, `f₂,2(3,5) = (3,10)`; it must leave the translation coordinate unchanged.
-
-Prove `transverse_union_volume` (3.7): for compact convex `K ⊆ E×F`, finite `v : I → E` and
-`r ≥ 1`, `r^(dim F)·(μ×ν)(U_v(K)) ≤ (μ×ν)(U_v(rK))`, interpreting the scalar factor by the
-nonnegative extended-real inclusion.
-(Source: Henk2002, p.6 (3.5), using the partial maps and (3.6).)
-*Needs:* Mathlib `MeasureTheory.Measure.addHaar_image_linearMap`, `LinearMap.det_prodMap`,
-`LinearMap.det_smul`, `MeasureTheory.Measure.prod.instIsHaarMeasure`, 3.5
-`partial_dilation_union_volume`, 3.6 `complementary_dilation_union`.
-**Checks.**
-
-- For `F = EuclideanSpace ℝ (Fin 0)`, the factor `2^(dim F)` is 1, not 2 or zero.
-
-Prove `gauge_linearEquiv` (3.8): for real modules `E, F`, a linear equivalence `e : E ≃ₗ[ℝ] F`,
-`K ⊆ E` and `x ∈ E`, `gauge_{e(K)}(e(x)) = gauge_K(x)`. No convexity, boundedness, symmetry or
-nonempty-interior hypothesis is needed.
-`E, F` are real modules with additive commutative group structure. Both the set and the evaluation
-point are transformed; this is a comparison for the gauge, not another gauge definition.
-(Source: direct deduction from Mathlib `gauge_def'`; Henk2002, p.5, §3, uses the accompanying
-reduction to a standard lattice.)
-*Needs:* Mathlib `gauge_def'`.
-**Checks.**
-
-- For `K = [−1,1]`, transforming `K` and `x = 1` by multiplication by 2 gives
-  `gauge_[−2,2](2) = 1`.
-- Keeping `K = [−1,1]` while replacing `x = 1` by `x = 2` gives gauge 2, not 1.
-
-Prove `convex_cluster_intersection_null` (3.9): for finite families `A : I → Set E`,
+Prove `convex_cluster_intersection_null` (3.2): for finite families `A : I → Set E`,
 `B : J → Set E` of convex sets, if `int(A_i)` and `int(B_j)` are disjoint for every `i, j`, then
 `μ((⋃_i A_i) ∩ (⋃_j B_j)) = 0`.
 `E` is finite-dimensional real normed, with Borel structure and an additive Haar measure `μ`. The
@@ -858,212 +816,47 @@ be convex.
 - `([0,2] ∪ [1,3]) ∩ ([3,5] ∪ [4,6])` has real volume zero.
 - `[0,2] ∩ [1,3]` has volume one: dropping cross-interior disjointness is false.
 
-Prove `clustered_translate_volume` (3.10): for compact convex `K ⊆ E`, finite `u : I → E` and
-`v : J → E`, suppose `int(u_i + v_j + K)` and `int(u_i′ + v_j′ + K)` are disjoint whenever
-`j ≠ j′`, for all `i, i′`. Then `μ(⋃_j ⋃_i (u_i + v_j + K)) = |J|·μ(⋃_i (u_i + K))`.
-`E` is finite-dimensional real normed and Borel; `μ` is an additive Haar measure. Both index types
-may be empty. Within each row `j`, the sets may overlap and the labels `i` may repeat.
-(Source: Henk2002, p.6, the two factorizations following (3.4).)
-*Needs:* Mathlib `Convex.translate`, `Homeomorph.image_interior`, `IsCompact.image`,
-`isCompact_iUnion`, `IsCompact.isClosed`, `IsClosed.measurableSet`, `MeasureTheory.measure_iUnion₀`,
-`MeasureTheory.measure_preimage_mul_right`, 3.9 `convex_cluster_intersection_null`.
-**Checks.**
 
-- The union of `[0,2], [1,3], [3,5], [4,6]` has volume `6 = 2·3`, not `4·2 = 8`.
-- Repeating `[0,1]` within a row does not double that row's volume; two touching translated rows
-  still have total volume 2.
-
-Prove `strict_flag_translate_separation` (3.11): let `K ⊆ ℝ^d` be a symmetric convex body with 0 in
-its interior, `t > 0` and `0 ≤ k ≤ d`. Suppose every `z ∈ ℤ^d` with `gauge_K(c(z)) < t` has
-`z_j = 0` for `j ≥ k`. If `x, y ∈ ℤ^d` differ in some coordinate `j ≥ k`, then
-`c(x) + int((t/2)K)` and `c(y) + int((t/2)K)` are disjoint.
-The flag condition is strict. No assertion about points of gauge `t` is made. A minimum vector need
-not be a basis vector, and no equality between a real and integral basis is assumed.
-(Source: Henk2002, pp.5–6, (3.2) and (3.4), using the strict flag from (2.3).)
-*Needs:* Mathlib `interior_subset_gauge_lt_one`, `gauge_smul_left_of_nonneg`, `gauge_add_le`,
-`gauge_neg`, `absorbent_nhds_zero`.
-**Checks.**
-
-- The open intervals `(−1/2,1/2)` and `(1/2,3/2)` are disjoint, even though the corresponding
-  closed intervals touch.
-- Replacing the half-body by the whole unit interval makes translates centered at 0 and 1 overlap
-  on `(0,1)`.
-
-Prove `lattice_box_row_volume` (3.12): for compact convex `S ⊆ ℝ^d`, `q ∈ ℕ` and `k ≤ d`, assume
-`c(x) + int(S)` and `c(y) + int(S)` are disjoint for all `x, y ∈ M_q` whose tails (coordinates
-`j ≥ k`) differ. Then `volume(U_q(S)) = (2q+1)^(d−k)·volume(U_q^k(S))`.
-Lebesgue volume is the product volume on `ℝ^d`. The statement is in the nonnegative extended reals,
-with the natural cardinal factor cast into that space.
-(Source: Henk2002, p.6, the two displayed volume factorizations after (3.4).)
-*Needs:* Mathlib `Equiv.piEquivPiSubtypeProd`, `Pi.card_Icc`, `Int.card_Icc`, 3.10
-`clustered_translate_volume`.
-**Checks.**
-
-- For `q = 1`, `k = 1`, `d = 2` and `S = [−1,1]×[−1/2,1/2]`, the prefix union has area 4 and the
-  full union area `12 = 3·4`; summing nine individual areas would incorrectly give 18.
-- `M_0` consists only of zero in every dimension, so every row-volume factor at `q = 0` is one.
-
-Prove `coordinate_transverse_union_volume` (3.13): for `k ≤ d`, compact convex `S ⊆ ℝ^d`, a finite
-family `v : I → ℝ^d` with `(v_i)_j = 0` whenever `j ≥ k`, and `r ≥ 1`,
-`r^(d−k)·volume(⋃_i (v_i + S)) ≤ volume(⋃_i (v_i + rS))`.
-No symmetry or origin condition is required for `S`. The family may be empty or have repeated
-labels. This is the product-space inequality expressed in coordinate space, not a new geometric
-carrier.
-(Source: Henk2002, p.6, (3.5) and the coordinate maps `f₁, f₂`.)
-*Needs:* Mathlib `Equiv.piEquivPiSubtypeProd`, `Homeomorph.piEquivPiSubtypeProd`,
-`MeasureTheory.volume_preserving_piEquivPiSubtypeProd`, `Module.finrank_fintype_fun_eq_card`, 3.7
-`transverse_union_volume`.
-**Checks.**
-
-- For `d = 3`, `k = 1`, `r = 2` the multiplier is 4, not the ambient factor 8.
-- For `k = d` the multiplier is `r^0 = 1`; for `k = 0` it is `r^d`.
-
-Prove `flag_box_volume_ratio` (3.14): for `K ⊆ ℝ^d` a symmetric convex body with 0 in its interior,
-`0 < s ≤ t`, `q ∈ ℕ` and `k ≤ d`, assume `gauge_K(c(z)) < t` implies `z_j = 0` for all `j ≥ k`.
-Then `(t/s)^(d−k)·volume.real(U_q((s/2)K)) ≤ volume.real(U_q((t/2)K))`.
-`K` is the compact nonempty `ConvexBody`; compactness is used to convert finite union measures to
-real volume.
-(Source: Henk2002, pp.5–6, (3.3)–(3.5).)
-*Needs:* Mathlib `IsCompact.measure_lt_top`, `isCompact_iUnion`, `IsCompact.image`, 3.11
-`strict_flag_translate_separation`, 3.12 `lattice_box_row_volume`, 3.13
-`coordinate_transverse_union_volume`.
-**Checks.**
-
-- If `s = t > 0`, the ratio inequality is an equality, for every `q` and cutoff.
-- For `q = 1`, `K = [−1,1]×[−1/3,1/3]`, `s = 1`, `t = 3`, `k = 1`, the smaller and larger union
-  areas are 3 and 15. The required factor gives `9 ≤ 15`; the incorrect ambient exponent gives
-  `27 ≤ 15`, which is false.
-
-Prove `first_box_volume` (3.15): for `K ⊆ ℝ^d` a symmetric convex body with 0 in its interior and
-`s > 0`, suppose `gauge_K(c(z)) < s` for an integer vector `z` implies `z = 0`. Then for every
-`q ∈ ℕ`, `volume.real(U_q((s/2)K)) = (2q+1)^d·(s/2)^d·volume.real(K)`.
-`K` is the compact nonempty `ConvexBody`; compactness is used to convert finite union measures to
-real volume.
-(Source: Henk2002, p.5, (3.2).)
-*Needs:* Mathlib `Pi.card_Icc`, `Int.card_Icc`, `MeasureTheory.Measure.addHaar_smul_of_nonneg`,
-`IsCompact.measure_lt_top`, 3.11 `strict_flag_translate_separation`, 3.1
-`finite_interior_disjoint_translate_volume`.
-**Checks.**
-
-- For `q = 1` and `K = [−1,1]²` with `s = 1`, the union area is `9 = 3²·(1/2)²·4`.
-- For `q = 1`, `K = [−2,2]×[−1,1]` and `s = 1/2`, the union area is `9/2 = 3²·(1/4)²·8`.
-
-Prove `outer_lattice_box_volume` (3.16): for any compact `S ⊆ ℝ^d` there is `R ≥ 0` such that, for
-every `q ∈ ℕ`, `volume.real(U_q(S)) ≤ (2q+2R)^d`.
-`S` need not be convex, symmetric or nonempty. `R` depends on `S` and `d` but is chosen once,
-independently of `q`.
-(Source: Henk2002, p.5, (3.1).)
-*Needs:* Mathlib `IsCompact.isBounded`, `isBounded_iff_forall_norm_le'`,
-`MeasureTheory.measureReal_mono`, `Real.volume_Icc_pi`.
-**Checks.**
-
-- For `q = 1` and `R = 3/2` in dimension two, the enclosing area is `(2+3)² = 25`, bounding the
-  anisotropic row example of area 15.
-- In dimension zero the right side is one, including `q = R = 0`; the empty union's volume is zero.
-
-Prove `weighted_ratio_product` (3.17): for `n ∈ ℕ` and positive `a : Fin (n+1) → ℝ`,
-`a_0^(n+1)·∏_{i : Fin n} (a_{i+1}/a_i)^(n−i) = ∏_{j : Fin (n+1)} a_j`.
-All `a_j` are strictly positive, so every denominator is nonzero. No monotonicity is needed for this
-algebraic identity. With `n = 0` the ratio product is empty and both sides are `a_0`.
-(Source: Henk2002, p.7, the final product expansion.)
-*Needs:* Mathlib `Fin.prod_univ_succ`.
-**Checks.**
-
-- For `a = (2,3,5)`, `2³·(3/2)²·(5/3) = 30 = 2·3·5`.
-- For `a = (2,2,5)`, the repeated ratio is one and the identity gives 20.
-- For `n = 0`, the empty ratio product gives `a_0^1 = a_0`.
-
-Prove `weighted_volume_chain` (3.18): for positive `a : Fin (n+1) → ℝ`, nonnegative
-`V : Fin (n+1) → ℝ` and `B ≥ 0`, assume `a_0^(n+1) B ≤ V_0` and `(a_{i+1}/a_i)^(n−i) V_i ≤ V_{i+1}`
-for every `i : Fin n`. Then `(∏_j a_j) B ≤ V_n`.
-All sequence entries and endpoints use `Fin (n+1)`. The recurrence has exactly `n` inequalities, so
-for `n = 0` the conclusion is the initial inequality.
-(Source: Henk2002, p.7, the chain of inequalities after (3.6).)
-*Needs:* 3.17 `weighted_ratio_product`.
-**Checks.**
-
-- For `a = (2,3,5)`, `B = 1` and `V = (8,18,30)`, the two recurrence steps are equalities and the
-  endpoint is 30.
-- With `B = 0` and `V` identically zero the conclusion holds; a proof that divides by a volume would
-  be invalid.
-
-Prove `large_box_comparison_limit` (3.19): for `d ∈ ℕ` and real `R, B`, if
-`(2q+1)^d B ≤ (2q+2R)^d` for every `q ∈ ℕ`, then `B ≤ 1`.
-The scalar statement does not require `R ≥ 0` or `B ≥ 0`; the geometric application supplies both.
-The denominator `2q+1` is always strictly positive. Dimension zero is allowed.
-(Source: Henk2002, p.7, the last display and its conclusion for all `q`.)
-*Needs:* Mathlib `tendsto_add_mul_div_add_mul_atTop_nhds`, `le_of_tendsto'`.
-**Checks.**
-
-- For `R = 1/2` the ratio `(2q+2R)/(2q+1)` is identically one.
-- For `d = 0` both powers are one even when the numerator vanishes.
-
-Prove `coordinate_flag_upper` (3.20): let `K` be a symmetric convex body in `ℝ^d` with 0 in its
-interior, and let `a : Fin d → ℝ` be positive and nondecreasing. Suppose for every `i` and
-`z ∈ ℤ^d`, `gauge_K(c(z)) < a_i` implies `z_j = 0` for all `j ≥ i`. Then
-`(∏_i a_i)·volume.real(K) ≤ 2^d`.
+Prove `coordinate_flag_upper` (3.3): let `K` be a symmetric convex body in `ℝ^d = Fin d → ℝ`, with
+its product volume, and let `a : Fin d → ℝ` be nonnegative. For `z ∈ ℤ^d` write
+`c(z) = (z_j : ℝ)_j`. Suppose for every `i` and `z ∈ ℤ^d`, `gauge_K(c(z)) < a_i` implies `z_j = 0`
+for all `j ≥ i`. Then `(∏_i a_i)·volume.real(K) ≤ 2^d`.
 The `a_i` are threshold data satisfying the explicit flag condition; the statement does not define a
-new successive-minimum invariant. The conclusion includes `d = 0`.
-(Source: Henk2002, §3, pp.5–7, (3.1)–(3.6) and final display.)
-*Needs:* Mathlib `MeasureTheory.Measure.volume_pi_eq_dirac`, `ConvexBody.isCompact`, 3.14
-`flag_box_volume_ratio`, 3.15 `first_box_volume`, 3.18 `weighted_volume_chain`, 3.16
-`outer_lattice_box_volume`, 3.19 `large_box_comparison_limit`.
+new successive-minimum invariant. Neither monotonicity of `a` nor `0 ∈ interior K` is assumed. The
+conclusion includes `d = 0`.
+Apply `ZLattice.prod_mul_measure_le_two_pow_mul_covolume` to the lattice `span_ℤ(range e)` of the
+standard basis `e`, with the vectors `e_i` and the numbers `a_i`. Its lattice vectors are the
+`c(z)`, and `z_j = 0` for all `j ≥ i` says that `c(z)` lies in the span of `e_0, …, e_(i−1)`. The
+standard lattice has covolume one, and the `ENNReal` bound becomes a real one because `K` is
+compact.
+(Source: Henk2002, §3, pp.5–7, the coordinate form of (3.1)–(3.6) and the final display.)
+*Needs:* Mathlib `Pi.basisFun`, `ZLattice.covolume_eq_det`, `Module.Basis.toMatrix_self`,
+`Module.Basis.mem_span_image`, `Module.finrank_fin_fun`, `ConvexBody.isCompact`,
+`IsCompact.measure_lt_top`, `ENNReal.toReal_mono`; Tau Ceti
+`ZLattice.prod_mul_measure_le_two_pow_mul_covolume`.
 **Checks.**
 
 - For ℤ² and `K = [−3,3]×[−1,1]`, thresholds (1/3,1) give product-volume 4, exactly `2²`.
 - For the unit diamond and thresholds (1,1), the product-volume is `2 < 4`.
 - For `d = 0` the product-volume and the bound are both one.
 
-Prove `minkowski_second_upper` (3.21): for a discrete full `ℤ`-lattice `L` in a finite-dimensional
-real normed space `E`, an additive Haar measure `μ` and a centrally symmetric convex body `K` with 0
-in its interior, `(∏_{i : Fin d} λ_i(L,K))·μ.real(K) ≤ 2^d·covolume(L,μ)`, where `d = dim_ℝ E` and
-`λ_i` is the zero-based successive minimum of 1.1. The measure `μ` is explicit; on an inner-product
-space one may take canonical Euclidean volume. The formula includes `d = 0`.
-`E` carries its Borel structure and `μ` is an additive Haar measure. Use the Euclidean and
-Haar-scalar transport of 2.1.4; neither the definition of the minima nor the flag changes under it.
-Then prove the canonical intrinsic Euclidean volume case. `L` uses `Submodule ℤ E`,
-`DiscreteTopology` and `IsZLattice`; `K` uses `ConvexBody`. Lower-rank lattices are first regarded
-as full lattices in their real spans, with intrinsic measure. No ambient-volume conclusion for a
-lower-dimensional body is substituted.
-In the Euclidean model, let `b` be the integral basis of 1.13 and transport by its coordinate
-isomorphism `E ≃ ℝ^d`. It sends `L` to `ℤ^d` and `K` to a symmetric convex body of volume
-`volume(K)/covolume(L)` with the same gauge values (3.8). There the strict flag condition of 3.20
-holds with `a_i = λ_i`, which are positive and nondecreasing by 1.4 and 1.5, and 3.20 gives the
-bound.
-(Source: Henk2002, p.2 Theorem 1.3 and complete §3 proof, pp.5–7.)
-*Needs:* Mathlib `toEuclidean`, `ContinuousLinearEquiv.isAddHaarMeasure_map`,
-`ZLattice.covolume_comap`, `Module.Basis.ofZLatticeBasis_repr_apply`,
-`Module.Basis.mem_flag_iff_repr_eq_zero`, `Module.Basis.equivFun`, `Convex.linear_image`,
-`Homeomorph.image_interior`, `IsCompact.image`, `IsCompact.isClosed`, `IsClosed.measurableSet`,
-`ZLattice.volume_image_eq_volume_div_covolume'`, `ZLattice.covolume_pos`,
-`IsCompact.measure_lt_top`, 1.11 `successiveMin_linearEquiv`, 1.13
-`exists_integral_minimum_flag`, 3.8 `gauge_linearEquiv`, 1.4 `successiveMin_pos`, 1.5
-`successiveMin_monotone`, 3.20 `coordinate_flag_upper`.
-**Checks.**
-
-- For `L = 2ℤ` and `K = [−3,3]`, minimum 2/3 times length 6 is `4 = 2·covolume(L)`; omitting the
-  covolume would assert `4 ≤ 2`.
-- For `L = 2ℤ×3ℤ` and `K = [−2,2]×[−1,1]`, minima (1,3) and area 8 give `24 = 4·6`.
-- In the zero-dimensional canonical space the empty product, volume, covolume and `2^0` are all one.
-- In `Fin 2 → ℝ` with the sup norm, `L = 2ℤ×3ℤ` and `K = [−2,2]×[−1,1]` have minima (1,3). With `μ`
-  three times product Lebesgue measure, `μ.real(K) = 24` and `covolume(L,μ) = 18`, so
-  `3·24 = 4·18`.
-- Twice canonical volume doubles both sides; an equality box remains an equality for `c > 0`; in
-  dimension zero both sides equal `μ({0})`.
-
-Prove `minkowski_first_successiveMin` (3.22): under the hypotheses of 3.21 and `0 < d`,
-`λ_0(L,K)^d·μ.real(K) ≤ 2^d·covolume(L,μ)`. This is Minkowski's first theorem on successive minima,
-read off the first minimum rather than a lattice point.
-By 1.5 and 1.4, `0 < λ_0 ≤ λ_i` for every `i`, so `λ_0^d ≤ ∏_i λ_i`, and 3.21 gives the bound.
+Prove `minkowski_first_successiveMin` (3.4): for a discrete full `ℤ`-lattice `L` in a
+finite-dimensional real normed space `E`, an additive Haar measure `μ`, a centrally symmetric convex
+body `K` with 0 in its interior, and `0 < d`, `λ_0(L,K)^d·μ.real(K) ≤ 2^d·covolume(L,μ)`. This is
+Minkowski's first theorem on successive minima, read off the first minimum rather than a lattice
+point.
+By `ZLattice.monotone_successiveMin` and `ZLattice.successiveMin_pos`, `0 < λ_0 ≤ λ_i` for every
+`i`, so `λ_0^d ≤ ∏_i λ_i`, and the upper inequality gives the bound.
 (Source: Henk2002, p.2, Theorem 1.2.)
-*Needs:* Mathlib `Finset.prod_le_prod`, `Finset.prod_const`, 1.4 `successiveMin_pos`, 1.5
-`successiveMin_monotone`, 3.21 `minkowski_second_upper`.
+*Needs:* Mathlib `Finset.prod_le_prod`, `Finset.prod_const`; Tau Ceti `ZLattice.successiveMin_pos`,
+`ZLattice.monotone_successiveMin`,
+`ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`.
 **Checks.**
 
 - For `L = ℤ` and `K = [−1,1]`, `1·2 ≤ 2·1`, with equality.
 - For `L = 2ℤ` and `K = [−3,3]`, `(2/3)·6 = 4 = 2·2`.
-- For `L = 2ℤ×3ℤ` and `K = [−2,2]×[−1,1]`, `1²·8 = 8 < 24 = 4·6`, while 3.21 is an equality for the
-  same pair: the first theorem is weaker than the second.
+- For `L = 2ℤ×3ℤ` and `K = [−2,2]×[−1,1]`, `1²·8 = 8 < 24 = 4·6`, while the upper inequality is an
+  equality for the same pair: the first theorem is weaker than the second.
 - `d = 0` is excluded because there is no first minimum to evaluate.
 
 ### Examples
@@ -1074,9 +867,10 @@ half-widths (2.1.5).
 
 ### Dependencies
 
-Layer 1, and the Euclidean and Haar-scalar transport of 2.1.4; Mathlib `Convex.addHaar_frontier`,
-`ZLattice.volume_image_eq_volume_div_covolume'`, the product-measure section lemmas and the
-Haar-measure image lemmas.
+Tau Ceti `ZLattice.prod_mul_measure_le_two_pow_mul_covolume`,
+`ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume` and the body-minimum API;
+Mathlib `Convex.addHaar_frontier`, `ZLattice.covolume_eq_det` and the Haar-measure translation
+lemmas.
 
 ## Provenance
 
@@ -1093,15 +887,12 @@ copying its interfaces.
 
 | Here | Source file | Source declarations |
 | --- | --- | --- |
-| 1.1, 1.4, 1.5, 1.7, 1.10 | `SuccessiveMinima.lean` | `successiveMinimum`, `successiveMinimum_pos`, `successiveMinimum_le_of_le`, `exists_linearIndependent_gauge_eq_successiveMinimum`, `mem_span_of_gauge_lt_successiveMinimum`, `successiveMinimum_smul` |
-| 1.13, in the stronger form with integral flags | `MinkowskiSecond.lean` | `exists_basis_mem_span_int_of_gauge_lt` |
+| 1.1, 1.5, 1.8 | `SuccessiveMinima.lean` | `successiveMinimum`, `exists_linearIndependent_gauge_eq_successiveMinimum`, `mem_span_of_gauge_lt_successiveMinimum`, `successiveMinimum_smul` |
+| 1.11, in the stronger form with integral flags | `MinkowskiSecond.lean` | `exists_basis_mem_span_int_of_gauge_lt` |
 | 2.1.4 | `MinkowskiSecond.lean` | `covolume_le_prod_successiveMinimum_mul_measure` |
-| 3.21 | `MinkowskiSecond.lean` | `prod_successiveMinimum_mul_measure_le` |
 | 0.1.2 (real matrix form) | `Hadamard.lean` | `det_mul_transpose_self_le_prod`, `sum_sq_norm_plucker_row_le_prod` |
 
-Its proof of the upper inequality takes Weyl's route, as in Cassels, Ch. VIII, §4, Theorems IV–V,
-pp.215–218, not Henk's. The lattice bases of `AdaptedBasis.lean` and `MinimaBasis.lean` are already
-in Tau Ceti as `ZLattice.exists_basis_triangular` and `ZLattice.exists_basis_gauge_le`.
+The lattice bases of `AdaptedBasis.lean` and `MinimaBasis.lean` are already in Tau Ceti as `ZLattice.exists_basis_triangular` and `ZLattice.exists_basis_gauge_le`.
 
 ## References
 
