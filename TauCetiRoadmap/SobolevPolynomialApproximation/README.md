@@ -41,7 +41,10 @@ any of the classical lemmas of Brenner–Scott, Chapter 4, or Ciarlet, Chapter 3
   `∀ y ∈ Metric.ball x₀ ρ, StarConvex ℝ y (Ω : Set E)`, with no named predicate. Constants depend
   on the **chunkiness** `γ := diam Ω / ρ` for this explicit `ρ`. Prove that the hypothesis implies
   `Metric.ball x₀ ρ ⊆ Ω` for nonempty `Ω`, and that a convex `Ω` containing `Metric.ball x₀ ρ`
-  satisfies it (`Convex.starConvex`).
+  satisfies it (`Convex.starConvex`). Brenner–Scott (Definition 4.2.2) ask instead that the closed
+  convex hull of `{x} ∪ B` lie in `Ω` for every `x ∈ Ω`; the inline hypothesis implies theirs for
+  every smaller radius, so their estimates hold with constants in `diam Ω / ρ`, and their
+  restriction to balls of radius `> ρ_max / 2` (Lemma 4.3.8) is not needed.
 
 ## Milestone 1: Sobolev seminorms and the polynomial kernel
 
@@ -129,7 +132,8 @@ Throughout, `Ω` is bounded and star-shaped with respect to `Metric.ball x₀ ρ
      the finite-dimensional space `polynomialsDegLE n m`;
    - `Q^m q = q` on `Ω` for `q ∈ polynomialsDegLE n m`;
    - for smooth `u`, `Q^m u = ∫ T^m_y u · φ y dy`;
-   - **the derivative identity** (Brenner–Scott, Proposition 4.1.17, basis-free): for
+   - **the derivative identity** (Brenner–Scott, Proposition 4.1.17, basis-free; proved for smooth
+     `u` and extended by Meyers–Serrin density in `W^{m,1}(Ω)` after item 1's change of exponent): for
      `0 ≤ j < m`, the classical field `iteratedGradientChain (Q^m u) j` equals
      `x ↦ ∑_{i ≤ m − j − 1} (1/i!) ∫ (D^{j+1+i} u)(y)⟨x − y⟩ⁱ φ y dy`.
 10. **The Sobolev representation formula.** For smooth `u ∈ W^{m+1,p}(Ω)` and `x ∈ Ω` (and, by
@@ -152,9 +156,18 @@ Throughout, `Ω` is bounded and star-shaped with respect to `Metric.ball x₀ ρ
     `‖u − Q^m u‖_{m+1,p} ≤ C_BH · |u|_{m+1,p}` with
     `C_BH := √2 · (1 + C(n, m, p, γ)² · ∑_{j ≤ m} (diam Ω)^{2(m+1−j)})^{1/2}` (item 1's
     norm comparison), and the same bound for `inf_{q ∈ polynomialsDegLE n m} ‖u − q‖_{m+1,p}`.
-    The proof is the representation formula plus Young's inequality for the Riesz potential, for
-    every `1 ≤ p ≤ ∞` (the formula holds for `u ∈ W^{m+1,p}(Ω)` through item 1's change of
-    exponent to `W^{m+1,1}(Ω)`), not a compactness argument.
+    The proof follows Brenner–Scott's, not a compactness argument, for every `1 ≤ p ≤ ∞` (the
+    representation formula holds for `u ∈ W^{m+1,p}(Ω)` through item 1's change of exponent to
+    `W^{m+1,1}(Ω)`):
+    - `j = 0`: the representation formula and the `Lᵖ → Lᵖ` bound for the Riesz potential
+      `g x = ∫_Ω ‖x − z‖^{m+1−n} |f z| dz`, `‖g‖_p ≤ C(n, m) (diam Ω)^{m+1} ‖f‖_p` (Brenner–Scott,
+      Lemma 4.3.6, by Hölder and Fubini, with `p = 1` and `p = ∞` separately);
+    - `0 < j ≤ m`: item 9's derivative identity turns each component `(D^j (u − Q^m u))(x)⟨e_I⟩`
+      along an orthonormal basis into the `j = 0` remainder of the corresponding component of
+      `D^j u`, which lies in `W^{m+1−j,p}(Ω)` by `TauCeti.Wkp.exists_hasWeakLineDerivOn_value`;
+      the operator norm and the basis components are comparable with constants in `n, j`.
+    Tracking `diam Ω` through the Riesz-potential bound gives the powers directly, so no
+    rescaling to diameter one is needed.
 12. **Functional forms.** With `C_BH(m, p)` the constant of item 11 for the same `Ω`:
     - **Sublinear form.** Let `ℓ : W^{m+1,p}(Ω) → ℝ` be subadditive and absolutely homogeneous,
       with `ℓ u ≤ M ‖u‖_{m+1,p}` and `ℓ (u + q) = ℓ u` for every `q ∈ polynomialsDegLE n m`. Then
@@ -180,9 +193,14 @@ Throughout, `Ω` is as in Milestone 3.
 15. **`W^{k,p} ⊆ C⁰` for `k p > n`** (and `k ≥ n` when `p = 1`): every `u ∈ W^{k,p}(Ω)` has a
     continuous representative bounded on `Ω`, with
     `sup_Ω |u| ≤ C(n, k, p, γ) ∑_{j ≤ k} (diam Ω)^{j − n/p} |u|_{j,p}` (with `n/p = 0` for
-    `p = ∞`). Derive it from the representation formula of item 10, valid for every `p` by
-    item 1's change of exponent (not from the whole-space
-    Morrey theorem), so the constant is explicit in the same parameters. Point evaluation
+    `p = ∞`). Derive it as Brenner–Scott Lemma 4.3.4 does, not from the whole-space Morrey
+    theorem, so the constant is explicit in the same parameters:
+    - `u − Q^{k−1} u`: the representation formula of item 10 and the pointwise Riesz-potential
+      bound `∫_Ω ‖x − z‖^{k−n} |f z| dz ≤ C(n, k, p) (diam Ω)^{k−n/p} ‖f‖_p` (Brenner–Scott,
+      Lemma 4.3.1, by Hölder; `p = ∞` through item 1's change of exponent);
+    - `Q^{k−1} u`: directly from its defining integral, `|x − y| ≤ diam Ω` and
+      `‖φ‖_∞ ≤ C(n) ρ^{−n}` give `sup_Ω |Q^{k−1} u| ≤ C(n, k) γ^{n/p} ∑_{j < k} (diam Ω)^{j−n/p} |u|_{j,p}`;
+    - continuity: the smooth approximants of Meyers–Serrin converge uniformly by the same bound. Point evaluation
     `u ↦ u x` is then a bounded linear functional on `W^{k,p}(Ω)`.
 16. **Continuity up to the boundary.** For `p < ∞`:
     - **Density of functions smooth up to the boundary.** The restrictions to `Ω` of functions in
