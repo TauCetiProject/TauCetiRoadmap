@@ -53,9 +53,11 @@ AutomorphicLFunctionsAndLocalFactors AL.1 `rank-one-local-functional-equation` s
 local zeta integrals, their functional equation and the comparison with those character constants.
 AutomorphicSpectralTheory, Layers 0, 2, 4 and 6, owns spectral decomposition, truncation,
 trace-class bounds and the generic trace formula. R16.0/local-langlands owns the finite-place
-parameter construction. LocalGaloisDeformationRings §2.26.1 owns nonarchimedean
+parameter construction. PadicLocalLanglandsForGL2Qp §6.9 owns nonarchimedean
 division-algebra Jacquet–Langlands; R17.1/local-quaternionic-comparison consumes its
 degree-two specialization and packages the quaternionic parameters and split comparisons.
+PadicLocalLanglandsForGL2Qp §4.4 owns the supercuspidal `GL₂(O_F)`-type with its occurrence
+and multiplicity one; R16.2/henniart-unicity adds Henniart's unicity of that type.
 R17.1/real-quaternionic-comparison owns the real comparison, and
 R17.2/quaternionic-orbital-matching owns the matching test functions.
 AutomorphicSpectralTheory §§7.0a–7.0c and §7.1 owns the canonical cyclic twisted objects,
@@ -258,15 +260,24 @@ AutomorphicSpectralTheory, §3.6a `rs-vertical-strip-bounds`, §6.9 orbital inte
 Layers 0, 2, 4, 6, supplies Rankin–Selberg strip bounds, trace class,
 Eisenstein/intertwining analytic extension, spectral completeness, truncation, compact trace formula
 and Euler–Poincaré functions. The finite-place LLC and its factor comparison are constructed
-in R16.0/local-langlands. LocalGaloisDeformationRings §2.26.1 supplies
-`DivisionAlgebraTypes.jacquetLanglands` for central division algebras of degree d over
-nonarchimedean local fields with characteristic-zero splitting coefficients. At d=2,
+in R16.0/local-langlands.
+
+From TauCetiRoadmap.PadicLocalLanglandsForGL2Qp: §6.9 supplies
+`DivisionAlgebraTypes.jacquetLanglands`, the `m=1` restriction of
+`DrinfeldComparison.localJacquetLanglands`, for central division algebras of degree d over
+nonarchimedean local fields, with characteristic-zero coefficient descent and extension. At d=2,
 consume its bijection between irreducible smooth D× classes and essentially square-integrable
-GL₂(F) classes, directed here from D× to GL₂(F), with matching elliptic character sign
-`(−1)^(d−1) = −1`. Its character characterization supplies central-character equality,
-contragredients and smooth `χ ∘ Nrd` versus `χ ∘ det` twists. The inverse on these
-classes is supplied; its zero extension outside the discrete-series domain gives no
-irreducible D× preimage. R17.1 packages this specialization with the GL₂ parameters
+GL₂(F) classes, directed from D× to GL₂(F), with matching elliptic character sign
+`(−1)^(d−1) = −1`. It supplies central-character equality, contragredients, smooth
+`χ ∘ Nrd` versus `χ ∘ det` twists and the inverse on these classes; it attaches no
+D× class to a representation outside the essentially square-integrable domain.
+§4.4 supplies, for every nonarchimedean local field `F` and algebraically closed
+characteristic-zero coefficients, the smooth irreducible `GL₂(O_F)`-type of a supercuspidal
+inertial class: its Hom into an irreducible admissible π has dimension one when π lies in the
+class and zero otherwise, it is unchanged by unramified twist, and occurrence descends along
+coefficient-field extension. R16.2/henniart-unicity consumes this type.
+
+R17.1 packages the degree-two Jacquet–Langlands specialization with the GL₂ parameters
 and constructs the split and real comparisons; R17.2/quaternionic-orbital-matching
 constructs its matching functions. AutomorphicSpectralTheory §§7.0a–7.0c supplies cyclic twisted
 objects, local matching and the trace distribution; §7.1 supplies weak cyclic/isobaric
@@ -329,7 +340,7 @@ local integral/factor prefix through standard-local-l-factor, then its GL₂ new
 use AL.3's local Rankin–Selberg factor prefix before R16.0/local-langlands. R16.3 computes
 explicit parameters on that correspondence. R16.4–R16.6 constructs the Hecke-field comparison
 and the classical/Hilbert dictionary from the named automorphic suppliers.
-R17.1 consumes LocalGaloisDeformationRings §2.26.1 at degree two and constructs the
+R17.1 consumes PadicLocalLanglandsForGL2Qp §6.9 at degree two and constructs the
 quaternionic parameter, split and real comparisons; R17.2–R17.3 constructs the matching
 test functions and global transfer.
 
@@ -391,7 +402,7 @@ pair-factor compatibility for these parameters, including induction’s lambda c
 monodromy. AL.4/local-parameter-comparison consumes this actual compatibility; it is not its
 supplier. At infinity use AL’s archimedean-gln-parameters. Inner-form rank-two parameters are
 assigned by R17.1/local-quaternionic-comparison using the degree-two correspondence
-supplied by LocalGaloisDeformationRings §2.26.1.
+supplied by PadicLocalLanglandsForGL2Qp §6.9.
 
 API: parameter and inverse commute with isomorphism, dual and twist; unramified normalized
 induction gives its Satake parameter; standard and pair factors equal the WD factors.
@@ -411,7 +422,7 @@ AL.2/standard-local-l-factor and AL.3's local
 integral/factor prefix (rs-local-integrals, rs-local-convergence, rs-local-factor and
 rs-local-functional-equation), before newvector test applications. Twisted-factor uniqueness
 is proved here from the cited local converse arguments. The inner-form parameter assignment
-uses LocalGaloisDeformationRings §2.26.1 through R17.1/local-quaternionic-comparison.
+uses PadicLocalLanglandsForGL2Qp §6.9 through R17.1/local-quaternionic-comparison.
 
 *Source:* [bh06], §25.2, pp.157–159, §27, pp.170–176, §33.1, pp.212–213, §§44.3–44.6, pp.269–273,
 and Theorem 50.3, pp.309–313; [henniart83], Theorem 2.10, pp.20–21, Proposition 3.2, p.30;
@@ -431,7 +442,7 @@ supercuspidal of R16.3.3 has `N = 0`, Artin conductor three and Swan conductor o
 SmoothRepresentationsOfLocalGroups SR.0–SR.4; ClassFieldTheory Layer 9;
 ArithmeticGaloisRepresentations §§2.4–2.7 and Layer 3;
 AutomorphicLFunctionsAndLocalFactors AL.1–AL.3;
-LocalGaloisDeformationRings §2.26.1 through R17.1/local-quaternionic-comparison.
+PadicLocalLanglandsForGL2Qp §6.9 through R17.1/local-quaternionic-comparison.
 
 ## Layer R16.1: Local and adelic groups
 
@@ -723,11 +734,16 @@ Smooth characteristic-zero supercuspidal; additive-character and central-charact
 
 ### R16.2.9 Henniart’s unicity of supercuspidal types
 
-A supercuspidal inertial class s of GL₂(F) has a unique irreducible GL₂(O)-type σ, occurring once in every unramified twist π⊗χdet. If σ occurs in an irreducible admissible π′, then π′≅π⊗χdet for unramified χ. Import types/inertial equivalence from SmoothRepresentationsOfLocalGroups SR.3/R16.0/local-langlands; arbitrary nonminimal K-constituents need not be unique.
+For a supercuspidal inertial class s = [π] of GL₂(F), consume PadicLocalLanglandsForGL2Qp §4.4's smooth irreducible GL₂(O)-type σ: it occurs exactly once in every unramified twist π⊗χdet, and if σ occurs in an irreducible admissible π′, then π′≅π⊗χdet for unramified χ. The target here is unicity: every smooth irreducible GL₂(O)-representation λ that occurs only in members of s and occurs in at least one of them is isomorphic to σ. Import types/inertial equivalence from SmoothRepresentationsOfLocalGroups SR.3/R16.0/local-langlands; arbitrary nonminimal K-constituents need not be unique.
 
-Characteristic-zero algebraically closed coefficients; nonarchimedean F, including dyadic fields.
+Characteristic-zero algebraically closed coefficients; every nonarchimedean local field F, including dyadic and equal-characteristic fields.
 
-*Needs:* R16.2/local-classification; SmoothRepresentationsOfLocalGroups SR.3; R16.0/local-langlands.
+**Checks.**
+- For the component of Steinberg there are two non-isomorphic typical representations, the trivial character of GL₂(O) and the inflated Steinberg representation of GL₂(k_F), and neither occurs in every member; unicity needs the supercuspidal hypothesis.
+- For a principal-series component over a residue field with two elements there are two non-isomorphic typical representations, again outside the supercuspidal case.
+- For a ramified character χ of F×, `(χ∘det)⊗σ` is the type of the twisted class `[π⊗χdet]`, and unicity for s is equivalent to unicity for that class; an irreducible principal series has zero Hom from σ.
+
+*Needs:* PadicLocalLanglandsForGL2Qp §4.4 (supercuspidal type, occurrence and multiplicity one); R16.2/local-classification; SmoothRepresentationsOfLocalGroups SR.3; R16.0/local-langlands.
 
 *Source:* [bm02], Appendix A.1.4–A.1.5(1), pp. 75–76; A.3.
 
@@ -805,7 +821,7 @@ At conductor c, the first three fixed dimensions are 1,2,3; below c they vanish.
 
 ### Dependencies
 
-R16.1; SmoothRepresentationsOfLocalGroups SR.0–SR.4; R16.0/local-langlands; ArithmeticGaloisRepresentations Layer 1.
+R16.1; SmoothRepresentationsOfLocalGroups SR.0–SR.4; R16.0/local-langlands; ArithmeticGaloisRepresentations Layer 1; PadicLocalLanglandsForGL2Qp §4.4.
 
 ## Layer R16.3: Local parameters and factors
 
@@ -839,7 +855,7 @@ Geometric Frobenius convention; choose the positive real square root of q for un
 
 rec identifies supercuspidal GL₂(F) representations with irreducible two-dimensional Weil representations, with N=0; determinants, character twists, conductors and L/epsilon factors agree with the existing parameter conventions. Such a parameter has no inertia-fixed vector, hence its standard L-factor is 1. A quadratic induction gives a dihedral example when `θ≠θ^σ`, but this is not an exhaustive description at dyadic places: primitive wild parameters remain in the R16.0/local-langlands carrier and use the full Swan conductor.
 
-*Needs:* R16.2/supercuspidal-kirillov; R16.0/local-langlands; ArithmeticGaloisRepresentations §2.4; ArithmeticGaloisRepresentations §3.3; AutomorphicLFunctionsAndLocalFactors AL.2. The quaternionic transfer Check uses LocalGaloisDeformationRings §2.26.1 through R17.1/local-quaternionic-comparison and R17.2/quaternionic-orbital-matching.
+*Needs:* R16.2/supercuspidal-kirillov; R16.0/local-langlands; ArithmeticGaloisRepresentations §2.4; ArithmeticGaloisRepresentations §3.3; AutomorphicLFunctionsAndLocalFactors AL.2. The quaternionic transfer Check uses PadicLocalLanglandsForGL2Qp §6.9 through R17.1/local-quaternionic-comparison and R17.2/quaternionic-orbital-matching.
 
 *Source:* [nt26], §2 after Definition 2.4, p. 11.
 
@@ -1344,44 +1360,44 @@ R16.2–R16.5; AutomorphicFormsOnReductiveGroups §§7.2–7.3; ModularForms Lay
 
 For a finite extension `F/ℚ_p` and quaternion division algebra D/F on the
 QuadraticFormInvariants Layer 2 carrier `QuaternionAlgebra F a 0 b`, consume
-LocalGaloisDeformationRings §2.26.1's `DivisionAlgebraTypes.jacquetLanglands` at d=2
-with complex coefficients. Its source and target are the set of isomorphism classes of
+PadicLocalLanglandsForGL2Qp §6.9's `DivisionAlgebraTypes.jacquetLanglands` at d=2
+with complex coefficients, the `m=1`, `n=2` case of its general local correspondence. Its source and target are the set of isomorphism classes of
 irreducible admissible smooth complex representations of D× and the set of essentially
 square-integrable irreducible admissible smooth complex GL₂(F) classes. Use the supplied
 bijection in the direction `ρ ↦ JL_D(ρ)` from D× to GL₂(F), with its supplied inverse
 on these classes. This specialization is the localQuaternionic interface.
 
-For matching regular elliptic `x ∈ D×` and `g ∈ GL₂(F)` with the same reduced
-characteristic polynomial, the supplied character identity specializes to
-`Θ_{JL_D(ρ)}(g) = −Θ_ρ(x)`, since `(-1)^(2-1) = -1`. Its character characterization
-gives `ω_{JL_D(ρ)} = ω_ρ`, contragredient compatibility, and
+Restated on the carrier `QuaternionAlgebra F a 0 b`, the following are supplied properties
+of §6.9's correspondence. For matching regular elliptic `x ∈ D×` and `g ∈ GL₂(F)` with
+the same reduced characteristic polynomial, its character identity specializes to
+`Θ_{JL_D(ρ)}(g) = −Θ_ρ(x)`, since `(-1)^(2-1) = -1`. It supplies
+`ω_{JL_D(ρ)} = ω_ρ`, contragredient compatibility, and
 `JL_D(ρ ⊗ (χ ∘ Nrd)) = JL_D(ρ) ⊗ (χ ∘ det)` for every smooth complex character
 χ of F×; both central characters become `ω_ρ χ²`. Equal reduced norm and determinant
-on matching elements preserve the twisted character identity, so uniqueness identifies
-these twists. These are consequences of the supplied correspondence.
+on matching elements preserve the twisted character identity, consistent with that twist rule.
 
 Package this specialization with R16.0/local-langlands by assigning to ρ the parameter
 of `JL_D(ρ)`. At a split place D=M₂(F), construct the comparison using the chosen
 algebra isomorphism; its character sign is +1. R17.1/real-quaternionic-comparison gives
 the real comparison. An irreducible principal series has no division-algebra preimage;
-the supplier's zero extension of the inverse does not produce an irreducible D× class.
+it lies outside the essentially square-integrable domain of the supplied inverse.
 
 **Checks.**
 
 - The trivial D× representation transfers to St; its character is +1 on D× and the
   Steinberg character is −1 on matching elliptic GL₂ elements.
 - For any smooth χ, `χ ∘ Nrd` transfers to `St ⊗ (χ ∘ det)`, with central character χ².
-- An irreducible principal series has no division preimage, including under the
-  supplier's zero-extended inverse.
+- An irreducible principal series has no division preimage: it is not essentially
+  square-integrable, so the supplied inverse is not defined on it.
 - At a split quaternion algebra the chosen matrix identification has sign +1,
   whereas a matched division elliptic class has sign −1.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R16.3/steinberg-monodromy; R16.3/supercuspidal-parameter; R16.0/local-langlands; QuadraticFormInvariants Layer 2; QuadraticFormInvariants Layer 6D.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R16.3/steinberg-monodromy; R16.3/supercuspidal-parameter; R16.0/local-langlands; QuadraticFormInvariants Layer 2; QuadraticFormInvariants Layer 6D.
 
 *Source:* [jl70], Theorem 15.1 and following orthogonality discussion, pp. 249–250;
 [bh06], §§56.1–56.2, p.334, identities (56.1.4) and (56.2.1), and §56.9, p.337,
 character identity (56.9.3). The nonarchimedean correspondence is supplied by
-LocalGaloisDeformationRings §2.26.1.
+PadicLocalLanglandsForGL2Qp §6.9.
 
 <a id="r17-1-norm-character-steinberg"></a>
 
@@ -1389,7 +1405,7 @@ LocalGaloisDeformationRings §2.26.1.
 
 Under localQuaternionic, χ∘Nrd on D× transfers to St⊗χdet. Its central character is χ², its WD parameter is the Steinberg parameter of R16.3.2 with N≠0, and its standard conductor is 1 for unramified χ or 2a(χ) for ramified χ. The corresponding local L/epsilon factors are exactly those of that parameter; the one-dimensional D× dimension does not make the GL₂ WD parameter monodromy-free. The trivial D× representation is the unramified St case, used by the definite-quaternion applications.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.1/local-quaternionic-comparison; R16.3/steinberg-monodromy; R16.3/conductor-epsilon-comparison; R16.0/local-langlands; QuadraticFormInvariants Layer 2.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.1/local-quaternionic-comparison; R16.3/steinberg-monodromy; R16.3/conductor-epsilon-comparison; R16.0/local-langlands; QuadraticFormInvariants Layer 2.
 
 *Source:* [jl70], §15 special/norm-character correspondence; §16 p. 269.
 
@@ -1413,7 +1429,7 @@ For every essentially square-integrable GL₂(F) parameter, including primitive 
 
 R16.0/local-langlands canonical inner-form correspondence at every finite extension of ℚp; characteristic zero.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.1/local-quaternionic-comparison; R16.3/supercuspidal-parameter; R16.3/steinberg-monodromy; R16.3/tate-unitary-normalization; R16.3/tamely-dihedral-supercuspidal; R16.0/local-langlands; ArithmeticGaloisRepresentations §3.3.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.1/local-quaternionic-comparison; R16.3/supercuspidal-parameter; R16.3/steinberg-monodromy; R16.3/tate-unitary-normalization; R16.3/tamely-dihedral-supercuspidal; R16.0/local-langlands; ArithmeticGaloisRepresentations §3.3.
 
 *Source:* [bh06], §56.1, p. 334, and §§56.3–56.8, pp. 335–336; combine with R16.3’s parameter/factor comparison. Renormalize the division epsilon constant by the sign in R17.3/local-factors. [cdn23] §4.1.2 concerns the global quaternion application over `ℚ_p` with p>2.
 
@@ -1443,7 +1459,7 @@ For totally real F of even degree, D₀ ramifies at all real places and splits a
 - Over ℚ the support `{q,∞}` is definite and `{q,q′}` for distinct finite primes is indefinite;
   the latter splits at infinity. Taking q=q′ would give a forbidden singleton support.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.1/local-quaternionic-comparison; R17.1/norm-character-steinberg; R17.1/real-quaternionic-comparison; GlobalQuadraticForms §4.4; QuadraticFormInvariants Layers 2, 5–6D; ClassFieldTheory Layer 10; RepresentationTheory/SemisimpleAlgebras Layer 6.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.1/local-quaternionic-comparison; R17.1/norm-character-steinberg; R17.1/real-quaternionic-comparison; GlobalQuadraticForms §4.4; QuadraticFormInvariants Layers 2, 5–6D; ClassFieldTheory Layer 10; RepresentationTheory/SemisimpleAlgebras Layer 6.
 
 *Source:* [cdn23], §4.1.2 and equation (4.6), pp.38–39; [prr23], §1.5.1, Theorem 1.33, pp.42–43, and the degree-two split/division dichotomy.
 
@@ -1454,7 +1470,7 @@ The trivial division-algebra character transfers to Steinberg with N≠0. At a r
 
 ### Dependencies
 
-LocalGaloisDeformationRings §2.26.1; R16.3 and R16.6; R16.0/local-langlands; R17.1/local-quaternionic-comparison; QuadraticFormInvariants Layer 2; GlobalQuadraticForms §4.4; ClassFieldTheory Layer 10; RepresentationTheory/SemisimpleAlgebras Layer 6.
+PadicLocalLanglandsForGL2Qp §6.9; R16.3 and R16.6; R16.0/local-langlands; R17.1/local-quaternionic-comparison; QuadraticFormInvariants Layer 2; GlobalQuadraticForms §4.4; ClassFieldTheory Layer 10; RepresentationTheory/SemisimpleAlgebras Layer 6.
 
 ## Layer R17.2: Test functions and trace comparisons
 
@@ -1479,7 +1495,7 @@ Prove the following API.
 - At g outside H∪ZK, ζχ(g)=0.
 - A determinant-character twist multiplies both local idempotents by the same inverse character.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.2/iwahori-center; R17.1/norm-character-steinberg; R16.1/haar-quotient-comparison; SmoothRepresentationsOfLocalGroups SR.1; AdelicAlgebraicGroups AA.2.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.2/iwahori-center; R17.1/norm-character-steinberg; R16.1/haar-quotient-comparison; SmoothRepresentationsOfLocalGroups SR.1; AdelicAlgebraicGroups AA.2.
 
 *Source:* [jl70], §16 pp. 268–269, properties (i)–(iv) and ζ″−ζ′.
 
@@ -1493,7 +1509,7 @@ Fixed unitary central character; compact modulo center functions; regular ellipt
 
 **Checks.** The norm-character test uses the Steinberg projector difference; a split regular semisimple GL₂ class has orbital integral zero for a division transfer; scaling the torus measure rescales both corresponding orbital integrals equally, while changing only an ambient measure does not preserve a formal-degree identity.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.1/local-quaternionic-comparison; R17.2/steinberg-projector-difference; R16.1/haar-quotient-comparison; R16.0/local-langlands; AutomorphicSpectralTheory §6.9 (orbital-integral carrier).
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.1/local-quaternionic-comparison; R17.2/steinberg-projector-difference; R16.1/haar-quotient-comparison; R16.0/local-langlands; AutomorphicSpectralTheory §6.9 (orbital-integral carrier).
 
 *Source:* [jl70], §16 character orthogonality and regular-elliptic orbital-integral identity, pp.269–270.
 
@@ -1529,7 +1545,7 @@ The API includes Label every term and its measure; change local factors while re
 
 **Checks.** For d odd the exceptional τ summand is zero; d=2 retains `η^σ=η̃≠η` with weight ½; a Steinberg projector has determinant-character trace −1 rather than zero.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.2/steinberg-projector-difference and local matching; AutomorphicSpectralTheory Layer 2, AutomorphicSpectralTheory Layer 4, AutomorphicSpectralTheory Layer 6 and §§7.0a–7.0c for the ordinary and twisted distributions, intertwining operators and truncation; AdelicAlgebraicGroups AA.2 for measures. The explicit rank-two coordinate comparison belongs here.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.2/steinberg-projector-difference and local matching; AutomorphicSpectralTheory Layer 2, AutomorphicSpectralTheory Layer 4, AutomorphicSpectralTheory Layer 6 and §§7.0a–7.0c for the ordinary and twisted distributions, intertwining operators and truncation; AdelicAlgebraicGroups AA.2 for measures. The explicit rank-two coordinate comparison belongs here.
 
 *Source:* [langlands80], §10, (10.1)–(10.7), pp.112–115; (10.28)–(10.35), pp.126–128; §11, pp.129–131.
 
@@ -1565,7 +1581,7 @@ The API includes Joint bounds before summing derivatives; atom-free L¹ periodiz
 
 **Checks.** Identity extension gives the ordinary formula; a cuspidal output with d distinct descents retains the supplied coefficient 1/d under the ledger conversion; deleting quadratic τ leaves (10.30) unmatched; retain the Steinberg/norm-character correction. Finite harmonic cutoffs do not give an absolute bound. The unbounded |t|⁻¹/² density on (0,1) has atom-free periodization. A constant map gives an atom.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.2 local matching, continuous-residual-ledger and strong-cuspidal-vanishing; AutomorphicSpectralTheory Layer 6 and §§7.0a–7.0c for the canonical ordinary and cyclic distributions and spectral isolation; AdelicAlgebraicGroups AA.2–3; ClassFieldTheory cyclic norm theorem and reciprocity; R16.4 multiplicity one. The rank-two singular and derivative cancellations and their comparison with the supplied distribution are owned by this target.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.2 local matching, continuous-residual-ledger and strong-cuspidal-vanishing; AutomorphicSpectralTheory Layer 6 and §§7.0a–7.0c for the canonical ordinary and cyclic distributions and spectral isolation; AdelicAlgebraicGroups AA.2–3; ClassFieldTheory cyclic norm theorem and reciprocity; R16.4 multiplicity one. The rank-two singular and derivative cancellations and their comparison with the supplied distribution are owned by this target.
 
 *Source:* [langlands80], §9 pp.97–111, §10 pp.112–128, Theorem 11.1 pp.130–138; [jl70], §16 pp.262–278, Theorem 16.1 pp.269–270; [flm11], Theorem 3 and Proposition 1 pp.183–184, §5.1–2 pp.187–191; [mw26], Theorem 11.1 pp.14–16, Theorem 13.1 pp.17–18 (v2).
 
@@ -1576,7 +1592,7 @@ The Steinberg projector has trace +1 on Steinberg and −1 on its determinant-ch
 
 ### Dependencies
 
-LocalGaloisDeformationRings §2.26.1; R16.1–R16.4; R17.1; AutomorphicSpectralTheory Layers 0, 2, 4 and 6 and §§7.0a–7.0c; AdelicAlgebraicGroups AA.2–AA.3; R17.2/quaternionic-orbital-matching and R17.2/cyclic-local-matching; ClassFieldTheory Layers 11–13.
+PadicLocalLanglandsForGL2Qp §6.9; R16.1–R16.4; R17.1; AutomorphicSpectralTheory Layers 0, 2, 4 and 6 and §§7.0a–7.0c; AdelicAlgebraicGroups AA.2–AA.3; R17.2/quaternionic-orbital-matching and R17.2/cyclic-local-matching; ClassFieldTheory Layers 11–13.
 
 ## Layer R17.3: Global Jacquet–Langlands
 
@@ -1599,7 +1615,7 @@ Prove the following API.
 - For every D-compatible cuspidal π, JL_D(`JL_D inverse π`)=π, and the split-place components of its inverse equal `π_v`.
 - For D = M₂(Q) and unitary Hecke characters μ, ν of Q, the irreducible automorphic representation π(μ,ν) induced from μ⊗ν is not one-dimensional and does not factor through det. It is not in the domain of `JL_D`, because it does not occur in `L²_disc(GL₂(Q)A^×\GL₂(A), μν)`.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R16.1; R16.4; R17.1; R17.2; R16.2; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory `§0.50/restricted_tensor_factorization`; ArithmeticLocallySymmetricSpaces ALS.F.6/cuspidalRepresentation.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R16.1; R16.4; R17.1; R17.2; R16.2; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory `§0.50/restricted_tensor_factorization`; ArithmeticLocallySymmetricSpaces ALS.F.6/cuspidalRepresentation.
 
 *Source:* [br10], §1.5, definition of discrete series, p. 5; §18.1, Theorem 18.1(a), p. 44; also Theorem 1.4(a), p. 6; [jl70-global], §14, Theorem 14.4, p. 247; §16, Theorem 16.1, p. 261; §16, paragraph after Theorem 16.1, p. 261.
 
@@ -1611,7 +1627,7 @@ For nonsplit D/F and a Hecke character χ, χNrd is excluded from cuspidal JL. C
 
 Use fixed split-place identifications and the R17.1 classical local correspondence.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/global-jl; R16.2; R17.1; R16.4.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/global-jl; R16.2; R17.1; R16.4.
 
 *Source:* [jl70-global], §14, paragraph after Theorem 14.4, p. 247; [br10], §15, Proposition 15.3(a), p. 39, with Theorem 18.1(a), p. 44.
 
@@ -1621,7 +1637,7 @@ Use fixed split-place identifications and the R17.1 classical local corresponden
 
 For `π=JL_Dπ′`, the fixed split-place identifications identify local representations, every `K_v`-invariant module and its Hecke action. At spherical v the common `T_v=[K diag(ϖ,1)K]` and `S_v=[K diag(ϖ,ϖ)K]` eigenvalues give `1−T_vX+q_vS_vX²`, equivalently the reciprocal polynomial `X²−T_vX+q_vS_v`. This does not identify integral global modules or multiplicities at different levels, and division places have no such spherical vector.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/global-jl; R16.2.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/global-jl; R16.2.
 
 *Source:* [cdn23], §4.1.3, p. 39; §4.1.4, p. 41; §4.1.2, p. 39.
 
@@ -1631,7 +1647,7 @@ For `π=JL_Dπ′`, the fixed split-place identifications identify local represe
 
 For `π=JL_D(π′)`, compatible ψ and self-dual measures, every local character twist has equal standard and dual L-factors and equal normalized ε-factors on `π_v` and `π′_v`. At split places use the fixed identification; at ramified places use JL70's division factors. The division zeta functional equation has the extra sign −1. If its raw constant is called ε instead, the local constants differ by −1 at each ramified place; the global product is `(−1)^|S|=1`. Thus completed twisted L-functions, global ε-factors and functional equations agree.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/global-jl; R16.3; R17.1; R16.5.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/global-jl; R16.3; R17.1; R16.5.
 
 *Source:* [jl70-global], §14, before Theorem 14.4, p. 247; §14, proof of Theorem 14.2, p. 241.
 
@@ -1641,7 +1657,7 @@ For `π=JL_D(π′)`, compatible ψ and self-dual measures, every local characte
 
 Let π′ and σ′ be discrete series of `D×(A_F)`: irreducible subrepresentations of `L²(D×(F)A_F^×\D×(A_F), ω)` for a unitary ω. For nonsplit D these are, up to a twist by `|Nrd|^s`, all irreducible automorphic representations. Assume they are not one-dimensional. If `π′_v ≅ σ′_v` for all finite v outside a finite set, then `π′ ≅ σ′`. In particular their components away from a finite set of places determine the components in that set, for example at a distinguished ramified place. This is a theorem about global representations, not a statement that one local Hecke scalar determines a local type.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/global-jl; R16.4.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/global-jl; R16.4.
 
 *Source:* [br10], §1.5, Theorem 1.4(c), p. 6; §18.1, Theorem 18.1(b), second sentence, p. 44; [cdn20-global], §5.2.1, proof of Proposition 5.2, p. 45.
 
@@ -1651,7 +1667,7 @@ Let π′ and σ′ be discrete series of `D×(A_F)`: irreducible subrepresentat
 
 For a fixed unitary central character ω, every non-one-dimensional discrete series π′ of `D×(A_F)` occurs with multiplicity exactly one in `L²_disc(D×(F)A_F^×\D×(A_F), ω)`. Together with local invariant-vector dimensions this computes its contribution at any fixed finite level; it does not say that the full level space is one-dimensional.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/global-jl; R17.2; R16.4.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/global-jl; R17.2; R16.4.
 
 *Source:* [br10], §1.5, Theorem 1.4(b), p. 6; §18.1, Theorem 18.1(b), first sentence, p. 44.
 
@@ -1663,7 +1679,7 @@ For totally real F, quaternion D and cohomological `π=JL_Dπ′`, assume R16.4'
 
 At real ramified places π′ has the matching algebraic type. Use the arithmetic pair `a_v=t_v, b_v=q_v s_v`.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/split-hecke; R17.3/strong-multiplicity-one; R16.4; R17.3/global-jl; R17.1; R16.4/cohomological-rationality; R16.4/cohomological-rationality.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/split-hecke; R17.3/strong-multiplicity-one; R16.4; R17.3/global-jl; R17.1; R16.4/cohomological-rationality; R16.4/cohomological-rationality.
 
 *Source:* [pan26-global], §5.5.5, p. 75.
 
@@ -1673,7 +1689,7 @@ At real ramified places π′ has the matching algebraic type. Use the arithmeti
 
 Let `(π′, π)` be the cohomological JL pair of coefficient-conjugation, and `L ⊂ C` a field containing `Q(π_f) = Q(π′_f)`. A p-adic coefficient field such as CDN20's is used through a fixed isomorphism `C ≅ Q̄_p`. (i) If `π′_f` and `π_f` have L-models, then at every finite `v ∉ S` the fixed identification gives an L-linear isomorphism of the L-models of `π′_v` and `π_v`, hence of their `K_v`-invariants with Hecke actions; the arithmetic Hecke eigensystems agree in L and after every extension of L. The models are absolutely irreducible, so isomorphism over C descends to L. (ii) Equality of the fields of rationality does not by itself give an L-model of `π′_f`: a Schur/descent obstruction at places of S may force a finite extension of L. Consumers therefore fix L large enough. CDN20 §5.2.1 requires the Shimura-curve representation to be defined over its coefficient field L and allows a finite extension of L (footnote 21).
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/coefficient-conjugation; R16.4; R17.3/split-hecke; R16.4/cohomological-rationality; R16.4/cohomological-rationality.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/coefficient-conjugation; R16.4; R17.3/split-hecke; R16.4/cohomological-rationality; R16.4/cohomological-rationality.
 
 *Source:* [cdn20-global], §5.2.1, p. 44; §5.2.1, footnote 21, p. 44.
 
@@ -1721,7 +1737,7 @@ the inverse-coset formulas; test two noncommuting normalizing singleton cosets t
 order reversal. At the division place p the algebraic coefficient construction and level
 colimit remain defined without a split-p analytic chart.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; QuaternionicModularForms §1.3 (classical coefficient dictionary), §2.1 (abstract forms and evaluation), §2.2 (classical definite forms), §3.1 (opposite-Hecke action); R17.3/global-jl; R17.3/split-hecke; R17.1; R16.6.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; QuaternionicModularForms §1.3 (classical coefficient dictionary), §2.1 (abstract forms and evaluation), §2.2 (classical definite forms), §3.1 (opposite-Hecke action); R17.3/global-jl; R17.3/split-hecke; R17.1; R16.6.
 
 *Source:* [pan26-global], §5.4.1, pp.68–69 (main involution); §5.4.10 and Definition 5.4.11(1)–(3), p.71 (coefficients, level union and norm quotient); §5.5.5, pp.75–76 (Hecke normalization and spectrum). The right-action and inverse-coset identities above give the comparison with QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1.
 
@@ -1733,7 +1749,7 @@ For totally real F of degree d, a quaternion B split at one real place has d−1
 
 Allow d=1. B is given, and π is square-integrable at every ramified place, including every ramified real place.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/global-jl; R17.3/split-hecke; ClassFieldTheory Layer 14; GlobalQuadraticForms §4.4 (`exists_hilbertSymbol_eq_neg_one_iff_pair`); QuadraticFormInvariants Layer 2.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/global-jl; R17.3/split-hecke; ClassFieldTheory Layer 14; GlobalQuadraticForms §4.4 (`exists_hilbertSymbol_eq_neg_one_iff_pair`); QuadraticFormInvariants Layer 2.
 
 *Source:* [cdn20-global], §5.2.1, p. 43.
 
@@ -1745,7 +1761,7 @@ In CDN23 §4.1 take p>2, an even-degree totally real E with p completely split, 
 
 Fix the maximal-order identifications `(O_{D⁰})_v≅M₂(O_{E_v})` and the away-{𝔭,∞₀} algebra isomorphism (4.6). The auxiliary place and the globalized field are supplied data.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/global-jl; R17.3/split-hecke; ClassFieldTheory Layer 14; R17.1; GlobalQuadraticForms §4.4 (`exists_hilbertSymbol_eq_neg_one_iff_pair`); QuadraticFormInvariants Layer 2.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/global-jl; R17.3/split-hecke; ClassFieldTheory Layer 14; R17.1; GlobalQuadraticForms §4.4 (`exists_hilbertSymbol_eq_neg_one_iff_pair`); QuadraticFormInvariants Layer 2.
 
 *Source:* [cdn23], §4.1.1, Proposition 4.5, p. 37; §4.1.2, p. 38; §4.1.2, equation (4.6), p. 38; §4.1.2, p. 38.
 
@@ -1763,7 +1779,7 @@ Fix supports modulo centre and compact idempotents elsewhere; shrink an auxiliar
 
 Cohomological JL and R16.4/cohomological-rationality rationality give an actual number-field model after finite extension. Combine its p-adic completion with L, obtaining the allowed coefficient extension. Strong multiplicity one determines the missing 𝔭 component from `Π̌_f^𝔭`.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.3/global-jl; R17.3/strong-multiplicity-one; R17.3/rational-models; R16.1/full-local-character-prescription; AdelicAlgebraicGroups AA.2; AdelicAlgebraicGroups §3.4 (compact anisotropic quotient); AutomorphicSpectralTheory §0.9 (complex trace); AutomorphicSpectralTheory §6.17 (compact trace formula); AutomorphicSpectralTheory §6.19 (real Euler–Poincaré functions); ArithmeticLocallySymmetricSpaces ALS.F.7; AutomorphicLFunctionsAndLocalFactors/archimedean-gln-parameters; R16.4/cohomological-rationality.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/global-jl; R17.3/strong-multiplicity-one; R17.3/rational-models; R16.1/full-local-character-prescription; AdelicAlgebraicGroups AA.2; AdelicAlgebraicGroups §3.4 (compact anisotropic quotient); AutomorphicSpectralTheory §0.9 (complex trace); AutomorphicSpectralTheory §6.17 (compact trace formula); AutomorphicSpectralTheory §6.19 (real Euler–Poincaré functions); ArithmeticLocallySymmetricSpaces ALS.F.7; AutomorphicLFunctionsAndLocalFactors/archimedean-gln-parameters; R16.4/cohomological-rationality.
 
 *Source:* [cdn20-global], §5.2.1 pp.43–44, footnote 21; [getz15], §6.5 p.34 for the O(2)-types (AutomorphicSpectralTheory §§0.48–0.49 supplies corrected operators); [clozel86], §3.2 Lemmas 4–5 pp.271–272, Lemma 9 p.274, §4.3 Theorem 1B pp.279–280. The fixed-centre division-algebra argument removes unipotent terms; it does not enlarge Clozel's semisimple theorem.
 
@@ -1774,7 +1790,7 @@ For split D, JL fixes every cusp class and excludes an Eisenstein principal seri
 
 ### Dependencies
 
-LocalGaloisDeformationRings §2.26.1; R16.1–R16.6; R17.1–R17.2; ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; R16.4/cohomological-rationality; GlobalQuadraticForms §4.4; QuaternionicModularForms §§1.3, 2.1–2.2, 3.1 for classical form spaces and Hecke actions; R17.3/definite-hilbert-exports for their coefficient and spectral comparisons.
+PadicLocalLanglandsForGL2Qp §6.9; R16.1–R16.6; R17.1–R17.2; ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; R16.4/cohomological-rationality; GlobalQuadraticForms §4.4; QuaternionicModularForms §§1.3, 2.1–2.2, 3.1 for classical form spaces and Hecke actions; R17.3/definite-hilbert-exports for their coefficient and spectral comparisons.
 
 ## Layer R17.4: Cyclic, solvable and cubic base change
 
