@@ -71,7 +71,8 @@ obstructions. The derived coefficient algebra the duality theorems need (perfect
 Tor and arithmetic coefficient comparisons for the imported module-derived tensor product,
 the comparison of module-derived limits with the explicit tower API, Grothendieck
 local duality for complete local rings, the derived composite spectral sequence, flatness of adic continuous
-functions, the Hilbert–Samuel Euler function); admissible coefficients, continuous cochains in the
+functions, and the Hilbert–Samuel Euler function as the maximal-ideal case of the multiplicity owned by
+PadicLocalLanglandsForGL2Qp §0.5); admissible coefficients, continuous cochains in the
 derived category with finiteness and base change, compact Shapiro and Künneth statements, derived
 local duality, compactly supported cochains with their cup products and Euler characteristic,
 derived Poitou–Tate duality including the dyadic case with real places, lattice and rational
@@ -213,7 +214,7 @@ spaces,
 `CochainComplex.mappingCone`, `CochainComplex.mappingCocone`,
 `ContinuousCohomology.tateShafarevich` with `mem_tateShafarevich` and
 `tateShafarevich_eq_ker_pi`, `Representation.asAlgebraHom`, the spectral-object machinery,
-`AdicCompletion`, `Module.length` and `Polynomial.hilbertPoly`; Tau Ceti's
+`AdicCompletion` and `Module.length`; Tau Ceti's
 `Representation.toSubmodule_range_asAlgebraHom`, `ContinuousMap.discreteTopology`,
 `TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.InternalHom` with `homAction` and
 `evalPairing`, `TauCeti.exists_continuous_section`, `TauCeti.FactorSet`, `TauCeti.KummerCoeff`,
@@ -313,7 +314,8 @@ as inputs; and Galois representations attached to automorphic forms.
   nonvanishing determines unboundedness. Both complexes retain their full degrees.
 - **Euler function.** For a complete Noetherian local ring `R` of dimension `d` and a finite
   `R`-module `M`, `e_R(M)` is `d!` times the coefficient of `X^d` in the cumulative Hilbert–Samuel
-  polynomial `n ↦ length(M/m^{n+1}M)`; a finite-length module over `ℤ_p` has `e = 0`.
+  polynomial `n ↦ length(M/m^{n+1}M)`, that is PadicLocalLanglandsForGL2Qp §0.5's multiplicity
+  at the ideal `m` and the bound `d`; a finite-length module over `ℤ_p` has `e = 0`.
 - **Adjoint coefficients.** For a representation on `V = kⁿ`, `ad = End_k(V)` with the conjugation
   action and `ad⁰ = ker(tr)`. No statement divides by `n` or by `2`: when the characteristic of `k`
   divides `n`, the dual of `ad⁰` is `ad/k·1`, not `ad⁰`.
@@ -360,8 +362,8 @@ as inputs; and Galois representations attached to automorphic forms.
   for global units, S-unit rank and fundamental systems.
 - `Submodule.orthogonalBilin`, `Submodule.orthogonalBilin_map`, `LinearMap.IsPerfPair` and
   `Submodule.map_le_iff_le_comap` for dual local conditions.
-- `PontryaginDual`, `AdicCompletion`, `Module.length`, `ringKrullDim`, `Polynomial.hilbertPoly`,
-  `Ideal.exists_pow_inf_eq_pow_smul` (Artin–Rees), `localCohomology`, `Subrepresentation`,
+- `PontryaginDual`, `AdicCompletion`, `Module.length`, `ringKrullDim`, `localCohomology`,
+  `Subrepresentation`,
   `Matrix.det_one_add_smul`, `DualNumber`.
 
 ### From Tau Ceti (pinned)
@@ -457,6 +459,7 @@ as inputs; and Galois representations attached to automorphic forms.
 | Supplier | Exact interface consumed |
 | --- | --- |
 | PadicPeriodRings | §0.1: `procyclic_H1_equiv_coinvariants` for discrete torsion, finitely generated `ℤ_p` and finite-dimensional `ℚ_p` coefficients, with its continuity hypotheses, naturality and Checks. |
+| PadicLocalLanglandsForGL2Qp | §0.5: the shared Hilbert–Samuel polynomial of `length(M/I^(n+1)M)` and the multiplicity `CycleSupport.multiplicity I d M`, with the eventual-value theorem `exists_hilbertSamuel_polynomial` and additivity under a common dimension bound, all at `I = m_A` and `d = ringKrullDim A`; consumed in D7.1 *Hilbert–Samuel Euler function*. |
 
 - `EllipticCurves` Layer 7 *Selmer structures, the Selmer group, and Sha*:
   local conditions and the Selmer kernel for a general discrete Galois module.
@@ -4527,8 +4530,8 @@ algebra this needs: perfect amplitude and the Tor spectral sequence for the modu
 product supplied by DerivedModuleAlgebra §0.2, the comparison of its §1.1 derived limits with
 the DerivedModuleAlgebra §1.T.1 tower API. Using Matlis duality from DerivedModuleAlgebra
 §1.M.1, it proves Grothendieck local duality for a normalised dualizing complex, the spectral
-sequence of a composite of derived functors, flatness of continuous functions into an adic ring, and the Hilbert–Samuel Euler
-function. It then defines admissible and ind-admissible coefficients, the derived continuous
+sequence of a composite of derived functors, flatness of continuous functions into an adic ring, and specialises the Hilbert–Samuel
+multiplicity of PadicLocalLanglandsForGL2Qp §0.5 to the Euler function. It then defines admissible and ind-admissible coefficients, the derived continuous
 cochain functor with its finiteness and base-change properties, the compact Hochschild–Serre
 spectral sequence, the local duality morphisms with their invariant trivialisation, compactly
 supported cochains with their cup products and Euler–Poincaré characteristic, and derived
@@ -4779,50 +4782,52 @@ pp. 1576–1577; [Stacks Project](https://stacks.math.columbia.edu), More on Alg
   generated submodules.
 
 **Hilbert–Samuel Euler function.** Let `R` be a commutative Noetherian local ring with maximal
-ideal `𝔪` and `M` a finitely generated `R`-module. There is a unique `P_M ∈ ℚ[X]` with
-`P_M(n) = length_R(M/𝔪^{n+1}M)` for all sufficiently large `n`; it records cumulative lengths, not
-the lengths of the graded pieces `𝔪ⁿM/𝔪^{n+1}M`. For `d` with `ringKrullDim R = d`, put
-`e_R(M) = d! · coeff_d(P_M)`, a nonnegative integer. This function is additive on short exact
-sequences of finitely generated modules, equals `length_R(M)` when `d = 0`, vanishes when
-`dim Supp(M) < d`, and for a domain `R` equals `e_R(R) · rank_R(M)`. It differs from the
-multiplicity normalised by `dim Supp(M)`. *Euler–Poincaré characteristic with compact support* uses
-it for complete `R` with finite residue field.
+ideal `𝔪`, `M` a finitely generated `R`-module and `d = ringKrullDim R`. The polynomial and
+multiplicity are those of PadicLocalLanglandsForGL2Qp §0.5 at the ideal `I = 𝔪`. The hypothesis
+of §0.5 that `M/𝔪M` have finite length holds for every finite `M`, and `dim Supp(M) ≤ d` gives
+its dimension bound. The polynomial records cumulative lengths `length_R(M/𝔪^{n+1}M)`, not the
+lengths of the graded pieces `𝔪ⁿM/𝔪^{n+1}M`. The Euler function `e_R(M)` is §0.5's ambient
+multiplicity at the bound `d`, namely `d!` times the coefficient of `X^d`. It is a nonnegative
+integer, additive on short exact sequences of finitely generated modules, equal to
+`length_R(M)` when `d = 0`, zero when `dim Supp(M) < d`, and equal to `e_R(R) · rank_R(M)` for
+a domain `R`. Being normalised by `ringKrullDim R` rather than by `dim Supp(M)`, it is the
+ambient side of §0.5's intrinsic/ambient comparison. *Euler–Poincaré characteristic with compact
+support* uses it for complete `R` with finite residue field.
 
-The API:
+The five names below abbreviate §0.5's objects and do not construct new ones:
 
-- `ArithmeticDuality.hilbertSamuelPolynomial`: the unique `P_M ∈ ℚ[X]` agreeing with
+- `ArithmeticDuality.hilbertSamuelPolynomial`: equal by definition to §0.5's shared
+  Hilbert–Samuel polynomial of `M` at `I = 𝔪`, the unique `P_M ∈ ℚ[X]` agreeing with
   `n ↦ length_R(M/𝔪^{n+1}M)` for all large `n`.
-- `ArithmeticDuality.hilbertSamuelPolynomial_eventual`: there is `N` with
+- `ArithmeticDuality.hilbertSamuelPolynomial_eventual`: §0.5's eventual-value theorem
+  (`exists_hilbertSamuel_polynomial`) at `I = 𝔪`: there is `N` with
   `P_M(n) = length_R(M/𝔪^{n+1}M)` for every `n ≥ N`.
-- `ArithmeticDuality.hilbertSamuelEuler`: the `ℕ`-valued Euler function at a given `d`, built from
-  `d!` times the coefficient of `X^d` in `P_M`.
-- `ArithmeticDuality.hilbertSamuelEuler_coefficient`: when `ringKrullDim R = d`, its cast to `ℚ` is
-  `d! · coeff_d(P_M)`.
-- `ArithmeticDuality.hilbertSamuelEuler_exact`: for an exact sequence `0 → M′ → M → M″ → 0` of
-  finitely generated modules and `d = ringKrullDim R`, `e_R(M) = e_R(M′) + e_R(M″)`.
+- `ArithmeticDuality.hilbertSamuelEuler`: equal by definition to
+  `CycleSupport.multiplicity 𝔪 d M`, §0.5's multiplicity at the bound `d`, read in `ℕ` by its
+  integrality and nonnegativity.
+- `ArithmeticDuality.hilbertSamuelEuler_coefficient`: §0.5's coefficient formula at
+  `d = ringKrullDim R`: the cast to `ℚ` is `d! · coeff_d(P_M)`.
+- `ArithmeticDuality.hilbertSamuelEuler_exact`: §0.5's additivity under a common dimension bound,
+  taken at `d = ringKrullDim R`: for an exact sequence `0 → M′ → M → M″ → 0` of finitely
+  generated modules, `e_R(M) = e_R(M′) + e_R(M″)`.
 
-*Proof sketch.* Give the associated graded ring and module their `𝔪`-adic filtrations. Finite
-generation of `𝔪` and of `M` makes them a standard graded Noetherian algebra over the residue field
-and a finite graded module. Prove the graded Hilbert–Serre theorem by induction on the number of
-degree-one generators, splitting off the submodule killed by a power of a chosen generator and using
-the exact multiplication sequences. Mathlib's `Polynomial.hilbertPoly` computes the rational Hilbert
-series; summing the graded lengths gives the unique eventual cumulative polynomial. For nonzero
-`M`, its degree is
-`dim Supp(M)`, by a prime filtration and the dimension theorem; `d!` times its coefficient
-in ambient degree `d` is a nonnegative integer (and the zero module gives the zero polynomial).
-For a submodule in a short exact sequence, Artin–Rees (Mathlib
-`Ideal.exists_pow_inf_eq_pow_smul`) shows that the induced filtration is good and changes only
-lower-degree coefficients; extracting the common ambient degree `d` gives additivity, including the
-finite-length case `d = 0`. For a domain, localise a prime filtration at the zero ideal; only the
-full-dimensional factors contribute. A field gives length equal to dimension, and `ℤ_p` gives free
-rank and kills finite `p`-power torsion. (Nekovář, *Selmer
-complexes*, §4.6.5, pp. 108–109, especially
-4.6.5.3–4.6.5.6; [Stacks Project](https://stacks.math.columbia.edu), Commutative Algebra,
-Proposition 10.58.7 (tag 00K1), Proposition 10.59.5 and Lemma 10.59.10 (§10.59, tag 00K4), Lemma
-10.62.6 (tag 00L8); Intersection Theory, Definition 43.15.1 (tag 0AZV) and Lemma 43.15.2
-(§43.15, tag 0AZU).)
-*Needs:* Mathlib `Module.length`; Mathlib `ringKrullDim`; Mathlib `Polynomial.hilbertPoly`; Mathlib
-`Ideal.exists_pow_inf_eq_pow_smul`.
+*Proof sketch.* Each statement is the `I = 𝔪`, `d = ringKrullDim R` case of §0.5; only the
+hypotheses need checking. `M/𝔪M` is a finite-dimensional vector space over the residue field, so
+it has finite length, and every module in a short exact sequence of finitely generated modules has
+support dimension at most `d`, so the common bound is available. The value `length_R(M)` at
+`d = 0` is the constant eventual polynomial; vanishing below the bound is the zero coefficient of
+`X^d` when the polynomial has degree `dim Supp(M) < d`; the domain formula is §0.5's associativity
+formula, in which only the zero ideal has `dim R/𝔭 = d`. A field gives length equal to
+dimension, and `ℤ_p` gives free rank and kills finite `p`-power torsion. For the duality
+applications the normalisation by `ringKrullDim R` is the one of Nekovář, and it is what makes
+finite-length torsion over a positive-dimensional ring invisible in Euler characteristics.
+(Nekovář, *Selmer complexes*, §4.6.5, pp. 108–109, especially 4.6.5.3–4.6.5.6;
+[Stacks Project](https://stacks.math.columbia.edu), Commutative Algebra, Proposition 10.59.5
+(tag 00K8); Intersection Theory, Definition 43.15.1 (tag 0AZV) and Lemma 43.15.2 (§43.15,
+tag 0AZU).)
+*Needs:* PadicLocalLanglandsForGL2Qp §0.5 (the shared Hilbert–Samuel polynomial, the
+multiplicity `CycleSupport.multiplicity`, its eventual-value theorem and its additivity under a
+common dimension bound); Mathlib `Module.length`; Mathlib `ringKrullDim`.
 
 **Checks.**
 
@@ -4834,7 +4839,9 @@ Proposition 10.58.7 (tag 00K1), Proposition 10.59.5 and Lemma 10.59.10 (§10.59,
   `length(pⁿℤ_p/p^{n+1}ℤ_p) = 1` are constant and would give `0` at `d = 1`.
 - Additivity on `0 → ℤ_p → ℤ_p → ℤ/p → 0` (multiplication by `p`): `1 = 1 + 0`.
 - For `R = k[[x, y]]` (`d = 2`), `P_R(n) = (n + 1)(n + 2)/2` and `e_R(R) = 1`; `M = R/(x)` has
-  infinite length, `P_M(n) = n + 1` and `e_R(M) = 0`, since `dim Supp(M) = 1 < 2`.
+  infinite length, `P_M(n) = n + 1` and `e_R(M) = 0`, since `dim Supp(M) = 1 < 2`. This is §0.5's
+  intrinsic/ambient comparison: at the bound `1 = dim Supp(M)` the multiplicity
+  `CycleSupport.multiplicity 𝔪 1 M` is `1`, while the ambient Euler function at `2` is `0`.
 
 ### D7.2 Finite groups and products
 
@@ -6393,12 +6400,12 @@ exact annihilators*).
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 7.
 - AbelianSchemesAndArithmeticModuli: Layer A2, §A2.2 (the dual abelian scheme).
 - AlgebraicModuliForArithmeticGeometry: Layer 4, §4.20 (classification of banded gerbes).
+- PadicLocalLanglandsForGL2Qp: §0.5 (Hilbert–Samuel polynomial and multiplicity).
 - Libraries: Mathlib `DerivedCategory`, Mathlib `HomologicalComplex₂.total`, Mathlib
   `CategoryTheory.Tor`, Mathlib `HomotopyCategory.spectralObjectMappingCone`, Mathlib
   `CategoryTheory.Abelian.SpectralObject.spectralSequence`, Mathlib
   `CategoryTheory.IsGrothendieckAbelian.enoughInjectives`, Mathlib `AdicCompletion`, Mathlib
-  `Module.length`, Mathlib `ringKrullDim`, Mathlib `Polynomial.hilbertPoly`, Mathlib
-  `Ideal.exists_pow_inf_eq_pow_smul`, Mathlib `groupCohomology`, Mathlib `localCohomology`, Mathlib
+  `Module.length`, Mathlib `ringKrullDim`, Mathlib `groupCohomology`, Mathlib `localCohomology`, Mathlib
   `TopRep`, Tau Ceti `TauCeti.DiscreteRep`, Mathlib `Subrepresentation`, Mathlib
   `Subrepresentation.toRepresentation`, Mathlib `etaleTopology`, Mathlib
   `CategoryTheory.Abelian.Ext`.
