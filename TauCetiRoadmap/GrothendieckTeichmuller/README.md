@@ -321,3 +321,17 @@ The same Lean appendix proves the two `n = 4` statements of the last section
 `lean/Grothendieck/Folder146.lean`, `derL_pow_three`, `coboundary_derL_iff`). The units model,
 the lower bound by the tangent class and the formula `sgn(g) · g′(λ)` for `L` are the appendix's,
 not the pages'.
+
+Two more folders bear on the geometry behind relations (II) and (III). They are cited for
+orientation only; nothing in them is specified here. Folder 147, *Structure à l'infini des
+M_{g,ν}*, is undated; the transcription project places it in the winter of 1982–83, because its
+formalism is the one Grothendieck describes to Illusie on 25 January 1983. It describes the
+Deligne–Mumford boundary by stable graphs, lists the strata of modular dimension `≤ 2` with four
+elementary cases (`M_{0,4}`, `M_{1,1}`, `M_{0,5}`, `M_{1,2}`), and says on its p. 29 that a more or
+less complete understanding of the discrete `π₁` in these cases should give the key to the
+general case. That is the two-level principle, a year before the *Esquisse d'un programme*.
+Folder 144, *Teichmülleries* (1981–83), lists the two-generator presentations of the braid group
+`B₃` (June 1983). Its 1982 « Rétrospection sur les cartes cellulaires » identifies the groups that
+classify maps on surfaces with orbifold fundamental groups, going back over the Montpellier notes
+of C. Voisin and J. Malgoire, *Cartes cellulaires*, Cahiers mathématiques de Montpellier 12
+(1977).
