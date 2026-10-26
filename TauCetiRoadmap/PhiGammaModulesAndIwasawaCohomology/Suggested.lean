@@ -18,8 +18,8 @@ The other headline results require constructions absent at the pins:
   torsors. Small-group Lang classification needs the small-lattice Greenberg groups.
   Compact finite descent needs the derived compact-cochain carrier and coherent
   quotient actions. Section 0.6 specializes the cochains and local Tate duality
-  supplied by NoncommutativeAndEquivariantIwasawa §F.3; its derived Hochschild–Serre
-  roof and Milnor sequence use these same cochains.
+  supplied by NoncommutativeAndEquivariantIwasawa §F.3, together with its derived
+  Hochschild–Serre comparison; the Milnor sequence uses these same cochains.
 * Layer 1's realization, slope filtration, overconvergence and decompletion theorems
   need the cyclotomic period rings, Robba rings, radius models and their module
   categories. The period-sheaf, curve and B-pair comparisons need their period

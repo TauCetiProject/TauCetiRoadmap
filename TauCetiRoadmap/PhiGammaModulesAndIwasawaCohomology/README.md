@@ -52,8 +52,9 @@ locally analytic manifold and distribution theory belongs to LocallyAnalyticDist
 local derived inverse-limit tower and its Shapiro comparison are constructed independently of `ψ` in §5.0.
 SelmerIwasawaCohomology Layer 3 uses this local interface in its global theory. Finite discrete cochains come
 from ProfiniteCohomology; NoncommutativeAndEquivariantIwasawa §F.3 supplies compact and rational cochains,
-lattice independence and local duality. Section 0.6 specializes those objects to finite-`O_E`/E coefficients
-and constructs the derived continuous descent statements required here. ArithmeticGaloisDuality D7 consumes
+lattice independence, local duality and the general derived Hochschild–Serre comparison with its compact
+coefficient limit. Section 0.6 specializes those objects to finite-`O_E`/E coefficients and constructs the
+finite-quotient descent application required here. ArithmeticGaloisDuality D7 consumes
 that shared arithmetic API.
 Period-ring acyclicity with Banach coefficients is proved in §3.6.
 
@@ -172,9 +173,9 @@ completed cyclotomic field. PerfectoidTowers P9.0 supplies lifting continuous
 cochains along finite surjections, continuous cochains into an inverse limit, and comparison with the
 canonical carrier for compact coefficients. Use its jointly continuous actions and quotient topologies.
 ProfiniteCohomology Layers 0–12 supply the finite discrete cochains, their functorial maps, cup products,
-Shapiro, the five-term inflation–restriction sequence and cohomological dimension. Section 0.6 constructs
-the finite-coefficient Hochschild–Serre bar roof before its compact limit, on the cochains supplied by
-NoncommutativeAndEquivariantIwasawa §F.3. ClassFieldTheory Layer 5 supplies finite local
+Shapiro, the five-term inflation–restriction sequence and cohomological dimension.
+NoncommutativeAndEquivariantIwasawa §F.3 supplies the finite-coefficient Hochschild–Serre bar roof and its
+compact limit; §0.6 specializes them. ClassFieldTheory Layer 5 supplies finite local
 Tate duality, the invariant and local Euler characteristic; NoncommutativeAndEquivariantIwasawa §F.3 supplies
 their compact and rational extensions used in §§0.6 and 3.6. ClassFieldTheory Layers 6–7 supply the continuous
 local Artin map and geometric normalization by inversion,
@@ -196,8 +197,9 @@ NoncommutativeAndEquivariantIwasawa §F.3 supplies continuous cochains for profi
 coefficients that are inverse limits of finite modules, discrete torsion coefficients and finite-dimensional
 E-representations. Its arithmeticContinuousCochains, arithmeticHochschildSerre and arithmeticLocalDuality
 contracts include lattice independence, coefficient maps, evaluation cups, restriction/corestriction and the
-normalized local invariant. Section 0.6 uses their finite-`O_E`/E specializations directly and constructs the derived
-Hochschild–Serre roof and its compact limit on these objects. The period-coefficient acyclicity and Herr
+normalized local invariant, and arithmeticHochschildSerre includes the derived comparison for every closed
+normal subgroup with its coherent quotient action and compact coefficient limit. Section 0.6 uses their
+finite-`O_E`/E specializations directly and constructs the finite-quotient descent `compactFiniteDescent`. The period-coefficient acyclicity and Herr
 comparisons remain the targets of §3.6.
 
 NoncommutativeAndEquivariantIwasawa §F.6 supplies the common field-coefficient Robba core for every finite
@@ -419,23 +421,23 @@ NoncommutativeAndEquivariantIwasawa §F.3; ProfiniteCohomology Layers 0–12; Pe
 DerivedModuleAlgebra §§1.T.1,1.1,S.1; native localization; PadicMeasuresIwasawaAlgebras §5.2.
 
 For a profinite `G`, a closed normal subgroup `H`, quotient `Q=G/H` and a finite discrete continuous
-`G`-module `F`, construct `finiteDiscreteHochschildSerreRoof`, the natural derived comparison
-`RΓ(G,F) ≃ RΓ(Q,RΓ(H,F))`. Use the continuous bar resolution and its double-complex totalization,
-retaining the homotopy-coherent quotient action: conjugation on raw `H` cochains need not factor through
-`Q` as a strict action. Construct the comparison on a quotient-equivariant resolution and retain its
-inflation, restriction, open finite-index transfer and cup maps, including the edge maps on cohomology.
-The finite coefficient condition concerns `F`, not the generally infinite groups of cochains.
-Source: NSW, Chapter II §4, Theorem 2.4.1, p.111, with the continuous bar-double-complex construction.
-Use DerivedModuleAlgebra §S.1 for the first-quadrant spectral sequence and its abutment maps.
+`G`-module `F`, `finiteDiscreteHochschildSerreRoof` denotes the specialization of
+NoncommutativeAndEquivariantIwasawa §F.3's arithmeticHochschildSerre comparison
+`RΓ(G,F) ≃ RΓ(Q,RΓ(H,F))` to these coefficients. It is that supplied map, with its quotient-equivariant
+bar double-complex realization, homotopy-coherent quotient action (conjugation on raw `H` cochains need
+not factor through `Q` as a strict action), coherence homotopies, inflation, restriction, open
+finite-index transfer, cup maps, edge maps and five-term sequence; nothing is re-chosen here. The finite
+coefficient condition concerns `F`, not the generally infinite groups of cochains.
+Sources: NoncommutativeAndEquivariantIwasawa §F.3; NSW, Chapter II §4, Theorem 2.4.1, p.111.
 
 For an open normal subgroup `H` with finite quotient `Q`, construct `compactFiniteDescent : RΓ(G,T) ≃
 RΓ(Q,RΓ(H,T))` as the finite-quotient application of this derived Hochschild–Serre roof to the imported
-cochains, using it modulo `ϖ^m`. Keep the coherent `Q` action before passing to the limit. For a closed normal
-subgroup `H` with profinite quotient, construct compact continuous Hochschild–Serre by taking the derived
-coefficient limit of these finite-coefficient bar roofs and using the cochain lifting comparison. Here the
-iterated derived invariants mean that coefficient-limit construction, retaining the coherent quotient action.
-Its spectral sequence and edge maps recover §F.3's supplied Hochschild–Serre comparison. Retain finite descent
-transitivity and open finite-index transfer. Sources: NSW, Chapter II §4, Theorem 2.4.1, p.111;
+cochains, using it modulo `ϖ^m`. Keep the coherent `Q` action before passing to the limit; the result is
+the open-normal-subgroup instance of §F.3's compact coefficient-limit comparison restricted to
+`compactGaloisComplex`. For a closed normal subgroup `H` with profinite quotient, compact continuous
+Hochschild–Serre is §F.3's derived coefficient limit of the finite-coefficient roofs, imported with its
+coherent quotient action, spectral sequence and edge maps. Prove finite descent transitivity and open
+finite-index transfer for `compactFiniteDescent`. Sources: NSW, Chapter II §4, Theorem 2.4.1, p.111;
 Nekovář, *Selmer complexes*, §§4.1.1–4.1.3; the cochain-limit contracts above. The Banach period version is the
 separate target of §3.6; compact descent does not assert exactness of Banach invariants.
 
