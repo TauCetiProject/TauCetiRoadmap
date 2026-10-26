@@ -159,7 +159,8 @@ and Khare–Wintenberger numerics of Layer R02.6.
   specified localization homotopy used to induce the map of fibres.
 - *PadicPeriodRings* §0.1 supplies `procyclic_H1_equiv_coinvariants`, natural in the
   coefficient module, for discrete torsion, finitely generated `ℤ_p` and finite-dimensional
-  `ℚ_p` coefficients with the stated continuous actions, together with its Checks.
+  `ℚ_p` coefficients with the stated continuous actions, together with its Checks; §0.2 supplies
+  degree-one inflation–restriction for topological coefficients on Mathlib's carrier.
 - *PerfectoidTowers* §P9.0 supplies lifting continuous cochains along surjections of discrete
 spaces,
   continuous cochains into inverse limits, and the comparison with Mathlib's homogeneous cochains
@@ -479,7 +480,7 @@ as inputs; and Galois representations attached to automorphic forms.
 
 | Supplier | Exact interface consumed |
 | --- | --- |
-| PadicPeriodRings | §0.1: `procyclic_H1_equiv_coinvariants` for discrete torsion, finitely generated `ℤ_p` and finite-dimensional `ℚ_p` coefficients, with its continuity hypotheses, naturality and Checks. |
+| PadicPeriodRings | §0.1: `procyclic_H1_equiv_coinvariants` for discrete torsion, finitely generated `ℤ_p` and finite-dimensional `ℚ_p` coefficients, with its continuity hypotheses, naturality and Checks. §0.2: *Low-degree continuous descent*, the exact sequence `0 → H¹(G/H, M^H) → H¹(G, M) → H¹(H, M)` for topological coefficients and its transport to Mathlib's carrier for profinite `G`, consumed in R02.2 *Inflation–restriction for compact and rational coefficients*. |
 | PadicLocalLanglandsForGL2Qp | §0.5: the shared Hilbert–Samuel polynomial of `length(M/I^(n+1)M)` and the multiplicity `CycleSupport.multiplicity I d M`, with the eventual-value theorem `exists_hilbertSamuel_polynomial` and additivity under a common dimension bound, all at `I = m_A` and `d = ringKrullDim A`; consumed in D7.1 *Hilbert–Samuel Euler function*. |
 
 - `EllipticCurves` Layer 7 *Selmer structures, the Selmer group, and Sha*:
@@ -1476,8 +1477,15 @@ generated `ℤ_p`-module or a finite-dimensional `ℚ_p`-vector space.
 The full spectral sequence for compact coefficients is *Relative compact Hochschild–Serre*
 (Layer D7), whose `E₂` term uses derived relative invariants rather than `H_cts(H, T)`.
 
-*Proof sketch.* (1) is the cochain proof of the discrete case (ProfiniteCohomology Layer 5), which
-does not use discreteness. (2) For `T` finitely generated over `ℤ_p`, apply *The five-term sequence
+*Proof sketch.* (1) is the pinned Tau Ceti inflation–restriction theorem for topological
+coefficients, which assumes no discreteness: `TauCeti.ContCohomology.explicitInfl1_injective`,
+`TauCeti.ContCohomology.explicitRes1_comp_explicitInfl1` and
+`TauCeti.ContCohomology.explicitInfRes_exact` give injectivity of inflation and the equality of its
+image with the kernel of restriction on the explicit continuous-cochain `H¹`. Its hypothesis that
+`G/H` acts continuously on `T^H` holds here, since `G → G/H` is open and `T^H` carries the subspace
+topology. The identification with Mathlib's `continuousCohomology`, compatible with inflation and
+restriction, is the profinite transport of PadicPeriodRings §0.2 through PerfectoidTowers §P9.0.
+(2) For `T` finitely generated over `ℤ_p`, apply *The five-term sequence
 and the transgression* to the discrete modules `T/pᵐT`; the hypotheses make every term finite, so
 the inverse limit over `m` is exact (*Mittag-Leffler towers have vanishing `lim¹`* (DerivedModuleAlgebra §1.T.1)), and
 *Tate's inverse-limit theorem* (Layer R02.1) identifies the limits with the cohomology of `T`. The
@@ -1489,7 +1497,8 @@ limit of cohomology groups, to which Tate's theorem applies. For a
 `ℚ_p`-space `V`, choose a `G`-stable lattice `T₀` and tensor the sequence for `T₀` with `ℚ_p`
 (*Rationalisation of lattice cohomology*, Layer R02.1) (Rubin, *Euler
 Systems*, Appendix B, §2, Proposition 2.5,
-printed p. 152 (PDF p. 162)). *Needs:* *The five-term sequence and the transgression*; *Tate's
+printed p. 152 (PDF p. 162)). *Needs:* PadicPeriodRings §0.2 (*Low-degree continuous descent*);
+Tau Ceti continuous inflation and restriction; *The five-term sequence and the transgression*; *Tate's
 inverse-limit theorem* (Layer R02.1); *Rationalisation of lattice cohomology* (Layer R02.1);
 *Mittag-Leffler towers have vanishing `lim¹`* (DerivedModuleAlgebra §1.T.1); ProfiniteCohomology Layer 5.
 
@@ -1576,7 +1585,8 @@ residue field; the Witt sequence for an arbitrary perfect residue field is prove
 
 - Earlier layers of this roadmap: R02.1.
 - PerfectoidTowers: §P9.0 (comparison with the canonical carrier).
-- PadicPeriodRings: §0.1 (procyclic `H¹`).
+- PadicPeriodRings: §0.1 (procyclic `H¹`); §0.2 (inflation–restriction for topological
+  coefficients).
 - NoncommutativeAndEquivariantIwasawa: §F.3 (`arithmeticHochschildSerre` and its operations).
 - DerivedModuleAlgebra: §S.1 (the first-quadrant double-complex spectral sequence); §1.T.1
   (Mittag–Leffler towers and Milnor).
@@ -7289,14 +7299,13 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
   PotentialAutomorphyInfrastructurePartII): Layers R02.3–R02.6, D7 and D8, in particular Poitou–Tate,
   the Greenberg–Wiles formula, the first-order adjoint calculations and the auxiliary-prime numerics.
 - **Euler systems and Iwasawa theory** (EulerSystemsAndKolyvaginSystems, HeegnerPointEulerSystems,
-  KatoEulerSystems, PhiGammaModulesAndIwasawaCohomology, PadicFamilies, PadicHodgeRegulators, RankZeroOneBSD,
+  KatoEulerSystems, PadicFamilies, PadicHodgeRegulators, RankZeroOneBSD,
   GeneralizedHeegnerCycles, ArithmeticStatistics): compact and rational coefficients (R02.1), the
   Hochschild–Serre and inflation–restriction statements (R02.2), Poitou–Tate (R02.4) and the derived
   duality of D7.
 - **Étale and motivic cohomology** (ClassicalAdicEtaleCohomology, DiamondEtaleCohomology,
   DeligneWeightsAndPurity, LefschetzPencilsAndVanishingCycles, IgusaVarietiesAndTorsionConcentration,
-  CrystallineCohomology, MotivicEtaleKTheory, ArithmeticKTheory, KTheoryFiniteLocalFields,
-  StableHomotopyKTheory, HabiroNumberFields, ShimuraCompactifications,
+  MotivicEtaleKTheory, ArithmeticKTheory, KTheoryFiniteLocalFields, HabiroNumberFields, ShimuraCompactifications,
   PadicHodgeTheory, ExcursionOperatorsAndSpectralAction): Tate's inverse-limit theorem of R02.1, the spectral
   sequences of R02.2 and the derived duality of D7.
 - **AnabelianGeometryAndNonabelianChabauty**: local duality over coefficient fields, using the
