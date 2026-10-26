@@ -695,8 +695,10 @@ section Interpolation
 
 variable {L : FirstOrder.Language.{u, v}}
 
-/-- **Layer 7, projective-class membership**: `M` itself, on the same carrier, expands along `g`
-to a model of `Θ`. -/
+/-- **Layer 7, projective-class membership** (Marker's `PC_{ω₁ω}` classes): `M` itself, on the
+same carrier, expands along `g` to a model of `Θ`. For `g = LHom.sumInl : L →ᴸ L.sum L₁`, `M` is
+the `L`-reduct of a model of `Θ`, whose auxiliary symbols from `L₁` are chosen existentially.
+No nonemptiness is built in. -/
 def PCMem {L' : FirstOrder.Language.{u', v'}} (g : L →ᴸ L') (Θ : Sentenceω L') (M : Type w)
     [L.Structure M] : Prop :=
   ∃ S : L'.Structure M, @LHom.IsExpansionOn L L' g M _ S ∧ @SentenceInf.Realize L' ℕ Θ M S
@@ -717,9 +719,12 @@ theorem craig_interpolation (φ ψ : Sentenceω L) (h : Sentenceω.Entails φ ψ
       Sentenceω.Entails φ θ ∧ Sentenceω.Entails θ ψ := by
   sorry
 
-/-- **Layer 7 milestone, PC separation.** Two projective classes, given by new symbols
-`L₁` and `L₂`, with no common countable nonempty member, are separated by a single `L`-sentence on
-nonempty structures of every universe. No language is assumed relational or countable. -/
+/-- **Layer 7 milestone, PC separation**, the model-theoretic counterpart of Lusin separation.
+Two projective classes, given by new symbols `L₁` and `L₂`, with no common countable nonempty
+member, are separated by a single `L`-sentence on nonempty structures of every universe. Only
+countable members are excluded because a common member would give a countable one (Layer 2);
+the proof is Craig interpolation for the two sentences with their new symbols renamed apart.
+No language is assumed relational or countable. -/
 theorem pcSeparation {L₁ : FirstOrder.Language.{u₁, v₁}}
     {L₂ : FirstOrder.Language.{u₂, v₂}}
     (Θ₁ : Sentenceω (L.sum L₁)) (Θ₂ : Sentenceω (L.sum L₂))

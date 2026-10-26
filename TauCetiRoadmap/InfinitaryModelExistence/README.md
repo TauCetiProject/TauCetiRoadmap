@@ -657,7 +657,12 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 
 * `PCMem g Θ M` for `g : L →ᴸ L'` and `Θ : Sentenceω L'`: the `L`-structure `M` itself, on the
   same carrier, has an `L'`-structure that is an expansion along `g` and satisfies `Θ` (Marker's
-  `PC_{ω₁ω}` classes). No nonemptiness is built in.
+  `PC_{ω₁ω}` classes). No nonemptiness is built in. In the case used throughout,
+  `g = LHom.sumInl : L →ᴸ L.sum L₁`, this says that `M` is the `L`-reduct of a model of `Θ`: `Θ`
+  may speak about the auxiliary symbols of `L₁`, whose interpretations are chosen existentially.
+  These are the Lω₁ω analogue of pseudo-elementary classes. On codes of countable structures
+  they are the isomorphism-invariant analytic sets, just as model classes are the invariant Borel
+  sets (López–Escobar, in CountableStructureSpaces).
 * API: invariance under isomorphism; every model class is projective (`g = LHom.id`);
   projective classes along `LHom.sumInl : L →ᴸ L.sum L₁` are closed under binary intersection
   and, for relational `L₁` and `L₂`, binary union (both in `L.sum (L₁.sum L₂)`), and under
@@ -685,9 +690,12 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 * `pcSeparation`: for arbitrary languages `L`, `L₁`, `L₂`, if no countable nonempty `L`-structure
   lies in both `PCMem LHom.sumInl Θ₁` and `PCMem LHom.sumInl Θ₂`, some `θ : Sentenceω L` holds in
   every nonempty member of the first class and fails in every nonempty member of the second, in
-  every universe. The hypothesis is only about countable structures `M : Type` (by Layer 2), and
-  the conclusion holds for nonempty `M : Type w`; this is the interface the López–Escobar theorem
-  of CountableStructureSpaces consumes, and its proposed signature is in `Suggested.lean`.
+  every universe. This is the model-theoretic counterpart of Lusin separation (disjoint analytic
+  sets are separated by a Borel set), and it is Craig interpolation applied to the two defining
+  sentences after their auxiliary symbols are renamed apart. The hypothesis is only about
+  countable structures `M : Type` (by Layer 2), and the conclusion holds for nonempty
+  `M : Type w`; this is the interface the López–Escobar theorem of CountableStructureSpaces
+  consumes, and its proposed signature is in `Suggested.lean`.
 
   Route. Work in `L⁺ := L.sum (L₁.sum L₂)`, where the two new vocabularies are disjoint even when
   `L₁ = L₂`. Let `Θ₁⁺` and `Θ₂⁺` be the images of `Θ₁` and `Θ₂` along
