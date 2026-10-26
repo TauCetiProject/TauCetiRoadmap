@@ -795,11 +795,13 @@ reconstruction, and `lt` is a base relation, preserved on the nose by both.
 Route for the relational core. Add Henkin constants and rational constants `d_q` (coded into `ℕ`,
 rational constants at even indices). The members are `{φ} ∪ {d_q < d_r : q < r} ∪ σ` with `σ` finite
 and, for every `α < ω₁`, a model of `φ` with a well-ordered chain in which the constants of `σ` can
-be placed with gaps of length at least `α` between consecutive rational constants (Marker's
-condition (*)). The disjunction clause uses regularity of `ω₁` (uncountably many `α` choose one of
-countably many disjuncts) and downward closure of (*) in `α`; the witness clause for a constant
-between two rational constants inserts the new point inside a gap, at `b_s + α` in a model chosen
-for some `β > α + α`. Marker checks two clauses and leaves the rest as an exercise; all of them are
+be placed so that the rational constants, in increasing order, sit at chain positions
+`b₁ < … < bₙ` with `α ≤ b₁` and `bᵢ + α ≤ bᵢ₊₁` (Marker's condition (*)). The initial gap
+`α ≤ b₁` is what permits insertion to the left of the current finite support. The disjunction
+clause uses regularity of `ω₁` (uncountably many `α` choose one of countably many disjuncts)
+and downward closure of (*) in `α`; the witness clause for a constant between two rational
+constants inserts the new point inside a gap, at `b_s + α` in a model chosen for some
+`β > α + α`. Marker checks two clauses and leaves the rest as an exercise; all of them are
 targets. `model_existence` then realizes the full positive diagram, and `q ↦ d_q` is the map.
 Boundedness is the contrapositive (a well-founded relation has no chain from the negative
 rationals), and undefinability follows because each `α + ω` with `α < ω₁` is the order type of a
