@@ -40,7 +40,8 @@ The end theorems are Satz 1 (R28.1.11), the corrected Satz 2 (R28.3.4), Satz 3 a
 
 This roadmap owns:
 
-1. **Modular heights and Satz 1** (Layer R28.1): the stable-Picard comparison for the supplied Hodge line, the uniqueness of semiabelian models (a consequence of Faltings' Lemma 1, the extension
+1. **Modular heights and Satz 1** (Layer R28.1): the adapter identifying the supplied Hodge line of a
+   stable Picard scheme with the curve Hodge line of JacobianChallengePartII Layer 6, the uniqueness of semiabelian models (a consequence of Faltings' Lemma 1, the extension
    theorem for homomorphisms, which ArakelovGeometryAndAbelianHeights §2.0 owns), Faltings' correspondence stack of stable curves over `ℤ` dominating the Siegel moduli
    space (Lemma 2), the comparison of the Hodge and modular line bundles with a uniform constant
    (Korollar to Lemma 2), adapters to the supplied degree, semistable height in Faltings' normalisation and
@@ -71,7 +72,9 @@ This roadmap owns:
    of stable lattices up to isomorphism in a semisimple `ℚ_l`-representation, the small-prime bound,
    Satz 6, the local maximal-order lattice classification, integral idempotent orbit finiteness and
    the finiteness of direct factors, using the supplied Zarhin trick, the unpolarized Shafarevich theorem,
-   the rational Torelli theorem as used here, Korollar 1 to Satz 6.
+   the field specialization of JacobianChallengePartII's canonical polarization, the uniqueness
+   part of strong Torelli with the perfect-field descent giving the rational Torelli theorem,
+   Korollar 1 to Satz 6.
 6. **Exports** (Layer R28.6): the identification of Weierstrass elliptic curves with one-dimensional
    abelian varieties as this roadmap uses it, semisimplicity, the Tate Hom comparison, the isogeny criterion and the
    finiteness of isogeny classes for elliptic curves over number fields, the rank-one Hom lemma, the
@@ -124,7 +127,9 @@ This roadmap does not own, and cites:
   different exponent), EllipticCurves (dual isogenies, Tate modules, reduction of elliptic curves),
   JacobianChallenge (Jacobians and their principal polarization).
 - **Roadmaps this one builds on**: AbelianSchemesAndArithmeticModuli (abelian schemes,
-  polarizations, Weil pairings, the arithmetic of Hom), NeronModelsAndSemistableAbelianVarieties
+  polarizations, Weil pairings, the arithmetic of Hom), JacobianChallengePartII (relative
+  Jacobians, their canonical principal polarization, and the stable Picard Lie and Hodge
+  comparisons), AbelianSchemesAndArithmeticModuliPartII (geometric strong Torelli), NeronModelsAndSemistableAbelianVarieties
   (Néron models, semistable reduction, the monodromy criterion, Néron–Ogg–Shafarevich),
   ArithmeticGaloisRepresentations (Tate modules with their Frobenius polynomials, induction and
   determinants), ArithmeticGaloisDuality (bounded-degree Hermite finiteness outside a finite set),
@@ -308,14 +313,13 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   its Galois action, reduction types and `a_v`. Used in Layer R28.6.
 - *JacobianChallenge, Layers D and E*: Picard representability and the principal polarization
   of a pointed curve's Jacobian by the theta divisor, independent of translation of theta.
-  R28.5.14 constructs `jacobianCanonicalPolarization` on the unpointed Jacobian of
-  SchemeAndStackFoundations §3.6 for R28.5.14–R28.5.15.
+  R28.5.14 obtains `jacobianCanonicalPolarization` on the unpointed Jacobian of
+  SchemeAndStackFoundations §3.6 by specializing JacobianChallengePartII §1.4 to `S = Spec(k)`.
 
 ### From the roadmaps this one builds on
 
 - *SchemeAndStackFoundations*: §2.20 `RelativeDualizingComplex`, `relativeDualizingModule` and
-  `curve_dualizing_comparison` (over a field), and `sheafified_grothendieck_duality`
-  (proper morphisms of Noetherian schemes); §3.8 `invariant_differentials`; §4.15 `StableCurves.Mbar`,
+  `curve_dualizing_comparison` (over a field), for the relative dualising sheaf of a stable curve; §3.8 `invariant_differentials`; §4.15 `StableCurves.Mbar`,
   `Mbar_algebraic_proper_DM` and `level_structure_cover`; §4.17 normal-crossings divisors.
   **AlgebraicVectorBundles** Layers L0B–L0C supplies `determinantObj` with pullback and product
   compatibility. Together these supply the Hodge line `det(e^*Ω¹)` on a smooth group scheme.
@@ -327,6 +331,19 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   §1.1 supplies descent of sheaf morphisms for R28.5.14.
 - *AlgebraicModuliForArithmeticGeometry*: §5.4 `DMSchematicClosure.stack`, `DMNormalization.stack`,
   `DMNormalization.finite`.
+- *JacobianChallengePartII*: §1.2 the relative Jacobian `J(X/S) = Pic⁰_{X/S}`, which over a field
+  base is JacobianChallenge Layer D's Jacobian, and §1.3 its base change; §1.4 the canonical
+  principal polarization `λ_X`, defined without a degree-one bundle, compatible with every base
+  change and equal to `φ_{O(θ_α)}` on a field fibre with a degree-one divisor `α`. For a stable
+  family of genus `g ≥ 2` over an integral Noetherian base, §6.1 the Lie comparison
+  `Lie(Pic⁰_{C/S}) ≅ R¹q_*O_C`, §6.2 the rank-`g` comparison `q_*ω_{C/S} ≅ e^*Ω¹_{Pic⁰/S}` and
+  §6.3 its determinant, each compatible with base change. R28.1.1 adapts §§6.1–6.3 to Faltings'
+  Hodge line; R28.5.14 specializes §§1.2–1.4 to a field. The analytic metric stays here.
+- *AbelianSchemesAndArithmeticModuliPartII*: B4.1, geometric strong Torelli: for smooth
+  projective connected curves of genus `g ≥ 2` over an algebraically closed field, Abel
+  embeddings `j`, `j′` and an isomorphism `β` of canonically polarized Jacobians, there are a
+  curve isomorphism `α`, a sign `ε` and a point `c` with `j′ ∘ α = ε β ∘ j + c`. R28.5.14 adds the
+  uniqueness of `(α, ε, c)` and the descent to a perfect field.
 - *ComplexComparisonPartII*: C0.3 `holomorphicBundleDictionary` and C0.4 `CoherentAnalytification`
   are direct prerequisites of Layer R28.1. They identify holomorphic bundles with finite locally free
   analytic sheaves on complex manifolds and analytify coherent sheaves on schemes locally of finite
@@ -477,16 +494,15 @@ zero section `s`, use the Hodge line `s^*(Ω^g_{A/S})` supplied by
 SchemeAndStackFoundations §3.8 and AlgebraicVectorBundles Layers L0B–L0C.
 Prove `hodgeLine_picard` (Faltings 1983, §2, Bemerkung c), p. 351): if `S` is integral Noetherian and
 `A = Pic^τ(C/S) = Pic^0(C/S)` for a stable curve `q : C → S` of genus `g ≥ 2`, then
-`ω_{A/S} ≅ Λ^g q_*(ω_{C/S})`, where `ω_{C/S}` is the relative dualising sheaf.
-Construct within this target `StablePicard.lie_iso_firstDirectImage`:
-`Lie(Pic^0(C/S)) ≅ R^1 q_*O_C`, and `StableCurve.relativeSerreDuality`:
-`(R^1 q_*O_C)^∨ ≅ q_*ω_{C/S}`. These are isomorphisms of rank-`g` vector bundles,
-compatible with every base change between integral Noetherian bases. The first is the relative
-Picard tangent comparison (Kleiman, Theorem 5.11 and Remark 5.12, pp. 42–44); the second follows
-from proper relative duality with `q^!O_S = ω_{C/S}[1]` (Stacks, Lemma 48.3.6 and
-Example 48.3.9 in [0A9D](https://stacks.math.columbia.edu/tag/0A9D), and
-[0E9W](https://stacks.math.columbia.edu/tag/0E9W)), with the base-change comparison
-[0E2Y](https://stacks.math.columbia.edu/tag/0E2Y). Their determinants give `hodgeLine_picard`.
+`ω_{A/S} ≅ Λ^g q_*(ω_{C/S})`, where `ω_{C/S}` is the relative dualising sheaf, compatibly with
+every base change between integral Noetherian bases. This target is an adapter: the Lie comparison
+`Lie(Pic^0(C/S)) ≅ R^1 q_*O_C`, the rank-`g` comparison `q_*ω_{C/S} ≅ e^*Ω^1_{Pic^0/S}` and its
+determinant are JacobianChallengePartII §§6.1–6.3, under the same stable genus-`g ≥ 2` hypotheses
+over an integral Noetherian base (Kleiman, Theorem 5.11 and Remark 5.12, pp. 42–44, for the first).
+What is added here is the identification of their determinant line `det(e^*Ω^1_{Pic^0/S})` with
+Faltings' `ω_{A/S} = s^*Ω^g_{A/S}`, through the canonical isomorphism
+`s^*Ω^g_{A/S} = Λ^g s^*Ω^1_{A/S}` and AlgebraicVectorBundles L0C's comparison of `Λ^g` with the
+determinant of a rank-`g` bundle, both compatible with base change.
 The stable-Picard comparison is used on integral Noetherian charts of the correspondence;
 no arbitrary-base stable-Picard assertion is needed here.
 The pairing used on this line over `ℂ` is supplied by ArakelovGeometryAndAbelianHeights §2.1
@@ -496,9 +512,9 @@ its first argument. Its norm is the one fixed in Conventions.
 *Proof route.* Translation identifies `Ω^1_{A/S}` with `p^*(s^*Ω^1_{A/S})`, so
 `Ω^g_{A/S} ≅ p^*ω_{A/S}`; for proper `p` the fibres are geometrically connected and reduced, so
 `p_*O_A = O_S` universally and `p_*Ω^g ≅ ω`. Base change of `Ω^1` and of the zero section gives the
-base-change comparison. For the Picard comparison, the Lie algebra of `Pic^0(C/S)` along the zero section is `R^1 q_*O_C`, and
-relative duality for the stable curve identifies its dual with `q_*ω_{C/S}`; taking `Λ^g` gives the
-claim. The supplied metric is positive because in linear coordinates `α = f dz_1 ∧ ⋯ ∧ dz_g` one has
+base-change comparison. For the Picard comparison, compose JacobianChallengePartII §6.3 with the
+canonical isomorphisms `det(e^*Ω^1) ≅ Λ^g e^*Ω^1 = s^*Ω^g`; base change follows because each of the
+three maps commutes with pullback. The supplied metric is positive because in linear coordinates `α = f dz_1 ∧ ⋯ ∧ dz_g` one has
 `α ∧ ᾱ = (−1)^{g(g−1)/2}|f|² dz_1 ∧ dz̄_1 ∧ ⋯ ∧ dz_g ∧ dz̄_g` and `(i/2)dz_j ∧ dz̄_j = dx_j ∧ dy_j`, so
 `2^{−g} i^{g²} ∫ α ∧ ᾱ = ∫ |f|² dV > 0`. Faltings states the four remarks without proof, and prints the
 factor `(i/2)^g`, which gives `−∫|f|² dV` when `g ≡ 2, 3 mod 4`; the factor here is the corrected one
@@ -508,11 +524,9 @@ factor `(i/2)^g`, which gives `−∫|f|² dV` when `g ≡ 2, 3 mod 4`; the fact
 AbelianSchemesAndArithmeticModuli A1.3 `relativeInvariantForms` and A6.38 `AbelianHodgeLine`
 (`AbelianHodgeLine.mk`, `AbelianHodgeLine.baseChange`); NeronModelsAndSemistableAbelianVarieties
 §4.13 `StableFamilyPicard` (the degree-zero Picard scheme of a stable family is semiabelian);
-SchemeAndStackFoundations §2.20 `relativeDualizingModule` and
-`curve_dualizing_comparison`; the identification of the Lie algebra of the Picard scheme with
-`R^1 q_*O_C` and relative Serre duality are the two constructions in this target, using
-SchemeAndStackFoundations §2.20 `sheafified_grothendieck_duality` and
-`relativeDualizingModule_baseChange`; ArakelovGeometryAndAbelianHeights §§2.1–2.8
+JacobianChallengePartII §6.1 (Picard Lie algebra and `R^1 q_*O_C`), §6.2 (curve and Jacobian
+Hodge bundles) and §6.3 (their determinant line); SchemeAndStackFoundations §3.8
+`invariant_differentials`; AlgebraicVectorBundles L0C (`determinantObj`); ArakelovGeometryAndAbelianHeights §§2.1–2.8
 (the Hodge bundle with its integration metric); Mathlib `AlgebraicGeometry.Smooth`,
 `AlgebraicGeometry.IsProper`, `CategoryTheory.GrpObj`; Tau Ceti `AbelianVariety`.
 
@@ -1077,7 +1091,7 @@ M6.7 `descentObstruction`.
 Mathlib (schemes, valuative criterion, normalisation, Zariski's main theorem in the form "proper and
 locally quasi-finite is finite", number fields, heights, the different and discriminants); Tau Ceti
 (`AbelianVariety`); TauCetiRoadmap NumberFieldArithmetic (Layer 6.4) and LocalFieldsRamification
-(Layer 3); SchemeAndStackFoundations §§2.20, 3.8, 4.15, 4.17; AlgebraicVectorBundles Layers L0B–L0C; AlgebraicModuliForArithmeticGeometry §5.4;
+(Layer 3); SchemeAndStackFoundations §§2.20, 3.8, 4.15, 4.17; AlgebraicVectorBundles Layers L0B–L0C; JacobianChallengePartII §§6.1–6.3; AlgebraicModuliForArithmeticGeometry §5.4;
 ComplexComparisonPartII C0.3–C0.4; AbelianSchemesAndArithmeticModuli A1, A3, A6;
 NeronModelsAndSemistableAbelianVarieties Layers 3–5; HeightsAndUnits §1.1;
 PELModuli M2, M6; ShimuraVarieties Layers 2 and 8; ArakelovGeometryAndAbelianHeights §§2.0, 5.0a–5.0b;
@@ -2386,28 +2400,30 @@ NeronModelsAndSemistableAbelianVarieties §5.1.
 
 ### R28.5.14 The rational Torelli theorem
 
-**Canonical polarization without a curve point.** Construct `jacobianCanonicalPolarization`:
-for a smooth projective geometrically connected curve `C` of genus `g ≥ 2` over a perfect
-field `k`, the abelian variety `jacobian C = Pic⁰_{C/k}` of SchemeAndStackFoundations §3.6
-has a canonical principal polarization `θ_C`, compatible with field extension.
-Choose a finite Galois extension `L/k` with a point on `C_L`, identify its pointed Jacobian
-with `(Pic⁰_{C/k})_L`, and transport JacobianChallenge Layer E's principal polarization.
-Changing the point translates theta and leaves its polarization homomorphism unchanged.
-Consequently that homomorphism is Galois-invariant and descends through the representable
-fppf sheaves using SchemeAndStackFoundations §1.1. Prove independence of `L` by a common
-finite Galois extension. Principality descends faithfully flatly, and the geometric ample
-line bundle makes the descended homomorphism a polarization; no theta divisor over `k`
-is required. The same point-independence proves compatibility with field extension.
+**Canonical polarization without a curve point.** Obtain `jacobianCanonicalPolarization`:
+for a smooth projective geometrically connected curve `C` of genus `g ≥ 1` over a field `k`, the
+abelian variety `jacobian C = Pic⁰_{C/k}` of SchemeAndStackFoundations §3.6 has a canonical
+principal polarization `θ_C`, compatible with field extension, and equal to the theta
+polarization `φ_{O(θ_P)}` of JacobianChallenge Layer E whenever `P ∈ C(k)`.
+This is the case `S = Spec(k)` of JacobianChallengePartII §1.4: its `λ_X` for `X = C` is
+defined without a degree-one bundle, and its base-change property along `Spec(k′) → Spec(k)`
+gives compatibility with field extension. The adapter owned here is the identification of
+JacobianChallengePartII §1.2's `J(C/k)` with `jacobian C` as Tau Ceti abelian varieties: both are
+the degree-zero component of JacobianChallenge Layer D's Picard scheme, and the identification
+respects the group law and the comparisons under field extension. Transport `λ_X` along it.
 Sources: Milne, *Abelian varieties*, III Theorem 6.6 and Summary 6.11, pp. 105–108.
 
 **Checks for `jacobianCanonicalPolarization`.**
-- If `C(k)` is nonempty, the construction agrees with the supplied pointed polarization;
+- If `C(k)` is nonempty, the construction agrees with the supplied pointed polarization
+  (the field-fibre clause of JacobianChallengePartII §1.4 for the degree-one divisor `[P]`);
   replacing the point changes theta by translation and preserves the homomorphism.
 - The smooth completion of `y² = −(x⁶ + 1)` over `ℚ` has genus two and no real point:
   its affine right side is negative and its two points at infinity require `sqrt(−1)`.
   Its Jacobian still has this principal polarization over `ℚ`.
 - For successive field extensions `k ⊆ k' ⊆ k''`, either base-change route gives the same
   homomorphism on `Pic⁰_{C_{k''}/k''}`; a rational point on `C_{k'}` is not required.
+- For `g = 1` and a genus-one curve `C` with `C(k) = ∅`, `θ_C` is the principal polarization of
+  the elliptic curve `jacobian C`, although `C` carries no theta divisor over `k`.
 
 Prove `rationalTorelli` (Milne, *Abelian varieties*, III Theorem 12.1, p. 120, Corollary 12.2, p. 121, with the
 proof in III §13, pp. 122–127, after Martens; IV Theorem 4.2, p. 144): for smooth projective geometrically
@@ -2415,18 +2431,34 @@ connected curves `C, C'` of genus `g ≥ 2` over a perfect field `k`, if the can
 `(J(C), θ_C)` and `(J(C'), θ_{C'})` are isomorphic over `k`, then `C ≅ C'` over `k`. Over an algebraically closed field
 the same holds for every genus. Only injectivity of `C ↦ (J(C), θ_C)` on isomorphism classes is used.
 
-*Proof route.* Over `k̄` (Theorem 12.1) the theta divisor `Θ ⊆ J` determines `C`: Martens' argument recovers `C`
-from the singular locus and the intersections of translates of `Θ`. Over `k`, the strong Torelli
-statement writes the given polarized isomorphism as `±J(α)` for an isomorphism `α` of the geometric
-curves. If the curves are non-hyperelliptic, the sign and `α` are uniquely determined, hence
-Galois-invariant. If they are hyperelliptic, the hyperelliptic involution absorbs the sign, and
-faithfulness of the action on the Jacobian makes the resulting `α` unique and Galois-invariant.
-Thus `α` descends to `k`. A non-hyperelliptic curve has no automorphism inducing `−1` on its
-Jacobian, so sign absorption is not the argument in that case.
+*Proof route.* Over `k̄`, AbelianSchemesAndArithmeticModuliPartII B4.1 supplies geometric strong
+Torelli (Milne III Theorem 12.1(a), proved in III §13 after Martens): for points `P`, `P′` with Abel
+maps `f_P`, `f_{P′}` and a polarized isomorphism `β`, there are `α : C_k̄ ≅ C′_k̄`, a sign and `c` with
+`f_{P′} ∘ α = ±β ∘ f_P + c`. This target owns the rest.
 
-*Needs:* `jacobianCanonicalPolarization` above; SchemeAndStackFoundations §3.6 `jacobian`,
-`jacobian_dim` and §1.1 (descent); TauCetiRoadmap JacobianChallenge Layers D–E
-(Picard representability and the pointed principal polarization);
+- *Uniqueness* (Milne III Theorem 12.1(b)). If two triples satisfy the equation with the same sign
+  and `α ≠ α′`, then `[α(Q)] + [α′(Q′)]` is linearly equivalent to `[α′(Q)] + [α(Q′)]` for all
+  `Q, Q′`; varying the points gives more than one `g¹_2` on `C′`, impossible for `g ≥ 2`. With
+  opposite signs, `α(Q) + α′(Q)` moves in a `g¹_2`, so `C′` is hyperelliptic and `α′` is `α`
+  followed by the hyperelliptic involution. Thus for non-hyperelliptic curves `(α, ±, c)` is
+  determined by `(β, P, P′)`; for hyperelliptic curves fixing the sign `+` determines `α` and `c`.
+  With `C = C′`, `β = id`, `P = P′` this says that an automorphism acting trivially on `J` is the
+  identity.
+- *Base-point independence.* Replacing `(P, P′)` by `(Q, Q′)` translates both Abel maps, so the
+  same `α` satisfies the equation with a new constant; by uniqueness `α` depends only on `β`.
+- *Descent* (Milne III Corollary 12.2). For `σ ∈ Gal(k̄/k)`, applying `σ` to the equation for
+  `(β, P, P′)` gives the equation for `(σβ, σP, σP′) = (β, σP, σP′)` with `σα`, so `σα = α` by
+  base-point independence and uniqueness; since `k` is perfect, `α` is defined over `k`.
+
+A non-hyperelliptic curve has no automorphism inducing `−1` on its Jacobian, so there the sign is
+determined by `β` and descends with `α`; for hyperelliptic curves it is fixed to `+` first. Over `k̄` with `g ≤ 1` the conclusion holds because
+both curves have points: genus-zero curves are `ℙ¹`, and a genus-one curve is its Jacobian.
+
+*Needs:* `jacobianCanonicalPolarization` above; JacobianChallengePartII §1.2 (relative Jacobian
+and its field specialization), §1.3 (base change) and §1.4 (canonical principal polarization);
+AbelianSchemesAndArithmeticModuliPartII B4.1 (geometric strong Torelli);
+SchemeAndStackFoundations §3.6 `jacobian`, `jacobian_dim` and §1.1 (descent); TauCetiRoadmap
+JacobianChallenge Layers D–E (Picard representability and the pointed principal polarization);
 AbelianSchemesAndArithmeticModuli A6.18 `polarizedAutomorphisms`, A6.20
 `homDescentFullLevel`.
 
@@ -2438,6 +2470,8 @@ AbelianSchemesAndArithmeticModuli A6.18 `polarizedAutomorphisms`, A6.20
   (the quadratic-twist question for non-hyperelliptic curves) is not part of the statement.
 - For hyperelliptic `C` the automorphism `−1` of `J` comes from the hyperelliptic involution, consistent with
   the sign absorption.
+- For non-hyperelliptic `C = C′` and `β = [−1]`, the unique triple is `(id, −, 0)`: no automorphism
+  realises the sign `+`, and the descended isomorphism is the identity.
 
 ### R28.5.15 Korollar 1 to Satz 6: curves with good reduction outside `S`
 
@@ -2478,7 +2512,8 @@ SchemeAndStackFoundations §3.6 `jacobian`, `jacobian_dim`; NeronModelsAndSemist
 ### Dependencies
 
 Layers R28.1–R28.4; TauCetiRoadmap ClassFieldTheory (Layer 13), GlobalNumberFields (Layer 10), Chebotarev
-(Layer 10), JacobianChallenge (Layers D, E); AbelianSchemesAndArithmeticModuli A2, A3, A6;
+(Layer 10), JacobianChallenge (Layers D, E); JacobianChallengePartII §§1.2–1.4;
+AbelianSchemesAndArithmeticModuliPartII B4.1; AbelianSchemesAndArithmeticModuli A2, A3, A6;
 NeronModelsAndSemistableAbelianVarieties Layers 3, 5; ArithmeticGaloisRepresentations Layers 1, 5, 6, 7;
 WeightsInEtaleCohomology R34.2; DeligneWeightsAndPurity DWP.0, DWP.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.1; ClassicalArithmeticCompletion §§7.4, 7.21, 7.56; AdelicAlgebraicGroups AA.3.3;
