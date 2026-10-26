@@ -5,13 +5,14 @@ derivative `extDeriv` and `extDeriv_extDeriv`; Tau Ceti has test forms with
 `TauCeti.TestFunction.extDerivCLM` (`d ∘ d = 0` on `𝓓(Ω, E [⋀^Fin k]→L[ℝ] F)`), weak derivatives
 `TauCeti.HasWeakFDerivOn`, and the scalar Sobolev spaces `TauCeti.W1p`, `TauCeti.Wkp`. This roadmap
 builds the **Sobolev theory of differential forms on a Euclidean domain**: the weak exterior
-derivative, the Hilbert spaces `HΛᵏ(Ω)` (in dimension three: `H¹`, `H(curl)`, `H(div)`, `L²`), the
+derivative, the Banach spaces `WᵖΛᵏ(Ω)` for `1 ≤ p ≤ ∞` and their Hilbert case `HΛᵏ(Ω) := W²Λᵏ(Ω)`
+(in dimension three: `H¹`, `H(curl)`, `H(div)`, `L²`), the
 **L² de Rham complex** as a Hilbert complex with its Hodge decomposition, pullback under
 diffeomorphisms, traces and gluing across interfaces, and **compactness and closed range** of the
 complex on bounded Lipschitz domains.
 
 The bar for "done": someone working with mixed formulations, Maxwell's equations or Hodge
-Laplacians on a domain finds `HΛᵏ(Ω)` with the API they expect (density, pullback, traces,
+Laplacians on a domain finds `WᵖΛᵏ(Ω)` and `HΛᵏ(Ω)` with the API they expect (density, pullback, traces,
 gluing, closed range, Hodge decomposition) and the vector-calculus special cases connected to it.
 
 ## Standing setting
@@ -54,15 +55,20 @@ gluing, closed range, Hodge decomposition) and the vector-calculus special cases
   `⋆ (⋆ x) = (−1)^{k l} x`, and `α ∧ ⋆β = ⟪α, β⟫ vol`; and that `⋆` commutes with the isometries
   of `E` that preserve the orientation. On forms it acts pointwise, and the **codifferential**
   of `k`-forms is `δ := (−1)^{n(k+1)+1} ⋆ d ⋆`.
-- `L²Λᵏ(Ω) := Lp (Covector n k) 2 (volume.restrict Ω)`, a Hilbert space.
+- `p : ℝ≥0∞` with `[Fact (1 ≤ p)]`, as for `TauCeti.W1p`; every statement covers `p = ∞` unless it
+  says `p < ∞`. `LᵖΛᵏ(Ω) := Lp (Covector n k) p (volume.restrict Ω)`, a Banach space for the
+  pointwise Euclidean norm of `Covector n k`, and a Hilbert space for `p = 2`.
 
 ## Milestone 1: the weak exterior derivative
 
 1. **Definition.** `u ∈ L¹_loc` has weak exterior derivative `w` on `Ω` (`HasWeakExtDerivOn Ω u w`)
    if for every scalar test function `ψ ∈ 𝓓(Ω, ℝ)` and every `v : Fin (k+1) → E`:
    `∫ w x v · ψ x = − ∑ j, (−1)^j ∫ u x (Fin.removeNth j v) · fderiv ℝ ψ x (v j)`.
-   Prove: uniqueness a.e.; linearity; agreement with Mathlib's `extDeriv` for `C¹` forms; for `k = 0`
-   agreement with `TauCeti.HasWeakFDerivOn` (a `0`-form is a function); the equivalent formulation
+   Prove: uniqueness a.e.; linearity; agreement with Mathlib's `extDeriv` for `C¹` forms; for every
+   `k`, if `TauCeti.HasWeakFDerivOn volume Ω u U` then `HasWeakExtDerivOn Ω u w` with `w` the
+   alternatization of `U` (for `k = 0` the two predicates are equivalent; for `1 ≤ k ≤ n − 1` the
+   converse fails: `sign x₁ dx₁` on `ℝⁿ`, `n ≥ 2`, has weak exterior derivative `0` and no weak
+   derivative); the equivalent formulation
    by duality against test forms of degree `k + 1` through the codifferential `δ` of test forms,
    which is the formal adjoint of `TauCeti.TestFunction.extDerivCLM` with respect to `⟪·,·⟫`
    (prove this); locality (restriction to open subsets
@@ -73,39 +79,47 @@ gluing, closed range, Hodge decomposition) and the vector-calculus special cases
    with bounded derivative (the wedge product of covectors as Mathlib's alternatization of the
    tensor product, or Mathlib's wedge on `ContinuousAlternatingMap` where it exists).
 
-## Milestone 2: the spaces `HΛᵏ(Ω)`
+## Milestone 2: the spaces `WᵖΛᵏ(Ω)`
 
-4. **`HΛᵏ(Ω)`** := `{u ∈ L²Λᵏ(Ω) | ∃ w ∈ L²Λᵏ⁺¹(Ω), HasWeakExtDerivOn Ω u w}` with the graph inner
-   product `⟪u, v⟫ + ⟪du, dv⟫`; prove it is a Hilbert space and that `d : HΛᵏ(Ω) → L²Λᵏ⁺¹(Ω)` is
-   bounded, with range in the kernel of `d` on `HΛᵏ⁺¹(Ω)`.
-5. **`d` as an unbounded operator.** `d` is a closed, densely defined operator
-   `L²Λᵏ(Ω) → L²Λᵏ⁺¹(Ω)` with domain `HΛᵏ(Ω)` (Mathlib's `LinearPMap`, `LinearPMap.IsClosed`),
-   with adjoint the weak codifferential with natural boundary conditions.
+4. **`WᵖΛᵏ(Ω)`** (Lean: `TauCeti.WpΛ Ω p k`) := `{u ∈ LᵖΛᵏ(Ω) | ∃ w ∈ LᵖΛᵏ⁺¹(Ω),
+   HasWeakExtDerivOn Ω u w}` with the graph norm of `u ↦ (u, du)`, combined as in the norm of
+   `TauCeti.W1p`; prove it is a Banach space and that `d : WᵖΛᵏ(Ω) → LᵖΛᵏ⁺¹(Ω)` is bounded, with
+   range in the kernel of `d` on `WᵖΛᵏ⁺¹(Ω)`. `HΛᵏ(Ω) := W²Λᵏ(Ω)` is a Hilbert space with the
+   graph inner product `⟪u, v⟫ + ⟪du, dv⟫`.
+5. **`d` as an unbounded operator.** `d` is a closed operator `LᵖΛᵏ(Ω) → LᵖΛᵏ⁺¹(Ω)` with domain
+   `WᵖΛᵏ(Ω)` (Mathlib's `LinearPMap`, `LinearPMap.IsClosed`), densely defined for `p < ∞`. For
+   `p = 2` its adjoint is the weak codifferential with natural boundary conditions.
    Define `H*Λᵏ(Ω) := {u ∈ L²Λᵏ(Ω) | ⋆u ∈ HΛⁿ⁻ᵏ(Ω)}` and `H*Λᵏ₀(Ω) := {u ∈ L²Λᵏ(Ω) | ⋆u ∈ HΛⁿ⁻ᵏ₀(Ω)}` with
    the weak `δ`; prove that the adjoint of `d` with domain `HΛᵏ⁻¹₀(Ω)` is `δ` on `H*Λᵏ(Ω)`, and
    the adjoint of `d` with domain `HΛᵏ⁻¹(Ω)` is `δ` on `H*Λᵏ₀(Ω)` (item 7 defines `HΛᵏ₀`).
-6. **Density.** `C^∞(Ω) ∩ HΛᵏ(Ω)` is dense in `HΛᵏ(Ω)` for every open `Ω` (the Meyers–Serrin
-   argument with mollification commuting with `d` on interior subdomains).
-7. **Zero boundary values.** `HΛᵏ₀(Ω)` := closure of test forms; `d` maps `HΛᵏ₀` into `HΛᵏ⁺¹₀`;
-   extension by zero is an isometry `HΛᵏ₀(Ω) → HΛᵏ(E)` commuting with `d`.
-8. **Degree zero and top degree.** `HΛ⁰(Ω) = W^{1,2}(Ω)` as Hilbert spaces (with
-   `TauCeti.W1p volume Ω 2`), and `HΛⁿ(Ω) = L²Λⁿ(Ω)`.
+6. **Density.** For `p < ∞`, `C^∞(Ω) ∩ WᵖΛᵏ(Ω)` is dense in `WᵖΛᵏ(Ω)` for every open `Ω` (the
+   Meyers–Serrin argument with mollification commuting with `d` on interior subdomains).
+7. **Zero boundary values.** For `p < ∞`, `WᵖΛᵏ₀(Ω)` (Lean: `TauCeti.WpΛ₀ Ω p k`) := closure of
+   test forms, and `HΛᵏ₀(Ω) := W²Λᵏ₀(Ω)`; `d` maps `WᵖΛᵏ₀` into `WᵖΛᵏ⁺¹₀`; extension by zero is an
+   isometry `WᵖΛᵏ₀(Ω) → WᵖΛᵏ(E)` commuting with `d`.
+8. **Degree zero and top degree.** `WᵖΛ⁰(Ω) = W^{1,p}(Ω)` with equal norms (with
+   `TauCeti.W1p volume Ω p`), `WᵖΛ⁰₀(Ω) = W^{1,p}_0(Ω)` for `p < ∞`, and `WᵖΛⁿ(Ω) = LᵖΛⁿ(Ω)`.
 9. **Vector proxies in dimension three.** For `n = 3`, define the weak curl and divergence of vector
-   fields in `L²(Ω; ℝ³)`, the spaces `H(curl, Ω)`, `H(div, Ω)`, and the isometric isomorphisms
-   `HΛ¹ ≃ H(curl)`, `HΛ² ≃ H(div)` (via the proxies `α ↦ (α e₁, α e₂, α e₃)` and the Hodge
-   star) under which `d` becomes `grad`, `curl`, `div`. Tau Ceti's weak divergence
-   (`TauCeti/Analysis/Sobolev/WeakDeriv/Divergence.lean`) is the degree `n − 1` case for every `n`.
+   fields in `Lᵖ(Ω; ℝ³)`, the spaces `Wᵖ(curl, Ω)`, `Wᵖ(div, Ω)` (`H(curl, Ω)`, `H(div, Ω)` for
+   `p = 2`), and the isometric isomorphisms `WᵖΛ¹ ≃ Wᵖ(curl)`, `WᵖΛ² ≃ Wᵖ(div)` (via the proxies
+   `α ↦ (α e₁, α e₂, α e₃)` and the Hodge star) under which `d` becomes `grad`, `curl`, `div`.
+   For every `n`, relate Tau Ceti's divergence of a weakly differentiable vector field
+   (`TauCeti/Analysis/Sobolev/WeakDeriv/Divergence.lean`, the trace of a full weak derivative) to
+   the weak `d` in degree `n − 1`: if `g` has weak derivative `G`, the `(n−1)`-form `⋆` of the
+   `1`-form `x ↦ ⟪g x, ·⟫` has weak exterior derivative `tr G · vol`. The weak `d` in degree `n − 1` needs no weak derivative of `g`.
 
 ## Milestone 3: pullback and change of variables
 
 10. **Pullback.** For a `C¹` diffeomorphism `Φ : Ω' → Ω` with `‖DΦ‖, ‖DΦ⁻¹‖ ≤ L` and `|det DΦ| ≥ c`:
-    the pullback `Φ^* u` maps `HΛᵏ(Ω)` to `HΛᵏ(Ω')`, commutes with the weak `d`, and has explicit
-    norm bounds in `n, k, L, c`. Specialize to affine maps `F x = B x + b`:
-    `‖F^* u‖_{L²Λᵏ(F⁻¹ Ω)} ≤ ‖B‖^k |det B|^{−1/2} ‖u‖_{L²Λᵏ(Ω)}`, and in dimension three identify the
+    the pullback `Φ^* u` maps `WᵖΛᵏ(Ω)` to `WᵖΛᵏ(Ω')`, commutes with the weak `d`, and has explicit
+    norm bounds in `n, k, p, L, c`. Specialize to affine maps `F x = B x + b`:
+    `‖F^* u‖_{LᵖΛᵏ(F⁻¹ Ω)} ≤ ‖B‖^k |det B|^{−1/p} ‖u‖_{LᵖΛᵏ(Ω)}` (exponent `0` for `p = ∞`), and in
+    dimension three identify the
     affine pullbacks with the covariant and contravariant Piola transforms of `H(curl)` and `H(div)`.
     The same for a bi-Lipschitz homeomorphism `Φ : Ω' → Ω` with Lipschitz constants `≤ L` for `Φ`
-    and `Φ⁻¹`, with `DΦ` defined a.e. by Rademacher's theorem: `Φ^*` maps `HΛᵏ(Ω)` to `HΛᵏ(Ω')` and
-    `HΛᵏ₀(Ω)` to `HΛᵏ₀(Ω')`, commutes with the weak `d`, and has norm bounds in `n, k, L`.
+    and `Φ⁻¹`, with `DΦ` defined a.e. by Rademacher's theorem: `Φ^*` maps `WᵖΛᵏ(Ω)` to `WᵖΛᵏ(Ω')`
+    and, for `p < ∞`, `WᵖΛᵏ₀(Ω)` to `WᵖΛᵏ₀(Ω')`, commutes with the weak `d`, and has norm bounds in
+    `n, k, p, L`.
 
 ## Milestone 4: traces, Green's formula, and gluing
 
@@ -121,18 +135,18 @@ interface) and PDE Lane A.6 (the Lipschitz-domain predicate `Set.IsLipschitzDoma
     `closure Ω` of a bounded Lipschitz domain:
     `∫_Ω du ∧ φ + (−1)^k ∫_Ω u ∧ dφ = ∫_{∂Ω} tr u ∧ tr φ` (the boundary integral against
     `μHE[n−1]` and the outward normal), from G6's integration by parts applied to the components.
-13. **Weak characterization of zero trace.** For bounded Lipschitz `Ω`: `u ∈ HΛᵏ₀(Ω)` if and only if
-    `u ∈ HΛᵏ(Ω)` and `∫_Ω du ∧ φ + (−1)^k ∫_Ω u ∧ dφ = 0` for every smooth `φ` on `E` (smooth up to
+13. **Weak characterization of zero trace.** For bounded Lipschitz `Ω` and `p < ∞`: `u ∈ WᵖΛᵏ₀(Ω)`
+    if and only if `u ∈ WᵖΛᵏ(Ω)` and `∫_Ω du ∧ φ + (−1)^k ∫_Ω u ∧ dφ = 0` for every smooth `φ` on `E` (smooth up to
     the boundary, not compactly supported in `Ω`).
 14. **Gluing across interfaces.** Let `Ω` be open and `Ω₁, …, Ω_m` pairwise disjoint bounded Lipschitz
-    domains with `closure Ω ⊆ ⋃ closure Ωᵢ` and `Ω ⊆ ⋃ closure Ωᵢ`. Let `u ∈ L²Λᵏ(Ω)` be Lipschitz on
-    each `closure Ωᵢ` (as a restriction). Then `u ∈ HΛᵏ(Ω)`, with weak derivative equal to the
+    domains with `closure Ω ⊆ ⋃ closure Ωᵢ` and `Ω ⊆ ⋃ closure Ωᵢ`. Let `u ∈ LᵖΛᵏ(Ω)` be Lipschitz on
+    each `closure Ωᵢ` (as a restriction). Then `u ∈ WᵖΛᵏ(Ω)`, with weak derivative equal to the
     piecewise classical `du` a.e., if and only if on every shared boundary piece
     `frontier Ωᵢ ∩ frontier Ωⱼ ∩ Ω` the tangential traces from `Ωᵢ` and `Ωⱼ` agree `μHE[n−1]`-a.e.
-    For `k = 0` this is the statement that a function Lipschitz on each piece is in `W^{1,p}(Ω)` iff
-    its traces agree on interfaces; prove the scalar case for every `1 ≤ p ≤ ∞` (from G6's BV gluing
-    and A.6's trace). In dimension three, state the proxy forms: tangential continuity for `H(curl)`,
-    normal continuity for `H(div)`.
+    For `k = 0` (with item 8) this is the statement that a function Lipschitz on each piece is in
+    `W^{1,p}(Ω)` iff its traces agree on interfaces, from G6's BV gluing and A.6's trace. In
+    dimension three, state the proxy forms: tangential continuity for `Wᵖ(curl)`, normal continuity
+    for `Wᵖ(div)`.
 
 ## Milestone 5: the L² de Rham complex as a Hilbert complex
 
@@ -201,11 +215,12 @@ regularity has an elementary proof by Fourier sine and cosine series (Lim–Spre
 - **Not here:** forms on manifolds and the L² theory on Riemannian manifolds; the identification of
   the harmonic spaces on a Lipschitz domain with de Rham cohomology; boundary conditions on a
   part of the boundary; regularized Poincaré and Bogovskiĭ operators and explicit Poincaré
-  constants; fractional trace spaces (`H^{−1/2}`); approximation of forms by piecewise polynomial forms on partitions of a domain.
+  constants; the `Lᵖ` Hodge decomposition and closed range for `p ≠ 2`; fractional trace spaces
+  (`H^{−1/2}`); approximation of forms by piecewise polynomial forms on partitions of a domain.
 
 ## Acceptance criteria
 
-- `HΛᵏ(Ω)`, `HΛᵏ₀(Ω)` and the weak `d` have the basic API (restriction, extension by zero, pullback,
+- `WᵖΛᵏ(Ω)`, `WᵖΛᵏ₀(Ω)` and the weak `d` have the basic API (restriction, extension by zero, pullback,
   density, degree-zero and top-degree identifications) before Milestones 5 and 6 start.
 - The gluing theorem is tested on two half-cubes sharing a face: a form continuous across the face
   is in `HΛᵏ`, a form whose tangential part jumps is not.
