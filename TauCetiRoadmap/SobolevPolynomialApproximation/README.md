@@ -59,11 +59,19 @@ any of the classical lemmas of Brenner–Scott, Chapter 4, or Ciarlet, Chapter 3
      `TauCeti.W1p.norm_gradient_le` and `TauCeti.W1p.norm_le_norm_value_add_norm_gradient`; above
      it from `TauCeti.Wkp.norm_sq_eq_norm_lowerOrder_sq_add_norm_iteratedGradient_sq_succ`;
    - `|q|_{j,p} = 0` for `q ∈ Wkp.polynomialsDegLE m` and `j ≥ m + 1`.
-2. **Integrating polynomial fields.** A polynomial Poincaré lemma, with no Sobolev spaces: if
+2. **Integrating polynomial fields.** A polynomial Poincaré lemma, purely algebraic: if
    `P : Fin n → MvPolynomial (Fin n) ℝ` has every `P i ∈ restrictTotalDegree (Fin n) ℝ m` and
    `pderiv j (P i) = pderiv i (P j)` for all `i, j`, then there is
-   `Q ∈ restrictTotalDegree (Fin n) ℝ (m + 1)` with `pderiv i Q = P i` for every `i` (take
-   `Q = ∑ i, X i * ∫₀¹ (P i)(t · X) dt`, computed on monomials).
+   `Q ∈ restrictTotalDegree (Fin n) ℝ (m + 1)` with `pderiv i Q = P i` for every `i`. Proof by
+   homogeneous components, with Mathlib's Euler identity
+   (`MvPolynomial.IsHomogeneous.sum_X_mul_pderiv`):
+   - `pderiv` lowers degree by one: `homogeneousComponent d (pderiv i R) =
+     pderiv i (homogeneousComponent (d + 1) R)`, so the closedness condition holds for the
+     homogeneous components `Pᵈ i := homogeneousComponent d (P i)` separately;
+   - for each `d ≤ m`, `Qᵈ⁺¹ := (d + 1)⁻¹ • ∑ i, X i * Pᵈ i` satisfies `pderiv j Qᵈ⁺¹ = Pᵈ j`,
+     since `pderiv j Qᵈ⁺¹ = (d + 1)⁻¹ • (Pᵈ j + ∑ i, X i * pderiv i (Pᵈ j))` by closedness and the
+     sum is `d • Pᵈ j` by Euler;
+   - `Q := ∑_{d ≤ m} Qᵈ⁺¹`, assembled with `MvPolynomial.sum_homogeneousComponent`.
 3. **Kernel of the top seminorm.** On a preconnected `Ω`, for `u ∈ W^{m+1,p}(Ω)`:
    `|u|_{m+1,p} = 0` if and only if `Wkp.value u` is a.e. equal to an element of
    `polynomialsDegLE n m`. Proof by induction on `m`, starting from
