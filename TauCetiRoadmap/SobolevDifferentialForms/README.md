@@ -50,8 +50,8 @@ degree `0` and to the divergence in degree `n − 1`.
   ([mathlib4#44598](https://github.com/leanprover-community/mathlib4/pull/44598)) chooses `vol`
   from `Module.finBasis`, which fixes the orientation but not this normalization, so for `E` it
   agrees with the star used here only up to a positive factor; prove that comparison. On covectors, `⋆ : Covector n k ≃ₗᵢ[ℝ] Covector n l` for `k + l = n` is
-  `hodgeStar` conjugated by `Covector.toExteriorPower`. Prove the normalized-case results that
-  Mathlib's `HodgeStar.lean` lists as TODO, in the form stated there: `⋆` is an isometry,
+  `hodgeStar` conjugated by `Covector.toExteriorPower`. Prove, for this normalized `vol` and in
+  the shape of Mathlib's `exteriorPower.hodgeStar` API: `⋆` is an isometry,
   `⋆ (⋆ x) = (−1)^{k l} x`, and `α ∧ ⋆β = ⟪α, β⟫ vol`; and that `⋆` commutes with the isometries
   of `E` that preserve the orientation. On forms it acts pointwise, and the **codifferential**
   of `k`-forms is `δ := (−1)^{n(k+1)+1} ⋆ d ⋆`.
