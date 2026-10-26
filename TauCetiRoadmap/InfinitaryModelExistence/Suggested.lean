@@ -719,12 +719,12 @@ theorem craig_interpolation (φ ψ : Sentenceω L) (h : Sentenceω.Entails φ ψ
       Sentenceω.Entails φ θ ∧ Sentenceω.Entails θ ψ := by
   sorry
 
-/-- **Layer 7 milestone, PC separation**, the model-theoretic counterpart of Lusin separation.
-Two projective classes, given by new symbols `L₁` and `L₂`, with no common countable nonempty
-member, are separated by a single `L`-sentence on nonempty structures of every universe. Only
-countable members are excluded because a common member would give a countable one (Layer 2);
-the proof is Craig interpolation for the two sentences with their new symbols renamed apart.
-No language is assumed relational or countable. -/
+/-- **Layer 7 milestone, PC separation.** Two projective classes, given by new symbols `L₁` and
+`L₂`, with no common countable nonempty member, are separated by a single `L`-sentence on nonempty
+structures of every universe. Only countable members are excluded because a common member would
+give a countable one (Layer 2); the proof is Craig interpolation for the two sentences with their
+new symbols renamed apart. No language is assumed relational or countable. For a countable
+relational language, on codes of structures on `ℕ`, it plays the role of Lusin separation. -/
 theorem pcSeparation {L₁ : FirstOrder.Language.{u₁, v₁}}
     {L₂ : FirstOrder.Language.{u₂, v₂}}
     (Θ₁ : Sentenceω (L.sum L₁)) (Θ₂ : Sentenceω (L.sum L₂))
