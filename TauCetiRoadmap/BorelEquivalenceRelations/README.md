@@ -198,7 +198,7 @@ is related but not consumed: no milestone here needs a selector.
   so `PerfectSpace (ℕ → Bool)` and `PerfectSpace (ℕ → ℕ)` hold. No separation axiom is needed:
   a basic neighbourhood constrains finitely many coordinates.
 - `Set.Countable.isMeagre`: in a perfect `T₁` space every countable set is meagre (singletons
-  are closed with empty interior). Consequently, in a nonempty perfect Baire space every
+  are closed with empty interior). Consequently, in a nonempty perfect `T₁` Baire space every
   comeagre set is uncountable, and a nonempty perfect Polish space contains a Cantor copy and
   has cardinality 𝔠.
 - Word cylinders: `prependWord`, `wordCylinder`, the prefix order on words against inclusion of
