@@ -538,7 +538,7 @@ measures and the local-factor and vector-space Fourier transforms.
 
 Work under the following hypotheses. K number field; `frac_p(x)` denotes the rational p-primary part modulo Z. These are Kudla’s positive infinity characters, the inverse of Tate’s opposite global choice.
 
-Use the following specializations of the supplied API.
+Use the following specializations of the supplied API. The planned names AL0.StandardAdditiveCharacter.conductor, AL0.StandardAdditiveCharacter.diagonal and AL0.StandardAdditiveCharacter.nontrivial, cited by ClassicalArithmeticCompletion, denote these three statements in order; they are specializations of the supplied character, not a second owner.
 
 - The largest trivial fractional ideal is `P^(−d_v)`.
 - `∏_vψ_v(a)=1` for `a∈K`.
@@ -1202,6 +1202,8 @@ Require the following API.
 - (3.29): `ε(s, ω, ψ_β) = |β|^{s−1/2}ω(β)ε(s, ω, ψ)`.
 - `ε(s, ω, ψ)ε(1 − s, ω^{−1}, ψ) = ω(−1)`.
 - `|ε(1/2, ω, ψ)| = 1`.
+
+The planned names cited by ClassicalArithmeticCompletion map to this target as follows: TateZeta.epsilonFactor is `ε(s, ω, ψ)`, with finite values the supplied `tateLocalConstant`; TateZeta.epsilonFactor_smul_char is (3.29); TateZeta.epsilonFactor_mul_inv is `ε(s, ω, ψ)ε(1 − s, ω^{−1}, ψ) = ω(−1)`; TateZeta.epsilonFactor_unramified_zero is the unramified Check below; TateZeta.epsilonFactor_real_sign is the Check `F = ℝ, ω = x^{−1}, ψ = e`, where `ε = i`.
 
 **Checks.**
 
@@ -2500,7 +2502,7 @@ Establish the mixed-perverse affine cohomology criterion and stability of each d
 
 (Source: [BBD](#ref-bbd1982), §5.2, Theorem 5.2.1 and its proof, pp.129–134; Proposition 5.3.1 and Corollary 5.3.2 with its first proof, pp.134–135; [Weil II](#ref-deligne1980), (6.2.5) b) and (6.2.6), pp.247–248.)
 
-*Needs:* EtaleCohomologyFoundations §F.8 for perverse intermediate extension, its boundary characterization and affine vanishing, and §§F.0–F.6 for rational adic operations, duality and Künneth; DeligneWeightsAndPurity §§8.1–8.2, 8.9 and 8.11–8.12 for mixed/pure complexes, shifts, directional bounds and proper purity. The affine weight criterion, mixed-perverse subquotient bounds and exact external products needed for this proof are part of this target.
+*Needs:* EtaleCohomologyFoundations §F.8 for perverse intermediate extension, its boundary characterization and affine vanishing, and §§F.0–F.6 for rational adic operations, duality and Künneth; DeligneWeightsAndPurity §§8.1–8.2, 8.9 and 8.11–8.12 for mixed/pure complexes, shifts, directional bounds and proper purity. The affine weight criterion, mixed-perverse subquotient bounds and exact external products needed for this proof are part of this target. For separated finite-type schemes over `𝔽_q` with rational `Q̄_ℓ` coefficients these three statements are exported from here as standalone results, so that later perverse-sheaf roadmaps consume them rather than reprove this specialization.
 
 
 <a id="shtuka-intersection-comparison"></a>
@@ -3107,11 +3109,6 @@ Tate’s Thesis, Stephen S. Kudla. Chapter 6, An Introduction to the Langlands P
 <a id="ref-raghuram2016"></a>
 
 [Critical values of Rankin–Selberg L-functions for GL_n×GL_(n−1) and the symmetric cube L-functions for GL₂](https://repository.ias.ac.in/105986/1/GL%28n%29xGL%28n-1%29-revised.pdf), A. Raghuram. Author revised manuscript; Forum Mathematicum28 (2016),457–489.
-
-
-<a id="ref-ramakrishnan2018"></a>
-
-[A mild Tchebotarev theorem for GL(n)](https://arxiv.org/pdf/1806.08429v1), Dinakar Ramakrishnan. arXiv:1806.08429v1.
 
 
 <a id="ref-rodriguesjacintowilliams2025"></a>
