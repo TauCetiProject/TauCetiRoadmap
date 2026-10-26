@@ -19,13 +19,25 @@ gluing, closed range, Hodge decomposition) and the vector-calculus special cases
 - `n : ℕ`, `E := EuclideanSpace ℝ (Fin n)`, Lebesgue measure; `Ω : TopologicalSpace.Opens E`,
   bounded where stated. Forms are real-valued: a `k`-form on `Ω` is a function
   `Ω → E [⋀^Fin k]→L[ℝ] ℝ` (Mathlib's `ContinuousAlternatingMap`).
-- **The pointwise inner product on `k`-covectors.** Mathlib's norm on `E [⋀^Fin k]→L[ℝ] ℝ` is the
-  operator norm, which is not a Hilbert norm. Define the Euclidean inner product
-  `⟪α, β⟫ := ∑_{I} α(e_I) β(e_I)` (sum over strictly increasing `I : Fin k → Fin n`, `e_I` the
-  corresponding standard basis vectors), prove it is an inner product, that it is invariant under
-  orthogonal maps of `E`, and the two-sided comparison with the operator norm with constants in
-  `n, k`. Package `k`-covectors with this inner product as a finite-dimensional inner product space
-  `Covector n k` (with the identity linear equivalence to `E [⋀^Fin k]→L[ℝ] ℝ`).
+- **Covectors and their inner product.** Mathlib's norm on `E [⋀^Fin k]→L[ℝ] ℝ` is the operator
+  norm, which is not a Hilbert norm, so the Hilbert structure lives on a type wrapper:
+  `Covector n k` is a one-field structure around `E [⋀^Fin k]→L[ℝ] ℝ` in the shape of Mathlib's
+  `WithLp`, with the linear equivalence to the underlying type written `toCovector` /
+  `ofCovector`. The inner product is built from Mathlib's exterior algebra, without a basis:
+  - the **Gram inner product** on `⋀[ℝ]^k E`,
+    `⟪v₁ ∧ ⋯ ∧ v_k, w₁ ∧ ⋯ ∧ w_k⟫ := det (⟪vᵢ, wⱼ⟫)`, extended bilinearly, with a proof that it
+    is positive definite;
+  - covectors identified with `⋀[ℝ]^k E →ₗ[ℝ] ℝ` through the universal property of
+    `exteriorPower`, and given the dual inner product;
+  - theorems: for an orthonormal basis `e` of `E`, the `e_I` (`I : Fin k ↪o Fin n`) form an
+    orthonormal basis of `⋀[ℝ]^k E`, so `⟪α, β⟫ = ∑_I α(e_I) β(e_I)`; every linear isometry
+    `T` of `E` induces an isometry through `exteriorPower.map k T`; and the two-sided comparison
+    with the operator norm, with constants in `n, k`.
+- **Hodge star.** Orient `E` by its standard basis and let `vol` be the corresponding unit
+  `n`-covector. For `k ≤ n`, `⋆ : Covector n k ≃ₗᵢ[ℝ] Covector n (n − k)` is characterized by
+  `α ∧ ⋆β = ⟪α, β⟫ vol`; prove `⋆⋆ = (−1)^{k(n−k)}` and that `⋆` commutes with the isometries
+  of `E` that preserve the orientation. On forms it acts pointwise, and the **codifferential**
+  of `k`-forms is `δ := (−1)^{n(k+1)+1} ⋆ d ⋆`.
 - `L²Λᵏ(Ω) := Lp (Covector n k) 2 (volume.restrict Ω)`, a Hilbert space.
 
 ## Milestone 1: the weak exterior derivative
@@ -35,8 +47,9 @@ gluing, closed range, Hodge decomposition) and the vector-calculus special cases
    `∫ w x v · ψ x = − ∑ j, (−1)^j ∫ u x (Fin.removeNth j v) · fderiv ℝ ψ x (v j)`.
    Prove: uniqueness a.e.; linearity; agreement with Mathlib's `extDeriv` for `C¹` forms; for `k = 0`
    agreement with `TauCeti.HasWeakFDerivOn` (a `0`-form is a function); the equivalent formulation
-   by duality against test forms of degree `k + 1` through the formal adjoint (codifferential) of
-   `TauCeti.TestFunction.extDerivCLM` with respect to `⟪·,·⟫`; locality (restriction to open subsets
+   by duality against test forms of degree `k + 1` through the codifferential `δ` of test forms,
+   which is the formal adjoint of `TauCeti.TestFunction.extDerivCLM` with respect to `⟪·,·⟫`
+   (prove this); locality (restriction to open subsets
    and gluing over an open cover).
 2. **`d ∘ d = 0`.** If `HasWeakExtDerivOn Ω u w` and `HasWeakExtDerivOn Ω w z` then `z = 0` a.e.;
    and every weakly closed form has weak derivative zero in the next degree.
@@ -52,6 +65,9 @@ gluing, closed range, Hodge decomposition) and the vector-calculus special cases
 5. **`d` as an unbounded operator.** `d` is a closed, densely defined operator
    `L²Λᵏ(Ω) → L²Λᵏ⁺¹(Ω)` with domain `HΛᵏ(Ω)` (Mathlib's `LinearPMap`, `LinearPMap.IsClosed`),
    with adjoint the weak codifferential with natural boundary conditions.
+   Define `H*Λᵏ(Ω) := {u ∈ L²Λᵏ(Ω) | ⋆u ∈ HΛⁿ⁻ᵏ(Ω)}` and `H*Λᵏ₀(Ω) := {u ∈ L²Λᵏ(Ω) | ⋆u ∈ HΛⁿ⁻ᵏ₀(Ω)}` with
+   the weak `δ`; prove that the adjoint of `d` with domain `HΛᵏ⁻¹₀(Ω)` is `δ` on `H*Λᵏ(Ω)`, and
+   the adjoint of `d` with domain `HΛᵏ⁻¹(Ω)` is `δ` on `H*Λᵏ₀(Ω)` (item 7 defines `HΛᵏ₀`).
 6. **Density.** `C^∞(Ω) ∩ HΛᵏ(Ω)` is dense in `HΛᵏ(Ω)` for every open `Ω` (the Meyers–Serrin
    argument with mollification commuting with `d` on interior subdomains).
 7. **Zero boundary values.** `HΛᵏ₀(Ω)` := closure of test forms; `d` maps `HΛᵏ₀` into `HΛᵏ⁺¹₀`;
@@ -112,29 +128,52 @@ interface) and PDE Lane A.6 (the Lipschitz-domain predicate `Set.IsLipschitzDoma
     `‖u‖ ≤ c ‖dᵏ u‖` for `u ∈ dom dᵏ ∩ (ker dᵏ)ᗮ`; the dual complex; the **abstract Hodge Laplacian**
     and its well-posedness when the ranges are closed and `𝔥ᵏ` is finite dimensional; and that if
     `dom dᵏ ∩ dom dᵏ⁻¹*` (with its graph norm) embeds compactly into `Wᵏ`, then `range dᵏ⁻¹` and
-    `range dᵏ` are closed and `𝔥ᵏ` is finite dimensional. Use Mathlib's
+    `range dᵏ` are closed and `𝔥ᵏ` is finite dimensional. **Independence of the weight**
+    (Picard, Lemma 2): for a bounded, self-adjoint, uniformly positive `ε` on `Wᵏ`, write
+    `dᵏ⁻¹*_ε` for the adjoint of `dᵏ⁻¹` with respect to `⟪ε ·, ·⟫`; then `dom dᵏ ∩ dom dᵏ⁻¹*`
+    embeds compactly into `Wᵏ` if and only if `dom dᵏ ∩ dom dᵏ⁻¹*_ε` does. The proof compares the
+    two orthogonal decompositions `Wᵏ = closure (range dᵏ⁻¹) ⊕ ker dᵏ⁻¹*` and its `ε` version.
+    Use Mathlib's
     `LinearPMap` and Tau Ceti's unbounded-operator API.
 16. **The L² de Rham complex** `L²Λ⁰ → L²Λ¹ → ⋯ → L²Λⁿ` with domains `HΛᵏ(Ω)` (and the version with
     domains `HΛᵏ₀(Ω)`) is a Hilbert complex; its dual complex is the codifferential complex.
 
 ## Milestone 6: compactness and closed range on bounded Lipschitz domains
 
-17. **Compact embeddings (Picard).** Let `Ω` be a bounded Lipschitz domain (PDE Lane A.6's
-    `Set.IsLipschitzDomainWith`) and `ε` a measurable field of symmetric endomorphisms of
-    `Covector n k` with `λ ≤ ε ≤ Λ` pointwise for constants `0 < λ ≤ Λ`. Write `H*_εΛᵏ(Ω)` for
-    the domain of the adjoint of `d : HΛᵏ⁻¹₀(Ω) → L²Λᵏ(Ω)` with respect to the inner product
-    weighted by `ε` on `L²Λᵏ(Ω)`, and `H*_εΛᵏ₀(Ω)` for the domain of the adjoint of
-    `d : HΛᵏ⁻¹(Ω) → L²Λᵏ(Ω)`, each with its graph norm. Then the inclusions
-    `HΛᵏ₀(Ω) ∩ H*_εΛᵏ(Ω) → L²Λᵏ(Ω)` and `HΛᵏ(Ω) ∩ H*_εΛᵏ₀(Ω) → L²Λᵏ(Ω)` are compact. The proof is
-    Picard's: localize in the finite chart cover of A.6 with a partition of unity, pull back
-    by the bi-Lipschitz chart maps (item 10), which changes `ε` within the same class, and
-    reduce to Rellich (A.6). The weights are part of the statement because the pullback
-    produces them.
-18. **Closed range and harmonic spaces.** From items 15 and 17 (with `ε = 1`): on a bounded
-    Lipschitz domain, both L² de Rham complexes of item 16 have closed ranges and
-    finite-dimensional harmonic spaces, the Poincaré inequality `‖u‖ ≤ c ‖du‖` holds on
-    `HΛᵏ(Ω) ∩ (ker d)ᗮ` and on `HΛᵏ₀(Ω) ∩ (ker d)ᗮ` (with a non-explicit constant), and the
-    abstract Hodge Laplacian of item 15 is well posed.
+Picard's proof: reduce to a model domain by a partition of unity and bi-Lipschitz pullback,
+absorb the weight the pullback creates by item 15's weight independence, and prove the model
+case by `H¹` regularity and Rellich. The model domain is the cube `Q := (0,1)ⁿ`, where the `H¹`
+regularity has an elementary proof by Fourier sine and cosine series (Lim–Sprekeler–Waurick).
+
+17. **Gaffney on the cube.** Every `u ∈ HΛᵏ₀(Q) ∩ H*Λᵏ(Q)` has coefficients `u(e_I)` in
+    `W^{1,2}(Q)` (`TauCeti.W1p volume Q 2`), with `∑_I ‖∇ u(e_I)‖² = ‖du‖² + ‖δu‖²`. Proof: the
+    forms whose coefficient `u(e_I)` is a product of cosines in the directions of `I` and sines
+    in the others (so that the tangential part vanishes on every face) span a common core for
+    `d` on `HΛᵏ₀(Q)` and `δ` on `H*Λᵏ(Q)`; on that core the identity follows by integrating by
+    parts, and it extends by closedness. Hence `HΛᵏ₀(Q) ∩ H*Λᵏ(Q) ↪ L²Λᵏ(Q)` is compact, by PDE Lane
+    A.6's Rellich theorem applied to each coefficient.
+18. **Lipschitz charts are bi-Lipschitz cubes.** Every chart region of a Lipschitz domain in the
+    sense of PDE Lane A.6 (the part of an open product cylinder above a Lipschitz graph) is the
+    image of `Q` under a bi-Lipschitz homeomorphism of `E`, with constants in terms of the chart's
+    Lipschitz constant and dimensions. Every bounded Lipschitz domain is covered by finitely many
+    open sets `Uᵢ` such that each `Uᵢ ∩ Ω` is a bi-Lipschitz image of `Q`.
+19. **Compact embedding (Picard).** For a bounded Lipschitz domain `Ω`,
+    `HΛᵏ₀(Ω) ∩ H*Λᵏ(Ω) ↪ L²Λᵏ(Ω)` is compact. Proof:
+    - multiplication by a smooth partition of unity subordinate to the cover of item 18 is
+      bounded on `HΛᵏ₀ ∩ H*Λᵏ` (item 3 for `d`, and through `⋆` for `δ`), which reduces the
+      claim to a single `Uᵢ ∩ Ω`;
+    - the bi-Lipschitz pullback (item 10) maps `HΛᵏ₀(Uᵢ ∩ Ω)` onto `HΛᵏ₀(Q)` and turns `δ` into
+      a weighted codifferential, with weight `±⋆Φ^*⋆(Φ^*)⁻¹`, bounded and uniformly positive;
+    - item 15's weight independence removes the weight, and item 17 concludes.
+20. **Consequences.**
+    - Dual boundary conditions: `HΛᵏ(Ω) ∩ H*Λᵏ₀(Ω) ↪ L²Λᵏ(Ω)` is compact, by applying `⋆` to
+      item 19 in degree `n − k`.
+    - Weighted versions: both embeddings stay compact with `δ` taken with respect to any
+      bounded, symmetric, uniformly positive measurable weight `ε` (item 15).
+    - On a bounded Lipschitz domain, both L² de Rham complexes of item 16 have closed ranges and
+      finite-dimensional harmonic spaces, the Poincaré inequality `‖u‖ ≤ c ‖du‖` holds on
+      `HΛᵏ(Ω) ∩ (ker d)ᗮ` and on `HΛᵏ₀(Ω) ∩ (ker d)ᗮ` (with a non-explicit constant), and the
+      abstract Hodge Laplacian of item 15 is well posed.
 
 ## Boundaries
 
@@ -165,7 +204,11 @@ interface) and PDE Lane A.6 (the Lipschitz-domain predicate `Set.IsLipschitzDoma
 - D. N. Arnold, *Finite Element Exterior Calculus*, SIAM, 2018, Chapters 4 and 6.
 - J. Brüning, M. Lesch, *Hilbert complexes*, J. Funct. Anal. 108 (1992).
 - R. Picard, *An elementary proof for a compact imbedding result in generalized electromagnetic
-  theory*, Math. Z. 187 (1984).
+  theory*, Math. Z. 187 (1984), 151–164: Lemma 2 (independence of the weight), (2.3) (the dual
+  boundary conditions by `⋆`), Chapter 3 (reduction by bi-Lipschitz pullback).
+- Z. Lim, T. Sprekeler, M. Waurick, *Revisiting Picard's proof of the Picard–Weber–Weck
+  selection theorem*, arXiv:2608.31054: the Gaffney identity on the cube by sine and cosine
+  series (Theorem 4.10), in the vector-field setting.
 - V. Girault, P.-A. Raviart, *Finite Element Methods for Navier–Stokes Equations*, Springer, 1986,
   Chapter I (`H(div)`, `H(curl)`).
 - P. Monk, *Finite Element Methods for Maxwell's Equations*, Oxford, 2003, Chapter 3.
