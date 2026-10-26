@@ -24,7 +24,8 @@ and complete socle obstruction theories, absent from the pins. The complete patc
 and its duality functor (§§8.4–8.6, 9.3) need decorated perfect systems and compatible
 actions, and normalized dualizing complexes for the canonical comparison; these
 carriers are also absent. Cycle specialization is stated coefficientwise using native
-localized lengths; parafactoriality uses native invertible sheaves and a chosen
+localized lengths, as a form of PadicLocalLanglandsForGL2Qp §0.5's agreement theorem, and the
+Hilbert–Samuel polynomial is that section's; parafactoriality uses native invertible sheaves and a chosen
 regular presentation of the completion. Paired spectral support and survival (§§9.4–9.7) additionally need derived coefficient-action and isolated-block
 comparisons. These headline statements are deferred until those mathematical
 objects and constructions exist; coefficient-support equalities do not substitute
@@ -73,11 +74,13 @@ def derivedSupport {R : Type u} [CommRing R] (C : Der R) : Set (PrimeSpectrum R)
 abbrev PatchingGroupRing (O : Type u) [CommRing O] (p q n : ℕ) :=
   MonoidAlgebra O (Multiplicative (Fin q → ZMod (p ^ (n + 1))))
 
-/-- The cumulative length uses I^(n+1); finiteness is a separate hypothesis. -/
+/-- The cumulative length of PadicLocalLanglandsForGL2Qp §0.5, using I^(n+1); finiteness is a
+separate hypothesis. -/
 def hilbertSamuelFunction (I : Ideal A) (n : ℕ) : ℕ∞ :=
   Module.length A (M ⧸ (I ^ (n + 1) • (⊤ : Submodule A M)))
 
-/-- Extract d! times coefficient d; only an eventual length polynomial makes this multiplicity. -/
+/-- Extract d! times coefficient d. On the eventual length polynomial this is the
+dimension-normalized multiplicity of PadicLocalLanglandsForGL2Qp §0.5 at the bound d. -/
 def multiplicityCoefficient (d : ℕ) (P : Polynomial ℚ) : ℚ :=
   (Nat.factorial d : ℚ) * P.coeff d
 
@@ -113,7 +116,8 @@ def patchingAugmentation (O : Type u) [CommRing O] (r : ℕ) :
     Ideal (MvPowerSeries (Fin r) O) :=
   Ideal.span (Set.range fun i : Fin r => (MvPowerSeries.X i : MvPowerSeries (Fin r) O))
 
-/-- Native module length at a prime, before any finite-length conversion. -/
+/-- Native module length at a prime, before any finite-length conversion: the coefficient of the
+module cycles of PadicLocalLanglandsForGL2Qp §0.5. -/
 def localizedLength (p : PrimeSpectrum A) : ℕ∞ :=
   Module.length (Localization.AtPrime p.asIdeal) (LocalizedModule p.asIdeal.primeCompl M)
 
@@ -183,7 +187,8 @@ theorem localCohomology_top_nonzero
         ((localCohomology (maximalIdeal A) d).obj (ModuleCat.of A N)) := by
   sorry
 
-/-- Hilbert–Samuel polynomiality, support dimension and positive integral multiplicity. -/
+/-- The unique eventual polynomial of PadicLocalLanglandsForGL2Qp §0.5 at the given ideal and
+module has degree the support dimension, where its normalized coefficient is a positive integer. -/
 theorem hilbertSamuel_polynomial
     [IsLocalRing A] [IsNoetherianRing A] [Module.Finite A M] [Nontrivial M]
     (I : Ideal A) (hI : I ≤ maximalIdeal A)
@@ -303,8 +308,10 @@ theorem patching_surjection_iso
 
 /-! ## Specialization cycles and parafactoriality -/
 
-/-- The uniformizer specialization cycle formula, expressed at each special generic point.
-The generic coefficients are lengths over local rings, including nonreduced rings. -/
+/-- The coefficientwise form, at each special generic point, of the agreement of
+PadicLocalLanglandsForGL2Qp §0.5's uniformizer specialization of module cycles with the cycle of
+the special fibre. The generic coefficients are lengths over local rings, including nonreduced
+rings. -/
 theorem moduleCycle_specialization_coeff
     [IsLocalRing A] [IsNoetherianRing A] [IsAdicComplete (maximalIdeal A) A]
     [Module.Finite A M]
