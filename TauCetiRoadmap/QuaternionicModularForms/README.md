@@ -1,12 +1,14 @@
 # Quaternionic modular forms
 
-Develop classical and overconvergent modular forms for totally definite quaternion
-algebras: finite adelic class sets, analytic weight actions, spaces of forms,
-explicit Hecke matrices, their Fredholm determinants and finite-slope parts, and
-small-slope classicality over `ℚ`. The organising construction is evaluation on a
-finite set of double-coset representatives. It turns forms into a finite product
-of coefficient-module invariants and makes Hecke operators accessible to both
-abstract analysis and certified computation.
+Develop adelic coefficient-valued functions and Hecke actions for quaternion
+algebras over arbitrary number fields, and their classical and overconvergent
+modular-form theory in the totally definite case. The latter includes finite
+adelic class sets, analytic weight actions, explicit Hecke matrices, Fredholm
+determinants and finite-slope parts, and small-slope classicality over `ℚ`.
+Evaluation on double-coset representatives identifies coefficient-valued functions
+with a product of stabiliser invariants. With finite class sets and the definite
+stabiliser theorem, this gives the finite products of Banach modules used in
+the analysis.
 Boundary-of-weight-space slope phenomena motivate the uniform estimates below.
 The full annular family uses a separate weighted Mahler coefficient module;
 ordinary analytic disc stages have weight-dependent admissibility bounds.
@@ -49,22 +51,47 @@ measures and volume identities remain with AA.5.3.
 
 [GL2AutomorphicRepresentationsAndTransfer, PR #931](https://github.com/TauCetiProject/TauCetiRoadmap/pull/931),
 Layers R17.1–R17.3, owns quaternionic local/global Jacquet–Langlands,
-ramification realization and the representation-theoretic transfer. The direct
-spaces, coefficient actions and calculations here do not depend on that transfer.
+ramification realization and the representation-theoretic transfer. Its
+R17.3.9 consumes §2.1's generic form carrier and evaluation, §2.2's classical
+definite forms and §3.1's Hecke action. It owns the specialized coefficient
+representations, central-character subspaces, division-place coefficient adapter,
+complex/p-adic comparisons, norm-character decomposition and transfer theorems.
+The adapter records §1.3's dual/right-action and determinant-normalization
+dictionaries; division-place coefficients use §2.1 without a split-place analytic
+chart. These form spaces do not depend on that transfer.
 [AlgebraicModularFormsAndSerreWeights, PR #928](https://github.com/TauCetiProject/TauCetiRoadmap/pull/928)
 owns geometric forms on modular stacks, characteristic-`p` theta and Serre weights;
 the characteristic-zero coefficient derivative in Layer 5 is a different operation.
 Neither general automorphic representation theory nor those geometric forms are
 constructed here.
 
+**Generality.** Quaternionic algebra and adelic carriers (§§0.1–0.2), local
+coefficient actions (Layer 1), abstract evaluation (§2.1), and algebraic
+finite-coset Hecke actions (§§3.1–3.2) carry no blanket total-reality or
+definiteness assumption. Local analytic constructions require splittings only
+at the places where they are used. The class-set theorem in §0.3 uses the
+central division-algebra hypothesis; the stronger stabiliser theorem requires
+`F` totally real and `D` ramified at every real place. State these hypotheses
+at their uses in the global classical and overconvergent applications.
+
+This definite condition makes `Dˣ(F⊗ℝ)` compact modulo its centre. At a complex
+place `D⊗_Fℂ≃M₂(ℂ)`, so that compactness fails. Finiteness of the finite adelic
+class set alone does not give finite stabilisers modulo the centre or the
+averaging projections of §2.3. Bianchi forms and other nondefinite automorphic
+forms require the archimedean automorphic or locally symmetric cohomological
+realization in addition to these algebraic interfaces; that realization is outside
+this roadmap. See Loeffler, Assumption 3.1.3 and Proposition 3.1.4.
+
 ## Conventions and library floor
 
-1. `F` is a totally real number field and `D` a totally definite quaternion
-   algebra over `F`. Use an existing central simple `F`-algebra carrier of dimension
-   four, with total definiteness expressed at every real embedding. For each
-   selected finite place `v | p`, carry a splitting
-   `D ⊗[F] F_v ≃ₐ[F_v] M₂(F_v)` as data. Carry compatibility with a chosen maximal
-   order when discussing integral levels. A splitting over `F` alone is too weak.
+1. `F` is a number field and `D` a quaternion algebra over `F`, represented by
+   an existing central simple `F`-algebra carrier of dimension four. Total
+   definiteness means that `F` is totally real and every real base change of `D`
+   is Hamilton's algebra; assume it only for the results that use it. For each
+   selected finite place `v | p` with an analytic coefficient construction, carry
+   a splitting `D ⊗[F] F_v ≃ₐ[F_v] M₂(F_v)` as data, with maximal-order
+   compatibility for integral levels. The general adelic and abstract
+   coefficient-module definitions require no such splitting.
 2. Write `D_fˣ = (D ⊗[F] 𝔸_F^f)ˣ`. Give the tensor product its canonical
    `𝔸_F^f`-module topology and the units their native units topology, recording
    the comparison with local restricted products. An arbitrary topology is not
@@ -91,12 +118,16 @@ constructed here.
    `κ_J` gives `n(u)=κ_J(u)u⁻²`. Section 1.1 records this dictionary.
    Distinguish the normalised determinant twist from an algebraic determinant
    character; §1.3 gives the scalar relating their Hecke operators.
-6. `M(U,A)` denotes all quaternionic forms with coefficients in `A`. This is the
-   space denoted `L(U,A)` or `S^D` in the sources; that `S` does not impose an
-   additional cuspidality condition here. In particular weight two can contain
-   constant forms and reduced-norm characters.
-7. Set `Γ_x = U ∩ x⁻¹Dˣx`. It is finite modulo its diagonal central subgroup,
-   and finite itself over `ℚ`. Evaluation identifies forms with `∏_x A^{Γ_x}`.
+6. `M(U,A)` is the coefficient-valued finite-level function space of §2.1,
+   defined over any number field. For totally definite `D` it gives the
+   quaternionic forms denoted `L(U,A)` or `S^D` in the sources; that `S` imposes
+   no additional cuspidality condition here. Weight two can contain constant
+   forms and reduced-norm characters. No identification with Bianchi forms is
+   implicit in the general definition.
+7. Set `Γ_x = U ∩ x⁻¹Dˣx`. For totally definite `D` and compact `U`, it is
+   finite modulo its diagonal central subgroup, and finite itself over `ℚ`.
+   Abstract evaluation identifies functions with `∏_x A^{Γ_x}` without these
+   finiteness hypotheses.
    Trivial stabiliser **action** is a separate, explicit hypothesis; it is not
    the definition of a neat level. Finite-image stabiliser actions with invertible
    image orders give bounded averaging projections and property (Pr).
@@ -129,13 +160,14 @@ not supply a base-field reduced norm. The intrinsic coset-decomposition work in
 interface for the explicit certificates, not a second Hecke ring. Build missing
 results in Tau Ceti in the native API shape, without waiting for these proposals.
 
-## Layer 0: definite quaternion algebras and levels
+## Layer 0: quaternion algebras, levels and definite finiteness
 
 ### 0.1 Quaternionic and local data
 
-**Reduced norm and definiteness.** Consume the native presentation theory from
-QuadraticFormInvariants Layer 2. For an abstract central simple `F`-algebra of
-dimension four, supply a presentation `D ≃ₐ[F] ℍ[F,a,b]` with `a,b≠0` and use
+**Reduced norm and definiteness.** Work over an arbitrary number field for
+presentation, reduced norm, involution and base change. Consume the native
+presentation theory from QuadraticFormInvariants Layer 2. For an abstract central
+simple `F`-algebra of dimension four, supply a presentation `D ≃ₐ[F] ℍ[F,a,b]` with `a,b≠0` and use
 `QuaternionAlgebra.map_star_of_algEquiv`, `reducedTrace_eq_of_algEquiv` and
 `normForm_eq_of_algEquiv` to prove independence of the chosen presentation.
 Transport the involution, reduced trace and norm, and prove their base-change
@@ -145,10 +177,11 @@ a second quaternion norm theory, is the target.
 Under a splitting, identify reduced norm with the determinant of the `2 × 2`
 matrix. The determinant of left multiplication on the four-dimensional algebra is
 its **square**; its trace is twice the reduced trace (consume native
-`QuaternionAlgebra.trace_mulLeft` in the presentation). Prove positivity at every
-real embedding for nonzero elements of a totally definite algebra, and derive
-its division-algebra structure. These comparisons must also work for the split
-presentation used in the local models.
+`QuaternionAlgebra.trace_mulLeft` in the presentation). When `F` is totally real
+and `D` is totally definite, prove positivity of the reduced norm of nonzero
+elements at every real embedding, and derive its division-algebra structure.
+The algebraic comparisons must also work for the split presentation used in
+the local models.
 
 **Local integral models.** Construct local component maps and their units/matrix
 versions. For a chosen quaternion order and compatible split maximal orders,
@@ -194,12 +227,15 @@ The theta–Hecke scalar `|nrd(η_p)|_f⁻ʳ=pʳ` is independent of the unit in
 ### 0.3 Class sets and stabilisers
 
 **Finite class set.** Define `classSet U = Dˣ \ D_fˣ / U` using `DoubleCoset`.
-Prove `finite_classSet` for every open subgroup `U` by comparison with FLT's
-central division-algebra `finiteDoubleCoset`. Make the carrier, embedding and
-module-topology identifications explicit. Extract finite representatives,
-factorisations `g=γcᵢu`, and the refinement maps for level inclusions.
+For a central division algebra `D` over a number field `F`, prove
+`finite_classSet` for every open subgroup `U` by comparison with FLT's
+`finiteDoubleCoset`; no total-reality assumption is needed for this comparison.
+Totally definite quaternion algebras satisfy the division hypothesis by §0.1.
+Make the carrier, embedding and module-topology identifications explicit.
+Extract finite representatives, factorisations `g=γcᵢu`, and the refinement maps for level inclusions.
 
-**Stabiliser finiteness (`DefiniteQuaternion.finite_stab`).** For any **compact subgroup** `U`
+**Stabiliser finiteness (`DefiniteQuaternion.finite_stab`).** Assume `F` is
+totally real and `D` is totally definite. For any **compact subgroup** `U`
 and any `x : D_fˣ`, let `Γ_x=U∩x⁻¹Dˣx` and
 `Z_x=Γ_x∩image(Fˣ)`. Prove that `Z_x` is central and normal in `Γ_x`, that
 `Γ_x/Z_x` is finite, and that `Γ_x` is finite if `[F:ℚ]=1`. Compact openness is
@@ -246,30 +282,21 @@ the analogous good-prime decompositions used by `T_v` and central `S_v`.
 prime for `T_v`, and one term for a normalising element. Keep `Ux_α` explicitly
 in the notation to avoid conflicting names for left and right cosets.
 
-### 0.5 The Hamilton example at 3
+### 0.5 Checks on the scope of the arithmetic interfaces
 
-Construct the Hurwitz maximal order in `ℍ[ℚ]`, prove its maximality,
-enumerate its 24 units, and prove its class number one using its Euclidean
-norm and the ideal/adelic dictionary. Prove that the algebra splits at every
-odd prime, including compatibility of the selected integral models.
-At 3 choose `ν²=-2`, `ν≡1 mod 3`, and the splitting
-`i↦((ν,1),(1,−ν))`, `j↦((0,−1),(1,0))`, `k=ij↦((1,−ν),(−ν,−1))`.
-Prove compatibility with the Hurwitz integral model.
-For `U₁(9)` prove that the class set has representatives
-`1`, `ι₃(diag(5,2))`, `ι₃(diag(7,4))` and that their stabilisers are trivial.
-Use the 72 primitive rows modulo 9, with the right action of the 24 Hurwitz
-unit matrices. The quotient `GL₂(ℤ/9)/U₁(9)` is represented by `e₂g⁻¹`;
-the displayed representatives give `(0,1)`, `(0,5)`, `(0,7)`. Prove that
-these are three disjoint free orbits of size 24 and identify this finite
-calculation with the adelic class set.
-
-For the three representatives of `U₃`, verify all nine factorizations
-`cᵢx_t⁻¹=d(i,t)c_{σ(i,t)}u(i,t)`, including membership of `d` and `u`, with
-`σ=((2,1,1),(0,2,2),(1,0,0))`. The resulting matrix has six nonzero blocks
-but **nine summands**. These finite certificates, rather than decimal
-approximations, are the input to the later analytic calculation.
+Instantiate the adelic carrier, local split matrices and level definitions for
+`D=M₂(F)` over an imaginary quadratic field. This checks that their definitions
+have no total-reality assumption. At maximal integral level the stabiliser at
+one contains the distinct upper unipotent matrices `((1,n),(0,1))`, `n∈ℤ`.
+Their images modulo scalar matrices are distinct, so this stabiliser is infinite
+modulo diagonal central scalars. This example detects a missing definiteness
+hypothesis in §0.3; it does not construct the archimedean Bianchi form space.
 
 ## Layer 1: weights and coefficient actions
+
+These local constructions apply at the chosen split finite places of a
+quaternion algebra over any number field. Global finite-image conditions on
+central units are separate hypotheses for forming definite Banach modules.
 
 ### 1.1 Analytic weight data
 
@@ -305,8 +332,8 @@ requires only its single unit character. Compare Buzzard, *Eigenvarieties*
 At all selected places combine these characters with any fixed algebraic
 coefficient factors. The resulting character on global central units must
 have finite image for §2.3's finite-quotient argument; over a family require
-a common finite quotient. For algebraic coefficients this is the parallel
-condition of §1.3. Setting the determinant twist to one does not retain all
+a common finite quotient. Over a totally real field, the parallel condition
+of §1.3 supplies this for algebraic coefficients. Setting the determinant twist to one does not retain all
 nonparallel algebraic weights over a general totally real field.
 
 Build coefficient actions in two compatible ways. The first takes bounded restricted
@@ -377,8 +404,11 @@ Identify it with the coordinatewise degree-bounded polynomials and prove its
 dimension `∏_σ(n_σ+1)`, stability and injection into analytic coefficients.
 Allow a finite-order character constant on the discs specified by the level.
 
-For the globally algebraic theory require `n_σ+2v_σ` to be parallel, or state
-the more general required finite-image condition on the central unit action.
+For the globally algebraic theory over a totally real field, require
+`n_σ+2v_σ` to be parallel, or state the required finite-image condition on the
+central unit action directly. Over a general number field retain the explicit
+finite-image hypothesis whenever it is used, without asserting this parallel
+criterion in that generality.
 Write the dictionary to the source's weights explicitly:
 `k_σ=n_σ+2`, `w_σ=v_σ+n_σ+1`. This is what ensures the required behaviour
 on a finite-index subgroup of global units. Use native symmetric powers and
@@ -432,13 +462,16 @@ invariant product and transfer it to forms. Prove completeness and boundedness
 of changes of representatives; with an isometric `U` action these changes are
 isometries. Include coefficient maps and level inclusion/trace maps with their
 actual norm bounds. The abstract evaluation argument does not require finite
-stabilisers.
+stabilisers. The algebraic definition and evaluation equivalence require no
+number-field, total-reality or definiteness hypothesis.
 
 ### 2.2 Classical, analytic and overconvergent spaces
 
-Specialise to `G=D_fˣ`, `Γ=Dˣ`. Define classical forms with `L_{n,v}`,
-analytic forms `M(U,A_{κ,r})` at each admissible radius, and the space of germs
-along the embedded `∏_v 𝒪_v` as the filtered colimit under restriction
+Specialising §2.1 to `G=D_fˣ`, `Γ=Dˣ` defines coefficient-valued functions
+over any number field. For the classical and overconvergent automorphic
+interpretations in this section assume `F` totally real and `D` totally definite.
+Define classical forms with `L_{n,v}`, analytic forms `M(U,A_{κ,r})` at each
+admissible radius, and the space of germs along the embedded `∏_v 𝒪_v` as the filtered colimit under restriction
 `M(U,A_{κ,r}) → M(U,A_{κ,r′})` for `0<r′≤r` tending to zero coordinatewise.
 Prove the restriction maps injective using the supplied coefficient-recovery
 hypotheses before describing this colimit as a union. The term `r`-overconvergent
@@ -458,13 +491,15 @@ forms at the corresponding deeper level.
 
 ### 2.3 Stabiliser actions and property (Pr)
 
+Assume the class set is finite, as supplied by §0.3 in the definite application.
 If every stabiliser acts trivially, evaluation gives the full finite block
 model `C₀(classSet U × ℕ^Σ,R)`, with a finite algebraic index when needed.
 Prove the dimension formula for classical forms in this case.
 
-More generally prove that an admissible weight's stabiliser action factors
-through a finite group once its central action has finite image. For globally
-algebraic weights obtain this from §1.3 and §0.3. For families require a common
+For totally definite `D`, use §0.3 to prove that an admissible weight's
+stabiliser action factors through a finite group once its central action has
+finite image. For globally algebraic weights obtain this from §1.3 and §0.3.
+For families require a common
 finite quotient on the whole family, not merely at each point. If each finite
 image group `H_i` has invertible order in `R`, define the Reynolds projection
 `E_i=|H_i|⁻¹∑_{h∈H_i} slash(h)`, prove it is a bounded idempotent with image
@@ -474,19 +509,22 @@ functional-analysis theorem. For an isometric action,
 
 **Checks.** Trivial stabilisers; a nontrivial finite stabiliser; an infinite
 central stabiliser acting trivially; and failure of the averaging construction
-when the image order is not a unit. At the Hamilton full maximal-order level
-weight-two **classical** forms have dimension one. The analytic weight action
-from §1.2 is not asserted at that full level.
+when the image order is not a unit. With a one-element class set and trivial
+stabiliser action, degree-zero classical coefficients give a one-dimensional
+form space. This check assumes the stated class-set and action data; it does
+not require computing the class number of a specific quaternion order.
 
 ## Layer 3: Hecke operators and compactness
 
 ### 3.1 Action of the Hecke ring
 
-Given `UηU=⊔_t Ux_t` contained in `Δ`, define
-`T_η φ=∑_t φ|x_t`. Prove it preserves level forms, is independent of the
-representatives and is bounded, then compare composition with the imported
-abstract Hecke product. Use the native product ordered by multiplication
-`δ ε`: with right actions, `S_ε∘S_δ=S_{δε}`, so its action is an
+On §2.1's abstract coefficient-module space, given a finite decomposition
+`UηU=⊔_t Ux_t` contained in `Δ`, define `T_η φ=∑_t φ|x_t`. Prove it
+preserves level forms and is independent of the representatives, then compare
+composition with the imported abstract Hecke product. These algebraic results
+require neither total reality nor definiteness. For the Banach model of §2.1,
+assume a finite class set and bounded coefficient actions and prove boundedness.
+Use the native product ordered by multiplication `δ ε`: with right actions, `S_ε∘S_δ=S_{δε}`, so its action is an
 antihomomorphism into composition endomorphisms, equivalently a homomorphism
 from the opposite Hecke ring. Prove this comparison with the native structure
 constants. Test singleton cosets for two noncommuting normalising elements;
@@ -515,8 +553,8 @@ must be independent of certificate, representatives and the chosen splitting.
 
 ### 3.3 Radius improvement and compact operators
 
-Prove the norm bounds and radius improvement for the standard `U_v` using
-§1.2's local formulas and §0.4's representatives. For a single analytic place,
+For the totally definite form spaces of §§2.2–2.3, prove the norm bounds and
+radius improvement for the standard `U_v` using §1.2's local formulas and §0.4's representatives. For a single analytic place,
 factor through a stricter analytic restriction to prove complete continuity;
 alternatively use the explicit row estimates of §1.2. At several analytic
 places prove the same for `U_π=∏_{v} U_v`. Use `IsRowCompact` and its implication
@@ -532,12 +570,11 @@ to `K⟨z₂⟩` is the identity and which is not completely continuous. If the
 other coefficient factors are finite dimensional, contraction in the remaining
 analytic variables suffices.
 
-**Checks.** In the Hamilton example assemble the six blocks from the nine
-certified summands, derive their generating functions, and verify the displayed
-formulas against Jacobs's calculations, resolving discrepancies from the
-certificates and translating `κ_J(u)=u²n(u)` first. Construct `W` from
-`diag(1,4)` at 3, prove `W³=1` and
-`WU₃=U₃W`, and construct its three eigenblocks after adjoining `ζ₃`.
+**Checks.** For trivial weight in one variable, `diag(π,1)` acts by
+`f(z)↦f(πz)` and has monomial diagonal `1,π,π²,…`. Verify its null-row
+bound, and verify that a finite direct sum repeats these degree weights.
+The two-variable counterexample above checks that every analytic factor must
+be contracted.
 
 ## Layer 4: Fredholm theory for the forms spaces
 
@@ -595,9 +632,9 @@ and use the adjusted coefficient bound when the projection is not contractive.
 For every stable finite-dimensional classical subspace identify its factor as
 `det(1-TU_cl)`, equivalently `reflect d (charpoly U_cl)` with `d` its
 dimension. Its degree is at most `d`, and equals `d` when `U_cl` is invertible.
-Zero eigenvalues contribute no finite slopes. In particular, a three-dimensional
-weight-two calculation at `U₁(9)` is a classical factor of the infinite
-Fredholm series, not the entire overconvergent determinant.
+Zero eigenvalues contribute no finite slopes. A finite classical determinant
+is a factor of the full Fredholm series; it does not determine the entire
+series when the complementary analytic module is infinite dimensional.
 
 ### 4.3 Scalar extension and families
 
@@ -632,22 +669,21 @@ The full annular construction is the separate target in §4.4.
 
 **Checks.** Scalar extension to a finite splitting field, a family over
 `K⟨w⟩`, a first-order deformation over `K[ε]/(ε²)`, the zero form space,
-and a finite classical operator with a zero eigenvalue. Factor the Hamilton
-Fredholm series into the three `W`-eigenblock determinants, retaining the
-averaging norm when making quantitative estimates at `p=3`.
+and a finite classical operator with a zero eigenvalue.
 
-In the Hamilton example take trivial determinant twist and the explicit family
-`n_w(u)=exp(w log u)` on `1+3ℤ₃`, extended by the trivial character on
-`{±1}`, over `K⟨w⟩` at `U₁(9)`. Verify its expansion bounds, its Fredholm
-specialisation at `w=k`, the analytic model `C₀(Fin 3 × ℕ,K)` and the
-classical dimension `3(k+1)`. Its Jacobs-labelled character is
-`κ_{J,w}(u)=u²n_w(u)`, so the specialisation at `w=k` has classical weight
-`k+2`. At an integer `k≥0` the automorphy character `n_k` is
-`u^k ω(u)^{-k}`, where `ω` is the torsion character; its finite factor is
-trivial on the required lower-right entries at `U₁(9)`. Under the row bound
-`|3|^m`, the lower polygon
-has successive slopes `⌊j/3⌋`; this does not assert a termwise bound on
-the actual slopes.
+For the local bounded-family check at `p=3`, take trivial determinant twist
+and `n_w(u)=exp(w log u)` on `1+3ℤ₃`, extended trivially on `{±1}`,
+over `K⟨w⟩`. Verify its expansion bounds on `Σ₁(2)` and specialization at
+nonnegative integers `w=k`. Its Jacobs-labelled character is
+`κ_{J,w}(u)=u²n_w(u)`, so it has classical weight `k+2` at `w=k`.
+There `n_k(u)=u^k ω(u)^{-k}`, with `ω` the torsion character, and the finite
+factor is trivial on the specified lower-right entries.
+For a definite global application over `ℚ` with these local data, a class set
+of size `h` and trivial stabiliser action, check the model `C₀(Fin h × ℕ,K)`
+and classical dimension `h(k+1)`. With row bound `|3|^m`, the lower polygon
+has slopes `⌊j/h⌋` for `h>0`; these are not termwise bounds on actual slopes.
+This check uses the general interfaces and does not prescribe a particular
+quaternion order or a computation of its class representatives.
 
 ### 4.4 Integral annular forms in weighted Mahler coordinates
 
@@ -770,8 +806,8 @@ ordinary analytic radius at unbounded conductor.
 
 ## Layer 5: theta and small-slope classicality over ℚ
 
-This layer takes `F=ℚ`, `D` split at `p`, and classical-shape weights with
-polynomial degree `k≥0`. Put `r=k+1`. The finite-order part is constant on
+This layer takes `F=ℚ`, `D` definite and split at `p`, and classical-shape
+weights with polynomial degree `k≥0`. Put `r=k+1`. The finite-order part is constant on
 the discs determined by the wild level. The target weight has degree parameter
 `-k-2`, with the same finite character and normalised determinant factor.
 General totally real fields need additional global normalisation and partial
@@ -821,15 +857,36 @@ dimension using the invariant product; the formula `h(k+1)` (or
 
 ### 5.3 Determinant identity and classicality
 
-At a single-disc level with trivial stabiliser action, prove
-`H_κ(T)=det(1-TU_p|M_cl)·H_κ′(p^rT)`.
-Split off the finite polynomial coordinates and express theta on the remaining
-coordinates as a shift followed by the nonzero factorial diagonal and the
-representative constants from §5.2. Its intertwining gives equality of
-principal minors by cancellation of these nonzero entries. Apply the shared
-finite-block determinant theorem. This argument does not use a bounded inverse
-to the factorial diagonal or an exact sequence of Banach spaces. On disc
-stages use the level/radius comparison with the appropriate classical level.
+At a single-disc level with trivial stabiliser action, let `M=M(U,A_κ)` and
+`W=M_cl` be its finite-dimensional, `U_p`-stable polynomial subspace. Splitting
+off the polynomial coordinates gives a bounded Banach-module decomposition
+`M=W⊕N`. In these coordinates write
+
+```text
+U_p = ((U_cl, B), (0, V)),
+H_κ(T) = det(1-TU_cl) · H_V(T).
+```
+
+Here `V` is the induced operator on `M/W`, represented on `N`; the complement
+`N` need not be `U_p`-stable. The displayed identity is the block-triangular
+multiplicativity of Fredholm determinants supplied by CompactOperators §1.6,
+with one finite-dimensional diagonal block. Check the bounded coordinate
+projections and compactness of the induced operator before applying it.
+
+On the complementary coordinates, theta is a shift followed by the nonzero
+factorial diagonal and the representative constants from §5.2. The intertwining
+identity gives `D V = p^r U_p′ D` after reindexing, where `D` is that diagonal
+map. Apply CompactOperators §1.4's diagonal-intertwining comparison: cancel the
+nonzero diagonal factors in each finite principal determinant and pass to the
+convergent Fredholm series. Thus `H_V(T)=H_κ′(p^rT)`, giving
+
+```text
+H_κ(T) = det(1-TU_p|M_cl) · H_κ′(p^rT).
+```
+
+This argument requires no bounded inverse to `D` and no surjectivity of theta.
+On disc stages use the level/radius comparison with the appropriate classical
+level.
 
 For all levels where the two coefficient actions are defined and the target
 `U_p` has norm at most one, prove small-slope classicality directly from theta:
@@ -852,17 +909,21 @@ bounded weight actions and classical normalisation comparison, the invariant
 evaluation model, actual Hecke relations and certified matrices, compactness
 for the fully contracting operator, intrinsic Fredholm/base-change theorems,
 the weighted annular model, its high-conductor and analytic comparison checks,
-and the rational theta/classicality results. The Hamilton calculation must run
-from its arithmetic certificates through its classical and analytic matrices.
-All norm, topology, finite-image and coefficient-ring hypotheses must be visible
-in the interfaces. Production proofs must contain no `sorry` or replacement
-axioms, and candidate imports must be checked transitively.
+and the rational theta/classicality results. Check that the general adelic,
+local-action, evaluation and algebraic Hecke interfaces carry only the hypotheses
+they use, and that the definite analytic applications discharge their additional
+finiteness and bounded-projection requirements. All norm, topology, finite-image
+and coefficient-ring hypotheses must be visible in the interfaces. Production
+proofs must contain no `sorry` or replacement axioms, and candidate imports must
+be checked transitively.
 
 General eigenvariety construction, Atkin–Lehner slope symmetries,
 Jacquet–Langlands, comparison with Hilbert modular forms, general
-reductive-group automorphic representations and several-variable BGG
-classicality are outside this roadmap. The output here is the forms/Hecke/Fredholm
-package those developments can consume.
+reductive-group automorphic representations, archimedean or cohomological
+realizations of Bianchi forms, and several-variable BGG classicality are outside
+this roadmap. Detailed class-set enumerations and operator computations for
+individual quaternion orders are also outside its required scope. The output
+here is the forms/Hecke/Fredholm package those developments can consume.
 
 ## References
 
@@ -878,16 +939,14 @@ package those developments can consume.
   §§4–7, especially Proposition 4: the rational quaternionic construction and
   theta argument, with the polynomial-degree shift made explicit above.
 - D. Jacobs, [*Slopes of Compact Hecke Operators*](https://www.ma.imperial.ac.uk/~buzzard/maths/research/notes/jacobs_phd.pdf), Imperial College PhD thesis
-  (2003), §§1.3–1.4, §1.5 Definition 1.27 and equation (1.5.13), Chapter 2
-  and Appendix B: the single-character action, Hamilton example and its
-  Hecke certificates. Treat the certificates as the check on printed formulas.
+  (2003), §§1.3–1.4 and §1.5, Definition 1.27 and equation (1.5.13):
+  the single-character action and the weight convention.
 - D. Loeffler, [*Overconvergent algebraic automorphic forms*](https://arxiv.org/abs/0901.2279v3),
-  Proposition 3.1.4 and §3.3: stabilisers modulo the centre and coefficient
-  modules for compact-mod-centre groups.
+  Assumption 3.1.3, Proposition 3.1.4 and §3.3: compactness modulo the
+  centre at infinity, stabilisers and coefficient modules for definite forms.
 - J. Voight, [*Quaternion algebras*](https://jvoight.github.io/quat.html),
-  Chapter 11 (the Hurwitz order and Euclidean ideal theory), §27.6 (ideal classes,
-  finite adelic quotients and Fujisaki's lemma); the version's numbering is
-  Lemma 11.3.2, Proposition 11.3.4, and Main Theorem 27.6.14(b).
+  §27.6: ideal classes, finite adelic quotients and Fujisaki's lemma,
+  especially Main Theorem 27.6.14(b).
 - [FLT, `DivisionAlgebra/Finiteness.lean`](https://github.com/ImperialCollegeLondon/FLT/blob/f6c6a2fe9796d6d89cd2a0d24e8a453729d881ff/FLT/DivisionAlgebra/Finiteness.lean):
   the existing general division-algebra finiteness implementation to compare
   and port, rather than duplicate.
@@ -903,9 +962,8 @@ the class-set theorem, rather than counted as its proof.
 
 | Source subtree | Interface to compare |
 | --- | --- |
-| `PhD/TauCeti/Code/OverconvergentForms/{Quaternion,Adelic,Level,Hamilton,Weight}` | Arithmetic carriers, levels, local splittings and weight actions (Layers 0–1). |
+| `PhD/TauCeti/Code/OverconvergentForms/{Quaternion,Adelic,Level,Weight}` | Arithmetic carriers, levels, local splittings and weight actions (Layers 0–1). |
 | `PhD/Main/QMF` | Right-action forms, evaluation, Hecke and theta interfaces (Layers 1–5). |
-| `PhD/Main/JacobsSlash/{CN1,U3}` | Hurwitz ideal theory, class-set and nine-term Hecke certificates, generating functions and the Hamilton example. |
 | `PhD/Main/LWX` | Further arithmetic matrix estimates; generic functional-analysis and Fredholm libraries are consumed from their suppliers. |
 
 FLT's division-algebra implementation is pinned in the references above. Its general
@@ -914,6 +972,6 @@ in §0.3; it is not installed as a dependency of this prototype.
 
 [RestrictedPowerSeries]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md
 [PadicFunctionalAnalysis]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/f255de3d9ad6c27bc603f65e604108ee024c4400/TauCetiRoadmap/PadicFunctionalAnalysis/README.md
-[CompactOperators]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/3c499bc3f1ba7ce2a6dcd255950c63c248964b22/TauCetiRoadmap/CompactOperators/README.md
+[CompactOperators]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/724243bd565643c1367ea557271b8de4b572c8ec/TauCetiRoadmap/CompactOperators/README.md
 [NewtonPolygons]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/5164eb00764fb2ead6baadcc5cb69ff73507c8b5/TauCetiRoadmap/NewtonPolygons/README.md
 [PhDSources]: https://github.com/WilliamCoram/PhD/tree/eefb3d91f34b27d0bc7822140fa85fecae029884
