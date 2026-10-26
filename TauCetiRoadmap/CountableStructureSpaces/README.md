@@ -122,7 +122,12 @@ The following are suppliers, not requests to rebuild their objects.
 **The dependency on InfinitaryModelExistence.** Layer 5 consumes exactly the following theorem
 of that roadmap, which proves it from sentence-level Craig interpolation for Lω₁ω, together with
 its projective-class membership predicate `PCMem`: `PCMem g Θ M` holds when `M` itself, on the
-same carrier, expands along `g` to a model of `Θ`. For languages `L`, `L₁`, `L₂` in arbitrary
+same carrier, expands along `g` to a model of `Θ`. With `g = LHom.sumInl : L →ᴸ L.sum L₁`, `M` is
+the `L`-reduct of a model of `Θ`, the symbols of `L₁` being auxiliary relations chosen
+existentially; Layer 5 uses them to describe a branch through a tree. On codes, projective
+classes are the analytic counterpart of model classes, and `pcSeparation` is the counterpart of
+Lusin separation that turns the two analytic descriptions of `B` and its complement into one
+sentence. For languages `L`, `L₁`, `L₂` in arbitrary
 universes and `Θ₁ : Sentenceω (L.sum L₁)`, `Θ₂ : Sentenceω (L.sum L₂)`: if no countable nonempty
 `L`-structure in `Type` lies in both projective classes, some `θ : Sentenceω L` holds in every
 nonempty member of the first class and fails in every nonempty member of the second, in every

@@ -610,17 +610,20 @@ Owner: the InfinitaryModelExistence roadmap (TauCetiRoadmap #1315), Layer 7. Dec
 scaffolding, so that this file compiles without the owner's prototype; the owner's declarations are
 authoritative and are the only ones Tau Ceti implements. -/
 
-/-- **Stand-in for `PCMem` of the InfinitaryModelExistence roadmap**: `M` itself, on the same
-carrier, expands along `g` to a model of `Θ`. -/
+/-- **Stand-in for `PCMem` of the InfinitaryModelExistence roadmap** (Marker's `PC_{ω₁ω}`
+classes): `M` itself, on the same carrier, expands along `g` to a model of `Θ`. For
+`g = LHom.sumInl : L →ᴸ L.sum L₁`, `M` is the `L`-reduct of a model of `Θ`, whose auxiliary symbols
+from `L₁` are chosen existentially. On codes these classes are the invariant analytic sets. -/
 def PCMem {L : FirstOrder.Language.{u, v}} {L' : FirstOrder.Language.{u', v'}} (g : L →ᴸ L')
     (Θ : Sentenceω L') (M : Type w) [L.Structure M] : Prop :=
   ∃ S : L'.Structure M, @LHom.IsExpansionOn L L' g M _ S ∧ @SentenceInf.Realize L' ℕ Θ M S
 
 /-- **Stand-in for `pcSeparation` of the InfinitaryModelExistence roadmap** (its Craig
-interpolation layer), stated as there. Two projective classes with no common countable nonempty
-member are separated by a single `L`-sentence on nonempty structures. Each `PCMem` carries its own
-expansion, so the theorem applies with `L₁ = L₂`. This roadmap consumes the theorem and does not
-prove it. -/
+interpolation layer), stated as there: the model-theoretic counterpart of Lusin separation. Two
+projective classes with no common countable nonempty member are separated by a single `L`-sentence
+on nonempty structures. Each `PCMem` carries its own expansion, so the theorem applies with
+`L₁ = L₂`. This roadmap consumes the theorem and does not prove it; Layer 5 applies it to the PC
+sentences of trees for `B` and its complement. -/
 theorem pcSeparation {L : FirstOrder.Language.{u, v}} {L₁ : FirstOrder.Language.{u₁, v₁}}
     {L₂ : FirstOrder.Language.{u₂, v₂}}
     (Θ₁ : Sentenceω (L.sum L₁)) (Θ₂ : Sentenceω (L.sum L₂))
