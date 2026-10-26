@@ -660,11 +660,12 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
   `PC_{ω₁ω}` classes). No nonemptiness is built in. In the case used throughout,
   `g = LHom.sumInl : L →ᴸ L.sum L₁`, this says that `M` is the `L`-reduct of a model of `Θ`: `Θ`
   may speak about the auxiliary symbols of `L₁`, whose interpretations are chosen existentially.
-  These are the Lω₁ω analogue of pseudo-elementary classes. In the coding setting of
-  CountableStructureSpaces (countably many relation symbols, codes of structures on `ℕ`), they
-  correspond to the isomorphism-invariant analytic sets, as model classes correspond to the
-  invariant Borel sets (López–Escobar). That correspondence needs the countable coding; `PCMem`
-  and the theorems below are for arbitrary languages.
+  These are the Lω₁ω analogue of pseudo-elementary classes. For a countable relational
+  language, on the space of structures with carrier `ℕ`, these projective classes are exactly the
+  isomorphism-invariant analytic sets; Lω₁ω model classes are exactly the isomorphism-invariant
+  Borel sets (López–Escobar, in CountableStructureSpaces). A countable carrier alone does not
+  give this: it needs the countable language. `PCMem` and the theorems below are for arbitrary
+  languages.
 * API: invariance under isomorphism; every model class is projective (`g = LHom.id`);
   projective classes along `LHom.sumInl : L →ᴸ L.sum L₁` are closed under binary intersection
   and, for relational `L₁` and `L₂`, binary union (both in `L.sum (L₁.sum L₂)`), and under
@@ -693,10 +694,10 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
   lies in both `PCMem LHom.sumInl Θ₁` and `PCMem LHom.sumInl Θ₂`, some `θ : Sentenceω L` holds in
   every nonempty member of the first class and fails in every nonempty member of the second, in
   every universe. It is Craig interpolation applied to the two defining sentences after their
-  auxiliary symbols are renamed apart, and holds with no hypothesis on the languages. In the
-  countable coding setting of CountableStructureSpaces it plays the role of Lusin separation
-  (disjoint analytic sets are separated by a Borel set). The hypothesis is only about
-  countable structures `M : Type` (by Layer 2), and the conclusion holds for nonempty
+  auxiliary symbols are renamed apart, and holds with no hypothesis on the languages. For a
+  countable relational language, on the space of structures with carrier `ℕ`, it plays the role
+  of Lusin separation (disjoint analytic sets are separated by a Borel set). The hypothesis is
+  only about countable structures `M : Type` (by Layer 2), and the conclusion holds for nonempty
   `M : Type w`; this is the interface the López–Escobar theorem of CountableStructureSpaces
   consumes, and its proposed signature is in `Suggested.lean`.
 
