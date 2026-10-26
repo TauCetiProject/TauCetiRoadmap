@@ -100,8 +100,9 @@ statement time is what keeps the formalized API reusable.
   (`TemperedDistribution.memSobolev`) on `ℝⁿ` in the range where they coincide
   (`1 < p < ∞`, integer `s`; Calderón). Don't reuse the Bessel definition as the domain
   theory: it is a whole-space notion and the two scales genuinely differ at `p = 1, ∞`.
-- **Carry Poincaré's normalization.** `‖u‖ ≤ C‖∇u‖` holds on `W^{1,p}_0(Ω)` (zero trace)
-  or modulo constants (Poincaré–Wirtinger, zero mean), for `Ω` bounded (or of finite
+- **Carry Poincaré's normalization.** `‖u‖ ≤ C‖∇u‖` holds on `W^{1,p}_0(Ω)` (zero trace),
+  on `W^{1,p}_Γ(Ω)` for a boundary part `Γ` of positive measure (Poincaré–Friedrichs), or
+  modulo constants (Poincaré–Wirtinger, zero mean), for `Ω` bounded (or of finite
   measure, or bounded in one direction). State that side condition explicitly; it is the
   load-bearing hypothesis (the inequality fails outright on `ℝⁿ`).
 - **Pick the Sobolev-embedding regime by exponent.** Subcritical `p < n` gives
@@ -183,11 +184,12 @@ statement time is what keeps the formalized API reusable.
 - **Weak-derivative Sobolev spaces `W^{k,p}(Ω)`** on a domain (distinct from the
   Bessel-potential scale): weak derivatives, completeness, `W^{k,p}_0` as the
   `C_c^∞`-closure, Meyers–Serrin `H = W` density, and the agreement theorem with the
-  Fourier `H^{s,p}` on `ℝⁿ`.
+  Fourier `H^{s,p}` on `ℝⁿ`; the spaces `W^{1,p}_Γ` vanishing on a boundary part `Γ`.
 - **The embedding/trace/compactness package:** Morrey `C^{0,α}` embedding (`p > n`), the
   borderline `p = n` case, **Poincaré** and Poincaré–Wirtinger, the **trace operator** on
   `∂Ω` and its kernel `= W^{1,p}_0`, the **extension operator**, and
-  **Rellich–Kondrachov** compactness.
+  **Rellich–Kondrachov** compactness; admissible boundary parts for mixed conditions,
+  with the trace characterization of `W^{1,p}_Γ` and Poincaré–Friedrichs.
 - **Hölder spaces `C^{k,α}`** as Banach spaces (for Schauder), and the Campanato/Morrey
   space characterization.
 - **Harmonic-analysis estimates:** the **Hardy–Littlewood maximal function** and its weak
@@ -201,7 +203,8 @@ statement time is what keeps the formalized API reusable.
   potential / fundamental solution of `Δ`, the Green's function, the Poisson kernel on
   `ℝⁿ` (the half-space and the ball), and **Perron's method** for the Dirichlet problem.
 - **Elliptic existence & regularity:** the energy/weak formulation and Gårding's
-  inequality (then Lax–Milgram, *consumed*); interior and boundary `Hᵏ`/`Lᵖ` estimates
+  inequality (then Lax–Milgram, *consumed*); the Dirichlet, mixed and Neumann problems;
+  interior and boundary `Hᵏ`/`Lᵖ` estimates
   (difference quotients, Calderón–Zygmund); **Schauder** `C^{2,α}` estimates;
   **De Giorgi–Nash–Moser**; eigenvalues of `−Δ` via the compact-self-adjoint spectral
   theorem.
@@ -232,6 +235,10 @@ Almost everything downstream waits on this, so do it first and do it right.
    `C^∞ ∩ W^{k,p}` dense (**Meyers–Serrin**, `H = W`); define `W^{k,p}_0(Ω)` as the
    `C_c^∞(Ω)`-closure. ⚠ `H = W` needs no boundary regularity; `W^{k,p}_0 = W^{k,p}` for
    `Ω = ℝⁿ` but **not** for bounded `Ω`.
+   For a relatively open `Γ ⊆ frontier Ω` and `1 ≤ p < ∞`, define `W^{1,p}_Γ(Ω)`, the
+   space of functions vanishing on the boundary part `Γ`: the `W^{1,p}(Ω)`-closure of the
+   restrictions to `Ω` of `φ ∈ C_c^∞(ℝⁿ)` with `tsupport φ` disjoint from `closure Γ`.
+   Prove `W^{1,p}_Γ = W^{1,p}_0` when `Γ = frontier Ω`, for every open `Ω`.
 3. **Reconcile with Mathlib's Bessel-potential scale.** Prove `W^{k,2}(ℝⁿ) = H^{k,2}(ℝⁿ)`
    (and the `1<p<∞` integer-order Calderón agreement) so the two definitions are known to
    coincide where both make sense; *do not* leave them as unrelated theories.
@@ -239,7 +246,10 @@ Almost everything downstream waits on this, so do it first and do it right.
    embedding `W^{1,p}(Ω) ↪ C^{0,1−n/p}(Ω)` for `p>n`, and state (then prove) the
    borderline `p=n`.
 5. **Poincaré** on `W^{1,p}_0(Ω)` (bounded `Ω`) and **Poincaré–Wirtinger** (zero mean),
-   with explicit constant dependence.
+   with explicit constant dependence. **Poincaré–Friedrichs** for mixed conditions: for a
+   bounded connected `Ω` and an admissible boundary part `Γ` (A.6) with `μHE[n−1] Γ > 0`
+   and `1 ≤ p < ∞`, `‖u‖_p ≤ C ‖∇u‖_p` on `W^{1,p}_Γ(Ω)`. The proof is by contradiction from
+   Rellich (A.6), so this constant is an existence statement, not an explicit one.
 6. **Trace, extension, Rellich.** The **trace operator** `W^{1,p}(Ω) → L^p(∂Ω)` with
    `ker = W^{1,p}_0` (Lipschitz `∂Ω`), an **extension operator** `W^{1,p}(Ω) → W^{1,p}(ℝⁿ)`,
    and **Rellich–Kondrachov**: `W^{1,p}(Ω) ↪↪ L^p(Ω)` **compact** for bounded `Ω` (via
@@ -256,6 +266,16 @@ Almost everything downstream waits on this, so do it first and do it right.
    `C¹` domains satisfy it by a
    proved local-graph comparison; cone conditions are separate hypotheses and do not
    redefine the Lipschitz predicate.
+   This lane also owns the **admissible boundary part** used for mixed boundary
+   conditions. A relatively open `Γ ⊆ frontier Ω` is admissible with constant `L` when
+   `Ω` satisfies the Lipschitz-domain predicate with constant `L` and, at each frontier
+   point, its chart can be chosen so that `Γ` inside the cylinder is the part of the graph
+   lying over all of the base, over none of it, or over the region on one side of an
+   `L`-Lipschitz graph in the base (after a rotation of the base). Supply the same restriction, transport and dilation API as for
+   the domain predicate. `Γ = ∅` and `Γ = frontier Ω` are admissible for every Lipschitz
+   domain. For admissible `Γ` and `1 ≤ p < ∞`, prove
+   `W^{1,p}_Γ(Ω) = {u ∈ W^{1,p}(Ω) | trace u = 0 μHE[n−1]-a.e. on Γ}`, and
+   `W^{1,p}_∅(Ω) = W^{1,p}(Ω)` (from the extension operator).
 7. **Hölder spaces `C^{k,α}(Ω)`** as Banach spaces, the target spaces for Schauder.
    Include the bounded global variant `C_b^{k,α}(ℝⁿ)`: its norm is the sum of the
    supremum norms of spatial derivatives through k and the spatial α seminorm of
@@ -311,13 +331,27 @@ Mathlib*. This lane mostly assembles Lane A and Mathlib.
 17. **Existence & uniqueness (coercive case).** When `a` is coercive, *consume* Lax–Milgram
     (`continuousLinearEquivOfBilin`) for the unique weak solution of the Dirichlet problem.
     This is the first end-to-end PDE theorem and should land early.
+    Then the **mixed and Neumann problems** on a bounded Lipschitz `Ω` with an admissible
+    boundary part `Γ` (A.6). Take Dirichlet data `g ∈ H¹(Ω)` and Neumann data
+    `h ∈ L²(frontier Ω \ Γ, μHE[n−1])`. A weak solution is `u ∈ g + H¹_Γ(Ω)` with
+    `a(u, v) = ∫_Ω f v + ∫_{frontier Ω \ Γ} h · trace v` for all `v ∈ H¹_Γ(Ω)`; the Neumann
+    datum is the conormal derivative, defined by this identity. Existence and uniqueness
+    when `a` is coercive on `H¹_Γ(Ω)`, in particular for `−∂ⱼ(aⁱʲ ∂ᵢ u) + c u` with `c ≥ 0`,
+    `Ω` connected and `μHE[n−1] Γ > 0` (from Poincaré–Friedrichs, A.5). For the pure Neumann
+    problem (`Γ = ∅`, `c = 0`, `b = 0`, `Ω` connected): a solution exists if and only if
+    `∫_Ω f + ∫_{frontier Ω} h = 0`, and it is unique up to an additive constant (from
+    Poincaré–Wirtinger, A.5).
 18. **The Fredholm alternative (non-coercive case).** Using Rellich (Lane A.6) to make the
     resolvent compact, *consume* `FredholmAlternative` to get the
-    "either-unique-solution-or-finite-dim-kernel" dichotomy for `Lu = f`.
+    "either-unique-solution-or-finite-dim-kernel" dichotomy for `Lu = f`, for the
+    Dirichlet problem and for the mixed problem of item 17.
 19. **Spectrum of `−Δ`.** The Dirichlet eigenvalues/eigenfunctions of `−Δ` on a bounded
     `Ω`: a compact self-adjoint inverse (Rellich plus Lax–Milgram), then the eigenfunction
     basis from `InnerProductSpace/Spectrum`. The model **Sturm–Liouville** /
-    separation-of-variables payoff.
+    separation-of-variables payoff. The same for the **mixed and Neumann eigenvalues** on a
+    bounded connected Lipschitz `Ω` with admissible `Γ`, on `H¹_Γ(Ω)`: the first eigenvalue
+    is positive when `μHE[n−1] Γ > 0`, and for `Γ = ∅` it is `0`, with exactly the constants
+    as eigenfunctions.
 
 ### Lane E: elliptic regularity
 
@@ -550,6 +584,11 @@ Concrete sanity checks that rule out vacuous or mis-stated definitions:
   meeting on one example.
 - **Eigenvalues are real and positive:** the first Dirichlet eigenvalue of `−Δ` is
   positive (Lane D.19), matching the Poincaré constant.
+- **Mixed conditions are load-bearing:** on the open unit square with `Γ = {0} × (0,1)`,
+  `Γ` is admissible, the mixed problem `−Δu = f`, `u = 0` on `Γ`, `∂_ν u = 0` on the other
+  three sides has a unique weak solution, and its first eigenvalue is `π²/4`, attained by
+  `sin(π x/2)` (Lane D.17, D.19). With `Γ = ∅` the constant `1` violates
+  Poincaré–Friedrichs.
 - **Regularity actually upgrades:** exhibit a weak solution that is *only* `H¹` a priori
   and prove it is `C^{0,α}` (Lane E.23), the De Giorgi–Nash–Moser payoff on an example.
 - **Maximum principle bites:** a subsolution of `−Δu ≤ 0` attains its max on `∂Ω`
@@ -566,6 +605,12 @@ Concrete sanity checks that rule out vacuous or mis-stated definitions:
 - D. Gilbarg, N. Trudinger, *Elliptic Partial Differential Equations of Second Order*:
   maximum principles (Ch. 3), Schauder (Ch. 6), `Lᵖ` theory (Ch. 9), De Giorgi–Nash–Moser
   (Ch. 8); the canonical elliptic reference.
+- K. Gröger, *A `W^{1,p}`-estimate for solutions to mixed boundary value problems for
+  second order elliptic differential equations*, Math. Ann. 283 (1989): mixed boundary
+  conditions and the function spaces `W^{1,p}_Γ`.
+- S. Bauer, D. Pauly, M. Schomburg, *The Maxwell compactness property in bounded weak
+  Lipschitz domains with mixed boundary conditions*, SIAM J. Math. Anal. 48 (2016):
+  weak Lipschitz pairs, a bi-Lipschitz generalization of A.6's admissible boundary parts.
 - L. Grafakos, *Classical Fourier Analysis* (and *Modern*) / E. Stein, *Singular Integrals
   and Differentiability Properties of Functions*: maximal function, interpolation,
   Calderón–Zygmund, BMO. Baby versions in Stein–Shakarchi vol. 4, §3.3.
