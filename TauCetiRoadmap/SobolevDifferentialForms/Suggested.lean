@@ -8,10 +8,6 @@ import TauCeti.Analysis.Sobolev.W1p.Basic
 `README.md`. The statements here suggest Lean forms for particular items, so that
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a milestone nor the roadmap.
-
-The pinned Tau Ceti revision does not contain `TestFunction.extDerivCLM` or the Lipschitz-domain
-predicate of PDE Lane A.6, so the codifferential of test forms (item 1) and Milestones 4 and 6 are
-not prototyped here.
 -/
 
 noncomputable section
