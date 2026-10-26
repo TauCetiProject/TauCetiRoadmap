@@ -224,9 +224,11 @@ Build, for every language `L` and carrier `α`:
 - **decoding is continuous in each relation**: for fixed `R` and `v` the map
   `c ↦ RelMap R v` is locally constant, and a map into a coding space is continuous exactly when
   each coordinate is;
-- the **query code** `queryCode : StructureSpace L → (ℕ → Bool)`, reading the coordinates along
-  an enumeration of `RelQueryOn L ℕ` and padding with `false`, with `isClosedEmbedding_queryCode`.
-  Its range is the closed set of sequences that vanish off the enumeration;
+- the **query code** `queryCode : StructureSpace L → (ℕ → Bool)`, reading at `n` the coordinate
+  of the query that `Encodable.decode` (for `Encodable.ofCountable`) returns at `n`, and `false`
+  where decoding fails, with `isClosedEmbedding_queryCode`. That decoder need not be injective on
+  the indices where it succeeds, so the range is the closed set of sequences that are `false`
+  where decoding fails and agree at any two indices decoding to the same query;
 - **cardinality**: `mk_structureSpaceOn_le_continuum`, and equality with the continuum when `α`
   is infinite and `L` has a relation symbol of positive arity;
 - the **graph coding** `graphCode : SimpleGraph ℕ → StructureSpace Language.graph`,
