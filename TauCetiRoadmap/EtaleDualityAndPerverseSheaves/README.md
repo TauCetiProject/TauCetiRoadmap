@@ -82,9 +82,12 @@ Proposition 1.2.5, Corollary 1.2.6 and Theorem 2.1.3, pp.8–10,17–18.
 
 DeligneWeightsAndPurity §§0.1–0.19 supply scalar Weil numbers and fixed-`ι` weights, the arithmetic of weights, spectral powers, tensor/dual/exterior spectra, characteristic power series, weight decomposition of Frobenius modules and perfect-pairing eigenvalue reciprocity. Sections 1.3–1.7 supply Rosati and the abelian-variety/curve estimates. Sections 5.1–5.18 supply Weil groups and Weil sheaves, punctual and determinantal weights, rank-one normalization, curve and local-monodromy bounds, monodromy specialization, the positive pole-order argument and compact Weil form. Sections 6.1–6.4 supply coefficient-specific vanishing cycles, real cohomological factors, square improvement and parabolic curve purity. Sections 7.5–7.9 supply the curve reduction, tame covers and Weil II direct-image theorem. Sections 8.1–8.5, 8.8–8.9, 8.11–8.12 supply mixed/pure complexes and six-operation bounds; §§8.14, 8.18–8.20 supply lisse geometric semisimplicity, the lisse weight filtration and potentially pure models. Sections 9.6–9.12 supply absolute hard Lefschetz, vector-space primitive decomposition and rational ample restriction/vanishing orthogonality. These inputs are used with geometric Frobenius and a fixed embedding `ι:ℚ̄_ℓ→ℂ` when `ι`-weights are used.
 
+### From AutomorphicLFunctionsAndLocalFactors
+
 | Supplier target | Contract used here |
 | --- | --- |
 | AutomorphicLFunctionsAndLocalFactors AL.3, `normalized-scheme-ic-purity` [TCR-AutomorphicLFunctionsAndLocalFactors] | For `ℓ∤q`, a separated finite-type pure `d`-dimensional scheme over `𝔽_q`, a dense smooth open `j:U→X` and a lisse `ℚ̄_ℓ`-sheaf `L` punctually pure of integer weight `w`, the normalized complex `IC⁰_X(L)=(j_!*(L[d]))[−d]` is pure of weight `w`, independently of shrinking `U`. For proper `X`, `H^r(X̄,IC⁰_X(L))` is pure of weight `w+r`. Section 5.3 transports this supplied theorem through `IC_X(L)≅IC⁰_X(L)[d]`; `intersectionComplexPurity` names that perverse-normalization adapter. |
+| AutomorphicLFunctionsAndLocalFactors AL.3, `normalized-scheme-ic-purity`, exported scheme results [TCR-AutomorphicLFunctionsAndLocalFactors] | For `ℓ∤q`, `X₀` separated of finite type over `𝔽_q` and rational `ℚ̄_ℓ` coefficients: the affine weight criterion (a mixed perverse sheaf has weights `≥ w` iff `H⁰` of its pullback to every affine étale `U₀→X₀` has weights `≥ w`); the stability of each directional weight bound under perverse subquotients; the exact external product of perverse sheaves. Section 5.2 consumes the first two through the adapters `affineCohomologyWeightCriterion` and `subquotientWeightStability`. Kept here: `externalProductTExact` over any field `k` with finite or `E` coefficients (§2.8), which specializes to the third, and the perverse-normalization adapter `intersectionComplexPurity` (§5.3). |
 
 ### From comparison roadmaps
 
@@ -2352,6 +2355,10 @@ Choose stratifications `T₁, T₂` adapted to `K` and `L` (§2.4 stratum criter
 which stresses the linearity of the perversity function).
 
 `IC`: the external product of `j_!*` is `j_!*` of the external product by the strict support conditions and §2.8.
+
+For `k = 𝔽_q`, `ℓ ∤ q` and rational `ℚ̄_ℓ` coefficients, the 2-colimit over finite `E/ℚ_ℓ` of this statement is
+the exact external product exported by AutomorphicLFunctionsAndLocalFactors AL.3, `normalized-scheme-ic-purity`
+[TCR-AutomorphicLFunctionsAndLocalFactors]; the two statements agree on that domain.
 
 Use [BBD-1982] 4.2.7, pp.111–112; Proposition 4.2.8 and its proof, p.112.
 
@@ -5034,30 +5041,24 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). `U₀ → X₀` étale with `U₀` affine; `H⁰`
 is hypercohomology of the complex `u^*F` over `𝔽̄_q`.
 
-Name the resulting statement `affineCohomologyWeightCriterion`.
+Name this interface `affineCohomologyWeightCriterion`. On this domain the criterion is the affine weight
+criterion exported by AutomorphicLFunctionsAndLocalFactors AL.3, `normalized-scheme-ic-purity`, which proves
+it (BBD 5.2.1, including the cohomology-growth and trace-comparison steps of 5.2.3–5.2.8). This interface
+restates that statement under the conventions of this roadmap and does not reprove it.
 
 A proof proceeds as follows.
 
-Necessity: `u^! = u^*` for étale `u` preserves weights `≥ w`, and `RΓ = Ra_*` preserves lower bounds
-(DeligneWeightsAndPurity §8.11 (ii)); `H⁰` of a complex of weights `≥ w` has weights `≥ w`.
+Identify the supplier's rational `ℚ̄_ℓ` coefficients with the 2-colimit of §§3.1, 3.3, compatibly with the
+perverse `t`-structure and with étale pullback. Identify its weights with those of DeligneWeightsAndPurity
+§§8.1–8.2. For `U₀` defined over `𝔽_{qⁿ}`, the Frobenius of `𝔽_{qⁿ}` acts on `H⁰(U, u^*F)` by transport of
+structure as in §5.1 (b) (BBD 5.1.11–5.1.12). Weights for that Frobenius are measured against `qⁿ`, so the
+bound is the same `w` as for the supplier's model. The supplied criterion then transports to the statement above.
 
-For curves follow BBD 5.2.2: use the classification of simple perverse constituents, affine étale
-neighbourhoods with many preimages of a selected point, and the estimates for `H⁻¹` and `H⁰`. Their dimensions
-force the lower bound on the punctual part and on the lisse constituents.
+Use [TCR-AutomorphicLFunctionsAndLocalFactors] AL.3, `normalized-scheme-ic-purity`, affine weight criterion;
+[BBD-1982] Théorème 5.2.1, p. 129, for the statement.
 
-The higher-dimensional argument is BBD 5.2.3–5.2.8, not a formal restriction-to-curves argument. Choose a
-finite map to a product of curves and towers of finite étale covers on those curves. The cohomology-growth
-theorem BBD 4.5.4–4.5.5 bounds negative cohomology by a polynomial of smaller degree than the top growth term.
-The trace comparison in 5.2.5–5.2.7 excludes a constituent of weight below `w`; noetherian induction handles the
-closed complement. The Betti-growth estimate of §5.2 lists the nearby-cycle and curve-Euler-characteristic
-inputs; it is not supplied by the early perverse theorem alone.
-
-The weights of `H⁰(U, F)` are those of the Frobenius of `𝔽_{qⁿ}` acting by transport of structure (BBD
-5.1.11–5.1.12).
-
-Use [BBD-1982] Théorème 5.2.1 and its proof 5.2.2–5.2.8, pp. 129–134.
-
-*Needs:* §5.1; §2.7; §2.10; Layer 2; DeligneWeightsAndPurity §8.11; DeligneWeightsAndPurity §8.9.
+*Needs:* §5.1; §§3.1, 3.3; §2.4; DeligneWeightsAndPurity §§8.1–8.2; AutomorphicLFunctionsAndLocalFactors AL.3,
+`normalized-scheme-ic-purity`.
 
 **Checks.**
 
@@ -5077,24 +5078,23 @@ EtaleCohomologyFoundations §§F.4, F.8; ramified coefficient refinement in §3.
 integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAndPurity §8.2 (a sheaf of weights
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality).
 
-Name the resulting statement `subquotientWeightStability`.
+Name this interface `subquotientWeightStability`. On this domain the statement is the subquotient weight
+bound exported by AutomorphicLFunctionsAndLocalFactors AL.3, `normalized-scheme-ic-purity`, whose proof
+contains the Artin-vanishing step for quotients, the external-square and integrality step for subobjects and
+the Verdier-duality step for upper bounds (BBD 5.3.1). This interface restates it under the conventions of this
+roadmap and does not reprove it.
 
 A proof proceeds as follows.
 
-For a quotient `G₀` of `F₀` and affine étale `U`, Artin vanishing makes `H⁰(U,F) → H⁰(U,G)` surjective; hence the
-lower bound `≥ w` passes to `G` by the affine `H⁰` criterion.
+Transport the supplied statement along the coefficient and weight identifications used for
+`affineCohomologyWeightCriterion`. Subobjects and quotients in `Perv(X₀)` correspond under these
+identifications, because the identification of coefficients is `t`-exact.
 
-For a subobject `G₀ ⊂ F₀` the exact sequence `H⁻¹(U,F/G) → H⁰(U,G) → H⁰(U,F)` first gives `G₀` weights `≥ w−1`. Apply
-the same argument to `G₀ ⊠ G₀ ⊂ F₀ ⊠ F₀`: the external product is perverse and exact in each argument by the
-external-product exactness of §2.8, and `F₀ ⊠ F₀` has weights `≥ 2w`. Thus 2·(the optimal lower weight of `G₀`) `≥ 2w−1`, which gives `≥ w` by integrality. Treat `G₀=0` separately. This avoids using a nonexistent integral Tate
-half-twist when `w` is odd.
+Use [TCR-AutomorphicLFunctionsAndLocalFactors] AL.3, `normalized-scheme-ic-purity`, subquotient weight
+bounds; [BBD-1982] Proposition 5.3.1, p. 134, for the statement.
 
-Verdier duality exchanges subobjects and quotients and reverses weights, giving the upper bound `≤ w`. This is
-BBD 5.3.1.
-
-Use [BBD-1982] Proposition 5.3.1, p. 134.
-
-*Needs:* §5.1; §2.7; §2.5; Layer 2; DeligneWeightsAndPurity §8.11.
+*Needs:* §5.1; §§3.1, 3.3; §2.4; DeligneWeightsAndPurity §§8.1–8.2; AutomorphicLFunctionsAndLocalFactors AL.3,
+`normalized-scheme-ic-purity`.
 
 **Checks.**
 
@@ -5131,10 +5131,10 @@ A proof proceeds as follows.
 
 (a) Since `j` is affine and quasi-finite, `j_!F₀` and `Rj_*F₀` are perverse (§2.7, BBD 4.1.3).
 
-If `F₀` has weights `≤ w, j_!F₀` has weights `≤ w` (DeligneWeightsAndPurity §8.11 (i)); `j_!*F₀` is the image of `j_!F₀ → Rj_*F₀`, a quotient of `j_!F₀` in `Perv(X₀)`, so it has weights `≤ w` by §5.2.
+If `F₀` has weights `≤ w, j_!F₀` has weights `≤ w` (DeligneWeightsAndPurity §8.11 (i)); `j_!*F₀` is the image of `j_!F₀ → Rj_*F₀`, a quotient of `j_!F₀` in `Perv(X₀)`, so it has weights `≤ w` by `subquotientWeightStability` (§5.2).
 
 Dually, if `F₀` has weights `≥ w, Rj_*F₀` has weights `≥ w` and its subobject `j_!*F₀` has weights `≥ w`; combining both
-gives purity (BBD 5.3.2, first proof).
+gives purity by `subquotientWeightStability` (BBD 5.3.2, first proof).
 
 (b) Both normalizations use the same intermediate extension: §2.10 gives `IC_{X₀}(L₀)=j_!*(L₀[d])`, while
 the supplier defines `IC⁰_{X₀}(L₀)=(j_!*(L₀[d]))[−d]`. The shift isomorphisms give the comparison, compatible
@@ -6211,7 +6211,7 @@ A nontrivial arithmetic unipotent Jordan extension of the unit object is pure bu
 
 ### Dependencies
 
-Layers 0–4; DeligneWeightsAndPurity §§0, 5–8 and 9.6–9.12; the arithmetic-model and generic-base-change contracts; Mathlib finite-length abelian-category and kernel/biproduct APIs.
+Layers 0–4; DeligneWeightsAndPurity §§0, 5–8 and 9.6–9.12; AutomorphicLFunctionsAndLocalFactors AL.3, `normalized-scheme-ic-purity` (IC⁰ purity, affine weight criterion, subquotient weight bounds); the arithmetic-model and generic-base-change contracts; Mathlib finite-length abelian-category and kernel/biproduct APIs.
 
 ## Layer 6: cohomological correspondences and contracting trace formulas
 
@@ -7771,7 +7771,7 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 
 - **[TCR-AdicCoefficientsAndComparisons]** TauCetiRoadmap contributors, Adic coefficients and comparison with schemes. README.md, version 4a7b4d83e2622df066e2a883525bb755bce6b115.
 
-- **[TCR-AutomorphicLFunctionsAndLocalFactors]** TauCetiRoadmap contributors, [Automorphic L-functions and local factors](../AutomorphicLFunctionsAndLocalFactors/README.md#normalized-scheme-ic-purity). README.md, AL.3, `normalized-scheme-ic-purity`, version d1996dc1edb1a6f095caec7bd8768245888b7a7c.
+- **[TCR-AutomorphicLFunctionsAndLocalFactors]** TauCetiRoadmap contributors, [Automorphic L-functions and local factors](../AutomorphicLFunctionsAndLocalFactors/README.md#normalized-scheme-ic-purity). README.md, AL.3, `normalized-scheme-ic-purity`, version 322ade402ac06e4901eb18be0ade3ff64ecefcbc.
 
 - **[TCR-CharacteristicClasses]** TauCetiRoadmap contributors, *Characteristic classes* (the CharacteristicClasses roadmap), C2.1–C2.4.
 
