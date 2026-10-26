@@ -7,8 +7,8 @@ derivative `extDeriv` and `extDeriv_extDeriv`; Tau Ceti has test forms with
 builds the **Sobolev theory of differential forms on a Euclidean domain**: the weak exterior
 derivative, the Hilbert spaces `HΛᵏ(Ω)` (in dimension three: `H¹`, `H(curl)`, `H(div)`, `L²`), the
 **L² de Rham complex** as a Hilbert complex with its Hodge decomposition, pullback under
-diffeomorphisms, traces and gluing across interfaces, and the **Poincaré inequality for `d`** on
-convex domains.
+diffeomorphisms, traces and gluing across interfaces, and **compactness and closed range** of the
+complex on bounded Lipschitz domains.
 
 The bar for "done": someone working with mixed formulations, Maxwell's equations or Hodge
 Laplacians on a domain finds `HΛᵏ(Ω)` with the API they expect (density, pullback, traces,
@@ -71,6 +71,9 @@ gluing, closed range, Hodge decomposition) and the vector-calculus special cases
     norm bounds in `n, k, L, c`. Specialize to affine maps `F x = B x + b`:
     `‖F^* u‖_{L²Λᵏ(F⁻¹ Ω)} ≤ ‖B‖^k |det B|^{−1/2} ‖u‖_{L²Λᵏ(Ω)}`, and in dimension three identify the
     affine pullbacks with the covariant and contravariant Piola transforms of `H(curl)` and `H(div)`.
+    The same for a bi-Lipschitz homeomorphism `Φ : Ω' → Ω` with Lipschitz constants `≤ L` for `Φ`
+    and `Φ⁻¹`, with `DΦ` defined a.e. by Rademacher's theorem: `Φ^*` maps `HΛᵏ(Ω)` to `HΛᵏ(Ω')` and
+    `HΛᵏ₀(Ω)` to `HΛᵏ₀(Ω')`, commutes with the weak `d`, and has norm bounds in `n, k, L`.
 
 ## Milestone 4: traces, Green's formula, and gluing
 
@@ -107,25 +110,31 @@ interface) and PDE Lane A.6 (the Lipschitz-domain predicate `Set.IsLipschitzDoma
     `Wᵏ = closure (range dᵏ⁻¹) ⊕ 𝔥ᵏ ⊕ closure (range dᵏ*)` with harmonic space
     `𝔥ᵏ = ker dᵏ ∩ ker dᵏ⁻¹*`; that `range dᵏ` closed is equivalent to the **Poincaré inequality**
     `‖u‖ ≤ c ‖dᵏ u‖` for `u ∈ dom dᵏ ∩ (ker dᵏ)ᗮ`; the dual complex; the **abstract Hodge Laplacian**
-    and its well-posedness when the ranges are closed and `𝔥ᵏ` is finite dimensional. Use Mathlib's
+    and its well-posedness when the ranges are closed and `𝔥ᵏ` is finite dimensional; and that if
+    `dom dᵏ ∩ dom dᵏ⁻¹*` (with its graph norm) embeds compactly into `Wᵏ`, then `range dᵏ⁻¹` and
+    `range dᵏ` are closed and `𝔥ᵏ` is finite dimensional. Use Mathlib's
     `LinearPMap` and Tau Ceti's unbounded-operator API.
 16. **The L² de Rham complex** `L²Λ⁰ → L²Λ¹ → ⋯ → L²Λⁿ` with domains `HΛᵏ(Ω)` (and the version with
     domains `HΛᵏ₀(Ω)`) is a Hilbert complex; its dual complex is the codifferential complex.
 
-## Milestone 6: Poincaré inequality and exactness on convex domains
+## Milestone 6: compactness and closed range on bounded Lipschitz domains
 
-17. **Regularized Poincaré operators.** For `Ω` bounded and star-shaped with respect to a ball
-    (the chunkiness setting of *Polynomial approximation in Sobolev spaces*), construct the
-    averaged Poincaré homotopy operators `Rᵏ` (Costabel–McIntosh) with `d R + R d = id` on forms
-    of degree `k ≥ 1` (with the averaging correction in degree `0`), and prove `Rᵏ : L²Λᵏ(Ω) →
-    HΛᵏ⁻¹(Ω)` is bounded with a constant depending on `n, k`, `diam Ω` and the chunkiness.
-18. **Exactness and closed range.** On such `Ω`: every weakly closed `u ∈ HΛᵏ(Ω)`, `k ≥ 1`, is `d` of
-    an element of `HΛᵏ⁻¹(Ω)`; the harmonic spaces are `𝔥⁰ = constants`, `𝔥ᵏ = 0` for `k ≥ 1`;
-    every range of the L² de Rham complex is closed, with the explicit Poincaré constant from item 17.
-19. **Bounded Lipschitz domains.** Every range of the L² de Rham complex on a bounded Lipschitz
-    domain is closed (via a finite cover by star-shaped pieces and a partition of unity, or via the
-    compactness of `HΛᵏ ∩ HΛᵏ*` with mixed boundary conditions into `L²Λᵏ` on Lipschitz
-    domains); its harmonic spaces are finite dimensional.
+17. **Compact embeddings (Picard).** Let `Ω` be a bounded Lipschitz domain (PDE Lane A.6's
+    `Set.IsLipschitzDomainWith`) and `ε` a measurable field of symmetric endomorphisms of
+    `Covector n k` with `λ ≤ ε ≤ Λ` pointwise for constants `0 < λ ≤ Λ`. Write `H*_εΛᵏ(Ω)` for
+    the domain of the adjoint of `d : HΛᵏ⁻¹₀(Ω) → L²Λᵏ(Ω)` with respect to the inner product
+    weighted by `ε` on `L²Λᵏ(Ω)`, and `H*_εΛᵏ₀(Ω)` for the domain of the adjoint of
+    `d : HΛᵏ⁻¹(Ω) → L²Λᵏ(Ω)`, each with its graph norm. Then the inclusions
+    `HΛᵏ₀(Ω) ∩ H*_εΛᵏ(Ω) → L²Λᵏ(Ω)` and `HΛᵏ(Ω) ∩ H*_εΛᵏ₀(Ω) → L²Λᵏ(Ω)` are compact. The proof is
+    Picard's: localize in the finite chart cover of A.6 with a partition of unity, pull back
+    by the bi-Lipschitz chart maps (item 10), which changes `ε` within the same class, and
+    reduce to Rellich (A.6). The weights are part of the statement because the pullback
+    produces them.
+18. **Closed range and harmonic spaces.** From items 15 and 17 (with `ε = 1`): on a bounded
+    Lipschitz domain, both L² de Rham complexes of item 16 have closed ranges and
+    finite-dimensional harmonic spaces, the Poincaré inequality `‖u‖ ≤ c ‖du‖` holds on
+    `HΛᵏ(Ω) ∩ (ker d)ᗮ` and on `HΛᵏ₀(Ω) ∩ (ker d)ᗮ` (with a non-explicit constant), and the
+    abstract Hodge Laplacian of item 15 is well posed.
 
 ## Boundaries
 
@@ -135,8 +144,9 @@ interface) and PDE Lane A.6 (the Lipschitz-domain predicate `Set.IsLipschitzDoma
   (Geometric measure theory G6), smooth forms and `extDeriv` (Mathlib; the manifold theory of
   *Differential geometry — forms, de Rham cohomology* is not needed and not duplicated).
 - **Not here:** forms on manifolds and the L² theory on Riemannian manifolds; the identification of
-  the harmonic spaces on a Lipschitz domain with de Rham cohomology; fractional trace spaces
-  (`H^{−1/2}`); approximation of forms by piecewise polynomial forms on partitions of a domain.
+  the harmonic spaces on a Lipschitz domain with de Rham cohomology; boundary conditions on a
+  part of the boundary; regularized Poincaré and Bogovskiĭ operators and explicit Poincaré
+  constants; fractional trace spaces (`H^{−1/2}`); approximation of forms by piecewise polynomial forms on partitions of a domain.
 
 ## Acceptance criteria
 
@@ -154,8 +164,8 @@ interface) and PDE Lane A.6 (the Lipschitz-domain predicate `Set.IsLipschitzDoma
   theory to numerical stability*, Bull. AMS 47 (2010), §3–4.
 - D. N. Arnold, *Finite Element Exterior Calculus*, SIAM, 2018, Chapters 4 and 6.
 - J. Brüning, M. Lesch, *Hilbert complexes*, J. Funct. Anal. 108 (1992).
-- M. Costabel, A. McIntosh, *On Bogovskiĭ and regularized Poincaré integral operators for de Rham
-  complexes on Lipschitz domains*, Math. Z. 265 (2010).
+- R. Picard, *An elementary proof for a compact imbedding result in generalized electromagnetic
+  theory*, Math. Z. 187 (1984).
 - V. Girault, P.-A. Raviart, *Finite Element Methods for Navier–Stokes Equations*, Springer, 1986,
   Chapter I (`H(div)`, `H(curl)`).
 - P. Monk, *Finite Element Methods for Maxwell's Equations*, Oxford, 2003, Chapter 3.
