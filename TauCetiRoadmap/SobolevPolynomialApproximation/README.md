@@ -58,7 +58,12 @@ any of the classical lemmas of Brenner–Scott, Chapter 4, or Ciarlet, Chapter 3
      `p = 2`. At order one this comes from `TauCeti.W1p.norm_value_le`,
      `TauCeti.W1p.norm_gradient_le` and `TauCeti.W1p.norm_le_norm_value_add_norm_gradient`; above
      it from `TauCeti.Wkp.norm_sq_eq_norm_lowerOrder_sq_add_norm_iteratedGradient_sq_succ`;
-   - `|q|_{j,p} = 0` for `q ∈ Wkp.polynomialsDegLE m` and `j ≥ m + 1`.
+   - `|q|_{j,p} = 0` for `q ∈ Wkp.polynomialsDegLE m` and `j ≥ m + 1`;
+   - **change of exponent:** for bounded `Ω` and `1 ≤ q ≤ p`, a continuous linear inclusion
+     `Wkp.ofExponentL : W^{k,p}(Ω) →L[ℝ] W^{k,q}(Ω)` that keeps the value and every weak
+     derivative field (componentwise Mathlib's `MemLp.mono_exponent` on the finite measure
+     `volume.restrict Ω`; the defining weak-derivative identities do not depend on the exponent),
+     with `|u|_{j,q} ≤ volume Ω ^ (1/q − 1/p) · |u|_{j,p}` for every `j ≤ k`.
 2. **Integrating polynomial fields.** A polynomial Poincaré lemma, purely algebraic: if
    `P : Fin n → MvPolynomial (Fin n) ℝ` has every `P i ∈ restrictTotalDegree (Fin n) ℝ m` and
    `pderiv j (P i) = pderiv i (P j)` for all `i, j`, then there is
@@ -127,7 +132,9 @@ Throughout, `Ω` is bounded and star-shaped with respect to `Metric.ball x₀ ρ
    - **the derivative identity** (Brenner–Scott, Proposition 4.1.17, basis-free): for
      `0 ≤ j < m`, the classical field `iteratedGradientChain (Q^m u) j` equals
      `x ↦ ∑_{i ≤ m − j − 1} (1/i!) ∫ (D^{j+1+i} u)(y)⟨x − y⟩ⁱ φ y dy`.
-10. **The Sobolev representation formula.** For smooth `u ∈ W^{m+1,p}(Ω)` and `x ∈ Ω`:
+10. **The Sobolev representation formula.** For smooth `u ∈ W^{m+1,p}(Ω)` and `x ∈ Ω` (and, by
+    Meyers–Serrin density, for every `u ∈ W^{m+1,1}(Ω)` and a.e. `x`, which covers every `p`
+    through item 1's change of exponent):
     `u x − Q^m u x = ∫_Ω K x z (D^{m+1} u z) dz` with a kernel
     `K x z : IteratedGradient E m →L[ℝ] ℝ` supported in the convex hull of `{x}` and the ball,
     and `‖K x z‖ ≤ C(n, m, γ) · ‖x − z‖^{m+1−n}`. The kernel estimate integrates along the
@@ -146,7 +153,8 @@ Throughout, `Ω` is bounded and star-shaped with respect to `Metric.ball x₀ ρ
     `C_BH := √2 · (1 + C(n, m, p, γ)² · ∑_{j ≤ m} (diam Ω)^{2(m+1−j)})^{1/2}` (item 1's
     norm comparison), and the same bound for `inf_{q ∈ polynomialsDegLE n m} ‖u − q‖_{m+1,p}`.
     The proof is the representation formula plus Young's inequality for the Riesz potential, for
-    every `1 ≤ p ≤ ∞`, not a compactness argument.
+    every `1 ≤ p ≤ ∞` (the formula holds for `u ∈ W^{m+1,p}(Ω)` through item 1's change of
+    exponent to `W^{m+1,1}(Ω)`), not a compactness argument.
 12. **Functional forms.** With `C_BH(m, p)` the constant of item 11 for the same `Ω`:
     - **Sublinear form.** Let `ℓ : W^{m+1,p}(Ω) → ℝ` be subadditive and absolutely homogeneous,
       with `ℓ u ≤ M ‖u‖_{m+1,p}` and `ℓ (u + q) = ℓ u` for every `q ∈ polynomialsDegLE n m`. Then
@@ -172,7 +180,8 @@ Throughout, `Ω` is as in Milestone 3.
 15. **`W^{k,p} ⊆ C⁰` for `k p > n`** (and `k ≥ n` when `p = 1`): every `u ∈ W^{k,p}(Ω)` has a
     continuous representative bounded on `Ω`, with
     `sup_Ω |u| ≤ C(n, k, p, γ) ∑_{j ≤ k} (diam Ω)^{j − n/p} |u|_{j,p}` (with `n/p = 0` for
-    `p = ∞`). Derive it from the representation formula of item 10 (not from the whole-space
+    `p = ∞`). Derive it from the representation formula of item 10, valid for every `p` by
+    item 1's change of exponent (not from the whole-space
     Morrey theorem), so the constant is explicit in the same parameters. Point evaluation
     `u ↦ u x` is then a bounded linear functional on `W^{k,p}(Ω)`.
 16. **Continuity up to the boundary.** For `p < ∞`:
@@ -196,8 +205,7 @@ Throughout, `Ω` is as in Milestone 3.
 - **Consumed from PDE Lane A:** `Wkp`, `W1p`, weak derivatives, density, the Lipschitz-domain
   predicate, first-order Rellich and Poincaré. This roadmap does not redefine any of them.
 - **Not here:** fractional Sobolev spaces; approximation by piecewise polynomials on partitions of
-  a domain; finite elements, interpolation operators and their error estimates; inclusions
-  between Sobolev spaces with different exponents; and vector-valued or differential-form
+  a domain; finite elements, interpolation operators and their error estimates; and vector-valued or differential-form
   Sobolev spaces.
 
 ## Acceptance criteria
