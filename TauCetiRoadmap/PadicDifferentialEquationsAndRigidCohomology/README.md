@@ -102,13 +102,18 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
  builds Robba coefficients and Berthelot's coefficient and cohomology theory on these objects. A
  comparison between a partially proper generic-fibre dagger space and its rigid space (AdicSpacesPartIV F1.9) is
  not the comparison with Berthelot's rigid cohomology of the special fibre, which is [§RD.4.55](#rd-4-55).
-- FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the case of a perfect residue
- field, coefficients `W(k)[1/p], q = p` and the standard Frobenius `t ↦ t^p` — its Robba ring,
- `φ`-modules with degree and slope, the slope filtration theorem and descent of pure modules.
- Layers RD.0–RD.2 treat the general coefficients and Frobenius lifts, and every target that
- specialises to that case says so in its Checks: there is one Robba ring, with compatible
- specialisations. Also §R07.4.4 (Fontaine's equivalence for étale `φ`-modules) and §§R07.3.2–R07.3.3
- (weak admissibility, Newton above Hodge).
+- NoncommutativeAndEquivariantIwasawa §F.6 stages 1–2 owns the shared carriers over complete
+ discretely valued fields of characteristic 0 with arbitrary residue field: the Robba ring, its
+ bounded and integral subrings and the completed Amice field, the analytic Frobenius extension, the
+ Cohen-ring étale equivalence, slope theory with the adapter `deg_w = e_C·deg`, and, for finite
+ coefficient fields, Frobenius-fixed bases, finite-level descent and quasi-unipotent, finite-étale
+ and logarithmic local monodromy. Layers RD.0–RD.2 consume these on that domain and add carriers
+ over arbitrary complete nonarchimedean fields, the Fontaine–Katz equivalence, and the monodromy
+ theorems over general coefficient fields and imperfect residue fields with nearly finite separable
+ covers; every target that restricts to the supplier says so. FiniteFlatGroupsAndIntegralPadicHodgeTheory
+ §§R07.4.7–R07.4.8 is a sibling consumer of the same objects in the perfect-residue case
+ `W(k)[1/p], q = p`, `t ↦ t^p`; its §§R07.3.2–R07.3.3 (weak admissibility, Newton above Hodge) are
+ used in RD.7.22.
 - RestrictedPowerSeries §§1.1–1.2, 5.1 and 7.1 supplies closed/open disc coefficients and simultaneous classical distinguished coordinates; RigidAnalyticGeometry §1.2 supplies classical affinoid normalization. RD.0.2 identifies its disc subcases with the supplied carriers and topologies; RD.3.26 supplies the additional compatible dagger-coordinate adapter.
 - DerivedDeRhamCohomology §PD.6: divided powers, relative PD envelopes and completed envelopes.
 - CongruenceSpectralGap §§4.2a–4.2b: the coefficient-generic scalar hyper-Kloosterman sum, its
@@ -571,7 +576,6 @@ Section numbers are those of the roadmaps named; each is built before this one.
 
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory.**
 
-- §R07.4.4 (*Fontaine's equivalence for étale `φ`-modules over a Cohen ring*): used in RD.2.20, RD.2.25.
 - §§R07.3.2–R07.3.3: used in RD.7.22.
 
 **InverseGaloisAndArithmeticFundamentalGroups.**
@@ -598,6 +602,11 @@ Section numbers are those of the roadmaps named; each is built before this one.
 **ModularCurvesPartII.**
 
 - §11.1 (*Igusa components of modular fibres*): used in RD.5.105.
+
+**NoncommutativeAndEquivariantIwasawa.**
+
+- §F.6 stage 1 (*Field Robba and étale prefix*: Robba, bounded, integral and Amice carriers over complete discretely valued fields of characteristic 0, analytic Frobenius extension, Cohen-ring étale equivalence, Frobenius-fixed bases and finite-level descent): used in RD.0.1, RD.2.20, RD.2.25.
+- §F.6 stage 2 (*Slope and local-monodromy prefix*: slope theory with the adapter `deg_w = e_C·deg`; horizontality, quasi-unipotence, finite-étale unipotence and the logarithmic horizontal basis for finite coefficient fields): used in RD.2.7, RD.2.31–RD.2.33.
 
 **NewtonPolygons.**
 
@@ -661,7 +670,7 @@ characteristics.
 
 ### RD.0.1 Laurent, Robba and Amice coefficient carriers
 
-**Definition.** For a complete nontrivially nonarchimedean normed field `K`, define `A(r,1)`, for `0 < r < 1`, by the Laurent coefficient families `(a_n)` with `|a_n|ρ^n` tending to zero as `|n|` tends to infinity for every `r < ρ < 1`; multiply by convergent Cauchy convolution. Define `R_K` as their directed union, with each `A(r,1)` carrying its radius-indexed Fréchet topology and `R_K` its locally convex inductive-limit topology. Define `R^bd` by bounded coefficients and `R^int` by integral coefficients. For the Amice ring `E` require bounded coefficients and `a_n → 0` as `n → −∞; O_E` is its integral part. These carrier definitions also make sense in equal characteristic; the differential and Frobenius statements below impose their own characteristic hypotheses. For discretely valued `K, O_E` is the integral part of `E, R^bd = R^int[1/π]` and `E = O_E[1/π]`. These are coefficient carriers before a Frobenius lift is chosen; their chart, inductive-limit, valuation and weak topologies are specified separately.
+**Definition.** For a complete nontrivially nonarchimedean normed field `K`, define `A(r,1)`, for `0 < r < 1`, by the Laurent coefficient families `(a_n)` with `|a_n|ρ^n` tending to zero as `|n|` tends to infinity for every `r < ρ < 1`; multiply by convergent Cauchy convolution. Define `R_K` as their directed union, with each `A(r,1)` carrying its radius-indexed Fréchet topology and `R_K` its locally convex inductive-limit topology. Define `R^bd` by bounded coefficients and `R^int` by integral coefficients. For the Amice ring `E` require bounded coefficients and `a_n → 0` as `n → −∞; O_E` is its integral part. These carrier definitions also make sense in equal characteristic; the differential and Frobenius statements below impose their own characteristic hypotheses. For discretely valued `K, O_E` is the integral part of `E, R^bd = R^int[1/π]` and `E = O_E[1/π]`. These are coefficient carriers before a Frobenius lift is chosen; their chart, inductive-limit, valuation and weak topologies are specified separately. On complete discretely valued `K` of characteristic 0 with residue field of characteristic `p` these carriers, their Gauss norms, the bounded and integral subrings and the Amice ring are those of NoncommutativeAndEquivariantIwasawa §F.6 stage 1, restricted along the identity on Laurent coefficients after fixing the coefficient embedding and the lifted parameter; the definition over arbitrary complete nontrivially nonarchimedean `K` is this roadmap's extension of them.
 
 *Hypotheses.*
 
@@ -682,14 +691,14 @@ The API:
 
 *Proof sketch.* Construct the Laurent subalgebras by radius-wise summability of convolution. Positive radii are mandatory. Define restriction, Gauss norms only at radii of convergence, the directed union and its final locally convex topology. This is the coefficient construction of Kedlaya, overview Definition 3.5.1, before the Cohen/Witt comparison. The precise topologies are [§RD.0.2](#rd-0-2) and the field extensions [§RD.0.17](#rd-0-17); both are stated on these underlying coefficient carriers. Define bounded and integral coefficient subrings and the complete bounded Amice carrier. Multiplication is convergent Cauchy convolution, not pointwise multiplication; the negative-tail condition makes reduction an element of `k((t))`. (Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Definition 3.5.1, p. 15; Kedlaya, *A p-adic local monodromy theorem*, §2.3, pp. 12–14.)
 
-*Needs:* Mathlib `DiscreteConvolution.ringConvolution`.
+*Needs:* Mathlib `DiscreteConvolution.ringConvolution`; NoncommutativeAndEquivariantIwasawa §F.6 stage 1 *Field Robba and étale prefix* (the carriers over complete discretely valued fields of characteristic 0).
 
 **Checks.**
 
 - `robba_coordinate_inverse`: The Laurent monomials `t` and `t^−1` multiply to 1.
 - `robba_constants_coefficients`: The constant series `C(c)` has coefficient `c` at 0 and zero at all nonzero indices.
 - `robba_negative_tail_nonexample`: The coefficient family equal to 1 at every negative index and 0 elsewhere belongs neither to `R_K` nor to `E`.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- On complete discretely valued `K` of characteristic 0 (for instance `K=W(k)[1/p]`), the carriers `R_K, R^bd, R^int, E, O_E` and their Gauss norms are NoncommutativeAndEquivariantIwasawa §F.6 stage 1's, restricted along the identity on Laurent coefficients once the coefficient embedding and the lifted parameter are fixed. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same carriers for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Over complete nonarchimedean `K` that is not discretely valued, or of positive characteristic, the carriers are this roadmap's own.
 
 <a id="rd-0-2"></a>
 
@@ -1431,7 +1440,7 @@ The API:
 - `t` is a unit of `R^int; π` is not a unit of `R^int` but is a unit of `R^bd; t − p = t(1 − p t^{-1})` is a unit of `R^int` because `p t^{-1} ∈ m_R`.
 - `Σ_{n≥0} p^n t^{-p^n}` lies in `O_E` but not in `R^int` (completion versus overconvergence target).
 - The residue field of `R^int` is `k((t))`, not `k`: the reduction of `Σ c_i t^i` is `Σ c̄_i t^i`.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- The ring `R^bd` here is NoncommutativeAndEquivariantIwasawa §F.6 stage 1's bounded subring `R_K^bd = R_K^int[1/π]`, restricted along the identity on Laurent coefficients once the coefficient embedding and the lifted parameter are fixed; the statement proved here is about that carrier. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same ring for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`.
 
 <a id="rd-0-27"></a>
 
@@ -1455,7 +1464,7 @@ The API:
 
 - `Π_{i≥1}(1 − t^{p^i}/p^i) ∈ R` has infinitely many slopes accumulating at the boundary and is not a unit.
 - `t` is a unit; `1 + p t^{-1}` is a unit; `log(1+t)` is not a unit of `R` (it vanishes at the points `ζ − 1, ζ` a p-power root of unity, which approach the boundary).
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- The ring `R^bd` here is NoncommutativeAndEquivariantIwasawa §F.6 stage 1's bounded subring `R_K^bd = R_K^int[1/π]`, restricted along the identity on Laurent coefficients once the coefficient embedding and the lifted parameter are fixed; the statement proved here is about that carrier. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same ring for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`.
 
 <a id="rd-0-28"></a>
 
@@ -1647,7 +1656,7 @@ The API:
 - `extendedRobba_not_over_bounded`: `H⁰(R^alg(−1)) ≠ 0` while `H⁰(Γ^alg_con[π^{-1}](−1)) = 0`: the eigenvector `Σ [y^{q^{-i}}]π^i` is not bounded.
 - For the trivially valued perfect field `ℓ = k^alg` one gets `W(k^alg, O)[π^{-1}]`, the base of classical Dieudonné-Manin theory.
 - `H⁰` of the rank-one `σ`-module `R^alg(−1)` is in bijection with the maximal ideal of `ℓ^alg` (Lemma 4.3.1): nonzero Frobenius eigenvectors of negative slope exist over `R^alg` but not over `O[π^{-1}]`.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 
 <a id="rd-0-35"></a>
 
@@ -2275,7 +2284,7 @@ The Checks of the targets above are the worked examples of this layer.
 
 ### Dependencies
 
-Earlier layers: none. Other roadmaps: AdicSpacesPartIV, LocallyAnalyticDistributions, PadicFunctionalAnalysis, SchemeAndStackFoundations. Libraries: Mathlib.
+Earlier layers: none. Other roadmaps: AdicSpacesPartIV, LocallyAnalyticDistributions, NoncommutativeAndEquivariantIwasawa, PadicFunctionalAnalysis, SchemeAndStackFoundations. Libraries: Mathlib.
 
 ## Layer RD.1: Differential modules, radii and Frobenius slopes
 
@@ -2911,7 +2920,7 @@ The API:
 - `frobeniusModule_isogeny_integral`: Over `R^int, F = π` on `R^int` is a `σ`-module structure `(R^int(1))`, isomorphic after inverting `π` to `R^bd(1)` but not isomorphic over `R^int` to `R^int(0)`.
 - Rank one `A(n)`: basis `e` with `F e = π^n e; H⁰(A(0)) ⊇` the `σ`-fixed elements of `O_K[π^{-1}]`.
 - For `A = W(k)[1/p], k` perfect, `O = W(k), σ` the Witt Frobenius and `q = p, σ`-modules are Mathlib's isocrystals WittVector.Isocrystal `p k V` and `A(m)` is StandardOneDimIsocrystal `p k m`.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 
 <a id="rd-1-22"></a>
 
@@ -3028,7 +3037,7 @@ The API:
 - `degree_not_matrix_entries`: The slope cannot be read off the valuations of the entries of one Frobenius matrix: the matrix [[0, 1],`[p, 0]]` has entries of valuations 0 and 1, but degree 1 and slope 1/2 (it is `M_{1,2}`).
 - `deg(A(n)) = n; μ(M_{c,d}) = c/d`.
 - For `O = W(k) (π = p)`, a `σ`-module over `W(k)[1/p]` with F-matrix `diag(1, p)` has degree 1 and slope 1/2.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 
 <a id="rd-1-26"></a>
 
@@ -3062,7 +3071,7 @@ The API:
 - `hnFiltration_compat_bundles`: Under the sign change `μ ↦ −μ` these are the usual Harder–Narasimhan conventions for vector bundles (semistable means `μ(N) ≤ μ(M)` for subobjects `N`), so `A(1)`, of arithmetic slope 1, corresponds to a bundle of slope `−1`.
 - `A(0) ⊕ A(1)` is not semistable (`A(0)` is a submodule of smaller slope); its HN filtration is `0 ⊂ A(0) ⊂ A(0) ⊕ A(1)` with polygon slopes 0, 1.
 - `M_{1,2}` is stable of slope 1/2 and has HN polygon with slopes 1/2, 1/2.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 - The zero module gives the singleton `(0,0)`, with no slopes, rather than the supplier's empty polygon. On `[0,2]`, slopes `(1,1)` dominate `(0,2)` with equal endpoint `(2,2)`; dominance is not termwise slope comparison.
 
 <a id="rd-1-27"></a>
@@ -3099,7 +3108,7 @@ The API:
 - `standard_not_diagonal`: `M_{1,2}` has no basis of F-eigenvectors with integral slopes: such a basis would give integral HN slopes, contradicting {1/2, 1/2}. Individual eigenvectors are not ruled out. `F^2(e_i) = πe_i` on each displayed basis vector; on arbitrary vectors `F^2` acts by `π` times `σ²` on coefficients.
 - `M_(1,2) ⊗ M_(1,2) ≅ M_(1,1)^(⊕4) = A(1)^(⊕4)`; the multiplicity is `2·2/1 = 4`.
 - Sign dictionary: the standard vector-bundle block of slope `d/h (φ(e_h) = π^{-d}e_1)` is Kedlaya's `M_{−d,h}`; its isocrystal slope is `−d/h`, and the associated bundle has slope `+d/h`.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 
 <a id="rd-1-28"></a>
 
@@ -3291,7 +3300,7 @@ The API:
 - `slopes_generic_ne_special`: For `F v_1 = v_2, F v_2 = p v_1 + u v_2` over `R^bd` (`u = t`, standard lift, `O = ℤ_p`) the generic slopes are {0, 1} but the special slopes are {1/2, 1/2}: generic and special slopes must not be conflated.
 - `slopes_not_charpoly`: The slope polygon is in general not the Newton polygon of the characteristic polynomial of a Frobenius matrix (Notes on isocrystals Remark 3.4, citing Katz; slope filtrations revisited Remark 5.2.7); it is for the companion matrix of a cyclic vector (generic-Newton-polygon target).
 - The Newton polygons of `x^2 − x − 3` (at 3) and `x^2 − 5` (at 5) have slopes {0, 1} and {1/2, 1/2}: these are the generic polygons of the `σ`-modules with F-matrices [[0,1],[3,1]] over `W(F̄_3)[1/3]` and [[0,1],[5,0]] over `W(F̄_5)[1/5]`.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 
 <a id="rd-1-36"></a>
 
@@ -3323,7 +3332,7 @@ The API:
 - `not_isIsoclinic_sum`: `R(0) ⊕ R(1)` is not isoclinic.
 - `isUnitRoot_compat_isocrystal`: An isocrystal over `W(k)[1/p]` is unit-root iff it has an F-stable `W(k)`-lattice on which `F` is bijective (étale), matching Notes on isocrystals Definition 3.3.
 - `R(c)` is isoclinic of slope `c; M_{1,2} ⊗ R` is isoclinic of slope 1/2; `R(0) ⊕ R(1)` is not isoclinic.
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 - The completed coefficient `Σ_{n≥0}pⁿt^(−pⁿ) ∈ O_E` has term norms `p⁻ⁿρ^(−pⁿ)` that do not tend to zero at any `ρ<1`. Thus the ring diagram supplies no analytic base change from arbitrary `E`-modules to `R^alg`.
 
 <a id="rd-1-37"></a>
@@ -4539,13 +4548,13 @@ these categories.
 
 - Unit-root example: `M = R_K·e` with `F e = e` is the base change of `R^bd·e`; the rank one `σ`-module `R_K(c)` is isoclinic of slope `c` and descends to `R^bd(c)`.
 - The special-but-not-generic isoclinic case: SFR §7.3's `M` is isoclinic of special slope 1/2 over `Γ_an,con`, so by (c) `M ⊗ Γ_an,con` has a model over `Γ_con[π^{-1}]` that is isoclinic of GENERIC slope 1/2 — necessarily different from the given model (generic slopes 0, 1).
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 
 <a id="rd-2-7"></a>
 
 ### RD.2.7 Slope filtration theorem for `σ`-modules over the Robba ring (Kedlaya)
 
-**Theorem.** Let `M` be a `σ`-module over `Γ_an,con = Γ^E_an,con` with `E = k((t))` (i.e. over the Robba ring `R_K` with a Frobenius lift `φ`, [§RD.0.5](#rd-0-5)), or more generally over `Γ^E_an,con` for `E` complete with enough units. Then there is a UNIQUE filtration `0 = M_0 ⊂ M_1 ⊂`... `⊂ M_l = M` by saturated `σ`-submodules such that (a) each `M_i/M_{i−1}` is isoclinic of some slope `s_i` and (b) `s_1 <`... `< s_l`; it is the HN filtration of `M`. Moreover: (c) its formation commutes with base change to `Γ^{E'}_an,con` for any complete extension `E'` of `E` with enough units (in particular to `Γ^alg_an,con`, so absolute HN slopes are the HN slopes); (d) `M` is semistable iff it is isoclinic; (e) (precise form, arXiv:math/0110124 Theorem 6.10) each `M_i/M_{i−1}` contains a unique F-stable `Γ_con[π^{-1}]`-submodule `N_i` of the same rank spanning it over `Γ_an,con`, all of whose generic slopes equal `s_i`; conditions (a),(b) determine the filtration uniquely. In the notation of arXiv:math/0110124 (Theorem 1.2): `M_i/M_{i−1} ≅ N_i ⊗ Γ_an,con` with `N_i` defined over `Γ_con[1/p]` and all slopes of `N_i` equal to `s_i`.
+**Theorem.** Let `M` be a `σ`-module over `Γ_an,con = Γ^E_an,con` with `E = k((t))` (i.e. over the Robba ring `R_K` with a Frobenius lift `φ`, [§RD.0.5](#rd-0-5)), or more generally over `Γ^E_an,con` for `E` complete with enough units. Then there is a UNIQUE filtration `0 = M_0 ⊂ M_1 ⊂`... `⊂ M_l = M` by saturated `σ`-submodules such that (a) each `M_i/M_{i−1}` is isoclinic of some slope `s_i` and (b) `s_1 <`... `< s_l`; it is the HN filtration of `M`. Moreover: (c) its formation commutes with base change to `Γ^{E'}_an,con` for any complete extension `E'` of `E` with enough units (in particular to `Γ^alg_an,con`, so absolute HN slopes are the HN slopes); (d) `M` is semistable iff it is isoclinic; (e) (precise form, arXiv:math/0110124 Theorem 6.10) each `M_i/M_{i−1}` contains a unique F-stable `Γ_con[π^{-1}]`-submodule `N_i` of the same rank spanning it over `Γ_an,con`, all of whose generic slopes equal `s_i`; conditions (a),(b) determine the filtration uniquely. In the notation of arXiv:math/0110124 (Theorem 1.2): `M_i/M_{i−1} ≅ N_i ⊗ Γ_an,con` with `N_i` defined over `Γ_con[1/p]` and all slopes of `N_i` equal to `s_i`. For `E = k((t))` with an overconvergent Frobenius lift, (a), (b) and (e) are consumed from NoncommutativeAndEquivariantIwasawa §F.6 stage 2: its slope filtration and pure descended models are the same submodules, and each slope `s_i` here is `e = v_π(p)` times the supplier's `p`-normalised slope (its adapter `deg_w = e_C·deg`); the proof sketch below is needed for the more general `E` with enough units and for (c) and (d).
 
 *Hypotheses.*
 
@@ -4565,7 +4574,7 @@ these categories.
 
 *Sources.* Kedlaya, *Slope filtrations revisited*, Theorem 6.4.1, p. 65, and Corollary 6.4.2, p. 66; Kedlaya, *A p-adic local monodromy theorem*, Section 1.2, Theorem 1.2, p. 5, and Section 6.3, Theorem 6.10 and proof, pp. 77-78, and Theorem 1.2, Ann. of Math. 160 (2004), p. 97.
 
-*Needs:* [§RD.2.6](#rd-2-6) *Isoclinic `σ`-modules descend uniquely from the Robba ring to the bounded Robba ring*; [§RD.1.33](#rd-1-33) *Dieudonné-Manin decomposition of `σ`-modules over the extended Robba ring `R^alg` (Kedlaya)*; [§RD.1.28](#rd-1-28) *Existence of eigenvectors and of embeddings of twists over `R^alg`*; [§RD.1.26](#rd-1-26) *Semistable and stable `σ`-modules, HN filtrations, HN polygons and descent of subobjects*; [§RD.0.30](#rd-0-30) *Finite modules over Bézout domains: unimodular rows, saturated spans, freeness, Galois descent of saturated submodules*; [§RD.2.5](#rd-2-5) *Good models: every `σ`-module over `Γ_an,con` has, after a finite separable extension, a model with equal polygons*; [§RD.2.4](#rd-2-4) *Coincident generic and special polygons give a common filtration over `Γ_con[π^{-1}]`*; [§RD.0.31](#rd-0-31) *Finite separable extensions: `Γ^L_con` finite étale over `Γ^ℓ_con` and `Γ^L_an,con = Γ^ℓ_an,con ⊗ Γ^L_con`*; [§RD.1.36](#rd-1-36) *Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.1.35](#rd-1-35) *Frobenius slopes and Newton (HN) polygons of `σ`-modules: generic slopes over `E` and `R^bd`, special slopes over `R`*; [§RD.1.29](#rd-1-29) *Every `σ`-module over `Γ_an,con` has a Harder-Narasimhan filtration*; [§RD.1.40](#rd-1-40) *Descent of a saturated subobject through its determinant line*.
+*Needs:* NoncommutativeAndEquivariantIwasawa §F.6 stage 2 *Slope and local-monodromy prefix* (slope filtration and pure descent for `E = k((t))`); [§RD.2.6](#rd-2-6) *Isoclinic `σ`-modules descend uniquely from the Robba ring to the bounded Robba ring*; [§RD.1.33](#rd-1-33) *Dieudonné-Manin decomposition of `σ`-modules over the extended Robba ring `R^alg` (Kedlaya)*; [§RD.1.28](#rd-1-28) *Existence of eigenvectors and of embeddings of twists over `R^alg`*; [§RD.1.26](#rd-1-26) *Semistable and stable `σ`-modules, HN filtrations, HN polygons and descent of subobjects*; [§RD.0.30](#rd-0-30) *Finite modules over Bézout domains: unimodular rows, saturated spans, freeness, Galois descent of saturated submodules*; [§RD.2.5](#rd-2-5) *Good models: every `σ`-module over `Γ_an,con` has, after a finite separable extension, a model with equal polygons*; [§RD.2.4](#rd-2-4) *Coincident generic and special polygons give a common filtration over `Γ_con[π^{-1}]`*; [§RD.0.31](#rd-0-31) *Finite separable extensions: `Γ^L_con` finite étale over `Γ^ℓ_con` and `Γ^L_an,con = Γ^ℓ_an,con ⊗ Γ^L_con`*; [§RD.1.36](#rd-1-36) *Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.1.35](#rd-1-35) *Frobenius slopes and Newton (HN) polygons of `σ`-modules: generic slopes over `E` and `R^bd`, special slopes over `R`*; [§RD.1.29](#rd-1-29) *Every `σ`-module over `Γ_an,con` has a Harder-Narasimhan filtration*; [§RD.1.40](#rd-1-40) *Descent of a saturated subobject through its determinant line*.
 
 **Checks.**
 
@@ -4573,7 +4582,8 @@ these categories.
 - Bessel isocrystal (arXiv:math/0110124 §1.5): `l = 1, s_1 = 1`/2 (`v_p` normalisation): `N_1` has generic slopes 1/2, 1/2 although the given model over `Γ_con` has generic slopes 0 and 1; generic and special slopes must be distinguished.
 - SFR §7.3 example `(F v_1 = v_2, F v_2 = p v_1 + u v_2, u^σ = u^p)`: the slope filtration of `M ⊗ R_K` is `0 ⊂ M ⊗ R_K` (isoclinic of slope 1/2), while the generic slope filtration over `Γ[π^{-1}]` has two steps.
 - `R(0) ⊕ R(1): M_1 = R(0), s_1 = 0 < s_2 = 1`; the filtration is not required to split over `R_K` and does not in general ([§RD.1.38](#rd-1-38)).
-- In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- Normalisation adapter: with the Conventions `v_π(π) = 1`, `v_p(p) = 1` and `e = v_π(p)`, the slopes here are the supplier's `p`-normalised slopes times `e`, matching `deg_w = e_C·deg` with `e_C = e`. For `K = ℚ_p(√p)`, `σ_K = id` and `σ(t) = t^p`, the rank-one module `F(v) = √p·v` has slope `1` here and `1/2` in the supplier; without the factor `e` it would be identified with `F(v) = p·v`, which has slope `2` here.
+- For modules over the Robba ring over complete discretely valued `K` of characteristic 0 with an overconvergent Frobenius lift, degrees, slopes, extended Robba modules, the Dieudonné–Manin decomposition, the slope filtration and descent of pure modules are NoncommutativeAndEquivariantIwasawa §F.6 stage 2's: the same submodules, with each uniformiser-normalised slope label here equal to `e` times the supplier's `p`-normalised label (its adapter `deg_w = e_C·deg`). FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8 consumes the same objects for a perfect residue field `k`, `K=W(k)[1/p]`, `q=p` and `σ(t)=t^p`. Outside that domain the target is this roadmap's own.
 
 <a id="rd-2-8"></a>
 
@@ -4923,7 +4933,7 @@ The API:
 
 ### RD.2.20 Unit-root Frobenius modules are trivialised over `Ẽ`, and become `c`-constant over a finite separable extension
 
-**Lemma.** Setting of [§RD.0.5](#rd-0-5): `K` is complete for a discrete valuation, of characteristic 0, with ring of integers `O_K`, uniformiser `π` and residue field `k` of characteristic `p; σ` is a Frobenius lift on `R^int` (a ring endomorphism extending a `q`-power Frobenius lift `σ_K` of `K` and reducing to the absolute `q`-power map `x ↦ x^q` of `k((t))`), `q = p^a; E = O_E[1/π]` is the Amice ring and `E† = R^bd` the bounded Robba ring, both with `d = d/dt`. Let `M_0` be a finite free `R^int`-module (or `O_E`-module) of `rank n` with a `σ`-semilinear `F` whose linearisation `σ^*M_0 → M_0` is an isomorphism (an étale lattice of a unit-root `σ`-module). Then: (a) `M_0 ⊗ O_Ẽ` has a basis of F-fixed vectors, and `(M_0 ⊗ O_Ẽ)^{F=1}` is a free module of `rank n` over `O_Ẽ^{σ=1}`; (b) for each `m ≥ 1` the set of F-fixed vectors of `M_0 ⊗ O_Ẽ/π^m` is finite, and each of them is fixed by an open subgroup of `G`; (c) consequently, for each `m ≥ 1` there is a finite Galois extension `L` of `k((t))` such that `M_0 ⊗ R^int_L` (for `R^int` input), respectively `M_0 ⊗ O_{E_L}` (for `O_E` input), has a basis on which `F` acts by a matrix `A ≡ I (mod π^m)`. In particular every unit-root `(σ,∇)`-module `M` over `E†` becomes `c`-constant ([§RD.2.19](#rd-2-19)) over `E†_L` for any prescribed `c ∈ (0,1)` and a suitable finite separable `L/k((t))` depending on `c`.
+**Lemma.** Setting of [§RD.0.5](#rd-0-5): `K` is complete for a discrete valuation, of characteristic 0, with ring of integers `O_K`, uniformiser `π` and residue field `k` of characteristic `p; σ` is a Frobenius lift on `R^int` (a ring endomorphism extending a `q`-power Frobenius lift `σ_K` of `K` and reducing to the absolute `q`-power map `x ↦ x^q` of `k((t))`), `q = p^a; E = O_E[1/π]` is the Amice ring and `E† = R^bd` the bounded Robba ring, both with `d = d/dt`. Let `M_0` be a finite free `R^int`-module (or `O_E`-module) of `rank n` with a `σ`-semilinear `F` whose linearisation `σ^*M_0 → M_0` is an isomorphism (an étale lattice of a unit-root `σ`-module). Then: (a) `M_0 ⊗ O_Ẽ` has a basis of F-fixed vectors, and `(M_0 ⊗ O_Ẽ)^{F=1}` is a free module of `rank n` over `O_Ẽ^{σ=1}`; (b) for each `m ≥ 1` the set of F-fixed vectors of `M_0 ⊗ O_Ẽ/π^m` is finite, and each of them is fixed by an open subgroup of `G`; (c) consequently, for each `m ≥ 1` there is a finite Galois extension `L` of `k((t))` such that `M_0 ⊗ R^int_L` (for `R^int` input), respectively `M_0 ⊗ O_{E_L}` (for `O_E` input), has a basis on which `F` acts by a matrix `A ≡ I (mod π^m)`. In particular every unit-root `(σ,∇)`-module `M` over `E†` becomes `c`-constant ([§RD.2.19](#rd-2-19)) over `E†_L` for any prescribed `c ∈ (0,1)` and a suitable finite separable `L/k((t))` depending on `c`. When `K` is a finite extension of `ℚ_p`, (a)–(c) are NoncommutativeAndEquivariantIwasawa §F.6 stage 1's Frobenius-fixed bases and finite-level descent, consumed with the same fixed-vector functors; the proof sketch below gives the extension to arbitrary residue field `k` and arbitrary `σ_K`.
 
 *Hypotheses.*
 
@@ -4932,14 +4942,14 @@ The API:
 
 *Proof sketch.*
 
-1. Modulo `π: M_0/π` is an étale `q`-power Frobenius module over `k((t))`; over `k((t))^sep` its F-fixed vectors span and form an `𝔽_q`-space of dimension `n` (Lang's theorem; the p-power, `ℤ_p`-coefficient case is FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.4 `(i)`, and the `q`-power case is the same argument applied to `F`, whose fixed-point equations `X^{(q)} = A^{−1}X` are étale of degree `q^n`).
+1. Modulo `π: M_0/π` is an étale `q`-power Frobenius module over `k((t))`; over `k((t))^sep` its F-fixed vectors span and form an `𝔽_q`-space of dimension `n` (Lang's theorem; the p-power, `ℤ_p`-coefficient case is the `p`-torsion (Artin–Schreier) case of NoncommutativeAndEquivariantIwasawa §F.6 stage 1's Cohen-ring étale equivalence, valid over every field of characteristic `p`, and the `q`-power case is the same argument applied to `F`, whose fixed-point equations `X^{(q)} = A^{−1}X` are étale of degree `q^n`).
 2. Lifting: if `v` is F-fixed modulo `π^j`, write `F v − v = π^j w`; a correction `v + π^j y` is F-fixed modulo `π^{j+1}` iff `ȳ − ū^j·F̄(ȳ) = w̄` modulo `π`, where `σ(π) = uπ` (indeed `F(v + π^j y) − v − π^j y = π^j(w + u^j F(y) − y)`); in coordinates this is a system `x − c·x^{(q)} = b` over `k((t))^sep`, separable (derivative 1) and solvable with finitely many solutions. Completeness of `O_Ẽ` gives F-fixed lifts and Nakayama's lemma gives a basis (a); this is Kedlaya, p-adic Differential Equations, proof of Proposition 19.1.5 (via the first part of Theorem 14.6.3, the residue field of `Ẽ` being separably closed).
 3. (b) Each level is cut out by finitely many étale polynomial equations, so the solutions are finite in number and algebraic and separable over `k((t))`; hence each is fixed by an open subgroup of `G`.
 4. (c) Let `L` be the Galois closure of the field generated by the coordinates of an F-fixed basis modulo `π^m`. Since `R^int_L/π^m = O_{E_L}/π^m` ([§RD.2.18](#rd-2-18) (a)), the fixed basis modulo `π^m` lifts to a basis over `R^int_L` for `R^int` input and over `O_{E_L}` for `O_E` input, on which `F` acts by `A ≡ I (mod π^m)`. The equality of the quotients does not give an analytic model for a completed module. For the overconvergent input choose `m` with `|π|^m ≤ c` (Kedlaya, proof of Theorem 19.3.1, p. 321, where `L` is chosen to make `M c`-constant).
 
 *Sources.* Kedlaya, *p-adic Differential Equations*, Proposition 19.1.5 and its proof, pp. 315-316; Theorem 14.6.3 (first part of the proof), p. 256, and Proof of Theorem 19.3.1, p. 321; Kedlaya, *A p-adic local monodromy theorem*, Proposition 6.11, statement, p. 79 (arXiv v4).
 
-*Needs:* [§RD.2.18](#rd-2-18) *Unramified extensions `E_L, E†_L` and the completed maximal unramified extension `Ẽ` of the Amice ring*; [§RD.2.19](#rd-2-19) *`c`-constant unit-root `(σ,∇)`-modules*; [§RD.1.39](#rd-1-39) *F-stable lattices: nonnegative generic slopes versus integral models*; [§RD.1.36](#rd-1-36) *Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`*; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.4 *Fontaine's equivalence for étale `φ`-modules over a Cohen ring*.
+*Needs:* [§RD.2.18](#rd-2-18) *Unramified extensions `E_L, E†_L` and the completed maximal unramified extension `Ẽ` of the Amice ring*; [§RD.2.19](#rd-2-19) *`c`-constant unit-root `(σ,∇)`-modules*; [§RD.1.39](#rd-1-39) *F-stable lattices: nonnegative generic slopes versus integral models*; [§RD.1.36](#rd-1-36) *Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`*; NoncommutativeAndEquivariantIwasawa §F.6 stage 1 *Field Robba and étale prefix* (Cohen-ring étale equivalence; Frobenius-fixed bases and finite-level descent for finite coefficient fields).
 
 **Checks.**
 
@@ -5095,7 +5105,7 @@ The API:
 *Hypotheses.*
 
 - `σ` is a Frobenius lift on `E` acting on `K` by `σ_K`, with `σ_K` absolute; the value-group and residue-field hypotheses on `K_0` guarantee `Ẽ^{σ=1} = K_0` ([§RD.2.18](#rd-2-18) (d)).
-- For `ℤ_p`-lattices and a p-power Frobenius on a Cohen ring this is FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.4 (ii); here the coefficients are `O_{K_0}` and the Frobenius has order `q`.
+- The Frobenius-module part (steps 1–3: the equivalence between unit-root `σ`-modules over `E` and continuous `K_0`-representations, with quasi-inverse `D ↦ (D ⊗_E Ẽ)^{F=1}`) is, for `K` finite over `ℚ_p`, NoncommutativeAndEquivariantIwasawa §F.6 stage 1's equivalence over the completed Amice field in the `q`-power form with the fixed-field hypothesis on `K_0 = K^{σ_K=1}` (residue field `𝔽_q`, same value group as `K`); it is consumed there and extended here through [§RD.2.20](#rd-2-20) to arbitrary residue field `k`. Its `ℤ_p`-lattice, `p`-power case is that supplier's Cohen-ring étale equivalence. The redundancy of the connection (step 4) and tensor compatibility (step 5) are this roadmap's own.
 
 *Proof sketch.*
 
@@ -5107,7 +5117,7 @@ The API:
 
 *Sources.* Kedlaya, *p-adic Differential Equations*, Proposition 19.1.5 and Corollary 19.1.6, pp. 315-316, and Remark 19.1.7 and Remark 19.1.8, p. 316; Exercises (1) and (2), p. 325; Kedlaya, *Notes on isocrystals*, Theorem 3.7 and Remark 3.10, pp. 6-7.
 
-*Needs:* [§RD.2.24](#rd-2-24) *Unit-root differential modules `D(V), D†(V)` attached to Galois representations; finite local monodromy*; [§RD.2.20](#rd-2-20) *Unit-root Frobenius modules are trivialised over `Ẽ`, and become `c`-constant over a finite separable extension*; [§RD.2.18](#rd-2-18) *Unramified extensions `E_L, E†_L` and the completed maximal unramified extension `Ẽ` of the Amice ring*; [§RD.0.36](#rd-0-36) *The derivation `d/dt` on annulus rings, `R, R^bd, R^int, O_E` and `E`, its norm bounds and `Ω^1 = R dt`*; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.4 *Fontaine's equivalence for étale `φ`-modules over a Cohen ring*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*; [§RD.1.36](#rd-1-36) *Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`*.
+*Needs:* [§RD.2.24](#rd-2-24) *Unit-root differential modules `D(V), D†(V)` attached to Galois representations; finite local monodromy*; [§RD.2.20](#rd-2-20) *Unit-root Frobenius modules are trivialised over `Ẽ`, and become `c`-constant over a finite separable extension*; [§RD.2.18](#rd-2-18) *Unramified extensions `E_L, E†_L` and the completed maximal unramified extension `Ẽ` of the Amice ring*; [§RD.0.36](#rd-0-36) *The derivation `d/dt` on annulus rings, `R, R^bd, R^int, O_E` and `E`, its norm bounds and `Ω^1 = R dt`*; NoncommutativeAndEquivariantIwasawa §F.6 stage 1 *Field Robba and étale prefix* (completed-Amice equivalence with the `K_0` fixed-field hypothesis; Cohen-ring étale equivalence); [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*; [§RD.1.36](#rd-1-36) *Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`*.
 
 **Checks.**
 
@@ -5283,7 +5293,7 @@ The API:
 
 ### RD.2.31 The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent
 
-**Theorem.** Let `K` be a complete DISCRETELY VALUED field of characteristic 0 with residue field `k` of characteristic `p` (`k` arbitrary), `R_K` the Robba ring over `K` and `φ` ANY Frobenius lift on `R_K` ([§RD.0.5](#rd-0-5)). Then every `(φ,∇)`-module `M` over `R_K` ([§RD.1.43](#rd-1-43)) is quasi-unipotent ([§RD.2.14](#rd-2-14)): there is a finite separable extension `L` of `k((t))` (nearly finite separable if `k` is imperfect) such that `M ⊗_{R_K} R^L` admits a filtration by `(φ,∇)`-submodules whose successive quotients are spanned by horizontal sections; equivalently `M` admits a filtration over `R_K` by `(φ,∇)`-submodules with quasi-constant successive quotients. The filtration may be taken to be the slope filtration refined as follows: each step `M_i` of the slope filtration is a `(φ,∇)`-submodule, each bounded model `N_i` is `∇`-stable and becomes spanned by horizontal sections over `R^{bd}_L` ([§RD.2.30](#rd-2-30)). (arXiv:math/0110124 Theorem 1.1 and its precise form Theorem 6.12; SFR Theorem 7.2.5; Kedlaya overview Theorem 6.2.1.)
+**Theorem.** Let `K` be a complete DISCRETELY VALUED field of characteristic 0 with residue field `k` of characteristic `p` (`k` arbitrary), `R_K` the Robba ring over `K` and `φ` ANY Frobenius lift on `R_K` ([§RD.0.5](#rd-0-5)). Then every `(φ,∇)`-module `M` over `R_K` ([§RD.1.43](#rd-1-43)) is quasi-unipotent ([§RD.2.14](#rd-2-14)): there is a finite separable extension `L` of `k((t))` (nearly finite separable if `k` is imperfect) such that `M ⊗_{R_K} R^L` admits a filtration by `(φ,∇)`-submodules whose successive quotients are spanned by horizontal sections; equivalently `M` admits a filtration over `R_K` by `(φ,∇)`-submodules with quasi-constant successive quotients. The filtration may be taken to be the slope filtration refined as follows: each step `M_i` of the slope filtration is a `(φ,∇)`-submodule, each bounded model `N_i` is `∇`-stable and becomes spanned by horizontal sections over `R^{bd}_L` ([§RD.2.30](#rd-2-30)). (arXiv:math/0110124 Theorem 1.1 and its precise form Theorem 6.12; SFR Theorem 7.2.5; Kedlaya overview Theorem 6.2.1.) When `K` is a finite extension of `ℚ_p` (so `k` is finite) and `φ` is overconvergent, the theorem, with horizontality of the slope filtration and of its pure models, is NoncommutativeAndEquivariantIwasawa §F.6 stage 2's quasi-unipotence theorem; the proof consumes it on that domain and extends it to arbitrary `k` and arbitrary lifts through the nearly finite separable covers of [§RD.2.30](#rd-2-30) and the lift independence of [§RD.1.44](#rd-1-44).
 
 *Hypotheses.*
 
@@ -5293,7 +5303,7 @@ The API:
 - Kedlaya 2004 assumes `φ` is a composition power of a p-power Frobenius lift; SFR allows any Frobenius lift, and [§RD.1.44](#rd-1-44) shows the choice of `φ` does not matter.
 - Modules are finite free (finite locally free over the Bézout ring `R_K`, [§RD.0.30](#rd-0-30); finitely presented modules with connection are free, [§RD.2.1](#rd-2-1)).
 
-*Proof sketch.*
+*Proof sketch.* For `K` finite over `ℚ_p` and `φ` overconvergent, take the conclusion from NoncommutativeAndEquivariantIwasawa §F.6 stage 2. Steps 1–5 treat the remaining cases (arbitrary residue field `k`, arbitrary Frobenius lift), outside that supplier's domain.
 
 1. Horizontality of the slope filtration: [§RD.2.9](#rd-2-9) (each `M_i` is a `(φ,∇)`-submodule).
 2. It suffices to show each graded piece `M_i/M_{i−1}` is quasi-unipotent (quasi-unipotence is stable under extensions). Unipotence does not depend on the Frobenius lift, so one may apply `[b]_*` and twist to reduce to the unit-root case (SFR proof of Theorem 7.2.5).
@@ -5303,7 +5313,7 @@ The API:
 
 *Sources.* Kedlaya, *A p-adic local monodromy theorem*, Section 1.1, Theorem 1.1, p. 4, and Section 6.4, p. 180; published Annals 160 (2004), §1.5, pp. 100–101 (Bessel example, with the Artin–Schreier equation corrected below); Kedlaya, *Slope filtrations revisited*, Theorem 7.2.5, p. 68; Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Theorem 6.2.1, p. 39.
 
-*Needs:* [§RD.2.7](#rd-2-7) *Slope filtration theorem for `σ`-modules over the Robba ring (Kedlaya)*; [§RD.2.9](#rd-2-9) *Each step of the slope filtration of a `(σ,∇)`-module is `∇`-stable*; [§RD.2.6](#rd-2-6) *Isoclinic `σ`-modules descend uniquely from the Robba ring to the bounded Robba ring*; [§RD.2.10](#rd-2-10) *The isoclinic model over `R^bd` inherits the connection*; [§RD.2.27](#rd-2-27) *Tsuzuki's theorem: unit-root `(σ,∇)`-modules have finite local monodromy*; [§RD.2.30](#rd-2-30) *The slope pieces become horizontal after a finite (nearly) separable extension*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism `σ_1^*E ≅ σ_2^*E`*; [§RD.2.14](#rd-2-14) *Quasi-unipotent `∇`-modules and `(σ,∇)`-modules*; [§RD.1.22](#rd-1-22) *Restriction and induction of Frobenius `([a]_*, [a]^*)` and Frobenius pullback*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*.
+*Needs:* [§RD.2.7](#rd-2-7) *Slope filtration theorem for `σ`-modules over the Robba ring (Kedlaya)*; [§RD.2.9](#rd-2-9) *Each step of the slope filtration of a `(σ,∇)`-module is `∇`-stable*; [§RD.2.6](#rd-2-6) *Isoclinic `σ`-modules descend uniquely from the Robba ring to the bounded Robba ring*; [§RD.2.10](#rd-2-10) *The isoclinic model over `R^bd` inherits the connection*; [§RD.2.27](#rd-2-27) *Tsuzuki's theorem: unit-root `(σ,∇)`-modules have finite local monodromy*; [§RD.2.30](#rd-2-30) *The slope pieces become horizontal after a finite (nearly) separable extension*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism `σ_1^*E ≅ σ_2^*E`*; [§RD.2.14](#rd-2-14) *Quasi-unipotent `∇`-modules and `(σ,∇)`-modules*; [§RD.1.22](#rd-1-22) *Restriction and induction of Frobenius `([a]_*, [a]^*)` and Frobenius pullback*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*; NoncommutativeAndEquivariantIwasawa §F.6 stage 2 *Slope and local-monodromy prefix* (horizontality and quasi-unipotence for finite coefficient fields).
 
 **Checks.**
 
@@ -5318,7 +5328,7 @@ The API:
 
 ### RD.2.32 Local monodromy theorem in finite étale form (the form used for finiteness of rigid cohomology)
 
-**Theorem.** Let `M` be a free `(σ,∇)`-module over `R_K`. Then there exist an integer `m ≥ 0`, a finite unramified extension `K_1` of `K_0 = K^{σ^{-m}}`, a finite Galois étale extension `R'` of `R^int_{K_1}`, and a continuous `K_1`-algebra isomorphism `R'`' :`= R_{K_1} ⊗_{R^int_{K_1}} R' ≅ R_{K_1}`, such that `M ⊗ R'`' is unipotent, i.e. has a basis `v_1`,..., `v_n` with `∇v_i ∈` (`R'`' `v_1 +`... `+ R'`' `v_{i−1}`) `⊗ dt/t`. The conclusion does not depend on the choice of the isomorphism `R'`' `≅ R_{K_1}`. (Kedlaya, Finiteness of rigid cohomology with coefficients, Theorem 5.1.2.) If `k` is perfect one may take `m = 0`.
+**Theorem.** Let `M` be a free `(σ,∇)`-module over `R_K`. Then there exist an integer `m ≥ 0`, a finite unramified extension `K_1` of `K_0 = K^{σ^{-m}}`, a finite Galois étale extension `R'` of `R^int_{K_1}`, and a continuous `K_1`-algebra isomorphism `R'`' :`= R_{K_1} ⊗_{R^int_{K_1}} R' ≅ R_{K_1}`, such that `M ⊗ R'`' is unipotent, i.e. has a basis `v_1`,..., `v_n` with `∇v_i ∈` (`R'`' `v_1 +`... `+ R'`' `v_{i−1}`) `⊗ dt/t`. The conclusion does not depend on the choice of the isomorphism `R'`' `≅ R_{K_1}`. (Kedlaya, Finiteness of rigid cohomology with coefficients, Theorem 5.1.2.) If `k` is perfect one may take `m = 0`. When `K` is a finite extension of `ℚ_p` and `σ` is overconvergent, the existence of `R'` making `M` unipotent is NoncommutativeAndEquivariantIwasawa §F.6 stage 2's unipotence after a finite separable residue cover lifted to an integral finite étale Robba extension, with `m = 0`; the proof consumes it there and extends it to arbitrary `k` through the nearly finite separable covers of [§RD.2.30](#rd-2-30) (via [§RD.2.31](#rd-2-31)) and the lift independence of [§RD.1.44](#rd-1-44).
 
 *Hypotheses.*
 
@@ -5327,7 +5337,7 @@ The API:
 
 *Proof sketch.* Apply [§RD.2.31](#rd-2-31) directly for the specified general-q lift: `M` becomes unipotent over the Robba ring of a nearly finite separable extension `L` of `k_0((t)), k_0 = k^{q^{-m}}`; enlarge `L` to be Galois and increase `m` so that the residue field `k_1` of `L` is separable over `k_0`. Let `K_1` be the unramified extension of `K_0` with residue field `k_1`; lift `L` to a finite étale `R'` over the henselian `R^int_{K_1}` ([§RD.2.11](#rd-2-11) (a)); the Cohen structure theorem `L ≅ k_1((u))` and a lift of `u` give `R'`' `≅ R_{K_1}` ([§RD.2.11](#rd-2-11) (c)) (Kedlaya, Finiteness, proof of Theorem 5.1.2). (Kedlaya, *Finiteness of rigid cohomology with coefficients*, Theorem 5.1.2 and proof, p. 29; Kedlaya, *A p-adic local monodromy theorem*, Theorem 6.12, pp. 80–82.)
 
-*Needs:* [§RD.2.31](#rd-2-31) *The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism `σ_1^*E ≅ σ_2^*E`*; [§RD.2.11](#rd-2-11) *Finite étale extensions of `R^int` and the Robba rings `R^L` of finite separable extensions of `k((t))`*; [§RD.2.13](#rd-2-13) *Unipotent `∇`-modules over the Robba ring*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*.
+*Needs:* [§RD.2.31](#rd-2-31) *The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism `σ_1^*E ≅ σ_2^*E`*; [§RD.2.11](#rd-2-11) *Finite étale extensions of `R^int` and the Robba rings `R^L` of finite separable extensions of `k((t))`*; [§RD.2.13](#rd-2-13) *Unipotent `∇`-modules over the Robba ring*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*; NoncommutativeAndEquivariantIwasawa §F.6 stage 2 *Slope and local-monodromy prefix* (finite-étale unipotence for finite coefficient fields).
 
 **Checks.**
 
@@ -5340,7 +5350,7 @@ The API:
 
 ### RD.2.33 Logarithmic form of the p-adic local monodromy theorem
 
-**Theorem.** Let `M` be a `(σ,∇)`-module over `R_K` (`K` discretely valued, any `k`, any Frobenius lift). Then for some finite separable (nearly finite separable if `k` is imperfect) extension `L` of `k((t)), M` admits a basis over `R^L_log` of elements of `ker ∇`; i.e. the horizontal sections `V_L(M) := (M ⊗_{R_K} R^L_log)^{∇=0}` satisfy `V_L(M) ⊗_{K'} R^L_log ≅ M ⊗ R^L_log`, where `K'` is the field of constants of `R^L`. If `k` is algebraically closed, `M ⊗ R^L_log` is a direct sum of standard `(σ,∇)`-submodules. (arXiv:math/0110124 Theorem 6.13, the form used in Berger's proof of the p-adic monodromy conjecture.)
+**Theorem.** Let `M` be a `(σ,∇)`-module over `R_K` (`K` discretely valued, any `k`, any Frobenius lift). Then for some finite separable (nearly finite separable if `k` is imperfect) extension `L` of `k((t)), M` admits a basis over `R^L_log` of elements of `ker ∇`; i.e. the horizontal sections `V_L(M) := (M ⊗_{R_K} R^L_log)^{∇=0}` satisfy `V_L(M) ⊗_{K'} R^L_log ≅ M ⊗ R^L_log`, where `K'` is the field of constants of `R^L`. If `k` is algebraically closed, `M ⊗ R^L_log` is a direct sum of standard `(σ,∇)`-submodules. (arXiv:math/0110124 Theorem 6.13, the form used in Berger's proof of the p-adic monodromy conjecture.) When `K` is a finite extension of `ℚ_p` and `σ` is overconvergent, the horizontal basis over `R^L_log` is NoncommutativeAndEquivariantIwasawa §F.6 stage 2's logarithmic horizontal basis, consumed there; the proof extends it to arbitrary `k` through the nearly finite separable covers of [§RD.2.30](#rd-2-30) and the lift independence of [§RD.1.44](#rd-1-44), and the decomposition for algebraically closed `k` is this roadmap's own.
 
 *Hypotheses.* Same hypotheses as [§RD.2.31](#rd-2-31).
 
@@ -5352,7 +5362,7 @@ The API:
 
 *Sources.* Kedlaya, *A p-adic local monodromy theorem*, Theorem 6.13, p. 182, and Section 6.5, Theorem 6.13, pp. 82-83; André, *Filtrations de type Hasse-Arf et monodromie p-adique*, Théorème 0.1.1, p. 2.
 
-*Needs:* [§RD.2.32](#rd-2-32) *Local monodromy theorem in finite étale form (the form used for finiteness of rigid cohomology)*; [§RD.2.31](#rd-2-31) *The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent*; [§RD.2.29](#rd-2-29) *Antiderivatives in the logarithmic Robba ring*; [§RD.2.28](#rd-2-28) *The logarithmic Robba ring `R^L_log = R^L[log u]` with Frobenius, derivation and monodromy operator*; [§RD.2.13](#rd-2-13) *Unipotent `∇`-modules over the Robba ring*; [§RD.1.35](#rd-1-35) *Frobenius slopes and Newton (HN) polygons of `σ`-modules: generic slopes over `E` and `R^bd`, special slopes over `R`*.
+*Needs:* [§RD.2.32](#rd-2-32) *Local monodromy theorem in finite étale form (the form used for finiteness of rigid cohomology)*; [§RD.2.31](#rd-2-31) *The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent*; [§RD.2.29](#rd-2-29) *Antiderivatives in the logarithmic Robba ring*; [§RD.2.28](#rd-2-28) *The logarithmic Robba ring `R^L_log = R^L[log u]` with Frobenius, derivation and monodromy operator*; [§RD.2.13](#rd-2-13) *Unipotent `∇`-modules over the Robba ring*; [§RD.1.35](#rd-1-35) *Frobenius slopes and Newton (HN) polygons of `σ`-modules: generic slopes over `E` and `R^bd`, special slopes over `R`*; NoncommutativeAndEquivariantIwasawa §F.6 stage 2 *Slope and local-monodromy prefix* (logarithmic horizontal basis for finite coefficient fields).
 
 **Checks.**
 
@@ -5900,7 +5910,7 @@ The Checks of the targets above are the worked examples of this layer.
 
 ### Dependencies
 
-Earlier layers: RD.0, RD.1. Other roadmaps: ArithmeticGaloisRepresentations, FiniteFlatGroupsAndIntegralPadicHodgeTheory, LocalFieldsRamification. Libraries: Mathlib and Tau Ceti.
+Earlier layers: RD.0, RD.1. Other roadmaps: ArithmeticGaloisRepresentations, LocalFieldsRamification, NoncommutativeAndEquivariantIwasawa. Libraries: Mathlib and Tau Ceti.
 
 ## Layer RD.3: Frames, convergent and overconvergent coefficients
 
