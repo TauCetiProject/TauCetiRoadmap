@@ -2,7 +2,7 @@
 
 Mathlib has differential forms on normed spaces as maps `E → E [⋀^Fin k]→L[ℝ] F` with the exterior
 derivative `extDeriv` and `extDeriv_extDeriv`; Tau Ceti has test forms with
-`TauCeti.TestFunction.extDerivCLM` (`d ∘ d = 0` on `𝓓(Ω, E [⋀^Fin k]→L[ℝ] F)`), weak derivatives
+`TestFunction.extDerivCLM` (`d ∘ d = 0` on `𝓓(Ω, E [⋀^Fin k]→L[ℝ] F)`), weak derivatives
 `TauCeti.HasWeakFDerivOn`, and the scalar Sobolev spaces `TauCeti.W1p`, `TauCeti.Wkp`. This roadmap
 builds the **Sobolev theory of differential forms on a Euclidean domain**: the weak exterior
 derivative, the Banach spaces `WᵖΛᵏ(Ω)` for `1 ≤ p ≤ ∞` and their Hilbert case `HΛᵏ(Ω) := W²Λᵏ(Ω)`,
@@ -70,7 +70,7 @@ degree `0` and to the divergence in degree `n − 1`.
    converse fails: `sign x₁ dx₁` on `ℝⁿ`, `n ≥ 2`, has weak exterior derivative `0` and no weak
    derivative); the equivalent formulation
    by duality against test forms of degree `k + 1` through the codifferential `δ` of test forms,
-   which is the formal adjoint of `TauCeti.TestFunction.extDerivCLM` with respect to `⟪·,·⟫`
+   which is the formal adjoint of `TestFunction.extDerivCLM` with respect to `⟪·,·⟫`
    (prove this); locality (restriction to open subsets
    and gluing over an open cover).
 2. **`d ∘ d = 0`.** If `HasWeakExtDerivOn Ω u w` and `HasWeakExtDerivOn Ω w z` then `z = 0` a.e.;
