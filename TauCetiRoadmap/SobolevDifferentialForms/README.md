@@ -23,19 +23,35 @@ gluing, closed range, Hodge decomposition) and the vector-calculus special cases
   norm, which is not a Hilbert norm, so the Hilbert structure lives on a type wrapper:
   `Covector n k` is a one-field structure around `E [⋀^Fin k]→L[ℝ] ℝ` in the shape of Mathlib's
   `WithLp`, with the linear equivalence to the underlying type written `toCovector` /
-  `ofCovector`. The inner product is built from Mathlib's exterior algebra, without a basis:
-  - the **Gram inner product** on `⋀[ℝ]^k E`,
-    `⟪v₁ ∧ ⋯ ∧ v_k, w₁ ∧ ⋯ ∧ w_k⟫ := det (⟪vᵢ, wⱼ⟫)`, extended bilinearly, with a proof that it
-    is positive definite;
-  - covectors identified with `⋀[ℝ]^k E →ₗ[ℝ] ℝ` through the universal property of
-    `exteriorPower`, and given the dual inner product;
-  - theorems: for an orthonormal basis `e` of `E`, the `e_I` (`I : Fin k ↪o Fin n`) form an
-    orthonormal basis of `⋀[ℝ]^k E`, so `⟪α, β⟫ = ∑_I α(e_I) β(e_I)`; every linear isometry
-    `T` of `E` induces an isometry through `exteriorPower.map k T`; and the two-sided comparison
-    with the operator norm, with constants in `n, k`.
-- **Hodge star.** Orient `E` by its standard basis and let `vol` be the corresponding unit
-  `n`-covector. For `k ≤ n`, `⋆ : Covector n k ≃ₗᵢ[ℝ] Covector n (n − k)` is characterized by
-  `α ∧ ⋆β = ⟪α, β⟫ vol`; prove `⋆⋆ = (−1)^{k(n−k)}` and that `⋆` commutes with the isometries
+  `ofCovector`. Its geometry is transported from Mathlib's exterior powers, without a basis:
+  - Mathlib's [inner product space `⋀[ℝ]^k E`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Analysis/InnerProductSpace/ExteriorPower.lean),
+    whose inner product is the Gram determinant on `ιMulti` (`exteriorPower.inner_ιMulti_ιMulti`),
+    with the orthonormal basis `OrthonormalBasis.exteriorPower` induced by an orthonormal basis
+    of `E`. Let `B := innerₗ E`; prove that the bilinear form
+    [`LinearMap.BilinForm.exteriorPower B k`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/LinearAlgebra/ExteriorPower/BilinForm.lean)
+    that the Hodge star below is built from is this inner product.
+  - The **musical isomorphism** `Covector.toExteriorPower : Covector n k ≃ₗ[ℝ] ⋀[ℝ]^k E`: a
+    covector is a linear functional on `⋀[ℝ]^k E` by `exteriorPower.alternatingMapLinearEquiv`,
+    and the bijection `B.exteriorPower k` (`LinearMap.BilinForm.bijective_exteriorPower`) turns
+    that functional into an element of `⋀[ℝ]^k E`. The inner product on `Covector n k` is the
+    one making this map an isometry.
+  - Theorems: for the standard orthonormal basis `e` of `E`, `⟪α, β⟫ = ∑_I α(e_I) β(e_I)`
+    (`I` ranging over `Set.powersetCard (Fin n) k`, the index type of
+    `OrthonormalBasis.exteriorPower`); every linear isometry `T` of `E` acts isometrically
+    through `exteriorPower.map k T`; and the two-sided comparison with the operator norm, with
+    constants in `n, k`.
+- **Hodge star.** Mathlib's [`exteriorPower.hodgeStar B hB vol hkl`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/LinearAlgebra/ExteriorPower/HodgeStar.lean)
+  `: ⋀[ℝ]^k E ≃ₗ[ℝ] ⋀[ℝ]^l E` (for `hkl : k + l = finrank ℝ E`) is characterized by
+  `B.exteriorPower l (⋆x) y = vol (x ∧ y)` (`exteriorPower.wedgePairing`). Take `vol` the
+  trivialization of the top exterior power that sends the wedge of the standard basis
+  (`Module.Basis.topVector`) to `1`; this basis is orthonormal, so the Gram determinant of
+  `vol` is `1`. `exteriorPower.hodgeStarOfOrientation`
+  ([mathlib4#44598](https://github.com/leanprover-community/mathlib4/pull/44598)) chooses `vol`
+  from `Module.finBasis`, which fixes the orientation but not this normalization, so for `E` it
+  agrees with the star used here only up to a positive factor; prove that comparison. On covectors, `⋆ : Covector n k ≃ₗᵢ[ℝ] Covector n l` for `k + l = n` is
+  `hodgeStar` conjugated by `Covector.toExteriorPower`. Prove the normalized-case results that
+  Mathlib's `HodgeStar.lean` lists as TODO, in the form stated there: `⋆` is an isometry,
+  `⋆ (⋆ x) = (−1)^{k l} x`, and `α ∧ ⋆β = ⟪α, β⟫ vol`; and that `⋆` commutes with the isometries
   of `E` that preserve the orientation. On forms it acts pointwise, and the **codifferential**
   of `k`-forms is `δ := (−1)^{n(k+1)+1} ⋆ d ⋆`.
 - `L²Λᵏ(Ω) := Lp (Covector n k) 2 (volume.restrict Ω)`, a Hilbert space.
