@@ -242,12 +242,7 @@ theorem holderOnParabolicSlab_iff_subtype {n : ℕ} {a b : ℝ}
     have h'' : HolderWith C α ((parabolicSlab (n := n) a b).domRestrict u) := h'
     exact HolderWith.restrict_iff.mp h''
 
-/-! ### Lane G: functions vanishing on a boundary part
-
-The admissibility predicate (G.28) refines Lane A.6's Lipschitz-domain predicate, and G.30–G.32
-consume A.6's trace; neither is in the pinned Tau Ceti revision, so only G.29's space and its
-endpoint at the whole frontier are prototyped here.
--/
+/-! ### Lane G: functions vanishing on a boundary part -/
 
 section LaneG
 
