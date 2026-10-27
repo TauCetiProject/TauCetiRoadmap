@@ -12,11 +12,11 @@ expectations, representations and tensor products.
 ## Scope, conventions, and dependencies
 
 The ordinary complex-parameter diagram theory is supplied by
-[TemperleyLieb Layers0–7](https://github.com/TauCetiProject/TauCetiRoadmap/pull/58):
+[TemperleyLieb Layers0–7](../TemperleyLieb/README.md):
 planar matchings, composition, the linear pivotal category, the diagram/presentation
 isomorphism, closure trace, ordinary cellular algebras and Gram polynomials,
 Jones–Wenzl idempotents, negligible ideals and the algebraic fusion quotients.
-[PivotalSpherical Layers0–4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/57)
+[PivotalSpherical Layers0–4](../PivotalSpherical/README.md)
 supplies general pivotal/spherical traces, finite semisimple categories and
 fusion-category terminology. Build the required missing targets in Tau Ceti
 in these designs and consume their APIs. The dependencies specify the
@@ -76,20 +76,20 @@ sign from T_n when δ<0. At δ=0 normalized traces and normalized Jones
 projections are undefined. The algebraic algebras and closure traces
 remain defined there.
 
-- [CStarAlgebras C1–C4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a35ac0d546695b37b8e36cd92ecc67e7ac93e82/TauCetiRoadmap/CStarAlgebras/README.md) supplies finite matrix
+- [CStarAlgebras C1–C4](../CStarAlgebras/README.md) supplies finite matrix
   C*-algebras, ideals, continuous functional calculus and the concrete
   CP-map interfaces; V13a owns their general CP foundations. C5 supplies
   spatial tensor products and C*-inductive limits.
-  [CStarClassification CL2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/299afef76b70a31db4cfe724db2c0d626fadd8d4/TauCetiRoadmap/CStarClassification/README.md) supplies
+  [CStarClassification CL2](../CStarClassification/README.md) supplies
   Bratteli-diagram/AF presentations. This roadmap supplies the TL path
   instances, finite diagram-quotient C*-norms, trace representations
   and the elementary unitary TL category.
-- [VonNeumannAlgebras V0–V1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d231d5b229b03546f4bbd7aeb3021dac5416d2bb/TauCetiRoadmap/VonNeumannAlgebras/README.md) supplies
+- [VonNeumannAlgebras V0–V1](../VonNeumannAlgebras/README.md) supplies
   GNS representations and weak closures; V4 supplies normal functionals
   and V6 tracial L². V13a supplies general CP maps. The
   construction here supplies their specific input states and trace Hilbert
   spaces. It asserts no factor classification or index theorem.
-- [CategoricalOperatorAlgebras CA1a,CA2a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e9c4588f46b8e33db5f9cbdd225aae91f1e39d08/TauCetiRoadmap/CategoricalOperatorAlgebras/README.md)
+- [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md)
   supplies the elementary C*-category, dagger tensor and unitary-duality
   interfaces instantiated by A6, independently of normal bimodules and
   planar/module reconstruction.
@@ -116,16 +116,19 @@ This README is the definitive specification.
 ## A1. Complex fibers, reflection, and trace interfaces
 
 Consume the ordinary complex diagram algebra and presentation equivalence.
-Construct an explicit equivalence between PR58's `PresentedTL ℂ δ n`
-and the native n-strand presentation, matching its shifted generator
-indices, and compose it with the diagram equivalence. Future consolidation
-may identify the carriers; all transported APIs commute with this map.
+Use TemperleyLieb Layer4's comparison `presentedTLEquiv` between the
+native n-strand presentation and the diagram algebra `TLAlg ℂ δ n`, with
+its generator and strand-inclusion compatibilities; all transported APIs
+commute with this map.
 Develop base change in the loop parameter, coefficient-conjugation maps,
 identity/composition and generator formulas. For real δ construct the
 conjugate-linear adjoint on the analytic synonym by reversing words and
-conjugating their coefficients; prove the quotient relations are preserved,
-involutivity, additivity, reversal of multiplication and conjugate-scalar
-compatibility. Compare with vertical reflection of diagrams and the
+conjugating their coefficients: `freeConj` conjugates coefficients on the
+free complex algebra through its monoid-algebra model, `adjointLift`
+composes it with Mathlib's word reversal into the opposite algebra, and
+`adjoint` is its descent through `RingQuot.lift`, which needs δ real so
+that conjugation fixes the relation `e_i²=δe_i`. Prove involutivity,
+additivity, reversal of multiplication and conjugate-scalar compatibility. Compare with vertical reflection of diagrams and the
 algebraic linear reflection. Prove their commuting-square and involution
 identities, including the complex-parameter conjugate-fiber form.
 
@@ -360,7 +363,7 @@ quotient uniformly; the negligible subspace is zero for δ≥2.
 Composition and scalar action descend, and the canonical linear
 comparison maps commute with cups, caps and diagram operations.
 The wrapper carries its own conjugate-linear dagger. Its End stars
-come from that dagger, so PR58's coefficient-fixing End star is
+come from that dagger, so TemperleyLieb Layer4's coefficient-fixing End star is
 never installed on these Hom synonyms.
 
 Prove the concrete dagger laws `f††=f`, `(f≫g)†=g†≫f†`,
@@ -380,7 +383,7 @@ Prove independence of the envelope realization and agreement of
 End(n) with Q_n.
 
 Instantiate the native dagger and C*-category interfaces of
-[CategoricalOperatorAlgebras CA1a,CA2a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e9c4588f46b8e33db5f9cbdd225aae91f1e39d08/TauCetiRoadmap/CategoricalOperatorAlgebras/README.md),
+[CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md),
 using its finite linking/Hom, tensor and unitary-duality axioms,
 independent of its bimodule and realization milestones.
 This is a concrete normed dagger tensor category:
@@ -572,6 +575,17 @@ second take `z=(3+sqrt(5))/2` and v=−z. Neither is the excluded
 zero-head label. Include n=2,t=0, with determinant `d²−a²`, and the
 t=n empty-product case as normalization boundaries.
 
+Include n=3,t=1 to pin the winding normalization when t>0. The three
+monic states have the defect at position k and an arc on the other two
+points. Each diagonal entry is X; the off-diagonal entries form a
+three-cycle whose product is the full twist of the single through string
+squared, `Z^(±2)`, with reciprocal entries opposite. The determinant is
+`X³−3X+Z²+Z⁻²`, which is the formula above with E_(3,3)=1 and
+σ_(3,1)=1. In the per-step twist u of Morin-Duchesne–Saint-Aubin, where
+a defect moving one position left gains a factor u, the same determinant
+reads `X³−3X+u⁶+u⁻⁶`; hence Z=u³ here, and identifying Z with u is wrong.
+A model whose cycle product is Z instead of Z² would give `Z+Z⁻¹`.
+
 For the deformation keep z fixed and substitute the independent loop
 variable x into this universal polynomial matrix. Work over the discrete
 valuation ring `ℂ[x]_(x−δ)`. Its determinant is not the zero polynomial,
@@ -601,7 +615,7 @@ classification and the full affine Hecke interpretation are outside scope.
 
 ## Sources and interface evidence
 
-- [TemperleyLieb](https://github.com/TauCetiProject/TauCetiRoadmap/pull/58)
+- [TemperleyLieb](../TemperleyLieb/README.md)
   Layers0–7 supplies the ordinary algebraic prerequisites; use its
   quantum-integer, diagram, cellular and tensor-ideal vocabulary.
   Native `TauCeti.Algebra.TemperleyLieb.Basic` and `.MarkovTrace` supply

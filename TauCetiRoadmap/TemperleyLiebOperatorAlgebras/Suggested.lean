@@ -2,13 +2,8 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+import Mathlib
 import TauCeti.Algebra.TemperleyLieb.MarkovTrace
-import Mathlib.Analysis.Complex.Order
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Algebra.Star.Basic
-import Mathlib.RingTheory.TwoSidedIdeal.Basic
-import Mathlib.RingTheory.Congruence.Basic
-import Mathlib.CategoryTheory.Linear.Basic
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -37,19 +32,79 @@ instance (δ : ℝ) (n : ℕ) : Algebra ℂ (AnalyticTL δ n) :=
 def generator (δ : ℝ) {n : ℕ} (i : Fin (n - 1)) : AnalyticTL δ n :=
   TauCeti.TemperleyLieb.e (δ : ℂ) i
 
-/-- Descend word reversal and coefficient conjugation through the native relations.
-The implementation target is explicit; no choice of an arbitrary involution is used. -/
-def adjoint (δ : ℝ) (n : ℕ) : AnalyticTL δ n → AnalyticTL δ n := by
-  sorry
+/-- Coefficient conjugation on a free complex algebra, through its monoid-algebra model on the
+free monoid of words. -/
+def freeConj (X : Type) : FreeAlgebra ℂ X →+* FreeAlgebra ℂ X :=
+  (FreeAlgebra.equivMonoidAlgebraFreeMonoid (R := ℂ) (X := X)).symm.toRingEquiv.toRingHom.comp
+    ((MonoidAlgebra.mapRingHom (FreeMonoid X) (starRingEnd ℂ)).comp
+      (FreeAlgebra.equivMonoidAlgebraFreeMonoid (R := ℂ) (X := X)).toRingEquiv.toRingHom)
+
+/-- Coefficient conjugation fixes the free generators. -/
+theorem freeConj_ι (X : Type) (x : X) : freeConj X (FreeAlgebra.ι ℂ x) = FreeAlgebra.ι ℂ x := by
+  simp [freeConj, FreeAlgebra.equivMonoidAlgebraFreeMonoid, MonoidAlgebra.of_apply,
+    MonoidAlgebra.mapRingHom_single]
+
+/-- Coefficient conjugation conjugates scalars. -/
+theorem freeConj_algebraMap (X : Type) (c : ℂ) :
+    freeConj X (algebraMap ℂ (FreeAlgebra ℂ X) c) =
+      algebraMap ℂ (FreeAlgebra ℂ X) (starRingEnd ℂ c) := by
+  simpa [freeConj, AlgEquiv.commutes] using
+    (FreeAlgebra.equivMonoidAlgebraFreeMonoid (R := ℂ) (X := X)).symm.commutes (starRingEnd ℂ c)
+
+/-- Word reversal composed with coefficient conjugation, as a ring map from the free algebra to
+the opposite of the analytic fiber; it respects the native relations because `δ` is real. -/
+def adjointLift (δ : ℝ) (n : ℕ) : FreeAlgebra ℂ (Fin (n - 1)) →+* (AnalyticTL δ n)ᵐᵒᵖ :=
+  (RingHom.op (RingQuot.mkRingHom (TauCeti.TemperleyLieb.Rel ℂ (δ : ℂ) n))).comp
+    ((starRingEquiv : FreeAlgebra ℂ (Fin (n - 1)) ≃+* _).toRingHom.comp (freeConj _))
+
+/-- The reversed conjugate of each native defining relation is again a relation, because the
+loop value is real and the distant-commutation relation is symmetric in its indices. -/
+theorem adjointLift_rel (δ : ℝ) (n : ℕ) ⦃x y : FreeAlgebra ℂ (Fin (n - 1))⦄
+    (h : TauCeti.TemperleyLieb.Rel ℂ (δ : ℂ) n x y) : adjointLift δ n x = adjointLift δ n y := by
+  have hrel := fun {a b} (r : TauCeti.TemperleyLieb.Rel ℂ (δ : ℂ) n a b) =>
+    RingQuot.mkRingHom_rel r
+  have key : ∀ z, adjointLift δ n z =
+      MulOpposite.op (RingQuot.mkRingHom _ (star (freeConj _ z))) := fun _ => rfl
+  rw [key, key]
+  refine congrArg MulOpposite.op ?_
+  cases h with
+  | mul_self i =>
+    have h1 : star (freeConj _ (FreeAlgebra.ι ℂ i * FreeAlgebra.ι ℂ i)) =
+        FreeAlgebra.ι ℂ i * FreeAlgebra.ι ℂ i := by
+      simp only [map_mul, freeConj_ι, star_mul, FreeAlgebra.star_ι]
+    have h2 : star (freeConj _ ((δ : ℂ) • FreeAlgebra.ι ℂ i)) = (δ : ℂ) • FreeAlgebra.ι ℂ i := by
+      rw [Algebra.smul_def, map_mul, freeConj_ι, freeConj_algebraMap, Complex.conj_ofReal,
+        star_mul, FreeAlgebra.star_ι, FreeAlgebra.star_algebraMap, ← Algebra.commutes,
+        ← Algebra.smul_def]
+    rw [h1, h2]
+    exact hrel (.mul_self i)
+  | @adjacent i j hij =>
+    have h1 : star (freeConj _ (FreeAlgebra.ι ℂ i * FreeAlgebra.ι ℂ j * FreeAlgebra.ι ℂ i)) =
+        FreeAlgebra.ι ℂ i * FreeAlgebra.ι ℂ j * FreeAlgebra.ι ℂ i := by
+      simp only [map_mul, freeConj_ι, star_mul, FreeAlgebra.star_ι, mul_assoc]
+    rw [h1, freeConj_ι, FreeAlgebra.star_ι]
+    exact hrel (.adjacent hij)
+  | distant hij =>
+    simp only [map_mul, freeConj_ι, star_mul, FreeAlgebra.star_ι]
+    simpa only [map_mul] using hrel (.distant hij.symm)
+
+/-- The conjugate-linear adjoint: reverse words and conjugate coefficients, descended through
+the native relations. -/
+def adjoint (δ : ℝ) (n : ℕ) (x : AnalyticTL δ n) : AnalyticTL δ n :=
+  MulOpposite.unop (RingQuot.lift ⟨adjointLift δ n, adjointLift_rel δ n⟩ x)
 
 theorem adjoint_involutive (δ : ℝ) (n : ℕ) :
     Function.Involutive (adjoint δ n) := by sorry
 
 theorem adjoint_add (δ : ℝ) (n : ℕ) (x y : AnalyticTL δ n) :
-    adjoint δ n (x + y) = adjoint δ n x + adjoint δ n y := by sorry
+    adjoint δ n (x + y) = adjoint δ n x + adjoint δ n y := by
+  exact congrArg MulOpposite.unop
+    ((RingQuot.lift ⟨adjointLift δ n, adjointLift_rel δ n⟩).map_add x y)
 
 theorem adjoint_mul (δ : ℝ) (n : ℕ) (x y : AnalyticTL δ n) :
-    adjoint δ n (x * y) = adjoint δ n y * adjoint δ n x := by sorry
+    adjoint δ n (x * y) = adjoint δ n y * adjoint δ n x := by
+  exact congrArg MulOpposite.unop
+    ((RingQuot.lift ⟨adjointLift δ n, adjointLift_rel δ n⟩).map_mul x y)
 
 instance (δ : ℝ) (n : ℕ) : StarRing (AnalyticTL δ n) where
   star := adjoint δ n
@@ -72,7 +127,12 @@ instance (δ : ℝ) (n : ℕ) : StarModule ℂ (AnalyticTL δ n) where
 /-- Every real loop fiber has a unit quantum parameter for the signed native trace. -/
 theorem exists_loop_parameter (δ : ℝ) :
     ∃ q : ℂˣ, (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)) := by
-  sorry
+  obtain ⟨s, hs⟩ := IsAlgClosed.exists_pow_nat_eq ((δ : ℂ) ^ 2 - 4) (n := 2) (by norm_num)
+  have hu : ((-(δ : ℂ) + s) / 2) * ((-(δ : ℂ) - s) / 2) = 1 := by
+    linear_combination (-1 / 4 : ℂ) * hs
+  refine ⟨⟨_, _, hu, by rw [mul_comm]; exact hu⟩, ?_⟩
+  show (δ : ℂ) = -((-(δ : ℂ) + s) / 2 + (-(δ : ℂ) - s) / 2)
+  ring
 
 /-- Choose a loop parameter only to access the existing spin implementation.
 The following comparison theorem makes the resulting trace independent of it. -/
@@ -139,8 +199,15 @@ theorem traceRadical_adjoint (δ : ℝ) (n : ℕ) (x : AnalyticTL δ n)
     (hx : x ∈ traceRadical δ n) : star x ∈ traceRadical δ n := by sorry
 
 /-- The quotient adjoint is the representative-independent descended adjoint. -/
-def quotientAdjoint (δ : ℝ) (n : ℕ) : JonesQuotient δ n → JonesQuotient δ n := by
-  sorry
+def quotientAdjoint (δ : ℝ) (n : ℕ) : JonesQuotient δ n → JonesQuotient δ n :=
+  Quotient.map' (s₁ := (traceRadical δ n).ringCon.toSetoid)
+    (s₂ := (traceRadical δ n).ringCon.toSetoid) (fun x => star x) (by
+      intro x y hxy
+      change (traceRadical δ n).ringCon x y at hxy
+      change (traceRadical δ n).ringCon (star x) (star y)
+      rw [TwoSidedIdeal.rel_iff] at hxy ⊢
+      rw [← star_sub]
+      exact traceRadical_adjoint δ n _ hxy)
 
 theorem quotientAdjoint_mk (δ : ℝ) (n : ℕ) (x : AnalyticTL δ n) :
     quotientAdjoint δ n (quotientMap δ n x) = quotientMap δ n (star x) := by sorry
