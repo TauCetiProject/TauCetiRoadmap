@@ -185,6 +185,73 @@ remains definitive.
   `U(n)` and Weyl's unitarian trick is possible but pulls in compact-group topology, Haar/unitary averaging,
   and analytic facts that are out of scope here, so it is not the chosen route.)
 
+### Layer 0A: extending to the full matrix monoid
+
+For `M_N=Matrix (Fin N) (Fin N) ℂ`, a finite-dimensional polynomial
+monoid representation is a native `Representation ℂ M_N W` whose operator
+matrix entries, in a finite basis of W, are evaluations of multivariate
+polynomials in the entries of A∈M_N. Require a **unital multiplicative**
+map; additivity in A and preservation of the zero matrix are not part of
+this notion. Prove basis independence. On the native polynomial algebra
+ℂ[X_ij] construct the matrix-coordinate bialgebra with
+ΔX_ij=Σ_k X_ik⊗X_kj and counit X_ij↦δ_ij, proving its
+bialgebra equations. Construct the representation/right-comodule comparison
+and its inverse by evaluation, using the native bialgebra/comodule carriers
+also used in ReductiveGroups Layer1. Identify localization at det with the
+existing GL coordinate algebra and prove the restriction square. This
+matrix-monoid specialization is owned here; no Hopf antipode on singular
+matrices is assumed.
+
+Construct restriction along `GL_N→M_N` and the unique polynomial extension
+of every native `TauCeti.IsPolynomialRep` representation. Evaluate its
+coordinate polynomials at all matrices and prove independence of their
+presentation and of the chosen basis. Consume native
+`MvPolynomial.eq_of_eval_eq_on_gl` for uniqueness of polynomial identities;
+prove the corresponding two-matrix identity by successive specialization.
+These identities prove multiplication at singular matrices, the unit law,
+and equality with the given action at every invertible matrix. Extend the
+same argument to intertwiners: a linear map intertwines the extensions iff
+it intertwines their GL restrictions. Construct the restriction/extension
+equivalence of categories on these finite-dimensional polynomial carriers,
+with its unit/counit and compatibility with direct sums and tensor products.
+This construction uses Layer0's coordinate polynomiality, not classification.
+
+After Layer3, for a finite-dimensional **rational** GL_N representation,
+prove the following conditions equivalent:
+
+- it admits a polynomial monoid extension;
+- it satisfies native `TauCeti.IsPolynomialRep`;
+- every diagonal-torus weight has all coordinates nonnegative;
+- every irreducible constituent has dominant weight λ with λ_N≥0.
+
+Here N≥1 in the last condition. Nonnegative includes zero: the trivial
+representation extends by the constant identity action. Necessity follows
+by restriction to the diagonal matrix monoid and its monomial characters;
+for sufficiency use the Layer2 native Schur images, which are preserved by
+**every** diagonal tensor operator A^⊗d, and their Layer3 highest-weight
+comparison. Thus irreducible polynomial M_N representations are indexed by
+partitions of height at most N, and arbitrary representations by finite
+irreducible multiplicity lists. Prove monoid-stable subspaces and monoid
+intertwiners are exactly the GL-stable ones, using polynomial identities
+on the quotient and Hom spaces; this also proves complete reducibility
+of these polynomial monoid representations from Layer0's GL supplier.
+No such criterion is asserted for an unrestricted abstract GL_N functor.
+
+Construct the decomposition by the nonnegative scalar degree d, with
+`ρ(tI)|W_d=t^d id` for every t∈ℂ, including t=0. On a shape λ the degree
+is |λ|; the zero matrix acts by zero for nonempty λ and by identity for
+the empty shape. For an arbitrary polynomial representation, ρ(0) is
+the equivariant projection onto its trivial-isotypic component. Include
+N=1, where irreducibles are A↦A^d for d≥0 and negative determinant
+powers have no polynomial extension. For N=0 both source monoids are
+the one-element monoid; their representations are finite-dimensional
+vector spaces with the identity action, and no last-coordinate test is used.
+
+`PolynomialMonoidExtensionTargets.lean` states the extension target on
+the native representation and polynomiality carriers. The rank and
+all-linear-map comparisons are constructed in Layer2A below.
+
+
 ### Layer 1: functorial constructions and tensor powers
 
 - **The tensor power representation.** `tensorPowerRep n d : Representation ℂ (GL n ℂ) (⨂[ℂ]^d (Fin n → ℂ))`,
@@ -223,6 +290,76 @@ construct only the remaining comparisons and API on that carrier.
 - **The decomposition of `V^{⊗d}`.** `V^{⊗d} ≅ ⊕_{λ ⊢ d} (Sᵘ V) ⊗ (Specht λ)` as `GLₙ × Sₐ`-representations
   (Schur-Weyl, cited), whence `V^{⊗d} ≅ ⊕_λ (Sᵘ V)^{⊕ f^λ}` as `GLₙ`-representations, with `f^λ` the number
   of standard Young tableaux (`../SchurWeyl`). This recovers Layer 1's `⊗2` case and is the structural heart.
+
+### Layer 2A: Schur functors on all linear maps
+
+For every shape λ of size d construct a functor on the native
+`ModuleCat ℂ`, on **all** linear maps, whose value at V is the actual
+submodule `S_λ(V)=range(c_λ:V^⊗d→V^⊗d)`. Use the existing
+row-superstandard tableau and `YoungTableau.youngSymmetrizerOver`,
+acting through native `PiTensorProduct.reindexRepresentation` and its
+group-algebra action. For arbitrary linear `f:V→W`, including maps
+between different dimensions, prove
+`f^⊗d c_(λ,V)=c_(λ,W) f^⊗d` by native
+`PiTensorProduct.map_comp_reindex_eq` and linear extension. Restrict
+`PiTensorProduct.map (fun _=>f)` to the indicated image submodules.
+Give its inclusion equation on every vector, identity/composition laws
+and the resulting functor, with no chosen basis in its definition.
+This construction works also on infinite-dimensional vector spaces;
+its finite-dimensional restriction has finite-dimensional values.
+
+Construct the comparison at V=ℂ^N with the SAME native
+`TauCeti.weylModuleOfShape`/`TauCeti.schurFunctor N λ` carrier and
+action, including the actual basis-change naturality squares. At every
+endomorphism A of ℂ^N the induced map is the Layer0A polynomial monoid
+extension. Prove polynomial dependence on f in finite bases, homogeneous
+of degree d; no additivity in f is asserted when d>1. The empty shape
+is the constant functor ℂ, with every arrow acting by identity. For a
+nonempty shape and the zero arrow f:V→W, prove S_λ(f)=0 on the image
+carriers. On finite-dimensional V prove vanishing iff dim V is less
+than the height of λ, consuming the native coordinate-space result.
+Export natural relabelling/tableau comparisons and the row/column
+identifications with the symmetric/exterior power **functors**.
+Upgrade Layer1's tensor-square splitting to a natural isomorphism on
+all linear maps, with projections `½(1±swap)` and the actual
+symmetric/exterior quotient-to-image comparisons.
+
+For a linear map f of finite rank r, factor through its actual image
+and prove `range(S_λ(f))≃S_λ(range f)` by the induced inclusion and
+surjection, with inverse on image carriers. Prove that S_λ preserves
+injective maps and surjective maps, using split linear maps over ℂ.
+For finite-dimensional source and target, compute
+`rank(S_λ(f))=s_λ(1,…,1)` in r variables using Layers4–5;
+for d>0 it is zero exactly when r is less than the height.
+For d=0 it is one even when r=0. Include zero-dimensional spaces,
+the empty shape, singular maps and maps changing dimension.
+
+After Layer3, compare the SAME functor with the column/exterior model
+in the notes. Put `a_i=λ_i−λ_(i+1)` with λ_(h+1)=0 and construct
+a natural injection
+`S_λ(V)→⊗_(i=1)^h Sym^(a_i)(Λ^i V)` from the fixed Young operators,
+column wedge maps and symmetrization of equal-height columns. Prove
+injectivity and give the actual image, not an arbitrary irreducible
+subspace chosen separately for each dimension. Normalize on a finite
+ordered basis by sending the normalized highest vector to
+`⊗_i(e₁∧⋯∧e_i)^(a_i)`; compute the nonzero scalar relating this to
+the unnormalized Young-operator formula. Prove commutation with every
+linear map and transport the earlier functor maps through these injections.
+For finite dim V≥h, identify the image as the Cartan component generated
+by that tensor, of highest weight `(λ₁,…,λ_h,0,…,0)`; below h both
+sides of the claimed image comparison are zero. The whole ambient tensor
+product is not asserted irreducible. The all-linear-map functor and its
+native coordinate-space comparison precede this highest-weight argument.
+
+Deduce that any finite-dimensional polynomial M_N representation admits
+an extension to a finite direct sum of these Schur functors, by its
+finite shape multiplicities and the Layer0A comparison. Fixed-N evaluation
+does not determine that global extension uniquely: every shape of height
+greater than N evaluates to zero there. Compare this finite-output
+polynomial construction with the ordinary Kan extension already specified
+in the worked examples; its existence alone supplies neither polynomiality
+nor finite-dimensional outputs. The generic Kan-extension engine is unchanged.
+
 
 ### Layer 3: maximal torus, weights, and the highest-weight classification
 
