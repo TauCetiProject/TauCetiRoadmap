@@ -222,6 +222,13 @@ These choices are acceptance conditions for every stage.
   stable-class lift produce an honest tangent trivialization. Compare its gauge-normalized
   stabilization with the prescribed stable frame, retaining the actual moving boundary path.
   Product structure is on an explicitly returned proper subcollar, not the entire supplied collar.
+- **Product near a boundary carries a proper width.** Every collar product witness, for a
+  filling, a defect exterior or the lateral face of a defect tube, returns a width
+  `0 < ε < 1` and asserts equality of trivializations only on total-bundle vectors whose base
+  has collar time `s < ε` in the supplied collar coordinates. Nothing is asserted near the
+  missing width-one end of a half-open collar. A smaller positive width keeps the same boundary
+  or lateral frame; reparametrizing by `c_ε(s,b) = c(εs,b)` multiplies the collar normal by the
+  positive factor `ε`, and every framing comparison carries that factor.
 - **Pontryagin--Thom is constructed in both directions.**  The collapse map uses a chosen
   tubular neighbourhood and a normal framing; independence is a theorem.  The inverse uses
   smooth approximation, a regular value, and the induced framed submanifold.  The two bordisms
@@ -231,7 +238,12 @@ These choices are acceptance conditions for every stage.
   codimension of the displayed embedding `M -> R^(n+k)`, the collapse is the map determined by the
   displayed tubular diffeomorphism, and the augmentation is the pointed Thom equivalence followed
   by the standard suspended augmentation.  Arbitrary maps satisfying only continuity and a
-  basepoint equation are insufficient.
+  basepoint equation are insufficient. A `SmoothTubularNeighborhood` has normal derivative
+  inducing the identity on the actual normal quotient and compresses the normal bundle onto its
+  disc domain by a strictly positive radial factor; the Thom equivalence `framedThomEquiv` is
+  constructed from the displayed normal trivialization and is not a separately chosen pointed
+  isomorphism. Each of these three requirements excludes a fibre reflection that would reverse
+  the sign of the collapse with the framed cycle unchanged.
 - **Every quotient relation has geometric witnesses.**  H-cobordism, framed bordism,
   almost-framed bordism, the stable-filling relation, and both historical relations are
   `Nonempty` types of the specified collared cobordisms and compatible bundle data.  A named
@@ -787,14 +799,44 @@ own scopes and consume these early computations where appropriate.
    and connected product cylinders with their actual boundary identifications.
 3. Construct one-point compactification of a vector bundle and its Thom space.  If the rank-`k`
    normal bundle `nu` of `M` is framed, prove the pointed equivalences
-   `Th(nu) ~= M_+ smash S^k ~= Sigma^k M_+`, natural under pullback and stabilization.  It is not
-   in general a sphere.
-4. Choose a tubular neighbourhood and define the collapse map
+   `Th(nu) ~= M_+ smash S^k ~= Sigma^k M_+`, natural under pullback and stabilization.
+   Construct this equivalence, `framedThomEquiv`, from the displayed normal trivialization `φ`:
+   for compact `M` identify `Th(nu)` with the one-point compactification of the normal total
+   space and `Sigma^k M_+` with that of `M × R^k`, send the class of a finite normal vector `v`
+   to the class of `φ(v) = (base(v), framing coordinate of v)`, and send infinity to the
+   suspension basepoint. A pointed isomorphism chosen independently of `φ` is not admitted: its
+   composite with a fibre reflection is another pointed isomorphism and reverses the sign of the
+   representative. The Thom space is not in general a sphere.
+4. Choose a tubular neighbourhood whose derivative along each normal fibre at the zero section
+   induces the identity on the actual normal quotient `T_ambient / d(embedding)(TM)`. Compress
+   the whole normal bundle onto the open disc domain of the tube by a fibrewise radial
+   homeomorphism `v ↦ a(v)v` with `a` continuous and strictly positive, preserving the zero
+   section. Prove the compactification and shrinking comparisons for these compressions.
+   Define the collapse map
    `S^(n+k) -> Th(nu)`.  Compose the framed Thom equivalence with the map
    `Sigma^k M_+ -> Sigma^k S^0 = S^k` induced by the augmentation `M_+ -> S^0`; this composite,
    not the Thom space alone, is the Pontryagin--Thom representative.  Prove continuity at the
    collapsed complement, independence under shrinking or changing the tubular neighbourhood,
    invariance under framed isotopy, and compatibility with disjoint union and stabilization.
+   Pin the augmentation by `(x,v) ↦ v` in finite compactification coordinates and by the
+   basepoint at infinity. The composite `framedCollapse`, built from the normal framing and an
+   allowed tube, is independent of the tube and compression up to homotopy relative to the
+   ambient basepoint.
+
+   **Checks.**
+   - One positively framed point at the origin of `R` (`n = 0`, `k = 1`), with quotient normal
+     coordinate equal to the ambient coordinate and the identity trivialization: the identity
+     tube with compression factor `1` is allowed and its collapse composite is the identity of
+     `OnePoint R`, degree `+1`. Every other allowed tube and compression for the same framed
+     point gives a composite homotopic to it relative to infinity, since the tube is increasing
+     at the origin and the compressed coordinate keeps the sign of `v`.
+   - Negative control on the tube: the coordinate `v ↦ −v` with the identity tube preserves the
+     base and the zero section but would make the collapse a reflection of degree `−1`; the
+     positive-compression requirement excludes it. The identity compression followed by the tube
+     `y ↦ −y` is excluded by the normal-derivative requirement, its derivative inducing `−1`.
+   - Negative control on the framing: replacing the trivialization by its reflection changes the
+     framed point to the negatively framed point, and the composite has degree `−1`. Changing the
+     tube or compression with the framing fixed does not change the class.
 5. For the inverse, apply relative smooth approximation to a stable sphere map, choose a regular
    value using Sard and transversality, and give its inverse image the induced compact smooth
    structure and stable normal framing.  Prove independence from approximation and regular value
@@ -841,8 +883,14 @@ noncompact source does not instantiate this classical collapse theorem.
    its genuine tubular neighbourhood, named endpoint embeddings identifying that track with the
    two chosen defect discs and collars. Model this track as a proper product tube with named
    endcaps, their endpoint-disc identifications, and a lateral face. Only the lateral face
-   has an exterior collar; an endcap interior lies in the ambient trace boundary. Construct
-   the standard `Dⁿ × I ⊂ M × I` tube with these faces before proving reflexivity.
+   has an exterior collar; an endcap interior lies in the ambient trace boundary. The closed
+   lateral width parameter `s ∈ [0,1]` is matched at its two ends with `c_X(ε_X s, b)` and
+   `c_Y(ε_Y s, b)`, where `0 < ε_X, ε_Y < 1` lie strictly below the product widths of the two
+   cycles, so the included slice `s = 1` stays inside each half-open endpoint collar. The
+   lateral product condition returns its own width `0 < μ < 1` and asserts equality only on
+   total-bundle vectors based at collar time `s < μ`. Construct the standard `Dⁿ × I ⊂ M × I`
+   tube with these faces, with lateral collar `(s,t,b) ↦ (t, c_X(εs,b))` for one common width
+   `ε` below the product width of `X`, and derive reflexivity from it.
    Include product compatibility of the complement framing on the lateral collar and a stable
    framing off that neighbourhood whose endpoint
    pullbacks equal the two displayed complement framings after one common stabilization.
@@ -987,8 +1035,8 @@ noncompact source does not instantiate this classical collapse theorem.
 
 Before defining defect deletion on quotient classes, construct the following map on
 connected almost-framed representatives. Extend the open-exterior framing to the closed
-exterior using its fixed product collar and prove that restriction recovers the given
-framing. Give the closed exterior its inherited orientation and prove the extended framing
+exterior using its product witness on the returned proper subcollar and prove that
+restriction recovers the given framing. Give the closed exterior its inherited orientation and prove the extended framing
 induces it. In dimension at least two, prove the exterior connected, and identify its
 boundary with the defect sphere with the reversed boundary orientation. Package these
 specific data as a `StableFramedFillingCycle`, then prove witness compatibility and the

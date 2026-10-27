@@ -865,8 +865,10 @@ structure StableTangentFraming.IsProductNearDefect
     (D : Internal.GeometricTopologySupplierMirror.SmoothEmbeddedClosedDisk (M := M) n I)
     (framing : StableTangentFraming I D.exterior r) where
   boundaryFraming : StableTangentFraming (SmoothModel (n - 1)) D.disk.B r
-  agrees : (pullbackFrameToDefectCollar D framing).trivialization =
+  width : Set.Ioo (0 : ℝ) 1
+  agrees : Set.EqOn (pullbackFrameToDefectCollar D framing).trivialization
     (defectCollarProductFraming D boundaryFraming).trivialization
+    {z | ((Bundle.TotalSpace.proj z).val.1 : ℝ) < (width : ℝ)}
 
 noncomputable def orientationOnOpen
     {n : ℕ} {H M : Type*} [TopologicalSpace H]
@@ -1134,6 +1136,24 @@ noncomputable def AlmostFramedCycle.stabilizeTo {n : ℕ} (X : AlmostFramedCycle
     StableTangentFraming (SmoothModel n) X.defect.exterior r := by
   sorry
 
+/-- Positive width rescaling extends over the closed parameter interval because `ε < 1`. -/
+def properCollarTime (ε : Set.Ioo (0 : ℝ) 1) (s : unitInterval) : unitInterval :=
+  ⟨(ε : ℝ) * (s : ℝ), by
+    constructor
+    · exact mul_nonneg ε.property.1.le s.property.1
+    · nlinarith [ε.property.1, ε.property.2, s.property.1, s.property.2]⟩
+
+theorem properCollarTime_lt_one (ε : Set.Ioo (0 : ℝ) 1) (s : unitInterval) :
+    (properCollarTime ε s : ℝ) < 1 := by
+  change (ε : ℝ) * (s : ℝ) < 1
+  nlinarith [ε.property.1, ε.property.2, s.property.1, s.property.2]
+
+noncomputable def AlmostFramedCycle.defectCollarAtWidth {n : ℕ}
+    (X : AlmostFramedCycle n) (ε : Set.Ioo (0 : ℝ) 1)
+    (p : unitInterval × X.defect.disk.B) : X.defect.closedExterior :=
+  X.defect.exteriorCollar (properCollarTime ε p.1, p.2)
+
+
 /-- A proper defect tube has named endcaps and a lateral face. The exterior collar is
 required only along that lateral face; the endcap interiors lie in the trace boundary. -/
 structure ProperDefectTube {n : ℕ} (X Y : AlmostFramedCycle n)
@@ -1163,12 +1183,18 @@ structure ProperDefectTube {n : ℕ} (X Y : AlmostFramedCycle n)
     embedding (t, X.defect.disk.boundaryIdentification b)
   lateralCollar_positive : ∀ (s : unitInterval) t b, 0 < (s : ℝ) →
     lateralCollar (s, t, b) ∉ Set.range embedding
-  incomingCollar_eq : ∀ (s : unitInterval) b, (s : ℝ) < 1 →
+  incomingWidth : Set.Ioo (0 : ℝ) 1
+  outgoingWidth : Set.Ioo (0 : ℝ) 1
+  incomingWidth_product : (incomingWidth : ℝ) < (X.productNearDefect.width : ℝ)
+  outgoingWidth_product : (outgoingWidth : ℝ) < (Y.productNearDefect.width : ℝ)
+  incomingCollar_eq : ∀ (s : unitInterval) b,
     lateralCollar (s, 0, b) = boundary.incomingInclusion
-      ((X.defect.exteriorCollar (s, b) : X.defect.closedExterior) : X.code.Realization)
-  outgoingCollar_eq : ∀ (s : unitInterval) b, (s : ℝ) < 1 →
+      ((X.defectCollarAtWidth incomingWidth (s, b) : X.defect.closedExterior) :
+        X.code.Realization)
+  outgoingCollar_eq : ∀ (s : unitInterval) b,
     lateralCollar (s, 1, outgoingBoundary b) = boundary.outgoingInclusion
-      ((Y.defect.exteriorCollar (s, b) : Y.defect.closedExterior) : Y.code.Realization)
+      ((Y.defectCollarAtWidth outgoingWidth (s, b) : Y.defect.closedExterior) :
+        Y.code.Realization)
 
 def ProperDefectTube.exterior {n : ℕ} {X Y : AlmostFramedCycle n}
     {W : CollaredOrientedFilling (n + 1)}
@@ -1210,8 +1236,10 @@ structure StableTangentFraming.IsProductNearTube {n r : ℕ} {X Y : AlmostFramed
     (f : StableTangentFraming W.model T.exterior r) where
   lateralFraming : StableTangentFraming ((𝓡∂ 1).prod (SmoothModel (n - 1)))
       (unitInterval × X.defect.disk.B) r
-  agrees : (pullbackFrameToTubeCollar T f).trivialization =
+  width : Set.Ioo (0 : ℝ) 1
+  agrees : Set.EqOn (pullbackFrameToTubeCollar T f).trivialization
     (tubeCollarProductFraming T lateralFraming).trivialization
+    {z | ((Bundle.TotalSpace.proj z).val.1 : ℝ) < (width : ℝ)}
 
 /-- An almost-framed bordism tracks a proper tube, with a framing on its open complement. -/
 structure AlmostFramedBordismWitness {n : ℕ} (X Y : AlmostFramedCycle n) where
@@ -1254,9 +1282,39 @@ structure AlmostFramedBordismWitness {n : ℕ} (X Y : AlmostFramedCycle n) where
 def AlmostFramedBordant {n : ℕ} (X Y : AlmostFramedCycle n) : Prop :=
   Nonempty (AlmostFramedBordismWitness X Y)
 
+/-- The actual product trace and defect tube, using one common proper endpoint width. -/
+noncomputable def almostFramedCylinderWitness {n : ℕ} (X : AlmostFramedCycle n) :
+    AlmostFramedBordismWitness X X := by
+  sorry
+
+noncomputable def almostFramedCylinderCoordinates {n : ℕ} (X : AlmostFramedCycle n) :
+    (almostFramedCylinderWitness X).cobordism.M ≃ₜ unitInterval × X.code.Realization := by
+  sorry
+
+theorem almostFramedCylinderWitness_tube {n : ℕ} (X : AlmostFramedCycle n)
+    (t : unitInterval) (x : X.defect.disk.M) :
+    almostFramedCylinderCoordinates X
+      ((almostFramedCylinderWitness X).defectTrack.embedding (t, x)) =
+        (t, X.defect.embedding x) := by
+  sorry
+
+theorem almostFramedCylinderWitness_collar {n : ℕ} (X : AlmostFramedCycle n)
+    (s t : unitInterval) (b : X.defect.disk.B) :
+    let T := (almostFramedCylinderWitness X).defectTrack
+    T.incomingWidth = T.outgoingWidth ∧
+      almostFramedCylinderCoordinates X (T.lateralCollar (s, t, b)) =
+        (t, (X.defectCollarAtWidth T.incomingWidth (s, b) : X.code.Realization)) := by
+  sorry
+
+/-- Reflexivity comes from the product cylinder, not from a separate axiom. -/
+theorem almostFramedBordant_refl_fromCylinder {n : ℕ} (X : AlmostFramedCycle n) :
+    AlmostFramedBordant X X := ⟨almostFramedCylinderWitness X⟩
+
 theorem almostFramedBordant_equivalence (n : ℕ) :
     Equivalence (@AlmostFramedBordant n) := by
-  sorry
+  refine ⟨almostFramedBordant_refl_fromCylinder, ?_, ?_⟩
+  · sorry
+  · sorry
 
 def almostFramedBordismSetoid (n : ℕ) : Setoid (AlmostFramedCycle n) :=
   ⟨AlmostFramedBordant, almostFramedBordant_equivalence n⟩
@@ -1526,6 +1584,19 @@ structure StableNormalFraming
   smooth_symm : ContMDiff ((SmoothModel n).prod (SmoothModel k))
     ((SmoothModel n).prod (SmoothModel k)) ∞ trivialization.toOpenPartialHomeomorph.symm
 
+/-- A fibre curve uses the actual tubular map near zero. Its outside values do not affect
+its derivative, since the disc domain is open and contains the zero section. -/
+noncomputable def tubularFiberCurve
+    {n k : ℕ} {M : Type*} [TopologicalSpace M]
+    [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
+    (e : SmoothEuclideanEmbedding n k M)
+    (U : TopologicalSpace.Opens (Bundle.TotalSpace (ModelSpace k) (NormalFiber e)))
+    (V : TopologicalSpace.Opens (ModelSpace (n + k))) (f : C(U, V))
+    (x : M) (v : NormalFiber e x) (t : ℝ) : ModelSpace (n + k) := by
+  classical
+  exact if h : (⟨x, t • v⟩ : Bundle.TotalSpace (ModelSpace k) (NormalFiber e)) ∈ U then
+    (f ⟨⟨x, t • v⟩, h⟩ : ModelSpace (n + k)) else e.map x
+
 structure SmoothTubularNeighborhood
     {n k : ℕ} {M : Type*} [TopologicalSpace M]
     [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
@@ -1540,11 +1611,25 @@ structure SmoothTubularNeighborhood
     ((SmoothModel n).prod (SmoothModel k)) (SmoothModel (n + k)) ∞ tubular
   surjective : Function.Surjective tubular
   normalCoordinates : Bundle.TotalSpace (ModelSpace k) (NormalFiber e) ≃ₜ discDomain
-  normalCoordinates_over_base : ∀ v, (normalCoordinates v).1.proj = v.proj
+  compressionScale : C(Bundle.TotalSpace (ModelSpace k) (NormalFiber e), ℝ)
+  compressionScale_pos : ∀ v, 0 < compressionScale v
+  normalCoordinates_radial : ∀ v,
+    (normalCoordinates v).val = ⟨v.proj, compressionScale v • v.snd⟩
   normalCoordinates_zero : ∀ x,
     normalCoordinates ⟨x, 0⟩ = ⟨⟨x, 0⟩, zero_mem x⟩
   zeroSection : ∀ x,
     (tubular ⟨⟨x, 0⟩, zero_mem x⟩ : ModelSpace (n + k)) = e.map x
+  normalDerivative : ∀ x (v : NormalFiber e x),
+    (LinearMap.range (mfderiv (SmoothModel n) (SmoothModel (n + k)) e.map x).toLinearMap).mkQ
+      (fderiv ℝ (tubularFiberCurve e discDomain neighbourhood tubular x v) 0 1) = v
+
+theorem SmoothTubularNeighborhood.normalCoordinates_over_base
+    {n k : ℕ} {M : Type*} [TopologicalSpace M]
+    [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
+    {e : SmoothEuclideanEmbedding n k M} (tube : SmoothTubularNeighborhood e)
+    (v : Bundle.TotalSpace (ModelSpace k) (NormalFiber e)) :
+    (tube.normalCoordinates v).val.proj = v.proj := by
+  rw [tube.normalCoordinates_radial]
 
 noncomputable def tangentFramingOfNormal
     {n k : ℕ} {M : Type*} [TopologicalSpace M]
@@ -1598,6 +1683,45 @@ theorem normalThomHomeomorph_infty
     normalThomHomeomorph e OnePoint.infty = (normalThomCG e).hom PUnit.unit := by
   sorry
 
+/-- The trivial-bundle Thom model uses the same fibre compactification as `pointedSphereCG`. -/
+noncomputable def suspendedBaseHomeomorph
+    (k : ℕ) {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M] :
+    OnePoint (M × ModelSpace k) ≃ₜ (suspendedBaseCG k (M := M)).right := by
+  sorry
+
+theorem suspendedBaseHomeomorph_infty
+    (k : ℕ) {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M] :
+    suspendedBaseHomeomorph k (M := M) OnePoint.infty =
+      (suspendedBaseCG k (M := M)).hom PUnit.unit := by
+  sorry
+
+/-- Construct this isomorphism from the displayed trivialization, rather than choosing an iso. -/
+noncomputable def framedThomEquiv
+    {n k : ℕ} {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M]
+    [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
+    (normal : StableNormalFraming n k M) :
+    PointedConvenientIso (normalThomCG normal.embedding) (suspendedBaseCG k (M := M)) := by
+  sorry
+
+theorem framedThomEquiv_coordinates
+    {n k : ℕ} {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M]
+    [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
+    (normal : StableNormalFraming n k M)
+    (v : Bundle.TotalSpace (ModelSpace k) (NormalFiber normal.embedding)) :
+    (framedThomEquiv normal).hom.right (normalThomHomeomorph normal.embedding (v : OnePoint _)) =
+      suspendedBaseHomeomorph k (M := M)
+        (normal.trivialization v : OnePoint (M × ModelSpace k)) := by
+  sorry
+
+theorem framedThomEquiv_infty
+    {n k : ℕ} {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M]
+    [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
+    (normal : StableNormalFraming n k M) :
+    (framedThomEquiv normal).hom.right
+      (normalThomHomeomorph normal.embedding OnePoint.infty) =
+        (suspendedBaseCG k (M := M)).hom PUnit.unit := by
+  sorry
+
 noncomputable def tubularCollapse
     {n k : ℕ} {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M]
     [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
@@ -1641,16 +1765,81 @@ noncomputable def suspendedAugmentation
     PointedConvenientMap (suspendedBaseCG k (M := M)) (pointedSphereCG k) := by
   sorry
 
+theorem suspendedAugmentation_coordinates
+    (k : ℕ) {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M]
+    (x : M) (v : ModelSpace k) :
+    (suspendedAugmentation k (M := M)).right
+      (suspendedBaseHomeomorph k ((x, v) : OnePoint (M × ModelSpace k))) =
+        ambientSphereHomeomorph k (v : OnePoint (ModelSpace k)) := by
+  sorry
+
+/-- The finite representative is determined by the normal framing and an allowed tube. -/
+noncomputable def framedCollapse
+    {n k : ℕ} {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M]
+    [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
+    (normal : StableNormalFraming n k M) (tube : SmoothTubularNeighborhood normal.embedding) :
+    PointedConvenientMap (pointedSphereCG (n + k)) (pointedSphereCG k) :=
+  tubularCollapse tube ≫ (framedThomEquiv normal).hom ≫ suspendedAugmentation k
+
+/-- The homotopy keeps ambient infinity at the sphere basepoint. -/
+theorem framedCollapse_independent_tube
+    {n k : ℕ} {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M]
+    [ChartedSpace (ModelSpace n) M] [IsManifold (SmoothModel n) ∞ M]
+    (normal : StableNormalFraming n k M) (a b : SmoothTubularNeighborhood normal.embedding) :
+    ContinuousMap.HomotopicRel
+      (framedCollapse normal a).right.hom.hom
+      (framedCollapse normal b).right.hom.hom
+      {(pointedSphereCG (n + k)).hom PUnit.unit} := by
+  sorry
+
+/-- The positively framed point at the origin, in ambient dimension one. -/
+noncomputable def positivePointNormalFraming : StableNormalFraming 0 1 (ModelSpace 0) := by
+  sorry
+
+theorem positivePointNormalFraming_embedding :
+    positivePointNormalFraming.embedding.map 0 = 0 := by
+  sorry
+
+theorem positivePointNormalFraming_coordinate (v : ModelSpace 1) :
+    (positivePointNormalFraming.trivialization ⟨0,
+      (LinearMap.range (mfderiv (SmoothModel 0) (SmoothModel 1)
+        positivePointNormalFraming.embedding.map 0).toLinearMap).mkQ v⟩).2 = v := by
+  sorry
+
+noncomputable def positivePointTube :
+    SmoothTubularNeighborhood positivePointNormalFraming.embedding := by
+  sorry
+
+theorem positivePointTube_coordinates (v : ModelSpace 1) :
+    let q := (LinearMap.range (mfderiv (SmoothModel 0) (SmoothModel 1)
+      positivePointNormalFraming.embedding.map 0).toLinearMap).mkQ v
+    (positivePointTube.tubular (positivePointTube.normalCoordinates ⟨0, q⟩) :
+      ModelSpace 1) = v := by
+  sorry
+
+/-- Every allowed tube/compression for the same positively framed point gives the identity
+class on the compactified line, hence degree `+1`, with infinity fixed throughout. -/
+theorem positivePoint_framedCollapse (tube :
+    SmoothTubularNeighborhood positivePointNormalFraming.embedding) :
+    ContinuousMap.HomotopicRel
+      (framedCollapse positivePointNormalFraming tube).right.hom.hom
+      (ContinuousMap.id (pointedSphereCG 1).right)
+      {(pointedSphereCG 1).hom PUnit.unit} := by
+  sorry
+
 structure PontryaginThomFactorization (n : ℕ) where
   cycle : FramedCycle n
   normalFraming :
     StableNormalFraming n cycle.stabilizationRank cycle.code.Realization
   tubularNeighbourhood : SmoothTubularNeighborhood normalFraming.embedding
-  thomEquivSuspendedBase :
-    PointedConvenientIso (normalThomCG normalFraming.embedding)
-      (suspendedBaseCG cycle.stabilizationRank (M := cycle.code.Realization))
   tangentNormalCompatibility :
     (tangentFramingOfNormal normalFraming).trivialization = cycle.framing.trivialization
+
+noncomputable def PontryaginThomFactorization.thomEquivSuspendedBase
+    {n : ℕ} (P : PontryaginThomFactorization n) :
+    PointedConvenientIso (normalThomCG P.normalFraming.embedding)
+      (suspendedBaseCG P.cycle.stabilizationRank (M := P.cycle.code.Realization)) :=
+  framedThomEquiv P.normalFraming
 
 noncomputable def PontryaginThomFactorization.collapse
     {n : ℕ} (P : PontryaginThomFactorization n) :
