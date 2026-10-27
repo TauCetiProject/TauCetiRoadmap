@@ -17,7 +17,7 @@ include `TauCeti/Geometry/Manifold/Bordism/` and
 
 Use native `SingularManifold` in Mathlib Geometry/Manifold/Bordism.lean, its
 map, sum and product, and the witness/quotient shape of the unoriented-bordism
-proposal Mathlib PR31350. Its proposed proofs are not implemented prerequisites.
+proposal for Mathlib. Its proposed proofs are not implemented prerequisites.
 Add Hausdorffness. Second countability follows from compactness and the
 Euclidean chart model by native `ChartedSpace.secondCountable_of_sigmaCompact`.
 Use finite-dimensional real models, native model-with-corners manifolds,
@@ -27,17 +27,17 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 
 | Supplier | Consumed interface | Boundary |
 | --- | --- | --- |
-| [GeometricTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/622534516cc85c19310c068dd76c1d66e55e4317/TauCetiRoadmap/GeometricTopology/README.md) | collars, corner rounding, smooth embeddings, actual normal bundles, open-subset tubes and relative/parametric transversality | B1 assembles structured bordism witnesses and B5 their PT comparisons |
+| [GeometricTopology](../GeometricTopology/README.md) | collars, corner rounding, smooth embeddings, actual normal bundles, open-subset tubes and relative/parametric transversality | B1 assembles structured bordism witnesses and B5 their PT comparisons |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages2–4,6,8 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT |
-| [GeneralizedCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a1d957790d6eeec3bd02001c7fb83bc6d824abd4/TauCetiRoadmap/GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, stable category/HA, arbitrary-CW comparison, finite duality, compatible universal bundle diagrams, MO/MSO/MSpin and quaternionic smooth carriers | geometric cycles/PT, coefficient rings and transfer/kernel calculations are here |
-| [TopologicalKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7575afad9ceed0ff19ecf5629ba196e54fdf7637/TauCetiRoadmap/TopologicalKTheory/README.md), T1/T2.5/T3–5/T7; [CharacteristicClasses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f2659392124fc032737ba5793d6a82218c18805/TauCetiRoadmap/CharacteristicClasses/README.md), C1–C4/C6 | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
-| [SpinGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/312e1bbec838a044c0cd479374d1a62e7a2c1e2e/TauCetiRoadmap/SpinGeometry/README.md), G4/G5.0/G6.0/G6.7 ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/902)) | Spin lifts and H1 torsors, circle/surface refinements, real Clifford-graded spinor bundles, closed real Dirac realization and its KO-valued index, Lichnerowicz and untwisted four-dimensional quaternionic symmetry | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
-| [HomotopySpheres, finite and stable Stage5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6c0b09a600e12d442f71728d1c7292592d36cac2/TauCetiRoadmap/HomotopySpheres/README.md#stage-5-stable-framings-and-pontryagin--thom) and the finite-rank interface specified in B5.2 | convenient pointed spaces, stable framed PT and framing-change/product laws; the separate honest-rank construction below | B5 builds general normal structures and the structured finite/stable carrier comparisons; the single finite framed theorem remains with HomotopySpheres |
-| [FourManifolds](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a9dd1d946e387e1518ffb29914b51ab0ccea6e53/TauCetiRoadmap/FourManifolds/README.md), early example constructions | F7.0 quarticKThree carrier/characteristic calculation and ellipticEOneFiberComplement, E(1) minus a regular elliptic fibre with its actual Lie-spin T3 boundary | these examples precede bordism consequences; later Four Wu/Rokhlin applications consume B3/B4 |
+| [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, stable category/HA, arbitrary-CW comparison, finite duality, compatible universal bundle diagrams, MO/MSO/MSpin and quaternionic smooth carriers | geometric cycles/PT, coefficient rings and transfer/kernel calculations are here |
+| [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T2.5/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6 | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
+| [SpinGeometry](../SpinGeometry/README.md), G4, G5.0, G6.0 | Spin lifts and H1 torsors, circle/surface refinements; G5.0's `realCliffordSpinorBundle` P×_Spin(n)Cl(0,n) with its negative tangent and positive external Clifford actions and signed grading; G6.0's `realSpinDiracClosedRealization` on the H1 domain, `realSpinLichnerowiczFormula` and `realSpinDiracIndexClass` in KO_n through GeneralizedCohomology G5.5's `realMixedCliffordIndexClassification` | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
+| [HomotopySpheres, finite and stable Stage5](../HomotopySpheres/README.md#stage-5-stable-framings-and-pontryagin--thom) and the finite-rank interface specified in B5.2 | convenient pointed spaces, stable framed PT and framing-change/product laws; the separate honest-rank construction below | B5 builds general normal structures and the structured finite/stable carrier comparisons; the single finite framed theorem remains with HomotopySpheres |
+| [FourManifolds](../FourManifolds/README.md), early example constructions | F7.0 quarticKThree carrier/characteristic calculation and ellipticEOneFiberComplement, E(1) minus a regular elliptic fibre with its actual Lie-spin T3 boundary | these examples precede bordism consequences; later Four Wu/Rokhlin applications consume B3/B4 |
 | [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2 constructs the finite-F2 Arf invariant used by surface and Seifert refinements |
-| [StringOrientation S1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/b297b8eb78f5c2fd9336677d587433dd78470d98/TauCetiRoadmap/StringOrientation/README.md) | normalized λ on the stable Spin classifier, BString mapping-path fibre, relative lifts and H3 torsor | only this early obstruction/lift lane precedes B3.8; String bordism and TMF/genus calculations follow this roadmap |
-| [LieHighestWeight](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6fd68532c72d55b040f855ecb1158537f1b784fa/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md), Layer8 compact algebra sublane ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/949)); [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4 | division octonions/formally real compact Albert algebra, generic closed subgroup smooth charts | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms |
-| [IndexTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/592b12da97670f7eaea4fbed01def6b55554af66/TauCetiRoadmap/IndexTheory/README.md), I1/I2/I3/I5/I7; [PseudodifferentialOperators](https://github.com/TauCetiProject/TauCetiRoadmap/blob/063cf517a1dcc4d929e0602c6e6f585953aceab8/TauCetiRoadmap/PseudodifferentialOperators/README.md); G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
+| [StringOrientation S1](../StringOrientation/README.md) | normalized λ on the stable Spin classifier, BString mapping-path fibre, relative lifts and H3 torsor | only this early obstruction/lift lane precedes B3.8; String bordism and TMF/genus calculations follow this roadmap |
+| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms |
+| [IndexTheory](../IndexTheory/README.md), I1/I2/I3/I5/I7; [PseudodifferentialOperators](../PseudodifferentialOperators/README.md); G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 
 O/SO/Spin mean stable unoriented, oriented and Spin structures, with explicit
 finite-rank representatives and stabilization. A normal diagram ξ consists of
@@ -70,7 +70,7 @@ intersection product requires an oriented manifold target and its separate
 construction. There is no ordinary covariant bordism ring on every space X.
 
 BordismFormalGroups owns real/complex orientation formal laws, completed
-projective coordinates and coefficient-law universality. [StringOrientation](https://github.com/TauCetiProject/TauCetiRoadmap/blob/b297b8eb78f5c2fd9336677d587433dd78470d98/TauCetiRoadmap/StringOrientation/README.md) and
+projective coordinates and coefficient-law universality. [StringOrientation](../StringOrientation/README.md) and
 EllipticCohomology own BString/string lifts, String/TMF genera and the
 qualified transfer statements on B3's fixed Cayley-plane carrier.
 PositiveScalarCurvature owns connection-metric
@@ -161,7 +161,7 @@ and KO kernel interfaces below.
    boundary using their fibre half-space charts, radial collars and native
    vector-bundle transition maps. Compare all these chosen carriers with the
    literal quotient/total-space sets and their topology. Consume item1 of GT's
-   [smoothing-and-triangulation comparison](https://github.com/TauCetiProject/TauCetiRoadmap/blob/622534516cc85c19310c068dd76c1d66e55e4317/TauCetiRoadmap/GeometricTopology/README.md#the-smoothing-and-triangulation-comparison),
+   [smoothing-and-triangulation comparison](../GeometricTopology/README.md#the-smoothing-and-triangulation-comparison-far-horizon),
    with its relative boundary triangulations, and Layer11 CW transport to obtain native
    finite CW pairs for compact sources/witnesses; this precedes B2 weak-pair
    invariance and B5 lifting, independently of the bordism coefficients.
@@ -374,12 +374,17 @@ and KO kernel interfaces below.
    must not be used to replace these filling constructions.
 
 6. Construct the exceptional projective plane on the **same** compact real
-   Albert algebra supplied by LieHighestWeight Layer8, with its PR41919-shaped
+   Albert algebra supplied by LieHighestWeight Layer8, with its Cayley–Dickson pair
    division carrier `TauCeti.DivisionOctonionReal`. Define `octonionicProjectivePlane` as the literal
    trace-one idempotent subtype `{A : compactAlbertAlgebra // A∘A=A ∧ tr A=1}`
    in its 27-coordinate Euclidean topology. Use the positive trace form to
    prove it is closed and bounded (tr A²=1), hence compact, Hausdorff and
    second countable. There is no module/associative projectivization over O.
+   The positive form is essential: on the split carrier a nonzero null a,
+   N(a)=a star(a)=0, gives trace-one idempotents with A_00=1, A_10=t a,
+   A_01=t star(a) and other entries zero for every real t, an unbounded
+   family; on the compact carrier tr(A∘A)=1+2t²N(a)=1 forces t a=0,
+   and in general tr(A∘A)=1 bounds every entry.
    Construct the three charts on A_ii>0: for the first use
    `P(x,y)=vv*/(1+N(x)+N(y))`, v=(1,x,y), with entries v_i star(v_j),
    inverse `(A_10/A_00,A_20/A_00)` and the fixed Hermitian coordinate
@@ -439,7 +444,7 @@ and KO kernel interfaces below.
    Euclidean Clifford relation and adjointness. This roadmap owns this
    concrete real16-dimensional Cliff(9,0) module; no designated real Spin9
    module is presumed in SpinRepresentations. Pin O's basis to
-   `(1,0),(i,0),(j,0),(k,0),(0,1),(0,i),(0,j),(0,k)` in the PR41919
+   `(1,0),(i,0),(j,0),(k,0),(0,1),(0,i),(0,j),(0,k)` in the Cayley–Dickson
    pair model, R9 to t followed by that basis, and S9 to column0 entries
    `(A_10,A_20)=(star(offDiag 2),offDiag 1)`. The lower traceless block
    `[[t,a],[star(a),−t]]` acts by twice its Jordan product on this Peirce
@@ -477,7 +482,7 @@ and KO kernel interfaces below.
    the torsion-free chosen carrier without an unowned equal-rank Weyl
    invariant quotient theorem. Pin u by p2=6u and the orientation by
    ⟨u²,[OP2]⟩=1; compute Euler class3u², χ=3, signature1 and Â=0.
-   The H4=0 calculation makes λ=p1/2 zero; with [StringOrientation S1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/b297b8eb78f5c2fd9336677d587433dd78470d98/TauCetiRoadmap/StringOrientation/README.md)'s early
+   The H4=0 calculation makes λ=p1/2 zero; with [StringOrientation S1](../StringOrientation/README.md)'s early
    BString homotopy-fibre/lift contract construct its specified String lift,
    unique up to its H3 torsor, before any String/TMF coefficient calculation.
    Riem/Spin/String consumers use this fixed carrier; their metric/genus/transfer
