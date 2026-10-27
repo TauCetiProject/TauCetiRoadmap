@@ -867,6 +867,106 @@ assertion from a hive coefficient formula.
   the sign-free interlacing admits; a nonnegativity constraint on row-final entries would wrongly exclude
   them. This exercises the rational branch of `gtBasis`, which the polynomial `(2,1,0)` example does not.
 
+### Mixed symmetric tensors and contraction
+
+For `N≥2`, `V=ℂᴺ` and `m,n≥0`, construct the rational `GL_N` representation
+`P_(m,n)=Sym^m V⊗Sym^n V*` on the existing power and dual carriers.
+Identify it equivariantly with the bidegree `(m,n)` submodule of
+`R=ℂ[x₁,…,x_N,y₁,…,y_N]`, using native
+`MvPolynomial.weightedHomogeneousSubmodule` with variable weights `(1,0)`
+and `(0,1)`. The variables represent basis vectors and dual basis vectors:
+`g·x_i=Σ_j g_ji x_j` and `g·y_i=Σ_j (g⁻¹)_ij y_j`.
+Construct the symmetric-power/polynomial comparison and its inverse on monomials,
+including the zero-degree cases, using `SymmetricAlgebra.equivMvPolynomial`
+and the quotient defining `SymmetricPower`. Prove compatibility with the
+existing actions, degree decompositions and change of basis.
+
+**The operators and their normalization.** On this same polynomial ring define
+`Δ=Σ_i ∂x_i∂y_i`, multiplication by `r=Σ_i x_i y_i`, and the two Euler
+operators `E_x=Σ_i x_i∂x_i`, `E_y=Σ_i y_i∂y_i`, using native
+`MvPolynomial.pderiv`. Prove their monomial formulas, degree changes,
+`GL_N` equivariance of Δ and r, and `[Δ,r]=N+E_x+E_y`.
+In particular, `Δ(x^α y^β)=Σ_i α_iβ_i x^(α−e_i)y^(β−e_i)`;
+a summand with a zero exponent is zero. For `m,n≥1`, compare Δ with
+the tensor contraction obtained by embedding each symmetric power into its
+tensor power by **averaging** all permutations, contracting one selected
+V/V* pair, and projecting to symmetric powers: that map is `Δ/(mn)`.
+The sum of all `mn` selected-pair contractions is Δ. Export the actual
+comparison maps and the nonzero normalization scalar, rather than identify
+all symmetrization conventions silently.
+
+**Surjectivity and the decomposition.** For `a,b≥0` and `f∈P_(a,b)`, construct
+an equivariant right inverse `S_(a,b):P_(a,b)→P_(a+1,b+1)` by
+
+```
+S_(a,b)(f) = Σ_(j=0)^min(a,b) c_j r^(j+1) Δ^j f,
+c_0 = 1/(N+a+b),
+c_j = −c_(j−1)/((j+1)(N+a+b−j))  (j≥1).
+```
+
+Prove the coefficient denominators are nonzero and telescope the identities
+
+```
+Δ(r^(j+1)Δ^j f)
+  = (j+1)(N+a+b−j) r^j Δ^j f + r^(j+1)Δ^(j+1)f.
+```
+
+Thus `Δ S_(a,b)=id`, with the image of S contained in `r P_(a,b)`.
+Prove multiplication by r injective and the restriction
+`Δ:r P_(a,b)→P_(a,b)` an isomorphism. Define `H_(m,n)` as the kernel
+of the ambient Δ restricted to `P_(m,n)`, so `H_(m,0)=P_(m,0)` and
+`H_(0,n)=P_(0,n)` without a fictitious negative-degree target. Construct
+the equivariant projection `id−S_(m−1,n−1)Δ` for positive m,n and the
+actual mutually inverse maps of the Fischer decomposition
+
+```
+P_(m,n) = ⊕_(j=0)^min(m,n) r^j H_(m−j,n−j).
+```
+
+Give inclusion, component extraction, projection, kernel and image laws.
+For the standard U(N) restriction, equip monomials with squared norm
+`α!β!` and prove multiplication by r is adjoint to Δ. This makes
+`H_(m,n)⊕rP_(m−1,n−1)` an orthogonal invariant splitting and identifies
+the recursively extracted Fischer summands as pairwise orthogonal.
+
+**Highest weights and dimensions.** After Layers3–5, identify H with the
+irreducible of dominant weight `(m,0,…,0,−n)`. Construct its nonzero
+highest vector `x₁^m y_N^n`, prove it is killed by the upper-triangular
+raising operators `x_i∂x_j−y_j∂y_i` for `i<j`, and use complete
+reducibility and the Weyl dimension formula to prove that its irreducible
+summand exhausts H. The required dimension comparison is
+
+```
+dim H_(m,n) = binom(N+m−1,m) binom(N+n−1,n)
+             − binom(N+m−2,m−1) binom(N+n−2,n−1),
+```
+
+where the entire second term is zero if m=0 or n=0. Prove this equals
+the Weyl dimension at the displayed weight; in rank N=3 it is
+`(m+1)(n+1)(m+n+2)/2`. Export the actual irreducible comparisons and the
+resulting multiplicity-one decomposition of P, including all determinant
+weights. Algebraic contraction and splitting use Layer1 and polynomial
+linear algebra; their irreducibility comparison comes afterward. In
+particular, SchubertGeometry S4.4a's independent early 15-dimensional
+kernel calculation has no prerequisite on this later classification.
+
+**The U(3) weight diagram.** For `ν∈ℤ³` with `Σν_i=m−n`, put
+`L=m−Σ_i max(ν_i,0)=n−Σ_i max(−ν_i,0)`. Prove by counting monomial
+pairs that the multiplicity in P is `binom(L+2,2)` when L≥0 and zero
+otherwise. Surjectivity on each weight space then gives multiplicity
+`L+1` in H when L≥0 and zero otherwise. Weights with the wrong coordinate
+sum have multiplicity zero. Describe the resulting hexagonal support,
+its triangular degenerations when m or n is zero, and its inward layers;
+the maximal multiplicities are `binom(min(m,n)+2,2)` in P and
+`min(m,n)+1` in H. Check `(m,n)=(1,1)`: `P=ℂ⊕sl₃`, dim H=8 and
+zero-weight multiplicity2; `(2,1)`: dim H=15 and weight `(0,0,1)` has
+multiplicity2; `(3,2)`: dim H=42 and maximal multiplicity3.
+
+`MixedSymmetricContractionTargets.lean` pins the native polynomial carrier,
+operators and right-inverse target. This subsection specifies the full
+construction and representation comparisons.
+
+
 ## Ordering
 
 The ordinary endomorphism-monoid extension example uses only native all-module
