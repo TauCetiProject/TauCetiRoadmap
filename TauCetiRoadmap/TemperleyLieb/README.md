@@ -158,8 +158,11 @@ not rebuilt; braid groups come from Tau Ceti (see the next section and Non-goals
 - **The presented algebra:** `TauCeti.TemperleyLieb R δ n`
   (`TauCeti/Algebra/TemperleyLieb/Basic.lean`), the free algebra on `Fin (n - 1)` modulo the
   quadratic, adjacent and distant relations, over any `CommSemiring R`, indexed by the number `n`
-  of strands. It has the generators `e`, the universal property `lift`, `lift_e` and `hom_ext`,
-  the strand inclusion `strandIncl`, and `algEquivOfLeOne` for `n ≤ 1`. Layer 4 uses it as the
+  of strands. It has the generators `TauCeti.TemperleyLieb.e`, the universal property
+  `TauCeti.TemperleyLieb.lift` with `TauCeti.TemperleyLieb.lift_e` and
+  `TauCeti.TemperleyLieb.hom_ext`, the strand inclusion `TauCeti.TemperleyLieb.strandIncl`, the
+  augmentation `TauCeti.TemperleyLieb.aug` (killing every generator), and
+  `TauCeti.TemperleyLieb.algEquivOfLeOne` for `n ≤ 1`. Layer 4 uses it as the
   presented algebra and does not build another.
 - **The spin-model Markov trace:** `TauCeti.TemperleyLieb.spinRep` and
   `TauCeti.TemperleyLieb.markovTrace` (`TauCeti/Algebra/TemperleyLieb/MarkovTrace.lean`), the
@@ -195,7 +198,17 @@ with Gram determinants; the semisimplicity and nondegeneracy classifications; Jo
 projections; tensor ideals, negligibles, and Goodman–Wenzl; the monoidal, linear and rigid
 structure of the additive-and-idempotent envelope and quotients by tensor ideals, both in
 general; the Karoubi envelope classification and the root-of-unity fusion quotients.
-`Suggested.lean` pins the load-bearing definitions and named milestones as `sorry`-targets.
+
+`Suggested.lean` is the acceptance test: it states, with `sorry`, the headline theorems that are
+statable at the pins, using only `qInt`, `PlanarMatching` and `IsMarkovTrace` as definitions, and
+it states the algebraic headlines on Tau Ceti's `TauCeti.TemperleyLieb R δ n`. These are
+`exists_qInt_eq_zero_iff` (Layer 0), `card_planarMatching` (Layer 1),
+`exists_basis_planarMatching` and `existsUnique_isMarkovTrace` (Layer 4),
+`isSemisimpleRing_of_qInt_ne_zero` and `isSemisimpleRing_iff_of_charZero` (Layer 5), and
+`existsUnique_jonesWenzl` and `IsMarkovTrace.apply_jonesWenzl` (Layer 6). The diagram category, the
+linear category, the cell modules, the tensor ideals and the envelope are not at the pins, so
+their headlines are not stated there; the layers below give the intended Lean signatures of those
+carriers and of their universal properties.
 
 ---
 
@@ -220,8 +233,9 @@ previous layers land.
   the literature, and both restrictions on it are real: `ζ = 1` gives `δ = 2` and `[n](2) = n`,
   `ζ = −1` gives `δ = −2` and `[n](−2) = (−1)^{n−1}·n`, neither of which ever vanishes in
   characteristic zero, while in characteristic `p` both of them vanish at `n = p`. State the
-  characteristic-zero form as the milestone and the `[n](±2) = ±n` evaluations separately, so
-  the modular case is visible rather than hidden inside a false iff.
+  characteristic-zero form as the milestone (`exists_qInt_eq_zero_iff`, over an algebraically
+  closed field of characteristic zero, with `ζ` a unit of finite order) and the `[n](±2) = ±n`
+  evaluations separately, so the modular case is visible rather than hidden inside a false iff.
 - **A computable evaluator.** `qInt` is definitionally an evaluation of `Polynomial.Chebyshev.S`,
   and Mathlib's `Polynomial` is noncomputable, so `qInt` itself can never be `#eval`ed. Provide
   `qIntAux : R → ℕ → R` by the `ℕ`-recurrence (`[0] = 0`, `[1] = 1`, `[n+2] = δ·[n+1] − [n]`)
@@ -246,13 +260,14 @@ previous layers land.
   abstract instances and the executable ones apart.
 - **The Dyck-word model and counting:** the equivalence
   `PlanarMatching (2k) ≃ {p : DyckWord // p.semilength = k}` (an innermost-cup induction),
-  hence `card = catalan k`, and emptiness for odd `k`. The Dyck encoding doubles as the
+  hence `card_planarMatching` (`Nat.card (PlanarMatching (2 * k)) = catalan k`), and emptiness
+  for odd `k`. The Dyck encoding doubles as the
   efficient composition algorithm later (a stack machine that also counts the circles it
   closes).
 - **The shared noncrossing-partition carrier:** noncrossing partitions and pair partitions of
-  `Fin k`, their rotation, and their Catalan counts are owned by the
-  [random matrices roadmap's finite combinatorial prerequisite, PR #397](https://github.com/TauCetiProject/TauCetiRoadmap/pull/397),
-  realized as specified in [free probability F2](../FreeProbability/README.md) by
+  `Fin k`, their rotation, and their Catalan counts are owned by RandomMatrices, *Finite
+  combinatorial prerequisite for Milestones 3, 4, and 6*, realized as specified in
+  [FreeProbability §F2](../FreeProbability/README.md) by
   `FreeProbability.NoncrossingPartition k`, a subtype of
   `Finpartition (Finset.univ : Finset (Fin k))`. Prove the equivalence
   `planarMatchingEquivNoncrossingPairing` of `PlanarMatching k` with its pair-block subfamily,
@@ -334,9 +349,37 @@ previous layers land.
   `ExactPairing V V`, so both universal properties take one as input: existence of a strong
   monoidal functor `lift` with an isomorphism from the image of the generator to `V` along which the
   images of `cup` and `cap` are `η_ V V` and `ε_ V V`, and uniqueness of such a functor up to
-  monoidal natural isomorphism compatible with that identification. `Suggested.lean` pins both
-  (`FreeSelfDualityCat.lift`, `TLDiagCat.lift` and their `lift_unique`); keep the bimodule example
-  as a negative test for the second.
+  monoidal natural isomorphism compatible with that identification. Keep the bimodule example as a
+  negative test for the second. The intended signatures, for `C` an arbitrary monoidal category
+  (`[Category C] [MonoidalCategory C]`, binders of every declaration), are:
+
+  ```lean
+  def CirclesCommuteAt (d : 𝟙_ C ⟶ 𝟙_ C) (X : C) : Prop :=
+    (ρ_ X).inv ≫ (X ◁ d) ≫ (ρ_ X).hom = (λ_ X).inv ≫ (d ▷ X) ≫ (λ_ X).hom
+  def IsCircleCentral {V : C} (η : 𝟙_ C ⟶ V ⊗ V) (ε : V ⊗ V ⟶ 𝟙_ C) : Prop :=
+    CirclesCommuteAt (η ≫ ε) V
+  -- `F` sends the generating self-duality of `D` to the given one on `V`, along `e`
+  def SendsSelfDuality {D : Type*} [Category D] [MonoidalCategory D] {g : D} [ExactPairing g g]
+      (F : D ⥤ C) [F.Monoidal] (V : C) [ExactPairing V V] (e : F.obj g ≅ V) : Prop :=
+    ε F ≫ F.map (η_ g g) = η_ V V ≫ (e.inv ⊗ₘ e.inv) ≫ μ F g g ∧
+      (e.inv ⊗ₘ e.inv) ≫ μ F g g ≫ F.map (ε_ g g) ≫ η F = ε_ V V
+  def TLDiagCat.lift (V : C) [ExactPairing V V] (hc : IsCircleCentral (η_ V V) (ε_ V V)) :
+      TLDiagCat ⥤ C
+  instance : (TLDiagCat.lift V hc).Monoidal
+  def TLDiagCat.liftObjIso : (TLDiagCat.lift V hc).obj (TLDiagCat.of 1) ≅ V
+  theorem TLDiagCat.lift_sendsSelfDuality :
+      SendsSelfDuality (TLDiagCat.lift V hc) V (TLDiagCat.liftObjIso V hc)
+  theorem TLDiagCat.lift_unique (G : TLDiagCat ⥤ C) [G.Monoidal]
+      (e : G.obj (TLDiagCat.of 1) ≅ V) (he : SendsSelfDuality G V e) :
+      ∃ i : G ≅ TLDiagCat.lift V hc, NatTrans.IsMonoidal i.hom ∧
+        i.hom.app (TLDiagCat.of 1) = e.hom ≫ (TLDiagCat.liftObjIso V hc).inv
+  ```
+
+  and the same four declarations for `FreeSelfDualityCat`, without `hc`. The circle is central on
+  the generator of `TLDiagCat` (the necessity half), and `CirclesCommuteAt d` holds at `𝟙_ C` and
+  is closed under `⊗`, which propagates centrality from `V` to its tensor powers. All objects of
+  `TLDiagCat`, `FreeSelfDualityCat` and `TLCat R δ` live in `Type`, with hom-types in `Type` for
+  the first two and in the universe of `R` for the third.
 
   ⚠ The condition is at `V`, not at every object of `C`. The image of `TLDiagCat` consists of the
   tensor powers of `V` and the unit, so centrality at `V` (propagated to tensor powers as part of
@@ -356,7 +399,26 @@ previous layers land.
   one that names the loop value: monoidally `R`-linear functors `TL(R, δ) ⥤ C` into an `R`-linear
   monoidal target correspond to self-dualities with `η ≫ ε = δ • 𝟙_{𝟙}`. State it beside the
   diagrammatic one, since it is what the evaluation representation of Layer 3 actually consumes
-  (`TLCat.lift` and `TLCat.lift_unique`, among `R`-linear strong monoidal functors).
+  (`TLCat.lift` and `TLCat.lift_unique`, among `R`-linear strong monoidal functors). The target
+  binders are `[Category C] [Preadditive C] [Linear R C] [MonoidalCategory C]
+  [MonoidalPreadditive C] [MonoidalLinear R C]`, each carried by every declaration that mentions
+  `C`; an `R`-linear strong monoidal functor out of `TL(R, δ)` forces the left action of
+  `δ • 𝟙 (𝟙_ C)` on `V` to be `δ • 𝟙 V`, which needs the last two. With them:
+
+  ```lean
+  def TLCat.lift (V : C) [ExactPairing V V] (hδ : η_ V V ≫ ε_ V V = δ • 𝟙 (𝟙_ C)) :
+      TLCat R δ ⥤ C
+  instance : (TLCat.lift R δ V hδ).Monoidal
+  instance : (TLCat.lift R δ V hδ).Linear R
+  def TLCat.liftObjIso : (TLCat.lift R δ V hδ).obj (TLCat.of 1) ≅ V
+  theorem TLCat.lift_unique (G : TLCat R δ ⥤ C) [G.Monoidal] [G.Linear R]
+      (e : G.obj (TLCat.of 1) ≅ V) (he : SendsSelfDuality G V e) :
+      ∃ i : G ≅ TLCat.lift R δ V hδ, NatTrans.IsMonoidal i.hom ∧
+        i.hom.app (TLCat.of 1) = e.hom ≫ (TLCat.liftObjIso R δ V hδ).inv
+  ```
+
+  where `SendsSelfDuality` is taken for the generating self-duality of `TLCat.of 1` (cup and cap,
+  with `η_ ≫ ε_ = δ • 𝟙`). No centrality hypothesis is needed, since `δ • 𝟙` is central.
 - **Through-strand factorization:** every diagram factors as a *surjection* (all top points
   of the intermediate object are through-strands) followed by an *injection* (all bottom
   points through), through `through D`, uniquely once the circles are pinned to the
@@ -441,15 +503,19 @@ previous layers land.
   Tau Ceti's `TauCeti.TemperleyLieb R δ n` (see the consume list); do not build a second one.
   Its generators on `n + 1` strands are indexed by `Fin (n + 1 - 1)`, which reduces to `Fin n`,
   so the two indexings agree at `n + 1` with no reindexing map. The target is the comparison
-  `presentedTLEquiv : TauCeti.TemperleyLieb R δ n ≃ₐ[R] TLAlg R δ n`, built with
+  `presentedTLEquiv : TauCeti.TemperleyLieb R δ n ≃ₐ[R] TLAlg R δ n`, for `R : Type u` and both
+  sides in `Type u` (at `n = 0` both are `R`), built with
   `TauCeti.TemperleyLieb.lift` from the diagram relations, together with the generator comparison
   (`TauCeti.TemperleyLieb.e δ i ↦ e R δ i`) and the tower compatibility (`strandIncl ↦ incl`).
   Bijectivity forces the **Jones normal form** for reduced words in the `e_i` and the spanning
   argument, with the Catalan count of Layer 1 and `diagBasis` pinning the dimension; the
   inductive add-a-cap/drag-a-corner generation of diagrams is the normal-form half of this
-  theorem. This is the canonical comparison between the two algebras: the
-  [Temperley–Lieb operator algebras roadmap, PR #867](https://github.com/TauCetiProject/TauCetiRoadmap/pull/867)
-  should consume it, and its Markov-trace comparison below, rather than construct its own.
+  theorem. Its headline content, stated on the native algebra as `exists_basis_planarMatching`, is
+  that for every commutative ring `R` and every `δ`, `TauCeti.TemperleyLieb R δ n` is a free
+  `R`-module with a basis indexed by `PlanarMatching (2 * n)` (the diagrams `n → n`), so of rank
+  `catalan n`. This is the canonical comparison between the two algebras: the consumer
+  TemperleyLiebOperatorAlgebras, §A1, takes it, and the Markov-trace comparison below, rather than
+  constructing its own.
 - **The tower:** the inclusions `incl : TLAlg R δ n →ₐ TLAlg R δ (n+1)` (add a through
   strand on the right), injective for every `R` and `δ` (basis-injective, no invertibility
   needed).
@@ -462,12 +528,22 @@ previous layers land.
   strand only): `TLAlg n`-bimodule map, `condExp (incl x) = δ·x`,
   `tr̂ ∘ condExp = tr̂`.
 - **Uniqueness of the Markov trace:** any family of linear maps satisfying traciality, the
-  compatibility, the Markov property, and `tr 1 = 1` in degree `0` equals `tr̂`.
+  compatibility, the Markov property, and `tr 1 = 1` in degree `0` equals `tr̂`. On the native
+  algebra the predicate is `IsMarkovTrace R δ tr`, for a family
+  `tr : ∀ n, TauCeti.TemperleyLieb R δ n →ₗ[R] R`: `tr n 1 = δ ^ n` for every `n` (needed in all
+  degrees, because `TauCeti.TemperleyLieb.strandIncl` starts at one strand), traciality,
+  `tr (n + 2) (strandIncl x) = δ * tr (n + 1) x`, and the Markov property
+  `tr (n + 2) (strandIncl x * e δ (Fin.last n)) = tr (n + 1) x`. The headline
+  `existsUnique_isMarkovTrace` says that over every commutative ring and at every `δ` exactly one
+  such family exists: existence is `tr̂ ∘ presentedTLEquiv`, uniqueness the normal-form argument
+  (every element on `n + 2` strands is a combination of `strandIncl a` and
+  `strandIncl a * e δ (Fin.last n) * strandIncl b`).
 - **Comparison with Tau Ceti's trace:** whenever `δ = -(q + q⁻¹)`, `tr̂ ∘ presentedTLEquiv` is
-  `TauCeti.TemperleyLieb.markovTrace q hδ`, by the uniqueness theorem. Tau Ceti supplies
-  traciality, compatibility with `strandIncl` and the Markov property; the cases at zero strands
-  follow from `markovTrace_one`. Mind the sign: in the convention `δ = q' + q'⁻¹` of this
-  roadmap, Tau Ceti's unit is `q = -q'`.
+  `TauCeti.TemperleyLieb.markovTrace q hδ`, by the uniqueness theorem: Tau Ceti's
+  `markovTrace_one`, `markovTrace_mul_comm`, `markovTrace_strandIncl` and
+  `markovTrace_strandIncl_mul_e_last` say exactly that it satisfies `IsMarkovTrace`, and
+  `Suggested.lean` checks this in a proved example. Mind the sign: in the convention
+  `δ = q' + q'⁻¹` of this roadmap, Tau Ceti's unit is `q = -q'`.
 
 ### Layer 5: cellular algebras, Gram determinants, semisimplicity
 
@@ -496,8 +572,8 @@ previous layers land.
   precomposition `a • u := (a*) ≫ u`, where `a*` is the vertical reflection of `a`; the alternative
   is to declare the module over `(TLAlg R δ n)ᵐᵒᵖ` and keep plain precomposition. State whichever
   is chosen as a defining equation. Getting this wrong makes the form orientation and the scalar
-  tower disagree with the action, so `cellForm_smul`-shaped compatibilities become unprovable
-  rather than merely awkward.
+  tower disagree with the action, so the compatibility of the cell form with the action becomes
+  unprovable rather than merely awkward.
 - **The Gram determinant formula, universally:** with `G_{n,k}` the Gram matrix in the
   half-diagram basis, `det G_{n,k}` is the evaluation at `δ` of an explicit polynomial
   `gramPoly n k ∈ ℤ[X]`, characterized in `ℤ[X]` (a domain, where every `[j]` is nonzero) by
@@ -514,7 +590,13 @@ previous layers land.
 - **Semisimplicity:** over a field, `IsSemisimpleRing (TLAlg K δ n)` iff every
   `det G_{n,k} ≠ 0`; in particular semisimple whenever `[k] ≠ 0` for `1 ≤ k ≤ n`. Over a field
   of **characteristic zero** this becomes the closed classification: `TL_n(K, δ)` is semisimple
-  iff `ℓ(δ) > n`, or `δ = 0` and `n` is odd.
+  iff `ℓ(δ) > n`, or `δ = 0` and `n` is odd. Over `ℂ` these are Ridout–Saint-Aubin's Gram
+  determinant (Theorem 4.7) and the semisimplicity remarks after their Corollary 4.8, with the
+  Graham–Lehrer criterion; the extension to every field of characteristic zero is part of the
+  target. On the native algebra the two headlines are `isSemisimpleRing_of_qInt_ne_zero` (any
+  field `K`, `qInt K δ k ≠ 0` for `k ∈ Finset.Icc 1 n` implies
+  `IsSemisimpleRing (TauCeti.TemperleyLieb K δ n)`) and `isSemisimpleRing_iff_of_charZero` (the
+  closed classification under `[CharZero K]`).
   ⚠ **The `δ = 0` trap:** `[2](0) = 0` yet `TL_3(0)` *is* semisimple (the Gram determinants
   `det G_{3,1} = [3] = −1`, `det G_{3,3} = 1` are nonzero); `TL_2(0)` is not
   (`det G_{2,0} = 0`). So "semisimple iff `[k] ≠ 0` for `k ≤ n`" is **false** as an iff, which
@@ -537,7 +619,13 @@ previous layers land.
 
 - **Existence and characterization:** `jonesWenzl n`, defined when `[k]` is invertible for
   `1 ≤ k ≤ n`: the unique nonzero idempotent killed on both sides by every `e_i` (uniqueness
-  over a field); `star`-invariant; coefficient of the identity diagram equal to `1`.
+  over a field); `star`-invariant; coefficient of the identity diagram equal to `1`. Over any
+  commutative ring the characterization uses the coefficient instead of nonvanishing: the headline
+  `existsUnique_jonesWenzl` says that when `[1], …, [n]` are units there is exactly one `f` in
+  `TauCeti.TemperleyLieb R δ n` that is idempotent, has `TauCeti.TemperleyLieb.aug f = 1`, and
+  satisfies `e δ i * f = 0 = f * e δ i` for every generator. Uniqueness needs no invertibility:
+  the kernel of the augmentation is the two-sided ideal generated by the `e_i`, so two such
+  elements `f`, `f'` satisfy `f = f * f' = f'`.
 - **Both recursions:** the quadratic (Wenzl) recursion
   `f_{n+1} = f_n − ([n]/[n+1]) · f_n e_n f_n`, and the **single-clasp (linear) recursion**
   expanding `f_{n+1}` as `f_n` plus a `[·]/[n+1]`-weighted sum of once-capped terms, which
@@ -555,7 +643,9 @@ previous layers land.
   Milestone: a `#eval`-able computation of any single coefficient, checked against `f_2` and `f_3`,
   and against a diagram admitting two different admissible removal choices, so that the test
   detects a missing summation rather than only a wrong constant.
-- **Traces:** `tr̂(f_n) = [n+1]` and the partial trace
+- **Traces:** `tr̂(f_n) = [n+1]` (on the native algebra `IsMarkovTrace.apply_jonesWenzl`: every
+  Markov trace takes the value `qInt R δ (n + 1)` on the Jones–Wenzl projection) and the partial
+  trace
   `condExp f_{n+1} = ([n+2]/[n+1]) · f_n`; absorption `f_n · incl(f_{n-1}) = f_n` and its
   tensor variants.
 - **Tensor ideals and negligibles:** the definition of a tensor ideal (hom-submodules closed
@@ -587,7 +677,24 @@ previous layers land.
   compatibility of the two lifts. The monoidal structures are lifts of the given one: the
   embeddings `C ⥤ Mat_ C` and `C ⥤ Karoubi C` are strong monoidal, and the `Karoubi` lift
   needs only a monoidal `C`. In Lean the source monoidal structure must be a binder of each
-  instance; left as a section variable it drops out of a definition with a `sorry` value. Only the finite biproducts come free, from `Mat_` plus
+  instance; left as a section variable it drops out of a definition with a `sorry` value, and the
+  `Karoubi` instance would then claim a tensor unit on the envelope of the empty category, which is
+  empty. The intended signatures, for `C : Type u₁` with `[Category.{v} C]`:
+
+  ```lean
+  instance [Preadditive C] [MonoidalCategory C] [MonoidalPreadditive C] :
+      MonoidalCategory (Mat_ C)
+  instance [Preadditive C] [MonoidalCategory C] [MonoidalPreadditive C] :
+      (Mat_.embedding C).Monoidal
+  instance [MonoidalCategory C] : MonoidalCategory (Karoubi C)   -- (X, p) ⊗ (Y, q) = (X ⊗ Y, p ⊗ q)
+  instance [MonoidalCategory C] : (toKaroubi C).Monoidal
+  instance [Preadditive C] [Linear S C] : Linear S (Mat_ C)
+  instance [Preadditive C] [Linear S C] : Linear S (Karoubi C)
+  instance [Preadditive C] [MonoidalCategory C] [MonoidalPreadditive C] [RigidCategory C] :
+      RigidCategory (Karoubi (Mat_ C))
+  ```
+
+  Only the finite biproducts come free, from `Mat_` plus
   `Mathlib/CategoryTheory/Idempotents/Biproducts.lean`. Everything Layer 7 says about tensor
   products, duals or quantum dimensions in the envelope rests on this, so it is the first
   milestone of the layer, and it belongs in `TauCeti/CategoryTheory/Monoidal/Envelope/`
@@ -602,11 +709,36 @@ previous layers land.
   pivotal, spherical, braided and ribbon structure to that quotient; and idempotent
   completeness of the result (or its idempotent completion, if the quotient loses it). Mathlib
   has general categorical quotients but no monoidal quotient, so this is built here. ⚠ The
-  additivity of whiskering is used: descent asks for `W ◁ f - W ◁ g ∈ I` when `f - g ∈ I`, ideal
-  closure only gives `W ◁ (f - g) ∈ I`, and `Suggested.lean` records a monoidal `ℤ`-linear
-  category with non-additive tensor where the tensor does not descend. In Lean
-  `[MonoidalPreadditive C]` must be a binder of the quotient's monoidal instance and of the
-  strong monoidal structure of the quotient functor, not a section variable.
+  additivity of whiskering is used: descent asks for `W ◁ f - W ◁ g ∈ I` when `f - g ∈ I`, and
+  ideal closure only gives `W ◁ (f - g) ∈ I`. Negative test: the `ℤ`-linear category with objects
+  `ℕ`, `End n = ℤ` and no other nonzero morphisms, with tensor `n + m` on objects and
+  `f ⊗ g = f ^ (2 ^ m) * g ^ (2 ^ n)` on endomorphisms (monoidal, not monoidal preadditive), and
+  the ideal `I (n, n) = 3 ^ (2 ^ n) ℤ`, closed under composition and both whiskerings. Then
+  `1 = 4` in `End 0 / I = ℤ/3`, while whiskering by `1` gives `1 ≠ 16` in `End 1 / I = ℤ/9`, so the
+  tensor does not descend. The intended signatures, with the tensor ideal a structure
+  `MonoidalIdeal S C` of hom-submodules closed under composition on both sides and under both
+  whiskerings (for `[Preadditive C] [MonoidalCategory C] [Linear S C]`):
+
+  ```lean
+  def MonoidalQuotient (I : MonoidalIdeal S C) : Type u₁        -- same objects
+  instance : Category.{v} (MonoidalQuotient S C I)               -- also Preadditive, Linear S
+  def toMonoidalQuotient (I : MonoidalIdeal S C) : C ⥤ MonoidalQuotient S C I
+  theorem toMonoidalQuotient_map_eq_zero_iff {X Y : C} (f : X ⟶ Y) :
+      (toMonoidalQuotient S C I).map f = 0 ↔ f ∈ I.submod X Y
+  instance [MonoidalPreadditive C] : MonoidalCategory (MonoidalQuotient S C I)
+  instance [MonoidalPreadditive C] : (toMonoidalQuotient S C I).Monoidal
+  instance [MonoidalPreadditive C] [MonoidalLinear S C] :
+      MonoidalLinear S (MonoidalQuotient S C I)
+  ```
+
+  The quotient functor is full and surjective on objects, so its monoidal comparison determines
+  the quotient tensor as the descended one. `[MonoidalPreadditive C]` is a binder of the tensor and
+  of the strong monoidal structure, never a section variable. There is no instance
+  `IsIdempotentComplete (MonoidalQuotient S C I)`: finite-rank free abelian groups modulo the
+  morphisms divisible by `6` have matrices over `ℤ/6` as morphisms, and the idempotent `3` of the
+  rank-one object does not split (its image would have ranks `(1, 0)` under
+  `ℤ/6 ≅ 𝔽₂ × 𝔽₃`, while every object has ranks `(n, n)`), so the layer uses
+  `Karoubi (MonoidalQuotient S C I)`.
 - **The generic classification:** when `[k] ≠ 0` for all `k ≥ 1`: the images of the
   Jones–Wenzl projections are simple, pairwise non-isomorphic, every simple is one of them,
   and every object is a finite biproduct of them (semisimplicity). ⚠ Mathlib has no
