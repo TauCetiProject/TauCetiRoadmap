@@ -19,10 +19,32 @@ so the presented group is at least as large as the model; in particular it is no
 exactly the check that catches a relator transcribed wrongly enough to collapse the group.
 
 This roadmap does not prove simplicity, does not identify the presented group with the model (that
-needs an upper bound on the presented group, see *Beyond this roadmap*), and does not treat groups of
+needs an upper bound on the presented group, see *Scope and ownership*), and does not treat groups of
 Lie type.
 
 Suggested home in Tau Ceti: `TauCeti/GroupTheory/SpecificGroups/Sporadic/Orders/`.
+
+## Scope and ownership
+
+- **Owned here.** The Hex dependency and its test (O0); the ten carriers `SporadicOrders.<Name>` of
+  O1, each fixed by the literal generator images of its named ATLAS files, with their orders; and,
+  for each of them, the explicit images `τᵢ` of the presentation generators, the relator equations,
+  the generation equality and the surjection from `TauCeti.SporadicName.<Name>.Group` of O2.
+- **Consumed by [CFSGBasicProperties](../CFSGBasicProperties/README.md).** Its *Starting points and
+  ownership* and its P1 take O1 and O2 for `M11 M12 M22 M23 M24 J1 J2 HS McL Co3` and own what
+  follows from them: the upper bounds on the exact presented groups (its P0, item 2), the
+  recognition that turns these particular surjections into `MulEquiv`s (its P0, item 3, and P1),
+  `Finite` and `IsSimpleGroup` for the presented groups, the four further P1 models
+  `Co2 Suz Fi22 He`, and the twelve P2 names. It does not redefine the ten carriers. Its
+  presented-group certificate checkers (coset tables, normal forms, Tietze and normal-closure
+  certificates) are its own and are not replaced by the permutation-group checker of O0; for
+  permutation order and membership certificates it consumes that checker.
+- **Carriers are identified by data, not by name.** A theorem about another permutation
+  realization of the same group, for instance a simplicity proof of *Existing work* below, reaches
+  `SporadicOrders.<Name>` only through an explicit equivalence of carriers (forward and recovery
+  words between the two generating pairs, and an intertwiner of the two actions where the actions
+  differ). Equal degree, equal order or a shared ATLAS label does not identify two carriers.
+  CFSGBasicProperties P1 owns these comparisons.
 
 ## Dependency: kernel certificates for permutation groups
 
@@ -49,7 +71,8 @@ orders and simplicity of `M11 M12 M22 M23 M24 J1 J2 HS McL Co3 Suz Co2 Fi22 He` 
 graphs and parity certificates, some needing a 128 GiB host. This roadmap takes a different route,
 one general certificate checker rather than per-group arguments, and its order targets overlap that
 work for ten names. The models here are the ATLAS files named in O1; that work is an independent
-source of the same orders, not a source of definitions.
+source of the same orders, not a source of definitions, and its carriers meet these ones only
+through the comparisons of *Scope and ownership*.
 
 ## O0: the Hex dependency
 
@@ -72,7 +95,9 @@ standardness.
 Each file lists the images of the points `1, …, n`. The point `i` becomes `(i - 1 : Fin n)`, so the
 generator is the `σ : Equiv.Perm (Fin n)` with `σ (i - 1) = image i - 1`. Write it with
 `Hex.PermGroup.Kernel.permOfImages n [...]` on these 0-based images, so that the statement
-elaborates in time linear in `n`. Cite the file name in the docstring of the definition.
+elaborates in time linear in `n`. Cite the file name in the docstring of the definition. The
+statement file of this roadmap writes the `M24` model with Mathlib's cycle notation `c[...]` on the
+same 0-based points; both spellings denote the same two permutations.
 
 | name | degree | order | ATLAS files |
 |---|---|---|---|
@@ -88,6 +113,22 @@ elaborates in time linear in `n`. Cite the file name in the docstring of the def
 | `Co3` | 276 | 495766656000 | `Co3G1-p276B0.m1`, `.m2` |
 
 Every proof must build within the default `maxHeartbeats` and without `set_option maxHeartbeats`.
+
+**Checks.**
+
+- For `M24`, the first generator is a fixed-point-free involution (twelve 2-cycles, starting
+  `(0 3)(1 6)` on the 0-based points), the second has order three with six fixed points, and their
+  product has order 23. A transcription slip that still gives a permutation, such as two images
+  of the second file exchanged, composes the second generator with a transposition and so makes it
+  odd, which no element of order three is. Reading the lists as preimages replaces the second
+  generator by its inverse and keeps all three values (`a · b⁻¹` also has order 23), so the reading
+  direction is fixed by the rule `σ (i - 1) = image i - 1` above, not by this Check.
+- For `M24`, the order 244823040 factors as `24 · 23 · 22 · 21 · 20 · 48`, the lengths of the basic
+  orbits of a stabilizer chain; a model that is only 4-transitive, or a subgroup of index two,
+  fails this factorization.
+- The O0 test group of order 7920 is the `M11` order in the table, from different generators; a
+  checker that returned the order of the cyclic group generated by the first generator would give
+  11.
 
 ## O2: the presentations hold in the models
 
@@ -109,14 +150,11 @@ Derive `Nontrivial TauCeti.SporadicName.<Name>.Group` and
 `0 < Nat.card TauCeti.SporadicName.<Name>.Group → N ≤ Nat.card TauCeti.SporadicName.<Name>.Group`
 from the surjection and O1.
 
-## Beyond this roadmap
+## Downstream consumers
 
-This section is motivation for later roadmaps, not work to attempt here.
-
-The remaining sporadic groups with a faithful permutation representation of a few thousand points
-(`He` 2058, `Suz` 1782, `Co2` 2300, `Fi22` 3510, `Ru` 4060, `J3` 6156) are within reach of the same
-certificates once their kernel cost is measured; the rest (`Co1`, `Fi23`, `Fi24'`, `HN`, `Ly`, `Th`,
-`O'N`, `J4`, `B`, `M`) need matrix-group certificates. Identifying each presented group with its
-model needs an upper bound on the presented group, by a kernel-checked coset enumeration
-certificate, which would turn O2's surjection into an isomorphism and give `Nat.card` of the
-CFSGStatement group itself.
+[CFSGBasicProperties](../CFSGBasicProperties/README.md), P1, consumes the ten carriers, their
+orders and the O2 surjections, and adds the upper bounds on the presented groups that turn the
+surjections into isomorphisms and give `Nat.card` of the CFSGStatement group itself. The same
+roadmap owns the other sporadic groups: the permutation models of `He`, `Suz`, `Co2` and `Fi22`
+in its P1, and in its P2 the finite models (permutation, matrix and lattice) and the recognition
+of the remaining twelve names.
