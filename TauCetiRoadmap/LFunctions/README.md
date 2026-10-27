@@ -185,7 +185,7 @@ belong downstream.
 | `ArithmeticDirichletSeries.normCoeff` | conversion of an ideal-indexed L-function into Mathlib's `LSeries` coefficients |
 | `ArithmeticDirichletSeries.regroupByNorm` | equality between the ideal sum and the norm-indexed series |
 | `ArithmeticDirichletSeries.EulerProductData` | local Euler factors and the global Euler-product theorem |
-| `ArithmeticDirichletSeries.landau` | positivity input in the character-specific `3-4-1` nonvanishing argument |
+| `ArithmeticDirichletSeries.landau` | positivity input in the character-specific nonvanishing argument: the `3-4-1` bound and, in the exceptional quadratic case, Landau's argument on `ζ_K L(χ)` |
 | `ArithmeticDirichletSeries.abelSummation` | continuation of a nontrivial ray-class series from arithmetic partial sums |
 | `ArithmeticDirichletSeries.primeVonMangoldtCoeff` and `PrimeBoundaryRemainder` | the carrier and the record shape of Tau Ceti's `TauCeti.LFunctions.primeIdealVonMangoldtBoundary`, the boundary datum on which the supplier's prime ideal theorem is conditional; this roadmap compares its series with the named continuation (`primeIdealVonMangoldtBoundary_series_eq`) |
 
@@ -197,7 +197,7 @@ Mathlib's `dedekindZeta` and Tau Ceti's continuous extension of `-ζ_K'/ζ_K - 1
 `Re s ≥ 1` (`exists_continuousOn_eq_neg_deriv_dedekindZeta_div_sub`). This roadmap consumes that
 package and proves only the comparison of its series with the named continuation `dedekindZetaC`
 on `Re s > 1`. What remains new here is the full-plane continuation of `ζ_K` and of the Hecke
-L-functions, and the twisted boundary datum `exists_continuousOn_logDeriv_of_unitaryCancelling`.
+L-functions, and the twisted boundary datum `Grossencharacter.exists_continuousOn_logDeriv`.
 
 ### Global Number Fields
 
@@ -278,7 +278,7 @@ prose-level promise:
 ```text
 TauCeti.LFunctions.primeIdealVonMangoldtBoundary
 primeIdealVonMangoldtBoundary_series_eq
-exists_continuousOn_logDeriv_of_unitaryCancelling
+Grossencharacter.exists_continuousOn_logDeriv
 ```
 
 The first is Tau Ceti's record `PrimeBoundaryRemainder K Set.univ 1` on which the supplier's
@@ -286,10 +286,13 @@ The first is Tau Ceti's record `PrimeBoundaryRemainder K Set.univ 1` on which th
 `ζ_K`, and a continuous remainder across `Re s = 1` that exists because `ζ_K` has no zero there.
 It is consumed here, not rebuilt; the second identifies its series with the logarithmic
 derivative of the named continuation `dedekindZetaC` on `Re s > 1`. The third is the twisted
-counterpart, and the one this roadmap supplies: for a unitary weight covered by
-`UnitaryCancelling`, the logarithmic derivative of the named continuation extends continuously to `Re s ≥ 1` with no
-residue. Hecke's angular equidistribution of Gaussian primes is a consumer of the third together
-with `angularGrossencharacterData`; it needs a Tauberian step and Fourier analysis on the angular
+counterpart, and the one this roadmap supplies: for a Grossencharacter whose unitary weight is
+not a pure imaginary norm twist on its good ideals, the logarithmic derivative of the continued
+L-function of that weight extends continuously to `Re s ≥ 1` with no residue. It is stated for
+genuine Grossencharacters and not for every unitary weight satisfying `UnitaryCancelling`: that
+package continues the series only to `Re s > 1 - 1/[K:ℚ]`, and the exceptional quadratic case
+needs the continuation of Layer 5 (see Layer 7). Hecke's angular equidistribution of Gaussian
+primes is a consumer of the third together with `angularGrossencharacterData`; it needs a Tauberian step and Fourier analysis on the angular
 character group, so it is a prime-distribution theorem and is not proved here.
 
 ## Standing hypotheses and pinned conventions
@@ -979,10 +982,27 @@ norm twists and allows the square of each boundary twist either to be another no
 cancel. Requiring the square always to cancel incorrectly excludes quadratic characters; requiring
 the trivial member's nonzero norm twists to cancel makes the finite-family package uninhabitable.
 
-The square twist has three cases: nontrivial, trivial because the character has order two, and a
-nonunitary norm twist. The trivial-square case contributes a zeta pole; it cannot be discarded by
-an invalid cancellation. State the Grossencharacter boundary as `Re s = 1+shift` and reduce it to
-the unitary statement by recentering.
+At the boundary point `1 + it` of a unitary character `χ_u` the `3-4-1` argument pairs
+`L(s, χ_u)` at `1 + it` with the companion `L(s, χ_u²)` at `1 + 2it`. Either `χ_u²` cancels
+(the square-twist alternative of `UnitaryCancelling` with cancellation), the companion is then
+continuous at `1 + 2it`, and the pinned criterion `TauCeti.LSeries.ne_zero_of_threeFourOne`
+applies; or `χ_u²` is trivial on good ideals and the companion is `ζ_K` with finitely many Euler
+factors deleted. For `t ≠ 0` that companion is continuous at `1 + 2it` and the criterion still
+applies. For `t = 0` the companion has the zeta pole at `1` itself, the orders are
+`-3 + 4 - 1 = 0`, and the `3-4-1` bound excludes nothing: this is the exceptional quadratic case,
+and it cannot be discarded by an invalid cancellation. Prove it by Landau's argument. For a
+Grossencharacter with `χ_u` of order two, `L(s, χ_u)` continues to an entire function (Layer 5, as
+the L-function of a nontrivial finite-order Hecke character, Neukirch VII (8.5)); if
+`L(1, χ_u) = 0` then `ζ_K(s) L(s, χ_u)` is entire. Its Dirichlet coefficient at `𝔠` is
+`∑_{𝔞𝔟 = 𝔠} χ_u(𝔟)`, which is multiplicative, equal at `𝔭^k` to `k + 1`, to `1` or `0` by the
+parity of `k`, or to `1`, according as `χ_u(𝔭)` is `1`, `-1` or `0`; so it is nonnegative and
+at least `1` at every square ideal. By `ArithmeticDirichletSeries.landau` the series then converges
+at every real `s`, and for real `s > 1/2` it is at least `ζ_K(2s)`, which tends to infinity as
+`s → 1/2⁺`, against continuity of the entire function at `1/2`. A cancellation hypothesis alone
+does not supply this step: it continues the series of a weight only to `Re s > 1 - 1/[K:ℚ]`, which
+for `[K:ℚ] ≥ 2` does not contain `s = 1/2`. State the
+Grossencharacter boundary as `Re s = 1+shift` and reduce it to the unitary statement by
+recentering.
 
 Keep nonvanishing in meromorphic-order form at poles: `dedekindZetaC K` has order `-1` at `1` and
 order `0` at `1+it` for `t ≠ 0`; a nontrivial family member has order `0` for every real `t`.
@@ -994,9 +1014,22 @@ the exception clause of the single-character package, so their L-functions have 
 `Re s = 1` unconditionally.
 
 Export the boundary data that a prime-distribution argument takes from an L-function, and stop
-there. For a unitary weight covered by `UnitaryCancelling`, the logarithmic derivative of the
-named continuation extends continuously to `Re s ≥ 1` with no residue. That is a theorem about a
-named continued L-function, which is why it belongs here. For the trivial weight the record with
+there. For a Grossencharacter `χ` whose unitary weight `χ_u` is not a pure imaginary norm twist
+on its good ideals, the logarithmic derivative of the continued L-function
+`ArithmeticDirichletSeries.continuedLFunctionOfWeight χ_u` extends continuously to `Re s ≥ 1`
+with no residue (`Grossencharacter.exists_continuousOn_logDeriv`). That is a theorem about a
+named continued L-function, which is why it belongs here. Route: on `Re s > 1` the continued
+L-function of `χ_u` is `lFunctionC χ (s + idealShift)`, by `lFunctionC_eq` and Tau Ceti's
+`continuedLFunctionOfWeight_eq_LSeries`; it is holomorphic on `Re s ≥ 1` under the premise
+`Grossencharacter.unitaryCancelling` (Tau Ceti's `differentiableAt_continuedLFunctionOfWeight`),
+and zero-free there by `Grossencharacter.meromorphicOrderAt_lFunctionC`, including the
+exceptional quadratic case above, the finitely many deleted Euler factors being nonzero on
+`Re s ≥ 1`; the quotient `-L'/L` is then continuous on the closed half-plane. The theorem is not
+stated for an arbitrary unitary weight satisfying `UnitaryCancelling`: the ideal Liouville
+weight `λ_K(𝔭) = -1` of a field of degree `d ≥ 3` has series `ζ_K(2s)/ζ_K(s)`, with a simple zero
+at `1`, and nothing in that package excludes it: under the Riemann hypothesis for `ζ_K` its ideal
+partial sums are `O(x^(1/2 + ε))` for every `ε > 0`, inside the bound `O(x^(1 - 1/d))` of
+`HasCancellation`, and every other field of the package then follows. For the trivial weight the record with
 residue `1`, `PrimeBoundaryRemainder K Set.univ 1`, already exists: it is Tau Ceti's
 `TauCeti.LFunctions.primeIdealVonMangoldtBoundary`, the datum Arithmetic Dirichlet Series names
 and on which its prime ideal theorem is conditional. Consume it, and prove only that its series is
@@ -1061,8 +1094,9 @@ roadmap (its lattices are the Tau Ceti library's), so `LFunctions → ThetaSerie
 is acyclic.
 
 The boundary exports do not reverse an arrow. Arithmetic Dirichlet Series does not import this
-roadmap: it states its prime ideal theorem conditionally on a record it names, and this roadmap
-constructs that record. The arrow into `LFunctions` stays the only one between them.
+roadmap: it states its prime ideal theorem conditionally on a record it names, Tau Ceti provides
+that record, and this roadmap consumes it and proves the comparison of its series with
+`dedekindZetaC`. The arrow into `LFunctions` stays the only one between them.
 
 ## References
 

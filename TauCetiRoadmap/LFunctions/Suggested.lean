@@ -3340,17 +3340,29 @@ theorem angularGrossencharacter_unitaryWeight_span
         (angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {α}) =
           (τ (α : F) / starRingEnd ℂ (τ (α : F))) ^ (2 * k) := sorry
 
-/-- **The boundary datum exported to prime-distribution consumers.** For a unitary weight covered
-by the reviewed cancellation package, the logarithmic derivative of the named continuation extends
-continuously to the closed half-plane `Re s ≥ 1` with no residue: there is no pole to cancel,
-because the weight is not a norm twist, and no zero on the line, by the nonvanishing theorem of
-this layer. A Tauberian consumer needs exactly this, and no prime count is proved here. -/
-theorem exists_continuousOn_logDeriv_of_unitaryCancelling
-    (χ : ADS.UnitaryIdealWeight K) (h : UnitaryCancelling K χ) :
+/-- **The boundary datum exported to prime-distribution consumers.** For a Grossencharacter whose
+unitary weight is not a pure imaginary norm twist on its good ideals, the logarithmic derivative of
+the continued L-function of that weight extends continuously to the closed half-plane `Re s ≥ 1`
+with no residue: there is no pole to cancel, because the weight is not a norm twist, and no zero on
+the line. On `Re s > 1` the continued L-function is the recentered named function,
+`continuedLFunctionOfWeight χ_u s = lFunctionC χ (s + idealShift)`, by `lFunctionC_eq` and Tau
+Ceti's `continuedLFunctionOfWeight_eq_LSeries`; the zero-freeness is
+`Grossencharacter.meromorphicOrderAt_lFunctionC`, with its premise from
+`Grossencharacter.unitaryCancelling`. Its exceptional case, `χ_u²` trivial on good ideals at
+`s = 1`, is Landau's argument on `ζ_K L(χ_u)`, not the `3-4-1` bound.
+⚠ The weight must come from a Grossencharacter: cancellation of an arbitrary unitary weight
+continues its series only to `Re s > 1 - 1/[K:ℚ]`, which for `[K:ℚ] ≥ 2` does not contain the
+point `s = 1/2` that Landau's argument needs. A Tauberian consumer needs exactly this datum, and no
+prime count is proved here. -/
+theorem Grossencharacter.exists_continuousOn_logDeriv
+    {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
+    (hexc : ∀ u : ℝ,
+      ¬ TauCeti.MultiplicativeIdealWeight.IsNormTwistOnGood
+        χ.unitaryWeight.1 u) :
     ∃ G : ℂ → ℂ, ContinuousOn G {s : ℂ | 1 ≤ s.re} ∧
       ∀ s : ℂ, 1 < s.re →
-        G s = -deriv (ADS.continuedLFunctionOfWeight χ) s /
-          ADS.continuedLFunctionOfWeight χ s := sorry
+        G s = -deriv (ADS.continuedLFunctionOfWeight χ.unitaryWeight) s /
+          ADS.continuedLFunctionOfWeight χ.unitaryWeight s := sorry
 
 /-- On `Re s > 1` the named continuation is Mathlib's `dedekindZeta` near the point, so the two
 have the same logarithmic derivative there. -/
