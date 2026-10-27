@@ -574,6 +574,41 @@ as trivial without a purported injective scalar-circle inclusion. Other global
 forms need not admit all fundamental modules or a polynomial representation
 ring on a purported independent set of fundamental characters.
 
+**Recognizing genuine U(2) weight characters.** For a finitely supported
+function `f:ℤ²→ℕ`, prove that f is the diagonal-torus weight-multiplicity
+function of a finite-dimensional continuous complex U(2) representation iff
+
+```
+f(a,b)=f(b,a)                         for all a,b∈ℤ,
+f(a,b)≥f(a+1,b−1)                    whenever a≥b.
+```
+
+Finite support is a hypothesis, not a consequence of these two conditions.
+Use this layer's actual character lattice and the engine's SU2 strings;
+retain every central degree `a+b`, including negative determinant twists.
+For each dominant pair `a≥b`, construct
+`L_(a,b)=det^b⊗Sym^(a−b)(ℂ²)` restricted to U(2), and prove its weights
+are `(a−j,b+j)`, `0≤j≤a−b`, each with multiplicity1. Equivalently descend
+`z^(a+b)⊗Sym^(a−b)` through `S1×SU2→U2`: the kernel element
+`(−1,−I)` acts trivially since `(a+b)−(a−b)=2b` is even.
+Prove irreducibility, the actual comparison of these two constructions,
+and exhaustion using the preceding global existence/descent theorem.
+
+Recover the multiplicity of L_(a,b) by the outward difference
+`m_(a,b)=f(a,b)−f(a+1,b−1)` for a≥b. First prove the inequality makes
+this a nonnegative integer; finite support makes the list finite.
+Telescope on each fixed-sum, fixed-parity weight string to prove that
+`⊕_(a≥b) L_(a,b)^(⊕m_(a,b))` has weight function f. Construct the
+representation and its weight-space comparison, and prove uniqueness up
+to equivalence from the multiplicity formula. Give a finite extraction
+algorithm and its dimension check `Σ f=Σ_(a≥b)m_(a,b)(a−b+1)`.
+For instance multiplicities `1,2,1` at `(2,0),(1,1),(0,2)` give
+`Sym²(ℂ²)⊕det`. The Weyl-invariant function supported with value1 at
+`(1,−1),(−1,1)` fails the inequality at `(0,0)` and is only the virtual
+character `det⁻¹⊗Sym²(ℂ²)−1`. This criterion identifies the genuine
+positive cone in rank2; it does not infer positivity from Weyl invariance.
+
+
 The algebraic universal-enveloping center and trace-form adapter is owned by
 LieHighestWeight9. CharacteristicClasses C5.1 owns compact invariant polynomial
 restriction. Neither polynomial invariant theorem nor a semisimple Lie weight
@@ -659,6 +694,40 @@ and rank-one `SU(2)` subgroups, so `SU(2)` is foundational.
   identity hold everywhere and determine the continuous endpoint values. These are the
   compact-group specializations that a later general-compact-Lie-group roadmap (maximal tori, roots,
   the Weyl group) would abstract; here they are proved by hand for `SU(2)`.
+- **Unitary conjugacy classes of SU(2) homomorphisms and embeddings.** For every
+  n≥0 classify continuous group homomorphisms SU(2)→U(n), with conjugacy by
+  U(n), using the preceding complex symmetric-power irreducibles. Construct the
+  bijection with finitely supported multiplicities m_d∈ℕ satisfying
+  `Σ_(d≥0)(d+1)m_d=n`: its representative is the orthogonal direct sum of
+  m_d copies of a fixed unitary model of Sym^d(ℂ²), transported to ℂⁿ by a
+  unitary basis. Prove independence of that basis, exhaustiveness and uniqueness.
+  In particular an invertible complex intertwiner between two unitary models
+  can be replaced by a unitary intertwiner using its positive polar factor.
+  These are complex representation multiplicities, including for irreducibles
+  of real or quaternionic type; no real-dimension count replaces d+1.
+
+  Prove `(-I)·v=(-1)^d v` on Sym^d(ℂ²). For d≥1 prove its Lie algebra
+  action is nonzero and has zero kernel by simplicity of su(2); its group
+  kernel is therefore discrete and central, using connectedness and the actual
+  center Z(SU(2))={±I}. Thus the kernel is {I} for odd d and {±I} for positive
+  even d; Sym^0 has kernel all of SU(2). Prove the kernel of the direct sum is
+  the intersection of these kernels. Consequently the homomorphism is faithful
+  iff m_d>0 for some odd d. A faithful continuous homomorphism here is a
+  topological embedding by compactness of SU(2) and the Hausdorff target;
+  compare it with the smooth Lie-group embedding through LieGroups' automatic
+  smoothness and the injective differential. Supply the converse from an
+  embedding to faithfulness.
+
+  Identify these multiplicity lists with partitions of n, whose part d+1
+  occurs m_d times. Embeddings correspond precisely to partitions containing
+  an even part. Prove finiteness, a terminating enumeration and the cardinal
+  identity `#(embedding conjugacy classes)=p(n)-p_odd(n)`, where p(n) counts
+  all partitions and p_odd(n) counts partitions with all parts odd, with the
+  empty partition included. For n=0 and n=1 the only homomorphism is trivial
+  and there are no embeddings; for n=2,3,4 the numbers of embedding classes
+  are respectively 1,1,3. This is the finite-dimensional unitary-conjugacy
+  problem assigned in Knutson's first-semester p60.
+
 
 ---
 
