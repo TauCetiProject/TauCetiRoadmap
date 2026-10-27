@@ -45,37 +45,37 @@ The shared convention is "a knot has no privileged representation".
 
 ## Cross-roadmap interfaces
 
-The following versions specify the shared interfaces consumed below. The named
+The following roadmaps specify the shared interfaces consumed below. The named
 sections determine each dependency; the constructions assigned to this roadmap
 remain its targets.
 
 | Supplier | Consumed interfaces |
 | --- | --- |
-| [AlgebraicTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/50af6084a401dffe3db1e50dac46fe4bca36f4fd/TauCetiRoadmap/AlgebraicTopology/README.md) | Van Kampen and cellular/singular comparisons; 4.7 realization CW; Stage6 relative classes and interior atlas; 8.5 infinity; 8.11a ANR/CW foundations and the EM/Bockstein interfaces. |
-| [DifferentialGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a5fcda8be0e91662c90e6b1832180b3fd5e685fb/TauCetiRoadmap/DifferentialGeometry/README.md) | Corners, metrics, density/form integration, distributions and Frobenius charts; the regular-value predicates consumed in GT10. |
-| [HopfRinow](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/HopfRinow/README.md) | Levi-Civita connection, exponential map and comparison with general smooth connections. |
-| [RiemannianGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7d5cabbd745d7e1b7e51cc8540b0b6d2e4abef65/TauCetiRoadmap/RiemannianGeometry/README.md) | R4.3 complete-local-isometry covering; R4.4 Cartan–Hadamard; R4.7 direct models, isometry germs and quotient atlases. |
-| [SurfaceTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md) | Compact surface classification/genus and Layer9 mapping-class/cut-system comparisons. |
-| [TeichmullerGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/84e3d8187b3d3616d8267d01027093f37124800c/TauCetiRoadmap/TeichmullerGeometry/README.md) | T0/T4a/T5 closed marked surfaces, uniformization, normalized Beltrami solution and Teichmüller metric/completeness; GT8.H owns the required finite-type/pared and three-dimensional extensions. |
-| [PlanarTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md) | Compatible finite triangulations, Euler/orientation invariants and the TOP/PL/smooth isotopy comparisons. |
-| [TangentialBordism](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md) | B3.2 finite quadratic Arf algebra and B4.1–2 cochain Steenrod operations, before the geometric cycle applications. |
-| [TemperleyLieb](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c70fe0f61bb20992d659d1fb21d1e24225038c08/TauCetiRoadmap/TemperleyLieb/README.md) | Diagram/presentation equivalence, flat basis/base change, normalized traces and Jones–Wenzl/root-level algebra. |
-| [TemperleyLiebOperatorAlgebras](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ed1b1e8ba58e1ea36c3873d0c8607461298a2e91/TauCetiRoadmap/TemperleyLiebOperatorAlgebras/README.md) | A1–A5 adjoints, positive trace quotients, finite blocks, faithful pre-singular levels, sign transport and towers. |
-| [TypeAHeckeAlgebras](https://github.com/TauCetiProject/TauCetiRoadmap/blob/632834b86fde0501e5e376aa30bc650e02732160/TauCetiRoadmap/TypeAHeckeAlgebras/README.md) | Full H1–H4a Hecke/Ocneanu/HOMFLY and signed countable factor/mixed estimates. |
-| [FourManifolds](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c889a5beb172bc1339a815edfd763f8b465443f1/TauCetiRoadmap/FourManifolds/README.md) | F3 marked cyclic disk, TOP surgery, knot-exterior normal filling and ball recognition; the dimension-four normal/transversality comparisons specified below. |
-| [AlgebraicKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md) | A0–A3 arbitrary-ring projective K₀, stable-matrix K₁ and relative K₁; A5 stable Steinberg K₂; A6 normalized Milnor patching. For ordered first-to-second clutching u, use the ordinary parameter α=u⁻¹ and δ([u])=∂([u⁻¹])=−∂([u]). |
-| [StableHomotopyKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8b81fab0d6464d52bbe253bd9fd7f1ee5345efa5/TauCetiRoadmap/StableHomotopyKTheory/README.md) | Layers1–2 realized nerves, homotopy fibres and Quillen A/B; §§3.3,3.8,3.10–3.13,3.25–3.27 acyclic/local-coefficient plus and functorial comparison; §§4.3–4.21 monoidal group completion, stable-GL and projective-complement/cofinality adapters; §§6.1–6.2 Waldhausen/S foundations, additivity and relative-S delooping. These generic constructions precede the ring-specific comparisons. |
-| [GeneralAlgebraicKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/57056743b0997d5f46fa8bca5f67b50d075c30bc/TauCetiRoadmap/GeneralAlgebraicKTheory/README.md) | §§3.1–3.5,3.12 ordinary exact-category Q/S and ring plus/Q comparisons; §§10.10–10.11,12.10 Bass/Schlichting nonconnective spectrum comparison, with its §1.7 supplied-spectrum adapters. This is the single owner of the ordinary models consumed in3d.0. |
-| [GeometryOfNumbersAndQuadraticArithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01c64f0cc5f154a3d190697951ead2fffc2af693/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md) | §6.1.7 right-projective/common-spectrum convention adapters to those ordinary models; §6.10 `plusConstructionComparison` and normalized low-K comparison. Retain all K₀ components, ∂[t]=[R] and the inverse-parameter Milnor adapter. GT retains BHS, Nil/regularity, Whitehead, assembly and surgery. |
-| [GeneralizedCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/GeneralizedCohomology/README.md) | G2.8 group completion, G2.9 topological-group classifiers and G3.4 mapping telescopes. |
-| [CharacteristicClasses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/76a0952b2687a743d384a9ba88769e71d3c9f55e/TauCetiRoadmap/CharacteristicClasses/README.md) | C1.1 numerable join classification and C2 Euler-class obstruction/evaluation comparison. |
-| [SpinGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/SpinGeometry/README.md) | G6.7 untwisted spin-four quaternionic parity. |
-| [IndexTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/592b12da97670f7eaea4fbed01def6b55554af66/TauCetiRoadmap/IndexTheory/README.md) | I7.5 untwisted Rokhlin and the numerical signature comparison. |
-| [HomotopySpheres](https://github.com/TauCetiProject/TauCetiRoadmap/blob/84eb50c63d08d9dafdc05a330be675d762bf62a3/TauCetiRoadmap/HomotopySpheres/README.md) | Stage1.7 simply connected h-cobordism; 4B stable O; 6C/9 low stems, Θ₅/Θ₆ and their comparison maps. |
-| [LieGroupoidsPoisson](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4391caecad1cd4979caa27e490e2bbfd69598d81/TauCetiRoadmap/LieGroupoidsPoisson/README.md) | G0.1 regular-fiber manifold with inherited topology, smooth inclusion and tangent kernel. |
-| [RealAlgebraicGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/RealAlgebraicGeometry/README.md) | Layer1 polynomial IVT/Rolle, Sturm–Tarski, Thom encodings and one-sided/half-open endpoint semantics. |
-| [KhovanovHomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e20599ee5502128011290d11b54e461d3ba848a0/TauCetiRoadmap/KhovanovHomology/README.md) | G/K1–K7 ordinary integral Kh, actual finite diagram/resolution tensors, grading/signs, coefficient comparisons, Reidemeister maps and the shared marked affine movie presentation. GT6 owns the Lee deformation, its comparison with that ordinary theory, spherical sweep-around descent and Rasmussen s. |
-| [CombinatorialHeegaardFloer](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/CombinatorialHeegaardFloer/README.md) | Grid complexes, τ and its slice-genus bound; LaneK grid/presentation comparison. GT6 supplies the concordance/additivity adapters and its Lee/Rasmussen s extension. |
+| [AlgebraicTopology](../AlgebraicTopology/README.md) | Van Kampen and cellular/singular comparisons; 4.7 realization CW; Stage6 relative classes and interior atlas; 8.5 infinity; 8.11a ANR/CW foundations and the EM/Bockstein interfaces. |
+| [DifferentialGeometry](../DifferentialGeometry/README.md) | Corners, metrics, density/form integration, distributions and Frobenius charts; the regular-value predicates consumed in GT10. |
+| [HopfRinow](../HopfRinow/README.md) | Levi-Civita connection, exponential map and comparison with general smooth connections. |
+| [RiemannianGeometry](../RiemannianGeometry/README.md) | R4.3 complete-local-isometry covering; R4.4 Cartan–Hadamard; R4.7 direct models, isometry germs and quotient atlases. |
+| [SurfaceTopology](../SurfaceTopology/README.md) | Compact surface classification/genus and Layer9 mapping-class/cut-system comparisons. |
+| [TeichmullerGeometry](../TeichmullerGeometry/README.md) | T0/T4a/T5 closed marked surfaces, uniformization, normalized Beltrami solution and Teichmüller metric/completeness; GT8.H owns the required finite-type/pared and three-dimensional extensions. |
+| [PlanarTopology](../PlanarTopology/README.md) | Compatible finite triangulations, Euler/orientation invariants and the TOP/PL/smooth isotopy comparisons. |
+| [TangentialBordism](../TangentialBordism/README.md) | B3.2 finite quadratic Arf algebra and B4.1–2 cochain Steenrod operations, before the geometric cycle applications. |
+| [TemperleyLieb](../TemperleyLieb/README.md) | Diagram/presentation equivalence, flat basis/base change, normalized traces and Jones–Wenzl/root-level algebra. |
+| [TemperleyLiebOperatorAlgebras](../TemperleyLiebOperatorAlgebras/README.md) | A1–A5 adjoints, positive trace quotients, finite blocks, faithful pre-singular levels, sign transport and towers. |
+| [TypeAHeckeAlgebras](../TypeAHeckeAlgebras/README.md) | Full H1–H4a Hecke/Ocneanu/HOMFLY and signed countable factor/mixed estimates. |
+| [FourManifolds](../FourManifolds/README.md) | F3 marked cyclic disk, TOP surgery, knot-exterior normal filling and ball recognition; the dimension-four normal/transversality comparisons specified below. |
+| [AlgebraicKTheory](../AlgebraicKTheory/README.md) | A0–A3 arbitrary-ring projective K₀, stable-matrix K₁ and relative K₁; A5 stable Steinberg K₂; A6 normalized Milnor patching. For ordered first-to-second clutching u, use the ordinary parameter α=u⁻¹ and δ([u])=∂([u⁻¹])=−∂([u]). |
+| [StableHomotopyKTheory](../StableHomotopyKTheory/README.md) | Layers1–2 realized nerves, homotopy fibres and Quillen A/B; §§3.3,3.8,3.10–3.13,3.25–3.27 acyclic/local-coefficient plus and functorial comparison; §§4.3–4.21 monoidal group completion, stable-GL and projective-complement/cofinality adapters; §§6.1–6.2 Waldhausen/S foundations, additivity and relative-S delooping. These generic constructions precede the ring-specific comparisons. |
+| [GeneralAlgebraicKTheory](../GeneralAlgebraicKTheory/README.md) | §§3.1–3.5,3.12 ordinary exact-category Q/S and ring plus/Q comparisons; §§10.10–10.11,12.10 Bass/Schlichting nonconnective spectrum comparison, with its §1.7 supplied-spectrum adapters. This is the single owner of the ordinary models consumed in3d.0. |
+| [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md) | §6.1.7 right-projective/common-spectrum convention adapters to those ordinary models; §6.10 `plusConstructionComparison` and normalized low-K comparison. Retain all K₀ components, ∂[t]=[R] and the inverse-parameter Milnor adapter. GT retains BHS, Nil/regularity, Whitehead, assembly and surgery. |
+| [GeneralizedCohomology](../GeneralizedCohomology/README.md) | G2.8 group completion, G2.9 topological-group classifiers and G3.4 mapping telescopes. |
+| [CharacteristicClasses](../CharacteristicClasses/README.md) | C1.1 numerable join classification and C2 Euler-class obstruction/evaluation comparison. |
+| [SpinGeometry](../SpinGeometry/README.md) | G6.7 untwisted spin-four quaternionic parity. |
+| [IndexTheory](../IndexTheory/README.md) | I7.5 untwisted Rokhlin and the numerical signature comparison. |
+| [HomotopySpheres](../HomotopySpheres/README.md) | Stage1.7 simply connected h-cobordism; 4B stable O; 6C/9 low stems, Θ₅/Θ₆ and their comparison maps. |
+| [LieGroupoidsPoisson](../LieGroupoidsPoisson/README.md) | G0.1 regular-fiber manifold with inherited topology, smooth inclusion and tangent kernel. |
+| [RealAlgebraicGeometry](../RealAlgebraicGeometry/README.md) | Layer1 polynomial IVT/Rolle, Sturm–Tarski, Thom encodings and one-sided/half-open endpoint semantics. |
+| [KhovanovHomology](../KhovanovHomology/README.md) | G/K1–K7 ordinary integral Kh, actual finite diagram/resolution tensors, grading/signs, coefficient comparisons, Reidemeister maps and the shared marked affine movie presentation. GT6 owns the Lee deformation, its comparison with that ordinary theory, spherical sweep-around descent and Rasmussen s. |
+| [CombinatorialHeegaardFloer](../CombinatorialHeegaardFloer/README.md) | Grid complexes, τ and its slice-genus bound; LaneK grid/presentation comparison. GT6 supplies the concordance/additivity adapters and its Lee/Rasmussen s extension. |
 
 ## Principles
 
@@ -1101,7 +1101,7 @@ defined on an open time interval containing I, construct a native
 Extend the velocity along the moving embedded image to a smooth time-dependent
 ambient vector field using GT1's tubular neighborhoods and smooth partitions of
 unity. Choose a common compact spatial support around the compact trace over I.
-Consume [DifferentialGeometry 3.5's finite-dimensional two-time flow](https://github.com/TauCetiProject/TauCetiRoadmap/blob/43f7d956d73eee21a2d99457f62e29981359b82e/TauCetiRoadmap/DifferentialGeometry/README.md#layer-3-flows),
+Consume [DifferentialGeometry 3.5's finite-dimensional two-time flow](../DifferentialGeometry/README.md#layer-3-flows),
 including joint smoothness, inverse laws and compact-time escape. Prove that each
 trajectory stays in the compact support together with its initial point, giving
 existence throughout I. Flow uniqueness gives `Φ(t,F₀(x))=F_t(x)`.
@@ -1705,7 +1705,7 @@ are in [`FiveOneTargets.lean`](FiveOneTargets.lean).
 
 #### GT4: Jones trace, special values and braid obstructions
 
-Consume actual TL operator A1–A5's positive quotients and trace/finite-block interfaces, GT4's geometric Jones/bracket/Markov comparison, and the full [TypeAHeckeAlgebras H1–H4a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/632834b86fde0501e5e376aa30bc650e02732160/TauCetiRoadmap/TypeAHeckeAlgebras/README.md) supplier only for the full Hecke statements. Construct no second generic TL presentation, normalized trace or two-variable HOMFLY owner. Pin the level: source n projections generate the(n+1)-strand algebra, whereas a closure of a braid on n strands uses the appropriate n-strand level. For t≠0,−1 and a chosen u≠0,u²=t, normalized projections satisfy p_i p_(i±1) p_i=τp_i with τ=t/(1+t)² and braid units g_i=u*((1+t)*p_i−1). Prove inverse, far commutation, braid relation, trace(g_i)=trace(g_i⁻¹)=−u/(1+t), inclusions, and agreement with the current native signed-loop crossing representation. Check these identities against the native signed-loop crossing convention.
+Consume actual TL operator A1–A5's positive quotients and trace/finite-block interfaces, GT4's geometric Jones/bracket/Markov comparison, and the full [TypeAHeckeAlgebras H1–H4a](../TypeAHeckeAlgebras/README.md) supplier only for the full Hecke statements. Construct no second generic TL presentation, normalized trace or two-variable HOMFLY owner. Pin the level: source n projections generate the(n+1)-strand algebra, whereas a closure of a braid on n strands uses the appropriate n-strand level. For t≠0,−1 and a chosen u≠0,u²=t, normalized projections satisfy p_i p_(i±1) p_i=τp_i with τ=t/(1+t)² and braid units g_i=u*((1+t)*p_i−1). Prove inverse, far commutation, braid relation, trace(g_i)=trace(g_i⁻¹)=−u/(1+t), inclusions, and agreement with the current native signed-loop crossing representation. Check these identities against the native signed-loop crossing convention.
 
 For t>0 or t=exp(±2πi/k),k≥3, consume the ACTUAL positive trace quotient at δ=u+u⁻¹ (including sign transport if needed), and compare the faithful quotient trace rather than declare the unquotiented root algebra faithful. Give its finite matrix/path decomposition, positive weights, normalized Jones projection laws, inductive trace representation and precise Powers-state tensor realization. Resolve the printed C^(2n+2) dimension separately from the actual tensor dimension; do not authenticate the exponent from the expected model. The statistical-mechanics assertion additionally requires defined Potts/ice partition functions, lattice/boundary/temperature parameters and a local transfer-matrix correspondence whose global partition functions agree; a shared TL relation alone is insufficient. Retain this as a required explicit comparison target or an unresolved mathematical branch, not biography.
 
@@ -1743,7 +1743,7 @@ For a convex planar polygonal knot, prove reduction to a triangle by reversible 
 
 Add finite local realized move certificates with plane outerface data, bounded Reidemeister move graph and exact hard-unknot predicate. An absence of initially decreasing moves plus no RIII suffices to force an initial increase; to claim every reduction has peak>7 also certify the initial count7 and every allowed same-count local move. The native combinatorial move predicates already include common-face/disconnected-component RII locality and HasReidemeisterThreeTriangle with acyclic-height RIII locality. Consume those conditions; what they do not yet provide is a realized planar diagram, distinguished outerface and its complete geometric local-move graph. That realized graph is the required adapter. All macro strand slides, loop retractions, Perko words, relative punctured-torus moves and source colored-label constructions retain their exact diagram data/uncertainties; generic theorem existence cannot authenticate the pictured source.
 
-Retain the source's distinct full HOMFLY proof ideas alongside GT4's invariant contract: the Freyd–Yetter free Laurent word module and scalar-to-Artin/Markov/skein-quotient isomorphism, the corrected FY quadratic rule [u a a v]_n→−x⁻¹y[u v]_n−x⁻¹z[u a v]_n (source's triple-a glyph remains literal), explicit well-founded complexity, every pairwise/overlap reduction and terminal-normal-form theorem; the Hoste and Lickorish–Millett ordered/basepointed descending resolution and independence of resolution/basepoint/component ordering; the Ocneanu full Hecke permutation-basis/trace route from its [TypeAHeckeAlgebras H1–H4a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/632834b86fde0501e5e376aa30bc650e02732160/TauCetiRoadmap/TypeAHeckeAlgebras/README.md) owner. A proof that local move invariance holds in bounded induction does not prove any two isotopic diagrams have a crossing-nonincreasing path. Specify the common invariant comparison maps and normalization, not four competing polynomial carriers. The unresolved source reduction glyphs remain conditional source intent even when a corrected coherent rewriting theorem is supplied.
+Retain the source's distinct full HOMFLY proof ideas alongside GT4's invariant contract: the Freyd–Yetter free Laurent word module and scalar-to-Artin/Markov/skein-quotient isomorphism, the corrected FY quadratic rule [u a a v]_n→−x⁻¹y[u v]_n−x⁻¹z[u a v]_n (source's triple-a glyph remains literal), explicit well-founded complexity, every pairwise/overlap reduction and terminal-normal-form theorem; the Hoste and Lickorish–Millett ordered/basepointed descending resolution and independence of resolution/basepoint/component ordering; the Ocneanu full Hecke permutation-basis/trace route from its [TypeAHeckeAlgebras H1–H4a](../TypeAHeckeAlgebras/README.md) owner. A proof that local move invariance holds in bounded induction does not prove any two isotopic diagrams have a crossing-nonincreasing path. Specify the common invariant comparison maps and normalization, not four competing polynomial carriers. The unresolved source reduction glyphs remain conditional source intent even when a corrected coherent rewriting theorem is supplied.
 
 #### GT4: deletion, Brunnian links and braid-index certificates
 
@@ -2410,7 +2410,7 @@ proof obligations remain targets of this layer.
 
 Suggested rank-two Frobenius forms are in [`LeeFrobenius.lean`](LeeFrobenius.lean).
 
-This layer owns the rational Lee deformation, its filtered geometric and cobordism comparisons, and Rasmussen's rational `s`. Consume [KhovanovHomology G/K1–K7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e20599ee5502128011290d11b54e461d3ba848a0/TauCetiRoadmap/KhovanovHomology/README.md) for ordinary integral even Khovanov homology, its coefficient comparisons, finite diagram/resolution carriers, ordinary Reidemeister maps, and the common marked affine movie presentation. That roadmap's G consumes the earlier GT link/presentation definitions and generic manifold foundations; its ordinary construction does not depend on this Lee or `s` development. GT also owns the geometric descent and connected-sum comparison for the imported grid `τ`. The generic filtered-complex interface stays with [CombinatorialHeegaardFloer Lane ALG](../CombinatorialHeegaardFloer/README.md#lane-alg-bigraded-and-filtered-homological-algebra): use degreewise submodules, actual maps and homotopies on native `CochainComplex (ModuleCat R) ℤ`. The following targets construct the Lee extension and its comparisons with that single ordinary theory.
+This layer owns the rational Lee deformation, its filtered geometric and cobordism comparisons, and Rasmussen's rational `s`. Consume [KhovanovHomology G/K1–K7](../KhovanovHomology/README.md) for ordinary integral even Khovanov homology, its coefficient comparisons, finite diagram/resolution carriers, ordinary Reidemeister maps, and the common marked affine movie presentation. That roadmap's G consumes the earlier GT link/presentation definitions and generic manifold foundations; its ordinary construction does not depend on this Lee or `s` development. GT also owns the geometric descent and connected-sum comparison for the imported grid `τ`. The generic filtered-complex interface stays with [CombinatorialHeegaardFloer Lane ALG](../CombinatorialHeegaardFloer/README.md#lane-alg-bigraded-and-filtered-homological-algebra): use degreewise submodules, actual maps and homotopies on native `CochainComplex (ModuleCat R) ℤ`. The following targets construct the Lee extension and its comparisons with that single ordinary theory.
 
 1. **The rank-two deformation and the ordinary-algebra comparison.** Retain the general `LeeFrobenius.lean` quotient algebra `A_c=AdjoinRoot (X²−c)` with basis `1,X`, multiplication `X²=c`, unit `1`, counit `ε(1)=0, ε(X)=1`, and `Δ(1)=1⊗X+X⊗1`, `Δ(X)=X⊗X+c·1⊗1`. Retain all basis, quotient, Frobenius, nondegeneracy and tensor-coherence targets. At `c=0`, construct the explicit algebra equivalence `A_0 ≃ₐ[R] DualNumber R` sending `[X]` to the native square-zero generator `(0,1)` and `a+b[X]` to `(a,b)` for every commutative coefficient ring used here, including the zero ring. Prove its inverse, coefficient-change naturality and preservation of unit, multiplication, the chosen counit and K2's chosen comultiplication. The dual-number coalgebra is the particular K2 structure, not an arbitrary global coalgebra instance. Ordinary integral and rational theory consume K2/K5 through this comparison; `c=1` over `ℚ` is the Lee deformation, with no algebra equivalence to the `c=0` algebra asserted. With `deg(1)=1,deg(X)=−1`, retain the ordinary saddle degrees `−1`, birth/death degrees `+1`, and the additional Lee terms of degree `+3`. Empty circle sets have tensor `R`; retain actual indexed tensor comparisons at zero and one circles.
 
@@ -3283,7 +3283,7 @@ already carries a hyperbolic metric.
    The final closed output must have no remaining parabolic ends.
 
 3. **H3 — boundary uniformization and initial geometric pieces.** Consume the
-   public [TeichmullerGeometry T0/T4a/T5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/84e3d8187b3d3616d8267d01027093f37124800c/TauCetiRoadmap/TeichmullerGeometry/README.md#L112-L124)
+   public [TeichmullerGeometry T0/T4a/T5](../TeichmullerGeometry/README.md)
    contracts for closed marked surfaces, uniformization, the normalized
    measurable Beltrami solution, parameter dependence, the Teichmüller metric
    and its completeness. The three-dimensional extensions are owned here:
@@ -3432,7 +3432,7 @@ already carries a hyperbolic metric.
 
 7. **H7 — the smooth metric on the original carrier.** Consume only the
    actual model/germ/quotient constructions in
-   [RiemannianGeometry R4.3/R4.4/R4.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7d5cabbd745d7e1b7e51cc8540b0b6d2e4abef65/TauCetiRoadmap/RiemannianGeometry/README.md#L570-L696),
+   [RiemannianGeometry R4.3/R4.4/R4.7](../RiemannianGeometry/README.md),
    and GT7's native model/tensor comparisons. The quotient action is free,
    properly discontinuous and cocompact by H5 or H6. Its atlas descends
    the actual hyperbolic tensor and proves its own intrinsic distance
@@ -3457,7 +3457,7 @@ the disproof needs the genus and the rank side by side.
 of solid tori, built from layer 1's gluing) and boundary-gluing; `FundamentalGroup`
 (`Mathlib/AlgebraicTopology/FundamentalGroupoid/`) and `Group.rank` for the rank side; the
 surface (closed orientable 2-manifold) classification for the splitting surface.
-[SurfaceTopology Layer9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#layer-9-curves-cutting-and-mapping-class-groups)
+[SurfaceTopology Layer9](../SurfaceTopology/README.md#layer-9-curves-cutting-and-mapping-class-groups)
 owns the full, relative and orientation-preserving mapping-class quotients and
 the PL/smooth-to-topological forgetful isomorphisms for compatible structures;
 its PlanarTopology Layer8 dependency supplies smooth representatives and the
@@ -4064,7 +4064,7 @@ following sequence of targets:
    and basic closed-cover development; the locally finite closed-cover
    construction below extends it in its stated paracompact Hausdorff scope.
 
-   [AlgebraicKTheory A4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md#a4-stable-range-and-finite-matrix-sizes)
+   [AlgebraicKTheory A4](../AlgebraicKTheory/README.md#a4-stable-range-and-finite-matrix-sizes)
    owns the compact-Hausdorff finite/indexed-cover characterization of
    this common predicate, with finite subcovers, explicit deduplication,
    reindexing and parent-map preservation; its partition-of-unity and
@@ -4305,12 +4305,12 @@ following sequence of targets:
 
    **3d.0. Ordinary PL surgery and its algebraic engine.** Own the generic PL Whitehead-torsion
    and s-cobordism interfaces needed here. Define Wh(π)=K₁(ℤ[π])/⟨±g⟩
-   using native group rings and [AlgebraicKTheory A0–A3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md)'s
+   using native group rings and [AlgebraicKTheory A0–A3](../AlgebraicKTheory/README.md)'s
    single arbitrary-ring stable-matrix K₁ and projective-module K₀, including
    its elementary relations, idempotent comparison and Morita maps. Construct
    the based finite-free cellular chain torsion, basis-change/simple-collapse
    invariance, composition and duality. Own the rank summand and reduced K₀
-   used here. Consume [AlgebraicKTheory A6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md#a6-milnor-patching-and-the-boundary)'s normalized Milnor patching maps
+   used here. Consume [AlgebraicKTheory A6](../AlgebraicKTheory/README.md#a6-milnor-patching-and-the-boundary)'s normalized Milnor patching maps
    when constructing the following localization/patching comparisons. On the common
    ring K-spectrum specified below, prove the Bass–Heller–Swan decomposition in
    degrees0/1, with augmentation, t-multiplication,
@@ -4323,12 +4323,12 @@ following sequence of targets:
    `reducedKZero_freeAbelian_eq_zero`, including n=0.
    Consume the single common ring K-spectrum and its model comparisons from
    [GeometryOfNumbersAndQuadraticArithmetic §6.1.7 `ringKTheoryModels`
-   and §6.10 `plusConstructionComparison`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01c64f0cc5f154a3d190697951ead2fffc2af693/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#L2643-L2650),
+   and §6.10 `plusConstructionComparison`](../GeometryOfNumbersAndQuadraticArithmetic/README.md),
    the right-projective/common-spectrum adapters to
-   [GeneralAlgebraicKTheory §§3.1–3.5,3.12,10.10–10.11,12.10](https://github.com/TauCetiProject/TauCetiRoadmap/blob/57056743b0997d5f46fa8bca5f67b50d075c30bc/TauCetiRoadmap/GeneralAlgebraicKTheory/README.md).
+   [GeneralAlgebraicKTheory §§3.1–3.5,3.12,10.10–10.11,12.10](../GeneralAlgebraicKTheory/README.md).
    GeneralAlgebraicKTheory owns the exact-category Q/S, ring plus/Q and
    Bass/Schlichting constructions; its generic homotopy/plus foundations
-   are supplied by [StableHomotopyKTheory Layers1–4 and6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8b81fab0d6464d52bbe253bd9fd7f1ee5345efa5/TauCetiRoadmap/StableHomotopyKTheory/README.md). GeometryOfNumbersAndQuadraticArithmetic
+   are supplied by [StableHomotopyKTheory Layers1–4 and6](../StableHomotopyKTheory/README.md). GeometryOfNumbersAndQuadraticArithmetic
    transports them to the following shared convention.
    The carrier is the supplier's nonconnective spectrum of the actual split exact
    right-projective category
@@ -4338,7 +4338,7 @@ following sequence of targets:
    comparison and its Bass-loop/cofiber-to-Schlichting nonconnective equivalence.
    The ordinary models and their equivalences are supplied by GeneralAlgebraicKTheory; the right-projective/common-spectrum comparisons are constructed by GeometryOfNumbersAndQuadraticArithmetic.
    Its low-degree maps identify categorical/projective K₀, matrix K₁ and
-   Steinberg K₂ through [AlgebraicKTheory A0–A2/A5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e5df75ba384b2f944b7b626c00803871017b0b1c/TauCetiRoadmap/AlgebraicKTheory/README.md#a5-steinberg-groups-and-k₂) before the higher comparisons.
+   Steinberg K₂ through [AlgebraicKTheory A0–A2/A5](../AlgebraicKTheory/README.md#a5-steinberg-groups-and-k₂) before the higher comparisons.
    Retain its ring maps, stabilization, right/left opposite-ring adapter with
    inverse transpose, and the positive-size Morita module dictionary: for n≥1,
    the right regular M_n(R)-module corresponds to R^n, while the right module
@@ -4354,8 +4354,8 @@ following sequence of targets:
    square or Nil vanishing for singular rings. Transport these actual comparison
    maps to the following GT-owned Laurent, torsion and group-ring applications.
    The generic construction consumes the low-degree inputs, not GT's later
-   Whitehead/assembly or surgery outputs; GeometryOfNumbersAndQuadraticArithmetic’s §6.10 plus comparison is at
-   [the selected complete clauses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01c64f0cc5f154a3d190697951ead2fffc2af693/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#L3538-L3547).
+   Whitehead/assembly or surgery outputs; GeometryOfNumbersAndQuadraticArithmetic’s §6.10 plus comparison is
+   [its `plusConstructionComparison` clause](../GeometryOfNumbersAndQuadraticArithmetic/README.md).
    These are written construction interfaces, not already implemented native
    higher-K declarations. Define the Whitehead coefficient spectrum as
    the cofiber of the actual assembly
@@ -4422,7 +4422,7 @@ following sequence of targets:
    degree5: π₁=π₃=π₅=0, π₂=ℤ/2 and π₄=ℤ. Own the comparison
    with the low-degree fiber of BO→BG using item3g's PL4-compatible
    smoothing and relative low-link smoothing obstruction calculation.
-   Consume HomotopySpheres PR284 §4B's stable-O groups and §9.1–2's
+   Consume HomotopySpheres §4B's stable-O groups and §9.1–2's
    Hopf/EHP/Toda low stable stems. On π₄(BO)=ℤ pin the generator by
    p₁=2u; prove its spherical J image generates π₃ˢ=ℤ/24, so the
    fiber generator maps to24 times that BO generator. Compare the surgery
@@ -4767,7 +4767,7 @@ following sequence of targets:
    cokernel of restriction of orientation-preserving marked disk
    diffeomorphisms to the boundary sphere, on the appropriate components.
    Build the gluing map Γ_i→Θ_i and its isomorphism for i≥5 by the
-   [HomotopySpheres PR284](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)
+   [HomotopySpheres](../HomotopySpheres/README.md)
    Stage1.7's proposed dimension≥6 simply connected smooth
    h-cobordism theorem and marked
    PL sphere comparison. In dimensions3–6 own the comparison with the
