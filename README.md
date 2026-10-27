@@ -241,7 +241,12 @@ reviewers, can act on it without guessing.
   Tau Ceti adopts the resulting design and refactors when it lands. Cite what you find, follow the
   direction it takes, and don't argue for a Tau Ceti spelling against Mathlib's.
 
-- **But never wait.** Deferring to Mathlib is about *shape*, never about *timing*. An open Mathlib
+  Open Mathlib PRs with no substantive development or review activity for six months do not require
+  deference to their proposed APIs. Treat them as prior art: cite and reuse useful work, but choose
+  an appropriate interface for Tau Ceti. Bot updates and mechanical rebases do not reset this period.
+  If the work later lands in Mathlib, adopt Mathlib's API.
+
+- **But never wait.** Deferring to Mathlib is about *shape*, never about *timing*. An active Mathlib
   PR covering ground a roadmap needs is not a blocker, not a reason to leave a gap, and not a
   reason to send contributors elsewhere: build the thing here, now, naming and shaping it the way
   that PR does so the eventual swap is a deletion plus an import rather than a rewrite. If it
