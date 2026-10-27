@@ -71,10 +71,10 @@ combinatorial objects.
    the skew and Littlewood–Richardson tableaux, slides, rectification, dual
    equivalence, the tableau-product bijection, vertical Pieri and the stable
    graded ring Λ_R with its Schur basis and specialization maps are built in H0.
-   Consume [ClassicalGroups Layers 3–6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md):
+   Consume ClassicalGroups Layers 3–6:
    native dominant weights, signed `GTPattern`, `gtPatternEquivSSYT`, rational
    Weyl representations, characters and LR-to-tensor-multiplicity comparison,
-   and its weight/branching basis. Consume [LieHighestWeight Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/797f5b74355c8cee4c8a2dfa1bb34bcb5c90ce69/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md)
+   and its weight/branching basis. Consume LieHighestWeight Layer 6
    for the Weyl character/multiplicity formula and generic Lie-module
    representation ring. Consume the generic native `TauCeti.kostantPartition P b`
    from `TauCeti/LinearAlgebra/RootSystem/KostantPartition/Basic.lean` for a
@@ -91,12 +91,12 @@ combinatorial objects.
    algebra. H1 builds the **finite rational elimination, exact dual certificate,
    face and lattice adapters** that these declarations alone do not provide.
 6. For finite Grassmannians consume the complex rank-k Grassmannian, topology,
-   charts and tautological bundle of [TopologicalKTheory T1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f2c908debdefa440e7dfda339a54cb3b74cdc51c/TauCetiRoadmap/TopologicalKTheory/README.md),
+   charts and tautological bundle of TopologicalKTheory T1,
    reusing `Submodule ℂ (Fin N → ℂ)` underneath. Pin quotient rank N−k
    and consume T1.5's sole finite-subspace/native-Grassmannian comparison.
    Construct the quotient bundle Q in H6 on that same carrier. Native
    `Module.Grassmannian ℂ (Fin N → ℂ) (N-k)` parametrizes quotient rank N−k;
-   consume [ModularCurves 0G](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ba158a94935fcdc3e26804b3ee77ece7fb48d6c1/TauCetiRoadmap/ModularCurves/README.md)
+   consume ModularCurves 0G
    for the algebraic subspace/quotient and universal-bundle comparisons over Spec ℂ;
    H6 owns their comparison with the topological complex-point bundles.
    The open [Mathlib Grassmannian scheme design #14686](https://github.com/leanprover-community/mathlib4/pull/14686)
@@ -111,33 +111,33 @@ combinatorial objects.
    manifold/ring targets here do not require a second scheme representability
    development. Adopt the resulting Mathlib design and implement missing adapters
    here without waiting for publication.
-7. Consume [LieGroups Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/85f49c01009d5df11d3a6e8935fe7b14ed21c1cd/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md)
-   for flags, full-flag Bruhat cells and Borel–Weil, and [ReductiveGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/90b03f934ee3db6fc1a079daa0fd7b2f40fa40d8/TauCetiRoadmap/ReductiveGroups/README.md)
+7. Consume LieGroups Layer 8
+   for flags, full-flag Bruhat cells and Borel–Weil, and ReductiveGroups
    for rational actions, parabolics and characteristic-zero linear reductivity.
    H6 owns the **finite Grassmannian** cell/closure, geometric class and integral
    ring comparisons beyond those full-flag statements. Consume
-   [AlgebraicTopology Stages 2–6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/50af6084a401dffe3db1e50dac46fe4bca36f4fd/TauCetiRoadmap/AlgebraicTopology/README.md) for cellular/
+   AlgebraicTopology Stages 2–6 for cellular/
    singular/relative cohomology, cup, Künneth, orientations and duality,
-   [CharacteristicClasses C2–C3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/01224fe30cf811f9e6d239b75f4003bb8c0b685a/TauCetiRoadmap/CharacteristicClasses/README.md) for Thom,
+   CharacteristicClasses C2–C3 for Thom,
    Gysin, Leray–Hirsch and integral Chern classes, and
-   [ComplexKahlerGeometry K7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/13b2335ea038b439655df55654e71b19603d8ee1/TauCetiRoadmap/ComplexKahlerGeometry/README.md) for projective
+   ComplexKahlerGeometry K7 for projective
    embeddings and their Kähler structures. H6 supplies each map connecting these
    theories on the common Grassmannian carrier. Consume
-   [DifferentialGeometry 10.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/DifferentialGeometry/README.md) for manifold
+   DifferentialGeometry 10.2 for manifold
    Sard. H6.3 constructs the homogeneous parameter-transversality theorem
    needed by the incidence argument; it is not presumed to be a DG10.2 result.
 8. Consume Mathlib finite-dimensional `LinearMap.IsSymmetric.eigenvalues`, its
    antitone order, multiplicity and eigenvector-basis APIs, matrix conjugate
    transpose and the unitary group. No infinite-dimensional spectral theorem is
-   needed for Horn. Consume [PolarDecomposition PD-A50–A53](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/OperatorTheory/PolarDecomposition/README.md)
-   for finite matrix min–max/monotonicity/Weyl perturbation. [HamiltonianReduction R2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ad76c0f2a89760726126e98fcdb41cee38fe93/TauCetiRoadmap/SymplecticGeometry/HamiltonianReduction/README.md)
+   needed for Horn. Consume PolarDecomposition PD-A50–A53
+   for finite matrix min–max/monotonicity/Weyl perturbation. HamiltonianReduction R2
    supplies compact coadjoint orbits/KKS; its R1 supplies moment-map products.
-   [ConvexityToric T3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ad76c0f2a89760726126e98fcdb41cee38fe93/TauCetiRoadmap/SymplecticGeometry/ConvexityToric/README.md) supplies the
+   ConvexityToric T3 supplies the
    compact chamber/quotient dictionary. H7 owns the projective **invariant-to-
    moment-zero bridge**, plus the Schubert-incidence compression inequality
    proving the real converse and rational-hive approximation. Neither a bare
    moment map nor the word 'GIT' supplies this bridge.
-9. Consume [SchubertGeometry S4.1–5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e89539810e9a2821960d01212df5ebf319e0d209/TauCetiRoadmap/SchubertGeometry/README.md)'s single
+9. Consume SchubertGeometry S4.1–5's single
    generic finite-root-data path/crystal construction. H8 owns its actual
    **type-A** coordinate, tableau/GT, row/column and tensor/hive applications,
    including all the concrete algorithms and examples below. Specialize to
@@ -170,7 +170,7 @@ H1–H7 constructions do not gain a Schubert splitting or SMT premise.
 
 H1.3's finite rational polyhedral/lattice adapters precede the independent
 H1.5 counting lane. H1.5 consumes only the early semigroup/lattice comparisons
-of [GroebnerGeometry G2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d21bc1c2f895047275495326f5f693e89f0e244c/TauCetiRoadmap/GroebnerGeometry/README.md#g2-semigroup-presentations-normalization-and-degree)
+of GroebnerGeometry G2
 and the stated native floors, not H2.3 or later hive
 representation comparisons. H2.6 then composes H1.5 with H2.3's already-defined
 native count/RootPairing and GT object maps. H2.3 itself does not require the
@@ -595,8 +595,8 @@ targets on the actual carriers, not conclusions obtained solely by citation.
 
 1. Define the directional finite-difference map from a hive to native signed
    `GTPattern n`. A convenient equivalent chart is h(i,j), 0≤i≤j≤n:
-   h(0,j)=Σ_{r≤j}λ_r, h(j,j)=Σ_{r≤j}γ_r,
-   h(i,n)=|λ|+Σ_{r≤i}μ_r, with h(0,0)=0, in product convention.
+   `h(0,j)=Σ_(r≤j)λ_r`, `h(j,j)=Σ_(r≤j)γ_r`,
+   `h(i,n)=|λ|+Σ_(r≤i)μ_r`, with `h(0,0)=0`, in product convention.
    Specify and prove its rotation/gauge conversion with H1's cyclic triple.
    The chart map is `(i,j)↦(n−j,j−i,i)` in H1’s coordinates.
    The two appropriate rhombus families are precisely GT interlacing; export
@@ -606,7 +606,7 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    The handout's orientation gives native `topRow` λ (its long row drawn below) and pattern weight μ*−ν; the
    product chart rotates this to an equivalent formula. Prove these agree.
 2. Build the explicit hive-to-LR equivalence on H0's `LRTableau λ γ μ`.
-   In the product chart write a_{ij} for the number of zero-indexed letter i−1
+   In the product chart write `a_(i,j)` for the number of zero-indexed letter i−1
    in skew row j−1. Its forward map is
    `h(i,j)=Σ_(r≤j)λ_r + Σ_(k≤i)Σ_(k≤r≤j)a_(k,r)`.
    For i<j the inverse takes the mixed difference
@@ -649,7 +649,7 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    simple-root coordinates: each positive-root coefficient is bounded by this
    height, so the unused inequalities hold automatically. State the finite
    ζ-weight-fibre equivalence with that threshold, not a limit of all fibres
-   simultaneously. Consume [RootSystems’ type-A realization](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/RepresentationTheory/RootSystems/README.md)
+   simultaneously. Consume RootSystems’ type-A realization
    and CG3’s weight dictionary. Map ζ∈ℤⁿ with sum0 into that root model by
    `ζ=Σ_(k<n) (Σ_(i≤k)ζ_i)(e_k−e_(k+1))`; prove injectivity, positive-root
    indexing `(i,j)↦e_i−e_j` and base/pairing compatibility. For GLₙ with n≥2
@@ -669,7 +669,7 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    on the native CG/FDRep carrier, its rational subobjects/quotients, additive
    and tensor closure, and an essentially small model via standard coordinate
    spaces Fin d→ℂ with intertwiner matrices. Consume the generic
-   [GrothendieckEulerForms Layers1–2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/GrothendieckEulerForms/README.md),
+   GrothendieckEulerForms Layers1–2,
    native `TauCeti.SplitK0` and its exact-K₀ comparison; build this category's
    Grothendieck **representation ring** R(GLₙ) from that same carrier. Prove
    tensor multiplication well-defined, unit, functoriality, and split=exact
@@ -843,7 +843,7 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    rank-(n+m) configuration reconstructed in item2. Boundaries are **sorted
    multiset unions**, not coordinatewise sums. On hives prove its tropical
    convolution formula
-   `(h⊞k)(a)=max_{b∈Δₙ,c∈Δₘ,b+c=a}(h(b)+k(c))`.
+   `(h⊞k)(a)=max_(b∈Δₙ,c∈Δₘ,b+c=a)(h(b)+k(c))`.
    Prove decomposition sets are nonempty and finite, rhombus preservation,
    gauge/normalization, ℤ-compatibility, associativity and commutativity and
    rank0 identity. Prove the formula by the integrated diagram/affine-envelope
@@ -1271,7 +1271,7 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    pairing⟨ξ_(j−1),β∨⟩<0 and `a⟨ξ_(j−1),β∨⟩∈ℤ` at every step.
    Prove root reflection/chain closure under operators, including repeated weights.
    Specialize the type-A adjacent-transposition/Bruhat conditions, consuming
-   native Coxeter and [RootSystems Layer3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/RepresentationTheory/RootSystems/README.md) order/exchange, and prove equivalence with the
+   native Coxeter and RootSystems Layer3 order/exchange, and prove equivalence with the
    generated paths. This supplies the straight-path finiteness and the precise
    LS-type encoding used here, rather than assuming all rational PL paths form
    a finite highest-weight component. Prove the column-reading map from native

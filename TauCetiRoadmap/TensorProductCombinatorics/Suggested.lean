@@ -1,23 +1,27 @@
-/-
-Suggested target forms, not an exhaustive checklist. The README is definitive.
-New constructions and unproved targets use `sorry` honestly; native weights,
-GT patterns, tableaux, Schur polynomials and polyhedral predicates are imported.
--/
-import TauCeti.RepresentationTheory.ClassicalGroups.GelfandTsetlin.Tableau
-import TauCeti.RepresentationTheory.ClassicalGroups.GelfandTsetlin.Count
-import TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.Basic
-import TauCeti.Topology.PL.Map
-import TauCeti.Geometry.Convex.Cone.Alternative
-import Mathlib.Analysis.InnerProductSpace.Spectrum
-import Mathlib.Analysis.Matrix.Spectrum
-import Mathlib.LinearAlgebra.Matrix.Hermitian
-import Mathlib.Topology.Instances.Int
-import Mathlib.Tactic
+import Mathlib
+import TauCeti.RepresentationTheory.ClassicalGroups.DominantWeight
+import TauCeti.Analysis.Convex.Polyhedron
+import TauCeti.LinearAlgebra.RootSystem.Positive
 import TauCeti.LinearAlgebra.RootSystem.KostantPartition.Basic
-import Mathlib.LinearAlgebra.Matrix.Determinant.TotallyUnimodular
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.Algebra.MvPolynomial.Eval
-import Mathlib.Algebra.MvPolynomial.Degrees
+
+/-!
+# Tensor product combinatorics: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states headline
+theorems of the roadmap against the pinned Mathlib and Tau Ceti APIs, with only
+the simple definitions those statements need.
+
+The following constructions are data whose construction is itself the work of
+the roadmap, so they are README targets and are not declared here: the map from
+hives to native Gelfand–Tsetlin patterns (H2.1), the excavation associator and
+the hive commutor as bijections (H3, H9; their count consequences
+`hiveCount_comm` and `card_leftPair_eq_card_rightPair` are stated), the
+hive–honeycomb correspondence and its dual-edge directions (H4), the type-A path
+raising operators (H8), puzzle pieces with their edge labels and the puzzle
+boundary word (H6), the chamber polynomials as functions of the chamber (H1.5;
+their existence and wall agreement are stated) and the fibre equivalence with
+native Kostant partitions (H2.6; the count identity is stated).
+-/
 
 noncomputable section
 open scoped BigOperators
@@ -72,17 +76,22 @@ theorem boundary_trace {n : ℕ} (h : IntegerHive n) :
 abbrev FixedIntegerHive {n : ℕ} (B : Fin 3 → Fin n → ℤ) :=
   {h : IntegerHive n // boundary h = B}
 
-noncomputable instance {n : ℕ} (B : Fin 3 → Fin n → ℤ) :
+/-- Each fixed-boundary fibre of integer hives is finite. -/
+theorem finite_fixedIntegerHive {n : ℕ} (B : Fin 3 → Fin n → ℤ) :
     Finite (FixedIntegerHive B) := by sorry
 
 def hiveCount {n : ℕ} (B : Fin 3 → Fin n → ℤ) : ℕ :=
   Nat.card (FixedIntegerHive B)
 
 /-- The actual cast comparison, including the inequality proof. -/
-def castReal {n : ℕ} : IntegerHive n → RealHive n := by sorry
+def castReal {n : ℕ} (h : IntegerHive n) : RealHive n where
+  value v := (h.value v : ℝ)
+  normalized := by simp [h.normalized]
+  rhombus q hq := by exact_mod_cast h.rhombus q hq
 
 theorem boundary_castReal {n : ℕ} (h : IntegerHive n) (s : Fin 3) (i : Fin n) :
-    boundary (castReal h) s i = ((boundary (R := ℤ) h s i : ℤ) : ℝ) := by sorry
+    boundary (castReal h) s i = ((boundary (R := ℤ) h s i : ℤ) : ℝ) := by
+  simp [boundary, castReal]
 
 /-- Saturation requires the entire boundary to be integral. -/
 theorem integral_witness_iff_real_witness {n : ℕ} (B : Fin 3 → Fin n → ℤ) :
@@ -107,12 +116,6 @@ theorem octahedronMove_involutive (a b c d e : ℤ) :
   unfold octahedronMove
   omega
 
-/-- Native GT carrier: the image constraints and boundary formulas belong in the README. -/
-def hiveToGT {n : ℕ} : IntegerHive n → TauCeti.GTPattern n := by sorry
-
-theorem hiveToGT_injective_on_boundary {n : ℕ} (h k : IntegerHive n)
-    (hB : boundary h = boundary k) (hP : hiveToGT h = hiveToGT k) : h = k := by sorry
-
 def dualWeight {n : ℕ} (lam : TauCeti.DominantWeight n) : TauCeti.DominantWeight n := by
   refine ⟨fun i => -lam.1 i.rev, ?_⟩
   intro i j hij
@@ -132,18 +135,15 @@ def RightPair {n : ℕ} (lam μ ν π : TauCeti.DominantWeight n) :=
     FixedIntegerHive (productBoundary μ ν τ) ×
     FixedIntegerHive (productBoundary lam τ π)
 
-/-- Must be built by the complete excavation, not selected from equal cardinalities. -/
-def excavationAssociator {n : ℕ} (lam μ ν π : TauCeti.DominantWeight n) :
-    LeftPair lam μ ν π ≃ RightPair lam μ ν π := by sorry
+/-- Associativity of the hive ring (H2, H3): both bracketings count the
+multiplicity of `V_π` in `V_λ ⊗ V_μ ⊗ V_ν`, as
+`Σ_σ c^σ_(λ,μ) c^π_(σ,ν) = Σ_τ c^τ_(μ,ν) c^π_(λ,τ)`. -/
+theorem card_leftPair_eq_card_rightPair {n : ℕ} (lam μ ν π : TauCeti.DominantWeight n) :
+    Nat.card (LeftPair lam μ ν π) = Nat.card (RightPair lam μ ν π) := by sorry
 
-/-- The bounded-recurrence map, after the tableau comparison in H9. -/
-def hiveCommutor {n : ℕ} (l m p : TauCeti.DominantWeight n) :
-    FixedIntegerHive (productBoundary l m p) ≃
-    FixedIntegerHive (productBoundary m l p) := by sorry
-
-theorem hiveCommutor_twice {n : ℕ} (l m p : TauCeti.DominantWeight n)
-    (h : FixedIntegerHive (productBoundary l m p)) :
-    hiveCommutor m l p (hiveCommutor l m p h) = h := by sorry
+/-- Commutativity of the hive ring (H2, H9): `c^γ_(λ,μ) = c^γ_(μ,λ)` for hive counts. -/
+theorem hiveCount_comm {n : ℕ} (l m p : TauCeti.DominantWeight n) :
+    hiveCount (productBoundary l m p) = hiveCount (productBoundary m l p) := by sorry
 
 /-- Finite binary-word index; positions are the Grassmannian subspace convention. -/
 abbrev BinaryWord (N k : ℕ) :=
@@ -174,24 +174,6 @@ theorem hermitian_iff_hive {n : ℕ} (B : Fin 3 → Fin n → ℝ) :
     HermitianTripleFeasible B ↔ ∃ h : RealHive n, boundary h = B := by sorry
 
 
-/-- An unordered unit triangle in the same finite lattice. -/
-abbrev UnitTriangle (n : ℕ) := {t : Finset (Vertex n) //
-  t.card = 3 ∧ ∀ a ∈ t, ∀ b ∈ t, a ≠ b → sqDist a b = 2}
-
-/-- Signed dual-edge normal in the integral coordinate-direction plane.
-The construction assigns zero to non-adjacent triangles. -/
-def finiteEdgeDirection {n : ℕ} : UnitTriangle n → UnitTriangle n → Fin 3 → ℤ := by sorry
-
-structure HoneycombConfiguration (n : ℕ) where
-  position : UnitTriangle n → Fin 3 → ℝ
-  sum_zero : ∀ t, ∑ k, position t k = 0
-  oriented_edge : ∀ t u, (t.1 ∩ u.1).card = 2 →
-    ∃ r : ℝ, 0 ≤ r ∧ ∀ k,
-      position u k - position t k = r * (finiteEdgeDirection t u k : ℝ)
-
-/-- Fixed dual graph, before contractions and coincident-edge diagram quotient. -/
-def hiveHoneycombEquiv (n : ℕ) : RealHive n ≃ HoneycombConfiguration n := by sorry
-
 /-- A finite rational path presentation; H8 constructs the reparametrization quotient. -/
 structure RationalPath (n : ℕ) where
   segments : ℕ
@@ -206,84 +188,10 @@ structure RationalPath (n : ℕ) where
 def pathEndpoint {n : ℕ} (p : RationalPath n) : Fin n → ℚ :=
   p.vertex (Fin.last p.segments)
 
-/-- Ambient running-extremum operator on the canonical representative. -/
-def pathRaise {n : ℕ} : Fin (n-1) → RationalPath n →
-    Option (RationalPath n) := by sorry
-
-def simpleRoot {n : ℕ} (i : Fin (n-1)) : Fin n → ℚ := fun j =>
-  (if j.val = i.val then 1 else 0) - (if j.val = i.val+1 then 1 else 0)
-
-theorem pathRaise_endpoint {n : ℕ} (i : Fin (n-1)) (p q : RationalPath n)
-    (h : pathRaise i p = some q) :
-    pathEndpoint q = pathEndpoint p + simpleRoot i := by sorry
-
-abbrev FixedRealHive {n : ℕ} (B : Fin 3 → Fin n → ℝ) :=
-  {h : RealHive n // boundary h = B}
-
-/-- Antitone real boundary weights retain all continuous intermediate labels. -/
-abbrev RealDominantWeight (n : ℕ) := {w : Fin n → ℝ // Antitone w}
-
-def dualRealWeight {n : ℕ} (l : RealDominantWeight n) : RealDominantWeight n := by
-  refine ⟨fun i => -l.1 i.rev, ?_⟩
-  intro i j hij
-  apply neg_le_neg
-  exact l.2 (by simpa using hij)
-
-def realProductBoundary {n : ℕ} (l m p : RealDominantWeight n) :
-    Fin 3 → Fin n → ℝ := ![l.1, m.1, (dualRealWeight p).1]
-
-/-- The real associator includes real intermediate weights, even at integral outer boundary. -/
-def realExcavationAssociator {n : ℕ} (l m v p : RealDominantWeight n) :
-    (Σ s : RealDominantWeight n,
-      FixedRealHive (realProductBoundary l m s) ×
-      FixedRealHive (realProductBoundary s v p)) ≃
-    (Σ t : RealDominantWeight n,
-      FixedRealHive (realProductBoundary m v t) ×
-      FixedRealHive (realProductBoundary l t p)) := by sorry
-
-/-- Orientation determinant in coordinates (z,y); negative is clockwise. -/
-def orientation {n : ℕ} (a b c : Vertex n) : ℤ :=
-  (((b.1 2).val : ℤ)-((a.1 2).val : ℤ))*(((c.1 1).val : ℤ)-((a.1 1).val : ℤ)) -
-  (((b.1 1).val : ℤ)-((a.1 1).val : ℤ))*(((c.1 2).val : ℤ)-((a.1 2).val : ℤ))
-
-def vertexCode {n : ℕ} (a : Vertex n) : ℕ :=
-  (a.1 0).val + (n+1)*(a.1 1).val + (n+1)^2*(a.1 2).val
-
-/-- Choose the smaller obtuse corner as corner0, eliminating rotational duplicates. -/
-abbrev PuzzleRhombus (n : ℕ) := {q : Fin 4 → Vertex n //
-  IsRhombus q ∧ orientation (q 0) (q 1) (q 2) < 0 ∧
-    vertexCode (q 0) < vertexCode (q 2)}
-
-abbrev PuzzlePiece (n : ℕ) := (UnitTriangle n × Bool) ⊕ PuzzleRhombus n
-
-/-- One monochromatic triangle or the two triangles on a rhombus's short diagonal. -/
-def pieceCells {n : ℕ} : PuzzlePiece n → Finset (UnitTriangle n) := by sorry
-
-/-- Some0/1 only on outer edges of the piece; every other edge returns none.
-Rhombus labels alternate true,false,true,false clockwise from its corner0. -/
-def pieceLabel {n : ℕ} : PuzzlePiece n → Finset (Vertex n) → Option Bool := by sorry
-
-structure Puzzle (n : ℕ) where
-  tiles : Finset (PuzzlePiece n)
-  covers_once : ∀ t : UnitTriangle n, ∃! p,
-    p ∈ tiles ∧ t ∈ pieceCells p
-  edge_matches : ∀ p ∈ tiles, ∀ q ∈ tiles, ∀ e, ∀ a b : Bool,
-    pieceLabel p e = some a → pieceLabel q e = some b → a = b
-
-/-- Reads each outer edge along the cyclic edgePoint s path. -/
-def puzzleBoundary {n : ℕ} : Puzzle n → Fin 3 → Fin n → Bool := by sorry
-
-theorem puzzle_boundary_balance {n : ℕ} (p : Puzzle n) (s t : Fin 3) :
-    (Finset.univ.filter fun i => puzzleBoundary p s i = true).card =
-    (Finset.univ.filter fun i => puzzleBoundary p t i = true).card := by sorry
-
 end TensorProductCombinatorics
 
 /-! ## H1.5 / H2.6: pointed unimodular counting and the native type-A adapter
-
-These are prospective target signatures, not an exhaustive checklist or compiled proof.
-All data-valued admissions have whole-function types retaining the actual inputs.
--/
+ -/
 namespace TensorProductCombinatorics.ChamberCounting
 open scoped BigOperators
 
@@ -360,36 +268,23 @@ theorem unit_maximal_minors_of_totallyUnimodular
   rcases hA r id e Function.injective_id he with ⟨s, hs⟩
   cases s <;> simp_all
 
-/-- The actual rational coefficient family. Height, matrix and chamber are retained. -/
-def chamberPolynomial : (A : Matrix (Fin r) ι ℤ) →
-    (h : Fin r → ℤ) → (∀ j, 0 < ∑ i, h i * A i j) →
-    Function.Surjective (fun x : ι → ℚ => fun i => ∑ j, (A i j : ℚ) * x j) →
-    (∀ e : Fin r → ι, Function.Injective e →
-      (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
-        (A.submatrix id e).det = -1) →
-    Chamber A → MvPolynomial (Fin r) ℚ := by sorry
-
-theorem chamberPolynomial_eval (A : Matrix (Fin r) ι ℤ)
+/-- Chamberwise polynomiality of unimodular vector partition functions
+(De Loera–Sturmfels, Theorem 1.1): on each closed chamber the count is a rational
+polynomial of total degree at most `|ι| - r`. -/
+theorem exists_chamberPolynomial (A : Matrix (Fin r) ι ℤ)
     (h : Fin r → ℤ) (hpos : ∀ j, 0 < ∑ i, h i * A i j)
     (hfull : Function.Surjective (fun x : ι → ℚ =>
       fun i => ∑ j, (A i j : ℚ) * x j))
     (hunit : ∀ e : Fin r → ι, Function.Injective e →
       (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
         (A.submatrix id e).det = -1)
-    (D : Chamber A) (b : Fin r → ℤ)
-    (hb : (fun i => (b i : ℝ)) ∈ chamberCell A D.1) :
-    MvPolynomial.eval (fun i => (b i : ℚ))
-      (chamberPolynomial A h hpos hfull hunit D) = (count A b : ℚ) := by sorry
+    (D : Chamber A) :
+    ∃ P : MvPolynomial (Fin r) ℚ, P.totalDegree ≤ Fintype.card ι - r ∧
+      ∀ b : Fin r → ℤ, (fun i => (b i : ℝ)) ∈ chamberCell A D.1 →
+        MvPolynomial.eval (fun i => (b i : ℚ)) P = (count A b : ℚ) := by sorry
 
-theorem chamberPolynomial_degree (A : Matrix (Fin r) ι ℤ)
-    (h : Fin r → ℤ) (hpos : ∀ j, 0 < ∑ i, h i * A i j)
-    (hfull : Function.Surjective (fun x : ι → ℚ =>
-      fun i => ∑ j, (A i j : ℚ) * x j))
-    (hunit : ∀ e : Fin r → ι, Function.Injective e →
-      (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
-        (A.submatrix id e).det = -1) (D : Chamber A) :
-    (chamberPolynomial A h hpos hfull hunit D).totalDegree ≤ Fintype.card ι - r := by sorry
-
+/-- Wall agreement (De Loera–Sturmfels, end of §3): polynomials representing the
+count on two chambers agree as real functions on the intersection of the chambers. -/
 theorem chamberPolynomial_wall (A : Matrix (Fin r) ι ℤ)
     (h : Fin r → ℤ) (hpos : ∀ j, 0 < ∑ i, h i * A i j)
     (hfull : Function.Surjective (fun x : ι → ℚ =>
@@ -397,11 +292,14 @@ theorem chamberPolynomial_wall (A : Matrix (Fin r) ι ℤ)
     (hunit : ∀ e : Fin r → ι, Function.Injective e →
       (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
         (A.submatrix id e).det = -1)
-    (D E : Chamber A) (x : Fin r → ℝ)
-    (hD : x ∈ chamberCell A D.1) (hE : x ∈ chamberCell A E.1) :
-    MvPolynomial.eval₂ (algebraMap ℚ ℝ) x (chamberPolynomial A h hpos hfull hunit D) =
-      MvPolynomial.eval₂ (algebraMap ℚ ℝ) x
-        (chamberPolynomial A h hpos hfull hunit E) := by sorry
+    (D E : Chamber A) (P Q : MvPolynomial (Fin r) ℚ)
+    (hP : ∀ b : Fin r → ℤ, (fun i => (b i : ℝ)) ∈ chamberCell A D.1 →
+      MvPolynomial.eval (fun i => (b i : ℚ)) P = (count A b : ℚ))
+    (hQ : ∀ b : Fin r → ℤ, (fun i => (b i : ℝ)) ∈ chamberCell A E.1 →
+      MvPolynomial.eval (fun i => (b i : ℚ)) Q = (count A b : ℚ))
+    (x : Fin r → ℝ) (hD : x ∈ chamberCell A D.1) (hE : x ∈ chamberCell A E.1) :
+    MvPolynomial.eval₂ (algebraMap ℚ ℝ) x P = MvPolynomial.eval₂ (algebraMap ℚ ℝ) x Q := by
+  sorry
 
 theorem count_eq_zero_outside (A : Matrix (Fin r) ι ℤ) (b : Fin r → ℤ)
     (hb : (fun i => (b i : ℝ)) ∉ supportCone A) : count A b = 0 := by sorry
@@ -422,21 +320,6 @@ theorem intervalMatrix_fullrank (N : ℕ) :
     Function.Surjective (fun x : PositiveInterval N → ℚ =>
       fun i => ∑ p, (intervalMatrix N i p : ℚ) * x p) := by sorry
 
-abbrev RootLattice (N : ℕ) := {z : Fin N → ℤ // ∑ i, z i = 0}
-
-def simpleCoordinates {N : ℕ} (z : RootLattice N) : Fin (N-1) → ℤ :=
-  fun k => ∑ i : Fin N, if i.val ≤ k.val then z.1 i else 0
-
-def rootVector (N : ℕ) (c : Fin (N-1) → ℤ) : RootLattice N :=
-  ⟨fun j => ∑ k, c k * ((if j.val = k.val then 1 else 0) -
-    (if j.val = k.val+1 then 1 else 0)), by sorry⟩
-
-def rootLatticeEquiv (N : ℕ) : RootLattice N ≃ (Fin (N-1) → ℤ) where
-  toFun := simpleCoordinates
-  invFun := rootVector N
-  left_inv := by sorry
-  right_inv := by sorry
-
 def typeACount (N : ℕ) (b : Fin (N-1) → ℤ) : ℕ := count (intervalMatrix N) b
 
 theorem typeA_support (N : ℕ) : supportCone (intervalMatrix N) =
@@ -451,24 +334,14 @@ theorem typeA_rank_one (a : ℤ) :
 theorem typeA_A2 (a b : ℤ) :
     typeACount 3 ![a,b] = if 0 ≤ a ∧ 0 ≤ b then (min a b + 1).toNat else 0 := by sorry
 
-/-- The specialization is defined by the generic family, not admitted again. -/
-def typeAPolynomial (N : ℕ) (D : Chamber (intervalMatrix N)) :
-    MvPolynomial (Fin (N-1)) ℚ :=
-  chamberPolynomial (intervalMatrix N) (fun _ => 1)
-    (fun p => by simpa using intervalMatrix_height N p)
-    (intervalMatrix_fullrank N)
-    (unit_maximal_minors_of_totallyUnimodular (intervalMatrix N)
-      (intervalMatrix_totallyUnimodular N)) D
-
-theorem typeAPolynomial_eval (N : ℕ) (D : Chamber (intervalMatrix N))
-    (b : Fin (N-1) → ℤ)
-    (hb : (fun i => (b i : ℝ)) ∈ chamberCell (intervalMatrix N) D.1) :
-    MvPolynomial.eval (fun i => (b i : ℚ)) (typeAPolynomial N D) =
-      (typeACount N b : ℚ) := by sorry
-
-theorem typeAPolynomial_degree (N : ℕ) (hN : 2 ≤ N)
+/-- Chamberwise polynomiality of the type-A Kostant partition function: on each
+chamber of the interval matrix the count is a polynomial in the simple-root
+coordinates of total degree at most `(N-1)(N-2)/2`. -/
+theorem typeA_exists_chamberPolynomial (N : ℕ) (hN : 2 ≤ N)
     (D : Chamber (intervalMatrix N)) :
-    (typeAPolynomial N D).totalDegree ≤ (N-1)*(N-2)/2 := by sorry
+    ∃ P : MvPolynomial (Fin (N-1)) ℚ, P.totalDegree ≤ (N-1)*(N-2)/2 ∧
+      ∀ b : Fin (N-1) → ℤ, (fun i => (b i : ℝ)) ∈ chamberCell (intervalMatrix N) D.1 →
+        MvPolynomial.eval (fun i => (b i : ℚ)) P = (typeACount N b : ℚ) := by sorry
 
 theorem typeA_empty (N : ℕ) (hN : N ≤ 1) : typeACount N 0 = 1 := by sorry
 
@@ -483,16 +356,11 @@ structure RootCoordinates (N : ℕ) (P : RootPairing κ ℚ M M') (b : P.Base) w
   positiveIndex : PositiveInterval N ≃ {i : κ // i ∈ TauCeti.posRoots P b}
   column_eq : ∀ p, embed (fun k => intervalMatrix N k p) = P.root (positiveIndex p).1
 
-/-- The full fibre equivalence extends by zero on negative roots. All data remain inputs. -/
-def nativePartitionEquiv {N : ℕ} {P : RootPairing κ ℚ M M'} {b : P.Base} :
-    (D : RootCoordinates N P b) → (c : Fin (N-1) → ℤ) →
-    Fibre (intervalMatrix N) c ≃
-      {d : κ → ℕ // TauCeti.IsKostantPartition P b (D.embed c) d} := by sorry
-
+/-- The interval-matrix count is the native Kostant partition function of the
+type-A root pairing, through the simple-root coordinates. -/
 theorem typeACount_eq_native {N : ℕ} {P : RootPairing κ ℚ M M'} {b : P.Base}
     (D : RootCoordinates N P b) (c : Fin (N-1) → ℤ) :
-    typeACount N c = TauCeti.kostantPartition P b (D.embed c) := by
-  exact Nat.card_congr (nativePartitionEquiv D c)
+    typeACount N c = TauCeti.kostantPartition P b (D.embed c) := by sorry
 
 end NativeComparison
 end TensorProductCombinatorics.ChamberCounting
