@@ -503,8 +503,7 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   State the universal tubular result as a native `Diffeomorph` between the
   actual open normal-radius tube and its open image, retaining the map formula
   and native inverse identities. It includes empty embedded manifolds, whose tube and
-  image are both empty. `exists_normalTubeOpenDiffeomorph` supplies this
-  interface; transport it through the normal/quotient bundle equivalence
+  image are both empty. This is the open-tube tubular neighbourhood theorem; transport it through the normal/quotient bundle equivalence
   for the intrinsic quotient tube. A `PartialDiffeomorph` on the whole
   normal total space is a corollary for nonempty embedded manifolds, with
   `[Nonempty S]` explicit, since its inverse is a total function on the
@@ -519,7 +518,7 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   and supply RiemannianGeometry's focal-point calculus.
 
   For every positive injective Euclidean tube of a closed-image C² embedding,
-  export `exists_c1EuclideanTubeOpenDiffeomorph` between the actual open tube
+  export a C¹ diffeomorphism between the actual open tube
   and `Metric.thickening ε (range i)`, with its C¹ inverse; include the smooth
   version for smooth embeddings. These open-subset results also cover empty
   source and thickening. The corresponding whole-space `PartialDiffeomorph`
@@ -527,13 +526,14 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
 
   In Euclidean ambient space use the general `orthogonalNormal` bundle
   with Mathlib's flat metric as the canonical smooth carrier. The quotient
-  equivalence sends the class of v to its orthogonal projection. Under
+  equivalence sends the class of v to its orthogonal projection
+  (`exists_normalSpaceOrthogonalEquiv`). Under
   `NormedSpace.fromTangentSpace (i x)`, prove its fibre submodule maps to
   native `normalSubspace I i x`. Construct the corresponding total-space
   homeomorphism to `TotalSpace V (normalSubspace I i ·)`, with its actual
   projection/fibre formulas and continuous inverse; use it to transport the
   existing topological tube results. No second Euclidean smooth atlas is chosen.
-  Own `smoothEmbeddingOfLE`: for m≤n lower the native embedding's
+  Own the regularity-lowering map on smooth embeddings: for m≤n lower the native embedding's
   `ContMDiff` regularity, retaining the same function and embedding/immersion
   data; prove its coercion equality and identity/composition laws.
   Define this same `orthogonalNormal` family and its bundle instances for
@@ -541,7 +541,7 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   metric; the normal bundle regularity is C^(n−1) (∞−1=∞). Keep the native
   tangent bundle's C¹ ambient prerequisite explicit. Include regularity-lowering
   comparisons, preserving the underlying fibre/topology and identifying the
-  smooth atlas restricted to C¹ with the C¹ atlas of the C² embedding `smoothEmbeddingOfLE f (by simp)`.
+  smooth atlas restricted to C¹ with the C¹ atlas of f regarded as a C² embedding.
   For finite C² regularity use native `exists_contMDiffOn_normalFrame` with
   n=1 (C² source and embedding), plus native
   `contMDiff_normalSubspace_starProjection` and
@@ -663,10 +663,11 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   block and inverse function theorem prove local diffeomorphism throughout
   the whole ε-tube, and injectivity gives its C¹ or smooth inverse.
   Export the per-ε chart with actual injectivity as input, not an already
-  proved open embedding. Define `nearestPoint` on the open thickening;
+  proved open embedding. Define the nearest-point map r on the open thickening (`exists_nearestPoint`);
   prove its regularity, minimization, uniqueness, zero-section value and
-  normal displacement. Pin its inverse as
-  y↦(nearestPoint y,y−i(nearestPoint y)), with norm less than ε.
+  normal displacement. Pin the inverse of the tube map as
+  y↦(r y,y−i(r y)), with norm less than ε; `exists_euclideanTubeEquiv` is the
+  resulting homeomorphism of the normal tube onto the thickening.
   The general-ambient tube, C² Euclidean Hessian, and compact uniform-radius
   corollary are separate targets; no RiemannianGeometry theorem is an input.
   The straight-line homotopy is a strong deformation retraction onto the
@@ -790,7 +791,7 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   realization in this argument with its complement/framing checks; algebraic
   cancellation alone is insufficient. The proof uses no PSC metric.
   [Frenck, §2.2](https://arxiv.org/pdf/1912.08613) supplies the marked
-  trace/handle formulation and its 2-connectivity-to-index-range handoff;
+  trace/handle formulation and its passage from 2-connectivity to the admissible index range;
   Smale's handle-cancellation proof and Milnor's *Lectures on the h-cobordism
   theorem*, handle trading/cancellation chapters, supply the geometric proof.
 - **Connected sum, with the choices explicit.** The definition must *take* the data it
@@ -886,7 +887,8 @@ Compute the tangent/cotangent conventions separately. For S^(2k), Euler(TS)=2 in
 
 Reversing the ambient orientation negates the entire intersection form; reversing an individual zero-section basis vector changes its row and column. On a tree choose bipartition signs ε_v so ε_vε_w=-1 along every edge. Conjugating the negated matrix by diag(ε_v) returns the off-diagonal+1 pattern and gives diagonal+2. This explains the source's two matrix sign patterns; it does not assert that positive E8 and negative E8 are isometric. Include the zero-vertex graph, disconnected graph, rank2 bundle example and all orientation transport equations. The specific E8 plumbing boundary's simple connectivity, almost parallelizability and later surgery uses remain separate HS/GT targets, not premises of this finite matrix calculation.
 
-<a id="gt1-finite-dimensional-immersion"></a>
+#### GT1: finite-dimensional immersion
+
 **Finite-dimensional immersion and embedding criterion.** For smooth real manifolds
 without boundary and finite-dimensional model spaces, construct the implication
 from `ContMDiff I J ∞ f` and injectivity of `mfderiv I J f x` at x to
@@ -1091,7 +1093,8 @@ topological-group and uniform-space API from Mathlib's algebra-and-topology libr
 -- theorem smale_conjecture : ∃ h : ContinuousMap.HomotopyEquiv (orthogonalGroup 4 ℝ) (Diff 𝓘 (sphere 3)), h.toFun = orthogonalInclusion
 ```
 
-<a id="gt3-smooth-family-isotopy-extension"></a>
+#### GT3: smooth-family isotopy extension
+
 **Smooth-family isotopy extension.** In addition to the continuous function-space
 extension above, own this smooth version. Let N be a compact smooth manifold
 without boundary and M a Hausdorff paracompact finite-dimensional smooth manifold
@@ -1492,7 +1495,8 @@ Construct orientation-compatible connected sum using marked small arcs/discs, pr
 
 Give explicit torus, pretzel, rational twist and Whitehead/twisted-double patterns with orientations and all signed/degenerate parameter branches. For torus links compare coordinate interchange by an orientation-preserving ambient isotopy in S3, single sign reversal with mirror, simultaneous sign reversal with orientation transport, and component gcd. An abstract symmetry of the square torus need not extend to the required ambient isotopy.
 
-<a id="gt4-torus-models"></a>
+##### GT4: torus models
+
 For the coprime-integer knot case, fix the actual Clifford-torus model
 `κ_(p,q)(u)=2^(−1/2)(u^p,u^q)` for `u∈Circle⊂ℂ`, in the unit sphere of
 `EuclideanSpace ℂ (Fin 2)`. Integer powers include negative parameters.
@@ -1663,8 +1667,7 @@ Own group-Z⇒unknot with its actual loop theorem/Dehn lemma and compressible-bo
 
 For each finite strand number n, consume native Artin braid groups/words and construct the positive braid monoid, its embedding into B_n and its group-of-fractions comparison. Construct the Garside half twist Δ, its finite simple divisors identified with permutations, left/right gcd/lcm and the greedy normal form Δ^k s₁⋯s_r with each adjacent pair left-weighted. Prove existence, uniqueness and executable multiplication/inversion/reduction; thus decide equality of finite braid words. For the conjugacy theorem cited on source090, construct super-summit representatives with maximal infimum and minimal supremum in the conjugacy class, an effective terminating procedure finding one, and the finite graph of simple-element conjugations staying in that set. Prove its nonemptiness, finiteness and connectedness within one conjugacy class, including central/periodic and n=0/1/2 cases. The algorithm decides conjugacy iff the two complete finite reachable sets intersect, returning an actual conjugator on success and an exhaustive certificate on failure. A normal form alone does not decide conjugacy, and cycling alone is not asserted complete. This mathematical target is not a Markov-equivalence algorithm; the source's historical absence-of-known-Markov-algorithm sentence stays dated provenance.
 
-<a id="five-one-group-fox"></a>
-##### Worked group and Fox calculation for `5₁`
+##### Five-one group, Fox
 
 For the positive two-strand braid closure `σ₁⁵`, identified geometrically with
 the torus knot `T(2,5)`, carry out the Wirtinger eliminations giving
@@ -2133,8 +2136,8 @@ calculus.
 
 **What to build.**
 - **The complement** of a knot or link as a compact manifold-with-boundary: delete an open
-  tubular neighbourhood (layer 1), with the boundary a torus per component. This is the
-  layer-4-to-layer-5 handoff that lean-eval lacks. (Rolfsen, *Knots and Links*, Chapter 9,
+  tubular neighbourhood (layer 1), with the boundary a torus per component. Layer 5 consumes
+  Layer 4 through this object. (Rolfsen, *Knots and Links*, Chapter 9,
   is the reference for the surgery picture throughout this layer,
   [extract](references/rolfsen-dehn-surgery.md).)
 - **Exterior naturality, tube choices and the open complement.** For a realized tame
@@ -2328,7 +2331,8 @@ changes uses the actual Seifert comparisons. For concordant knots K,J, prove
 raw-signature equality under the explicit safe premises `ω≠1`, `Δ_K(ω)≠0`
 and `Δ_J(ω)≠0`. Raw values at roots are not the full-circle concordance invariant.
 
-<a id="gt6-torus-signatures"></a>
+##### GT6: torus signatures
+
 **Torus knots and chirality.** For coprime positive P,Q≥2, construct the standard
 positive-braid Seifert surface and its ordered homology basis. With `B_n` having
 diagonal1, superdiagonal−1 and all other entries zero, identify its Seifert matrix
@@ -3772,8 +3776,7 @@ groupoid.
   and the barycentric homeomorphism |K|≃ₜ SSet.toTop.obj K_o. Prove its
   subcomplex and simplicial-map comparisons. Consume AlgebraicTopology 4.7's
   single `simplicialRealizationCW`, with its normalized ball/simplex
-  characteristic maps. Own `cwComplexTransportHomeomorph` and
-  `relCWComplexTransportHomeomorph`: transport native CW/relative CW
+  characteristic maps. Own the transport of native CW/relative CW
   structures along any homeomorphism, with the relative base’s actual image,
   pushed-forward characteristic maps, closed/open cells, subcomplexes and weak
   topology. Transport the realization structure through this homeomorphism;
@@ -4044,7 +4047,7 @@ following sequence of targets:
    Construct it directly from chart partitions of unity. For compact M use a
    finite chart cover; for noncompact M consume the shared target below.
 
-   <a id="covering-dimension-core"></a>
+   ##### Covering dimension core
 
    **CoveringDimensionCore (early shared prerequisite).** Own the common
    Lebesgue covering-dimension interface independently of the manifold,
@@ -4077,7 +4080,7 @@ following sequence of targets:
    embedding proof uses its own direct partition-star construction below,
    not A4's compact-space characterization.
 
-   <a id="finite-colour-chart-refinement"></a>
+   ##### Finite colour chart refinement
 
    **FiniteColourChartRefinement.** For every Hausdorff, second-countable
    finite-dimensional TOP d-manifold M and every indexed open cover 𝒰,

@@ -28,10 +28,24 @@ Khovanov–Lee/Rasmussen `s` supplier, as specified by the definitive README.
 
 The current Tau Ceti substrate includes smooth embeddings, quotient normal
 spaces and the topological Euclidean tubular neighbourhood. The normal-space
-targets use the existing quotient and projection carriers; nearest-point and
-smooth normal-bundle extensions below are suggested targets. The remaining
+targets use the existing quotient and projection carriers, and the nearest-point
+retraction is stated as an existence theorem on the open thickening. The remaining
 geometric and smooth extensions are specified by the README; this file's
 illustrative signatures do not certify their completion.
+
+Not statable at the pins:
+* the smooth tubular neighbourhood theorem in its diffeomorphism forms (Lee's theorem
+  for a general Riemannian ambient manifold, its quotient-bundle transport, the smooth
+  and C¹ Euclidean tube charts, and the smoothness of the normal exponential on its
+  natural domain). Each needs a smooth manifold structure on the total space of the
+  orthogonal or quotient normal bundle of an embedding, that is, `FiberBundle`,
+  `VectorBundle` and `ContMDiffVectorBundle` instances for a subbundle or quotient
+  bundle of a smooth vector bundle. Neither Mathlib nor Tau Ceti constructs these at
+  the pins, and the construction is a Layer 1 target of the README;
+* the transport of CW and relative CW structures along a homeomorphism, and the
+  subcomplex and relative structure carried by finitely many marked 0-cells. These are
+  data constructions (characteristic maps and cells) that the pinned
+  `Topology.CWComplex` does not provide, and they are Layer 11 targets of the README.
 
 As the prerequisite *types* land in `TauCeti/` (layer 1's gluing and connected sum first,
 then surgery, then the volume measure), state each layer's milestones here with `sorry`
@@ -75,23 +89,6 @@ noncomputable section
 
 local instance : NeZero (∞ : ℕ∞ω) := ⟨by simp⟩
 
-section EmbeddingRegularity
-variable {E F H G S M : Type*}
-  [NormedAddCommGroup E] [NormedSpace ℝ E] [NormedAddCommGroup F] [NormedSpace ℝ F]
-  [TopologicalSpace H] [TopologicalSpace G]
-  {I : ModelWithCorners ℝ E H} {J : ModelWithCorners ℝ F G}
-  [TopologicalSpace S] [ChartedSpace H S] [TopologicalSpace M] [ChartedSpace G M]
-
-/-- Lower only regularity, preserving the actual embedding and immersion data. -/
-def smoothEmbeddingOfLE {m n : ℕ∞ω} (f : TauCeti.SmoothEmbedding I J n S M)
-    (hmn : m ≤ n) : TauCeti.SmoothEmbedding I J m S M := by
-  sorry
-
-theorem smoothEmbeddingOfLE_coe {m n : ℕ∞ω} (f : TauCeti.SmoothEmbedding I J n S M)
-    (hmn : m ≤ n) : (smoothEmbeddingOfLE f hmn : S → M) = (f : S → M) := by
-  sorry
-end EmbeddingRegularity
-
 section EuclideanTubular
 
 variable {E H M V : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
@@ -99,25 +96,15 @@ variable {E H M V : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [TopologicalSpace M] [ChartedSpace H M]
   [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 
-/-- The intrinsic quotient normal space agrees with the Euclidean orthogonal model. -/
-def normalSpaceOrthogonalEquiv [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M] [I.Boundaryless]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
-    (x : M) :
-    f.NormalSpace x (by simp) ≃L[ℝ] TauCeti.normalSubspace I (f : M → V) x := by
-  sorry
-
-theorem normalSpaceOrthogonalEquiv_normalClass [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
+/-- The intrinsic quotient normal space agrees with the Euclidean orthogonal model: there is a
+continuous linear equivalence sending the class of `v` to its orthogonal projection onto the
+normal subspace. -/
+theorem exists_normalSpaceOrthogonalEquiv [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
     [IsManifold I ∞ M] [I.Boundaryless]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V) (x : M) (v : V) :
-    normalSpaceOrthogonalEquiv f x (f.normalClass x (by simp) v) =
-      (TauCeti.normalSubspace I (f : M → V) x).orthogonalProjectionOnto v := by
-  sorry
-
-theorem normalSpaceOrthogonalEquiv_symm [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
-    [IsManifold I ∞ M] [I.Boundaryless]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V) (x : M)
-    (v : TauCeti.normalSubspace I (f : M → V) x) :
-    (normalSpaceOrthogonalEquiv f x).symm v = f.normalClass x (by simp) (v : V) := by
+    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V) (x : M) :
+    ∃ e : f.NormalSpace x (by simp) ≃L[ℝ] TauCeti.normalSubspace I (f : M → V) x,
+      ∀ v : V, e (f.normalClass x (by simp) v) =
+        (TauCeti.normalSubspace I (f : M → V) x).orthogonalProjectionOnto v := by
   sorry
 
 /-- Actual injectivity on any positive tube is enough; compactness only supplies one radius. -/
@@ -146,59 +133,30 @@ def nearestPointDomain (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
     (ε : ℝ) : TopologicalSpace.Opens V :=
   ⟨Metric.thickening ε (Set.range f), Metric.isOpen_thickening⟩
 
-/-- The closest-point map takes closed image and actual normal-tube injectivity. -/
-def nearestPoint [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M] [I.Boundaryless]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
-    (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) : nearestPointDomain f ε → M := by
-  sorry
-
-theorem nearestPoint_minimizes [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M] [I.Boundaryless] (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
-    (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) (y : nearestPointDomain f ε) :
-    ∀ z : M, ‖(y : V) - f (nearestPoint f ε hε hclosed hinj y)‖ ≤ ‖(y : V) - f z‖ := by
-  sorry
-
-theorem contMDiff_nearestPoint [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M] [I.Boundaryless] (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
+/-- For a closed-image smooth Euclidean embedding and any positive radius on whose normal tube
+the addition map is injective, the open thickening carries a smooth nearest-point retraction `r`:
+`f (r y)` minimises the distance to `y`, and `(r y, y - f (r y))` lies in the normal tube. -/
+theorem exists_nearestPoint [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M]
+    [I.Boundaryless] (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
     (ε : ℝ) (hε : 0 < ε)
     (hclosed : IsClosed (Set.range f))
     (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) :
-    ContMDiff 𝓘(ℝ, V) I ∞ (nearestPoint f ε hε hclosed hinj) := by
+    ∃ r : nearestPointDomain f ε → M,
+      ContMDiff 𝓘(ℝ, V) I ∞ r ∧
+      (∀ (y : nearestPointDomain f ε) (z : M), ‖(y : V) - f (r y)‖ ≤ ‖(y : V) - f z‖) ∧
+      (∀ y : nearestPointDomain f ε,
+        ((r y, (y : V) - f (r y)) : M × V) ∈ TauCeti.normalTube I f ε) := by
   sorry
 
-/-- Normality and the radius bound make the inverse tube map well-typed. -/
-theorem nearestPoint_normal [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M] [I.Boundaryless] (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
-    (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) (y : nearestPointDomain f ε) :
-    ((nearestPoint f ε hε hclosed hinj y, (y : V) - f (nearestPoint f ε hε hclosed hinj y)) : M × V)
-      ∈ TauCeti.normalTube I f ε := by
-  sorry
-
-def euclideanTubeEquiv [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M] [I.Boundaryless]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
+/-- Under the same hypotheses the addition map is a homeomorphism from the normal tube onto the
+open thickening. -/
+theorem exists_euclideanTubeEquiv [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
+    [IsManifold I ∞ M] [I.Boundaryless] (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
     (ε : ℝ) (hε : 0 < ε)
     (hclosed : IsClosed (Set.range f))
     (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) :
-    TauCeti.normalTube I f ε ≃ₜ nearestPointDomain f ε := by
-  sorry
-
-theorem euclideanTubeEquiv_apply [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M] [I.Boundaryless] (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V)
-    (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) (q : TauCeti.normalTube I f ε) :
-    (euclideanTubeEquiv f ε hε hclosed hinj q : V) = f q.1.1 + q.1.2 := by
-  sorry
-
-theorem euclideanTubeEquiv_symm_apply [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [IsManifold I ∞ M] [I.Boundaryless]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V) (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) (y : nearestPointDomain f ε) :
-    (euclideanTubeEquiv f ε hε hclosed hinj).symm y =
-      ⟨(nearestPoint f ε hε hclosed hinj y, (y : V) - f (nearestPoint f ε hε hclosed hinj y)),
-        nearestPoint_normal f ε hε hclosed hinj y⟩ := by
+    ∃ e : TauCeti.normalTube I f ε ≃ₜ nearestPointDomain f ε,
+      ∀ q : TauCeti.normalTube I f ε, (e q : V) = f q.1.1 + q.1.2 := by
   sorry
 end NearestPoint
 
@@ -249,33 +207,6 @@ example [IsManifold I ∞ S] [IsManifold J ∞ M]
     [I.Boundaryless] [J.Boundaryless] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
     ContMDiffVectorBundle ∞ F ((f : S → M) *ᵖ (TangentSpace J)) I := inferInstance
 
-/-- The chosen auxiliary metric gives a quotient atlas; the README pins its independence. -/
-instance quotientNormalFiberBundle [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] [T2Space M] [SecondCountableTopology M]
-    [I.Boundaryless] [J.Boundaryless]
-    [IsManifold I ∞ S] [IsManifold J ∞ M] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    FiberBundle (NormalModel (E := E) (F := F)) (quotientNormal f) := by
-  sorry
-
-instance quotientNormalVectorBundle [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] [T2Space M] [SecondCountableTopology M]
-    [I.Boundaryless] [J.Boundaryless]
-    [IsManifold I ∞ S] [IsManifold J ∞ M] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    VectorBundle ℝ (NormalModel (E := E) (F := F)) (quotientNormal f) := by
-  sorry
-
-instance quotientNormalContMDiffVectorBundle [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] [T2Space M] [SecondCountableTopology M]
-    [I.Boundaryless] [J.Boundaryless]
-    [IsManifold I ∞ S] [IsManifold J ∞ M] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    ContMDiffVectorBundle ∞ (NormalModel (E := E) (F := F)) (quotientNormal f) I := by
-  sorry
-theorem contMDiff_quotientNormalClass [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [IsManifold I ∞ S] [IsManifold J ∞ M] [T2Space M] [SecondCountableTopology M]
-    [I.Boundaryless] [J.Boundaryless] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    ContMDiff (I.prod 𝓘(ℝ, F)) (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F))) ∞
-      (fun p : TotalSpace F ((f : S → M) *ᵖ (TangentSpace J)) =>
-        (⟨p.proj, f.normalClass p.proj (by simp) p.2⟩ :
-          TotalSpace (NormalModel (E := E) (F := F)) (quotientNormal f))) := by
-  sorry
-
 end QuotientNormalBundle
 
 section NormalBundleCarrier
@@ -300,60 +231,10 @@ instance normalBundleTopology [FiniteDimensional ℝ E] [FiniteDimensional ℝ F
     (fun p => (⟨p.proj, (p.2 : TangentSpace J (f p.proj))⟩ :
       TotalSpace F ((f : S → M) *ᵖ (TangentSpace J)))) inferInstance
 
-instance normalFiberBundle [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] {n : ℕ∞ω} [NeZero n]
-
-    [IsManifold I n S] [IsManifold J n M] [I.Boundaryless] [J.Boundaryless]
-    [IsContMDiffRiemannianBundle J (n - 1) F (fun x : M => TangentSpace J x)]
-    (f : TauCeti.SmoothEmbedding I J n S M) :
-    FiberBundle (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x)) := by
-  sorry
-
-instance normalVectorBundle [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] {n : ℕ∞ω} [NeZero n]
-
-    [IsManifold I n S] [IsManifold J n M] [I.Boundaryless] [J.Boundaryless]
-    [IsContMDiffRiemannianBundle J (n - 1) F (fun x : M => TangentSpace J x)]
-    (f : TauCeti.SmoothEmbedding I J n S M) :
-    VectorBundle ℝ (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x)) := by
-  sorry
-
-instance normalContMDiffVectorBundle [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] {n : ℕ∞ω} [NeZero n]
-
-    [IsManifold I n S] [IsManifold J n M] [I.Boundaryless] [J.Boundaryless]
-    [IsContMDiffRiemannianBundle J (n - 1) F (fun x : M => TangentSpace J x)]
-    (f : TauCeti.SmoothEmbedding I J n S M) :
-    ContMDiffVectorBundle (n - 1) (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x)) I := by
-  sorry
-
 /-- An open radius tube in the actual general normal bundle. -/
 def normalRadiusTube [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] {n : ℕ∞ω} (f : TauCeti.SmoothEmbedding I J n S M) (δ : S → ℝ) :
     Set (TotalSpace (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x))) :=
   {p | ‖(p.2 : TangentSpace J (f p.proj))‖ < δ p.proj}
-
-theorem orthogonalNormal_smoothEmbeddingOfLE [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    {m n : ℕ∞ω} (f : TauCeti.SmoothEmbedding I J n S M) (hmn : m ≤ n) (x : S) :
-    orthogonalNormal (smoothEmbeddingOfLE f hmn) x = orthogonalNormal f x := by
-  sorry
-
-theorem contMDiff_normalInclusion [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    {n : ℕ∞ω} [NeZero n] [IsManifold I n S] [IsManifold J n M]
-    [I.Boundaryless] [J.Boundaryless]
-    [IsContMDiffRiemannianBundle J (n - 1) F (fun x : M => TangentSpace J x)]
-    (f : TauCeti.SmoothEmbedding I J n S M) :
-    ContMDiff (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F))) (I.prod 𝓘(ℝ, F)) (n - 1)
-      (fun p : TotalSpace (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x)) =>
-        (⟨p.proj, (p.2 : TangentSpace J (f p.proj))⟩ :
-          TotalSpace F ((f : S → M) *ᵖ (TangentSpace J)))) := by
-  sorry
-
-/-- The actual open tube subtype supports genuine diffeomorphisms even over an empty base. -/
-def normalRadiusTubeOpen [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    {n : ℕ∞ω} [NeZero n] [IsManifold I n S] [IsManifold J n M]
-    [I.Boundaryless] [J.Boundaryless]
-    [IsContMDiffRiemannianBundle J (n - 1) F (fun x : M => TangentSpace J x)]
-    (f : TauCeti.SmoothEmbedding I J n S M) (δ : S → ℝ) (hδ : Continuous δ) :
-    TopologicalSpace.Opens
-      (TotalSpace (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x))) :=
-  ⟨normalRadiusTube f δ, by sorry⟩
 
 end NormalBundleCarrier
 
@@ -375,29 +256,6 @@ local instance [IsContMDiffRiemannianBundle J ∞ F (fun x : M => TangentSpace J
   exact IsContMDiffRiemannianBundle.of_le (n := ∞) (tsub_le_self : (∞ : ℕ∞ω) - 1 ≤ ∞)
 
 
-/-- The metric complement gives the canonical quotient through the existing quotient map. -/
-def normalQuotientEquiv [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [IsContMDiffRiemannianBundle J ∞ F (fun x : M => TangentSpace J x)]
-    (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    TotalSpace (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x)) ≃ₜ
-      TotalSpace (NormalModel (E := E) (F := F)) (quotientNormal f) := by
-  sorry
-
-theorem normalQuotientEquiv_apply [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [IsContMDiffRiemannianBundle J ∞ F (fun x : M => TangentSpace J x)] (f : TauCeti.SmoothEmbedding I J ∞ S M)
-    (p : TotalSpace (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x))) :
-    normalQuotientEquiv f p = ⟨p.proj, f.normalClass p.proj (by simp) p.2⟩ := by
-  sorry
-
-theorem contMDiff_normalQuotientEquiv [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [IsContMDiffRiemannianBundle J ∞ F (fun x : M => TangentSpace J x)] [T2Space M] [SecondCountableTopology M]
-    (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    ContMDiff (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F)))
-      (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F))) ∞ (normalQuotientEquiv f) ∧
-    ContMDiff (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F)))
-      (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F))) ∞ (normalQuotientEquiv f).symm := by
-  sorry
-
 /-- The normal exponential is pinned to the existing manifold exponential. -/
 def normalExponential [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
     [IsContMDiffRiemannianBundle J ∞ F (fun x : M => TangentSpace J x)] (f : TauCeti.SmoothEmbedding I J ∞ S M)
@@ -415,72 +273,7 @@ theorem isOpen_normalExpDomain [FiniteDimensional ℝ E] [FiniteDimensional ℝ 
     IsOpen (normalExpDomain f) := by
   sorry
 
-theorem contMDiffOn_normalExponential [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [IsContMDiffRiemannianBundle J ∞ F (fun x : M => TangentSpace J x)] [T2Space M] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    ContMDiffOn (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F))) J ∞
-      (normalExponential f) (normalExpDomain f) := by
-  sorry
-
 end GeneralAmbient
-
-section LeeAmbient
-open Bundle
-open scoped Bundle
-variable {E F H G S M : Type*}
-  [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [NormedAddCommGroup F] [NormedSpace ℝ F]
-  [TopologicalSpace H] [TopologicalSpace G]
-  {I : ModelWithCorners ℝ E H} {J : ModelWithCorners ℝ F G}
-  [TopologicalSpace S] [ChartedSpace H S] [IsManifold I ∞ S] [I.Boundaryless]
-  [EMetricSpace M] [ChartedSpace G M] [IsManifold J ∞ M] [J.Boundaryless]
-  [RiemannianBundle (fun x : M => TangentSpace J x)]
-  [ambientMetricSmooth : IsContMDiffRiemannianBundle J ∞ F (fun x : M => TangentSpace J x)]
-  [IsRiemannianManifold J M]
-
-local instance : IsContMDiffRiemannianBundle J ((∞ : ℕ∞ω) - 1) F
-    (fun x : M => TangentSpace J x) := by
-  exact IsContMDiffRiemannianBundle.of_le (n := ∞) (tsub_le_self : (∞ : ℕ∞ω) - 1 ≤ ∞)
-
-/-- Whole-total-space partial-chart corollary for a nonempty embedded manifold. -/
-theorem exists_normalTubularDiffeomorph [Nonempty S] [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [SecondCountableTopology M] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    ∃ (δ : S → ℝ)
-      (chart : PartialDiffeomorph
-        (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F))) J
-        (TotalSpace (NormalModel (E := E) (F := F)) (fun x => ↥(orthogonalNormal f x))) M ∞),
-      ContMDiff I 𝓘(ℝ, ℝ) ∞ δ ∧ (∀ x, 0 < δ x) ∧
-      chart.source = normalRadiusTube f δ ∧
-      (∀ p ∈ chart.source, (p.2 : TangentSpace J (f p.proj)) ∈
-        TauCeti.Manifold.expDomain J M (f p.proj)) ∧
-      (∀ p ∈ chart.source, chart p = normalExponential f p) ∧
-      (∀ x, chart ⟨x, 0⟩ = f x) := by
-  sorry
-/-- The quotient bundle has the same smooth tubular interface. -/
-theorem exists_quotientTubularDiffeomorph [Nonempty S] [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [SecondCountableTopology M] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    ∃ (δ : S → ℝ)
-      (chart : PartialDiffeomorph
-        (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F))) J
-        (TotalSpace (NormalModel (E := E) (F := F)) (quotientNormal f)) M ∞),
-      ContMDiff I 𝓘(ℝ, ℝ) ∞ δ ∧ (∀ x, 0 < δ x) ∧
-      chart.source = (normalQuotientEquiv f).symm ⁻¹' normalRadiusTube f δ ∧
-      (∀ p ∈ chart.source, chart p = normalExponential f ((normalQuotientEquiv f).symm p)) ∧
-      (∀ x, chart ⟨x, 0⟩ = f x) := by
-  sorry
-/-- The full Lee theorem uses actual open subsets; it includes the empty embedded manifold. -/
-theorem exists_normalTubeOpenDiffeomorph [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
-    [SecondCountableTopology M] (f : TauCeti.SmoothEmbedding I J ∞ S M) :
-    ∃ (δ : S → ℝ) (hδ : ContMDiff I 𝓘(ℝ, ℝ) ∞ δ)
-      (U : TopologicalSpace.Opens M)
-      (chart : Diffeomorph (I.prod 𝓘(ℝ, NormalModel (E := E) (F := F))) J
-        (normalRadiusTubeOpen f δ hδ.continuous) U ∞),
-      (∀ x, 0 < δ x) ∧ (∀ x, f x ∈ U) ∧
-      (∀ p : normalRadiusTubeOpen f δ hδ.continuous,
-        (p.1.2 : TangentSpace J (f p.1.proj)) ∈ TauCeti.Manifold.expDomain J M (f p.1.proj)) ∧
-      (∀ p : normalRadiusTubeOpen f δ hδ.continuous, (chart p : M) = normalExponential f p.1) := by
-  sorry
-
-end LeeAmbient
 
 section SmoothEuclideanTube
 open Bundle
@@ -496,115 +289,7 @@ theorem orthogonalNormal_map_eq_normalSubspace [FiniteDimensional ℝ E] [Finite
       (orthogonalNormal f x) = TauCeti.normalSubspace I (f : M → V) x := by
   sorry
 
-/-- The flat instance of the general smooth normal carrier compares to the native total space. -/
-def flatNormalTotalSpaceEquiv [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] {n : ℕ∞ω}
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) n M V) :
-    TotalSpace (NormalModel (E := E) (F := V)) (fun x => ↥(orthogonalNormal f x)) ≃ₜ
-      TotalSpace V (fun x => TauCeti.normalSubspace I (f : M → V) x) := by
-  sorry
-
-theorem flatNormalTotalSpaceEquiv_apply [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] {n : ℕ∞ω}
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) n M V)
-    (p : TotalSpace (NormalModel (E := E) (F := V)) (fun x => ↥(orthogonalNormal f x))) :
-    (flatNormalTotalSpaceEquiv f p).proj = p.proj ∧
-      ((flatNormalTotalSpaceEquiv f p).2 : V) =
-        NormedSpace.fromTangentSpace (f p.proj) (p.2 : TangentSpace 𝓘(ℝ, V) (f p.proj)) := by
-  sorry
-
-/-- Every positive injective closed-image tube is a smooth diffeomorphism of open subsets,
-including empty source and image. -/
-theorem exists_smoothEuclideanTubeOpenDiffeomorph [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V) (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) :
-    ∃ chart : Diffeomorph (I.prod 𝓘(ℝ, NormalModel (E := E) (F := V))) 𝓘(ℝ, V)
-      (normalRadiusTubeOpen f (fun _ => ε) continuous_const)
-      (⟨Metric.thickening ε (Set.range f), Metric.isOpen_thickening⟩ : TopologicalSpace.Opens V) ∞,
-      ∀ p : normalRadiusTubeOpen f (fun _ => ε) continuous_const,
-        (chart p : V) = f p.1.proj +
-          NormedSpace.fromTangentSpace (f p.1.proj)
-            (p.1.2 : TangentSpace 𝓘(ℝ, V) (f p.1.proj)) := by
-  sorry
-
-/-- Every injective positive tube for a closed-image embedding has the promised smooth chart. -/
-def smoothEuclideanTubeOfInjOn [Nonempty M] [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V) (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) :
-    PartialDiffeomorph (I.prod 𝓘(ℝ, NormalModel (E := E) (F := V))) 𝓘(ℝ, V)
-      (TotalSpace (NormalModel (E := E) (F := V)) (fun x => ↥(orthogonalNormal f x))) V ∞ := by
-  sorry
-
-theorem smoothEuclideanTubeOfInjOn_source_target [Nonempty M] [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V) (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) :
-    (smoothEuclideanTubeOfInjOn f ε hε hclosed hinj).source = normalRadiusTube f (fun _ => ε) ∧
-      (smoothEuclideanTubeOfInjOn f ε hε hclosed hinj).target =
-        Metric.thickening ε (Set.range f) ∧
-      ∀ p ∈ (smoothEuclideanTubeOfInjOn f ε hε hclosed hinj).source,
-        smoothEuclideanTubeOfInjOn f ε hε hclosed hinj p = f p.proj +
-          NormedSpace.fromTangentSpace (f p.proj)
-            (p.2 : TangentSpace 𝓘(ℝ, V) (f p.proj)) := by
-  sorry
-
-/-- Compactness supplies one uniform radius; the per-radius theorem above is stronger. -/
-theorem exists_smoothEuclideanTube [Nonempty M] [FiniteDimensional ℝ E] [FiniteDimensional ℝ V] [CompactSpace M]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) ∞ M V) :
-    ∃ (ε : ℝ) (chart : PartialDiffeomorph
-      (I.prod 𝓘(ℝ, NormalModel (E := E) (F := V))) 𝓘(ℝ, V)
-      (TotalSpace (NormalModel (E := E) (F := V)) (fun x => ↥(orthogonalNormal f x))) V ∞),
-      0 < ε ∧ chart.source = normalRadiusTube f (fun _ => ε) ∧
-      chart.target = Metric.thickening ε (Set.range f) ∧
-      (∀ p ∈ chart.source, chart p = f p.proj + NormedSpace.fromTangentSpace (f p.proj)
-        (p.2 : TangentSpace 𝓘(ℝ, V) (f p.proj))) := by
-  sorry
 end SmoothEuclideanTube
-
-section C2EuclideanTube
-open Bundle
-variable {E H M V : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
-  [TopologicalSpace M] [ChartedSpace H M] [IsManifold I 2 M] [I.Boundaryless]
-  [NormedAddCommGroup V] [InnerProductSpace ℝ V]
-
-/-- The C¹ chart for a C² embedding uses the same generic orthogonal carrier at n=2. -/
-def c1EuclideanTubeOfInjOn [Nonempty M] [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) 2 M V) (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) :
-    PartialDiffeomorph (I.prod 𝓘(ℝ, NormalModel (E := E) (F := V))) 𝓘(ℝ, V)
-      (TotalSpace (NormalModel (E := E) (F := V)) (fun x => ↥(orthogonalNormal f x))) V 1 := by
-  sorry
-
-theorem c1EuclideanTubeOfInjOn_source_target [Nonempty M] [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) 2 M V) (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) :
-    (c1EuclideanTubeOfInjOn f ε hε hclosed hinj).source = normalRadiusTube f (fun _ => ε) ∧
-      (c1EuclideanTubeOfInjOn f ε hε hclosed hinj).target =
-        Metric.thickening ε (Set.range f) ∧
-      ∀ p ∈ (c1EuclideanTubeOfInjOn f ε hε hclosed hinj).source,
-        c1EuclideanTubeOfInjOn f ε hε hclosed hinj p = f p.proj +
-          NormedSpace.fromTangentSpace (f p.proj)
-            (p.2 : TangentSpace 𝓘(ℝ, V) (f p.proj)) := by
-  sorry
-/-- Every positive injective closed-image tube is a C¹ diffeomorphism of open subsets,
-including empty source and image. -/
-theorem exists_c1EuclideanTubeOpenDiffeomorph [FiniteDimensional ℝ E] [FiniteDimensional ℝ V]
-    (f : TauCeti.SmoothEmbedding I 𝓘(ℝ, V) 2 M V) (ε : ℝ) (hε : 0 < ε)
-    (hclosed : IsClosed (Set.range f))
-    (hinj : Set.InjOn (fun p : M × V => f p.1 + p.2) (TauCeti.normalTube I f ε)) :
-    ∃ chart : Diffeomorph (I.prod 𝓘(ℝ, NormalModel (E := E) (F := V))) 𝓘(ℝ, V)
-      (normalRadiusTubeOpen f (fun _ => ε) continuous_const)
-      (⟨Metric.thickening ε (Set.range f), Metric.isOpen_thickening⟩ : TopologicalSpace.Opens V) 1,
-      ∀ p : normalRadiusTubeOpen f (fun _ => ε) continuous_const,
-        (chart p : V) = f p.1.proj +
-          NormedSpace.fromTangentSpace (f p.1.proj)
-            (p.1.2 : TangentSpace 𝓘(ℝ, V) (f p.1.proj)) := by
-  sorry
-
-end C2EuclideanTube
 
 section FiniteRegularityEuclideanCharts
 variable {E V : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
@@ -664,45 +349,6 @@ theorem ae_isMorse_euclideanSquaredDistance [IsManifold I ∞ M]
 
 end EuclideanMorseCenters
 
-
-section CWTransport
-variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
-
-/-- Transport actual characteristic maps and the weak topology along a homeomorphism. -/
-@[instance_reducible]
-def cwComplexTransportHomeomorph [CWComplex (Set.univ : Set X)] (h : X ≃ₜ Y) :
-    CWComplex (Set.univ : Set Y) := by
-  sorry
-
-/-- The relative base is transported by its actual image, rather than by an opaque CW-type label. -/
-@[instance_reducible]
-def relCWComplexTransportHomeomorph (A : Set X)
-    [RelCWComplex (Set.univ : Set X) A] (h : X ≃ₜ Y) :
-    RelCWComplex (Set.univ : Set Y) (h '' A) := by
-  sorry
-variable [CWComplex (Set.univ : Set X)]
-
-/-- A finite set of specified 0-cells gives an actual subcomplex. -/
-def finiteZeroCellSubcomplex [T2Space X] (P : Finset X)
-    (hP : ∀ x ∈ P, ∃ i : Topology.RelCWComplex.cell (D := ∅) (Set.univ : Set X) 0,
-      x ∈ Topology.RelCWComplex.openCell (C := (Set.univ : Set X)) (D := ∅) 0 i) :
-    CWComplex.Subcomplex (Set.univ : Set X) := by
-  sorry
-
-theorem finiteZeroCellSubcomplex_carrier [T2Space X] (P : Finset X)
-    (hP : ∀ x ∈ P, ∃ i : Topology.RelCWComplex.cell (D := ∅) (Set.univ : Set X) 0,
-      x ∈ Topology.RelCWComplex.openCell (C := (Set.univ : Set X)) (D := ∅) 0 i) :
-    (finiteZeroCellSubcomplex P hP : Set X) = (P : Set X) := by
-  sorry
-
-/-- The marked-pair export uses the actual set of marked vertices as relative base. -/
-@[instance_reducible]
-def markedRelCWComplex [T2Space X] (P : Finset X)
-    (hP : ∀ x ∈ P, ∃ i : Topology.RelCWComplex.cell (D := ∅) (Set.univ : Set X) 0,
-      x ∈ Topology.RelCWComplex.openCell (C := (Set.univ : Set X)) (D := ∅) 0 i) :
-    RelCWComplex (Set.univ : Set X) (P : Set X) := by
-  sorry
-end CWTransport
 
 section TopologicalMicrobundles
 
