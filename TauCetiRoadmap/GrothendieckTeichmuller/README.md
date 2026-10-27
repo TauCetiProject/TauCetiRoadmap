@@ -264,6 +264,18 @@ gives an elementary proof of the weaker statement with `GT̂₀` in place of `GT
   the `𝔖₃`-equivariant Picard group of `U_{0,3}` with `H¹(𝔖₃, O(U_{0,3})^*)` (`Pic(U_{0,3}) = 0`
   and the Hochschild–Serre sequence); and the passage from the bundles `L_i` under `𝔖₄` to these
   cocycles, with the injectivity of inflation from `𝔖₃` to `𝔖₄`.
+- **The `𝔖ₙ`-action for all `n`: trivialising exponents.** In a homogeneous model (`n` vectors of
+  `K²` up to `GL₂` and scalars, a function trivialises `L^{⊗m}` when it has the weights of `L^{⊗m}`
+  and is invariant under relabelling), `L^{⊗m}` is `𝔖ₙ`-equivariantly trivial iff `(n − 1) ∣ m`,
+  over a field with a primitive `(n − 1)`-th root of unity; `Lₙ^{⊗m}` is trivial under the
+  stabiliser `𝔖ₙ₋₁` of the `n`-th point iff `(n − 1)(n − 2) ∣ m`, with primitive roots of orders
+  `n − 1` and `n − 2`. Products of `2 × 2` determinants give the upper bounds; the lower bounds come
+  from the configurations `{0} ∪ μ_{n−1}` and `{0, ∞} ∪ μ_{n−2}`, which a rotation renumbers while
+  turning the fibre at `0` by a primitive root of unity. For `n = 4, 5, 6` the homogeneous model and
+  the cocycles on normalised configurations give the same condition. A successor would need the
+  identification of the model with `Pic` of `[M_{0,n}/𝔖ₙ]` and `[M_{0,n}/𝔖ₙ₋₁]` for general `n`.
+  For `n = 2g + 2` the group `Pic[M_{0,n}/𝔖ₙ₋₁] ≅ ℤ/(n − 1)(n − 2)` is Edidin–Hu, Theorem 1.3; the
+  odd case was not found in print.
 - **What is missing.** The profinite comparison `π₁^{geo}(ℙ¹ ∖ {0,1,∞}) ≃ F̂₂` with the standard
   loops (BelyiMaps 12.6, successor `BelyiArithmeticActions`); the tangential fibre at `01→` and the
   lift of the outer action to an action (InverseGaloisAndArithmeticFundamentalGroups §IG.1.2);
@@ -297,6 +309,8 @@ All checked on zbMATH (identifiers given) or arXiv.
 - A. Minamide, H. Nakamura, « The automorphism groups of the profinite braid groups », *Amer. J.
   Math.* 144 (2022), no. 5, 1159–1176. Zbl 1554.20077; arXiv:1904.06749 (`Aut(B̂_n)`, `n ≥ 4`,
   in terms of `GT̂`; context for Layer 2).
+- D. Edidin, Z. Hu, « The integral Chow rings of the stacks of hyperelliptic Weierstrass
+  points », *Michigan Math. J.* (2025), arXiv:2208.00556, Theorem 1.3.
 - D. Harbater, L. Schneps, « Fundamental groups of moduli and the Grothendieck–Teichmüller
   group », *Trans. Amer. Math. Soc.* 352 (2000), no. 7, 3117–3148. Zbl 0956.14013.
 
@@ -320,7 +334,11 @@ The same Lean appendix proves the two `n = 4` statements of the last section
 (`lean/Grothendieck/Folder140_1.lean`, `H1_units`, `H1_units_char_two`;
 `lean/Grothendieck/Folder146.lean`, `derL_pow_three`, `coboundary_derL_iff`). The units model,
 the lower bound by the tangent class and the formula `sgn(g) · g′(λ)` for `L` are the appendix's,
-not the pages'.
+not the pages'. The general formulas are also the appendix's (`trivL_iff`, `trivLi_iff`; for
+`n = 5, 6`, `trivL_five_iff`, `trivLi_five_iff`, `trivL_six_iff`, `trivLi_six_iff` match them with
+the normalised cocycles): the page's table gives `3` and `6` at `n = 4` and only queried values for
+`n = 5, 6` (« 12 ? », « 20 ? », « 60 ? »), of which `12` for `Lₙ` at `n = 5` is right, and `20`
+and `60` at `n = 6` should be `5` and `20`.
 
 Two more folders bear on the geometry behind relations (II) and (III). They are cited for
 orientation only; nothing in them is specified here. Folder 147, *Structure à l'infini des
