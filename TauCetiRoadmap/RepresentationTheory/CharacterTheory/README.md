@@ -1058,6 +1058,121 @@ Staged from rational to genuinely cyclotomic, so early milestones do not wait on
   `q-1=2` from the cuspidal series), with the four families `1, q, q+1, q-1` and the `q²-1=8` classes
   verified.
 
+### Small finite-group exercise representations
+
+Construct the following applications of Layers0–3 over ℂ on the native
+permutation, augmentation, symmetric-power and restricted-representation
+carriers. Use `TauCeti.standardRepresentation` for the sum-zero standard
+modules and their existing finite-function/Finsupp coordinate comparison.
+Identify each character with the certified native table by explicit row and
+class maps; equality of degrees alone does not label an irreducible.
+
+**Symmetric powers of the S₃ standard module.** Let S₃ act on
+`V₃={(z₀,z₁,z₂)∈ℂ³:z₀+z₁+z₂=0}` by
+`(g·z)_i=z_(g⁻¹(i))`. Put σ=(01), τ=(012) and
+`ω=exp(2πi/3)`, and fix the basis
+`α=(1,ω,ω²)`, `β=(ω,1,ω²)`.
+Prove `τα=ω²α`, `τβ=ωβ`, `σα=β`, `σβ=α`, and that these
+vectors form a basis. On native Sym²V₃ and Sym³V₃ construct the monomial
+bases and the actual equivariant direct-sum isomorphisms
+
+`Sym²V₃ ≃ 1 ⊕ V₃`,
+`Sym³V₃ ≃ 1 ⊕ sgn ⊕ V₃`.
+
+For Sym² send the trivial generator to αβ and the standard basis vectors
+α,β to β²,α² respectively. For Sym³ send the trivial and sign generators
+to α³+β³ and α³−β³, and α,β to α²β,αβ². Prove these maps are
+intertwiners on σ,τ, give their inverse coordinates and prove their images
+are complementary. In the ordered square basis (α²,β²,αβ), the τ
+eigenvalues are ω,ω²,1, by multiplication of the degree-one eigenvalues.
+In S₃ class order identity, transposition,3-cycle, verify the characters
+`χ_V₃=(2,0,-1)`, `χ_Sym²=(3,1,0)` and `χ_Sym³=(4,0,1)`.
+Compare with `TauCeti.dihedralGroupThreeCharacterTable` through the
+isomorphism sending a dihedral rotation to τ and a reflection to σ,
+including the class-order permutation and the trivial/sign/standard rows.
+These are the explicit symmetric-power decompositions of Knutson's
+first-semester p138.
+
+**Cube permutation modules and the S₄ labels.** Let the cube vertices be
+`X={-1,1}³` and its unoriented edges be the unordered pairs of vertices
+that differ in exactly one coordinate. Construct the finite rotation group
+of determinant-one signed permutation matrices on ℝ³ and its action on X
+and the twelve edges Y. Label the four body-diagonal lines by the vectors
+`(1,1,1)`, `(1,-1,-1)`, `(-1,1,-1)`, `(-1,-1,1)` in that order.
+Prove that the induced permutation of these lines is an isomorphism with
+S₄=Equiv.Perm(Fin4), and transport the vertex and edge actions through
+its inverse. Use `ℂ[X]` and `ℂ[Y]` with their actual permutation actions;
+scalar permutation of four tetrahedron vertices is a different action.
+
+Pin the S₄ class order to that of
+`TauCeti.symmetricGroupFourCharacterTable`:
+`1,(01),(01)(23),(012),(0123)`, with sizes `1,6,3,8,6`.
+Its row order is `1,sgn,E,V₄,sgn⊗V₄`, where V₄ is the sum-zero
+four-point module. Realize E as follows. On the three perfect matchings
+of {0,1,2,3}, ordered
+`M₀=01|23`, `M₁=03|12`, `M₂=02|13`, construct the permutation map
+`q:S₄→S₃`. Prove q is surjective with kernel
+`{1,(01)(23),(02)(13),(03)(12)}`, construct S₄/ker(q)≃S₃,
+and take E=q*V₃. Prove irreducibility and identify its native table row;
+its kernel follows from this actual action and faithfulness of V₃.
+In particular no inference from eigenvalues having absolute value1 is
+used to identify a kernel.
+
+Compute the fixed vertices/edges for each rotation class, including the
+half-turn about opposite-edge midpoints for a transposition, the half-turn
+about opposite-face centers for a double transposition, the body-diagonal
+third-turn and the face-axis quarter-turn. Obtain
+
+| module | 1 | (01) | (01)(23) | (012) | (0123) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| ℂ[X] | 8 | 0 | 0 | 2 | 0 |
+| ℂ[Y] | 12 | 2 | 0 | 0 | 0 |
+
+Use class-size weighted pairings to prove
+`ℂ[X] ≃ 1 ⊕ sgn ⊕ V₄ ⊕ (sgn⊗V₄)` and
+`ℂ[Y] ≃ 1 ⊕ E ⊕ V₄^⊕2 ⊕ (sgn⊗V₄)`.
+Construct their actual intertwiners and inverses using Layer3's character
+idempotents and evaluation on the intertwining-map multiplicity spaces.
+For the two-dimensional V₄ multiplicity space in ℂ[Y], choose a basis
+and prove evaluation `V₄⊗Hom_S₄(V₄,ℂ[Y])→ℂ[Y]` identifies its image
+with the V₄ isotypic component. Character pairings determine multiplicities;
+they do not choose its two summands. Verify the dimensions8 and12 and
+the actual direct-sum maps. These are the cube actions of first-semester
+pp144–145; no source-specific overwritten irrep labels are needed.
+
+**Restriction from S₄ to A₄.** Use the actual inclusion of
+`alternatingGroup(Fin4)` and the preceding q. Prove q(A₄)=A₃ and
+construct `κ:A₄→ℤ/3ℤ` with κ((012))=1 and kernel ker(q).
+For j=0,1,2 define the actual one-dimensional action L_j by the
+character `g↦ω^(j κ(g))`, interpreted through a representative-independent
+exponent modulo3. Put T=Res_A₄(V₄). In native
+`TauCeti.alternatingGroupFourClassData` order
+`1,(01)(23),(012),(021)`, of sizes1,3,4,4, prove the table
+
+| module | 1 | (01)(23) | (012) | (021) |
+| --- | ---: | ---: | ---: | ---: |
+| L₀ | 1 | 1 | 1 | 1 |
+| L₁ | 1 | 1 | ω | ω² |
+| L₂ | 1 | 1 | ω² | ω |
+| T | 3 | -1 | 0 | 0 |
+
+Compare with `TauCeti.alternatingGroupFourExactCharacterTable` under
+its distinguished complex embedding, proving that the image of
+`TauCeti.alternatingGroupFourOmega` is the chosen ω. Prove irreducibility,
+pairwise inequivalence and completeness using the existing table and
+pairing contracts, and construct equivariant isomorphisms
+`Res(1)≃Res(sgn)≃L₀`, `Res(V₄)≃Res(sgn⊗V₄)≃T`,
+`Res(E)≃L₁⊕L₂`.
+For the last isomorphism use the two explicit vectors
+`v_j=Σ_(r=0)² ω^(-jr) δ_(q((012))^r M₀)`, j=1,2,
+in the sum-zero matching module E. Prove q((012)) cycles the matchings
+in the displayed order, that v_j has eigenvalue ω^j, and that the two
+vectors form a basis. Give inverse coordinates; for the sign-twisted
+restrictions use that sign is identically1 on A₄. Conclude with actual
+inclusion intertwiners that every A₄ irreducible occurs in a restriction
+of an S₄ irreducible, as in first-semester pp145–146.
+
+
 ### Symmetry and normal modes of finite spring systems
 
 Construct the following finite-dimensional applications of Layers 0–3 over `ℝ`,
