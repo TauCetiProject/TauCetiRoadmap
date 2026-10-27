@@ -1,6 +1,6 @@
 # Financial mathematics: one-factor markets and replication
 
-This roadmap owns one-factor asset markets, self-financing trading, replication and the Black–Scholes theorem. MarketImpact consumes this foundation and owns endogenous demand, equilibrium feedback, coupled pricing and its numerical models.
+This roadmap owns one-factor asset markets, self-financing trading, replication and the Black–Scholes theorem. [MarketImpact](MarketImpact/README.md) consumes this foundation and owns endogenous demand, equilibrium feedback, coupled pricing and its numerical models.
 
 ## Conventions
 
