@@ -8,11 +8,13 @@ import TauCeti.LinearAlgebra.Matrix.SpecialOrthogonalGroup.Basic
 import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 import TauCeti.RepresentationTheory.Continuous.Subrepresentation
 import TauCeti.LinearAlgebra.CliffordAlgebra.RealForm.ThreeOne
-import TauCetiRoadmap.OperatorTheory.SelfAdjointSpectralTheory.Suggested
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
 These are suggested forms only. The README is the definitive specification.
+
+Mackey's imprimitivity theorem for covariant systems (README M1) is not stated here:
+neither the pinned Mathlib nor the pinned Tau Ceti has a projection-valued measure carrier.
 -/
 
 noncomputable section
@@ -170,21 +172,6 @@ theorem exists_polishTopology_continuousSMul
       @PolishSpace X t ∧ @BorelSpace X t ‹MeasurableSpace X› ∧
         @ContinuousSMul G X inferInstance ‹TopologicalSpace G› t := by
   sorry
-
-/-- A covariant system on a jointly measurable native action and an arbitrary
-complete Hilbert space. Polish/separable hypotheses belong to the later induction
-and disintegration theorems, not this data interface. -/
-structure CovariantPVM (G X H : Type*) [Group G] [TopologicalSpace G]
-    [MeasurableSpace G] [MeasurableSpace X] [MulAction G X] [MeasurableSMul₂ G X]
-    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] where
-  representation : ContRepresentation ℂ G H
-  isUnitary : TauCeti.ContRepresentation.IsUnitary representation
-  continuous_orbit : ∀ v, Continuous fun g : G => representation g v
-  projections : TauCetiRoadmap.SelfAdjointSpectralTheory.ProjValMeasure X H
-  covariance : ∀ g (B : Set X) (hB : MeasurableSet B),
-    ∃ hImage : MeasurableSet (g • B),
-      ∀ x, representation g (projections.proj B hB x) =
-        projections.proj (g • B) hImage (representation g x)
 
 section Induction
 
