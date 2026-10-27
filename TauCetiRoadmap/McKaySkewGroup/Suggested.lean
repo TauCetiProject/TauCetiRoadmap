@@ -18,7 +18,7 @@ Stated here:
 * Layer 0: every finite subgroup of `SL₂(ℂ)` is cyclic, binary dihedral (Mathlib's
   `QuaternionGroup n`, `n ≥ 2`), binary tetrahedral (`SL(2, 𝔽₃)`), binary icosahedral
   (`SL(2, 𝔽₅)`) or of order `48`; isomorphic finite subgroups are conjugate, and so are any two of
-  order `48`.
+  order `48` that are neither cyclic nor isomorphic to `QuaternionGroup 12`.
 * Layer 1: the McKay correspondence.  For a nontrivial finite group with a faithful
   two-dimensional representation of determinant one, the multiplicities `dim Hom(ρ_i, V ⊗ ρ_j)`
   are `2δ_ij − C_ij` for the generalized Cartan matrix `C` of a valid affine simply-laced diagram
@@ -77,10 +77,14 @@ theorem finite_subgroup_SL2_conjugate_of_mulEquiv
     ∃ g : Matrix.SpecialLinearGroup (Fin 2) ℂ, K = H.map (MulAut.conj g).toMonoidHom := by
   sorry
 
-/-- **The finite subgroups of `SL₂(ℂ)` of order `48` form one conjugacy class**, the binary
-octahedral groups (README Layer 0). -/
+/-- **The binary octahedral subgroups of `SL₂(ℂ)` form one conjugacy class** (README Layer 0).
+The finite subgroups of order `48` are the cyclic ones, the binary dihedral ones
+`≅ QuaternionGroup 12`, and the binary octahedral ones; excluding the first two, any two are
+conjugate.  Without the exclusions the statement is false: a cyclic subgroup of order `48` is not
+conjugate to a binary dihedral one of the same order. -/
 theorem card_eq_48_conjugate (H K : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℂ))
-    (hH : Nat.card H = 48) (hK : Nat.card K = 48) :
+    (hH : Nat.card H = 48) (hHc : ¬IsCyclic H) (hHd : IsEmpty (H ≃* QuaternionGroup 12))
+    (hK : Nat.card K = 48) (hKc : ¬IsCyclic K) (hKd : IsEmpty (K ≃* QuaternionGroup 12)) :
     ∃ g : Matrix.SpecialLinearGroup (Fin 2) ℂ, K = H.map (MulAut.conj g).toMonoidHom := by
   sorry
 

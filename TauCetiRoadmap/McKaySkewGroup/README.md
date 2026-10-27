@@ -184,10 +184,16 @@ isomorphic to Mathlib's dicyclic `QuaternionGroup n` for some `n ≥ 2` (the bin
 of order `4n`), or to `SL(2, 𝔽₃)` (binary tetrahedral), or to `SL(2, 𝔽₅)` (binary icosahedral), or
 has order `48` (binary octahedral) (`finite_subgroup_SL2_classification`).  Isomorphic finite
 subgroups of `SL₂(ℂ)` are conjugate in `SL₂(ℂ)` (`finite_subgroup_SL2_conjugate_of_mulEquiv`), and
-any two of order `48` are conjugate (`card_eq_48_conjugate`); conjugacy in `GL₂(ℂ)` becomes
+any two of order `48` that are neither cyclic nor isomorphic to `QuaternionGroup 12` are conjugate
+(`card_eq_48_conjugate`); conjugacy in `GL₂(ℂ)` becomes
 conjugacy in `SL₂(ℂ)` after scaling the conjugating matrix by a square root of its determinant.
 Checks: the trivial subgroup and `{±I}` are cyclic; `Q₈` is `QuaternionGroup 2`; the group
 `QuaternionGroup 1` is cyclic of order four, which is why the dicyclic case starts at `n = 2`.
+The order alone does not pick out the binary octahedral group: the cyclic group of order `48` and
+`QuaternionGroup 12` also embed in `SL₂(ℂ)` and are not conjugate to it, so the conjugacy statement
+for order `48` carries both exclusions.  Likewise orders `24` and `120` are shared with
+`QuaternionGroup 6`, `QuaternionGroup 30` and the cyclic groups, which is why the tetrahedral and
+icosahedral cases are stated as isomorphisms with `SL(2, 𝔽₃)` and `SL(2, 𝔽₅)` rather than by order.
 
 Classify **every** finite subgroup of the native `SU(2)` carrier up to
 conjugacy inside `SU(2)`, and every finite subgroup of `SL₂(ℂ)` up to
