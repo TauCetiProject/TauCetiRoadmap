@@ -18,7 +18,8 @@ does not use a current compactness or singular regularity theorem. The complex
 examples concern Kähler manifolds and normalized parallel complex volume forms;
 associative, coassociative and Cayley example-specific linear algebra and
 exceptional-holonomy existence/deformation theorems are outside this scope.
-Every milestone below is required. [Suggested.lean](Suggested.lean) is illustrative;
+Every milestone below is required. [Suggested.lean](Suggested.lean) states the headline
+theorems of C1, C4 (in degree two) and C5 that are statable against the pinned libraries;
 this README specifies the complete development.
 
 ## Carriers, conventions and dependencies
@@ -31,7 +32,7 @@ Consume its exterior derivative, wedge, pullback, Cartan identities, smooth sing
 chains, oriented integration and Stokes. Do not introduce a second de Rham complex
 or singular-homology carrier.
 
-[DifferentialGeometry DG12.1/12.4](../DifferentialGeometry/README.md) supplies
+[DifferentialGeometry Layer 12, items 12.1 and 12.4](../DifferentialGeometry/README.md) supplies
 pullback metrics for immersions and their positive Riemannian volume forms.
 [AlgebraicTopology Stages2/3.1](../AlgebraicTopology/README.md) supplies the
 integral singular chain carrier, face maps, subdivision/prism homotopies and
@@ -44,13 +45,13 @@ no general second-volume-variation formula is consumed.
 neighbourhoods and their normal exponential descriptions. Its smoothing-and-
 triangulation item1 supplies the relative smooth triangulation used in C2. This roadmap proves the
 specific normal-section parametrization of nearby embeddings and its regularity.
-[ComplexKahlerGeometry K1/K2/K4/K5a/K6.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md)
+[ComplexKahlerGeometry K1/K2/K4/K5a/K6.1](../ComplexKahlerGeometry/README.md)
 supplies complex tangent/type calculus, Kähler forms, formal adjoints, compact Hodge
 theory and canonical-bundle carriers. K5b.0 supplies the Hermitian volume
 identity on complex planes; C4 owns the inequality and converse classification;
 K6.1's integrated analytic-cycle equality is compared with these pointwise
 normalizations. Its singular-set
-integration theorem has a single owner there. [PseudodifferentialOperators P5/P6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/526c10edca87fdb08907b1ad2a044fea1e7829f7/TauCetiRoadmap/PseudodifferentialOperators/README.md) supplies bundle Hölder norms, elliptic
+integration theorem has a single owner there. [PseudodifferentialOperators P5/P6](../PseudodifferentialOperators/README.md) supplies bundle Hölder norms, elliptic
 Schauder estimates, Sobolev Fredholm realizations and regularity. Instantiate
 P5’s Hölder carriers; C6 owns the Hölder Green-operator and Hodge-projection
 bounds.
@@ -71,7 +72,7 @@ W¹,²_0 and Poincaré used with native Lax–Milgram in C6; use their
 componentwise ℝⁿ-valued Hilbert-space versions. PDE A.4 supplies the
 cutoff Sobolev embeddings and A.7 the local Euclidean Hölder carriers. C6 owns
 the vector-system decay, Campanato characterization and iteration
-lemmas below. [SmoothBundlesConnections B1.4/B2/B5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/791dd408dc48930060b28043245bbb1a8d82b5de/TauCetiRoadmap/SmoothBundlesConnections/README.md)
+lemmas below. [SmoothBundlesConnections B1.4/B2/B5](../SmoothBundlesConnections/README.md)
 supplies smooth G/H, structure-group reductions and holonomy, with
 [LieGroups Layer2](../RepresentationTheory/LieGroups/README.md)’s closed-subgroup
 Lie structures. DG5.1–5.4/8.3–8.4/9.3 supplies outward-first integration,
@@ -109,6 +110,8 @@ continuous-alternating-map operator norm: Gram–Schmidt gives the volume bound
 by the product of the input norms, and orthonormal frames give the reverse
 inequality. Consume the native norm's triangle, homogeneity, definiteness and
 normed-space structure through this equality; do not install a competing norm.
+The headline form, on every finite-dimensional real inner-product space and in
+every degree k (both sides zero for k>dim E), is `norm_eq_sSup_abs_orthonormal`.
 Keep this operator/comass norm distinct from the coefficient Hilbert norm on
 the native exterior power, and prove their finite-dimensional comparison.
 
@@ -119,7 +122,10 @@ linear pullback. For `L:ℝᵏ→E` prove
 
 `|φ(L e₁,…,L eₖ)| ≤ comass(φ)·LinearMap.normDet L`,
 
-where `(e_i)` is the standard Euclidean orthonormal basis. Consume native
+where `(e_i)` is the standard Euclidean orthonormal basis. Write `frameVolume v`
+for `LinearMap.normDet` of the map sending `e_i` to `v_i`; it is defined on every
+real inner-product space, and the inequality `|φ v|≤‖φ‖·frameVolume v` on
+finite-dimensional E is `abs_eval_le_norm_mul_frameVolume`. Consume native
 `LinearMap.normDet` and its Gram and range-restriction identities, including
 the rank-deficient case, rather than defining another rectangular Jacobian.
 Prove the equivalent simple-multivector formulation using the native exterior
@@ -145,7 +151,7 @@ is g↦ιgι⁻¹, and replacing ι by ι′ composes it with ι′ι⁻¹.
 Prove that forgetting orientation is a smooth two-sheeted cover of the
 T1.5 real Grassmannian transported along ι, with [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md)'s
 graph-chart smooth structure; compare the quotient and pulled-back graph atlases.
-For k≥1 compare with [HomotopySpheres §4A](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)'s
+For k≥1 compare with [HomotopySpheres Stage 4A](../HomotopySpheres/README.md)'s
 coordinate oriented carrier and [CharacteristicClasses C1.1a](../CharacteristicClasses/README.md)'s
 orientation double cover. Prove these comparisons commute with
 CC C1.1a's existing HS identification. For k=0 compare with CC's two-point orientation
@@ -154,7 +160,9 @@ no bijection with that single point is asserted.
 For rank zero evaluate the constant 0-form with the sign of the chosen
 orientation ray; an empty frame alone selects only the canonical ray.
 On this carrier construct the closed
-equality locus φ(positive orthonormal frame)=1 when comass≤1. Prove a zero
+equality locus φ(positive orthonormal frame)=1 when comass≤1. An ordered frame v
+satisfies `IsCalibratedFrame φ v` when it is orthonormal and `φ v=1`; for comass≤1
+these are exactly the positive orthonormal frames of equality planes. Prove a zero
 form has no equality planes for 1≤k≤dim E, a unit decomposable form has
 exactly its positive supporting plane, and the isometry/orientation laws. Identify the
 Euclidean constant decomposable volume calibration: its equality planes are
@@ -275,7 +283,12 @@ Use the associated real metric g and orthogonal complex structure J,
 `ω(v,w)=g(Jv,w)`, and prove naturality under Hermitian isometries.
 At r=1 this is `ω(v,w)≤sqrt(g(v,v)g(w,w)−g(v,w)²)`; for independent
 v,w equality is equivalent to their positively oriented plane being
-J-invariant. Prove this linear theorem without a complex atlas, an
+J-invariant. On ℂⁿ with the conventions above, `standardKahlerForm n` is
+`ω(v,w)=Im⟪v,w⟫_ℂ` with the conjugate-first Hermitian product; at n=1,
+v=1, w=i it takes the value `Im(conj(1)·i)=1`, fixing the sign. The
+degree-two theorem on ℂⁿ is `norm_standardKahlerForm` (comass one for n≥1)
+and `isCalibratedFrame_standardKahlerForm_iff`: an ordered pair (v,w) is
+calibrated by ω exactly when ‖v‖=1 and w=iv. Prove this linear theorem without a complex atlas, an
 integrability assumption or closedness. Derive its smooth bundlewise form
 for a symplectic form ω and an ω-compatible J, with the associated
 metric `g(v,w)=ω(v,Jw)`. Expose this linear core on C1's comass
@@ -308,8 +321,12 @@ and the complex product-torus example with rectangular lattice
 
 ## C5. Special Lagrangian linear algebra and geometry
 
-For n≥1, on ℂⁿ with the pinned ω/Ω/g, prove φ_θ has comass one and classify its positive
-equality n-planes as the oriented Lagrangian planes L with
+Write `standardComplexVolume n` for Ω on ℂⁿ as a real alternating n-form with values
+in ℂ (Ω v is the determinant of the complex matrix whose rows are the coordinate
+vectors of v) and `standardSpecialLagrangianForm n θ` for φ_θ. For n≥1, on ℂⁿ with the
+pinned ω/Ω/g, prove φ_θ has comass one (`norm_standardSpecialLagrangianForm`) and
+classify its positive equality n-planes (`specialLagrangianFrame_iff`, on ordered
+real-orthonormal frames) as the oriented Lagrangian planes L with
 `Im(e^(−iθ)Ω)|_L=0` and `Re(e^(−iθ)Ω)|_L=dvol_L`. Both the imaginary equation
 and the Lagrangian condition are required; do not replace the orientation
 inequality by an unoriented vanishing equation. Construct the oriented
@@ -318,7 +335,7 @@ its smooth quotient structure through SBC B1.4 and LieGroups Layer2,
 its determinant phase map to U(1), and the fixed-phase fibre
 `SU(n)/SO(n)`, with the n=1 and low-rank cases. State the corresponding
 unoriented quotient separately and prove how changing orientation changes phase.
-Define the standard ω as the pullback of native
+Prove that `standardKahlerForm` is the pullback of native
 [`TauCeti.stdSymplecticForm`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/Symplectic/StandardCompatible.lean)
 along the real-linear realification z↦(Re z,Im z). Consume its
 compatible product complex structure and metric, comparing them with
@@ -328,8 +345,9 @@ realification R:ℂⁿ≃ₗ[ℝ]ℝⁿ×ℝⁿ, use native
 ω₀(Rv,Rw). Own the finite-dimensional linear equivalence from
 alternating `LinearMap.BilinForm` values to native Fin-2 continuous
 alternating maps, with evaluation φ(![v,w])=B(v,w), inverse,
-linearity, continuity and pullback naturality. Through this equivalence,
-`standardKahlerForm n ![v,w]=(ω₀.transport R.symm) v w`.
+linearity, continuity and pullback naturality. Through this equivalence prove
+`standardKahlerForm n ![v,w]=(ω₀.transport R.symm) v w`; coordinatewise both sides
+are `⟪Re v,Im w⟫−⟪Im v,Re w⟫`, and at n=1, v=1, w=i both equal 1.
 Transport product J by native `AlmostComplexStructure.transport` with
 R.symm and compatibility by `Compatible.transport`; prove the transported
 J is multiplication by i and compare its `complexModule` instance with
@@ -337,7 +355,7 @@ the existing complex module on ℂⁿ. Then consume native
 `SymplecticForm.complexAssociatedForm` and `Compatible.hermitianCore`
 for the conjugate-first Hermitian form g+iω and the metric comparison.
 Use native `SymplecticForm.IsLagrangian` for the plane condition. Prove that this native condition is equivalent to the imaginary
-Hermitian-pairing equations in the illustrative frame prototype, and
+Hermitian-pairing equations `Im⟪v_i,v_j⟫=0` of `specialLagrangianFrame_iff`, and
 prove `[A]↦(Aℝⁿ,A_*or)` identifies U(n)/SO(n) homeomorphically
 and smoothly with the Lagrangian locus in C1's oriented Grassmannian.
 Give the corresponding U(n)/O(n) comparison with the unoriented
@@ -584,5 +602,8 @@ C3 consumes C2 and R5a.1/R5a.2 and does not supply R5b.
 Harvey and Lawson, [*Calibrated geometries*, Acta Math. 148 (1982)](https://doi.org/10.1007/BF02392726), is the primary reference for the
 calibration method and standard examples. McLean, [*Deformations of calibrated
 submanifolds*, Comm. Anal. Geom. 6 (1998)](https://doi.org/10.4310/CAG.1998.v6.n4.a4), supplies the compact deformation
-theorem. The mathematical targets and pinned conventions above are authoritative;
+theorem. Joyce, [*Lectures on special Lagrangian geometry* (2001)](https://arxiv.org/abs/math/0111111),
+states the phase convention and the linear classification of special Lagrangian planes
+(Definition 2.2, Propositions 2.3 and 2.4) and McLean's theorem (Theorem 5.1) in the
+conventions used here. The mathematical targets and pinned conventions above are authoritative;
 reference notation does not override the native carriers or these conventions.

@@ -1,112 +1,123 @@
-import TauCeti.Geometry.Symplectic.StandardCompatible
-import Mathlib.Analysis.Normed.Module.Alternating.Basic
-import Mathlib.Analysis.InnerProductSpace.NormDet
-import Mathlib.Analysis.InnerProductSpace.ExteriorPower
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Analysis.Calculus.ImplicitContDiff
+import Mathlib
 
 /-!
-# Selected interfaces for calibrated geometry
+# Calibrated geometry: target signatures
 
-**This file is not the roadmap and is not exhaustive.** `README.md` is definitive.
-The linear targets below use native continuous alternating maps, orthonormal
-frames and norm determinants. Manifold integration and nonlinear deformation
-interfaces follow their specified suppliers; they are not replaced by empty
-proposition fields here. Unproved statements have honest `sorry` proofs.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems that are statable against the pinned Mathlib, each with `sorry`, together with the few
+definitions they need, on native continuous alternating maps, orthonormal families and norm
+determinants.
+
+Headline theorems of the roadmap that are not statable at the pins:
+
+* the fundamental theorem of calibrations (a calibrated compact oriented submanifold has least
+  volume among competitors differing from it by the boundary of an integral smooth chain, C3):
+  the pins have no differential forms on manifolds, no exterior derivative of such forms and no
+  integration of forms over smooth chains or submanifolds;
+* the Wirtinger inequality for `ωʳ/r!` with `r ≥ 2` and its equality classification (C4): the
+  pins have no exterior (wedge) product of continuous alternating maps, so `ωʳ` has no carrier;
+  the case `r = 1` is stated below;
+* calibration, minimality and the homological volume bound for complex submanifolds of Kähler
+  manifolds and for special Lagrangian submanifolds of Kähler manifolds with a normalized parallel
+  holomorphic volume form (C4, C5): the pins have no Kähler manifolds, no holomorphic volume
+  forms and no calibrated submanifolds;
+* McLean's theorem that the special Lagrangian deformations of a compact special Lagrangian form a
+  smooth manifold of dimension `b₁(N)` (C6): the pins have no space of nearby submanifolds modulo
+  reparametrization, no harmonic forms and no de Rham cohomology of a manifold.
 -/
 
 noncomputable section
 
 namespace TauCetiRoadmap.CalibratedGeometry
 
-open scoped BigOperators Topology ContDiff
+/-! ## C1. Comass and equality planes -/
 
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-  [FiniteDimensional ℝ E] {k : ℕ}
-
-/-- C1: the volume of a frame uses the native rectangular norm determinant. -/
-def frameVolume (v : Fin k → E) : ℝ :=
+/-- The `k`-dimensional volume of the parallelepiped spanned by a frame `v` in a real
+inner-product space: the norm determinant of the linear map `ℝᵏ → E` sending the standard basis
+to `v`. It is `sqrt (det (gram v))`, and it vanishes exactly when `v` is linearly dependent. -/
+def frameVolume {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {k : ℕ}
+    (v : Fin k → E) : ℝ :=
   LinearMap.normDet ((EuclideanSpace.basisFun (Fin k) ℝ).toBasis.constr ℝ v)
 
-/-- C1: geometric equality includes the specified positive orientation. -/
-def IsCalibratedFrame (φ : E [⋀^Fin k]→L[ℝ] ℝ) (v : Fin k → E) : Prop :=
+/-- An ordered frame `v` is calibrated by the `k`-form `φ` when it is orthonormal and `φ v = 1`;
+for a form of comass at most one these are the positively oriented equality planes of `φ`. -/
+def IsCalibratedFrame {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {k : ℕ}
+    (φ : E [⋀^Fin k]→L[ℝ] ℝ) (v : Fin k → E) : Prop :=
   Orthonormal ℝ v ∧ φ v = 1
 
-/-- C1: geometric characterization of the existing alternating-map norm. -/
-theorem norm_eq_sSup_abs_orthonormal (φ : E [⋀^Fin k]→L[ℝ] ℝ) :
+/-- Comass equals the native norm: on a finite-dimensional real inner-product space, the operator
+norm of a continuous alternating `k`-form is the supremum of `|φ v|` over orthonormal frames `v`
+(for `k > dim E` both sides are zero, and for `k = 0` both are `|φ ![]|`). -/
+theorem norm_eq_sSup_abs_orthonormal {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [FiniteDimensional ℝ E] {k : ℕ} (φ : E [⋀^Fin k]→L[ℝ] ℝ) :
     ‖φ‖ = sSup {r | ∃ v : Fin k → E, Orthonormal ℝ v ∧ r = |φ v|} := by
   sorry
 
-/-- C1: rank-deficient frames are included. -/
-theorem abs_eval_le_norm_mul_frameVolume
+/-- The linear calibration inequality: `|φ v| ≤ ‖φ‖ · vol(v)` for every frame `v`, including
+linearly dependent frames, where both sides of the volume factor vanish. -/
+theorem abs_eval_le_norm_mul_frameVolume {E : Type*} [NormedAddCommGroup E]
+    [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] {k : ℕ}
     (φ : E [⋀^Fin k]→L[ℝ] ℝ) (v : Fin k → E) :
     |φ v| ≤ ‖φ‖ * frameVolume v := by
   sorry
 
-omit [FiniteDimensional ℝ E] in
-theorem calibratedFrame_of_neg
-    (φ : E [⋀^Fin k]→L[ℝ] ℝ) (v : Fin k → E)
-    (hv : Orthonormal ℝ v) (heq : φ v = -1) :
-    IsCalibratedFrame (-φ) v := by
-  exact ⟨hv, by simp [heq]⟩
+/-! ## C4. Hermitian linear algebra and Kähler calibrations -/
 
-section ComplexModels
+/-- The standard Kähler form `ω = Σ_j dx_j ∧ dy_j` on `ℂⁿ`, with `z_j = x_j + i y_j`, as a real
+continuous alternating 2-form: `ω(v, w) = Im ⟪v, w⟫_ℂ` for the Hermitian product conjugate-linear
+in its first slot. -/
+def standardKahlerForm (n : ℕ) : EuclideanSpace ℂ (Fin n) [⋀^Fin 2]→L[ℝ] ℝ where
+  toFun v := (inner ℂ (v 0) (v 1)).im
+  map_update_add' m i x y := by
+    fin_cases i <;> simp
+  map_update_smul' m i c x := by
+    fin_cases i <;> simp [← Complex.coe_smul, mul_comm]
+  cont := Complex.continuous_im.comp ((continuous_apply 0).inner (continuous_apply 1))
+  map_eq_zero_of_eq' v i j hv hij := by
+    fin_cases i <;> fin_cases j <;> simp_all [← Complex.ofReal_pow]
 
-/-- The native real doubled model has the pinned positive coordinate sign. -/
-theorem native_standardSymplectic_sign :
-    TauCeti.stdSymplecticForm (V := ℝ) (1, 0) (0, 1) = 1 := by
-  simp
-
-
-/-- C5: the determinant volume form on ℂⁿ restricted to real scalars. -/
-def standardComplexVolume (n : ℕ) :
-    (EuclideanSpace ℂ (Fin n)) [⋀^Fin n]→L[ℝ] ℂ := by
+/-- The Wirtinger inequality in degree two: for `n ≥ 1` the standard Kähler form on `ℂⁿ` has
+comass one (Cauchy–Schwarz for the Hermitian product). -/
+theorem norm_standardKahlerForm (n : ℕ) (hn : 1 ≤ n) : ‖standardKahlerForm n‖ = 1 := by
   sorry
 
-theorem standardComplexVolume_apply (n : ℕ)
-    (v : Fin n → EuclideanSpace ℂ (Fin n)) :
-    standardComplexVolume n v = Matrix.det (fun i j => v j i) := by
+/-- The equality case of the Wirtinger inequality in degree two: an ordered pair `(v, w)` in `ℂⁿ`
+is calibrated by `ω` exactly when `v` is a unit vector and `w = i v`, that is, when it is a
+positively oriented orthonormal frame of a complex line with its complex orientation. -/
+theorem isCalibratedFrame_standardKahlerForm_iff (n : ℕ) (v : Fin 2 → EuclideanSpace ℂ (Fin n)) :
+    IsCalibratedFrame (standardKahlerForm n) v ↔ ‖v 0‖ = 1 ∧ v 1 = Complex.I • v 0 := by
   sorry
 
-/-- C5: adapter of native stdSymplecticForm along z↦(Re z,Im z);
-its conjugate-first Hermitian imaginary-part comparison pins the sign. -/
-def standardKahlerForm (n : ℕ) :
-    (EuclideanSpace ℂ (Fin n)) [⋀^Fin 2]→L[ℝ] ℝ := by
-  sorry
+/-! ## C5. Special Lagrangian linear algebra -/
 
-theorem standardKahlerForm_apply (n : ℕ)
-    (v : Fin 2 → EuclideanSpace ℂ (Fin n)) :
-    standardKahlerForm n v = (inner ℂ (v 0) (v 1)).im := by
-  sorry
+/-- The complex volume form `Ω = dz₁ ∧ ⋯ ∧ dzₙ` on `ℂⁿ` as a real continuous alternating
+`n`-form with values in `ℂ`: `Ω v` is the determinant of the complex matrix whose rows are the
+coordinate vectors of `v`. -/
+def standardComplexVolume (n : ℕ) : EuclideanSpace ℂ (Fin n) [⋀^Fin n]→L[ℝ] ℂ :=
+  ContinuousAlternatingMap.restrictScalars ℝ
+    { toAlternatingMap := (Matrix.detRowAlternating : (Fin n → ℂ) [⋀^Fin n]→ₗ[ℂ] ℂ).compLinearMap
+        (WithLp.linearEquiv 2 ℂ (Fin n → ℂ)).toLinearMap
+      cont := by
+        refine Continuous.matrix_det (continuous_pi fun i => ?_)
+        exact (PiLp.continuous_ofLp 2 _).comp (continuous_apply i) }
 
-/-- C5: the adapter evaluates on the native real doubled model. -/
-theorem standardKahlerForm_apply_stdSymplecticForm (n : ℕ)
-    (v : Fin 2 → EuclideanSpace ℂ (Fin n)) :
-    standardKahlerForm n v =
-      TauCeti.stdSymplecticForm (V := EuclideanSpace ℝ (Fin n))
-        ((WithLp.toLp 2 (fun j => (v 0 j).re)),
-          (WithLp.toLp 2 (fun j => (v 0 j).im)))
-        ((WithLp.toLp 2 (fun j => (v 1 j).re)),
-          (WithLp.toLp 2 (fun j => (v 1 j).im))) := by
-  sorry
-
-/-- C5: the phase convention is Re(exp(-iθ) Ω). -/
+/-- The special Lagrangian form of phase `θ` on `ℂⁿ`: `φ_θ v = Re (e^(−iθ) Ω v)`. -/
 def standardSpecialLagrangianForm (n : ℕ) (θ : ℝ) :
-    (EuclideanSpace ℂ (Fin n)) [⋀^Fin n]→L[ℝ] ℝ := by
-  sorry
+    EuclideanSpace ℂ (Fin n) [⋀^Fin n]→L[ℝ] ℝ :=
+  (Complex.reCLM.comp (ContinuousLinearMap.mul ℝ ℂ (Complex.exp (-(θ : ℂ) * Complex.I))))
+    |>.compContinuousAlternatingMap (standardComplexVolume n)
 
-theorem standardSpecialLagrangianForm_apply (n : ℕ) (θ : ℝ)
-    (v : Fin n → EuclideanSpace ℂ (Fin n)) :
-    standardSpecialLagrangianForm n θ v =
-      (Complex.exp (-(θ : ℂ) * Complex.I) * standardComplexVolume n v).re := by
-  sorry
-
+/-- For `n ≥ 1` the special Lagrangian form of every phase has comass one
+(Harvey–Lawson 1982, §III.1; Joyce2001SLLectures line 90). -/
 theorem norm_standardSpecialLagrangianForm (n : ℕ) (hn : 1 ≤ n) (θ : ℝ) :
     ‖standardSpecialLagrangianForm n θ‖ = 1 := by
   sorry
 
-/-- C5: ordered orthonormal frames include the positive orientation test. -/
+/-- The equality planes of the special Lagrangian form: a real-orthonormal ordered frame `v` of
+`n` vectors in `ℂⁿ` satisfies `φ_θ v = 1` exactly when it spans a Lagrangian plane
+(`Im ⟪v i, v j⟫_ℂ = 0` for all `i, j`), `Im (e^(−iθ) Ω v) = 0`, and the orientation is positive,
+`Re (e^(−iθ) Ω v) > 0` (Harvey–Lawson 1982, Cor. III.1.11; Joyce2001SLLectures line 96 and
+line 107, Propositions 2.3 and 2.4, for `θ = 0`). -/
 theorem specialLagrangianFrame_iff (n : ℕ) (hn : 1 ≤ n) (θ : ℝ)
     (v : Fin n → EuclideanSpace ℂ (Fin n)) (hv : Orthonormal ℝ v) :
     standardSpecialLagrangianForm n θ v = 1 ↔
@@ -114,31 +125,5 @@ theorem specialLagrangianFrame_iff (n : ℕ) (hn : 1 ≤ n) (θ : ℝ)
       (Complex.exp (-(θ : ℂ) * Complex.I) * standardComplexVolume n v).im = 0 ∧
       0 < (Complex.exp (-(θ : ℂ) * Complex.I) * standardComplexVolume n v).re := by
   sorry
-
-end ComplexModels
-
-section NonlinearShape
-
-variable {X Y Z H : Type*}
-  [NormedAddCommGroup X] [NormedSpace ℝ X] [CompleteSpace X]
-  [NormedAddCommGroup Y] [NormedSpace ℝ Y] [CompleteSpace Y]
-  [NormedAddCommGroup Z] [NormedSpace ℝ Z] [CompleteSpace Z]
-  [NormedAddCommGroup H] [NormedSpace ℝ H] [CompleteSpace H]
-
-/-- C6: instantiate d and harmonic projection on the specified Hölder carriers.
-This intersection has actual equations; closedness makes it a Banach subspace. -/
-def closedHarmonicOrthogonalTarget (d : X →L[ℝ] Y) (harmonic : X →L[ℝ] H) :
-    Submodule ℝ X := d.ker ⊓ harmonic.ker
-
-/-- Smooth here is ∞; ℕ∞ω's top element requests analyticity. The actual
-C6 nonlinear map and harmonic projection supply this native IFT data. -/
-theorem smooth_implicit_solution
-    (φ : ImplicitFunctionData ℝ X Y Z)
-    (hf : ContDiffAt ℝ ∞ φ.leftFun φ.pt)
-    (hg : ContDiffAt ℝ ∞ φ.rightFun φ.pt) :
-    ContDiffAt ℝ ∞ φ.implicitFunction.uncurry (φ.prodFun φ.pt) := by
-  exact φ.contDiffAt_implicitFunction hf hg (by simp)
-
-end NonlinearShape
 
 end TauCetiRoadmap.CalibratedGeometry
