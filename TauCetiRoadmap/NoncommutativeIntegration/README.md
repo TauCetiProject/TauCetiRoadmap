@@ -41,11 +41,10 @@ Use these prerequisite developments:
   Pedersen–Takesaki density theorem. I1 extends the measurable theory to smaller exponents
   and develops singular numbers; it does not reconstruct V10's spaces.
 - [BanachSpaceTheory](../BanachSpaceTheory/README.md) B1–B2 for duality,
-  weak compactness and reflexivity, and B6 for absolutely summing maps
-  and Pietsch factorization. I2 owns compatible Banach couples and
+  weak compactness and reflexivity. I2 owns compatible Banach couples and
   interpolation functors used here.
-- [CStarAlgebras](../CStarAlgebras/README.md) C3–C6 for operator spaces,
-  matrix norms, CP maps, spatial tensors and noncommutative Grothendieck.
+- [CStarAlgebras](../CStarAlgebras/README.md) C3–C5 for operator spaces,
+  matrix norms, CP maps and spatial tensors.
 - [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md)
   owns singular values, trace class, Hilbert–Schmidt and Schatten ideals.
   Prove the B(H) comparisons with that construction for p≥1. I1 owns
@@ -119,6 +118,17 @@ product log-submajorization estimates, including extended logarithms,
 truncation and endpoint limits. For continuous increasing concave g
 with g(0)=0 prove
 `∫₀ᵗ g(μ_s(x+y))ds≤∫₀ᵗ g(μ_s(x))ds+∫₀ᵗ g(μ_s(y))ds`.
+Check it on `M=M_d(ℂ)` with the unnormalized trace: there
+`μ_t(x)=s_⌊t⌋(x)` for the zero-indexed decreasing singular values
+s₀≥s₁≥…, which is the indexing of Mathlib's `LinearMap.singularValues`,
+so for g the identity and integer t=k the estimate is Ky Fan's
+singular-value inequality `∑_(j<k) s_j(x+y)≤∑_(j<k) s_j(x)+∑_(j<k) s_j(y)`
+(Fan 1951; see Moslehian, *Ky Fan inequalities*, §3). For x=e₁₁, y=e₂₂
+in M₂(ℂ) both sides are 1≤2 at k=1 and 2≤2 at k=2, while the pointwise
+bound `s_1(x+y)≤s_1(x)+s_1(y)` fails (1>0): the integrated form, or the
+shifted pointwise form `μ_(s+t)(x+y)≤μ_s(x)+μ_t(y)`, is what holds.
+With the normalized trace tr/d instead, `μ_t=s_⌊dt⌋`, so the
+identification `μ_t=s_⌊t⌋` pins the unnormalized convention.
 Supply its positive-sum reduction by polar decomposition and compression,
 and the projection variational formula for the integrated singular numbers.
 When that formula needs a diffuse algebra, amplify by the probability
@@ -434,18 +444,51 @@ moment with the displayed p-th moment.
 Prove the p=1 Khintchine estimate with universal positive constants:
 `c inf_(a=b+c)(C₁(b)+R₁(c))≤K₁(a)
  ≤inf_(a=b+c)(C₁(b)+R₁(c))`.
-For arbitrary M use the predual factorization route. Derive the little
-noncommutative Grothendieck inequality for bounded maps T:M→H with
-M nonzero from C6:
-a state f controls `‖T(x)‖` by a universal constant times
-`‖T‖ f((x*x+xx*)/2)^(1/2)`.
-Develop the positive-functional separation and 2-summing factorization
-lemma identifying this Hilbert-valued estimate with the random-sum
-inequality in M_*; use the duality of the row/column sum and intersection
-and BanachSpaceTheory's Pietsch theorem. Account for normality when passing
-from M* to M_* and for finite-rank approximation of the Hilbert-valued map.
-This proves the predual theorem without assuming finite-dimensional
-approximation of M.
+This holds for every von Neumann algebra M and every finite family a in
+L¹(M)=M_*, and the route below gives c=3^(−1/2). It is a duality argument
+from an L⁴ estimate in M (Pisier, *Grothendieck's theorem, past and
+present*, Lemma 9.2 and the proof of Theorem 9.1; the L⁴-to-L¹ method is
+Haagerup–Musat's). It uses neither a cotype-2 theorem for M_* nor
+2-summing factorization, so it does not depend on the type/cotype
+consequences of I7, and it does not assume finite-dimensional
+approximation of M. Its steps are:
+
+- Sign-cube duality. Let Ω_n be the sign cube with uniform probability and
+  `L∞(Ω_n;M)=ℓ∞(Ω_n)⊗M`, the dual of `ℓ¹(Ω_n;M_*)`. For x=(x_k) in Mⁿ
+  put `[x]=inf{‖Φ‖_∞ : Φ∈L∞(Ω_n;M), E(ε_kΦ)=x_k for every k}`. Prove from
+  this isometric duality that `K₁(a)=sup{|∑⟨x_k,a_k⟩| : [x]≤1}`.
+  By the p=1 case of the row/column duality above,
+  `inf(C₁(b)+R₁(c))=sup{|∑⟨x_k,a_k⟩| : ‖x‖_RC≤1}`, where
+  `‖x‖_RC=max(‖∑x_k*x_k‖^(1/2),‖∑x_kx_k*‖^(1/2))` in M. So the lower
+  estimate is equivalent to `[x]≤c⁻¹‖x‖_RC` for all n and x∈Mⁿ.
+- Orthogonality. If `Φ=∑ε_k y_k+Φ′` with `E(ε_kΦ′)=0` for every k, then
+  `∑y_k*y_k≤E(Φ*Φ)` and `∑y_ky_k*≤E(ΦΦ*)`. Hence `‖x‖_RC≤[x]`, which by
+  the two dualities gives `K₁(a)≤min(C₁(a),R₁(a))`; the triangle
+  inequality for K₁ then gives the upper estimate.
+- Fourth moment. For self-adjoint x₁,…,x_n in a C*-algebra and
+  `S=∑ε_kx_k`, prove `‖E(S⁴)‖≤3‖∑x_k²‖²`. Expanding over pairings gives
+  `E(S⁴)=A+B+C−2D` with `A=(∑x_i²)²`, `B=∑_i x_i(∑_j x_j²)x_i`,
+  `C=∑_(i,j) x_ix_jx_ix_j` and `D=∑x_i⁴≥0`. Bound A and B by
+  `‖∑x_k²‖²` in the operator order and ‖C‖ by the same quantity by the
+  operator Cauchy–Schwarz inequality
+  `‖∑u_αv_α‖≤‖∑u_αu_α*‖^(1/2)‖∑v_α*v_α‖^(1/2)` with `u_(ij)=v_(ij)=x_ix_j`.
+- Truncation and iteration. Reduce to self-adjoint families by
+  `z_k=[[0,x_k],[x_k*,0]]` in `M₂(M)`, for which
+  `∑z_k²=diag(∑x_kx_k*,∑x_k*x_k)`, and compress a solution for z to its
+  off-diagonal corner. For self-adjoint x with `‖∑x_k²‖<1`, put
+  `c₀=√3/2` and `Φ=h(S)`, with h(t)=t on [−c₀,c₀] and h(t)=±c₀ beyond. Then
+  `‖Φ‖≤c₀` and `F=S−Φ` satisfies `F²≤S⁴/(16c₀²)=S⁴/12`, because
+  `(|t|−c₀)²≤t⁴/(16c₀²)` is `(|t|−2c₀)²≥0`. So `‖E(F²)‖<1/4`, and by
+  orthogonality `x̂_k=E(ε_kΦ)` satisfies `‖x−x̂‖_RC<1/2`. Iterating on the
+  remainder gives `[x]≤2c₀‖x‖_RC=√3‖x‖_RC`.
+
+Check the pairing expansion on two families with the same `∑x_k²=2`.
+For scalars x₁=x₂=1, S takes the values ±2, 0, 0 and `E(S⁴)=8=4+4+4−4`.
+For the anticommuting Pauli matrices x₁=σ_x, x₂=σ_z, `S²=2` for every
+sign, so `E(S⁴)=4`, and the expansion gives A=B=4, C=2−2=0 (since
+`(σ_xσ_z)²=−1`), D=2; a commutative formula `3(∑x_k²)²−2∑x_k⁴=8` would
+be wrong here. For scalars x_k=1, `E(S⁴)=3n²−2n`, so the constant 3 is
+optimal as n→∞.
 
 Compute the row and column norms of matrix-unit sequences such as
 (e_(1,k)) and (e_(k,1)). Use these examples to show why one square function
@@ -607,10 +650,25 @@ examples through the same definitions.
   Theorems 2.1 and 2.3, Lemmas 2.5–2.7, Theorem 2.8, and Appendix A.
   The finite-tracial proof supplies I7 independently of a general UMD claim.
 - Lust-Piquard–Pisier, *Non commutative Khintchine and Paley inequalities*,
-  Arkiv för Matematik 29 (1991), 241–260, Appendix IV, especially
-  Theorems IV.2 and IV.4 and Proposition IV.3, for the general predual
-  factorization route. Its circle/Schatten Paley proof is a separate route;
-  I6 does not require a general subdiagonal Hardy factorization theorem.
+  Arkiv för Matematik 29 (1991), 241–260, Appendix IV, for the first proof
+  of the p=1 theorem for arbitrary preduals. That proof passes through the
+  cotype-2 property of M_* and is not the route of I6. Its circle/Schatten
+  Paley proof is a separate route; I6 does not require a general
+  subdiagonal Hardy factorization theorem.
+- Pisier, [*Grothendieck's theorem, past and present*](https://arxiv.org/abs/1101.4195)
+  (arXiv version 3), §9: Lemma 9.2 for the fourth-moment estimate,
+  Theorem 9.1 and its proof for the sign-cube duality, orthogonality and
+  truncation route of I6, and Definition 9.6 for cotype 2. The L⁴-to-L¹
+  method is due to Haagerup–Musat, *The Effros–Ruan conjecture for
+  bilinear forms on C*-algebras*, Invent. Math. 174 (2008), 139–163, and
+  the constant √3 to Haagerup–Musat, *On the best constants in
+  noncommutative Khintchine-type inequalities*, J. Funct. Anal. 250
+  (2007), 588–624.
+- Ky Fan, *Maximum properties and inequalities for the eigenvalues of
+  completely continuous operators*, Proc. Natl. Acad. Sci. USA 37 (1951),
+  760–766, for the matrix partial-sum singular-value inequality checked in
+  I1; Moslehian, [*Ky Fan inequalities*](https://arxiv.org/abs/1108.1467),
+  §3, states it with this attribution.
 - Takesaki, *Theory of Operator Algebras II*, Chapters VII–IX, for the
   weight, standard-form and modular-expectation inputs owned by V11 and I4.
   In particular VIII.3.14 gives trace densities for normal semifinite
@@ -633,16 +691,14 @@ our column/row names follow the displayed matrix realization in I6.
 Transport its estimates by the formulas, rather than by the names alone.
 
 Reuse Mathlib's `Complex.HadamardThreeLines`, scalar Lp and conditional
-expectations, finite-dimensional singular values and the matrix C*-norm.
+expectations, finite-dimensional singular values (`LinearMap.singularValues`)
+and the matrix C*-norm.
 The [interpolation discussion](https://leanprover.zulipchat.com/#narrow/stream/113489-new%20members/topic/Ryan%20Martinez/with/575216722)
 points toward abstract compatible couples and identifies the scalar analysis
-work. Tau Ceti's `MeasureTheory/Integral/RieszThorin` provides
-`TauCeti.eLpNorm_le_rpow_mul_rpow_mul_eLpNorm` and its finite-target variant;
-consume those scalar interfaces under PDE's ownership. Follow the trace,
-modulus and extended p-gauge direction of
-[Mathlib PR #44525](https://github.com/leanprover-community/mathlib4/pull/44525)
-through the OperatorIdeals comparison, and the Hilbert–Schmidt conventions of
-[PR #41477](https://github.com/leanprover-community/mathlib4/pull/41477).
+work. Neither the pinned Mathlib nor the pinned Tau Ceti contains the
+Riesz–Thorin theorem; consume it from PDE, which owns it. Follow
+Mathlib's trace, modulus and extended p-gauge conventions through the
+OperatorIdeals comparison, together with its Hilbert–Schmidt conventions.
 Develop missing required APIs in Tau Ceti with these shapes; replace local
 adapters by imports when the corresponding upstream implementations are
 available. No upstream merge is a prerequisite for this development.

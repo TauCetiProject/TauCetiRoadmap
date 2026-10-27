@@ -2,12 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.CStarAlgebra.CStarMatrix
-import Mathlib.Analysis.CStarAlgebra.ContinuousFunctionalCalculus.Basic
-import Mathlib.Analysis.SpecialFunctions.ContinuousFunctionalCalculus.Rpow.Basic
-import Mathlib.Analysis.InnerProductSpace.SingularValues
-import Mathlib.Analysis.Complex.Hadamard
-import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -26,17 +21,16 @@ section Couples
 variable (E₀ E₁ Z : Type*)
   [NormedAddCommGroup E₀] [NormedSpace ℂ E₀]
   [NormedAddCommGroup E₁] [NormedSpace ℂ E₁]
-  [AddCommGroup Z] [Module ℂ Z] [TopologicalSpace Z] [T2Space Z]
-  [IsTopologicalAddGroup Z] [ContinuousSMul ℂ Z]
+  [AddCommGroup Z] [Module ℂ Z] [TopologicalSpace Z]
 
-/-- Endpoint maps into a common Hausdorff ambient space. -/
-structure CompatibleCouple where
+/-- Injective continuous endpoint maps into a common Hausdorff topological vector space. -/
+structure CompatibleCouple [T2Space Z] [IsTopologicalAddGroup Z] [ContinuousSMul ℂ Z] where
   left : E₀ →L[ℂ] Z
   right : E₁ →L[ℂ] Z
   left_injective : Function.Injective left
   right_injective : Function.Injective right
 
-variable {E₀ E₁ Z}
+variable {E₀ E₁ Z} [T2Space Z] [IsTopologicalAddGroup Z] [ContinuousSMul ℂ Z]
 
 /-- The algebraic sum carrier records that a decomposition exists. -/
 def CompatibleCouple.sumCarrier (C : CompatibleCouple E₀ E₁ Z) : Submodule ℂ Z :=
