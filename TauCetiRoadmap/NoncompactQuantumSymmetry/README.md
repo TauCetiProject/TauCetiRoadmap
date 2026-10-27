@@ -1350,6 +1350,55 @@ construction is required to prove it.
 
 For product groups, extend the genuine tensor-product theorem to projective data only by an explicit cochain comparison. Define the cross-multiplier obstruction to be the class of `ω` in Moore’s normalized Borel cohomology `H²_Bor(G₁×G₂,𝕋)` modulo the image of the two factor-inflation maps; the adapter applies exactly when this class has a factorwise-product representative (equivalently, when the displayed cochain `b` exists). With `U_gU_h=ω(g,h)U_{gh}` and normalized factors `ω₁,ω₂`, assume a normalized Borel `b:G₁×G₂→𝕋` satisfies `ω(g,h)=δb(g,h)ω₁(g₁,h₁)ω₂(g₂,h₂)`, where `δb(g,h)=b(g)b(h)b(gh)⁻¹`. Rephase `U_g` to `b(g)⁻¹U_g`; its multiplier is then the factorwise product. Realize each twisted representation as a genuine representation of its central extension `E_{ωᵢ}`, and the product representation on `E_{ω₁}×E_{ω₂}` with central character `(z₁,z₂)↦z₁z₂`. Take each `ωᵢ` to be a normalized Borel multiplier and give `E_{ωᵢ}` the unique lcsc topology with its specified standard-Borel group structure supplied by M1's Mackey–Weil reconstruction. Require the genuine extension representations to be strongly continuous on separable Hilbert spaces. The set-theoretic coordinate lift `g↦(1,g)` and its operator-valued realization are only Borel in general; their global continuity is not a hypothesis. When local continuous sections exist, prove the comparison with Layer P.3's locally continuous convention. Identify `(E_(ω₁)×E_(ω₂))/{(z,z⁻¹):z∈𝕋}` with `E_(ω₁⊠ω₂)` as topological groups, using the explicit Borel group map, quotient Borel structure and uniqueness of the Mackey–Weil lcsc topology. The cochain `b` defines a Borel group isomorphism between the two cocycle extensions; prove it is a topological isomorphism by Layer P.2's Pettis theorem for Borel homomorphisms between lcsc groups, and transport continuity through that isomorphism. Do not require a Borel rephasing of coordinate lifts to become a globally strongly continuous unitary-valued map on the base group. The extension-product theorem applies when at least one genuine extension group C*-algebra `C*(E_{ωᵢ})` is type I. A type-I fixed-central-character twisted fiber `C*(Gᵢ,ωᵢ)` is an alternative only after proving the corresponding fixed-central-character product theorem directly; it does not by itself imply that `C*(E_{ωᵢ})` is type I. Type I of the untwisted `C*(Gᵢ)` is not sufficient. In Dooley pp.16–17, the group is `G₁×ℝ`; the ℝ factor supplies the trivial multiplier class `H²(ℝ,𝕋)=0`, and its circle central extension is abelian and type I. The separate p.28 `G×SU(3)` example uses compact `SU(3)`, whose compact central extension is type I; A nontrivial cross-multiplier class obstructs this reduction. This adapter is an M2 theorem consumed by those examples, not merely an application-side assumption.
 
+**TransformationTypes.HeisenbergShear.** Work out the action of additive
+ℝ on X=ℝ² given by t·(a,b)=(a+tb,b), with coefficient action by inverse
+pullback. For b≠0 the orbit is ℝ×{b} and its stabilizer is zero; for
+b=0 every point (a,0) is fixed, with stabilizer ℝ. Prove these orbit
+and stabilizer formulas and closedness of every orbit. The irreducible
+images below prove that this algebra is CCR. For b≠0, restriction to the
+horizontal orbit followed by D3's translation-kernel isomorphism gives
+a surjection `C₀(ℝ²)⋊ℝ→K(L²(ℝ))`; identify its kernel with the
+crossed product of the functions vanishing on that orbit. At (a,0),
+identify the quotient with C*(ℝ) and its further character quotients,
+including every stabilizer frequency τ∈ℝ. Prove that these are all
+irreducibles, with distinct b≠0 and distinct pairs (a,τ) giving
+inequivalent models. For M2's regular Mackey theorem construct the
+standard Borel orbit space `(ℝ\{0})⊔ℝ`: the quotient sends (a,b) to b
+in the first summand when b≠0 and to a in the second when b=0. Its
+representative section sends b to (0,b) and a to (a,0). Prove both maps
+Borel and that their fibers and representatives are precisely the stated
+orbits. Verify M2's lcsc, standard-Borel, stabilizer and regularity
+hypotheses. Use M1's induction and M2's untwisted split classification
+under the Fourier/crossed-product comparison below to prove exhaustion;
+V11 gives all characters of the zero-orbit stabilizer ℝ. The nonzero-orbit
+images are K(L²(ℝ)), and the fixed-point models are one-dimensional,
+so every irreducible image consists of compact operators.
+
+Construct the same algebra from the native `TauCeti.HeisenbergGroup ℝ`
+and its product topology. Its native coordinates (x,y,z) have law
+`(x,y,z)(x′,y′,z′)=(x+x′,y+y′,z+z′+xy′)` and correspond to the
+upper triangular matrix with entries x at (1,2), y at (2,3), z at (1,3).
+Use normal coordinates n=(r,s) and acting coordinate t, with
+`α_t(r,s)=(r,s−tr)`. Construct the topological group isomorphism from
+`ℝ²⋊_αℝ` to this native carrier by
+`((r,s),t)↦(x=r,y=t,z=s+rt)`, and prove its inverse and matrix law.
+Use the positive characters `χ_(a,b)(r,s)=exp(i(ar+bs))`; inverse
+pullback gives exactly the preceding dual shear. Compare both universal
+pairs to obtain
+`C*(HeisenbergGroup ℝ)≅C₀(ℝ²)⋊ℝ`, including the Haar/Fourier
+normalization through V11. For b≠0 give the induced model explicitly:
+
+```
+(π_b((r,s),t)ξ)(u)=exp(i b(ur+s))ξ(u−t).
+```
+
+Prove its representation law, unitarity, strong continuity and central
+character exp(i b s). For b=0 the models are the characters
+`((r,s),t)↦exp(i(ar+τt))`. Identify all primitive kernels and their
+quotient maps with those of the shear algebra above. This is a worked
+comparison with the existing native group and M1/M2's induction
+theorems; no additional general Kirillov classification is assumed.
+
 **M2.TypeIDisintegration — irreducible decomposition and its Borel base.**
 
 Own the following general theorem, independently of the split semidirect-product
