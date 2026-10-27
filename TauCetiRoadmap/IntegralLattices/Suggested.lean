@@ -2,6 +2,14 @@ import Mathlib
 import TauCeti.FieldTheory.SquareClassGroup.Basic
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
 import TauCeti.LinearAlgebra.RootSystem.NumberOfRoots
+import TauCeti.LinearAlgebra.IntegralLattice.Scaling
+import TauCeti.LinearAlgebra.IntegralLattice.Dual.Scaling
+import TauCeti.LinearAlgebra.IntegralLattice.Restriction
+import TauCeti.LinearAlgebra.IntegralLattice.Characteristic.Basic
+import TauCeti.Analysis.SpecialFunctions.Complex.Circle
+import TauCeti.LinearAlgebra.FiniteBilinearModule.Metabolic
+import TauCeti.LinearAlgebra.FiniteBilinearModule.GaussSum
+import TauCeti.NumberTheory.IntegralLattice.Localization
 import Completed.IntegralLattices.Suggested
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 import TauCetiRoadmap.GlobalQuadraticForms.Suggested
@@ -66,8 +74,8 @@ of it, because Lean admits no cycle. The block after Layer 6 lists what is expor
 The remaining sections pin targets for **Layer 0** (the bilinear and quadratic dictionary,
 Gram determinants, the standard examples), **Layer 1** (dual lattices, the
 discriminant-group cardinality, unimodularity, integral against even overlattices, the
-signature-mod-8 statement, characteristic vectors with van der Blij's congruence, and
-metabolic finite quadratic modules with the Gauss-sign vanishing), **Layer 2** (finiteness
+signature-mod-8 statement, van der Blij's congruence for Tau Ceti's characteristic vectors,
+and the rejection test for bilinear-only Lagrangians), **Layer 2** (finiteness
 of automorphism groups and of positive
 definite classes, the covolume identity, `|O(E₈)| = 696729600`), **Layer 3** (odd-`p`
 orthogonal splitting, the dyadic counterexample, the constraint from the product formula),
@@ -118,8 +126,54 @@ universe u v
 `TauCeti.FiniteBilinearModule` and `TauCeti.FiniteQuadraticModule`: the reviewed carrier of
 upstream PR #200, discharged in Tau Ceti and archived by #350. The dual carrier, the discriminant
 group and its half-norm forms, the finite-module vocabulary, the overlattice correspondences and
-the ADE lattices are all that certificate's, and nothing it provides is restated here. What
-follows is the vocabulary the expansion needs and Tau Ceti does not yet have. -/
+the ADE lattices are all that certificate's, and nothing it provides is restated here.
+
+The pinned Tau Ceti also implements the following vocabulary of Layers 0, 1 and 3, and this file
+states its targets against those native declarations rather than against copies:
+
+* the form twist `L(a) = a • L`, keeping the carrier and scaling the form (`IntegralLattice.scale`
+  and its `ℤ`-action), and the dual of a twist, `(a • L)ᵛ = a⁻¹ • Lᵛ` for `a ≠ 0`
+  (`IntegralLattice.dualCarrier_smul`);
+* restriction to a full submodule in the same ambient space (`IntegralLattice.restrictFull`), to
+  an arbitrary submodule in its own rationalization (`IntegralLattice.restrict`), and their
+  canonical comparison isometry (`IntegralLattice.restrictFullIsometry`);
+* characteristic vectors (`IntegralLattice.IsCharacteristicVector`) and the statement that `L` is
+  even exactly when `0` is characteristic (`IntegralLattice.isEven_iff_isCharacteristicVector_zero`);
+* the character `e^{2πi·}` of `ℚ/ℤ` on `AddCircle (1 : ℚ)`, as a bundled additive character
+  (`TauCeti.expCircle`, with `expCircle_coe`);
+* metabolic finite quadratic modules (`FiniteQuadraticModule.IsMetabolic`), the Gauss-sum invariant
+  `gaussSign ∈ ℤ/8` with its defining Gauss-sum formula for nondegenerate modules
+  (`IsNondegenerate.gaussSum_eq`), additivity on orthogonal sums of nondegenerate modules
+  (`gaussSign_prod`) and vanishing on metabolic modules (`gaussSign_eq_zero_of_isMetabolic`);
+* the localization `ℤ_p ⊗ L` with its base-changed integral form, the completed rational form, and
+  the canonical map into `ℚ_p ⊗ V` with injectivity, fullness and form compatibility
+  (`IntegralLattice.LocalCarrier`, `localIntegralForm`, `completedRationalForm`,
+  `localizationToCompletion`, `localizationToCompletion_injective`,
+  `span_range_localizationToCompletion`, `completedRationalForm_localizationToCompletion`).
+
+What follows is the vocabulary the expansion needs that the pinned libraries do not have. -/
+
+#check @TauCeti.IntegralLattice.scale
+#check @TauCeti.IntegralLattice.dualCarrier_smul
+#check @TauCeti.IntegralLattice.restrictFull
+#check @TauCeti.IntegralLattice.restrict
+#check @TauCeti.IntegralLattice.restrictFullIsometry
+#check @TauCeti.IntegralLattice.IsCharacteristicVector
+#check @TauCeti.IntegralLattice.isEven_iff_isCharacteristicVector_zero
+#check @TauCeti.expCircle
+#check @TauCeti.expCircle_coe
+#check @TauCeti.FiniteQuadraticModule.IsMetabolic
+#check @TauCeti.FiniteQuadraticModule.gaussSign
+#check @TauCeti.FiniteQuadraticModule.IsNondegenerate.gaussSum_eq
+#check @TauCeti.FiniteQuadraticModule.gaussSign_prod
+#check @TauCeti.FiniteQuadraticModule.gaussSign_eq_zero_of_isMetabolic
+#check @TauCeti.IntegralLattice.LocalCarrier
+#check @TauCeti.IntegralLattice.localIntegralForm
+#check @TauCeti.IntegralLattice.completedRationalForm
+#check @TauCeti.IntegralLattice.localizationToCompletion
+#check @TauCeti.IntegralLattice.localizationToCompletion_injective
+#check @TauCeti.IntegralLattice.span_range_localizationToCompletion
+#check @TauCeti.IntegralLattice.completedRationalForm_localizationToCompletion
 
 open scoped TensorProduct
 open Module
@@ -128,50 +182,16 @@ namespace IntegralLattice
 
 variable {V : Type u} [AddCommGroup V] [Module ℚ V] (L : IntegralLattice V)
 
-/-- A form twist changes the bilinear form and keeps the embedded carrier fixed.
-⚠ `L` is bound explicitly rather than taken from the section: the body is `sorry` and the type
-does not mention `L`, so Lean would drop it and every `L.formTwist a` below would fail. -/
-noncomputable def formTwist (L : IntegralLattice V) (a : ℤ) : IntegralLattice V := sorry
-
-/-- Scalar dilation changes a submodule inside the rational ambient space.  It is a
-different operation from `formTwist`. -/
-noncomputable def scalarDilation (a : ℚ) (M : Submodule ℤ V) : Submodule ℤ V := sorry
-
-/-- Restriction inside the same rational ambient space requires the submodule to remain
-full. -/
-noncomputable def restrictToFullSubmodule (M : Submodule ℤ V) (hM : M ≤ L.carrier)
-    [M.IsLattice ℚ] : IntegralLattice V := sorry
-
-/-- An arbitrary finite-free submodule is instead a lattice in its own rationalization. -/
-noncomputable def restrictToRationalSpan (M : Submodule ℤ L.carrier)
-    [Module.Free ℤ M] [Module.Finite ℤ M] : IntegralLattice (ℚ ⊗[ℤ] M) := sorry
-
-/-- The dual of a nonzero form twist is the inverse scalar dilation of the old dual
-carrier; it is not a form twist on the unchanged carrier. -/
-theorem dual_formTwist (a : ℤ) (ha : a ≠ 0) :
-    (L.formTwist a).dualCarrier = scalarDilation ((a : ℚ)⁻¹) L.dualCarrier := sorry
-
-/-- **Layer 1L, characteristic vectors.** `w` is characteristic when
-`β(w,x) ≡ β(x,x) (mod 2)` for every `x ∈ L`. The congruence is stated on the integral
-restriction `integralForm`, so it is `Int.ModEq` over `ℤ` and not a statement about `ℚ`.
-For `⟨1⟩` the characteristic vectors are the odd integers; `L` is even exactly when `0` is
-characteristic (`isEven_iff_isCharacteristicVector_zero`). These are the vectors whose count
-drives O'Meara's proof of the rank-`≤ 9` classification (README 6C). -/
-def IsCharacteristicVector (w : L.carrier) : Prop :=
-  ∀ x : L.carrier, Int.ModEq 2 (L.integralForm w x) (L.integralForm x x)
-
-/-- **Layer 1L.** Evenness is the statement that the zero vector is characteristic. -/
-theorem isEven_iff_isCharacteristicVector_zero :
-    L.IsEven ↔ L.IsCharacteristicVector 0 := sorry
-
 /-- **Layer 1L, van der Blij's congruence.** For a **unimodular** lattice and any
-characteristic vector `w`,
+characteristic vector `w` in the sense of Tau Ceti's `IsCharacteristicVector`,
 
     t₊ − t₋ ≡ β(w, w)  (mod 8).
 
 The signature difference is taken in `ℤ`, so no truncated `ℕ` subtraction can silently change
 the statement. At `w = 0` this recovers 1I's corollary `8 ∣ t₊ − t₋` for even unimodular
-lattices, and for `⟨1⟩` it is `w² ≡ 1 (mod 8)` for odd `w`.
+lattices, and for `⟨1⟩` it is `w² ≡ 1 (mod 8)` for odd `w`. The pinned
+`IsUnimodular.characteristicVector_integralNorm_modEq` gives only that all characteristic norms
+agree modulo 8; the comparison with the signature is the target.
 
 ⚠ Unimodularity is load-bearing and not a convenience: for a merely nondegenerate integral
 lattice the statement is false, and `⟨2⟩` is the witness — every vector is characteristic
@@ -179,27 +199,17 @@ because every value of the form is even, the signature difference is the odd num
 every `β(w,w) = 2k²` is even. `rankOne_one_characteristic_congruence_fails` below pins that
 counterexample. -/
 theorem vanDerBlij [FiniteDimensional ℚ V] [L.IsNondegenerate] (hU : L.IsUnimodular)
-    {w : L.carrier} (hw : L.IsCharacteristicVector w) :
+    {w : L} (hw : L.IsCharacteristicVector w) :
     Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
 
 end IntegralLattice
 
-/-- When an abstract submodule is full in the original ambient space, restriction in its
-own rationalization agrees with same-ambient restriction through the canonical isometry. -/
-noncomputable def IntegralLattice.restrictionComparison
-    {W : Type v} [AddCommGroup W] [Module ℚ W] (L : IntegralLattice W)
-    (M : Submodule ℤ L.carrier) [Module.Free ℤ M] [Module.Finite ℤ M]
-    (hM : M.map L.carrier.subtype ≤ L.carrier)
-    [(M.map L.carrier.subtype).IsLattice ℚ] :
-    (L.restrictToRationalSpan M).Isometry
-      (L.restrictToFullSubmodule (M.map L.carrier.subtype) hM) := sorry
+/-! ### Nikulin's `l(A)`
 
-/-! ### Two pieces of vocabulary the discriminant-form layers need by name
-
-`l(A)` and the character `e^{2πi·}` of `ℚ/ℤ` are used by Layer 1's Gauss-sum invariant and
-Milgram's theorem, and by Nikulin's boundary conditions in Layer 5. They are named once here
-rather than spelled out at each use. The theta-series roadmap's own character on its real
-model is the same character read on representatives in a real inner product space, and is
+`l(A)` is used by Nikulin's boundary conditions in Layer 5. It is named once here rather than
+spelled out at each use. The character `e^{2πi·}` of `ℚ/ℤ` that Layer 1's Gauss-sum invariant and
+Milgram's theorem use is Tau Ceti's `expCircle`; the theta-series roadmap's own character on its
+real model is the same character read on representatives in a real inner product space, and is
 that roadmap's. -/
 
 /-- **Nikulin's `l(A)`**: the least number of generators of a finite abelian group. This is
@@ -207,33 +217,7 @@ real data, not a milestone: the formula *is* the convention being pinned. -/
 noncomputable def minGenerators (A : Type*) [AddCommGroup A] : ℕ :=
   sInf {n : ℕ | ∃ s : Finset A, s.card = n ∧ AddSubgroup.closure (s : Set A) = ⊤}
 
-/-- The standard character `e^{2πi·}` of `ℚ/ℤ`. Mathlib's `AddCircle.toCircle` is stated for
-`AddCircle (T : ℝ)`, and every discriminant form of this roadmap takes values in
-`AddCircle (1 : ℚ)`, so the character is named here on that group. -/
-noncomputable def expCircle (x : AddCircle (1 : ℚ)) : ℂ := sorry
-
-/-- The defining property of `expCircle` on a rational representative. This is where the
-half-norm convention pays: a discriminant-form value `q_L(x) ∈ ℚ/ℤ` enters the exponent with no
-factor of two to insert. -/
-theorem expCircle_coe (r : ℚ) :
-    expCircle (r : AddCircle (1 : ℚ)) = Complex.exp (2 * (π : ℂ) * Complex.I * (r : ℂ)) := sorry
-
-theorem expCircle_add (x y : AddCircle (1 : ℚ)) :
-    expCircle (x + y) = expCircle x * expCircle y := sorry
-
-theorem expCircle_zero : expCircle 0 = 1 := sorry
-
-theorem expCircle_neg (x : AddCircle (1 : ℚ)) : expCircle (-x) = (expCircle x)⁻¹ := sorry
-
 namespace FiniteQuadraticModule
-
-/-- **Layer 1G, metabolic modules**: a Lagrangian subgroup exists. By 1F these are exactly the
-discriminant forms of even lattices that glue to an even unimodular overlattice. The
-equivalence with the trivial Witt class is **not** a milestone of this roadmap: the Witt group
-of finite quadratic modules is the successor `FiniteQuadraticModuleWittTheory`'s (`README.md`,
-§*Scope*), and this predicate is the exact consumer contract exported to it. -/
-def IsMetabolic (A : FiniteQuadraticModule) : Prop :=
-  ∃ H : AddSubgroup A, A.IsLagrangian H
 
 /-- Formal parameters for the three primary generator families. Nondegenerate generator
 classification uses the admissible parameters below. -/
@@ -296,35 +280,6 @@ theorem minGenerators_primaryComponent_le (A : FiniteQuadraticModule) (p : ℕ) 
 /-- and the maximum is attained at some prime, so `l(A_q) = max_p l(A_{q_p})` on the nose. -/
 theorem exists_minGenerators_primaryComponent_eq (A : FiniteQuadraticModule) :
     ∃ p : ℕ, p.Prime ∧ minGenerators (A.primaryComponent p) = minGenerators A := sorry
-
-/-- **Layer 1H, the Gauss-sum invariant** `sign q ∈ ℤ/8` of a nondegenerate finite quadratic
-form. It is `sorry`-bodied because it is defined by the Gauss sum below and nothing here
-evaluates it; `gaussSum_eq` is its defining property. -/
-noncomputable def gaussSign (A : FiniteQuadraticModule) : ZMod 8 := sorry
-
-/-- **Layer 1H.** The Gauss sum of a nondegenerate finite quadratic module, in the canonical
-half-norm convention, where the exponential carries `2πi` and not `πi`. This equation *defines*
-`gaussSign`. -/
-theorem gaussSum_eq (A : FiniteQuadraticModule) [Fintype A] (hA : A.IsNondegenerate) :
-    ∑ a : A, expCircle (A.quadratic a) =
-      (Real.sqrt (Nat.card A : ℝ) : ℂ) *
-        Complex.exp (2 * (π : ℂ) * Complex.I * (A.gaussSign.val : ℂ) / 8) := sorry
-
-theorem gaussSign_orthogonalSum (A B : FiniteQuadraticModule)
-    (hA : A.IsNondegenerate) (hB : B.IsNondegenerate) :
-    (A.orthogonalSum B).gaussSign = A.gaussSign + B.gaussSign := sorry
-
-/-- **Layer 1H, the Gauss sign of a metabolic module vanishes.** With `H` Lagrangian, summing
-the Gauss sum over the cosets of `H` collapses it to `#H = √#A`.
-
-⚠ Necessary, not sufficient: `q_θ^{(5)}(5)` with `(θ|5) = −1` has `gaussSign = 0` by Nikulin
-1.11.2 and order 5, which is not a square `#H²`, so it is not metabolic. The statement that
-repairs the converse — trivial Witt class exactly when a Lagrangian subgroup exists, with the
-Witt group, orthogonal sums, metabolic reduction and `gaussSign` as a homomorphism to `ℤ/8` —
-is the successor `FiniteQuadraticModuleWittTheory`'s (`README.md`, §*Scope*), and no Witt-group
-stand-in is defined here. -/
-theorem gaussSign_eq_zero_of_isMetabolic (A : FiniteQuadraticModule)
-    (hA : A.IsNondegenerate) (h : A.IsMetabolic) : A.gaussSign = 0 := sorry
 
 /-- **Layer 1G/1H, the rejection test for `IsLagrangian`'s quadratic isotropy.** A subgroup
 that is Lagrangian only for the polar pairing does not force the Gauss sign to vanish: the
@@ -683,50 +638,6 @@ section Layer3
 
 /-! ## Layer 3: localization and Jordan splittings -/
 
-namespace IntegralLattice
-
-variable {V : Type v} [AddCommGroup V] [Module ℚ V]
-
-/-- The integral localization of the accepted embedded carrier. -/
-abbrev LocalCarrier (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] := ℤ_[p] ⊗[ℤ] L.carrier
-
-/-- The integral form on `L` base-changed from `ℤ` to `ℤ_[p]`.  This construction starts
-from `L.integralForm`, not from the rational form `L.form`. -/
-noncomputable def localIntegralForm (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] :
-    LinearMap.BilinForm ℤ_[p] (L.LocalCarrier p) :=
-  LinearMap.BilinForm.baseChange ℤ_[p] L.integralForm
-
-/-- The completed rational ambient space, separately base-changed from `ℚ`. -/
-abbrev CompletedAmbient (_L : IntegralLattice V) (p : ℕ) [Fact p.Prime] := ℚ_[p] ⊗[ℚ] V
-
-/-- The rational form on the completed ambient space. -/
-noncomputable def completedRationalForm (L : IntegralLattice V) (p : ℕ) [Fact p.Prime] :
-    LinearMap.BilinForm ℚ_[p] (L.CompletedAmbient p) :=
-  LinearMap.BilinForm.baseChange ℚ_[p] L.form
-
-/-- The canonical inclusion of the localized integral lattice into the completed rational
-quadratic space. -/
-noncomputable def localizationToCompletion (L : IntegralLattice V) (p : ℕ)
-    [Fact p.Prime] : L.LocalCarrier p →ₗ[ℤ_[p]] L.CompletedAmbient p := sorry
-
-theorem localizationToCompletion_injective (L : IntegralLattice V) (p : ℕ)
-    [Fact p.Prime] : Function.Injective (L.localizationToCompletion p) := sorry
-
-/-- The embedded local lattice is full after extending scalars from `ℤ_[p]` to `ℚ_[p]`. -/
-theorem span_range_localizationToCompletion (L : IntegralLattice V) (p : ℕ)
-    [Fact p.Prime] :
-    Submodule.span ℚ_[p] (Set.range (L.localizationToCompletion p)) = ⊤ := sorry
-
-/-- Compatibility between the localized integral form and the restriction of the completed
-rational form. -/
-theorem completedRationalForm_localizationToCompletion (L : IntegralLattice V) (p : ℕ)
-    [Fact p.Prime] (x y : L.LocalCarrier p) :
-    L.completedRationalForm p (L.localizationToCompletion p x)
-        (L.localizationToCompletion p y) =
-      algebraMap ℤ_[p] ℚ_[p] (L.localIntegralForm p x y) := sorry
-
-end IntegralLattice
-
 /-- **Layer 3, odd-`p` orthogonal splitting.** Over `ℤ_p` with `p ≠ 2` every symmetric
 bilinear form on a finite free module admits an orthogonal basis; grouping by scale
 gives the Jordan splitting (O'Meara §91C; uniqueness of the invariants is 91:9 and
@@ -1015,11 +926,11 @@ The declarations supplied, all in namespace `TauCetiRoadmap.IntegralLattices`, a
   and `FiniteBilinearModule` and `FiniteQuadraticModule` with `IsIsotropic` and `IsLagrangian`
   (0A, 1B–1D, 1G) — all Tau Ceti's, certified by `Completed/IntegralLattices/Suggested.lean`,
   which this file imports and Theta Series reaches through it;
-* `expCircle`, `minGenerators`, `FiniteQuadraticModule.orthogonalSum`, `primaryComponent` and
-  `NikulinDecomposition` — the character of `ℚ/ℤ` and the finite-module vocabulary this file
-  adds (1D, 1G);
-* `gaussSign`, `gaussSum_eq` and `gaussSign_orthogonalSum` — the Gauss-sum invariant (1H),
-  from which Milgram's theorem at every signature (1I) is proved here;
+* `minGenerators`, `FiniteQuadraticModule.orthogonalSum`, `primaryComponent` and
+  `NikulinDecomposition` — the finite-module vocabulary this file adds (1G);
+* Tau Ceti's character `expCircle` of `ℚ/ℤ` (1D) and its Gauss-sum invariant `gaussSign`, with
+  `IsNondegenerate.gaussSum_eq` and `gaussSign_prod` (1H), from which Milgram's theorem at every
+  signature (1I) is proved here;
 * `integralOverlatticeEquivIsotropicSubgroup`, `evenOverlatticeEquivIsotropicSubgroup`,
   `ofIsotropicSubgroup` and `FiniteQuadraticModule.orthogonalQuotient` — the overlattice
   correspondences and the gluing theorem, through which `D₁₆⁺` is built (1E, 1F), again the
@@ -1038,8 +949,8 @@ the rank-`24` identities. Here `r_{E₈}(2) = 240` is a finite count (2B, 6G), n
 `q`-expansion coefficient, and the identification of shell counts with `q`-expansion
 coefficients is that roadmap's theorem in its real model.
 
-⚠ Milgram runs one way too. `gaussSign` and `gaussSum_eq` above, and Milgram's theorem
-`t₊ − t₋ ≡ sign q_L (mod 8)` for an even nondegenerate lattice, are **this** roadmap's at every
+⚠ Milgram runs one way too. Milgram's theorem `t₊ − t₋ ≡ sign q_L (mod 8)` for an even
+nondegenerate lattice, stated through Tau Ceti's `gaussSign`, is **this** roadmap's at every
 signature, proved arithmetically; the theta-series roadmap proves the positive-definite
 instance `∑_{γ} e(q_L(γ)) = |A_L|^{1/2} e(n/8)` by theta asymptotics for its own Gauss-sum
 layer, and its own scope section says so. Both are wanted, its bridge identifies them, and

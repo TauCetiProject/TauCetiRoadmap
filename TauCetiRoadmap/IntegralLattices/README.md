@@ -311,12 +311,14 @@ extended by that substitution. The same boundary is why Theta Series is positive
 construction: in positive rank a negative-definite or indefinite norm does not give the
 convergent ordinary upper-half-plane theta series used there. The rank-zero series is `1`.
 
-**Form twists, carrier dilations, and sums.** `L.formTwist a`, also written `L(a)`, keeps
+**Form twists, carrier dilations, and sums.** The form twist `L(a)`, Tau Ceti's
+`TauCeti.IntegralLattice.scale` (written `a • L`), keeps
 the carrier and replaces the form by `a • β`, so `E₈(−1)` is negative definite. This is
 different from the scalar image `a • L.carrier` inside the rational ambient space. A
 statement about a nondegenerate form twist assumes `a ≠ 0`, and positive definiteness assumes
 `a > 0`. For nonzero integral `a`, the dual formula is the carrier identity
-`dual_{aB}(L) = (a : ℚ)⁻¹ • dual_B(L)`, not a form twist on the old dual carrier. The
+`dual_{aB}(L) = (a : ℚ)⁻¹ • dual_B(L)` (Tau Ceti's `TauCeti.IntegralLattice.dualCarrier_smul`), not a form
+twist on the old dual carrier. The
 orthogonal direct sum `L ⊕ M` carries the sum of the two forms, and its Gram matrix is the
 block sum. Isometry is `LinearMap.BilinForm.Equivalent`. A class is an isometry class over
 `ℤ`.
@@ -390,7 +392,7 @@ Nikulin's `E₈` is negative definite, and this roadmap's `E₈` is positive def
 citation from his paper carries the twist `E₈(−1)`. The K3 lattice is
 `Λ_{K3} = U³ ⊕ E₈(−1)²`, which is even unimodular of signature `(3,19)`.
 
-**The character of `ℚ/ℤ`.** `e^{2πi·}` on `AddCircle (1 : ℚ)` is `expCircle`, and the factor
+**The character of `ℚ/ℤ`.** `e^{2πi·}` on `AddCircle (1 : ℚ)` is Tau Ceti's `TauCeti.expCircle`, and the factor
 `2πi` is forced by the half-norm codomain of `q_L`, exactly as in the Gauss-sum invariant
 above. Theta Series' character on its real model is the same character read on representatives
 in a real inner product space; it is that roadmap's, and no second character is defined here.
@@ -449,6 +451,21 @@ is unimodularity and not nondegeneracy.
 | `squareClass`, `squareClass_eq_zero_iff`, `linearIndependent_squareClass_iff` | `TauCeti/FieldTheory/SquareClassGroup.lean` | 3C, 4C |
 | `orthogonalGroupToLinearIsometryEquiv` | `TauCeti/LinearAlgebra/OrthogonalGroup.lean` | 2C |
 | box packing and doubling counts | `TauCeti/NumberTheory/GeometryOfNumbers/Doubling.lean` | 2E, 2G |
+| `TauCeti.IntegralLattice.scale` (the `ℤ`-action `a • L`, the form twist `L(a)`), `TauCeti.IntegralLattice.dualCarrier_smul` | `TauCeti/LinearAlgebra/IntegralLattice/Scaling.lean`, `TauCeti/LinearAlgebra/IntegralLattice/Dual/Scaling.lean` | 0A, 1B, 5D |
+| `TauCeti.IntegralLattice.restrictFull`, `TauCeti.IntegralLattice.restrict`, `TauCeti.IntegralLattice.restrictFullIsometry` | `TauCeti/LinearAlgebra/IntegralLattice/Restriction.lean` | 0A, B1 |
+| `TauCeti.IntegralLattice.IsCharacteristicVector`, `TauCeti.IntegralLattice.isEven_iff_isCharacteristicVector_zero` | `TauCeti/LinearAlgebra/IntegralLattice/Characteristic/Basic.lean` | 1L, 6A, 6C |
+| `TauCeti.expCircle`, `TauCeti.expCircle_coe` | `TauCeti/Analysis/SpecialFunctions/Complex/Circle.lean` | 1D, 1H |
+| `TauCeti.FiniteQuadraticModule.IsMetabolic` | `TauCeti/LinearAlgebra/FiniteBilinearModule/Metabolic.lean` | 1G |
+| `TauCeti.FiniteQuadraticModule.gaussSign`, `TauCeti.FiniteQuadraticModule.IsNondegenerate.gaussSum_eq`, `TauCeti.FiniteQuadraticModule.gaussSign_prod`, `TauCeti.FiniteQuadraticModule.gaussSign_eq_zero_of_isMetabolic` | `TauCeti/LinearAlgebra/FiniteBilinearModule/GaussSum.lean` | 1H, 1I, 5B |
+| `TauCeti.IntegralLattice.LocalCarrier`, `TauCeti.IntegralLattice.localIntegralForm`, `TauCeti.IntegralLattice.completedRationalForm`, `TauCeti.IntegralLattice.localizationToCompletion`, `TauCeti.IntegralLattice.localizationToCompletion_injective`, `TauCeti.IntegralLattice.span_range_localizationToCompletion`, `TauCeti.IntegralLattice.completedRationalForm_localizationToCompletion` | `TauCeti/NumberTheory/IntegralLattice/Localization.lean` | 3A, 3C, N0 |
+
+The milestones of this roadmap that these declarations cover are consumed from them: 3A starts
+from `TauCeti.IntegralLattice.localIntegralForm` and `TauCeti.IntegralLattice.localizationToCompletion`
+rather than from a second localization map, the odd-prime splitting of 3C is stated on the
+native local form, the restriction constructors of 0A are `TauCeti.IntegralLattice.restrictFull` and
+`TauCeti.IntegralLattice.restrict` with comparison `TauCeti.IntegralLattice.restrictFullIsometry`, and the
+characteristic-vector calculus of 1L, the metabolic predicate of 1G and the Gauss-sum invariant
+of 1H with its additivity and metabolic vanishing are the native declarations listed.
 
 ## What other roadmaps supply
 
@@ -505,14 +522,16 @@ conventions, with a genuine `[carrier.IsLattice ℚ]` instance. This milestone a
 - the rank is additive over direct sums;
 - two restriction constructors: a submodule of full rational span gives an
   `IntegralLattice` in the same `V`, while an arbitrary finite-free submodule gives one in
-  its own ambient space `ℚ ⊗[ℤ] M`. Prove that the constructions agree up to the canonical
-  isometry when `M` is full. An arbitrary submodule is not silently treated as full.
+  its own ambient space `ℚ ⊗[ℤ] M`, and the two agree up to the canonical isometry when `M` is
+  full. These are Tau Ceti's `TauCeti.IntegralLattice.restrictFull`, `TauCeti.IntegralLattice.restrict` and
+  `TauCeti.IntegralLattice.restrictFullIsometry`, consumed rather than rebuilt. An arbitrary submodule is
+  not silently treated as full.
 
 An isometry is a rational linear equivalence preserving both carrier and form. Every
 invariance theorem requires this structure; a bare additive or module equivalence is an
 explicit rejection test.
 
-For `a : ℤ`, `formTwist a` remains integral, and an even form remains even. Its rank-`n`
+For `a : ℤ`, the twist `L(a)` remains integral, and an even form remains even. Its rank-`n`
 Gram determinant is `aⁿ det L`; the converse parity implication needs the expected unit or
 coprimality hypothesis. Nondegeneracy needs `a ≠ 0`, and positive definiteness needs
 `a > 0`. Discriminant groups and forms under a nonunit twist are related by
@@ -643,7 +662,8 @@ induced form nondegenerate, and then add:
   when the lattice has an even unimodular overlattice. ⚠ Isotropy for the polar pairing alone
   is strictly weaker and is not this notion: the discriminant form of `A₁ ⊕ A₁` has a subgroup
   equal to its own orthogonal complement on which `b` vanishes while `q = ½` on its generator,
-  and 1H gives that module the invariant `2`, not `0`;
+  and 1H gives that module the invariant `2`, not `0`. The predicate is Tau Ceti's
+  `TauCeti.FiniteQuadraticModule.IsMetabolic`;
 - the generators `q_θ^{(p)}(p^k)`, `u^{(2)}(2^k)` and `v^{(2)}(2^k)` of Nikulin
   Proposition 1.8.1, with the theorem that every **nondegenerate** finite quadratic form
   is an orthogonal sum of them;
@@ -658,7 +678,11 @@ the Gauss-sum invariant, or the comparison theorem is invoked.
 **1H. The Gauss-sum invariant.** For nondegenerate `(A,q)` in the canonical half-norm
 convention,
 `∑_{a ∈ A} e^{2πi q(a)} = √#A · e^{2πi·sign(q)/8}`, which defines `sign q ∈ ℤ/8`. The
-invariant is additive over orthogonal sums. Its values on the generators are those of
+invariant is additive over orthogonal sums of nondegenerate modules. The invariant, its
+defining formula, additivity and the metabolic vanishing below are Tau Ceti's
+`TauCeti.FiniteQuadraticModule.gaussSign`, `TauCeti.FiniteQuadraticModule.IsNondegenerate.gaussSum_eq`,
+`TauCeti.FiniteQuadraticModule.gaussSign_prod` and `TauCeti.FiniteQuadraticModule.gaussSign_eq_zero_of_isMetabolic`; the
+milestone is what follows. Its values on the generators are those of
 Nikulin Proposition 1.11.2:
 
 - `sign q_θ^{(p)}(p^k) ≡ k²(1−p) + 4kη (mod 8)` for odd `p`, where `(θ|p) = (−1)^η`;
@@ -728,7 +752,9 @@ This milestone asks for:
   additive, and unimodularity makes every `ℤ/2`-functional a pairing against some `w` — they
   form a single coset of `2L`, and `β(w,w) mod 8` does not depend on the choice, by the
   elementary identity `β(w+2v, w+2v) − β(w,w) = 4(β(w,v) + β(v,v))`, whose right side the
-  characteristic property makes divisible by 8;
+  characteristic property makes divisible by 8. This bullet and the previous one are Tau Ceti's
+  `TauCeti.IntegralLattice.IsCharacteristicVector` with its calculus in
+  `TauCeti/LinearAlgebra/IntegralLattice/Characteristic/`, consumed here;
 - **van der Blij's theorem**: for a nondegenerate unimodular lattice and any characteristic
   `w`, `t₊ − t₋ ≡ β(w,w) (mod 8)`. The odd unimodular case is the content — `⟨1⟩` has the odd
   integers as its characteristic vectors, and `w² ≡ 1 (mod 8)` — and at `w = 0` the even case
@@ -839,9 +865,12 @@ V_p = ℚ_p ⊗[ℚ] V,
 B_{V,p} = L.form.baseChange ℚ_p.
 ```
 
-Construct the canonical `ℤ_p`-linear map `L_p → V_p`, prove it injective and full after
-extension to `ℚ_p`, and prove that `B_{L,p}` is the restriction of `B_{V,p}`. Prove
-compatibility with direct sums, form twists, carrier dilations, duality, and isometries.
+The canonical `ℤ_p`-linear map `L_p → V_p`, its injectivity, its fullness after extension to
+`ℚ_p`, the statement that `B_{L,p}` is the restriction of `B_{V,p}`, the Gram-matrix comparison
+and naturality in isometries are Tau Ceti's (`TauCeti.IntegralLattice.LocalCarrier`,
+`TauCeti.IntegralLattice.localIntegralForm`, `TauCeti.IntegralLattice.completedRationalForm`,
+`TauCeti.IntegralLattice.localizationToCompletion` and its theorems), and every later local statement is made on
+those declarations. Prove compatibility with direct sums, form twists, carrier dilations, duality, and isometries.
 The integral `ℤ_p`-lattice carries scale, norm, Jordan, and integral-duality data; the
 rational `ℚ_p`-space carries dimension, determinant square class, Hasse invariant, and
 Witt data. No statement silently passes between these two objects. The construction works
@@ -1106,6 +1135,40 @@ for `Δ > 0` — the opposite form to the inverse class, and the principal form 
 class. It carries the genus of `L`, in the sense of 3F, to a coset of the subgroup of squares.
 Discriminants agree on both sides.
 
+In the square branch the same comparison is a separate theorem about the split classes of B2,
+stated with the conductor. Let `Δ = m²` with `m > 0`, so that `𝒪_Δ` is the split order
+`𝒪_m = {(a, b) ∈ ℤ × ℤ : a ≡ b (mod m)}` of index `m` in `ℤ × ℤ` and discriminant `m²`. Prove:
+
+- the forms `(0, m, c) = m x y + c y²`, for `c` running over `(ℤ/mℤ)ˣ`, are a complete set of
+  representatives of the proper classes of primitive forms of discriminant `m²`, so there are
+  `φ(m)` of them, and the elementary composition law of B2 makes this class set a group
+  isomorphic to `(ℤ/mℤ)ˣ`. One route is the adelic one: the proper classes correspond to
+  `(ℤ̂ˣ × ℤ̂ˣ) / (𝒪̂_mˣ · {±(1, 1)})`, and `(a, b) ↦ a b⁻¹ mod m` identifies this with `(ℤ/mℤ)ˣ`;
+- the genus of `L`, in the sense of 3F, is a coset of the subgroup of squares
+  `((ℤ/mℤ)ˣ)²`, so there are `[(ℤ/mℤ)ˣ : ((ℤ/mℤ)ˣ)²]` genera of primitive forms of discriminant
+  `m²`, each with `#((ℤ/mℤ)ˣ)²` proper classes;
+- the torus of B6 detects one genus, not the whole class set. Its integral points depend on
+  the conductor: `T_L(ℤ_p) = {(t, t⁻¹) : t ∈ ℤ_pˣ, t² ≡ 1 (mod p^{v_p(m)})}`, so that
+  `T_L(ℚ) \ T_L(𝔸_f) / T_L(ℤ̂) ≅ (ℤ/mℤ)ˣ / {t : t² = 1}`, and squaring identifies this with
+  `((ℤ/mℤ)ˣ)²`, which acts simply transitively on the proper classes in `gen L`.
+
+For `m = 1` everything is trivial: `𝒪_1 = ℤ × ℤ`, the one class is that of `U`. The B2 inputs
+of the nonsquare branch, `NumberFieldOrder`, `Pic` and `NarrowPic`, are not used.
+
+**Checks (split branch).**
+
+- `Δ = 25`, `m = 5`: the four forms `5xy + cy²`, `c = 1, 2, 3, 4`, are pairwise properly
+  inequivalent; modulo 5 the form is `c y²`, so `{1, 4}` and `{2, 3}` are the two genera, each of
+  two proper classes. The torus quotient is `(ℤ/5ℤ)ˣ / {±1}`, of order 2, equal to the number
+  of proper classes in one genus and not to the four classes of discriminant 25. A statement
+  that fibres the torus quotient over all classes of the discriminant fails here.
+- `Δ = 64`, `m = 8`: four proper classes `8xy + cy²`, `c = 1, 3, 5, 7`, whose odd values are
+  `≡ c (mod 8)`, so there are four genera of one class each. Every unit of `ℤ/8ℤ` squares to 1,
+  so the torus quotient is trivial. Replacing `{t : t² = 1}` by `{±1}`, correct at `m = 5`,
+  gives the wrong value 2 here.
+- `Δ = 1`: one class, one genus, trivial torus quotient; the discriminant-one example cannot
+  separate the class set from the genus and is not a test of this comparison.
+
 Because the target is the supplier's group and not a copy of it, one further statement is
 available and is a milestone here:
 
@@ -1181,8 +1244,10 @@ is not proved again here. What this milestone owns is the **form-side** route, w
 supplier does not have and which is what a class-number computation runs: for `Δ < 0` the reduced forms satisfy
 `|b| ≤ a ≤ c`, and for `Δ > 0` the reduced forms fall into finitely many cycles under the
 continued-fraction step. Both give an explicit finite list of classes for each `Δ`, and B2
-transports the count to the consumed group. For square `Δ`, prove finiteness and the class
-count directly in the split algebra, without citing either supplier finiteness theorem.
+transports the count to the consumed group. For square `Δ = m²`, prove finiteness and the class
+count directly in the split algebra, without citing either supplier finiteness theorem: the
+count is `φ(m)`, with the representatives `(0, m, c)` of B3's split branch. This is the count of
+all proper classes of discriminant `m²`; the count in one genus is B3's `#((ℤ/mℤ)ˣ)²`.
 
 **B6. The norm-one torus and its points.** For a binary lattice `L` use its quadratic
 étale algebra `A_Δ`: the norm-one group is
@@ -1221,8 +1286,12 @@ branch, and the two branches are different theorems:
   direction `dt/t` survives the quotient. Norm one in the split algebra is not modulus one, and
   the finiteness of B5's split class set does not remove the real direction. The statement in
   this branch is about the modulus kernel `T_L(𝔸)¹ = ker |·|_𝔸`, which contains `T_L(ℚ)`:
-  `T_L(ℚ) \ T_L(𝔸)¹ ≅ ℚˣ \ 𝔸^{×,1}` is compact, fibred as above over the finite split class set
-  of B5 with compact fibres; equivalently `T_L(ℚ) \ T_L(𝔸) / T_L(ℝ)⁰` is compact, where
+  `T_L(ℚ) \ T_L(𝔸)¹ ≅ ℚˣ \ 𝔸^{×,1}` is compact, fibred over the finite set
+  `T_L(ℚ) \ T_L(𝔸_f) / T_L(ℤ̂)` with compact fibres. For `Δ = m²` that base is B3's split
+  double quotient `(ℤ/mℤ)ˣ / {t : t² = 1} ≅ ((ℤ/mℤ)ˣ)²`, in simply transitive correspondence
+  with the proper classes in `gen L`, with the conductor-dependent `T_L(ℤ_p)` of B3; it is not
+  the set of all `φ(m)` proper classes of discriminant `m²` counted in B5, and `Δ = 25` (base of
+  order 2, four classes) separates the two. Equivalently `T_L(ℚ) \ T_L(𝔸) / T_L(ℝ)⁰` is compact, where
   `T_L(ℝ)⁰ ≅ ℝ_{>0}` is the split real direction. The anisotropic covolume statement is never
   applied to this branch, and `U`, with `Δ = 1`, is its mandatory test.
 
@@ -1297,7 +1366,7 @@ For a finite free integral symmetric nondegenerate lattice L use its rational sc
 
 #### N1. Local integral spinor images, beyond the full-space table
 
-Export for every p the subgroup H_p(L)=theta_p(K_p^+(L)) in Q_p^*/Q_p^{*2}, with actual evaluation and isometry/base-change compatibility. OG2F's full-space surjectivity is only the ambient interface: it does NOT compute H_p(L). IL3C/3D/3E Jordan decompositions provide the integral calculation. Construct generators as actual integral isometries (even products of reflections where their formulas preserve L_p), prove their images by the native Clifford reflection/norm comparison, and prove exhaustion by the Jordan reduction of an arbitrary integral isometry. At p=2 retain type-I/type-II blocks, oddity/sign-walking restrictions and actual integral denominators; the odd-prime diagonal argument is not used at 2. Export a finite square-class presentation and a membership decision independent of the chosen Jordan symbol. Prove the almost-all unramified unit-reference statement; it is required to form the adelic image quotient.
+Export for every p the subgroup H_p(L)=theta_p(K_p^+(L)) in `ℚ_pˣ/(ℚ_pˣ)²`, with actual evaluation and isometry/base-change compatibility. OG2F's full-space surjectivity is only the ambient interface: it does NOT compute H_p(L). IL3C/3D/3E Jordan decompositions provide the integral calculation. Construct generators as actual integral isometries (even products of reflections where their formulas preserve L_p), prove their images by the native Clifford reflection/norm comparison, and prove exhaustion by the Jordan reduction of an arbitrary integral isometry. At p=2 retain type-I/type-II blocks, oddity/sign-walking restrictions and actual integral denominators; the odd-prime diagonal argument is not used at 2. Export a finite square-class presentation and a membership decision independent of the chosen Jordan symbol. Prove the almost-all unramified unit-reference statement; it is required to form the adelic image quotient.
 
 The precise 5C consequence is a separate theorem on the FULL class obstruction, not an unspecified local condition and not an unsupported proper-class strengthening. Under each stated odd-prime or dyadic alternative construct H_p(L)=theta(K_p^+(L)) and the determinant-minus-one integral-isometry cosets with their actual spinor-norm translates. Starting from IL4C's proper-spinor quotient J/(Q^* J_L), construct the equivalence relation induced by those determinant cosets and by rational improper isometries, and prove that its orbit set is the FULL spinor-genus obstruction. The identification, well-definedness and independence of chosen improper representatives are owned proof steps. Compute this orbit set under every exact5C local alternative and prove it has one element. Export representatives and the corresponding full-O factorization after the proper-kernel comparison; do not assert that the proper quotient itself is always trivial or infer an improper integral automorphism from notation.
 
@@ -1305,7 +1374,7 @@ One chosen proof programme computes the finite elementary-2 proper obstruction f
 
 #### N2. Same-S Spin approximation
 
-For the actual algebraic Spin(V) over Q identify the Hopf-algebra/group-scheme and native Clifford point groups, their rational/base-change maps, finite-dimensional module topologies and chosen compact opens. Prove the algebraic group is semisimple simply connected in rank >=3, with its actual almost-simple factor decomposition, and match its local point topology to OG's. For a finite S containing infinity require for EVERY Q-almost-simple factor H that the product of H(Q_v), v in S, is noncompact. Apply the EXISTING AA4.2 strong-approximation construction to get DenseRange(Spin(V)(Q) -> Spin(V)(A^S)). AA4.2's actual earlier floors are AA0/1 topology and reference-controlled restricted products, AA2 quotient integration, AA3.1–3.4 reduction/finite covolume and arithmetic density, AA4.1 weak approximation including its separately constructed torsor/Hasse inputs, and the RG2 local-point/model/Lang/Kneser–Tits contracts. The precise written-source status and edition are recorded in provenance; these are construction targets rather than an assertion of native implementation.
+For the actual algebraic Spin(V) over Q identify the Hopf-algebra/group-scheme and native Clifford point groups, their rational/base-change maps, finite-dimensional module topologies and chosen compact opens. Prove the algebraic group is semisimple simply connected in rank >=3, with its actual almost-simple factor decomposition, and match its local point topology to OG's. For a finite S containing infinity require for EVERY Q-almost-simple factor H that the product of H(Q_v), v in S, is noncompact. Apply the EXISTING AA4.2 strong-approximation construction to get DenseRange(Spin(V)(Q) -> Spin(V)(A^S)). AA4.2's actual earlier floors are AA0/1 topology and reference-controlled restricted products, AA2 quotient integration, AA3.1–3.4 reduction/finite covolume and arithmetic density, AA4.1 weak approximation including its separately constructed torsor/Hasse inputs, and the RG2 local-point/model/Lang/Kneser–Tits contracts. These are construction targets, not an assertion that the pinned libraries implement them.
 
 Keep the actual sufficient proof stages: p-adic closed-subgroup Lie algebra and openness from analytic charts/saturated lattices; S-arithmetic non-discreteness/Zariski density and finite-covolume projection argument; multi-place closure by Lie ideals and pro-p separation (not factorwise-surjectivity implying openness); Kneser–Tits elimination of finite-index closures in isotropic simply connected absolutely almost simple local factors; reductive models, finite-field Lang and weak approximation for anisotropic factors; restriction of scalars and factor products. RG2's isotropic no-finite-index statement is not applied to anisotropic groups, tori, PGL or a compact factor. AA4.1's weak approximation is constructed before strong approximation, avoiding a cycle.
 
@@ -1384,23 +1453,36 @@ The milestone proves the following, each with the rank hypothesis that carries i
   `θ(SO(V)) = ℚˣ ∩ ∏_v θ_v(SO(V_v))` (101:8, rank at least 3). Together they give
   `J = ℚˣ · θ(J_V)` and `ℚˣ ∩ θ(J_V) = D := θ(SO(V))`, which identifies `J/(ℚˣ J_L)` with
   O'Meara's quotient of the adelic spinor-norm image `θ(J_V)` by `P_D · J_L`;
-- **rank 2 is a different statement**, through the torus of B6. `SO(V) = T_L`, the spinor norm
-  of the rotation by `u = a/ā` is the norm `N(a)`, and its kernel on `T_L(ℚ_p)` is the subgroup
-  of squares. The proper classes in `gen L` are a torsor under the finite group
-  `C_L = T_L(ℚ) \ T_L(𝔸_f) / T_L(ℤ̂)` of B2 and B3, the subgroup of squares in `NarrowPic 𝒪_Δ`
-  whose cosets are the genera, and the proper spinor genera in `gen L` are the cosets of `C_L²`, so their number is
-  `[C_L : C_L²]`. The group `J/(ℚˣ J_L)` is finite in rank 2 but is **not** this count: the
-  local images `θ_p(SO(V_p))` are then the norm groups of `A_Δ ⊗ ℚ_p`, so `J ≠ ℚˣ · θ(J_V)`, and
-  for nonsquare `Δ` the quotient is `[J : ℚˣ N(J_{K_Δ})] · [C_L : C_L²] = 2·[C_L : C_L²]`.
-  Witness `x² + y²`: `Δ = −4`, one class and one proper spinor genus, while `θ_2(SO(L_2))` is
-  the norm group `{1, 2, 5, 10}·(ℚ_2ˣ)²` of `ℚ_2(i)`, so that `J/(ℚˣ J_L) ≅ ℤ_2ˣ/⟨5⟩(ℤ_2ˣ)²` has
-  order 2;
+- **rank 2 is a different statement**, through the torus of B6. `SO(V) = T_L`, and the
+  kernel of the spinor norm on `T_L(ℚ_p)` is the subgroup of squares. The proper classes in
+  `gen L` are a torsor under the finite group `C_L = T_L(ℚ) \ T_L(𝔸_f) / T_L(ℤ̂)`, and the
+  proper spinor genera in `gen L` are the cosets of `C_L²`, so their number is `[C_L : C_L²]`.
+  What `C_L` is, and how `J/(ℚˣ J_L)` compares with this count, depends on B1's branch:
+  - *nonsquare `Δ`*: the spinor norm of the rotation by `u = a/ā` is the norm `N(a)`, and
+    `C_L` is the subgroup of squares in `NarrowPic 𝒪_Δ`, the principal genus, by B2 and B3. The
+    group `J/(ℚˣ J_L)` is finite but is **not** the count `[C_L : C_L²]`: the local images
+    `θ_p(SO(V_p))` are the norm groups of `K_Δ ⊗ ℚ_p`, so `J ≠ ℚˣ · θ(J_V)`, and the quotient
+    is `[J : ℚˣ N(J_{K_Δ})] · [C_L : C_L²] = 2·[C_L : C_L²]`. Witness `x² + y²`: `Δ = −4`, one
+    class and one proper spinor genus, while `θ_2(SO(L_2))` is the norm group
+    `{1, 2, 5, 10}·(ℚ_2ˣ)²` of `ℚ_2(i)`, so that `J/(ℚˣ J_L) ≅ ℤ_2ˣ/⟨5⟩(ℤ_2ˣ)²` has order 2;
+  - *square `Δ = m²`*: `C_L ≅ ((ℤ/mℤ)ˣ)²` by B3's split branch, the rotation `(t, t⁻¹)` has
+    spinor norm `t` modulo squares, and the split norm `(a, b) ↦ ab` is surjective, so
+    `θ_p(SO(V_p)) = ℚ_pˣ` at every `p` and `J = ℚˣ · θ(J_V)`. With
+    `θ_p(K_p⁺(L)) = {t ∈ ℤ_pˣ : t² ≡ 1 (mod p^{v_p(m)})}·(ℚ_pˣ)²` and `θ_∞ = ℝˣ`, the quotient is
+    `J/(ℚˣ J_L) ≅ G / (G[2]·G²)` for `G = (ℤ/mℤ)ˣ`, and squaring identifies it with
+    `G²/G⁴ = C_L/C_L²`: here the two counts **agree**, and the factor 2 of the nonsquare branch
+    is absent. Witnesses: `U` (`m = 1`), where both are trivial, and `5xy + y²` (`m = 5`), where
+    `G ≅ ℤ/4`, `G[2]·G² = {±1}` and both have order 2;
 - **ranks 0 and 1 are computed directly**: `gen L` is one class and `O(L)` contains `−1`, so
   there is one proper class and one proper spinor genus. The rank-one lattice `⟨1⟩` is a
   compulsory rejection test of the general formula: `SO(V_v) = 1` at every place, so `J_L = J²`,
-  and `J/(ℚˣ J²)` is infinite, because an idele that is a unit at every prime retains the square
-  class of its unit component at each odd prime independently, and the diagonal `ℚˣ` cancels
-  only finitely many of them at once.
+  and `J/(ℚˣ J²)` is infinite. Restrict to the unit ideles `W = ∏_p ℤ_pˣ × ℝˣ`: if `q·j²` lies
+  in `W` with `q ∈ ℚˣ` and `j ∈ J`, then `q` has even valuation at every prime, so `q = ±r²` with
+  `r ∈ ℚˣ`, and `W ∩ ℚˣ J² = {±1}·W²`. Hence `W/(W ∩ ℚˣ J²)` is the infinite product of the
+  groups `ℤ_pˣ/(ℤ_pˣ)²` of order 2 over odd `p`, together with the finite factors at 2 and `∞`,
+  modulo the single global sign class; it is infinite. (A rational diagonal does not change
+  only finitely many local square classes — `−1` is a nonsquare unit at every `p ≡ 3 (mod 4)` —
+  but it removes at most one class from this product.)
 
 
 **4D. Eichler's theorem.** *Owner:* `OrthogonalTamagawaAndLatticeMass`. For an indefinite
@@ -1412,9 +1494,14 @@ local/model and arithmetic prerequisites; OTM0.3 owns this integral class compar
 The point-group and restricted-product interfaces alone do not provide that theorem.
 
 **4E. Class numbers of indefinite lattices.** *Rank 2 is owned here; rank at least 3 is owned by*
-`OrthogonalTamagawaAndLatticeMass`. For rank 2 the theorem is B5, through the correspondence B2:
-the classes in a genus form a subset of the invertible proper ideal classes of `𝒪(L)`, hence of
-its Picard group, and that group is finite. The rank-2 proof does not use strong approximation,
+`OrthogonalTamagawaAndLatticeMass`. For rank 2 an indefinite `L` has `Δ > 0`, and the theorem
+splits with B1's branch. For nonsquare `Δ`, B2's **oriented** map identifies the proper classes
+of primitive forms of discriminant `Δ` with the consumed `NarrowPic 𝒪_Δ`, which is finite
+(`finite_narrowPic`, or B5's cycle count); `Pic 𝒪_Δ` would not do, since `x² − 3y²` and
+`−x² + 3y²` are two proper classes with the same ideal class (B2). For square `Δ = m²`, B5 counts
+the split proper classes directly as `φ(m)`, with no ideal-class carrier. In both branches the
+proper classes in `gen L` are finitely many, and the classes are their images under forgetting
+the orientation, so they are finitely many too. The rank-2 proof does not use strong approximation,
 and the proof for rank at least 3 does not cover rank 2 — so the split is not an accident of the
 narrowing. For rank at least 3 the class number is finite and bounded by the count of 4C; that
 argument runs through 4D and moves with it.
@@ -1485,7 +1572,7 @@ claimed, and no consumer may infer a complete list of classes from neighbor step
 | --- | --- |
 | 4A | L 2C, 2G, 3F, B2, B5 |
 | 4B | L 3A, 3B, 4A; R Restricted Products Layers 1--3; R Orthogonal and Spin Groups Layers 0, 2 and 3 |
-| 4C | T `squareClass`; L 3C, 3D, 4B; R Orthogonal and Spin Groups Layers 1 and 2 |
+| 4C | T `squareClass`; L 3C, 3D, 4B; rank 2 also L B2, B3, B6; R Orthogonal and Spin Groups Layers 1 and 2 |
 | 4D | *successor milestone*: L 4B, 4C; strong approximation for `Spin`, from `OrthogonalTamagawaAndLatticeMass` over `AlgebraicGroupStrongApproximation` |
 | 4E, rank 2 | L B2, B5 |
 | 4E, rank ≥ 3 | *successor milestone*: L 4C, 4D |
@@ -1508,7 +1595,7 @@ negative definite, so each citation carries the twist.
 
 5D: for stabilization show the actual U+T and E8(-1)+T satisfy 5C, carrying T's rank, signature, length and local discriminant form. For splitting first use 5B to construct the complementary lattice at the adjusted signature, checking all four conditions including boundary equalities; then use 5C to identify its sum with the given S. Retain both thresholds length+3 and length+9, the sign twist of Nikulin's E8, and all positive/negative-index hypotheses. Export chosen isometries/projections/inverses, not only cardinality-one class sets.
 
-The full 5E–5J primitive-embedding, discriminant-automorphism and 2-elementary programmes remain required with their own later prerequisites. The 5A–5D construction is not an assertion of those later outputs. Source-specific mass, approximation, gauge, TOP and K-spectrum associations remain in the source allocation register at their actual scope.
+The full 5E–5J primitive-embedding, discriminant-automorphism and 2-elementary programmes remain required with their own later prerequisites. The 5A–5D construction is not an assertion of those later outputs. Mass, approximation and gauge statements are those of Layer 7 and of `OrthogonalTamagawaAndLatticeMass`, at the scope stated there.
 
 **5A. The genus and the discriminant form.** For even lattices, `gen L` is determined by
 `(t₊, t₋, q_L)`, which is Nikulin Corollary 1.9.4. The odd analogue is Corollary 1.16.3: the
@@ -1767,9 +1854,9 @@ For n=4k,k>=1, keep the literal span of adjacent SUMS and the half vector in its
 
 For any odd unimodular L define L_even=ker(x↦B(x,x) mod2). This is an index2 sublattice of determinant4, different from the all-pairings-even subgroup2L of index2^rank. Choose a characteristic w by the perfect integral pairing modulo2; L_even^dual=L+Z(w/2). Prove the elementary characteristic parity w²≡rank(L) mod2 by splitting the nonsingular symmetric pairing overF2 into norm-one lines and an alternating paired remainder; the characteristic vector is the sum of the norm-one basis vectors and the alternating remainder has even rank. This uses no signature or van der Blij theorem. Thus in odd rank the discriminant group is Z/4 and has one order2 subgroup; in even rank it is F2² and has exactly three such subgroups. These first enumerate module-index2 intermediates, not necessarily integral lattices.
 
-Construct every intermediate as its actual discriminant-subgroup preimage. Bilinear isotropy is necessary and sufficient for integrality and half-norm q-isotropy is necessary and sufficient for evenness; maximal isotropy gives unimodularity by the actual1E/1F dual/preimage maps. For even rank, the two non-L lines have representatives w/2 and w/2+e with e any odd-norm vector of L. Their norm difference B(w,e)+e² is even by characteristic parity. Accordingly both non-L preimages are integral exactly when4 divides w², and are even exactly when8 divides w². These are EARLY characteristic-square tests, independent of signature. A1+A1 distinguishes integral from even gluing; W's explicit w=(1,1) has square0 and gives both displayed U neighbors directly. The unrestricted source statement remains qualified. The signature reformulation is a separate output after the actual odd classification and the characteristic-signature construction below; it is never inferred from characteristic-coset existence or choice-invariance alone.
+Construct every intermediate as its actual discriminant-subgroup preimage. Bilinear isotropy is necessary and sufficient for integrality and half-norm q-isotropy is necessary and sufficient for evenness; maximal isotropy gives unimodularity by the actual1E/1F dual/preimage maps. For even rank, the two non-L lines have representatives w/2 and w/2+e with e any odd-norm vector of L. Their norm difference B(w,e)+e² is even by characteristic parity. Accordingly both non-L preimages are integral exactly when4 divides w², and are even exactly when8 divides w². These are EARLY characteristic-square tests, independent of signature. A1+A1 distinguishes integral from even gluing; W's explicit w=(1,1) has square0 and gives both displayed U neighbors directly. The signature reformulation is a separate output after the actual odd classification and the characteristic-signature construction below; it is never inferred from characteristic-coset existence or choice-invariance alone.
 
-Compute W=<1>⊕<-1> explicitly. L_even consists of the same-parity pairs, with basis (1,1),(1,-1), Gram [[0,2],[2,0]]. Its dual has half-integral coordinates constrained by x+y,x-y integral. Adjoining (1/2,1/2), respectively (-1/2,1/2), gives the two even unimodular neighbors. Bases ((1/2,1/2),(1,-1)) and ((-1/2,1/2),(-1,-1)) each have Gram [[0,1],[1,0]], so give actual U isometries. Keep signed vectors/order in the basis maps. For even unimodular Y, (Y⊕W)_even=Y⊕W_even and its dual is Y⊕W_even^dual; these equalities require Y self-dual, not merely even. Apply the preceding explicit neighbor maps with id_Y. Thus Y⊕U is an even neighbor of Y⊕W. If the latter is identified with a standard odd I_(r,s), a sign change of one coordinate fixes its even kernel and exchanges the two even-neighbor classes when r-s is divisible by8. Retain the actual induced glue maps instead of assuming cancellation of integral summands. The source notebook leaves the rest of this argument unwritten. Complete the construction below as a roadmap target; it is not attributed to the notebook.
+Compute W=<1>⊕<-1> explicitly. L_even consists of the same-parity pairs, with basis (1,1),(1,-1), Gram [[0,2],[2,0]]. Its dual has half-integral coordinates constrained by x+y,x-y integral. Adjoining (1/2,1/2), respectively (-1/2,1/2), gives the two even unimodular neighbors. Bases ((1/2,1/2),(1,-1)) and ((-1/2,1/2),(-1,-1)) each have Gram [[0,1],[1,0]], so give actual U isometries. Keep signed vectors/order in the basis maps. For even unimodular Y, (Y⊕W)_even=Y⊕W_even and its dual is Y⊕W_even^dual; these equalities require Y self-dual, not merely even. Apply the preceding explicit neighbor maps with id_Y. Thus Y⊕U is an even neighbor of Y⊕W. If the latter is identified with a standard odd I_(r,s), a sign change of one coordinate fixes its even kernel and exchanges the two even-neighbor classes when r-s is divisible by8. Retain the actual induced glue maps instead of assuming cancellation of integral summands. The rest of the argument is the construction below, a target of this roadmap.
 
 Make 6A's ODD proof floor explicit by the following rational-standard-form and unit-splitting proof. The even 5C/5D uniqueness theorem is not itself an odd classification proof. Use q=B.toQuadraticMap, q(x)=B(x,x), with polar2B and associated form B over Q; its PLAIN discriminant is[det B], not the signed determinant and not a half-norm. Integral unimodularity gives det B=(-1)^s for signature(r,s). At every odd prime IL3C diagonalizes the integral pairing in units, so all pairwise Hilbert symbols and hence the classical Hasse sign are1. The standard I_(r,s) has the same rank/determinant and these same odd-prime signs. At infinity both have the actual real sign(-1)^(s(s-1)/2). The finite-support global Hilbert product formula fixes their common dyadic Hasse sign. Apply QFI6D local rational classification and GQF6.3 Hasse-Minkowski to obtain an ACTUAL rational form isometry to I_(r,s), not an integral parity comparison at2. For r,s>0 pull back e_positive+e_negative, clear denominators and divide coordinate gcd to get a primitive integral isotropic v.
 
@@ -1785,11 +1872,11 @@ For EVEN 6A complete the source neighbor proof using the preceding rational-stan
 
 J_even=Y+W_even and its dual is Y+W_even^dual because Y is even and self-dual. The explicit W0 neighbors give L as one EVEN unimodular index2 overlattice different from J. In standard I, the four discriminant cosets of I_even are0,e,w/2,w/2+e for w=(1,...,1). Both non-I subgroup lines have half-norm(r-s)/8 modulo1, hence are quadratic-isotropic. A sign flip of one coordinate preserves I_even and exchanges those two lines, so their actual preimage lattices are isometric. Transporting the displayed neighbor embeddings proves uniqueness of the even indefinite class at each signature. Compare to the constructed U^min(r,s)+(positive or negative E8)^(abs(r-s)/8), using the explicit native Cartan/D8 map, to obtain the normal form with actual isometries and all zero-power/binary cases. No cancellation of arbitrary integral summands is used. The full proof gives every map and also extends the even-unimodular signature-divisibility corollary to definite lattices by stabilizing with U. General Nikulin existence/uniqueness/splitting and the full finite-discriminant Milgram/characteristic congruence programmes remain separate owned targets; none is erased or silently claimed proved.
 
-For the corrected Lorentzian source construction take v=(3,5,...,47,51;145) in I_(24,1). The printed3,...,49 instead requires the nonsquare20825 and is retained as a literal defect. Projection u↦u+B(u,v)v proves the integral orthogonal splitting because v²=-1. Its complement is positive, even, rank24 and unimodular by Cauchy, odd characteristic coordinates and determinant splitting. Export the exact v, kernel basis obtained by integer Smith reduction, projection, rank/signature/dual and parity maps. Implement the finite rootlessness certificate with B_y=2N²-Ny², N=21024, |y|<=205 and residuals d_i=Nx_i-145ya_i. A checker exhausts the exact integer residual boxes and the two original norm/dot equations; finite node counts alone are not certificates. Prove the checker sound from exact integer arithmetic and certify its exhaustive output; the existing finite computation is separate provenance, not the theorem.
+For the corrected Lorentzian source construction take v=(3,5,...,47,51;145) in I_(24,1). The printed3,...,49 instead requires the nonsquare20825 and is retained as a literal defect. Projection u↦u+B(u,v)v proves the integral orthogonal splitting because v²=-1. Its complement is positive, even, rank24 and unimodular by Cauchy, odd characteristic coordinates and determinant splitting. Export the exact v, kernel basis obtained by integer Smith reduction, projection, rank/signature/dual and parity maps. Implement the finite rootlessness certificate with B_y=2N²-Ny², N=21024, |y|<=205 and residuals d_i=Nx_i-145ya_i. A checker exhausts the exact integer residual boxes and the two original norm/dot equations; finite node counts alone are not certificates. Prove the checker sound from exact integer arithmetic and certify its exhaustive output; a computation without that soundness proof is not the theorem.
 
 Construct the rootless reference row in 6E as the corrected Lorentz kernel with the following explicit Gram data. Write ell=(3,5,...,47,51,-145) on Z25, u=2e1-e2 and b=5e1-3e2. Then ell(u)=1 and ell(b)=0. For j=3,...,25 let c_j=ell(e_j), k_j=e_j-c_j*u. The25 columns[u,b,k3,...,k25] have determinant-1, so K=(b,k3,...,k25) is an ACTUAL integer basis of ker ell. Its Gram has G00=34, G0j=Gj0=-13*c_j and Gij=s_i*deltaij+5*c_i*c_j for i,j>0, with22 spatial signs+1 and the last sign-1. Construct the ONE reference row by native IntegralLattice.ofGramMatrix on the canonical rational Fin24 basis. Construct the native target lattice on the24-dimensional rational kernel (not full Q25) from K and the restricted Lorentz form. The basis map preserves the form on every basis pair and maps the integral carriers ONTO each other; it is an actual IntegralLattice.Isometry. Carry this matrix, its inverse coordinates, and the rational/integral subtype maps. Prove the displayed basis identity and every Gram entry, together with the inverse maps on the integral carriers.
 
-This choice preserves ALL23 other IL6E rows and makes no rootless characterization theorem. Retain comparison with conventional Golay/glue and other standard Leech presentations as an explicit later owned model-map target. The complete OrthogonalTamagawaAndLatticeMass4.2 programme remains required: all24 actual Gram/glue rows and full automorphism certificates, exact normalized mass sum and positivity of each omitted class. Only that exhaustion, or a direct conventional-model matrix proof, can establish the later conventional-model/uniqueness conclusions. The entire arbitrary-genus mass/gauge/dyadic producer programme stays at its actual owner, separate from this elementary kernel-model map and from odd indefinite diagonalization. Rootlessness alone never supplies uniqueness or completeness. The literal source vector and its corrected mathematical target remain distinct; documentary uncertainty is retained in the source qualification register.
+This choice preserves ALL23 other IL6E rows and makes no rootless characterization theorem. Retain comparison with conventional Golay/glue and other standard Leech presentations as an explicit later owned model-map target. The complete OrthogonalTamagawaAndLatticeMass4.2 programme remains required: all24 actual Gram/glue rows and full automorphism certificates, exact normalized mass sum and positivity of each omitted class. Only that exhaustion, or a direct conventional-model matrix proof, can establish the later conventional-model/uniqueness conclusions. The entire arbitrary-genus mass/gauge/dyadic producer programme stays at its actual owner, separate from this elementary kernel-model map and from odd indefinite diagonalization. Rootlessness alone never supplies uniqueness or completeness. A vector with spatial coordinates `3, 5, …, 49` is not the target; the corrected vector above is.
 
 ### Layer 7: masses, local densities, and the archimedean factor
 
@@ -2104,9 +2191,9 @@ carry it:
 | --- | --- | --- |
 | 0A | the carrier `IntegralLattice` and its predicates | `IntegralLattice`, `IntegralLattice.IsEven`, `IntegralLattice.IsNondegenerate`, `IntegralLattice.IsUnimodular`, `IntegralLattice.IsPosDef` |
 | 1B, 1C | the dual `L^⋆` and the discriminant group `A_L`, with `|A_L| = |det L|` | `IntegralLattice.dual`, `dual_dual`, `DiscriminantGroup`, `discriminantGroup_finite`, `natCard_discriminantGroup_eq_natAbs_gramDet`, `unimodular_iff_natCard_discriminantGroup_eq_one` |
-| 1D | the discriminant forms `b_L` and `q_L` in the half-norm convention, and the character `e^{2πi·}` of `ℚ/ℤ` | `discriminantPairing`, `discriminantQuadraticForm`, `discriminantQuadraticForm_mk`, `discriminantBilinearModule`, `discriminantQuadraticModule`, `expCircle` |
+| 1D | the discriminant forms `b_L` and `q_L` in the half-norm convention, and the character `e^{2πi·}` of `ℚ/ℤ` | `discriminantPairing`, `discriminantQuadraticForm`, `discriminantQuadraticForm_mk`, `discriminantBilinearModule`, `discriminantQuadraticModule`; Tau Ceti's `TauCeti.expCircle` |
 | 1G | finite bilinear and quadratic modules with orthogonal sums, primary decomposition, isotropic and Lagrangian subgroups, `l(A)` and the generator classification | `FiniteBilinearModule`, `FiniteQuadraticModule`, their `IsIsotropic` and `IsLagrangian`, `FiniteQuadraticModule.orthogonalSum`, `primaryComponent`, `minGenerators`, `NikulinDecomposition` |
-| 1H, 1I | the Gauss-sum invariant `sign q ∈ ℤ/8`, and Milgram's theorem at every signature | `gaussSign`, `gaussSum_eq`, `gaussSign_orthogonalSum`; milestone 1I |
+| 1H, 1I | the Gauss-sum invariant `sign q ∈ ℤ/8`, and Milgram's theorem at every signature | Tau Ceti's `TauCeti.FiniteQuadraticModule.gaussSign`, `TauCeti.FiniteQuadraticModule.IsNondegenerate.gaussSum_eq`, `TauCeti.FiniteQuadraticModule.gaussSign_prod`; milestone 1I |
 | 1E, 1F | the integral and even overlattice correspondences and the gluing theorem, through which `D₁₆⁺` is built | `integralOverlatticeEquivIsotropicSubgroup`, `evenOverlatticeEquivIsotropicSubgroup`, `ofIsotropicSubgroup`, `ofIsotropicSubgroup_isEven`, `FiniteQuadraticModule.orthogonalQuotient` |
 | 1J, 1K | the level, and the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈` calculation | milestone 1J; native `typeARootLattice`, `checkerboardLattice`, `typeE₈RootLattice`, `d8PlusLattice`, `e8IsometryD8Plus`, and the remaining ADE calculations of 1K |
 | 2B, 2D | the shells `S_k(L)` and representation numbers `r_L(k)` as finite counts, and the covolume identity `covolume(L)² = det L` | milestone 2B; the Layer-2 covolume identity |
@@ -2520,8 +2607,10 @@ The rest of the order follows the prerequisite tables:
   ring-class-field milestone. The square branch is elementary. Layers 4 and 7 use both
   rank-2 branches;
 - Layer 4 needs Layers 2, 3 and B, and the Orthogonal and Spin Groups roadmap;
-- Layer 5 existence needs Layers 1 and 3; its general uniqueness/splitting branch also needs
-  the integral-spinor and OTM0.3 Eichler contracts specified above;
+- Layer 5 existence (5A, 5B) needs Layers 1 and 3 and N0's adelic lattice reconstruction,
+  together with the rational-form producers of Quadratic Form Invariants, Global Quadratic Forms
+  and Class Field Theory named in N4; its uniqueness and splitting branch (5C, 5D) also needs
+  N1's integral spinor images, N3's proper-spinor quotient and the OTM0.3 Eichler contract;
 - Layer 6 follows its separate odd/characteristic/even construction order above; the broader
   Layer 5 route remains required, and 6C additionally needs Root Systems;
 - Layer 7's own milestones — 7A, 7C, 7E and 7G — need Layers 2, 3, 4 and B, and nothing
@@ -2535,8 +2624,11 @@ The rest of the order follows the prerequisite tables:
 - Layer 9 follows the invariants it certifies. 9B requires its actual exhaustion proof, supplied
   by a mass, connectivity plus exhaustive search, or direct classification/certified enumeration.
 
-The shortest route to the K3 results is `0 → 1 → 5`, together with the comparison 5A. That
-route uses no milestone of Layers 2, 4, 6 or 7.
+The K3 results use two routes. Existence of an even lattice with given signature and
+discriminant form, and the genus comparison, run `0 → 1 → 3 → N0 → 5A, 5B`, with the local
+inputs IL3C, 3D and 3E and the rational-form producers named in N4; they use no milestone of
+Layers 2, 6 or 7, and of Layer 4 only N0. Uniqueness and splitting, 5C and 5D, additionally run
+through N1 and N3 of Layer 4 and the OTM0.3 Eichler comparison.
 
 ## References
 
