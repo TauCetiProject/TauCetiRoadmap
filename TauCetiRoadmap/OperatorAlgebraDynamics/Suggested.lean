@@ -2,11 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.CStarAlgebra.Hom
-import Mathlib.Analysis.CStarAlgebra.PositiveLinearFunctional
-import Mathlib.Analysis.InnerProductSpace.StarOrder
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib
 import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 import TauCeti.RepresentationTheory.Continuous.Integrated.Basic
 
@@ -93,11 +89,11 @@ end Scalar
 
 section KMS
 
-variable [PartialOrder A] [StarOrderedRing A]
+variable [PartialOrder A]
 
 /-- Positive-temperature KMS states with the upper-strip convention.
 The norm-one condition is on the existing positive continuous linear functional. -/
-def IsKMS (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A)) (β : ℝ)
+def IsKMS [StarOrderedRing A] (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A)) (β : ℝ)
     (φ : A →P[ℂ] ℂ) : Prop :=
   0 < β ∧ ‖(φ : A →L[ℂ] ℂ)‖ = 1 ∧ ∀ a b : A,
     ∃ F : ℂ → ℂ,
@@ -107,6 +103,8 @@ def IsKMS (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A)) (β : ℝ)
       (∀ t : ℝ, F t = φ (a * α (Multiplicative.ofAdd t) b)) ∧
       ∀ t : ℝ, F ((t : ℂ) + (β : ℂ) * Complex.I) =
         φ (α (Multiplicative.ofAdd t) b * a)
+
+variable [StarOrderedRing A]
 
 theorem kms_invariant (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A))
     (hα : ∀ a, Continuous fun t : ℝ => α (Multiplicative.ofAdd t) a)
