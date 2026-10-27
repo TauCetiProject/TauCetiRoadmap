@@ -176,7 +176,10 @@ Finally give the separate LieGroups Layer9 matrix-model specializations for H=C_
 An exact symplectic manifold carries a chosen smooth one-form λ with ω=−dλ; an embedded
 Lagrangian i is exact when i*λ=df for a specified smooth f. Prove primitive uniqueness on connected
 components and behavior under exact symplectomorphisms. The zero section is exact Lagrangian. The graph of a smooth one-form α is Lagrangian iff dα=0;
-its pulled-back Liouville primitive exists iff α is exact. Construct the conormal N*Q as a smooth
+its pulled-back Liouville primitive exists iff α is exact. For compact Q
+with at least two points, prove that the graph of df meets the zero section
+in at least two distinct points: use the minimum and maximum of f when f
+is nonconstant, and all of Q when f is constant. Construct the conormal N*Q as a smooth
 vector subbundle over an embedded Q, its inclusion as an embedded submanifold of T*M, dimension dim M,
 and λ|N*Q=0; conclude exact Lagrangian. For a symplectic diffeomorphism φ, its graph is Lagrangian in
 (M×N,ω_M−ω_N). Conversely, for equal-dimensional manifolds a smooth **diffeomorphism** has Lagrangian
@@ -243,6 +246,92 @@ S_t(q,Q)=(2qQ−(q²+Q²)cos t)/(2sin t), t∉πZ; its transformation is
 (q,p)↦(q cos t+p sin t,−q sin t+p cos t). Its type-one projection fails at t∈πZ
 although the flow remains smooth. The cotangent relation of R→R/(2πZ) illustrates local
 invertibility without a global inverse.
+
+### C3.1. Discrete action, iterates and convex billiards
+
+**Fixed points and finite iterates.** Let S be a smooth generating function
+on an open W⊂Q×Q whose relation `p=d_1S(q,Q), P=−d_2S(q,Q)` is the graph
+of a specified symplectomorphism between open cotangent domains. On
+`{q : (q,q)∈W}`, put ψ(q)=S(q,q). Prove
+`dψ_q=d_1S(q,q)+d_2S(q,q)` and the bijection between its critical points
+and fixed phase points with base pair in W, sending q to `(q,d_1S(q,q))`.
+For N≥2, define the cyclic action
+`A_N(q_0,…,q_(N−1))=Σ_i S(q_i,q_(i+1 mod N))`
+on the open configuration domain where every edge lies in W. Its critical
+equations are the matching-covector equations at each vertex. Prove the
+bijection with marked phase points fixed by the Nth iterate, retaining the
+domains on which all intermediate iterates are defined. The least period
+may divide N; cyclic shifts change the starting collision, and must be
+accounted for before counting unmarked periodic orbits.
+
+For fixed endpoints q_0,q_N, use the open-chain action
+`F_N=Σ_(i=0)^(N−1) S(q_i,q_(i+1))`. At a stationary internal configuration
+with invertible full Hessian in `(q_1,…,q_(N−1))`, apply the implicit
+function theorem to construct a smooth local critical branch and evaluate
+F_N there to obtain S_N(q_0,q_N). Prove the endpoint derivative formulas,
+the mixed-Hessian nondegeneracy and the identification of its generating
+relation with the Nth iterate on the resulting cotangent domains. Give
+N=2 and N=3 explicitly. A global generating function requires the
+corresponding global uniqueness and graph-projection hypotheses; local
+elimination alone supplies a local branch. The cyclic critical-point
+correspondence does not require eliminating the internal variables or
+assuming nondegeneracy of the periodic orbit.
+
+**Convex planar billiards.** Let χ:ℝ/(Lℤ)→ℝ² be a smooth positively oriented
+arclength embedding, L>0, bounding a bounded strictly convex table: every
+tangent support line meets its boundary only at its point of tangency.
+Use [I2.0's positive-period circle](../IntegrableSystems/README.md#i20-positive-period-circles-and-families)
+and define the collision phase space
+`P=(ℝ/(Lℤ))×(−1,1)`, where v is the unit outgoing velocity's component
+along χ′(s). Construct the next-collision map by the straight chord and
+specular reflection. Prove existence, uniqueness, smoothness and the smooth
+inverse on this open phase space. Tangent collisions v=±1 are excluded.
+
+On distinct boundary pairs put `S(s,t)=−‖χ(t)−χ(s)‖`. For lifts with
+`s<t<s+L`, derive `v=∂_sS` and `w=−∂_tS` for the next state (t,w).
+Prove `∂_s∂_tS<0` from strict convexity and the non-tangency of each chord,
+so `∂t/∂v<0` on the lifted return map. The generating function is invariant
+under changing either boundary parameter by L; its smooth domain excludes
+the diagonal. Set λ=v ds and ω=ds∧dv. If ℓ(s,v) is the chord length of the
+next collision, prove `β*λ−λ=dℓ`, hence `β*ω=ω`, for the return map β:P→P. Construct the corresponding invariant
+Borel area measure `ds dv`, of total mass 2L, by product of the period-L
+circle's length measure with Lebesgue measure on (−1,1). Supply the
+change-of-variables and quotient-chart comparisons establishing actual
+`MeasureTheory.MeasurePreserving` for this measure. Under the period-one
+coordinate u=s/L, the canonical covector is p=Lv, so λ=p du and
+ω=du∧dp. Carry this factor through the area and generating formulas.
+
+Use the cyclic action above to identify critical inscribed N-gons with
+marked N-periodic billiard states. Its negative is perimeter. Require
+consecutive vertices to be distinct, allow nonconsecutive repetitions and
+periods dividing N, and prove the equal-angle law at every vertex. For each
+N≥2, maximize perimeter on the compact full configuration space
+`(ℝ/(Lℤ))^N`. Show that a maximizer has no consecutive coincident vertices:
+move a repeated vertex off the chord between its neighbors and use the
+strict triangle inequality to increase perimeter. The maximum therefore
+lies in the smooth collision domain and gives a periodic billiard state
+whose least period divides N. As an explicit test, for the circle of
+radius R and L=2πR derive
+`β(s,v)=(s+2R arccos(v) mod L,v)`, together with its rational-rotation
+periodicity criterion and the chord-length primitive formula.
+
+**Finite-volume recurrence.** Consume Mathlib's
+`MeasureTheory.MeasurePreserving.conservative`,
+`Conservative.ae_mem_imp_frequently_image_mem` and
+`Conservative.ae_frequently_mem_of_mem_nhds` from
+`Mathlib.Dynamics.Ergodic.Conservative`. For a symplectomorphism preserving
+a specified finite Borel measure of full support, prove the neighborhood
+return formulation: every nonempty open U contains a point returning to U
+after a positive number of iterates. On a second-countable space, also
+retain the native almost-everywhere conclusion of infinitely many returns
+to every neighborhood of the starting point. Apply both statements to the
+billiard area measure above. For higher-dimensional symplectic systems,
+consume the Liouville measure and symplectomorphism-invariance theorem from
+[ConvexityToric T4](../ConvexityToric/README.md#t4-liouville-and-duistermaatheckman),
+requiring finite total measure for this recurrence application. Only T4's
+orientation/integration-based Liouville construction is used here; its
+reduction and Duistermaat–Heckman theorems are separate prerequisites for
+their own applications.
 
 ## C4. Relative symplectic germs
 
@@ -360,7 +449,10 @@ linear statements. Develop the kernel/leaf/quotient tangent API used by R3 and T
 
 ## Acceptance and dependencies
 
-C1 precedes C2/C3; C4 consumes C2.2, tubular realization and relative forms. Verify conormal examples for
+C1 precedes C2/C3; C4 consumes C2.2, tubular realization and relative forms.
+C3.1 consumes C3's generating relations and I2.0's independent positive-period
+circle construction. Its recurrence application consumes only T4's generic
+Liouville-measure construction and Mathlib's finite-measure recurrence. Verify conormal examples for
 points, all of M and coordinate submanifolds; graphs of closed nonexact torus one-forms; product/transpose
 signs; free-particle generating function; compact Lagrangian zero-section neighborhood and symplectic
 normal germ. Reuse chart formulas for every intrinsic construction. Floer theory, quantum invariants
