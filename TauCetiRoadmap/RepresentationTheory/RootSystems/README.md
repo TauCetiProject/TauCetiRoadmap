@@ -506,6 +506,71 @@ any explicit construction of a semisimple group scheme starts here.
   long/short root lengths differ by a factor of `3` (`RootPairing.rootLength`), and
   `(posRoots b).ncard = 6`, `(weylCoxeterSystem b).length (longestElement b) = 6`.
 
+### Finite coefficient reflections and the highest-root game
+
+For a finite reduced crystallographic root system with base b, use native
+`b.toWeightBasisInt` on the actual root lattice to extract each root's
+integer simple-root coefficients. If
+`C_ij=⟨α_i,α_j∨⟩`, prove that reflection at i sends the coefficient
+column c to
+`s_i(c)_k=c_k−δ_ki Σ_j C_ji c_j`.
+Construct this integral linear involution, the coefficient/evaluation
+intertwiner with `P.reflectionPerm`, and its compatibility with reindexing
+and the specified root datum. With `A=2I−Cᵀ`, the changed coordinate is
+`Σ_j A_ij c_j−c_i`. This A is the **update** adjacency matrix; for
+multiply-laced types it is not `2I−C` in our root/coroot convention.
+
+Give a terminating finite-set algorithm starting with **all** simple
+coefficient vectors, adjoining their images under every s_i until stable.
+Prove every intermediate vector is a root coefficient, strict growth
+before stabilization is bounded by the finite root count, and the final
+set is exactly the coefficient set of the native root carrier. Consume
+Layer1's simple-root lowering for completeness and retain negative roots
+in this closure. Extract positive roots by nonnegative coordinates and
+prove agreement with `b.IsPos`. Give duplicate elimination, index/root
+reconstruction and invariance under the order of adjoining reflections.
+This comparison algorithm does not replace the existing explicit family
+root enumerations or construct another root datum from scratch.
+
+For irreducible finite systems, construct the unique greatest positive
+root θ in the componentwise simple-coefficient order, proving existence
+and the comparison with the root-string/highest-root characterization.
+It uniquely maximizes `Σ_i w_i c_i` for any strictly positive integer
+weights w_i; this includes the printout's `(r,r−1,…,1)` sorting weights.
+These sorting weights are not asserted to be the Lie-theoretic Weyl vector.
+In the simply-laced case prove that a positive root other than θ admits
+an increasing simple reflection, that each such step adds exactly one
+simple root, and that every maximal increasing play ends at θ. Termination
+is by strict height increase in the finite positive-root set; uniqueness
+uses Layer4's chamber/orbit comparison. Every intermediate position here
+is a root, not an arbitrary nonnegative integer vector.
+
+For other types retain the actual root-string membership when adding one
+simple root. An increasing reflection can jump by two or three; its first
+unit increment is a root by the unbroken string, but this alone does not
+make the two games have the same terminal positions. Check type B2 with
+α₁=e₁−e₂, α₂=e₂: α₁+α₂=e₁ has no increasing simple reflection, while
+`e₁+α₂=e₁+e₂` is still a root and is the highest root. Export the
+root-string coefficient comparison that explains this distinction.
+
+After Layer6, identify these computations with the SAME native type data.
+For E_r, r=6,7,8, use computational node labels with the chain
+1—2—⋯—(r−1) and extra node r attached to3, and explicitly transport
+them to Bourbaki by `(1,2,…,r−1,r)↦(1,3,…,r,2)`.
+In this computational order recover E6's36 positive roots and highest
+`(1,2,3,2,1,2)`, E7's63 and `(2,3,4,3,2,1,2)`, and E8's120 and
+`(2,4,6,5,4,3,2,3)`. For A7 recover28 positive roots and highest
+`(1,1,1,1,1,1,1)`. For C_N, N≥3, use the chain update matrix with
+`A_(N−1,N)=2`, `A_(N,N−1)=1`; compare its transpose with the native
+Cartan convention, obtain N² positive roots and highest `(2,…,2,1)`.
+Check the complete sixteen-vector C4 list, C9's displayed highest root
+and C13's169 positive roots. Provide actual node and root-index comparison
+maps before comparing coefficient lists. The finite enumeration follows
+Layer1; greatest-root/game statements use Layer4; these numbered examples
+use Layer6. The general stuck-position/affine-graph classification is owned
+by ZigzagPreprojective Layer0 and has no dependency on this computation.
+
+
 ## Ordering
 
 Layer 1 (root combinatorics: positive roots, simple-root lowering, inversion sets, the exchange step,
