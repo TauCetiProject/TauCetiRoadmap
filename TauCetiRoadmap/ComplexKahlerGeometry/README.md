@@ -40,7 +40,13 @@ consume the native joint analytic implicit-function theorem as specified in K1,
 which owns the complex-manifold, chart and local-uniqueness adapters.
 [SmoothBundlesConnections](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1c45ab4061b483b832b5d54f597dc69afd3f97a5/TauCetiRoadmap/SmoothBundlesConnections/README.md) supplies real smooth
 bundles with complex structure, tensor/dual/Hom/complexification, Hermitian metrics,
-connections, curvature and their principal-bundle comparison maps. [PDE](../PDE/README.md)
+connections, curvature and their principal-bundle comparison maps; its B6.1 owns the
+manifold good-cover/sheaf/singular comparison and B6.2 the circle-bundle
+classification by `H²(M;ℤ)`, which B2's associated-bundle comparison turns into the
+smooth complex-line classification consumed in K4.P. [TopologicalKTheory T1.6d](../TopologicalKTheory/README.md)
+supplies, on smooth finite-dimensional manifolds, smooth representatives of continuous
+bundles and of continuous isomorphisms between smooth bundles; K4.P uses it in rank one
+only. [PDE](../PDE/README.md)
 supplies scalar real-domain Sobolev, embedding, Rellich and elliptic estimates, not system
 estimates. [PseudodifferentialOperators P1.0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/063cf517a1dcc4d929e0602c6e6f585953aceab8/TauCetiRoadmap/PseudodifferentialOperators/README.md#p10-differential-operator-core)
 supplies differential-operator carriers, jets, symbols and formal density adjoints
@@ -602,7 +608,7 @@ curvature, tensor powers and conjugate/dual signs.
 
 Prove that H¹(M,𝒪)=H²(M,𝒪)=0 makes c₁:Pic_hol(M)→H²(M,ℤ) an isomorphism.
 On the underlying smooth manifold consume
-[TopologicalKTheory T1.6d](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7575afad9ceed0ff19ecf5629ba196e54fdf7637/TauCetiRoadmap/TopologicalKTheory/README.md#L608-L611)'s
+[TopologicalKTheory T1.6d](../TopologicalKTheory/README.md)'s
 finite-rank bundle and isomorphism smoothing in **unstabilized rank one**.
 Write Pic_sm(M) and Pic_cont(M) for smooth and continuous complex-line
 isomorphism classes, respectively. Construct the forgetful group isomorphism
@@ -1593,7 +1599,7 @@ constants. This gives an explicit low-twist failure and its subsequent
 surjectivity on the same embedding.
 
 For a general closed complex submanifold `i:M↪ℂPᴺ` and `L=i*O(1)`, consume
-[ComplexComparisonPartII C0 and C1.7–C1.8](https://github.com/TauCetiProject/TauCetiRoadmap/pull/848)'s
+[ComplexComparisonPartII C0 and C1.7–C1.8](../ComplexComparisonPartII/README.md)'s
 analytic twists, coherent closed-embedding pushforward and analytic Serre
 vanishing. Construct the coherent analytic ideal sequence
 `0→I_M(n)→O(n)→i_*Lⁿ→0`, its section restriction and connecting map.
@@ -1794,7 +1800,13 @@ and GT Layer11. K7.1 uses K3.0, K1's complex orientation and
 #279 Milestones 1–3 and AT Stage4.6's projective quotient topology, and precedes K2's ℂP¹ acceptance. K7.2's CW
 construction uses K7.1 and AT Stage 4 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
-and the generic spectral-sequence machinery. K7.2.RationalQuartic's embedding uses
+and the generic spectral-sequence machinery. K4.P follows K2's Čech/derived comparison, K3's function sheaf, K4's line
+bundles and SBC B6.1–B6.2; its ℂP¹ normalization check uses K7.1's charts. Its
+continuous-line corollary consumes only the closing smoothing clause of
+TopologicalKTheory T1.6d (partitions of unity and T1.5–T1.6's matrix models), not
+T1.6d's rank-one CP∞ comparison, which itself consumes K7.2; no K7 item consumes
+K4.P, so the two roadmaps supply each other in one direction per item.
+K7.2.RationalQuartic's embedding uses
 K7.1; its bundle and section comparisons use K7.2's twists and monomial
 section calculation. Its explicit higher-twist surjectivity uses monomial
 products. The general eventual-surjectivity comparison follows
