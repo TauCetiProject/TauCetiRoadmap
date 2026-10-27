@@ -62,7 +62,7 @@ PrimeBoundaryRemainder
 
 This roadmap specializes these declarations to zeta and Hecke coefficients. It does not
 define another ideal weight, another norm-regrouped series, or another generic Euler product.
-Through the same import it reaches the Dedekind-zeta boundary package that Tau Ceti already
+Through the same supplier it reaches the Dedekind-zeta boundary package that Tau Ceti already
 provides, and consumes it instead of rebuilding it:
 
 ```text
@@ -131,13 +131,23 @@ fourier_gaussian
 
 Lattice Poisson summation, the dual lattice and the Fourier transform of a Gaussian are that
 roadmap's, stated for a full-rank `ℤ`-lattice in an arbitrary finite-dimensional real inner
-product space. They are consumed by `import TauCetiRoadmap.ThetaSeries.Suggested` and applied by
-name: `dualIdealLattice` is defined through `dual`, `dual_comap_dualIdealLattice` and
-`covolume_dualIdealLattice` are closed by `dual_dual` and `covolume_dual`, `mixedGaussian_toMixed`
-is closed by `gaussian_apply`, and a closed-checks section applies all nine at the ideal lattice,
-so that a supplier rename or retype breaks this roadmap's file rather than a docstring. Layer 1
-here specializes them to the mixed embedding of a fractional ideal. It states no second Poisson
-theorem, no second dual-lattice notion, and no theta series on the upper half plane.
+product space. Layer 1 here specializes them to the mixed embedding of a fractional ideal. It
+states no second Poisson theorem, no second dual-lattice notion, and no theta series on the upper
+half plane. Theta Series is not part of the pinned libraries, so `Suggested.lean` cannot import
+it. It states the specialization `poissonSummation_idealLattice` directly, and takes the dual
+lattice as Mathlib's `LinearMap.BilinForm.dualSubmodule` of `mixedInnerBilin`, which is the
+supplier's `dual` read in Mathlib's Euclidean model of the mixed space.
+
+Moduli, ray classes, ray-class characters and their unitary weights, ideles, infinity types and
+Hecke characters are formalized in Tau Ceti at the pin, in the namespace
+`TauCeti.GlobalNumberFields` (modules `TauCeti.NumberTheory.NumberField.Global.*`), and
+`Suggested.lean` uses those declarations. They differ from the names above in three places: the
+identity-component comparison is `ContinuousInfinityType.AgreesOnIdentityComponent`, the
+congruence subgroup is `ideleCongruenceSubgroup`, and the idele group is Mathlib's
+`NumberField.IdeleGroup (𝓞 K) K`. An algebraic infinity type is a function
+`(K →+* ℂ) → ℤ`, read through `AlgebraicInfinityType.toContinuous`, and the angular frequency at a
+complex place is `complexAngularFrequency`. The ray-class weight `rayClassIdealWeight` is Tau
+Ceti's `RayClassCharacter.toUnitaryIdealWeight`.
 
 From Mathlib, the Mellin principle: `WeakFEPair` and `IsStrongFEPair` in
 `Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean`, with `WeakFEPair.Λ`, `hasMellin`,
@@ -228,12 +238,12 @@ table is a boundary check.
 
 | Declaration | Use here |
 | --- | --- |
-| `ThetaSeries.poissonSummation` | `∑' ℓ : L, f (v + ℓ) = (covolume L volume)⁻¹ * ∑' m : L^∨, 𝓕 f m * exp (2 π i ⟪v, m⟫)` for `f : 𝓢(E, ℂ)` and `v : E`, over a finite-dimensional real inner product space `E` with its Borel structure and `L : Submodule ℤ E` with `[DiscreteTopology L] [IsZLattice ℝ L]`; the sign is that of Mathlib's `𝓕`. `poissonSummation_idealLattice` is its instance at `euclideanIdealLattice` and `v = 0`. ⚠ `mixedSpace K` is not an inner product space: the theorem is applied in Mathlib's `NumberField.mixedEmbedding.euclidean.mixedSpace`, which is, and transported back along `euclidean.toMixed` by `mixedInner_toMixed` (the inner product goes to `mixedInner`), `mixedFourier_toMixed` (`𝓕` goes to `mixedFourier`, by Mathlib's `euclidean.volumePreserving_toMixed`) and `covolume_euclideanIdealLattice` (Mathlib's `ZLattice.covolume_comap`) |
+| `ThetaSeries.poissonSummation` | `∑' ℓ : L, f (v + ℓ) = (covolume L volume)⁻¹ * ∑' m : L^∨, 𝓕 f m * exp (2 π i ⟪v, m⟫)` for `f : 𝓢(E, ℂ)` and `v : E`, over a finite-dimensional real inner product space `E` with its Borel structure and `L : Submodule ℤ E` with `[DiscreteTopology L] [IsZLattice ℝ L]`; the sign is that of Mathlib's `𝓕`. `poissonSummation_idealLattice` is its instance at the Euclidean model of `σ(I)` and `v = 0`. ⚠ `mixedSpace K` is not an inner product space: the theorem is applied in Mathlib's `NumberField.mixedEmbedding.euclidean.mixedSpace`, which is, and transported back along `euclidean.toMixed` by `mixedInner_toMixed` (the inner product goes to `mixedInner`), `mixedFourier_toMixed` (`𝓕` goes to `mixedFourier`, by Mathlib's `euclidean.volumePreserving_toMixed`) and Mathlib's `ZLattice.covolume_comap` |
 | `ThetaSeries.summable_poisson_left` and `summable_poisson_right` | absolute summability of the two sides on their own, `Summable fun ℓ : L ↦ f (v + ℓ)` and `Summable fun m : L^∨ ↦ 𝓕 f m * exp (2 π i ⟪v, m⟫)`, rather than only inside the Poisson equality; the Mellin transform of a theta series is computed by exchanging the sum with the integral, which the equality alone does not license |
-| `ThetaSeries.dual` and `ThetaSeries.dual_dual` | `dual L` is Mathlib's `BilinForm.dualSubmodule (innerₗ E) L`, written `L^∨`, and `dual_dual : (L^∨)^∨ = L`. `dualIdealLattice` **is** `dual (euclideanIdealLattice K I)` pulled back to the mixed space along `euclidean.toMixed`; `mem_dualIdealLattice_iff` is its elementwise description, the form `analyticDual_mixedEmbedding` compares with the trace dual, and `dual_comap_dualIdealLattice` is `dual_dual` at the ideal lattice, closed |
-| `ThetaSeries.covolume_dual` | `covolume (L^∨) volume = (covolume L volume)⁻¹`; `covolume_dualIdealLattice` is its instance, closed through Mathlib's `ZLattice.covolume_comap` on both sides of the change of model, so Mathlib's covolume of the ideal lattice gives the covolume of its dual without a second determinant computation |
-| `ThetaSeries.gaussian` and `gaussian_apply` | `gaussian (τ : ℍ) : 𝓢(E, ℂ)` with `gaussian τ x = exp (π i ‖x‖² τ)`. `mixedGaussian K t` is `gaussian (t i)` read in the mixed space — `mixedGaussian_toMixed`, closed by `gaussian_apply` and `mixedInner_toMixed` — and being Schwartz, the hypothesis Poisson summation takes, is part of the supplier's type rather than a separate lemma |
-| `ThetaSeries.fourier_gaussian` | `𝓕 (gaussian τ) y = (τ / i) ^ (-(finrank ℝ E) / 2) * exp (π i ‖y‖² (-1/τ))`, with `Complex.cpow`. At `τ = t i` it is `fourier_gaussian_imaginaryAxis`, the self-duality with factor `t ^ (-[K:ℚ]/2)` by Mathlib's `euclidean.finrank`, which through the two transports is the first conjunct of `gaussianTheta_mellin_normalization` |
+| `ThetaSeries.dual` and `ThetaSeries.dual_dual` | `dual L` is Mathlib's `BilinForm.dualSubmodule (innerₗ E) L`, written `L^∨`, and `dual_dual : (L^∨)^∨ = L`. `dualIdealLattice` is the same dual submodule taken for `mixedInnerBilin`, the inner product of the Euclidean model read on the mixed space, so it is the supplier's `dual` transported; `mem_dualIdealLattice_iff` is its elementwise description, the form `analyticDual_mixedEmbedding` compares with the trace dual, `dualSubmodule_dualIdealLattice` is `dual_dual` at the ideal lattice, and `discreteTopology_mixedDual` and `isZLattice_mixedDual` say that the Euclidean dual `mixedDual` of a full-rank lattice is again one |
+| `ThetaSeries.covolume_dual` | `covolume (L^∨) volume = (covolume L volume)⁻¹`; `covolume_dualIdealLattice` is its instance at the ideal lattice, read through Mathlib's `ZLattice.covolume_comap` on both sides of the change of model, so Mathlib's covolume of the ideal lattice gives the covolume of its dual without a second determinant computation |
+| `ThetaSeries.gaussian` and `gaussian_apply` | `gaussian (τ : ℍ) : 𝓢(E, ℂ)` with `gaussian τ x = exp (π i ‖x‖² τ)`. `mixedGaussian K t` is `gaussian (t i)` read in the mixed space through `mixedInner_toMixed`, and being Schwartz, the hypothesis Poisson summation takes, is part of the supplier's type rather than a separate lemma |
+| `ThetaSeries.fourier_gaussian` | `𝓕 (gaussian τ) y = (τ / i) ^ (-(finrank ℝ E) / 2) * exp (π i ‖y‖² (-1/τ))`, with `Complex.cpow`. At `τ = t i` it is the self-duality with factor `t ^ (-[K:ℚ]/2)` by Mathlib's `euclidean.finrank`, which through the two transports is the first conjunct of `gaussianTheta_mellin_normalization` |
 
 The rest of that roadmap has no consumer here. The theta series on the upper half plane, the coset
 theta series, the `T`- and `S`-transformation laws, the Gauss sums and the two modularity theorems
@@ -307,6 +317,7 @@ modulus `𝔪 : GlobalNumberFields.Modulus K`; the general carrier is
 | completion | The conductor factor `N^(s/2)` is part of `completed`, so the functional equation has no extra conductor constant. |
 | degree | `#gammaR + 2 #gammaC`; it is not inferred from coefficients or from `HasDirichletAgreement`. |
 | dual | conjugate coefficients and gamma shifts, conjugate root number, reflected completed function, and conjugated polar divisor. |
+| continuation | every continued L-function is `meromorphicContinuation σ f`: the function in Mathlib's meromorphic normal form on all of `ℂ` (`MeromorphicNFOn`: equal to its limit at a removable point and `0` at a pole) that agrees with the Dirichlet series `f` on `Re s > σ`, and `0` if there is none. Two such functions that agree on an open half-plane agree everywhere, so the continuation is one function; the continuation theorem of each L-function says that the first case occurs. |
 | poles | `polarOrder p = n` records an exact pole of order `n`; value equalities are asserted only off poles, while germ equalities cover poles. |
 | global identities | every identity between two continued functions — a factorization, a functional equation, an imprimitive comparison — is stated on a right half-plane, promoted by uniqueness of meromorphic continuation to an equality of germs at every point, and stated pointwise only away from the polar loci. An unrestricted equality of total representatives is never asserted: Mathlib's value at a pole is junk, and `1/(1-s)` at `s = 1` is `0`. |
 | ray-class coefficients | every ray-class coefficient carries coprimality to the finite modulus, so every such series is missing the Euler factors at the primes dividing it. `finiteEulerCorrection 𝔪 s = ∏_{𝔭 ∣ 𝔪₀} (1 - N𝔭^(-s))` is the single name for those factors — a product over `𝔪.support`, equal to the divisor-indexed product by the supplier's `Modulus.mem_support_iff` — and it is `1` only for a trivial finite part. |
@@ -324,7 +335,13 @@ modulus `𝔪 : GlobalNumberFields.Modulus K`; the general carrier is
 
 Define `AnalyticLFunctionData` with norm-indexed coefficients, positive integral conductor, real
 and complex gamma-shift multisets, root number, completed function, and a finitely supported polar
-divisor. Define its degree and gamma factor.
+divisor. Define its degree and gamma factor. Define the card `AnalyticLFunctionData.ofSeries` of a
+Dirichlet series with given coefficients, conductor `N`, gamma shifts and polar divisor: its
+completed function is the meromorphic continuation of `N^(s/2) γ(s) L(s)` from `Re s > 1`, and its
+root number is read off that function at `s = 2`, `ε = Λ(2) / conj Λ(-1)`. The functional
+equation `Λ(s) = ε conj Λ(1 - conj s)` at `s = 2` gives this value whenever the card has one,
+because `Λ(2) ≠ 0` (Euler product, nonvanishing gamma factors) and `-1` is not a pole for any
+L-function of this roadmap. The Hecke and Grossencharacter cards are built this way.
 
 Construct the full dual record. Prove involutivity, degree preservation, gamma-factor conjugation,
 transport of continuation and coefficient-growth predicates, and the functional equation against
@@ -374,7 +391,7 @@ Mandatory tests:
 Lattice Poisson summation is not developed here. `ThetaSeries` owns it, for a full-rank
 `ℤ`-lattice in a finite-dimensional real inner product space and a Schwartz function, along with
 the Fourier transform of a Gaussian and the dual-lattice, biduality, covolume and summability
-lemmas that go with it; the exact declarations consumed are imported and tabulated above. This
+lemmas that go with it; the exact declarations consumed are tabulated above. This
 layer builds what a number field adds to them, and nothing else.
 
 Fix the analytic conventions once, as data rather than as prose. The additive character is
@@ -390,13 +407,15 @@ continuous linear equivalence between the two. Prove `mixedInner_toMixed`: that 
 carries the inner product of the Euclidean model to `mixedInner`. Mathlib's
 `euclidean.volumePreserving_toMixed` carries `volume` to `volume`, so `mixedFourier` transported
 along the equivalence is Mathlib's `𝓕` (`mixedFourier_toMixed`), and pulling the ideal lattice
-back along the equivalence gives `euclideanIdealLattice`, a full-rank `ℤ`-lattice there with the
-same covolume (`covolume_euclideanIdealLattice`, Mathlib's `ZLattice.covolume_comap`). Define the
-dual ideal lattice as the supplier's `dual` of `euclideanIdealLattice`, pulled back along the
-same equivalence; prove its elementwise description `mem_dualIdealLattice_iff` and its
-trace-dual comparison `coe_dualIdealLattice`, and read biduality and the dual covolume off the
-supplier's `dual_dual` and `covolume_dual` (`dual_comap_dualIdealLattice`,
-`covolume_dualIdealLattice`). Those facts are what turn `ThetaSeries.poissonSummation` into
+back along the equivalence gives a full-rank `ℤ`-lattice there with the same covolume (Mathlib's
+`ZLattice.covolume_comap`). Define the dual ideal lattice `dualIdealLattice` as Mathlib's
+`LinearMap.BilinForm.dualSubmodule` of `mixedInnerBilin`, the Euclidean inner product read on the
+mixed space, which is the supplier's `dual` in the Euclidean model. Prove its elementwise
+description `mem_dualIdealLattice_iff`, its trace-dual comparison `coe_dualIdealLattice`,
+biduality `dualSubmodule_dualIdealLattice` and the dual covolume `covolume_dualIdealLattice`
+(the supplier's `dual_dual` and `covolume_dual`), and that the Euclidean dual `mixedDual` of a
+full-rank lattice is again discrete and of full rank (`discreteTopology_mixedDual`,
+`isZLattice_mixedDual`). Those facts are what turn `ThetaSeries.poissonSummation` into
 `poissonSummation_idealLattice`, which is therefore a specialization and not a second proof.
 
 For the mixed embedding of a fractional ideal, compare the Euclidean dual with the trace dual.
@@ -408,12 +427,10 @@ roadmap consumes that computation rather than restating it, and checks it at `K 
 the ring of integers has covolume one.
 
 Use the transported Poisson summation to prove the Gaussian theta transformation, including the
-level, epsilon scalar, and constant terms. The real-parameter Gaussian is the supplier's
-`ThetaSeries.gaussian` on the imaginary axis, at `τ = i t` (`mixedGaussian_toMixed`, closed by
-`gaussian_apply`), and its self-duality is `ThetaSeries.fourier_gaussian` at that point
-(`fourier_gaussian_imaginaryAxis`). Close the layer with a checks section applying each of the nine
-consumed declarations at the ideal lattice, so that the dependency is verified by the elaborator
-and not by a docstring. The holomorphic upper-half-plane theta function, the coset theta series,
+level, epsilon scalar, and constant terms. The real-parameter Gaussian `mixedGaussian` is the
+supplier's `ThetaSeries.gaussian` on the imaginary axis, at `τ = i t`, read through
+`mixedInner_toMixed`; its self-duality is `ThetaSeries.fourier_gaussian` at that point, and it is
+the first conjunct of `gaussianTheta_mellin_normalization`. The holomorphic upper-half-plane theta function, the coset theta series,
 the `T`- and `S`-transformation laws and every modularity statement belong to `ThetaSeries`;
 Hecke's method needs the Gaussian only on the imaginary axis and never leaves it.
 
@@ -442,9 +459,10 @@ therefore needs, and this layer names in Neukirch's order:
   what a constant parameter cannot see;
 - the norm-one hypersurface `S = {N(y) = 1}` (`normOneSurface`), the decomposition
   `R_+^* = S × ℝ_+^*`, `y = x t^(1/n)` (`surfaceScale`, `surfacePart`), the multiplicative Haar
-  measure `dy/y = ∏_w dy_w/y_w` (`archHaar`), and the Haar measure `d*x` of `S` pinned by
-  `dy/y = d*x × dt/t` (`surfaceHaar`, `archHaar_eq_map`) — "we will not need any more explicit
-  description of `d*x`", and none is given;
+  measure `dy/y = ∏_w dy_w/y_w` (`archHaar`), and the Haar measure `d*x` of `S` for which
+  `dy/y = d*x × dt/t` (`archHaar_eq_map`). Since `∫_1^e dt/t = 1`, `d*x` is defined
+  (`surfaceHaar`) as the image under `surfacePart` of `dy/y` on the shell `1 ≤ N(y) ≤ e`, read on
+  `S`;
 - a bounded fundamental domain for the unit action on `S` (`IsUnitFundamentalDomain`), of which
   Neukirch's `F` is taken from Mathlib: the parameters whose square root lies in
   `NumberField.mixedEmbedding.fundamentalCone K` (`unitFundamentalDomain`), a fundamental domain
@@ -657,7 +675,9 @@ Mandatory examples:
 
 - `ζ_{ℚ(i)}(s) = ζ(s)L(s,χ₋₄)` including the ramified prime `2`;
 - the primitive character modulo `4` is odd and has gamma shift `1`;
-- the quadratic character modulo `5` is even and has gamma shift `0`;
+- the quadratic character modulo `5` is even and has gamma shift `0`; as a ray-class character it
+  is the unique nontrivial character of the ray class group of `ℚ` modulo `5`, of order `2`
+  (`exists_ne_one_rayClassCharacter_modulusFive`);
 - the conductor-one principal character recovers the Riemann-zeta card.
 
 ### Layer 5: finite-order Hecke L-functions
@@ -744,7 +764,7 @@ as germs, since both sides have a pole at `s = 1`.
 
 Consume `GlobalNumberFields.HeckeCharacter K`, its real shift, unitary part and archimedean
 parameters `HeckeCharacter.infinityType`, and the idelic vocabulary that pins a character's finite
-behaviour: `IdeleGroup`, `ideleFiniteCoord`, `ideleInfiniteCoord` and `IdeleCongruenceSubgroup`.
+behaviour: `IdeleGroup`, `ideleFiniteCoord`, `ideleInfiniteCoord` and `ideleCongruenceSubgroup`.
 Define a `Grossencharacter K 𝔪` as a presentation, at the modulus `𝔪`, of an **algebraic** Hecke
 character — Weil's type `A₀` — with the idele class character as its primary object. Every other
 field is pinned to that object by an equation, so a presentation is determined by its Hecke
@@ -760,10 +780,10 @@ describe one character:
   differ by units at `𝔭`, on which a character presented at `𝔪` is trivial.
 - `infinityType`, an `AlgebraicInfinityType`, is the archimedean restriction: it agrees with the
   supplier's `HeckeCharacter.infinityType` on the identity component, through the supplier's own
-  `EqOnIdentityComponent` — exactly a witness of `IsAlgebraic` — and on the nose at the real
+  `AgreesOnIdentityComponent` — exactly a witness of `IsAlgebraic` — and on the nose at the real
   places outside `𝔪`, where no sign twist is presented.
 - `𝔪` is a modulus of definition: the character is trivial on the finite part of
-  `IdeleCongruenceSubgroup 𝔪`, the ideles of that subgroup with all archimedean coordinates `1`.
+  `ideleCongruenceSubgroup 𝔪`, the ideles of that subgroup with all archimedean coordinates `1`.
   ⚠ Not on the whole subgroup, which contains the archimedean identity components and would force
   finite order.
 
@@ -775,9 +795,10 @@ infinity type is zero (`infinityType_eq_zero_of_isFiniteOrder`) and the shift is
 (`idealShift_eq_zero_of_isFiniteOrder`, closed by the supplier's `shift_ofRayClassCharacter`). ⚠ An
 infinite-order character has no ray-class presentation at any modulus: the angular characters of
 `ℚ(i)` below are unramified and nontrivial, and the only ray-class character of the trivial
-modulus of `ℚ(i)` is trivial. Construct `ofRayClassCharacter` by its fields — the supplier's
-`HeckeCharacter.ofRayClassCharacter`, `rayClassIdealWeight`, the zero infinity type — so that its
-pins are definitional, and prove that its L-function is the ray-class L-function of Layer 5.
+modulus of `ℚ(i)` is trivial. Prove that a ray-class character has a presentation whose three
+pins are the supplier's `HeckeCharacter.ofRayClassCharacter`, `rayClassIdealWeight` and the zero
+infinity type (`exists_ofRayClassCharacter`), take `ofRayClassCharacter` to be it (it is unique
+by `Grossencharacter.ext`), and prove that its L-function is the ray-class L-function of Layer 5.
 
 **The sign of the shift.** The supplier already fixes it: the Global Number Fields README defines
 `HeckeCharacter.shift` by `|χ| = ‖·‖^shift`, and Tau Ceti implements exactly that
@@ -792,7 +813,8 @@ the **negative** of the supplier's shift, and it is introduced as such:
 `-σ` and the angular characters have `0`. ⚠ The supplier's shift in its place makes the
 prime-idele equation false at once: `‖·‖` over `ℚ` has shift `1` and trivial unitary part, and the
 equation would read `1/p = p`. The integral norm powers of `ℚ` are presented by name
-(`ratNormPow m`, the idele class character `‖·‖^(-m)` at the modulus `∞`), with supplier shift
+(`ratNormPow m`, the presentation at the modulus `∞` of the idele class character `‖·‖^(-m)`,
+which exists by `exists_ratNormPow`), with supplier shift
 `-m` (`ratNormPow_shift`), ideal-side shift `m` (`ratNormPow_idealShift`), and L-function
 `ζ(s - m)` (`lFunctionC_ratNormPow`).
 
@@ -862,8 +884,9 @@ exponent, which happens for the odd norm powers of `ℚ` with a constant polynom
 the archimedean weight `N(x^(p/2))` (`archWeight`) times the
 theta series is invariant under the unit action, because `χ_f(u) N(u^p) = ∏_w |u_w|^(P_w)` on a
 unit (`finiteCharacter_mul_harmonicFactor_unit`). Define the Mellin kernel (8.3) with its constants
-made explicit (`heckeMellinKernel`): `(2^r₂/w) · 2^(-∑_{complex} P_w/2) · λ_𝔞^(-Tr p / 2n)
-∫_D N(x^(p/2)) θ_χ(𝔞, x (u/λ_𝔞)^(1/n)) d*x` with `λ_𝔞 = V_𝔞² N(𝔣₀)`, which come from the gamma
+made explicit (`heckeMellinKernel`): the product of `(2^r₂/w) · 2^(-(∑ P_w)/2) · λ_𝔞^(-Tr p / 2n)`,
+the sum over the complex places, with `∫_D N(x^(p/2)) θ_χ(𝔞, x (u/λ_𝔞)^(1/n)) d*x`, where
+`λ_𝔞 = V_𝔞² N(𝔣₀)`; the constants come from the gamma
 integral of the weighted Gaussian at a complex place,
 `2^(2s + P/2 - 1) Γ_ℂ(2s + P/2) |z|^(-4s - P)`, whose `|z|^(-P)` cancels the `|a_w|^(P_w)` of
 `χ_f(a) N(a^p) = χ_u((a)) ∏_w |a_w|^(P_w)` — that
@@ -872,8 +895,8 @@ Mellin identity `Λ(𝔎, χ_u, s) = χ_u(𝔞)⁻¹ ∫ (f_D(χ, 𝔞, u) - ε(
 (`unitaryPartialCompletion_eq_mellin`), sum it over a system of representatives prime to the
 conductor into the total kernel `F_D(χ, ·)` (`heckeMellinTotal`, independent of the
 representatives) with `Λ(χ_u, s) = ∫ (F_D(χ, u) - a₀(χ)) u^((s + Tr p/n)/2) du/u`
-(`unitaryCompletion_eq_mellin`), and prove (8.4): `F_D(χ, 1/u) = W(χ) u^(1/2 + Tr p/n)
-F_{D⁻¹}(χ⁻¹, u)` (`heckeMellinTotal_inv`), with exponential decay to the constant term. That law
+(`unitaryCompletion_eq_mellin`), and prove (8.4):
+`F_D(χ, 1/u) = W(χ) u^(1/2 + Tr p/n) F_{D⁻¹}(χ⁻¹, u)` (`heckeMellinTotal_inv`), with exponential decay to the constant term. That law
 is what pins `rootNumber`; the instance `grossencharacterFEPair` of the Mellin principle, of
 weight `1/2 + Tr p/n` and `ε = W(χ)`, takes its local integrability from the continuity of the total
 kernel (`continuousOn_heckeMellinTotal`), its law from (8.4), its rapid decay from the exponential
@@ -893,13 +916,14 @@ Characterize the presented L-function: on `Re s > 1 + shift`, `lFunctionC χ` is
 norm-regrouped series of the presented unitary weight at `s - shift`, that is
 `∑ χ_u(𝔞) N𝔞^(shift - s)` over the ideals prime to `𝔪`, with the supplier's Euler factors at
 `s - shift`. Define the conductor by its universal property: a modulus `𝔫` presents the same
-Hecke character exactly when the conductor divides `𝔫`, so the conductor, the primitive
+Hecke character exactly when the conductor divides `𝔫` (`exists_primitiveConductor`, unique since
+divisibility of moduli is antisymmetric), so the conductor, the primitive
 presentation `Grossencharacter.primitive`, the completions and the root number are functions of
 the Hecke character alone (`_congr`), while the presented series is the primitive series times
 `∏_{𝔭 ∣ 𝔪₀, 𝔭 ∤ 𝔣₀} (1 - χ_u(𝔭) N𝔭^(shift - s))`, on the half-plane and as germs.
 
-Construct the inverse presentation by its fields: the inverse Hecke character, the conjugate
-unitary weight and the negated infinity type. If `χ = χ_u N^σ`, then `χ⁻¹ = conj(χ_u) N^(-σ)`,
+Prove that the inverse presentation exists, with the inverse Hecke character, the conjugate
+unitary weight and the negated infinity type (`exists_inverse`), and take `inverse` to be it. If `χ = χ_u N^σ`, then `χ⁻¹ = conj(χ_u) N^(-σ)`,
 of shift `-σ`; the functional equation reflects against the inverse, not simply the conjugate.
 The full L-function converges for `Re s > 1+σ`.
 
@@ -918,8 +942,9 @@ and is pinned field by field: coefficients the norm-regrouped primitive unitary 
 `|d_K| N(𝔣₀)`, one real gamma shift per real place equal to the parity of the archimedean
 restriction of the unitary part there — the supplier's `realParity`, ⚠ not the parity of the
 algebraic exponent, which `N^m` with `m` odd distinguishes — one complex gamma shift
-`|n_σ - n_σ̄|/2` per complex place, root number `rootNumber`, and completed function
-`unitaryCompletion`; it is a function of the Hecke character alone and satisfies the three
+`|n_σ - n_σ̄|/2` per complex place, and simple poles at `0` and `1` exactly when the unitary
+part is trivial. Its completed function and root number are those of
+`AnalyticLFunctionData.ofSeries`, and they define `unitaryCompletion` and `rootNumber`; it is a function of the Hecke character alone and satisfies the three
 Layer 0 predicates. ⚠ The full completion is not the completed function of an analytic card when the
 shift is nonzero: its equation is centered at `1/2 + σ` and reflects against the inverse, whose
 shift is `-σ`, not against the conjugate card. The integral norm powers `N^m` show the
@@ -938,7 +963,9 @@ Required regression examples:
 - at a real place the gamma shift is the parity of the unitary part, which for `N^m` with `m`
   odd is `0` while the algebraic exponent is odd;
 - Hecke's angular characters of `ℚ(i)`, `𝔞 = (α) ↦ (α/|α|)^(4k) = (α/ᾱ)^(2k)`, are the
-  infinite-order case. Their idelic archimedean component is the inverse, `z ↦ (z/|z|)^(-4k)`, so
+  infinite-order case. They exist by `exists_angularGrossencharacter`, which fixes the exponent
+  `-2k` at one embedding and the ideal-side values on every ideal of the principal ring `ℤ[i]`;
+  the unit relation then fixes the other exponent and the shift. Their idelic archimedean component is the inverse, `z ↦ (z/|z|)^(-4k)`, so
   the algebraic infinity type has exponent `-2k` at the embedding through which the ideal value is
   read and `2k` at its conjugate (`angularGrossencharacter_unitaryWeight_span`); the two exponents
   **sum** to zero — the character is unitary and its shift vanishes — and **differ** by `4k`.
