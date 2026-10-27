@@ -23,22 +23,22 @@ owns the OnePoint complex atlas consumed by K7.1; Milestones
 Milestone 7 owns the holomorphic-transition mixin, bundle cocycle gluing
 and operations on native vector bundles. Consume these specified Tau Ceti
 targets, including their model and tangent comparisons; the milestone references
-are pinned to the [ComplexManifolds contract](https://github.com/TauCetiProject/TauCetiRoadmap/blob/581f66fed0f12fe49b8f5dd96aa18d3e435c190a/TauCetiRoadmap/ComplexManifolds/README.md).
+are pinned to the [ComplexManifolds contract](../ComplexManifolds/README.md).
 Complex-torus quotients follow
 [#280](https://github.com/TauCetiProject/TauCetiRoadmap/pull/280) Milestone 1, with the fixed-torus
-theory used in K7 and the [specified ComplexTori contract](https://github.com/TauCetiProject/TauCetiRoadmap/blob/583f86009a6841d01e758fdefec6ff41014b2f6a/TauCetiRoadmap/ComplexTori/README.md).
+theory used in K7 and the [specified ComplexTori contract](../ComplexTori/README.md).
 
-Use [DifferentialGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f2c41bace7640366666d72c8939784696e8e3888/TauCetiRoadmap/DifferentialGeometry/README.md)'s generic smooth forms,
+Use [DifferentialGeometry](../DifferentialGeometry/README.md)'s generic smooth forms,
 exterior derivative, pullback, wedge, integration, Stokes and de Rham comparison. Its chain integration and Stokes already allow complete vector-valued coefficients;
 its de Rham comparison is stated over ℝ. K5a owns the complex-linear manifold integration compatibility and complex-coefficient de Rham
 comparison on the same generic form carrier, viewed over ℝ; do not construct a second form carrier.
-For an open planar domain Ω⊂ℂ, consume [GlobalHolomorphicFunctions GH5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L1065-L1078)'s proof that every smooth complex-valued 2-form is
+For an open planar domain Ω⊂ℂ, consume [GlobalHolomorphicFunctions GH5.1](../GlobalHolomorphicFunctions/README.md)'s proof that every smooth complex-valued 2-form is
 exact, and prove the adapter to this carrier's complex de Rham quotient and `H²_dR(Ω;ℂ)=0`.
 Consume [RealAlgebraicGeometry Layer 7](../RealAlgebraicGeometry/README.md#layer-7-analytic-preparation-and-mccallum-projection)
 for analytic inversion and local real-germ complexification in model spaces;
 consume the native joint analytic implicit-function theorem as specified in K1,
 which owns the complex-manifold, chart and local-uniqueness adapters.
-[SmoothBundlesConnections](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1c45ab4061b483b832b5d54f597dc69afd3f97a5/TauCetiRoadmap/SmoothBundlesConnections/README.md) supplies real smooth
+[SmoothBundlesConnections](../SmoothBundlesConnections/README.md) supplies real smooth
 bundles with complex structure, tensor/dual/Hom/complexification, Hermitian metrics,
 connections, curvature and their principal-bundle comparison maps; its B6.1 owns the
 manifold good-cover/sheaf/singular comparison and B6.2 the circle-bundle
@@ -48,7 +48,7 @@ supplies, on smooth finite-dimensional manifolds, smooth representatives of cont
 bundles and of continuous isomorphisms between smooth bundles; K4.P uses it in rank one
 only. [PDE](../PDE/README.md)
 supplies scalar real-domain Sobolev, embedding, Rellich and elliptic estimates, not system
-estimates. [PseudodifferentialOperators P1.0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/063cf517a1dcc4d929e0602c6e6f585953aceab8/TauCetiRoadmap/PseudodifferentialOperators/README.md#p10-differential-operator-core)
+estimates. [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md#p10-differential-operator-core)
 supplies differential-operator carriers, jets, symbols and formal density adjoints
 after K5a's initial density-line construction and before its analytic scale.
 K5 owns generic finite-rank real/complex bundle distributions,
@@ -56,7 +56,7 @@ the all-real-order Hilbert scale, smooth Laplace-type regularity, pointwise real
 Hodge star and real/complex Hodge theory. The later pseudodifferential calculus
 and its Peetre theorem consume that analysis; K5a's analytic operator layer
 consumes only P1.0. The initial pointwise star and density layer consumes no PDO.
-[AlgebraicTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md) owns singular cohomology
+[AlgebraicTopology](../AlgebraicTopology/README.md) owns singular cohomology
 and products. The linear Hodge-structure objects in `Completed/HodgeStructures` are a
 target for K6's comparison, not a proof of analytic Hodge theory.
 
@@ -202,8 +202,8 @@ On an integrable complex manifold construct ∂ and ∂̄ on generic type forms 
 bidegrees, squares zero, anticommutation, graded Leibniz, conjugation and holomorphic-pullback
 naturality. Prove the local Dolbeault–Grothendieck lemma for smooth `(p,q)` forms, q>0, on a
 polydisc. For the scalar Cauchy–Green step consume [GH0's compact-support operator, identity and real-plane
-area normalization](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L192-L220) under their support and smoothness hypotheses, and consume
-[GH0's finite-rank Runge operator](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L468-L480) with its
+area normalization](../GlobalHolomorphicFunctions/README.md) under their support and smoothness hypotheses, and consume
+[GH0's finite-rank Runge operator](../GlobalHolomorphicFunctions/README.md) with its
 operator bound `sup_K|f−A_jf|≤ε sup_L|f|` for holomorphic f on the stated neighborhood. The
 finite-rank operators have fixed spatial evaluation points and output functions, independent of
 external parameters.
@@ -348,7 +348,7 @@ finite pole, every such punctured germ is a fraction, and all operations
 commute with these maps. For a specified local biholomorphism taking a to b,
 prove the pullback comparison with K_b and its local-inverse identities.
 
-Consume [GH2's local Laurent construction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L651-L673), specifically its
+Consume [GH2's local Laurent construction](../GlobalHolomorphicFunctions/README.md), specifically its
 finite-pole local phase before global Runge patching. The generic local
 Laurent decomposition and coefficient extraction remain owned by
 GlobalHolomorphicFunctions; this target owns their comparison with the
@@ -475,10 +475,10 @@ morphisms and pullbacks, on these actual carriers. This fixed-model theorem
 does not identify a varying-rank sheaf with a single `VectorBundle ℂ F E`;
 the componentwise construction below supplies that full locally finite-rank scope.
 K4 supplies the holomorphic bundle and holomorphic-connection carriers to
-[ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e3c8536df9555dc6e7027bfb3d60daef8bf33586/TauCetiRoadmap/ComplexComparisonPartII/README.md#L130-L138),
+[ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2](../ComplexComparisonPartII/README.md),
 which own scheme analytification and the algebraic-to-holomorphic comparison
 prefix, using K1's manifold inverse/implicit function theorem.
-[FormalConnectionsOpers F2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/3a1938e24b0af64066e982fe1c0cb133c0338d44/TauCetiRoadmap/FormalConnectionsOpers/README.md)
+[FormalConnectionsOpers F2.4](../FormalConnectionsOpers/README.md)
 consumes that prefix for its fixed-model manifold, tangent/derivation, toric,
 group and gauge applications. K4 does not construct algebraic analytification.
 
@@ -657,8 +657,8 @@ vanishing by K5/K6 harmonic theory and the actual isotropy weights.
 
 **K5a. Real and complex-coefficient analysis on real manifolds.** This shared
 layer uses DifferentialGeometry, SmoothBundlesConnections B2–B4, PDE Lane A.3,
-[VariationalMethods V2–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L200-L491),
-[UnboundedOperators UO-D06](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md#L94-L154),
+[VariationalMethods V2–V5.2](../VariationalMethods/README.md),
+[UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md),
 AlgebraicTopology and Mathlib, and HopfRinow Layer 1's Levi-Civita connection
 through PDO P1.0. Its pointwise real star, orientation line and
 density bundle precede PDO P1.0. Its distributional operator action and
@@ -1134,9 +1134,9 @@ Coulomb slice.
 
 For every formally self-adjoint nonnegative Laplace-type system on a compact
 boundaryless base, identify its form and inclusion in B2's geometric L² with
-[VariationalMethods V5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L433-L463)'s
+[VariationalMethods V5.1](../VariationalMethods/README.md)'s
 `CompactFormPair.operator`, which is the specialization of the same
-[UO-D06 `closedFormOperator`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md#L94-L154).
+[UO-D06 `closedFormOperator`](../OperatorTheory/UnboundedOperators/README.md).
 UO-D06 owns general closed-form representation, real-shift self-adjointness,
 both adjoint inclusions and witness independence; V5.1 applies these on the
 identical form/inclusion data and owns its compact-pair comparisons. Prove
@@ -1144,13 +1144,13 @@ here that the operator domain and adjoint/maximal weak domain are H² by
 elliptic regularity, thereby obtaining the specified geometric H² realization.
 Prove the shifted energy form coercive on H¹ using its scalar principal part
 and bounded lower-order coefficients. Consume
-[VariationalMethods V2.2–V2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L221-L322)'s RCLike
+[VariationalMethods V2.2–V2.4](../VariationalMethods/README.md)'s RCLike
 coercive solution operator and its `toRealBilin` comparison with native
 real `IsCoercive.continuousLinearEquivOfBilin`; complex Hermitian forms
 use the realification and i-test supplied there. Use H¹ Rellich and
-[VariationalMethods V3–V4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L324-L431)'s abstract compact-
+[VariationalMethods V3–V4](../VariationalMethods/README.md)'s abstract compact-
 embedding form/solution-operator spectral theorem, with
-[V5.1–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L433-L491)'s same-operator
+[V5.1–V5.2](../VariationalMethods/README.md)'s same-operator
 compact-resolvent, graph/domain and eigen-expansion comparisons, to obtain
 finite-dimensional kernel, complete smooth eigensections, Green inverse on
 the kernel's orthogonal complement and its projection/recovery identities.
@@ -1238,7 +1238,7 @@ the finite orthogonal sum of the component realizations by testing against
 single-component extensions. For each stated operator and Sobolev order,
 choose common admissible shifts and positive coercivity constants by finite
 maxima/minima of the component data, and finite constants for the estimates.
-Consume [VM V3.1's finite orthogonal-sum transport](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L324-L335)
+Consume [VM V3.1's finite orthogonal-sum transport](../VariationalMethods/README.md)
 for the resulting compact form pair and identify its represented operator
 with that same component operator through the UO-D06 graph characterization;
 no second generic form-representation or self-adjointness theorem is owned
@@ -1422,7 +1422,7 @@ S=V_sing as subcomplexes.
 Use K3.0's real `IsManifold` at order ω and its real-analytic defining
 equations. Derive `dim_ℝ S≤2k−2` from K3's complex dimension drop and the
 realified analytic-submanifold dimensions. Consume
-[RealAnalyticGeometry R0–R5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/525a920850e39a4db23a778eec27cb75308b877a/TauCetiRoadmap/RealAnalyticGeometry/README.md), including
+[RealAnalyticGeometry R0–R5](../RealAnalyticGeometry/README.md), including
 real semianalytic normal decomposition, the affine Łojasiewicz theorem,
 real-analytic embedding and transport, for the manifold-level semianalytic
 triangulation theorem of Łojasiewicz (§3, Theorem 2, p. 464).
@@ -1617,15 +1617,15 @@ its geometric genus g=h^(1,0) and prove `h^(0,0)=h^(1,1)=1`,
 `h^(0,1)=g` and `b₁=2g` by Hodge comparison. Prove the topological dictionary:
 use K1's realification of the complex curve and its complex tangent
 orientation to construct the native topological surface required by
-[PlanarTopology's surface convention](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#L108-L120).
+[PlanarTopology's surface convention](../PlanarTopology/README.md).
 Own the adapter from its real two-dimensional atlas to the half-space-charted
 carrier, with empty boundary, T2, compactness and connectedness, and compare
 the complex orientation with
-[PlanarTopology Layer 6's `Surface.Orientation`](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#L656-L719).
-Consume [SurfaceTopology Layers 2–3](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#L299-L468)'s
+[PlanarTopology Layer 6's `Surface.Orientation`](../PlanarTopology/README.md).
+Consume [SurfaceTopology Layers 2–3](../SurfaceTopology/README.md)'s
 presentation/realization comparisons,
-[Layer 6](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#L658-L714)'s polygon normal forms and
-[Layer 8](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#L832-L900)'s compact-surface classification
+[Layer 6](../SurfaceTopology/README.md)'s polygon normal forms and
+[Layer 8](../SurfaceTopology/README.md)'s compact-surface classification
 to obtain the unique orientable closed model of genus j and a homeomorphism.
 Transport the chosen complex orientation to that model, comparing it with
 the polygon orientation (and an orientation-reversing model reflection when
@@ -1680,7 +1680,7 @@ the nonzero first spectral differential and the failure of an additive Hodge dec
 on this compact complex manifold. Own the Heisenberg group and lattice, the
 freeness and proper discontinuity of its holomorphic lattice action, and
 cocompactness. Consume #279 Milestone 4 for the quotient complex manifold and
-its projection/descent API; build the cohomology-comparison prerequisites here. Consume [LieGroupoidsPoisson G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L379-L396)'s all-degree real
+its projection/descent API; build the cohomology-comparison prerequisites here. Consume [LieGroupoidsPoisson G1.3](../LieGroupoidsPoisson/README.md)'s all-degree real
 Chevalley–Eilenberg differential and own its scalar-extension and complex-summand adapter:
 on the underlying real algebra, identify the complexification with `𝔤⊕bar(𝔤)`, with zero
 mixed bracket, and construct the complex-linear CE complex of `bar(𝔤)` and the invariant
@@ -1720,14 +1720,14 @@ charts/local holomorphic sections for G/A and prove the torus bundle above
 is holomorphic, with complex-nilpotent simply connected base group of
 strictly smaller complex dimension. Prove freeness, proper discontinuity
 and compactness for each discrete lattice action before consuming
-[ComplexManifolds #279 Milestone 4](https://github.com/Paul-Lez/TauCetiRoadmap/blob/275ce8b253d32e715b7832d2b0df4a62ccbb0699/TauCetiRoadmap/ComplexManifolds/README.md#L218-L246)'s
+[ComplexManifolds Milestone 4](../ComplexManifolds/README.md)'s
 quotient/descent API. That supplier handles those discrete quotients; the
 continuous central quotient, rationality, lattice existence and
 smooth/holomorphic principal-torus comparison are K8's targets.
 Use real and complex tori, including dimension zero, as the abelian base
 cases, and the constructed A at each nonabelian step. Compare the chosen
 left/right lattice-quotient and invariant-form conventions by inversion,
-with the corresponding CE chain map, before applying [G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L379-L396). This supplies the
+with the corresponding CE chain map, before applying [G1.3](../LieGroupoidsPoisson/README.md). This supplies the
 full Nomizu/Sakane induction, not just the Iwasawa example. The central
 reduction follows the nilpotent case in Sakane, pp. 188–189, whose lattice
 step invokes the restricted Malcev theory; K8 owns that needed theory here.
@@ -1749,7 +1749,7 @@ not prove its inclusion is a quasi-isomorphism.
 
 ## Order and references
 
-The local Laurent construction within [GlobalHolomorphicFunctions GH2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L651-L673)
+The local Laurent construction within [GlobalHolomorphicFunctions GH2](../GlobalHolomorphicFunctions/README.md)
 is a native-only preparatory phase before GH0; GH2's global prescribed-singularity
 patching follows GH0. Separate these phases explicitly. On a punctured disk of any radius r in (0,∞], using finite circles
 0<ρ<R<r, construct Laurent coefficients by circle integrals and prove radius independence
@@ -1766,7 +1766,7 @@ GlobalHolomorphicFunctions' existing local Laurent targets, proved from native
 one-variable Cauchy/power-series inputs, not from GH0/GH5 or CKG. This phase
 supplies GH0's Laurent truncation for pole pushing and its finite-pole output
 to K3.MeromorphicGermField's native field/regular-evaluation adapter.
-The global one-variable provider order is GH0 (compact-support formula, area normalization, finite-rank Runge operators and exhaustion) → GH5 (global scalar solver using GH0) → GH5.1 (complex 2-form exactness). K2 consumes [GH0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#gh0-runge)'s finite-rank operators and compact-support map to build its own smooth/holomorphic/mixed parameter solver; it does not assume a parameter export from the scalar GH5 theorem. K5a consumes [GH5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L1065-L1078) and owns the complex-coefficient carrier comparison. GlobalHolomorphicFunctions does not consume ComplexKahlerGeometry.
+The global one-variable provider order is GH0 (compact-support formula, area normalization, finite-rank Runge operators and exhaustion) → GH5 (global scalar solver using GH0) → GH5.1 (complex 2-form exactness). K2 consumes [GH0](../GlobalHolomorphicFunctions/README.md#gh0-runge)'s finite-rank operators and compact-support map to build its own smooth/holomorphic/mixed parameter solver; it does not assume a parameter export from the scalar GH5 theorem. K5a consumes [GH5.1](../GlobalHolomorphicFunctions/README.md) and owns the complex-coefficient carrier comparison. GlobalHolomorphicFunctions does not consume ComplexKahlerGeometry.
 
 K3.0 several-variable calculus precedes K1. K1's scalar-restriction and
 orientation paragraph precedes K7.1 and SBC B1's acceptance examples;
@@ -1782,8 +1782,8 @@ and SBC B3–B4's connection comparisons,
 independently of P1.0. PDO P1.0 consumes that density bundle; K5a's
 distributional operator action, Hilbert-scale, Laplace-type and de Rham Hodge
 developments then consume P1.0, SBC B2–B4, PDE Lane A.3 (componentwise
-on finite-dimensional fibers), [VariationalMethods V2–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L200-L491),
-[UO-D06](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md#L94-L154) and AT, with
+on finite-dimensional fibers), [VariationalMethods V2–V5.2](../VariationalMethods/README.md),
+[UO-D06](../OperatorTheory/UnboundedOperators/README.md) and AT, with
 HopfRinow Layer 1's Levi-Civita connection through P1.0. The abstract order is
 VM V2.3 → UO-D06 → VM V5.1, with VM V3–V4 also preceding V5.1;
 CKG consumes that same-operator compact specialization. VM V5.3's geometric
@@ -1814,8 +1814,8 @@ ComplexComparisonPartII C1.8, whose early CK inputs do not consume this
 example. K7.2's torus computations follow
 #280 Milestone 1 and K5b/K6.1. Its Riemann-surface genus and integral cup
 computations follow K1's realification/complex orientation, the K7 adapter to
-[PlanarTopology](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#L108-L120) and
-[SurfaceTopology Layers 2/3/6/8](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#L299-L900),
+[PlanarTopology](../PlanarTopology/README.md) and
+[SurfaceTopology Layers 2/3/6/8](../SurfaceTopology/README.md),
 AT Stage4's CW theory, Stage6's cellular/cohomology-product comparisons
 including Stage6.3, and K6.1. Its Hopf computations
 follow #279 Milestone 4, K2's Leray-cover comparison, K3's Hartogs theorem,
@@ -1823,7 +1823,7 @@ K5b's Serre duality and DG's Mayer–Vietoris theorem. The Iwasawa quotient
 consumes #279 Milestone 4; the general invariant-cohomology comparisons
 first use K8.NilpotentCentralReduction's Γ-rational central subgroup,
 lattice, lower-dimensional quotient and smooth/holomorphic principal-torus
-bundle theorem, then [LieGroupoidsPoisson G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L962-L977)'s CE adapter and the geometric
+bundle theorem, then [LieGroupoidsPoisson G1.3](../LieGroupoidsPoisson/README.md)'s CE adapter and the geometric
 spectral-sequence page comparisons in K8. The generic filtered-complex
 machinery supplies convergence after those inputs.
 Every local definition and bundle construction has restriction, gluing, functoriality and transport
