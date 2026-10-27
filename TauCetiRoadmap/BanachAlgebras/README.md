@@ -158,6 +158,47 @@ comparison with the matrix operator norm on `EuclideanSpace ℂ (Fin 2)`, includ
 max(|λ|,|a|)≤‖λI+aE₁₂‖≤|λ|+|a|, and compute
 σ(E₁₂)={0}. It is an algebra example, not a star subalgebra.
 
+**A1.PositiveFunctionals.** Let A be a unital complex Banach *-algebra
+with isometric involution. A positive functional is an algebraic complex-linear
+φ:A→ℂ satisfying `φ(a*a)∈ℝ≥0` for every a; no continuity is assumed.
+Prove Hermitian symmetry, the Cauchy–Schwarz inequality and automatic
+continuity, with `|φ(a)|≤φ(1)‖a‖` and
+`φ(a*a)≤φ(1)‖a‖²`. For nonzero A retain
+`φ(1)/‖1‖≤‖φ‖≤φ(1)`; conclude `‖φ‖=φ(1)` when `‖1‖=1`.
+Construct the self-adjoint square root of `1−h` for self-adjoint
+`‖h‖<1` by the real binomial series. Apply this with a strict radius
+larger than the norm and pass to the limit to obtain the closed-ball
+positivity bound.
+
+Construct the GNS space as the Hilbert completion of A modulo
+`N_φ={a:φ(a*a)=0}`, using native complex inner-product conventions
+`⟪[a],[b]⟫=φ(a*b)`. Prove N_φ is a left ideal and
+`φ(b*a*ab)≤‖a‖²φ(b*b)`, so left multiplication gives bounded
+operators with `‖π_φ(a)‖≤‖a‖`, preserves star and multiplication,
+is unital, and has cyclic vector `[1]` with `φ(a)=⟪[1],π_φ(a)[1]⟫`.
+Include φ=0 and uniqueness of the cyclic realization up to the unique
+unitary carrying the cyclic vectors to one another. For a unital normed
+*-algebra with isometric star and a **continuous** positive functional,
+extend it positively to the Banach completion and obtain the same
+construction and bound. Also prove that every algebraic *-homomorphism
+from a possibly nonunital Banach *-algebra with isometric star to a
+C*-algebra is contractive, using unitization and spectral-radius
+comparison. This is the Banach-input representation interface;
+VonNeumannAlgebras V0 owns the C*-algebra specialization and its general
+faithful-representation theory.
+
+Completeness cannot be dropped from automatic positivity bounds. On
+`ℂ[X]` with coefficientwise conjugation and the supremum norm on
+`[−1,1]`, the positive functional
+`φ(p)=∫_ℝ p(t)exp(−t²)dt` is unbounded: test the polynomials `X^(2n)`,
+whose algebra norms are one and whose Gaussian moments are unbounded.
+In its polynomial GNS pre-Hilbert space, coordinate multiplication is
+unbounded, as seen from
+`‖X^(n+1)‖_φ²/‖X^n‖_φ²=n+1/2`.
+Thus algebraic positivity on an arbitrary normed *-algebra does not give
+a representation by bounded operators. No C*-order structure on A is
+assumed in these Banach *-algebra statements.
+
 ## A2. Holomorphic functional calculus
 
 Reuse Tau Ceti's Banach-valued `Contour.Cycle.integral`, Mathlib's
@@ -737,6 +778,49 @@ and combination of left and right bounded approximate identities, with bound
 `C+D+CD`. Prove convergence of a bounded approximate identity on the appropriate
 essential module.
 
+**A4.DoubleCentralizers.** Consume native
+[`DoubleCentralizer`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/CStarAlgebra/Multiplier.html#DoubleCentralizer)
+`𝓜(ℂ,A)`, its bounded-linear components, algebra operations, norm
+`max(‖S‖,‖T‖)` and completeness for a Banach algebra A.
+For A with zero left and right annihilators, identify this native model
+with the complex-linear pairs satisfying
+`S(ab)=S(a)b`, `T(ab)=aT(b)` and `aS(b)=T(a)b`.
+Prove that algebraic complex-linear pairs satisfying these identities
+are automatically bounded by the closed graph theorem: a graph limit
+of S at zero is annihilated on the left, and a graph limit of T at zero
+is annihilated on the right. A two-sided approximate identity suffices
+to make both annihilators zero; completeness of A and these annihilator
+hypotheses are explicit in the automatic-boundedness assertion.
+For bounded pairs under these hypotheses, the native centrality equation
+implies the two module identities. Reuse the native operations to give
+`(S,T)(S',T')=(SS',T'T)`, identity `(id,id)` and
+`a↦(L_a,R_a)`; prove the latter is a homomorphism onto a closed
+two-sided ideal when A has a bounded two-sided approximate identity.
+
+If the approximate identity is contractive, prove
+`‖S‖=‖T‖`, `‖L_a‖=‖R_a‖=‖a‖`, and that this embedding is
+isometric. Its image is essential in the annihilator sense: a multiplier
+annihilating A on either side is zero. For a bound `C>0` rather than one,
+retain `‖a‖/C≤max(‖L_a‖,‖R_a‖)≤‖a‖`, and do not claim
+isometry or equality of the component norms. For isometric star on A,
+consume the native involution
+`(S,T)*=(a↦T(a*)*,a↦S(a*)*)`, prove compatibility with the embedding,
+and retain the Banach *-algebra norm. CStarAlgebras C1 owns the additional
+C*-identity, strict-topology and maximal-essential-C*-extension targets.
+
+For a Banach space E and a bounded algebra representation
+`π:A→B(E)` with `closure(span π(A)E)=E`, assume A has a two-sided
+approximate identity bounded by `C>0`. Construct the unique unital bounded
+representation `π̃:𝓜(ℂ,A)→B(E)` such that
+`π̃(m)π(a)x=π(S_m(a))x`. Prove the finite-sum formula is well-defined,
+extends by continuity, and satisfies
+`‖π̃(m)‖≤C‖π‖‖m‖`; prove intertwiner compatibility and uniqueness
+from the dense span. This applies to arbitrary bounded actions on E.
+For a Hilbert-space *-representation of an isometric Banach *-algebra,
+prove that the extension preserves star; the preceding automatic
+contractivity and a contractive approximate identity give a contractive
+extension. Include the zero space and zero algebra conventions.
+
 Prove Cohen–Hewitt factorization: if `A` has a left approximate identity bounded
 by `C>0`, `E` is a Banach left module, and `x∈closure(span(A·E))`, then for every
 `ε>0` there are `a∈A`, `y∈closure(A·x)` with `x=a·y`, `‖a‖≤C` and
@@ -990,6 +1074,31 @@ of `L¹(G)` as a closed two-sided ideal, and `δ_g*δ_h=δ_gh`. The measure
 involution is conjugation followed by inversion; its restriction gives the
 displayed modular formula on `L¹`.
 
+**A7.MeasureMultipliers.** Prove that L¹(G) is essential in M(G):
+`ν*L¹(G)=0` implies ν=0, and likewise `L¹(G)*ν=0` implies ν=0.
+With A7.ChosenApproximateIdentity's integral-one kernels u_U, prove
+`ν*u_U→ν` and `u_U*ν→ν` against every C₀(G) test function.
+Use these weak-star limits to prove both annihilator assertions;
+nonvanishing at a single point of an L¹ representative does not establish
+nonvanishing of its almost-everywhere class.
+
+Prove Wendel's multiplier theorem as the isometric star-algebra
+isomorphism `M(G)≃𝓜(ℂ,L¹(G))` sending ν to
+`(f↦ν*f,f↦f*ν)`. Prove both components have operator norm `‖ν‖`
+and identify L¹'s canonical measure embedding with A4's multiplier
+embedding. Establish also the one-sided versions: every bounded left
+centralizer `S(f*h)=S(f)*h` is uniquely left convolution by a finite
+regular complex measure, and every bounded right centralizer is uniquely
+right convolution. For surjectivity take a weak-star cluster subnet of
+`S(u_U)` in `C₀(G)*`, use its uniform norm bound and regular-measure
+representation, and prove the resulting convolution identity on L¹;
+the right-handed construction is analogous. A4's automatic-boundedness
+comparison then identifies algebraic double-centralizer pairs as well.
+Give the inverse, norm identities, multiplication and involution
+compatibility on these actual carriers, at the standing arbitrary locally
+compact Hausdorff generality and without a global sigma-finiteness
+assumption.
+
 Extend essential
 `L¹(G)` bimodules to `M(G)` by factorization. For a Banach algebra with bounded
 approximate identity embedded as a closed ideal in `B`, define the strict
@@ -1227,6 +1336,14 @@ compact-commutation theorem just proved.
 
 ## Sources and API alignment
 
+* Rieffel, *C*-algebras* course notes, physical pages
+  [26–30](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-026.md)
+  (positive functionals and Banach *-algebra GNS),
+  [49–50](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-049.md)
+  and [109–111](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-109.md)
+  (Banach double centralizers and extensions), and
+  [126–128](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-126.md)
+  (measure convolution and essentiality).
 * Dales, *Banach Algebras and Automatic Continuity*: §§1.3–1.5 and 2.1–2.3
   (ideals, radicals, spectra and characters), §2.4 (holomorphic calculus,
   Theorem 2.4.4 and Corollaries 2.4.5–2.4.6), §2.6 (Arens products,
