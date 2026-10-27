@@ -49,7 +49,12 @@ stated coefficient generality.
    Eilenberg–MacLane models; nonabelian classifying spaces, universal classes, loop comparisons,
    and primary relative obstruction cochains have explicit normalization and transport maps.
 
-The scope includes ordinary cohomology on arbitrary CW complexes and the tools needed for
+9. Compact metric spaces and closed pairs have Čech cohomology, closed-cover excision,
+   relative products and decreasing-compact-pair continuity. The relative cube module and
+   ENR comparison retain their coefficient, degree and cup-order conventions.
+
+The scope includes ordinary cohomology on arbitrary CW complexes, compact-metric Čech
+cohomology, and the tools needed for
 compact manifolds and finite CW-type spaces.  It
 does not include generalized cohomology theories, spectra, bordism, or surgery obstruction
 groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy interfaces.
