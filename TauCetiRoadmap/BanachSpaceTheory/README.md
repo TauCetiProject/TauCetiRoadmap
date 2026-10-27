@@ -758,6 +758,45 @@ approximation targets.
 
 ## B5. Function spaces and weak compactness
 
+For `𝕜=ℝ` or `ℂ` and any index type S, use the native Hilbert space
+`lp (fun _ : S => 𝕜) 2`, with `lp.completeSpace` and its existing inner
+product. The source's first-linear pairing `Σ x_s conjugate(y_s)` is
+native `⟪y,x⟫`; use the native convention in the coefficient maps below.
+Inside it construct the submodule D_S of finitely supported
+vectors, and the linear identification with `S→₀𝕜` given by finite sums
+of `lp.single 2 s a`. D_S carries the inherited ℓ² norm. Consume
+`lp.hasSum_single` to prove D_S dense, and identify its normed completion
+isometrically with this same native lp space, including the extension and
+uniqueness maps. Prove every lp vector has countable support by the finite
+level sets `{s:‖x_s‖≥1/n}`, n≥1; countable support alone is not the
+square-summability condition.
+
+For infinite S choose distinct s_n and use the partial sums of
+`Σ_n 2^(−(n+1)) • lp.single 2 s_n 1` to show D_S is not complete:
+the ambient limit has infinite support. For finite S prove D_S is the whole
+space. For distinct s,t the coordinate unit vectors have distance √2;
+prove this makes lp(S,𝕜,2) nonseparable when S is uncountable. In the
+countable case use finite supports with rational coefficients (Gaussian
+rational coefficients over ℂ) to construct a countable dense set. Thus
+lp(S,𝕜,2) is separable exactly when S is countable. This corrects the
+source's finitely supported `[0,1]` example: its complete Hilbert space
+is lp on the uncountable interval index set. It is distinct from the
+Lebesgue/a.e. carrier L²([0,1],𝕜); no point-evaluation on that L² is inferred.
+
+For a complete real or complex inner-product space consume native
+`exists_hilbertBasis` and `HilbertBasis.repr`. Prove it is separable iff
+the index type of a Hilbert basis is countable, using the same separated
+unit-vector and finite-sum arguments. For a separable infinite-dimensional
+space, prove that index type countably infinite, choose an equivalence
+with ℕ and reindex the basis. Construct the
+resulting linear isometric equivalence with lp(ℕ,𝕜,2), with coefficient
+map `x↦(⟪b_n,x⟫)_n` and inverse `c↦Σ_n c_n • b_n`, including convergence
+and both inverse identities. For two such spaces, compose their coefficient
+maps to obtain the unitary equivalence; state its dependence on the chosen
+bases and preserve the actual scalar field. Finite-dimensional and zero
+spaces use their finite/empty bases separately. The following explicit
+Fourier equivalence remains a specified choice, with its own formulas.
+
 Construct the explicit complex unitary `ℓ²(ℕ,ℂ)≃L²([0,1],ℂ)` using native
 `fourierBasis` on UnitAddCircle, its a.e. unit-interval/Haar comparison,
 `HilbertBasis.repr` and a fixed enumeration ℕ≃ℤ. For the real unitary
