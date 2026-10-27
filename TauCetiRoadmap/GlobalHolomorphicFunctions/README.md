@@ -12,7 +12,6 @@ edge cases. Use `DifferentiableOn ℂ` / native analytic predicates and the nati
 and locally-finite support carriers after checking their precise hypotheses. Do not introduce a
 parallel definition of holomorphic function merely to restate the same API.
 
-<a id="gh-preparatory-calculus"></a>
 ### Preparatory real-plane calculus and compact-support Cauchy–Green
 
 Define the Wirtinger operators by the native real Fréchet derivative:
@@ -213,14 +212,13 @@ partition a bounded box containing `K₁` into half-open squares of mesh δ, ret
 many cells meeting `K₁`, and choose a sample in each positive-area intersection. The sums
 `Σ_{j,k}G(z_{jk},ξ)Area(S_{jk}∩K₁)` converge uniformly in `ξ∈K₂` to
 `∫_{K₁}G(z,ξ)dA(z)`. Bound the error by `Area(K₁)ω_G(√2δ)` using the uniform modulus
-on `K₁×K₂` (and state the boundary-cell convention). Record `dz∧d\bar z=−2i dA` only as a
+on `K₁×K₂` (and state the boundary-cell convention). Record `dz∧dz̄=−2i dA` only as a
 later coordinate identity; this scalar lemma uses real-plane Bochner area measure and no form carrier. This is the compact-product lemma used with the cutoff derivative kernel. These belong to the GH0 preparatory layer and precede Runge approximation. In particular, if α is compactly supported in U and α=1 near K, then on K
 `f(ξ)=T(∂̄(αf))(ξ)=(1/π)∫ f(ζ)∂̄α(ζ)/(ξ−ζ) dA(ζ)`; the support of `∂̄α` is separated
 from K. The cutoff satisfies `HasCompactSupport α`, `tsupport α ⊆ U`, and `α=1` near K;
 f is holomorphic on U and αf is extended by zero outside U.
 
 
-<a id="gh-preparatory-products"></a>
 ### Preparatory primary factors and locally uniform products
 
 Define `E₀(w)=1-w` and `E_p(w)=(1-w) exp(w + … + w^p/p)` for p>0. For a finite or countable sequence of nonzero zeros `a_n` repeated according to multiplicity,
@@ -287,7 +285,7 @@ with factors `E₁(z/ρ)^((D ρ).toNat)` and native divisor exactly D. Derive co
 and compact finiteness from D rather than asking the consumer to supply them.
 The real cast agrees with the natural multiplicity because D is nonnegative.
 
-[ZerosOfLFunctions, Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/253)
+ZerosOfLFunctions, Layer 5, a later roadmap,
 consumes this genus-one specialization and the entire-logarithm theorem in GH3. Its
 `E₁` is this roadmap's `E_p` at `p=1`. The L-function roadmap owns `OrderLE`, the
 growth/counting and partial-summation argument giving weighted inverse-square
@@ -333,8 +331,10 @@ The first is a separate sharp finite-induction target: the native
 `Finset.norm_prod_one_add_sub_one_le` supplies the exponential consequence but does not
 state this intermediate bound. For insertion of a fresh index, use
 `P_(insert i s)−1=(P_s−1)(1+u_i)+u_i`, the triangle inequality,
-`‖1+u_i‖≤1+‖u_i‖`, and `A_s≥1`. Derive the second bound by multiplying
-`1+t≤exp t` for nonnegative `t`, and expose their combined exponential bound for consumers.
+`‖1+u_i‖≤1+‖u_i‖`, and `A_s≥1`. The second bound is not a new target: it is the pinned
+`Real.prod_one_add_le_exp_sum` (`Mathlib/Analysis/Complex/Exponential.lean`) applied to the
+nonnegative family `t_i=‖u_i‖`. Expose the combined bound `‖P_s−1‖≤exp(Σ_(i∈s)‖u_i‖)−1`
+for consumers.
 No factor is divided out: zero factors, `u_i=0`, and an empty index set are allowed;
 for the empty set `P_s=A_s=1` and the sharp error is zero. These finite estimates precede
 the arbitrary-set uniform-tail and holomorphic product targets below. They do not introduce
@@ -374,7 +374,6 @@ When no factor vanishes identically on the component, these orders are finite an
 identity is a finite sum. Use native analytic order and its factorization characterization.
 The stronger compact-sup-summability criterion is also a useful sufficient condition.
 
-<a id="gh0-runge"></a>
 ### GH0. Plane domains, compact hulls, and Runge approximation
 
 Define the Ω-holomorphic hull of nonempty compact K⊆Ω by all z∈Ω satisfying
@@ -388,12 +387,25 @@ Empty infima are ∞, covering K=∅ and Ω=ℂ. For nonempty K and nonempty com
 deduce the ordinary distance equality to ∂Ω. Prove also `K̂_Ω⊆conv(K)`, using
 `sup_{w∈K} ℓ(w)` for each continuous real-linear functional ℓ to separate points from the
 ordinary convex hull; exponential holomorphic functions realize these real support bounds.
-Provide a compact exhaustion of every open plane
-set with each `K_n` compact and Runge in `Ω`, `K_n ⊆ int K_{n+1}`, and every compact subset of `Ω` contained in some `K_n`; handle `Ω = ℂ` by closed disks. Construct bounded exhaustions by imposing a radius cutoff as well as positive
-distance from the domain complement, and fill relatively compact complementary
-components; prove compactness, nesting into interiors, and exhaustion.
+Own the filled compact exhaustion in its generic topological form. Let `E` be a real normed
+space of finite dimension and `Ω ⊆ E` open. Construct compact `K_n ⊆ Ω` with
+`K_n ⊆ int K_{n+1}`, `⋃ K_n = Ω`, every compact subset of `Ω` contained in some `K_n`, and
+no connected component of `Ω∖K_n` whose closure is compact and contained in `Ω`. Take
+`K_n` to be the points of norm at most n whose extended distance to `Ωᶜ` is at least `1/n`
+(for `Ω = E` the distance to the empty complement is infinite, so `K_n` is the closed ball of
+radius n; the real-valued distance to the empty set would be zero and must not be used).
+No filling step is needed: a point x of `Ω∖K_n` either has distance less than `1/n` to some
+y in `Ωᶜ`, and then the segment from x towards y stays in `Ω∖K_n` until its first point of
+`Ωᶜ`, which lies in the closure of x's component; or it has `‖x‖>n`, and then the ray
+`t ↦ (1+t)x` stays outside the ball of radius n, so x's component is unbounded or its
+closure meets `Ωᶜ`. Prove compactness (closed and bounded in a proper space), nesting into
+interiors, compact cofinality (a compact subset of `Ω` is bounded and has positive distance
+to the closed set `Ωᶜ`), and the absence of relatively compact complementary components; empty
+early stages are allowed. For `E = ℂ` this is the condition of `IsRungeCompactPair`, so every
+`K_n` is a compact Runge set in `Ω`. The statement and proof use no holomorphy; the
+filled-compact exhaustion of Hyperfunctions HF2.AnalyticPreparation is its instance
+`E = ℂ^d ≅ ℝ^(2d)`, and Hyperfunctions already consumes GH0, so this roadmap is the one owner.
 
-<a id="gh0-holomorphic-function-space"></a>
 #### Holomorphic functions with compact-open convergence
 
 For an open set `U : TopologicalSpace.Opens ℂ`, use Mathlib's native bundled analytic maps
@@ -561,7 +573,6 @@ support/collar choices that make all estimates uniform. The finite-rank form is 
 commutes with differentiation in external smooth parameters and preserves holomorphic dependence
 on external complex parameters.
 
-<a id="gh1-divisors"></a>
 ### GH1. Prescribed zeros and divisor realization on an open plane set
 
 For a relatively closed discrete `E ⊆ Ω` and multiplicity `m : E → ℕ`, construct `f` holomorphic
@@ -593,7 +604,7 @@ simultaneous correction below, not separate componentwise period systems. Prove 
 Runge-neighborhood construction. Fix a square grid and a dyadic mesh sequence δ_n=2^(−n)δ₀;
 let L_n be the finite union of closed squares of mesh δ_n meeting K. For small δ₀, prove
 K⊂int L_n⊂L_n⊂U∩Ω. The fixed-grid refinement gives L_(n+1)⊂L_n. Prove the hulls
-H_n=\widehat{L_n}_Ω are nested compacta and their intersection is K: for each holomorphic g,
+H_n=(L_n)^_Ω (the Ω-holomorphic hull of L_n) are nested compacta and their intersection is K: for each holomorphic g,
 continuity and L_n shrinking to K give sup_(L_n)|g|→sup_K|g|, while K is Runge. Hence for
 every open N⊃K some H_n⊂N; otherwise nested compactness would give a point of
 (⋂H_n)\N. Choose such n with H_n⊂U∩Ω and set V=int H_n. The hull H_n is compact and
@@ -663,7 +674,6 @@ product is nonzero off E; prove exact orders at E and nonvanishing of the tail p
 consume only earlier preparatory results and GH0; the later full factorization theorem
 does not supply a prerequisite to this milestone.
 
-<a id="gh1-boundary-nonextension"></a>
 #### Boundary zeros and domains of holomorphy
 
 For every open Ω construct a holomorphic f on Ω with no meromorphic continuation through
@@ -714,7 +724,7 @@ to this larger-domain claim. For Ω=ℂ there is no strict larger plane domain.
 For nonempty proper Ω use GH1's prescribed-zero theorem with multiplicity one. Choose a countable dense sequence
 `a_j` in the nonempty boundary, allowing repetitions. For n≥1 and j≤n choose pairwise distinct
 `z_(n,j) ∈ Ω∩B(a_j,1/n) \ D_n`, using exactly the `infEDist` distance exhaustion
-[defined in GH0](#gh0-holomorphic-function-space), here renamed D_n. The intersection with
+defined in GH0 (holomorphic functions with compact-open convergence), here renamed D_n. The intersection with
 the ball is infinite, and every point of D_n has distance at least 1/n from a_j∈Ωᶜ.
 Let E be the set of these points. Every D_m meets only finitely many levels n<m, so E is
 relatively closed and discrete in Ω. For each fixed j the chosen points converge to a_j;
@@ -733,11 +743,10 @@ and connected-larger-domain consequences of the stronger theorem. It does not es
 shell-cover construction above supplies the stronger meromorphic branchwise theorem.
 
 
-<a id="gh2-mittag-leffler"></a>
 ### GH2. Mittag–Leffler principal parts on arbitrary plane domains
 
 For a relatively closed discrete set E in Ω and a finite principal part `p_a(w) =
-Σ_{k=1}^{N_a} c_{a,k}(w-a)^{-k}` at every a ∈ E, construct meromorphic f on Ω having exactly
+Σ_(k=1..N_a) c_(a,k) (w−a)^(−k)` at every a ∈ E, construct meromorphic f on Ω having exactly
 those principal parts and no other poles. Prove uniqueness modulo addition of a holomorphic
 function and natural restriction/translation/scaling rules. Also prove the general isolated-singularity
 version: for each a∈E let U_a be an open neighborhood of a and φ_a holomorphic on U_a\{a}. Construct f holomorphic
@@ -758,7 +767,6 @@ prove locally uniform convergence away from E and holomorphic extension of the
 difference at each marked point. Prove Laurent-coefficient extraction and the
 finite-principal-part specialization.
 
-<a id="gh3-weierstrass"></a>
 ### GH3. Entire products and full Weierstrass factorization
 
 Consume the preparatory primary-product existence and exact-order theorem under its stated
@@ -780,24 +788,17 @@ choice of p_n; for a fixed product and fixed f, two possible logarithms g differ
 2πik with k∈ℤ, constant on ℂ. The product and factorization theorems allow a variable sequence of primary-factor
 genera and impose no finite-order hypothesis on the entire function.
 
-<a id="gh4-examples"></a>
 ### GH4. Products, approximation, and contour examples
 
 The following formulas and examples are explicit targets with the stated convergence hypotheses.
 
-<a id="gh4-sine-cosine-cotangent"></a>
 #### Sine, cosine, cotangent, and shifted sine
 
 Prove
-\[
-\sin(\pi z)=\pi z\prod_{n\ge1}(1-z^2/n^2),\qquad
-\cos(\pi z)=\prod_{n\ge1}(1-4z^2/(2n-1)^2).
-\]
+`sin(πz) = πz ∏_(n≥1) (1 − z²/n²)` and `cos(πz) = ∏_(n≥1) (1 − 4z²/(2n−1)²)`.
 The respective simple zero sets are `ℤ` and `ℤ+1/2`. On `ℂ\ℤ`, derive from compact-uniform
 product convergence
-\[
-\pi\cot(\pi z)=z^{-1}+\sum_{n\ge1}2z/(z^2-n^2),
-\]
+`π cot(πz) = z⁻¹ + Σ_(n≥1) 2z/(z² − n²)`,
 where `n` and `-n` terms are paired. The paired series converges locally uniformly away from
 `ℤ`. Its residue at each integer is `1`. The half-integer shift gives `-π tan(πz)` with
 simple poles of residue `1` at `ℤ+1/2`; state its symmetric pairing and local-uniform domain.
@@ -819,23 +820,15 @@ reciprocal Gamma, including its zeros at the poles.
 
 For `α∈ℂ\ℤ`, put `a_n=n-α` and choose a fixed enumeration of `ℤ`. Since
 `Σ |a_n|^{-2}<∞`,
-\[
-P_α(z)=\prod_{n\in\mathbb Z}E_1(z/a_n)
-\]
+`P_α(z) = ∏_(n∈ℤ) E₁(z/a_n)`
 converges locally uniformly and has exactly the simple zeros `a_n`. The quotient
 `sin(π(z+α))/P_α(z)` is zero-free entire, so define its entire logarithm `g_α` and obtain
 `sin(π(z+α))=e^{g_α(z)}P_α(z)` and `e^{g_α(0)}=sin(πα)`. On compacta avoiding the shifted lattice,
-\[
-\pi\cot(\pi(z+α))=g'_α(z)+\sum_{n\in\mathbb Z}
-\left((z+n+α)^{-1}-(n+α)^{-1}\right).
-\]
+`π cot(π(z+α)) = g'_α(z) + Σ_(n∈ℤ) ((z+n+α)⁻¹ − (n+α)⁻¹)`.
 The difference summands are `O(|n|^{-2})`, hence absolutely and locally uniformly summable.
 An unpaired series of simple principal parts is not assigned a value; any such expansion must
 specify symmetric partial sums. Determine the scalar and linear exponential explicitly:
-\[
-\sin(\pi(z+\alpha))=\sin(\pi\alpha)\,e^{\pi z\cot(\pi\alpha)}
-\prod_{n\in\mathbb Z}\left(1+\frac{z}{n+\alpha}\right)e^{-z/(n+\alpha)}.
-\]
+`sin(π(z+α)) = sin(πα) exp(πz cot(πα)) ∏_(n∈ℤ) (1 + z/(n+α)) exp(−z/(n+α))`.
 The bilateral genus-one product converges independently of enumeration because its tail
 factor deviations are bounded on each compact by a constant times `|n+α|⁻²`.
 Reindex by `n↦−n` to identify it with `P_α`; prove ordering independence from absolute
@@ -908,22 +901,17 @@ No absolute convergence of `Σ_(k∈ℤ)(z−k)⁻¹` is claimed. This alternati
 the existing sine/cosine/Gamma/shifted-product or contour examples.
 
 
-<a id="gh4-theta-ratios"></a>
 #### Theta, hyperbolic sine, divisors, and ratio products
 
 For real `0<r<1`, define
-\[
-H_r(z)=\prod_{n\ge1}(1+r^{2n-1}e^z)(1+r^{2n-1}e^{-z}).
-\]
+`H_r(z) = ∏_(n≥1) (1 + r^(2n−1) e^z)(1 + r^(2n−1) e^(−z))`.
 On each compact `K⊆D_R`, the sum of factor deviations is bounded by
 `2 e^R Σ r^(2n-1)+Σ r^(4n-2)<∞`; hence the product is entire. Reindex finite partial products,
 then take compact-uniform limits, to prove
 `H_r(z+2 log r)=r^{-1}e^{-z}H_r(z)`. Here `log r` is the real logarithm; do not assert this
 formula for arbitrary complex `r`. Include the finite-product proof without cancellation at a
 possible zero. The hyperbolic sine identity is
-\[
-\sinh(\pi z)=\pi z\prod_{n\ge1}(1+z^2/n^2),
-\]
+`sinh(πz) = πz ∏_(n≥1) (1 + z²/n²)`,
 proved by `sin(iw)=i sinh(w)` from the sine product.
 
 Product instances must include their actual reciprocal-power checks. For the integer lattice
@@ -938,9 +926,7 @@ points in the `k`th unit annulus lie in an annulus of fixed enlarged width, so t
 `O(k)` and `Σ_{λ∈Λ}|λ|^{-3}<∞`. This proves the full-lattice product, independent of ordering and grouping.
 
 For the square lattice use the explicit Manhattan-shell enumeration:
-\[
-z\prod_{N=1}^{\infty}\prod_{\substack{m,n\in\mathbb Z\\|m|+|n|=N}}E_2\!\left(\frac z{n+im}\right),\qquad E_2(w)=(1-w)e^{w+w^2/2}.
-\]
+`z ∏_(N≥1) ∏_(m,n∈ℤ, |m|+|n|=N) E₂(z/(n+im))`, where `E₂(w) = (1−w) exp(w + w²/2)`.
 For `Λ=ℤ+iℤ`, this has simple zero set all of `Λ`, including zero. Each shell has `4N` points and `|n+im|≥N/√2`. On `|z|≤R`, the sharp preparatory estimate `|E₂(w)−1|≤|w|³` for `|w|≤1` bounds each sufficiently large shell's total deviation by `4N(√2R/N)^3`. The shell bounds are summable, so the product converges compact-uniformly and independently of ordering. Consume the preparatory estimate `|1−E_p(w)|≤|w|^{p+1}` for `|w|≤1` and the proved
 admissibility of `p_n=n−1` for every escaping sequence; do not repeat that proof here. State the
 genus criterion and logarithmic-derivative theorem from the preparatory product layer,
@@ -951,11 +937,8 @@ deviations is `Σ_{n≥N}R/2^n=R·2^(1-N)`, which tends to zero as `N→∞`. Th
 example; each separately specified sequence requires its own convergence estimate.
 
 For sequences `a_n,b_n` with `Σ|a_n-b_n|<∞`, the ratio product
-\[
-\prod_{n\ge1}\frac{z-a_n}{z-b_n}
-=\prod_{n\ge1}\left(1+\frac{b_n-a_n}{z-b_n}\right)
-\]
-converges locally uniformly on `ℂ\setminus\overline{\{b_n:n≥1\}}`; on each compact set disjoint from the pole
+`∏_(n≥1) (z−a_n)/(z−b_n) = ∏_(n≥1) (1 + (b_n−a_n)/(z−b_n))`
+converges locally uniformly on `ℂ \ closure{b_n : n≥1}`; on each compact set disjoint from the pole
 closure the denominators have a positive lower bound, and the perturbations are summable. State the
 summability premise separately from pole-set separation, and handle removable numerator/pole
 coincidences by cancellation. For `a_n=2/n²`, `b_n=1/n²`, no numerator zero cancels a pole, since
@@ -964,7 +947,6 @@ value near that pole. The pole closure `{1/n²:n≥1}∪{0}` therefore gives the
 holomorphy domain for this example, including exclusion of continuation across the accumulation
 point 0 by its nearby genuine poles.
 
-<a id="gh4-polynomial-examples"></a>
 #### Polynomial and rational approximation examples
 
 For the crescent `Ω={z∈ℂ: |z|<1 and |2z−1|>1}`, prove compact-open polynomial density in
@@ -989,7 +971,6 @@ Apply GH0’s compact-support Cauchy/Pompeiu identity, uniform Riemann-sum lemma
 finite-chain pole-pushing and rational pole-set theorem to these approximation examples.
 Use their stated compact separation, error bounds and sphere-complement pole-set hypotheses.
 
-<a id="gh4-full-boundary-pompeiu"></a>
 #### Full-boundary Cauchy–Pompeiu formula
 
 Give piecewise-`C¹` Jordan parametrizations `γ₀,…,γₘ`, with `m<∞`, and write `Dⱼ` for the
@@ -1009,13 +990,10 @@ counterclockwise parameterizations and assemble the finitely many disjoint hole 
 does not state that winding conclusion. Suppose `Ω` is open, `closure(Δ)⊆Ω`, `f : ℂ → ℂ` is
 `C¹` on `Ω` as a real map, and `ξ∈Δ`. The formal theorem target is the area-integral identity
 
-\[
- f(ξ)=\frac{1}{2π i}\int_{C_Δ}\frac{f(z)}{z-ξ}\,dz
-       -\frac{1}{π}\int_Δ\frac{∂̄f(z)}{z-ξ}\,dA(z).
-\]
+`f(ξ) = (2πi)⁻¹ ∫_(C_Δ) f(z)/(z−ξ) dz − π⁻¹ ∫_Δ ∂̄f(z)/(z−ξ) dA(z)`.
 
 Here `dA` is positive planar Lebesgue measure. Record the source's equivalent plus-wedge display
-as the coefficient identity `dz∧d\bar z=−2i dA` in the positive basis `(1,i)`; do not introduce
+as the coefficient identity `dz∧dz̄=−2i dA` in the positive basis `(1,i)`; do not introduce
 an independent integral of a 2-form. Use `Cycle.integral` for the boundary term and Bochner area
 integration; prove integrability from boundedness of `∂̄f` on `closure(Δ)` and local integrability
 of `z↦‖z−ξ‖⁻¹` in two dimensions.
@@ -1038,16 +1016,16 @@ Cauchy–Pompeiu identity. As `ε↓0`, the counterclockwise circle integral of 
 `2πi f(ξ)`, and the exact error estimate is
 `|∮_{S_ε}F dz−2πi f(ξ)|≤2π sup_{|z−ξ|=ε}|f(z)−f(ξ)|`, which tends to zero. Set
 `M=sup_{z∈closure(Δ)}|∂̄f(z)|<∞`; the deleted area term is at most `2πMε`. The source
-plus-wedge and minus-area versions then agree by `dz∧d\bar z=−2i dA`.
+plus-wedge and minus-area versions then agree by `dz∧dz̄=−2i dA`.
 
 As a real/imaginary Stokes cross-check for the GH5 disk monomial moment, let `F=u+iv` be smooth
-on a neighborhood of the closed unit disk. Interpret `∮_{|z|=1}F d\bar z` as the pair of
+on a neighborhood of the closed unit disk. Interpret `∮_{|z|=1}F dz̄` as the pair of
 existing real curve integrals associated to the one-forms `u dx+v dy` and `v dx−u dy`; do not
 introduce a second complex contour carrier. Their curls are `vₓ−uᵧ` and `−uₓ−vᵧ`, which combine
 to `−2i∂_zF`. Specialize DG5.6.3 to the positive unit-circle cycle (index one on the open disk)
 to obtain
-`∮_{|z|=1}F d\bar z=−2i∫_{|z|<1}∂_zF dA`. For `m,n∈ℕ` and
-`F=z^(m+1)\bar z^n/(m+1)`, this recovers the GH5 disk moment identity. This cross-check belongs
+`∮_{|z|=1}F dz̄=−2i∫_{|z|<1}∂_zF dA`. For `m,n∈ℕ` and
+`F=z^(m+1)z̄^n/(m+1)`, this recovers the GH5 disk moment identity. This cross-check belongs
 to GH4 because it consumes DG5.6.3; the GH5 target itself uses polar area integration only.
 
 The region-boundary adapter must prove the Jordan separation/orientation-to-winding facts and hole
@@ -1082,8 +1060,8 @@ and `K₅ⁿ={0}`, with `Kⁿ=⋃₁⁵Kᵢⁿ`. Set
 `P_n=Q_n^{n+1}/Q_n^{n+1}(0)`. Then `P_n(0)=1` and
 `sup_{Kⁿ\{0}}|P_n|≤(1/(n+1))/(1-1/(n+1))=1/n`; prove pointwise convergence to zero at every fixed nonzero point. This is constrained approximation via a finite interpolation/normalization argument, not ordinary Runge density alone.
 
-Include the annulus-hull comparison with `K=\overline D_3(0)\setminus D_2(0)`, `Ω₁=D_4(0)`, and
-`Ω₂=D_4(0)\setminus\overline D_1(0)`. Compute `K̂_{Ω₁}=\overline D_3(0)` and
+Include the annulus-hull comparison with `K = closure(D_3(0)) \ D_2(0)`, `Ω₁=D_4(0)`, and
+`Ω₂ = D_4(0) \ closure(D_1(0))`. Compute `K̂_{Ω₁} = closure(D_3(0))` and
 `K̂_{Ω₂}=K`. For the transfer theorem, let
 Ω₁ and Ω₂ be open, K⊆Ω₁∩Ω₂ compact, and suppose the compact hull H=`K̂_{Ω₂}` is contained in Ω₁, prove:
 for every f holomorphic on Ω₁ and ε>0 there is g holomorphic on Ω₂ with
@@ -1103,8 +1081,6 @@ from holomorphic polynomial approximation, which requires connected complement. 
 open `Ω`, approximate by `H(Ω)` or rational functions under GH0's actual complement and pole-set
 conditions, not by complex polynomials without extra hypotheses.
 
-<a id="gh4-boundary-germs"></a>
-<a id="gh4-product-logarithmic-derivatives"></a>
 #### Product logarithmic derivatives and boundary examples
 
 For each pole family identify principal parts before summing. Cotangent poles at integers have
@@ -1114,12 +1090,11 @@ The same rule applies to shifted lattices and logarithmic derivatives of product
 local pole exclusions and verify residues directly.
 
 For arbitrary-domain boundary noncontinuation, consume
-[GH1’s branchwise meromorphic noncontinuation theorem](#gh1-boundary-nonextension)
+GH1’s branchwise meromorphic noncontinuation theorem
 and its shell-cover proof, including the arbitrary-disk and interior-germ corollaries.
 The product and cotangent examples here retain their explicit pole, residue, and
 logarithmic-derivative calculations.
 
-<a id="gh5-dbar"></a>
 ### GH5. Global smooth `∂̄` solvability on an arbitrary plane domain
 
 This milestone owns the global one-variable inhomogeneous Cauchy–Riemann equation, not just a
@@ -1156,18 +1131,18 @@ Classify the full solution space. Given any smooth particular solution `u₀` on
 a smooth `u` solves `∂̄u=f` exactly when `u=u₀+h` for a unique `h∈H(Ω)`. The difference
 satisfies the homogeneous Cauchy–Riemann equation, whose native differentiability criterion
 makes it holomorphic; conversely holomorphic functions are smooth and have zero `∂̄`.
-No connectedness or simple connectivity is required. On ℂ the right-hand side `f(z)=\bar z`
-has all solutions `u(z)=\bar z²/2+h(z)` with h entire. For `f(z)=z e^{−|z|²}`, use
+No connectedness or simple connectivity is required. On ℂ the right-hand side `f(z)=z̄`
+has all solutions `u(z)=z̄²/2+h(z)` with h entire. For `f(z)=z e^{−|z|²}`, use
 `u₀(z)=−e^{−|z|²}`. Since this particular solution is bounded, a solution is bounded exactly
 when its entire summand is bounded. Liouville gives precisely `u(z)=−e^{−|z|²}+c`, `c∈ℂ`.
 For `f(z)=z`, the particular solution `u₀(z)=|z|²`; all solutions are
 `|z|²+h(z)` for h entire. For the related exactness exercise, `dg=f dz` with smooth g forces
-`∂̄g=0`, hence g is holomorphic. Merely `∂_z g=f` does not: `f=0`, `g(z)=\bar z` is a counterexample.
+`∂̄g=0`, hence g is holomorphic. Merely `∂_z g=f` does not: `f=0`, `g(z)=z̄` is a counterexample.
 
 For every smooth `f` on an arbitrary open Ω, construct a smooth `g` such that
-`ω=g dz+f d\bar z` is closed. Apply global solvability to the smooth datum `∂_z f`,
+`ω=g dz+f dz̄` is closed. Apply global solvability to the smooth datum `∂_z f`,
 obtaining `∂̄g=∂_z f`, and prove
-`dω=(∂_z f−∂̄g) dz∧d\bar z=0` on the differential-form carrier below.
+`dω=(∂_z f−∂̄g) dz∧dz̄=0` on the differential-form carrier below.
 For a fixed f, all such coefficients are `g=g₀+h`, with h holomorphic on Ω.
 The conclusion is closedness; a global primitive additionally requires vanishing periods.
 
@@ -1208,27 +1183,26 @@ complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
 
 **GH5 coordinate worked examples.** Keep these scalar computations in GH5; the disk moment is
 proved by polar area integration and has no DG or CKG dependency. On all of `ℂ`, prove
-`d(i z²)=2iz dz` and `d(i|z|²)=i(\bar z dz+z d\bar z)`, as identities of
+`d(i z²)=2iz dz` and `d(i|z|²)=i(z̄ dz+z dz̄)`, as identities of
 complex-valued real one-forms with the coefficient pairing specified above. Also prove
 `d(|z|²)=2(x dx+y dy)` and `d(|z|⁴)=4(x²+y²)(x dx+y dy)`. On `ℂ\{0}`, prove
 `d((log|z|)²)=log(x²+y²)(x dx+y dy)/(x²+y²)`, using
 `log|z|=½ log(x²+y²)`; keep the expression `(log|z|)²` distinct from `log(|z|²)`.
 Using the already-defined GH5 Wirtinger operators, for `m,n∈ℤ` prove on `ℂ\{0}`
-`∂_z(z^m\bar z^n)=m z^(m−1)\bar z^n` and
-`∂_{\bar z}(z^m\bar z^n)=n z^m\bar z^(n−1)`. For `m,n∈ℕ`, prove the corresponding formulas on
+`∂_z(z^mz̄^n)=m z^(m−1)z̄^n` and
+`∂_{z̄}(z^mz̄^n)=n z^mz̄^(n−1)`. For `m,n∈ℕ`, prove the corresponding formulas on
 all of `ℂ`, reading the derivative term as zero when its exponent is zero: `∂_z=0` if `m=0`
-and `m z^(m−1)\bar z^n` otherwise; `∂_{\bar z}=0` if `n=0` and
-`n z^m\bar z^(n−1)` otherwise.
+and `m z^(m−1)z̄^n` otherwise; `∂_{z̄}=0` if `n=0` and
+`n z^mz̄^(n−1)` otherwise.
 
 Let `D=ball 0 1 ⊂ ℂ` with native Lebesgue area `volume`. For `m,n∈ℕ`, prove
-`∫_D z^m\bar z^n dvolume = if m=n then π/(m+1) else 0`, by polar coordinates: the angular
+`∫_D z^mz̄^n dvolume = if m=n then π/(m+1) else 0`, by polar coordinates: the angular
 integral vanishes unless `m=n`, while the equal-index radial integral is
 `2π∫₀¹ r^(2m+1)dr=π/(m+1)`. State that `D` is the open unit disk and that `m,n` are natural
 exponents; negative powers are not part of this disk-integrability claim. GH4's separate
 real/imaginary Green specialization supplies a Stokes cross-check, not a prerequisite for this
 GH5 computation.
 
-<a id="gh51-cousin-i-and-planar-de-rham-consequences"></a>
 ### GH5.1. Cousin I and planar de Rham consequences
 
 For additive Cousin I, for every open `Ω⊆ℂ` and locally finite open
@@ -1253,7 +1227,7 @@ ConformalMapping contract or DifferentialGeometry Green theorem; GH4 alone consu
 L5's Jordan separation/filled-hull target and DifferentialGeometry 5.6.3's finite-cycle Green target,
 with the GH-owned Jordan orientation/winding and `Cycle.integral` coordinate adapters stated above.
 Neither provider depends on GH4, so these edges are acyclic. This owner provides GH0 Runge/exhaustion
-and the scalar compact-support Cauchy–Green operator to CKG K2, and GH5.1 complex 2-form exactness
+(the exhaustion in the generic finite-dimensional form used by Hyperfunctions HF2) and the scalar compact-support Cauchy–Green operator to CKG K2, and GH5.1 complex 2-form exactness
 to CKG K5a. Those CKG targets own the parameter and complex-carrier comparison arguments
 respectively.
 It builds the global one-variable Runge, Mittag–Leffler, zero-divisor, quotient, entire-factorization,
