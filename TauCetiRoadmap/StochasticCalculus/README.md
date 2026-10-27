@@ -120,7 +120,9 @@ work to build; only the entries explicitly identified as native assert an implem
   measurability in the supremum sigma algebra; the unrestricted limit is conditional
   expectation onto that sigma algebra.
 - [StandardDistributions](../StandardDistributions/README.md) owns scalar Gaussian/Poisson/
-  exponential/CDF and distribution families. Add connecting Gaussian moment/path-integral
+  exponential/CDF and distribution families, the modified Bessel function `Real.besselI`
+  with its series, recurrence and positivity API (§8.1), the sphere surface mass (§12.1)
+  and the spherical exponential integral as the von Mises–Fisher normalizer (§12.2). Add connecting Gaussian moment/path-integral
   lemmas here, not duplicate law definitions.
 - [PointProcesses](https://github.com/TauCetiProject/TauCetiRoadmap/pull/417)
   owns the shared `nnvolume` convention and unmarked Poisson point-measure construction targets,
@@ -294,9 +296,9 @@ of algebra-simple functions by disjointization, prove positivity, linearity and
 |I(f)|≤µ(Ω)‖f‖∞, and extend it uniquely to their uniform closure. Compare with Bochner
 integration when the content extends to a countably additive measure. Prove that an
 unrestricted absolutely weighted-summable indicator-series extension is not
-representation independent: on the finite/cofinite algebra of ℕ, assign mass0 to finite
-sets and mass1 to cofinite sets. The constant1 has representations 1_Ω and Σ_n1_{n},
-whose coefficient-mass sums are1 and0. This pins the limit of the source's extension claim.
+representation independent: on the finite/cofinite algebra of ℕ, assign mass 0 to finite
+sets and mass 1 to cofinite sets. The constant 1 has representations `1_Ω` and `Σ_n 1_{n}`,
+whose coefficient-mass sums are 1 and 0. This pins the limit of the source's extension claim.
 
 For each T≥0 and right-continuous real BV g on [0,T], extend g constantly outside
 that interval and use native `BoundedVariationOn.vectorMeasure` from
@@ -388,8 +390,8 @@ constructions pathwise.
    product-measurable adapted process into a Polish space has a progressive modification, meaning
    equality almost surely at each fixed time. This is not indistinguishability and requires no
    path regularity or usual conditions. Use Ondreját–Seidler, *On existence of
-   progressively measurable modifications*, ECP18(2013), no.20,
-   [Theorem0.1](https://doi.org/10.1214/ECP.v18-2548), for this exact distinction between
+   progressively measurable modifications*, ECP 18 (2013), no. 20,
+   [Theorem 0.1](https://doi.org/10.1214/ECP.v18-2548), for this exact distinction between
    fixed-time modification and indistinguishability. Prove it acyclically: scalar conditional-expectation
    paths are regulated in L¹ for arbitrary filtrations; dyadic representatives and the countable
    set of one-sided discontinuities give progressive scalar versions; indicators extend by a
@@ -791,9 +793,13 @@ predictable integration. Its separate hazard and sigma-finite band contracts are
 context: the hazard conclusion uses an ambient-null-augmented internal history, and sigma-finite
 master measures use the measure-valued predictable-Poisson identity before finite-ground carrier
 lifting. These are not additional hypotheses of this homogeneous Unit-mark specialization.
-It does not claim general-filtration compensator existence. S2.5 owns usual-basis Doob–Meyer
-existence and the cumulative-process/random-measure dictionary. The forward adapted-Poisson
-result is owned by PointProcesses Layer11 and consumed above. Its reverse Watanabe characterization has `IsCompensator` as
+It does not claim general-filtration compensator existence, and no compensator existence
+theorem for general marks, Doob–Meyer based or finite-horizon-integrable, is consumed from
+PointProcesses: its consumed contracts are the carriers, `IsCompensator`, uniqueness, the
+finite-horizon-integrable compensated-integral martingale theorem and the forward
+adapted-Poisson compensator. S2.5 owns usual-basis Doob–Meyer existence and the
+cumulative-process/random-measure dictionary for Unit marks. The forward adapted-Poisson
+result is owned by PointProcesses Layer 11 and consumed above. Its reverse Watanabe characterization has `IsCompensator` as
 a premise and is a separate converse. Use this specialization in the first-jump
 example and S3.5 through the common a.s. pushforward-equality event.
 
@@ -802,7 +808,7 @@ the first jump of a rate-α Poisson process, α>0, in every filtration F for whi
    its Unit-mark temporal point measure has compensator
    `(ENNReal.ofReal α • nnvolume).prod (dirac ())`, using PointProcesses'
    predictable-integral identity. For the constructed homogeneous example first
-   apply S0.6's Unit-mark adapter and PointProcesses Layer11's `isCompensator_of_isAdaptedPoisson` in the ambient-null-augmented natural source history `F^src` just defined,
+   apply S0.6's Unit-mark adapter and PointProcesses Layer 11's `isCompensator_of_isAdaptedPoisson` in the ambient-null-augmented natural source history `F^src` just defined,
 or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-time law alone does not give this
    arbitrary-filtration compensator hypothesis.
 
@@ -1314,7 +1320,7 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    where `τ_k` is the S0.6 roadmap jump-time enumeration; equivalently index positive jump times by j=k+1
    and sum over j≥1. This restricted sum is finite; it never evaluates X at `τ_k=∞`.
    The open left endpoint matches S0.0's convention ν_g({0})=0; the constructed source process
-   has no time-zero atom a.s. Under PointProcesses Layer10's `TemporalPointMeasure` carrier, values
+   has no time-zero atom a.s. Under PointProcesses Layer 10's `TemporalPointMeasure` carrier, values
    are point measures locally finite on compact time intervals, so for a process valued
    in that carrier the sum has finitely many terms on each bounded horizon for every ω. When
    transferring the identity to the unmarked source process via the adapter's almost-sure
@@ -1523,7 +1529,7 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    `exp(α(M−M₀)−α²A/2)` is local for every real α, and iff the literal source p173
    process `exp(αM−α²A/2)` is local for every real α. Also prove the source p.173 L² implication: when `A=[M]`, if M is an L² martingale, `Z₀^α∈L²`, and `E∫₀ᵗ(Z_s^α)²dA_s<∞` for every finite t, then `Z^α` is an L² martingale, by its stochastic-integral representation and Itô isometry. For the uncentered form,
    localize the F₀-measurable finite exponential initial value; no global integrability
-   of that initial value is assumed. No measure change from a local density of expectation less than1.
+   of that initial value is assumed. No measure change from a local density of expectation less than 1.
 5. **S5.5 Lévy characterization and Brownian versions.** For the original real process M,
    assume literal `StronglyAdapted F M`, native
    `Locally (fun Y => Martingale Y F P) F M P`, continuity outside one common null set,
@@ -1676,7 +1682,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    `{τ_a>t}` is bounded by `exp(αa−θt)`, which tends to zero. This supplies the
    limit needed for bounded-time optional sampling. At θ=0 use the previously proved
    a.s.-finite hitting time/probability normalization, or the θ↓0 limit of the positive-
-   parameter transform by bounded convergence; the displayed residual bound alone is1.
+   parameter transform by bounded convergence; the displayed residual bound alone is 1.
    Reflection sends both x and a
    to −x and −a for x>a. The x=a case has τ_a=0. Preserve these starting-point
    conventions when deriving the density and its analytic Laplace transform.
@@ -2185,7 +2191,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    solution law, stopping/restart and indistinguishability. Global spatial Lipschitz and linear
    growth, measurability in t and finite-horizon uniform constants give strong existence,
    pathwise uniqueness, moment estimates and stability. In the full finite-dimensional
-   bounded globally Lipschitz case of textbook Theorem6.2.3, let the two solutions use the
+   bounded globally Lipschitz case of textbook Theorem 6.2.3, let the two solutions use the
    same Brownian noise and F₀-measurable initial states with `X₀−Y₀∈L²`; neither individual
    initial state need be L² for this difference estimate. If the drift Lipschitz constant is
    K_b and the diffusion Lipschitz constant in Hilbert–Schmidt norm is K_σ, prove
@@ -2403,36 +2409,24 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    nonattainment/nonexplosion to pass from annuli to the global process. Do not defer this
    identification to S9.5 or S10.1.
 
-   This milestone owns the analytic modified-Bessel prerequisite used by its
-   transition kernel. Follow the complex-order regularized-hypergeometric design
-   of [Mathlib PR43070](https://github.com/leanprover-community/mathlib4/pull/43070)
-   on the existing `Complex.regularizedHGFun` and
-   `Complex.besselJ` APIs. Follow `Complex.besselI` only as the proposed upstream
-   interface: keep any pre-merge local declaration in `TauCeti` to avoid a name collision.
-   Build the missing material in Tau Ceti and adopt the upstream implementation when available.
-   Include holomorphy on the slit plane
-   for complex orders, entire dependence on the argument for integer orders,
-   integer-order parity, `I_(-n)=I_n`, the integer-order comparison
-   `I_n(z)=(-i)^n J_n(iz)`, and the values at zero with the native complex-power
-   convention. For ν≥0 and z>0, identify the real part
-   with the positive series
-   `I_ν(z)=(z/2)^ν Σ_(k≥0) (z²/4)^k/(k! Γ(k+ν+1))`,
-   prove summability and local uniform convergence, reality, positivity,
-   continuity at z=0 with I₀(0)=1 and I_ν(0)=0 for ν>0, and smoothness for z>0.
-   Prove the derivative and recurrence identities
-   `I_ν'=I_(ν+1)+(ν/z)I_ν` and
-   `I_ν−I_(ν+2)=2(ν+1)I_(ν+1)/z`, and the modified Bessel equation
-   `z²I_ν''+zI_ν'−(z²+ν²)I_ν=0` on that positive domain.
-   Use the defining series and the gamma/beta integrals to prove the spherical
-   integral identity
-   `∫_(S^(d−1)) exp(z θ₁)dS=(2π)^(d/2) z^(1−d/2) I_(d/2−1)(z)`
-   for z>0, where dS is the unnormalized Euclidean sphere measure represented by
-   Mathlib's `Measure.toSphere` in finite-dimensional Euclidean space; prove its identification
-   with the Euclidean surface-measure convention in this integral and its total mass
-   `2π^(d/2)/Γ(d/2)`. Compare the positive-real restriction with the complex
-   function, retaining its principal-branch convention. The defining series and
-   integral normalization are [DLMF10.25.2](https://dlmf.nist.gov/10.25#E2) and
-   [DLMF10.32.2](https://dlmf.nist.gov/10.32#E2).
+   The modified Bessel function is StandardDistributions' `Real.besselI` (§8.1), consumed
+   on orders ν>−1 and positive arguments: its positive series
+   `I_ν(z)=(z/2)^ν Σ_(k≥0) (z²/4)^k/(k! Γ(k+ν+1))`, convergence, positivity, joint
+   continuity and measurability, the derivative identity `I_ν'=I_(ν+1)+(ν/z)I_ν`, and the
+   adjacent-order recurrence, used here at order ν+1 in the form
+   `I_ν−I_(ν+2)=2(ν+1)I_(ν+1)/z`. The sphere measure is the unnormalized
+   `volume.toSphere` with total mass `2π^(d/2)/Γ(d/2)` (StandardDistributions §12.1), and
+   the spherical integral identity
+   `∫_(S^(d−1)) exp(z θ₁)dS=(2π)^(d/2) z^(1−d/2) I_(d/2−1)(z)` for d≥2 and z>0 is the
+   von Mises–Fisher normalizer identity of StandardDistributions §12.2 at the unit
+   direction θ₁. This milestone uses only these positive-argument facts; it needs no
+   complex-order or complex-argument Bessel theory. On top of them prove, for ν≥0 and
+   z>0, that `z ↦ I_ν(z)` is smooth and satisfies the modified Bessel equation
+   `z²I_ν''+zI_ν'−(z²+ν²)I_ν=0`: differentiate the derivative identity, rewrite
+   `I_(ν+1)'` by the derivative identity at order ν+1, and eliminate `I_(ν+2)` and
+   `I_(ν+1)` with the recurrence and the derivative identity; only orders ν, ν+1, ν+2,
+   all in the supplier's range ν>−1, occur (DLMF 10.25.1, 10.29.1, 10.29.2).
+   *Needs:* StandardDistributions §8.1, §12.1, §12.2.
 
    Put ν=d/2−1. For t,r,y>0 define the Lebesgue transition density
    `p_t(r,y)=(y/t)(y/r)^ν exp(−(r²+y²)/(2t)) I_ν(ry/t)`.
@@ -2445,9 +2439,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    formula using `I_(1/2)(z)=sqrt(2/(πz)) sinh z`. In d=3 also evaluate
    `E_r[1/R_t]=(2Φ(r/√t)−1)/r<1/r` for t>0, where Φ is the standard normal
    CDF from S6.2; together with Itô this identifies 1/R as a positive strict
-   local martingale. These kernel and inverse-radius calculations belong here;
-   StandardDistributions' exclusions of Bessel transform formulas add no
-   duplicate supplier obligation there.
+   local martingale. The kernels, their Chapman–Kolmogorov law, the half-integer
+   closed form and the inverse-radius expectation are owned here; the function
+   `Real.besselI` and its series, recurrence and sphere-integral API are owned by
+   StandardDistributions.
 
 5. **S9.5 solution maps and flows.** Under S9.1's global Lipschitz/linear-growth hypotheses,
    construct jointly measurable nonanticipating dependence on time/start/noise, Lp stability
@@ -2632,7 +2627,7 @@ Keep literal transcript statements and the adopted theorem targets in separate f
 
 The page numbers refer to the source transcripts. Each row distinguishes the literal statement from the mathematical theorem to prove; retain both.
 
-The remaining source-specific theorem targets are owned in the following milestones, with literal statements separated from corrected forms: p.16 conditional Jensen belongs to S2.1 with `X∈L¹`, `φ(X)∈L¹` (or a separately stated nonnegative extended-integral form); p.19 event-restricted product/iterated-integral identity belongs to S6.1 and uses the independent-law adapter immediately above; the Wiener-path-law F-martingale corollary belongs to S5.5 via quadratic variation and Lévy with literal strong adaptation for the original process and no assumed future independence; bare locality supplies the separate predictable Brownian version. Textbook Theorem4.8.1 retains its standard-filtration source hypothesis, uses the centered Lévy statement and separately identifies M as Brownian started at its finite `F₀`-measurable M₀; textbook Theorem 6.2.3 belongs to S9.1–S9.2 with bounded Lipschitz coefficients, Brownian noise, F₀ initial data, uniqueness up to indistinguishability/law, and its displayed supremum estimate.
+The remaining source-specific theorem targets are owned in the following milestones, with literal statements separated from corrected forms: p.16 conditional Jensen belongs to S2.1 with `X∈L¹`, `φ(X)∈L¹` (or a separately stated nonnegative extended-integral form); p.19 event-restricted product/iterated-integral identity belongs to S6.1 and uses the independent-law adapter immediately above; the Wiener-path-law F-martingale corollary belongs to S5.5 via quadratic variation and Lévy with literal strong adaptation for the original process and no assumed future independence; bare locality supplies the separate predictable Brownian version. Textbook Theorem 4.8.1 retains its standard-filtration source hypothesis, uses the centered Lévy statement and separately identifies M as Brownian started at its finite `F₀`-measurable M₀; textbook Theorem 6.2.3 belongs to S9.1–S9.2 with bounded Lipschitz coefficients, Brownian noise, F₀ initial data, uniqueness up to indistinguishability/law, and its displayed supremum estimate.
 
 The independent-sum martingale is an S2.1 application under integrability. The p.152 partition-refinement variation is S0.0; retain the source’s undefined `k=0` summand as an erratum. The three-dimensional inverse-radius limit for fixed deterministic `x≠0` is S6.4. The p.173 exponential L² implication is S5.4 with the explicit hypotheses stated there. The biased-ruin formula and fair-coin limit are S2.3 examples with bounded-exit conditions; retain the p.1 `p=1,q=0` degenerate exception. Open-set exit measurability is S0.4; proper-open-set one-dimensional exit finiteness is S6.2. The anticipative right-endpoint sum is the explicit S4.2 adapter above, consumed by S3.5. The rotation-invariant probability uniqueness and disk Poisson kernel with angular normalization are S6.5.0–S6.5.1. The OU explicit solution, Stratonovich `e^B` example, uncentered Lévy statement, Scheffé converse, event-form Doob inequalities, and strict p.101 localizer are separate adapters/examples in S9.4, S5.3/S5.5, S2.1/S2.2, and S3.4 respectively. Financial corrections are owned by FinancialMathematics M0.4; SC supplies the GBM and Gaussian-payoff interfaces. These are source-specific targets, not duplicate measure or finance libraries.
 
@@ -2971,9 +2966,9 @@ S6.7's two-sided noise uses S1; the smooth-flow skew products are constructed in
 S7 uses S4/S5 and the S1 Brownian construction for independent clock extensions. S8 uses S1/S3
 and the Gaussian RKHS supplier, with a direct finite-grid proof dictionary. S9 uses S3/S4.3 BDG/S5/S7; its radial Bessel examples additionally consume S5.5's
 Lévy characterization, S6.1's Brownian strong Markov theorem, S7.2's clock/substitution,
-S9.3's Yamada–Watanabe uniqueness-in-law implication and StandardDistributions' standard-normal CDF `Φ(x)=cdf (gaussianReal 0 1) x` from S6.2. Its complex modified-Bessel API follows Mathlib PR43070's
-`Complex.besselI` proposal design and consumes the existing regularized hypergeometric
-functions. S9.4a constructs the missing Bessel API in Tau Ceti with that interface.
+S9.3's Yamada–Watanabe uniqueness-in-law implication and StandardDistributions' standard-normal CDF `Φ(x)=cdf (gaussianReal 0 1) x` from S6.2. Its kernels consume StandardDistributions' `Real.besselI` (§8.1), sphere surface
+mass (§12.1) and von Mises–Fisher normalizer identity (§12.2); S9.4a adds only the modified
+Bessel equation on positive arguments and the radial kernel theory.
 S10 uses S4.3 BDG/S6/S9 and the explicitly cited deterministic PDE/semigroup suppliers. Strong Markov
 must not be assumed in the Brownian construction or in proving usual natural-filtration laws.
 
