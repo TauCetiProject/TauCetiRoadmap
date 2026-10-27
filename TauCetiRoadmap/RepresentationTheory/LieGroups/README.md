@@ -406,6 +406,74 @@ statements separate from this boundaryless native interface.
   Lie-group homomorphisms out of a connected `G` correspond to homomorphisms out of `G̃` trivial on
   `ker p`, refining Layer 4's bijection to connected (not just simply-connected) sources, and this
   refinement is what needs Layer 4.
+- <a id="connected-adjoint-global-forms"></a> **Centers, adjoint quotients and
+  marked global forms.** For connected G prove `ker Ad=Z(G)`,
+  `ker ad=z(g)` and `g^Ad(G)=z(g)`, using exponential naturality and
+  generation by an identity exponential neighbourhood. Identify the Lie
+  algebra of the actual closed central subgroup by Layer2. Deduce that
+  Z(G) is discrete iff z(g)=0, equivalently the adjoint representation
+  has no nonzero invariant vector. For a smooth action of connected G,
+  prove its fixed-point set equals the common zero set of all fundamental
+  vector fields: uniqueness of their integral curves gives invariance
+  under each exponential, and generation gives invariance under G.
+
+  Prove that every discrete normal subgroup of connected G is central
+  by its conjugation orbit, and use this to prove that G/Z(G) is
+  centerless when Z(G) is discrete. Construct the actual quotient Lie
+  group and its covering homomorphism with the stated differential.
+  For a finite-dimensional real centerless Lie algebra g, let U be its
+  simply connected integration from Layer4. Then Z(U) is discrete;
+  construct `G_ad=U/Z(U)` and the faithful immersed adjoint map into
+  Aut(g). Its Lie-group topology is the quotient/immersed topology;
+  it is not asserted to be the subspace topology of its matrix image.
+
+  Classify connected integrations with a specified Lie-algebra
+  identification with g and isomorphisms preserving that identification:
+  for every subgroup D≤Z(U), construct the smooth group U/D, the cover
+  U/D→G_ad, and their kernels, differentials and inverse classification
+  maps. Conversely integrate the marked identity from U to any such H;
+  connectedness makes it onto with discrete central kernel D, and the
+  quotient comparison is an isomorphism. Prove Z(U/D)=Z(U)/D by the
+  discrete-normal-subgroup argument applied to its central preimage.
+  Thus π₁(G_ad) identifies with Z(U), and this is the cover classification
+  in general1 p3. If forgetting the marking, include the action of
+  Aut(g) on these central subgroups instead of asserting an unmarked
+  one-to-one correspondence with individual D. Treat g=0 as the point.
+  The conclusions require connectedness and the stated centerless
+  hypothesis: compare the finite Q₈ example and the native real
+  Heisenberg group, whose quotient by its positive-dimensional center
+  is abelian and has a nontrivial center.
+<a id="connected-nilpotent-exponential"></a>
+**Nilpotent global BCH coordinates and connected quotients.** For a
+finite-dimensional nilpotent real Lie algebra n, construct the truncated
+BCH polynomial on a type copy of its vector-space carrier, with the same
+topology and smooth manifold. Specify a nilpotence bound: all Lie words
+longer than it vanish, so Layer3's local BCH series has only finitely
+many terms. Prove the global multiplication associative: both sides of
+the associativity equation are polynomial maps and agree on an identity
+neighbourhood by local BCH, hence agree everywhere. Prove unit0,
+inverse−X and the smooth group laws, and identify its tangent Lie algebra
+with n via the identity linear map. This BCH group is simply connected
+by the vector-space contraction. Layer4's integration and uniqueness
+identify it with the simply connected integration of n, with inverse maps.
+Its one-parameter subgroup from X is t↦tX; thus its exponential is the
+identity in these coordinates and is a global diffeomorphism. Prove
+naturality under real Lie homomorphisms, not just coordinate existence.
+
+For any connected finite-dimensional real Lie group H with nilpotent
+Lie algebra h, consume Layer5's universal covering homomorphism p:H̃→H
+and its actual Lie-algebra isomorphism dp. Compare H̃ with that BCH group
+on h. Construct its discrete central kernel Γ=ker p and the smooth
+quotient comparison H̃/Γ≃H. Exponential naturality gives
+`p(exp_H̃((dp)⁻¹X))=exp_H(X)`, hence exp_H is surjective. For simply
+connected H recover the global exponential diffeomorphism above. Contract
+H̃ through its BCH coordinates and use AlgebraicTopology's covering
+comparison to prove π_j(H,1)=0 for every j≥2; identify π₁(H,1) with Γ.
+Connected H need not be contractible or have injective exponential.
+Include the point and circle as boundary cases. These are the group
+conclusions of Knutson's complex4 pp2–3. They do not weaken the simply
+connected hypotheses of any orbit-method representation theorem.
+
 - **The universal enveloping algebra.** Identify Mathlib's U_R(g) with the
   left-invariant differential operators, with the derivative action and
   `UniversalEnvelopingAlgebra.lift` universal property. Consume
@@ -916,6 +984,47 @@ global Lie group without adding a new triangularization or complexification prer
   and the same universal property. The connected period-quotient construction is
   recorded in [Heins, Proposition 2.1](https://arxiv.org/html/2512.07479v1#S2);
   construct the quotient and all its descent laws here.
+<a id="sl2-real-cover-complexification"></a>
+**The nontrivial covers of SL₂(ℝ).** Compute this example of the preceding
+universal complexification, including its actual unit map and kernel.
+For the native matrix group G=SL₂(ℝ), construct the real QR diffeomorphism
+`SO(2)×ℝ_(>0)×ℝ≃G`, using the positive upper-triangular factor with
+entries (a,b;0,a⁻¹). It identifies π₁(G) with ℤ, generated by the full
+rotation θ↦[[cos θ,−sin θ],[sin θ,cos θ]], 0≤θ≤2π. Let
+p:G̃→G be Layer5's connected universal covering group and let ζ be the
+endpoint of the lift of this full rotation from1. Construct its kernel
+as the infinite cyclic central subgroup generated by ζ. For m≥1 put
+H_m=G̃/⟨ζ^m⟩, and put H_∞=G̃. Construct the covering maps p_m:H_m→G,
+the finite cyclic kernel of order m and the infinite cyclic kernel for
+H_∞, and identify all connected covers by these actual maps.
+
+Compare sl₂(ℝ)⊗ℂ with sl₂(ℂ). Prove SL₂(ℂ) simply connected using
+its polar deformation to the earlier SU₂≃S³, with the positive Hermitian
+determinant-one factor contractible by its logarithm. The integrated map
+j:G̃→SL₂(ℂ) equals the composite of p with the real matrix inclusion,
+by its differential and connected-source uniqueness. In particular j(ζ)=1.
+The period-quotient construction therefore gives
+`(H_m)_ℂ≃SL₂(ℂ)` and `η_m=ι∘p_m`, including m=∞. Construct the two
+universal-property comparisons and their inverse equations.
+
+Every continuous finite-dimensional complex representation of H_m factors
+uniquely through p_m: smooth it by Layer2, complexify its differential,
+integrate from SL₂(ℂ) and compare on the connected source. Conversely
+pullback gives all such representations. The intersection of their kernels
+is exactly ker p_m, using the faithful standard representation of G.
+Thus for m≥2 and m=∞ there is no faithful such representation, and η_m
+is not injective. An injective realization as a real form in a complex
+Lie group is impossible by the same universal property, although the
+universal complexification itself exists. This pins complex4 p2's notion
+of complexification without replacing it by the universal one.
+
+As the separate exponential-map exercise, prove diag(−2,−1/2) is not
+exp(X) for X∈sl₂(ℝ): X commutes with its exponential, so this distinct-
+eigenvalue diagonal forces X real diagonal; its exponential then has
+positive diagonal entries. Compare with the surjective unitary exponential
+from spectral diagonalization. These are explicit global examples of the
+earlier exponential and representation interfaces, not new integrations.
+
 - **Compact semisimple integration.** Integrate a compact semisimple real Lie
   algebra k_s simply connectedly by Layer4. Its −Killing form gives a bi-invariant
   metric; compute all geodesics as all-time one-parameter groups and Ric=(1/4)g.
@@ -1398,6 +1507,42 @@ every element of A. Do not infer the global form or its center from the label `G
 dimension 14.
 This lower Lie-algebra and period comparison consumes the explicit actual-root datum above;
 it does not feed back into the division algebra or Cayley-frame construction.
+
+<a id="g2-su3-branching-multiplicity"></a>
+**Restriction to the stabilizer and branching multiplicity.** For the
+actual stabilizer inclusion i:SU(3)→G above, complexify the seven-dimensional
+real action and retain the complexified adjoint action. Write U_(a,b) for
+the compact G₂ irreducible with highest weight aω₁+bω₂, with ω₁ attached
+to the short simple root, and W_(p,q) for the SU(3) irreducible of highest
+weight pϖ₁+qϖ₂. Construct these actions from LieHighestWeight's existing
+modules and Layer7's actual integration/extension maps. Identify the
+standard SU(3) module W_(1,0) with the complex three-plane supplied by the
+chosen imaginary unit, and W_(0,1) with its dual; use the same torus map
+as in the preceding root calculation.
+
+Construct equivariant linear equivalences with the following restrictions:
+
+| G₂ module | Restriction along i |
+| --- | --- |
+| U_(1,0), dimension7 | W_(0,0) ⊕ W_(1,0) ⊕ W_(0,1) |
+| U_(0,1), dimension14 | W_(1,1) ⊕ W_(1,0) ⊕ W_(0,1) |
+| U_(2,0), dimension27 | W_(0,0) ⊕ W_(1,0) ⊕ W_(0,1) ⊕ W_(2,0) ⊕ W_(0,2) ⊕ W_(1,1) |
+| U_(1,1), dimension64 | W_(1,0) ⊕ W_(0,1) ⊕ W_(2,0) ⊕ W_(0,2) ⊕ W_(1,1)^(⊕2) ⊕ W_(2,1) ⊕ W_(1,2) |
+
+Prove the first two rows from the actual division-octonion and differentiated
+orbit maps, including their scalar extension, rather than by dimensions.
+For the next rows prove `Sym² U_(1,0)≃1⊕U_(2,0)` and
+`U_(1,0)⊗U_(0,1)≃U_(1,0)⊕U_(2,0)⊕U_(1,1)` by the existing highest-weight
+character/tensor theory on the computed root datum. Restrict these characters,
+apply the typeA tensor rules, and prove coefficientwise equality on the actual
+SU(3) torus. Complete reducibility supplies the displayed module equivalences.
+In particular construct the multiplicity space
+`Hom_SU(3)(W_(1,1),Res_i U_(1,1))` and prove its complex dimension is2.
+This proves failure of multiplicity-free restriction for this embedding,
+as asserted in Knutson's second-semester p5, without assigning meaning to
+its informal phrase “largest subgroup.” Compare the numeric character with
+[the Sage G₂→A₂ branching example](https://doc.sagemath.org/html/en/reference/combinat/sage/combinat/root_system/branching_rules.html),
+while proving the actual compact inclusion and all intertwining maps here.
 
 **Owner boundary.** LieHighestWeight Layer8 owns the positive ℍ⊕ℍ algebra, all
 nonassociative identities, the real trace/cross tensors, and scalar-extension comparison.
