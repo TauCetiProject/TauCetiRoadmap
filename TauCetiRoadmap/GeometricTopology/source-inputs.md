@@ -24,6 +24,40 @@ certify a knot diagram from a matrix or turn unreadable labels into specified
 input. The explicit arrays and descriptions here make the algebraic tasks usable
 without a private transcript, repository-root request, or evidence-directory link.
 
+## Marked crossing changes
+
+The source diagram is physical-page1 problem4 of *Knot Theory - problems.pdf*.
+In *Knot Theory.pdf*, pages20–22 contain a worked unknotting change followed
+by a different marked crossing change and an incomplete Alexander matrix.
+The latter calculation prints
+
+```text
+Q(t) = t² − 5t³ + 10t⁴ − 13t⁵ + 10t⁶ − 5t⁷ + t⁸,
+Δ_Q(t) = −t⁻⁵Q(t),    Δ_Q(1) = 1,    |Δ_Q(−1)| = 45.
+```
+
+Pages201–202 label crossings of an eleven-crossing diagram A, B and C.
+The text asserts that reversing A gives the unknot, and reversing B or C
+leaves a nontrivial knot. For B it displays a nonconstant 3-colouring and
+asserts a decomposition `3₁ # 6₃`, whose determinant would be `3·13=39`.
+The [Knot Atlas's 6₃ entry](https://katlas.org/wiki/6_3) gives the normalized
+polynomial `t²−3t+5−3t⁻¹+t⁻²` and determinant13. Use an actual named-knot
+presentation and the Alexander computation to certify this value locally;
+the table is a reference value, not the geometric identification.
+The page21 circled crossing has no established A/B/C correspondence. Do not
+identify that change with B, or assign both determinant45 and determinant39
+to the same realized knot. The unreadable/overwritten page22 matrix entries
+must be recovered from the actual diagram and its arc relations. Q is a
+literal source polynomial, not a certified invariant of that diagram.
+
+The complete targets are the actual diagram realizations, crossing
+correspondences, finite unknotting/connected-sum movies, 3-colouring and
+Alexander computations. Determine whether different marked changes account
+for the different values; otherwise identify and correct the source error
+by those geometric and algebraic computations. Neither fitting a missing
+matrix entry to Q nor replacing the drawn knot by an arbitrary knot with
+that polynomial supplies the required comparison.
+
 ## Two distinct Seifert matrices and the general template
 
 Use the source convention `V_ij = lk(x_i,x_j^+)`: the **second** curve receives the

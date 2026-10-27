@@ -1491,6 +1491,53 @@ For a connected embedded finite band system, merge discs along a spanning tree, 
 
 Define ordinary genus g(K) as the minimum genus over ALL compact connected embedded oriented spanning surfaces of K. Prove existence/attainment from GT4 Seifert existence and natural-number well-ordering; ambient-isotopy and reparametrization invariance; g=0 iff unknot using embedded-disc standardization. Separately define canonical genus g_can(K) as the minimum over diagram Seifert-algorithm surfaces, prove g≤g_can, and do not claim equality. The literal source173 minimizes diagram surfaces; retain that as its canonical-genus definition.
 
+<a id="gt4-bridge-genus-comparisons"></a>
+For a realized regular oriented knot diagram D with n crossings and d Seifert
+circles, construct its canonical Seifert surface S_D with exactly d discs,
+n bands and one boundary component. Prove connectedness and
+`2g(S_D)=n−d+1`, including integrality and nonnegativity. Define the Seifert
+graph with its actual circles as vertices and each crossing band as an edge;
+prove from the oriented plane smoothing and Jordan separation that no edge is
+a loop. Thus n>0 implies d≥2. Apply `g(K)≤g(S_D)` to a diagram attaining
+crossing number to prove `2g(K)≤c(K)−1` for every nontrivial tame knot.
+For every genus-h embedded oriented spanning surface, use its actual rank-2h
+Seifert matrix and the fixed formula `Δ_K(T)=T^(−h)det(TV−Vᵀ)` to prove
+that the symmetric Laurent support lies in `[-h,h]`. Since `Δ_K(1)=1`,
+its support is nonempty; define its span as maximum minus minimum exponent.
+Minimizing over spanning surfaces gives `span(Δ_K)≤2g(K)`, hence
+`span(Δ_K)<c(K)` for nontrivial knots. The crossing-free unknot has d=1,
+surface a disc, g=0, c=0 and Δ=1 of span0; the strict crossing inequality
+is not asserted for this branch. These comparisons use ordinary genus,
+while the displayed diagram count computes that diagram's canonical surface.
+
+Compare the height-maxima definition of bridge number with the source's
+maximal-overpass definition. For a regular knot diagram with at least one crossing,
+record the cyclic over/under encounter word along its single component;
+each crossing contributes one encounter of each kind. An overpass is a
+maximal nonempty cyclic run of overcrossing encounters, represented by an
+arc with endpoints in the adjacent crossing-free intervals; it is not an
+arbitrary subdivision of such an arc. Define the diagram's overpass count
+by these runs, independently of traversal basepoint and direction. Assign
+count1 to the crossing-free diagram. Minimize over all realized regular
+diagrams of the ambient-isotopy class, and prove attainment and isotopy
+invariance of this minimum.
+
+Prove equality of the two minima by both geometric constructions. From a
+diagram with b overpasses, construct an ambient-isotopic bridge presentation
+with b upper arcs and b lower arcs, carrying explicit disjoint bridge discs
+on each side of a separating plane, and a generic height function with
+exactly b maxima and b minima. Conversely, from an embedded representative
+and generic height direction with m maxima, first prove the same number of
+minima, then construct a bridge presentation and a regular diagram with at
+most m maximal overpasses. Supply the critical-level rearrangements,
+bridge discs, relative ambient isotopies and regular-projection perturbations
+that preserve the stated bounds; an arbitrary projection of the Morse
+representative does not supply them. Handle the crossing-free unknot by
+its one-maximum/one-minimum circle. Transport both constructions through the
+smooth/PL and diagram realization comparisons. Individual Reidemeister moves
+may change a diagram's run count; equality concerns the two minima over all
+representatives, rather than a run count on one chosen drawing.
+
 Construct orientation-compatible connected sum using marked small arcs/discs, prove independence, associativity, commutativity and unknot identity. Decomposing spheres carry the actual PL/smooth/tame comparison. Prove ordinary-genus additivity: upper bound by boundary-connected surfaces; lower bound by putting a minimum spanning surface transverse to the decomposing sphere, removing inessential intersection circles using innermost-disc surgery and the necessary irreducibility/collar facts, leaving one essential joining arc and splitting into spanning surfaces whose genera sum to the original. Export all precise irreducibility and surgery lemmas used, not a bare citation to genus. Prove existence of a finite prime decomposition by strict genus drop for nontrivial factors; prove uniqueness separately via the sphere-system cut-and-paste/innermost-circle argument and oriented isotopy of the resulting factors. Prime uniqueness gives cancellation in the oriented-knot connected-sum monoid. Its only invertible element is the unknot: no nontrivial knot has a connected-sum inverse.
 
 Give explicit torus, pretzel, rational twist and Whitehead/twisted-double patterns with orientations and all signed/degenerate parameter branches. For torus links compare coordinate interchange by an orientation-preserving ambient isotopy in S3, single sign reversal with mirror, simultaneous sign reversal with orientation transport, and component gcd. An abstract symmetry of the square torus need not extend to the required ambient isotopy.
@@ -1764,6 +1811,67 @@ Prove its actual reduced-Burau/Hecke-block and trace-weight decomposition; test 
 All Table1/Table2 occurrences, including braid words, compact signed coefficient strings, W, root values and seven explanatory notes, are exact finite targets with native polynomial certificates AND geometric named-link/diagram identification. Preserve orphan−5/2, clipped8_15 braid exponents, trefoil root connector and A/B narrow strokes as source holds. Construct explicit Jones mirror-detection counterexamples with realized chiral knots and matching polynomials; do not assert the historical chirality conjecture. Prove the source's same-invariant/different genus or signature examples with independent geometric invariants rather than polynomial inequality alone.
 
 #### GT4: Controlled moves and polynomial proof routes
+
+<a id="gt4-two-marked-crossing-changes"></a>
+**Marked crossing changes in problem4.** Construct the realized oriented
+PD/plane diagram of the eleven-crossing knot in physical-page1 problem4 of
+*Knot Theory - problems.pdf*, and identify the crossings marked in physical
+pages20–22 and201–202 of *Knot Theory.pdf* (source identity
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`).
+For the page20 change, give a finite realized Reidemeister movie to the unknot,
+expanding the indicated strand slides and repeated moves into individual local
+moves. For the different page21 change, construct its Alexander presentation
+from the actual arc/crossing data, compute its polynomial unit class, and prove
+nontriviality. Compare this computation with the literal page22 polynomial
+`Q(t)=t²−5t³+10t⁴−13t⁵+10t⁶−5t⁷+t⁸`, identifying any source arithmetic error
+rather than imposing this polynomial on the diagram. For this literal polynomial,
+prove that `Δ_Q(t)=−t⁻⁵Q(t)` is symmetric, has `Δ_Q(1)=1` and
+`|Q(−1)|=|Δ_Q(−1)|=45`. These algebraic identities alone do not identify the
+changed knot. Recover the presentation from the marked diagram rather than
+completing overwritten page22 matrix cells by guessing.
+
+Realize the later A/B/C-labelled diagram and give the crossing correspondence
+with the earlier drawings wherever it can be established. Construct the unknot
+movie for A and the nontriviality certificates for B and C, including the
+page202 nonconstant 3-colouring. Determine the B-changed diagram's connected-sum
+decomposition by explicit diagram moves and compare it with the displayed
+`3₁ # 6₃` claim. If that identification holds, Alexander multiplicativity gives
+determinant `3·13=39`; it cannot also have the unit class of Q. The
+[source-input note](source-inputs.md#marked-crossing-changes) records the missing
+crossing correspondence and the two incompatible polynomial assignments.
+Keep these geometric comparisons as explicit targets; neither source's asserted
+outcome authenticates the other drawing.
+
+<a id="gt4-alexander-disc-arc-route"></a>
+**Alexander's disc-arc construction.** Develop the distinct constructive route
+on physical pages36–37 of the same course source. Start with a finite realized
+regular oriented diagram contained in the interior of a closed disc, with
+transverse double crossings and its crossing/outerface data. Construct a smooth
+proper simple arc joining two prescribed antipodal boundary points, equal to
+radial segments near its endpoints, avoiding the crossings, meeting diagram edges transversely
+in finitely many points, and meeting every complementary region. Include the
+crossing-free circle and disconnected nonempty-link branches. Prove evenness
+and positivity of the number of arc intersections with each component. Construct
+a disc isotopy fixed near the boundary, extended by the identity outside, which
+takes this arc to the straight diameter; transport the diagram, its orientations
+and all crossing data. This planar preparation uses no Reidemeister moves.
+
+On each oriented component choose an initial intersection and alternately mark
+its successive intersections with the diameter as over and under relative to
+that auxiliary line. These marks do not change any original diagram crossing.
+Define a string from one marked over intersection to the next, and prove that
+it has no self-crossing: a self-crossing would enclose a complementary region
+missed by the diameter, since the intervening string has only one interior line
+intersection. Supply the planar separation argument also when other diagram
+components lie inside that region. Construct the subsequent spatial arrangement
+around an unknotted axis and the cut to a braid, with simultaneous disjoint strand
+isotopies, transported component orientations, endpoint order and the standard
+closure identification. Prove its closure ambient-isotopic to the original
+link; absence of individual string self-crossings alone does not prove the
+required simultaneous braid monotonicity. The source's final passage is an
+unjustified sketch, so this construction and its relative boundary/closure
+comparisons are proof targets. Preserve the illustrated arc and string pictures'
+unencoded crossing data separately from the general construction.
 
 Prove checkerboard colouring for every realized finite plane link projection, including crossing-free circles and disconnected projections: choose the unbounded face, propagate parity across edges, and prove path independence by even mod2 intersection of a closed transverse curve with the immersed link. Export uniqueness up to the permitted connected-face adjacency choices and compatibility with plane/sphere outerface changes. A regular one-component knot shadow with n≥1 crossings has exactly two alternating crossing assignments; for n=0 there is one empty assignment. For the positive-crossing branch, prove the even-interlacement parity from planarity, propagate over/under alternation around the whole component, and show one of the two assignments differs at at most floor(n/2) crossings from a given n-crossing diagram. For a multi-component shadow state and prove its own compatibility conditions rather than silently transplant this knot bound. A descending based oriented knot diagram is an unknot by an explicit height straightening/isotopy; choose crossing changes to obtain it. Repeated RI creates a diagram with more than any prescribed finite number of crossings without changing knot type. These are geometric targets on realized diagrams, not claims that the initial source drawings have already been encoded.
 
@@ -2387,7 +2495,41 @@ Together with the explicit GT4 unknot isotopies this gives the full unknot range
 `|p|≤1` or `|q|≤1` for coprime p,q. This signature comparison is downstream of the
 GT4 geometric/braid identifications; the early ambient isotopies do not consume it.
 
-Own the geometric algebraic-sliceness comparison used in that proof: from a
+<a id="gt6-crossing-change-signatures"></a>
+**Crossing changes and unknotting bounds.** Develop the proof from physical
+pages102–103 of the course *Knot Theory.pdf*. For two realized oriented knot
+diagrams differing at one specified crossing, construct their Seifert surfaces
+from the same oriented smoothing and identify the abstract disc-band surfaces
+and integral homology bases. With the local crossing and positive push-off
+conventions fixed, prove the entrywise formula
+`V₊−V₋=ε vvᵀ`, where `ε∈{−1,1}` and the integral vector `v` records algebraic
+traversals of the changed band by those basis curves. Determine `ε` from the
+pinned local model. If the band is a bridge of the disc-band graph, prove
+`v=0` and the pairing is unchanged. In the nonseparating case construct the
+adapted basis giving the single-diagonal-entry version of this formula.
+Prove the required connectedness and basis comparisons; they are not
+consequences of calling the cut surface connected.
+
+Own the finite-dimensional Hermitian inertia estimate: if two Hermitian matrices
+have difference `c vv*`, with `c` real, their signatures differ in absolute value
+by at most2. Include singular matrices and zero vectors, using their common
+codimension-at-most-one restriction rather than assuming nonzero diagonalization
+pivots. Under the Seifert comparison the Hermitian forms differ by
+`ε(2−ω−conj(ω)) vvᵀ`; this scalar is real, and for `ω : Circle` it is
+`ε|1−ω|²`. Apply the estimate and presentation descent to obtain
+`|rawSignature(K₊,ω)−rawSignature(K₋,ω)|≤2` at every unit parameter,
+including Alexander roots and `ω=1`. Iterate over an actual finite
+crossing-change movie to the unknot, retaining isotopies between changes,
+and then minimize its length to prove `|rawSignature(K,ω)|≤2u(K)`.
+At `ω=−1`, use the native `tristramLevineSignature_neg_one` comparison to
+`Matrix.signature`; this gives the classical `|σ(K)|≤2u(K)` used by the
+Bleiler example. The matrix targets in [CrossingChangeTargets.lean](CrossingChangeTargets.lean)
+use the existing signature carriers; geometric surfaces, bases, local crossing
+comparisons and descent are additional required targets here.
+[Conway, §2.3](https://arxiv.org/html/1903.04477v1#S2.SS3)
+provides the signature crossing-change and unknotting comparisons.
+
+Own the geometric algebraic-sliceness comparison for concordance invariance: from a
 smooth or locally flat slice disk construct a stabilized integral Seifert
 presentation with a primitive half-rank summand on which the Seifert pairing
 vanishes. Use the earlier tubular exterior, relative homology exact sequence
