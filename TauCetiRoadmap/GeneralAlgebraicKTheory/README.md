@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-This roadmap owns exact-category Q-theory and the S/Q comparison, the ring plus/Q comparison, the Bass/Schlichting comparison and the ordinary finite-field calculation needed by the Artin example. StableHomotopyKTheory supplies generic categorical homotopy, plus and monoidal group completion, Waldhausen/S foundations, additivity and relative-S delooping. The corresponding names here are supplied aliases or comparison targets; the exact-category and ring-specific comparisons and the K-theory adapters to the supplied spectrum category belong here. AlgebraicKTheory supplies associative scalar extension, stable GL/E, classical ring K₁, the relative congruence group K₁(R,I) and finite-projective Milnor patching with its low-degree exact sequence; §§3.1, 3.3–3.4 and 8.4–8.6 expose these inputs through convention adapters, and §8.7 compares the relative group with the relative fibre. The higher comparisons and relative homotopy-fibre comparisons belong here. The ordinary interfaces supplied here for GeometryOfNumbersAndQuadraticArithmetic are §§1.1–1.6, §§2.1–2.6, §§5.2–5.11 and §§11.5–11.16 for its §§6.1.1–6.1.5; §§3.1–3.5, §§10.10–10.11 and §12.10 for its §6.1.7; §3.12 for its §6.10.3 plus/Q adapter; and §§13.8a–13.8c for its ordinary finite-field input. Under this consumer contract its local ordinary names are aliases for the supplied interfaces; its hermitian and shared-spectrum adapters and finite-field hermitian applications remain separate. With the same ordered charts, its first-to-second Milnor clutching parameter u corresponds to α=u⁻¹ in §8.4, so its boundary at u is the boundary here at u⁻¹, the negative of the boundary here at u.
+This roadmap owns exact-category Q-theory and the S/Q comparison, the ring plus/Q comparison, the Bass/Schlichting comparison and the ordinary finite-field calculation needed by the Artin example. StableHomotopyKTheory supplies generic categorical homotopy, plus and monoidal group completion, Waldhausen/S foundations, additivity and relative-S delooping, including the §6.2 steps `SConstruction.natIso_homotopy`, `additivity_simplexFibre`, `additivity_swallowing`, `relativeS` and `relativeS_fibreSequence`. The corresponding names here are supplied aliases or comparison targets; the exact-category and ring-specific comparisons and the K-theory adapters to the supplied spectrum category belong here. AlgebraicKTheory supplies associative scalar extension, stable GL/E, classical ring K₁, the relative congruence group K₁(R,I) and finite-projective Milnor patching with its low-degree exact sequence; §§3.1, 3.3–3.4 and 8.4–8.6 expose these inputs through convention adapters, and §8.7 compares the relative group with the relative fibre. The higher comparisons and relative homotopy-fibre comparisons belong here. The ordinary interfaces supplied here for GeometryOfNumbersAndQuadraticArithmetic are §§1.1–1.6, §§2.1–2.6, §§5.2–5.11 and §§11.5–11.16 for its §§6.1.1–6.1.5; §§3.1–3.5, §§10.10–10.11 and §12.10 for its §6.1.7; §3.12 for its §6.10.3 plus/Q adapter; and §§13.8a–13.8c for its ordinary finite-field input. Under this consumer contract its local ordinary names are aliases for the supplied interfaces; its hermitian and shared-spectrum adapters and finite-field hermitian applications remain separate. With the same ordered charts, its first-to-second Milnor clutching parameter u corresponds to α=u⁻¹ in §8.4, so its boundary at u is the boundary here at u⁻¹, the negative of the boundary here at u.
 
 Exact structures, conflations, admissible maps, exact functors, projective and injective objects, and Frobenius exact categories belong to Tau Ceti. Its exact Grothendieck groups, finite-projective exact categories and Cartan map are inputs here. The new conflation-category target equips the supplied category of conflations with its componentwise exact structure; it does not construct that underlying category again. GrothendieckEulerForms Layers 2–3 supply the algebraic degree-zero Euler and finite-resolution comparisons; the resolution theorem here adds the homotopy equivalence and all higher groups.
 
@@ -62,7 +62,7 @@ From `TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita`, use `CategoryTheory.
 
 Use its right-projective category over Rᵒᵖ as `P(R)`, with the native `finiteProjectiveModules R` carrier and split exact structure. Its split K₀ over Rᵒᵖ is identified with `TauCeti.ExactK0 (TauCeti.finiteProjectiveModulesExactStructure R)` by `ExactK0.fromSplitEquiv`; generators and scalar-extension maps agree. This change of module convention is distinct from the contravariant duality `P↦Hom_R(P,R)`. For classical K₁ use the matrix and projective-automorphism adapters of §3.14; for patching use the inverse-parameter adapter of §8.4. The section names retained here denote these supplied constructions and their comparisons, not additional low-degree ring groups.
 
-[StableHomotopyKTheory](../StableHomotopyKTheory/README.md), §§1.1–1.34 and 2.17–2.35, supplies realized-nerve homotopy, compactly generated product and opposite comparisons, filtered continuity, bisimplicial realization and Quillen A/B. Its §§3.1–3.28 supply acyclic plus maps, their local-coefficient property, universal factorization, uniqueness and coherent functorial models. Its §§4.3–4.21 supply monoidal localizations, action fibres, group completion and the topological stable-linear/projective-complement comparisons over AlgebraicKTheory A0–A1. Its §§6.1–6.2 supply Waldhausen/S foundations, K₀, additivity and relative-S delooping, including the corrected connective Ω-model with zero space `Ω|wS_•C|`. The outbound table specifies the aliases, map comparisons and additional local targets. Generic countable-tower algebra retains its supplied carriers: StableHomotopyKTheory §7.9 compares the tower algebra of DerivedModuleAlgebra §1.T.1 on main with GeneralizedCohomology G3.8's spectral Milnor maps; no separate tower algebra is constructed here.
+[StableHomotopyKTheory](../StableHomotopyKTheory/README.md), §§1.1–1.34 and 2.17–2.35, supplies realized-nerve homotopy, compactly generated product and opposite comparisons, filtered continuity, bisimplicial realization and Quillen A/B. Its §§3.1–3.28 supply acyclic plus maps, their local-coefficient property, universal factorization, uniqueness and coherent functorial models. Its §§4.3–4.21 supply monoidal localizations, action fibres, group completion and the topological stable-linear/projective-complement comparisons over AlgebraicKTheory A0–A1. Its §§6.1–6.2 supply Waldhausen/S foundations, K₀, additivity and relative-S delooping, including the corrected connective Ω-model with zero space `Ω|wS_•C|`. Sections 5.3–5.6 and 5.11 consume the named §6.2 steps `SConstruction.natIso_homotopy`, `additivity_simplexFibre`, `additivity_swallowing`, `relativeS` and `relativeS_fibreSequence`; only the object-S realization comparison of §5.3 is added here. The outbound table specifies the aliases, map comparisons and additional local targets. Generic countable-tower algebra retains its supplied carriers: StableHomotopyKTheory §7.9 compares the tower algebra of DerivedModuleAlgebra §1.T.1 on main with GeneralizedCohomology G3.8's spectral Milnor maps; no separate tower algebra is constructed here.
 
 [AlgebraicTopology Stage 2](../AlgebraicTopology/README.md#stage-2-relative-singular-chains-and-homology) supplies local coefficient chain complexes and their homology, [Stage 4](../AlgebraicTopology/README.md#stage-4-cw-pairs-cellular-homology-and-cofibrations) the CW constructions and replacements, and [Stage 8](../AlgebraicTopology/README.md#stage-8-relative-homotopy-hurewicz-and-whitehead) relative homotopy exactness, Hurewicz and simply connected Whitehead. [UniversalCovers Stages 0–3](../../Completed/UniversalCovers/README.md#stage-0-port-the-foundations-into-tauceti) supply universal covers, the subgroup/cover correspondence and covering invariance of higher homotopy groups for connected, locally path-connected, semilocally simply connected spaces; connected CW realizations satisfy these hypotheses. StableHomotopyKTheory §§3.25–3.27 supply plus factorization, uniqueness and functoriality with these covers and pulled-back local coefficients; §1.5 transports their maps under X.
 
@@ -1064,9 +1064,9 @@ Use:
 
 ### 5.3 Isomorphic functors on object S
 
-On §5.2's supplied S-diagrams, construct the additional object-S comparison: an exact natural isomorphism between functors of categories with cofibrations induces a simplicial homotopy on `δC=Ob(S_•C)`. Prove that `δC→nerve(iS_•C)` realizes to a homotopy equivalence by contraction of the isomorphism direction. This object-S homotopy is a local target; StableHomotopyKTheory §6.1 supplies the S-diagrams and §2.18 the diagonal comparison.
+`SConstruction.natIso_homotopy` is StableHomotopyKTheory §6.2's step of the same name: an exact natural isomorphism between exact functors induces a simplicial homotopy between the induced maps of `wS_•`, for every choice of weak-equivalence subcategory w. A category with cofibrations is Waldhausen with the isomorphisms as weak equivalences, so the step applies to `iS_•`. The additional comparison here is on object S: prove that `δC=Ob(S_•C)→nerve(iS_•C)` realizes to a homotopy equivalence by contraction of the isomorphism direction. Through this comparison the supplied homotopy gives the object-S form, a homotopy between the realized maps of `|δC|`.
 
-The named targets are `SConstruction.natIso_homotopy` with the hypotheses and conclusions above.
+The named targets are `SConstruction.natIso_homotopy`, as the supplied step, and the object-S realization comparison above.
 
 The natural-transformation components are invertible and all functors preserve cofibration pushouts.
 
@@ -1078,59 +1078,38 @@ The natural-transformation components are invertible and all functors preserve c
 - For the zero category both realizations are points and the comparison fixes their zero vertices.
 - The natural transformation from the zero functor to the identity on finite-dimensional k-spaces is not invertible. It cannot give this homotopy: on `π₁|δC|=ℤ`, these functors act by zero and identity.
 
-*Needs:* §5.2; StableHomotopyKTheory §§2.18 and 6.1; Layer 1.
+*Needs:* §5.2; StableHomotopyKTheory §§2.18 and 6.2; Layer 1.
 
 ### 5.4 The simplex fibres in Waldhausen additivity
 
-The following explicit simplex-fibre model is an additional local target on the supplied S-diagrams. For the subobject map `δS₂C→δC` and `y∈δ_nC`, define `F_y=Δ[n]×_{δC}δS₂C`. Its m-simplices are monotone `u:[m]→[n]` and a cofibration sequence `u*y↣D↠B` in `S_mC`. Quotient gives `p_y:F_y→δC`. The constant last-vertex map and `0↣B=B` give a section `q_y`, since every vertex restriction of an `S_n`-object is zero. Prove `p_yq_y=id`. For every simplicial operator `θ:[k]→[n]`, composition with θ gives a map `F_{θ*y}→F_y` over `δC` commuting with the quotient maps, so `F_y` and `p_y` are natural in y. The sections are natural only along operators with `θ(k)=n`; along any other θ the transported `q_{θ*y}` is a second section of `p_y`, compared with `q_y` in §5.5.
+The simplex fibres of additivity are StableHomotopyKTheory §6.2's `additivity_simplexFibre`: for the subobject functor `wS_nS₂C→wS_nC`, the fibre over each simplex of the base is contractible after realization, and the realization lemma applied degreewise identifies the total space with the product. Its proof content is consumed through that statement and is not rebuilt here: the pullback of the subobject map over a simplex y, its quotient map, the last-vertex section with zero subobject, the failure of strict naturality of these sections along operators that move the last vertex, and the cobase-change homotopy from the identity to section after quotient. The Checks below are acceptance tests of the supplied fibre statement on §5.2's S-model.
 
-Use the induced cofibration structure on `S₂C`, and the actual simplicial pullback.
+Use the induced cofibration structure on `S₂C`.
 
-(Waldhausen, Proof of L 1.4.3, pp.337–338.)
-
-Use:
-
-- `AdditivityFibre`: simplicial pullback over y of the subobject projection.
-- `AdditivityFibre.quotient`: Its map `p_y` to the quotient filtration.
-- `AdditivityFibre.lastVertexSection`: section `q_y` at the last vertex with zero subobject.
-- `AdditivityFibre.quotient_section`: `p_y∘q_y=id`.
+(Waldhausen, Proof of L 1.4.3 and its sublemma, pp.337–340.)
 
 **Checks.**
 
-- For `n=0` and `y=0`, `F_y` parametrizes `0↣B=B` and `p_y` is the quotient identification.
-- On `q_y(B)`, the quotient is exactly B, rather than the zero object.
-- For the filtration `0↣k↣k²`, the middle object of a fibre extension may be larger than u*y; the fibre is not the set of subobjects of y.
-- Even for the zero category, let y be the 1-simplex and `θ:[0]→[1]` pick vertex 0. Transporting `q_{θ*y}` into `F_y` gives `Δ[1]`-coordinate the constant map at 0, while `q_y` uses the constant map at 1, so the sections are not strictly natural along θ.
+- Over the zero simplex the fibre extensions are the sequences `0↣B=B`, and the quotient identifies the fibre with the second factor; a fibre keeping a nonzero subobject coordinate would not.
+- For the filtration `0↣k↣k²`, the middle object of a fibre extension may be larger than the pulled-back subobject; the fibre is not the set of subobjects of y.
+- Even for the zero category, over the 1-simplex the last-vertex section and the transport of the section at vertex 0 differ in their `Δ[1]`-coordinate; the supplied statement gives contractibility, not a strictly natural section.
+- For a fibre extension with nonzero quotient k, the quotient stays k along the fibre contraction; a contraction through quotient zero would change the second factor.
 
-*Needs:* §5.2; §5.3.
+*Needs:* §5.2; StableHomotopyKTheory §6.2.
 
 ### 5.5 The pushout contraction of an additivity fibre
 
-Construct the additional local contraction of §5.4's explicit fibre model. For `v:[m]→[1]`, replace u(j) by n at indices with `v(j)=1`, leaving the other indices unchanged. The monotone comparison `u≤ū` induces `u*y→ū*y`, and cobase change of the fibre extension defines a simplicial homotopy `id_{F_y}≃q_yp_y`. Prove its endpoint formulas, simplicial compatibility, constancy on the section, and preservation of the quotient B. `p_y` and `q_y` are homotopy inverses. Hence any two sections of `p_y` are homotopic, in particular `q_y` and the transport of `q_{θ*y}` along an operator θ that moves the last vertex.
-
-The named targets are `AdditivityFibre.pushout_contraction` with the hypotheses and conclusions above.
-
-Choose pushouts coherently to obtain simplicial S-diagrams.
-
-(Waldhausen, Proof of the sublemma–L 1.4.3, pp.339–340.)
-
-**Checks.**
-
-- At `v=0` the homotopy is the original fibre simplex; at `v=1` it is the last-vertex section of its quotient.
-- On a last-vertex section simplex the subobject is zero and the homotopy is stationary.
-- For a fibre extension with nonzero quotient k, the quotient remains k at both endpoints; a contraction through quotient zero would give a different map.
-
-*Needs:* §5.4; §5.2.
+The pushout contraction of a simplex fibre is part of the supplied statement consumed in §5.4; this roadmap states no separate contraction.
 
 ### 5.6 Object S-additivity
 
-Prove the additional object-S refinement `|δS₂C|≃|δC|×|δC|` through subobject and quotient, using the local simplex-fibre contractions and the supplied simplicial fibre comparisons. Identify its isomorphism-nerve version with StableHomotopyKTheory §6.2's additivity under §5.3, preserving both projection maps. The object-S refinement applies to categories with cofibrations before a choice of weak equivalences.
+Obtain `SConstruction.object_additivity`, the equivalence `|δS₂C|≃|δC|×|δC|` through subobject and quotient, as the restriction of StableHomotopyKTheory §6.2's additivity equivalence, with the isomorphisms as weak equivalences, along §5.3's realization comparisons for C and `S₂C`. These comparisons are natural in the exact subobject and quotient functors, so both projection maps are preserved. No second proof of additivity is given.
 
 The named targets are `SConstruction.object_additivity` with the hypotheses and conclusions above.
 
-C is small with cofibrations. No saturation, cylinder or extension axiom is involved.
+C is small with cofibrations; with the isomorphisms as weak equivalences it is Waldhausen. No saturation, cylinder or extension axiom is involved.
 
-(Waldhausen, L 1.4.3 and L 1.4.A–B, pp.336–338.)
+(Waldhausen, L 1.4.3 and T 1.4.2, pp.336–338.)
 
 **Checks.**
 
@@ -1138,7 +1117,7 @@ C is small with cofibrations. No saturation, cylinder or extension axiom is invo
 - The sequence `k↣k²↠k` has subobject/quotient ranks (1,1); total rank 2 is not a coordinate of the additivity map.
 - For finite abelian groups the nonsplit sequence `ℤ/2↣ℤ/4↠ℤ/2` is admitted. The realization equivalence does not assert that each cofibration sequence splits.
 
-*Needs:* §5.5; §5.3; StableHomotopyKTheory §§2.25 and 6.2; Layer 1.
+*Needs:* §5.3; StableHomotopyKTheory §§2.25 and 6.2.
 
 ### 5.7 The K-theory space of a Waldhausen category
 
@@ -1203,7 +1182,7 @@ A is small exact, with inflations as cofibrations and isomorphisms as weak equiv
 
 ### 5.10 Additivity for Waldhausen categories
 
-Use StableHomotopyKTheory §6.2's additivity `|wS_•S₂C|≃|wS_•C|×|wS_•C|` for small Waldhausen C. `WaldhausenCategory.additivity` compares its subobject/quotient map with the map in §5.2's S-model, including §5.6's object-S refinement. Apply this supplied equivalence to a cofibration sequence of exact functors to obtain `K(F)≃K(F′)+K(F″)`. The local cylinder interface gives its cone/suspension consequences `K(cone)≃0` and `K(Σ)≃−id` when the cylinder axiom holds.
+Use StableHomotopyKTheory §6.2's additivity `|wS_•S₂C|≃|wS_•C|×|wS_•C|` for small Waldhausen C. `WaldhausenCategory.additivity` compares its subobject/quotient map with the map in §5.2's S-model; with the isomorphisms as weak equivalences, §5.6 is its restriction to object S. Apply this supplied equivalence to a cofibration sequence of exact functors to obtain `K(F)≃K(F′)+K(F″)`. The local cylinder interface gives its cone/suspension consequences `K(cone)≃0` and `K(Σ)≃−id` when the cylinder axiom holds.
 
 The named targets are `WaldhausenCategory.additivity` with the hypotheses and conclusions above.
 
@@ -1221,7 +1200,7 @@ Functor cofibrations satisfy the pushout comparison condition. Additivity needs 
 
 ### 5.11 Relative S-delooping and spectra
 
-For an exact `F:B→C`, use StableHomotopyKTheory §6.2's relative S-construction. `relativeS` identifies its diagrams with `S_nB×_{S_nC}S_{n+1}C`, using `∂₀` on the last factor; compare strict equality and compatible-isomorphism models. Preserve the constant-filtration inclusion of C over the zero B-diagram and the supplied sequence `|wS_•C|→|wS_•(S_•F)|→|wS_•(S_•B)|`, including its nullhomotopy. `relativeS_delooping` transports the supplied fibre and path-object comparisons; for `F=id` the contraction is its extra degeneracy, although its degree-zero category need not be zero. The realization comparison uses connected fibre and base levels and cellular degeneracies. `iteratedS_spectrum` compares §1.7's sequential representative with `WaldhausenCategory.kSpectrum.sequentialComparison`, preserving positive structure maps and `|wS^rC|≃Ω|wS^{r+1}C|` for `r≥1`. Its connective Ω-model has levels `K(C)`, `|wS_•C|`, `|wS²C|,…`; the unreplaced symmetric spectrum instead has level zero `nerve(wC)`. Relative `K(F)=Ω²|wS_•(S_•F)|` uses the supplied fibre comparison.
+For an exact `F:B→C`, `relativeS` is StableHomotopyKTheory §6.2's `relativeS F`: the same pullback `S_nB×_{S_nC}S_{n+1}C`, using `∂₀` on the last factor, with the same path object `PS_•C` and extra degeneracy; compare strict equality and compatible-isomorphism models. `relativeS_delooping` transports the supplied `relativeS_fibreSequence`, the homotopy fibre sequence `|wS_•B|→|wS_•C|→|wS_•(S_•F)|` for every exact F, and `relativeS_identity`. Through the path object it preserves the constant-filtration inclusion of C over the zero B-diagram and the sequence `|wS_•C|→|wS_•(S_•F)|→|wS_•(S_•B)|`, including its nullhomotopy; for `F=id` the contraction is the extra degeneracy, although its degree-zero category need not be zero. The realization comparison uses connected fibre and base levels and cellular degeneracies. `iteratedS_spectrum` compares §1.7's sequential representative with `WaldhausenCategory.kSpectrum.sequentialComparison`, preserving positive structure maps and `|wS^rC|≃Ω|wS^{r+1}C|` for `r≥1`. Its connective Ω-model has levels `K(C)`, `|wS_•C|`, `|wS²C|,…`; the unreplaced symmetric spectrum instead has level zero `nerve(wC)`. Relative `K(F)=Ω²|wS_•(S_•F)|` uses the supplied fibre comparison.
 
 The named targets are `relativeS`, `relativeS_delooping`, `iteratedS_spectrum` with the hypotheses and conclusions above.
 
@@ -1236,7 +1215,7 @@ B,C are small Waldhausen and F exact. The realization-fibration argument uses co
 - For `C→0`, the fibre is `K(C)`; the relative-S component correction in degree `−1` is zero.
 - For finite-dimensional k-spaces, the unreplaced level zero has components `ℕ`, while the connective Ω-model has zero-space components `ℤ`; the comparison carries the object loop of k to +1.
 
-*Needs:* §5.10; §5.2; §5.7; StableHomotopyKTheory §§6.1–6.2 and 2.24; Layer 1.
+*Needs:* §5.10; §5.2; §5.7; StableHomotopyKTheory §§6.1–6.2 (`relativeS`, `relativeS_fibreSequence`, `relativeS_identity`) and 2.24; Layer 1.
 
 ### 5.12 Non-functorial Waldhausen factorizations
 
@@ -1302,7 +1281,7 @@ For `0↣k↣k²` the three `S₂` faces have ranks 1,2,1. The latching map dete
 
 ### Dependencies
 
-Layers 1–2 and exact additivity from Layer 4; finite ordinal diagrams, pushouts and weak-equivalence nerves.
+Layers 1–2 and exact additivity from Layer 4; StableHomotopyKTheory §§6.1–6.2; finite ordinal diagrams, pushouts and weak-equivalence nerves.
 
 ## Layer 6: Fibration, approximation and cofinality
 
@@ -3254,7 +3233,7 @@ Construct `finiteGroup_KU_completion` for every finite group G: the complex repr
 
 For `q=p^ν`, p prime and ν≥1, and an embedding `F̄_pˣ→ℂˣ`, construct `finiteField_brauerLift` using the Brauer characters of the standard representation of `GL_n(F_q)` minus its trivial rank-n representation. Build these as virtual complex representation classes and then KU-classes on `BGL_n(F_q)`. Assemble the compatible maps to BU on the stabilization telescope. The preceding finite-group completion theorem gives `KU¹(BGL_n(F_q))=0`, eliminating its Milnor `lim¹` ambiguity. Prove Frobenius invariance `ψ^qρ≃ρ`, with its homotopy, from Adams compatibility of the Brauer characters and the same telescope comparison.
 
-Construct the resulting map `BGL(F_q)→fib(ψ^q−1:BU→BU)` together with its homotopies. Prove it induces an isomorphism on homology with `𝔽_ℓ` coefficients for every prime ℓ: supply Quillen's finite-GL cohomology calculation for ℓ≠p and the stable defining-characteristic vanishing for ℓ=p. Prove rational acyclicity and deduce the integral homology comparison. The fibre is an H-space; prove the acyclic-map recognition for this map, construct its descent homotopies to plus, and use §§1.5 and 3.12 to obtain a homotopy equivalence from the plus/Q model.
+Construct the resulting map `BGL(F_q)→fib(ψ^q−1:BU→BU)` together with its homotopies. Prove it induces an isomorphism on homology with `𝔽_ℓ` coefficients for every prime ℓ: supply Quillen's finite-GL cohomology calculation for ℓ≠p and the stable defining-characteristic vanishing for ℓ=p. Prove rational acyclicity and deduce the integral homology comparison. The fibre is a connected H-space of CW homotopy type, and `BGL(F_q)⁺` is a connected H-space by StableHomotopyKTheory §4.14, hence abelian by its §3.15; its §3.28's H-space recognition then makes this map acyclic and its lift from the plus construction a homotopy equivalence under `BGL(F_q)`. Use §§1.5 and 3.12 to obtain a homotopy equivalence from the plus/Q model.
 
 (Quillen 1972, §§2–11 and T 8; Weibel IV, T 1.8, p.IV.6, T 1.12, p.IV.10, P 5.7 and Example 5.8, p.315 in the combined book.)
 
@@ -3265,7 +3244,7 @@ Construct the resulting map `BGL(F_q)→fib(ψ^q−1:BU→BU)` together with its
 - On `π₂BU=ℤ`, `ψ^q−1` is multiplication by q−1; its fibre has `π₁=ℤ/(q−1)`. On `π₄BU`, multiplication is q²−1; replacing it by q−1 would give the wrong K₃.
 - At the defining prime p, qⁱ−1 is prime to p for every i≥1, consistently with the stable mod-p homology vanishing; the other-prime computation alone does not supply this case.
 
-*Needs:* §13.8a; §3.12; §1.5; §1.2; AlgebraicTopology Stage 5 for the Serre spectral sequence and coefficient comparisons. Brauer characters, their virtual complex lifts and Quillen's finite-GL homology comparisons are targets of this subsection.
+*Needs:* §13.8a; §3.12; §1.5; §1.2; StableHomotopyKTheory §§3.15, 3.28 and 4.14; AlgebraicTopology Stage 5 for the Serre spectral sequence and coefficient comparisons. Brauer characters, their virtual complex lifts and Quillen's finite-GL homology comparisons are targets of this subsection.
 
 ### 13.8c Finite-field groups and degree-four vanishing
 
@@ -3353,8 +3332,8 @@ The following outbound interfaces retain the names used throughout this roadmap.
 | §1.6, `MonoidalLocalization` and its action/π₀/cofinality/fibration API | StableHomotopyKTheory §§4.3–4.12 and 4.19–4.21: `SInvS`, `MonoidalActionCategory.loc`, `SInvS.pi0Equiv`, `quillenGroupCompletion`, `SInvS.fibration`, `cofinality_action` and `cofinality`, preserving `[a]−[b]` and the chosen x₀. | Comparisons with the Q-extension fibres. |
 | §§3.3–3.4 and 3.13, `StableGL`, `stableElementary`, `finiteGLBlockSum`, `cofinalFreeComparison` | AlgebraicKTheory A0–A2 supplies the matrix and projective algebra; StableHomotopyKTheory §§4.14–4.15 and 4.20–4.21 supply `stableGeneralLinearGroup`, `stableElementaryGroup`, `projectiveFreeComplement` and `kSpace_projective_plus` with the same matrices and splitting maps. | Plus/Q and §3.14's classwise transpose normalization. AlgebraicKTheory A6 retains Milnor patching ownership. |
 | §§5.1–5.2, `WaldhausenCategory`, `CategoryWithCofibrations`, `SConstruction` and `WaldhausenCategory.K0` | StableHomotopyKTheory §6.1: `ExactFunctor`, `S.obj`, `S.waldhausenStructure`, `S.face`, `S.degeneracy`, `S.oneEquiv` and `S.twoEquiv`, identified entrywise with the same quotient squares and latching cofibrations. | `IsSaturated`, `HasExtensionAxiom`, `CylinderFunctor` and `WaldhausenCategory.ofExact` on the supplied carriers are not stated there and remain local. |
-| §§5.3–5.6, `SConstruction.natIso_homotopy`, `AdditivityFibre`, `AdditivityFibre.pushout_contraction`, `SConstruction.object_additivity` | StableHomotopyKTheory §§6.1–6.2 supply S and weak-map additivity; §§2.18 and 2.25 supply realization comparisons. | The object-S homotopy, explicit simplex-fibre section/contraction and object-S refinement are not stated there and remain local, with their comparison to supplied additivity. |
-| §§5.7, 5.10–5.11, `WaldhausenCategory.KSpace`, `WaldhausenCategory.KGroup`, `WaldhausenCategory.iteratedS`, `WaldhausenCategory.additivity`, `relativeS`, `relativeS_delooping`, `iteratedS_spectrum` | StableHomotopyKTheory §§6.1–6.2: `WaldhausenCategory.kSpectrum`, `kSpectrum.pi0K0Equiv`, `WaldhausenCategory.kSpectrum.map`, `WaldhausenCategory.kSpectrum.sequentialComparison`, `WaldhausenCategory.kSpectrumLevelFibrant_isPositiveOmega` and `WaldhausenCategory.kSpectrum.isSemistable`. Preserve object loops, source/quotient, the relative-S extra degeneracy, the level-fibrant replacement map and positive structure maps. | Comparisons of the coproduct and functor-sequence operations and the cylinder consequences with the supplied maps. |
+| §§5.3–5.6, `SConstruction.natIso_homotopy`, `SConstruction.object_additivity` | StableHomotopyKTheory §6.2: `SConstruction.natIso_homotopy`, `additivity_simplexFibre`, `additivity_swallowing` and the additivity equivalence; §§2.18 and 2.25 supply realization comparisons. The simplex fibres, their sections and contractions are those of `additivity_simplexFibre`. | The realization comparison `δC→nerve(iS_•C)` remains local; `SConstruction.object_additivity` is the restriction of the supplied equivalence along it, preserving both projections. |
+| §§5.7, 5.10–5.11, `WaldhausenCategory.KSpace`, `WaldhausenCategory.KGroup`, `WaldhausenCategory.iteratedS`, `WaldhausenCategory.additivity`, `relativeS`, `relativeS_delooping`, `iteratedS_spectrum` | StableHomotopyKTheory §§6.1–6.2: `WaldhausenCategory.kSpectrum`, `kSpectrum.pi0K0Equiv`, `WaldhausenCategory.kSpectrum.map`, `WaldhausenCategory.kSpectrum.sequentialComparison`, `WaldhausenCategory.kSpectrumLevelFibrant_isPositiveOmega`, `WaldhausenCategory.kSpectrum.isSemistable`, `relativeS`, `relativeS_fibreSequence` and `relativeS_identity`. Preserve object loops, source/quotient, the relative-S extra degeneracy, the level-fibrant replacement map and positive structure maps. | Comparisons of the coproduct and functor-sequence operations and the cylinder consequences with the supplied maps. |
 | §§5.8–5.9, `SConstruction.edgewiseQ` and `sEqualsQ` | The S carrier is supplied by StableHomotopyKTheory §6.1. | Exact-category edgewise S/Q diagrams and their natural realization equivalence remain local. |
 | §1.7 and Layers 10–13, K-theory spectrum diagrams | GeneralizedCohomology G2–G3 supplies spectra and telescopes; StableHomotopyKTheory §§6.1–6.2 supply the iterated-S spectrum comparison. Its §7.9's `abelianTower.difference`, `abelianTower.limitKernel` and `abelianTower.limOneCokernel` retain DerivedModuleAlgebra §1.T.1 on main's tower algebra and the spectral Milnor maps. | K-theory-specific Bass/Frobenius diagrams and their stable comparisons; no new generic tower algebra. |
 
