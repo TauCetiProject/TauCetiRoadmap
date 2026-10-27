@@ -452,6 +452,95 @@ target, not an assumed LieGroups theorem. The autonomous Picard theorem in
 use it only after time rescaling supplies that hypothesis, not directly on
 an augmented field whose time component is 1.
 
+<a id="transport-connection-reconstruction"></a>
+### B5.1. Reconstructing connections from smooth transport
+
+For a fixed smooth finite-rank real or complex vector bundle E→M, construct
+the inverse dictionary from smooth transport to a smooth connection. Keep
+the base real and finite-dimensional; for complex fibers use their real
+smooth structure and complex-linear fiber maps. The data and compatibility
+conditions below are part of the theorem.
+
+Use smooth paths with sitting instants, constant near both ends, and smooth
+endpoint-fixed thin homotopies whose differential has rank at most one.
+Construct the thin path groupoid: objects are points of M, arrows are thin
+classes, and composition follows traversal order. Prove identity,
+associativity and inverse via the explicit thin homotopies, with reversal
+and sitting-instant reparametrizations. This is a smooth-path refinement of
+the ordinary fundamental groupoid, with a comparison functor to it.
+
+Transport assigns the actual fiber E_x to x and a continuous linear
+equivalence `T_γ:E_x→E_y` to each arrow γ:x→y. Require
+`T_constant=id` and `T_(γ followed by η)=T_η∘T_γ`.
+Specify smoothness in finite-dimensional families: for every open
+U⊂ℝ^k and smooth family c:U×[0,1]→M of sitting-instant paths, with locally
+common sitting collars, the matrices of T_(c_u) in endpoint bundle frames
+vary smoothly with u wherever those frames are defined. Prove independence
+of the chosen frames, restriction and pullback compatibility. Include
+families with varying endpoints; based-loop smoothness alone is not the
+stated hypothesis. No first-jet-locality axiom is imposed on this data.
+
+In a bundle frame and base chart, choose a fixed smooth sitting function ρ
+with ρ=0 near 0 and ρ=1 near 1, and put
+`γ_(x,v,t)(r)=chart⁻¹(chart(x)+t ρ(r) v)` on its local domain. Let
+`P(x,v,t)` be its transport matrix, so P(x,v,0)=Id. Construct
+`A_x(v)=−∂_t P(x,v,t)|_(t=0)`. Prove independence from the sitting function
+and the chart curve with prescribed initial velocity, linearity in v and
+smoothness in x. Own the finite-family first-variation lemmas needed for
+these assertions: reparametrization and thin invariance remove pauses and
+backtracking, and the smooth transport around a small two-parameter
+triangle is identity when either side parameter vanishes, so its first
+variation on the diagonal is zero. Use this estimate and the composition
+law to prove additivity; prove scalar homogeneity and the general
+same-initial-velocity comparison. These are construction targets, rather
+than assumptions about a path-space derivative.
+
+If the new frame is e′=e g, prove
+`P′_γ=g(y)⁻¹ P_γ g(x)` and
+`A′=g⁻¹ A g+g⁻¹ dg`. Glue these local forms by B3's local-potential
+construction to a native `CovariantDerivative`, with ∇=d+A. On complex
+bundles first use the real native operator and prove the additional
+complex-linearity law. Recover its derivative from transport:
+
+`(∇_v σ)_x = d/dt|_0 [T_(γ|[0,t])⁻¹ σ(γ(t))]`,
+
+where γ(0)=x, γ′(0)=v and the short segment is smoothly flattened at its
+ends; t may have either sign. Prove that the expression depends only on v
+and the section's first jet. Prove additivity, the scalar Leibniz rule and
+agreement with the existing covariant derivative along curves; on tangent
+bundles use the native pulled-back-field comparison. Establish the general
+bundle version by local trivializations on the actual pullback bundle.
+The native bundled operator accepts arbitrary raw sections but its axioms
+constrain differentiable inputs. State uniqueness on smooth local sections
+and differentiable section germs; extensional equality on all raw sections
+requires the same chosen extension convention at nondifferentiable inputs.
+[TransportDerivativeTargets.lean](TransportDerivativeTargets.lean) pins the
+inverse-transport differentiation sign in finite-dimensional real fibers.
+
+Prove the two inverse constructions. The reconstructed connection's
+parallel-transport ODE has precisely T as its solution, by differentiating
+short segments and using composition; uniqueness on each compact interval
+identifies the transports. Conversely, reconstructing the forward
+transport of a connection recovers its local potentials and its operator
+on differentiable germs. Prove naturality under base maps and bundle
+isomorphisms. A smooth bundle map intertwines all transports iff it is
+connection-preserving; include noninvertible linear maps and specialize to
+the isomorphism groupoids. Metrics are preserved by all transports iff the
+connection is metric-compatible; give the real and Hermitian versions.
+Ordinary endpoint-fixed homotopy invariance is the additional flatness
+condition, proved by the curvature/infinitesimal-holonomy comparison.
+
+Use [Schreiber–Waldorf, Proposition 4.7 and Appendix B](https://arxiv.org/abs/0705.0452)
+for the local smooth-functor/one-form construction and its curve-choice
+lemmas. Apply it to the real Lie groups GL_n(ℝ) and GL_n(ℂ) and the existing
+frame bundle. Their Theorem 5.8 explicitly treats Hermitian/unitary bundles;
+prove the unrestricted real/complex fixed-bundle forms by the frame-group
+construction above. Acceptance includes the trivial flat connection,
+constant matrix potentials, changing a frame by a nonconstant g, metric
+transport, and the tangent-bundle reconstruction formula.
+
+### B5.2. Holonomy and flat connections
+
 Define based holonomy with the convention above and its conjugation under
 change of fiber point. Prove zero curvature iff local parallel trivializations
 exist, applying DG4.3's Frobenius theorem to B1.5's horizontal distribution.
