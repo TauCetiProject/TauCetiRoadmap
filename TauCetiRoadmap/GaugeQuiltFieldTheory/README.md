@@ -6,23 +6,29 @@ Fix `r ≥ 1` and `d ∈ ℤ` with `gcd(r,d)=1`. Define a bundle-decorated conne
 
 ## GQ1. Fixed determinant and coprime surface moduli
 
-Consume [HamiltonianReduction R5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ad76c0f2a89760726126e98fcdb41cee38fe93/TauCetiRoadmap/SymplecticGeometry/HamiltonianReduction/README.md#r5-gauge-actions-over-a-surface) for generic closed-surface connections, Sobolev gauges, central curvature, smooth/rough quotient topology and holonomy. Use anti-Hermitian matrices, covariant derivative `d+A`, and the left action `g·A=gAg⁻¹−(dg)g⁻¹`. On trace-free matrices use `B(ξ,η)=−tr(ξη)/(4π²)` and the reduced form induced by `Ω(a,b)=∫_X B(a∧b)`. The determinant convention is `c₁(det P)=[iF_δ/(2π)]`, so the fixed-determinant equation is `F_A=(F_δ/r)I_r`. Construct the adapter from R5's arbitrary invariant pairing, including its moment-map sign, curvature, Chern–Weil and integral-class normalizations.
+Consume HamiltonianReduction R5 for generic closed-surface connections, Sobolev gauges, central curvature, smooth/rough quotient topology and holonomy. Use anti-Hermitian matrices, covariant derivative `d+A`, and the left action `g·A=gAg⁻¹−(dg)g⁻¹`. On trace-free matrices use `B(ξ,η)=−tr(ξη)/(4π²)` and the reduced form induced by `Ω(a,b)=∫_X B(a∧b)`. The determinant convention is `c₁(det P)=[iF_δ/(2π)]`, so the fixed-determinant equation is `F_A=(F_δ/r)I_r`. Construct the adapter from R5's arbitrary invariant pairing, including its moment-map sign, curvature, Chern–Weil and integral-class normalizations.
 
 Define `M(P,δ)` as the central-curvature connections with determinant connection exactly `δ`, modulo determinant-one unitary gauge transformations. Keep the ineffective finite center, effective quotient and stabilizers distinct. Prove the comparison with the twisted `SU(r)` relation model
 
-\[
-z_{r,d}=\exp(2\pi i d/r)I_r,\qquad
-\prod_{j=1}^{g}[A_j,B_j]=z_{r,d}.
-\]
+    z_(r,d) = exp(2πi d/r)·I_r,    [A_1,B_1]⋯[A_g,B_g] = z_(r,d).
 
 Choose the punctured-surface generators so that the product of commutators represents the positively oriented loop enclosing the removed disc; prove the sign dictionary with parallel transport for `d+A`. Include the determinant transport and lift choices in the comparison. Do not replace it by an ordinary flat `U(r)` character variety when `d≠0`, or assert that an action by `H¹(X;μ_r)` is free on every coarse quotient. Construct the actual finite-quotient/groupoid comparisons with their isotropy.
 
+The representation model is stated on native carriers. For a complex number `ζ` define `relationSet r ζ g` as the set of tuples `(A_1,B_1,…,A_g,B_g)` in Mathlib's `Matrix.specialUnitaryGroup (Fin r) ℂ` whose ordered product of group commutators is the scalar matrix `ζ·1`, and `relationModuli r ζ g` as its quotient by simultaneous conjugation (the orbit relation of `ConjAct` on the ambient tuples, pulled back to the subtype) with the quotient topology. With `ζ = exp(2πi d/r)`, the hypothesis `IsPrimitiveRoot ζ r` is exactly `gcd(r,d)=1`, so primitive `r`-th roots cover every coprime degree; the comparison `M(P,δ) ≅ relationModuli r ζ g` is the homeomorphism of Wehrheim–Woodward Remark 3.3.7, eq. (31). For `r ≥ 1` and `IsPrimitiveRoot ζ r`, prove:
+
+- `relationModuli_genus_one`: the genus-one relation `[A,B] = ζ·1` has a solution, unique up to simultaneous `SU(r)`-conjugation (Wehrheim–Woodward Theorem 3.3.3(c)). A route: `A^r` and `B^r` are scalars, the eigenvalues of `A` form one coset of `μ_r` fixed by `det A = 1`, and the irreducible representation of the finite Heisenberg group with central character `ζ` is unique; clock and shift matrices rescaled into `SU(r)` give existence.
+- `relationSet_stabilizer_central`: for every genus `g` (including `g = 0`, where the relation set is empty when `r ≥ 2`), an element `u` of `SU(r)` commuting with every entry of a solution lies in the center. Route: an eigenspace `V` of `u`, of dimension `m`, is preserved by all `A_j,B_j`; the determinant of the restricted commutator product is `1 = ζ^m`, so `r ∣ m` and `V = ℂ^r`. This is the finite-group form of the parallel-subbundle exclusion of Wehrheim–Woodward, proof of Theorem 3.3.3, and gives freeness of the effective `PSU(r)` action of GQ2a.
+- `relationModuli_simplyConnected`: for every genus `g ≥ 1`, `relationModuli r ζ g` is simply connected (Wehrheim–Woodward Theorem 3.3.3, final clause, whose proof cites Atiyah–Bott Theorem 9.12). Genus one and rank one give a point.
+
+**Checks.**
+
+- `r = 2`, `ζ = −1`: `A = diag(i,−i)` and `B` the rotation matrix with rows `(0,1)`, `(−1,0)` satisfy `ABA⁻¹B⁻¹ = −1`; the untwisted relation `[A,B] = 1` would instead admit the non-free point `(1,1)`, whose stabilizer is all of `SU(2)`.
+- `g = 0`, `r = 2`, `ζ = −1`: the empty product is `1 ≠ −1`, so `relationSet 2 (−1) 0` is empty and the sphere moduli is empty; `r = 1`, `ζ = 1` gives a point for every `g`.
+- Non-coprime `r = 2`, `ζ = 1`, `g = 1`: commuting pairs of diagonal matrices are fixed by the non-central torus, and the quotient is the pillowcase `(T×T)/(ℤ/2)`, a 2-sphere, not a point; this is why the primitive-root hypothesis is carried by all three statements.
+
 For `r≥2`, prove that coprimality excludes proper parallel subbundles and gives trace-free stabilizer Lie algebra zero. Use surface duality to obtain trace-free obstruction vanishing, then construct the compact smooth symplectic quotient and its representation-model comparison. Include all genera: on `S²` the moduli is empty; on `T²` it is a point; for `g≥2` prove compactness, connectedness, simple connectivity and dimension `(2g−2)(r²−1)`. Establish even Chern evaluations and
 
-\[
-c_1(M(P,\delta))=2r[\omega],\qquad
-[\omega]=\tau_{\mathrm{WW}}c_1,\quad \tau_{\mathrm{WW}}=1/(2r).
-\]
+    c₁(M(P,δ)) = 2r[ω],    [ω] = τ_WW·c₁,    τ_WW = 1/(2r).
 
 For `r=1`, prove directly that the fixed-determinant moduli is a point for every genus and every integer `d`, including zero and negative degrees. The point has no nonconstant disc classes; Maslov divisibility, rather than existence of a class of Maslov number four, is the uniform grading statement.
 
@@ -32,7 +38,7 @@ Construct naturality under determinant-preserving surface diffeomorphisms and bu
 
 Construct the three-dimensional boundary application by a finite-holonomy route. For a compact compression body and its decorated bundle `Q`, construct finite CW and fundamental-group presentations, the projective holonomy carrier with its central relators, and the determinant transport and lift groupoid selecting `Q`'s actual topological class. Define residual conjugation, stabilizers, end restriction and gluing on these carriers. Establish their comparison with smooth fixed-determinant central-curvature connections and smooth gauge transformations. Prove quotient-topological, smooth-locus and relative deformation/cohomology comparisons, not only a bijection of orbit sets.
 
-Reuse [SmoothBundlesConnections B2–B5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1c45ab4061b483b832b5d54f597dc69afd3f97a5/TauCetiRoadmap/SmoothBundlesConnections/README.md) for smooth bundles, parallel transport, gauge covariance and flat-holonomy groupoids. Apply flat transport to the trace-free/projective part and construct its determinant/central lift adapter here. Use [DifferentialGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f2c41bace7640366666d72c8939784696e8e3888/TauCetiRoadmap/DifferentialGeometry/README.md) for local integration/de Rham calculus and [AlgebraicTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md) for finite cochains and local-coefficient duality. Construct the boundary-relative de Rham/finite-cochain and restriction comparisons for this application. R5 supplies the surface ends; its two-dimensional `s>1` Sobolev estimates are not a three-dimensional boundary theorem.
+Reuse SmoothBundlesConnections B2–B5 for smooth bundles, parallel transport, gauge covariance and flat-holonomy groupoids. Apply flat transport to the trace-free/projective part and construct its determinant/central lift adapter here. Use DifferentialGeometry for local integration/de Rham calculus and AlgebraicTopology for finite cochains and local-coefficient duality. Construct the boundary-relative de Rham/finite-cochain and restriction comparisons for this application. R5 supplies the surface ends; its two-dimensional `s>1` Sobolev estimates are not a three-dimensional boundary theorem.
 
 For each elementary connected one- or two-handle bordism, and for cylinders, define the restriction map from this `M(Q)` to `M(P_-)⁻×M(P_+)`. State and prove the required endpoint fundamental-group surjectivity, trace-free absolute/relative `H⁰,H¹,H²` assertions and gauge-extension statements for the specified piece. Prove that its image is an embedded compact simply connected oriented Lagrangian correspondence. Its orientation data are the actual relative-spin structures constructed below; absolute spin of every elementary support is not asserted. A general three-bordism is represented by its sequence of elementary correspondences; its full connection moduli need not be smooth or embedded.
 
@@ -40,12 +46,8 @@ For each elementary connected one- or two-handle bordism, and for cylinders, def
 
 For a nonempty rank-`r≥2` genus-`g` surface value `N_g=M(P,δ)`, use the actual irreducible twisted-relation level `R_g` and its free **effective** `PSU(r)` action. Thus `P_g=R_g→N_g` is a principal `PSU(r)` bundle, not a principal `SU(r)` bundle obtained by retaining its ineffective center. Intrinsically it is the projective framing bundle at an auxiliary surface point, with the determinant and central-lift identifications of GQ1. Construct
 
-\[
-E_g=P_g\times_{\mathrm{Ad}}\mathfrak{su}(r),\quad k=r^2-1,\quad
-\eta_g=w_2(E_g),\qquad
-B_g=\begin{cases}0&g\text{ even},\\E_g&g\text{ odd},\end{cases}
-\quad b_g=w_2(B_g)=(g\bmod2)\eta_g.
-\]
+    E_g = P_g ×_Ad su(r)  (rank k = r²−1),    η_g = w₂(E_g),
+    B_g = 0 for g even,  B_g = E_g for g odd,    b_g = w₂(B_g) = (g mod 2)·η_g.
 
 Use the invariant metric and a fixed orientation on `su(r)`; the connected adjoint action preserves both. Construct actual principal/associated-bundle, smooth and holonomy/deformation comparisons, including the genus-one point. For rank one take `E_g=B_g=0`; for an empty surface value use the unique empty data. On point values stabilize by trivial oriented bundles when a positive-rank spin-cover model is needed. No assumption that `η_g=0` is made.
 
@@ -57,39 +59,27 @@ For every oriented bundle `E`, construct the distinguished stable spin lift `δ(
 
 In an increasing-genus handle normal form the new holonomies are `(C,1)`. Construct the actual model and endpoint maps
 
-\[
-L_g=P_g\times_{\mathrm{conj}}SU(r),\qquad
-p:L_g\longrightarrow N_g,\quad q:L_g\longrightarrow N_{g+1}.
-\]
+    L_g = P_g ×_conj SU(r),    p : L_g → N_g,    q : L_g → N_(g+1).
 
 Projective framings at the surviving boundary point give an isomorphism `q*P_(g+1)≅p*P_g`, with its determinant/central-lift adapter; consequently `q*E_(g+1)≅p*E_g`. Right logarithmic differentiation `v↦vC⁻¹` identifies the vertical tangent with `p*E_g`, equivariantly for conjugation. Split the exact tangent sequence by an invariant horizontal connection; the space of such splittings is affine and contractible. Obtain the oriented stable isomorphisms
 
-\[
-TL_g\simeq p^*TN_g\oplus p^*E_g,\qquad
-TL_g\oplus p^*B_g\oplus q^*B_{g+1}
-\simeq p^*(TN_g\oplus E_g\oplus E_g).
-\]
+    TL_g ≃ p*TN_g ⊕ p*E_g,    TL_g ⊕ p*B_g ⊕ q*B_(g+1) ≃ p*(TN_g ⊕ E_g ⊕ E_g).
 
 Transport `p*σ_g⊕p*δ(E_g)` through this **specified** isomorphism. This is the relative-spin lift for the ambient background bundle `pr_-*B_g⊕pr_+*B_(g+1)` on `N_g⁻×N_(g+1)`; in particular
 
-\[
-w_2(TL_g)=p^*\eta_g=p^*b_g+q^*b_{g+1}.
-\]
+    w₂(TL_g) = p*η_g = p*b_g + q*b_(g+1).
 
 Construct the two parity cases explicitly, including their ordered reidentifications; do not replace this lift by its obstruction equality. Use the swapped endpoint maps for the decreasing handle, with the actual orientation/degree and ordered-frame reversal maps. For a cylinder use the diagonal, the tangent spin lift and `δ(B_g)` on `TN_g⊕B_g⊕B_g`. Construct inverse, unit and transpose comparisons with these choices. Rank-one and genus-one point cases use the trivial lifts; empty supports have no orientation line to choose. The construction applies in every finite dimension arising from the declared ranks and genera, without a rank-parity restriction or any reduction of integer coprime degrees.
 
-Retain the nonspin calibration `r=2,d=1,g=2→3`. Here `E_g` is the nontrivial adjoint three-plane bundle, `L_g=S(R⊕E_g)` has the identity section `s`, and `s*TL_g≅TN_g⊕E_g`. Prove `w₂(TN_g)=0` and `w₂(E_g)=α mod2≠0`, so `L_g` is not spin. For this even genus the ambient backgrounds are `(0,E_(g+1))` and the displayed doubled-bundle construction still gives the relative-spin lift. Distinguish the literal absolute-spin claim in Wehrheim–Woodward Theorem3.4.3 from this corrected target; its associated-bundle holonomy model does not turn a principal `PSU(r)` bundle into a principal `SU(r)` bundle. The characteristic-class comparison uses the proved transgression and tangent-Chern statements of the Scaduto–Stoffregen references, not a conjectural Betti recursion. Include the genus-one-to-two and rank-one calibrations separately.
+Retain the nonspin calibration `r=2,d=1,g=2→3`. Here `E_g` is the nontrivial adjoint three-plane bundle, `L_g=S(R⊕E_g)` has the identity section `s`, and `s*TL_g≅TN_g⊕E_g`. Prove `w₂(TN_g)=0` and `w₂(E_g)=α mod2≠0`, so `L_g` is not spin. For this even genus the ambient backgrounds are `(0,E_(g+1))` and the displayed doubled-bundle construction still gives the relative-spin lift. Distinguish the literal absolute-spin claim in Wehrheim–Woodward Theorem 3.4.3 from this corrected target; its associated-bundle holonomy model does not turn a principal `PSU(r)` bundle into a principal `SU(r)` bundle. The characteristic-class comparison uses the proved transgression and tangent-Chern statements of the Scaduto–Stoffregen references, not a conjectural Betti recursion. Include the genus-one-to-two and rank-one calibrations separately.
 
 ### GQ2c. Stabilization, composition and choice transport
 
-Use [SpinGeometry G4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/312e1bbec838a044c0cd479374d1a62e7a2c1e2e/TauCetiRoadmap/SpinGeometry/README.md) for spin covers, pullback, stabilization/direct sum and actual spin-lift groupoids, [SmoothBundlesConnections B1–B2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1c45ab4061b483b832b5d54f597dc69afd3f97a5/TauCetiRoadmap/SmoothBundlesConnections/README.md) for the bundles, and FK1.1 for relative-spin skeletal presentations and orientation-line change laws. Construct their gauge-moduli adapters here. Restrict the actual global `B_g` and handle lifts to the required ambient three-skeleta and support two-skeleta, retaining cellular approximation/comparison homotopies. A background class, a merely named lift or an orientation of `L` is not this datum.
+Use SpinGeometry G4 for spin covers, pullback, stabilization/direct sum and actual spin-lift groupoids, SmoothBundlesConnections B1–B2 for the bundles, and FK1.1 for relative-spin skeletal presentations and orientation-line change laws. Construct their gauge-moduli adapters here. Restrict the actual global `B_g` and handle lifts to the required ambient three-skeleta and support two-skeleta, retaining cellular approximation/comparison homotopies. A background class, a merely named lift or an orientation of `L` is not this datum.
 
 For a transverse embedded composition `F=L_01×_(M_1)L_12≅L_02`, use the ordered exact sequence with last map `(v,w)↦dq_01(v)−dp_12(w)`. Its stable tangent identification is
 
-\[
-(TL_{01}\oplus B_0\oplus B_1)\oplus(TL_{12}\oplus B_1\oplus B_2)
-\simeq (TL_{02}\oplus B_0\oplus B_2)\oplus(TM_1\oplus B_1\oplus B_1)
-\]
+    (TL_01 ⊕ B_0 ⊕ B_1) ⊕ (TL_12 ⊕ B_1 ⊕ B_2) ≃ (TL_02 ⊕ B_0 ⊕ B_2) ⊕ (TM_1 ⊕ B_1 ⊕ B_1)
 
 on `F`, with every bundle pulled back along its actual projection. Define the composed lift by transporting the two factor lifts and cancelling the **chosen** spin lift `σ_(M_1)⊕δ(B_1)` on the last summand. Give the cancellation as an operation on stable spin bundles, together with independence of horizontal splittings and trivial stabilizations. Derive the induced orientation-line map from this exact sequence and the graded determinant-line functor; determinant blocks are reordered with the actual Koszul signs. Prove associativity by comparing both cancellations in the single ordered direct sum for three seams, and prove the pentagon, the diagonal unit and the reversal/double-reversal relations. This cancellation construction precedes its Cerf and strip-shrinking applications; transverse embeddedness alone is not a spin comparison.
 
@@ -99,12 +89,9 @@ For each connected Cerf replacement of GQ3, pull the frame/evaluation bundles ba
 
 For the orientation application, stabilize each seam frame by its pulled-back background frame and use the supplied spin lift to select its boundary trivialization class. Cap the ordered ends by the standard real Cauchy–Riemann disc operators; give the resulting closed complex operator its complex orientation. Define the orientation of the uncapped operator through the gluing exact sequence with those ordered cap determinant lines. Prove stabilization and spin-frame homotopy invariance; retain the FK1.1 boundary/background twist sign if the lift changes. Use determinant lines in the order `det(coker D)*⊗det(ker D)`, with parity `ind D mod2`; exchanging two entire determinant blocks gives `(-1)^(ind D₁ ind D₂)`. Define all seam-collapse/cap/strip maps by this same ordered exact-sequence construction, and compare the two orders of several gluings in the single glued operator. Prove the resulting associativity, boundary-stratum and diffeomorphism diagrams with the actual Lagrangian-domain and Fredholm hypotheses. This constructs the signed comparison problem before quilt counts; neither the tangent class computation nor this orientation construction supplies transversality, exclusion of figure-eight bubbles or analytic strip shrinking. Those full GQ4 targets remain required.
 
-Carry the same `(r,d)`, determinant transports and identifications, central relation and residual center through every restriction. Construct the induced 4-grading, orientations, background classes and relative-spin structures. Prove the ambient/product and relative monotonicity formulas with the negative incoming symplectic form. For the ordinary monotone convention in [FukayaTheory FK0/FK3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/927284a53d7ff01237ed1e11c7b087e46d24ce80/TauCetiRoadmap/FukayaTheory/README.md), the adapter is
+Carry the same `(r,d)`, determinant transports and identifications, central relation and residual center through every restriction. Construct the induced 4-grading, orientations, background classes and relative-spin structures. Prove the ambient/product and relative monotonicity formulas with the negative incoming symplectic form. For the ordinary monotone convention in FukayaTheory FK0/FK3, the adapter is
 
-\[
-\omega(\beta)=\tau_{\mathrm{FK}}\mu(\beta),\qquad
-\tau_{\mathrm{FK}}=\tau_{\mathrm{WW}}/2=1/(4r).
-\]
+    ω(β) = τ_FK·μ(β),    τ_FK = τ_WW/2 = 1/(4r).
 
 For a simply connected Lagrangian in the chosen product ambient, lift relative disc classes through the homotopy exact sequence and prove `μ(β)=2c₁(A)` and `ω(β)=τ_WW c₁(A)`. Even Chern evaluations imply `μ∈4ℤ`. Handle point and empty boundary values separately, including the empty correspondences for the rank-`r≥2` sphere branch. Rank-one elementary correspondences are point correspondences.
 
@@ -120,7 +107,7 @@ Prove transverse smooth embedded composition in each geometric replacement and p
 
 Use compact simply connected monotone symplectic intermediate manifolds with `τ_WW=1/(2r)`, even Chern evaluations and a chosen fourfold Maslov cover. Equip each with an actual oriented background bundle on its ambient three-skeleton, its `w₂` class and the stable tangent spin lift obtained by GQ2a's even-Chern argument. The gauge surface values use the specific `B_g,b_g` of GQ2a; the other intermediate targets retain arbitrary compatible background presentations of FK1.1, not a fictitious gauge evaluation bundle. An admissible generalized object of `C(M)` is a finite sequence from `pt=M₀` to `M_m=M`, whose factors are compact simply connected oriented relatively-spin Lagrangian correspondences `L_(j−1,j)⊂M_(j−1)⁻×M_j`, with actual relative-spin lifts on their two-skeleta for the pulled-back endpoint backgrounds, their comparison data and 4-gradings. Include the length-zero point object when `M=pt`. Pin the finite-sequence carriers, isomorphisms and a small universe/skeleton and prove invariance under those choices. Do not identify every object with an ordinary embedded endpoint Lagrangian.
 
-Define the Hom complex between two such objects by the actual cyclic quilt construction. Define positive-arity higher operations by quilted polygon counts, with the cohomological convention `|m_k|=2−k` modulo four and differential degree one. Use integral orientation-line coefficients, with the tensor/Koszul and chord-sign dictionary of FK0 and [DGAInfinity](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DGAInfinity/README.md). Construct the actual ordinary-quilt specialization to FK's carriers and signs. Own fixed-end, fixed-index and fixed-arity quilt energy bounds and finite support of the rigid counts before using unweighted integral sums. Construct scalar extension and its compatibility with operations and functors.
+Define the Hom complex between two such objects by the actual cyclic quilt construction. Define positive-arity higher operations by quilted polygon counts, with the cohomological convention `|m_k|=2−k` modulo four and differential degree one. Use integral orientation-line coefficients, with the tensor/Koszul and chord-sign dictionary of FK0 and DGAInfinity. Construct the actual ordinary-quilt specialization to FK's carriers and signs. Own fixed-end, fixed-index and fixed-arity quilt energy bounds and finite support of the rigid counts before using unweighted integral sums. Construct scalar extension and its compatibility with operations and functors.
 
 Establish zero curvature on this sector. The ordinary-disc calculation in GQ2 excludes positive-area Maslov-two discs; separately prove the quilt bubble/index and energy statements needed for generalized objects and seams. Establish `m₀=0`, the `A∞` equations, integral determinant-line orientations and gluing signs. Categories containing other curved branes are not silently used in this uncurved assignment.
 
@@ -134,7 +121,7 @@ An admissible correspondence `L⊂M_-⁻×M_+` gives a functor `F_L:C(M_-)→C(M
 
 ### Analytic construction and geometric replacement
 
-Consume the nonlinear/elliptic, determinant-line and ordinary-strip floors of [HeegaardFloer F0–F3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e46412766ddc4c77407a94184340ec1cb7d033f2/TauCetiRoadmap/HeegaardFloer/README.md) and FK's ordinary polygon contracts under their actual hypotheses. Own the quilted Fredholm domains, seam conditions, compactifications, gluing and multiplihedron or equivalent coherence for these generalized objects and functors. Analyze disc, sphere, seam and figure-eight bubbling. Prove the bounds and exclusion/correction statements giving the stated uncurved equations; monotonicity alone does not prove transversality or compactness.
+Consume the nonlinear/elliptic, determinant-line and ordinary-strip floors of HeegaardFloer F0–F3 and FK's ordinary polygon contracts under their actual hypotheses. Own the quilted Fredholm domains, seam conditions, compactifications, gluing and multiplihedron or equivalent coherence for these generalized objects and functors. Analyze disc, sphere, seam and figure-eight bubbling. Prove the bounds and exclusion/correction statements giving the stated uncurved equations; monotonicity alone does not prove transversality or compactness.
 
 For mixed constant/nonconstant patches, constant means `∂_s u=0` and may still be a time-dependent Hamiltonian chord. Define the asymptotic/chord operator `A` on the actual Sobolev domain with its Lagrangian endpoint conditions, and prove its self-adjointness and the invertibility required on the specified nondegenerate or kernel-complement branch. Distinguish it from the strip operator `D=∂_s+A`. For the unweighted `L²(ds)` pairing prove the formal adjoint formula `D†_0=−∂_s+A` and identify its actual Lagrangian/end domain. For an admissible real smooth weight `e^{φ(s)}` and norm `∥e^φu∥_{L²}`, first conjugate by the unitary `u↦e^φu`: `e^φ D e^{-φ}=∂_s+A−φ′`. Its unweighted formal adjoint is `−∂_s+A−φ′`, whereas the Hilbert adjoint on the original same-weight spaces is `D†_φ=−∂_s+A−2φ′`. Derive these formulas with the actual closed-realization and end domains; weights are scalar functions of s and commute with A. When using instead the unweighted duality between opposite-weight spaces, specify that dual domain and prove the dual-weight expression `−∂_s+A`. Do not identify these different adjoint realizations. Prove unique continuation or universal regularity separately for the nonconstant block. Establish openness, compactness, quantitative relative finite-regularity control and energy bounds before selecting finite-dimensional smooth perturbations; distinguish a residual intersection from an open dense set. Prove strip shrinking and its functor comparison for transverse smooth embedded geometric composition whose replacement satisfies all GQ3 admissibility, grading, spin and background conditions. Concatenation remains the object operation when such geometric replacement is unavailable.
 
@@ -142,9 +129,7 @@ For mixed constant/nonconstant patches, constant means `∂_s u=0` and may still
 
 Construct a shift autoequivalence `S_C` on each surface category, including its inverse, Hom comparisons, zero extension and coherence. Each correspondence functor is shift equivariant, with coherent natural equivalences `F S_C≃S_D F`. Define an ordinary target category whose objects are these small integral ℤ/4-graded cohomologically unital `A∞` categories with shift. Morphisms are represented by cohomologically unital integral `A∞` functors equipped with the selected coherent shift-equivariance and zero-preserving extension. Construct the functor-category adapter retaining these structures; its comparison transformations are closed degree-zero natural transformations compatible with the selected shift and zero data, with the required coherence diagrams. First identify functors by invertible classes of these transformations in the resulting `H⁰` functor category; then take the congruence
 
-\[
-[F]\sim[F\circ S_C^k],\qquad k\in\mathbb Z.
-\]
+    [F] ∼ [F ∘ S_C^k],    k ∈ ℤ.
 
 Prove this is an equivalence relation and that whiskering and composition descend. In particular transport target shifts across an actual shift-equivariant functor and prove that replacing `F` by `F S_C^a` and `G` by `G S_D^b` replaces `GF` by `GF S_C^(a+b)`. Include zero functors, identities and Cerf comparison transformations. Denote this precisely constructed ordinary target by `A∞(4)/S`. It is not defined as an orbit or Verdier category, and the grading does not assert `S⁴=id`.
 
@@ -162,8 +147,8 @@ R5 owns the generic surface gauge construction; GQ1 owns its fixed-determinant c
 
 ## References
 
-- K. Wehrheim and C. Woodward, [*Floer field theory for coprime rank and degree*](https://arxiv.org/abs/1601.04924v2), §§2–4: connected Cerf decompositions, fixed-determinant moduli, elementary correspondences, generalized quilt objects and connected field theory. The scope above keeps rank-one and quotient-isotropy cases explicit.
+- K. Wehrheim and C. Woodward, [*Floer field theory for coprime rank and degree*](https://arxiv.org/abs/1601.04924v2), §§2–4: connected Cerf decompositions, fixed-determinant moduli (Theorem 3.3.3 and the representation model of Remark 3.3.7, eq. (31)), elementary correspondences (Theorem 3.4.3, Lemma 3.4.5), generalized quilt objects and connected field theory (Theorem 3.5.1). The absolute-spin clause of Theorem 3.4.3 is replaced in GQ2a–GQ2b by relative-spin data. The scope above keeps rank-one and quotient-isotropy cases explicit.
 - S. Ma'u, K. Wehrheim and C. Woodward, [*A∞ functors for Lagrangian correspondences*](https://arxiv.org/abs/1601.04919): quilted functor and composition constructions, applied with the admissibility and coefficient/unit adapters specified in GQ4.
 
-- K. Wehrheim and C. Woodward, [*Orientations for pseudoholomorphic quilts*, arXiv1503.07803v6](https://arxiv.org/abs/1503.07803v6): relative-spin seam data and determinant-line gluing/composition conventions, compared explicitly in GQ2c–GQ4. Their analytic hypotheses and sign conventions are inputs to a construction here, not consequences of a class equality.
-- C. Scaduto and M. Stoffregen, [*On Newstead's Mayer–Vietoris argument in characteristic2*](https://arxiv.org/abs/1707.06268v1), the effective `SO(3)` relation bundle and its degree-one fiber transgression; and [*The cohomology of rank two stable bundle moduli*](https://arxiv.org/abs/1707.06207v1), the adjoint characteristic class and tangent Chern class. These supply the rank-two nonspin regression in GQ2b; the genus recursion is not used as a theorem.
+- K. Wehrheim and C. Woodward, [*Orientations for pseudoholomorphic quilts*, arXiv:1503.07803v6](https://arxiv.org/abs/1503.07803v6): relative-spin seam data and determinant-line gluing/composition conventions, compared explicitly in GQ2c–GQ4. Their analytic hypotheses and sign conventions are inputs to a construction here, not consequences of a class equality.
+- C. Scaduto and M. Stoffregen, [*On Newstead's Mayer–Vietoris argument in characteristic 2*](https://arxiv.org/abs/1707.06268v1), the effective `SO(3)` relation bundle (introduction) and its degree-one fiber transgression (Proposition 1); and [*The cohomology of rank two stable bundle moduli*](https://arxiv.org/abs/1707.06207v1), the adjoint characteristic class `w₂(E) = α mod 2` (introduction) and `c₁(TN_g) = 2α` (§4.2). These supply the rank-two nonspin regression in GQ2b; the genus recursion is not used as a theorem.
