@@ -900,7 +900,26 @@ the same tangent orientations are related (`Manifold.Orientation.ext`). -/
 def OrientationLift.setoid : Setoid (OrientationLift I M ι) where
   r l l' := l' = l ∨
     (l'.modelOrientation = -l.modelOrientation ∧ l'.sign = fun x y ↦ -l.sign x y)
-  iseqv := sorry
+  iseqv :=
+    { refl := fun _ ↦ Or.inl rfl
+      symm := by
+        rintro l l' (rfl | ⟨h₁, h₂⟩)
+        · exact Or.inl rfl
+        · exact Or.inr ⟨by rw [h₁]; exact (neg_neg l.modelOrientation).symm,
+            by rw [h₂]; funext x y; simp⟩
+      trans := by
+        rintro l l' l'' (rfl | ⟨h₁, h₂⟩) (rfl | ⟨h₃, h₄⟩)
+        · exact Or.inl rfl
+        · exact Or.inr ⟨h₃, h₄⟩
+        · exact Or.inr ⟨h₁, h₂⟩
+        · left
+          have hmo : l''.modelOrientation = l.modelOrientation := by
+            rw [h₃, h₁]; exact neg_neg l.modelOrientation
+          have hs : l''.sign = l.sign := by rw [h₄, h₂]; funext x y; simp
+          cases l; cases l''
+          simp only at hmo hs
+          subst hmo hs
+          rfl }
 
 variable (I M ι) in
 /-- **Layer 2.1.** A manifold orientation: an orientation lift modulo the diagonal flip. -/
@@ -910,7 +929,11 @@ def Manifold.Orientation : Type _ :=
 /-- **Layer 2.1.** The opposite orientation: flip the model orientation, keep the signs. -/
 noncomputable def Manifold.Orientation.neg (o : Manifold.Orientation I M ι) :
     Manifold.Orientation I M ι :=
-  Quotient.map (fun l ↦ { l with modelOrientation := -l.modelOrientation }) sorry o
+  Quotient.map (fun l ↦ { l with modelOrientation := -l.modelOrientation })
+    (by
+      rintro a b (rfl | ⟨h₁, h₂⟩)
+      · exact Or.inl rfl
+      · exact Or.inr ⟨by show -b.modelOrientation = - -a.modelOrientation; rw [h₁], h₂⟩) o
 
 /-- **Layer 2.1.** The orientation of a tangent space induced by a manifold orientation. -/
 noncomputable def orientationAt (o : Manifold.Orientation I M ι) (x : M) :
@@ -2316,8 +2339,10 @@ variable (I M) in
 /-- **Layer 6.1.** The exterior derivative as a linear map on smooth forms. -/
 noncomputable def mextDerivₗ (k : ℕ) : SmoothForm I M ℝ k →ₗ[ℝ] SmoothForm I M ℝ (k + 1) where
   toFun φ := ⟨mextDeriv φ, mem_smoothForms.2 (isSmoothForm_mextDeriv_infty (mem_smoothForms.1 φ.2))⟩
-  map_add' := sorry
-  map_smul' := sorry
+  map_add' φ η := Subtype.ext (mextDeriv_add
+    (ContMDiff.of_le (mem_smoothForms.1 φ.2) (WithTop.coe_le_coe.2 le_top))
+    (ContMDiff.of_le (mem_smoothForms.1 η.2) (WithTop.coe_le_coe.2 le_top)))
+  map_smul' c φ := Subtype.ext (mextDeriv_smul c (φ : RoughForm I M ℝ k))
 
 theorem mextDerivₗ_apply (φ : SmoothForm I M ℝ k) :
     (mextDerivₗ I M k φ : RoughForm I M ℝ (k + 1)) = mextDeriv φ :=
@@ -2332,7 +2357,8 @@ variable (I M) in
 `CochainComplex.of`; `d ∘ d = 0` is `mextDerivₗ_comp_mextDerivₗ`. -/
 noncomputable def deRhamComplex : CochainComplex (ModuleCat ℝ) ℕ :=
   CochainComplex.of (fun k ↦ ModuleCat.of ℝ (SmoothForm I M ℝ k))
-    (fun k ↦ ModuleCat.ofHom (mextDerivₗ I M k)) sorry
+    (fun k ↦ ModuleCat.ofHom (mextDerivₗ I M k))
+    (fun k ↦ by rw [← ModuleCat.ofHom_comp, mextDerivₗ_comp_mextDerivₗ]; rfl)
 
 /-- **Layer 6.1.** Closed and exact rough forms. -/
 def IsClosedForm (φ : RoughForm I M F k) : Prop := mextDeriv φ = 0
@@ -2363,7 +2389,8 @@ variable (I M) in
 noncomputable def deRhamClosedFormCycle (k : ℕ) (η : ↥(closedForms I M k)) :
     (deRhamComplex I M).cycles k :=
   (deRhamComplex I M).moduleCatCyclesMk η.1 (k + 1)
-    (by apply (ComplexShape.up ℕ).next_eq'; rfl) (by sorry)
+    (by apply (ComplexShape.up ℕ).next_eq'; rfl)
+    (by simp only [deRhamComplex, CochainComplex.of_d]; exact LinearMap.mem_ker.1 η.2)
 
 theorem iCycles_deRhamClosedFormCycle (k : ℕ) (η : ↥(closedForms I M k)) :
     (deRhamComplex I M).iCycles k (deRhamClosedFormCycle I M k η) = η.1 := by
@@ -2392,8 +2419,8 @@ noncomputable def mpullbackₗ {f : M → M'} (hf : ContMDiff I I' ∞ f) (k : �
     SmoothForm I' M' ℝ k →ₗ[ℝ] SmoothForm I M ℝ k where
   toFun φ := ⟨mpullback I I' f φ,
     mem_smoothForms.2 (isSmoothForm_mpullback_infty hf (mem_smoothForms.1 φ.2))⟩
-  map_add' := sorry
-  map_smul' := sorry
+  map_add' φ η := Subtype.ext (mpullback_add f (φ : RoughForm I' M' ℝ k) η)
+  map_smul' c φ := Subtype.ext (mpullback_smul f c (φ : RoughForm I' M' ℝ k))
 
 theorem mpullbackₗ_mem_closedForms {f : M → M'} (hf : ContMDiff I I' ∞ f) {φ : SmoothForm I' M' ℝ k}
     (hφ : φ ∈ closedForms I' M' k) : mpullbackₗ hf k φ ∈ closedForms I M k :=
@@ -2728,7 +2755,11 @@ def SmoothSimplex (p : ℕ) : Type _ :=
 
 /-- A smooth simplex is continuous. -/
 noncomputable def SmoothSimplex.toContinuousMap (σ : SmoothSimplex I M p) : C(fullSimplex p, M) :=
-  ⟨σ.1, sorry⟩
+  ⟨σ.1, continuous_iff_continuousAt.2 fun x ↦ by
+    obtain ⟨U, hU, g, hg, hgσ⟩ := σ.2 x
+    refine ((hg.continuousOn.continuousAt hU).comp continuous_subtype_val.continuousAt).congr ?_
+    filter_upwards [continuous_subtype_val.continuousAt.preimage_mem_nhds hU] with y hy
+    exact hgσ y hy⟩
 
 open scoped Simplicial
 
@@ -2759,7 +2790,8 @@ variable (I M) in
 /-- **Layer 8.3.** The smooth singular chain complex. -/
 noncomputable def smoothSingularChainComplex : ChainComplex (ModuleCat.{0} ℝ) ℕ :=
   ChainComplex.of (fun p ↦ ModuleCat.of ℝ (SmoothSimplex I M p →₀ ℝ))
-    (fun p ↦ ModuleCat.ofHom (smoothBoundary I M p)) sorry
+    (fun p ↦ ModuleCat.ofHom (smoothBoundary I M p))
+    (fun p ↦ by rw [← ModuleCat.ofHom_comp, smoothBoundary_comp_smoothBoundary]; rfl)
 
 variable (I M) in
 /-- **Layer 8.3.** The inclusion of smooth chains into continuous chains is defined on any
@@ -2782,7 +2814,9 @@ variable {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E']
 /-- Pushforward is pointwise composition, with local smooth extendability. -/
 noncomputable def SmoothSimplex.map (hf : ContMDiff I I' ∞ f)
     (σ : SmoothSimplex I M p) : SmoothSimplex I' M' p :=
-  ⟨f ∘ σ.1, sorry⟩
+  ⟨f ∘ σ.1, fun x ↦ by
+    obtain ⟨U, hU, g, hg, hgσ⟩ := σ.2 x
+    exact ⟨U, hU, f ∘ g, hf.comp_contMDiffOn hg, fun y hy ↦ congrArg f (hgσ y hy)⟩⟩
 
 noncomputable def smoothChainMap (hf : ContMDiff I I' ∞ f) :
     smoothSingularChainComplex I M ⟶ smoothSingularChainComplex I' M' := sorry
@@ -3192,16 +3226,17 @@ noncomputable def relativeDeRhamClassOfVanishing (W : TopologicalSpace.Opens M)
     (relativeDeRhamVanishingCycle I W q α hclosed hvanish)
 
 include I in
+omit [IsManifold I 1 M] [IsManifold I ∞ M] in
 variable (I) in
 /-- Open finite-dimensional sigma-compact manifolds are sigma-compact; callers
 of the relative comparison need not supply a redundant instance for W. -/
 theorem sigmaCompactSpace_openManifold [FiniteDimensional ℝ E]
     [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) : SigmaCompactSpace W := by
-  haveI : SecondCountableTopology H := I.secondCountableTopology
-  haveI : LocallyCompactSpace H := I.locallyCompactSpace
-  haveI : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
-  haveI : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
-  haveI : LocallyCompactSpace W := W.isOpen.locallyCompactSpace
+  have : SecondCountableTopology H := I.secondCountableTopology
+  have : LocallyCompactSpace H := I.locallyCompactSpace
+  have : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
+  have : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
+  have : LocallyCompactSpace W := W.isOpen.locallyCompactSpace
   infer_instance
 
 variable (I) in
