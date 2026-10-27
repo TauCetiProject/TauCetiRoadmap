@@ -63,10 +63,13 @@ partitions of unity, sharp finite-dimensional Sard, metrics and Hessians.
 [AlgebraicTopology Stages 2–8](../AlgebraicTopology/README.md) supply relative
 chains, cofibrations, cellular/singular comparison, products, integral duality
 and relative homotopy. M4’s arbitrary-function LS bound consumes the
-[categorical-cover/cup-length supplement after AT6.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md); that supplement uses
+[categorical-cover/cup-length supplement in AT Stage 6](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality); that supplement uses
 only foundational products and native homotopies, not Morse theory or
 manifold duality. [GT Layer 1](../GeometricTopology/README.md) supplies
-normal/tubular geometry, collars, handle gluing and disc bundles; [CharacteristicClasses C2](../CharacteristicClasses/README.md)
+normal/tubular geometry, collars, handle gluing and disc bundles; this
+roadmap owns Brown's bicollared generalized Schoenflies theorem as the input
+of M4.1, while GT Layer 2 keeps local flatness, codimension-one collaring and
+the annulus theorem. [CharacteristicClasses C2](../CharacteristicClasses/README.md)
 supplies ordinary Thom classes and their local orientation coefficients.
 
 This roadmap owns ordinary finite Morse deformation/attachment and their
@@ -74,7 +77,7 @@ abstract Morse–Bott extension. RiemannianGeometry R3 owns the broken-geodesic
 vertex carrier, Jacobi/index comparison and path-space limit, consuming this
 core. The symmetric-space and Bott applications use the same broken-path
 carrier and the attachments here, following
-[HomotopySpheres §4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284).
+HomotopySpheres §4B.
 [HeegaardFloer Lane M](../HeegaardFloer/README.md) owns stable/unstable
 manifolds, Morse–Smale trajectory spaces, compactification/gluing, Morse
 homology and its singular comparison. It consumes the finite Morse core here;
@@ -157,7 +160,9 @@ of f by constant subtraction, `range I=univ` and M1's `mfderiv` comparison;
 this supplies `hsurj`. `sectionLinearization_trivial` is a cross-check of
 that identification, not an input to the explicit constructor. Construct the actual zero-subtype/level
 homeomorphism induced by s(x)=0 iff f(x)=c and transfer these specific charts
-along it as `scalarRegularLevelChartedSpace`. The existential
+along it as the named scalar-level atlas, whose
+existence, smooth-embedding and tangent-range laws are packaged as
+`exists_scalarRegularLevelData`. The native existential
 `exists_isManifold_sectionZero_of_contMDiff` is a cross-check of the result.
 
 Export the chartAt/atlas, source/target, extend and inverse formulas for this
@@ -238,7 +243,7 @@ union of its reindexed lower/upper levels. Prove both smooth directions
 from these public source/target/apply/inverse laws; no private chartAt
 lemma or equality of differently typed `IsManifold` statements is an input.
 
-Consume [DifferentialGeometry 5.1's orientation interface](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6e6a8ebc5fccd49a207365df0f9e74923f6bcae2/TauCetiRoadmap/DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
+Consume [DifferentialGeometry 5.1's orientation interface](../DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
 for `boundaryOrientation_spec`, on this native boundary manifold. Pin the
 metric-free outward co-orientation: df(v)>0 on ∂M_a and the upper band face,
 df(v)<0 on the lower band face. Mathlib's inward slot0 has outward vector
@@ -479,7 +484,7 @@ cohomology is torsion-free. Apply the proper-index≤d version of M2 to obtain
 those conclusions for noncompact M.
 
 **Arbitrary-function Lusternik–Schnirelmann inequality.** Consume
-[AlgebraicTopology’s categorical-cover supplement after Stage 6.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md), with its
+[AlgebraicTopology Stage 6’s categorical covers and Lusternik–Schnirelmann bounds](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality), with its
 same `LSCategoricalCover`, `lsCategoryCount`, `normalizedLSCategory` and
 `lsCupLength` carriers. Here construct `lsCriticalPointBound` for **every
 smooth real-valued f on a compact boundaryless finite-dimensional smooth
@@ -609,28 +614,48 @@ homeomorphisms and Φ_T give the required Euclidean maps. This uses compact
 flow and elementary value estimates, not continuity of pointwise hitting times
 or the nondegenerate local normal form. Negating f gives the symmetric cover.
 
-Next prove the precise **Rosen two-open-cell lemma**:
+Next prove **Brown's generalized Schoenflies theorem**, owned here as the
+topological input of M4.1: for m≥1 and a topological embedding
+β:S^(m−1)×[−1,1]→S^m, the complement of Σ=β(S^(m−1)×{0}) has exactly two
+components, each containing one open collar side, and the closure of each is
+homeomorphic to the closed ball D^m by a homeomorphism carrying its frontier
+Σ onto ∂D^m (Brown 1960, Theorem 5, p. 76). The separation statement is
+Jordan–Brouwer for a bicollared sphere, from the reduced singular homology of
+S^m∖Σ by Mayer–Vietoris on the collar
+([AlgebraicTopology Stage 3](../AlgebraicTopology/README.md#stage-3-subdivision-excision-and-mayer--vietoris)). Follow Brown's route: a cellular subset of an m-cell has an m-cell
+quotient (Theorems 0–2), a map of S^m onto itself whose only point preimages
+with more than one point are two sets A,B has A and B cellular (Theorems 3–4), and the map collapsing
+the two outer collar pieces to the poles has exactly those two inverse sets.
+The hypothesis is the explicit bicollar β; no local-flatness theorem,
+annulus theorem or Alexander-horned-sphere analysis is an input, and the
+statement is false for the horned sphere, which has no bicollar.
+GeometricTopology Layer 2 owns locally flat embeddings, Brown's 1962
+codimension-one collaring theorem and the annulus theorem; none of those is
+used here, because the bicollar below is written down in coordinates.
+
+Then prove the **two-open-cell lemma**
 `nonempty_homeomorph_sphere_of_two_euclidean_opens`. For any compact Hausdorff
 space X covered by two open subsets U,V each homeomorphic to ℝ^m, m>0,
-construct X≃ₜS^m. This is the narrow topological bridge required here; consume
-[GT Layer2's bicollar and Brown generalized Schoenflies construction](../GeometricTopology/README.md#layer-2-locally-flat-embeddings-in-general-dimension)
-at its actual bicollared-sphere hypotheses, rather than building another
-Schoenflies engine or using GT's later Morse-dependent smooth handles.
-In U coordinates choose a closed round m-ball D whose interior contains the
-compact set X\V. Thus Σ=∂D lies inside V. Its standard U-coordinate collar
-makes Σ locally flat in X and hence in V; retain the actual collar and use
-GT2's bicollar comparison. The complement C=X\int D is compact and lies
+construct X≃ₜS^m. In U coordinates choose a closed round m-ball D of radius r
+whose interior contains the compact set X\V. Thus Σ=∂D lies in the open set
+U∩V, and by compactness so does a thin coordinate annulus
+{r−η≤|u|≤r+η}; radial coordinates on it give an explicit bicollar
+β:S^(m−1)×[−1,1]→V of Σ. The complement C=X\int D is compact and lies
 inside V. Identify the one-point compactification of V≃ₜℝ^m with S^m using
-native `Homeomorph.onePointCongr` and `onePointEquivSphereOfFinrankEq`.
-Apply Brown's bicollared Schoenflies theorem there. Prove C is exactly the
-closure of the complementary component not containing the added point:
-its boundary is Σ, its compact image avoids that point, and the collar fixes
-which local side it occupies. This supplies a homeomorphism C≃ₜD^m with its
-actual boundary map. D is the other closed cell. Compare their union with
-the boundary pushout, and extend the boundary gluing homeomorphism radially
-by the Alexander map to obtain X≃ₜS^m. Include m=1 (two arcs and their two
-endpoints) explicitly; no annulus theorem, high-dimensional surgery,
+native `Homeomorph.onePointCongr` and `onePointEquivSphereOfFinrankEq`, and
+apply Brown's theorem to β there. The two open sets X\D and
+(int D∩V)∪{∞} partition S^m\Σ (the second is open because its complement
+C is compact in V), and β places one collar side in each. Hence C is the
+closure of the complementary component not containing ∞, and Brown gives
+C≃ₜD^m with its actual boundary map. D is the other closed cell. Compare
+their union with the boundary pushout, and extend the boundary gluing
+homeomorphism radially by the Alexander map to obtain X≃ₜS^m. Include m=1
+(two arcs and their two endpoints) explicitly; no high-dimensional surgery,
 Poincaré conjecture or differentiable Schoenflies statement is an input.
+For smooth M the cover of the previous paragraph consists of open sets
+diffeomorphic to ℝ^m, the hypothesis of Milnor 1959, Theorem 1(3), whose
+Corollary 1 (p. 442) is this topological conclusion; the lemma here needs
+only homeomorphisms.
 
 Compose the two constructions for the degenerate Reeb–Milnor/Rosen theorem.
 Its output is topological only; exotic smooth spheres are not identified
@@ -655,11 +680,11 @@ integer counts satisfying weak inequalities/Euler but violating a strong
 inequality; and closed connected positive-dimensional M with exactly two
 critical points is homeomorphic to a sphere. For a Morse function the last conclusion follows from M1/M2's two disc
 handles and radial boundary extension. For an arbitrary smooth function,
-including degenerate extrema, use M4.1's Euclidean-open-cover and Rosen
+including degenerate extrema, use M4.1's Euclidean-open-cover and two-open-cell
 construction. Neither route asserts a diffeomorphism to the standard sphere. Complex projective
-moment functions use [ComplexKahlerGeometry K7.1 and K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
+moment functions use [ComplexKahlerGeometry K7.1 and K7.2](../ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
 K7.1 supplies the actual `Projectivization ℂ (Fin (n+1)→ℂ)` carrier and,
-through K1/#279's real restriction of the complex affine charts, the concrete
+through K1's real restriction of the complex affine charts, the concrete
 real self-model `Ireal_n:=𝓘(ℝ,Fin n→ℂ)`, its `Ireal_n.Boundaryless` and
 `IsManifold Ireal_n ∞` structures, and complex orientation. Use the actual
 root theorem `finrank_real_of_complex` and `Module.finrank_pi` to identify
@@ -718,7 +743,7 @@ and finite convergence on compact M. Deduce Morse–Bott strong inequalities
 with the shifted critical-component Betti polynomials and the correct negative-
 orientation coefficients. Prove the ordinary Morse specialization is M2/M4.
 Hamiltonian [ConvexityToric T2](../SymplecticGeometry/ConvexityToric/README.md) consumes this attachment theorem and supplies
-complex negative bundles/equivariant perfection; Riemannian/PR284 path
+complex negative bundles/equivariant perfection; RiemannianGeometry and HomotopySpheres path
 applications supply their own critical components and Jacobi negative bundles.
 
 ## M6. Gradient convergence and exponential decay
@@ -761,9 +786,13 @@ hypotheses.
   the general degenerate statement. For M4.1's additional topological bridge,
   see Milnor, [*Sommes de variétés différentiables et structures différentiables
   des sphères*](https://numdam.org/articles/10.24033/bsmf.1538/), Bull. Soc.
-  Math. France87 (1959), Theorem1(3), and R. H. Rosen, *A weak form of the star
-  conjecture for manifolds*, Notices Amer. Math. Soc.7 (1960), abstract570-28,
-  p.380, Lemma1. The required construction is specified in M4.1 above.
+  Math. France87 (1959), Theorem1(3) and Corollary1 (p. 442), and R. H. Rosen,
+  *A weak form of the star conjecture for manifolds*, Notices Amer. Math.
+  Soc.7 (1960), abstract570-28, p.380, Lemma1. The required construction is
+  specified in M4.1 above.
+- M. Brown, [*A proof of the generalized Schoenflies theorem*](https://www.ams.org/journals/bull/1960-66-02/S0002-9904-1960-10400-4/S0002-9904-1960-10400-4.pdf),
+  Bull. Amer. Math. Soc.66 (1960) 74–76, Theorems 0–5; Theorem 5 (p. 76) is
+  the bicollared Schoenflies theorem owned in M4.1.
 - Cohen, Iga and Norbury, [Topics in Morse Theory](https://math.stanford.edu/~ralph/morsecourse/biglectures.pdf),
   classical part, for manifold normal forms, sublevels and cellular comparison.
 - Thomas Mark's *Math240 Riemannian Geometry* lecture/homework notes,
