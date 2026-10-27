@@ -1,6 +1,5 @@
 import Mathlib
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
-import TauCetiRoadmap.ProfiniteCohomology.DimensionNormalization
 import TauCeti.GroupTheory.PLowerCentralSeries
 import TauCeti.NumberTheory.Padics.DyadicUnits
 import TauCeti.NumberTheory.Padics.GroupAlgebra.CyclicTwo
@@ -58,8 +57,6 @@ import TauCeti.Topology.Algebra.Group.TopologicalAbelianization
 import TauCeti.Topology.Algebra.GroupExtension.Cohomology
 import TauCeti.Topology.Algebra.Module.Compact
 import TauCeti.Topology.Compactness.InverseSystem
-
-set_option autoImplicit false
 
 /-!
 # Profinite and pro-`p` groups: target signatures
@@ -211,9 +208,12 @@ noncomputable abbrev profiniteOrder (G : Type u) [Group G] [TopologicalSpace G] 
 
 /-- The **index of a closed subgroup**, in the pinned primewise form: at each prime `ℓ`, the
 supremum over open normal `N` of `v_ℓ [G/N : HN/N]`. This is Tau Ceti's
-`Subgroup.profiniteIndex`. The definition is written for arbitrary `H`; closedness of `H` is a
-hypothesis of the theorems about it, in particular of the equivalence with
-`lcm {[G : U] | U open, H ≤ U}` (Layer 1), which fails without it. -/
+`Subgroup.profiniteIndex`. The definition is written for arbitrary `H`, and so is the equivalence
+with `lcm {[G : U] | U open, H ≤ U}` (Layer 1, Tau Ceti's
+`Subgroup.profiniteIndex_eq_iSup_openSubgroup`): replacing `H` by its closure changes neither the
+images `HN/N` in the finite quotients nor the set of open subgroups containing `H`
+(`Subgroup.profiniteIndex_topologicalClosure`). Closedness is a hypothesis only where the index is
+compared with `H` itself, as in `Subgroup.profiniteIndex_eq_one_iff`. -/
 noncomputable abbrev profiniteIndex {G : Type u} [Group G] [TopologicalSpace G]
     (H : Subgroup G) : Supernatural :=
   H.profiniteIndex
@@ -461,9 +461,12 @@ coefficients are discrete, and equivariant because the action is trivial. -/
 noncomputable def fpPairing (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] :
     ProfiniteCohomology.TopPairing (trivialFp p G) (trivialFp p G) (trivialFp p G) where
-  bil := sorry
-  cont := sorry
-  equivariant := sorry
+  bil := (((LinearMap.mul (ZMod p) (ZMod p)).comp
+    (TauCeti.trivialFpEquiv p G).toLinearMap).compl₂
+      (TauCeti.trivialFpEquiv p G).toLinearMap).compr₂
+        (TauCeti.trivialFpEquiv p G).symm.toLinearMap
+  cont := continuous_of_discreteTopology
+  equivariant g x y := by simp
 
 /-- **Layer 5, the pairing is multiplication.** The defining equation of `fpPairing`, read
 through the identification `TauCeti.trivialFpEquiv` of the carrier with `ZMod p`. Without it the
@@ -596,14 +599,6 @@ noncomputable def demushkinQ {p G} [Fact p.Prime] [Group G] [TopologicalSpace G]
     (_hG : IsDemushkin p G) : ℕ :=
   if ∀ x : topAbelianization G, IsOfFinOrder x → x = 1 then 0
   else Nat.card {x : topAbelianization G // IsOfFinOrder x}
-
-/-- **Layer 7, the `q`-invariant is an isomorphism invariant.** -/
-example {p G H} [Fact p.Prime] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [TotallyDisconnectedSpace G] [Group H] [TopologicalSpace H]
-    [IsTopologicalGroup H] [CompactSpace H] [TotallyDisconnectedSpace H]
-    (hG : IsDemushkin p G) (hH : IsDemushkin p H) (_e : G ≃ₜ* H) :
-    demushkinQ hG = demushkinQ hH :=
-  sorry
 
 /-- **Layer 7, the canonical character exists and is unique.** The prescription property is
 Tau Ceti's `TauCeti.HasPrescriptionProperty` of a continuous character, in the lifting form: every
@@ -794,9 +789,11 @@ end Graded
 The orientation image `Γ = Im χ` is procyclic in one branch and `C₂ × ℤ₂` in the other. Both
 shapes are needed, and the second is one of the two even-rank families at `q = 2`. The algebra,
 its projections, group elements and functoriality, the procyclic and dyadic coordinates, and
-evaluation and division of power series are Tau Ceti's. This roadmap aliases the algebra under its
-name, uses the rest directly, and states as targets only the dyadic kernel formula, which Tau Ceti
-does not have. -/
+evaluation and division of power series are Tau Ceti's, and so are the finite levels of the dyadic
+coordinate (`TauCeti.completedGroupAlgebra.proj_dyadicCoordinate_eq_zero_iff`,
+`TauCeti.completedGroupAlgebra.ker_proj_comp_dyadicCoordinate`) and their cofinality
+(`TauCeti.completedGroupAlgebra.exists_dyadicLevel_le`). This roadmap aliases the algebra under its
+name and uses the rest directly. -/
 
 /-- **The completed group algebra** `Λ = ℤ_p[[Γ]] = lim_U ℤ_p[Γ/U]`, the inverse limit over the
 open normal subgroups of `Γ`, with the inverse-limit topology: Tau Ceti's
@@ -1002,35 +999,6 @@ example (σ : Multiplicative (ZMod 2)) (a : ℤ_[2]) :
   ⟨TauCeti.completedGroupAlgebra.dyadicCoordinate_X e,
     TauCeti.completedGroupAlgebra.dyadicCoordinate_C_single e σ a⟩
 
-/-- **Layer 9, the finite levels through the dyadic coordinate.** For `m : ℕ` let `U_m` be the
-open normal subgroup `e⁻¹({1} × 2^m ℤ₂)`, pinned by `hU`. The kernel of the projection of `Λ` to
-`U_m`, read through the dyadic coordinate, is the principal ideal of `(1 + T)^(2^m) - 1` in
-`ℤ₂[C₂][[T]]`. Route: `ℤ₂[Γ ⧸ U_m] = ℤ₂[C₂][ℤ/2^m]`, and `ℤ₂[C₂]` is free over `ℤ₂` on `1` and
-`σ`, so the statement is Tau Ceti's procyclic `ker_proj_comp_powerSeriesCoordinate` at `ℤ₂`, in
-each of the two coordinates. At `m = 0` the ideal is `(T)`, the kernel of
-`ℤ₂[C₂][[T]] → ℤ₂[C₂]`. -/
-theorem completedGroupAlgebra.dyadicCoordinate_proj_eq_zero_iff (m : ℕ)
-    (U : OpenNormalSubgroup Γ)
-    (hU : ∀ γ : Γ, γ ∈ U.toSubgroup ↔
-      (e γ).1 = 1 ∧ (2 ^ m : ℤ_[2]) ∣ Multiplicative.toAdd (e γ).2)
-    (ψ : PowerSeries (MonoidAlgebra ℤ_[2] (Multiplicative (ZMod 2)))) :
-    TauCeti.completedGroupAlgebra.proj ℤ_[2] Γ U
-        (TauCeti.completedGroupAlgebra.dyadicCoordinate e ψ) = 0 ↔
-      ((1 + PowerSeries.X) ^ (2 ^ m) - 1 :
-        PowerSeries (MonoidAlgebra ℤ_[2] (Multiplicative (ZMod 2)))) ∣ ψ :=
-  sorry
-
-/-- **Layer 9, those levels are cofinal.** Every open normal subgroup of `Γ` contains some `U_m`,
-so with the kernel formula above the dyadic coordinate identifies the inverse-limit topology of `Λ`
-with the topology of `ℤ₂[C₂][[T]]` whose basic neighbourhoods of `0` are the ideals
-`(2^s, (1 + T)^(2^m) - 1)`. ⚠ The ideals `((1 + T)^(2^m) - 1)` alone do not define it: each finite
-level `ℤ₂[Γ ⧸ U_m]` keeps its `2`-adic topology, and at `m = 0` they would make the coefficient
-ring `ℤ₂[C₂]` discrete, while `Λ` is compact. -/
-theorem completedGroupAlgebra.exists_dyadicLevel_le (V : OpenNormalSubgroup Γ) :
-    ∃ m : ℕ, ∀ γ : Γ, (e γ).1 = 1 → (2 ^ m : ℤ_[2]) ∣ Multiplicative.toAdd (e γ).2 →
-      γ ∈ V.toSubgroup :=
-  sorry
-
 /-- **Layer 9, the splitting after inverting `2`, and its failure over `ℤ₂`.** Over `ℚ₂` the
 idempotents `(1 ± σ)/2` split the group ring into the two eigenspaces of the involution,
 `ℚ₂[C₂] ≅ ℚ₂ × ℚ₂` (Tau Ceti's `monoidAlgebraRatPadicCyclicTwoEquiv`). ⚠ Over `ℤ₂` there is no
@@ -1177,8 +1145,11 @@ the class of `x ∈ X` to the class of `y⁻¹ x y`, Tau Ceti's `TopologicalAbel
 It descends to `Γ` because inner automorphisms by elements of `X` act trivially on `X/(X, X)`
 (`TopologicalAbelianization.toConjAct_smul_eq_self_of_mem`), which is the content of "the action
 factors through `Γ = Im χ`". ⚠ This is the **conjugation** action of `Γ`, and not multiplication by
-the scalar `χ(g)`: `ℤ_p² = ⟨x, y ∣ (x, y)⟩` has trivial orientation while its conjugation action on
-the relation module is not trivial, so the scalar reading is false. -/
+the scalar `χ(g)`. For `ℤ_p² = ⟨x, y ∣ (x, y)⟩` the orientation is trivial, so `X = F`, `Γ = 1`
+and `E = F^{ab}` with trivial action, and the two readings agree; they separate on the full
+relation module `R^{ab} = R/(R, R)` of this presentation, with `R` the closed normal subgroup
+generated by `r = (x, y)` and `F/R` acting by conjugation: `x⁻¹ r x = r ((x, y), x)`, and
+`((x, y), x)` is nontrivial modulo `γ₄(F) ≥ (R, R)`, so `x` acts nontrivially although `χ = 1`. -/
 example (χ : F →* ℤ_[p]ˣ) (y : F) (x : χ.ker) :
     (y : F ⧸ χ.ker)⁻¹ • (x : TopologicalAbelianization χ.ker) =
       ((⟨y⁻¹ * x * y, χ.normal_ker.conj_mem' x x.2 y⟩ : χ.ker) :
@@ -1664,10 +1635,8 @@ section CharacterPreservingIteration
 /-- **Layer 9, the graded pieces of a subgroup.** For `K ≤ G`, `gr_k(K)` is the image of
 `K ∩ λ_k(G)` in `gr_k(G)`; it is `(K ∩ λ_k) / (K ∩ λ_{k+1})`, because `K ∩ λ_k ∩ λ_{k+1}` is
 `K ∩ λ_{k+1}`, and this is how Labute identifies `gr(X)` with a subalgebra of `gr(F)` (p. 123).
-The roadmap name below abbreviates current main's `TauCeti.gradedPieceOf` at revision
-`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`; it is the image of `K ∩ λ_k` in the ambient graded
-piece. The original PR snapshot at `a780` lacked this declaration. Its membership theorem is the
-current native `TauCeti.mem_gradedPieceOf_iff`. -/
+The roadmap name abbreviates Tau Ceti's `TauCeti.gradedPieceOf`, the image of `K ∩ λ_k` in the
+ambient graded piece; its membership theorem is `TauCeti.mem_gradedPieceOf_iff`. -/
 abbrev gradedPieceOf (p : ℕ) {G : Type u} [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] (K : Subgroup G) (k : ℕ) :
     Submodule (ZMod p) (TauCeti.gradedPiece p G k) :=
@@ -1703,13 +1672,14 @@ theorem basisModificationDelta_mem_gradedPieceOf_ker {p : ℕ} [Fact p.Prime] {n
 group `G`, a continuous character `χ`, and a continuous `D : G → ℤ_p` with
 `D (g * h) = D g + χ g * D h`, `p^k ∣ D g` for `g ∈ λ_k(G)`. Route: `χ` takes values in
 `1 + pℤ_p` because `G` is pro-`p`, and in `1 + p^{k+1}ℤ_p` on `λ_k(G)`; `D(g^p)` is `D(g)` times
-the geometric sum `1 + χ(g) + ⋯ + χ(g)^{p-1}`, which is divisible by `p`, and `D` of a commutator
-is `(χ(g) - 1) D(h) - (χ(h) - 1) D(g)` up to convention. Hence the graded functional
+the geometric sum `1 + χ(g) + ⋯ + χ(g)^{p-1}`, which is divisible by `p`, and for the commutator
+`(g, h) = g⁻¹h⁻¹gh` exactly `D((g, h)) = χ(g)⁻¹χ(h)⁻¹ ((χ(g) - 1) D(h) - (χ(h) - 1) D(g))`, a unit
+times the bracket. Hence the graded functional
 `Δ_k(D) : gr_k(G) → 𝔽_p`, the class of `g` going to `(D(g)/p^k) mod p`, is well defined, and it
 kills a class exactly when `p^{k+1} ∣ D g`. Labute's Lemma 4 takes `D` with values in `2I(χ)`;
-his `Δ` is this one after dividing by `2`. The original PR snapshot at `a780` lacked these APIs. Current main at
-`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` has `TauCeti.IsCrossedHom.pow_dvd_apply_of_mem_pLowerCentralSeries`
-and `TauCeti.IsCrossedHom.gradedFunctional`; the roadmap proof must compare their exact hypotheses. -/
+his `Δ` is this one after dividing by `2`. Tau Ceti has the divisibility as
+`TauCeti.IsCrossedHom.pow_dvd_apply_of_mem_pLowerCentralSeries` and the functional as
+`TauCeti.IsCrossedHom.gradedFunctional`; the proof compares their hypotheses with these. -/
 theorem pow_dvd_crossedHom_of_mem_pLowerCentralSeries {p : ℕ} [Fact p.Prime] {G : Type u}
     [Group G] [TopologicalSpace G] [IsTopologicalGroup G] (hG : IsProP p G)
     (χ : G →ₜ* ℤ_[p]ˣ) (D : G → ℤ_[p]) (hDc : Continuous D)
@@ -1722,9 +1692,8 @@ theorem pow_dvd_crossedHom_of_mem_pLowerCentralSeries {p : ℕ} [Fact p.Prime] {
 crossed homomorphism `D` for `χ` with `D(x_i) = a i`. Route: the universal property of the free
 pro-`p` group applied to the pro-`p` group `ℤ_p ⋊ Im χ`, with `x_i ↦ (a i, χ(x_i))`. The
 coordinate crossed homomorphisms `D_i`, `D_i(x_k) = δ_{ik}`, are the detectors of the image
-theorems below. The original PR snapshot at `a780` lacked this API. Current main at
-  `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` has `TauCeti.freeProP.crossedHom`; the roadmap proof
-  must consume its exact universal-property statement. -/
+theorems below. Tau Ceti has the construction as `TauCeti.freeProP.crossedHom`; the proof consumes
+its universal property. -/
 theorem existsUnique_crossedHom_freeProP {p : ℕ} [Fact p.Prime] {n : ℕ}
     (χ : freeProP p (Fin n) →ₜ* ℤ_[p]ˣ) (a : Fin n → ℤ_[p]) :
     ∃! D : freeProP p (Fin n) → ℤ_[p], Continuous D ∧
@@ -1741,11 +1710,10 @@ Route: the complement `gr_k(F) = gr_k(X) ⊕ 𝔽₂ π^k ξ₂` (Lemma 1, from 
 `gr_{m+1}(X) = Im δ^X + ⟨π^{m+1} ξ_i : i ≠ 2⟩` (Lemmas 2 and 3); every crossed homomorphism kills
 `r₀(y)` for every tuple `y` with these values of `χ`, hence vanishes on `Im δ^X`; and the
 coordinate crossed homomorphism `D_i`, `i ≠ 2`, reads off the coefficient of `π^{m+1} ξ_i`.
-The original PR snapshot at `a780` lacked this API. Current main at
-`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` has
+Tau Ceti has this as
 `TauCeti.freeProP.mem_map_basisModificationDelta_iff_forall_gradedFunctional_crossedHom_eq_zero`,
 with `X` the kernel of the exponent sum at `x₂`, which is `ker χ` because `χ(x₂)` has infinite
-order. The proof target retains that carrier identification and the native hypotheses. -/
+order; the proof makes that identification. -/
 theorem exists_basisModificationDelta_eq_iff_forall_crossedHom_procyclic {n : ℕ} (hn : 2 ≤ n)
     (heven : Even n) [TotallyDisconnectedSpace (freeProP 2 (Fin n))] {f : ℕ} (hf : 2 ≤ f)
     (χ : freeProP 2 (Fin n) →ₜ* ℤ_[2]ˣ)
@@ -1774,11 +1742,13 @@ with `φ : F → ℤ/2 × 2ℤ₂`); the span statement
 `gr_{m+1}(X) = Im δ^X + ⟨π^{m+1} ξ_i : i ≠ 2, 4⟩ + 𝔽₂ π^m [ξ₂, ξ₄]` (Lemmas 2 and 3), whose
 mixed vector is the class of `(x₂, x₄)^{2^m}`, in `X` although `x₂, x₄ ∉ X`; every crossed
 homomorphism vanishes on `Im δ^X`; `D_i` reads off the coefficient of `π^{m+1} ξ_i` for
-`i ≠ 2, 4`, and `D₄` that of `π^m [ξ₂, ξ₄]`, because `D₄((x₂, x₄)) = ±(χ(x₂) - 1) = ∓2`.
-Labute works at `n = 4` and reduces to it; this statement is for every even `n ≥ 4`. The original
-PR snapshot at `a780` lacked this API. Current main at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`
-has `TauCeti.freeProP.mem_map_basisModificationDelta_demushkinWordTwoEven_iff_forall_gradedFunctional_eq_zero`;
-the roadmap proof retains its even-rank hypotheses and mixed-tail conclusion. -/
+`i ≠ 2, 4`, and `D₄` that of `π^m [ξ₂, ξ₄]`: by the exact commutator formula,
+`D₄((x₂, x₄)) = χ(x₂)⁻¹χ(x₄)⁻¹ (χ(x₂) - 1) = 2(1 - 2^f)`, which is `2` times a unit (`-6` at
+`f = 2`), while `D_2((x₂, x₄)) = -χ(x₂)⁻¹χ(x₄)⁻¹ (χ(x₄) - 1)` is divisible by `2^f`.
+Labute works at `n = 4` and reduces to it; this statement is for every even `n ≥ 4`. Tau Ceti has
+it as
+`TauCeti.freeProP.mem_map_basisModificationDelta_demushkinWordTwoEven_iff_forall_gradedFunctional_eq_zero`;
+the proof keeps its even-rank hypotheses and mixed-tail conclusion. -/
 theorem exists_basisModificationDelta_eq_iff_forall_crossedHom_unitsPlusMinus {n : ℕ}
     (hn : 4 ≤ n) (heven : Even n) [TotallyDisconnectedSpace (freeProP 2 (Fin n))] {f : ℕ}
     (hf : 2 ≤ f) (χ : freeProP 2 (Fin n) →ₜ* ℤ_[2]ˣ) (hχ1 : χ (freeProPGen 2 n 1) = -1)
@@ -2526,12 +2496,6 @@ example {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [Comp
     TauCeti.IsTopologicallyFinitelyGenerated.exists_antitone_openNormalSubgroup_cofinal hfg
   exact ⟨N, fun k ↦ hN (Nat.le_succ k), hcof⟩
 
-/-- **Layer 3, rank sanity check.** The minimal number of generators of the finite `2`-group
-`ℤ/4 × ℤ/2` is `2`, the Burnside-basis numerology (`G/Φ(G) ≅ (ℤ/2)²`) in its abstract
-finite instance. -/
-example : Group.rank (Multiplicative (ZMod 4) × Multiplicative (ZMod 2)) = 2 :=
-  sorry
-
 /-! ## Layer 4: free pro-`p` groups on finite sets, and abelian pro-`p` structure -/
 
 /-- **Layer 4, `freeProP` is the free pro-`C` object at `C = ` finite `p`-groups.** The two
@@ -3176,15 +3140,20 @@ theorem IsDemushkin.openSubgroup (G : Type u) [Group G] [TopologicalSpace G]
 
 /-- **Layer 7, an infinite Demushkin group has `cd_p = 2`.** The lower bound is from
 `dim H²(G, 𝔽_p) = 1`. For the upper bound, transport the explicit predicate to Tau Ceti's native
-one, use `TauCeti.IsDemushkin.dualityMap2_bijective` on every finite discrete `𝔽_p[G]`-module,
-then apply `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`.
-The five-term sequence alone is not a producer of this bound. -/
+one (`IsDemushkin.iff_tauCeti`), use `TauCeti.IsDemushkin.dualityMap2_bijective` on every finite
+discrete `𝔽_p[G]`-module, and apply
+`TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`; together these
+are `TauCeti.IsDemushkin.cohomologicalDimensionAt_eq_two`, which computes
+`TauCeti.cohomologicalDimensionAt.{u}`, with coefficients in `Type u`. `cd_p` is
+`TauCeti.cohomologicalDimensionAt.{0}`, so the proof also compares the two vanishing tests: by
+`ProfiniteCohomology.cd_p_le_iff_finite_pPrimary` both reduce to finite `p`-primary modules, and
+a finite module of one family is carried to one of the other by a continuous equivariant additive
+equivalence, along which continuous cohomology is compared in every degree. The five-term
+sequence alone is not a producer of this bound. -/
 theorem cd_p_eq_two_of_isDemushkin (G : Type u) [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (hG : IsDemushkin p G) (hinf : Infinite G) : ProfiniteCohomology.cd_p p G = 2 := by
-  letI : Infinite G := hinf
-  rw [← ProfiniteCohomology.nativeCohomologicalDimensionAt_eq_cd_p p G]
-  exact ((IsDemushkin.iff_tauCeti p G).1 hG).cohomologicalDimensionAt_eq_two
+    (hG : IsDemushkin p G) (hinf : Infinite G) : ProfiniteCohomology.cd_p p G = 2 :=
+  sorry
 
 /-- **Layer 10, closed subgroups of free pro-`p` groups.** A closed subgroup of a free pro-`p`
 group again has `cd_p ≤ 1`, by the imported monotonicity `cd_p_le_of_isClosed` and the free
@@ -3205,7 +3174,8 @@ An open subgroup of index `m` in the free pro-`p` group of rank `n ≥ 1` is fre
 rank `1 + m(n - 1)`. (Route pinned in `README.md`: via `cd ≤ 1` and the two-term Euler
 formula, not a transversal argument. The natural-number subtraction `n - 1` is harmless under
 `n ≠ 0`; the Euler formula itself is stated in `ℤ`.) -/
-example {p : ℕ} [Fact p.Prime] {n : ℕ} (hn : n ≠ 0) (U : OpenSubgroup (freeProP p (Fin n))) :
+theorem nonempty_continuousMulEquiv_freeProP_of_openSubgroup {p : ℕ} [Fact p.Prime] {n : ℕ}
+    (hn : n ≠ 0) (U : OpenSubgroup (freeProP p (Fin n))) :
     Nonempty (U ≃ₜ* freeProP p (Fin (1 + U.toSubgroup.index * (n - 1)))) :=
   sorry
 
@@ -3235,15 +3205,6 @@ cyclotomic character and then reads `f` off it, which is only well defined given
 theorem closedSubgroup_units_two_level_unique {f f' : ℕ} (hf : 2 ≤ f) (hf' : 2 ≤ f')
     (h : unitsPrincipal f = unitsPrincipal f') : f = f' :=
   (TauCeti.unitsPrincipal_inj (p := 2) (by omega) (by omega)).mp h
-
-/-- **Layer 7, the even part of `U^[f]`.** For `u = -1 + 2^f` with `f ≥ 2`, the square
-`u² = 1 - 2^{f+1}(1 - 2^{f-1})` has principal-unit depth exactly `f + 1`, so
-`U^[f] ∩ (1 + 4ℤ₂) = U^(f+1)` and hence `[ℤ₂ˣ : U^[f]] = 2^{f-1}`. Stated separately from
-the trichotomy because a shift of one in this exponent reparametrizes the whole `q = 2`
-classification; check it by hand at `f = 2, 3, 4`. -/
-example (f : ℕ) (hf : 2 ≤ f) (u : ℤ_[2]ˣ) (hu : (u : ℤ_[2]) = -1 + 2 ^ f) :
-    procyclicClosure u ⊓ unitsPrincipal 2 = unitsPrincipal (f + 1) :=
-  sorry
 
 /-- **Layer 7, procyclicity.** The closed subgroups of `ℤ₂ˣ` not containing `-1`, namely
 the families `U^(f)` and `U^[f]`, are topologically generated by one element: Tau Ceti's
