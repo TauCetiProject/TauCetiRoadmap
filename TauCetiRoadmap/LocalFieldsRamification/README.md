@@ -1152,10 +1152,27 @@ pro-`p` quotient.
       maximal unramified subextensions);
     - a finite abelian character-separation theorem for nontrivial finite abelian p-groups;
     - Fesenko–Vostokov III §4, printed pp. 91–93, for the cyclic prime-power arithmetic input.
-  - *Proposed Lean-facing target declarations:* `CyclicLowerBreakData`,
-    `sen_cyclic_power_break_divisibility`,
-    `cyclic_power_upper_breaks_integral`, `cyclic_quotient_detects_positive_jump`,
-    `positive_upper_jumps_unchanged_after_unramified_base_change`, and `hasseArf`.
+  - *Targets, in proof order:* the lower-break list of a totally ramified cyclic extension of
+    degree `p^r` (breaks `b_0 < … < b_{r−1}` with `|G_{b_j}| = p^{r−j}`); Sen divisibility
+    `p^{j+1} ∣ (b_{j+1} − b_j)` for `0 ≤ j < r−1`; integrality of the upper breaks `u_j` by the
+    Herbrand sum; detection of a positive upper jump by a cyclic `p`-primary quotient; invariance of
+    positive upper jumps on passing to the maximal unramified intermediate field; and the headline
+    `hasseArf`, the only one of these stated in `Suggested.lean`.
+  - *Checks.*
+    - On the abstract filtered group `C₄` with lower filtration `G_0 = G_1 = G_2 = C₄`,
+      `G_3 = C₂`, `G_i = 1` for `i ≥ 4`, the lower breaks are `2, 3` and the Herbrand sum gives
+      upper breaks `2` and `2 + (3 − 2)/2 = 5/2`, although the subgroup break (`3`) and the
+      quotient break (`φ(2) = 2`) are both integers. Sen divisibility `2 ∣ (3 − 2)` fails, so this
+      filtration is excluded; a proof that only transports prime-order breaks through Herbrand
+      functions would not exclude it.
+    - For `ℚ_2(ζ_8)/ℚ_2`, with group `(ℤ/8)ˣ ≅ C₂ × C₂`, the lower filtration is `G_0 = G_1 = G`,
+      `G_2 = G_3 = {1, 5}`, `G_4 = 1`, so the lower breaks are `1, 3` and the upper breaks are
+      `φ(1) = 1` and `φ(3) = 1 + 2/2 = 2`. The jump at `1` is detected by the quotient `ℚ_2(i)`
+      (kernel `{1, 5}`, discriminant exponent `2`, break `1`) and the jump at `2` by `ℚ_2(√2)`
+      (kernel `{1, 7}`, discriminant exponent `3`, break `2`); a wrong reduction that read the
+      lower break `3` of the subgroup `{1, 5}` as an upper jump of `G` would report `3`.
+    - Degree one has no jumps, an unramified extension of degree `> 1` has the single jump `−1`,
+      and a totally tamely ramified extension of degree `> 1` has the single jump `0`.
   - *Source:* Fesenko–Vostokov III §4, pp. 91–93, for the arithmetic bridge; Serre LF V §7
     for the finite-abelian theorem context. The source scopes and proof dependencies are explicit:
     the Sen proposition treats totally ramified cyclic p-power extensions of local fields in

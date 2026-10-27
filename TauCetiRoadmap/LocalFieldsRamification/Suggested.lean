@@ -1197,7 +1197,7 @@ theorem map_norm_unitFiltration_psiNat_le [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (i : ℕ) :
     Subgroup.map (Units.map (Algebra.norm K : L →* K))
         (unitFiltration L (psiNat K L i)) ≤ unitFiltration K i :=
-  sorry
+  TauCeti.map_normUnits_unitFiltration_psiNat_le K L i
 
 /-- **Layer 3, a graded piece of the unit filtration**, `U(K,i)/U(K,i+1)`. Tau Ceti's
 `TauCeti.UnitFiltrationGraded`, consumed by reducible alias. -/
@@ -1259,8 +1259,11 @@ theorem normGradedMap_tame_break_zero [Algebra K L] [ValuativeExtension K L]
     (_htr : IsTotallyRamified K L) (_htame : IsTamelyRamified K L)
     (_ht : UpperJump K L ⟨0, by norm_num⟩) :
     Nat.card (normGradedMap K L 0).ker = ℓ ∧
-      Nat.card (UnitFiltrationGraded K 0 ⧸ (normGradedMap K L 0).range) = ℓ :=
-  sorry
+      Nat.card (UnitFiltrationGraded K 0 ⧸ (normGradedMap K L 0).range) = ℓ := by
+  have h := TauCeti.normGradedMap_tame_break_zero
+    ((TauCeti.isTotallyRamified_iff_ramificationIndex_eq_finrank K L).2 _htr) _htame
+  rw [_hdegree] at h
+  exact h
 
 /-- **Layer 3, depth zero before a positive prime-degree break.** The graded norm is residue
 Frobenius and hence bijective. -/
@@ -1270,8 +1273,10 @@ theorem normGradedMap_zero_before_break [Algebra K L] [ValuativeExtension K L]
     (_htr : IsTotallyRamified K L) (t : ℕ) (_htpos : 0 < t)
     (_ht : UpperJump K L
       ⟨(t : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg t)⟩) :
-    Function.Bijective (normGradedMap K L 0) :=
-  sorry
+    Function.Bijective (normGradedMap K L 0) := by
+  have hprime : (Module.finrank K L).Prime := _hdegree.symm ▸ (Fact.out : ℓ.Prime)
+  exact TauCeti.normGradedMap_zero_before_break hprime _htpos
+    ((upperJump_iff_native K L _).mp _ht)
 
 /-- **Layer 3, a positive depth strictly before a positive prime-degree break.** The graded
 norm is additive residue Frobenius and hence bijective. -/
@@ -1281,8 +1286,10 @@ theorem normGradedMap_positive_before_break [Algebra K L] [ValuativeExtension K 
     (_htr : IsTotallyRamified K L) (v t : ℕ) (_hvpos : 0 < v) (_hvt : v < t)
     (_ht : UpperJump K L
       ⟨(t : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg t)⟩) :
-    Function.Bijective (normGradedMap K L v) :=
-  sorry
+    Function.Bijective (normGradedMap K L v) := by
+  have hprime : (Module.finrank K L).Prime := _hdegree.symm ▸ (Fact.out : ℓ.Prime)
+  exact TauCeti.normGradedMap_positive_before_break hprime _hvt
+    ((upperJump_iff_native K L _).mp _ht)
 
 /-- **Layer 3, the positive prime-degree break calculation.** Here `IsGalois K L` and prime
 degree supply cyclicity, while total ramification, `0 < t`, and the `UpperJump` witness exclude
@@ -1295,8 +1302,11 @@ theorem normGradedMap_at_break [Algebra K L] [ValuativeExtension K L]
     (_ht : UpperJump K L
       ⟨(t : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg t)⟩) :
     Nat.card (normGradedMap K L t).ker = ℓ ∧
-      Nat.card (UnitFiltrationGraded K t ⧸ (normGradedMap K L t).range) = ℓ :=
-  sorry
+      Nat.card (UnitFiltrationGraded K t ⧸ (normGradedMap K L t).range) = ℓ := by
+  have hprime : (Module.finrank K L).Prime := _hdegree.symm ▸ (Fact.out : ℓ.Prime)
+  have h := TauCeti.normGradedMap_at_break hprime _htpos ((upperJump_iff_native K L _).mp _ht)
+  rw [_hdegree] at h
+  exact h
 
 /-- **Layer 3, a depth strictly after the prime-degree break.** The trace-ideal formula and
 lower-filtration different formula give a nonzero linear graded trace; higher norm terms vanish
