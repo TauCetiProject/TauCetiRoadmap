@@ -35,11 +35,12 @@ dependency order: they use only the suppliers just named and no automorphic, Gal
 roadmap needing these objects on this domain imports these carriers. The citable sections
 are [the global Hecke stacks](#hecke-modification-stacks) (`Hck^I_G` with `p₁`, `p₂`, unit,
 leg repetition, completion and bounded pieces), [the Hecke functor](#hecke-functor)
-(`T_V:D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)` with its Weil structure and minuscule shift
+(`T_V:D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)`, its descent to `D_lis(BunG,Λ)^{BW_K^I}`, the
+monoidal structure in `V` on the descended functors, its Weil structure and minuscule shift
 `d_μ=⟨2ρ,μ⟩`), [the geometric spectral action](#geometric-spectral-action) (excursions and
 the integral centre for `O_L` with `ℓ∤|π₀Z(G)|`) and [the minuscule local Shimura
-tower](#local-shimura-tower) (modifications from `E_b` to the trivial bundle, `RΓ_c` and its
-Hecke realization). Solid or enhanced coefficient versions and nonminuscule or
+tower](#local-shimura-tower) (points of `Hck_{G,≤μ}` from the trivial source to the target
+`E_b`, `b∈B(G,μ⁻¹)`, `RΓ_c` and its Hecke realization). Solid or enhanced coefficient versions and nonminuscule or
 non-basic-target towers are refinements stated on these carriers. The algebraic
 parameter stacks, finite-wild levels and excursion algebra stay with LanglandsParameterStacks
 LP1 and LP4 and SmoothRepresentationsOfLocalGroups SR.6. The AHTW Igusa
@@ -2518,15 +2519,30 @@ along `ΣD_i`. The source map is `p₁:Hck^I_G→BunG`, `p₁=E₁`, and the tar
 `p₂:Hck^I_G→BunG×(Div¹_K)^I`, `p₂=(E₂,(D_i))`. The unit `e:BunG×(Div¹_K)^I→Hck^I_G` inserts
 `α=id`, so `p₂∘e=id` and `p₁∘e=pr`. For `a:I→J` the leg-repetition map `ι_a` restricts along
 the diagonal `Δ_a`, completion `loc` passes to the local Hecke stack, the bounded pieces are
-`Hck^I_{G,≤μ•}`, and `p₁` identifies `Hck^∅_G` with `BunG`.
+`Hck^I_{G,≤μ•}`, and `p₁` identifies `Hck^∅_G` with `BunG`. The bound is the relative position
+of the target `E₂` with respect to the source `E₁` at each `D_i`: for `G=G_m` and `μ=1` the
+bounded piece is `E₂=E₁(D)`, and in general the pushout along `μ` of the modification
+`O⇢O(1)` has type exactly `μ`. Inverting `α` is the involution `sw` exchanging source and
+target; it carries `Hck^I_{G,≤μ•}` to `Hck^I_{G,≤−w₀μ•}`. With the bundle normalization
+`E_{π⁻¹}=O(1)` for `G_m`, a type-`μ` modification of the trivial bundle has target `E_b`
+only for `b∈B(G,μ⁻¹)` in Kottwitz's normalization, that is `κ(b)=−μ^♯`.
 
 <a id="hecke-functor"></a>
 Construct `HeckeFunctor` on `DLisBunG`, using the normalized ULA Satake kernels and
 the supplied six operations. For `V∈Rep_Λ((Ĝ⋊Q)^I)` with Satake kernel `S_V` on `Hck^I_G` it is
-`T_V(A)=p₂♮(p₁*A⊗S_V)`, a functor `D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)` that is monoidal in `V`.
-It is not an endofunctor for nonempty `I`. Its values are lisse after pullback to
-`BunG×Spd C`, which makes them `W_K^I`-equivariant objects of `D_lis(BunG,Λ)`. Here `Λ` is a
-`ℤ_ℓ[√q]`-algebra and `ℓ≠p`. Prove preservation of compact and ULA objects, duality,
+`T_V(A)=p₂♮(p₁*A⊗S_V)`, a functor `D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)`.
+On this target it is not an endofunctor for nonempty `I`, and composites `T_V∘T_W` are not
+defined there. Its values are lisse after pullback to `BunG×Spd C`, which descends `T_V` to
+`T_V:D_lis(BunG,Λ)→D_lis(BunG,Λ)^{BW_K^I}`, an endofunctor once the `W_K^I`-action is
+forgotten; the first form is recovered by pulling back along `pr`. The monoidal structure
+lives on the descended functors: `V↦T_V` is an exact `Rep_Λ(Q^I)`-linear monoidal functor
+`Rep_Λ((Ĝ⋊Q)^I)→End_Λ(D_lis(BunG,Λ)^ω)^{BW_K^I}`, with composition as tensor product,
+`T_𝟙=id` with trivial `W_K^I`-action as unit, `T_{V⊗W}≅T_V∘T_W` coming from convolution
+of the Satake kernels along `Hck^I_G×_{BunG}Hck^I_G`, its associator from convolution
+associativity, and `T_{V⊠W}≅T_V∘T_W` for legs `I⊔J`. Functoriality in `I` (as a
+coCartesian fibration over finite sets) makes leg repetition `ι_a` correspond to restriction
+of `V` along `(Ĝ⋊Q)^J→(Ĝ⋊Q)^I` and to restriction of the `W_K^I`-action along the diagonal.
+Here `Λ` is a `ℤ_ℓ[√q]`-algebra and `ℓ≠p`. Prove preservation of compact and ULA objects, duality,
 the two adjunctions, fusion, coalescence and coherent Weil actions for every finite
 set of legs. Compare solid `♮` with torsion étale `!` on these ULA kernels. For a
 minuscule `μ` and algebraically closed complete `C/K`, identify the underlying
@@ -2536,19 +2552,21 @@ are owned here; the Igusa/Newton comparison below is their automorphic applicati
 (Source: Fargues–Scholze, Definition III.0.1 and
 Theorem III.0.2, pp.87–88; Chapters III–V, especially Proposition V.2.2;
 §§VI.9–VI.12, pp.226–244; §§VII.3, VII.6–VII.7, pp.257–274;
-Theorem IX.0.1, pp.317–318, and §IX.2, Proposition IX.2.1, Theorem IX.2.2 and
+Theorem IX.0.1(i)–(iii), pp.317–318, and §IX.2, Proposition IX.2.1, Theorem IX.2.2 and
 Corollary IX.2.4, pp.321–324.)
 
 **Checks.**
 
 - For `GL₁`, degrees index the strata and the neutral automorphism group is `K×`;
-  a degree-one modification leaves the neutral stratum.
+  `T_1` carries sheaves on the degree-`d` stratum to the degree-`d+1` stratum (Kottwitz
+  invariant `a` to `a−1`), and `T_{−1}` is its inverse, so `T_1∘T_{−1}≅T_𝟙`.
 - The minuscule `PGL₂` fibre `ℙ¹` has cohomology `Λ⊕Λ(−1)`; omitting the Tate twist
   changes the Weil normalization of Satake.
 - For every finite `I`, the unit kernel gives `T_𝟙(A)≅pr*A` for
   `pr:BunG×(Div¹_K)^I→BunG`, with trivial `W_K^I`-action. Only for `I=∅`, where
   `(Div¹_K)^∅` is a point, is this the identity functor. For `G=1` and `I={∗}` the transform
-  goes from sheaves on a point to sheaves on `Div¹_K`, so it is no endofunctor.
+  goes from sheaves on a point to sheaves on `Div¹_K`, so it is no endofunctor; its descent
+  is the identity of `D(Λ)` with trivial `W_K`-action, the monoidal unit.
 - Three-leg fusion is associative, and exchanging odd components retains the parity sign.
 - Infinitely many nonzero Newton restrictions do not give a compact object merely
   because each individual restriction is compact. Nonbasic strata are retained.
@@ -2622,10 +2640,14 @@ EnhancedDerivedSheaves E5; ReductiveGroupsPartII RG2.5; ClassFieldTheory Layer 9
 ### Minuscule local Shimura spaces and their Hecke realization
 
 For a finite extension `K/ℚ_p`, a connected reductive `G/K`, a conjugacy class `μ` of
-minuscule cocharacters with reflex field `E`, an element `b` of the `μ`-admissible subset
-of `B(G)` in the orientation of modifications fixed by `HeckeFunctor`, and a compact open
+minuscule cocharacters with reflex field `E`, an element `b∈B(G,μ⁻¹)` (Kottwitz's
+normalization, with `E_{π⁻¹}=O(1)` for `G_m` as fixed with the Hecke stacks), and a compact open
 `U⊆G(K)`, construct `localShimuraTower`: the spaces `M_{(G,b,μ),U}` over `Spd Ĕ` of
-modifications of type `μ` from `E_b` to the trivial bundle, up to `U`, with their actions
+points `(E₁,E₂,α)` of the one-leg `Hck_{G,≤μ}` at the divisor of `Spd C` with source `E₁`
+trivial, trivialized up to `U`, and target `E₂≅E_b`. Equivalently, inverting `α`, these are
+the modifications from `E_b` to the trivial bundle of type `−w₀μ`. A source labelling the same
+space by `b∈B(G,μ)`, as Fargues–Scholze §IX.3 does, is compared after inverting `μ`
+(equivalently reversing the modification). Construct the actions
 of `G_b(K)` and of `G(K)` on the tower, the Weil descent datum and the étale period maps to
 the bounded affine Grassmannian. For `Λ` a `ℤ_ℓ`-algebra of the preceding coefficient types
 and `ℓ≠p`, define `localShimuraCohomology` as Huber's compactly supported cohomology
@@ -2634,22 +2656,35 @@ Prove that it is a complex of smooth `G_b(K)`-representations, compact in the de
 smooth category when `U` is pro-`p`, with continuous `W_E`-action. Prove
 `localShimuraHeckeRealization`: up to the shift and twist fixed by `d_μ=⟨2ρ,μ⟩`,
 `RΓ_c(M_{(G,b,μ),U,C},Λ) ≅ i_b* T_μ(j₁! c-Ind_U^{G(K)} Λ)` on the shared `BunG`, Newton
-strata and `HeckeFunctor` carriers, compatibly with `W_E`. Prove the adjoint formula
-expressing `R Hom_{G_b(K)}(RΓ_c(M_{(G,b,μ),U,C},Λ), ρ)` through `i₁* T_{μ^∨}(R i_{b*}ρ)`, and its
+strata and `HeckeFunctor` carriers, compatibly with `W_E`; here source and target are those of
+`HeckeFunctor`, so `j₁!` places the input on the trivial source stratum and `i_b*` restricts
+the output to the target stratum. Prove the adjoint formula
+expressing `R Hom_{G_b(K)}(RΓ_c(M_{(G,b,μ),U,C},Λ), ρ)` through `i₁* T_{μ^∨}(R i_{b*}ρ)`, where
+`T_{μ^∨}=T_{V_μ^∨}`, of highest weight `−w₀μ`, is right adjoint to `T_μ` and transports the
+target stratum `b` back to the trivial stratum; under Verdier duality it becomes
+`T_{sw*μ}`, with `sw*` acting on Satake by the Chevalley involution conjugated by `ρ̂(−1)`. Prove its
 finite-length consequence for finite-length `ρ` over `ℚ̄_ℓ`. These carriers use no automorphic,
 Galois or Igusa input of this roadmap.
 (Source: Fargues–Scholze, §IX.3, Theorem IX.3.1 and its proof and Proposition IX.3.2,
-pp.324–326; Scholze–Weinstein, *Berkeley Lectures on p-adic Geometry*, Lectures 23–24, for
+pp.324–326, Proposition I.6.4, p.29, and the proof of Corollary IX.7.3, pp.337–338, for the
+orientation; Scholze–Weinstein, *Berkeley Lectures on p-adic Geometry*, Lectures 23–24, for
 the tower and its period maps.)
 
 **Checks.**
 
-- For `GL_n`, `μ=(1,0,…,0)` and basic `b` of slope `1/n`, the tower is the Lubin–Tate tower
-  and `G_b(K)` is the unit group of the central division algebra of invariant `1/n`.
+- For `GL_n`, `μ=(1,0,…,0)` and basic `b` with `E_b≅O(1/n)`, that is `κ(b)=−1`, the tower
+  is the Lubin–Tate tower: `O^n⊂E₂` with cokernel of length one at the divisor. `G_b(K)` is
+  the unit group of the division algebra `End(O(1/n))` of rank `n²`. For the basic class with
+  `E_b≅O(−1/n)` the tower is empty. For `n=2` this is the quaternion Lubin–Tate tower with
+  `G_b(K)` the units of the quaternion division algebra over `K`.
+- For `G=G_m` and `μ=±1` the tower is nonempty exactly for `b=π^{∓1}` (`E_b=O(±1)`); there
+  `M_{(G,b,μ),U}=K^×/U`, discrete, `d_μ=0`, and both sides of the realization are
+  `c-Ind_U^{K^×}Λ` in degree `0`. For `b=π^{±1}` the tower is empty and
+  `i_b* T_μ(j₁!A)=0`, since `T_μ` moves the degree-`0` stratum to degree `±1`.
 - For trivial `μ` the only admissible class is `b=1`; the tower is the discrete set
   `G(K)/U`, the cohomology is `c-Ind_U^{G(K)} Λ` and the Hecke transform is the identity.
   A nontrivial central `μ` instead admits only the basic class with Kottwitz invariant determined by `μ`, not `b=1`.
-- If `b` is not `μ`-admissible the tower is empty, and `i_b* T_μ(j₁!A)` vanishes because
+- If `b∉B(G,μ⁻¹)` the tower is empty, and `i_b* T_μ(j₁!A)` vanishes because
   modifications of type `μ` of the trivial bundle land only in admissible strata.
 
 *Needs:* relative curves;
