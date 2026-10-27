@@ -612,7 +612,8 @@ and `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` as the diagonal actions.
     `Subalgebra.centralizer ℂ (image of O(V)) = (brauerActionOrth n k).range`
     (`brauerActionOrth_surjective_to_commutant`), and its symplectic analogue
     `brauerActionSymp_surjective_to_commutant`. This is the invariant-theoretic heart and holds regardless
-    of semisimplicity;
+    of semisimplicity. It does not follow from the Brauer relations or from complete reducibility:
+    it is proved through the invariant-tensor bridge in the next item;
   - the **reverse centralizer** (`Subalgebra.centralizer ℂ (brauer image) = adjoin(image of O(V))`) as a
     finite-dimensional bicommutant statement for the two image subalgebras, with its hypotheses recorded
     explicitly.
@@ -623,6 +624,92 @@ and `(TauCeti.stdSymplecticRep ℂ l).tensorPower k` as the diagonal actions.
   representation and semisimplicity of these image algebras, in every dimension. This is the
   orthogonal/symplectic analogue of Layer 8's `GLₔ × Sₙ` double-centralizer theorem and the point of contact
   with [../ClassicalGroups](../ClassicalGroups/README.md).
+- **The invariant-tensor first fundamental theorem (the bridge to the commutant).**
+  Write G for `Matrix.orthogonalGroup (Fin n) ℂ` or `Matrix.symplecticGroup (Fin l) ℂ`,
+  V for its standard module, `ω(v,w) = vᵀ J w` for the native alternating form, and
+  φ : V ≃ V* for the native equivariant self-duality, `TauCeti.stdOrthogonalRepToDual ℂ n`
+  (`v ↦ v ⬝ᵥ ·`) or `TauCeti.stdSymplecticRepToDual ℂ l` (`v ↦ ω(v, ·)`). Let
+  `T^(k,k) = ⨂[ℂ] (_ : Fin k ⊕ Fin k), V`; its `Sum.inl` slots are the inputs (bottom
+  points) and its `Sum.inr` slots the outputs (top points), which is exactly the boundary
+  of a native `TauCeti.BrauerDiagram k`. The two surjectivity statements are built in
+  four steps.
+
+  1. *Endomorphisms as tensors.* Construct `Ξ_k : End(T^k) ≃ T^(k,k)` as the composite of
+     the inverse of Mathlib's `dualTensorHomEquiv` (for `Dual(T^k) ⊗ T^k`, a finite free
+     module), the inverse of `PiTensorProduct.dualDistribEquiv` on the first factor,
+     φ⁻¹ in every input slot, and `PiTensorProduct.tmulEquiv`. Prove
+     `Ξ_k(ρ_G(g) ∘ f ∘ ρ_G(g)⁻¹) = g · Ξ_k(f)` for the diagonal action on all 2k slots,
+     from native `stdOrthogonalRepToDual_equivariant` and
+     `stdSymplecticRepToDual_equivariant`. Hence f commutes with the image of G exactly
+     when `Ξ_k(f)` is G-invariant.
+  2. *Matching tensors.* Order the 2k slots with every `Sum.inl` slot before every
+     `Sum.inr` slot and each block by index. For a matching `D : TauCeti.BrauerDiagram k`,
+     orient each arc from its smaller endpoint, and let `t_D ∈ T^(k,k)` be the tensor
+     product of native cups (`TauCeti.orthogonalCup`, `TauCeti.symplecticCup`) placed in
+     the oriented arcs. Prove that t_D is G-invariant, from native
+     `piTensorProductMap_comp_orthogonalCup` and `piTensorProductMap_comp_symplecticCup`.
+     Prove relabelling: reindexing t_D by a permutation π of the slots gives `t_(π·D)`
+     in the orthogonal case, and `(−1)^r · t_(π·D)` in the symplectic case, where r is the
+     number of arcs whose orientation π reverses. Prove `Ξ_k(ρ(D)) = ε(D) · t_D` for the
+     Brauer action ρ of this layer, with ε(D) = 1 in the orthogonal case and an explicit
+     sign ε(D) ∈ {±1} in the symplectic case.
+  3. *The tensor theorem, in every dimension.* Prove that the G-invariants of `T^(k,k)` are
+     the span of the t_D for every n, l and k, and that G-invariants in odd tensor degree
+     are zero, because −1 ∈ G acts by −1. Only spanning is claimed. Linear independence
+     of the t_D holds only in the stable range (n ≥ 2k, l ≥ k) and is not used here.
+  4. *The commutant.* Combine steps 1–3: f lies in the centralizer of the image of G iff
+     `Ξ_k(f)` is invariant, iff it lies in the span of the `t_D = ε(D) Ξ_k(ρ(D))`, iff f lies in
+     the range of ρ. This proves `brauerActionOrth_surjective_to_commutant` and
+     `brauerActionSymp_surjective_to_commutant` (Doty–Hu, Theorem 1.2(b), over every
+     infinite field of odd characteristic; Dipper–Doty–Hu, Theorem 1.2(1) over ℂ and
+     Theorem 1.4 over every infinite field). The kernel of ρ (the second fundamental
+     theorem) is not needed.
+
+  A route for step 3, not mandatory. Fix an invariant u. The polynomial map
+  `μ(g) = g^{⊗2k} u` on square matrices of size dim V satisfies `μ(gh) = μ(g)` for h ∈ G. Put
+  `c = g c₀ gᵀ`, where c₀ is the coefficient matrix of the native cup (1 for O, −J for Sp),
+  so that G is the stabilizer of c₀. Over the dense open set where the leading principal
+  minors of c (for O), or its leading Pfaffians (for Sp), are nonzero, factor
+  `c = L c₀ Lᵀ`. For O this is Cholesky factorisation with L lower triangular. For Sp it
+  is symplectic Gram–Schmidt, whose entries are rational in c with no square roots. Then
+  L⁻¹g ∈ G, so μ(g) = μ(L). In the orthogonal case column j of L is `√(d_j/d_(j−1))`
+  times a rational vector in c, where d_j is the j-th leading minor. Also
+  `μ(L) = μ(L·diag(±1))`, so only even powers of the square roots occur. Hence
+  `μ(g) = F(c)` with F rational, with poles at most along these minors. Those minors are
+  irreducible polynomials. Every symmetric (alternating) complex matrix has the form
+  `g c₀ gᵀ` with g possibly singular: by Mathlib's
+  `LinearMap.BilinForm.exists_orthogonal_basis` for the symmetric case, and by the
+  alternating normal form. μ stays bounded along `g + tA` as t → 0. Hence F is a
+  polynomial. It is homogeneous of degree k, and `F(h c hᵀ) = h^{⊗2k} F(c)` for every
+  matrix h. Polarise F through the symmetriser (O) or antisymmetriser (Sp) of each pair
+  of slots, and through the symmetrisation of the k pairs. This gives a linear map `L_F`
+  of `T^{2k}` that commutes with every `h^{⊗2k}` and satisfies `L_F(c^{⊗k}) = F(c)`. By
+  native `TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute` (Layer 8;
+  `(2k)!` is invertible in ℂ), `L_F` is the action of an element of `ℂ[S_(2k)]`. So
+  `u = F(c₀) = L_F(c₀^{⊗k})` is a combination of permuted copies of `c₀^{⊗k}`, and after
+  reindexing along `finSumFinEquiv` these are ±t_D. Alternative routes may replace this
+  one. One is Weyl's polynomial vector-invariant theorem, followed by polarisation, the
+  multidegree-(1,…,1) component and the comparison of multilinear invariants with tensor
+  invariants through φ. Another is De Concini–Procesi's characteristic-free route.
+
+  **Checks.**
+  - At k = 0, Ξ₀ is the identity of ℂ and the empty matching tensor is 1. For V = 0 and
+    k > 0 both sides of step 3 are zero.
+  - Orthogonal, k = 1: `Ξ₁(id_V) = Σ_i e_i ⊗ e_i`, the orthogonal cup, so ε = 1.
+  - Sp₂, k = 1, with e and f the basis vectors at `Sum.inl 0` and `Sum.inr 0`. Here
+    φ(e) = −f* and φ(f) = e*, so `Ξ₁(id_V) = f⊗e − e⊗f = −θ`, where θ = e⊗f − f⊗e is the
+    native cup. A comparison that drops the sign of φ⁻¹ gives +θ. So ε(id) = −1 at k = 1.
+  - Sp₂, k = 2. The native cap `x⊗y ↦ ω(x,y)` is sent to −θ in the input slots, so
+    `Ξ₂(symplecticCupCap ℂ 1) = −θ_in ⊗ θ_out` and ε = −1. The crossing, minus the flip,
+    also has ε = −1. The identity has ε = (−1)² = 1.
+  - Sp₂ in tensor degree 4. The invariants have dimension 2, but there are three matching
+    tensors, related by `θ₁₂θ₃₄ − θ₁₃θ₂₄ + θ₁₄θ₂₃ = 0`. The t_D span but are not
+    independent; this is outside the stable range l ≥ k. In degree 2 the invariants are ℂθ.
+  - O₁ = {±1} on V = ℂ. Every one of the (2k−1)!! matching tensors equals `e^{⊗2k}`, and
+    the whole one-dimensional `T^{2k}` is invariant.
+  - Negative control: O₂ versus SO₂ in degree 2. The O₂-invariants of V⊗V are ℂ·(cup).
+    SO₂ ⊂ SL₂ also fixes e₁⊗e₂ − e₂⊗e₁, which a reflection negates. So the theorem is false
+    for SO_n, and must be stated for the full disconnected O_n.
 - **Harmonic tensors and ordinary Young shapes.** Write `T^q=V^{⊗q}` on the native
   `PiTensorProduct` carrier. For every ordered pair `a<b` of slots define
   `cap_ab : T^q → T^(q−2)` by the invariant form and the increasing order of the
@@ -876,7 +963,7 @@ Its equivariant decomposition does not use the torus-character theorem of
 ClassicalGroups Layer 4; that theorem uses Layer 7's independent Frobenius formula. A
 contributor can finish Layers 0-5 (the Specht classification and hook-length dimensions, enough for the
 `S₃`/`S₄` acceptance criteria) well before the Murnaghan-Nakayama rule or Schur-Weyl duality. Layer 9
-(the Brauer algebra and orthogonal/symplectic Schur-Weyl) needs Layer 8's tensor-power actions and the
+(the Brauer algebra and orthogonal/symplectic Schur-Weyl) needs Layer 8's tensor-power actions, the native GL commutant theorem (for the invariant-tensor bridge), and the
 diagram combinatorics built there, and parallels [Temperley–Lieb](https://github.com/TauCetiProject/TauCetiRoadmap/pull/58) (whose
 `TL_k` is the planar pairing subalgebra of `B_k(δ)`) and [../ClassicalGroups](../ClassicalGroups/README.md) (whose
 `O(V)`, `Sp(V)` are the groups being centralized); it is the last and most independent lane, and its Brauer
@@ -911,4 +998,8 @@ combinatorics can be developed in parallel with everything from Layer 0 onward.
   absolute-parameter semisimplicity range in Layer 9.
 - R. Dipper, S. Doty and J. Hu, [*Brauer algebras, symplectic Schur algebras and
   Schur–Weyl duality*](https://arxiv.org/abs/math/0503545), Trans. Amer. Math. Soc. 360
-  (2008), 189–213 — signed symplectic tensor action and its two centralizers.
+  (2008), 189–213 — signed symplectic tensor action and its two centralizers;
+  Theorem 1.2(1) and Theorem 1.4 in the numbering of arXiv v2 — the symplectic surjection onto the commutant.
+- S. Doty and J. Hu, [*Schur–Weyl duality for orthogonal groups*](https://arxiv.org/abs/0712.0944),
+  Proc. Lond. Math. Soc. (2009), Theorem 1.2(b) in the numbering of arXiv v3 — the orthogonal
+  surjection onto the commutant, used as the endpoint of the invariant-tensor bridge in Layer 9.
