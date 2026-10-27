@@ -353,6 +353,61 @@ finite-dimensional representations, at arbitrary carrier universes.
   by `Representation.char_conj`. For Burnside's obstruction, specialize column orthogonality to the
   identity class and the class of `g`.
 
+#### External tensor products and irreducibles of finite product groups
+
+For finite groups G,H and an algebraically closed characteristic-zero field k,
+construct the external tensor product on the actual carrier `V⊗[k]W`:
+`(g,h)·(v⊗w)=(ρ(g)v)⊗(σ(h)w)`. Reuse native `Representation.tprod` after
+pulling ρ and σ back along the two product projections. Export the pure-tensor
+equation, group laws, transport of intertwiners and equivalences, and the
+associativity, factor-swap, unit, dual and finite-direct-sum comparisons. Keep
+this distinct from `Representation.prod`, whose carrier is a direct sum, and
+from the internal tensor product of two representations of the SAME group.
+
+Prove the trace formula `χ_(ρ⊠σ)(g,h)=χ_ρ(g)χ_σ(h)` and the factorization of
+Layer0's character pairing. For irreducible ρ and σ this gives norm1 and hence
+irreducibility by the existing semisimple irreducibility criterion; also prove
+that two such external products are equivalent exactly when their respective
+factors are equivalent. Construct the conjugacy-class equivalence
+`ConjClasses (G×H) ≃ ConjClasses G × ConjClasses H` and its representative and
+class-size equations. Layer2's count, together with the pairwise distinct
+external irreducibles, now proves completeness. Construct the resulting
+bijection `Irreps k (G×H) ≃ Irreps k G × Irreps k H`, its inverse and its
+representative-equivalence equations. Every finite-dimensional irreducible of
+the product, at arbitrary carrier universes, must be assigned its unique pair
+by Layer2.5's class lookup; a construction of some external irreducibles alone
+is not the classification.
+
+For k=ℂ, under these actual row and class-column equivalences, prove that
+Layer3's character table is the Kronecker product of the two tables. Degrees multiply, the
+trivial pair gives the trivial character, and regular multiplicities are the
+products of the factor degrees. Include a trivial factor and C2×C2, whose
+four external one-dimensional representations give its regular decomposition.
+
+Also construct the source's external Hom on `V→ₗ[k]W`, with
+`(g,h)·f=σ(h)∘f∘ρ(g⁻¹)`. Its tensor comparison is `V*⊠W`, with the displayed
+factor order, and its character is `χ_ρ(g⁻¹)χ_σ(h)`. Reuse native dual,
+`linHom` and `Representation.Equiv.dualTensorHom` after the product pullbacks;
+compare with `ContRepresentation.biLinHom` on finite discrete groups through
+its explicit factor-order conversion. Thus this Hom is irreducible when its
+two constituents are, and its apparent dual on the first factor is retained.
+
+For G=H prove the following compatibility of Layer2's Wedderburn map; over
+ℂ also compare it with the finite Peter–Weyl bimodule from
+[CompactGroups6](../CompactGroups/README.md). On `k[G]`, `(a,b)` sends
+`e_g` to `e_(a g b⁻¹)`; on each End(V_i) it sends T to
+`ρ_i(a)Tρ_i(b⁻¹)`. The Fourier map sends `e_g` to `(ρ_i(g))_i`.
+Prove its algebra-equivalence and bimodule-equivariance equations and recover
+that the left regular multiplicity of V_i is dim(V_i). The target is the
+finite product of endomorphism algebras with composition. If identifying
+`k[G]` with functions on G by coefficients, its multiplication is the
+unnormalized convolution `(f*g)(x)=Σ_y f(y)g(y⁻¹x)`, not pointwise
+multiplication. For probability-Haar convolution the comparison multiplies
+coefficient functions by |G|; prove that scaling and the Fourier inverse/trace
+conventions. The separate left/right actions need not be algebra automorphisms.
+This comparison consumes the existing Wedderburn and
+compact bimodule owners, without duplicating their generic constructions.
+
 #### Faithful tensor generation over ℂ
 
 For every finite group `G` and actual `U : FDRep ℂ G`, define the finite set
