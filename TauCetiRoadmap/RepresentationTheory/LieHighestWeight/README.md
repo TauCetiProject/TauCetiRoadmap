@@ -720,6 +720,59 @@ The highest-weight predicates, Verma modules, weight form and Casimir in Layers 
   the `L(λ)` (dominant integral `λ`), so every finite-dimensional module has a well-defined
   multiplicity decomposition `M ≅ ⨁_λ L(λ)^{⊕ mλ}`, the setting in which characters are additive.
 
+#### Opposition, ordinary duality and self-duality
+
+Use the split characteristic-zero semisimple scope and chosen Cartan/base of
+Layers1–5, with the standing algebraically closed coefficient field. Consume
+native `TauCeti.Algebra.Lie.HighestWeight.LowestWeight` and `.Dual`, in
+particular `exists_isHighestWeightVector_dual`,
+`nonempty_lieModuleEquiv_dual_iff` and the invariant-bilinear-form criterion.
+For dominant integral λ, the ordinary dual of the finite-dimensional `L(λ)`
+has highest weight `−w₀λ` and is equivalent
+to `L(−w₀λ)`; these are supplied theorems, not a second dual-module construction.
+Record the actual weight-space evaluation and highest/lowest-line equations
+under the native action `(x·f)(v)=−f(x·v)`. This ordinary dual differs from
+a contravariant dual defined using a Chevalley anti-involution.
+
+Consume `TauCeti.opposition`, `oppositionPerm`, `root_opposition`,
+`coroot'_opposition` and `opposition_mem_support` from native
+`TauCeti.LinearAlgebra.RootSystem.Opposition`. Identify this actual involution
+with the based root automorphism `δ=−w₀` on the rational/real root realization of
+[RootSystems4A](../RootSystems/README.md): give its root, coroot, fundamental-weight
+and oriented Cartan-matrix equations, preserving the native contravariant
+coweight convention. Construct its based-automorphism witness and change-of-base
+comparison; reuse the existing involution and base permutation.
+
+Prove that `L(λ)` is self-dual exactly when `δλ=λ`, equivalently its
+fundamental-weight coefficients are constant on δ-orbits. Complete reducibility
+then identifies the dual multiplicities of an arbitrary finite-dimensional
+module by `m_(M*)(λ)=m_M(δλ)` and gives its self-duality criterion. Prove that
+EVERY finite-dimensional module is self-dual iff δ is the identity on the
+weight space, equivalently `w₀=−Id`; for the reverse implication from all
+modules use the fundamental highest-weight modules, whose weights span.
+The trivial semisimple algebra satisfies this statement, and reducible systems
+use opposition separately on each component, without permuting equal components.
+
+Compute opposition in the valid finite types, with the actual numbered simple
+roots and fundamental weights: it is trivial in A1, B, C, even D, E7, E8, F4
+and G2, and nontrivial in A_n for n≥2, odd D_n for n≥5, and E6. Use
+RootSystems' valid rank bounds and low-rank identifications. Trivial based
+diagram automorphism group therefore implies every module is self-dual.
+The converse fails already for D4: `−Id` is the even four-sign-change Weyl
+element, hence is w₀, whereas its based diagram automorphism group is S3.
+This root-level example asserts no triality automorphism of every isogeny form.
+
+For compact connected SEMISIMPLE groups, compare this criterion through
+[CompactGroups6a](../CompactGroups/README.md)'s actual character lattice X and
+LieGroups' differentiation/integration maps. An irreducible of actual highest
+character λ∈X is dual to the one labeled `−w₀λ`; retain the actual group form.
+All such representations are self-dual iff δ fixes X, equivalently the real
+weight space since X has finite index in the semisimple weight lattice. A
+central torus is a separate obstruction: the character z↦z of S1 is not
+self-dual although there are no roots or diagram automorphisms. Self-duality
+does not assert real type: the standard complex SU2 representation is
+quaternionic, as detected by CompactGroups6b's Frobenius–Schur criterion.
+
 ### Precursor to Layer 6: integral type-A characters from Haar measure
 
 Construct the following independent type-A character route over ℂ. Its inputs are
