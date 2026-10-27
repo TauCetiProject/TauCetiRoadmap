@@ -9,9 +9,9 @@ structure.
 
 ## Conventions and suppliers
 
-HomotopySpheres section references use the [specification at
-34167306e5a1726e2574b039dc1a27f913985f0f](https://github.com/TauCetiProject/TauCetiRoadmap/blob/34167306e5a1726e2574b039dc1a27f913985f0f/TauCetiRoadmap/HomotopySpheres/README.md)
-in PR284.
+HomotopySpheres is cited by stage: Stage 3C for three-fold Toda brackets
+and secondary composition, Stage 4 for stable SO, real Bott periodicity and
+the stable J-homomorphism.
 
 Use GeneralizedCohomology's chosen spectral models, commutative spectral rings,
 derived limits and Postnikov/connective-cover machinery. BordismFormalGroups
@@ -262,7 +262,7 @@ construction targets precede the elliptic gluing.
    with Bott-periodic meaning this specified KO-module shape. Prove
    its ordinary instance has V_red=V∞hat; V_red is not the Igusa
    level-zero ring. For shrinking open subgroups G_j⊂Γ construct
-   T_j=KO₂^{hG_j}, the restriction maps T_j→T_(j+1), and
+   T_j=KO₂^(hG_j), the restriction maps T_j→T_(j+1), and
    KO₂≃L_K(1) hocolim_j T_j. Prove the completed K-homology,
    continuous-function/coinduction and local-completion comparisons
    giving this equivalence and the projective resolution below.
@@ -380,20 +380,16 @@ spectral sphere and its p-localizations, not a private stable-stem carrier.
 
 1. At2 construct homogeneous normalized BP-cobar representatives and
    their resolution lifts detecting η, ν, ε and κ, with κ in stem14
-   and Adams–Novikov filtration2. Construct the required permanent-cycle
-   and nonzero-detection proofs and prove 2κ=0. Obtain them by a bounded
-   algebraic-resolution calculation: enumerate the homogeneous cobar
-   bases and differential matrices, exhibit cocycle and boundary
-   witnesses, compute their kernels/images over ℤ_(2), and compare the
-   resulting exact-couple classes with the actual sphere tower. Prove
-   the filtration/connectivity bounds which make the retained region
-   sufficient, including every differential entering or leaving it;
-   do not read a chart as a proof of survival. The internal-degree≤60
-   region is a concrete starting window for stems14,20,29 and adjacent
-   differentials; verify its boundary closure using the positive-degree
-   cobar and sphere-tower vanishing bounds, enlarging only the proof
-   window if a boundary term requires it. Resolve the needed additive
-   extensions by the actual tower and Moore-spectrum connecting maps.
+   and Adams–Novikov filtration2. Prove that these classes are permanent
+   cycles with nonzero image, and prove 2κ=0. The proof computes the
+   2-local Adams–Novikov E₂-term Ext_(BP_*BP)^(s,t)(BP_*,BP_*) in the
+   finite range of internal degrees needed for stems14,20 and29 and
+   their adjacent differentials, and identifies its classes with the
+   exact-couple classes of the actual sphere tower. Prove the
+   filtration and connectivity bounds showing that no differential
+   enters or leaves this range outside the ones computed, so that
+   survival is a theorem and not read off a chart. Resolve the needed
+   additive extensions by the tower and Moore-spectrum connecting maps.
 2. Construct compatible nullhomotopies of the consecutive composites
    and chosen lower faces defining ⟨κ,2,η,ν⟩ in π₂₀S_(2).
    Compute its indeterminacy as ⟨ν²κ⟩, prove that π₂₀S_(2) is cyclic
@@ -804,8 +800,8 @@ successive B-side attachment obstructions, and prove that the descended
 B classes have the required tmf detections, including extension choices.
 The commuting T(2) square is an input to these cell-by-cell lifts.
 Then perform arithmetic reconstruction.
-The classical unstable homotopy calculations consume PR284's Bott/J
-contracts and TB's Adams theory. Keep the edge-map image a separate
+The classical unstable homotopy calculations consume HomotopySpheres
+Stage 4's Bott/J constructions and TangentialBordism's Adams theory. Keep the edge-map image a separate
 calculation: surjectivity onto tmf does not make every integral modular
 form a Witten genus. StringOrientation owns the geometric I_OP inclusion
 and equality questions; this roadmap supplies the spectrum, orientation
