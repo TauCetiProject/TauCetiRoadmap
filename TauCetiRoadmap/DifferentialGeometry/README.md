@@ -252,25 +252,22 @@ against the pinned dependency.
 
 ### Existing distribution and Frobenius implementation
 
-Layer4 consumes the existing distribution, foliation and graph-coordinate
-Frobenius APIs. `TauCeti.IsRegularDistribution`, local
+Layer 4 consumes the pinned distribution, foliation and graph-coordinate
+Frobenius APIs. `TauCeti.IsContMDiffDistribution`, local
 `TauCeti.IsInvolutiveDistribution`, the foliation carrier and the local
 integral-graph theorem are the shared production interfaces. Extend them
 with the restrictions, transport laws and consumers below; do not build a
 parallel distribution or involutivity theory. The bundled local record in
-`Suggested.lean` is a signature presentation of this data.
+`Suggested.lean` is a signature presentation of this data. The pinned files are
+`TauCeti/Geometry/Manifold/Distribution.lean`,
+`TauCeti/Geometry/Manifold/Foliation/Basic.lean` and
+`TauCeti/Geometry/Manifold/Distribution/Graph.lean`.
 
-Immutable source snapshots: [distribution and local involutivity](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Distribution.lean),
-[the foliation carrier](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Foliation/Basic.lean),
-and [graph-coordinate Frobenius](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Distribution/Graph.lean).
-
-Layer12.2 consumes the native Riesz gradient, its characteristic identities
-and C^(n+1)/C^n regularity from
-[`Riemannian/Gradient.lean`](https://github.com/TauCetiProject/TauCeti/blob/b4a17624635c02c7e5844919e6680fe8284faaf5/TauCeti/Geometry/Manifold/Riemannian/Gradient.lean).
-The local Riesz expression `mgradient` is compatibility notation for that
-interface. Layer12.2 owns the additional chain/product/isometry/flat-model
-comparisons, not a second production gradient. Signature elaboration of
-admitted compatibility targets is not a proof of those targets.
+Layer 12.2 builds the Riemannian gradient `mgradient` on the pinned fibrewise Riesz
+isometry `Riemannian.Tensor.rieszDual`
+(`TauCeti/Geometry/Manifold/VectorBundle/Riemannian/Riesz.lean`), with its
+characteristic identity `inner_rieszDual` and chartwise regularity
+`contMDiffAt_rieszDual`; the pinned Tau Ceti has no manifold gradient of its own.
 
 ## What is missing (build here)
 
@@ -909,9 +906,7 @@ stronger quantifier order.
 
 Green's theorem here means the circulation identity
 
-\[
- \oint_C P\,dx+Q\,dy=\int_D(\partial_x Q-\partial_y P)\,dx\,dy.
-\]
+    ∮_C P dx + Q dy = ∫_D (∂x Q − ∂y P) dx dy.
 
 The scope includes **both** statements linked under theorem 21 in
 [Freek Wiedijk's list](https://www.cs.ru.nl/~freek/100/#21). These have different strengths;
@@ -997,9 +992,7 @@ and index definitions.
 
 **5.6.2 Directional Green identities and finite divisions.** A vertical (type-I) cell is
 
-\[
- V=\{x+iy:a\le x\le b,\ \ell(x)\le y\le u(x)\},\qquad a<b,
-\]
+    V = {x + iy : a ≤ x ≤ b, ℓ(x) ≤ y ≤ u(x)},   a < b,
 
 with `ℓ ≤ u`, continuous graphs, and graphs `C¹` away from a finite exceptional set.
 A horizontal (type-II) cell is the coordinate-swapped version. Equality of the graphs is
@@ -1012,9 +1005,7 @@ measurability, null boundaries, slicing formulas, and coordinate-swap transport 
 orientation sign. Establish affine covariance for real `C¹` one-forms. For an affine
 isomorphism `A` with linear part `L`, prove the pullback formula and
 
-\[
- \operatorname{curl}(A^*\alpha)=\det(L)\,(\operatorname{curl}\alpha)\circ A,
-\]
+    curl(A^* α) = det(L) · (curl α) ∘ A,
 
 together with change of area by the absolute determinant and the corresponding
 boundary-orientation formula. The directional Green identities retain
@@ -1024,9 +1015,7 @@ On `V`, assume only that `P` is continuous, `∂y P` exists at every point (the
 derivative of `y ↦ P (x+iy)`), this derivative is area-integrable on `V`, and the zero-extended
 fiber-integral function is measurable. Prove
 
-\[
- \oint_{\partial V}P\,dx=-\int_V\partial_yP\,dA.
-\]
+    ∮_{∂V} P dx = −∫_V ∂y P dA.
 
 On a horizontal cell assume the analogous hypotheses on `Q` and `∂x Q`, and prove
 `∮ Q dy = ∫ ∂x Q dA`. Derivatives are specified through `HasDerivAt` on coordinate slices,
@@ -1082,10 +1071,7 @@ explicitly global field hypotheses.
 on `a..b`, `a < b`, an open `U` containing the trace, and `P,Q` real `C¹` on `U`, assume the
 existing winding number vanishes outside `U`. Prove the winding-weighted identity
 
-\[
- \int_a^b[P(\gamma(t))x'(t)+Q(\gamma(t))y'(t)]\,dt
-   =\int_U n_\gamma(z)(\partial_xQ(z)-\partial_yP(z))\,dA(z),
-\]
+    ∫_a^b [P(γ(t)) x'(t) + Q(γ(t)) y'(t)] dt = ∫_U n_γ(z) (∂x Q(z) − ∂y P(z)) dA(z),
 
 including integrability of both sides. First prove that the trace and the support of the
 index lie in a compact subset of `U`, using local constancy and vanishing outside `U`.
@@ -1190,8 +1176,12 @@ specifies the full layer.
 - **6.2 Degree zero and the Poincaré lemma.** `deRhamCohomologyZeroEquiv` with
   `LocallyConstant M ℝ`; the *relative* flat lemma `exists_extDerivWithin_eq_of_starConvex` (⚠
   boundary-chart images are not ambient-open), at every regularity `n ≥ 1`; and its manifold
-  corollary `exists_mextDeriv_eq_nhds` [Lee, Thm. 17.14]. Both for a complete coefficient space: ⚠
-  a smooth `c₀₀`-valued `1`-form on `ℝ` has no local primitive.
+  corollary `exists_mextDeriv_eq_nhds` [Lee, Thm. 17.14]: every point `x` has an open
+  neighbourhood `U` and a smooth form `ψ` on the open submanifold `U` with
+  `mextDeriv ψ = φ.restrict U`. The primitive lives on `U`, not on `M`: no Hausdorff hypothesis is
+  in scope, and on a non-Hausdorff manifold a local primitive need not extend smoothly to `M`.
+  Both for a complete coefficient space: ⚠ a smooth `c₀₀`-valued `1`-form on `ℝ` has no local
+  primitive.
 - **6.3 Homotopy invariance and path integration.** `deRhamCohomology.map_eq_of_homotopy`
   from 5.4, with no boundaryless restriction; `H^{k+1}(E) = 0` for a normed space. Provide
   `pathIntegral` and `isExactForm_of_forall_pathIntegral_eq_zero` for smooth forms and smooth
@@ -1900,13 +1890,15 @@ Riesz duality.*
   `sphereRoundMetric` and its instances on spheres and Circle; `roundMetricCircle`
   in the prototype selects that same native instance. The new circle target is
   its volume comparison `volume_circle`, using the angular integral gate of 5.5a.
-- **12.2 Gradient.** Consume
-  [`TauCeti.Manifold.riemannianGradient`](https://github.com/TauCetiProject/TauCeti/blob/b4a17624635c02c7e5844919e6680fe8284faaf5/TauCeti/Geometry/Manifold/Riemannian/Gradient.lean),
-  its fibrewise Riesz definition, characteristic inner-product/zero/negation
-  identities and `contMDiff_riemannianGradient` at C^(n+1)/C^n regularity.
+- **12.2 Gradient.** Define `mgradient I f x` as the fibrewise Riesz dual of
+  `mfderiv I 𝓘(ℝ) f x`, through the pinned `Riemannian.Tensor.rieszDual` of
+  `TauCeti/Geometry/Manifold/VectorBundle/Riemannian/Riesz.lean`; its defining
+  identity `inner_mgradient` is that file's `inner_rieszDual`. Prove the zero and
+  negation identities, and that `mgradient f` is a `C^n` vector field when `f` is
+  `C^(n+1)` on a `C^(n+1)` manifold with a `C^n` metric, from the chartwise
+  `contMDiffAt_rieszDual` (which assumes exactly these regularities).
   Add the chain/product rules, smooth pullback/isometry transport and flat-model
-  equality with Mathlib's `gradient`. `mgradient` in the signatures is compatibility
-  notation for this native gradient; production declarations use its native name.
+  equality with Mathlib's `gradient`.
 - **12.3 Divergence, Hessian, Laplacian.** `divergence` (the trace of `leviCivitaConnection X`),
   `hessian` (symmetric), `laplaceBeltrami := divergence ∘ mgradient`, the trace of the Hessian
   (`laplaceBeltrami_eq_sum_hessian`), in the `Δ` notation class.
@@ -2045,6 +2037,14 @@ Each is a tempting mistake with its refutation.
   second-countable carrier: the double cover `z ↦ z²` of the circle and the discrete real line fail.
 - **"A closed form with values in a normed space is locally exact."** A smooth `c₀₀`-valued
   `1`-form on `ℝ` has no local primitive; the coefficients must be complete.
+- **"A local primitive of a closed form extends to a smooth form on the whole manifold."** Glue
+  two copies of `ℝ` by translations along disjoint intervals of radius much smaller than their
+  spacing, centred at `a_mn = 2^(-2^m (2n+1))` in the first copy and at points
+  `2^(-m) + 2^(-m-n-2)` in the second (`m, n ≥ 1`). The result is a second-countable,
+  boundaryless, non-Hausdorff `1`-manifold carrying the closed `1`-form `dx = dy`. Letting
+  `n → ∞` and then `m → ∞`, every continuous function `f` satisfies `f(0_B) = f(2^(-m)_B)` for
+  all `m`, so `f'(0_B) = 0` whenever `f` is differentiable there, while `dy ≠ 0` at `0_B`. The
+  coordinate `y` on the second chart is the local primitive (6.2).
 - **"Extension by zero exists on every manifold."** On the line with two origins it does not.
 - **"The Poincaré pairing is defined on manifolds with boundary."** On `[0, 1]`, `[dx] = 0` in
   `H¹_dR`, yet `∫₀¹ dx = 1`.
@@ -2056,7 +2056,7 @@ Each is a tempting mistake with its refutation.
 [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G1–G2, owns rectifiability,
 arclength, variation–speed identities, and Hausdorff length. Consume those results in
 planar curve calculus rather than building another metric length theory. The flat planar
-Green targets of [layer 5.6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826)
+Green targets of layer 5.6
 own winding numbers, curve integration, and the actual area identity; 5.3
 and 5.5b retain half-space and face-structured Stokes, 5.5a retains generic
 density integration, and 12.6 owns their post-construction comparison. In 5.6.1, AC trace-nullity and variation–speed
@@ -2131,51 +2131,51 @@ One owner per shared construction, stated identically on both sides.
 The stages below separate mathematical producers from later comparisons.
 The numbered order is not an additional dependency edge.
 
-- Native chart/calculus and bundle foundations support0–1. Orientations2,
-  the vector-field part of3, and metrics/gradient/divergence12.1–12.3 can
+- Native chart/calculus and bundle foundations support 0–1. Orientations 2,
+  the vector-field part of 3, and metrics/gradient/divergence 12.1–12.3 can
   be developed independently of form integration; Cartan's form identity
-  in3.4 uses1. The finite-dimensional suspension in3.5 consumes the native
-  maximal flow; its Banach extension needs3.1–3.2. Frobenius4 needs3 and1.4.
-- Half-space geometry5.1 uses native boundary charts and2. Top-form
-  integration5.2 uses0 and2. Half-space Stokes5.3 uses5.1–5.2 and flat box
-  integration. The direct homotopy identity5.4 uses0–1 and interval
-  integration, not Stokes. Generic densities5.5a use5.2 and the absolute
-  determinant law, not the face branch. The geometric face data5.5b use
-  native quadrant charts and2; their Stokes theorem then uses integration
+  in 3.4 uses 1. The finite-dimensional suspension in 3.5 consumes the native
+  maximal flow; its Banach extension needs 3.1–3.2. Frobenius 4 needs 3 and 1.4.
+- Half-space geometry 5.1 uses native boundary charts and 2. Top-form
+  integration 5.2 uses 0 and 2. Half-space Stokes 5.3 uses 5.1–5.2 and flat box
+  integration. The direct homotopy identity 5.4 uses 0–1 and interval
+  integration, not Stokes. Generic densities 5.5a use 5.2 and the absolute
+  determinant law, not the face branch. The geometric face data 5.5b use
+  native quadrant charts and 2; their Stokes theorem then uses integration
   and the local half-space/quadrant formula. No GT collar is an input.
-- Flat Green5.6.1→5.6.2→5.6.3 uses native flat calculus, contour/index and
+- Flat Green 5.6.1→5.6.2→5.6.3 uses native flat calculus, contour/index and
   gauge integration, plus GMT's early arclength/variation targets at their
   stated scope. Neither manifold Stokes nor Riemannian divergence is an
-  input to that producer. The compatibility theorem is12.6, downstream.
-- De Rham algebra6 and most of7 need0–1;6.3 uses5.4. Integration pairings
-  use5.2. Boundaryless smoothing8.3 is independent of inward domination;
-  generic-corner smoothing8.3 uses3.6. Standard-simplex Stokes8.4 is proved
-  directly, and8.5's absolute proof consumes it, not5.5b. The relative
-  cochain maps8.4 precede their isomorphism, which follows8.5 on both opens;
+  input to that producer. The compatibility theorem is 12.6, downstream.
+- De Rham algebra 6 and most of 7 need 0–1; 6.3 uses 5.4. Integration pairings
+  use 5.2. Boundaryless smoothing 8.3 is independent of inward domination;
+  generic-corner smoothing 8.3 uses 3.6. Standard-simplex Stokes 8.4 is proved
+  directly, and 8.5's absolute proof consumes it, not 5.5b. The relative
+  cochain maps 8.4 precede their isomorphism, which follows 8.5 on both opens;
   the absolute proof never consumes that relative isomorphism.
-- Smooth-chain integration and9 use those8 comparisons and5.2. The full
-  compact-class comparison9.3 additionally consumes AT6.3, whose early
-  orientation construction follows DG2/5.1. Its boundaryless/interior
+- Smooth-chain integration and 9 use those 8 comparisons and 5.2. The full
+  compact-class comparison 9.3 additionally consumes AT 6.3, whose early
+  orientation construction follows DG 2 and DG 5.1. Its boundaryless/interior
   formulas precede its smooth-boundary collar compatibility. It does not
   consume AT's downstream duality or DG degree.
-- The regular-point/value definitions10.1 need only mfderiv; their local
-  inverse consequence uses the native inverse theorem. Sharp Sard10.2
+- The regular-point/value definitions 10.1 need only mfderiv; their local
+  inverse consequence uses the native inverse theorem. Sharp Sard 10.2
   needs finite-dimensional calculus and countable charts. The independent
-  vector approximation8.3a and relative finite-parameter incidence10.2a
+  vector approximation 8.3a and relative finite-parameter incidence 10.2a
   use native approximation/cutoffs, differential/level-set charts and
   finite-dimensional Sard. Their RS2G/LG6 applications are downstream;
-  they use neither chain smoothing,3.6 domination nor degree. The
-  integration/degree comparisons10.3–10.5 use2,5.2–5.3,7 and9.2;11 uses10.
-- Volume/density12.4 uses native metric volume and5.5a, with0/2 for its
-  oriented form bridge. Divergence/Green12.5 uses12.3–12.4 and half-space
-  Stokes5.3, or5.5b for the face version. Circle volume uses the angular
-  gate5.5a. Finally12.6 consumes the independently completed5.6 and12.5
+  they use neither chain smoothing, 3.6 domination nor degree. The
+  integration/degree comparisons 10.3–10.5 use 2, 5.2–5.3, 7 and 9.2; 11 uses 10.
+- Volume/density 12.4 uses native metric volume and 5.5a, with 0/2 for its
+  oriented form bridge. Divergence/Green 12.5 uses 12.3–12.4 and half-space
+  Stokes 5.3, or 5.5b for the face version. Circle volume uses the angular
+  gate 5.5a. Finally 12.6 consumes the independently completed 5.6 and 12.5
   producers, plus the appropriate integration/face comparisons, and has
   no edge back into any of them. Global collars/gluing remain GT targets
-  consuming3.6 and5.5b's geometric data, not prerequisites of those targets.
+  consuming 3.6 and 5.5b's geometric data, not prerequisites of those targets.
 
-Claim single numbered items or smaller; the headline theorems5.3,8.5,9.3,
-10.4 and11.1 remain staged claims with reusable intermediate results.
+Claim single numbered items or smaller; the headline theorems 5.3, 8.5, 9.3,
+10.4 and 11.1 remain staged claims with reusable intermediate results.
 All continuous-path, relative, general-model, compact-support and
 zero-dimensional branches retain their stated hypotheses and obligations.
 

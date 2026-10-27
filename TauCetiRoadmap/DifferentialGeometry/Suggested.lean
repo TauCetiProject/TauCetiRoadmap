@@ -1,35 +1,4 @@
-import Mathlib.Algebra.Homology.Embedding.CochainComplex
-import Mathlib.Algebra.Homology.HomotopyCategory.MappingCocone
-import Mathlib.Algebra.Homology.Homotopy
-import Mathlib.Algebra.Homology.HomologicalComplexBiprod
-import Mathlib.Algebra.Homology.QuasiIso
-import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
-import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
-import Mathlib.AlgebraicTopology.SingularHomology.Basic
-import Mathlib.Analysis.Calculus.DifferentialForm.VectorField
-import Mathlib.Analysis.Calculus.Gradient.Basic
-import Mathlib.Analysis.InnerProductSpace.Laplacian
-import Mathlib.Dynamics.Flow
-import Mathlib.Geometry.Manifold.Instances.Sphere
-import Mathlib.Geometry.Manifold.Instances.Icc
-import Mathlib.Geometry.Manifold.PartitionOfUnity
-import Mathlib.Geometry.Manifold.Riemannian.Basic
-import Mathlib.Geometry.Manifold.VectorBundle.Hom
-import Mathlib.Geometry.Manifold.VectorBundle.Pullback
-import Mathlib.LinearAlgebra.Orientation
-import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-import Mathlib.MeasureTheory.Group.Circle
-import Mathlib.Topology.Covering.Basic
-import Mathlib.Topology.Homotopy.HomotopyGroup
-import Mathlib.Topology.LocallyConstant.Algebra
-import Mathlib.Topology.VectorBundle.ContinuousAlternatingMap
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Analysis.BoxIntegral.Integrability
-import Mathlib.Analysis.BoxIntegral.DivergenceTheorem
-import Mathlib.MeasureTheory.Function.AbsolutelyContinuous
-import Mathlib.MeasureTheory.Integral.CurveIntegral.Basic
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.AbsolutelyContinuousFun
-import Mathlib.Topology.Connected.Basic
+import Mathlib
 import TauCeti.AlgebraicTopology.Cohomology.HomotopyInvariance
 import TauCeti.AlgebraicTopology.Cohomology.Relative
 import TauCeti.AlgebraicTopology.Singular.Subdivision.Homotopy
@@ -2456,13 +2425,20 @@ noncomputable def deRhamCohomologyZeroEquiv : deRhamCohomology I M 0 ≃ₗ[ℝ]
   sorry
 
 /-- **Layer 6.2.** The manifold Poincaré lemma: closed forms are locally exact, manifolds with
-boundary included (via the relative flat lemma `exists_extDerivWithin_eq_of_starConvex`). ⚠ The
-coefficient space must be complete: in the finitely supported sequences `c₀₀` there is a smooth
-closed `1`-form on `ℝ` with no local primitive, the would-be primitive being an integral that
-leaves `c₀₀`. -/
+boundary included (via the relative flat lemma `exists_extDerivWithin_eq_of_starConvex`). The
+primitive is a smooth form on an open neighbourhood `U` of `x`, whose exterior derivative is the
+restriction of `φ` to `U` [Lee, Thm. 17.14]. ⚠ It is not a smooth form on all of `M`: on a
+non-Hausdorff line glued from two real lines along countably many small intervals by translations,
+with `a_mn = 2^(-2^m (2n+1))` in the first line identified with points accumulating at `2^(-m)`
+in the second, every continuous function takes equal values at the second origin and at all the
+points `2^(-m)`, so a global smooth primitive of the coordinate `1`-form has derivative `0` at the
+second origin, where the form is nonzero. ⚠ The coefficient space must be complete: in the
+finitely supported sequences `c₀₀` there is a smooth closed `1`-form on `ℝ` with no local
+primitive, the would-be primitive being an integral that leaves `c₀₀`. -/
 theorem exists_mextDeriv_eq_nhds [CompleteSpace F] {φ : RoughForm I M F (k + 1)}
     (hφ : IsSmoothForm I ∞ φ) (hclosed : IsClosedForm φ) (x : M) :
-    ∃ U ∈ 𝓝 x, ∃ ψ : RoughForm I M F k, IsSmoothForm I ∞ ψ ∧ ∀ y ∈ U, mextDeriv ψ y = φ y :=
+    ∃ U : TopologicalSpace.Opens M, x ∈ U ∧ ∃ ψ : RoughForm I U F k,
+      IsSmoothForm I ∞ ψ ∧ mextDeriv ψ = φ.restrict U :=
   sorry
 
 /-- **Layer 6.3, homotopy invariance**, via 5.4's cochain-homotopy identity, hence with no
@@ -3731,9 +3707,8 @@ variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensi
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
   [ChartedSpace H M] [IsManifold I 1 M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)] {m : ℕ}
 
-/-- **Layer 12.2, compatibility notation for `TauCeti.Manifold.riemannianGradient`**:
-this Riesz expression illustrates the interface against the pinned tensor API.
-Production uses the native gradient and its proved identities/smoothness. -/
+/-- **Layer 12.2, the Riemannian gradient**: the fibrewise Riesz dual of `mfderiv I 𝓘(ℝ) f x`,
+through Tau Ceti's `Riemannian.Tensor.rieszDual`. -/
 noncomputable def mgradient (I : ModelWithCorners ℝ E H) {M : Type*} [TopologicalSpace M]
     [ChartedSpace H M] [IsManifold I 1 M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
     (f : M → ℝ) (x : M) : TangentSpace I x :=
