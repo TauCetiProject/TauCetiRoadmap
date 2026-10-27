@@ -2,21 +2,9 @@
 Copyright (c) 2026.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+import Mathlib
 import TauCeti.RepresentationTheory.Symmetric.TensorAction.Basic
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.LinearAlgebra.PiTensorProduct.Basic
-import Mathlib.Analysis.Normed.Operator.Basic
-import Mathlib.MeasureTheory.Function.StronglyMeasurable.Basic
-import Mathlib.LinearAlgebra.Matrix.Rank
-import Mathlib.Analysis.InnerProductSpace.LinearPMap
-import Mathlib.MeasureTheory.Constructions.Polish.Basic
-import Mathlib.MeasureTheory.Group.Arithmetic
-import Mathlib.Topology.Algebra.PontryaginDual
-import Mathlib.Topology.Algebra.Group.Quotient
-import Mathlib.MeasureTheory.Measure.Decomposition.RadonNikodym
-import Mathlib.Data.Matrix.Basis
 import TauCeti.LinearAlgebra.Matrix.SpecialOrthogonalGroup.Basic
-import Mathlib.RepresentationTheory.Irreducible
 import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 import TauCeti.RepresentationTheory.Continuous.Subrepresentation
 import TauCeti.LinearAlgebra.CliffordAlgebra.RealForm.ThreeOne
@@ -158,7 +146,9 @@ theorem galileiMassCocycle_timeReverse (g h : GalileiCoordinates) :
   simp [galileiMassCocycle, galileiTimeReverse, neg_dotProduct]
   ring
 
-/-- A normalized measurable multiplier with an explicit cocycle law. -/
+/-- A normalized measurable multiplier with an explicit cocycle law, in the convention
+`U g * U h = ω g h • U (g * h)`. Forgetting measurability gives a `TauCeti.FactorSet G Circle`
+for the trivial action (README Layer P.3), whose extension carries the algebra of `E_ω`. -/
 structure BorelMultiplier (G : Type*) [Group G] [MeasurableSpace G] where
   value : G → G → Circle
   measurable : Measurable fun p : G × G => value p.1 p.2
