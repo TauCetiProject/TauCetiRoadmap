@@ -2999,15 +2999,22 @@ IntegralHeckeAndGaloisDeterminants §4.2; the base-change and patching targets o
 
 The target `allCMCoefficientPrimeComparison` has the following hypotheses and conclusion.
 
-A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1`, regular algebraic cuspidal `π` of highest weight a, `ℓ, ι` and `v|ℓ, r_{π,ℓ,ι}|G_{F_v}` is de Rham, has `HT_τ={a_{ιτ,i}+n−i}`, and `WD(r_{π,ℓ,ι}|G_{F_v})^{ss} ≅ ι⁻¹ rec^T(π_v)^{ss}`. Here `rec^T(π_v)=rec(π_v|det|^{(1−n)/2})`. No conjugate self-duality, residual irreducibility or decomposed genericity hypothesis is imposed on `π`. This is the July 2026 preprint theorem, with its precise input chain recorded below. That chain includes AHTW Theorem 5.4.13, used in Lemma 5.4.18, which applies ACC+ Theorem 2.3.3; part (c) of that theorem at `p`-adic places is the polarized coefficient-prime comparison for conjugate-self-dual constituents of rank at most `2n`, used in its full Frobenius-semisimple form through **P-ordinary arithmetic block comparison**, which produces the actual local subrepresentation that Lemma 5.4.18 projects onto. The target therefore assumes `ExtremelyRegularIrreducibility m` for every `m` with `2≤m≤2n`, and every target below that uses it carries this hypothesis.
+A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1`, regular algebraic cuspidal `π` of highest weight a, `ℓ, ι` and `v|ℓ, r_{π,ℓ,ι}|G_{F_v}` is de Rham, has `HT_τ={a_{ιτ,i}+n−i}`, and `WD(r_{π,ℓ,ι}|G_{F_v})^{ss} ≅ ι⁻¹ rec^T(π_v)^{ss}`. Here `rec^T(π_v)=rec(π_v|det|^{(1−n)/2})`. No conjugate self-duality, residual irreducibility or decomposed genericity hypothesis is imposed on `π`. This is the July 2026 preprint theorem, with its precise input chain recorded below. That chain includes AHTW Theorem 5.4.13, used in Lemma 5.4.18, which applies ACC+ Theorem 2.3.3; part (c) of that theorem at `p`-adic places is the polarized coefficient-prime comparison for conjugate-self-dual constituents of rank at most `2n`, used in its full Frobenius-semisimple form through **P-ordinary arithmetic block comparison**, which produces the actual local subrepresentation that Lemma 5.4.18 projects onto. For `n≥2` the target therefore assumes `ExtremelyRegularIrreducibility m` for every `m` with `2≤m≤2n`, and every target below that uses this branch carries the same hypothesis.
 
-*Needs:* AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.P: finite-coefficient periods and comparison; AutomorphicGaloisRepresentationsPartII AG2.4; AG2.4: HLTT existence; AG2.6: global stable period quotients; AG2.6: P-ordinary arithmetic block comparison; AG2.6: bounded boundary comparison and degree shifting; AG2.6: full polarized local–global compatibility at `ℓ`; AG2.6: polarized coefficient-prime domination.
+For `n=1` the target is unconditional and does not use this chain. A regular algebraic cuspidal `π` of `GL₁(𝔸_F)` is an algebraic Hecke character `χ`, and `r_{π,ℓ,ι}=r_{ℓ,ι}(χ)` is AG2.0's character. Its restriction to `G_{F_v}` is Hodge–Tate, hence locally algebraic; after dividing by the crystalline character extending the algebraic part on `O_{F_v}^×` it has finite image on inertia, so it is de Rham with `N=0` and `HT_τ={a_{ιτ}}`. The explicit adelic formula of AG2.0, evaluated at `F_v^×`, cancels the algebraic factor `∏_τ(ι⁻¹τ)(x_v)^{a_τ}` against that crystalline character, giving `ι WD(r_{ℓ,ι}(χ)|G_{F_v}) ∘ Art_{F_v} = χ_v = rec^T(π_v)`. Downstream exports dispatch on the rank: rank one uses this branch, rank `n≥2` the conditional one.
 
-(Sources: AHTW, Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9; Theorem 5.4.13, pp.97–98, and Lemma 5.4.18 with its proof, pp.103–104; ACC+, Theorem 2.3.3(c), pp.935–937.)
+*Needs:* AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.0: the `l`-adic character of an algebraic Hecke character; AG2.P: finite-coefficient periods and comparison; AutomorphicGaloisRepresentationsPartII AG2.4; AG2.4: HLTT existence; AG2.6: global stable period quotients; AG2.6: P-ordinary arithmetic block comparison; AG2.6: bounded boundary comparison and degree shifting; AG2.6: full polarized local–global compatibility at `ℓ`; AG2.6: polarized coefficient-prime domination.
+
+(Sources: AHTW, Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9; Theorem 5.4.13, pp.97–98, and Lemma 5.4.18 with its proof, pp.103–104; ACC+, Theorem 2.3.3(c), pp.935–937; for `n=1`, BLGGT §A.2, pp.86–87, and Conrad-lift, Lemma 4.1, pp.11–12, and Proposition B.4, p.35.)
 
 **Checks.**
 
-- Rank one recovers the algebraic Hecke-character Hodge labels and local reciprocity.
+- Rank one recovers the algebraic Hecke-character Hodge labels and local reciprocity
+  without any irreducibility hypothesis: for `F` imaginary quadratic and `χ` with
+  `a_τ=1, a_{τc}=0`, the conclusion holds at `v|ℓ` although
+  `ExtremelyRegularIrreducibility 2` is not assumed.
+- In rank one, `χ=‖·‖_F` gives `r=ε_ℓ`, crystalline at `v|ℓ` with `HT_τ={−1}`, and its
+  WD character is `|·|_v` composed with `Art_{F_v}⁻¹`, unramified with `N=0`.
 - A nonselfdual cuspidal input retains actual local de Rhamness; no residual
   irreducibility or decomposed genericity is used to discard its local extensions.
 - Equality of semisimple WD parameters permits different monodromy operators. Full
@@ -3476,7 +3483,7 @@ SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 
 The target `NonselfdualComparisonExport` has the following hypotheses and conclusion.
 
-`NonselfdualComparisonExport(π)` for an arbitrary regular algebraic cuspidal `π` over CM `F` wraps GoodPrimeExport with the AHTW de Rham comparison, full labelled Hodge multiset, ss WD comparison and `F-ss` monodromy upper bound at every `v|ℓ`. It also exposes spherical crystallinity and Iwahori semistability with the stated local hypotheses. It does not contain a polarization, purity theorem or full ramified `N` equality. The output is the strongest nonselfdual coefficient-prime interface supplied by AHTW v1, rather than the good-prime interface alone.
+`NonselfdualComparisonExport(π)` for an arbitrary regular algebraic cuspidal `π` over CM `F` wraps GoodPrimeExport with the AHTW de Rham comparison, full labelled Hodge multiset, ss WD comparison and `F-ss` monodromy upper bound at every `v|ℓ`. It also exposes spherical crystallinity and Iwahori semistability with the stated local hypotheses. It does not contain a polarization, purity theorem or full ramified `N` equality. It dispatches on rank: for `n≥2` it carries `ExtremelyRegularIrreducibility m` for `2≤m≤2n`, and for `n=1` it is unconditional. The output is the strongest nonselfdual coefficient-prime interface supplied by AHTW v1, rather than the good-prime interface alone.
 
 The required API is:
 
@@ -3847,6 +3854,10 @@ Laurent Clozel and Jack A. Thorne, [Level-raising and symmetric power functorial
 
 Laurent Fargues and Peter Scholze, [Geometrization of the local Langlands correspondence](https://arxiv.org/pdf/2102.13459v4).
 arXiv:2102.13459v4 (27 November 2024); locators use printed chapter pages.
+
+### Conrad-lift
+
+Brian Conrad, [Lifting global representations with local properties](https://virtualmath1.stanford.edu/~conrad/papers/locchar.pdf). Author-posted preprint; author-copy pages, with Lemma 4.1 on pp.11–12 and Appendix B on pp.32–36.
 
 ### AHTW
 
