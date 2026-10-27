@@ -18,6 +18,8 @@ LieGroups supplies the exponential floor. LieGroupoidsPoisson G0.1 supplies regu
 manifolds, HopfRinow the inverse function theorem, and DifferentialGeometry Frobenius,
 complete flows and integration of one-forms. Bundle connections/Ehresmann theory come from SmoothBundlesConnections; singular-system
 examples below build their own monodromy rather than silently assuming global angle coordinates.
+I5 treats the closed annulus through open collar extensions; its finite-action
+gradient flow lives on the boundaryless configuration quotient.
 
 ## I1. Involutive functions and regular fibers
 
