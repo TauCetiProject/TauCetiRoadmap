@@ -56,10 +56,13 @@ applications), plus one combinatorial neighbor:
    Némethi's cohomological weight-function model is not, by notation alone, the
    homology of the full cubical `[K,E]` complex used by the analytic roadmap. The
    full integral model here is an independent target; its signed cubical differential,
-   nonnegative exponents, and homology are specified below. The analytic roadmap's
-   Reconciliation2 owns a narrower completed mod-2 comparison for spherical
-   plumbing trees. It does not identify all of the following models or establish an
-   unrestricted integral comparison for arbitrary graphs.
+   nonnegative exponents, and homology are specified below. The comparison with
+   `HF⁻` belongs to the analytic roadmap (item 2 of the Reconciliations section of
+   the [Heegaard Floer roadmap](../HeegaardFloer/README.md)); the source-backed
+   scope that this roadmap supplies it for is Zemke's Theorem 1.1:
+   plumbing trees of spheres, completed `𝔽[[U]]` coefficients, relatively graded
+   when `b₁ = 0`. No comparison among the lattice models below, and no integral or
+   general-graph comparison with `HF⁻`, follows from that theorem.
 
 These three are exactly what this roadmap formalizes. The holomorphic theory is
 **on the roadmap, not a non-goal** — it is just the [other half](../HeegaardFloer/README.md),
@@ -84,7 +87,7 @@ roadmap owns (they are analytic-blocked, so they live with the slower track).
   [analytic roadmap](../HeegaardFloer/README.md), not here.
 
 ```lean
--- the shapes we are building toward (state in Suggested.lean as the types land):
+-- shapes of the end goals (Suggested.lean states those statable at the pins):
 --
 -- v1: grid homology is a link invariant, and τ bounds unknotting number:
 -- def GH' (G : GridDiagram) : BigradedModule (ZMod 2) := ...   -- simply blocked GĤ
@@ -150,19 +153,73 @@ roadmap owns (they are analytic-blocked, so they live with the slower track).
 - **Presented monoids** (`Mathlib/Algebra/PresentedMonoid/Basic.lean`, from Hannah
   Fechtner's braid program): the seed for Lane K's braid groups.
 
+## Inventory: what Tau Ceti gives us (consume)
+
+At the pinned Tau Ceti the first layers of Lanes G and L exist and are consumed, not
+rebuilt.
+
+- **Grid diagrams and moves** (`TauCeti/KnotTheory/Grid/Diagram`, `Move`):
+  `TauCeti.GridState`, `TauCeti.GridDiagram` (`O`/`X` markings as grid states),
+  the move relation `GridDiagram.IsMove` with its closure `GridDiagram.MovesTo`,
+  the quotient `TauCeti.GridLink`, commutations (`GridDiagram.IsCommutation`),
+  stabilizations (`GridDiagram.IsStabilization`), and the component count with
+  `GridDiagram.IsKnot` and `GridDiagram.MovesTo.isKnot_iff`.
+- **Grid complexes and homology** (`Grid/Chain/Complex.lean`, `Grid/Homology`):
+  `GridDiagram.fullyBlockedComplex`, `GridDiagram.unblockedComplex`,
+  `GridDiagram.simplyBlockedComplex` with their homologies
+  `GridDiagram.fullyBlockedHomology`, `GridDiagram.unblockedHomology` and
+  `GridDiagram.IsKnot.simplyBlockedHomology`; the `𝔽[U]`-module structure on `GH⁻`
+  of a knot grid (`GridDiagram.IsKnot.unblockedHomologyModule`) and its Alexander
+  grading (`GridDiagram.IsKnot.alexanderUnblockedHomologyGrading`).
+- **Euler characteristic** (`Grid/EulerCharacteristic.lean`): for grids with an odd number of components, the graded Euler
+  characteristic of the fully blocked complex as a grid determinant,
+  `OddComponentGridDiagram.gradedEulerChar_eq_smul_T_mul_det_weightMatrix`.
+- **τ on one diagram** (`Grid/Homology/Tau.lean`): `GridDiagram.IsKnot.tau`, its
+  transfer along degree-zero isomorphisms (`GridDiagram.IsKnot.tau_eq_of_linearEquiv`)
+  and along maps with a left inverse up to `U`-powers
+  (`GridDiagram.IsKnot.tau_le_tau_sub_of_comp_eq_X_pow_smul`), invariance under one
+  `X`-stabilization (`GridDiagram.IsKnot.tau_stabilizeX`), and the torus-link values
+  in `Grid/TorusLink/Tau.lean`. Invariance of `τ` under all grid moves is not at the
+  pin; it is the headline `tau_eq_of_movesTo` below.
+- **Seifert-matrix Alexander polynomial** (`TauCeti/KnotTheory/Alexander.lean`):
+  `TauCeti.KnotTheory.alexander` on matrices; no grid diagram has a Seifert matrix at the pin.
+- **Heegaard region systems** (`TauCeti/LowDimTopology/Heegaard`):
+  `TauCeti.HeegaardRegionSystem` with domains, periodic domains and weak
+  admissibility, the data side of Lane H.1.
+- **Plumbing lattices** (`TauCeti/LowDimTopology/Plumbing`): `TauCeti.PlumbingGraph`
+  (a simple graph with integer framings and no genus decoration),
+  `PlumbingGraph.IsNegativeDefinite`, `PlumbingGraph.characteristicVectors`,
+  `PlumbingGraph.canonicalCharacteristic`, the orbit quotient
+  `PlumbingGraph.characteristicOrbits`, and the weight `PlumbingGraph.characteristicWeight`
+  `χ_k(x) = −(k(x)+x·x)/2`.
+- **Native lattice complex** (`Plumbing/Differential.lean`, `ChainComplex.lean`,
+  `Homology.lean`): `TauCeti.PlumbingChain`, the finite-support free module over
+  `PlumbingCoefficient = 𝔽₂[U]` on cubes `(x,E)`, the unsigned differential with
+  `PlumbingGraph.latticeDifferential_comp_self`, the cubical chain complex
+  `PlumbingGraph.latticeChainComplex`, and `PlumbingGraph.latticeChainHomology`.
+- **Moves and computations**: `PlumbingGraph.blowUpVertex` and
+  `PlumbingGraph.blowUpEdge` with their characteristic covectors
+  `PlumbingGraph.blowUpCharacteristic`, `PlumbingGraph.blowUpEdgeCharacteristic`
+  and preservation of negative-definiteness; the `U`-tower
+  (`PlumbingGraph.exists_injective_latticeHomologyCycleMap`); the one-vertex computation
+  (`PlumbingGraph.coefficientEquivLatticeHomologyOfUnique`); and the `E₈` plumbing
+  (`Plumbing/E8.lean`). Invariance of homology under the two blow-ups is not at the
+  pin; it is the pair of headlines `latticeChainHomology_blowUpVertex` and
+  `latticeChainHomology_blowUpEdge` below.
+
 ## Inventory: what is missing (build here)
 
-Everything knot-theoretic (the only knot-adjacent file in Mathlib is
-`Algebra/Quandle.lean`); grid diagrams and grid moves; bigraded modules over
+Knot theory beyond grid diagrams, braid words and Seifert matrices; invariance of
+`GH⁻` and `GĤ` under commutation and of `τ` under all grid moves; crossing-change
+maps and the unknotting number on grid links; bigraded modules over
 `𝔽₂[V₁,…,Vₙ]` as a working API; the structure theorem for finitely generated
 bigraded `𝔽[U]`-modules (τ's home); filtered complexes and filtered homotopy type
 (Mathlib's spectral-sequence machinery is young and has no filtered-complex
 constructor, and the grid main line deliberately avoids spectral sequences, so
-only the filtered-complex API is needed); pointed Heegaard diagram combinatorics
-and the nice-move calculus; the integral/surface-decorated lattice extensions and
-comparisons among cohomological, characteristic-cubical, and completed carriers.
-The native plumbing graph, characteristic-covector, weighted differential, and
-cubical homology API is consumed below, not recreated.
+only the filtered-complex API is needed); the nice-move calculus on Heegaard
+diagrams; genus-decorated plumbing graphs, the integral signed lattice complex,
+Némethi's cohomological carrier, lattice blow-up invariance, and the comparisons
+among cohomological, characteristic-cubical, and completed carriers.
 
 ---
 
@@ -193,7 +250,13 @@ already. Milestone order:
    Stabilization: identify `GC⁻(G')` with the mapping cone of
    `V₁ − V₂ : GC⁻(G)[V₁] → GC⁻(G)[V₁]` (consume Mathlib's cones). ⚠ The homologies
    of the *blocked* theories depend on grid size through `⊗W` factors; only the
-   stabilization-quotient (or `GĤ`, `GH⁻`) is the link invariant.
+   stabilization-quotient (or `GĤ`, `GH⁻`) is the link invariant. The headline
+   consequence for knots is `tau_eq_of_movesTo`: if `G` presents a knot and
+   `G.MovesTo G'`, then `τ(G') = τ(G)` over every commutative ring of characteristic
+   two (book Theorem 5.3.1 with Definition 6.1.5). Tau Ceti already proves the
+   `X`-stabilization case (`GridDiagram.IsKnot.tau_stabilizeX`); the remaining input is
+   the commutation and `O`-stabilization invariance of `GH⁻` as an Alexander-graded
+   `𝔽[U]`-module, transferred by `GridDiagram.IsKnot.tau_eq_of_linearEquiv`.
 6. **Basepoint actions.** Within each link component, the corresponding `V`-actions
    are chain homotopic; variables attached to different components are not thereby
    identified. Retain the multivariable `𝔽[V₁,…,V_ℓ]` action until a stated
@@ -212,6 +275,10 @@ already. Milestone order:
    Euler characteristic has two branches: for a knot (`ℓ=1`) it is the normalized
    symmetrized Alexander polynomial `Δ_K(t)`; for a link with `ℓ>1` it is
    `∏ᵢ(tᵢ^{1/2}−tᵢ^{−1/2}) Δ_L(t₁,…,tℓ)`, with the source's unit/sign normalization.
+   The factor depends on the flavor: for `ℓ>1`, with `nᵢ` the number of
+   `O`-markings on component `i`, the fully blocked theory has
+   `±Δ_L·∏ᵢ(1−tᵢ^{−1})^{nᵢ} tᵢ^{1/2}` and the unblocked theory `±Δ_L·∏ᵢ tᵢ^{1/2}`
+   (book Theorem 11.6.1); the fully blocked factor carries the grid-size dependence.
    Do not obtain the knot formula by substituting `ℓ=1` into the link factor.
    Test both branches on the unknot and the two-component unlink. The grid
    polytope vs Thurston norm remains a bound, not detection.
@@ -225,7 +292,7 @@ already. Milestone order:
     MOST §15.2, or Gallais's spin-extension construction).
 13. **The filtered theory** (book Chapters 13–14): the Alexander filtration on the
     grid complex over `𝔽[V]`; invariant = filtered quasi-isomorphism type: the
-    combinatorial stand-in for `CFK^∞`, and the door to Υ-type concordance
+    combinatorial counterpart of `CFK^∞`, and the door to Υ-type concordance
     invariants. Needs Lane ALG's filtered-complex API.
 
 ### Lane ALG: bigraded and filtered homological algebra
@@ -257,8 +324,35 @@ braid-group program) rather than duplicating them here.
 
 ### Lane L: lattice homology
 
-Keep three models separate and state their carrier, coefficient ring, degree,
-weight, and comparison domain before asserting an isomorphism.
+Keep three models separate, beside the native Tau Ceti complex, and state their
+carrier, coefficient ring, degree, weight, and comparison domain before asserting an
+isomorphism. The table fixes each scope; the numbered items below give the
+definitions. Section numbers refer to Némethi, arXiv:0709.0841v1, and Zemke,
+arXiv:2111.14962v4.
+
+| Model | Graphs and decorations | Carrier and coefficients | Weight | Characteristic sector | Grading | Moves for invariance | Numerical invariants |
+|---|---|---|---|---|---|---|---|
+| L.1 Némethi cohomology | finite connected, negative-definite intersection form, genus `g_v ≥ 0` (Némethi §2, §3.2.1) | `F^q = Hom_ℤ(C_q, T⁺)`, `T⁺ = ℤ[U,U⁻¹]/Uℤ[U]`, coboundary `δ_w` (§3.1.4) | `w₀ = χ_k`, edge `max(χ_k) + M^{g_v}(|Δχ_k|)`, higher cubes the maximum over edges (§3.2.1) | `k ∈ Char`, orbits `[k]` = torsion `Spin^c` (§2.2.2, §3.3) | value of degree `d − 2w(c)` on a cube `c` (§3.1.4); normalised module `H^*(Γ,[k])` (§3.3.2) | genus-zero `(−1)`-blow-ups/downs of valence ≤ 2 (§3.4.1–3.4.2) | `m_k = min χ_k` (§3.2.3), `eu(H⁰)`, `eu(H^*)` (§3.2.6) |
+| L.2 spherical `[K,E]` | finite tree, every genus `0`, arbitrary integral framings (`Q` may be singular) | finite-support `𝔽₂[U]` on `[K,E]`; completed variant `∏ 𝔽₂[[U]]` (Zemke §2.3) | exponents `A_v − g`, `B_v − g` of item 2 | every `K ∈ Char(Γ)`; label = orbit of `K` | cube degree `|E|`; the source's grading on its hypotheses, an absolute grading only for nonsingular `Q` | none requested | none |
+| L.3 integral graph/surface chains | finite graph, cycles allowed, integral symmetric `Q`, genus `g_v ≥ 0` | finite-support `ℤ[U]` on oriented cubes `(l,I)`, signed `∂` | Némethi's weight of L.1 | every characteristic `K` | chain degree `q`, `deg U = −2` | none; Némethi's moves only on L.1's domain | none |
+| native Tau Ceti | `TauCeti.PlumbingGraph`: simple graph, integer framings, genus `0` implicit | `P.latticeChainComplex k` over `𝔽₂[U]`, finite support on `(x,E)` | maximum of `χ_k` over the cube's vertices (Némethi §3.2.2(a)) | `k : P.characteristicVectors`; orbits `P.characteristicOrbits` | cubical degree `q` only | `PlumbingGraph.blowUpVertex`, `PlumbingGraph.blowUpEdge` on negative-definite `P` | `m_k` (the `U`-tower) |
+
+The native row is the genus-zero, characteristic-two specialisation of the
+homological form of L.1 (Némethi Remark 3.4.3(a)) with free `𝔽₂[U]` rather than `T⁺`
+coefficients. Grading `U^j·c` by `−2(w(c)+j)`, its degree `−2n` part is the cellular
+chain complex of the sublevel cube complex `S_n = ⋃{c : w(c) ≤ n}` (Némethi
+§3.1.11), and `U` is induced by `S_n ⊂ S_{n+1}`; hence
+`P.latticeChainHomology k q ≅ ⊕ₙ H_q(S_n; 𝔽₂)` as `𝔽₂[U]`-modules. Némethi's proof
+of Proposition 3.4.2 gives homotopy equivalences `S_n(Γ',k') ≃ S_n(Γ,k)` compatible
+with these inclusions. The two headlines are therefore stated on the native carrier
+for a negative-definite `P` and every odd value `ε` on the exceptional class:
+`latticeChainHomology_blowUpVertex` (blow-up at a vertex, valence one) and
+`latticeChainHomology_blowUpEdge` (blow-up along an edge, valence two), each an
+isomorphism of `𝔽₂[U]`-modules in every cubical degree. Némethi's value is
+`ε = −1`, for which the blown-up weight is `χ_k(x) + s(s+1)/2` on `φ(x,s)`; any
+other odd `ε` lies in the same orbit after adding `2Q(mE_new)`, which changes
+`ε` by `−2m` and shifts every weight by a constant (Némethi Lemma 3.3.2), so the
+exponents of the differential, and the module, do not change.
 
 1. **Némethi cohomological weight-function model.** On the negative-definite
    decorated-graph domain of Némethi §§3.1–3.2, retain the source's characteristic
@@ -299,8 +393,9 @@ weight, and comparison domain before asserting an isomorphism.
    function `M^{g_v}` of the absolute endpoint change, not a free choice: for the
    oriented edge from `l` to `l+E_v`, set
    `w_K(l,[v]) = max(χ_K(l), χ_K(l+E_v)) + M^{g_v}(|χ_K(l+E_v)−χ_K(l)|)`.
-   Here `M^g` means precisely Némethi's function in §3.2.2 of arXiv:0709.0841v1;
-   use its definition and normalization. The weight of a positive-dimensional
+   Here `M^g(n)` is Némethi's function of §3.2.1 (the largest `h¹` of a line bundle
+   of holomorphic Euler characteristic `n` on a genus-`g` curve; `M⁰ = 0`,
+   `M¹(0) = 1`, `M¹(n) = 0` for `n ≥ 1`, §3.2.2). The weight of a positive-dimensional
    cube is the maximum of its one-dimensional edge weights; vertices retain `χ_K`.
    This fixes the graph, surface labels, characteristic sector, support and weight,
    including the genus-one `(-1)` regression. It does not replace this edge weight
@@ -350,21 +445,19 @@ weight, and comparison domain before asserting an isomorphism.
    supplied with an explicit degree rule (including any reversal/shift), support or
    completion, coefficient action, characteristic-label map, and chain/cochain
    compatibility equation. If that comparison needs an intermediate completed dual,
-   name its carrier and both maps; do not invent a direct isomorphism. The R2c
-   comparison target must state its own actual carrier, the maps from each model,
-   and the chain-map/quasi-isomorphism or chain-homotopy-inverse theorem it proves.
-   Keep the source augmentation/reduced map in the diagram. On graphs outside
+   name its carrier and both maps; do not invent a direct isomorphism. Keep the
+   source augmentation/reduced map in the diagram. On graphs outside
    Némethi's domain, retain the integral model without claiming Némethi invariance.
    For the singular-form coordinate map `K=k+2Qx`, specify the characteristic orbit
    or prove a different comparison; it need not be onto all characteristic covectors.
 
-   R2c consumes **both** the named integral chain complex and, on its exact source
-   domain, Némethi's tower-valued cochain complex, together with these explicit
-   comparison data and characteristic labels. R2c must construct the surgery presentation,
-   signed/higher maps, coefficient and `Spin^c` data, completion/derived bridges, and
-   the exact theorem supported by those bridges. The source's restricted graph-move
-   result remains only the genus-zero `(-1)`-vertex blow-up/down of valence at most
-   two; any broader move invariance is a separate target.
+   This lane supplies the integral chain complex, Némethi's cochain complex on its
+   source domain, and the comparison data and characteristic labels above to the
+   lattice reconciliation (item 2 of the Reconciliations section of the
+   [Heegaard Floer roadmap](../HeegaardFloer/README.md)); the surgery presentation, higher maps and
+   completion arguments belong to that reconciliation. The source's graph-move
+   result is only the genus-zero `(-1)`-vertex blow-up/down of valence at most two;
+   any broader move invariance is a separate target.
 
 The Némethi-to-`[K,E]` comparison is a third, separate theorem on the exact overlap
 of its hypotheses. It must state whether it compares source cohomology with a dual or
@@ -390,12 +483,14 @@ giving `H₀=H₁=𝔽₂[U]`. The source's completed characteristic version has
 in both degrees. These are different carriers/support conventions, not an
 isomorphism. Keep this regression and prove each comparison on its own domain.
 
-For the spherical completed mod-2 comparison and the separate extension interfaces,
-consume [HeegaardFloer Reconciliation 2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f42fce12bc28a47dc3c23650a36f92738ac63ea1/TauCetiRoadmap/HeegaardFloer/README.md#L2897-L2972),
-which assigns the completed carrier, surgery and comparison constructions. The
-source-backed completed mod-2 theorem has scope spherical plumbing
-trees with the stated boundary hypotheses. The present lane supplies the concrete
-lattice complex and naturality data. Before using the theorem, establish the
+The comparison of lattice homology with `HF⁻` is the lattice reconciliation of the
+analytic roadmap (item 2 of the Reconciliations section of the
+[Heegaard Floer roadmap](../HeegaardFloer/README.md)), which is downstream of this lane: Lane L is its input and
+uses none of its results. The source-backed completed mod-2 theorem (Zemke, Theorem 1.1)
+has scope plumbing trees of spheres, completed `𝔽[[U]]` coefficients, and a
+relative grading when `b₁ = 0`; any statement of that reconciliation beyond this
+scope is not supported by the source. The present lane supplies the concrete
+lattice complex and naturality data. Before the theorem is applied, establish the
 coefficient-change chain map, the precise completion (direct sum, restricted
 product, or full product), its support/topology, and the derived/UCT/limit
 hypotheses. Neither an infinite product nor its homology is silently an algebraic
@@ -406,7 +501,10 @@ there is no reverse analytic dependency here.
 
 For the negative-definite nonsingular rational-homology-sphere case, give the
 source-normalized correction-term formula only with its orientation, boundary
-`Spin^c`, grading, and sign conventions. State whether the input is the Némethi
+`Spin^c`, grading, and sign conventions. On that domain `k²` is defined through
+`Q⁻¹`, and `(k+2l)² = k² − 8χ_k(l)` (Némethi §3.3) gives the lattice-side identity
+`max_{k'∈[k]} (k'²+|V|)/4 = (k²+|V|)/4 − 2m_k`; its identification with the
+Heegaard Floer `d`-invariant belongs to the reconciliation. State whether the input is the Némethi
 minimum or full-complex grading and supply the comparison theorem before identifying
 them. A minimum of a quadratic weight on an arbitrary integral matrix is not by
 itself a correction-term formula.
@@ -459,6 +557,17 @@ Concrete checks that rule out vacuous or mis-stated definitions:
   `[K,E]` model, with the stated characteristic sector, coefficient ring, grading,
   orientation and comparison. Do not treat agreement in one degree/model as the
   other comparison.
+- **Blow-up invariance bites:** for `oneVertexPlumbing w` with `w < 0` both sides of
+  `latticeChainHomology_blowUpVertex` are `𝔽₂[U]` in cubical degree `0` and zero in
+  higher degrees (Tau Ceti's one-vertex computation on one side, the two-vertex chain
+  with framings `w−1, −1` on the other); the values `ε = 1` and `ε = −1` give the same
+  module. Negative control: the zero-framed vertex is not negative definite, its
+  native homology is `H₀ = 𝔽₂[U]`, `H₁ = 0`, and the headline does not apply to it.
+- **τ is a knot invariant:** every unknot grid has `τ = 0`; the grids `torusLink 1 2`
+  (`5 × 5`) and `torusLink 2 1` both present the `(2,3)` torus knot, and
+  `GridDiagram.two_mul_tau_torusLink` (symmetric in `p, q`) gives `τ = −1` for both,
+  as `tau_eq_of_movesTo` requires; `torusLink 2 3` presents the `(3,4)` torus knot
+  with `τ = −3`, so it is related to neither by grid moves.
 - **Seifert-fibered computations:** for normalized data `(g₀,b;(α₁,β₁),…,(αᵣ,βᵣ))`
   with `αᵢ>βᵢ>0`, `gcd(αᵢ,βᵢ)=1`, choose and retain this plumbing convention:
   write the unique negative continued fraction
@@ -478,8 +587,8 @@ Concrete checks that rule out vacuous or mis-stated definitions:
   are established. Compare degree-zero Némethi and full spherical `[K,E]` outputs
   only on their common genus-zero hypotheses and after proving the comparison. For
   positive-base-genus or other Seifert cases, retain the central surface-genus
-  decoration, use the L.3 graph/surface **chain** model and its distinct R2c
-  cochain/comparison inputs; do not infer the spherical-tree theorem. These remain
+  decoration, use the L.3 graph/surface **chain** model and, on Némethi's domain, the
+  L.1 cochains; do not infer the spherical-tree theorem. These remain
   assigned computations, not established formulas.
 - **`HF̂_st` computes:** lens spaces give `𝔽^p` (one generator per spin^c
   structure); `S¹ × S²` exercises weak admissibility.
