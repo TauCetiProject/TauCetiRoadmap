@@ -461,7 +461,7 @@ This is a separate construction branch in this owner. It consumes the current
 contracts from [IntegralLattices](../IntegralLattices/README.md), the finite
 root-system realizations/classification from [Root Systems](../RepresentationTheory/RootSystems/README.md),
 and the ADE root-lattice/norm-two-shell bridge owned by
-[ReductiveGroups RG9A.1a](../ReductiveGroups/README.md),
+[ReductiveGroups, Layer 9 §9A.1a](../ReductiveGroups/README.md),
 together with the actual signed Lie carrier and bracket in
 [`ReductiveGroups/SignedADETargets.lean`](../ReductiveGroups/SignedADETargets.lean).
 It reuses the actual `HVertexOperator`/Hahn-series coefficient carrier and the
@@ -753,7 +753,7 @@ the Borcherds central-extension Lie construction, norm-two lifts, and
 bracket/Jacobi checks. They do not establish the full lattice VOA construction
 specified in C7. Keep the attributed wording and the source records'
 transcription uncertainties; do not recast them as proof or as the author's
-chosen method. C7 does not change the independent order of RG9A signed Jacobi
+chosen method. C7 does not change the independent order of ReductiveGroups §9A signed Jacobi
 and subsequent folding work.
 
 ## A7. Vacuum center and proof prerequisites
@@ -997,7 +997,7 @@ they do not replace them.
 A1→A2→A3→A4→A5 constructs completion/category comparison independently
 of centers. A5→A6→A7→A8 supplies center proofs. C7 is a separate branch from
 finite positive even lattices, consuming the A6 field/coefficient interface and
-IntegralLattices, RootSystems and SignedADE; it does not feed A1–A8, RG9A
+IntegralLattices, RootSystems and SignedADE; it does not feed A1–A8, ReductiveGroups §9A
 Jacobi, or folding. Independent formal loop/DS suppliers feed A2/A3/A7/A8 and
 do not consume Feigin–Frenkel. Every listed
 Whitehead, free-field, invariant-jet and completion prerequisite is a target.
@@ -1009,13 +1009,15 @@ separately owned precise **conjecture statement**, not an unconditional
 categorical-lift or global Langlands theorem requested here.
 
 - [Bakalov–Kac, *Twisted Modules over Lattice Vertex Algebras*](https://arxiv.org/html/math/0402315),
-  §2.2 Definition2.1 for operator translation as an axiom and the separate
-  state-derivative consequence, and §4.1 Theorem4.1 for the lattice generators
-  and translation identities. C7 retains its positive even-lattice restriction;
+  §2.2 Definition 2.1, equation (2.14), for operator translation covariance as
+  an axiom, and equation (2.17) for the state-derivative identity as its
+  consequence; §4.1 Theorem 4.1 for the lattice generators and equation (4.15)
+  for the translation identities `[T,h(m)]=−m h(m−1)` and `Te^α=α(−1)e^α`. C7 retains its positive even-lattice restriction;
   it does not introduce the odd-lattice super case.
 - [Kac, *Introduction to vertex algebras, Poisson vertex algebras, and integrable Hamiltonian PDE*](https://arxiv.org/abs/1512.00821),
-  §1.1 reconstruction: prove generator covariance before applying the
-  reconstruction theorem. The lattice coefficient and finite-tail contracts
+  §1.1 Theorem 1.1 (extension theorem), whose hypothesis (ii) is translation
+  covariance of the generating fields: prove generator covariance before
+  applying reconstruction. The lattice coefficient and finite-tail contracts
   above specify the construction required here.
 - [Frenkel, *Langlands Correspondence for Loop Groups*](https://math.berkeley.edu/~frenkel/loop.pdf),
   §1.3 continuous cohomology/integration, §2.1 and §3.2 left-ideal completion,
