@@ -357,6 +357,37 @@ type-1 highest-weight module and a highest vector `v_λ`. Define
 prove stability under every divided power and toral binomial. Prove base
 change gives an action of `U_R` for every commutative `A`-algebra `R`.
 
+**Integral specialization at1.** Put `ε₁:A→ℤ`, `v↦1`, and use the
+resulting identification `A/(v−1)≃ℤ`. Write `U₁=ℤ⊗_A U_A` and
+`V₁(λ)=ℤ⊗_A V_A(λ)`. Prove that every `K_μ` acts as1 on V₁,
+so its action factors through QEA3's full-Y Kostant quotient
+`U₁/(K_μ−1:μ∈Y)≃U_ℤ`. Keep the X-labelled weight decomposition:
+this trivial torus action does not identify distinct integral weights.
+
+Use the highest-vector-generated lattice
+`V_ℤ(λ)=U_ℤ·v_λ^cl` of
+[ReductiveGroups9A.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f536cbdd838fbcab0c7a88ba523382c56a57c397/TauCetiRoadmap/ReductiveGroups/README.md#9a-the-full-reductive-integral-enveloping-form)
+in the corresponding rational classical highest-weight module. Construct the
+U_ℤ-module isomorphism `Φ_λ:V₁(λ)≃V_ℤ(λ)` taking `1⊗v_λ` to
+`v_λ^cl`. Its value on any negative divided-power word on the highest
+vector is the same word in the pinned classical divided powers. Prove that
+this prescription respects the integral relations, give its inverse, and
+prove uniqueness with this highest-vector normalization. Intertwine every
+simple E/F divided power and full-Y toral binomial, with
+`[K_y;0 choose m]` acting on the weight-ν piece at1 as
+`binom(⟨ν,y⟩,m)`. Prove the weight-piece restrictions are integral
+isomorphisms; an isomorphism after tensoring with ℚ or equality of characters
+alone does not identify these lattices.
+
+For every commutative ring B, base change Φ_λ to
+`B⊗_(A,ε₁) V_A(λ)≃B⊗_ℤ V_ℤ(λ)` and prove compatibility with ring
+maps and the specialized divided-power actions. The complex comparison of
+the course is this same map tensored with ℂ. After ReductiveGroups10B's
+rational group construction, compare the classical side with its integral
+Weyl module and its field specializations. In positive characteristic these
+are Weyl modules; their simple heads remain separate. Retain λ=0, the
+empty-root/central-character cases, and the full X,Y isogeny data.
+
 The generic type-1 highest-weight classification, character equality and
 integrable module/crystal comparison are downstream KM module-owner work.
 QEA supplies the algebra, Hopf, root operators, divided powers and lattice
