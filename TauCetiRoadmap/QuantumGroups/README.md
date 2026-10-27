@@ -67,6 +67,7 @@ do not replace the algebraic coaction with a private matrix-corepresentation
 carrier. The analytic free-module coaction is compared with that algebraic API
 on the coefficient core.
 
+Apart from Q1.ClassicalMultipliers' classical locally compact group example,
 Q1–Q7 concern compact symmetry. Q8 is the algebraic generic-rank-one lane,
 with no C*-completion or Hilbert-space assumption in its classification.
 General locally compact quantum
@@ -76,6 +77,46 @@ multiplicative unitary needed for compact reduced completion. Quantum-group
 actions on general C*-algebras and their crossed products are not targets here.
 
 ## Q1. C*-bialgebras, cancellation and Haar integration
+
+**Q1.ClassicalMultipliers — the function algebra of a locally compact group.**
+For a locally compact Hausdorff group G, without compactness or countability
+assumptions, put `A=C₀(G,ℂ)`. Use CStarAlgebras C5's isometric tensor
+identification `A⊗min A≅C₀(G×G)` and C1's native double-centralizer
+identifications `M(C₀(X))≅C_b(X)`, with strict topology on bounded sets.
+Construct the nondegenerate star homomorphism
+`Δ:A→M(A⊗min A)`, `Δ(f)(g,h)=f(gh)`, from pullback by multiplication.
+Prove nondegeneracy by compact-set cutoffs, continuity, norm and star
+identities, and agreement with the indicated multiplier action on C₀(G×G).
+Construct `ε:A→ℂ`, `ε(f)=f(1)`, and the inclusion of constants
+`η:ℂ→M(A)`. Inversion is a proper homeomorphism, so its pullback is the
+isometric involutive star automorphism `S:A→A`, `S(f)(g)=f(g⁻¹)`;
+also give its multiplier extension to C_b(G).
+
+Construct Δ⊗id and id⊗Δ as nondegenerate maps from A⊗min A into
+M(A⊗min A⊗min A), with the native tensor associators. Extend them by C1's
+unique strict multiplier-map extension and prove
+`(Δ⊗id)̃∘Δ=(id⊗Δ)̃∘Δ`, by evaluation as
+`f((gh)k)=f(g(hk))`. Construct the nondegenerate slice maps
+`id⊗ε, ε⊗id:A⊗min A→A`; their multiplier extensions are evaluation
+at `(g,1)` and `(1,g)` on C_b(G×G). Prove both counit identities,
+with the canonical A→M(A) inclusion on the right.
+
+Make the inverse diagrams equally explicit. Diagonal restriction gives
+the nondegenerate star homomorphism
+`d:A⊗min A→A`, `d(a⊗b)=ab`; its multiplier extension is
+`d̃(H)(g)=H(g,g)`. Compose it with the tensor inversion maps to obtain
+`r₊(H)(g)=H(g,g⁻¹)` and `r₋(H)(g)=H(g⁻¹,g)` on C_b(G×G).
+Prove `r₊∘Δ=η∘ε=r₋∘Δ` and all tensor/pullback comparison diagrams.
+These compositions take values in M(A); the constant ε(f) need not lie
+in A when G is noncompact. On elementary tensors the formulas are
+`aS(b)` and `S(a)b`. Their extension here uses commutativity and the
+specified diagonal pullback; it does not posit a continuous multiplication
+star homomorphism from an arbitrary noncommutative C*-tensor product.
+For compact G compare these maps with Q1's unital function-algebra
+example. This supplies the classical multiplier diagrams of Rieffel main
+pp122–125 / archive 0210_001 pp20–23, including the distinction between
+counit ε and unit inclusion η, without a general locally compact
+quantum-group construction or Haar-weight target.
 
 Construct coassociative unital C*-bialgebras and their morphisms using the
 native star homomorphisms and the C5 minimal tensor functor. Develop tensor
