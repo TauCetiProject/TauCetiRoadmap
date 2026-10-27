@@ -155,6 +155,31 @@ Consume Tau Ceti's
   to keep the limit holomorphic. Make the chosen topology on `H(U)` explicit so the words
   "compact" and "closed" are unambiguous.
 
+### Limits of univalent maps and fixed normalizations
+
+For an open preconnected `Ω⊆ℂ`, a nontrivial filter `l`, and maps `F_i` eventually
+holomorphic and injective on Ω, consume `TauCeti.hurwitz_injOn` to prove that a
+`TendstoLocallyUniformlyOn F g l Ω` limit is injective on Ω or constant on Ω.
+Holomorphicity of the limit comes from GH0's locally uniform closure theorem.
+Both conclusions concern restriction to Ω. Keep the constant alternative:
+`F_n(z)=z/(n+1)` on the disc converges locally uniformly to zero.
+
+Export the two-point noncollapse criterion: if `a,b∈Ω` and `g(a)≠g(b)`, the limit
+is injective. In particular, for fixed distinct values u,v at fixed a,b, the family
+of injective holomorphic maps with `f(a)=u`, `f(b)=v` is closed in `H(Ω)` with
+GH0's compact-open topology. Point evaluations are continuous, so these values
+survive the limit; the Hurwitz dichotomy then excludes collapse. This is a
+closedness statement, without asserting local boundedness or compactness of
+that family. For derivative normalizations, use the compact-open convergence
+of derivatives before excluding a constant limit by a prescribed nonzero derivative.
+
+For the sequence-level two-point Rouché argument, use moving values
+`w_n=F_n(a)→g(a)`: on a small closed disc around b disjoint from a, compare
+`F_n-w_n` with `g-g(a)`. Injectivity makes the former zero-free there, and local
+uniform convergence plus the boundary minimum gives the contradiction if
+`g(b)=g(a)` and g is nonconstant. This does not require `F_n` to omit the fixed
+value `g(a)` on Ω. Consume L0's Rouché theorem and the isolated-zero theorem.
+
 ## L2 — Schwarz lemma and Poincaré geometry
 
 Keep the pseudo-hyperbolic expression
