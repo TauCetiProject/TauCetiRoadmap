@@ -396,7 +396,12 @@ instance `reflectsIsomorphisms_of_monadicRightAdjoint`. Dually
   categories.
 - **Asphericity of presheaves.** Totally aspherical categories are aspherical, and for a totally
   aspherical `A` the product of two weak equivalences of `Â` is one (Maltsiniotis 2005,
-  Propositions 1.6.1 and 2.1.3).
+  Propositions 1.6.1 and 2.1.3). *Check:* the converse fails. For a group `G ≠ 1` and `A = BG`
+  (one object) with `W = W∞`, `W_Â` consists of the isomorphisms, so it is stable under finite
+  products, yet `A` is not aspherical and `A/(★ × ★) → A/★ × A/★`, that is `BG → BG × BG`, is not
+  in `W∞`. So stability of `W_Â` under products does not give total asphericity, contrary to the
+  equivalence (c) ⇔ (g) of Cisinski 2006, Proposition 4.3.2; Cisinski confirms that (g) ⇒ (c)
+  needs a further hypothesis, for instance that `A` is a test category (MathOverflow 516223).
 - **Grothendieck's criterion.** If `A` is totally aspherical and `Â` has a separating aspherical
   interval, `A` is a strict test category (Maltsiniotis 2005, Proposition 1.6.8; restated as
   Maltsiniotis 2009, Theorem 2.6).
@@ -671,7 +676,7 @@ groupoid exists.
 This roadmap was written from the needs of the Grothendieck edition of the Montpellier fonds,
 whose Lean files contain hand-built fragments of Layers 1, 2, 7–9 and 11: fundamental localizers,
 `W₀`, `W₋₁`, the trivial localizer and the minimal one as an intersection (folder 114); the
-1-truncated model of weak equivalences of action groupoids (folder 118); Baues' axioms C1–C3,
+1-truncated model of weak equivalences of action groupoids, and the `BG` counterexample of the Check under « Asphericity of presheaves » (folder 118, pp. 33–35); Baues' axioms C1–C3,
 cofibrant replacement and Brown's factorization (folder 106); direct categories of models and
 non-singular presheaves (folders 104 and 76, detailed below); relative square rectification in a
 model category (folder 107). Those files are not prescriptive; the specification above is.
