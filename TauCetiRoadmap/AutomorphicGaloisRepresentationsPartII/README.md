@@ -2697,23 +2697,42 @@ SmoothRepresentationsOfLocalGroups SR.0 and SR.0d.
 For AHTW §2.2’s `U(n,n)` datum, auxiliary split `p≠ℓ`, algebraically closed complete `C/ℚ_p`,
 choose `p^(1/2)` in the coefficient field and a complete DVR `O` finite over
 `ℤ_ℓ[p^(1/2)]`. For a local Artinian `O`-algebra `Λ` with `ℓ` nilpotent, specialize
-`localShimuraTower` and `localShimuraCohomology` to every `b∈B(G,μ⁻¹)`, giving the
-minuscule local Shimura space of modifications `E_b⇢E₀` and its normalized compactly
-supported complex `RΓ_c(G,b,μ,Λ)`, with `localShimuraHeckeRealization` on the shared
-`BunG`, Newton strata, `DLisBunG` and `HeckeFunctor` carriers. Use their stratum
-equivalence, `j_b!`, `j₁*`, `T_{μ,C}` and base-change and ULA properties. Construct the
+`localShimuraTower` and `localShimuraCohomology` to every `b∈B(G,μ⁻¹)`. Inverting `α`
+turns the tower's trivial-to-`E_b` modifications of type `μ` into the modifications
+`E_b⇢E₀` of type `μ^∨=−w₀μ` in the convention of the Hecke stacks above; this is the local
+Shimura space of AHTW Remark 2.4.3, of meromorphy `μ` in the Scholze–Weinstein
+normalization of Schubert cells, and its normalized compactly supported complex is
+`RΓ_c(G,b,μ,Λ)`. AHTW's Hecke operator `T^AHTW_{μ,C}=Rh→_* h←*[d_μ]` on the stack of
+modifications `E₁⇢E₂` bounded by `μ` in that normalization runs from the `b`-stratum to the
+trivial one, whereas `T_{μ,C}` runs from the trivial stratum to `b`. Prove
+`ahtwHeckeOrientationAdapter`: on this datum AHTW's bounded Hecke stack, with the same
+labels `B(G,μ⁻¹)` and `b_μ`, is the present `Hck_{G,≤μ^∨}`, and `T^AHTW_{μ,C}≅T_{μ^∨,C}`
+for `T_{μ^∨}=T_{V_μ^∨}`, the right adjoint of `T_μ`, with the same shift
+`d=d_μ=⟨2ρ,μ⟩=⟨2ρ,μ^∨⟩`, the Tate twist of the normalized minuscule Satake kernel fixed by
+the chosen `p^(1/2)`, and compatibly with coefficient base change, ULA objects, the
+`W_{ℚ_p}`-action and the action of `Z_spec(G,O)`. Every AHTW formula below is read through
+this adapter, so `j₁* T_{μ^∨,C} j_b!` is the functor in the adjoint form of
+`localShimuraHeckeRealization`. Use the shared `BunG`, Newton strata, `DLisBunG` and
+`HeckeFunctor` carriers, their stratum equivalence, `j_b!`, `j₁*`, `T_{μ^∨,C}` and
+base-change and ULA properties. Construct the
 partial Igusa compactification and `V_b=RΓ_{c−∂}(Ig_b,Λ)`, with cohomology in `[0,d_b]`.
 Prove AHTW Theorem 2.4.2’s prime-to-`p` Hecke-equivariant Newton filtration of `RΓ_c` of the
 infinite `p`-level Shimura variety, with graded pieces
-`RΓ_{Kᵖ,b}=j₁* T_{μ,C}(j_b!(V_b[−d]))`, and identify these with
+`RΓ_{Kᵖ,b}=j₁* T_{μ^∨,C}(j_b!(V_b[−d]))`, and identify these with
 `RΓ_c(G,b,μ,Λ) ⊗ᴸ_{H(G_b)} V_b[2d_b]` in the source normalization. Retain coefficient and
 tame-level transition maps preserving the chosen `p^(1/2)`. All normalized local Shimura,
 Satake and spectral-centre constructions use this choice. This constructs every required `b`, including nonbasic classes.
-(Sources: AHTW, §§2.3.2 and 2.4, Theorems 2.4.1–2.4.2 and
-Remark 2.4.3, pp.14–16, 18–21.)
+(Sources: AHTW, §§2.3.2 and 2.4, Theorems 2.4.1–2.4.2, footnote 2 on p.19 and
+Remark 2.4.3, pp.14–16, 18–21; Fargues–Scholze, proof of Theorem IX.3.1, pp.324–325, for
+the adjunction between `T_μ` and `T_{μ^∨}`.)
 
 **Checks.**
 
+- For `G=G_m`, `μ=1` and `b=π⁻¹`, so `E_b=O(1)`, the functor `j_b* T_1 j₁!` is the
+  equivalence between the degree-`0` and degree-`1` strata, both `D(K^×,Λ)`, whereas
+  `j₁* T_1 j_b!=0` because `T_1` carries the degree-`1` stratum to degree `2`. The passage
+  from `b` back to the trivial stratum is `j₁* T_{−1} j_b!`, again that equivalence; this is
+  `T^AHTW_{1,C}` through `ahtwHeckeOrientationAdapter`.
 - At the `μ`-ordinary class the local factor is not a basic formal-module tower; its
   comparison must specialize to the parabolic-induction formula below.
 - A datum with a nonbasic `b` retains that Newton graded piece. Keeping only basic `b`
@@ -2769,8 +2788,8 @@ for this split local datum). For each Newton
 graded piece prove the two centre actions agree: `t₁ᵇ Ψ_G¹(z)=t_bᵇ Ψ_Gᵇ(z)` for all `z`,
 as endomorphisms of `RΓ_{Kᵖ,b}`. Construct `Δ_spec` with `Ψ_G^b(Δ_spec)=0` for `b≠b_μ` and
 hyperspecial Satake image `Ψ_G¹(Δ_spec)=MΔ`. Prove the `μ`-ordinary comparison
-`j₁* T_{μ,C} j_{b_μ}! ≃ Ind_{P_μ(ℚ_p)}^{G(ℚ_p)}[d]`, with the exact unnormalized
-induction of the source; its application to `V_{b_μ}[−d]` has amplitude `[0,d]`. Use local-local compatibility to exclude generic unramified spectral parameters on
+`j₁* T_{μ^∨,C} j_{b_μ}! ≃ Ind_{P_μ(ℚ_p)}^{G(ℚ_p)}[d]`, AHTW's formula for its `T_μ` read
+through `ahtwHeckeOrientationAdapter`, with the exact unnormalized induction of the source; its application to `V_{b_μ}[−d]` has amplitude `[0,d]`. Use local-local compatibility to exclude generic unramified spectral parameters on
 every nonordinary `G_b`, then integral reduced flat Bernstein centres and characteristic-zero
 evaluations to prove the vanishing integrally, rather than infer it from mod-`ℓ` support. These supply the centre
 compatibility and annihilation inputs for the quantitative theorem.
@@ -2785,6 +2804,12 @@ Proposition 2.4.7 and Lemmas 2.5.3–2.5.5, pp.16–17, 22–25.)
   `M`-torsion, although the rational generic locus sees no such torsion.
 - Changing `Λ` over `O`, with the chosen `p^(1/2)` preserved, preserves the equality of the two centre actions and the integral zero
   operators. Agreement after rationalization alone would not justify a torsion annihilator.
+- On a split factor `GL_{2n}` with `μ=(1^n,0^n)`, every `b∈B(GL_{2n},μ⁻¹)` has `κ(b)=−n`,
+  and `b_μ` is represented by `diag(p⁻¹,…,p⁻¹,1,…,1)` with `n` entries `p⁻¹`, so
+  `E_{b_μ}=O(1)^n⊕O^n` and `G_{b_μ}=GL_n×GL_n=M_μ`. Since `T_μ` changes `κ` by `−n`,
+  `j₁* T_μ j_{b_μ}!=0`; `T_{μ^∨}` changes it by `+n` and reaches `κ=0`, and
+  `j₁* T_{μ^∨,C} j_{b_μ}!` sends the trivial character of `M_μ(ℚ_p)` to
+  `Ind_{P_μ(ℚ_p)}^{GL_{2n}(ℚ_p)} 𝟙[n²]`, nonzero since it contains the constants; here `d_μ=n²`.
 
 *Needs:* AG2.6: spectral/classical local compatibility; AG2.6: local Shimura complexes;
 geometric spectral action;
