@@ -64,6 +64,28 @@ factorization. Define holonomic prolongation `j^r s`, prove its local chain rule
 and restriction identities, and characterize the contact ideal by its pullback
 vanishing on every prolonged local section, with the required raised jet stage.
 
+For the real/complex field correspondence, use a native complex module Φ
+with `StarAddMonoid Φ` and `StarModule ℂ Φ` for the conjugate-linear
+involution. Its real form is the existing `selfAdjoint Φ`, with its
+ℝ-module structure, rather than a new fixed-point carrier. Consume native
+`realPart`, `imaginaryPart` and `realPart_add_I_smul_imaginaryPart`.
+Construct the complex-linear equivalence
+`ℂ⊗[ℝ](selfAdjoint Φ)≃ₗ[ℂ]Φ`, z⊗v↦z•v,
+with inverse `x↦1⊗realPart(x)+i⊗imaginaryPart(x)`.
+Prove both inverse identities and naturality for every complex-linear map
+commuting with star. Conversely equip ℂ⊗[ℝ]W with conjugation on the first
+factor and prove w↦1⊗w identifies W with its fixed real part. Construct the
+two functors on real modules and complex modules with the stated involutions,
+and prove the natural unit/counit and triangle identities. These give the
+source's equivalence of categories; they do not assert literal equality of
+carriers or require a chosen Hermitian metric. Restrict to finite-dimensional
+objects and prove `finrank ℝ (selfAdjoint Φ)=finrank ℂ Φ`, including Φ=0.
+Transport this correspondence to the polynomial field-jet model: extend the
+involution to coefficients and jet generators, prove it commutes with total
+derivatives, and compare real fields and conjugate-paired complex fields
+under evaluation. Suggested forms for the native scalar-extension and
+dimension interfaces are in [RealFieldsSuggested.lean](RealFieldsSuggested.lean).
+
 Build the finite-stage field algebra, horizontal/contact forms, symmetric-index operations, pullback maps, and a locally finite-order sheaf via sheafification of the filtered presheaf. Prove bounded order on compact subsets of E with the specified neighborhood hypothesis, restriction, coordinate-change, and product compatibility. Define the prolongation of sections and prove jet-surjectivity: for each `z∈J^k_xE` a local smooth section has jet z (using a trivialization and a polynomial with a bump function). Define the stagewise differentials above and prove transition compatibility, bicomplex identities, and finite stage-order estimates. Include the polynomial model using either `MvPolynomial` over the full indexed family of field-jet variables or explicit stage algebras with transition maps: a fixed finite variable set is not closed under total derivatives. Define total derivatives as derivations raising the stage, then construct the polynomial Kähler differentials and the exterior/de Rham complex as an LVF-owned layer (Mathlib’s Kähler differential carrier alone is not a de Rham complex). Map polynomial expressions into the smooth jet algebra and state precisely which identities are preserved. This is a model, not an equality of polynomial and smooth theories.
 
 **LVF1.SourcePolynomialComparison — real form, formal series and the course's two differentials.** In the source's affine-base polynomial model, Φ is the finite-dimensional complex space of **field generators**, with conjugate-linear involution c. Put W=fix(c). A real classical field is a real-linear evaluation `W→C∞(ℝ^d,ℝ)`, equivalently a section of `ℝ^d×W*`; it is not a W-valued field under this generator convention. Fix complex coefficients for the source algebra: use `Sym_ℂ(⊕_(0≤k≤r) Sym^k(T_ℂ)⊗Φ)` at jet order r, where T is the constant translation space, and compare it with the complexification of the real polynomial algebra on the dual of the real W*-valued jet space. The symmetric differential-operator generators act by total derivations, not as extra scalar coefficients. All these tensors are over the stated scalar field.
