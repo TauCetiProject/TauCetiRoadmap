@@ -14,60 +14,20 @@ Brumer's exact integral and residual global dimensions (§0.11),
 the rational global dimension (§0.12), and the canonical and saturated Ore theorems (§§1.7, 1.10).
 They use Tau Ceti's completed group algebra, Mathlib's projective dimension and Ore sets, and
 concrete group predicates. Coefficients are finite free discrete valuation algebras over ℤ_p,
-including ramified integer rings. No absence of p-torsion is assumed in the Ore theorems.
+including ramified integer rings. The rational dimension statement and the Ore theorems
+assume no absence of p-torsion.
 
-The later headline statements require objects absent from the pins:
+The later headline statements are README targets, because their objects are absent from the pins:
 
-* Boundary surjectivity (§2.15) needs ring K₁ and the relative K₀ of the Ore localization.
-* The evaluation–Euler characteristic formula (§3.6) needs characteristic elements, Artin
-  evaluation and compact completed group homology.
-* Perfection and base change of the arithmetic complexes (§§4.5–4.7), the normalized main
-  conjectures (Layer 5), and the Kakde and Ritter–Weiss results (§§6.15, 6.30, 6.34–6.35) need
-  those K-groups, the congruence groups and the arithmetic Iwasawa complexes and zeta functions.
-* The elliptic local-condition comparison (§4.1) needs arithmetic Kummer and ordinary
-  cohomology, including their finite quotient at primes above p. Good ordinary reduction
-  gives equality at finite local fields precisely when the reduction has no p-torsion.
-* The abelian minus theorem (§6.36) uses IntegralIwasawaTheory's arithmetic Selmer carrier,
-  its inversion twist, compatible restriction maps and the equivariant zeta element.
-  Its p-local smoothing comparison uses vanishing of smoothed-unit p-primary torsion
-  at every layer;
-  a generic commutative Fitting ideal does not supply these arithmetic objects.
-* The leading-term interpolation formulas (§§7.13–7.14, 7.18) and height comparison (§7.17)
-  need the arithmetic Selmer complexes, Picard-valued determinants, Bockstein trivializations,
-  periods and regulators. Generic continuous-cohomology Bocksteins do not supply these objects.
-* Denominator-corrected Fitting annihilation (§7.23) needs noncommutative Fitting orders,
-  reduced norms, maximal Fitting invariants and their denominator ideals.
-* The compact derived Hochschild–Serre comparison with coherent quotient action and the
-  countable-tower Milnor sequence (§F.3) need the derived coefficient-limit realization and
-  quotient-equivariant resolutions on the supplied continuous cochain carrier.
-* The shared Hilbert families, their full and cuspidal Hecke images, and ordinary control
-  (§F.5) need the classical ideal-coefficient dictionary and ordinary tower. Both Hecke images
-  include the good-prime operators and every level-dividing U operator, including tame primes.
-  Coefficient recovery at every nonzero ideal and compatibility with restriction, the projector,
-  tower moment maps and specialization use this full action; the projector uses only primes
-  above p. Full perfect
-  first-coefficient duality uses the positive-coefficient lattice, whose standard constants
-  may be fractional. The standard-constant-integral sublattice has the restricted pairing;
-  its cokernel is the image of the standard constants modulo the weight algebra. The tower
-  comparisons preserve both lattices and their specialization exact sequence. Normalized
-  Eisenstein families lie in the ordinary positive-coefficient lattice. Their specified
-  weight-dependent clearing factor places them in the standard-constant-integral sublattice,
-  retaining the fractional specialization domain. The
-  Leopoldt descent theorem (§7.10) uses actual finite-dimensional characters and multiplicity
-  spaces. The general period-boundary and exponential prefix (§F.6)
-  needs topological period sequences and continuous cochains. Its quotient-period boundary has
-  image H¹_e for every continuous representation; the exponential on de Rham periods has image
-  the common kernel of the maps to B_e and B_dR⁺ cohomology. These constructions are natural in
-  morphisms of representations. Identifying quotient periods with the de Rham tangent space
-  requires the de Rham hypothesis; a nonsplit extension of ℚ_p(1) by ℚ_p has zero exponential
-  but nonzero H¹_e. These statements require the missing period and cochain constructions. The
-  independent period-realization prefix, including filtered Galois descent and nilpotence of
-  period-ring monodromy, needs the semistable period invariants and raw Weil–Deligne carrier.
-  The differential branch needs the Robba and étale prefix, including
-  extension of overconvergent Frobenius lifts with radius estimates, then the slope and
-  monodromy prefix and the embedded de Rham lattice.
-
-These results are not stated here. Their missing constructions are specified in the README.
+* boundary surjectivity (§2.15): ring K₁ and the relative K₀ of the Ore localization;
+* the evaluation–Euler characteristic formula (§3.6): characteristic elements and Artin evaluation;
+* the arithmetic complexes and main conjectures (Layers 4–5, §§6.15, 6.30, 6.34–6.36):
+  arithmetic Iwasawa and Selmer complexes, congruence groups and p-adic zeta functions;
+* the interpolation formulas and heights (§§7.13–7.18): Picard-valued determinants,
+  Bockstein trivializations, periods and regulators;
+* Fitting annihilation (§7.23): noncommutative Fitting orders and reduced norms;
+* the foundations §§F.3–F.6: continuous arithmetic cochains, Hilbert modular families,
+  period rings with their realizations, and Robba rings.
 -/
 
 namespace TauCeti.NoncommIwasawa
@@ -150,9 +110,9 @@ theorem brumer_gldim (hG : IsCompactPAdicAnalytic p G)
 open scoped TensorProduct
 
 /-- The rational dimension theorem (§0.12), on the bounded-denominator scalar extension,
-with both left and right global dimension equal to the group dimension. -/
+with both left and right global dimension equal to the group dimension, for every compact
+analytic group, `p`-torsion allowed. -/
 theorem rationalIwasawa_gldim (hG : IsCompactPAdicAnalytic p G)
-    (hpTorsion : ∀ g : G, g ^ p = 1 → g = 1)
     (U : OpenNormalSubgroup G) (hU : IsUniform p U.toSubgroup) :
     (⨆ M : ModuleCat.{u} (FractionRing O ⊗[O] completedGroupAlgebra O G),
       CategoryTheory.projectiveDimension M) =
