@@ -662,6 +662,81 @@ Definition9 and Theorem14. Prove the finite-word construction, general
 operator estimate and unique-trace corollary specified here; the source's
 self-adjoint ideal proof alone does not substitute for those interfaces.
 
+**D2.SequenceToeplitz — an asymmetric sequence algebra and its crossed product.**
+Inside native `lp (fun _ : ℤ=>ℂ) ∞` construct the closed nonunital
+star subalgebra
+`C₊={f:lim_(n→−∞)f(n)=0 and lim_(n→+∞)f(n) exists in ℂ}`,
+with its supremum norm. Pin translation to `α_k(f)(n)=f(n−k)`.
+Give the limit character ℓ₊, its kernel c₀(ℤ), and the equivariant exact
+sequence `0→c₀(ℤ)→C₊→ℂ→0`, with trivial action on ℂ.
+Let `B=C₊⋊αℤ`. Use D1's full exactness and D2's amenable full/reduced
+comparison to construct
+`0→K(ℓ²(ℤ))→B→C(𝕋)→0`.
+In the concrete covariant representation on ℓ²(ℤ), let M_f be diagonal
+multiplication and `Ue_n=e_(n+1)`. Prove this representation faithful,
+using its circle gauge action and faithful conditional expectation, and
+identify the ideal by the explicit matrix units `M_(δ_i) U^(i−j)`.
+For finite integrated sums the quotient map is
+`q(Σ_k M_(f_k)U^k)(z)=Σ_k ℓ₊(f_k)z^k`; prove its continuous extension,
+surjectivity and exact kernel.
+
+Classify all nonzero irreducible representations of B: the faithful
+representation on ℓ²(ℤ), and the characters `ev_z∘q`, z∈𝕋.
+Prove completeness by restricting an irreducible to the compact ideal:
+if nonzero it is its unique standard irreducible representation and
+extends uniquely; otherwise it factors through C(𝕋).
+Give the primitive kernels and hull–kernel topology explicitly. Writing
+η for the faithful kernel 0, the underlying set is `{η}∪𝕋`; its open
+sets are ∅ and `{η}∪O` with O open in 𝕋, including O=∅.
+Thus η is open and dense and the circle is closed with its usual topology.
+Classify all closed ideals from these opens, with their quotient maps.
+Prove B is type I by splitting each factor representation according to
+the support of its compact ideal: the nonzero support gives a compact
+operator amplification, and the zero-support case factors through the
+commutative quotient. Prove B is not CCR, since its faithful irreducible
+image contains the infinite-rank diagonal projection
+`e=M_(1_[0,∞))`.
+
+Prove e is a full projection of B and identify the full corner eBe with
+CStarAlgebras C8's concrete Toeplitz algebra on ℓ²(ℕ), by
+`eUe↦S`, where S is the forward unilateral shift. Show the diagonal
+coefficients restricted to ℕ are convergent sequences, recover their
+finite-rank diagonal parts from `S^n(1−SS*)S*^n`, and prove both corner
+inclusions. Match `eK(ℓ²(ℤ))e` with K(ℓ²(ℕ)), q(e)=1 and the symbol
+of S with z, so the corner extension is exactly C8's Toeplitz extension.
+Deduce its faithful representation and circle of character representations,
+the same generic-point-plus-circle primitive topology, and type I but
+non-CCR status. For an arbitrary nondegenerate representation prove the
+finite sums of rank-one diagonal projections converge strongly to the
+support of the compact ideal; the orthogonal complement is the quotient
+representation, on which S is unitary. They need not converge to I.
+
+These models give the specified mathematics of Rieffel main pp140–142 /
+archive 0210_026 pp13–15. Preserve their single-additional-irrep and
+two-point-spectrum claims, and the withdrawn sum-of-projections argument,
+as source errors. Main p138 / archive 0210_026 p11 has conflicting
+coefficient-algebra readings and an unjustified singleton-projection/unit
+identification; this model does not resolve that original-input ambiguity.
+
+**D2.SaddleFlow — the orbit topology of a diagonal real flow.**
+For the continuous action `t·(x,y)=(exp(t)x,exp(−t)y)` of ℝ on ℝ²,
+classify orbits and compute the quotient topology directly. The nonaxis
+orbits are the four quadrant branches indexed by `r=|xy|>0`;
+each is closed. The remaining orbits are the four open half-axes and the
+origin. Each half-axis orbit has closure equal to itself together with
+the origin. On each quadrant family use the usual topology on r>0.
+At a half-axis give a neighborhood basis consisting of that half-axis
+point and the intervals `0<r<ε` in its two adjacent quadrant families;
+these neighborhoods exclude the origin. At the origin give a basis
+consisting of the origin, all four half-axis points and `0<r<ε` in
+all four quadrant families. Prove these bases from saturated open sets
+in ℝ². Deduce T₀, failure of T₁ and failure of Hausdorffness.
+In the Rieffel main p137 / archive 0210_026 p10 comparison, preserve the
+source's reversed neighborhood-containment assertions separately; an
+arbitrary neighborhood of a half-axis need not contain the origin or a
+fixed nonzero hyperbola orbit. This target computes the orbit space,
+without identifying it with a crossed-product primitive space.
+
 ## D3. Induction and imprimitivity
 
 For a closed subgroup H and an H-algebra `(D,β)`, construct
@@ -710,6 +785,33 @@ change-of-variable and orbit-space APIs and derive Green's general theorem
 as the specialization P=G. Preserve the actual Haar factors in the dense
 module formulae when identifying this construction with H3's abstract
 linking-algebra theory.
+
+**D3.LCAWeyl — translation covariance and the general LCA Weyl dictionary.**
+For every locally compact Hausdorff abelian G, use V11's compact-open
+Pontryagin dual, positive-character Fourier transform and evaluation
+biduality. With `α_s(f)(t)=f(s⁻¹t)`, prove the equivalence between
+nondegenerate covariant pairs `(π,U)` for `(C₀(G),G,α)` and pairs of
+strongly continuous unitary representations U of G and V of its dual
+satisfying `U_s V_χ U_s*=conjugate(χ(s)) V_χ`. Extend π to multipliers and
+set `V_χ=π̃(t↦χ(t))`. Conversely integrate V to C*(Ĝ), use its Fourier
+isomorphism with C₀(G) sending the canonical multiplier at χ to
+`t↦χ(t)`, and prove nondegeneracy, covariance and both inverse laws.
+Compare the integrated Fourier formula with V11's positive-character
+convention, including the dual Haar normalization. Prove compatibility
+with bounded intertwiners, unitary equivalence and Hilbert direct sums.
+Replacing V_χ by V_(χ⁻¹) gives the alternative commutator χ(s); explicitly
+track this change when comparing Rieffel main p66 / archive 0209_001 p17,
+whose real exponential and final abstract pairing displays use opposite
+signs. No assertion about differentiating unbounded generators is needed.
+
+Through D3's explicit `C₀(G)⋊ltG≅K(L²G)` prove that every such
+nondegenerate Weyl pair is a multiplicity amplification of the Schrödinger
+pair `U_sξ(t)=ξ(s⁻¹t)`, `V_χξ(t)=χ(t)ξ(t)` on L²(G). Construct the
+intertwining unitary and its multiplicity space using rank-one operators;
+allow arbitrary Hilbert multiplicity and zero multiplicity. The nonzero
+irreducible pair has multiplicity one and is unique up to unitary
+equivalence. This uses the representation theory of compact operators,
+not a finite-dimensional real-space restriction of Stone–von Neumann.
 
 ## D4. Dual actions and Takai duality
 
