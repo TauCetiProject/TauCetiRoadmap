@@ -337,12 +337,13 @@ relationships are in §[Coordination](#coordination).
   and places are `TauCeti.IsFunctionField` (`TauCeti/FieldTheory/FunctionField/Basic.lean`)
   and `TauCeti.Place` (`TauCeti/FieldTheory/FunctionField/Place/Basic.lean`, with the
   inverse-order and valuation/order lemmas used by Layer 2's pole fibre); Layer 8's
-  perfect-field separating element is
-  `TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`
-  (`TauCeti/FieldTheory/FunctionField/SeparablyGenerated.lean`, Prop. 3.10.2); Layer 10's
+  perfect-field separating element is the theorem
+  `exists_transcendental_and_isSeparable_adjoin_of_perfectField` of namespace
+  `TauCeti.IsFunctionField` (`TauCeti/FieldTheory/FunctionField/SeparablyGenerated.lean`,
+  Prop. 3.10.2); Layer 10's
   Weierstrass equation over arbitrary exact constants, without a discriminant condition,
-  is `TauCeti.Place.exists_isWeierstrassCoordinates_of_genus_eq_one`
-  (`TauCeti/FieldTheory/FunctionField/Elliptic/WeierstrassEquation.lean`). New targets
+  is the theorem `exists_isWeierstrassCoordinates_of_genus_eq_one` of namespace
+  `TauCeti.Place` (`TauCeti/FieldTheory/FunctionField/Elliptic/WeierstrassEquation.lean`). New targets
   are stated on these carriers, through a comparison with any differently spelled
   statement, never on a parallel copy.
 - **Adjacent, no mathematical overlap**: graph Riemann–Roch (Baker–Norine, sorry-free
@@ -398,7 +399,7 @@ beyond `Field`; the full-constant-field assumption enters only at §1.4 — mirr
   `y : F` works as a variable (Rem. 1.1.2; consume
   `FunctionField.finiteDimensional_of_adjoin_transcendental`); comparison with Mathlib's
   chosen-generator `FunctionField`; `IsFunctionField` ⟺ `Algebra.trdeg k F = 1` +
-  **`Algebra.EssFiniteType k F`**, equivalently
+  **`Algebra.EssFiniteType k F`** (`isFunctionField_iff_trdeg_eq_one`), equivalently
   `(⊤ : IntermediateField k F).FG` via `IntermediateField.fg_top_iff` (the missing
   trdeg bridge — `Algebra.FiniteType k F` is deliberately not used, since for a field
   carrier it would force an algebraic extension by Zariski's lemma); stability under
@@ -413,7 +414,7 @@ beyond `Field`; the full-constant-field assumption enters only at §1.4 — mirr
 - **Places.** The `Place k F` structure as pinned (normalized valuation, trivial on `k`);
   the valuation subring `𝒪_P` (Stichtenoth's Def. 1.1.4: `k ⊊ 𝒪 ⊊ F` with
   `z ∈ 𝒪 ∨ z⁻¹ ∈ 𝒪`) with its `IsLocalRing`/`ValuationRing` instances, maximal ideal,
-  uniformizers ("prime elements"); **`𝒪_P` is a DVR** (Thm. 1.1.6: `P` principal,
+  uniformizers ("prime elements"); **`𝒪_P` is a DVR** (`Place.isDiscreteValuationRing_integers`; Thm. 1.1.6: `P` principal,
   `z = tⁿu` uniquely; in Lean: `IsDiscreteValuationRing` — for a surjective
   `ℤᵐ⁰`-valuation this is direct; consume the pin's `Valuation.IsRankOneDiscrete` API and
   `valuationSubring_isDiscreteValuationRing`); `ord_P` with the mult/additive translation
@@ -422,7 +423,7 @@ beyond `Field`; the full-constant-field assumption enters only at §1.4 — mirr
   incl. triviality on `k`) ↔ valuation ring (Thm. 1.1.13, including (d): valuation rings
   are maximal proper subrings of `F`).
 - **Degrees.** The residue field `F_P` (Def. 1.1.14) as pinned; **`Module.Finite k F_P`**
-  with `1 ≤ deg P ≤ [F : k(x)]` for any `x` with `ord_P x ≠ 0` (Prop. 1.1.15; this is
+  (`Place.finite_residueField_and_degree_pos`) with `1 ≤ deg P ≤ [F : k(x)]` for any `x` with `ord_P x ≠ 0` (Prop. 1.1.15; this is
   where the Zariski-lemma-shaped gap in the pin is filled). Rational places
   (`deg P = 1`; Rem. 1.1.17: over algebraically closed `k` all places are rational) and
   the evaluation map `f ↦ f(P) ∈ F_P` for `f ∈ 𝒪_P` (Def. 1.1.14's residue map).
@@ -431,12 +432,13 @@ beyond `Field`; the full-constant-field assumption enters only at §1.4 — mirr
   `x ∈ F ∖ k̃` has a zero and a pole and `ℙ_F ≠ ∅` (Cor. 1.1.20); `k̃ = ⋂_P 𝒪_P`
   (constants are the everywhere-regular functions); distinct places give inequivalent
   valuations (consume the shape of `eq_of_valuation_isEquiv_valuation`).
-- **Weak approximation** (Thm. 1.3.1 — the *equality* form): for pairwise distinct
+- **Weak approximation** (`weak_approximation`; Thm. 1.3.1 — the *equality* form): for pairwise distinct
   places `P₁ … Pₙ`, targets `f₁ … fₙ ∈ F` and prescribed `r₁ … rₙ ∈ ℤ`, there is
   `f ∈ F` with `ord_{Pᵢ}(f − fᵢ) = rᵢ` for all `i`. Corollaries: finitely many places
   are independent; **every function field has infinitely many places** (Cor. 1.3.2);
   `∑ᵢ ord_{Pᵢ}(x) · deg Pᵢ ≤ [F : k(x)]` over zeros of `x` (Prop. 1.3.3), whence the
-  finiteness of zeros and poles (Cor. 1.3.4) consumed by Layer 3.
+  finiteness of zeros and poles (Cor. 1.3.4; `finite_setOf_valuation_ne_one`) consumed by
+  Layer 3.
 
 ### Layer 1: the rational function field
 
@@ -444,10 +446,10 @@ Stichtenoth I.2. The base case of everything, and the first acceptance suite.
 
 - **The places of `k(x)`.** In the normalized-place vocabulary: for each monic irreducible
   `p ∈ k[X]` the place `P_p` (via `(Polynomial.idealX)`-style `HeightOneSpectrum k[X]`
-  valuations) with `deg P_p = natDegree p` and residue field `k[X]/(p)` (Prop. 1.2.1(a));
+  valuations) with `deg P_p = natDegree p` and residue field `k[X]/(p)` (Prop. 1.2.1(a); `exists_place_of_irreducible`);
   the place at infinity `P_∞` (repackage `RatFunc.inftyValuation`;
   `v_∞ f = exp (intDegree f)`, `ord_∞ f = −intDegree f`, prime element `1/x`) with
-  `deg P_∞ = 1` (Prop. 1.2.1(c)); `k` is the exact constant field of `k(x)`
+  `deg P_∞ = 1` (Prop. 1.2.1(c); `exists_place_infty`); `k` is the exact constant field of `k(x)`
   (Prop. 1.2.1(d)); **these are all the places and they are distinct** (Thm. 1.2.2) —
   repackage the pin's Ostrowski `RatFunc.valuation_isEquiv_infty_or_adic` (its `Xor`
   under `IsRankOneDiscrete` + `IsTrivialOn` becomes a bijection
@@ -511,24 +513,29 @@ force (Stichtenoth's global assumption, declared at the head of §1.4).
 - **Divisors.** `Divisor k F` as pinned (Def. 1.4.1); degree hom; support, partial
   order, `⊔/⊓`, positive/negative parts. **Finiteness of zeros and poles** of `f ∈ Fˣ`
   (Cor. 1.3.4, via Prop. 1.3.3's bound `∑ ord · deg ≤ [F : k(f)]`); the principal
-  divisor hom `div : Fˣ → Divisor k F`, zero/pole divisors `(f)₀, (f)_∞`
+  divisor hom `div : Fˣ → Divisor k F`, with the predicate `Divisor.IsPrincipal` (`D` has
+  coefficients `ord_P f` for some `f ≠ 0`) and the subgroup `Divisor.principalSubgroup` it
+  generates; zero/pole divisors `(f)₀, (f)_∞`
   (Def. 1.4.2); `div f = 0 ↔ f ∈ kˣ` (exactness of constants entering here).
-- **The product formula.** `deg (div f) = 0`, via
+- **The product formula.** `deg (div f) = 0` (`Divisor.degree_eq_zero_of_isPrincipal`; it
+  needs no exact-constants hypothesis, by normalizing to `F/k̃`), via
   **`deg (f)₀ = deg (f)_∞ = [F : k(f)]`** for nonconstant `f` (Thm. 1.4.11) — the
   theorem that makes the degree map descend to the class group. Corollaries: `Cl(F)`
   (Def. 1.4.3), `Cl⁰(F)`, the degree exact sequence `0 → Cl⁰ → Cl → deg-image → 0`;
   linear equivalence preserves `deg` and `ℓ` (Cor. 1.4.12(a)); a degree-0 divisor is
   principal iff `ℓ ≥ 1` iff `ℓ = 1` (Cor. 1.4.12(c)).
 - **Riemann–Roch spaces.** `L(D)` as pinned (Def. 1.4.4, Rem. 1.4.5); `L(A) ≅ L(A′)`
-  for `A ∼ A′` (Lemma 1.4.6); `L(0) = k` and `L(D) = 0` for `deg D < 0`
+  for `A ∼ A′` (Lemma 1.4.6); `L(0) = k` (`riemannRochSpace_zero`) and `L(D) = 0` for `deg D < 0`
   (Lemma 1.4.7, Cor. 1.4.12(b)); monotonicity `D ≤ D′ ⟹ L(D) ≤ L(D′)` with
   `dim (L(D′)/L(D)) ≤ deg D′ − deg D` (Lemma 1.4.8, the one-place-at-a-time estimate);
-  **finite-dimensionality** with `ℓ(D) ≤ deg D₊ + 1` (Prop. 1.4.9, Def. 1.4.10).
+  **finite-dimensionality** (`finiteDimensional_riemannRochSpace`, for arbitrary constant
+  fields) with `ℓ(D) ≤ deg D₊ + 1` (Prop. 1.4.9, Def. 1.4.10; the bound needs exact
+  constants).
 - **Riemann's theorem and the genus**: the quantity `deg D − ℓ(D)` is bounded above
   (Prop. 1.4.14); **the genus** `genus k F` as pinned (Def. 1.4.15:
   `g = max {deg A − ℓ(A) + 1}`; `sSup`, junk-guarded by 1.4.14), `g ≥ 0` (Cor. 1.4.16);
   **Riemann's theorem** (Thm. 1.4.17): `ℓ(D) ≥ deg D + 1 − g` for all `D`, with
-  equality for `deg D ≥ c` (`∃ c` form); the **index of specialty**
+  equality for `deg D ≥ c` (`∃ c` form; `riemann_theorem`); the **index of specialty**
   `i(D) := ℓ(D) − deg D − 1 + g ≥ 0` (Def. 1.5.1), `i(D) = 0` for large degrees.
 - **The rational function field, at divisor level** (`k(x)`-specific calculations on the
   Layer-1 places, the base case and first acceptance suite): `div x = P_{(X)} − P_∞`; the
@@ -537,7 +544,7 @@ force (Stichtenoth's global assumption, declared at the head of §1.4).
   `RatFunc.finrank_eq_max_natDegree`); `∑_p natDegree p · ord_p(f) = intDegree f` (the
   product formula on `ℙ¹`, concretely); **`L(n·P_∞)` is the polynomials of degree `≤ n`**
   — the model computation `ℓ(n·P_∞) = n + 1` (`n ≥ 0`), proved by hand, long before
-  Riemann–Roch; hence **`g(k(x)) = 0`** (Ex. 1.4.18) and Riemann's inequality is sharp at
+  Riemann–Roch; hence **`g(k(x)) = 0`** (Ex. 1.4.18; `genus_ratFunc`) and Riemann's inequality is sharp at
   every `n`.
 - **The affine bridge, at divisor level** (the Layer-2 models meeting Layer-3 types): the
   group isomorphism `{D : Divisor k F | supp D ⊆ finite chart} ≅ (FractionalIdeal R_x⁰ F)ˣ`
@@ -592,7 +599,8 @@ Stichtenoth I.5 — the summit of the first half.
   **`i(D) = ℓ(W − D)`** (Thm. 1.5.14, the Duality Theorem).
 - **The Riemann–Roch theorem** (Thm. 1.5.15; hypotheses: none beyond `k` exact —
   arbitrary constant field, no perfectness, no separability):
-  `ℓ(D) = deg D + 1 − g + ℓ(W − D)` for every divisor `D`. Immediate corollaries pinned
+  `ℓ(D) = deg D + 1 − g + ℓ(W − D)` for every divisor `D` (`riemann_roch`, with `W`
+  existentially quantified together with `deg W = 2g − 2` and `ℓ(W) = g`). Immediate corollaries pinned
   as named milestones: **`ℓ(W) = g` and `deg W = 2g − 2`** (Cor. 1.5.16); the
   characterization of canonical divisors (`deg D = 2g − 2` and `ℓ(D) ≥ g` ⟹ `D`
   canonical, Prop. 1.6.2); and **uniqueness of the RR data** (Prop. 1.6.1: if
@@ -604,7 +612,7 @@ Stichtenoth I.5 — the summit of the first half.
 Stichtenoth I.6–I.7.
 
 - **The `deg > 2g − 2` regime**: `deg D ≥ 2g − 1 ⟹ ℓ(D) = deg D + 1 − g`
-  (Thm. 1.5.17; the bound is sharp — `W` fails it) — the workhorse identity. Named
+  (Thm. 1.5.17, `dim_eq_of_two_mul_genus_sub_one_le_degree`; the bound is sharp — `W` fails it) — the workhorse identity. Named
   reusable corollary at genus 1: for a rational place `[0]` on a genus-1 function field,
   **`ℓ(n·[0]) = n` for all `n ≥ 1`** — the section-dimension ladder every
   Weierstrass-model argument runs on (Layer 10 restates it at Mathlib's elliptic
@@ -634,7 +642,7 @@ Stichtenoth I.6–I.7.
   listed under scope exclusions below — non-classical curves exist in char `p`.
 - **Clifford's theorem, infinite constants** (Thm. 1.6.13): for `k` **infinite** (an
   `[Infinite k]` hypothesis on the statement), `0 ≤ deg D ≤ 2g − 2` ⟹
-  `2·ℓ(D) ≤ 2 + deg D`. The hypothesis is the proof's (Lemma 1.6.14 chooses a divisor
+  `2·ℓ(D) ≤ 2 + deg D` (`clifford_of_infinite`). The hypothesis is the proof's (Lemma 1.6.14 chooses a divisor
   point off finitely many hyperplanes, which needs `k` infinite), not the theorem's:
   **the route of record for arbitrary `k` is the constant-field-extension reduction**,
   which is Layer 8's Clifford-export milestone (Thm. 3.6.3(d) transports `ℓ` along
@@ -655,7 +663,7 @@ Stichtenoth I.6–I.7.
      **effective** of degree `n·deg B` (Riemann's theorem gives
      `ℓ(D + n·B) ≥ deg D + n·deg B + 1 − g ≥ 1`, so the class of `D + n·B` contains an
      effective divisor);
-  4. **`Finite Cl⁰(F)`** (Prop. 5.1.3), packaged as a `Finite`/`Fintype` instance-level
+  4. **`Finite Cl⁰(F)`** (Prop. 5.1.3; `finite_classGroupZero`), packaged as a `Finite`/`Fintype` instance-level
      milestone for the degree-zero class group — **the class number** `h_F := #Cl⁰(F)`;
   5. **the affine bridge**: under Layer 3's exact sequence, finiteness transfers to
      Mathlib's `ClassGroup R_x` for every affine model (each is a quotient of a
@@ -903,7 +911,7 @@ one** — this layer states them.
   to its algebraic closure. The preceding base-change isomorphism preserves
   genus, divisor degrees and all ℓ values, so Layer5's infinite-field Clifford
   applies and descends. Combine finite and infinite k into the same theorem
-  for arbitrary exact constant fields. The stronger imperfect-field genus claim
+  for arbitrary exact constant fields (`clifford`). The stronger imperfect-field genus claim
   is neither needed for this deduction nor asserted.
 - **Inseparable constant-extension pathology and general drop estimates.** Keep
   the general genus-never-increases theorem for algebraic constant extension:
@@ -1151,9 +1159,10 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   merged [EllipticCurves](../EllipticCurves/README.md) roadmap, whose Layer 0
   consumes the early local-ring/place milestone below):
   (i) `genus k W.toAffine.FunctionField = 1` for `[W.IsElliptic]` (all
-  characteristics);
+  characteristics; `genus_eq_one_of_weierstrassCurve` states it for any function field with
+  exact constants generated by a solution `x, y` of the equation with `x` transcendental);
   (ii) `W.toAffine.CoordinateRing` is the integral closure of `k[x]` in the function
-  field; the elliptic **`IsDedekindDomain`** instance already follows from the
+  field; the elliptic **`IsDedekindDomain`** instance (`isDedekindDomain_coordinateRing`) already follows from the
   early milestone below: A is a Noetherian domain and its maximal-ideal
   localizations are DVRs, using Mathlib's `isDedekindDomain_iff_isDiscreteValuationRing_atPrime`;
   (iii) the point–place dictionary: `W.toAffine.Point ≃` degree-1 places (the
@@ -1585,7 +1594,8 @@ definition, wrong degree convention, dropped hypothesis, sign flip, silent tamen
   Hurwitz checking `2·1 − 2 = 2·(0 − 2) + 4`.
 - **Hyperelliptic genus 2** (Layers 7, 10): `y² = x⁵ − 1` over `k` with
   `char k ∉ {2, 5}` (the Kummer hypotheses hold: `n = 2 > 1`, `−1 ∈ k` is the primitive
-  square root of unity, and squarefree `x⁵ − 1` is not a square in `k(x)`): genus 2; the
+  square root of unity, and squarefree `x⁵ − 1` is not a square in `k(x)`): genus 2
+  (`genus_eq_two_of_sq_eq_pow_five_sub_one`); the
   different of `F/k(x)` has degree 6 (the places over
   the zeros of `x⁵ − 1` — total degree 5, regardless of how they split over `k` — plus
   the one over `∞`), Hurwitz: `2·2 − 2 = 2·(−2) + 6`. The general
