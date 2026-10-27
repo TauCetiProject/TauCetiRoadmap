@@ -1,5 +1,4 @@
-import Mathlib.NumberTheory.Bernoulli
-import Mathlib.LinearAlgebra.Matrix.PosDef
+import Mathlib
 import TauCeti.LinearAlgebra.IntegralLattice.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.Isometry.Group
 import TauCeti.LinearAlgebra.IntegralLattice.PosDef.Finite
@@ -7,10 +6,21 @@ import TauCeti.LinearAlgebra.IntegralLattice.Even
 import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
 
 /-!
-Suggested forms only. README.md is the definitive specification, and these signatures
-are not an exhaustive checklist. Unproved construction targets use `sorry` honestly.
-The Gram quotient is a small presentation of native integral-lattice isometry classes;
-it does not introduce a second lattice or orthogonal-group carrier.
+# Orthogonal Tamagawa comparison and lattice masses: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
+and Tau Ceti, the headline theorems of the positive-definite even-unimodular lane: the mass
+formula, its exhaustion and counting consequences, over a small Gram-matrix presentation of
+native integral-lattice isometry classes (no second lattice or orthogonal-group carrier).
+
+Not statable at the pins, and therefore not stated here:
+* the structure theorems of 0.2 (Spin of an arbitrary nondegenerate form is a semisimple simply
+  connected central μ₂-cover of SO for rank at least three): Tau Ceti has the form-preserving
+  and standard special orthogonal group schemes, but no Spin group scheme;
+* the arbitrary-genus mass formula of 1.3 and the orthogonal quotient comparison of 1.1–1.2:
+  there is no adelic orthogonal quotient with its Tamagawa measure, and no local density;
+* Cho's smooth dyadic model and density formula of 2.1–2.2: there is no smooth integral model
+  attached to a Jordan splitting over an unramified extension of `ℤ₂`.
 -/
 
 noncomputable section
@@ -33,9 +43,24 @@ def nativeLattice {n : ℕ} (G : PositiveGram n) :
 def GramEquivalent {n : ℕ} (G H : PositiveGram n) : Prop :=
   ∃ A : GramMatrix n, IsUnit A.det ∧ A.transpose * G.1 * A = H.1
 
+/-- Integral congruence of Gram matrices is an equivalence relation. -/
 def gramSetoid (n : ℕ) : Setoid (PositiveGram n) where
   r := GramEquivalent
-  iseqv := by sorry
+  iseqv :=
+    { refl := fun G => ⟨1, by simp, by simp⟩
+      symm := fun {G H} ⟨A, hA, hAGH⟩ => by
+        refine ⟨A⁻¹, Matrix.isUnit_nonsing_inv_det A hA, ?_⟩
+        rw [← hAGH, Matrix.transpose_nonsing_inv]
+        calc A.transpose⁻¹ * (A.transpose * G.1 * A) * A⁻¹
+            = (A.transpose⁻¹ * A.transpose) * G.1 * (A * A⁻¹) := by
+              simp only [Matrix.mul_assoc]
+          _ = G.1 := by
+              rw [Matrix.nonsing_inv_mul _ (by rwa [Matrix.det_transpose]),
+                Matrix.mul_nonsing_inv _ hA, Matrix.one_mul, Matrix.mul_one]
+      trans := fun {G H K} ⟨A, hA, hAGH⟩ ⟨B, hB, hBHK⟩ => by
+        refine ⟨A * B, by rw [Matrix.det_mul]; exact hA.mul hB, ?_⟩
+        rw [← hBHK, ← hAGH, Matrix.transpose_mul]
+        simp only [Matrix.mul_assoc] }
 
 abbrev GramClass (n : ℕ) := Quotient (gramSetoid n)
 
@@ -55,9 +80,11 @@ theorem determinant_eq_one_or_neg_one {n : ℕ} (G : PositiveGram n) (A : GramMa
 abbrev GramAutomorphism {n : ℕ} (G : PositiveGram n) :=
   {A : GramMatrix n // A.transpose * G.1 * A = G.1}
 
-/-- Matrix enumeration counts the full O group, with no determinant-one restriction. -/
-def gramAutomorphismEquiv {n : ℕ} (G : PositiveGram n) :
-    GramAutomorphism G ≃ IntegralLattice.Isometry (nativeLattice G) (nativeLattice G) := by
+/-- Matrix enumeration counts the full O group, with no determinant-one restriction: the
+integral matrices preserving `G` are exactly the native self-isometries of its lattice. -/
+theorem card_gramAutomorphism {n : ℕ} (G : PositiveGram n) :
+    Nat.card (GramAutomorphism G) =
+      Nat.card (IntegralLattice.Isometry (nativeLattice G) (nativeLattice G)) := by
   sorry
 
 /-- A finite box covers every automorphism; its construction uses positive definiteness. -/
