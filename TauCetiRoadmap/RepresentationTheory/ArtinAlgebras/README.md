@@ -98,7 +98,9 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   structures, conflation-exact functors and the exact Grothendieck group, and
   [stable, periodic and curved categories](../../StablePeriodicCurved/README.md) owns relative
   projectives and injectives, Frobenius exact categories and the stable categories. This roadmap
-  consumes both and adds `Ext¹`, almost-split conflations and Auslander-Reiten duality.
+  consumes both and adds `Ext¹`, almost-split conflations and Auslander-Reiten duality, together
+  with the Ext-trivial morphism ideals that Auslander-Reiten duality needs for exact categories
+  without enough projectives or injectives (Layer 3), compared there with those stable categories.
 - **[Enhanced derived sheaves](../../EnhancedDerivedSheaves/README.md)** bounds projective
   dimensions over regular commutative rings. Layer 7 here owns the global dimension of an arbitrary
   ring and Auslander's theorems about it.
@@ -106,7 +108,8 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   extriangulated categories; tilting and τ-tilting theory; covering theory; modules that are not
   finitely generated, except in the definitions of global dimension and of Morita equivalence;
   a theory of functors that are not finitely presented (the category of all additive functors
-  appears only as the ambient category of `mod C` and of the simple functors `S_Z`), Grothendieck
+  appears only as the ambient category of `mod C`, of the simple functors `S_Z` and of the radical
+  functors `rad(-, Z)`), Grothendieck
   categories, purity, the defect formula
   and Auslander's formula, Krull-Gabriel dimension, and the description of whole components of the
   Auslander-Reiten quiver through functors; coherent rings as a ring-theoretic notion (they enter
@@ -201,9 +204,11 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   extends to an exact sequence `0 → (-, X) → (-, Y) → (-, Z) → F → 0`; conversely the kernel of
   `(-, Y) → (-, Z)` is then projective, hence representable because idempotents split, and
   represents a kernel of `g`. In particular this holds for every abelian category `C`.
-- **Projective covers.** A **projective cover** of a finitely presented functor `F` is an
-  epimorphism `p : (-, P) → F` that is right minimal: every endomorphism `φ` of `P` with
-  `(-, φ) ≫ p = p` is an isomorphism. This needs no abelian structure on `mod C`. If `C` is
+- **Projective covers.** A **projective cover** of a finitely generated additive functor `F`,
+  that is, a quotient of a representable functor, is an epimorphism `p : (-, P) → F` that is right
+  minimal: every endomorphism `φ` of `P` with `(-, φ) ≫ p = p` is an isomorphism. The definition is
+  stated in the category of additive functors, so it needs no abelian structure on `mod C` and
+  applies to finitely generated functors that are not finitely presented. If `C` is
   Krull-Schmidt, every finitely presented functor has a projective cover, as for finitely generated
   modules over a ring whose finitely generated projective modules form a Krull-Schmidt category
   (Krause); for `X` with local endomorphism ring, `(-, X) → S_X` is a projective cover whenever
@@ -239,10 +244,24 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   sum, contravariant in `Z` and covariant in `X` by pullback and pushout, and an `R`-module when the
   category is `R`-linear (Yoneda). The zero class is the class of the split conflation. For the
   abelian exact structure on an abelian category it agrees with Mathlib's
-  `CategoryTheory.Abelian.Ext Z X 1`.
+  `CategoryTheory.Abelian.Ext Z X 1`. The comparison of the Baer sum with addition of Mathlib's
+  `extClass` in an abelian category with `HasExt` is the generic one specified in
+  [geometric representation categories](../../GeometricRepresentationCategories/README.md), §R5.2;
+  it is reused here, and only the exact-category `Ext¹` and its comparison with it are new.
 - **The long exact sequences.** For a conflation `X ↪ Y ↠ Z` and an object `W`, the sequences
   `0 → Hom(W, X) → Hom(W, Y) → Hom(W, Z) → Ext¹(W, X) → Ext¹(W, Y) → Ext¹(W, Z)` and
   `0 → Hom(Z, W) → Hom(Y, W) → Hom(X, W) → Ext¹(Z, W) → Ext¹(Y, W) → Ext¹(X, W)` are exact.
+- **Ext-trivial ideals.** The **projectively trivial** morphisms `𝒫_E(X, Y)` are the `f : X → Y`
+  with `Ext¹_E(f, W) = 0 : Ext¹_E(Y, W) → Ext¹_E(X, W)` for every `W`, and the **injectively
+  trivial** morphisms `ℐ_E(X, Y)` are the `f` with `Ext¹_E(W, f) = 0` for every `W`. Both are
+  morphism ideals (`TauCeti.MorphismIdeal`), with quotients `E/𝒫` and `E/ℐ`. A morphism factoring
+  through a relative projective object lies in `𝒫_E`, and `𝒫_E` is exactly the ideal of such
+  morphisms when `E` has enough relative projectives, so that `E/𝒫` is then
+  `TauCeti.ExactStructure.ProjectiveStableCategory`; dually, `ℐ_E` contains the morphisms factoring
+  through relative injectives, with equality and `E/ℐ` the `InjectiveStableCategory` when `E` has
+  enough relative injectives. Without these hypotheses the inclusions can be strict, and
+  Auslander-Reiten duality must be stated with the Ext-trivial quotients (Iyama-Nakaoka-Palu,
+  Definition 1.21 and Remark 1.22; Enomoto, Appendix A.2).
 - **Almost-split conflations.** An almost-split conflation of `E` is a conflation `S` with
   `ShortComplex.IsAlmostSplit S`. In a Krull-Schmidt exact category its end terms are indecomposable,
   and an almost-split conflation ending at a given `Z` is unique up to isomorphism of conflations;
@@ -252,19 +271,23 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
   `CategoryTheory.ShortComplex.ShortExact.isLeftAlmostSplit_f_iff_extClass` from abelian
   categories.
 - **The functorial picture.** Let `E` be a Krull-Schmidt exact category and `Z` indecomposable. A
-  morphism `g : Y → Z` is right almost split exactly when the image of `(-, Y) → (-, Z)` is
+  morphism `g : Y → Z` is right almost split exactly when the image of `(-, g) : (-, Y) → (-, Z)` is
   `rad(-, Z)`, so that `(-, Y) → (-, Z) → S_Z → 0` is a projective presentation of the simple functor
-  `S_Z`, and `g` is minimal right almost split exactly when this presentation is minimal (its first
-  map is a projective cover in the sense of Layer 1). So `Z` is the end of a right almost-split
+  `S_Z`, and `g` is minimal right almost split exactly when the corestriction
+  `(-, Y) ↠ rad(-, Z)` is a projective cover in the sense of Layer 1; `(-, Z) ↠ S_Z` is always one.
+  The functor `rad(-, Z)` is finitely generated when `S_Z` is finitely presented, but it need not be
+  finitely presented when `E` lacks weak kernels, which is why Layer 1 defines covers of finitely
+  generated functors. So `Z` is the end of a right almost-split
   morphism exactly when `S_Z` is finitely presented, and a finitely presented functor is simple in
   the category of additive functors exactly when it is `S_Z` for an indecomposable `Z` with `S_Z`
   finitely presented. A conflation `X ↪ Y ↠ Z` with `Z`
   non-projective is almost split exactly when `0 → (-, X) → (-, Y) → (-, Z) → S_Z → 0` is a minimal
-  projective resolution of `S_Z`; the sequence is exact because `Hom(W, -)` is left exact on
-  conflations.
+  projective resolution of `S_Z`, that is, `(-, Y) ↠ rad(-, Z)` is a projective cover; the sequence
+  is exact because `Hom(W, -)` is left exact on conflations.
 - **Auslander-Reiten duality.** For an exact category that is Hom-finite over `R`, Krull-Schmidt and
   with every `Ext¹` of finite length over `R`, an **Auslander-Reiten duality** is an equivalence
-  `τ : E/[P] ≌ E/[I]` together with isomorphisms `Ext¹_E(Z, X) ≅ D_R (E/[I])(X, τ Z)` natural in
+  `τ : E/𝒫 ≌ E/ℐ` of the Ext-trivial quotients together with isomorphisms
+  `Ext¹_E(Z, X) ≅ D_R (E/ℐ)(X, τ Z)` natural in
   `X` and `Z`.
 - **Existence.** For such a category the following are equivalent: (a) there is an almost-split
   conflation ending at every indecomposable object that is not projective, and one starting at every
@@ -294,7 +317,9 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 - **The Auslander-Reiten formulas.** For finitely generated `M` and `N`, natural isomorphisms
   `Ext¹_A(M, N) ≅ D_R (Hom_A(N, τ M) modulo maps factoring through injectives)` and
   `Ext¹_A(M, N) ≅ D_R (Hom_A(τ⁻ N, M) modulo maps factoring through projectives)`. With the stable
-  equivalence above, the first makes `τ` an Auslander-Reiten duality for `mod A`. Over a field this
+  equivalence above, the first makes `τ` an Auslander-Reiten duality for `mod A`: since `mod A` has
+  enough projectives and injectives, its Ext-trivial quotients `E/𝒫` and `E/ℐ` are these two stable
+  categories (Layer 3). Over a field this
   is `LinearMap.auslanderReitenExtEquiv`, which becomes the case `R = k`.
 - **Almost-split sequences.** For every indecomposable non-projective finitely generated module
   `M` there is an almost-split sequence `0 → τ M → Y → M → 0` in `mod A`, unique up to isomorphism,
@@ -429,8 +454,9 @@ algebras of dominant dimension at least two. Suggested homes in Tau Ceti are
 - **Auslander algebras.** For `A = k[x]/(x²)` and `M = A ⊕ k`, `Module.End A M` is
   five-dimensional over `k`, with global dimension two and dominant dimension at least two. For
   `A = ℤ/p²ℤ` and `M = ℤ/p²ℤ ⊕ ℤ/pℤ`, `Module.End A M` likewise has global dimension two and dominant
-  dimension at least two. For a semisimple `A`, every additive generator has a semisimple
-  endomorphism ring, of global dimension zero.
+  dimension at least two. For a nonzero semisimple `A`, every additive generator has a semisimple
+  endomorphism ring, of global dimension zero; the zero algebra has global dimension `⊥`, since
+  Mathlib assigns projective dimension `⊥` to a zero object.
 
 ## Ordering
 

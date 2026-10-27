@@ -164,7 +164,8 @@ end Finiteness
 section GlobalDimension
 
 /-- **The left global dimension** of an arbitrary ring: the supremum of the projective dimensions
-of all left modules. The right global dimension is `leftGlobalDimension Aᵐᵒᵖ`. -/
+of all left modules. The right global dimension is `leftGlobalDimension Aᵐᵒᵖ`. The zero ring has
+global dimension `⊥`, since a zero object has projective dimension `⊥`. -/
 noncomputable def leftGlobalDimension (A : Type u) [Ring A] : WithBot ℕ∞ :=
   ⨆ X : ModuleCat.{u} A, projectiveDimension X
 
