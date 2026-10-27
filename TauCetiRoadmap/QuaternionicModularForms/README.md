@@ -8,7 +8,10 @@ determinants and finite-slope parts, and small-slope classicality over `ℚ`.
 Evaluation on double-coset representatives identifies coefficient-valued functions
 with a product of stabiliser invariants. With finite class sets and the definite
 stabiliser theorem, this gives the finite products of Banach modules used in
-the analysis.
+the analysis. The automorphic forms on `Dˣ` of ArithmeticLocallySymmetricSpaces
+are specialised to every quaternion algebra over every number field, compared
+with the definite coefficient model, and specialised to Bianchi forms for
+`M₂(F)` over an imaginary quadratic field.
 Boundary-of-weight-space slope phenomena motivate the uniform estimates below.
 The full annular family uses a separate weighted Mahler coefficient module;
 ordinary analytic disc stages have weight-dependent admissibility bounds.
@@ -31,6 +34,9 @@ library modules, not another roadmap's prototype.
 | [Global number fields](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/GlobalNumberFields) and Mathlib | Number fields, completions, finite adeles, product formula and local–global comparison | General adelic and commutative order theory stay there; the quaternionic order calculations needed below belong here |
 | [Modular forms, Layer 2(a)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms) | The abstract Hecke ring built on Mathlib's double-coset definitions | Construct its action on quaternionic forms here, not its convolution ring a second time |
 | [Adelic algebraic groups, PR #792](https://github.com/TauCetiProject/TauCetiRoadmap/pull/792) | General adelic-group comparisons and Hecke-pair finiteness where needed | Its general class-number, reduction, neat-level and volume theorems stay there; it consumes §0.3's quaternionic class-set and stabiliser interfaces |
+| [Arithmetic locally symmetric spaces][ArithmeticLocallySymmetricSpaces] ([PR #871](https://github.com/TauCetiProject/TauCetiRoadmap/pull/871)) | ALS.F.6's automorphic forms, constant terms and cusp forms, ALS.F.7's algebraic weights, ALS.0.4–0.8's `X^G` and `X_K`, ALS.1.1's local systems, ALS.3.1's Hecke action on invariants and ALS.5b.5's cuspidal cohomology | §§2.4–2.6 specialise these to `GL_1(D)`; no second automorphic-form, locally-symmetric-space or cuspidal-cohomology definition is made here |
+| [Automorphic forms on reductive groups][AutomorphicFormsOnReductiveGroups] ([PR #1037](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1037)) | §7.4's `inverseActionHeckeEquiv` and rational covariance model, §7.5's `automorphicEquiv`, §7.6's central-character carrier | Those sections specialise §§2.1 and 3.1, and §2.5 consumes them; the dependency is at the theorem level in both directions |
+| [Kleinian groups][KleinianGroups] ([PR #432](https://github.com/TauCetiProject/TauCetiRoadmap/pull/432)) | The upper half-space `H^3` with its `PSL(2,ℂ)` action and the Bianchi groups `PSL(2,𝒪_F)` | §2.6 identifies the symmetric space of `GL₂` over an imaginary quadratic field with `H^3`; hyperbolic geometry, fundamental domains and covolumes stay there |
 | [FLT division-algebra finiteness](https://github.com/ImperialCollegeLondon/FLT/blob/f6c6a2fe9796d6d89cd2a0d24e8a453729d881ff/FLT/DivisionAlgebra/Finiteness.lean) | `units_cocompact` and `finiteDoubleCoset`, after a compatible port | Reuse the division-algebra theorem and prove the carrier/topology comparison; do not develop a second general reduction theory |
 | [AdicSpacesPartII, PR #817](https://github.com/TauCetiProject/TauCetiRoadmap/pull/817), *completed-tensor-banach-module*, and CompactOperators §1.7 | Native completed Banach-module scalar extension and the general `c0_completedBaseChange` comparison | Tensor carriers and functoriality stay with Part II; [LocallyAnalyticDistributions, PR #854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854), §4.2 consumes the comparison for distributions |
 | Geometric and automorphic roadmaps | The forms and Hecke/Fredholm data constructed here | Weight-space representability, eigenvariety gluing, Jacquet–Langlands and Galois representations are downstream |
@@ -55,10 +61,13 @@ ramification realization and the representation-theoretic transfer. Its
 R17.3.9 consumes §2.1's generic form carrier and evaluation, §2.2's classical
 definite forms and §3.1's Hecke action. It owns the specialized coefficient
 representations, central-character subspaces, division-place coefficient adapter,
-complex/p-adic comparisons, norm-character decomposition and transfer theorems.
-The adapter records §1.3's dual/right-action and determinant-normalization
-dictionaries; division-place coefficients use §2.1 without a split-place analytic
-chart. These form spaces do not depend on that transfer.
+the comparison with Pan's spaces, norm-character decomposition and transfer
+theorems. The adapter records §1.3's dual/right-action and
+determinant-normalization dictionaries; division-place coefficients use §2.1
+without a split-place analytic chart, and its finite-level realisation is the
+instance of §2.5 at a division place. Its R16.1.6 owns the `GL₂` finite-level
+restriction adapter that §2.4 extends to `Dˣ`. These form spaces do not depend
+on that transfer.
 [AlgebraicModularFormsAndSerreWeights, PR #928](https://github.com/TauCetiProject/TauCetiRoadmap/pull/928)
 owns geometric forms on modular stacks, characteristic-`p` theta and Serre weights;
 the characteristic-zero coefficient derivative in Layer 5 is a different operation.
@@ -78,9 +87,13 @@ This definite condition makes `Dˣ(F⊗ℝ)` compact modulo its centre. At a com
 place `D⊗_Fℂ≃M₂(ℂ)`, so that compactness fails. Finiteness of the finite adelic
 class set alone does not give finite stabilisers modulo the centre or the
 averaging projections of §2.3. Bianchi forms and other nondefinite automorphic
-forms require the archimedean automorphic or locally symmetric cohomological
-realization in addition to these algebraic interfaces; that realization is outside
-this roadmap. See Loeffler, Assumption 3.1.3 and Proposition 3.1.4.
+forms therefore need the archimedean automorphic realisation in addition to these
+algebraic interfaces. Section 2.4 supplies it for every quaternion algebra over
+every number field by specialising ArithmeticLocallySymmetricSpaces ALS.F.6,
+§2.5 compares it with the definite coefficient model `M(U,A)`, and §2.6 is the
+Bianchi case `D=M₂(F)` over an imaginary quadratic field. The overconvergent and
+Fredholm theory of Layers 3–5 is the definite one. See Loeffler, Assumption 3.1.3
+and Proposition 3.1.4.
 
 ## Conventions and library floor
 
@@ -122,8 +135,8 @@ this roadmap. See Loeffler, Assumption 3.1.3 and Proposition 3.1.4.
    defined over any number field. For totally definite `D` it gives the
    quaternionic forms denoted `L(U,A)` or `S^D` in the sources; that `S` imposes
    no additional cuspidality condition here. Weight two can contain constant
-   forms and reduced-norm characters. No identification with Bianchi forms is
-   implicit in the general definition.
+   forms and reduced-norm characters. Bianchi forms are not a case of `M(U,A)`;
+   they are the automorphic specialisation of §2.6.
 7. Set `Γ_x = U ∩ x⁻¹Dˣx`. For totally definite `D` and compact `U`, it is
    finite modulo its diagonal central subgroup, and finite itself over `ℚ`.
    Abstract evaluation identifies functions with `∏_x A^{Γ_x}` without these
@@ -137,6 +150,18 @@ this roadmap. See Loeffler, Assumption 3.1.3 and Proposition 3.1.4.
    compact if another place still contributes an infinite-dimensional analytic
    factor. Slopes refer to nonzero eigenvalues, counted with algebraic
    multiplicity, and to an explicitly chosen normalisation of the operator.
+9. Automorphic forms on `Dˣ` are those of ArithmeticLocallySymmetricSpaces
+   ALS.F.6 for the connected reductive `F`-group `G=GL_1(D)` of §0.1, with that
+   roadmap's maximal compact `K_∞`, split component `A_∞`, symmetric space
+   `X^G=G(F_∞)/K_∞A_∞` and level space `X_U`. An **archimedean type** is an
+   irreducible algebraic representation `W` of `Res_{F/ℚ}G` over a splitting
+   field (ALS.F.7). Forms of type `W` have the infinitesimal character of `W`
+   and the central character of `W` at infinity; the cohomological coefficient
+   system they pair with is `W^∨`. `D_fˣ` acts on automorphic forms by right
+   translation, and `[UηU]` acts on `U`-invariants by `Σ_i f(·η_i)` for
+   `UηU=⊔_i η_iU` (ALS.3.1). The operator `T_η` of §3.1 on trivial
+   coefficients is this `[Uη⁻¹U]`; AutomorphicFormsOnReductiveGroups §7.4's
+   `inverseActionHeckeEquiv` is the general dictionary.
 
 Mathlib supplies `QuaternionAlgebra`, tensor products, `Algebra.IsCentral`,
 `IsSimpleRing`, number fields and finite adeles, `DoubleCoset`, `IsHeckeTriple`,
@@ -183,6 +208,16 @@ elements at every real embedding, and derive its division-algebra structure.
 The algebraic comparisons must also work for the split presentation used in
 the local models.
 
+**The algebraic group `GL_1(D)`.** Construct the affine `F`-group `GL_1(D)` whose
+points in a commutative `F`-algebra `R` are `(D ⊗[F] R)ˣ`, naturally in `R`, with
+the reduced norm as a homomorphism to `G_m` and the norm-one group `D¹` as its
+kernel. Prove that it is connected reductive, an inner form of `GL₂` split by
+every splitting field of `D`, with centre `G_m` and derived group `D¹`; for
+`D=M₂(F)` it is `GL₂`. Consume ReductiveGroups Layer 6 for reductivity and the
+semisimple-algebra roadmap for the central simple inputs; AdelicAlgebraicGroups
+§4.2 uses `D¹` with this norm. This is the group to which §§2.4–2.6 apply the
+automorphic-form and locally-symmetric-space suppliers.
+
 **Local integral models.** Construct local component maps and their units/matrix
 versions. For a chosen quaternion order and compatible split maximal orders,
 identify the integral units with `GL₂(𝒪_v)`. Establish the basis-independent
@@ -200,7 +235,12 @@ matrix algebra check `nrd(diag(a,b))=ab` and the regular determinant `(ab)²`.
 and tensor-product maps; prove injectivity, the local-component formulas and the
 canonical topology comparison. Supply the local compactness, Hausdorffness and
 totally disconnected properties needed by the level theory through the shared
-adelic infrastructure.
+adelic infrastructure. Identify `D_fˣ` with the finite adelic points
+`GL_1(D)(𝔸_F^f)` of AdelicAlgebraicGroups §§1.1–1.2 as topological groups,
+through the restricted product of the `D_vˣ` with respect to the unit groups of
+a maximal order, and `globalUnits` with the diagonal image of the rational
+points; likewise `(D⊗_ℚℝ)ˣ=GL_1(D)(F_∞)` and the full adelic group. These
+comparisons are what AdelicAlgebraicGroups AA.5.3 and §§2.4–2.6 consume.
 
 **Levels.** Define the maximal-order level and the congruence levels at specified
 split places. In `GL₂(𝒪_v)`, use `U₀(π_v^t)={γ : c∈π_v^t𝒪_v}` and
@@ -290,7 +330,9 @@ have no total-reality assumption. At maximal integral level the stabiliser at
 one contains the distinct upper unipotent matrices `((1,n),(0,1))`, `n∈ℤ`.
 Their images modulo scalar matrices are distinct, so this stabiliser is infinite
 modulo diagonal central scalars. This example detects a missing definiteness
-hypothesis in §0.3; it does not construct the archimedean Bianchi form space.
+hypothesis in §0.3. The Bianchi form space itself is the automorphic
+specialisation of §2.6, whose components are quotients of hyperbolic 3-space by
+these infinite groups.
 
 ## Layer 1: weights and coefficient actions
 
@@ -513,6 +555,237 @@ when the image order is not a unit. With a one-element class set and trivial
 stabiliser action, degree-zero classical coefficients give a one-dimensional
 form space. This check assumes the stated class-set and action data; it does
 not require computing the class number of a specific quaternion order.
+
+### 2.4 Automorphic forms on `Dˣ` over any number field
+
+Let `G=GL_1(D)` (§0.1) over an arbitrary number field `F`, `K_∞ ⊂ G(F_∞)` a
+maximal compact subgroup (ALS.F.1), `A_∞` the split component and `𝔤`, `Z(𝔤)`
+as in ALS.F.6. The space of automorphic forms on `Dˣ` is ALS.F.6's
+`LocallySymmetric.AutomorphicForm` for this `G`, written `𝒜(Dˣ)`; through §0.2's
+comparison it is a `(𝔤,K_∞) × D_fˣ`-module. Its constant terms, cusp forms,
+uniform moderate growth and the discreteness of the cuspidal spectrum are that
+roadmap's theorems. Nothing here redefines them. When `D` is a division
+algebra, `G` has no proper rational parabolic subgroup, so every automorphic
+form is cuspidal; when `D=M₂(F)`, cuspidality is the vanishing of the constant
+term along the upper Borel.
+
+**Type, level and central character.** Fix a number field `E` splitting
+`Res_{F/ℚ}G`, so that `D ⊗_{F,τ} E ≃ M₂(E)` for every embedding `τ : F ↪ E`, and
+an embedding `ι : E ↪ ℂ`. An archimedean type is an irreducible algebraic
+representation `W=V_λ` of `Res_{F/ℚ}G` over `E` (ALS.F.7); through the
+splittings, `V_λ=⊗_τ Sym^{a_τ−b_τ}(E²)⊗det^{b_τ}` for `λ_τ=(a_τ≥b_τ)`,
+independently of the splittings up to isomorphism. Let `J_W ⊂ Z(𝔤)` be the
+annihilator of `ι(W)`, `U ⊂ D_fˣ` a compact open subgroup, and
+`ω : Fˣ\𝔸_Fˣ → ℂˣ` a continuous character whose archimedean component is the
+central character of `ι(W)` on `F_∞ˣ`. Define
+
+```text
+𝒜_W(U,ω) = {f ∈ 𝒜(Dˣ) : f(zgu)=ω(z)f(g) for z∈𝔸_Fˣ, u∈U, and J_W^m f=0 for some m},
+S_W(U,ω) = its cuspidal subspace, on which J_W itself acts by zero,
+```
+
+and for an irreducible representation `τ` of `K_∞` the `τ`-valued forms
+`Hom_{K_∞}(τ, 𝒜_W(U,ω))` and `Hom_{K_∞}(τ, S_W(U,ω))`, realised as functions
+`Φ : Dˣ\D_𝔸ˣ/U → τ^∨` with `Φ(gk)=k⁻¹Φ(g)` for `k∈K_∞`. Prove that for each
+`m` the `τ`-valued forms annihilated by `J_W^m` form a finite-dimensional space
+(ALS.F.6(i)), that `S_W(U,ω)` is an admissible `(𝔤,K_∞)`-module, and that
+
+```text
+S_W(U,ω) = ⊕_π m(π)·(π^∞)^U ⊗ π_∞,
+```
+
+a finite sum over the cuspidal automorphic representations `π` with central
+character `ω` whose archimedean component has the infinitesimal character of
+`ι(W)`, with `π_∞` its `(𝔤,K_∞)`-module and `m(π)` the cuspidal multiplicity
+(ALS.F.6(iv) and ALS.F.7's Wigner lemma). The Hecke algebra `H(D_fˣ,U)` acts on
+`U`-invariants by ALS.3.1 and preserves type, central character, `K_∞`-isotypic
+parts and cuspidality; its dictionary with §3.1 is convention 9, and
+AutomorphicFormsOnReductiveGroups §7.4's `inverseActionHeckeEquiv` is the
+comparison to cite.
+
+**Restriction to components.** For `g_1,…,g_h` representing `Dˣ\D_fˣ/U` and
+`Γ_i=Dˣ∩g_iUg_i⁻¹` in `G(F_∞)`, restriction `f ↦ (g_∞ ↦ f(g_ig_∞))_i` identifies
+`𝒜_W(U,ω)` with a direct sum of spaces of functions on `Γ_i\G(F_∞)` carrying the
+transported central-character, growth, `K_∞`-finiteness and `Z(𝔤)` conditions,
+compatibly with inverse reconstruction and the Hecke action. For `D=M₂(F)` this
+is [GL2AutomorphicRepresentationsAndTransfer R16.1.6][GL2AutomorphicRepresentationsAndTransfer]'s
+adapter, consumed; for a division algebra it is a target here, with the class
+set of §0.3. For `D=M₂(F)` the class set is finite by AdelicAlgebraicGroups §3.4
+(*class-number-finite*) and is `Fˣ\𝔸_{F,f}ˣ/det(U)` by its §4.5 bijection for
+groups with simply connected derived group; FLT's division-algebra theorem does
+not cover this case.
+
+**Checks.** For totally definite `D` over `ℚ` and `W=ℂ`, `𝒜_ℂ(U,1)` is the space
+of functions on the finite set `Dˣ\D_fˣ/U`, the trivial-coefficient `M(U,ℂ)`.
+For `D=M₂(ℚ)`, the adelic lift of a holomorphic weight-`k` cusp form
+(AutomorphicFormsOnReductiveGroups §7.2) lies in `S_W(U,ω)` for the `W` with
+`W|_{SL₂}=Sym^{k−2}` and §7.2's determinant and central normalisations, in the
+`K_∞`-type containing the `SO(2)`-weight `k`; the constant function `1` lies in
+`𝒜_ℂ(GL₂(Ẑ),1)` and is not cuspidal. For an indefinite division algebra over
+`ℚ`, `S_W=𝒜_W` and `X_U` is compact. Replacing the type `W` by `W^∨` inverts the
+central character at infinity unless `W` is self-dual.
+
+### 2.5 The definite comparison
+
+Let `F` be totally real and `D` totally definite, split at the places `v|p`
+where §1.3's coefficients are formed, and put `λ_σ=(n_σ+v_σ, v_σ)` for each real
+embedding `σ`. Homogenising `f(z)` to `P(X,Y)=Y^{n_σ}f(X/Y)`, the right action of
+§1.3 reads `(P|γ)(X,Y)=(det γ)^{v_σ}P(aX+bY, cX+dY)`, so `u ↦ (·)|u⁻¹` is the
+contragredient of `Sym^{n_σ}(std)⊗det^{v_σ}` on polynomial functions. Hence the
+right `GL₂`-module `L_{n,v}` is the algebraic representation `V_λ^∨`, restricted
+to `U` through the splittings at `p`: this is the dual/right-action dictionary of
+§1.3, stated once and used below. Fix a number field `E` splitting `D` at every
+embedding of `F`, with an embedding `E ↪ K` compatible with the chosen
+splittings and with `ι : E ↪ ℂ`.
+
+With these identifications, §2.2's `M(U, L_{n,v})` is
+AutomorphicFormsOnReductiveGroups §7.4's `LevelAlgebraicModularForm`
+`S(U, V_λ^∨⊗K)`, its `T_η` is the operator of `[Uη⁻¹U]` there
+(`inverseActionHeckeEquiv`), and with the algebraic rather than the normalised
+determinant twist the operators differ by §1.3's scalar `ν_alg(π_v)^e`. Gross's
+rational covariance model `F(γg)=ρ(γ)F(g)`, `F(gu)=F(g)` and its equivalence
+`f(g)=ρ(g_p)⁻¹F(g)` with the level model are §7.4's; consume them.
+
+**Theorem (definite automorphic realisation).** Prove a Hecke-equivariant
+isomorphism
+
+```text
+M(U, L_{n,v}) ⊗_{K,ι} ℂ ≅ ⊕_ω Hom_{K_∞}(ι(V_λ), S_{V_λ}(U,ω))
+                        ≅ ⊕_π m(π)·(π^∞)^U ⊗ Hom_{D_∞ˣ}(ι(V_λ), π_∞),
+```
+
+over the finitely many `ω` whose archimedean component is the central
+character of `ι(V_λ)` and which are trivial on `𝔸_{F,f}ˣ∩U`, and over the
+cuspidal `π` with `π_∞ ≅ ι(V_λ)` as representations of `D_∞ˣ=∏_σ ℍˣ`. Here
+`K_∞=∏_σ ℍ¹` acts on `ι(V_λ)` through `⊗_σ Sym^{n_σ}(ℂ²)`, Tau Ceti's
+`TauCeti.SU2.symPower`; `T_η` corresponds to `[Uη⁻¹U]` on `(π^∞)^U`; and every
+form on `Dˣ` is cuspidal, so at `n=0` the norm characters `χ∘nrd` with `χ`
+trivial on `nrd(U)` occur. Over `ℚ` the second isomorphism is §7.5's
+`automorphicEquiv`, whose two hypotheses hold; consume it. For `[F:ℚ]>1` the
+rational centre `Fˣ` is not discrete in `𝔸_{F,f}ˣ`, so decompose
+`M(U, L_{n,v})` into the central-character summands of §7.6 (the carrier of
+[HilbertModularVarietiesAndShimuraCurves][HilbertModularVarietiesAndShimuraCurves]
+R18.3.3 as well), using §1.3's parallel-weight hypothesis for the finite central
+image, and prove the realisation of each summand following Loeffler,
+Proposition 3.8.1, from ALS.F.6(iv) for the compact-modulo-centre quotient; that
+realisation is a target here. GL2AutomorphicRepresentationsAndTransfer R17.3.9
+is the instance over `ℚ` with `D` ramified at `p`, where the coefficient action
+is supplied at the division place, and HilbertModularVarietiesAndShimuraCurves
+R18.3.20–R18.3.22 fix the dual and norm-twist conventions of the transfer; the
+realisation here must agree with both on the common `E`-rational model, with
+the same `V_λ^∨`, the same inverse cosets and §1.3's determinant scalar.
+
+**Checks.** `(P|γ)` sends `X^n` to `(aX+bY)^n`, whereas `Sym^n(std)` sends
+`e_1^n` to `(ae_1+ce_2)^n`; the two differ by the transpose, which is the
+inverse up to `det` and the Weyl element, so `π_∞` is `ι(V_λ)` and not its dual.
+Over a real quadratic field at maximal level `Fˣ∩U=𝒪_Fˣ` is infinite, so §7.5's
+discreteness hypothesis fails and the central-character summands are needed,
+while `n=0` is already parallel. With trivial stabiliser action over `ℚ`, the
+dimension `h(n+1)` of §2.3 equals `Σ_π m(π)·dim(π^∞)^U`, each `π` with
+`π_∞≅ι(V_λ)` contributing its finite part once.
+
+### 2.6 Bianchi forms
+
+Let `F` be imaginary quadratic with complex embeddings `τ, τ̄`, and `D=M₂(F)`,
+so `G=GL₂`, `G(F_∞)=GL₂(ℂ)`, `K_∞=U(2)`, `A_∞=ℝ_{>0}` and `𝔤=𝔤𝔩₂(ℂ)⊗_ℝℂ`.
+Identify the symmetric space `X^G=GL₂(ℂ)/ℂˣU(2)` (ALS.0.4; its dimension `3` is
+that section's check) with KleinianGroups' upper half-space `H^3` by the orbit
+map of the base point, equivariantly for `GL₂(ℂ)` acting through
+`PGL₂(ℂ)=PSL₂(ℂ)`. For compact open `U ⊂ GL₂(𝔸_F^f)` the level space `X_U`
+(ALS.0.6) is the Bianchi threefold `Y_U`; its components are `Γ_x\H^3` for
+`Γ_x=GL₂(F)∩xUx⁻¹` (ALS.0.7), indexed by
+`GL₂(F)\GL₂(𝔸_F^f)/U ≃ Fˣ\𝔸_{F,f}ˣ/det(U)` as in §2.4. These `Γ_x` are
+conjugates of the infinite stabilisers of §0.5; they act properly
+discontinuously with finite point stabilisers (ALS.0.8), and at `U=GL₂(Ô_F)`
+and the trivial ideal class the image of `Γ_1=GL₂(𝒪_F)` in `PSL₂(ℂ)` contains
+KleinianGroups' Bianchi group `PSL₂(𝒪_F)` with finite index. Finiteness of the
+class set is AdelicAlgebraicGroups §3.4's.
+
+**Weight `(k,k)`.** For `k≥0` let `V_{k,k}=Sym^k(ℂ²)⊗\overline{Sym^k(ℂ²)}`, the
+`V_λ` of `Res_{F/ℚ}GL₂` with `λ_τ=λ_τ̄=(k,0)`, the second factor through `τ̄`;
+its central character is `z ↦ (zz̄)^k`. Take the type `W=V_{k,k}^∨`, so that
+`ω_∞(z)=(zz̄)^{−k}` and the coefficient system paired with is `V_{k,k}`, and the
+`K_∞`-type `τ_k=Sym^{2k+2}(ℂ²)⊗det^{−(k+1)}` of `U(2)`, which restricts to
+`Sym^{2k+2}` on `SU₂(ℂ)` and is trivial on the centre `U(1)`. Define the
+**Bianchi cusp forms of weight `(k,k)`, level `U` and central character `ω`** as
+
+```text
+S_{k,k}(U,ω) = Hom_{K_∞}(τ_k, S_{V_{k,k}^∨}(U,ω)),
+```
+
+the `V_{2k+2}(ℂ)`-valued functions `Φ` on `GL₂(F)\GL₂(𝔸_F)/U` with
+`Φ(zg)=ω(z)Φ(g)`, `Φ(gu)=Φ(g)ρ′(u)` for `u∈SU₂(ℂ)` and Williams's
+antihomomorphism `ρ′`, annihilated by `J_{V_{k,k}^∨}` and cuspidal along the
+upper Borel. Prove that `S_{k,k}(U,ω)` is finite dimensional with the
+`H(GL₂(𝔸_F^f),U)` action of §2.4, and that
+
+```text
+S_{k,k}(U,ω) ≅ ⊕_π m(π)·(π^∞)^U,
+```
+
+over the cuspidal `π` with central character `ω` whose `π_∞` is the irreducible
+principal series of `GL₂(ℂ)` with the infinitesimal character of `V_{k,k}^∨` and
+minimal `K_∞`-type `τ_k`, which contains `τ_k` with multiplicity one. The other
+irreducible `(𝔤,K_∞)`-module with this infinitesimal character is `V_{k,k}^∨`
+itself, which is finite dimensional and so is not the archimedean component of
+a cuspidal representation of `GL₂(𝔸_F)` (GL2AutomorphicRepresentationsAndTransfer
+R16.4's Whittaker expansion). Consume AutomorphicFormsOnReductiveGroups §2.6 and
+GL2AutomorphicRepresentationsAndTransfer R16.2.13 for the principal series of
+`GL₂(ℂ)`, their `K_∞`-types and Casimir values. Cusp forms of type `V_λ^∨` with
+`λ_τ=(a,b)`, `λ_τ̄=(a′,b′)` vanish unless `a−b=a′−b′` (Clozel's purity lemma,
+as used in ALS.5b.8), so parallel weight is the only case.
+
+**Comparison with Williams.** Williams, Definition 1.2, takes `U=Ω₁(𝔫)`, the
+`SU₂(ℂ)`-type `V_{2k+2}(ℂ)`, archimedean central character `|z|^{−k}` and, in
+place of `J_{V_{k,k}^∨}`, the single Casimir eigenvalue `∂Φ=(k²/2+k)Φ`, leaving
+the finite central character free. Prove that his space is
+`⊕_ω S_{k,k}(Ω₁(𝔫),ω)`, over the `ω` with that archimedean component that are
+trivial on `𝔸_{F,f}ˣ∩Ω₁(𝔫)`, after the twist by the power of `|det|_𝔸`,
+determined by `k` and his absolute-value convention, that matches the two
+archimedean central normalisations; carry that twist through the Hecke
+eigenvalues. On cusp forms of `K_∞`-type `τ_k` with this central character,
+unitarity of `π_∞` up to a twist makes his eigenvalue condition equivalent to
+the full infinitesimal character, since every other unitary principal series
+containing `τ_k` has a different Casimir eigenvalue. His descent to
+functions on `H^3` for each class representative is the restriction map of
+§2.4.
+
+**Cohomological comparison.** Let `U` be neat and `V_{k,k}` the local system of
+ALS.1.1 on `X_U` attached to the rational representation `V_{k,k}` with trivial
+`K_S`-action. Prove
+
+```text
+H^1_cusp(X_U, V_{k,k}) ≅ ⊕_ω S_{k,k}(U,ω),
+```
+
+that `H^2_cusp(X_U, V_{k,k})` carries the same multiplicity spaces, and that
+`H^j_cusp(X_U, V_{k,k})=0` for `j≠1,2`; equivariantly for `H(G^S,U^S)` by
+ALS.5b.5, and for the remaining double cosets of `H(GL₂(𝔸_F^f),U)` through
+ALS.5b.1's compatibility with level maps and translations, a target here. This
+is ALS.5b.5's decomposition
+`H^*_cusp=⊕_π m(π)·H^*(𝔪_G,K_∞;π_∞⊗V_{k,k})⊗(π^∞)^U` together with the
+archimedean computation, also a target here:
+`dim H^j(𝔪_G,K_∞;π_∞⊗V_{k,k})=1` for `j=1,2` and `0` otherwise, for the
+principal series `π_∞` above, with `(q₀,ℓ₀)=(1,1)` as in ALS.F.7(iii); the
+relative cochains are ALS.F.5's and `Λ^1𝔭≅Λ^2𝔭` is the adjoint representation
+`Sym²(ℂ²)` of `SU₂(ℂ)`. The cuspidal classes lie in the interior cohomology
+`H^1_!` and inject into `H^1` (ALS.5b.5); do not replace `H^1_cusp` by `H^1` or
+`H^1_c`. At non-neat level take the `Q`-invariants of a neat normal refinement,
+as ALS.1.3 prescribes; in characteristic zero the derived invariants are
+invariants. Sources: Harder (1975), (1987); Şengün §5, whose `S_{k+2}(Γ)` is the
+weight-`(k,k)` space here; Williams §1.1.
+
+**Checks.** At `k=0`, `τ_0=Sym²(ℂ²)⊗det⁻¹` is three dimensional and
+`S_{0,0}(U,ω)` consists of the vector-valued harmonic forms of Şengün §5,
+matching `H^1_cusp(X_U,ℂ)`. The twist by `|det|_𝔸` is trivial on `GL₂(F)` and on
+`Ω₁(𝔫)`, so it preserves the level and rescales the eigenvalue of each
+double coset by a power of its determinant's norm. Cuspidal cohomology is a
+proper summand of `H^1(X_U,ℂ)` in general: restriction to the boundary tori of
+the Borel–Serre compactification is nonzero on the Eisenstein classes
+(ALS.5b.4). A nonparallel `λ` gives `S=0` although `V_λ` is a local system on
+`X_U`; its cuspidal cohomology vanishes. The infinite stabilisers of §0.5 are
+conjugates of the `Γ_x` here; no finite-stabiliser or averaging hypothesis of
+§2.3 enters.
 
 ## Layer 3: Hecke operators and compactness
 
@@ -906,7 +1179,10 @@ classification and no Jacquet–Langlands comparison are claimed.
 
 Completion requires the native-carrier class-set and stabiliser theorems,
 bounded weight actions and classical normalisation comparison, the invariant
-evaluation model, actual Hecke relations and certified matrices, compactness
+evaluation model, the automorphic specialisation of §2.4 with its finite
+dimensionality and Hecke dictionary, the definite realisation of §2.5 with its
+dual and determinant dictionaries, the Bianchi forms of §2.6 with both of their
+comparisons, actual Hecke relations and certified matrices, compactness
 for the fully contracting operator, intrinsic Fredholm/base-change theorems,
 the weighted annular model, its high-conductor and analytic comparison checks,
 and the rational theta/classicality results. Check that the general adelic,
@@ -919,11 +1195,13 @@ be checked transitively.
 
 General eigenvariety construction, Atkin–Lehner slope symmetries,
 Jacquet–Langlands, comparison with Hilbert modular forms, general
-reductive-group automorphic representations, archimedean or cohomological
-realizations of Bianchi forms, and several-variable BGG classicality are outside
-this roadmap. Detailed class-set enumerations and operator computations for
-individual quaternion orders are also outside its required scope. The output
-here is the forms/Hecke/Fredholm package those developments can consume.
+reductive-group automorphic representations, holomorphic realisations at real
+split places, overconvergent or `p`-adic families of Bianchi forms, Bianchi
+modular symbols, and several-variable BGG classicality are outside this roadmap.
+Detailed class-set enumerations and operator computations for individual
+quaternion orders are also outside its required scope. The output here is the
+forms/Hecke/Fredholm package and the automorphic and Bianchi specialisations
+those developments can consume.
 
 ## References
 
@@ -943,7 +1221,24 @@ here is the forms/Hecke/Fredholm package those developments can consume.
   the single-character action and the weight convention.
 - D. Loeffler, [*Overconvergent algebraic automorphic forms*](https://arxiv.org/abs/0901.2279v3),
   Assumption 3.1.3, Proposition 3.1.4 and §3.3: compactness modulo the
-  centre at infinity, stabilisers and coefficient modules for definite forms.
+  centre at infinity, stabilisers and coefficient modules for definite forms;
+  Definition 3.3.2 and Proposition 3.8.1: module-valued forms and their
+  decomposition into automorphic representations.
+- B. H. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93:
+  the rational covariance model and its automorphic realisation, consumed
+  through AutomorphicFormsOnReductiveGroups §§7.4–7.5.
+- C. Williams, [*P-adic L-functions of Bianchi modular forms*](https://arxiv.org/abs/1404.2100),
+  Proc. London Math. Soc. 114 (2017), §1.1, Definitions 1.1–1.2 and Theorem 1.3:
+  the adelic definition of weight-`(k,k)` Bianchi cusp forms and their descent
+  to hyperbolic 3-space.
+- G. Harder, *On the cohomology of SL(2,𝒪)*, in *Lie groups and their
+  representations* (Budapest, 1971), 1975, 139–150, and *Eisenstein cohomology
+  of arithmetic groups. The case GL₂*, Invent. Math. 89 (1987), 37–118: the
+  Eichler–Shimura–Harder isomorphism and the archimedean cohomology of the
+  Bianchi principal series.
+- M. H. Şengün, [*Arithmetic aspects of Bianchi groups*](https://arxiv.org/abs/1204.6697),
+  §§3 and 5: the statement `H^1_cusp(Γ, V_{k,k}(ℂ)) ≃ S_{k+2}(Γ)` and the weight
+  dictionary.
 - J. Voight, [*Quaternion algebras*](https://jvoight.github.io/quat.html),
   §27.6: ideal classes, finite adelic quotients and Fujisaki's lemma,
   especially Main Theorem 27.6.14(b).
@@ -974,4 +1269,9 @@ in §0.3; it is not installed as a dependency of this prototype.
 [PadicFunctionalAnalysis]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/f255de3d9ad6c27bc603f65e604108ee024c4400/TauCetiRoadmap/PadicFunctionalAnalysis/README.md
 [CompactOperators]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/724243bd565643c1367ea557271b8de4b572c8ec/TauCetiRoadmap/CompactOperators/README.md
 [NewtonPolygons]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/5164eb00764fb2ead6baadcc5cb69ff73507c8b5/TauCetiRoadmap/NewtonPolygons/README.md
+[ArithmeticLocallySymmetricSpaces]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/7dca7ea300718839ee8030c95c010fe6c3414ec1/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md
+[AutomorphicFormsOnReductiveGroups]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/c00e22037db05714e6d9c274eece0c1b47c930be/TauCetiRoadmap/AutomorphicFormsOnReductiveGroups/README.md
+[KleinianGroups]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/18e52e8169609ca42d1ab5a65bcf82c04264a7d6/TauCetiRoadmap/KleinianGroups/README.md
+[GL2AutomorphicRepresentationsAndTransfer]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/69bcab779acf5f63acd89379f4c4b9fa4f947c02/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md
+[HilbertModularVarietiesAndShimuraCurves]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/893083daaaf2c0eece1322a7ed0a04571313ed45/TauCetiRoadmap/HilbertModularVarietiesAndShimuraCurves/README.md
 [PhDSources]: https://github.com/WilliamCoram/PhD/tree/eefb3d91f34b27d0bc7822140fa85fecae029884
