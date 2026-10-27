@@ -1,18 +1,33 @@
-import Mathlib.Analysis.FunctionalSpaces.BesselPotentialSpace
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Analysis.Normed.Operator.Fredholm.Open
-import Mathlib.Topology.Connected.TotallyDisconnected
-import Mathlib.Geometry.Manifold.VectorBundle.ContMDiffSection
+import Mathlib
 import TauCeti.Geometry.Manifold.DerivationBundle
-import Mathlib.RingTheory.Ideal.Cotangent
 
 /-!
-These are suggested forms, not an exhaustive checklist. The README is the
-specification. The local symbols use smooth continuous-linear coefficients and
-all mixed derivative bounds. Quantization uses Mathlib's Fourier transform
-with the angular-frequency symbol evaluated at ξ=2πζ. The broader bundle,
-classical-symbol and distribution interfaces are README construction targets.
+# Pseudodifferential operators and elliptic analysis on bundles: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
+Mathlib and Tau Ceti, the roadmap's headline theorems that are statable there: the scalar
+cotangent and derivation dictionaries of P1.0, the inverse principal symbol of an elliptic
+classical symbol (P2/P6), the Euclidean quantization on Schwartz input with its Sobolev
+mapping theorem for compactly x-supported symbols and the uniform order-zero
+Calderón–Vaillancourt theorem (P3/P5), and the ordinary Fredholm path lemma of P7.
+Local symbols use smooth continuous-linear coefficients and all mixed derivative bounds;
+quantization uses Mathlib's Fourier transform with the angular-frequency symbol evaluated
+at ξ = 2πζ.
+
+Not statable at the pins, for lack of a carrier:
+* the complexified derivation dictionary `Der_ℂ(A_ℂ) ≃ ℂ ⊗ Γ∞(TM)` of P1.0 with its
+  formula `δ(u+iv) = Xu − Yv + i(Yu + Xv)`: there is no real/imaginary-part map on
+  `C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯` and no module structure of complex smooth functions on sections;
+* jet bundles, differential operators between bundles and their principal symbols (P1.0),
+  Peetre's theorem (P1.1): there is no bundle differential-operator or bundle
+  distribution carrier;
+* the global pseudodifferential classes, parametrices, bundle Sobolev Fredholm theory and
+  elliptic regularity (P4–P6): there is no compact-bundle Sobolev scale `H^s(M;E)`;
+* elliptic powers, the equivariant product index and finite-deck isospectrality
+  (P7, P7a): these need the bundle Sobolev scale and the self-adjoint realizations of
+  Laplace-type operators on it;
+* wave front sets, distribution pullback and pushforward (P8): there is no distribution
+  carrier on manifolds.
 -/
 
 noncomputable section
@@ -43,21 +58,17 @@ theorem mem_smoothVanishingIdeal_sq_iff
       f x = 0 ∧ mfderiv I 𝓘(ℝ, ℝ) f x = 0 := by
   sorry
 
-/-- The native ideal cotangent, rather than a quotient of the whole function ring. -/
-def smoothCotangentEquiv
-    [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M]
-    (x : M) :
-    (smoothVanishingIdeal (I := I) x).Cotangent ≃ₗ[ℝ]
-      (TangentSpace I x →L[ℝ] ℝ) := by
-  sorry
-
 section RealVectorFields
 
 variable [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M]
 
-theorem smoothCotangentEquiv_toCotangent (x : M) (f : smoothVanishingIdeal (I := I) x) :
-    smoothCotangentEquiv x ((smoothVanishingIdeal (I := I) x).toCotangent f) =
-      mvfderiv I (f : C^∞⟮I, M; ℝ⟯) x := by
+/-- The algebraic cotangent space `I_x/I_x²` of the vanishing ideal is the cotangent space
+`T_x*M`, the class of `f ∈ I_x` going to its differential `df_x`. -/
+theorem exists_smoothCotangentEquiv (x : M) :
+    ∃ e : (smoothVanishingIdeal (I := I) x).Cotangent ≃ₗ[ℝ] (TangentSpace I x →L[ℝ] ℝ),
+      ∀ f : smoothVanishingIdeal (I := I) x,
+        e ((smoothVanishingIdeal (I := I) x).toCotangent f) =
+          mvfderiv I (f : C^∞⟮I, M; ℝ⟯) x := by
   sorry
 
 /-- The pointwise field uses the native tangent/point-derivation equivalence. -/
@@ -67,6 +78,7 @@ def derivationVectorField
     (Derivation.evalAt x D)
 
 omit [SecondCountableTopology M] in
+/-- The field of `D` evaluates on `df_x` to `(D f)(x)`. -/
 theorem derivationVectorField_apply
     (D : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯)
     (f : C^∞⟮I, M; ℝ⟯) (x : M) :
@@ -78,6 +90,7 @@ theorem derivationVectorField_apply
   rfl
 
 omit [SecondCountableTopology M] in
+/-- The pointwise field is linear over smooth functions: `field(fD)(x) = f(x) field(D)(x)`. -/
 theorem derivationVectorField_smul (f : C^∞⟮I, M; ℝ⟯)
     (D : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯) (x : M) :
     derivationVectorField (f • D) x = f x • derivationVectorField D x := by
@@ -87,7 +100,8 @@ theorem derivationVectorField_smul (f : C^∞⟮I, M; ℝ⟯)
     rfl
   rw [heval, map_smul]
 
-/-- Smoothness is a separate target, not a consequence of merely defining a pointwise field. -/
+/-- The pointwise field of an arbitrary algebraic derivation is a smooth section of the
+tangent bundle. -/
 theorem contMDiff_derivationVectorField
     (D : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯) :
     ContMDiff I I.tangent ∞
@@ -96,63 +110,14 @@ theorem contMDiff_derivationVectorField
 
 end RealVectorFields
 
-/-- The global scalar dictionary, with no assumed continuity of the derivation. -/
-def derivationEquivSmoothVectorField
+/-- Every algebraic derivation of `C∞(M, ℝ)`, with no continuity assumed, is a smooth vector
+field: the derivations correspond linearly and bijectively to smooth sections of the tangent
+bundle, the section at `x` being the point derivation `f ↦ (D f)(x)`. -/
+theorem exists_derivationEquivSmoothVectorField
     [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M] :
-    Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯ ≃ₗ[ℝ]
-      ContMDiffSection I E ∞ (fun x : M ↦ TangentSpace I x) := by
-  sorry
-
-section RealDictionary
-
-variable [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M]
-
-theorem derivationEquivSmoothVectorField_apply
-    (D : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯) (x : M) :
-    derivationEquivSmoothVectorField D x = derivationVectorField D x := by
-  sorry
-
-theorem derivationEquivSmoothVectorField_smul (f : C^∞⟮I, M; ℝ⟯)
-    (D : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯) (x : M) :
-    derivationEquivSmoothVectorField (f • D) x =
-      f x • derivationEquivSmoothVectorField D x := by
-  simp only [derivationEquivSmoothVectorField_apply, derivationVectorField_smul]
-
-end RealDictionary
-
-/-- Complex-valued smooth functions on the real manifold, with the real target model. -/
-abbrev ComplexSmoothFunctions := C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯
-
-/-- Complex multiplication is smooth for the real manifold structure too. -/
-instance realComplexContMDiffRing : ContMDiffRing 𝓘(ℝ, ℂ) ∞ ℂ :=
-  { instNormedSpaceLieAddGroup with
-    contMDiff_mul := by
-      rw [contMDiff_iff]
-      refine ⟨continuous_mul, fun x y ↦ ?_⟩
-      simp only [mfld_simps]
-      rw [contDiffOn_univ]
-      exact contDiff_mul }
-
-open scoped TensorProduct
-
-/-- Constant complex functions give the complex algebra, independently of the base field. -/
-def complexSmoothConstants : ℂ →+* ComplexSmoothFunctions (I := I) (M := M) where
-  toFun z := ContMDiffMap.const z
-  map_zero' := by ext x; rfl
-  map_one' := by ext x; rfl
-  map_add' z w := by ext x; rfl
-  map_mul' z w := by ext x; rfl
-
-instance complexSmoothFunctionsAlgebra :
-    Algebra ℂ (ComplexSmoothFunctions (I := I) (M := M)) :=
-  (complexSmoothConstants (I := I) (M := M)).toAlgebra
-
-/-- Complexification is the actual scalar tensor of the native real section carrier. -/
-def complexDerivationEquivComplexifiedVectorField
-    [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M] :
-    Derivation ℂ (ComplexSmoothFunctions (I := I) (M := M))
-      (ComplexSmoothFunctions (I := I) (M := M)) ≃ₗ[ℂ]
-        ℂ ⊗[ℝ] ContMDiffSection I E ∞ (fun x : M ↦ TangentSpace I x) := by
+    ∃ e : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯ ≃ₗ[ℝ]
+        ContMDiffSection I E ∞ (fun x : M ↦ TangentSpace I x),
+      ∀ D x, e D x = derivationVectorField D x := by
   sorry
 
 end ScalarDifferentialCore
@@ -171,6 +136,7 @@ theorem fredholmIndex_eq_of_preconnected
   exact continuous_iff_continuousAt.mpr fun c ↦
     (hFredholm c).index_continuousAt.comp hT.continuousAt
 
+/-- The Euclidean coordinate space `ℝⁿ` of a chart. -/
 abbrev CoordinateSpace (n : ℕ) := EuclideanSpace ℝ (Fin n)
 
 /-- An iterated coordinate derivative; smoothness later makes permutations equivalent. -/
@@ -212,17 +178,6 @@ def Symbol.HasCompactSpatialSupport {m : ℝ} (a : Symbol n V W m) : Prop :=
   ∃ K : Set (CoordinateSpace n), IsCompact K ∧
     ∀ x ∉ K, ∀ ξ, a.coefficient (x, ξ) = 0
 
-/-- The common ambient coefficient module pins the actual order subspaces. -/
-def symbolSubmodule (m : ℝ) :
-    Submodule ℂ (CoordinateSpace n × CoordinateSpace n → V →L[ℂ] W) := by
-  sorry
-
-theorem mem_symbolSubmodule_iff (m : ℝ)
-    (f : CoordinateSpace n × CoordinateSpace n → V →L[ℂ] W) :
-    f ∈ symbolSubmodule (n := n) (V := V) (W := W) m ↔
-      ∃ a : Symbol n V W m, a.coefficient = f := by
-  sorry
-
 /-- A homogeneous principal term is smooth away from the zero covector. -/
 structure HomogeneousSymbol (n : ℕ) (V W : Type*) [NormedAddCommGroup V]
     [NormedSpace ℂ V] [NormedAddCommGroup W] [NormedSpace ℂ W] (m : ℝ) where
@@ -255,19 +210,15 @@ structure ClassicalSymbol (n : ℕ) (V W : Type*) [NormedAddCommGroup V]
 def ClassicalSymbol.IsElliptic {m : ℝ} (a : ClassicalSymbol n V W m) : Prop :=
   ∀ x ξ, ξ ≠ 0 → Function.Bijective ((a.terms 0).coefficient (x, ξ))
 
-/-- Inversion constructs a smooth homogeneous symbol, not just pointwise inverses. -/
-def inversePrincipalSymbol {m : ℝ} (a : ClassicalSymbol n V W m)
+/-- The pointwise inverse of the principal term of an elliptic classical symbol is itself a
+smooth homogeneous symbol of order `-m`, two-sided inverse at every nonzero covector. -/
+theorem exists_inversePrincipalSymbol {m : ℝ} (a : ClassicalSymbol n V W m)
     [FiniteDimensional ℂ V] [FiniteDimensional ℂ W] (ha : a.IsElliptic) :
-    HomogeneousSymbol n W V (-m) := by
-  sorry
-
-theorem inversePrincipalSymbol_spec {m : ℝ} (a : ClassicalSymbol n V W m)
-    [FiniteDimensional ℂ V] [FiniteDimensional ℂ W] (ha : a.IsElliptic)
-    (x ξ : CoordinateSpace n) (hξ : ξ ≠ 0) :
-    ((inversePrincipalSymbol a ha).coefficient (x, ξ)).comp
-      ((a.terms 0).coefficient (x, ξ)) = ContinuousLinearMap.id ℂ V ∧
-    ((a.terms 0).coefficient (x, ξ)).comp
-      ((inversePrincipalSymbol a ha).coefficient (x, ξ)) = ContinuousLinearMap.id ℂ W := by
+    ∃ b : HomogeneousSymbol n W V (-m), ∀ (x ξ : CoordinateSpace n), ξ ≠ 0 →
+      ((b.coefficient (x, ξ)).comp ((a.terms 0).coefficient (x, ξ)) =
+          ContinuousLinearMap.id ℂ V ∧
+        ((a.terms 0).coefficient (x, ξ)).comp (b.coefficient (x, ξ)) =
+          ContinuousLinearMap.id ℂ W) := by
   sorry
 
 /-- Actual single integral; integrability is a separate theorem, not built into notation. -/
@@ -289,50 +240,31 @@ theorem contDiff_quantizeSchwartzValue {m : ℝ} (a : Symbol n V W m)
     ContDiff ℝ ∞ (quantizeSchwartzValue a u) := by
   sorry
 
-/-- Quantization as a linear map, with its concrete integral specification. -/
-def quantizeSchwartz {m : ℝ} (a : Symbol n V W m) :
-    SchwartzMap (CoordinateSpace n) V →ₗ[ℂ] (CoordinateSpace n → W) := by
-  sorry
-
-theorem quantizeSchwartz_apply {m : ℝ} (a : Symbol n V W m)
-    (u : SchwartzMap (CoordinateSpace n) V) (x : CoordinateSpace n) :
-    quantizeSchwartz a u x = quantizeSchwartzValue a u x := by
-  sorry
-
 /-- Native all-real-order carrier, without a private completion. -/
 def schwartzToSobolev (s : ℝ) (u : SchwartzMap (CoordinateSpace n) V) :
     BesselPotentialSpace (CoordinateSpace n) V s 2 :=
   (u.memSobolev (s := s) (p := 2)).toBesselPotentialSpace
 
-/-- The order shift extends the same operator on Schwartz input. -/
-def quantizeSobolev {m : ℝ} (a : Symbol n V W m)
+/-- Sobolev mapping for compactly x-supported symbols: the quantization of a symbol of order
+`m` extends from Schwartz input to a bounded map `H^s → H^(s-m)` for every real `s`, the
+extension acting on Schwartz functions as the quantization integral. -/
+theorem exists_quantizeSobolev {m : ℝ} (a : Symbol n V W m)
     [FiniteDimensional ℂ V] [FiniteDimensional ℂ W]
     (ha : a.HasCompactSpatialSupport) (s : ℝ) :
-    BesselPotentialSpace (CoordinateSpace n) V s 2 →L[ℂ]
-      BesselPotentialSpace (CoordinateSpace n) W (s - m) 2 := by
+    ∃ T : BesselPotentialSpace (CoordinateSpace n) V s 2 →L[ℂ]
+        BesselPotentialSpace (CoordinateSpace n) W (s - m) 2,
+      ∀ (u : SchwartzMap (CoordinateSpace n) V) (φ : SchwartzMap (CoordinateSpace n) ℂ),
+        (T (schwartzToSobolev s u)).toDistr φ = ∫ x, φ x • quantizeSchwartzValue a u x := by
   sorry
 
-theorem quantizeSobolev_schwartz {m : ℝ} (a : Symbol n V W m)
-    [FiniteDimensional ℂ V] [FiniteDimensional ℂ W]
-    (ha : a.HasCompactSpatialSupport) (s : ℝ)
-    (u : SchwartzMap (CoordinateSpace n) V)
-    (φ : SchwartzMap (CoordinateSpace n) ℂ) :
-    (quantizeSobolev a ha s (schwartzToSobolev s u)).toDistr φ =
-      ∫ x, φ x • quantizeSchwartz a u x := by
-  sorry
-
-/-- All-x uniform order-zero bounds are a distinct Calderón--Vaillancourt target. -/
-def quantizeUniformOrderZero (a : Symbol n V W 0)
+/-- Calderón–Vaillancourt: an order-zero symbol with derivative bounds uniform in `x` on all
+of `ℝⁿ` quantizes to a bounded operator on `L² = H^0`, with no compact-support hypothesis. -/
+theorem exists_quantizeUniformOrderZero (a : Symbol n V W 0)
     [FiniteDimensional ℂ V] [FiniteDimensional ℂ W] (ha : a.IsUniform) :
-    BesselPotentialSpace (CoordinateSpace n) V 0 2 →L[ℂ]
-      BesselPotentialSpace (CoordinateSpace n) W 0 2 := by
-  sorry
-
-theorem quantizeUniformOrderZero_schwartz (a : Symbol n V W 0)
-    [FiniteDimensional ℂ V] [FiniteDimensional ℂ W] (ha : a.IsUniform)
-    (u : SchwartzMap (CoordinateSpace n) V) (φ : SchwartzMap (CoordinateSpace n) ℂ) :
-    (quantizeUniformOrderZero a ha (schwartzToSobolev 0 u)).toDistr φ =
-      ∫ x, φ x • quantizeSchwartz a u x := by
+    ∃ T : BesselPotentialSpace (CoordinateSpace n) V 0 2 →L[ℂ]
+        BesselPotentialSpace (CoordinateSpace n) W 0 2,
+      ∀ (u : SchwartzMap (CoordinateSpace n) V) (φ : SchwartzMap (CoordinateSpace n) ℂ),
+        (T (schwartzToSobolev 0 u)).toDistr φ = ∫ x, φ x • quantizeSchwartzValue a u x := by
   sorry
 
 end TauCetiRoadmap.PseudodifferentialOperators

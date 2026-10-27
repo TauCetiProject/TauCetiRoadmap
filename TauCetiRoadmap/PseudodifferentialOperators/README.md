@@ -253,10 +253,18 @@ curvature identities.
 
 For D of Dirac type use the polarized anticommutator
 `σ_geom(D)(α)*σ_geom(D)(β)+σ_geom(D)(β)*σ_geom(D)(α)=2g*(α,β)Id`.
-Prove D*D is Laplace type. Relative to an arbitrary chosen metric connection the
-remainder has order≤1; construct the unique Bochner connection absorbing the
-first-order term before asserting a zeroth-order remainder. Prove that this
-connection is metric when the Laplace-type operator is formally self-adjoint.
+Prove D*D is Laplace type, with D* the formal adjoint for the canonical
+Riemannian density of g and the chosen fiber metrics. Relative to an arbitrary
+chosen metric connection the remainder has order≤1; construct the unique Bochner
+connection absorbing the first-order term before asserting a zeroth-order
+remainder. Prove that this connection is metric, and the zeroth-order remainder
+fiberwise self-adjoint, when the Laplace-type operator is formally self-adjoint
+for the canonical Riemannian density and those fiber metrics. Acceptance includes
+the failure for another density: on the standard circle with the trivial real
+line, D=∂ₓ is of Dirac type, its formal adjoint for the density `e^(sin x) dx` is
+`−∂ₓ−cos x`, the product `−∂ₓ²−cos(x)∂ₓ` is formally self-adjoint for that
+density, and its Bochner connection `d+½cos(x)dx` is not metric for the standard
+fiber metric.
 RiemannianGeometry R7.2–3 consume these generic symbol/Bochner constructions;
 SmoothBundlesConnections B3 supplies the chosen connection data.
 
@@ -357,11 +365,17 @@ remove the subprincipal commutators.
 Prove coordinate and frame transformation formulas by the amplitude calculus;
 the principal symbol transforms intrinsically as a Hom-bundle-valued function
 on T*M\0. Patch properly supported operators on bundles and show independence
-of atlas, partition and local quantization modulo smoothing operators. Build
-the filtered algebra/category of operators, its full symbol quotient, principal
-symbol exact sequence and quantization of every smooth homogeneous principal
-symbol. In the classical class the order-m kernel of the principal-symbol map
-is order m−1. Construct a quantization continuous on compact parameter families
+of atlas, partition and local quantization modulo smoothing operators, for a
+family of compatible full local symbols: on each chart overlap the two full
+symbols are related by the complete coordinate and frame transformation
+expansions above, modulo order −∞. Sharing only the principal symbol is not
+enough: on an interval, write the principal symbol ξ² in the coordinate y=eˣ
+as `(dy/dx)²η²`; quantizing that in y and pulling back gives `−∂ₓ²+∂ₓ`,
+whereas quantizing ξ² in x gives `−∂ₓ²`, a difference of order 1. Build the filtered algebra/category of operators, its full symbol
+quotient, principal symbol exact sequence and quantization of every smooth
+homogeneous principal symbol; two quantizations of the same principal symbol
+differ by an operator of order m−1. In the classical class the order-m kernel
+of the principal-symbol map is order m−1. Construct a quantization continuous on compact parameter families
 and prove homotopies of principal symbols admit continuous operator lifts.
 Keep the residual smoothing term in equalities, including cross-chart terms.
 Define membership in the global properly supported classical class by a
@@ -782,9 +796,11 @@ With the external product connection compute
 with `(H¹⊗̂L²)∩(L²⊗̂H¹)`. Identify P⊗1 with P acting in X with y∈Y
 as parameter, through the fibres E_x⊗F_y, and similarly for Q; these
 identities make the chart decomposition of D exact.
-Prove these are self-adjoint on H¹: P6's distributional elliptic regularity
-identifies the maximal L² adjoint domain with H¹, and formal symmetry
-identifies the actions. Prove smooth sections are graph cores and their
+Prove D_P is self-adjoint on `H¹(X;E₀⊕E₁)` and D_Q on `H¹(Y;F₀⊕F₁)`, each on
+its own factor: P6's distributional elliptic regularity identifies the maximal L²
+adjoint domain with H¹, and formal symmetry identifies the actions. The amplified
+terms D_P⊗1 and Γ_E⊗D_Q on the product do not have the product H¹ as maximal
+domain; the product domain is the intersection-domain statement below. Prove smooth sections are graph cores and their
 resolvents compact by the H¹ embedding. Define
 `D=D_P⊗1+Γ_E⊗D_Q` on the common product graph domain. Prove its even-to-odd block is the displayed
 matrix and `D²=D_P²⊗1+1⊗D_Q²`. Use the commuting square spectral
@@ -836,8 +852,12 @@ O(ε) close on the product cosphere to the invariant continuous symbol A;
 averaging preserves this bound. For small ε the averaged symbols and the
 straight homotopy back to A stay invertible by its uniform inverse bound.
 Thus the resulting classical D_ε
-converges to D in H¹→L² norm. Fredholm openness gives equal index for
-small ε. Its homogeneous block symbol is the corresponding small-cone
+converges to D in H¹→L² norm. The modifications are made blockwise, so each D_ε
+is odd for the product grading; write `D⁺:H¹(E₀⊠F₀⊕E₁⊠F₁)→L²(E₁⊠F₀⊕E₀⊠F₁)` and
+`D_ε⁺` for the even-to-odd blocks. Apply Fredholm openness and local constancy to
+`D_ε⁺→D⁺` in H¹→L² norm, which gives equal index for small ε; the full graded
+operators D and D_ε are self-adjoint, so their ordinary index is zero and carries
+no information. Its homogeneous block symbol is the corresponding small-cone
 cutoff modification of the continuous product symbol. Prove its invertible
 homotopy to A_χ, using the same diagonal-square bound; for chart-dependent
 cutoffs use their uniform norm comparisons on the finite atlas.
@@ -847,8 +867,9 @@ continuous in the path parameter in every symbol seminorm, by relative mollifica
 and compact-cosphere invertibility bounds. For invariant paths average
 the sufficiently close mollified path, retaining its endpoints and
 invertibility. Average P4's continuous quantization of this path as well.
-P6 and the equivariant local-constancy lemma above then compare D_ε
-with the equivariant quantization of A_χ by an elliptic Fredholm path.
+P6 and the equivariant local-constancy lemma above then compare `D_ε⁺`
+with the even-to-odd block of the equivariant quantization of A_χ by an
+elliptic Fredholm path.
 IndexTheory I2/I4 owns converting these explicit symbol homotopies into
 K-class/product equalities; no symbol K-theory construction is a prerequisite here.
 Finally export the finite-dimensional identifications
@@ -895,14 +916,21 @@ preserves `dom Δ=H²`, commutes with `Δ`, and preserves its closed form. Deduc
 and commutes with `Δ`. Only then apply P7's invariant-operator results to its eigenspaces.
 
 Also identify this operator with the Friedrichs realization. Consume
-[UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md#uo-d06--closed-forms-and-the-friedrichs-extension)'s
-closed-form representation and Friedrichs-extension theorem. K5a already identifies the shifted
-`H¹` form with VariationalMethods V5.1's represented operator and proves the `H²` operator
-and maximal weak domains; consume that comparison here. For `q(f,g)=∫⟨df,dg⟩`, P5 smooth
-density identifies `H¹` as the completion of the smooth Laplacian's form. By uniqueness of
-the represented operator, UO-D06 and V5.1 give the same operator, so the Friedrichs extension
-of `Δ|C∞` is K5a's `L−1` on `H²`. This layer owns this smooth-core/Friedrichs comparison
-and its finite-cover transport, while K5a retains the weak regularity/domain identification.
+[UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md#uo-d06--closed-forms-and-the-friedrichs-extension):
+for a dense continuous injective form inclusion `j:V→H` and a closed Hermitian form `q` with
+lower bound `γ`, its `closedFormOperator` `A` is the unique partial operator with
+`j(u)∈dom A` iff some `h∈H` satisfies `q(u,v)=⟨h,j(v)⟩` for every `v∈V`, and then `A j(u)=h`
+(inner product conjugate-linear in the first slot); it is self-adjoint with lower bound `γ`, its
+selection does not depend on the admissible shift, and for a densely defined semibounded
+symmetric `S` the Friedrichs extension `S_F` is `closedFormOperator` of the completion of
+`q_S(u,v)=⟨Su,v⟩`. K5a, in its construction of the self-adjoint realization of formally
+self-adjoint nonnegative Laplace-type systems, identifies `L` with `closedFormOperator` of the
+`H¹` energy form on the geometric `L²` inclusion and proves that its domain and the maximal weak
+domain are `H²`; consume that comparison here. For `q(f,g)=∫⟨df,dg⟩`, P5 smooth density
+identifies the completion of `q` on `C∞(X)` in the norm `(q[f]+‖f‖²)^(1/2)` with `H¹`, so by
+the uniqueness clause and shift independence the Friedrichs extension of `Δ|C∞` is K5a's `L−1`
+on `H²`. This layer owns this smooth-core/Friedrichs comparison and its finite-cover transport,
+while K5a retains the weak regularity/domain identification.
 
 For almost-conjugate subgroups `H₁,H₂≤Q`, write `Yᵢ=X/Hᵢ` and `πᵢ:X→Yᵢ`. Prove pullback
 identifies `C∞(Yᵢ)` with the `Hᵢ`-invariant smooth functions on `X` and
@@ -910,10 +938,15 @@ identifies `C∞(Yᵢ)` with the `Hᵢ`-invariant smooth functions on `X` and
 `‖πᵢ* f‖²_(L²(X))=|Hᵢ|‖f‖²_(L²(Yᵢ))`; hence `Jᵢ=|Hᵢ|^(−1/2)πᵢ*` is the normalized
 unitary onto the invariant subspace. Using covering charts and P5's Sobolev norms, prove that
 `Jᵢ` identifies `H¹(Yᵢ)` and `H²(Yᵢ)` with the corresponding invariant subspaces on `X`.
-Verify the closed-form identity `q_X(Jᵢf,Jᵢg)=q_Yᵢ(f,g)`. By UO-D06's unitary/restriction
-transport and the preceding `H²` comparison, prove the exact operator-domain identity and
-that `Jᵢ` transports `Δ_Yᵢ` to the invariant part of `Δ_X`. Prove the corresponding resolvent
-and spectral-projection intertwining identities.
+Prove the exact operator-domain identity `Jᵢ(H²(Yᵢ))=H²(X)^{Hᵢ}=dom Δ_X∩L²(X)^{Hᵢ}`
+and that `Jᵢ` transports `Δ_Yᵢ` to the invariant part of `Δ_X`: the intertwining
+`Δ_X Jᵢ f=Jᵢ Δ_Yᵢ f` holds on smooth `f`, and both sides are continuous from `H²(Yᵢ)` to
+`L²(X)`, so it extends from the dense smooth subspace to `H²(Yᵢ)`. This route uses only K5a's
+`H²` realizations on `X` and `Yᵢ` and the `H²` comparison for `Jᵢ`, not the form
+representation. Prove the corresponding resolvent and spectral-projection intertwining
+identities. Also verify the closed-form identity `q_X(Jᵢf,Jᵢg)=q_Yᵢ(f,g)` on `H¹(Yᵢ)`; with
+the uniqueness clause of UO-D06 applied to the unitarily transported form on the reducing
+subspace `L²(X)^{Hᵢ}`, it gives the same transport for the Friedrichs realizations.
 
 Consume [InductionRestriction Layer 2.1](../RepresentationTheory/InductionRestriction/README.md#layer-21-almost-conjugacy-and-permutation-representations),
 `Gassmann.almostConjugate_iff_permutation_equiv`, for almost-conjugacy and the complex left-coset
