@@ -9,9 +9,8 @@ the vanishing of a characteristic class.
 
 ## Conventions and dependencies
 
-HomotopySpheres section references use the [specification at
-34167306e5a1726e2574b039dc1a27f913985f0f](https://github.com/TauCetiProject/TauCetiRoadmap/blob/34167306e5a1726e2574b039dc1a27f913985f0f/TauCetiRoadmap/HomotopySpheres/README.md)
-in PR284.
+HomotopySpheres references name that roadmap's stages and subsections
+(Stage 4B, Stage 4C, Stage 9).
 
 The default structure is stable. Consume CharacteristicClasses' finite
 compact-Lie classifying spaces, SpinGeometry G4.1's native Spin covers,
@@ -248,8 +247,8 @@ for the integral lift.
 
 Build the low-cell comparison with the sphere spectrum: the unit S→MString
 induces isomorphisms on π_i for i≤6, because the reduced Thom cell diagram
-has cells in degrees at least 8. Consume HomotopySpheres PR284 §9.1's
-π₃ˢ≅ℤ/24 and §4C's stable J/change-of-framing theorem, and
+has cells in degrees at least 8. Consume HomotopySpheres Stage 9 item 1's
+π₃ˢ≅ℤ/24 and Stage 4C's stable J/change-of-framing theorem, and
 TangentialBordism B4's Adams tower/convergence when comparing calculations.
 Own Ω₃^String≃Ω₃^fr and its ℤ/24 normalization on the chosen carriers.
 For every closed oriented 3-manifold M, prove [M,Spin]≃H³(M;ℤ)
@@ -268,7 +267,7 @@ quaternionic clutching generator with Ωλ(g)=−1, increasing the torsor
 coordinate by1 changes the framed class by −J(g). The boundary
 map into BString does not have the domain of stable J.
 Compare this generator with
-PR284's quaternionic ν and export the resulting exact sign conversion.
+HomotopySpheres Stage 9's quaternionic ν and export the resulting exact sign conversion.
 Do not construct a second low-stem computation or infer an integral group
 from its rationalization or a mod-2 calculation.
 
@@ -363,9 +362,9 @@ Prove independence of the smooth atlas and the comparison
 `DSmooth f ↔ ContMDiff I J ∞ f` for finite-dimensional boundaryless source
 manifolds, with the specified target manifold diffeology. Construct the
 bundled smooth-map carrier and identify it with Mathlib's
-`ContMDiffMap I J X M ∞` in this manifold case. Use native diffeological
-products, subspaces and pullbacks, building their missing API on the same
-class. In particular, do not introduce a second class of diffeological spaces.
+`ContMDiffMap I J X M ∞` in this manifold case. Mathlib's diffeology file has no
+product, subspace or pullback diffeologies: construct them as instances
+of this same class, with their universal properties. In particular, do not introduce a second class of diffeological spaces.
 
 Give the bundled maps X→M their functional diffeology: for every open
 U⊆ℝ^n a family p:U→C∞(X,M) is a plot exactly when its adjoint
@@ -420,7 +419,7 @@ Construct the formal virtual-bundle expression
 `Θ_q(V)=⊗_{n≥1} Sym_{q^n}(V_ℂ−rank V)` in completed K-theory,
 with coefficientwise finiteness and product/naturality identities.
 Pin the scalar characteristic series
-`Q(x,q)=(x/2)/sinh(x/2)·∏_{n≥1}(1−q^n)²/
+`Q(x,q)=(x/2)/sinh(x/2)·∏_(n≥1)(1−q^n)²/
 ((1−exp(x)q^n)(1−exp(−x)q^n))`.
 Set G_(2k)(q)=−B_(2k)/(4k)+Σ_(n≥1)σ_(2k−1)(n)q^n.
 Construct its formal expansions, logarithm with coefficients
@@ -561,8 +560,9 @@ for an arbitrary chosen String lift s. Record these unrestricted refined
 assertions as false and prove the following geometric counterexamples.
 For G=SU(3) with its left-invariant tangent framing, use its induced stable
 String lift s_L and the bi-invariant metric g=−B, with B the Killing form.
-Compute `∇_X Y=[X,Y]/2`, `R(X,Y)Z=−[[X,Y],Z]/4` and
-`Ric(X,Y)=−B(X,Y)/4=g(X,Y)/4`. Give the same calculation for
+With `R(X,Y)=∇_X∇_Y−∇_Y∇_X−∇_[X,Y]` and `Ric(Y,Z)=tr(X↦R(X,Y)Z)`,
+compute on left-invariant fields `∇_X Y=[X,Y]/2`, `R(X,Y)Z=−[[X,Y],Z]/4`
+and `Ric(X,Y)=−B(X,Y)/4=g(X,Y)/4`. Give the same calculation for
 SU(2)≅S³ and identify the metric with a positive rescaling of the round
 metric. Construct the framed Pontryagin–Thom classes using S2's specified
 tangent-to-normal inverse and prove the unital diagram
@@ -629,7 +629,7 @@ genus conjecture, and does not prove refined vanishing.
 ## Order and references
 
 S1 uses the normalized classifying, characteristic and EM suppliers, including
-G5.0's low-homotopy supplement from HomotopySpheres PR284 §4B's independent
+G5.0's low-homotopy supplement from HomotopySpheres Stage 4B's independent
 real Bott chain. The all-rank fibre construction uses G2's homotopy infrastructure.
 TangentialBordism B3's String examples use S1. S2 uses the early generic Thom
 and Pontryagin–Thom APIs; S3 uses S1 and the differential/connection suppliers.

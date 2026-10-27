@@ -1,10 +1,19 @@
-import Mathlib.Topology.Homotopy.Basic
+import Mathlib
 
 /-!
-These are suggested forms, not an exhaustive checklist. README.md is definitive.
-This native nullhomotopy interface records the chosen classifier and endpoint.
-The mapping-path fibre, its subspace topology, lift data and exponential-law
-comparison remain the S1 targets on GeneralizedCohomology's specified carriers.
+# String structures, connections and the Witten genus: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states, against the
+pinned Mathlib, what of the roadmap is statable there: the S1 classifier
+nullhomotopy data, on Mathlib's `ContinuousMap.Homotopy`.
+
+Not statable at the pins:
+* Stolz's positive-dimensional Witten-genus vanishing conjecture under `Ric > 0`
+  and the S6 counterexamples (framed `SU(3)` and `S³`) to refined tmf/TMF vanishing:
+  Mathlib has no Ricci curvature of a Riemannian manifold, no String bordism or
+  Thom spectrum `MString`, and no spectra `tmf` or `TMF`.
+* The S4 integrality and modularity of the Witten genus and the S5 Cayley-plane
+  kernel theorem: Mathlib has no String bordism ring and no Witten genus.
 -/
 
 noncomputable section
