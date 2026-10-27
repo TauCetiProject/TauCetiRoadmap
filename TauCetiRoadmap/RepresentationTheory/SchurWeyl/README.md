@@ -538,6 +538,83 @@ Schur-Weyl) can proceed in parallel once the Specht modules exist.
   Under the rational hypothesis, Φ intertwines these maps with the
   primitive-power-sum Hopf structure of the same `SymmFun` interface.
 
+- **Matrix trace specialization of the Newton/power-sum comparison.**
+  Construct this application on the same finite/stable symmetric-function
+  maps, using native `Matrix.charpoly`, `Matrix.charpolyRev`,
+  `Matrix.reverse_charpoly`, the principal-minor coefficient theorem and
+  `Matrix.charpoly.univ_map_eval₂Hom`. For A∈Mat_d(R), R a commutative
+  ring, put p_j(A)=tr(A^j) for j>0 and
+  c_r(A)=coeff_r(A.charpolyRev), E_r(A)=(−1)^r c_r(A).
+  Prove c_0=E_0=1, c_r=E_r=0 for r>d, and, only for 0≤r≤d,
+  `coeff_(d−r)(A.charpoly)=c_r(A)=(−1)^r E_r(A)`.
+  In particular E_d=det A. This convention avoids using truncated natural
+  subtraction to identify coefficients when r>d. Include d=0, where the
+  characteristic polynomial is1 and every positive trace is0.
+
+  Consume `MvPolynomial.mul_esymm_eq_sum` and the native multiset adapter
+  `Multiset.mul_esymm_eq_sum` from Tau Ceti's symmetric Newton module.
+  Prove their actual matrix specialization, for every r>0,
+  `r E_r(A)=Σ_(j=1)^r (−1)^(j−1)E_(r−j)(A)p_j(A)`, equivalently
+  `r c_r(A)=−Σ_(j=1)^r c_(r−j)(A)p_j(A)`.
+  Supply the root-multiset comparison over a splitting field, counting
+  algebraic multiplicities: E_r is its elementary symmetric function and
+  p_j is its power sum even for a matrix with nontrivial Jordan blocks.
+  Build the latter comparison from the generalized-eigenspace decomposition
+  and nilpotent trace identities, rather than assuming diagonalizability.
+  Prove the resulting polynomial identity on the universal-entry matrix
+  over ℤ by its injective passage to a characteristic-zero splitting field,
+  and specialize it coefficientwise to every R. Thus this integral recurrence
+  has no field, splitting or invertibility-of-r hypothesis on its final input.
+
+  For a commutative ℚ-algebra R solve the recurrence through the same
+  rational power-sum presentation. Prove the all-degree finite formula
+  `E_r(A)=Σ_(m₁+2m₂+⋯+r m_r=r)
+    (−1)^(r−Σ_j m_j) ∏_(j=1)^r (p_j(A)^(m_j)/(j^(m_j)m_j!))`.
+  The indices m_j are natural numbers; the weighted-sum constraint bounds
+  every index and gives Σ_j m_j≤r. Denominators are interpreted by ℚ→R.
+  The formula for c_r instead has sign (−1)^(Σ_j m_j). Prove both signs
+  from c_r=(−1)^r E_r and the recurrence; in particular the unsigned
+  elementary coefficient and the signed characteristic coefficient have
+  different odd-degree formulas. At r=0 use the unique empty index family,
+  empty product1 and E_0=1; at r>d the same sum is0.
+
+  Compare the partition index with native `psumPart` and `zPart` and the
+  existing stable homogeneous grading. Over ℚ, the degree-r power-sum
+  products indexed by all partitions of r form a basis after specialization
+  to d variables when d≥r. Prove this from the stable comparison and its
+  finite projection. In d<r variables, use the existing monomial/Schur
+  basis indexed by partitions with at most d parts: its dimension is that
+  bounded partition count, and the full all-partition power-sum family is
+  dependent. Supply the specialization/quotient equations. These are bases
+  of symmetric-polynomial spaces, not independence assertions about their
+  values at a single matrix or character. The finite zeroth trace p_0=d
+  is a dimension parameter, not another positive power-sum generator.
+
+  Prove coefficient-ring naturality, matrix reindexing and similarity
+  invariance of all these comparisons using the existing trace/charpoly
+  maps. Through `LinearMap.charpoly_toMatrix` and
+  `LinearMap.trace_eq_matrix_trace`, export the basis-independent statement
+  for an endomorphism of a finite-dimensional characteristic-zero vector
+  space. For an actual finite-dimensional representation ρ of any group,
+  identify p_j(ρ(g)) with χ_ρ(g^j). Thus the dimension and the character
+  values on g,g²,…,g^d determine the actual characteristic polynomial of
+  ρ(g). Prove transport under representation isomorphism and scalar
+  extension; this is an application of the same Newton comparison.
+
+  Check E_1=p_1, 2E_2=p_1²−p_2,
+  6E_3=p_1³−3p_1p_2+2p_3 and
+  24E_4=p_1⁴−6p_1²p_2+3p_2²+8p_1p_3−6p_4.
+  For a four-dimensional complex representation compute the quartic when
+  g²=1, g³=1 or g⁴=1, using the actual power equations and the existing
+  finite-order trace/conjugation theorem. For any additional trivial
+  summand of dimension s prove
+  `charpoly(ρ(g)⊕id_s)=charpoly(ρ(g))·(X−1)^s`, together with the trace-power
+  equations p_j(ρ(g)⊕id_s)=p_j(ρ(g))+s for j>0. These checks use the
+  native block/direct-sum comparison and include s=0 and zero-dimensional ρ.
+  `MatrixTraceNewtonTargets.lean` pins the integral recurrence on the actual
+  matrix and reversed-characteristic-polynomial carriers.
+
+
 - **Stable Frobenius and induction.** Over ℂ, construct
   `stableFrobenius n : ClassFunction ℂ S_n ≃ₗ[ℂ] StableDegree ℂ n`, with
   projection at every d≥n exactly the native `frobeniusCharacteristic`.
