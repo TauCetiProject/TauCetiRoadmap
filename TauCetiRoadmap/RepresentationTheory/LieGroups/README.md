@@ -1372,6 +1372,55 @@ connected reductive `G`, first split its actual Lie algebra into center and semi
 using Layer 5A; apply the finite quotient statement to the simply connected semisimple cover and
 carry the central torus and finite central gluing through the existing Layer 7 period-quotient data.
 
+**Compact conjugacy classes and the closed alcove.** For compact connected K
+and its actual maximal torus T, construct the homeomorphism
+`T/W≃K/conjugation` induced by inclusion. Exhaustion gives surjectivity.
+If t,u∈T and gtg⁻¹=u, both T and gTg⁻¹ lie in C_K(u)⁰; apply maximal-torus
+conjugacy in this compact connected identity component to obtain
+c∈C_K(u)⁰ with cg∈N_K(T). This gives the reverse orbit implication.
+The full group centralizer C_K(u) need not be connected. Prove continuity
+and both quotient-map identities; use compactness and Hausdorffness of the
+compact-group orbit quotient to obtain the homeomorphism. Compare it with
+`𝔱/(ker(exp_T)⋊W)` through the actual exponential quotient and equivariant
+linear maps, rather than just a bijection of representative sets.
+
+For semisimple K, use the preceding calibration to construct the linear
+comparison C:V→𝔱, with C(α∨)=2π α∨_comp, and prove
+`ker(exp_T∘C)=Y` and W-equivariance. Consume LHW10's closed-point-orbit
+and stabilizer theorems on this same action to construct
+`K/conjugation≃V/(Y⋊W)≃Abar/Ω_Y`, including their quotient topologies and
+boundary stabilizers. When K is simply connected, the independently proved
+Y=Q∨ makes Ω_Y trivial, so exponentiation gives exactly one representative
+in Abar. For other isogeny forms retain Ω_Y and its actual action; a closed
+Q∨-alcove is then not itself a set of unique conjugacy representatives.
+For compact connected reductive K use its actual finite central covering
+`Z(K)⁰×K_der,sc→K` and kernel F. Construct the action of F on
+`Z(K)⁰×Abar_der` induced by multiplication on the covering group, using the
+semisimple central-translation/alcove maps, and prove its quotient is
+K/conjugation. Compare this quotient with the actual full period-lattice
+model on 𝔱. Preserve mixed central/derived gluing; a pure torus has its own
+torus as conjugacy quotient, and the trivial group gives a point.
+
+For SU(n), n≥2, fix the diagonal coordinates
+`exp(2πi diag(a₁,…,a_n))` with Σa_i=0 and positive roots x_i−x_j for i<j.
+Compute the actual kernel as the sum-zero integer lattice and identify Abar
+with `a₁≥⋯≥a_n` and `a₁−a_n≤1`. Give the exponential, affine-Weyl and
+conjugacy-quotient comparisons in these coordinates. For SU(2) this is
+`(a₁,a₂)=(t,−t)`, 0≤t≤1/2. For SU(3) compute the vertices
+`(0,0,0)`, `(1/3,1/3,−2/3)` and `(2/3,−1/3,−1/3)` and their
+exponentials I, ωI and ω²I, respectively, with ω=exp(2πi/3). Prove these
+are exactly its three central classes. Compare SU(2)→SO(3): multiplication
+by −I induces t↦1/2−t on the SU(2) alcove, so the SO(3) quotient is
+represented by 0≤t≤1/4, with rotation angle 4πt. In particular the two
+SU(2) endpoints become the same SO(3) identity class, while t=1/4 is the
+half-turn class. Construct the maps and boundary isotropy, not just the
+interval lengths. Transport the source's labels x_(i+1)−x_i by the
+explicit reversing permutation/opposition before using these descending
+inequalities; retain its root-sign/order mismatch as a source discrepancy.
+Handle n=1 by the point group and n=0 by the native trivial-group
+convention, without an invalid type-A root datum.
+
+
 ### Layer 7G₂: the compact automorphism group of the positive division octonions
 
 This is the compact real-form application of the **positive** division carrier built in
@@ -1556,6 +1605,57 @@ formally-real Albert, triality, Layer7E and downstream symmetric-space targets u
 
 - **Borel subgroups and the flag manifold.** The inputs are (i) a compact connected Lie group `K`, its Layer 7 universal complexification `K_ℂ`, and the Layer 7 algebraization comparison `𝐊(ℂ)≃K_ℂ`; or (ii) a connected affine reductive algebraic group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` identified by the RG6/FCO lower dictionary and its compact form `K` constructed by Layer 7's algebraic compact-form specialization from that lower dictionary. Thus case (ii)'s compact form is a later Layer 7 output, not an input supplied by the lower FCO dictionary. In either case work with the resulting actual affine reductive algebraic group `𝐆` and its full character/cocharacter lattice, maximal torus `𝐓`, and positive-root system. Construct the algebraic Borel `𝐁=𝐓⋉𝐍₊`, where `Lie(𝐍₊)=⊕_{α>0}𝔤_α`; use its algebraic characters as holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and RG7's generic algebraic Bruhat theorem applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism `K/T≅𝐆(ℂ)/𝐁(ℂ)` follows from the Layer 7 compact-form/algebraization comparison; it is not asserted for an unrelated real group. In particular, the elliptic complex torus `ℂ/(ℤ+iℤ)` is not a linear complex reductive group and is outside these hypotheses.
 - **Bruhat and Schubert geometry.** ReductiveGroups RG7 is the single owner of the generic Bruhat/root-data theorem `G_ℂ=⨆_{w∈W}B w B`. Apply it to the preceding groups and construct Schubert cells `BwB/B`, their complex dimensions `ℓ(w)`, the flag CW structure, and cohomology.
+- **The smaller block-Borel action on complete flags.** Over ℂ, for n≥1 put
+  W=span(e₁,…,e_(n−1)) and
+  `H={diag(b,1):b∈B_(n−1)}⊂GLₙ`, where each B_r is the upper-triangular
+  subgroup. Construct this subgroup, its actual action on GLₙ/Bₙ and the
+  following orbit chart. For 1≤j<n let
+  `E⁰_j=span(e_(n−1)+e_n,…,e_(n−j)+e_n)`.
+  The orbit of this complete flag is free and Zariski open dense. Give an
+  isomorphism H→H·E⁰ with its regular inverse, rather than deducing an orbit
+  assertion from equal dimensions.
+
+  Explicitly, let p:ℂⁿ→W be projection along ℂe_n. On the chart where
+  E_(n−1) is transverse to ℂe_n, write it uniquely as the graph of
+  ℓ:W→ℂ and put F_j=p(E_j). Require F_• to lie in the upper-unipotent
+  orbit of the opposite standard flag of W. By the existing Bruhat coordinates
+  write it uniquely as u·F^opp_• with u upper unitriangular. Set
+  `c_i=ℓ(u e_i)` for 1≤i<n and require every c_i≠0. Prove these conditions
+  define a nonempty Zariski open subset of the actual flag variety and that
+  its inverse orbit coordinate is `diag(u·diag(c_i⁻¹),1)∈H`. Prove both
+  inverse equations, regularity, uniqueness and trivial stabilizer; use
+  irreducibility of the flag variety for density. For n=1 the flag variety
+  and H are points and all coordinate lists are empty. This chart concerns
+  the smaller H action from Knutson's first-semester p49.
+
+  Give the complete orbit classifications in ranks2 and3. For n=2 the
+  representatives are the lines ℂe₁, ℂe₂ and ℂ(e₁+e₂), with the last the
+  free open orbit. For n=3 write a flag as
+  `(ℂl⊂span(l,q)⊂ℂ³)`. Its thirteen orbit representatives are:
+
+  | l | allowed q (one orbit for each entry) |
+  | --- | --- |
+  | e₁ | e₂, e₃, e₂+e₃ |
+  | e₂ | e₁, e₃, e₁+e₃ |
+  | e₂+e₃ | e₁, e₃, e₁+e₃ |
+  | e₁+e₃ | e₂, e₃ |
+  | e₃ | e₁, e₂ |
+
+  Prove exhaustiveness and distinctness constructively. First reduce the
+  line to exactly one of these five representatives by upper-triangular
+  coordinate operations. On ℂ³/ℂl the line stabilizers induce diagonal
+  groups diag(a,1), a∈ℂ×, in the first three rows (using quotient bases
+  (e₂,e₃), (e₁,e₃), (e₁,e₃)); these have exactly the two coordinate-line
+  orbits and the orbit with both coordinates nonzero. In the fourth row use
+  quotient basis (e₂,e₃): the induced group is
+  `{[[d,0],[c,1]]:d≠0}`, with its fixed line ℂe₃ and its complementary
+  orbit represented by ℂe₂. In the fifth row the quotient basis (e₁,e₂)
+  gives the full upper-triangular B₂, with fixed line ℂe₁ and complementary
+  orbit ℂe₂. Prove the stated stabilizer images and quotient orbit reductions;
+  these identify planes containing l and establish all thirteen classes.
+  The free open representative is the third row with q=e₁+e₃.
+
+
 - **Associated coherent lines and the two Borel conventions.** For the preceding connected
   linear complex groups use the actual algebraic character lattice X of T and the positive
   Borel B+. For χ∈X construct the algebraic associated line Eχ by descent, its G-linearization,
@@ -1792,6 +1892,50 @@ handwritten qualifications remain separate from these constructions.
   branch remains a separate application from the
   integrated positive-Cartan/adjoint model and retains its own finite-cover hypotheses. A circle
   with inversion and compact fixed {±1} is not such compatible central data.
+- **Connected subgroups of the positive triangular group.** For n≥0,
+  let A N⊂GL_n(ℂ) be the real Lie subgroup of upper-triangular matrices
+  with strictly positive real diagonal, and let a n be its real Lie
+  algebra of upper-triangular matrices with real diagonal. Construct
+  these actual closed Lie subgroups inside GL_n(ℂ), their tangent
+  identifications, and global inverse smooth maps exp:a n→A N and log.
+  The diagonal entries of log(g) are log(g_ii). Recover off-diagonal
+  entries recursively in the gap j−i: in exp(X)_ij the coefficient of
+  X_ij is (exp(X_ii)−exp(X_jj))/(X_ii−X_jj), with its equal-diagonal
+  value exp(X_ii)>0; all other terms involve smaller gaps. Prove the
+  removable-value smoothness, positivity and both inverse identities,
+  including repeated diagonal eigenvalues and complex off-diagonal
+  entries. Compare with the native matrix exponential and the Lie-group
+  exponential. This is a real completely solvable group: prove that its
+  Lie algebra is solvable and every adjoint eigenvalue is real, rather
+  than describing the generally nonnilpotent diagonal extension as nilpotent.
+
+  For every connected finite-dimensional immersed Lie subgroup C of
+  A N, with its given Lie-group topology and injective immersion into
+  the matrix group, prove exp_C:Lie(C)→C is a global diffeomorphism.
+  No embeddedness or closedness hypothesis is imposed on C. Identify
+  Lie(C) with its finite-dimensional real Lie subalgebra c⊂a n and prove
+  exponential naturality. For X∈c the left-trivialized derivative
+  dexp_X=∫₀¹exp(−s ad X) ds preserves c; ambient invertibility and finite
+  dimension imply that its restriction to c is invertible. Therefore
+  exp_C is a local diffeomorphism at every X. The image exp(c) is closed
+  in A N because c is a closed vector subspace and the ambient exp/log
+  maps are homeomorphisms. Pull this closedness back along the given
+  continuous inclusion of C, and use the open image of exp_C and
+  connectedness to prove surjectivity. Ambient injectivity gives
+  injectivity; construct the smooth inverse and prove that the original
+  immersion is an embedding with closed image. These are conclusions
+  about its original intrinsic topology, not a replacement topology.
+
+  For every compact subgroup K≤GL_n(ℂ), prove K∩C={1}. Construct a
+  K-invariant positive Hermitian form by the existing compact averaging
+  theorem; every element of K is unitary for that form and hence
+  diagonalizable with eigenvalues on the unit circle. An element of
+  A N has positive real eigenvalues, so an element of the intersection
+  has every eigenvalue1 and is the identity. Include the trivial n=0
+  group and the n=1 real-logarithm case, and export the inclusion,
+  exponential/logarithm and restriction equations for the subsequent
+  KAN application.
+
 - **Iwasawa decomposition.** The general theorem retains its full input: any closed, connected exponential subgroup N normalized by a whose Lie algebra complements k+a. Prove its nilpotence and the global K×A×N diffeomorphism from exactly those hypotheses. Separately construct the canonical root-generated subgroup N₊ from the restricted-root decomposition and prove it satisfies those KAN hypotheses when applicable; do not define the arbitrary complement N to be N₊.
   The simultaneous real a-weight decomposition has g_0=m+a, so n_0=0. Put
   s=a⋉n; invariance of its OWN Killing form gives B_s(s,n)=0: a pairs trivially
