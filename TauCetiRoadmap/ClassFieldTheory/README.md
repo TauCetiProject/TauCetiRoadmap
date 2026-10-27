@@ -74,10 +74,8 @@ TauCeti/NumberTheory/ClassFieldTheory/
   ClassFields/
 ```
 
-The representative signatures are in `Suggested.lean`. That file pins the structures and maps on
-which the rest of the development depends, the transparent definitions which fix the direction of
-the Artin map, and the acceptance tests of §5; it does not try to list every theorem of local and
-global class field theory.
+`Suggested.lean` is the acceptance test: it states the headline theorems listed in §3 against
+the pinned Mathlib and Tau Ceti (§6).
 
 ---
 
@@ -283,7 +281,7 @@ with `ℚ/ℤ` the rational circle `AddCircle (1 : ℚ)` and its subgroup of ord
 2. An injective invariant homomorphism
 
    ```text
-   inv_{U,V} : H²(Γ, C) → ℚ/ℤ.
+   inv(U,V) : H²(Γ, C) → ℚ/ℤ.
    ```
 
 3. Its image is the unique subgroup of `ℚ/ℤ` of order `[U : V]`.
@@ -296,7 +294,7 @@ with `ℚ/ℤ` the rational circle `AddCircle (1 : ℚ)` and its subgroup of ord
 The fourth condition is the finite-layer form of
 
 ```text
-inv_E (res_{F,E} x) = [E : F] · inv_F(x).
+inv_E (res(F→E) x) = [E : F] · inv_F(x).
 ```
 
 The fifth condition is made explicit in Lean even when it is suppressed in classical notation,
@@ -314,7 +312,7 @@ If the layer has degree `n`, the invariant axioms imply that `H²(Γ,C)` is cycl
 Its **fundamental class** is the unique element
 
 ```text
-u_{U,V} : H²(Γ,C)
+u(U,V) : H²(Γ,C)
 ```
 
 with invariant `1/n` in `ℚ/ℤ`. It is derived from the invariant map; it is not an independent
@@ -325,16 +323,16 @@ every compatibility below.
 The first compatibility theorem is
 
 ```text
-res(u_{U,V}) = u_{U',V}
+res(u(U,V)) = u(U',V)
 ```
 
 for an intermediate ground subgroup `V ≤ U' ≤ U`. For a refinement of the top subgroup, the
-inflation formula is scaled: `inf(u_{U,V}) = [V : V'] · u_{U,V'}`. Corestriction goes the other
-way and is scaled by the relative degree: `cor(u_{U',V}) = [U : U'] · u_{U,V}`, while it preserves
+inflation formula is scaled: `inf(u(U,V)) = [V : V'] · u(U,V')`. Corestriction goes the other
+way and is scaled by the relative degree: `cor(u(U',V)) = [U : U'] · u(U,V)`, while it preserves
 invariants (`inv_cor`). ⚠ The index is `[U : U']`, not `[U' : U]`: `U'` is the *sub*group, so
 `[U : U']` is the relative field degree `[E : F]`, which is what `fundamentalClass_cor` calls
-`T.relativeDegree`. The invariant normalization forces it — `inv(u_{U',V}) = 1/[U' : V] =
-[U : U']/[U : V]`, and corestriction preserves invariants. These statements are needed to apply Tate's theorem to every subgroup
+`T.relativeDegree`. The invariant normalization forces it —
+`inv(u(U',V)) = 1/[U' : V] = [U : U']/[U : V]`, and corestriction preserves invariants. These statements are needed to apply Tate's theorem to every subgroup
 of `Γ`.
 
 ### 2.4 Tate's theorem and its Tate–Nakayama generalization
@@ -511,99 +509,64 @@ the precomposition of the arithmetic map with inversion, for interoperability.
 
 ## 3. Frozen public interface
 
-The following names are the intended public contract. Exact universe parameters and adapter
-names may change during implementation, but the mathematical direction of each map may not.
+The following names are the public contract. The mathematical direction of each map is fixed;
+exact universe parameters may change during implementation.
 
-| Object or theorem | Intended declaration |
+**Consumed from Tau Ceti at the pin**, under Tau Ceti's names, and never restated:
+
+| Object or theorem | Tau Ceti declaration |
 |---|---|
-| formation, finite normal layer, level | Tau Ceti's `Formation`, `NormalLayer`, `Formation.level` |
-| restriction, corestriction, and their normalization | Tau Ceti's `LayerRestriction.cohomologyRes`, `cohomologyCor`, `tateRes`, `tateCor`, `trivialTateRes`, `trivialTateCor`, `cohomologyCor_cohomologyRes`, `tateCor_tateRes` |
-| towers | Tau Ceti's `LayerRestriction.trans`, `LayerRefinement.trans`, `relativeDegree_trans`, `cohomologyRes_trans`, `cohomologyCor_trans`, `tateRes_trans`, `tateCor_trans`, `cohomologyInfl_trans` |
-| the finite quotient system | Tau Ceti's `NormalLayer.subgroupLayer`, `subgroupGalEquiv`, `subgroupRestriction`, `degree_subgroupLayer`, `relativeDegree_subgroupRestriction` |
-| class-formation axioms | Tau Ceti's `ClassFormation`, re-exported as `ClassFormation` |
-| invariant map | Tau Ceti's `ClassFormation.inv`, with `inv_cor` |
-| fundamental class | Tau Ceti's `ClassFormation.fundamentalClass`, with `fundamentalClass_generates`, `fundamentalClass_restrict`, `fundamentalClass_cor`, `fundamentalClass_infl`, `fundamentalClass_conj` |
-| cup with a chosen class, and with the fundamental class | Tau Ceti's `cupClass`, `ClassFormation.cupFundamentalClass` |
-| Tate's theorem, generic, hypotheses individually | Tau Ceti's `tateTheorem`, `tateTheorem_toAddMonoidHom` |
-| its three hypotheses for a class formation | Tau Ceti's `ClassFormation.h1_subgroupLayer`, `card_H2_subgroupLayer`, `fundamentalClass_restrict_generates` |
-| Tate's theorem for the class formation | Tau Ceti's `ClassFormation.tateIso`, with `tateIso_toAddMonoidHom`, `tateIso_res`, `tateIso_cor`, `tateIso_res_trans`, `tateIso_conj`, `tateIso_infl` |
-| degree `-2 → 0` Nakayama direction | Tau Ceti's `ClassFormation.nakayamaNegTwo` |
-| quotient-form Artin reciprocity | Tau Ceti's `ClassFormation.artinEquiv` |
-| Artin map on the ground level | Tau Ceti's `ClassFormation.artinMap`; the quadratic test `artinMap_quadratic_eq_nontrivial_iff_not_norm` |
-| character characterization | Tau Ceti's `ClassFormation.character_artinMap`, `eq_artinMap_of_character`, `NormalLayer.artinCharacterCup`, `NormalLayer.characterConnectingClass` |
-| norm kernel | Tau Ceti's `ClassFormation.ker_artinMap` |
-| four functoriality diagrams | Tau Ceti's `artinMap_groundInclusion`, `artinMap_groundNorm`, `artinMap_conj`, `artinMap_quotient` |
-| abelian layers | `IsAbelianClassFieldLayer`, `isAbelianClassFieldLayer_iff_isMulCommutative`; Tau Ceti's `AbelianLayer`, `isMulCommutative_gal_ofOpenNormal`, `abelianizationGalEquiv` |
-| maximal abelian sublayer | `maximalAbelianLayer`, `le_maximalAbelianLayer`, `isAbelianClassFieldLayer_maximalAbelianLayer`, `maximalAbelianLayer_le` |
-| norm limitation | Tau Ceti's `ClassFormation.normSubgroup_maximalAbelianLayer` |
-| class fields as subfields | Tau Ceti's `classField`, `classField_le_classField_iff`, `galClassFieldEquiv` |
-| local class formation | `fieldFormation`, `h0_unitsCoeff_eq_level_top`, `localFormation`, `localClassFormation` |
-| finite local Artin equivalence | `localArtinEquiv`, with `normResidue` its multiplicative form |
-| finite local Artin map | `localArtinMap` |
-| unramified normalization | `localArtinMap_uniformizer`, `normResidue_uniformizer` |
-| absolute local Artin map and its pins | `artinMap`, `restrictAbsolute`, `iota_restrictAbsolute_apply`, `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `artinMap_congr`, `continuous_artinMap`, `denseRange_artinMap` |
-| unramified coordinate | `unramifiedCoordinate`, `unramifiedCoordinate_mk`, `unramifiedCoordinate_mk_eq_one_iff`, `unramifiedCoordinate_mk_eq_gen_iff`, `unramifiedCoordinate_artinMap`, `mem_inertiaSubgroup_of_mk_eq_artinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer` |
-| cyclotomic normalization | `cyclotomicSymbol`, `realCyclotomicSymbol`, `prod_cyclotomicSymbol`, `cyclotomicSymbol_norm_fixes`, `cyclotomicCharacter_artinMap_padic_uniformizer`, `cyclotomicCharacter_artinMap_padic`, `cyclotomicCharacter_artinMap` |
-| local Weil group: carrier and topology | `localWeilGroup`, `inertia_le_localWeilGroup`, `dense_localWeilGroup`, `WeilGroup`, `weilToAbsolute`, `isOpen_inertia_weil`, `not_isOpen_inertia` |
-| local Weil group: functoriality | `weilTransfer`, `isOpen_range_weilTransfer`, `index_range_weilTransfer`, `weilDegree_weilTransfer`, `weilRestrict`, `range_weilTransfer_eq_ker_weilRestrict` |
-| local Weil group: inertia sequence | `weilDegree`, `surjective_weilDegree`, `ker_weilDegree`, `unramifiedCoordinate_weilDegree` |
-| local Weil group: reciprocity, finite extensions of `ℚ_p` only | `localWeilArtinEquiv` (onto the topological abelianization), `localWeilArtinEquiv_compat`, `mem_range_artinMap_iff` |
-| local norm subgroups | `localGroundEquiv`, `localNormSubgroup`, `isOpen_localNormSubgroup`, `finiteIndex_localNormSubgroup`, `localNormSubgroup_mono`, `localNormSubgroup_maximalAbelianLayer`, `localNormSubgroup_top`, `LocalNormSubgroups` |
-| local existence | `localAbelianExistence` (finite extensions of `ℚ_p`), `localAbelianExistence_primeToResidueCharacteristic` (index prime to the residue characteristic), with `localExistence` and `localExistence_primeToResidueCharacteristic` as their forgetful corollaries |
-| the local class field and its uniqueness | `localClassField`, `localClassField_normSubgroup`, `localClassField_unique` |
-| the local correspondence, two scopes | `localClassFieldCorrespondence`, `localClassField_le_iff`, `localClassField_orderReversing`; `LocalNormSubgroupsPrimeTo`, `AbelianLayerPrimeTo`, `localClassFieldPrimeToResidueCharacteristic`, `localClassFieldCorrespondence_primeToResidueCharacteristic`, `localClassFieldPrimeToResidueCharacteristic_orderReversing` |
-| local quotient and degree | `localAbelianGaloisEquiv`, `localAbelianGaloisEquiv_artinMap`, `index_localNormSubgroup`, `localClassFieldGaloisEquiv`, `localClassField_index` |
-| kernel and injectivity of the absolute local Artin map | `ker_artinMap_eq_iInf` (every local field); `injective_artinMap` (finite extensions of `ℚ_p`) |
-| global Brauer sequence and local invariants | `brFinite`, `brInfinite`, `infiniteInvMap`, `finiteInvAt`, `infiniteInvAt`, `brauerSupport`, `sumLocalInv`, `eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`, `exists_br_of_sum_eq_zero` |
-| archimedean Artin maps | `infiniteClassFormation`, `infiniteClassFormation_inv`, `infiniteArtinAt`, `infiniteArtinAt_layer`, `character_infiniteArtinAt`, `infiniteArtinAt_eq_one_of_isComplex`, `infiniteArtinAt_eq_one_iff_of_isReal`, `infiniteArtinAt_rootsOfUnity_of_isReal`, `infiniteArtinAt_norm` |
-| fundamental inequalities and `H¹` of idele classes | `subsingleton_h1_globalFormation`, `degree_le_card_normQuotient_of_isCyclic`, `card_H2_globalFormation_dvd_degree` |
-| idele carrier and the global invariant | `ideleFormation`, `multiplicativeFormation`, `ideleToClassH2`, `ideleLocalInvAt`, `ideleInfiniteInvAt`, `ideleSumLocalInv`, `ideleSumLocalInv_infl`, `globalInv`, `globalInv_ideleToClassH2`, `globalInv_infl`, `globalInv_unique` |
-| lifting to the idele layer: obstruction, refinement, independence | `surjective_ideleToClassH2_of_isCyclic`, `classToMultiplicativeH3`, `range_ideleToClassH2`, `exists_refinement_ideleSumLocalInv_eq`, `exists_refinement_mem_range_ideleToClassH2`, `ideleSumLocalInv_eq_of_ideleToClassH2_eq`; Tau Ceti's `LayerRefinement.exists_commonRefinement` |
-| global idele-class formation | `globalClassFormation`, with `globalClassFormation_inv` |
-| finite global Artin equivalence | `globalArtinEquiv` |
-| global Artin map | `globalArtinMap` |
-| comparison with ideal Artin | `globalArtinMap_ideal`, `abelianArtinHomAway` |
-| local–global compatibility | `globalArtinMap_local`, `localArtinAt` |
-| global norm subgroups | `globalNormSubgroup`, `isOpen_globalNormSubgroup`, `finiteIndex_globalNormSubgroup`, `globalNormSubgroup_mono`, `globalNormSubgroup_maximalAbelianLayer`, `globalNormSubgroup_top`, `GlobalNormSubgroups` |
-| global existence and norm index | `globalAbelianExistence`, with `globalExistence` as its forgetful corollary; `card_ideleClassNormQuotient` |
-| the inputs of global existence | `exists_abelianLayer_globalNormSubgroup_eq_of_le`, `exists_abelianLayer_globalNormSubgroup_eq_of_comap_ideleClassNorm`, `exists_abelianLayer_globalNormSubgroup_eq_of_pow_mem`; `IsSUnit`, `kummerIdeleSubgroup`, `kummerNormSubgroup`, `index_kummerNormSubgroup`, `sUnitsKummerLayer`, `classField_sUnitsKummerLayer`, `degree_sUnitsKummerLayer`, `globalNormSubgroup_sUnitsKummerLayer` |
-| composita and intersections | `globalNormSubgroup_inf_of_isAbelian`, `globalNormSubgroup_sup` |
-| the global class field and its uniqueness | `globalClassField`, `globalClassField_normSubgroup`, `globalClassField_unique` |
-| the global correspondence, number fields | `globalClassFieldCorrespondence`, `globalClassField_le_iff`, `globalClassField_orderReversing` |
-| global quotient and degree | `globalAbelianGaloisEquiv`, `globalAbelianGaloisEquiv_artinMap`, `index_globalNormSubgroup`, `globalClassFieldGaloisEquiv`, `globalClassField_index`; Tau Ceti's `galClassFieldEquiv` |
-| continuous local coefficients | `GalRep`, `H`, `muNRep`, `muNRep_ρ_apply`, `isSmoothDiscrete_muNRep`, `instFactIsSmoothDiscreteMuNRep`, `kummerClass`, `kummerClass_eq`, `kummerClass_mul`, `kummerEquiv_mixed`, `kummerEquiv_mixed_mk` |
-| Kummer transport and local Brauer group | `absoluteGaloisGroupComparison`, `comparisonDistribMulAction`, `muNRepCoeffDictionary`, `explicitKummerClass`, `explicitH1AddEquivH`, `inhomogeneousCocycle1`, `unitsRep`, `Br`, `invMap`, `brRes`, `brCor` |
-| local units and the `H²` divisibility, finiteness and bound | `unitsFiniteLayerRep`, `herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`, `index_normGroup_of_isCyclic`, `natCard_h2_units_dvd_finrank`, `finite_h2_units`, `natCard_h2_units_le_finrank`, on Mathlib's normal basis `IsGalois.normalBasis` and native `TauCeti.natCard_H2_units_dvd_finrank` |
-| local invariant and Hilbert pairing | `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `kummerCupPairing_bil_comm`, `localSymbol`, `localSymbol_antisymm`, `localSymbol_eq_zero_iff_mem_normGroup`, `localSymbol_kummerClass_eq_zero_iff` |
-| the Tate dual and evaluation | `tateDual`, `tateDualEquiv`, `tateDualEquiv_ρ_apply`, `isSmoothDiscrete_tateDual`, `instFactIsSmoothDiscreteTateDual`, `tateDual_ρ_eq_self_iff`, `tateEvaluationPairing`, `tateEvaluationPairing_bil`, `tateDualMap`, `tateEvaluationPairing_tateDualMap`, `tateDualMap_exact`, `muNRepToTateDual`, `bijective_muNRepToTateDual` |
-| local duality and Euler characteristic, for finite smooth discrete modules | `tateDualityPairing`, `tateDualityPairing_tateDualMap`, `tateDualityPairing_muNRepToTateDual`, `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_mixed`, `eulerCharacteristic_finrank_fp`, `instFactIsSmoothDiscreteTrivialFp` |
-| cohomological dimension of `G_K` | `subsingleton_h3_unitsRep`, `cd_p_absoluteGaloisGroup_eq_two`, `scd_p_absoluteGaloisGroup_eq_two` |
-| local conductors | `conductorExponent`, `conductorIdeal`, `characterConductorExp`, `normResidue_map_unitFiltration`, `discriminantExponent_eq_finsum_characterConductorExp`, `conductorExponent_eq_iSup_characterConductorExp` |
-| global norm and Hilbert reciprocity | `cyclicHasseNorm`, `hilbertProductFormula` |
-| class fields, all applications of `globalClassField` | `rayNormSubgroup`, `rayClassField`, `hilbertClassField`, `narrowHilbertClassField`, `gal_rayClassField_equiv_rayClassGroup`, `kroneckerWeber` |
-| admissible moduli and ray-class reciprocity | `IsAdmissibleModulus`, `IsAdmissibleModulus.mem_support_of_ramified`, `abelianConductor`, `count_relDiscr_eq_finsum_abelianConductor_exponent`, `abelianConductor_eq_lcm`, `isAdmissibleModulus_iff_abelianConductor_dvd`, `isAdmissibleModulus_iff_le_rayClassField`, `not_isAdmissibleModulus_one_Qi`, `rayClassArtinMap`, `rayClassArtinMap_idealClass`, `rayClassArtinMap_surjective` |
-| ring class fields, **quadratic orders only** | `ringClassIdeleQuotient`, `ringClassNormSubgroup`, `ringClassField`, `ringClassArtinMap`, `ringClassArtinMap_eq_one_iff`, `gal_ringClassField_equiv_pic`, `ringClassField_maximal`, each carrying `Module.finrank ℚ K = 2` |
+| formation, finite normal layer, level | `Formation`, `NormalLayer`, `Formation.level` |
+| restriction, corestriction, and their normalization | `LayerRestriction.cohomologyRes`, `cohomologyCor`, `tateRes`, `tateCor`, `trivialTateRes`, `trivialTateCor`, `cohomologyCor_cohomologyRes`, `tateCor_tateRes` |
+| towers | `LayerRestriction.trans`, `LayerRefinement.trans`, `relativeDegree_trans`, `cohomologyRes_trans`, `cohomologyCor_trans`, `tateRes_trans`, `tateCor_trans`, `cohomologyInfl_trans` |
+| the finite quotient system | `NormalLayer.subgroupLayer`, `subgroupGalEquiv`, `subgroupRestriction`, `degree_subgroupLayer`, `relativeDegree_subgroupRestriction` |
+| class-formation axioms, invariant map | `ClassFormation`, `ClassFormation.inv`, `inv_cor` |
+| fundamental class | `ClassFormation.fundamentalClass`, `fundamentalClass_generates`, `fundamentalClass_restrict`, `fundamentalClass_cor`, `fundamentalClass_infl`, `fundamentalClass_conj` |
+| cup with a chosen class, and with the fundamental class | `cupClass`, `ClassFormation.cupFundamentalClass` |
+| Tate's theorem | `tateTheorem`, `tateTheorem_toAddMonoidHom`, `ClassFormation.tateIso`, `tateIso_res`, `tateIso_cor`, `tateIso_res_trans` |
+| the abstract Artin map | `ClassFormation.nakayamaNegTwo`, `ClassFormation.artinEquiv`, `ClassFormation.artinMap`, `ClassFormation.ker_artinMap`, `ClassFormation.character_artinMap` |
+| abelian layers and norm limitation | `OpenNormalSubgroup.IsAbelianClassFieldLayer`, `maximalAbelianLayer`, `ClassFormation.normSubgroup_maximalAbelianLayer` |
+| class fields as subfields | `classField`, `classField_le_classField_iff`, `galClassFieldEquiv` |
+| the local Brauer group and invariant | `Br`, `invMap`, `unitsRep` |
+| local class formation and finite local reciprocity | `localClassFormation`, `localArtinEquiv`, `localArtinMap`, `normResidue`, `normGroup` |
+| the absolute local Artin map | `artinMap`, `artinMap_restrict`, `artinMap_norm`, `artinMap_congr`, `continuous_artinMap`, `denseRange_artinMap`, `ker_artinMap_eq_iInf` |
+| local norm subgroups and abelian layers | `localNormSubgroup`, `isOpen_localNormSubgroup`, `finiteIndex_localNormSubgroup`, `localNormSubgroup_maximalAbelianLayer`, `localAbelianGaloisEquiv`, `index_localNormSubgroup` |
+| local coefficients and local Tate duality | `GalRep`, `muNRep`, `tateDual`, `tateDualityPairing`, `dualityMap0_kummerCoeff_bijective`, `dualityMap1_kummerCoeff_bijective`, `dualityMap2_kummerCoeff_bijective`, `subsingleton_h3_unitsRep` |
+| ramification and conductors | `unitFiltration`, `LocalFieldsRamification.upperRamificationGroup`, `discriminantExponent` |
+| local invariants of a global Brauer class | `finiteInvAt`, `infiniteInvAt` |
+| ideles and their norms | `ideleFormation`, `globalFormation`, `ideleToClassH2`, `GlobalNumberFields.ideleNormMap`, `GlobalNumberFields.ideleClassNormMap` |
+
+**The headline theorems of this roadmap**, stated in `Suggested.lean`:
+
+| Theorem | Declaration |
+|---|---|
+| Tate's local Euler characteristic | `eulerCharacteristic_mixed` |
+| `cd_ℓ G_K = scd_ℓ G_K = 2` | `cohomologicalDimensionAt_absoluteGaloisGroup_eq_two`, `strictCohomologicalDimensionAt_absoluteGaloisGroup_eq_two` |
+| the upper-numbering theorem | `normResidue_map_unitFiltration` |
+| the local conductor–discriminant formula | `characterConductorExp`, `discriminantExponent_eq_finsum_characterConductorExp` |
+| local existence, two scopes | `localAbelianExistence`, `localAbelianExistence_primeToResidueCharacteristic` |
+| the Brauer exact sequence of a number field | `finite_support_finiteInvAt_and_sum_localInv_eq_zero`, `eq_zero_of_forall_localInv_eq_zero`, `exists_br_of_sum_eq_zero` |
+| global Artin reciprocity | `exists_globalArtinMap` |
+| global existence and the order-reversing correspondence | `globalAbelianExistence`, `ideleClassNormMap_range_le_iff` |
+| the Hasse norm theorem | `cyclicHasseNorm` |
+| the Hilbert class field | `exists_hilbertClassField` |
+| Kronecker–Weber | `kroneckerWeber` |
+| Hilbert reciprocity | `quaternionNormForm`, `hilbertReciprocity` |
+
+Every other construction named in the layers below (the cyclotomic normalization, the local Weil
+group, the global class formation and its invariant, the global norm subgroups, the class fields,
+admissible moduli and ring class fields) is a target of the roadmap described in prose; its
+eventual Lean name is the implementer's.
 
 ⚠ **The correspondence runs in one direction on subgroups and the opposite direction on fields.**
-Inclusion of open normal subgroups of `G_K` is *reverse* inclusion of the fields they cut out, so
-`localClassFieldCorrespondence` and `globalClassFieldCorrespondence` are order **isomorphisms**
-onto `AbelianLayer G_K` — `N₁ ≤ N₂ ↔ V₁ ≤ V₂`, recorded as `localClassField_le_iff` and
-`globalClassField_le_iff` — while the classical order-**reversing** statement is on fields,
-`localClassField_orderReversing` and `globalClassField_orderReversing`, obtained from the Galois
-dictionary `classField_le_classField_iff`. Writing the subgroup form with the inclusions reversed
-would be false; `localNormSubgroup_top` and `globalNormSubgroup_top` are the acceptance tests that
-pin the extreme case, `V = ⊤ ↦ K ↦ N = Kˣ`.
+Inclusion of open normal subgroups of `G_K` is *reverse* inclusion of the fields they cut out, so a
+class-field correspondence written on subgroups is order **preserving** (`N₁ ≤ N₂ ↔ V₁ ≤ V₂`) and
+the same correspondence written on fields is order **reversing** (`N₂ ≤ N₁ ↔ L₁ ⊆ L₂`, the form of
+`ideleClassNormMap_range_le_iff`). Writing the subgroup form with the inclusions reversed would be
+false; the extreme case `V = ⊤ ↦ K ↦ N = Kˣ` pins it.
 
-`cyclicHasseNorm` and `hilbertProductFormula` are frozen public names. Their statements use the
-global and local carriers above; neither may be replaced with a proposition-valued interface
-whose hypotheses simply assume the conclusion. `normResidue` is a compatibility form of
-`localArtinEquiv`; it must not become a second independently constructed equivalence.
-
-Two entries fix a direction of dependency rather than a map. `localClassFormation_inv` says that
-the abstract invariant of a local layer is `invMap`, and `globalClassFormation_inv` says that the
-invariant of the global class formation is `globalInv`, the sum of local invariants. Both are
-equations between an object built earlier and the field of a structure built later; neither may be
-turned around into a construction of the invariant out of the class formation.
+`cyclicHasseNorm` and `hilbertReciprocity` are stated on the native idele and completion carriers;
+neither may be replaced with a proposition-valued interface whose hypotheses assume the conclusion.
 
 ---
 
@@ -723,9 +686,11 @@ Do not begin by writing a new `tateH` definition.
 
 **Exit criterion.** Tau Ceti's `tateTheorem`, `tateIso`, `nakayamaNegTwo` and `artinEquiv` are
 built on imported Tate groups and imported cup products, with no locally defined cohomology
-object, and `Suggested.lean` states the four Nakayama–Rim theorems on Mathlib's `tateCohomology` with the
+object, and the four Nakayama–Rim theorems are proved on Mathlib's `tateCohomology` with the
 hypothesis shape of Tau Ceti's criterion and no finiteness hypothesis on the representation,
-together with `Submodule.free_of_isPrincipalIdealRing` and `primaryComponent_tateCohomology_eq_bot`.
+together with the freeness of submodules of free modules over a principal ideal domain and the
+comparison of `p`-primary Tate cohomology across a morphism whose kernel and cokernel are uniquely
+`p`-divisible.
 
 ### Layer 1: formations and finite normal layers
 
@@ -1996,8 +1961,7 @@ reciprocity is derived from it.
 ## 5. Required regression tests and worked examples
 
 These are acceptance tests, not optional exposition. They pin the direction and normalization of
-the Artin map in cases where the answer is elementary, and they are stated in `Suggested.lean`
-under the names given below. They are intended to catch three errors which are easy to hide in
+the Artin map in cases where the answer is elementary. They are intended to catch three errors which are easy to hide in
 an abstract development:
 
 1. using an arbitrary equivalence instead of cup product with the fundamental class;
@@ -2159,159 +2123,62 @@ example stateable.
 
 ## 6. Policy for `Suggested.lean`
 
-`Suggested.lean` is a design contract, not a second implementation.
-
-It contains:
-
-- the four Nakayama–Rim theorems of Layer 0, stated on Mathlib's `tateCohomology` with the
-  hypothesis shape of Tau Ceti's `TateCohomology.isZero_of_forall_isPGroup`, and the freeness of
-  submodules of free modules over a principal ideal domain, `Submodule.free_of_isPrincipalIdealRing`,
-  and `primaryComponent_tateCohomology_eq_bot`, which compares `p`-primary Tate cohomology across a
-  morphism whose kernel and cokernel are uniquely `p`-divisible;
-- the re-export `ClassFormation` of Tau Ceti's class formation; every other object of Layers 1–4 is
-  Tau Ceti's and is consumed by name, not restated (formations, layers, restriction,
-  corestriction, inflation, conjugation, fundamental classes, `cupClass`, `tateTheorem`,
-  `ClassFormation.tateIso`, `nakayamaNegTwo`, `artinEquiv`, `artinMap`, the character formula,
-  the norm-kernel theorem, the four functoriality diagrams and norm limitation), and the one
-  Layer 4 target, the quadratic test;
-- the abelian-layer predicate over Mathlib's closed commutator subgroup and the canonical
-  `maximalAbelianLayer`, as aliases of Tau Ceti's;
-- transparent adapters showing that the local and global Artin maps are transports of the
-  abstract map, `normResidue` as the multiplicative form of `localArtinEquiv`, and the absolute
-  local `artinMap` with its normalizations, stated against `restrictAbsolute`,
-  `unramifiedCoordinate` and `absoluteGaloisGroupExtend`, which are definitions with bodies;
-- the coefficient objects `muNRep`, `unitsRep` and `tateDual`, which are Tau Ceti's `KummerCoeff`,
-  `UnitsCoeff` and `InternalHom` read through Tau Ceti's `ofDiscreteModule`, with the Galois action
-  transported by `absoluteGaloisGroupComparison`; the evaluation pairing, which is Tau Ceti's
-  `InternalHom.evalPairing`; and the Kummer class, which is Tau Ceti's `kummerMap` transported
-  along the comparison and the degree-one comparison over `ZMod n`;
-- the local-invariant, local-unit, duality, Euler-characteristic and conductor contracts of
-  Layers 5 and 7, the conductor contracts including the upper-numbering theorem and the local
-  conductor–discriminant formula, with the smoothness instances the duality contracts are applied through, and the
-  cohomological dimension of `G_K` at the end of Layer 6;
-- the Weil-group carrier, topology, functoriality, inertia sequence and reciprocity isomorphism of
-  Layer 9;
-- the Brauer sequence and sum-of-local-invariants contracts of Layer 10, stated before
-  `globalClassFormation` consumes them, together with the obstruction, refinement and
-  independence targets that define `globalInv` on every class;
-- the class-field correspondences of Layers 8 and 12, each assembled transparently from its
-  existence theorem, its uniqueness theorem and its order statement, with the class field itself
-  *defined* from existence rather than pinned by an unproved equation, and with the three named
-  inputs of global existence and their Kummer sub-targets;
-- the Hasse-norm, class-field, conductor–discriminant and Hilbert-reciprocity contracts of
-  Layers 13 and 14, with
-  `rayClassField`, `hilbertClassField`, `narrowHilbertClassField` and `ringClassField` written as
-  applications of `classField ∘ globalClassField`;
-- the acceptance tests of §5 as named theorem statements.
+`Suggested.lean` is the roadmap's acceptance test. It states the headline theorems of the table
+in §3, each with `sorry`, against the pinned Mathlib and Tau Ceti, and the two definitions with
+real bodies they need: `characterConductorExp`, the least unit-filtration level contained in the
+kernel of a character read through `normResidue`, and `quaternionNormForm`, the norm form
+`⟨1, −a, −b, ab⟩` of the quaternion algebra `(a, b)`. Its imports are `Mathlib` and individual
+Tau Ceti modules; it imports no roadmap.
 
 It does not contain:
 
-- a new definition of Tate cohomology;
-- a new continuous-cohomology complex;
-- an arbitrary `Nonempty (X ≃ Y)` where a canonical map is required;
-- an existence statement whose witness is not pinned: both final existence theorems constrain the
-  layer to be abelian, and both are accompanied by the uniqueness theorem that makes the witness
-  canonical;
-- a reciprocity map whose relationship with cup product is only stated in prose;
-- a surjectivity that fails: the passage from idele layers to idele-class layers is stated with
-  its obstruction and its refinement, never as a surjection;
-- a theorem quantified over an arbitrary pairing, or an arbitrary modulus, where a named pairing or
-  an admissible modulus is meant;
-- a forward reference: the file's section order is the layer order of §4, and no declaration
-  mentions a name introduced below it;
-- a `sorry` inside a statement: every missing map used in a statement is a named `sorry`
-  definition with its own docstring;
-- a `sorry` definition that omits structures needed for its specified arithmetic construction.
-  Inspect the actual elaborated declaration: section-instance retention differs between
-  definitions and theorems, and cannot be inferred from the absence of an explicit binder alone.
-  `invMap`, `localClassFormation`, `localAbelianGaloisEquiv`, `artinMap`, `localWeilGroup` and
-  `localWeilArtinEquiv` bind the local-field structure in their headers; genuinely generic field
-  and cohomology bridges retain their generic scope.
-
-The abstract Artin definitions are Tau Ceti's ordinary definitions with bodies, so every local and
-global Artin map transported from them is definitionally the inverse of the Tate isomorphism. The file
-imports the four supplier roadmaps and individual Tau Ceti modules, and consumes landed Tau Ceti
-declarations by name.
+- a restatement of anything Tau Ceti proves at the pin (Tate's theorem, the abstract Artin map,
+  the local class formation, finite local reciprocity, the absolute local Artin map, the local
+  invariants, local Tate duality for `n` invertible in the field);
+- a definition whose body is `sorry`, or a statement that mentions one;
+- an existence statement whose witness is not pinned: global reciprocity fixes the kernel and the
+  Frobenius values, global existence comes with the order-reversing correspondence, and the
+  Hilbert class field comes with its Frobenius isomorphism and its maximality;
+- a headline that is not statable at the pins. The module docstring names these: the local Weil
+  group and its reciprocity isomorphism, which need a Weil-group carrier with its own topology,
+  and the global conductor–discriminant formula and the description of class fields by
+  admissible moduli and ray class groups, which need the global Artin map as a carrier.
 
 ---
 
 ## 7. Dependency order
 
-The graph below is the layer order of §4, and it is acyclic: every arrow points from a layer to a
-layer built later. Reading it upwards from any node gives that layer's prerequisites.
+The layers form the following acyclic graph; every edge points from a layer to a layer built
+later, and reading a layer's incoming edges gives its prerequisites.
 
-```text
-Mathlib finite-group cohomology and Tate cohomology
-                       |
-  Richard Hill finite-Tate additions and change-of-groups maps
-                       |
-     Layer 0: generic Tate cohomology, cup product, res/cor, Tate's theorem
-                       |
-     Layer 1: Tau Ceti's formations, finite normal layers, res/cor, towers
-                       |
-     Layer 2: Tau Ceti's class formations and fundamental classes
-                       |
-     Layer 3: Tate's theorem for a class formation
-                       |
-     Layer 4: the abstract Artin map
-                       |
-        +--------------+--------------------------------+
-        |                                               |
-ProfiniteCohomology                              GlobalNumberFields
-LocalFieldsRamification                          NumberFieldArithmetic
-RepresentationTheory/ModularInduction                   |
-        |                                               |
-        v                                               |
- Layer 5: local coefficients, Br K, invMap,              |
-          localSymbol, local duality                     |
-        |                                               |
-        +-----------------------------+                 |
-        |                             |                 |
-        v                             |                 v
- Layer 6: local class formation,      +------> Layer 10: idele carriers,
-          finite local reciprocity                      Brauer sequence,
-        |                                               sum of local invariants
-        v                                                       |
- Layer 7: absolute local Artin map,                             v
-          normalizations, conductors                    Layer 11: global class
-        |                                                        formation,
-        v                                                        global reciprocity
- Layer 8: local existence,                                      |
-          the local correspondence                                |
-        |                                                        v
-        v                                               Layer 12: global existence,
- Layer 9: local Weil group                                       the global
-                                                                 correspondence,
-                                                                 norm index
-                                                                |
-                                                                 v
-                                                        Layer 13: Hasse norm theorem,
-                                                                  class fields,
-                                                                  Kronecker–Weber
-                                                                |
-                                                                 v
-                                                        Layer 14: Hilbert reciprocity,
-                                                                  quadratic reciprocity
-```
+| Layer | Consumes |
+|---|---|
+| 0: generic Tate cohomology, cup product, res/cor | Mathlib finite-group and Tate cohomology |
+| 1–4: formations, class formations, Tate's theorem, abstract Artin map | Layer 0; Tau Ceti |
+| 5: local coefficients, `Br K`, `invMap`, local symbol, local duality, Euler characteristic | Layers 1–4; ProfiniteCohomology, LocalFieldsRamification, `RepresentationTheory/ModularInduction` |
+| 6: local class formation, finite local reciprocity, `cd_ℓ G_K` | Layer 5; ProfiniteProPGroups |
+| 7: absolute local Artin map, normalizations, conductors | Layer 6; LocalFieldsRamification |
+| 8: local existence, the local correspondence | Layers 4 (norm limitation), 5 (Kummer theory), 7 |
+| 9: the local Weil group | Layer 8 |
+| 10: idele carriers, Brauer sequence, sum of local invariants | Layers 5 (`invMap` at every completion), 7 (cyclotomic normalization); GlobalNumberFields, NumberFieldArithmetic |
+| 11: global class formation, global reciprocity | Layers 7 (`localArtinAt`), 10 |
+| 12: global existence, the global correspondence, norm index | Layers 4 (norm limitation), 11 |
+| 13: Hasse norm theorem, class fields, Kronecker–Weber | Layer 12 |
+| 14: Hilbert reciprocity, quadratic reciprocity | Layers 10, 13 |
 
-Layer 5 feeds both the local and the global column: the local column consumes `invMap` on `K`
-itself, the global column consumes it at every completion, and both consume the Galois dictionary
-`classField` recorded there. Layer 4's norm limitation theorem also feeds both existence layers.
-Layer 11 additionally consumes the absolute local Artin map of Layer 7 through `localArtinAt`.
-Layer 7 proves that map's cyclotomic normalization `cyclotomicCharacter_artinMap` from the explicit
-cyclotomic symbols over `ℚ`, and both `LocalGaloisGroups` and Layer 10's `sumLocalInv_eq_zero`
-consume it. Layer 10 builds the archimedean Artin maps from the class formations of Layers 1–4,
-and Layer 11 consumes them with the finite ones.
-`RepresentationTheory/ModularInduction` enters only Layer 5, for the Euler characteristic, and
-`ProfiniteProPGroups` only the end of Layer 6, for the cohomological dimension of `G_K`.
+Layer 5 feeds both columns: the local column consumes `invMap` on `K` itself, the global column at
+every completion, and both consume the Galois dictionary `classField`. Layer 7 proves the
+cyclotomic normalization of the absolute local Artin map from the explicit cyclotomic symbols over
+`ℚ`, and Layer 10 consumes it for the sum of local invariants; Layer 10 builds the archimedean
+Artin maps from the class formations of Layers 1–4. `RepresentationTheory/ModularInduction` enters
+only Layer 5, for the Euler characteristic, and `ProfiniteProPGroups` only the end of Layer 6, for
+the cohomological dimension of `G_K`.
 
-The abstract layers 0–4 can be implemented and reviewed before any arithmetic instance. Within the
-local column, Layer 5's coefficient dictionaries and Kummer transports can begin as soon as
-`ProfiniteCohomology` is available, in parallel with Layers 1–4. In the global column, Layer 10
-can begin as soon as Layer 5 has `invMap` and the local unit computations, in parallel with the
-rest of the local column: its prerequisites say which of its steps wait for Layers 6 and 7, and
-none waits for Layer 5's duality or Euler characteristic. Ring class fields wait for both global
-existence and the `GlobalNumberFields` order/`Pic` API.
+The abstract layers 0–4 are Tau Ceti's. Within the local column, Layer 5's coefficient
+dictionaries can begin as soon as `ProfiniteCohomology` is available. In the global column,
+Layer 10 can begin as soon as Layer 5 has `invMap` and the local unit computations, in parallel
+with the rest of the local column. Ring class fields wait for both global existence and the
+`GlobalNumberFields` order and `Pic` API.
 
 ---
 
