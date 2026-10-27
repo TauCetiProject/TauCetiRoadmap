@@ -12,9 +12,11 @@ The source is Knutson's seven-page **hives** handout and the hive, honeycomb,
 puzzle and Grassmannian lectures and homework in the two Lie Groups notebooks.
 The notebook assertions enlarge the handout's scope: they include saturation,
 all puzzle inequalities, rigid puzzles, overlay/PRV and actual Grassmannian cup
-products. Generic highest-weight classification, Schur functions and LR tableaux
-have existing owners. This roadmap builds the comparisons and the geometry of
-the new combinatorial objects.
+products. Generic highest-weight classification and finite-alphabet Schur
+polynomials have existing owners. H0 builds the skew-tableau, Littlewood–Richardson
+and stable symmetric-function layer that the hive comparisons consume; the
+rest of the roadmap builds the comparisons and the geometry of the new
+combinatorial objects.
 
 ## Conventions and suppliers
 
@@ -38,8 +40,14 @@ the new combinatorial objects.
    are required. Unnormalized hives differ by an additive constant; adding an
    affine function preserves rhombus slacks and changes boundary weights.
    Keep this gauge action explicit. For forward differences
-   `D_v h(p)=h(p+v)-h(p)`, directions v,w with dot product1 satisfy
-   `D_v D_w h≤0`; edge dominance uses a_i−a_(i−1). Prove these corrected
+   `D_v h(p)=h(p+v)-h(p)` and **unit lattice edge directions** v,w, that is
+   nonzero `v,w∈{0,±1}³` with coordinate sum 0, satisfying `v·w=1`, a hive
+   satisfies `D_v D_w h(p)≤0` whenever p,p+v,p+w,p+v+w lie in Δₙ (these four
+   points are a unit rhombus with p+v,p+w its obtuse corners). The restriction
+   to unit edges is necessary: on Δ₇ the hive `h(x,y,z)=49−x²` (unit-rhombus
+   mixed differences 0 or −2) has, at p=(3,4,0) with the non-unit directions
+   v=(2,−3,1), w=(−3,−1,4) of dot product 1, `D_v D_w h(p)=45−24−49+40=12>0`.
+   Edge dominance uses a_i−a_(i−1). Prove these corrected
    comparisons with the short-diagonal inequality. At n=2, the rhombus with
    short corners m_AB,m_CA has slack
    `h(m_AB)+h(m_CA)-h(A)-h(m_BC)=-(λ₂+μ₁+ν₂)`; its selected0 positions
@@ -51,11 +59,18 @@ the new combinatorial objects.
    Real hives form a convex cone; integer hives form an additive monoid, not a
    vector space. Finite fixed-boundary fibres are counted with `Nat.card` only
    after proving `Finite`.
-4. Consume [SchurWeyl Layers 0 and 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md):
-   native `YoungDiagram`, `Nat.Partition`, `BoundedSSYT`, standard tableaux,
-   `diagramSchurPoly`, finite Schur basis and horizontal Pieri; the same owner's
-   skew/LR tableaux, insertion/rectification/dual-equivalence, vertical Pieri,
-   stable ring Λ and its coefficient/specialization maps are dependencies.
+4. Consume SchurWeyl (RepresentationTheory/SchurWeyl) Layer 0 (partitions,
+   dominance, standard tableaux) and Layer 7 (finite-alphabet Schur polynomials,
+   Jacobi–Trudi, the finite Frobenius characteristic and RSK), together with the
+   native Tau Ceti `YoungDiagram` tableau API: `TauCeti.BoundedSSYT`,
+   `TauCeti.diagramSchurPoly` and the finite Schur basis, horizontal Pieri
+   `TauCeti.hsymm_mul_diagramSchurPoly`, row insertion `TauCeti.rowInsert`,
+   `TauCeti.reverseRowInsert`, `TauCeti.rowInsertEquiv`, Bender–Knuth
+   involutions and `TauCeti.symmetricHomogeneousSubmodule`. SchurWeyl's
+   Layer 7 stops at finitely many variables and its Layer 0 has no evacuation;
+   the skew and Littlewood–Richardson tableaux, slides, rectification, dual
+   equivalence, the tableau-product bijection, vertical Pieri and the stable
+   graded ring Λ_R with its Schur basis and specialization maps are built in H0.
    Consume [ClassicalGroups Layers 3–6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md):
    native dominant weights, signed `GTPattern`, `gtPatternEquivSSYT`, rational
    Weyl representations, characters and LR-to-tensor-multiplicity comparison,
@@ -144,7 +159,7 @@ the new combinatorial objects.
 `Suggested.lean` pins representative carriers and target forms. It is not an
 exhaustive checklist; this markdown is definitive.
 
-The construction order is H1, H2.1–4, H3.1–2, H2.5, H4, H5, H6.1–7,
+The construction order is H0, H1, H2.1–4, H3.1–2, H2.5, H4, H5, H6.1–7,
 H6.8’s stretching theorem, H7 and H8. The component/
 path comparison of H8 precedes H9’s coherence comparison; the elementary
 excavation and ring associativity are independent of it. For H8's path lane,
@@ -161,6 +176,119 @@ representation comparisons. H2.6 then composes H1.5 with H2.3's already-defined
 native count/RootPairing and GT object maps. H2.3 itself does not require the
 chamber-polynomial theorem, and the HW3 specialization is a comparison rather
 than a proof premise for the generic matrix theorem.
+
+## H0. Skew tableaux, Littlewood–Richardson tableaux and the stable ring
+
+Throughout, a diagram is a native `YoungDiagram`, entries are zero-indexed
+letters, and a tableau has weakly increasing rows and strictly increasing
+columns. This section supplies the one LR carrier used by H2, H6, H8 and H9.
+
+1. **Skew tableaux.** For diagrams `inner≤outer` let the skew cells be
+   `outer.cells \ inner.cells`. Define semistandard skew tableaux of shape
+   outer/inner (entries off the skew cells normalized to 0), their bounded
+   versions with entries `<d`, content in `ℕ →₀ ℕ` counted as native
+   `SemistandardYoungTableau.content` counts it, and standard skew tableaux.
+   Prove finiteness of the bounded type, entry extensionality, and the inverse
+   conversions between straight skew tableaux (inner = ⊥) and native
+   `TauCeti.BoundedSSYT d outer`, preserving entries and content. Define the
+   skew Schur polynomial in d variables over a commutative semiring as the
+   tableau sum, and prove it equals `TauCeti.diagramSchurPoly` for straight
+   shapes. Checks: for inner=outer the only tableau is empty and the skew
+   Schur polynomial is 1; the shape (2,1)/(1) with d=2 has two unrelated boxes
+   (neither in the row nor the column of the other) and four tableaux, so
+   `s_(2,1)/(1)=(x₀+x₁)²=s_(2)+s_(1,1)`, whereas a definition that compares the
+   two boxes as if the inner cell were present gives three; for d=0 every
+   nonempty skew shape has no tableau.
+2. **Slides and rectification.** An inward slide into an inner corner moves
+   the smaller of the entries to the right and below into the hole, the one
+   below when they are equal; the reverse slide moves the larger of the
+   entries to the left and above, the one above when they are equal. Prove that
+   slides preserve semistandardness and content, that inward and reverse
+   slides are mutually inverse, and that repeated inward slides terminate in a
+   straight tableau (the rectification). Define the Knuth row word (rows from
+   bottom to top, each left to right) and the two elementary Knuth relations
+   `xzy≡zxy` for `x≤y<z` and `yxz≡yzx` for `x<y≤z`. Prove that slides
+   preserve the Knuth class, that two words are Knuth equivalent iff their
+   insertion tableaux under `TauCeti.rowInsert` agree, and hence that the
+   rectification is independent of the order of slides (Fulton, *Young
+   Tableaux*, §§1–3). Prove that for skew tableaux of a fixed shape
+   outer/inner, the number rectifying to a given straight tableau of shape κ
+   depends only on κ, not on the tableau (Fulton, *Young Tableaux*, §5.1);
+   Haiman's dual equivalence of skew tableaux is one route. Checks: on the
+   shape (2,1)/(1), entry 1 in the top box and 0 in the bottom box rectifies to
+   the row `0 1` of shape (2), while 0 on top and 1 below rectifies to the
+   column of shape (1,1), matching the insertion tableaux of the Knuth words
+   `01` and `10`; the words `021` and `201` are Knuth equivalent
+   and both insert to rows `01 / 2`, while `012` and `210` are not; on a
+   straight tableau every slide sequence is empty and rectification is the
+   identity.
+3. **LR tableaux and the LR rule.** The LR word of a skew tableau reads the
+   rows from top to bottom, each right to left. Define `LRTableau inner outer
+   ν` as the skew tableaux of shape outer/inner with content `ν.rowLen`
+   whose LR word satisfies the zero-indexed ballot condition: every prefix
+   has at least as many letters k as letters k+1. Prove finiteness and set
+   `c^κ_(μ,ν)=Nat.card (LRTableau μ κ ν)`. Construct the tableau-product
+   bijection: pairs of straight bounded tableaux of shapes μ and ν correspond
+   to pairs consisting of a straight bounded tableau of shape κ and an
+   element of `LRTableau μ κ ν`, summed over κ with |κ|=|μ|+|ν|, with weights
+   adding; build it from insertion, rectification and dual equivalence, and
+   identify the Yamanouchi rectification fibres with ballot tableaux (Fulton,
+   *Young Tableaux*, §5.1–5.3). Sum weights to prove
+   `s_μ s_ν=Σ_κ c^κ_(μ,ν) s_κ` in every finite alphabet over every commutative
+   semiring, including shapes with more than d rows, whose Schur polynomials
+   vanish. Prove `c^κ_(μ,ν)=0` unless `μ≤κ` and |κ|=|μ|+|ν|, and the symmetry
+   `c^κ_(μ,ν)=c^κ_(ν,μ)`. Specialize to strips: for ν=(r) the LR tableaux are
+   horizontal strips (agreeing with `TauCeti.hsymm_mul_diagramSchurPoly`); for
+   ν=(1^r) the ballot condition forces the LR word to read 0,1,…,r−1, so
+   the weak row condition allows at most one new box per row and LR tableaux are
+   vertical strips, proving vertical Pieri `e_r s_μ=Σ s_κ` over vertical strips
+   κ/μ of size r, including r=0. Checks: `c^(2)_((1),(1))=c^(1,1)_((1),(1))=1`,
+   so `s_(1)²=s_(2)+s_(1,1)` with the (1,1) term
+   vanishing for d=1; `c^(3,2,1)_((2,1),(2,1))=2`, which a count without the
+   ballot condition (giving three) or one requiring the reading word to be
+   increasing (giving one) gets wrong: the three boxes of (3,2,1)/(2,1) are
+   pairwise unrelated, the three fillings with content (2,1) have LR words
+   001, 010, 100, and the ballot condition rejects 100; for ν=∅ the only LR tableau is the
+   empty one on κ=μ.
+4. **Evacuation.** Define Schützenberger evacuation on standard tableaux of a
+   straight shape (remove the entry 0, rectify, record the vacated cell with
+   the largest remaining label) and prove it is an involution preserving
+   shape and that it corresponds under RSK to reversing and complementing the
+   word (Fulton, *Young Tableaux*, Appendix A). H8.2 extends it to the
+   semistandard Schützenberger involution. Checks: on the shape (2,1)
+   evacuation exchanges the two standard tableaux `01/2` and `02/1`; on (2,2)
+   it fixes both standard tableaux `01/23` and `02/13`; on the row (n) it is
+   the identity, whereas the complement map i↦n−1−i sends `01/2` to `21/0`,
+   which is not a tableau.
+5. **The stable ring.** For a commutative ring R and n∈ℕ let Λ_R^n be the
+   R-module of compatible families `(f_d)_(d∈ℕ)` with
+   `f_d∈TauCeti.symmetricHomogeneousSubmodule (Fin d) R n` and
+   `f_d=aeval (Fin.snoc X 0) f_(d+1)` (setting the last variable to 0).
+   Let `Λ_R=⊕_n Λ_R^n`. Build its graded commutative R-algebra structure from
+   degreewise finite-alphabet multiplication and the R-algebra specialization
+   maps `Λ_R→MvPolynomial (Fin d) R`. Prove that projection Λ_R^n→
+   degree-n symmetric polynomials in d variables is an isomorphism for d≥n,
+   construct the Schur basis `s_λ` (λ ⊢ n) of each Λ_R^n from the finite
+   Schur bases, and prove the LR rule of item 3 in Λ_R with coefficients
+   `c^κ_(μ,ν)` and the stable elementary and complete families. Checks:
+   Λ_R^0≅R and Λ_R^1 is free of rank 1 on s_(1); Λ_ℤ^4 has rank 5 = p(4),
+   whereas degree-4 symmetric polynomials in 2 variables have rank 3, so a
+   definition using a fixed small alphabet is wrong; specialization to d=1
+   sends s_(1,1) to 0 and s_(2) to x₀².
+
+### Examples
+
+Item 3's `s_(1)²=s_(2)+s_(1,1)` and `c^(3,2,1)_((2,1),(2,1))=2` are the
+reference values for H2.2's hive count of the triples `((1),(1),(2)*)` and
+`((2,1),(2,1),(3,2,1)*)` in rank 3.
+
+### Dependencies
+
+SchurWeyl Layers 0 and 7; Tau Ceti `YoungDiagram`, `SemistandardYoungTableau`,
+`TauCeti.BoundedSSYT`, `TauCeti.diagramSchurPoly`, `TauCeti.rowInsert`,
+`TauCeti.rowInsertEquiv`, `TauCeti.hsymm_mul_diagramSchurPoly` and
+`TauCeti.symmetricHomogeneousSubmodule`. No hive, honeycomb or puzzle object
+is used.
 
 ## H1. Lattices, rhombi, boundaries and finite polytope operations
 
@@ -477,7 +605,7 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    and one boundary, proving injectivity and the exact image equivalence.
    The handout's orientation gives native `topRow` λ (its long row drawn below) and pattern weight μ*−ν; the
    product chart rotates this to an equivalent formula. Prove these agree.
-2. Build the explicit hive-to-LR equivalence on the shared `LRTableau λ γ μ`.
+2. Build the explicit hive-to-LR equivalence on H0's `LRTableau λ γ μ`.
    In the product chart write a_{ij} for the number of zero-indexed letter i−1
    in skew row j−1. Its forward map is
    `h(i,j)=Σ_(r≤j)λ_r + Σ_(k≤i)Σ_(k≤r≤j)a_(k,r)`.
@@ -492,13 +620,21 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    determinant shifts making all three product weights polynomial; prove the
    answer is independent of shifts and compatible with the native shape carrier.
    This is a bijection of **objects**, not just equality of cardinalities.
-3. Consume SchurWeyl's LR product and ClassicalGroups' character comparison to
+3. Consume H0's LR rule and ClassicalGroups Layer 4's identification of
+   Schur structure constants with tensor multiplicities to
    prove the invariant dimension and tensor-multiplicity hive formulas. Prove
    affine determinant-shift covariance, cyclic/dual symmetry, symmetry in the
    two inputs, and coefficient change/stable finite-alphabet compatibility.
-   In the stable range `π_i-π_(i+1)≥λ₁-λₙ` in the handout's notation, prove
-   the directional GT injection is onto its specified weight fibre; the third
-   rhombus family follows from that uniform gap. Build the source’s type-A
+   Stable range: for the cyclic triple (λ,μ,ν) of item 1 the hive count is
+   the product coefficient `c^π_(λ,ν)` with output weight `π=μ*`, and the GT
+   fibre has top row λ and weight `μ*−ν`. If every adjacent gap of μ satisfies
+   `μ_j−μ_(j+1)≥λ₁−λₙ` (equivalently `π_i−π_(i+1)≥λ₁−λₙ` for π=μ*, since
+   dualization reverses the adjacent gaps), prove the directional GT injection
+   is onto that weight fibre; the third rhombus family follows from that
+   uniform gap. The gap hypothesis is on the output weight π=μ*, not on λ.
+   Without it surjectivity fails: for n=3, λ=(1,0,−1), μ=ν=0 the fibre has two
+   GT patterns (weight 0 has multiplicity 2 in the adjoint) but there is no
+   hive, since `c^0_(λ,0)=0`. Build the source’s type-A
    Steinberg alternating formula by dominant-coefficient extraction in the
    Weyl-denominator tensor character using CG/HW, and identify the same
    weight multiplicity through this adapter. State the input/output permutation
@@ -600,22 +736,34 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    region. No chamber-polynomiality for arbitrary root systems, arbitrary
    GT/hive polytopes or every vector list follows from this specialization.
 
-7. For restriction of an external GLₙ×GLₙ irreducible, consume
-   [ClassicalGroups Layer6A](https://github.com/TauCetiProject/TauCetiRoadmap/blob/fcf0711f7ce08db45ecdab9c214efba5174452bb/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-6a-diagonal-overgroups-of-the-complex-general-linear-group)'s actual diagonal,
-   scalar-diagonal and determinant-equality subgroup maps. This is a separate
-   group-construction supplier, not a consequence of the hive-count or
-   Steinberg alternating formula. For n≥2 the connected CLOSED COMPLEX
-   intermediate groups are exactly the scalar-diagonal and determinant-equality
-   groups; neither is omitted. Compare the external representation's diagonal
-   restriction with the SAME tensor product counted in items2–3, including
-   all determinant shifts. Scalar-diagonal restriction has those same
-   multiplicities with the first input's fixed scalar central character;
-   determinant-equality restriction remains irreducible. Construct the
-   restriction/intertwiner/Hom comparisons supplied by CG6A. They do not give
-   an intermediate partial tensor-decomposition procedure. Use n=1's no-strict-
-   intermediate and n=0's trivial cases from that supplier. Arbitrary real
-   overgroups and source-uncertain scalar symbols are not identified with this
-   complex classification.
+7. **Diagonal overgroups and restriction.** Let G=GLₙ(ℂ), P=G×G and
+   Δ={(g,g)} the diagonal. Define the scalar-diagonal subgroup
+   `H_sc={(cg,g) : g∈G, c∈ℂˣ}` and the determinant-equality subgroup
+   `H_det={(g,h) : det g=det h}`, with inclusions Δ≤H_sc≤P and Δ≤H_det≤P.
+   For a subgroup Δ≤H≤P put N=`Subgroup.goursatFst H`={a : (a,1)∈H}; prove N is
+   normal in G and (g,h)∈H iff gh⁻¹∈N, so H↦N is an order isomorphism from
+   overgroups of Δ to normal subgroups of G (Mathlib `Subgroup.goursatFst`,
+   `Subgroup.normal_goursatFst`), with H closed iff N closed and H connected
+   iff N connected. Prove, for n≥2, that the closed connected complex Lie
+   subgroups between Δ and P are exactly Δ, H_sc, H_det and P, corresponding
+   to N={1}, the scalars (Mathlib `Matrix.GeneralLinearGroup.center_eq_range_scalar`),
+   SLₙ(ℂ) and G; the route is the Lie correspondence for closed connected
+   subgroups (LieGroups Layers 2–4) and the list 0, scalars, slₙ, glₙ of
+   ideals of glₙ(ℂ). For n=1, H_sc=P and H_det=Δ, so there is no strict
+   intermediate group; for n=0 all four groups are trivial. Then compare
+   restrictions of the external irreducible `V_λ⊠V_μ` with the tensor product
+   counted in items 2–3, including all determinant shifts: its restriction to
+   Δ≅G is `V_λ⊗V_μ` with multiplicities `c^γ_(λ,μ)`; for n≥1 the map
+   `G×ℂˣ→H_sc`, (g,c)↦(cg,g), is an isomorphism and the restriction to H_sc is
+   `⊕_γ c^γ_(λ,μ) V_γ⊠χ` with χ(c)=c^(|λ|), the central character of the first
+   factor; the restriction to H_det is irreducible, since H_det contains
+   SLₙ(ℂ)×SLₙ(ℂ). Checks: for n=2, λ=μ=(1,0) the restriction to Δ is
+   `V_(2,0)⊕V_(1,1)` and to H_sc each summand carries χ(c)=c; for n=1 every
+   restriction is a character and the H_sc and H_det cases reduce to P and Δ;
+   the positive reals `{(rI,I) : r>0}·Δ` form a closed connected real
+   subgroup between Δ and P that is not complex, so the classification needs
+   the complex hypothesis. *Needs:* LieGroups Layers 2–4, ClassicalGroups
+   Layer 3, items 2–3, Mathlib `Subgroup.goursatFst`.
 
 ## H3. Octahedron recurrence and the excavation bijection
 
@@ -858,7 +1006,7 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    and h_r are complete functions in its Chern roots (h₀=1, h_r=0 for r<0).
    Prove generation, straightening/reduction and independence by the geometric
    Schubert basis, not by presuming the LR ring statement being established.
-5. Build the surjective graded map from supplied Λℤ to this ring, sending
+5. Build the surjective graded map from H0's Λ_ℤ to this ring, sending
    sλ to σλ inside the rectangle and to0 otherwise. Prove the kernel is the
    span/ideal of outside-rectangle Schur functions, specialization compatibility,
    multiplication and LR coefficients. Degrees double under this map.
@@ -1040,14 +1188,14 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    left-highest/λ-translated-path convention. Prove rebracketing, unit and
    connected-component transport. These are actual finite maps, not Prop fields
    naming an unconstructed classification.
-2. Equip native `BoundedSSYT n λ` and the supplied skew tableau carrier with
+2. Equip native `BoundedSSYT n λ` and H0's skew tableau carrier with
    signature operators. Own coplacticity (slides commute with these operators),
    the semistandard Schützenberger involution ξ_λ:B_λ→B_λ with weight
    **reversal** w₀wt, e_i↔f_(n−i) in one-indexed notation, and involutivity.
    Pin the Bender–Knuth composition `s₁(s₂s₁)⋯(s_(n−1)⋯s₁)` and prove
    its equality with evacuation/rectification. This is distinct from the dual
    representation weight −w₀wt; signed determinant shifts add the same constant
-   on both sides. Build its straight/skew comparisons; SchurWeyl’s standard-tableau evacuation is a supplier comparison,
+   on both sides. Build its straight/skew comparisons; H0.4's standard-tableau evacuation is a comparison,
    not the definition of the semistandard operation. Prove preservation, string-length formulas, endpoint
    content/weight identities, highest tableau, connectivity and that raising
    terminates. Transport to native GT patterns through `gtPatternEquivSSYT`.
@@ -1211,7 +1359,7 @@ Prove the raw map changes (λ,µ,π*) to (µ,λ,π*) with these exact directions
 At n=1 its new top label is −µ and the normalized boundary is (µ,λ,−λ−µ). Prove its boundary
 interchange and preservation of all hive-face rhombi by the transverse family.
 
-Prove recurrence slices equal the successive supplied jeu-de-taquin slides and
+Prove recurrence slices equal the successive H0.2 jeu-de-taquin slides and
 recording/rectification data (HK7.10–7.14), with H8's coplacticity, and prove the
 quarter-octahedron map equals the semistandard Schützenberger crystal commutor
 (HK7.15). These are comparisons of the actual finite maps. H8's ordinary
@@ -1289,8 +1437,8 @@ Proof references, each with the constructions it supplies:
   Its general cycle/transversality facts are built on the specific H6 carrier
   using the cited AT/CC/DG suppliers.
 - Fulton, *Young Tableaux*, §§9–10: finite Grassmannian cell/cycle, incidence
-  and integral Schubert ring proofs; SchurWeyl supplies its earlier tableau/LR
-  theory. Littelmann, [*Paths and root operators in representation theory*](https://doi.org/10.2307/2118553),
+  and integral Schubert ring proofs; H0 builds its earlier tableau/LR theory
+  (§§1–3, §5, Appendix A). Littelmann, [*Paths and root operators in representation theory*](https://doi.org/10.2307/2118553),
   §§1–7 for running-extremum root operators, a-chain encoding, gluing/linking
   and the dominant-path isomorphism; H8 constructs the type-A specialization
   and both coordinate-path and straight-path comparisons in full.
