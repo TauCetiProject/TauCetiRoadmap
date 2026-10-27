@@ -24,14 +24,14 @@ that the named successor roadmap `OrthogonalTamagawaAndLatticeMass` will consume
 
 **Current boundary.** Strong approximation, reduction theory, Tamagawa measures and
 central-isogeny volume formulas are **not** milestones here. Their generic point and approximation
-interfaces are [AdelicAlgebraicGroups AA.1 and AA.4.1–4.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e464f58f088088cd41cad5b2d2291342ee620c77/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-1-adelic-points-of-algebraic-groups);
+interfaces are [AdelicAlgebraicGroups AA.1 and AA.4.1–4.2](../AdelicAlgebraicGroups/README.md#layer-1-adelic-points-of-algebraic-groups);
 its AA.3 owns arithmetic reduction and finite covolume, and AA.2 owns quotient integration,
 gauge forms and normalized Tamagawa-measure construction. These are distinct supplier targets.
 The number-field simply connected semisimple Tamagawa value is the proposed target of
-[EndoscopicTransferAndUnitaryTraceComparison §6.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/95d7465f336fde5685b3fa0c663fa886c51ee001/TauCetiRoadmap/EndoscopicTransferAndUnitaryTraceComparison/README.md#62-tamagawa-number-one-for-simply-connected-semisimple-groups),
+[EndoscopicTransferAndUnitaryTraceComparison §6.2](../EndoscopicTransferAndUnitaryTraceComparison/README.md#62-tamagawa-number-one-for-simply-connected-semisimple-groups),
 with AA.2.4's normalization and its complete proof prerequisites. The orthogonal value and shared
 gauge/local-volume inputs have the proposed owner
-[GeometryOfNumbersAndQuadraticArithmetic §3.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d63953a26ec1ff4f57cb1d0ee5aab223a4a48108/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#33-finite-stabilizers-genus-classes-and-mass).
+[GeometryOfNumbersAndQuadraticArithmetic §3.3](../GeometryOfNumbersAndQuadraticArithmetic/README.md#33-finite-stabilizers-genus-classes-and-mass).
 These existing written targets are not implemented supplier declarations. The remaining arbitrary
 finite-central-isogeny volume-defect API is a distinct required construction under
 `TamagawaMeasures`; neither AA.2's measure construction nor the scoped Kottwitz ratios of
@@ -74,7 +74,7 @@ scheme-to-point comparison, and establishing their specific reductive structure 
 `OrthogonalTamagawaAndLatticeMass` after ReductiveGroups exposes the required public point functor,
 as specified in Layer 3A. **Lattice stabilizers and their arithmetic**, isometry classes, genera, spinor
 genera and local densities over `ℤ` retain [IntegralLattices](../IntegralLattices/README.md)'s
-owned milestones. [GeometryOfNumbersAndQuadraticArithmetic §§2.4 and 3.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d63953a26ec1ff4f57cb1d0ee5aab223a4a48108/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#24-genus-and-proper-spinor-genus)
+owned milestones. [GeometryOfNumbersAndQuadraticArithmetic §§2.4 and 3.3](../GeometryOfNumbersAndQuadraticArithmetic/README.md#24-genus-and-proper-spinor-genus)
 owns its number-field genus/spinor-genus extension, finite stabilizers, class sets, adelic mass
 identity, and maximal-lattice mass formula, with their stated scope. The **full arbitrary-genus
 mass formula**, Eichler's theorem and the genus/spinor-genus comparison requiring strong
@@ -202,13 +202,13 @@ re-check notes are maintained in the private migration and provenance ledger.
   `conjAct_smul_range_ι` and `involute_act_ι_mem_range_ι` that the action preserves the embedded
   copy of `V`. ⚠ Every such theorem carries `[Invertible (2 : R)]`, and the docstring records that
   the closure definition of `lipschitzGroup` agrees with the "conjugation preserves `V`"
-  definition only in finite dimensions, with the reverse inclusion an open TODO. Note that
+  definition only in finite dimensions, with the reverse inclusion not proved in Mathlib. Note that
   `pinGroup` is defined as an intersection with `unitary`, so membership already encodes
   `reverse (involute x) * x = 1`; Layer 1C states the Clifford norm against that rather than
   introducing a competing one.
 - **Reflections:** `Mathlib/LinearAlgebra/Reflection.lean` has `Module.preReflection` and
   `Module.reflection` as linear equivalences from a functional `f` and a vector `x` with `f x = 2`,
-  with involutivity, `reflection_apply_self`, and the products-of-two-reflections API.
+  with involutivity, `Module.reflection_apply_self`, and the products-of-two-reflections API.
   `Mathlib/LinearAlgebra/RootSystem/OfBilinear.lean` has `LinearMap.IsReflective` with
   `coroot_apply_self` supplying the `f x = 2` hypothesis from a form, and
   `isOrthogonal_reflection`, the only statement anywhere that a reflection preserves a bilinear
@@ -261,6 +261,12 @@ These are full-roadmap supplier dependencies, not new local interfaces. A named
 contract consumed here need not be an implemented declaration or a direct import
 of the selected `Suggested.lean` prototype.
 
+- **Orthogonal direct sums** (`TauCeti/LinearAlgebra/QuadraticForm/Prod.lean`, over a commutative
+  ring): `QuadraticMap.orthogonalGroupProd` and `QuadraticMap.specialOrthogonalGroupProd`, both
+  injective; `QuadraticMap.mem_range_orthogonalGroupProd_iff` (the `O` image is the subgroup
+  preserving both summands); `QuadraticMap.mem_range_specialOrthogonalGroupProd_iff` (the `SO`
+  image additionally requires both diagonal blocks to have determinant one); and
+  `QuadraticMap.det_orthogonalGroupProd`. Layer 0B consumes these and restates none of them.
 - **[QuadraticFormInvariants](../QuadraticFormInvariants/README.md)** owns the canonical
   multiplicative square-class quotient `Kˣ ⧸ Subgroup.square Kˣ`, reflection and
   Cartan--Dieudonné input, Witt theory, `hilbertSymbol`, `localHasse`,
@@ -398,19 +404,34 @@ and no statement below silently assumes `dim V ≥ 1`.
 
 **0B. Functoriality and base change.** An isometry `Q ≃qᵢ Q'` induces `O(Q) ≃* O(Q')`, so `O` is an
 invariant of `QuadraticMap.Equivalent`; a field extension `K → L` induces an injective
-`O(Q) →* O(Q ⊗ L)`, compatible with composition of extensions; an orthogonal direct sum gives
-`O(Q₁) × O(Q₂) ↪ O(Q₁ ⊞ Q₂)` whose **image is exactly the subgroup preserving each summand**,
-stated as that equality rather than as an unidentified obstruction. Inside total `SO(Q₁ ⊞ Q₂)`,
-the full subgroup preserving both summands corresponds instead to
-`{(g₁,g₂) ∈ O(Q₁) × O(Q₂) | det(g₁) det(g₂) = 1}`. The image of
-`SO(Q₁) × SO(Q₂)` is the subgroup requiring `det(g₁) = det(g₂) = 1`; do not identify these
-two subgroups. It need not be strictly smaller: if one summand has dimension zero, the
-determinant-product condition adds no pairs beyond this factor-group image. For the boundary case
-`Q₁ = Q₂ = ⟨1⟩` over `ℚ`, each factor `SO(Qᵢ)` is trivial, but `−I₂` preserves both summands and belongs to total `SO`, since both restrictions have
-determinant `−1`. Any criterion for either the `O(Q₁) × O(Q₂)` embedding into `O(Q₁ ⊞ Q₂)` or the
-`SO(Q₁) × SO(Q₂)` embedding into total `SO(Q₁ ⊞ Q₂)` to be onto is a separate statement
-with its own hypotheses, and none is claimed here. The determinant product condition is the compatibility
-for the full total-`SO` stabilizer. This is the machinery every later layer localizes with.
+`O(Q) →* O(Q ⊗ L)`, compatible with composition of extensions. The orthogonal direct sum is
+consumed from Tau Ceti, not rebuilt: `QuadraticMap.orthogonalGroupProd` embeds
+`O(Q₁) × O(Q₂)` into `O(Q₁.prod Q₂)` with image exactly the subgroup preserving both summands
+(`QuadraticMap.mem_range_orthogonalGroupProd_iff`), and `QuadraticMap.det_orthogonalGroupProd`
+says the determinant of `g₁ ⊕ g₂` is `det g₁ · det g₂`. ⚠ The determinant compatibility does
+**not** make the same image statement true for `SO`. The subgroup of `SO(Q₁.prod Q₂)` preserving
+both summands is the image of `{(g₁, g₂) ∈ O(Q₁) × O(Q₂) | det g₁ · det g₂ = 1}`, while the image
+of `QuadraticMap.specialOrthogonalGroupProd : SO(Q₁) × SO(Q₂) →* SO(Q₁.prod Q₂)` is cut out by
+preserving both summands **and** having both diagonal blocks of determinant one
+(`QuadraticMap.mem_range_specialOrthogonalGroupProd_iff`). The second subgroup has index two in
+the first whenever both summands are nondegenerate of positive dimension (each then has a
+reflection, of determinant `−1`, and `(τ₁, τ₂)` is a pair outside the second subgroup), and the
+two coincide when one summand is the zero space. These
+statements are the ones every later layer localizes with; no criterion for either embedding to
+be onto `O(Q₁.prod Q₂)` or `SO(Q₁.prod Q₂)` is claimed.
+
+*Checks for 0B.*
+
+- `Q₁ = Q₂ = ⟨1⟩` over `ℚ`: both `SO(Qᵢ)` are trivial, so the image of
+  `specialOrthogonalGroupProd` is trivial, yet `−I₂ = (−1) ⊕ (−1)` preserves both summands and has
+  determinant `(−1)(−1) = 1`, so it lies in `SO(Q₁.prod Q₂)`. A definition of the `SO` image as
+  "the summand-preserving part of `SO`" gets this wrong.
+- The same forms with `O`: the summand-preserving subgroup of `O(⟨1⟩ ⊞ ⟨1⟩)` is
+  `{diag(±1, ±1)}`, of order four, equal to the image of `O(⟨1⟩) × O(⟨1⟩)`; the swap of the two
+  coordinates is in `O(Q₁.prod Q₂)` but preserves neither summand, so the direct-sum embedding is
+  not onto.
+- `Q₂` the zero form on the zero space: `O(Q₂)` is trivial, the determinant-product condition
+  reduces to `det g₁ = 1`, and the two `SO` subgroups coincide with `SO(Q₁)`.
 
 **0C. The bilinear dictionary.** With `2` invertible, `O(Q)` and the automorphism group of the
 symmetric bilinear form `B = polarBilin Q` are the same group: an isometry of `Q` preserves `B` by
@@ -508,8 +529,8 @@ proof:
 **1B. ⚠ Mathlib's Lipschitz carrier, the graded centre, and the scalar subgroup.** Mathlib defines
 `lipschitzGroup Q` as `Subgroup.closure ((↑) ⁻¹' Set.range (ι Q))`, the subgroup generated by the
 invertible vectors, and its module docstring records that agreement with the usual "twisted
-conjugation preserves `V`" Clifford group holds in one direction only, the converse being an open
-TODO. So no statement here may be inherited from the classical theory of the latter group: every
+conjugation preserves `V`" Clifford group holds in one direction only, the converse not being proved in
+Mathlib. So no statement here may be inherited from the classical theory of the latter group: every
 membership, surjectivity and kernel claim is a theorem about the closure carrier, with its
 hypotheses in the type. The milestones, in order, are
 
@@ -572,7 +593,7 @@ arithmetic uses; and its behaviour on an orthogonal direct sum. Defining `θ` th
 rather than as a quotient by the image of `Spin` is what makes it computable on a lattice
 stabilizer, one reflection at a time.
 
-Beside them, the bridge `spinorNorm_vectorRepresentation`: the spinor norm of the isometry induced
+Beside them, the bridge theorem: the spinor norm of the isometry induced
 by a Lipschitz element is the square class of that element's Clifford norm. That is the theorem the
 well-definedness argument produces, and it is what 1E runs on.
 
@@ -810,7 +831,16 @@ The q=3 rank3 and split rank4 nonperfect groups are exceptions to perfectness, n
 For primary comparison, [Zywina, §2.2 Lemma2.2](https://arxiv.org/html/2001.07273#S2.SS2) states the
 quotient, center and perfect/simple results under n≥3 and q>3. Its hypotheses must be preserved in
 that citation. The q=3 extension in this table remains an explicit theorem target with the preceding
-proof obligations; it is not attributed to that lemma. This full target replaces the source's
+proof obligations; it is not attributed to that lemma. Its direct primary reference, including
+q=3, is D. E. Taylor, *The Geometry of the Classical Groups*: there Ω is the derived group of O
+(proof of Theorem 11.45), Theorem 11.45 gives Ω=[SO,SO] generated by commutators of reflections
+for dim≥3, Theorem 11.51 identifies Ω with the spinor kernel in SO for isotropic V of dimension
+≥2 (finite V of dimension ≥3 is isotropic by Theorem 11.2), Theorem 11.46 gives generation by
+Siegel (Eichler) transformations, Theorem 11.47 gives perfectness for dim≥3 except Ω(3,3),
+Ω⁺(4,2) and Ω⁺(4,3), Theorem 11.30 gives the primitive rank-three action on singular points for
+dim≥5 and Witt index ≥2, and Theorem 11.48 gives simplicity of PΩ for dim≥3 except PΩ(3,3) and
+dimension four with Witt index two. Taylor's PΩ is Ω modulo its scalars; identifying that with
+the quotient by the centre of Ω is step 3 above. This full target replaces the source's
 unspecified finite-field “usually” qualification while preserving that source literal separately.
 
 **1H. Rational determinant–spinor image, including binary exceptions.** Over ℚ consume the same
@@ -945,10 +975,12 @@ field and `V` finite-dimensional the module topology is the basis transport, so 
 holds for the product topology through any basis and basis-independence is a corollary rather than
 a separate theorem; that `Module.End K V` and `CliffordAlgebra Q` carry the module topology, the latter
 needing finite-dimensionality of the Clifford algebra, that is the Poincaré–Birkhoff–Witt
-statement `dim = 2^n`, recorded in the dependency table as an input; the linear automorphism group
-`V ≃ₗ[K] V` is instead given the induced group topology described in 2B, not a module topology;
-that it is Hausdorff and locally compact in this setting; and that every linear map between
-finite-dimensional spaces is continuous for it, which is what makes base change and change of basis continuous.
+statement `dim = 2^n`, recorded in the dependency table as an input; that the module topology is
+Hausdorff and locally compact in this setting; and that every linear map between
+finite-dimensional spaces is continuous for it, which is what makes base change and change of basis
+continuous. The linear automorphism group `V ≃ₗ[K] V` is not a `K`-module and carries no module
+topology: it receives the group topology induced from `Module.End K V × Module.End K V` described
+in 2B.
 
 ⚠ Every topological statement in Layers 2 and 3 carries `IsModuleTopology` as a hypothesis rather
 than an arbitrary `TopologicalSpace` instance, and `IsModuleTopology` **on its own is not enough**.
@@ -1115,7 +1147,7 @@ and simple connectedness, belongs to `OrthogonalTamagawaAndLatticeMass`, after R
 exposes a public point functor. This roadmap's Layer 3 is stated entirely about point groups and
 never about a scheme.
 
-**3B. Imported generic restricted-product substrate.** This is a dependency checkpoint, not an
+**3B. Imported generic restricted-product substrate.** This is a dependency, not an
 owned milestone. Use `RestrictedProducts.integralSubgroup`, `restrictedProductMap`,
 `restrictedProductMapOfForall`, `restrictedProductCongr`, `rationalDiagonal`, `restrictAway`,
 `RestrictedProductGroup`, `RestrictedProductGroupAway` and `RestrictedProductGroupWithFactor`
@@ -1321,20 +1353,20 @@ comparisons and standard integral-lifting theorem; `unitSquareClasses` with the 
 theorems of 3C; and the double-coset comparisons of 3G.
 
 **What the successor must import before it may state anything**, and may not replace by a local
-stand-in: the algebraic-group point functor and almost-simple-factor API from Reductive Groups;
+substitute: the algebraic-group point functor and almost-simple-factor API from Reductive Groups;
 the evaluation topology, local analytic structure, integral models and local Kneser–Tits inputs of
-[ReductiveGroupsPartII RG2.0, RG2.0a, RG2.3 and RG2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1e875b1e9277da9091c8c1338594ede28d52f342/TauCetiRoadmap/ReductiveGroupsPartII/README.md);
-[AdelicAlgebraicGroups AA.1.1–1.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e464f58f088088cd41cad5b2d2291342ee620c77/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#11-affine-points-and-integral-models)
+[ReductiveGroupsPartII RG2.0, RG2.0a, RG2.3 and RG2.4](../ReductiveGroupsPartII/README.md);
+[AdelicAlgebraicGroups AA.1.1–1.4](../AdelicAlgebraicGroups/README.md#11-affine-points-and-integral-models)
 for the actual Hopf-model adelic/restricted-product, coordinate and diagonal comparisons;
-[AA.4.1–4.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e464f58f088088cd41cad5b2d2291342ee620c77/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#42-strong-approximation-and-arithmetic-closures)
+[AA.4.1–4.2](../AdelicAlgebraicGroups/README.md#42-strong-approximation-and-arithmetic-closures)
 for weak and strong approximation over number fields, including its theorem for connected
 semisimple simply connected groups with the noncompactness condition on every almost-simple
-factor; [AA.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e464f58f088088cd41cad5b2d2291342ee620c77/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-3-reduction-and-arithmetic-quotients) for arithmetic reduction and finite
-covolume; and [AA.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e464f58f088088cd41cad5b2d2291342ee620c77/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-2-characters-quotient-measures-and-tamagawa-measures)
+factor; [AA.3](../AdelicAlgebraicGroups/README.md#layer-3-reduction-and-arithmetic-quotients) for arithmetic reduction and finite
+covolume; and [AA.2](../AdelicAlgebraicGroups/README.md#layer-2-characters-quotient-measures-and-tamagawa-measures)
 for quotient integration and the normalized Tamagawa measure with its stated convergence-factor
 inputs. These theorem interfaces retain their own hypotheses and proofs.
 For the **number-field simply connected semisimple value**, consume
-[EndoscopicTransferAndUnitaryTraceComparison §6.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/95d7465f336fde5685b3fa0c663fa886c51ee001/TauCetiRoadmap/EndoscopicTransferAndUnitaryTraceComparison/README.md#62-tamagawa-number-one-for-simply-connected-semisimple-groups):
+[EndoscopicTransferAndUnitaryTraceComparison §6.2](../EndoscopicTransferAndUnitaryTraceComparison/README.md#62-tamagawa-number-one-for-simply-connected-semisimple-groups):
 `τ(S)=1` for every connected simply connected semisimple group over a number field, including
 inner forms, products, restriction of scalars and exceptional factors. This numerical theorem has
 no choice of `S` or factorwise `S`-noncompactness hypothesis; those remain on the away-`S`
@@ -1344,7 +1376,7 @@ remain that owner's obligations; neither isotropy nor strong approximation prove
 Its §6.5 gives scoped Kottwitz ratios for that layer's reductive/endoscopic/centralizer inputs;
 it is not an arbitrary finite-central-isogeny pushforward or defect theorem.
 For the **orthogonal value and shared gauge/local-volume package**, consume
-[GeometryOfNumbersAndQuadraticArithmetic §3.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d63953a26ec1ff4f57cb1d0ee5aab223a4a48108/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#33-finite-stabilizers-genus-classes-and-mass):
+[GeometryOfNumbersAndQuadraticArithmetic §3.3](../GeometryOfNumbersAndQuadraticArithmetic/README.md#33-finite-stabilizers-genus-classes-and-mass):
 `orthogonalTamagawa_two` for nondegenerate forms of rank at least three over a number field,
 `orthogonalPinnedGaugeJacobian`, `compactOrthogonalGaugeVolume`,
 `orthogonalIntegralRealGaugeCompatibility`, and, only for maximal integral lattices,
@@ -1361,7 +1393,7 @@ IntegralLattices and construct the successor's remaining extensions with those i
 These are immutable **written roadmap contracts**, not claims that their suggested signatures
 or native proofs exist. Before transporting a numerical value, the successor must identify its
 scheme/point quotient and its Haar and quotient measures with these exact supplier conventions.
-Use [AA.2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e464f58f088088cd41cad5b2d2291342ee620c77/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#24-gauge-forms-and-tamagawa-normalization)'s
+Use [AA.2.4](../AdelicAlgebraicGroups/README.md#24-gauge-forms-and-tamagawa-normalization)'s
 `|d_K|^(−dim G/2) ρ_G⁻¹ ∏_v λ_v |ω|_v`, additive measures `vol(𝒪_v)=1`, `dx` and `2 dx dy`,
 normalized absolute values, Artin character-lattice factors (including ramified inertia), and
 counting measure on rational points. For reductive groups the number is on `G(𝔸_K)^1` with
@@ -1501,12 +1533,14 @@ convention drift.
   error the convention table warns against (Layer 0D).
 - Dimension one, `Q x = a x²` for `a ∈ Kˣ`: `O(Q) = {±1}`, `SO(Q)` is trivial, `-1` is the
   reflection in any `v ≠ 0`, and `θ(-1) = [a]`, which is nontrivial exactly when `a` is not a
-  square. ⚠ The scalar has to be carried: for `Q x = x²` one gets `Q v = v²` and `θ(-1) = [1]`,
-  so that instance is the degenerate one and tests nothing. Here “`a` is nonsquare” tests that the
-  `reverse` spinor norm of this reflection is nontrivial; it is a different condition from
-  “`-1` is nonsquare,” which is when the `reverse` and `star` norm classes differ. Over `ℚ_p`,
-  `-1` is nonsquare exactly for `p = 2` or odd `p ≡ 3 (mod 4)`, so the convention difference
-  does not occur at odd `p ≡ 1 (mod 4)` (Layers 0, 1).
+  square. Two different conditions are tested here. “`a` is a nonsquare” tests that the
+  `reverse` spinor norm of this reflection is nontrivial: for `Q x = x²` one gets `θ(-1) = [1]`,
+  which does not test it. “`-1` is a nonsquare” is what separates the conventions: the `star`
+  norm of the same reflection is `[-a]`, so over ℚ the instance `Q x = x²` gives `[1]` for
+  `reverse` and `[-1] ≠ [1]` for `star`, and is the discriminating instance for 1A's
+  convention. Over `ℚ_5`, where `-1` is a square (`2² ≡ -1 (mod 5)`, lifted by Hensel's
+  lemma), both norms give `[a]`, so no instance over `ℚ_5` separates them; over `ℚ_p`, `-1` is
+  a nonsquare exactly for `p = 2` or odd `p ≡ 3 (mod 4)` (Layers 0, 1).
 - The hyperbolic plane over any `K`: `SO(H) ≅ Kˣ` through the diagonal torus and `θ` on that torus
   is the square class of the parameter, so `θ : SO(H)(K) → Kˣ/(Kˣ)²` is **surjective**, and the
   image of `Spin(H)(K) → SO(H)(K)` is the square-parameter subgroup `(Kˣ)²`, which is `ker θ`. The
@@ -1607,9 +1641,13 @@ by the first of those two with the exact supplier interfaces above.
   at least three; §101 the adelic setting; 104:4 strong approximation for the spin group, which is
   `OrthogonalTamagawaAndLatticeMass`'s. ⚠ His Hasse symbol convention is `∏_{i≤j}`, translated
   per the quadratic form invariants roadmap's table. (104:5, Eichler's theorem for lattice
-  classes, is owned by the IntegralLattices roadmap; it is distinct from Layer 3A's affine
-  group-scheme construction and point comparison, which belong to
-  `OrthogonalTamagawaAndLatticeMass`.)
+  classes, belongs to `OrthogonalTamagawaAndLatticeMass` §0.3, the successor that also owns Layer
+  3A's affine group-scheme construction and point comparison; the IntegralLattices roadmap's scope
+  table assigns Eichler's theorem `cls⁺ L = spn⁺ L` to that successor.)
+- D. E. Taylor, *The Geometry of the Classical Groups*, Heldermann (1992); author's corrected
+  copy (2021). Theorems 11.2, 11.30, 11.45–11.48 and 11.51 for the finite orthogonal groups of
+  1G, including the field with three elements: isotropy, primitive action, generation, perfectness
+  and simplicity with their exceptions, and the spinor kernel.
 - C. Chevalley, *The Algebraic Theory of Spinors*, Columbia (1954); reprinted in *Collected Works*
   vol. 2, Springer (1997). Chapter II for the Lipschitz group, the vector representation, the
   centre and graded centre computation of 1B, and the Clifford norm of 1A.

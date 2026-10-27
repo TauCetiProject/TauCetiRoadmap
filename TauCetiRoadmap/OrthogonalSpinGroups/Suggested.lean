@@ -3,8 +3,7 @@ Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: The Tau Ceti contributors
 -/
-import Mathlib.GroupTheory.IsPerfect
-import Mathlib.LinearAlgebra.Projectivization.PSL.PSL2
+import Mathlib
 import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.SpinorNorm.Binary
 import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.Quaternion
 import TauCeti.FieldTheory.SquareClassGroup.Multiplicative
