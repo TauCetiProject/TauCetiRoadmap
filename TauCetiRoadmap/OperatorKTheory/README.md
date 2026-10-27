@@ -187,6 +187,52 @@ homotopies, cone contractibility, and the action of orientation reversal
 on suspension classes. Develop the elementary exactness and lifting
 lemmas before using Bott to close a six-term sequence.
 
+### K2.LocalNormed. Component groups of normed local algebras
+
+Extend the component-group construction to a unital normed complex algebra
+B with Banach completion B̄, using the inherited norm topology on B. Require
+that B embeds unitally into B̄ and that, at every finite matrix size, B is
+closed under the holomorphic functional calculus computed in M_n(B̄).
+This is an explicit all-matrix hypothesis. It does not assert completeness
+of B or the existence of contour integrals in an unspecified stronger
+topology. Consume BanachAlgebras A2's calculus in the completion and prove
+that the resulting inverse, exponential and logarithm values belong to
+M_n(B). Include the zero algebra and size-zero matrices separately.
+For nonzero B extend BanachAlgebras A1's left-multiplication norm
+comparison to the normed case, obtaining an equivalent algebra norm with
+‖1‖=1. Use its maximum row-sum matrix norm; the resulting topology is independent
+of the equivalent standard finite-matrix norm chosen.
+
+Prove GL_n(B) is an open topological group and its identity component
+equals its path component and the subgroup of finite products of
+exponentials. For
+`O_n={g: ‖g−1‖<1 and ‖g⁻¹−1‖<1}`, prove openness, inverse symmetry,
+and `GL_n(B)_0=⋃_(k≥1) O_n^k`. The logarithm argument uses the strict
+inequality ‖g−1‖<1: its completion spectrum lies in the open disc about
+1 on which the chosen logarithm branch is holomorphic. Prove norm
+continuity of `t↦exp(t log g)` by comparison with the completion. Prove
+the generated subgroup is open and closed and use its cosets to identify
+the connected component; no inverse symmetry is assumed for a norm ball.
+Thus GL_n(B)/GL_n(B)_0 is a discrete group.
+
+Form the directed colimit of these component groups under g↦diag(g,1).
+Prove common-finite-stage representative and equality criteria, the
+block-sum/multiplication comparison, and its abelian group structure.
+Consume AlgebraicKTheory A1–A2 and A8 for the single algebraic K₁ and
+its quotient construction: the paths `t↦e_ij(ta)` put E_infinity(B)
+in the stable identity component, giving a natural surjection
+`K₁_alg(B)→K₁_top(B)` with kernel the image of that component modulo
+E_infinity(B). At a fixed finite size use the map from GL_n(B) itself;
+write a quotient by E_n(B) as a group only where its normality is proved.
+For a continuous surjective unital homomorphism between algebras satisfying
+these hypotheses, prove matrix exponentials and their finite products
+lift invertibly, by lifting their logarithm/exponent coefficients and
+using functional-calculus naturality in the completions. This is a
+lifting theorem for the identity component, not for arbitrary units.
+For Banach algebras identify this construction with A8's existing one;
+for C*-algebras compare with K2's unitary model by its polar homotopy.
+The stronger Fréchet-topology comparison in K3 retains its own hypotheses.
+
 ## K3. Bott periodicity, boundary maps, and products
 
 Define the positive Bott map `b_A:K₀(A)→K₁(SA)` on unitization
@@ -258,6 +304,34 @@ these presentations to the six-term sequence. Include the Toeplitz
 extension constructed in CStarAlgebras C8: its symbol z has boundary −1 because its lift is the
 unilateral shift. Compute the K-groups of the Toeplitz algebra and
 the maps of that extension.
+
+**Pullback Mayer–Vietoris.** Let π_j:A_j→Q be arbitrary
+*-homomorphisms of complex C*-algebras, with at least one π_j surjective.
+Construct the closed pullback D=A₁×_Q A₂, its projections p_j and its
+C*-universal property, including nonunital and zero cases. First take
+π₁ surjective and put J=ker π₁. Identify the two exact extensions
+`0→J→D→A₂→0` and `0→J→A₁→Q→0`, with J→D given by j↦(j,0).
+For i=0,1 define the pullback boundary by the second extension boundary
+followed by this inclusion:
+`∂_i:K_i(Q)→K_(i−1)(J)→K_(i−1)(D)`, with indices modulo two.
+Prove the cyclic sequence
+
+```
+K₀(D) → K₀(A₁)⊕K₀(A₂) → K₀(Q) →∂₀ K₁(D)
+      → K₁(A₁)⊕K₁(A₂) → K₁(Q) →∂₁ K₀(D)
+```
+
+is exact at every term. The first maps are `(p₁*,p₂*)` and the
+second maps are `π₁*−π₂*`. Prove naturality for maps of pullback
+squares and compatibility with suspension and the fixed Bott maps.
+Swapping the two legs and identifying the pullbacks negates the boundary.
+For unital squares compare ∂₁ with AlgebraicKTheory A6/A8: if X lifts
+diag(u,u⁻¹) through π₁ and e=diag(I,0), its class is
+`[(XeX⁻¹,e)]−[(e,e)]`, converting the resulting idempotent to a
+projection by K1. Prove agreement after the algebraic-to-topological
+K₁ quotient, including the normalization `[M(u)]−[Dⁿ]`.
+No separability or completely positive splitting is assumed. A square
+with neither leg surjective is outside this exactness assertion.
 
 Construct external products
 `K_i(A)⊗ℤK_j(B)→K_(i+j)(A⊗B)`, initially on projection and unitary
@@ -906,6 +980,40 @@ The positive trace value fixes x rather than allowing its negative as
 an unnamed PV generator. Build the rotation-number/determinant proof
 of the range and of this normalization. The smooth
 rotation algebra and its cyclic cocycles are outside this roadmap.
+
+**Twisted abelian centers and simplicity.** For a finite rank d≥0 and a
+normalized circle-valued 2-cocycle c on L=ℤ^d, consume Dynamics
+D1.CentralTwists/D2.CentralTwists' counting-Haar algebra C*(L,c), its
+faithful coefficient trace and gauge action of L̂. Write W_xW_y=c(x,y)W_(x+y).
+Construct the continuous alternating commutator bicharacter
+`ρ(x,y)=c(x,y)conjugate(c(y,x))`, its radical
+`C_ρ={x:∀y,ρ(x,y)=1}`, the characters κ_x(y)=ρ(x,y), and
+`H_ρ=closure{κ_x:x∈L}⊆L̂`. Prove `Ad(W_x)=α_(κ_x)` and identify
+H_ρ as the annihilator of C_ρ. Consume
+[VonNeumannAlgebras V11](../VonNeumannAlgebras/README.md)'s Pontryagin duality and
+prove this discrete-abelian annihilator comparison here by character
+separation and Fourier coefficient uniqueness.
+
+Construct the faithful conditional expectation
+`Q(a)=∫_(H_ρ) α_s(a) ds`, with probability Haar. Prove
+Q(W_y)=W_y for y∈C_ρ and zero otherwise, identify its fixed algebra with
+the center, and prove
+`Z(C*(L,c))=closure(span{W_y:y∈C_ρ})` by finite Fourier approximation.
+Every closed two-sided ideal I is invariant under the inner action and
+its compact closure, so Q(I)⊆I. For a nonzero positive a∈I prove
+Q(a) is nonzero; hence every nonzero ideal meets the center. Deduce
+C*(L,c) is simple iff its center is ℂ1 iff C_ρ={0} iff H_ρ=L̂.
+Include d=0 and the trivial cocycle. These statements concern the full
+algebra, identified with its reduced version by twisted amenability.
+
+For the rotation algebra use W_(m,n)=v^m u^n and
+`c((m,n),(m′,n′))=exp(2πiθ n m′)`. Prove the displayed abstract
+cocycle and gauge conventions agree with K7 and N6. If θ is irrational,
+compute C_ρ=0 and conclude simplicity. If θ=p/q in lowest terms, q≥1,
+compute C_ρ=qℤ² and identify the center with C(𝕋²), sending its
+coordinate unitaries to v^q,u^q; prove injectivity by the gauge action
+and Fourier coefficient uniqueness. Thus every rational rotation algebra
+is nonsimple, including the commutative integral-parameter case.
 
 Construct the Toeplitz–Cuntz algebra E_n, universal for n isometries
 with orthogonal ranges and `∑s_i s_i*≤1`, and its faithful creation
