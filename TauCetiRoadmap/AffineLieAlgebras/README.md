@@ -623,7 +623,7 @@ shifted coefficients. Reindex the split negative/nonnegative sums; the only
 boundary at index zero has factor zero. Induct on the ordered list of factors,
 use the actual all-word normal-order equations and Fock spanning to obtain
 covariance for every state. Supply this pre-bundle theorem to the generic axiom
-field when constructing `latticeGradedVertexAxioms`. Reconstruction must consume
+field when constructing the graded formal vertex-algebra structure on V_L. Reconstruction must consume
 covariant generating fields and cannot create its own missing hypothesis. Prove skew symmetry and the Borcherds/Jacobi
 identity for every three states. Prove locality in the actual
 coefficient convention: for each `a,b∈V_L` some `N≥0` satisfies
