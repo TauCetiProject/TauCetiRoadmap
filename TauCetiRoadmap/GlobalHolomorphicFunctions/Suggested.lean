@@ -374,7 +374,7 @@ theorem HolomorphicMapSpace.tendsto_iff_tendstoLocallyUniformly
     {ι : Type*} {p : Filter ι} {F : ι → HolomorphicMapSpace U} {f : HolomorphicMapSpace U} :
     Tendsto F p (𝓝 f) ↔
       TendstoLocallyUniformly (fun i x => F i x) f p := by
-  letI := HolomorphicMapTopology.compactConvergenceUniformity U
+  let := HolomorphicMapTopology.compactConvergenceUniformity U
   simp only [nhds_induced, Filter.tendsto_comap_iff]
   exact ContinuousMap.tendsto_iff_tendstoLocallyUniformly
 
