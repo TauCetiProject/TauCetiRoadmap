@@ -2,14 +2,8 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.CategoryTheory.Monoidal.Mon
-import Mathlib.CategoryTheory.Linear.Basic
-import Mathlib.Basic.Complex.Basic
+import Mathlib
 import TauCeti.CategoryTheory.Monoidal.Rigid.Basic
-import Mathlib.CategoryTheory.EpiMono
-import Mathlib.CategoryTheory.Bicategory.End
-import Mathlib.CategoryTheory.Monoidal.Linear
-import Mathlib.Analysis.Real.Sqrt
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -112,9 +106,18 @@ def SymmetricSelfDuality.transport {X X' D DD : C} [ExactPairing X' D]
     SymmetricSelfDuality X D DD (i ≪≫ φ) := by
   letI : ExactPairing X D := exactPairingCongrLeft i
   refine { iso := i ≪≫ S.iso, unitary := ?_, symmetric := ?_ }
-  · sorry
+  · simp only [IsUnitary, Iso.trans_hom, dagger_comp, Category.assoc]
+    exact ⟨by rw [reassoc_of% S.unitary.1, hi.1], by rw [reassoc_of% hi.2, S.unitary.2]⟩
   · rw [TauCeti.exactPairingCongrLeft_evaluation]
-    sorry
+    simp only [Iso.trans_hom]
+    calc ((i.hom ≫ S.iso.hom) ⊗ₘ 𝟙 X) ≫ D ◁ i.hom ≫ ε_ X' D
+        = (i.hom ⊗ₘ i.hom) ≫ (S.iso.hom ⊗ₘ 𝟙 X') ≫ ε_ X' D := by
+          rw [← id_tensorHom, tensorHom_comp_tensorHom_assoc,
+            tensorHom_comp_tensorHom_assoc]
+          simp
+      _ = (i.hom ⊗ₘ i.hom) ≫ (φ.hom ⊗ₘ S.iso.hom) ≫ ε_ D DD := by rw [S.symmetric]
+      _ = ((i.hom ≫ φ.hom) ⊗ₘ (i.hom ≫ S.iso.hom)) ≫ ε_ D DD := by
+          rw [tensorHom_comp_tensorHom_assoc]
 
 /-- Representative equations for the actions in a Q-system bimodule.
 The Frobenius and coisometry conditions are actual equations. -/

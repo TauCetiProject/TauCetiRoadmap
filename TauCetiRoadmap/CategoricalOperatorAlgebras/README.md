@@ -220,7 +220,7 @@ prove its universal property, transport and skeleton independence.
 
 Prove the canonical bijections between pseudounitary pivotal structures
 modulo monoidal natural isomorphism, unitary dual functors modulo unitary
-monoidal natural isomorphism, and groupoid homomorphisms to ℝ_{>0}.
+monoidal natural isomorphism, and groupoid homomorphisms to the positive reals `ℝ>0`.
 For a homogeneous simple X pin the character to `dim_L(X)/dim_R(X)`.
 For equivalence of chosen dual functors require the canonical monoidal
 natural comparison determined by their evaluations/coevaluations to be
@@ -1222,8 +1222,9 @@ is fully faithful on the connected input M, prove finite semisimplicity
 and `End(1_(C⊠M))=ℂ`. Retain the corresponding central lift and
 its braided compatibility; full faithfulness of that lift alone does
 not replace this hypothesis.
-Construct its canonical centralizing structure and prove Lemma 3.7 of the Henriques–Penneys–Tener finite-depth classification paper
-functor `M→Z_C(C⊠_(Z(C)^rev)M)` fully faithful. Use CA6's relative center. For spherical fusion C fully faithfully embedded in E with
+Construct its canonical centralizing structure and prove the
+functor `M→Z_C(C⊠_(Z(C)^rev)M)` fully faithful (Henriques–Penneys–Tener,
+Lemma 3.7). Use CA6's relative center. For spherical fusion C fully faithfully embedded in E with
 simple unit, using the algebraic central structure (unitary in the
 C* specialization), prove the multiplication functor
 `Z_C(E)⊠_(Z(C)) C→E`, `(e,c)↦e⊗c`, fully faithful.
@@ -1306,11 +1307,7 @@ CA6 category equivalence supplying the required morphism comparisons.
 - Henriques–Penneys–Tener, [*Classification of finite-depth objects in
   bicommutant categories via anchored planar algebras*](https://arxiv.org/abs/2307.13822),
   §§3–4, especially the main-body factor setup on p.16, for CA10.
-- Mathlib's [Day Yoneda PR #27198](https://github.com/leanprover-community/mathlib4/pull/27198),
-  [double-dual PR #42145](https://github.com/leanprover-community/mathlib4/pull/42145)
-  and [pivotal PR #42150](https://github.com/leanprover-community/mathlib4/pull/42150)
-  determine the monoidal-Yoneda and pivotal interface shapes.
-  Tau Ceti's `Monoidal.Rigid.Basic` and `Monoidal.Rigid.Functor`
+- Tau Ceti's `Monoidal.Rigid.Basic` and `Monoidal.Rigid.Functor`
   supply evaluation/coevaluation lemmas for Mathlib's exact-pairing
   transport and construct strong-monoidal images. Consume those APIs
   for dual comparisons. Its `Rigid.DoubleDual` uses closed
