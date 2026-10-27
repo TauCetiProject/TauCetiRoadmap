@@ -1,8 +1,5 @@
 /- Suggested forms only; the roadmap README is definitive and this file is not exhaustive. -/
-import Mathlib.Analysis.Quaternion
-import Mathlib.Analysis.Calculus.FDeriv.Basic
-import Mathlib.Analysis.Analytic.Basic
-import TauCeti.Analysis.Complex.CauchyIntegralPolydisc
+import Mathlib
 
 open scoped Quaternion
 
