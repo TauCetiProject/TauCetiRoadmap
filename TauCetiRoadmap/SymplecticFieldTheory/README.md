@@ -10,8 +10,9 @@ comparison theorems. These are separate levels of the theory: a contact differen
 counts one-positive-end spheres, while the SFT formalism also describes fusion of
 several inputs and higher genus.
 
-The definitive specification is this README. `Suggested.lean` gives selected
-interface prototypes, not an exhaustive checklist. The basic contact construction
+The definitive specification is this README. `Suggested.lean` states the
+headline theorems that are statable against the pinned libraries (the S0
+orbit-algebra results) and names those that are not. The basic contact construction
 is over ℚ and is unconditionally a construction target. The general SFT realization
 assertion in S8 is a precisely stated research-level assertion; the required
 deliverables there are its data, statement and conditional algebraic consequences.
@@ -51,17 +52,17 @@ and class data in S9; exact-cobordism theorems retain their exactness hypothesis
 
 Use the following single owners at their stated scope.
 
-- [ContactGeometry, CG1–CG6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1049)
+- [ContactGeometry, CG1–CG6](../SymplecticGeometry/ContactGeometry/README.md)
   supplies contact forms, Reeb vector fields, symplectizations, contact-type ends
   and the elementary contact transformations. This roadmap constructs the orbit
   and punctured-count applications of that geometry.
-- [HeegaardFloer, F0 and F1.1–F1.5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/957)
+- [HeegaardFloer, F0 and F1.1–F1.5](../HeegaardFloer/README.md)
   supplies Banach/Fredholm, cylindrical Sobolev, elliptic/adjoint/UCP,
   common-domain spectral flow, the single Maslov/CZ and determinant-line theory,
   punctured weighted Riemann–Roch and finite-dimensional zero-mode extensions.
   F2's ordinary curve regularity and conditional gluing are inputs only at their
   actual hypotheses. S2–S4 construct the nonlinear Reeb-end and building adapters.
-- [ImplicitAtlases, V0–V6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/974)
+- [ImplicitAtlases, V0–V6](../ImplicitAtlases/README.md)
   supplies topological atlas data, orientation sheaves, relative virtual
   complexes, normalized global obstruction traces, specified refinement and
   concordance comparisons, and finite cell-like strata/products. Its principal
@@ -77,7 +78,7 @@ Use the following single owners at their stated scope.
 - [MorseTheory](../MorseTheory/README.md) supplies finite-dimensional Morse
   operations used in the explicit comparison examples. SFT does not introduce
   another Morse complex or another linear index construction.
-- [GromovWittenTheory](https://github.com/TauCetiProject/TauCetiRoadmap/pull/990)
+- [GromovWittenTheory](../GromovWittenTheory/README.md)
   supplies closed-curve comparison targets when S8 has no punctures. Its closed
   stable-map compactification does not establish the Reeb-end compactification.
 
@@ -113,15 +114,18 @@ signed monomial expansions, permutation/braid identities, coefficient extension
 and the disjoint-orbit tensor-product comparison. These are the specialized
 free orbit-algebra adapters; the generic DG interface remains with its owner.
 
-Use the signed `GradedTensorProduct` carrier and its total-degree grading for
-the disjoint-orbit comparison, following
-[Mathlib #42879](https://github.com/leanprover-community/mathlib4/pull/42879)
-and its two-index tensor-decomposition prerequisites in
-[Mathlib #42365](https://github.com/leanprover-community/mathlib4/pull/42365).
-Construct the tensor input-degree grading and the signed quotient grading by
-images of homogeneous tensor pieces, following the homogeneous-quotient design
-included in [Mathlib #39356](https://github.com/leanprover-community/mathlib4/pull/39356).
-For an existing integer lift, push its grading along ℤ→ℤ/2 by the same
+For the disjoint-orbit comparison use Mathlib's signed `GradedTensorProduct`
+carrier with the pinned Tau Ceti total-degree grading
+`TauCeti.gradedTensorGrading` (its `TauCeti.isInternal_gradedTensorGrading`,
+graded-algebra instance, `TauCeti.gradedTensorLift` and the two graded
+inclusions), and assemble differentials with
+`TauCeti.isDGAlgebra_gradedTensorGrading`, `TauCeti.dgTensorLift` and the
+DG inclusions. Construct the tensor input-degree grading on the native tensor
+algebra, and descend it to the signed quotient by images of homogeneous tensor
+pieces, using `TauCeti.GradedAlgebra.quotientPiece` and
+`TauCeti.GradedAlgebra.isInternal_quotientPiece` for a homogeneous ideal
+(passing from `RingQuot` to the two-sided ideal quotient where that API needs
+it). For an existing integer lift, push its grading along ℤ→ℤ/2 by the same
 proposal's fibre-sum construction and compare with the directly constructed
 parity-only algebra. This comparison does not produce an integer lift from
 parity data. Prove compatibility of generators, multiplication, differentials
@@ -131,7 +135,17 @@ shape; adopt the upstream implementation when available.
 Prove that a parity-odd linear assignment V→A(V) extends uniquely to an odd
 Leibniz map d, and that d²=0 is equivalent to its vanishing on generators.
 Construct the corresponding integer-graded statements when an integer lift is
-supplied. The latter theorem reduces the geometric boundary identity to a
+supplied. In the integer-graded lane A(V) is `SignedSym G`, the `RingQuot` of
+the tensor algebra by the Koszul relation `signedSwapRel G` for an internal
+grading G of V, with generator map `generator G`. Its degree-p piece
+`signedSymPiece G p` is the span of the images of words in homogeneous
+generators of total degree p. Prove that these pieces make A(V) a ℤ-graded
+algebra (`nonempty_gradedAlgebra_signedSymPiece`), that a degree-one
+assignment on generators extends uniquely to a signed Leibniz map
+(`exists_unique_odd_extension`), and that a degree-one signed Leibniz map
+squares to zero if and only if d∘d vanishes on generators
+(`odd_square_zero_iff_generators`). After the generator identity, the result
+is a `TauCeti.IsDGAlgebra` for the graded algebra structure on these pieces. The latter theorem reduces the geometric boundary identity to a
 checkable algebraic statement; it does not supply that boundary identity.
 
 ## S1. Punctured maps, energy and compactification
@@ -475,7 +489,7 @@ vanishing theorem for the extra components.
 
 Construct the coefficient extension with actual relative classes, area and
 Chern homomorphisms, capping/reference changes and recapping maps. Use the
-[MorseNovikov N1 coefficient theory](https://github.com/TauCetiProject/TauCetiRoadmap/pull/890) for its native finite-sublevel group-ring
+[MorseNovikov N1 coefficient theory](../MorseNovikov/README.md#n1-period-controlled-completed-group-rings-and-modules) for its native finite-sublevel group-ring
 carrier, and construct the additional signed-word convolution adapter here.
 Track full class labels even when the area homomorphism is noninjective.
 For a rigid curve with output word w derive the energy identity in the chosen
@@ -699,7 +713,11 @@ Verify all finite-group/marker/permutation factors on a simple orbit, its good
 and bad covers, repeated ends and an ineffective stabilizer. Verify the CZ sign
 dictionary on a small rotation, the zero modes of a trivial cylinder, the plane
 constant term and both ends of a one-parameter cobordism. Verify the signed
-algebra examples, the ellipsoid computation, disjoint union symmetry and empty
+algebra examples: for V=ℚx with |x|=1 the degree-2 piece of A(V) is zero
+(x²=−x², so 2x²=0), while for |x|=0 it contains x²≠0, and the unsigned
+symmetric algebra gets the odd case wrong; for |x|=0, |y|=1, |z|=2 the
+assignment x↦y, y↦z, z↦0 gives d²x=z≠0, whereas x↦y, y↦0 gives d²=0.
+Verify the ellipsoid computation, disjoint union symmetry and empty
 object. In S7 verify one contraction, two-edge genus addition, ℏ divisibility,
 the master-to-square-zero implication and a failure of an indiscriminate
 two-sided completion. Every virtual count comparison retains its actual chain

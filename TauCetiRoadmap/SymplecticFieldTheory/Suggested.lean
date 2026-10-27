@@ -1,106 +1,101 @@
-import Mathlib.Algebra.RingQuot
-import Mathlib.LinearAlgebra.TensorAlgebra.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Basic
-import Mathlib.Algebra.Category.ModuleCat.Basic
+import Mathlib
 import TauCeti.Algebra.Module.GradedModule.Internal
-import TauCeti.Algebra.Homology.DG.Algebra.Defs
 
 /-!
-These are suggested forms, not an exhaustive checklist. The README is definitive.
+# Contact homology and the symplectic field theory formalism: target signatures
 
-This file prototypes the integer-graded orbit-algebra lane of S0. Its input degree
-is a supplied cohomological lift, whose geometric construction and hypotheses are
-specified in S0/S2. The main theory also has a parity-only lane. These inputs are
-actual rank-one modules; they do not assert that Reeb moduli, determinant transport
-or virtual counts have been constructed. Geometric count signatures are omitted
-until their actual punctured-map carriers are available, as opposed to representing
-them by unspecified proposition fields.
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
+Mathlib and Tau Ceti, those headline theorems of the roadmap that are statable there: the
+integer-graded orbit-algebra results of S0. The free unital supercommutative algebra on an
+internally graded ℚ-module is the explicit quotient of the native tensor algebra by the
+Koszul swap relations on homogeneous generators. Its total-degree pieces form a grading. An
+odd assignment on generators extends uniquely to an odd Leibniz map, and such a map squares
+to zero exactly when it does so on generators.
 
-Use the existing native DG-algebra predicate after proving the count identities.
-The explicit signed quotient and its universal-property adapters are S0 targets.
-`sorry` marks mathematical construction and proof obligations.
+The following headline theorems are not statable at the pins, and nothing is stated in their
+place.
+
+* Invariance of rational contact homology of a closed cooriented contact manifold (S5), and
+  its exact-cobordism maps and symmetric monoidal functor on homology (S5–S6). Mathlib has no
+  contact structures, Reeb vector fields or symplectizations. Neither library has punctured
+  pseudoholomorphic maps with Reeb asymptotics, their compactifications (S1–S4) or coherent
+  virtual counts (S5).
+* The SFT master equations, the potential equation for cobordisms and the conditional sewing
+  theorems (S7–S8). These need the same geometric counts.
+* The nonexact receiving maps of S9: the derived quantum Maurer–Cartan identity, the twisted
+  Fock and contact differentials, and their composition laws. Each is stated for the actual
+  no-positive-end count series. Stating the algebraic shadow for arbitrary series would not
+  name the roadmap's objects.
 -/
 
 noncomputable section
-open scoped DirectSum TensorProduct
 
 namespace TauCetiRoadmap.SymplecticFieldTheory
 
-universe u v
+universe v
 
-/-- Integral good-orbit lines with a specified cohomological integer lift. -/
-structure OrbitLines (Γ : Type u) where
-  degree : Γ → ℤ
-  integralLine : Γ → ModuleCat.{v} ℤ
-  rankOne : ∀ γ, Nonempty (integralLine γ ≃ₗ[ℤ] ℤ)
-
-/-- The rational direct sum retains the actual orientation lines. -/
-abbrev OrbitModule {Γ : Type u} (L : OrbitLines Γ) :=
-  ⨁ γ : Γ, ℚ ⊗[ℤ] L.integralLine γ
-
-/-- The γ-summand is placed in cohomological degree `L.degree γ`. -/
-def orbitGrading {Γ : Type u} (L : OrbitLines Γ) :
-    TauCeti.InternalGrading ℚ (OrbitModule L) := sorry
-
-section SignedFree
-
-variable {V : Type v} [AddCommGroup V] [Module ℚ V]
-
-/-- The homogeneous Koszul swap relation on the native tensor algebra. -/
-def signedSwapRel (G : TauCeti.InternalGrading ℚ V)
-    (a b : TensorAlgebra ℚ V) : Prop :=
+/-- The homogeneous Koszul swap relation on the native tensor algebra of a graded ℚ-module:
+for `x` of degree `p` and `y` of degree `q`, `x ⊗ y` is related to `(−1)^(pq) y ⊗ x`. -/
+def signedSwapRel {V : Type v} [AddCommGroup V] [Module ℚ V]
+    (G : TauCeti.InternalGrading ℚ V) (a b : TensorAlgebra ℚ V) : Prop :=
   ∃ (p q : ℤ) (x y : V),
     x ∈ G.piece p ∧ y ∈ G.piece q ∧
     a = TensorAlgebra.ι ℚ x * TensorAlgebra.ι ℚ y ∧
     b = ((p * q).negOnePow : ℤ) •
       (TensorAlgebra.ι ℚ y * TensorAlgebra.ι ℚ x)
 
-/-- An explicit quotient, rather than an unsigned symmetric algebra. -/
-abbrev SignedSym (G : TauCeti.InternalGrading ℚ V) := RingQuot (signedSwapRel G)
+/-- The free unital supercommutative algebra `A(V)`, as the explicit quotient of the tensor
+algebra by the signed swap relation (not Mathlib's unsigned symmetric algebra). Over ℚ the
+relation with `x = y` odd forces `x² = 0`. -/
+abbrev SignedSym {V : Type v} [AddCommGroup V] [Module ℚ V]
+    (G : TauCeti.InternalGrading ℚ V) :=
+  RingQuot (signedSwapRel G)
 
-/-- The universal generator map into the signed quotient. -/
-def generator (G : TauCeti.InternalGrading ℚ V) : V →ₗ[ℚ] SignedSym G :=
+/-- The generator map `V → A(V)`. -/
+def generator {V : Type v} [AddCommGroup V] [Module ℚ V]
+    (G : TauCeti.InternalGrading ℚ V) : V →ₗ[ℚ] SignedSym G :=
   (RingQuot.mkAlgHom ℚ (signedSwapRel G)).toLinearMap.comp (TensorAlgebra.ι ℚ)
 
-/-- The quotient's integer grading is a construction target. -/
-def signedSymGrading (G : TauCeti.InternalGrading ℚ V) :
-    TauCeti.InternalGrading ℚ (SignedSym G) := sorry
+/-- The degree-`p` piece of `A(V)`: the span of the images of the words
+`x₁ ⊗ ⋯ ⊗ x_k` in homogeneous generators whose degrees sum to `p`. The empty word gives
+`1` in degree `0`. -/
+def signedSymPiece {V : Type v} [AddCommGroup V] [Module ℚ V]
+    (G : TauCeti.InternalGrading ℚ V) (p : ℤ) : Submodule ℚ (SignedSym G) :=
+  Submodule.span ℚ
+    {a | ∃ l : List (Σ n : ℤ, G.piece n), (l.map Sigma.fst).sum = p ∧
+      a = RingQuot.mkAlgHom ℚ (signedSwapRel G)
+        (l.map fun x => TensorAlgebra.ι ℚ (x.2 : V)).prod}
 
-/-- Multiplication and the unit respect this particular quotient grading. -/
-instance signedSymGradedAlgebra (G : TauCeti.InternalGrading ℚ V) :
-    GradedAlgebra (signedSymGrading G).piece := sorry
+/-- The total-degree pieces make `A(V)` an internally ℤ-graded algebra. The signed swap
+relation is homogeneous, so the input-degree grading of the tensor algebra descends to the
+quotient (S0). -/
+theorem nonempty_gradedAlgebra_signedSymPiece {V : Type v} [AddCommGroup V] [Module ℚ V]
+    (G : TauCeti.InternalGrading ℚ V) :
+    Nonempty (GradedAlgebra (signedSymPiece G)) := by
+  sorry
 
-/-- A degree-one assignment extends uniquely to the signed Leibniz map. -/
-theorem exists_unique_odd_extension (G : TauCeti.InternalGrading ℚ V)
-    (δ : V →ₗ[ℚ] SignedSym G)
-    (hδ : ∀ p x, x ∈ G.piece p → δ x ∈ (signedSymGrading G).piece (p + 1)) :
+/-- A degree-one linear assignment on generators extends uniquely to a linear map of
+`A(V)` that satisfies the signed Leibniz rule `d(ab) = d a · b + (−1)^p a · d b` for `a` of
+degree `p` (S0). -/
+theorem exists_unique_odd_extension {V : Type v} [AddCommGroup V] [Module ℚ V]
+    (G : TauCeti.InternalGrading ℚ V) (δ : V →ₗ[ℚ] SignedSym G)
+    (hδ : ∀ p x, x ∈ G.piece p → δ x ∈ signedSymPiece G (p + 1)) :
     ∃! d : SignedSym G →ₗ[ℚ] SignedSym G,
       d.comp (generator G) = δ ∧
-      (∀ p a, a ∈ (signedSymGrading G).piece p → ∀ b,
+      (∀ p a, a ∈ signedSymPiece G p → ∀ b,
         d (a * b) = d a * b + (p.negOnePow : ℤ) • (a * d b)) := by
   sorry
 
-/-- The geometric boundary theorem must establish the right-hand side for
-its actual count differential. No global square-zero assumption occurs here. -/
-theorem odd_square_zero_iff_generators (G : TauCeti.InternalGrading ℚ V)
-    (d : SignedSym G →ₗ[ℚ] SignedSym G)
-    (hdeg : ∀ p a, a ∈ (signedSymGrading G).piece p →
-      d a ∈ (signedSymGrading G).piece (p + 1))
-    (hLeibniz : ∀ p a, a ∈ (signedSymGrading G).piece p → ∀ b,
+/-- A degree-one signed Leibniz map on `A(V)` squares to zero if and only if `d ∘ d`
+vanishes on generators (S0). The square of an odd derivation is an even derivation, so it
+is determined by its values on generators. This reduces the geometric boundary identity to
+a check on generators; it does not supply that identity. -/
+theorem odd_square_zero_iff_generators {V : Type v} [AddCommGroup V] [Module ℚ V]
+    (G : TauCeti.InternalGrading ℚ V) (d : SignedSym G →ₗ[ℚ] SignedSym G)
+    (hdeg : ∀ p a, a ∈ signedSymPiece G p → d a ∈ signedSymPiece G (p + 1))
+    (hLeibniz : ∀ p a, a ∈ signedSymPiece G p → ∀ b,
       d (a * b) = d a * b + (p.negOnePow : ℤ) • (a * d b)) :
     d.comp d = 0 ↔ ∀ x, d (d (generator G x)) = 0 := by
   sorry
 
-/-- Consume the existing DG interface after the generator boundary identity. -/
-theorem isDGAlgebra_of_generator_boundary (G : TauCeti.InternalGrading ℚ V)
-    (d : SignedSym G →ₗ[ℚ] SignedSym G)
-    (hdeg : ∀ p a, a ∈ (signedSymGrading G).piece p →
-      d a ∈ (signedSymGrading G).piece (p + 1))
-    (hLeibniz : ∀ p a, a ∈ (signedSymGrading G).piece p → ∀ b,
-      d (a * b) = d a * b + (p.negOnePow : ℤ) • (a * d b))
-    (hboundary : ∀ x, d (d (generator G x)) = 0) :
-    TauCeti.IsDGAlgebra (signedSymGrading G).piece d := by
-  sorry
-
-end SignedFree
 end TauCetiRoadmap.SymplecticFieldTheory
