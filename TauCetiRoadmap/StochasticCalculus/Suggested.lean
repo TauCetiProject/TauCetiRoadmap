@@ -2,30 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.MeasureTheory.Function.ConditionalLExpectation
-import Mathlib.MeasureTheory.Function.FactorsThrough
-import Mathlib.MeasureTheory.VectorMeasure.WithDensity
-import Mathlib.MeasureTheory.VectorMeasure.WithDensityVec
-import Mathlib.MeasureTheory.VectorMeasure.Variation.Basic
-import Mathlib.MeasureTheory.Function.ConditionalExpectation.Real
-import Mathlib.MeasureTheory.Function.UniformIntegrable
-import Mathlib.MeasureTheory.Function.AEEqFun
-import Mathlib.MeasureTheory.Function.ConvergenceInMeasure
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.MeasureTheory.Integral.DivergenceTheorem
-import Mathlib.MeasureTheory.Function.AbsolutelyContinuous
-import Mathlib.Probability.BrownianMotion.Basic
-import Mathlib.Probability.Process.LocalProperty
-import Mathlib.Probability.Process.Adapted
-import Mathlib.Topology.MetricSpace.Polish
-import Mathlib.Probability.Process.Predictable
-import Mathlib.Probability.Process.HittingTime
-import Mathlib.Probability.Martingale.OptionalSampling
-import Mathlib.MeasureTheory.Function.LpSpace.Complete
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
-import Mathlib.Topology.Order.Cadlag
-import TauCetiRoadmap.StochasticCalculus.RawLocalization
+import Mathlib
 
 /-!
 **This file is not the roadmap and is not exhaustive.** These are suggested forms;
@@ -386,26 +363,46 @@ theorem exists_stronglyPredictable_ae_of_progressive
       ∀ T, Function.uncurry K =ᵐ[(timeMeasure T).prod P] Function.uncurry H := by
   sorry
 
-/-- Constructed by completing elementary predictable integrands, with zero initial value. -/
-def itoIntegralCLM (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) [IsProbabilityMeasure P] (T : ℝ≥0)
-    (B : ℝ≥0 → Ω → ℝ) (hB : IsFilteredBrownian F P B) :
-    PredictableL2 F P T →L[ℝ] Lp ℝ 2 P := by
-  sorry
+/-- An elementary predictable integrand: on each interval `(s i, s (i+1)]`, `i < n`, it is
+a bounded `F (s i)`-measurable random height `ξ i`. -/
+structure ElementaryIntegrand (F : Filtration ℝ≥0 mΩ) where
+  /-- The number of steps. -/
+  n : ℕ
+  /-- The nondecreasing grid of step times. -/
+  s : ℕ → ℝ≥0
+  mono : Monotone s
+  /-- The random height on `(s i, s (i+1)]`. -/
+  ξ : ℕ → Ω → ℝ
+  measurable : ∀ i, StronglyMeasurable[F (s i)] (ξ i)
+  bounded : ∀ i, ∃ C : ℝ, ∀ ω, |ξ i ω| ≤ C
 
-theorem itoIntegralCLM_isometry (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) [IsProbabilityMeasure P] (T : ℝ≥0)
-    (B : ℝ≥0 → Ω → ℝ) (hB : IsFilteredBrownian F P B) :
-    Isometry (itoIntegralCLM F P T B hB) := by
-  sorry
+namespace ElementaryIntegrand
 
-/-- A jointly measurable selected version of the stopped/local integral process.
-Its specification theorems below apply to predictable pathwise time-square-integrable H. -/
-def itoIntegral (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
-    (B H : ℝ≥0 → Ω → ℝ) : ℝ≥0 → Ω → ℝ := by
-  sorry
+variable {F : Filtration ℝ≥0 mΩ}
 
-/-- The Brownian integrability domain, explicitly on each finite horizon. -/
+/-- The process `t ↦ Σ_{i<n} ξ i · 1_(s i, s (i+1)](t)`. -/
+def toProcess (K : ElementaryIntegrand F) : ℝ≥0 → Ω → ℝ :=
+  fun t ω => ∑ i ∈ Finset.range K.n, (Set.Ioc (K.s i) (K.s (i + 1))).indicator (fun _ => K.ξ i ω) t
+
+/-- The elementary stochastic integral `t ↦ Σ_{i<n} ξ i (B (t ∧ s (i+1)) − B (t ∧ s i))`. -/
+def integral (K : ElementaryIntegrand F) (B : ℝ≥0 → Ω → ℝ) : ℝ≥0 → Ω → ℝ :=
+  fun t ω => ∑ i ∈ Finset.range K.n, K.ξ i ω * (B (min t (K.s (i + 1))) ω - B (min t (K.s i)) ω)
+
+end ElementaryIntegrand
+
+/-- `I` is an Itô integral of `H` against `B`: its paths are almost surely continuous and, for
+every time `t`, some elementary integrands approximate `H` on `(0, t]` in the sense that
+`∫_(0,t] |Kₙ − H|² ds → 0` in probability, while their elementary integrals at `t` converge
+in probability to `I t`. The energy is a lower Lebesgue integral, so a non-integrable
+difference has infinite energy rather than the junk value zero. -/
+def IsItoIntegral (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
+    (B H I : ℝ≥0 → Ω → ℝ) : Prop :=
+  (∀ᵐ ω ∂P, Continuous fun t => I t ω) ∧
+    ∀ t, ∃ K : ℕ → ElementaryIntegrand F,
+      (∀ ε : ℝ≥0∞, 0 < ε → Filter.Tendsto (fun n => P {ω | ε ≤
+        ∫⁻ s, ‖(K n).toProcess s ω - H s ω‖ₑ ^ 2 ∂timeMeasure t}) Filter.atTop (nhds 0)) ∧
+      TendstoInMeasure P (fun n => (K n).integral B t) Filter.atTop (I t)
+
 def BrownianIntegrable (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) (H : ℝ≥0 → Ω → ℝ) : Prop :=
   IsStronglyPredictable F H ∧ ∀ T, MemLp (Function.uncurry H) 2 ((timeMeasure T).prod P)
@@ -431,42 +428,14 @@ theorem predictableClass_coe (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
       Function.uncurry H := by
   exact MemLp.coeFn_toLp (predictable_memLp F P H hH T)
 
-/-- Pin the process version to the completed L² construction. -/
-theorem itoIntegral_eq_CLM (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) [IsProbabilityMeasure P] (B H : ℝ≥0 → Ω → ℝ)
-    (hB : IsFilteredBrownian F P B) (hH : BrownianIntegrable F P H) (T : ℝ≥0)
-    (v : PredictableL2 F P T)
-    (hv : (v : (ℝ≥0 × Ω) → ℝ) =ᵐ[predictableMeasure F P T] Function.uncurry H)
-    (w : Lp ℝ 2 P)
-    (hw : (v, w) ∈ (itoIntegralCLM F P T B hB).toLinearMap.graph) :
-    itoIntegral F P B H T =ᵐ[P] (w : Ω → ℝ) := by
-  sorry
-
-/-- Elementary normalization prevents a zero/junk isometry construction. -/
-theorem itoIntegral_const (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
-    (hB : IsFilteredBrownian F P B) (c : ℝ) :
-    ∀ᵐ ω ∂P, ∀ t, itoIntegral F P B (fun _ _ => c) t ω = c * B t ω := by
-  sorry
-
-/-- Predictable rectangles fix the elementary integrals; density plus the isometry
-then uniquely determines the completion on its entire domain. -/
-theorem itoIntegral_rectangle (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
-    (hB : IsFilteredBrownian F P B) (s t : ℝ≥0) (hst : s ≤ t)
-    (ξ : Ω → ℝ) (hξ : StronglyMeasurable[F s] ξ) (C : ℝ≥0)
-    (hBound : ∀ ω, |ξ ω| ≤ C) :
-    ∀ᵐ ω ∂P, ∀ r,
-      itoIntegral F P B (fun v ω => if v ∈ Set.Ioc s t then ξ ω else 0) r ω =
-        ξ ω * (B (min r t) ω - B (min r s) ω) := by
-  sorry
-
-theorem itoIntegral_martingale (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) [IsProbabilityMeasure P] (B H : ℝ≥0 → Ω → ℝ)
-    (hB : IsFilteredBrownian F P B) (hH : BrownianIntegrable F P H) :
-    Martingale (itoIntegral F P B H) F P ∧
-      IsStronglyProgressive F (itoIntegral F P B H) ∧
-      (∀ᵐ ω ∂P, Continuous (fun t => itoIntegral F P B H t ω)) := by
+/-- Itô isometry and martingale property for an L² integrand: a strongly progressive Itô
+integral of a Brownian-integrable `H` is a martingale with `E[I_t²] = E ∫_(0,t] H² ds`. -/
+theorem itoIntegral_isometry (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (B H I : ℝ≥0 → Ω → ℝ)
+    (hB : IsFilteredBrownian F P B) (hH : BrownianIntegrable F P H)
+    (hI : IsItoIntegral F P B H I) (hProg : IsStronglyProgressive F I) :
+    Martingale I F P ∧
+      ∀ t, ∫ ω, (I t ω) ^ 2 ∂P = ∫ p, (H p.1 p.2) ^ 2 ∂(timeMeasure t).prod P := by
   sorry
 
 /-- Local domain: finite energy on every compact time interval, not expectation L². -/
@@ -475,63 +444,74 @@ def LocallyBrownianIntegrable (F : Filtration ℝ≥0 mΩ)
   IsStronglyPredictable F H ∧
     ∀ᵐ ω ∂P, ∀ T, Integrable (fun t => (H t ω)^2) (timeMeasure T)
 
-/-- Compatibility of actual stopped integral processes and local L² constructions. -/
-theorem itoIntegral_local_spec (F : Filtration ℝ≥0 mΩ)
+/-- Existence of the local Itô integral: every locally Brownian-integrable integrand has a
+strongly progressive Itô integral which is a continuous local martingale. -/
+theorem exists_isItoIntegral (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (B H : ℝ≥0 → Ω → ℝ)
     (hB : IsFilteredBrownian F P B) (hH : LocallyBrownianIntegrable F P H) :
-    IsLocalMartingale F P (itoIntegral F P B H) ∧
-    IsStronglyProgressive F (itoIntegral F P B H) ∧
-    (∀ᵐ ω ∂P, Continuous (fun t => itoIntegral F P B H t ω)) ∧
-    ∃ τ : ℕ → Ω → WithTop ℝ≥0, IsLocalizingSequence F τ P ∧ ∀ n,
-      BrownianIntegrable F P (fun t ω => if (t : WithTop ℝ≥0) ≤ τ n ω then H t ω else 0) ∧
-      Indistinguishable P (stoppedProcess (itoIntegral F P B H) (τ n))
-        (itoIntegral F P B (fun t ω => if (t : WithTop ℝ≥0) ≤ τ n ω then H t ω else 0)) := by
+    ∃ I, IsItoIntegral F P B H I ∧ IsStronglyProgressive F I ∧ IsLocalMartingale F P I := by
   sorry
 
-theorem itoIntegral_congr (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) [IsProbabilityMeasure P] (B H K : ℝ≥0 → Ω → ℝ)
-    (hB : IsFilteredBrownian F P B) (hH : BrownianIntegrable F P H)
-    (hK : BrownianIntegrable F P K)
-    (hHK : ∀ T, Function.uncurry H =ᵐ[(timeMeasure T).prod P] Function.uncurry K) :
-    Indistinguishable P (itoIntegral F P B H) (itoIntegral F P B K) := by
+/-- Uniqueness: against a filtered Brownian motion, two Itô integrals of the same integrand
+are indistinguishable. -/
+theorem isItoIntegral_unique (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (B H I J : ℝ≥0 → Ω → ℝ)
+    (hB : IsFilteredBrownian F P B) (hI : IsItoIntegral F P B H I)
+    (hJ : IsItoIntegral F P B H J) :
+    Indistinguishable P I J := by
   sorry
 
-/-- Local Itô integral independence of the predictable product-a.e. representative.
-Use a common energy localizer for H and K before applying the L² congruence theorem. -/
+/-- Every strongly progressive Itô integral of a locally Brownian-integrable integrand is a
+local martingale. -/
+theorem itoIntegral_localMartingale (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (B H I : ℝ≥0 → Ω → ℝ)
+    (hB : IsFilteredBrownian F P B) (hH : LocallyBrownianIntegrable F P H)
+    (hI : IsItoIntegral F P B H I) (hProg : IsStronglyProgressive F I) :
+    IsLocalMartingale F P I := by
+  sorry
+
+/-- Local Itô integral independence of the product-a.e. representative: Itô integrals of
+locally Brownian-integrable `H` and `K` that agree `dt × P`-a.e. on every finite horizon are
+indistinguishable. -/
 theorem itoIntegral_local_congr (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) [IsProbabilityMeasure P] (B H K : ℝ≥0 → Ω → ℝ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (B H K I J : ℝ≥0 → Ω → ℝ)
     (hB : IsFilteredBrownian F P B) (hH : LocallyBrownianIntegrable F P H)
     (hK : LocallyBrownianIntegrable F P K)
-    (hHK : ∀ T, Function.uncurry H =ᵐ[(timeMeasure T).prod P] Function.uncurry K) :
-    Indistinguishable P (itoIntegral F P B H) (itoIntegral F P B K) := by
+    (hHK : ∀ T, Function.uncurry H =ᵐ[(timeMeasure T).prod P] Function.uncurry K)
+    (hI : IsItoIntegral F P B H I) (hJ : IsItoIntegral F P B K J) :
+    Indistinguishable P I J := by
   sorry
 
-/-- Continuous local-martingale quadratic variation, constructed by square compensation
-and recovered as the UCP limit of partition sums. Not the jump predictable bracket. -/
-def quadraticVariation (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
-    (M : ℝ≥0 → Ω → ℝ) : ℝ≥0 → Ω → ℝ := by
-  sorry
+/-- `A` is a quadratic variation of `M` in the square-compensation sense: `A` is strongly
+progressive, almost surely continuous, nondecreasing and zero at time zero, and
+`M² − M₀² − A` is a local martingale. For continuous `M` this is the bracket `[M]`; for a
+jump martingale a continuous such `A` is the predictable bracket, not `[M]`. -/
+def IsQuadraticVariation (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
+    (M A : ℝ≥0 → Ω → ℝ) : Prop :=
+  IsStronglyProgressive F A ∧
+    (∀ᵐ ω ∂P, Continuous (fun t => A t ω) ∧ Monotone (fun t => A t ω) ∧ A 0 ω = 0) ∧
+    IsLocalMartingale F P (fun t ω => (M t ω) ^ 2 - (M 0 ω) ^ 2 - A t ω)
 
-/-- Square decomposition pins QV for all continuous local martingales. On a raw filtration,
-first obtain `exists_raw_bounded_localizer` for M and apply the bounded-martingale square
-identity to each returned stopped martingale, then pass to the localized limit. This route
-avoids flattening nested `Locally` predicates, whose native flattening API assumes
-right-continuity. -/
-theorem quadraticVariation_spec (F : Filtration ℝ≥0 mΩ)
+/-- Every almost surely continuous local martingale on a raw filtration has a quadratic
+variation. -/
+theorem exists_isQuadraticVariation (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (M : ℝ≥0 → Ω → ℝ)
     (hM : IsLocalMartingale F P M) (hCont : ∀ᵐ ω ∂P, Continuous (fun t => M t ω)) :
-    StronglyAdapted F (quadraticVariation F P M) ∧
-    IsStronglyProgressive F (quadraticVariation F P M) ∧
-    (∀ᵐ ω ∂P, Continuous (fun t => quadraticVariation F P M t ω) ∧
-      Monotone (fun t => quadraticVariation F P M t ω) ∧ quadraticVariation F P M 0 ω = 0) ∧
-    IsLocalMartingale F P (fun t ω => (M t ω)^2 - (M 0 ω)^2 -
-      quadraticVariation F P M t ω) := by
+    ∃ A, IsQuadraticVariation F P M A := by
   sorry
 
+/-- The quadratic variation is unique up to indistinguishability. -/
+theorem isQuadraticVariation_unique (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (M A A' : ℝ≥0 → Ω → ℝ)
+    (hA : IsQuadraticVariation F P M A) (hA' : IsQuadraticVariation F P M A') :
+    Indistinguishable P A A' := by
+  sorry
+
+/-- Brownian motion has quadratic variation `t`. -/
 theorem brownian_quadraticVariation (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
     (hB : IsFilteredBrownian F P B) :
-    ∀ᵐ ω ∂P, ∀ t, quadraticVariation F P B t ω = (t : ℝ) := by
+    IsQuadraticVariation F P B (fun t _ => (t : ℝ)) := by
   sorry
 
 /-- S5.5 original-process Lévy characterization on a raw filtration. Bare native
@@ -542,7 +522,7 @@ theorem levy_characterization_adapted (F : Filtration ℝ≥0 mΩ)
     (hAdapt : StronglyAdapted F M) (hLocal : IsLocalMartingale F P M)
     (hCont : ∀ᵐ ω ∂P, Continuous (fun t => M t ω))
     (hZero : ∀ᵐ ω ∂P, M 0 ω = 0)
-    (hQV : ∀ᵐ ω ∂P, ∀ t, quadraticVariation F P M t ω = (t : ℝ)) :
+    (hQV : IsQuadraticVariation F P M (fun t _ => (t : ℝ))) :
     IsFilteredBrownian F P M := by
   sorry
 
@@ -554,7 +534,7 @@ theorem exists_predictable_brownian_of_localMartingale (F : Filtration ℝ≥0 m
     (hLocal : IsLocalMartingale F P M)
     (hCont : ∀ᵐ ω ∂P, Continuous (fun t => M t ω))
     (hZero : ∀ᵐ ω ∂P, M 0 ω = 0)
-    (hQV : ∀ᵐ ω ∂P, ∀ t, quadraticVariation F P M t ω = (t : ℝ)) :
+    (hQV : IsQuadraticVariation F P M (fun t _ => (t : ℝ))) :
     ∃ B, IsFilteredBrownian F P B ∧ IsStronglyPredictable F B ∧
       Indistinguishable P M B := by
   sorry
@@ -584,9 +564,9 @@ theorem brownian_ito_C2 (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
     (hB : IsFilteredBrownian F P B) (f : ℝ → ℝ) (hf : ContDiff ℝ 2 f)
     (hPred : IsStronglyPredictable F (fun s ω => deriv f (B s ω))) :
-    ∀ᵐ ω ∂P, ∀ t, f (B t ω) = f 0 +
-      itoIntegral F P B (fun s ω => deriv f (B s ω)) t ω +
-      (1 / 2 : ℝ) * ∫ s, iteratedDeriv 2 f (B s ω) ∂timeMeasure t := by
+    ∃ I, IsItoIntegral F P B (fun s ω => deriv f (B s ω)) I ∧
+      ∀ᵐ ω ∂P, ∀ t, f (B t ω) = f 0 + I t ω +
+        (1 / 2 : ℝ) * ∫ s, iteratedDeriv 2 f (B s ω) ∂timeMeasure t := by
   sorry
 
 /-- A finite-horizon Cameron–Martin path together with its specified velocity. -/
@@ -601,10 +581,10 @@ theorem IsCameronMartinShift.initial_zero {T : ℝ≥0} {h u : ℝ≥0 → ℝ}
   rw [hpath 0 bot_le]
   simp [timeMeasure, nnvolume]
 
-/-- Candidate stochastic exponential; a true-density theorem requires additional criteria. -/
-def stochasticExponential (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
-    (B θ : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) (ω : Ω) : ℝ :=
-  Real.exp (itoIntegral F P B θ t ω -
+/-- Candidate stochastic exponential `exp(I_t − ½ ∫_(0,t] θ² ds)` built from a given Itô
+integral `I` of `θ`; a true-density theorem requires additional criteria. -/
+def stochasticExponential (I θ : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) (ω : Ω) : ℝ :=
+  Real.exp (I t ω -
     (1 / 2 : ℝ) * ∫ s, (θ s ω)^2 ∂timeMeasure t)
 
 /-- Novikov is a sufficient condition; the stochastic exponential must not be assumed
@@ -612,10 +592,10 @@ integrable simply because it is a positive local martingale. -/
 theorem novikov_expectation (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (B θ : ℝ≥0 → Ω → ℝ)
     (hB : IsFilteredBrownian F P B) (hθ : LocallyBrownianIntegrable F P θ)
-    (T : ℝ≥0)
+    (I : ℝ≥0 → Ω → ℝ) (hI : IsItoIntegral F P B θ I) (T : ℝ≥0)
     (hN : Integrable (fun ω => Real.exp ((1 / 2 : ℝ) *
       ∫ s, (θ s ω)^2 ∂timeMeasure T)) P) :
-    (∫ ω, stochasticExponential F P B θ T ω ∂P) = 1 := by
+    (∫ ω, stochasticExponential I θ T ω ∂P) = 1 := by
   sorry
 
 /-- A nonzero Bochner integral cannot be the totalized value of a nonintegrable function. -/
@@ -636,12 +616,13 @@ def IsBrownianOn (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
 /-- Positive-sign density yields a minus-sign drift correction, only up to T. -/
 theorem girsanov_on_horizon (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (B θ : ℝ≥0 → Ω → ℝ)
-    (hB : IsFilteredBrownian F P B) (hθ : LocallyBrownianIntegrable F P θ) (T : ℝ≥0)
-    (hZ : (∫ ω, stochasticExponential F P B θ T ω ∂P) = 1) :
+    (hB : IsFilteredBrownian F P B) (hθ : LocallyBrownianIntegrable F P θ)
+    (I : ℝ≥0 → Ω → ℝ) (hI : IsItoIntegral F P B θ I) (T : ℝ≥0)
+    (hZ : (∫ ω, stochasticExponential I θ T ω ∂P) = 1) :
     IsBrownianOn F
-      (P.withDensity (fun ω => ENNReal.ofReal (stochasticExponential F P B θ T ω))) T
+      (P.withDensity (fun ω => ENNReal.ofReal (stochasticExponential I θ T ω))) T
       (fun t ω => B t ω - ∫ s, θ s ω ∂timeMeasure t) := by
-  have hInt : Integrable (stochasticExponential F P B θ T) P :=
+  have hInt : Integrable (stochasticExponential I θ T) P :=
     integrable_of_ne_zero_integral (P := P) (by rw [hZ]; norm_num)
   sorry
 
@@ -651,10 +632,11 @@ local-domain member without assumptions on u after T. -/
 theorem cameronMartin_pushforward (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
     (hB : IsFilteredBrownian F P B) (T : ℝ≥0) (h u : ℝ≥0 → ℝ)
-    (hshift : IsCameronMartinShift T h u) :
+    (hshift : IsCameronMartinShift T h u) (I : ℝ≥0 → Ω → ℝ)
+    (hI : IsItoIntegral F P B (fun s _ => if s ≤ T then u s else 0) I) :
     P.map (fun ω (t : Set.Iic T) => B t.val ω + h t.val) =
       (P.withDensity (fun ω => ENNReal.ofReal
-        (stochasticExponential F P B (fun s _ => if s ≤ T then u s else 0) T ω))).map
+        (stochasticExponential I (fun s _ => if s ≤ T then u s else 0) T ω))).map
         (fun ω (t : Set.Iic T) => B t.val ω) := by
   sorry
 
@@ -668,15 +650,15 @@ def IsStrongSolution (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
   Measurable (Function.uncurry b) ∧ Measurable (Function.uncurry σ) ∧
     StronglyAdapted F X ∧ IsStronglyProgressive F X ∧
     (∀ᵐ ω ∂P, Continuous (fun t => X t ω)) ∧
-    ∃ H : ℝ≥0 → Ω → ℝ,
-      IsStronglyPredictable F H ∧
+    ∃ H I : ℝ≥0 → Ω → ℝ,
+      IsStronglyPredictable F H ∧ IsItoIntegral F P B H I ∧
       (∀ T, Function.uncurry (fun t ω => σ t (X t ω)) =ᵐ[(timeMeasure T).prod P]
         Function.uncurry H) ∧
       (∀ᵐ ω ∂P, ∀ T,
         Integrable (fun t => b t (X t ω)) (timeMeasure T) ∧
         Integrable (fun t => (σ t (X t ω))^2) (timeMeasure T)) ∧
       ∀ᵐ ω ∂P, ∀ t, X t ω = ξ ω +
-        (∫ s, b s (X s ω) ∂timeMeasure t) + itoIntegral F P B H t ω
+        (∫ s, b s (X s ω) ∂timeMeasure t) + I t ω
 
 /-- Global-Lipschitz scalar existence, with a genuine joint measurability hypothesis.
 Here `L` is a uniform global Lipschitz bound and `K` a uniform bound at zero, hence the
@@ -785,15 +767,15 @@ namespace StochasticCalculusSuggested.TentConditionalExample
 
 def tent (x : ℝ) : ℝ := max 0 (min x (1 - x))
 
-lemma continuous_tent : Continuous tent := by
+theorem continuous_tent : Continuous tent := by
   unfold tent
   fun_prop
 
-lemma tent_reflection (x : ℝ) : tent (1 - x) = tent x := by
+theorem tent_reflection (x : ℝ) : tent (1 - x) = tent x := by
   unfold tent
   rw [show (1 : ℝ) - (1 - x) = x by ring, min_comm]
 
-lemma tent_outside {x : ℝ} (hx : x ∉ Set.Icc (0 : ℝ) 1) : tent x = 0 := by
+theorem tent_outside {x : ℝ} (hx : x ∉ Set.Icc (0 : ℝ) 1) : tent x = 0 := by
   unfold tent
   apply max_eq_left
   by_cases h0 : 0 ≤ x

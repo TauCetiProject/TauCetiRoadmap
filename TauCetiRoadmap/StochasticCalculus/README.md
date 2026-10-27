@@ -124,7 +124,7 @@ work to build; only the entries explicitly identified as native assert an implem
   with its series, recurrence and positivity API (§8.1), the sphere surface mass (§12.1)
   and the spherical exponential integral as the von Mises–Fisher normalizer (§12.2). Add connecting Gaussian moment/path-integral
   lemmas here, not duplicate law definitions.
-- [PointProcesses](https://github.com/TauCetiProject/TauCetiRoadmap/pull/417)
+- [PointProcesses](../PointProcesses/README.md)
   owns the shared `nnvolume` convention and unmarked Poisson point-measure construction targets,
   `TemporalPointMeasure E`, `eventTime`, `IsCompensator`, internal history, and generic
   predictable-integral/compensator interfaces. This roadmap owns the homogeneous
@@ -198,13 +198,13 @@ Mathlib supplies them.
   `IsBrownianReal` is a project-specific predicate. Prove adapters to Mathlib's predicate and
   the required filtration, and verify the relevant dependency closure. Do not import challenge placeholders as proof. Headers credit Scott Armstrong
   and specify Apache 2.0; verify the copied-file license and preserve credits.
-- [Mathlib PR26291](https://github.com/leanprover-community/mathlib4/pull/26291), reviewed proposal commit
+- The Mathlib Gaussian Cameron–Martin proposal, reviewed at mathlib4 commit
   `7282fd08af0c282368db7e08cd7635f3be769e85`, defines `cameronMartin`, `cmCoe`,
   `cmOfDual`, `cmOfBounded` and `map_add_cameronMartin_eq_withDensity`. Follow its Gaussian
   RKHS/translation shape. Its temporary total-variation lemmas in the singularity branch
   require real proofs or existing replacements. S8 owns the Wiener AC–L² identification and
   deterministic stochastic-integral coordinate, not a competing Gaussian RKHS convention.
-- [Mathlib PR37259](https://github.com/leanprover-community/mathlib4/pull/37259), reviewed proposal commit
+- The Mathlib Brownian germ proposal, reviewed at mathlib4 commit
   `be99340ad561c51c674d8705ff559696736e057b`, informs the Brownian germ zero–one design.
   These proposal branches are design references; implement the missing germ and Gaussian
   translation APIs in Tau Ceti using their conventions. For collaboration and design
@@ -443,7 +443,7 @@ constructions pathwise.
    then apply the defining criterion for `F_τ`. Given ε>0, let τ₀=0 and recursively define τₙ₊₁ as the first time t>τₙ at
    which `|X_t−X_{τₙ}|≥ε` or `|X_{t−}−X_{τₙ}|≥ε`, with infimum ∞ if there is no such time.
    This is equivalently the first time the adapted càdlàg process `Dⁿ_t=X_t−X_{t∧τₙ}`
-   reaches ε in value or left limit; both Dⁿ_{τₙ} and Dⁿ_{τₙ−} are zero. Right continuity
+   reaches ε in value or left limit; both Dⁿ_(τₙ) and Dⁿ_(τₙ−) are zero. Right continuity
    at τₙ gives τₙ₊₁>τₙ on `{τₙ<∞}`. To prove this is a stopping time without a debut
    theorem, apply the countable-dense test to Dⁿ: its first time with `|Dⁿ_t|≥ε` or
    `|Dⁿ_{t−}|≥ε` is the infimum of a pathwise set with an attained infimum. For a càdlàg
@@ -452,9 +452,9 @@ constructions pathwise.
    the values and left limits on a fixed countable dense subset of `[0,t]` together with
    endpoint t; right continuity and existence of left limits identify this countable supremum
    with the full path supremum. These evaluations are `F_t`-measurable. Càdlàg paths have only finitely many ε-exits on compact intervals: otherwise strict increase gives
-   τₙ↑s<∞, and both the exit values and their left limits converge to X_{s−}, as do the
+   τₙ↑s<∞, and both the exit values and their left limits converge to X_(s−), as do the
    preceding sampled values. The threshold difference then tends to zero, contradicting ε>0.
-   Hence τₙ→∞. If τₙ≤τₙ₊₁, then `F_{τₙ}⊆F_{τₙ₊₁}`: for A∈F_{τₙ},
+   Hence τₙ→∞. If τₙ≤τₙ₊₁, then `F_{τₙ}⊆F_{τₙ₊₁}`: for A∈F_(τₙ),
    `A∩{τₙ₊₁≤t}=(A∩{τₙ≤t})∩{τₙ₊₁≤t}` belongs to F_t. Thus the step process `Y^ε=Σₙ X_{τₙ}1_{[τₙ,τₙ₊₁)}` is measurable for the ray sigma
    algebra: for `A∈F_τ`, the time equal to τ on A and ∞ off A is a stopping time, so
    `1_A1_{[τ,∞)}` is ray-measurable; use this for Borel level sets of `X_τ`. The exit definition
@@ -487,7 +487,7 @@ constructions pathwise.
    native lemma. For a probability P on Ω, define its outer extension
    P*(A)=inf{P(E): A⊆E, E measurable}; prove monotonicity and countable subadditivity.
    For A_n↑, choose measurable envelopes H_n⊇A_n with P(H_n)=P*(A_n) and set
-   B_n=⋂_{m≥n}H_m. Prove B_n↑, A_n⊆B_n and P(B_n)=P*(A_n); continuity of P on
+   B_n=⋂_(m≥n)H_m. Prove B_n↑, A_n⊆B_n and P(B_n)=P*(A_n); continuity of P on
    B_n then proves P*(⋃A_n)=lim P*(A_n). For A⊆[0,∞)×Ω, let `πΩ=Prod.snd` and put I(A)=P*(πΩ A); projection
    commutes with increasing unions, so I has the continuity required by the Souslin
    approximation theorem. Also prove the measurable-envelope subtraction lemma: for measurable
@@ -518,7 +518,7 @@ constructions pathwise.
    downward closure. For a stopping-time graph [[T]] and progressive set A, put
    `A_T={ω:(T(ω),ω)∈A, T(ω)<∞}`. Its intersection with `{T≤t}` is F_t-measurable:
    restrict A to `[0,t]×Ω`, compose with `ω↦(T(ω)∧t,ω)`, and use the defining criterion
-   for F_T. Therefore A_T∈F_T and `[[T]]∩A=[[T_{A_T}]]`, where T_{A_T}=T on A_T and
+   for F_T. Therefore A_T∈F_T and `[[T]]∩A=[[T_{A_T}]]`, where T_(A_T)=T on A_T and
    ∞ otherwise. Optional sets are progressive; extend the restriction to thin sets by
    countable unions. A thin set is a countable union of optional stopping-time graphs.
    For any stopping time T, `(T,∞)` is predictable by its left-continuous adapted
@@ -636,9 +636,9 @@ constructions pathwise.
    its predictable ray [τ,∞)) admits an a.s. announcing sequence, including zero and infinity.
    Apply the predictable-section theorem to its graph [[τ]] with errors 2⁻ᵏ, obtaining
    announceable D_k whose finite graphs lie in [[τ]] and
-   `P(τ<∞,D_k=∞)≤2⁻ᵏ`; thus D_k=τ whenever D_k<∞. Put ρ_k=min_{j≤k}D_j.
+   `P(τ<∞,D_k=∞)≤2⁻ᵏ`; thus D_k=τ whenever D_k<∞. Put ρ_k=min_(j≤k)D_j.
    Then ρ_k is announceable, ρ_k≥τ, and ρ_k=τ eventually a.s. For each k choose an
-   announcing sequence ρ_{k,m} and an index m_k such that
+   announcing sequence ρ_(k,m) and an index m_k such that
    `P(ρ_k<∞,ρ_{k,m_k}<ρ_k−2⁻ᵏ)≤2⁻ᵏ` and
    `P(ρ_k=∞,ρ_{k,m_k}<k)≤2⁻ᵏ`; these choices follow by pointwise convergence of each
    announcing sequence and continuity of probability. Define `S_n=inf_{k≥n}ρ_{k,m_k}`.
@@ -1061,8 +1061,8 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    minima/diagonal/flattening and stopping stability for the property combining the
    martingale identities with continuous or càdlàg path regularity. Apply native `IsStable`
    to that regular property; bare `Martingale` is not stable under arbitrary stopping.
-   For example, if U is uniform on [0,1] and F_t=σ(U), then X_t=1_{t=U} is a martingale,
-   while stopping at U gives 1_{U≤t}, which is not a martingale.
+   For example, if U is uniform on [0,1] and F_t=σ(U), then X_t=1_(t=U) is a martingale,
+   while stopping at U gives 1_(U≤t), which is not a martingale.
 
    Own the following raw-filtration bounded-localization and descent targets separately;
    [RawLocalization.lean](RawLocalization.lean) suggests their native Lean interfaces.
@@ -1077,7 +1077,7 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
      apply them to ρ∧t; the countable partition also gives literal adaptation.
      For s≤t split into {ρ≤s} and {ρ>s}
      to obtain its martingale identity, then multiply by the F₀-measurable indicator
-     1_{0<ρ}. No right continuity or path
+     1_(0<ρ). No right continuity or path
      regularity is required for this countable-range theorem.
    - **Countable-range level localizers.** For every raw-F strongly adapted real X
      with common-null-set continuous paths, construct pointwise monotone countable-range
@@ -1241,7 +1241,38 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    dt×P restricted to the predictable sigma algebra, elementary predictable integrands and
    `E[(ξ(B_t−B_s))²]=E[ξ²](t−s)` for ξ∈L²(F_s) to prove orthogonality and the isometry.
    Complete and localize this construction with the stated representative and measurability
-   adapters. On a usual basis, after S3.1 is available, prove its Doléans measure for B equals
+   adapters. Define `ElementaryIntegrand F` as a finite grid `s₀≤s₁≤…≤sₙ` with bounded
+   `F_(sᵢ)`-measurable heights `ξᵢ`, its process `Σᵢ ξᵢ1_(sᵢ,sᵢ₊₁]` and its elementary
+   integral `Σᵢ ξᵢ(B_(t∧sᵢ₊₁)−B_(t∧sᵢ))`. Define `IsItoIntegral F P B H I` to mean that I has
+   almost surely continuous paths and that for every t some elementary integrands Kₙ satisfy
+   `∫_(0,t] |Kₙ−H|² ds → 0` in probability, the energy being a lower Lebesgue integral, while
+   their elementary integrals at t converge in probability to `I_t`.
+   - For a filtered Brownian B and H locally Brownian-integrable, prove
+     `exists_isItoIntegral`: some strongly progressive I with `IsItoIntegral F P B H I` is a
+     local martingale (Karatzas–Shreve, Brownian Motion and Stochastic Calculus, §3.2.D).
+   - For a filtered Brownian B, prove `isItoIntegral_unique`: two Itô integrals of the same H
+     are indistinguishable. Route: for elementary L, `P(|∫L dB|_t ≥ ε) ≤ δ/ε² + P(∫₀ᵗL² ≥ δ)`,
+     applied to the difference of two approximating sequences, then a.s. continuity on a
+     countable dense set of times.
+   - For H Brownian-integrable (predictable and L² on every finite horizon), prove
+     `itoIntegral_isometry`: a strongly progressive Itô integral I of H is a martingale and
+     `E[I_t²]=E∫_(0,t] H² ds` for every t. For H only locally Brownian-integrable, prove
+     `itoIntegral_localMartingale`: a strongly progressive Itô integral is a local martingale.
+     Strong progressivity is a hypothesis because the predicate fixes I only up to
+     indistinguishability, and an arbitrary version need not be adapted to a raw filtration.
+
+   **Checks.**
+   - At t=0 the horizon measure `timeMeasure 0` is zero and every elementary integral
+     vanishes, so `IsItoIntegral` forces `I₀=0` a.s.
+   - For H=1 the one-step integrand with grid `0≤t` and height 1 has zero energy and
+     elementary integral `B_t−B_0=B_t`; with uniqueness this forces `I_t=B_t` a.s., which
+     excludes the zero process and every rescaling `cI`, c≠1.
+   - Isometry at H=1: `E[B_t²]=t` and `((timeMeasure t).prod P)`-integral of 1 is t.
+   - Non-example: if `∫₀ᵗH²ds=∞` on an event of positive probability, every bounded
+     elementary K has infinite energy `∫|K−H|²` there, so no Itô integral exists; a Bochner
+     energy would return the junk value 0 and accept K=0.
+
+   On a usual basis, after S3.1 is available, prove its Doléans measure for B equals
    the trim of `(timeMeasure T).prod P` to `F.predictable` on every finite horizon,
    and identify the two integral constructions by their elementary values and completion.
    For the general S3.1 measure, predictable rectangles generate dense simple/step
@@ -1357,7 +1388,27 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
 
 ## S4. Quadratic variation, covariation and semimartingales
 
-1. **S4.1 continuous brackets.** Begin with bounded continuous adapted martingales.
+1. **S4.1 continuous brackets.** Define `IsQuadraticVariation F P M A` to mean that A is
+   strongly progressive, almost surely continuous, nondecreasing and zero at time 0, and that
+   `M²−M₀²−A` is a native local martingale.
+   - For an almost surely continuous native local martingale M on a raw filtration, prove
+     `exists_isQuadraticVariation` (some A satisfies the predicate) and
+     `isQuadraticVariation_unique` (two such A are indistinguishable: their difference is a
+     continuous local martingale of finite variation starting at 0) (Revuz–Yor, Continuous
+     Martingales and Brownian Motion, Ch. IV, Thm 1.8).
+   - For a filtered Brownian B, prove `brownian_quadraticVariation`:
+     `IsQuadraticVariation F P B (fun t _ => t)`, since `B_t²−t` is a martingale.
+
+   **Checks.**
+   - For M=B the choice `A_t=2t` fails: `B_t²−2t` has drift −t, so it is a strict
+     supermartingale and not a local martingale; `A=0` fails because `E[B_t²]=t≠0`.
+   - For a process constant in time, `M_t=M₀`, the predicate holds with A=0.
+   - Scope: for the compensated Poisson process `N_t−t` the choice `A_t=t` satisfies the
+     predicate (`(N_t−t)²−t` is a martingale since `Var N_t=t`), yet the optional bracket is
+     `[N−t]=N`; the predicate identifies `[M]` only for continuous M, and S4.4 keeps the
+     jump brackets separate.
+
+   Begin with bounded continuous adapted martingales.
    On the usual augmentation use S3's integral process to form
    A=M²−M₀²−2∫M dM. Prove the bounded-martingale partition precursor here:
    S3's isometry and Doob inequality give uniform-in-probability convergence of
@@ -1383,7 +1434,7 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    adapted stages through a direct bounded-localizer route. Apply the raw bounded-localizer
    theorem to M first, producing actual raw stops ρ_n whose native stages Zⁿ are
    bounded martingales. Construct their square identities using the bounded-martingale
-   QV theorem, and prove the localization identity [Zⁿ]=1_{ρ_n>0}[M]^(ρ_n).
+   QV theorem, and prove the localization identity [Zⁿ]=1_(ρ_n>0)[M]^(ρ_n).
    Thus the native ρ_n-stage of M²−M₀²−[M] is literally
    (Zⁿ)²−(Zⁿ₀)²−[Zⁿ], an actual martingale. This one sequence proves the raw
    native Locally conclusion directly. The QV localization and restriction identities
@@ -1497,7 +1548,7 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    rules, covariance under smooth changes of state and the coefficient drift correction.
    For all continuous semimartingales H,X, prove symmetric-endpoint sums converge in
    probability along deterministic vanishing-mesh partitions to this integral. Prove the
-   temporal-midpoint limit separately for X=B and H_t=f(t,B_t), with f∈C^{1,2} locally
+   temporal-midpoint limit separately for X=B and H_t=f(t,B_t), with f∈C^(1,2) locally
    on finite time/state regions, using localization. State these hypotheses on the
    midpoint theorem; arbitrary bounded adapted H alone supplies no such limit. Verify `∫B dB=(B²−t)/2` and
    `∫B∘dB=B²/2` for a centered start.
@@ -1533,8 +1584,8 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
 5. **S5.5 Lévy characterization and Brownian versions.** For the original real process M,
    assume literal `StronglyAdapted F M`, native
    `Locally (fun Y => Martingale Y F P) F M P`, continuity outside one common null set,
-   `M₀=0` a.s., and `[M]_t=t` simultaneously for all t outside one null set.
-   Prove `IsFilteredBrownian F P M`: conditional characteristic functions give
+   `M₀=0` a.s., and `IsQuadraticVariation F P M (fun t _ => t)`.
+   Prove `levy_characterization_adapted`, concluding `IsFilteredBrownian F P M`: conditional characteristic functions give
    `E(exp(iα(M_t−M_s))|F_s)=exp(−α²(t−s)/2)` for every s≤t and real α,
    hence centered Gaussian increments independent of F_s. Independence is a conclusion,
    not an additional premise. Use S2.4's actual raw bounded localizers, the stopped
@@ -1601,7 +1652,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    continuous cylinder functions pass to the limit by path continuity and dominated convergence,
    then extend to bounded Borel future functionals by a monotone class, retaining localization and
    `{τ<∞}` for general times. Since each forward-grid time τ_n satisfies τ_n>τ, also prove
-   `F_{τ+}⊆F_{τ_n}`: for A∈F_{τ+},
+   `F_{τ+}⊆F_{τ_n}`: for A∈F_(τ+),
    `A∩{τ_n≤t}=(A∩{τ<t})∩{τ_n≤t}∈F_t`. The source's claim that the first hit of an arbitrary Borel
    set is a stopping time is not a raw-filtration theorem: prove it through the completed-usual
    debut theorem of S0.4, while retaining the direct arbitrary-filtration result already stated
@@ -1687,7 +1738,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    to −x and −a for x>a. The x=a case has τ_a=0. Preserve these starting-point
    conventions when deriving the density and its analytic Laplace transform.
    Also derive the exact truncated Gaussian exponential identity, for t>0 and α∈ℝ,
-   `E_x[exp(αB_t−α²t/2)1_{B_t<a}]
+   `E_x[exp(αB_t−α²t/2)1_(B_t<a)]
      =exp(αx)Φ((a−x−αt)/√t)`, using `Φ(x)=cdf (gaussianReal 0 1) x` from StandardDistributions, with the conventions consumed in S6.2.
    Complete the square with center x+αt and prove the Gaussian-tail limit used in
    the level-hit calculation; this gives the direct Gaussian-integral proof as well.
@@ -1703,10 +1754,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    `sup_{s,t∈[0,T], |s−t|≤h}|B_t−B_s| / sqrt(2h log(1/h)) → 1`.
    The exceptional event may depend on T. Separately prove simultaneous nowhere-differentiability
    by the three-consecutive-dyadic-increments lower-bound argument of
-   Paley–Wiener–Zygmund / Dvoretzky–Erdős–Kakutani. For a dyadic mesh h=2^{−n}
+   Paley–Wiener–Zygmund / Dvoretzky–Erdős–Kakutani. For a dyadic mesh h=2^(−n)
    on a finite horizon, independence and the Gaussian small-ball estimate bound
    the probability that three consecutive increments all have absolute value
-   at most M h by `C M³ h^{3/2}`. A union bound over O(h^{−1}) positions is
+   at most M h by `C M³ h^{3/2}`. A union bound over O(h^(−1)) positions is
    summable in n. Borel–Cantelli, then countably many integer M and horizons,
    excludes every time admitting a finite derivative: such a derivative would
    force all three increments in an adjacent mesh window to be O(h) at every
@@ -1814,7 +1865,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    `Measure.toSphere_real_apply_univ` identifies `σ_area(S^(d−1))=c_d>0`. Define
    `σ_prob=ENNReal.ofReal(c_d⁻¹) • σ_area` and the normalized-kernel convention
    `K_prob(x,ζ)=c_d * ballPoissonKernel d x ζ=(1−‖x‖²)/‖x−ζ‖^d`. The native theorem
-   `integral_ballPoissonKernel` states `∫ K_area(x,ζ) dσ_area(ζ)=1`, where
+   `TauCeti.integral_ballPoissonKernel` states `∫ K_area(x,ζ) dσ_area(ζ)=1`, where
    `K_area=ballPoissonKernel`; therefore `∫ K_prob(x,ζ) dσ_prob(ζ)=1` for `‖x‖<1`.
    Export and use the symmetry `K_prob(rζ,η)=K_prob(rη,ζ)` on the unit sphere in both the
    total-variation and Fubini arguments. This is the normalization used by the subsequent
@@ -1913,7 +1964,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    maps where used and has no duplicate Hardy boundary target.
 
    **S6.5.3 Hardy spaces and Brownian maximal comparison.** In the unit disk,
-   for 0<σ<1 let Ω_σ(θ) be the interior of the convex hull of the σ-disk and e^{iθ}; define
+   for 0<σ<1 let Ω_σ(θ) be the interior of the convex hull of the σ-disk and e^(iθ); define
    `N_σu = sup_{Ω_σ(θ)}|u|` and `u* = sup_{t<τ}|u(B_t)|` with Brownian start 0. For real
    harmonic u prove constants 0<c_σ≤C_σ with
    `c_σ m{N_σu>λ}≤P{u*>λ}≤C_σ m{N_σu>λ}` for every λ>0, where m is normalized circle
@@ -2005,7 +2056,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    before asserting continuity of the time-changed process.
 2. **S7.2 Dambis–Dubins–Schwarz.** For centered continuous local M with `[M]_∞=∞` a.s.,
    first use S2.4/S0.2's selected predictable indistinguishable version M̃. Construct
-   `B_s=M̃_{T(s)}` in ℱ_{T(s)} and prove its literal strong adaptation there, common-null
+   `B_s=M̃_{T(s)}` in ℱ_(T(s)) and prove its literal strong adaptation there, common-null
    continuity and bracket s before applying S5.5's original-process characterization.
    Show Brownian and `M_t=B_[M]_t` simultaneously a.s. Preserve the selected adapted
    versions through the inverse clock, stopping filtration and independent-noise product
@@ -2075,13 +2126,13 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    prove the drifted harmonic ODE
    representation for every t≥0: with P^x the Brownian law started at x,
    `f(x)=E_{P^x}[f(B_t) exp(∫₀ᵗb(B_s)dB_s−(1/2)∫₀ᵗb(B_s)²ds)]`.
-   This equals E_{Q^x}f(B_t) under the drifted law; prove the needed moment/UI
+   This equals E_(Q^x)f(B_t) under the drifted law; prove the needed moment/UI
    bounds for the bounded-f or bounded-f′ alternatives.
 
 ## S8. Cameron–Martin and Wiener translations
 
 1. **S8.1 Gaussian supplier.** Construct the Gaussian Banach-space Cameron–Martin RKHS,
-   continuous injection and isonormal coordinates here, following PR26291's design and
+   continuous injection and isonormal coordinates here, following the Mathlib Cameron–Martin proposal's design and
    names, including `cameronMartin` and `cmCoe`; adopt native declarations with this interface. Build the finite-moment dual
    closure, inner-product/completion/evaluation range identities, Gaussian coordinate laws,
    positive translation density and inverse/equivalence. Discharge missing total-variation
@@ -2154,8 +2205,8 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    Set `C_M={‖x‖∞≤M}` and `C_M^n={‖L_n x‖∞≤M}`; prove dyadic
    nesting/intersection and exhaustion by C_M. For a grid with N intervals and
    tags ξ_i in interval i, prove the correctly indexed Abel identity
-   `Σ_{i=1}^N h′(ξ_i)(z_i−z_{i−1})
-   =h′(ξ_N)z_N−h′(ξ_1)z_0−Σ_{i=1}^{N−1}(h′(ξ_{i+1})−h′(ξ_i))z_i`.
+   `Σ_(i=1)^N h′(ξ_i)(z_i−z_(i−1))
+   =h′(ξ_N)z_N−h′(ξ_1)z_0−Σ_(i=1)^(N−1)(h′(ξ_(i+1))−h′(ξ_i))z_i`.
    With z=h/2+x, derive the uniform energy-plus-cross-sum bound from the
    variation and sup norm of h′. For the translated truncated sets
    `{x:x+h∈C_M^n}`, apply this bound to the grid values
@@ -2173,7 +2224,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    countable cylinder unions and N null. For outer approximation adjoin ∅ and the whole
    space to the cylinder algebra, restrict Wiener measure to an `AddContent`, and use native
    `AddContent.measure`, `OuterMeasure.ofFunction_eq_iInf_mem` and
-   `ext_of_generate_finite` to obtain countable algebra covers with arbitrarily small
+   `MeasureTheory.ext_of_generate_finite` to obtain countable algebra covers with arbitrarily small
    excess. Cover the Borel null envelope as well for completed sets. Refine each algebra
    set into finitely many cylinders. Use S1.2 to identify the generated sigma-algebra
    with path-space Borel sets. Use the positive density identity to
@@ -2214,7 +2265,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    indistinguishability. Include the
    bounded, globally spatially Lipschitz coefficient/common-noise Picard difference estimate
    for all adapted jointly measurable inputs Y,Z with only `Y₀−Z₀∈L²`: on each finite horizon state the estimate
-   `E sup_{u≤t}‖Φ(Y)_u−Φ(Z)_u‖² ≤ 3 E‖Y₀−Z₀‖²
+   `E sup_(u≤t)‖Φ(Y)_u−Φ(Z)_u‖² ≤ 3 E‖Y₀−Z₀‖²
    + C_T E∫₀ᵗ‖Y_s−Z_s‖² ds`,
    with constants from the coefficient bounds/Lipschitz constants and horizon. Interpret the
    right side as an extended nonnegative expectation, so an infinite value gives a vacuous
@@ -2521,13 +2572,13 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    C₀ semigroup. The forward equation for solution-law measures is proved in weak/distribution form by
    Itô plus Fubini and compactly supported smooth tests. For bounded spatial C_b^4
    coefficients continuous in time, S9.5 flow derivatives and dominated differentiation
-   construct the backward C^{1,2} solution for C_b^4 terminal data; prove the time
+   construct the backward C^(1,2) solution for C_b^4 terminal data; prove the time
    derivative using the Markov/difference-quotient argument, not a missing PDE theorem.
 3. **S10.3 Feynman–Kac.** Write
    `L_tu=⟨b(t,x),∇u⟩+(1/2)tr(σ(t,x)σ(t,x)*D²u)` and fix the backward
    terminal-value convention `∂_t u+L_tu+q(t,x)u+f(t,x)=0`, `u(T,x)=φ(x)`.
    Prove, for the solution X started from x at time t,
-   `u(t,x)=E_{t,x}[exp(∫_t^T q(r,X_r)dr)φ(X_T)
+   `u(t,x)=E_(t,x)[exp(∫_t^T q(r,X_r)dr)φ(X_T)
      +∫_t^T exp(∫_t^s q(r,X_r)dr)f(s,X_s)ds]`.
    Killing by V≥0 means q=−V. Use the stochastic product rule for representation
    and uniqueness for
@@ -2537,9 +2588,9 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    require named exponential-integrability/UI hypotheses. Prove the converse regularity/existence
    statement here for spatial C_b^4 drift/diffusion/potential/source and terminal data,
    with uniform finite-horizon bounds and continuous time dependence, using S9.5 flow
-   derivatives and the S10.2 Markov time-derivative argument. This constructs C^{1,2}
+   derivatives and the S10.2 Markov time-derivative argument. This constructs C^(1,2)
    regularity without requiring ellipticity. For the polynomial-growth representation
-   theorem, a supplied C^{1,2} solution and the proved moment/UI bounds remain hypotheses;
+   theorem, a supplied C^(1,2) solution and the proved moment/UI bounds remain hypotheses;
    smoothness of an arbitrary expectation is not inferred. Deterministic PDE supplies
    only its explicitly specified harmonic/elliptic/weak-parabolic tools.
 4. **S10.4 stopped Schrödinger/Dirichlet.** For relatively compact open E with closure inside D,
@@ -2816,7 +2867,7 @@ corresponding API.
   `StronglyMeasurable.exists_eq_measurable_comp` in
   `Mathlib.MeasureTheory.Function.FactorsThrough` to construct a Borel g with
   the chosen version `E[ξ|σ(η)]=g∘η`. Prove that this representative is symmetric
-  under x↦1−x on [0,1] and constant on ℝ\[0,1]; other versions agree P-a.e.
+  under x↦1−x on [0,1] and constant on ℝ∖[0,1]; other versions agree P-a.e.
   No reflection invariance of P is required. These declared data specify the
   structural example without assigning a value to the source's unspecified ξ.
 
@@ -2854,7 +2905,7 @@ corresponding API.
   1/3 contradict continuity, regardless of whether gap endpoints are included.
   Construct the continuous nondecreasing Cantor staircase c as the uniform
   limit of its piecewise-linear middle-third approximants, with uniform
-  Cauchy bound O(2^{−n}), c(0)=0 and c(1)=1. Prove it is onto and constant
+  Cauchy bound O(2^(−n)), c(0)=0 and c(1)=1. Prove it is onto and constant
   on each removed interval. Use Mathlib's `cantorSet` and `preCantorSet n` carriers
   in `Mathlib/Topology/Instances/CantorSet`. Prove the nullity of `cantorSet`
   from the nth surviving cover of total length (2/3)^n.
