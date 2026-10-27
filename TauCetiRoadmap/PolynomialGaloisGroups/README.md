@@ -140,15 +140,19 @@ the merge order; nothing there depends on anything here.
 |---|---|---|---|
 | 5, the membership statement, and through it Layers 6, 8 and 9 | 3.10 | `exists_gal_fullCycleType_eq_factorizationType` | for `f : ℤ[X]` monic and `p` prime with `¬ (p : ℤ) ∣ f.discr`, there is `σ : (f.map (Int.castRingHom ℚ)).Gal` with `(galActionHom (f.map (Int.castRingHom ℚ)) ℂ σ).cycleType + Multiset.replicate (Fintype.card (rootSet ℂ) − support.card) 1` equal to `Multiset.map natDegree (normalizedFactors (f.map (Int.castRingHom (ZMod p))))` |
 
-The backticked name lives in the namespace `TauCetiRoadmap.NumberFieldArithmetic`, in
-`TauCetiRoadmap/NumberFieldArithmetic/Suggested.lean`.
+The declaration exists at the pinned Tau Ceti as
+`TauCeti.NumberField.exists_gal_fullCycleType_eq_factorizationType`, in
+`TauCeti/NumberTheory/NumberField/Frobenius/CycleType.lean`, and is consumed there.
 
 ## What this roadmap exports to Belyi Maps
 
 This roadmap is the sole owner of `fullCycleType`, `numTransitiveGroups`,
 `TransitiveGroupIndex`, `referenceSubgroup`, and `TransitiveGroupLabel`. The `BelyiMaps`
 roadmap imports these declarations for passports and database labels; it does not keep local
-stand-ins after this supplier is available. Conversely, branch cycles and peripheral-power
+stand-ins after this supplier is available. The export is the label data of Layer 6 for degrees
+`1 ≤ n ≤ 5` only (this roadmap has no Layer 7); labels in degrees 6 to 11 are outside this
+roadmap, as the scope section records, and a consumer reading labels in those degrees needs
+another supplier for them. Conversely, branch cycles and peripheral-power
 theorems stay in `BelyiMaps` and create no dependency in this direction.
 
 Two things about that row are worth stating, because they are what make it an exact contract and
@@ -158,11 +162,11 @@ not a gesture at a subject.
   ramification in the field of a root. The two differ, and §Layer 5 records the standard
   counterexample.
 - The two sides of the supplied equation are, definitionally, `fullCycleType` of the root action
-  and `factorDegrees f p`. Those two abbreviations are defined here, in Layers 0 and 5, and the
-  supplier does not use them. `Suggested.lean` therefore carries a **closed** proof that the
-  supplied statement implies the abbreviated one. If either definition drifts, or the supplier's
-  signature changes, that proof stops elaborating and the build fails. No milestone of this
-  roadmap restates the supplied theorem.
+  and `factorDegrees f p`. Those two definitions belong to this roadmap, in Layers 0 and 5. The
+  membership statement `factorDegrees_mem_fullCycleType_galImage` of `Suggested.lean` is closed
+  by the Tau Ceti proof that applies the supplied theorem, so it stops elaborating if either
+  definition drifts or the supplier's signature changes. No milestone of this roadmap restates
+  the supplied theorem.
 
 ## Conventions
 
@@ -247,7 +251,7 @@ A factor-degree multiset is never compared with a bare `cycleType`.
 `noncomputable`. This is not decoration. Closing the definition over `Classical.propDecidable`
 gives a term that is equal, but not syntactically equal, to the same multiset written at the
 carrier's own instance — which is what the supplied factorization theorem of Layer 5 is stated
-with. The contract check in `Suggested.lean` does not close under the classical spelling, and it
+with. The membership statement of Layer 5 does not close under the classical spelling, and it
 does under this one.
 
 ### Discriminant
@@ -329,18 +333,40 @@ polynomials that one radical root alone should imply solvability of the whole Ga
 ### Names
 The roadmap introduces these names: `fullCycleType`, `factorDegrees`, `IsGoodPrime`,
 `numTransitiveGroups`, `TransitiveGroupIndex`, `referenceSubgroup`, `TransitiveGroupLabel`,
-`HasGaloisLabel`, `HasFullSymmetricGaloisGroup`, `coordPermAut`, `WreathProduct`, and, for the
-resolvent layer, `universalResolvent`, `esymmSubst`, `vietaHom`, `ResolventSpec` with
-`ResolventSpec.specialize` and `ResolventSpec.IsGoodPrime`, `IsRootEnumeration`,
-`ResolventSeparationEvidence`, `galResolvent`, `resolventCubic`, `resolventSextic`,
-`tschirnhausPolynomial`, and `TschirnhausAdmissible`; for the certificates of Layer 6,
-`HasFactorDegrees`, `HasSexticRoot`, `HasSecondRootInRootField`, and `QuinticCertificate` with
-its `label`, `Verifies` and `check`; and for Layer 10, `RadicalConverse.exists_normal_prime_index_subgroup` and
-`RadicalConverse.finiteGalois_iff_image_mem_solvableByRad`; `Suggested.lean` also names
-`finiteGalois_solvable_implies_image_mem_solvableByRad`. The helper target has the explicit form
-`theorem exists_normal_prime_index_subgroup {G} [Group G] [Finite G] [Nontrivial G]
-  (hG : Group.IsSolvable G) : ∃ H : Subgroup G, H.Normal ∧ H.index.Prime`.
-`Suggested.lean` fixes forms for selected targets; it is not exhaustive.
+`HasGaloisLabel`, `HasFullSymmetricGaloisGroup`, `WreathProduct`, and, for the resolvent layer,
+`universalResolvent`, `esymmSubst`, `vietaHom`, `ResolventSpec` with `ResolventSpec.specialize`
+and `ResolventSpec.IsGoodPrime`, `IsRootEnumeration`, `galResolvent`, `resolventCubic`,
+`resolventSextic`, `tschirnhausPolynomial`, and `TschirnhausAdmissible`; and, for the
+certificates of Layer 6, `HasFactorDegrees`, `HasSexticRoot`, `HasSecondRootInRootField`, and
+`QuinticCertificate` with its `label`, `Verifies` and `check`.
+
+Every one of these exists at the pinned Tau Ceti, and those declarations are the carriers; no
+second copy is kept. They are `TauCeti.referenceSubgroup` and the label data in
+`TauCeti/GroupTheory/Perm/TransitiveGroupLabel/Basic.lean`; `Equiv.Perm.fullCycleType` in
+`TauCeti/GroupTheory/Perm/Partition.lean`; `TauCeti.WreathProduct` in
+`TauCeti/GroupTheory/Perm/WreathProduct/Basic.lean`; `TauCeti.HasGaloisLabel` in
+`TauCeti/FieldTheory/GaloisGroups/Label.lean`; `TauCeti.ResolventSpec` in
+`TauCeti/FieldTheory/GaloisGroups/Resolvent/Spec.lean`, with the registered specifications
+`TauCeti.quarticD4Spec`, `TauCeti.quinticF20Spec` and `TauCeti.quinticPairSumSpec`;
+`Polynomial.tschirnhausPolynomial` and `Polynomial.TschirnhausAdmissible` (injectivity of
+`a ↦ T(a)` on the roots of `f` in its splitting field) in
+`TauCeti/RingTheory/Polynomial/Tschirnhaus.lean`; `Polynomial.factorDegrees` in
+`TauCeti/RingTheory/Polynomial/FactorDegrees.lean`; `Polynomial.HasFullSymmetricGaloisGroup` in
+`TauCeti/FieldTheory/GaloisGroups/Symmetric/Basic.lean`; and `TauCeti.QuinticCertificate` in
+`TauCeti/FieldTheory/GaloisGroups/Certificate/Check.lean`.
+
+`Suggested.lean` states the headline theorems on these carriers:
+`toWreathProduct_injective` and `isPreprimitive_productAction` (Layer 1),
+`alternatingGroup_le_of_isPreprimitive_of_isCycle_mem` (Layer 1),
+`isPreprimitive_iff_isAtom_adjoin_root` (Layer 2),
+`isSquare_discr_iff_range_le_alternatingGroup` (Layer 3),
+`isSolvable_gal_iff_exists_isRoot_resolventSextic` and
+`exists_le_map_conj_of_isRoot_tschirnhaus` (Layer 4),
+`factorDegrees_mem_fullCycleType_galImage` (Layer 5),
+`existsUnique_hasGaloisLabel_of_natDegree_le_five` and `quinticCertificate_check_sound`
+(Layer 6), `exists_monic_int_polynomial_hasFullSymmetricGaloisGroup` (Layer 9), and
+`RadicalConverse.finiteGalois_iff_image_mem_solvableByRad` and
+`RadicalConverse.isSolvable_gal_iff_forall_rootSet_mem_solvableByRad` (Layer 10).
 
 ## What Mathlib provides
 
@@ -383,13 +409,10 @@ Each item was checked in the pinned Mathlib.
   `Module.finrank_mul_finrank`.
   `Mathlib/FieldTheory/SplittingField/IsSplittingField.lean` supplies `IsSplittingField.lift` and
   `IsSplittingField.adjoin_rootSet_eq_range`. `Mathlib/GroupTheory/Solvable.lean` supplies
-  `Group.IsSolvable.commutator_lt_top_of_nontrivial`, solvability under subgroups and quotients,
-  `IsSimpleGroup.comm_iff_isSolvable`, and `Equiv.Perm.not_isSolvable`.
-  `Mathlib/Order/Atoms.lean` provides `Finite.to_isCoatomic`;
-  `Mathlib/GroupTheory/Commutator/Basic.lean` has `Subgroup.Normal.of_commutator_le`;
-  `Mathlib/GroupTheory/QuotientGroup/Simple.lean` has `Group.isSimpleGroup_of_isCoatom`;
-  `Mathlib/GroupTheory/SpecificGroups/Cyclic.lean` has `IsSimpleGroup.prime_card`; and
-  `Mathlib/GroupTheory/SpecificGroups/Cyclic/Basic.lean` has `isCyclic_of_prime_card`.
+  solvability under subgroups and quotients and `Equiv.Perm.not_isSolvable`, and
+  `Mathlib/GroupTheory/SpecificGroups/Cyclic/Basic.lean` has `isCyclic_of_prime_card`. The
+  normal subgroup of prime index in a nontrivial finite solvable group is Tau Ceti's
+  `Group.IsSolvable.exists_normal_index_prime`, in `TauCeti/GroupTheory/Solvable.lean`.
   `Archive/Wiedijk100Theorems/AbelRuffini.lean` shows that
   `x⁵ − 4x + 2` is not solvable by radicals, through `gal_Phi`, which computes its Galois group
   as `S₅`.
@@ -480,7 +503,7 @@ Everything that concerns labels. At the pinned version there is:
 
 The numbering is the order of dependence. Layer 1 is pure group theory. It can be implemented at
 the same time as Layers 0, 2, and 3. As each layer makes the types of the next layer expressible,
-its milestones appear in `Suggested.lean` with `sorry`.
+its headline theorems appear in `Suggested.lean`.
 
 ### Layer 0: the permutation representation of a polynomial
 
@@ -530,19 +553,22 @@ This layer relates polynomial data to the image subgroup
 - **Transport of the root dictionary across a base-field isomorphism.** For
   `η : F ≃+* F'`, a field extension E/F, integral α∈E and a field extension L/F',
   give L the F-algebra structure `(algebraMap F' L).comp η.toRingHom`.
-  Construct the equivalence between `F⟮α⟯ →ₐ[F] L` and the roots in L of
-  `(minpoly F α).map η.toRingHom`, by evaluation on the distinguished generator.
-  Prove the generator equation, injectivity of each map, its restriction to F,
-  and compatibility with composition of target embeddings and base isomorphisms.
+  Under that pulled-back structure, Tau Ceti's `TauCeti.rootSetEquivAlgHomAdjoin` already gives
+  the equivalence between the roots in L of `minpoly F α` and `F⟮α⟯ →ₐ[F] L`, with the generator
+  equations `rootSetEquivAlgHomAdjoin_apply_gen` and `rootSetEquivAlgHomAdjoin_symm_apply`; it is
+  consumed, not rebuilt. What is added is the coefficient transport: the roots in L of
+  `minpoly F α` (for the pulled-back structure) are the roots in L of
+  `(minpoly F α).map η.toRingHom`, and the resulting equivalence restricts correctly to F and is
+  compatible with composition of target embeddings and of base isomorphisms.
   For splitting fields E/F of f and E'/F' of its coefficient transport, construct
   a ring equivalence Φ:E≃+*E' satisfying
   `Φ(algebraMap F E a)=algebraMap F' E' (η a)` for every a. Use the pulled-back
   scalar structure to prove splitting and root generation before applying
   splitting-field uniqueness. Prove maps are determined by all root images;
   no unique or canonical equivalence is asserted without specifying those images.
-  *Needs:* `IsAdjoinRoot.liftHom`, `eq_liftHom`,
-  `IntermediateField.adjoinRootEquivAdjoin`, polynomial evaluation under coefficient
-  maps, and `IsSplittingField.algEquiv` (Mathlib).
+  *Needs:* `TauCeti.rootSetEquivAlgHomAdjoin` with its two generator lemmas, in
+  `TauCeti/FieldTheory/IntermediateField/Adjoin/Embeddings.lean` (Tau Ceti); polynomial
+  evaluation under coefficient maps and `IsSplittingField.algEquiv` (Mathlib).
 
 - **Transitivity and irreducibility.** For separable `p` with `0 < p.natDegree`, the action is
   transitive if and only if `p` is irreducible. Every resolvent argument later uses this,
@@ -643,9 +669,17 @@ group action, in Mathlib's vocabulary. No statement mentions a field.
     `D`-set `Λ` is unconditional. The product action on `ι → Λ` is also unconditional as a
     construction; its primitivity is a theorem with hypotheses, and those hypotheses are part of
     the statement. The product action of `D ≀ Sym(ι)` on `ι → Λ` is primitive when `D` acts
-    primitively but not regularly on `Λ`, when `Λ` has at least three points, and when `ι` is
-    finite and nonempty. Without those hypotheses the claim is false, so the construction and
-    the primitivity theorem are never stated together.
+    **faithfully**, primitively and not regularly (not freely) on a nontrivial `Λ`, and `ι` is
+    finite (Dixon and Mortimer, §2.7). For finite `Λ` these hypotheses force at least three
+    points, and for empty `ι` the product is a single point. Without those hypotheses the claim
+    is false, so the construction and the primitivity theorem are never stated together. The
+    statement is `isPreprimitive_productAction`.
+    - *Faithfulness is necessary:* `D = C₂ × C₃` acting on `Λ = C₃` through translations, with
+      `C₂` acting trivially, is primitive of prime degree and not regular, its point stabilizers
+      being `C₂`. For `ι = Fin 2`, the three cosets of the diagonal of `C₃²` form a block system
+      for `D ≀ S₂`: a base element `(a, b)` sends the coset `{(x, x + c)}` to the coset of
+      `c + b − a`, and the coordinate swap sends it to the coset of `−c`. Its faithful image `C₃`
+      is regular, which is excluded.
   - *Comparison lemma:* a canonical `MulEquiv` `D ≀ᵣ Q ≃* (Q → D) ⋊ Q'`, where `Q'` is the image
     of the regular representation of `Q`. This is an isomorphism, not an equality.
   - *Orders:* for `ι` and `D` finite,
@@ -661,13 +695,20 @@ group action, in Mathlib's vocabulary. No statement mentions a field.
   (Mathlib).
 
 - **Imprimitivity gives a wreath embedding.** For a transitive action with a block `B` of size
-  `l`, with `1 < l < n`, the block system `{g • B}` has `m = n/l` members. The induced map
-  `G →* Equiv.Perm (block system)` has a kernel that embeds in `∏ Perm(block)`. The group `G`
-  embeds in `WreathProduct (Perm B) (block system)`, compatibly with a bijection
-  `α ≃ (block system) × B`.
+  `l`, with `1 < l < n`, the block system `{g • B}` has `m = n/l` members. The homomorphism
+  `G →* WreathProduct (Perm B) (block system)` is unconditional and is compatible with a bijection
+  `α ≃ (block system) × B`. When the action is **faithful**, that homomorphism is injective, and
+  the kernel of `G →* Equiv.Perm (block system)` embeds in `∏ Perm(block)`. Injectivity holds
+  exactly when the action is faithful. The statement is `toWreathProduct_injective`.
 
   - *Source:* Dixon and Mortimer, Theorem 2.6A.
-  - *Hypotheses:* the action is transitive and `B` is a nontrivial proper block.
+  - *Hypotheses:* the action is transitive and faithful, and `B` is a nontrivial proper block
+    (nonempty suffices for the embedding).
+  - *Faithfulness is necessary:* let `G = C₃ × C₄` act on four points through the regular action
+    of `C₄`, and take `B = {0, 2}`. The block system has two members, and
+    `WreathProduct (Perm B) (block system)` has order `2² · 2 = 8`, while `|G| = 12`, so `G` does
+    not embed. The kernel of the action on the block system has order 6, and `∏ Perm(block)` has
+    order 4.
 
   *Needs:* the block-stabilizer correspondence and the wreath products above (Layer 1).
 
@@ -772,8 +813,8 @@ Let `p` be irreducible and separable over `F`, with a root `α` in `L = p.Splitt
 
 - **The root-product formula.** For monic `f` of degree `n` that splits in `L`, with roots
   `r : Fin n → L` listed with multiplicity,
-  `algebraMap R L f.discr = ∏_{i < j} (r i − r j)²`. State it in the shape that Mathlib's own
-  TODO in `Resultant/Basic.lean` takes, which is the product form of the resultant. A later
+  `algebraMap R L f.discr = ∏_{i < j} (r i − r j)²`. State it in the shape of the open item that
+  Mathlib records in `Resultant/Basic.lean`, which is the product form of the resultant. A later
   Mathlib version then replaces this milestone by a deletion and an import. State these
   consequences with it:
 
@@ -871,7 +912,9 @@ root-side meaning and coefficient-side computation are kept distinct throughout.
   generators.
 
   *Needs:* `MvPolynomial.rename` (Mathlib); `MulAction.stabilizer` (Mathlib);
-  `Subgroup.index` (Mathlib); `MvPolynomial.esymm` with `esymmAlgHom_fin_bijective` (Mathlib).
+  `Subgroup.index` (Mathlib); `MvPolynomial.esymm` with `esymmAlgHom_fin_bijective` (Mathlib);
+  for the exact stabilizer theorems, the label data model `referenceSubgroup` (the pure-group
+  part of Layer 6; `TauCeti.referenceSubgroup` at the pin).
 
 - **The symmetric-polynomial descent, in five milestones.** This is what makes a coefficient-side
   resolvent exist. Galois invariance alone does **not** put the coefficients of the orbit product
@@ -987,7 +1030,8 @@ root-side meaning and coefficient-side computation are kept distinct throughout.
   A rational root therefore proves the containment only when separation evidence is present.
 
   ⚠ The failure is not hypothetical, and separability of `f` does not prevent it. Take
-  `f = x⁵ − x`, which is separable with `disc f = 256`. Its roots are `0, ±1, ±i`, and the six
+  `f = x⁵ − x`, which is separable with `disc f = −256` (negative, as its roots `0, ±1, ±i` have
+  one complex-conjugate pair). Its roots are `0, ±1, ±i`, and the six
   orbit values of the `F₂₀`-invariant collapse to three: the resolvent sextic is
   `(X − 2)⁴ (X² + 16)`. It has the rational root `2`. But the Galois group of `x⁵ − x` is
   generated by the transposition of `i` and `−i`, and `F₂₀ = AGL(1,5)` contains no transposition
@@ -1060,7 +1104,9 @@ root-side meaning and coefficient-side computation are kept distinct throughout.
     `4Tj` needs the classification, so it is in Layer 6.
 
   *Needs:* the factorization theorem and the resolvent specification (Layer 4); the discriminant
-  test and the quadratic extension (Layer 3).
+  test and the quadratic extension (Layer 3); the transitive subgroups of `S₄`, that is, the
+  degree-4 classification of the pure-group part of Layer 6
+  (`TauCeti.existsUnique_transitiveGroupLabel_four` at the pin).
 
 - **The quintic.** Throughout this item, `ringChar F ∉ {2, 5}`. Depression of a quintic needs `5`
   invertible, and the discriminant test needs `2`.
@@ -1102,7 +1148,9 @@ root-side meaning and coefficient-side computation are kept distinct throughout.
       `5T1` from `5T2`. Layer 6 states that limitation with its witnesses, and no milestone here
       or there claims a decision procedure from the discriminant and the sextic alone.
 
-  *Needs:* the resolvent specification and the factorization theorem (Layer 4).
+  *Needs:* the resolvent specification and the factorization theorem (Layer 4); for the step
+  from solvability to containment in a conjugate of `F₂₀`, the degree-5 classification of the
+  pure-group part of Layer 6 (`TauCeti.existsUnique_transitiveGroupLabel_five` at the pin).
 
 - **Linear resolvents.** Resolvents from sums and differences of roots are instances of the same
   framework. They are the practical method in degrees up to 7. No separate theory is needed. One
@@ -1296,8 +1344,12 @@ displays as `nT(j+1)`.
 
   *Needs:* the label API above (Layer 6); the degree bookkeeping and the invariants (Layer 0).
 
-- **The classification theorems.** For each `n ≤ 5`, every transitive subgroup of
-  `Equiv.Perm (Fin n)` is conjugate to exactly one `referenceSubgroup n j`. The statement splits
+- **The classification theorems.** For each `n` with `1 ≤ n ≤ 5`, every transitive subgroup of
+  `Equiv.Perm (Fin n)` is conjugate to exactly one `referenceSubgroup n j`. The lower bound is
+  needed: the action on the empty type `Fin 0` is pretransitive in Mathlib's sense, while
+  `TransitiveGroupIndex 0 = Fin 0` is empty, so at `n = 0` there is no label. The polynomial form
+  is `existsUnique_hasGaloisLabel_of_natDegree_le_five`, for irreducible separable `f` of degree at
+  most five; irreducibility gives degree at least one. The statement splits
   into existence, which conjugates an arbitrary transitive subgroup onto a reference, and
   disjointness, which shows that no two references are conjugate.
 
@@ -1322,9 +1374,11 @@ displays as `nT(j+1)`.
      subgroups of `F₂₀` that contain `P` are `C₅`, `D₅`, and `F₂₀`, one for each subgroup of the
      cyclic group `F₂₀/P` of order 4.
   3. If it is 6, then `6` divides `|G|`, so `30` divides `|G|`.
-  4. `S₅` has no subgroup of order 30. Such a subgroup has index 4, so it gives a morphism
-     `S₅ → S₄` whose kernel has order 5. The normal subgroups of `S₅` are `1`, `A₅`, and `S₅`,
-     and none has order 5.
+  4. `S₅` has no subgroup of order 30. Such a subgroup `K` has index 4, so the action on its
+     cosets gives a morphism `S₅ → S₄`. Its image has order at most 24, so its kernel has order
+     at least `120/24 = 5`; the kernel is the core of `K`, contained in `K`, so its order is at
+     most 30. The normal subgroups of `S₅` are `1`, `A₅`, and `S₅`, of orders 1, 60 and 120, and
+     none has order between 5 and 30.
   5. So `|G|` is 60 or 120. A subgroup of order 60 has index 2 and is therefore `A₅`, and order
      120 is `S₅`.
 
@@ -1516,6 +1570,9 @@ Group.IsSolvable (E ≃ₐ[F] E) ↔
   ∀ x : E, ι x ∈ solvableByRad F (AlgebraicClosure F).
 ```
 
+This is `RadicalConverse.finiteGalois_iff_image_mem_solvableByRad` (Milne, *Fields and Galois
+Theory*, Theorem 5.34, there for polynomials; the forward route below is his, with the cyclic
+steps by Proposition 5.27 and the restriction injection by Lemma 5.33).
 The radical closure is taken in `AlgebraicClosure F`. It cannot in general be replaced by
 `solvableByRad F E`: adjoining roots of unity can require enlarging the original splitting
 field. The statement quantifies over the chosen embedding; do not require a separate comparison
@@ -1523,20 +1580,13 @@ of embeddings as part of this theorem.
 
 The forward proof uses the following targets and route.
 
-1. **One-step group lemma.** Own
-   `RadicalConverse.exists_normal_prime_index_subgroup`: for `[Finite G] [Nontrivial G]
-   [Group.IsSolvable G]`, produce `H : Subgroup G` with `H.Normal` and prime index. In the
-   proof, `Group.IsSolvable.commutator_lt_top_of_nontrivial` first shows that the commutator
-   subgroup is proper. Then choose a coatom above it using the finite-group `IsCoatomic` instance.
-   `Subgroup.Normal.of_commutator_le` makes this coatom normal;
-   `Group.isSimpleGroup_of_isCoatom` makes its quotient simple. Quotient solvability and
-   `IsSimpleGroup.comm_iff_isSolvable` make the quotient commutative; install the resulting
-   `CommGroup` structure (and its finite instance) before applying `IsSimpleGroup.prime_card`, then
-   `isCyclic_of_prime_card`. The helper is one-step: the subgroup is normal in `G`, so it can be
-   applied afresh to each smaller Galois group in the induction. The finite-group `IsCoatomic`
-   instance, quotient solvability, commutator normality, coatom simplicity, prime-cardinality,
-   cyclicity, and Lagrange divisibility are explicit prerequisites, not an assumed composition-series
-   API.
+1. **One-step group lemma.** Consume Tau Ceti's
+   `Group.IsSolvable.exists_normal_index_prime` (`TauCeti/GroupTheory/Solvable.lean`): a group
+   `G` with `[Finite G] [Group.IsSolvable G] [Nontrivial G]` has `N : Subgroup G` with `N.Normal`
+   and `N.index.Prime`. Its instance arguments are installed from the induction's actual Galois
+   group (with `letI` where solvability is a hypothesis). The lemma is one-step: the subgroup is
+   normal in `G`, so it applies afresh to each smaller Galois group in the induction. The
+   quotient by it is cyclic of prime order by `isCyclic_of_prime_card`.
 
 2. Put `G := E ≃ₐ[F] E` and `N := Nat.card G`. `Finite G` follows from finite-dimensionality
    of `E/F`; together with `Nonempty G`, this gives `0 < N`. `CharZero F` then gives
@@ -1620,7 +1670,12 @@ The forward proof uses the following targets and route.
    `isSolvable_gal_of_irreducible` to the embedded primitive element and transport the polynomial
    Galois group across the splitting-field algebra equivalence to `E ≃ₐ[F] E`.
 
-For any nonzero `q : F[X]` over a characteristic-zero field, choose a splitting-field model `E`
+For every `q : F[X]` over a characteristic-zero field, state
+`RadicalConverse.isSolvable_gal_iff_forall_rootSet_mem_solvableByRad`: `Group.IsSolvable q.Gal`
+holds exactly when every element of `q.rootSet (AlgebraicClosure F)` lies in
+`solvableByRad F (AlgebraicClosure F)`. For constant `q`, including `q = 0`, both sides hold:
+the Galois group is trivial and the root set is empty. For nonconstant `q`, choose a
+splitting-field model `E`
 and an `F`-embedding `ι : E →ₐ[F] AlgebraicClosure F`. Finite-dimensionality makes
 `E/F` integral; `Algebra.IsSeparable.of_integral` in characteristic zero gives separability
 even when `q` has repeated factors. `Normal.of_isSplittingField` gives normality, and
@@ -1632,7 +1687,7 @@ reducible polynomials because their splitting field is generated by all roots. I
 irreducible of positive degree, a root exists and `isSolvable_gal_of_irreducible` gives the
 equivalent **some-root** formulation. Do not use a some-root statement for reducible `q`.
 
-For the source's prime-degree criterion, work over `ℚ`, retain irreducibility, and require prime
+For the prime-degree criterion (Milne, Proposition 4.16), work over `ℚ`, retain irreducibility, and require prime
 natural degree `p ≥ 5`. The two-nonreal-roots hypothesis is the exact native premise
 `Fintype.card (q.rootSet ℂ) = Fintype.card (q.rootSet ℝ) + 2`. Use
 `Polynomial.Gal.galActionHom_bijective_of_prime_degree` to identify the Galois action with
@@ -1644,9 +1699,7 @@ natural degree `p ≥ 5`. The two-nonreal-roots hypothesis is the exact native p
 and do not give this conclusion.
 
 *Needs:* `CharZero F`, `IsGalois F E`, and `FiniteDimensional F E` (Mathlib);
-`RadicalConverse.exists_normal_prime_index_subgroup` (Layer 10); finite-group `IsCoatomic`, quotient
-solvability, `Subgroup.Normal.of_commutator_le`, `Group.isSimpleGroup_of_isCoatom`,
-`IsSimpleGroup.comm_iff_isSolvable`, `IsSimpleGroup.prime_card`, and
+`Group.IsSolvable.exists_normal_index_prime` (Tau Ceti); quotient solvability and
 `isCyclic_of_prime_card` (Mathlib); Lagrange's theorem (Mathlib);
 `AlgebraicClosure.hasEnoughRootsOfUnity`, `HasEnoughRootsOfUnity.exists_primitiveRoot`,
 `IntermediateField.finiteDimensional_sup`, `IntermediateField.adjoin.finiteDimensional`,
@@ -1664,8 +1717,7 @@ solvability, `Subgroup.Normal.of_commutator_le`, `Group.isSimpleGroup_of_isCoato
 `Normal.of_isSplittingField`, `isGalois_iff`,
 `IsSplittingField.lift`, `IsSplittingField.adjoin_rootSet_eq_range`,
 `card_rootSet_eq_natDegree`, `Polynomial.Gal.galActionHom_bijective_of_prime_degree`,
-`Group.IsSolvable.commutator_lt_top_of_nontrivial`, `Equiv.Perm.not_isSolvable`, and
-`isSolvable_gal_of_irreducible` (Mathlib).
+`Equiv.Perm.not_isSolvable`, and `isSolvable_gal_of_irreducible` (Mathlib).
 
 ## Worked examples, as acceptance tests
 
@@ -1692,9 +1744,8 @@ splitting field by `IsSplittingField.algEquiv`; consume
 `TauCeti.natCard_gal_X_pow_three_sub_two` for the matching degree-six theorem
 on that carrier. State all comparisons with chosen `AlgHom`/`AlgEquiv` maps, rather than
 unqualified inclusions between independently constructed fields. These
-explicit-map and generator-image comparisons are definitive prose acceptance
-criteria; Suggested.lean illustrates the tower and numerical interfaces and
-is not an exhaustive signature list. These certificates exercise existing field foundations; they do not introduce a
+explicit-map and generator-image comparisons are acceptance criteria of
+Layer 0, stated here in prose. These certificates exercise existing field foundations; they do not introduce a
 second general field-theory API.
 
 Every polynomial in the following list was checked with PARI,
@@ -1713,7 +1764,7 @@ specific layer.
   | `x⁴ + 8x + 12` | `X³ − 48X − 64`, irreducible | `331776 = 576²` | `A₄ = 4T4` | `4.0.5184.1` |
   | `x⁴ − 2` | one rational root | not a square | `D₄ = 4T3` | `4.2.2048.1` |
   | `x⁴ + 1` | splits completely | a square | `V₄ = 4T2` | `4.0.256.1` |
-  | `x⁴ + x³ + x² + x + 1` | one rational root | a square | `C₄ = 4T1` | `4.0.125.1` |
+  | `x⁴ + x³ + x² + x + 1` | one rational root | `125`, not a square | `C₄ = 4T1` | `4.0.125.1` |
 
   The field for `x⁴ + 1` is `ℚ(ζ₈)`, and the field for `x⁴ + x³ + x² + x + 1` is `ℚ(ζ₅)`. The
   second is identified through `galCyclotomicEquivUnitsZMod`, which gives `(ZMod 5)ˣ`. The
@@ -1764,7 +1815,7 @@ specific layer.
     size 2. `TransitiveGroupLabel` does not apply to it.
   - `x⁵ + x + 1 = (x² + x + 1)(x³ − x² + 1)` is a reducible quintic. It is a regression test that
     no `5Tj` label is assigned to it.
-  - `x⁵ − x` is separable, with `disc = 256`, and its resolvent sextic is `(X − 2)⁴ (X² + 16)`,
+  - `x⁵ − x` is separable, with `disc = −256`, and its resolvent sextic is `(X − 2)⁴ (X² + 16)`,
     which is **not** separable. It is the regression test for the collision hypothesis: the
     rational root `2` of that sextic does not place the Galois group inside a conjugate of `F₂₀`,
     because the group is generated by a transposition and `F₂₀` contains none. Any upper-bound
@@ -1772,7 +1823,15 @@ specific layer.
 
 ## Order of work
 
-The layer numbering is a topological order. No layer depends on a later one.
+Layer 6 has two parts. Its **pure-group part** — the label data model `numTransitiveGroups`,
+`TransitiveGroupIndex`, `referenceSubgroup`, `TransitiveGroupLabel`, and the classification
+theorems in degrees 1 to 5 with the order recognition they give — depends only on Layer 1 and
+Mathlib. Its **field part** — `HasGaloisLabel`, the classification from the discriminant and the
+resolvents, and the certificates — depends on Layers 2 to 5. Layer 4 uses the pure-group part:
+the exact stabilizer theorems name reference subgroups, and the quartic table and the quintic
+criterion read the transitive subgroups of `S₄` and `S₅`. With Layer 6 split this way, the
+order below is a topological order: the pure-group part of Layer 6 comes before Layer 4, and the
+field part after Layer 5.
 
 | Layer | Depends on | Content |
 |---|---|---|
@@ -1780,14 +1839,16 @@ The layer numbering is a topological order. No layer depends on a later one.
 | 1 | Mathlib | permutation groups: blocks, wreath products, imprimitivity, and the generic recognition theorems |
 | 2 | 0, 1 | the field and permutation dictionary |
 | 3 | 0 | discriminants and the alternating group |
-| 4 | 0, 3 | resolvents, and the quartic and quintic specifications |
+| 4 | 0, 3, and the pure-group part of 6 | resolvents, and the quartic and quintic specifications |
 | 5 | 0, 1, 3, 4, and Number Field Arithmetic 3.10 | the factorization-degree carrier, good primes for a polynomial and for a resolvent, the finite-field orbit lemma, and the membership statement derived from the imported theorem |
-| 6 | 1, 2, 3, 4, 5 | the classification for `n ≤ 5`, the label predicates, and the decision procedures |
+| 6, pure-group part | 1 | the label data model and the classification of transitive subgroups for `1 ≤ n ≤ 5` |
+| 6, field part | 1, 2, 3, 4, 5 | `HasGaloisLabel`, the classification from the discriminant and resolvents, and the certificates |
 | 9 | 1, 5 | `Sₙ` as a Galois group over `ℚ` |
-| 10 | Mathlib | the finite-Galois characteristic-zero radical criterion and polynomial consequences |
+| 10 | Mathlib, and `Group.IsSolvable.exists_normal_index_prime` (Tau Ceti) | the finite-Galois characteristic-zero radical criterion and polynomial consequences |
 
 Layers 0 and 1 have no dependency inside the roadmap, so they can start at once and run in
-parallel. Layer 9 needs only Layers 1 and 5, so it can be done before Layer 6. Layer 10 depends only on Mathlib and can proceed independently of Layers 0–9.
+parallel. Layer 9 needs only Layers 1 and 5, so it can be done before Layer 6. Layer 10 depends
+only on Mathlib and one Tau Ceti group lemma, and is independent of Layers 0 to 9.
 
 Layer 5 is the only layer with a dependency outside the roadmap, and it is one declaration.
 This roadmap therefore follows Number Field Arithmetic in the merge order. Layers 0 to 4 and 6
@@ -1795,8 +1856,8 @@ can be implemented before that supplier lands; only the membership statement of 
 consumer in Layer 9 wait on it.
 
 Two rules keep the graph acyclic, and both are worth stating because the natural way to write
-this material breaks them. Any theorem whose proof reads the table of Layer 6 belongs to Layer 6,
-even when its statement mentions only permutations. Any theorem that concludes `HasGaloisLabel`
+this material breaks them. Any theorem whose proof reads the table of Layer 6 comes after the
+pure-group part of Layer 6, even when its statement mentions only permutations. Any theorem that concludes `HasGaloisLabel`
 belongs to Layer 6 or later, even when the mathematics behind it is in Layer 3 or Layer 4.
 
 Three deliverables are worth early attention. Other work depends on their shape rather than on
@@ -1841,7 +1902,7 @@ convention it fixes:
 | the quartic `D₄` invariant and resolvent cubic | Conrad, Definition 3.1 and (3.7) | the three orbit values, and the closed form `X³ − bX² + (ac − 4d)X − (a²d + c² − 4bd)` |
 | a quartic and its resolvent have equal discriminant | Conrad, Theorem 3.4 | that a separable quartic has a separable resolvent cubic |
 | the quartic decision table | Conrad, Theorem 3.6 with Table 4, and Corollary 3.8 | the four rows, and "splits completely" against "unique root in the base field" |
-| the `C₄`-against-`D₄` row | Kappe–Warren, as Conrad Theorem 4.1 | the two quadratics that split over `K(√Δ)`, equivalently reducibility of `f` there |
+| the `C₄`-against-`D₄` row | Conrad, Theorem A.1 | `C₄` exactly when `f` is reducible over `K(√Δ)`, `D₄` exactly when it stays irreducible |
 | the quintic `F₂₀` invariant | Dummit, §2, p. 388 | the ten monomials, and that the stabilizer is *precisely* `F₂₀` |
 | the resolvent sextic's closed form | Dummit, (2) and (2′) | the acceptance test the orbit-product definition is checked against |
 | the solvability criterion | Dummit, Theorem 1 | a rational root of the sextic against solvability, for irreducible quintics |
@@ -1889,7 +1950,7 @@ convention it fixes:
   places outside its scope.
 - H. Cohen, *A Course in Computational Algebraic Number Theory*, GTM 138, Springer, 1993, §6.3.
   The resolvent method and the decision trees in degrees up to 7. *Not inspected for this pass*,
-  and no milestone depends on it: the quartic table is grounded in Conrad and Kappe–Warren below,
+  and no milestone depends on it: the quartic table is grounded in Conrad (Theorems 3.6 and A.1) below,
   the quintic criterion in Dummit below, and the generic resolvent theory is written out in
   Layer 4 with its proof routes. §6.3.2 is the traditional citation for Dedekind's theorem, which
   this roadmap does not prove; its source entry belongs to the supplier.
@@ -1907,20 +1968,34 @@ convention it fixes:
   with resolvent `X³ − 48X − 64` and discriminant `576²`, and Example 3.2 is `x⁴ − x − 1`; both
   appear in the acceptance tests above.
 
+- Conrad's notes above, Theorem A.1 (p. 16–17), are the source of the reducibility form of the
+  last row of the quartic table that Layer 4 states: for an irreducible quartic with non-square
+  discriminant and reducible resolvent cubic, the group is `C₄` exactly when `f` becomes
+  reducible over `K(√Δ)` and `D₄` exactly when it stays irreducible there.
 - L.-C. Kappe and B. Warren, *An elementary test for the Galois group of a quartic polynomial*,
   Amer. Math. Monthly 96 (1989), 133–137; stated as Theorem 4.1 of Conrad's notes above, which is
-  where it was inspected. It separates `C₄` from `D₄` by asking whether `X² + aX + (b − r′)` and
-  `X² − r′X + d` split over `K(√Δ)`, where `r′` is the unique base-field root of the resolvent
-  cubic. Those two quadratics are the factors of `f` over `K(√Δ)`, so the criterion is the same
-  as the one Layer 4 states — `C₄` exactly when `f` becomes reducible over `F(√disc f)` — and the
-  roadmap adopts the reducibility form, which mentions no choice of `r′`.
+  where it was inspected. It is a different test for the same row: with `r′` the unique
+  base-field root of the resolvent cubic, it asks whether `X² + aX + (b − r′)` and `X² − r′X + d`
+  split over `K(√Δ)`. Their roots are pair sums `r₁ + r₂, r₃ + r₄` and pair products
+  `r₁r₂, r₃r₄` of the roots of `f` (Conrad, (4.2) and (4.3)); they are not factors of `f`. For
+  `f = x⁴ + x³ + x² + x + 1` the root `r′` is `2` and the second quadratic is `(X − 1)²`, which
+  does not divide `f`. The roadmap states the reducibility form of Theorem A.1, which mentions no
+  choice of `r′`.
+- J. S. Milne, *Fields and Galois Theory*, course notes, version 5.10,
+  <https://www.jmilne.org/math/CourseNotes/FT.pdf>. **Inspected.** The source for Layer 10:
+  Proposition 5.27 (cyclic extensions of degree `n` over a field with a primitive `n`th root of
+  unity are generated by an `n`th root), Lemma 5.33 (the Galois group over a larger base injects
+  into the original one by restriction), Theorem 5.34 (in characteristic zero a polynomial is
+  solvable in radicals exactly when its Galois group is solvable), and Proposition 4.16 (an
+  irreducible rational polynomial of prime degree with exactly two nonreal roots has Galois group
+  `S_p`).
 - D. S. Dummit, *Solving solvable quintics*, Math. Comp. 57 (1991) 387-401. **Inspected.** The
   exact source for the quintic invariant and the solvability criterion.
 
   - §2, p. 388 fixes `F₂₀ < S₅` by the generators `(1 2 3 4 5)` and `(2 3 5 4)`, and states that
     the stabilizer in `S₅` of
     `θ₁ = x₁²x₂x₅ + x₁²x₃x₄ + x₂²x₁x₃ + x₂²x₄x₅ + x₃²x₁x₅ + x₃²x₂x₄ + x₄²x₁x₂ + x₄²x₃x₅ +
-    x₅²x₁x₄ + x₅²x₂x₃` is *precisely* `F₂₀`. Under the shift `xⱼ ↦ x_{j−1}`, which turns his
+    x₅²x₁x₄ + x₅²x₂x₃` is *precisely* `F₂₀`. Under the shift `xⱼ ↦ xⱼ₋₁`, which turns his
     wrap-around indexing of `{1,…,5}` into `ℤ/5` on `Fin 5`, his `θ₁` is term for term the
     invariant `Σ_a x_a²(x_{a+1}x_{a−1} + x_{a+2}x_{a−2})` of Layer 4, and his two generators
     become `a ↦ a + 1` and `a ↦ 2a`, which generate `AGL(1,5)`, the reference subgroup of `5T3`.
