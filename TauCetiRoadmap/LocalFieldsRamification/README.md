@@ -8,10 +8,10 @@ maximal pro-`p` quotient of the absolute Galois group.
 The boundary is deliberate. The **Class Field Theory** roadmap consumes these objects to build
 finite-group Tate cohomology, class formations, local reciprocity, and duality. The **Local
 Galois Groups** roadmap consumes them, together with abstract pro-`p` group theory, to determine
-`G_K(p)` and its Demushkin presentation. This roadmap in turn depends on [**Profinite and
-Pro-`p` Groups**](../ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
-imports its `Suggested.lean` directly, and on Tau Ceti's free profinite groups and profinite
-presentations (`TauCeti.freeProfiniteGroup`, `TauCeti.presentedProfiniteGroup`). It does not
+`G_K(p)` and its Demushkin presentation. This roadmap in turn depends on Tau Ceti's profinite
+Sylow theory (`TauCeti.IsProP`, `TauCeti.IsProPSylow`), the predicates of which [**Profinite and
+Pro-`p` Groups**](../ProfiniteProPGroups/README.md) declares its own names as reducible aliases,
+and on Tau Ceti's free profinite groups and profinite presentations (`TauCeti.freeProfiniteGroup`, `TauCeti.presentedProfiniteGroup`). It does not
 redeclare any of those group-theoretic suppliers.
 
 ## Scope and exported contract
@@ -32,12 +32,12 @@ different, and the relative-discriminant consequences. In particular it imports
 `lowerRamificationGroup`; it does not define a second filtration or choose another indexing
 convention.
 
-[Counting Totally Ramified Extensions #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226)
+[Counting Totally Ramified Extensions](../MassFormula/README.md)
 is a direct downstream consumer. This roadmap owns the arithmetic of each finite extension:
 the induced local-field structures, `ramificationIndex`, `inertiaDegree`, total/tame/wild
 ramification, Eisenstein generators and integral monogenicity, the different and local
 discriminant exponents, their invariance under `K`-equivalence, and Eisenstein power-basis
-valuation orthogonality. #226 owns the family and counting layer: `σ_K(n)`, its derived weight
+valuation orthogonality. The Mass Formula roadmap owns the family and counting layer: `σ_K(n)`, its derived weight
 `c(L) = d(L) - n + 1`, representative sets, quantitative root counting, coefficient-space and
 Haar-measure calculations, and the mass formulas. It may define intermediate-field wrappers,
 but they must install this roadmap's canonical structures and reduce to its canonical invariants.
@@ -77,8 +77,9 @@ pro-`p` quotient.
     - the compatibility lemma for the two uniformities;
     - `IsNonarchimedeanLocalField ℤ_[p]`-facing corollaries, that is `CompactSpace ℤ_[p]` and
       `IsAdicComplete`;
-    - `padicIntegerRingEquiv : 𝒪[ℚ_[p]] ≃+* ℤ_[p]`, characterized as the identity on underlying
-      elements of `ℚ_[p]`, and its uniform-space companion with the same underlying map,
+    - `padicIntegerRingEquiv : 𝒪[ℚ_[p]] ≃+* ℤ_[p]`, Tau Ceti's `Padic.integerRingEquiv` under this
+      roadmap's name, characterized as the identity on underlying elements of `ℚ_[p]`
+      (`Padic.coe_integerRingEquiv_apply`), and its uniform-space companion with the same underlying map,
       compatible with every power of the maximal ideal and with a residue-field equivalence
       `𝓀[ℚ_[p]] ≃+* ZMod p` pinned by reduction (`PadicInt.toZMod`);
     - the same structure for a finite extension of `ℚ_[p]`, through Layer 0.III.
@@ -362,7 +363,7 @@ pro-`p` quotient.
   of uniformizer, and `𝒪[K]ˣ ≃ μ_{q−1} × U(K,1)`. Prove that `U(K,1)` is pro-`p`, as the inverse
   limit of the `p`-groups `U(K,1)/U(K,i)`. State it in quotient form: every continuous finite
   quotient of `U(K,1)` is a `p`-group. This is exactly the predicate
-  `ProfiniteProPGroups.IsProP p (U(K,1))`, so the two statements are the same statement and not
+  `TauCeti.IsProP p (U(K,1))`, so the two statements are the same statement and not
   two rephrasings. Prove that the torsion subgroup
   `μ(K)` is finite. Tau Ceti implements the two isomorphisms, on `U(K,0) = 𝒪[K]ˣ`, as
   `TauCeti.unitsEquivIntProd` and `TauCeti.unitFiltrationZeroEquivProd`
@@ -393,15 +394,16 @@ pro-`p` quotient.
     - `Layer 1: the unit filtration as an object`;
     - `Layer 0: the absolute ramification index`;
     - `Layer 0: finite extensions, III`;
-    - at the exact pin, `NormedSpace.expSeries`, `NormedSpace.exp`,
-      `NormedSpace.expSeries_hasSum_exp_of_mem_ball`, and `NormedSpace.continuousOn_exp` provide
-      the exponential-series side, while `PowerSeries.log`, `PowerSeries.coeff_log`,
-      `PowerSeries.map_log`, and `PowerSeries.HasEval` provide the formal logarithm and evaluation
-      interface. The pin does **not** provide a ready-made local-field logarithm with the sharp
-      domain or inverse theorems. Constructing `localExponential` and `localLogarithm`, proving
-      their convergence and continuity on the stated depths, and proving
-      `localLogarithm_localExponential` and `localExponential_localLogarithm` are separate named
-      submilestones, summarized by `deepUnitExpLogEquiv`.
+    - Mathlib's `NormedSpace.exp` and `NormedSpace.log`, which this roadmap names
+      `localExponential` and `localLogarithm` (reducible aliases), and Tau Ceti's deep-unit
+      analysis of them in `TauCeti/NumberTheory/LocalField/Exponential.lean`, `Logarithm.lean` and
+      `ExpLog.lean`: convergence (`TauCeti.hasSum_exp_of_mem_maximalIdeal_pow`,
+      `TauCeti.hasSum_log_of_mem_unitFiltration_one`), continuity of the logarithm
+      (`TauCeti.continuous_log_unitFiltration`), and the two inverse identities
+      (`TauCeti.log_exp_of_mem_maximalIdeal_pow`, `TauCeti.exp_log_of_mem_unitFiltration`), which
+      are `localLogarithm_localExponential` and `localExponential_localLogarithm` here. What
+      remains is continuity of the exponential on the stated depths and the bundled isomorphism
+      of topological groups `U(K,i) ≃ (𝓂[K]^i, +)` with its `ℤ_p`-module consequence.
   - *Source:* NSW (7.4.4); Neukirch ANT II §5. The hypotheses used are `char K = 0` and the
     integer inequality. At the boundary `(p − 1) * i = e`, the series `log` still converges but
     injectivity is not uniform: it fails when `U(K,i)` contains a nontrivial `p`-power root of
@@ -662,7 +664,7 @@ pro-`p` quotient.
   are `TauCeti.maximalUnramifiedExtension K (AlgebraicClosure K)`, its arithmetic Frobenius
   `TauCeti.maximalUnramifiedFrobenius`, and `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`, which
   sends that Frobenius to the generator `TauCeti.zHat.gen` of the profinite integers
-  `TauCeti.zHat` (`maximalUnramifiedGaloisGroupEquivZHat_apply_frobenius`); Layer 4 states
+  `TauCeti.zHat` (`TauCeti.maximalUnramifiedGaloisGroupEquivZHat_apply_frobenius`); Layer 4 states
   against these declarations.
   - *Prerequisites:*
     - `Layer 2: existence and uniqueness`;
@@ -770,16 +772,12 @@ pro-`p` quotient.
   This is a local theorem: [the Number-Field Arithmetic
   roadmap](../NumberFieldArithmetic/README.md) consumes it only after passing to a completion.
   For an Eisenstein generator `ξ` of degree `n`, also prove the orthogonality of its power
-  basis. If `c_i ∈ 𝒪[K]`, then
-
-  ```text
-  v_L(Σ_{i<n} c_i ξ^i) = min_{i<n} (e(L/K) v_K(c_i) + i)
-                       = min_{i<n} (n v_K(c_i) + i).
-  ```
+  basis. If `c_i ∈ 𝒪[K]` for `0 ≤ i < n`, then, with the sum and both minima over `0 ≤ i < n`,
+  `v_L(Σ c_i ξ^i) = min (e(L/K) v_K(c_i) + i) = min (n v_K(c_i) + i)`.
 
   The second equality uses total ramification. The summands with nonzero coefficients have
   pairwise distinct values modulo `n`, so there is no cancellation. Export the formula in the
-  canonical `IsDiscreteValuationRing.addVal` spelling. Counting Totally Ramified Extensions #226
+  canonical `IsDiscreteValuationRing.addVal` spelling. The Mass Formula roadmap
   consumes it to derive the box/ball and coordinate-cube descriptions used by its measure
   argument; those family-level corollaries are not owned here.
   - *Prerequisites:*
@@ -911,9 +909,11 @@ pro-`p` quotient.
   `TauCeti.LocalFieldsRamification`: `RamificationIndexDomain`, `herbrandOrderIso`, `herbrand` and
   `inverseHerbrand`, with the integral formula `coe_herbrand`, the finite-sum formula
   (`coe_herbrand_of_mem_Icc`, `coe_herbrand_of_coe_eq_natCast`), continuity and strict
-  monotonicity (`continuous_herbrand`, `herbrand_strictMono` and their counterparts for `ψ`),
-  concavity (`herbrand_slope_anti_adjacent`), the identity on `[-1, 0]`
-  (`herbrand_of_coe_le_zero`, `inverseHerbrand_of_coe_le_zero`), `herbrand_inverseHerbrand` and
+  monotonicity (`TauCeti.LocalFieldsRamification.continuous_herbrand`,
+  `TauCeti.LocalFieldsRamification.herbrand_strictMono` and their counterparts for `ψ`),
+  concavity (`TauCeti.LocalFieldsRamification.herbrand_slope_anti_adjacent`), the identity on
+  `[-1, 0]` (`TauCeti.LocalFieldsRamification.herbrand_of_coe_le_zero`,
+  `TauCeti.LocalFieldsRamification.inverseHerbrand_of_coe_le_zero`), `herbrand_inverseHerbrand` and
   `inverseHerbrand_herbrand`; and the upper numbering `upperRamificationGroup`, with
   `G^{φ(u)} = G_u` (`upperRamificationGroup_herbrand`), antitonicity and normality. This roadmap's
   names are reducible aliases of these definitions and its two inversion theorems are closed
@@ -1059,8 +1059,8 @@ pro-`p` quotient.
      its kernel-and-cokernel conclusion is unavailable for an unramified extension or for the tame
      break at zero.
   5. *The consequences of item 4, for the same extensions.* `N_{L/K}(U(L, ψℕ v)) = U(K,v)` for
-     every `v > t`, by successive approximation from item 4 and completeness. `[U(K,v) :
-     N_{L/K}(U(L, ψℕ v)) · U(K,v+1)] = ℓ` for `v = t`, and `= 1` for `v ≠ t`. Multiplication up
+     every `v > t`, by successive approximation from item 4 and completeness.
+     `[U(K,v) : N_{L/K}(U(L, ψℕ v)) · U(K,v+1)] = ℓ` for `v = t`, and `= 1` for `v ≠ t`. Multiplication up
      the filtration then gives `[𝒪[K]ˣ : N_{L/K}(𝒪[L]ˣ)] = ℓ`, and the conductor of a cyclic
      extension of prime degree is `c(L/K) = t + 1`. These prime-degree norm-index results have
      their own downstream uses. They do not supply the cyclic prime-power lower-break divisibility
@@ -1185,7 +1185,7 @@ pro-`p` quotient.
   exponent `d(L/K) := v_L(𝔡_{L/K})` and the local discriminant exponent
   `δ(L/K) := v_K(𝔩_{L/K})`; prove `δ(L/K) = f(L/K) d(L/K)`. Both exponents and both ideals are
   invariant under a `K`-algebra isomorphism of finite separable extensions, with transport along
-  the induced integer-ring equivalence. This is the exact invariance consumed when #226 regroups
+  the induced integer-ring equivalence. This is the exact invariance consumed when the Mass Formula roadmap regroups
   its mass formula by `K`-isomorphism classes. Prove: `𝔡_{L/K} = 𝒪[L]` if and only if `L/K` is
   unramified; for `L/K` Galois,
   `d(L/K) = ∑_{i≥0} (#(lowerRamificationGroup K L i) − 1)`; and generally
@@ -1233,12 +1233,12 @@ pro-`p` quotient.
 ### Consumer contract: Counting Totally Ramified Extensions
 
 The governing rule is that this roadmap owns the arithmetic of one finite extension of a
-nonarchimedean local field, while [Counting Totally Ramified Extensions
-#226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226) owns the construction and counting
+nonarchimedean local field, while [Counting Totally Ramified
+Extensions](../MassFormula/README.md) owns the construction and counting
 of families of such extensions. The dependency is one-way:
 
 ```text
-LocalFieldsRamification (this roadmap) → MassFormula (#226)
+LocalFieldsRamification (this roadmap) → MassFormula
 ```
 
 This roadmap owns the canonical induced local-field structure, `e` and `f`, total/tame/wild
@@ -1246,7 +1246,7 @@ ramification, Eisenstein generators and integral monogenicity, the different and
 discriminant exponents, their invariance under `K`-algebra equivalence, and the valuation formula
 for an Eisenstein power basis.
 
-#226 consumes those declarations. It owns the family `σ_K(n)`, `totallyRamifiedOfDegree`,
+The Mass Formula roadmap consumes those declarations. It owns the family `σ_K(n)`, `totallyRamifiedOfDegree`,
 `IsRepresentativeSet`, the mass-formula weight `wildExponent c(L) = d(L) - n + 1`, quantitative
 Newton and root-counting arguments, local constancy of root counts, the coefficient space and
 Eisenstein region, nonarchimedean lattice-index and Haar-scaling formulas, finiteness and
@@ -1260,9 +1260,9 @@ wrapper must install this roadmap's `finiteIntermediateField*` structures and ca
 theorem with the canonical invariant below. A wrapper must not contain an independent definition
 of the ramification index, total-ramification predicate, different, discriminant ideal, or
 discriminant exponent. This permits harmless family-level totalization without making this
-roadmap a counting roadmap or introducing a dependency on #226.
+roadmap a counting roadmap or introducing a dependency on the Mass Formula roadmap.
 
-| Consumer need in #226 | Owner/export in this roadmap |
+| Consumer need in the Mass Formula roadmap | Owner/export in this roadmap |
 |---|---|
 | local structure on a finite intermediate field | `finiteIntermediateFieldNormedField`, `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_valuativeExtension`, `finiteIntermediateField_isValuativeTopology`, `finiteIntermediateField_isNonarchimedeanLocalField` |
 | ramification index | `ramificationIndex` |
@@ -1285,15 +1285,21 @@ Two results needed by the mass formula remain owned here:
 
 The counting roadmap owns only their family-level consequences: invariance of `wildExponent`,
 coordinate-box and coordinate-cube descriptions, volume computations, and the resulting
-integrals. #226 itself must be updated separately to install this adapter contract and replace its
-temporary arithmetic declarations with the canonical exports above.
+integrals. It consumes the canonical exports above and declares no arithmetic of a single
+extension of its own.
 
 ### Layer 4: the tame quotient of the absolute Galois group
 
-**Suppliers.** For the group theory of this layer, `Suggested.lean` imports
-`TauCetiRoadmap.ProfiniteProPGroups.Suggested` and Tau Ceti's
-`TauCeti.Topology.Algebra.Group.Profinite.Presentation` and
-`TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic` directly. No supplied group-theoretic
+**Suppliers.** For the group theory of this layer, `Suggested.lean` imports Tau Ceti's
+`TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic`, `TauCeti.Topology.Algebra.Group.Profinite.Sylow.Basic`,
+`TauCeti.Topology.Algebra.Group.Profinite.Sylow.Conjugacy`,
+`TauCeti.Topology.Algebra.Group.Profinite.Presentation.Basic` and
+`TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic` directly; the **Profinite and Pro-`p`
+Groups** roadmap's `IsProP` and `IsProPSylow` are reducible aliases of the same Tau Ceti
+predicates. For inertia, the maximal unramified extension and Frobenius lifts it imports
+`TauCeti.NumberTheory.LocalField.Unramified.Maximal`, `TauCeti.NumberTheory.LocalField.Unramified.ZHat`
+and `TauCeti.NumberTheory.LocalField.Unramified.Inertia.Basic`, and declares no copy of their
+declarations. No supplied group-theoretic
 declaration is restated: there is no `Supplied.*` alias and no private replacement carrier for the
 pro-`p`, Sylow, free-group or presentation API. For the Galois theory of the finite levels it uses
 Mathlib's `FiniteGaloisIntermediateField` and `AlgEquiv.restrictNormalHom`, and Tau Ceti's Galois
@@ -1302,11 +1308,11 @@ correspondence for normal extensions, `TauCeti.fixingSubgroup_fixedField`
 every characteristic.
 
 The dependency is **type-checked, not promised**. Layer 1's `unitFiltration_one_isProP` is stated
-against `ProfiniteProPGroups.IsProP` — the same statement as the inverse-limit description, not a
+against `TauCeti.IsProP` — the same statement as the inverse-limit description, not a
 rephrasing of it — and Layer 4 consumes its suppliers with **closed** proofs: the uniqueness of
 wild inertia as the pro-`p` Sylow subgroup of inertia is
-`ProfiniteProPGroups.IsProPSylow.eq_of_normal` applied, and the uniqueness of the marked Iwasawa
-presentation and of its coordinate is `TauCeti.presentedProfiniteGroup.hom_ext_of` applied. A
+`TauCeti.IsProPSylow.eq_of_normal` applied, and the uniqueness of the marked Iwasawa
+isomorphism and of its coordinate is `TauCeti.presentedProfiniteGroup.hom_ext_of` applied. A
 rename, a carrier change or a changed hypothesis in a supplier breaks this build rather than being
 absorbed silently.
 
@@ -1315,8 +1321,9 @@ exactly these, and no others:
 
 | Used in | Declaration |
 | --- | --- |
-| Layer 1, and inside `IsProPSylow` | `ProfiniteProPGroups.IsProP` |
-| Layer 4, wild inertia | `ProfiniteProPGroups.exists_isProPSylow`, `ProfiniteProPGroups.IsProP.exists_le_isProPSylow`, `ProfiniteProPGroups.IsProPSylow.eq_of_normal`, `ProfiniteProPGroups.IsProPSylow.map_of_surjective` |
+| Layer 1, and inside `IsProPSylow` | `TauCeti.IsProP` |
+| Layer 4, wild inertia | `TauCeti.IsProPSylow`, `TauCeti.exists_isProPSylow`, `TauCeti.IsProP.exists_le_isProPSylow`, `TauCeti.IsProPSylow.eq_of_normal`, `TauCeti.IsProPSylow.map_of_surjective` |
+| Layers 2 and 4, inertia and Frobenius lifts | `TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedFrobenius`, `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`, `TauCeti.inertiaSubgroup`, `TauCeti.restrictMaximalUnramifiedHom`, `TauCeti.unramifiedQuotient`, `TauCeti.quotientInertiaSubgroupEquiv`, `TauCeti.IsArithFrobeniusLift`, `TauCeti.exists_isArithFrobeniusLift` |
 | Layer 4, the Iwasawa presentation | `TauCeti.freeProfiniteGroup` with `of` and `lift`; `TauCeti.presentedProfiniteGroup` with `of`, `lift`, `hom_ext_of` and `congr` |
 | Layers 2 and 4, the unramified coordinate | `TauCeti.zHat` and `TauCeti.zHat.gen` |
 | Layer 4, the finite levels, wild inertia and `K^t` | Mathlib's `FiniteGaloisIntermediateField`, `AlgEquiv.restrictNormalHom` and `InfiniteGalois.restrictNormalHom_continuous`; Tau Ceti's `TauCeti.fixingSubgroup_fixedField` and `IntermediateField.fixingSubgroup_inf_separableClosure` |
@@ -1411,11 +1418,11 @@ used by no milestone here.
       `OpenNormalSubgroup`;
     - Tau Ceti: `TauCeti.fixingSubgroup_fixedField`,
       `IntermediateField.fixingSubgroup_inf_separableClosure`;
-    - **Profinite and Pro-`p` Groups**:
-      `ProfiniteProPGroups.exists_isProPSylow`,
-      `ProfiniteProPGroups.IsProP.exists_le_isProPSylow`,
-      `ProfiniteProPGroups.IsProPSylow.eq_of_normal`, and
-      `ProfiniteProPGroups.IsProPSylow.map_of_surjective`.
+    - Tau Ceti's profinite Sylow theory, whose names **Profinite and Pro-`p` Groups** aliases:
+      `TauCeti.exists_isProPSylow`,
+      `TauCeti.IsProP.exists_le_isProPSylow`,
+      `TauCeti.IsProPSylow.eq_of_normal`, and
+      `TauCeti.IsProPSylow.map_of_surjective`.
   - *API:*
     - the subgroup `P_K` with `mem_wildInertia_iff`, and the field `K^{t}`;
     - closedness, `wildInertia_isClosed`, and normality, `wildInertia_normal`;
@@ -1457,13 +1464,14 @@ used by no milestone here.
   `I_K/P_K`. The membership is part of that theorem. It holds because `I_K/P_K` is the image of
   `I_K`, so a generator has a lift in `I_K`, and two lifts of one class differ by an element of
   `P_K ≤ I_K` (`wildInertia_le_inertia`). No canonical `τ` is intended. For an arithmetic
-  Frobenius lift `σ` and such a `τ`, construct the topological isomorphism
-  `tameQuotientEquiv K σ τ hσ hτ` from `G_K/P_K` onto
-  `IwasawaGroup K = presentedProfiniteGroup (Fin 2) {σ τ σ⁻¹ τ^{−q}} = ⟨σ, τ | σ τ σ⁻¹ = τ^q⟩`,
-  **marked** by its values `σ̄ ↦ of 0` and `τ̄ ↦ of 1`. These two values determine it, because the
-  generators generate the presented group topologically
-  (`TauCeti.presentedProfiniteGroup.hom_ext_of`, applied to the inverse), so it involves no choice
-  beyond `σ` and `τ`. The coordinate `iwasawaCoordinate : IwasawaGroup K → Ẑ`, `of 0 ↦ zHat.gen`,
+  Frobenius lift `σ` and such a `τ`, prove that there is exactly one topological isomorphism from
+  `G_K/P_K` onto
+  `IwasawaGroup K = presentedProfiniteGroup (Fin 2) {σ τ σ⁻¹ τ^{−q}} = ⟨σ, τ | σ τ σ⁻¹ = τ^q⟩`
+  **marked** by its values `σ̄ ↦ of 0` and `τ̄ ↦ of 1` (`existsUnique_tameQuotientEquiv`); the
+  implementation then defines the marked isomorphism from `σ`, `τ` and the two hypotheses on them.
+  Uniqueness holds because the generators generate the presented group topologically
+  (`TauCeti.presentedProfiniteGroup.hom_ext_of`, applied to the inverses), so the isomorphism
+  involves no choice beyond `σ` and `τ`. The coordinate `iwasawaCoordinate : IwasawaGroup K → Ẑ`, `of 0 ↦ zHat.gen`,
   `of 1 ↦ 1`, is built on the presentation: `freeIwasawaCoordinate` is the continuous
   homomorphism of the free profinite group with these values (`TauCeti.freeProfiniteGroup.lift`),
   it kills the relator because `gen · 1 · gen⁻¹ · 1^{−q} = 1`, and
@@ -1472,9 +1480,10 @@ used by no milestone here.
   quotients: an element outside `⟨⟨of 1⟩⟩` survives modulo some open normal subgroup containing
   `of 1`, and there, with a quotient of order `m`, the quotient map is the reduction of the
   coordinate modulo `m` followed by `1 ↦ of 0`, because the two agree on `of 0` and on `of 1`.
-  Derive the choice-free consequences: every arithmetic Frobenius lift lands in the coset
-  `of 0 · ⟨⟨of 1⟩⟩`; the image of `I_K/P_K` is exactly `⟨⟨of 1⟩⟩`; and the coordinate, composed
-  with the isomorphism and the quotient map, is the unramified coordinate of Layer 2: restriction
+  Derive the choice-free consequences, for every marked isomorphism: every arithmetic Frobenius
+  lift lands in the coset `of 0 · ⟨⟨of 1⟩⟩` (`tameQuotientEquiv_mk_of_isArithFrobeniusLift`); the
+  image of `I_K/P_K` is exactly `⟨⟨of 1⟩⟩` (`map_tameInertia_tameQuotientEquiv`); and the
+  coordinate, composed with the isomorphism and the quotient map, is the unramified coordinate of Layer 2: restriction
   to `K^{ur}` followed by `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`
   (`iwasawaCoordinate_tameQuotientEquiv_mk`). The unmarked statement that `G_K/P_K` is isomorphic
   to the presented group, `tameQuotientPresentation`, is a corollary. ⚠ `σ` is **arithmetic** and
@@ -1499,7 +1508,7 @@ used by no milestone here.
   - *API:*
     - `exists_topologicalClosure_zpowers_eq_tameInertia`, whose generator lies in `I_K`;
     - `iwasawaRelator`, `IwasawaGroup` and its marked generators `iwasawaSigma`, `iwasawaTau`;
-    - `tameQuotientEquiv` with its two computation rules;
+    - `existsUnique_tameQuotientEquiv`, existence and uniqueness of the marked isomorphism;
     - the two choice-free consequences;
     - `freeIwasawaCoordinate` and `iwasawaCoordinate`, the values and kernel of the latter, and
       its comparison with the unramified coordinate;
@@ -1511,13 +1520,14 @@ used by no milestone here.
     as `[K:ℚ_p] + 2`. This roadmap makes no full-group rank claim in equal characteristic; a
     characteristic-`p` analogue requires a separately stated theorem and hypotheses.
 - **Translation lemmas.** Define the geometric relator `σ⁻¹ τ σ τ^{−q}` (`iwasawaRelatorGeometric`)
-  and the isomorphism of presented groups `σ ↦ σ⁻¹`, `τ ↦ τ` (`iwasawaGeometricEquiv`), built by
-  `TauCeti.presentedProfiniteGroup.congr` from the involution of the free profinite group that
-  inverts `of 0` and fixes `of 1`, with its two computation rules. Composed with
-  `tameQuotientEquiv`, it sends the class of the geometric Frobenius `σ⁻¹` to the generator `of 0`
-  of the geometric presentation, and `iwasawaCoordinate` gives that generator the value
-  `zHat.gen⁻¹`: in the geometric presentation the arithmetic Frobenius is the inverse of the marked
-  generator. Prove the finite-level compatibility: in every finite quotient of `G_K` through which
+  and prove that there is an isomorphism of presented groups with `σ ↦ σ⁻¹`, `τ ↦ τ`
+  (`exists_iwasawaGeometricEquiv`), built by `TauCeti.presentedProfiniteGroup.congr` from the
+  involution of the free profinite group that inverts `of 0` and fixes `of 1`. Composed with a
+  marked isomorphism of `existsUnique_tameQuotientEquiv`, it sends the class of the geometric
+  Frobenius `σ⁻¹` to the generator `of 0` of the geometric presentation, and `iwasawaCoordinate`
+  gives that generator the value `zHat.gen⁻¹`
+  (`iwasawaCoordinate_iwasawaGeometricEquiv_symm_sigmaGeometric`): in the geometric presentation
+  the arithmetic Frobenius is the inverse of the marked generator. Prove the finite-level compatibility: in every finite quotient of `G_K` through which
   `P_K` dies, the image of `τ` has order prime to `p` and generates the image of `I_K`, and the
   tame character of Layer 3 carries `σ τ σ⁻¹ = τ^q` to `θ_0(σ̄ τ̄ σ̄⁻¹) = θ_0(τ̄)^q`; this is
   `tameCharacter_conj_of_smul_eq_pow` at the image `σ̄` of `σ`, which acts on the residue field as
@@ -1548,8 +1558,8 @@ while `N_{L/ℚ_3}(u) = 16` and `v_3(16 − 1) = 1`, so the norm is not in `U(�
 
 The external abstract dependency order is **[Continuous Cohomology of Profinite
 Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
-Groups](../ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
-roadmap**. Within this roadmap the intended order is
+Groups](../ProfiniteProPGroups/README.md) → this roadmap**, whose `Suggested.lean` states the
+pro-`p` and Sylow statements against the Tau Ceti predicates that the second roadmap aliases. Within this roadmap the intended order is
 Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4. Inside Layer 3 the trace-dual different,
 trace-ideal image formula and lower-filtration Hilbert formula precede the above-break graded
 norm; that branch precedes completeness-based deep norm surjectivity and Hasse–Arf. This order
@@ -1588,10 +1598,10 @@ The declaration-level overlap is:
 | LeanBridge declarations at the audited revision | Roadmap destination and disposition |
 |---|---|
 | `PadicField.ringOfIntegers`, `PadicField.valuation`, `valuation_le_one_iff_isIntegral`, `ringEquiv_valuation_integer`, and the `ValuativeRel`, `IsValuativeTopology`, and `IsNonarchimedeanLocalField` instances | Adapt the proofs to the roadmap's `ValuativeRel`, `ValuativeExtension`, `𝒪[K]`, and `IsNonarchimedeanLocalField` carriers. The bespoke `PadicField` class is not exported. |
-| `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Tau Ceti implements these destinations on the valuative carriers (`TauCeti.ramificationIndex`, `TauCeti.absoluteRamificationIndex`, `TauCeti.inertiaDegree`, their tower laws, `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.map_maximalIdeal_eq_maximalIdeal_pow`); nothing is ported. |
+| `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `PadicField.Extension.absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Tau Ceti implements these destinations on the valuative carriers (`TauCeti.ramificationIndex`, `TauCeti.absoluteRamificationIndex`, `TauCeti.inertiaDegree`, their tower laws, `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.map_maximalIdeal_eq_maximalIdeal_pow`); nothing is ported. |
 | `mono_exists_primitive` and its supporting Newton-lift declarations | Adapt to `exists_integerRing_adjoin_eq_top` on `𝒪[K] → 𝒪[L]`; do not expose the generic helper namespace as a second local-field API. |
 | `TraceFiltration.intTrace_residue_scaling` | Reuse or adapt as the residue-trace input to tame/wild different bounds, behind the public different theorems. |
-| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../NumberFieldArithmetic/README.md). |
+| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `PadicField.Extension.differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../NumberFieldArithmetic/README.md). |
 
 For every adapted proof, the implementation record must identify the LeanBridge declaration and
 revision or say explicitly that the proof was replaced. Regardless of implementation source,
