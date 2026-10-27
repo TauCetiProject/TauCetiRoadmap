@@ -341,8 +341,15 @@ identify it isometrically with `X ⊗ε X*` by
 `x⊗f ↦ (y↦f(y)x)`. Define the contractive trace-pairing map
 `Θ_X : X* ⊗π X → (X ⊗ε X*)*` by
 `Θ_X(f⊗x)(y⊗g)=f(y)g(x)`, extending through the specified completions.
-Prove the metric criterion `MAP(X) ↔ ∀u, ‖Θ_X u‖=‖u‖π`, including both
-directions using compact-open separation and the finite-rank trace pairing.
+Prove the metric criterion `MAP(X) ↔ ∀u, ‖Θ_X u‖=‖u‖π`. The direction
+from isometry to MAP is compact-open separation: on bounded sets the
+compact-open dual of L(X) is given by trace pairing with `X* ⊗π X`, and
+`|⟨u,id⟩| ≤ ‖u‖π`. The direction from MAP to isometry also needs that the
+unit ball of L(X) norms `X* ⊗π X` under trace pairing; the dual of
+`X* ⊗π X` is L(X,X**), so for reflexive X this is immediate from `J_X`,
+and for general X it is B7's local reflexivity, so state and prove the
+general-X direction in B7. The reflexive theorem below uses only the
+direction from isometry to MAP.
 The codomain has the dual of the injective-tensor norm; injectivity alone
 is the AP comparison and does not yield the norm-one approximation bound.
 
@@ -1034,7 +1041,15 @@ its inverse on its range have norm at least one; handle the zero space
 separately. This compares existence statements with changed data and tolerance.
 Develop the
 finite-system separation and norm approximation lemmas used in its proof.
-Deduce finite representability of `E**` in `E`.
+Deduce finite representability of `E**` in `E`. Deduce also that for every
+real or complex Banach space E and every u in `E* ⊗π E` (completed),
+`‖u‖π` equals the supremum of `|⟨u,S⟩|` over S in the unit ball of L(E).
+Since the dual of `E* ⊗π E` is L(E,E**), this is the density of
+`J_E ∘ S`, S in the unit ball of L(E), in the unit ball of L(E,E**) for
+the topology of trace pairing with `E* ⊗π E`; prove that density from local
+reflexivity on finite tensors, then pass to the completion by truncating a
+nuclear representation of u. With B4.0's trace-pairing map `Θ_E` this proves the
+direction from MAP to `‖Θ_E u‖=‖u‖π` of B4.0's metric criterion for general E.
 
 Use native `ConvexBody` with explicit symmetry and nonempty-interior conditions.
 Develop symmetric convex bodies in finite-dimensional Euclidean spaces, polar
