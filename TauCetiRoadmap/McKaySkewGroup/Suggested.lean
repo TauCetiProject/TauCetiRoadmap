@@ -512,9 +512,10 @@ theorem binaryIcosahedral_affineCartan_kernel_eq_regularLine :
 
 open TauCetiRoadmap.RepresentationTheory.CharacterTheory
 
-/-- The existing native split representation-ring class map. -/
+/-- The existing native split representation-ring class map into Tau Ceti's
+`TauCeti.repRing k G = TauCeti.SplitK0 (FDRep k G)`. -/
 noncomputable def representationClass (k : Type u) (G : Type v) [Field k] [CharZero k]
-    [Group G] [Fintype G] : FDRep k G → repRing k G := TauCeti.SplitK0.of
+    [Group G] [Fintype G] : FDRep k G → TauCeti.repRing k G := TauCeti.SplitK0.of
 
 theorem representationClass_tensor (k : Type u) (G : Type v) [Field k] [CharZero k]
     [Group G] [Fintype G] (V W : FDRep k G) :
@@ -619,6 +620,39 @@ noncomputable def ExteriorSkewAlgebra
   letI := exteriorAlgebraAction k Γ V Vρ
   letI := exteriorAlgebraAction_smulComm k Γ V Vρ
   exact AlgCat.of k (SkewGroupAlgebra (ExteriorAlgebra k V) Γ)
+
+/-- The internal grading of a skew group algebra `A ⋊ Γ` induced by a grading `P` of `A`: the
+degree-`n` piece consists of the elements all of whose coefficients lie in `P n`, so the group
+elements have degree zero. -/
+def skewCoeffGrading {k A Γ : Type*} [Field k] [Ring A] [Algebra k A]
+    (P : ℕ → Submodule k A) (n : ℕ) : Submodule k (SkewGroupAlgebra A Γ) where
+  carrier := {f | ∀ g, f.coeff g ∈ P n}
+  zero_mem' := by intro g; simp [SkewMonoidAlgebra.coeff_zero]
+  add_mem' := by
+    intro a b ha hb g
+    rw [SkewMonoidAlgebra.coeff_add, Finsupp.add_apply]
+    exact add_mem (ha g) (hb g)
+  smul_mem' := by
+    intro c f hf g
+    rw [SkewMonoidAlgebra.coeff_smul, Finsupp.smul_apply]
+    exact Submodule.smul_mem _ c (hf g)
+
+/-- The polynomial grading of `Sym(V) ⋊ Γ`: coefficients in `Symⁿ(V)`, the `n`th power of the
+image of `V`. -/
+noncomputable def symmetricSkewGradingOf
+    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V) (n : ℕ) : Submodule k (SymmetricSkewAlgebra k Γ V Vρ) := by
+  letI := symmetricAlgebraAction k Γ V Vρ
+  letI := symmetricAlgebraAction_smulComm k Γ V Vρ
+  exact skewCoeffGrading (Γ := Γ) (fun m ↦ LinearMap.range (SymmetricAlgebra.ι k V) ^ m) n
+
+/-- The exterior grading of `Λ(V) ⋊ Γ`: coefficients in `Λⁿ(V)`. -/
+noncomputable def exteriorSkewGradingOf
+    (k Γ V : Type u) [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+    (Vρ : Representation k Γ V) (n : ℕ) : Submodule k (ExteriorSkewAlgebra k Γ V Vρ) := by
+  letI := exteriorAlgebraAction k Γ V Vρ
+  letI := exteriorAlgebraAction_smulComm k Γ V Vρ
+  exact skewCoeffGrading (Γ := Γ) (fun m ↦ LinearMap.range (ExteriorAlgebra.ι k (M := V)) ^ m) n
 
 /-! ## Actual relative quadratic and Koszul carriers -/
 
@@ -850,30 +884,82 @@ noncomputable def relativeKoszulTerm : ∀ (k S W : Type u) [Field k] [Ring S] [
     (R : Submodule k (BalancedTensorSquare k S W)) (n : ℕ),
     ModuleCat.{u} (RelativeQuadraticAlgebra k S W R) := sorry
 
-/-- `S` as the augmentation module over `T_S(W)/(R)`. -/
-noncomputable def relativeAugmentationModule : ∀ (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+/-- `S` as the augmentation module over `T_S(W)/(R)`: the carrier is `S` itself and the algebra
+acts through the canonical augmentation `relativeQuadraticAugmentation`, which kills `W` and is
+the identity on the degree-zero copy of `S`. -/
+noncomputable def relativeAugmentationModule
+    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
     [SMulCommClass S (MulOpposite S) W]
-    (R : Submodule k (BalancedTensorSquare k S W)),
-    ModuleCat.{u} (RelativeQuadraticAlgebra k S W R) := sorry
+    (R : Submodule k (BalancedTensorSquare k S W)) :
+    ModuleCat.{u} (RelativeQuadraticAlgebra k S W R) :=
+  letI : Module (RelativeQuadraticAlgebra k S W R) S :=
+    Module.compHom S (relativeQuadraticAugmentation k S W R).toRingHom
+  ModuleCat.of (RelativeQuadraticAlgebra k S W R) S
 
-/-- An honest linear projective resolution of the fixed augmentation module by the fixed Koszul
-terms.  No arbitrary algebra, term carrier, or augmentation is stored here. -/
+/-- The degree-zero Koszul term `B ⊗_S K₀ = B ⊗_S S` is the free module `B` itself. -/
+noncomputable def relativeKoszulTermZeroEquiv : ∀ (k S W : Type u) [Field k] [Ring S]
+    [Algebra k S] [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
+    [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
+    [SMulCommClass S (MulOpposite S) W]
+    (R : Submodule k (BalancedTensorSquare k S W)),
+    relativeKoszulTerm k S W R 0 ≃ₗ[RelativeQuadraticAlgebra k S W R]
+      RelativeQuadraticAlgebra k S W R := sorry
+
+/-- The canonical Koszul differential `B ⊗_S K_(n+1) → B ⊗_S K_n`,
+`b ⊗ (w₁ ⊗ ⋯ ⊗ w_(n+1)) ↦ b w₁ ⊗ (w₂ ⊗ ⋯ ⊗ w_(n+1))`, using `K_(n+1) ⊆ W ⊗_S K_n`.  It preserves
+internal degree, the `n`th term being generated in internal degree `n`. -/
+noncomputable def relativeKoszulDifferential : ∀ (k S W : Type u) [Field k] [Ring S]
+    [Algebra k S] [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
+    [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
+    [SMulCommClass S (MulOpposite S) W]
+    (R : Submodule k (BalancedTensorSquare k S W)) (n : ℕ),
+    relativeKoszulTerm k S W R (n + 1) →ₗ[RelativeQuadraticAlgebra k S W R]
+      relativeKoszulTerm k S W R n := sorry
+
+/-- The canonical augmentation of the Koszul complex, `B ⊗_S S ≅ B → S`. -/
+noncomputable def relativeKoszulAugmentation
+    (k S W : Type u) [Field k] [Ring S] [Algebra k S]
+    [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
+    [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
+    [SMulCommClass S (MulOpposite S) W]
+    (R : Submodule k (BalancedTensorSquare k S W)) :
+    relativeKoszulTerm k S W R 0 →ₗ[RelativeQuadraticAlgebra k S W R]
+      relativeAugmentationModule k S W R :=
+  letI : Module (RelativeQuadraticAlgebra k S W R) S :=
+    Module.compHom S (relativeQuadraticAugmentation k S W R).toRingHom
+  (show RelativeQuadraticAlgebra k S W R →ₗ[RelativeQuadraticAlgebra k S W R] S from
+    { toFun := fun b ↦ relativeQuadraticAugmentation k S W R b
+      map_add' := fun _ _ ↦ map_add _ _ _
+      map_smul' := fun a b ↦ by
+        change relativeQuadraticAugmentation k S W R (a * b) =
+          relativeQuadraticAugmentation k S W R a * relativeQuadraticAugmentation k S W R b
+        exact map_mul _ _ _ }).comp
+    (relativeKoszulTermZeroEquiv k S W R).toLinearMap
+
+/-- **Koszulity, relative to `S`**: the canonical Koszul complex
+`⋯ → B ⊗_S K₁ → B ⊗_S K₀ → S → 0`, with the fixed differentials `relativeKoszulDifferential` and
+the fixed augmentation `relativeKoszulAugmentation`, is a projective resolution of the
+augmentation module `S`.  Neither the maps nor the terms are chosen: an exact complex with the right
+terms but another augmentation does not qualify.  For `S = W = k`, `R = 0` (so `B = k[x]`), the
+complex `B --id--> B` with zero augmentation is exact at both terms and projective, but has
+`H₀ = 0`; it is excluded by `augmentation_surjective` and by the fixed maps. -/
 structure RelativeLinearKoszulResolution
     (k S W : Type u) [Field k] [Ring S] [Algebra k S]
     [AddCommGroup W] [Module k W] [Module S W] [Module (MulOpposite S) W]
     [IsScalarTower k S W] [IsScalarTower k (MulOpposite S) W]
     [SMulCommClass S (MulOpposite S) W]
-    (R : Submodule k (BalancedTensorSquare k S W)) where
-  d : ∀ n, relativeKoszulTerm k S W R (n + 1) →ₗ[RelativeQuadraticAlgebra k S W R]
-    relativeKoszulTerm k S W R n
-  d_squared : ∀ n, (d n).comp (d (n + 1)) = 0
-  augmentation : relativeKoszulTerm k S W R 0 →ₗ[RelativeQuadraticAlgebra k S W R]
-    relativeAugmentationModule k S W R
-  augmentation_d : augmentation.comp (d 0) = 0
-  exact_positive : ∀ n, Function.Exact (d (n + 1)) (d n)
-  exact_zero : Function.Exact (d 0) augmentation
+    (R : Submodule k (BalancedTensorSquare k S W)) : Prop where
+  d_squared : ∀ n, (relativeKoszulDifferential k S W R n).comp
+    (relativeKoszulDifferential k S W R (n + 1)) = 0
+  augmentation_d :
+    (relativeKoszulAugmentation k S W R).comp (relativeKoszulDifferential k S W R 0) = 0
+  exact_positive : ∀ n, Function.Exact (relativeKoszulDifferential k S W R (n + 1))
+    (relativeKoszulDifferential k S W R n)
+  exact_zero : Function.Exact (relativeKoszulDifferential k S W R 0)
+    (relativeKoszulAugmentation k S W R)
+  augmentation_surjective : Function.Surjective (relativeKoszulAugmentation k S W R)
   projective : ∀ n, Module.Projective (RelativeQuadraticAlgebra k S W R)
     (relativeKoszulTerm k S W R n)
 
@@ -969,9 +1055,11 @@ noncomputable def polynomialSkew_relativePresentation : ∀ (k Γ V : Type u) [F
     [FiniteDimensional k V] (Vρ : Representation k Γ V),
     PolynomialRelativeAlgebra k Γ V Vρ ≃ₐ[k] SymmetricSkewAlgebra k Γ V Vρ := sorry
 
-noncomputable def polynomialSkew_relativeKoszul : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+/-- `Sym(V) ⋊ Γ`, presented over `S = k[Γ]`, is relative Koszul: its canonical Koszul complex
+resolves `k[Γ]` [HK01, §6.2, Prop. 13]. -/
+theorem polynomialSkew_relativeKoszul (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
-    [FiniteDimensional k V] (Vρ : Representation k Γ V),
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
     letI := skewDegreeOneLeftModule k Γ V Vρ
     letI := skewDegreeOneRightModule k Γ V Vρ
     letI := skewDegreeOneScalarTowerLeft k Γ V Vρ
@@ -1167,17 +1255,29 @@ theorem polynomialSkew_quadraticDualEquiv_degreeZero
         (polynomialSkewQuadraticDualDegreeZeroMap k Γ V Vρ) =
       exteriorDualDegreeZeroMap k Γ V Vρ := sorry
 
-noncomputable def polynomialQuadraticDualGrading : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+/-- The internal grading of `T_S(Wᵛ)/(R⊥)`: the degree-`n` piece is `D₀ · D₁ⁿ`, where `D₀` is the
+image of `S = k[Γ]` and `D₁` the image of `Wᵛ`.  The relations are homogeneous, so these pieces
+form a grading (`polynomialQuadraticDualGrading_isInternal`). -/
+noncomputable def polynomialQuadraticDualGrading (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
-    [FiniteDimensional k V] (Vρ : Representation k Γ V),
-    ℕ → Submodule k
-      (PolynomialSkewQuadraticDualAlgebra k Γ V Vρ) := sorry
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) (n : ℕ) :
+    Submodule k (PolynomialSkewQuadraticDualAlgebra k Γ V Vρ) :=
+  letI := skewDegreeOneRightModule k Γ V Vρ
+  LinearMap.range (polynomialSkewQuadraticDualDegreeZeroMap k Γ V Vρ) *
+    LinearMap.range (polynomialSkewQuadraticDualDegreeOneMap k Γ V Vρ) ^ n
 
-noncomputable def exteriorSkewGrading : ∀ (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
+/-- The exterior grading of `Λ(V∗) ⋊ Γ`, coefficients in `Λⁿ(V∗)`. -/
+noncomputable def exteriorSkewGrading (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
     [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
-    [FiniteDimensional k V] (Vρ : Representation k Γ V),
-    ℕ → Submodule k
-      (ExteriorSkewAlgebra k Γ (Module.Dual k V) (Representation.dual Vρ)) := sorry
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) (n : ℕ) :
+    Submodule k (ExteriorSkewAlgebra k Γ (Module.Dual k V) (Representation.dual Vρ)) :=
+  exteriorSkewGradingOf k Γ (Module.Dual k V) (Representation.dual Vρ) n
+
+/-- The pieces `D₀ · D₁ⁿ` of the quadratic dual form an internal direct-sum decomposition. -/
+theorem polynomialQuadraticDualGrading_isInternal (k Γ V : Type u) [Field k] [Group Γ]
+    [Fintype Γ] [Invertible (Nat.card Γ : k)] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V] (Vρ : Representation k Γ V) :
+    DirectSum.IsInternal (polynomialQuadraticDualGrading k Γ V Vρ) := sorry
 
 theorem polynomialSkew_quadraticDualEquiv_preserves_grading
     (k Γ V : Type u) [Field k] [Group Γ] [Fintype Γ]
@@ -1366,8 +1466,10 @@ theorem groupAlgebraCorner_isBasic_quiverRoadmap
       (Corner (MonoidAlgebra k G) (groupBasicIdempotent k G E)) :=
   (isBasic_iff_quiverRoadmap k _).mp (groupAlgebraCorner_isBasic k G D E)
 
-noncomputable def symmetricSkewGrading : ∀ (k G : Type u) [Field k] [Group G] (V : FDRep k G),
-    ℕ → Submodule k (SymmetricSkewAlgebra k G V V.ρ) := sorry
+/-- The polynomial grading of `Sym(V) ⋊ G`, coefficients in `Symⁿ(V)`. -/
+noncomputable def symmetricSkewGrading (k G : Type u) [Field k] [Group G] (V : FDRep k G)
+    (n : ℕ) : Submodule k (SymmetricSkewAlgebra k G V V.ρ) :=
+  symmetricSkewGradingOf k G V V.ρ n
 
 noncomputable def symmetricGroupAlgebraMap : ∀ (k G : Type u) [Field k] [Group G] (V : FDRep k G),
     MonoidAlgebra k G →ₐ[k] SymmetricSkewAlgebra k G V V.ρ := sorry
@@ -1402,8 +1504,10 @@ noncomputable def symmetricMcKayArrowEquiv : ∀ (k G : Type u) [Field k] [IsAlg
         (symmetricVertexIdempotent k G V E j) (symmetricVertexIdempotent k G V E i) ≃ₗ[k]
       (D.rep j ⟶ (V ⊗ D.rep i)) := sorry
 
-noncomputable def exteriorSkewGradingByDegree : ∀ (k G : Type u) [Field k] [Group G] (V : FDRep k G),
-    ℕ → Submodule k (ExteriorSkewAlgebra k G V V.ρ) := sorry
+/-- The exterior grading of `Λ(V) ⋊ G`, coefficients in `Λⁿ(V)`. -/
+noncomputable def exteriorSkewGradingByDegree (k G : Type u) [Field k] [Group G] (V : FDRep k G)
+    (n : ℕ) : Submodule k (ExteriorSkewAlgebra k G V V.ρ) :=
+  exteriorSkewGradingOf k G V V.ρ n
 
 noncomputable def exteriorGroupAlgebraMap : ∀ (k G : Type u) [Field k] [Group G] (V : FDRep k G),
     MonoidAlgebra k G →ₐ[k] ExteriorSkewAlgebra k G V V.ρ := sorry

@@ -82,10 +82,13 @@ The following APIs are dependencies and must not be redeveloped here.
 
 ### Sibling roadmaps
 
-- [`CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md) owns `repRing`, its
-  character homomorphism and injectivity, character completeness, primitive central idempotents,
-  and the sum-of-squares formula.  This roadmap consumes its canonical class map and specializes
-  tensor multiplication to McKay.
+- [`CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md) owns character
+  completeness, primitive central idempotents, and the sum-of-squares formula.  The representation
+  ring it plans is built at the pinned Tau Ceti as `TauCeti.repRing k G`, an abbreviation of
+  `TauCeti.SplitK0 (FDRep k G)` (`TauCeti/RepresentationTheory/RepresentationRing/Basic.lean`), with
+  class map `TauCeti.SplitK0.of`, product rule `TauCeti.SplitK0.of_mul_of` and character
+  homomorphism `TauCeti.repRingCharacter`; this roadmap consumes that native carrier, not the
+  roadmap's opaque placeholder, and specializes tensor multiplication to McKay.
 - [`CompactGroups`](../RepresentationTheory/CompactGroups/README.md) and
   [`ClassicalGroups`](../RepresentationTheory/ClassicalGroups/README.md) own compact/unitary and
   `SL₂` representation infrastructure.  We supply only explicit finite subgroups and their
@@ -101,9 +104,13 @@ The following APIs are dependencies and must not be redeveloped here.
 - [`QuiverRepresentations`](../RepresentationTheory/QuiverRepresentations/README.md) owns quiver
   representations, bound path algebras, primitive idempotents, projectives and Morita theory.
 - [`DGAInfinity`](../DGAInfinity/README.md) supplies internal grading, DG/`A∞` modules, bar/cobar
-  transport, and homotopy transfer.  It is needed to state relative quadratic Koszul duality and
-  to transport strict skew-group presentations without pretending a transferred `A∞` model is
-  definitionally the strict algebra.
+  transport, and homotopy transfer, and its Layer 11 owns the generic relative quadratic theory
+  over a separable semisimple base (relative tensor and quadratic algebras, right dual, `R⊥`,
+  quadratic dual, Koszulity through GrothendieckEulerForms Layer 3's linear graded projective
+  resolutions, in right modules).  Layer 3 below instantiates that theory at `S=k[Γ]` through an
+  explicit left/right bridge and does not redevelop it.  DGAInfinity is also needed to transport
+  strict skew-group presentations without pretending a transferred `A∞` model is definitionally
+  the strict algebra.
 - [`StablePeriodicCurved`](../StablePeriodicCurved/README.md) supplies `MorphismIdeal`, its
   quotients and universal lifts, the factor-through ideal, and right curved DG modules with their
   triangulated homotopy category.  Its curved duplexes are commutative with scalar curvature, so the
@@ -229,9 +236,12 @@ contains `-I`, prove `H=p⁻¹(p(H))` and identify the full preimages of the
 cyclic, dihedral, tetrahedral, octahedral and icosahedral models with the
 concrete coordinate subgroups. Include `p(H)=1`, whose full preimage is `C₂`.
 If `-I∉H`, Cauchy's theorem and the unique-involution adapter force `|H|` odd;
-its rotation image is therefore cyclic by the proved rotation classification.
-Its full inverse image is a circle and `H` is the unique finite subgroup of
-that circle of its order, giving the odd-cyclic case. Include the trivial
+its rotation image is therefore cyclic by the proved rotation classification,
+so it fixes an axis. Take the full circle of rotations about that axis: its
+inverse image under `p` is a maximal torus of `SU(2)`, a circle containing `H`,
+and `H` is the unique finite subgroup of that circle of its order, giving the
+odd-cyclic case. (The inverse image of the finite group `p(H)` itself is only
+cyclic of order `2|H|`: for `H = C₃` in the diagonal torus, `p⁻¹(p(H)) ≅ C₆`.) Include the trivial
 subgroup explicitly. Prove the parameter and exceptional-family uniqueness
 statements, including the low-rank cyclic/dihedral overlap just excluded.
 
@@ -279,9 +289,12 @@ self-duality gives `M_ij=M_ji`; consequently the two transposed matrices agree.
 Prove `Mδ=2δ`, all `δ_i>0`, and `δ_trivial=1`. Give invariance under relabelling
 and under conjugation of the actual subgroup/defining representation.
 
-Consume [CharacterTheory Layer3's sharp faithful tensor-generation theorem](https://github.com/TauCetiProject/TauCetiRoadmap/blob/ea1a2eec4a5046c9244b3f397749944cd73cb38e/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md):
-every actual simple occurs in `V^⊗n` for some `n<r≤#ConjClasses Γ`, where `r`
-is the number of distinct character values. Prove by tensor associativity,
+Prove the Burnside–Brauer faithful tensor-generation theorem for a finite group
+over `ℂ` (Isaacs, *Character Theory of Finite Groups*, Theorem 4.3): if `V` is
+faithful and its character takes exactly `r` distinct values, then every simple
+occurs in `V^⊗n` for some `n<r≤#ConjClasses Γ`.  The route is the Vandermonde
+argument on the character values, using the native character orthogonality of
+`FDRep`.  *Needs:* Mathlib `FDRep.char_orthonormal`, `FDRep.char_tensor`. Prove by tensor associativity,
 finite regrouping and multiplicity additivity that `(M^n)_ij` is the actual
 multiplicity of `ρ_j` in `V^⊗n ⊗ ρ_i`, including `n=0`. Positive natural matrix
 products supply actual walks from the trivial vertex. Removing loop steps
@@ -402,19 +415,54 @@ and `ExteriorAlgebra k V`, then form
 Sym(V) ⋊ Γ,            Λ(V) ⋊ Γ.
 ```
 
-Develop quadratic algebras relative to the separable semisimple base `S=k[Γ]` using actual
-carriers, not a package containing an unrelated algebra.  Construct the balanced powers of the
-finite projective `S`-bimodule `W`, the relative tensor algebra `T_S(W)`, and the quotient
-`T_S(W)/(R)`.  Construct the right dual `Wᵛ=Hom_{Sᵐᵖᵖ}(W,S)`, its evaluation pairing, and the
-annihilator `R⊥`.  ⚠ Every theorem about the right dual carries the separable-semisimple base
-hypothesis; it is not a convenience that can be dropped for an arbitrary `k`-algebra `S`.  With
-`k=ℚ`, `S=ℚ[t]` and `W=S⊗_ℚS` under its outer actions, `W` is free of rank one over `S⊗Sᵐᵖᵖ`, hence
-a finite projective bimodule, but as a right `S`-module it is free on the countably many `tⁿ⊗1`, so
-`Hom_{Sᵐᵖᵖ}(W,S)` is uncountable while `S⊗Sᵐᵖᵖ ≅ ℚ[x,y]` is countable and every finitely generated
-module over it is countable.  So finite projectivity of the dual fails there outright, and a general
-supplier under that name would be false.  The Koszul target is an explicit linear projective resolution of the
-augmentation module `S`, with terms determined by the Koszul syzygies, rather than freely chosen
-types and maps.  Then prove:
+The generic relative quadratic theory is [DGAInfinity Layer 11](../DGAInfinity/README.md#layer-11-relative-quadratic-and-derived-koszul-duality):
+over a finite-dimensional separable semisimple base `S` and a finitely generated projective
+`S`-bimodule `W`, it owns the relative tensor algebra `T_S(W)`, the quadratic algebra `T_S(W)/(R)`,
+the right dual `Wᵛ=Hom_{Sᵐᵖᵖ}(W,S)` with its evaluation, the annihilator `R⊥`, the quadratic dual
+`T_S(Wᵛ)/(R⊥)`, and Koszulity, the latter defined through the **linear graded projective
+resolution** of [GrothendieckEulerForms Layer 3](../GrothendieckEulerForms/README.md#layer-3-finite-resolutions-and-the-resolution-theorem) (the `n`th
+term generated in internal degree `n`, all differentials of internal degree zero, augmentation onto
+`S`).  That owner works with graded **right** modules; this roadmap uses left modules, so every
+Koszulity statement here is transported through the explicit bridge "left `B`-modules = right
+`Bᵒᵖ`-modules" together with the opposite comparison `(T_S(W)/(R))ᵒᵖ ≅ T_{Sᵒᵖ}(W)/(Rᵒᵖ)`.  This
+layer does not redevelop the generic theory: it instantiates it at `S=k[Γ]`, `W=V⊗k[Γ]`, and the
+carriers named in `Suggested.lean` (`RelativeQuadraticAlgebra`, `RightBimoduleDual`,
+`RelativeQuadraticDualAlgebra`, `relativeKoszulTerm`) are only the minimal presentations needed to
+state the skew-group theorems, to be identified with the owner's objects when those exist.  ⚠ Every
+theorem about the right dual carries the separable-semisimple base hypothesis
+(`SeparableSemisimpleBase`); it is not a convenience that can be dropped for an arbitrary
+`k`-algebra `S`.  With `k=ℚ`, `S=ℚ[t]` and `W=S⊗_ℚS` under its outer actions, `W` is free of rank
+one over `S⊗Sᵐᵖᵖ`, hence a finite projective bimodule, but as a right `S`-module it is free on the
+countably many `tⁿ⊗1`, so `Hom_{Sᵐᵖᵖ}(W,S)` is uncountable while `S⊗Sᵐᵖᵖ ≅ ℚ[x,y]` is countable
+and every finitely generated module over it is countable; so `rightDual_finiteProjective` would be
+false without that hypothesis.
+
+Koszulity of `T_S(W)/(R)` is `RelativeLinearKoszulResolution`: the **canonical** Koszul complex
+`⋯ → B⊗_S K₁ → B⊗_S K₀ → S → 0`, with `K₀=S`, `K₁=W`, `K_n` the intersection of the
+`W^{⊗(i−1)}⊗R⊗W^{⊗(n−i−1)}` in `W^{⊗_S n}`, the fixed differential
+`relativeKoszulDifferential` (`b⊗(w₁⊗⋯⊗w_(n+1)) ↦ bw₁⊗(w₂⊗⋯⊗w_(n+1))`) and the fixed augmentation
+`relativeKoszulAugmentation` (through `relativeKoszulTermZeroEquiv : B⊗_S S ≅ B`, followed by the
+canonical `relativeQuadraticAugmentation` onto `relativeAugmentationModule`, which is `S` with `B`
+acting through that augmentation), is exact, has surjective augmentation, and has projective
+terms.  Neither the maps nor the augmentation are chosen.  Prove that this agrees with the owner's
+linear-graded-resolution definition under the left/right bridge.
+
+**Checks.**
+
+- For `S=W=k` and `R=0` (`B=k[x]`) the canonical complex is `0 → B --x--> B → k → 0`: exact with
+  surjective augmentation, so `k[x]` is Koszul.  The complex `B --id--> B` with zero augmentation
+  has the same terms, is exact at both terms and has projective terms, but `H₀=0` and the
+  augmentation is not onto `k`; a definition that let the augmentation and differentials be chosen
+  freely would accept it.
+- For `S=W=k` and `R=W⊗W` (`B=k[x]/(x²)`) every `K_n` is one-dimensional and the canonical complex
+  is the infinite periodic resolution with differential `x`; truncating it after finitely many terms
+  breaks exactness, so a bounded-length definition would wrongly exclude this Koszul algebra.
+- For `S=k`, `W=k²` with basis `x,y` and `R=k·(x⊗y)`: `K₃ = (R⊗W) ∩ (W⊗R) = 0`, so the canonical
+  complex is `0 → B⊗R → B⊗W → B → k`.  For `R=x⊗W`: `K₃ = x⊗x⊗W`, two-dimensional, whereas the
+  single term `R⊗W` is four-dimensional; a definition taking `K_n = R⊗W^{⊗(n−2)}` instead of the
+  intersection gets the wrong terms.
+
+Then prove:
 
 - `Sym(V) ⋊ Γ` is relative quadratic Koszul;
 - `T_S(Wᵛ)/(R⊥)` is graded-algebra isomorphic to `Λ(V∗) ⋊ Γ` itself, with no opposite, by an
@@ -422,9 +470,19 @@ types and maps.  Then prove:
   `Wᵛ ≃ V∗ ⊗ k[Γ]`, `f ↦ Σ_h (h·φ_h) # h` where `f(v ⊗ 1) = Σ_h φ_h(v) h`.  Here `Wᵛ` carries
   `(s·f)(w) = s f(w)` and `(f·t)(w) = f(t w)`, and `Γ` acts on `V∗` by the dual representation;
   this degree-one formula is what fixes the handedness;
+- the gradings are fixed, not chosen: on `Sym(V)⋊Γ` and `Λ(V)⋊Γ` the degree-`n` piece
+  (`skewCoeffGrading`, specialised as `symmetricSkewGradingOf` and `exteriorSkewGradingOf`) is the
+  set of elements all of whose coefficients lie in `Symⁿ(V)`, resp. `Λⁿ(V)`, so group elements have
+  degree zero; on `T_S(Wᵛ)/(R⊥)` it is `D₀·D₁ⁿ` with `D₀` the image of `S` and `D₁` the image of
+  `Wᵛ`, and these pieces form an internal direct sum (`polynomialQuadraticDualGrading_isInternal`).
+  The algebra isomorphism above carries `D₀·D₁ⁿ` onto `Λⁿ(V∗)⋊Γ` for every `n`.  Check: for `Γ`
+  trivial and `V=k` the dual is `k[ε]/(ε²)` with pieces `k, kε, 0, …`; a grading pinned only in
+  degrees `0` and `1` would allow any family in degrees `≥2`, for instance the whole algebra, and
+  "preserves the grading" would then hold for every isomorphism that is correct in degrees `0` and `1`;
 - the nondegenerate determinant pairing gives an explicit equivariant linear equivalence
   `V ≃ V∗` in dimension two; and
-- the Koszul complexes have explicit differentials, augmentation, exactness, and handedness.
+- the canonical Koszul complex of `Sym(V)⋊Γ` above is exact with surjective augmentation, and its
+  left-module form is identified with the owner's right-module Koszulity of the opposite algebra.
 
 Do not state an algebra equivalence between a quadratic algebra and its dual.  Consume the
 DGA/`A∞` bar, module and transfer APIs for derived Koszul functors.  Huerfano--Khovanov [HK01,
@@ -677,8 +735,8 @@ the actual graded restriction of φ below, not a new unconstrained grading funct
 
 Use Layer4's primitive matrix idempotents in S=ℂ[Γ]. Choose bases of the actual irreducibles
 adapted to these idempotents and construct their matrix units E^i_rs under the actual Wedderburn
-map. Thus e_i=E^i_11, e=Σ_i e_i and Σ_(i,r)E^i_r1 E^i_1r=1. Write p_(i,r)=E^i_r1 and
-q_(i,r)=E^i_1r. These elements have degree0. Their products q_j p_l lie in B=eAe. Set
+map. Thus e_i=E^i_(1,1), e=Σ_i e_i and Σ_(i,r)E^i_(r,1) E^i_(1,r)=1. Write p_(i,r)=E^i_(r,1) and
+q_(i,r)=E^i_(1,r). These elements have degree0. Their products q_j p_l lie in B=eAe. Set
 P=Ae and Q=eA with their literal outer actions. Multiplication gives the graded bimodule
 isomorphisms
 
@@ -1107,10 +1165,10 @@ This phase treats every finite subgroup of SU(2) and, through Layer0's specified
 Consume these precise lower contracts:
 
 - [NilpotentOrbits N6–N8](../NilpotentOrbits/README.md#n8-ade-surfaces-and-exceptional-intersection-lattices): the particular ADE hypersurfaces, explicit resolutions, completed subregular-slice comparisons, exceptional curves and their normal-bundle/local intersection API. This remains the surface-resolution owner.
-- [ReflectionInvariantTheory §1](../ReflectionInvariantTheory/README.md#1-finite-group-invariant-algebra-used-by-both-branches), [GroebnerGeometry G1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d21bc1c2f895047275495326f5f693e89f0e244c/TauCetiRoadmap/GroebnerGeometry/README.md#g1-ideals-normal-forms-and-elimination): the actual contragredient polynomial action, nonmodular Reynolds/Molien/Noether bounds and exact generator/kernel/normal-form certificates.
-- [SchemeAndStackFoundations §§1.17,4.14,5.1–5.3,5.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f36405c227a5c8d6bbb732036b37a391e3652ffc/TauCetiRoadmap/SchemeAndStackFoundations/README.md): generic quotients, projective Hilbert/Quot representability, cycles/proper-curve degree/Chern and coherent/perfect classes. The A²-open Γ-cluster locus, its universal ideals and concrete comparisons are consumer constructions here. No general nonaffine quotient or new Hilbert engine is commissioned.
+- [ReflectionInvariantTheory §1](../ReflectionInvariantTheory/README.md#1-finite-group-invariant-algebra-used-by-both-branches), [GroebnerGeometry G1](../GroebnerGeometry/README.md#g1-ideals-normal-forms-and-elimination): the actual contragredient polynomial action, nonmodular Reynolds/Molien/Noether bounds and exact generator/kernel/normal-form certificates.
+- [SchemeAndStackFoundations §§1.17,4.14,5.1–5.3,5.7](../SchemeAndStackFoundations/README.md): generic quotients, projective Hilbert/Quot representability, cycles/proper-curve degree/Chern and coherent/perfect classes. The A²-open Γ-cluster locus, its universal ideals and concrete comparisons are consumer constructions here. No general nonaffine quotient or new Hilbert engine is commissioned.
 - [AlgebraicVectorBundles L0](../AlgebraicVectorBundles/README.md#l0a--sheaves-of-modules): actual finite locally free sheaves, ranks, tensor/Hom, averaging images, pullback, determinants and affine finite-projective comparison. Consume native `TauCeti.AffineInvariantQuotient` and `RootPairing.GeckConstruction` directly.
-- [KacMoody KM0–1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6fed4a070d751d69c20282cf5e0c0ccc67e5cd88/TauCetiRoadmap/KacMoody/README.md): the separate full affine realization and central/degree/loop comparison, rather than applying a finite nondegenerate root construction to a singular matrix.
+- KacMoody KM0–KM1: the separate full affine realization and central/degree/loop comparison, rather than applying a finite nondegenerate root construction to a singular matrix.
 
 ### 7.0. Actual quotient and conjugation maps
 
