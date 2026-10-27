@@ -1,8 +1,4 @@
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Analysis.Calculus.FDeriv.Basic
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Analysis.Calculus.ContDiff.Operations
-import Mathlib.LinearAlgebra.CliffordAlgebra.SpinGroup
+import Mathlib
 import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.Real.ThreeOne
 
 /-!
@@ -32,12 +28,17 @@ structure LocalFunction (r : ℕ) where
 def truncate {r s : ℕ} (h : r ≤ s) (j : Jet s) : Jet r :=
   (j.1, WithLp.toLp 2 (fun i => j.2 (Fin.castLE (Nat.succ_le_succ h) i)))
 
+/-- The truncation `J^s → J^r` is smooth. -/
+private theorem contDiff_truncate {r s : ℕ} (h : r ≤ s) : ContDiff ℝ ∞ (truncate h) := by
+  refine contDiff_fst.prodMk ?_
+  rw [contDiff_piLp]
+  intro i
+  exact (contDiff_piLp_apply (p := 2) (i := Fin.castLE (Nat.succ_le_succ h) i)).comp contDiff_snd
+
 /-- Pullback along the jet truncation `J^s → J^r`. -/
 def pullback {r s : ℕ} (h : r ≤ s) (f : LocalFunction r) : LocalFunction s where
   toFun := f.toFun ∘ truncate h
-  smooth := by
-    -- Smoothness of composition with the continuous linear truncation map.
-    sorry
+  smooth := f.smooth.comp (contDiff_truncate h)
 
 abbrev Representative := Σ r : ℕ, LocalFunction r
 
@@ -59,8 +60,12 @@ def localFunctionSetoid : Setoid Representative where
       exact ⟨t, hg, hf, hfg.symm⟩
     trans := by
       intro f g k hfg hgk
-      -- Pull both equalities to max of their witness stages and compose.
-      sorry
+      rcases hfg with ⟨t₁, hf, hg₁, e₁⟩
+      rcases hgk with ⟨t₂, hg₂, hk, e₂⟩
+      refine ⟨max t₁ t₂, hf.trans (le_max_left _ _), hk.trans (le_max_right _ _), ?_⟩
+      have e₁' := congrArg (pullback (le_max_left t₁ t₂)) e₁
+      have e₂' := congrArg (pullback (le_max_right t₁ t₂)) e₂
+      exact e₁'.trans e₂'
   }
 
 def LocalObservable := Quotient localFunctionSetoid
@@ -71,8 +76,12 @@ def totalDerivative {r : ℕ} (f : LocalFunction r) : LocalFunction (r + 1) wher
     fderiv ℝ f.toFun (truncate (Nat.le_succ r) j)
       (1, WithLp.toLp 2 (fun i => j.2 (Fin.succ i)))
   smooth := by
-    -- The derivative of a smooth function, evaluated on the linear jet shift, is smooth.
-    sorry
+    refine ((f.smooth.fderiv_right (m := ∞) le_rfl).comp
+      (contDiff_truncate (Nat.le_succ r))).clm_apply ?_
+    refine contDiff_const.prodMk ?_
+    rw [contDiff_piLp]
+    intro i
+    exact (contDiff_piLp_apply (p := 2) (i := i.succ)).comp contDiff_snd
 
 def totalDerivativeRepresentative (f : Representative) : Representative :=
   ⟨f.1 + 1, totalDerivative f.2⟩
@@ -81,10 +90,7 @@ def totalDerivativeRepresentative (f : Representative) : Representative :=
 def jetPartial {r : ℕ} (f : LocalFunction r) (k : Fin (r + 1)) : LocalFunction r where
   toFun := fun z => fderiv ℝ f.toFun z
     (0, WithLp.toLp 2 (fun i => if i = k then 1 else 0))
-  smooth := by
-    -- Derivatives of a smooth map are smooth; evaluation on this fixed direction
-    -- preserves smoothness.
-    sorry
+  smooth := (f.smooth.fderiv_right (m := ∞) le_rfl).clm_apply contDiff_const
 
 /-- Iterated total derivative: the kth derivative of an order-r expression has
 order at most r+k. -/
@@ -116,9 +122,7 @@ def totalDerivativeOnColimit : LocalObservable → LocalObservable :=
 def eulerAllOrders {r : ℕ} (L : LocalFunction r) : LocalFunction (2 * r) where
   toFun := fun z => ∑ k : Fin (r + 1),
     (-1 : ℝ) ^ k.val * (eulerTerm L k).toFun z
-  smooth := by
-    -- Smoothness follows by iterating the stagewise total derivative and pullback.
-    sorry
+  smooth := ContDiff.sum fun k _ => contDiff_const.mul (eulerTerm L k).smooth
 
 end ScalarStage
 
