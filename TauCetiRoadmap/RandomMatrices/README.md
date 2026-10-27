@@ -56,8 +56,7 @@ Dependencies and ownership:
 - [Exchangeability](../Exchangeability/README.md) owns exchangeability and conditional-i.i.d.
   representation theory. Here sample-space extensions preserve a specified existing joint
   law and add independent randomness; no exchangeability or de Finetti theory is repeated.
-- The point-process roadmap ([feat: roadmap for point processes and random measures](https://github.com/TauCetiProject/TauCetiRoadmap/pull/417)),
-  Layers 0 through 6, owns configuration spaces `LocallyFiniteMeasure S` and `PointMeasure S`
+- PointProcesses, Layers 0 through 6, owns configuration spaces `LocallyFiniteMeasure S` and `PointMeasure S`
   on locally compact Polish `S` with the vague topology, laws of random measures and their
   determination by Laplace functionals, factorial moment measures and correlation functions
   relative to a named reference measure, restriction and pushforward, and weak convergence
@@ -76,8 +75,7 @@ Dependencies and ownership:
   Milestone 8 consumes these classes and builds on them the trace functional, integral-kernel
   representations, Fredholm determinants, restriction to windows and trace-norm continuity.
   No second generic trace-class carrier is introduced.
-- The stochastic-calculus roadmap ([Add stochastic calculus, Brownian motion and diffusion roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1030))
-  owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian integration,
+- StochasticCalculus owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian integration,
   continuous integral processes and localization (S3.2–S3.4), brackets (S4.1–S4.3), the
   `C²` Itô formula on open domains (S5.1), Lévy's characterization (S5.5), and strong,
   local and maximal solutions with Lyapunov nonexplosion (S9.1–S9.2). Milestone 10 consumes
@@ -149,7 +147,7 @@ laws, sub-Gaussian MGFs, and Brownian motion. Relevant entry points include:
 | Brownian motion | `Mathlib.Probability.BrownianMotion.Basic` |
 
 Brownian motion alone does not provide the Itô and SDE toolkit required by Milestone 10;
-that toolkit comes from the stochastic-calculus roadmap listed above. Existing moment
+that toolkit comes from StochasticCalculus, listed above. Existing moment
 determinacy alone does not prove convergence from moments; Milestone 3 builds that bridge.
 
 ## Milestone 0 — Probability arguments invariant under extension
@@ -220,7 +218,7 @@ the library must expose explicit, composable theorems.
   and `v = ∑ E Xᵢ²`; Bernstein's two-sided bound is
   `2 exp(-t²/(2(v+bt/3)))` for `t>0`. For bounded differences `cᵢ`, McDiarmid's bound is
   `2 exp(-2t²/∑cᵢ²)`; handle zero denominators by the almost-sure constant conclusion.
-  Mirror the sub-exponential MGF direction of [Mathlib PR #39165](https://github.com/leanprover-community/mathlib4/pull/39165),
+  Mirror the sub-exponential MGF interface proposed for Mathlib,
   retaining explicit exponential integrability wherever the adopted interface requires it.
 - Define logarithmic Sobolev and Poincaré inequalities for probability measures on finite
   Euclidean spaces, with convention `Ent_μ(f²) ≤ 2C ∫ ‖∇f‖² dμ`, where
@@ -272,7 +270,7 @@ the library must expose explicit, composable theorems.
   total-mass asymptotics, uniqueness and Stieltjes inversion. At endpoints of an interval
   include the half-atom terms. Prove `μ{a} = lim_{η↓0} η Im m_μ(a+iη)` and the density
   formula wherever the boundary limit is continuous. Use the finite expansion/remainder
-  direction of [Mathlib PR #43642](https://github.com/leanprover-community/mathlib4/pull/43642).
+  interface proposed for Mathlib.
 - Prove equivalence of weak convergence of probability measures on `ℝ` and transform
   convergence on the upper half-plane to the transform of a specified probability measure;
   include a countable determining set, the normal-family/compactness argument, and random
@@ -376,8 +374,8 @@ Dependencies: 0–3, StandardDistributions Layer 6, and compact-group Haar integ
   eigenvalue density by Schur change of variables, with the triangular-coordinate Jacobian.
 - Prove the HCIZ integral for Hermitian `A,B` and real `t`, including the continuous
   extensions at repeated eigenvalues and `t=0`:
-  `∫ exp(t tr(AUBU*)) dU = (∏_{j=1}^{n-1}j!) t^(-n(n-1)/2)
-  det[e^{taᵢbⱼ}]/(Δ(a)Δ(b))` when `t≠0` and both spectra are simple.
+  `∫ exp(t tr(AUBU*)) dU = c_n t^(-n(n-1)/2) det[exp(t aᵢ bⱼ)] / (Δ(a)Δ(b))`, where
+  `c_n = 1!·2!⋯(n-1)!` (so `c_1 = 1`), when `t≠0` and both spectra are simple.
   Set `Δ(a)=∏_{i<j}(aⱼ-aᵢ)`; prove a separate, nonsingular rank-one formula.
 
 ## Finite combinatorial prerequisite for Milestones 3, 4, and 6
@@ -490,11 +488,11 @@ Dependencies: 1–6. The regularity conditions here are part of the theorems.
 ## Milestone 8 — Point processes and Gaussian local statistics
 
 **Sources:** AGZ ch. 3, §4.2; T §2.6, §§3.3–3.4; PB ch. 6, §14.1.
-Dependencies: 1, 3, 5, the Hermite-function development, and the point-process roadmap.
+Dependencies: 1, 3, 5, the Hermite-function development, and PointProcesses.
 
 - Take configuration spaces, their vague topology and measurable structure, factorial moment
   measures, correlation functions relative to a reference measure, restriction, pushforward,
-  Laplace-functional uniqueness, and weak convergence of laws from the point-process roadmap
+  Laplace-functional uniqueness, and weak convergence of laws from PointProcesses
   (Layers 0 through 6), specialized to `S = ℝ` and `S = ℂ`. Here define the unnormalized
   eigenvalue point process `∑ᵢ δ_{λᵢ}` of a random Hermitian or complex matrix as a random
   element of `PointMeasure ℝ` or `PointMeasure ℂ`, prove its measurability, and relate it to
@@ -529,16 +527,15 @@ Dependencies: 1, 3, 5, the Hermite-function development, and the point-process r
   [Soshnikov, *Determinantal random point fields*](https://arxiv.org/abs/math/0002099)
   (§1, Lemmas 1–2 and (1.14)) and AGZ §4.2.2, are outside this constructor.
   For `f≥0` continuous with compact support prove the Laplace functional
-  `E exp(-∫f dN) = det(I-(1-e^{-f})K)` on `L²(supp f)`, from the point-process roadmap's
+  `E exp(-∫f dN) = det(I-(1-e^{-f})K)` on `L²(supp f)`, from PointProcesses'
   factorial expansion, applying the identities above to the continuous kernel
   `√φ(x)K(x,y)√φ(y)` with `φ = 1-e^{-f}`, and deduce uniqueness of the law from the
-  point-process roadmap's Laplace-functional determination. The exponential count moments
+  PointProcesses' Laplace-functional determination. The exponential count moments
   that expansion needs on each bounded window `W` come from Hadamard's bound
   `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)` for positive semidefinite kernels, which together with the
   Mercer trace identity gives `α_k(W^k) = ∫_{W^k} det[K(xᵢ,xⱼ)] ≤ (∫_W K(x,x) dμ)^k = (tr K_W)^k`.
-  Take Hadamard's bound from `hermitian_gram_hadamard` in the geometry-of-numbers roadmap
-  ([Geometry of numbers, quadratic forms and homogeneous arithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/pull/851),
-  §0.1.2) by realizing each finite kernel matrix as a Gram matrix. Prove
+  Take Hadamard's bound from `hermitian_gram_hadamard` of
+  [SuccessiveMinima](../SuccessiveMinima/README.md), Layer 0, target 0.1.2, by realizing each finite kernel matrix as a Gram matrix. Prove
   `P(N(B)=0)=det(I-K_B)` for relatively compact Borel `B`.
   Prove Bernoulli-sum representation of bounded-set counts and their CLT when variance
   diverges. Continuity, positive semidefiniteness and the contraction bound must be verified
@@ -549,7 +546,7 @@ Dependencies: 1, 3, 5, the Hermite-function development, and the point-process r
   passes to the pointwise limit; the contraction bound follows from Hilbert–Schmidt
   convergence on each bounded window), that the correlation functions `det[Kₙ(xᵢ,xⱼ)]`
   converge locally uniformly, and, using Hadamard's bound to dominate the Fredholm expansions,
-  that the processes converge in law in the point-process roadmap's weak topology on
+  that the processes converge in law in PointProcesses' weak topology on
   `PointMeasure ℝ`.
 - Prove Hermite bulk/turning-point asymptotics with uniform bounds strong enough to pass
   to correlation functions and gap probabilities. For GUE and `E∈(-2,2)`, scale points
@@ -609,11 +606,10 @@ Dependencies: 1, 3, 5, the Hermite-function development, and the point-process r
 
 ## Milestone 10 — Itô calculus and Dyson Brownian motion
 
-**Sources:** AGZ §4.3.1–4.3.2; T §3.1; PB chs. 8–9. Dependencies: 0–3, 5–6, and the
-stochastic-calculus roadmap.
+**Sources:** AGZ §4.3.1–4.3.2; T §3.1; PB chs. 8–9. Dependencies: 0–3, 5–6, and
+StochasticCalculus.
 
-- Consume the generic stochastic calculus from the stochastic-calculus roadmap
-  ([Add stochastic calculus, Brownian motion and diffusion roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1030)).
+- Consume the generic stochastic calculus from StochasticCalculus.
   Its supplier contracts are vector Brownian motion on a finite-dimensional real
   inner-product space with independent orthonormal coordinates and linear-isometry transport
   (S1.2–S1.3); the predictable `L²` Brownian integral with its isometry, continuous integral
@@ -631,8 +627,8 @@ stochastic-calculus roadmap.
   its predictable or progressive Brownian classes, localized at collision and exit times, with
   Hilbert–Schmidt norms for matrix noise. Brackets follow its normalization
   `[⟨u,W⟩,⟨v,W⟩]_t=⟨u,v⟩t` for standard Brownian motion `W` on an inner-product space.
-  Solutions use the finite-dimensional strong-solution predicate of S9.1, whose scalar
-  case is its `IsStrongSolution`, with state space `ℝⁿ`; singular Dyson coefficients are
+  Solutions use the finite-dimensional strong-solution notion of S9.1–S9.2, whose scalar
+  carrier is its `IsStrongSolution`, with state space `ℝⁿ`; singular Dyson coefficients are
   handled by globally locally Lipschitz truncations agreeing with them on
   `{x₁>⋯>xₙ, min_{i<j}(xᵢ-xⱼ) ≥ 1/k, ‖x‖ ≤ k}` and pasted by S9.2 up to the exit times.
 - Construct real symmetric (`β=1`) and complex Hermitian (`β=2`) matrix Brownian motion

@@ -1,11 +1,4 @@
-import Mathlib.Analysis.Matrix.Spectrum
-import Mathlib.Analysis.CStarAlgebra.Matrix
-import Mathlib.MeasureTheory.Measure.ResolventTransform
-import Mathlib.Combinatorics.Enumerative.Catalan.Basic
-import Mathlib.Probability.HasLawExists
-import Mathlib.Probability.IdentDistribIndep
-import Mathlib.Probability.Moments.SubGaussian
-import TauCeti.Probability.Moments.Determinacy
+import Mathlib
 import TauCeti.Probability.Process.EmpiricalMeasure
 
 /-!
@@ -20,7 +13,6 @@ These prototypes cover extension, spectral measures, resolvents, spectral pertur
 the semicircle distribution, and one representative real Wigner statement. The README
 also requires complex and triangular-array versions, sample covariances, and the other
 milestones. Prototype names live here only to avoid occupying implementation namespaces.
-Use existing Tau Ceti moment determinacy directly through the import above.
 -/
 
 noncomputable section
