@@ -84,6 +84,29 @@ representative interfaces rather than an exhaustive list.
 
 ## C1. Ideals, hereditary subalgebras, and multipliers
 
+**C1.MatrixOrderExamples.** In native `CStarMatrix (Fin 2) (Fin 2) ℂ`
+put `a=[[0,1],[1,0]]`, `q=(1/2)[[1,1],[1,1]]`, and b=diag(s,t),
+with real s,t≥0. Prove q=a⁺ under the native continuous functional calculus
+and q²=q. Compare the native matrix order with `Matrix.PosSemidef` and
+prove the full parameter regions: b≥a iff st≥1, while b≥q iff
+`s≥1/2`, `t≥1/2` and `(s−1/2)(t−1/2)≥1/4`.
+The diagonal-minor conditions are essential when completing squares;
+a product inequality alone does not authorize sqrt(s−1/2).
+Use (s,t)=(1/2,3) to prove b≥a≥−1 and b≥0 but b≱a⁺.
+Use (s,t)=(5/8,5) to prove b≥a⁺≥0 but b²≱(a⁺)².
+Prove the corresponding squared-matrix region by replacing s,t by s²,t²
+in all three minor conditions. Consume native `CFC.sqrt_le_sqrt` for
+operator monotonicity on positive elements: b≥a⁺ implies sqrt(b)≥sqrt(a⁺),
+so that requested square-root counterexample does not exist.
+For p=diag(1,0) and T=q, prove pTp≰T. More generally for every positive T
+and star projection p in a unital C*-algebra, prove `pTp≤T ↔ Commute p T`.
+Use positivity and the vanishing p-corner of T−pTp for the forward direction;
+for the reverse use `(1−p)T(1−p)≥0`. These results supply all six
+Preventive Medicine questions, including the noncommuting obstruction,
+and [MatrixOrderSuggested.lean](MatrixOrderSuggested.lean) gives native interfaces.
+Retain the source solution's strict/non-strict boundary wording and its
+insufficient square-root justification separately from these corrected regions.
+
 On C[0,1], prove the maximal ideal at0 is `{f:f(0)=0}` and is the
 closure of xC[0,1], where x(t)=t. Prove sqrt(x) belongs to the maximal
 ideal but not to xC[0,1], using the unbounded quotient1/sqrt(t).
@@ -174,6 +197,35 @@ to `closure(hAh)=A`, to positivity on every nonzero positive functional, and
 to the sequence `h(h+1/n)⁻¹` in the unitization being an approximate unit
 (n≥1). Prove every separable C*-algebra is σ-unital; do not assume the converse.
 
+**C1.AlgebraicLeftIdealApproximation.** For every complex left ideal L in A,
+including a nonclosed one, construct a positive contractive right approximate
+identity whose elements belong to L itself. Index by finite F⊆L and δ>0,
+ordered by enlarging F and decreasing δ. Put `b_F=Σ_(x∈F)x*x` and
+`e_(F,δ)=b_F(δ1+b_F)⁻¹`, calculated in the C*-unitization.
+Prove e_(F,δ)∈L by writing it as `(δ1+b_F)⁻¹b_F`; use the extended
+left unitization action on the complex left ideal, rather than closure of L.
+For x∈F prove `‖x−xe_(F,δ)‖²≤δ/4` using x*x≤b_F and
+`sup_(t≥0) δ²t/(δ+t)²≤δ/4`. Deduce convergence for every x∈L.
+For norm-separable L choose finite initial subsets of a countable dense set
+and δ→0 to obtain a sequence; include L=0. The right-ideal assertion follows
+by star. For closed two-sided ideals compare this construction with the native
+approximate unit and recover both left and right convergence. The independent
+δ index is retained even when the finite set has bounded cardinality.
+
+**C1.CompactOperatorIdeals.** For every nonzero complex Hilbert space H,
+prove K(H) is simple as a norm-closed two-sided-ideal algebra, by extracting
+a rank-one operator from any nonzero ideal and generating all finite ranks.
+For complex separable infinite-dimensional H prove the closed ideals of B(H)
+are exactly0, K(H) and B(H), and hence its nonzero unital Calkin algebra is
+simple. For a noncompact element of an ideal first pass to a noncompact
+self-adjoint part and then to a positive part. A spectral cutoff bounded away
+from0 lies in that ideal by multiplication with the bounded reciprocal on
+its support; do not claim successive square roots converge to the cutoff.
+Choose an isometry v with range in an infinite-dimensional cutoff range pH,
+so pv=v and v*pv=1. Preserve this order of the factors. Treat finite-dimensional
+H separately, when K(H)=B(H) and the quotient is zero; do not drop the
+separability hypothesis from the infinite-dimensional ideal-lattice theorem.
+
 Construct the Pedersen ideal as the smallest dense two-sided ideal, generated
 by positive functional-calculus elements whose functions vanish near zero.
 Prove density, heredity, positive generation, minimality, quotient functoriality,
@@ -194,6 +246,19 @@ nondegenerate representations and the concrete idealizer description. Compute
 M(C₀(X))=C_b(X) and M(K(H))=B(H), and identify the corresponding strict
 topologies on bounded sets (uniform convergence on compact subsets, and
 strong-star convergence, respectively).
+
+**C1.CommutativeMultiplierMorphisms.** For locally compact Hausdorff X,Y,
+prove that continuous maps h:X→Y correspond bijectively to nondegenerate
+complex star homomorphisms `C₀(Y)→M(C₀(X))=C_b(X)` by f↦f∘h.
+Nondegeneracy means the closed span of the products φ(C₀(Y))C₀(X) is C₀(X).
+Prove it using compact-support cutoffs on h(K) for compact K⊆X, and recover
+h from the nonzero evaluation characters of φ. Prove continuity of this
+recovered map, both inverse identities, identity maps and contravariant
+composition via the unique multiplier extension. The homomorphism lands in
+C₀(X) exactly when h is proper; prove this using compact level sets and
+cutoffs, including X or Y empty. Identify the strict topology on bounded
+multiplier families with compact-uniform convergence as above; no properness
+is required merely to land in C_b(X).
 
 ## C2. Irreducible representations, primitive ideals, and the bidual
 
@@ -228,6 +293,41 @@ the exact norm bound from the ε-bound by enlarging E to E+T(E) in the
 self-adjoint case, interpolating the compression there, and clipping the
 interpolant by continuous functional calculus. Handle general T by the
 self-adjoint 2×2 block operator and take its off-diagonal corner.
+
+**C2.CompactRepresentationModels.** For a nonzero irreducible π:A→B(H),
+prove that one nonzero compact in π(A) forces K(H)⊆π(A). If irreducible ρ
+has kerρ=kerπ, prove ρ and π unitarily equivalent, without a separability
+or global GCR hypothesis. Pass to A/kerπ, restrict to its essential ideal
+K(H), classify its nondegenerate representations as amplifications of the
+defining representation, and use unique multiplier extension and irreducibility
+to make the multiplicity one. Prove that a nonzero restriction of an
+irreducible representation to a closed ideal is nondegenerate and irreducible.
+Deduce that irreducible representations of an infinite-dimensional simple
+unital algebra have compact-free image. The case π(A)⊆K(H) then gives
+π(A)=K(H); a compressed self-adjoint pap need not itself be a projection.
+
+Identify pure states of K(H) explicitly with the complex projective space of H:
+`[ξ]↦(T↦⟪ξ,Tξ⟫)` for unit ξ. Prove surjectivity, equality exactly up to a
+unit scalar, and the homeomorphism from the quotient of the norm-topological
+unit sphere onto pure states with the relative weak-star topology.
+Use the rank-one projection onto a proposed limit ray for the inverse
+continuity, including nets and nonseparable H. The zero Hilbert space has
+no pure states or unit rays. For infinite-dimensional H classify the
+irreducibles of the C*-unitization of K(H) as the defining one and its
+scalar-quotient character. Its primitive space is `{0,K(H)}` with opens
+∅,{0},the whole space; in particular {0} is dense and K(H) is closed.
+
+**C2.PureStateQuotientAndBaire.** Prove that the surjection from pure states
+with their relative weak-star topology to Prim(A), ω↦ker(GNS ω), is continuous
+and open, hence induces exactly the hull–kernel quotient topology. Use the
+actual pure-state/GNS theorem and norm detection on ideals, rather than
+positing a map from every state to an extreme point. Include nonunital A and
+the empty pure/primitive spaces of A=0. For separable A prove Prim(A) is Baire.
+Give the needed metrizable convex-set lemma that extreme points of a compact
+metrizable convex set form a Gδ; for nonunital A apply it to the compact
+quasi-state space and remove0 to identify the norm-one pure part. This part
+is completely metrizable and hence Baire; transfer the Baire property by the
+open surjection. No Hausdorff or T₁ hypothesis is imposed on Prim(A).
 
 Identify the kernels of nonzero irreducible representations with the
 algebraic primitive ideals of BanachAlgebras A1. Use Kadison transitivity
@@ -291,6 +391,70 @@ this correspondence. Identify M(A) with the idealizer of A in A** and relate
 this realization to nondegenerate representations: bounded strict convergence
 implies strong-star convergence in every such representation, including
 the universal representation.
+
+**C2.MatrixFields — endpoint matrix algebras and their primitive spaces.**
+Use the native continuous-map algebra with values in
+`CStarMatrix (Fin 2) (Fin 2) ℂ`,
+with its operator norm. For each of the four closed star subalgebras
+`D=M₂(ℂ)`, `ℂe₁₁`, the diagonal algebra `ℂe₁₁⊕ℂe₂₂`, and `ℂI₂`,
+construct the closed nonunital star subalgebra
+`A_D={f∈C([0,1],M₂(ℂ)):f(0)∈D}`. Give evaluation maps, their
+surjectivity, kernels, quotient isomorphisms and quotient norm
+`‖f+ker(ev_x)‖=‖f(x)‖`. The fiber is M₂ for x>0 and D at zero.
+Scalar multiplication gives a nondegenerate central map
+`C([0,1])→Z(M(A_D))`; prove that its quotient fibers are exactly these
+evaluation fibers and their norm functions are continuous. This central
+multiplier action exists also for the nonunital corner-endpoint algebra.
+Compute the algebraic centers: they are scalar C([0,1]) for the full,
+diagonal and scalar endpoints, whereas
+`Z(A_(ℂe₁₁))={hI₂:h∈C([0,1]),h(0)=0}≅C₀((0,1])`.
+
+Classify all **closed** two-sided ideals and all nonzero irreducible
+representations, up to unitary equivalence. In the full, corner and scalar
+cases the ideals are exactly `I_K={f:f|_K=0}` for unique closed
+`K⊆[0,1]`. The irreducibles are evaluation on ℂ² for x>0 and evaluation
+on the defining irreducible D-module at zero; for full D use ℂ² there
+as well. Their kernels identify Prim(A_D) homeomorphically with [0,1].
+In the diagonal case, in addition to I_K for every closed K, there are,
+when 0 is isolated in K, exactly the two ideals
+`{f:f|_(K∖{0})=0,f(0)∈ℂe_jj}`, j=1,2. Prove uniqueness of this list
+and rule out other ideals. The endpoint irreducibles are the two coordinate
+characters. Label their kernels 0⁺ and 0⁻ by first and second coordinate,
+respectively. Prove
+`Prim(A_diagonal)=(0,1]∪{0⁺,0⁻}` with its doubled-endpoint topology:
+the positive part has its usual topology, and a neighborhood basis at each
+0± consists of `{0±}∪(0,ε)`, 0<ε≤1. In particular each endpoint is closed,
+they have no disjoint neighborhoods, and a subset of (0,1] has either
+endpoint in its closure exactly when it accumulates at zero. Prove the
+hull–kernel closure formulas giving these statements, rather than inferring
+the topology from the underlying set. Reflect the interval to give the
+same examples with the restriction at 1. The scalar and diagonal endpoint
+algebras have isomorphic centers but are not isomorphic: they have,
+respectively, one and two one-dimensional irreducible classes. Also show
+how their central fibers ℂ and ℂ² distinguish them under a hypothetical
+center isomorphism.
+
+For the compact subspace `X={0}∪{1/n:n≥1}⊆ℝ`, construct
+`B_X={f∈C(X,M₂):f(0) diagonal}`. Give the same closed-ideal and
+irreducible-evaluation classification, replacing the interval in the
+diagonal-endpoint formulas by X. Compute `Z(B_X)=C(X)I₂` and its quotient
+fibers. Its primitive space consists of the isolated points 1/n and two
+closed points 0±, each with a neighborhood basis consisting of that point
+and a cofinite tail of the sequence. Thus 1/n converges to both endpoints.
+This computation concerns the specified continuous-section algebra.
+Rieffel main p136 / archive 0210_026 p9 does not specify the block operator
+T needed for its proposed `C*(T)≅B_X`; retain that identification as an
+unresolved source claim. Point separation and generating an ideal in each
+fiber alone are not substituted for a surjectivity proof.
+
+Consume [HilbertModules H5.CommutativeFiberExample](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f19254877abe51037a5cab3ebeb35224e4f51976/TauCetiRoadmap/HilbertModules/README.md#h5-commutative-fiber-example)
+for the compact commutative pullback example, its exact fiber norm and
+continuous-field/open-map equivalence. That direct commutative layer precedes
+the general primitive-space criterion; it uses no C2 primitive classification.
+These are the concrete calculations for Rieffel main pp104–108,129–136
+and archive 0210_001 pp2–6 / 0210_026 pp2–9. Their source indexing,
+cutoff estimates and tentative identifications remain separate from the
+stated theorems.
 
 ## C3. Operator spaces and completely bounded maps
 
