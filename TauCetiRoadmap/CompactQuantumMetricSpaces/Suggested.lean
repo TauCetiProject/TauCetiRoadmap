@@ -2,30 +2,33 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.CStarAlgebra.PositiveLinearFunctional
-import Mathlib.Analysis.Normed.Module.WeakDual
-import Mathlib.Analysis.Normed.Module.Seminorm.Basic
-import Mathlib.Topology.MetricSpace.Lipschitz
-import Mathlib.Topology.ContinuousMap.Bounded.Basic
-import Mathlib.Topology.MetricSpace.GromovHausdorff
-import Mathlib.Analysis.Normed.Group.Seminorm
-import Mathlib.Algebra.Order.Monoid.Prod
+import Mathlib
 
 /-!
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive specification.
+# Compact quantum metric spaces: target signatures
+
+**This file is not the roadmap.** The roadmap is `README.md`; this file states
+headline theorems of the roadmap against the pinned Mathlib and Tau Ceti.
 The new order-unit and extended-seminorm conditions are actual equations.
 States are a subset of the native weak dual; positive maps use the native
 `PositiveContinuousLinearMap`. No new state carrier or finite-valued
 seminorm replaces the existing APIs. The finite-domain dictionary and
 closed-domain completion are mathematical targets, not implementations here.
+
+Not statable at the pins: the continuity of the quantum tori
+`Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance (Q6.5) and the
+identification `Φ_θ` of Q6.1. The first needs the Lip-norm `L_Θ` as an
+`ExtendedLipschitzSeminorm` on the self-adjoint part of the twisted regular
+algebra, whose density and kernel fields are themselves Q4–Q6 theorems; the
+second needs the rotation crossed product `A_θ`, which neither pinned library
+provides.
 -/
 
 noncomputable section
 open Set
 open scoped ENNReal NNReal Topology BoundedContinuousFunction
 
-namespace CompactQuantumMetricSpaces
+namespace TauCetiRoadmap.CompactQuantumMetricSpaces
 universe u v
 
 section OrderUnit
@@ -298,4 +301,4 @@ theorem actionLip_inv_le (ℓ : GroupNorm G) (α : G →* (A ≃⋆ₐ[ℂ] A)) 
       ENNReal.ofReal (‖(↑(a⁻¹) : A)‖ ^ 2) * actionLip ℓ α (a : A) := by
   sorry
 end Actions
-end CompactQuantumMetricSpaces
+end TauCetiRoadmap.CompactQuantumMetricSpaces
