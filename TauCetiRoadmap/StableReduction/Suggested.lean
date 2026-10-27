@@ -117,20 +117,20 @@ instance (M : Model R K C toK) : QuasiCompact M.toBase := M.quasiCompact
 abbrev IsProper (M : Model R K C toK) : Prop := AlgebraicGeometry.IsProper M.toBase
 
 @[ext]
-lemma Hom.ext {M N : Model R K C toK} {f g : Hom M N} (h : f.hom = g.hom) : f = g := by
+theorem Hom.ext {M N : Model R K C toK} {f g : Hom M N} (h : f.hom = g.hom) : f = g := by
   cases f
   cases g
   cases h
   rfl
 
 @[simp]
-lemma baseChangeHom_id (M : Model R K C toK) :
+theorem baseChangeHom_id (M : Model R K C toK) :
     baseChangeHom (R := R) (K := K) (𝟙 M.total) (by simp) = 𝟙 _ := by
   apply pullback.hom_ext
   · simp [baseChangeHom]
   · simp [baseChangeHom]
 
-lemma baseChangeHom_comp {M N P : Model R K C toK} (f : Hom M N) (g : Hom N P) :
+theorem baseChangeHom_comp {M N P : Model R K C toK} (f : Hom M N) (g : Hom N P) :
     baseChangeHom (R := R) (K := K) (f.hom ≫ g.hom) (by
       rw [Category.assoc, g.over_base, f.over_base]) =
       baseChangeHom (R := R) (K := K) f.hom f.over_base ≫
@@ -245,7 +245,7 @@ def principalDivisor (T : NumericalType) (i : T.Component) : T.Divisor :=
   fun j ↦ T.intersection i j / (T.weight j : ℤ)
 
 /-- Symmetry and weight divisibility make the coordinate division exact. -/
-lemma principalDivisor_mul_weight (T : NumericalType) (i j : T.Component) :
+theorem principalDivisor_mul_weight (T : NumericalType) (i j : T.Component) :
     T.principalDivisor i j * (T.weight j : ℤ) = T.intersection i j := by
   apply Int.ediv_mul_cancel
   rw [T.intersection_symm i j]

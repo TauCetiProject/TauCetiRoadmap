@@ -177,7 +177,7 @@ hypotheses.
   forgetting.
 - **All characteristics.** Prime-to-residue-characteristic torsion is chosen inside the
   proof. Characteristic zero, perfect residue fields, and semistable reduction of the
-  Jacobian may yield later corollaries, but are not hypotheses of the main theorem.
+  Jacobian are not hypotheses of the main theorem.
 
 ## Inventory: what Mathlib and Tau Ceti already give us
 
@@ -204,7 +204,7 @@ checkout and this roadmap repository, `05ae0103f49b1ad1248f6039bbbad43d8aeb52a9`
   morphisms under `Mathlib/AlgebraicGeometry/Geometrically/`.
 - **Valuative criterion:** `AlgebraicGeometry.ValuativeCommSq`,
   `ValuativeCriterion.Existence`, `ValuativeCriterion.Uniqueness`, and
-  `IsProper.eq_valuativeCriterion` in `Mathlib/AlgebraicGeometry/ValuativeCriterion.lean`.
+  `AlgebraicGeometry.IsProper.eq_valuativeCriterion` in `Mathlib/AlgebraicGeometry/ValuativeCriterion.lean`.
   The file explicitly leaves reduction from arbitrary valuation rings to DVRs over a
   Noetherian base as future work; build that connection rather than assuming it.
 - **Valuation and DVR algebra:** `ValuationRing`, `IsDiscreteValuationRing`, fraction rings,
@@ -561,7 +561,7 @@ arbitrary prestable families. Follow the scheme construction of Knudsen II, §1.
 - Prove genus-one nodal reduction after finite separable extension. The minimal regular model
   has special fibre either a smooth genus-one curve or a cycle of rational curves.
 - Prove genus-`g ≥ 2` nodal reduction by Layers 5–6. Retain the exact uniform bound from
-  [Stacks Theorem 55.18.1](https://stacks.math.columbia.edu/tag/0CDM): if `ℓ' < ℓ` are the
+  [Stacks Theorem 55.18.1](https://stacks.math.columbia.edu/tag/0CDN): if `ℓ' < ℓ` are the
   first two primes greater than `768g`, there is a finite separable extension of degree at
   most `B_g = (2g - 2)(ℓ^(2g))!`.
 - State both useful forms: a chosen DVR `R'` above `R`, and simultaneous at-worst-nodal models
@@ -570,9 +570,18 @@ arbitrary prestable families. Follow the scheme construction of Knudsen II, §1.
   `K'`-rational, which depends only on `K'` and hence holds at every place above `R`, rather
   than claiming it follows directly from the theorem statement. Prove compatibility with
   further finite base extension.
-- Separate the theorem from its stronger Jacobian criterion. The equivalence between
-  semistable reduction of a curve and its Jacobian under additional residue-field
-  hypotheses is a later theorem in this layer, not a premise smuggled into the main proof.
+- The proof above uses the Jacobian only through the `ℓ`-torsion of `Pic⁰` supplied by
+  contracts J-D and J-E; no notion of reduction of an abelian variety enters. The
+  Deligne–Mumford criterion comparing nodal reduction of `C` with semistable reduction of
+  its Jacobian (Deligne–Mumford, Theorem 2.4; see also
+  [Stacks Remark 55.18.2](https://stacks.math.columbia.edu/tag/0CEK)) is not a target of
+  this roadmap. Its statement needs the semistable-reduction predicate for abelian
+  varieties over a DVR, and its proof needs Néron models and the identification of the
+  Néron identity component with the Picard identity component of a regular semistable
+  model, in the forward direction, and descent of a stable model over the fixed DVR, in the
+  converse direction. Those notions are built on Layers 4–7 here, so the criterion belongs
+  to the roadmap that owns Néron models of abelian varieties, after its Picard–Néron
+  comparison.
 
 ### Layer 8: canonical contraction and unpointed stable reduction
 
@@ -882,7 +891,7 @@ needed to state that work without placeholders.
   [*Degenerate fibres and stable reduction of curves*](https://doi.org/10.1016/0040-9383(71)90028-0),
   Topology 10 (1971), 373–383.
 - F. F. Knudsen,
-  [*The projectivity of the moduli space of stable curves, II: The stacks M_{g,n}*](https://doi.org/10.7146/math.scand.a-12001),
+  [*The projectivity of the moduli space of stable curves, II: The stacks M_g,n*](https://doi.org/10.7146/math.scand.a-12001),
   Math. Scand. 52 (1983), 161–199, especially §1 for the single-marking contraction, and
   for the pointed stabilization and clutching constructions.
 - K. Behrend and Yu. Manin,
