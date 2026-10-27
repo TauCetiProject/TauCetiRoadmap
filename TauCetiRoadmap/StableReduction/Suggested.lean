@@ -30,6 +30,10 @@ noncomputable section
 
 open AlgebraicGeometry
 
+/- Mathlib's valuative criterion for properness of morphisms of schemes, the scheme-level
+statement that the README's valuative interface is packaged against. -/
+#check @AlgebraicGeometry.IsProper.eq_valuativeCriterion
+
 private abbrev genericPointMap (R K : Type u) [CommRing R] [Field K] [Algebra R K] :
     Spec (.of K) ⟶ Spec (.of R) :=
   Spec.map (CommRingCat.ofHom (algebraMap R K))
