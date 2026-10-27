@@ -1,14 +1,4 @@
-import Mathlib.Geometry.Manifold.Bordism
-import Mathlib.Topology.VectorBundle.Constructions
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.LinearAlgebra.Projectivization.Basic
-import Mathlib.Algebra.Homology.SpectralSequence.Basic
-import Mathlib.Algebra.Category.ModuleCat.Abelian
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Algebra.Field.ZMod
-import Mathlib.LinearAlgebra.QuadraticForm.Basic
-import Mathlib.LinearAlgebra.BilinearForm.Properties
-import Mathlib.Algebra.CharP.Two
+import Mathlib
 import TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis
 
 /-!
@@ -23,6 +13,12 @@ open scoped ContDiff Manifold
 namespace TauCetiRoadmap.TangentialBordism
 
 section FiniteQuadraticArf
+
+/- Under `import Mathlib`, `AddCommGroup (ZMod 2)` is first found through
+`[IsSimpleAddGroup G] [AddGroup.IsNilpotent G]` (Mathlib GroupTheory/Nilpotent.lean),
+whose additive monoid is not syntactically the one in `Module (ZMod 2) (ZMod 2)`;
+the ring path is preferred locally. -/
+attribute [local instance 2000] Ring.toAddCommGroup
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
 

@@ -32,7 +32,6 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, stable category/HA, arbitrary-CW comparison, finite duality, compatible universal bundle diagrams, MO/MSO/MSpin and quaternionic smooth carriers | geometric cycles/PT, coefficient rings and transfer/kernel calculations are here |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T2.5/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6 | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
 | [SpinGeometry](../SpinGeometry/README.md), G4, G5.0, G6.0 | Spin lifts and H1 torsors, circle/surface refinements; G5.0's `realCliffordSpinorBundle` P×_Spin(n)Cl(0,n) with its negative tangent and positive external Clifford actions and signed grading; G6.0's `realSpinDiracClosedRealization` on the H1 domain, `realSpinLichnerowiczFormula` and `realSpinDiracIndexClass` in KO_n through GeneralizedCohomology G5.5's `realMixedCliffordIndexClassification` | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
-| [HomotopySpheres, finite and stable Stage5](../HomotopySpheres/README.md#stage-5-stable-framings-and-pontryagin--thom) and the finite-rank interface specified in B5.2 | convenient pointed spaces, stable framed PT and framing-change/product laws; the separate honest-rank construction below | B5 builds general normal structures and the structured finite/stable carrier comparisons; the single finite framed theorem remains with HomotopySpheres |
 | [FourManifolds](../FourManifolds/README.md), early example constructions | F7.0 quarticKThree carrier/characteristic calculation and ellipticEOneFiberComplement, E(1) minus a regular elliptic fibre with its actual Lie-spin T3 boundary | these examples precede bordism consequences; later Four Wu/Rokhlin applications consume B3/B4 |
 | [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2 constructs the finite-F2 Arf invariant used by surface and Seifert refinements |
 | [StringOrientation S1](../StringOrientation/README.md) | normalized λ on the stable Spin classifier, BString mapping-path fibre, relative lifts and H3 torsor | only this early obstruction/lift lane precedes B3.8; String bordism and TMF/genus calculations follow this roadmap |
@@ -753,8 +752,8 @@ and KO kernel interfaces below.
    0-manifold in R0 has at most one point. Type π_(n+k) only with its
    actual low-dimensional/component convention. Give every finite-stage
    inclusion, suspension map, stable-range comparison and diagram.
-   Require HomotopySpheres to construct its separate finite-rank interface
-   before this specialization: for r≥1 and d≥0, compact closed smooth
+   Construct here the finite-rank framed interface used by this
+   specialization: for r≥1 and d≥0, compact closed smooth
    d-submanifolds of a marked S^(d+r), missing infinity and equipped with
    ordered normal rank-r frames, modulo actual collared rank-r embedded
    bordisms missing the marked axis, correspond to based sphere-map classes.
@@ -762,17 +761,17 @@ and KO kernel interfaces below.
    naturality, pinch addition and the domain-reflection inverse, with frames
    transported by its derivative. It has no stable Bott, stable J or
    Freudenthal premise; r=0 remains a separate finite based-set carrier.
-   This is the single HS finite framed construction consumed here, not a
-   conclusion supplied by its stable PT theorem or a second TB engine.
+   It is proved from the general ξ construction of this item with B_r a
+   point, not derived from the stable PT theorem.
 
    In the specialization ξ_r equal to the trivial rank-r bundle over a
-   point, consume HS Stage5.0's single honest-rank unstable framed
-   Pontryagin–Thom theorem. Construct the actual carrier dictionary:
+   point, use that honest-rank unstable framed Pontryagin–Thom
+   theorem. Construct the actual carrier dictionary:
    a classifier lift to a point and the chosen pullback isomorphism
    ν_M≃R^r are exactly an ordered normal frame; compare this dictionary
    on neat embedded bordisms, isotopies and structure homotopies, with
    the punctured marked sphere/Euclidean ambient conventions fixed.
-   For r≥1 and d≥0 transport HS Stage5.0's bijection to
+   For r≥1 and d≥0 transport that bijection to
    π_(d+r)(S^r), including the empty cycle, both inverse witnesses,
    pinch/compression addition and its actual low-degree group laws.
    Compare the unmarked and marked presentations by the actual
@@ -782,10 +781,8 @@ and KO kernel interfaces below.
    and collared homotopies through these carrier isomorphisms; no claim
    that an arbitrary trace already misses the chosen axis is used.
    Keep r=0's finite carrier and component conventions separate.
-   This specialization does not re-own the generic framed-sphere
-   theorem: HS Stage5.0 owns its finite-rank construction, DGFloer1.5
-   consumes it for general closed-ambient collapse, and this B5 owns
-   the ξ-structured carrier comparison and its general finite/stable
+   This B5 owns the finite-rank framed-sphere construction, the
+   ξ-structured carrier comparison and its general finite/stable
    extension. Compare finite suspension with the stable PT map only
    after the finite comparison, using the fixed sphere/disk, normal/
    tangent, ordered target-frame and boundary conventions.
@@ -937,8 +934,8 @@ and KO kernel interfaces below.
    MSO_0(X), while X→pt sums the coordinates. Include the relative
    endpoint boundary test and the labelled four-point finite coefficient
    test; neither its labels nor the map to X may be discarded.
-5. Compare the stable framed special case with HomotopySpheres' stable PT
-   and augmentation, and compare the finite unstable framed embedded
+5. Identify the stable framed special case (B a point, ξ trivial) of
+   item4 with the stable framed PT map and its augmentation, and compare the finite unstable framed embedded
    specialization of item2 with that stabilization. Compare the
    fundamental-class maps of B2 with the actual Thom-to-HA spectral maps.
    Pin the positive interval boundary [1]−[0] and G's increasing left
