@@ -32,7 +32,17 @@ spectral action with its excursion operators and integral spectral centre, and t
 local Shimura towers with their compactly supported cohomology and Hecke realization for
 arbitrary `(G,b,μ)`. These four AG2.6 sections form a self-contained prefix in the
 dependency order: they use only the suppliers just named and no automorphic, Galois or Igusa target of this roadmap, so a
-roadmap needing these objects on this domain imports these carriers. The AHTW Igusa
+roadmap needing these objects on this domain imports these carriers. The citable sections
+are [the global Hecke stacks](#hecke-modification-stacks) (`Hck^I_G` with `p₁`, `p₂`, unit,
+leg repetition, completion and bounded pieces), [the Hecke functor](#hecke-functor)
+(`T_V:D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)` with its Weil structure and minuscule shift
+`d_μ=⟨2ρ,μ⟩`), [the geometric spectral action](#geometric-spectral-action) (excursions and
+the integral centre for `O_L` with `ℓ∤|π₀Z(G)|`) and [the minuscule local Shimura
+tower](#local-shimura-tower) (modifications from `E_b` to the trivial bundle, `RΓ_c` and its
+Hecke realization). Solid or enhanced coefficient versions and nonminuscule or
+non-basic-target towers are refinements stated on these carriers. The algebraic
+parameter stacks, finite-wild levels and excursion algebra stay with LanglandsParameterStacks
+LP1 and LP4 and SmoothRepresentationsOfLocalGroups SR.6. The AHTW Igusa
 compactification, Newton filtration, local–classical comparison and annihilator arguments
 follow them. The particular families and
 compactifications belong to AG2.3–AG2.4. SmallRamificationAndAbelianVarietyBaseCases owns
@@ -1681,7 +1691,7 @@ For `M≥1` and any lower bound `r`, multiplication/division by the lifted Hasse
 
 Throughout this target, integral `E_ρ` lattice and HLTT ordinary minimal model; ample `ω` and the lifted Hasse section; all relevant level/action normalizations.
 
-*Needs:* AG2.4: HLTT ordinary boundary geometry; AG2.4: HLTT models and coefficients; AG2.4: HLTT compactifications.
+*Needs:* AG2.4: HLTT ordinary boundary geometry.
 
 (Sources: HLTT, Lemma 6.1 and proof, pp. 192–195.)
 
@@ -1721,7 +1731,7 @@ At each fixed Kuga slope bound `b`, the logarithmic de Rham cohomology of the or
 
 Throughout this target, actual algebraic representations `ρ_{m,s}^{i,j}`, coefficient trace factor and finite filtrations; the higher coherent cohomology vanishing on the ordinary affine locus.
 
-*Needs:* AG2.4: Dagger cohomology with boundary support; AG2.4: Frobenius/trace normalization; AG2.4: Finite slope cusp sections on the ordinary tube; AG2.4: continuous ordinary Hecke determinant limit; AG2.4: HLTT models and coefficients.
+*Needs:* AG2.4: Dagger cohomology with boundary support; AG2.4: Frobenius/trace normalization; AG2.4: Finite slope cusp sections on the ordinary tube; AG2.4: continuous ordinary Hecke determinant limit; AG2.4: HLTT ordinary boundary geometry.
 
 (Sources: HLTT, Proposition 6.15, Corollary 6.17 and Corollaries 6.18, 6.23, pp. 215–220.)
 
@@ -1824,11 +1834,11 @@ Caraiani-p-published, p.1598.)
 
 ### Varma’s semisimplified comparison and monodromy bound
 
-For `E` totally real or CM and regular algebraic cuspidal `π` on `GL_n(A_E)`, the constructed `r_{p,ι}(π)` satisfies `WD(r|_{G_{E_v}})^ss≅ι^−1rec(π_v|det|^{(1−n)/2})^ss` for every `v∤p`, and `WD(r|_{G_{E_v}})^{F-ss}≺ι^−1rec(π_v|det|^{(1−n)/2})`. Extract the local bound from the varying-twist `2n` family and then remove the split-place and auxiliary-CM restrictions by the source extension/descent argument. The comparison retains no asserted equality of monodromy for arbitrary nonselfdual `π`.
+For `E` totally real or CM and regular algebraic cuspidal `π` on `GL_n(A_E)`, the constructed `r_{p,ι}(π)` satisfies `WD(r|_{G_{E_v}})^ss≅ι^−1rec(π_v|det|^{(1−n)/2})^ss` for every `v∤p`, and `WD(r|_{G_{E_v}})^{F-ss}≺ι^−1rec(π_v|det|^{(1−n)/2})`. This is the final assembly: the split-place Weil trace identity and monodromy bound for the varying-twist `2n` family are the AG2.5 targets Local Weil traces through the HLTT congruences and Monodromy bounds through exterior trace identities; HLTT factor separation passes them to the rank-`n` factor; then remove the split-place and auxiliary-CM restrictions by the source extension/descent argument. The comparison retains no asserted equality of monodromy for arbitrary nonselfdual `π`.
 
 Throughout this target, regular algebraic cuspidal; every `v∤p`; the source parameter convention and the full isotypic dominance relation.
 
-*Needs:* AG2.4: HLTT existence; AG2.5: Varma monodromy bound; AG2.4: HLTT factor separation; AG2.3: effective patching; AG2.5: local normalization comparison.
+*Needs:* AG2.4: HLTT existence over arbitrary CM and totally real fields; AG2.4: Separating the two HLTT rank-`n` factors; AG2.5: The monodromy dominance interface; AG2.5: Integral Bernstein operators on the ordinary family; AG2.5: Local Weil traces through the HLTT congruences; AG2.5: Monodromy bounds through exterior trace identities; AG2.2: Attachment under cuspidal solvable base change; AG2.3: Effective Galois patching for automorphic base changes; AG2.5: Comparison of the early polynomial with normalized local Langlands.
 
 (Sources: Varma, Theorem (1), p. 1; Proposition 8.1 and proof, pp. 18–19; Proposition 9.1 and proof, pp. 20–26; Theorem 10.2 and Corollary 10.3, §10, pp. 26–27.)
 
@@ -2152,7 +2162,7 @@ finite restriction includes the newly ramified places in the exceptional set.
   clause by itself cannot establish Weak.
 
 *Needs:* SmallRamificationAndAbelianVarietyBaseCases §5.0d;
-AG2.P: compatibility predicates;
+AG2.P: Arbitrary-rank compatible data and operations;
 AG2.P: finite-coefficient periods.
 
 (Sources: ACC+, §7.1, pp.1084–1086.)
@@ -2476,6 +2486,8 @@ Definition II.1.19, p.56.)
 analytic quotient and marked untilt divisors; FarguesFontaineDiamonds F0–F4, fixed-field
 comparison; AdicSpaces Layers 0–6; PerfectoidSpaces P1–P2; DiamondsAndVStacks D2–D4.
 
+<a id="hecke-modification-stacks"></a>
+
 ### Bundle strata, lisse categories and the geometric Hecke action
 
 For the preceding local `K` and any connected reductive `G/K`, the v-stack `BunG` of
@@ -2500,10 +2512,21 @@ GS0–GS4's, including its normalized Satake equivalence and perfect-complex Sat
 functor. Construct the finite-leg global `HeckeModification` stacks over
 `BunG×(Div¹_K)^I`, with source and target maps, unit, leg-repetition maps and completion
 to GS0's local modification spaces, and identify their bounded pieces with GS0's
-Schubert-bounded loci.
+Schubert-bounded loci. For a finite set `I` and `S∈Perf_{𝔽_q}`, `Hck^I_G(S)` is the groupoid of
+`((D_i)_{i∈I},E₁,E₂,α)` with `D_i` degree-one divisors and `α:E₁≅E₂` off `⋃D_i`, meromorphic
+along `ΣD_i`. The source map is `p₁:Hck^I_G→BunG`, `p₁=E₁`, and the target map is
+`p₂:Hck^I_G→BunG×(Div¹_K)^I`, `p₂=(E₂,(D_i))`. The unit `e:BunG×(Div¹_K)^I→Hck^I_G` inserts
+`α=id`, so `p₂∘e=id` and `p₁∘e=pr`. For `a:I→J` the leg-repetition map `ι_a` restricts along
+the diagonal `Δ_a`, completion `loc` passes to the local Hecke stack, the bounded pieces are
+`Hck^I_{G,≤μ•}`, and `p₁` identifies `Hck^∅_G` with `BunG`.
 
+<a id="hecke-functor"></a>
 Construct `HeckeFunctor` on `DLisBunG`, using the normalized ULA Satake kernels and
-the supplied six operations. Prove preservation of compact and ULA objects, duality,
+the supplied six operations. For `V∈Rep_Λ((Ĝ⋊Q)^I)` with Satake kernel `S_V` on `Hck^I_G` it is
+`T_V(A)=p₂♮(p₁*A⊗S_V)`, a functor `D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)` that is monoidal in `V`.
+It is not an endofunctor for nonempty `I`. Its values are lisse after pullback to
+`BunG×Spd C`, which makes them `W_K^I`-equivariant objects of `D_lis(BunG,Λ)`. Here `Λ` is a
+`ℤ_ℓ[√q]`-algebra and `ℓ≠p`. Prove preservation of compact and ULA objects, duality,
 the two adjunctions, fusion, coalescence and coherent Weil actions for every finite
 set of legs. Compare solid `♮` with torsion étale `!` on these ULA kernels. For a
 minuscule `μ` and algebraically closed complete `C/K`, identify the underlying
@@ -2513,7 +2536,8 @@ are owned here; the Igusa/Newton comparison below is their automorphic applicati
 (Source: Fargues–Scholze, Definition III.0.1 and
 Theorem III.0.2, pp.87–88; Chapters III–V, especially Proposition V.2.2;
 §§VI.9–VI.12, pp.226–244; §§VII.3, VII.6–VII.7, pp.257–274;
-Theorem IX.0.1 and Corollary IX.2.4, pp.317–318, 324.)
+Theorem IX.0.1, pp.317–318, and §IX.2, Proposition IX.2.1, Theorem IX.2.2 and
+Corollary IX.2.4, pp.321–324.)
 
 **Checks.**
 
@@ -2521,8 +2545,11 @@ Theorem IX.0.1 and Corollary IX.2.4, pp.317–318, 324.)
   a degree-one modification leaves the neutral stratum.
 - The minuscule `PGL₂` fibre `ℙ¹` has cohomology `Λ⊕Λ(−1)`; omitting the Tate twist
   changes the Weil normalization of Satake.
-- The tensor unit gives the identity transform. Three-leg fusion is associative,
-  and exchanging odd components retains the parity sign.
+- For every finite `I`, the unit kernel gives `T_𝟙(A)≅pr*A` for
+  `pr:BunG×(Div¹_K)^I→BunG`, with trivial `W_K^I`-action. Only for `I=∅`, where
+  `(Div¹_K)^∅` is a point, is this the identity functor. For `G=1` and `I={∗}` the transform
+  goes from sheaves on a point to sheaves on `Div¹_K`, so it is no endofunctor.
+- Three-leg fusion is associative, and exchanging odd components retains the parity sign.
 - Infinitely many nonzero Newton restrictions do not give a compact object merely
   because each individual restriction is compact. Nonbasic strata are retained.
 
@@ -2532,6 +2559,8 @@ DiamondEtaleCohomology C2–C5; DiamondSixOperations S1–S4;
 AdicCoefficientsAndComparisons L0; EnhancedDerivedSheaves E0 and E5;
 ReductiveGroups Layers 0–3; ReductiveGroupsPartII RG2.5;
 SmoothRepresentationsOfLocalGroups SR.0 and SR.0d.
+
+<a id="geometric-spectral-action"></a>
 
 ### The parameter stack and geometric spectral action
 
@@ -2563,7 +2592,12 @@ Prove coefficient/restriction naturality, including derived reduction to local A
 over `ℤ_ℓ[√q]`, construct the semisimple parameter of a Schur-irreducible object
 directly from excursions and prove its characterization, including without the
 integral prime restriction. The algebraic excursion carrier
-remains that of SR.6.3; this target supplies its geometric action.
+remains that of SR.6.3; this target supplies its geometric action. Its interface is the
+action on `D_lis(BunG,Λ)` for `Λ=O_L` with `ℓ∤|π₀Z(G)|`, or for a characteristic-zero
+coefficient field, compatible with `T_V` through the universal representation bundles of
+LP4; the map from `Z_spec(G,Λ)` to the centre; the excursion operators at every finite wild level;
+and the restrictions `Ψ_G^b`. Igusa, torsion and local-shtuka applications restrict this
+action and this centre; they do not construct another integral spectral centre.
 (Source: Fargues–Scholze, Theorems VIII.1.3 and VIII.5.1,
 pp.278–281, 293–315; Theorem IX.0.1, Corollary IX.0.3 and Definition IX.0.4,
 pp.317–319; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.340–350.)
@@ -2582,6 +2616,8 @@ pp.317–319; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.340–350.)
 LanglandsParameterStacks LP1.7–LP1.8 and LP4.1–LP4.3;
 SmoothRepresentationsOfLocalGroups SR.6.1–SR.6.3; SchemeAndStackFoundations, quotient stacks;
 EnhancedDerivedSheaves E5; ReductiveGroupsPartII RG2.5; ClassFieldTheory Layer 9.
+
+<a id="local-shimura-tower"></a>
 
 ### Minuscule local Shimura spaces and their Hecke realization
 
@@ -3102,7 +3138,7 @@ The required API is:
 - `compatibleSystem_member`: The `λ`-member after scalar extension along a chosen map inducing `e=ι⁻¹|M_π` is `r_{π,ℓ,ι}`, up to linear isomorphism.
 - `compatibleSystem_goodPolynomial`: At `v` outside `S_π`, the common polynomial is `P_v(X)`.
 - `compatibleSystem_hodgeTate`: The labelled multiset is `{a_{τ,i}+n−i}`, including multiplicities.
-- `compatibleSystem_weak`: `R_π` satisfies the AG2.6 weak predicate, with explicit normalization conversion.
+- `compatibleSystem_weak`: `R_π` satisfies the AG2.P `Weak` predicate, with explicit normalization conversion.
 - `compatibleSystem_embedding`: If `ι₁⁻¹|M_π=ι₂⁻¹|M_π`, the members are linearly isomorphic.
   If `e₁` and `e₂` merely induce the same `λ`, choose `σ∈Gal(ℚ̄_ℓ/ℚ_ℓ)` with `e₂=σe₁`;
   the second member is linearly isomorphic to `σ` applied to the first, giving a `σ-semilinear`
@@ -3123,7 +3159,7 @@ The required API is:
 
 - A weak instance with only good-place polynomials cannot supply an equality of monodromy at an unspecified bad place.
 
-*Needs:* AG2.0: good-place attachment; AG2.0: integral Frobenius polynomial; AG2.0: Hodge multiset; AG2.0: Rationality of the good Hecke polynomials; AG2.6: embedding independence; AG2.6: Nonselfdual spherical and Iwahori admissibility; AG2.6: Totally real polarized coefficient-prime descent; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
+*Needs:* AG2.0: good-place attachment; AG2.0: integral Frobenius polynomial; AG2.0: Hodge multiset; AG2.0: Rationality of the good Hecke polynomials; AG2.6: embedding independence; AG2.6: Nonselfdual spherical and Iwahori admissibility; AG2.6: Totally real polarized coefficient-prime descent; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: Arbitrary-rank compatible data and operations.
 
 (Sources: ACC+, §7.1, pp.1093–1094; AHTW, Theorem 1.2.1, pp.5–6.)
 
@@ -3178,7 +3214,7 @@ The target `polarizedSystemPurity` has the following hypotheses and conclusion.
 
 For a regular algebraic polarized cuspidal `(π,χ)` with `a_{τ,i}+a_{τc,n+1−i}=w, R_π` is pure and BLGGT-strictly pure of weight `W=w+n−1`. Its polarization is `r_λ^c≅r_λ^∨⊗μ_λ, μ_λ=ε_ℓ^{1−n}r_{χ,λ}`; the `χ`-system has purity weight `2w`. Total oddness uses `μ_λ(c_v)=(−1)^{n−1+w}χ_v(−1)`, so the required sign is `χ_v(−1)=(−1)^{n+w}`. BLGGT strict purity describes pure common WD parameters away from the coefficient prime; all-place strict compatibility needs the separately proved coefficient-prime theorem, not a change of definition, and for `n≥2` carries its hypothesis `ExtremelyRegularIrreducibility n`.
 
-*Needs:* AG2.6: automorphic compatible system; AG2.6: full polarized comparison; ArithmeticGaloisRepresentations §7.4; AG2.0: multiplier parity; AG2.5: full away-prime comparison; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
+*Needs:* AG2.6: automorphic compatible system; AG2.6: full polarized comparison; ArithmeticGaloisRepresentations §7.4; AG2.0: multiplier parity; AG2.5: full away-prime comparison; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: Arbitrary-rank compatible data and operations.
 
 (Sources: BLGGT, Theorem 2.1.1(1)–(2), pp.33–34; §5.1 pp.62–65.)
 
@@ -3186,9 +3222,9 @@ For a regular algebraic polarized cuspidal `(π,χ)` with `a_{τ,i}+a_{τc,n+1�
 
 The target `veryWeakCompatibilityUnderDGI` has the following hypotheses and conclusion.
 
-The weak compatibility proved for the constructed `R_π` implies very weak compatibility through AG2.6’s weakening map on the same data. This gives, in particular, the conclusions of ACC+ Lemmas 7.1.9–7.1.10. Lemma 7.1.9 originally assumes a density-one set of rational `ℓ` for which every residual member is absolutely irreducible and decomposed generic; Lemma 7.1.10 proves very weak compatibility in rank two through its constituent/image arguments. That Fontaine–Laffaille/degree-shifting proof is an arithmetic consumer in PA.1; it is not an input to the all-CM construction here. None of these statements gives residual irreducibility at every coefficient place.
+The weak compatibility proved for the constructed `R_π` implies very weak compatibility by the implication Weak `⇒` VeryWeak of AG2.6, Weak, very weak and extremely weak automorphic data, on the same data. This gives, in particular, the conclusions of ACC+ Lemmas 7.1.9–7.1.10. Lemma 7.1.9 originally assumes a density-one set of rational `ℓ` for which every residual member is absolutely irreducible and decomposed generic; Lemma 7.1.10 proves very weak compatibility in rank two through its constituent/image arguments. That Fontaine–Laffaille/degree-shifting proof is an arithmetic consumer in PA.1; it is not an input to the all-CM construction here. None of these statements gives residual irreducibility at every coefficient place.
 
-*Needs:* AG2.6: automorphic compatible system; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
+*Needs:* AG2.6: automorphic compatible system; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: Arbitrary-rank compatible data and operations; AG2.6: Weak, very weak and extremely weak automorphic data.
 
 (Sources: ACC+, Lemmas 7.1.9–7.1.10, pp.1093–1094.)
 
@@ -3218,7 +3254,7 @@ Prove `tensorAutomorphyIndependentOfIota` with the following hypotheses.
 
 Let `π_1` and `σ` be RAESDC over a totally real `F`. Suppose `r_{π_1,ι}⊗r_{σ,ι}` is irreducible and automorphic for one `(ℓ,ι)`, in the RAESDC sense used by Newton–Thorne. Then `r_{π_1,j}⊗r_{σ,j}` is automorphic for every prime `q` and `j:ℚ̄_q≅ℂ`. Match the automorphic realization’s good polynomial to the tensor-product polynomial using coefficient conjugation, then use semisimple uniqueness. This does not establish automorphy of an arbitrary tensor product; its initial automorphy and irreducibility are hypotheses.
 
-*Needs:* AG2.6: coefficient conjugation; AG2.6: embedding independence; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
+*Needs:* AG2.6: coefficient conjugation; AG2.6: embedding independence; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: Arbitrary-rank compatible data and operations.
 
 (Sources: NT, Proof of Lemma 5.8, pp.42–44, cf. proof of Lemma 2.1.)
 
@@ -3320,7 +3356,7 @@ Fix `π, λ` and an integral eigencharacter `θ_π:T^S→O_E` at that coefficien
 
 For a Galois-type maximal ideal `m` of rank `n`, the contragredient Hecke ideal `m^∨` is of Galois type with `r_{m^∨}≅r_m^∨⊗ε̄^{1−n}`. At good geometric Frobenius its eigenvalues are `q_v^{n−1}/α_i`. An integral unramified-at-`v` character `ψ` multiplies the eigenvalues by `ψ(Frob_v)`, and its Hecke twist realizes `r_m⊗ψ̄`. In the rank-`2n` unitary Hecke algebra the reciprocal factor is `q_v^{2n−1}`. Residual nonratio conditions are transported only with their unramifiedness hypotheses.
 
-*Needs:* IntegralHeckeAndGaloisDeterminants §3b.1; IntegralHeckeAndGaloisDeterminants §3a.1; AG2.0: algebraic Galois characters; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
+*Needs:* IntegralHeckeAndGaloisDeterminants §3b.1; IntegralHeckeAndGaloisDeterminants §3a.1; AG2.0: algebraic Galois characters; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: Arbitrary-rank compatible data and operations.
 
 (Sources: ACC+, After Definition 2.3.6, p.938.)
 
@@ -3550,7 +3586,7 @@ The required API is:
 
 - For positive `n_1,n_2`, the first block is a nonzero proper invariant subspace, so the block sum is not irreducible. In particular a two-character endoscopic sum cannot certify global irreducibility.
 
-*Needs:* AG2.2: Caraiani–Scholze discrete normalization; AutomorphicGaloisRepresentationsPartII AG2.5; AG2.0: algebraic Galois characters; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: compatibility predicates; AG2.6: compatible data and predicates.
+*Needs:* AG2.2: Caraiani–Scholze discrete normalization; AutomorphicGaloisRepresentationsPartII AG2.5; AG2.0: algebraic Galois characters; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; SmallRamificationAndAbelianVarietyBaseCases §5.0d; AG2.P: Arbitrary-rank compatible data and operations.
 
 (Sources: CS, Corollary 5.5.5 and Remark 5.5.6, printed pp.745–746.)
 
