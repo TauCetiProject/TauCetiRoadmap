@@ -224,13 +224,13 @@ Build Hermitian bundle metrics with their real
 metric comparison, positivity, local matrices, dual/tensor and pullback APIs.
 
 For the analytic section theory work over `[RCLike 𝕜]` (both real Riemannian and
-complex Hermitian fibers), with continuous positive-definite fiber products
+complex Hermitian fibers) with **finite-rank** bundles, with continuous positive-definite fiber products
 compatible with the bundle topology. Metrics are explicit data h on fixed topological-module fibers, with `h.inner x : E x →L⋆[𝕜] E x →L[𝕜] 𝕜`, Hermitian symmetry, positive definiteness and continuous dependence in charts. Prove the induced norm `sqrt(re(h.inner x v v))` gives the original fiber topology, and parametrize `L²(E,h,μ)` by h rather than changing ambient fiber instances. Smooth metrics are used for smooth unitary
 frames; only continuity is needed for the Hilbert construction. Products are
 conjugate-linear in the first slot, as in Mathlib's `inner`. Consume
 `Bundle.IsContinuousRiemannianBundle`/`ContinuousRiemannianMetric` in the real
 case; build their complex Hermitian counterparts and real-part comparison.
-Construct the equivalence of real `ContinuousFiberMetric` data with native
+Construct the equivalence of real continuous fiber-metric data with native
 `ContinuousRiemannianMetric F E`, proving chartwise joint continuity is
 equivalent to continuity in its Hom-bundle and positive metric unit balls are
 von Neumann bounded in finite dimension. Preserve the given fiber topology.
@@ -246,7 +246,14 @@ compatible Borel total-space structure is installed. Define section support as
 vector-space, norm and inner-product structures with
 `⟪s,t⟫=∫ x,⟪s x,t x⟫∂μ`; prove well-definedness, Cauchy–Schwarz,
 completeness and identification with Mathlib's `MeasureTheory.Lp` in the trivial
-bundle. Use `MeasureTheory.L2.inner_def` for that comparison.
+bundle. Use `MeasureTheory.L2.inner_def` for that comparison. Finite-dimensionality
+of the model fiber F is a hypothesis in the signature of the completeness theorem, of
+the Hilbert-space structure and of the trivial-bundle isometry, not only of an
+ambient context: for F the finitely supported real sequences with the ℓ² product,
+a one-point base with unit mass gives `L² ≅ Lp F 2 μ ≅ F`, which is not complete,
+so the completeness statement is false without it. Completeness for an arbitrary
+measure holds in finite rank because each fiber norm is equivalent, uniformly on
+compact chart domains, to a norm on the complete model fiber.
 
 Fix the unitary chart model as `EuclideanSpace 𝕜 (Fin n)` with its standard inner product; compare any original finite-dimensional bundle model by a fixed linear equivalence. Build unitary local frames by Gram–Schmidt on `Trivialization.localFrame` and
 prove smoothness for smooth metrics, continuity for continuous metrics. For a
@@ -493,7 +500,14 @@ circle bundles with prescribed loop holonomy are acceptance examples.
 
 ## B6. Circle bundles, integral classes, and flat ambiguity
 
-**B6.0. Smooth good covers.** On finite-dimensional Hausdorff second-countable
+**B6.0. Smooth good covers.** Define `SmoothGoodCover I` as a locally finite
+indexed open cover together with, for every nonempty finite set of indices whose
+intersection W is nonempty, a chosen centre in W and a smooth map `ℝ×W→W` equal to
+the constant map at the centre at time 0, to the identity at time 1, and fixing the
+centre at all times. Prove `exists_smoothGoodCover_refining`: every open cover of a
+finite-dimensional Hausdorff second-countable boundaryless smooth manifold has a
+refinement by a smooth good cover; and `exists_finite_smoothGoodCover_refining`:
+on a compact such manifold the refinement can be taken finite. On finite-dimensional Hausdorff second-countable
 manifolds with boundaryless model, prove the following for **any chosen smooth
 positive-definite Riemannian metric**, including its given-metric convexity
 radii and endpoint maps. DifferentialGeometry 12.1 constructs an auxiliary
@@ -544,13 +558,22 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
    categorical product `∏ᶜ fun j ↦ U (i j)`, which in `Opens M` is their
    intersection. Construct the canonical product/intersection isomorphism,
    including repeated factors; do not replace the native tuple index by
-   distinct finite subsets. Identify the concrete module `cechConstants U p`
-   with the native complex of the locally constant real sheaf by the map that
-   sends a scalar on each nonempty good intersection to its constant section.
+   distinct finite subsets. Write `cechIntersection C i` for the intersection
+   of the members of a good cover C indexed by an ordered tuple i, and
+   `locallyConstantRealSheaf` for Mathlib's `constantSheaf` with value ℝ on
+   the opens site. Define `cechTupleConstantSection C i` as the unit of
+   `constantSheafAdj` at ℝ followed by restriction from the whole space to
+   the native product open of the tuple. Prove
+   `cechTupleConstantSection_bijective_iff`: this map is a bijection from ℝ
+   onto the sections over the tuple intersection exactly when that
+   intersection is nonempty. Identify the module of real cochains on ordered
+   tuples that vanish on tuples with empty intersection with the native
+   complex of the locally constant real sheaf by these constant sections,
+   factor by factor.
    The finite contraction in B6.0 makes each nonempty intersection connected,
    so every locally constant real section there is constant. On an empty
    intersection the locally constant sheaf has the zero module, matching the
-   zero-only factor in `cechConstants`; the pointwise constant presheaf with a
+   zero-only factor of the coordinate cochains; the pointwise constant presheaf with a
    spurious ℝ-valued section on `∅` is not this sheaf. Prove the degreewise
    maps are mutually inverse and commute with every face restriction. Thus
    the native alternating-coface differential
@@ -565,7 +588,7 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
    component followed by the projection indexed by `a : Fin 1 → ι` is exactly
    `P.map (hT.from (∏ᶜ fun j : Fin 1 => U (a j))).op`. Prove this component equation
    for the locally constant, smooth-function, and additive-circle sheaves. Do not infer
-   from `cechConstantsNativeIso` that the augmentation is a quasi-isomorphism. Tau Ceti's
+   from this coordinate isomorphism that the augmentation is a quasi-isomorphism. Tau Ceti's
    criterion says this happens exactly when the presieve sheaf condition holds and the
    native Čech complex is exact in each positive degree; prove those hypotheses at the
    later good-cover/fine-sheaf comparison where they apply. A fixed-cover augmentation
@@ -577,7 +600,7 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
    and sheaf-morphism naturality, identity and composition equations. For two
    refinement functions of the same covers, build the explicit native
    refinement cochain homotopy; repeated indices are retained, so do not claim
-   the category of raw refinement functions is filtered. Consume TS973 TS1.1–1.2
+   the category of raw refinement functions is filtered. Consume TopologicalSheafCohomology TS1.1–1.2
    here for its arbitrary-space fixed-cover, raw-map, homotopy and small-cofinal
    cohomological-colimit constructions. Only after that raw construction prove
    independence in cohomology and pass to its directed refinement preorder.
@@ -705,7 +728,7 @@ bundle/connection layers and are inputs to DifferentialGeometry's homotopy opera
 B1 precedes B2; B3 uses B1–B2 and generic differential forms. B4 follows B3.
 B5 uses B3–B4, LieGroupoidsPoisson G0.0's independent fundamental-group
 countability theorem, and universal covers/Lie subgroup theory. B6.0–B6.1 use differential forms, smooth partitions of unity, the early
-arbitrary-space TS973 TS1.1–1.2 raw fixed-cover/refinement interfaces, and
+arbitrary-space TopologicalSheafCohomology TS1.1–1.2 raw fixed-cover/refinement interfaces, and
 the cohomological/convex-neighbourhood suppliers independently of B1–B5;
 TS1 is used only at its generic cover-map/homotopy/cofinality scope here, not
 through later compact-derived or support comparisons. The
