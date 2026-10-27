@@ -140,6 +140,50 @@ Construct in this order: S1's existing relative carriers and early root cells; S
 4. Prove D_i²=D_i, the finite braid relations and word-independence for the required push-pull operators, keeping Euler classes distinct from individual H⁰ outside the vanishing range. For dominant λ, S5 supplies the actual no-higher-cohomology/pullback comparison needed to identify char H⁰(X(w),Lλ)=D_i₁…D_ir(eλ). Prove wall/Levi and longest-word cases, including the full Weyl character formula at characteristic0 and the induced/Weyl formal character in characteristicp. Do not replace a positive-characteristic induced module by a simple module.
 5. Construct coordinate maps for the complete linear system and the extremal-line orbit, and prove their scheme-theoretic comparison. Basepoint freeness and injectivity on geometric points do not prove a closed immersion in characteristicp. Own the exact stabilizer/separability and closed-immersion argument for the chosen canonical model; for a general highest-weight representation state the actual stabilizer conditions. Test the SL₂ Frobenius representation, where the orbit map can be purely inseparable.
 
+<a id="sl3-demazure-worked-character"></a>
+### S3.1. A₂ signed-string character calculation
+
+As a worked test of the integral operators and the geometric comparison,
+compute the dominant SL₃ weight λ=2ω₁+5ω₂ using both reduced words121
+and212. Fix α₁=ε₁−ε₂ and α₂=ε₂−ε₃. Use the GL₃ lift (7,5,0),
+whose restriction has this SL₃ highest weight, and write e^(a,b,c) for its
+weight monomials. All weights have a+b+c=12; this slice gives distinct
+representatives modulo the diagonal SL₃ character relation. Start at the
+lowest monomial χ₀=e^(0,5,7) and use S3.3's positive-denominator Δ_i.
+
+Prove the two first stages explicitly:
+
+`χ₁=Δ₁χ₀=Σ_(j=0)^5 e^(j,5−j,7)`,
+
+`χ₂=Δ₂χ₁=Σ_(j=0)^5 Σ_(k=0)^(j+2) e^(j,5−j+k,7−k)`.
+
+Their augmentations are6 and33, and every displayed weight has
+multiplicity1. Collect the signed strings of χ₃=Δ₁χ₂: its coefficient
+at (a,b,c) is zero unless a+b+c=12 and 0≤a,b,c≤7; on that support it is
+
+`1+min{2,a,b,c,7−a,7−b,7−c}`.
+
+Thus there are46 weights:21 of multiplicity1,15 of multiplicity2 and10
+of multiplicity3, giving dimension81. In particular the zero SL₃ weight,
+represented by (4,4,4), has multiplicity3. Compare this actual group-ring
+character with the Weyl and induced formal characters of highest weight λ
+from the rational-representation supplier; identify the geometric section
+modules through S3.3's explicit inversion/opposition maps. Independently
+compare the typeA Gelfand–Tsetlin character: enumerate interlacing rows
+`7≥u≥5≥v≥0`, `u≥w≥v`, of weight
+`(w,u+v−w,12−u−v)`, and prove their multiplicities equal the formula above.
+This is a coefficientwise comparison, not just equality of dimensions.
+
+For the other word, set ψ₁=Δ₂χ₀, ψ₂=Δ₁ψ₁ and ψ₃=Δ₂ψ₂.
+Prove the stage dimensions1,3,21,81 and ψ₃=χ₃; also prove
+Δ₁χ₃=Δ₂χ₃=χ₃ and Weyl invariance on this actual character. At each step
+retain the numerator identity
+`(1−e^α_i)Δ_iχ=χ−e^α_i s_iχ` and its finite divisibility witness.
+Negative coefficients in the flipped/shifted numerator are allowed; the
+resulting Demazure characters have nonnegative coefficients. These are
+explicit tests of signed-string cancellation, braid order and the
+source-convention comparison, rather than an additional character engine.
+
 ## S3P. Ordinary flag Picard groups and forgetting linearization
 
 Construct the following early complex/compact flag comparison before the
