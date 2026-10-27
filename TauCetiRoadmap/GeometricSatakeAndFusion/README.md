@@ -61,8 +61,8 @@ below; merely having its abstract carrier is insufficient.
 
 The early Grassmannian and finite-loop results are inputs to
 `HeckeStacksAndLocalShtukas` and `BunGAndNewtonStrata`. The normalized multileg
-and perfect-complex functors feed `ExcursionOperatorsAndSpectralAction` and its
-Hecke action. Equal-characteristic global shtukas are a separate construction.
+and perfect-complex functors feed the geometric Hecke action and the spectral
+action, which lie outside this roadmap and are owned downstream. Equal-characteristic global shtukas are a separate construction.
 Metaplectic Satake, Zhu's own Gelfand commutativity constraint and the rational
 equivalence over arbitrary larger algebraically closed residue fields belong to
 `GeometricSatakeAndFusionPartII`. Here the rational Witt comparison uses an
@@ -2237,7 +2237,7 @@ GS0–GS3 and the normalized GS4 equivalence; SmoothRepresentationsOfLocalGroups
 
 ## Downstream consumers
 
-The local Grassmannian and finite-loop geometry feeds HeckeStacksAndLocalShtukas, local modification spaces, and BunGAndNewtonStrata, local bundle modifications. The normalized multileg and perfect-complex functors feed ExcursionOperatorsAndSpectralAction, Hecke action. Those constructions use the full finite-set coherence and normalized Weil action specified here.
+The local Grassmannian and finite-loop geometry feeds HeckeStacksAndLocalShtukas, local modification spaces, and BunGAndNewtonStrata, local bundle modifications. The normalized multileg and perfect-complex functors feed the geometric Hecke action and the spectral action, which lie outside this roadmap and are owned downstream. Those constructions use the full finite-set coherence and normalized Weil action specified here.
 
 The Satake input to IgusaVarietiesAndTorsionConcentration's geometric Hecke
 action is the common GS1–GS4 package: `satakeCategory`, `heckeConvolution`,
