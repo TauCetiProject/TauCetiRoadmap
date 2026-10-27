@@ -104,7 +104,7 @@ of two when used for Q. Normalized flow adds `−(2r̄/n)Rop`.
   and its Hölder inputs consume [PDO P5–P7](../PseudodifferentialOperators/README.md).
   Elliptic estimates or a static eigenbasis alone are not a time-dependent
   existence theorem.
-* [VariationalMethods V1–V6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md) supplies energy
+* [VariationalMethods V1–V6](../VariationalMethods/README.md) supplies energy
   and scalar mean-zero Poisson connectors. R8 constructs the time-dependent
   surface Green/potential comparison on the shared Hilbert scales.
   [HopfRinow](../HopfRinow/README.md) supplies actual geodesics, exponential

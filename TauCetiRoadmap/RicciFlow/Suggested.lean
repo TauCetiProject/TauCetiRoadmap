@@ -1,7 +1,6 @@
+import Mathlib
 import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
 import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Ricci
-import Mathlib.Analysis.Calculus.TangentCone.Real
-import Mathlib.Analysis.Normed.Module.Multilinear.Basic
 
 /-!
 This file is not the roadmap and is not exhaustive. Representative interfaces
