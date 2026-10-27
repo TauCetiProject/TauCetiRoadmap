@@ -236,7 +236,7 @@ material, to be consumed when the repository's Mathlib reaches it rather than re
   `UniqueFactorizationMonoid (Ideal A)`; `IsIntegralClosure.isDedekindDomain` and
   `integralClosure.isFractionRing_of_finite_extension` (`IntegralClosure.lean`) — the
   engine for Layer 2's affine models. Also `HeightOneSpectrum.valuationOfNeZero :
-  Kˣ →* Multiplicative ℤ` (`SelmerGroup.lean`), the closest existing `ord_v`.
+  Kˣ →* Multiplicative ℤ` (`SelmerGroup.lean`), the closest existing additive order `ord_P`.
 - **Ramification bookkeeping**, `Mathlib/NumberTheory/RamificationInertia/`:
   `Ideal.ramificationIdx`, `Ideal.inertiaDeg`, and
   **`Ideal.sum_ramification_inertia`** (`∑_{P ∣ p} e·f = finrank K L`, with `[IsDedekindDomain R]`,
@@ -254,7 +254,7 @@ material, to be consumed when the repository's Mathlib reaches it rather than re
   `pow_sub_one_dvd_differentIdeal` (`P^{e−1} ∣ 𝔡`), and
   `dvd_differentIdeal_iff ↔ ¬Algebra.IsUnramifiedAt` (separable case). ⚠ The **exact tame
   valuation `v_P(𝔡) = e − 1`** is absent (within the scope of the file's generic
-  properties-of-the-different TODO) — building it is a Layer-7 milestone, not an import.
+  properties of the different, which the file leaves open) — building it is a Layer-7 milestone, not an import.
 - **Kähler differentials**, `Mathlib/RingTheory/Kaehler/` and friends:
   `KaehlerDifferential` (`Ω[S⁄R]`) with the universal derivation, base change,
   localization instances, `polynomialEquiv` (`Ω[R[X]⁄R] ≃ R[X]`), the second fundamental
@@ -333,6 +333,18 @@ relationships are in §[Coordination](#coordination).
   repository): scheme divisors, coherent cohomology, `χ`-form RR, and Serre duality on
   the way to `Pic⁰` — the cohomological route this roadmap meets, by contract, in
   Layer 12E.
+- **The pinned Tau Ceti carriers of this roadmap's own targets.** Layer 0's predicate
+  and places are `TauCeti.IsFunctionField` (`TauCeti/FieldTheory/FunctionField/Basic.lean`)
+  and `TauCeti.Place` (`TauCeti/FieldTheory/FunctionField/Place/Basic.lean`, with the
+  inverse-order and valuation/order lemmas used by Layer 2's pole fibre); Layer 8's
+  perfect-field separating element is
+  `TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`
+  (`TauCeti/FieldTheory/FunctionField/SeparablyGenerated.lean`, Prop. 3.10.2); Layer 10's
+  Weierstrass equation over arbitrary exact constants, without a discriminant condition,
+  is `TauCeti.Place.exists_isWeierstrassCoordinates_of_genus_eq_one`
+  (`TauCeti/FieldTheory/FunctionField/Elliptic/WeierstrassEquation.lean`). New targets
+  are stated on these carriers, through a comparison with any differently spelled
+  statement, never on a parallel copy.
 - **Adjacent, no mathematical overlap**: graph Riemann–Roch (Baker–Norine, sorry-free
   in Lean) is a naming precedent for `Divisor`/`deg`/`genus`-style identifiers — a
   reminder to namespace ours under the function-field theory; Mathlib's elliptic-curve
@@ -759,7 +771,7 @@ Hurwitz; the different theorem computes the exponents.
   extension unramified. Prove the general equivalence `d=0 ↔ unramified` via
   the different ideal's unramified criterion. The equality/tame proof uses the
   displayed residue hypothesis (Stichtenoth via `k` perfect, Lemma3.5.3); The pin supplies `P^{e−1} ∣ 𝔡` and the ramified ⟺
-  divides criterion; the **exact tame value is built here** (it is the pin's own TODO)
+  divides criterion; the **exact tame value is built here** (the pin's file leaves it open)
   — by a complete local route. First prove that localization preserves the trace dual
   and different ideal. After completion, factor a finite tame extension with separable
   residue extension into an unramified extension and a totally ramified extension;
@@ -864,16 +876,29 @@ one** — this layer states them.
   trivial has a descended nonzero global section which becomes nowhere vanishing,
   proving injectivity of Con on classes. These supply all genus, basis, degree,
   canonical and class outputs of Thm.3.6.3 without losing imperfect smooth models.
-- **Unramified constant extensions are a separate branch.** For algebraic K/k,
-  prove unramifiedness at P when either K/k is separable or κ(P)/k is separable,
-  with the selected component/residue-field identifications made explicit. For
-  perfect k all finite κ(P)/k are separable, so this recovers Thm.3.6.3(a),(g)
-  and the original simple compositum statement, for each chosen place and common
-  ambient embedding. It must not be inferred merely from smoothness of X_F.
-  The required imperfect regression is `k=F_p(a)`, F=k(t), P=(t^p−a),
-  `K=k(a^(1/p))`: the model is the smooth projective line and genus stays0,
-  but `Con(P)=pQ`, `e(Q/P)=p`, with Q=(t−a^(1/p)). Its Artinian fibre length
-  is p. Keep this with the finite-separable-residue completion chart guard.
+- **Unramified constant extensions are a separate branch.** For algebraic K/k
+  separable, prove that every place Q over P is unramified in Layer7's full
+  sense (`e(Q/P)=1` and κ(Q)/κ(P) separable), with the selected
+  component/residue-field identifications made explicit. Over perfect k every
+  algebraic K/k is separable, so this recovers Thm.3.6.3(a),(g) and the
+  original simple compositum statement, for each chosen place and common
+  ambient embedding. Separately, for arbitrary algebraic K/k with κ(P)/k
+  separable, prove only the weaker conclusion: the fibre `κ(P)⊗[k]K` is
+  reduced, so `e(Q/P)=1` for every Q over P, and κ(Q) is identified with the
+  corresponding field factor of that fibre. In this branch κ(Q)/κ(P) is
+  separable iff K/k is separable (an element of K separable over κ(P) is
+  separable over k, because κ(P)/k is separable), so full unramifiedness is
+  obtained only by adding separability of κ(Q)/κ(P), never from separability
+  of κ(P)/k alone. Neither conclusion may be inferred merely from smoothness
+  of X_F. Two imperfect regressions are required, both with `k=F_p(a)`,
+  F=k(t), `K=k(a^(1/p))`, where the model is the smooth projective line and
+  genus stays0. At P=(t^p−a): `Con(P)=pQ`, `e(Q/P)=p`, with Q=(t−a^(1/p));
+  its Artinian fibre length is p. At the rational place P=(t): κ(P)=k is
+  separable over k, the fibre is the field K, `Con(P)=Q` with Q=(t),
+  `e(Q/P)=1` and `deg_K Q=deg_k P=1`, but κ(Q)/κ(P)=K/k is purely
+  inseparable of degree p, so Q/P is not unramified. The two places separate
+  `e>1` from `e=1` with inseparable residue extension. Keep them with the
+  finite-separable-residue completion chart guard.
 - **Clifford, unrestricted — the Layer8 export.** For finite k (perfect), pass
   to its algebraic closure. The preceding base-change isomorphism preserves
   genus, divisor degrees and all ℓ values, so Layer5's infinite-field Clifford
@@ -1083,20 +1108,42 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
 
 - **Elliptic function fields** (VI.1): definition of record = Stichtenoth Def. 6.1.1 —
   **genus 1 together with a divisor of degree 1** (⚠ a *divisor*, not a rational place;
-  RR then produces the rational place, Prop. 6.1.6(a)); normal forms: char ≠ 2 gives
-  `y² = f(x)`, `f` squarefree cubic; in characteristic 2 the Mathlib-compatible split
-  is exactly **`j ≠ 0`: `Y² + XY = X³ + a₂X² + a₆`**, and
-  **`j = 0`: `Y² + a₃Y = X³ + a₄X + a₆`** (with the corresponding nonsingularity
-  conditions). Prove the coordinate changes from the general Weierstrass equation and
-  adapters to these two forms (Prop. 6.1.2, via the `ℓ(iP) = i` ladder); the converse with exactness of constants
-  in every characteristic. For the odd-characteristic squarefree cubic only,
+  RR then produces the rational place, Prop. 6.1.6(a)). **Weierstrass equation over
+  arbitrary k:** with exact constants, at a rational place P₀ the `ℓ(iP₀) = i` ladder
+  gives x, y with pole divisors 2P₀ and 3P₀, `F = k(x,y)`, satisfying a long
+  Weierstrass equation over k (Prop. 6.1.2); no nonsingularity is asserted. Normal
+  forms of that equation: char ≠ 2 gives `y² = f(x)` with `f` a squarefree cubic in
+  `k[X]` (a repeated factor of a cubic is linear and would make F rational), and
+  conversely every squarefree cubic gives genus 1 with exact constants; in
+  characteristic 2 the coordinate changes reach Mathlib's two shapes
+  `IsCharTwoJNeZeroNF`, **`Y² + XY = X³ + a₂X² + a₆`**, and `IsCharTwoJEqZeroNF`,
+  **`Y² + a₃Y = X³ + a₄X + a₆`**, again with no discriminant condition.
+  **Nonsingularity is the smooth-model branch.** For such a Weierstrass equation W
+  of F, `W.IsElliptic` holds iff the regular projective model X_F is smooth over k
+  (Layer8 item3, 12B.0b): the projective cubic is the regular model, because its
+  arithmetic genus equals the genus 1 of its normalization. Over perfect k the model
+  is smooth, so every genus-one field with a degree-one divisor is the function field
+  of a nonsingular Weierstrass curve; over imperfect k smoothness is an explicit
+  hypothesis of this implication. In the normal forms it reads: `f` separable
+  (char ≠ 2), `a₆ ≠ 0` (`j ≠ 0`), `a₃ ≠ 0` (`j = 0`). Required negative control:
+  `k = F₂(a)`, `y² = x³ + a`. F/k(y) has degree 3; the place `y² + a` (degree 2)
+  and the place at infinity each have `e = 3`, `f = 1`, different exponent 2, all
+  other places are unramified, so `2g − 2 = 3·(−2) + 2·2 + 2·1 = 0`; the rational
+  place over infinity gives exact constants and y is separating. Yet the equation is
+  of `j = 0` shape with `a₃ = 0`, so `Δ = a₃⁴ = 0`, and over `k(√a)` the field
+  becomes rational (`v = y + √a`, `u = v/x`, `x = u²`, `v = u³`); by uniqueness of
+  the regular model F has no nonsingular Weierstrass model over k. The
+  characteristic-3 cubic `y² = x³ − t` of Layer8 is the squarefree-but-inseparable
+  control (`Δ = −27b₆² = 0`). The converse, a nonsingular Weierstrass equation
+  defining a genus-one field with exact constants, holds in every characteristic
+  over arbitrary k. For the odd-characteristic squarefree cubic only,
   `Diff(F/k(x))` is the reduced sum of the places above its finite branch
   divisor plus Q_∞ (Prop.6.1.3), with each closed-place coefficient1 and
   residue-degree weights when taking its degree. Characteristic2 uses the
   **weighted** different computed from the actual long Weierstrass derivative
   and the infinity DVR, not this reduced sum. In particular `y²+y=x³` over F₂
-  has `Diff=4Q_∞`; retain both characteristic2 normal forms above and their
-  nonsingularity hypotheses; **the degree-one places form
+  has `Diff=4Q_∞`; this weighted computation is made for the nonsingular
+  characteristic2 normal forms of the smooth branch above; **the degree-one places form
   an abelian group isomorphic to `Cl⁰(F)`** via `P ↦ [P − P₀]`, with
   `P ⊕ Q = R ⟺ P + Q ∼ R + P₀` (Prop. 6.1.6(b), 6.1.7 — the intrinsic group law).
   **Mathlib compatibility milestones** (the general theory meeting
@@ -1563,6 +1610,18 @@ definition, wrong degree convention, dropped hypothesis, sign flip, silent tamen
   hypothesis and Layer12's smoothness criterion. The rational-function-field
   example `P=(t^p−a)` from Layer8 separately guards constant-extension
   ramification: smooth/conservative does not imply e=1 at every closed place.
+  Its rational place `P=(t)` guards the opposite conflation: κ(P)/k is
+  separable and `e=1`, yet κ(Q)/κ(P)=K/k is purely inseparable of degree p,
+  so the place is not unramified.
+- **Genus one without a smooth model** (Layers8, 10): over `k=F₂(a)`,
+  `F=k(x,y)` with `y²=x³+a` has exact constants (rational place at infinity),
+  is separably generated (y is separating) and has genus1 (computed from
+  F/k(y) in Layer10), yet its Weierstrass coefficients give `Δ=a₃⁴=0`, and
+  after adjoining `b=√a` the substitution `v=y+b`, `u=v/x` gives `x=u²`,
+  `v=u³`: a rational normalization. Likewise, in characteristic3 the Layer8
+  cubic `y²=x³−t` is squarefree but inseparable, with `Δ=−27b₆²=0`. These
+  guard Layer10's rule that nonsingular normal forms and `W.IsElliptic`
+  need the smooth model.
 - **Fierce residue, separable field extension** (Layers6–8): discharge the full
   `F₂(s,u)` biquadratic example in Layer8, including integral basis/DVR,
   V4 action, e1/f_ins4, d2, G0/G1 and discriminant exponent8. This is the
