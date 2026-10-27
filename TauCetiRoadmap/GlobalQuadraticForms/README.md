@@ -126,7 +126,6 @@ Quadratic Form Invariants owns all field-generic and nonarchimedean local form t
 | 3.2, 7.1 | `exists_of_realization` | A finite-place triple `(n,d,s)` is realizable except exactly when `n = 1, s = -1`, or `n = 2, d = [-1], s = -1`. |
 | 2.3, 5.1–5.4, 6.2, 7.2 | Layer 6D local classification and isotropy list | Regular forms over a nonarchimedean local field are classified by `(dim, discr, localHasse)`, with the rank-by-rank isotropy and representation criteria. |
 | 4.4, 7.1 | `hilbertSymbol_eq_cohomological`, `hilbertSymbol_productFormula` | The norm-equation/quaternion symbol agrees with Class Field Theory's cohomological pairing, and therefore has the global product formula. These are the bridge declarations required by the acyclic ownership boundary. |
-| 8.3 | `wittRing`, `toWittRing` and its real-signature API | The genuine Witt carrier and localization maps. The injectivity theorem is not stated against a placeholder carrier. |
 
 Where Quadratic Form Invariants gives a numbered milestone rather than a Lean
 name, this table cites that milestone exactly. The two cohomological comparison names are frozen
@@ -177,12 +176,42 @@ The implementation audit must search the pin again before adding local declarati
 particular, use a landed Mathlib signature theorem or Witt carrier rather than preserving a Tau
 Ceti prototype merely because this roadmap first named it.
 
+## What Tau Ceti supplies
+
+The carriers of Layers 0–3 are Tau Ceti code at the pin, under
+`TauCeti/NumberTheory/QuadraticForm/Global/`, and the target signatures in `Suggested.lean` are
+stated on them:
+
+- `QuadraticForm.atFinitePlace`, `QuadraticForm.atRealPlace`,
+  `HeightOneSpectrum.unitAtFinitePlace` and `TauCeti.unitAtRealPlace` (`Localization.lean`): the
+  base changes of 0.1 and the images of global units in the completions;
+- `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresents`,
+  `QuadraticForm.LocallyRepresentsScalar` and `QuadraticForm.LocallyEquivalent`
+  (`Predicates.lean`): the local predicates of 0.2, over every finite and every real place;
+- `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` and
+  `GlobalFormInvariants.IsAdmissible` (`Invariants.lean`): the carrier of 3.1 and the five
+  admissibility conditions of 3.2, with the real condition written as
+  `discrAtRealPlace w = (n - p_w) • [-1]` and the real Hasse sign as `(-1)^C(n - p_w, 2)`;
+- `QuadraticForm.globalInvariants` (`FormInvariants.lean`): the invariants of 3.3 of a regular
+  form, with rank, plain discriminant `RegularFormClass.discr (formClass Q hQ)`, finite Hasse
+  signs and real positive indices;
+- `TauCeti.hilbertSymbol` (`TauCeti/NumberTheory/HilbertSymbol/Basic.lean`): the norm-equation
+  symbol read over each completion, with the real value `TauCeti.hilbertSymbol_real`
+  (`TauCeti/NumberTheory/HilbertSymbol/Archimedean.lean`);
+- `TauCeti.WittRing` and `TauCeti.WittRing.baseChange`
+  (`TauCeti/LinearAlgebra/QuadraticForm/Witt/Ring.lean`, `Witt/BaseChange.lean`): the Witt ring
+  and its scalar extension, the carrier of 8.3;
+- `QuadraticForm.not_anisotropic_of_not_anisotropic_baseChange_quaternary`
+  (`TauCeti/LinearAlgebra/QuadraticForm/QuaternaryDescent.lean`): the field-generic quaternary
+  descent consumed by 5.1.
+
 ## What is missing
 
-At the inspected pin there is no unified number-field localization API for quadratic forms, no
-Hasse–Minkowski theorem over number fields, no carrier for admissible global invariant systems,
-no prescribed-local-behavior existence theorem, and no classification of global forms by local
-invariants. The suppliers deliberately stop on their side of those boundaries.
+At the pin there is no global square theorem, no localized Hilbert product formula and no Hilbert
+sign prescription for the norm-equation symbol, no Hasse–Minkowski theorem over number fields for
+isotropy, representation or isometry, no existence theorem for admissible invariant systems, and
+no classification of global forms by local invariants. These are the headline theorems stated in
+`Suggested.lean`.
 
 ## The build, in layers
 
@@ -500,11 +529,7 @@ Pin this proof.
    `exists_hilbertSymbol_eq_neg_one` at a finite place, and the archimedean computation above at a
    real place. So `ker φ` has index two. By `card_ideleClassNormQuotient`,
    `Kˣ · N_{E/K}(I_E)` also has index two in `I_K`. With the inclusion of step 3 this forces
-
-   ```text
-   ker φ = Kˣ · N_{E/K}(I_E).
-   ```
-
+   the equality `ker φ = Kˣ · N_{E/K}(I_E)`.
 5. Let `j` be the idele whose coordinate is a local non-norm at each `v ∈ T` and `1` elsewhere.
    Then `φ(j) = (-1)^{#T} = 1`, so `j = (a) · N_{E/K}(y)` for some `a ∈ Kˣ` and `y ∈ I_E`.
 6. At every place `a` and `j_v` differ by a local norm, so `a` is a local non-norm exactly at the
@@ -901,13 +926,15 @@ rank.
 
 #### 8.3 Injectivity of the global-to-local Witt map
 
-Only after the supplier's `wittRing K` and its localization maps are genuine carriers, define the
-global-to-local map to the family of finite and real Witt groups and prove it injective. Its kernel
-statement is 8.2. Do not define a `Prop`-valued stand-in for the Witt ring, and do not claim a
-surjectivity or exact-sequence theorem here; realization is stated on the explicit admissible
-invariant carrier of Layer 7.
+The global-to-local map sends a class of the Witt ring `TauCeti.WittRing K` to its images under
+`TauCeti.WittRing.baseChange` in the Witt rings of every finite completion and every real
+completion. Prove that it is injective (`injective_wittRing_baseChange_places`); its kernel
+statement is 8.2. Complex places are not needed: a class vanishing at one finite place has even
+rank, which is its image in `W(ℂ) = ℤ/2`. The milestone is injectivity alone. The image
+is described by realization on the admissible invariant carrier of Layer 7, not by a surjectivity
+or exact-sequence theorem for Witt rings.
 
-*Prerequisites:* L 8.2; R Quadratic Form Invariants `wittRing`, `toWittRing` and localization API.
+*Prerequisites:* L 8.2; T `TauCeti.WittRing`, `TauCeti.WittRing.baseChange`.
 
 #### 8.4 The form-theoretic `SO` kernel consequence
 
