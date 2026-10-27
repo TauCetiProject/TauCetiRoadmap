@@ -4,6 +4,8 @@ Develop the finite-dimensional topology of Morse and Morse–Bott functions:
 intrinsic Hessians and indices, normal forms, genericity, deformation of
 sublevels, handles and cells, proper exhaustions, strong inequalities and
 critical-submanifold attachments and compact-trapped gradient convergence.
+Compact isolating gradient pairs also supply shifted cup injections and
+critical-point bounds that allow arbitrary degeneracy.
 The resulting library supplies geodesic Morse theory,
 [AffineMorseLefschetz](../AffineMorseLefschetz/README.md) and Hamiltonian moment-map topology.
 
