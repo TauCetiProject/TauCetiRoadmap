@@ -2,14 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.GroupTheory.FreeGroup.Reduce
-import Mathlib.Analysis.CStarAlgebra.Hom
-import Mathlib.Analysis.CStarAlgebra.Multiplier
-import Mathlib.MeasureTheory.Group.ModularCharacter
-import Mathlib.Analysis.CStarAlgebra.PositiveLinearFunctional
-import Mathlib.Analysis.InnerProductSpace.StarOrder
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib
 import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 import TauCeti.Algebra.MonoidAlgebra.Twisted.Basic
 import TauCeti.RepresentationTheory.Continuous.Integrated.Basic
@@ -150,45 +143,25 @@ section CentralTwists
 
 open scoped MultiplierAlgebra
 
-/-- The multiplier extension of an action. The whole function is admitted;
-no coefficient action is discarded behind a fixed-codomain data admission. -/
-def multiplierAction :
-    (G →* (A ≃⋆ₐ[ℂ] A)) → G →* (𝓜(ℂ, A) ≃⋆ₐ[ℂ] 𝓜(ℂ, A)) := by
-  sorry
-
-theorem multiplierAction_coe (α : G →* (A ≃⋆ₐ[ℂ] A)) (s : G) (a : A) :
-    multiplierAction α s (a : 𝓜(ℂ, A)) = (α s a : 𝓜(ℂ, A)) := by
-  sorry
-
 /-- Strict continuity is expressed by the native double-centralizer actions.
-The cocycle, normalization and centrality fields are explicit equations. -/
+The cocycle `α_r(ω(s,t)) ω(r,st) = ω(r,s) ω(rs,t)` is stated through left
+multipliers, which determine a multiplier of a C*-algebra. -/
 structure CentralCocycle (α : G →* (A ≃⋆ₐ[ℂ] A)) where
   value : G → G → unitary (𝓜(ℂ, A))
   central : ∀ s t (m : 𝓜(ℂ, A)), Commute (value s t : 𝓜(ℂ, A)) m
   one_left : ∀ s, value 1 s = 1
   one_right : ∀ s, value s 1 = 1
-  cocycle : ∀ r s t,
-    multiplierAction α r (value s t : 𝓜(ℂ, A)) * (value r (s * t) : 𝓜(ℂ, A)) =
-      (value r s : 𝓜(ℂ, A)) * (value (r * s) t : 𝓜(ℂ, A))
+  cocycle : ∀ r s t (a : A),
+    α r ((value s t : 𝓜(ℂ, A)).fst ((α r).symm ((value r (s * t) : 𝓜(ℂ, A)).fst a))) =
+      (value r s : 𝓜(ℂ, A)).fst ((value (r * s) t : 𝓜(ℂ, A)).fst a)
   strict_left : ∀ a : A, Continuous fun q : G × G =>
     (value q.1 q.2 : 𝓜(ℂ, A)).fst a
   strict_right : ∀ a : A, Continuous fun q : G × G =>
     (value q.1 q.2 : 𝓜(ℂ, A)).snd a
 
-/-- C1's nondegenerate representation extension, with its exact dense-span
-hypothesis. This admits the whole function of π and its density proof. -/
-def extendRepresentation :
-    (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)) →
-    Dense (Submodule.span ℂ {η : H | ∃ a ξ, π a ξ = η} : Set H) →
-    𝓜(ℂ, A) →⋆ₐ[ℂ] (H →L[ℂ] H) := by
-  sorry
-
-theorem extendRepresentation_coe (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
-    (hπ : Dense (Submodule.span ℂ {η : H | ∃ a ξ, π a ξ = η} : Set H)) (a : A) :
-    extendRepresentation π hπ (a : 𝓜(ℂ, A)) = π a := by
-  sorry
-
-/-- U is a family of native unitaries, rather than a genuine ContRepresentation. -/
+/-- U is a family of native unitaries, rather than a genuine ContRepresentation.
+`U_s U_t = ω̄(s,t) U_st` is stated after left multiplication by `π(a)`, where
+`π(a) ω̄(s,t) = π(a ω(s,t))`; nondegeneracy makes the two forms equivalent. -/
 structure CentralCovariantPair (α : G →* (A ≃⋆ₐ[ℂ] A)) (ω : CentralCocycle α) where
   pi : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)
   nondegenerate : Dense (Submodule.span ℂ {η : H | ∃ a ξ, pi a ξ = η} : Set H)
@@ -198,10 +171,9 @@ structure CentralCovariantPair (α : G →* (A ≃⋆ₐ[ℂ] A)) (ω : CentralC
   covariance : ∀ s a,
     (unitaryMap s : H →L[ℂ] H) * pi a * star (unitaryMap s : H →L[ℂ] H) =
       pi (α s a)
-  projective : ∀ s t,
-    (unitaryMap s : H →L[ℂ] H) * (unitaryMap t : H →L[ℂ] H) =
-      extendRepresentation pi nondegenerate (ω.value s t : 𝓜(ℂ, A)) *
-        (unitaryMap (s * t) : H →L[ℂ] H)
+  projective : ∀ s t (a : A),
+    pi a * (unitaryMap s : H →L[ℂ] H) * (unitaryMap t : H →L[ℂ] H) =
+      pi ((ω.value s t : 𝓜(ℂ, A)).snd a) * (unitaryMap (s * t) : H →L[ℂ] H)
 
 /-- The coefficient product is in A, via the right multiplier action. -/
 def centralConvolution (α : G →* (A ≃⋆ₐ[ℂ] A)) (ω : CentralCocycle α)
@@ -214,23 +186,8 @@ def centralInvolution (α : G →* (A ≃⋆ₐ[ℂ] A)) (ω : CentralCocycle α
   (Measure.modularCharacter s : ℝ) •
     (star (ω.value s s⁻¹ : 𝓜(ℂ, A))).fst (α s (star (f s⁻¹)))
 
-/-- The raw central cochain formula; the README specifies normalization,
-strict continuity, cocycle closure, and the direction of the completion map. -/
-def rephasedValue (α : G →* (A ≃⋆ₐ[ℂ] A)) (ω : CentralCocycle α)
-    (b : G → unitary (𝓜(ℂ, A))) (s t : G) : 𝓜(ℂ, A) :=
-  (b s : 𝓜(ℂ, A)) * multiplierAction α s (b t : 𝓜(ℂ, A)) *
-    (ω.value s t : 𝓜(ℂ, A)) * star (b (s * t) : 𝓜(ℂ, A))
-
 def cochainTransport (b : G → unitary (𝓜(ℂ, A))) (f : G → A) (s : G) : A :=
   (b s : 𝓜(ℂ, A)).snd (f s)
-
-/-- Exact pointwise formula before proving it descends to a unitary on L². -/
-def regularTwistedValue (α : G →* (A ≃⋆ₐ[ℂ] A)) (ω : CentralCocycle α)
-    (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
-    (hπ : Dense (Submodule.span ℂ {η : H | ∃ a ξ, π a ξ = η} : Set H))
-    (s : G) (ξ : G → H) (r : G) : H :=
-  extendRepresentation π hπ
-    (multiplierAction α r⁻¹ (ω.value s (s⁻¹ * r) : 𝓜(ℂ, A))) (ξ (s⁻¹ * r))
 
 /-- Integration remains vector-valued for a projective unitary family. -/
 theorem exists_centralIntegratedOperator (α : G →* (A ≃⋆ₐ[ℂ] A))

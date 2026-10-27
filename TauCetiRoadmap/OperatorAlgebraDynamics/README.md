@@ -38,7 +38,7 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
 - [BanachAlgebras A7](../BanachAlgebras/README.md) supplies L¹ convolution,
   vector integration, Haar modular identities, and the support and Fubini
   arguments needed without global σ-finiteness. Its amenability dependency
-  is the [AmenableGroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/821).
+  is the [AmenableGroups roadmap](../AmenableGroups/README.md).
 - [CStarAlgebras C1–C2](../CStarAlgebras/README.md) supplies representations,
   approximate units, multipliers, ideals and quotients; C5 supplies tensor
   products and analytic inductive limits; C6 supplies nuclearity and CP
@@ -47,12 +47,12 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   equivalence, and linking algebras.
 - [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) supplies states,
   GNS, operator topologies and normal representations. D5 consumes
-  [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#L316-L339) for independent measurable Hilbert/operator fields,
-  [SA-B85](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bf5d59ef8aa818b8f804da819857832c0fe9f73e/TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md#L644-L719) for the unit-space diagonal C₀ theorem, then
-  [V4's separable commuting-representation reduction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/290e14ed238433b886724aa3c4f6e329598c0120/TauCetiRoadmap/VonNeumannAlgebras/README.md#L420-L429)
-  (the V4.0.Decomposition contract) for reduction over that given diagonal.
+  [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) for independent measurable Hilbert/operator fields,
+  [SelfAdjointSpectralTheory SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md) for the unit-space diagonal C₀ theorem, then
+  [VonNeumannAlgebras V4.0.Decomposition](../VonNeumannAlgebras/README.md)
+  (its separable commuting-representation reduction) for reduction over that given diagonal.
   V8 owns discrete von Neumann crossed products and the arbitrary-LCH
-  [V8.LCHRegularNormalBridge](https://github.com/TauCetiProject/TauCetiRoadmap/blob/35847ab4e112983b041cea50b15848e736f3264e/TauCetiRoadmap/VonNeumannAlgebras/README.md#L877-L889).
+  [VonNeumannAlgebras V8.LCHRegularNormalBridge](../VonNeumannAlgebras/README.md).
   D2 consumes this bridge for the comparison with regular weak closures.
   V10–V11 owns modular theory and the later second-countable normal
   crossed-product weight/duality development. D4 uses V11's harmonic-analysis layer:
@@ -68,7 +68,7 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   compact Hausdorff. Its order is V4.0.Fields → SA-B85 →
   V4.0.Decomposition → D5; D5 is not a prerequisite for those suppliers.
 - Use the topological groupoid vocabulary shared with
-  [LieGroupoidsPoisson G0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L149-L163):
+  [LieGroupoidsPoisson G0](../LieGroupoidsPoisson/README.md):
   `CategoryTheory.Groupoid`, topology on the total `Arrow`, and continuous
   composition on composable arrows. Write `gh` for first h, then g
   (`h ≫ g` in category notation). G0 owns the total-arrow and composable-arrow topologies and continuous
@@ -472,7 +472,7 @@ of the regular C*-representation agrees with the V8 or V11 von Neumann
 crossed product under the following hypotheses: ρ is nondegenerate,
 M=ρ(A)'', and there is a σ-weakly continuous normal action αbar on M
 with `αbar_s(ρ(a))=ρ(α_s(a))`. Consume the arbitrary-LCH
-[V8.LCHRegularNormalBridge](https://github.com/TauCetiProject/TauCetiRoadmap/blob/35847ab4e112983b041cea50b15848e736f3264e/TauCetiRoadmap/VonNeumannAlgebras/README.md#L877-L889)
+[VonNeumannAlgebras V8.LCHRegularNormalBridge](../VonNeumannAlgebras/README.md)
 and its pointwise strong-star/ultraweak continuity equivalence, predual
 normality and regular-realization comparison. Identify the coefficient and
 group maps under this isomorphism, including the zero representation case.
@@ -781,9 +781,9 @@ h_i with `0≤h_i≤1`, eventually equal to1 on each prescribed compact subset
 of X. For f∈C_c(G), the compact sets r(supp f) and s(supp f) give
 `m(h_i)f→f` and `f m(h_i)→f` in I-norm. The dense span L(C_c(G))H
 and `‖ρ_L(h_i)‖≤1` then give strong convergence `ρ_L(h_i)→I`.
-Consume [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#L316-L339) for measurable Hilbert fields, square-integrable
+Consume [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) for measurable Hilbert fields, square-integrable
 sections, rectangular decomposable maps and RN measure-change/zero-extension
-unitaries, and [SelfAdjointSpectralTheory SA-B85](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bf5d59ef8aa818b8f804da819857832c0fe9f73e/TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md#L644-L719)
+unitaries, and [SelfAdjointSpectralTheory SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
 for the diagonal spectral representation of this nondegenerate C₀(G⁰)
 representation. The unit space G⁰ is second-countable locally compact Hausdorff.
 
@@ -796,8 +796,8 @@ fibres off each density support. No equivalence of the two controls is
 assumed for a bounded intertwiner. On H₁⊕H₂ the off-diagonal block
 `S(ξ₁,ξ₂)=(0,Tξ₁)`, and S†, commute with the common diagonal. Form the
 separable unital C*-algebra generated by `diag(ρ₁(h),ρ₂(h))`, h∈C₀(G⁰),
-S,S† and I. Apply [V4.0.Decomposition's reduction of a separable C*-representation
-commuting with a given diagonal](https://github.com/TauCetiProject/TauCetiRoadmap/blob/290e14ed238433b886724aa3c4f6e329598c0120/TauCetiRoadmap/VonNeumannAlgebras/README.md#L420-L429) to this auxiliary algebra,
+S,S† and I. Apply [VonNeumannAlgebras V4.0.Decomposition](../VonNeumannAlgebras/README.md)'s reduction of a separable C*-representation
+commuting with a given diagonal to this auxiliary algebra,
 and Fields' rectangular criterion to recover measurable fibre maps, with
 essential norm, adjoint, composition and fibrewise-unitarity comparisons.
 Here V4.0.Decomposition denotes reduction over the given diagonal supplied
@@ -1309,12 +1309,9 @@ positive continuous linear functionals, `ContinuousMap`, compactly supported
 functions, Lp, Bochner integrals and `PontryaginDual`. Extend Tau Ceti's
 `RepresentationTheory/Continuous/{Unitary,Integrated}/Basic` for integrated
 covariant representations, and its `Analysis/Bochner/LocallyCompactGroup`
-and `Topology/Algebra/PontryaginDual` harmonic interfaces. Follow the actual
-topology-on-`Arrow` and composable-arrow design in
-[Mathlib PR #41039](https://github.com/leanprover-community/mathlib4/pull/41039).
-Build missing parts in Tau Ceti with that shape and replace them by imports
-when available. The algebraic crossed products in
-[Mathlib PR #29212](https://github.com/leanprover-community/mathlib4/pull/29212)
+and `Topology/Algebra/PontryaginDual` harmonic interfaces. The
+topology on the total `Arrow` and on composable arrows is LieGroupoidsPoisson
+G0's. Algebraic crossed products
 and Tau Ceti's Galois/Brauer development do not supply the analytic norms or
 completions here. Preserve the C*-module conventions discussed in the
 [module-convention Zulip discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/redefining%20%60Inner%60%20in%20%60InnerProductSpace%20%F0%9D%95%9C%20%F0%9D%95%9C%60/with/487074289)
