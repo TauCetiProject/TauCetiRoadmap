@@ -1533,10 +1533,16 @@ the constructions here or an additional generic characteristic-class owner.
 
 1. Prove the coefficient formulas
    Td=1+c₁/2+(c₁²+c₂)/12+c₁c₂/24+…,
-   L=1+p₁/3+(7p₂−p₁²)/45+… and
+   L=1+p₁/3+(7p₂−p₁²)/45+(62p₃−13p₁p₂+2p₁³)/945+… and
    Â=1−p₁/24+(7p₁²−4p₂)/5760+… . Export degree-n components and their
    pairing with chosen fundamental classes; signature, Dirac and holomorphic
    index theorems consume these formulas.
+   In particular derive the displayed degree12 L₃ identity from C6's
+   regular series x/tanh(x), by symmetric-root descent and coefficient
+   extraction, with p_j in cohomological degree4j. Include ranks with fewer
+   than three oriented-plane roots by setting the absent Pontryagin classes
+   to zero. Compare its pairing on a closed oriented twelve-manifold with
+   IndexTheory I7.2's signature index formula.
 2. Translate the ordered half-spin weights and exterior λ-characters into
    exponential root products. For the ordered roots x₁,…,x_r name the
    summand with an even number of negative half-weight signs S_high⁺; then

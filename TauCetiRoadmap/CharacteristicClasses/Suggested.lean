@@ -133,6 +133,19 @@ theorem todd_denominator_identity :
 theorem lSeries_even : PowerSeries.evalNegHom lSeries = lSeries := by
   sorry
 
+/-- The degree-six root coefficient is the degree-twelve Hirzebruch L-class.
+The statement is universal over rational algebras and includes ranks below three. -/
+theorem lSeries_root_coefficient_six
+    {A : Type*} [CommRing A] [Algebra ℚ A] {r : ℕ} (x : Fin r → A) :
+    PowerSeries.coeff 6
+      (∏ i, PowerSeries.rescale (x i)
+        (PowerSeries.map (algebraMap ℚ A) lSeries)) =
+      (1 / 945 : ℚ) •
+        (62 * pontryaginRootValue x 3 -
+          13 * pontryaginRootValue x 1 * pontryaginRootValue x 2 +
+          2 * pontryaginRootValue x 1 ^ 3) := by
+  sorry
+
 /-- The precise 2-torsion correction behind integral Pontryagin Whitney formulas.
 The even-part multiplication is valid after inverting 2; it is not asserted integrally. -/
 theorem twice_even_product_correction_eq_zero
