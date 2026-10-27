@@ -22,8 +22,8 @@ different.
 
 This roadmap constructs:
 
-- affine simply-laced Dynkin diagrams and their generalized Cartan matrices, which neither
-  Mathlib nor Tau Ceti supplies and which several milestones below need;
+- affine simply-laced Dynkin diagrams on the native carrier, their null-vector/completeness
+  comparisons, and the graph data consumed by the algebraic layers below;
 - doubled quivers attached to finite simple graphs and symmetrifications of finite quivers;
 - ordinary and skew zigzag algebras, including the one-vertex, one-edge, and non-bipartite cases;
 - their gradings, bases, dimensions, centers, Frobenius traces, projectives, graded Cartan
@@ -169,12 +169,14 @@ The landed declarations include:
 - admissible ideals, radical powers, primitive idempotents, semisimple quotients, projective quiver
   representations, and finite-dimensional path-algebra results;
 - `TauCeti.eulerForm`, `titsForm`, projective evaluation, and path-count computations; and
-- `TauCeti.DynkinType`, its validity and simply-laced predicates, standard Cartan matrices, and
-  Bourbaki numbering.  These are the **finite** types only: `DynkinType` has no affine
-  constructors, and `FiniteType/AffineD.lean`'s `doubleForkCartanMatrix` is a single obstruction
-  used inside the Cartan--Killing classification, not a general affine API.  Mathlib has none
-  either.  Layer 0 below therefore constructs the affine simply-laced diagrams this roadmap and
-  the downstream McKay roadmap both use.
+- `TauCeti.DynkinType`, its validity and simply-laced predicates, standard finite Cartan
+  matrices and Bourbaki numbering;
+- the separate native `TauCeti.AffineDynkinType` carrier and its `Basic`, `Star`, `Deletion`
+  and `PositiveSemidefinite` modules: affine graphs, Cartan matrices, marks, star models,
+  finite-node deletion and singular-semidefinite comparisons; and
+- native `SimpleGraph.graphCartanMatrix` and the positive-additive-function energy and
+  kernel theorems consumed in Layer0. Extend these same APIs with the coefficient-game
+  adapters and affine classification below; do not introduce a second affine family.
 
 The [quiver-representation roadmap](../RepresentationTheory/QuiverRepresentations/README.md)
 owns general path algebras, projectives, bound quivers, and Ringel forms.  This roadmap adds the
@@ -204,17 +206,113 @@ without a Seidel-style twist, and are strictly unital in the deformation stateme
 
 ### Layer 0: affine simply-laced diagrams, doubled graphs, relation quotients, and grading descent
 
-- Define the affine simply-laced diagrams as an inductive family `ÃₙD̃ₙẼ₆Ẽ₇Ẽ₈` with its node count,
-  underlying `SimpleGraph`, and generalized Cartan matrix `2I - A`.  Handle `Ã₁` as the
-  multiplicity-two matrix `!![2,-2;-2,2]`, which is not the Cartan matrix of a simple graph, and
-  exclude it from every simple-graph construction below rather than forcing it in.  Prove:
-  each diagram is connected; deleting the marked affine node gives the corresponding finite
-  `TauCeti.DynkinType` diagram, with an explicit relabelling matching the Bourbaki numbering; the
-  symmetrized form is positive semidefinite; and its radical is spanned by the marks, the
-  vector `δ` with `Cδ = 0` and `δ` equal to `1` at the affine node.  Give the star descriptions
-  `Ẽ₆=T_{3,3,3}`, `Ẽ₇=T_{2,4,4}` and `Ẽ₈=T_{2,3,6}` and prove them.
-  This is the data the downstream McKay roadmap identifies its McKay graphs with; it owns the
-  representation-theoretic side and consumes the diagrams from here.
+- Use native `TauCeti.AffineDynkinType` for the affine simply-laced diagrams, with its node
+  count, underlying `SimpleGraph`, and generalized Cartan matrix `2I - A`. Consume its
+  connectedness, marked-node deletion maps to the finite `TauCeti.DynkinType` diagrams,
+  Bourbaki relabellings and marks `δ` with `Cδ=0` and value1 at the affine node. Consume
+  its star comparisons `Ẽ₆=T_{3,3,3}`, `Ẽ₇=T_{2,4,4}`, `Ẽ₈=T_{2,3,6}` and the
+  positive-semidefinite/radical theorem. Retain `Ã₁` as the multiplicity-two matrix
+  `!![2,-2;-2,2]`, excluding it from simple-graph constructions. The downstream McKay
+  roadmap identifies its graphs with these same carriers and owns the representation side.
+- **Stuck coefficients and completeness of the affine graph list.** Implement
+  the preceding diagram family on native `TauCeti.AffineDynkinType`, with
+  its `Valid`, `IsGraphical`, `graph`, `cartanMatrix`, `marks` and
+  `affineNode` interfaces. Consume its existing `Basic`, `Star`,
+  `Deletion` and `PositiveSemidefinite` modules, including the actual
+  star-graph isomorphisms, Bourbaki deletion maps and normalized marks.
+  The following targets extend that carrier and its comparisons.
+
+  Let G be a finite connected simple graph on a nonempty vertex type V,
+  and use native `G.graphCartanMatrix ℤ`, denoted C=2I−Adj(G). A position
+  is a nonzero vector a:V→ℕ, read in ℤ^V. Define the coefficient reflection
+  s_i on ℤ^V by changing only coordinate i to
+  `Σ_(j∼i)a_j−a_i`; prove `(s_i a)_i=a_i−(Ca)_i` and s_i²=id.
+  The reflection is an operation on integer vectors; its value need not
+  remain nonnegative. A position is stuck when `(s_i a)_i≤a_i` for every i.
+  Prove that this is exactly the coordinatewise inequality Ca≥0. For a
+  stuck position, a vertex i is precarious precisely when `(Ca)_i>0`,
+  equivalently when its reflected coefficient strictly decreases. Thus a
+  stuck position has no precarious vertex iff Ca=0. Prove invariance of
+  these statements under the actual vertex/graph relabelling maps.
+
+  Prove zero propagation: if a≥0 and Ca≥0 and a_i=0, every neighbour
+  also has coefficient0, and connectedness forces a=0. Consequently a
+  nonzero nonnegative integral null vector is strictly positive. Divide
+  its coordinates by their gcd to construct the unique positive primitive
+  integral null vector δ, with gcd(δ_i)=1. Establish uniqueness through
+  the one-dimensional real kernel below, and prove that all nonnegative
+  integral null vectors are exactly mδ for m∈ℕ, including m=0; nonzero
+  positions have m>0. Prove the integral coefficient claim using the gcd
+  identity, not merely that the two vectors are real scalar multiples.
+  Compare δ under a diagram isomorphism with the native `marks`; their
+  affine-node value1 fixes the primitive normalization. No arbitrary
+  vertex is assumed to have mark1 before this comparison.
+
+  Consume `SimpleGraph.two_mul_dotProduct_graphCartanMatrix_mulVec`,
+  `posSemidef_graphCartanMatrix` and `ker_mulVecLin_graphCartanMatrix`
+  from the existing positive-additive-function theory. With C read over
+  ℝ and x an arbitrary real vector, record the transported identity
+  `2 xᵀCx=Σ_i Σ_(j∼i) δ_iδ_j(x_i/δ_i−x_j/δ_j)²`.
+  The displayed sum counts each unoriented edge twice. These native
+  theorems give positive semidefiniteness and ker(C)=ℝδ, hence corank1;
+  prove the rational/integer kernel comparison used above. Conversely,
+  for a connected G, prove that positive semidefiniteness and singularity
+  yield a positive integral null vector: replace a nonzero real null
+  vector by its coordinatewise absolute value, use the nonpositive
+  off-diagonal entries and positive semidefiniteness to keep it in the
+  kernel, then use zero propagation. The one-dimensional kernel of the
+  integer matrix has a rational generator; normalize and clear its
+  denominators, proving the required sign and scalar-extension equations.
+  Thus the stuck/no-precarious criterion and the singular-semidefinite
+  criterion are equivalent on these connected finite simple graphs.
+
+  Prove the proper-extension obstruction for actual graph copies, without
+  an induced-subgraph assumption. If H is finite and connected and a
+  copy f:G→H of an affine graph has either a vertex outside its image or
+  an extra H-edge between image vertices, then C_H a≥0 with a≥0 forces
+  a=0. Pair the inequalities at f(V) with the positive marks of G: the
+  internal terms cancel by C_Gδ=0, leaving the negative sum of the
+  nonnegative contributions from boundary and extra edges. Prove that
+  properness and connectedness force one coefficient to be zero, and
+  apply zero propagation throughout H. Equivalently, a connected graph
+  carrying a nonzero nonnegative stuck position can contain an affine
+  copy only as the whole graph, with no extra edge. Connectedness is
+  essential here; the assertion is not extended to an unrelated component
+  of a disconnected graph or to positions with negative coefficients.
+
+  Complete the classification: the existence of a nonzero nonnegative
+  stuck position without precarious vertices is equivalent to an actual
+  graph isomorphism with `t.graph` for a unique t satisfying `t.Valid`
+  and `t.IsGraphical`. The possible types are cycles Ã_n with n≥2,
+  D̃_n with n≥4, and Ẽ₆,Ẽ₇,Ẽ₈. Prove existence and uniqueness of the
+  type and supply the vertex, adjacency, Cartan-matrix and mark transports.
+  A cycle has length at least3; a cycle copy and the proper-extension
+  theorem force equality. A vertex of degree at least4 supplies a D̃₄
+  four-leaf-star copy. For a tree with maximum degree3, two trivalent
+  vertices supply a D̃_n double-fork copy; an affine position again forces
+  equality. Prove that a finite path has no positive additive function.
+  The remaining tree has one trivalent vertex and three arms of positive
+  edge lengths a≤b≤c. Solve the null equations along each arm, and derive
+  `1/(a+1)+1/(b+1)+1/(c+1)=1` at the centre. Prove the complete integer
+  solution list `(2,2,2)`, `(1,3,3)`, `(1,2,5)` and compare it with the
+  existing `T_{3,3,3}`, `T_{2,4,4}`, `T_{2,3,6}` carriers and marks.
+  The one-vertex and one-edge simple graphs have no such position.
+  Ã₁ retains its separate multiplicity-two matrix and is excluded from
+  this simple-graph classification; a loop is never a simple-graph edge.
+
+  `AffineGraphClassificationTargets.lean` pins the recognition theorem on
+  the native graph and affine-type carriers.
+
+  Compare with RootSystems Layer5's independently supplied positive-definite
+  finite Cartan matrices: a nonzero stuck position there has a precarious
+  vertex, since otherwise it would be a nonzero null vector. In the
+  simply-laced case use the actual simple-root coefficient identification
+  with 2I−Adj and prove that no affine copy can lie in its finite diagram.
+  The affine graph construction, additive-function criterion and completeness
+  proof above use finite graph and matrix theory, before any later quiver
+  representation, Lie-group, compact-group or highest-root application.
+
+
 - Define `DoubledQuiver G` for a simple graph and prove the reverse-arrow involution, finiteness of
   arrows, and compatibility with graph isomorphisms, components, adjacency matrices, and
   `Quiver.Symmetrify` after an orientation is chosen.
