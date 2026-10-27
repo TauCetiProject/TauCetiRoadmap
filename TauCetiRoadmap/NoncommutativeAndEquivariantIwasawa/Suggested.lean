@@ -15,7 +15,7 @@ the rational global dimension (§0.12), and the canonical and saturated Ore theo
 They use Tau Ceti's completed group algebra, Mathlib's projective dimension and Ore sets, and
 concrete group predicates. Coefficients are finite free discrete valuation algebras over ℤ_p,
 including ramified integer rings. The rational dimension statement and the Ore theorems
-assume no absence of p-torsion.
+do not assume that `G` has no element of order `p`.
 
 The later headline statements are README targets, because their objects are absent from the pins:
 
