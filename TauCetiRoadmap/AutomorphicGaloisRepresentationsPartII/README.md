@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap constructs the continuous semisimple Galois representations associated with regular algebraic cuspidal representations of `GL_n` over CM and totally real fields. It starts with algebraic weights and the good-place Hecke polynomial, constructs the representations through compact-unitary cohomology or ordinary boundary cohomology, and then proves local compatibility, coefficient-prime admissibility and residual properties. These results provide the arithmetic input for potential automorphy, modularity lifting and the generic parts of Shimura-variety cohomology.
 
-The polarized route includes conjugate-self-dual cuspidal representations over CM fields, algebraic-character twists and essentially self-dual descent to totally real fields. The nonselfdual existence and away-prime route has the CM or totally real scope of HLTT and Varma. The newer nonselfdual coefficient-prime result is the CM theorem of A’Campo–Hevesi–Thorne–Whitmore. Selected unitary discrete transfers produce semisimple sums with specified constituents; a sum of this kind need not be irreducible. Three `GSp₄` specializations at the end use AG2.P’s conditional spin constructions and transfer dictionary, retaining the supplier’s `GSp₄` classification inputs.
+The polarized route includes conjugate-self-dual cuspidal representations over CM fields, algebraic-character twists and essentially self-dual descent to totally real fields. The nonselfdual existence and away-prime route has the CM or totally real scope of HLTT and Varma. The newer nonselfdual coefficient-prime result is the CM theorem of A’Campo–Hevesi–Thorne–Whitmore. Selected unitary discrete transfers produce semisimple sums with specified constituents; a sum of this kind need not be irreducible. Three `GSp₄` specializations at the end use AG2.P’s conditional spin constructions and transfer dictionary, retaining the supplier’s `GSp₄` classification inputs. The coefficient-prime comparisons in rank `n≥2` that go beyond the BLGGT Iwahori case, including the nonselfdual semisimple comparison built on the polarized one, and the exports and `GSp₄` clauses that use them, assume the irreducibility hypothesis `ExtremelyRegularIrreducibility` of AG2.6; rank one, the good-place construction and de Rham admissibility do not.
 
 The general-rank construction is independent of the classical and Hilbert `GL₂` constructions.
 Their representations are identified on the regular-weight overlap in AG2.6 and AG2.7.
@@ -549,7 +549,14 @@ source finite character times `ε^(−(a+b−3))`. At each good prime its monic 
 is the degree-four spin Hecke polynomial. Prove Proposition 6.8(1)–(2),(5), using the
 `GL₄` local comparison on the absolutely irreducible/general-type branch and the constituent
 comparisons on the specified reducible domain. Retain absolute irreducibility in the
-full all-prime clause; no general-type transfer is asserted for an endoscopic form.
+full all-prime clause; no general-type transfer is asserted for an endoscopic form. In the
+general-type clause, full coefficient-prime WD comparison at places where the local component
+has no Iwahori-fixed vector assumes `ExtremelyRegularIrreducibility 4`, inherited from AG2.6’s
+totally-real polarized local descent; in the reducible types, a full coefficient-prime comparison
+for a rank-two constituent assumes `ExtremelyRegularIrreducibility 2`. Absolute
+irreducibility of the particular spin member discharges neither, since each quantifies over all
+extremely regular conjugate-self-dual cuspidal forms of its rank. The good-place construction,
+de Rhamness with its Hodge labels and the spherical and Iwahori comparisons do not use them.
 AG2.6 supplies the crystalline and ordinary conclusions with their additional hypotheses.
 
 For Pilloni’s cuspidal discrete-series `π` with parameter `(λ₁,λ₂;−λ₁−λ₂+3)`, apply the
@@ -576,6 +583,10 @@ here; §13.2 is not its construction theorem.
 - A non-general-type spin parameter is realized by its constituent sum, not by a
   cuspidal `GL₄` transfer. Without `GSp4ClassificationInputs` this construction supplies
   no classification-based existence assertion.
+- A general-type member with supercuspidal `π_p` at a coefficient prime `p` is absolutely
+  irreducible, yet its full WD comparison at `p` still needs `ExtremelyRegularIrreducibility 4`;
+  when the `GL₄` transfer has Iwahori-fixed vectors at `p` the BLGGT Iwahori comparison gives it
+  without that hypothesis.
 
 *Needs:* EndoscopicTransferAndUnitaryTraceComparison, Conditional classification inputs and §11.1;
 AG2.0: algebraic Galois characters;
@@ -1130,7 +1141,7 @@ The odd-rank compact datum with `n=3` has dimension 2. For the trivial coefficie
 
 ### Dependencies
 
-PELModuli M0–M4; AG2.1a: Shin raw-cohomology adapter and Layers 7–8; EtaleCohomologyFoundations §§F.4.1–F.4.6; the coefficient dictionary of AG2.0.
+PELModuli M0–M4; EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; EtaleCohomologyFoundations §§F.4.1–F.4.6; the coefficient dictionary of AG2.0.
 
 ## Layer AG2.1b. From trace identities to actual Galois constituents
 
@@ -1899,7 +1910,12 @@ Throughout this target, semisimple global representation; nondegenerate trace pa
 
 For the source auxiliary CM extensions `F/F′/L` and `π` with local Iwahori invariants, choose the compact unitary datum with signatures `(1,n−1)` at two distinguished real places and `(0,n)` at the others. Its dimension is `2n−2`. Apply the source construction to the base change of `σ=π^∨`, with its packet, `GL₁`
 character and coefficient `ξ_σ` from the AG2.2 adapter. Its coefficient projector with
-`D=4n−3` realizes `r_AG2(π)⊗r_AG2(π)`, with the scalar character and multiplicity corrections of Caraiani §7. The integral model is locally étale over a product of two semistable charts at the chosen split prime.
+`D=4n−3` cuts out an actual middle-degree multiplicity space `S`, a continuous representation
+of `G_{F′}` that is kept as it stands. After the scalar character correction of Caraiani §7,
+Chebotarev at the good places and the good-place polynomials of `r=r_AG2(π)` give
+`S^ss ≅ ((r|G_{F′})⊗(r|G_{F′}))^{⊕a}` with `a>0`. Neither Galois semisimplicity of `S` nor a
+Weil–Deligne identification of `S` with the tensor square follows from this; semisimplicity of
+the Hecke action on cohomology is a different statement. The integral model is locally étale over a product of two semistable charts at the chosen split prime.
 
 Throughout this target, the solvable extensions and two split distinguished `p`-adic places of the proof of Theorem 7.4; cuspidality preserved, relevant local components Iwahori fixed and exact source coefficient twists.
 
@@ -1907,8 +1923,8 @@ The required API is:
 
 - `TensorSquareInstance.signature`: Exactly two nondefinite signatures give dimension `2n−2`.
 - `TensorSquareInstance.charts`: The local model is étale over the product of the two specified semistable charts.
-- `TensorSquareInstance.constituent`: After the source scalar/multiplicity correction the selected middle cohomology realizes `r(π)⊗r(π)`.
-- `TensorSquareInstance.actions`: This identification preserves Hecke and Weil actions with `N` acting as `N⊗1+1⊗N`.
+- `TensorSquareInstance.constituent`: After the source scalar correction the selected actual middle cohomology `S` satisfies `S^ss ≅ ((r|G_{F′})⊗(r|G_{F′}))^{⊕a}` for some `a>0`.
+- `TensorSquareInstance.actions`: The Hecke algebra acts on `S` through the selected eigensystem; the Weil action and monodromy of `S` at the split place are those of the actual cohomology and reach `r⊗r`, whose monodromy is `N⊗1+1⊗N`, only through **Purity transfer from a semisimplified multiple**.
 
 **Checks.**
 
@@ -1917,6 +1933,8 @@ The required API is:
 - The single-signature Shin variety cannot replace the dimension-`2n−2` model
 
 - For nonzero tensor factors `V₁,V₂` with `N₁=0` and `N₂≠0`, total monodromy is `1⊗N₂≠0`. For the tensor square with `N=0`, total monodromy is zero.
+
+- For `q∈F′^×` with `v(q)≠0` at a place `v∤ℓ`, the Kummer extension `S_q` of `ℚ_ℓ` by `ℚ_ℓ(1)` has `S_q^ss ≅ ℚ_ℓ(1)⊕ℚ_ℓ`, with zero monodromy at `v`, while the monodromy of `S_q` at `v` is nonzero: an isomorphism of semisimplifications transports neither semisimplicity nor local monodromy.
 
 *Needs:* AG2.3: arbitrary regular existence; AG2.1a: corrected Kuga–Sato coefficient projector; PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; LefschetzPencilsAndVanishingCycles LPV.6; ArithmeticGaloisRepresentations Layer 2.
 
@@ -2012,15 +2030,61 @@ Throughout this target, exact stratum purity and the two-chart nearby-cycle comp
 
 (Sources: Caraiani-away, Proposition 7.2 and Corollary 7.3, pp. 82–84.)
 
+### Purity transfer from a semisimplified multiple
+
+The target `semisimplifiedMultiplePurityTransfer` has the following hypotheses and conclusion.
+
+Let `M/L` be a finite extension of number fields and `R : G_L → GL_n(ℚ̄_ℓ)` a continuous
+semisimple representation that is de Rham at every place above `ℓ` and globally pure of weight
+`k`: at all but finitely many finite places `x` it is unramified and every eigenvalue of
+`R(Frob_x)` is a Weil `q_x^k`-number. Let `S : G_M → GL_{an}(ℚ̄_ℓ)` be continuous with
+`S^ss ≅ (R|G_M)^{⊕a}` for some `a>0`, and let `w` be a finite place of `M` over the place `v` of
+`L`; when `w|ℓ`, `S|G_{M_w}` is potentially semistable and `WD` is Fontaine's functor. If
+`WD(S|G_{M_w})` is pure of weight `k`, then `WD(R|G_{L_v})` is pure of weight `k`. Prove first
+TY Lemma 1.4(5)–(6): in a Frobenius-semisimple WD representation pure of weight `k`, a WD
+subobject is a direct summand exactly when its top exterior power is pure of weight `k` times
+its rank, and a WD filtration whose graded pieces have pure top exterior powers of these
+weights splits into pure graded pieces. Then decompose `R|G_M=⊕R_i` into irreducibles; each
+`det R_i` is a de Rham character, globally pure of weight `k·dim R_i`, hence by the
+algebraic Hecke-character dictionary strictly pure of that weight at every finite place.
+A Jordan–Hölder filtration of `WD(S|G_{M_w})^{F-ss}` with graded pieces the `WD(R_i|G_{M_w})`
+splits, so `WD(R|G_{M_w})^{F-ss}` is pure; descend through Frobenius semisimplification and
+the finite extension `M_w/L_v` by TY Lemma 1.4(1)–(2). This is the step from the actual
+geometric cohomology to the attached representation: the semisimplification identity alone
+transports no monodromy.
+
+Throughout this target, `R` semisimple, globally pure and de Rham at every place above `ℓ`;
+`a>0`; `S` the actual representation, not its semisimplification; potential semistability of
+`S` at `w` when `w|ℓ`.
+
+**Checks.**
+
+- For the Kummer extension `S_q` of the tensor-square Checks, at `v` with `v(q)≠0` the
+  representation `WD(S_q|G_{F′_v})` is pure of weight `−1`, but `R=ℚ_ℓ(1)⊕ℚ_ℓ` is not globally
+  pure and `WD(R|G_{F′_v})` has `N=0`, so it is not pure: global purity of `R` cannot be dropped.
+- For rank-one `R` pure of weight `k` and `S` an extension of `R|G_M` by itself, every
+  Frobenius eigenvalue on `WD(S|G_{M_w})` has weight `k`, so purity forces `N=0` and, after
+  Frobenius semisimplification, a split sum, as Lemma 1.4(6) predicts.
+- The conclusion is purity at `v`, which descends along `M_w/L_v`; an isomorphism class does
+  not: for `M_w/L_v` quadratic, the trivial character and the nontrivial character of
+  `Gal(M_w/L_v)` are both pure of weight zero and agree on `W_{M_w}`.
+
+*Needs:* ArithmeticGaloisRepresentations §2.6, weights and purity and indecomposable
+Weil–Deligne representations; AG2.0: algebraic Galois characters; AG2.P: finite-coefficient
+periods and comparison.
+
+(Sources: TY, Lemma 1.4(1),(2),(5),(6) and Lemma 1.7 with proof, pp.6–9; Caraiani-away,
+Published typeset author copy `lgc1.pdf`, proof of Theorem 7.4, pp.2410–2411.)
+
 ### Pure Weil–Deligne comparison up to equivalence
 
-For the semisimple Weil representation shared by the Galois and automorphic sides, TY Lemma 1.4(4) determines at most one pure WD extension up to equivalence. Using ArithmeticGaloisRepresentations §2.6’s purity and filtration, prove `pureWD_unique`, finite-extension equivalence and tensor-square purity detection by the full primitive-string decomposition. Apply it only after geometric purity of the Galois side and tempered purity of the automorphic side are proved. Do not replace purity with maximal rank of `N`: maximal rank alone does not determine the WD equivalence class.
+For the semisimple Weil representation shared by the Galois and automorphic sides, TY Lemma 1.4(4) determines at most one pure WD extension up to equivalence. Using ArithmeticGaloisRepresentations §2.6’s purity and filtration, prove `pureWD_unique`, finite-extension equivalence and tensor-square purity detection by the full primitive-string decomposition. Apply it only after purity of the Galois side and tempered purity of the automorphic side are proved. On the Galois side, apply **Purity transfer from a semisimplified multiple** with `L=F′`, `M=F`, `R=(r|G_{F′})⊗(r|G_{F′})` and `S` the actual cohomology of the tensor-square instance twisted by the inverse of the source character `ψ`: `R` is semisimple as a tensor product of semisimple representations in characteristic zero, globally pure of weight `2(n−1)` because the good Frobenius eigenvalues of `r` are tempered Satake parameters by **Temperedness of regular unitary-type cuspidal forms**, and de Rham by `coefficientHodgeComparisonThroughDescent`, which uses only the CH construction and the geometric period comparison and none of the comparisons of this layer. `WD(S)` is pure by the double weight spectral sequence. The transfer gives tensor-square purity of `r`, the primitive-string detection gives purity of `r` at the split place, and finite-extension invariance and uniqueness give the full WD comparison. Do not replace purity with maximal rank of `N`: maximal rank alone does not determine the WD equivalence class.
 
 Throughout this target, characteristic-zero algebraically closed field and semisimple Weil part; equivalence means a Weil-equivariant isomorphism carrying one `N` to the other.
 
-*Needs:* ArithmeticGaloisRepresentations §2.6; the geometric and automorphic purity targets of AG2.5.
+*Needs:* ArithmeticGaloisRepresentations §2.6; AG2.5: purity transfer from a semisimplified multiple; AG2.5: temperedness; AG2.5: purity from the double weight spectral sequence; AG2.6: Hodge comparison through deformation and descent.
 
-Source locators: TY, Lemma 1.4(2)–(4), proof of `(4)`, pp. 6–7; Caraiani-away, Published typeset author copy `lgc1.pdf`, proof of Theorem 7.4, pp. 2410–2411; the preprint gives a shorter argument on p. 85.
+Source locators: TY, Lemma 1.4(2)–(4), proof of `(4)`, pp. 6–7, and Lemma 1.7, p. 9; Caraiani-away, Published typeset author copy `lgc1.pdf`, proof of Theorem 7.4, pp. 2410–2411; the preprint gives a shorter argument on p. 85.
 
 ### The polarized local comparison from the definite family
 
@@ -2058,7 +2122,7 @@ For `F=diag(1,2)`, both `N=0` and `N=E₁₂` satisfy `FN=(1/2)NF` and have the 
 
 ### Dependencies
 
-AG2.0–AG2.4; ArithmeticGaloisRepresentations §§2.4–2.6; LefschetzPencilsAndVanishingCycles LPV.6; EndoscopicTransferAndUnitaryTraceComparison Layers 10 and 14; DeligneWeightsAndPurity DWP.7–DWP.8.
+AG2.0–AG2.4; AG2.6: Hodge comparison through deformation and descent, for de Rhamness in the purity transfer; ArithmeticGaloisRepresentations §§2.4–2.6; LefschetzPencilsAndVanishingCycles LPV.6; EndoscopicTransferAndUnitaryTraceComparison Layers 10 and 14; DeligneWeightsAndPurity DWP.7–DWP.8.
 
 ## Layer AG2.6. Coefficient-prime comparison and compatible systems
 
@@ -2164,8 +2228,10 @@ conditions. Construct the compact PEL model with signature `(1,n−1)` at the tw
 corresponding to `p₁,p₂` and `(0,n)` elsewhere, its Iwahori integral model and universal Kuga
 powers. Its generic dimension is `2n−2`. Give the corrected coefficient projector with `D=4n−3` and the
 selected packet for the base change of `σ=π^∨` and coefficient `ξ_σ` from the AG2.2
-adapter. Its realization is `r_AG2(π)⊗r_AG2(π)`, retaining the scalar character, Tate twist and actual
-cohomological multiplicity of §2. Prove properness and the étale-local charts with two
+adapter. Its selected actual cohomology `S` is kept as it stands; after the scalar character
+and Tate twist of §2, `S^ss ≅ ((r|G_{F′})⊗(r|G_{F′}))^{⊕a}` with `r=r_AG2(π)` and `a>0` the actual
+cohomological multiplicity, and no Weil–Deligne identification of `S` itself with the tensor
+square is asserted. Prove properness and the étale-local charts with two
 independent equations `∏X_i=ϖ` and `∏Y_j=ϖ` for a uniformizer `ϖ`, with additional smooth coordinates for the
 Kuga powers. Equip them with the fine saturated vertical log structure over the standard
 log DVR; prove log smoothness and Cartier type of the special fibre before forming the
@@ -2199,7 +2265,7 @@ AG2.P: period interfaces.
 
 The target `logCrystallineAutomorphicPurity` has the following hypotheses and conclusion.
 
-In Caraiani’s two-boundary semistable PEL model and its Kuga–Sato projector, the `Π`-isotypic log-crystalline summand realizing the tensor-square representation is pure as a WD representation (Proposition 5.1). Use the two-index strata `Y^(r,s)` and Theorem 4.6’s generalized log-crystalline weight spectral sequence, with Frobenius, twists and the residue realization of `N`. Purity follows after proving the relevant projected stratum cohomology is concentrated on the required diagonal; neither semistability nor the existence of the spectral sequence alone implies purity.
+In Caraiani’s two-boundary semistable PEL model and its Kuga–Sato projector, the actual `Π`-isotypic log-crystalline summand `S`, whose semisimplification is a multiple of the tensor-square representation, is pure as a WD representation (Proposition 5.1). Use the two-index strata `Y^(r,s)` and Theorem 4.6’s generalized log-crystalline weight spectral sequence, with Frobenius, twists and the residue realization of `N`. Purity follows after proving the relevant projected stratum cohomology is concentrated on the required diagonal; neither semistability nor the existence of the spectral sequence alone implies purity.
 
 Throughout this target, the even-rank AG2.6 coefficient-prime two-signature model includes the two distinguished coefficient-prime places, the closed two-index strata, cohomological multiplicity and coefficient-system projector/Tate twist. Its projected stratum concentration is proved before degeneration and purity are inferred. The log model used for comparison is proper, fine and saturated, log smooth and vertical over the standard log DVR, with special fiber of Cartier type. The second boundary uses its own divisors and `s` factors. With `m` smooth local coordinates, a nonempty (i,j)-stratum has dimension `2n+m−i−j`; carry this dimension and the Kuga–Sato/Tate shifts into the spectral sequence.
 
@@ -2362,7 +2428,7 @@ representations and Selmer groups*, Astérisque 324, Lemma 7.8.11 and Propositio
 
 The target `fullPolarizedCoefficientPrimeComparison` has the following hypotheses and conclusion.
 
-For `n≥2`, assume `ExtremelyRegularIrreducibility n`. For a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, any `ℓ, ι` and `v|ℓ, WD(r_{Π,ℓ,ι}|G_{F_v})^{F-ss} ≅ ι⁻¹ rec(Π_v|det|^{(1−n)/2})` with monodromy. The algebraic-character twist of AG2.2 extends this to the stated polarized branch. The semisimple Weil comparison is **Polarized coefficient-prime domination**. The theorem has no Shin-regularity condition; it uses purity of the geometric summand selected for `Π^∨` with its coefficient `ξ_{Π^∨}`, temperedness and the pure-parameter uniqueness theorem. Odd rank and even rank of Shin-regular weight are the equality case of that domination target. Caraiani-p Theorem 1.1, stated for every `n≥2`, supplies the remaining even-rank case: it takes the semisimple comparison from BLGGT-lp-II Theorem A and proves purity through the two-signature log-crystalline argument. Purity alone, or an isomorphism after restriction to a finite extension, does not replace the semisimple comparison over `F_v`. Rank one is supplied by algebraic local class field theory and needs no irreducibility input.
+For `n≥2`, assume `ExtremelyRegularIrreducibility n`. For a conjugate-self-dual cohomological cuspidal `Π` over CM `F`, any `ℓ, ι` and `v|ℓ, WD(r_{Π,ℓ,ι}|G_{F_v})^{F-ss} ≅ ι⁻¹ rec(Π_v|det|^{(1−n)/2})` with monodromy. The algebraic-character twist of AG2.2 extends this to the stated polarized branch. The semisimple Weil comparison is **Polarized coefficient-prime domination**. The theorem has no Shin-regularity condition; it uses purity of the actual geometric summand selected for `Π^∨` with its coefficient `ξ_{Π^∨}`, transported to the tensor square of `r_{Π,ℓ,ι}` at `v|ℓ` by **Purity transfer from a semisimplified multiple**, temperedness and the pure-parameter uniqueness theorem. Odd rank and even rank of Shin-regular weight are the equality case of that domination target. Caraiani-p Theorem 1.1, stated for every `n≥2`, supplies the remaining even-rank case: it takes the semisimple comparison from BLGGT-lp-II Theorem A and proves purity through the two-signature log-crystalline argument. Purity alone, or an isomorphism after restriction to a finite extension, does not replace the semisimple comparison over `F_v`. Rank one is supplied by algebraic local class field theory and needs no irreducibility input.
 
 **Checks.**
 
@@ -2373,7 +2439,7 @@ For `n≥2`, assume `ExtremelyRegularIrreducibility n`. For a conjugate-self-dua
 - Rank two with parallel weight `a_τ=(0,0)` is outside the Shin-regular range and uses the
   two-signature purity branch.
 
-*Needs:* AG2.6: polarized coefficient-prime domination; AG2.6: polarized admissibility; AG2.6: log-crystalline purity; AG2.5: pure WD uniqueness; AG2.2: Twisting an essentially self-dual form into unitary type; AG2.5: full away-prime comparison; ArithmeticGaloisRepresentations Layer 2; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* AG2.6: polarized coefficient-prime domination; AG2.6: polarized admissibility; AG2.6: log-crystalline purity; AG2.5: purity transfer from a semisimplified multiple; AG2.5: pure WD uniqueness; AG2.2: Twisting an essentially self-dual form into unitary type; AG2.5: full away-prime comparison; ArithmeticGaloisRepresentations Layer 2; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
 (Sources: BLGGT-lp-II, Theorem A, p.2, and Corollary 3.2, p.7; Caraiani-p, Theorem 1.1, pp.1–2; §§2 and 5.)
 
@@ -2798,6 +2864,71 @@ IntegralHeckeAndGaloisDeterminants Layers 0–1;
 SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
 AG2.P: finite-coefficient periods.
 
+### P-ordinary arithmetic block comparison
+
+The target `pOrdinaryArithmeticBlockComparison` has the following hypotheses and conclusion.
+
+(a) General parabolic. Let `F` be CM, `N≥1`, `v|p` a place of `F`, `Q⊆GL_N` a standard
+parabolic with block sizes `n₁,…,n_t`, and `Π` a regular algebraic conjugate-self-dual cuspidal
+representation of `GL_N(𝔸_F)` of weight `λ`, or an isobaric sum of such representations,
+pre-unitary at `v`, each of whose constituents has full Frobenius-semisimple WD comparison at
+`v`. Assume that `ι⁻¹Π_v⊗V_λ^∨` is `Q`-ordinary, with ordinary part `π₁⊗…⊗π_t` on the Levi.
+Then `r_ι(Π)|G_{F_v}` has a `G_{F_v}`-stable flag with potentially semistable graded pieces
+`ρ_j` of rank `n_j`, the labelled Hodge–Tate weights of Hevesi Theorem 4.27, and
+`WD(ρ_j)^{F-ss} ≅ rec^T(π_j⊗|·|^{−(n₁+…+n_{j−1})})`. Prove Hevesi Corollary 4.25: the
+Frobenius-semisimple parameter of a `Q`-ordinary representation carries a monodromy-stable WD
+flag with these graded pieces. Transport the flag to the filtered `(φ,N,G)`-module of
+`r_ι(Π)|G_{F_v}`, compute the slope of each step from central characters (Hevesi Lemma 4.28),
+and use weak admissibility to realize each step as a subrepresentation; regularity of `λ`
+then fixes the Hodge–Tate labels of each `ρ_j`.
+
+(b) Siegel ordinary cohomology. Let `[F⁺:ℚ]>1`, let `G̃` be the quasi-split unitary group of
+rank `2n` over `F⁺` with Siegel parabolic, and take `S`, the place `a`, the cohomologically
+cuspidal weight `λ̃` matching `λ_a`, the Bernstein block `Ω_a`, the `O`-integral `Ω_a`-system
+`L_a`, the `S`-good level `K̃` and the condition at places outside `S` as in
+**Bounded boundary comparison and degree shifting**. Assume `ExtremelyRegularIrreducibility m`
+for every `m` with `2≤m≤2n`. With `d=n²[F⁺:ℚ]`, the module
+`H^d(X̃_{K̃(0,u)}, W_{λ̃,L_a})^{a-ord}[1/p]` is semisimple over `T̃_a[1/p]`, and each
+`ℚ̄_p`-point `f` of its Hecke algebra has a continuous `ρ̃_f : G_{F,S} → GL_{2n}(ℚ̄_p)` with
+determinant `f(P̃_v)` at `v∉S`, potentially semistable at `a` with the labelled weights of AHTW
+Theorem 5.4.13(2), and an actual `G_{F_a}`-stable rank-`n` subrepresentation `ρ₁` with labelled
+weights `{λ_{τ,1}+n−1>…>λ_{τ,n}}` whose `rec⁻¹(WD(ρ₁))|det|^{(n−1)/2}` has supercuspidal support
+given by the Bernstein centre of `Ω_a` through `T̃_a` and `f`. Identify the `a`-ordinary
+middle-degree cohomology with automorphic forms by AHTW Lemma 5.4.12 and its corollary, with
+semisimplicity by the argument of ArithmeticLocallySymmetricSpaces ALS.5b.9. Shin base change
+gives conjugate-self-dual regular algebraic cuspidal constituents of rank at most `2n`, ACC+
+Theorem 2.3.3 attaches `ρ̃_f`, and **Full polarized local–global compatibility at `ℓ`** (rank
+one by local class field theory) supplies the full comparison required by (a), which is then
+applied to the Siegel parabolic.
+
+The common bridge is owned here; it uses the full Frobenius-semisimple comparison, and a
+semisimple Weil parameter of the ambient representation supplies neither the flag nor `ρ₁`.
+
+Throughout this target, regular weight; `Q`-ordinarity at the given place; full WD comparison
+of every constituent at that place; in (b) the stated level, block, integral system and
+auxiliary-place conditions and `ExtremelyRegularIrreducibility m` for `2≤m≤2n`.
+
+**Checks.**
+
+- For `t=1`, `Q=GL_N`, the flag is trivial and (a) is the full comparison of its input.
+- For `GL₂`, `Q` the Borel and an ordinary unramified principal series, the restriction is
+  triangular with sub-character of labelled weight `λ_{τ,2}`; the semisimple parameter
+  `χ₁⊕χ₂` does not decide which character is the subobject, and the slope equality of
+  Lemma 4.28 does.
+- For a Borel-ordinary twist of Steinberg the flag of Corollary 4.25 is the monodromy-stable
+  line `ker N`. A semisimple comparison leaves `N` on the filtered module undetermined, so it
+  does not show that the line selected by slopes is `N`-stable, as a sub-`(φ,N)`-module must be.
+
+*Needs:* AG2.6: full polarized local–global compatibility at `ℓ`; AG2.6: polarized
+admissibility at the coefficient prime; ArithmeticLocallySymmetricSpaces ALS.5b.4 and ALS.5b.9;
+EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4;
+SmoothRepresentationsOfLocalGroups SR.3 and SR.5; ArithmeticGaloisRepresentations Layer 2;
+PadicHodgeTheory §§3.4–3.5; AG2.P: finite-coefficient periods and comparison.
+
+(Sources: Hevesi, Corollary 4.25, p.67; Theorem 4.27, p.69, with proof, p.71; Lemma 4.28,
+pp.69–70; Remark 4.29, p.72. AHTW, Lemma 5.4.12 and the following paragraph, p.97; Theorem
+5.4.13(1)–(4), pp.97–98; proof of Lemma 5.4.18, pp.103–105. ACC+, Theorem 2.3.3, pp.935–937.)
+
 ### Bounded boundary comparison and degree shifting
 
 Let `F` be a CM field containing an imaginary quadratic field in which `p` splits (AHTW,
@@ -2816,6 +2947,7 @@ containing the `p`-adic places, the set `S` of all places of `F` above the ratio
 `S₀` or ramified in `F` is finite, stable under complex conjugation, contains `S₀`, and
 satisfies the first alternative at every finite place outside it. Construct the auxiliary
 Hecke element `T_n` of that proposition.
+Assume `ExtremelyRegularIrreducibility m` for every `m` with `2≤m≤2n`.
 For every dominant weight `λ` and integral Bernstein coefficient system `L`, prove
 `boundedBoundaryDegreeShifting`: there are `N₁≥1`, depending only on `n` and `F`, and `N₂≥0`,
 depending additionally on a, `λ` and `L`, such that for all degrees, levels, moduli `m` and supported
@@ -2825,14 +2957,18 @@ factorization and the local type/Bernstein factorization, with their fixed bound
 Carry both through the boundary comparison, degree shift, quotient maps and passage
 through all moduli. Use ordinary/compact-support
 and Borel–Serre boundary cohomology with their specified coefficient modules; the interior
-part alone does not establish the boundary assertion. For a spherical cuspidal eigensystem,
+part alone does not establish the boundary assertion. The local factorization at a comes from
+**P-ordinary arithmetic block comparison** (b): after a character twist separating the two
+residual factors, lift the central idempotent onto the factors of the residual determinant to
+the projection onto the actual subrepresentation `ρ₁`, and read the type and period
+conditions from `ρ₁`. For a spherical cuspidal eigensystem,
 a finite-order character twist makes `T_n` nonzero, so the characteristic-zero point satisfies
 the comparison after all moduli are combined. Prove the source extension/descent step removing
 the auxiliary place hypotheses: after a cyclic CM base change arranging Assumption 5.2.6 and the
 inequality for some `b⁺`, choose `S` by the enlargement lemma from the ramification of
 `π` and the `p`-adic places. This yields the following all-CM theorem.
 (Source: AHTW, Assumption 5.2.6, Lemma 5.2.7, Proposition 5.2.8, Theorem 5.2.9 and
-Remark 5.2.10, pp.73–77; ACC+, Theorems 2.3.5 and 2.3.7 and the remark after 2.3.5,
+Remark 5.2.10, pp.73–77; Lemma 5.4.18 and proof, pp.103–105; ACC+, Theorems 2.3.5 and 2.3.7 and the remark after 2.3.5,
 pp.937–938.)
 
 **Checks.**
@@ -2855,6 +2991,7 @@ pp.937–938.)
 *Needs:* quantitative annihilators;
 bounded pseudodeformations;
 global stable period quotients and both LGC factorizations;
+AG2.6: P-ordinary arithmetic block comparison;
 ArithmeticLocallySymmetricSpaces ALS.4–ALS.5b;
 IntegralHeckeAndGaloisDeterminants §4.2; the base-change and patching targets of AG2.3.
 
@@ -2862,9 +2999,9 @@ IntegralHeckeAndGaloisDeterminants §4.2; the base-change and patching targets o
 
 The target `allCMCoefficientPrimeComparison` has the following hypotheses and conclusion.
 
-A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1`, regular algebraic cuspidal `π` of highest weight a, `ℓ, ι` and `v|ℓ, r_{π,ℓ,ι}|G_{F_v}` is de Rham, has `HT_τ={a_{ιτ,i}+n−i}`, and `WD(r_{π,ℓ,ι}|G_{F_v})^{ss} ≅ ι⁻¹ rec^T(π_v)^{ss}`. Here `rec^T(π_v)=rec(π_v|det|^{(1−n)/2})`. No conjugate self-duality, residual irreducibility or decomposed genericity hypothesis is imposed on `π`. This is the July 2026 preprint theorem, with its precise input chain recorded below. That chain includes AHTW Theorem 5.4.13, used in Lemma 5.4.18, which applies ACC+ Theorem 2.3.3; part (c) of that theorem at `p`-adic places is the polarized coefficient-prime comparison, here used through its semisimple part, for conjugate-self-dual constituents of rank at most `2n`. The target therefore assumes `ExtremelyRegularIrreducibility m` for every `m` with `2≤m≤2n`, and every target below that uses it carries this hypothesis.
+A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM `F, n≥1`, regular algebraic cuspidal `π` of highest weight a, `ℓ, ι` and `v|ℓ, r_{π,ℓ,ι}|G_{F_v}` is de Rham, has `HT_τ={a_{ιτ,i}+n−i}`, and `WD(r_{π,ℓ,ι}|G_{F_v})^{ss} ≅ ι⁻¹ rec^T(π_v)^{ss}`. Here `rec^T(π_v)=rec(π_v|det|^{(1−n)/2})`. No conjugate self-duality, residual irreducibility or decomposed genericity hypothesis is imposed on `π`. This is the July 2026 preprint theorem, with its precise input chain recorded below. That chain includes AHTW Theorem 5.4.13, used in Lemma 5.4.18, which applies ACC+ Theorem 2.3.3; part (c) of that theorem at `p`-adic places is the polarized coefficient-prime comparison for conjugate-self-dual constituents of rank at most `2n`, used in its full Frobenius-semisimple form through **P-ordinary arithmetic block comparison**, which produces the actual local subrepresentation that Lemma 5.4.18 projects onto. The target therefore assumes `ExtremelyRegularIrreducibility m` for every `m` with `2≤m≤2n`, and every target below that uses it carries this hypothesis.
 
-*Needs:* AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.P: finite-coefficient periods and comparison; AutomorphicGaloisRepresentationsPartII AG2.4; AG2.4: HLTT existence; AG2.6: global stable period quotients; AG2.6: bounded boundary comparison and degree shifting; AG2.6: polarized coefficient-prime domination.
+*Needs:* AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.P: finite-coefficient periods and comparison; AutomorphicGaloisRepresentationsPartII AG2.4; AG2.4: HLTT existence; AG2.6: global stable period quotients; AG2.6: P-ordinary arithmetic block comparison; AG2.6: bounded boundary comparison and degree shifting; AG2.6: full polarized local–global compatibility at `ℓ`; AG2.6: polarized coefficient-prime domination.
 
 (Sources: AHTW, Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9; Theorem 5.4.13, pp.97–98, and Lemma 5.4.18 with its proof, pp.103–104; ACC+, Theorem 2.3.3(c), pp.935–937.)
 
@@ -3714,6 +3851,10 @@ arXiv:2102.13459v4 (27 November 2024); locators use printed chapter pages.
 ### AHTW
 
 A’Campo, Hevesi, Thorne and Whitmore, [Local-global compatibility of automorphic Galois representations over CM fields at p](https://arxiv.org/pdf/2607.11763v1). arXiv:2607.11763v1 (13 July 2026), unrefereed preprint; arXiv pages.
+
+### Hevesi
+
+Bence Hevesi, [Ordinary parts and local-global compatibility at ℓ = p](https://arxiv.org/pdf/2311.13514v2). arXiv:2311.13514v2; arXiv pages.
 
 ### CG
 
