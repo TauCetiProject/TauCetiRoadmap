@@ -66,11 +66,11 @@ A bivector has `{f,g}=π(df,dg)`. Define its sharp map by
   de Rham cohomology. Layer 0.4 specifies the generic `SmoothForm I M ℝ 2`
   carrier and the migration equivalence `legacySmoothTwoFormEquiv` from the
   pinned `SmoothTwoForm` implementation, with its tuple-evaluation law and
-  `legacySmoothTwoFormEquiv_isClosed_iff`. Consume PR480's Hamiltonian predicates
+  `legacySmoothTwoFormEquiv_isClosed_iff`. Consume HamiltonianSystems' Hamiltonian predicates
   and operations on the pinned `SmoothTwoForm` carrier through this named
   equivalence, whose construction belongs to DG0.4. Evaluate the generic
   form by coercing to `RoughForm I M ℝ 2` and applying it to `![v,w]`.
-  Consume G4.2a's adapter law identifying PR480's
+  Consume G4.2a's adapter law identifying HamiltonianSystems'
   `IsHamiltonianVectorField` with `ω(X,·)=df` in tuple evaluation, including
   the pinned sign. Do not add a competing degree-two coercion.
   This roadmap owns multivector bundles, Schouten bracket and algebroid
@@ -88,7 +88,7 @@ A bivector has `{f,g}=π(df,dg)`. Define its sharp map by
   comparison. SmoothBundlesConnections supplies complexification of real vector bundles.
   This roadmap owns complex algebroids and the subalgebroid/involutivity
   comparison; it does not prove Newlander–Nirenberg a second time.
-- [HamiltonianSystems proposal #480](https://github.com/TauCetiProject/TauCetiRoadmap/pull/480)
+- [HamiltonianSystems](../HamiltonianSystems/README.md)
   owns these shared declarations: Layer 1 Hamiltonian fields and the symplectic
   Poisson bracket/laws, Layer 2 Hamiltonian flows, and Layer 3 infinitesimal
   actions, moment maps and their cocycle. Consume those named contracts for
@@ -97,14 +97,14 @@ A bivector has `{f,g}=π(df,dg)`. Define its sharp map by
   This roadmap extends the bracket to degenerate
   Poisson structures and proves the symplectic identification; it does not
   duplicate the shared Hamiltonian API.
-- [SymplecticGeometry/CotangentLagrangian](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1049)
+- [SymplecticGeometry/CotangentLagrangian](../SymplecticGeometry/CotangentLagrangian/README.md)
   owns smooth cotangent bundles, tautological one-forms and canonical `ω=-dθ`.
   This roadmap owns the **groupoid** structure on `T*G` and `T*Γ`, and the groupoid
-  action/reduction comparison. [HamiltonianReduction](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1049)
+  action/reduction comparison. [HamiltonianReduction](../SymplecticGeometry/HamiltonianReduction/README.md)
   owns group moment maps, KKS orbits, and ordinary Marsden–Weinstein reduction;
   it consumes the groupoid action/graph/isotropy comparison here and owns the final
   quotient and reduced-form comparison (R3–R4).
-- [LieGroups Layers0–5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0942b6c99c9c9baff3c962bc672bcaab81baff48/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md) owns Lie III and the simply-connected
+- [LieGroups](../RepresentationTheory/LieGroups/README.md) Layers 0–5 owns Lie III and the simply-connected
   integration equivalence (Layer 4), plus the universal-cover construction
   (Layer 5), the group Lie algebra, exponential and
   adjoint action. AlgebraicTopology supplies fundamental groupoids and path-homotopy
@@ -132,7 +132,7 @@ manifold two-form is `TauCeti.SmoothTwoForm`; the generic
 `SmoothForm I M ℝ 2`, its `mextDeriv` closedness and its pointwise
 nondegeneracy predicate are DifferentialGeometry 0.4 migration targets. Consume
 the named `legacySmoothTwoFormEquiv`, evaluation law and closedness comparison
-there when connecting pinned PR480 declarations to the generic carrier. Do not
+there when connecting pinned HamiltonianSystems declarations to the generic carrier. Do not
 identify the linear-algebra `SymplecticForm` structure with the manifold
 predicate. Also use maximal integral curves and their smooth flow, distribution theory, and
 `TauCeti.Geometry.Lie.Tangent.LieEquiv`'s
@@ -182,22 +182,29 @@ that proposal's merge status.
    theorem, restricting extended charts to `interior (range I)`. Prove
    the derivative comparison for the identity transport. Do not install
    a second global `ChartedSpace` on the original ambient carrier.
-   Name the manifold-target irreducible fiber atlas
-   `regularFiberChartedSpaceOfTarget φ` by transport of
+   Define the manifold-target fiber atlas, depending on the target chart φ
+   and kept irreducible, by transport of
    `sectionZeroChartedSpace` along the homeomorphism from its local zero subtype
    to the actual map fiber. Fixing φ=`TauCeti.extChartPartialDiffeomorph` at c
    gives the selected manifold-target atlas. Prove the identity is a
    diffeomorphism between choices of target chart. The model-space target
-   specializes these constructions to `regularFiberChartedSpaceOf φ` and
-   `regularFiberChartedSpace`; retain its explicit comparison with the
-   manifold-target atlas.
+   specializes these constructions to a chart-parametrized atlas and its
+   selected instance at the extended chart; retain its explicit comparison
+   with the manifold-target atlas.
    Export its chartAt/atlas descriptions, smooth inclusion and tangent
    kernel theorems. Own immersion invariance under open inclusions and
    these model-change diffeomorphisms, using the native normal form.
    Prove `Manifold.IsSmoothEmbedding` for `Subtype.val`, combining the native
    immersion with `IsEmbedding.subtypeVal`, and identify
-   `(mfderiv … Subtype.val z).range=(mfderiv … f z.1).ker`.
-   Include empty fibers, dimension, atlas independence, open restriction,
+   `(mfderiv … Subtype.val z).range=(mfderiv … f z.1).ker`. The headline
+   form is `exists_regularFiber_manifold`: for a smooth map of boundaryless
+   manifolds of dimensions n and m that is surjective on derivatives at every
+   point of the fiber over c, the fiber with its subspace topology has a
+   smooth atlas of dimension n−m for which the inclusion is a smooth
+   embedding with tangent image the derivative kernel; X is not assumed
+   Hausdorff and the fiber may be empty (Lee, *Introduction to Smooth
+   Manifolds*, 2nd ed., Corollary 5.14 and Proposition 5.38, in the
+   Hausdorff case). Include empty fibers, dimension, atlas independence, open restriction,
    coordinate change and the smooth map-into-the-fiber universal property.
 
    Build the transverse fiber product of smooth maps `f:X→M`, `g:Y→M`
@@ -220,7 +227,10 @@ that proposal's merge status.
    and interior-point condition are explicit; use `BoundarylessManifold`
    for the global corollary. Prove restriction, diffeomorphism transport,
    composition via `HasRightInverse.comp` and the global
-   `IsSubmersion` equivalence. For finite model spaces apply native
+   `IsSubmersion` equivalence `submersion_iff_split_mfderiv`: a smooth map of
+   boundaryless finite-dimensional manifolds satisfies Mathlib's
+   `Manifold.IsSubmersion` exactly when `IsDiffSubmersionAt` holds at every
+   point. For finite model spaces apply native
    `HasRightInverse.of_surjective_of_finiteDimensional` to compare with
    surjectivity and DG10.1's `IsRegularPoint`. Prove either fiber-product projection is a submersion when
    the other map is a submersion. These comparisons use complete finite-dimensional
@@ -230,7 +240,8 @@ that proposal's merge status.
 
    Construct the smooth constant-rank kernel distribution of every such
    submersion, as native `TauCeti.IsContMDiffDistribution` from DG Layer 4,
-   with its normal-form frames and rank dim X−dim M. Equip the actual
+   with its normal-form frames and rank dim X−dim M
+   (`submersionKernel_smooth`). Equip the actual
    kernel fibers with a `ContMDiffVectorBundle` structure modelled on
    `Fin (dim X−dim M) → ℝ` by applying the generic subbundle API below,
    and prove smooth pullback, including along
@@ -372,7 +383,7 @@ this distinction.
    Lie-derivative and Cartan identities here, and specialize it to the
    cotangent bundle in G4.1. For `ω` of degree `k`, pin
    `(d_Aω)(a₀,…,a_k)=Σ_i(-1)^iρ(a_i)(ω(a₀,…,omit a_i,…,a_k))+
-   Σ_{i<j}(-1)^{i+j}ω([a_i,a_j],a₀,…,omit a_i,…,omit a_j,…,a_k)`;
+   Σ_(i<j)(-1)^(i+j)ω([a_i,a_j],a₀,…,omit a_i,…,omit a_j,…,a_k)`;
    the remaining arguments in the second sum retain their original order.
    Prove smoothness, alternation, `C∞`-multilinearity, Leibniz and `d_A²=0`
    in every degree, then contraction, Lie derivative and Cartan identities.
@@ -383,7 +394,7 @@ this distinction.
    finite-dimensional real Lie algebra `L` and a coefficient module `V` with
    `[LieRingModule L V] [LieModule ℝ L V]`: `C^k=Alt^k_ℝ(L,V)`, with differential
    `dω(x₀,…,x_k)=Σ_i(-1)^i x_i·ω(x₀,…,omit x_i,…,x_k)+
-   Σ_{i<j}(-1)^{i+j}ω([x_i,x_j],x₀,…,omit x_i,…,omit x_j,…,x_k)`.
+   Σ_(i<j)(-1)^(i+j)ω([x_i,x_j],x₀,…,omit x_i,…,omit x_j,…,x_k)`.
    Prove alternation, `d²=0` and cohomology in every degree. Prove the general
    coefficient comparisons
    `Alt¹_ℝ(L,V)≃LieModule.Cohomology.oneCochain ℝ L V` and
@@ -439,7 +450,9 @@ this distinction.
 2. Compute the tangent algebroids of the unit, pair, action and gauge examples.
    The unit gives zero fibers; the pair gives `TM`; group-over-a-point gives
    the right-invariant bracket and the negative identification with
-   `GroupLieAlgebra`; the action example uses `α=-ξ_M` in standard coordinates.
+   `GroupLieAlgebra`, from `rightInvariant_bracket`: the Lie bracket of the
+   right-invariant fields of ξ and η is minus the right-invariant field of
+   their `GroupLieAlgebra` bracket; the action example uses `α=-ξ_M` in standard coordinates.
    Prove the isotropy Lie algebra is isomorphic to the standard left-invariant
    Lie algebra of groupoid isotropy via the **negative** tangent identification,
    exactly as in the group-over-a-point case. Raw isotropy vectors are not
@@ -625,7 +638,7 @@ this distinction.
    tensor-map criterion for a Poisson map. Recover HamiltonianSystems' bracket
    when `π♯=-(ω♭)⁻¹`. Prove nondegenerate Poisson is equivalent to a closed
    nondegenerate two-form, including all sign comparisons.
-2a. **G4.2a, legacy Hamiltonian adapter.** Using only PR480 Layer 1's
+2a. **G4.2a, legacy Hamiltonian adapter.** Using only HamiltonianSystems Layer 1's
    `IsHamiltonianVectorField` definition on Tau Ceti's pinned
    `SmoothTwoForm` carrier and DifferentialGeometry 0.4's
    `legacySmoothTwoFormEquiv` plus its ordered-pair evaluation law, prove the
@@ -801,12 +814,17 @@ this distinction.
    the holonomy maps, and prove saturation is open in the quotient topology.
    Construct the algebroid-geodesic exponential from a neighborhood of the
    zero section into admissible paths and prove that its image gives
-   finite-dimensional transversals near zero paths.
+   finite-dimensional transversals near zero paths. These are the four
+   assertions of Crainic–Fernandes, *Integrability of Lie brackets*,
+   Proposition 4.7 (p. 604), whose codimension count is the endpoint
+   argument above.
 
    In G5.5, prove the monodromy-to-slice bridge: under local uniform
-   discreteness, choose a finite-dimensional transversal in a quotient
-   neighborhood that meets each entire A-homotopy class at most once in
-   that neighborhood. Prove the induced holonomy transitions are smooth
+   discreteness, choose through each admissible path a finite-dimensional
+   transversal of dimension `dim M + rank A` that meets each entire
+   A-homotopy class (each leaf, not merely each plaque) in at most one
+   point (Crainic–Fernandes, *Integrability of Lie brackets*, Lemma 4.9,
+   p. 606). Prove the induced holonomy transitions are smooth
    and use them to construct the quotient atlas. Show the atlas has
    Hausdorff source fibers and a second-countable total space, while the
    total arrow space is allowed to be non-Hausdorff. The proof is specific
@@ -840,7 +858,9 @@ this distinction.
    source-simply-connected; uniqueness follows from Lie II, proved before this
    criterion. Prove that the Crainic–Fernandes construction has Hausdorff
    source fibers while its total arrow manifold may remain non-Hausdorff. Prove
-   necessity, sufficiency and the smooth quotient-chart theorem. Prove
+   necessity, sufficiency and the smooth quotient-chart theorem; the charts
+   come from the monodromy-to-slice bridge specified at the end of G5.2,
+   built on the A-homotopy foliation constructed there. Prove
    second countability of the admissible path space: use a countable atlas
    and finite interval subdivisions to reduce to separable `C¹` Banach
    models. Prove the leaf quotient projection is open, so images of a
@@ -1079,7 +1099,7 @@ do not refer to an unnamed generic "bundle-map dictionary."
 The principal bundles used by G7 are Hausdorff and second-countable, as in
 SBC's quotient contract. G0 grounds G1–G3. G1/G2 and DifferentialGeometry
 ground G4.1–2 and G4.4–5. G4.2a depends only on DifferentialGeometry 0.4
-and PR480 Layer 1, and precedes HamiltonianReduction R1; HR R1 supplies the
+and HamiltonianSystems Layer 1, and precedes HamiltonianReduction R1; HR R1 supplies the
 exact sequence consumed by G4.3.
 G4.6A supplies linear Lie–Poisson and precedes HamiltonianReduction R2, which owns the KKS
 construction and pointwise form identity, while G4.5 supplies the connected-leaf
@@ -1128,9 +1148,13 @@ quotient or existence predicate alone does not discharge its construction.
   this roadmap's locally-Hausdorff non-Hausdorff-arrow category; G3.5 proves
   the local quotient atlas and its hypotheses in that category.
 
+- J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Graduate Texts in
+  Mathematics 218, Springer (2013), Corollary 5.14 and Proposition 5.38:
+  regular level sets and their tangent spaces, in the Hausdorff case (G0.1).
 - M. Crainic and R. L. Fernandes, [*Integrability of Lie brackets*](https://annals.math.princeton.edu/wp-content/uploads/annals-v157-n2-p06.pdf),
   Annals of Mathematics 157 (2003), 575–620: A-paths, monodromy and the exact
-  integrability criterion; use the algebroid definitions in §§1–3, not a
+  integrability criterion; Proposition 4.7 (the A-homotopy foliation) and
+  Lemma 4.9 (transversals meeting each leaf once) for G5.2 and G5.5; use the algebroid definitions in §§1–3, not a
   universal claim that every algebroid integrates.
 - M. Crainic and R. L. Fernandes, [*Integrability of Poisson brackets*](https://www.math.tecnico.ulisboa.pt/~rfern/Meus-papers/HTML/PoissonFinal.pdf),
   Journal of Differential Geometry 66 (2004), 71–137: symplectic integration
