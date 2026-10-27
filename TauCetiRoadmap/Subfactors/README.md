@@ -901,16 +901,62 @@ implies H^n extreme
 (Theorem4.28). Do not replace H^n by H in this conclusion.
 
 Compare the calculus with H=L²(M) for an infinite-index II₁ inclusion
-and with the finite-index rigid/spherical constructions. Construct Burns §3.4's example (printed116–121): take the quasi-free
-CAR trace of covariance1/2 and its GNS factor R; choose a representation
-of F_∞ generating a type III factor, tensor it with the identity on
-ℓ²(ℕ), and build its Bogoliubov action α on R. Prove the
-Hilbert–Schmidt-perturbation criterion and outerness of each nonidentity
-automorphism. For `N=L(F_∞)⊂M=R⋊_αF_∞` identify
-`M_1=B(L²R)⋊_αF_∞` and compute the type III central summand
-of N'∩M_1 via the implementing representation. Supply the CAR
-Fock/Bogoliubov implementability lemmas from Dynamics D8 and the
-normal crossed-product APIs from V8. Show why central L² data can miss
+and with the finite-index rigid/spherical constructions. Construct Burns §3.4's example (Burns §3.4.3, Lemmas3.4.5–3.4.8 and
+Theorem3.4.9, printed116–121). The representation of F_∞ is a specific
+one, built in three steps, and each step carries a different part of the
+proof; an arbitrary representation whose image generates a type III
+factor is not asserted to suffice.
+
+- *Repeated-word homomorphism.* Fix free generators `(a_n)_(n≥1)` of
+  F_∞ and a bijection `{a_n}≃ℕ×F_∞`. Its second coordinate extends,
+  by freeness, to a homomorphism `ϕ:F_∞→F_∞` with
+  `ϕ(a_n)=` that coordinate; every fibre of ϕ on generators is
+  infinite, so ϕ is surjective.
+- *Type III input.* For a type III factor S on a separable H₀, choose
+  unitaries `(v_n)` of S generating S (they exist since S has separable
+  predual), let ψ:F_∞→U(H₀) be the homomorphism with `ψ(a_n)=v_n`, and
+  set `w=ψ∘ϕ`. Then `w(F_∞)''=S` because ϕ is surjective.
+- *Amplification.* Replace (H₀,w) by `(H₀⊗ℓ²(ℕ), w⊗1)`. This keeps
+  `w(F_∞)''≅S` and keeps w factoring through ϕ, and it gives the
+  dichotomy: `w_γ⊗1−1` is Hilbert–Schmidt only when `w_γ=1`.
+
+Prove the repeated-conjugacy-fibre lemma: for every γ₀≠e in F_∞
+there are infinitely many indices n, none occurring as a letter of γ₀,
+with `ϕ(a_n)=ϕ(γ₀)`; the conjugates `γ_n=a_nγ₀a_n⁻¹` are pairwise
+distinct, and `w_(a_n)=w_(γ₀)` gives `w_(γ_n)=w_(γ₀)` (Burns, proof
+of Lemma3.4.7). Amplification does not supply this property, and the
+repeated-word map does not supply the outer-or-trivial dichotomy; both are
+used. Check on γ₀=a₁: with `a_n` in the ϕ-fibre of `ϕ(a₁)`, the words
+`a_na₁a_n⁻¹` (n≠1) are reduced of length 3, pairwise distinct, and all
+map under w to `w_(a₁)`.
+
+Take the tracial quasi-free state of covariance 1/2 on CAR(H₀) and
+its GNS factor R on `H=L²(R)`; each `w_γ` gives the Bogoliubov
+automorphism `a(ξ)↦a(w_γξ)` of R, implemented by a unitary `W_γ` on H,
+and these form the action α. Prove the complex form of Blattner's
+criterion (Burns Theorem3.4.4): the Bogoliubov automorphism of a unitary
+u is inner on R exactly when `u−1` is Hilbert–Schmidt. With the
+amplification it gives that every α_γ is outer or the identity. For
+`N=L(F_∞)⊂M=R⋊_αF_∞` prove that M is a II₁ factor (Lemma3.4.5) and
+identify `M_1=B(H)⋊_αF_∞` with Jones projection `e₁⊗1` (Lemma3.4.6).
+
+Prove `N'∩M_1=B(H)^(F_∞)=W(F_∞)'` (Lemma3.4.7) by Fourier
+coefficients. Write `x=Σ_γ x_γu_γ` with x_γ∈B(H). Commutation with
+N gives `x_(ρ⁻¹γρ)=W_ρ* x_γ W_ρ` for all γ,ρ. If `x_(γ₀)ξ≠0` for some
+γ₀≠e and ξ∈H, the fibre lemma with ρ=a_n⁻¹ gives
+`x_(γ_n)W_(γ_n)ξ=W_(γ₀)x_(γ₀)ξ` for infinitely many distinct γ_n, so
+`‖x(ξ⊗δ_e)‖²=Σ_γ‖x_γW_γξ‖²` diverges, a contradiction. Hence
+`x=x_e`, and commutation with the `u_ρ` makes it W-invariant. Then
+prove that this commutant has a type III factor as a central summand
+(Lemma3.4.8): the one-particle map `ι(ξ)=√2·(a(ξ)*)^` is a linear
+isometry H₀→H (since `τ(a(ξ)a(ξ)*)=‖ξ‖²/2` at covariance 1/2) that
+intertwines w with W, so the projection p onto ι(H₀) lies in
+`Q=W(F_∞)'`, `pQ'≅w(F_∞)''≅S`, and with q the central support of p in
+Q the corner qQ is a type III factor (Burns Lemma3.4.2 for factoriality
+of qQ'). Supply the CAR Fock space, quasi-free states and Bogoliubov
+functoriality from Dynamics D8 and the normal crossed-product APIs from
+V8; the repeated-word construction, the fibre lemma, the Blattner
+criterion and the coefficient-vanishing argument are targets here. Show why central L² data can miss
 that summand of the operator-algebra invariant. The sufficient convergence/unitarity theorem is valid without this
 symmetry assumption; the converse retains it. No reconstruction or completeness
 theorem for all infinite-index standard invariants is asserted.
