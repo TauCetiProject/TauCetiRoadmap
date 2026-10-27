@@ -1,17 +1,13 @@
-import Mathlib.Algebra.Lie.SerreConstruction
-import Mathlib.Algebra.Lie.UniversalEnveloping
-import Mathlib.Algebra.Lie.Weights.Basic
-import Mathlib.Algebra.Lie.Loop
-import Mathlib.LinearAlgebra.Dual.Defs
-import Mathlib.Algebra.DirectSum.Module
-import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Basis
+import Mathlib
 
 /-!
 # Selected Kac–Moody signatures
 
 This file is advisory, not the specification or an exhaustive checklist; see README.md.
 It exhibits a full Cartan presentation, actual quotient/enveloping/Verma carriers, a
-cone-supported character carrier, finite path data and strict crystal maps. Proof targets are admitted honestly. No finite-dimensional Killing instance
+cone-supported character carrier, finite path data and strict crystal maps. Proof targets are admitted honestly.
+The multiplication of upper-cone characters is constructed data and is a KM4 target in README.md,
+not an admitted definition here. No finite-dimensional Killing instance
 is used to manufacture the singular or infinite-dimensional construction.
 -/
 
@@ -138,14 +134,6 @@ theorem finite_supported_pairs {I P : Type*} [Fintype I] [AddCommGroup P] [Modul
     (f g : UpperCharacter alpha) (xi : P) :
     {pair : P × P | pair.1 + pair.2 = xi ∧
       f.coefficient pair.1 ≠ 0 ∧ g.coefficient pair.2 ≠ 0}.Finite := by
-  sorry
-
-/-- An admitted whole function family retains both characters; it is not a fixed output for all f,g.
-The coefficient equation and ring laws are README targets, not hypotheses on this declaration. -/
-noncomputable def multiplyUpperCharacters {I P : Type*} [Fintype I]
-    [AddCommGroup P] [Module ℤ P] (alpha : I → P)
-    (hIndependent : LinearIndependent ℤ alpha) :
-    UpperCharacter alpha → UpperCharacter alpha → UpperCharacter alpha := by
   sorry
 
 /-- Finite rational PL data. The full real/reparametrization carrier is a separate README target. -/
