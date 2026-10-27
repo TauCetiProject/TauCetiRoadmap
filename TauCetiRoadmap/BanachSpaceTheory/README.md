@@ -31,9 +31,9 @@ numbers and finite-rank approximability, as well as Hilbert-space Schatten ideal
 trace norms and singular values; B4 owns the nuclear/trace-class comparison.
 [Operator theory](../OperatorTheory/README.md) owns
 the Hilbert-space spectral theory. C*-tensor norms are outside this Banach-space
-scope. BanachAlgebras A1/[A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces) supplies the scalar/compact operator-algebra
+scope. BanachAlgebras A1/A8 supplies the scalar/compact operator-algebra
 comparisons used in B4's examples; its early compact layer is independent
-of these tensor/AP constructions. B5 consumes [SelfAdjointSpectralTheory Part B](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6b8362ea543de1ba9da9929433175e623ffc0aad/TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md#part-b--the-borel-functional-calculus-and-projection-valued-measures)'s generic scalar-measure
+of these tensor/AP constructions. B5 consumes SelfAdjointSpectralTheory Part B's generic scalar-measure
 integration, regularity and bounded continuous-approximation layer
 (SA-B81–84 and SA-B58), which is independent
 of PVMs, representations and this roadmap's bidual comparison.
@@ -288,7 +288,7 @@ Tau Ceti's `exists_hilbertBasis_forall_hasEigenvector` in
 `TauCeti.Analysis.InnerProductSpace.Spectrum`. For compact `T:H→K` on
 complete real or complex Hilbert spaces, apply these to `T†T`. Order the
 positive eigenvalues `λ_j` with multiplicity and put `s_j=√λ_j`.
-Consume [BanachAlgebras A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces)’s finite nonzero-eigenvalue threshold theorem
+Consume BanachAlgebras A8’s finite nonzero-eigenvalue threshold theorem
 (whose compact-operator layer is independent of B4), and choose the associated finite or countable
 orthonormal families `(e_j),(f_j)`, with `f_j=s_j⁻¹T e_j` and
 `s_j>0` nonincreasing, tending to zero in the infinite-rank case. Prove
@@ -330,7 +330,8 @@ and prove preservation and reflection of reflexivity. In particular
 construct the bounded complex-linear equivalence between
 `StrongDual ℂ (TauCeti.Complexification X)` and
 `TauCeti.Complexification (StrongDual ℝ X)` by real/imaginary parts and
-`φ(x+iy)=g(x)−h(y)+i(h(x)+g(y))`; pin the norm bounds rather than
+`φ(x+iy)=g(x)−h(y)+i(h(x)+g(y))` (`exists_complexificationStrongDualEquiv`,
+an equivalence whose value on `g+ih` is this φ); pin the norm bounds rather than
 asserting an isometry of their different dual norms.
 ### B4.0. An explicit failure of the approximation property
 
@@ -560,12 +561,12 @@ an arbitrary complexification.
 Identify the real and complex operator-algebra quotient by compact
 operators with the corresponding scalar field, with quotient-norm equality
 and a bounded scalar projection. Derive countability of every operator’s
-spectrum on the complex model, using [BanachAlgebras A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces)’s compact eigenvalue-threshold
+spectrum on the complex model, using BanachAlgebras A8’s compact eigenvalue-threshold
 theorem. Thus not every nonempty compact subset of ℂ can be realized on
 this particular infinite-dimensional Banach space. Construct a nontrivial
-closed invariant subspace for each operator on the complex model, applying [A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces)’s compact-commutation
+closed invariant subspace for each operator on the complex model, applying A8’s compact-commutation
 theorem for nonscalar operators and an invariant line for scalar operators.
-For the real model, consume [A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces)'s real compact-commutation invariant-subspace
+For the real model, consume A8's real compact-commutation invariant-subspace
 theorem (its compact case is Aronszajn–Smith), again handling scalar operators
 by a line. No real hyperinvariance statement is inferred from the complex
 hyperinvariant theorem.
@@ -810,7 +811,7 @@ measures and the weak-star topology. Use the submodule of
 `ComplexMeasure`. Use native `VectorMeasure.variation_smul` for scalar
 closure and norm homogeneity, with SA-B83's regularity comparisons.
 For the signed measure δ₀−δ₁ on [0,1], with A={0,1}, prove
-|μ(A)|=0 but sup_{K⊆A compact}|μ(K)|=1 (and sup μ(K)=1).
+|μ(A)|=0 but the supremum of |μ(K)| over compact K⊆A is 1 (and so is the supremum of μ(K)).
 Thus unsigned inner regularity cannot be applied to signed/complex values;
 use the positive variation measure and the preceding regularity comparison.
 
@@ -818,7 +819,7 @@ Construct the norm and Dirac maps; write
 `M(K)` for this normed measure submodule. Consume `VectorMeasure.integral`
 for its integration pairing, using `ContinuousLinearMap.mul ℝ 𝕜`
 over any `RCLike 𝕜`. Consume
-[SelfAdjointSpectralTheory SA-B81–82](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6b8362ea543de1ba9da9929433175e623ffc0aad/TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md#part-b--the-borel-functional-calculus-and-projection-valued-measures)'s 𝕜-linearity and scalar-integral
+SelfAdjointSpectralTheory SA-B81–82's 𝕜-linearity and scalar-integral
 comparison, SA-B83’s finite absolute-continuity regularity lemma, and
 SA-B84’s generic scalar-measure uniqueness for injectivity. Prove this normed
 dual identification, continuous-function evaluation and the variation norm. Use
@@ -1129,18 +1130,14 @@ for `n≥4`, without an optimality claim.
 Mathlib's `Analysis.Normed.Module.Bases` already supplies generalized Schauder
 bases, finite projections and projection bounds. Follow the designs discussed in
 [Extending Functional Analysis Coverage on Zulip](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Extending%20Functional%20Analysis%20Coverage)
-and [PR #34209](https://github.com/leanprover-community/mathlib4/pull/34209).
-For the bipolar theorem and uniform convexity use the shape of
-[PR #26345](https://github.com/leanprover-community/mathlib4/pull/26345) and
-[PR #28693](https://github.com/leanprover-community/mathlib4/pull/28693).
+for bases, the bipolar theorem and uniform convexity.
 
 Tensor-product spelling requires care: the `injectiveSeminorm` in the pinned
-Mathlib is not the classical `ε` norm above. Follow `leastCrossnorm` and the
-projective API in [PR #33969](https://github.com/leanprover-community/mathlib4/pull/33969),
-including compatibility of binary and finite-family tensors. Follow the nuclear
-operator design in [PR #42197](https://github.com/leanprover-community/mathlib4/pull/42197),
-whose `ContinuousLinearMap.nuclearOperators` uses the range of the completion map
-from `F ⊗π E*`; the tensor symmetry identifies this with the ordering used in B4.
+Mathlib is not the classical `ε` norm above. Define the injective norm as the least
+reasonable crossnorm and keep the projective API compatible between binary and
+finite-family tensors. Define the nuclear operators `E → F` as the range of the
+completion map from `F ⊗π E*`; the tensor symmetry identifies this with the ordering
+used in B4.
 Build every needed missing result in Tau Ceti with these interfaces; adopt
 Mathlib's implementation when available.
 

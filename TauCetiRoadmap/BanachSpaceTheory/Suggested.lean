@@ -2,11 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import TauCetiRoadmap.BanachSpaceTheory.LocalHaarSuggested
-import Mathlib.Analysis.Normed.Module.Bases
-import Mathlib.Analysis.Normed.Module.DoubleDual
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Topology.Sequences
+import Mathlib
 import TauCeti.Analysis.Normed.Module.Complexification
 
 /-!
@@ -92,18 +88,15 @@ theorem dvoretzky [CompleteSpace E] (hE : ¬ FiniteDimensional ℝ E)
       ∀ x, (1 - ε) * ‖x‖ ≤ ‖T x‖ ∧ ‖T x‖ ≤ (1 + ε) * ‖x‖ := by
   sorry
 
-/-- B4: the strong dual comparison uses the native Taylor complexification.
-It is a bounded complex-linear equivalence; no isometry is asserted. -/
-def complexificationStrongDualEquiv :
-    TauCeti.Complexification (StrongDual ℝ E) ≃L[ℂ]
-      StrongDual ℂ (TauCeti.Complexification E) := by
-  sorry
-
-/-- B4: the formula pins the complex-linear extension of the real and imaginary functionals. -/
-theorem complexificationStrongDualEquiv_apply
-    (g h : StrongDual ℝ E) (x y : E) :
-    complexificationStrongDualEquiv (E := E) ⟨g, h⟩ ⟨x, y⟩ =
-      (g x : ℂ) - (h y : ℂ) + Complex.I * ((h x : ℂ) + (g y : ℂ)) := by
+/-- B4: the real strong dual of `E`, complexified with the native Taylor complexification, is
+boundedly complex-linearly equivalent to the complex strong dual of the complexification of `E`,
+by the complex-linear extension `φ(x+iy)=g(x)−h(y)+i(h(x)+g(y))` of `g+ih`. The formula determines
+the equivalence; no isometry is asserted. -/
+theorem exists_complexificationStrongDualEquiv :
+    ∃ e : TauCeti.Complexification (StrongDual ℝ E) ≃L[ℂ]
+        StrongDual ℂ (TauCeti.Complexification E),
+      ∀ (g h : StrongDual ℝ E) (x y : E),
+        e ⟨g, h⟩ ⟨x, y⟩ = (g x : ℂ) - (h y : ℂ) + Complex.I * ((h x : ℂ) + (g y : ℂ)) := by
   sorry
 
 end BanachSpaceTheory
