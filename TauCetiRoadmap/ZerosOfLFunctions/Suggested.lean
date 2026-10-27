@@ -5,14 +5,15 @@ import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib, each with `sorry`, together with the two definitions they
-need: the zero count `zeroCount` (the natural-number count of Layer 4) and the entire completion
-`riemannXi` of the Riemann zeta function (the `ζ` instance of the entire completion of Layer 0).
+need: the zero count `zeroCount` (the natural-number count of Layer 4) and the entire
+completion `zetaEntireCompletion` of the Riemann zeta function (the `ζ` instance of the entire
+completion of Layer 0).
 
 Stated here, for the instances whose carriers exist at the pins (the Riemann zeta function and
 Dirichlet L-functions, which are the finite-order Hecke L-functions over `ℚ`):
 
 * Layer 3, the convexity bound on the critical line, uniform in the conductor;
-* Layer 5, Hadamard's factorization of `riemannXi`;
+* Layer 5, Hadamard's factorization of `zetaEntireCompletion`;
 * Layer 6, the de la Vallée Poussin region for `ζ`, and the uniform region for Dirichlet
   L-functions with its exceptional-zero clause and the normalization `c ≤ log 3 / 2`;
 * Layer 7, the Riemann–von Mangoldt formula for `ζ`, and its conductor-uniform form for
@@ -29,7 +30,8 @@ Not statable at the pins:
   `NumberField.dedekindZeta` is the Dirichlet series itself, a junk value off `Re s > 1`, and
   neither library has its meromorphic continuation, its completion, or a Hecke L-function;
 * the general ray-class count of 8.7 and its abelian Chebotarev transport 8.8: Mathlib has no
-  ray class group, no Artin map and no Frobenius-class prime count.
+  ray class group, no Artin map and no Frobenius-class prime count, and the Tau Ceti this file
+  is built against supplies none of them.
 
 The general growth, counting, rectangle-contour and certificate layers (0, 1, 2, 4, 7.1–7.3,
 9) are README targets: their statements are about arbitrary meromorphic functions or about the
@@ -49,12 +51,12 @@ in `R` (a finsum over an infinite support is `0`). -/
 noncomputable def zeroCount (f : ℂ → ℂ) (U R : Set ℂ) : ℕ :=
   ∑ᶠ ρ ∈ R, (MeromorphicOn.divisor f U ρ).toNat
 
-/-- **Layer 0.2 at the `ζ` instance, the entire completion.** `riemannXi s = s (s − 1) Λ(s)`,
-where `Λ = completedRiemannZeta`; it is written through the entire function
-`completedRiemannZeta₀ = Λ + 1/s + 1/(1 − s)`, so that it is a genuine entire function with
-the correct value `1` at `s = 0` and `s = 1`, where `Λ` has simple poles. It is twice Riemann's
-`ξ`. -/
-noncomputable def riemannXi (s : ℂ) : ℂ :=
+/-- **Layer 0.2 at the `ζ` instance, the entire completion.**
+`zetaEntireCompletion s = s (s − 1) Λ(s)`, where `Λ = completedRiemannZeta`; it is written
+through the entire function `completedRiemannZeta₀ = Λ + 1/s + 1/(1 − s)`, so that it is a
+genuine entire function with the correct value `1` at `s = 0` and `s = 1`, where `Λ` has simple
+poles. It is twice Riemann's `ξ`, whose normalization carries a factor `1/2`. -/
+noncomputable def zetaEntireCompletion (s : ℂ) : ℂ :=
   s * (s - 1) * completedRiemannZeta₀ s + 1
 
 /-! ## Layer 3: convexity -/
@@ -72,16 +74,17 @@ theorem dirichletLFunction_convexity (ε : ℝ) (hε : 0 < ε) :
 /-! ## Layer 5: Hadamard factorization -/
 
 /-- **Layer 5.6 at the `ζ` instance, Hadamard's factorization.** There are constants `A, B`
-with `riemannXi s = exp (A + B s) ∏_ρ ((1 − s/ρ) e^{s/ρ})^{m_ρ}` for every `s`, the product
-over the zeros `ρ` of `riemannXi` with their multiplicities `m_ρ`, and the product is
-unconditionally convergent (Davenport, *Multiplicative Number Theory*, §12). The index is all
-of `ℂ`, the exponent being `0` off the zeros; `riemannXi 0 = 1`, so `ρ = 0` contributes `1`. -/
-theorem riemannXi_hadamard :
+with `zetaEntireCompletion s = exp (A + B s) ∏_ρ ((1 − s/ρ) e^{s/ρ})^{m_ρ}` for every `s`, the
+product over the zeros `ρ` of `zetaEntireCompletion` with their multiplicities `m_ρ`, and the
+product is unconditionally convergent (Davenport, *Multiplicative Number Theory*, §12). The
+index is all of `ℂ`, the exponent being `0` off the zeros; `zetaEntireCompletion 0 = 1`, so
+`ρ = 0` contributes `1`. -/
+theorem zetaEntireCompletion_hadamard :
     ∃ A B : ℂ, ∀ s : ℂ,
-      Multipliable (fun ρ : ℂ ↦
-        ((1 - s / ρ) * cexp (s / ρ)) ^ (MeromorphicOn.divisor riemannXi univ ρ).toNat) ∧
-      riemannXi s = cexp (A + B * s) *
-        ∏' ρ : ℂ, ((1 - s / ρ) * cexp (s / ρ)) ^ (MeromorphicOn.divisor riemannXi univ ρ).toNat :=
+      Multipliable (fun ρ : ℂ ↦ ((1 - s / ρ) * cexp (s / ρ)) ^
+        (MeromorphicOn.divisor zetaEntireCompletion univ ρ).toNat) ∧
+      zetaEntireCompletion s = cexp (A + B * s) * ∏' ρ : ℂ, ((1 - s / ρ) * cexp (s / ρ)) ^
+        (MeromorphicOn.divisor zetaEntireCompletion univ ρ).toNat :=
   sorry
 
 /-! ## Layer 6: zero-free regions -/

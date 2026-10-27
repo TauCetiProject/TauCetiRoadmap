@@ -447,11 +447,12 @@ the entire function whose zeros the later layers count.
    - `entireCompletion d p ≠ 0` at each former pole `p`, which is the content of the polar
      orders being exact.
    The normalizing constant is `1`: for the Dedekind zeta instance *entireCompletion* is
-   `s(s−1)Λ_K(s)`, not `s(s−1)Λ_K(s)/2`. At `K = ℚ` it is `riemannXi`, defined as
+   `s(s−1)Λ_K(s)`, not `s(s−1)Λ_K(s)/2`. At `K = ℚ` it is `zetaEntireCompletion`, defined as
    `s (s − 1) Λ₀(s) + 1` through Mathlib's entire `completedRiemannZeta₀`
-   (`Λ = Λ₀ − 1/s − 1/(1 − s)`): the pole terms contribute `−(s − 1) + s = 1`, so `riemannXi`
+   (`Λ = Λ₀ − 1/s − 1/(1 − s)`): the pole terms contribute `−(s − 1) + s = 1`, so `zetaEntireCompletion`
    agrees with `s (s − 1) Λ(s)` off `{0, 1}` and takes the value `1` at both points, the limit
-   of `s (s − 1) Λ(s)` there, rather than the junk product.
+   of `s (s − 1) Λ(s)` there, rather than the junk product. It is twice Riemann's `ξ`, whose
+   normalization carries a factor `1/2`.
 3. `IsFiniteOrder d`: `∃ A, OrderLE (entireCompletion d) A`. ⚠ `IsFiniteOrder → OrderLE _ 1`
    is not free; it is proved per family in Layer 3.4 and the predicate does not assume it.
 4. *HasVerticalStripGrowth*: for all `σ₁ σ₂ : ℝ` with `σ₁ < σ₂` there are `C > 0`, `A ≥ 0`,
@@ -977,7 +978,7 @@ identities special to an L-function are in 7.
 6. **Hadamard's theorem at order `≤ 1`.** For entire `f` with `OrderLE f 1` and `f 0 ≠ 0`
    there are `a b : ℂ` with `f s = exp (a + b*s) * ∏_ρ E₁(s/ρ)^{divisor f univ ρ}`. Its `ζ`
    instance, with the product written as an unconditionally convergent `∏'` over `ℂ` whose
-   exponent is the positive part of the divisor, is `riemannXi_hadamard`. The half
+   exponent is the positive part of the divisor, is `zetaEntireCompletion_hadamard`. The half
    that needs work: the quotient of `f` by the product of 4 is entire and nonvanishing, so by
    5 it is `exp h`; bound `Re h` on a large circle by the order hypothesis, convert to a bound
    on `h` by `Complex.borelCaratheodory`, and conclude `h` is a polynomial of degree `≤ 1` by
