@@ -63,9 +63,9 @@ target must expose its dependence on `λ, Λ` (or the normalized ratio `Λ / λ`
 Lane E's statement carries three conditions that are easy to drop and false to omit. The
 constant depends on the solution, not only on `n, λ, Λ` and the geometry: `u ↦ M u` maps
 solutions to solutions and scales the Hölder seminorm, so a purely structural constant is
-refuted by `u_M = M x₁`. The exponent is an `ℝ≥0` with `0 < α ≤ 1`, since `HolderOnWith`
-takes a finite `ℝ≥0` constant and exponent above 1 forces a function on a connected open set, such as the ball
-of the primitive estimate, to be constant, so `holderExponent_le_one` loses nothing; on an
+refuted by `u_M = M x₁`. The exponent is an `ℝ≥0` with `0 < α ≤ 1`: `HolderOnWith`
+takes a finite `ℝ≥0` constant and a `ℝ≥0` exponent, and an exponent above 1 forces a
+function on a connected open set, such as the ball of the primitive estimate, to be constant, so `holderExponent_le_one` loses nothing; on an
 arbitrary connected set, such as a general compact `K`, it need not.
 And the conclusion is about a representative: a weak `H¹` solution is an a.e. equivalence
 class, so `HolderOnWith … u K` is false for a badly chosen representative, and the target

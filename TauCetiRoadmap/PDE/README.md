@@ -318,7 +318,9 @@ statement time is what keeps the formalized API reusable.
 - **Weak-derivative Sobolev spaces `W^{k,p}(Ω)`** on a domain (distinct from the
   Bessel-potential scale): weak derivatives, completeness, `W^{k,p}_0` as the
   `C_c^∞`-closure for every `1≤p≤∞`, finite-p (`1≤p<∞`) Meyers–Serrin
-  `H = W` density, and the agreement theorem with Fourier `H^{s,p}` on `ℝⁿ`.
+  `H = W` density in orders `k ≥ 2` (order 1, and every order on `ℝⁿ`, are
+  consumed from Tau Ceti as in A2), and the agreement theorem with Fourier
+  `H^{s,p}` on `ℝⁿ`.
   Keep the infinity spaces and their closure-defined subspaces; do not assign
   them full Sobolev-norm smooth density or whole-space compact-support density.
 - **The embedding/trace/compactness package:** Morrey `C^{0,α}` embedding (`p > n`), the
@@ -375,7 +377,7 @@ Almost everything downstream waits on this, so do it first and do it right.
    locally integrable function, `W^{k,p}(Ω)` with its norm, and prove **completeness**.
    Build on Mathlib's `Distribution`/`TestFunction` pairing so the definition is the
    honest one (`∫ u ∂^α φ = (−1)^{|α|} ∫ (D^α u) φ` for all test `φ`).
-   On a bounded interval identify W^{1,p} classes with their unique absolutely
+   On a bounded interval identify `W^{1,p}` classes with their unique absolutely
    continuous representatives whose derivatives lie in L^p, `1≤p≤∞`, and
    prove the endpoint/Fundamental-Theorem-of-Calculus and integration-by-parts
    identities. At p=2 this is H¹, not the entire class of all absolutely
@@ -385,20 +387,25 @@ Almost everything downstream waits on this, so do it first and do it right.
    operator, graph/adjoint and boundary-condition realizations.
 2. **Density and `W^{k,p}_0`.** For every open Ω and integer `k≥0`, define
    `W^{k,p}_0(Ω)` as the closure of `C_c^∞(Ω)` in the full `W^{k,p}` norm,
-   for **all** `1≤p≤∞`. For `1≤p<∞`, prove arbitrary-open-set Meyers–Serrin:
-   `C^∞(Ω)∩W^{k,p}(Ω)` is dense, without a boundary hypothesis. Construct an
-   interior exhaustion and locally finite partition of unity, mollify each
-   localized term at a support-preserving radius with summable Sobolev errors,
-   and sum using local finiteness and the derivative/convolution identities.
-   On `ℝⁿ`, cutoff at large radius and then mollify to prove
-   `W^{k,p}_0=W^{k,p}` for finite p. On a general domain that equality is not
-   inferred from smooth-interior density. Preserve `W^{k,∞}` for coefficient
+   for **all** `1≤p≤∞`. For `1≤p<∞`, arbitrary-open-set Meyers–Serrin says
+   that `C^∞(Ω)∩W^{k,p}(Ω)` is dense, without a boundary hypothesis. For
+   `k = 1` this is Tau Ceti's `TauCeti.W1p.dense_contDiffOn_representatives`
+   (`TauCeti/Analysis/Sobolev/W1p/MeyersSerrin.lean`, hypothesis `p ≠ ⊤`, for
+   an additive Haar measure on a finite-dimensional real inner-product space);
+   consume it. Prove the orders `k ≥ 2` here by the same construction: an
+   interior exhaustion and locally finite partition of unity, mollification of
+   each localized term at a support-preserving radius with summable Sobolev
+   errors, and summation using local finiteness and the derivative/convolution
+   identities. On `ℝⁿ`, smooth density in every order and `W^{k,p}_0=W^{k,p}`
+   for finite p are Tau Ceti's `TauCeti.Wkp.dense_contDiff_representatives`
+   (`Wkp/SmoothDensity.lean`) and `TauCeti.wkp0Submodule_top_eq_top`
+   (`Wkp/Density.lean`), both under `p ≠ ⊤`; consume them. On a general domain
+   that equality is not inferred from smooth-interior density. Preserve `W^{k,∞}` for coefficient
    and solution hypotheses, and develop local mollifier approximation in lower
    norms/weak-* derivative topologies under the appropriate boundedness
    hypotheses; do not assert full `W^{k,∞}`-norm smooth density. The constant1
    on ℝⁿ, `|x|` on (−1,1), and zero-trace `x(1−x)` on (0,1) are endpoint
-   acceptance counterexamples. Consume an actual native finite-p Meyers–Serrin
-   endpoint when available at the pin, otherwise build this same API here.
+   acceptance counterexamples.
 3. **Reconcile with Mathlib's Bessel-potential scale.** Prove `W^{k,2}(ℝⁿ) = H^{k,2}(ℝⁿ)`
    (and the `1<p<∞` integer-order Calderón agreement) so the two definitions are known to
    coincide where both make sense; *do not* leave them as unrelated theories.
@@ -541,9 +548,13 @@ geometric-measure prerequisites and should be scheduled separately.
     strong maximum principle for non-divergence `L` (Gilbarg–Trudinger, Theorem 3.5). The
     strong maximum principle for divergence-form weak solutions does not go through Hopf;
     it follows from the weak Harnack inequality (Gilbarg–Trudinger, Theorem 8.19) in
-    Lane E. For Lipschitz `a` and classical `C²` solutions, a divergence-form operator is a
-    non-divergence one with the bounded drift `bⁱ = ∂ⱼaʲⁱ`, so that case is already
-    covered here.
+    Lane E. For `a ∈ C¹(Ω)` with bounded first derivatives and classical `C²` solutions,
+    `∂ⱼ(aⁱʲ∂ᵢu) = aⁱʲ∂ᵢ∂ⱼu + bⁱ∂ᵢu` holds at every point with the bounded drift
+    `bⁱ = ∂ⱼaⁱʲ` (summed over `j`; the principal part only sees `(a + aᵀ)/2`), so that
+    case is covered here. For merely Lipschitz `a` the drift exists only almost
+    everywhere, the inequality `∂ⱼ(aⁱʲ∂ᵢu) ≥ 0` holds only a.e., and the pointwise lemma
+    does not apply as stated: that case uses the a.e. maximum principle for strong
+    solutions (the ABP estimate below) in place of Gilbarg–Trudinger, Theorem 3.1.
 
     A **divergence-form** Hopf lemma for weak solutions is a separate, later milestone, not
     a relaxation of this one, because the barrier proof differentiates `a` and so does not
@@ -634,9 +645,10 @@ Mathlib*. This lane mostly assembles Lane A and Mathlib.
     basis from `InnerProductSpace/Spectrum`. The model **Sturm–Liouville** /
     separation-of-variables payoff. Consume the implemented Tau Ceti
     `Variational/Spectrum` and `Variational/Rayleigh` real coercive-form APIs.
-    [VariationalMethods V1–V5 proposal](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md) supplies generic
-    direct minimization, complex/shifted energy adapters, ordered constrained
-    minima and form-domain/`LinearPMap` comparison; Lane D/E retains the domain,
+    VariationalMethods supplies generic direct minimization (V1.4), the
+    complex and shifted coercive-energy adapters (V2.3, V2.4), ordered
+    constrained minima (V4.1) and the form-domain/`LinearPMap` operator
+    comparison (V5.1, V5.2); Lane D/E retains the domain,
     boundary-condition and elliptic-regularity constructions.
 
 
@@ -755,7 +767,7 @@ F27 always denotes the complete classical whole-space programme below.
     `1≤p<∞` and on `BUC(ℝⁿ)`, its strong continuity and contraction bounds,
     and the exact closed generator. On L^p its domain is the u∈L^p whose
     distributional Δu is in L^p, with `C_c^∞` as a graph core; do not replace
-    this by an unsupported full W^{2,1} assertion at p=1. On BUC the domain
+    this by an unsupported full `W^{2,1}` assertion at p=1. On BUC the domain
     consists of u whose distributional Δu has a BUC representative, with the
     graph core of smooth functions with every derivative bounded. Construct
     this core by heat smoothing/graph convergence; `C_c^∞` is not uniformly
@@ -1035,9 +1047,10 @@ stochastic calculus has already built them.
   Besides the finite-r homogeneous Sobolev theorem, prove the following
   explicit retarded bound for all the admissible pairs, including
   spatial-infinity pairs with their Besov summation:
-  `‖u‖_(L^q([0,T];L^r))≤C[‖f‖_(Ḃ^s_{2,1})+
-    ‖g‖_(Ḃ^(s-1)_{2,1})+
-    Σ_j 2^(j(s+s̃-1))‖P_j F‖_(L^(q̃')([0,T];L^(r̃')))]`.
+
+      ‖u‖_(L^q([0,T];L^r)) ≤ C[‖f‖_(Ḃ^s_{2,1}) + ‖g‖_(Ḃ^(s-1)_{2,1})
+          + Σ_j 2^(j(s+s̃-1))‖P_j F‖_(L^(q̃')([0,T];L^(r̃')))]
+
   Initial data and forcing belong to the indicated completed homogeneous
   classes; convergence of this dyadic series defines the solution, and
   constants are independent of T. First prove frequency-localized
@@ -1154,8 +1167,10 @@ stochastic calculus has already built them.
 - **X3.1 Krylov-type linear analytic Lp theorem.** On ℝ^d, d≥1,
   for every finite p≥2, γ∈ℝ and T<∞, construct the adapted
   distributional solution of
-  `du=(a^{ij}D_ij u+b^iD_i u+c u+f)dt
-       +Σ_k(σ^{ik}D_i u+ν^k u+g^k)dβ_k`, u(0)=u₀.
+
+      du = (a^{ij}D_ij u + b^iD_i u + c u + f)dt + Σ_k(σ^{ik}D_i u + ν^k u + g^k)dβ_k,
+      u(0) = u₀.
+
   Coefficients are predictable, uniformly smooth in x with all
   required derivatives bounded; σ and ν and their derivatives
   are ℓ²-valued with uniform bounds. a is real symmetric and
@@ -1168,10 +1183,11 @@ stochastic calculus has already built them.
   `B^(γ+2-2/p)_{p,p}`. Define H_p by the existing Bessel-potential
   carrier and prove any normalization-equivalent norm comparison.
   Prove existence/uniqueness with
-  `E∫₀ᵀ‖u_t‖_(H_p^(γ+2))^p dt
-    +E sup_(t≤T)‖u_t‖_(B^(γ+2-2/p)_{p,p})^p
-    ≤C[E‖u₀‖_(B^(γ+2-2/p)_{p,p})^p
-      +E∫₀ᵀ(‖f_t‖_(H_p^γ)^p+‖g_t‖_(H_p^(γ+1)(ℓ²))^p)dt]`.
+
+      E∫₀ᵀ‖u_t‖_(H_p^(γ+2))^p dt + E sup_(t≤T)‖u_t‖_(B^(γ+2-2/p)_{p,p})^p
+          ≤ C[E‖u₀‖_(B^(γ+2-2/p)_{p,p})^p
+              + E∫₀ᵀ(‖f_t‖_(H_p^γ)^p + ‖g_t‖_(H_p^(γ+1)(ℓ²))^p)dt]
+
   State continuous paths in that trace space and the test-function
   integral equation; uniqueness is in this solution class.
 
