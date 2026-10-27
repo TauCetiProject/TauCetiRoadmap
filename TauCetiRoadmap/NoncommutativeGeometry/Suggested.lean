@@ -63,7 +63,7 @@ example (τ : A →ₗ[ℂ] ℂ) (δ₁ δ₂ : TauCeti.derivationLieAlgebra ℂ
   ring
 
 /-- For a trace `τ` killed by two commuting derivations, the torus cochain is a cyclic
-2-cocycle (Connes, *Noncommutative Geometry*, III §2.β and IV §6). -/
+2-cocycle; this is N6's torus character in the generality of README N6. -/
 theorem exists_cyclicTwoCocycle_torusTwoCochain (τ : A →ₗ[ℂ] ℂ)
     (δ₁ δ₂ : TauCeti.derivationLieAlgebra ℂ A)
     (htrace : ∀ a b : A, τ (a*b) = τ (b*a))
