@@ -106,7 +106,7 @@ theorem actionAngleForm_inChart (n : ℕ)
     (w : (Fin n → ℝ) × (Fin n → ℝ))
     (hw : w ∈ (extChartAt (𝓘(ℝ, Fin n → ℝ).prod 𝓘(ℝ, Fin n → ℝ)) z₀).target)
     (v : Fin 2 → ((Fin n → ℝ) × (Fin n → ℝ))) :
-    (actionAngleForm n).inChartAt z₀ w v =
+    (actionAngleForm n).1.inChartAt z₀ w v =
       ∑ i, ((v 0).2 i * (v 1).1 i - (v 0).1 i * (v 1).2 i) := by
   sorry
 
@@ -123,12 +123,12 @@ structure LocalActionAngle (σ : TauCeti.SmoothTwoForm I M) (n : ℕ)
     Function.Bijective (fderiv ℝ integralsOfActions a)
   factors : ∀ x : neighborhood, f x = integralsOfActions (chart x).1
   preserves : ∀ (x : neighborhood) (v w : TangentSpace I x),
-    actionAngleForm n ((chart x).1, (chart x).2)
+    (actionAngleForm n).eval₂ ((chart x).1, (chart x).2)
       (mfderiv I (𝓘(ℝ, Fin n → ℝ).prod 𝓘(ℝ, Fin n → ℝ))
         (fun y : neighborhood ↦ ((chart y).1.1, (chart y).2)) x v)
       (mfderiv I (𝓘(ℝ, Fin n → ℝ).prod 𝓘(ℝ, Fin n → ℝ))
         (fun y : neighborhood ↦ ((chart y).1.1, (chart y).2)) x w) =
-      σ x (mfderiv I I (fun y : neighborhood ↦ (y : M)) x v)
+      σ.eval₂ x (mfderiv I I (fun y : neighborhood ↦ (y : M)) x v)
         (mfderiv I I (fun y : neighborhood ↦ (y : M)) x w)
 
 /-- Period isotropy is a full real lattice, with Mathlib's actual vocabulary. -/

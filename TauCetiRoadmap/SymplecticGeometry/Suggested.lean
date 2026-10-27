@@ -17,13 +17,13 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 /-- The exact HamiltonianSystems equation, in its pinned sign convention. -/
 def HasHamiltonianField (σ : TauCeti.SmoothTwoForm I M) (f : M → ℝ)
     (X : (x : M) → TangentSpace I x) : Prop :=
-  ∀ x v, σ x (X x) v = mvfderiv I f x v
+  ∀ x v, σ.eval₂ x (X x) v = mvfderiv I f x v
 
 open Classical in
 /-- An illustrative adapter of HamiltonianSystems' chosen Hamiltonian field. -/
 def chosenHamiltonianField (σ : TauCeti.SmoothTwoForm I M) (f : M → ℝ)
     (x : M) : TangentSpace I x :=
-  if h : ∃ v : TangentSpace I x, ∀ w, σ x v w = mvfderiv I f x w then h.choose else 0
+  if h : ∃ v : TangentSpace I x, ∀ w, σ.eval₂ x v w = mvfderiv I f x w then h.choose else 0
 
 /-- The same bracket as `SmoothTwoForm.poissonBracket`; no independent laws are requested here. -/
 def bracketValue (σ : TauCeti.SmoothTwoForm I M) (f g : M → ℝ) (x : M) : ℝ :=

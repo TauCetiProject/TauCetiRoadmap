@@ -39,7 +39,7 @@ import TauCeti.Geometry.Lie.IntegralCurve
 import TauCeti.Geometry.Manifold.Boundary.Charts
 import TauCeti.Geometry.Manifold.IntegralCurve.Flow
 import TauCeti.Geometry.Manifold.IntegralCurve.Maximal
-import TauCeti.Geometry.Manifold.LocalDiffeomorph
+import TauCeti.Geometry.Manifold.LocalDiffeomorph.Basic
 import TauCeti.Geometry.Manifold.LocallyFlat.Basic
 import TauCeti.Geometry.Manifold.TwoForm.Closed
 import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
@@ -51,7 +51,7 @@ import TauCeti.Analysis.Contour.Winding.Number.Homotopy
 import TauCeti.Analysis.Contour.Winding.Proximity
 import TauCeti.Analysis.Contour.Winding.UnboundedComponent
 import TauCeti.Analysis.Normed.Module.FilledHull
-import TauCeti.MeasureTheory.Function.MetricDerivative
+import TauCeti.MeasureTheory.Function.MetricDerivative.Basic
 import TauCeti.MeasureTheory.Integral.DivergenceTheorem
 
 /-!
@@ -716,7 +716,7 @@ noncomputable def legacySmoothTwoFormEquiv [IsManifold I 1 M] [IsManifold I ∞ 
 theorem legacySmoothTwoFormEquiv_apply [IsManifold I 1 M] [IsManifold I ∞ M]
     (φ : TauCeti.SmoothTwoForm I M) (x : M)
     (v w : TangentSpace I x) :
-    (legacySmoothTwoFormEquiv φ : RoughForm I M ℝ 2) x ![v, w] = φ x v w :=
+    (legacySmoothTwoFormEquiv φ : RoughForm I M ℝ 2) x ![v, w] = φ.eval₂ x v w :=
   sorry
 
 /-- **Layer 0.4, acceptance.** Over the model `𝓘(ℝ, E)` the manifold pullback is the flat

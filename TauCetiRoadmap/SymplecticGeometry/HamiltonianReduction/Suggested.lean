@@ -31,8 +31,8 @@ def coadjoint (g : G) (ν : StrongDual ℝ (GroupLieAlgebra IG G)) :
 structure IsSmoothSymplecticAction (σ : TauCeti.SmoothTwoForm I M) : Prop where
   smooth : ContMDiff (IG.prod I) I ∞ (fun gx : G × M ↦ gx.1 • gx.2)
   preserves : ∀ (g : G) x v w,
-    σ (g • x) (mfderiv I I (fun y : M ↦ g • y) x v)
-      (mfderiv I I (fun y : M ↦ g • y) x w) = σ x v w
+    σ.eval₂ (g • x) (mfderiv I I (fun y : M ↦ g • y) x v)
+      (mfderiv I I (fun y : M ↦ g • y) x w) = σ.eval₂ x v w
 
 /-- Group-level moment map, with full equivariance rather than only infinitesimal data. -/
 structure IsEquivariantMomentMap (σ : TauCeti.SmoothTwoForm I M)
@@ -88,7 +88,7 @@ Its equation and argument data are unchanged; use the owner predicate and delete
 adapter when importing HamiltonianSystems. No independent pullback theory is intended. -/
 def PullsBackTo (p : M → Q) (σ : TauCeti.SmoothTwoForm I M)
     (τ : TauCeti.SmoothTwoForm J Q) : Prop :=
-  ∀ x v w, τ (p x) (mfderiv I J p x v) (mfderiv I J p x w) = σ x v w
+  ∀ x v w, τ.eval₂ (p x) (mfderiv I J p x v) (mfderiv I J p x w) = σ.eval₂ x v w
 
 /-- Quotient form uniqueness follows from surjectivity of projection and its tangent maps. -/
 theorem descendedForm_unique (p : M → Q) (hp : Function.Surjective p)
@@ -105,9 +105,9 @@ theorem descendedForm_exists [FiniteDimensional ℝ E] [FiniteDimensional ℝ F]
     (σ : TauCeti.SmoothTwoForm I M) (hclosed : σ.IsClosed)
     (hbasic : ∀ x y (v w : TangentSpace I x) (v' w' : TangentSpace I y),
       p x = p y → mfderiv I J p x v = mfderiv I J p y v' →
-      mfderiv I J p x w = mfderiv I J p y w' → σ x v w = σ y v' w')
+      mfderiv I J p x w = mfderiv I J p y w' → σ.eval₂ x v w = σ.eval₂ y v' w')
     (hkernel : ∀ x (v : TangentSpace I x),
-      (∀ w, σ x v w = 0) ↔ mfderiv I J p x v = 0) :
+      (∀ w, σ.eval₂ x v w = 0) ↔ mfderiv I J p x v = 0) :
     ∃ τ : TauCeti.SmoothTwoForm J Q, τ.IsSymplectic ∧ PullsBackTo p σ τ := by
   sorry
 end TauCetiRoadmap.SymplecticGeometry

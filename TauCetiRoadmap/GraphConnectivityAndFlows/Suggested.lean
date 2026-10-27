@@ -1511,11 +1511,11 @@ noncomputable def signedCirculations : AddSubgroup (Assignment Q K) :=
   (excessHom (K := K) Q).ker
 
 @[simp] theorem mem_signedCirculations (f : Assignment Q K) :
-    (signedCirculations (K := K) Q).carrier f ↔ ∀ v, excessAt Q f v = 0 := by
+    @f ∈ (signedCirculations (K := K) Q).carrier ↔ ∀ v, excessAt Q f v = 0 := by
   sorry
 
 theorem sub_mem_signedCirculations_iff (f g : Assignment Q K) :
-    (signedCirculations (K := K) Q).carrier (fun {_ _} e => g e - f e) ↔
+    (fun {_ _} e => g e - f e) ∈ (signedCirculations (K := K) Q).carrier ↔
       ∀ v, excessAt Q g v = excessAt Q f v := by
   sorry
 

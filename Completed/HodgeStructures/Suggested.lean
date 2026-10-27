@@ -109,9 +109,9 @@ theorem isPolarization_iff (hℂ : IsBaseChange ℂ ιℂ) {n : ℤ} (hs : Hodge
     (Qint : LinearMap.BilinForm ℤ V) :
     IsPolarization hℂ hs Qint ↔
       (∀ x y, Qint y x = (n.negOnePow : ℤ) * Qint x y) ∧ Qint.Nondegenerate ∧
-        (∀ p, ∀ x ∈ hs.F p, ∀ y ∈ hs.F (n + 1 - p), integralFormBaseChange hℂ Qint x y = 0) ∧
+        (∀ p, ∀ x ∈ hs.F p, ∀ y ∈ hs.F (n + 1 - p), IsBaseChange.bilinForm hℂ Qint x y = 0) ∧
         (∀ p, ∀ x ∈ hs.piece p, x ≠ 0 →
-          0 < Complex.I ^ (2 * p - n) * integralFormBaseChange hℂ Qint x (latticeConj hℂ x)) :=
+          0 < Complex.I ^ (2 * p - n) * IsBaseChange.bilinForm hℂ Qint x (latticeConj hℂ x)) :=
   ⟨fun h ↦ ⟨h.symm_weight, h.nondegenerate, h.orthogonal, h.positive⟩,
     fun ⟨h₁, h₂, h₃, h₄⟩ ↦ ⟨h₁, h₂, h₃, h₄⟩⟩
 
