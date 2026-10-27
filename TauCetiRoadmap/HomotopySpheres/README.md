@@ -608,6 +608,41 @@ Bundles*, Chapters 3--4 and 8--9, supply the universal-bundle and clutching proo
 
 Before stable colimits, for r>=1 specialize TopologicalKTheory T1.5's real finite Stiefel/frame-bundle carrier and local orthonormal-completion sections to the last-column sphere bundle. Compare its actual matrix-group maps, fibres and basepoints with 4A.1's SO model. Own the explicit unit-quaternion conjugation comparison S3/{±1}≃SO3 and the compact-Hausdorff quotient homeomorphism, kernel, axis-angle surjectivity and covering-group/basepoint laws. From its native antipodal covering and the sphere-bundle LES prove pi1(SO r)=Z/2 for r>=3; SO2=Circle gives Z and its stabilization is reduction modulo2 by the lifted rotation path. SO0/SO1 are points. Keep raw winding, stable parity and free/based frame-loop translation maps explicit. These finite comparisons consume neither stable Bott tables nor the later BSO bundle classifier. Surface-framing applications additionally require the actual disk normalization and representative/crossing comparisons owned by GT/TB.
 
+<a id="hs4a-unit-tangent-two-sphere"></a>
+
+**The unit tangent circle bundle of S².** On the actual round unit sphere in
+oriented Euclidean R³, identify the native tangent space at x with x⊥ by
+the derivative of the sphere inclusion, retaining the metric and smooth
+bundle comparison. Its unit tangent sphere bundle is thereby identified
+with the finite orthonormal two-frame carrier consisting of (x,v) with
+‖x‖=‖v‖=1 and ⟨x,v⟩=0. Construct this as an isomorphism of the actual
+smooth sphere bundles, rather than introducing an unrelated carrier with
+the same defining equations.
+
+Construct the smooth map (x,v)↦[x,v,x×v] into the existing matrix SO(3)
+model, using the ordered columns and the cross product for the specified
+orientation of R³. Prove orthogonality, determinant+1 and the inverse
+given by the first two columns; for an SO(3) matrix its third column is
+their cross product. Establish both inverse equations, continuity and
+smoothness through the native tangent, Stiefel and matrix-group charts.
+The resulting diffeomorphism UTS²≃SO(3) preserves projection to S²,
+where SO(3) projects to its first column. Compare this projection with
+the preceding last-column sphere bundle by the orientation-preserving
+column permutation `[x,v,x×v]↦[v,x×v,x]` and its action on frames. Identify
+the circle fibre and its action by rotating the last two columns,
+including the chosen unit basepoint and fibre orientation.
+
+Compose with the preceding quaternion-conjugation quotient homeomorphism
+SO(3)≃S³/{±1} and Stage4.6 of AlgebraicTopology's native real-projective
+quotient comparison to obtain UTS²≃RP³. Prove the antipodal/projective
+quotient map and basepoint equations on representatives. These are actual
+total-space homeomorphisms and bundle comparisons; equality of fundamental
+groups or a homotopy equivalence does not discharge them. Their construction
+uses finite Euclidean sphere/tangent/frame charts and the existing quaternion
+quotient, independently of stable Bott periodicity and the BSO classifier.
+
+<!-- End hs4a-unit-tangent-two-sphere. -->
+
 For the first-two-stem output of9.1, export its low unstable adapters explicitly: n>=4 uses Freudenthal j=n+2<=2n-2; n=3 uses the quaternionic Hopf LES pi5S3≃pi6S4 because pi6S7=pi5S7=0; n=2 uses the complex Hopf LES pi4S2≃pi4S3 because higher Circle groups vanish, then the first stable stem. n0/n1 give zero. Keep the actual pointed maps, native sphere/circle models and group structures. HS3B's connected James theorem and3C's valid-range EHP and nonvanishing/composition proofs are indispensable before9.1; the first-two-stem phase does not assume the nu/Z24 table or all later stems. This is a more precise construction target at the existing single owner, not an implemented computation.
 
 ### 4B. Full real Bott proof spine
