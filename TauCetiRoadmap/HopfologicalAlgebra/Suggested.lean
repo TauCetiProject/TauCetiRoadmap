@@ -2,6 +2,7 @@
 -- these declarations are deliberately non-exhaustive, and proving them does not finish the roadmap.
 import Mathlib
 import TauCetiRoadmap.StablePeriodicCurved.Suggested
+import TauCeti.Algebra.Algebra.Frobenius.Basic
 import TauCeti.Algebra.Bialgebra.Primitive
 import TauCeti.Algebra.Bialgebra.Quotient
 import TauCeti.Algebra.Coalgebra.Comodule.Basic
@@ -140,11 +141,11 @@ theorem NakayamaData.stableNakayama_unique [FiniteDimensional k H]
     sigma = NakayamaData.stableNakayama k H N := by
   sorry
 
-/-- A concrete symmetric-Frobenius condition: a nondegenerate multiplication functional
-which is a trace. -/
+/-- `H` is a symmetric Frobenius algebra: it admits a functional which is a symmetric Frobenius
+functional in Tau Ceti's sense (`LinearMap.IsSymmetricFrobeniusFunctional`), that is, the pairing
+`(x,y) ↦ phi (x*y)` is nondegenerate and `phi (x*y) = phi (y*x)`. -/
 def IsSymmetricFrobenius : Prop :=
-  ∃ phi : Module.Dual k H,
-    Function.Bijective (mulPairing k H phi) ∧ ∀ x y, phi (x * y) = phi (y * x)
+  ∃ phi : Module.Dual k H, phi.IsSymmetricFrobeniusFunctional
 
 /-- Unimodularity means that the one-dimensional left and right integral subspaces agree. -/
 def IsUnimodular : Prop := LeftIntegral k H = RightIntegral k H
@@ -1541,8 +1542,10 @@ projectives is a tensor ideal. -/
 theorem projective_tensor (M P : HMod k H) (hP : Projective P) :
     Projective (MonoidalCategory.tensorObj M P) ∧ Projective (MonoidalCategory.tensorObj P M) := sorry
 
-/-- The tensor product descends to `H-StMod`. -/
-noncomputable instance hStModMonoidal : MonoidalCategory (HStMod k H) := sorry
+/-- The tensor product descends to `H-StMod`; this uses that maps through projectives form a
+two-sided tensor ideal, which needs the bijective antipode of a finite-dimensional `H`. -/
+noncomputable instance hStModMonoidal [FiniteDimensional k H] : MonoidalCategory (HStMod k H) :=
+  sorry
 
 /-- The stable quotient functor is monoidal for the descended structure. -/
 theorem hStModQuotient_monoidal : Nonempty (hStModQuotient k H).Monoidal := sorry
@@ -1745,12 +1748,14 @@ noncomputable abbrev relativeStableQuotient :
 
 /-- The canonical `H`-action on `Hom_A(M,N)` by Qi's formula, constructed once; the record's
 equations then hold for it. -/
-noncomputable def homActionFormula (M N : SmashModule.{u, v, w, max u v w} k H A X S) :
+noncomputable def homActionFormula [FiniteDimensional k H]
+    (M N : SmashModule.{u, v, w, max u v w} k H A X S) :
     HomActionFormula k H A X S M N := sorry
 
 /-- The `H`-module structure on the literal `Hom_A(M,N)` given by the canonical action. -/
 @[instance_reducible]
-noncomputable def homActionModule (M N : SmashModule.{u, v, w, max u v w} k H A X S) :
+noncomputable def homActionModule [FiniteDimensional k H]
+    (M N : SmashModule.{u, v, w, max u v w} k H A X S) :
     Module H (M.Carrier →ₗ[A] N.Carrier) := sorry
 
 theorem homActionModule_smul (M N : SmashModule.{u, v, w, max u v w} k H A X S) (h : H)
@@ -1966,7 +1971,7 @@ theorem hasPropertyP_of_isCofibrant (P : SmashModule.{u, v, w, max u v w} k H A 
 
 /-- The bar replacement functor: a cellular module with a natural surjective quasi-isomorphism
 onto the identity. -/
-noncomputable def barReplacementFunctor :
+noncomputable def barReplacementFunctor [FiniteDimensional k H] :
     SmashModule.{u, v, w, max u v w} k H A X S ⥤ SmashModule.{u, v, w, max u v w} k H A X S := sorry
 
 /-- The bar replacement of a module. -/
@@ -1975,7 +1980,8 @@ noncomputable abbrev barReplacement (M : SmashModule.{u, v, w, max u v w} k H A 
   (barReplacementFunctor S).obj M
 
 /-- The natural map from the bar replacement to the identity. -/
-noncomputable def barReplacementCounit : barReplacementFunctor S ⟶ 𝟭 _ := sorry
+noncomputable def barReplacementCounit [FiniteDimensional k H] :
+    barReplacementFunctor S ⟶ 𝟭 _ := sorry
 
 theorem barReplacement_isCellular (M : SmashModule.{u, v, w, max u v w} k H A X S) :
     IsCellular S (barReplacement S M) := sorry
@@ -2429,9 +2435,22 @@ theorem k0LQVerdierQuotientRing_class_tensor (M N : HnGradedModule.{u, u} Br) :
     k0LQClass Br Cells (MonoidalCategory.tensorObj M N) =
       k0LQClass Br Cells M * k0LQClass Br Cells N := sorry
 
-/-- Laugwitz–Qi Theorem 5.15: `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))` as rings, normalized so that the class
-of the shifted unit `k{1}` is `ν`. -/
-theorem laugwitzQi_5_15 :
+/-- For `t ≥ 2` distinct prime factors, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(w_1,…,w_t)` as rings, where
+`w_i = ∏_{l ≠ i} [n]_ν/[n_l]_ν` is the graded dimension of the cell `W_i` (Laugwitz–Qi,
+equation (4.5)), normalized so that the class of the shifted unit `k{1}` is `ν`.  For `t ≥ 3`
+every `w_i` is divisible by `Φ_n(ν)²`, so this ring is not the cyclotomic integers. -/
+theorem k0LQVerdierQuotient_cellRelations (ht : 2 ≤ t) :
+    letI := k0LQVerdierQuotientRing Br Cells
+    ∃ e : K0LQVerdierQuotient Br Cells ≃+*
+      (LaurentPolynomial ℤ ⧸ Ideal.span (Set.range fun i : Fin t =>
+        ∏ l ∈ Finset.univ.erase i, cyclotomicFactor (F := F) l)),
+      e (k0LQClass Br Cells ((HnGradedModule.shiftFunctor 1).obj (trivialGradedModule Br))) =
+        Ideal.Quotient.mk _ (LaurentPolynomial.T 1) := sorry
+
+/-- Laugwitz–Qi Theorem 5.15 for `n` with at most two distinct prime factors:
+`K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))` as rings, normalized so that the class of the shifted unit `k{1}`
+is `ν`.  The bound on `t` is necessary: for `n = 30` the ring has rank `30`, not `φ(30) = 8`. -/
+theorem k0LQVerdierQuotient_cyclotomic (ht : t ≤ 2) :
     letI := k0LQVerdierQuotientRing Br Cells
     ∃ e : K0LQVerdierQuotient Br Cells ≃+*
       (LaurentPolynomial ℤ ⧸ Ideal.span {Polynomial.toLaurent (Polynomial.cyclotomic n ℤ)}),
@@ -2454,7 +2473,8 @@ composite `n` this quotient is generally not the cyclotomic integer ring. -/
 noncomputable def taftStableRelation (n : ℕ) : Polynomial ℤ :=
   ∑ i ∈ Finset.range n, Polynomial.X ^ i
 
-/-- Laugwitz--Qi's *Verdier quotient* imposes the exact cyclotomic relation. -/
+/-- Laugwitz--Qi's *Verdier quotient* imposes the exact cyclotomic relation when `n` has at most
+two distinct prime factors. -/
 noncomputable def cyclotomicVerdierRelation (n : ℕ) : Polynomial ℤ :=
   Polynomial.cyclotomic n ℤ
 

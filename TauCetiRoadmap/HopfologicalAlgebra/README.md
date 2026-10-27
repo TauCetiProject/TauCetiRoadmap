@@ -243,7 +243,7 @@ structure.  Construct its triangles, suspension and inverse suspension, and its 
 `H-StMod`; tensoring a hopfological module on the right by an arbitrary `H`-module is exact.
 At signature level, objects and conflation arrows are genuine `B`-modules and `B`-linear maps;
 only the chosen retraction/section is `A`-linear.  Likewise the Hom action is constructed on
-literal `Hom_A`, its invariants are identified with literal `Hom_B`, and the property-(P)
+literal `Hom_A`, its invariants are identified with literal `Hom_B(M,N)`, and the property-(P)
 filtration below consists of `B`-submodules with `B`-linear cell-layer identifications.
 
 The following comparison is mandatory.
@@ -409,7 +409,7 @@ Use the Grothendieck/Euler roadmap's construction throughout.
    not lie in `Dᶠ(k,H)`.
 
    State the pairing in one of the two sound forms and keep them apart.  Either take
-   `Dᶜ(A,H) × Dᶠ(A,H) → H\text{-StMod}` into the large stable category under the Noetherian
+   `Dᶜ(A,H) × Dᶠ(A,H) → H-StMod` into the large stable category under the Noetherian
    hypotheses, with the finite-target refinement proved separately; or state
    `Dᶜ(A,H) × Dᶠ(A,H) → Dᶠ(k,H)` with `A` finite-dimensional over `k`, or with the explicit
    hypothesis that the finite-length `A`-modules in play are finite-dimensional over `k`.  Qi
@@ -497,8 +497,7 @@ the 2017 hopfological-finiteness paper.
 
 For finite-dimensional graded modules, prove
 
-`K₀(H_p-stmod) ≅ ℤ[q,q⁻¹]/(1+q+⋯+q^{p-1})
-                  = ℤ[q,q⁻¹]/(Φ_p(q))`.
+    K₀(H_p-stmod) ≅ ℤ[q,q⁻¹]/(1+q+⋯+q^(p-1)) = ℤ[q,q⁻¹]/(Φ_p(q)).
 
 The equality with one cyclotomic polynomial uses that `p` is prime.  Do not state the same
 identity for composite `N`.
@@ -532,7 +531,10 @@ Laugwitz--Qi algebras instantiate this API; they are not isolated structures wit
 axioms, and they are not a parallel braided-Hopf foundation disconnected from the categorical
 one.
 
-Let `q` be a primitive `N`th root in a field whose characteristic does not divide `N`.  In the
+Let `N≥2` and let `q` be a primitive `N`th root in a field whose characteristic does not divide
+`N`.  (For `N=1` the displayed quotient `k[d]/(d)` is `k` and loses the generator; with `q=1`
+in characteristic zero the one-dimensional Nichols algebra of the flip is the polynomial algebra
+`k[d]`, which is outside this construction.)  In the
 braided category of `q`-graded vector spaces, construct the one-dimensional Nichols algebra
 `B(V)=k[d]/(d^N)` with braided-primitive `d`.  Prove the `q`-binomial coproduct and show the
 intermediate Gaussian coefficients vanish at the primitive root.  At `q=-1`, this is the exterior
@@ -563,15 +565,18 @@ Laugwitz--Qi data.  Recognition data do not replace the quotient constructors.
 
 For Khovanov's graded Taft stable category, prove the relation
 
-`K₀ ≅ ℤ[q,q⁻¹]/(1+q+⋯+q^{N-1})`.
+`K₀ ≅ ℤ[q,q⁻¹]/(1+q+⋯+q^(N-1))`.
 
-When `N` is composite, `1+q+⋯+q^{N-1}` is not `Φ_N(q)`.  Thus a Taft stable category alone
+When `N` is composite, `1+q+⋯+q^(N-1)` is not `Φ_N(q)`.  Thus a Taft stable category alone
 does not categorify the full ring of `N`th cyclotomic integers.
 
 ## Layer 8: the Laugwitz--Qi characteristic-zero cyclotomic construction
 
 Implement the published construction for every integer `n≥2`, including characteristic zero,
-with its assumptions visible in every top-level theorem.
+with its assumptions visible in every top-level theorem.  The construction of `O_n` and its
+Grothendieck-ring presentation hold for every `n`; the identification of that ring with the
+cyclotomic integers holds exactly when `n` has at most two distinct prime factors (see the end of
+this layer).
 
 Write
 
@@ -627,10 +632,9 @@ same graded category.
 
 The stable category first has
 
-`K₀(H_n-gmod) ≅ ℤ[ν,ν⁻¹] /
-  ( ∏_{k=1}^t ([n]_ν/[n_k]_ν) )`,
+    K₀(H_n-gmod) ≅ ℤ[ν,ν⁻¹] / ( ∏_{k=1..t} [n]_ν/[n_k]_ν ),
 
-where `[r]_ν=1+ν+⋯+ν^{r-1}`.  Implement Laugwitz--Qi Definition 4.5 literally.  Let
+where `[r]_ν=1+ν+⋯+ν^(r-1)`.  Implement Laugwitz--Qi Definition 4.5 literally.  Let
 `H_{n_k}=k[d_k]/(d_k^{p_k}) ⊂ H_n`, with `k` its trivial module.  When `t>1`, put
 
 `W_k = H_n ⊗_{H_{n_k}} k`.
@@ -666,11 +670,58 @@ triangulated subcategory closed under retracts and a two-sided tensor ideal, and
 
 `O_n = (H_n-gmod)/I`
 
-as the `trW` localization at that subcategory, with the localization functor monoidal.  Finally
-prove their Theorem 5.15 as an isomorphism of rings, where the ring structure on
-`K₀(O_n)` comes from the tensor product:
+as the `trW` localization at that subcategory, with the localization functor monoidal.
 
-`K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))`.
+Write `v_k=[n]_ν/[n_k]_ν=1+ν^(n_k)+⋯+ν^((p_k-1)n_k)`, the graded dimension of the
+one-generator subalgebra `H_{n_k}`, and, for `t≥2`, `w_k=∏_{l≠k} v_l`, the graded dimension of
+`W_k` (Laugwitz--Qi, equation (4.5)).  Prove, as isomorphisms of rings in which the ring
+structure on `K₀(O_n)` comes from the tensor product and the class of `k{1}` goes to `ν`:
+
+- for `t≥2`, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(w_1,…,w_t)`;
+- for `t≤2`, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))`.
+
+The first statement needs `t≥2`: for `t=1` the empty product makes `w_1=1`, which would give the
+zero ring, whereas `I_1` consists of the projectives and `K₀(O_{p^a})=K₀(H_n-gmod)=ℤ[ν,ν⁻¹]/(v_1)`
+with `v_1=Φ_{p^a}`.  Route for the first statement: `K₀` of a Verdier quotient by a thick
+subcategory is the quotient of `K₀` by the image of the subcategory's classes; the graded
+dimension identifies `K₀(H_n-gmod)` with `ℤ[ν,ν⁻¹]/(v_1⋯v_t)`; the classes `[W_k{r}]=ν^r w_k` lie
+in the image; and conversely every object of `I_k` is graded free over the subalgebra generated
+by the `d_l` with `l≠k` (a finite `W_k`-filtration splits over that self-injective local
+subalgebra, and a graded retract of a graded free module over a finite-dimensional connected
+graded local algebra is graded free), so its graded dimension is a multiple of `w_k`.  Since
+`v_1⋯v_t=v_k w_k`, the image is the ideal `(w_1,…,w_t)`.
+
+For `t=2` with `n=p^a q^b`, `w_1=v_2` and `w_2=v_1`, `v_1=∏ Φ_d` over the divisors `d` of `n`
+divisible by `p^a`, `v_2` likewise for `q^b`, so `v_1=Φ_n x` and `v_2=Φ_n y` where `x` and `y`
+share no factor.  The ideal `(x,y)` is the unit ideal of `ℤ[ν]`: a maximal ideal containing
+`Φ_d` and `Φ_e` has finite residue field of some characteristic `ℓ`, in which `ν` has order the
+`ℓ`-free part of `d` and also of `e`, so `d/e` is a power of `ℓ`; for `d=p^a q^j` with `j<b`
+and `e=p^i q^b` with `i<a` it is not.  Hence `(w_1,w_2)=(Φ_n)`.
+
+For `t≥3` the cyclotomic identification is **false**, and the published Theorem 5.15 claims it
+for every `n`.  Each `v_l` is divisible by `Φ_n` exactly once, so every `w_k` is divisible by
+`Φ_n^(t-1)`, and reduction modulo `Φ_n²` is a surjective ring map
+`K₀(O_n) → ℤ[ν,ν⁻¹]/(Φ_n²)` sending `[k{1}]` to `ν`; it sends `Φ_n([k{1}])` to the nonzero
+class of `Φ_n(ν)`, so no normalized isomorphism with `ℤ[ν,ν⁻¹]/(Φ_n)` exists; additively, the
+rank of `K₀(O_n)` is at least `2φ(n)`, against `φ(n)` for the cyclotomic integers.  The error sits in the gcd step of the published
+proof (Laugwitz--Qi, proof of Theorem 5.15, final paragraph): the gcd of the classes `[W_l]`,
+`l≠k`, is `v_k` times a further multiple of `Φ_n` once `t≥3`, not `v_k`.
+
+**Checks.**
+
+- `n=30`, `t=3`, `(p_k)=(2,3,5)`, `(n_k)=(15,10,6)`: `v_1=1+ν^15`, `v_2=1+ν^10+ν^20`,
+  `v_3=1+ν^6+ν^12+ν^18+ν^24`, each with `Φ_30` to multiplicity one, so each `w_k` has `Φ_30`
+  to multiplicity two and `v_1v_2v_3` to multiplicity three.  Over `ℚ` the gcd of `w_1,w_2,w_3`
+  is `Φ_6Φ_10Φ_15Φ_30²` of degree `30`, so `K₀(O_30)` has rank `30`, not `φ(30)=8`.  A
+  definition of `I` that recovered `Φ_30` would have to change the cells, not the polynomial
+  algebra.
+- `n=6`, `t=2`: `v_1=1+ν^3=Φ_2Φ_6`, `v_2=1+ν^2+ν^4=Φ_3Φ_6`, and
+  `(1+ν+ν²)−ν(1+ν)=1` shows `(Φ_2,Φ_3)` is the unit ideal, so `(w_1,w_2)=(Φ_6)` and
+  `K₀(O_6)≅ℤ[ν,ν⁻¹]/(ν²−ν+1)`.
+- `n=4`, `t=1`: `I_1` is the projectives, `v_1=1+ν²=Φ_4`, and `K₀(O_4)≅ℤ[ν,ν⁻¹]/(Φ_4)`; the
+  `t≥2` formula applied here would give the zero ring.
+- `n=12`, `t=2`: the gcd of `w_1=v_2=1+ν^4+ν^8` and `w_2=v_1=1+ν^6` over `ℚ` is `Φ_12`, of degree
+  `4=φ(12)`, and the resultant of the two cofactors is `1`.
 
 This quotient is a third categorical operation: it follows the ordinary stable quotient and is
 not the relative hopfological ideal in `A#H`-modules.  For `n=p^a`, explain and prove the
@@ -716,7 +767,7 @@ finite-projective, property-(P), and compactness assumptions at the point where 
 | Qi | 2--6 | The left-module-algebra and smash convention, relative null ideal, triangles, quasi-isomorphisms, derived localization, property (P), cofibrant replacement, compact generators, and the Noetherian/Artinian/smooth-basic results with their stated hypotheses. |
 | Qi--Sussan (2017) | 5, 7 | `p`-DG conventions, finite-cell modules, and the scoped Jones--Wenzl finite-cell theorem in characteristic prime `p`: exactly `p ∣ n-1`. |
 | Radford and Majid | 7, 8 | Biproduct/bosonization and the passage from braided Hopf algebras to ordinary Hopf algebras. |
-| Laugwitz--Qi | 8 | The exact factorization data, braided multi-differential Hopf algebra, `C_N` bosonization, stable relation, thick tensor ideal, Verdier quotient, and `K₀(O_n)=ℤ[ν,ν⁻¹]/(Φ_n)`, over any field containing the specified primitive `N`th root. |
+| Laugwitz--Qi | 8 | The exact factorization data, braided multi-differential Hopf algebra, `C_N` bosonization, stable relation, thick tensor ideal, and Verdier quotient, over any field containing the specified primitive `N`th root.  Their `K₀(O_n)=ℤ[ν,ν⁻¹]/(Φ_n)` is used only for `n` with at most two distinct prime factors; for three or more the ring is `ℤ[ν,ν⁻¹]/(w_1,…,w_t)` and is not cyclotomic. |
 | Kapranov | 7, 8 | The characteristic-zero `q`-homological/`N`-complex motivation.  The implemented Hopf objects follow the braided/Taft hypotheses above. |
 
 ## References
