@@ -2,26 +2,47 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import TauCetiRoadmap.NoncommutativeGeometry.Suggested
-import Mathlib.Analysis.InnerProductSpace.TensorProduct
-import Mathlib.Analysis.Normed.Operator.LinearIsometry
-import Mathlib.LinearAlgebra.Matrix.ConjTranspose
+import Mathlib
 
 /-!
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms; README.md is the definitive specification.
-The existing NCG prototype supplies its spectral core. The structures below
-state actual domain, commutator, antiunitary and projection equations.
-The full geometric reconstruction theorem needs the new axiom/module/smooth
-algebra interfaces in the README. Those unavailable premises are omitted here,
-not represented by arbitrary Prop fields or definitions with sorry bodies.
-The parameter Q in CommutatorTower is instantiated by N5's |D| calculus;
-there is no assertion that an arbitrary Q equals |D|.
+# Spectral manifolds and reconstruction: target signatures
+
+This file is not the roadmap: README.md is. It states, against the pinned
+Mathlib, the domain, commutator, grading, real-structure and projection
+equations on which the roadmap's axiom packages are built.
+The spectral core itself (self-adjoint `D` with compact resolvent) is owned by
+NoncommutativeGeometry N5 and is not restated here; the declarations below take
+the native partial operator `D` and its bounded commutators as explicit data.
+
+Not statable at the pins: the commutative reconstruction theorem (SM6), its
+bundle/metric/spin-c refinements (SM7–SM8), the duality axiom (SM9) and the
+geometric product comparisons (SM10). They need the Hochschild orientation
+cycle, the Dixmier trace and the regularity calculus of NoncommutativeGeometry
+N1, N4 and N5, and the KK classes of OperatorKTheory K5–K6, none of which exist
+at the pinned Mathlib or Tau Ceti.
+
+Real structures are indexed by their KO-dimension `n mod 8`: the signs `ε`,
+`ε′` are read from the conventional table, and a grading with its sign `ε″`
+is part of the data exactly when `n` is even. The metric dimension is a
+separate datum and is not inferred from `n`.
 -/
 
-namespace SpectralManifolds
+namespace TauCetiRoadmap.SpectralManifolds
 
 universe u v
+
+/-- The sign `ε(n)` in `J² = ε` for KO-dimension `n mod 8` (conventional table). -/
+def epsilon (n : Fin 8) : ℤ := ![1, 1, -1, -1, -1, -1, 1, 1] n
+
+/-- The sign `ε′(n)` in `JD = ε′DJ` for KO-dimension `n mod 8` (conventional table). -/
+def epsilonPrime (n : Fin 8) : ℤ := ![1, -1, 1, 1, 1, -1, 1, 1] n
+
+/-- The sign `ε″(2k)` in `Jγ = ε″γJ` for even KO-dimension `n = 2k`: `+1, −1, +1, −1`
+for `n = 0, 2, 4, 6`. Odd KO-dimensions have no `ε″`. -/
+def epsilonDoublePrime (k : Fin 4) : ℤ := ![1, -1, 1, -1] k
+
+/-- The even KO-dimension `2k mod 8`. -/
+def evenKO (k : Fin 4) : Fin 8 := ⟨2 * k.val, by omega⟩
 
 section Operators
 variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
@@ -51,18 +72,24 @@ structure Grading (D : H →ₗ.[ℂ] H) where
   odd : ∀ ξ : D.domain,
     D ⟨value (ξ : H), invariant ξ⟩ = -value (D ξ)
 
-/-- KO signs are integer signs. The conventional table is in the README. -/
-structure RealStructure (D : H →ₗ.[ℂ] H) (ε ε' : ℤ) where
+/-- The antiunitary part of a real structure of KO-dimension `n mod 8`. Its signs are
+`ε(n)` and `ε′(n)` from the conventional table, so they cannot be chosen independently
+of `n`. For odd `n` this is the whole real structure and no grading is part of it. -/
+structure RealStructure (D : H →ₗ.[ℂ] H) (n : Fin 8) where
   J : H ≃ₗᵢ⋆[ℂ] H
-  sign_square : ∀ ξ : H, J (J ξ) = (ε : ℂ) • ξ
+  sign_square : ∀ ξ : H, J (J ξ) = (epsilon n : ℂ) • ξ
   invariant : ∀ ξ : D.domain, J (ξ : H) ∈ D.domain
   commutes : ∀ ξ : D.domain,
-    J (D ξ) = (ε' : ℂ) • D ⟨J (ξ : H), invariant ξ⟩
+    J (D ξ) = (epsilonPrime n : ℂ) • D ⟨J (ξ : H), invariant ξ⟩
 
-/-- A real even structure has an additional, explicit chirality equation. -/
-def HasRealGrading {D : H →ₗ.[ℂ] H} {ε ε' : ℤ}
-    (R : RealStructure D ε ε') (G : Grading D) (ε'' : ℤ) : Prop :=
-  ∀ ξ : H, R.J (G.value ξ) = (ε'' : ℂ) • G.value (R.J ξ)
+/-- A real structure of even KO-dimension `2k mod 8`: the triple is even, with grading
+`γ`, and `Jγ = ε″(2k) γJ`. The grading here is the spectral grading; it need not be the
+volume/orientation operator, and the metric dimension may be odd (Hodge–de Rham). -/
+structure EvenRealStructure (D : H →ₗ.[ℂ] H) (k : Fin 4)
+    extends RealStructure D (evenKO k) where
+  grading : Grading D
+  grading_sign : ∀ ξ : H,
+    J (grading.value ξ) = (epsilonDoublePrime k : ℂ) • grading.value (J ξ)
 
 /-- Equality on a dense domain determines a bounded commutator extension. -/
 theorem BoundedCommutator.value_unique {D : H →ₗ.[ℂ] H}
@@ -80,83 +107,73 @@ end Operators
 section Represented
 variable {A : Type u} [Ring A] [Algebra ℂ A] [StarRing A]
 variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
-variable [CompleteSpace H] [SecondCountableTopology H]
-variable (π : A →⋆ₐ[ℂ] (H →L[ℂ] H))
+variable [CompleteSpace H]
+variable (π : A →⋆ₐ[ℂ] (H →L[ℂ] H)) (D : H →ₗ.[ℂ] H)
 
-abbrev Core := NoncommutativeGeometry.SpectralTriple π
-
-/-- Ordinary commutative first order is a fixed equation, not an opaque flag. -/
-def HasCommutativeFirstOrder (S : Core π) : Prop :=
-  ∀ a b : A, S.commutator a * π b = π b * S.commutator a
+/-- Ordinary commutative first order is a fixed equation, not an opaque flag:
+every bounded commutator `[D, π a]` commutes with every `π b`. -/
+def HasCommutativeFirstOrder (C : ∀ a : A, BoundedCommutator D (π a)) : Prop :=
+  ∀ a b : A, (C a).value * π b = π b * (C a).value
 
 /-- An even represented core, including representation/grading compatibility. -/
-structure EvenCore (S : Core π) where
-  grading : Grading S.D
+structure EvenCore where
+  grading : Grading D
   representation_even : ∀ a : A, grading.value * π a = π a * grading.value
 
-/-- The opposite action written as a function, with no unprovided tensor norm. -/
-def oppositeApply (S : Core π) {ε ε' : ℤ} (R : RealStructure S.D ε ε')
-    (b : A) (ξ : H) : H :=
+/-- The opposite action `b° = J π(b*) J⁻¹`, written as a function. -/
+def oppositeApply {n : Fin 8} (R : RealStructure D n) (b : A) (ξ : H) : H :=
   R.J (π (star b) (R.J.symm ξ))
 
-/-- Order zero uses the actual J-conjugated opposite action. -/
-def HasOrderZero (S : Core π) {ε ε' : ℤ} (R : RealStructure S.D ε ε') : Prop :=
+/-- Order zero uses the actual J-conjugated opposite action: `[π a, b°] = 0`. -/
+def HasOrderZero {n : Fin 8} (R : RealStructure D n) : Prop :=
   ∀ (a b : A) (ξ : H),
-    π a (oppositeApply π S R b ξ) = oppositeApply π S R b (π a ξ)
+    π a (oppositeApply π D R b ξ) = oppositeApply π D R b (π a ξ)
 
-/-- Real first order is an explicit bounded commutator equation. -/
-def HasRealFirstOrder (S : Core π) {ε ε' : ℤ} (R : RealStructure S.D ε ε') : Prop :=
+/-- Real first order is an explicit bounded commutator equation: `[[D, π a], b°] = 0`. -/
+def HasRealFirstOrder (C : ∀ a : A, BoundedCommutator D (π a)) {n : Fin 8}
+    (R : RealStructure D n) : Prop :=
   ∀ (a b : A) (ξ : H),
-    S.commutator a (oppositeApply π S R b ξ) =
-      oppositeApply π S R b (S.commutator a ξ)
+    (C a).value (oppositeApply π D R b ξ) = oppositeApply π D R b ((C a).value ξ)
 
-/-- Faithfulness is a separate hypothesis: the NCG core does not hide it. -/
-theorem commutator_leibniz (S : Core π) (a b : A) :
-    S.commutator (a * b) = S.commutator a * π b + π a * S.commutator b := by
+/-- The Leibniz rule `[D, π(ab)] = [D, π a] π b + π a [D, π b]` for the bounded
+extensions; the self-adjointness of `D` supplies the dense domain fixing them. -/
+theorem commutator_leibniz (hD : IsSelfAdjoint D) (C : ∀ a : A, BoundedCommutator D (π a))
+    (a b : A) :
+    (C (a * b)).value = (C a).value * π b + π a * (C b).value := by
   sorry
 
 /-- Antiunitary conjugation gives a complex-linear opposite action. -/
-theorem oppositeApply_smul (S : Core π) {ε ε' : ℤ}
-    (R : RealStructure S.D ε ε') (b : A) (z : ℂ) (ξ : H) :
-    oppositeApply π S R b (z • ξ) = z • oppositeApply π S R b ξ := by
+theorem oppositeApply_smul {n : Fin 8} (R : RealStructure D n) (b : A) (z : ℂ) (ξ : H) :
+    oppositeApply π D R b (z • ξ) = z • oppositeApply π D R b ξ := by
   sorry
 
-/-- Reversing products is precisely the opposite-algebra convention. -/
-theorem oppositeApply_mul (S : Core π) {ε ε' : ℤ}
-    (R : RealStructure S.D ε ε') (a b : A) (ξ : H) :
-    oppositeApply π S R (a * b) ξ =
-      oppositeApply π S R b (oppositeApply π S R a ξ) := by
+/-- Reversing products is precisely the opposite-algebra convention: `(ab)° = b° a°`. -/
+theorem oppositeApply_mul {n : Fin 8} (R : RealStructure D n) (a b : A) (ξ : H) :
+    oppositeApply π D R (a * b) ξ =
+      oppositeApply π D R b (oppositeApply π D R a ξ) := by
   sorry
 
-/-- A single Hochschild word, before taking the native chain-complex quotient. -/
-def orientationWord (S : Core π) (p : ℕ) (a : Fin (p + 1) → A) : H →L[ℂ] H :=
-  π (a 0) * (List.ofFn fun j : Fin p => S.commutator (a j.succ)).prod
-
-omit [SecondCountableTopology H] in
-/-- The core's domain really is dense by native self-adjointness. -/
-theorem Core.dense_domain (S : Core π) : Dense (S.D.domain : Set H) :=
-  S.selfAdjoint.dense_domain
+/-- A single Hochschild word `π(a₀)[D, π a₁]⋯[D, π a_p]`, before taking the chain-complex
+quotient of NoncommutativeGeometry N1. -/
+def orientationWord (C : ∀ a : A, BoundedCommutator D (π a)) (p : ℕ) (a : Fin (p + 1) → A) :
+    H →L[ℂ] H :=
+  π (a 0) * (List.ofFn fun j : Fin p => (C (a j.succ)).value).prod
 
 end Represented
 
 section Projection
 variable {A : Type u} [CommRing A] [StarRing A]
 
-/-- Projection matrices are the actual finite-projective/Hermitian models. -/
-structure HermitianProjection (n : ℕ) where
-  matrix : Matrix (Fin n) (Fin n) A
-  idempotent : matrix * matrix = matrix
-  hermitian : matrix.conjTranspose = matrix
-
-variable [Algebra ℂ A]
 variable {E : Type v} [AddCommGroup E] [Module A E]
 
-/-- An honest finite-projective presentation by the range of an idempotent. -/
+/-- A finite projective presentation in the commutative column model of SM3: a native
+star projection `f ∈ M_N(A)` (`f² = f = f*`) and an `A`-linear isomorphism of `E` with the
+column module `f A^N`. Over the represented row module `A^N e` of SM2 one takes `f = eᵀ`. -/
 structure ProjectivePresentation where
   rank_bound : ℕ
-  projection : Module.End A (Fin rank_bound → A)
-  idempotent : projection.comp projection = projection
-  realization : E ≃ₗ[A] projection.range
+  projection : Matrix (Fin rank_bound) (Fin rank_bound) A
+  isStarProjection : IsStarProjection projection
+  realization : E ≃ₗ[A] LinearMap.range projection.mulVecLin
 
 end Projection
 
@@ -173,14 +190,4 @@ def AbsoluteContinuityIdentity (π : A →⋆ₐ[ℂ] (H →L[ℂ] H))
 
 end AbsoluteContinuity
 
-/-- Both KO sign types are explicit data; no metric dimension is inferred. -/
-def epsilon (n : Fin 8) : ℤ := ![1, 1, -1, -1, -1, -1, 1, 1] n
-def epsilonPrime (n : Fin 8) : ℤ := ![1, -1, 1, 1, 1, -1, 1, 1] n
-
-theorem epsilon_square (n : Fin 8) : epsilon n * epsilon n = 1 := by
-  fin_cases n <;> norm_num [epsilon]
-
-theorem epsilonPrime_square (n : Fin 8) : epsilonPrime n * epsilonPrime n = 1 := by
-  fin_cases n <;> norm_num [epsilonPrime]
-
-end SpectralManifolds
+end TauCetiRoadmap.SpectralManifolds
